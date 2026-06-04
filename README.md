@@ -20,3 +20,5 @@ in the code repo; review machinery lives in
 lake exe cache get
 lake build
 ```
+
+<!-- auto-merge shakedown; will close -->
