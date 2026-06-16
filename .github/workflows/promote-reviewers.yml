@@ -38,7 +38,7 @@ jobs:
           GH_TOKEN: ${{ steps.token.outputs.token }}
           ORG: FormalFrontier
           TEAM: roadmap-reviewers
-          THRESHOLD: "3"
+          THRESHOLD: "2"
           REPO: ${{ github.repository }}
           EVENT: ${{ github.event_name }}
           MERGED_AUTHOR: ${{ github.event.pull_request.user.login }}
