@@ -15,13 +15,13 @@ What is missing is the PDE theory on top: weak-derivative Sobolev spaces `W^{k,p
 a domain with their embedding/trace/compactness package (Lane A), the harmonic-analysis
 estimates (Lane B), maximum principles and potential theory (Lane C), elliptic existence
 via the energy method (Lane D), elliptic regularity (Schauder and De Giorgi–Nash–Moser;
-Lane E), and parabolic/evolution equations (Lane F). We build these here, in
+Lane E), and parabolic/evolution equations (Lane F). These live in
 `TauCeti/Analysis/PDE/`, with supporting theories under `TauCeti/Analysis/Sobolev/` and
 `TauCeti/Analysis/HarmonicAnalysis/`.
 
 As each lane makes the next lane's *types* expressible in `TauCeti/`, state that lane's
-milestones here with `sorry` (human-owned roadmap territory, so `sorry` is allowed) and
-hand them to the AIs to discharge. The natural first targets, in order:
+milestones here with `sorry` (human-owned roadmap territory, so `sorry` is allowed). The
+natural first targets, in order:
 
 * Lane A: `Wkp k p Ω` (weak-derivative Sobolev space) is complete; Meyers–Serrin `H = W`;
   Poincaré on `Wkp0 1 p Ω`; Rellich–Kondrachov compactness `W^{1,p}(Ω) ↪↪ L^p(Ω)`.

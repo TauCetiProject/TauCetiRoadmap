@@ -2,10 +2,8 @@
 
 The theory of reductive algebraic groups is the long game: it underpins the Langlands
 programme, automorphic forms, and much of FLT, and it is almost entirely absent from
-Mathlib. **We are not waiting for it to appear upstream; we build it here**, in
-`TauCeti/`, as a large, iteratively-expandable tower. Suggested home:
-`TauCeti/Algebra/AlgebraicGroup/` (foundations) and `TauCeti/AlgebraicGeometry/`
-(the scheme-side dictionary).
+Mathlib. Suggested home: `TauCeti/Algebra/AlgebraicGroup/` (foundations) and
+`TauCeti/AlgebraicGeometry/` (the scheme-side dictionary).
 
 Early sketches in this area get the *types* roughly right but the *mathematics* subtly
 wrong; the common traps are flagged inline below (marked ⚠) so we avoid them from the
@@ -83,10 +81,9 @@ a group, Bruhat/BN-pairs; and the classification.
 
 ## The build, in layers
 
-Each layer is self-contained mathematics the next layer needs. As a layer makes the
-next layer's *types* expressible, state that layer's milestones in `Targets.lean` (with
-`sorry`) and hand them to the AIs to discharge in `TauCeti/`. The ordering below is the
-dependency order, not a strict schedule; independent lanes can proceed in parallel.
+The ordering below is the dependency order, not a strict schedule; independent lanes can
+proceed in parallel. As each layer makes the next layer's *types* expressible, its
+milestones go into `Targets.lean` (with `sorry`).
 
 **Cross-cutting prerequisite: sheaves and descent.** Several constructions below (the
 functor-of-points view, quotients, torsors, representability) need the fppf topology and

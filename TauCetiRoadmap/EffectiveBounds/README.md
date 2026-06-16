@@ -1,15 +1,14 @@
 # Roadmap: effective arithmetic bounds and geometry of numbers
 
 Mathlib has Minkowski's convex-body theorem, the canonical embedding, the Minkowski
-bound, and even the qualitative summit — Minkowski's lower bound on the discriminant
-(`NumberField.abs_discr_ge`) and **Hermite's finiteness theorem**
-(`NumberField.finite_of_discr_bdd`) — but it stops short of the **effective, explicit
+bound, and even the qualitative summit (Minkowski's lower bound on the discriminant
+`NumberField.abs_discr_ge` and **Hermite's finiteness theorem**
+`NumberField.finite_of_discr_bdd`), but it stops short of the **effective, explicit
 estimates** that geometry of numbers exists to produce: a discriminant bound from a basis
 of integers, an explicit class number bound, the index of squares in the unit group, an
-explicit ideal count, and — the summit — an **effective Hermite–Minkowski**: an explicit
+explicit ideal count, and, the summit, an **effective Hermite–Minkowski**: an explicit
 upper bound on the *number* of number fields of bounded discriminant, not just their
-finiteness. **We do not wait: we build the effective bounds here in `TauCeti/`, with
-geometry of numbers as the engine.**
+finiteness. We build the effective bounds here, with geometry of numbers as the engine.
 
 The spine is the chain of explicit bounds; geometry of numbers is the tool, not the goal.
 
@@ -23,20 +22,20 @@ conjecture), stated over an arbitrary number field. The first targets here **mig
 them; credit that source in each ported file.
 
 Migration sources, pinned at commit `140edda5974ec5afb8beefdbb3014d93d92bdc64`:
-- `ErdosUnitDistance/Discriminant.lean` — `abs_discr_le_of_basis_isIntegral` and the
+- `ErdosUnitDistance/Discriminant.lean`: `abs_discr_le_of_basis_isIntegral` and the
   trace-form helper `trace_eq_zero_of_sq_ratCast`.
-- `ErdosUnitDistance/ClassNumber.lean` — `card_ideal_absNorm_le` (the explicit ideal
+- `ErdosUnitDistance/ClassNumber.lean`: `card_ideal_absNorm_le` (the explicit ideal
   count), `classNumber_le_bound`, `index_powMonoidHom_two_le_of_closure` (the abstract
   group lemma), `units_sq_index_le`.
-- `ErdosUnitDistance/GeometricCore.lean` — the measure-free packing/doubling candidates
+- `ErdosUnitDistance/GeometricCore.lean`: the measure-free packing/doubling candidates
   for Layer 0 (after the `ZLattice` reconciliation below).
 
 ## Standing hypotheses
 
 Work over a number field `F` (`[NumberField F]`), degree `n = [F : ℚ]`. State each bound
-in the generality the proof needs — a discriminant bound needs only an integral basis, the
+in the generality the proof needs (a discriminant bound needs only an integral basis, the
 class number bound needs Minkowski's theorem and an ideal count, the unit-square index
-needs Dirichlet's unit theorem — rather than bundling a single "number field with all its
+needs Dirichlet's unit theorem), rather than bundling a single "number field with all its
 invariants" hypothesis.
 
 ## What Mathlib already has (consume)
@@ -50,7 +49,7 @@ invariants" hypothesis.
   bound on `|d_F|`, `|d_F| > 1` for `F ≠ ℚ`).
 - **Ideal counting (reconcile notation, but expect to build the bound):**
   `Mathlib/NumberTheory/NumberField/Ideal/Asymptotics.lean` gives the *asymptotic* count
-  of ideals by norm — eventual and non-explicit, so the uniform explicit count Layer 1
+  of ideals by norm, eventual and non-explicit, so the uniform explicit count Layer 1
   needs does **not** follow from it. Reconcile names and API with it; the count itself is
   a fresh elementary lemma (see Layer 1).
 - **Class group and unit theorem:** `Mathlib/RingTheory/ClassGroup.lean`,
@@ -69,7 +68,7 @@ invariants" hypothesis.
 ## What is missing (build here)
 
 The explicit, effective forms: `|d_F| ≤ |disc b|` from any `ℚ`-basis `b` of algebraic
-integers (an actual integral basis — a `ℤ`-basis of `O_F` — gives equality; the upper
+integers (an actual integral basis, a `ℤ`-basis of `O_F`, gives equality; the upper
 bound is the useful general form); the explicit ideal count
 `#{I ≠ ⊥ : N(I) ≤ X} ≤ X²·2ⁿ`; `h_F ≤ |d_F|·4ⁿ`; `[O_F^× : (O_F^×)²] ≤ 2ⁿ`; a clean
 measure-free lattice-point packing/doubling API (reconciled with `ZLattice`); and an
@@ -80,8 +79,8 @@ finiteness, not a count). None of these explicit bounds is upstream.
 
 ## The build, in layers
 
-As a layer makes the next layer's *types* expressible in `TauCeti/`, state its milestones
-in `Targets.lean` (with `sorry`) and hand them to the AIs to discharge.
+As each layer makes the next layer's *types* expressible in `TauCeti/`, state its
+milestones in `Targets.lean` (with `sorry`).
 
 ### Layer 0: the geometry-of-numbers engine
 - Measure-free lattice-point **packing** and **doubling** bounds in boxes/polydiscs (a
@@ -97,23 +96,23 @@ in `Targets.lean` (with `sorry`) and hand them to the AIs to discharge.
   algebraic integers (the index of `b` in a maximal order is a nonzero integer, and
   `disc b = index² · d_F`). (erdos `abs_discr_le_of_basis_isIntegral`.) The helper
   `trace_eq_zero_of_sq_ratCast` (an element with `x² ∈ ℚ`, `x ∉ ℚ` has trace zero) is not
-  needed for the bound itself, but it diagonalises the trace form on square-root bases —
+  needed for the bound itself, but it diagonalises the trace form on square-root bases:
   it is how the `ℚ(i)` worked example below evaluates `|disc b|`.
 - **Explicit ideal count.** `#{I : Ideal O_F | I ≠ ⊥, N(I) ≤ X} ≤ X²·2ⁿ` for `X ≥ 1`
   (erdos `card_ideal_absNorm_le`, a Rankin-style argument:
   `∑_{N𝔞 ≤ X} 1 ≤ X² ∑ N𝔞⁻² ≤ X²·ζ(2)ⁿ ≤ X²·2ⁿ`). ⚠ This is the genuinely new counting
   lemma; it does **not** follow from the asymptotic count in `Ideal/Asymptotics`.
 - **Class number bound.** `h_F ≤ |d_F|·4ⁿ`, from two inputs: Mathlib's
-  `NumberField.exists_ideal_in_class_of_norm_le` — every class contains an integral ideal
+  `NumberField.exists_ideal_in_class_of_norm_le` (every class contains an integral ideal
   of norm `≤ (4/π)^{r₂} · (n!/nⁿ) · √|d_F|`, the Minkowski constant; the prefactor is
-  `≤ 1`, but the migrated proof simply carries it — and the explicit ideal count above
+  `≤ 1`, but the migrated proof simply carries it) and the explicit ideal count above
   with `X` that Minkowski norm bound. (erdos `classNumber_le_bound`.)
 - **Unit-square index.** `[O_F^× : (O_F^×)²] ≤ 2ⁿ`, from Dirichlet's unit theorem and a
   squaring-map index computation. (erdos `units_sq_index_le`; the abstract group lemma
   `index_powMonoidHom_two_le_of_closure` migrates independently.)
 
 ### Layer 2: effective Hermite–Minkowski (the summit)
-- ⚠ **Mathlib already has the qualitative theorems — consume them, do not re-prove.**
+- ⚠ **Mathlib already has the qualitative theorems; consume them, do not re-prove.**
   Minkowski's lower bound on `|d_F|` growing with `n` is `NumberField.abs_discr_ge`, the
   bounded-degree consequence is `rank_le_rankOfDiscrBdd`, and Hermite's finiteness
   theorem is `NumberField.finite_of_discr_bdd` (number fields inside a fixed `A/ℚ` with
@@ -121,7 +120,7 @@ in `Targets.lean` (with `sorry`) and hand them to the AIs to discharge.
 - What this layer builds is the **effective count**: an explicit upper bound on the
   number of number fields (in a fixed `A/ℚ`) of discriminant `≤ B`. Mathlib's finiteness
   proof already runs through a generator of bounded height; the work is extracting and
-  counting — bound the defining polynomial's coefficients explicitly, count the
+  counting: bound the defining polynomial's coefficients explicitly, count the
   polynomials.
 
 ### Layer 3: regulators and unit-lattice volume
@@ -135,7 +134,7 @@ in `Targets.lean` (with `sorry`) and hand them to the AIs to discharge.
 **Brauer–Siegel**: `log(h_F · R_F) ∼ log √|d_F|`; effective bounds with explicit
 constants.
 
-## Worked examples (acceptance criteria — keep the bounds honest)
+## Worked examples (acceptance criteria, keeping the bounds honest)
 
 - The class number bound is non-vacuous on a small field: for `ℚ(√−5)` (`d = −20`,
   `n = 2`, `h = 2`), `2 ≤ 20·16`.
@@ -145,14 +144,13 @@ constants.
 
 ## Ordering
 
-Layer 1 first — the explicit upper bounds are direct migrations and validate the pipeline
+Layer 1 first: the explicit upper bounds are direct migrations and validate the pipeline
 (within it: the discriminant bound is the most self-contained, then the abstract group
 lemma and the unit-square index, then the ideal count and the class number bound that
 consumes it). Layer 0 (the engine) is best done after its `ZLattice` reconciliation
 spike, since that determines what is even worth porting. Layer 2 (the effective count) is
 the summit; it consumes Mathlib's `abs_discr_ge` and `finite_of_discr_bdd` rather than
-re-proving them. As each milestone's prerequisite *types* exist in `TauCeti/`, state it
-in `Targets.lean` (with `sorry`).
+re-proving them.
 
 ## References
 

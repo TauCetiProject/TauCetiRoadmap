@@ -1,12 +1,11 @@
 # Roadmap: multiquadratic fields and genus theory
 
 Mathlib has quadratic fields, Kummer theory, quadratic reciprocity, and the class group,
-but **nothing on multiquadratic extensions** `ℚ(√d₁, …, √dₙ)` — their degree, their
+but **nothing on multiquadratic extensions** `ℚ(√d₁, …, √dₙ)`: their degree, their
 elementary-abelian Galois group, or the genus theory of quadratic fields that they
 encode. Genus theory is the first, explicit, computable slice of class field theory, and
-it is entirely absent upstream. **We do not wait: we build the multiquadratic theory here
-in `TauCeti/`, and use it to reach the genus-field description of the 2-part of the class
-group.**
+it is entirely absent upstream. We build the multiquadratic theory here, and use it to
+reach the genus-field description of the 2-part of the class group.
 
 Suggested home: `TauCeti/NumberTheory/Multiquadratic/`.
 
@@ -18,19 +17,19 @@ to one CM field. The first targets here **generalise and migrate** that machiner
 that source (and Alpöge for the mathematics it was written for) in each ported file.
 
 Migration sources, pinned at commit `140edda5974ec5afb8beefdbb3014d93d92bdc64`:
-- `ErdosUnitDistance/MultiquadraticField.lean` — `sqrtTower`, `mem_sup_adjoin_sq`,
+- `ErdosUnitDistance/MultiquadraticField.lean`: `sqrtTower`, `mem_sup_adjoin_sq`,
   `squareClass_of_sqrt_mem`, `sqrtTower_finrank` (port in that order; the first three are
   the descent engine, the last is the degree computation built on them).
-- `ErdosUnitDistance/IdealFamily.lean` — `exists_transversal_family` (the Dedekind-domain
+- `ErdosUnitDistance/IdealFamily.lean`: `exists_transversal_family` (the Dedekind-domain
   transversal count, an independent migration).
-- `ErdosUnitDistance/ClassNumber.lean` — `units_sq_index_le` and its abstract input
+- `ErdosUnitDistance/ClassNumber.lean`: `units_sq_index_le` and its abstract input
   `index_powMonoidHom_two_le_of_closure` (shared with the effective-bounds roadmap).
 
 ## Standing hypotheses
 
 Spell hypotheses out; do not bundle them. Work over a base field `K` and an extension
-`L ⊇ K` holding the square roots, with `[CharZero K]` (or at least `[NeZero (2 : K)]` —
-the whole theory is false in characteristic 2). The radicands are a family `d : ι → K`
+`L ⊇ K` holding the square roots, with `[CharZero K]` (or at least `[NeZero (2 : K)]`,
+since the whole theory is false in characteristic 2). The radicands are a family `d : ι → K`
 over a finite index `ι`; their chosen square roots are `r : ι → L` with
 `r i ^ 2 = algebraMap K L (d i)`.
 
@@ -43,7 +42,7 @@ of this is
 and that is the form the degree theorem assumes. (Singleton subsets already force each
 `d i ≠ 0`, since `0` is a square; no separate nonvanishing hypothesis is needed.) An early
 intermediate target should connect this `Finset` form to genuine `ZMod 2`-linear
-independence in `Kˣ ⧸ (Kˣ)²` — the latter is the form the Galois-theoretic arguments
+independence in `Kˣ ⧸ (Kˣ)²`, the form the Galois-theoretic arguments
 want. ⚠ Do **not** bake `K = ℚ` or a specific
 prime sequence into the main statements: prove the field-generic theorem, then derive the
 rational and prime-indexed versions (the genus-theory inputs) as corollaries.
@@ -79,10 +78,8 @@ residue symbols of the `dⱼ`; the **2-torsion of the class group** `Cl/Cl²`; a
 
 ## The build, in layers
 
-Each layer is self-contained mathematics the next one needs; the ordering is the
-dependency order. As a layer makes the next layer's *types* expressible in `TauCeti/`,
-state its milestones in `Targets.lean` (with `sorry`) and hand them to the AIs to
-discharge.
+The ordering below is the dependency order. As each layer makes the next layer's *types*
+expressible in `TauCeti/`, state its milestones in `Targets.lean` (with `sorry`).
 
 ### Layer 0: the multiquadratic field
 - **Square-class descent.** If `√r ∈ K(√d₁, …, √dₙ)` for `r ∈ K`, then `r` is a square
@@ -98,7 +95,7 @@ discharge.
   degree theorem first, so it comes after.
 
 ### Layer 1: the prime-splitting law
-- **First theorem — state it this precisely:** for squarefree integers `d₁, …, dₙ` and an
+- **First theorem, stated this precisely:** for squarefree integers `d₁, …, dₙ` and an
   odd prime `p ∤ d₁ ⋯ dₙ`, `p` splits completely in `ℚ(√d₁,…,√dₙ)` iff
   `legendreSym p dⱼ = 1` for every `j`; more generally the Frobenius at `p` is the vector
   `((d₁/p), …, (dₙ/p))` under `Gal ≅ (𝔽₂)ⁿ`. Rational radicands reduce to this integral
@@ -113,8 +110,8 @@ discharge.
 
 ### Layer 2: the 2-elementary quotient of the class group
 - The squaring map on `Cl(K)` and the quotient `Cl(K)/Cl(K)²`. ⚠ Call it what it is:
-  this is the maximal elementary-2 **quotient**, not the 2-torsion subgroup `Cl(K)[2]` —
-  they have the same cardinality for a finite abelian group but are different objects;
+  this is the maximal elementary-2 **quotient**, not the 2-torsion subgroup `Cl(K)[2]`;
+  they have the same cardinality for a finite abelian group but are different objects,
   keep them distinct in names and statements. Also here: the unit-square-class input
   `[O_K^× : (O_K^×)²]` (migrated as `units_sq_index_le`); the ambiguous-class-number
   formula.
@@ -122,15 +119,15 @@ discharge.
 ### Layer 3: the genus field and the 2-rank theorem (the summit)
 - The **genus field** `K_gen`: the maximal extension of `K = ℚ(√d)` unramified at all
   places (the infinite ones included) and abelian over `ℚ`. Prove it is
-  **multiquadratic** — the compositum of the `ℚ(√p*)` for the prime discriminants
-  dividing `disc K`, so Layer 0 applies — and prove `Gal(K_gen/K) ≅ Cl(K)/Cl(K)²`. (This
+  **multiquadratic** (the compositum of the `ℚ(√p*)` for the prime discriminants
+  dividing `disc K`, so Layer 0 applies) and prove `Gal(K_gen/K) ≅ Cl(K)/Cl(K)²`. (This
   isomorphism holds for real and imaginary `K` alike: the nontrivial automorphism acts on
   `Cl(K)` by inversion, since `I · σI` is principal, so the commutator subgroup of
   `Gal(H/ℚ)` is exactly `Cl(K)²`.)
 - ⚠ **The 2-rank formula `= t − 1`** (with `t` the number of ramified primes) **is a
   theorem about the *narrow* class group.** For imaginary `K` narrow = ordinary, so state
-  and prove the formula there first. For real `K` the ordinary 2-rank can drop — `ℚ(√3)`
-  has `t = 2` but class number `1` — and the `t − 1` count needs the narrow class group
+  and prove the formula there first. For real `K` the ordinary 2-rank can drop (`ℚ(√3)`
+  has `t = 2` but class number `1`), and the `t − 1` count needs the narrow class group
   and the narrow genus field (unramified at finite places only). Mathlib has neither;
   defining the narrow class group is part of this layer and the prerequisite for the real
   case.
@@ -141,7 +138,7 @@ in a cyclotomic field, via Gauss sums); the Hilbert class field, of which the ge
 is the part cut out by `Cl/Cl²`; ring class fields. These set the direction; the roadmap
 proper is Layers 0–3.
 
-## Worked examples (acceptance criteria — keep the definitions honest)
+## Worked examples (acceptance criteria, keeping the definitions honest)
 
 Discharge these alongside the layers; they catch a vacuous degree or a wrong genus field:
 - `[ℚ(√2, √3) : ℚ] = 4` (the smallest nontrivial multiquadratic degree).
@@ -151,15 +148,13 @@ Discharge these alongside the layers; they catch a vacuous degree or a wrong gen
   `ℚ(√−1, √−3, √−7)` (the prime discriminants `−4, −3, −7`), of degree 4 over it; its
   2-rank is `2 = t − 1` with `t = 3` ramified primes (`2`, `3`, `7`).
 - The erdos CM field `ℚ(i, √q₀, …, √q_{g−1})` recovered as a multiquadratic field of
-  degree `2^{g+1}` — the general theory must reproduce what the bespoke proof needed.
+  degree `2^{g+1}`: the general theory must reproduce what the bespoke proof needed.
 
 ## Ordering
 
 Layer 0 first (degree, then Galois), because everything rests on it and most of it is a
 migration. Layer 1's splitting law and Layer 2's `Cl/Cl²` are independent lanes that can
-proceed in parallel once Layer 0's types exist; Layer 3 needs all three. As each
-milestone's prerequisite *types* exist in `TauCeti/`, state it in `Targets.lean` (with
-`sorry`) and hand it to the AIs.
+proceed in parallel once Layer 0's types exist; Layer 3 needs all three.
 
 ## References
 

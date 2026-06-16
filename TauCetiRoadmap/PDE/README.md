@@ -197,11 +197,10 @@ statement time is what keeps the formalized API reusable.
 
 ## The build, in lanes
 
-Each lane is self-contained analysis worth having on its own; the ordering below is the
-dependency order, not a strict schedule, and the lanes are deliberately parallelizable.
-As a lane makes the next one's *types* expressible in `TauCeti/`, state those milestones
-in `Targets.lean` (with `sorry`, which is human-owned roadmap territory) and hand them to
-the AIs to discharge.
+The ordering below is the dependency order, not a strict schedule, and the lanes are
+deliberately parallelizable. As a lane makes the next one's *types* expressible in
+`TauCeti/`, state those milestones in `Targets.lean` (`sorry` is allowed there: it is
+human-owned roadmap territory).
 
 ### Lane A: function spaces on a domain (the universal prerequisite)
 
@@ -371,15 +370,13 @@ Concrete sanity checks that rule out vacuous or mis-stated definitions:
 
 ## How to drive it
 
-Large by design, expanded **iteratively**. **Lane A comes first** and to a high standard,
-because almost everything downstream needs `W^{k,p}(Ω)` and Rellich. Then Lanes B, C, D
-can proceed largely in parallel: Lane C (potential theory) is the easiest early win and
-partly exists in Mathlib already; Lane D (energy-method existence) is the shortest path to
-a real PDE theorem because Lax–Milgram is *already there*; Lane B (harmonic analysis) is
-the long pole that Lane E's regularity depends on. Lane E is the deep core of the
-roadmap, and Lane F and the stretch goals come last. As each lane makes the next one's
-*types* expressible in `TauCeti/`, state those milestones in `Targets.lean` (with
-`sorry`) and hand them to the AIs to discharge. Nothing here blocks on upstream Mathlib.
+**Lane A comes first** and to a high standard, because almost everything downstream needs
+`W^{k,p}(Ω)` and Rellich. Then Lanes B, C, D can proceed largely in parallel: Lane C
+(potential theory) is the easiest early win and partly exists in Mathlib already; Lane D
+(energy-method existence) is the shortest path to a real PDE theorem because Lax–Milgram
+is *already there*; Lane B (harmonic analysis) is the long pole that Lane E's regularity
+depends on. Lane E is the deep core of the roadmap, and Lane F and the stretch goals come
+last.
 
 ## Acknowledgements
 

@@ -4,15 +4,14 @@ import Mathlib
 # Reductive algebraic groups: target signatures
 
 The narrative roadmap (the three synchronized models, the layer-by-layer build plan
-Layers 0–7, the worked examples, and the references) is in `README.md`. We build the
-whole tower here rather than waiting on Mathlib.
+Layers 0–7, the worked examples, and the references) is in `README.md`.
 
 This file holds the **Layer 0** targets translating between affine group schemes and
 Hopf algebras (Kevin Buzzard). They elaborate against the pinned Mathlib commit and are
 stated with `sorry` (allowed in this human-owned roadmap library). As later layers
-make their types expressible in `TauCeti/`, add their milestones here with `sorry`
-and hand them to the AIs to discharge. Next up after these: the convolution group
-structure on the functor of points, and base change of Hopf algebras.
+make their types expressible, their milestones get added here with `sorry`. Next up
+after these: the convolution group structure on the functor of points, and base change
+of Hopf algebras.
 -/
 
 open CategoryTheory AlgebraicGeometry CommRingCat Scheme Opposite Spec

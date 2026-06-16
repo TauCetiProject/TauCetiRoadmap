@@ -7,11 +7,9 @@ designed with **checks along the way**, so a construction that satisfies them al
 have the definitions right; the point is autoformalizing *definitions*, not just
 discharging `sorry`s.
 
-**We are not waiting for Mathlib.** The prerequisite stack (scheme-theoretic divisors,
-relative coherent cohomology and base change, the Picard functor, abelian varieties) is
-mostly absent and will not arrive on a schedule we can plan around. So this is a roadmap
-to **build the whole tower here**, in `TauCeti/`, iteratively. Suggested home:
-`TauCeti/AlgebraicGeometry/Jacobian/`, with supporting theories under
+The prerequisite stack (scheme-theoretic divisors, relative coherent cohomology and base
+change, the Picard functor, abelian varieties) is mostly absent from Mathlib. Suggested
+home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting theories under
 `TauCeti/AlgebraicGeometry/` (divisors, cohomology, Picard, curves, abelian varieties).
 
 > ⚠ **Name clash.** Mathlib's `WeierstrassCurve.Jacobian` / `EllipticCurve/Jacobian`
@@ -89,7 +87,7 @@ faithfully-flat-descent lane is a shared prerequisite (also in the reductive-gro
 
 Codex's recommended dependency order, refined. Each layer is self-contained mathematics
 worth having on its own. As a layer makes the next one's *types* expressible, state those
-milestones in `Targets.lean` (with `sorry`) and hand them to the AIs.
+milestones in `Targets.lean` (with `sorry`).
 
 ### Layer A, line bundles, divisors, Picard group, degree
 - **Invertible sheaves** on a scheme; the **Picard group** `Pic X` under `⊗`.
@@ -189,13 +187,6 @@ A finished construction must pass sanity checks that rule out vacuous definition
   representability.
 - The Stacks Project: *Picard schemes of curves* (tag 0B95), *Divisors* (tag 01WP),
   *Cohomology and base change* (tag 0B91), *Quot/Hilbert and Picard functors* (tag 0D04).
-
-## How to drive it
-
-Large by design, expanded **iteratively**. Build Layer A, then B, … ; as each layer makes
-the next layer's *types* expressible, state that layer's milestones in `Targets.lean` (with
-`sorry`) and hand them to the AIs to discharge in `TauCeti/`. Nothing here blocks on
-upstream Mathlib.
 
 ## Acknowledgements
 

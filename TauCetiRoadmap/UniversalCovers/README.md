@@ -2,9 +2,9 @@
 
 Mathlib already has a substantial covering-space toolkit; what it lacks is the
 **universal cover construction itself** and the **deck transformation group**, which sit
-in PRs that stalled or died upstream. We are not waiting: **port the missing
-construction into `TauCeti/`, sorry-free and attributed, consume the rest from Mathlib,
-and build the theory of covers on top here.**
+in PRs that stalled or died upstream. **Port the missing construction into `TauCeti/`,
+sorry-free and attributed, consume the rest from Mathlib, and build the theory of covers
+on top.**
 
 Suggested home: `TauCeti/AlgebraicTopology/UniversalCover/`. Original roadmap content:
 the gist <https://gist.github.com/kim-em/70e1762ab143b88605c699059769111c>.
@@ -69,8 +69,7 @@ original authors and source PR in each file.
    connected and locally path-connected, the **fibres** of "based paths modulo
    endpoint-preserving homotopy" over a fixed endpoint are **discrete** (this is what
    makes `proj` a covering map and gives the sheet decomposition). Note: the total space
-   is *not* discrete in general; only the fibres are. This died upstream, so it lives
-   here.
+   is *not* discrete in general; only the fibres are.
 2. **The based-path space and the cover** (from #38292), under
    `[PathConnectedSpace X] [LocPathConnectedSpace X] [SemilocallySimplyConnectedSpace X]`:
    - `BasedPath x₀` and the path-component machinery of `endpoint ⁻¹' U`;
@@ -150,9 +149,7 @@ higher-homotopy-group API:
 Stage 0 first: a careful port that unblocks everything. Then Stage 1 (5), then Stage 2
 (7)/(8); the basepoint/conjugacy bookkeeping is the subtle part there, not the topology.
 Stage 3 is a larger, separable track, but lighter than it looks now that homotopy lifting
-is available; the cost is the `π_n` API, not lifting. As each milestone's prerequisite
-*types* exist in `TauCeti/`, state the milestone in `Targets.lean` (with `sorry`) and
-hand it to the AIs to discharge.
+is available; the cost is the `π_n` API, not lifting.
 
 ## Acknowledgements
 
