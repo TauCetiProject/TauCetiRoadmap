@@ -21,6 +21,7 @@ industry groups.
 6. [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
 7. [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
 8. [Effective arithmetic bounds and geometry of numbers](TauCetiRoadmap/EffectiveBounds/README.md)
+9. [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
 
 ## How changes are made
 

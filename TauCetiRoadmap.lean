@@ -10,3 +10,4 @@ import TauCetiRoadmap.ReductiveGroups.Targets
 import TauCetiRoadmap.PDE.Targets
 import TauCetiRoadmap.CombinatorialHeegaardFloer.Targets
 import TauCetiRoadmap.HeegaardFloer.Targets
+import TauCetiRoadmap.GeometricTopology.Targets
