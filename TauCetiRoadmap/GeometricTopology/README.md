@@ -60,6 +60,40 @@ The shared convention is "a knot has no privileged representation".
   bundled, so a theorem can be restated in a neighbouring category without rebuilding the
   topology.
 
+## Encoding conventions
+
+These are the cross-cutting Lean choices that have to agree across layers, so that two
+agents implementing different layers build compatible APIs rather than locally plausible but
+mutually unusable ones. The per-layer sections pin the rest; this section fixes the spine.
+
+- **A manifold is a type with instances, not a bundled record.** A manifold is a type `M`
+  carrying the standard Mathlib instances (`TopologicalSpace M`, `ChartedSpace H M`,
+  `IsManifold I n M`), exactly as Mathlib does it; constructions (gluing, connected sum,
+  surgery, fillings) *produce* such a type together with its instances, and are related to
+  one another up to `≃ₘ` / `≃ₜ` in theorem statements rather than by a quotient type. Build a
+  moduli/quotient object only where a specific target genuinely needs "the set of manifolds
+  up to diffeomorphism"; default to "a type plus a diffeomorphism in the statement".
+- **Named conditions are predicates or hypotheses, not new structures.** "Closed",
+  "orientable", "hyperbolic", "prime" and the like are predicates/typeclasses on a manifold;
+  aliases such as `ClosedOrientable3Manifold` are abbreviations for "a manifold with these
+  hypotheses", kept unbundled per the principle above. Carry orientation, framing, and other
+  *data* (as opposed to mere properties) as explicit arguments with forgetful maps, not baked
+  into the carrier.
+- **Knots have no privileged type; do not define `Knot`.** There is no canonical
+  representation, so the roadmap does not introduce a `Knot` type. The presentations of
+  layer 4 are first-class types in their own right, and the geometric presentation is simply
+  *a smooth embedding `S¹ ↪ M`* (worked over a general manifold `M` wherever possible, and
+  specialised to `M = ℝ³` or `S³`). In the illustrative target signatures, `K` names a chosen
+  presentation, by default a smooth embedding `S¹ ↪ S³`; an invariant or relation is stated on
+  whichever presentation is most natural and transported across presentations by layer 4's
+  correspondences. Where two layers must talk about "the same knot", they share a presentation
+  type, not a hub type.
+- **Isotopy is defined generally, then specialised.** Define isotopy and ambient isotopy for
+  arbitrary (continuous, and smooth) maps between manifolds once, in full generality, and
+  obtain knot equivalence as the specialisation to smooth embeddings `S¹ ↪ M`. The same
+  general `Isotopic` underlies locally flat isotopy (layer 2), diffeotopies (layer 3), and
+  concordance (layer 6); none of those should re-define it.
+
 ## Inventory: what Mathlib gives us (consume)
 
 Verified against the pinned Mathlib (`Mathlib/`, commit `9caeba1`, Lean `v4.31.0-rc1`).
@@ -163,7 +197,12 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
 **What to build, gluing track.**
 - **Boundary as a manifold.** `I.boundary M` is currently only a set; promote it to a
   boundaryless `C^n` manifold one dimension lower, with its inclusion a smooth embedding.
-  This is the prerequisite for every gluing below.
+  This is the prerequisite for every gluing below. ⚠ "One dimension lower" hides a model
+  choice: `ModelWithCorners` does not hand you a canonical boundary model. Pin it by starting
+  with the finite-dimensional real half-space model `modelWithCornersEuclideanHalfSpace n`,
+  whose boundary model is `ℝ^(n-1)` (the coordinate hyperplane), and proving chart transitions
+  restrict to it; generalise to other models (and corners, whose boundary is again a
+  manifold-with-corners) only afterwards.
 - **Collar neighbourhoods.** A boundary component has a neighbourhood diffeomorphic to
   `∂M × [0, 1)` (the collar theorem; Hirsch, *Differential Topology*, GTM 33, Theorem 6.1,
   [extract](references/hirsch-collar.md); Lee, *Introduction to Smooth Manifolds*, GTM 218,
@@ -333,23 +372,27 @@ topological-group and uniform-space API from Mathlib's algebra-and-topology libr
 **What to build.**
 - The **group** `Diff(M) := M ≃ₘ^∞⟮I, I⟯ M` under composition (the `Group` instance is
   routine from the existing `Diffeomorph` composition and inverse).
-- The **C^∞ topology** on `Diff(M)`, for `M` compact as the first case (uniform convergence
-  of all derivatives in charts; the function-space topologies are Hirsch, *Differential
-  Topology* GTM 33, Chapter 2, [extract](references/hirsch-smooth-map-topologies.md)), making
-  it a topological group, and the same topology on
-  `Diff(M, ∂M)` (diffeomorphisms fixing the boundary) for the relative statements.
-- The **smooth-families correspondence**: a smooth map `P × M → M` that is a
-  diffeomorphism in the `M` variable for each `p` is the same as a continuous map
-  `P → Diff(M)`. This is the property the whole layer exists to provide, since it turns
-  "smooth family" (what proofs produce) into "map into the group" (what homotopy-type
-  statements need).
+- The **C^∞ topology**, pinned to one construction to avoid the weak/strong/compact-open
+  ambiguity: for `M` compact, give the space of smooth maps `C^∞(M, M)` the *initial topology
+  induced by all iterated derivatives read in charts* (the compact case, where weak and strong
+  Whitney agree; Hirsch, *Differential Topology* GTM 33, Chapter 2,
+  [extract](references/hirsch-smooth-map-topologies.md)), and define `Diff(M)` as a subtype of
+  `Diffeomorph`/`ContMDiffMap` with the subspace topology, making it a topological group.
+  `Diff(M, ∂M)` is the closed subgroup fixing `∂M` pointwise, for the relative statements.
+  (The non-compact case is a separate, later choice; do not bake it in.)
+- The **smooth-families map** (note: a map, not an equivalence). A smooth `F : P × M → M`
+  that is a diffeomorphism in `M` for each `p` induces a continuous `P → Diff(M)`; this is the
+  direction the layer exists to provide (it turns "smooth family", what proofs produce, into
+  "map into the group", what homotopy-type statements need). ⚠ The converse is *not* an
+  equivalence for arbitrary `P`; state it only as the forward map, with the reverse direction a
+  separate target under explicit hypotheses on `P`.
 - The reference inclusion `O(n+1) → Diff(Sⁿ)` (consume `Matrix.orthogonalGroup`, layer 7's
   isometry action, and the sphere instance) as a continuous group homomorphism.
 
 ```lean
 -- instance : Group (Diff I M)
--- instance : TopologicalGroup (Diff I M)   -- the C^∞ topology, M compact
--- def smoothFamilyEquiv : C(P, Diff I M) ≃ {f : P × M → M // …}   -- families ↔ maps
+-- instance : TopologicalGroup (Diff I M)   -- the C^∞ topology (initial topology in charts), M compact
+-- def ofSmoothFamily (F : P × M → M) (h : ∀ p, IsDiffeo (F p ·)) : C(P, Diff I M) := …  -- forward only
 -- theorem smale_conjecture : Nonempty (HomotopyEquiv (Diff 𝓘 (sphere 3)) (orthogonalGroup 4 ℝ))
 ```
 
@@ -383,10 +426,13 @@ manifolds for complements (handed on to layer 5).
 **What to build.**
 - **The presentations, as first-class types carrying orientation and framing** (Lickorish,
   *An Introduction to Knot Theory*, GTM 175, is the spine throughout this layer; per-topic
-  extracts are in [references/](references/)). Smooth and
-  PL embeddings `S¹ ↪ S³` (or `ℝ³`); PL polylines; braid closures (over `PresentedMonoid`
-  braid groups with the Artin relations); knot diagrams as 4-valent planar graphs with
-  crossing signs, and the equivalent oriented PD codes and Gauss codes. From the start each
+  extracts are in [references/](references/)). Per the encoding conventions there is **no
+  umbrella `Knot` type**: the presentations are first-class types, and the geometric one is
+  simply a smooth embedding `S¹ ↪ M`, worked over a general manifold `M` and specialised to
+  `ℝ³` or `S³`. The presentations are smooth and PL embeddings `S¹ ↪ M`; PL polylines; braid
+  closures (over `PresentedMonoid` braid groups with the Artin relations); knot diagrams as
+  4-valent planar graphs with crossing signs, and the equivalent oriented PD codes and Gauss
+  codes. From the start each
   presentation carries **orientation** (a direction on the knot) and **framing** (a chosen
   push-off, blackboard or Seifert), with **forgetful maps** dropping that data, so
   framed-and-oriented, oriented, and unoriented knots are connected by forgetful maps and
@@ -394,7 +440,9 @@ manifolds for complements (handed on to layer 5).
   and forgetful maps to the others (a braid word closes to a diagram; a diagram realizes to
   a PL knot).
 - **Equivalence in each presentation, and the correspondences between them (the hard part,
-  flagged as such).** Each presentation has its own equivalence: ambient isotopy (geometric),
+  flagged as such).** Each presentation has its own equivalence: ambient isotopy for the
+  geometric presentation (the general `Isotopic` of the encoding conventions, specialised to
+  smooth embeddings `S¹ ↪ M`, so isotopy is defined once for arbitrary maps and reused),
   Reidemeister moves (diagrams), Markov moves (braids), stellar moves (polylines), grid moves
   (grids, from the combinatorial Heegaard Floer roadmap). The correspondences split into two
   regimes of very different difficulty:
@@ -416,10 +464,11 @@ manifolds for complements (handed on to layer 5).
     where they are cheap or load-bearing (grid-to-diagram for the Heegaard Floer roadmap,
     braid-to-diagram via Markov). Each extra edge is a convenience theorem, not a
     prerequisite; the tree is what the rest of the layer actually needs.
-- **Slice-ness, stated cleanly.** `IsSmoothlySlice K` (`K` bounds a smoothly embedded disc
-  in `D⁴`) and `IsTopologicallySlice K` (a *locally flat* disc, consuming layer 2 and the
-  topological 4-manifold input of layer 6); the slice genus `g_s(K)` and the topological
-  slice genus. These replace the lean-eval monstrosities with one-line definitions.
+- **Slice-ness, stated cleanly** on a presentation `K` (by default a smooth embedding
+  `S¹ ↪ S³`). `IsSmoothlySlice K` (`K` bounds a smoothly embedded disc in `D⁴`) and
+  `IsTopologicallySlice K` (a *locally flat* disc, consuming layer 2 and the topological
+  4-manifold input of layer 6); the slice genus `g_s(K)` and the topological slice genus.
+  These replace the lean-eval monstrosities with one-line definitions.
 - **Knot polynomials, each a project in itself, with several algorithms apiece.** The
   Alexander polynomial (Conway normalization), Jones, and HOMFLY; each is a substantial
   sub-project, and we will likely want **multiple algorithms for the same invariant, starting
@@ -431,25 +480,38 @@ manifolds for complements (handed on to layer 5).
   above; they also let the acceptance criteria evaluate the invariants on small knots.
 
 ```lean
--- presentations carry orientation and framing, with forgetful maps dropping the data
--- def Knot.SmoothEmbedded : Type := …      -- one presentation; others as separate types
--- def Knot.Diagram : Type := …
--- def forgetFraming : FramedKnot.Diagram → Knot.Diagram
--- def closes : BraidWord n → Knot.Diagram   -- a combinatorial-to-combinatorial edge
--- theorem reidemeister : (D ≈ D') ↔ Isotopic (realize D) (realize D')   -- the hard edge
--- def IsTopologicallySlice (K : Knot) : Prop := ∃ d : LocallyFlatDisc D⁴, ∂ d = K
--- def alexander (K : Knot) : LaurentPolynomial ℤ := …   -- Conway-normalized
--- theorem alexander_eq_burau (β : BraidWord n) : alexander (closes β) = burauAlexander β  -- routes agree
--- theorem freedman_alexanderOne_slice (K) (h : alexander K = 1) : IsTopologicallySlice K   -- needs layer 6
+-- no umbrella `Knot` type (see Encoding conventions); presentations are first-class types
+-- def SmoothLink (M) : Type := { f : C^∞(circle, M) // IsEmbedding f }   -- geometric presentation, general M
+-- def Diagram : Type := …                                                -- a combinatorial presentation
+-- def forgetFraming : FramedDiagram → Diagram                            -- carry framing/orientation as data
+-- def closes : BraidWord n → Diagram                                     -- a combinatorial-to-combinatorial edge
+-- isotopy is the general `Isotopic` (Encoding conventions); knot equivalence is its specialisation:
+-- theorem reidemeister (D D' : Diagram) : D ≈ D' ↔ Isotopic (realize D) (realize D')   -- the hard edge
+-- def IsTopologicallySlice (f : SmoothLink (sphere 3)) : Prop := ∃ d : LocallyFlatDisc D⁴, boundary d = f
+-- def alexanderOfDiagram (D : Diagram) : LaurentPolynomial ℤ := …        -- Conway-normalised, on this presentation
+-- theorem alexander_eq_burau (β : BraidWord n) : alexanderOfDiagram (closes β) = burauAlexander β  -- routes agree
+-- theorem freedman_alexanderOne_slice (f) (h : alexanderOfDiagram (diagramOf f) = 1) :
+--     IsTopologicallySlice f                                             -- needs layer 6
 ```
 
-**Design notes.** Pin the convention table before stating anything: orientation, framing
-(blackboard vs Seifert), and the Conway normalization of Alexander are all conventions that
-later theorems silently depend on. Keep "smoothly slice" and "topologically slice"
-rigorously separate; the gap between them is the entire point of `[Kir97, 1.41]` and
-`[Kir97, 1.36]`. Coordinate the braid-group and diagram-calculus work with the combinatorial
-Heegaard Floer roadmap's Lane K (which adds the grid-diagram presentation and Cromwell's
-theorem) rather than duplicating it; that roadmap's `τ` is a consumer of these types.
+**Convention table (pin before stating anything).** Every theorem below silently depends on
+these; fix them once.
+
+| item | convention |
+| --- | --- |
+| ambient space | standard orientation on `ℝ³` / `S³` |
+| knot orientation | oriented by default; the unoriented version is the image of the forgetful map |
+| crossing sign | a right-handed crossing counts `+1` |
+| mirror, reverse | mirror is reflection (negates every crossing); reverse flips the orientation |
+| framing | the Seifert (`0`-) framing is the canonical longitude; the blackboard framing equals the writhe |
+| Alexander | Conway-normalised: `Δ_K(t) = Δ_K(t⁻¹)`, `Δ_unknot = 1`; right-handed trefoil `Δ = t − 1 + t⁻¹` |
+| Jones | via the Kauffman bracket with `t = A⁻⁴` and `V_unknot = 1`; fix the trefoil value from Lickorish, [references/lickorish-jones.md](references/lickorish-jones.md) |
+
+**Design notes.** Keep "smoothly slice" and "topologically slice" rigorously separate; the
+gap between them is the entire point of `[Kir97, 1.41]` and `[Kir97, 1.36]`. Coordinate the
+braid-group and diagram-calculus work with the combinatorial Heegaard Floer roadmap's Lane K
+(which adds the grid-diagram presentation and Cromwell's theorem) rather than duplicating it;
+that roadmap's `τ` is a consumer of these presentations.
 
 **Unlocks.** `0`-shake genus vs slice genus, `[Kir97, Problem 1.41]` (Piccirillo, via the
 Conway knot, jointly with the combinatorial Heegaard Floer roadmap's `τ`);
@@ -473,9 +535,13 @@ calculus.
   layer-4-to-layer-5 handoff that lean-eval lacks. (Rolfsen, *Knots and Links*, Chapter 9,
   is the reference for the surgery picture throughout this layer,
   [extract](references/rolfsen-dehn-surgery.md).)
-- **Slopes**: isotopy classes of essential simple closed curves on the boundary torus,
-  equivalently primitive classes in `H₁(∂)`, parametrized as `p/q ∈ ℚ ∪ {∞}` once a
-  meridian-longitude framing is fixed.
+- **Slopes**, with the primitive pinned to avoid the "all of the above" trap. Take a slope
+  on a boundary torus `T` to be a **primitive class in `H₁(T; ℤ)` modulo sign** (an unoriented
+  essential simple closed curve); separately give a `FramedBoundaryTorus` an ordered basis
+  `(μ, λ)` (meridian, Seifert longitude) and the resulting bijection `Slope T ≃ ℚ ∪ {∞}`.
+  State the convention explicitly: `p/q` denotes the class `p·μ + q·λ`, and Dehn filling sends
+  the filling solid torus's meridian to that class. Keep `Slope` (basis-free) and the `ℚ∪{∞}`
+  parametrisation (basis-dependent) as distinct so theorems can be stated either way.
 - **Dehn filling / surgery**: glue a solid torus to the complement sending its meridian to
   a chosen slope (layer 1's gluing); `n`-surgery, rational surgery, and surgery on framed
   links. General-dimension surgery on a framed embedded `Sᵏ` (cut `Sᵏ × Dⁿ⁻ᵏ`, glue
@@ -484,9 +550,10 @@ calculus.
   the acceptance criteria), pinning the meridian-longitude and slope conventions.
 
 ```lean
--- def complement (L : Link) : Manifold …                 -- compact, torus boundary
--- def Slope (T : BoundaryTorus) : Type := …              -- ℚ ∪ {∞} after a framing
--- def dehnFilling (M : Manifold …) (s : Slope …) : Manifold …
+-- def complement (L : SmoothLink (sphere 3)) : Manifold …   -- compact, one torus boundary per component
+-- def Slope (T : BoundaryTorus) : Type := { c : H1 T ℤ // IsPrimitive c } ⧸ sign  -- basis-free
+-- def slopeEquiv (T : FramedBoundaryTorus) : Slope T.toTorus ≃ (ℚ ∪ {∞})  -- p/q ↦ p·μ + q·λ
+-- def dehnFilling (M : Manifold …) (s : Slope …) : Manifold …            -- filling meridian ↦ s
 -- theorem surgery_unknot_zero : dehnFilling (complement unknot) 0 ≃ₘ (circle ×ₘ sphere 2)
 -- theorem surgery_unknot_pq : dehnFilling (complement unknot) (p/q) ≃ₘ lensSpace p q
 ```
@@ -518,9 +585,11 @@ Seifert matrix.
 
 **What to build.**
 - The **concordance relation** and the **concordance group** `C` (smooth and topological
-  variants), with connected sum as the group operation and the reverse mirror as inverse;
-  the slice knots as the identity coset. (Livingston, *A survey of classical knot
-  concordance*, is the orienting reference.)
+  variants), stated on layer 4's geometric presentation (smooth embeddings `S¹ ↪ S³`), not on
+  any `Knot` type: concordance is the specialisation of the general `Isotopic`/cobordism
+  machinery to a locally flat or smooth annulus in `S³ × [0,1]`. Connected sum is the group
+  operation and the reverse mirror the inverse; the slice presentations form the identity
+  coset. (Livingston, *A survey of classical knot concordance*, is the orienting reference.)
 - The **4D cobordism category** in general dimension: oriented cobordisms between manifolds,
   composition by gluing (layer 1), and knot/link cobordisms as surfaces in `S³ × [0,1]`,
   with genus giving the concordance and slice genera.
@@ -537,9 +606,10 @@ Seifert matrix.
   the statement that it does *not* preserve the smooth concordance class.
 
 ```lean
--- def Concordant (K K' : Knot) : Prop := ∃ Σ : Annulus (S³ ×ₘ I), ∂ Σ = K ⊔ K'.mirror
--- instance : Group (ConcordanceClass)         -- # as operation
--- def signature (K : Knot) (ω : Circle) : ℤ   -- Tristram–Levine, from the Seifert form
+-- K, K' : SmoothLink (sphere 3)   -- the geometric presentation; no `Knot` type
+-- def Concordant (K K' : SmoothLink (sphere 3)) : Prop := ∃ Σ : Annulus (sphere 3 ×ₘ I), boundary Σ = K ⊔ K'.mirror
+-- instance : Group (Quotient concordanceSetoid)   -- concordance classes; # as operation
+-- def signature (K : SmoothLink (sphere 3)) (ω : Circle) : ℤ   -- Tristram–Levine, from the Seifert form
 -- theorem mutation_not_concordance_invariant : ∃ K, ¬ Concordant K (mutate K)
 -- theorem levine_homologySphere_not_S3 : -- a knot in a homology sphere not smoothly concordant to any in S³
 ```
@@ -581,10 +651,14 @@ groups.
   Geometry and Topology*, [extract](references/thurston-hyperbolic-structures.md), and
   Ratcliffe, *Foundations of Hyperbolic Manifolds*, GTM 149, for the hyperbolic side and
   Mostow rigidity, [extract](references/ratcliffe-mostow-rigidity.md)).
-- **Hyperbolic structures**: the model `ℍⁿ`, complete constant-curvature `−1` metrics, and
-  `IsHyperbolic M` (`M` carries a complete hyperbolic metric); hyperbolic volume as the
-  volume of that metric, well-defined by Mostow rigidity in dimension `≥ 3` (the
-  well-definedness is itself a target, and the deep input).
+- **Hyperbolic structures**, with the volume problem handled by separating *data* from
+  *property*. A bare `IsHyperbolic M := ∃ g, …` carries no metric to integrate, so volume is
+  not definable from it. Instead build a bundled `HyperbolicMetric M` (a complete metric of
+  constant curvature `−1`, on the model `ℍⁿ`), define `hypVolumeOfMetric : HyperbolicMetric M → ℝ`
+  by integrating its Riemannian volume, and make Mostow invariance a *theorem*
+  (`hypVolumeOfMetric g = hypVolumeOfMetric g'` in dimension `≥ 3`), which then licenses a
+  metric-independent `hypVolume M` from `Nonempty (HyperbolicMetric M)`. `IsHyperbolic M` stays
+  as the existence predicate; the Weeks target uses `hypVolume`, not the predicate.
 - **Fibering and Haken-ness** for layer 7's second problem: a 3-manifold *fibers over the
   circle* (is a mapping torus), is *Haken* (contains an incompressible surface), and is
   *virtually* so (a finite cover is).
@@ -592,7 +666,10 @@ groups.
 ```lean
 -- noncomputable def riemannianVolume (M) [IsRiemannianManifold I M] : Measure M := …
 -- noncomputable def volume (M) [Closed M] [IsRiemannianManifold I M] : ℝ := (riemannianVolume M) univ
--- def IsHyperbolic (M) : Prop := ∃ g : RiemannianMetric M, Complete g ∧ sectionalCurvature g = -1
+-- structure HyperbolicMetric (M) where metric : RiemannianMetric M; complete : …; curv : sectionalCurvature metric = -1
+-- noncomputable def hypVolumeOfMetric (g : HyperbolicMetric M) : ℝ := riemannianVolume g.metric univ
+-- theorem hypVolume_indep (g g' : HyperbolicMetric M) [Closed M] (h : 3 ≤ dim M) : hypVolumeOfMetric g = hypVolumeOfMetric g'  -- Mostow
+-- noncomputable def hypVolume (M) [Closed M] (h : Nonempty (HyperbolicMetric M)) : ℝ := …  -- via hypVolume_indep
 -- theorem weeks_minimal_volume (M) (h : ClosedOrientableHyperbolic3 M) : hypVolume weeksManifold ≤ hypVolume M
 -- theorem agol_virtually_fibered (M) (h : ClosedHyperbolic3 M) : ∃ N, FiniteCover N M ∧ FibersOverCircle N
 ```
@@ -626,9 +703,12 @@ isometry groups; layer 5's torus complements and gluing; layer 1's manifolds; Li
   isometry group (Scott, *The geometries of 3-manifolds*, is the canonical account); a
   **geometric structure** on `M` as a complete locally homogeneous metric modeled on one of
   them (equivalently `M = X / Γ` for a discrete `Γ ≤ Isom X`).
-- **Incompressible tori** and the **JSJ decomposition**: a minimal collection of disjoint
-  incompressible tori cutting `M` into Seifert-fibered and atoroidal pieces, with existence
-  and uniqueness (the decomposition is canonical).
+- **Incompressible tori** and the **JSJ decomposition**, modeled as a decomposition *object*,
+  not a `Finset` of tori (a finite set of embedded tori would need an artificial `DecidableEq`
+  and would drop the cutting data). A `JSJDecomposition M` bundles the family of disjoint
+  incompressible embedded tori, the resulting pieces, the boundary identifications recovering
+  `M`, and the proof each piece is Seifert-fibered or atoroidal; existence and canonicity (up
+  to isotopy) are then *theorems* about this object, not built into a `def JSJ`.
 - **Geometrization** as the statement that each piece of the JSJ decomposition of a closed
   orientable prime 3-manifold admits a geometric structure (after also splitting along the
   prime/connected-sum decomposition, which is layer 1).
@@ -636,9 +716,12 @@ isometry groups; layer 5's torus complements and gluing; layer 1's manifolds; Li
 ```lean
 -- structure ModelGeometry where X : Manifold …; isom : LieGroup …; homogeneous : …
 -- def HasGeometricStructure (M) (G : ModelGeometry) : Prop := ∃ metric, LocallyHomogeneous metric G
--- def JSJ (M : ClosedOrientablePrime3) : Finset (IncompressibleTorus M)   -- canonical
--- theorem geometrization (M : ClosedOrientablePrime3) :
---     ∀ piece ∈ pieces (JSJ M), ∃ G : ModelGeometry, HasGeometricStructure piece G
+-- structure JSJDecomposition (M) where
+--   tori : Finset ι; emb : ι → EmbeddedTorus M; disjoint : …; incompressible : …
+--   pieces : Finset Piece; cut : M ≃ₜ glueUp pieces; seifertOrAtoroidal : ∀ p ∈ pieces, …
+-- theorem jsj_exists_unique (M : ClosedOrientablePrime3) : ∃ J : JSJDecomposition M, …  -- canonical up to isotopy
+-- theorem geometrization (M : ClosedOrientablePrime3) (J : JSJDecomposition M) :
+--     ∀ p ∈ J.pieces, ∃ G : ModelGeometry, HasGeometricStructure p G
 ```
 
 **Design notes.** State the prime decomposition (connected-sum, layer 1) and the JSJ
@@ -677,14 +760,19 @@ surface (closed orientable 2-manifold) classification for the splitting surface.
 ```lean
 -- def Handlebody (g : ℕ) : Manifold …
 -- structure HeegaardSplitting (M) where g : ℕ; glue : (Handlebody g).boundary ≃ₘ (Handlebody g).boundary; iso : M ≃ₘ …
--- noncomputable def heegaardGenus (M : ClosedOrientable3) : ℕ := ⨅ s : HeegaardSplitting M, s.g
--- theorem rank_le_heegaardGenus (M) : Group.rank (FundamentalGroup M) ≤ heegaardGenus M
--- theorem waldhausen_false : ∃ M, Group.rank (FundamentalGroup M) < heegaardGenus M
+-- def genera (M : ClosedOrientable3) : Set ℕ := { g | ∃ s : HeegaardSplitting M, s.g = g }
+-- noncomputable def heegaardGenus (M) [Nonempty (HeegaardSplitting M)] : ℕ := Nat.find (existence proof)  -- least genus
+-- theorem rank_le_heegaardGenus (M) : groupRank (FundamentalGroup M) ≤ heegaardGenus M  -- check the Mathlib rank API
+-- theorem waldhausen_false : ∃ M, groupRank (FundamentalGroup M) < heegaardGenus M
 ```
 
-**Design notes.** Define the genus as an infimum over a `Nonempty` set of splittings, and
-prove existence first, so `heegaardGenus` is not silently `0`. The disproof is an
-inequality, so the target is a witness `M` with strict inequality, not a general formula.
+**Design notes.** Take the genus as the least element of a *proved-nonempty* set of splitting
+genera (`Nat.find`/`sInf` under `[Nonempty (HeegaardSplitting M)]`), with existence proved
+first, so `heegaardGenus` is never silently `0`; a raw `⨅` over a possibly-empty type is the
+trap to avoid. ⚠ Confirm the rank invariant exists in the intended form: Mathlib may not
+provide exactly `Group.rank (FundamentalGroup M)`, so name the minimal-generators invariant
+explicitly and check before relying on it. The disproof is an inequality, so the target is a
+witness `M` with strict inequality, not a general formula.
 
 **Unlocks.** Waldhausen's rank-versus-genus conjecture (disproved by Li; no Kirby number).
 
@@ -705,16 +793,21 @@ Euler class; vector bundles and their (to-be-built) Euler class; layer 1's manif
   integral submanifolds; **taut** foliations (a closed transversal through every leaf).
   Calegari, *Foliations and the Geometry of 3-Manifolds* (freely available online), is the
   reference.
-- The **Euler class** of an oriented plane bundle in `H²(M; ℤ)` (a small standalone
-  addition to Mathlib's bundle theory), specialized to the tangent field of a
-  codimension-one foliation.
-- The **Euler-class bound** statement: for a taut foliation `F` of a closed hyperbolic
-  3-manifold, the conjectured inequality `|⟨e(F), [S]⟩| ≤ −χ(S)` on every leaf-or-surface
-  `S`, and a witness foliation violating it.
+- The **Euler class** of an oriented plane bundle in degree-2 *cohomology* (a small standalone
+  addition to Mathlib's bundle theory), specialized to the tangent field of a codimension-one
+  foliation. ⚠ Be explicit that this is singular *cohomology* `H²(M; ℤ)`, not homology; the
+  notation in the target must name a cohomology group, since the statement pairs the class
+  against surfaces.
+- The **Euler-class bound** statement, with its pairing spelled out: the evaluation of a
+  degree-2 class on the fundamental class `[S] ∈ H₂` of an embedded surface, the inequality
+  `|⟨e(F), [S]⟩| ≤ −χ(S)` on every leaf-or-surface `S`, and a witness foliation violating it.
+  Define the surface class and the pairing before the inequality.
 
 ```lean
 -- structure Foliation (M) where dist : Subbundle (TangentBundle M); integrable : Involutive dist
--- def eulerClass (E : OrientedPlaneBundle M) : H2 M ℤ := …
+-- def eulerClass (E : OrientedPlaneBundle M) : SingularCohomology 2 M ℤ := …     -- cohomology, not homology
+-- def evalOnSurface (c : SingularCohomology 2 M ℤ) (S : EmbeddedSurface M) : ℤ := ⟨c, fundamentalClass S⟩
+-- def EulerClassBounded (F : Foliation M) : Prop := ∀ S, |evalOnSurface (eulerClass F.dist) S| ≤ -eulerChar S
 -- theorem gabai_yazdi : ∃ (M : ClosedHyperbolic3) (F : Foliation M), Taut F ∧ ¬ EulerClassBounded F
 ```
 
