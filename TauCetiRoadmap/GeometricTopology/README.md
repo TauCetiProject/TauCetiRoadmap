@@ -378,43 +378,65 @@ from Hannah Fechtner's braid program) for braid groups; smooth embeddings
 manifolds for complements (handed on to layer 5).
 
 **What to build.**
-- **The presentations, as first-class types** (Lickorish, *An Introduction to Knot Theory*,
-  GTM 175, is the spine throughout this layer). Smooth and PL embeddings `S¹ ↪ S³` (or
-  `ℝ³`); PL polylines; braid closures (over `PresentedMonoid` braid groups with the
-  Artin relations); knot diagrams as 4-valent planar graphs with crossing signs, and the
-  equivalent oriented PD codes and Gauss codes. Each is a `Type`, with the forgetful and
-  realization maps between them (a braid word closes to a diagram; a diagram realizes to a
-  PL knot).
-- **Equivalence in each presentation, and that they agree.** Ambient isotopy for the
-  geometric presentations; Reidemeister moves for diagrams; Markov moves for braids;
-  stellar/PL moves for polylines. The **adequacy theorems** state that these match:
-  Reidemeister's theorem (diagram equivalence = isotopy of the realization), the Markov
-  theorem (braid closures up to Markov moves = links), and that all of these present the
-  same equivalence on the geometric knot. These are exactly where Isabelle/AFP and the Lean
-  `leanknot` experiment stalled, so state them as named targets and let the rest of the
-  layer not wait on them.
+- **The presentations, as first-class types carrying orientation and framing** (Lickorish,
+  *An Introduction to Knot Theory*, GTM 175, is the spine throughout this layer). Smooth and
+  PL embeddings `S¹ ↪ S³` (or `ℝ³`); PL polylines; braid closures (over `PresentedMonoid`
+  braid groups with the Artin relations); knot diagrams as 4-valent planar graphs with
+  crossing signs, and the equivalent oriented PD codes and Gauss codes. From the start each
+  presentation carries **orientation** (a direction on the knot) and **framing** (a chosen
+  push-off, blackboard or Seifert), with **forgetful maps** dropping that data, so
+  framed-and-oriented, oriented, and unoriented knots are connected by forgetful maps and
+  every theorem assumes only the structure it needs. Each is a `Type`, with the realization
+  and forgetful maps to the others (a braid word closes to a diagram; a diagram realizes to
+  a PL knot).
+- **Equivalence in each presentation, and the correspondences between them (the hard part,
+  flagged as such).** Each presentation has its own equivalence: ambient isotopy (geometric),
+  Reidemeister moves (diagrams), Markov moves (braids), stellar moves (polylines), grid moves
+  (grids, from the combinatorial Heegaard Floer roadmap). The correspondences split into two
+  regimes of very different difficulty:
+  - **Combinatorial to combinatorial** (diagram, braid, grid, PD/Gauss): the equivalences
+    are finite local moves, so the correspondences are themselves combinatorial and can be
+    established move-by-move (Markov's theorem for braid-to-diagram, Cromwell's for
+    grid-to-diagram). Tedious but elementary.
+  - **Geometric to combinatorial** (a smooth or PL embedding to its diagram): genuinely hard.
+    Producing a diagram is a generic projection (general position), and proving "isotopic iff
+    Reidemeister-equivalent" means controlling an ambient isotopy as the projection passes
+    through codimension-1 degeneracies, a one-parameter general-position (Cerf-theoretic)
+    argument. This is where the foundational difficulty lives, and where the Isabelle/AFP and
+    Lean `leanknot` experiments stalled; flag it as a major target, and let the rest of the
+    layer not wait on it.
+  - **Which correspondences to develop.** Do not aim for all pairwise equivalences (the
+    complete graph on presentations). Pick a **spanning tree** anchored at the diagram as the
+    hub (most invariants are defined from diagrams), with the single expensive
+    geometric-to-diagram edge that everything routes through, and add a few direct edges only
+    where they are cheap or load-bearing (grid-to-diagram for the Heegaard Floer roadmap,
+    braid-to-diagram via Markov). Each extra edge is a convenience theorem, not a
+    prerequisite; the tree is what the rest of the layer actually needs.
 - **Slice-ness, stated cleanly.** `IsSmoothlySlice K` (`K` bounds a smoothly embedded disc
   in `D⁴`) and `IsTopologicallySlice K` (a *locally flat* disc, consuming layer 2 and the
-  4-manifold input below); the slice genus `g_s(K)` and the topological slice genus. These
-  replace the lean-eval monstrosities with one-line definitions.
-- **Knot polynomials, with algorithms.** The Alexander polynomial with the Conway
-  normalization (from a Seifert matrix, and via the Conway skein relation), Jones (via the
-  Kauffman bracket on a diagram), and HOMFLY; each as both an invariant and an *algorithm*
-  computing it from a particular presentation (braid word, Seifert matrix), so the
-  acceptance criteria can evaluate them on small knots.
-- **The 4-manifold input to topological sliceness** that Freedman's theorem needs:
-  topologically locally flat surfaces in `D⁴` and the existence of locally flat slice discs
-  for Alexander-polynomial-one knots. This is the piece the combinatorial Heegaard Floer
-  roadmap assumes; it is built here because it is 4-dimensional topology, not homology.
+  topological 4-manifold input of layer 6); the slice genus `g_s(K)` and the topological
+  slice genus. These replace the lean-eval monstrosities with one-line definitions.
+- **Knot polynomials, each a project in itself, with several algorithms apiece.** The
+  Alexander polynomial (Conway normalization), Jones, and HOMFLY; each is a substantial
+  sub-project, and we will likely want **multiple algorithms for the same invariant, starting
+  from different presentations**, with theorems that they agree: Alexander from a Seifert
+  matrix, from the Conway skein relation on a diagram, and from the Burau representation of a
+  braid; Jones from the Kauffman bracket on a diagram and from the Temperley–Lieb / Jones
+  representation of a braid. The agreement theorems (same invariant, different route) are as
+  much of the value as the algorithms, and they exercise the presentation correspondences
+  above; they also let the acceptance criteria evaluate the invariants on small knots.
 
 ```lean
+-- presentations carry orientation and framing, with forgetful maps dropping the data
 -- def Knot.SmoothEmbedded : Type := …      -- one presentation; others as separate types
 -- def Knot.Diagram : Type := …
--- def closes : BraidWord n → Knot.Diagram   -- a map between presentations
--- theorem reidemeister : (D ≈ D') ↔ Isotopic (realize D) (realize D')   -- adequacy
+-- def forgetFraming : FramedKnot.Diagram → Knot.Diagram
+-- def closes : BraidWord n → Knot.Diagram   -- a combinatorial-to-combinatorial edge
+-- theorem reidemeister : (D ≈ D') ↔ Isotopic (realize D) (realize D')   -- the hard edge
 -- def IsTopologicallySlice (K : Knot) : Prop := ∃ d : LocallyFlatDisc D⁴, ∂ d = K
 -- def alexander (K : Knot) : LaurentPolynomial ℤ := …   -- Conway-normalized
--- theorem freedman_alexanderOne_slice (K) (h : alexander K = 1) : IsTopologicallySlice K
+-- theorem alexander_eq_burau (β : BraidWord n) : alexander (closes β) = burauAlexander β  -- routes agree
+-- theorem freedman_alexanderOne_slice (K) (h : alexander K = 1) : IsTopologicallySlice K   -- needs layer 6
 ```
 
 **Design notes.** Pin the convention table before stating anything: orientation, framing
@@ -497,6 +519,12 @@ Seifert matrix.
 - The **4D cobordism category** in general dimension: oriented cobordisms between manifolds,
   composition by gluing (layer 1), and knot/link cobordisms as surfaces in `S³ × [0,1]`,
   with genus giving the concordance and slice genera.
+- **The 4-manifold input to topological sliceness** that Freedman's theorem needs:
+  topologically locally flat surfaces in `D⁴` (consuming layer 2) and the existence of
+  locally flat slice discs for Alexander-polynomial-one knots. This is 4-dimensional
+  topology rather than homology, which is why it lives here rather than in the combinatorial
+  Heegaard Floer roadmap; layer 4's `IsTopologicallySlice` and the Freedman unlock consume
+  it.
 - **Concordance invariants**: the Tristram–Levine signature function from layer 4's Seifert
   matrix (built here), and the import of `τ : C → ℤ` and `s` as consumers of the
   combinatorial Heegaard Floer roadmap.
@@ -874,6 +902,9 @@ print and cited without a link.
 - L. Kauffman, *State models and the Jones polynomial*, Topology 26 (1987) 395–407 (the
   bracket); P. Freyd, D. Yetter, J. Hoste, W. Lickorish, K. Millett, A. Ocneanu, *A new
   polynomial invariant of knots and links*, Bull. AMS 12 (1985) 239–246 (HOMFLY).
+- J. Birman, *Braids, Links, and Mapping Class Groups*, Annals of Mathematics Studies 82,
+  Princeton (1974): the braid-to-diagram correspondence (Markov's theorem) and the Burau
+  representation behind one of the Alexander algorithms.
 - L. Piccirillo, *The Conway knot is not slice*, Ann. of Math. 191 (2020),
   [arXiv:1808.02923](https://arxiv.org/abs/1808.02923), `[Kir97, 1.41]`; M. Freedman, *The
   topology of four-dimensional manifolds*, J. Differential Geom. 17 (1982), and
