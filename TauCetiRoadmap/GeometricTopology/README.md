@@ -223,25 +223,15 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
 - **The one genuine groupoid inclusion**, `PLGroupoid ≤ continuousGroupoid` (PL maps are
   continuous), giving the forgetful "PL implies Top". ⚠ There is *no* inclusion
   `contDiffGroupoid ≤ PLGroupoid`: a smooth transition map is not literally PL. The relation
-  between smooth and PL structures is the Whitehead smoothing comparison below, a map between
-  structures rather than a containment of groupoids, and it is not cheap.
+  between smooth and PL structures is the Whitehead smoothing comparison, deferred to its own
+  far-horizon section near the end of this roadmap; it is a map between structures rather than
+  a containment of groupoids, and it is not cheap.
 
-**The smoothing-and-triangulation comparison (a sub-project, flagged).** Relating the three
-categories is a major undertaking, arguably its own roadmap, and is *not* a quick layer-1
-deliverable. Stage it, hardest part last:
-1. **Smooth implies PL.** Every smooth manifold has an essentially unique PL structure (a
-   smooth triangulation, Whitehead). References: J. H. C. Whitehead, *On C¹-complexes*, Ann.
-   of Math. 41 (1940) 809–824; the full modern development in J. Munkres, *Elementary
-   Differential Topology* (Annals of Math. Studies 54, 1966), the smoothing-of-triangulations
-   and uniqueness sections. Classical and self-contained, but already a substantial body of
-   work (Whitney/Cairns triangulation plus the uniqueness argument).
-2. **PL implies Top.** The forgetful direction, immediate from the groupoid inclusion above.
-3. **Top to PL, the smoothing obstruction.** The deep, far-horizon part: the
-   Kirby–Siebenmann obstruction in `H⁴(M; ℤ/2)` to a PL structure, and the failure of the
-   Hauptvermutung. Reference: R. Kirby, L. Siebenmann, *Foundational Essays on Topological
-   Manifolds, Smoothings, and Triangulations* (Annals of Math. Studies 88, 1977), Essays
-   IV–V. Treat this as genuinely speculative, and keep each direction a separate named target
-   so the easy ones are never blocked on the hard one.
+**The smoothing-and-triangulation comparison** between the smooth, PL, and topological
+structures (where the gluing and structure-group tracks would meet) is a major sub-project
+of its own and is deliberately *not* part of the early layer-1 work. It has its own section
+near the end of this roadmap, after the layers, so no one starts it before the substrate it
+compares even exists.
 
 **Design notes.** Keep orientability a separate predicate, not bundled into the manifold
 (the connected-sum API above already depends on this). State gluing in the corners category
@@ -744,6 +734,29 @@ solver; it belongs here because it is the cleanest target exercising the collaps
 
 **Unlocks.** Manolescu's disproof of the triangulation conjecture (no Kirby number); the
 Zeeman collapsibility conjecture, `[Kir97, Problem 5.2]`.
+
+## The smoothing-and-triangulation comparison (far horizon)
+
+Relating the smooth, PL, and topological structures is a major undertaking, arguably its own
+roadmap. It sits here, after the layers, on purpose: it is the comparison joining layer 1's
+chart-based `PLGroupoid` to layer 11's combinatorial manifolds, and most of it should wait
+until both of those exist, so no one starts it as early layer-1 work. Stage it, hardest part
+last:
+
+1. **Smooth implies PL.** Every smooth manifold has an essentially unique PL structure (a
+   smooth triangulation, Whitehead). References: J. H. C. Whitehead, *On C¹-complexes*, Ann.
+   of Math. 41 (1940) 809–824; the full modern development in J. Munkres, *Elementary
+   Differential Topology* (Annals of Math. Studies 54, 1966), the smoothing-of-triangulations
+   and uniqueness sections. Classical and self-contained, but already a substantial body of
+   work (Whitney/Cairns triangulation plus the uniqueness argument).
+2. **PL implies Top.** The forgetful direction, immediate from layer 1's inclusion
+   `PLGroupoid ≤ continuousGroupoid`.
+3. **Top to PL, the smoothing obstruction.** The deep, far-horizon part: the
+   Kirby–Siebenmann obstruction in `H⁴(M; ℤ/2)` to a PL structure, and the failure of the
+   Hauptvermutung. Reference: R. Kirby, L. Siebenmann, *Foundational Essays on Topological
+   Manifolds, Smoothings, and Triangulations* (Annals of Math. Studies 88, 1977), Essays
+   IV–V. Treat this as genuinely speculative, and keep each direction a separate named target
+   so the easy ones are never blocked on the hard one.
 
 ## Acceptance criteria (checks along the way)
 
