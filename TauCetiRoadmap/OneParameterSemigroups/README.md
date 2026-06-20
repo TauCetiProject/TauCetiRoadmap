@@ -1,7 +1,8 @@
 # Roadmap: one-parameter semigroups, completely monotone and positive-definite functions, and Bochner-type representations
 
-Operator semigroups are the analytic backbone of evolution equations (heat, Fokker–Planck,
-Schrödinger) and of Markov-process theory. Mathlib has the *static* functional-analysis
+Operator semigroups are the analytic backbone of evolution equations (heat, Fokker–Planck;
+the conservative Schrödinger case is a unitary *group*, a stretch goal below) and of
+Markov-process theory. Mathlib has the *static* functional-analysis
 stack — Banach/Hilbert spaces, bounded operators, `spectrum` and `resolvent`, the
 holomorphic functional calculus, the Bochner integral, Fourier theory, unbounded operators
 via `LinearPMap` — but **not the dynamical layer**: strongly continuous (C₀) semigroups,
@@ -28,6 +29,14 @@ Suggested home: `TauCeti/Analysis/Semigroups/`, `TauCeti/Analysis/CompletelyMono
   (`M = 1, ω = 0`) are a subclass. State the Hille–Yosida bounds at the general `(M, ω)`
   level (`‖R(λ,A)ⁿ‖ ≤ M / (λ−ω)ⁿ`); the contraction case is the corollary, never the
   silent default.
+- **Scalar field: real-Banach-first, stated explicitly.** Develop over a real Banach space
+  `X` (`[NormedSpace ℝ X]`) — Hille–Yosida / Lumer–Phillips hold there, and a complex Hilbert
+  space is usable as a real Banach space for the semigroup action. Get the complex resolvent
+  set and the analyticity of `λ ↦ R(λ,A)` via **complexification** `X_ℂ`. (An `[RCLike 𝕜]`
+  formulation is a possible later generalization.)
+- **C₀ groups as a stretch.** Two-sided strongly continuous groups `(S(t))_{t∈ℝ}` — e.g. the
+  unitary `e^{itH}` of Schrödinger — are *not* reached by the contraction-semigroup API;
+  include them as a stretch goal / example (Stone's theorem on Hilbert space).
 - **Generators are unbounded.** The generator carries a **dense domain**; model it as a
   `LinearPMap` / submodule, never a total operator. Mathlib's `resolvent`/`spectrum` are
   **Banach-algebra-only**, so an unbounded generator needs its **own** resolvent notion
@@ -81,7 +90,9 @@ examples**.
 
 **Objects.** `StronglyContinuousSemigroup` (general C₀, with a growth bound), its subclass
 `ContractionSemigroup`; the **generator** `A` with its dense domain `D(A)` (a `LinearPMap`);
-the **resolvent** `R(λ,A)`.
+the **resolvent** `R(λ,A)`. Model the generator with Mathlib's `LinearPMap` directly (plus a
+dense-domain hypothesis); the `DenseLinearOperator` named in the stubs below is exactly that
+thin wrapper, not a parallel unbounded-operator API.
 
 **API to develop.**
 - The semigroup laws, strong continuity, and the growth bound `‖S t‖ ≤ M e^{ω t}`
@@ -90,6 +101,13 @@ the **resolvent** `R(λ,A)`.
   `S(t)·D(A) ⊆ D(A)` and `A S(t)x = S(t) A x`, and `t ↦ S(t)x` differentiable for `x ∈ D(A)`.
 - **Bounded ↔ uniformly continuous:** `A` is bounded (`domain = ⊤`) iff the semigroup is
   uniformly (norm-) continuous; plus the bounded-perturbation theorem.
+- **Foundational lemmas:** `∫₀ᵗ S(s)x ds ∈ D(A)` with `A ∫₀ᵗ S(s)x ds = S(t)x − x`; a **named
+  density-of-`D(A)`** theorem for generated semigroups (density of `D(Aⁿ)` / smooth vectors is
+  a useful secondary target). These are the workhorses behind the generation theorem.
+- **Dissipativity:** the Lumer–Phillips **converse** (the generator of a contraction semigroup
+  is dissipative) and maximal dissipativity. ⚠ The Hilbert characterization `Re⟪Ax, x⟫ ≤ 0`
+  is a **Hilbert-only specialization**; the general Banach notion goes through duality maps /
+  resolvent-range inequalities.
 - **Resolvent theory** (its own unbounded-resolvent notion + the bridge lemma above):
   - `R(λ,A)x = ∫₀^∞ e^{−λt} S(t)x dt` (pointwise Bochner integral) for **real** `λ > ω` (use
     a complexification for the complex resolvent set and the analyticity below);
@@ -100,17 +118,26 @@ the **resolvent** `R(λ,A)`.
   - the **iterated-resolvent bounds** (for `λ > ω`, `n ≥ 1`) `‖R(λ,A)ⁿ‖ ≤ M / (λ − ω)ⁿ`
     (Hille–Yosida bound, general `(M, ω)`; contraction `‖R(λ,A)‖ ≤ 1/λ` is the corollary).
 
-**Milestone — Hille–Yosida generation theorem.** A densely-defined operator with the
-resolvent bounds above generates a C₀ semigroup; the contraction case via **Lumer–Phillips**:
-densely-defined dissipative `A` with a **range condition** (`∃ λ₀ > 0` with `λ₀ − A`
-surjective) generates a contraction semigroup. ⚠ **Genuinely open / build-here.** Discharge
-via **Yosida approximation**: `Aλ = λ² R(λ,A) − λI` (bounded, by the resolvent API), each
-generating a uniformly continuous contraction semigroup `e^{tAλ}`. ⚠ `S` does not exist yet,
-so do not phrase this as convergence "to `S(t)x`": instead prove the `e^{tAλ}x` are **Cauchy
-uniformly on compact `t`-intervals**, *define* `S(t)x` as the limit, and then identify its
-generator as `A`. Sub-lemmas: generator-domain density; the stability/approximation estimates
-+ the Cauchy property of the exponentials.
-Refs: Engel–Nagel II.3.5–3.8; Pazy Ch. 1.
+**Milestone — Hille–Yosida generation theorem.** A densely-defined operator whose resolvent
+set contains `(ω,∞)` and whose powers satisfy `‖R(λ,A)ⁿ‖ ≤ M/(λ−ω)ⁿ` generates a C₀ semigroup
+of growth `(M, ω)`.
+
+**Milestone — Lumer–Phillips theorem** (kept distinct — a different hypothesis set). A
+densely-defined **dissipative** operator with a **range condition** (`∃ λ₀ > 0` with `λ₀ − A`
+surjective) generates a **contraction** semigroup.
+
+⚠ **Both are genuinely open / build-here**, via the same **Yosida approximation**:
+`Aλ = λ² R(λ,A) − λI` (bounded, by the resolvent API), each generating a uniformly continuous
+contraction semigroup `e^{tAλ}`. `S` does not exist yet, so do not phrase this as convergence
+"to `S(t)x`": prove the `e^{tAλ}x` are **Cauchy uniformly on compact `t`-intervals**, *define*
+`S(t)x` as the limit, then identify its generator as `A`. Sub-lemmas: generator-domain density;
+the stability/approximation estimates + the Cauchy property of the exponentials. Refs:
+Engel–Nagel II.3.5–3.8; Pazy Ch. 1.
+
+**Milestone — abstract Cauchy problem.** `u(t) = S(t)x` is the solution of `u' = A u`,
+`u(0) = x`: a **classical** solution for `x ∈ D(A)` (`u(t) ∈ D(A)`, `u' = Au`), a **mild**
+solution for general `x`. It follows from generator-uniqueness, but it is the motivating
+payoff, so state it as a milestone.
 
 ```lean
 variable {X : Type*} [NormedAddCommGroup X] [NormedSpace ℝ X] [CompleteSpace X]
@@ -153,15 +180,16 @@ differentiable, so `0 ≤ 0` would let a non-smooth `f` pass *vacuously*. The re
 `[0,∞)`. ⚠ Complete monotonicity on the *open* `(0,∞)` alone yields only a general (possibly
 infinite) positive measure — e.g. `1/t = ∫₀^∞ e^{−tx} dx` is completely monotone with the
 infinite Lebesgue representing measure (Hausdorff–Bernstein–Widder). Finiteness is exactly the
-`f(0⁺) < ∞` criterion, which our `Set.Ici 0` definition above builds in. Develop both
-directions and uniqueness (Laplace-transform injectivity); measure extraction via Prokhorov
-tightness.
+`f(0⁺) < ∞` criterion, which our `Set.Ici 0` definition above builds in. Encode the measure on
+`Measure ℝ≥0` (non-negative support automatic — the same convention as the BCR milestone, not a
+`support ⊆ Ici 0` side-condition). Develop both directions and uniqueness (Laplace-transform
+injectivity); measure extraction via Prokhorov tightness.
 
 ```lean
 -- theorem bernstein (f : ℝ → ℝ) :
 --     IsCompletelyMonotone f ↔
---       ∃! μ : Measure ℝ, IsFiniteMeasure μ ∧ μ.support ⊆ Set.Ici 0 ∧
---         ∀ t ≥ 0, f t = ∫ x, Real.exp (-t * x) ∂μ
+--       ∃! μ : Measure ℝ≥0, IsFiniteMeasure μ ∧
+--         ∀ t ≥ 0, f t = ∫ x, Real.exp (-t * (x : ℝ)) ∂μ
 ```
 
 **Acceptance examples.** `e^{−t} → δ₁`; `1/(1+t) → e^{−x}dx`; closure used to build new
@@ -174,7 +202,10 @@ completely monotone functions from these.
 finite-dimensional real inner-product space `V` (involution `a⋆ = −a`), and on `ℝ≥0 × V`,
 where the **product `StarAddMonoid` automatically supplies the BCR involution** `(t,a)⋆ = (t,−a)`
 (`ℝ≥0` carries the trivial involution, `V` the negation) — no hand-coding. `IsSemigroupGroupPD`
-is then this predicate on `ℝ≥0 × V`. (Stretch: an LCA group.)
+is then this predicate on `ℝ≥0 × V`. (Stretch: an LCA group.) The condition itself: for every
+finite family `(cᵢ, aᵢ)`, `Σ_{i,j} cᵢ · conj(cⱼ) · F(aᵢ + aⱼ⋆) ≥ 0` — note the **involution**
+`aⱼ⋆`, not the group form `F(aᵢ − aⱼ)`; this is exactly what makes the product involution
+`(t,a)⋆ = (t,−a)` yield the intended BCR notion.
 
 **API to develop.**
 - Basic properties: **closure under sums, products, Schur (pointwise) products**; for
@@ -182,8 +213,11 @@ is then this predicate on `ℝ≥0 × V`. (Stretch: an LCA group.)
   (the Lean-typed form of `F(0) ≥ |F(a)|`); **continuity at `0` ⇒ uniform continuity**.
   ⚠ Pointwise limits preserve positive-definiteness but **not** continuity — that needs an
   extra hypothesis (e.g. locally uniform convergence).
-- The **PD-function ↔ PD-kernel** equivalence (`K(a,b) = F(a − b)`), pullbacks, and the
-  GNS/Kolmogorov decomposition; normalization `F(0) = 1`.
+- The **PD-function ↔ PD-kernel** equivalence (`K(a,b) = F(a + b⋆)`; `F(a − b)` for a group),
+  pullbacks, and the GNS/Kolmogorov decomposition; normalization `F(0) = 1`.
+- A stated **Fourier-convention conversion lemma** between Mathlib's `2π` form
+  (`e^{−2πi⟨·,·⟩}`) and the characteristic-function form (`e^{i⟨·,·⟩}`) — downstream users will
+  mix the two, so a conversion lemma beats a `⚠`.
 - The bridge lemma: a finite measure's Fourier transform is continuous positive-definite
   (`pd_quadratic_form_of_measure`).
 
