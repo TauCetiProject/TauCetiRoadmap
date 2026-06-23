@@ -38,6 +38,15 @@ reviewers, can act on it without guessing.
   fully building the library for that object must become part of the roadmap. We know from
   experience that the bigger the gap in the roadmap, the worse results AIs will produce.
 
+- **Use Mathlib's vocabulary.** Where Mathlib already has a way to say something, use it rather
+  than a private version, both in the roadmap and in the code. A standard notion said in our own
+  dialect drifts from the library it builds on and grows a redundant theory of lemmas Mathlib
+  already proves. Boundedness is the example: Mathlib has no "bounded on a set" predicate, so a
+  result that needs an explicit bound carries `∀ x ∈ s, ‖f x‖ ≤ C` directly in its hypotheses (as
+  in `norm_cfc_le`), and uses `Bornology.IsBounded` when no constant is needed
+  (`isBounded_iff_forall_norm_le'` relates the two). We do the same, and never wrap a one-line
+  bound in a new predicate.
+
 - **Specify the mathematics, not your existing code.** Say what each milestone should prove,
   intrinsically, so a reviewer can judge it on its own terms. If you're porting existing work,
   keep the file-by-file map in a clearly secondary provenance section, so reviewers don't treat
