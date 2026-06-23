@@ -68,6 +68,31 @@ The reviewer pool grows itself: a contributor who lands two merged roadmap PRs i
 `roadmap-reviewers` automatically, so people who have demonstrably moved a roadmap forward can
 start approving others' roadmap work.
 
+## Coordinating work: intentions and claims
+
+To avoid two contributors (human or AI) building the same thing, register what you intend to
+work on and claim it. This is powered by the
+[intentions bot](https://github.com/leanprover-community/intentions) and the project board.
+
+1. **Register an intention.** Open an issue with the **Intention** template: pick the roadmap
+   area and list the specific targets you mean to take (keep the scope as narrow as you can, so
+   the rest stays open for others).
+2. **Claim it.** Comment `claim` on the issue. The bot assigns it to you and moves it to
+   *Claimed* on the board. For a custom window, comment `claim 3 weeks` or `claim 2026-08-01`;
+   bare `claim` uses the project default.
+3. **It expires.** Claims carry a time-to-live (30 days by default, 90 days max) and are
+   released automatically if they go stale, so nothing stays blocked forever. Comment `claim`
+   again to extend, or `disclaim` to release early. Opening a PR that says `Closes #<issue>`
+   advances the card and refreshes the claim; merging it completes the task.
+
+Automated roadmap workers **respect these claims**: within an area they will not author a
+target that someone else has claimed. So before a substantial push, register and claim it. A
+claim is cooperative, not a hard lock; it signals intent so others (people and workers) can
+steer around you.
+
+Use the **Roadmap issue** template to report a problem with a roadmap's content, and the
+**Meta** template for problems with how this repository operates.
+
 ## Building
 
 ```bash
