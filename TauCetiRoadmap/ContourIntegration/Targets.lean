@@ -90,4 +90,35 @@ example {f : ℂ → ℂ} {c : ℂ} {R : ℝ} (hR : 0 < R) (S : Finset ℂ) (ord
     circleIntegral (logDeriv f) c R = 2 * (Real.pi : ℂ) * Complex.I * (∑ z ∈ S, (ord z : ℂ)) :=
   sorry
 
+/-- **The model-sector winding number** (HW (2.4)) — the per-indentation contribution the
+valence formula sums. A counterclockwise circular arc of opening angle `α` about its centre
+`z₀` contributes generalized winding number `α/2π`:
+`(2πi)⁻¹ ∫_0^α (γ'/γ) dθ = α/2π` for `γ θ = z₀ + r·e^{iθ}` (the integrand simplifies to `i`).
+This is HW's `n₀(γ) = α/2π`, the geometric meaning of the winding number at a corner —
+specialising to `½` at `i` and `1/6` at `ρ` below. -/
+example {z₀ : ℂ} {r : ℝ} (hr : r ≠ 0) (α : ℝ) :
+    (2 * (Real.pi : ℂ) * Complex.I)⁻¹ *
+        ∫ θ in (0:ℝ)..α, deriv (circleMap z₀ r) θ / (circleMap z₀ r θ - z₀)
+      = (α : ℂ) / (2 * (Real.pi : ℂ)) :=
+  sorry
+
+/-- **The winding number `½` at `i`** — the coefficient of `ord_i(f)` in the valence formula.
+`i` is a *smooth* boundary point of the fundamental domain, so the valence contour indents
+around it by a **semicircle** (`α = π`), with generalized winding number `π/2π = ½`. -/
+example {z₀ : ℂ} {r : ℝ} (hr : r ≠ 0) :
+    (2 * (Real.pi : ℂ) * Complex.I)⁻¹ *
+        ∫ θ in (0:ℝ)..Real.pi, deriv (circleMap z₀ r) θ / (circleMap z₀ r θ - z₀)
+      = 1 / 2 :=
+  sorry
+
+/-- **The winding number `1/6` at `ρ`.** `ρ` is a **`π/3` corner** of the fundamental domain,
+so the contour indents around it by a `π/3` arc, with generalized winding number
+`(π/3)/2π = 1/6`. The two `ρ`-corners (`ρ` and `ρ+1`) each contribute `1/6`, summing to the
+`1/3` coefficient of `ord_ρ(f)` in the valence formula. -/
+example {z₀ : ℂ} {r : ℝ} (hr : r ≠ 0) :
+    (2 * (Real.pi : ℂ) * Complex.I)⁻¹ *
+        ∫ θ in (0:ℝ)..(Real.pi / 3), deriv (circleMap z₀ r) θ / (circleMap z₀ r θ - z₀)
+      = 1 / 6 :=
+  sorry
+
 end TauCetiRoadmap.ContourIntegration

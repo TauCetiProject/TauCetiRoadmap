@@ -98,7 +98,11 @@ expressible in `TauCeti/`, its milestones go into `Targets.lean` (with `sorry`).
 ### Layer 1: the geometry of the generalized winding number (HW §2)
 - **The model sector** (HW (2.4)): for the corner curve made of a segment, an arc of opening
   angle `α`, and a return segment, `n₀(γ) = α/2π`. So a point at a corner of interior angle
-  `α` has winding `α/2π`, and a **smooth crossing** (`α = π`) has winding **`½`**.
+  `α` has winding `α/2π`. The **valence formula uses exactly these values**: at the *smooth*
+  boundary point `i` the contour indents by a semicircle (`α = π`), winding **`½`** (the
+  coefficient of `ord_i f`); at the `π/3` corner `ρ` it indents by a `π/3` arc, winding
+  **`1/6`** — and the two `ρ`-corners `ρ`, `ρ+1` sum to the `⅓` coefficient of `ord_ρ f`.
+  Both `½` and `1/6` are seeded in `Targets.lean`.
 - **HW Proposition 2.2 (finite crossings and the winding decomposition).** A closed
   piecewise-`C¹` immersion `Λ` meets any `z₀` at most finitely often; writing
   `Λ = Λ̃ + Γ₁ + … + Γₙ` where `Λ̃` avoids `z₀` and each `Γ_ℓ` is a model sector of angle
