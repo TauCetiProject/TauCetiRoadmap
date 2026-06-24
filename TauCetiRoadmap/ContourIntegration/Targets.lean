@@ -6,21 +6,28 @@ import Mathlib
 The narrative roadmap (the conventions, the layer-by-layer build plan Layers 0–4, the
 worked examples, and the references) is in `README.md`. Mathlib has the Cauchy integral
 formula, circle integrals, and the local meromorphic-function API, but no winding number
-for a general piecewise-`C¹` cycle, no residue theorem for an arbitrary contour, no global
+for a general piecewise-`C¹` cycle, no residue, no argument principle, no global
 (homological) Cauchy theorem, and — the ultimate target — no **Hungerbühler–Wasem
 generalized residue theorem** (arXiv:1808.00997, Thm 3.3) for singularities lying *on* the
 cycle, with non-integer winding-number weights. We build that here in
 `TauCeti/Analysis/Contour/`.
 
-This file seeds the **Layer 2** classical-residue-theorem milestones, whose *types* are
-already expressible against Mathlib (the residue of a simple pole is the limit
-`lim_{z→c} (z − c)·f(z)`, so no `windingNumber`/`residue` definitions are needed to *state*
-them). They elaborate against the pinned Mathlib and are stated with `sorry` (allowed in
-this human-owned roadmap library). As Layer 0 makes the generalized `windingNumber` and the
-piecewise-`C¹` cycle type expressible in `TauCeti/`, the generalized winding number (HW
-Def 2.1, Prop 2.2, Prop 2.3), the global (homological) Cauchy theorem, and the headline
-HW generalized residue theorem `PV (2πi)⁻¹ ∮_C f = Σ_s n_s(C)·Res_s f` (Thm 3.3, poles on
-the cycle) get added here.
+This file seeds the **argument principle** — the explicit contour identity the valence
+formula consumes. It is statable with Mathlib's `logDeriv` (`logDeriv f = f'/f`),
+`meromorphicOrderAt` (`= ord_c f`), and `circleIntegral`, yet is **genuinely absent from
+Mathlib**: Mathlib has the Cauchy integral formula, `Meromorphic/Divisor`, Jensen's formula,
+and Nevanlinna value-distribution theory, but no `residue`, no argument principle, and no
+winding number. (The bare residue theorem for poles *off* a circle, by contrast, is a short
+corollary of Mathlib's Cauchy integral formula, so it is *not* seeded here.) The identity
+`∮_{C(c,R)} f'/f = 2πi · Σ_z ord_z(f)` counts zeros minus poles with multiplicity inside the
+circle; for a single interior point it reads `2πi · ord_c(f)`, the per-orbit input to the
+valence formula. They elaborate against the pinned Mathlib and are stated with `sorry`
+(allowed in this human-owned roadmap library). As Layer 0 makes the generalized
+`windingNumber` and the piecewise-`C¹` cycle type expressible in `TauCeti/`, the generalized
+winding number (HW Def 2.1, Prop 2.2, Prop 2.3), the global (homological) Cauchy theorem, and
+the headline HW generalized residue theorem `PV (2πi)⁻¹ ∮_C f = Σ_s n_s(C)·Res_s f` (Thm 3.3,
+poles on the cycle — with the on-contour half-residues at `i`, `ρ` the valence formula needs)
+get added here.
 
 ## Provenance (migrate and clean from AINTLIB `LeanModularForms`)
 
@@ -33,9 +40,9 @@ cleanup opportunity. File map (relative to that project's `LeanModularForms/`):
   `ForMathlib/HungerbuhlerWasem/Crossing.lean` (Prop 2.2 / sector geometry).
 * Arc FTC / Cauchy primitive (Layer 2): `ForMathlib/GeneralizedResidueTheory/CauchyPrimitive.lean`,
   `…/ArcCalculus.lean`, `ForMathlib/ArcFTC*.lean`.
-* Residues + classical residue theorem (Layer 2): `ForMathlib/GeneralizedResidueTheory/Residue.lean`,
-  `…/Residue/GeneralizedTheoremBase.lean` (`generalizedResidueTheorem'`, `residueSimplePole`,
-  `simple_poles_decomposition`, `residueAt`).
+* Residues, the argument principle, and the classical residue theorem (Layer 2):
+  `ForMathlib/GeneralizedResidueTheory/Residue.lean`, `…/Residue/GeneralizedTheoremBase.lean`
+  (`generalizedResidueTheorem'`, `residueSimplePole`, `residueAt`, `simple_poles_decomposition`).
 * Global (homological) Cauchy theorem, via Dixon's argument (Layer 3):
   `ForMathlib/DixonDef.lean`, `…/DixonDiff.lean`, `…/DixonTheorem.lean`.
 * HW generalized residue theorem (Layer 4, Thm 3.3): `Chapters/HW33.lean`,
@@ -53,27 +60,34 @@ namespace TauCetiRoadmap.ContourIntegration
 
 open scoped Real
 
-/-- **Layer 2, classical residue theorem at a single simple pole.** If `f` is holomorphic on
-the closed disc `C(c, R)` punctured at its centre, and has a simple pole at `c` with residue
-`w` (equivalently `(z − c)·f(z) → w` as `z → c`), then `∮_{C(c,R)} f = 2πi · w`. This is the
-one-pole, poles-off-the-contour case of the Hungerbühler–Wasem theorem
-`PV (2πi)⁻¹ ∮_C f = Σ_s n_s(C)·Res_s f`, and recovers the Cauchy integral formula. -/
-example {f : ℂ → ℂ} {c w : ℂ} {R : ℝ} (hR : 0 < R)
-    (hf : DifferentiableOn ℂ f (Metric.closedBall c R \ {c}))
-    (hpole : Filter.Tendsto (fun z => (z - c) * f z) (nhdsWithin c {c}ᶜ) (nhds w)) :
-    circleIntegral f c R = 2 * (Real.pi : ℂ) * Complex.I * w :=
+/-- **Local argument principle** — the per-orbit input to the valence formula. If `f` is
+meromorphic on the closed disc `C(c, R)`, has no zeros or poles on the boundary circle, and
+`c` is its only zero or pole there, of order `n = ord_c f` (`meromorphicOrderAt`), then
+`∮_{C(c,R)} f'/f = 2πi · n`. The contour integral of the logarithmic derivative recovers the
+order — i.e. the residue of `f'/f` at `c` is `ord_c f`. Mathlib has `logDeriv` and
+`meromorphicOrderAt` but not this. -/
+example {f : ℂ → ℂ} {c : ℂ} {R : ℝ} {n : ℤ} (hR : 0 < R)
+    (hf : MeromorphicOn f (Metric.closedBall c R))
+    (hbdry : ∀ z ∈ Metric.sphere c R, meromorphicOrderAt f z = 0)
+    (honly : ∀ z ∈ Metric.closedBall c R, meromorphicOrderAt f z ≠ 0 → z = c)
+    (hn : meromorphicOrderAt f c = (n : WithTop ℤ)) :
+    circleIntegral (logDeriv f) c R = 2 * (Real.pi : ℂ) * Complex.I * (n : ℂ) :=
   sorry
 
-/-- **Layer 2, classical residue theorem with two simple poles inside the contour.** A
-function holomorphic on `C(0, R)` away from two interior simple poles `c₁ ≠ c₂` with residues
-`w₁, w₂` integrates to `2πi · (w₁ + w₂)`. The acceptance test that the residue theorem sums
-correctly over several enclosed poles (all with integer winding number `1`). -/
-example {f : ℂ → ℂ} {c₁ c₂ w₁ w₂ : ℂ} {R : ℝ} (hR : 0 < R) (hc : c₁ ≠ c₂)
-    (h1 : c₁ ∈ Metric.ball (0 : ℂ) R) (h2 : c₂ ∈ Metric.ball (0 : ℂ) R)
-    (hf : DifferentiableOn ℂ f (Metric.closedBall (0 : ℂ) R \ {c₁, c₂}))
-    (hp1 : Filter.Tendsto (fun z => (z - c₁) * f z) (nhdsWithin c₁ {c₁}ᶜ) (nhds w₁))
-    (hp2 : Filter.Tendsto (fun z => (z - c₂) * f z) (nhdsWithin c₂ {c₂}ᶜ) (nhds w₂)) :
-    circleIntegral f 0 R = 2 * (Real.pi : ℂ) * Complex.I * (w₁ + w₂) :=
+/-- **The argument principle** — the valence formula's contour identity. For `f` meromorphic
+on the closed disc with no zeros or poles on the boundary circle and all of them inside
+contained in a finite set `S` with integer orders `ord`,
+`∮_{C(c,R)} f'/f = 2πi · Σ_{z ∈ S} ord_z(f)`: the contour integral of `f'/f` counts the zeros
+minus poles with multiplicity. This is the explicit identity the valence formula evaluates
+two ways (here over the interior orbits); the on-contour points `i`, `ρ` are handled by the
+HW theorem (Layer 4). -/
+example {f : ℂ → ℂ} {c : ℂ} {R : ℝ} (hR : 0 < R) (S : Finset ℂ) (ord : ℂ → ℤ)
+    (hf : MeromorphicOn f (Metric.closedBall c R))
+    (hS : (S : Set ℂ) ⊆ Metric.ball c R)
+    (hbdry : ∀ z ∈ Metric.sphere c R, meromorphicOrderAt f z = 0)
+    (hsupp : ∀ z ∈ Metric.closedBall c R, meromorphicOrderAt f z ≠ 0 → z ∈ S)
+    (hord : ∀ z ∈ S, meromorphicOrderAt f z = (ord z : WithTop ℤ)) :
+    circleIntegral (logDeriv f) c R = 2 * (Real.pi : ℂ) * Complex.I * (∑ z ∈ S, (ord z : ℂ)) :=
   sorry
 
 end TauCetiRoadmap.ContourIntegration

@@ -120,7 +120,15 @@ expressible in `TauCeti/`, its milestones go into `Targets.lean` (with `sorry`).
   decomposition** `f = (holomorphic) + Σ_s (Res_s f)/(z − s)`.
 - **The classical residue theorem** `∮_C f = 2πi · Σ_s n_s(C)·Res_s f` for a closed
   piecewise-`C¹` cycle `C` avoiding the finite pole set `S` — the special case of HW Thm 3.3
-  with integer winding numbers, recovering the Cauchy integral formula.
+  with integer winding numbers, recovering the Cauchy integral formula. ⚠ The bare circle
+  case (poles off the circle) is already a short corollary of Mathlib's Cauchy integral
+  formula, so it is *not* what the engine adds.
+- **The argument principle** (the valence formula's contour identity) — what the engine *does*
+  add. Applying the residue theorem to `f'/f = logDeriv f`, `(2πi)⁻¹ ∮_C f'/f = Σ_z ord_z(f)`
+  counts zeros minus poles with multiplicity (`Res_z (f'/f) = ord_z f`). Mathlib has `logDeriv`
+  and `meromorphicOrderAt` but **not** this identity; it is the explicit result the valence
+  formula consumes, and the milestone seeded in `Targets.lean`. The interior orders give the
+  non-elliptic-orbit sum; the on-contour points `i`, `ρ` are handled by HW Thm 3.3 (Layer 4).
 
 ### Layer 3: the global (homological) Cauchy theorem
 - **The homology form of Cauchy's theorem**: for `f` holomorphic on open `Ω` and a cycle `C`
