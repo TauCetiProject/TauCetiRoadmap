@@ -1,7 +1,8 @@
 # Roadmap: dense graph limits and graphons
 
-Mathlib already carries a substantial **finite-graph** ecosystem — `SimpleGraph`, `Sym2`,
-homomorphism counts, Szemerédi regularity, triangle counting/removal, Turán density, measurable
+Mathlib already carries a substantial **finite-graph** ecosystem — `SimpleGraph`, `Sym2`, the
+graph-homomorphism API (`SimpleGraph.Hom`) and copy-counting, Szemerédi regularity, triangle
+counting/removal, Turán density, measurable
 simple graphs, and the binomial random graph `G(V, p)` — together with the measure-theoretic stack
 (probability measures, `AEEqFun`, product/pi measures, conditional expectation, weak convergence,
 `StandardBorelSpace`). What it lacks is the **dense graph limit** theory tying them together: no
@@ -75,7 +76,7 @@ Reuse these by name; do not rebuild them. (Paths checked against the pinned tool
   `generateFrom_squareCylinders`; `MeasureTheory.AEEqFun` (with `AEEqFun.compMeasurePreserving`),
   `Lp` (`Lp.compMeasurePreserving`); `MeasureTheory.condExp` and martingale convergence;
   `MeasureTheory.MeasurePreserving`; `StandardBorelSpace`, `PolishSpace`
-  (`PolishSpace.measurableEquiv`), `MeasureTheory.Measure.NoAtoms`,
+  (`PolishSpace.measurableEquiv`), `NoAtoms` (`MeasureTheory/Measure/Typeclasses/NoAtoms`),
   `MeasureTheory/Constructions/UnitInterval` (`I` has `IsProbabilityMeasure` + `NoAtoms`).
 - **Weak convergence of measures:** `MeasureTheory.ProbabilityMeasure` / `FiniteMeasure`,
   `LevyProkhorovMetric` (`levyProkhorovDist`), `Prokhorov` (tightness ↔ relative compactness),
