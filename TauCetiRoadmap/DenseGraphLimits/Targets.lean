@@ -66,8 +66,8 @@ def IsCoupling (π : Measure (Ω₁ × Ω₂)) : Prop :=
   π.map Prod.fst = μ₁ ∧ π.map Prod.snd = μ₂
 
 /-- **Layer 1.** Overlay of two graphons along a coupling, as a kernel on the coupled space. -/
-def overlay (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) (π : Measure (Ω₁ × Ω₂)) :
-    SymmKernel (Ω₁ × Ω₂) π := sorry
+def overlay (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) (π : Measure (Ω₁ × Ω₂))
+    (hπ : IsCoupling μ₁ μ₂ π) : SymmKernel (Ω₁ × Ω₂) π := sorry
 
 /-- **Layer 1 (coupling-primary, cross-carrier).** `cutDist` is the infimum over couplings of the
 cut norm of the overlaid difference. -/
@@ -87,12 +87,14 @@ def cutDistSame (U W : Graphon Ω μ) : ℝ := cutDist μ μ U W
 /-- **Layer 1.** The first quotient object is fixed-carrier: graphons identified when `cutDist = 0`.
 (`GraphonSpaceI`, the unit-interval version, is the canonical public compact space; cross-carrier
 equality is expressed by `cutDist U W = 0`, not by a universe-bundled quotient over all carriers.) -/
-def graphonSetoid : Setoid (Graphon Ω μ) where
+def graphonSetoid [StandardBorelSpace Ω] : Setoid (Graphon Ω μ) where
   r U W := cutDistSame μ U W = 0
   iseqv := sorry
 
-/-- **Layer 1.** The fixed-carrier graphon space. -/
-def GraphonSpace (Ω : Type*) [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ] : Type _ :=
+/-- **Layer 1.** The fixed-carrier graphon space — over a standard Borel carrier, where the
+gluing-lemma triangle makes `cutDist = 0` a genuine equivalence. -/
+def GraphonSpace (Ω : Type*) [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
+    [StandardBorelSpace Ω] : Type _ :=
   Quotient (graphonSetoid μ)
 
 /-- **Layer 2 (forward counting lemma).** The argument to `cutNorm` is the *kernel* `U - W`; the
@@ -102,7 +104,7 @@ theorem counting_lemma {V : Type*} [Fintype V] [DecidableEq V] (F : SimpleGraph 
     |homDensity μ F U - homDensity μ F W|
       ≤ (F.edgeFinset.card : ℝ) * cutNorm μ (U.toSymmKernel - W.toSymmKernel) := sorry
 
-/-- **Layer 3 (AE bridge).** The L⁰ view: a graphon as an a.e.-class kernel on `μ ⊗ μ`. -/
+/-- **Layer 3 (AE bridge).** The AE / `AEEqFun` view: a graphon as an a.e.-class kernel on `μ ⊗ μ`. -/
 def toAEEqFun (W : Graphon Ω μ) : (Ω × Ω) →ₘ[μ.prod μ] ℝ := sorry
 
 /-- **Layer 3.** `homDensity` factors through the a.e. class. -/
@@ -128,13 +130,18 @@ theorem exists_mpModNull_equiv_unitInterval [StandardBorelSpace Ω] [NoAtoms μ]
       (∀ᵐ x ∂μ, g (f x) = x) ∧ (∀ᵐ y ∂(volume : Measure I), f (g y) = y) := sorry
 
 /-- **Layer 6a (separation / inverse counting — the analytic summit).** -/
-theorem cutDist_eq_zero_iff_forall_homDensity_eq [StandardBorelSpace Ω] (U W : Graphon Ω μ) :
+theorem cutDist_eq_zero_iff_forall_homDensity_eq [StandardBorelSpace Ω] [NoAtoms μ]
+    (U W : Graphon Ω μ) :
     cutDistSame μ U W = 0 ↔
       ∀ {V : Type} [Fintype V] [DecidableEq V] (F : SimpleGraph V) [DecidableRel F.Adj],
         homDensity μ F U = homDensity μ F W := sorry
 
 /-- **Layer 9 (sampling).** The `W`-random graph law `G(n, W)`. -/
 def sampleGraph (W : Graphon Ω μ) (n : ℕ) : Measure (SimpleGraph (Fin n)) := sorry
+
+/-- **Layer 9.** The sampling law is a probability measure. -/
+instance sampleGraph_isProbabilityMeasure (W : Graphon Ω μ) (n : ℕ) :
+    IsProbabilityMeasure (sampleGraph μ W n) := sorry
 
 /-- **Layer 7/9 compatibility.** Sampling the constant-`p` graphon recovers Mathlib's `G(V, p)`
 binomial random graph (same `unitInterval` parameter). -/
