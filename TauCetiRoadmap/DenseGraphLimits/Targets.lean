@@ -104,6 +104,21 @@ theorem counting_lemma {V : Type*} [Fintype V] [DecidableEq V] (F : SimpleGraph 
     |homDensity μ F U - homDensity μ F W|
       ≤ (F.edgeFinset.card : ℝ) * cutNorm μ (U.toSymmKernel - W.toSymmKernel) := sorry
 
+/-- **Layer 2 (step graphon).** A graphon constant on the rectangles `Pᵢ × Pⱼ` of a measurable
+finite partition of the carrier — the anchor for the Frieze–Kannan weak-regularity output and the
+`Finpartition` bridge. A minimal placeholder; the full `Finpartition` adapter is described in
+`README.md`. -/
+def stepGraphon (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p)
+    (val : {p // p ∈ P.parts} → {q // q ∈ P.parts} → I)
+    (hsymm : ∀ p q, val p q = val q p) : Graphon Ω μ := sorry
+
+/-- **Layer 2.** `stepGraphon` is constant on each rectangle `p × q`: for `x ∈ p`, `y ∈ q` its value
+is `val p q`. Exposes the constant-on-rectangles API the bare constructor does not. -/
+theorem stepGraphon_apply (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p)
+    (val : {p // p ∈ P.parts} → {q // q ∈ P.parts} → I) (hsymm : ∀ p q, val p q = val q p)
+    {p q : {p // p ∈ P.parts}} {x y : Ω} (hx : x ∈ (p : Set Ω)) (hy : y ∈ (q : Set Ω)) :
+    (stepGraphon μ P hP val hsymm).toFun x y = (val p q : ℝ) := sorry
+
 /-- **Layer 3 (AE bridge).** The AE / `AEEqFun` view: a graphon as an a.e.-class kernel on `μ ⊗ μ`. -/
 def toAEEqFun (W : Graphon Ω μ) : (Ω × Ω) →ₘ[μ.prod μ] ℝ := sorry
 
