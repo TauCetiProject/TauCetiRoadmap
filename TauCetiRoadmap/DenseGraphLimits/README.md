@@ -61,13 +61,20 @@ with `sorry`; the code repo discharges them.
 
 Reuse these by name; do not rebuild them. (Paths checked against the pinned toolchain.)
 
-- **Finite graphs and their extremal/regularity theory:** `SimpleGraph`, `SimpleGraph.edgeFinset`
-  (`Combinatorics/SimpleGraph/Finite`), `SimpleGraph.Hom` (`…/Maps`), `Sym2`; **Szemerédi
-  regularity** `SimpleGraph.szemeredi_regularity` with `SimpleGraph.IsUniform` /
-  `Finpartition.energy` / `Finpartition.equitabilise` (`…/Regularity/*`); **triangle** counting and
-  removal `SimpleGraph.triangle_counting` / `SimpleGraph.triangle_removal` (+ `triangleRemovalBound`)
+- **Finite graphs and their extremal theory:** `SimpleGraph`, `SimpleGraph.edgeFinset`
+  (`Combinatorics/SimpleGraph/Finite`), `SimpleGraph.Hom` (`…/Maps`), `Sym2`; **triangle** counting
+  and removal `SimpleGraph.triangle_counting` / `SimpleGraph.triangle_removal` (+ `triangleRemovalBound`)
   (`…/Triangle/*`); **Turán** `SimpleGraph.turanGraph` / `IsTuranMaximal` / `turanDensity`
   (`…/Extremal/*`).
+- **Energy machinery — the reusable Frieze–Kannan input:** `Finpartition.energy`
+  (`…/Regularity/Energy`), the energy-**increment** machinery (`…/Regularity/Increment`), and
+  `Finpartition.equitabilise` (`…/Regularity/Equitabilise`). This — *not* Szemerédi regularity — is
+  what the weak-regularity layer consumes (cut-norm / energy-increment argument).
+- **Szemerédi regularity — related ecosystem, *not* a Frieze–Kannan input:**
+  `SimpleGraph.szemeredi_regularity` with `SimpleGraph.IsUniform` (`…/Regularity/*`) is Mathlib's
+  *strong* (tower-bound) regularity lemma — a comparison point for the analytic weak-regularity
+  target, which is a **distinct theorem built separately** (Layer 2). Do not route it into the
+  Frieze–Kannan target.
 - **Measurable / random graphs:** `MeasurableSpace (SimpleGraph V)` + `SimpleGraph.measurable_iff_adj`
   (`MeasureTheory/Constructions/SimpleGraph`); the binomial random graph `SimpleGraph.binomialRandom`
   / `G(V, p)` with `p : I` (`Probability/Combinatorics/BinomialRandomGraph/Defs`).
@@ -146,12 +153,15 @@ The **forward counting lemma** `|t(F,U) − t(F,W)| ≤ e(F) · ‖U − W‖□
 is `(F.edgeFinset.card : ℝ)`) and its cut-distance form; descent of `t(F, ·)` to `GraphonSpace`; the
 **Frieze–Kannan weak regularity lemma** with the standard complexity bound `4^{⌈1/ε²⌉}`, over a
 measurable `Finpartition` (the `Finpartition (Subtype MeasurableSet)` pattern, a thin adapter only if
-needed). Frieze–Kannan weak regularity is the finite-to-analytic counterpart of, and a consumer of,
-Mathlib's Szemerédi regularity (`szemeredi_regularity`) — a comparison point, not the same notion.
-Then density of step graphons in `δ□` and total boundedness of `(GraphonSpace, δ□)`.
+needed). **Build Frieze–Kannan separately, consuming the energy machinery** (`Finpartition.energy`,
+the energy-increment lemmas, `equitabilise`) via a cut-norm / energy-increment argument. Mathlib's
+Szemerédi regularity (`szemeredi_regularity`) is the *strong* (tower-bound) lemma — a related
+comparison point, **not** an input theorem to and **not** the source of weak regularity. The
+weak-regularity output is a `stepGraphon` (Layer-2 target). Then density of step graphons in `δ□` and
+total boundedness of `(GraphonSpace, δ□)`.
 
-*Acceptance:* the counting lemma specialized to `K₂`, `K₃`; weak regularity producing a step graphon;
-`t(F, ·)` descending to `GraphonSpace`.
+*Acceptance:* the counting lemma specialized to `K₂`, `K₃`; weak regularity producing a `stepGraphon`
+(see `stepGraphon` / `stepGraphon_apply` in `Targets.lean`); `t(F, ·)` descending to `GraphonSpace`.
 
 ### Layer 3 — the AE / `AEEqFun` view
 A round-trip between the strict carrier and Mathlib's `AEEqFun`: a map `toAEEqFun :
