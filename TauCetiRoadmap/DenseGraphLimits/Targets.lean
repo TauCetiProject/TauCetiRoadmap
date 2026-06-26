@@ -163,6 +163,14 @@ theorem cutNorm_congr_ae {K L : SymmKernel Ω μ}
 theorem cutDist_eq_zero_of_aeEq {U W : Graphon Ω μ}
     (h : ∀ᵐ p ∂(μ.prod μ), U.toFun p.1 p.2 = W.toFun p.1 p.2) : cutDistSame μ U W = 0 := sorry
 
+/-- **Layer 3 (reverse bridge — L⁰ → strict representative).** Every a.e. class on `μ ⊗ μ` that is
+a.e. `[0,1]`-valued and a.e. symmetric is realized by a strict `Graphon` representative — the lossy
+reverse of `toAEEqFun`, the measurable-selection fact needed to consume `AEEqFun`-native results. -/
+theorem exists_graphon_repr [StandardBorelSpace Ω] (f : (Ω × Ω) →ₘ[μ.prod μ] ℝ)
+    (hbdd : ∀ᵐ p ∂(μ.prod μ), f p ∈ Set.Icc (0 : ℝ) 1)
+    (hsymm : ∀ᵐ p ∂(μ.prod μ), f p = f p.swap) :
+    ∃ W : Graphon Ω μ, toAEEqFun μ W = f := sorry
+
 /-- **Layer 5 prerequisite (mod-null transport).** A *mod-null measure-preserving equivalence* of an
 atomless standard Borel probability space with `(I, volume)`: measure-preserving maps both ways that
 are mutually inverse a.e. (Mathlib has the measurable equivalence; this is the m.p. refinement. The

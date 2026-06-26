@@ -253,9 +253,10 @@ forward `forall_homDensity_eq_of_cutDist_eq_zero` and the hypothesized converse
 `cutDist_eq_zero_of_forall_homDensity_eq`** (both quantified over `SimpleGraph (Fin n)`),
 `sampleGraph` + the `G(V,p)` compatibility, and the **Layer-9 injective density** `homDensityFin` /
 `injHomDensity` (the `(n)_k = descFactorial` denominator) with the closeness bound and the
-`injHomDensity_integral_sampleGraph` unbiasedness anchor. The weak-regularity `Finpartition` adapter,
-the Layer-6b convergence equivalence (which needs the `GraphonSpaceI` metric), and the cleanup
-targets (set-form / signed cut norm; the L⁰→strict representative) are described in prose rather than
+`injHomDensity_integral_sampleGraph` unbiasedness anchor, the set-form / signed cut norm
+(`cutNormSet` + `cutNorm_eq_cutNormSet`, `cutNormSigned` + the factor-4 sandwich), and the L⁰→strict
+representative `exists_graphon_repr`. The weak-regularity `Finpartition` adapter and the Layer-6b
+convergence equivalence (which needs the `GraphonSpaceI` metric) are described in prose rather than
 pinned, to avoid forcing a premature API choice.
 
 ## Worked examples (acceptance gates)
