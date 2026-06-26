@@ -129,12 +129,22 @@ theorem exists_mpModNull_equiv_unitInterval [StandardBorelSpace Ω] [NoAtoms μ]
       MeasurePreserving f μ volume ∧ MeasurePreserving g volume μ ∧
       (∀ᵐ x ∂μ, g (f x) = x) ∧ (∀ᵐ y ∂(volume : Measure I), f (g y) = y) := sorry
 
-/-- **Layer 6a (separation / inverse counting — the analytic summit).** -/
-theorem cutDist_eq_zero_iff_forall_homDensity_eq [StandardBorelSpace Ω] [NoAtoms μ]
-    (U W : Graphon Ω μ) :
-    cutDistSame μ U W = 0 ↔
-      ∀ {V : Type} [Fintype V] [DecidableEq V] (F : SimpleGraph V) [DecidableRel F.Adj],
-        homDensity μ F U = homDensity μ F W := sorry
+/-- **Layer 6a forward (counting).** `cutDist = 0` ⇒ all homomorphism densities agree — with
+**minimal hypotheses** (no standard-Borel / atomless assumption). Finite graphs are quantified over
+the representatives `SimpleGraph (Fin n)` (monomorphic; avoids the universe-restricted `{V : Type}`). -/
+theorem forall_homDensity_eq_of_cutDist_eq_zero (U W : Graphon Ω μ)
+    (h : cutDistSame μ U W = 0) :
+    ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
+      homDensity μ F U = homDensity μ F W := sorry
+
+/-- **Layer 6a converse (inverse counting — the analytic summit).** All homomorphism densities agree
+⇒ `cutDist = 0`, over atomless standard Borel (LNGL Thm 11.3, the genuinely hard self-contained core).
+The full separation iff is this conjoined with `forall_homDensity_eq_of_cutDist_eq_zero`. -/
+theorem cutDist_eq_zero_of_forall_homDensity_eq [StandardBorelSpace Ω] [NoAtoms μ]
+    (U W : Graphon Ω μ)
+    (h : ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
+      homDensity μ F U = homDensity μ F W) :
+    cutDistSame μ U W = 0 := sorry
 
 /-- **Layer 9 (sampling).** The `W`-random graph law `G(n, W)`. -/
 def sampleGraph (W : Graphon Ω μ) (n : ℕ) : Measure (SimpleGraph (Fin n)) := sorry
