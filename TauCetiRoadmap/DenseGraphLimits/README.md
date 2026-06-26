@@ -247,18 +247,30 @@ cross-carrier, and that the constant-graphon and sampling targets share the `uni
 convention with `SimpleGraph.binomialRandom`. Compiled there: `SymmKernel` / `Graphon`, `cutNorm`,
 `homDensity`, `Graphon.const` + `homDensity_const = (p : ℝ) ^ e(F)`, `IsCoupling` / `overlay` /
 cross-carrier `cutDist` + `cutDist_triangle`, `GraphonSpace` (a `Quotient` over a standard Borel
-carrier), the counting lemma, the AE-invariance trio, the mod-null transport target, separation
-(6a), and `sampleGraph` + the `G(V,p)` compatibility. The weak-regularity `Finpartition` adapter and
-the Layer-6b convergence equivalence (which needs the `GraphonSpaceI` metric) are described below
-rather than pinned, to avoid forcing a premature API choice.
+carrier), the counting lemma, the Layer-2 step object `stepGraphon` + `stepGraphon_apply`, the
+AE-invariance trio, the mod-null transport target, **separation 6a split into the unconditional
+forward `forall_homDensity_eq_of_cutDist_eq_zero` and the hypothesized converse
+`cutDist_eq_zero_of_forall_homDensity_eq`** (both quantified over `SimpleGraph (Fin n)`),
+`sampleGraph` + the `G(V,p)` compatibility, and the **Layer-9 injective density** `homDensityFin` /
+`injHomDensity` (the `(n)_k = descFactorial` denominator) with the closeness bound and the
+`injHomDensity_integral_sampleGraph` unbiasedness anchor. The weak-regularity `Finpartition` adapter,
+the Layer-6b convergence equivalence (which needs the `GraphonSpaceI` metric), and the cleanup
+targets (set-form / signed cut norm; the L⁰→strict representative) are described in prose rather than
+pinned, to avoid forcing a premature API choice.
 
 ## Worked examples (acceptance gates)
 
 Non-negotiable, independent of implementation: the constant-graphon value `p^{e(F)}`;
 finite-graph compatibility `t(F, W_G) = hom(F,G)/|V(G)|^{|V(F)|}`; the cut-norm set/test-function
 equivalence; the counting lemma; weak regularity; `cutDist` a pseudometric; compactness;
-separation; `E[t(F, G(n,W))] → t(F,W)`; and at least Goodman, Mantel, and Sidorenko-`C₄`. A
-milestone is **done** when the result descends to the intended quotient and passes its gates —
+separation; `E[t(F, G(n,W))] → t(F,W)`; and at least Goodman, Mantel, and Sidorenko-`C₄`.
+
+**Computed-value backstops** (cheap numeric checks the implementation must reproduce, a correctness
+floor the headline theorems don't give): `t(K₂, W_{K₄}) = 3/4` (edge density of `K₄`),
+`t(K₃, W_{C₅}) = 0` (`C₅` is triangle-free), and the Erdős–Rényi numerics `t(F, W_p) = p^{e(F)}`
+(e.g. `t(K₃, W_{1/2}) = 1/8`). Here `W_{G}` is the `stepGraphon` of the finite graph `G`.
+
+A milestone is **done** when the result descends to the intended quotient and passes its gates —
 not when the file merely compiles.
 
 ## Ordering
@@ -320,4 +332,8 @@ The mathematics and proof routes draw on two prior Lean developments,
 - Are one-line hypotheses written inline rather than wrapped in a predicate?
 - Are strict-carrier, AE, and quotient-level statements kept distinct?
 - Is `cutDist` coupling-primary and cross-carrier, with map/pullback only a compatibility milestone?
+- Is the Layer-6a separation split into an unconditional forward and a hypothesized converse, over
+  `SimpleGraph (Fin n)` representatives (no universe-restricted `{V : Type}`)?
+- Is the injective density `t₀` normalized by the falling factorial `(n)_k`, **never** `Nat.choose n k`?
+- Do the computed-value backstops hold (`t(K₂, W_{K₄}) = 3/4`, `t(K₃, W_{C₅}) = 0`, `t(F, W_p) = p^{e(F)}`)?
 - Are the source repositories confined to Provenance?

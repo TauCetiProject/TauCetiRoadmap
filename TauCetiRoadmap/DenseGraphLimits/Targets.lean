@@ -8,7 +8,10 @@ gates, provenance, references) is in `README.md`. This file pins the **types** a
 `sorry`-signatures (allowed in this human-owned roadmap library): in particular that the cut norm
 acts on *kernels* (so a difference `U - W` is well-typed), that `cutDist` is **coupling-primary and
 cross-carrier**, and that the constant-graphon / sampling targets share the `unitInterval`
-convention with Mathlib's `SimpleGraph.binomialRandom`.
+convention with Mathlib's `SimpleGraph.binomialRandom`. The Layer-6a separation is split into an
+unconditional forward and a hypothesized converse over `SimpleGraph (Fin n)` representatives; the
+Layer-2 `stepGraphon` and the Layer-9 injective density `injHomDensity` (normalized by the falling
+factorial `(n)_k = Nat.descFactorial`, **not** `Nat.choose`) are pinned here too.
 
 Objects whose precise Lean shape would force a premature API choice — the weak-regularity
 `Finpartition` adapter, the `GraphonSpaceI` metric and the Layer-6b convergence equivalence on it,
