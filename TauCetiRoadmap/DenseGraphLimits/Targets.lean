@@ -47,6 +47,31 @@ structure Graphon (Ω : Type*) [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabi
 /-- **Layer 1.** Cut norm — on kernels (hence applies to `U - W`). -/
 def cutNorm (K : SymmKernel Ω μ) : ℝ := sorry
 
+/-- **Layer 1 (set form).** The textbook set/rectangle form: the `sup` over measurable `S, T` of
+`|∫_{S×T} K|`. This is the concrete definition that the abstract `cutNorm` is pinned against
+(`cutNorm_eq_cutNormSet`) and the bridge to Mathlib's rectangle/energy-based regularity. -/
+def cutNormSet (K : SymmKernel Ω μ) : ℝ :=
+  ⨆ (S : Set Ω) (_ : MeasurableSet S) (T : Set Ω) (_ : MeasurableSet T),
+    |∫ p in S ×ˢ T, K.toFun p.1 p.2 ∂(μ.prod μ)|
+
+/-- **Layer 1.** The abstract cut norm agrees with the set form. -/
+theorem cutNorm_eq_cutNormSet (K : SymmKernel Ω μ) : cutNorm μ K = cutNormSet μ K := sorry
+
+/-- **Layer 1 (signed form).** The `[-1,1]` test-function form: the `sup` over measurable
+`u, v : Ω → [-1,1]` of `|∫∫ u(x) v(y) K(x,y)|`. Related to `cutNorm` by the standard factor
+sandwich (`cutNorm_le_cutNormSigned`, `cutNormSigned_le_four_mul_cutNorm`). -/
+def cutNormSigned (K : SymmKernel Ω μ) : ℝ :=
+  ⨆ (u : Ω → ℝ) (_ : Measurable u) (_ : ∀ x, u x ∈ Set.Icc (-1 : ℝ) 1)
+    (v : Ω → ℝ) (_ : Measurable v) (_ : ∀ y, v y ∈ Set.Icc (-1 : ℝ) 1),
+    |∫ p, u p.1 * v p.2 * K.toFun p.1 p.2 ∂(μ.prod μ)|
+
+/-- **Layer 1.** Lower side of the factor sandwich. -/
+theorem cutNorm_le_cutNormSigned (K : SymmKernel Ω μ) : cutNorm μ K ≤ cutNormSigned μ K := sorry
+
+/-- **Layer 1.** Upper side of the factor sandwich (the standard factor `4`). -/
+theorem cutNormSigned_le_four_mul_cutNorm (K : SymmKernel Ω μ) :
+    cutNormSigned μ K ≤ 4 * cutNorm μ K := sorry
+
 /-- **Layer 1.** Homomorphism density `t(F, W)`, edges via `Sym2`. -/
 def homDensity {V : Type*} [Fintype V] [DecidableEq V] (F : SimpleGraph V) [DecidableRel F.Adj]
     (W : Graphon Ω μ) : ℝ := sorry
