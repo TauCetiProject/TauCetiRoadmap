@@ -173,4 +173,29 @@ binomial random graph (same `unitInterval` parameter). -/
 theorem sampleGraph_const (p : I) (n : ℕ) :
     sampleGraph μ (Graphon.const μ p) n = SimpleGraph.binomialRandom (Fin n) p := sorry
 
+/-- **Layer 9 (finite-graph hom density).** `t(F, G) = hom(F,G) / m^{|V(F)|}` for a finite target
+graph `G` on `Fin m`. Defined via `Nat.card` (no `Fintype`/decidability on the hom type or on `G`). -/
+def homDensityFin {V : Type*} [Fintype V] (F : SimpleGraph V) {m : ℕ} (G : SimpleGraph (Fin m)) : ℝ :=
+  (Nat.card (F →g G) : ℝ) / (m ^ Fintype.card V : ℝ)
+
+/-- **Layer 9 (injective hom density `t₀`).** The *ordered injective* hom count over the **falling
+factorial `(m)_k = m.descFactorial k`** (`k = |V(F)|`) — **not** `Nat.choose m k`, which would bias
+the sampling estimator by `k!`. Via `Nat.card`; no decidability on the target graph `G`. -/
+def injHomDensity {V : Type*} [Fintype V] (F : SimpleGraph V) {m : ℕ} (G : SimpleGraph (Fin m)) : ℝ :=
+  (Nat.card {φ : F →g G // Function.Injective φ} : ℝ) / (m.descFactorial (Fintype.card V) : ℝ)
+
+/-- **Layer 9 (hom vs injective closeness).** `|t(F,·) − t₀(F,·)| ≤ C(k,2)/m`, the bound the
+convergence-via-sampling route needs. Requires `0 < m`. -/
+theorem homDensityFin_sub_injHomDensity_le {V : Type*} [Fintype V] (F : SimpleGraph V) {m : ℕ}
+    (G : SimpleGraph (Fin m)) (hm : 0 < m) :
+    |homDensityFin F G - injHomDensity F G| ≤ ((Fintype.card V).choose 2 : ℝ) / (m : ℝ) := sorry
+
+/-- **Layer 9 (unbiasedness anchor).** `E_{G(m,W)}[t₀(F, ·)] = t(F, W)` — the identity that pins the
+`(m)_k` normalization (with `Nat.choose` it would read `k!·t(F,W)`). Needs `|V(F)| ≤ m` (else
+`(m)_k = 0`); the `homDensity` RHS forces `[DecidableEq V] [DecidableRel F.Adj]` on `F`, **not** on
+the integrated `G`. -/
+theorem injHomDensity_integral_sampleGraph {V : Type*} [Fintype V] [DecidableEq V]
+    (F : SimpleGraph V) [DecidableRel F.Adj] (W : Graphon Ω μ) {m : ℕ} (hkm : Fintype.card V ≤ m) :
+    ∫ G, injHomDensity F G ∂(sampleGraph μ W m) = homDensity μ F W := sorry
+
 end TauCetiRoadmap.DenseGraphLimits

@@ -40,6 +40,9 @@ the carrier and cut-distance choices is in two design notes in the
    (Layer 5), proved under atomless standard-Borel hypotheses, not a definitional commitment.
 3. **Finite graphs — simple, `Sym2` edges.** `SimpleGraph V` with `[Fintype V]`; edges via
    `SimpleGraph.edgeFinset` / `Sym2`; density normalized `t(F, W_G) = hom(F,G)/|V(G)|^{|V(F)|}`.
+   The **injective** density `t₀(F, G)` divides the *ordered injective* hom count by the **falling
+   factorial `(n)_k = n.descFactorial |V(F)|`** (Mathlib `Nat.descFactorial`), **not** `Nat.choose n k`
+   — the wrong denominator biases the sampling estimator by `k!` (`E[t₀] = k!·t` instead of `t`).
    Weighted graphs enter only as the technically convenient dense subset for the
    characterization layer, never as the primary object.
 4. **Carrier generality.** Core definitions over an arbitrary probability space; conditioning
@@ -212,7 +215,11 @@ is sequenced late because it depends on that material, and it is required work.
 ### Layer 9 — sampling and exchangeable arrays
 The `W`-random graph law `sampleGraph W n` (a probability measure on `SimpleGraph (Fin n)`, on the
 measurable-graph σ-algebra `MeasurableSpace (SimpleGraph V)`), with the **compatibility target**
-`sampleGraph (Graphon.const p) n = G(Fin n, p)` recovering Mathlib's `binomialRandom`; the
+`sampleGraph (Graphon.const p) n = G(Fin n, p)` recovering Mathlib's `binomialRandom`. The sampling
+estimators: the finite-graph hom density `homDensityFin` and the **injective hom density**
+`injHomDensity` (`t₀`, ordered injective count over the falling factorial `(n)_k` — see Conventions),
+with the hom-vs-injective **closeness bound** `|t(F,·) − t₀(F,·)| ≤ C(k,2)/n` and the **unbiasedness
+anchor** `E_{G(n,W)}[t₀(F,·)] = t(F,W)` that pins the `(n)_k` normalization. Then the
 almost-sure first sampling lemma and the second sampling lemma `δ□(G(n,W), W) → 0` (LNGL Lemma 10.16),
 via the weak-convergence stack (`LevyProkhorovMetric` / `Portmanteau` / `Tight`); then the
 exchangeable-arrays / Aldous–Hoover representation connecting graphons to infinite exchangeable random
