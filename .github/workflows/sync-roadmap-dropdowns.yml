@@ -1,0 +1,62 @@
+name: Sync roadmap dropdowns
+
+# The roadmap directories under TauCetiRoadmap/ are the source of truth for the
+# list of roadmaps. The `area` dropdowns in the issue templates copy that list,
+# and GitHub issue forms have no templating, so the copy drifts whenever a
+# roadmap is added or removed. Rather than make contributors fix that by hand,
+# this regenerates the dropdowns after every merge that changes the roadmap set
+# and commits the result straight to main.
+#
+# The commit goes to a protected branch, so it runs as a dedicated GitHub App
+# that has Contents:write and is in main's "bypass required pull requests" list.
+# Its id and private key live in the SYNC_BOT_APP_ID variable and the
+# SYNC_BOT_APP_PRIVATE_KEY secret. Setup is in .github/scripts/README.md.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "TauCetiRoadmap/**"
+      - ".github/scripts/check_roadmap_areas.py"
+      - ".github/workflows/sync-roadmap-dropdowns.yml"
+  # Run on demand, e.g. to clear existing drift right after first setup.
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+# Never let two syncs race to push to main; the latest state wins.
+concurrency: sync-roadmap-dropdowns
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint app token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.SYNC_BOT_APP_ID }}
+          private-key: ${{ secrets.SYNC_BOT_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Regenerate dropdowns and README list from roadmap directories
+        run: python3 .github/scripts/check_roadmap_areas.py --fix
+
+      - name: Commit if anything changed
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo "Dropdowns and README already match the roadmap directories; nothing to do."
+            exit 0
+          fi
+          git config user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config user.email "${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
+          git add .github/ISSUE_TEMPLATE/1-intention.yml .github/ISSUE_TEMPLATE/2-roadmap-issue.yml README.md
+          # [skip ci] so this metadata-only commit doesn't trigger a build or
+          # re-trigger this workflow (which would no-op anyway).
+          git commit -m "chore: sync roadmap dropdowns and README list [skip ci]"
+          git push
