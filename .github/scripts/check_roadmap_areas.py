@@ -38,9 +38,11 @@ def canonical_areas() -> list[str]:
 
 # The `area` dropdown's options are the run of `        - Name` lines that
 # follow the `options:` key under `id: area`. Capture leading whitespace so a
-# rewrite preserves indentation exactly.
+# rewrite preserves indentation exactly. The `(?!^  - )` bound keeps the search
+# inside the `id: area` body item, so it can never reach across into a later
+# field's `options:` even if the templates are refactored.
 _OPTIONS_BLOCK = re.compile(
-    r"(?m)^(?P<indent> *)id: area\n[\s\S]*?^ *options:\n(?P<options>(?: *- .*\n)+)"
+    r"(?m)^(?P<indent> *)id: area\n(?:(?!^  - )[\s\S])*?^ *options:\n(?P<options>(?: *- .*\n)+)"
 )
 _OPTION_LINE = re.compile(r"^ *- (?P<name>.+?) *$", re.M)
 
@@ -100,26 +102,48 @@ def readme_entries() -> list[tuple[str, str]]:
 
 
 def rewrite_readme(text: str, canonical: list[str]) -> str:
-    """Fill gaps in the README list without touching existing curated lines.
+    """Fill gaps in the README list without touching anything else.
 
-    Keep every existing entry whose directory still exists, in its existing
-    order and with its existing title; append any roadmap directory not yet
-    listed (title from its H1); drop any line whose directory is gone; renumber.
+    Replace only the contiguous run of numbered list lines: keep every existing
+    entry whose directory still exists (in order, with its curated title), drop
+    an orphaned line, drop a duplicate, append any roadmap not yet listed (title
+    from its H1), and renumber. Prose before or after the list -- an intro
+    sentence, a note -- is left exactly as it is.
     """
     m = _README_SECTION.search(text)
     if not m:
         raise SystemExit("could not find the '## Roadmaps' list in README.md")
+    lines = m.group("body").split("\n")
+    item_idx = [i for i, ln in enumerate(lines) if _README_ITEM.match(ln)]
+    if not item_idx:
+        raise SystemExit("found no roadmap list items under '## Roadmaps'")
+    # The first contiguous block of list lines; prose may bracket it.
+    start = item_idx[0]
+    end = start
+    for i in item_idx[1:]:
+        if i == end + 1:
+            end = i
+        else:
+            break
+
     present = set(canonical)
-    kept = [(a, t) for a, t in readme_entries() if a in present]
-    listed = {a for a, _ in kept}
+    seen: set[str] = set()
+    kept: list[tuple[str, str]] = []
+    for ln in lines[start : end + 1]:
+        item = _README_ITEM.match(ln)
+        a, t = item.group("area"), item.group("title")
+        if a in present and a not in seen:
+            seen.add(a)
+            kept.append((a, t))
     for area in canonical:  # canonical is sorted, so new entries append stably
-        if area not in listed:
+        if area not in seen:
+            seen.add(area)
             kept.append((area, title_from_h1(area)))
-    body = "".join(
-        f"{i}. [{t}](TauCetiRoadmap/{a}/README.md)\n"
-        for i, (a, t) in enumerate(kept, 1)
-    )
-    return text[: m.start("body")] + body + text[m.end("body") :]
+
+    lines[start : end + 1] = [
+        f"{i}. [{t}](TauCetiRoadmap/{a}/README.md)" for i, (a, t) in enumerate(kept, 1)
+    ]
+    return text[: m.start("body")] + "\n".join(lines) + text[m.end("body") :]
 
 
 def main() -> int:
@@ -152,7 +176,7 @@ def main() -> int:
     # never rewritten, so any hand-shortened title survives.
     rm_text = README.read_text()
     listed = [a for a, _ in readme_entries()]
-    if sorted(set(listed)) != canonical:
+    if sorted(listed) != canonical:  # multiplicity matters, so duplicates show up
         if fix:
             new = rewrite_readme(rm_text, canonical)
             if new != rm_text:
@@ -160,12 +184,15 @@ def main() -> int:
                 print(f"fixed: {README.relative_to(ROOT)}")
         else:
             missing = [a for a in canonical if a not in listed]
-            extra = [a for a in listed if a not in canonical]
+            extra = [a for a in set(listed) if a not in set(canonical)]
+            dups = sorted({a for a in listed if listed.count(a) > 1})
             detail = []
             if missing:
                 detail.append(f"not linked {missing}")
             if extra:
                 detail.append(f"links a roadmap with no directory {extra}")
+            if dups:
+                detail.append(f"listed more than once {dups}")
             problems.append(f"README.md: {', '.join(detail)}")
 
     if problems and not fix:
