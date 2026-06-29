@@ -17,7 +17,7 @@ meaning (an angle, divided by `2π`) for points on the curve. Along the way we b
 prerequisites — the generalized winding number and its geometry, the classical residue
 theorem, and the global (homological) Cauchy theorem — none of which Mathlib has.
 
-This is ordinary complex analysis and belongs in Mathlib's analysis tree. Its first client is
+This is ordinary complex analysis and eventually belongs in Mathlib's analysis tree. We'll land a version in Tau Ceti, but if Mathlib later develops this material more fully, then Tau Ceti will refactor as needed and defer to the Mathlib version, as usual. The first client is
 arithmetic: the **valence formula** (in the separate
 [Modular Forms roadmap](../ModularForms/README.md)) integrates `f'/f` around the boundary of
 the standard fundamental domain — a contour that *passes through* the elliptic points `i` and
@@ -28,8 +28,6 @@ theory is not decoration; it is the engine the modular application runs on.
 Suggested home: `TauCeti/Analysis/Contour/`.
 
 ## Standing conventions
-
-Pin these once; implementors drift badly otherwise.
 
 - **Curves, immersions, cycles.** A piecewise-`C¹` curve is a continuous `γ : [a,b] → ℂ`,
   `C¹` on each piece of a finite partition. A **closed piecewise-`C¹` immersion** additionally

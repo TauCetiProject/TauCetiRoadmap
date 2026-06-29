@@ -68,10 +68,12 @@ Mathlib has none of these. The contour integral itself is `∫ t in a..b, deriv 
 (`intervalIntegral`, agreeing with `circleIntegral` on a circle); these `def`s name the winding
 number, residue, principal value, and the HW hypotheses built on it. -/
 
-/-- **Generalized winding number** (HW Def 2.1): `n_{z₀}(γ) = PV (2πi)⁻¹ ∮_γ dz/(z − z₀)`, for a
-closed piecewise-`C¹` curve `γ : ℝ → ℂ` on `[a, b]` and *any* `z₀ ∈ ℂ` — including `z₀` on the
-curve, where it is in general **non-integer** (the geometric angle `α/2π`). For `z₀ ∉ image γ` it is
-the classical integer index. -/
+/-- **Generalized winding number** (HW Def 2.1): `n_{z₀}(γ) = PV (2πi)⁻¹ ∮_γ dz/(z − z₀)`, the
+value of the contour integral for *any* piecewise-`C¹` curve `γ : ℝ → ℂ` on `[a, b]` and *any*
+`z₀ ∈ ℂ`. Closedness (`γ a = γ b`) is **not** part of the definition; it is the hypothesis (carried
+on the theorems below) under which this value is a genuine winding number — the classical integer
+index for `z₀ ∉ image γ`, and in general **non-integer** for `z₀` on the curve (the geometric angle
+`α/2π`). -/
 noncomputable def windingNumber (γ : ℝ → ℂ) (a b : ℝ) (z₀ : ℂ) : ℂ := sorry
 
 /-- **Residue** at an isolated singularity: the order-`(−1)` Laurent coefficient of `f` at `z₀`
