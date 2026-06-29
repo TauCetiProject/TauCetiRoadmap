@@ -90,6 +90,18 @@ theorem ae_eq_zero_of_forall_moment_eq_zero (g : ℝ → ℝ)
     (hmom : ∀ n : ℕ, ∫ x : ℝ, x ^ n * g x = 0) :
     g =ᵐ[volume] 0 := sorry
 
+/-- **B1, measure level** — the determinacy result the *weighted-measure* bridge actually needs
+(`ae_eq_zero_of_forall_moment_eq_zero` above is the `volume`/function instance; `barePolyLp_ortho_eq_bot`
+is for an arbitrary `μ`, so it must rest on a measure-level statement). A finite measure `ν` on `ℝ`
+with every exponential moment finite is moment-determinate, so a `g ∈ L²(ν)` orthogonal to every
+monomial is a.e. `0`. (Finiteness is the `a = 0` case of `hexp`.) -/
+theorem ae_eq_zero_of_forall_moment_eq_zero_of_finite_expMoments
+    {ν : Measure ℝ} [IsFiniteMeasure ν]
+    (hexp : ∀ a : ℝ, 0 ≤ a → Integrable (fun x : ℝ => Real.exp (a * |x|)) ν)
+    {g : ℝ → 𝕜} (hg : MemLp g 2 ν)
+    (hmom : ∀ n : ℕ, ∫ x, (algebraMap ℝ 𝕜 x) ^ n * g x ∂ν = 0) :
+    g =ᵐ[ν] 0 := sorry
+
 /-! ## Part B2 — orthogonality relation → Hilbert basis (re-keyed: weight in the MEASURE) -/
 
 section WeightedBridge
@@ -111,14 +123,17 @@ theorem orthonormal_barePolyLp {μ : Measure ℝ}
       (μ.withDensity (fun x => ENNReal.ofReal (w x)))) :
     Orthonormal 𝕜 (barePolyLp (𝕜 := 𝕜) p w c hmem) := sorry
 
-/-- **Completeness target** — grounded in moment determinacy (B1): the load-bearing hypothesis is
-`hexp`, that the weighted measure `w·μ` has every exponential moment finite (true for Gaussian decay,
-and automatic for compact support), so polynomials are dense in `L²(w·μ)`. Degree growth (`hdeg`)
-alone does **not** give completeness for an arbitrary `μ, w` — `hexp` is what makes it grounded rather
-than a leap. Produces the `ᗮ = ⊥` input the assembler consumes. -/
+/-- **Completeness target** — grounded in moment determinacy
+(`ae_eq_zero_of_forall_moment_eq_zero_of_finite_expMoments`, B1 measure level, applied to `ν = w·μ`):
+the load-bearing hypothesis is `hexp`, that the weighted measure `w·μ` has every exponential moment
+finite (true for Gaussian decay, automatic for compact support), so polynomials are dense in
+`L²(w·μ)`. Degree alone does **not** give completeness for an arbitrary `μ, w` — `hexp` is what makes
+it grounded. Note `hdeg` uses `degree` (not `natDegree`): `natDegree 0 = 0` would let `p 0 = 0` slip
+through and kill the basis (e.g. `μ = δ₀`), so we require the genuine degree, forcing `p n ≠ 0`.
+Produces the `ᗮ = ⊥` input the assembler consumes. -/
 theorem barePolyLp_ortho_eq_bot {μ : Measure ℝ}
     (hwpos : ∀ᵐ x ∂μ, 0 < w x) (hwm : AEMeasurable w μ) (hc : ∀ n, 0 < c n)
-    (hdeg : ∀ n, (p n).natDegree = n)
+    (hdeg : ∀ n, (p n).degree = (n : WithBot ℕ))
     (hexp : ∀ a : ℝ, 0 ≤ a →
       Integrable (fun x : ℝ => Real.exp (a * |x|)) (μ.withDensity (fun x => ENNReal.ofReal (w x))))
     (hmem : ∀ n, MemLp (fun x => (algebraMap ℝ 𝕜) ((p n).eval x / Real.sqrt (c n))) 2
@@ -151,6 +166,27 @@ noncomputable def hilbertBasisOfOrthogonalSystem {μ : Measure ℝ}
   (hilbertBasisOfWeightedMeasure p w c hwpos hwm hc horth hmem hcomplete).mapₗᵢ
     (weightL2Isometry μ w hwpos hwm)
 
+/-- Element-level pin for the weighted-measure basis (immediate from `coe_mkOfOrthogonalEqBot`). -/
+theorem coe_hilbertBasisOfWeightedMeasure {μ : Measure ℝ}
+    (hwpos : ∀ᵐ x ∂μ, 0 < w x) (hwm : AEMeasurable w μ) (hc : ∀ n, 0 < c n)
+    (horth : ∀ m n, (∫ x, (p m).eval x * (p n).eval x * w x ∂μ) = if m = n then c n else 0)
+    (hmem : ∀ n, MemLp (fun x => (algebraMap ℝ 𝕜) ((p n).eval x / Real.sqrt (c n))) 2
+      (μ.withDensity (fun x => ENNReal.ofReal (w x))))
+    (hcomplete : (Submodule.span 𝕜 (Set.range (barePolyLp (𝕜 := 𝕜) p w c hmem)))ᗮ = ⊥) :
+    ⇑(hilbertBasisOfWeightedMeasure p w c hwpos hwm hc horth hmem hcomplete)
+      = barePolyLp (𝕜 := 𝕜) p w c hmem := sorry
+
+/-- Element-level pin for the derived function-side basis: the `weightL2Isometry` image of the
+weighted-measure basis (from `mapₗᵢ_apply` + `coe_hilbertBasisOfWeightedMeasure`). -/
+theorem coe_hilbertBasisOfOrthogonalSystem {μ : Measure ℝ}
+    (hwpos : ∀ᵐ x ∂μ, 0 < w x) (hwm : AEMeasurable w μ) (hc : ∀ n, 0 < c n)
+    (horth : ∀ m n, (∫ x, (p m).eval x * (p n).eval x * w x ∂μ) = if m = n then c n else 0)
+    (hmem : ∀ n, MemLp (fun x => (algebraMap ℝ 𝕜) ((p n).eval x / Real.sqrt (c n))) 2
+      (μ.withDensity (fun x => ENNReal.ofReal (w x))))
+    (hcomplete : (Submodule.span 𝕜 (Set.range (barePolyLp (𝕜 := 𝕜) p w c hmem)))ᗮ = ⊥) (n : ℕ) :
+    hilbertBasisOfOrthogonalSystem p w c hwpos hwm hc horth hmem hcomplete n
+      = weightL2Isometry μ w hwpos hwm (barePolyLp (𝕜 := 𝕜) p w c hmem n) := sorry
+
 end WeightedBridge
 
 /-! ## Part A3 — the Gaussian Hermite basis (the named target the consumer imports) -/
@@ -159,8 +195,8 @@ end WeightedBridge
 noncomputable def hermiteℝ (n : ℕ) : Polynomial ℝ := (hermite n).map (Int.castRingHom ℝ)
 
 /-- **Gaussian Hermite ONB of `L²(N(0,1); 𝕜)`** — the bare normalized probabilists' Hermite
-polynomials `Hₙ/√(n!)`. RandomFields' `hermiteGaussianBasis` (at `𝕜 = ℝ`). The immediate instance of
-`hilbertBasisOfWeightedMeasure` (`μ = volume`, `w = gaussianPDFReal 0 1`, `p = hermiteℝ`,
+polynomials `Hₙ/√(n!)`, the standard ONB any `L²(N(0,1))` expansion is taken against. The immediate
+instance of `hilbertBasisOfWeightedMeasure` (`μ = volume`, `w = gaussianPDFReal 0 1`, `p = hermiteℝ`,
 `cₙ = n!`), since `gaussianReal 0 1 = volume.withDensity (gaussianPDF 0 1)`
 (`gaussianReal_of_var_ne_zero`). -/
 noncomputable def gaussianHermiteHilbertBasis :
@@ -203,7 +239,8 @@ noncomputable def piHilbertBasis
     HilbertBasis (∀ i, κ i) 𝕜 (Lp 𝕜 2 (Measure.pi μ)) := sorry
 
 /-- **Multi-d Gaussian Hermite basis** of `L²(γⁿ)` — `piHilbertBasis` over the 1-D Gaussian basis;
-the Wiener-chaos multi-index basis `Ψ_α = ∏ᵢ Hₐᵢ`. RandomFields' iterated product basis. -/
+the multi-index Hermite basis `Ψ_α = ∏ᵢ Hₐᵢ`, the standard basis for multivariate Gaussian L² /
+chaos expansions. -/
 noncomputable def gaussianHermitePiBasis (ι : Type*) [Fintype ι] :
     HilbertBasis (ι → ℕ) 𝕜 (Lp 𝕜 2 (Measure.pi (fun _ : ι => gaussianReal 0 1))) :=
   piHilbertBasis (fun _ => gaussianHermiteHilbertBasis)

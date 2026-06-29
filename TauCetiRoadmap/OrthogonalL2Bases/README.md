@@ -204,9 +204,9 @@ expansion is taken against.
   `x ↦ (2π)^{-1/4} Hₙ(x) e^{-x²/4} / √(n!) = 2^{-1/4} · ψₙ(x/√2)`, the **dilated** Hermite-function
   basis, because v1's `ψₙ(x) = (n!√π)^{-1/2} Hₙ(x√2) e^{-x²/2}` is built on the rescaled argument
   `x√2`. So the two named bases are related by `weightL2Isometry` **plus the `u = x√2` dilation**, not
-  by the isometry alone. Pin this with a target
-  `weightL2Isometry_gaussianHermiteHilbertBasis_apply` stating the image is `x ↦ 2^{-1/4} ψₙ(x/√2)`
-  (or, equivalently, a `dilation`-equivalence target relating the two). (One could instead base the
+  by the isometry alone. The corresponding Lean lemma
+  `weightL2Isometry_gaussianHermiteHilbertBasis_apply` (image `= 2^{-1/4} ψₙ(·/√2)`) lands together
+  with the A2 `ψₙ` object API it references. (One could instead base the
   weighted side on `w = e^{-x²}`, `pₙ = Hₙ(·√2)`, i.e. `N(0,½)`, to make the image exactly `ψₙ`; we
   keep the standard `N(0,1)` normalization that consumers expect and carry the dilation explicitly.)
 - *Acceptance:* `⟨H₀,H₀⟩=⟨H₁,H₁⟩=1`, `⟨H₀,H₂⟩=0` under `N(0,1)`; and the dilation relation above
@@ -349,8 +349,9 @@ enhancement) and `A`/`A3′`, and its targets `piHilbertBasis` / `gaussianHermit
   `HilbertBasis (ι → ℕ) 𝕜 (Lp 𝕜 2 (Measure.pi (fun _ => volume)))`.
 - **Measure-side multidimensional basis** `gaussianHermitePiBasis (ι) [Fintype ι] : HilbertBasis
   (ι → ℕ) 𝕜 (Lp 𝕜 2 (Measure.pi (fun _ => gaussianReal 0 1)))` — `Ψ_α = ∏ᵢ Hₐᵢ/√(αᵢ!)` on `L²(γ^ι)`,
-  the `B3 ∘ A3′` instantiation (with `coe_gaussianHermitePiBasis`); the measure-side partner of the
-  basis above.
+  the `B3 ∘ A3′` instantiation (with `coe_gaussianHermitePiBasis`); the standard Gaussian
+  measure-side analogue of the basis above — related to it by the **coordinatewise** `weightL2Isometry`
+  + `u = xᵢ√2` dilation (same caveat as A3′, per coordinate), not by the isometry alone.
 
 **A separate future roadmap:** Laguerre and Jacobi L² bases. Unlike Chebyshev, **Mathlib has neither
 the Laguerre nor the Jacobi polynomials**, so grounding them means defining the families first —
