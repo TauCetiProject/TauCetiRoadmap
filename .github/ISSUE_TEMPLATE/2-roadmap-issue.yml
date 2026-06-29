@@ -15,6 +15,7 @@ body:
       label: Roadmap area
       options:
         - CombinatorialHeegaardFloer
+        - ConformalMapping
         - EffectiveBounds
         - Exchangeability
         - GeometricTopology
