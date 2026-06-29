@@ -23,7 +23,8 @@ industry groups.
 9. [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
 10. [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
 11. [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
-12. [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
+12. [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
+13. [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
 
 ## Writing a roadmap
 
