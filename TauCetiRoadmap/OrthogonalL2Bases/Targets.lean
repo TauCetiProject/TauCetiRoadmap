@@ -51,6 +51,12 @@ theorem weightL2Isometry_apply {α : Type*} [MeasurableSpace α] (μ : Measure �
     (f : Lp 𝕜 2 (μ.withDensity (fun x => ENNReal.ofReal (w x)))) :
     weightL2Isometry (𝕜 := 𝕜) μ w hwpos hwm f =ᵐ[μ] fun x => Real.sqrt (w x) • f x := sorry
 
+/-- Inverse direction (multiplication by `(√w)⁻¹`), closing the both-normalizations loop. -/
+theorem weightL2Isometry_symm_apply {α : Type*} [MeasurableSpace α] (μ : Measure α) (w : α → ℝ)
+    (hwpos : ∀ᵐ x ∂μ, 0 < w x) (hwm : AEMeasurable w μ) (g : Lp 𝕜 2 μ) :
+    (weightL2Isometry (𝕜 := 𝕜) μ w hwpos hwm).symm g
+      =ᵐ[μ] fun x => (Real.sqrt (w x))⁻¹ • g x := sorry
+
 /-- Transport a Hilbert basis along a linear isometric equivalence. Mathlib has `ofRepr` but no
 `≃ₗᵢ`-transport, so this is a needed (one-line) target. -/
 noncomputable def _root_.HilbertBasis.mapₗᵢ {ι : Type*} {E F : Type*}
@@ -94,9 +100,11 @@ theorem ae_eq_zero_of_forall_moment_eq_zero (g : ℝ → ℝ)
 (`ae_eq_zero_of_forall_moment_eq_zero` above is the `volume`/function instance; `barePolyLp_ortho_eq_bot`
 is for an arbitrary `μ`, so it must rest on a measure-level statement). A finite measure `ν` on `ℝ`
 with every exponential moment finite is moment-determinate, so a `g ∈ L²(ν)` orthogonal to every
-monomial is a.e. `0`. (Finiteness is the `a = 0` case of `hexp`.) -/
+monomial is a.e. `0`. Finiteness is **not** a separate hypothesis: it is the `a = 0` case of `hexp`
+(`Integrable (fun _ => 1) ν`, i.e. `IsFiniteMeasure ν`), derived inside the proof — so the caller
+`barePolyLp_ortho_eq_bot`, which has only `hexp` for `ν = w·μ`, can apply this directly with no leap. -/
 theorem ae_eq_zero_of_forall_moment_eq_zero_of_finite_expMoments
-    {ν : Measure ℝ} [IsFiniteMeasure ν]
+    {ν : Measure ℝ}
     (hexp : ∀ a : ℝ, 0 ≤ a → Integrable (fun x : ℝ => Real.exp (a * |x|)) ν)
     {g : ℝ → 𝕜} (hg : MemLp g 2 ν)
     (hmom : ∀ n : ℕ, ∫ x, (algebraMap ℝ 𝕜 x) ^ n * g x ∂ν = 0) :
