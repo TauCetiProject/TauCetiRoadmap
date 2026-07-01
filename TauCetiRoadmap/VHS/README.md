@@ -162,6 +162,10 @@ the pinned Mathlib.
   elements through `gradedConj`/`gradedF` (as with `Polarization.Q_tmul`) will be wanted to keep the
   quotient manipulations tractable. Deligne, *Théorie de Hodge II*, 1.2.10 & 2.3.5; Peters–Steenbrink
   Ch. 3.
+  *Morphisms:* the milestone frames a morphism *unbundled* (the pair `fQ`/`fC` + compatibility
+  hypotheses) so the target is bundling-agnostic. The implementation should then bundle these into an
+  `MHS.Hom` / category to carry the **abelian-category** structure — strictness is exactly what makes
+  kernels and cokernels of MHS morphisms again MHS (with the induced filtrations).
 - **L3 — Period domains.**
   *Definitions:* `HodgeType` (fixed Hodge numbers `h : ℤ → ℕ`, finite support), `PeriodDomain V n htype`
   (a polarized HS of that type).
