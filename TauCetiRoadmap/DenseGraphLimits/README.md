@@ -74,7 +74,7 @@ Reuse these by name; do not rebuild them. (Paths checked against the pinned tool
   `Finpartition.equitabilise` (`…/Regularity/Equitabilise`). This — *not* Szemerédi regularity — is
   what the weak-regularity layer consumes (cut-norm / energy-increment argument).
 - **Szemerédi regularity — related ecosystem, *not* a Frieze–Kannan input:**
-  `SimpleGraph.szemeredi_regularity` with `SimpleGraph.IsUniform` (`…/Regularity/*`) is Mathlib's
+  `szemeredi_regularity` with `SimpleGraph.IsUniform` (`…/Regularity/*`) is Mathlib's
   *strong* (tower-bound) regularity lemma — a comparison point for the analytic weak-regularity
   target, which is a **distinct theorem built separately** (Layer 2). Do not route it into the
   Frieze–Kannan target.
@@ -86,11 +86,11 @@ Reuse these by name; do not rebuild them. (Paths checked against the pinned tool
   `generateFrom_squareCylinders`; `MeasureTheory.AEEqFun` (with `AEEqFun.compMeasurePreserving`),
   `Lp` (`Lp.compMeasurePreserving`); `MeasureTheory.condExp` and martingale convergence;
   `MeasureTheory.MeasurePreserving`; `StandardBorelSpace`, `PolishSpace`
-  (`PolishSpace.measurableEquiv`), `NoAtoms` (`MeasureTheory/Measure/Typeclasses/NoAtoms`),
+  (`PolishSpace.Equiv.measurableEquiv`), `NoAtoms` (`MeasureTheory/Measure/Typeclasses/NoAtoms`),
   `MeasureTheory/Constructions/UnitInterval` (`I` has `IsProbabilityMeasure` + `NoAtoms`).
 - **Weak convergence of measures:** `MeasureTheory.ProbabilityMeasure` / `FiniteMeasure`,
   `LevyProkhorovMetric` (`levyProkhorovDist`), `Prokhorov` (tightness ↔ relative compactness),
-  `Portmanteau`, `Tight` — for the sampling and array laws (Layer 9).
+  `Portmanteau`, `IsTightMeasureSet` — for the sampling and array laws (Layer 9).
 - **Kernels / disintegration** (coupling and gluing *ingredients*, not the gluing lemma itself):
   `Kernel.compProd` (`⊗ₖ`), `Measure.compProd` (`⊗ₘ`), and `condKernel`
   (`Probability/Kernel/Composition/*`, `…/Disintegration/StandardBorel`).
@@ -107,7 +107,7 @@ Absent from Mathlib and built as prerequisites (each a strong upstream candidate
 stable):
 
 - the **measure-preserving mod-null equivalence** of an atomless standard Borel probability space
-  with `(I, volume)` — Mathlib has the measurable equivalence (`PolishSpace.measurableEquiv`), not
+  with `(I, volume)` — Mathlib has the measurable equivalence (`PolishSpace.measurableEquivOfNotCountable`), not
   this measure-preserving refinement (input to Layer 5);
 - reusable **conditional-expectation / dyadic-martingale `L¹`-convergence** lemmas (Layer 4);
 - a thin **measurable `Finpartition` adapter**, only if the subtype pattern is too awkward (Layer 2);
