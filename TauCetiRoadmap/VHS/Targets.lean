@@ -178,6 +178,59 @@ noncomputable def rationalToComplexSubmodule (W : Submodule ℚ (Rationalificati
     Submodule ℂ (Complexification V) :=
   (W.baseChange ℂ).map (rationalToComplexLinearEquiv (V := V)).toLinearMap
 
+omit [Module.Free ℤ V] [Module.Finite ℤ V] in
+/-- Rational vectors embedded in `V_ℂ` are fixed by lattice conjugation. -/
+theorem rationalToComplexLinearEquiv_one_tmul_fixed (x : Rationalification V) :
+    latticeConj (V := V) (rationalToComplexLinearEquiv (V := V) (1 ⊗ₜ[ℚ] x)) =
+      rationalToComplexLinearEquiv (V := V) (1 ⊗ₜ[ℚ] x) := by
+  refine TensorProduct.induction_on x ?hz ?ht ?ha
+  · simp
+  · intro q v
+    simp [rationalToComplexLinearEquiv, TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
+  · intro x y hx hy
+    simp [TensorProduct.tmul_add, hx, hy]
+
+omit [Module.Free ℤ V] [Module.Finite ℤ V] in
+/-- Complexification of rational subspaces is monotone. -/
+theorem rationalToComplexSubmodule_mono :
+    Monotone (rationalToComplexSubmodule (V := V)) := by
+  intro W W' hWW'
+  exact Submodule.map_mono (Submodule.baseChange_mono ℂ hWW')
+
+omit [Module.Free ℤ V] [Module.Finite ℤ V] in
+/-- The complexification of a rational subspace is stable under lattice conjugation. -/
+theorem rationalToComplexSubmodule_conj (W : Submodule ℚ (Rationalification V)) :
+    (rationalToComplexSubmodule W).map (latticeConj (V := V)) = rationalToComplexSubmodule W := by
+  let gen : Set (Complexification V) :=
+    rationalToComplexLinearEquiv (V := V) ''
+      ((fun x : Rationalification V => 1 ⊗ₜ[ℚ] x) '' (W : Set (Rationalification V)))
+  have hspan : rationalToComplexSubmodule W = Submodule.span ℂ gen := by
+    rw [rationalToComplexSubmodule, Submodule.baseChange_eq_span, Submodule.map_span]
+    rfl
+  have hgen_fixed : ∀ x ∈ gen, latticeConj (V := V) x = x := by
+    intro x hx
+    rcases hx with ⟨_y, ⟨w, _hw, rfl⟩, rfl⟩
+    exact rationalToComplexLinearEquiv_one_tmul_fixed (V := V) w
+  have hclosed : ∀ x ∈ rationalToComplexSubmodule W,
+      latticeConj (V := V) x ∈ rationalToComplexSubmodule W := by
+    intro x hx
+    rw [hspan] at hx ⊢
+    exact Submodule.span_induction
+      (p := fun x _ => latticeConj (V := V) x ∈ Submodule.span ℂ gen)
+      (fun y hy => by simpa [hgen_fixed y hy] using Submodule.subset_span hy)
+      (by simp)
+      (fun _x _y _hx _hy hx hy => by simpa using Submodule.add_mem _ hx hy)
+      (fun a _x _hx hx => by
+        simpa using Submodule.smul_mem (Submodule.span ℂ gen) ((starRingEnd ℂ) a) hx)
+      hx
+  apply le_antisymm
+  · intro x hx
+    rcases hx with ⟨y, hy, rfl⟩
+    exact hclosed y hy
+  · intro x hx
+    refine ⟨latticeConj (V := V) x, hclosed x hx, ?_⟩
+    exact latticeConj_involutive (V := V) x
+
 /-- A rational Hodge substructure of a pure Hodge structure: a `ℚ`-subspace of `V_ℚ`,
 its associated complexification inside `V_ℂ` derived using `Submodule.baseChange`,
 conjugation stability, and spanning by the Hodge pieces. -/
@@ -273,15 +326,18 @@ structure MixedHodgeStructure (V : Type*) [AddCommGroup V] [Module ℤ V] [Modul
     [Module.Finite ℤ V] where
   WQ : ℤ → Submodule ℚ (Rationalification V)
   WQ_monotone : Monotone WQ
-  WC_monotone : Monotone fun k => rationalToComplexSubmodule (WQ k)
-  WC_conj : ∀ k,
-    (rationalToComplexSubmodule (WQ k)).map (latticeConj (V := V)) =
-      rationalToComplexSubmodule (WQ k)
+  /-- A mixed Hodge structure has a finite weight filtration: `W_k = ⊤` for `k ≫ 0`
+  and `W_k = ⊥` for `k ≪ 0`; without this, degenerate instances like `W ≡ ⊥`
+  satisfy the structure. This field records the exhaustive/top end. -/
+  WQ_top : ∃ k, WQ k = ⊤
+  /-- The separated/bottom end of the finite weight filtration: `W_k = ⊥` for `k ≪ 0`. -/
+  WQ_bot : ∃ k, WQ k = ⊥
   F : ℤ → Submodule ℂ (Complexification V)
   F_antitone : Antitone F
   /-- On each graded weight piece `grᵂ_k = W_k/W_{k-1}`, the filtration induced by `F`
   is a pure Hodge structure of weight `k`. -/
-  graded_pure : ∀ k, gradedPure (fun k => rationalToComplexSubmodule (WQ k)) WC_conj F k
+  graded_pure : ∀ k, gradedPure (fun k => rationalToComplexSubmodule (WQ k))
+    (fun k => rationalToComplexSubmodule_conj (V := V) (WQ k)) F k
 
 /-- The complexified weight filtration of a mixed Hodge structure. -/
 noncomputable def MixedHodgeStructure.WC
@@ -289,9 +345,9 @@ noncomputable def MixedHodgeStructure.WC
   rationalToComplexSubmodule (mhs.WQ k)
 
 /-- **L2 milestone -- strictness (Deligne).** A morphism of mixed Hodge structures is
-**strict** for the weight filtration: a complex-linear map compatible with the rational and
-complex weight filtrations, the Hodge filtration, and conjugation satisfies
-`range f ⊓ W'_k = f(W_k)` (and likewise for `F`). -/
+**strict** for both the weight and Hodge filtrations: a complex-linear map compatible with the
+rational and complex weight filtrations, the Hodge filtration, and conjugation satisfies
+`range f ⊓ W'_k = f(W_k)` and `range f ⊓ F'^p = f(F^p)`. -/
 example {V' : Type*} [AddCommGroup V'] [Module ℤ V'] [Module.Free ℤ V'] [Module.Finite ℤ V']
     (mhs : MixedHodgeStructure V) (mhs' : MixedHodgeStructure V')
     (fQ : Rationalification V →ₗ[ℚ] Rationalification V')
@@ -300,7 +356,8 @@ example {V' : Type*} [AddCommGroup V'] [Module ℤ V'] [Module.Free ℤ V'] [Mod
     (_hWC : ∀ k, (mhs.WC k).map fC ≤ mhs'.WC k)
     (_hF : ∀ p, (mhs.F p).map fC ≤ mhs'.F p)
     (_hconj : ∀ v, fC (latticeConj (V := V) v) = latticeConj (V := V') (fC v)) :
-    ∀ k, LinearMap.range fC ⊓ mhs'.WC k = (mhs.WC k).map fC := sorry
+    (∀ k, LinearMap.range fC ⊓ mhs'.WC k = (mhs.WC k).map fC) ∧
+      (∀ p, LinearMap.range fC ⊓ mhs'.F p = (mhs.F p).map fC) := sorry
 
 /-- Fixed Hodge numbers for a period-domain target. -/
 structure HodgeType where

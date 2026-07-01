@@ -140,19 +140,28 @@ the pinned Mathlib.
   and nondegenerate) it is defined over `ℚ`. `V = W ⊕ W^⊥`. Consume the `BilinForm.Nondegenerate`
   orthogonal-complement API and the L0 decomposition. Voisin I, §7.1.2; Peters–Steenbrink §2.
 - **L2 — Mixed Hodge structures; strictness (Deligne).**
-  *Definitions:* `MixedHodgeStructure V` (`ℚ`-weight filtration `WQ` with derived complexification,
-  Hodge filtration `F`), morphisms compatible with `W`, `F`, `conj`. Its `graded_pure` field is the
-  **genuine induced-purity axiom** (not a placeholder): the graded piece
-  `grᵂ_k = W_k/W_{k-1}` is built as a quotient module (`Submodule.submoduleOf`), `latticeConj` descends
-  to it (semilinear `Submodule.mapQ` — `gradedConj`), `F` induces a filtration on it (`mkQ` image —
-  `gradedF`), and `graded_pure` requires *that* induced filtration to be bounded and `k`-opposed with
-  respect to `gradedConj` — structurally identical to `HodgeStructure.opposed`. So an MHS really is one.
-  *Milestone:* a morphism of MHS is **strict** for the weight filtration:
-  `range f ⊓ W'_k = f(W_k)` (and likewise for `F`). Because `graded_pure` now carries real purity, the
-  milestone's hypotheses are true (the earlier weak version was a false statement).
+  *Definitions:* `MixedHodgeStructure V` — the `ℚ`-weight filtration `WQ` (monotone and **bounded**,
+  `WQ_top`/`WQ_bot`, mirroring `HodgeStructure`), the Hodge filtration `F`, and `graded_pure`; morphisms
+  compatible with `W`, `F`, `conj`. The complexified weight `WC_k := rationalToComplexSubmodule (WQ_k)`
+  is *derived*, and its monotonicity and conjugation-stability are **proved lemmas**
+  (`rationalToComplexSubmodule_mono`, `…_conj`), not structure fields — so instances are
+  correct-by-construction, not burdened with re-proving them. `graded_pure` is the **genuine
+  induced-purity axiom** (not a placeholder): the graded piece `grᵂ_k = W_k/W_{k-1}` is built as a
+  quotient module (`Submodule.submoduleOf`), `latticeConj` descends to it (semilinear `Submodule.mapQ` —
+  `gradedConj`), `F` induces a filtration on it (`mkQ` image — `gradedF`), and `graded_pure` requires
+  *that* induced filtration to be bounded and `k`-opposed with respect to `gradedConj` — structurally
+  identical to `HodgeStructure.opposed`. So an MHS really is one.
+  *Milestone:* a morphism of MHS is **strict** for **both** filtrations:
+  `range f ⊓ W'_k = f(W_k)` and `range f ⊓ F'^p = f(F^p)`. Because `graded_pure` now carries real
+  purity, the milestone's hypotheses are true (the earlier weight-only, weak-hypothesis version was a
+  false statement).
   *Discharge:* Deligne's canonical `(p,q)`-bigrading of an MHS (the Deligne splitting) — every MHS
   morphism respects the bigrading, whence strictness for both filtrations. Requires the two-filtration
-  / bigrading lemma. Deligne, *Théorie de Hodge II*, 1.2.10 & 2.3.5; Peters–Steenbrink Ch. 3.
+  / bigrading lemma. For the roadmap it suffices to establish the splitting *propositionally* (existence
+  of the `I^{p,q}` bigrading), not as a computational normal form. A `@[simp]` suite for pushing
+  elements through `gradedConj`/`gradedF` (as with `Polarization.Q_tmul`) will be wanted to keep the
+  quotient manipulations tractable. Deligne, *Théorie de Hodge II*, 1.2.10 & 2.3.5; Peters–Steenbrink
+  Ch. 3.
 - **L3 — Period domains.**
   *Definitions:* `HodgeType` (fixed Hodge numbers `h : ℤ → ℕ`, finite support), `PeriodDomain V n htype`
   (a polarized HS of that type).
