@@ -84,6 +84,10 @@ the pinned Mathlib.
   its `ℚ`-subspace `WQ`; the complex side `WC := rationalToComplexSubmodule WQ` is
   `Submodule.baseChange ℂ` composed with the tower iso `cancelBaseChange` — so there is no bare-`Prop`
   "is the complexification" placeholder. Likewise the mixed weight filtration.
+  *Implementation note:* nested base changes (`ℂ ⊗_ℚ (ℚ ⊗_ℤ V)`) are ergonomically heavy in Lean; the
+  implementation should carry a `@[simp]` suite for moving elements through `rationalToComplexSubmodule`
+  and `Polarization.Q` (the `Q_tmul` pure-tensor lemma is the first of these) to keep the L1/L2 proofs
+  tractable.
 
 ## Generality bar (decide up front; do not silently specialize)
 
@@ -172,6 +176,11 @@ the pinned Mathlib.
   `π₁(B, b₀)`-representation on the fiber — Mathlib's `FundamentalGroup` / `MonoidHom`); the filtration
   bundle and Griffiths transversality build on Mathlib's complex-manifold + connection API. The bare
   `holomorphic`/`griffiths_transversality` fields are placeholders for exactly these.
+  *Implementation staging:* `PolarizedMonodromyRepresentation` is the concrete **pre-variation**
+  deliverable (local system + monodromy + integral form) and lands first, independently of any analytic
+  input. The full `VariationOfHodgeStructure` (holomorphic `hodgeBundle` + Griffiths transversality) is
+  deferred until Mathlib's complex-manifold/connection API can *replace* the placeholder `Prop` fields —
+  those placeholders are roadmap-spec markers and are **not** carried into merged implementation code.
 - **L5 — Rigidity & semisimplicity.** Two tiers, kept distinct:
   *(i) the linear-algebraic engine (the milestone):* **finite-dimensional Schur** — if
   `complexMonodromy` is irreducible then its commutant is scalar (`∃ c, ∀ v, T v = c • v`).
