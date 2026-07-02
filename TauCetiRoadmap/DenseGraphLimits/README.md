@@ -221,7 +221,7 @@ estimators: the finite-graph hom density `homDensityFin` and the **injective hom
 with the hom-vs-injective **closeness bound** `|t(F,·) − t₀(F,·)| ≤ C(k,2)/n` and the **unbiasedness
 anchor** `E_{G(n,W)}[t₀(F,·)] = t(F,W)` that pins the `(n)_k` normalization. Then the
 almost-sure first sampling lemma and the second sampling lemma `δ□(G(n,W), W) → 0` (LNGL Lemma 10.16),
-via the weak-convergence stack (`LevyProkhorovMetric` / `Portmanteau` / `Tight`); then the
+via the weak-convergence stack (`LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet`); then the
 exchangeable-arrays / Aldous–Hoover representation connecting graphons to infinite exchangeable random
 graphs. The long-horizon endpoint.
 
