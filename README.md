@@ -28,6 +28,7 @@ industry groups.
 10. [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
 11. [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
 12. [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
+13. [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
 
 ## Completed roadmaps
 
