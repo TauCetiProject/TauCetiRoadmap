@@ -1,11 +1,11 @@
 # Tau Ceti Roadmap
 
-The human-controlled roadmaps for [Tau Ceti](https://github.com/FormalFrontier/TauCeti), an
+The human-controlled roadmaps for [Tau Ceti](https://github.com/TauCetiProject/TauCeti), an
 AIs-welcome Lean 4 library downstream of Mathlib. Humans steer the project from here: each
 roadmap is markdown plus Lean target signatures (with `sorry`, which is allowed in this repo
 because these are goals, not proofs). The AI-authored mathematics that discharges them lives
 in the code repo; review machinery lives in
-[TauCetiReview](https://github.com/FormalFrontier/TauCetiReview).
+[TauCetiReview](https://github.com/TauCetiProject/TauCetiReview).
 
 Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) in partnership with academic and
 industry groups.
@@ -75,9 +75,9 @@ reviewers, can act on it without guessing.
 ## How changes are made
 
 Anyone can open a pull request against a roadmap. It merges automatically once it has an
-approving review from a member of the `@FormalFrontier/roadmap-reviewers` team (the code owners
+approving review from a member of the `@TauCetiProject/roadmap-reviewers` team (the code owners
 for roadmap content) and the `build` check passes. Infrastructure files (the workflows, the
-Lake config, the toolchain pin) stay with the core `@FormalFrontier/humans` team.
+Lake config, the toolchain pin) stay with the core `@TauCetiProject/humans` team.
 
 The reviewer pool grows itself: a contributor who lands two merged roadmap PRs is added to
 `roadmap-reviewers` automatically, so people who have demonstrably moved a roadmap forward can

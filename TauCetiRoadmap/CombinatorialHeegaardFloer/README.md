@@ -359,7 +359,7 @@ them:
 - [#general > O(1000) definitions for Annals](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/O.281000.29.20definitions.20for.20Annals)
   (2026, Kevin Buzzard and others): Heegaard Floer homology and basic knot theory
   as recurring missing definitions in recent Annals papers; also raised in recent
-  FormalFrontier target-selection discussions.
+  TauCetiProject target-selection discussions.
 - Hannah Fechtner's braid-group program
   ([Lean Together 2025 talk](https://www.youtube.com/watch?v=qVzuTWycPaw)), whose
   presented-monoid infrastructure is already in Mathlib and which Lane K should

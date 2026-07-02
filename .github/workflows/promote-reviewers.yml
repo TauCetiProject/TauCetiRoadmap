@@ -30,13 +30,13 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: FormalFrontier
+          owner: TauCetiProject
           permission-members: write
 
       - name: Promote contributors past the merged-PR threshold
         env:
           GH_TOKEN: ${{ steps.token.outputs.token }}
-          ORG: FormalFrontier
+          ORG: TauCetiProject
           TEAM: roadmap-reviewers
           THRESHOLD: "2"
           REPO: ${{ github.repository }}

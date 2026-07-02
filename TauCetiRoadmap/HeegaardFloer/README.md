@@ -357,7 +357,7 @@ them:
   roadmap to its combinatorial companion, are designed to answer.
 - [#general > O(1000) definitions for Annals](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/O.281000.29.20definitions.20for.20Annals)
   (2026, Kevin Buzzard and others): Heegaard Floer homology as a recurring missing
-  definition in recent Annals papers; also raised in recent FormalFrontier
+  definition in recent Annals papers; also raised in recent TauCetiProject
   target-selection discussions.
 
 Thanks to everyone who contributed to these discussions.

@@ -24,7 +24,7 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: FormalFrontier
+          owner: TauCetiProject
           repositories: TauCetiRoadmap
           permission-pull-requests: write
           permission-contents: write
