@@ -95,6 +95,10 @@ variable {Ω₁ Ω₂ : Type*} [MeasurableSpace Ω₁] [MeasurableSpace Ω₂]
 def IsCoupling (π : Measure (Ω₁ × Ω₂)) : Prop :=
   π.map Prod.fst = μ₁ ∧ π.map Prod.snd = μ₂
 
+/-- **Layer 1.** The product (independent) coupling — witnesses that the coupling class over which
+`cutDist` takes its infimum is nonempty. -/
+theorem isCoupling_prod : IsCoupling μ₁ μ₂ (μ₁.prod μ₂) := sorry
+
 /-- **Layer 1.** Overlay of two graphons along a coupling, as a kernel on the coupled space. -/
 def overlay (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) (π : Measure (Ω₁ × Ω₂))
     (hπ : IsCoupling μ₁ μ₂ π) : SymmKernel (Ω₁ × Ω₂) π := sorry
@@ -158,6 +162,12 @@ def GraphonSpaceI : Type _ := GraphonSpace I (volume : Measure I)
 Layer-4 compactness and the Layer-6b convergence equivalence. -/
 instance [StandardBorelSpace Ω] : MetricSpace (GraphonSpace Ω μ) := sorry
 
+/-- **Layer 1.** The metric on `GraphonSpace` computes as `cutDist` on representatives — pins how
+users actually calculate with the quotient metric. -/
+theorem dist_graphonSpace_mk_mk [StandardBorelSpace Ω] (U W : Graphon Ω μ) :
+    @dist (GraphonSpace Ω μ) _ (Quotient.mk (graphonSetoid μ) U) (Quotient.mk (graphonSetoid μ) W)
+      = cutDistSame μ U W := sorry
+
 /-- **Layer 2 (forward counting lemma).** The argument to `cutNorm` is the *kernel* `U - W`; the
 prefactor is `(F.edgeFinset.card : ℝ)` (prose `e(F)`). -/
 theorem counting_lemma {V : Type*} [Fintype V] [DecidableEq V] (F : SimpleGraph V)
@@ -211,12 +221,15 @@ theorem graphonPartitionEnergy_le_one (P : Finpartition (⊤ : Set Ω))
 forward separation `cutDist = 0 ⇒ equal densities`). Fin-indexed, matching the Layer-6a
 representatives (an arbitrary carrier would need a generic graph-transport API not pinned here). -/
 def homDensityOnSpace [StandardBorelSpace Ω] (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj] :
-    GraphonSpace Ω μ → ℝ := sorry
+    GraphonSpace Ω μ → ℝ :=
+  Quotient.lift (fun W => homDensity μ F W) fun U W h => by
+    have h0 : cutDist μ μ U W = 0 := h
+    exact forall_homDensity_eq_of_cutDist_eq_zero μ μ U W h0 n F
 
-/-- **Layer 2.** The descent computes `homDensity` on representatives. -/
+/-- **Layer 2.** The descent computes `homDensity` on representatives (by `Quotient.lift`, `rfl`). -/
 theorem homDensityOnSpace_mk [StandardBorelSpace Ω] (n : ℕ) (F : SimpleGraph (Fin n))
     [DecidableRel F.Adj] (W : Graphon Ω μ) :
-    homDensityOnSpace μ n F (Quotient.mk (graphonSetoid μ) W) = homDensity μ F W := sorry
+    homDensityOnSpace μ n F (Quotient.mk (graphonSetoid μ) W) = homDensity μ F W := rfl
 
 /-- **Layer 3 (AE bridge).** The AE / `AEEqFun` view: a graphon as an a.e.-class kernel on `μ ⊗ μ`. -/
 def toAEEqFun (W : Graphon Ω μ) : (Ω × Ω) →ₘ[μ.prod μ] ℝ := sorry
