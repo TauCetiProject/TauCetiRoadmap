@@ -2,8 +2,12 @@
 
 The human-controlled roadmaps for [Tau Ceti](https://github.com/TauCetiProject/TauCeti), an
 AIs-welcome Lean 4 library downstream of Mathlib. Humans steer the project from here: each
-roadmap is markdown plus Lean target signatures (with `sorry`, which is allowed in this repo
-because these are goals, not proofs). The AI-authored mathematics that discharges them lives
+roadmap is a markdown `README.md`, the definitive specification of its area, usually with
+suggested Lean target signatures in `Targets.lean` (with `sorry`, which is allowed in this
+repo because these are goals, not proofs). `Targets.lean` is never exhaustive: it pins names
+and signatures for particular milestones so contributors and reviewers converge, and a
+roadmap is finished only when the maintainers judge its `README.md` discharged, never
+because everything in its `Targets.lean` has landed. The AI-authored mathematics lives
 in the code repo; review machinery lives in
 [TauCetiReview](https://github.com/TauCetiProject/TauCetiReview).
 
@@ -19,12 +23,19 @@ industry groups.
 5. [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
 6. [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
 7. [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
-8. [Effective arithmetic bounds and geometry of numbers](TauCetiRoadmap/EffectiveBounds/README.md)
-9. [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
-10. [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
-11. [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
-12. [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
-13. [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
+8. [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
+9. [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
+10. [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
+11. [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
+12. [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
+
+## Completed roadmaps
+
+Roadmaps the maintainers have declared complete (a judgment against the roadmap's
+`README.md`, the definitive document) are archived under
+[`Completed/`](Completed/README.md), outside the active list above.
+
+- [Effective arithmetic bounds and geometry of numbers](Completed/EffectiveBounds/README.md)
 
 ## Writing a roadmap
 
@@ -67,7 +78,8 @@ reviewers, can act on it without guessing.
 
 - **Write Lean code.** It's really helpful to prototype signatures, particularly for structures,
   classes, and definitions, by writing Lean code, either embedded in markdown or in associated
-  Lean files using `sorry`.
+  Lean files using `sorry`. The prototypes are aids, not the specification: the markdown stays
+  definitive, and `Targets.lean` is read as suggested forms, never as an exhaustive checklist.
 
 - **Pin conventions.** It's essential that you decide conventions ahead of time, or implementors
   will make bad decisions.
