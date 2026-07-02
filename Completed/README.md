@@ -1,7 +1,7 @@
 # Completed roadmaps
 
 Roadmaps the maintainers have declared complete. Completion is a human judgment against
-the roadmap's `README.md` — the definitive document — never something inferred from
+the roadmap's `README.md`, which is the definitive document; it is never inferred from
 `Targets.lean`, which only records suggested declaration forms for particular milestones
 and is not exhaustive.
 
