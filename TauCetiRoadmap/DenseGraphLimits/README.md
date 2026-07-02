@@ -69,10 +69,12 @@ Reuse these by name; do not rebuild them. (Paths checked against the pinned tool
   and removal `SimpleGraph.triangle_counting` / `SimpleGraph.triangle_removal` (+ `triangleRemovalBound`)
   (`…/Triangle/*`); **Turán** `SimpleGraph.turanGraph` / `IsTuranMaximal` / `turanDensity`
   (`…/Extremal/*`).
-- **Energy machinery — the reusable Frieze–Kannan input:** `Finpartition.energy`
-  (`…/Regularity/Energy`), the energy-**increment** machinery (`…/Regularity/Increment`), and
-  `Finpartition.equitabilise` (`…/Regularity/Equitabilise`). This — *not* Szemerédi regularity — is
-  what the weak-regularity layer consumes (cut-norm / energy-increment argument).
+- **Partition-refinement infrastructure (reusable):** `Finpartition.equitabilise`
+  (`…/Regularity/Equitabilise`) and the `Finpartition` API. Mathlib's `Finpartition.energy`
+  (`…/Regularity/Energy`) and the finite energy-**increment** machinery (`…/Regularity/Increment`)
+  are the **finite edge-density energy** — a **proof template / alignment point, not the graphon
+  energy input**. The analytic kernel energy `‖E[W|P⊗P]‖²` is *built here* (`graphonPartitionEnergy`),
+  not consumed.
 - **Szemerédi regularity — related ecosystem, *not* a Frieze–Kannan input:**
   `szemeredi_regularity` with `SimpleGraph.IsUniform` (`…/Regularity/*`) is Mathlib's
   *strong* (tower-bound) regularity lemma — a comparison point for the analytic weak-regularity
@@ -153,13 +155,18 @@ graphon.
 
 ### Layer 2 — counting, regularity, total boundedness
 The **forward counting lemma** `|t(F,U) − t(F,W)| ≤ e(F) · ‖U − W‖□` (in `Targets.lean` the prefactor
-is `(F.edgeFinset.card : ℝ)`) and its cut-distance form; descent of `t(F, ·)` to `GraphonSpace`; the
+is `(F.edgeFinset.card : ℝ)`) and its **coupling / cut-distance form** `counting_lemma_coupling` (the
+cross-carrier engine); the descent of `t(F, ·)` to `GraphonSpace` (`homDensityOnSpace`); the
 **Frieze–Kannan weak regularity lemma** with the standard complexity bound `4^{⌈1/ε²⌉}`, over a
 measurable `Finpartition` (the `Finpartition (Subtype MeasurableSet)` pattern, a thin adapter only if
-needed). **Build Frieze–Kannan separately, consuming the energy machinery** (`Finpartition.energy`,
-the energy-increment lemmas, `equitabilise`) via a cut-norm / energy-increment argument. Mathlib's
-Szemerédi regularity (`szemeredi_regularity`) is the *strong* (tower-bound) lemma — a related
-comparison point, **not** an input theorem to and **not** the source of weak regularity. The
+needed). **`equitabilise` / `Finpartition` are reusable infrastructure**, but Mathlib's
+`Finpartition.energy` is the *finite* edge-density energy — a **proof template / alignment point, not
+a consumed theorem**. So **build the analytic `graphonPartitionEnergy`** `‖E[W|P⊗P]‖²_{L²(μ⊗μ)}` (the
+conditional-expectation kernel energy) with its refinement monotonicity and `[0,1]` bounds
+(`_mono` / `_nonneg` / `_le_one` — the bounded monotone potential the iteration runs on); the
+*quantitative* L²-Pythagoras increment `E_Q = E_P + ‖E[W|Q⊗Q] − E[W|P⊗P]‖₂²` is the deferred FK
+driver. Mathlib's Szemerédi regularity (`szemeredi_regularity`) is the *strong* (tower-bound) lemma —
+a related comparison point, **not** an input to and **not** the source of weak regularity. The
 weak-regularity output is a `stepGraphon` (Layer-2 target). Then density of step graphons in `δ□` and
 total boundedness of `(GraphonSpace, δ□)`.
 
@@ -190,15 +197,21 @@ standard-Borel hypotheses. The proof rests on the **measure-preserving mod-null 
 does not block the other layers.
 
 ### Layer 6 — separation and convergence equivalence (the analytic summit)
-**Layer 6a — separation / inverse counting.** `δ□(U, W) = 0 ⟺ ∀ F, t(F,U) = t(F,W)`, over atomless
-standard Borel; hence the moment map `W ↦ (t(F,W))_F` is injective on `GraphonSpace`. The forward
-direction is Layer 2; the converse is the **inverse counting lemma** (LNGL Thm 11.3), the genuinely
-hard, self-contained analytic/algebraic core.
+**Layer 6a — separation / inverse counting.** `δ□(U, W) = 0 ⟺ ∀ F, t(F,U) = t(F,W)`; hence the moment
+map `W ↦ (t(F,W))_F` is injective on `GraphonSpace`. The **forward** direction is **cross-carrier and
+needs no standard-Borel / atomless hypothesis** (`forall_homDensity_eq_of_cutDist_eq_zero`, matching
+the coupling-primary public equality `cutDist U W = 0`): it is the easy counting direction via
+`counting_lemma_coupling`, and the same-carrier statement is a corollary
+(`forall_homDensity_eq_of_cutDistSame_eq_zero`). The **converse** — the **inverse counting lemma**
+(LNGL Thm 11.3), the genuinely hard self-contained analytic/algebraic core — is pinned same-carrier
+under atomless standard Borel (`[StandardBorelSpace][NoAtoms]`); its cross-carrier form follows by
+transport (future).
 
 **Layer 6b — convergence equivalence.** On the canonical fixed carrier `GraphonSpaceI`, a sequence
 converges in `δ□` iff all `t(F, ·)` converge — `δ□(Wₙ, W) → 0 ⟺ ∀ F, t(F,Wₙ) → t(F,W)` — using
-counting (Layer 2) + compactness (Layer 4) + separation (6a). Stated on `GraphonSpaceI` (its metric),
-not cross-carrier, so it is not pinned in `Targets.lean`.
+counting (Layer 2) + compactness (Layer 4) + separation (6a). Now that `GraphonSpaceI` and the
+`MetricSpace (GraphonSpace Ω μ)` instance are pinned, this is *statable*; it is still left unpinned
+this round (its proof is Layer-4-gated).
 
 ### Layer 7 — applications and validation
 Named extremal consequences as acceptance tests (**Goodman**, **Mantel**, **Sidorenko-`C₄`**),
@@ -248,16 +261,21 @@ convention with `SimpleGraph.binomialRandom`. Compiled there: `SymmKernel` / `Gr
 `homDensity`, `Graphon.const` + `homDensity_const = (p : ℝ) ^ e(F)`, `IsCoupling` / `overlay` /
 cross-carrier `cutDist` + `cutDist_triangle`, `GraphonSpace` (a `Quotient` over a standard Borel
 carrier), the counting lemma, the Layer-2 step object `stepGraphon` + `stepGraphon_apply`, the
-AE-invariance trio, the mod-null transport target, **separation 6a split into the unconditional
-forward `forall_homDensity_eq_of_cutDist_eq_zero` and the hypothesized converse
-`cutDist_eq_zero_of_forall_homDensity_eq`** (both quantified over `SimpleGraph (Fin n)`),
+AE-invariance trio, the mod-null transport target, **separation 6a: the cross-carrier forward
+`forall_homDensity_eq_of_cutDist_eq_zero` (via `counting_lemma_coupling` +
+`isProbabilityMeasure_of_isCoupling`), its same-carrier corollary
+`forall_homDensity_eq_of_cutDistSame_eq_zero`, and the hypothesized converse
+`cutDist_eq_zero_of_forall_homDensity_eq`** (all over `SimpleGraph (Fin n)`),
 `sampleGraph` + the `G(V,p)` compatibility, and the **Layer-9 injective density** `homDensityFin` /
 `injHomDensity` (the `(n)_k = descFactorial` denominator) with the closeness bound and the
 `injHomDensity_integral_sampleGraph` unbiasedness anchor, the set-form / signed cut norm
 (`cutNormSet` + `cutNorm_eq_cutNormSet`, `cutNormSigned` + the factor-4 sandwich), and the L⁰→strict
-representative `exists_graphon_repr`. The weak-regularity `Finpartition` adapter and the Layer-6b
-convergence equivalence (which needs the `GraphonSpaceI` metric) are described in prose rather than
-pinned, to avoid forcing a premature API choice.
+representative `exists_graphon_repr`, the analytic `graphonPartitionEnergy` (`_mono` / `_nonneg` /
+`_le_one`), `GraphonSpaceI`, the `MetricSpace (GraphonSpace Ω μ)` instance, and the descent
+`homDensityOnSpace` (+ `homDensityOnSpace_mk`). Described in prose rather than pinned (to avoid a
+premature API choice): the weak-regularity `Finpartition` adapter, the Layer-6b convergence
+equivalence *proof* (its statement is now expressible via the pinned metric), the quantitative
+L²-Pythagoras energy increment, and the `stepGraphonAvg` / `IsCoupling`-structure ergonomics.
 
 ## Worked examples (acceptance gates)
 
@@ -333,8 +351,12 @@ The mathematics and proof routes draw on two prior Lean developments,
 - Are one-line hypotheses written inline rather than wrapped in a predicate?
 - Are strict-carrier, AE, and quotient-level statements kept distinct?
 - Is `cutDist` coupling-primary and cross-carrier, with map/pullback only a compatibility milestone?
-- Is the Layer-6a separation split into an unconditional forward and a hypothesized converse, over
+- Is the Layer-6a separation split into a forward and a hypothesized converse, over
   `SimpleGraph (Fin n)` representatives (no universe-restricted `{V : Type}`)?
+- Is the 6a **forward cross-carrier** (`cutDist μ₁ μ₂ U W = 0`, via `counting_lemma_coupling`) with
+  **no standard-Borel / atomless hypothesis** (those belong only on the converse), same-carrier a corollary?
+- Does Layer 2 **build** the analytic `graphonPartitionEnergy` rather than claim Mathlib's finite
+  `Finpartition.energy` as the input (it's a proof template only)?
 - Is the injective density `t₀` normalized by the falling factorial `(n)_k`, **never** `Nat.choose n k`?
 - Do the computed-value backstops hold (`t(K₂, W_{K₄}) = 3/4`, `t(K₃, W_{C₅}) = 0`, `t(F, W_p) = p^{e(F)}`)?
 - Are the source repositories confined to Provenance?

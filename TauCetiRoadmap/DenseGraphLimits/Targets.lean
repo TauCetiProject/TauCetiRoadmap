@@ -8,14 +8,16 @@ gates, provenance, references) is in `README.md`. This file pins the **types** a
 `sorry`-signatures (allowed in this human-owned roadmap library): in particular that the cut norm
 acts on *kernels* (so a difference `U - W` is well-typed), that `cutDist` is **coupling-primary and
 cross-carrier**, and that the constant-graphon / sampling targets share the `unitInterval`
-convention with Mathlib's `SimpleGraph.binomialRandom`. The Layer-6a separation is split into an
-unconditional forward and a hypothesized converse over `SimpleGraph (Fin n)` representatives; the
-Layer-2 `stepGraphon` and the Layer-9 injective density `injHomDensity` (normalized by the falling
-factorial `(n)_k = Nat.descFactorial`, **not** `Nat.choose`) are pinned here too.
+convention with Mathlib's `SimpleGraph.binomialRandom`. The Layer-6a separation forward is
+**cross-carrier** with minimal hypotheses (same-carrier a corollary), the converse hypothesized; both
+over `SimpleGraph (Fin n)` representatives. The Layer-2 `stepGraphon`, the analytic
+`graphonPartitionEnergy`, `GraphonSpaceI` + its `MetricSpace` instance, the descent `homDensityOnSpace`,
+and the Layer-9 injective density `injHomDensity` (normalized by the falling factorial
+`(n)_k = Nat.descFactorial`, **not** `Nat.choose`) are pinned here too.
 
 Objects whose precise Lean shape would force a premature API choice — the weak-regularity
-`Finpartition` adapter, the `GraphonSpaceI` metric and the Layer-6b convergence equivalence on it,
-and the exact mod-null transport bundle — are described in `README.md` instead.
+`Finpartition` adapter, the Layer-6b convergence-equivalence *proof*, the quantitative L²-Pythagoras
+energy increment, and the exact mod-null transport bundle — are described in `README.md` instead.
 -/
 
 noncomputable section
@@ -107,6 +109,29 @@ theorem cutDist_triangle {Ω₃ : Type*} [MeasurableSpace Ω₃] (μ₃ : Measur
     (U : Graphon Ω₁ μ₁) (V : Graphon Ω₂ μ₂) (W : Graphon Ω₃ μ₃) :
     cutDist μ₁ μ₃ U W ≤ cutDist μ₁ μ₂ U V + cutDist μ₂ μ₃ V W := sorry
 
+/-- **Layer 1.** A coupling of probability measures is itself a probability measure — documents why
+the `[IsProbabilityMeasure π]` hypothesis below is harmless (the marginals are probability measures). -/
+theorem isProbabilityMeasure_of_isCoupling (π : Measure (Ω₁ × Ω₂)) (hπ : IsCoupling μ₁ μ₂ π) :
+    IsProbabilityMeasure π := sorry
+
+/-- **Layer 2 (coupling-form counting lemma).** For any coupling `π`, the density gap is controlled by
+the cut norm of the overlaid difference on the coupled space — the engine for the cross-carrier
+forward separation. -/
+theorem counting_lemma_coupling {V : Type*} [Fintype V] [DecidableEq V] (F : SimpleGraph V)
+    [DecidableRel F.Adj] (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂)
+    (π : Measure (Ω₁ × Ω₂)) [IsProbabilityMeasure π] (hπ : IsCoupling μ₁ μ₂ π) :
+    |homDensity μ₁ F U - homDensity μ₂ F W|
+      ≤ (F.edgeFinset.card : ℝ) * cutNorm π (overlay μ₁ μ₂ U W π hπ) := sorry
+
+/-- **Layer 6a forward (cross-carrier, counting).** `cutDist = 0` ⇒ all homomorphism densities agree,
+**cross-carrier** and with **minimal hypotheses** (no standard-Borel / atomless — the easy counting
+direction: take the infimum of `counting_lemma_coupling` over couplings). Finite graphs are quantified
+over the representatives `SimpleGraph (Fin n)`. -/
+theorem forall_homDensity_eq_of_cutDist_eq_zero (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂)
+    (h : cutDist μ₁ μ₂ U W = 0) :
+    ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
+      homDensity μ₁ F U = homDensity μ₂ F W := sorry
+
 end CrossCarrier
 
 /-- **Layer 1.** Same-carrier specialization of the cross-carrier `cutDist`. -/
@@ -124,6 +149,14 @@ gluing-lemma triangle makes `cutDist = 0` a genuine equivalence. -/
 def GraphonSpace (Ω : Type*) [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
     [StandardBorelSpace Ω] : Type _ :=
   Quotient (graphonSetoid μ)
+
+/-- **Layer 1.** The canonical public graphon space: the fixed-carrier quotient over `(I, volume)` —
+the compact space cross-carrier graphons transport into (referenced throughout the roadmap). -/
+def GraphonSpaceI : Type _ := GraphonSpace I (volume : Measure I)
+
+/-- **Layer 1.** `cutDist` descends to a genuine metric on `GraphonSpace` — needed even to *state*
+Layer-4 compactness and the Layer-6b convergence equivalence. -/
+instance [StandardBorelSpace Ω] : MetricSpace (GraphonSpace Ω μ) := sorry
 
 /-- **Layer 2 (forward counting lemma).** The argument to `cutNorm` is the *kernel* `U - W`; the
 prefactor is `(F.edgeFinset.card : ℝ)` (prose `e(F)`). -/
@@ -146,6 +179,44 @@ theorem stepGraphon_apply (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.pa
     (val : {p // p ∈ P.parts} → {q // q ∈ P.parts} → I) (hsymm : ∀ p q, val p q = val q p)
     {p q : {p // p ∈ P.parts}} {x y : Ω} (hx : x ∈ (p : Set Ω)) (hy : y ∈ (q : Set Ω)) :
     (stepGraphon μ P hP val hsymm).toFun x y = (val p q : ℝ) := sorry
+
+/-- **Layer 2 (analytic graphon partition energy).** `‖E[W | P⊗P]‖²_{L²(μ⊗μ)}` — the
+conditional-expectation (kernel) energy, **distinct from** Mathlib's finite `Finpartition.energy` (the
+finite edge-density energy, a proof template only). Built here; the body is opaque (the concrete
+`condExp` over the `P⊗P` σ-algebra is discharged in `TauCeti`). -/
+def graphonPartitionEnergy (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p)
+    (W : Graphon Ω μ) : ℝ := sorry
+
+/-- **Layer 2.** Energy is monotone under refinement. (Mathlib order: `P ≤ Q` ⇔ `P` refines `Q`, so
+`Q ≤ P` reads "`Q` refines `P`" — finer ⇒ larger energy.) This is plain monotonicity, **not** the
+quantitative increment; the L²-Pythagoras increment identity
+`E_Q = E_P + ‖E[W|Q⊗Q] − E[W|P⊗P]‖₂²` is deferred with the `condExp` / averaging accessor. -/
+theorem graphonPartitionEnergy_mono (P Q : Finpartition (⊤ : Set Ω))
+    (hP : ∀ p ∈ P.parts, MeasurableSet p) (hQ : ∀ q ∈ Q.parts, MeasurableSet q)
+    (href : Q ≤ P) (W : Graphon Ω μ) :
+    graphonPartitionEnergy μ P hP W ≤ graphonPartitionEnergy μ Q hQ W := sorry
+
+/-- **Layer 2.** The energy is nonnegative (an `L²` norm squared). -/
+theorem graphonPartitionEnergy_nonneg (P : Finpartition (⊤ : Set Ω))
+    (hP : ∀ p ∈ P.parts, MeasurableSet p) (W : Graphon Ω μ) :
+    0 ≤ graphonPartitionEnergy μ P hP W := sorry
+
+/-- **Layer 2.** The energy is bounded above by `1` (`W` is `[0,1]`-valued). With `_mono` / `_nonneg`
+this is the bounded monotone potential the Frieze–Kannan iteration runs on. -/
+theorem graphonPartitionEnergy_le_one (P : Finpartition (⊤ : Set Ω))
+    (hP : ∀ p ∈ P.parts, MeasurableSet p) (W : Graphon Ω μ) :
+    graphonPartitionEnergy μ P hP W ≤ 1 := sorry
+
+/-- **Layer 2 (descent of `t(F, ·)`).** `homDensity` descends to `GraphonSpace` (well-defined by the
+forward separation `cutDist = 0 ⇒ equal densities`). Fin-indexed, matching the Layer-6a
+representatives (an arbitrary carrier would need a generic graph-transport API not pinned here). -/
+def homDensityOnSpace [StandardBorelSpace Ω] (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj] :
+    GraphonSpace Ω μ → ℝ := sorry
+
+/-- **Layer 2.** The descent computes `homDensity` on representatives. -/
+theorem homDensityOnSpace_mk [StandardBorelSpace Ω] (n : ℕ) (F : SimpleGraph (Fin n))
+    [DecidableRel F.Adj] (W : Graphon Ω μ) :
+    homDensityOnSpace μ n F (Quotient.mk (graphonSetoid μ) W) = homDensity μ F W := sorry
 
 /-- **Layer 3 (AE bridge).** The AE / `AEEqFun` view: a graphon as an a.e.-class kernel on `μ ⊗ μ`. -/
 def toAEEqFun (W : Graphon Ω μ) : (Ω × Ω) →ₘ[μ.prod μ] ℝ := sorry
@@ -180,17 +251,18 @@ theorem exists_mpModNull_equiv_unitInterval [StandardBorelSpace Ω] [NoAtoms μ]
       MeasurePreserving f μ volume ∧ MeasurePreserving g volume μ ∧
       (∀ᵐ x ∂μ, g (f x) = x) ∧ (∀ᵐ y ∂(volume : Measure I), f (g y) = y) := sorry
 
-/-- **Layer 6a forward (counting).** `cutDist = 0` ⇒ all homomorphism densities agree — with
-**minimal hypotheses** (no standard-Borel / atomless assumption). Finite graphs are quantified over
-the representatives `SimpleGraph (Fin n)` (monomorphic; avoids the universe-restricted `{V : Type}`). -/
-theorem forall_homDensity_eq_of_cutDist_eq_zero (U W : Graphon Ω μ)
+/-- **Layer 6a forward (same-carrier corollary).** The `cutDistSame` specialization of the
+cross-carrier `forall_homDensity_eq_of_cutDist_eq_zero` (`cutDistSame μ = cutDist μ μ`). -/
+theorem forall_homDensity_eq_of_cutDistSame_eq_zero (U W : Graphon Ω μ)
     (h : cutDistSame μ U W = 0) :
     ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
-      homDensity μ F U = homDensity μ F W := sorry
+      homDensity μ F U = homDensity μ F W := by
+  simpa [cutDistSame] using forall_homDensity_eq_of_cutDist_eq_zero μ μ U W h
 
 /-- **Layer 6a converse (inverse counting — the analytic summit).** All homomorphism densities agree
 ⇒ `cutDist = 0`, over atomless standard Borel (LNGL Thm 11.3, the genuinely hard self-contained core).
-The full separation iff is this conjoined with `forall_homDensity_eq_of_cutDist_eq_zero`. -/
+The full separation iff is this conjoined with the same-carrier forward
+`forall_homDensity_eq_of_cutDistSame_eq_zero`. -/
 theorem cutDist_eq_zero_of_forall_homDensity_eq [StandardBorelSpace Ω] [NoAtoms μ]
     (U W : Graphon Ω μ)
     (h : ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
