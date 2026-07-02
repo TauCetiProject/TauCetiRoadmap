@@ -162,10 +162,11 @@ measurable `Finpartition` (the `Finpartition (Subtype MeasurableSet)` pattern, a
 needed). **`equitabilise` / `Finpartition` are reusable infrastructure**, but Mathlib's
 `Finpartition.energy` is the *finite* edge-density energy — a **proof template / alignment point, not
 a consumed theorem**. So **build the analytic `graphonPartitionEnergy`** `‖E[W|P⊗P]‖²_{L²(μ⊗μ)}` (the
-conditional-expectation kernel energy) with its refinement monotonicity and `[0,1]` bounds
-(`_mono` / `_nonneg` / `_le_one` — the bounded monotone potential the iteration runs on); the
-*quantitative* L²-Pythagoras increment `E_Q = E_P + ‖E[W|Q⊗Q] − E[W|P⊗P]‖₂²` is the deferred FK
-driver. Mathlib's Szemerédi regularity (`szemeredi_regularity`) is the *strong* (tower-bound) lemma —
+conditional-expectation kernel energy, the `l2sq` norm² of the block-averaged `stepGraphonAvg`), with
+the **quantitative L²-Pythagoras increment** `E_Q = E_P + ‖E[W|Q⊗Q] − E[W|P⊗P]‖₂²`
+(`graphonPartitionEnergy_increment`) and the `[0,1]` bounds — `_mono` / `_nonneg` fall out of the
+increment, giving the bounded monotone potential the FK iteration runs on. Mathlib's Szemerédi
+regularity (`szemeredi_regularity`) is the *strong* (tower-bound) lemma —
 a related comparison point, **not** an input to and **not** the source of weak regularity. The
 weak-regularity output is a `stepGraphon` (Layer-2 target). Then density of step graphons in `δ□` and
 total boundedness of `(GraphonSpace, δ□)`.
@@ -203,9 +204,11 @@ needs no standard-Borel / atomless hypothesis** (`forall_homDensity_eq_of_cutDis
 the coupling-primary public equality `cutDist U W = 0`): it is the easy counting direction via
 `counting_lemma_coupling`, and the same-carrier statement is a corollary
 (`forall_homDensity_eq_of_cutDistSame_eq_zero`). The **converse** — the **inverse counting lemma**
-(LNGL Thm 11.3), the genuinely hard self-contained analytic/algebraic core — is pinned same-carrier
-under atomless standard Borel (`[StandardBorelSpace][NoAtoms]`); its cross-carrier form follows by
-transport (future).
+(LNGL Thm 11.3), the genuinely hard self-contained analytic/algebraic core — is pinned both
+same-carrier (`cutDist_eq_zero_of_forall_homDensity_eq`) and **cross-carrier**
+(`cutDist_eq_zero_of_forall_homDensity_eq_cross`, route: transport both carriers to `(I, volume)`),
+each under atomless standard Borel. The assembled cross-carrier separation iff is
+`cutDist_eq_zero_iff_forall_homDensity_eq_cross`.
 
 **Layer 6b — convergence equivalence.** On the canonical fixed carrier `GraphonSpaceI`, a sequence
 converges in `δ□` iff all `t(F, ·)` converge — `δ□(Wₙ, W) → 0 ⟺ ∀ F, t(F,Wₙ) → t(F,W)` — using
@@ -259,23 +262,29 @@ norm acts on *kernels* (so `U − W` is well-typed), that `cutDist` is coupling-
 cross-carrier, and that the constant-graphon and sampling targets share the `unitInterval` (`p : I`)
 convention with `SimpleGraph.binomialRandom`. Compiled there: `SymmKernel` / `Graphon`, `cutNorm`,
 `homDensity`, `Graphon.const` + `homDensity_const = (p : ℝ) ^ e(F)`, `IsCoupling` / `overlay` /
-cross-carrier `cutDist` + `cutDist_triangle`, `GraphonSpace` (a `Quotient` over a standard Borel
-carrier), the counting lemma, the Layer-2 step object `stepGraphon` + `stepGraphon_apply`, the
+`isCoupling_prod` / cross-carrier `cutDist` + `cutDist_triangle`, `GraphonSpace` (a `Quotient` over a
+standard Borel carrier), the counting lemma, the Layer-2 step objects `stepGraphon` +
+`stepGraphon_apply` and the averaging `stepGraphonAvg` + `stepGraphonAvg_apply`, the
 AE-invariance trio, the mod-null transport target, **separation 6a: the cross-carrier forward
 `forall_homDensity_eq_of_cutDist_eq_zero` (via `counting_lemma_coupling` +
 `isProbabilityMeasure_of_isCoupling`), its same-carrier corollary
-`forall_homDensity_eq_of_cutDistSame_eq_zero`, and the hypothesized converse
-`cutDist_eq_zero_of_forall_homDensity_eq`** (all over `SimpleGraph (Fin n)`),
-`sampleGraph` + the `G(V,p)` compatibility, and the **Layer-9 injective density** `homDensityFin` /
-`injHomDensity` (the `(n)_k = descFactorial` denominator) with the closeness bound and the
-`injHomDensity_integral_sampleGraph` unbiasedness anchor, the set-form / signed cut norm
-(`cutNormSet` + `cutNorm_eq_cutNormSet`, `cutNormSigned` + the factor-4 sandwich), and the L⁰→strict
-representative `exists_graphon_repr`, the analytic `graphonPartitionEnergy` (`_mono` / `_nonneg` /
-`_le_one`), `GraphonSpaceI`, the `MetricSpace (GraphonSpace Ω μ)` instance, and the descent
-`homDensityOnSpace` (+ `homDensityOnSpace_mk`). Described in prose rather than pinned (to avoid a
-premature API choice): the weak-regularity `Finpartition` adapter, the Layer-6b convergence
-equivalence *proof* (its statement is now expressible via the pinned metric), the quantitative
-L²-Pythagoras energy increment, and the `stepGraphonAvg` / `IsCoupling`-structure ergonomics.
+`forall_homDensity_eq_of_cutDistSame_eq_zero`, the same-carrier converse
+`cutDist_eq_zero_of_forall_homDensity_eq`, and the cross-carrier converse + separation iff
+`cutDist_eq_zero_of_forall_homDensity_eq_cross` / `cutDist_eq_zero_iff_forall_homDensity_eq_cross`**
+(all over `SimpleGraph (Fin n)`), `sampleGraph` + the `G(V,p)` compatibility, the **Layer-9 injective
+density** `homDensityFin` / `injHomDensity` (the `(n)_k = descFactorial` denominator) with the
+closeness bound and the `injHomDensity_integral_sampleGraph` unbiasedness anchor, the set-form /
+signed cut norm (`cutNormSet` + `cutNorm_eq_cutNormSet`, `cutNormSigned` + the factor-4 sandwich), the
+L⁰→strict representative `exists_graphon_repr`, the **analytic energy stack** (`l2sq` + `l2sq_nonneg`,
+`graphonPartitionEnergy` + `graphonPartitionEnergy_eq`, the L²-Pythagoras
+`graphonPartitionEnergy_increment`, and the `_mono` / `_nonneg` / `_le_one` corollaries),
+`GraphonSpaceI`, the `MetricSpace (GraphonSpace Ω μ)` instance (+ `dist_graphonSpace_mk_mk` computing
+it as `cutDist`), and the descent `homDensityOnSpace` (+ `homDensityOnSpace_mk`). Described in prose
+rather than pinned (to avoid a premature API choice): the weak-regularity `Finpartition` adapter and
+the Layer-6b convergence-equivalence *proof* (its statement is now expressible via the pinned metric).
+An `IsCoupling` *structure/class* is **deliberately not** introduced — a coupling of given marginals
+is not canonical, so typeclass resolution would pick an arbitrary one; the `Prop` +
+`isProbabilityMeasure_of_isCoupling` is the right pattern.
 
 ## Worked examples (acceptance gates)
 

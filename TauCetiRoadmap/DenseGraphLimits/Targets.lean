@@ -9,15 +9,18 @@ gates, provenance, references) is in `README.md`. This file pins the **types** a
 acts on *kernels* (so a difference `U - W` is well-typed), that `cutDist` is **coupling-primary and
 cross-carrier**, and that the constant-graphon / sampling targets share the `unitInterval`
 convention with Mathlib's `SimpleGraph.binomialRandom`. The Layer-6a separation forward is
-**cross-carrier** with minimal hypotheses (same-carrier a corollary), the converse hypothesized; both
-over `SimpleGraph (Fin n)` representatives. The Layer-2 `stepGraphon`, the analytic
-`graphonPartitionEnergy`, `GraphonSpaceI` + its `MetricSpace` instance, the descent `homDensityOnSpace`,
-and the Layer-9 injective density `injHomDensity` (normalized by the falling factorial
-`(n)_k = Nat.descFactorial`, **not** `Nat.choose`) are pinned here too.
+**cross-carrier** with minimal hypotheses (same-carrier a corollary), the converse pinned both
+same-carrier and cross-carrier (with the assembled iff); all over `SimpleGraph (Fin n)`
+representatives. The Layer-2 `stepGraphon` / `stepGraphonAvg`, the analytic `graphonPartitionEnergy`
+with the L²-Pythagoras `graphonPartitionEnergy_increment`, `GraphonSpaceI` + its `MetricSpace`
+instance, the descent `homDensityOnSpace`, and the Layer-9 injective density `injHomDensity`
+(normalized by the falling factorial `(n)_k = Nat.descFactorial`, **not** `Nat.choose`) are pinned
+here too.
 
 Objects whose precise Lean shape would force a premature API choice — the weak-regularity
-`Finpartition` adapter, the Layer-6b convergence-equivalence *proof*, the quantitative L²-Pythagoras
-energy increment, and the exact mod-null transport bundle — are described in `README.md` instead.
+`Finpartition` adapter, the Layer-6b convergence-equivalence *proof*, and the exact mod-null transport
+bundle — are described in `README.md` instead. (An `IsCoupling` structure/class is deliberately
+avoided: couplings aren't canonical, so a typeclass would pick an arbitrary one.)
 -/
 
 noncomputable section
@@ -190,6 +193,20 @@ theorem stepGraphon_apply (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.pa
     {p q : {p // p ∈ P.parts}} {x y : Ω} (hx : x ∈ (p : Set Ω)) (hy : y ∈ (q : Set Ω)) :
     (stepGraphon μ P hP val hsymm).toFun x y = (val p q : ℝ) := sorry
 
+/-- **Layer 2 (averaged step graphon).** The block-averaged step graphon: constant on each rectangle
+`Pᵢ × Pⱼ` with value the mean of `W` there — `E[W | P⊗P]` as a step function, i.e. the actual
+Frieze–Kannan weak-regularity output. -/
+def stepGraphonAvg (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p)
+    (W : Graphon Ω μ) : Graphon Ω μ := sorry
+
+/-- **Layer 2.** `stepGraphonAvg` is the block average of `W`: on `x ∈ p`, `y ∈ q` its value is the
+mean of `W` over the rectangle `p × q` (w.r.t. `μ ⊗ μ`). -/
+theorem stepGraphonAvg_apply (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p)
+    (W : Graphon Ω μ) {p q : {p // p ∈ P.parts}} {x y : Ω}
+    (hx : x ∈ (p : Set Ω)) (hy : y ∈ (q : Set Ω)) :
+    (stepGraphonAvg μ P hP W).toFun x y
+      = ⨍ z in ((p : Set Ω) ×ˢ (q : Set Ω)), W.toFun z.1 z.2 ∂(μ.prod μ) := sorry
+
 /-- **Layer 2 (analytic graphon partition energy).** `‖E[W | P⊗P]‖²_{L²(μ⊗μ)}` — the
 conditional-expectation (kernel) energy, **distinct from** Mathlib's finite `Finpartition.energy` (the
 finite edge-density energy, a proof template only). Built here; the body is opaque (the concrete
@@ -197,19 +214,45 @@ finite edge-density energy, a proof template only). Built here; the body is opaq
 def graphonPartitionEnergy (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p)
     (W : Graphon Ω μ) : ℝ := sorry
 
-/-- **Layer 2.** Energy is monotone under refinement. (Mathlib order: `P ≤ Q` ⇔ `P` refines `Q`, so
-`Q ≤ P` reads "`Q` refines `P`" — finer ⇒ larger energy.) This is plain monotonicity, **not** the
-quantitative increment; the L²-Pythagoras increment identity
-`E_Q = E_P + ‖E[W|Q⊗Q] − E[W|P⊗P]‖₂²` is deferred with the `condExp` / averaging accessor. -/
+/-- **Layer 1/2.** The `L²(μ⊗μ)` norm squared of a kernel. -/
+def l2sq (K : SymmKernel Ω μ) : ℝ := ∫ p, (K.toFun p.1 p.2) ^ 2 ∂(μ.prod μ)
+
+omit [IsProbabilityMeasure μ] in
+/-- **Layer 1/2.** `l2sq` is nonnegative (integral of a square). -/
+theorem l2sq_nonneg (K : SymmKernel Ω μ) : 0 ≤ l2sq μ K :=
+  integral_nonneg fun _ => sq_nonneg _
+
+/-- **Layer 2.** The partition energy is the `L²` norm² of the block-averaged graphon `E[W|P⊗P]`
+(= `stepGraphonAvg`) — pins the otherwise-opaque `graphonPartitionEnergy` to a concrete object. -/
+theorem graphonPartitionEnergy_eq (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p)
+    (W : Graphon Ω μ) :
+    graphonPartitionEnergy μ P hP W = l2sq μ (stepGraphonAvg μ P hP W).toSymmKernel := sorry
+
+/-- **Layer 2 (energy increment — L²-Pythagoras).** Under refinement (`Q ≤ P`, so `Q` finer than `P`)
+the energy increases by exactly the `L²` norm² of the difference of conditional expectations. This is
+the quantitative Frieze–Kannan driver; `graphonPartitionEnergy_mono` is its `≥ 0` corollary. -/
+theorem graphonPartitionEnergy_increment (P Q : Finpartition (⊤ : Set Ω))
+    (hP : ∀ p ∈ P.parts, MeasurableSet p) (hQ : ∀ q ∈ Q.parts, MeasurableSet q)
+    (href : Q ≤ P) (W : Graphon Ω μ) :
+    graphonPartitionEnergy μ Q hQ W
+      = graphonPartitionEnergy μ P hP W
+        + l2sq μ ((stepGraphonAvg μ Q hQ W).toSymmKernel - (stepGraphonAvg μ P hP W).toSymmKernel) :=
+  sorry
+
+/-- **Layer 2.** Energy is monotone under refinement — a corollary of the Pythagoras increment (the
+added `L²` term is `≥ 0`). (Mathlib order: `P ≤ Q` ⇔ `P` refines `Q`, so `Q ≤ P` is "`Q` finer".) -/
 theorem graphonPartitionEnergy_mono (P Q : Finpartition (⊤ : Set Ω))
     (hP : ∀ p ∈ P.parts, MeasurableSet p) (hQ : ∀ q ∈ Q.parts, MeasurableSet q)
     (href : Q ≤ P) (W : Graphon Ω μ) :
-    graphonPartitionEnergy μ P hP W ≤ graphonPartitionEnergy μ Q hQ W := sorry
+    graphonPartitionEnergy μ P hP W ≤ graphonPartitionEnergy μ Q hQ W := by
+  rw [graphonPartitionEnergy_increment μ P Q hP hQ href W]
+  linarith [l2sq_nonneg μ ((stepGraphonAvg μ Q hQ W).toSymmKernel - (stepGraphonAvg μ P hP W).toSymmKernel)]
 
-/-- **Layer 2.** The energy is nonnegative (an `L²` norm squared). -/
+/-- **Layer 2.** The energy is nonnegative — a corollary of `graphonPartitionEnergy_eq` + `l2sq_nonneg`. -/
 theorem graphonPartitionEnergy_nonneg (P : Finpartition (⊤ : Set Ω))
     (hP : ∀ p ∈ P.parts, MeasurableSet p) (W : Graphon Ω μ) :
-    0 ≤ graphonPartitionEnergy μ P hP W := sorry
+    0 ≤ graphonPartitionEnergy μ P hP W := by
+  rw [graphonPartitionEnergy_eq μ P hP W]; exact l2sq_nonneg μ _
 
 /-- **Layer 2.** The energy is bounded above by `1` (`W` is `[0,1]`-valued). With `_mono` / `_nonneg`
 this is the bounded monotone potential the Frieze–Kannan iteration runs on. -/
@@ -281,6 +324,35 @@ theorem cutDist_eq_zero_of_forall_homDensity_eq [StandardBorelSpace Ω] [NoAtoms
     (h : ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
       homDensity μ F U = homDensity μ F W) :
     cutDistSame μ U W = 0 := sorry
+
+section CrossCarrierSeparation
+variable {Ω₁ Ω₂ : Type*} [MeasurableSpace Ω₁] [MeasurableSpace Ω₂]
+  (μ₁ : Measure Ω₁) (μ₂ : Measure Ω₂) [IsProbabilityMeasure μ₁] [IsProbabilityMeasure μ₂]
+
+/-- **Layer 6a converse (cross-carrier).** The inverse counting lemma in the coupling-primary form:
+all homomorphism densities agree ⇒ `cutDist = 0`, over atomless standard Borel on both carriers
+(route: transport both to `(I, volume)` via `exists_mpModNull_equiv_unitInterval`, then the
+same-carrier converse). -/
+theorem cutDist_eq_zero_of_forall_homDensity_eq_cross
+    [StandardBorelSpace Ω₁] [StandardBorelSpace Ω₂] [NoAtoms μ₁] [NoAtoms μ₂]
+    (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂)
+    (h : ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
+      homDensity μ₁ F U = homDensity μ₂ F W) :
+    cutDist μ₁ μ₂ U W = 0 := sorry
+
+/-- **Layer 6a (cross-carrier separation iff — the public statement).** Assembled from the
+cross-carrier forward `forall_homDensity_eq_of_cutDist_eq_zero` and the converse above; the
+same-carrier iff is its `cutDistSame` specialization. -/
+theorem cutDist_eq_zero_iff_forall_homDensity_eq_cross
+    [StandardBorelSpace Ω₁] [StandardBorelSpace Ω₂] [NoAtoms μ₁] [NoAtoms μ₂]
+    (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) :
+    cutDist μ₁ μ₂ U W = 0 ↔
+      ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
+        homDensity μ₁ F U = homDensity μ₂ F W :=
+  ⟨forall_homDensity_eq_of_cutDist_eq_zero μ₁ μ₂ U W,
+   cutDist_eq_zero_of_forall_homDensity_eq_cross μ₁ μ₂ U W⟩
+
+end CrossCarrierSeparation
 
 /-- **Layer 9 (sampling).** The `W`-random graph law `G(n, W)`. -/
 def sampleGraph (W : Graphon Ω μ) (n : ℕ) : Measure (SimpleGraph (Fin n)) := sorry
