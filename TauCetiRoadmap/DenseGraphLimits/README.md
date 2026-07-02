@@ -29,11 +29,13 @@ the carrier and cut-distance choices is in two design notes in the
 1. **Carrier — strict measurable function, quotient on top.** A graphon is an honest
    `W : Ω → Ω → ℝ` on a probability space `(Ω, μ)`, symmetric / measurable / `[0,1]`-valued
    *everywhere*, built on a symmetric kernel that is a pointwise `ℝ`-module (so a difference
-   `U − W` is a literal kernel — what the cut norm acts on). The a.e. / weak-isomorphism
-   identification is taken **once**, at `GraphonSpace`. The explicit `AEEqFun` view is a named
-   deliverable (Layer 3), built where the a.e. picture is first required — the
-   conditional-expectation arguments of Layer 4. Rule: **construction may be
-   representative-based; every user-facing theorem must be quotient-stable.**
+   `U − W` is a literal kernel — what the cut norm acts on). Raw graphons are **strict
+   representatives**; a.e. equality is *not* raw equality — Layer 3 proves the observables are
+   a.e.-invariant. The public quotient is by `δ□ = 0` in `GraphonSpace`, which in particular
+   identifies a.e.-equal representatives. The explicit `AEEqFun` view is a named deliverable (Layer 3),
+   built where the a.e. picture is first required — the conditional-expectation arguments of the
+   compactness layer (Layer 4), not Layers 1–2. Rule: **construction may be representative-based;
+   every user-facing theorem must be quotient-stable.**
 2. **Cut distance — coupling-primary.** `cutDist` is the infimum, over couplings of the two
    carriers, of the cut norm of the overlaid difference; the triangle inequality is the gluing
    lemma. Agreement with the classical measure-preserving-map infimum is a **named milestone**
@@ -53,8 +55,10 @@ the carrier and cut-distance choices is in two design notes in the
    CutMetric, GraphonSpace, StepGraphon, Sampling}`; reuse Mathlib names wherever they exist. **Do
    not name a predicate for a one-line bound or measurability condition** — write it inline
    (`∀ x y, |K x y| ≤ C`, `Measurable (Function.uncurry W)`, `∀ x y, W x y ∈ Set.Icc 0 1`); reserve
-   structures for concepts with a real API (`Graphon`, `SymmKernel`, `IsCoupling`, `GraphonSpace`,
-   the `Finpartition` adapter).
+   *named objects* for concepts with a real API, and pick the right kind: `Graphon` / `SymmKernel`
+   are **structures**, `IsCoupling` is a **named `Prop`** (deliberately not a structure or typeclass —
+   a coupling of given marginals is not canonical), `GraphonSpace` is a **quotient type**, and the
+   measurable `Finpartition` adapter is a thin wrapper.
 
 **Status bar.** Everything here must land in `TauCeti/` `sorry`-free and with no axioms beyond
 `propext`, `Classical.choice`, `Quot.sound` (`TauCeti/AGENTS.md`). The roadmap states the goals
@@ -62,7 +66,8 @@ with `sorry`; the code repo discharges them.
 
 ## What Mathlib already has (consume)
 
-Reuse these by name; do not rebuild them. (Paths checked against the pinned toolchain.)
+Reuse these by name; do not rebuild them. (**Entry points checked** against the pinned toolchain;
+some prose paths below are abbreviated.)
 
 - **Finite graphs and their extremal theory:** `SimpleGraph`, `SimpleGraph.edgeFinset`
   (`Combinatorics/SimpleGraph/Finite`), `SimpleGraph.Hom` (`…/Maps`), `Sym2`; **triangle** counting
@@ -157,21 +162,25 @@ graphon.
 The **forward counting lemma** `|t(F,U) − t(F,W)| ≤ e(F) · ‖U − W‖□` (in `Targets.lean` the prefactor
 is `(F.edgeFinset.card : ℝ)`) and its **coupling / cut-distance form** `counting_lemma_coupling` (the
 cross-carrier engine); the descent of `t(F, ·)` to `GraphonSpace` (`homDensityOnSpace`); the
-**Frieze–Kannan weak regularity lemma** with the standard complexity bound `4^{⌈1/ε²⌉}`, over a
-measurable `Finpartition` (the `Finpartition (Subtype MeasurableSet)` pattern, a thin adapter only if
-needed). **`equitabilise` / `Finpartition` are reusable infrastructure**, but Mathlib's
+**Frieze–Kannan weak regularity lemma** (`weak_regularity_frieze_kannan`, complexity `4^{⌈1/ε²⌉}`),
+over a measurable `Finpartition` (the `Finpartition (Subtype MeasurableSet)` pattern, a thin adapter
+only if needed). **`equitabilise` / `Finpartition` are reusable infrastructure**, but Mathlib's
 `Finpartition.energy` is the *finite* edge-density energy — a **proof template / alignment point, not
-a consumed theorem**. So **build the analytic `graphonPartitionEnergy`** `‖E[W|P⊗P]‖²_{L²(μ⊗μ)}` (the
-conditional-expectation kernel energy, the `l2sq` norm² of the block-averaged `stepGraphonAvg`), with
-the **quantitative L²-Pythagoras increment** `E_Q = E_P + ‖E[W|Q⊗Q] − E[W|P⊗P]‖₂²`
-(`graphonPartitionEnergy_increment`) and the `[0,1]` bounds — `_mono` / `_nonneg` fall out of the
-increment, giving the bounded monotone potential the FK iteration runs on. Mathlib's Szemerédi
+a consumed theorem**. **Layer 2's public API is block-average based** — `stepGraphonAvg` and finite rectangle averages. So
+**build the `graphonPartitionEnergy`** as the `l2sq` norm² of the block-average step graphon
+`stepGraphonAvg` (`graphonPartitionEnergy_eq`), with the **L²-Pythagoras increment**
+`E_Q = E_P + ‖E[W|Q⊗Q] − E[W|P⊗P]‖₂²` (`graphonPartitionEnergy_increment`) stated in this
+block-average language and the `[0,1]` bounds (`_mono`/`_nonneg` fall out of the increment) — the
+bounded monotone potential the FK iteration runs on. **Layer 3** later relates this to the general
+AE / conditional-expectation interface. Mathlib's Szemerédi
 regularity (`szemeredi_regularity`) is the *strong* (tower-bound) lemma —
 a related comparison point, **not** an input to and **not** the source of weak regularity. The
 weak-regularity output is a step graphon — specifically the block-averaged `stepGraphonAvg`
 (`= E[W|P⊗P]`, whose energy the increment tracks); `stepGraphon` is the general
-constant-on-rectangles object. Then density of step graphons in `δ□` and total boundedness of
-`(GraphonSpace, δ□)`.
+constant-on-rectangles object. On zero-measure rectangles `stepGraphonAvg` uses Mathlib's
+**set-average / measure-average** convention (`⨍ z in S, … ∂μ`), so it stays a strict `[0,1]`-valued
+representative; observable statements are independent of this null-set convention (Layer 3). Then
+density of step graphons in `δ□` and total boundedness of `(GraphonSpace, δ□)`.
 
 *Acceptance:* the counting lemma specialized to `K₂`, `K₃`; weak regularity producing a step graphon
 (the block-averaged `stepGraphonAvg`; see also `stepGraphon` / `stepGraphon_apply` in `Targets.lean`);
@@ -192,13 +201,16 @@ Completeness and compactness of `GraphonSpace` over atomless standard Borel — 
 **Lovász–Szegedy compactness theorem**. The two analytic inputs are a measure-preserving
 **realignment** of cut-distance-Cauchy sequences (Birkhoff–von Neumann / Rokhlin) and a dyadic
 **conditional-expectation + martingale `L¹`-Cauchy** approximation; Mathlib's `condExp` and
-martingale convergence are the engine.
+martingale convergence are the engine. Pinned: `instance : CompactSpace GraphonSpaceI` and
+`CompleteSpace GraphonSpaceI` (the latter by `inferInstance` from compactness of the metric space).
 
 ### Layer 5 — coupling and map cut distance agree
 `cutDist` (coupling form) `=` the classical measure-preserving-map infimum, under atomless
 standard-Borel hypotheses. The proof rests on the **measure-preserving mod-null equivalence** with
 `(I, volume)` identified above (build it here). Independent of the spine, so it runs in parallel; it
-does not block the other layers.
+does not block the other layers. Pinned: the map form `cutDistPullback` (the infimum over
+measure-preserving maps from `(I, volume)` to both carriers) and the equivalence
+`cutDist_eq_cutDistPullback`.
 
 ### Layer 6 — separation and convergence equivalence (the analytic summit)
 **Layer 6a — separation / inverse counting.** `δ□(U, W) = 0 ⟺ ∀ F, t(F,U) = t(F,W)`; hence the moment
@@ -211,13 +223,14 @@ the coupling-primary public equality `cutDist U W = 0`): it is the easy counting
 same-carrier (`cutDist_eq_zero_of_forall_homDensity_eq`) and **cross-carrier**
 (`cutDist_eq_zero_of_forall_homDensity_eq_cross`, route: transport both carriers to `(I, volume)`),
 each under atomless standard Borel. The assembled cross-carrier separation iff is
-`cutDist_eq_zero_iff_forall_homDensity_eq_cross`.
+`cutDist_eq_zero_iff_forall_homDensity_eq_cross`; the quotient-level form is
+`graphonSpace_ext_homDensity` (`U = W ↔ ∀ F, …` on `GraphonSpaceI`).
 
 **Layer 6b — convergence equivalence.** On the canonical fixed carrier `GraphonSpaceI`, a sequence
 converges in `δ□` iff all `t(F, ·)` converge — `δ□(Wₙ, W) → 0 ⟺ ∀ F, t(F,Wₙ) → t(F,W)` — using
-counting (Layer 2) + compactness (Layer 4) + separation (6a). Now that `GraphonSpaceI` and the
-`MetricSpace (GraphonSpace Ω μ)` instance are pinned, this is *statable*; it is still left unpinned
-this round (its proof is Layer-4-gated).
+counting (Layer 2) + compactness (Layer 4) + separation (6a). **Pinned** as
+`tendsto_graphonSpace_iff_forall_homDensity` (with `continuous_homDensityOnSpace` for the forward
+direction); the proof remains Layer-4-gated.
 
 ### Layer 7 — applications and validation
 Named extremal consequences as acceptance tests (**Goodman**, **Mantel**, **Sidorenko-`C₄`**),
@@ -282,12 +295,17 @@ L⁰→strict representative `exists_graphon_repr`, the **analytic energy stack*
 `graphonPartitionEnergy` + `graphonPartitionEnergy_eq`, the L²-Pythagoras
 `graphonPartitionEnergy_increment`, and the `_mono` / `_nonneg` / `_le_one` corollaries),
 `GraphonSpaceI`, the `MetricSpace (GraphonSpace Ω μ)` instance (+ `dist_graphonSpace_mk_mk` computing
-it as `cutDist`), and the descent `homDensityOnSpace` (+ `homDensityOnSpace_mk`). Described in prose
-rather than pinned (to avoid a premature API choice): the weak-regularity `Finpartition` adapter and
-the Layer-6b convergence-equivalence *proof* (its statement is now expressible via the pinned metric).
-An `IsCoupling` *structure/class* is **deliberately not** introduced — a coupling of given marginals
-is not canonical, so typeclass resolution would pick an arbitrary one; the `Prop` +
-`isProbabilityMeasure_of_isCoupling` is the right pattern.
+it as `cutDist`), and the descent `homDensityOnSpace` (+ `homDensityOnSpace_mk`); and the **endpoint
+milestones** — Frieze–Kannan `weak_regularity_frieze_kannan`, compactness/completeness
+(`CompactSpace` / `CompleteSpace GraphonSpaceI`), the coupling↔map `cutDistPullback` +
+`cutDist_eq_cutDistPullback`, the Layer-6b convergence equivalence
+`tendsto_graphonSpace_iff_forall_homDensity` (+ `continuous_homDensityOnSpace`), finite-graph
+compatibility `finiteGraphGraphon` + `homDensity_finiteGraphGraphon` (with `0 < m`), and the
+quotient-level separation `graphonSpace_ext_homDensity`. Described in prose rather than pinned (to
+avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape and the exact
+mod-null transport bundle. An `IsCoupling` *structure/class* is **deliberately not** introduced — a
+coupling of given marginals is not canonical, so typeclass resolution would pick an arbitrary one; the
+`Prop` + `isProbabilityMeasure_of_isCoupling` is the right pattern.
 
 ## Worked examples (acceptance gates)
 
@@ -370,6 +388,12 @@ The mathematics and proof routes draw on two prior Lean developments,
   **no standard-Borel / atomless hypothesis** (those belong only on the converse), same-carrier a corollary?
 - Does Layer 2 **build** the analytic `graphonPartitionEnergy` rather than claim Mathlib's finite
   `Finpartition.energy` as the input (it's a proof template only)?
+- Is Layer 2's public API **block-average based** (`stepGraphonAvg`), with the AE / conditional-expectation
+  interface introduced only at Layer 3?
+- Are the **endpoint milestones** pinned as targets — FK weak regularity, `CompactSpace`/`CompleteSpace
+  GraphonSpaceI`, `cutDistPullback` ↔ `cutDist`, the Layer-6b convergence equivalence, finite-graph
+  compatibility (with `0 < m`), and quotient-level separation?
+- Is `IsCoupling` a named `Prop` (not a structure/typeclass), matching the vocabulary and docstring?
 - Is the injective density `t₀` normalized by the falling factorial `(n)_k`, **never** `Nat.choose n k`?
 - Do the computed-value backstops hold (`t(K₂, W_{K₄}) = 3/4`, `t(K₃, W_{C₅}) = 0`, `t(F, W_p) = p^{e(F)}`)?
 - Are the source repositories confined to Provenance?

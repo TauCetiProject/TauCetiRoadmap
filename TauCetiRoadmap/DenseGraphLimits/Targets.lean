@@ -12,14 +12,17 @@ convention with Mathlib's `SimpleGraph.binomialRandom`. The Layer-6a separation 
 **cross-carrier** with minimal hypotheses (same-carrier a corollary), the converse pinned both
 same-carrier and cross-carrier (with the assembled iff); all over `SimpleGraph (Fin n)`
 representatives. The Layer-2 `stepGraphon` / `stepGraphonAvg`, the analytic `graphonPartitionEnergy`
-with the L²-Pythagoras `graphonPartitionEnergy_increment`, `GraphonSpaceI` + its `MetricSpace`
-instance, the descent `homDensityOnSpace`, and the Layer-9 injective density `injHomDensity`
-(normalized by the falling factorial `(n)_k = Nat.descFactorial`, **not** `Nat.choose`) are pinned
-here too.
+(block-average based) with the L²-Pythagoras `graphonPartitionEnergy_increment`, `GraphonSpaceI` + its
+`MetricSpace` instance, the descent `homDensityOnSpace`, and the Layer-9 injective density
+`injHomDensity` (normalized by the falling factorial `(n)_k = Nat.descFactorial`, **not** `Nat.choose`)
+are pinned here too — as are the endpoint milestones: Frieze–Kannan weak regularity,
+compactness/completeness of `GraphonSpaceI`, the coupling↔map `cutDistPullback`, the Layer-6b
+convergence equivalence, finite-graph compatibility (`finiteGraphGraphon`), and quotient-level
+separation.
 
 Objects whose precise Lean shape would force a premature API choice — the weak-regularity
-`Finpartition` adapter, the Layer-6b convergence-equivalence *proof*, and the exact mod-null transport
-bundle — are described in `README.md` instead. (An `IsCoupling` structure/class is deliberately
+`Finpartition` adapter and the exact mod-null transport bundle — are described in `README.md` instead.
+(An `IsCoupling` structure/class is deliberately
 avoided: couplings aren't canonical, so a typeclass would pick an arbitrary one.)
 -/
 
@@ -116,6 +119,17 @@ theorem cutDist_triangle {Ω₃ : Type*} [MeasurableSpace Ω₃] (μ₃ : Measur
     (U : Graphon Ω₁ μ₁) (V : Graphon Ω₂ μ₂) (W : Graphon Ω₃ μ₃) :
     cutDist μ₁ μ₃ U W ≤ cutDist μ₁ μ₂ U V + cutDist μ₂ μ₃ V W := sorry
 
+/-- **Layer 5 (map form of cut distance).** The classical measure-preserving-map cut distance: the
+infimum, over measure-preserving maps from the canonical atomless standard carrier `(I, volume)` to
+each of `(Ω₁, μ₁)` and `(Ω₂, μ₂)`, of the cut norm of the pulled-back difference. -/
+def cutDistPullback (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) : ℝ := sorry
+
+/-- **Layer 5 (coupling ↔ map).** The coupling-primary `cutDist` agrees with the map form, over
+atomless standard Borel — the central design equivalence. -/
+theorem cutDist_eq_cutDistPullback [StandardBorelSpace Ω₁] [StandardBorelSpace Ω₂]
+    [NoAtoms μ₁] [NoAtoms μ₂] (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) :
+    cutDist μ₁ μ₂ U W = cutDistPullback μ₁ μ₂ U W := sorry
+
 /-- **Layer 1.** A coupling of probability measures is itself a probability measure — documents why
 the `[IsProbabilityMeasure π]` hypothesis below is harmless (the marginals are probability measures). -/
 theorem isProbabilityMeasure_of_isCoupling (π : Measure (Ω₁ × Ω₂)) (hπ : IsCoupling μ₁ μ₂ π) :
@@ -158,8 +172,9 @@ def GraphonSpace (Ω : Type*) [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabil
   Quotient (graphonSetoid μ)
 
 /-- **Layer 1.** The canonical public graphon space: the fixed-carrier quotient over `(I, volume)` —
-the compact space cross-carrier graphons transport into (referenced throughout the roadmap). -/
-def GraphonSpaceI : Type _ := GraphonSpace I (volume : Measure I)
+the compact space cross-carrier graphons transport into (referenced throughout the roadmap). An
+`abbrev` so the metric/topology instances on `GraphonSpace I volume` resolve through it. -/
+abbrev GraphonSpaceI : Type _ := GraphonSpace I (volume : Measure I)
 
 /-- **Layer 1.** `cutDist` descends to a genuine metric on `GraphonSpace` — needed even to *state*
 Layer-4 compactness and the Layer-6b convergence equivalence. -/
@@ -170,6 +185,12 @@ users actually calculate with the quotient metric. -/
 theorem dist_graphonSpace_mk_mk [StandardBorelSpace Ω] (U W : Graphon Ω μ) :
     @dist (GraphonSpace Ω μ) _ (Quotient.mk (graphonSetoid μ) U) (Quotient.mk (graphonSetoid μ) W)
       = cutDistSame μ U W := sorry
+
+/-- **Layer 4 (Lovász–Szegedy compactness).** The canonical graphon space is compact. -/
+instance : CompactSpace GraphonSpaceI := sorry
+
+/-- **Layer 4.** …and complete (a compact metric space is complete, via the `CompactSpace` instance). -/
+instance : CompleteSpace GraphonSpaceI := inferInstance
 
 /-- **Layer 2 (forward counting lemma).** The argument to `cutNorm` is the *kernel* `U - W`; the
 prefactor is `(F.edgeFinset.card : ℝ)` (prose `e(F)`). -/
@@ -207,10 +228,11 @@ theorem stepGraphonAvg_apply (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P
     (stepGraphonAvg μ P hP W).toFun x y
       = ⨍ z in ((p : Set Ω) ×ˢ (q : Set Ω)), W.toFun z.1 z.2 ∂(μ.prod μ) := sorry
 
-/-- **Layer 2 (analytic graphon partition energy).** `‖E[W | P⊗P]‖²_{L²(μ⊗μ)}` — the
-conditional-expectation (kernel) energy, **distinct from** Mathlib's finite `Finpartition.energy` (the
-finite edge-density energy, a proof template only). Built here; the body is opaque (the concrete
-`condExp` over the `P⊗P` σ-algebra is discharged in `TauCeti`). -/
+/-- **Layer 2 (graphon partition energy).** The `L²(μ⊗μ)` norm² of the **block-average step graphon**
+`stepGraphonAvg` (finite block averages over measurable rectangles; see `graphonPartitionEnergy_eq`) —
+**distinct from** Mathlib's finite `Finpartition.energy` (the finite edge-density energy, a proof
+template only). The energy increment is stated in this block-average language; Layer 3 later relates
+it to the general AE / conditional-expectation interface. Body opaque (discharged in `TauCeti`). -/
 def graphonPartitionEnergy (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p)
     (W : Graphon Ω μ) : ℝ := sorry
 
@@ -260,6 +282,14 @@ theorem graphonPartitionEnergy_le_one (P : Finpartition (⊤ : Set Ω))
     (hP : ∀ p ∈ P.parts, MeasurableSet p) (W : Graphon Ω μ) :
     graphonPartitionEnergy μ P hP W ≤ 1 := sorry
 
+/-- **Layer 2 (Frieze–Kannan weak regularity).** For every `ε > 0` there is a measurable finite
+partition of complexity `≤ 4^{⌈1/ε²⌉}` whose block-average step graphon approximates `W` to within
+`ε` in cut norm. (The exact cardinality shape may be adjusted to the `Finpartition` adapter.) -/
+theorem weak_regularity_frieze_kannan (W : Graphon Ω μ) {ε : ℝ} (hε : 0 < ε) :
+    ∃ (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p),
+      P.parts.card ≤ 4 ^ Nat.ceil (1 / ε ^ 2) ∧
+      cutNorm μ (W.toSymmKernel - (stepGraphonAvg μ P hP W).toSymmKernel) ≤ ε := sorry
+
 /-- **Layer 2 (descent of `t(F, ·)`).** `homDensity` descends to `GraphonSpace` (well-defined by the
 forward separation `cutDist = 0 ⇒ equal densities`). Fin-indexed, matching the Layer-6a
 representatives (an arbitrary carrier would need a generic graph-transport API not pinned here). -/
@@ -273,6 +303,25 @@ def homDensityOnSpace [StandardBorelSpace Ω] (n : ℕ) (F : SimpleGraph (Fin n)
 theorem homDensityOnSpace_mk [StandardBorelSpace Ω] (n : ℕ) (F : SimpleGraph (Fin n))
     [DecidableRel F.Adj] (W : Graphon Ω μ) :
     homDensityOnSpace μ n F (Quotient.mk (graphonSetoid μ) W) = homDensity μ F W := rfl
+
+/-- **Layer 2/6a.** Each descended density `t(F, ·)` is continuous on `GraphonSpaceI` — the forward
+direction of the convergence equivalence and useful public API. -/
+theorem continuous_homDensityOnSpace (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj] :
+    Continuous (homDensityOnSpace (volume : Measure I) n F) := sorry
+
+/-- **Layer 6a (quotient-level separation).** Two points of `GraphonSpaceI` are equal iff all
+homomorphism densities agree — the public-facing form of the separation theorem. -/
+theorem graphonSpace_ext_homDensity (U W : GraphonSpaceI) :
+    U = W ↔ ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
+      homDensityOnSpace (volume : Measure I) n F U = homDensityOnSpace (volume : Measure I) n F W := sorry
+
+/-- **Layer 6b (convergence equivalence — the culmination).** On `GraphonSpaceI`, `δ□`-convergence is
+equivalent to convergence of every homomorphism density. -/
+theorem tendsto_graphonSpace_iff_forall_homDensity (Ws : ℕ → GraphonSpaceI) (W : GraphonSpaceI) :
+    Filter.Tendsto Ws Filter.atTop (nhds W) ↔
+      ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
+        Filter.Tendsto (fun k => homDensityOnSpace (volume : Measure I) n F (Ws k))
+          Filter.atTop (nhds (homDensityOnSpace (volume : Measure I) n F W)) := sorry
 
 /-- **Layer 3 (AE bridge).** The AE / `AEEqFun` view: a graphon as an a.e.-class kernel on `μ ⊗ μ`. -/
 def toAEEqFun (W : Graphon Ω μ) : (Ω × Ω) →ₘ[μ.prod μ] ℝ := sorry
@@ -390,5 +439,16 @@ the integrated `G`. -/
 theorem injHomDensity_integral_sampleGraph {V : Type*} [Fintype V] [DecidableEq V]
     (F : SimpleGraph V) [DecidableRel F.Adj] (W : Graphon Ω μ) {m : ℕ} (hkm : Fintype.card V ≤ m) :
     ∫ G, injHomDensity F G ∂(sampleGraph μ W m) = homDensity μ F W := sorry
+
+/-- **Layer 1/7 (finite graph as a graphon).** The graphon of a finite graph `G` on `Fin m` — the
+step graphon on the `m` equal subintervals of `(I, volume)` with `G`'s adjacency values. -/
+def finiteGraphGraphon {m : ℕ} (G : SimpleGraph (Fin m)) : Graphon I (volume : Measure I) := sorry
+
+/-- **Layer 7 (finite-graph compatibility — an acceptance gate).** `t(F, W_G) = hom(F,G)/m^{|V(F)|}`:
+the graphon density recovers the finite hom density. Requires `0 < m` (the identity overclaims for
+the empty target `m = 0`). -/
+theorem homDensity_finiteGraphGraphon {V : Type*} [Fintype V] [DecidableEq V] (F : SimpleGraph V)
+    [DecidableRel F.Adj] {m : ℕ} (hm : 0 < m) (G : SimpleGraph (Fin m)) :
+    homDensity (volume : Measure I) F (finiteGraphGraphon G) = homDensityFin F G := sorry
 
 end TauCetiRoadmap.DenseGraphLimits
