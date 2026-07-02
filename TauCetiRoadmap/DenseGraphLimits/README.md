@@ -168,11 +168,14 @@ the **quantitative L²-Pythagoras increment** `E_Q = E_P + ‖E[W|Q⊗Q] − E[W
 increment, giving the bounded monotone potential the FK iteration runs on. Mathlib's Szemerédi
 regularity (`szemeredi_regularity`) is the *strong* (tower-bound) lemma —
 a related comparison point, **not** an input to and **not** the source of weak regularity. The
-weak-regularity output is a `stepGraphon` (Layer-2 target). Then density of step graphons in `δ□` and
-total boundedness of `(GraphonSpace, δ□)`.
+weak-regularity output is a step graphon — specifically the block-averaged `stepGraphonAvg`
+(`= E[W|P⊗P]`, whose energy the increment tracks); `stepGraphon` is the general
+constant-on-rectangles object. Then density of step graphons in `δ□` and total boundedness of
+`(GraphonSpace, δ□)`.
 
-*Acceptance:* the counting lemma specialized to `K₂`, `K₃`; weak regularity producing a `stepGraphon`
-(see `stepGraphon` / `stepGraphon_apply` in `Targets.lean`); `t(F, ·)` descending to `GraphonSpace`.
+*Acceptance:* the counting lemma specialized to `K₂`, `K₃`; weak regularity producing a step graphon
+(the block-averaged `stepGraphonAvg`; see also `stepGraphon` / `stepGraphon_apply` in `Targets.lean`);
+`t(F, ·)` descending to `GraphonSpace`.
 
 ### Layer 3 — the AE / `AEEqFun` view
 A round-trip between the strict carrier and Mathlib's `AEEqFun`: a map `toAEEqFun :
@@ -360,8 +363,9 @@ The mathematics and proof routes draw on two prior Lean developments,
 - Are one-line hypotheses written inline rather than wrapped in a predicate?
 - Are strict-carrier, AE, and quotient-level statements kept distinct?
 - Is `cutDist` coupling-primary and cross-carrier, with map/pullback only a compatibility milestone?
-- Is the Layer-6a separation split into a forward and a hypothesized converse, over
-  `SimpleGraph (Fin n)` representatives (no universe-restricted `{V : Type}`)?
+- Is the Layer-6a separation split into a forward (cross-carrier, minimal hypotheses) plus a converse
+  under atomless standard-Borel hypotheses (same-carrier and cross-carrier), over `SimpleGraph (Fin n)`
+  representatives (no universe-restricted `{V : Type}`)?
 - Is the 6a **forward cross-carrier** (`cutDist μ₁ μ₂ U W = 0`, via `counting_lemma_coupling`) with
   **no standard-Borel / atomless hypothesis** (those belong only on the converse), same-carrier a corollary?
 - Does Layer 2 **build** the analytic `graphonPartitionEnergy` rather than claim Mathlib's finite
