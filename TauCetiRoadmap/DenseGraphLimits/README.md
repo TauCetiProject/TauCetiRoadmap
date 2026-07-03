@@ -317,7 +317,8 @@ separation; `E[t(F, G(n,W))] → t(F,W)`; and at least Goodman, Mantel, and Sido
 **Computed-value backstops** (cheap numeric checks the implementation must reproduce, a correctness
 floor the headline theorems don't give): `t(K₂, W_{K₄}) = 3/4` (edge density of `K₄`),
 `t(K₃, W_{C₅}) = 0` (`C₅` is triangle-free), and the Erdős–Rényi numerics `t(F, W_p) = p^{e(F)}`
-(e.g. `t(K₃, W_{1/2}) = 1/8`). Here `W_{G}` is the `stepGraphon` of the finite graph `G`.
+(e.g. `t(K₃, W_{1/2}) = 1/8`). Here `W_{G}` is `finiteGraphGraphon G` (a step graphon of the finite
+graph `G`).
 
 A milestone is **done** when the result descends to the intended quotient and passes its gates —
 not when the file merely compiles.

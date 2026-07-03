@@ -215,8 +215,8 @@ theorem stepGraphon_apply (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.pa
     (stepGraphon μ P hP val hsymm).toFun x y = (val p q : ℝ) := sorry
 
 /-- **Layer 2 (averaged step graphon).** The block-averaged step graphon: constant on each rectangle
-`Pᵢ × Pⱼ` with value the mean of `W` there — `E[W | P⊗P]` as a step function, i.e. the actual
-Frieze–Kannan weak-regularity output. -/
+`Pᵢ × Pⱼ` with value the block average (mean) of `W` there — the actual Frieze–Kannan weak-regularity
+output. Later identified with the conditional expectation `E[W | P⊗P]` (Layer 3). -/
 def stepGraphonAvg (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p)
     (W : Graphon Ω μ) : Graphon Ω μ := sorry
 
@@ -244,15 +244,17 @@ omit [IsProbabilityMeasure μ] in
 theorem l2sq_nonneg (K : SymmKernel Ω μ) : 0 ≤ l2sq μ K :=
   integral_nonneg fun _ => sq_nonneg _
 
-/-- **Layer 2.** The partition energy is the `L²` norm² of the block-averaged graphon `E[W|P⊗P]`
-(= `stepGraphonAvg`) — pins the otherwise-opaque `graphonPartitionEnergy` to a concrete object. -/
+/-- **Layer 2.** The partition energy is the `L²` norm² of the block-average step graphon
+`stepGraphonAvg` — pins the otherwise-opaque `graphonPartitionEnergy` to a concrete object (later
+`= ‖E[W|P⊗P]‖²` once the conditional-expectation identification is available, Layer 3). -/
 theorem graphonPartitionEnergy_eq (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p)
     (W : Graphon Ω μ) :
     graphonPartitionEnergy μ P hP W = l2sq μ (stepGraphonAvg μ P hP W).toSymmKernel := sorry
 
 /-- **Layer 2 (energy increment — L²-Pythagoras).** Under refinement (`Q ≤ P`, so `Q` finer than `P`)
-the energy increases by exactly the `L²` norm² of the difference of conditional expectations. This is
-the quantitative Frieze–Kannan driver; `graphonPartitionEnergy_mono` is its `≥ 0` corollary. -/
+the energy increases by exactly the `L²` norm² of the difference of the two block-average step
+graphons (`stepGraphonAvg μ Q … − stepGraphonAvg μ P …`). This is the quantitative Frieze–Kannan
+driver; `graphonPartitionEnergy_mono` is its `≥ 0` corollary. -/
 theorem graphonPartitionEnergy_increment (P Q : Finpartition (⊤ : Set Ω))
     (hP : ∀ p ∈ P.parts, MeasurableSet p) (hQ : ∀ q ∈ Q.parts, MeasurableSet q)
     (href : Q ≤ P) (W : Graphon Ω μ) :
