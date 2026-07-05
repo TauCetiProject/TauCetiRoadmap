@@ -83,7 +83,7 @@ a group, Bruhat/BN-pairs; and the classification.
 
 The ordering below is the dependency order, not a strict schedule; independent lanes can
 proceed in parallel. As each layer makes the next layer's *types* expressible, its
-milestones go into `Targets.lean` (with `sorry`).
+milestones go into `Suggested.lean` (with `sorry`).
 
 **Cross-cutting prerequisite: sheaves and descent.** Several constructions below (the
 functor-of-points view, quotients, torsors, representability) need the fppf topology and
@@ -101,7 +101,7 @@ faithfully-flat descent.
   - Ingredient already in Mathlib: the antipode is an anti-homomorphism, `S(ab) = S(b) S(a)`
     (`HopfAlgebra.antipode_mul`). Use it to show algebra homs are closed under convolution
     and that `f ∘ S` is the inverse; then prove functoriality in `R`.
-- **The equivalences (first concrete targets, already compile as `sorry` in `Targets.lean`):**
+- **The equivalences (first concrete targets, already compile as `sorry` in `Suggested.lean`):**
   ```lean
   -- Γ(G) is an R-Hopf algebra, for G an affine group scheme over Spec R:
   example (G : Scheme) (φ : G ⟶ Spec(R)) [GrpObj (Over.mk φ)] [IsAffine G] :

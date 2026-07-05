@@ -79,7 +79,7 @@ residue symbols of the `dⱼ`; the **2-torsion of the class group** `Cl/Cl²`; a
 ## The build, in layers
 
 The ordering below is the dependency order. As each layer makes the next layer's *types*
-expressible in `TauCeti/`, state its milestones in `Targets.lean` (with `sorry`).
+expressible in `TauCeti/`, state its milestones in `Suggested.lean` (with `sorry`).
 
 ### Layer 0: the multiquadratic field
 - **Square-class descent.** If `√r ∈ K(√d₁, …, √dₙ)` for `r ∈ K`, then `r` is a square

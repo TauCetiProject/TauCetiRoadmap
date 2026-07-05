@@ -91,7 +91,7 @@ finiteness, not a count). None of these explicit bounds is upstream.
 ## The build, in layers
 
 As each layer makes the next layer's *types* expressible in `TauCeti/`, state its
-milestones in `Targets.lean` (with `sorry`).
+milestones in `Suggested.lean` (with `sorry`).
 
 ### Layer 0: the geometry-of-numbers engine
 - Measure-free lattice-point **packing** and **doubling** bounds in boxes/polydiscs (a

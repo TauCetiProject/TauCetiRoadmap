@@ -3,6 +3,11 @@ import Mathlib
 /-!
 # Contour integration and the HW generalized residue theorem: target signatures
 
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. The statements here suggest Lean forms for particular milestones, so that
+contributors and reviewers converge on names and signatures; discharging all of them
+finishes neither a layer nor the roadmap.
+
 The narrative roadmap (the conventions, the layer-by-layer build plan Layers 0–4, the worked
 examples, and the references) is in `README.md`. Mathlib has the Cauchy integral formula, circle
 integrals, and the local meromorphic-function API (`MeromorphicOn` in

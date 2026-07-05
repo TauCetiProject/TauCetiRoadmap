@@ -1,7 +1,7 @@
 # Conformal mapping and the geometric theory of holomorphic functions
 
 The narrative roadmap for the conformal-mapping / geometric-function-theory area of complex
-analysis, with the **Riemann mapping theorem** as its summit; `Targets.lean` states the
+analysis, with the **Riemann mapping theorem** as its summit; `Suggested.lean` states the
 milestones as `sorry`-goals. Among its applications: the modular-`λ` uniformization
 `ℍ/Γ(2) ≅ ℂ∖{0,1}` (hence Picard's little theorem and the elliptic/modular uniformization)
 and the boundary regularity of conformal maps — but the area is foundational complex analysis
@@ -90,7 +90,7 @@ shim once the Mathlib theorem lands, and refactor downstream consumers to it —
   "bounded on each compact `K ⊆ Ω`".
 - **Reflection: real-axis first; conjugation is `starRingEnd ℂ`; explicit witness.** See L4.
 
-## Layers (each a discharge-gated milestone; the `sorry` goal in `Targets.lean` is stated for the core layers L0–L4, with L5–L6 deferred)
+## Layers (each a discharge-gated milestone; the `sorry` goal in `Suggested.lean` is stated for the core layers L0–L4, with L5–L6 deferred)
 
 - **L0 — the local-mapping engine** (consumes the sibling **ContourIntegration** roadmap,
   PR #35). The *argument principle*, residues, winding numbers, and the *global/homological

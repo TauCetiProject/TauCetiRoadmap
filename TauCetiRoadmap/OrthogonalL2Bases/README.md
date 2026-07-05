@@ -342,7 +342,7 @@ rather than the Gaussian — so it tests the σ-finite-`μ` genericity of the br
 
 *A grounded, sequenced milestone — not "future"/optional: it consumes only B3 (which lands in this
 enhancement) and `A`/`A3′`, and its targets `piHilbertBasis` / `gaussianHermitePiBasis` are stated in
-`Targets.lean`. Sequenced after B3, but in scope here.*
+`Suggested.lean`. Sequenced after B3, but in scope here.*
 
 - **Multidimensional Hermite basis** of `L²(ℝᵈ)` — `Ψ_α(x) = ∏ᵢ ψ_{αᵢ}(xᵢ)`, `α : ι → ℕ` — the
   immediate `B3 ∘ A` instantiation: B3 over `ι` copies of the 1-D Hermite basis (A3), a

@@ -3,6 +3,11 @@ import Mathlib
 /-!
 # Effective arithmetic bounds and geometry of numbers: target signatures
 
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. The statements here suggest Lean forms for particular milestones, so that
+contributors and reviewers converge on names and signatures; discharging all of them
+finishes neither a layer nor the roadmap.
+
 The narrative roadmap (the layer-by-layer build plan, the worked examples, and the
 references) is in `README.md`. Mathlib has Minkowski's convex-body theorem, the canonical
 embedding, and the Minkowski bound, but not the explicit effective estimates; we build

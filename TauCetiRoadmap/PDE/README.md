@@ -29,7 +29,7 @@ For a **bounded open `Ω ⊆ ℝⁿ`** and a **uniformly elliptic, divergence-fo
    Newtonian potential, Perron's method) as the constant-coefficient template.
 
 ```lean
--- the shape we are building toward (state in Targets.lean as the supporting types land):
+-- the shape we are building toward (state in Suggested.lean as the supporting types land):
 -- variable {n : ℕ} {Ω : Set (EuclideanSpace ℝ (Fin n))} (hΩ : IsOpen Ω) (hb : IsBounded Ω)
 --
 -- the energy bilinear form of L, weak (distributional) formulation:
@@ -206,7 +206,7 @@ statement time is what keeps the formalized API reusable.
 
 The ordering below is the dependency order, not a strict schedule, and the lanes are
 deliberately parallelizable. As a lane makes the next one's *types* expressible in
-`TauCeti/`, state those milestones in `Targets.lean` (`sorry` is allowed there: it is
+`TauCeti/`, state those milestones in `Suggested.lean` (`sorry` is allowed there: it is
 human-owned roadmap territory).
 
 ### Lane A: function spaces on a domain (the universal prerequisite)

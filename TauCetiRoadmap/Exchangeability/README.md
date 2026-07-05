@@ -235,7 +235,7 @@ Tau Ceti file intentionally diverges from this source API.
 ## The build, in layers
 
 The ordering below is the dependency order. As each layer makes the next layer's *types*
-expressible in `TauCeti/`, state its milestones in `Targets.lean` with `sorry`.
+expressible in `TauCeti/`, state its milestones in `Suggested.lean` with `sorry`.
 
 ### Layer 0: sequence laws, finite marginals, and symmetry notions
 

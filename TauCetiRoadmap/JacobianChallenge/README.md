@@ -24,7 +24,7 @@ variety over `k`, characterized by the universal property of the Abel–Jacobi m
 compatible with base change.
 
 ```lean
--- the shape we are building toward (state in Targets.lean as the types appear):
+-- the shape we are building toward (state in Suggested.lean as the types appear):
 -- noncomputable def JacobianVariety (X : Curve k) (x₀ : X.RationalPoint) : AbelianVariety k
 -- def abelJacobi : X ⟶ (JacobianVariety X x₀).toScheme            -- x₀ ↦ 0
 -- -- universal property: for every abelian variety A and pointed morphism f : (X,x₀) → (A,0),
@@ -87,7 +87,7 @@ faithfully-flat-descent lane is a shared prerequisite (also in the reductive-gro
 
 Codex's recommended dependency order, refined. Each layer is self-contained mathematics
 worth having on its own. As a layer makes the next one's *types* expressible, state those
-milestones in `Targets.lean` (with `sorry`).
+milestones in `Suggested.lean` (with `sorry`).
 
 ### Layer A, line bundles, divisors, Picard group, degree
 - **Invertible sheaves** on a scheme; the **Picard group** `Pic X` under `⊗`.
