@@ -84,7 +84,7 @@ its poles; the **global (homological) Cauchy theorem** (proved by Dixon's argume
 headline **Hungerbühler–Wasem generalized residue theorem** (HW Thm 3.3), valid with
 singularities *on* the cycle. None of this is upstream.
 
-`Targets.lean` pins the load-bearing **definitions** — the generalized `windingNumber`, the
+`Suggested.lean` pins the load-bearing **definitions** — the generalized `windingNumber`, the
 `residue`, the Cauchy principal value `HasCauchyPV`, and the HW conditions `ConditionAprime` /
 `ConditionB` (with `IsNullHomologous`) — together with the **named milestones** below as
 `sorry`-targets, so each is claimable and the summit statement is machine-checked to be expressible
@@ -95,7 +95,7 @@ singularities *on* the cycle. None of this is upstream.
 ## The build, in layers
 
 The ordering is the dependency order. As each layer makes the next layer's *types*
-expressible in `TauCeti/`, its milestones go into `Targets.lean` (with `sorry`).
+expressible in `TauCeti/`, its milestones go into `Suggested.lean` (with `sorry`).
 
 ### Layer 0: curves, cycles, and the generalized winding number
 - **Piecewise-`C¹` curves, closed immersions, and cycles** on `[a,b]`: continuity, piecewise
@@ -116,7 +116,7 @@ expressible in `TauCeti/`, its milestones go into `Targets.lean` (with `sorry`).
   boundary point `i` the contour indents by a semicircle (`α = π`), winding **`½`** (the
   coefficient of `ord_i f`); at the `π/3` corner `ρ` it indents by a `π/3` arc, winding
   **`1/6`** — and the two `ρ`-corners `ρ`, `ρ+1` sum to the `⅓` coefficient of `ord_ρ f`.
-  Both `½` and `1/6` are seeded in `Targets.lean`.
+  Both `½` and `1/6` are seeded in `Suggested.lean`.
 - **HW Proposition 2.2 (finite crossings and the winding decomposition).** A closed
   piecewise-`C¹` immersion `Λ` meets any `z₀` at most finitely often; writing
   `Λ = Λ̃ + Γ₁ + … + Γₙ` where `Λ̃` avoids `z₀` and each `Γ_ℓ` is a model sector of angle
@@ -146,7 +146,7 @@ expressible in `TauCeti/`, its milestones go into `Targets.lean` (with `sorry`).
   - *Layer 2 (here): the disc/circle case* `∮_{C(c,R)} f = 2πi · Σ_s Res_s f` for a circle bounding
     a disc with the finite pole set `S` strictly **inside** (each interior pole has integer winding
     `1`), provable from Mathlib's disc Cauchy theory — seeded as `classicalResidueTheorem_circle` in
-    `Targets.lean`, and recovering the Cauchy integral formula.
+    `Suggested.lean`, and recovering the Cauchy integral formula.
   - *The general arbitrary-cycle case* `∮_C f = 2πi · Σ_s n_s(C)·Res_s f` for a closed
     piecewise-`C¹` cycle `C` avoiding `S`. ⚠ Avoiding `S` is **not** sufficient on an arbitrary
     holomorphy domain `Ω`: `C` must be **null-homologous in `Ω`** (`n_w(C) = 0` for every `w ∉ Ω`).
@@ -158,7 +158,7 @@ expressible in `TauCeti/`, its milestones go into `Targets.lean` (with `sorry`).
   add. Applying the residue theorem to `f'/f = logDeriv f`, `(2πi)⁻¹ ∮_C f'/f = Σ_z ord_z(f)`
   counts zeros minus poles with multiplicity (`Res_z (f'/f) = ord_z f`). Mathlib has `logDeriv`
   and `meromorphicOrderAt` but **not** this identity; it is the explicit result the valence
-  formula consumes, and the milestone seeded in `Targets.lean`. The interior orders give the
+  formula consumes, and the milestone seeded in `Suggested.lean`. The interior orders give the
   non-elliptic-orbit sum; the on-contour points `i`, `ρ` are handled by HW Thm 3.3 (Layer 4).
 
 ### Layer 3: the global (homological) Cauchy theorem
@@ -237,4 +237,4 @@ Hungerbühler–Wasem theorem is formalized `sorry`-free as
 files, and `HW33`/`HW33Clean`/`HungerbuhlerWasem/{Crossing,MultiCrossingCPV}`. The migration
 is the opportunity to state these in Mathlib's vocabulary, drop the fundamental-domain-specific
 scaffolding (which stays with the valence formula in the Modular Forms roadmap), and prepare
-them for upstreaming. The per-file map is in `Targets.lean`.
+them for upstreaming. The per-file map is in `Suggested.lean`.

@@ -80,7 +80,7 @@ roadmap owns (they are analytic-blocked, so they live with the slower track).
   [analytic roadmap](../HeegaardFloer/README.md), not here.
 
 ```lean
--- the shapes we are building toward (state in Targets.lean as the types land):
+-- the shapes we are building toward (state in Suggested.lean as the types land):
 --
 -- v1: grid homology is a link invariant, and τ bounds unknotting number:
 -- def GH' (G : GridDiagram) : BigradedModule (ZMod 2) := ...   -- simply blocked GĤ

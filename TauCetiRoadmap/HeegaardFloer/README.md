@@ -56,7 +56,7 @@ substrate yields quickly to blueprint-driven effort.
   the precise statements.
 
 ```lean
--- the shape we are building toward (state in Targets.lean as the types land):
+-- the shape we are building toward (state in Suggested.lean as the types land):
 --
 -- v3: the analytic invariant for a pointed Heegaard diagram, over 𝔽₂:
 -- def HFhat (D : PointedHeegaardDiagram) (hD : D.WeaklyAdmissible) (J : ...) :

@@ -16,7 +16,7 @@ geometric decomposition; Heegaard genus; foliations; triangulations and collapse
 attached to the solved Kirby-list problems it would let us *state*. Knot theory and the
 concordance foundations (layers 4 and 6) are owned here; the homological concordance
 invariants (`τ`, `s`) are consumed from the
-[combinatorial Heegaard Floer roadmap](../CombinatorialHeegaardFloer/Targets.lean), which
+[combinatorial Heegaard Floer roadmap](../CombinatorialHeegaardFloer/Suggested.lean), which
 in turn consumes the knot types defined here.
 
 Mathlib has the smooth-manifold-and-tangent-bundle substrate (`ModelWithCorners`,
