@@ -100,10 +100,10 @@ def IsNullHomologous (γ : ℝ → ℂ) (a b : ℝ) (Ω : Set ℂ) : Prop :=
   ∀ w ∉ Ω, windingNumber γ a b w = 0
 
 /-- HW condition **(A′)**: the cycle `γ` approaches each on-cycle singularity in `S` transversally,
-meeting it as a finite union of model sectors with a prescribed pole order (HW §3). One of the two
-regularity conditions that make the principal value exist; stated explicitly so the summit is
-honest. -/
-def ConditionAprime (γ : ℝ → ℂ) (a b : ℝ) (S : Finset ℂ) : Prop := sorry
+meeting it as a finite union of model sectors, flat to the pole order of `f` there (read off from
+`meromorphicOrderAt`, HW §3). One of the two regularity conditions that make the principal value
+exist; stated explicitly so the summit is honest. `f` enters only through the pole orders. -/
+def ConditionAprime (γ : ℝ → ℂ) (a b : ℝ) (f : ℂ → ℂ) (S : Finset ℂ) : Prop := sorry
 
 /-- HW condition **(B)**: the higher-order Laurent principal parts cancel under the
 sector-cancellation identity at each on-cycle singularity, so the principal value exists for poles of
@@ -197,12 +197,15 @@ theorem classicalResidueTheorem_circle {f : ℂ → ℂ} {c : ℂ} {R : ℝ} (hR
 /-! ## Layer 3: the global (homological) Cauchy theorem -/
 
 /-- **The homology (global) Cauchy theorem** (Layer 3, proved by *Dixon's argument*). For `f`
-holomorphic on open `Ω` and a closed cycle `γ` in `Ω` that is **null-homologous**, `∮_γ f = 0`. This
-is the `S = ∅` case of the general arbitrary-cycle residue theorem, which is why that general version
-sits here rather than in Layer 2. Named for the theorem (homology Cauchy), attributed to Dixon for
-the proof. -/
+holomorphic on open `Ω` and a closed, continuously differentiable (`C¹`) cycle `γ` in `Ω` that is
+**null-homologous**, `∮_γ f = 0`. This is the `S = ∅` case of the general arbitrary-cycle residue
+theorem, which is why that general version sits here rather than in Layer 2. The `C¹` regularity
+makes `deriv γ` continuous, so the contour integral is well-defined and the FTC/Dixon machinery
+applies (a piecewise-`C¹` generalization can follow). Named for the theorem (homology Cauchy),
+attributed to Dixon for the proof. -/
 theorem homologyCauchyTheorem {f : ℂ → ℂ} {Ω : Set ℂ} (hΩ : IsOpen Ω) (γ : ℝ → ℂ) (a b : ℝ)
-    (hγ : ∀ t ∈ Set.Icc a b, γ t ∈ Ω) (hclosed : γ a = γ b)
+    (hγ : ∀ t ∈ Set.Icc a b, γ t ∈ Ω) (hγC1 : ContDiffOn ℝ 1 γ (Set.Icc a b))
+    (hclosed : γ a = γ b)
     (hf : DifferentiableOn ℂ f Ω)
     (hnull : IsNullHomologous γ a b Ω) :
     ∫ t in a..b, deriv γ t • f (γ t) = 0 :=
@@ -213,17 +216,19 @@ theorem homologyCauchyTheorem {f : ℂ → ℂ} {Ω : Set ℂ} (hΩ : IsOpen Ω)
 /-- **Hungerbühler–Wasem generalized residue theorem** (HW Thm 3.3) — the summit. Let `U ⊆ ℂ` be
 open, `S ⊆ U` finite, `f` holomorphic on `U ∖ S` and meromorphic at each `s ∈ S`, and `γ` a
 **null-homologous** closed piecewise-`C¹` cycle in `U` whose singularities may lie *on* `γ`, under
-conditions (A′) and (B). Then the principal value exists and
+conditions (A′) and (B), with the basepoint `γ a` off `S` (a harmless normalization, removable by a
+cyclic reparametrization). Then the principal value exists and
 `PV (2πi)⁻¹ ∮_γ f = Σ_{s ∈ S} n_s(γ) · Res_s f`, with the generalized (non-integer) winding numbers
 as weights. Subsumes the classical residue theorem (poles off `γ`, integer weights) and the
 half-residue case below. -/
 theorem hungerbuhlerWasem_residueTheorem {f : ℂ → ℂ} {U : Set ℂ} (hU : IsOpen U) (S : Finset ℂ)
     (γ : ℝ → ℂ) (a b : ℝ)
-    (hSU : (S : Set ℂ) ⊆ U) (hclosed : γ a = γ b) (hγU : ∀ t ∈ Set.Icc a b, γ t ∈ U)
+    (hSU : (S : Set ℂ) ⊆ U) (hclosed : γ a = γ b) (hbase : γ a ∉ (S : Set ℂ))
+    (hγU : ∀ t ∈ Set.Icc a b, γ t ∈ U)
     (hf : DifferentiableOn ℂ f (U \ (S : Set ℂ)))
     (hmero : ∀ s ∈ S, MeromorphicAt f s)
     (hnull : IsNullHomologous γ a b U)
-    (hA : ConditionAprime γ a b S) (hB : ConditionB γ a b f) :
+    (hA : ConditionAprime γ a b f S) (hB : ConditionB γ a b f) :
     HasCauchyPV γ a b f
       (2 * (Real.pi : ℂ) * Complex.I * (∑ s ∈ S, windingNumber γ a b s * residue f s)) :=
   sorry
