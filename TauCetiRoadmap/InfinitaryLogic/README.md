@@ -40,7 +40,7 @@ student-project work, contributors should follow the repository process in the r
 the relevant Zulip threads, Mathlib PRs, and public project trackers, and asking the named
 contributors before starting parallel work.
 
-* Infinitary-formula API design: `Targets.lean` uses parallel inductives only as a roadmap-local
+* Infinitary-formula API design: `Suggested.lean` uses parallel inductives only as a roadmap-local
   prototype. This roadmap does not claim Tau Ceti should settle the final Mathlib API before the Zulip
   `ModelTheory: API for infinitary formulas of L_{∞,ω}` discussion is resolved.
 * Cantor–Bendixson / perfect-kernel / ordinal-stabilization infrastructure: this roadmap does not
@@ -199,7 +199,7 @@ Provenance note, kept here rather than in the intrinsic layer text:
 ## The build, in layers
 
 The ordering below is the dependency order: no layer depends on a later one. As each layer makes the
-next layer's *types* expressible in `TauCeti/`, state its milestones in `Targets.lean` with `sorry`
+next layer's *types* expressible in `TauCeti/`, state its milestones in `Suggested.lean` with `sorry`
 (or, for shapes whose machinery is not yet grounded, in fenced code blocks here). Each layer is a full
 development — object API, milestone theorems, and acceptance examples — not a single theorem.
 
