@@ -344,8 +344,8 @@ milestones** — Frieze–Kannan `weak_regularity_frieze_kannan`, compactness/co
 compatibility `finiteGraphGraphon` + `homDensity_finiteGraphGraphon` (with `0 < m`), and the
 quotient-level separation `graphonSpace_ext_homDensity`; and the **Layer-8 representability** targets
 `LabeledGraph` (injective labels) + `LabeledGraph.glue`, the graph parameter `GraphParam` with
-`IsIsoInvariant`, the finite `connectionMatrix`, its `IsReflectionPositive` (finite principal blocks
-PSD) / `IsMultiplicative` / `IsNormalized` predicates, and the five-condition iff
+`IsIsoInvariant`, the finite `connectionMatrix` (+ the entry law `connectionMatrix_apply`), its
+`IsReflectionPositive` (finite principal blocks PSD) / `IsMultiplicative` / `IsNormalized` predicates, and the five-condition iff
 `lovasz_szegedy_representability` (over the canonical `(I, volume)` carrier). Described in prose rather than pinned (to
 avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape and the exact
 mod-null transport bundle. An `IsCoupling` *structure/class* is **deliberately not** introduced — a

@@ -22,8 +22,8 @@ are pinned here too — as are the endpoint milestones: Frieze–Kannan weak reg
 compactness/completeness of `GraphonSpaceI`, the coupling↔map `cutDistPullback`, the Layer-6b
 convergence equivalence, finite-graph compatibility (`finiteGraphGraphon`), and quotient-level
 separation. The Layer-8 representability targets — injective-label `LabeledGraph` / `LabeledGraph.glue`,
-the graph parameter `GraphParam` with `IsIsoInvariant`, the finite `connectionMatrix` and
-`IsReflectionPositive` (finite principal blocks PSD), `IsMultiplicative` / `IsNormalized`, and
+the graph parameter `GraphParam` with `IsIsoInvariant`, the finite `connectionMatrix` (+ its entry law
+`connectionMatrix_apply`) and `IsReflectionPositive` (finite principal blocks PSD), `IsMultiplicative` / `IsNormalized`, and
 `lovasz_szegedy_representability` (the five-condition iff over the canonical `(I, volume)` carrier) —
 are pinned here too.
 
@@ -514,16 +514,23 @@ that makes `f` a genuine graph parameter rather than a labelling-sensitive funct
 def IsIsoInvariant (f : GraphParam) : Prop := sorry
 
 /-- **Layer 8a (connection matrix).** For a finite family `A : ι → LabeledGraph k` of `k`-labeled
-graphs, the `ι × ι` matrix with `(i, j)` entry `f (A i `glue` A j)` — a finite principal block of the
-full connection matrix `M(f, k)`. Built here; connection matrices are not in Mathlib. -/
+graphs, the `ι × ι` matrix whose `(i, j)` entry is `f` on the glued graph of `A i` and `A j` (pinned
+by `connectionMatrix_apply`) — a finite principal block of the full connection matrix `M(f, k)`. Built
+here; connection matrices are not in Mathlib. -/
 def connectionMatrix (f : GraphParam) {k : ℕ} {ι : Type*} [Fintype ι]
     (A : ι → LabeledGraph k) : Matrix ι ι ℝ := sorry
 
+/-- **Layer 8a.** The connection-matrix entry law: `f` evaluated on the glued graph of `A i` and
+`A j` (its size and simple graph read off the gluing). -/
+theorem connectionMatrix_apply (f : GraphParam) {k : ℕ} {ι : Type*} [Fintype ι]
+    (A : ι → LabeledGraph k) (i j : ι) :
+    connectionMatrix f A i j = f ((A i).glue (A j)).1 ((A i).glue (A j)).2 := sorry
+
 /-- **Layer 8a (reflection positivity).** `f` is reflection-positive when every finite connection
 matrix is positive semidefinite — i.e. every finite principal block of each `M(f, k)` is PSD. Stated
-over finite index families rather than as one infinite matrix. -/
+over finite index families (in any universe) rather than as one infinite matrix. -/
 def IsReflectionPositive (f : GraphParam) : Prop :=
-  ∀ (k : ℕ) {ι : Type} [Fintype ι] (A : ι → LabeledGraph k), (connectionMatrix f A).PosSemidef
+  ∀ (k : ℕ) {ι : Type*} [Fintype ι] (A : ι → LabeledGraph k), (connectionMatrix f A).PosSemidef
 
 /-- **Layer 8 (multiplicativity).** `f(F₁ ⊔ F₂) = f(F₁) · f(F₂)` over disjoint unions. -/
 def IsMultiplicative (f : GraphParam) : Prop := sorry
