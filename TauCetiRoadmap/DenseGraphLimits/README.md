@@ -270,7 +270,7 @@ No upstreaming is scheduled before Layers 1–4 are complete in `TauCeti/`.
 
 ---
 
-## Target signatures
+## Suggested signatures
 
 The compiled `sorry`-signatures live in [`Suggested.lean`](./Suggested.lean) (imported by the root
 `TauCetiRoadmap.lean`, so CI type-checks them). They pin the types — in particular that the cut

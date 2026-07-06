@@ -1,12 +1,15 @@
 import Mathlib
 
 /-!
-# Dense graph limits and graphons: target signatures
+# Dense graph limits and graphons: suggested signatures
 
-The narrative roadmap (conventions, the layer plan, the consumed-Mathlib inventory, acceptance
-gates, provenance, references) is in `README.md`. This file pins the **types** as compiled
-`sorry`-signatures (allowed in this human-owned roadmap library): in particular that the cut norm
-acts on *kernels* (so a difference `U - W` is well-typed), that `cutDist` is **coupling-primary and
+**`README.md` is the definitive roadmap document** — its conventions, layer plan, consumed-Mathlib
+inventory, acceptance gates, provenance, and references are the specification. This file is **not**
+the roadmap and is **not exhaustive**: it records suggested Lean `sorry`-forms (allowed in this
+human-owned roadmap library) for *particular* milestones, so contributors and reviewers converge on
+names and signatures; discharging every statement here neither finishes a layer nor the roadmap. The
+pinned choices: the cut norm acts on *kernels* (so a difference `U - W` is well-typed), `cutDist` is
+**coupling-primary and
 cross-carrier**, and that the constant-graphon / sampling targets share the `unitInterval`
 convention with Mathlib's `SimpleGraph.binomialRandom`. The Layer-6a separation forward is
 **cross-carrier** with minimal hypotheses (same-carrier a corollary), the converse pinned both
