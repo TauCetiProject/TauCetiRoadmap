@@ -27,15 +27,17 @@ HPT's trace formulas use only right duals, and Mathlib registers `FDRep k G` as 
 `RightRigidCategory` (via `FGModuleCat`), so this is the natural common generality. The mathematics is
 the usual rigid setting (see `README.md`).
 
-Unlike a first sketch, the pins below carry their **real axioms**: `Pivotal` requires the
-componentwise `φ_X : X ≅ Xᘁᘁ` to be natural and **monoidal** (via the canonical
-`dualDualTensorIso`/`dualDualUnitIso`), and `Balanced` carries the **balancing axiom**. A bare natural
-iso to the double dual is *not* a pivotal structure, and the Freyd–Yetter and torsor milestones are
-false without monoidality; likewise `Ribbon` and the braided↔pivotal equivalence are vacuous without
-the balancing axiom. The fusion-level milestones (`frobeniusPerronDim`, `universalGradingGroup`, the
-DGNO classification) carry an explicit `IsFusion k C` hypothesis tying the coefficient field `k` to
-`C`, and `VecTwisted` is built over a **bundled** normalized 3-cocycle so its monoidal structure is
-not asserted for an arbitrary `ω`. `README.md` remains the definitive document.
+The pins below carry their **real axioms**, so an implementer cannot satisfy them with a
+weaker-than-intended structure: `Pivotal` is a natural iso `𝟭 C ≅ (-)ᘁᘁ` together with Mathlib's
+`NatTrans.IsMonoidal` predicate (the *complete* unit-and-tensor monoidality condition, built on the
+double dual's pinned `.Monoidal` instance), not a bare natural iso; and `Balanced` carries the
+**balancing axiom** as a genuine field. Monoidality is not left to a docstring: without it the
+Freyd–Yetter and torsor milestones are false, and without the balancing axiom `Ribbon` and the
+braided↔pivotal equivalence are vacuous. The fusion-level milestones (`frobeniusPerronDim`,
+`universalGradingGroup`, the DGNO classification) carry an explicit `IsFusion k C` hypothesis tying
+the coefficient field `k` to `C`, and `VecTwisted` is built over a **bundled** normalized 3-cocycle so
+its monoidal structure is not asserted for an arbitrary `ω`. `README.md` remains the definitive
+document.
 -/
 
 namespace TauCetiRoadmap.PivotalSpherical
@@ -61,35 +63,34 @@ noncomputable def doubleDualFunctor (C : Type u) [Category.{v} C] [MonoidalCateg
 theorem doubleDualFunctor_obj {C : Type u} [Category.{v} C] [MonoidalCategory C]
     [RightRigidCategory C] (X : C) : (doubleDualFunctor C).obj X = ((Xᘁ : C)ᘁ : C) := sorry
 
-/-- **The monoidal comparison of `(-)ᘁᘁ` on a tensor product**: the canonical iso
-`(X ⊗ Y)ᘁᘁ ≅ Xᘁᘁ ⊗ Yᘁᘁ` coming from rigidity (`rightDualTensorIso` applied twice). It is the datum
-against which a pivotal structure's monoidality is stated. -/
-noncomputable def dualDualTensorIso {C : Type u} [Category.{v} C] [MonoidalCategory C]
-    [RightRigidCategory C] (X Y : C) :
-    (((X ⊗ Y)ᘁ : C)ᘁ : C) ≅ (((Xᘁ : C)ᘁ : C) ⊗ ((Yᘁ : C)ᘁ : C)) := sorry
+/-- **The double-dual endofunctor is strong monoidal** (Layer-0 build: the monoidal comparison
+`(X ⊗ Y)ᘁᘁ ≅ Xᘁᘁ ⊗ Yᘁᘁ` from `rightDualTensorIso` applied twice, and `𝟙ᘁᘁ ≅ 𝟙`). This is the datum
+that makes "pivotal = *monoidal* natural iso `𝟭 C ≅ (-)ᘁᘁ`" a complete definition via Mathlib's
+`NatTrans.IsMonoidal`, rather than a bare natural iso. -/
+noncomputable instance doubleDualFunctorMonoidal (C : Type u) [Category.{v} C] [MonoidalCategory C]
+    [RightRigidCategory C] : (doubleDualFunctor C).Monoidal := sorry
 
 /-! ## Layer 1: pivotal structures
 
 A **pivotal structure** is a *monoidal* natural isomorphism `φ : 𝟭 C ≅ (-)ᘁᘁ` (a trivialization of
-the double dual). We pin it componentwise, carrying naturality and the monoidal tensor compatibility
-as genuine axioms (the unit compatibility `φ_𝟙` against the canonical `𝟙ᘁᘁ ≅ 𝟙` is the remaining
-milestone, omitted here only to avoid the `hasRightDualUnit` instance diamond on `𝟙ᘁᘁ`). -/
+the double dual). We pin it as exactly that: a natural iso together with Mathlib's
+`NatTrans.IsMonoidal` predicate on it, so monoidality (the unit *and* tensor coherences) is Mathlib's
+own complete condition — not a hand-rolled axiom list that could be silently incomplete. A bare
+natural iso to the double dual is *not* a pivotal structure. -/
 
 /-- **Pivotal category** (discharging the `Rigid/Basic.lean` TODO): a right rigid category with a
-**monoidal** natural isomorphism `φ : 𝟭 C ≅ (-)ᘁᘁ`, given componentwise. -/
+**monoidal** natural isomorphism `φ : 𝟭 C ≅ (-)ᘁᘁ`. -/
 class Pivotal (C : Type u) [Category.{v} C] [MonoidalCategory C] [RightRigidCategory C] where
-  /-- The component `φ_X : X ≅ Xᘁᘁ`. -/
-  iso : ∀ X : C, X ≅ ((Xᘁ : C)ᘁ : C)
-  /-- Naturality of `φ` against the double dual on morphisms (`f ↦ (fᘁ)ᘁ`). -/
-  naturality : ∀ {X Y : C} (f : X ⟶ Y),
-    f ≫ (iso Y).hom = (iso X).hom ≫ rightAdjointMate (rightAdjointMate f)
-  /-- Monoidality of `φ` on tensor products (against `dualDualTensorIso`). -/
-  tensor : ∀ X Y : C,
-    (iso (X ⊗ Y)).hom ≫ (dualDualTensorIso X Y).hom = (iso X).hom ⊗ₘ (iso Y).hom
+  /-- The natural isomorphism `φ : 𝟭 C ≅ (-)ᘁᘁ`. -/
+  iso : 𝟭 C ≅ doubleDualFunctor C
+  /-- `φ` is a **monoidal** natural transformation (Mathlib's `NatTrans.IsMonoidal`: unit and tensor
+  coherences). -/
+  monoidal : NatTrans.IsMonoidal iso.hom
 
-/-- The component `φ_X : X ≅ Xᘁᘁ` of a pivotal structure. -/
-def pivotalIso {C : Type u} [Category.{v} C] [MonoidalCategory C] [RightRigidCategory C]
-    [Pivotal C] (X : C) : X ≅ ((Xᘁ : C)ᘁ : C) := Pivotal.iso X
+/-- The component `φ_X : X ≅ Xᘁᘁ` of a pivotal structure: the value of `Pivotal.iso` at `X`, retyped
+through `doubleDualFunctor_obj`. -/
+noncomputable def pivotalIso {C : Type u} [Category.{v} C] [MonoidalCategory C] [RightRigidCategory C]
+    [Pivotal C] (X : C) : X ≅ ((Xᘁ : C)ᘁ : C) := sorry
 
 /-- **The Freyd–Yetter redundancy** (Selinger, Lem 4.11): the historical fourth axiom
 `φ_{Xᘁ} = (φ_X⁻¹)ᘁ` is a theorem, provable from the monoidality of `φ`, not an axiom. -/
@@ -97,17 +98,14 @@ theorem pivotalIso_rightDual {C : Type u} [Category.{v} C] [MonoidalCategory C]
     [RightRigidCategory C] [Pivotal C] (X : C) :
     (pivotalIso (Xᘁ : C)).hom = rightAdjointMate (pivotalIso X).inv := sorry
 
-/-- **A monoidal natural automorphism of the identity**, an element of `Aut_⊗(𝟭 C)`: componentwise
-`u_X : X ≅ X`, natural and monoidal. These form an abelian group acting on pivotal structures. -/
+/-- **A monoidal natural automorphism of the identity**, an element of `Aut_⊗(𝟭 C)`: a natural iso
+`𝟭 C ≅ 𝟭 C` that is monoidal (`NatTrans.IsMonoidal`). These form an abelian group acting on pivotal
+structures. -/
 structure MonoidalAut (C : Type u) [Category.{v} C] [MonoidalCategory C] where
-  /-- The component `u_X : X ≅ X`. -/
-  iso : ∀ X : C, X ≅ X
-  /-- Naturality. -/
-  naturality : ∀ {X Y : C} (f : X ⟶ Y), f ≫ (iso Y).hom = (iso X).hom ≫ f
-  /-- Monoidality on tensor products. -/
-  tensor : ∀ X Y : C, (iso (X ⊗ Y)).hom = (iso X).hom ⊗ₘ (iso Y).hom
-  /-- Monoidality on the unit. -/
-  unit : (iso (𝟙_ C)).hom = 𝟙 (𝟙_ C)
+  /-- The natural automorphism `𝟭 C ≅ 𝟭 C`. -/
+  iso : 𝟭 C ≅ 𝟭 C
+  /-- It is a monoidal natural transformation. -/
+  monoidal : NatTrans.IsMonoidal iso.hom
 
 noncomputable instance (C : Type u) [Category.{v} C] [MonoidalCategory C] :
     Group (MonoidalAut C) := sorry
@@ -115,8 +113,7 @@ noncomputable instance (C : Type u) [Category.{v} C] [MonoidalCategory C] :
 /-- **The torsor of pivotal structures.** Any two pivotal structures differ by a monoidal natural
 automorphism of the identity: `Aut_⊗(𝟭 C)` acts freely and transitively on them (when nonempty). -/
 theorem pivotal_torsor {C : Type u} [Category.{v} C] [MonoidalCategory C] [RightRigidCategory C]
-    (P Q : Pivotal C) : ∃ u : MonoidalAut C, ∀ X : C, (P.iso X).hom = (u.iso X).hom ≫ (Q.iso X).hom :=
-  sorry
+    (P Q : Pivotal C) : ∃ u : MonoidalAut C, P.iso = u.iso ≪≫ Q.iso := sorry
 
 /-! ## Layer 2: traces, dimensions, and spherical categories
 
@@ -282,13 +279,11 @@ maps, the Drinfel'd-centre arrows, and the central equivalence `balanced+rigid �
 identity satisfying the balancing axiom `θ_{X⊗Y} = (θ_X ⊗ θ_Y) ≫ β_{X,Y} ≫ β_{Y,X}`. The axiom is a
 genuine field, not a docstring. -/
 class Balanced (C : Type u) [Category.{v} C] [MonoidalCategory C] [BraidedCategory C] where
-  /-- The component twist `θ_X : X ≅ X`. -/
-  twist : ∀ X : C, X ≅ X
-  /-- Naturality of the twist. -/
-  naturality : ∀ {X Y : C} (f : X ⟶ Y), f ≫ (twist Y).hom = (twist X).hom ≫ f
+  /-- The twist `θ : 𝟭 C ≅ 𝟭 C`, a natural automorphism of the identity (naturality is free). -/
+  twist : 𝟭 C ≅ 𝟭 C
   /-- The balancing axiom (double braiding). -/
-  compat : ∀ X Y : C, (twist (X ⊗ Y)).hom =
-    ((twist X).hom ⊗ₘ (twist Y).hom) ≫ (BraidedCategory.braiding X Y).hom ≫
+  compat : ∀ X Y : C, twist.hom.app (X ⊗ Y) =
+    (twist.hom.app X ⊗ₘ twist.hom.app Y) ≫ (BraidedCategory.braiding X Y).hom ≫
       (BraidedCategory.braiding Y X).hom
 
 /-- **Ribbon category**: a balanced right rigid category whose twist is compatible with duals,
@@ -297,7 +292,8 @@ class Ribbon (C : Type u) [Category.{v} C] [MonoidalCategory C] [BraidedCategory
     [RightRigidCategory C] [Balanced C] : Prop where
   /-- The twist commutes with taking duals. -/
   twist_rightDual : ∀ X : C,
-    (Balanced.twist (Xᘁ : C)).hom = rightAdjointMate (Balanced.twist X).hom
+    (Balanced.twist (C := C)).hom.app (Xᘁ : C) =
+      rightAdjointMate ((Balanced.twist (C := C)).hom.app X)
 
 /-- **The central equivalence, one direction (HPT eq (3))**: a braided right rigid pivotal category
 is balanced, via the explicit twist
