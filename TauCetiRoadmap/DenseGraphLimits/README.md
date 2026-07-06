@@ -65,10 +65,11 @@ in *Why these two choices* below.
 - *Coupling-primary `cutDist` (#2).* Cut distance has two equivalent forms — the **coupling** form
   (infimum, over couplings of the two carriers, of the cut norm of the overlaid difference) and the
   classical **measure-preserving-map** form (infimum, over m.p. maps into a common carrier, of the
-  pulled-back difference). We pin the coupling form as primary because it is **cross-carrier and
-  symmetric by construction**: it is well-defined for graphons on *arbitrary* probability spaces,
-  needs no common carrier and no standard-Borel/atomless hypothesis even to be *stated*, and its
-  triangle inequality is exactly the gluing lemma. The map form is not more general — it **equals**
+  pulled-back difference). We pin the coupling form as primary because it is **cross-carrier by
+  construction, with symmetry a direct swap-coupling theorem** (`cutDist_comm`, via the coupling
+  swap): it is well-defined for graphons on *arbitrary* probability spaces, needs no common carrier
+  and no standard-Borel/atomless hypothesis even to be *stated*, and its triangle inequality is
+  exactly the gluing lemma. The map form is not more general — it **equals**
   the coupling form under atomless standard-Borel hypotheses (Layer 5, `cutDist_eq_cutDistPullback`)
   — so making it primary would only bake those hypotheses and a common carrier into the basic object,
   crippling the cross-carrier API that the compactness, separation, and convergence layers rest on.
@@ -263,19 +264,24 @@ close.
 ### Layer 8a — quantum graphs and reflection positivity
 The gluing algebra behind the representability theorem, **built here** (connection matrices are not
 in Mathlib). A `k`-**labeled graph** `LabeledGraph k` is a finite simple graph with an ordered
-`k`-tuple of labeled vertices; `LabeledGraph.glue` glues two of them by identifying corresponding
-labels. For a graph parameter `f : GraphParam` — an isomorphism-invariant real parameter of finite
-simple graphs — and each `k`, the **connection matrix** `M(f, k)` is indexed by `k`-labeled graphs
-with entry `f(G₁.glue G₂)`; `f` is **reflection-positive** (`IsReflectionPositive`) when every
-`M(f, k)` is positive semidefinite. Together with `IsMultiplicative` (over disjoint unions) and
-`IsNormalized` (`f(K₁) = 1`), these are the structural hypotheses of the characterization.
+`k`-tuple of *distinct* labeled vertices (labels injective); `LabeledGraph.glue` glues two of them by
+identifying corresponding labels. For a graph parameter `f : GraphParam` — a real parameter of finite
+simple graphs, with isomorphism invariance imposed separately as `IsIsoInvariant` — and a finite
+family `A : ι → LabeledGraph k`, `connectionMatrix f A` is the `ι × ι` matrix with entry
+`f(A i glue A j)`, a finite principal block of the full connection matrix `M(f, k)`. `f` is
+**reflection-positive** (`IsReflectionPositive`) when every such finite connection matrix is positive
+semidefinite — stated over finite index families, not as one infinite matrix. Together with
+`IsMultiplicative` (over disjoint unions) and `IsNormalized` (`f(K₁) = 1`), these are the structural
+hypotheses of the characterization.
 
 ### Layer 8b — Lovász–Szegedy representability
-`lovasz_szegedy_representability`: a graph parameter equals `t(·, W)` for some graphon **iff** it is
-multiplicative, normalized, reflection-positive, and `[0,1]`-bounded (LNGL Thm 5.54 / the moment
-problem for graphs). Grounded on the reflection-positivity development of Layer 8a above — a target
-built here, not a re-derivation deferred to external material. Sequenced late because it depends on
-Layer 8a, and it is required work.
+`lovasz_szegedy_representability`: a graph parameter equals `t(·, W)` for a graphon `W` on the
+canonical carrier `(I, volume)` **iff** it is isomorphism-invariant, multiplicative, normalized,
+reflection-positive, and `[0,1]`-bounded (LNGL Thm 5.54 / the moment problem for graphs). Stating the
+existential over `(I, volume)` — every graphon is representable there — keeps the statement on the
+roadmap's canonical `GraphonSpaceI` carrier rather than an abstract existential space. Grounded on the
+reflection-positivity development of Layer 8a above — a target built here, not a re-derivation deferred
+to external material. Sequenced late because it depends on Layer 8a, and it is required work.
 
 ### Layer 9 — sampling and exchangeable arrays
 The `W`-random graph law `sampleGraph W n` (a probability measure on `SimpleGraph (Fin n)`, on the
@@ -337,9 +343,10 @@ milestones** — Frieze–Kannan `weak_regularity_frieze_kannan`, compactness/co
 `tendsto_graphonSpace_iff_forall_homDensity` (+ `continuous_homDensityOnSpace`), finite-graph
 compatibility `finiteGraphGraphon` + `homDensity_finiteGraphGraphon` (with `0 < m`), and the
 quotient-level separation `graphonSpace_ext_homDensity`; and the **Layer-8 representability** targets
-`LabeledGraph` + `LabeledGraph.glue`, the graph parameter `GraphParam`, its `IsReflectionPositive` /
-`IsMultiplicative` / `IsNormalized` predicates, and the four-condition iff
-`lovasz_szegedy_representability`. Described in prose rather than pinned (to
+`LabeledGraph` (injective labels) + `LabeledGraph.glue`, the graph parameter `GraphParam` with
+`IsIsoInvariant`, the finite `connectionMatrix`, its `IsReflectionPositive` (finite principal blocks
+PSD) / `IsMultiplicative` / `IsNormalized` predicates, and the five-condition iff
+`lovasz_szegedy_representability` (over the canonical `(I, volume)` carrier). Described in prose rather than pinned (to
 avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape and the exact
 mod-null transport bundle. An `IsCoupling` *structure/class* is **deliberately not** introduced — a
 coupling of given marginals is not canonical, so typeclass resolution would pick an arbitrary one; the
@@ -432,9 +439,10 @@ The mathematics and proof routes draw on two prior Lean developments,
 - Are the **endpoint milestones** pinned as targets — FK weak regularity, `CompactSpace`/`CompleteSpace
   GraphonSpaceI`, `cutDistPullback` ↔ `cutDist`, the Layer-6b convergence equivalence, finite-graph
   compatibility (with `0 < m`), and quotient-level separation?
-- Is Layer 8 pinned as a real target here — reflection positivity (`LabeledGraph` / `LabeledGraph.glue`
-  / `IsReflectionPositive`) and `lovasz_szegedy_representability` — rather than deferred to an external
-  reflection-positivity development?
+- Is Layer 8 pinned as a real target here — injective-label `LabeledGraph` / `LabeledGraph.glue`, the
+  finite `connectionMatrix` / `IsReflectionPositive` (finite principal blocks PSD, not one infinite
+  matrix), and `lovasz_szegedy_representability` (with `IsIsoInvariant` among its hypotheses, over the
+  canonical `(I, volume)` carrier) — rather than deferred to an external reflection-positivity development?
 - Is `IsCoupling` a named `Prop` (not a structure/typeclass), matching the vocabulary and docstring?
 - Is the injective density `t₀` normalized by the falling factorial `(n)_k`, **never** `Nat.choose n k`?
 - Do the computed-value backstops hold (`t(K₂, W_{K₄}) = 3/4`, `t(K₃, W_{C₅}) = 0`, `t(F, W_p) = p^{e(F)}`)?
