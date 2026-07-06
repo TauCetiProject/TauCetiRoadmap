@@ -133,7 +133,7 @@ convergence equivalence. None of it is upstream.
 ## The build, in layers
 
 As each layer makes the next layer's *types* expressible, state its milestones (with `sorry`,
-in `Targets.lean` or embedded here). Each layer is required work; later layers may be built
+in `Suggested.lean` or embedded here). Each layer is required work; later layers may be built
 later, but none is skippable.
 
 ### Layer 0 — finite-graph and measure scaffolding
@@ -159,7 +159,7 @@ carriers.
 graphon.
 
 ### Layer 2 — counting, regularity, total boundedness
-The **forward counting lemma** `|t(F,U) − t(F,W)| ≤ e(F) · ‖U − W‖□` (in `Targets.lean` the prefactor
+The **forward counting lemma** `|t(F,U) − t(F,W)| ≤ e(F) · ‖U − W‖□` (in `Suggested.lean` the prefactor
 is `(F.edgeFinset.card : ℝ)`) and its **coupling / cut-distance form** `counting_lemma_coupling` (the
 cross-carrier engine); the descent of `t(F, ·)` to `GraphonSpace` (`homDensityOnSpace`); the
 **Frieze–Kannan weak regularity lemma** (`weak_regularity_frieze_kannan`, complexity `4^{⌈1/ε²⌉}`),
@@ -183,7 +183,7 @@ representative; observable statements are independent of this null-set conventio
 density of step graphons in `δ□` and total boundedness of `(GraphonSpace, δ□)`.
 
 *Acceptance:* the counting lemma specialized to `K₂`, `K₃`; weak regularity producing a step graphon
-(the block-averaged `stepGraphonAvg`; see also `stepGraphon` / `stepGraphon_apply` in `Targets.lean`);
+(the block-averaged `stepGraphonAvg`; see also `stepGraphon` / `stepGraphon_apply` in `Suggested.lean`);
 `t(F, ·)` descending to `GraphonSpace`.
 
 ### Layer 3 — the AE / `AEEqFun` view
@@ -272,7 +272,7 @@ No upstreaming is scheduled before Layers 1–4 are complete in `TauCeti/`.
 
 ## Target signatures
 
-The compiled `sorry`-signatures live in [`Targets.lean`](./Targets.lean) (imported by the root
+The compiled `sorry`-signatures live in [`Suggested.lean`](./Suggested.lean) (imported by the root
 `TauCetiRoadmap.lean`, so CI type-checks them). They pin the types — in particular that the cut
 norm acts on *kernels* (so `U − W` is well-typed), that `cutDist` is coupling-primary and
 cross-carrier, and that the constant-graphon and sampling targets share the `unitInterval` (`p : I`)
