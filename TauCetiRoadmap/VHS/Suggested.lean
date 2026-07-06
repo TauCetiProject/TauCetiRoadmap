@@ -13,7 +13,9 @@ Schmid's asymptotics) are **out of scope** -- this is the weight-general *struct
 instances come from elsewhere (the weight-1 / curve case is the worked model).
 
 NOTE: elaborates green against `TauCetiRoadmap`'s pinned Mathlib (leanprover/lean4:v4.31.0-rc1); the
-milestone `example`s carry `sorry`, every definition is complete.
+milestone `example`s carry `sorry`, and the two analytic L4 fields of `VariationOfHodgeStructure`
+(`holomorphic`, `griffiths_transversality`) are explicit `(sorry : Prop)` holes awaiting the
+complex-geometry API; every other definition is complete.
 -/
 
 namespace TauCetiRoadmap.VHS
@@ -719,8 +721,13 @@ structure VariationOfHodgeStructure (B : Type*) (V : Type*) [AddCommGroup V] [Mo
   polarization : Polarization fiber
   monodromy : PolarizedMonodromyRepresentation fiber polarization Γ
   hodgeBundle : ℤ → B → Submodule ℂ (Complexification V)
-  holomorphic : ∀ _ : ℤ, Prop
-  griffiths_transversality : Prop
+  -- The two analytic L4 obligations are genuine `(sorry : Prop)` holes, not a bare `Prop` field
+  -- type: with `: Prop` any instance discharges them by `True`, making the datum silently vacuous.
+  -- As `(sorry : Prop)` an instance cannot be built without discharging the analytic condition --
+  -- the true state until Mathlib's complex-geometry API exists. These are the only definitional
+  -- `sorry`s here, and are not carried into merged implementation code.
+  holomorphic : ∀ _ : ℤ, (sorry : Prop)
+  griffiths_transversality : (sorry : Prop)
 
 -- L4 has no self-contained provable milestone: period-map horizontality / Griffiths transversality
 -- (`∇F^p ⊆ F^{p-1}⊗Ω¹`) is an analytic statement needing the connection/complex-geometry

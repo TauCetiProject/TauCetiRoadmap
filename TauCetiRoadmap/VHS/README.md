@@ -309,8 +309,9 @@ contributes the honest monodromy facet plus a schematic
 `VariationOfHodgeStructure` seed — it has **no self-contained provable milestone**, because period-map
 horizontality / Griffiths transversality is analytic and out of scope; its provable engine is the L5
 Schur lemma. The only remaining schematic placeholders are the **L4 analytic fields** (`holomorphic`,
-`griffiths_transversality`) — the genuinely out-of-scope complex-geometry inputs; the MHS `graded_pure`
-axiom is now fully encoded (real induced purity on the rational `gr^W_k`). Elaborated green against
-`TauCetiRoadmap`'s pinned Mathlib (leanprover/lean4:v4.31.0-rc1), axiom-clean (only `propext`,
-`Classical.choice`, `Quot.sound`); the milestone `example`s carry `sorry`, every definition is
-complete.*
+`griffiths_transversality`), written as explicit `(sorry : Prop)` holes — so an instance genuinely
+cannot be built without the (out-of-scope) complex-geometry inputs, rather than being silently
+satisfiable by `True`; the MHS `graded_pure` axiom is now fully encoded (real induced purity on the
+rational `gr^W_k`). Elaborated green against `TauCetiRoadmap`'s pinned Mathlib
+(leanprover/lean4:v4.31.0-rc1); apart from those two L4 fields (and the milestone `example`s), every
+definition is complete and axiom-clean (only `propext`, `Classical.choice`, `Quot.sound`).*
