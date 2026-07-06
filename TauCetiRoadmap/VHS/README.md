@@ -1,7 +1,7 @@
 # Roadmap: variation of Hodge structure (general)
 
 The narrative roadmap for **Hodge theory's linear-algebraic core and the abstract theory of its
-variations**, at general weight, as a reusable library; `Targets.lean` states the milestones as
+variations**, at general weight, as a reusable library; `Suggested.lean` states the milestones as
 `sorry`-goals. Its summit in the pure theory is the **semisimplicity of polarized Hodge structures**
 (Hodge–Riemann), and in the mixed theory Deligne's **strictness**; on top sits the abstract framework
 of **variations of Hodge structure** (period domains, period maps, monodromy). Written to the roadmap
@@ -62,7 +62,7 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
 
 ## Core definitions (the chief deliverable)
 
-Getting these right is the point of the entry; each is stated in `Targets.lean` and elaborates against
+Getting these right is the point of the entry; each is stated in `Suggested.lean` and elaborates against
 the pinned Mathlib.
 
 - **The integral lattice is primary datum.** A weight-`n` Hodge structure is carried on a finitely
@@ -116,7 +116,7 @@ the pinned Mathlib.
   weight-`k` HS on each `gr^W_k`.
 - **Symmetry group / monodromy:** `G = Aut(V, Q)`; monodromy of a VHS is `ρ : π₁(B) → G(ℤ)`.
 
-## Layers (each a discharge-gated milestone; the `sorry` goal in `Targets.lean` is the target)
+## Layers (each a discharge-gated milestone; the `sorry` goal in `Suggested.lean` is the target)
 
 - **L0 — Pure Hodge structures; the Hodge decomposition.**
   *Definitions:* `HodgeStructure V n` (the `n`-opposed bounded filtration), `piece p = F^p ⊓ conj(F^{n−p})`.
@@ -247,7 +247,7 @@ Structures*. New Lean formalization; credit none — original.
 
 ---
 
-*NOTE: `Targets.lean` proposes the core definitions (the chief deliverable of this entry) with a
+*NOTE: `Suggested.lean` proposes the core definitions (the chief deliverable of this entry) with a
 genuine milestone `sorry` at **L0, L1, L2, L3, L5**. The Hodge structure carries its integral lattice
 `V_ℤ` as primary datum, with `V_ℂ = ℂ ⊗ V_ℤ` and a *defined* canonical conjugation `latticeConj`, and
 is grounded in Mathlib's base-change vocabulary throughout (`BilinForm.baseChange`, `Submodule.baseChange`,
