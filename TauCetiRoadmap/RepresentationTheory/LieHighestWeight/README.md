@@ -25,6 +25,20 @@ weights**; **Weyl's complete reducibility theorem** and the Casimir element that
 None of this is upstream: a search for `Verma`, `HighestWeight`, `WeylCharacter`, `Casimir` in
 Mathlib returns nothing in Lie theory.
 
+Three further structural pillars are equally absent. The **center of the universal enveloping
+algebra** `Z(U(𝔤))` and the **Harish-Chandra isomorphism** `Z(U(𝔤)) ≅ S(𝔥)^W` (the dot-action
+`W`-invariants of the symmetric algebra of the Cartan), with its **central characters** `χ_λ`, the
+theorem `χ_λ = χ_μ ⟺ μ ∈ W·λ`, and the **linkage principle**, are unbuilt (the Casimir of Layer 5 is
+one central element, but the center as a whole is not described). **Freudenthal's multiplicity
+recursion**, the practical complement to Kostant's formula, is absent. And on the concrete side the
+**exceptional Lie algebras** are barely touched: here Mathlib is further along than elsewhere, since
+`Mathlib/Algebra/Lie/SerreConstruction.lean` gives the Serre presentation `Matrix.ToLieAlgebra` of a
+Lie algebra from a Cartan matrix and even names the five exceptional split algebras `LieAlgebra.e₆`,
+`e₇`, `e₈`, `f₄`, `g₂` (as `Matrix.ToLieAlgebra K CartanMatrix.E₆` and friends), but it proves nothing
+about them: not that they are finite-dimensional or Killing-semisimple, not their dimensions
+`78, 133, 248, 52, 14`, and none of the **octonion / Jordan / magic-square** models that realize them.
+The **octonions** are absent from Mathlib entirely.
+
 This roadmap builds that representation theory, and it is organized around a single methodological
 commitment that the subject itself forces: **`sl₂` is the engine, and it is a foundational node
 precisely because the general theorems reduce to it**. This is not an easy-case-first pedagogy. The
@@ -153,6 +167,28 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
 - **Trace and invariant forms:** `Mathlib/Algebra/Lie/TraceForm.lean`, `InvariantForm.lean`,
   `Killing.lean` (`killingForm`, `traceForm`, `traceForm_cartan_nondegenerate`), the raw material for
   the Casimir element.
+- **The Serre presentation and the exceptional algebras, as defined objects:**
+  `Mathlib/Algebra/Lie/SerreConstruction.lean`, `Matrix.ToLieAlgebra R CM` (the quotient of
+  `FreeLieAlgebra R (CartanMatrix.Generators B)` by the Serre relations `CartanMatrix.Relations.toIdeal`,
+  built from `CartanMatrix.Relations.HH/EF/HE/HF/adE/adF`, carrying `LieRing` and `LieAlgebra R`
+  instances), and the named split algebras `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂`; the standard
+  integer Cartan matrices `CartanMatrix.E₆`, `E₇`, `E₈`, `F₄`, `G₂`, `A n`, `B n`, `C n`, `D n`
+  (`Mathlib/Data/Matrix/Cartan.lean`), and `RootPairing.Base.cartanMatrix` of the
+  [../RootSystems/README.md](../RootSystems/README.md) roadmap. Mathlib defines these algebras but
+  proves nothing about their structure.
+- **The symmetric algebra and the center of an algebra:** `Mathlib/LinearAlgebra/SymmetricAlgebra/`
+  (`SymmetricAlgebra R M`, `SymmetricAlgebra.equivMvPolynomial`, `Basis.symmetricAlgebra`), the target
+  of the Harish-Chandra isomorphism; `Subalgebra.center R A` (`Mathlib/Algebra/Algebra/Subalgebra/Basic.lean`),
+  so `Z(U(L)) = Subalgebra.center K (UniversalEnvelopingAlgebra K L)`; and the Weyl group
+  `(rootSystem H).weylGroup` that acts on `S(H)` by the dot action.
+- **Non-associative algebras, derivations, and exterior powers (for the exceptional models):**
+  `Mathlib/Algebra/Jordan/Basic.lean` (`IsJordan`, `IsCommJordan`, the Jordan-identity classes);
+  `Mathlib/Algebra/Lie/Derivation/Basic.lean` (`LieDerivation`, and `LieDerivation.instLieAlgebra`,
+  the derivations of a Lie algebra as a Lie algebra) and `Mathlib/RingTheory/Derivation/Basic.lean`
+  (`Derivation R A M`, for the commutative case); `Mathlib/LinearAlgebra/ExteriorPower/Basic.lean`
+  (`exteriorPower`, `⋀[R]^n M`, `exteriorPower.map`, `exteriorPower.ιMulti`) for the magic-square
+  summands; and `LieAlgebra.SpecialLinear.sl n R` (`Algebra/Lie/Classical.lean`). Mathlib has **no
+  octonion / Cayley algebra** and **no exceptional Jordan (Albert) algebra**.
 
 ## What is missing (build here)
 
@@ -169,11 +205,24 @@ is dominant integral); the **Casimir element** and **Weyl's complete reducibilit
 **Weyl character formula**, the **Weyl dimension formula**, and **Kostant's multiplicity formula**,
 together with the formal-character group algebra they are stated in. None of this is upstream.
 
+Beyond these, this roadmap builds the **center of `U(L)` and the Harish-Chandra isomorphism**
+`Z(U(L)) ≅ S(H)^W` (dot action), the **central characters** `χ_λ` and the **linkage principle**
+`χ_λ = χ_μ ⟺ μ ∈ W·λ`, and **Freudenthal's multiplicity recursion**; the **Serre presentation
+theorem** identifying Mathlib's already-defined `Matrix.ToLieAlgebra K b.cartanMatrix` with the
+Killing Lie algebra `L` of its root system (the Lie-algebra companion to the root-datum existence of
+[../RootSystems/README.md](../RootSystems/README.md)); and the **exceptional Lie algebras
+explicitly**, from the **octonions** `𝕆` (built here, since Mathlib has none) through `G₂ = Der(𝕆)`,
+the **Albert algebra** `H₃(𝕆)` with `F₄ = Der(H₃(𝕆))`, and the **Freudenthal-Tits magic square** for
+`E₆, E₇, E₈`, with their smallest representations and the identification of each with Mathlib's
+`LieAlgebra.g₂`, `f₄`, `e₆`, `e₇`, `e₈`. None of this is upstream.
+
 `Suggested.lean` pins the load-bearing objects (`Sl2Irrep`/the `V(n)` classification,
 `IsHighestWeightVector`, `vermaModule`, `irreducibleQuotient` `L(λ)`, `IsDominantIntegral`,
-`casimirElement`, `formalCharacter`, `weylCharacter`, the Weyl dimension and Kostant statements) and
-the named milestones below as `sorry`-targets, so each is claimable and the summit statements are
-machine-checked to be expressible against the pinned Mathlib.
+`casimirElement`, `formalCharacter`, `weylCharacter`, the Weyl dimension and Kostant statements, the
+`centralCharacter` and `harishChandraIso`, `freudenthal_multiplicity_formula`, the Serre-presentation
+equivalence, the `Octonion`/`AlbertAlgebra` carriers, and the exceptional `g₂`/`f₄`/`e₈`
+identifications) and the named milestones below as `sorry`-targets, so each is claimable and the summit
+statements are machine-checked to be expressible against the pinned Mathlib.
 
 ---
 
@@ -322,6 +371,85 @@ The first place the engine is called.
   formula against the geometric-series expansion of `Δ⁻¹` (whose coefficients are `P`). This is the
   weight-by-weight refinement of the character formula and the finest of the three.
 
+### Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
+
+The structural layer behind the character formula: the center that the Casimir of Layer 5 sits inside,
+the recursion that computes multiplicities in practice, and the presentation that recovers `L` from
+its root system.
+
+- **The center `Z(U(L))` and central characters.** `Z(U(L)) = Subalgebra.center K (UniversalEnvelopingAlgebra K L)`,
+  the commutative algebra in which the Casimir element of Layer 5 lives. Each `L(λ)` is a
+  `Z(U(L))`-eigenspace: `z` acts on `L(λ)` by a scalar `χ_λ(z)`, giving the **central character**
+  `χ_λ : Z(U(L)) →ₐ[K] K` (`centralCharacter λ`). Prove `z` acts on every highest weight module of
+  weight `λ` by `χ_λ(z)` (the highest weight vector is a `Z`-eigenvector and generates), so
+  `χ_λ` is well-defined and the Casimir eigenvalue `⟨λ+ρ,λ+ρ⟩ - ⟨ρ,ρ⟩` of Layer 5 is `χ_λ(casimirElement)`.
+- **The Harish-Chandra isomorphism.** The **dot action** of the Weyl group on weights,
+  `w · λ = w(λ+ρ) - ρ`, and the induced action on the symmetric algebra `S(H) = SymmetricAlgebra K H`
+  (consume `SymmetricAlgebra`, `Basis.symmetricAlgebra`); the **Harish-Chandra homomorphism**
+  `Z(U(L)) → S(H)` (projection of the triangular decomposition of Layer 3 onto the `U(H) = S(H)`
+  factor, `ρ`-shifted) and the theorem that it is an **algebra isomorphism onto the dot-invariants**
+  `harishChandraIso b : Z(U(L)) ≃ₐ[K] S(H)^{W·}`. This is the structure behind Verma-module
+  homomorphisms and the character formula.
+- **The linkage principle.** `χ_λ = χ_μ ⟺ μ ∈ W·λ` (dot action): two central characters coincide iff
+  the weights are `W`-linked (`harishChandra_linkage`). Prove it from `harishChandraIso` (a central
+  character is a `W·`-orbit of points of `S(H)`). This is the constraint that a nonzero
+  `Hom(M(μ), M(λ))` forces `μ ∈ W·λ` and that a composition factor `L(μ)` of `M(λ)` has `μ ∈ W·λ`, the
+  block decomposition of category `O`.
+- **Freudenthal's multiplicity formula.** The recursion, for `μ` a weight of `L(λ)`,
+  `(⟨λ+ρ,λ+ρ⟩ - ⟨μ+ρ,μ+ρ⟩) · mult_μ = 2 Σ_{α>0} Σ_{j≥1} mult_{μ+jα} · ⟨μ+jα, α⟩`
+  (`freudenthal_multiplicity_formula`), the practical way to compute weight multiplicities downward
+  from `λ`, complementing the closed form of Kostant. Prove it from the Casimir eigenvalue and the
+  `sl₂`-string action of each `⟨eₐ, hₐ, fₐ⟩` on the weight spaces of `L(λ)` (Layer 2). It is a check on
+  Kostant's formula and the fast route for the worked examples below.
+- **Serre's relations and the presentation of `L`.** Mathlib already builds
+  `Matrix.ToLieAlgebra K CM` (`SerreConstruction.lean`), the quotient of `FreeLieAlgebra K (CartanMatrix.Generators B)`
+  by the Serre relations from `CM`, with Chevalley generators `E_i, F_i, H_i`. The target is the
+  **presentation theorem**: for a Killing-semisimple `L` with base `b`, the standard generators
+  attached to the simple roots (the `sl₂` triples of Layer 1) satisfy the Serre relations of
+  `b.cartanMatrix`, and the induced map is a Lie-algebra isomorphism
+  `Matrix.ToLieAlgebra K b.cartanMatrix ≃ₗ⁅K⁆ L`. This gives `L` from its root system and identifies
+  Mathlib's `Matrix.ToLieAlgebra` with the concrete Killing algebra; it is the Lie-algebra companion to
+  the root-datum existence (`GeckConstruction`) recorded in
+  [../RootSystems/README.md](../RootSystems/README.md), and the input to Layer 8's identification of the
+  exceptional models.
+
+### Layer 8: the exceptional Lie algebras, explicitly
+
+Mathlib names `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂` as Serre-construction quotients but proves
+nothing about them, and has no octonions. This layer constructs the concrete algebras that realize the
+exceptional Dynkin diagrams classified in [../RootSystems/README.md](../RootSystems/README.md), and
+their smallest representations, and identifies them with the Serre-construction objects via Layer 7.
+
+- **The octonions `𝕆`.** The Cayley algebra, built by the **Cayley-Dickson doubling** of the
+  quaternions (themselves the doubling of `K ⊕ K`): an `8`-dimensional non-associative,
+  non-commutative, **alternative** composition algebra with a multiplicative norm form. Mathlib has
+  none of this, so it is built here (`Octonion K`), with its conjugation, norm, and the alternative and
+  Moufang identities. This is a target in its own right.
+- **`G₂ = Der(𝕆)`.** The derivation algebra of `𝕆` is a `14`-dimensional simple Lie algebra of type
+  `G₂`, with its `7`-dimensional **fundamental representation** the trace-zero imaginary octonions
+  `Im 𝕆` (the smallest faithful representation). Build `derivationLieAlgebra (Octonion K)` (the
+  derivations of the non-associative algebra `𝕆`, a Lie algebra under commutator, modelled on
+  `LieDerivation` but for a non-associative algebra), prove `finrank = 14`, that it is Killing-simple of
+  type `G₂`, and that `Im 𝕆` is its `7`-dimensional irreducible; identify it with `LieAlgebra.g₂ K`
+  via the Serre presentation of Layer 7.
+- **The Albert algebra `H₃(𝕆)` and `F₄ = Der(H₃(𝕆))`.** The **exceptional (Albert) Jordan algebra**
+  `J = H₃(𝕆)` of `3×3` Hermitian octonionic matrices under the symmetrized product
+  `x ∘ y = ½(xy + yx)`, a `27`-dimensional formally real exceptional Jordan algebra (consume `IsJordan`
+  / `IsCommJordan`). Its derivation algebra `F₄ = Der(J)` is a `52`-dimensional simple Lie algebra of
+  type `F₄`, with its `26`-dimensional **fundamental representation** the trace-zero elements `J₀ ⊂ J`.
+  Build `AlbertAlgebra K`, prove the Jordan identity, build `derivationLieAlgebra (AlbertAlgebra K)`,
+  prove `finrank = 52` and Killing-simplicity of type `F₄`, and identify it with `LieAlgebra.f₄ K`.
+- **The Freudenthal-Tits magic square: `E₆, E₇, E₈`.** The construction of the remaining exceptional
+  algebras as `ℤ`-graded sums built from `𝕆` and `J`; concretely, the `ℤ/3`-grading
+  `𝔢₈ = 𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*` of dimension `248 = 80 + 84 + 84` (consume
+  `LieAlgebra.SpecialLinear.sl (Fin 9) K` and `exteriorPower`, `⋀[K]^3 (Fin 9 → K)`), with the Lie
+  bracket the graded bracket pairing the exterior summands into `𝔰𝔩₉`; and `E₆` (dimension `78`, with
+  its `27`-dimensional representation `J`) and `E₇` (dimension `133`, with its `56`-dimensional
+  representation from the Freudenthal triple system on `J`) as the corresponding rows of the magic
+  square. Build each, prove its dimension and Killing-simplicity of the stated type, and identify it
+  with `LieAlgebra.e₆`, `e₇`, `e₈ K` via Layer 7. The **fundamental representations** `27` for `E₆`,
+  `56` for `E₇`, and the adjoint `248` for `E₈` are the smallest ones and the acceptance targets.
+
 ---
 
 ## Worked examples (acceptance criteria)
@@ -346,6 +474,24 @@ The first place the engine is called.
 - **Complete reducibility in action.** A chosen reducible-but-indecomposable-looking extension (e.g. a
   non-split-looking submodule of `V(1) ⊗ V(1)`) is split by Layer 5, decomposing as predicted by
   Clebsch-Gordan and the character ring.
+- **The center and linkage for `sl₂`.** For `L = sl (Fin 2) K`, `Z(U(L))` is the polynomial algebra
+  `K[c]` on the Casimir `c` (the Harish-Chandra image is `S(H)^W = K[h²]`, `W = ℤ/2` acting by
+  `h ↦ -h` on the shifted coordinate), `χ_n(c) = n(n+2)/2·(normalization)`, and linkage `χ_λ = χ_μ ⟺
+  μ = λ` or `μ = -λ-2` (dot action of the nontrivial reflection). Freudenthal on `V(n)` returns
+  multiplicity `1` for each of the weights `n, n-2, …, -n`, matching Layer 0.
+- **`sl₃` multiplicities by Freudenthal.** For type `A₂`, recompute the `0`-weight multiplicity `2` of
+  the adjoint `V(ω₁+ω₂)` by Freudenthal's recursion (a check on the Kostant computation of the earlier
+  worked example) and the multiplicities of `V(2ω₁+2ω₂)`.
+- **`G₂ = Der(𝕆)` and its `7`.** Build `𝕆 = Octonion K`, verify the alternative identities and the
+  multiplicative norm, build `Der(𝕆)`, and check `finrank K (Der 𝕆) = 14`, that it is Killing-simple of
+  type `G₂` (Cartan matrix reindexes to `CartanMatrix.G₂`), that `Im 𝕆` is its `7`-dimensional
+  irreducible `V(ω₁)`, and `Der(𝕆) ≃ₗ⁅K⁆ LieAlgebra.g₂ K`. The Weyl dimension formula on `G₂` returns
+  `7` and `14` for the two fundamental weights.
+- **`F₄ = Der(H₃(𝕆))` and `E₈`.** Build the Albert algebra `H₃(𝕆)`, check `finrank = 27` and the Jordan
+  identity, build `Der(H₃(𝕆))` and check `finrank = 52`, type `F₄`, the `26`-dimensional representation
+  `J₀`, and `≃ₗ⁅K⁆ LieAlgebra.f₄ K`. For `E₈`, check `finrank (𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*) = 248 =
+  80 + 84 + 84`, Killing-simplicity of type `E₈`, and `≃ₗ⁅K⁆ LieAlgebra.e₈ K`; the Weyl dimension
+  formula at the adjoint highest weight returns `248`.
 
 ## Ordering
 
@@ -361,7 +507,17 @@ Casimir) needs the Killing form (Mathlib) and Layer 3's `L(λ)` for the eigenval
 Kostant formulas) needs Layer 5's semisimplicity (so characters are additive) and Layer 3's Verma
 theory (for the resolution route). A contributor can complete Layers 0-2 (the engine, the
 decomposition, integrality) as a self-contained first unit, then Layers 3-4 (highest weight theory and
-the classification), then Layers 5-6 (complete reducibility and the formulas).
+the classification), then Layers 5-6 (complete reducibility and the formulas). Layer 7 (the center,
+Harish-Chandra, Freudenthal, Serre) needs Layer 3's triangular decomposition and `L(λ)` (for the
+Harish-Chandra projection and central characters) and Layer 5's Casimir (which it generalizes);
+Freudenthal needs Layer 2's `sl₂` strings, and the Serre presentation needs Layer 1's simple `sl₂`
+triples and consumes `equivOfCartanMatrixEq` of [../RootSystems/README.md](../RootSystems/README.md).
+Layer 8 (the exceptional algebras) is the most independent lane: the **octonions** and the **Albert
+algebra** can be built from scratch at any time (they need no earlier layer), and their derivation
+algebras and magic-square constructions need only the linear-algebra machinery; the identification of
+each with `LieAlgebra.g₂`/`f₄`/`e₆`/`e₇`/`e₈` uses Layer 7's Serre presentation, and the dimensions
+and weights of their fundamental representations are checked against Layer 6's Weyl dimension formula.
+A contributor can build `𝕆`, `G₂ = Der(𝕆)`, and its `7` as a self-contained capstone unit.
 
 ## References
 
@@ -383,3 +539,12 @@ the classification), then Layers 5-6 (complete reducibility and the formulas).
 - J. C. Jantzen, *Lectures on Quantum Groups* / *Representations of Algebraic Groups*, the Kostant
   partition function, the Weyl and Kostant formulas, and the link to the algebraic-groups picture that
   [../ClassicalGroups/README.md](../ClassicalGroups/README.md) consumes.
+- N. Bourbaki, *Lie Groups and Lie Algebras, Chapter 8*, the center of the enveloping algebra, the
+  Harish-Chandra homomorphism and central characters, the linkage principle, and the Chevalley-Serre
+  presentation of a split semisimple Lie algebra; the source for Layer 7.
+- N. Jacobson, *Exceptional Lie Algebras*, Marcel Dekker (1971), and R. D. Schafer, *An Introduction
+  to Nonassociative Algebras*, Academic Press (1966), the octonions, the Albert algebra `H₃(𝕆)`, and
+  the derivation algebras `G₂ = Der(𝕆)` and `F₄ = Der(H₃(𝕆))`; the source for Layer 8.
+- J. C. Baez, *The Octonions*, Bull. AMS 39 (2002), and J. M. Landsberg, L. Manivel, the
+  Freudenthal-Tits magic square and the exceptional series with their smallest representations; the
+  concrete magic-square constructions of `E₆, E₇, E₈` used in Layer 8.

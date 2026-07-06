@@ -34,7 +34,8 @@ classical theory first, because correctness is proved by showing the computed ta
 specification (orthogonality, integrality, the structure-constant eigenvalue characterization) that
 **determines the character table uniquely**.
 
-The work divides into three deliverables of increasing depth, and the layers below are grouped by them:
+The work divides into three deliverables of increasing depth, with a fourth strand of classical structure
+theorems and worked families layered on the character theory of A; the layers below are grouped by them:
 
 - **A. Ordinary character theory and the character table** (Layers 0-4): the classical development,
   worth building in full for its own sake.
@@ -43,6 +44,10 @@ The work divides into three deliverables of increasing depth, and the layers bel
 - **C. The executable certified algorithm with exact cyclotomic output** (Layer 6): the finite-field
   computation and the cyclotomic lift, conditional on an explicit exact-arithmetic infrastructure that
   is itself a named target here.
+- **D. Structural theorems and worked families** (Layers 7-9): the Frobenius-Schur trichotomy and the
+  real/quaternionic/complex classification of irreducibles, Frobenius's theorem `G = N ⋊ H`, and the full
+  character table of `GL₂(𝔽_q)`. These are classical applications of A, off the Dixon-Schneider critical
+  path, and each is a self-contained target.
 
 Suggested home: `TauCeti/RepresentationTheory/CharacterTable/` (deliverable C under
 `.../CharacterTable/Dixon/`), mirroring Mathlib's `RepresentationTheory/`.
@@ -157,11 +162,25 @@ central conversion, the degree-positivity normalization) and the **uniqueness/ch
 `Z(𝔽_p[G]) ≅ 𝔽_p^r`, the eigenvector search, the structured **cyclotomic lift**, and the assembled solver
 with its correctness proof. None of this is upstream.
 
+Deliverable D adds three classical applications, none of them upstream either: the **Frobenius-Schur
+trichotomy** and the real/quaternionic/complex classification of an irreducible `χ` over `ℂ` by
+`ν₂(χ) ∈ {+1, 0, -1}`, with the invariant **symmetric/alternating** bilinear forms, the involution count
+`#{g : g² = x} = ∑_χ ν₂(χ) χ(x)`, and the equality of the number of **real-valued** irreducibles and the
+number of **real conjugacy classes** (`g ∼ g⁻¹`); **Frobenius groups**, the **Frobenius kernel**, and
+**Frobenius's theorem** `G = N ⋊ H` (via **trivial-intersection sets** and the exceptional-character
+induction argument, the signature use of induced characters, with no known character-free proof); and the
+full **character table of `GL₂(𝔽_q)`** by parabolic induction of characters of the Borel (the principal
+series, dimension `q+1`), its one-dimensional and **Steinberg** boundary constituents (dimensions `1` and
+`q`), and the **cuspidal** representations from the non-split torus `𝔽_{q²}^×` (dimension `q-1`).
+
 `Suggested.lean` pins the load-bearing objects (`ClassFunction`, `classSum`, `structureConstant`,
 `integralClassCenter`, `centralCharacter`, `primitiveCentralIdempotent`, `centralCharacterTable`,
 `characterTable`, `IsCharacterTableSpec`, `Cyclotomic e`, `DixonPrimeData`, `characterTableDixon`) and
 the named milestones below as `sorry`-targets, so each is claimable and the summit statement
-`characterTable_eq` is machine-checked to be expressible against the pinned Mathlib.
+`characterTable_eq` is machine-checked to be expressible against the pinned Mathlib. For Deliverable D it
+adds `IsInvariantForm`, `frobeniusSchurIndicatorRep` and its trichotomy, `IsRealClass`,
+`IsFrobeniusComplement`, `frobeniusKernel` with `frobeniusKernel_isComplement'`, and `GL2Borel`,
+`GL2PrincipalSeries`, `GL2Steinberg`.
 
 ---
 
@@ -344,6 +363,106 @@ names as its first targets.
   row permutation. Acceptance: `#eval characterTableDixon (DihedralGroup 4)` returns the correct exact
   table, likewise for the staged examples below.
 
+## D. Structural theorems and worked families
+
+The three layers here are classical high points that the ordinary character theory of Deliverable A
+unlocks. They are applications, not steps on the Dixon-Schneider critical path, and each is a self-contained
+target: the Frobenius-Schur trichotomy sharpens the indicator that already distinguishes the `D₄`/`Q₈`
+pair; Frobenius's theorem is the companion to Burnside's `pᵃqᵇ` capstone and the signature use of induced
+characters; and the character table of `GL₂(𝔽_q)` is the canonical worked family combining induction (the
+[induction-restriction roadmap](../InductionRestriction/README.md)) with character theory. Layer 7 is
+stated over `ℂ` (or an algebraically closed field of characteristic `0`); Layers 8 and 9 need finite `G`.
+
+### Layer 7: the Frobenius-Schur indicator and real/quaternionic type
+
+Layer 4 pins the indicator `ν₂(χ) = |G|⁻¹ ∑_g χ(g²)` as a `def` and uses it to separate `D₄` from `Q₈`.
+This layer proves what it measures.
+
+- **The indicator on the module spine.** `frobeniusSchurIndicatorRep ρ = |G|⁻¹ ∑_g ρ.character (g²)` for
+  `ρ : Representation ℂ G V`, agreeing with the existing `FDRep`-level `frobeniusSchurIndicator` under
+  `Rep.equivalenceModuleMonoidAlgebra`. This is the computation-friendly form; state both and their equality.
+- **Invariant bilinear forms.** `IsInvariantForm ρ B` for `B : LinearMap.BilinForm ℂ V`:
+  `B (ρ g x) (ρ g y) = B x y`. The invariant forms are the `G`-invariants of `V* ⊗ V*`
+  (`Representation.dual`, `Representation.invariants`), splitting as symmetric (`LinearMap.BilinForm.IsSymm`,
+  orthogonal type) plus alternating (`LinearMap.BilinForm.IsAlt`, symplectic type); their dimensions are the
+  multiplicities `⟨Sym²χ, 1⟩` and `⟨Λ²χ, 1⟩`, and for irreducible `ρ` the total `⟨χ·χ, 1⟩` is `0` or `1`.
+- **The trichotomy.** For irreducible `ρ` over `ℂ`, `ν₂(χ) ∈ {+1, 0, -1}`: it is `+1` iff `ρ` carries a
+  nonzero invariant symmetric nondegenerate form (**orthogonal**, `ρ` realizable over `ℝ`), `-1` iff a
+  nonzero invariant alternating nondegenerate form (**quaternionic/symplectic**), and `0` iff `χ ≠ χ̄`
+  (**complex**, no nonzero invariant form). Prove each equivalence. Realizability over `ℝ` is the direction
+  that must build a `Representation ℝ G W` whose scalar extension to `ℂ` recovers `ρ` from the symmetric
+  invariant form, since Mathlib has no complexification of representations; state that construction as its
+  own target rather than assuming it.
+- **The involution-counting formula.** `#{g : g² = x} = ∑_χ ν₂(χ) χ(x)`, summing over the irreducible
+  characters; at `x = 1`, `#{g : g² = 1} = ∑_χ ν₂(χ) χ(1)`, so the number of solutions of `g² = 1` (one
+  plus the number of involutions) reads off the indicators and the degrees `χ(1)`.
+- **Real characters and real classes.** `IsRealClass C`, a class with `g ∼ g⁻¹` (via `IsConj g g⁻¹`); the
+  number of **real-valued** irreducible characters (rows of `characterTable` fixed by `starRingEnd ℂ`)
+  equals the number of real conjugacy classes. The strictly real (`ν₂ = +1`) count refines this once the
+  indicator is available: reals minus quaternionics is the signed involution count above.
+- **The categorical mirror.** This is the finite-group form of the indicator whose pivotal/spherical
+  categorical version lives in the [pivotal/spherical roadmap](../../PivotalSpherical/README.md); the two
+  agree on `FDRep G` with its standard pivotal structure, and this layer is the arithmetic side of that
+  correspondence.
+
+### Layer 8: Frobenius groups and Frobenius's theorem
+
+The character-theoretic companion to Burnside's `pᵃqᵇ` capstone (Layer 4) and the signature application of
+induced characters. No character-free proof of Frobenius's theorem is known.
+
+- **The Frobenius complement.** `IsFrobeniusComplement H` for `H : Subgroup G`: `H` proper and nontrivial,
+  and a **trivial-intersection (T.I.) subgroup**, meeting each distinct conjugate trivially,
+  `H ⊓ (g H g⁻¹) = ⊥` for `g ∉ H` (equivalently `H` malnormal). Then `G` is a **Frobenius group** with
+  complement `H`.
+- **The Frobenius kernel.** `frobeniusKernel H = {1} ∪ (G ∖ ⋃_g (g H g⁻¹))`, the identity together with the
+  elements lying in no conjugate of `H`; a set of size `|G : H|`. That it is a **subgroup** is not
+  elementary and is the content of the theorem.
+- **Frobenius's theorem.** `frobeniusKernel H` is a **normal subgroup** `N`, and `N.IsComplement' H`, so
+  `G = N ⋊ H` (`SemidirectProduct`, `Subgroup.IsComplement'`). This is the theorem with no known
+  character-free proof.
+- **The T.I.-set and exceptional-character machinery.** The proof rests on **T.I. sets** (`IsTISet`): a
+  class function on `H` that vanishes off `H` induces isometrically (`Representation.ind` and the
+  induced-character formula of the [induction-restriction roadmap](../InductionRestriction/README.md)), so
+  differences `χᵢ - χⱼ` of irreducible characters of `H` of equal degree induce to virtual characters of
+  `G` of norm `2`, the **exceptional characters**; assembling them exhibits a normal complement to `H`,
+  which is `N`. Pin `IsTISet` and the induction isometry as the machinery and the theorem as its payoff.
+- **Consequences and instances.** `|H| ∣ |N| - 1`, and `N` is nilpotent (Thompson; a downstream target,
+  not proved here). The kernel-and-complement structure is the abstract form of the affine groups
+  `𝔽_q ⋊ 𝔽_q^×` and the odd dihedral groups `D_n = C_n ⋊ C₂`.
+
+### Layer 9: the representation theory of GL₂(𝔽_q)
+
+Over `𝔽_q` (a `GaloisField p n`, or any `[Field F] [Fintype F]` with `q = Fintype.card F`), construct every
+irreducible complex representation of `GL₂(𝔽_q) = GL (Fin 2) F` and assemble its character table. This is
+the canonical worked family, and it consumes `Representation.ind` and the induced-character formula of the
+[induction-restriction roadmap](../InductionRestriction/README.md).
+
+- **The conjugacy classes.** Four families, read off the rational canonical form (`Matrix.charpoly`): the
+  `q-1` **central** scalars `diag(a,a)`; the `½(q-1)(q-2)` **split semisimple** `diag(a,b)` with `a ≠ b`;
+  the `q-1` **non-semisimple/unipotent** `[[a,1],[0,a]]`; and the `½q(q-1)` **elliptic/non-split** classes,
+  whose eigenvalues are a conjugate pair `ξ, ξ^q` in `𝔽_{q²} ∖ 𝔽_q`. The total is
+  `q²-1 = Nat.card (ConjClasses (GL (Fin 2) F))`, matching `#irreducibles`; the group order is
+  `(q²-1)(q²-q)` (`Matrix.card_GL_field`).
+- **The Borel and the principal series.** `GL2Borel`, the upper-triangular subgroup `B = T U` (split torus
+  `T = diag`, unipotent radical `U`); a pair of characters `α, β : 𝔽_q^× → ℂ^×` inflates to a character of
+  `B` through `T`, and `GL2PrincipalSeries α β = Ind_B^{GL₂}(α ⊗ β)` has dimension `q+1` (parabolic
+  induction). It is **irreducible** iff `α ≠ β`, and `Ind_B(α β) ≅ Ind_B(β α)`, giving `½(q-1)(q-2)`
+  irreducibles of dimension `q+1`.
+- **The boundary: linear and Steinberg constituents.** When `α = β`, `Ind_B(α α)` is reducible of length
+  two: the one-dimensional `α ∘ det` (a **degree-`1`** character, `q-1` of them) and the **Steinberg**
+  constituent `GL2Steinberg` twisted by `α`, of dimension `q` (`q-1` of them). So `q-1` characters of
+  dimension `1` and `q-1` of dimension `q`.
+- **The cuspidal (discrete series) representations.** The non-split torus `𝔽_{q²}^× ↪ GL₂(𝔽_q)` (a degree-`2`
+  `FiniteField.Extension`); a character `θ : 𝔽_{q²}^× → ℂ^×` with `θ^q ≠ θ` (not factoring through the norm)
+  yields a **cuspidal** representation of dimension `q-1`, with `θ` and `θ^q` giving the same one, for
+  `½q(q-1)` irreducibles of dimension `q-1`. These are exactly the irreducibles absent from every principal
+  series.
+- **The count and the table (acceptance criterion).** The tally
+  `(q-1)·1² + (q-1)·q² + ½(q-1)(q-2)·(q+1)² + ½q(q-1)·(q-1)² = (q²-1)(q²-q) = |GL₂(𝔽_q)|`, and
+  `#irreducibles = q²-1 = #classes`. The acceptance criterion is the full `(q²-1) × (q²-1)` character table
+  with the four dimension families `1, q, q+1, q-1`, its rows orthonormal for `characterPairing`. Worked
+  instances: `GL₂(𝔽_2) ≅ S₃`, and `GL₂(𝔽_3)` of order `48`.
+
 ---
 
 ## Worked examples (acceptance criteria), staged
@@ -366,6 +485,20 @@ Staged from rational to genuinely cyclotomic, so early milestones do not wait on
   and labeled uniqueness pins it (Layer 5).
 - **Burnside on a small solvable group.** `|G| = 12 = 2²·3` is solvable via the Layer-4 argument (the
   off-critical-path application).
+- **Frobenius-Schur type (Layer 7).** On the shared `2`-dimensional row of `D₄` and `Q₈`, `D₄` is orthogonal
+  (`ν₂ = +1`, real, invariant symmetric form) and `Q₈` is quaternionic (`ν₂ = -1`, invariant alternating
+  form, not realizable over `ℝ`), which is what the equal character tables cannot see; `S₃`, `S₄`, and `A₅`
+  are totally orthogonal (every `ν₂ = +1`). The involution count `#{g : g² = 1} = ∑_χ ν₂(χ) χ(1)` and the
+  match of real-valued characters with real classes are checked on each.
+- **A Frobenius group (Layer 8).** `S₃ ≅ C₃ ⋊ C₂` with complement `H = ⟨(1 2)⟩` of order `2` and kernel
+  `N = A₃` of order `3`; and the order-`20` group `𝔽₅ ⋊ 𝔽₅^×`, complement `C₄`, kernel `C₅`. Frobenius's
+  theorem recovers `G = N ⋊ H`, and the exceptional-character construction of `N` is checked against the
+  direct semidirect-product description.
+- **`GL₂(𝔽_q)` character tables (Layer 9).** `GL₂(𝔽_2) ≅ S₃` (degrees `1,1,2`, the principal/Steinberg/
+  cuspidal families degenerating onto the small table) and `GL₂(𝔽_3)` of order `48` (degrees
+  `1,1,2,2,2,3,3,4`: two of degree `1`, two of degree `q=3`, one of degree `q+1=4`, and three of degree
+  `q-1=2` from the cuspidal series), with the four families `1, q, q+1, q-1` and the `q²-1=8` classes
+  verified.
 
 ## Ordering
 
@@ -384,13 +517,27 @@ then the staged lift, then the assembled solver. Deliverables A, B, C are increa
 conditional on its named infrastructure; a contributor can complete A and B, and the rational-table
 milestone of C, well before the general cyclotomic lift.
 
+Deliverable D's three layers are independent applications built on Deliverable A. Layer 7 (Frobenius-Schur)
+needs Layer 3's completeness and `characterTable` and Layer 0's `characterPairing`, plus the invariant-form
+and dual-representation API; it is otherwise self-contained and can be built right after Layer 3. Layer 8
+(Frobenius groups) needs the induced-character formula and the induction isometry from the
+[induction-restriction roadmap](../InductionRestriction/README.md), and is the character-theoretic
+companion to Layer 4's Burnside theorem. Layer 9 (`GL₂(𝔽_q)`) needs parabolic induction (again the
+induction-restriction roadmap) and, for its cuspidal series, the non-split torus `𝔽_{q²}^×`; its acceptance
+is a concrete character table, so it also exercises Layers 0-3 on a nonabelian family of unbounded order.
+None of the three is on the Dixon-Schneider critical path, and any of them may be taken up once Deliverable
+A is in place.
+
 ## References
 
 - I. M. Isaacs, *Character Theory of Finite Groups*, AMS Chelsea (1976) — Layers 0-4: class functions and
   orthogonality (Ch. 2), central characters, primitive central idempotents, integrality of character
-  values, `χ(1) ∣ |G|` (Ch. 3), Burnside's `pᵃqᵇ` theorem (Ch. 3, Thm 3.8).
+  values, `χ(1) ∣ |G|` (Ch. 3), Burnside's `pᵃqᵇ` theorem (Ch. 3, Thm 3.8); the Frobenius-Schur indicator
+  and the real/complex/quaternionic classification (Ch. 4, Layer 7) and Frobenius groups via trivial-
+  intersection sets and exceptional characters (Ch. 7, Thm 7.2, Layer 8).
 - J.-P. Serre, *Linear Representations of Finite Groups*, Springer GTM 42 (1977) — Part I: characters,
-  orthogonality, the number of irreducibles equals the number of classes, the canonical decomposition.
+  orthogonality, the number of irreducibles equals the number of classes, the canonical decomposition;
+  §13.2, the Frobenius-Schur indicator and the real/complex/quaternionic trichotomy (Layer 7).
 - G. James, M. Liebeck, *Representations and Characters of Groups*, 2nd ed., CUP (2001) — the character
   table as a computational object, column orthogonality, and many worked small-group tables.
 - C. W. Curtis, I. Reiner, *Methods of Representation Theory, Vol. I*, Wiley (1981) — the group algebra,
@@ -407,3 +554,11 @@ milestone of C, well before the general cyclotomic lift.
 - A. Hulpke, *Computational representation theory* (lecture notes; the GAP implementation of
   Dixon-Schneider) — the practical form of the algorithm and the reference point for what "compute a
   character table" means in Layer 6.
+- W. Fulton, J. Harris, *Representation Theory: A First Course*, Springer GTM 129 (1991) —
+  the character table of `GL₂(𝔽_q)`, its conjugacy classes, principal series, and cuspidal representations,
+  worked explicitly (Layer 9).
+- C. Bonnafé, *Representations of `SL₂(𝔽_q)`*, Springer Algebra and Applications 13 (2011) — the conjugacy
+  classes, the Borel and parabolic induction, and the cuspidal (discrete series) representations from the
+  non-split torus, the model account for Layer 9.
+- P. Deligne, G. Lusztig, *Representations of reductive groups over finite fields*, Ann. of Math. 103 (1976)
+  103-161 — the general Deligne-Lusztig theory that the cuspidal series of Layer 9 specializes to `GL₂`.

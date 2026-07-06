@@ -20,7 +20,10 @@ theory is phrased in; that induction of a finite-dimensional representation of a
 finite-dimensional, with `dim = [G : S] · dim`; the **induced-character formula** giving `(Ind χ)(g)` as a
 sum of `χ` over the conjugates landing in the subgroup; **Frobenius reciprocity as an identity of character
 inner products**; the **Mackey decomposition formula** for `Res ∘ Ind` over double cosets; the **Mackey
-irreducibility criterion**; and **Clifford theory** over a normal subgroup. None of this is upstream.
+irreducibility criterion**; **Clifford theory** over a normal subgroup; the **virtual-character ring**
+`R(G)` with the **Artin and Brauer induction theorems** and Brauer's characterization of characters; and
+**projective representations**, their **factor sets**, and the **Schur multiplier** `H²(G, k^×)`. None of
+this is upstream.
 
 This roadmap builds that theory. It is deliberately built on Mathlib's categorical spine `Rep k G` wherever
 Mathlib already works there, so that the adjunctions above are *consumed*, not reproved, and the character
@@ -119,6 +122,18 @@ Suggested home: `TauCeti/RepresentationTheory/Induction/`, mirroring Mathlib's `
 - **Building blocks for the examples:** `Rep.trivial`, `Rep.leftRegular`, `Representation.ofMulAction` /
   `Rep.ofMulAction` (permutation representations), `Representation.linHom`, `Representation.dual`,
   `Equiv.Perm (Fin n)`, `GroupTheory/SpecificGroups/Dihedral.lean`.
+- **Cyclic and `p`-groups (for elementary subgroups, Layer 6):** `IsCyclic` (`Algebra/Group/Defs.lean`),
+  `IsPGroup p G` (`GroupTheory/PGroup.lean`), `Subgroup.zpowers`; there is **no** elementary- or
+  hyperelementary-subgroup predicate upstream.
+- **Degree-`2` group cohomology (for the Schur multiplier, Layer 7):**
+  `RepresentationTheory/Homological/GroupCohomology/LowDegree.lean` -- `groupCohomology.H2 A`
+  (`= groupCohomology A 2`), the `2`-cocycles and `2`-coboundaries `groupCohomology.cocycles₂ A`,
+  `coboundaries₂ A`, the projection `H2π A`, and the multiplicative interface
+  `IsMulCocycle₂` / `IsMulCoboundary₂` with `cocyclesOfIsMulCocycle₂`, applied to the trivial module
+  `Rep.trivial ℤ G (Additive kˣ)` (also reachable via `Rep.ofMulDistribMulAction`).
+- **The projective linear group (for projective representations, Layer 7):**
+  `LinearAlgebra/Matrix/GeneralLinearGroup/Projective.lean` -- `Matrix.ProjGenLinGroup` with notation
+  `PGL(n, R)`, `PGL.mk : GL n R →* PGL(n, R)` and `PGL.lift`, the codomain of a projective representation.
 
 ## What is missing (build here)
 
@@ -134,10 +149,18 @@ over a normal subgroup -- the inertia (stabilizer) group, that restriction to a 
 with the isotypic components permuted transitively, and the induction bijection from the inertia group onto
 the irreducibles lying over a given constituent. As specializations that genuinely unlock: the **permutation
 character** `Ind_H^G(trivial) ≅ k[G/H]` and its fixed-point count, and **induced characters of `Sₙ` from
-Young subgroups**. None of this is upstream.
+Young subgroups**. Beyond Mackey and Clifford, the **virtual-character ring** `R(G) = ch(kG)` with the
+**Artin** and **Brauer** induction theorems, **Brauer's characterization of characters**, the
+**elementary/hyperelementary subgroup** predicates, and the cyclotomic **splitting-field corollary**
+`ℚ(ζ_e)` that the [character-theory roadmap](../CharacterTheory/README.md) cites; and **projective
+representations**, their **factor-set** `2`-cocycles, the **twisted group algebra** `k_α[G]`, the **Schur
+multiplier** `H²(G, k^×)` classifying projective representations and central extensions, the
+**representation group** (Schur cover), and the identification of the Clifford-theory extension obstruction
+with a Schur-multiplier class. None of this is upstream.
 
 `Suggested.lean` pins the load-bearing objects (`conjRep`, `indFDRep`, `character_ind`, `mackeyDecomp`,
-`irreducible_ind_iff`, the Clifford targets) and the named milestones below as `sorry`-targets, so each is
+`irreducible_ind_iff`, the Clifford targets, the `artin_induction` / `brauer_induction` induction theorems,
+`schurMultiplier`, and `twistedMul`) and the named milestones below as `sorry`-targets, so each is
 claimable and its statement is machine-checked to be expressible against the pinned Mathlib.
 
 ---
@@ -258,6 +281,82 @@ Over an algebraically closed field with `char k ∤ |G|`; finite `G`; `N : Subgr
   the inertia group over `V` is irreducible because conjugates by `s ∉ inertia V` move `V` off itself. This
   reduces the classification of `Irr(G)` lying over `V` to the (generally easier) inertia group.
 
+### Layer 6: the virtual-character ring, Artin and Brauer induction
+
+Over `ℂ` (more generally an algebraically closed field of characteristic `0`, or any field containing the
+`e`-th roots of unity for `e = Monoid.exponent G`); finite `G`. This is the classical **induction-theorem**
+heart of ordinary character theory, absent from the whole representation-theory family; it connects to the
+[character-theory roadmap](../CharacterTheory/README.md), whose `VirtualCharacter G` is the additive group
+underlying the ring built here.
+
+- **The virtual-character ring** `R(G) = ch(kG)`. The `ℤ`-span of the irreducible characters inside the
+  class functions, a commutative ring under the pointwise (tensor-product) product `char_tensor`, with unit
+  the trivial character; this is the Grothendieck ring of `FDRep k G`. Restriction `Res_H^G : R(G) → R(H)`
+  is a ring homomorphism and, by the projection formula (Layer 0), induction `Ind_H^G : R(H) → R(G)` is a
+  homomorphism of `R(G)`-modules -- **Frobenius reciprocity as a module identity**. Package the induced
+  class function `indClassFun`, computing `Ind` on characters via Layer 2's `character_ind`.
+- **Artin's induction theorem.** Every character is a `ℚ`-linear combination of characters induced from
+  **cyclic** subgroups; equivalently `|G| · χ` is a `ℤ`-linear combination of `Ind_C^G ψ` over cyclic
+  `C ≤ G` (`IsCyclic`) and characters `ψ` of `C`. State the `ℤ`-membership of `|G| • χ` in the subgroup
+  generated by cyclic-induced characters, and derive that `⊕_{C cyclic} R(C) → R(G)` is rationally
+  surjective (its image has finite index dividing a power of `|G|`).
+- **Artin's corollary (rational representations).** Two `ℚ[G]`-representations are isomorphic iff their
+  fixed-point dimensions `dim V^C` agree for every cyclic `C ≤ G`; the fixed dimensions on cyclic subgroups
+  are a complete invariant of a rational representation.
+- **Elementary and hyperelementary subgroups.** For a prime `p`, a **`p`-elementary** subgroup is a direct
+  product `C × P` with `C` cyclic of order prime to `p` and `P` a `p`-group (`IsPGroup p P`); **elementary**
+  means `p`-elementary for some `p`, and **hyperelementary** relaxes `C × P` to a normal `P` with cyclic
+  quotient. Mathlib has `IsCyclic` and `IsPGroup` but **no** elementary-subgroup predicate; define
+  `IsElementary` (and `IsHyperelementary`) with their basic closure properties.
+- **Brauer's induction theorem.** Every character is a `ℤ`-linear combination of characters induced from
+  **elementary** subgroups: the map `⊕_{E elementary} R(E) → R(G)` is **surjective**. This is the sharp
+  integral form that Artin achieves only rationally.
+- **Brauer's characterization of characters.** A class function `f` is a virtual character (lies in `R(G)`)
+  **iff** its restriction `Res_E f` to every elementary subgroup `E ≤ G` is a virtual character of `E`. This
+  is the theorem from which Brauer surjectivity follows, and the standard tool for certifying that a given
+  class function is a genuine virtual character.
+- **The cyclotomic splitting-field corollary.** `ℚ(ζ_e)`, `e = Monoid.exponent G`, is a **splitting field**
+  for `G`: every irreducible `ℂ`-representation is realizable over `ℚ(ζ_e)`. Each elementary subgroup has all
+  its irreducibles realizable over the cyclotomic field, and Brauer induction propagates this to all of `G`.
+  The [character-theory roadmap](../CharacterTheory/README.md) **cites this exact statement** as an
+  application off its Layer 4 critical path; this layer **supplies its proof**.
+
+### Layer 7: projective representations, factor sets, and the Schur multiplier
+
+Over an algebraically closed field `k` (so every projective representation admits a genuine factor set
+valued in `kˣ`); finite `G`. This is the natural companion to Layer 5's Clifford theory: the obstruction to
+extending an irreducible of a normal subgroup to its inertia group is exactly a Schur-multiplier class.
+
+- **Projective representations and factor sets.** A **projective representation** on `V` is a homomorphism
+  `G → PGL(V)` (Mathlib's `Matrix.ProjGenLinGroup`, `PGL(n, k)`), equivalently a lift `ρ : G → GL(V)` with
+  `ρ(g) ρ(h) = α(g, h) · ρ(gh)` for a **factor set** `α : G × G → kˣ`. The factor set satisfies the
+  multiplicative `2`-cocycle identity -- it is a `groupCohomology.IsMulCocycle₂` for the **trivial** action
+  of `G` on `kˣ`, equivalently `Additive.ofMul ∘ α ∈ groupCohomology.cocycles₂ (Rep.trivial ℤ G (Additive kˣ))`
+  via `cocyclesOfIsMulCocycle₂`. Pin `IsProjectiveRep` and this cocycle statement.
+- **Equivalence and the Schur multiplier.** Two projective representations are **projectively equivalent**
+  iff their factor sets differ by a coboundary (`groupCohomology.IsMulCoboundary₂`), i.e. by rescaling each
+  `ρ(g)`. The equivalence classes of factor sets are therefore the **second cohomology** `H²(G, kˣ)`, the
+  **Schur multiplier** `M(G)`: define `schurMultiplier := groupCohomology.H2 (Rep.trivial ℤ G (Additive kˣ))`
+  and prove it classifies projective representations up to equivalence.
+- **The twisted group algebra.** `k_α[G]`, the `k`-algebra on `G →₀ k` with product
+  `e_g · e_h = α(g, h) · e_{gh}` twisting `MonoidAlgebra k G`; a genuine `def` (`twistedMul`). Projective
+  representations with factor set `α` are exactly `k_α[G]`-modules, and cohomologous `α` give isomorphic
+  twisted algebras, so `k_α[G]` up to isomorphism depends only on the class in `M(G)`. This is the
+  module-theoretic home of projective representation theory, mirroring the ordinary `k[G]` spine.
+- **Central extensions and representation groups.** A factor set `α` builds a **central extension**
+  `1 → kˣ → E_α → G → 1` (the set `kˣ × G` with twisted multiplication, `centralExtensionOfFactorSet`), and
+  `H²(G, kˣ)` classifies central extensions of `G` by `kˣ` up to equivalence. A **representation group**
+  (Schur cover) is a central extension `1 → M(G) → Ĝ → G → 1` with `M(G)` inside the commutator subgroup,
+  through which **every** projective representation of `G` lifts to an ordinary linear representation of `Ĝ`.
+  Mathlib has central extensions only for Lie algebras (`Algebra/Lie/Extension.lean`), not for groups, so
+  the group central extension and the representation group are built here.
+- **The Clifford-theory obstruction.** For `N ◁ G` and an irreducible `V : FDRep k N` with inertia group
+  `T = inertia V` (Layer 5), the obstruction to extending `V` to an ordinary representation of `T` is a class
+  `cliffordObstruction V` in the Schur multiplier `H²(T/N, kˣ)`; `V` extends iff that class is trivial, and
+  in general the irreducibles of `T` lying over `V` are the **projective** representations of `T/N` carrying
+  that factor set. This identifies the extension obstruction of Layer 5's Clifford correspondence with a
+  Schur-multiplier class, closing the loop between the two layers.
+
 ---
 
 ## Worked examples (acceptance criteria)
@@ -297,8 +396,14 @@ Layers 0–2: transitivity and the projection formula to build the summands, the
 name them, and the induced-character formula for its character form. Layer 4 (the irreducibility criterion)
 needs Layer 2's Frobenius reciprocity and Layer 3's decomposition, plus Schur. Layer 5 (Clifford theory)
 needs Layer 4's criterion for the correspondence, Layer 1's conjugation action for the inertia group, and
-Maschke (consumed) for semisimplicity of the restriction. The examples are built alongside the layer that
-first makes each expressible.
+Maschke (consumed) for semisimplicity of the restriction. Layer 6 (the virtual-character ring, Artin and
+Brauer induction) needs Layer 2's induced-character formula to define induction on `R(G)` and Layer 0's
+projection formula for the `R(G)`-module structure; it is otherwise self-contained, and its cyclotomic
+splitting-field corollary discharges the fact the [character-theory roadmap](../CharacterTheory/README.md)
+cites at its Layer 4. Layer 7 (projective representations, factor sets, the Schur multiplier) consumes
+Mathlib's degree-`2` group cohomology directly and is independent of Layers 3–4; only its Clifford-theory
+obstruction needs Layer 5's inertia group, so it is placed last, tying the Schur multiplier back to the
+Clifford correspondence. The examples are built alongside the layer that first makes each expressible.
 
 ## References
 
@@ -317,3 +422,11 @@ first makes each expressible.
   representations, Mackey's theorem, Clifford theory) as a clean modern account.
 - G. W. Mackey, *On induced representations of groups*, Amer. J. Math. 73 (1951) 576–592 -- the original
   decomposition and irreducibility theorems.
+- J.-P. Serre, *Linear Representations of Finite Groups*, Springer GTM 42 (1977) -- Part II, §9–10
+  (the Grothendieck ring, Artin's and Brauer's induction theorems, Brauer's characterization of characters,
+  and the cyclotomic splitting-field corollary) for Layer 6.
+- G. Karpilovsky, *Projective Representations of Finite Groups*, Marcel Dekker (1985) -- factor sets, the
+  twisted group algebra, the Schur multiplier `H²(G, k^×)`, and representation groups (Schur covers), for
+  Layer 7.
+- I. M. Isaacs, *Character Theory of Finite Groups*, AMS Chelsea (1976) -- Ch. 8 (the Schur multiplier,
+  projective representations, and the extension obstruction to Clifford theory) and Ch. 11 for Layer 7.

@@ -37,6 +37,18 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 - [**Compact groups, Haar measure, and the Peter-Weyl theorem**](CompactGroups/README.md) — Haar
   averaging and complete reducibility, matrix coefficients, Schur orthogonality in L²(G), the Peter-Weyl
   theorem, characters of compact groups, and the SU(2) and maximal-torus engine.
+- [**Lie groups and the Lie algebra correspondence**](LieGroups/README.md) — the smooth-group side:
+  the exponential map and one-parameter subgroups, `Ad`/`ad`, the closed-subgroup theorem, the Lie
+  functor and Baker-Campbell-Hausdorff, Lie's third theorem, maximal-torus conjugacy and the general
+  Weyl integration formula, complexification and real forms, Borel-Weil, and the Cartan/Iwasawa/KAK
+  decompositions.
+- [**Clifford algebras, the Pin and Spin groups, and spin representations**](SpinRepresentations/README.md)
+  — Clifford algebras and their structure, the Pin and Spin groups as double covers of O and SO, the
+  spin and half-spin representations that supply the fundamental representations of types B and D, the
+  low-dimensional exceptional isomorphisms, real Clifford algebras, and triality.
+- [**Quiver representations and finite-dimensional algebras**](QuiverRepresentations/README.md) — path
+  algebras, representations of a quiver, Krull-Schmidt, Gabriel's theorem (finite type ⇔ ADE Dynkin,
+  indecomposables ↔ positive roots), reflection and Coxeter functors, and Auslander-Reiten theory.
 
 ## How they depend on one another
 
@@ -49,6 +61,16 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   where Schur-Weyl duality and Young symmetrizers connect to the symmetric group.
 - **Character theory is the finite case of compact groups.** Peter-Weyl, restricted to a finite group,
   recovers the finite-group character theory, and the two share the orthogonality machinery.
+- **Lie groups sit under the Lie-algebra and compact-group theory.** The Lie-group roadmap builds the
+  smooth-group ↔ Lie-algebra correspondence that the highest-weight and compact-group roadmaps
+  presuppose, and abstracts the general Weyl integration formula the compact-group roadmap proves only
+  for SU(2).
+- **Spin representations complete the classical groups.** The spin and half-spin representations are the
+  fundamental representations of types B and D that are not realized in tensor powers of the standard
+  representation, so they finish the classical-groups picture.
+- **Quiver representations meet root systems.** Gabriel's theorem identifies the finite-type quivers with
+  the ADE Dynkin diagrams and the indecomposables with the positive roots, tying the finite-dimensional
+  algebra theory back to root systems.
 
 Roadmaps in this family also cite roadmaps outside it: the classical-groups and compact-groups roadmaps
 border [reductive algebraic groups](../ReductiveGroups/README.md) and

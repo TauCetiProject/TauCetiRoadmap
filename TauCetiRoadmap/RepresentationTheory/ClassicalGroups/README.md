@@ -132,13 +132,17 @@ the **Young symmetrizer / Schur functor `Sᵘ V`** with its `GLₙ`-representati
 and the **highest-weight classification** of `GLₙ`-irreducibles (built on
 [`../LieHighestWeight`](../LieHighestWeight/README.md)); **Schur polynomials** (bialternant / Jacobi-Trudi,
 **absent from Mathlib**) and the theorem that `s_λ` is the character of `V_λ`, i.e. the **Weyl character
-formula** specialized to `GLₙ`; the **Weyl dimension formula** and its `GLₙ` product form; and the
-**branching rules** `GLₙ ↓ GLₙ₋₁` (and `Oₙ ↓ Oₙ₋₁`, `Spₙ ↓ Spₙ₋₂`). None of the representation-theoretic
-content is upstream; only the groups and the multilinear engine are.
+formula** specialized to `GLₙ`; the **Weyl dimension formula** and its `GLₙ` product form; the
+**branching rules** `GLₙ ↓ GLₙ₋₁` (and `Oₙ ↓ Oₙ₋₁`, `Spₙ ↓ Spₙ₋₂`); and the **Gelfand-Tsetlin basis** of
+`V_λ`, indexed by **Gelfand-Tsetlin patterns** (triangular integer arrays satisfying the interlacing
+inequalities `λ_{i,j+1} ≥ λ_{i,j} ≥ λ_{i+1,j+1}`) obtained by iterating that branching down the chain
+`GL₁ ⊂ ⋯ ⊂ GLₙ`, with its pattern-count dimension formula and the Gelfand-Tsetlin generators diagonalized in
+it. None of the representation-theoretic content is upstream; only the groups and the multilinear engine are.
 
 `Suggested.lean` pins the load-bearing objects (`stdRep`, `tensorPowerRep`, `symPowerRep`, `extPowerRep`,
 `permTensorAction`, `schurFunctor`, `DominantWeight`, `weightSpace`, `irreducible`, `schurPoly`,
-`weylDimension`, the branching map) and the named milestones below as `sorry`-targets, so each is claimable
+`weylDimension`, the branching map, the Gelfand-Tsetlin pattern `GTPattern` and its basis `gtBasis`) and the
+named milestones below as `sorry`-targets, so each is claimable
 and the summit statements (`character_irreducible_eq_schurPoly`, `finrank_irreducible_eq_weylDimension`) are
 machine-checked to be expressible against the pinned Mathlib.
 
@@ -256,7 +260,7 @@ matrix groups.
   the **hook-content formula** `dim = ∏_{(i,j) ∈ λ} (n + j - i) / hook(i,j)`; prove the two agree. Give the
   `Spₙ`, `SOₙ` product forms likewise.
 
-### Layer 6: branching rules
+### Layer 6: branching rules and Gelfand-Tsetlin bases
 
 - **`GLₙ ↓ GLₙ₋₁`.** The restriction of `V_λ` along `GL(n-1) ↪ GL n` (upper-left block, fixing the last
   basis vector) decomposes **multiplicity-free**: `V_λ|_{GL_{n-1}} ≅ ⊕_μ V_μ`, the sum over `μ` **interlacing**
@@ -266,6 +270,39 @@ matrix groups.
 - **`Oₙ ↓ Oₙ₋₁` and `Spₙ ↓ Spₙ₋₂`.** The corresponding interlacing/branching theorems for the orthogonal
   and symplectic series, cut out by the invariant form of Layer 0; state the character identities in the same
   form. These, with Layer 5, complete the concrete description of the irreducibles.
+- **Gelfand-Tsetlin patterns.** `GTPattern n`, the combinatorial index of the basis below, a **triangular
+  array** `(λ_{i,j})_{1 ≤ i ≤ j ≤ n}` of integers (row `j` has `j` entries) satisfying the **interlacing**
+  (betweenness) inequalities `λ_{i,j+1} ≥ λ_{i,j} ≥ λ_{i+1,j+1}`, with **top row** `topRow : GTPattern n →
+  (Fin n → ℤ)` reading off row `n`. Pin it as a Mathlib-native `structure` (**nothing named `GelfandTsetlin`
+  exists in Mathlib** outside the unrelated C\*-algebra `Gelfand*` files). For a partition `λ` (`λ n ≥ 0`) the
+  patterns with top row `λ` **biject with semistandard Young tableaux** of shape `λ`: the `j`-th row of the
+  pattern records the shape of the sub-tableau on entries `≤ j`, reusing `SemistandardYoungTableau` and the
+  tableau/pattern dictionary of [`../SchurWeyl`](../SchurWeyl/README.md). This is where the `GLₙ` and `Sₙ`
+  combinatorics coincide.
+- **The Gelfand-Tsetlin basis.** Iterating the `GLₙ ↓ GLₙ₋₁` branching down the full chain
+  `GL₁ ⊂ GL₂ ⊂ ⋯ ⊂ GLₙ` (each step multiplicity-free, the summands given by the interlacing condition)
+  refines `V_λ` into a direct sum of **one-dimensional** spaces, one for each sequence of interlacing choices,
+  i.e. one for each `GTPattern` with top row `λ`. Pin `gtBasis n λ : Basis {P : GTPattern n // topRow P = λ} ℂ
+  (irreducible n λ)` and the **pattern-to-basis bijection**; the chain `GL₁ ⊂ ⋯ ⊂ GLₙ` together with the
+  multiplicity-freeness of each restriction is exactly what makes the line spanned by each basis vector
+  canonical.
+- **The Gelfand-Tsetlin dimension formula.** `finrank ℂ (irreducible n λ) = #{P : GTPattern n with top row
+  λ}`, the count of GT patterns with top row `λ`. This is the branching-theoretic reading of the Weyl
+  dimension formula of Layer 5, and — through the pattern ↔ tableau bijection — of the tableau sum
+  `s_λ(1,…,1)` that specializes Layer 4's Schur polynomial at `x = (1,…,1)`; state its agreement with
+  `weylDimension n λ`.
+- **The Gelfand-Tsetlin generators.** The images of the **centres of the `𝔤𝔩_k`** (`1 ≤ k ≤ n`), a maximal
+  commutative family (the Gelfand-Tsetlin subalgebra), are **simultaneously diagonalized** in `gtBasis`, with
+  eigenvalues explicit polynomials in the pattern entries. Pin the operators `gtGenerator` and the statement
+  that each `gtBasis` vector is a joint eigenvector. This is what makes the GT basis intrinsic (the eigenbasis
+  of the Gelfand-Tsetlin subalgebra), not merely a byproduct of one choice of chain.
+- **`SOₙ ↓ SOₙ₋₁`, the symplectic series, and `Spin(n) ↓ Spin(n-1)`.** The same chain of subgroups gives
+  Gelfand-Tsetlin-type bases for the orthogonal and symplectic families: `SO_n ↓ SO_{n-1}` is again
+  multiplicity-free (the classical orthogonal Gelfand-Tsetlin construction), and the symplectic series carries
+  its own GT-type patterns. Through the double cover this intertwines with the spin groups: the branching
+  `Spin(n) ↓ Spin(n-1)` for the spin representations is the subject of the sibling
+  [`../SpinRepresentations`](../SpinRepresentations/README.md), which this layer meets at the `SOₙ`/`Spin(n)`
+  Gelfand-Tsetlin bases.
 
 ---
 
@@ -287,6 +324,13 @@ matrix groups.
   highest-weight module `V(m)` of `𝔰𝔩₂` from [`../LieHighestWeight`](../LieHighestWeight/README.md) under the
   differentiation `SL(2,ℂ) ⇝ 𝔰𝔩₂`. Stating and proving this isomorphism ties the matrix-group and Lie-algebra
   developments together.
+- **A Gelfand-Tsetlin basis for `GL₃`.** For `n = 3`, `λ = (2,1,0)`: `V_λ` (the `8`-dimensional
+  representation) has exactly `8` Gelfand-Tsetlin patterns with top row `(2,1,0)`, one for each choice of an
+  interlacing middle row `(a,b)` (`2 ≥ a ≥ 1`, `1 ≥ b ≥ 0`) and a bottom entry `c` (`a ≥ c ≥ b`): the four
+  middle rows `(1,0),(1,1),(2,0),(2,1)` admit `2,1,3,2` bottom entries, summing to `8`. This matches both
+  `weylDimension 3 (2,1,0) = 8` (Layer 5) and the `8` semistandard Young tableaux of shape `(2,1)` with entries
+  in `{1,2,3}` (Layer 4, via the pattern ↔ tableau bijection), the three counts agreeing by the two
+  identifications of `finrank ℂ (irreducible 3 (2,1,0))`.
 
 ## Ordering
 
@@ -299,7 +343,10 @@ Layer 3 (torus, weights, classification) needs Layer 0 and the highest-weight th
 [`../LieHighestWeight`](../LieHighestWeight/README.md) and [`../RootSystems`](../RootSystems/README.md); it is
 what makes "the irreducibles are indexed by dominant weights" precise, and it joins Layer 2 at
 `Sᵘ V ≅ V_λ`. Layer 4 (Schur polynomials as characters) needs Layers 2-3 and builds the missing Schur-function
-theory; Layer 5 (dimensions) is a specialization of Layer 4; Layer 6 (branching) needs Layers 3-4. A
+theory; Layer 5 (dimensions) is a specialization of Layer 4; Layer 6 (branching and the Gelfand-Tsetlin basis) needs
+Layers 3-4, and its pattern-count dimension formula reproves Layer 5's from the branching side, while its
+Gelfand-Tsetlin generators and its `SOₙ`/`Spin(n)` bases connect it to
+[`../SpinRepresentations`](../SpinRepresentations/README.md). A
 contributor can complete Layers 0-1 and the `⊗2` example independently of the abstract dependencies, then
 Layer 2 once `../SchurWeyl` lands, then Layers 3-6 as `../RootSystems` and `../LieHighestWeight` mature.
 

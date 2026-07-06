@@ -26,7 +26,8 @@ their characters; **2** the Weyl construction (`permTensorAction`, `schurFunctor
 `../SchurWeyl`); **3** weights and the highest-weight classification (`diagonalTorus`, `DominantWeight`,
 `weightSpace`, `irreducible`, built on `../RootSystems` and `../LieHighestWeight`); **4** Schur polynomials
 as characters (`schurPoly`, the Weyl character formula specialized); **5** the Weyl dimension formula
-(`weylDimension`); **6** branching (`interlacingShapes`). `README.md` remains the definitive document.
+(`weylDimension`); **6** branching and the Gelfand-Tsetlin basis (`interlacingShapes`, `GTPattern`,
+`gtBasis`). `README.md` remains the definitive document.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.ClassicalGroups
@@ -184,5 +185,54 @@ theorem schurPoly_branching (n : ℕ) (μ : YoungDiagram) (x : Fin (n + 1) → �
       = ∑ ν ∈ interlacingShapes n μ,
           MvPolynomial.eval (fun i : Fin n => x i.castSucc)
             (MvPolynomial.map (Int.castRingHom ℂ) (schurPoly n ν)) := sorry
+
+/-- **A Gelfand-Tsetlin pattern** for `GLₙ`: a triangular array `(λ_{i,j})_{1 ≤ i ≤ j ≤ n}` of integers (row
+`j` has `j` entries) satisfying the **interlacing/betweenness** inequalities
+`λ_{i,j+1} ≥ λ_{i,j} ≥ λ_{i+1,j+1}`. Nothing named `GelfandTsetlin` exists in Mathlib (the C\*-algebra
+`Gelfand*` files are unrelated), so this combinatorial object is built from scratch. Here `entry i j` carries
+the `i`-th entry of row `j`; data lives on the triangle `i < j ≤ n` and is `0` elsewhere. -/
+structure GTPattern (n : ℕ) where
+  /-- The `i`-th entry of row `j`, indexed so that the informative cells are `i < j ≤ n`. -/
+  entry : ℕ → ℕ → ℤ
+  /-- Cells outside the triangle `i < j ≤ n` carry no data. -/
+  zeros' : ∀ {i j : ℕ}, n < j ∨ j ≤ i → entry i j = 0
+  /-- The interlacing inequalities `λ_{i,j+1} ≥ λ_{i,j} ≥ λ_{i+1,j+1}`. -/
+  interlacing' : ∀ {i j : ℕ}, i ≤ j → j < n →
+    entry i (j + 1) ≥ entry i j ∧ entry i j ≥ entry (i + 1) (j + 1)
+
+/-- **The top row** `(λ_{1,n}, …, λ_{n,n})` of a Gelfand-Tsetlin pattern: the highest weight it refines. -/
+def GTPattern.topRow {n : ℕ} (P : GTPattern n) : Fin n → ℤ := fun i => P.entry i n
+
+/-- **The Gelfand-Tsetlin pattern ↔ semistandard tableau bijection**: patterns with top row the shape `μ`
+(read as a weakly decreasing sequence) correspond to semistandard Young tableaux of shape `μ` with entries in
+`{1,…,n}`, the `j`-th row of the pattern recording the sub-shape on entries `≤ j` (shared with `../SchurWeyl`). -/
+def gtPatternEquivSSYT (n : ℕ) (μ : YoungDiagram) :
+    {P : GTPattern n // ∀ i, P.topRow i = (μ.rowLen i : ℤ)} ≃ SemistandardYoungTableau μ := sorry
+
+/-- **The Gelfand-Tsetlin basis** of `V_λ`: iterating the multiplicity-free `GLₙ ↓ GLₙ₋₁` branching down the
+chain `GL₁ ⊂ ⋯ ⊂ GLₙ` refines `V_λ` into lines, one per Gelfand-Tsetlin pattern with top row `λ`. -/
+def gtBasis (n : ℕ) (l : DominantWeight n) :
+    Module.Basis {P : GTPattern n // P.topRow = l.1} ℂ (irreducible n l) := sorry
+
+/-- **The Gelfand-Tsetlin dimension count**: `dim V_λ` is the number of GT patterns with top row `λ` (the
+branching-theoretic reading of the Weyl dimension formula, and — via `gtPatternEquivSSYT` — of the tableau
+count `s_λ(1,…,1)`). -/
+theorem finrank_irreducible_eq_card_gtPatterns (n : ℕ) (l : DominantWeight n) :
+    Module.finrank ℂ (irreducible n l) = Nat.card {P : GTPattern n // P.topRow = l.1} := sorry
+
+/-- The GT-pattern count agrees with the Weyl dimension formula of Layer 5. -/
+theorem card_gtPatterns_eq_weylDimension (n : ℕ) (l : DominantWeight n) :
+    Nat.card {P : GTPattern n // P.topRow = l.1} = weylDimension n l := sorry
+
+/-- **The Gelfand-Tsetlin generators**: the image on `V_λ` of the centre of `𝔤𝔩_k` (`k = ` the given index),
+one operator per level of the chain `GL₁ ⊂ ⋯ ⊂ GLₙ`. Together they form the Gelfand-Tsetlin subalgebra, a
+maximal commutative family. -/
+def gtGenerator (n : ℕ) (l : DominantWeight n) (k : Fin n) : Module.End ℂ (irreducible n l) := sorry
+
+/-- **The Gelfand-Tsetlin generators are diagonalized in the GT basis**: each basis vector is a joint
+eigenvector of every `gtGenerator`, with eigenvalue an explicit function of the pattern entries. -/
+theorem gtGenerator_apply_gtBasis (n : ℕ) (l : DominantWeight n) (k : Fin n)
+    (P : {P : GTPattern n // P.topRow = l.1}) :
+    ∃ c : ℂ, gtGenerator n l k (gtBasis n l P) = c • gtBasis n l P := sorry
 
 end TauCetiRoadmap.RepresentationTheory.ClassicalGroups

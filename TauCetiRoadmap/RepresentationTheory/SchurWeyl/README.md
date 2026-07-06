@@ -133,13 +133,19 @@ determinant of complete-homogeneous symmetric functions), and the identification
 the Frobenius image of the character `χ^λ`; the **RSK correspondence** (permutations, and words/matrices,
 to pairs of tableaux) with the corollary `∑_λ (f^λ)² = n!`; and **Schur-Weyl duality**: the commuting
 `Sₙ`- and `GLₔ`-actions on `(ℂᵈ)^{⊗n}`, the double-centralizer theorem, the **Schur functors** `𝕊^λ`,
-and the multiplicity-free decomposition `(ℂᵈ)^{⊗n} ≅ ⊕_{λ ⊢ n, ℓ(λ) ≤ d} S^λ ⊗ 𝕊^λ(ℂᵈ)`. None of this
-is upstream.
+and the multiplicity-free decomposition `(ℂᵈ)^{⊗n} ≅ ⊕_{λ ⊢ n, ℓ(λ) ≤ d} S^λ ⊗ 𝕊^λ(ℂᵈ)`; and, breaking
+`GLₔ` to its orthogonal and symplectic subgroups by fixing an invariant form, the **Brauer algebra**
+`B_k(δ)` with its diagram basis and `δ`-power loop rule, its action on `V^{⊗k}` by contracting and expanding
+against the form, and the **orthogonal/symplectic Schur-Weyl duality** in which `ℂ[O(V)]` (resp. `Sp(V)`)
+and `B_k(n)` (resp. `B_k(-n)`) are each other's centralizers, with the harmonic (traceless) tensors carrying
+the group-irreducible pieces. None of this is upstream (Mathlib has no Brauer algebra, no diagram algebra of
+any kind, and no orthogonal/symplectic Schur-Weyl duality).
 
 `Suggested.lean` pins the load-bearing objects (`partitionEquivYoungDiagram`,
 `partitionEquivConjClasses`, `Dominates`, `StandardYoungTableau`, `youngSubgroup`, `permutationModule`,
 `youngSymmetrizer`, `spechtModule`, `hookLength`, `spechtCharacter`, `rsk`, `schurPoly`,
-`schurWeylDecomposition`) and the named milestones as `sorry`-targets, so each is individually claimable.
+`schurWeylDecomposition`, `brauerAlgebra`, `brauerActionOrth`, `orthAction`, `harmonicTensors`) and the named
+milestones as `sorry`-targets, so each is individually claimable.
 
 ---
 
@@ -296,6 +302,66 @@ Schur-Weyl) can proceed in parallel once the Specht modules exist.
   [../ClassicalGroups](../ClassicalGroups/README.md), where the `𝕊^λ` are the Weyl modules and
   `schurPoly` their characters.
 
+### Layer 9: Schur-Weyl duality for the orthogonal and symplectic groups (the Brauer algebra)
+
+Layer 8 is the `GLₔ × Sₙ` duality on `V^{⊗n}` for `V = ℂᵈ` with no extra structure. Fixing a nondegenerate
+invariant form on `V` breaks `GLₔ` to its orthogonal or symplectic subgroup, and the centralizer of the
+smaller group is correspondingly larger than `ℂ[Sₖ]`: it is the **Brauer algebra** `B_k(δ)`, whose diagrams
+may now join two bottom points, or two top points, by a horizontal arc, contracting the paired tensor slots
+against the form. The symmetric group sits inside as the through-strand ("no-arcs") diagrams, so this layer
+**contains** Layer 8's `Sₖ`; and the planar sub-quotient is the Temperley-Lieb algebra of
+[the Temperley-Lieb roadmap](../../TemperleyLieb/README.md) (`B_k(δ)` is the non-planar generalization of
+`TL_k`). The orthogonal and symplectic groups here are the extra-invariant restrictions of `GLₔ` studied in
+[../ClassicalGroups](../ClassicalGroups/README.md).
+
+- **Brauer diagrams and the Brauer algebra.** A **Brauer diagram** on `k` strands, `brauerDiagram k`, is a
+  perfect matching of the `2k` boundary points `Fin k ⊕ Fin k` (`k` on the bottom, `k` on the top), i.e. a
+  fixed-point-free involution of `Fin k ⊕ Fin k`. There are `(2k-1)!! = Nat.doubleFactorial (2k-1)` of them
+  (`card_brauerDiagram`), of which the `k!` matchings with no horizontal arc (every bottom point joined to a
+  top point) are the permutation diagrams. The **Brauer algebra** `brauerAlgebra δ k` is the free `ℂ`-module
+  on `brauerDiagram k`, with multiplication by vertical stacking: place `D₁` above `D₂`, read off the induced
+  matching of the outer boundary, and multiply by `δ^{c}`, where `c` is the number of closed loops formed in
+  the middle (the **`δ`-power loop rule**). It is a unital associative `ℂ`-algebra with `brauerBasis` the
+  diagram basis and `finrank = (2k-1)!!`; the loop rule and the resulting associativity are the load-bearing
+  combinatorics, exactly as the gluing of [../../TemperleyLieb](../../TemperleyLieb/README.md) Layer 2 but
+  without the planarity constraint (Brauer diagrams may cross).
+- **The invariant form and the action on `V^{⊗k}`.** For `V = ℂⁿ` carrying a nondegenerate **symmetric**
+  form (the orthogonal case) or nondegenerate **alternating** form (the symplectic case), the form
+  `V ⊗ V → ℂ` is a **cap** and its inverse copairing `ℂ → V ⊗ V` a **cup**. A Brauer diagram acts on
+  `V^{⊗k}` by permuting the tensor factors along its through-strands (as in Layer 8) while each horizontal
+  arc on the bottom contracts a pair of input slots through the cap, and each arc on the top expands a pair
+  of output slots through the cup. This is `brauerActionOrth n k : brauerAlgebra (n : ℂ) k →ₐ[ℂ] End(V^{⊗k})`
+  with loop value `δ = n = dim V` (a closed loop evaluates to the trace of the form, `= n`), and
+  `brauerActionSymp l k` on `V = (Fin l ⊕ Fin l) → ℂ` with `δ = -2l = -dim V` (the sign is the trace of an
+  alternating form). Restricted to the no-arcs (permutation) diagrams the action is `ℂ[Sₖ]` acting exactly
+  as Layer 8's `permAction`.
+- **Schur-Weyl duality (the double centralizer).** `O(V) = Matrix.orthogonalGroup (Fin n) ℂ` acts on
+  `V^{⊗k}` diagonally (`orthAction`, the restriction of Layer 8's `glAction` along `O(V) ↪ GLₙ`), and this
+  action **commutes** with `brauerActionOrth` (`brauerActionOrth_commute`). The **duality**: the image of
+  `ℂ[O(V)]` and the image of `B_k(n)` in `End(V^{⊗k})` are each other's full centralizers
+  (`Subalgebra.centralizer`, `brauerOrth_doubleCentralizer`), and likewise
+  `Sp(V) = Matrix.symplecticGroup (Fin l) ℂ` with `B_k(-2l)` (`brauerSymp_doubleCentralizer`). This is the
+  orthogonal/symplectic analogue of Layer 8's `GLₔ × Sₙ` double-centralizer theorem, resting on the same
+  semisimplicity of the diagram algebra, and it is the point of contact with
+  [../ClassicalGroups](../ClassicalGroups/README.md).
+- **Harmonic tensors and the trace maps.** The **contraction (trace) maps** `V^{⊗k} → V^{⊗(k-2)}` (cap one
+  pair of slots against the form, in all `C(k,2)` positions) have a common kernel, the **harmonic**
+  (traceless) tensors `harmonicTensors n k`; the horizontal-arc diagrams build the non-harmonic part from
+  cups on lower tensor powers, so `V^{⊗k}` is the sum of `harmonicTensors n (k-2j)` re-expanded by `j` cups.
+  Combined with the double centralizer and semisimplicity, `V^{⊗k} ≅ ⊕_λ E_λ ⊗ G_λ` as an `O(V) × B_k(n)`-
+  representation, `E_λ` the irreducible `O(V)`-module on the harmonic tensors of shape `λ` and `G_λ` the
+  irreducible `B_k(n)`-module, the sum over the partitions surviving the orthogonal (resp. symplectic)
+  truncation. This refines Layer 8's multiplicity-free `⊕_λ S^λ ⊗ 𝕊^λ` by the trace filtration: the cups and
+  caps are exactly the extra generators beyond `Sₖ`.
+- **Semisimplicity of `B_k(δ)`.** For **generic** `δ`, and in particular whenever `|δ| ≥ 2k - 2` (so for the
+  geometric value `δ = n` with `dim V` large relative to the number of strands), `brauerAlgebra δ k` is
+  semisimple (`IsSemisimpleRing`, `brauerAlgebra_isSemisimple_of_large`), with irreducibles indexed by
+  partitions of `k, k-2, k-4, …`. At the special small values `δ ∈ {0, ±1, …, ±(2k-2)}` the algebra can fail
+  to be semisimple, and its cell theory (Brauer is a cellular algebra, exactly as
+  [../../TemperleyLieb](../../TemperleyLieb/README.md) Layer 5 develops for `TL_k`) governs the modular
+  behaviour. The semisimple range is what makes the `⊕_λ E_λ ⊗ G_λ` decomposition clean and forces the
+  multiplicities.
+
 ---
 
 ## Worked examples (acceptance criteria)
@@ -318,6 +384,14 @@ Schur-Weyl) can proceed in parallel once the Specht modules exist.
   `(ℂ²)^{⊗2} ≅ S^{(2)} ⊗ Sym²(ℂ²) ⊕ S^{(1,1)} ⊗ ⋀²(ℂ²)`; the `S₂`-action is symmetric/antisymmetric,
   `𝕊^{(2)}(ℂ²) = Sym²(ℂ²)` has dimension `3`, `𝕊^{(1,1)}(ℂ²) = ⋀²(ℂ²)` has dimension `1`, and `1·3 + 1·1 =
   4 = 2²`. Verify the two actions commute and the decomposition holds.
+- **Brauer duality on `(ℂ³)^{⊗2}` for `O(3)`.** With `n = 3, k = 2`, `B_2(δ)` has the
+  `(2·2−1)!! = 3` diagrams `1` (two through-strands), `s` (the crossing), and `e` (bottom cap with top cup),
+  with `s² = 1`, `e² = δ·e`, `s·e = e`; dimension `3`. At `δ = 3` its image on `(ℂ³)^{⊗2}` is the full
+  centralizer of `O(3)`, and `(ℂ³)^{⊗2} ≅ Sym²₀(ℂ³) ⊕ ⋀²(ℂ³) ⊕ ℂ` of dimensions `5 + 3 + 1 = 9 = 3²`: the
+  traceless-symmetric, antisymmetric, and trace (invariant-form) pieces. The trace summand `ℂ` is the image
+  of the cup-cap `e` and is exactly what is **absent** from the `GLₔ` decomposition `Sym² ⊕ ⋀²` of the
+  previous example; it is the harmonic (traceless) filtration at work. The symplectic mirror is
+  `Sp(2) = SL(2, ℂ)` with the alternating form and `δ = −2`.
 
 ## Ordering
 
@@ -334,7 +408,12 @@ but the RSK bijection and Schur polynomials can be built in parallel from Layer 
 needs Layers 3-4 (Specht modules and their irreducibility) and Layer 7 (Schur polynomials as `GLₔ`
 characters), and is the point of contact with [../ClassicalGroups](../ClassicalGroups/README.md). A
 contributor can finish Layers 0-5 (the Specht classification and hook-length dimensions, enough for the
-`S₃`/`S₄` acceptance criteria) well before the Murnaghan-Nakayama rule or Schur-Weyl duality.
+`S₃`/`S₄` acceptance criteria) well before the Murnaghan-Nakayama rule or Schur-Weyl duality. Layer 9
+(the Brauer algebra and orthogonal/symplectic Schur-Weyl) needs Layer 8's tensor-power actions and the
+diagram combinatorics built there, and parallels [../../TemperleyLieb](../../TemperleyLieb/README.md) (whose
+`TL_k` is the planar sub-quotient of `B_k(δ)`) and [../ClassicalGroups](../ClassicalGroups/README.md) (whose
+`O(V)`, `Sp(V)` are the groups being centralized); it is the last and most independent lane, and its Brauer
+combinatorics can be developed in parallel with everything from Layer 0 onward.
 
 ## References
 
@@ -353,5 +432,11 @@ contributor can finish Layers 0-5 (the Specht classification and hook-length dim
   6, Appendix) Schur-Weyl duality and the Schur functors of `GLₔ`.
 - I. G. Macdonald, *Symmetric Functions and Hall Polynomials*, 2nd ed., Oxford (1995) — Layer 7: Schur
   functions, Jacobi-Trudi, the Hall inner product, the Frobenius characteristic, and the Cauchy identity.
+- R. Brauer, *On algebras which are connected with the semisimple continuous groups*, Ann. of Math. 38
+  (1937), 857-872. Layer 9: the original definition of the Brauer algebra `B_k(δ)` and its role as the
+  centralizer of the orthogonal and symplectic groups on `V^{⊗k}`.
+- R. Goodman, N. R. Wallach, *Symmetry, Representations, and Invariants*, Springer GTM 255 (2009). Layer 9:
+  Schur-Weyl duality for `O(V)` and `Sp(V)`, the Brauer algebra, the harmonic (traceless) tensors, and the
+  first fundamental theorem of invariant theory behind the double centralizer.
 </content>
 </invoke>

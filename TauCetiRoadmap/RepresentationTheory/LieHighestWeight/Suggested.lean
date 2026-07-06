@@ -281,6 +281,159 @@ theorem kostant_multiplicity_formula (b : (LieAlgebra.IsKilling.rootSystem H).Ba
     [FiniteDimensional K (irreducibleQuotient b lam)] (mu : Module.Dual K H) :
     (formalCharacter (M := irreducibleQuotient b lam)) mu = kostantMultiplicity b lam mu := sorry
 
+/-! ### Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
+
+The center `Z(U(L)) = Subalgebra.center K (UniversalEnvelopingAlgebra K L)` is the commutative algebra
+in which `casimirElement` lives; its central characters `χ_λ`, the Harish-Chandra isomorphism
+`Z(U(L)) ≅ S(H)^{W·}`, the linkage principle, Freudenthal's recursion, and the Serre presentation of
+`L` from its Cartan matrix are the content. -/
+
+/-- **The central character** `χ_λ : Z(U(L)) →ₐ[K] K`: the scalar by which the center acts on any
+highest weight module of weight `λ` (in particular on `L(λ)`). Generalizes the Casimir eigenvalue. -/
+noncomputable def centralCharacter (lam : Module.Dual K H) :
+    Subalgebra.center K (UniversalEnvelopingAlgebra K L) →ₐ[K] K := sorry
+
+/-- **The dot action** `w · λ = w(λ+ρ) - ρ` of the Weyl group on weights, the shift under which the
+Harish-Chandra invariants and the linkage principle are stated. -/
+noncomputable def dotAction (b : (LieAlgebra.IsKilling.rootSystem H).Base)
+    (w : (LieAlgebra.IsKilling.rootSystem H).weylGroup) (lam : Module.Dual K H) :
+    Module.Dual K H := sorry
+
+/-- **The dot-invariants** `S(H)^{W·}` in the symmetric algebra of the Cartan, the target of the
+Harish-Chandra isomorphism. -/
+noncomputable def dotInvariants (b : (LieAlgebra.IsKilling.rootSystem H).Base) :
+    Subalgebra K (SymmetricAlgebra K H) := sorry
+
+/-- **The Harish-Chandra isomorphism** `Z(U(L)) ≃ₐ[K] S(H)^{W·}`: the ρ-shifted projection of the
+center onto the `U(H) = S(H)` factor of the triangular decomposition is an algebra isomorphism onto
+the dot-invariants. -/
+noncomputable def harishChandraIso (b : (LieAlgebra.IsKilling.rootSystem H).Base) :
+    Subalgebra.center K (UniversalEnvelopingAlgebra K L) ≃ₐ[K] dotInvariants b := sorry
+
+/-- **The linkage principle**: `χ_λ = χ_μ` iff `μ ∈ W·λ` (dot action). The constraint behind
+Verma-module homomorphisms and the block decomposition of category `O`. -/
+theorem harishChandra_linkage (b : (LieAlgebra.IsKilling.rootSystem H).Base)
+    (lam mu : Module.Dual K H) :
+    centralCharacter lam = centralCharacter mu ↔
+      ∃ w : (LieAlgebra.IsKilling.rootSystem H).weylGroup, mu = dotAction b w lam := sorry
+
+/-- The `W`-invariant symmetric form `⟨·,·⟩` on weights (from the Killing form via `cartanEquivDual`),
+the form appearing in the Casimir eigenvalue, Freudenthal, and the Weyl formulas. -/
+noncomputable def invForm (lam mu : Module.Dual K H) : K := sorry
+
+/-- The Freudenthal double sum `2 Σ_{α>0} Σ_{j≥1} mult_{μ+jα}(L(λ)) · ⟨μ+jα, α⟩`, packaged as an
+opaque target so the recursion is expressible before the positive-root sum machinery is in place. -/
+noncomputable def freudenthalRHS (b : (LieAlgebra.IsKilling.rootSystem H).Base)
+    (lam mu : Module.Dual K H) : K := sorry
+
+/-- **Freudenthal's multiplicity formula**: the recursion
+`(⟨λ+ρ,λ+ρ⟩ - ⟨μ+ρ,μ+ρ⟩) · mult_μ = 2 Σ_{α>0} Σ_{j≥1} mult_{μ+jα} ⟨μ+jα,α⟩` computing weight
+multiplicities of `L(λ)` downward from `λ`, complementing Kostant's closed form. -/
+theorem freudenthal_multiplicity_formula (b : (LieAlgebra.IsKilling.rootSystem H).Base)
+    (lam : Module.Dual K H) (hlam : IsDominantIntegral b lam)
+    [FiniteDimensional K (irreducibleQuotient b lam)] (mu : Module.Dual K H) :
+    (invForm (lam + weylVector b) (lam + weylVector b)
+        - invForm (mu + weylVector b) (mu + weylVector b))
+      * ((formalCharacter (M := irreducibleQuotient b lam)) mu : K)
+      = 2 * freudenthalRHS b lam mu := sorry
+
+/-- **The Serre presentation** of `L`. Mathlib already builds `Matrix.ToLieAlgebra K CM`, the quotient
+of the free Lie algebra by the Serre relations of a Cartan matrix `CM`
+(`Mathlib/Algebra/Lie/SerreConstruction.lean`). The theorem is that the Serre construction on
+`b.cartanMatrix` recovers `L`: the Chevalley generators attached to the simple roots satisfy the Serre
+relations, and the induced map is a Lie-algebra isomorphism. This gives `L` from its root system and
+identifies Mathlib's `Matrix.ToLieAlgebra` with the concrete Killing algebra (cf.
+`../RootSystems/README.md`). -/
+theorem serre_presentation_equiv (b : (LieAlgebra.IsKilling.rootSystem H).Base) :
+    Nonempty (Matrix.ToLieAlgebra K b.cartanMatrix ≃ₗ⁅K⁆ L) := sorry
+
 end General
+
+/-! ## Layer 8: the exceptional Lie algebras, explicitly
+
+Mathlib names `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂` as `Matrix.ToLieAlgebra` quotients but proves
+nothing about them, and has **no octonions**. This section builds the octonions `𝕆` and the Albert
+algebra `H₃(𝕆)` (both absent from Mathlib), their derivation Lie algebras `G₂ = Der(𝕆)` and
+`F₄ = Der(H₃(𝕆))`, and pins the dimensions of the magic-square algebras, identifying each with the
+Serre-construction object via `serre_presentation_equiv`. -/
+
+section Exceptional
+
+variable (K : Type) [Field K] [CharZero K]
+
+/-- **The octonions** `𝕆`, the Cayley algebra, built by Cayley-Dickson doubling. Absent from Mathlib,
+so building this `8`-dimensional non-associative alternative composition algebra is itself a target.
+Presented as an opaque carrier with its module and (non-associative, unital) multiplication. -/
+def Octonion (K : Type) : Type := sorry
+
+noncomputable instance : AddCommGroup (Octonion K) := sorry
+noncomputable instance : Module K (Octonion K) := sorry
+noncomputable instance : Mul (Octonion K) := sorry
+noncomputable instance : One (Octonion K) := sorry
+
+/-- `𝕆` is `8`-dimensional. -/
+theorem finrank_octonion : Module.finrank K (Octonion K) = 8 := sorry
+
+/-- **The derivation Lie algebra** `Der(A)` of a (possibly non-associative) `K`-algebra `A`: the maps
+`D` with `D (x * y) = D x * y + x * D y`, a Lie algebra under commutator. For a Lie algebra this is
+Mathlib's `LieDerivation`; here it is stated for a non-associative algebra `A` with a bare `Mul`. -/
+def derivationLieAlgebra (A : Type u) [AddCommGroup A] [Module K A] [Mul A] : Type u := sorry
+
+noncomputable instance (A : Type u) [AddCommGroup A] [Module K A] [Mul A] :
+    LieRing (derivationLieAlgebra K A) := sorry
+noncomputable instance (A : Type u) [AddCommGroup A] [Module K A] [Mul A] :
+    LieAlgebra K (derivationLieAlgebra K A) := sorry
+
+/-- **`G₂ = Der(𝕆)`** is `14`-dimensional. Its `7`-dimensional fundamental representation is the
+imaginary octonions `Im 𝕆`. -/
+theorem finrank_derivationOctonion : Module.finrank K (derivationLieAlgebra K (Octonion K)) = 14 :=
+  sorry
+
+/-- `Der(𝕆)` is the split simple Lie algebra of type `G₂`: it is isomorphic to Mathlib's
+`LieAlgebra.g₂`, the Serre construction on `CartanMatrix.G₂`. -/
+theorem derivationOctonion_equiv_g2 :
+    Nonempty (derivationLieAlgebra K (Octonion K) ≃ₗ⁅K⁆ LieAlgebra.g₂ (R := K)) := sorry
+
+/-- **The Albert algebra** `J = H₃(𝕆)` of `3×3` Hermitian octonionic matrices under the symmetrized
+product `x ∘ y = ½(xy + yx)`, a `27`-dimensional exceptional Jordan algebra. Absent from Mathlib.
+Presented with a commutative multiplication (`CommMagma`). -/
+def AlbertAlgebra (K : Type) : Type := sorry
+
+noncomputable instance : AddCommGroup (AlbertAlgebra K) := sorry
+noncomputable instance : Module K (AlbertAlgebra K) := sorry
+noncomputable instance : CommMagma (AlbertAlgebra K) := sorry
+
+/-- `H₃(𝕆)` is `27`-dimensional. -/
+theorem finrank_albertAlgebra : Module.finrank K (AlbertAlgebra K) = 27 := sorry
+
+/-- `H₃(𝕆)` satisfies the (commutative) Jordan identity (`Mathlib.Algebra.Jordan.Basic`). -/
+theorem isCommJordan_albertAlgebra : IsCommJordan (AlbertAlgebra K) := sorry
+
+/-- **`F₄ = Der(H₃(𝕆))`** is `52`-dimensional. Its `26`-dimensional fundamental representation is the
+trace-zero part `J₀ ⊂ H₃(𝕆)`. -/
+theorem finrank_derivationAlbert :
+    Module.finrank K (derivationLieAlgebra K (AlbertAlgebra K)) = 52 := sorry
+
+/-- `Der(H₃(𝕆))` is the split simple Lie algebra of type `F₄`: isomorphic to Mathlib's
+`LieAlgebra.f₄`. -/
+theorem derivationAlbert_equiv_f4 :
+    Nonempty (derivationLieAlgebra K (AlbertAlgebra K) ≃ₗ⁅K⁆ LieAlgebra.f₄ (R := K)) := sorry
+
+/-- A magic-square summand: `⋀³(K⁹)` is `84`-dimensional, the input to the `ℤ/3`-grading
+`𝔢₈ = 𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*` of dimension `248 = 80 + 84 + 84`. -/
+theorem finrank_exteriorPower_three_nine :
+    Module.finrank K (⋀[K]^3 (Fin 9 → K)) = 84 := sorry
+
+/-- **`E₈`** (Mathlib's `LieAlgebra.e₈`, the Freudenthal-Tits magic-square algebra) is
+`248`-dimensional; the adjoint `248` is its smallest representation. -/
+theorem finrank_e8 : Module.finrank K (LieAlgebra.e₈ (R := K)) = 248 := sorry
+
+/-- **`E₆`** is `78`-dimensional, with its `27`-dimensional representation `H₃(𝕆)`; **`E₇`** is
+`133`-dimensional, with its `56`-dimensional representation. -/
+theorem finrank_e6_e7 :
+    Module.finrank K (LieAlgebra.e₆ (R := K)) = 78 ∧
+      Module.finrank K (LieAlgebra.e₇ (R := K)) = 133 := sorry
+
+end Exceptional
 
 end TauCetiRoadmap.RepresentationTheory.LieHighestWeight

@@ -17,14 +17,15 @@ tensor-power/`GL` machinery `PiTensorProduct` (with `reindex`, `map`, `mapMonoid
 `Matrix.GeneralLinearGroup`. It has **no** partition/diagram/class dictionary, **no** standard tableaux,
 **no** dominance order, **no** Young subgroups or permutation modules `M^λ`, **no** Young symmetrizers,
 **no** Specht modules or their classification, **no** hook-length formula, **no** Murnaghan-Nakayama rule,
-**no** RSK, **no** Schur polynomials, and **no** Schur-Weyl duality (see `README.md` for the file-by-file
-map).
+**no** RSK, **no** Schur polynomials, **no** Schur-Weyl duality, and **no** Brauer algebra or any diagram
+algebra (see `README.md` for the file-by-file map).
 
 The design follows the layers of `README.md`: the partition/diagram/class dictionary and orders (Layer 0);
 Young subgroups and `M^λ` (Layer 1); Young symmetrizers (Layer 2); the Specht modules `S^λ` (Layer 3);
 irreducibility and completeness (Layer 4); the standard basis and hook lengths (Layer 5); the characters
 and Murnaghan-Nakayama rule (Layer 6); Schur functions, the Frobenius characteristic, and RSK (Layer 7);
-and Schur-Weyl duality (Layer 8). `README.md` remains the definitive document.
+Schur-Weyl duality for `GLₔ × Sₙ` (Layer 8); and Schur-Weyl duality for the orthogonal and symplectic groups
+via the Brauer algebra (Layer 9). `README.md` remains the definitive document.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.SchurWeyl
@@ -247,5 +248,107 @@ theorem schurWeylDecomposition (d n : ℕ) :
     Nonempty ((⨂[ℂ] (_ : Fin n), (Fin d → ℂ)) ≃ₗ[ℂ]
       DirectSum {μ : n.Partition // μ.parts.card ≤ d}
         (fun μ => TensorProduct ℂ (spechtModuleℂ μ.1) (schurFunctor d μ.1))) := sorry
+
+/-! ## Layer 9: Schur-Weyl duality for the orthogonal and symplectic groups (the Brauer algebra) -/
+
+/-- **A Brauer diagram** on `k` strands: a perfect matching of the `2k` boundary points `Fin k ⊕ Fin k`
+(`k` bottom, `k` top), i.e. a fixed-point-free involution. The `k!` matchings with no horizontal arc are the
+permutation diagrams; the rest carry cups and caps. -/
+abbrev brauerDiagram (k : ℕ) : Type :=
+  {f : Fin k ⊕ Fin k → Fin k ⊕ Fin k // Function.Involutive f ∧ ∀ x, f x ≠ x}
+
+noncomputable instance (k : ℕ) : Fintype (brauerDiagram k) := Fintype.ofFinite _
+
+/-- There are `(2k-1)!!` Brauer diagrams on `k` strands. -/
+theorem card_brauerDiagram (k : ℕ) :
+    Fintype.card (brauerDiagram k) = Nat.doubleFactorial (2 * k - 1) := sorry
+
+/-- **The Brauer algebra** `B_k(δ)`: the free `ℂ`-module on `brauerDiagram k`, with multiplication by
+vertical stacking of diagrams weighted by `δ^{#closed loops}` (the `δ`-power loop rule). A unital associative
+`ℂ`-algebra of dimension `(2k-1)!!`. Pinned opaquely with its `Ring`/`Algebra` structure; the loop-rule
+multiplication and its associativity are the load-bearing combinatorics (see `README.md`). -/
+def brauerAlgebra (δ : ℂ) (k : ℕ) : Type := sorry
+
+noncomputable instance (δ : ℂ) (k : ℕ) : Ring (brauerAlgebra δ k) := sorry
+noncomputable instance (δ : ℂ) (k : ℕ) : Algebra ℂ (brauerAlgebra δ k) := sorry
+
+/-- **The diagram basis** of `B_k(δ)`, indexed by Brauer diagrams; hence `finrank = (2k-1)!!`. -/
+noncomputable def brauerBasis (δ : ℂ) (k : ℕ) :
+    Module.Basis (brauerDiagram k) ℂ (brauerAlgebra δ k) := sorry
+
+/-- **The action of `B_k(n)` on `V^{⊗k}`** for `V = ℂⁿ` orthogonal (nondegenerate symmetric form,
+loop value `δ = n = dim V`): through-strands permute tensor factors, bottom arcs contract a pair of slots
+against the form (cap) and top arcs expand against its inverse (cup). -/
+noncomputable def brauerActionOrth (n k : ℕ) :
+    brauerAlgebra (n : ℂ) k →ₐ[ℂ]
+      Module.End ℂ (⨂[ℂ] (_ : Fin k), (Fin n → ℂ)) := sorry
+
+/-- **The diagonal action of the orthogonal group** `O(V) = Matrix.orthogonalGroup (Fin n) ℂ` on `V^{⊗k}`,
+the restriction of Layer 8's `glAction` along `O(V) ↪ GLₙ`. -/
+noncomputable def orthAction (n k : ℕ) :
+    ↥(Matrix.orthogonalGroup (Fin n) ℂ) →*
+      ((⨂[ℂ] (_ : Fin k), (Fin n → ℂ)) ≃ₗ[ℂ] (⨂[ℂ] (_ : Fin k), (Fin n → ℂ))) := sorry
+
+/-- **The two actions commute** (through-strands permute, arcs contract/expand against an `O(V)`-invariant
+form). -/
+theorem brauerActionOrth_commute (n k : ℕ) (g : Matrix.orthogonalGroup (Fin n) ℂ)
+    (b : brauerAlgebra (n : ℂ) k) :
+    Commute (orthAction n k g).toLinearMap (brauerActionOrth n k b) := sorry
+
+/-- **Orthogonal Schur-Weyl duality (double centralizer)**: the image of `ℂ[O(V)]` and the image of `B_k(n)`
+in `End(V^{⊗k})` are each other's full centralizers. -/
+theorem brauerOrth_doubleCentralizer (n k : ℕ) :
+    Subalgebra.centralizer ℂ
+        (Set.range fun g : Matrix.orthogonalGroup (Fin n) ℂ => (orthAction n k g).toLinearMap)
+      = (brauerActionOrth n k).range
+    ∧ Subalgebra.centralizer ℂ ((brauerActionOrth n k).range : Set _)
+      = Algebra.adjoin ℂ
+          (Set.range fun g : Matrix.orthogonalGroup (Fin n) ℂ => (orthAction n k g).toLinearMap) := sorry
+
+/-- **The harmonic (traceless) tensors** in `V^{⊗k}`: the common kernel of the contraction (trace) maps
+`V^{⊗k} → V^{⊗(k-2)}` that cap a pair of slots against the invariant form; these carry the irreducible
+`O(V)`-pieces, and the cups rebuild the rest from lower tensor powers. -/
+noncomputable def harmonicTensors (n k : ℕ) :
+    Submodule ℂ (⨂[ℂ] (_ : Fin k), (Fin n → ℂ)) := sorry
+
+/-- **The symmetric group as the no-arcs subalgebra** `ℂ[Sₖ] ↪ B_k(δ)` (the permutation diagrams,
+those with only through-strands). This exhibits Layer 8's `Sₖ` inside the Brauer algebra. -/
+noncomputable def permToBrauer (δ : ℂ) (k : ℕ) :
+    MonoidAlgebra ℂ (Equiv.Perm (Fin k)) →ₐ[ℂ] brauerAlgebra δ k := sorry
+
+/-- On the no-arcs subalgebra the Brauer action **is** Layer 8's `permAction`, so Layer 9 contains the
+`GLₔ × Sₙ` duality of Layer 8. -/
+theorem brauerActionOrth_permToBrauer (n k : ℕ) (σ : Equiv.Perm (Fin k)) :
+    brauerActionOrth n k (permToBrauer (n : ℂ) k (MonoidAlgebra.single σ (1 : ℂ)))
+      = (permAction n k σ).toLinearMap := sorry
+
+/-- **The diagonal action of the symplectic group** `Sp(V) = Matrix.symplecticGroup (Fin l) ℂ` on `V^{⊗k}`,
+`V = (Fin l ⊕ Fin l) → ℂ` of dimension `2l`. -/
+noncomputable def sympAction (l k : ℕ) :
+    ↥(Matrix.symplecticGroup (Fin l) ℂ) →*
+      ((⨂[ℂ] (_ : Fin k), ((Fin l ⊕ Fin l) → ℂ)) ≃ₗ[ℂ]
+        (⨂[ℂ] (_ : Fin k), ((Fin l ⊕ Fin l) → ℂ))) := sorry
+
+/-- **The action of `B_k(-2l)` on `V^{⊗k}`** for `V` symplectic (nondegenerate alternating form, loop value
+`δ = -2l = -dim V`, the sign being the trace of an alternating form). -/
+noncomputable def brauerActionSymp (l k : ℕ) :
+    brauerAlgebra (-(2 * l : ℂ)) k →ₐ[ℂ]
+      Module.End ℂ (⨂[ℂ] (_ : Fin k), ((Fin l ⊕ Fin l) → ℂ)) := sorry
+
+/-- **Symplectic Schur-Weyl duality (double centralizer)**: the image of `ℂ[Sp(V)]` and the image of
+`B_k(-2l)` in `End(V^{⊗k})` are each other's full centralizers. -/
+theorem brauerSymp_doubleCentralizer (l k : ℕ) :
+    Subalgebra.centralizer ℂ
+        (Set.range fun g : Matrix.symplecticGroup (Fin l) ℂ => (sympAction l k g).toLinearMap)
+      = (brauerActionSymp l k).range
+    ∧ Subalgebra.centralizer ℂ ((brauerActionSymp l k).range : Set _)
+      = Algebra.adjoin ℂ
+          (Set.range fun g : Matrix.symplecticGroup (Fin l) ℂ => (sympAction l k g).toLinearMap) := sorry
+
+/-- **Semisimplicity of `B_k(δ)` for large/generic `δ`**: whenever `|δ| ≥ 2k - 2` (in particular for the
+geometric value `δ = n` with `dim V` large relative to `k`), the Brauer algebra is semisimple, with
+irreducibles indexed by partitions of `k, k-2, k-4, …`. -/
+theorem brauerAlgebra_isSemisimple_of_large (n k : ℕ) (h : 2 * k - 2 ≤ n) :
+    IsSemisimpleRing (brauerAlgebra (n : ℂ) k) := sorry
 
 end TauCetiRoadmap.RepresentationTheory.SchurWeyl

@@ -11,6 +11,9 @@ import TauCetiRoadmap.RepresentationTheory.LieHighestWeight.Suggested
 import TauCetiRoadmap.RepresentationTheory.ClassicalGroups.Suggested
 import TauCetiRoadmap.RepresentationTheory.SchurWeyl.Suggested
 import TauCetiRoadmap.RepresentationTheory.CompactGroups.Suggested
+import TauCetiRoadmap.RepresentationTheory.LieGroups.Suggested
+import TauCetiRoadmap.RepresentationTheory.SpinRepresentations.Suggested
+import TauCetiRoadmap.RepresentationTheory.QuiverRepresentations.Suggested
 import TauCetiRoadmap.Multiquadratic.Suggested
 import TauCetiRoadmap.UniversalCovers.Suggested
 import TauCetiRoadmap.JacobianChallenge.Suggested

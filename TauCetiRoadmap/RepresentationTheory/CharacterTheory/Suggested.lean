@@ -304,4 +304,98 @@ theorem characterTable_eq (G : Type v) [Group G] [Fintype G] [DecidableEq G] (d 
 -- `#eval` prints the exact character table of the dihedral group of order 8:
 --   #eval characterTableDixon (DihedralGroup 4) dihedralPrimeData
 
+/-! ## D. Structural theorems and worked families
+
+Three classical applications of Deliverable A, off the Dixon-Schneider critical path: the Frobenius-Schur
+trichotomy, Frobenius's theorem, and the character table of `GL₂(𝔽_q)`. See `README.md`. -/
+
+/-! ### Layer 7: the Frobenius-Schur indicator and real/quaternionic type -/
+
+/-- **The indicator on the module spine**, generalizing the `FDRep`-level `frobeniusSchurIndicator`:
+`ν₂(χ) = |G|⁻¹ ∑_g χ(g²)` for `ρ : Representation ℂ G V`. -/
+noncomputable def frobeniusSchurIndicatorRep {G : Type v} [Group G] [Fintype G] {V : Type*}
+    [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V] (ρ : Representation ℂ G V) : ℂ :=
+  (Nat.card G : ℂ)⁻¹ * ∑ g : G, ρ.character (g * g)
+
+/-- **An invariant bilinear form**: `B (ρ g x) (ρ g y) = B x y` for all `g`. The symmetric invariant forms
+(orthogonal type) and alternating invariant forms (symplectic type) are the `G`-invariants of `V* ⊗ V*`. -/
+def IsInvariantForm {k : Type u} {G : Type v} [CommRing k] [Group G] {V : Type*} [AddCommGroup V]
+    [Module k V] (ρ : Representation k G V) (B : LinearMap.BilinForm k V) : Prop :=
+  ∀ (g : G) (x y : V), B (ρ g x) (ρ g y) = B x y
+
+/-- **The trichotomy**: for an irreducible `ρ` over `ℂ`, the indicator is `+1`, `0`, or `-1`. -/
+theorem frobeniusSchurIndicatorRep_trichotomy {G : Type v} [Group G] [Fintype G] {V : Type*}
+    [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V] (ρ : Representation ℂ G V)
+    [ρ.IsIrreducible] :
+    frobeniusSchurIndicatorRep ρ = 1 ∨ frobeniusSchurIndicatorRep ρ = 0
+      ∨ frobeniusSchurIndicatorRep ρ = -1 := sorry
+
+/-- **`ν₂ = +1` iff orthogonal**: a nonzero invariant symmetric nondegenerate form exists, equivalently `ρ`
+is realizable over `ℝ`. -/
+theorem frobeniusSchurIndicatorRep_eq_one_iff {G : Type v} [Group G] [Fintype G] {V : Type*}
+    [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V] (ρ : Representation ℂ G V)
+    [ρ.IsIrreducible] :
+    frobeniusSchurIndicatorRep ρ = 1
+      ↔ ∃ B : LinearMap.BilinForm ℂ V, IsInvariantForm ρ B ∧ B.IsSymm ∧ B.Nondegenerate := sorry
+
+/-- **`ν₂ = -1` iff symplectic (quaternionic)**: a nonzero invariant alternating nondegenerate form exists. -/
+theorem frobeniusSchurIndicatorRep_eq_neg_one_iff {G : Type v} [Group G] [Fintype G] {V : Type*}
+    [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V] (ρ : Representation ℂ G V)
+    [ρ.IsIrreducible] :
+    frobeniusSchurIndicatorRep ρ = -1
+      ↔ ∃ B : LinearMap.BilinForm ℂ V, IsInvariantForm ρ B ∧ B.IsAlt ∧ B.Nondegenerate := sorry
+
+/-- **A real conjugacy class**: `g` is conjugate to `g⁻¹`. -/
+def IsRealClass {G : Type v} [Group G] (C : ConjClasses G) : Prop :=
+  ∃ g : G, ConjClasses.mk g = C ∧ IsConj g g⁻¹
+
+/-- **Real-valued irreducibles match real classes**: the rows of `characterTable` fixed by complex
+conjugation are as many as the real conjugacy classes. -/
+theorem card_realValued_eq_card_realClasses (G : Type v) [Group G] [Fintype G] [DecidableEq G] :
+    Nat.card {i // ∀ C, (starRingEnd ℂ) (characterTable G i C) = characterTable G i C}
+      = Nat.card {C : ConjClasses G // IsRealClass C} := sorry
+
+/-! ### Layer 8: Frobenius groups and Frobenius's theorem -/
+
+/-- **A Frobenius complement**: `H` is proper and nontrivial, and a trivial-intersection subgroup, meeting
+each distinct conjugate trivially. Then `G` is a Frobenius group with complement `H`. -/
+def IsFrobeniusComplement {G : Type v} [Group G] (H : Subgroup G) : Prop := sorry
+
+/-- **A trivial-intersection (T.I.) set** relative to `H`: class functions vanishing off `S` induce
+isometrically, the exceptional-character machinery Frobenius's theorem runs on. -/
+def IsTISet {G : Type v} [Group G] (S : Set G) (H : Subgroup G) : Prop := sorry
+
+/-- **The Frobenius kernel** `{1} ∪ (G ∖ ⋃_g g H g⁻¹)`: the identity and the elements in no conjugate of the
+complement. -/
+def frobeniusKernel {G : Type v} [Group G] (H : Subgroup G) : Set G := sorry
+
+/-- **Frobenius's theorem** (no character-free proof known): the kernel is a normal subgroup. -/
+theorem frobeniusKernel_normal {G : Type v} [Group G] [Finite G] (H : Subgroup G)
+    (hH : IsFrobeniusComplement H) :
+    ∃ N : Subgroup G, (N : Set G) = frobeniusKernel H ∧ N.Normal := sorry
+
+/-- **The semidirect decomposition** `G = N ⋊ H`: the kernel is a complement to `H`. -/
+theorem frobeniusKernel_isComplement' {G : Type v} [Group G] [Finite G] (H : Subgroup G)
+    (hH : IsFrobeniusComplement H) (N : Subgroup G) (hN : (N : Set G) = frobeniusKernel H) :
+    N.IsComplement' H := sorry
+
+/-! ### Layer 9: the representation theory of GL₂(𝔽_q) -/
+
+/-- **The Borel subgroup** of `GL₂(𝔽_q)`: the upper-triangular matrices `B = T U`. -/
+def GL2Borel (F : Type u) [Field F] [Fintype F] [DecidableEq F] : Subgroup (GL (Fin 2) F) := sorry
+
+/-- **The class count**: `GL₂(𝔽_q)` has `q² - 1` conjugacy classes (central, split semisimple, unipotent,
+elliptic), hence `q² - 1` irreducibles. -/
+theorem card_conjClasses_GL2 (F : Type u) [Field F] [Fintype F] [DecidableEq F] :
+    Nat.card (ConjClasses (GL (Fin 2) F)) = (Fintype.card F) ^ 2 - 1 := sorry
+
+/-- **The principal series** `Ind_B^{GL₂}(α ⊗ β)`, dimension `q + 1`; irreducible iff `α ≠ β`. -/
+noncomputable def GL2PrincipalSeries (F : Type u) [Field F] [Fintype F] [DecidableEq F]
+    (α β : Fˣ →* ℂˣ) : FDRep ℂ (GL (Fin 2) F) := sorry
+
+/-- **The Steinberg representation**, the dimension-`q` constituent of `Ind_B(α α)` beside the linear
+character `α ∘ det`. -/
+noncomputable def GL2Steinberg (F : Type u) [Field F] [Fintype F] [DecidableEq F] :
+    FDRep ℂ (GL (Fin 2) F) := sorry
+
 end TauCetiRoadmap.RepresentationTheory.CharacterTheory
