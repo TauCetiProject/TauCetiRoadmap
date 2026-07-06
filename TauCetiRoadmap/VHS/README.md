@@ -46,6 +46,24 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
     `Module.Free`/`Module.Finite` (the lattice), `Antitone`/`Monotone`.
   - Conjugation: `starRingEnd ℂ` (complex conjugation as the semilinearity ring hom); there is **no**
     packaged real/integral complexification-with-conjugation, so `latticeConj` is built here.
+  - **Incoming Mathlib filtration / complex-structure API (build *toward* it; track, don't consume yet).**
+    Hodge-adjacent linear algebra is landing in Mathlib now; L0/L2 should be **refactored onto it once it
+    merges** rather than duplicating it long-term:
+    - *Filtration API* — [mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954),
+      formalizing Deligne, *Théorie de Hodge II* §1.1, is explicitly PR 1/4 with **opposed filtrations
+      (§1.2.1–1.2.3)** and **induced filtrations on graded pieces (§1.2.1)** named as the follow-ups —
+      exactly what L0's `opposed` (`IsCompl (F^p) (conj F^{n+1−p})`) and L2's `gradedF` /
+      `gradedComplexEquiv` build by hand here. That PR lives in an abstract abelian category while this
+      roadmap is concrete over `Submodule ℂ V_ℂ`, so it is **not consumed verbatim today**; the plan is to
+      specialize L0/L2 from it once merged and **align naming with Deligne §1.2.1**. (Grew out of Joël
+      Riou's `n`-opposed-filtrations proposal on the `#mathlib4` *Complexifications with a view towards
+      Hodge theory* thread.)
+    - *Complex structures on real vector spaces* —
+      [mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975), the `J`, `J² = −1`
+      route to the `(p,q)`-decomposition (the `±i`-eigenspace picture). The Deligne opposed-filtration
+      route taken here (L0 `piece`, per Riou's recommendation) and the `J`-eigenspace route yield the
+      **same** decomposition; the L0 *instance bridge* note records how weight-1 / abelian-variety
+      instances carrying a `J` plug in.
   - For variations (L4, downstream): `CategoryTheory.FundamentalGroupoid`, `Module ℤ` (local systems),
     and Mathlib's complex-manifold / connection API (Griffiths transversality).
   - Rigidity engine (L5): `Module.End`, `Module.End.HasEigenvalue` / `Module.End.exists_eigenvalue`
@@ -126,8 +144,16 @@ the pinned Mathlib.
   `opposed` (`IsCompl (F^p) (conj F^{n+1−p})`) plus boundedness, prove by descending induction on `p`
   that `F^p = ⨆_{p'≥p} H^{p',·}` and that the pieces are independent (`H^{p,q} ⊓ ⨆_{p'>p} H^{p',·} = ⊥`
   from opposedness); assemble via `DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top`,
-  `iSupIndep`, `IsCompl`. Voisin I, §6 (the opposedness lemma). *Companions to build:* morphisms of HS,
-  the `(p,q)` symmetry `conj (piece p) = piece (n−p)`, `ℤ`-Tate twist, `⊗`/`Hom`/dual.
+  `iSupIndep`, `IsCompl`. Voisin I, §6 (the opposedness lemma). Align `opposed` with Deligne §1.2.1 and
+  plan to specialize it from [mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954)
+  once merged (see *Prior art*). *Companions to build:* morphisms of HS, the `(p,q)` symmetry
+  `conj (piece p) = piece (n−p)`, `ℤ`-Tate twist, `⊗`/`Hom`/dual.
+  *Instance bridge (weight 1):* a weight-1 / abelian-variety HS naturally carries a complex structure `J`
+  (`J² = −1`); its `±i`-eigenspaces are exactly the `(1,0)`/`(0,1)` pieces, so `piece` agrees with the
+  `J`-eigenspace decomposition of
+  [mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975). The roadmap consumes the
+  Deligne opposed-filtration route (`piece = F^p ⊓ conj(F^{n−p})`, per Riou); `#40975` instances supply
+  the `J`, so weight-1 examples can be produced either way and the two agree.
 - **L1 — Polarization & Hodge–Riemann; semisimplicity (summit of the pure theory).**
   *Definitions:* `Polarization hs` (integral `Qint`, derived `Q`, HR relations),
   `RationalHodgeSubstructure`.
@@ -170,7 +196,10 @@ the pinned Mathlib.
   of the `I^{p,q}` bigrading), not as a computational normal form. A `@[simp]` suite for pushing
   elements through `gradedConj`/`gradedF` (as with `Polarization.Q_tmul`) will be wanted to keep the
   quotient manipulations tractable. Deligne, *Théorie de Hodge II*, 1.2.10 & 2.3.5; Peters–Steenbrink
-  Ch. 3.
+  Ch. 3. The `gradedF` / `gradedComplexEquiv` apparatus is Deligne §1.2.1 "induced filtrations on graded
+  pieces"; specialize it from
+  [mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954)'s named §1.2.1 follow-up
+  once merged, aligning naming with Deligne §1.2.1 (see *Prior art*).
   *Morphisms:* the milestone takes the morphism as a single unbundled rational map `fQ` (complex action
   derived), so the target is bundling-agnostic. The implementation should then bundle it into an
   `MHS.Hom` / category to carry the **abelian-category** structure — strictness is exactly what makes
