@@ -89,7 +89,8 @@ reviewers, can act on it without guessing.
   definitive, and `Suggested.lean` is read as suggested forms, never as an exhaustive checklist —
   open each `Suggested.lean` with the standard note saying so. Use `sorry` honestly: a condition you
   cannot yet even *state* (its Mathlib API doesn't exist) is still a `sorry`, never a field of type
-  `Prop` — a `Prop` field is satisfied by any proposition, so `True` silently empties every instance.
+  `Prop` — a `Prop` field can be satisfied by any proposition, so an instance can fill it with `True`
+  and the condition asserts nothing.
 
 - **Pin conventions.** It's essential that you decide conventions ahead of time, or implementors
   will make bad decisions.
