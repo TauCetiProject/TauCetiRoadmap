@@ -36,9 +36,11 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
 ## Prior art
 
 - **Mathlib — the prerequisites this entry consumes (nothing on Hodge theory itself).**
-  - Tensor/base change: `TensorProduct ℤ ℂ V` and `TensorProduct ℤ ℚ V` (the complexification /
-    rationalification of the lattice), `TensorProduct.map`, `TensorProduct.AlgebraTensorModule.congr`
-    and `…cancelBaseChange` (the tower iso `ℂ ⊗_ℚ (ℚ ⊗_ℤ V) ≃ ℂ ⊗_ℤ V`), `LinearMap.baseChange`,
+  - Tensor/base change: the complexification is stated via **`IsBaseChange`** (`Module.IsBaseChange`;
+    the `ℤ→ℚ→ℂ` tower composes by `IsBaseChange.comp`), with the **canonical instance** the concrete
+    tensor `TensorProduct ℤ ℂ V` / `TensorProduct ℤ ℚ V` (base-change witness `TensorProduct.isBaseChange`;
+    on that instance the tower iso is `…cancelBaseChange : ℂ ⊗_ℚ (ℚ ⊗_ℤ V) ≃ ℂ ⊗_ℤ V`). Supporting
+    tensor API: `TensorProduct.map`, `TensorProduct.AlgebraTensorModule.congr`, `LinearMap.baseChange`,
     `Submodule.baseChange`, `Basis.baseChange`.
   - Bilinear forms: `LinearMap.BilinForm`, `BilinForm.baseChange` (extension of scalars of a form,
     with `baseChange_tmul`), `BilinForm.Nondegenerate`, `.IsOrtho`, `.IsSymm`/`.IsAlt`, `.restrict`.
@@ -84,28 +86,43 @@ Getting these right is the point of the entry; each is stated in `Suggested.lean
 the pinned Mathlib.
 
 - **The integral lattice is primary datum.** A weight-`n` Hodge structure is carried on a finitely
-  generated free `ℤ`-module `V = V_ℤ` (`[Module.Free ℤ V] [Module.Finite ℤ V]`). The complex space is
-  the complexification `V_ℂ := ℂ ⊗[ℤ] V` (`Complexification V`), the rational space
-  `V_ℚ := ℚ ⊗[ℤ] V` (`Rationalification V`). A Hodge structure is **not** modeled as a bare complex
-  vector space with a free-floating involution — that loses the arithmetic and makes semisimplicity /
-  monodromy unstatable at their real strength.
-- **Conjugation is defined, not assumed.** `latticeConj : V_ℂ →ₛₗ[starRingEnd ℂ] V_ℂ`,
-  `z ⊗ v ↦ z̄ ⊗ v`, is constructed as `TensorProduct.map (starRingEnd ℂ) id` and bundled as a
-  conjugate-linear map, with `map_smul` and `latticeConj_involutive` **proved**. The `n`-opposedness
-  `IsCompl (F^p) (conj F^{n+1-p})` and the `(p,q)`-piece `F^p ⊓ conj(F^{n-p})` use this canonical map.
+  generated free `ℤ`-module `V = V_ℤ` (`[Module.Free ℤ V] [Module.Finite ℤ V]`). A Hodge structure is
+  **not** modeled as a bare complex vector space with a free-floating involution — that loses the
+  arithmetic and makes semisimplicity / monodromy unstatable at their real strength.
+- **The complexification is specified by a base-change interface, not a fixed construction.** The
+  complex space is an ambient `ℂ`-vector space `V_ℂ` with a `ℤ`-linear structure map
+  `ι_ℂ : V →ₗ[ℤ] V_ℂ` exhibiting it as the base change — `IsBaseChange ℂ ι_ℂ` — and likewise `V_ℚ`
+  via `IsBaseChange ℚ ι_ℚ`. The **canonical instance** is the concrete tensor `V_ℂ := ℂ ⊗[ℤ] V`
+  (`Complexification V`), `V_ℚ := ℚ ⊗[ℤ] V` (`Rationalification V`) with `ι = (1 ⊗ ·)`, whose
+  base-change witness is `TensorProduct.isBaseChange`; every definition and milestone is **stated
+  against the interface and checked on this instance.** This is the convention Johan Commelin, Andrew
+  Yang and Kevin Buzzard converged on for Hodge theory (`#mathlib4`, *Complexifications with a view
+  towards Hodge theory*), adopted here because it buys two things the concrete tensor does not: (i)
+  **geometric instances plug in with no transport iso** — a `V_ℂ` arising as `Hⁿ(X;ℂ)` (not literally
+  `ℂ ⊗ Hⁿ(X;ℤ)`) satisfies the predicate directly, decisive for the L4 variations whose fibers are
+  cohomology; and (ii) the nested-tower pain below is dissolved by transitivity of base change
+  (`IsBaseChange.comp`) rather than a hand-threaded `cancelBaseChange`. The integral lattice `V_ℤ`
+  stays the primary datum — `IsBaseChange` is a predicate *about* the structure map out of it.
+- **Conjugation is defined, not assumed.** `latticeConj : V_ℂ →ₛₗ[starRingEnd ℂ] V_ℂ` is the unique
+  conjugate-linear map fixing the integral points, `latticeConj (ι_ℂ v) = ι_ℂ v` — determined by the
+  base-change universal property. On the canonical tensor instance it is
+  `TensorProduct.map (starRingEnd ℂ) id` (`z ⊗ v ↦ z̄ ⊗ v`), with `map_smul` and
+  `latticeConj_involutive` **proved**. The `n`-opposedness `IsCompl (F^p) (conj F^{n+1-p})` and the
+  `(p,q)`-piece `F^p ⊓ conj(F^{n-p})` use this canonical map.
 - **Polarization is one integral form.** `Polarization` stores a single
   `Qint : LinearMap.BilinForm ℤ V`; its complex form is **derived**, `Q := Qint.baseChange ℂ`, so the
   integral↔complex link is Mathlib's `baseChange_tmul`, not a hand-imposed axiom. `(-1)^n`-symmetry
   lives on `Qint`; `nondegenerate` is `BilinForm.Nondegenerate`; `orthogonal` is `BilinForm.IsOrtho`;
   the Hodge–Riemann positivity `i^{p−q} Q(v, v̄) > 0` on `H^{p,q}` is a real-and-positive condition.
 - **Rational substructures derive their complexification.** A `RationalHodgeSubstructure` carries only
-  its `ℚ`-subspace `WQ`; the complex side `WC := rationalToComplexSubmodule WQ` is
-  `Submodule.baseChange ℂ` composed with the tower iso `cancelBaseChange` — so there is no bare-`Prop`
-  "is the complexification" placeholder. Likewise the mixed weight filtration.
-  *Implementation note:* nested base changes (`ℂ ⊗_ℚ (ℚ ⊗_ℤ V)`) are ergonomically heavy in Lean; the
-  implementation should carry a `@[simp]` suite for moving elements through `rationalToComplexSubmodule`
-  and `Polarization.Q` (the `Q_tmul` pure-tensor lemma is the first of these) to keep the L1/L2 proofs
-  tractable.
+  its `ℚ`-subspace `WQ`; the complex side `WC := rationalToComplexSubmodule WQ` is its base change along
+  the `ℚ→ℂ` structure map — so there is no bare-`Prop` "is the complexification" placeholder. Likewise
+  the mixed weight filtration.
+  *Implementation note:* under the base-change interface the two-step `ℤ→ℚ→ℂ` tower composes by
+  `IsBaseChange.comp`, removing most of the ergonomic weight the concrete nested tensor
+  `ℂ ⊗_ℚ (ℚ ⊗_ℤ V)` carried (no hand-threaded `cancelBaseChange`); the implementation should still
+  carry a `@[simp]` suite for moving elements through `rationalToComplexSubmodule` and `Polarization.Q`
+  (the `Q_tmul` pure-tensor lemma is the first of these) to keep the L1/L2 proofs tractable.
 
 ## Generality bar (decide up front; do not silently specialize)
 
@@ -124,6 +141,11 @@ the pinned Mathlib.
 
 ## Conventions (pinned)
 
+- **Complexification model: base-change interface, tensor as canonical instance.** The complex and
+  rational spaces are specified by `IsBaseChange` predicates on structure maps out of `V_ℤ`, with the
+  concrete tensors `ℂ ⊗[ℤ] V` / `ℚ ⊗[ℤ] V` as the canonical instance. Definitions are stated against
+  the interface and checked on the tensor — chosen so geometric instances (cohomology) satisfy the
+  interface without a transport iso, and the `ℤ→ℚ→ℂ` tower composes (`IsBaseChange.comp`).
 - **Hodge filtration as the primary analytic datum.** A weight-`n` HS on `V` is a decreasing filtration
   `F^•` on `V_ℂ` that is **`n`-opposed**: `F^p ⊕ \overline{F^{n+1−p}} = V_ℂ` for all `p` (equivalently
   the `(p,q)`-decomposition with `V^{q,p} = \overline{V^{p,q}}`). Bounded: `F^p = ⊤` for `p ≪ 0`, `⊥`
@@ -278,9 +300,12 @@ Structures*. New Lean formalization; credit none — original.
 
 *NOTE: `Suggested.lean` proposes the core definitions (the chief deliverable of this entry) with a
 genuine milestone `sorry` at **L0, L1, L2, L3, L5**. The Hodge structure carries its integral lattice
-`V_ℤ` as primary datum, with `V_ℂ = ℂ ⊗ V_ℤ` and a *defined* canonical conjugation `latticeConj`, and
-is grounded in Mathlib's base-change vocabulary throughout (`BilinForm.baseChange`, `Submodule.baseChange`,
-`cancelBaseChange`). **L4** contributes the honest monodromy facet plus a schematic
+`V_ℤ` as primary datum; the complexification is pinned to the **`IsBaseChange` interface** (see
+*Conventions*) with the concrete tensor `V_ℂ = ℂ ⊗ V_ℤ` as the canonical instance `Suggested.lean`
+currently encodes (interface-parametrizing the definitions is the planned refactor), and a *defined*
+canonical conjugation `latticeConj`; it is grounded in Mathlib's base-change vocabulary throughout
+(`IsBaseChange`, `BilinForm.baseChange`, `Submodule.baseChange`, `cancelBaseChange`). **L4**
+contributes the honest monodromy facet plus a schematic
 `VariationOfHodgeStructure` seed — it has **no self-contained provable milestone**, because period-map
 horizontality / Griffiths transversality is analytic and out of scope; its provable engine is the L5
 Schur lemma. The only remaining schematic placeholders are the **L4 analytic fields** (`holomorphic`,
