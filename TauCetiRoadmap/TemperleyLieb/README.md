@@ -50,12 +50,16 @@ its first diagrammatic instances.
   (arXiv:1002.0555)](https://arxiv.org/abs/1002.0555), is the reference for why the sign is
   intrinsic. With `δ = q + q⁻¹` every statement on this roadmap through Layer 6 is
   sign-free; the sign enters only with the braiding.
-- **Quantum integers are Chebyshev evaluations.** `[n+1] := S_n(δ)` where `S` is Mathlib's
-  rescaled Chebyshev polynomial `Polynomial.Chebyshev.S`
-  (`Mathlib/RingTheory/Polynomial/Chebyshev.lean`): `S_0 = 1`, `S_1 = X`,
-  `S_{n+2} = X·S_{n+1} − S_n`. No `q` is needed to define `[n]`, so genericity hypotheses
-  are ring-level statements about `δ`. ⚠ `[0] = 0` always; genericity conditions must read
-  "`[k] ≠ 0` for `1 ≤ k ≤ n`", never "`∀ k`".
+- **Quantum integers are Chebyshev evaluations, spoken directly.** Mathlib's rescaled
+  Chebyshev polynomial `Polynomial.Chebyshev.S`
+  (`Mathlib/RingTheory/Polynomial/Chebyshev.lean`) satisfies `S_0 = 1`, `S_1 = X`,
+  `S_{n+2} = X·S_{n+1} − S_n`, so `S_k` evaluated at `δ` *is* the quantum integer `[k+1]`.
+  Statements say `(Polynomial.Chebyshev.S R (k : ℤ)).eval δ`; there is **no wrapper
+  definition and no bracket notation** (we don't wrap, and square brackets are overworked
+  already). In this README `[n]` is prose shorthand for `S_{n−1}` evaluated at `δ`, nothing
+  more. No `q` is needed to say any of this, so genericity hypotheses are ring-level
+  statements about `δ`, quantifying `k ∈ Finset.range n` to say "`[1], …, [n]` nonzero";
+  the off-by-one between the shorthand and `S`'s index is pinned here, once.
 - **Boundary points live on a circle.** A diagram `n → m` is drawn in a rectangle and read
   **bottom to top**, but its boundary datum is the cyclic order: points `0, …, n−1` along
   the bottom from left to right, then `n, …, n+m−1` along the top from **right to left**
@@ -65,13 +69,19 @@ its first diagrammatic instances.
   corner-dragging cheap, and it is the design decision the operations of Layer 1 rest on.
 - **Composition order:** `f ≫ g` stacks `g` on top of `f`.
 - **Closed circles are data, then coefficients.** In the diagram category a morphism carries
-  its circle count as a natural number (composition must be associative, so the count cannot
-  be discarded). In `TL(R, δ)` the hom-modules are free on matchings alone and composition
-  multiplies by `δ^{#circles}`. The linearization functor relates the two; neither is
-  quotiented silently into the other.
+  its circle count as a natural number: discarding the count would silently impose `δ = 1`,
+  and the universal property needs the circle to remain a nontrivial endomorphism of the
+  unit so that linearization at *every* `δ` factors through this one category. In
+  `TL(R, δ)` the hom-modules are free on matchings alone and composition multiplies by
+  `δ^{#circles}`. The linearization functor relates the two; neither is quotiented silently
+  into the other.
 - **The trace is unnormalized.** The diagrammatic (Markov) trace closes a diagram to the
   right and evaluates circles: `tr̂(1_n) = δⁿ`. Normalized traces divide by `δⁿ` and exist
   only when `δ` is invertible; keep them separate, never silently identified.
+- **Objects are one-field structures.** The objects of `TLDiagCat` and `TLCat R δ` wrap a
+  natural number of boundary points in a one-field structure (constructor `of`), so
+  category and monoidal instances hang on a dedicated type, never on `ℕ` itself; tensor
+  adds the underlying numbers.
 - **Semisimple and nondegenerate are different words.** "Nondegenerate" refers to the trace
   pairings `Hom(n,m) × Hom(m,n) → R`; "semisimple" to the algebras `TL_n`. Both
   classifications are targets and they do not coincide statement-for-statement (see the ⚠ in
@@ -88,8 +98,10 @@ its first diagrammatic instances.
   `card_dyckWord_semilength_eq_catalan` (`…/DyckWord.lean`). Dyck words are both the
   counting engine and a candidate computational encoding of matchings.
 - **Chebyshev polynomials:** `Polynomial.Chebyshev.S`
-  (`Mathlib/RingTheory/Polynomial/Chebyshev.lean`), with the recurrence already proved; the
-  quantum integer layer is a thin evaluation interface over it.
+  (`Mathlib/RingTheory/Polynomial/Chebyshev.lean`), with the recurrences already proved;
+  quantum integers are these polynomials evaluated at `δ`, used directly with no wrapper
+  (see the conventions), so Layer 0 adds only evaluation lemmas, natural candidates for
+  upstreaming into that file.
 - **Monoidal category theory:** `MonoidalCategory`, `BraidedCategory`
   (`Mathlib/CategoryTheory/Monoidal/Braided/Basic.lean`), rigidity via `ExactPairing` and
   `RigidCategory` (`…/Monoidal/Rigid/Basic.lean`), `MonoidalPreadditive`
@@ -134,10 +146,11 @@ previous layers land.
 
 ### Layer 0: quantum integers
 
-- `qInt δ n` (notation `[n]`), defined by evaluating `Polynomial.Chebyshev.S` at `δ`:
-  `[0] = 0`, `[1] = 1`, `[2] = δ`, `[n+2] = δ·[n+1] − [n]`. Basic identities: the recurrence
-  in both directions, `[m+n+1] = [m+1][n+1] − [m][n]`, and divisibility `[d] ∣ [n]` when
-  `d ∣ n` (as evaluations, from the polynomial statements where possible).
+- No new definitions at all: per the conventions, `[n]` means
+  `(Polynomial.Chebyshev.S R ((n : ℤ) − 1)).eval δ` and the targets are *lemmas* about
+  these evaluations, stated against Mathlib's `S` and upstreamable to its file. The basic
+  identities: `[m+n+1] = [m+1][n+1] − [m][n]`, and divisibility `[d] ∣ [n]` when `d ∣ n`
+  (proved as polynomial statements where possible, evaluated afterwards).
 - **The `q`-side interface:** for a unit `q` with `δ = q + q⁻¹`,
   `[n] = q^{n−1} + q^{n−3} + ⋯ + q^{1−n}` and `(q − q⁻¹)·[n] = qⁿ − q⁻ⁿ`. Over a field:
   `[n](δ) = 0` for some `n ≥ 1` iff `δ = ζ + ζ⁻¹` for a root of unity `ζ` (in a quadratic
@@ -176,7 +189,8 @@ previous layers land.
 
 ### Layer 2: the diagram category and its presentation
 
-- **The category `TLDiagCat`:** objects `ℕ`, `Hom n m ≃ TLDiagram n m`. Composition glues
+- **The category `TLDiagCat`:** objects a one-field structure wrapping the number of
+  boundary points (constructor `of`), `Hom (of n) (of m) ≃ TLDiagram n m`. Composition glues
   along the middle boundary and adds circle counts, including the newly formed circles: the
   middle points have degree ≤ 2 in the union of the two matchings, so components are paths
   or cycles, and the new circles are the cycle count (a finite-graph argument; Mathlib's
@@ -184,8 +198,8 @@ previous layers land.
   encoding). **Associativity is the hard theorem of this layer**; plan for it, do not
   discover it.
 - **Monoidal structure:** juxtaposition (`+` on objects, index-shifting on matchings), with
-  the strictness handled once: objects are `ℕ`, tensor is `+`, and the associators are
-  equality-induced isomorphisms.
+  the strictness handled once: tensor adds the underlying point counts, and the associators
+  are equality-induced isomorphisms.
 - **Rigidity:** every object is self-dual via nested cups and caps; the zigzag identities
   are diagram computations. `RigidCategory TLDiagCat`.
 - **Monoidal presentations (reusable infrastructure):** the general construction of the

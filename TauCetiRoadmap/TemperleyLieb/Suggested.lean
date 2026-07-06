@@ -18,7 +18,7 @@ categories roadmap's target (`../PivotalSpherical/README.md`), consumed here; th
 build in `TauCeti/TemperleyLieb/` and the reusable infrastructure homes named in
 `README.md`.
 
-This file pins the load-bearing **definitions** (`qInt`, `PlanarMatching`, `TLDiagram`, the
+This file pins the load-bearing **definitions** (`PlanarMatching`, `TLDiagram`, the
 categories `TLDiagCat` and `TLCat R δ`, the algebras `TLAlg R δ n`, cell modules, tensor
 ideals, Jones–Wenzl projections) and **named milestones** as `sorry`-targets (`sorry` is
 allowed in this human-owned roadmap library; these are goals, not proofs). Some structure
@@ -28,45 +28,32 @@ summit) is deliberately *not* pinned here, because its Lean form depends on infr
 this roadmap itself creates; `README.md` remains definitive for all of it.
 
 Conventions (see `README.md`): the loop parameter is `δ = q + q⁻¹`; quantum integers are
-Chebyshev evaluations, `[n+1] = S n δ`, with no `q` in sight; boundary points are read
-cyclically (bottom left-to-right, then top right-to-left); `f ≫ g` stacks `g` on top of
-`f`; circles are data (`ℕ`) in the diagram category and `δ`-exponents in `TL(R, δ)`; the
-Markov trace is unnormalized, `tr̂ 1 = δ ^ n`.
+spoken directly in Mathlib's vocabulary, with `(Polynomial.Chebyshev.S R (k : ℤ)).eval δ`
+for the quantum integer `[k+1]` (no wrapper definition, no notation; `[n]` is prose
+shorthand only); boundary points are read cyclically (bottom left-to-right, then top
+right-to-left); `f ≫ g` stacks `g` on top of `f`; circles are data (`ℕ`) in the diagram
+category and `δ`-exponents in `TL(R, δ)`; the Markov trace is unnormalized, `tr̂ 1 = δ ^ n`.
 -/
 
 namespace TauCetiRoadmap.TemperleyLieb
 
-open CategoryTheory MonoidalCategory Limits
+open CategoryTheory MonoidalCategory Limits Polynomial.Chebyshev
 
-/-! ## Layer 0: quantum integers -/
+/-! ## Layer 0: quantum integers
 
-/-- The **quantum integer** `[n]` at the loop parameter `δ`, defined with no `q` in sight as
-an evaluation of Mathlib's rescaled Chebyshev polynomial: `[n] = (S (n - 1)).eval δ`, so
-`[0] = 0`, `[1] = 1`, `[2] = δ`, and `[n+2] = δ·[n+1] − [n]`. When `δ = q + q⁻¹` this is
-`q^{n−1} + q^{n−3} + ⋯ + q^{1−n}`. -/
-noncomputable def qInt (R : Type*) [CommRing R] (δ : R) (n : ℕ) : R :=
-  (Polynomial.Chebyshev.S R ((n : ℤ) - 1)).eval δ
+There is no `qInt` wrapper and no bracket notation: the quantum integer `[n]` is, by the
+standing convention, the ring element `(Polynomial.Chebyshev.S R ((n : ℤ) - 1)).eval δ`, so
+`S k` evaluated at `δ` is `[k+1]`, and genericity hypotheses quantify `k` over
+`Finset.range n` to say "`[1], …, [n]`". Mathlib already has the recurrences for `S`; the
+Layer 0 targets are the missing *evaluation* lemmas, of which the `q`-side dictionary below
+is the archetype (the root-of-unity vanishing criterion and the product and divisibility
+identities of `README.md` follow the same pattern and are candidates for upstreaming). -/
 
-section QuantumIntegers
-
-variable {R : Type*} [CommRing R]
-
-theorem qInt_zero (δ : R) : qInt R δ 0 = 0 := sorry
-
-theorem qInt_one (δ : R) : qInt R δ 1 = 1 := sorry
-
-theorem qInt_two (δ : R) : qInt R δ 2 = δ := sorry
-
-theorem qInt_add_two (δ : R) (n : ℕ) :
-    qInt R δ (n + 2) = δ * qInt R δ (n + 1) - qInt R δ n := sorry
-
-/-- The dictionary to the `q`-side: for a unit `q` with `δ = q + q⁻¹`,
-`[n] = Σ_{i<n} q^{n−1−2i}`. -/
-theorem qInt_eq_sum_zpow (q : Rˣ) (n : ℕ) :
-    qInt R ((q : R) + ((q⁻¹ : Rˣ) : R)) n
-      = ∑ i ∈ Finset.range n, ((q ^ ((n : ℤ) - 1 - 2 * (i : ℤ)) : Rˣ) : R) := sorry
-
-end QuantumIntegers
+/-- The dictionary to the `q`-side: `S k` evaluated at `δ = q + q⁻¹` is
+`q^k + q^{k−2} + ⋯ + q^{−k}`, the quantum integer `[k+1]`. -/
+theorem chebyshevS_eval_add_inv {R : Type*} [CommRing R] (q : Rˣ) (k : ℕ) :
+    (S R (k : ℤ)).eval ((q : R) + ((q⁻¹ : Rˣ) : R))
+      = ∑ i ∈ Finset.range (k + 1), ((q ^ ((k : ℤ) - 2 * (i : ℤ)) : Rˣ) : R) := sorry
 
 /-! ## Layer 1: planar matchings, counting, operations -/
 
@@ -161,14 +148,17 @@ theorem sum_halfCount_sq (n : ℕ) :
 
 /-! ## Layer 2: the diagram category -/
 
-/-- The Temperley–Lieb **diagram category**: objects `ℕ`, morphisms Temperley–Lieb diagrams
-with their circle counts as data. Composition glues along the middle boundary and adds the
-circle counts, including the newly formed circles; associativity of this gluing is the hard
-theorem of Layer 2. -/
-def TLDiagCat : Type := ℕ
-
-/-- The object of `TLDiagCat` corresponding to `n` boundary points. -/
-def TLDiagCat.of (n : ℕ) : TLDiagCat := n
+/-- The Temperley–Lieb **diagram category**: objects wrap a number of boundary points,
+morphisms are Temperley–Lieb diagrams with their circle counts as data (discarding the
+count would silently impose `δ = 1`; the circle must stay a nontrivial endomorphism of the
+unit for the universal property to hold at every `δ`). Composition glues along the middle
+boundary and adds the circle counts, including the newly formed circles; associativity of
+this gluing is the hard theorem of Layer 2. -/
+structure TLDiagCat : Type where
+  /-- Build an object of the diagram category from its number of boundary points. -/
+  of ::
+  /-- The number of boundary points. -/
+  points : ℕ
 
 noncomputable instance : Category.{0} TLDiagCat := sorry
 
@@ -185,7 +175,7 @@ theorem TLDiagCat.homEquiv_symm_comp {n k m : ℕ} (D : TLDiagram n k) (E : TLDi
     (TLDiagCat.homEquiv n m).symm (D.comp E)
       = (TLDiagCat.homEquiv n k).symm D ≫ (TLDiagCat.homEquiv k m).symm E := sorry
 
-/-- Juxtaposition: the (strict) monoidal structure, `+` on objects. -/
+/-- Juxtaposition: the (strict) monoidal structure, adding boundary points. -/
 noncomputable instance : MonoidalCategory TLDiagCat := sorry
 
 theorem TLDiagCat.of_tensorObj (n m : ℕ) :
@@ -206,12 +196,14 @@ theorem TLDiagram.exists_through_factorization {n m : ℕ} (D : TLDiagram n m) :
 
 /-! ## Layer 3: the linear category `TL(R, δ)` -/
 
-/-- The `R`-linear Temperley–Lieb category at loop parameter `δ`: objects `ℕ`, hom-modules
-free on circle-free matchings, composition inserting `δ ^ #(new circles)`. -/
-def TLCat (R : Type*) [CommRing R] (δ : R) : Type := ℕ
-
-/-- The object of `TLCat R δ` corresponding to `n` boundary points. -/
-def TLCat.of (R : Type*) [CommRing R] (δ : R) (n : ℕ) : TLCat R δ := n
+/-- The `R`-linear Temperley–Lieb category at loop parameter `δ`: objects wrap a number of
+boundary points, hom-modules are free on circle-free matchings, composition inserts
+`δ ^ #(new circles)`. -/
+structure TLCat (R : Type*) [CommRing R] (δ : R) : Type where
+  /-- Build an object of `TL(R, δ)` from its number of boundary points. -/
+  of ::
+  /-- The number of boundary points. -/
+  points : ℕ
 
 section Linear
 
@@ -234,13 +226,14 @@ noncomputable def linearize : TLDiagCat ⥤ TLCat R δ := sorry
 
 /-- Each hom-module is free with basis the circle-free matchings. -/
 noncomputable def diagBasis (n m : ℕ) :
-    Module.Basis (PlanarMatching (n + m)) R (TLCat.of R δ n ⟶ TLCat.of R δ m) := sorry
+    Module.Basis (PlanarMatching (n + m)) R
+      ((TLCat.of n : TLCat R δ) ⟶ TLCat.of m) := sorry
 
 /-- Corner-dragging (Frobenius reciprocity for the self-duality): drag the rightmost bottom
 point to the top. Compatible with Layer 1's cyclic reindexing along `diagBasis`. -/
 noncomputable def bendRight (n m : ℕ) :
-    (TLCat.of R δ (n + 1) ⟶ TLCat.of R δ m) ≃ₗ[R] (TLCat.of R δ n ⟶ TLCat.of R δ (m + 1)) :=
-  sorry
+    ((TLCat.of (n + 1) : TLCat R δ) ⟶ TLCat.of m)
+      ≃ₗ[R] ((TLCat.of n : TLCat R δ) ⟶ TLCat.of (m + 1)) := sorry
 
 /-- The **Kauffman braiding** `σ = A·1 + A⁻¹·(cup ≫ cap)`, available after base change: it
 needs a unit `A` with `δ = −A² − A⁻²` (that is, `q = −A²`; this hypothesis is where
@@ -252,7 +245,7 @@ noncomputable def braidedOfKauffman (A : Rˣ)
 
 /-- The image of a single diagram: `δ ^ circles` times the basis vector of its matching. -/
 noncomputable def TLDiagram.toHom {n m : ℕ} (D : TLDiagram n m) :
-    TLCat.of R δ n ⟶ TLCat.of R δ m := sorry
+    (TLCat.of n : TLCat R δ) ⟶ TLCat.of m := sorry
 
 /-- **Monos among diagrams**: for `δ` a non-zero-divisor, a diagram is a monomorphism iff
 all its bottom points are through-strands. Forward direction via `D̄ ≫ D = δ^{#cups}·1`;
@@ -386,14 +379,16 @@ theorem finrank_cellModule (n k : ℕ) :
 noncomputable def cellForm (n k : ℕ) : LinearMap.BilinForm R (CellModule R δ n k) := sorry
 
 /-- **The Gram determinant formula** (Westbury; Ridout–Saint-Aubin), in denominator-free
-form: `det G_{n,k} · Π_j [j]^{m_j} = Π_j [k+j+1]^{m_j}` with `m_j = halfCount n (k+2j)`.
+form: `det G_{n,k} · Π_j [j+1]^{m_j} = Π_j [k+j+2]^{m_j}` over `j < (n−k)/2`, with
+`m_j = halfCount n (k+2j+2)` and `[i]` prose shorthand for `(S R (i-1)).eval δ`.
 Anchors: `det G_{2,0} = [2]`, `det G_{3,1} = [3]`, `det G_{4,2} = [4]`,
 `det G_{4,0} = [2]²[3]`. -/
 theorem det_gramMatrix_mul (n k : ℕ) :
     (gramMatrix R δ n k).det
-        * ∏ j ∈ Finset.Icc 1 ((n - k) / 2), qInt R δ j ^ halfCount n (k + 2 * j)
-      = ∏ j ∈ Finset.Icc 1 ((n - k) / 2), qInt R δ (k + j + 1) ^ halfCount n (k + 2 * j) :=
-  sorry
+        * ∏ j ∈ Finset.range ((n - k) / 2),
+            ((S R (j : ℤ)).eval δ) ^ halfCount n (k + 2 * j + 2)
+      = ∏ j ∈ Finset.range ((n - k) / 2),
+          ((S R ((k : ℤ) + j + 1)).eval δ) ^ halfCount n (k + 2 * j + 2) := sorry
 
 end Cells
 
@@ -408,10 +403,11 @@ theorem isSemisimpleRing_tlAlg_iff (n : ℕ) :
     IsSemisimpleRing (TLAlg K δ n)
       ↔ ∀ k ∈ Finset.range (n + 1), (n - k) % 2 = 0 → (gramMatrix K δ n k).det ≠ 0 := sorry
 
-/-- The generic direction: `[k] ≠ 0` for `1 ≤ k ≤ n` gives semisimplicity. ⚠ This is
-**not** an iff: `TL_3(0)` is semisimple although `[2](0) = 0`; the `δ = 0` classification
-depends on the parity of `n` (see `README.md`). -/
-theorem isSemisimpleRing_tlAlg (n : ℕ) (h : ∀ k ∈ Finset.Icc 1 n, qInt K δ k ≠ 0) :
+/-- The generic direction: `[1], …, [n]` nonzero gives semisimplicity. ⚠ This is **not**
+an iff: `TL_3(0)` is semisimple although `[2](0) = 0`; the `δ = 0` classification depends
+on the parity of `n` (see `README.md`). -/
+theorem isSemisimpleRing_tlAlg (n : ℕ)
+    (h : ∀ k ∈ Finset.range n, (S K (k : ℤ)).eval δ ≠ 0) :
     IsSemisimpleRing (TLAlg K δ n) := sorry
 
 /-- The two `δ = 0` acceptance tests that keep the classification honest. -/
@@ -428,15 +424,16 @@ variable (R : Type*) [CommRing R] (δ : R)
 
 /-- The closure pairing `Hom(n, m) ⊗ Hom(m, n) → R`, `(f, g) ↦ tr̂(f ≫ g)`. -/
 noncomputable def homPairing (n m : ℕ) :
-    (TLCat.of R δ n ⟶ TLCat.of R δ m) →ₗ[R] (TLCat.of R δ m ⟶ TLCat.of R δ n) →ₗ[R] R :=
-  sorry
+    ((TLCat.of n : TLCat R δ) ⟶ TLCat.of m)
+      →ₗ[R] ((TLCat.of m : TLCat R δ) ⟶ TLCat.of n) →ₗ[R] R := sorry
 
-/-- **Nondegeneracy of the category**: all closure pairings are nondegenerate iff
-`[k] ≠ 0` for every `k ≥ 1`; over an algebraically closed field, iff `δ ≠ q + q⁻¹` for
+/-- **Nondegeneracy of the category**: all closure pairings are nondegenerate iff every
+quantum integer is nonzero; over an algebraically closed field, iff `δ ≠ q + q⁻¹` for
 every root of unity `q ≠ ±1` and `δ ≠ 0`. No parity exception here, unlike the
 algebra-by-algebra statement. -/
 theorem homPairing_nondegenerate_iff (K : Type*) [Field K] (δ : K) :
-    (∀ n m, (homPairing K δ n m).Nondegenerate) ↔ ∀ k, 1 ≤ k → qInt K δ k ≠ 0 := sorry
+    (∀ n m, (homPairing K δ n m).Nondegenerate)
+      ↔ ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0 := sorry
 
 end Nondegeneracy
 
@@ -444,12 +441,12 @@ end Nondegeneracy
 
 /-- The **Jones–Wenzl projection** `f_n`, defined when `[1], …, [n]` are invertible. -/
 noncomputable def jonesWenzl (R : Type*) [CommRing R] (δ : R) (n : ℕ)
-    (h : ∀ k ∈ Finset.Icc 1 n, IsUnit (qInt R δ k)) : TLAlg R δ n := sorry
+    (h : ∀ k ∈ Finset.range n, IsUnit ((S R (k : ℤ)).eval δ)) : TLAlg R δ n := sorry
 
 section JonesWenzl
 
 variable {R : Type*} [CommRing R] {δ : R} {n : ℕ}
-variable (h : ∀ k ∈ Finset.Icc 1 n, IsUnit (qInt R δ k))
+variable (h : ∀ k ∈ Finset.range n, IsUnit ((S R (k : ℤ)).eval δ))
 
 theorem jonesWenzl_idem : IsIdempotentElem (jonesWenzl R δ n h) := sorry
 
@@ -459,8 +456,9 @@ theorem jonesWenzl_mul_e (i : Fin (n - 1)) : jonesWenzl R δ n h * e R δ i = 0 
 
 theorem star_jonesWenzl : star (jonesWenzl R δ n h) = jonesWenzl R δ n h := sorry
 
+/-- `tr̂ f_n = [n+1]`. -/
 theorem diagTrace_jonesWenzl :
-    diagTrace R δ n (jonesWenzl R δ n h) = qInt R δ (n + 1) := sorry
+    diagTrace R δ n (jonesWenzl R δ n h) = (S R (n : ℤ)).eval δ := sorry
 
 end JonesWenzl
 
@@ -470,7 +468,7 @@ variable (K : Type*) [Field K] (δ : K)
 
 /-- Over a field, `f_n` is the unique nonzero idempotent killed on both sides by every
 `e_i`. -/
-theorem jonesWenzl_unique {n : ℕ} (h : ∀ k ∈ Finset.Icc 1 n, IsUnit (qInt K δ k))
+theorem jonesWenzl_unique {n : ℕ} (h : ∀ k ∈ Finset.range n, IsUnit ((S K (k : ℤ)).eval δ))
     (f : TLAlg K δ n) (hf : IsIdempotentElem f) (hf0 : f ≠ 0)
     (hl : ∀ i, e K δ i * f = 0) (hr : ∀ i, f * e K δ i = 0) :
     f = jonesWenzl K δ n h := sorry
@@ -480,20 +478,20 @@ theorem jonesWenzl_unique {n : ℕ} (h : ∀ k ∈ Finset.Icc 1 n, IsUnit (qInt 
 and the coefficient formula (Morrison, arXiv:1503.00384) are companion targets whose Lean
 form waits on the tilted-basis bookkeeping; `README.md` is definitive. -/
 theorem jonesWenzl_succ (n : ℕ)
-    (h : ∀ k ∈ Finset.Icc 1 (n + 2), IsUnit (qInt K δ k))
-    (h' : ∀ k ∈ Finset.Icc 1 (n + 1), IsUnit (qInt K δ k)) :
+    (h : ∀ k ∈ Finset.range (n + 2), IsUnit ((S K (k : ℤ)).eval δ))
+    (h' : ∀ k ∈ Finset.range (n + 1), IsUnit ((S K (k : ℤ)).eval δ)) :
     jonesWenzl K δ (n + 2) h
       = incl K δ (jonesWenzl K δ (n + 1) h')
-        - (qInt K δ (n + 1) / qInt K δ (n + 2))
+        - ((S K (n : ℤ)).eval δ / (S K ((n : ℤ) + 1)).eval δ)
             • (incl K δ (jonesWenzl K δ (n + 1) h') * e K δ (n := n + 2) (Fin.last n)
                 * incl K δ (jonesWenzl K δ (n + 1) h')) := sorry
 
-/-- The partial trace of a Jones–Wenzl projection. -/
+/-- The partial trace of a Jones–Wenzl projection: `condExp f_{n+1} = ([n+2]/[n+1])·f_n`. -/
 theorem condExp_jonesWenzl (n : ℕ)
-    (h : ∀ k ∈ Finset.Icc 1 (n + 1), IsUnit (qInt K δ k))
-    (h' : ∀ k ∈ Finset.Icc 1 n, IsUnit (qInt K δ k)) :
+    (h : ∀ k ∈ Finset.range (n + 1), IsUnit ((S K (k : ℤ)).eval δ))
+    (h' : ∀ k ∈ Finset.range n, IsUnit ((S K (k : ℤ)).eval δ)) :
     condExp K δ n (jonesWenzl K δ (n + 1) h)
-      = (qInt K δ (n + 2) / qInt K δ (n + 1)) • jonesWenzl K δ n h' := sorry
+      = ((S K ((n : ℤ) + 1)).eval δ / (S K (n : ℤ)).eval δ) • jonesWenzl K δ n h' := sorry
 
 end JonesWenzlField
 
@@ -518,14 +516,14 @@ structure TensorIdeal where
 /-- The negligible ideal: morphisms invisible to the closure pairings. -/
 noncomputable def negligibleIdeal : TensorIdeal R δ := sorry
 
-theorem mem_negligibleIdeal_iff (n m : ℕ) (f : TLCat.of R δ n ⟶ TLCat.of R δ m) :
-    f ∈ (negligibleIdeal R δ).submod (TLCat.of R δ n) (TLCat.of R δ m)
+theorem mem_negligibleIdeal_iff (n m : ℕ) (f : (TLCat.of n : TLCat R δ) ⟶ TLCat.of m) :
+    f ∈ (negligibleIdeal R δ).submod (TLCat.of n) (TLCat.of m)
       ↔ ∀ g, homPairing R δ n m f g = 0 := sorry
 
 /-- The linear identification of the algebra with the endomorphism hom-module (it is also
 multiplicative; the algebra-equivalence form waits on the `End`-ring instances). -/
 noncomputable def endEquiv (n : ℕ) :
-    TLAlg R δ n ≃ₗ[R] (TLCat.of R δ n ⟶ TLCat.of R δ n) := sorry
+    TLAlg R δ n ≃ₗ[R] ((TLCat.of n : TLCat R δ) ⟶ TLCat.of n) := sorry
 
 end TensorIdeals
 
@@ -533,45 +531,47 @@ section GoodmanWenzl
 
 variable (K : Type*) [Field K] (δ : K)
 
-/-- At quantum order `ℓ` (that is, `[ℓ] = 0` and `[k] ≠ 0` for `1 ≤ k < ℓ`), the
-Jones–Wenzl projection `f_{ℓ−1}` is negligible (`tr̂ f_{ℓ−1} = [ℓ] = 0`). -/
+/-- At quantum order `ℓ` (that is, `[ℓ] = 0` and `[1], …, [ℓ−1]` nonzero), the Jones–Wenzl
+projection `f_{ℓ−1}` is negligible (`tr̂ f_{ℓ−1} = [ℓ] = 0`). -/
 theorem jonesWenzl_mem_negligibleIdeal (ℓ : ℕ) (h2 : 2 ≤ ℓ)
-    (hℓ : qInt K δ ℓ = 0)
-    (hjw : ∀ k ∈ Finset.Icc 1 (ℓ - 1), IsUnit (qInt K δ k)) :
+    (hℓ : (S K ((ℓ : ℤ) - 1)).eval δ = 0)
+    (hjw : ∀ k ∈ Finset.range (ℓ - 1), IsUnit ((S K (k : ℤ)).eval δ)) :
     endEquiv K δ (ℓ - 1) (jonesWenzl K δ (ℓ - 1) hjw)
-      ∈ (negligibleIdeal K δ).submod (TLCat.of K δ (ℓ - 1)) (TLCat.of K δ (ℓ - 1)) := sorry
+      ∈ (negligibleIdeal K δ).submod (TLCat.of (ℓ - 1)) (TLCat.of (ℓ - 1)) := sorry
 
 /-- **Goodman–Wenzl, generation**: at quantum order `ℓ`, any tensor ideal containing
 `f_{ℓ−1}` contains every negligible morphism. -/
 theorem negligibleIdeal_le_of_jonesWenzl_mem (ℓ : ℕ) (h2 : 2 ≤ ℓ)
-    (hℓ : qInt K δ ℓ = 0) (hℓ' : ∀ k, 1 ≤ k → k < ℓ → qInt K δ k ≠ 0)
-    (hjw : ∀ k ∈ Finset.Icc 1 (ℓ - 1), IsUnit (qInt K δ k))
+    (hℓ : (S K ((ℓ : ℤ) - 1)).eval δ = 0)
+    (hjw : ∀ k ∈ Finset.range (ℓ - 1), IsUnit ((S K (k : ℤ)).eval δ))
     (I : TensorIdeal K δ)
     (hI : endEquiv K δ (ℓ - 1) (jonesWenzl K δ (ℓ - 1) hjw)
-      ∈ I.submod (TLCat.of K δ (ℓ - 1)) (TLCat.of K δ (ℓ - 1))) :
+      ∈ I.submod (TLCat.of (ℓ - 1)) (TLCat.of (ℓ - 1))) :
     ∀ X Y, (negligibleIdeal K δ).submod X Y ≤ I.submod X Y := sorry
 
 /-- **Goodman–Wenzl, uniqueness**: at quantum order `ℓ`, every tensor ideal is zero, the
 negligible ideal, or everything. -/
 theorem tensorIdeal_trichotomy (ℓ : ℕ) (h2 : 2 ≤ ℓ)
-    (hℓ : qInt K δ ℓ = 0) (hℓ' : ∀ k, 1 ≤ k → k < ℓ → qInt K δ k ≠ 0)
+    (hℓ : (S K ((ℓ : ℤ) - 1)).eval δ = 0)
+    (hℓ' : ∀ k ∈ Finset.range (ℓ - 1), (S K (k : ℤ)).eval δ ≠ 0)
     (I : TensorIdeal K δ) :
     (∀ X Y, I.submod X Y = ⊥)
       ∨ (∀ X Y, I.submod X Y = (negligibleIdeal K δ).submod X Y)
       ∨ (∀ X Y, I.submod X Y = ⊤) := sorry
 
-/-- The generic complement: with all `[k] ≠ 0` the category has no interesting tensor
-ideals. -/
-theorem tensorIdeal_bot_or_top (hK : ∀ k, 1 ≤ k → qInt K δ k ≠ 0) (I : TensorIdeal K δ) :
+/-- The generic complement: with every quantum integer nonzero the category has no
+interesting tensor ideals. -/
+theorem tensorIdeal_bot_or_top (hK : ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0)
+    (I : TensorIdeal K δ) :
     (∀ X Y, I.submod X Y = ⊥) ∨ (∀ X Y, I.submod X Y = ⊤) := sorry
 
 end GoodmanWenzl
 
 /-! ## Layer 7: the Karoubi envelope
 
-The root-of-unity quotient, the semisimple-category predicate, and the `FusionCategory`
-summit are specified in `README.md`; their Lean forms depend on infrastructure this roadmap
-itself creates, so they are not pinned here. -/
+The root-of-unity quotient, the semisimple-category predicate, and the fusion summit are
+specified in `README.md`; their Lean forms depend on infrastructure this roadmap itself
+creates, so they are not pinned here. -/
 
 section Karoubi
 
@@ -590,19 +590,20 @@ instance : HasBinaryBiproducts (TLKar K δ) := sorry
 
 /-- The image `X_n` of the Jones–Wenzl projection `f_n` in the Karoubi envelope, in the
 generic case where every `f_n` exists. -/
-noncomputable def jwObject (hδ : ∀ k, 1 ≤ k → qInt K δ k ≠ 0) (n : ℕ) : TLKar K δ := sorry
+noncomputable def jwObject (hδ : ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0) (n : ℕ) :
+    TLKar K δ := sorry
 
 /-- Generic case: the Jones–Wenzl images are simple. -/
-theorem simple_jwObject (hδ : ∀ k, 1 ≤ k → qInt K δ k ≠ 0) (n : ℕ) :
+theorem simple_jwObject (hδ : ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0) (n : ℕ) :
     Simple (jwObject K δ hδ n) := sorry
 
 /-- Generic case: they exhaust the simples. Semisimplicity (every object a finite biproduct
 of these) and the general Clebsch–Gordan decomposition are companion targets. -/
-theorem exists_iso_jwObject (hδ : ∀ k, 1 ≤ k → qInt K δ k ≠ 0) (X : TLKar K δ)
+theorem exists_iso_jwObject (hδ : ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0) (X : TLKar K δ)
     (hX : Simple X) : ∃ n, Nonempty (X ≅ jwObject K δ hδ n) := sorry
 
 /-- **Clebsch–Gordan**, the generating case: `X_{n+1} ⊗ X_1 ≅ X_n ⊞ X_{n+2}`. -/
-noncomputable def clebschGordanOne (hδ : ∀ k, 1 ≤ k → qInt K δ k ≠ 0) (n : ℕ) :
+noncomputable def clebschGordanOne (hδ : ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0) (n : ℕ) :
     jwObject K δ hδ (n + 1) ⊗ jwObject K δ hδ 1
       ≅ jwObject K δ hδ n ⊞ jwObject K δ hδ (n + 2) := sorry
 
