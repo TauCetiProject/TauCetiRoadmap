@@ -26,6 +26,7 @@ body:
         - OrthogonalL2Bases
         - PDE
         - ReductiveGroups
+        - RepresentationTheory
         - UniversalCovers
     validations:
       required: true

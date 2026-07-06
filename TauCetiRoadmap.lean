@@ -3,6 +3,14 @@
 -- The per-topic `README.md` files are the definitive roadmaps. The Lean `Suggested.lean`
 -- files suggest declaration forms for particular milestones (with `sorry`, which is
 -- allowed here); they are not exhaustive, and discharging one does not finish its roadmap.
+import TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras.Suggested
+import TauCetiRoadmap.RepresentationTheory.CharacterTheory.Suggested
+import TauCetiRoadmap.RepresentationTheory.InductionRestriction.Suggested
+import TauCetiRoadmap.RepresentationTheory.RootSystems.Suggested
+import TauCetiRoadmap.RepresentationTheory.LieHighestWeight.Suggested
+import TauCetiRoadmap.RepresentationTheory.ClassicalGroups.Suggested
+import TauCetiRoadmap.RepresentationTheory.SchurWeyl.Suggested
+import TauCetiRoadmap.RepresentationTheory.CompactGroups.Suggested
 import TauCetiRoadmap.Multiquadratic.Suggested
 import TauCetiRoadmap.UniversalCovers.Suggested
 import TauCetiRoadmap.JacobianChallenge.Suggested
