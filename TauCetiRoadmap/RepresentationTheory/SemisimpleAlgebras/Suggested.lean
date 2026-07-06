@@ -122,24 +122,30 @@ theorem tensorOp_algEquiv_matrix {K A : Type u} [Field K] [Ring A] [Algebra K A]
 
 /-! ## Layer 5: Skolem-Noether and the centralizer theorem -/
 
-/-- **Skolem-Noether**: two `K`-algebra homomorphisms from a simple algebra `B` into a central simple
-algebra `A` are conjugate by a unit of `A`. In particular every automorphism of a central simple algebra
-is inner. Proved via the module density of Layer 3. -/
+/-- **Skolem-Noether**: two `K`-algebra homomorphisms from a **finite-dimensional central simple** algebra
+`B` into a central simple algebra `A` are conjugate by a unit of `A`. In particular every automorphism of a
+central simple algebra is inner. Finite-dimensionality of `B` is essential. Proved via the module density
+of Layer 3. (The classical theorem holds for merely simple `B`; the central-simple form pinned here is what
+the centralizer theorem and downstream applications use.) -/
 theorem skolemNoether {K A B : Type u} [Field K] [Ring A] [Ring B] [Algebra K A] [Algebra K B]
-    [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A] [IsSimpleRing B]
-    [FiniteDimensional K B] (f g : B →ₐ[K] A) :
+    [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A]
+    [Algebra.IsCentral K B] [IsSimpleRing B] [FiniteDimensional K B] (f g : B →ₐ[K] A) :
     ∃ u : Aˣ, ∀ x : B, g x = (u : A) * f x * (↑u⁻¹ : A) := sorry
 
-/-- **The centralizer of a simple subalgebra is simple.** -/
+/-- **The centralizer of a central simple subalgebra is simple.** For `B` a finite-dimensional central
+simple subalgebra of a central simple algebra `A`; the general form for a merely simple `B` (with
+`Z(B) ⊋ K`) needs a center-sensitive correction and is a later target. -/
 theorem centralizer_isSimpleRing {K A : Type u} [Field K] [Ring A] [Algebra K A]
     [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A] (B : Subalgebra K A)
-    [IsSimpleRing B] : IsSimpleRing (Subalgebra.centralizer K (B : Set A)) := sorry
+    [Algebra.IsCentral K B] [IsSimpleRing B] :
+    IsSimpleRing (Subalgebra.centralizer K (B : Set A)) := sorry
 
-/-- **The centralizer theorem (dimension form)**: `dim_K B · dim_K C_A(B) = dim_K A` for a simple
-subalgebra `B` of a central simple algebra `A`. Together with `C_A(C_A(B)) = B` (a further target). -/
+/-- **The centralizer theorem (dimension form)**: `dim_K B · dim_K C_A(B) = dim_K A` for a
+finite-dimensional central simple subalgebra `B` of a central simple algebra `A`. Together with
+`C_A(C_A(B)) = B` and `C_A(B)` central simple (further targets). -/
 theorem finrank_mul_finrank_centralizer {K A : Type u} [Field K] [Ring A] [Algebra K A]
     [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A] (B : Subalgebra K A)
-    [IsSimpleRing B] :
+    [Algebra.IsCentral K B] [IsSimpleRing B] :
     Module.finrank K B * Module.finrank K (Subalgebra.centralizer K (B : Set A))
       = Module.finrank K A := sorry
 

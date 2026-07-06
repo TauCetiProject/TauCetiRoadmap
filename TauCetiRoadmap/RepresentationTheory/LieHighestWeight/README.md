@@ -34,10 +34,11 @@ recursion**, the practical complement to Kostant's formula, is absent. And on th
 **exceptional Lie algebras** are barely touched: here Mathlib is further along than elsewhere, since
 `Mathlib/Algebra/Lie/SerreConstruction.lean` gives the Serre presentation `Matrix.ToLieAlgebra` of a
 Lie algebra from a Cartan matrix and even names the five exceptional split algebras `LieAlgebra.e₆`,
-`e₇`, `e₈`, `f₄`, `g₂` (as `Matrix.ToLieAlgebra K CartanMatrix.E₆` and friends), but it proves nothing
-about them: not that they are finite-dimensional or Killing-semisimple, not their dimensions
-`78, 133, 248, 52, 14`, and none of the **octonion / Jordan / magic-square** models that realize them.
-The **octonions** are absent from Mathlib entirely.
+`e₇`, `e₈`, `f₄`, `g₂` (as `Matrix.ToLieAlgebra K CartanMatrix.E₆` and friends). It defines these
+algebras as quotients but establishes **none of their structural theorems**: not that they are
+finite-dimensional or Killing-semisimple, not their dimensions `78, 133, 248, 52, 14`, and none of the
+**octonion / Jordan / magic-square** models that realize them. The **octonions** are absent from
+Mathlib entirely.
 
 This roadmap builds that representation theory, and it is organized around a single methodological
 commitment that the subject itself forces: **`sl₂` is the engine, and it is a foundational node
@@ -66,22 +67,28 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
 ## Standing conventions
 
 - **The base field.** Work over a field `K` that is **algebraically closed and of characteristic
-  zero** for the representation theory proper (so every finite-dimensional module is triangularizable
-  and weights take values in `K`), matching Mathlib's `[Field K] [CharZero K] [IsAlgClosed K]`. State
-  each result at the generality it actually needs, in the Zulip house style: the `sl₂` weight-string
-  arguments need only `CharGap`/`CharZero` and finite-dimensionality; the root-space decomposition
-  needs `IsTriangularizable`; the classification needs algebraic closure. **Do not** bundle
-  "algebraically closed, characteristic zero, semisimple, split" into one mega-class; spell the
-  hypotheses each theorem uses.
+  zero** for the representation theory proper (so the characteristic polynomials of `H`-actions split
+  and all weights take values in `K`), matching Mathlib's `[Field K] [CharZero K] [IsAlgClosed K]`.
+  Algebraic closure and finite-dimensionality give only the **generalized** weight-space decomposition
+  (`iSup_genWeightSpace_eq_top`, once `IsTriangularizable K H M` is in place); that the generalized
+  weight spaces are honest simultaneous eigenspaces is a **separate theorem** (Layer 2), coming from the
+  semisimplicity of the `H`-action, not from algebraic closure alone. State each result at the
+  generality it actually needs, in the Zulip house style: the `sl₂` weight-string arguments need only
+  `CharZero` and finite-dimensionality; the generalized decomposition needs `IsTriangularizable`; the
+  diagonalizability and the classification need algebraic closure. **Do not** bundle "algebraically
+  closed, characteristic zero, semisimple, split" into one mega-class; spell the hypotheses each theorem
+  uses.
 - **The Lie algebra, and what "semisimple" means here.** `L` is a finite-dimensional Lie algebra over
   `K` (`[LieRing L] [LieAlgebra K L] [Module.Finite K L]`). The default semisimplicity hypothesis is
   **`LieAlgebra.IsKilling K L`** (non-degenerate Killing form), which over a characteristic-zero field
   is equivalent to `LieAlgebra.IsSemisimple K L` and, crucially, is the hypothesis under which Mathlib
   already produces `LieAlgebra.IsKilling.rootSystem`. Over an algebraically closed `K` every Cartan
-  subalgebra is **split** (all weights land in `K`), so we do not carry a separate "split" hypothesis;
-  where the general theory over a non-closed field needs a split semisimple Lie algebra, that is a
-  named generalization stated as such, not the default. The abelian, nilpotent, and solvable notions
-  are Mathlib's (`LieAlgebra.IsNilpotent`, `LieAlgebra.IsSolvable`, `HasTrivialRadical`).
+  subalgebra is **split** (all root and weight values land in `K`); this splitness is itself a **named
+  milestone** (feeding Mathlib's `IsTriangularizable K H L`), consumed thereafter rather than treated as
+  ambient, so we do not carry a separate "split" hypothesis. Where the general theory over a non-closed
+  field needs a split semisimple Lie algebra, that is a named generalization stated as such, not the
+  default. The abelian, nilpotent, and solvable notions are Mathlib's (`LieAlgebra.IsNilpotent`,
+  `LieAlgebra.IsSolvable`, `HasTrivialRadical`).
 - **Cartan subalgebras, roots, and weights are Mathlib's.** Fix a Cartan subalgebra `H` via
   `[H.IsCartanSubalgebra]` (`LieSubalgebra.IsCartanSubalgebra`); it exists by
   `LieAlgebra.exists_isCartanSubalgebra`. A **root** is a nonzero `LieModule.Weight K H L` (element of
@@ -92,12 +99,17 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
   `finrank_rootSpace_eq_one` says root spaces are lines. Never introduce a private `Root`, `Weight`, or
   `Coroot` synonym.
 - **Positive systems and dominance, via a base.** Fix a base
-  `b : (LieAlgebra.IsKilling.rootSystem H).Base` (`RootPairing.Base`, which exists by
-  `RootPairing.nonempty_base`); its `IsPos` predicate and `b.support` of **simple roots** are the
-  positive system and simple system. A weight `λ : Module.Dual K H` is **integral** when `λ (α^∨) ∈ ℤ`
-  for every root `α`, and **dominant integral** when `λ (αᵢ^∨) ∈ ℕ` for every simple root `αᵢ`. The
-  **weight lattice** and **root lattice** are those of `../RootSystems/README.md`; we reuse them and do
-  not rebuild them. The half-sum of positive roots is **`ρ`**.
+  `base : (LieAlgebra.IsKilling.rootSystem H).Base` (`RootPairing.Base`, which exists by
+  `RootPairing.nonempty_base`); its `IsPos` predicate and `base.support` of **simple roots** are the
+  positive system and simple system. We reserve the name `base` for the root-system base and never reuse
+  it for the Borel subalgebra it determines. Integrality is an **arithmetic** condition, not a linear
+  one: a weight `λ : Module.Dual K H` is **integral** when `λ (α^∨) ∈ ℤ` (the image of `ℤ` in `K`) for
+  every root `α`, and **dominant integral** when `λ (αᵢ^∨) ∈ ℕ` for every simple root `αᵢ`. The
+  **integral weight lattice** `X` is therefore a `ℤ`-submodule of `Module.Dual K H`, **not** a
+  `K`-subspace; a named milestone constructs it as such, proves the roots lie in it, exhibits `ρ` (the
+  half-sum of positive roots) as an element of it, and shows the coroot pairings land in `ℤ`. The
+  `ℤ`-module structure of `X` and the Weyl action on it are shared with `../RootSystems/README.md`; we
+  reuse the abstract lattice and do not rebuild it.
 - **Modules are `LieModule`s; the categorical `FDRep` is a mirror.** Develop the theory on the
   Mathlib-native module core: `M` with `[LieRingModule L M] [LieModule K L M]`, irreducibility as
   `LieModule.IsIrreducible K L M` (`= IsSimpleOrder (LieSubmodule K L M)`), and the enveloping algebra
@@ -114,14 +126,25 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
   `IsSl2Triple.HasPrimitiveVectorWith` is exactly a highest weight vector for that `sl₂`; keep the
   general definition and the `sl₂` structure literally the same notion so the reductions typecheck.
 - **Characters live in the group algebra of the weight lattice.** The **formal character** of a
-  finite-dimensional module is the multiplicity function `μ ↦ dim Mμ`, an element of the integral group
-  algebra of the weight lattice (a `Module.Dual K H →₀ ℤ` supported on integral weights). The Weyl
-  group `(rootSystem H).weylGroup` acts on it. The Weyl character formula is an identity in this group
-  algebra; the dimension formula is its specialization at the trivial character, taken in `ℚ`, and
-  Kostant's formula is its expansion against the Kostant partition function. Keep the three as one
-  development, not three.
+  finite-dimensional module is the multiplicity function `μ ↦ dim Mμ` (honest weight multiplicities,
+  legitimate once the diagonalizability theorem of Layer 2 is in place), an element of the integral
+  group algebra `ℤ[X]` of the weight lattice (a `Module.Dual K H →₀ ℤ` supported on integral weights).
+  The Weyl group `(rootSystem H).weylGroup` acts on it. The Weyl character formula is an identity in
+  this group algebra, stated with the **integral denominator** `∏_{α>0}(1 - e^{-α})` (all exponents in
+  `X`) rather than the symmetric `∏(e^{α/2} - e^{-α/2})` (whose half-weights `α/2` need not lie in `X`);
+  the dimension formula is its specialization at the trivial character, taken in `ℚ`, and Kostant's
+  formula is its expansion against the Kostant partition function. Keep the three as one development,
+  not three.
 
 ## What Mathlib already has (consume)
+
+Three sources must be kept apart. **Mathlib now** supplies the objects listed here: `RootPairing`,
+bases, Weyl groups, Cartan matrices, the crystallographic/reduced instances, `genWeightSpace`, the
+enveloping algebra, the Killing form, and the Serre construction. The **root/weight lattices,
+fundamental weights, `ρ`, the dominance API, and the Weyl action on the weight lattice** are **not** in
+Mathlib as such; they are the province of `../RootSystems/README.md`, and we consume them from there.
+Everything else, the representation-theoretic use of all of the above, is **built here**. The bullets
+below are the Mathlib-now column.
 
 - **`sl₂` triples and the primitive-vector argument:** `Mathlib/Algebra/Lie/Sl2.lean`,
   `IsSl2Triple h e f` (with `lie_e_f`, `lie_h_e_nsmul`, `lie_h_f_nsmul`), `IsSl2Triple.toLieSubalgebra`,
@@ -174,8 +197,9 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
   instances), and the named split algebras `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂`; the standard
   integer Cartan matrices `CartanMatrix.E₆`, `E₇`, `E₈`, `F₄`, `G₂`, `A n`, `B n`, `C n`, `D n`
   (`Mathlib/Data/Matrix/Cartan.lean`), and `RootPairing.Base.cartanMatrix` of the
-  [../RootSystems/README.md](../RootSystems/README.md) roadmap. Mathlib defines these algebras but
-  proves nothing about their structure.
+  [../RootSystems/README.md](../RootSystems/README.md) roadmap. Mathlib defines these algebras as
+  quotients but establishes none of their structural theorems (finite-dimensionality, dimensions,
+  Killing-semisimplicity and type, concrete models, representations); those are built here.
 - **The symmetric algebra and the center of an algebra:** `Mathlib/LinearAlgebra/SymmetricAlgebra/`
   (`SymmetricAlgebra R M`, `SymmetricAlgebra.equivMvPolynomial`, `Basis.symmetricAlgebra`), the target
   of the Harish-Chandra isomorphism; `Subalgebra.center R A` (`Mathlib/Algebra/Algebra/Subalgebra/Basic.lean`),
@@ -206,14 +230,16 @@ is dominant integral); the **Casimir element** and **Weyl's complete reducibilit
 together with the formal-character group algebra they are stated in. None of this is upstream.
 
 Beyond these, this roadmap builds the **center of `U(L)` and the Harish-Chandra isomorphism**
-`Z(U(L)) ≅ S(H)^W` (dot action), the **central characters** `χ_λ` and the **linkage principle**
-`χ_λ = χ_μ ⟺ μ ∈ W·λ`, and **Freudenthal's multiplicity recursion**; the **Serre presentation
-theorem** identifying Mathlib's already-defined `Matrix.ToLieAlgebra K b.cartanMatrix` with the
-Killing Lie algebra `L` of its root system (the Lie-algebra companion to the root-datum existence of
-[../RootSystems/README.md](../RootSystems/README.md)); and the **exceptional Lie algebras
-explicitly**, from the **octonions** `𝕆` (built here, since Mathlib has none) through `G₂ = Der(𝕆)`,
-the **Albert algebra** `H₃(𝕆)` with `F₄ = Der(H₃(𝕆))`, and the **Freudenthal-Tits magic square** for
-`E₆, E₇, E₈`, with their smallest representations and the identification of each with Mathlib's
+`Z(U(L)) ≅ S(H)^{W·}` (affine dot action), the **central characters** `χ_λ` and the
+**central-character / dot-orbit theorem** `χ_λ = χ_μ ⟺ μ ∈ W·λ` (the strictly stronger category-`O`
+linkage principle is a separate development), and **Freudenthal's multiplicity recursion**; the **Serre
+presentation theorem** identifying Mathlib's already-defined `Matrix.ToLieAlgebra K base.cartanMatrix`
+(for simple `L`) with the Killing Lie algebra `L` of its root system (the Lie-algebra companion to the
+root-datum existence of [../RootSystems/README.md](../RootSystems/README.md)); and the **exceptional
+Lie algebras explicitly** in the **split track**, from the **split octonions** `𝕆` (built here, since
+Mathlib has none) through `G₂ = Der(𝕆)`, the **split Albert algebra** `H₃(𝕆)` with `F₄ = Der(H₃(𝕆))`,
+and the split `E`-series `E₆, E₇, E₈`, with their smallest representations and the identification of
+each with Mathlib's
 `LieAlgebra.g₂`, `f₄`, `e₆`, `e₇`, `e₈`. None of this is upstream.
 
 `Suggested.lean` pins the load-bearing objects (`Sl2Irrep`/the `V(n)` classification,
@@ -237,11 +263,13 @@ complete reducibility Layer 5, and the character and dimension formulas Layer 6.
 Built first and completely, because it is what the later reductions invoke, not because it is easy.
 
 - **The weight string.** For an `sl₂` triple `t : IsSl2Triple h e f` in `L` and a finite-dimensional
-  module `M`, the action of `h` is diagonalizable with **integer** eigenvalues, and `e`, `f` are the
-  raising and lowering (ladder) operators moving between consecutive `h`-eigenspaces. State the
-  eigenvalue-integrality (`∃ n : ℤ, μ = n` for every `h`-eigenvalue `μ`), consuming and extending
-  `HasPrimitiveVectorWith.exists_nat` and the ladder lemmas `lie_h_pow_toEnd_f`,
-  `lie_e_pow_succ_toEnd_f` already in `Sl2.lean`.
+  module `M`, `e` and `f` are the raising and lowering (ladder) operators between consecutive
+  `h`-eigenspaces, and the highest weight of any primitive vector is a **natural number**
+  (`HasPrimitiveVectorWith.exists_nat`, with the ladder lemmas `lie_h_pow_toEnd_f`,
+  `lie_e_pow_succ_toEnd_f` of `Sl2.lean`). Integer-eigenvalue integrality (`∃ n : ℤ, μ = n` for every
+  `h`-eigenvalue `μ`) and the **diagonalizability** of `h` on all of `M` are **not** immediate from that
+  lemma: they are corollaries of the classification and complete reducibility below, and are proved in
+  that order. Do not state diagonalizability as the first theorem.
 - **The standard irreducible `V(n)`.** For each `n : ℕ`, the `(n+1)`-dimensional irreducible with a
   highest weight vector of weight `n`, with `h` acting with eigenvalues `n, n-2, …, -n` each with
   multiplicity one, and `e`, `f` the explicit ladder. Construct it (as a `U(sl₂)`-module on `Kⁿ⁺¹`,
@@ -255,6 +283,10 @@ Built first and completely, because it is what the later reductions invoke, not 
   `V(nᵢ)`; equivalently every `LieSubmodule` has a complement. Prove it by the weight-string /
   primitive-vector argument (the elementary route, independent of the general Casimir argument of
   Layer 5), so it is available to Layer 2's reductions without circularity.
+- **Diagonalizability and the integer spectrum, as a corollary.** With complete reducibility in hand,
+  every finite-dimensional `sl₂`-module is `⨁ V(nᵢ)`, so `h` acts **diagonalizably** with an
+  integer spectrum. This is the corollary Layer 2 and its `sl₂`-string symmetry arguments call, and it
+  is stated only here, after the classification, not before it.
 - **Clebsch-Gordan.** `V(m) ⊗ V(n) ≅ ⨁_{k} V(m+n-2k)` for `0 ≤ k ≤ min m n`. The decomposition of
   tensor products, a check on the character theory of Layer 6 in the rank-one case.
 
@@ -268,11 +300,11 @@ Mostly an assembly of Mathlib, made into the working vocabulary for the module t
   each `Lα` a line. Package this as the root-space decomposition of `L`, with the bracket relation
   `⁅Lα, Lβ⁆ ⊆ L(α+β)` (`rootSpaceWeightSpaceProduct`).
 - **The root system and a choice of positive system.** Consume `LieAlgebra.IsKilling.rootSystem H` and
-  fix a base `b : (rootSystem H).Base` (existence: `RootPairing.nonempty_base`); its simple roots
-  `b.support`, positive roots (`Base.IsPos`), Weyl group `(rootSystem H).weylGroup`, and Cartan matrix
-  `Base.cartanMatrix` are the combinatorial input. The **root/weight lattices** and the **Weyl group's
-  action** are the province of [../RootSystems/README.md](../RootSystems/README.md); this layer only
-  fixes the notation `ρ` for the half-sum of positive roots and states dominance and integrality of
+  fix a base `base : (rootSystem H).Base` (existence: `RootPairing.nonempty_base`); its simple roots
+  `base.support`, positive roots (`Base.IsPos`), Weyl group `(rootSystem H).weylGroup`, and Cartan
+  matrix `Base.cartanMatrix` are the combinatorial input. The **root/weight lattices** and the **Weyl
+  group's action** are the province of [../RootSystems/README.md](../RootSystems/README.md); this layer
+  only fixes the notation `ρ` for the half-sum of positive roots and states dominance and integrality of
   weights in `Module.Dual K H` against coroots.
 - **The `sl₂` attached to a root.** For a root `α`, `exists_isSl2Triple_of_weight_isNonZero` gives the
   triple `⟨eₐ, hₐ, fₐ⟩` with `hₐ` a coroot; record `hₐ = α^∨` under `IsKilling.coroot` and that
@@ -280,41 +312,65 @@ Mostly an assembly of Mathlib, made into the working vocabulary for the module t
 
 ### Layer 2: weights of a module and their integrality
 
-The first place the engine is called.
+The first place the engine is called. The layer proceeds in a fixed order: the **generalized**
+decomposition first, then its refinement to **honest** weight spaces, then integrality, then
+Weyl-invariance, so that no later step silently assumes a decomposition that has not yet been earned.
 
-- **The weight-space decomposition of a module.** For a finite-dimensional `L`-module `M`, `M` is
-  triangularizable over `H` (build the `IsTriangularizable K H M` instance from algebraic closure and
-  finite-dimensionality), so `iSup_genWeightSpace_eq_top` gives `M = ⨁_χ Mχ` over the finite set of
-  weights `LieModule.Weight K H M`, with `⁅Lα, Mχ⁆ ⊆ M(α+χ)`.
-- **Integrality of weights (the `sl₂` reduction).** For every weight `χ` of `M` and every root `α`,
-  the value `χ(α^∨) ∈ ℤ`. **Proof: restrict `M` to the `sl₂` triple of `α` (Layer 1), where `χ(α^∨)`
-  is an `hₐ`-eigenvalue, and apply Layer 0's integer eigenvalue theorem** (ultimately
+- **The generalized weight-space decomposition.** For a finite-dimensional `L`-module `M`, build the
+  `IsTriangularizable K H M` instance from algebraic closure and finite-dimensionality, so
+  `iSup_genWeightSpace_eq_top` gives `M = ⨁_χ genWeightSpace M χ` over the finite set of weights
+  `LieModule.Weight K H M`, with `⁅Lα, genWeightSpace M χ⁆ ⊆ genWeightSpace M (α+χ)`. These are Mathlib's
+  **generalized** weight spaces; over an algebraically closed field they exhaust `M`, but they are not
+  yet asserted to be honest eigenspaces.
+- **Honest weight spaces (the diagonalizability theorem).** For a finite-dimensional module over a
+  Killing-semisimple `L`, every `x ∈ H` acts by a **semisimple** endomorphism, so the generalized weight
+  spaces are genuine simultaneous eigenspaces and `μ ↦ dim Mμ` counts honest multiplicities. This is the
+  **abstract Jordan decomposition** (each `x ∈ H` is `ad`-semisimple in `L`, and semisimplicity
+  transfers to every finite-dimensional representation), so it stands **before** complete reducibility
+  (Layer 5) and is independent of it, with no circularity. Only after this theorem is `M = ⨁_χ Mχ`
+  stated as an honest weight-space decomposition and the formal character defined.
+- **Integrality of weights (the `sl₂` reduction).** For every weight `χ` of `M` and every root `α`, the
+  value `χ(α^∨) ∈ ℤ`. **Proof: restrict `M` to the `sl₂` triple of `α` (Layer 1), where `χ(α^∨)` is an
+  `hₐ`-eigenvalue, and apply Layer 0's integer eigenvalue theorem** (ultimately
   `HasPrimitiveVectorWith.exists_nat`). This is the load-bearing use of the engine and the reason `sl₂`
   is a node: there is no route to integrality that does not pass through the rank-one subalgebra.
-- **The weight lattice acts.** Weights of finite-dimensional modules are integral, so they lie in the
-  weight lattice `X` of `../RootSystems/README.md`, and the set of weights of `M` is stable under the
-  Weyl group with multiplicities constant on Weyl orbits (again by `sl₂`-string symmetry along each
-  root). State Weyl-invariance of `μ ↦ dim Mμ`.
+- **Weyl-invariance of multiplicities, directly from `sl₂`.** Weights of finite-dimensional modules are
+  integral, so they lie in the weight lattice `X` of `../RootSystems/README.md`, and `μ ↦ dim Mμ` is
+  invariant under the Weyl group. Prove this **directly**, by restricting `M` to the `sl₂` of each root
+  `α` and using **Layer 0's complete reducibility for `sl₂`** to pair up the `μ`- and `s_α(μ)`-weight
+  spaces along each string. This must **not** be routed through Weyl's complete reducibility (Layer 5),
+  which would be circular; the rank-one complete reducibility of Layer 0 is exactly what makes the direct
+  argument available here.
 
 ### Layer 3: enveloping algebra, Verma modules, and `L(λ)`
 
-- **PBW and the triangular decomposition.** The Poincaré-Birkhoff-Witt theorem: the associated graded
-  of `U(L)` is the symmetric algebra `Sym(L)`, giving a monomial basis; and, using the root-space
-  decomposition, the triangular decomposition `U(L) ≅ U(n⁻) ⊗ U(H) ⊗ U(n⁺)` where `n⁺ = ⨁_{α>0} Lα`.
-  Consume `UniversalEnvelopingAlgebra.lift` for the universal property; the PBW basis is the missing
-  piece and a substantial target in its own right.
-- **Highest weight vectors and modules.** `IsHighestWeightVector b λ v`: `v ≠ 0`, `H` acts by `λ`, and
-  every positive root space kills `v`. A **highest weight module** of weight `λ` is one generated by
+- **PBW, a substantial sub-project.** Mathlib has `UniversalEnvelopingAlgebra` and its universal
+  property (`UniversalEnvelopingAlgebra.lift`) but **not** the Poincaré-Birkhoff-Witt basis, and PBW over
+  a general field is a major algebra project, not a routine prerequisite. Stage it as its own unit with
+  pinned intermediate targets: the tensor-algebra-quotient presentation of `U(L)`; the PBW filtration;
+  the associated-graded map from the symmetric algebra `Sym(L)`; the ordered-monomial basis for a chosen
+  basis of `L`; functoriality for subalgebras and direct sums; and, from the root-space decomposition,
+  the **triangular decomposition** `U(L) ≅ U(n⁻) ⊗ U(H) ⊗ U(n⁺)`.
+- **The Borel and the nilradicals.** Name the subalgebras the base determines, keeping `base` for the
+  root-system base alone: `positiveNilradical base = n⁺ = ⨁_{α>0} Lα`, its opposite
+  `negativeNilradical base = n⁻`, and `borelSubalgebra base = 𝔟 = H ⊕ n⁺`. The Verma tensor product is
+  written over `U(𝔟)`, never over `U(base)`.
+- **Highest weight vectors and modules.** `IsHighestWeightVector base λ v`: `v ≠ 0`, `H` acts by `λ`,
+  and every positive root space kills `v`. A **highest weight module** of weight `λ` is one generated by
   such a `v`; its weights all lie in `λ - (ℕ-span of simple roots)`, and its `λ`-weight space is the
   line `K·v`.
-- **Verma modules.** `vermaModule b λ := U(L) ⊗_{U(b)} K_λ`, the universal highest weight module of
-  weight `λ` (`b = H ⊕ n⁺` the Borel). Give its universal property (`Hom(M(λ), N) ≃ {highest weight
-  vectors of weight λ in N}`), its weight-space decomposition with multiplicities the Kostant partition
-  function of Layer 6, that its `λ`-weight space is a line, and that it is a free `U(n⁻)`-module of rank
-  one.
+- **Verma modules.** `vermaModule base λ := U(L) ⊗_{U(𝔟)} K_λ` for the Borel `𝔟 = borelSubalgebra base`,
+  the universal highest weight module of weight `λ`. Give its universal property
+  (`Hom(M(λ), N) ≃ {highest weight vectors of weight λ in N}`), its weight-space decomposition with
+  multiplicities the Kostant partition function below, that its `λ`-weight space is a line, and that it
+  is a free `U(n⁻)`-module of rank one.
+- **The Kostant partition function.** Define `kostantPartition base ν = P(ν)`, the number of ways to
+  write `ν` as a sum of positive roots with multiplicity, **here** in Layer 3 as a combinatorial object
+  attached to the positive roots: it is already needed for the Verma weight multiplicities, and Layer 6
+  reuses it for Kostant's multiplicity formula.
 - **The irreducible quotient `L(λ)`.** `M(λ)` has a **unique maximal submodule** (the sum of all
   submodules meeting the `λ`-weight space trivially), hence a unique irreducible quotient
-  `L(λ) := irreducibleQuotient b λ`. `L(λ)` is the unique irreducible highest weight module of weight
+  `L(λ) := irreducibleQuotient base λ`. `L(λ)` is the unique irreducible highest weight module of weight
   `λ`, and `L(λ) ≅ L(μ)` iff `λ = μ`. This is the classification of **all** irreducible highest weight
   modules, finite-dimensional or not.
 
@@ -326,10 +382,18 @@ The first place the engine is called.
   integral** (`λ(αᵢ^∨) ∈ ℕ` for simple `αᵢ`), because restricting to each simple `sl₂` and applying
   Layer 0 forces the highest weight along `αᵢ` to be a natural number.
 - **`L(λ)` is finite-dimensional iff `λ` is dominant integral.** The hard direction (dominant integral
-  ⇒ finite-dimensional): for dominant integral `λ`, the vector `fᵢ^{λ(αᵢ^∨)+1} · v` is a highest
-  weight vector of weight `λ - (λ(αᵢ^∨)+1)αᵢ` in `M(λ)`, hence zero in `L(λ)` (this is the `sl₂`-finite
-  condition along `αᵢ`), so `L(λ)` is `sl₂`-finite along every simple root; a Weyl-group / stability
-  argument then bounds the weights and gives finite-dimensionality.
+  ⇒ finite-dimensional) is a genuine theorem, not a one-line corollary; it unpacks into named
+  milestones:
+    - **The integrability relation.** For dominant integral `λ`, the vector `fᵢ^{λ(αᵢ^∨)+1} · v` is a
+      highest weight vector of weight `λ - (λ(αᵢ^∨)+1)αᵢ` in `M(λ)`, hence zero in `L(λ)`: `L(λ)` is
+      `sl₂`-finite along every simple root.
+    - **The maximal integrable quotient and local nilpotence.** `L(λ)` is the maximal integrable
+      quotient of `M(λ)`; the local nilpotence of each simple `fᵢ` (and `eᵢ`) propagates, via the Serre
+      relations, to local nilpotence of the root vectors along **every** positive and negative root.
+    - **The weight-cone bound.** The weight support of `L(λ)` is then stable under the whole Weyl group
+      and bounded inside the convex hull of `W·λ` (a finite downward root cone), hence **finite**.
+    - **Finite-dimensionality.** Each weight space is finite-dimensional (the PBW / Kostant partition
+      bound of Layer 3), and finitely many nonzero weight spaces give `dim L(λ) < ∞`.
 - **The classification theorem.** `λ ↦ L(λ)` is a bijection from **dominant integral weights** to
   isomorphism classes of **finite-dimensional irreducible** `L`-modules, with inverse "highest weight".
   This is the summit of the classification and the interface consumed by
@@ -337,39 +401,60 @@ The first place the engine is called.
 
 ### Layer 5: complete reducibility (Weyl's theorem)
 
+- **The invariant form on weights (a prerequisite of the Casimir).** Before the Casimir element, build
+  the induced symmetric bilinear form `⟨·,·⟩` on `Module.Dual K H`, transported from the Killing form on
+  `H` via `cartanEquivDual`. Prove its normalization against coroots, `⟨λ, α^∨⟩ ⟨α, α⟩ = 2 ⟨λ, α⟩`
+  (i.e. `α^∨` pairs as `2α/⟨α, α⟩`), and its compatibility with `rootSystem_pairing_apply` and
+  `IsKilling.coroot`. Only with this form pinned is the Casimir scalar `⟨λ+ρ, λ+ρ⟩ - ⟨ρ, ρ⟩`
+  well-defined and equal to the coroot pairings.
 - **The Casimir element.** `casimirElement : U(L)` built from a basis of `L` and its dual basis under
-  the non-degenerate Killing form (`Killing.lean`, `traceForm_cartan_nondegenerate`), central in
-  `U(L)`, acting on `L(λ)` by the scalar `⟨λ+ρ, λ+ρ⟩ - ⟨ρ, ρ⟩` (via the invariant form on weights).
-  Prove centrality and compute the eigenvalue.
+  the non-degenerate Killing form (`Killing.lean`, `traceForm_cartan_nondegenerate`), central in `U(L)`,
+  acting on `L(λ)` by the scalar `⟨λ+ρ, λ+ρ⟩ - ⟨ρ, ρ⟩` in the form just built. Prove centrality and
+  compute the eigenvalue.
+- **Dual and Hom modules (the reduction machinery).** The Casimir argument splits an arbitrary short
+  exact sequence, and the standard reduction to the extension-by-the-trivial-module case needs the
+  **dual Lie module** `M*` and the internal-Hom Lie module `Hom_K(M, N)` (with the tensor-Hom
+  adjunction). Build these first; then splitting an extension `0 → N → M → K → 0` becomes the vanishing
+  of a suitable invariant, which the Casimir supplies.
 - **Weyl's complete reducibility theorem.** Every finite-dimensional module over a semisimple `L`
   (char 0) is a direct sum of irreducibles; equivalently every `LieSubmodule N ≤ M` has a complement
   (`∃ N', IsCompl N N'`). Prove it via the Casimir (the eigenvalue separates the trivial module from
-  nontrivial irreducibles, splitting off invariants and reducing an extension by the trivial module),
-  the standard route; the `sl₂` case of Layer 0 is the rank-one instance and a consistency check.
+  nontrivial irreducibles, splitting off invariants and reducing a general extension, through the Hom
+  module above, to an extension by the trivial module), the standard route; the `sl₂` case of Layer 0 is
+  the rank-one instance and a consistency check.
 - **Consequences.** The category of finite-dimensional `L`-modules is semisimple with simple objects
   the `L(λ)` (dominant integral `λ`), so every finite-dimensional module has a well-defined
   multiplicity decomposition `M ≅ ⨁_λ L(λ)^{⊕ mλ}`, the setting in which characters are additive.
 
 ### Layer 6: the Weyl character, dimension, and Kostant formulas
 
-- **Formal characters.** `formalCharacter M : Module.Dual K H →₀ ℤ`, `μ ↦ dim Mμ`, supported on
-  integral weights, additive on short exact sequences and multiplicative on tensor products (so it is a
-  ring homomorphism from the representation ring to the group algebra `ℤ[X]` of the weight lattice).
-  The Weyl group acts, and `formalCharacter` is Weyl-invariant (Layer 2).
-- **The Weyl character formula.** In `ℤ[X]`, with `ρ` the half-sum of positive roots and the Weyl
-  denominator `Δ = ∏_{α>0}(e^{α/2} - e^{-α/2}) = ∑_{w ∈ W} sgn(w) e^{w(ρ)}`,
-  `formalCharacter (L(λ)) · Δ = ∑_{w ∈ W} sgn(w) e^{w(λ+ρ)}` for dominant integral `λ`. Prove it from
-  the Casimir (the Harish-Chandra / Kostant route) or the Verma-module resolution
-  `[M(λ)] = ∑_{μ ≤ λ} (…) [L(μ)]` inverted by Weyl symmetry; state the numerator/denominator identity
-  as the headline, with the alternating sums indexed by `(rootSystem H).weylGroup`.
+- **The representation ring and the character algebra.** `formalCharacter` is meant to be a ring
+  homomorphism, which presupposes its domain and codomain. Build them as a small preliminary: the
+  **tensor product of Lie modules**, the Grothendieck ring (or semiring) of finite-dimensional
+  `L`-modules, and the group algebra `ℤ[X]` of the integral weight lattice with the Weyl action. These
+  are the objects the three formulas are stated in.
+- **Formal characters.** `formalCharacter M : Module.Dual K H →₀ ℤ`, `μ ↦ dim Mμ` (honest weight
+  multiplicities, by the Layer 2 diagonalizability theorem), supported on integral weights, **additive
+  on short exact sequences** and **multiplicative on tensor products** (so it is a ring homomorphism from
+  the representation ring above to `ℤ[X]`). The Weyl group acts, and `formalCharacter` is Weyl-invariant
+  (proved in Layer 2, directly from `sl₂`, not from Weyl's theorem).
+- **The Weyl character formula.** State it in the integral group algebra `ℤ[X]` with the **integral
+  denominator**: with `ρ` the half-sum of positive roots,
+  `formalCharacter (L(λ)) · ∏_{α>0}(1 - e^{-α}) = ∑_{w ∈ W} sgn(w) e^{w(λ+ρ) - ρ}` for dominant integral
+  `λ`. Every exponent here lies in `X`; the symmetric form `∏(e^{α/2} - e^{-α/2})` differs by the factor
+  `e^{ρ}` and involves half-weights `α/2 ∉ X`, so it is not the form used. **Choose a single proof
+  route**: the highest-weight/Verma route, defining Verma characters, proving the Weyl denominator
+  identity combinatorially, and concluding by Weyl alternation. Do **not** invoke a full BGG resolution
+  or category `O`; those are a separate development and are not assumed here. The alternating sums are
+  indexed by `(rootSystem H).weylGroup`.
 - **The Weyl dimension formula.** Specializing at the trivial character,
   `dim L(λ) = ∏_{α>0} ⟨λ+ρ, α^∨⟩ / ⟨ρ, α^∨⟩`, an identity in `ℚ` (the product is a positive integer).
   Prove it as the limit/specialization of the character formula.
-- **Kostant's multiplicity formula.** The **Kostant partition function** `P(ν)` (number of ways to
-  write `ν` as a sum of positive roots with multiplicity) and the multiplicity of the weight `μ` in
-  `L(λ)`: `mult_μ L(λ) = ∑_{w ∈ W} sgn(w) P(w(λ+ρ) - (μ+ρ))`. Prove it by expanding the character
-  formula against the geometric-series expansion of `Δ⁻¹` (whose coefficients are `P`). This is the
-  weight-by-weight refinement of the character formula and the finest of the three.
+- **Kostant's multiplicity formula.** Reusing the Kostant partition function `P(ν)` of Layer 3, the
+  multiplicity of the weight `μ` in `L(λ)` is `mult_μ L(λ) = ∑_{w ∈ W} sgn(w) P(w(λ+ρ) - (μ+ρ))`. Prove
+  it by expanding the character formula against the geometric-series expansion of the inverse
+  denominator (whose coefficients are `P`). This is the weight-by-weight refinement of the character
+  formula and the finest of the three.
 
 ### Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
 
@@ -378,76 +463,100 @@ the recursion that computes multiplicities in practice, and the presentation tha
 its root system.
 
 - **The center `Z(U(L))` and central characters.** `Z(U(L)) = Subalgebra.center K (UniversalEnvelopingAlgebra K L)`,
-  the commutative algebra in which the Casimir element of Layer 5 lives. Each `L(λ)` is a
-  `Z(U(L))`-eigenspace: `z` acts on `L(λ)` by a scalar `χ_λ(z)`, giving the **central character**
-  `χ_λ : Z(U(L)) →ₐ[K] K` (`centralCharacter λ`). Prove `z` acts on every highest weight module of
-  weight `λ` by `χ_λ(z)` (the highest weight vector is a `Z`-eigenvector and generates), so
-  `χ_λ` is well-defined and the Casimir eigenvalue `⟨λ+ρ,λ+ρ⟩ - ⟨ρ,ρ⟩` of Layer 5 is `χ_λ(casimirElement)`.
-- **The Harish-Chandra isomorphism.** The **dot action** of the Weyl group on weights,
-  `w · λ = w(λ+ρ) - ρ`, and the induced action on the symmetric algebra `S(H) = SymmetricAlgebra K H`
-  (consume `SymmetricAlgebra`, `Basis.symmetricAlgebra`); the **Harish-Chandra homomorphism**
-  `Z(U(L)) → S(H)` (projection of the triangular decomposition of Layer 3 onto the `U(H) = S(H)`
-  factor, `ρ`-shifted) and the theorem that it is an **algebra isomorphism onto the dot-invariants**
-  `harishChandraIso b : Z(U(L)) ≃ₐ[K] S(H)^{W·}`. This is the structure behind Verma-module
-  homomorphisms and the character formula.
-- **The linkage principle.** `χ_λ = χ_μ ⟺ μ ∈ W·λ` (dot action): two central characters coincide iff
-  the weights are `W`-linked (`harishChandra_linkage`). Prove it from `harishChandraIso` (a central
-  character is a `W·`-orbit of points of `S(H)`). This is the constraint that a nonzero
-  `Hom(M(μ), M(λ))` forces `μ ∈ W·λ` and that a composition factor `L(μ)` of `M(λ)` has `μ ∈ W·λ`, the
-  block decomposition of category `O`.
-- **Freudenthal's multiplicity formula.** The recursion, for `μ` a weight of `L(λ)`,
+  the commutative algebra in which the Casimir element of Layer 5 lives. The **central character**
+  `χ_λ : Z(U(L)) →ₐ[K] K` (`centralCharacter λ`) is **not** produced by Schur's lemma alone: it is
+  defined through the action of the center on the **one-dimensional top weight line** of the Verma module
+  `M(λ)` (which the center preserves), so its construction depends on the Layer 3 Verma / highest-weight
+  machinery. Having defined it there, prove that **any** highest weight module of weight `λ` (in
+  particular `L(λ)`) has central character `χ_λ`, since its top weight line generates; then the Casimir
+  eigenvalue `⟨λ+ρ,λ+ρ⟩ - ⟨ρ,ρ⟩` of Layer 5 is `χ_λ(casimirElement)`.
+- **The Harish-Chandra isomorphism.** The **dot action** `w · λ = w(λ+ρ) - ρ` is the linear Weyl action
+  conjugated by translation by `ρ`; it is **affine**, not the linear Weyl action, and it acts on the
+  symmetric algebra `S(H) = SymmetricAlgebra K H` (viewed as polynomial functions on `H*`) by the affine
+  pullback, `p ↦ p ∘ (w·)`. Consume `SymmetricAlgebra`, `Basis.symmetricAlgebra`. Build the
+  **Harish-Chandra projection** `hcProjection : Z(U(L)) →ₐ[K] S(H)` (restriction to the `U(H) = S(H)`
+  factor of the triangular decomposition of Layer 3, composed with the `ρ`-shift automorphism of
+  `S(H)`), define the **dot-invariants** `S(H)^{W·}` by the evaluation condition `p(w·λ) = p(λ)` for all
+  `w, λ` (equivalently: the `ρ`-translate of `p` is invariant under the linear Weyl action), and prove
+  the range of `hcProjection` is exactly `S(H)^{W·}`, giving the isomorphism
+  `harishChandraIso base : Z(U(L)) ≃ₐ[K] S(H)^{W·}`.
+- **Central characters and the dot orbit.** `χ_λ = χ_μ ⟺ μ ∈ W·λ` (dot action)
+  (`centralCharacter_eq_iff_dotOrbit`): two central characters coincide iff the weights lie in one dot
+  orbit. Prove it from `harishChandraIso` (a central character is a `W·`-orbit of points of `S(H)`).
+  This is the central-character / orbit theorem behind Verma-module homomorphisms. The full **linkage
+  principle** of category `O` (the precise statement about composition factors of `M(λ)`, the integral
+  Weyl group, and the order constraints of the block decomposition) is strictly stronger and is a
+  separate development, not identified with this orbit statement.
+- **Freudenthal's multiplicity formula.** The recursion is **anchored at the base case** `mult_λ = 1`
+  (the top weight has multiplicity one); for `μ` a weight of `L(λ)`,
   `(⟨λ+ρ,λ+ρ⟩ - ⟨μ+ρ,μ+ρ⟩) · mult_μ = 2 Σ_{α>0} Σ_{j≥1} mult_{μ+jα} · ⟨μ+jα, α⟩`
-  (`freudenthal_multiplicity_formula`), the practical way to compute weight multiplicities downward
-  from `λ`, complementing the closed form of Kostant. Prove it from the Casimir eigenvalue and the
-  `sl₂`-string action of each `⟨eₐ, hₐ, fₐ⟩` on the weight spaces of `L(λ)` (Layer 2). It is a check on
-  Kostant's formula and the fast route for the worked examples below.
-- **Serre's relations and the presentation of `L`.** Mathlib already builds
-  `Matrix.ToLieAlgebra K CM` (`SerreConstruction.lean`), the quotient of `FreeLieAlgebra K (CartanMatrix.Generators B)`
-  by the Serre relations from `CM`, with Chevalley generators `E_i, F_i, H_i`. The target is the
-  **presentation theorem**: for a Killing-semisimple `L` with base `b`, the standard generators
-  attached to the simple roots (the `sl₂` triples of Layer 1) satisfy the Serre relations of
-  `b.cartanMatrix`, and the induced map is a Lie-algebra isomorphism
-  `Matrix.ToLieAlgebra K b.cartanMatrix ≃ₗ⁅K⁆ L`. This gives `L` from its root system and identifies
-  Mathlib's `Matrix.ToLieAlgebra` with the concrete Killing algebra; it is the Lie-algebra companion to
-  the root-datum existence (`GeckConstruction`) recorded in
-  [../RootSystems/README.md](../RootSystems/README.md), and the input to Layer 8's identification of the
-  exceptional models.
+  (`freudenthal_multiplicity_formula`). The inner sum over `j ≥ 1` is **finite**: `μ + jα` leaves the
+  (finite) weight set for large `j`, so `j` ranges over a finite set. For `μ` strictly below `λ` the
+  Casimir denominator `⟨λ+ρ,λ+ρ⟩ - ⟨μ+ρ,μ+ρ⟩` is nonzero, so the identity **solves for** `mult_μ`
+  downward from `λ`, complementing the closed form of Kostant. Prove it from the Casimir eigenvalue and
+  the `sl₂`-string action of each `⟨eₐ, hₐ, fₐ⟩` on the weight spaces of `L(λ)` (Layer 2). It is a check
+  on Kostant's formula and the fast route for the worked examples below.
+- **Serre's relations and the presentation of `L`.** Mathlib builds `Matrix.ToLieAlgebra K CM`
+  (`SerreConstruction.lean`), the quotient of `FreeLieAlgebra K (CartanMatrix.Generators B)` by the Serre
+  relations from `CM`, with Chevalley generators `E_i, F_i, H_i`. Two steps stand between this and `L`.
+  First, a **Chevalley system**: since the root spaces are only lines, choose normalized generators
+  `eᵢ ∈ Lαᵢ`, `fᵢ ∈ L_{-αᵢ}`, `hᵢ = αᵢ^∨` with `⁅eᵢ, fᵢ⁆ = hᵢ` and the correct `⁅hᵢ, eⱼ⁆` scalings; the
+  normalization and sign choices are what make the Cartan-matrix and higher Serre relations hold in
+  Mathlib's `CartanMatrix.Relations` conventions. Then, for a **simple** `L`, prove those generators
+  satisfy exactly the Serre relations of `base.cartanMatrix` and that the induced map is an isomorphism
+  `Matrix.ToLieAlgebra K base.cartanMatrix ≃ₗ⁅K⁆ L`. Simplicity keeps `base.cartanMatrix`
+  indecomposable; the reducible Killing-semisimple case is the **direct sum** of the simple-ideal
+  presentations, indexed and assembled componentwise. This identifies Mathlib's `Matrix.ToLieAlgebra`
+  with the concrete Killing algebra; it is the Lie-algebra companion to the root-datum existence
+  (`GeckConstruction`) of [../RootSystems/README.md](../RootSystems/README.md), and the input to Layer
+  8's identification of the exceptional models.
 
 ### Layer 8: the exceptional Lie algebras, explicitly
 
-Mathlib names `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂` as Serre-construction quotients but proves
-nothing about them, and has no octonions. This layer constructs the concrete algebras that realize the
-exceptional Dynkin diagrams classified in [../RootSystems/README.md](../RootSystems/README.md), and
-their smallest representations, and identifies them with the Serre-construction objects via Layer 7.
+Mathlib names `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂` as Serre-construction quotients but establishes
+none of their structural theorems, and has no octonions. This layer works in the **split track**: over
+the char-zero field `K` (defaulting, as elsewhere, to algebraically closed `K`) the objects whose
+derivations are the **split** `LieAlgebra.g₂`/`f₄`/`e₆`/`e₇`/`e₈` are the **split** octonions and the
+**split** Albert algebra, and those are what is built and identified via Layer 7. The formally real /
+compact division forms are a **separate `K = ℝ` real-form track**: they are genuine composition and
+formally real Jordan algebras, but they are **not** identified with the split Serre algebras without a
+base-change of forms, and "formally real" is never asserted over an algebraically closed `K`.
 
-- **The octonions `𝕆`.** The Cayley algebra, built by the **Cayley-Dickson doubling** of the
-  quaternions (themselves the doubling of `K ⊕ K`): an `8`-dimensional non-associative,
-  non-commutative, **alternative** composition algebra with a multiplicative norm form. Mathlib has
-  none of this, so it is built here (`Octonion K`), with its conjugation, norm, and the alternative and
-  Moufang identities. This is a target in its own right.
-- **`G₂ = Der(𝕆)`.** The derivation algebra of `𝕆` is a `14`-dimensional simple Lie algebra of type
-  `G₂`, with its `7`-dimensional **fundamental representation** the trace-zero imaginary octonions
-  `Im 𝕆` (the smallest faithful representation). Build `derivationLieAlgebra (Octonion K)` (the
-  derivations of the non-associative algebra `𝕆`, a Lie algebra under commutator, modelled on
-  `LieDerivation` but for a non-associative algebra), prove `finrank = 14`, that it is Killing-simple of
-  type `G₂`, and that `Im 𝕆` is its `7`-dimensional irreducible; identify it with `LieAlgebra.g₂ K`
-  via the Serre presentation of Layer 7.
-- **The Albert algebra `H₃(𝕆)` and `F₄ = Der(H₃(𝕆))`.** The **exceptional (Albert) Jordan algebra**
-  `J = H₃(𝕆)` of `3×3` Hermitian octonionic matrices under the symmetrized product
-  `x ∘ y = ½(xy + yx)`, a `27`-dimensional formally real exceptional Jordan algebra (consume `IsJordan`
-  / `IsCommJordan`). Its derivation algebra `F₄ = Der(J)` is a `52`-dimensional simple Lie algebra of
-  type `F₄`, with its `26`-dimensional **fundamental representation** the trace-zero elements `J₀ ⊂ J`.
-  Build `AlbertAlgebra K`, prove the Jordan identity, build `derivationLieAlgebra (AlbertAlgebra K)`,
-  prove `finrank = 52` and Killing-simplicity of type `F₄`, and identify it with `LieAlgebra.f₄ K`.
-- **The Freudenthal-Tits magic square: `E₆, E₇, E₈`.** The construction of the remaining exceptional
-  algebras as `ℤ`-graded sums built from `𝕆` and `J`; concretely, the `ℤ/3`-grading
-  `𝔢₈ = 𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*` of dimension `248 = 80 + 84 + 84` (consume
-  `LieAlgebra.SpecialLinear.sl (Fin 9) K` and `exteriorPower`, `⋀[K]^3 (Fin 9 → K)`), with the Lie
-  bracket the graded bracket pairing the exterior summands into `𝔰𝔩₉`; and `E₆` (dimension `78`, with
-  its `27`-dimensional representation `J`) and `E₇` (dimension `133`, with its `56`-dimensional
-  representation from the Freudenthal triple system on `J`) as the corresponding rows of the magic
-  square. Build each, prove its dimension and Killing-simplicity of the stated type, and identify it
-  with `LieAlgebra.e₆`, `e₇`, `e₈ K` via Layer 7. The **fundamental representations** `27` for `E₆`,
+- **The split octonions `𝕆`.** The split Cayley algebra over `K`, built by **Cayley-Dickson doubling**
+  of the split quaternions: an `8`-dimensional non-associative, non-commutative, **alternative**
+  composition algebra with a multiplicative norm form. Mathlib has none of this, so it is built here
+  (`Octonion K`) with its conjugation, norm, alternative and Moufang identities, and its multiplication
+  as an honest `K`-bilinear operation (a non-unital non-associative `K`-algebra, not a bare `Mul`). This
+  is the split form; the compact division octonions are the `K = ℝ` real form and are not `Der`-matched
+  to `LieAlgebra.g₂ ℝ`.
+- **`G₂ = Der(𝕆)`.** The derivation algebra of the split `𝕆` is a `14`-dimensional simple Lie algebra of
+  type `G₂`, with its `7`-dimensional **fundamental representation** the imaginary octonions `Im 𝕆`
+  (`imaginaryOctonion`). Build `derivationLieAlgebra (Octonion K)` (derivations of the non-associative
+  algebra `𝕆`, a Lie algebra under commutator), prove `finrank = 14`, that it is Killing-simple of type
+  `G₂`, and that `Im 𝕆` is its `7`-dimensional irreducible; identify it with the **split**
+  `LieAlgebra.g₂ K` via the Serre presentation of Layer 7.
+- **The split Albert algebra `H₃(𝕆)` and `F₄ = Der(H₃(𝕆))`.** The split exceptional (Albert) Jordan
+  algebra `J = H₃(𝕆)` of `3×3` Hermitian split-octonionic matrices under the symmetrized product
+  `x ∘ y = ½(xy + yx)`, a `27`-dimensional exceptional Jordan algebra (consume `IsCommJordan`). Its
+  derivation algebra `F₄ = Der(J)` is a `52`-dimensional simple Lie algebra of type `F₄`, with its
+  `26`-dimensional **fundamental representation** the trace-zero elements `J₀ = ker(albertTrace)`. Build
+  `AlbertAlgebra K`, prove the Jordan identity, build `derivationLieAlgebra (AlbertAlgebra K)`, prove
+  `finrank = 52` and Killing-simplicity of type `F₄`, and identify it with the split `LieAlgebra.f₄ K`.
+  (The formally real Albert algebra is the `K = ℝ` division-octonion form of this construction.)
+- **The `E`-series `E₆, E₇, E₈`, as explicit constructions.** Two different constructions produce these,
+  and the roadmap keeps them apart rather than conflating them:
+    - **The Vinberg `ℤ/3`-model of split `E₈`.** `𝔢₈ = 𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*` of dimension
+      `248 = 80 + 84 + 84` (consume `LieAlgebra.SpecialLinear.sl (Fin 9) K`, `exteriorPower`,
+      `⋀[K]^3 (Fin 9 → K)`), a `ℤ/3`-graded Lie algebra whose bracket pairs the exterior summands into
+      `𝔰𝔩₉`. This is one concrete construction of split `E₈`; it is **not** the Freudenthal-Tits magic
+      square built from a pair of composition algebras.
+    - **`E₆` and `E₇` as their own carriers.** `E₆` (dimension `78`, with its `27`-dimensional
+      representation `J`) and `E₇` (dimension `133`, with its `56`-dimensional representation from the
+      Freudenthal triple system on `J`) each need an **explicit carrier and bracket**, not merely a
+      dimension count, either from the magic square uniformly or from their own graded models; they are
+      not "rows" of the `sl₉ ⊕ Λ³ ⊕ Λ³*` model.
+  Build each, prove its dimension and Killing-simplicity of the stated type, and identify it with the
+  split `LieAlgebra.e₆`, `e₇`, `e₈ K` via Layer 7. The **fundamental representations** `27` for `E₆`,
   `56` for `E₇`, and the adjoint `248` for `E₈` are the smallest ones and the acceptance targets.
 
 ---
@@ -480,8 +589,8 @@ their smallest representations, and identifies them with the Serre-construction 
   μ = λ` or `μ = -λ-2` (dot action of the nontrivial reflection). Freudenthal on `V(n)` returns
   multiplicity `1` for each of the weights `n, n-2, …, -n`, matching Layer 0.
 - **`sl₃` multiplicities by Freudenthal.** For type `A₂`, recompute the `0`-weight multiplicity `2` of
-  the adjoint `V(ω₁+ω₂)` by Freudenthal's recursion (a check on the Kostant computation of the earlier
-  worked example) and the multiplicities of `V(2ω₁+2ω₂)`.
+  the adjoint `V(ω₁+ω₂)` by Freudenthal's recursion (a check on the Kostant computation in the `sl₃`
+  worked example above) and the multiplicities of `V(2ω₁+2ω₂)`.
 - **`G₂ = Der(𝕆)` and its `7`.** Build `𝕆 = Octonion K`, verify the alternative identities and the
   multiplicative norm, build `Der(𝕆)`, and check `finrank K (Der 𝕆) = 14`, that it is Killing-simple of
   type `G₂` (Cartan matrix reindexes to `CartanMatrix.G₂`), that `Im 𝕆` is its `7`-dimensional
@@ -497,10 +606,13 @@ their smallest representations, and identifies them with the Serre-construction 
 
 Layer 0 (`sl₂`) is built first and in full, because Layers 2, 4, and 5 call it. Layer 1 (Cartan,
 root-space decomposition, positive system) is an assembly of Mathlib and can proceed in parallel with
-Layer 0; it fixes the `sl₂` triple of each root, which Layer 2 needs. Layer 2 (weight-space
-decomposition and the integrality of weights) needs Layers 0 and 1: integrality **is** the `sl₂`
-reduction. Layer 3 (PBW, Verma modules, `L(λ)`) needs Layer 1's positive system and the enveloping
-algebra; PBW is independent and can start early. Layer 4 (the classification) needs Layers 2 and 3:
+Layer 0; it fixes the `sl₂` triple of each root, which Layer 2 needs. Layer 2 (the generalized
+decomposition, its refinement to honest weight spaces via the diagonalizability theorem, integrality,
+and Weyl-invariance) needs Layers 0 and 1: integrality **is** the `sl₂` reduction, and both
+diagonalizability and Weyl-invariance are proved directly, ahead of and independently of Layer 5's
+complete reducibility, so there is no circularity. Layer 3 (PBW, the Borel and nilradicals, Verma
+modules, the Kostant partition function, `L(λ)`) needs Layer 1's positive system and the enveloping
+algebra; PBW is a substantial independent sub-project and can start early. Layer 4 (the classification) needs Layers 2 and 3:
 dominance is the `sl₂`-finiteness condition read through Layer 0. Layer 5 (Weyl's theorem via the
 Casimir) needs the Killing form (Mathlib) and Layer 3's `L(λ)` for the eigenvalue computation; the
 `sl₂` complete reducibility of Layer 0 is its rank-one check. Layer 6 (the character, dimension, and
@@ -512,11 +624,12 @@ Harish-Chandra, Freudenthal, Serre) needs Layer 3's triangular decomposition and
 Harish-Chandra projection and central characters) and Layer 5's Casimir (which it generalizes);
 Freudenthal needs Layer 2's `sl₂` strings, and the Serre presentation needs Layer 1's simple `sl₂`
 triples and consumes `equivOfCartanMatrixEq` of [../RootSystems/README.md](../RootSystems/README.md).
-Layer 8 (the exceptional algebras) is the most independent lane: the **octonions** and the **Albert
-algebra** can be built from scratch at any time (they need no earlier layer), and their derivation
-algebras and magic-square constructions need only the linear-algebra machinery; the identification of
-each with `LieAlgebra.g₂`/`f₄`/`e₆`/`e₇`/`e₈` uses Layer 7's Serre presentation, and the dimensions
-and weights of their fundamental representations are checked against Layer 6's Weyl dimension formula.
+Layer 8 (the exceptional algebras, split track) is the most independent lane: the **split octonions**
+and the **split Albert algebra** can be built from scratch at any time (they need no prior layer), and
+their derivation algebras and the `E`-series constructions need only the linear-algebra machinery; the
+identification of each with the split `LieAlgebra.g₂`/`f₄`/`e₆`/`e₇`/`e₈` uses Layer 7's Serre
+presentation (for simple `L`), and the dimensions and weights of their fundamental representations are
+checked against Layer 6's Weyl dimension formula.
 A contributor can build `𝕆`, `G₂ = Der(𝕆)`, and its `7` as a self-contained capstone unit.
 
 ## References

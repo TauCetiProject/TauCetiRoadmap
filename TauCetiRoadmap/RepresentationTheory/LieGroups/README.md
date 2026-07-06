@@ -33,7 +33,12 @@ systems via `LieAlgebra.IsKilling.rootSystem`). And it has the concrete **matrix
 (`Matrix.GeneralLinearGroup`, `Matrix.SpecialLinearGroup`, `Matrix.unitaryGroup`,
 `Matrix.specialUnitaryGroup`, `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`,
 `Matrix.SymplecticGroup`, `Circle`), the topology of **covering maps** (`Topology/Covering/Basic.lean`:
-`IsCoveringMap`) and **simple connectedness** (`SimplyConnectedSpace`).
+`IsCoveringMap`) and **simple connectedness** (`SimplyConnectedSpace`). The abstract Lie-algebra library
+is large but not complete for the reductive/highest-weight superstructure Deliverable C needs: the
+integral weight lattice, Borel subalgebras, the root-space decomposition, the Weyl denominator, and the
+highest-weight classification are not packaged around `LieAlgebra.IsKilling.rootSystem`, and are consumed
+from [../RootSystems](../RootSystems/README.md) and [../LieHighestWeight](../LieHighestWeight/README.md)
+or built as named interfaces here.
 
 What Mathlib does **not** have is everything that connects the group `G` to its Lie algebra `𝔤`. There
 is no **Lie-group exponential map** `𝔤 → G` (only `NormedSpace.exp` on an algebra, which is its
@@ -74,13 +79,18 @@ matrix-group engine), mirroring Mathlib's `Geometry/Manifold/Algebra/`.
   is a `C^n` manifold on a `ModelWithCorners I` with `C^n` multiplication and inversion. The default
   throughout is a **real, finite-dimensional, `C^∞`** Lie group: base field `ℝ`, model
   `I : ModelWithCorners ℝ E H` with `E` finite-dimensional, smoothness `n = ∞`, and `[IsManifold I ∞ G]`.
-  State each result at the generality it needs, in the unbundled Zulip house style: the exponential map
-  and `Ad` need only a `LieGroup`; the closed-subgroup theorem needs local compactness (automatic in
-  finite dimensions); the structure theory of Deliverable C needs `[CompactSpace G]` and `[ConnectedSpace G]`
-  or, for the reductive statements, a complex or reductive hypothesis. **Do not** bundle "real,
-  finite-dimensional, compact, connected, semisimple" into one mega-class; spell the hypotheses each
-  theorem uses. Complexifications and real forms are **complex** Lie groups (base field `ℂ`), introduced
-  in Layer 7 and named as such.
+  Finite-dimensionality (`[FiniteDimensional ℝ E]`) is a **standing hypothesis of the whole general
+  theory**, not an optional extra: `lieExp` is the integral curve of a vector field (ODE existence), the
+  local-diffeomorphism-at-`0` and closed-subgroup theorems are the inverse function theorem, and
+  Frobenius, Lie's third theorem, and the universal cover as a Lie group all fail without it (they would
+  need a Banach-Lie theory over Banach manifolds and Banach ODEs, not developed here). Above that floor,
+  state each result at the generality it needs, in the unbundled Zulip house style: the exponential map
+  and `Ad` need the finite-dimensional `LieGroup`; the closed-subgroup theorem additionally uses local
+  compactness (automatic in finite dimensions); the structure theory of Deliverable C adds
+  `[CompactSpace G]` and `[ConnectedSpace G]` or, for the reductive statements, a complex or
+  real-reductive hypothesis. **Do not** bundle "real, finite-dimensional, compact, connected, semisimple"
+  into one mega-class; spell the hypotheses each theorem uses. Complexifications and real forms are
+  **complex** Lie groups (base field `ℂ`), introduced in Layer 7 and named as such.
 - **The Lie algebra is `LeftInvariantDerivation I G`; the tangent space at `1` is its concrete face.**
   Reuse Mathlib's `LeftInvariantDerivation I G` (with its `LieRing`/`LieAlgebra ℝ` instances) as
   `Lie(G) = 𝔤`, never a private synonym. Pin the linear isomorphism
@@ -123,30 +133,30 @@ matrix-group engine), mirroring Mathlib's `Geometry/Manifold/Algebra/`.
 
 ## What Mathlib already has (consume)
 
-- **The class of Lie groups.** `Geometry/Manifold/Algebra/LieGroup.lean` — `LieGroup I n G` (and
+- **The class of Lie groups.** `Geometry/Manifold/Algebra/LieGroup.lean` - `LieGroup I n G` (and
   `LieAddGroup`), extending `ContMDiffMul I n G` with `contMDiff_inv`; `LieGroup.of_le`, the instance
   `LieGroup I 0 G` for `[IsTopologicalGroup G]`, and the units instance
   `Geometry/Manifold/Instances/UnitsOfNormedAlgebra.lean`: `ChartedSpace R Rˣ` and `LieGroup 𝓘(𝕜, R) n Rˣ`.
-- **The Lie algebra of a Lie group.** `Geometry/Manifold/Algebra/LeftInvariantDerivation.lean` —
+- **The Lie algebra of a Lie group.** `Geometry/Manifold/Algebra/LeftInvariantDerivation.lean` -
   `LeftInvariantDerivation I G` with `instLieRing`/`instLieAlgebra` (`𝕜`), `LeftInvariantDerivation.evalAt`
   (`→ₗ[𝕜] PointDerivation I g`), and the bracket `⁅X, Y⁆` as the derivation commutator.
-- **The Lie bracket of vector fields.** `Geometry/Manifold/VectorField/LieBracket.lean` —
+- **The Lie bracket of vector fields.** `Geometry/Manifold/VectorField/LieBracket.lean` -
   `VectorField.mlieBracket I V W`, `mlieBracketWithin`, `leibniz_identity_mlieBracket`,
   `mpullback_mlieBracket`.
-- **The exponential of a Banach algebra.** `Analysis/Normed/Algebra/Exponential.lean` —
+- **The exponential of a Banach algebra.** `Analysis/Normed/Algebra/Exponential.lean` -
   `NormedSpace.exp 𝕂 : 𝔸 → 𝔸`, `expSeries`, `exp_zero`, `exp_add_of_commute`, `exp_add` (commutative
   `𝔸`), `exp_sum_of_commute`, `exp_sum`, `hasFPowerSeriesAt_exp_zero_of_radius_pos`.
-- **The matrix exponential.** `Analysis/Normed/Algebra/MatrixExponential.lean` — `Matrix.exp_transpose`,
+- **The matrix exponential.** `Analysis/Normed/Algebra/MatrixExponential.lean` - `Matrix.exp_transpose`,
   `Matrix.exp_conjTranspose`, `Matrix.exp_diagonal`, `Matrix.exp_blockDiagonal`,
   `Matrix.exp_add_of_commute`, `Matrix.exp_sum_of_commute`, `Matrix.exp_nsmul`, `Matrix.exp_neg`,
   `Matrix.exp_zsmul`, `Matrix.isUnit_exp`, `Matrix.exp_units_conj`, `Matrix.exp_conj`.
-- **The circle and its exponential.** `Analysis/Complex/Circle.lean` — `Circle` (`= Submonoid.unitSphere ℂ`,
+- **The circle and its exponential.** `Analysis/Complex/Circle.lean` - `Circle` (`= Submonoid.unitSphere ℂ`,
   a group), `Circle.exp : C(ℝ, Circle)` (`t ↦ exp (t * I)`), `Circle.exp_zero`, `Circle.exp_add`; and
   `AddCircle`, `AddCircle.haarAddCircle`.
-- **Abstract Lie algebras.** `Algebra/Lie/Basic.lean` — `LieRing`, `LieAlgebra R L`, `LieHom` (`→ₗ⁅R⁆`),
-  `LieEquiv` (`≃ₗ⁅R⁆`), `LieSubalgebra`, `LieIdeal`; `Algebra/Lie/OfAssociative.lean` —
+- **Abstract Lie algebras.** `Algebra/Lie/Basic.lean` - `LieRing`, `LieAlgebra R L`, `LieHom` (`→ₗ⁅R⁆`),
+  `LieEquiv` (`≃ₗ⁅R⁆`), `LieSubalgebra`, `LieIdeal`; `Algebra/Lie/OfAssociative.lean` -
   `LieAlgebra.ad R L : L →ₗ⁅R⁆ Module.End R L`, `LieAlgebra.ad_apply`; `Algebra/Lie/UniversalEnveloping.lean`
-  — `UniversalEnvelopingAlgebra K L`, `UniversalEnvelopingAlgebra.ι`, `.lift`; the structure theory
+  - `UniversalEnvelopingAlgebra K L`, `UniversalEnvelopingAlgebra.ι`, `.lift`; the structure theory
   (`CartanSubalgebra`, `IsKilling`, `IsSemisimple`, `rootSystem`) consumed by
   [../LieHighestWeight](../LieHighestWeight/README.md).
 - **Matrix groups.** `LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean`
@@ -214,10 +224,16 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
 
 ### Layer 0: the exponential map and one-parameter subgroups
 
-- **The Lie algebra and the tangent space at `1`.** Reuse `LeftInvariantDerivation I G` as `𝔤`, and pin
-  the linear isomorphism `𝔤 ≃ₗ[ℝ] TangentSpace I (1 : G)` (from `LeftInvariantDerivation.evalAt 1`), so
-  `finrank ℝ 𝔤 = finrank ℝ E`. Every left-invariant derivation is a left-invariant vector field; state
-  that dictionary.
+- **The Lie algebra and the tangent space at `1`.** Reuse `LeftInvariantDerivation I G` as `𝔤`. The
+  identification `𝔤 ≃ₗ[ℝ] TangentSpace I (1 : G)` is not a one-line upgrade of Mathlib's `evalAt`: it is
+  three milestones. (i) `LeftInvariantDerivation.evalAt (1 : G) : 𝔤 →ₗ[ℝ] PointDerivation I (1 : G)`
+  lands in point derivations, not tangent vectors. (ii) `PointDerivation I (1 : G) ≃ₗ[ℝ] TangentSpace I
+  (1 : G)`, the identification of derivations at a point with tangent vectors, holds because `E` is
+  finite-dimensional and `G` is `C^∞` (Mathlib's `DerivationBundle` records that it fails in general);
+  this is where finite-dimensionality enters. (iii) `evalAt 1` is a bijection, via the inverse that
+  builds a left-invariant vector field from a tangent vector and checks its derivation is smooth and
+  left-invariant. Only after (i)-(iii) is `finrank ℝ 𝔤 = finrank ℝ E` available. Every left-invariant
+  derivation is a left-invariant vector field; state that dictionary.
 - **The exponential map.** `lieExp : 𝔤 → G`, `lieExp X = γ_X 1` where `γ_X : ℝ → G` is the integral curve
   through `1` of the left-invariant vector field `X` (equivalently the unique one-parameter subgroup with
   velocity `X` at `0`). Its basic theory: `lieExp 0 = 1`, `lieExp` is **smooth**, and its derivative at
@@ -253,12 +269,17 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
 - **The Lie subalgebra of a subgroup.** For a subgroup `H ≤ G`, `lieSubalgebraOfSubgroup H = {X : 𝔤 | ∀ t : ℝ, lieExp (t • X) ∈ H}`
   is a **Lie subalgebra** of `𝔤` (closed under bracket, by a difference-quotient argument on
   `lieExp`). This is well-defined for any subgroup and is the candidate `Lie(H)`.
-- **The closed-subgroup theorem.** If `H ≤ G` is **closed**, then `H` is an **embedded Lie subgroup**:
-  `IsEmbeddedLieSubgroup H`, i.e. `H` carries a (unique) smooth structure making the inclusion a smooth
-  embedding and `H` a Lie group, with `Lie(H) = lieSubalgebraOfSubgroup H` and `lieExp_H` the restriction
-  of `lieExp`. The proof is the classical one: `lieSubalgebraOfSubgroup H` is exactly the set of `X` with
-  `lieExp (tₙ Xₙ) ∈ H`, `Xₙ → X`, and `lieExp` restricted to a complement gives a chart in which `H` is
-  a linear subspace near `1`. This is the theorem that makes every matrix group below a Lie group.
+- **The closed-subgroup theorem.** For the **finite-dimensional real** `G`, if `H ≤ G` is **closed**,
+  then `H` is an **embedded Lie subgroup**: `IsEmbeddedLieSubgroup H`, i.e. `H` carries a (unique) smooth
+  structure making the inclusion a smooth embedding and `H` a Lie group, with
+  `Lie(H) = lieSubalgebraOfSubgroup H` and `lieExp_H` the restriction of `lieExp`. (The statement is false
+  at the bare `LieGroup` altitude, for infinite-dimensional or Banach Lie groups.) The proof is the
+  classical local one: choose a complement `𝔤 = 𝔥 ⊕ 𝔪` with `𝔥 = lieSubalgebraOfSubgroup H`; the map
+  `(X, Y) ↦ lieExp X · lieExp Y` on `𝔥 × 𝔪` is a chart near `1`, and closedness of `H` forces the
+  `𝔪`-coordinate to vanish for points of `H` near `1`, so `H` is the linear subspace `𝔥` in that chart.
+  That `𝔥` is the Lie algebra of `H` uses the limit criterion `X ∈ 𝔥 ↔ ∃ tₙ → 0, Xₙ → X, lieExp (tₙ • Xₙ) ∈ H`,
+  a consequence of the definition, not the definition itself. This is the theorem that makes every matrix
+  group below a Lie group.
 - **Consequences.** The **matrix groups are Lie groups**: `Matrix.SpecialLinearGroup`,
   `Matrix.unitaryGroup`, `Matrix.specialUnitaryGroup`, `Matrix.orthogonalGroup`,
   `Matrix.specialOrthogonalGroup`, and `Matrix.SymplecticGroup` are closed subgroups of
@@ -281,10 +302,14 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
   generated by any neighborhood of `1`.
 - **Baker-Campbell-Hausdorff.** The **BCH series** `bch X Y = X + Y + ½⁅X, Y⁆ + 1/12(⁅X,⁅X,Y⁆⁆ - ⁅Y,⁅X,Y⁆⁆) + ⋯`,
   a formal Lie series in `X, Y`, converges for `X, Y` near `0` and satisfies
-  `lieExp X · lieExp Y = lieExp (bch X Y)` there. State it over a **Banach algebra / matrix group** first,
-  where `NormedSpace.exp` and the operator norm make convergence and the smallness hypothesis concrete
-  (`bch X Y = NormedSpace.exp`-log of `exp X · exp Y`), then transport to the abstract `lieExp` via a
-  chart. BCH shows the **local group law is determined by the bracket**, the analytic heart of the
+  `lieExp X · lieExp Y = lieExp (bch X Y)` there. The identity `exp x · exp y = exp (bch x y)` alone does
+  **not** characterize `bch` (exponential is not injective globally): pin `bch` as the local logarithm of
+  `exp x · exp y` in the exponential chart at `0`, unique among small elements, and pin the laws that fix
+  its expansion: the endpoints `bch 0 y = y`, `bch x 0 = x`, the first-order term
+  `bch x y = x + y + ½⁅x, y⁆ + O(‖(x,y)‖³)`, and functoriality under algebra/Lie homomorphisms. State it
+  over a **Banach algebra / matrix group** first, where `NormedSpace.exp` and the operator norm make
+  convergence, the smallness hypothesis, and the log concrete, then transport to the abstract `lieExp` via
+  a chart. BCH shows the **local group law is determined by the bracket**, the analytic heart of the
   equivalence of categories in Layer 4.
 
 ## B. Integrating algebras to groups
@@ -294,15 +319,21 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
 - **The subalgebra ↔ immersed-subgroup correspondence.** For a Lie subalgebra `𝔥 ≤ 𝔤`, the left-invariant
   distribution `x ↦ d(L_x)_1 𝔥 ⊆ TangentSpace I x` is **involutive** (`⁅𝔥, 𝔥⁆ ⊆ 𝔥`), so by **Frobenius
   integrability** it is integrable; the leaf through `1` is a **connected immersed Lie subgroup**
-  `integralSubgroup 𝔥` with `Lie(integralSubgroup 𝔥) = 𝔥`. State the Frobenius theorem
-  (`VectorField.mlieBracket`-involutive ⇒ integrable) as the named analytic prerequisite. The map
-  `𝔥 ↦ integralSubgroup 𝔥` is a **bijection** between Lie subalgebras of `𝔤` and connected immersed
-  subgroups of `G` (the closed ones are Layer 2's embedded subgroups).
+  `integralSubgroup 𝔥` with `Lie(integralSubgroup 𝔥) = 𝔥`. An immersed Lie subgroup is **not** a
+  subspace-topology `Subgroup G`: it carries its own (generally finer) manifold and group structure with
+  an injective smooth immersion into `G`, recorded by the predicate `IsImmersedLieSubgroup`. State the
+  Frobenius theorem (`VectorField.mlieBracket`-involutive ⇒ integrable) as the named analytic
+  prerequisite. The map `𝔥 ↦ integralSubgroup 𝔥` is a **bijection** between Lie subalgebras of `𝔤` and
+  connected immersed subgroups of `G` up to immersed-subgroup equivalence (the closed ones are Layer 2's
+  embedded subgroups).
 - **Lie's third theorem.** Every **finite-dimensional real Lie algebra** `L` is `Lie(G)` for some
   **simply-connected** Lie group `G`: `∃ G, [LieGroup] ∧ SimplyConnectedSpace G ∧ Nonempty (Lie(G) ≃ₗ⁅ℝ⁆ L)`.
   Prove it via **Ado's theorem** (every finite-dimensional Lie algebra embeds in `𝔤𝔩_n = Matrix n n ℝ`;
   named as its own algebraic target) reducing to the subalgebra `L ↪ 𝔤𝔩_n`, integrating by the Frobenius
-  correspondence to an immersed subgroup of `GL_n`, and passing to its simply-connected cover (Layer 5).
+  correspondence to a connected immersed subgroup of `GL_n`, and passing to its **universal cover**. The
+  covering-space construction is the topological half of Layer 5 and does **not** depend on Lie's third,
+  so it is a prerequisite developed first, and the dependency is acyclic (universal covers precede Lie's
+  third, which precedes the equivalence of categories).
 - **The equivalence of categories.** The Lie functor of Layer 3, restricted to **simply-connected** Lie
   groups, is an **equivalence** onto finite-dimensional real Lie algebras. Concretely: for simply-connected
   `G` and any Lie group `G'`, `lieMap : Hom(G, G') ≃ Hom(𝔤, 𝔤')` is a **bijection** (existence lifts a
@@ -314,16 +345,19 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
 
 - **Simply-connected covers.** Every **connected** Lie group `G` has a **universal cover** `G̃` that is a
   simply-connected Lie group with a **covering homomorphism** `p : G̃ →* G` (`IsCoveringMap p`), and
-  `lieMap p : Lie(G̃) ≃ₗ⁅ℝ⁆ Lie(G)` is an **isomorphism** (a covering is a local diffeomorphism). The
-  kernel `ker p` is a discrete central subgroup isomorphic to `π₁(G)`. So Lie-group homomorphisms out of a
-  connected `G` correspond to homomorphisms out of `G̃` trivial on `ker p`, refining Layer 4's bijection
-  to connected (not just simply-connected) sources.
+  `lieMap p : Lie(G̃) ≃ₗ⁅ℝ⁆ Lie(G)` is an **isomorphism** (a covering is a local diffeomorphism). This
+  construction (the covering space, the lifted group law, and the transported Lie-group structure) is
+  **independent of Lie's third theorem** and is exactly the prerequisite Layer 4 draws on; presented here
+  it is logically prior. The kernel `ker p` is a discrete central subgroup isomorphic to `π₁(G)`. So
+  Lie-group homomorphisms out of a connected `G` correspond to homomorphisms out of `G̃` trivial on
+  `ker p`, refining Layer 4's bijection to connected (not just simply-connected) sources, and this
+  refinement is what needs Layer 4.
 - **The universal enveloping algebra.** `UniversalEnvelopingAlgebra ℝ 𝔤` (Mathlib) is the algebra of
   **left-invariant differential operators** on `G`; state the isomorphism, extending `lieExp`'s derivative
   action, and its universal property `UniversalEnvelopingAlgebra.lift`. The **PBW theorem** and the PBW
   basis are [../LieHighestWeight](../LieHighestWeight/README.md)'s targets (its Layer 3 owns "the PBW
   basis is the missing piece"); we cite it and use the resulting monomial basis to describe the
-  center `Z(U(𝔤))` and the Casimir, the bridge to the highest-weight theory. The center acts on each
+  center `Z(U(𝔤))` and the Casimir, the link to the highest-weight theory. The center acts on each
   irreducible by a scalar (infinitesimal character), matching [../LieHighestWeight](../LieHighestWeight/README.md)'s
   Casimir eigenvalue.
 
@@ -359,15 +393,17 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
   `Complexification G = G_ℂ` is a complex Lie group with a homomorphism `G →* G_ℂ` universal among
   homomorphisms of `G` into complex Lie groups; `Lie(G_ℂ) = 𝔤 ⊗_ℝ ℂ` (the complexified Lie algebra), and
   `G` is a **maximal compact subgroup** of `G_ℂ`. On matrix groups: `(U(n))_ℂ = GL_n(ℂ)`,
-  `(SU(n))_ℂ = SL_n(ℂ)`, `(SO(n))_ℂ = SO_n(ℂ)`, `(Sp(n))_ℂ = Sp_{2n}(ℂ)` — stated as the worked
+  `(SU(n))_ℂ = SL_n(ℂ)`, `(SO(n))_ℂ = SO_n(ℂ)`, `(Sp(n))_ℂ = Sp_{2n}(ℂ)` - stated as the worked
   identifications.
 - **Real forms.** A **real form** of a complex Lie group `G_ℂ` is a real Lie subgroup `G_ℝ` with
   `Lie(G_ℝ) ⊗_ℝ ℂ = Lie(G_ℂ)`; the compact real form (existence and uniqueness up to conjugacy for
   reductive `G_ℂ`) is `G`. State the compact-real-form existence as a milestone.
-- **Reps of `G` ↔ holomorphic reps of `G_ℂ`.** The functor "restrict to `G`" is an **equivalence** between
-  finite-dimensional **holomorphic** representations of `G_ℂ` and finite-dimensional **continuous**
-  representations of the compact `G` (**Weyl's unitary trick** at the group level: every finite-dimensional
-  representation of `G` extends uniquely holomorphically to `G_ℂ`, because its differential extends
+- **Reps of `G` ↔ holomorphic reps of `G_ℂ`.** Representations are homomorphisms into the invertible
+  operators `GL(V) = (V →L[ℂ] V)ˣ` (a group), and holomorphy of the `G_ℂ`-extension is a named condition. The
+  functor "restrict to `G`" is an **equivalence** between finite-dimensional **holomorphic**
+  representations of `G_ℂ` and finite-dimensional **continuous** representations of the compact `G`
+  (**Weyl's unitary trick** at the group level: every finite-dimensional representation of `G` extends
+  uniquely holomorphically to `G_ℂ`, because its differential extends
   ℂ-linearly to `𝔤 ⊗ ℂ` and integrates by simple connectedness / Layer 4). This is what lets the
   highest-weight classification of [../LieHighestWeight](../LieHighestWeight/README.md) govern the compact
   group, and it feeds [../CompactGroups](../CompactGroups/README.md)'s Peter-Weyl.
@@ -382,12 +418,15 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
   decomposition**, giving the **Schubert cells** `BwB/B` of `G_ℂ/B` (a cell of complex dimension
   `ℓ(w)`), hence the cell structure and cohomology of the flag manifold. State the decomposition and the
   cell-dimension formula.
-- **The Borel-Weil theorem.** For a dominant integral weight `λ`, the holomorphic line bundle `L_λ` over
-  `G_ℂ/B` associated to the character `λ` of `B` has space of **holomorphic sections**
-  `borelWeilSpace λ = H⁰(G_ℂ/B, L_λ)` isomorphic, as a `G_ℂ`-representation, to the **irreducible**
-  `L(λ)` of [../LieHighestWeight](../LieHighestWeight/README.md) (`irreducibleQuotient`), with highest
-  weight `λ`. This is the **geometric realization** of the highest-weight modules, the summit of Layer 8;
-  the Borel-Weil-Bott extension (higher cohomology and non-dominant `λ`) is stated as its refinement.
+- **The Borel-Weil theorem.** Fix the Borel `B` and the line-bundle convention `L_λ = G_ℂ ×_B ℂ_{-λ}`
+  (the associated bundle for the character `-λ`); the convention is load-bearing, since the opposite Borel
+  `B⁻` or the character `+λ` realizes the dual `L(λ)^*` instead. For a dominant integral weight given by a
+  character `λ : B →* ℂˣ` of `B`, the holomorphic line bundle `L_λ` over `G_ℂ/B` has space of
+  **holomorphic sections** `borelWeilSpace λ = H⁰(G_ℂ/B, L_λ)` isomorphic, as a `G_ℂ`-representation, to
+  the **irreducible** `L(λ)` of [../LieHighestWeight](../LieHighestWeight/README.md) (`irreducibleQuotient`),
+  with highest weight `λ`. This is the **geometric realization** of the highest-weight modules, the summit
+  of Layer 8; the Borel-Weil-Bott extension (higher cohomology and non-dominant `λ`) is stated as its
+  refinement.
 
 ### Layer 9: the Cartan, Iwasawa, and KAK decompositions
 
@@ -448,9 +487,12 @@ needs Layer 0's `lieExp` and Mathlib's `LieAlgebra.ad`. Layer 2 (the closed-subg
 Layer 0's `lieExp` chart and gives every matrix group its Lie structure, so it precedes all concrete
 examples. Layer 3 (the Lie functor, BCH) needs Layers 0-2 (BCH is proved on matrix groups first). Layer 4
 (Frobenius, Lie's third, the equivalence of categories) needs Layer 3's functor and BCH and the Frobenius
-theorem named within it; Ado's theorem is a named algebraic prerequisite. Layer 5 (simply-connected
-covers, the enveloping algebra) needs Layer 4 and Mathlib's covering-space and enveloping-algebra API, and
-cites [../LieHighestWeight](../LieHighestWeight/README.md) for PBW. Deliverable C needs all of A-B: Layer 6
+theorem named within it; Ado's theorem is a named algebraic prerequisite. Within Deliverable B the
+dependency is acyclic: the **universal-cover construction** (the covering space, lifted group law, and
+transported Lie structure) is logically prior to Lie's third theorem, which uses it; Lie's third then
+feeds the equivalence of categories. Layer 5's remaining content (the connected-source refinement of the
+functor and the enveloping algebra) needs Layer 4 and Mathlib's covering-space and enveloping-algebra
+API, and cites [../LieHighestWeight](../LieHighestWeight/README.md) for PBW. Deliverable C needs all of A-B: Layer 6
 (maximal tori, Weyl group, Weyl integration) needs `lieExp` surjectivity and Haar
 ([../CompactGroups](../CompactGroups/README.md)); Layer 7 (complexification) needs Layer 4's integration
 and Layer 6's tori; Layer 8 (Borel-Weil) needs Layer 7's `G_ℂ`, the root systems of
@@ -458,28 +500,35 @@ and Layer 6's tori; Layer 8 (Borel-Weil) needs Layer 7's `G_ℂ`, the root syste
 [../LieHighestWeight](../LieHighestWeight/README.md); Layer 9 (Cartan/Iwasawa/KAK) needs Layer 7's real
 forms and Layer 6's tori. A contributor can complete Layers 0-3 (the exponential map and the Lie functor)
 as a self-contained first deliverable, well before the integration theorems of Layer 4 or the structure
-theory of Deliverable C.
+theory of Deliverable C. The layers are far from uniform in size. Each of Layers 6-9 (maximal tori and
+Weyl integration; complexification and real forms; Borel-Weil with flag manifolds and Bruhat;
+Cartan/Iwasawa/KAK) rests on large bodies of complex geometry, homogeneous spaces, sheaf cohomology, and
+real-reductive structure, and is itself on the scale of an independent Mathlib-sized project: completing
+Deliverable A makes their statements expressible, not cheap. A natural fracture, should this roadmap be
+split, is `LieGroupsCore` (Layers 0-3), `LieIntegration` (Layers 4-5), `CompactLieGroups` (Layer 6),
+`ComplexReductiveGroups` (Layers 7-8), and `RealReductiveGroups` (Layer 9), with only the cross-roadmap
+interfaces kept here.
 
 ## References
 
 - A. Kirillov Jr., *An Introduction to Lie Groups and Lie Algebras*, Cambridge Studies in Advanced
-  Mathematics 113 (2008) — the exponential map, one-parameter subgroups, `Ad`/`ad`, the closed-subgroup
+  Mathematics 113 (2008) - the exponential map, one-parameter subgroups, `Ad`/`ad`, the closed-subgroup
   theorem, the Lie functor and BCH, and the correspondence with Lie algebras (Chs. 2-3), the structure of
   compact groups and complexification (Chs. 5-8).
-- D. Bump, *Lie Groups*, 2nd ed., Springer GTM 225 (2013) — the matrix-group exponential, maximal tori,
+- D. Bump, *Lie Groups*, 2nd ed., Springer GTM 225 (2013) - the matrix-group exponential, maximal tori,
   the Weyl group and Weyl integration formula, complexification and real forms, the Borel-Weil theorem and
   the Bruhat decomposition, and the Iwasawa and Cartan decompositions (Parts I-III).
-- A. W. Knapp, *Lie Groups Beyond an Introduction*, 2nd ed., Birkhäuser (2002) — the definitive treatment
+- A. W. Knapp, *Lie Groups Beyond an Introduction*, 2nd ed., Birkhäuser (2002) - the definitive treatment
   of the closed-subgroup theorem, the structure theory, complexification, restricted roots, and the
   Cartan/Iwasawa/KAK decompositions (Chs. I, IV-VII).
-- T. Bröcker, T. tom Dieck, *Representations of Compact Lie Groups*, Springer GTM 98 (1985) — maximal-torus
+- T. Bröcker, T. tom Dieck, *Representations of Compact Lie Groups*, Springer GTM 98 (1985) - maximal-torus
   conjugacy and exhaustion, the Weyl group, the Weyl integration and character formulas, and the reduction
   of a compact connected group to its torus (Chs. IV-VI).
-- B. C. Hall, *Lie Groups, Lie Algebras, and Representations*, 2nd ed., Springer GTM 222 (2015) — the
+- B. C. Hall, *Lie Groups, Lie Algebras, and Representations*, 2nd ed., Springer GTM 222 (2015) - the
   matrix-Lie-group development of the exponential map, `Ad`, BCH, and the group-algebra correspondence,
   with `SU(2)`/`SO(3)` as the running example (Chs. 2-5).
-- J.-P. Serre, *Lie Algebras and Lie Groups*, Springer LNM 1500 (1992) — the formal-group and BCH
+- J.-P. Serre, *Lie Algebras and Lie Groups*, Springer LNM 1500 (1992) - the formal-group and BCH
   treatment of the local correspondence and Lie's third theorem.
-- V. S. Varadarajan, *Lie Groups, Lie Algebras, and Their Representations*, Springer GTM 102 (1984) — the
+- V. S. Varadarajan, *Lie Groups, Lie Algebras, and Their Representations*, Springer GTM 102 (1984) - the
   exponential map, the closed-subgroup theorem, Ado's theorem, and Lie's third theorem with the
   simply-connected integration in full detail (Chs. 2-3).

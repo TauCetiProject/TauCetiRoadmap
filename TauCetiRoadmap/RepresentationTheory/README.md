@@ -10,43 +10,43 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 
 ## The roadmaps
 
-- [**Semisimple algebras, Artin-Wedderburn, and module structure**](SemisimpleAlgebras/README.md) — the
+- [**Semisimple algebras, Artin-Wedderburn, and module structure**](SemisimpleAlgebras/README.md) - the
   algebra foundation: the Jacobson radical, simple modules and Schur's lemma, the Wedderburn
   decomposition with uniqueness, the density theorem, central simple algebras, Skolem-Noether, and the
   Brauer group. Underpins character theory.
-- [**Character theory of finite groups, and computing character tables**](CharacterTheory/README.md) —
+- [**Character theory of finite groups, and computing character tables**](CharacterTheory/README.md) -
   class functions, the group-algebra center and structure constants, completeness and both orthogonality
   relations, the arithmetic of character values, and an executable, proven-correct
   Burnside-Dixon-Schneider algorithm that computes character tables.
-- [**Induction, restriction, and Mackey theory**](InductionRestriction/README.md) — induced and
+- [**Induction, restriction, and Mackey theory**](InductionRestriction/README.md) - induced and
   restricted representations, Frobenius reciprocity, the projection formula, induced characters, the
   Mackey decomposition and irreducibility criterion, and Clifford theory.
-- [**Root systems, Weyl groups, and the Cartan-Killing classification**](RootSystems/README.md) — the
+- [**Root systems, Weyl groups, and the Cartan-Killing classification**](RootSystems/README.md) - the
   shared combinatorial foundation: root systems, the Weyl group as a Coxeter system, positive roots and
   the fundamental domain, and the Dynkin-diagram classification.
 - [**Semisimple Lie algebras: sl₂, highest weight, and the Weyl character formula**](LieHighestWeight/README.md)
-  — sl₂ as the engine case, the root-space decomposition, weights, Verma modules and `L(λ)`, the
+  - sl₂ as the engine case, the root-space decomposition, weights, Verma modules and `L(λ)`, the
   highest-weight classification, Weyl's complete reducibility, and the Weyl character and dimension
   formulas.
-- [**Finite-dimensional representations of the classical groups**](ClassicalGroups/README.md) — the
+- [**Finite-dimensional representations of the classical groups**](ClassicalGroups/README.md) - the
   standard representation and its tensor powers, the Weyl construction via Young symmetrizers, highest
   weights, Schur polynomials as characters, the Weyl dimension formula, and branching rules.
-- [**The symmetric group, Specht modules, and Schur-Weyl duality**](SchurWeyl/README.md) — partitions and
+- [**The symmetric group, Specht modules, and Schur-Weyl duality**](SchurWeyl/README.md) - partitions and
   tableaux, Young symmetrizers, Specht modules and their classification, the hook-length formula, the
   Murnaghan-Nakayama rule, RSK, and Schur-Weyl duality.
-- [**Compact groups, Haar measure, and the Peter-Weyl theorem**](CompactGroups/README.md) — Haar
+- [**Compact groups, Haar measure, and the Peter-Weyl theorem**](CompactGroups/README.md) - Haar
   averaging and complete reducibility, matrix coefficients, Schur orthogonality in L²(G), the Peter-Weyl
   theorem, characters of compact groups, and the SU(2) and maximal-torus engine.
-- [**Lie groups and the Lie algebra correspondence**](LieGroups/README.md) — the smooth-group side:
+- [**Lie groups and the Lie algebra correspondence**](LieGroups/README.md) - the smooth-group side:
   the exponential map and one-parameter subgroups, `Ad`/`ad`, the closed-subgroup theorem, the Lie
   functor and Baker-Campbell-Hausdorff, Lie's third theorem, maximal-torus conjugacy and the general
   Weyl integration formula, complexification and real forms, Borel-Weil, and the Cartan/Iwasawa/KAK
   decompositions.
 - [**Clifford algebras, the Pin and Spin groups, and spin representations**](SpinRepresentations/README.md)
-  — Clifford algebras and their structure, the Pin and Spin groups as double covers of O and SO, the
+  - Clifford algebras and their structure, the Pin and Spin groups as double covers of O and SO, the
   spin and half-spin representations that supply the fundamental representations of types B and D, the
   low-dimensional exceptional isomorphisms, real Clifford algebras, and triality.
-- [**Quiver representations and finite-dimensional algebras**](QuiverRepresentations/README.md) — path
+- [**Quiver representations and finite-dimensional algebras**](QuiverRepresentations/README.md) - path
   algebras, representations of a quiver, Krull-Schmidt, Gabriel's theorem (finite type ⇔ ADE Dynkin,
   indecomposables ↔ positive roots), reflection and Coxeter functors, and Auslander-Reiten theory.
 

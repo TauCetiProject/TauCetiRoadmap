@@ -142,6 +142,23 @@ separate development.
   (`IsSemisimpleRing k[G]`), and the algebraically-closed Artin-Wedderburn theorem, all in
   `RepresentationTheory/*` - the `[Finite G]` shadow of everything below.
 
+**What is *not* consumable, and is a build item here.** The consume list above
+does not include several things the roadmap needs, and they must not be mistaken for upstream
+infrastructure:
+
+- the **continuous-representation-to-`FDRep` correspondence** (the forgetful functor and its
+  compatibility with `FDRep.character`);
+- the equivalence between **topological irreducibility** (no closed invariant subspace) and
+  **algebraic irreducibility** (`Representation.IsIrreducible`) in finite dimensions, and the
+  matching of `ContIntertwiningMap` with algebraic intertwiners;
+- **joint continuity** `g ↦ π g`: `ContRepresentation ℂ G V` bundles only that each `π g` is a
+  continuous linear map, not that `g ↦ π g` is continuous, yet the matrix coefficients need it, so it
+  is an explicit added hypothesis where they are formed;
+- the `SU(2)` **topological-group, compactness, and Borel instances** (`SU(2)` closed and bounded in
+  `Matrix (Fin 2) (Fin 2) ℂ`); and
+- **operator- and vector-valued Bochner averaging** against Haar (the averaging API the unitarian
+  trick and Schur orthogonality run on).
+
 ## What is missing (build here)
 
 Everything between the two ends. The **normalized Haar probability measure** `μ_G` as a pinned
@@ -164,11 +181,15 @@ irreducible representations `Sym^n(ℂ²)` of `SU(2)`, its characters, the **max
 and the **Weyl integration formula** and **Weyl character formula** in the compact setting, from which
 the general character theory of `SU(2)` follows. None of this is upstream.
 
-`Suggested.lean` pins the load-bearing objects (`haarProb`, `IsUnitary`, `unitarize`,
-`isUnitarizable`, `isCompletelyReducible`, `matrixCoeff`, `schur_orthogonality`, `IsPeterWeylBasis`,
-`peterWeylBasis`, `character`, `character_orthonormal`, `su2Irrep`, `weyl_integration_formula`) and
-the milestones below as `sorry`-targets, so each is claimable and the summit statement
-`peterWeylBasis` is machine-checked to be expressible against the pinned Mathlib.
+`Suggested.lean` pins the load-bearing objects (`haarProb` and its invariance lemmas, `IsUnitary`,
+`isUnitarizable` as an averaged positive operator, `IsInvariant`,
+`exists_orthogonal_irreducible_decomposition` with `isCompletelyReducible` as its algebraic corollary,
+`matrixCoeff`, `representativeStarSubalgebra`, `schur_orthogonality_self`/`_basis`,
+`convolutionOperator` with its compactness and spectral inputs, `IrrepModel`/`IsIrrepSkeleton`,
+`IsPeterWeylBasis`, `peterWeylBasis`, `character`, `centralLp`, `character_orthonormal_self`,
+`su2Irrep` with `su2Irrep_inequiv`/`su2Irrep_exhaust`, `weyl_integration_formula`) and the milestones
+below as `sorry`-targets, so each is claimable and the summit statement `peterWeylBasis` is
+machine-checked to be expressible against the pinned Mathlib.
 
 ---
 
@@ -183,11 +204,18 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
 
 ### Layer 0: normalized Haar measure and averaging
 
-- **The Haar probability measure.** `haarProb G : Measure G`, `(Measure.haar univ)⁻¹ • Measure.haar`,
-  with `IsProbabilityMeasure (haarProb G)`, `IsMulLeftInvariant`, `IsMulRightInvariant`, and
-  inversion-invariance (**unimodularity of a compact group**). Uniqueness among Haar probability
-  measures is `isHaarMeasure_eq_of_isProbabilityMeasure`, restated for `haarProb` so downstream
-  results do not depend on the `Classical.arbitrary` choice inside `Measure.haar`.
+- **The Haar probability measure.** `haarProb G : Measure G`, `(Measure.haar univ)⁻¹ • Measure.haar`.
+  The rescaling is only meaningful once the total mass is known finite and nonzero, so those are named
+  milestones, not simp side-conditions: `haar_univ_lt_top` (finiteness, from
+  `CompactSpace.isFiniteMeasure`) and `haar_univ_ne_zero` (nonzero, from `IsOpenPosMeasure` on the
+  nonempty open `univ`). Then `haarProb_apply_univ : haarProb G univ = 1` and
+  `isProbabilityMeasure_haarProb`. Invariance is pinned as `isMulLeftInvariant_haarProb`,
+  `isMulRightInvariant_haarProb`, and **inversion-invariance** `isInvInvariant_haarProb`
+  (`Measure.IsInvInvariant`, i.e. `map Inv.inv (haarProb G) = haarProb G`) - **unimodularity of a
+  compact group**. Uniqueness
+  among Haar probability measures is `isHaarMeasure_eq_of_isProbabilityMeasure`, restated for
+  `haarProb` so downstream results do not depend on the `Classical.arbitrary` choice inside
+  `Measure.haar`.
 - **The averaging operator.** For a continuous `F : G → V` into a complete normed space, the average
   `⨍ g, F g ∂(haarProb G) = ∫ g, F g ∂(haarProb G)` (total mass `1`), with its basic properties:
   linearity, that averaging a constant is that constant, and **translation invariance**
@@ -201,26 +229,39 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
   preserves the inner product (equivalently `π g ∈ unitary (V →L[ℂ] V)`), with the equivalence of
   the two forms and the fact that a unitary representation's matrix coefficients are bounded by
   `‖v‖ ‖w‖`.
-- **Averaging a Hermitian form.** Given any inner product `⟨·,·⟩₀` on a finite-dimensional `V`
-  carrying a continuous representation `π`, the averaged form
-  `⟨v, w⟩_G := ∫ g, ⟨π g v, π g w⟩₀ ∂(haarProb G)` is a `G`-invariant inner product (positive-definite
-  because averaging a positive continuous integrand over a probability measure with full support stays
-  positive-definite, using `IsOpenPosMeasure`/regularity of Haar). Name it `unitarize`.
-- **Every finite-dimensional continuous representation is unitarizable.** `isUnitarizable`: there is a
-  `G`-invariant inner product making `π` unitary, i.e. `π` is `IsUnitary` for `⟨·,·⟩_G`. This is the
-  compact-group replacement for the invertibility of `|G|` in Maschke, and everything downstream may
-  assume a representation is unitary without loss of generality.
+- **Averaging a Hermitian form, as a positive operator.** Given the fixed inner product `⟨·,·⟩` on a
+  finite-dimensional `V` carrying a continuous representation `π`, the averaged form
+  `⟨v, w⟩_G := ∫ g, ⟨π g v, π g w⟩ ∂(haarProb G)` is a `G`-invariant inner product (positive-definite
+  because averaging a positive continuous integrand over a probability measure of full support stays
+  positive-definite, using `IsOpenPosMeasure`/regularity of Haar). Because Lean fixes one
+  `InnerProductSpace ℂ V` instance, do **not** package the result as a bare `InnerProductSpace.Core`:
+  that alone does not make the *given* `π` unitary under the fixed instance. Instead
+  represent the averaged form by its **Gram operator** `S`, a positive-definite self-adjoint
+  `S : V →L[ℂ] V` with `⟨v, w⟩_G = ⟨S v, w⟩`; `G`-invariance of the form is exactly
+  `(π g)† ∘ S ∘ (π g) = S`.
+- **Every finite-dimensional continuous representation is unitarizable.** `isUnitarizable`: there is
+  such a positive-definite self-adjoint `S` intertwined by every `π g` as above. Equivalently there is
+  an equivalent Hilbert structure (retopologize `V` by `⟨·,·⟩_G`, or conjugate `π` by `S^{1/2}` on the
+  original space) for which all `π g` are unitary, so downstream results may assume `IsUnitary` without
+  loss of generality. This is the compact-group replacement for the invertibility of `|G|` in Maschke.
 
 ### Layer 2: complete reducibility
 
 - **Invariant complements.** For a unitary `π` and a closed `G`-invariant subspace `W ⊆ V`, the
   **orthogonal complement** `Wᗮ` is `G`-invariant (unitarity), so `V = W ⊕ Wᗮ` as representations.
   This is the averaging-free half, once Layer 1 gives unitarity.
-- **Complete reducibility (compact Maschke).** `isCompletelyReducible`: every finite-dimensional
-  continuous representation of a compact group is an **orthogonal direct sum of irreducibles**, by
-  induction on dimension using invariant complements. State it both as an internal orthogonal
-  decomposition and, via the `FDRep` mirror, as semisimplicity of the finite-dimensional
-  representation category. Specializing to `[Finite G]` recovers Maschke's `IsSemisimpleModule`.
+- **Complete reducibility (compact Maschke), internal form first.** The primary
+  statement `exists_orthogonal_irreducible_decomposition` is the *geometric* one: a unitary
+  finite-dimensional continuous representation is an **orthogonal direct sum of irreducible invariant
+  subspaces** - a finite family `U : Fin k → Submodule ℂ V` of invariant subspaces, each minimal (no
+  proper nonzero invariant subspace, i.e. the block is topologically irreducible), forming an internal
+  direct sum (`DirectSum.IsInternal`) and pairwise orthogonal - proved by induction on dimension using
+  invariant complements. The algebraic statement `isCompletelyReducible`
+  (`IsSemisimpleModule (MonoidAlgebra ℂ G) π.toRepresentation.asModule`) is then a **corollary** via an
+  explicit correspondence lemma; it is a *specialization-compatible* shadow, not literally Mathlib's
+  Maschke theorem, so
+  the finite-group case *specializes to* `IsSemisimpleModule` rather than being it. Keep the `FDRep`
+  mirror (semisimplicity of the finite-dimensional representation category) in step.
 - **Schur's lemma, transported.** Import `FDRep.finrank_hom_simple_simple` and
   `finrank_endomorphism_simple_eq_one` (over `ℂ`, algebraically closed) as: a continuous
   `G`-intertwiner between finite-dimensional irreducibles is `0` or an isomorphism, and a self-
@@ -237,20 +278,34 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
   the `G×G`-action that structures `L²(G)`); the **involution** `conj (matrixCoeff π v w) =
   matrixCoeff π̄ w v` under the contragredient/unitarity; products of matrix coefficients of `π, ρ`
   are matrix coefficients of `π ⊗ ρ`. This is the `C(G)`-subalgebra Peter-Weyl density is stated for.
-- **The matrix-coefficient space of a representation.** For an irreducible `π` with orthonormal basis
-  `(e_i)` of `V`, the `(dim V)²` functions `π_{ij}(g) = ⟪π g e_j, e_i⟫`; the span of all matrix
-  coefficients of all finite-dimensional representations is the **representative ring**
-  `𝓡(G) ⊆ C(G)`, a `*`-subalgebra containing constants and separating points (it separates points
-  precisely because `G` has enough finite-dimensional representations - itself part of Peter-Weyl,
-  Layer 5).
+- **The matrix-coefficient space of a representation, as a `*`-subalgebra.** For an
+  irreducible `π` with orthonormal basis `(e_i)` of `V`, the `(dim V)²` functions
+  `π_{ij}(g) = ⟪π g e_j, e_i⟫`; the span of all matrix coefficients of all finite-dimensional
+  representations is the **representative ring** `𝓡(G) ⊆ C(G)`. Pin it as a `StarSubalgebra`
+  (`representativeStarSubalgebra`), not merely a `Submodule` (`representativeSubmodule`): the density
+  proof needs it closed under multiplication (via `π ⊗ ρ`), containing the constants (trivial
+  representation), and closed under conjugation (via the contragredient), and a bare submodule loses
+  that structure.
+  - **Do not claim point separation here.** That `𝓡(G)` separates points is
+    *equivalent to* "`G` has enough finite-dimensional representations", which **is** Peter-Weyl, so
+    asserting it in Layer 3 is circular. Separation is a **corollary** proved in Layer 5, downstream of
+    the analytic density theorem (`representativeStarSubalgebra_separatesPoints`), and Stone-Weierstrass
+    separation is used only *after* Peter-Weyl has produced the representations, never to prove density.
 
 ### Layer 4: Schur orthogonality in L²(G)
 
 - **First orthogonality (fixed irreducible).** For a unitary irreducible `π` of dimension `d` with
-  orthonormal basis `(e_i)`, `∫ g, π_{ij}(g) · conj(π_{kl}(g)) ∂(haarProb G) = d⁻¹ · δ_{ik} δ_{jl}`,
+  orthonormal basis `(e_i)`, `∫ g, π_{ij}(g) · conj(π_{kl}(g)) ∂(haarProb G) = d⁻¹ · δ_{jl} δ_{ik}`,
   proved by averaging the rank-one operator `v ↦ ⟪v, e_l⟫ e_j` into a `G`-intertwiner and applying
   Schur (self-intertwiner is a scalar, whose trace fixes the constant `d⁻¹`). This is the continuous
   analogue of `char_orthonormal`, and the load-bearing orthogonality computation.
+  - **Pin the convention.** With Mathlib's sesquilinear `L2.innerProductSpace` and
+    `matrixCoeff π v w g = ⟪π g v, w⟫`, the exact placement of the conjugation and the Kronecker
+    indices is convention-sensitive. State the basis-level identity `schur_orthogonality_basis`
+    (`⟪matrixCoeffLp π (e j) (e i), matrixCoeffLp π (e l) (e k)⟫ = d⁻¹ · δ_{jl} · δ_{ik}`) in Mathlib's
+    exact convention, **verify it against `fourierBasis` on `AddCircle`**, and derive the coordinate-free
+    `schur_orthogonality_self` (`= d⁻¹ · ⟪v₁,v₂⟫ · conj⟪w₁,w₂⟫`) from it, rather than stating the
+    classical formula informally.
 - **Second orthogonality (distinct irreducibles).** For **inequivalent** unitary irreducibles `π, ρ`,
   every matrix coefficient of `π` is orthogonal in `L²(G)` to every matrix coefficient of `ρ`, by
   averaging into an intertwiner `V_π → V_ρ` and applying the vanishing half of Schur. Name the
@@ -262,24 +317,45 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
 
 ### Layer 5: the Peter-Weyl theorem
 
-- **Density in `C(G)` (the analytic core).** The representative ring `𝓡(G)` of Layer 3 is **dense in
-  `C(G)` for the uniform norm**. This is the one genuinely hard analytic step: it is proved by the
-  spectral theorem for the compact self-adjoint convolution operator `f ↦ k * f` on `L²(G)` for a
-  suitable symmetric kernel `k` (each nonzero eigenspace is finite-dimensional and `G`-invariant,
-  hence built from matrix coefficients), together with an approximate identity so that convolution
-  approximates the identity uniformly on `C(G)`. The compact-operator/spectral input is the
-  substantial prerequisite; state it as an explicit named lemma
-  (`compact_convolution_selfAdjoint_hasEigenspaces`) rather than assuming it.
+- **Density in `C(G)` (the analytic core), via the non-circular convolution route.**
+  The representative `*`-subalgebra is **dense in `C(G)` for the uniform norm**
+  (`representativeStarSubalgebra_dense`). This is the one genuinely hard analytic step, and it must be
+  proved *without* assuming point separation (which is Peter-Weyl itself). Split it into explicit,
+  individually non-circular lemmas:
+  - `convolutionOperator k : Lp ℂ 2 (haarProb G) →L[ℂ] Lp ℂ 2 (haarProb G)`, `f ↦ k * f`;
+  - `convolutionOperator_isCompact` - the operator is compact (`IsCompactOperator`);
+  - `convolutionOperator_isSelfAdjoint` for a symmetric kernel `k g⁻¹ = conj (k g)`;
+  - `nonzero_eigenspace_finite_dim_continuous_rep` - each nonzero eigenspace is
+    finite-dimensional (Mathlib's `IsCompactOperator.finite_dimensional_eigenspace`, pinned as
+    `convolutionOperator_eigenspace_finiteDimensional`) **and** translation-invariant, so it carries a
+    continuous finite-dimensional representation whose functions lie in `𝓡(G)` - this is where the
+    finite-dimensional representations *come from*, proved before any separation claim, so nothing is
+    smuggled in;
+  - `approx_identity_exists` - a net of nonnegative symmetric kernels whose convolution tends to the
+    identity uniformly on `C(G)`.
+
+  Density then follows: convolving `f ∈ C(G)` by an approximate identity approximates `f` uniformly,
+  and spectral decomposition writes each convolution as a finite sum of matrix coefficients. Only
+  *after* this does point separation (`representativeStarSubalgebra_separatesPoints`) and any
+  Stone-Weierstrass argument enter, as corollaries.
 - **Density in `L²(G)`.** From uniform density plus `ContinuousMap.toLp_denseRange` (continuous
   functions dense in `L²` on the compact finite-measure `G`), `𝓡(G)` is **dense in `L²(G)`**, so its
   orthogonal complement is `⊥`.
 - **The Peter-Weyl Hilbert basis (the summit).** Combining Layer 4's orthonormal system with
   `L²`-density via `HilbertBasis.mkOfOrthogonalEqBot`, the normalized matrix coefficients
-  `{√(dim V_π) · π_{ij}}` form a **`HilbertBasis (Σ π, Fin dπ × Fin dπ) ℂ (Lp ℂ 2 (haarProb G))`**.
-  Pin the object `peterWeylBasis` and the element-level `coe_peterWeylBasis` (in the style
-  [../OrthogonalL2Bases](../../OrthogonalL2Bases/README.md) mandates: a bundled `HilbertBasis` without
-  its `coe_*` is near-vacuous). Package the predicate `IsPeterWeylBasis` so the statement is
-  source-agnostic. Parseval is `HilbertBasis.tsum_inner_mul_inner`.
+  `{√(dim V_π) · π_{ij}}` form a Hilbert basis of `L²(G)` indexed by `Σ π, Fin dπ × Fin dπ`.
+  - **The index is chosen data, not free.** "One representative per equivalence
+    class" hides a skeleton of the unitary dual: chosen model spaces, chosen unitary irreducible
+    representations, and chosen orthonormal bases. Package this as a structure `IrrepModel G` (carrier,
+    Hilbert structure, representation, unitarity, irreducibility, dimension) and a predicate
+    `IsIrrepSkeleton (models : ι → IrrepModel G)` ("pairwise inequivalent and exhaustive up to
+    isomorphism"); the basis index is `Σ i, Fin (models i).dim × Fin (models i).dim`.
+  - Because the summit `peterWeylBasis` quantifies the basis existentially, the element-level content
+    (the analogue of `coe_peterWeylBasis`) must live **inside** `IsPeterWeylBasis models b`, which
+    asserts `b ⟨i, j, k⟩ = √(models i).dim • matrixCoeffLp (models i).rep e_j e_k` for the chosen
+    bases - otherwise the bundled `HilbertBasis` is near-vacuous, in exactly the sense
+    [../OrthogonalL2Bases](../../OrthogonalL2Bases/README.md) warns against. Parseval is
+    `HilbertBasis.tsum_inner_mul_inner`.
 - **The isotypic decomposition.** As unitary `G×G`-representations (left and right translation),
   `L²(G) ≅ ⨁̂_π (V_π ⊗ V_π*)`, i.e. `⨁̂_π End(V_π)`, the closure of the algebraic direct sum over
   the irreducibles `π`, with the `π`-block of dimension `(dim V_π)²` spanned by `π`'s matrix
@@ -297,11 +373,15 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
   `∫ g, χ_π(g) · conj(χ_ρ(g)) ∂(haarProb G) = δ_{[π],[ρ]}` for irreducibles, immediate from Layer 4's
   first orthogonality summed over `i = j`, `k = l`. The `[Finite G]` shadow is exactly Mathlib's
   `char_orthonormal`.
-- **Characters span the class functions.** The characters of irreducibles form an **orthonormal
-  Hilbert basis of the space of central `L²` functions** (the `L²` class functions), the "central"
-  restriction of Peter-Weyl: project `peterWeylBasis` onto the center of each `End(V_π)` block, which
-  is one-dimensional and spanned by `χ_π`. This is the compact-group **class-function completeness**,
-  the infinite analogue of "#irreducibles = #conjugacy classes".
+- **Characters span the class functions.** "Central `L²` functions" is not a
+  slogan: elements of `L²(G)` are a.e. equivalence classes, so conjugation-invariance must be **almost
+  everywhere**, not pointwise. Pin the target as a genuine *closed* subspace
+  `centralLp G : Submodule ℂ (Lp ℂ 2 (haarProb G))`, the functions fixed a.e. by every conjugation
+  `f ↦ f ∘ (h · h⁻¹)`, and prove `characterLp_mem_centralLp`. The characters of the irreducibles form
+  an **orthonormal Hilbert basis of `centralLp G`**, the "central" restriction of Peter-Weyl: project
+  `peterWeylBasis` onto the center of each `End(V_π)` block, which is one-dimensional and spanned by
+  `χ_π`. This is the compact-group **class-function completeness**, the infinite analogue of
+  "#irreducibles = #conjugacy classes".
 
 ### Engine case: `SU(2)` and the maximal torus
 
@@ -313,21 +393,36 @@ and rank-one `SU(2)` subgroups, so `SU(2)` is foundational.
   instance, compact (closed bounded in `Matrix (Fin 2) (Fin 2) ℂ`) and Hausdorff; the **maximal
   torus** `T` the diagonal subgroup `{diag(e^{iθ}, e^{-iθ})}`, isomorphic to `AddCircle` / `S¹`, and
   the fact that **every element of `SU(2)` is conjugate into `T`** (unitary diagonalization).
-- **The irreducibles.** `su2Irrep n : ContRepresentation ℂ SU(2) (Sym^n ℂ²)`, the representation on
-  degree-`n` homogeneous polynomials in two variables (`Sym^n(ℂ²)`), of dimension `n+1`; that these
-  are **irreducible**, **pairwise inequivalent**, and (via Peter-Weyl for `SU(2)`) **exhaust** the
-  irreducibles.
-- **The character on the torus.** `character (su2Irrep n)` restricted to `T` is the Laurent
-  polynomial `χ_n(θ) = e^{inθ} + e^{i(n-2)θ} + ⋯ + e^{-inθ} = sin((n+1)θ)/sin θ`, computed directly
-  from the diagonal action; the `{χ_n}` are an orthonormal basis of the **even/`W`-invariant**
-  functions on `T` (the class functions of `SU(2)`), recovering Layer 6's completeness concretely.
+- **The irreducibles and their classification.** `su2Irrep n :
+  ContRepresentation ℂ SU(2) (Sym^n ℂ²)`, the representation on degree-`n` homogeneous polynomials in
+  two variables (`Sym^n(ℂ²)`), of dimension `n+1`. **Peter-Weyl does not classify these**: it gives a
+  Hilbert-space decomposition into *some* irreducibles, but does not identify them as the symmetric
+  powers, and the torus character basis below itself depends on knowing the irreducible characters are
+  exactly the `χ_n`. So the classification is a **separate, prior layer**, proved directly:
+  - **Torus conjugacy** `su2_conjugate_into_torus`: every element of `SU(2)` is conjugate into the
+    maximal torus (unitary diagonalization).
+  - **Weight/string decomposition** `su2Irrep_character_torus`: on the torus, `su2Irrep n` has weights
+    `{n, n-2, …, -n}`, each with multiplicity one, computed from the diagonal action.
+  - **Highest-weight argument**: `su2Irrep n` is **irreducible** (`su2Irrep_irreducible`), the
+    `su2Irrep n` are **pairwise inequivalent** (distinct highest weights, `su2Irrep_inequiv`), and they
+    **exhaust** the finite-dimensional irreducibles (`su2Irrep_exhaust`: every finite-dimensional
+    unitary irreducible admits a nonzero intertwiner from some `su2Irrep n`, hence by Schur is
+    isomorphic to it). Only *after* this is character orthonormality used as validation, never as the
+    classification.
+- **The character on the torus.** From the weight decomposition, `χ_n(θ) = e^{inθ} + e^{i(n-2)θ} +
+  ⋯ + e^{-inθ} = sin((n+1)θ)/sin θ`; the `{χ_n}` are an orthonormal basis of the **even/`W`-invariant**
+  functions on `T` (the class functions of `SU(2)`), recovering Layer 6's completeness concretely -
+  once the classification above has shown these are *all* the characters.
 - **Weyl integration and character formulas.** `weyl_integration_formula`: for a class function `f`
-  on `SU(2)`, `∫_{SU(2)} f dμ = (1/2)∫_T f(θ) · |Δ(θ)|² dθ` with Weyl factor
-  `|Δ(θ)|² = |e^{iθ} - e^{-iθ}|² = 4 sin²θ`, reducing integration over `SU(2)` to the torus; and the
-  **Weyl character formula** `χ_n(θ) = (e^{i(n+1)θ} - e^{-i(n+1)θ})/(e^{iθ} - e^{-iθ})` as the
-  alternating-sum form. These are the compact-group specializations that a later
-  general-compact-Lie-group roadmap (maximal tori, roots, the Weyl group) would abstract; here they
-  are proved by hand for `SU(2)`.
+  on `SU(2)`, integration reduces to the torus with Weyl factor
+  `|Δ(θ)|² = |e^{iθ} - e^{-iθ}|² = 4 sin²θ`. **Pin one normalization and test it:**
+  the pinned form is `∫_{SU(2)} f dμ = (1/(2π)) ∫₀^π f(θ) · 4 sin²θ dθ` (Haar probability measure on
+  `SU(2)`, Weyl chamber `[0, π]`, transported torus density `(1/(2π))·4 sin²θ`), and the `f = 1` test
+  `weyl_integration_formula_normalized` confirms `(1/(2π)) ∫₀^π 4 sin²θ dθ = 1`; equivalent forms on
+  `AddCircle`, `[0, 2π]`, and the full torus are then derived from it. The **Weyl character formula**
+  `χ_n(θ) = (e^{i(n+1)θ} - e^{-i(n+1)θ})/(e^{iθ} - e^{-iθ})` is the alternating-sum form. These are the
+  compact-group specializations that a later general-compact-Lie-group roadmap (maximal tori, roots,
+  the Weyl group) would abstract; here they are proved by hand for `SU(2)`.
 
 ---
 
@@ -335,12 +430,12 @@ and rank-one `SU(2)` subgroups, so `SU(2)` is foundational.
 
 - **Finite groups recover [../CharacterTheory](../CharacterTheory/README.md).** For `[Finite G]` with
   the discrete topology, `haarProb G` is normalized counting measure `|G|⁻¹ • count`, `L²(G)` is
-  `G → ℂ` with the Hermitian pairing, `isCompletelyReducible` **is** Maschke, `schur_orthogonality`
-  **is** `char_orthonormal`, `character_orthonormal` **is** the first orthogonality relation, and
-  `peterWeylBasis` **is** the statement `dim L²(G) = ∑_π (dim V_π)² = |G|` with the matrix
-  coefficients as a basis, i.e. `k[G] ≅ ⨁_π End(V_π)`. Acceptance: each general theorem, specialized
-  to `G = ZMod n` or `G = Equiv.Perm (Fin 3)`, reduces to the finite-group statement without new
-  hypotheses.
+  `G → ℂ` with the Hermitian pairing, `exists_orthogonal_irreducible_decomposition` **specializes to**
+  Maschke, `schur_orthogonality_self` **specializes to** `char_orthonormal`, `character_orthonormal_self`
+  to the first orthogonality relation, and `peterWeylBasis` to `dim L²(G) = ∑_π (dim V_π)² = |G|` with
+  the matrix coefficients as a basis, i.e. `k[G] ≅ ⨁_π End(V_π)`. Acceptance: each general theorem,
+  specialized to `G = ZMod n` or `G = Equiv.Perm (Fin 3)`, reduces to the finite-group statement
+  without new hypotheses.
 - **The circle `S¹` and Fourier series are Peter-Weyl.** For `G = AddCircle 1` (abelian, so every
   irreducible is one-dimensional, `dim V_π = 1`, indexed by `ℤ`), the matrix coefficients are the
   characters `fourier n`, `peterWeylBasis` **is** Mathlib's `fourierBasis`, and the Peter-Weyl
@@ -348,12 +443,16 @@ and rank-one `SU(2)` subgroups, so `SU(2)` is foundational.
   specialized to `AddCircle 1`, is `fourierBasis` (up to the indexing equivalence
   `Σ π, Fin 1 × Fin 1 ≃ ℤ`), and `character_orthonormal` is `orthonormal_fourier`. This is the sanity
   check that the abstract statements are correctly normalized.
-- **`SU(2)` irreducibles and characters.** `su2Irrep n` is irreducible of dimension `n+1`; its
-  character on `T` is `sin((n+1)θ)/sin θ`; `∫_{SU(2)} χ_m χ_n⁻ dμ = δ_{mn}` computed **via**
-  `weyl_integration_formula` (reducing to `(2/π)∫_0^π sin((m+1)θ)sin((n+1)θ) dθ = δ_{mn}`); and the
-  `{su2Irrep n}` exhaust the irreducibles. Acceptance: the character orthonormality for `SU(2)` is
-  proved through the Weyl integration formula, not assumed, and matches Layer 6's abstract
-  `character_orthonormal`.
+- **`SU(2)` irreducibles and characters (its own deliverable).** `su2Irrep n` is
+  irreducible of dimension `n+1`; its character on `T` is `sin((n+1)θ)/sin θ`;
+  `∫_{SU(2)} χ_m χ_n⁻ dμ = δ_{mn}` computed **via** `weyl_integration_formula` (reducing to
+  `(2/π)∫_0^π sin((m+1)θ)sin((n+1)θ) dθ = δ_{mn}`); and the `{su2Irrep n}` exhaust the irreducibles.
+  Acceptance: the character orthonormality for `SU(2)` is proved through the Weyl integration formula,
+  not assumed, and matches Layer 6's abstract `character_orthonormal_self`. The `SU(2)` classification
+  (`su2Irrep_inequiv`, `su2Irrep_exhaust`) is proved from the weight argument. **`SU(2)` exhaustion is
+  not an acceptance criterion for the general compact-group layers** (Layers 0-6): those stand on their
+  own, and the `SU(2)` classification and Weyl integration are a separately deliverable engine, split
+  as below.
 
 ## Ordering
 
@@ -370,6 +469,18 @@ integration formulas are proved concretely; the circle and finite-group speciali
 acceptance criteria that keep the abstract normalizations honest. A contributor can complete Layers
 0-2 (the unitarian trick and complete reducibility) as a self-contained first deliverable, well before
 the Peter-Weyl density argument.
+
+**Separable deliverables.** This is one coherent dependency chain, but it is broad,
+and several pieces are independent formalization projects; treat them as separately shippable units,
+kept cross-linked but not blocking one another:
+1. **Layers 0-2** - normalized Haar, the unitarian trick, and compact Maschke (complete reducibility).
+2. **Layers 3-4** - matrix coefficients and Schur orthogonality in `L²(G)`.
+3. **Layer 5** - the Peter-Weyl analytic core (convolution operators, density, the `HilbertBasis`).
+4. **Layer 6** - central `L²` functions and the character theory.
+5. **The `SU(2)` engine** - the irreducible classification and the Weyl integration/character formulas.
+
+The `SU(2)` classification (unit 5) is genuinely research-sized and does **not** condition units 1-4;
+in particular its exhaustion statement is not an acceptance criterion for the general layers.
 
 ## References
 

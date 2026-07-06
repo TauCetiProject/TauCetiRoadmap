@@ -43,13 +43,16 @@ universe u
 
 /-- **The standard (defining) representation** of `GLₙ` on `ℂⁿ`, the tautological action
 `g • v = (g : Matrix _ _ ℂ).mulVec v`, built from `Matrix.GeneralLinearGroup.toLin`. The concrete engine:
-every irreducible is cut from a tensor power of this. -/
+every **polynomial** irreducible is cut from a tensor power of this, and the general rational irreducibles
+are determinant twists `det^m ⊗ (polynomial irreducible)` of those. -/
 def stdRep (n : ℕ) : Representation ℂ (GL (Fin n) ℂ) (Fin n → ℂ) := sorry
 
-/-- **Rational representations** of `GLₙ`: matrix entries are rational functions of the `gᵢⱼ` and `det⁻¹`.
-The polynomial ones (no `det⁻¹`) are the sub-notion indexing partitions; `stdRep` and its tensor powers are
-polynomial, and `det^m` are the one-dimensional rationals. (The comodule framework is `../ReductiveGroups`;
-here it is a property of an honest `Representation` of the matrix group.) -/
+/-- **Rational representations** of `GLₙ`: on a chosen basis the matrix entries are rational functions of
+the `gᵢⱼ` and `det⁻¹`. The condition is basis-independent (equivalently: the representation is a comodule
+over the coordinate ring `ℂ[GLₙ] = ℂ[gᵢⱼ, det⁻¹]`), and this is the pinned meaning; the coordinate-entry
+form is a lemma. The polynomial ones (no `det⁻¹`) are the sub-notion indexing partitions; `stdRep` and its
+tensor powers are polynomial, and `det^m` are the one-dimensional rationals. (The comodule framework is
+`../ReductiveGroups`, cited; here it is a property of an honest `Representation` of the matrix group.) -/
 def IsRationalRep {n : ℕ} {W : Type u} [AddCommGroup W] [Module ℂ W]
     (ρ : Representation ℂ (GL (Fin n) ℂ) W) : Prop := sorry
 
@@ -116,7 +119,10 @@ weight). -/
 def diagonalTorus (n : ℕ) : Subgroup (GL (Fin n) ℂ) := sorry
 
 /-- **Dominant weights** for `GLₙ`: weakly decreasing integer sequences `λ₁ ≥ ⋯ ≥ λₙ`. The index type for
-the irreducibles; `λ n ≥ 0` picks out the polynomial ones (partitions with ≤ `n` rows). -/
+the irreducibles; `λ n ≥ 0` picks out the polynomial ones (partitions with ≤ `n` rows). The "last
+coordinate" `λₙ` (the determinant-twist exponent) is read through a dedicated accessor, so the `n = 0` case
+(the empty weight, indexing the trivial representation) needs no special casing at each use site; formulas
+involving `Fin.last`, `λₙ`, and `j - i` are designed for the `Fin n` edge cases. -/
 def DominantWeight (n : ℕ) : Type := {l : Fin n → ℤ // Antitone l}
 
 /-- **The weight space** `Wλ` for `λ : Fin n → ℤ`: vectors on which `diagonal t` acts by `∏ tᵢ^{λᵢ}`. -/
@@ -130,8 +136,10 @@ theorem weightSpace_isInternal {n : ℕ} {W : Type u} [AddCommGroup W] [Module �
     DirectSum.IsInternal (fun l : Fin n → ℤ => weightSpace ρ l) := sorry
 
 /-- **The irreducible of highest weight `λ`**. `λ ↦ irreducible n λ` is a bijection from `DominantWeight n`
-to isomorphism classes of irreducible rational `GLₙ`-representations (theorem of the highest weight, cited
-from `../LieHighestWeight` and transported from `𝔤𝔩ₙ`). -/
+to isomorphism classes of irreducible rational `GLₙ`-representations. `𝔤𝔩ₙ` is reductive, not semisimple, so
+this is not a direct specialization of the semisimple theorem of the highest weight: it combines the
+`𝔰𝔩ₙ` highest weight with the central character of the diagonal torus, whose integrality picks out exactly
+the weakly decreasing integer sequences (`../LieHighestWeight` supplies the `𝔰𝔩ₙ` input). -/
 def irreducible (n : ℕ) (l : DominantWeight n) : FDRep ℂ (GL (Fin n) ℂ) := sorry
 
 /-- The irreducibles are simple objects of `FDRep ℂ (GL (Fin n) ℂ)`. -/
@@ -147,9 +155,11 @@ theorem schurFunctor_iso_irreducible (n : ℕ) (μ : YoungDiagram) :
 
 /-! ## Layer 4: characters and Schur polynomials -/
 
-/-- **The Schur polynomial** `s_λ`, absent from Mathlib: the bialternant
-`det(x_i^{λ_j + n - j}) / det(x_i^{n - j})`, equal to the Jacobi-Trudi determinant and to
-`∑_T x^{wt T}` over semistandard tableaux. -/
+/-- **The Schur polynomial** `s_μ` in `n` variables. The combinatorial Schur functions and their identities
+are owned by `../SchurWeyl`; this is their `GLₙ`-variable specialization, consumed here. Defined by the
+tableau sum `∑_T x^{wt T}` (or the Jacobi-Trudi determinant `det(h_{μ_i - i + j})`); the bialternant
+`det(x_i^{μ_j + n - j}) / det(x_i^{n - j})` is a later theorem, since that quotient is not itself an
+`MvPolynomial` and needs Vandermonde divisibility. -/
 def schurPoly (n : ℕ) (μ : YoungDiagram) : MvPolynomial (Fin n) ℤ := sorry
 
 /-- The Schur polynomials are symmetric. -/
@@ -161,6 +171,24 @@ theorem character_irreducible_eq_schurPoly (n : ℕ) (μ : YoungDiagram) (t : Fi
     (irreducible n (weightOfShape n μ)).character (diagGL t)
       = MvPolynomial.eval (fun i => (t i : ℂ))
           (MvPolynomial.map (Int.castRingHom ℂ) (schurPoly n μ)) := sorry
+
+/-- **The determinant-twist exponent** `m = λₙ` of a dominant weight (the last coordinate), the power of
+`det` needed to make `λ` polynomial; `0` when `n = 0`. -/
+def DominantWeight.detShift {n : ℕ} (l : DominantWeight n) : ℤ := sorry
+
+/-- **The polynomial part** of a dominant weight: the partition `μ` with `μ_i = λ_i - λₙ`, so that
+`λ = μ + λₙ · (1,…,1)`. -/
+def DominantWeight.detShiftShape {n : ℕ} (l : DominantWeight n) : YoungDiagram := sorry
+
+/-- **The character of a general (rational) irreducible** on the torus is a Laurent symmetric polynomial: a
+determinant twist of a Schur polynomial. With `m = λₙ` and `μ_i = λ_i - m` (a partition),
+`χ_{V_λ}(diagonal t) = (∏ tᵢ)^m · s_μ(t)`. `schurPoly` alone only reaches the polynomial case `m = 0`. -/
+theorem character_irreducible_eq_detTwist (n : ℕ) (l : DominantWeight n) (t : Fin n → ℂˣ) :
+    (irreducible n l).character (diagGL t)
+      = (((∏ i, t i) ^ (DominantWeight.detShift l) : ℂˣ) : ℂ)
+        * MvPolynomial.eval (fun i => (t i : ℂ))
+            (MvPolynomial.map (Int.castRingHom ℂ) (schurPoly n (DominantWeight.detShiftShape l))) :=
+  sorry
 
 /-! ## Layer 5: the Weyl dimension formula -/
 
@@ -175,7 +203,9 @@ theorem character_irreducible_one_eq_weylDimension (n : ℕ) (l : DominantWeight
 
 /-! ## Layer 6: branching rules -/
 
-/-- The partitions `ν` **interlacing** `μ` (`λ_i ≥ ν_i ≥ λ_{i+1}`), which index `GLₙ ↓ GLₙ₋₁` branching. -/
+/-- The partitions `ν` **interlacing** `μ`: for `GL_{n+1} ↓ GL_n`, `μ` has at most `n+1` rows, each `ν` has
+at most `n` rows, and (padding row lengths by zeros) `μ_i ≥ ν_i ≥ μ_{i+1}`. These index the multiplicity-free
+`GL_{n+1} ↓ GL_n` branching; the row-bound and interlacing constraints are what make the count finite. -/
 def interlacingShapes (n : ℕ) (μ : YoungDiagram) : Finset YoungDiagram := sorry
 
 /-- **The `GLₙ ↓ GLₙ₋₁` branching rule**, multiplicity-free, in Schur-polynomial form:
@@ -186,37 +216,47 @@ theorem schurPoly_branching (n : ℕ) (μ : YoungDiagram) (x : Fin (n + 1) → �
           MvPolynomial.eval (fun i : Fin n => x i.castSucc)
             (MvPolynomial.map (Int.castRingHom ℂ) (schurPoly n ν)) := sorry
 
-/-- **A Gelfand-Tsetlin pattern** for `GLₙ`: a triangular array `(λ_{i,j})_{1 ≤ i ≤ j ≤ n}` of integers (row
-`j` has `j` entries) satisfying the **interlacing/betweenness** inequalities
-`λ_{i,j+1} ≥ λ_{i,j} ≥ λ_{i+1,j+1}`. Nothing named `GelfandTsetlin` exists in Mathlib (the C\*-algebra
-`Gelfand*` files are unrelated), so this combinatorial object is built from scratch. Here `entry i j` carries
-the `i`-th entry of row `j`; data lives on the triangle `i < j ≤ n` and is `0` elsewhere. -/
+/-- **A Gelfand-Tsetlin pattern** for `GLₙ`: a triangular array of integers whose row `j` has `j` entries
+`λ_{0,j} ≥ ⋯ ≥ λ_{j-1,j}` (here `0`-based, so cell `(i, j)` is informative exactly when `i < j ≤ n`),
+satisfying the **interlacing/betweenness** inequalities `λ_{i,j+1} ≥ λ_{i,j} ≥ λ_{i+1,j+1}`. Nothing named
+`GelfandTsetlin` exists in Mathlib (the C\*-algebra `Gelfand*` files are unrelated), so this combinatorial
+object is built from scratch. Entries may be **negative**, so the rational (determinant-twisted) patterns
+are included; only the top row's sign controls whether the pattern is polynomial. -/
 structure GTPattern (n : ℕ) where
-  /-- The `i`-th entry of row `j`, indexed so that the informative cells are `i < j ≤ n`. -/
+  /-- The `i`-th entry (`0`-based, `i < j`) of row `j`; informative cells are `i < j ≤ n`. -/
   entry : ℕ → ℕ → ℤ
   /-- Cells outside the triangle `i < j ≤ n` carry no data. -/
   zeros' : ∀ {i j : ℕ}, n < j ∨ j ≤ i → entry i j = 0
-  /-- The interlacing inequalities `λ_{i,j+1} ≥ λ_{i,j} ≥ λ_{i+1,j+1}`. -/
-  interlacing' : ∀ {i j : ℕ}, i ≤ j → j < n →
+  /-- The interlacing inequalities `λ_{i,j+1} ≥ λ_{i,j} ≥ λ_{i+1,j+1}`, ranged only over interior cells
+  `i < j < n` where all three entries are informative. Weak decrease along each row is a consequence, and
+  no nonnegativity is imposed on the row-final entries. -/
+  interlacing' : ∀ {i j : ℕ}, i < j → j < n →
     entry i (j + 1) ≥ entry i j ∧ entry i j ≥ entry (i + 1) (j + 1)
 
 /-- **The top row** `(λ_{1,n}, …, λ_{n,n})` of a Gelfand-Tsetlin pattern: the highest weight it refines. -/
 def GTPattern.topRow {n : ℕ} (P : GTPattern n) : Fin n → ℤ := fun i => P.entry i n
 
-/-- **The Gelfand-Tsetlin pattern ↔ semistandard tableau bijection**: patterns with top row the shape `μ`
-(read as a weakly decreasing sequence) correspond to semistandard Young tableaux of shape `μ` with entries in
-`{1,…,n}`, the `j`-th row of the pattern recording the sub-shape on entries `≤ j` (shared with `../SchurWeyl`). -/
+/-- **The Gelfand-Tsetlin pattern ↔ semistandard tableau bijection** (polynomial case, `μ` a partition):
+patterns with top row the shape `μ` (read as a weakly decreasing sequence) correspond to semistandard Young
+tableaux of shape `μ` **with entries in `{0,…,n-1}`**, the `j`-th row of the pattern recording the sub-shape
+on entries `< j` (shared with `../SchurWeyl`). Mathlib's `SemistandardYoungTableau μ` allows unbounded `ℕ`
+entries, an infinite set for a nonempty shape, so the target is the bounded subtype `T i j < n`. -/
 def gtPatternEquivSSYT (n : ℕ) (μ : YoungDiagram) :
-    {P : GTPattern n // ∀ i, P.topRow i = (μ.rowLen i : ℤ)} ≃ SemistandardYoungTableau μ := sorry
+    {P : GTPattern n // ∀ i, P.topRow i = (μ.rowLen i : ℤ)} ≃
+      {T : SemistandardYoungTableau μ // ∀ i j, T i j < n} := sorry
 
 /-- **The Gelfand-Tsetlin basis** of `V_λ`: iterating the multiplicity-free `GLₙ ↓ GLₙ₋₁` branching down the
-chain `GL₁ ⊂ ⋯ ⊂ GLₙ` refines `V_λ` into lines, one per Gelfand-Tsetlin pattern with top row `λ`. -/
+chain `GL₁ ⊂ ⋯ ⊂ GLₙ` refines `V_λ` into a direct sum of **lines**, one per Gelfand-Tsetlin pattern with top
+row `λ`. The lines are canonical; a `Basis` additionally fixes a vector in each line, so this pins the choice
+of normalization (the joint eigenbasis of the Gelfand-Tsetlin subalgebra below, up to the standard
+contravariant-form scaling). Valid for every `l : DominantWeight n`, since patterns carry negative entries;
+the pattern ↔ tableau reading is the polynomial specialization `λ n ≥ 0`. -/
 def gtBasis (n : ℕ) (l : DominantWeight n) :
     Module.Basis {P : GTPattern n // P.topRow = l.1} ℂ (irreducible n l) := sorry
 
-/-- **The Gelfand-Tsetlin dimension count**: `dim V_λ` is the number of GT patterns with top row `λ` (the
-branching-theoretic reading of the Weyl dimension formula, and — via `gtPatternEquivSSYT` — of the tableau
-count `s_λ(1,…,1)`). -/
+/-- **The Gelfand-Tsetlin dimension count**: `dim V_λ` is the number of GT patterns with top row `λ`, proved
+from the branching side by induction on `n` and then compared with the Weyl dimension formula of Layer 5 and,
+via `gtPatternEquivSSYT`, with the tableau count `s_λ(1,…,1)`. -/
 theorem finrank_irreducible_eq_card_gtPatterns (n : ℕ) (l : DominantWeight n) :
     Module.finrank ℂ (irreducible n l) = Nat.card {P : GTPattern n // P.topRow = l.1} := sorry
 
@@ -224,15 +264,31 @@ theorem finrank_irreducible_eq_card_gtPatterns (n : ℕ) (l : DominantWeight n) 
 theorem card_gtPatterns_eq_weylDimension (n : ℕ) (l : DominantWeight n) :
     Nat.card {P : GTPattern n // P.topRow = l.1} = weylDimension n l := sorry
 
-/-- **The Gelfand-Tsetlin generators**: the image on `V_λ` of the centre of `𝔤𝔩_k` (`k = ` the given index),
-one operator per level of the chain `GL₁ ⊂ ⋯ ⊂ GLₙ`. Together they form the Gelfand-Tsetlin subalgebra, a
-maximal commutative family. -/
-def gtGenerator (n : ℕ) (l : DominantWeight n) (k : Fin n) : Module.End ℂ (irreducible n l) := sorry
+/-- **The Gelfand-Tsetlin generators**: the images on `V_λ` of the **centre of the universal enveloping
+algebra** `Z(U(𝔤𝔩_k))` (the Gelfand invariants / Capelli elements), for each level `k` of the chain
+`GL₁ ⊂ ⋯ ⊂ GLₙ` and each degree `r ≤ k`. The Lie-algebra centre of `𝔤𝔩_k` is only the scalars; it is the
+enveloping-algebra centre that yields the full maximal commutative Gelfand-Tsetlin subalgebra, so a level `k`
+contributes `k` generators, not one. -/
+def gtGenerator (n : ℕ) (l : DominantWeight n) (k : Fin n) (r : Fin (k.val + 1)) :
+    Module.End ℂ (irreducible n l) := sorry
+
+/-- **The Gelfand-Tsetlin eigenvalue** of the generator `(k, r)` on the basis vector indexed by pattern `P`,
+an explicit polynomial in the entries of the first `k+1` rows of `P`. -/
+def gtEigenvalue (n : ℕ) (l : DominantWeight n) (k : Fin n) (r : Fin (k.val + 1))
+    (P : {P : GTPattern n // P.topRow = l.1}) : ℂ := sorry
 
 /-- **The Gelfand-Tsetlin generators are diagonalized in the GT basis**: each basis vector is a joint
-eigenvector of every `gtGenerator`, with eigenvalue an explicit function of the pattern entries. -/
-theorem gtGenerator_apply_gtBasis (n : ℕ) (l : DominantWeight n) (k : Fin n)
+eigenvector of every generator `(k, r)`, with eigenvalue `gtEigenvalue`. -/
+theorem gtGenerator_apply_gtBasis (n : ℕ) (l : DominantWeight n) (k : Fin n) (r : Fin (k.val + 1))
     (P : {P : GTPattern n // P.topRow = l.1}) :
-    ∃ c : ℂ, gtGenerator n l k (gtBasis n l P) = c • gtBasis n l P := sorry
+    gtGenerator n l k r (gtBasis n l P) = gtEigenvalue n l k r P • gtBasis n l P := sorry
+
+/-- **The Gelfand-Tsetlin subalgebra is maximal commutative**: the joint eigencharacter separates the basis,
+so distinct patterns give distinct systems of eigenvalues. This is what makes the GT basis intrinsic (the
+eigenbasis of the subalgebra), not merely a byproduct of one choice of chain. -/
+theorem gtEigenvalue_injective (n : ℕ) (l : DominantWeight n) :
+    Function.Injective
+      (fun (P : {P : GTPattern n // P.topRow = l.1}) =>
+        fun (kr : Σ k : Fin n, Fin (k.val + 1)) => gtEigenvalue n l kr.1 kr.2 P) := sorry
 
 end TauCetiRoadmap.RepresentationTheory.ClassicalGroups

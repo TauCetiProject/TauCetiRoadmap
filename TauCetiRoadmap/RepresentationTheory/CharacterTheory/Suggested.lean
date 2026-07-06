@@ -330,8 +330,9 @@ theorem frobeniusSchurIndicatorRep_trichotomy {G : Type v} [Group G] [Fintype G]
     frobeniusSchurIndicatorRep ρ = 1 ∨ frobeniusSchurIndicatorRep ρ = 0
       ∨ frobeniusSchurIndicatorRep ρ = -1 := sorry
 
-/-- **`ν₂ = +1` iff orthogonal**: a nonzero invariant symmetric nondegenerate form exists, equivalently `ρ`
-is realizable over `ℝ`. -/
+/-- **`ν₂ = +1` iff orthogonal**: a nonzero invariant symmetric nondegenerate form exists. Realizability
+over `ℝ` is a *strictly stronger* consequence, pinned separately as `frobeniusSchurIndicatorRep_eq_one_realizable`
+below (the symmetric complex form alone is not a real representation). -/
 theorem frobeniusSchurIndicatorRep_eq_one_iff {G : Type v} [Group G] [Fintype G] {V : Type*}
     [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V] (ρ : Representation ℂ G V)
     [ρ.IsIrreducible] :
@@ -345,6 +346,27 @@ theorem frobeniusSchurIndicatorRep_eq_neg_one_iff {G : Type v} [Group G] [Fintyp
     frobeniusSchurIndicatorRep ρ = -1
       ↔ ∃ B : LinearMap.BilinForm ℂ V, IsInvariantForm ρ B ∧ B.IsAlt ∧ B.Nondegenerate := sorry
 
+/-- **A real form** of a complex representation: a real representation `σ` whose scalar extension along
+`ℝ → ℂ` is isomorphic to `ρ`. Mathlib has no complexification of representations, so this predicate (and
+its scalar-extension equivalence) is itself a build target. Used with a concrete `σ` in hand. -/
+def IsRealForm {G : Type v} [Group G] {V : Type*} [AddCommGroup V] [Module ℂ V]
+    (ρ : Representation ℂ G V) {W : Type*} [AddCommGroup W] [Module ℝ W]
+    (σ : Representation ℝ G W) : Prop := sorry
+
+/-- **Realizability over `ℝ`**: `ρ` is `IsRealForm`-isomorphic to the complexification of some real
+representation. Stated as a bare `Prop` (the witness `W`, `σ`, and the scalar-extension iso are produced in
+the proof) to avoid bundling `AddCommGroup`/`Module` instances into an existential. -/
+def IsRealizableOverReal {G : Type v} [Group G] {V : Type*} [AddCommGroup V] [Module ℂ V]
+    (ρ : Representation ℂ G V) : Prop := sorry
+
+/-- **`ν₂ = +1` iff realizable over `ℝ`**: the orthogonal case admits an honest real form whose
+complexification recovers `ρ`. This must *construct* a real representation, not merely a symmetric complex
+form; hence a separate target from `frobeniusSchurIndicatorRep_eq_one_iff`. -/
+theorem frobeniusSchurIndicatorRep_eq_one_realizable {G : Type v} [Group G] [Fintype G] {V : Type*}
+    [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V] (ρ : Representation ℂ G V)
+    [ρ.IsIrreducible] :
+    frobeniusSchurIndicatorRep ρ = 1 ↔ IsRealizableOverReal ρ := sorry
+
 /-- **A real conjugacy class**: `g` is conjugate to `g⁻¹`. -/
 def IsRealClass {G : Type v} [Group G] (C : ConjClasses G) : Prop :=
   ∃ g : G, ConjClasses.mk g = C ∧ IsConj g g⁻¹
@@ -355,29 +377,51 @@ theorem card_realValued_eq_card_realClasses (G : Type v) [Group G] [Fintype G] [
     Nat.card {i // ∀ C, (starRingEnd ℂ) (characterTable G i C) = characterTable G i C}
       = Nat.card {C : ConjClasses G // IsRealClass C} := sorry
 
+/-- **The Frobenius-Schur indicator of the `i`-th irreducible** (the row `i` of `characterTable`). The
+per-row form the involution count sums against. -/
+noncomputable def frobeniusSchurIndicatorRow (G : Type v) [Group G] [Fintype G] [DecidableEq G]
+    (i : Fin (Fintype.card (ConjClasses G))) : ℂ := sorry
+
+/-- **The involution-counting formula** `#{g : g² = x} = ∑_χ ν₂(χ) χ(x)`, the degree-weighted signed sum
+over the irreducibles. At `x = 1` this is `#{g : g² = 1} = ∑_χ ν₂(χ) χ(1)` (weighted by the degrees `χ(1)`),
+which is *not* the raw count of orthogonal minus quaternionic irreducibles `∑_χ ν₂(χ)`. -/
+theorem card_sq_eq_sum_frobeniusSchur (G : Type v) [Group G] [Fintype G] [DecidableEq G] (x : G) :
+    (Nat.card {g : G // g * g = x} : ℂ)
+      = ∑ i, frobeniusSchurIndicatorRow G i * characterTable G i (ConjClasses.mk x) := sorry
+
 /-! ### Layer 8: Frobenius groups and Frobenius's theorem -/
 
 /-- **A Frobenius complement**: `H` is proper and nontrivial, and a trivial-intersection subgroup, meeting
 each distinct conjugate trivially. Then `G` is a Frobenius group with complement `H`. -/
 def IsFrobeniusComplement {G : Type v} [Group G] (H : Subgroup G) : Prop := sorry
 
-/-- **A trivial-intersection (T.I.) set** relative to `H`: class functions vanishing off `S` induce
-isometrically, the exceptional-character machinery Frobenius's theorem runs on. -/
+/-- **A trivial-intersection (T.I.) set** relative to `H`: a subset `S` (in practice the nonidentity part
+`H# = (H : Set G) \ {1}`, a union of nonidentity classes of `H`) whose distinct `G`-conjugates are disjoint
+and normalized by `H`. The load-bearing property, pinned as `isometry_ind_of_isTISet`, is that a class
+function on `H` *supported on `S`* (vanishing outside `H#`), extended by zero, induces to `G` with its norm
+preserved; this is what makes the differences `χᵢ - χⱼ` land as norm-`2` virtual characters. -/
 def IsTISet {G : Type v} [Group G] (S : Set G) (H : Subgroup G) : Prop := sorry
 
 /-- **The Frobenius kernel** `{1} ∪ (G ∖ ⋃_g g H g⁻¹)`: the identity and the elements in no conjugate of the
 complement. -/
 def frobeniusKernel {G : Type v} [Group G] (H : Subgroup G) : Set G := sorry
 
-/-- **Frobenius's theorem** (no character-free proof known): the kernel is a normal subgroup. -/
-theorem frobeniusKernel_normal {G : Type v} [Group G] [Finite G] (H : Subgroup G)
+/-- **Frobenius's theorem** (proved via the T.I.-set and exceptional-character route; no character-free
+proof is known): the kernel is a `Subgroup`. Promoted to a bundled `Subgroup G` so downstream results need
+not carry a chosen `N` and a carrier-equality proof. -/
+noncomputable def frobeniusKernelSubgroup {G : Type v} [Group G] [Finite G] (H : Subgroup G)
+    (hH : IsFrobeniusComplement H) : Subgroup G := sorry
+
+theorem coe_frobeniusKernelSubgroup {G : Type v} [Group G] [Finite G] (H : Subgroup G)
     (hH : IsFrobeniusComplement H) :
-    ∃ N : Subgroup G, (N : Set G) = frobeniusKernel H ∧ N.Normal := sorry
+    (frobeniusKernelSubgroup H hH : Set G) = frobeniusKernel H := sorry
+
+theorem frobeniusKernelSubgroup_normal {G : Type v} [Group G] [Finite G] (H : Subgroup G)
+    (hH : IsFrobeniusComplement H) : (frobeniusKernelSubgroup H hH).Normal := sorry
 
 /-- **The semidirect decomposition** `G = N ⋊ H`: the kernel is a complement to `H`. -/
 theorem frobeniusKernel_isComplement' {G : Type v} [Group G] [Finite G] (H : Subgroup G)
-    (hH : IsFrobeniusComplement H) (N : Subgroup G) (hN : (N : Set G) = frobeniusKernel H) :
-    N.IsComplement' H := sorry
+    (hH : IsFrobeniusComplement H) : (frobeniusKernelSubgroup H hH).IsComplement' H := sorry
 
 /-! ### Layer 9: the representation theory of GL₂(𝔽_q) -/
 
@@ -393,9 +437,38 @@ theorem card_conjClasses_GL2 (F : Type u) [Field F] [Fintype F] [DecidableEq F] 
 noncomputable def GL2PrincipalSeries (F : Type u) [Field F] [Fintype F] [DecidableEq F]
     (α β : Fˣ →* ℂˣ) : FDRep ℂ (GL (Fin 2) F) := sorry
 
+/-- The principal series has dimension `q + 1` (read off `char_one`). -/
+theorem character_one_GL2PrincipalSeries (F : Type u) [Field F] [Fintype F] [DecidableEq F]
+    (α β : Fˣ →* ℂˣ) :
+    (GL2PrincipalSeries F α β).character 1 = (Fintype.card F : ℂ) + 1 := sorry
+
+/-- The principal series is irreducible exactly when `α ≠ β`. -/
+theorem simple_GL2PrincipalSeries_iff (F : Type u) [Field F] [Fintype F] [DecidableEq F]
+    (α β : Fˣ →* ℂˣ) :
+    CategoryTheory.Simple (GL2PrincipalSeries F α β) ↔ α ≠ β := sorry
+
 /-- **The Steinberg representation**, the dimension-`q` constituent of `Ind_B(α α)` beside the linear
 character `α ∘ det`. -/
 noncomputable def GL2Steinberg (F : Type u) [Field F] [Fintype F] [DecidableEq F] :
     FDRep ℂ (GL (Fin 2) F) := sorry
+
+/-- **The non-split (elliptic) torus** `𝔽_{q²}^× ↪ GL₂(𝔽_q)`, embedded through a chosen `F`-basis of a
+degree-`2` extension `E` of `F` (so `Fintype.card E = q²`). The source of the cuspidal series; the
+degree-`2` extension is itself a build target, not an ambient `[Field F] [Fintype F]` datum. -/
+noncomputable def GL2NonSplitTorus (F : Type u) [Field F] [Fintype F] [DecidableEq F]
+    (E : Type u) [Field E] [Fintype E] [Algebra F E] : Subgroup (GL (Fin 2) F) := sorry
+
+/-- **A cuspidal (discrete-series) representation** of dimension `q - 1`, attached to a character
+`θ : Eˣ →* ℂˣ` of the non-split torus that does *not* factor through the norm (`θ ≠ θ ∘ Frob`); `θ` and its
+`q`-power twist give the same representation, so the cuspidals are parametrized by the `½q(q-1)` such orbits.
+These are exactly the irreducibles absent from every principal series. -/
+noncomputable def GL2Cuspidal (F : Type u) [Field F] [Fintype F] [DecidableEq F]
+    (E : Type u) [Field E] [Fintype E] [Algebra F E] (θ : Eˣ →* ℂˣ) :
+    FDRep ℂ (GL (Fin 2) F) := sorry
+
+/-- The cuspidal representation has dimension `q - 1` (read off `char_one`). -/
+theorem character_one_GL2Cuspidal (F : Type u) [Field F] [Fintype F] [DecidableEq F]
+    (E : Type u) [Field E] [Fintype E] [Algebra F E] (θ : Eˣ →* ℂˣ) :
+    (GL2Cuspidal F E θ).character 1 = (Fintype.card F : ℂ) - 1 := sorry
 
 end TauCetiRoadmap.RepresentationTheory.CharacterTheory

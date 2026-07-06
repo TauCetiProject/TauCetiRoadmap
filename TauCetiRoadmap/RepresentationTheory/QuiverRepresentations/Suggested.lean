@@ -18,7 +18,7 @@ functors, no Gabriel's theorem, and no Auslander-Reiten theory** (see `README.md
 map).
 
 The design follows the layers of `README.md`: Layer 0 the path algebra (`pathAlgebra`,
-`pathAlgebraBasis`); Layer 1 representations as `kQ`-modules (`QuiverRep`, `quiverRepEquivalence`,
+`pathAlgebraBasis`, `IsAcyclic`); Layer 1 representations as `kQ`-modules (`QuiverRep`, `quiverRepEquivalence`,
 `simpleRep`, `indecProjRep`); Layer 2 Krull-Schmidt (`IsIndecomposableModule`,
 `isLocalRing_end_of_isIndecomposable`, existence and uniqueness of the indecomposable decomposition);
 Layer 3 the finite-dimensional-algebra frame (`exists_projectiveCover`, `cartanMatrix`, `IsBasic`,
@@ -38,27 +38,43 @@ universe v u
 
 /-! ## Layer 0: quivers and the path algebra -/
 
-/-- **The path algebra** `kQ`: the free `k`-module on the paths of `Q`, with product given by
-concatenating composable paths (`Quiver.Path.comp`) and sending non-composable pairs to `0`. The
-underlying module is a `Finsupp`, so `AddCommGroup`/`Module k` come from Mathlib; the multiplication is
-the content. -/
+/-- **The path algebra** `kQ`: the free `k`-module on the paths of `Q`. The product of two basis paths
+is their concatenation in the "later factor first" order, `p * q := Quiver.Path.comp q p` on composable
+pairs (`target q = source p`) and `0` otherwise, so that in a left `kQ`-module an arrow `a : i ⟶ j` acts
+as a map `eᵢ M → eⱼ M`; representations of `Q` are thereby **left** `kQ`-modules. The unit `1 = ∑ᵥ eᵥ`
+is a finite sum of vertex idempotents, so it exists precisely because the vertex set is finite
+(`[Finite Q]`). The underlying module is a `Finsupp`; only the multiplication is the content. -/
 def pathAlgebra (k Q : Type*) [Field k] [Quiver Q] : Type _ :=
   (Σ a b : Q, Quiver.Path a b) →₀ k
 
-/-- `kQ` is a ring: the unit is `∑ᵥ eᵥ` (the sum of trivial paths `Quiver.Path.nil`), the vertex
-idempotents `eᵥ` are orthogonal, and associativity comes from `Quiver.Path.comp_assoc`. -/
-noncomputable instance (k Q : Type*) [Field k] [Quiver Q] : Ring (pathAlgebra k Q) := sorry
+/-- `kQ` is a ring: the unit is `∑ᵥ eᵥ` (the finite sum of trivial paths `Quiver.Path.nil`, hence the
+`[Finite Q]` hypothesis), the vertex idempotents `eᵥ` are orthogonal, and associativity comes from
+`Quiver.Path.comp_assoc`. -/
+noncomputable instance (k Q : Type*) [Field k] [Quiver Q] [Finite Q] : Ring (pathAlgebra k Q) := sorry
 
-noncomputable instance (k Q : Type*) [Field k] [Quiver Q] : Algebra k (pathAlgebra k Q) := sorry
+noncomputable instance (k Q : Type*) [Field k] [Quiver Q] [Finite Q] :
+    Algebra k (pathAlgebra k Q) := sorry
 
 /-- **The path basis**: the paths of `Q` are a `k`-basis of `kQ`, so the arrows generate `kQ` as a
 `k`-algebra. -/
-noncomputable def pathAlgebraBasis (k Q : Type*) [Field k] [Quiver Q] :
+noncomputable def pathAlgebraBasis (k Q : Type*) [Field k] [Quiver Q] [Finite Q] :
     Module.Basis (Σ a b : Q, Quiver.Path a b) k (pathAlgebra k Q) := sorry
 
-/-- **Finite dimension.** `kQ` is finite-dimensional exactly when `Q` is finite and **acyclic**, encoded
-as finitely many paths. (The loop quiver has infinitely many paths and `kQ ≅ k[X]`.) -/
-theorem finiteDimensional_pathAlgebra (k Q : Type*) [Field k] [Quiver Q]
+/-- **Acyclicity**, as a predicate on `Q` independent of any finiteness: every closed path is trivial.
+This is the conceptual "no oriented cycle" condition that reflection functors and the homological
+identities rest on. -/
+def IsAcyclic (Q : Type*) [Quiver Q] : Prop :=
+  ∀ (a : Q) (p : Quiver.Path a a), p = Quiver.Path.nil
+
+/-- For a finite quiver, acyclicity is equivalent to having finitely many paths; this is the exact
+input to finite-dimensionality of `kQ`, kept separate from the `IsAcyclic` predicate itself. -/
+theorem finite_paths_of_isAcyclic (Q : Type*) [Quiver Q] [Finite Q] [∀ a b : Q, Finite (a ⟶ b)]
+    (h : IsAcyclic Q) : Finite (Σ a b : Q, Quiver.Path a b) := sorry
+
+/-- **Finite dimension.** `kQ` is finite-dimensional exactly when there are finitely many paths, the
+extensional form of "finite and acyclic" (`finite_paths_of_isAcyclic`). The loop quiver has infinitely
+many paths and `kQ ≅ k[X]`. -/
+theorem finiteDimensional_pathAlgebra (k Q : Type*) [Field k] [Quiver Q] [Finite Q]
     [Finite (Σ a b : Q, Quiver.Path a b)] : FiniteDimensional k (pathAlgebra k Q) := sorry
 
 /-! ## Layer 1: representations of a quiver as `kQ`-modules -/
@@ -68,9 +84,12 @@ exactly a `k`-module at each vertex and a `k`-linear map along each arrow, funct
 concatenation. -/
 abbrev QuiverRep (k Q : Type*) [Field k] [Quiver Q] : Type _ := Paths Q ⥤ ModuleCat k
 
-/-- **Representations are `kQ`-modules.** The load-bearing equivalence; every module-theoretic notion is
-transported along it. -/
-noncomputable def quiverRepEquivalence (k Q : Type*) [Field k] [Quiver Q] :
+/-- **Representations are `kQ`-modules.** For a finite vertex set (so that `kQ` is unital) the category
+of representations is equivalent to the category of **left** `kQ`-modules, the equivalence sending a
+module `M` to the representation `v ↦ eᵥ M` with arrows acting by left multiplication, and inverting via
+`M = ⨁ᵥ eᵥ M`. This is the load-bearing equivalence; every module-theoretic notion is transported along
+it. -/
+noncomputable def quiverRepEquivalence (k Q : Type*) [Field k] [Quiver Q] [Finite Q] :
     QuiverRep k Q ≌ ModuleCat (pathAlgebra k Q) := sorry
 
 /-- **The vertex simple** `Sᵢ`: `k` at `i`, `0` elsewhere. It is a simple representation, and over an
@@ -80,8 +99,9 @@ noncomputable def simpleRep (k Q : Type*) [Field k] [Quiver Q] (i : Q) : QuiverR
 theorem simpleRep_simple (k Q : Type*) [Field k] [Quiver Q] (i : Q) :
     Simple (simpleRep k Q i) := sorry
 
-/-- **The indecomposable projective** `Pᵢ = kQ · eᵢ` (basis: paths starting at `i`), the projective
-cover of `Sᵢ`. -/
+/-- **The indecomposable projective** `Pᵢ = kQ · eᵢ` (the left ideal, basis: the paths **starting** at
+`i`, under the `p * q = comp q p` product), the projective cover of `Sᵢ`. As a representation,
+`(Pᵢ)_j` is spanned by the paths `i → j`. -/
 noncomputable def indecProjRep (k Q : Type*) [Field k] [Quiver Q] (i : Q) : QuiverRep k Q := sorry
 
 theorem projective_indecProjRep (k Q : Type*) [Field k] [Quiver Q] (i : Q) :
@@ -126,9 +146,11 @@ theorem exists_projectiveCover {A : Type*} [Ring A] (M : ModuleCat A)
     ∃ (P : ModuleCat A) (π : P ⟶ M), Projective P ∧ Epi π ∧
       ∀ (X : ModuleCat A) (i : X ⟶ P), Epi (i ≫ π) → Epi i := sorry
 
-/-- **The Cartan matrix of the path algebra.** `Cᵢⱼ = [Pᵢ : Sⱼ]`, the Jordan-Hölder multiplicity of `Sⱼ`
-in the projective cover `Pᵢ`; for a path algebra it counts paths `i → j`. Well-defined by
-`CompositionSeries.jordan_holder`. Indexed by the vertices (= simples over an acyclic quiver). -/
+/-- **The Cartan matrix of the path algebra.** Defined by the Jordan-Hölder multiplicities
+`Cᵢⱼ = [Pᵢ : Sⱼ]` of the vertex simple `Sⱼ` in the indecomposable projective `Pᵢ`, well-defined by
+`CompositionSeries.jordan_holder`. Indexed by the vertices (= simples over an acyclic quiver). The
+identification with a `Hom`-space dimension, and with the count of paths `i → j`, is a separate result
+under the pinned left-module convention. -/
 noncomputable def cartanMatrix (k Q : Type*) [Field k] [Quiver Q] [Finite Q]
     [Finite (Σ a b : Q, Quiver.Path a b)] : Matrix Q Q ℕ := sorry
 

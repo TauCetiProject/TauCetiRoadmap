@@ -62,9 +62,16 @@ noncomputable def indProjection {S : Subgroup G} (A : Rep k S) (B : Rep k G) :
 
 /-! ## Layer 1: the conjugate representation (functorial part) -/
 
+/-- **The conjugation convention, fixed once.** `MulAut.conj s • H` is `sHs⁻¹`: its membership unfolds via
+`Subgroup.mem_pointwise_smul_iff_inv_smul_mem` to `s⁻¹ * x * s ∈ H`. Every conjugate action and character
+below is read off this lemma, so the layer cannot be silently orientation-reversed. -/
+theorem mem_conj_smul (s : G) (H : Subgroup G) (x : G) :
+    x ∈ (MulAut.conj s • H : Subgroup G) ↔ s⁻¹ * x * s ∈ H := sorry
+
 /-- **The conjugate representation** `{}^s A`. For `s : G`, `H : Subgroup G`, and `A : Rep k H`, the
 representation of the conjugated subgroup `s H s⁻¹` on `A.V` with `x : sHs⁻¹` acting by
-`A.ρ ⟨s⁻¹ x s, _⟩`. The object every Mackey and Clifford summand is built from. -/
+`A.ρ ⟨s⁻¹ x s, _⟩` (the membership proof from `mem_conj_smul`). The object every Mackey and Clifford
+summand is built from. -/
 noncomputable def conjRep (s : G) {H : Subgroup G} (A : Rep k H) :
     Rep k (MulAut.conj s • H : Subgroup G) := sorry
 
@@ -98,23 +105,39 @@ noncomputable def indFDRep {S : Subgroup G} [S.FiniteIndex] (A : FDRep k S) : FD
 theorem finrank_indFDRep {S : Subgroup G} [S.FiniteIndex] (A : FDRep k S) :
     Module.finrank k (indFDRep A) = S.index * Module.finrank k A := sorry
 
-/-- **The induced-character formula.** The value of the induced character at `g` sums `χ` over the
-conjugates `x⁻¹ g x` that land in `S`, normalized by `|S|`. The character-theoretic workhorse. -/
-theorem character_ind {S : Subgroup G} [S.FiniteIndex] [Fintype G] (A : FDRep k S) (g : G) :
+/-- **The induced-character formula (coset-representative form).** Over any field, the induced character at
+`g` is the sum over coset representatives `t : G ⧸ S` of `χ(t⁻¹ g t)` for those `t` whose `t⁻¹ g t` lands
+in `S`, with no division by `|S|`. Well-defined because `A.character` is a class function on `S`. The
+primary character-theoretic workhorse; the averaged form below is a corollary. -/
+theorem character_indFDRep_sum_quotient {S : Subgroup G} [S.FiniteIndex] [Fintype (G ⧸ S)]
+    (A : FDRep k S) (g : G) :
+    (indFDRep A).character g
+      = ∑ t : G ⧸ S,
+          if h : (Quotient.out t)⁻¹ * g * Quotient.out t ∈ S then
+            A.character ⟨(Quotient.out t)⁻¹ * g * Quotient.out t, h⟩ else 0 := sorry
+
+/-- **The induced-character formula (averaged group-sum form).** For `[Fintype G]` and
+`IsUnit (Nat.card S : k)` (equivalently `char k ∤ |S|`), the coset-representative sum equals the averaged
+sum over all of `G`, normalized by `|S|`. Without the invertibility hypothesis the factor `(Nat.card S)⁻¹`
+is meaningless and one uses `character_indFDRep_sum_quotient` instead. -/
+theorem character_ind {S : Subgroup G} [S.FiniteIndex] [Fintype G]
+    (hS : IsUnit (Nat.card S : k)) (A : FDRep k S) (g : G) :
     (indFDRep A).character g
       = (Nat.card S : k)⁻¹ * ∑ x : G,
           if h : x⁻¹ * g * x ∈ S then A.character ⟨x⁻¹ * g * x, h⟩ else 0 := sorry
 
-/-- **The permutation representation.** Inducing the trivial representation gives the permutation
-representation on cosets `k[G/H]`; its character at `g` counts the cosets fixed by `g`. -/
+/-- **The permutation representation.** Inducing the trivial representation along `H.subtype` gives the
+left-coset permutation representation `k[G ⧸ H]` on Mathlib's quotient `G ⧸ H`, with `G` acting by left
+translation; its character at `g` counts the cosets fixed by `g`. -/
 noncomputable def indTrivialIso {H : Subgroup G} :
     Rep.ind H.subtype (Rep.trivial k _ k : Rep k H) ≅ Rep.ofMulAction k G (G ⧸ H) := sorry
 
 /-- **Frobenius reciprocity as a character identity**: the inner product of `Ind χ` with `ψ` over `G`
-equals that of `χ` with `Res ψ` over `S`. A shadow of `Rep.indResAdjunction`. Stated with explicit
-sums so it does not hard-depend on the `characterPairing` name of the character-theory roadmap. -/
+equals that of `χ` with `Res ψ` over `S`. A shadow of `Rep.indResAdjunction`. Regime 3: the `IsUnit`
+hypothesis makes the averaging factors meaningful. Stated with explicit sums so it does not hard-depend on
+the `characterPairing` name of the character-theory roadmap. -/
 theorem frobenius_reciprocity {S : Subgroup G} [S.FiniteIndex] [Fintype G] [Fintype S]
-    (A : FDRep k S) (B : FDRep k G) :
+    (hG : IsUnit (Nat.card G : k)) (A : FDRep k S) (B : FDRep k G) :
     (Nat.card G : k)⁻¹ * ∑ g : G, (indFDRep A).character g * B.character g⁻¹
       = (Nat.card S : k)⁻¹ * ∑ s : S, A.character s * B.character ((s : G)⁻¹) := sorry
 
@@ -128,9 +151,15 @@ section Mackey
 
 variable {k : Type u} [CommRing k] {G : Type u} [Group G]
 
-/-- **The Mackey summand** attached to a double coset `KsH ∈ K \ G / H`: the representation
-`Ind_{K ∩ sHs⁻¹}^K (Res ({}^s A))` of `K`, built from `conjRep`, restriction, and induction, with a
-chosen representative `Quotient.out`. -/
+/-- **The Mackey subgroup** `K ⊓ sHs⁻¹` where the double-coset summand lives; it carries the two
+inclusions `mackeySubgroup s H K ≤ K` (induce up) and `mackeySubgroup s H K ≤ MulAut.conj s • H`
+(restrict the conjugate down). There is no second intersection with `K`. -/
+def mackeySubgroup (s : G) (H K : Subgroup G) : Subgroup G := K ⊓ (MulAut.conj s • H)
+
+/-- **The Mackey summand** attached to a double coset `KsH ∈ K \ G / H`: restrict the conjugate `{}^s A`
+(living on `sHs⁻¹`) along `mackeySubgroup s H K ≤ MulAut.conj s • H`, then induce along
+`mackeySubgroup s H K ≤ K`. Built from a fixed representative `s = Quotient.out t`; no canonical
+representative-independence is asserted. -/
 noncomputable def mackeySummand {H K : Subgroup G} (A : Rep k H)
     (t : DoubleCoset.Quotient (K : Set G) (H : Set G)) : Rep k K := sorry
 
@@ -159,10 +188,19 @@ share no irreducible constituent (their intertwining space is `0`). Its definiti
 of the two restrictions across the conjugated subgroups; the work is in stating it correctly. -/
 def MackeyDisjoint {H : Subgroup G} (V : FDRep k H) (s : G) : Prop := sorry
 
-/-- **The Mackey irreducibility criterion.** `Ind_H^G V` is irreducible iff `V` is irreducible and for
-every `s ∉ H` the restrictions of `V` and of `{}^s V` to `H ⊓ sHs⁻¹` are disjoint. Read off the
-intertwining-number formula: the identity double coset contributes `dim End V`, every other term must
-vanish. -/
+/-- **The Mackey irreducibility criterion (primary form, over double cosets).** `Ind_H^G V` is irreducible
+iff `V` is irreducible and every non-identity double coset `HsH` (representative `s = Quotient.out t ∉ H`)
+contributes a disjoint pair. Read off the intertwining-number formula: the identity double coset
+contributes `dim End V`, every other term must vanish. -/
+theorem simple_indFDRep_iff_doubleCoset {H : Subgroup G} [H.FiniteIndex] [Fintype G]
+    [Fintype (DoubleCoset.Quotient (H : Set G) (H : Set G))] (V : FDRep k H) :
+    Simple (indFDRep V) ↔ Simple V ∧
+      ∀ t : DoubleCoset.Quotient (H : Set G) (H : Set G),
+        Quotient.out t ∉ H → MackeyDisjoint V (Quotient.out t) := sorry
+
+/-- **The Mackey irreducibility criterion (`∀ s ∉ H` corollary).** The elementwise form, obtained from the
+double-coset form once `MackeyDisjoint` is shown invariant under replacing `s` by `h₁ * s * h₂` for
+`h₁, h₂ ∈ H`. -/
 theorem simple_indFDRep_iff {H : Subgroup G} [H.FiniteIndex] [Fintype G] (V : FDRep k H) :
     Simple (indFDRep V) ↔ Simple V ∧ ∀ s : G, s ∉ H → MackeyDisjoint V s := sorry
 
@@ -219,34 +257,39 @@ induced-character formula (`character_ind` computes it on genuine characters); t
 into a module homomorphism over `R(G)` by the projection formula (Layer 0). -/
 noncomputable def indClassFun {H : Subgroup G} [Fintype G] (f : H → k) : G → k := sorry
 
-/-- **The virtual-character ring** `R(G) = ch(kG)`: the subring of `G → k` generated by the irreducible
-characters (the `ℤ`-span of characters of `FDRep k G`), with product the tensor-product character
-(`char_tensor`); the Grothendieck ring of `FDRep k G`. -/
-def virtualCharacterRing : Subring (G → k) := sorry
+/-- **The virtual-character lattice** in the class functions: the additive subgroup of `G → k` spanned by
+the characters of `FDRep k G` (closed under the tensor-product product `char_tensor`). The primary object
+is the Grothendieck ring `R(G)` of `FDRep k G` under direct sum and tensor product; over a
+characteristic-`0` splitting field the character map embeds `R(G)` into `G → k` with this lattice as image.
+An `AddSubgroup` (not a raw `Subring (G → k)`), which over positive characteristic would not record the
+lattice structure. -/
+def virtualCharacters : AddSubgroup (G → k) := sorry
 
 /-- **Elementary subgroups.** `IsElementary H` holds when `H` is `p`-elementary for some prime `p`, i.e. a
 direct product `C × P` of a cyclic group of order prime to `p` and a `p`-group. Mathlib has `IsCyclic` and
 `IsPGroup` but no elementary-subgroup predicate. -/
 def IsElementary (H : Subgroup G) : Prop := sorry
 
-/-- **Artin's induction theorem.** `|G| · χ` is a `ℤ`-combination of characters induced from cyclic
-subgroups; equivalently every character is a `ℚ`-combination of such. -/
-theorem artin_induction [Fintype G] (V : FDRep k G) :
+/-- **Artin's induction theorem.** Over a characteristic-`0` field, `|G| · χ` is a `ℤ`-combination of
+characters induced from cyclic subgroups; equivalently every character is a `ℚ`-combination of such. Any
+statement about the index of the integral image is a separate lattice-determinant target, not this theorem. -/
+theorem artin_induction [Fintype G] [CharZero k] (V : FDRep k G) :
     Nat.card G • V.character ∈ AddSubgroup.closure
       { f : G → k | ∃ C : Subgroup G, IsCyclic C ∧ ∃ ψ : FDRep k C, f = indClassFun ψ.character } := sorry
 
-/-- **Brauer's induction theorem.** Every character is a `ℤ`-combination of characters induced from
-**elementary** subgroups: the induced map `⊕_{E elementary} R(E) → R(G)` is surjective. -/
-theorem brauer_induction [Fintype G] (V : FDRep k G) :
+/-- **Brauer's induction theorem.** Over a characteristic-`0` field, every character is a `ℤ`-combination of
+characters induced from **elementary** subgroups: the induced map `⊕_{E elementary} R(E) → R(G)` is
+surjective. -/
+theorem brauer_induction [Fintype G] [CharZero k] (V : FDRep k G) :
     V.character ∈ AddSubgroup.closure
       { f : G → k | ∃ E : Subgroup G, IsElementary E ∧ ∃ ψ : FDRep k E, f = indClassFun ψ.character } :=
   sorry
 
-/-- **Brauer's characterization of characters.** A class function is a virtual character iff its restriction
-to every elementary subgroup is a virtual character. -/
-theorem brauer_characterization [Fintype G] (f : G → k) :
-    f ∈ virtualCharacterRing ↔
-      ∀ E : Subgroup G, IsElementary E → (fun x : E => f (x : G)) ∈ virtualCharacterRing := sorry
+/-- **Brauer's characterization of characters.** Over a characteristic-`0` field, a class function is a
+virtual character iff its restriction to every elementary subgroup is a virtual character. -/
+theorem brauer_characterization [Fintype G] [CharZero k] (f : G → k) :
+    f ∈ virtualCharacters ↔
+      ∀ E : Subgroup G, IsElementary E → (fun x : E => f (x : G)) ∈ virtualCharacters := sorry
 
 /-- **Artin's corollary.** A rational representation is determined by its fixed-point dimensions on cyclic
 subgroups: if the restricted characters of `V` and `W` agree on every cyclic subgroup, then `V ≅ W`. -/
@@ -266,10 +309,12 @@ section Projective
 
 variable {k : Type} [Field k] {G : Type} [Group G]
 
-/-- **A projective representation** with factor set `α`: a map `ρ : G → End_k V` with
-`ρ g ∘ ρ h = α(g, h) · ρ (g * h)`, equivalently a homomorphism `G → PGL(V)`. -/
+/-- **A projective representation** with factor set `α`: a normalized lift into the invertible maps,
+`ρ : G → (V ≃ₗ[k] V)` with `ρ 1 = 1` and `ρ g * ρ h = α(g, h) · ρ (g * h)`, equivalently a homomorphism
+`G → PGL(V)`. Invertibility (`V ≃ₗ[k] V`, not `V →ₗ[k] V`) and normalization are load-bearing: without
+them the zero map satisfies the relation vacuously and the classification collapses. -/
 def IsProjectiveRep {V : Type} [AddCommGroup V] [Module k V]
-    (ρ : G → (V →ₗ[k] V)) (α : G × G → kˣ) : Prop := sorry
+    (ρ : G → (V ≃ₗ[k] V)) (α : G × G → kˣ) : Prop := sorry
 
 /-- **A factor set is a `2`-cocycle.** For the trivial `G`-action on `kˣ`, a factor set `α` satisfying the
 multiplicative `2`-cocycle identity lands in `groupCohomology.cocycles₂` of the trivial module `kˣ`; this is
@@ -279,27 +324,39 @@ theorem factorSet_mem_cocycles₂ (α : G × G → kˣ)
     (fun p : G × G => Additive.ofMul (α p)) ∈
       groupCohomology.cocycles₂ (Rep.trivial ℤ G (Additive kˣ)) := sorry
 
-/-- **The Schur multiplier** `M(G) = H²(G, k^×)`: the second cohomology of `G` with coefficients in the
-trivial module `k^×`, classifying projective representations up to projective equivalence. -/
+/-- **The second cohomology** `H²(G, k^×)`, classifying **factor sets up to cohomology** (cohomologous
+factor sets correspond under rescaling the lift). This is not the same as classifying projective
+representations themselves: a fixed cohomology class carries many non-isomorphic projective
+representations. The classical Schur multiplier `H₂(G, ℤ)` is a separate finite abelian group, the
+character dual of `H²(G, ℂˣ)`; pin it separately if wanted. -/
 noncomputable def schurMultiplier : ModuleCat ℤ :=
   groupCohomology.H2 (Rep.trivial ℤ G (Additive kˣ))
 
 /-- **The twisted group algebra** `k_α[G]`: the product on `G →₀ k` twisting `MonoidAlgebra k G` by the
-factor set, `e_g * e_h = α(g, h) • e_{g h}`. Projective representations with factor set `α` are exactly its
-modules; cohomologous `α` give isomorphic twisted algebras. -/
+factor set, `e_g * e_h = α(g, h) • e_{g h}`. Associativity is exactly the multiplicative `2`-cocycle
+identity and the unit needs `α(1, g) = α(g, 1) = 1`, so the algebra is assembled from a **normalized**
+cocycle (associativity and unit proved first); projective representations with factor set `α` are exactly
+its modules for the matching action convention, and cohomologous `α` give isomorphic twisted algebras. -/
 noncomputable def twistedMul (α : G × G → kˣ) : (G →₀ k) → (G →₀ k) → (G →₀ k) := sorry
 
-/-- **The central extension** `1 → k^× → E_α → G → 1` built from a factor set: the underlying set `kˣ × G`
-with twisted multiplication `(a, g)(b, h) = (a * b * α(g, h), g * h)`. `H²(G, k^×)` classifies these central
-extensions up to equivalence. -/
-def centralExtensionOfFactorSet (α : G × G → kˣ) : Type := sorry
+/-- **The central extension** `1 → k^× → E_α → G → 1` built from a **normalized factor set**: the
+underlying set `kˣ × G` with twisted multiplication `(a, g)(b, h) = (a * b * α(g, h), g * h)`. The cocycle
+identity `hα` and the normalization `hα₁` are data, not decoration: without them the multiplication is
+neither associative nor unital. `H²(G, k^×)` classifies these central extensions up to equivalence. -/
+def centralExtensionOfFactorSet (α : G × G → kˣ)
+    (hα : ∀ g h j : G, α (g * h, j) * α (g, h) = α (h, j) * α (g, h * j))
+    (hα₁ : ∀ g : G, α (1, g) = 1 ∧ α (g, 1) = 1) : Type := sorry
 
-/-- **The Clifford-theory obstruction.** For `N ◁ G` and an irreducible `V : FDRep k N`, the obstruction to
-extending `V` to an ordinary representation of its inertia group `inertia V` (Layer 5) is a class in the
-Schur multiplier `H²(inertia V, k^×)`; `V` extends iff it is trivial, and in general the irreducibles of the
-inertia group over `V` are the projective representations carrying that factor set. -/
-noncomputable def cliffordObstruction {N : Subgroup G} [N.Normal] (V : FDRep k N) :
-    ↥(groupCohomology.H2 (Rep.trivial ℤ (inertia V) (Additive kˣ))) := sorry
+/-- **The Clifford-theory obstruction.** For `N ◁ G` and an irreducible `V : FDRep k N`, the projective
+action lives on the **quotient** `inertia V / N` (using `N ≤ inertia V` normal in `inertia V`), so the
+obstruction to extending `V` to an ordinary representation of `inertia V` (Layer 5) is a class in
+`H²(inertia V / N, k^×)`, not in `H²(inertia V, k^×)`; `V` extends iff it is trivial, and in general the
+irreducibles of the inertia group over `V` are the projective representations of `inertia V / N` carrying
+that factor set. -/
+noncomputable def cliffordObstruction {N : Subgroup G} [N.Normal] (V : FDRep k N)
+    [(N.subgroupOf (inertia V)).Normal] :
+    ↥(groupCohomology.H2
+        (Rep.trivial ℤ (↥(inertia V) ⧸ N.subgroupOf (inertia V)) (Additive kˣ))) := sorry
 
 end Projective
 

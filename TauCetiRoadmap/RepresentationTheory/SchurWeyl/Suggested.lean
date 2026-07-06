@@ -57,9 +57,12 @@ noncomputable def diagramOf {n : ℕ} (μ : n.Partition) : YoungDiagram :=
 Specht modules appear in the permutation modules. -/
 def Dominates {n : ℕ} (μ ν : n.Partition) : Prop := sorry
 
-/-- Conjugation of diagrams reverses dominance. -/
+/-- The **conjugate (transpose) partition** `μᵀ`, read off the transposed Young diagram. -/
+noncomputable def conjugate {n : ℕ} (μ : n.Partition) : n.Partition := sorry
+
+/-- Conjugation of partitions **reverses** dominance: `μ ⊵ ν ↔ νᵀ ⊵ μᵀ`. -/
 theorem dominates_transpose_iff {n : ℕ} (μ ν : n.Partition) :
-    Dominates μ ν ↔ (diagramOf ν).transpose ≤ (diagramOf μ).transpose := sorry
+    Dominates μ ν ↔ Dominates (conjugate ν) (conjugate μ) := sorry
 
 /-- **Standard Young tableaux** of a diagram: bijective, row- and column-increasing fillings (Mathlib has
 only the semistandard `SemistandardYoungTableau`). -/
@@ -85,31 +88,33 @@ dimension is the multinomial coefficient `n! / ∏ᵢ μᵢ!` (`youngSubgroup_in
 noncomputable def permutationModule {n : ℕ} (μ : n.Partition) : Rep ℚ (Equiv.Perm (Fin n)) :=
   Rep.ofMulAction ℚ (Equiv.Perm (Fin n)) (Equiv.Perm (Fin n) ⧸ youngSubgroup μ)
 
-/-- **Kostka numbers**: the multiplicity of `S^λ` in `M^μ`, the number of semistandard tableaux of shape
-`μ`-diagram and content `ν`. `kostkaNumber μ μ = 1` and `kostkaNumber μ ν = 0` unless `Dominates μ ν`. -/
+/-- **Kostka numbers**, defined combinatorially as the number of semistandard tableaux of shape
+`μ`-diagram and content `ν`; `kostkaNumber μ μ = 1` and `kostkaNumber μ ν = 0` unless `Dominates μ ν`. Its
+identification with the multiplicity of `S^λ` in `M^μ` (Young's rule proper) needs the Specht modules and
+their irreducibility, so that statement is deferred to Layer 4. -/
 def kostkaNumber {n : ℕ} (μ ν : n.Partition) : ℕ := sorry
 
 /-! ## Layer 2: Young symmetrizers -/
 
 /-- A **`λ`-tableau**: a bijective filling of the cells of `μ` by `Fin μ.card`, the datum a Young
 symmetrizer is built from. -/
-def youngTableau (μ : YoungDiagram) : Type := ↥μ.cells ≃ Fin μ.card
+def YoungTableau (μ : YoungDiagram) : Type := ↥μ.cells ≃ Fin μ.card
 
 /-- The **row group** of a `λ`-tableau: permutations preserving each row. -/
-def rowSubgroup {μ : YoungDiagram} (t : youngTableau μ) :
+def rowSubgroup {μ : YoungDiagram} (t : YoungTableau μ) :
     Subgroup (Equiv.Perm (Fin μ.card)) := sorry
 
 /-- The **column group** of a `λ`-tableau: permutations preserving each column. -/
-def colSubgroup {μ : YoungDiagram} (t : youngTableau μ) :
+def colSubgroup {μ : YoungDiagram} (t : YoungTableau μ) :
     Subgroup (Equiv.Perm (Fin μ.card)) := sorry
 
 /-- **The Young symmetrizer** `c_t = a_t · b_t ∈ ℚ[Sₙ]`, where `a_t = ∑_{p ∈ rowSubgroup t} p` and
 `b_t = ∑_{q ∈ colSubgroup t} sign(q) • q` (using `Equiv.Perm.sign`). -/
-noncomputable def youngSymmetrizer {μ : YoungDiagram} (t : youngTableau μ) :
+noncomputable def youngSymmetrizer {μ : YoungDiagram} (t : YoungTableau μ) :
     MonoidAlgebra ℚ (Equiv.Perm (Fin μ.card)) := sorry
 
 /-- **Essential idempotence**: `c_t² = (n! / f^λ) • c_t`, so `(f^λ / n!) • c_t` is idempotent. -/
-theorem youngSymmetrizer_sq {μ : YoungDiagram} (t : youngTableau μ) :
+theorem youngSymmetrizer_sq {μ : YoungDiagram} (t : YoungTableau μ) :
     youngSymmetrizer t * youngSymmetrizer t
       = ((μ.card.factorial : ℚ) / (standardCount μ : ℚ)) • youngSymmetrizer t := sorry
 
@@ -128,6 +133,13 @@ noncomputable def spechtModule {n : ℕ} (μ : n.Partition) : FDRep ℚ (Equiv.P
 
 /-- **Irreducibility** of the Specht modules over `ℚ` (characteristic `0`). -/
 theorem spechtModule_simple {n : ℕ} (μ : n.Partition) : Simple (spechtModule μ) := sorry
+
+/-- **Absolute irreducibility** over `ℚ`: the endomorphism ring is `ℚ` (Schur index `1`), stated as the
+one-dimensionality of the endomorphism space. This is a genuine milestone: irreducibility over `ℚ` does not
+give it, and rational character values do not force Schur index `1`; it is what makes `ℂ ⊗_ℚ S^λ` stay
+irreducible. -/
+theorem spechtModule_absolutelyIrreducible {n : ℕ} (μ : n.Partition) :
+    Module.finrank ℚ (spechtModule μ ⟶ spechtModule μ) = 1 := sorry
 
 /-- **Distinctness**: non-isomorphic across distinct partitions. -/
 theorem spechtModule_iso_iff {n : ℕ} (μ ν : n.Partition) :
@@ -226,12 +238,29 @@ theorem permAction_commute_glAction (d n : ℕ) (σ : Equiv.Perm (Fin n)) (g : G
     (permAction d n σ).toLinearMap ∘ₗ (glAction d n g).toLinearMap
       = (glAction d n g).toLinearMap ∘ₗ (permAction d n σ).toLinearMap := sorry
 
+/-- **The `GLₔ × Sₙ` double centralizer, image-level**: inside `End((ℂᵈ)^{⊗n})`, the image subalgebra of
+`ℂ[GLₔ]` and the image subalgebra of `ℂ[Sₙ]` are each other's centralizers. The centralizer of `GLₔ` is the
+*image* of `ℂ[Sₙ]` (a proper quotient of `ℂ[Sₙ]` when `d < n - 1`), not `ℂ[Sₙ]` itself. -/
+theorem permAction_glAction_doubleCentralizer (d n : ℕ) :
+    Subalgebra.centralizer ℂ
+        (Set.range fun g : GL (Fin d) ℂ => (glAction d n g).toLinearMap)
+      = Algebra.adjoin ℂ (Set.range fun σ : Equiv.Perm (Fin n) => (permAction d n σ).toLinearMap)
+    ∧ Subalgebra.centralizer ℂ
+        (Set.range fun σ : Equiv.Perm (Fin n) => (permAction d n σ).toLinearMap)
+      = Algebra.adjoin ℂ (Set.range fun g : GL (Fin d) ℂ => (glAction d n g).toLinearMap) := sorry
+
+/-- **Faithfulness refinement**: once `d ≥ n`, the `Sₙ`-action on `(ℂᵈ)^{⊗n}` is faithful, so the image of
+`ℂ[Sₙ]` is all of `ℂ[Sₙ]` rather than a proper quotient. -/
+theorem permAction_injective_of_le (d n : ℕ) (h : n ≤ d) :
+    Function.Injective (permAction d n) := sorry
+
 /-- **The complex Specht module** `ℂ ⊗ S^λ`, still irreducible (absolute irreducibility over `ℚ`). -/
 noncomputable def spechtModuleℂ {n : ℕ} (μ : n.Partition) :
     FDRep ℂ (Equiv.Perm (Fin n)) := sorry
 
 /-- **The Schur functor** `𝕊^λ(ℂᵈ)`, the irreducible polynomial `GLₔ`-representation of highest weight
-`λ`, whose character is `schurPoly`. -/
+`λ`, whose character is `schurPoly`. Defined primarily as the range of the Young symmetrizer `c_t` acting on
+`(ℂᵈ)^{⊗n}` (avoiding the balanced-tensor right-module conventions of `(ℂᵈ)^{⊗n} ⊗_{ℂ[Sₙ]} S^λ`). -/
 noncomputable def schurFunctor (d : ℕ) {n : ℕ} (μ : n.Partition) :
     FDRep ℂ (GL (Fin d) ℂ) := sorry
 
@@ -263,6 +292,31 @@ noncomputable instance (k : ℕ) : Fintype (brauerDiagram k) := Fintype.ofFinite
 theorem card_brauerDiagram (k : ℕ) :
     Fintype.card (brauerDiagram k) = Nat.doubleFactorial (2 * k - 1) := sorry
 
+/-- A boundary point `x` lies on a **through-strand** of `D`: it is matched to a point on the opposite side
+(bottom `Fin k ⊕ Fin k` is `inl`, top is `inr`). -/
+def brauerDiagram.isThrough {k : ℕ} (D : brauerDiagram k) (x : Fin k ⊕ Fin k) : Prop :=
+  x.isLeft ≠ (D.1 x).isLeft
+
+/-- A boundary point `x` lies on a **cap** (bottom horizontal arc) of `D`. -/
+def brauerDiagram.isCap {k : ℕ} (D : brauerDiagram k) (x : Fin k ⊕ Fin k) : Prop :=
+  x.isLeft = true ∧ (D.1 x).isLeft = true
+
+/-- A boundary point `x` lies on a **cup** (top horizontal arc) of `D`. -/
+def brauerDiagram.isCup {k : ℕ} (D : brauerDiagram k) (x : Fin k ⊕ Fin k) : Prop :=
+  x.isLeft = false ∧ (D.1 x).isLeft = false
+
+/-- The underlying matching of the vertical composition of `D₁` (placed above) and `D₂`. -/
+def composeDiagram {k : ℕ} (D₁ D₂ : brauerDiagram k) : brauerDiagram k := sorry
+
+/-- The number of closed loops formed in the middle when stacking `D₁` above `D₂`; the exponent of `δ` in
+the loop rule. -/
+def middleLoopCount {k : ℕ} (D₁ D₂ : brauerDiagram k) : ℕ := sorry
+
+/-- Associativity of the loop-weighted diagram composition (the underlying matching part), from which the
+associativity of `brauerAlgebra` follows. -/
+theorem composeDiagram_assoc {k : ℕ} (D₁ D₂ D₃ : brauerDiagram k) :
+    composeDiagram (composeDiagram D₁ D₂) D₃ = composeDiagram D₁ (composeDiagram D₂ D₃) := sorry
+
 /-- **The Brauer algebra** `B_k(δ)`: the free `ℂ`-module on `brauerDiagram k`, with multiplication by
 vertical stacking of diagrams weighted by `δ^{#closed loops}` (the `δ`-power loop rule). A unital associative
 `ℂ`-algebra of dimension `(2k-1)!!`. Pinned opaquely with its `Ring`/`Algebra` structure; the loop-rule
@@ -283,31 +337,42 @@ noncomputable def brauerActionOrth (n k : ℕ) :
     brauerAlgebra (n : ℂ) k →ₐ[ℂ]
       Module.End ℂ (⨂[ℂ] (_ : Fin k), (Fin n → ℂ)) := sorry
 
-/-- **The diagonal action of the orthogonal group** `O(V) = Matrix.orthogonalGroup (Fin n) ℂ` on `V^{⊗k}`,
+/-- **The complex orthogonal group** `O(n, ℂ) = {A | Aᵀ * A = 1}`, the isometry group of the standard
+symmetric bilinear form. Mathlib's `Matrix.orthogonalGroup (Fin n) ℂ` unfolds to `Matrix.unitaryGroup`, i.e.
+`U(n)` for the conjugate-linear form, so Schur-Weyl duality here uses this honest form-orthogonal group. -/
+def complexOrthogonalGroup (n : ℕ) : Submonoid (Matrix (Fin n) (Fin n) ℂ) := sorry
+
+/-- **The diagonal action of the orthogonal group** `O(V) = complexOrthogonalGroup n` on `V^{⊗k}`,
 the restriction of Layer 8's `glAction` along `O(V) ↪ GLₙ`. -/
 noncomputable def orthAction (n k : ℕ) :
-    ↥(Matrix.orthogonalGroup (Fin n) ℂ) →*
+    ↥(complexOrthogonalGroup n) →*
       ((⨂[ℂ] (_ : Fin k), (Fin n → ℂ)) ≃ₗ[ℂ] (⨂[ℂ] (_ : Fin k), (Fin n → ℂ))) := sorry
 
 /-- **The two actions commute** (through-strands permute, arcs contract/expand against an `O(V)`-invariant
 form). -/
-theorem brauerActionOrth_commute (n k : ℕ) (g : Matrix.orthogonalGroup (Fin n) ℂ)
+theorem brauerActionOrth_commute (n k : ℕ) (g : complexOrthogonalGroup n)
     (b : brauerAlgebra (n : ℂ) k) :
     Commute (orthAction n k g).toLinearMap (brauerActionOrth n k b) := sorry
 
-/-- **Orthogonal Schur-Weyl duality (double centralizer)**: the image of `ℂ[O(V)]` and the image of `B_k(n)`
-in `End(V^{⊗k})` are each other's full centralizers. -/
-theorem brauerOrth_doubleCentralizer (n k : ℕ) :
+/-- **Orthogonal Schur-Weyl, surjectivity onto the commutant** (first fundamental theorem for `O(V)`): the
+centralizer of the image of `O(V)` in `End(V^{⊗k})` is exactly the image of `B_k(n)`. This is the
+invariant-theoretic content and does not require semisimplicity of the Brauer algebra. -/
+theorem brauerActionOrth_surjective_to_commutant (n k : ℕ) :
     Subalgebra.centralizer ℂ
-        (Set.range fun g : Matrix.orthogonalGroup (Fin n) ℂ => (orthAction n k g).toLinearMap)
-      = (brauerActionOrth n k).range
-    ∧ Subalgebra.centralizer ℂ ((brauerActionOrth n k).range : Set _)
+        (Set.range fun g : complexOrthogonalGroup n => (orthAction n k g).toLinearMap)
+      = (brauerActionOrth n k).range := sorry
+
+/-- **Orthogonal Schur-Weyl, reverse centralizer**: the finite-dimensional bicommutant statement for the two
+image subalgebras. -/
+theorem brauerActionOrth_reverse_centralizer (n k : ℕ) :
+    Subalgebra.centralizer ℂ ((brauerActionOrth n k).range : Set _)
       = Algebra.adjoin ℂ
-          (Set.range fun g : Matrix.orthogonalGroup (Fin n) ℂ => (orthAction n k g).toLinearMap) := sorry
+          (Set.range fun g : complexOrthogonalGroup n => (orthAction n k g).toLinearMap) := sorry
 
 /-- **The harmonic (traceless) tensors** in `V^{⊗k}`: the common kernel of the contraction (trace) maps
-`V^{⊗k} → V^{⊗(k-2)}` that cap a pair of slots against the invariant form; these carry the irreducible
-`O(V)`-pieces, and the cups rebuild the rest from lower tensor powers. -/
+`V^{⊗k} → V^{⊗(k-2)}` that cap a pair of slots against the invariant form. These are not themselves one
+irreducible; the irreducible `O(V)`-module `E_λ` is the trace-free part of the shape-`λ` Schur piece (the
+range of `c_t` intersected with `harmonicTensors`), and the cups rebuild the rest from lower tensor powers. -/
 noncomputable def harmonicTensors (n k : ℕ) :
     Submodule ℂ (⨂[ℂ] (_ : Fin k), (Fin n → ℂ)) := sorry
 
@@ -316,39 +381,48 @@ those with only through-strands). This exhibits Layer 8's `Sₖ` inside the Brau
 noncomputable def permToBrauer (δ : ℂ) (k : ℕ) :
     MonoidAlgebra ℂ (Equiv.Perm (Fin k)) →ₐ[ℂ] brauerAlgebra δ k := sorry
 
-/-- On the no-arcs subalgebra the Brauer action **is** Layer 8's `permAction`, so Layer 9 contains the
-`GLₔ × Sₙ` duality of Layer 8. -/
+/-- On the no-arcs subalgebra the Brauer action agrees with Layer 8's `permAction`, so Layer 9 contains the
+`GLₔ × Sₙ` duality of Layer 8. This equality is convention-sensitive (stacking and `PiTensorProduct.reindex`);
+pinned here at the generator level, and if the chosen conventions compose oppositely the correct statement
+carries `σ⁻¹` in place of `σ`. -/
 theorem brauerActionOrth_permToBrauer (n k : ℕ) (σ : Equiv.Perm (Fin k)) :
     brauerActionOrth n k (permToBrauer (n : ℂ) k (MonoidAlgebra.single σ (1 : ℂ)))
       = (permAction n k σ).toLinearMap := sorry
 
-/-- **The diagonal action of the symplectic group** `Sp(V) = Matrix.symplecticGroup (Fin l) ℂ` on `V^{⊗k}`,
-`V = (Fin l ⊕ Fin l) → ℂ` of dimension `2l`. -/
+/-- **The diagonal action of the symplectic group** `Sp(V) = Matrix.symplecticGroup (Fin l) ℂ` (Mathlib's
+honest form-symplectic submonoid) on `V^{⊗k}`, `V = (Fin l ⊕ Fin l) → ℂ` of dimension `2l`. -/
 noncomputable def sympAction (l k : ℕ) :
     ↥(Matrix.symplecticGroup (Fin l) ℂ) →*
       ((⨂[ℂ] (_ : Fin k), ((Fin l ⊕ Fin l) → ℂ)) ≃ₗ[ℂ]
         (⨂[ℂ] (_ : Fin k), ((Fin l ⊕ Fin l) → ℂ))) := sorry
 
-/-- **The action of `B_k(-2l)` on `V^{⊗k}`** for `V` symplectic (nondegenerate alternating form, loop value
-`δ = -2l = -dim V`, the sign being the trace of an alternating form). -/
+/-- **The action of `B_k(-2l)` on `V^{⊗k}`** for `V` symplectic. The alternating form is antisymmetric, so
+the cap/cup of each pair must be given a definite ordering; with the standard alternating form and that
+ordering fixed, the loop value is `δ = -2l = -dim V` (an ordered closed loop evaluates to the trace of the
+alternating pairing). That this is an algebra map is the check of the Brauer generator relations
+`s² = 1`, `e² = δ e`, `s e = e`, the braid, and the mixed relations at `δ = -2l`. -/
 noncomputable def brauerActionSymp (l k : ℕ) :
     brauerAlgebra (-(2 * l : ℂ)) k →ₐ[ℂ]
       Module.End ℂ (⨂[ℂ] (_ : Fin k), ((Fin l ⊕ Fin l) → ℂ)) := sorry
 
-/-- **Symplectic Schur-Weyl duality (double centralizer)**: the image of `ℂ[Sp(V)]` and the image of
-`B_k(-2l)` in `End(V^{⊗k})` are each other's full centralizers. -/
-theorem brauerSymp_doubleCentralizer (l k : ℕ) :
+/-- **Symplectic Schur-Weyl, surjectivity onto the commutant** (first fundamental theorem for `Sp(V)`): the
+centralizer of the image of `Sp(V)` is exactly the image of `B_k(-2l)`; holds regardless of semisimplicity. -/
+theorem brauerActionSymp_surjective_to_commutant (l k : ℕ) :
     Subalgebra.centralizer ℂ
         (Set.range fun g : Matrix.symplecticGroup (Fin l) ℂ => (sympAction l k g).toLinearMap)
-      = (brauerActionSymp l k).range
-    ∧ Subalgebra.centralizer ℂ ((brauerActionSymp l k).range : Set _)
+      = (brauerActionSymp l k).range := sorry
+
+/-- **Symplectic Schur-Weyl, reverse centralizer**: the bicommutant statement for the two image subalgebras. -/
+theorem brauerActionSymp_reverse_centralizer (l k : ℕ) :
+    Subalgebra.centralizer ℂ ((brauerActionSymp l k).range : Set _)
       = Algebra.adjoin ℂ
           (Set.range fun g : Matrix.symplecticGroup (Fin l) ℂ => (sympAction l k g).toLinearMap) := sorry
 
-/-- **Semisimplicity of `B_k(δ)` for large/generic `δ`**: whenever `|δ| ≥ 2k - 2` (in particular for the
-geometric value `δ = n` with `dim V` large relative to `k`), the Brauer algebra is semisimple, with
-irreducibles indexed by partitions of `k, k-2, k-4, …`. -/
-theorem brauerAlgebra_isSemisimple_of_large (n k : ℕ) (h : 2 * k - 2 ≤ n) :
-    IsSemisimpleRing (brauerAlgebra (n : ℂ) k) := sorry
+/-- **Semisimplicity of `B_k(δ)` for large/generic `δ`**: whenever `|δ| ≥ 2k - 2`, the Brauer algebra is
+semisimple, with irreducibles indexed by partitions of `k, k-2, k-4, …`. Stated on `|δ|` with `δ : ℤ` so that
+it covers both geometric values, orthogonal `δ = n` and symplectic `δ = -2l`. The bound is sufficient, not
+sharp (the exact criterion is Wenzl's). -/
+theorem brauerAlgebra_isSemisimple_of_large_abs (δ : ℤ) (k : ℕ) (h : (2 * k - 2 : ℤ) ≤ |δ|) :
+    IsSemisimpleRing (brauerAlgebra (δ : ℂ) k) := sorry
 
 end TauCetiRoadmap.RepresentationTheory.SchurWeyl

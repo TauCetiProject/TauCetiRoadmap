@@ -26,10 +26,11 @@ reprove Artin-Wedderburn, but to build the **API and assembly** that the existen
 and the classical theory that is genuinely missing: the **uniqueness/invariance** of the Wedderburn
 decomposition and the explicit **simple-module ⇆ block** dictionary; the finite-dimensional
 **double-centralizer theorem** in the form `A = End_D(V)` for a simple faithful module, sharpening the
-module density Mathlib already has; the theory of **central simple algebras** (dimension is a perfect
-square, tensor product of central simple algebras is central simple, `A ⊗ Aᵒᵖ ≅ Mₙ(K)`); **Skolem-Noether**
-and the **centralizer theorem** for simple subalgebras; and the **Brauer group as a group** together with
-**splitting fields**, index and degree, and maximal subfields. Mathlib's standing TODOs here
+module density Mathlib already has; the theory of **central simple algebras** (`A ≅ Mₙ(D)` for a central
+division `D`, so `finrank K A` is a perfect square and the **degree** `deg A` is its square root; tensor
+product of central simple algebras is central simple; `A ⊗ Aᵒᵖ ≅ M_{finrank K A}(K)`); **Skolem-Noether**
+and the **centralizer theorem** for finite-dimensional central simple subalgebras; and the **Brauer group
+as a group** together with **maximal subfields**, **splitting fields**, and the **index**. Mathlib's standing TODOs here
 (`proof_wanted IsSemiprimaryRing.mulOpposite` and the left-right symmetry of the Jacobson radical in
 `WedderburnArtin.lean`, and the "`D` in `Type u`" TODO) are folded into the layers below.
 
@@ -74,25 +75,25 @@ number-of-blocks count, and the central idempotents; and beneath the representat
 
 ## What Mathlib already has (consume)
 
-- **Simple and semisimple modules/rings:** `RingTheory/SimpleModule/Basic.lean` — `IsSimpleModule`,
+- **Simple and semisimple modules/rings:** `RingTheory/SimpleModule/Basic.lean` - `IsSimpleModule`,
   `IsSemisimpleModule`, `IsSemisimpleRing`, `RingEquiv.isSemisimpleRing(_iff)`, the Schur family
   `bijective_or_eq_zero`, `injective_of_ne_zero`, `linearEquiv_of_ne_zero`, and the division-ring instance
-  `Module.End.instDivisionRing`. `RingTheory/SimpleRing/Defs.lean` — `IsSimpleRing`;
+  `Module.End.instDivisionRing`. `RingTheory/SimpleRing/Defs.lean` - `IsSimpleRing`;
   `RingTheory/SimpleRing/Basic.lean`, `.../Matrix.lean` (`IsSimpleRing (Matrix ι ι A)`),
   `.../Field.lean` (`IsSimpleRing.isField_center`, `isSimpleRing_iff_isField`).
 - **Schur over an algebraically closed field:** `finrank_endomorphism_simple_eq_one`,
   `finrank_hom_simple_simple` (`CategoryTheory/Preadditive/Schur.lean`, `RepresentationTheory/FDRep.lean`).
-- **Isotypic decomposition:** `RingTheory/SimpleModule/Isotypic.lean` — `IsIsotypic`, `IsIsotypicOfType`,
+- **Isotypic decomposition:** `RingTheory/SimpleModule/Isotypic.lean` - `IsIsotypic`, `IsIsotypicOfType`,
   `isotypicComponent`, `isotypicComponents` (with `Finite`), `sSupIndep_isotypicComponents`,
   `Submodule.IsFullyInvariant`, `isFullyInvariant_iff_isTwoSided`; `RingTheory/SimpleModule/Rank.lean`
   (`isSimpleModule_iff_finrank_eq_one`).
-- **Artin-Wedderburn (existence):** `RingTheory/SimpleModule/WedderburnArtin.lean` — `IsSimpleRing.tfae`,
+- **Artin-Wedderburn (existence):** `RingTheory/SimpleModule/WedderburnArtin.lean` - `IsSimpleRing.tfae`,
   `isSimpleRing_isArtinianRing_iff`, `IsSimpleRing.exists_ringEquiv_matrix_end_mulOpposite`,
   `exists_ringEquiv_matrix_divisionRing`, the algebra forms `exists_algEquiv_matrix_divisionRing(_finite)`,
   the product forms `IsSemisimpleRing.exists_ringEquiv_pi_matrix_divisionRing`,
   `exists_algEquiv_pi_matrix_divisionRing(_finite)`, and `isSemisimpleRing_iff_pi_matrix_divisionRing`;
   the instances `IsSemisimpleRing (Matrix n n R)` and `IsSemisimpleRing Rᵐᵒᵖ`.
-  `RingTheory/SimpleModule/IsAlgClosed.lean` — `IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed`,
+  `RingTheory/SimpleModule/IsAlgClosed.lean` - `IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed`,
   `IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed`.
 - **Jacobson radical:** `RingTheory/Jacobson/Radical.lean` (`Module.jacobson`, `Ring.jacobson`,
   `jacobson_quotient_jacobson`), `RingTheory/Jacobson/Semiprimary.lean`
@@ -100,43 +101,52 @@ number-of-blocks count, and the central idempotents; and beneath the representat
   `RingTheory/Artinian/Module.lean` (`IsArtinianRing.isSemisimpleRing_iff_jacobson`, the
   `IsSemiprimaryRing` instance), `RingTheory/Artinian/Ring.lean`
   (`IsArtinianRing.isNilpotent_jacobson_bot`).
-- **The module density theorem:** `RingTheory/SimpleModule/Basic.lean` — `jacobson_density` and
+- **The module density theorem:** `RingTheory/SimpleModule/Basic.lean` - `jacobson_density` and
   `Module.Finite.toModuleEnd_moduleEnd_surjective` (a module finite over its endomorphism ring is dense).
-- **Little Wedderburn:** `RingTheory/LittleWedderburn.lean` — `littleWedderburn` (`Field D` from
+- **Little Wedderburn:** `RingTheory/LittleWedderburn.lean` - `littleWedderburn` (`Field D` from
   `DivisionRing D` + `Finite D`), `Finite.isDomain_to_isField`.
 - **Central and central-simple predicates:** `Algebra/Central/Defs.lean` (`Algebra.IsCentral`,
   `Algebra.IsCentralSimple`), `Algebra/Central/Basic.lean` (`IsCentral.center_eq_bot`, `mem_center_iff`,
   `of_algEquiv`, `IsCentral K Kᵐᵒᵖ`), `Algebra/Central/Matrix.lean` (`Algebra.IsCentral.matrix`),
   `Algebra/Central/TensorProduct.lean` (`left_of_tensor_of_field`, `right_of_tensor_of_field`).
-- **Centralizers:** `Algebra/Algebra/Subalgebra/Centralizer.lean` and `.../Lattice.lean` —
+- **Centralizers:** `Algebra/Algebra/Subalgebra/Centralizer.lean` and `.../Lattice.lean` -
   `Subalgebra.centralizer`, `le_centralizer_iff`, `adjoin_le_centralizer_centralizer`, and the
   tensor-product centralizer identities.
-- **Brauer scaffolding and Azumaya:** `Algebra/BrauerGroup/Defs.lean` — `CSA`, `IsBrauerEquivalent`
+- **Brauer scaffolding and Azumaya:** `Algebra/BrauerGroup/Defs.lean` - `CSA`, `IsBrauerEquivalent`
   (reflexive/symmetric/transitive), `Brauer.CSA_Setoid`, `BrauerGroup` (a `Quotient`, **not yet a group**);
-  `Algebra/Azumaya/Defs.lean`, `.../Basic.lean` — `IsAzumaya`, `AlgHom.mulLeftRight`,
+  `Algebra/Azumaya/Defs.lean`, `.../Basic.lean` - `IsAzumaya`, `AlgHom.mulLeftRight`,
   `AlgHom.mulLeftRight_bij`, `tensorEquivEnd`, `Algebra.IsCentral.instIsAzumaya`.
-- **Maschke (the finite-group specialization):** `RepresentationTheory/Maschke.lean` —
+- **Maschke (the finite-group specialization):** `RepresentationTheory/Maschke.lean` -
   `IsSemisimpleRing (MonoidAlgebra k G)` and `IsSemisimpleModule k[G] V` under `[Field k] [Finite G]`
   `[NeZero (Nat.card G : k)]`.
 
 ## What is missing (build here)
 
 The **invariance of the Wedderburn data**: that the block count, the degrees `nᵢ`, and the division rings
-`Dᵢ` are isomorphism invariants, packaged as an equivalence with the isotypic components and hence with
-isomorphism classes of simple modules; the explicit **simple-module ⇆ block ⇆ primitive-idempotent**
-dictionary. The finite-dimensional **double-centralizer theorem** `A = End_D(V)` for a simple faithful
-module (sharpening `Module.Finite.toModuleEnd_moduleEnd_surjective` from surjectivity to a bijection with
-the right dimension count), and the **Jacobson-Chevalley density** corollaries. The theory of **central
-simple algebras**: that `dim_K A` is a **perfect square**, that a tensor product of central simple
-algebras is central simple (Mathlib has only centrality, via `Algebra.Central.TensorProduct`), the
-**opposite-algebra isomorphism** `A ⊗_K Aᵒᵖ ≅ Mₙ(K)` (packaging Azumaya), and the reduced degree. **Skolem-
-Noether** (two `K`-algebra homomorphisms from a simple algebra into a central simple algebra are conjugate)
-and the **centralizer/double-centralizer theorem** for a simple subalgebra `B ⊆ A`
-(`dim_K B · dim_K C_A(B) = dim_K A`, `C_A(C_A(B)) = B`, `C_A(B)` central simple). The **Brauer group as a
-group** (well-defined multiplication from tensor product on Brauer classes, identity `[K]`, inverse
-`[Aᵒᵖ]`), functoriality under base change, and **splitting fields** (a field `L` splits `A` iff
-`A ⊗_K L ≅ Mₙ(L)`; every central simple algebra is split by a finite separable extension and by a maximal
-subfield of the underlying division algebra), the **index** and **degree**. None of these is upstream as
+`Dᵢ` are isomorphism invariants. This is more than counting: the spine is the theorem that **every simple
+`R`-module is isomorphic to a minimal left ideal of `R`** (a simple submodule of the regular module), from
+which the simple-module isomorphism classes are put in bijection with the isotypic components of `R` and
+hence with the Wedderburn blocks; the explicit **simple-module ⇆ block ⇆ primitive-idempotent**
+dictionary. The canonical invariants are defined intrinsically (`blockDivisionRing S := (Module.End R S)ᵐᵒᵖ`,
+the multiplicity of `S` in `R`), and any chosen Wedderburn *presentation* is proved equivalent to them, so
+"the degree `nᵢ`" is a genuine invariant and not an artefact of a choice. The finite-dimensional
+**double-centralizer theorem** `A = End_D(V)` for a simple faithful module (sharpening
+`Module.Finite.toModuleEnd_moduleEnd_surjective` from surjectivity to a bijection with the right dimension
+count), and the **Jacobson-Chevalley density** corollaries. The theory of **central simple algebras**: the
+Wedderburn refinement `A ≅ Mₙ(D)` with `D` a **central division** `K`-algebra and
+`finrank K A = n² · finrank K D`; that `finrank K A` is a **perfect square** (proved by base change to the
+algebraic closure, where `A` splits, so this needs no maximal-subfield theory), from which the **degree**
+`deg A` is defined as its square root; that a tensor product of central simple algebras is central simple
+(Mathlib has only centrality, via `Algebra.Central.TensorProduct`); the **opposite-algebra isomorphism**
+`A ⊗_K Aᵒᵖ ≅ M_{finrank K A}(K)` (the matrix size is `finrank K A`, not `deg A`; packaging Azumaya).
+**Skolem-Noether** (two `K`-algebra homomorphisms from a **finite-dimensional central simple** `K`-algebra
+`B` into a central simple `K`-algebra `A` are conjugate) and the **centralizer/double-centralizer theorem**
+for a **finite-dimensional central simple** subalgebra `B ⊆ A` (`dim_K B · dim_K C_A(B) = dim_K A`,
+`C_A(C_A(B)) = B`, `C_A(B)` central simple). The **Brauer group as a group** (well-defined multiplication
+from tensor product on Brauer classes, identity `[K]`, inverse `[Aᵒᵖ]`), functoriality under base change,
+and **splitting fields** (a field `L` splits `A` iff `A ⊗_K L ≅ Mₙ(L)`; every central simple algebra is
+split by a finite extension, refined to a finite separable one, and by a maximal subfield of the underlying
+division algebra), from which the **index** `ind A = deg D` is read off. None of these is upstream as
 stated; each object here also gets its basic API, not only the headline theorem.
 
 `Suggested.lean` pins the load-bearing objects (`wedderburnComponents`, `simpleModuleEquivBlock`,
@@ -151,7 +161,12 @@ named milestones below as `sorry`-targets.
 The ordering is the dependency order. Layers 0-3 are the general semisimple theory over a ring; Layers 4-6
 are the central-simple and Brauer theory over a field, resting on Layers 0-3.
 
-### Layer 0: the Jacobson radical and the semisimplicity criterion
+### Layer 0: the Jacobson radical and the semisimplicity criterion (supporting API, optional)
+
+This layer is supporting cleanup, not on the critical path: character theory and the central-simple/Brauer
+development need finite-dimensional semisimple structure, not the full left-right symmetry of semiprimary
+rings. Discharge it as upstream cleanup, or skip to Layer 1 and pull in only the radical facts a later
+theorem explicitly names.
 
 - **The radical as an intersection and its quotient.** Consume `Ring.jacobson`, `jacobson_quotient_jacobson`,
   `IsSemisimpleRing.jacobson_eq_bot`, and `IsArtinianRing.isSemisimpleRing_iff_jacobson`. Build the
@@ -166,34 +181,60 @@ are the central-simple and Brauer theory over a field, resting on Layers 0-3.
 
 - **Schur, assembled.** Consume `Module.End.instDivisionRing` and the `bijective_or_eq_zero` family;
   package `Hom(S, S') = 0` for non-isomorphic simple `S, S'` and `Hom(S, S') ≃ D` in the isomorphic case,
-  and over `[IsAlgClosed k]` the collapse `End_k S ≃ₐ[k] k` (from `finrank_endomorphism_simple_eq_one`).
+  and over `[IsAlgClosed k]`, **for a finite-dimensional simple module `S`** (`[FiniteDimensional k S]`,
+  needed by `finrank_endomorphism_simple_eq_one`; an infinite-dimensional simple module can have a larger
+  division endomorphism ring), the collapse `End_k S ≃ₐ[k] k`.
 - **The isotypic decomposition as counted data.** Consume `isotypicComponents` and its finiteness; build
-  the equivalence between `isotypicComponents R M` and **isomorphism classes of simple submodules of `M`**,
-  and, for `M = R`, between these and the Wedderburn blocks of Layer 2. This is the counting spine reused
-  everywhere downstream (and by [CharacterTheory](../CharacterTheory/README.md) for
-  `#irreducibles = #conjugacy classes`).
+  the equivalence between `isotypicComponents R M` and **isomorphism classes of simple submodules of `M`**.
+  For `M = R` (the regular module of a semisimple ring) this is the counting spine reused everywhere
+  downstream (and by [CharacterTheory](../CharacterTheory/README.md) for
+  `#irreducibles = #conjugacy classes`), but tying it to **all** isomorphism classes of simple modules is
+  not mere bookkeeping: see the minimal-left-ideal milestone in Layer 1.5.
+
+### Layer 1.5: every simple module is a minimal left ideal
+
+The passage from "simple submodules of `R`" to "isomorphism classes of simple `R`-modules" is a theorem, not
+a rename, and must be built before the Wedderburn invariants of Layer 2 can be called canonical:
+
+- **Occurrence in the regular module.** For a semisimple ring `R`, every simple `R`-module is isomorphic to
+  a **minimal left ideal** of `R` (a simple submodule of the regular module). Equivalently, simple modules
+  are represented by primitive idempotents.
+- **The isomorphism-class bijection.** Assemble this into a bijection between isomorphism classes of simple
+  `R`-modules and the isotypic components of `R` (Layer 1). Only after this is the "number of blocks" a
+  count of simple-module isomorphism classes rather than a count of chosen matrix factors.
 
 ### Layer 2: Artin-Wedderburn, assembled with uniqueness
 
-- **The decomposition, named.** From `IsSemisimpleRing.exists_ringEquiv_pi_matrix_divisionRing` (and the
-  algebra/finite/alg-closed forms), pin `wedderburnComponents R`: the finite index of blocks, the degrees
-  `n : ι → ℕ`, the division rings `D : ι → Type u`, and the equivalence
-  `R ≃+* ∏ᵢ Matₙᵢ(Dᵢ)`. Provide the algebra form over a base and the `ᵐᵒᵖ`-endomorphism form together.
-- **Uniqueness / invariance.** The block index is equivalent to `isotypicComponents R R` and hence to
-  isomorphism classes of simple `R`-modules (Layer 1); the degree `nᵢ` is the multiplicity of `Sᵢ` in `R`,
-  and `Dᵢ ≃ (End R Sᵢ)ᵐᵒᵖ`. Two Wedderburn presentations of the same `R` have the same block multiset. This
-  is the theorem that makes "the degrees" and "the division rings" well-defined objects.
-- **The dimension count.** For a finite-dimensional semisimple `K`-algebra,
-  `finrank K A = ∑ᵢ (nᵢ)² · finrank K Dᵢ`, and over `[IsAlgClosed k]`, `finrank k A = ∑ᵢ (nᵢ)²`. This is
-  the identity [CharacterTheory](../CharacterTheory/README.md) uses as `∑ nᵢ² = |G|`.
+- **The presentation, named (choice-laden).** From `IsSemisimpleRing.exists_ringEquiv_pi_matrix_divisionRing`
+  (and the algebra/finite/alg-closed forms), pin a `WedderburnPresentation R`: a **chosen** finite index of
+  blocks, degrees `n : ι → ℕ`, division rings `D : ι → Type u`, and the equivalence `R ≃+* ∏ᵢ Matₙᵢ(Dᵢ)`.
+  Provide the algebra form over a base and the `ᵐᵒᵖ`-endomorphism form together. Because Mathlib's theorem
+  is existential, this object carries arbitrary choices and is **not** the source of the invariants.
+- **The canonical invariants (intrinsic).** Define the invariants directly on isomorphism classes of simple
+  `R`-modules (Layer 1.5): `blockDivisionRing S := (Module.End R S)ᵐᵒᵖ` and `blockMultiplicity S` (the
+  multiplicity of `S` in the regular module). These are manifestly isomorphism-invariant.
+- **Uniqueness / invariance.** Prove any `WedderburnPresentation R` is equivalent to the canonical data: the
+  chosen index is in bijection with isomorphism classes of simple `R`-modules (via Layer 1.5), the chosen
+  degree `nᵢ` equals `blockMultiplicity Sᵢ`, and the chosen `Dᵢ ≃ blockDivisionRing Sᵢ`. In particular two
+  presentations of the same `R` have the same block multiset. This is what makes "the degrees" and "the
+  division rings" well-defined objects rather than artefacts of a presentation.
+- **The dimension count.** State this for the **algebra** Wedderburn presentation, where each `Dᵢ` carries a
+  compatible `K`-algebra structure (and is finite-dimensional over `K`, forced by `FiniteDimensional K A`),
+  not the pure ring form: `finrank K A = ∑ᵢ (nᵢ)² · finrank K Dᵢ`, and over `[IsAlgClosed k]` (where each
+  `Dᵢ = k` by Schur), `finrank k A = ∑ᵢ (nᵢ)²`. This is the identity
+  [CharacterTheory](../CharacterTheory/README.md) uses as `∑ nᵢ² = |G|`.
 
 ### Layer 3: the double-centralizer (density) theorem
 
-- **From surjective to bijective.** Consume `Module.Finite.toModuleEnd_moduleEnd_surjective`. For a simple
-  module `M` over a ring `R` that is finite-dimensional over `K`, with `D = End R M`, sharpen this to the
-  **double-centralizer theorem**: the natural map `R → End_D M` is surjective, and when `M` is **faithful**
-  (equivalently `R` simple with `M` its simple module) it is a **ring isomorphism** `R ≃ End_D M ≃ Mₙ(D)`,
-  recovering Wedderburn for a simple ring intrinsically.
+- **From surjective to bijective.** Consume `Module.Finite.toModuleEnd_moduleEnd_surjective`. State the
+  theorem in **module-internal** form: for a simple module `M` over a ring `R`, with `D = Module.End R M`
+  and `M` **finite over `D`** (`[Module.Finite (Module.End R M) M]`, the honest hypothesis density needs,
+  not "`M` finite over some unrelated base field `K`"), the natural map `R → End_D M` is surjective, and
+  when `M` is **faithful** it is a **ring isomorphism** `R ≃ End_D M ≃ Mₙ(D)`. A faithful simple module
+  makes `R` **primitive**, not necessarily simple; but when `R` **is** simple, any nonzero simple `R`-module
+  is automatically faithful (its annihilator is a two-sided ideal, hence `⊥`), recovering Wedderburn for a
+  simple ring intrinsically. Add a corollary specializing to a finite-dimensional `K`-algebra, deriving
+  `[Module.Finite (Module.End R M) M]` from `FiniteDimensional K M`.
 - **Jacobson-Chevalley corollaries.** The density statement in the form: for finitely many `D`-independent
   `m₁, …, mₖ ∈ M` and any targets, some `r ∈ R` realizes them simultaneously; and the consequence that a
   simple module over a finite-dimensional simple `K`-algebra is a faithful `Mₙ(D)`-module of the expected
@@ -206,43 +247,73 @@ are the central-simple and Brauer theory over a field, resting on Layers 0-3.
   `Algebra.IsCentral.matrix` (`Mₙ(D)` central over `K` when `D` is) and the tensor-centrality lemmas.
 - **`Mₙ(K)` and division algebras are the building blocks.** A central simple `K`-algebra is
   `Mₙ(D)` for a **central division** `K`-algebra `D`, unique up to isomorphism (Layer 2 uniqueness +
-  centrality of the center). The **dimension is a perfect square** when `K` is algebraically closed, and in
-  general `finrank K A = (deg A)²` with `deg A` the **degree**; define `deg` and the **index** `ind A`
-  (`= deg D`).
+  centrality of the center), with `finrank K A = n² · finrank K D`. This `A ≅ Mₙ(D)` step comes **first**;
+  the degree and index are defined only afterwards, to avoid the circularity of quoting `deg`/`ind` before
+  the objects that pin them exist.
+- **Square dimension and the degree.** `finrank K A` is a **perfect square**. Prove this by base change to
+  the algebraic closure `K̄`: `A ⊗_K K̄` is central simple over the algebraically closed `K̄`, hence
+  `Mₘ(K̄)` (Layer 2 alg-closed Wedderburn), so `finrank K A = finrank K̄ (A ⊗_K K̄) = m²`. This uses **no**
+  maximal-subfield theory. **Define** `deg A` as the square root of `finrank K A`. Applied to a central
+  division algebra `D` this already gives `finrank K D` a perfect square; the **index** `ind A = deg D` is
+  deferred to Layer 6, after maximal subfields, where it acquires its arithmetic meaning.
 - **Tensor product of central simple is central simple.** Mathlib proves centrality of `A ⊗_K B`; build the
   missing **simplicity** of `A ⊗_K B` for `A, B` central simple over a field (so central simple algebras
   are closed under `⊗_K`), with `finrank K (A ⊗ B) = finrank K A · finrank K B`.
 - **The opposite isomorphism.** Package `AlgHom.mulLeftRight`/`IsAzumaya` into
-  `A ⊗_K Aᵒᵖ ≃ₐ[K] End_K A ≃ₐ[K] Mₙ(K)` (`n = finrank K A`), the fact that makes `[Aᵒᵖ]` the Brauer
-  inverse of `[A]`.
+  `A ⊗_K Aᵒᵖ ≃ₐ[K] End_K A ≃ₐ[K] M_{finrank K A}(K)`, the fact that makes `[Aᵒᵖ]` the Brauer inverse of
+  `[A]`. Note the matrix size is `finrank K A` (the dimension of the endomorphism algebra), **not** `deg A`:
+  for a CSA of degree `d`, `finrank K A = d²`, so this is `M_{d²}(K)`. The `End_K A ≃ M_{finrank K A}(K)`
+  step (a chosen `K`-basis of `A`) is itself a named prerequisite reused in Layer 6.
 
 ### Layer 5: Skolem-Noether and the centralizer theorem
 
-- **Skolem-Noether.** Two `K`-algebra homomorphisms `f, g : B →ₐ[K] A` from a simple `K`-algebra `B` into a
-  central simple `K`-algebra `A` are **conjugate**: there is a unit `u ∈ Aˣ` with `g x = u · f x · u⁻¹` for
-  all `x`. In particular every `K`-algebra automorphism of a central simple algebra is **inner**. Proved
-  via the module density of Layer 3 applied to the two `B ⊗ Aᵒᵖ`-module structures on `A`.
-- **The centralizer theorem.** For a simple `K`-subalgebra `B ⊆ A` with `A` central simple, the centralizer
-  `C = Subalgebra.centralizer K (B : Set A)` is **simple**, `finrank K B · finrank K C = finrank K A`,
-  `C_A(C) = B` (double centralizer), and `C` is central simple iff `B` is central over `K`. Build on the
-  tensor-centralizer identities Mathlib already has for the ambient `A ⊗_K Aᵒᵖ`.
+- **Skolem-Noether.** Carry the hypotheses in full: `[Field K] [Ring A] [Algebra K A] [FiniteDimensional K A]
+  [Algebra.IsCentral K A] [IsSimpleRing A]` for the target `A`, and `[Ring B] [Algebra K B]
+  [FiniteDimensional K B] [Algebra.IsCentral K B] [IsSimpleRing B]` for the source `B`. **Finite-dimensionality
+  of `B` is essential** and must not be dropped. Then two `K`-algebra homomorphisms `f, g : B →ₐ[K] A` are
+  **conjugate**: there is a unit `u ∈ Aˣ` with `g x = u · f x · u⁻¹` for all `x`. In particular every
+  `K`-algebra automorphism of a central simple algebra is **inner**. Proved via the module density of Layer 3
+  applied to the two `B ⊗ Aᵒᵖ`-module structures on `A`. (The classical theorem holds for merely simple `B`;
+  we pin the central-simple form, which is what the centralizer theorem and the downstream applications use,
+  and defer the center-sensitive noncentral generalization.)
+- **The centralizer theorem.** For a **central simple** `K`-subalgebra `B ⊆ A` (`[IsSimpleRing B]`,
+  `[Algebra.IsCentral K B]`, `[FiniteDimensional K B]`) of a central simple `K`-algebra `A`, the centralizer
+  `C = Subalgebra.centralizer K (B : Set A)` is **central simple** over `K`,
+  `finrank K B · finrank K C = finrank K A`, and `C_A(C) = B` (double centralizer). Build on the
+  tensor-centralizer identities Mathlib already has for the ambient `A ⊗_K Aᵒᵖ`. The general form for a
+  merely simple subalgebra `B` (center `Z(B) ⊋ K`) needs a center-sensitive correction to the dimension
+  formula and is a **later** target, not this one.
 
 ### Layer 6: the Brauer group and splitting fields
 
+- **Brauer-triviality prerequisites (named, not free).** Before the group structure, build the API that the
+  identity and inverse rest on: finite-dimensional `Module.End K V` is Brauer-equivalent to `K`;
+  `Matrix n n K` is Brauer-trivial; and the matrix-absorption `Mₘ(A) ⊗ Mₙ(B) ≃ Mₘₙ(A ⊗ B)`. Together with
+  the Layer 4 `End_K A ≃ M_{finrank K A}(K)` and opposite isomorphism, these give `A ⊗_K Aᵒᵖ` Brauer-trivial.
 - **The Brauer group as a group.** Consume `IsBrauerEquivalent`, `Brauer.CSA_Setoid`, `BrauerGroup`. Build
   the **`CommGroup` structure** on `BrauerGroup K`: multiplication induced by `⊗_K` (well-defined on Brauer
-  classes by Layer 4 simplicity and the matrix-absorption `Mₘ(A) ⊗ Mₙ(B) ≃ Mₘₙ(A ⊗ B)`), identity `[K]`,
-  inverse `[Aᵒᵖ]` (Layer 4 opposite isomorphism), commutativity from `A ⊗ B ≃ B ⊗ A`. Each Brauer class has
-  a **unique division-algebra representative** (Layer 2 uniqueness).
-- **Base change is a homomorphism.** `A ↦ A ⊗_K L` induces a group homomorphism
-  `BrauerGroup K → BrauerGroup L` for a field extension `L / K`; its kernel is the classes **split by `L`**.
-- **Splitting fields.** `L` **splits** `A` when `A ⊗_K L ≃ₐ[L] Mₙ(L)`; equivalently `[A]` is in the kernel
-  of base change. Build: over `[IsAlgClosed k]` every central simple algebra is split (Layer 2 alg-closed
-  Wedderburn); a **maximal subfield** `L` of a central division algebra `D` (with `finrank K L = deg D`)
-  splits `D`; and every central simple `K`-algebra is split by a **finite separable** extension.
-- **Finite and real base fields.** `BrauerGroup` of a **finite field** is trivial (little Wedderburn: no
-  noncommutative finite division algebras). `BrauerGroup ℝ ≃ ℤ/2`, generated by the class of the
-  **Hamilton quaternions** `ℍ[ℝ]` (a worked summit of the whole development).
+  classes by Layer 4 simplicity and matrix absorption), identity `[K]`, inverse `[Aᵒᵖ]` (the prerequisites
+  above), commutativity from `A ⊗ B ≃ B ⊗ A`. Each Brauer class has a **unique division-algebra
+  representative** (Layer 2 uniqueness).
+- **Base change preserves central simplicity, then is a homomorphism.** First prove the theorem it rests on:
+  if `A` is central simple over `K` and `L / K` is a field extension, then `L ⊗_K A` is **central simple
+  over `L`** (simplicity after scalar extension is a real theorem, not a typeclass triviality), compatibly
+  with `⊗` and `ᵒᵖ`. Only then does `A ↦ A ⊗_K L` induce a group homomorphism
+  `BrauerGroup K → BrauerGroup L`; its kernel is the classes **split by `L`**.
+- **Splitting fields, maximal subfields, and the index.** `L` **splits** `A` when `A ⊗_K L ≃ₐ[L] Mₙ(L)`;
+  equivalently `[A]` is in the kernel of base change. Build, in stages: over `[IsAlgClosed k]` every central
+  simple algebra is split (Layer 2 alg-closed Wedderburn); a **maximal subfield** `L` of a central division
+  algebra `D` (with `finrank K L = deg D`) splits `D`; every central simple `K`-algebra is split by **some
+  finite** extension, and, isolating the separability theory (existence of a separable maximal subfield),
+  refined to a **finite separable** extension. With maximal subfields in hand, `ind A = deg D` acquires its
+  meaning as the common degree of the splitting maximal subfields.
+- **Finite base fields.** `BrauerGroup` of a **finite field** is trivial (little Wedderburn: no
+  noncommutative finite division algebras).
+- **Real base field (long-term summit).** `BrauerGroup ℝ ≃ ℤ/2`, generated by the class of the **Hamilton
+  quaternions** `ℍ[ℝ]`. This is well beyond Skolem-Noether and the Brauer definitions: it needs the
+  classification of finite-dimensional real division algebras with center `ℝ` (only `ℝ` and `ℍ[ℝ]` occur), a
+  Frobenius/real-closed-field result. Prerequisites: the `ℍ[ℝ]` API, the proof that `ℍ[ℝ]` is division and
+  central over `ℝ`, and that classification.
 
 ---
 
@@ -250,47 +321,62 @@ are the central-simple and Brauer theory over a field, resting on Layers 0-3.
 
 - **Matrix algebras.** `Mₙ(K)` is central simple over `K`, split, Brauer-trivial; its only simple module is
   `Kⁿ`, and `End_{Mₙ(K)} Kⁿ ≃ K` (Layer 3 double centralizer on the smallest case).
-- **The Hamilton quaternions.** `ℍ[ℝ]` is a central division algebra over `ℝ` with `finrank ℝ ℍ[ℝ] = 4`
-  (`deg = 2`); `ℍ[ℝ] ⊗_ℝ ℍ[ℝ] ≃ M₄(ℝ)` (so `[ℍ]` has order 2), `ℂ` is a maximal subfield splitting it
-  (`ℍ ⊗_ℝ ℂ ≃ M₂(ℂ)`), and `[ℍ]` generates `BrauerGroup ℝ ≃ ℤ/2`. This exercises Layers 4-6 end to end.
-- **Complex numbers over the reals.** `ℂ` is central simple over `ℝ`? No: `ℂ` is a **field extension**, not
-  central (`Algebra.IsCentral ℝ ℂ` is false); it is the maximal subfield that splits `ℍ`. This is the
-  running check that "central" is not dropped.
-- **Group algebras (link to character theory).** For `[Field k] [Finite G] [NeZero (Nat.card G : k)]`,
-  `k[G]` is semisimple (Maschke, consumed), so Layer 2 gives `k[G] ≃ ∏ᵢ Matₙᵢ(Dᵢ)` and, over
-  `[IsAlgClosed k]`, `∏ᵢ Matₙᵢ(k)` with `∑ nᵢ² = |G|` and block count `= #`isomorphism classes of simple
-  modules. This is exactly what [CharacterTheory](../CharacterTheory/README.md) Layer 2 consumes.
-- **Finite fields.** Every finite-dimensional division algebra over a finite field `𝔽_q` is `𝔽_q` itself
-  (little Wedderburn, consumed), so every central simple `𝔽_q`-algebra is `Mₙ(𝔽_q)` and `BrauerGroup 𝔽_q`
-  is trivial.
+- **The Hamilton quaternions (the summit).** `ℍ[ℝ]` is a central division algebra over `ℝ` with
+  `finrank ℝ ℍ[ℝ] = 4` (`deg = 2`); `ℍ[ℝ] ⊗_ℝ ℍ[ℝ] ≃ M₄(ℝ)` (so `[ℍ]` has order 2), `ℂ` is a maximal
+  subfield splitting it (`ℍ ⊗_ℝ ℂ ≃ M₂(ℂ)`), and `[ℍ]` generates `BrauerGroup ℝ ≃ ℤ/2`. The first three
+  parts exercise Layers 4-5; the last (`BrauerGroup ℝ ≃ ℤ/2`) is the long-term summit, requiring the
+  real-division-algebra classification noted in Layer 6, not just these isomorphisms.
+- **Complex numbers over the reals.** `ℂ` is central simple over `ℝ`? No: `ℂ` is **simple** and
+  finite-dimensional as an `ℝ`-algebra (`IsSimpleRing ℂ`), but **not central** (`Algebra.IsCentral ℝ ℂ` is
+  false: `center ℂ = ℂ` strictly contains the image of `ℝ`); it is the maximal subfield that splits `ℍ`.
+  Formalize both `IsSimpleRing ℂ` and `¬ Algebra.IsCentral ℝ ℂ` as the running check that "central" is not
+  dropped and that the center comparison is the obstruction.
+- **Group algebras (link to character theory).** For `[Field k] [Group G] [Finite G] [NeZero (Nat.card G : k)]`,
+  `k[G]` is semisimple (Maschke, whose hypothesis is `[NeZero (Nat.card G : k)]`, consumed), so Layer 2 gives
+  `k[G] ≃ ∏ᵢ Matₙᵢ(Dᵢ)` and, adding `[IsAlgClosed k]`, `∏ᵢ Matₙᵢ(k)` with `∑ nᵢ² = |G|` and block count
+  `= #`isomorphism classes of simple modules. This uses the consumed
+  `finrank k (MonoidAlgebra k G) = Nat.card G`. This is exactly what
+  [CharacterTheory](../CharacterTheory/README.md) Layer 2 consumes.
+- **Finite fields.** Every finite-dimensional **central** division algebra over a finite field `𝔽_q` is
+  `𝔽_q` itself: it is finite, hence a field by little Wedderburn (consumed), and **centrality** forces its
+  center (all of it) to be the base `𝔽_q`. So every central simple `𝔽_q`-algebra is `Mₙ(𝔽_q)` and
+  `BrauerGroup 𝔽_q` is trivial. (Dropping centrality only gives a field extension `𝔽_{q^m}`, not `𝔽_q`.)
 - **Skolem-Noether in the small.** Every `ℝ`-algebra automorphism of `ℍ[ℝ]` is inner (conjugation by a unit
   quaternion), and complex conjugation on `ℂ ⊆ ℍ` is realized by conjugation by `j`.
 
 ## Ordering
 
-Layer 0 (Jacobson radical convenience API and left-right symmetry) and Layer 1 (Schur assembly, isotypic
-counting) are independent and come first; both are mostly packaging of existing Mathlib. Layer 2
-(Wedderburn assembled with uniqueness and the dimension count) needs Layer 1's isotypic counting. Layer 3
-(double centralizer / density) needs Layer 1's Schur and Layer 2's simple-ring case. Layer 4 (central simple
-algebras, tensor products, the opposite isomorphism) needs Layers 2-3 and moves to a field base. Layer 5
-(Skolem-Noether, centralizer theorem) needs Layer 3's density and Layer 4's tensor theory. Layer 6 (the
-Brauer group, splitting fields) needs Layers 4-5 for well-definedness of the product and the inverse. The
-group-algebra and character-theory link is available from Layer 2 onward; the quaternion summit needs all
-of Layers 4-6.
+Layer 0 (Jacobson radical convenience API and left-right symmetry) is optional supporting cleanup, off the
+critical path. Layer 1 (Schur assembly, isotypic counting) comes first and is mostly packaging. Layer 1.5
+(every simple module is a minimal left ideal) is a genuine theorem, not bookkeeping, and precedes the
+Wedderburn invariants. Layer 2 (Wedderburn presentation, canonical invariants, uniqueness, dimension count)
+needs Layers 1 and 1.5. Layer 3 (double centralizer / density, stated with finiteness **over `D`**) needs
+Layer 1's Schur and Layer 2's simple-ring case. Layer 4 (`A ≅ Mₙ(D)` first, then square dimension and the
+degree by base change to the algebraic closure, tensor products, the opposite isomorphism) needs Layers 2-3
+and moves to a field base. Layer 5 (Skolem-Noether and the centralizer theorem, both for **finite-dimensional
+central simple** `B`) needs Layer 3's density and Layer 4's tensor theory. Layer 6 (Brauer group, base
+change as central-simplicity-preserving, splitting fields, maximal subfields, and only then the index) needs
+Layers 4-5. The group-algebra and character-theory link is available from Layer 2 onward.
+
+The three tiers differ greatly in size and are best treated as staged deliverables: (1) the
+semisimple/Wedderburn API needed for character theory (Layers 1-3); (2) the central simple algebra core:
+CSA, tensor product, opposite, centralizer (Layers 4-5); (3) the Brauer group, splitting fields, and the
+arithmetic examples (Layer 6), which pull in substantial field theory (separable maximal subfields) and, for
+`BrauerGroup ℝ`, the real-division-algebra classification. Tiers 2-3 are much larger than tier 1.
 
 ## References
 
-- T. Y. Lam, *A First Course in Noncommutative Rings*, 2nd ed., Springer GTM 131 (2001) — semisimple rings,
+- T. Y. Lam, *A First Course in Noncommutative Rings*, 2nd ed., Springer GTM 131 (2001) - semisimple rings,
   the Jacobson radical, the density theorem, Wedderburn-Artin, and an introduction to Brauer groups.
-- R. S. Pierce, *Associative Algebras*, Springer GTM 88 (1982) — central simple algebras, the centralizer
+- R. S. Pierce, *Associative Algebras*, Springer GTM 88 (1982) - central simple algebras, the centralizer
   and double-centralizer theorems, Skolem-Noether, and the Brauer group in full.
-- C. W. Curtis, I. Reiner, *Representation Theory of Finite Groups and Associative Algebras*, Wiley (1962) —
+- C. W. Curtis, I. Reiner, *Representation Theory of Finite Groups and Associative Algebras*, Wiley (1962) -
   semisimple algebras, the Wedderburn structure theory, and the module theory beneath character theory.
-- N. Jacobson, *Basic Algebra II*, 2nd ed., Freeman (1989) — the density theorem, central simple algebras,
+- N. Jacobson, *Basic Algebra II*, 2nd ed., Freeman (1989) - the density theorem, central simple algebras,
   and the Brauer group.
-- P. Gille, T. Szamuely, *Central Simple Algebras and Galois Cohomology*, CUP (2006) — central simple
+- P. Gille, T. Szamuely, *Central Simple Algebras and Galois Cohomology*, CUP (2006) - central simple
   algebras, splitting fields, the Brauer group, and its cohomological description.
-- I. N. Herstein, *Noncommutative Rings*, Carus Mathematical Monographs 15, MAA (1968) — the Jacobson
+- I. N. Herstein, *Noncommutative Rings*, Carus Mathematical Monographs 15, MAA (1968) - the Jacobson
   density theorem and the structure of primitive rings.
-- B. Farb, R. K. Dennis, *Noncommutative Algebra*, Springer GTM 144 (1993) — a compact modern treatment of
+- B. Farb, R. K. Dennis, *Noncommutative Algebra*, Springer GTM 144 (1993) - a compact modern treatment of
   semisimple algebras, Skolem-Noether, and the Brauer group.
