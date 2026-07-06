@@ -70,10 +70,15 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
     and Mathlib's complex-manifold / connection API (Griffiths transversality).
   - Rigidity engine (L5): `Module.End`, `Module.End.HasEigenvalue` / `Module.End.exists_eigenvalue`
     over the algebraically closed `ℂ`.
-- **Other proof assistants.** Hodge structures, polarizations, and variations of Hodge structure
-  appear **essentially unformalized anywhere** (Isabelle/HOL, Coq/Rocq, Lean). Adjacent pieces exist
-  (abelian varieties and the upper half-space in various places), but the abstract Hodge-theoretic
-  superstructure is new foundational material, not a port.
+- **Other proof assistants.** Hodge structures, polarizations, and variations of Hodge structure are
+  largely unformalized (Isabelle/HOL, Coq/Rocq); adjacent pieces exist (abelian varieties, the upper
+  half-space). In Lean 4, **concurrent** work by Booker Smith
+  ([pure-hodge-structures-lean4](https://github.com/thebookersmith/pure-hodge-structures-lean4),
+  [announcement](https://leanprover.zulipchat.com/#narrow/channel/583339-AI-authored-projects/topic/Pure.20Hodge.20structures.20in.20Lean.204))
+  formalizes exactly the **L0** layer — the `(p,q)`-decomposition ↔ opposed-filtration equivalence,
+  both directions, axiom-clean — taking the `ℚ`-space as primary where this roadmap takes the
+  `ℤ`-lattice; it is a useful cross-check for the L0 signature. The polarization / mixed / period-
+  domain / variation superstructure (L1–L5) remains new foundational material, not a port.
 - **The weight-1 instance is concrete and reachable.** Polarized weight-1 Hodge structures are
   abelian varieties / complex tori `ℂ^g/Λ`; their period domain is the **Siegel upper half space**;
   their integral symmetry group is `Sp(2g, ℤ)`. That case (periods of curves, Jacobians) is a worked
@@ -294,7 +299,9 @@ Voisin, *Hodge Theory and Complex Algebraic Geometry I–II*. Carlson–Müller-
 Mappings and Period Domains*. Griffiths, *Periods of integrals on algebraic manifolds (I, II)* and
 *Topics in transcendental algebraic geometry*. Deligne, *Théorie de Hodge II, III*. Schmid, *Variation
 of Hodge structure: the singularities of the period mapping*. Peters–Steenbrink, *Mixed Hodge
-Structures*. New Lean formalization; credit none — original.
+Structures*. New Lean formalization; concurrent with Booker Smith's Lean 4
+*pure-hodge-structures-lean4* at the **L0** layer (see *Prior art*), original for the L1–L5
+polarization / mixed / period-domain / variation superstructure.
 
 ---
 

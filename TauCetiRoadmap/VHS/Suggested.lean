@@ -3,6 +3,10 @@ import Mathlib
 /-!
 # Variation of Hodge structure (general): proposed definitions + target signatures
 
+**This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
+The statements here suggest Lean forms for particular milestones, so that contributors and reviewers
+converge on names and signatures; discharging all of them finishes neither a layer nor the roadmap.
+
 The narrative roadmap (layers, generality bar, the structural-vs-geometric boundary, references,
 sibling relations) is in `README.md`. **Mathlib has no Hodge structures**, so the chief
 deliverable of this entry is getting the *definitions* right (the `JacobianChallenge`
@@ -739,7 +743,13 @@ structure VariationOfHodgeStructure (B : Type*) (V : Type*) [AddCommGroup V] [Mo
 representation is irreducible, its commutant is scalar. This is the *engine* under period-map
 rigidity and Deligne's theorem of the fixed part / semisimplicity -- but those full theorems need
 genuine *polarizable VHS* hypotheses (a real VHS, not just a form-preserving representation); this
-milestone is the plain finite-dimensional Schur lemma that they invoke. -/
+milestone is the plain finite-dimensional Schur lemma that they invoke.
+
+Discharge caveat: the standard argument (a commuting `T` on a finite-dimensional irreducible rep
+over algebraically closed `ℂ` has an eigenvalue via `Module.End.exists_eigenvalue`, and
+`ker (T - c • 1)` is a nonzero invariant subspace hence `⊤`) assumes `Complexification V ≠ 0`. When
+`V = 0` the space is `0` and `hirr` holds vacuously: the conclusion is still trivially true for any
+`c`, but the proof must dispatch the `Subsingleton (Complexification V)` case first. -/
 example {n : ℤ} (hs : HodgeStructure V n) (pol : Polarization hs) {Γ : Type*} [Group Γ]
     (M : PolarizedMonodromyRepresentation hs pol Γ)
     (hirr : ∀ W : Submodule ℂ (Complexification V),
