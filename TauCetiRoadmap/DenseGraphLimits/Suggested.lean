@@ -83,6 +83,23 @@ theorem cutNorm_le_cutNormSigned (K : SymmKernel Ω μ) : cutNorm μ K ≤ cutNo
 theorem cutNormSigned_le_four_mul_cutNorm (K : SymmKernel Ω μ) :
     cutNormSigned μ K ≤ 4 * cutNorm μ K := sorry
 
+/-- **Layer 1 (seminorm laws).** `cutNorm` is nonnegative. -/
+theorem cutNorm_nonneg (K : SymmKernel Ω μ) : 0 ≤ cutNorm μ K := sorry
+
+/-- **Layer 1.** `cutNorm` of the zero kernel is zero. -/
+theorem cutNorm_zero : cutNorm μ (0 : SymmKernel Ω μ) = 0 := sorry
+
+/-- **Layer 1.** `cutNorm` is even: `‖-K‖□ = ‖K‖□`. -/
+theorem cutNorm_neg (K : SymmKernel Ω μ) : cutNorm μ (-K) = cutNorm μ K := sorry
+
+/-- **Layer 1.** `cutNorm` subadditivity (the seminorm triangle inequality). -/
+theorem cutNorm_add_le (K L : SymmKernel Ω μ) :
+    cutNorm μ (K + L) ≤ cutNorm μ K + cutNorm μ L := sorry
+
+/-- **Layer 1.** `cutNorm` is absolutely homogeneous. -/
+theorem cutNorm_smul (c : ℝ) (K : SymmKernel Ω μ) :
+    cutNorm μ (c • K) = |c| * cutNorm μ K := sorry
+
 /-- **Layer 1.** Homomorphism density `t(F, W)`, edges via `Sym2`. -/
 def homDensity {V : Type*} [Fintype V] [DecidableEq V] (F : SimpleGraph V) [DecidableRel F.Adj]
     (W : Graphon Ω μ) : ℝ := sorry
@@ -108,8 +125,11 @@ def IsCoupling (π : Measure (Ω₁ × Ω₂)) : Prop :=
 `cutDist` takes its infimum is nonempty. -/
 theorem isCoupling_prod : IsCoupling μ₁ μ₂ (μ₁.prod μ₂) := sorry
 
-/-- **Layer 1.** Overlay of two graphons along a coupling, as a kernel on the coupled space. -/
-def overlay (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) (π : Measure (Ω₁ × Ω₂))
+/-- **Layer 1.** The **overlaid difference kernel**: the difference `U − W` transported to the
+coupled space along the coupling `π`. This is the kernel whose cut norm controls the density gap
+(`counting_lemma_coupling`), hence the object `cutDist` minimizes over couplings — not a neutral
+overlay of the two graphons. -/
+def overlayDiff (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) (π : Measure (Ω₁ × Ω₂))
     (hπ : IsCoupling μ₁ μ₂ π) : SymmKernel (Ω₁ × Ω₂) π := sorry
 
 /-- **Layer 1 (coupling-primary, cross-carrier).** `cutDist` is the infimum over couplings of the
@@ -121,6 +141,13 @@ theorem cutDist_triangle {Ω₃ : Type*} [MeasurableSpace Ω₃] (μ₃ : Measur
     [IsProbabilityMeasure μ₃] [StandardBorelSpace Ω₁] [StandardBorelSpace Ω₂] [StandardBorelSpace Ω₃]
     (U : Graphon Ω₁ μ₁) (V : Graphon Ω₂ μ₂) (W : Graphon Ω₃ μ₃) :
     cutDist μ₁ μ₃ U W ≤ cutDist μ₁ μ₂ U V + cutDist μ₂ μ₃ V W := sorry
+
+/-- **Layer 1.** `cutDist` is nonnegative. -/
+theorem cutDist_nonneg (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) : 0 ≤ cutDist μ₁ μ₂ U W := sorry
+
+/-- **Layer 1.** `cutDist` is symmetric (a coupling of `μ₁, μ₂` swaps to one of `μ₂, μ₁`). -/
+theorem cutDist_comm (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) :
+    cutDist μ₁ μ₂ U W = cutDist μ₂ μ₁ W U := sorry
 
 /-- **Layer 5 (map form of cut distance).** The classical measure-preserving-map cut distance: the
 infimum, over measure-preserving maps from the canonical atomless standard carrier `(I, volume)` to
@@ -145,7 +172,7 @@ theorem counting_lemma_coupling {V : Type*} [Fintype V] [DecidableEq V] (F : Sim
     [DecidableRel F.Adj] (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂)
     (π : Measure (Ω₁ × Ω₂)) [IsProbabilityMeasure π] (hπ : IsCoupling μ₁ μ₂ π) :
     |homDensity μ₁ F U - homDensity μ₂ F W|
-      ≤ (F.edgeFinset.card : ℝ) * cutNorm π (overlay μ₁ μ₂ U W π hπ) := sorry
+      ≤ (F.edgeFinset.card : ℝ) * cutNorm π (overlayDiff μ₁ μ₂ U W π hπ) := sorry
 
 /-- **Layer 6a forward (cross-carrier, counting).** `cutDist = 0` ⇒ all homomorphism densities agree,
 **cross-carrier** and with **minimal hypotheses** (no standard-Borel / atomless — the easy counting
@@ -160,6 +187,9 @@ end CrossCarrier
 
 /-- **Layer 1.** Same-carrier specialization of the cross-carrier `cutDist`. -/
 def cutDistSame (U W : Graphon Ω μ) : ℝ := cutDist μ μ U W
+
+/-- **Layer 1.** `cutDist` of a graphon with itself is zero (reflexivity of the pseudometric). -/
+theorem cutDist_self (U : Graphon Ω μ) : cutDistSame μ U U = 0 := sorry
 
 /-- **Layer 1.** The first quotient object is fixed-carrier: graphons identified when `cutDist = 0`.
 (`GraphonSpaceI`, the unit-interval version, is the canonical public compact space; cross-carrier

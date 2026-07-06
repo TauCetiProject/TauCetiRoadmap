@@ -148,7 +148,7 @@ theory (`t(F, W) ∈ [0,1]`, the constant-graphon value `p^{e(F)}`, the explicit
 integrals, multiplicativity over disjoint unions, finite-graph compatibility
 `t(F, W_G) = hom(F,G)/|V(G)|^{|V(F)|}`); `cutNorm` with its seminorm laws, the `L¹` bound, and
 the equivalent set form `sup_{S,T} |∫_{S×T} W|`; the **coupling-primary, cross-carrier**
-`cutDist (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂)` (with `IsCoupling` and `overlay`) and its
+`cutDist (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂)` (with `IsCoupling` and `overlayDiff`) and its
 **gluing-lemma triangle inequality** under standard-Borel hypotheses (so `cutDist` is a
 pseudometric); and the fixed-carrier quotient `GraphonSpace Ω μ` over a standard Borel carrier (where
 `cutDist = 0` is a genuine equivalence). The canonical public compact space is `GraphonSpaceI`, the
@@ -276,9 +276,11 @@ The compiled `sorry`-signatures live in [`Suggested.lean`](./Suggested.lean) (im
 `TauCetiRoadmap.lean`, so CI type-checks them). They pin the types — in particular that the cut
 norm acts on *kernels* (so `U − W` is well-typed), that `cutDist` is coupling-primary and
 cross-carrier, and that the constant-graphon and sampling targets share the `unitInterval` (`p : I`)
-convention with `SimpleGraph.binomialRandom`. Compiled there: `SymmKernel` / `Graphon`, `cutNorm`,
-`homDensity`, `Graphon.const` + `homDensity_const = (p : ℝ) ^ e(F)`, `IsCoupling` / `overlay` /
-`isCoupling_prod` / cross-carrier `cutDist` + `cutDist_triangle`, `GraphonSpace` (a `Quotient` over a
+convention with `SimpleGraph.binomialRandom`. Compiled there: `SymmKernel` / `Graphon`, `cutNorm`
+(+ the seminorm laws `cutNorm_nonneg` / `_zero` / `_neg` / `_add_le` / `_smul`),
+`homDensity`, `Graphon.const` + `homDensity_const = (p : ℝ) ^ e(F)`, `IsCoupling` / `overlayDiff` /
+`isCoupling_prod` / cross-carrier `cutDist` + `cutDist_triangle` (+ `cutDist_nonneg` / `_comm` /
+`_self`), `GraphonSpace` (a `Quotient` over a
 standard Borel carrier), the counting lemma, the Layer-2 step objects `stepGraphon` +
 `stepGraphon_apply` and the averaging `stepGraphonAvg` + `stepGraphonAvg_apply`, the
 AE-invariance trio, the mod-null transport target, **separation 6a: the cross-carrier forward
