@@ -50,16 +50,17 @@ its first diagrammatic instances.
   (arXiv:1002.0555)](https://arxiv.org/abs/1002.0555), is the reference for why the sign is
   intrinsic. With `δ = q + q⁻¹` every statement on this roadmap through Layer 6 is
   sign-free; the sign enters only with the braiding.
-- **Quantum integers are Chebyshev evaluations, spoken directly.** Mathlib's rescaled
-  Chebyshev polynomial `Polynomial.Chebyshev.S`
+- **Quantum integers are Chebyshev evaluations, with the off-by-one absorbed once.**
+  Mathlib's rescaled Chebyshev polynomial `Polynomial.Chebyshev.S`
   (`Mathlib/RingTheory/Polynomial/Chebyshev.lean`) satisfies `S_0 = 1`, `S_1 = X`,
-  `S_{n+2} = X·S_{n+1} − S_n`, so `S_k` evaluated at `δ` *is* the quantum integer `[k+1]`.
-  Statements say `(Polynomial.Chebyshev.S R (k : ℤ)).eval δ`; there is **no wrapper
-  definition and no bracket notation** (we don't wrap, and square brackets are overworked
-  already). In this README `[n]` is prose shorthand for `S_{n−1}` evaluated at `δ`, nothing
-  more. No `q` is needed to say any of this, so genericity hypotheses are ring-level
-  statements about `δ`, quantifying `k ∈ Finset.range n` to say "`[1], …, [n]` nonzero";
-  the off-by-one between the shorthand and `S`'s index is pinned here, once.
+  `S_{n+2} = X·S_{n+1} − S_n`, so `S_k` evaluated at `δ` is the quantum integer `[k+1]`.
+  The definition `qInt R δ n := (Polynomial.Chebyshev.S R (n − 1)).eval δ` is `[n]`, and is
+  this roadmap's **one deliberate wrapper**: it exists exactly to absorb that off-by-one at
+  a single point instead of at every use site. There is still **no bracket notation**
+  (square brackets are overworked already); `[n]` in this README is prose shorthand for
+  `qInt R δ n`. No `q` is needed anywhere, so genericity hypotheses are ring-level
+  statements about `δ`. ⚠ `[0] = 0` always; genericity conditions read "`qInt R δ k ≠ 0`
+  for `1 ≤ k ≤ n`", never "for all `k`".
 - **Boundary points live on a circle.** A diagram `n → m` is drawn in a rectangle and read
   **bottom to top**, but its boundary datum is the cyclic order: points `0, …, n−1` along
   the bottom from left to right, then `n, …, n+m−1` along the top from **right to left**
@@ -99,9 +100,8 @@ its first diagrammatic instances.
   counting engine and a candidate computational encoding of matchings.
 - **Chebyshev polynomials:** `Polynomial.Chebyshev.S`
   (`Mathlib/RingTheory/Polynomial/Chebyshev.lean`), with the recurrences already proved;
-  quantum integers are these polynomials evaluated at `δ`, used directly with no wrapper
-  (see the conventions), so Layer 0 adds only evaluation lemmas, natural candidates for
-  upstreaming into that file.
+  `qInt` is a one-definition evaluation layer over it (see the conventions), and the
+  underlying polynomial identities are natural candidates for upstreaming into that file.
 - **Monoidal category theory:** `MonoidalCategory`, `BraidedCategory`
   (`Mathlib/CategoryTheory/Monoidal/Braided/Basic.lean`), rigidity via `ExactPairing` and
   `RigidCategory` (`…/Monoidal/Rigid/Basic.lean`), `MonoidalPreadditive`
@@ -146,11 +146,11 @@ previous layers land.
 
 ### Layer 0: quantum integers
 
-- No new definitions at all: per the conventions, `[n]` means
-  `(Polynomial.Chebyshev.S R ((n : ℤ) − 1)).eval δ` and the targets are *lemmas* about
-  these evaluations, stated against Mathlib's `S` and upstreamable to its file. The basic
-  identities: `[m+n+1] = [m+1][n+1] − [m][n]`, and divisibility `[d] ∣ [n]` when `d ∣ n`
-  (proved as polynomial statements where possible, evaluated afterwards).
+- `qInt R δ n`, the quantum integer `[n]`, the roadmap's one wrapper (see the
+  conventions): `[0] = 0`, `[1] = 1`, `[2] = δ`, `[n+2] = δ·[n+1] − [n]`. Basic
+  identities: the recurrence in both directions, `[m+n+1] = [m+1][n+1] − [m][n]`, and
+  divisibility `[d] ∣ [n]` when `d ∣ n` (proved as polynomial statements where possible,
+  evaluated afterwards).
 - **The `q`-side interface:** for a unit `q` with `δ = q + q⁻¹`,
   `[n] = q^{n−1} + q^{n−3} + ⋯ + q^{1−n}` and `(q − q⁻¹)·[n] = qⁿ − q⁻ⁿ`. Over a field:
   `[n](δ) = 0` for some `n ≥ 1` iff `δ = ζ + ζ⁻¹` for a root of unity `ζ` (in a quadratic

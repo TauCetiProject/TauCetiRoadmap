@@ -18,7 +18,7 @@ categories roadmap's target (`../PivotalSpherical/README.md`), consumed here; th
 build in `TauCeti/TemperleyLieb/` and the reusable infrastructure homes named in
 `README.md`.
 
-This file pins the load-bearing **definitions** (`PlanarMatching`, `TLDiagram`, the
+This file pins the load-bearing **definitions** (`qInt`, `PlanarMatching`, `TLDiagram`, the
 categories `TLDiagCat` and `TLCat R δ`, the algebras `TLAlg R δ n`, cell modules, tensor
 ideals, Jones–Wenzl projections) and **named milestones** as `sorry`-targets (`sorry` is
 allowed in this human-owned roadmap library; these are goals, not proofs). Some structure
@@ -27,33 +27,48 @@ instances, the single-clasp recursion and the coefficient formula, the fusion-ca
 summit) is deliberately *not* pinned here, because its Lean form depends on infrastructure
 this roadmap itself creates; `README.md` remains definitive for all of it.
 
-Conventions (see `README.md`): the loop parameter is `δ = q + q⁻¹`; quantum integers are
-spoken directly in Mathlib's vocabulary, with `(Polynomial.Chebyshev.S R (k : ℤ)).eval δ`
-for the quantum integer `[k+1]` (no wrapper definition, no notation; `[n]` is prose
-shorthand only); boundary points are read cyclically (bottom left-to-right, then top
+Conventions (see `README.md`): the loop parameter is `δ = q + q⁻¹`; the quantum integer
+`[n]` is `qInt R δ n`, this roadmap's one deliberate wrapper over
+`Polynomial.Chebyshev.S`, absorbing the off-by-one between the literature's `[n]` and
+`S`'s index (still no bracket notation); boundary points are read cyclically (bottom left-to-right, then top
 right-to-left); `f ≫ g` stacks `g` on top of `f`; circles are data (`ℕ`) in the diagram
 category and `δ`-exponents in `TL(R, δ)`; the Markov trace is unnormalized, `tr̂ 1 = δ ^ n`.
 -/
 
 namespace TauCetiRoadmap.TemperleyLieb
 
-open CategoryTheory MonoidalCategory Limits Polynomial.Chebyshev
+open CategoryTheory MonoidalCategory Limits
 
-/-! ## Layer 0: quantum integers
+/-! ## Layer 0: quantum integers -/
 
-There is no `qInt` wrapper and no bracket notation: the quantum integer `[n]` is, by the
-standing convention, the ring element `(Polynomial.Chebyshev.S R ((n : ℤ) - 1)).eval δ`, so
-`S k` evaluated at `δ` is `[k+1]`, and genericity hypotheses quantify `k` over
-`Finset.range n` to say "`[1], …, [n]`". Mathlib already has the recurrences for `S`; the
-Layer 0 targets are the missing *evaluation* lemmas, of which the `q`-side dictionary below
-is the archetype (the root-of-unity vanishing criterion and the product and divisibility
-identities of `README.md` follow the same pattern and are candidates for upstreaming). -/
+/-- The **quantum integer** `[n]` at the loop parameter `δ`. This is this roadmap's one
+deliberate wrapper: `Polynomial.Chebyshev.S k` evaluated at `δ` is `[k+1]`, and `qInt`
+exists exactly to absorb that off-by-one at a single point instead of at every use site.
+`[0] = 0`, `[1] = 1`, `[2] = δ`, `[n+2] = δ·[n+1] − [n]`; when `δ = q + q⁻¹` this is
+`q^{n−1} + q^{n−3} + ⋯ + q^{1−n}`. No bracket notation. -/
+noncomputable def qInt (R : Type*) [CommRing R] (δ : R) (n : ℕ) : R :=
+  (Polynomial.Chebyshev.S R ((n : ℤ) - 1)).eval δ
 
-/-- The dictionary to the `q`-side: `S k` evaluated at `δ = q + q⁻¹` is
-`q^k + q^{k−2} + ⋯ + q^{−k}`, the quantum integer `[k+1]`. -/
-theorem chebyshevS_eval_add_inv {R : Type*} [CommRing R] (q : Rˣ) (k : ℕ) :
-    (S R (k : ℤ)).eval ((q : R) + ((q⁻¹ : Rˣ) : R))
-      = ∑ i ∈ Finset.range (k + 1), ((q ^ ((k : ℤ) - 2 * (i : ℤ)) : Rˣ) : R) := sorry
+section QuantumIntegers
+
+variable {R : Type*} [CommRing R]
+
+theorem qInt_zero (δ : R) : qInt R δ 0 = 0 := sorry
+
+theorem qInt_one (δ : R) : qInt R δ 1 = 1 := sorry
+
+theorem qInt_two (δ : R) : qInt R δ 2 = δ := sorry
+
+theorem qInt_add_two (δ : R) (n : ℕ) :
+    qInt R δ (n + 2) = δ * qInt R δ (n + 1) - qInt R δ n := sorry
+
+/-- The dictionary to the `q`-side: for a unit `q` with `δ = q + q⁻¹`,
+`[n] = Σ_{i<n} q^{n−1−2i}`. -/
+theorem qInt_eq_sum_zpow (q : Rˣ) (n : ℕ) :
+    qInt R ((q : R) + ((q⁻¹ : Rˣ) : R)) n
+      = ∑ i ∈ Finset.range n, ((q ^ ((n : ℤ) - 1 - 2 * (i : ℤ)) : Rˣ) : R) := sorry
+
+end QuantumIntegers
 
 /-! ## Layer 1: planar matchings, counting, operations -/
 
@@ -379,16 +394,14 @@ theorem finrank_cellModule (n k : ℕ) :
 noncomputable def cellForm (n k : ℕ) : LinearMap.BilinForm R (CellModule R δ n k) := sorry
 
 /-- **The Gram determinant formula** (Westbury; Ridout–Saint-Aubin), in denominator-free
-form: `det G_{n,k} · Π_j [j+1]^{m_j} = Π_j [k+j+2]^{m_j}` over `j < (n−k)/2`, with
-`m_j = halfCount n (k+2j+2)` and `[i]` prose shorthand for `(S R (i-1)).eval δ`.
+form: `det G_{n,k} · Π_j [j]^{m_j} = Π_j [k+j+1]^{m_j}` with `m_j = halfCount n (k+2j)`.
 Anchors: `det G_{2,0} = [2]`, `det G_{3,1} = [3]`, `det G_{4,2} = [4]`,
 `det G_{4,0} = [2]²[3]`. -/
 theorem det_gramMatrix_mul (n k : ℕ) :
     (gramMatrix R δ n k).det
-        * ∏ j ∈ Finset.range ((n - k) / 2),
-            ((S R (j : ℤ)).eval δ) ^ halfCount n (k + 2 * j + 2)
-      = ∏ j ∈ Finset.range ((n - k) / 2),
-          ((S R ((k : ℤ) + j + 1)).eval δ) ^ halfCount n (k + 2 * j + 2) := sorry
+        * ∏ j ∈ Finset.Icc 1 ((n - k) / 2), qInt R δ j ^ halfCount n (k + 2 * j)
+      = ∏ j ∈ Finset.Icc 1 ((n - k) / 2), qInt R δ (k + j + 1) ^ halfCount n (k + 2 * j) :=
+  sorry
 
 end Cells
 
@@ -407,7 +420,7 @@ theorem isSemisimpleRing_tlAlg_iff (n : ℕ) :
 an iff: `TL_3(0)` is semisimple although `[2](0) = 0`; the `δ = 0` classification depends
 on the parity of `n` (see `README.md`). -/
 theorem isSemisimpleRing_tlAlg (n : ℕ)
-    (h : ∀ k ∈ Finset.range n, (S K (k : ℤ)).eval δ ≠ 0) :
+    (h : ∀ k ∈ Finset.Icc 1 n, qInt K δ k ≠ 0) :
     IsSemisimpleRing (TLAlg K δ n) := sorry
 
 /-- The two `δ = 0` acceptance tests that keep the classification honest. -/
@@ -433,7 +446,7 @@ every root of unity `q ≠ ±1` and `δ ≠ 0`. No parity exception here, unlike
 algebra-by-algebra statement. -/
 theorem homPairing_nondegenerate_iff (K : Type*) [Field K] (δ : K) :
     (∀ n m, (homPairing K δ n m).Nondegenerate)
-      ↔ ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0 := sorry
+      ↔ ∀ k, 1 ≤ k → qInt K δ k ≠ 0 := sorry
 
 end Nondegeneracy
 
@@ -441,12 +454,12 @@ end Nondegeneracy
 
 /-- The **Jones–Wenzl projection** `f_n`, defined when `[1], …, [n]` are invertible. -/
 noncomputable def jonesWenzl (R : Type*) [CommRing R] (δ : R) (n : ℕ)
-    (h : ∀ k ∈ Finset.range n, IsUnit ((S R (k : ℤ)).eval δ)) : TLAlg R δ n := sorry
+    (h : ∀ k ∈ Finset.Icc 1 n, IsUnit (qInt R δ k)) : TLAlg R δ n := sorry
 
 section JonesWenzl
 
 variable {R : Type*} [CommRing R] {δ : R} {n : ℕ}
-variable (h : ∀ k ∈ Finset.range n, IsUnit ((S R (k : ℤ)).eval δ))
+variable (h : ∀ k ∈ Finset.Icc 1 n, IsUnit (qInt R δ k))
 
 theorem jonesWenzl_idem : IsIdempotentElem (jonesWenzl R δ n h) := sorry
 
@@ -458,7 +471,7 @@ theorem star_jonesWenzl : star (jonesWenzl R δ n h) = jonesWenzl R δ n h := so
 
 /-- `tr̂ f_n = [n+1]`. -/
 theorem diagTrace_jonesWenzl :
-    diagTrace R δ n (jonesWenzl R δ n h) = (S R (n : ℤ)).eval δ := sorry
+    diagTrace R δ n (jonesWenzl R δ n h) = qInt R δ (n + 1) := sorry
 
 end JonesWenzl
 
@@ -468,7 +481,7 @@ variable (K : Type*) [Field K] (δ : K)
 
 /-- Over a field, `f_n` is the unique nonzero idempotent killed on both sides by every
 `e_i`. -/
-theorem jonesWenzl_unique {n : ℕ} (h : ∀ k ∈ Finset.range n, IsUnit ((S K (k : ℤ)).eval δ))
+theorem jonesWenzl_unique {n : ℕ} (h : ∀ k ∈ Finset.Icc 1 n, IsUnit (qInt K δ k))
     (f : TLAlg K δ n) (hf : IsIdempotentElem f) (hf0 : f ≠ 0)
     (hl : ∀ i, e K δ i * f = 0) (hr : ∀ i, f * e K δ i = 0) :
     f = jonesWenzl K δ n h := sorry
@@ -478,20 +491,20 @@ theorem jonesWenzl_unique {n : ℕ} (h : ∀ k ∈ Finset.range n, IsUnit ((S K 
 and the coefficient formula (Morrison, arXiv:1503.00384) are companion targets whose Lean
 form waits on the tilted-basis bookkeeping; `README.md` is definitive. -/
 theorem jonesWenzl_succ (n : ℕ)
-    (h : ∀ k ∈ Finset.range (n + 2), IsUnit ((S K (k : ℤ)).eval δ))
-    (h' : ∀ k ∈ Finset.range (n + 1), IsUnit ((S K (k : ℤ)).eval δ)) :
+    (h : ∀ k ∈ Finset.Icc 1 (n + 2), IsUnit (qInt K δ k))
+    (h' : ∀ k ∈ Finset.Icc 1 (n + 1), IsUnit (qInt K δ k)) :
     jonesWenzl K δ (n + 2) h
       = incl K δ (jonesWenzl K δ (n + 1) h')
-        - ((S K (n : ℤ)).eval δ / (S K ((n : ℤ) + 1)).eval δ)
+        - (qInt K δ (n + 1) / qInt K δ (n + 2))
             • (incl K δ (jonesWenzl K δ (n + 1) h') * e K δ (n := n + 2) (Fin.last n)
                 * incl K δ (jonesWenzl K δ (n + 1) h')) := sorry
 
 /-- The partial trace of a Jones–Wenzl projection: `condExp f_{n+1} = ([n+2]/[n+1])·f_n`. -/
 theorem condExp_jonesWenzl (n : ℕ)
-    (h : ∀ k ∈ Finset.range (n + 1), IsUnit ((S K (k : ℤ)).eval δ))
-    (h' : ∀ k ∈ Finset.range n, IsUnit ((S K (k : ℤ)).eval δ)) :
+    (h : ∀ k ∈ Finset.Icc 1 (n + 1), IsUnit (qInt K δ k))
+    (h' : ∀ k ∈ Finset.Icc 1 n, IsUnit (qInt K δ k)) :
     condExp K δ n (jonesWenzl K δ (n + 1) h)
-      = ((S K ((n : ℤ) + 1)).eval δ / (S K (n : ℤ)).eval δ) • jonesWenzl K δ n h' := sorry
+      = (qInt K δ (n + 2) / qInt K δ (n + 1)) • jonesWenzl K δ n h' := sorry
 
 end JonesWenzlField
 
@@ -534,16 +547,16 @@ variable (K : Type*) [Field K] (δ : K)
 /-- At quantum order `ℓ` (that is, `[ℓ] = 0` and `[1], …, [ℓ−1]` nonzero), the Jones–Wenzl
 projection `f_{ℓ−1}` is negligible (`tr̂ f_{ℓ−1} = [ℓ] = 0`). -/
 theorem jonesWenzl_mem_negligibleIdeal (ℓ : ℕ) (h2 : 2 ≤ ℓ)
-    (hℓ : (S K ((ℓ : ℤ) - 1)).eval δ = 0)
-    (hjw : ∀ k ∈ Finset.range (ℓ - 1), IsUnit ((S K (k : ℤ)).eval δ)) :
+    (hℓ : qInt K δ ℓ = 0)
+    (hjw : ∀ k ∈ Finset.Icc 1 (ℓ - 1), IsUnit (qInt K δ k)) :
     endEquiv K δ (ℓ - 1) (jonesWenzl K δ (ℓ - 1) hjw)
       ∈ (negligibleIdeal K δ).submod (TLCat.of (ℓ - 1)) (TLCat.of (ℓ - 1)) := sorry
 
 /-- **Goodman–Wenzl, generation**: at quantum order `ℓ`, any tensor ideal containing
 `f_{ℓ−1}` contains every negligible morphism. -/
 theorem negligibleIdeal_le_of_jonesWenzl_mem (ℓ : ℕ) (h2 : 2 ≤ ℓ)
-    (hℓ : (S K ((ℓ : ℤ) - 1)).eval δ = 0)
-    (hjw : ∀ k ∈ Finset.range (ℓ - 1), IsUnit ((S K (k : ℤ)).eval δ))
+    (hℓ : qInt K δ ℓ = 0)
+    (hjw : ∀ k ∈ Finset.Icc 1 (ℓ - 1), IsUnit (qInt K δ k))
     (I : TensorIdeal K δ)
     (hI : endEquiv K δ (ℓ - 1) (jonesWenzl K δ (ℓ - 1) hjw)
       ∈ I.submod (TLCat.of (ℓ - 1)) (TLCat.of (ℓ - 1))) :
@@ -552,8 +565,8 @@ theorem negligibleIdeal_le_of_jonesWenzl_mem (ℓ : ℕ) (h2 : 2 ≤ ℓ)
 /-- **Goodman–Wenzl, uniqueness**: at quantum order `ℓ`, every tensor ideal is zero, the
 negligible ideal, or everything. -/
 theorem tensorIdeal_trichotomy (ℓ : ℕ) (h2 : 2 ≤ ℓ)
-    (hℓ : (S K ((ℓ : ℤ) - 1)).eval δ = 0)
-    (hℓ' : ∀ k ∈ Finset.range (ℓ - 1), (S K (k : ℤ)).eval δ ≠ 0)
+    (hℓ : qInt K δ ℓ = 0)
+    (hℓ' : ∀ k ∈ Finset.Icc 1 (ℓ - 1), qInt K δ k ≠ 0)
     (I : TensorIdeal K δ) :
     (∀ X Y, I.submod X Y = ⊥)
       ∨ (∀ X Y, I.submod X Y = (negligibleIdeal K δ).submod X Y)
@@ -561,7 +574,7 @@ theorem tensorIdeal_trichotomy (ℓ : ℕ) (h2 : 2 ≤ ℓ)
 
 /-- The generic complement: with every quantum integer nonzero the category has no
 interesting tensor ideals. -/
-theorem tensorIdeal_bot_or_top (hK : ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0)
+theorem tensorIdeal_bot_or_top (hK : ∀ k, 1 ≤ k → qInt K δ k ≠ 0)
     (I : TensorIdeal K δ) :
     (∀ X Y, I.submod X Y = ⊥) ∨ (∀ X Y, I.submod X Y = ⊤) := sorry
 
@@ -590,20 +603,20 @@ instance : HasBinaryBiproducts (TLKar K δ) := sorry
 
 /-- The image `X_n` of the Jones–Wenzl projection `f_n` in the Karoubi envelope, in the
 generic case where every `f_n` exists. -/
-noncomputable def jwObject (hδ : ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0) (n : ℕ) :
+noncomputable def jwObject (hδ : ∀ k, 1 ≤ k → qInt K δ k ≠ 0) (n : ℕ) :
     TLKar K δ := sorry
 
 /-- Generic case: the Jones–Wenzl images are simple. -/
-theorem simple_jwObject (hδ : ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0) (n : ℕ) :
+theorem simple_jwObject (hδ : ∀ k, 1 ≤ k → qInt K δ k ≠ 0) (n : ℕ) :
     Simple (jwObject K δ hδ n) := sorry
 
 /-- Generic case: they exhaust the simples. Semisimplicity (every object a finite biproduct
 of these) and the general Clebsch–Gordan decomposition are companion targets. -/
-theorem exists_iso_jwObject (hδ : ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0) (X : TLKar K δ)
+theorem exists_iso_jwObject (hδ : ∀ k, 1 ≤ k → qInt K δ k ≠ 0) (X : TLKar K δ)
     (hX : Simple X) : ∃ n, Nonempty (X ≅ jwObject K δ hδ n) := sorry
 
 /-- **Clebsch–Gordan**, the generating case: `X_{n+1} ⊗ X_1 ≅ X_n ⊞ X_{n+2}`. -/
-noncomputable def clebschGordanOne (hδ : ∀ k : ℕ, (S K (k : ℤ)).eval δ ≠ 0) (n : ℕ) :
+noncomputable def clebschGordanOne (hδ : ∀ k, 1 ≤ k → qInt K δ k ≠ 0) (n : ℕ) :
     jwObject K δ hδ (n + 1) ⊗ jwObject K δ hδ 1
       ≅ jwObject K δ hδ n ⊞ jwObject K δ hδ (n + 2) := sorry
 
