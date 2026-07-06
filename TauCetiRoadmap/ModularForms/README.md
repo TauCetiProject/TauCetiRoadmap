@@ -28,7 +28,7 @@ Suggested home: `TauCeti/NumberTheory/ModularForms/`.
 
 A large, `sorry`-free body of this theory already exists in the AINTLIB `LeanModularForms`
 project (~260 source files). This roadmap specifies the **mathematics**; the file-by-file
-migration map is in the secondary *Provenance* section and in `Targets.lean`. Porting it into
+migration map is in the secondary *Provenance* section and in `Suggested.lean`. Porting it into
 `TauCeti/` is the opportunity to restate everything in Mathlib's vocabulary and to **clean up** —
 the project's own audits estimate that the newform and eigenform/SMO subtrees alone carry
 ~30–36% redundancy (parallel `ModularForm`/`CuspForm` chains, dead scaffolding, near-duplicate
@@ -111,7 +111,7 @@ quotient `Γ\ℍ`, with its cusps, elliptic points, and genus; and the **dimensi
 
 The ordering is the dependency order; independent lanes (e.g. L-functions vs. the modular curve)
 can proceed in parallel once their inputs exist. As each layer makes the next layer's *types*
-expressible in `TauCeti/`, its milestones go into `Targets.lean` (with `sorry`). Embedded Lean
+expressible in `TauCeti/`, its milestones go into `Suggested.lean` (with `sorry`). Embedded Lean
 below sketches signatures; it is illustrative, not required to compile.
 
 ### Layer 0: modular forms with character (nebentypus)
@@ -344,11 +344,11 @@ representability, no moduli problem**.
   (`dim M_0 = 1`, `dim S_0 = 0`, both `0` for `k < 0`); the **odd-`k`** formulas (D–S §3.6) split
   the cusps into regular and irregular and drop the `ε₂` term. `dim S_2(Γ) = g` is the statement
   that weight-two cusp forms are the holomorphic differentials on `X(Γ)`.
-- `Targets.lean` seeds this layer with concrete instances at levels `> 1`: `dim S_2(Γ₀(11)) = 1`,
+- `Suggested.lean` seeds this layer with concrete instances at levels `> 1`: `dim S_2(Γ₀(11)) = 1`,
   `dim S_2(Γ₀(23)) = 2`, `dim S_2(Γ₀(2)) = 0`, `dim M_2(Γ₀(11)) = 2`. The general even-weight
   formula above is the layer's headline target; it is stated here in the README (it needs the
   `ε₂, ε₃, ε∞, g` of `X(Γ)` from this same layer, so it is grounded), and is **not** seeded as a
-  free-parameter `example` in `Targets.lean`, since with `g, ε₂, ε₃, ε∞` as free variables it is
+  free-parameter `example` in `Suggested.lean`, since with `g, ε₂, ε₃, ε∞` as free variables it is
   false for the wrong data. We keep only the concrete, verifiable instances and pin the general
   statement in prose.
 
