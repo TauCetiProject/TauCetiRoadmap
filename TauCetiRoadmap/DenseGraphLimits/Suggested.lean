@@ -189,7 +189,10 @@ end CrossCarrier
 def cutDistSame (U W : Graphon Ω μ) : ℝ := cutDist μ μ U W
 
 /-- **Layer 1.** `cutDist` of a graphon with itself is zero (reflexivity of the pseudometric). -/
-theorem cutDist_self (U : Graphon Ω μ) : cutDistSame μ U U = 0 := sorry
+theorem cutDist_self (U : Graphon Ω μ) : cutDist μ μ U U = 0 := sorry
+
+/-- **Layer 1.** The same-carrier specialization. -/
+theorem cutDistSame_self (U : Graphon Ω μ) : cutDistSame μ U U = 0 := cutDist_self μ U
 
 /-- **Layer 1.** The first quotient object is fixed-carrier: graphons identified when `cutDist = 0`.
 (`GraphonSpaceI`, the unit-interval version, is the canonical public compact space; cross-carrier

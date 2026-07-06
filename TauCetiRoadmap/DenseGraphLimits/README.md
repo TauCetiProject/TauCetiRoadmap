@@ -280,7 +280,7 @@ convention with `SimpleGraph.binomialRandom`. Compiled there: `SymmKernel` / `Gr
 (+ the seminorm laws `cutNorm_nonneg` / `_zero` / `_neg` / `_add_le` / `_smul`),
 `homDensity`, `Graphon.const` + `homDensity_const = (p : ℝ) ^ e(F)`, `IsCoupling` / `overlayDiff` /
 `isCoupling_prod` / cross-carrier `cutDist` + `cutDist_triangle` (+ `cutDist_nonneg` / `_comm` /
-`_self`), `GraphonSpace` (a `Quotient` over a
+`_self`, `cutDistSame_self`), `GraphonSpace` (a `Quotient` over a
 standard Borel carrier), the counting lemma, the Layer-2 step objects `stepGraphon` +
 `stepGraphon_apply` and the averaging `stepGraphonAvg` + `stepGraphonAvg_apply`, the
 AE-invariance trio, the mod-null transport target, **separation 6a: the cross-carrier forward
