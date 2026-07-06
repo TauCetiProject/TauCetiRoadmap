@@ -5,7 +5,8 @@ Mathlib has rigid monoidal categories and their duals
 dual-object notation `Xᘁ` / `ᘁX`, the adjoint mates `fᘁ` / `ᘁf`, `RigidCategory`, and the dual
 functors `rightDualFunctor`/`leftDualFunctor : C ⥤ (Cᵒᵖ)ᴹᵒᵖ`), braided and symmetric categories
 (`Monoidal/Braided/*`), the Drinfel'd centre (`Monoidal/Center.lean`, braided), and the rigid
-symmetric example `FDRep k G` (`RepresentationTheory/FDRep.lean`). It has **no pivotal categories, no
+symmetric example `FDRep k G` (`RepresentationTheory/FDRep.lean`, whose `RightRigidCategory`
+instance is what Mathlib registers). It has **no pivotal categories, no
 spherical categories, no categorical trace or quantum dimension**, and no cocycle-twisted graded
 category. The file `Rigid/Basic.lean` even carries the standing TODO *"Define pivotal categories
 (rigid categories equipped with a natural isomorphism `ᘁᘁ ≅ 𝟙 C`)."* This roadmap discharges that
@@ -37,7 +38,10 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/Pivotal/` (mirroring Mathlib's
   later refactor shows it earns its keep.
 - **Which dual.** Fix the **right dual** `Xᘁ` as primary throughout (matching `rightDualFunctor` and
   `FDRep`'s `rightDual`). In a rigid category left and right duals both exist; state the left-handed
-  mirror of each definition and relate the two, but pin right duals so signatures do not drift.
+  mirror of each definition and relate the two, but pin right duals so signatures do not drift. The
+  double dual `Xᘁᘁ`, the pivotal structure, and both trace formulas use only right duals, so the Lean
+  definitions are stated over `RightRigidCategory` (which is also all Mathlib registers for `FDRep`);
+  "rigid" below always means the usual two-sided notion, of which this is the right-handed presentation.
 - **The double dual lands back in `C`.** The dual functor is `(-)ᘁ : C ⥤ (Cᵒᵖ)ᴹᵒᵖ` (contravariant,
   `ᵒᵖ`, and tensor-reversing, `ᴹᵒᵖ`). The **double dual** is obtained by applying it twice and then
   transporting along the canonical monoidal equivalences `(Dᵒᵖ)ᵒᵖ ≃ D` and `(Dᴹᵒᵖ)ᴹᵒᵖ ≃ D` to return
@@ -79,10 +83,13 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/Pivotal/` (mirroring Mathlib's
 - **Drinfel'd centre:** `Mathlib/CategoryTheory/Monoidal/Center.lean` — `Center C` (monoidal),
   `braidedCategoryCenter : BraidedCategory (Center C)`, `Center.ofBraided`.
 - **The example `FDRep`:** `Mathlib/RepresentationTheory/FDRep.lean` — `FDRep k G` is a
-  `MonoidalCategory`, and a `RigidCategory` when `G` is a group and `k` a field (via
-  `Mathlib/CategoryTheory/Action/Monoidal.lean`'s `RigidCategory (Action V H)` and
+  `MonoidalCategory`, and a `RightRigidCategory` when `G` is a group and `k` a field (via
+  `Mathlib/CategoryTheory/Action/Monoidal.lean`'s `RightRigidCategory (Action V H)` and
   `Mathlib/Algebra/Category/FGModuleCat/Basic.lean`'s `rightRigidCategory`), with dual-representation
-  lemmas `rightDual_ρ` and `dualTensorIsoLinHom`. `Rep k G` is `SymmetricCategory` (`Rep/Basic.lean`).
+  lemmas `rightDual_ρ` and `dualTensorIsoLinHom`. ⚠ Mathlib registers the **right**-rigid instance;
+  `FDRep k G` is rigid (both sides) mathematically, but the full `RigidCategory` instance is not
+  upstream, so the Lean definitions here are stated over `RightRigidCategory` (right duals suffice for
+  the double dual and both traces). `Rep k G` is `SymmetricCategory` (`Rep/Basic.lean`).
 - **Graded objects:** `Mathlib/CategoryTheory/GradedObject/Monoidal.lean` — a monoidal structure on
   `GradedObject β C`, but with the *untwisted* associator; the cocycle twist for `Vec^ω_G` is built
   here.
@@ -126,8 +133,9 @@ milestones go into `Suggested.lean` (with `sorry`).
   Establish it is a **covariant strong monoidal** endofunctor, and a monoidal equivalence on a rigid
   category. ⚠ On objects `Xᘁᘁ = (Xᘁ)ᘁ` and `ᘁᘁX = X` hold as `rfl`, but the functor's action on
   morphisms and its monoidal coherence come from the two equivalences and are the actual content.
-- **The left double dual `ᘁᘁ(-)`** and the canonical iso `(-)ᘁᘁ ≅ ` (left double dual), so both
-  handednesses are available and pivotal structures can be stated on either.
+- **The left double dual `ᘁᘁ(-)`** and the canonical natural iso `(-)ᘁᘁ ≅ ᘁᘁ(-)` relating the right
+  and left double duals, so both handednesses are available and pivotal structures can be stated on
+  either.
 
 ### Layer 1: pivotal structures
 
@@ -149,10 +157,16 @@ milestones go into `Suggested.lean` (with `sorry`).
 ### Layer 2: traces, dimensions, and spherical categories
 
 - **Left and right trace** of `f : X ⟶ X` in a pivotal category, valued in `End 𝟙_C`
-  (Henriques–Penneys–Tener, §2.1):
-  - `tr_L f = ε_{Xᘁ} ∘ (𝟙_{Xᘁ} ⊗ f) ∘ (𝟙_{Xᘁ} ⊗ φ_X⁻¹) ∘ η_{Xᘁ}` (close the loop on the left using
-    `Xᘁ`), and the mirror
-  - `tr_R f = ε_X ∘ (φ_X ⊗ 𝟙_{Xᘁ}) ∘ (f ⊗ 𝟙_{Xᘁ}) ∘ η_X`.
+  (Henriques–Penneys–Tener, §2.1), written with Mathlib's convention `η_ A B : 𝟙 ⟶ A ⊗ B`,
+  `ε_ A B : B ⊗ A ⟶ 𝟙` (for `[ExactPairing A B]`):
+  - `tr_L f = ε_ X (Xᘁ) ∘ (𝟙_{Xᘁ} ⊗ f) ∘ (𝟙_{Xᘁ} ⊗ φ_X⁻¹) ∘ η_ (Xᘁ) (Xᘁᘁ)` — coevaluate the pair
+    `(Xᘁ, Xᘁᘁ)`, land in `Xᘁ ⊗ X` after `φ_X⁻¹` and `f`, and close with the evaluation `ε_ X (Xᘁ)`
+    of the pair `(X, Xᘁ)`; and the mirror
+  - `tr_R f = ε_ (Xᘁ) (Xᘁᘁ) ∘ (φ_X ⊗ 𝟙_{Xᘁ}) ∘ (f ⊗ 𝟙_{Xᘁ}) ∘ η_ X (Xᘁ)` — land in `Xᘁᘁ ⊗ Xᘁ`
+    after `φ_X`, and close with the evaluation `ε_ (Xᘁ) (Xᘁᘁ)` of the pair `(Xᘁ, Xᘁᘁ)`.
+  ⚠ The closing evaluations differ between the two traces: `tr_L` closes with the evaluation of
+  `(X, Xᘁ)` and `tr_R` with that of `(Xᘁ, Xᘁᘁ)`; keeping them straight is exactly what the Mathlib
+  `η_`/`ε_` typing enforces.
 
   Basic theory (the point of a roadmap — the whole basic API, not just the headline): `ℤ`/`k`-linearity
   where applicable; **cyclicity** `tr_L (g ∘ f) = tr_L (f ∘ g)`; **monoidality**
@@ -186,9 +200,11 @@ milestones go into `Suggested.lean` (with `sorry`).
 
 - **`Vec^ω_G`.** For a group `G`, a field `k`, and a normalized 3-cocycle `ω ∈ Z³(G, kˣ)`, the
   category of `G`-graded finite-dimensional `k`-vector spaces with associator on the simple objects
-  `δ_g` given by multiplication by `ω(g,h,k)`. It is a **pointed fusion category**: simple objects
-  `{δ_g}_{g∈G}`, `δ_g ⊗ δ_h = δ_{gh}`, unit `δ_e`, and rigidity with `δ_gᘁ = δ_{g⁻¹}` (structure maps
-  built from `ω`), so `δ_gᘁᘁ = δ_g`.
+  `δ_g` given by multiplication by `ω(g,h,k)`. It is a **pointed tensor category** — a **fusion**
+  category exactly when `G` is finite: simple objects `{δ_g}_{g∈G}`, `δ_g ⊗ δ_h = δ_{gh}`, unit `δ_e`,
+  and rigidity with `δ_gᘁ = δ_{g⁻¹}` (structure maps built from `ω`), so `δ_gᘁᘁ = δ_g`. The pivotal
+  classification below holds for any `G`; the fusion-level invariants (Frobenius–Perron and global
+  dimension) need `G` finite.
   - Build a **degree-3 cocycle** predicate `IsThreeCocycle ω` and the normalization
     conditions from the general `groupCohomology`/`inhomogeneousCochains` differential (Mathlib's
     bespoke API stops at degree 2); cohomologous cocycles give monoidally equivalent categories.
