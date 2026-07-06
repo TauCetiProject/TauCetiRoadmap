@@ -21,7 +21,9 @@ representatives. The Layer-2 `stepGraphon` / `stepGraphonAvg`, the analytic `gra
 are pinned here too — as are the endpoint milestones: Frieze–Kannan weak regularity,
 compactness/completeness of `GraphonSpaceI`, the coupling↔map `cutDistPullback`, the Layer-6b
 convergence equivalence, finite-graph compatibility (`finiteGraphGraphon`), and quotient-level
-separation.
+separation. The Layer-8 representability targets — `LabeledGraph` / `LabeledGraph.glue`, the graph
+parameter `GraphParam`, its `IsReflectionPositive` / `IsMultiplicative` / `IsNormalized` predicates,
+and `lovasz_szegedy_representability` (the four-condition iff) — are pinned here too.
 
 Objects whose precise Lean shape would force a premature API choice — the weak-regularity
 `Finpartition` adapter and the exact mod-null transport bundle — are described in `README.md` instead.
@@ -488,5 +490,42 @@ the empty target `m = 0`). -/
 theorem homDensity_finiteGraphGraphon {V : Type*} [Fintype V] [DecidableEq V] (F : SimpleGraph V)
     [DecidableRel F.Adj] {m : ℕ} (hm : 0 < m) (G : SimpleGraph (Fin m)) :
     homDensity (volume : Measure I) F (finiteGraphGraphon G) = homDensityFin F G := sorry
+
+/-- **Layer 8a (k-labeled graph).** A finite simple graph with an ordered `k`-tuple of labeled
+vertices — the objects of the gluing algebra behind connection matrices. -/
+structure LabeledGraph (k : ℕ) where
+  n : ℕ
+  graph : SimpleGraph (Fin n)
+  label : Fin k → Fin n
+
+/-- **Layer 8a (gluing).** Glue two `k`-labeled graphs by identifying corresponding labeled vertices,
+yielding a finite simple graph (the unlabeled result). -/
+def LabeledGraph.glue {k : ℕ} (G₁ G₂ : LabeledGraph k) : Σ m, SimpleGraph (Fin m) := sorry
+
+/-- **Layer 8 (graph parameter).** An isomorphism-invariant real-valued parameter of finite simple
+graphs (indexed over `Fin`-representatives). -/
+abbrev GraphParam := (n : ℕ) → SimpleGraph (Fin n) → ℝ
+
+/-- **Layer 8a (reflection positivity).** `f` is reflection-positive when, for every `k`, the
+**connection matrix** `M(f, k)` — indexed by `k`-labeled graphs, with entry `f(G₁.glue G₂)` — is
+positive semidefinite (equivalently, every finite principal submatrix is PSD). Built here; connection
+matrices are not in Mathlib. -/
+def IsReflectionPositive (f : GraphParam) : Prop := sorry
+
+/-- **Layer 8 (multiplicativity).** `f(F₁ ⊔ F₂) = f(F₁) · f(F₂)` over disjoint unions. -/
+def IsMultiplicative (f : GraphParam) : Prop := sorry
+
+/-- **Layer 8 (normalization).** `f(K₁) = 1` on the one-vertex graph. -/
+def IsNormalized (f : GraphParam) : Prop := sorry
+
+/-- **Layer 8b (Lovász–Szegedy representability — LNGL Thm 5.54).** A graph parameter equals
+`t(·, W)` for some graphon iff it is multiplicative, normalized, reflection-positive, and
+`[0,1]`-bounded. Grounded on the reflection-positivity development (8a) above — not a leap. -/
+theorem lovasz_szegedy_representability (f : GraphParam) :
+    (∃ (Ω : Type) (_ : MeasurableSpace Ω) (μ : Measure Ω) (_ : IsProbabilityMeasure μ)
+        (W : Graphon Ω μ),
+        ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj], f n F = homDensity μ F W)
+      ↔ IsMultiplicative f ∧ IsNormalized f ∧ IsReflectionPositive f
+        ∧ (∀ (n : ℕ) (F : SimpleGraph (Fin n)), f n F ∈ Set.Icc (0 : ℝ) 1) := sorry
 
 end TauCetiRoadmap.DenseGraphLimits

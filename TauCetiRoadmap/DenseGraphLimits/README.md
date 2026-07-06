@@ -22,9 +22,9 @@ it; each object gets its complete basic API.
 
 ## Conventions (pinned up front)
 
-Decided now so contributors don't oscillate between incompatible designs. Extended rationale for
-the carrier and cut-distance choices is in two design notes in the
-[`math-commons/graphons`](https://github.com/math-commons/graphons/tree/main/docs) repo.
+Decided now so contributors don't oscillate between incompatible designs. The rationale for the two
+load-bearing choices — coupling-primary `cutDist` (#2) and the strict carrier (#1) — is spelled out
+in *Why these two choices* below.
 
 1. **Carrier — strict measurable function, quotient on top.** A graphon is an honest
    `W : Ω → Ω → ℝ` on a probability space `(Ω, μ)`, symmetric / measurable / `[0,1]`-valued
@@ -59,6 +59,28 @@ the carrier and cut-distance choices is in two design notes in the
    are **structures**, `IsCoupling` is a **named `Prop`** (deliberately not a structure or typeclass —
    a coupling of given marginals is not canonical), `GraphonSpace` is a **quotient type**, and the
    measurable `Finpartition` adapter is a thin wrapper.
+
+**Why these two choices** (the two that most shape the API; the others are local):
+
+- *Coupling-primary `cutDist` (#2).* Cut distance has two equivalent forms — the **coupling** form
+  (infimum, over couplings of the two carriers, of the cut norm of the overlaid difference) and the
+  classical **measure-preserving-map** form (infimum, over m.p. maps into a common carrier, of the
+  pulled-back difference). We pin the coupling form as primary because it is **cross-carrier and
+  symmetric by construction**: it is well-defined for graphons on *arbitrary* probability spaces,
+  needs no common carrier and no standard-Borel/atomless hypothesis even to be *stated*, and its
+  triangle inequality is exactly the gluing lemma. The map form is not more general — it **equals**
+  the coupling form under atomless standard-Borel hypotheses (Layer 5, `cutDist_eq_cutDistPullback`)
+  — so making it primary would only bake those hypotheses and a common carrier into the basic object,
+  crippling the cross-carrier API that the compactness, separation, and convergence layers rest on.
+- *Strict carrier (#1).* We carry a graphon as an honest everywhere-defined `W : Ω → Ω → ℝ` and take
+  the a.e./weak-isomorphism identification **once**, at `GraphonSpace`, rather than as an `AEEqFun`
+  class from the start. The strict kernel is a **pointwise `ℝ`-module**, so `U − W` and `c • W` are
+  *literal* kernels — exactly the objects the cut norm acts on and the counting-lemma differences
+  need — whereas an `AEEqFun` carrier turns each into an a.e. class and forces a.e. bookkeeping
+  through Layers 1–2. Construction and finite/small-graph computation stay representative-based and
+  concrete; the `AEEqFun` view is delivered only where it is first needed — the conditional-expectation
+  / martingale arguments of compactness — as the named Layer-3 bridge. So the a.e. picture enters in
+  exactly one place instead of pervading the whole development.
 
 **Status bar.** Everything here must land in `TauCeti/` `sorry`-free and with no axioms beyond
 `propext`, `Classical.choice`, `Quot.sound` (`TauCeti/AGENTS.md`). The roadmap states the goals
@@ -238,11 +260,22 @@ the W-random sampling-expectation lemma `E[t(F, G(n,W))] → t(F,W)`, and concre
 checks. These keep the definitions honest and give visible checkpoints before the deeper layers
 close.
 
-### Layer 8 — Lovász–Szegedy representability
-A graph parameter equals `t(·, W)` for some graphon iff it is multiplicative, normalized,
-reflection-positive, and `[0,1]`-bounded (LNGL Thm 5.54 / the moment problem for graphs). Best
-proved in coordination with a reflection-positivity development rather than re-derived here; it
-is sequenced late because it depends on that material, and it is required work.
+### Layer 8a — quantum graphs and reflection positivity
+The gluing algebra behind the representability theorem, **built here** (connection matrices are not
+in Mathlib). A `k`-**labeled graph** `LabeledGraph k` is a finite simple graph with an ordered
+`k`-tuple of labeled vertices; `LabeledGraph.glue` glues two of them by identifying corresponding
+labels. For a graph parameter `f : GraphParam` — an isomorphism-invariant real parameter of finite
+simple graphs — and each `k`, the **connection matrix** `M(f, k)` is indexed by `k`-labeled graphs
+with entry `f(G₁.glue G₂)`; `f` is **reflection-positive** (`IsReflectionPositive`) when every
+`M(f, k)` is positive semidefinite. Together with `IsMultiplicative` (over disjoint unions) and
+`IsNormalized` (`f(K₁) = 1`), these are the structural hypotheses of the characterization.
+
+### Layer 8b — Lovász–Szegedy representability
+`lovasz_szegedy_representability`: a graph parameter equals `t(·, W)` for some graphon **iff** it is
+multiplicative, normalized, reflection-positive, and `[0,1]`-bounded (LNGL Thm 5.54 / the moment
+problem for graphs). Grounded on the reflection-positivity development of Layer 8a above — a target
+built here, not a re-derivation deferred to external material. Sequenced late because it depends on
+Layer 8a, and it is required work.
 
 ### Layer 9 — sampling and exchangeable arrays
 The `W`-random graph law `sampleGraph W n` (a probability measure on `SimpleGraph (Fin n)`, on the
@@ -303,7 +336,10 @@ milestones** — Frieze–Kannan `weak_regularity_frieze_kannan`, compactness/co
 `cutDist_eq_cutDistPullback`, the Layer-6b convergence equivalence
 `tendsto_graphonSpace_iff_forall_homDensity` (+ `continuous_homDensityOnSpace`), finite-graph
 compatibility `finiteGraphGraphon` + `homDensity_finiteGraphGraphon` (with `0 < m`), and the
-quotient-level separation `graphonSpace_ext_homDensity`. Described in prose rather than pinned (to
+quotient-level separation `graphonSpace_ext_homDensity`; and the **Layer-8 representability** targets
+`LabeledGraph` + `LabeledGraph.glue`, the graph parameter `GraphParam`, its `IsReflectionPositive` /
+`IsMultiplicative` / `IsNormalized` predicates, and the four-condition iff
+`lovasz_szegedy_representability`. Described in prose rather than pinned (to
 avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape and the exact
 mod-null transport bundle. An `IsCoupling` *structure/class* is **deliberately not** introduced — a
 coupling of given marginals is not canonical, so typeclass resolution would pick an arbitrary one; the
@@ -396,6 +432,9 @@ The mathematics and proof routes draw on two prior Lean developments,
 - Are the **endpoint milestones** pinned as targets — FK weak regularity, `CompactSpace`/`CompleteSpace
   GraphonSpaceI`, `cutDistPullback` ↔ `cutDist`, the Layer-6b convergence equivalence, finite-graph
   compatibility (with `0 < m`), and quotient-level separation?
+- Is Layer 8 pinned as a real target here — reflection positivity (`LabeledGraph` / `LabeledGraph.glue`
+  / `IsReflectionPositive`) and `lovasz_szegedy_representability` — rather than deferred to an external
+  reflection-positivity development?
 - Is `IsCoupling` a named `Prop` (not a structure/typeclass), matching the vocabulary and docstring?
 - Is the injective density `t₀` normalized by the falling factorial `(n)_k`, **never** `Nat.choose n k`?
 - Do the computed-value backstops hold (`t(K₂, W_{K₄}) = 3/4`, `t(K₃, W_{C₅}) = 0`, `t(F, W_p) = p^{e(F)}`)?
