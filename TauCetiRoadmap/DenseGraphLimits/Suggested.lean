@@ -511,7 +511,9 @@ abbrev GraphParam := (n : ℕ) → SimpleGraph (Fin n) → ℝ
 
 /-- **Layer 8 (isomorphism invariance).** `f` agrees on isomorphic graphs — the standing hypothesis
 that makes `f` a genuine graph parameter rather than a labelling-sensitive function on `Fin n`. -/
-def IsIsoInvariant (f : GraphParam) : Prop := sorry
+def IsIsoInvariant (f : GraphParam) : Prop :=
+  ∀ (n₁ n₂ : ℕ) (F₁ : SimpleGraph (Fin n₁)) (F₂ : SimpleGraph (Fin n₂)),
+    Nonempty (F₁ ≃g F₂) → f n₁ F₁ = f n₂ F₂
 
 /-- **Layer 8a (connection matrix).** For a finite family `A : ι → LabeledGraph k` of `k`-labeled
 graphs, the `ι × ι` matrix whose `(i, j)` entry is `f` on the glued graph of `A i` and `A j` (pinned
@@ -528,15 +530,21 @@ theorem connectionMatrix_apply (f : GraphParam) {k : ℕ} {ι : Type*} [Fintype 
 
 /-- **Layer 8a (reflection positivity).** `f` is reflection-positive when every finite connection
 matrix is positive semidefinite — i.e. every finite principal block of each `M(f, k)` is PSD. Stated
-over finite index families (in any universe) rather than as one infinite matrix. -/
+over `Fin n`-indexed families, matching the roadmap's `Fin`-representative convention (any finite `ι`
+reindexes to `Fin (Fintype.card ι)` with positive semidefiniteness preserved). -/
 def IsReflectionPositive (f : GraphParam) : Prop :=
-  ∀ (k : ℕ) {ι : Type*} [Fintype ι] (A : ι → LabeledGraph k), (connectionMatrix f A).PosSemidef
+  ∀ (k n : ℕ) (A : Fin n → LabeledGraph k), (connectionMatrix f A).PosSemidef
 
-/-- **Layer 8 (multiplicativity).** `f(F₁ ⊔ F₂) = f(F₁) · f(F₂)` over disjoint unions. -/
-def IsMultiplicative (f : GraphParam) : Prop := sorry
+/-- **Layer 8 (multiplicativity).** `f` is multiplicative over disjoint unions:
+`f (F₁ ⊕g F₂) = f F₁ * f F₂`, with the disjoint union reindexed to `Fin (n₁ + n₂)` along
+`finSumFinEquiv` to stay on `Fin`-representatives. -/
+def IsMultiplicative (f : GraphParam) : Prop :=
+  ∀ (n₁ n₂ : ℕ) (F₁ : SimpleGraph (Fin n₁)) (F₂ : SimpleGraph (Fin n₂)),
+    f (n₁ + n₂) ((F₁ ⊕g F₂).map finSumFinEquiv.toEmbedding) = f n₁ F₁ * f n₂ F₂
 
-/-- **Layer 8 (normalization).** `f(K₁) = 1` on the one-vertex graph. -/
-def IsNormalized (f : GraphParam) : Prop := sorry
+/-- **Layer 8 (normalization).** `f K₁ = 1` — the value on the one-vertex graph
+`(⊥ : SimpleGraph (Fin 1))`. -/
+def IsNormalized (f : GraphParam) : Prop := f 1 ⊥ = 1
 
 /-- **Layer 8b (Lovász–Szegedy representability — LNGL Thm 5.54).** A graph parameter equals
 `t(·, W)` for some graphon on the canonical carrier `(I, volume)` iff it is isomorphism-invariant,

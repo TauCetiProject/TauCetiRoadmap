@@ -266,13 +266,16 @@ The gluing algebra behind the representability theorem, **built here** (connecti
 in Mathlib). A `k`-**labeled graph** `LabeledGraph k` is a finite simple graph with an ordered
 `k`-tuple of *distinct* labeled vertices (labels injective); `LabeledGraph.glue` glues two of them by
 identifying corresponding labels. For a graph parameter `f : GraphParam` — a real parameter of finite
-simple graphs, with isomorphism invariance imposed separately as `IsIsoInvariant` — and a finite
-family `A : ι → LabeledGraph k`, `connectionMatrix f A` is the `ι × ι` matrix with entry
-`f(A i glue A j)`, a finite principal block of the full connection matrix `M(f, k)`. `f` is
+simple graphs, with isomorphism invariance imposed separately as `IsIsoInvariant` (agreement along
+`≃g`) — and a finite family `A : ι → LabeledGraph k`, `connectionMatrix f A` is the `ι × ι` matrix
+with entry `f(A i glue A j)`, a finite principal block of the full connection matrix `M(f, k)`. `f` is
 **reflection-positive** (`IsReflectionPositive`) when every such finite connection matrix is positive
-semidefinite — stated over finite index families, not as one infinite matrix. Together with
-`IsMultiplicative` (over disjoint unions) and `IsNormalized` (`f(K₁) = 1`), these are the structural
-hypotheses of the characterization.
+semidefinite — stated over `Fin n`-indexed families (the roadmap's `Fin`-representative convention;
+any finite `ι` reindexes with PSD preserved), not as one infinite matrix. Together with
+`IsMultiplicative` (over disjoint unions, `⊕g` reindexed to `Fin (n₁ + n₂)` along `finSumFinEquiv`)
+and `IsNormalized` (`f(K₁) = 1` on `⊥ : SimpleGraph (Fin 1)`), these are the structural hypotheses of
+the characterization — each **defined outright** (a `Prop` with a real body, never `Prop := sorry`,
+which would assert nothing).
 
 ### Layer 8b — Lovász–Szegedy representability
 `lovasz_szegedy_representability`: a graph parameter equals `t(·, W)` for a graphon `W` on the
@@ -440,9 +443,12 @@ The mathematics and proof routes draw on two prior Lean developments,
   GraphonSpaceI`, `cutDistPullback` ↔ `cutDist`, the Layer-6b convergence equivalence, finite-graph
   compatibility (with `0 < m`), and quotient-level separation?
 - Is Layer 8 pinned as a real target here — injective-label `LabeledGraph` / `LabeledGraph.glue`, the
-  finite `connectionMatrix` / `IsReflectionPositive` (finite principal blocks PSD, not one infinite
-  matrix), and `lovasz_szegedy_representability` (with `IsIsoInvariant` among its hypotheses, over the
-  canonical `(I, volume)` carrier) — rather than deferred to an external reflection-positivity development?
+  finite `connectionMatrix` / `IsReflectionPositive` (finite principal blocks PSD over `Fin n` families,
+  not one infinite matrix), and `lovasz_szegedy_representability` (with `IsIsoInvariant` among its
+  hypotheses, over the canonical `(I, volume)` carrier) — rather than deferred to an external
+  reflection-positivity development?
+- Do the structural predicates (`IsIsoInvariant` / `IsMultiplicative` / `IsNormalized` /
+  `IsReflectionPositive`) carry real bodies — never `def … : Prop := sorry`, which asserts nothing?
 - Is `IsCoupling` a named `Prop` (not a structure/typeclass), matching the vocabulary and docstring?
 - Is the injective density `t₀` normalized by the falling factorial `(n)_k`, **never** `Nat.choose n k`?
 - Do the computed-value backstops hold (`t(K₂, W_{K₄}) = 3/4`, `t(K₃, W_{C₅}) = 0`, `t(F, W_p) = p^{e(F)}`)?
