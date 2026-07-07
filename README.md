@@ -89,9 +89,9 @@ reviewers, can act on it without guessing.
   Lean files using `sorry`. The prototypes are aids, not the specification: the markdown stays
   definitive, and `Suggested.lean` is read as suggested forms, never as an exhaustive checklist —
   open each `Suggested.lean` with the standard note saying so. Use `sorry` honestly: a condition you
-  cannot yet even *state* (its Mathlib API doesn't exist) is still a `sorry`, never a field of type
-  `Prop` — a `Prop` field can be satisfied by any proposition, so an instance can fill it with `True`
-  and the condition asserts nothing.
+  cannot yet even *state* (its Mathlib API doesn't exist) is still a `sorry`, never a `Prop`-typed
+  field or a `def _ : Prop := sorry`. Both assert nothing (a `Prop` field is satisfiable by `True`;
+  a `sorry` body is `sorryAx Prop`), so omit a condition you cannot state rather than name an empty one.
 
 - **Pin conventions.** It's essential that you decide conventions ahead of time, or implementors
   will make bad decisions.

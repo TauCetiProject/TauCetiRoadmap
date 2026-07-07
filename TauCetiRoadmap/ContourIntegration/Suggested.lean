@@ -100,10 +100,11 @@ def IsNullHomologous (γ : ℝ → ℂ) (a b : ℝ) (Ω : Set ℂ) : Prop :=
   ∀ w ∉ Ω, windingNumber γ a b w = 0
 
 /-- HW condition **(A′)**: the cycle `γ` approaches each on-cycle singularity in `S` transversally,
-meeting it as a finite union of model sectors with a prescribed pole order (HW §3). One of the two
-regularity conditions that make the principal value exist; stated explicitly so the summit is
-honest. -/
-def ConditionAprime (γ : ℝ → ℂ) (a b : ℝ) (S : Finset ℂ) : Prop := sorry
+meeting it as a finite union of model sectors, **flat of order equal to the order of `f`'s pole
+there** (HW §3). One of the two regularity conditions that make the principal value exist; stated
+explicitly so the summit is honest. The prescribed pole orders come from `f` (read off by
+`meromorphicOrderAt`), so `f` is part of the data: the point set `S` alone cannot supply them. -/
+def ConditionAprime (γ : ℝ → ℂ) (a b : ℝ) (f : ℂ → ℂ) (S : Finset ℂ) : Prop := sorry
 
 /-- HW condition **(B)**: the higher-order Laurent principal parts cancel under the
 sector-cancellation identity at each on-cycle singularity, so the principal value exists for poles of
@@ -223,7 +224,7 @@ theorem hungerbuhlerWasem_residueTheorem {f : ℂ → ℂ} {U : Set ℂ} (hU : I
     (hf : DifferentiableOn ℂ f (U \ (S : Set ℂ)))
     (hmero : ∀ s ∈ S, MeromorphicAt f s)
     (hnull : IsNullHomologous γ a b U)
-    (hA : ConditionAprime γ a b S) (hB : ConditionB γ a b f) :
+    (hA : ConditionAprime γ a b f S) (hB : ConditionB γ a b f) :
     HasCauchyPV γ a b f
       (2 * (Real.pi : ℂ) * Complex.I * (∑ s ∈ S, windingNumber γ a b s * residue f s)) :=
   sorry
