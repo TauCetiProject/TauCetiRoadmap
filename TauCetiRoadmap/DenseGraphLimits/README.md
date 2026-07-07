@@ -410,11 +410,12 @@ the already-formalized parts and treating the open parts as goals to be discharg
 Already-formalized (modulo the above) and therefore migration-first: Layers 0–2 and 7. Open and
 therefore discharge-targets: Layers 4, 5, 6, 8 (and 9).
 
-Earliest community pointer in this direction: in the October 2021 Lean Zulip thread on the
+An early community pointer in this direction: in the October 2021 Lean Zulip thread on the
 Dillies–Mehta Szemerédi-regularity formalization (see References), Mauricio Collares flagged the
 sequel — "one application of SzRL is to show that the 'space of graphons with the cut norm is
 compact'", pointing to §5 of Lovász–Szegedy's *Szemerédi's Lemma for the Analyst*
-([message](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Szemer.C3.A9di.20Regularity.20Lemma/near/258448218)).
+([message](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Szemer.C3.A9di.20Regularity.20Lemma/near/258448218);
+[public archive](https://leanprover-community.github.io/archive/stream/113488-general/topic/Szemer.C3.A9di.20Regularity.20Lemma.html#258448218)).
 That regularity development is now Mathlib's `Combinatorics/SimpleGraph/Regularity` (with the
 triangle counting/removal lemmas), consumed above rather than rebuilt; the compactness it flagged
 is Layer 4's `CompactSpace GraphonSpaceI`.
