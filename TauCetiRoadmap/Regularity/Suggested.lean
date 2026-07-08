@@ -137,8 +137,10 @@ palette `κ₂`. -/
 structure PairColorSystem (κ₂ : Type*) (V : Type*) where
   color : V → V → κ₂
 
-/-- **Layer 5.** A sub-cell-pair: a cell pair `(s, t)` together with sub-cells `(s', t')`. Regularity
-of a pair-color system is tested against these, not arbitrary subsets. -/
+/-- **Layer 5.** A cell pair `(s, t)` with distinguished large sub-cells `(s', t')` — structurally
+four finsets with `s' ⊆ s` and `t' ⊆ t`. The intended use binds `s, t` to a skeleton's vertex cells
+(and `s', t'` to sub-cells); that binding is a later invariant, not enforced by this structure.
+Regularity is tested against these distinguished sub-cells rather than arbitrary subsets. -/
 structure SubCellPair (V : Type*) where
   s : Finset V
   t : Finset V
@@ -174,8 +176,9 @@ def LowerSkeletonRegular (S : PairSkeleton3 κ₂ V) (F : ℕ → ℝ) : Prop :=
 
 /-- **Layer 6.** A polyad over three vertex cells: the cells `c₀ c₁ c₂` and a support of
 **role-ordered, injective** triples (each `Fin 3` coordinate a fixed role, injective ⇒ no diagonals),
-each lying in the corresponding cells. Normalization to one representative per role-assignment is a
-convention on how `support` is populated, so orderings are not overcounted. -/
+each lying in the corresponding cells. Normalization to one representative per role-assignment (so
+orderings are not overcounted) is a **later invariant**, not enforced by this structure — a
+normalization field can be added when a counting milestone makes it load-bearing. -/
 structure Polyad3 (V : Type*) [DecidableEq V] where
   c₀ : Finset V
   c₁ : Finset V
@@ -238,7 +241,9 @@ def Approximates3 (H : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₂ κ₃ V
 open Classical in
 /-- **Layer 8.** The support-weighted mass of `C`'s polyads over which `H` fails to be `η`-top-regular.
 Top regularity is of the original `H` **relative to** `C`'s polyad decomposition (`IsTopRegularOverPolyad`
-composes directly); counting is of `H`, and `C`↔`H` fidelity is `Approximates3`. -/
+composes directly); counting is of `H`, and `C`↔`H` fidelity is `Approximates3`. **Convention:** with
+no polyads or all-empty supports the denominator is `0` and the mass is `0` (Lean's `_ / 0 = 0`);
+substantive statements assume positive total support. -/
 def exceptionalPolyadMass (H : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₂ κ₃ V) (η : ℝ) : ℝ :=
   (∑ P ∈ C.polyads, if IsTopRegularOverPolyad H P η then (0 : ℝ) else (P.support.card : ℝ)) /
     (∑ P ∈ C.polyads, (P.support.card : ℝ))
