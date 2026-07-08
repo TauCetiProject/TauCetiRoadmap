@@ -139,7 +139,7 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 
 ### Layer 6 — triads, polyads, subpolyads, relative densities
 - **Consume.** Layer 5.
-- **Build.** `Polyad3` (three cells + a support of **role-ordered, injective** triples, normalized to one representative per role-assignment, each in the corresponding cells); `Subpolyad3` and `Subpolyad3.toPolyad`; the **color-indexed** `relativeDensity` (reading the top color through the *underlying unordered triple*, so ordering never affects the color).
+- **Build.** `Polyad3` (three cells + a support of **role-ordered, injective** triples, each in the corresponding cells; normalization to one representative per role-assignment is a later invariant, not enforced by the v1 structure); `Subpolyad3` and `Subpolyad3.toPolyad`; the **color-indexed** `relativeDensity` (reading the top color through the *underlying unordered triple*, so ordering never affects the color).
 - **Gate.** The 3-uniform worked example computes a relative triple density over a triad and over a subpolyad.
 
 ### Layer 7 — top-layer regularity over polyads
@@ -227,8 +227,9 @@ representation theorem.
   partition satisfies)?
 - Are hypergraph complexes, cells, polyads, subpolyads, and relative densities **real targets**, not
   hidden inside the summit theorem? Is top regularity tested against **subpolyads**, not arbitrary
-  triple-subsets, and are polyad supports **injective** (no diagonals) and role-ordered (no
-  overcounting)?
+  triple-subsets, and are polyad supports **injective** (no diagonals) and role-ordered (with
+  normalization to one representative per role-assignment flagged as a later invariant, not
+  overclaimed as enforced)?
 - Are top relations a **total unordered** coloring with a **separate** pair palette `κ₂` / top palette
   `κ₃`, and are relative densities / top regularity **color-indexed**?
 - Are error hierarchies explicit `F : ℕ → ℝ` with the evaluation argument pinned (`#vertex-cells`,
