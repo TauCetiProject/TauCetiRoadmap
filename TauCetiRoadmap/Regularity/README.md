@@ -137,7 +137,7 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 
 ### Layer 5 — hypergraph complexes; vertex cells and pair-color systems
 - **Consume.** `Finpartition`, Layer 1.
-- **Build.** `HypergraphComplex` (faces / `face_card` / `down_closed`); the `PairColorSystem κ₂ V` — a coloring of ordered **distinct** vertex pairs (`{p : V × V // p.1 ≠ p.2} → κ₂`; diagonals excluded, matching the injective top supports), with the total `colorOfPair : V → V → Option κ₂` view; its sub-cell restrictions `SubCellPair`; `pairColorDensity` (over distinct pairs, `_ / 0 = 0` when none); `IsPairColorRegular` (quantified over `SubCellPair`, not arbitrary subsets); the lower skeleton `PairSkeleton3 κ₂ V`; and `LowerSkeletonRegular` (with `F` at `#vertex-cells`). The whole lower-skeleton regularity API is built here so Layer 8 consumes real defs — no jump from "pair-color system" to "lower skeleton regular".
+- **Build.** `HypergraphComplex` (faces / `face_card` / `down_closed`); the `PairColorSystem κ₂ V` — a coloring of ordered **distinct** vertex pairs (`{p : V × V // p.1 ≠ p.2} → κ₂`; diagonals excluded, matching the injective top supports), with the total `colorOfPair : V → V → Option κ₂` view; `pairColorDensity` (over distinct pairs, `_ / 0 = 0` when none); the lower skeleton `PairSkeleton3 κ₂ V`; a **skeleton-relative** `IsPairColorRegular S ε` (quantifying over ordered pairs of actual vertex cells `A, B ∈ S.vertexPart.parts` and large sub-cells `A' ⊆ A`, `B' ⊆ B` — not arbitrary finsets, so pair regularity is genuinely tied to the skeleton); and `LowerSkeletonRegular` (with `F` at `#vertex-cells`). The whole lower-skeleton regularity API is built here so Layer 8 consumes real defs — no jump from "pair-color system" to "lower skeleton regular".
 - **Gate.** `r = 2` interfaces coherently with the graph layer (the bare down-closed complex does not by itself reconstruct the partition/cell machinery; the colored/cell object is what specializes); labeled copies of a fixed complex are definable.
 
 ### Layer 6 — triads, polyads, subpolyads, relative densities
@@ -216,8 +216,9 @@ representation theorem.
 ## Reviewer checklist
 
 - Does every later object have a construction layer before it is used (e.g. `PairSkeleton3` before
-  `LowerSkeletonRegular`; `SubCellPair` before `IsPairColorRegular`; `Polyad3` before
-  `TriadicComplex3`)?
+  `IsPairColorRegular` / `LowerSkeletonRegular`; `Polyad3` before `TriadicComplex3`)?
+- Is pair regularity **skeleton-relative** — `IsPairColorRegular S ε` quantifying over ordered pairs
+  of actual vertex cells `A, B ∈ S.vertexPart.parts` and their sub-cells, not arbitrary finsets?
 - Are graphons, cut norm, cut distance, and Frieze–Kannan **consumed** from the dense graph limits
   roadmap rather than redefined here?
 - Does the roadmap use `SimpleGraph`, `Finpartition (univ)`, `IsUniform`, and the Mathlib regularity

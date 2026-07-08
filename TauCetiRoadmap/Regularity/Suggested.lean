@@ -145,18 +145,6 @@ densities and polyad conditions be stated without threading an `≠` proof. -/
 def PairColorSystem.colorOfPair (S : PairColorSystem κ₂ V) (u v : V) : Option κ₂ :=
   if h : u ≠ v then some (S.color ⟨(u, v), h⟩) else none
 
-/-- **Layer 5.** A cell pair `(s, t)` with distinguished large sub-cells `(s', t')` — structurally
-four finsets with `s' ⊆ s` and `t' ⊆ t`. The intended use binds `s, t` to a skeleton's vertex cells
-(and `s', t'` to sub-cells); that binding is a later invariant, not enforced by this structure.
-Regularity is tested against these distinguished sub-cells rather than arbitrary subsets. -/
-structure SubCellPair (V : Type*) where
-  s : Finset V
-  t : Finset V
-  s' : Finset V
-  t' : Finset V
-  hs : s' ⊆ s
-  ht : t' ⊆ t
-
 /-- **Layer 5.** The density of pair-color `c` over the ordered cell pair `(s, t)`, among the
 **distinct** ordered pairs. Convention: the density is `0` when there are no distinct pairs
 (`_ / 0 = 0`); substantive lemmas assume a positive denominator. -/
@@ -164,24 +152,25 @@ def pairColorDensity (S : PairColorSystem κ₂ V) (c : κ₂) (s t : Finset V) 
   (((s ×ˢ t).filter (fun p => S.colorOfPair p.1 p.2 = some c)).card : ℚ) /
     (((s ×ˢ t).filter (fun p => p.1 ≠ p.2)).card : ℚ)
 
-/-- **Layer 5.** A pair-color system is regular when, for every color and every sub-cell-pair with
-large enough sub-cells, the per-color density is stable. Quantified over `SubCellPair`, not arbitrary
-subsets. -/
-def IsPairColorRegular (S : PairColorSystem κ₂ V) (ε : ℝ) : Prop :=
-  ∀ (c : κ₂) (D : SubCellPair V),
-    ε * (D.s.card : ℝ) ≤ D.s'.card → ε * (D.t.card : ℝ) ≤ D.t'.card →
-      |(pairColorDensity S c D.s' D.t' : ℝ) - (pairColorDensity S c D.s D.t : ℝ)| ≤ ε
-
 /-- **Layer 5.** The lower skeleton of a triadic complex: a vertex partition together with a
 pair-color system. Built here — **not** on `TriadicComplex3`, which does not exist until Layer 8. -/
 structure PairSkeleton3 (κ₂ : Type*) (V : Type*) [Fintype V] [DecidableEq V] where
   vertexPart : Finpartition (univ : Finset V)
   pairColors : PairColorSystem κ₂ V
 
-/-- **Layer 5.** The lower skeleton is regular when its pair-color system is `F`-regular, with `F`
-evaluated explicitly at the number of vertex cells (no hidden error-hierarchy choice). -/
+/-- **Layer 5.** The lower skeleton is `ε`-regular: **skeleton-relative** — for every color and every
+ordered pair of **vertex cells** `A, B ∈ S.vertexPart.parts`, the per-color pair density is stable on
+large enough sub-cells `A' ⊆ A`, `B' ⊆ B`. Quantifying over the actual cells (not arbitrary finsets)
+is what ties pair regularity to the skeleton. -/
+def IsPairColorRegular (S : PairSkeleton3 κ₂ V) (ε : ℝ) : Prop :=
+  ∀ (c : κ₂), ∀ A ∈ S.vertexPart.parts, ∀ B ∈ S.vertexPart.parts, ∀ A' ⊆ A, ∀ B' ⊆ B,
+    ε * (A.card : ℝ) ≤ A'.card → ε * (B.card : ℝ) ≤ B'.card →
+      |(pairColorDensity S.pairColors c A' B' : ℝ) - (pairColorDensity S.pairColors c A B : ℝ)| ≤ ε
+
+/-- **Layer 5.** The lower skeleton is regular when it is `F`-regular, with `F` evaluated explicitly at
+the number of vertex cells (no hidden error-hierarchy choice). -/
 def LowerSkeletonRegular (S : PairSkeleton3 κ₂ V) (F : ℕ → ℝ) : Prop :=
-  IsPairColorRegular S.pairColors (F S.vertexPart.parts.card)
+  IsPairColorRegular S (F S.vertexPart.parts.card)
 
 /-! ### Layer 6 — triads, polyads, subpolyads, relative densities -/
 
