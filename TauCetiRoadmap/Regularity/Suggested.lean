@@ -324,14 +324,28 @@ definition is a target). -/
 def expectedInducedCount (H : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) : ℝ := sorry
 
-/-- **Layer 9 (local counting summit).** Induced counting: the induced copy count of a fixed pattern
-`F₀` on `k` vertices is close to the count predicted by a strong regular approximation, at the scale
-`|V|^k`. (A part-respecting/placed-pattern version — summing over placements into the polyads — is the
-finer local statement this global one is assembled from; see `README.md`.) Induced-removal-style
-corollaries are downstream consumers, not part of the roadmap's summit. -/
+/-- **Layer 9.** The regularity parameter that suffices for induced counting: how strong an
+approximation is needed, as a function of the top palette size `q₃`, the pattern size `k`, and the
+target counting error `ε` — manifestly independent of `V` (explicit value is a target). The counting
+error and the regularity parameter cannot be the same `ε`: counting needs the local regularity to be
+small in terms of the error, the pattern, and the palette. -/
+def inducedCountingParameter3 (q₃ k : ℕ) (ε : ℝ) : ℝ := sorry
+
+/-- **Layer 9.** Positivity of the counting parameter (part of the target). -/
+theorem inducedCountingParameter3_pos (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) :
+    0 < inducedCountingParameter3 q₃ k ε := sorry
+
+/-- **Layer 9 (local counting summit).** Induced counting: if `C` is a strong regular approximation
+of `H` at the (`V`-independent) parameter `inducedCountingParameter3 q₃ F₀.k ε`, then the induced copy
+count of the fixed pattern `F₀` on `k` vertices is within `ε · |V|^k` of the predicted count. (A
+part-respecting/placed-pattern version — summing over placements into the polyads — is the finer local
+statement this global one is assembled from; see `README.md`.) Induced-removal-style corollaries are
+downstream consumers, not part of the roadmap's summit. -/
 theorem induced_counting_from_strong_regular_complex3 (H : Colored3Graph κ₃ V)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
-    (hreg : IsStrongRegularApproximation3 H C ε (fun _ => ε)) :
+    (hreg : IsStrongRegularApproximation3 H C
+      (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
+      (fun _ => inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)) :
     |((H.inducedCopyCount F₀ : ℝ)) - expectedInducedCount H C F₀| ≤
       ε * (Fintype.card V : ℝ) ^ F₀.k :=
   sorry
