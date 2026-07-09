@@ -142,7 +142,7 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 
 ### Layer 6 — triads, polyads, subpolyads, relative densities
 - **Consume.** Layer 5.
-- **Build.** `Polyad3 S` **over a lower skeleton `S`** — three vertex cells (each a part of `S.vertexPart`), the three pair colors on the coordinate pairs, and the support of role-ordered injective triples pinned by `mem_support_iff` to those cells *and* pair colors (so a polyad is determined by cells + lower pair colors, **not** an arbitrary support finset); `Subpolyad3 P` as a genuine **lower-skeleton restriction** (sub-cells `⊆ P`'s cells, support = `P.support` restricted to them); `relDensityOn` / the **color-indexed** `relativeDensity` (reading the top color through the *underlying unordered triple*, so ordering never affects the color). Normalization to one representative per role-assignment remains a later invariant.
+- **Build.** `Polyad3 S` **over a lower skeleton `S`** — three vertex cells (each a part of `S.vertexPart`), the three pair colors on the coordinate pairs, and the support of role-ordered injective triples pinned by `mem_support_iff` to those cells *and* pair colors (so a polyad is determined by cells + lower pair colors, **not** an arbitrary support finset); `Subpolyad3 P` as a genuine **lower-skeleton restriction** (sub-cells `⊆ P`'s cells, support = `P.support` restricted to them); `relDensityOn` / the **color-indexed** `relativeDensity` (reading the top color through the *underlying unordered triple*, so ordering never affects the color). Since `mem_support_iff` pins the support exactly, it contains **every** matching role-ordered tuple: for **distinct** cells each unordered triple admits at most one matching role-assignment (no overcounting); when cells repeat, several orderings can match, and de-duplication is the **counting layer's** job, not a thinning of the support.
 - **Gate.** The 3-uniform worked example computes a relative triple density over a triad and over a subpolyad.
 
 ### Layer 7 — top-layer regularity over polyads
@@ -157,7 +157,7 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 
 ### Layer 9 — induced counting and embedding
 - **Consume.** Layer 8.
-- **Build.** `FiniteColored3Pattern` (on `k` vertices); `Colored3Graph.inducedCopyCount`; `expectedInducedCount H C F₀` (needs **both** `H` — for the realized top colors — and `C` — for the polyad densities); and `induced_counting_from_strong_regular_complex3` — the induced copy count of a fixed pattern is within `ε·|V|^{F₀.k}` (the **pattern-size** scale, not `|V|³`) of the count predicted by a strong regular approximation. The clean local statement sums over part-respecting **placements** into the polyads; the global theorem is assembled from it (the placed version is the finer target).
+- **Build.** `FiniteColored3Pattern` (on `k` vertices); `Colored3Graph.inducedCopyCount`; `expectedInducedCount H C F₀` (needs **both** `H` — for the realized top colors — and `C` — for the polyad densities); `inducedCountingParameter3 q₃ k ε` (+ its positivity) — the **`V`-independent** regularity strength that counting needs, as a function of palette size, pattern size, and target error (the counting error and the regularity parameter cannot be the same `ε`); and `induced_counting_from_strong_regular_complex3` — an approximation at that parameter predicts the induced copy count of a fixed pattern within `ε·|V|^{F₀.k}` (the **pattern-size** scale, not `|V|³`). The clean local statement sums over part-respecting **placements** into the polyads; the global theorem is assembled from it (the placed version is the finer target).
 - **Gate.** At least one concrete small-pattern count (a triangle for graphs, one fixed 3-uniform colored pattern).
 
 ## Worked examples (acceptance gates)
@@ -233,8 +233,9 @@ representation theorem.
   hidden inside the summit theorem? Does `Polyad3` depend on a lower skeleton and store its three pair
   colors (so it is a polyad over the skeleton, not an arbitrary triple-support)? Is `Subpolyad3` a
   genuine lower-skeleton restriction (sub-cells), and is top regularity tested against **subpolyads**,
-  not arbitrary triple-subsets? Are polyad supports **injective** (no diagonals) and role-ordered
-  (normalization to one representative per role-assignment flagged as a later invariant)?
+  not arbitrary triple-subsets? Are polyad supports **injective** (no diagonals) and role-ordered,
+  with the support pinned by `mem_support_iff` (so repeated-cell orderings are de-duplicated in the
+  counting layer, not by thinning the support)?
 - Does `TriadicComplex3` **choose** its lower pair palette (`pairColorCount`), and does the summit
   quantify existentially over it rather than accepting an arbitrary fixed `κ₂`? Does
   `IsStrongRegularApproximation3` include a real `IsPolyadDecomposition` (disjoint + covering) so
@@ -242,8 +243,9 @@ representation theorem.
   and an exceptional-mass bound `ε`, and use a `regularityBound3` depending on the top palette size?
 - Are top relations a **total unordered** coloring with a **separate** pair palette `κ₂` / top palette
   `κ₃`, are pair colors on **distinct** ordered pairs (no diagonal), and are relative densities / top
-  regularity **color-indexed**? Does induced counting use `expectedInducedCount H C F₀` and the
-  pattern-size error scale `|V|^{F₀.k}` (not `|V|³`)?
+  regularity **color-indexed**? Does induced counting use `expectedInducedCount H C F₀`, the
+  pattern-size error scale `|V|^{F₀.k}` (not `|V|³`), and a **`V`-independent regularity parameter**
+  `inducedCountingParameter3 q₃ k ε` (never the counting error `ε` itself as the regularity strength)?
 - Are error hierarchies explicit `F : ℕ → ℝ` with the evaluation argument pinned (`#vertex-cells`,
   `C.complexity`), and is the `card V < r ⇒ density 0` convention pinned?
 - Does `Suggested.lean` avoid `def _ : Prop := sorry` and contentless `Prop` fields, using `sorry` only
