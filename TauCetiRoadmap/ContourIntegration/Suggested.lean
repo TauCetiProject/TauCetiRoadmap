@@ -93,6 +93,19 @@ from genuine integrability** and never silently identified with it. Layer 4 cann
 it. -/
 def HasCauchyPV (γ : ℝ → ℂ) (a b : ℝ) (f : ℂ → ℂ) (v : ℂ) : Prop := sorry
 
+/-- **Piecewise `C¹` on the interval between `a` and `b`.** The raw-function curve-regularity
+hypothesis: `γ` is continuous on `[[a, b]]` and, off a finite breakpoint set, is `C¹` on each closed
+piece. This is the regularity that AINTLIB's bundled `PiecewiseC1Path` carries *inside its type*;
+stated on a raw `γ : ℝ → ℂ` it must be an **explicit hypothesis**, because the winding number, the
+contour integral `∫ deriv γ • f (γ ·)`, and Dixon's argument are all ill-posed for an arbitrary
+continuous `γ` (a space-filling curve has no honest derivative and can even cover `Ω`). This mirrors
+`TauCeti.Contour.IsPiecewiseC1On`; it is the hypothesis the Layer 3–4 theorems below carry. -/
+def IsPiecewiseC1On (γ : ℝ → ℂ) (a b : ℝ) : Prop :=
+  ContinuousOn γ (Set.uIcc a b) ∧
+    ∃ p : Finset ℝ, ↑p ⊆ Set.Ioo (min a b) (max a b) ∧
+      ∀ c d : ℝ, Set.Icc c d ⊆ Set.uIcc a b → Disjoint (↑p : Set ℝ) (Set.Ioo c d) →
+        ContDiffOn ℝ 1 γ (Set.Icc c d)
+
 /-- A cycle `γ` on `[a, b]` is **null-homologous** in `Ω` when its winding number about every point
 outside `Ω` vanishes (`n_w(γ) = 0` for all `w ∉ Ω`) — the hypothesis of the homology Cauchy theorem
 (Layer 3) and of HW Thm 3.3 (Layer 4). -/
@@ -203,7 +216,8 @@ is the `S = ∅` case of the general arbitrary-cycle residue theorem, which is w
 sits here rather than in Layer 2. Named for the theorem (homology Cauchy), attributed to Dixon for
 the proof. -/
 theorem homologyCauchyTheorem {f : ℂ → ℂ} {Ω : Set ℂ} (hΩ : IsOpen Ω) (γ : ℝ → ℂ) (a b : ℝ)
-    (hγ : ∀ t ∈ Set.Icc a b, γ t ∈ Ω) (hclosed : γ a = γ b)
+    (hγ_pc1 : IsPiecewiseC1On γ a b)
+    (hγ : ∀ t ∈ Set.uIcc a b, γ t ∈ Ω) (hclosed : γ a = γ b)
     (hf : DifferentiableOn ℂ f Ω)
     (hnull : IsNullHomologous γ a b Ω) :
     ∫ t in a..b, deriv γ t • f (γ t) = 0 :=
@@ -220,7 +234,8 @@ as weights. Subsumes the classical residue theorem (poles off `γ`, integer weig
 half-residue case below. -/
 theorem hungerbuhlerWasem_residueTheorem {f : ℂ → ℂ} {U : Set ℂ} (hU : IsOpen U) (S : Finset ℂ)
     (γ : ℝ → ℂ) (a b : ℝ)
-    (hSU : (S : Set ℂ) ⊆ U) (hclosed : γ a = γ b) (hγU : ∀ t ∈ Set.Icc a b, γ t ∈ U)
+    (hγ_pc1 : IsPiecewiseC1On γ a b)
+    (hSU : (S : Set ℂ) ⊆ U) (hclosed : γ a = γ b) (hγU : ∀ t ∈ Set.uIcc a b, γ t ∈ U)
     (hf : DifferentiableOn ℂ f (U \ (S : Set ℂ)))
     (hmero : ∀ s ∈ S, MeromorphicAt f s)
     (hnull : IsNullHomologous γ a b U)
@@ -234,6 +249,7 @@ formula's `i`, `ρ`. A simple pole of `f` lying *on* a smooth arc `γ` (generali
 contributes `πi · Res_s f` to the principal-value contour integral: the `α = π` specialisation of
 HW Thm 3.3. -/
 theorem hasCauchyPV_half_residue {f : ℂ → ℂ} (γ : ℝ → ℂ) (a b : ℝ) (s : ℂ)
+    (hγ_pc1 : IsPiecewiseC1On γ a b)
     (hf : MeromorphicAt f s) (hwind : windingNumber γ a b s = 1 / 2) :
     HasCauchyPV γ a b f ((Real.pi : ℂ) * Complex.I * residue f s) :=
   sorry
