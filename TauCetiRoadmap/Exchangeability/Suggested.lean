@@ -12,11 +12,18 @@ finishes a layer nor the roadmap; what the area asks for is what `README.md` say
 
 This file currently holds suggested forms for: **Layer 0** (the core symmetry notions,
 landed in `TauCeti/Probability/Exchangeability/`), **Layer 1** (the random product kernel
-and the common de Finetti ending), **Layer 2** (process tails, the shift-invariant and
-exchangeable σ-algebras, Hewitt–Savage), **Layer 4** (the Lévy downward theorem), and the
+and the common de Finetti ending — landed: `ConditionallyIIDWith` plus the existential
+wrapper and `ConditionallyIID.of_directing`), **Layer 2** (process tails, the
+shift-invariant and exchangeable σ-algebras — landed in `TauCeti/Probability/`
+(`Process/Tail`, `Ergodic/ShiftInvariantSigma`, `Exchangeability/PathSpace/ExchangeableSigma`),
+with `tailFamily`/`tailProcess` generalized to dependent codomains `β k`; Hewitt–Savage
+still open), **Layer 4** (the Lévy downward theorem — landed in
+`TauCeti/Probability/Martingale/` as `MeasureTheory.tendsto_ae_condExp_iInf`), and the
 **Layer 6 summit** (de Finetti and the Ryll-Nardzewski equivalence, expressible since
-Layer 0). These elaborate against the pinned Mathlib and are stated with `sorry` (allowed
-in this human-owned roadmap library).
+Layer 0; the de Finetti implication landed as `conditionallyIID_of_exchangeable` — general
+`Ω`, `[IsFiniteMeasure μ]` — with the named equivalence still open). These elaborate
+against the pinned Mathlib and are stated with `sorry` (allowed in this human-owned
+roadmap library).
 
 Later layers add suggested forms here as their types become expressible:
 
@@ -209,9 +216,12 @@ example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i))
 /-- **Layer 4, the Lévy downward theorem** along an antitone filtration. Independent of
 exchangeability: consume Mathlib's upcrossing API and build only the reversal, the
 antitone adapter, and the `⨅ n, 𝔽 n` identification; the martingale route consumes this.
+**Landed** as `MeasureTheory.tendsto_ae_condExp_iInf`
+(`TauCeti/Probability/Martingale/Convergence.lean`) in exactly this form —
+`[IsFiniteMeasure μ]`, and only `h_le0 : 𝔽 0 ≤ m₀` (antitonicity upgrades it to every `n`).
 The L¹ and Lᵖ convergence forms are follow-up Layer 4 targets. -/
-example [IsProbabilityMeasure μ] {𝔽 : ℕ → MeasurableSpace Ω}
-    (h_filtration : Antitone 𝔽) (h_le : ∀ n, 𝔽 n ≤ (inferInstance : MeasurableSpace Ω))
+example [IsFiniteMeasure μ] {𝔽 : ℕ → MeasurableSpace Ω}
+    (h_filtration : Antitone 𝔽) (h_le0 : 𝔽 0 ≤ (inferInstance : MeasurableSpace Ω))
     (f : Ω → ℝ) (h_f_int : Integrable f μ) :
     ∀ᵐ ω ∂μ,
       Tendsto (fun n => (μ[f|𝔽 n]) ω) atTop (𝓝 ((μ[f|⨅ n, 𝔽 n]) ω)) := by
@@ -221,20 +231,29 @@ example [IsProbabilityMeasure μ] {𝔽 : ℕ → MeasurableSpace Ω}
 
 Expressible since Layer 0, so the suggested forms are pinned now; the proof routes and the
 directing-measure API (Layers 3–6 in `README.md`) land in between. The unsuffixed public
-theorem should be the reverse-martingale route.
+theorem should be the reverse-martingale route. **Status:** the martingale route has landed
+both implications' content — `conditionallyIID_of_contractable` and
+`conditionallyIID_of_exchangeable` (`TauCeti/Probability/DeFinetti/BlockFactorization.lean`),
+on an arbitrary measurable `Ω` at `[IsFiniteMeasure μ]` — so the suggested forms below carry
+the achieved finite-measure generality; the named equivalence is the remaining summit shape.
 -/
 
 /-- **Layer 6 summit, de Finetti's theorem** on a standard Borel state space: an
-exchangeable sequence is conditionally i.i.d. -/
-example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
+exchangeable sequence is conditionally i.i.d. **Landed** as
+`conditionallyIID_of_exchangeable` (general `Ω`, `[IsFiniteMeasure μ]`, via path-space
+transfer with the standard-Borel-`Ω` step kept `private`); the roadmap handle `deFinetti`
+should land as an `alias` over it, per the Layer-4 naming pattern. -/
+example [IsFiniteMeasure μ] [StandardBorelSpace α] [Nonempty α]
     (hX : ∀ i, Measurable (X i)) (h_exch : Exchangeable μ X) :
     ConditionallyIID μ X := by
   sorry
 
 /-- **Layer 6 summit, the de Finetti–Ryll-Nardzewski equivalence**:
 `contractable ↔ exchangeable ↔ conditionally i.i.d.` for sequences on a standard Borel
-state space. -/
-example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
+state space. **Still open** — the hard direction is landed
+(`conditionallyIID_of_contractable`) and the easy directions are Layer-0 bridges; what
+remains is assembling and naming the equivalence. -/
+example [IsFiniteMeasure μ] [StandardBorelSpace α] [Nonempty α]
     (hX : ∀ i, Measurable (X i)) :
     Contractable μ X ↔ Exchangeable μ X ∧ ConditionallyIID μ X := by
   sorry
