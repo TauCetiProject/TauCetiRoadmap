@@ -59,6 +59,16 @@ Pin these conventions before writing code — implementors make bad, divergent c
 - **`q`-expansions are the computational interface.** State Hecke recurrences, Euler products,
   and eigenform characterizations on the Fourier coefficients `aₙ(f)` via `qExpansion`, not on
   bespoke coefficient types.
+- **Ride Mathlib's bundled form types — the analytic invariants travel *inside* the type.** State
+  every target over `ModularForm` / `CuspForm` / `ModularFormClass` (and, for nebentypus spaces,
+  membership in `modFormCharSpace k χ`), **never** over a raw `ℍ → ℂ`: holomorphy, boundedness /
+  vanishing at the cusps, and Γ-automorphy are structure fields that cannot be silently dropped. When
+  porting a result, **copy AINTLIB's hypotheses verbatim** rather than "cleaning them up" — in
+  particular the `Tₚ`-recurrence's `f ∈ modFormCharSpace k χ` and `Coprime p N` (which pick the
+  operator and give `χ(p)` its meaning), and the `a₁ = 1` normalization (a field of `Newform`, not of
+  `Eigenform`). These are the modular-forms analogue of the curve-regularity hypotheses the Contour
+  roadmap carries; keeping them visible is why this roadmap does **not** hit the "raw restatement
+  drops an invariant" failure.
 
 ## What Mathlib already has (consume)
 
@@ -83,18 +93,14 @@ Pin these conventions before writing code — implementors make bad, divergent c
   `EulerProduct/*`).
 - **Number fields:** `NumberField`, `IntermediateField`, the Galois theory of `ℚ̄/ℚ` — the target
   of the coefficient-field layer.
-- **Adeles and double cosets (for the Hecke algebra):** `DedekindDomain.FiniteAdeleRing`,
-  `NumberField.AdeleRing`, `GroupTheory/DoubleCoset`, compact-open subgroups
-  (`Topology/Algebra/Group/CompactOpen.lean`), and Haar/measure convolution
-  (`MeasureTheory/Group/Convolution.lean`). ⚠ Mathlib has **no Hecke algebra** of any kind, nor the
-  smooth adelic convolution algebra `C_c^∞(GL₂(𝔸_f))` or its level corners `C_c^∞(K\GL₂(𝔸_f)/K)`;
-  the abstract double-coset ring and the full adelic Hecke algebra are built in Layer 2.
+- **Double cosets (for the Hecke ring):** `GroupTheory/DoubleCoset`, on which the abstract
+  double-coset Hecke ring is built. ⚠ Mathlib has **no Hecke algebra** of any kind; the abstract
+  double-coset ring acting on `M_k(N,χ)` is built in Layer 2.
 
 ## What is missing (build here)
 
 The valence formula at general level; the Hecke operators `Tₙ`, `Tₚ`, the diamond operators
-`⟨n⟩`, and the (commutative) Hecke algebra acting on `M_k(N,χ)`, together with its adelic form
-`C_c^∞(GL₂(𝔸_f))`; the Petersson inner product as
+`⟨n⟩`, and the (commutative) Hecke algebra acting on `M_k(N,χ)`; the Petersson inner product as
 an actual inner product and the self-adjointness of `Tₙ` for `(n,N)=1`; the old/new decomposition
 and its orthogonality; eigenforms, newforms, oldforms, primitive forms; the Main Lemma, the
 conductor theorem, and **strong multiplicity one**; Atkin–Lehner and Fricke operators and their
@@ -182,6 +188,8 @@ below sketches signatures; it is illustrative, not required to compile.
   def heckeOp (N : ℕ) (k : ℤ) (χ : DirichletCharacter ℂ N) (n : ℕ) : Module.End ℂ (ModularFormWithChar N k χ)
   ```
   with `Tₘ Tₙ = Tₘₙ` for `(m,n)=1` and the prime-power recurrence.
+  ⚠ Adopt Diamond–Shurman's convention `χ(p) = 0` for `p ∣ N`, so the single recurrence also covers
+  the bad-prime operator `Uₚ` (`p ∣ N`); AINTLIB's `p ∣ N` branch indeed carries no `χ` term.
 - **The diamond operators `⟨d⟩` are elements of this Hecke algebra** — the operators from the
   double cosets of `Γ₀(N)/Γ₁(N) ≅ (ℤ/N)ˣ`. On `M_k(N, χ)` (defined in Layer 0) they act by the
   scalar `χ(d)`; conversely, decomposing `M_k(Γ₁(N))` into the simultaneous `⟨d⟩`-eigenspaces
@@ -189,47 +197,8 @@ below sketches signatures; it is illustrative, not required to compile.
   live here, as part of the Hecke action — not the other way round.
   ⚠ The action must preserve cuspidality and the nebentypus; prove that, don't assume it.
 
-- **(c) The full smooth adelic Hecke algebra, and the Shimura link.** Reconstruct the Hecke algebra
-  the modern way — as the adelic convolution algebra — and identify the abstract double-coset ring
-  of (a) as a level-`K` corner of it. State everything for `G_f := GL₂(𝔸_f)`, the finite adeles of
-  `ℚ`; the same construction over a general reductive group `𝐆(𝔸_{F,f})` is deferred to the
-  [Reductive groups roadmap](../ReductiveGroups/README.md), which this layer will cite for the
-  general definition once it provides `𝐆(𝔸_{F,f})`.
-  - **The full algebra** `ℋ(G_f) := C_c^∞(G_f)` — the compactly supported, **locally constant**
-    `ℂ`-valued functions on `G_f`. ⚠ At the finite places "smooth" means *locally constant*, not
-    differentiable: `G_f` is totally disconnected. Fix a Haar measure `dg` on `G_f` and the
-    **convolution** product
-    ```text
-    (f₁ * f₂)(g) = ∫_{G_f} f₁(x) · f₂(x⁻¹ g) dx,
-    ```
-    making `ℋ(G_f)` an associative `ℂ`-algebra (the left/right convention is a choice — pin one).
-  - **The action on smooth representations.** A smooth `G_f`-representation `V` (every vector fixed
-    by some compact open) carries `π(f) v = ∫_{G_f} f(g) · π(g) v dg`; so `ℋ(G_f)` acts on every
-    level at once, the finite-adelic space of automorphic forms being the motivating `V`.
-  - **The level-`K` corner = Shimura's abstract ring (a).** For a compact open `K ⊂ G_f` with
-    idempotent `e_K := 𝟙_K / vol(K)`,
-    ```text
-    ℋ_K := e_K · ℋ(G_f) · e_K = C_c^∞(K \ G_f / K),
-    ```
-    the `K`-bi-invariant convolution algebra, **is exactly the abstract double-coset Hecke ring of
-    (a) at level `K`**: normalising `vol(K) = 1`, the basis element `𝟙_{KgK}` is the double-coset
-    operator, and on `K`-fixed vectors `π(𝟙_{KgK}) v = Σᵢ π(gᵢ) v` when `KgK = ⊔ᵢ gᵢ K`. So
-    Shimura's formalism is reconciled with the adelic one — it is the level corner — and the
-    classical `Tₙ, Tₚ, ⟨d⟩` of (b) are its `K₀(N)` / `K₁(N)`-level elements.
-  - **The full algebra as a filtered union of levels** `ℋ(G_f) = ⋃_K ℋ_K` over compact opens:
-    shrinking `K` enlarges the corner (`K' ⊂ K ⟹ ℋ_K ⊂ ℋ_{K'}`, since every `K`-bi-invariant
-    function is `K'`-bi-invariant).
-  - **The restricted tensor product and the unramified (spherical) algebra.**
-    `ℋ(GL₂(𝔸_f)) ≅ ⊗'_v ℋ(GL₂(ℚ_v))` over the finite places `v`, the restricted tensor product
-    taken with respect to the idempotents `e_{K_v}` of the hyperspecial `K_v = GL₂(ℤ_v)` for almost
-    all `v`, with each local factor `ℋ(GL₂(ℚ_v)) = C_c^∞(GL₂(ℚ_v))`. Away from a finite bad set `S`,
-    the **unramified Hecke algebra** `ℋ^S := ⊗'_{v∉S} C_c^∞(K_v \ GL₂(ℚ_v) / K_v)` is commutative,
-    generated by the `T_p` and the determinant/diamond operators at `p ∉ S` — the natural home for
-    the eigenform theory of Layers 3–5.
-  - ⚠ **Grounding.** Mathlib has the finite adeles (`DedekindDomain.FiniteAdeleRing`), double
-    cosets, compact-open subgroups, and Haar/measure convolution, but not this assembly: the
-    locally-constant `C_c^∞` space, its convolution algebra and smooth action, the `e_K` level
-    corners, and the restricted tensor product are the milestones of this sub-layer.
+- The Hecke algebra in this roadmap is the classical double-coset ring of (a)–(b). Its adelic
+  reformulation is **out of scope** here and left to a future roadmap.
 
 ### Layer 3: the Petersson inner product, adjoints, oldforms and newforms
 - **The Petersson inner product** as a genuine positive-definite Hermitian inner product on
@@ -243,25 +212,30 @@ below sketches signatures; it is illustrative, not required to compile.
 ### Layer 4: eigenforms, newforms, primitive forms; the conductor
 - **Definitions:**
   ```lean
-  structure Eigenform (N : ℕ) (k : ℤ) (χ : DirichletCharacter ℂ N) where
-    toCuspForm : CuspForm (Gamma1 N) k
-    isEigen    : ∀ n, (n.Coprime N) → ∃ a, heckeOp N k χ n toCuspForm = a • toCuspForm
-    -- `normalized`: a₁ = 1;  `Newform`: a normalized eigenform in the new subspace
+  structure Eigenform (N : ℕ) [NeZero N] (k : ℤ) where
+    toCuspForm    : CuspForm ((Gamma1 N).map (mapGL ℝ)) k    -- Γ₁(N) as a GL₂(ℝ)-subgroup
+    χ             : DirichletCharacter ℂ N                   -- the nebentypus travels with the form
+    mem_charSpace : toCuspForm ∈ modFormCharSpace k χ        -- character / conductor compatibility
+    isEigen       : ∀ n, n.Coprime N → ∃ a, heckeOp N k χ n toCuspForm = a • toCuspForm
+    -- eigen only at good primes (n coprime to N); the all-primes variant is `IsFullEigenform`.
+    -- `a₁ = 1` normalization and new-subspace membership are fields of `Newform`, not of `Eigenform`.
   ```
   with `Eigenform`, normalized eigenform, `Newform`, `Oldform`, and `primitive form` (= newform),
   and the eigenvalue API `aₙ`/`ringEigenvalue`.
 - **The Main Lemma** (the Atkin–Lehner key lemma, Diamond–Shurman Lemma 5.7.1 / Miyake 4.6.x): a
   cusp form whose `q`-expansion is supported on multiples of a prime descends or vanishes.
-  **Discharge the two AINTLIB `sorry`s here** — the Atkin–Lehner Main Lemma and the existence of a
-  nonzero prime eigenvalue.
+  In the latest AINTLIB the Main Lemma is **already proved** (the per-character route
+  `mainLemma_charSpace_routeB`, `sorry`-free; the bare global `mainLemma` is an unused skeleton
+  `sorry`) — a migration, not a new proof obligation. The conductor theorem below is likewise proved.
 - **The conductor theorem** (Miyake 4.6.4 / Diamond–Shurman Prop 5.8.4): every normalized
   eigenform `g ∈ S_k(N,χ)` equals the level-raise of a **newform** of a unique level `M ∣ N`, the
   **conductor** of `g`; the dichotomy on `ℓ·cond(χ) ∣ N`.
 
 ### Layer 5: strong multiplicity one and the eigenform characterization
 - **Strong multiplicity one** (Diamond–Shurman Thm 5.8.2 / Miyake Thm 4.6.12): two newforms in
-  `S_k(Γ₁(N))^{new}` with `aₚ(f) = aₚ(g)` for almost all `p` are equal; each `Tₙ`-eigenspace is
-  one-dimensional and the newforms are an orthogonal basis of the new subspace.
+  `S_k(Γ₁(N))^{new}` with `aₚ(f) = aₚ(g)` for almost all `p` are equal; each **simultaneous Hecke**
+  eigenspace is one-dimensional (multiplicity one), and the newforms are an orthogonal basis of the
+  new subspace.
 - **Diamond–Shurman Proposition 5.8.5** (the coefficient characterization): for `f ∈ M_k(N,χ)`,
   `f` is a normalized eigenform **iff** its Fourier coefficients satisfy
   ```text
@@ -301,8 +275,13 @@ below sketches signatures; it is illustrative, not required to compile.
   ```
   proved via the **integral Hecke algebra is a finitely generated ℤ-module** (the integral
   `q`-expansion / Eichler–Shimura lattice, Shimura Thm 3.48/3.51/3.52, Miyake Thm 4.5.9/4.5.19).
-  ⚠ This is the deepest current gap — the single substantive `sorry` (`heckeAlgℤ_finite`) in the
-  AINTLIB body — and the lynchpin for the whole LMFDB layer.
+  ⚠ **Status (latest AINTLIB `dev/leanmodularforms`, 2026-07-03):** largely proved, not a lone gap.
+  `Newform.coeffField` and `coeffField_numberField_of_two_le` give the number-field property for
+  `k ≥ 2` via the integral modular-symbol period route (`heckeAlgℤ_finite_of_period`), and
+  `heckeAlgℤ_finite_of_lattice` covers `k < 2` from a Hecke-stable lattice. The residual obligations
+  are the **weight-1 Hecke-stable lattice** (`exists_HeckeStableLattice_one`, Deligne–Serre) and a
+  research-scale **Stokes / boundary-period step** in the modular-symbol route — the deepest remaining
+  analytic input for the LMFDB layer.
 
 ### Layer 9: the LMFDB invariant layer
 Each is a named definition with its basic API, mostly short once Layer 8 exists:
@@ -315,6 +294,9 @@ Each is a named definition with its basic API, mostly short once Layer 8 exists:
   the analytic scope here.
 - **Galois-conjugate forms and orbits** (#38): `f^σ` (act on coefficients), the orbit `{f^σ}` and
   `#orbit = dim` of the newform; **inner twists** (#42).
+- **Galois-group certification** (the coefficient-field summit's milestone): the Galois closure of
+  `CoefficientField f` and a decision procedure for its **solvability** — what the weight-60
+  non-solvable eigenform (worked examples) is certified against.
 - **Dual / self-dual** (#55): `f̄` (conjugate coefficients) and `IsSelfDual f ↔ ∀n, (aₙ).im = 0`.
 - **Labels** (#33, #13): the LMFDB label `N.k.a.x` (level, weight, character Galois-orbit, newform
   Galois-orbit), Conrey labels and Galois orbits of Dirichlet characters.
@@ -328,7 +310,8 @@ representability, no moduli problem**.
 - **The analytic theory of cusps and compactification.** Build `X(Γ) = Γ\ℍ*` as a compact Riemann
   surface: the topology and complex charts at ordinary points, at the elliptic points (where the
   chart is `z ↦ z^{e_P}`), and at the cusps (the `q`-disc chart); the **cusp count** `ε∞ = #Γ\ℙ¹(ℚ)`
-  and the **elliptic-point counts** `ε₂, ε₃` (periods `2, 3`); and the **genus** `g` of `X(Γ)` as
+  and the **elliptic-point counts** `ε₂, ε₃` (periods `2, 3`, counted in the `PSL₂(ℤ)`-image where
+  the elliptic stabilizers are cyclic of order `2, 3`); and the **genus** `g` of `X(Γ)` as
   the genus of this compact Riemann surface — via the Euler characteristic of the
   `SL₂(ℤ)\ℍ*`-covering (Diamond–Shurman §3.1, §3.9). These
   counts and the genus are the inputs to the dimension formulas; building them is part of this
@@ -389,8 +372,13 @@ dimension formulas) consumes Layer 1 and is otherwise independent.
 
 ## Provenance (migrate and clean from AINTLIB `LeanModularForms`)
 
-Secondary to the mathematics above: the migration map. Headline theorems are `sorry`-free in
-AINTLIB unless flagged. Paths are relative to that project's `LeanModularForms/`.
+Secondary to the mathematics above: the migration map. The reference is the AINTLIB monorepo's
+`projects/LeanModularForms/` on branch **`dev/leanmodularforms`** (the latest modular-forms dev,
+2026-07-03); paths are relative to its `LeanModularForms/`. ⚠ That tree is **actively restructured**
+— the old `Chapters/*` files have been merged away, `SMOObligations/` became `StrongMultiplicityOne/`,
+and the coefficient-field finiteness now runs through a new `HeckeRIngs/GL2/ModularSymbols/` integral
+period route — so treat the file names below as *indicative* and verify against the live tree.
+Headline theorems are `sorry`-free unless flagged.
 
 - **Nebentypus / characters (L0):** `Chapters/CharacterSpaces.lean`,
   `HeckeRIngs/GL2/CharacterDecomp.lean`.
@@ -405,15 +393,19 @@ AINTLIB unless flagged. Paths are relative to that project's `LeanModularForms/`
 - **Newforms / conductor (L4):** `Chapters/NewformTheory.lean`, `HeckeRIngs/GL2/Newforms/*`
   (`Basic`, `FullEigenform`, `CoeffSeq`, `MainLemma`),
   `HeckeRIngs/GL2/Unified/EigenformFromRing.lean`,
-  `Eigenforms/{ConductorTheorem,MainLemma}.lean` ← the two `sorry`s.
-- **Strong multiplicity one (L5):** `Chapters/StrongMultiplicityOne.lean`,
-  `SMOObligations/StrongMultiplicityOneFull.lean` (the `sorry`-free proof) and its chain; the
+  `Eigenforms/ConductorTheorem.lean` (proved: `conductor_theorem_dichotomy_cuspForm_strong`),
+  `HeckeRIngs/GL2/Newforms/{Newform,MainLemmaProof}.lean`. The Main Lemma is proved via
+  `mainLemma_charSpace_routeB`; the bare global `mainLemma` is an unused skeleton `sorry`.
+- **Strong multiplicity one (L5):** `StrongMultiplicityOne/*` (`InductiveStep`, `ConstantMultiple`;
+  the `sorry`-free `strongMultiplicityOne_axiom_clean`) and its chain; the
   §5.8.5 characterization in `HeckeRIngs/GL2/Newforms/{FullEigenform,CoeffSeq}.lean`.
 - **Atkin–Lehner / Fricke (L6):** `Eigenforms/AtkinLehner.lean`, `HeckeRIngs/GL2/Fricke.lean`.
 - **L-functions (L7):** `Modularforms/LFunction.lean`, completion/functional-equation pieces in
   `HeckeRIngs/GL2/Newforms/Fricke*.lean`.
-- **Coefficient field (L8):** `Labels/HeckeFieldArithmetic.lean` ← the `heckeAlgℤ_finite` `sorry`,
-  the lynchpin.
+- **Coefficient field (L8):** `Labels/{HeckeFieldArithmetic,HeckeAlgFiniteFinal,NewformOrbit}.lean`
+  (`heckeAlgℤ`, `coeffField`, `coeffField_numberField_of_two_le`) plus the integral-period route in
+  `HeckeRIngs/GL2/ModularSymbols/*`. Largely proved (`k ≥ 2`); residual `sorry`s are the weight-1
+  lattice `exists_HeckeStableLattice_one` and a Stokes / boundary step in the modular-symbol route.
 - **LMFDB layer (L9):** `Labels/{Label,Encoding,NewformOrbit,CharacterOrbit}.lean`,
   `Eigenforms/AtkinLehner.lean` (signs), `Chapters/CharacterSpaces.lean`.
 - **Dimensions / curve (L10):** `Chapters/{Dimensions,Curves}.lean`,
@@ -433,12 +425,6 @@ catalogue the redundancy to collapse during migration.
   multiplicity one Thm 4.6.12) — the numbering the AINTLIB code follows.
 - G. Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions*: Ch. 3 (the Hecke
   algebra and its integral structure, Thms 3.48/3.51/3.52).
-- B. Edixhoven, *Modular forms, Galois representations and the adelic Hecke algebra* (course notes):
-  modular forms as `K`-invariants in an adelic space, with Hecke operators via adelic double cosets —
-  the adelic view of Layer 2(c).
-- J. R. Getz, H. Hahn, *An Introduction to Automorphic Representations* (Springer, GTM): the smooth
-  adelic Hecke algebra `C_c^∞(GL₂(𝔸_f))` with convolution, the `e_K`-corner `C_c^∞(K\G_f/K)`, and the
-  restricted tensor product over the finite places — the construction planned in Layer 2(c).
 - K. Buzzard, *On the eigenvalues of the Hecke operator T₂*, J. Number Theory **57** (1996) — the
   weight-60 non-solvable coefficient-field example (worked examples).
 - N. Hungerbühler, M. Wasem, *Non-integer valued winding numbers and a generalized Residue
