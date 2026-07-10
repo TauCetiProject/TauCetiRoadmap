@@ -314,9 +314,11 @@ Build on Mathlib's `PartialEquiv` / `FGEquiv` / `IsExtensionPair`:
 * the finite EF game and the ω-round game, and the coherent-strategy object, with the quantifier-swap
   obstruction between `BFEquiv ω` and a coherent ω-strategy stated explicitly;
 * potential isomorphism as an explicit **back-and-forth system**: a nonempty set `S` of `FGEquiv`s
-  closed under two-sided extension *within `S`*, with the one-way compatibility bridge
-  `potentialIso_of_isExtensionPair` from Mathlib's global `IsExtensionPair` (the `S = Set.univ`
-  case);
+  closed under two-sided extension *within `S`*, with its basic API — `potentialIso_of_equiv`
+  (restrict an isomorphism to finitely generated substructures), symmetry (`PotentialIso.symm`,
+  flip the system), transitivity (`PotentialIso.trans`, compose systems) — and the one-way
+  compatibility bridge `potentialIso_of_isExtensionPair` from Mathlib's global `IsExtensionPair`
+  (the `S = Set.univ` case);
 * the **countable-generation bridge** from `[Countable M]` to Mathlib's `Structure.CG`, so
   `equiv_between_cg` / `embedding_from_cg` apply — cite `Structure.cg_of_countable` as the ready-made
   bridge, and note `Structure.cg_iff_countable` additionally needs countable function symbols (free for
@@ -327,6 +329,9 @@ Build on Mathlib's `PartialEquiv` / `FGEquiv` / `IsExtensionPair`:
 Karp's theorem and its corollaries:
 
 ```lean
+potentialIso_of_equiv   -- an isomorphism is a potential isomorphism
+PotentialIso.symm       -- symmetry: flip the system
+PotentialIso.trans      -- transitivity: compose the systems
 potentialIso_iff_BFEquiv_all
 karp_theorem            -- L∞ω-equivalence ↔ potential isomorphism, structure-universe index
 karp_theorem_universe0  -- the Type 0 index specialization

@@ -160,6 +160,28 @@ def PotentialIso (M : Type w) (N : Type w) [L.Structure M] [L.Structure N] : Pro
     (∀ f ∈ S, ∀ m : M, ∃ g ∈ S, m ∈ g.1.dom ∧ f ≤ g) ∧
     (∀ f ∈ S, ∀ n : N, ∃ g ∈ S, n ∈ g.1.cod ∧ f ≤ g)
 
+/-- **Layer 1 (basic API).** An isomorphism is a potential isomorphism: take `S` to be the
+restrictions of the isomorphism to finitely generated substructures. This is the easy converse
+direction of `countable_potentialIso_iff_iso`. -/
+theorem potentialIso_of_equiv {M N : Type w} [L.Structure M] [L.Structure N] (e : M ≃[L] N) :
+    PotentialIso (L := L) M N := by
+  sorry
+
+/-- **Layer 1 (basic API).** Potential isomorphism is symmetric — flip the system along
+`PartialEquiv.symm`. -/
+theorem PotentialIso.symm {M N : Type w} [L.Structure M] [L.Structure N]
+    (h : PotentialIso (L := L) M N) : PotentialIso (L := L) N M := by
+  sorry
+
+/-- **Layer 1 (basic API).** Potential isomorphism is transitive — the system of composites
+`g ∘ f` (over `f` in the first system and `g` in the second with `f.cod ≤ g.dom`) is a
+back-and-forth system: to extend a composite, extend `f` first, then extend `g` over the finitely
+many generators of the new codomain. -/
+theorem PotentialIso.trans {M N P : Type w} [L.Structure M] [L.Structure N] [L.Structure P]
+    (hMN : PotentialIso (L := L) M N) (hNP : PotentialIso (L := L) N P) :
+    PotentialIso (L := L) M P := by
+  sorry
+
 /-- **Layer 1, the `IsExtensionPair` bridge.** Mathlib's global extension property (with a partial
 equivalence to start from) gives a back-and-forth system — take `S = Set.univ`. This is the
 compatibility bridge to Mathlib's `IsExtensionPair` / `equiv_between_cg` vocabulary; it is one
@@ -172,8 +194,8 @@ theorem potentialIso_of_isExtensionPair {M N : Type w} [L.Structure M] [L.Struct
 /-- **Layer 1 milestone, the countable corollary of Karp's theorem.** On countable structures,
 potential isomorphism coincides with isomorphism. Forward is the `S`-relative back-and-forth
 dovetailing — Mathlib's `equiv_between_cg` is the `S = Set.univ` case, and its engine
-`Order.sequenceOfCofinals` is the reusable tool; the converse restricts an isomorphism to finitely
-generated substructures. (The full Karp theorem — L∞ω-equivalence ↔ potential isomorphism at the
+`Order.sequenceOfCofinals` is the reusable tool; the converse is `potentialIso_of_equiv`.
+(The full Karp theorem — L∞ω-equivalence ↔ potential isomorphism at the
 structure-universe index — is stated in `README.md`, where the index-universe convention is
 pinned.) -/
 theorem countable_potentialIso_iff_iso (M N : Type) [L.Structure M] [L.Structure N]
