@@ -94,7 +94,8 @@ it. -/
 def HasCauchyPV (γ : ℝ → ℂ) (a b : ℝ) (f : ℂ → ℂ) (v : ℂ) : Prop := sorry
 
 /-- **Piecewise `C¹` on the interval between `a` and `b`.** The raw-function curve-regularity
-hypothesis: `γ` is continuous on `[[a, b]]` and, off a finite breakpoint set, is `C¹` on each closed
+hypothesis: `γ` is continuous on `[[a, b]]` (Mathlib's `Set.uIcc a b`, the interval robust to `a > b`) and, off
+a finite breakpoint set, is `C¹` on each closed
 piece. This is the regularity that AINTLIB's bundled `PiecewiseC1Path` carries *inside its type*;
 stated on a raw `γ : ℝ → ℂ` it must be an **explicit hypothesis**, because the winding number, the
 contour integral `∫ deriv γ • f (γ ·)`, and Dixon's argument are all ill-posed for an arbitrary
