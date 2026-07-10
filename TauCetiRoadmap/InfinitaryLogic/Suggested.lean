@@ -175,8 +175,12 @@ theorem PotentialIso.symm {M N : Type w} [L.Structure M] [L.Structure N]
 
 /-- **Layer 1 (basic API).** Potential isomorphism is transitive — the system of composites
 `g ∘ f` (over `f` in the first system and `g` in the second with `f.cod ≤ g.dom`) is a
-back-and-forth system: to extend a composite, extend `f` first, then extend `g` over the finitely
-many generators of the new codomain. -/
+back-and-forth system. Domain extension is *f then g*: extend `f` to include the element, then
+extend `g` over the finitely many generators of the enlarged `f.cod`. Codomain extension is
+*g, f, then g*: extend `g` so its codomain contains the requested element, extend `f` so its
+codomain contains that element's `g`-preimage, then extend `g` again over the generators of the
+enlarged `f.cod`. (Mathlib has no `PartialEquiv.comp`; implementation will introduce a small
+composition-under-`f.cod ≤ g.dom` helper.) -/
 theorem PotentialIso.trans {M N P : Type w} [L.Structure M] [L.Structure N] [L.Structure P]
     (hMN : PotentialIso (L := L) M N) (hNP : PotentialIso (L := L) N P) :
     PotentialIso (L := L) M P := by
