@@ -24,7 +24,8 @@ convergence equivalence, finite-graph compatibility (`finiteGraphGraphon`), and 
 separation. The Layer-8 representability targets — injective-label `LabeledGraph` / `LabeledGraph.glue`,
 the graph parameter `GraphParam` with `IsIsoInvariant`, the finite `connectionMatrix` (+ its entry law
 `connectionMatrix_apply`) and `IsReflectionPositive` (finite principal blocks PSD), `IsMultiplicative` / `IsNormalized`, and
-`lovasz_szegedy_representability` (the five-condition iff over the canonical `(I, volume)` carrier) —
+`lovasz_szegedy_representability` (the four-condition iff over the canonical `(I, volume)` carrier,
+with the `[0,1]` range a derived corollary, per Lovász–Szegedy Thm 2.2) —
 are pinned here too.
 
 Objects whose precise Lean shape would force a premature API choice — the weak-regularity
@@ -562,16 +563,27 @@ def IsMultiplicative (f : GraphParam) : Prop :=
 `(⊥ : SimpleGraph (Fin 1))`. -/
 def IsNormalized (f : GraphParam) : Prop := f 1 ⊥ = 1
 
-/-- **Layer 8b (Lovász–Szegedy representability — LNGL Thm 5.54).** A graph parameter equals
-`t(·, W)` for some graphon on the canonical carrier `(I, volume)` iff it is isomorphism-invariant,
-multiplicative, normalized, reflection-positive, and `[0,1]`-bounded. Every graphon is representable
-on `(I, volume)`, so the existential carrier collapses to the canonical one. Grounded on the
+/-- **Layer 8b (Lovász–Szegedy representability — the moment problem for graphs).** A graph
+parameter equals `t(·, W)` for some graphon on the canonical carrier `(I, volume)` iff it is
+isomorphism-invariant, multiplicative, normalized, and reflection-positive (Lovász–Szegedy,
+*Limits of dense graph sequences*, Thm 2.2 — where iso-invariance is baked into their notion of
+graph parameter; it is explicit here because `GraphParam` is representation-sensitive). Explicit
+`[0,1]`-boundedness is **not** a hypothesis: it is a consequence
+(`graphParam_mem_Icc_of_isReflectionPositive` below). Every graphon is representable on
+`(I, volume)`, so the existential carrier collapses to the canonical one. Grounded on the
 reflection-positivity development (8a) above — not a leap. -/
 theorem lovasz_szegedy_representability (f : GraphParam) :
     (∃ W : Graphon I (volume : Measure I),
         ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
           f n F = homDensity (volume : Measure I) F W)
-      ↔ IsIsoInvariant f ∧ IsMultiplicative f ∧ IsNormalized f ∧ IsReflectionPositive f
-        ∧ (∀ (n : ℕ) (F : SimpleGraph (Fin n)), f n F ∈ Set.Icc (0 : ℝ) 1) := sorry
+      ↔ IsIsoInvariant f ∧ IsMultiplicative f ∧ IsNormalized f ∧ IsReflectionPositive f := sorry
+
+/-- **Layer 8b (derived range bound).** An isomorphism-invariant, multiplicative, normalized,
+reflection-positive graph parameter is automatically `[0,1]`-valued — via the representation
+`f = t(·, W)` and `t(F, W) ∈ [0,1]` (Layer 1). This is why boundedness is a corollary of the
+characterization, never one of its hypotheses. -/
+theorem graphParam_mem_Icc_of_isReflectionPositive (f : GraphParam) (h₁ : IsIsoInvariant f)
+    (h₂ : IsMultiplicative f) (h₃ : IsNormalized f) (h₄ : IsReflectionPositive f)
+    (n : ℕ) (F : SimpleGraph (Fin n)) : f n F ∈ Set.Icc (0 : ℝ) 1 := sorry
 
 end TauCetiRoadmap.DenseGraphLimits

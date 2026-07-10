@@ -298,8 +298,12 @@ which would assert nothing).
 
 ### Layer 8b — Lovász–Szegedy representability
 `lovasz_szegedy_representability`: a graph parameter equals `t(·, W)` for a graphon `W` on the
-canonical carrier `(I, volume)` **iff** it is isomorphism-invariant, multiplicative, normalized,
-reflection-positive, and `[0,1]`-bounded (LNGL Thm 5.54 / the moment problem for graphs). Stating the
+canonical carrier `(I, volume)` **iff** it is isomorphism-invariant, multiplicative, normalized, and
+reflection-positive — the moment problem for graphs (Lovász–Szegedy, *Limits of dense graph
+sequences*, Thm 2.2; there iso-invariance is baked into the notion of graph parameter, made explicit
+here because `GraphParam` is representation-sensitive). Explicit `[0,1]`-boundedness is **not** a
+hypothesis — it follows from the representation (`t(F, W) ∈ [0,1]`), pinned as the derived corollary
+`graphParam_mem_Icc_of_isReflectionPositive`. Stating the
 existential over `(I, volume)` — every graphon is representable there — keeps the statement on the
 roadmap's canonical `GraphonSpaceI` carrier rather than an abstract existential space. Grounded on the
 reflection-positivity development of Layer 8a above — a target built here, not a re-derivation deferred
@@ -371,8 +375,9 @@ compatibility `finiteGraphGraphon` + `homDensity_finiteGraphGraphon` (with `0 < 
 quotient-level separation `graphonSpace_ext_homDensity`; and the **Layer-8 representability** targets
 `LabeledGraph` (injective labels) + `LabeledGraph.glue`, the graph parameter `GraphParam` with
 `IsIsoInvariant`, the finite `connectionMatrix` (+ the entry law `connectionMatrix_apply`), its
-`IsReflectionPositive` (finite principal blocks PSD) / `IsMultiplicative` / `IsNormalized` predicates, and the five-condition iff
-`lovasz_szegedy_representability` (over the canonical `(I, volume)` carrier). Described in prose rather than pinned (to
+`IsReflectionPositive` (finite principal blocks PSD) / `IsMultiplicative` / `IsNormalized` predicates, the four-condition iff
+`lovasz_szegedy_representability` (over the canonical `(I, volume)` carrier), and its derived range
+corollary `graphParam_mem_Icc_of_isReflectionPositive`. Described in prose rather than pinned (to
 avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape and the exact
 mod-null transport bundle. An `IsCoupling` *structure/class* is **deliberately not** introduced — a
 coupling of given marginals is not canonical, so typeclass resolution would pick an arbitrary one; the
@@ -446,6 +451,10 @@ is Layer 4's `CompactSpace GraphonSpaceI`.
 ## References
 
 - L. Lovász, *Large Networks and Graph Limits* (2012), Part 3 (§7.1, §8.2, §9.2, Ch. 11, Ch. 13).
+- L. Lovász, B. Szegedy, *Limits of dense graph sequences*, JCTB 96 (2006), 933–957
+  ([arXiv:math/0408173](https://arxiv.org/abs/math/0408173)) — the graphon limit object and the
+  representability characterization (Thm 2.2: normalized + multiplicative + reflection-positive,
+  Layer 8b).
 - C. Borgs, J. Chayes, L. Lovász, V. Sós, K. Vesztergombi, *Convergent sequences of dense graphs
   I–II*.
 - L. Lovász, B. Szegedy, *Szemerédi's Lemma for the Analyst*, GAFA 17 (2007), 252–270 — weak
@@ -491,7 +500,8 @@ The mathematics and proof routes draw on two prior Lean developments,
 - Is Layer 8 pinned as a real target here — injective-label `LabeledGraph` / `LabeledGraph.glue`, the
   finite `connectionMatrix` / `IsReflectionPositive` (finite principal blocks PSD over `Fin n` families,
   not one infinite matrix), and `lovasz_szegedy_representability` (with `IsIsoInvariant` among its
-  hypotheses, over the canonical `(I, volume)` carrier) — rather than deferred to an external
+  hypotheses, over the canonical `(I, volume)` carrier, and the `[0,1]` range a **derived corollary**,
+  never a hypothesis) — rather than deferred to an external
   reflection-positivity development?
 - Do the structural predicates (`IsIsoInvariant` / `IsMultiplicative` / `IsNormalized` /
   `IsReflectionPositive`) carry real bodies — never `def … : Prop := sorry`, which asserts nothing?
