@@ -1,10 +1,14 @@
 import Mathlib
 
 /-!
-# Infinitary syntax, back-and-forth, and Scott analysis: target signatures
+# Infinitary syntax, back-and-forth, and Scott analysis: suggested signatures
 
-The narrative roadmap, the library spine, the layer-by-layer build plan (Layers 0–3), the worked
-examples, and the references are in `README.md`.
+**`README.md` is the definitive roadmap document** — its narrative plan, library spine,
+layer-by-layer build (Layers 0–3), standing hypotheses, worked examples, and references are the
+specification. This file is **not** the roadmap and is **not exhaustive**: it records suggested
+Lean `sorry`-forms (allowed in this human-owned roadmap library) for *particular* milestones, so
+that contributors and reviewers converge on names and signatures; discharging every statement here
+neither finishes a layer nor the roadmap.
 
 This file holds the **Layer 0/1** target shapes whose types are already expressible against the
 pinned Mathlib: the two infinitary syntaxes built over `FirstOrder.Language` — `BoundedFormulaω`
@@ -139,7 +143,7 @@ def toLω {α : Type u'} : {n : ℕ} → L.BoundedFormula α n → BoundedFormul
   | _, .all φ => (toLω φ).all
 
 /-- **Layer 0 milestone, realization compatibility.** The finitary embedding preserves truth. -/
-example {α : Type u'} {M : Type w} [L.Structure M] {n : ℕ}
+theorem realize_toLω {α : Type u'} {M : Type w} [L.Structure M] {n : ℕ}
     (φ : L.BoundedFormula α n) (v : α → M) (xs : Fin n → M) :
     (toLω φ).Realize v xs ↔ φ.Realize v xs := by
   sorry
