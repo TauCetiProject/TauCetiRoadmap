@@ -284,10 +284,14 @@ close.
 The gluing algebra behind the representability theorem, **built here** (connection matrices are not
 in Mathlib). A `k`-**labeled graph** `LabeledGraph k` is a finite simple graph with an ordered
 `k`-tuple of *distinct* labeled vertices (labels injective); `LabeledGraph.glue` glues two of them by
-identifying corresponding labels. For a graph parameter `f : GraphParam` — a real parameter of finite
+identifying corresponding labels, and the result is **again a `k`-labeled graph** — the identified
+vertices keep their labels — so gluing iterates and the gluing algebra (associativity/commutativity
+up to `≃g`, Lovász–Szegedy's product `F₁F₂`) is expressible; `forgetLabels` returns the underlying
+unlabeled graph. For a graph parameter `f : GraphParam` — a real parameter of finite
 simple graphs, with isomorphism invariance imposed separately as `IsIsoInvariant` (agreement along
 `≃g`) — and a finite family `A : ι → LabeledGraph k`, `connectionMatrix f A` is the `ι × ι` matrix
-with entry `f(A i glue A j)`, a finite principal block of the full connection matrix `M(f, k)`. `f` is
+with entry `f` on the unlabeled gluing `((A i).glue (A j)).forgetLabels`, a finite principal block of
+the full connection matrix `M(f, k)`. `f` is
 **reflection-positive** (`IsReflectionPositive`) when every such finite connection matrix is positive
 semidefinite — stated over `Fin n`-indexed families (the roadmap's `Fin`-representative convention;
 any finite `ι` reindexes with PSD preserved), not as one infinite matrix. Together with
@@ -373,7 +377,8 @@ milestones** — Frieze–Kannan `weak_regularity_frieze_kannan`, compactness/co
 `tendsto_graphonSpace_iff_forall_homDensity` (+ `continuous_homDensityOnSpace`), finite-graph
 compatibility `finiteGraphGraphon` + `homDensity_finiteGraphGraphon` (with `0 < m`), and the
 quotient-level separation `graphonSpace_ext_homDensity`; and the **Layer-8 representability** targets
-`LabeledGraph` (injective labels) + `LabeledGraph.glue`, the graph parameter `GraphParam` with
+`LabeledGraph` (injective labels) + the label-retaining `LabeledGraph.glue` (so gluing iterates) +
+`forgetLabels`, the graph parameter `GraphParam` with
 `IsIsoInvariant`, the finite `connectionMatrix` (+ the entry law `connectionMatrix_apply`), its
 `IsReflectionPositive` (finite principal blocks PSD) / `IsMultiplicative` / `IsNormalized` predicates, the four-condition iff
 `lovasz_szegedy_representability` (over the canonical `(I, volume)` carrier), and its derived range
@@ -497,7 +502,8 @@ The mathematics and proof routes draw on two prior Lean developments,
 - Are the **endpoint milestones** pinned as targets — FK weak regularity, `CompactSpace`/`CompleteSpace
   GraphonSpaceI`, `cutDistPullback` ↔ `cutDist`, the Layer-6b convergence equivalence, finite-graph
   compatibility (with `0 < m`), and quotient-level separation?
-- Is Layer 8 pinned as a real target here — injective-label `LabeledGraph` / `LabeledGraph.glue`, the
+- Is Layer 8 pinned as a real target here — injective-label `LabeledGraph`, the label-retaining
+  `LabeledGraph.glue` (with `forgetLabels` for the unlabeled graph), the
   finite `connectionMatrix` / `IsReflectionPositive` (finite principal blocks PSD over `Fin n` families,
   not one infinite matrix), and `lovasz_szegedy_representability` (with `IsIsoInvariant` among its
   hypotheses, over the canonical `(I, volume)` carrier, and the `[0,1]` range a **derived corollary**,

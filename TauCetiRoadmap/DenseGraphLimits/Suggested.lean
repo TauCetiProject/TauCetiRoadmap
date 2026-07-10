@@ -21,7 +21,8 @@ over `SimpleGraph (Fin n)` representatives. The Layer-2 `stepGraphon` / `stepGra
 are pinned here too — as are the endpoint milestones: Frieze–Kannan weak regularity,
 compactness/completeness of `GraphonSpaceI`, the coupling↔map `cutDistPullback`, the Layer-6b
 convergence equivalence, finite-graph compatibility (`finiteGraphGraphon`), and quotient-level
-separation. The Layer-8 representability targets — injective-label `LabeledGraph` / `LabeledGraph.glue`,
+separation. The Layer-8 representability targets — injective-label `LabeledGraph`,
+label-retaining `LabeledGraph.glue` (so gluing iterates) with `forgetLabels`,
 the graph parameter `GraphParam` with `IsIsoInvariant`, the finite `connectionMatrix` (+ its entry law
 `connectionMatrix_apply`) and `IsReflectionPositive` (finite principal blocks PSD), `IsMultiplicative` / `IsNormalized`, and
 `lovasz_szegedy_representability` (the four-condition iff over the canonical `(I, volume)` carrier,
@@ -518,9 +519,17 @@ structure LabeledGraph (k : ℕ) where
   label : Fin k → Fin n
   label_injective : Function.Injective label
 
-/-- **Layer 8a (gluing).** Glue two `k`-labeled graphs by identifying corresponding labeled vertices,
-yielding a finite simple graph (the unlabeled result). -/
-def LabeledGraph.glue {k : ℕ} (G₁ G₂ : LabeledGraph k) : Σ m, SimpleGraph (Fin m) := sorry
+/-- **Layer 8a (gluing).** Glue two `k`-labeled graphs by identifying corresponding labeled
+vertices. The result is again a `k`-labeled graph — the identified labeled vertices keep their
+labels (still distinct) — so gluing **iterates**, and the associativity/commutativity (up to `≃g`)
+of the gluing algebra is expressible; this is Lovász–Szegedy's product `F₁F₂` of `k`-labeled
+graphs. The underlying unlabeled graph is `forgetLabels`. -/
+def LabeledGraph.glue {k : ℕ} (G₁ G₂ : LabeledGraph k) : LabeledGraph k := sorry
+
+/-- **Layer 8a (unlabeling).** The underlying finite simple graph of a `k`-labeled graph, labels
+forgotten — the object a `GraphParam` evaluates, e.g. in the connection-matrix entries. -/
+def LabeledGraph.forgetLabels {k : ℕ} (G : LabeledGraph k) : Σ m, SimpleGraph (Fin m) :=
+  ⟨G.n, G.graph⟩
 
 /-- **Layer 8 (graph parameter).** A real-valued parameter of finite simple graphs (indexed over
 `Fin`-representatives); isomorphism invariance is imposed separately as `IsIsoInvariant`. -/
@@ -539,11 +548,12 @@ here; connection matrices are not in Mathlib. -/
 def connectionMatrix (f : GraphParam) {k : ℕ} {ι : Type*} [Fintype ι]
     (A : ι → LabeledGraph k) : Matrix ι ι ℝ := sorry
 
-/-- **Layer 8a.** The connection-matrix entry law: `f` evaluated on the glued graph of `A i` and
-`A j` (its size and simple graph read off the gluing). -/
+/-- **Layer 8a.** The connection-matrix entry law: `f` evaluated on the underlying unlabeled graph
+(`forgetLabels`) of the gluing of `A i` and `A j`. -/
 theorem connectionMatrix_apply (f : GraphParam) {k : ℕ} {ι : Type*} [Fintype ι]
     (A : ι → LabeledGraph k) (i j : ι) :
-    connectionMatrix f A i j = f ((A i).glue (A j)).1 ((A i).glue (A j)).2 := sorry
+    connectionMatrix f A i j
+      = f ((A i).glue (A j)).forgetLabels.1 ((A i).glue (A j)).forgetLabels.2 := sorry
 
 /-- **Layer 8a (reflection positivity).** `f` is reflection-positive when every finite connection
 matrix is positive semidefinite — i.e. every finite principal block of each `M(f, k)` is PSD. Stated
