@@ -110,7 +110,7 @@ some prose paths below are abbreviated.)
   Frieze–Kannan target. The finite regularity *tower* above it — strong graph regularity and
   arity-3 hypergraph-complex regularity — is likewise out of scope here: it is the subject of the
   companion **graph-regularity roadmap** (developed in parallel, in review), which *consumes* this
-  roadmap's cut norm, `stepGraphon`, and `weak_regularity_frieze_kannan` through finite adapters
+  roadmap's `cutNorm`, `stepGraphon`, and `weak_regularity_frieze_kannan` through finite adapters
   and never redefines them — so those names and shapes are load-bearing beyond this roadmap.
 - **Measurable / random graphs:** `MeasurableSpace (SimpleGraph V)` + `SimpleGraph.measurable_iff_adj`
   (`MeasureTheory/Constructions/SimpleGraph`); the binomial random graph `SimpleGraph.binomialRandom`
@@ -298,7 +298,7 @@ estimators: the finite-graph hom density `homDensityFin` and the **injective hom
 `injHomDensity` (`t₀`, ordered injective count over the falling factorial `(n)_k` — see Conventions),
 with the hom-vs-injective **closeness bound** `|t(F,·) − t₀(F,·)| ≤ C(k,2)/n` and the **unbiasedness
 anchor** `E_{G(n,W)}[t₀(F,·)] = t(F,W)` that pins the `(n)_k` normalization. Both finite estimators
-have a downstream consumer: the companion graph-regularity roadmap builds its plain-graph densities
+have a planned downstream consumer: the companion graph-regularity roadmap builds its plain-graph densities
 so as to refactor onto `homDensityFin` / `injHomDensity` once this roadmap lands. Then the
 almost-sure first sampling lemma and the second sampling lemma `δ□(G(n,W), W) → 0` (LNGL Lemma 10.16),
 via the weak-convergence stack (`LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet`); then the
