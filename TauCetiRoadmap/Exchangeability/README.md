@@ -66,6 +66,10 @@ with `α` a standard Borel space, prove the de Finetti–Ryll-Nardzewski equival
 --     ConditionallyIID μ X
 ```
 
+**Status (2026-07):** the `deFinetti` implication is implemented — as
+`conditionallyIID_of_exchangeable`, see *As landed* under Layer 6 — at the stronger
+`[IsFiniteMeasure μ]`; the named equivalence is the remaining v1 target.
+
 The standard-Borel hypothesis is on the value space `α`, where the directing measure and
 the conditional distributions live; the public statement keeps `Ω` with only a measurable
 structure. Build the tail-conditional path law via `condDistrib` on `ℕ → α` (standard Borel
@@ -518,6 +522,17 @@ proof. The L¹ and Lᵖ convergence forms (for `f ∈ L¹` / `Lᵖ`, using Mathl
 uniform-integrability and eLp-norm conditional-expectation tools) are follow-up Layer 4
 targets; the L¹ form is what most uses want.
 
+**As landed (2026-07).** The layer is complete in `TauCeti/Probability/Martingale/`
+(`Reverse.lean`, `Crossings/`, `AntitoneLimit.lean`, `Convergence.lean`), namespace
+`MeasureTheory`, at `[IsFiniteMeasure μ]` and with only `𝔽 0 ≤ m₀` assumed (antitonicity
+upgrades it). The review rubric prefers conclusion-descriptive names, so the crossing bound
+landed as `exists_lintegral_upcrossings_condExp_le` and the a.e.-limit existence as
+`exists_integrable_tendsto_ae_condExp_of_antitone`, each keeping its roadmap name
+(`upcrossings_bdd_uniform`, `condExp_exists_ae_limit_antitone`) as an `alias`;
+`ae_limit_is_condexp_iInf` was folded into the proof of `tendsto_ae_condExp_iInf` rather
+than kept as a standalone lemma. Time reversal runs through Mathlib's `Polynomial.revAt`
+(`revProcess`). The L¹ / Lᵖ convergence forms remain open.
+
 ### Layer 5: Koopman operators and invariant σ-algebras
 
 Suggested home:
@@ -627,6 +642,27 @@ The directing-measure theorem should expose a real API, not just an existence pr
 
 This is the default route for the final public API.
 
+**As landed (2026-07).** The martingale route is merged in `TauCeti/Probability/DeFinetti/`
+— `PrefixDeletion.lean`, `FutureFactorization.lean`, `TailFactorization.lean`,
+`CondExpConvergence.lean`, `DirectingMeasure.lean` / `DirectingMeasureCoord.lean`, and
+`BlockFactorization.lean` — rather than under the `ViaMartingale/` file plan above. Three
+route deviations worth recording:
+
+* the contraction-independence step is packaged as Mathlib's `ProbabilityTheory.CondIndep`
+  (`PrefixDeletion.lean`), not a bespoke predicate;
+* the factorization runs at the `blockLaw` level, with general injective selections reduced
+  to strictly monotone prefixes by `Tuple.sort` + `Contractable.map` — so no
+  `iCondIndepFun`-style conditional-independence capstone sits on the critical path;
+* the summit implications landed as `conditionallyIID_of_contractable` and
+  `conditionallyIID_of_exchangeable` on an arbitrary measurable `Ω` at `[IsFiniteMeasure μ]`
+  — exceeding the probability-measure target — via path-space transfer, with the
+  standard-Borel-`Ω` step `private`: exactly the public-statement discipline prescribed in
+  *The end goal* above.
+
+Still open in this layer: the named equivalence (`deFinetti_RyllNardzewski_equivalence`)
+and the directing-measure API beyond existence (a.e. uniqueness, the empirical-measure and
+mixture forms, the extreme-point corollary).
+
 ### Layer 7: public API and examples
 
 Suggested home:
@@ -664,7 +700,10 @@ exchangeable_extreme_iff_iid
 ```
 
 Route-specific theorem names should keep their suffixes. The unsuffixed theorem should be
-the general martingale route.
+the general martingale route. Per the Layer-4 naming pattern, the implementation's
+conclusion-descriptive names (`conditionallyIID_of_contractable`,
+`conditionallyIID_of_exchangeable`) are the primary declarations; the roadmap handles
+(`deFinetti`, `deFinetti_equivalence`, …) should land as `alias`es over them.
 
 ### Layer 8: generalized exchangeability and representation theorems
 
