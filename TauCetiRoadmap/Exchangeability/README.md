@@ -66,9 +66,10 @@ with `α` a standard Borel space, prove the de Finetti–Ryll-Nardzewski equival
 --     ConditionallyIID μ X
 ```
 
-**Status (2026-07):** the `deFinetti` implication is implemented — as
-`conditionallyIID_of_exchangeable`, see *As landed* under Layer 6 — at the stronger
-`[IsFiniteMeasure μ]`; the named equivalence is the remaining v1 target.
+**Status (2026-07):** both v1 shapes are implemented, at the stronger `[IsFiniteMeasure μ]`: the
+`deFinetti` implication as `conditionallyIID_of_exchangeable`, and the equivalence as
+`contractable_iff_conditionallyIID` / `contractable_iff_exchangeable_and_conditionallyIID` with
+the roadmap handles as aliases — see *As landed* under Layer 6.
 
 The standard-Borel hypothesis is on the value space `α`, where the directing measure and
 the conditional distributions live; the public statement keeps `Ω` with only a measurable
@@ -659,9 +660,12 @@ route deviations worth recording:
   standard-Borel-`Ω` step `private`: exactly the public-statement discipline prescribed in
   *The end goal* above.
 
-Still open in this layer: the named equivalence (`deFinetti_RyllNardzewski_equivalence`)
-and the directing-measure API beyond existence (a.e. uniqueness, the empirical-measure and
-mixture forms, the extreme-point corollary).
+The named equivalences landed in `TauCeti/Probability/DeFinetti/Theorem.lean`:
+`exchangeable_iff_conditionallyIID`, the two-way `contractable_iff_conditionallyIID`, the
+conjunction form `contractable_iff_exchangeable_and_conditionallyIID` derived from it, and the
+roadmap handles `deFinetti` / `deFinetti_equivalence` / `deFinetti_RyllNardzewski_equivalence` as
+`alias`es. Still open in this layer: the directing-measure API beyond existence (a.e. uniqueness,
+the empirical-measure and mixture forms, the extreme-point corollary).
 
 ### Layer 7: public API and examples
 
@@ -702,8 +706,9 @@ exchangeable_extreme_iff_iid
 Route-specific theorem names should keep their suffixes. The unsuffixed theorem should be
 the general martingale route. Per the Layer-4 naming pattern, the implementation's
 conclusion-descriptive names (`conditionallyIID_of_contractable`,
-`conditionallyIID_of_exchangeable`) are the primary declarations; the roadmap handles
-(`deFinetti`, `deFinetti_equivalence`, …) should land as `alias`es over them.
+`conditionallyIID_of_exchangeable`, the `_iff_` equivalences) are the primary declarations; the
+roadmap handles (`deFinetti`, `deFinetti_equivalence`, `deFinetti_RyllNardzewski_equivalence`)
+landed as `alias`es over them in `TauCeti/Probability/DeFinetti/Theorem.lean`.
 
 ### Layer 8: generalized exchangeability and representation theorems
 

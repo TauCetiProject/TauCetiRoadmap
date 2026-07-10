@@ -20,8 +20,10 @@ with `tailFamily`/`tailProcess` generalized to dependent codomains `β k`; Hewit
 still open), **Layer 4** (the Lévy downward theorem — landed in
 `TauCeti/Probability/Martingale/` as `MeasureTheory.tendsto_ae_condExp_iInf`), and the
 **Layer 6 summit** (de Finetti and the Ryll-Nardzewski equivalence, expressible since
-Layer 0; the de Finetti implication landed as `conditionallyIID_of_exchangeable` — general
-`Ω`, `[IsFiniteMeasure μ]` — with the named equivalence still open). These elaborate
+Layer 0; both landed — `conditionallyIID_of_exchangeable` and the equivalences
+`contractable_iff_conditionallyIID` / `contractable_iff_exchangeable_and_conditionallyIID`
+with the roadmap-handle aliases, general `Ω`, `[IsFiniteMeasure μ]`,
+`TauCeti/Probability/DeFinetti/`). These elaborate
 against the pinned Mathlib and are stated with `sorry` (allowed in this human-owned
 roadmap library).
 
@@ -231,18 +233,19 @@ example [IsFiniteMeasure μ] {𝔽 : ℕ → MeasurableSpace Ω}
 
 Expressible since Layer 0, so the suggested forms are pinned now; the proof routes and the
 directing-measure API (Layers 3–6 in `README.md`) land in between. The unsuffixed public
-theorem should be the reverse-martingale route. **Status:** the martingale route has landed
-both implications' content — `conditionallyIID_of_contractable` and
-`conditionallyIID_of_exchangeable` (`TauCeti/Probability/DeFinetti/BlockFactorization.lean`),
-on an arbitrary measurable `Ω` at `[IsFiniteMeasure μ]` — so the suggested forms below carry
-the achieved finite-measure generality; the named equivalence is the remaining summit shape.
+theorem should be the reverse-martingale route. **Status:** the summit is complete — the
+implications `conditionallyIID_of_contractable` / `conditionallyIID_of_exchangeable`
+(`TauCeti/Probability/DeFinetti/BlockFactorization.lean`) and the named equivalences with their
+roadmap-handle aliases (`TauCeti/Probability/DeFinetti/Theorem.lean`), all on an arbitrary
+measurable `Ω` at `[IsFiniteMeasure μ]` — so the suggested forms below carry the achieved
+finite-measure generality.
 -/
 
 /-- **Layer 6 summit, de Finetti's theorem** on a standard Borel state space: an
 exchangeable sequence is conditionally i.i.d. **Landed** as
 `conditionallyIID_of_exchangeable` (general `Ω`, `[IsFiniteMeasure μ]`, via path-space
 transfer with the standard-Borel-`Ω` step kept `private`); the roadmap handle `deFinetti`
-should land as an `alias` over it, per the Layer-4 naming pattern. -/
+landed as an `alias` over it (`DeFinetti/Theorem.lean`), per the Layer-4 naming pattern. -/
 example [IsFiniteMeasure μ] [StandardBorelSpace α] [Nonempty α]
     (hX : ∀ i, Measurable (X i)) (h_exch : Exchangeable μ X) :
     ConditionallyIID μ X := by
@@ -250,9 +253,10 @@ example [IsFiniteMeasure μ] [StandardBorelSpace α] [Nonempty α]
 
 /-- **Layer 6 summit, the de Finetti–Ryll-Nardzewski equivalence**:
 `contractable ↔ exchangeable ↔ conditionally i.i.d.` for sequences on a standard Borel
-state space. **Still open** — the hard direction is landed
-(`conditionallyIID_of_contractable`) and the easy directions are Layer-0 bridges; what
-remains is assembling and naming the equivalence. -/
+state space. **Landed** as the conjunction form
+`contractable_iff_exchangeable_and_conditionallyIID`, derived from the two-way
+`contractable_iff_conditionallyIID`, with the roadmap handle
+`deFinetti_RyllNardzewski_equivalence` an `alias` (`DeFinetti/Theorem.lean`). -/
 example [IsFiniteMeasure μ] [StandardBorelSpace α] [Nonempty α]
     (hX : ∀ i, Measurable (X i)) :
     Contractable μ X ↔ Exchangeable μ X ∧ ConditionallyIID μ X := by
