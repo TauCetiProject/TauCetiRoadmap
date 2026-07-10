@@ -142,7 +142,9 @@ not improvise.
   (`ElementaryMaps.lean`); `Language.card` (`Basic.lean`).
 * **Back-and-forth and countable generation:** `PartialEquiv` (`M ≃ₚ[L] N`), `FGEquiv`, and
   `IsExtensionPair` (`Mathlib/ModelTheory/PartialEquiv.lean`), including `embedding_from_cg` /
-  `equiv_between_cg` (an equivalence between countably generated structures from an extension pair);
+  `equiv_between_cg` (an equivalence between countably generated structures from an extension pair —
+  the `S = Set.univ` back-and-forth dovetailing, with `Order.sequenceOfCofinals` as its reusable
+  engine);
   the countably-generated-structure API `Structure.CG`, `Structure.cg_of_countable`,
   `Structure.cg_iff_countable` (with its function-symbol-countability hypothesis;
   `Mathlib/ModelTheory/FinitelyGenerated.lean`); `DirectLimit`
@@ -297,8 +299,10 @@ Build on Mathlib's `PartialEquiv` / `FGEquiv` / `IsExtensionPair`:
   symmetry — the recursion itself is a target, not assumed;
 * the finite EF game and the ω-round game, and the coherent-strategy object, with the quantifier-swap
   obstruction between `BFEquiv ω` and a coherent ω-strategy stated explicitly;
-* potential isomorphism as a Mathlib-vocabulary back-and-forth system: a nonempty `FGEquiv` together
-  with `IsExtensionPair L M N` and `IsExtensionPair L N M`;
+* potential isomorphism as an explicit **back-and-forth system**: a nonempty set `S` of `FGEquiv`s
+  closed under two-sided extension *within `S`*, with the one-way compatibility bridge
+  `potentialIso_of_isExtensionPair` from Mathlib's global `IsExtensionPair` (the `S = Set.univ`
+  case);
 * the **countable-generation bridge** from `[Countable M]` to Mathlib's `Structure.CG`, so
   `equiv_between_cg` / `embedding_from_cg` apply — cite `Structure.cg_of_countable` as the ready-made
   bridge, and note `Structure.cg_iff_countable` additionally needs countable function symbols (free for
@@ -312,12 +316,23 @@ Karp's theorem and its corollaries:
 potentialIso_iff_BFEquiv_all
 karp_theorem            -- L∞ω-equivalence ↔ potential isomorphism, structure-universe index
 karp_theorem_universe0  -- the Type 0 index specialization
+potentialIso_of_isExtensionPair  -- one-way bridge from Mathlib's global extension property (S = univ)
 cg_of_countable_structure   -- [Countable M] → Structure.CG L M (bridge to equiv_between_cg)
 countable_potentialIso_iff_iso   -- on countable structures, potential iso ↔ isomorphism
 ```
 
 **Acceptance example:** the countable-generation bridge `[Countable M] → Structure.CG L M` — compiles
 on Layer 0 + Mathlib, before the Karp summit.
+
+⚠ **API warning.** Do **not** define potential isomorphism by Mathlib's `IsExtensionPair`: that
+property quantifies over *all* finitely generated partial equivalences (the
+ultrahomogeneity-flavored condition) and is strictly stronger than the existence of *some*
+back-and-forth system. Counterexample: `(ℕ, <)` is isomorphic to itself, yet the one-point partial
+equivalence `1 ↦ 0` extends to nothing whose domain contains `0`, so `IsExtensionPair (ℕ,<) (ℕ,<)`
+fails — an `IsExtensionPair`-based definition would make both `karp_theorem` and
+`countable_potentialIso_iff_iso` false. `IsExtensionPair` enters only through the one-way
+`S = Set.univ` bridge; `equiv_between_cg` is the proof template whose `S`-relative dovetailing
+(via its engine `Order.sequenceOfCofinals`) the countable corollary actually needs.
 
 ⚠ **API warning.** State Karp at the universe-`w` index convention: the backward direction builds
 `iInf`/`iSup` indexed by the structure's universe, so an index type fixed at `Type 0` is too small to

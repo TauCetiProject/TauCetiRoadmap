@@ -144,19 +144,37 @@ example {α : Type u'} {M : Type w} [L.Structure M] {n : ℕ}
     (toLω φ).Realize v xs ↔ φ.Realize v xs := by
   sorry
 
-/-- **Layer 1, potential isomorphism.** A back-and-forth system in Mathlib's vocabulary: a
-nonempty finitely-generated partial isomorphism together with the two-sided extension property.
-This is the model-theoretic content of "winning strategy in the infinite Ehrenfeucht–Fraïssé
-game". -/
+/-- **Layer 1, potential isomorphism.** There is a **back-and-forth system**: a nonempty set `S`
+of finitely generated partial equivalences, closed under two-sided extension *within `S`*. This is
+the model-theoretic content of "winning strategy in the infinite Ehrenfeucht–Fraïssé game".
+Mathlib's `IsExtensionPair` — which quantifies over **all** of `L.FGEquiv M N` — is the
+`S = Set.univ` instance and is **strictly stronger**, so it cannot be the definition: `(ℕ, <)` is
+isomorphic to itself, yet the one-point partial equivalence `1 ↦ 0` extends to nothing whose
+domain contains `0`, so `IsExtensionPair` fails there while potential isomorphism holds. -/
 def PotentialIso (M : Type w) (N : Type w) [L.Structure M] [L.Structure N] : Prop :=
-  Nonempty (L.FGEquiv M N) ∧ L.IsExtensionPair M N ∧ L.IsExtensionPair N M
+  ∃ S : Set (L.FGEquiv M N), S.Nonempty ∧
+    (∀ f ∈ S, ∀ m : M, ∃ g ∈ S, m ∈ g.1.dom ∧ f ≤ g) ∧
+    (∀ f ∈ S, ∀ n : N, ∃ g ∈ S, n ∈ g.1.cod ∧ f ≤ g)
 
-/-- **Layer 1 milestone, the countable corollary of Karp's theorem.** On countable structures a
-potential isomorphism is an isomorphism. (The full Karp theorem — L∞ω-equivalence ↔ potential
-isomorphism at the structure-universe index — is stated in `README.md`, where the index-universe
-convention is pinned.) -/
-example (M N : Type) [L.Structure M] [L.Structure N] [Countable M] [Countable N]
-    (h : PotentialIso (L := L) M N) : Nonempty (M ≃[L] N) := by
+/-- **Layer 1, the `IsExtensionPair` bridge.** Mathlib's global extension property (with a partial
+equivalence to start from) gives a back-and-forth system — take `S = Set.univ`. This is the
+compatibility bridge to Mathlib's `IsExtensionPair` / `equiv_between_cg` vocabulary; it is one
+implication, not an equivalence. -/
+theorem potentialIso_of_isExtensionPair {M N : Type w} [L.Structure M] [L.Structure N]
+    (hMN : L.IsExtensionPair M N) (hNM : L.IsExtensionPair N M)
+    (hne : Nonempty (L.FGEquiv M N)) : PotentialIso (L := L) M N := by
+  sorry
+
+/-- **Layer 1 milestone, the countable corollary of Karp's theorem.** On countable structures,
+potential isomorphism coincides with isomorphism. Forward is the `S`-relative back-and-forth
+dovetailing — Mathlib's `equiv_between_cg` is the `S = Set.univ` case, and its engine
+`Order.sequenceOfCofinals` is the reusable tool; the converse restricts an isomorphism to finitely
+generated substructures. (The full Karp theorem — L∞ω-equivalence ↔ potential isomorphism at the
+structure-universe index — is stated in `README.md`, where the index-universe convention is
+pinned.) -/
+theorem countable_potentialIso_iff_iso (M N : Type) [L.Structure M] [L.Structure N]
+    [Countable M] [Countable N] :
+    PotentialIso (L := L) M N ↔ Nonempty (M ≃[L] N) := by
   sorry
 
 end TauCetiRoadmap.InfinitaryLogic
