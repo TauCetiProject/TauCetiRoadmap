@@ -416,6 +416,16 @@ theorem exists_mpModNull_equiv_unitInterval [StandardBorelSpace Ω] [NoAtoms μ]
       MeasurePreserving f μ volume ∧ MeasurePreserving g volume μ ∧
       (∀ᵐ x ∂μ, g (f x) = x) ∧ (∀ᵐ y ∂(volume : Measure I), f (g y) = y) := sorry
 
+/-- **Layer 6a prerequisite (representation on `[0,1]` — Janson, Thm 7.1).** Every graphon on an
+**arbitrary** probability carrier is at cut distance zero from a graphon on `(I, volume)`: the
+kernel is measurable for a countably generated sub-σ-algebra, which transports it to a pullback of
+a graphon on a Borel carrier (Janson, Lemma 7.3), and `Ω × [0,1]` then reaches `(I, volume)` by the
+atomless transport. This is the reduction the hypothesis-free separation converse runs on;
+`exists_measurePreserving_from_unitInterval` covers only standard Borel carriers, this owns the
+rest. -/
+theorem exists_graphon_unitInterval_cutDist_eq_zero (W : Graphon Ω μ) :
+    ∃ U : Graphon I (volume : Measure I), cutDist μ (volume : Measure I) W U = 0 := sorry
+
 /-- **Layer 6a forward (same-carrier corollary).** The `cutDistSame` specialization of the
 cross-carrier `forall_homDensity_eq_of_cutDist_eq_zero` (`cutDistSame μ = cutDist μ μ`). -/
 theorem forall_homDensity_eq_of_cutDistSame_eq_zero (U W : Graphon Ω μ)
@@ -432,8 +442,8 @@ variable {Ω₁ Ω₂ : Type*} [MeasurableSpace Ω₁] [MeasurableSpace Ω₂]
 agree ⇒ `cutDist = 0`, cross-carrier and with **no standard-Borel / atomless hypotheses** (LNGL
 Thm 11.3 on `[0,1]`; Janson, Thm 8.10, for arbitrary carriers, after the Borgs–Chayes–Lovász
 uniqueness theorem — the genuinely hard self-contained core). The proof route reduces to
-`(I, volume)` representatives (separability of the generated σ-algebra, then
-`exists_measurePreserving_from_unitInterval`); the *statement* carries no carrier hypotheses. -/
+`(I, volume)` representatives via `exists_graphon_unitInterval_cutDist_eq_zero` (Janson, Thm 7.1);
+the *statement* carries no carrier hypotheses. -/
 theorem cutDist_eq_zero_of_forall_homDensity_eq_cross
     (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂)
     (h : ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],

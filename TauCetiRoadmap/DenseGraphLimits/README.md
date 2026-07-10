@@ -261,8 +261,9 @@ the coupling-primary public equality `cutDist U W = 0`) is the easy counting dir
 (LNGL Thm 11.3 on `[0,1]`; Janson, Thm 8.10, for arbitrary carriers, after the Borgs–Chayes–Lovász
 uniqueness theorem), the genuinely hard self-contained analytic/algebraic core — is pinned
 **cross-carrier and carrier-free** (`cutDist_eq_zero_of_forall_homDensity_eq_cross`; the proof route
-reduces to `(I, volume)` representatives via separability and
-`exists_measurePreserving_from_unitInterval`, but the statement carries no hypotheses), with the
+reduces to `(I, volume)` representatives via the representation-on-`[0,1]` target
+`exists_graphon_unitInterval_cutDist_eq_zero` — Janson, Thm 7.1, every graphon is at cut distance
+zero from one on `(I, volume)` — but the statement carries no hypotheses), with the
 same-carrier form its specialization (`cutDist_eq_zero_of_forall_homDensity_eq`). The assembled —
 likewise hypothesis-free — cross-carrier separation iff is
 `cutDist_eq_zero_iff_forall_homDensity_eq_cross`; the quotient-level form is
@@ -355,7 +356,8 @@ convention with `SimpleGraph.binomialRandom`. Compiled there: `SymmKernel` / `Gr
 arbitrary probability carrier — `cutDist_triangle` needs no more), the counting lemma, the Layer-2 step objects `stepGraphon` +
 `stepGraphon_apply` and the averaging `stepGraphonAvg` + `stepGraphonAvg_apply`, the
 AE-invariance trio, the `(I, volume)` transport targets (`exists_measurePreserving_from_unitInterval`
-— atoms allowed — and the atomless mod-null equivalence), **separation 6a: the cross-carrier forward
+— atoms allowed — the atomless mod-null equivalence, and the representation-on-`[0,1]` reduction
+`exists_graphon_unitInterval_cutDist_eq_zero`), **separation 6a: the cross-carrier forward
 `forall_homDensity_eq_of_cutDist_eq_zero` (via `counting_lemma_coupling` +
 `isProbabilityMeasure_of_isCoupling`), its same-carrier corollary
 `forall_homDensity_eq_of_cutDistSame_eq_zero`, the carrier-free cross-carrier converse
@@ -467,7 +469,8 @@ is Layer 4's `CompactSpace GraphonSpaceI`.
 - S. Janson, *Graphons, cut norm and distance, couplings and rearrangements*, NYJM Monographs 4
   (2013) ([arXiv:1009.2376](https://arxiv.org/abs/1009.2376)) — the general-carrier statements:
   the coupling triangle inequality on arbitrary probability spaces (Lemma 6.5), the coupling↔map
-  equivalence and its atomless caveats (Thm 6.9, Remark 6.10), the carrier-free separation
+  equivalence and its atomless caveats (Thm 6.9, Remark 6.10), the representation of every graphon
+  on `[0,1]` (Lemma 7.3, Thm 7.1), the carrier-free separation
   (Thm 8.10), and the measure-preserving map from `[0,1]` onto any Borel probability space
   (Thm A.9).
 - Y. Dillies, B. Mehta, *Formalising Szemerédi's Regularity Lemma in Lean*, ITP 2022
