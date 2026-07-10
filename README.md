@@ -55,6 +55,12 @@ reviewers, can act on it without guessing.
   target. If the roadmap needs something that doesn't exist, building it must itself be a target,
   here or in a roadmap you cite. The bigger the gap, the worse AIs do with it.
 
+- **Check what's already in motion.** Before specifying an object, search Zulip and the open Mathlib
+  PRs for it — someone may already be building the API, settling the design, or have formalized it.
+  Cite what you find, follow the direction it's taking, and flag milestones that will refactor onto
+  in-flight Mathlib work once it lands. Reinventing an API Mathlib is already building, or picking a
+  convention the community is deciding against, wastes the work.
+
 - **Use Mathlib's vocabulary.** Where Mathlib already has a way to say something, use it rather
   than a private version, both in the roadmap and in the code. A standard notion said in our own
   dialect drifts from the library it builds on and grows a redundant theory of lemmas Mathlib
@@ -81,7 +87,11 @@ reviewers, can act on it without guessing.
 - **Write Lean code.** It's really helpful to prototype signatures, particularly for structures,
   classes, and definitions, by writing Lean code, either embedded in markdown or in associated
   Lean files using `sorry`. The prototypes are aids, not the specification: the markdown stays
-  definitive, and `Suggested.lean` is read as suggested forms, never as an exhaustive checklist.
+  definitive, and `Suggested.lean` is read as suggested forms, never as an exhaustive checklist —
+  open each `Suggested.lean` with the standard note saying so. Use `sorry` honestly: a condition you
+  cannot yet even *state* (its Mathlib API doesn't exist) is still a `sorry`, never a `Prop`-typed
+  field or a `def _ : Prop := sorry`. Both assert nothing (a `Prop` field is satisfiable by `True`;
+  a `sorry` body is `sorryAx Prop`), so omit a condition you cannot state rather than name an empty one.
 
 - **Pin conventions.** It's essential that you decide conventions ahead of time, or implementors
   will make bad decisions.

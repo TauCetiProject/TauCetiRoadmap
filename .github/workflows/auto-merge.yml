@@ -6,8 +6,11 @@ name: auto-merge
 # approves and CI passes. Native auto-merge watches PR state directly, so this is unaffected by
 # the pull_request_review event-delivery issue.
 
+# Use pull_request_target (not pull_request) so the tauceti-review-bot App secrets are available
+# for PRs opened from forks — the common case for external contributors. This job never checks out
+# or runs PR code (it only calls `gh pr merge`), so pull_request_target is safe here.
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, reopened, ready_for_review]
 
 permissions:
