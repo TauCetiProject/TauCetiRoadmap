@@ -40,16 +40,30 @@ student-project work, contributors should follow the repository process in the r
 the relevant Zulip threads, Mathlib PRs, and public project trackers, and asking the named
 contributors before starting parallel work.
 
-* Infinitary-formula API design: `Suggested.lean` uses parallel inductives only as a roadmap-local
-  prototype. This roadmap does not claim Tau Ceti should settle the final Mathlib API before the Zulip
-  `ModelTheory: API for infinitary formulas of L_{∞,ω}` discussion is resolved.
-* Cantor–Bendixson / perfect-kernel / ordinal-stabilization infrastructure: this roadmap does not
+* Infinitary-formula API design: the Zulip discussion
+  [ModelTheory: API for infinitary formulas of L_{∞,ω}](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/ModelTheory.3A.20API.20for.20infinitary.20formulas.20of.20L_.7B.E2.88.9E.2C.CF.89.7D)
+  raised — without resolution so far — whether Mathlib should carry a single universe-indexed core
+  (with Lω₁ω a fragment) or parallel types. `Suggested.lean` prototypes **parallel inductives**
+  because that is the shape this spine needs: Scott analysis wants structural recursion and
+  countability arguments on a first-class ℕ-branching syntax, not on a fragment predicate carved
+  out of the universe-indexed type, while Karp's backward direction needs the universe-indexed
+  branching that would make Lω₁ω a mere fragment. This is a roadmap-local prototype only: the
+  roadmap does not claim Tau Ceti should settle the final Mathlib API before that discussion is
+  resolved.
+* Cantor–Bendixson / perfect-kernel / ordinal-stabilization infrastructure (the Zulip
+  [Cantor-Bendixson analysis](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Cantor-Bendixson.20analysis)
+  thread; not in the pinned Mathlib): this roadmap does not
   claim the general theory. The Scott-analysis layers state only the Scott-specific refinement-
   stabilization dependency they need, and implementation should consume or refactor to the Mathlib API
   if that lands first.
-* Suslin / analytic / Effros infrastructure, including mathlib4#32742: not targeted here. No Tau Ceti
-  invariant-DST layer should proceed until this work is checked for overlap.
-* Many-sorted model theory: not targeted here. Any future roadmap should first check the ongoing
+* Suslin / analytic / Effros infrastructure — the Zulip
+  [Naming Suslin Spaces](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Naming.20Suslin.20Spaces)
+  thread and [mathlib4#32742](https://github.com/leanprover-community/mathlib4/pull/32742): not
+  targeted here. No Tau Ceti invariant-DST layer should proceed until this work is checked for
+  overlap.
+* Many-sorted model theory (the Zulip
+  [Many-sorted model theory](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Many-sorted.20model.20theory)
+  thread): not targeted here. Any future roadmap should first check the ongoing
   Mathlib effort and avoid duplicating student or contributor-owned work.
 
 ## The end goal (v1)
