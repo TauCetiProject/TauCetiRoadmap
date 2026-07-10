@@ -107,7 +107,11 @@ some prose paths below are abbreviated.)
   `szemeredi_regularity` with `SimpleGraph.IsUniform` (`…/Regularity/*`) is Mathlib's
   *strong* (tower-bound) regularity lemma — a comparison point for the analytic weak-regularity
   target, which is a **distinct theorem built separately** (Layer 2). Do not route it into the
-  Frieze–Kannan target.
+  Frieze–Kannan target. The finite regularity *tower* above it — strong graph regularity and
+  arity-3 hypergraph-complex regularity — is likewise out of scope here: it is the subject of the
+  companion **graph-regularity roadmap** (developed in parallel, in review), which *consumes* this
+  roadmap's cut norm, `stepGraphon`, and `weak_regularity_frieze_kannan` through finite adapters
+  and never redefines them — so those names and shapes are load-bearing beyond this roadmap.
 - **Measurable / random graphs:** `MeasurableSpace (SimpleGraph V)` + `SimpleGraph.measurable_iff_adj`
   (`MeasureTheory/Constructions/SimpleGraph`); the binomial random graph `SimpleGraph.binomialRandom`
   / `G(V, p)` with `p : I` (`Probability/Combinatorics/BinomialRandomGraph/Defs`).
@@ -293,7 +297,9 @@ measurable-graph σ-algebra `MeasurableSpace (SimpleGraph V)`), with the **compa
 estimators: the finite-graph hom density `homDensityFin` and the **injective hom density**
 `injHomDensity` (`t₀`, ordered injective count over the falling factorial `(n)_k` — see Conventions),
 with the hom-vs-injective **closeness bound** `|t(F,·) − t₀(F,·)| ≤ C(k,2)/n` and the **unbiasedness
-anchor** `E_{G(n,W)}[t₀(F,·)] = t(F,W)` that pins the `(n)_k` normalization. Then the
+anchor** `E_{G(n,W)}[t₀(F,·)] = t(F,W)` that pins the `(n)_k` normalization. Both finite estimators
+have a downstream consumer: the companion graph-regularity roadmap builds its plain-graph densities
+so as to refactor onto `homDensityFin` / `injHomDensity` once this roadmap lands. Then the
 almost-sure first sampling lemma and the second sampling lemma `δ□(G(n,W), W) → 0` (LNGL Lemma 10.16),
 via the weak-convergence stack (`LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet`); then the
 exchangeable-arrays / Aldous–Hoover representation connecting graphons to infinite exchangeable random
