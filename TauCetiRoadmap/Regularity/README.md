@@ -140,8 +140,9 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
   `homDensity_finiteGraphGraphon` naming): for `G : SimpleGraph (Fin m)` with `0 < m` and
   `P : Finpartition (univ : Finset (Fin m))`, `weightedEnergy G P` equals
   `graphonPartitionEnergy` of `finiteGraphGraphon G` at the measurable partition of `I` whose
-  parts are the unions of the equal vertex subintervals over each `P`-part; generic finite `V`
-  transports along `V ≃ Fin (Fintype.card V)`. So the two energies are bridged rather than
+  parts are the unions of the equal vertex subintervals over each `P`-part; generic **nonempty**
+  finite `V` transports along `V ≃ Fin (Fintype.card V)` (the pinned bridge assumes `0 < m`; the
+  empty graph's energy is degenerate on both sides). So the two energies are bridged rather than
   parallel. In v1 these are **prose** here (not
   pinned in `Suggested.lean`, which imports only Mathlib); pinned once the dense graph limits
   roadmap lands upstream.
