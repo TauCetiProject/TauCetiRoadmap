@@ -80,7 +80,8 @@ only once it can be stated honestly — **never** as `def _ : Prop := sorry`.
 
 ## What Mathlib already has (consume)
 
-Reuse these by name; do not rebuild them.
+Reuse these by name; do not rebuild them. (**Entry points checked** against the pinned toolchain;
+some prose paths below are abbreviated.)
 
 - **Szemerédi regularity:** `szemeredi_regularity (hε : 0 < ε) (hl : l ≤ card α) : ∃ P : Finpartition (univ : Finset α), P.IsEquipartition ∧ l ≤ #P.parts ∧ #P.parts ≤ SzemerediRegularity.bound ε l ∧ P.IsUniform G ε` (`Combinatorics/SimpleGraph/Regularity/Lemma.lean`).
 - **Uniformity / energy:** `SimpleGraph.IsUniform`, `Finpartition.IsUniform`, `Finpartition.nonUniforms`, `SimpleGraph.nonuniformWitness` (`Regularity/Uniform.lean`); `Finpartition.energy` and the `SzemerediRegularity.increment` / `chunk` energy-boost machinery (`Regularity/{Energy,Chunk,Increment}.lean`).
@@ -117,7 +118,7 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 
 ### Layer 1 — partitions, block densities, refinement, energy
 - **Consume.** `Finpartition`, `equitabilise`, `edgeDensity`, and the `SzemerediRegularity.increment` boost machinery.
-- **Build.** `UniformHypergraph.blockDensity`; the **size-weighted** graph energy `weightedEnergy` (the `L²` norm of the block-average step function, casts before division, **including** the diagonal blocks `i = j`) and its refinement-monotonicity `weightedEnergy_mono_of_refines`; the hypergraph-level analogue. **Not** Mathlib's unweighted `Finpartition.energy`, an `offDiag`-based average that is *not* Jensen-monotone under arbitrary refinement (it is monotone only inside the `increment` argument).
+- **Build.** `UniformHypergraph.blockDensity`; the **size-weighted** graph energy `weightedEnergy` (the `L²` norm of the block-average step function, casts before division, **including** the diagonal blocks `i = j`) and its refinement-monotonicity `weightedEnergy_mono_of_refines`; the hypergraph-level analogue. **Not** Mathlib's unweighted `Finpartition.energy`, an `offDiag`-based average that is *not* Jensen-monotone under arbitrary refinement (it is monotone only inside the `increment` argument). (`weightedEnergy` is the finite counterpart of the dense graph limits roadmap's analytic `graphonPartitionEnergy`; the bridge is a Layer-3 adapter.)
 - **Gate.** `weightedEnergy` agrees with the block-average `L²` on graphs; the diagonal and repeated-part conventions are explicit.
 
 ### Layer 2 — Szemerédi graph regularity bridge
@@ -126,9 +127,19 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 - **Gate.** Yields "all but ε-mass of pairs regular, boundedly many parts, almost-refining an equipartition `P₀`" — the input strong regularity iterates on.
 
 ### Layer 3 — weak regularity / graphon handoff
-- **Consume.** The dense graph limits roadmap (graphons, cut norm, `stepGraphon`, `weak_regularity_frieze_kannan`).
-- **Build.** Finite adapters only: a `stepGraphonOfFinpartition` compatibility and a finite Frieze–Kannan corollary **derived from** that roadmap. In v1 these are **prose** here (not pinned in `Suggested.lean`, which imports only Mathlib); pinned once the dense graph limits roadmap lands upstream.
-- **Gate.** No private finite cut norm survives — the canonical one is the graphon roadmap's.
+- **Consume.** The dense graph limits roadmap (graphons, cut norm, `stepGraphon` and the
+  block-averaged `stepGraphonAvg` — the actual Frieze–Kannan output there — and
+  `weak_regularity_frieze_kannan`).
+- **Build.** Finite adapters only: a `stepGraphonOfFinpartition` compatibility, a finite
+  Frieze–Kannan corollary **derived from** that roadmap, and the energy bridge — Layer 1's finite
+  `weightedEnergy` is the finite counterpart of that roadmap's analytic `graphonPartitionEnergy`
+  (both are the `L²` of the block average), and the compatibility `weightedEnergy G P =`
+  the graphon energy of `finiteGraphGraphon G` at the corresponding partition is an adapter target
+  here, so the two energies are bridged rather than parallel. In v1 these are **prose** here (not
+  pinned in `Suggested.lean`, which imports only Mathlib); pinned once the dense graph limits
+  roadmap lands upstream.
+- **Gate.** No private finite cut norm survives — the canonical one is the graphon roadmap's; the
+  finite and analytic energies are related by the bridge, not duplicated.
 
 ### Layer 4 — strong graph regularity
 - **Consume.** Layers 1–2 (`weightedEnergy`, the refining bridge), `IsUniform`.
