@@ -85,7 +85,7 @@ some prose paths below are abbreviated.)
 
 - **Szemerédi regularity:** `szemeredi_regularity (hε : 0 < ε) (hl : l ≤ card α) : ∃ P : Finpartition (univ : Finset α), P.IsEquipartition ∧ l ≤ #P.parts ∧ #P.parts ≤ SzemerediRegularity.bound ε l ∧ P.IsUniform G ε` (`Combinatorics/SimpleGraph/Regularity/Lemma.lean`).
 - **Uniformity / energy:** `SimpleGraph.IsUniform`, `Finpartition.IsUniform`, `Finpartition.nonUniforms`, `SimpleGraph.nonuniformWitness` (`Regularity/Uniform.lean`); `Finpartition.energy` and the `SzemerediRegularity.increment` / `chunk` energy-boost machinery (`Regularity/{Energy,Chunk,Increment}.lean`).
-- **Partitions:** `Finpartition`, `Finpartition.IsEquipartition` (`(parts).EquitableOn card`), `Finpartition.equitabilise`, `Finpartition.exists_equipartition_card_eq` (`Order/Partition/{Finpartition,Equipartition}.lean`, `Regularity/Equitabilise.lean`). **`P ≤ Q` = `P` refines `Q`.**
+- **Partitions:** `Finpartition` (`Order/Partition/Finpartition.lean`), `Finpartition.IsEquipartition` (`(parts).EquitableOn card`, `Order/Partition/Equipartition.lean`), and `Finpartition.equitabilise` / `Finpartition.exists_equipartition_card_eq` (both in `Combinatorics/SimpleGraph/Regularity/Equitabilise.lean`). **`P ≤ Q` = `P` refines `Q`.**
 - **Densities and copies:** `SimpleGraph.edgeDensity` (`SimpleGraph/Density.lean`); `SimpleGraph.Copy`, `IsContained` (`⊑`), `Free`, `copyCount`, `labelledCopyCount` (`SimpleGraph/Copy.lean`); triangle counting/removal and `triangleRemovalBound` (`SimpleGraph/Triangle/`).
 - **Building blocks:** `Nat.descFactorial` (falling factorial), `Finset.powersetCard`, `Nat.choose`. **No hypergraph type exists in Mathlib** — the hypergraph objects here are built from scratch.
 
@@ -131,11 +131,18 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
   block-averaged `stepGraphonAvg` — the actual Frieze–Kannan output there — and
   `weak_regularity_frieze_kannan`).
 - **Build.** Finite adapters only: a `stepGraphonOfFinpartition` compatibility, a finite
-  Frieze–Kannan corollary **derived from** that roadmap, and the energy bridge — Layer 1's finite
-  `weightedEnergy` is the finite counterpart of that roadmap's analytic `graphonPartitionEnergy`
-  (both are the `L²` of the block average), and the compatibility `weightedEnergy G P =`
-  the graphon energy of `finiteGraphGraphon G` at the corresponding partition is an adapter target
-  here, so the two energies are bridged rather than parallel. In v1 these are **prose** here (not
+  Frieze–Kannan corollary **derived from** that roadmap, and the **energy bridge** — Layer 1's
+  finite `weightedEnergy` is the finite counterpart of that roadmap's analytic
+  `graphonPartitionEnergy` (both are the `L²` of the block average, with no normalization
+  mismatch: Mathlib's `edgeDensity A B` counts ordered adjacent pairs on `A × B`, matching the
+  graphon integral and the `|A||B|/m²` weights, diagonal blocks included). Proposed adapter
+  theorem `graphonPartitionEnergy_finiteGraphGraphon` (following that roadmap's
+  `homDensity_finiteGraphGraphon` naming): for `G : SimpleGraph (Fin m)` with `0 < m` and
+  `P : Finpartition (univ : Finset (Fin m))`, `weightedEnergy G P` equals
+  `graphonPartitionEnergy` of `finiteGraphGraphon G` at the measurable partition of `I` whose
+  parts are the unions of the equal vertex subintervals over each `P`-part; generic finite `V`
+  transports along `V ≃ Fin (Fintype.card V)`. So the two energies are bridged rather than
+  parallel. In v1 these are **prose** here (not
   pinned in `Suggested.lean`, which imports only Mathlib); pinned once the dense graph limits
   roadmap lands upstream.
 - **Gate.** No private finite cut norm survives — the canonical one is the graphon roadmap's; the
