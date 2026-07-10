@@ -105,8 +105,8 @@ algorithm / Kodaira types / the conductor exponent.
 machine-checked to be expressible against the pinned Mathlib: the `N`-torsion structure
 `E[N] ≅ (ℤ/N)²` and the **Weil pairing** (Layer 1); the finiteness of `E(𝔽_q)` and the **Hasse
 bound** (Layer 2); the **complex uniformisation** in both directions (Layer 3); and the
-**quadratic twist**, its `j`-invariance and its point-isomorphism over the quadratic extension
-(Layer 5). The Layer 0 objects (the isogeny type, the dual isogeny, the invariant differential,
+**quadratic twist** — its discriminant/`j` behaviour, the point isomorphism, and the
+split-multiplicative-reduction theorem that FLT #1088 delivers (Layer 5). The Layer 0 objects (the isogeny type, the dual isogeny, the invariant differential,
 the formal group) and the Layer 4 objects (the Kodaira type, the conductor exponent, the Tate
 curve isomorphism) are new *types* whose faithful signatures require the very API those layers
 introduce; they are specified in the narrative below and built there, and are deliberately not
@@ -212,17 +212,36 @@ The ordering is the dependency order.
 
 ### Layer 5: twists (AEC X.2, X.5)
 
-- **The twisting principle.** Twists of `E/K` are classified by `H¹(Gal(\bar K/K), Aut E)`; for
-  `j ≠ 0, 1728` this is `K^× / (K^×)²` and the twists are the **quadratic twists** (AEC X.5.4),
-  built from `Aut E ≅ {±1}` (AEC III.10).
-- **Quadratic twists.** For `d ∈ K^×`, the quadratic twist `E^d` as a `WeierstrassCurve K`, with:
-  `j(E^d) = j(E)` (seeded), the effect on `Δ`, `c₄`, `c₆`, the involution `(E^d)^d ≅ E`, and the
-  **point-isomorphism** `E^d(L) ≅ E(L)` over any extension `L` in which `d` becomes a square —
-  Galois-anti-equivariant over the quadratic extension `K(√d)` (seeded).
-- **Reduction of twists.** Over a local field, every curve with nonsplit multiplicative reduction
-  becomes **split** after an unramified quadratic twist (the split/nonsplit dichotomy of Layer 4),
-  and the quadratic twist that does it. This is the link Layer 4's Tate curve needs, and the
-  concrete FLT-facing milestone.
+Twists of `E/K` are classified by `H¹(Gal(\bar K/K), Aut E)`; for `j ≠ 0, 1728`, where
+`Aut E ≅ {±1}` (AEC III.10, X.5.4), this is `K^× / (K^×)²` and every twist is a **quadratic
+twist**. This layer is written to match the `sorry`-free, Mathlib-bound FLT development (#1088)
+signature-for-signature, so — like Hasse — it can land as a near-transcription rather than as the
+last thing built.
+
+- **The quadratic twist by a quadratic** `x² − t x + n` (`quadraticTwistOf E t n`, over any
+  commutative ring): trace `t`, norm `n`, discriminant `D = t² − 4n`. The invariants scale as
+  `Δ ↦ D⁶Δ` (`Δ_quadraticTwistOf`, seeded), `c₄ ↦ D²c₄`, `c₆ ↦ D³c₆`, so the twist of an elliptic
+  curve is elliptic exactly when `D` is a unit (`isElliptic_quadraticTwistOf`, seeded) with
+  `j(E_{t,n}) = j(E)` (`j_quadraticTwistOf`, seeded), and base change commutes with twisting
+  (`quadraticTwistOf_map`). Twisting is an involution up to a `VariableChange`.
+- **The canonical twist by a separable quadratic extension** `L/K` (`quadraticTwist E L`, seeded):
+  the twist by the trace and norm of a generator, independent of the generator, with
+  `j(E^L) = j(E)` (`j_quadraticTwist`, seeded). For `j ≠ 0, 1728`, a curve `E'` that becomes
+  `L`-isomorphic to `E` is either `K`-isomorphic to `E` or to its twist `E^L` — the classification
+  (`exists_smul_eq_or_exists_smul_eq_quadraticTwist`). `Module.finrank K L = 2` stands in for
+  `Algebra.IsQuadraticExtension` until the latter lands in Mathlib (FLT is upstreaming it).
+- **The point isomorphism and Galois descent.** Over any `M ⊇ L`, a group isomorphism
+  `φ : E^L(M) ≅ E(M)` (`quadraticTwistPointEquiv`, seeded), natural in `M`, which is **Galois
+  anti-equivariant**: for `σ ∈ Gal(M/K)`, `φ(σ · P) = χ(σ) · σ · φ(P)` with `χ` the quadratic
+  character of `L/K` (`quadraticTwistPointEquiv_galois`). Over `M = L` this says `φ` intertwines
+  the nontrivial `σ ∈ Gal(L/K)` with `−σ` — the datum that *defines* the twist by Galois descent.
+- **Quadratic twist to split multiplicative reduction — the FLT-facing headline.** Over the
+  fraction field of a discrete valuation ring, a curve with **non-split** multiplicative reduction
+  acquires **split** multiplicative reduction after a separable quadratic twist
+  (`exists_quadraticTwist_hasSplitMultiplicativeReduction`, seeded, over Mathlib's
+  `HasSplitMultiplicativeReduction` and `minimal`): the unramified quadratic twist stays nonsplit
+  and the ramified ones become additive. This is the reduction fact Layer 4's Tate curve consumes,
+  and precisely what FLT #1088 delivers.
 
 ---
 
@@ -285,12 +304,19 @@ provenance, not as the specification.
   surjectivity, and the existence half of uniformisation, `sorry`-free but unmerged, on top of
   Mathlib's `PeriodPair`/`℘`. The open piece there is exactly the **bijectivity** of `φ` — the
   isomorphism `ℂ/Λ ≅ E(ℂ)` this layer seeds.
-- **Quadratic twists (Layer 5).** [ImperialCollegeLondon/FLT](https://github.com/ImperialCollegeLondon/FLT)
-  PR #1088 (`sorry`-free): `WeierstrassCurve.quadraticTwist`, `quadraticTwistPointEquiv`,
-  `j_quadraticTwist`, the `Δ`/`c₄`/`c₆` effect, the involution, and
-  `exists_quadraticTwist_hasSplitMultiplicativeReduction` (the split-after-unramified-twist
-  statement Layer 4 uses), with the reusable base-change/variable-change/`Aut` support in
-  `FLT/Mathlib/AlgebraicGeometry/EllipticCurve/*` (including `Aut E ≅ ℤ/2` for `j ≠ 0, 1728`).
+- **Quadratic twists (Layer 5) — ready to port now.**
+  [ImperialCollegeLondon/FLT](https://github.com/ImperialCollegeLondon/FLT) PR #1088 (`sorry`-free,
+  Mathlib-bound) supplies the whole layer, and the `Suggested.lean` seeds use its exact names:
+  `quadraticTwistOf` with its invariants (`Δ_quadraticTwistOf`, `c₄`/`c₆`/`b`-scaling,
+  `isElliptic_quadraticTwistOf`, `j_quadraticTwistOf`, `quadraticTwistOf_map`); the extension twist
+  `quadraticTwist` with `j_quadraticTwist` and the classification
+  `exists_smul_eq_or_exists_smul_eq_quadraticTwist`; the point isomorphism
+  `quadraticTwistPointEquiv` with its Galois anti-equivariance `quadraticTwistPointEquiv_galois`;
+  and the headline `exists_quadraticTwist_hasSplitMultiplicativeReduction`. Reusable support lives in
+  `FLT/Mathlib/AlgebraicGeometry/EllipticCurve/*` (base-change `IsElliptic`, the `VariableChange`
+  point isomorphism, `Aut E ≅ ℤ/2` for `j ≠ 0, 1728`, and the reduction API). The only adjustments
+  on porting are `Module.finrank K L = 2` → `Algebra.IsQuadraticExtension K L` (which FLT is
+  upstreaming) and FLT's `quadraticCharacter` for the Galois statement.
 - **The Tate curve (Layer 4).** FLT PRs #1069, #1085 (merged) and #1099 (open):
   `FLT/KnownIn1980s/EllipticCurves/TateCurve*`, `FLT/TateCurve/*`.
 - **`E[N] ≅ (ℤ/N)²` (Layer 1).** A `sorry`-free proof exists in the AINTLIB modular-curves
