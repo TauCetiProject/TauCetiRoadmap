@@ -307,7 +307,7 @@ reflection-positive — the moment problem for graphs (Lovász–Szegedy, *Limit
 sequences*, Thm 2.2; there iso-invariance is baked into the notion of graph parameter, made explicit
 here because `GraphParam` is representation-sensitive). Explicit `[0,1]`-boundedness is **not** a
 hypothesis — it follows from the representation (`t(F, W) ∈ [0,1]`), pinned as the derived corollary
-`graphParam_mem_Icc_of_isReflectionPositive`. Stating the
+`graphParam_mem_Icc_of_representability_axioms`. Stating the
 existential over `(I, volume)` — every graphon is representable there — keeps the statement on the
 roadmap's canonical `GraphonSpaceI` carrier rather than an abstract existential space. Grounded on the
 reflection-positivity development of Layer 8a above — a target built here, not a re-derivation deferred
@@ -382,7 +382,7 @@ quotient-level separation `graphonSpace_ext_homDensity`; and the **Layer-8 repre
 `IsIsoInvariant`, the finite `connectionMatrix` (+ the entry law `connectionMatrix_apply`), its
 `IsReflectionPositive` (finite principal blocks PSD) / `IsMultiplicative` / `IsNormalized` predicates, the four-condition iff
 `lovasz_szegedy_representability` (over the canonical `(I, volume)` carrier), and its derived range
-corollary `graphParam_mem_Icc_of_isReflectionPositive`. Described in prose rather than pinned (to
+corollary `graphParam_mem_Icc_of_representability_axioms`. Described in prose rather than pinned (to
 avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape and the exact
 mod-null transport bundle. An `IsCoupling` *structure/class* is **deliberately not** introduced — a
 coupling of given marginals is not canonical, so typeclass resolution would pick an arbitrary one; the

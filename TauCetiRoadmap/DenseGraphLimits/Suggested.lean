@@ -579,7 +579,7 @@ isomorphism-invariant, multiplicative, normalized, and reflection-positive (Lov�
 *Limits of dense graph sequences*, Thm 2.2 — where iso-invariance is baked into their notion of
 graph parameter; it is explicit here because `GraphParam` is representation-sensitive). Explicit
 `[0,1]`-boundedness is **not** a hypothesis: it is a consequence
-(`graphParam_mem_Icc_of_isReflectionPositive` below). Every graphon is representable on
+(`graphParam_mem_Icc_of_representability_axioms` below). Every graphon is representable on
 `(I, volume)`, so the existential carrier collapses to the canonical one. Grounded on the
 reflection-positivity development (8a) above — not a leap. -/
 theorem lovasz_szegedy_representability (f : GraphParam) :
@@ -591,8 +591,9 @@ theorem lovasz_szegedy_representability (f : GraphParam) :
 /-- **Layer 8b (derived range bound).** An isomorphism-invariant, multiplicative, normalized,
 reflection-positive graph parameter is automatically `[0,1]`-valued — via the representation
 `f = t(·, W)` and `t(F, W) ∈ [0,1]` (Layer 1). This is why boundedness is a corollary of the
-characterization, never one of its hypotheses. -/
-theorem graphParam_mem_Icc_of_isReflectionPositive (f : GraphParam) (h₁ : IsIsoInvariant f)
+characterization, never one of its hypotheses. (Named for the full set of representability axioms:
+all four hypotheses are consumed, not reflection positivity alone.) -/
+theorem graphParam_mem_Icc_of_representability_axioms (f : GraphParam) (h₁ : IsIsoInvariant f)
     (h₂ : IsMultiplicative f) (h₃ : IsNormalized f) (h₄ : IsReflectionPositive f)
     (n : ℕ) (F : SimpleGraph (Fin n)) : f n F ∈ Set.Icc (0 : ℝ) 1 := sorry
 
