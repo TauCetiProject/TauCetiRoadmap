@@ -11,10 +11,10 @@ names and signatures; discharging every statement here neither finishes a layer 
 pinned choices: the cut norm acts on *kernels* (so a difference `U - W` is well-typed), `cutDist` is
 **coupling-primary and
 cross-carrier**, and that the constant-graphon / sampling targets share the `unitInterval`
-convention with Mathlib's `SimpleGraph.binomialRandom`. The Layer-6a separation forward is
-**cross-carrier** with minimal hypotheses (same-carrier a corollary), the converse pinned both
-same-carrier and cross-carrier (with the assembled iff); all over `SimpleGraph (Fin n)`
-representatives. The Layer-2 `stepGraphon` / `stepGraphonAvg`, the analytic `graphonPartitionEnergy`
+convention with Mathlib's `SimpleGraph.binomialRandom`. The Layer-6a separation is **cross-carrier
+and hypothesis-free in both directions** (forward via the coupling counting lemma; converse per
+Janson, Thm 8.10) — the same-carrier forms are corollaries, and the assembled iff is pinned; all
+over `SimpleGraph (Fin n)` representatives. The Layer-2 `stepGraphon` / `stepGraphonAvg`, the analytic `graphonPartitionEnergy`
 (block-average based) with the L²-Pythagoras `graphonPartitionEnergy_increment`, `GraphonSpaceI` + its
 `MetricSpace` instance, the descent `homDensityOnSpace`, and the Layer-9 injective density
 `injHomDensity` (normalized by the falling factorial `(n)_k = Nat.descFactorial`, **not** `Nat.choose`)
@@ -140,9 +140,12 @@ def overlayDiff (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) (π : Measur
 cut norm of the overlaid difference. -/
 def cutDist (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) : ℝ := sorry
 
-/-- **Layer 1.** The gluing-lemma triangle inequality (so `cutDist` is a pseudometric). -/
+/-- **Layer 1.** The triangle inequality, on **arbitrary probability carriers** (Janson,
+*Graphons, cut norm and distance*, Lemma 6.5: step-graphon approximation reduces the coupling
+gluing to the finite case — no disintegration, hence no standard-Borel hypothesis). So `cutDist`
+is a pseudometric. -/
 theorem cutDist_triangle {Ω₃ : Type*} [MeasurableSpace Ω₃] (μ₃ : Measure Ω₃)
-    [IsProbabilityMeasure μ₃] [StandardBorelSpace Ω₁] [StandardBorelSpace Ω₂] [StandardBorelSpace Ω₃]
+    [IsProbabilityMeasure μ₃]
     (U : Graphon Ω₁ μ₁) (V : Graphon Ω₂ μ₂) (W : Graphon Ω₃ μ₃) :
     cutDist μ₁ μ₃ U W ≤ cutDist μ₁ μ₂ U V + cutDist μ₂ μ₃ V W := sorry
 
@@ -159,9 +162,12 @@ each of `(Ω₁, μ₁)` and `(Ω₂, μ₂)`, of the cut norm of the pulled-bac
 def cutDistPullback (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) : ℝ := sorry
 
 /-- **Layer 5 (coupling ↔ map).** The coupling-primary `cutDist` agrees with the map form, over
-atomless standard Borel — the central design equivalence. -/
+standard Borel carriers — **atoms allowed**: any coupling of standard Borel probability spaces is
+itself standard Borel, so it is realized by a pair of measure-preserving maps from `(I, volume)`
+(`exists_measurePreserving_from_unitInterval`; Janson, Thm 6.9 with Thm A.9). The central design
+equivalence. -/
 theorem cutDist_eq_cutDistPullback [StandardBorelSpace Ω₁] [StandardBorelSpace Ω₂]
-    [NoAtoms μ₁] [NoAtoms μ₂] (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) :
+    (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) :
     cutDist μ₁ μ₂ U W = cutDistPullback μ₁ μ₂ U W := sorry
 
 /-- **Layer 1.** A coupling of probability measures is itself a probability measure — documents why
@@ -201,14 +207,15 @@ theorem cutDistSame_self (U : Graphon Ω μ) : cutDistSame μ U U = 0 := cutDist
 /-- **Layer 1.** The first quotient object is fixed-carrier: graphons identified when `cutDist = 0`.
 (`GraphonSpaceI`, the unit-interval version, is the canonical public compact space; cross-carrier
 equality is expressed by `cutDist U W = 0`, not by a universe-bundled quotient over all carriers.) -/
-def graphonSetoid [StandardBorelSpace Ω] : Setoid (Graphon Ω μ) where
+def graphonSetoid : Setoid (Graphon Ω μ) where
   r U W := cutDistSame μ U W = 0
   iseqv := sorry
 
-/-- **Layer 1.** The fixed-carrier graphon space — over a standard Borel carrier, where the
-gluing-lemma triangle makes `cutDist = 0` a genuine equivalence. -/
-def GraphonSpace (Ω : Type*) [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
-    [StandardBorelSpace Ω] : Type _ :=
+/-- **Layer 1.** The fixed-carrier graphon space — over an **arbitrary** probability carrier: the
+carrier-free triangle inequality (`cutDist_triangle`, Janson Lemma 6.5) makes `cutDist = 0` a
+genuine equivalence with no standard-Borel hypothesis. -/
+def GraphonSpace (Ω : Type*) [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ] :
+    Type _ :=
   Quotient (graphonSetoid μ)
 
 /-- **Layer 1.** The canonical public graphon space: the fixed-carrier quotient over `(I, volume)` —
@@ -218,11 +225,11 @@ abbrev GraphonSpaceI : Type _ := GraphonSpace I (volume : Measure I)
 
 /-- **Layer 1.** `cutDist` descends to a genuine metric on `GraphonSpace` — needed even to *state*
 Layer-4 compactness and the Layer-6b convergence equivalence. -/
-instance [StandardBorelSpace Ω] : MetricSpace (GraphonSpace Ω μ) := sorry
+instance : MetricSpace (GraphonSpace Ω μ) := sorry
 
 /-- **Layer 1.** The metric on `GraphonSpace` computes as `cutDist` on representatives — pins how
 users actually calculate with the quotient metric. -/
-theorem dist_graphonSpace_mk_mk [StandardBorelSpace Ω] (U W : Graphon Ω μ) :
+theorem dist_graphonSpace_mk_mk (U W : Graphon Ω μ) :
     @dist (GraphonSpace Ω μ) _ (Quotient.mk (graphonSetoid μ) U) (Quotient.mk (graphonSetoid μ) W)
       = cutDistSame μ U W := sorry
 
@@ -335,14 +342,14 @@ theorem weak_regularity_frieze_kannan (W : Graphon Ω μ) {ε : ℝ} (hε : 0 < 
 /-- **Layer 2 (descent of `t(F, ·)`).** `homDensity` descends to `GraphonSpace` (well-defined by the
 forward separation `cutDist = 0 ⇒ equal densities`). Fin-indexed, matching the Layer-6a
 representatives (an arbitrary carrier would need a generic graph-transport API not pinned here). -/
-def homDensityOnSpace [StandardBorelSpace Ω] (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj] :
+def homDensityOnSpace (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj] :
     GraphonSpace Ω μ → ℝ :=
   Quotient.lift (fun W => homDensity μ F W) fun U W h => by
     have h0 : cutDist μ μ U W = 0 := h
     exact forall_homDensity_eq_of_cutDist_eq_zero μ μ U W h0 n F
 
 /-- **Layer 2.** The descent computes `homDensity` on representatives (by `Quotient.lift`, `rfl`). -/
-theorem homDensityOnSpace_mk [StandardBorelSpace Ω] (n : ℕ) (F : SimpleGraph (Fin n))
+theorem homDensityOnSpace_mk (n : ℕ) (F : SimpleGraph (Fin n))
     [DecidableRel F.Adj] (W : Graphon Ω μ) :
     homDensityOnSpace μ n F (Quotient.mk (graphonSetoid μ) W) = homDensity μ F W := rfl
 
@@ -389,10 +396,19 @@ theorem exists_graphon_repr [StandardBorelSpace Ω] (f : (Ω × Ω) →ₘ[μ.pr
     (hsymm : ∀ᵐ p ∂(μ.prod μ), f p = f p.swap) :
     ∃ W : Graphon Ω μ, toAEEqFun μ W = f := sorry
 
-/-- **Layer 5 prerequisite (mod-null transport).** A *mod-null measure-preserving equivalence* of an
-atomless standard Borel probability space with `(I, volume)`: measure-preserving maps both ways that
-are mutually inverse a.e. (Mathlib has the measurable equivalence; this is the m.p. refinement. The
-precise bundled `MeasurePreservingModNullEquiv` is described in `README.md`.) -/
+/-- **Layer 5 prerequisite (measure-preserving map from `I`).** Every standard Borel probability
+space — **atoms allowed** — receives a measure-preserving map from `(I, volume)` (Janson, Thm A.9:
+atoms absorb subintervals of their mass). This is the input that lets the coupling↔map equivalence
+`cutDist_eq_cutDistPullback` dispense with atomlessness; the mod-null *equivalence* below is the
+stronger, atomless-only refinement. -/
+theorem exists_measurePreserving_from_unitInterval [StandardBorelSpace Ω] :
+    ∃ g : I → Ω, MeasurePreserving g (volume : Measure I) μ := sorry
+
+/-- **Layer 4/5 prerequisite (mod-null transport, atomless).** A *mod-null measure-preserving
+equivalence* of an atomless standard Borel probability space with `(I, volume)`: measure-preserving
+maps both ways that are mutually inverse a.e. (Mathlib has the measurable equivalence; this is the
+m.p. refinement — Janson, Thm A.7. The precise bundled `MeasurePreservingModNullEquiv` is described
+in `README.md`.) -/
 theorem exists_mpModNull_equiv_unitInterval [StandardBorelSpace Ω] [NoAtoms μ] :
     ∃ (f : Ω → I) (g : I → Ω),
       MeasurePreserving f μ volume ∧ MeasurePreserving g volume μ ∧
@@ -406,36 +422,27 @@ theorem forall_homDensity_eq_of_cutDistSame_eq_zero (U W : Graphon Ω μ)
       homDensity μ F U = homDensity μ F W := by
   simpa [cutDistSame] using forall_homDensity_eq_of_cutDist_eq_zero μ μ U W h
 
-/-- **Layer 6a converse (inverse counting — the analytic summit).** All homomorphism densities agree
-⇒ `cutDist = 0`, over atomless standard Borel (LNGL Thm 11.3, the genuinely hard self-contained core).
-The full separation iff is this conjoined with the same-carrier forward
-`forall_homDensity_eq_of_cutDistSame_eq_zero`. -/
-theorem cutDist_eq_zero_of_forall_homDensity_eq [StandardBorelSpace Ω] [NoAtoms μ]
-    (U W : Graphon Ω μ)
-    (h : ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
-      homDensity μ F U = homDensity μ F W) :
-    cutDistSame μ U W = 0 := sorry
-
 section CrossCarrierSeparation
 variable {Ω₁ Ω₂ : Type*} [MeasurableSpace Ω₁] [MeasurableSpace Ω₂]
   (μ₁ : Measure Ω₁) (μ₂ : Measure Ω₂) [IsProbabilityMeasure μ₁] [IsProbabilityMeasure μ₂]
 
-/-- **Layer 6a converse (cross-carrier).** The inverse counting lemma in the coupling-primary form:
-all homomorphism densities agree ⇒ `cutDist = 0`, over atomless standard Borel on both carriers
-(route: transport both to `(I, volume)` via `exists_mpModNull_equiv_unitInterval`, then the
-same-carrier converse). -/
+/-- **Layer 6a converse (inverse counting — the analytic summit).** All homomorphism densities
+agree ⇒ `cutDist = 0`, cross-carrier and with **no standard-Borel / atomless hypotheses** (LNGL
+Thm 11.3 on `[0,1]`; Janson, Thm 8.10, for arbitrary carriers, after the Borgs–Chayes–Lovász
+uniqueness theorem — the genuinely hard self-contained core). The proof route reduces to
+`(I, volume)` representatives (separability of the generated σ-algebra, then
+`exists_measurePreserving_from_unitInterval`); the *statement* carries no carrier hypotheses. -/
 theorem cutDist_eq_zero_of_forall_homDensity_eq_cross
-    [StandardBorelSpace Ω₁] [StandardBorelSpace Ω₂] [NoAtoms μ₁] [NoAtoms μ₂]
     (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂)
     (h : ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
       homDensity μ₁ F U = homDensity μ₂ F W) :
     cutDist μ₁ μ₂ U W = 0 := sorry
 
 /-- **Layer 6a (cross-carrier separation iff — the public statement).** Assembled from the
-cross-carrier forward `forall_homDensity_eq_of_cutDist_eq_zero` and the converse above; the
-same-carrier iff is its `cutDistSame` specialization. -/
+cross-carrier forward `forall_homDensity_eq_of_cutDist_eq_zero` and the converse above —
+hypothesis-free on both sides (Janson, Thm 8.10); the same-carrier iff is its `cutDistSame`
+specialization. -/
 theorem cutDist_eq_zero_iff_forall_homDensity_eq_cross
-    [StandardBorelSpace Ω₁] [StandardBorelSpace Ω₂] [NoAtoms μ₁] [NoAtoms μ₂]
     (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) :
     cutDist μ₁ μ₂ U W = 0 ↔
       ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
@@ -444,6 +451,15 @@ theorem cutDist_eq_zero_iff_forall_homDensity_eq_cross
    cutDist_eq_zero_of_forall_homDensity_eq_cross μ₁ μ₂ U W⟩
 
 end CrossCarrierSeparation
+
+/-- **Layer 6a converse (same-carrier specialization).** The `cutDistSame` form of the carrier-free
+cross-carrier converse — a specialization, mirroring how the same-carrier forward is a corollary of
+the cross-carrier forward. -/
+theorem cutDist_eq_zero_of_forall_homDensity_eq (U W : Graphon Ω μ)
+    (h : ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
+      homDensity μ F U = homDensity μ F W) :
+    cutDistSame μ U W = 0 :=
+  cutDist_eq_zero_of_forall_homDensity_eq_cross μ μ U W h
 
 /-- **Layer 9 (sampling).** The `W`-random graph law `G(n, W)`. -/
 def sampleGraph (W : Graphon Ω μ) (n : ℕ) : Measure (SimpleGraph (Fin n)) := sorry

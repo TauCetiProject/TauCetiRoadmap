@@ -37,9 +37,10 @@ in *Why these two choices* below.
    compactness layer (Layer 4), not Layers 1–2. Rule: **construction may be representative-based;
    every user-facing theorem must be quotient-stable.**
 2. **Cut distance — coupling-primary.** `cutDist` is the infimum, over couplings of the two
-   carriers, of the cut norm of the overlaid difference; the triangle inequality is the gluing
-   lemma. Agreement with the classical measure-preserving-map infimum is a **named milestone**
-   (Layer 5), proved under atomless standard-Borel hypotheses, not a definitional commitment.
+   carriers, of the cut norm of the overlaid difference; the triangle inequality holds on
+   **arbitrary probability carriers** (Janson, Lemma 6.5). Agreement with the classical
+   measure-preserving-map infimum is a **named milestone** (Layer 5), proved over standard Borel
+   carriers — atoms allowed — not a definitional commitment.
 3. **Finite graphs — simple, `Sym2` edges.** `SimpleGraph V` with `[Fintype V]`; edges via
    `SimpleGraph.edgeFinset` / `Sym2`; density normalized `t(F, W_G) = hom(F,G)/|V(G)|^{|V(F)|}`.
    The **injective** density `t₀(F, G)` divides the *ordered injective* hom count by the **falling
@@ -47,8 +48,9 @@ in *Why these two choices* below.
    — the wrong denominator biases the sampling estimator by `k!` (`E[t₀] = k!·t` instead of `t`).
    Weighted graphs enter only as the technically convenient dense subset for the
    characterization layer, never as the primary object.
-4. **Carrier generality.** Core definitions over an arbitrary probability space; conditioning
-   and sampling over `StandardBorelSpace`; compactness and separation over atomless standard
+4. **Carrier generality.** Core definitions, the `cutDist` pseudometric and its quotient, and the
+   separation theorem over an arbitrary probability space (Janson, Lemma 6.5 and Thm 8.10);
+   conditioning and sampling over `StandardBorelSpace`; compactness over atomless standard
    Borel (`≅ (I, volume)` via the mod-null transport), with explicit transport. Flagship results get
    a general statement and an `I = [0,1]` corollary.
 5. **Vocabulary.** Neutral namespace `DenseGraphLimits.{Kernel, Graphon, HomDensity, CutNorm,
@@ -68,10 +70,12 @@ in *Why these two choices* below.
   pulled-back difference). We pin the coupling form as primary because it is **cross-carrier by
   construction, with symmetry a direct swap-coupling theorem** (`cutDist_comm`, via the coupling
   swap): it is well-defined for graphons on *arbitrary* probability spaces, needs no common carrier
-  and no standard-Borel/atomless hypothesis even to be *stated*, and its triangle inequality is
-  exactly the gluing lemma. The map form is not more general — it **equals**
-  the coupling form under atomless standard-Borel hypotheses (Layer 5, `cutDist_eq_cutDistPullback`)
-  — so making it primary would only bake those hypotheses and a common carrier into the basic object,
+  and no standard-Borel/atomless hypothesis even to be *stated*, and its triangle inequality holds
+  on arbitrary carriers (Janson, Lemma 6.5 — step-function approximation reduces the coupling
+  gluing to the finite case, so no disintegration is needed). The map form is not more general — it
+  **equals** the coupling form over standard Borel carriers, atoms allowed (Layer 5,
+  `cutDist_eq_cutDistPullback`) — so making it primary would only bake a common carrier and Borel
+  hypotheses into the basic object,
   crippling the cross-carrier API that the compactness, separation, and convergence layers rest on.
 - *Strict carrier (#1).* We carry a graphon as an honest everywhere-defined `W : Ω → Ω → ℝ` and take
   the a.e./weak-isomorphism identification **once**, at `GraphonSpace`, rather than as an `AEEqFun`
@@ -140,9 +144,11 @@ some prose paths below are abbreviated.)
 Absent from Mathlib and built as prerequisites (each a strong upstream candidate once its API is
 stable):
 
-- the **measure-preserving mod-null equivalence** of an atomless standard Borel probability space
-  with `(I, volume)` — Mathlib has the measurable equivalence (`PolishSpace.measurableEquivOfNotCountable`), not
-  this measure-preserving refinement (input to Layer 5);
+- the **measure-preserving map from `(I, volume)`** onto any standard Borel probability space —
+  atoms allowed (Janson, Thm A.9; input to Layer 5) — and the **measure-preserving mod-null
+  equivalence** with `(I, volume)` in the atomless case — Mathlib has the measurable equivalence
+  (`PolishSpace.measurableEquivOfNotCountable`), not
+  these measure-preserving refinements (inputs to Layers 4–5);
 - reusable **conditional-expectation / dyadic-martingale `L¹`-convergence** lemmas (Layer 4);
 - a thin **measurable `Finpartition` adapter**, only if the subtype pattern is too awkward (Layer 2);
 - **`AEEqFun`** ergonomics exercised by the Layer-3 view.
@@ -176,9 +182,10 @@ integrals, multiplicativity over disjoint unions, finite-graph compatibility
 `t(F, W_G) = hom(F,G)/|V(G)|^{|V(F)|}`); `cutNorm` with its seminorm laws, the `L¹` bound, and
 the equivalent set form `sup_{S,T} |∫_{S×T} W|`; the **coupling-primary, cross-carrier**
 `cutDist (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂)` (with `IsCoupling` and `overlayDiff`) and its
-**gluing-lemma triangle inequality** under standard-Borel hypotheses (so `cutDist` is a
-pseudometric); and the fixed-carrier quotient `GraphonSpace Ω μ` over a standard Borel carrier (where
-`cutDist = 0` is a genuine equivalence). The canonical public compact space is `GraphonSpaceI`, the
+**triangle inequality on arbitrary probability carriers** (Janson, Lemma 6.5; so `cutDist` is a
+pseudometric with no carrier hypotheses); and the fixed-carrier quotient `GraphonSpace Ω μ` (a
+genuine metric quotient over any probability carrier, for the same reason). The canonical public
+compact space is `GraphonSpaceI`, the
 unit-interval version; cross-carrier equality is `cutDist U W = 0`, not a quotient bundling all
 carriers.
 
@@ -232,24 +239,32 @@ martingale convergence are the engine. Pinned: `instance : CompactSpace GraphonS
 `CompleteSpace GraphonSpaceI` (the latter by `inferInstance` from compactness of the metric space).
 
 ### Layer 5 — coupling and map cut distance agree
-`cutDist` (coupling form) `=` the classical measure-preserving-map infimum, under atomless
-standard-Borel hypotheses. The proof rests on the **measure-preserving mod-null equivalence** with
-`(I, volume)` identified above (build it here). Independent of the spine, so it runs in parallel; it
+`cutDist` (coupling form) `=` the classical measure-preserving-map infimum, over standard Borel
+carriers — **atoms allowed**: every standard Borel probability space receives a measure-preserving
+map from `(I, volume)` (Janson, Thm A.9), so any coupling — itself standard Borel — is realized by
+a pair of such maps. The proof rests on that map (`exists_measurePreserving_from_unitInterval`,
+build it here); the stronger **atomless mod-null equivalence** (`exists_mpModNull_equiv_unitInterval`)
+is also built here, as the transport the compactness realignment (Layer 4) runs on. Independent of
+the spine, so it runs in parallel; it
 does not block the other layers. Pinned: the map form `cutDistPullback` (the infimum over
 measure-preserving maps from `(I, volume)` to both carriers) and the equivalence
 `cutDist_eq_cutDistPullback`.
 
 ### Layer 6 — separation and convergence equivalence (the analytic summit)
 **Layer 6a — separation / inverse counting.** `δ□(U, W) = 0 ⟺ ∀ F, t(F,U) = t(F,W)`; hence the moment
-map `W ↦ (t(F,W))_F` is injective on `GraphonSpace`. The **forward** direction is **cross-carrier and
-needs no standard-Borel / atomless hypothesis** (`forall_homDensity_eq_of_cutDist_eq_zero`, matching
-the coupling-primary public equality `cutDist U W = 0`): it is the easy counting direction via
-`counting_lemma_coupling`, and the same-carrier statement is a corollary
+map `W ↦ (t(F,W))_F` is injective on `GraphonSpace`. **Both directions are cross-carrier and need no
+standard-Borel / atomless hypothesis.** The **forward** direction
+(`forall_homDensity_eq_of_cutDist_eq_zero`, matching
+the coupling-primary public equality `cutDist U W = 0`) is the easy counting direction via
+`counting_lemma_coupling`, with the same-carrier statement a corollary
 (`forall_homDensity_eq_of_cutDistSame_eq_zero`). The **converse** — the **inverse counting lemma**
-(LNGL Thm 11.3), the genuinely hard self-contained analytic/algebraic core — is pinned both
-same-carrier (`cutDist_eq_zero_of_forall_homDensity_eq`) and **cross-carrier**
-(`cutDist_eq_zero_of_forall_homDensity_eq_cross`, route: transport both carriers to `(I, volume)`),
-each under atomless standard Borel. The assembled cross-carrier separation iff is
+(LNGL Thm 11.3 on `[0,1]`; Janson, Thm 8.10, for arbitrary carriers, after the Borgs–Chayes–Lovász
+uniqueness theorem), the genuinely hard self-contained analytic/algebraic core — is pinned
+**cross-carrier and carrier-free** (`cutDist_eq_zero_of_forall_homDensity_eq_cross`; the proof route
+reduces to `(I, volume)` representatives via separability and
+`exists_measurePreserving_from_unitInterval`, but the statement carries no hypotheses), with the
+same-carrier form its specialization (`cutDist_eq_zero_of_forall_homDensity_eq`). The assembled —
+likewise hypothesis-free — cross-carrier separation iff is
 `cutDist_eq_zero_iff_forall_homDensity_eq_cross`; the quotient-level form is
 `graphonSpace_ext_homDensity` (`U = W ↔ ∀ F, …` on `GraphonSpaceI`).
 
@@ -309,8 +324,8 @@ graphs. The long-horizon endpoint.
 Several prerequisites are reusable beyond graphons and are upstream candidates, once the API has
 stabilized here (premature upstreaming churns against Mathlib review). Deferred, not dropped;
 initial inventory:
-- the **measure-preserving mod-null equivalence** of an atomless standard Borel space with
-  `(I, volume)` (Layer 5);
+- the **measure-preserving map from `(I, volume)`** onto any standard Borel probability space, and
+  the **measure-preserving mod-null equivalence** with `(I, volume)` in the atomless case (Layer 5);
 - reusable **conditional-expectation / dyadic-martingale `L¹`-convergence** lemmas (Layer 4);
 - **finite product / `Measure.pi` curry–uncurry** lemmas (Layer 0);
 - **`AEEqFun`** ergonomics exercised by the Layer 3 view.
@@ -328,16 +343,18 @@ convention with `SimpleGraph.binomialRandom`. Compiled there: `SymmKernel` / `Gr
 (+ the seminorm laws `cutNorm_nonneg` / `_zero` / `_neg` / `_add_le` / `_smul`),
 `homDensity`, `Graphon.const` + `homDensity_const = (p : ℝ) ^ e(F)`, `IsCoupling` / `overlayDiff` /
 `isCoupling_prod` / cross-carrier `cutDist` + `cutDist_triangle` (+ `cutDist_nonneg` / `_comm` /
-`_self`, `cutDistSame_self`), `GraphonSpace` (a `Quotient` over a
-standard Borel carrier), the counting lemma, the Layer-2 step objects `stepGraphon` +
+`_self`, `cutDistSame_self`), `GraphonSpace` (a `Quotient` over an
+arbitrary probability carrier — `cutDist_triangle` needs no more), the counting lemma, the Layer-2 step objects `stepGraphon` +
 `stepGraphon_apply` and the averaging `stepGraphonAvg` + `stepGraphonAvg_apply`, the
-AE-invariance trio, the mod-null transport target, **separation 6a: the cross-carrier forward
+AE-invariance trio, the `(I, volume)` transport targets (`exists_measurePreserving_from_unitInterval`
+— atoms allowed — and the atomless mod-null equivalence), **separation 6a: the cross-carrier forward
 `forall_homDensity_eq_of_cutDist_eq_zero` (via `counting_lemma_coupling` +
 `isProbabilityMeasure_of_isCoupling`), its same-carrier corollary
-`forall_homDensity_eq_of_cutDistSame_eq_zero`, the same-carrier converse
-`cutDist_eq_zero_of_forall_homDensity_eq`, and the cross-carrier converse + separation iff
-`cutDist_eq_zero_of_forall_homDensity_eq_cross` / `cutDist_eq_zero_iff_forall_homDensity_eq_cross`**
-(all over `SimpleGraph (Fin n)`), `sampleGraph` + the `G(V,p)` compatibility, the **Layer-9 injective
+`forall_homDensity_eq_of_cutDistSame_eq_zero`, the carrier-free cross-carrier converse
+`cutDist_eq_zero_of_forall_homDensity_eq_cross` with its same-carrier specialization
+`cutDist_eq_zero_of_forall_homDensity_eq`, and the separation iff
+`cutDist_eq_zero_iff_forall_homDensity_eq_cross`**
+(all over `SimpleGraph (Fin n)`, all with no carrier hypotheses), `sampleGraph` + the `G(V,p)` compatibility, the **Layer-9 injective
 density** `homDensityFin` / `injHomDensity` (the `(n)_k = descFactorial` denominator) with the
 closeness bound and the `injHomDensity_integral_sampleGraph` unbiasedness anchor, the set-form /
 signed cut norm (`cutNormSet` + `cutNorm_eq_cutNormSet`, `cutNormSigned` + the factor-4 sandwich), the
@@ -433,6 +450,12 @@ is Layer 4's `CompactSpace GraphonSpaceI`.
   I–II*.
 - L. Lovász, B. Szegedy, *Szemerédi's Lemma for the Analyst*, GAFA 17 (2007), 252–270 — weak
   regularity and the compactness of the graphon space (Layers 2 and 4).
+- S. Janson, *Graphons, cut norm and distance, couplings and rearrangements*, NYJM Monographs 4
+  (2013) ([arXiv:1009.2376](https://arxiv.org/abs/1009.2376)) — the general-carrier statements:
+  the coupling triangle inequality on arbitrary probability spaces (Lemma 6.5), the coupling↔map
+  equivalence and its atomless caveats (Thm 6.9, Remark 6.10), the carrier-free separation
+  (Thm 8.10), and the measure-preserving map from `[0,1]` onto any Borel probability space
+  (Thm A.9).
 - Y. Dillies, B. Mehta, *Formalising Szemerédi's Regularity Lemma in Lean*, ITP 2022
   ([doi:10.4230/LIPIcs.ITP.2022.9](https://doi.org/10.4230/LIPIcs.ITP.2022.9)) — the Mathlib
   regularity / triangle-removal development this roadmap consumes.
@@ -451,11 +474,13 @@ The mathematics and proof routes draw on two prior Lean developments,
 - Are one-line hypotheses written inline rather than wrapped in a predicate?
 - Are strict-carrier, AE, and quotient-level statements kept distinct?
 - Is `cutDist` coupling-primary and cross-carrier, with map/pullback only a compatibility milestone?
-- Is the Layer-6a separation split into a forward (cross-carrier, minimal hypotheses) plus a converse
-  under atomless standard-Borel hypotheses (same-carrier and cross-carrier), over `SimpleGraph (Fin n)`
+- Is the Layer-6a separation **carrier-free in both directions** — the forward via
+  `counting_lemma_coupling`, the converse cross-carrier with no standard-Borel / atomless hypotheses
+  (Janson, Thm 8.10) — over `SimpleGraph (Fin n)`
   representatives (no universe-restricted `{V : Type}`)?
-- Is the 6a **forward cross-carrier** (`cutDist μ₁ μ₂ U W = 0`, via `counting_lemma_coupling`) with
-  **no standard-Borel / atomless hypothesis** (those belong only on the converse), same-carrier a corollary?
+- Are the same-carrier 6a statements **specializations** of the cross-carrier ones (never the other
+  way around), and is the coupling↔map equivalence stated over standard Borel with **atoms allowed**
+  (no `NoAtoms`)?
 - Does Layer 2 **build** the analytic `graphonPartitionEnergy` rather than claim Mathlib's finite
   `Finpartition.energy` as the input (it's a proof template only)?
 - Is Layer 2's public API **block-average based** (`stepGraphonAvg`), with the AE / conditional-expectation
