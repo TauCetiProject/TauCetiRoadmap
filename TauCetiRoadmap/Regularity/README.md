@@ -1,4 +1,4 @@
-# Roadmap: graph regularity, strong regularity, and arity-3 hypergraph complexes
+# Roadmap: graph regularity, finite weak regularity, and arity-3 hypergraph complexes
 
 Mathlib already carries a finite-graph **regularity** ecosystem — `SimpleGraph`, edge densities,
 `Finpartition` / `IsEquipartition` / `equitabilise`, the Szemerédi regularity lemma
@@ -124,7 +124,7 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 - **Gate.** `K₂`, a triangle, the complete and empty `r`-uniform hypergraphs; hom densities normalized by powers, injective densities by the falling factorial `(n)_k`.
 
 ### Layer 1 — partitions, block densities, refinement, energy
-- **Consume.** `Finpartition`, `equitabilise`, `edgeDensity`, and the `SzemerediRegularity.increment` boost machinery.
+- **Consume.** `Finpartition`, `equitabilise`, `edgeDensity`. Mathlib's `SzemerediRegularity.increment` boost machinery is an **alignment point / proof template**, not a consumed theorem: it is stated for Mathlib's unweighted `Finpartition.energy`, and no comparison lemma transporting its boost to `weightedEnergy` is pinned (if one is added later, this becomes a real consume).
 - **Build.** `UniformHypergraph.blockDensity`; the **size-weighted** graph energy `weightedEnergy` (the `L²` norm of the block-average step function, casts before division, **including** the diagonal blocks `i = j`) and its refinement-monotonicity `weightedEnergy_mono_of_refines`; the hypergraph-level analogue. **Not** Mathlib's unweighted `Finpartition.energy`, an `offDiag`-based average that is *not* Jensen-monotone under arbitrary refinement (it is monotone only inside the `increment` argument). (Comparison with the dense graph limits roadmap's analytic `graphonPartitionEnergy` is optional interoperability, not a deliverable — see *Interfaces exported to other roadmaps*.)
 - **Gate.** `weightedEnergy` agrees with the block-average `L²` on graphs; the diagonal and repeated-part conventions are explicit.
 
@@ -178,14 +178,15 @@ prerequisites** (evidence the finite layer stands alone). Stated there for direc
 `Suggested.lean` targets are its `SimpleGraph` specialization.
 
 ### Layer 4 — strong graph regularity
-- **Consume.** Layers 1–2 (`weightedEnergy`, the refining bridge), `IsUniform`.
-- **Build.** `StrongRegular` — a coarse `P` and fine `Q` (`Q ≤ P`), both equipartitions, `P` `ε`-uniform, `Q` `F(#P.parts)`-uniform, `weightedEnergy Q − weightedEnergy P ≤ ε`, **and** a complexity bound `#Q.parts ≤ strongGraphRegularityBound ε F` (essential: it prevents the discrete partition from being the universal large-graph witness) — and `exists_strong_regular`. Plus a counting lemma consuming `StrongRegular`.
+- **Consume.** Layers 1–2 (`weightedEnergy`, the almost-refining bridge), `IsUniform`.
+- **Build.** First the **named Layer 2 → Layer 4 bridge**: `exists_regular_exact_refining_equipartition` (with its bound `nestedRefinementBound`) — nested equitabilisation producing an **exact** refining regular equipartition from an equipartition. Layer 2's output only *almost*-refines, while `StrongRegular` iterates on exact `Q ≤ P` nesting; without this named cleanup step the two layers do not actually connect (Mathlib's `increment` subdivides within parts and is the proof template here, not a consumed theorem). Then `StrongRegular` — a coarse `P` and fine `Q` (`Q ≤ P`), both equipartitions, `P` `ε`-uniform, `Q` `F(#P.parts)`-uniform, `weightedEnergy Q − weightedEnergy P ≤ ε`, **and** a complexity bound `#Q.parts ≤ strongGraphRegularityBound ε F l₀` in terms of the **starting complexity** `l₀` (essential: it prevents the discrete partition from being the universal large-graph witness; and a bound in `ε, F` alone cannot dominate an arbitrary starting partition) — and the **compositional** `exists_strong_regular`: against a starting equipartition `P₀` and a requested minimum complexity `l`, with the coarse partition almost-refining `P₀` and `l ≤ #P.parts` (the parameters counting applications need). Plus a counting lemma consuming `StrongRegular`.
 - **Gate.** The roadmap demands at least one counting lemma that consumes `StrongRegular`, not merely the existence theorem.
 
 **Prior formalization.** `regularity-lemmata` proves `exists_strongWitness` (`Graph/Strong.lean`): a
-`StrongWitness` against an **arbitrary starting partition `P₀`** (a feature `StrongRegular` lacks),
-for directed relations, with error schedules bundled with their positivity (`ErrorSchedule` — a nicer
-API than a bare `F` plus `hF`). Shape deviations: the witness has **no equipartition fields and no
+`StrongWitness` against an **arbitrary starting partition `P₀`** (now mirrored by
+`exists_strong_regular`'s `P₀`/`l` parameters, in almost-refinement form), for directed relations,
+with error schedules bundled with their positivity (`ErrorSchedule` — a nicer API than a bare `F`
+plus `hF`). Shape deviations: the witness has **no equipartition fields and no
 coarse-partition regularity** — only the fine partition is regular, at the schedule's tolerance for
 the coarse complexity — so `regP` has no proved counterpart; and the complexity bound lives in the
 **theorem conclusion** (both coarse and fine bounded by iterated `monoStepBound`,
@@ -196,22 +197,22 @@ proved — its binary-palette strong-witness counting chain and graph bridges
 
 ### Layer 5 — hypergraph complexes; vertex cells and pair-color systems
 - **Consume.** `Finpartition`, Layer 1.
-- **Build.** `HypergraphComplex` (faces / `face_card` / `down_closed`); the `PairColorSystem κ₂ V` — a coloring of ordered **distinct** vertex pairs (`{p : V × V // p.1 ≠ p.2} → κ₂`; diagonals excluded, matching the injective top supports), with the total `colorOfPair : V → V → Option κ₂` view; `pairColorDensity` (over distinct pairs, `_ / 0 = 0` when none); the lower skeleton `PairSkeleton3 κ₂ V`; a **skeleton-relative** `IsPairColorRegular S ε` (quantifying over ordered pairs of actual vertex cells `A, B ∈ S.vertexPart.parts` and large sub-cells `A' ⊆ A`, `B' ⊆ B` — not arbitrary finsets, so pair regularity is genuinely tied to the skeleton); and `LowerSkeletonRegular` (with `F` at `#vertex-cells`). The whole lower-skeleton regularity API is built here so Layer 8 consumes real defs — no jump from "pair-color system" to "lower skeleton regular".
+- **Build.** `HypergraphComplex` (faces / `face_card` / `down_closed` — consumed by Layer 8's `TriadicComplex3.toHypergraphComplex` bridge, so the generic object is not ornamental); the `PairColorSystem κ₂ V` — a coloring of ordered **distinct** vertex pairs (`{p : V × V // p.1 ≠ p.2} → κ₂`; diagonals excluded, matching the injective top supports), with the total `colorOfPair : V → V → Option κ₂` view; `pairColorDensity` (over distinct pairs, `_ / 0 = 0` when none); the lower skeleton `PairSkeleton3 κ₂ V`; a **skeleton-relative** `IsPairColorRegular S ε` (quantifying over ordered pairs of actual vertex cells `A, B ∈ S.vertexPart.parts` and large sub-cells `A' ⊆ A`, `B' ⊆ B` — not arbitrary finsets, so pair regularity is genuinely tied to the skeleton); and `LowerSkeletonRegular` (with `F` at `#vertex-cells`). The whole lower-skeleton regularity API is built here so Layer 8 consumes real defs — no jump from "pair-color system" to "lower skeleton regular".
 - **Gate.** `r = 2` interfaces coherently with the graph layer (the bare down-closed complex does not by itself reconstruct the partition/cell machinery; the colored/cell object is what specializes); labeled copies of a fixed complex are definable.
 
 ### Layer 6 — triads, polyads, subpolyads, relative densities
 - **Consume.** Layer 5.
-- **Build.** `Polyad3 S` **over a lower skeleton `S`** — three vertex cells (each a part of `S.vertexPart`), the three pair colors on the coordinate pairs, and the support of role-ordered injective triples pinned by `mem_support_iff` to those cells *and* pair colors (so a polyad is determined by cells + lower pair colors, **not** an arbitrary support finset); `Subpolyad3 P` as a genuine **lower-skeleton restriction** (sub-cells `⊆ P`'s cells, support = `P.support` restricted to them); `relDensityOn` / the **color-indexed** `relativeDensity` (reading the top color through the *underlying unordered triple*, so ordering never affects the color). Since `mem_support_iff` pins the support exactly, it contains **every** matching role-ordered tuple: for **distinct** cells each unordered triple admits at most one matching role-assignment (no overcounting); when cells repeat, several orderings can match, and de-duplication is the **counting layer's** job, not a thinning of the support.
+- **Build.** `Polyad3 S` **over a lower skeleton `S`** — three vertex cells (each a part of `S.vertexPart`), the three pair colors on the coordinate pairs, and the support of role-ordered injective triples pinned by `mem_support_iff` to those cells *and* pair colors (so a polyad is determined by cells + lower pair colors, **not** an arbitrary support finset), with the constructor `Polyad3.ofData` (the polyad determined by given cells and colors) and the three **pair graphs** `Polyad3.pairSupport₀₁/₀₂/₁₂`; `Subpolyad3 P` in the counting-ready **Rödl–Schacht/NRS form** — arbitrary **subgraphs of the parent's three pair graphs**, support pinned to the parent tuples whose coordinate pairs land in the selected subgraphs — with the vertex-subcell restriction `Subpolyad3.ofSubcells` only a constructor, not the general test; `relDensityOn` / the **color-indexed** `relativeDensity` (reading the top color through the *underlying unordered triple*, so ordering never affects the color). Since `mem_support_iff` pins the support exactly, it contains **every** matching role-ordered tuple: for **distinct** cells each unordered triple admits at most one matching role-assignment (no overcounting); when cells repeat, several orderings can match, and de-duplication is the **counting layer's** job, not a thinning of the support.
 - **Gate.** The 3-uniform worked example computes a relative triple density over a triad and over a subpolyad.
 
 ### Layer 7 — top-layer regularity over polyads
 - **Consume.** Layer 6.
-- **Build.** `IsTopRegularOverPolyad` — for every top color and every large enough **subpolyad** (lower-skeleton restriction, *not* an arbitrary triple-subset), relative-density stability. Plus the most-polyads / exceptional-mass and slicing/inheritance targets.
-- **Gate.** The `r = 2` shadow of top regularity matches pair regularity; per-color quantification is present.
+- **Build.** `IsTopRegularOverPolyad H P δ r` — the **`(δ, r)` NRS-rank form**: for every top color and every union of at most `r` subpolyads (`unionSupport` — arbitrary subgraphs of the parent pair graphs, *not* just vertex boxes) carrying a `δ`-fraction of the parent support, relative-density stability. `r = 1` is the disc-regular form; the rank the counting summit needs is pinned by pattern size in Layer 9 (`inducedCountingRank3`). The honest **weaker** predicate `IsVertexBoxRegularOverPolyad` (shrink the three cells, keep the full pair graphs) is kept as an intermediate target and for the `r = 2` shadow gate — it is **not** the predicate the induced-counting summit consumes: vertex-box discrepancy alone is generally not counting-ready strength. Plus the most-polyads / exceptional-mass and slicing/inheritance targets.
+- **Gate.** The `r = 2` shadow of the vertex-box form matches pair regularity; per-color quantification is present; the summit consumes the rank form, never the vertex-box form.
 
 ### Layer 8 — strong arity-3 regular approximation (summit)
 - **Consume.** Layers 5–7.
-- **Build.** `TriadicComplex3 κ₃ V` — it **chooses** its lower pair palette (`pairColorCount : ℕ`, `skeleton : PairSkeleton3 (Fin pairColorCount) V`) and carries `polyads : Finset (Polyad3 skeleton)`, with `complexity` **computed** from the structure (vertex cells + pair colors + polyads — never a free stored field, which could be `0` and control nothing); an **explicit approximant** `H' : Colored3Graph κ₃ V` with `editDiscrepancy3 H H'` (unordered color disagreements at the ordered `6/|V|³` normalization — a real definition, not a target) and `Approximates3` (the clause tying `H'` to `H`); `IsPolyadDecomposition` (polyad supports pairwise disjoint and covering the injective triples — so the mass below is not vacuous); `exceptionalPolyadMass` and `TopRegularOverMostPolyads H' C η ε` (top regularity of the **approximant** `H'` **relative to** `C`'s polyad decomposition, with the local parameter `η = F C.complexity` and the exceptional-mass bound `ε` as **separate** arguments); `ComplexityBounded`; `regularityBound3 q₃ ε F` (**depends on the top palette size** `q₃`); `IsStrongRegularApproximation3 H H' C` (approximation ∧ decomposition ∧ lower-skeleton regular ∧ top-over-most-polyads-for-`H'` ∧ complexity — all real; the approximation and decomposition clauses are essential, else the rest is satisfiable by data unrelated to `H`); and `exists_strong_regular_approximation3` (existential over **both** the approximant `H'` and `TriadicComplex3 κ₃ V`, so the pair palette is chosen, not an arbitrary fixed `κ₂`).
+- **Build.** `TriadicComplex3 κ₃ V` — it **chooses** its lower pair palette (`pairColorCount : ℕ`, `skeleton : PairSkeleton3 (Fin pairColorCount) V`) and carries `polyads : Finset (Polyad3 skeleton)`, with `complexity` **computed** from the structure (vertex cells + pair colors + polyads — never a free stored field, which could be `0` and control nothing); an **explicit approximant** `H' : Colored3Graph κ₃ V` with `editDiscrepancy3 H H'` (unordered color disagreements at the ordered `6/|V|³` normalization — a real definition, not a target) and `Approximates3` (the clause tying `H'` to `H`); `IsPolyadDecomposition` (polyad supports pairwise disjoint and covering the injective triples — so the mass below is not vacuous); `exceptionalPolyadMass` and `TopRegularOverMostPolyads H' C η ε r` (top regularity of the **approximant** `H'` **relative to** `C`'s polyad decomposition, at NRS rank `r`, with the local parameter `η = F C.complexity` and the exceptional-mass bound `ε` as **separate** arguments); `ComplexityBounded`; `regularityBound3 q₃ ε F r` (**depends on the top palette size** `q₃` and the rank); `VertexCellsControlled C t₀` (the vertex partition is an **equipartition** with at least `t₀` cells — the diagonal-gate input Layer 9 consumes; without it the promised transversal-to-global route has a hidden bridge); `TriadicComplex3.toHypergraphComplex` (the bridge keeping the generic Layer-5 complex consumed rather than ornamental); `IsStrongRegularApproximation3 H H' C ε F r` (approximation ∧ decomposition ∧ lower-skeleton regular ∧ top-over-most-polyads-for-`H'` ∧ complexity — all real; the approximation and decomposition clauses are essential, else the rest is satisfiable by data unrelated to `H`); and `exists_strong_regular_approximation3` (for every requested rank `r` and vertex floor `t₀`: existential over **both** the approximant `H'` and `TriadicComplex3 κ₃ V`, so the pair palette is chosen, not an arbitrary fixed `κ₂`, with `VertexCellsControlled C t₀` in the conclusion).
 - **Gate.** The two-dimensional shadow of the arity-3 definitions is compared with Layer 4's graph strong-regularity API; the roadmap does **not** claim the arity-3 objects literally specialize to a generic `r = 2` theorem in v1.
 
 **Prior formalization (Layers 5–8).** `regularity-lemmata` reaches two proved arity-3 summits by a
@@ -223,8 +224,10 @@ implementation must reconcile: its pair carrier is **unordered** 2-sets (`RSet 2
 ordered distinct pairs pinned here; it has **no vertex partition** (compatibility with an equitable
 vertex partition is its explicitly deferred strengthening) vs `PairSkeleton3`'s bundled `vertexPart`;
 its top layer is **Boolean** `UniformHypergraph 3` vs the total colored `Colored3Graph κ₃` (colored
-arity-3 counting is its deferred item); and its regularity notion is parent-relative local disc
-regularity (`IsLocalDiscRegular`) vs subpolyad density stability. Its proved permutation closure
+arity-3 counting is its deferred item); and its test surfaces now **align by design** with Layer 7:
+its `IsDiscRegularAt` is the `r = 1` disc form and `IsPolyadRegularAt … r` the rank-`r` form of
+`IsTopRegularOverPolyad` (this roadmap's subpolyads select arbitrary subgraphs of the parent pair
+graphs precisely to match that counting-ready shape). Its proved permutation closure
 (`isBadTriad_comp_perm_iff` — orientation-invariant badness and cleanup) supplies the
 permutation-invariance discipline the counting layer's de-duplication will need (it is not itself
 repeated-cell de-duplication). On `editDiscrepancy3`, its Boolean edit calculus is the specialization
@@ -238,16 +241,17 @@ shape `K ↦ K·2^{O(K³)}` per round — **not** a single exponential.
 
 ### Layer 9 — induced counting and embedding
 - **Consume.** Layer 8.
-- **Build.** `FiniteColored3Pattern` (on `k` vertices); `Colored3Graph.inducedCopyCount`; `expectedInducedCount H' C F₀` (needs the **approximant** `H'` — for the realized top colors — and `C` — for the polyad densities); `inducedCountingParameter3 q₃ k ε` (+ its positivity) — the **`V`-independent** regularity strength that counting needs, as a function of palette size, pattern size, and target error (the counting error and the regularity parameter cannot be the same `ε`); and `induced_counting_from_strong_regular_complex3` — an approximation `(H', C)` at that parameter predicts the induced copy count of a fixed pattern **in the original `H`** within `ε·|V|^{F₀.k}` (the **pattern-size** scale, not `|V|³`): counting is performed on the regular `H'` and transferred back to `H` through the edit bound. The clean local statement sums over part-respecting **placements** into the polyads; the global theorem is assembled from it (the placed version is the finer target).
+- **Build.** `FiniteColored3Pattern` (on `k` vertices); `Colored3Graph.inducedCopyCount` (labeled injective, color-matching copies); the **placement layer** — `PatternPlacement3` (pattern vertices → vertex cells; cells may repeat) and `PairColorPlacement3` (a pair color per ordered distinct pattern pair, every pattern triple's induced polyad — via `Polyad3.ofData` — one of `C`'s polyads); `placedInducedCopyCount`; `expectedInducedCountAt H' C F₀ φ ψ` — the intrinsic per-placement prediction, whose **shape is pinned** so it cannot hide the counting theorem: (i) the injection/cell-size factor from the assigned cells (falling-factorial-corrected when cells repeat), (ii) times the `pairColorDensity` of `ψ`'s color for each ordered distinct pattern pair, (iii) times the relative density in the **approximant** `H'` of the required top color over the polyad `ψ` induces, per pattern triple (each unordered triple entering once — the six ordered representatives identified here, not in the support), and **never defined through `inducedCopyCount`**; `expectedInducedCount H' C F₀` = the sum of `expectedInducedCountAt` over all placements and routes; `inducedCountingParameter3 q₃ k ε` (+ its positivity) and the NRS rank `inducedCountingRank3 q₃ k ε` — the **`V`-independent** regularity strength and rank counting needs (the counting error and the regularity parameter cannot be the same `ε`); the diagonal floor `diagonalControl3 k ε`; the **placed local counting theorem** `placed_induced_counting3` (the real counting lemma: placed count in the original `H` within `ε·∏ᵢ|cellᵢ|` of the per-placement prediction); and the global `induced_counting_from_strong_regular_complex3` — under `VertexCellsControlled C (diagonalControl3 F₀.k ε)` (equitable cells, enough of them, bounding the nontransversal placement mass) an approximation `(H', C)` at that parameter and rank predicts the induced copy count of a fixed pattern **in the original `H`** within `ε·|V|^{F₀.k}` (the **pattern-size** scale, not `|V|³`), assembled from the placed theorem by summing over placements, with the edit bound transferring `H'`-counts to `H`.
 - **Gate.** At least one concrete small-pattern count (a triangle for graphs, one fixed 3-uniform colored pattern).
 
 **Prior formalization (blueprint).** The binary-palette counting phase of `regularity-lemmata` is the
 architectural blueprint: counting is proved first for **transversal** embeddings (distinct coarse
 cells), and the nontransversal mass is controlled by an explicit **diagonal-cell gate** (an initial
 equipartition bounding coarse cell sizes, with a derived diagonal error term) — the load-bearing step
-before any removal statement. The placed/part-respecting local statement here should anticipate the
-same transversal/global split, with pattern-local union bounds (only the palette colors the pattern
-actually mentions) and derived, not guessed, error constants.
+before any removal statement. This layer now pins that architecture: `placed_induced_counting3` is
+the local statement, `VertexCellsControlled` at `diagonalControl3` is the gate, and the global
+theorem is their assembly — with pattern-local union bounds (only the colors the pattern actually
+mentions) and derived, not guessed, error constants as the implementation discipline.
 
 ## Worked examples (acceptance gates)
 
@@ -310,8 +314,11 @@ dependency or an acceptance gate.
 Lean 4 library of finite regularity, counting, and approximation infrastructure — `sorry`-free with
 no custom axioms (CI-enforced by its `scripts/check.sh`). Its partition/graph layers are developed
 for **directed relations on an arbitrary `Finset` host** (subsuming `SimpleGraph`); its hypergraph
-development is Boolean and unordered. Much of Layers 1–4, and Boolean precursors of
-Layers 5–8, are proved there; the per-layer *Prior formalization* notes above record the shape
+development is Boolean and unordered. The declaration-level claims in this section and the
+per-layer notes were checked at commit
+[`f7403c9`](https://github.com/cameronfreer/regularity-lemmata/tree/f7403c9943fa47b83d071e6d622a87fe14122f79)
+(the pinned migration source; later commits may move things). Much of Layers 1–4, and Boolean
+precursors of Layers 5–8, are proved there; the per-layer *Prior formalization* notes above record the shape
 deviations a TauCeti implementation must reconcile. Summary map:
 
 | Roadmap layer | Proved there (representative names) |
@@ -370,15 +377,20 @@ formalization*.
 - Is the Layer-2 bridge nontrivial — an *equipartition* `P₀`, a large-`V` hypothesis, a complexity
   bound, and an `AlmostRefines` with a real containment clause (so the discrete partition is not a
   vacuous witness)?
-- Does `StrongRegular` carry a complexity bound (not just uniformity + energy, which the discrete
-  partition satisfies)?
+- Does `StrongRegular` carry a complexity bound **in terms of the starting complexity `l₀`** (not
+  just uniformity + energy, which the discrete partition satisfies), and is the Layer 2 → Layer 4
+  connection a **named target** (`exists_regular_exact_refining_equipartition`) rather than a hidden
+  jump from almost-refinement to the exact `Q ≤ P` nesting? Is `exists_strong_regular`
+  compositional (starting equipartition `P₀`, minimum complexity `l`, almost-refinement conclusion)?
 - Are hypergraph complexes, cells, polyads, subpolyads, and relative densities **real targets**, not
   hidden inside the summit theorem? Does `Polyad3` depend on a lower skeleton and store its three pair
-  colors (so it is a polyad over the skeleton, not an arbitrary triple-support)? Is `Subpolyad3` a
-  genuine lower-skeleton restriction (sub-cells), and is top regularity tested against **subpolyads**,
-  not arbitrary triple-subsets? Are polyad supports **injective** (no diagonals) and role-ordered,
-  with the support pinned by `mem_support_iff` (so repeated-cell orderings are de-duplicated in the
-  counting layer, not by thinning the support)?
+  colors (so it is a polyad over the skeleton, not an arbitrary triple-support)? Does `Subpolyad3`
+  select **arbitrary subgraphs of the parent's three pair graphs** (the Rödl–Schacht/NRS subtriad —
+  vertex-subcell restriction only a constructor), and is top regularity the **rank-`r`**
+  `IsTopRegularOverPolyad` over unions of subpolyads — with the weaker
+  `IsVertexBoxRegularOverPolyad` never consumed by the counting summit? Are polyad supports
+  **injective** (no diagonals) and role-ordered, with the support pinned by `mem_support_iff` (so
+  repeated-cell orderings are de-duplicated in the counting layer, not by thinning the support)?
 - Does `TriadicComplex3` **choose** its lower pair palette (`pairColorCount`), and does the summit
   quantify existentially over it rather than accepting an arbitrary fixed `κ₂`? Does the summit also
   quantify an **explicit approximant** `H'` — so `editDiscrepancy3 H H'` compares two colorings that
@@ -386,14 +398,20 @@ formalization*.
   edit bound? Is `C.complexity` a **computed** measure of the structure (vertex cells + pair colors
   + polyads), not a free stored field? Does `IsStrongRegularApproximation3` include a real
   `IsPolyadDecomposition` (disjoint + covering) so `exceptionalPolyadMass` is not vacuous, split top
-  regularity into a local parameter `F C.complexity` and an exceptional-mass bound `ε`, and use a
-  `regularityBound3` depending on the top palette size?
+  regularity into a local parameter `F C.complexity`, a rank `r`, and an exceptional-mass bound `ε`,
+  and use a `regularityBound3` depending on the top palette size and the rank? Does the summit's
+  conclusion carry `VertexCellsControlled C t₀` (equitable vertex cells, a complexity floor) — the
+  diagonal-gate input the global counting theorem consumes?
 - Are top relations a **total unordered** coloring with a **separate** pair palette `κ₂` / top palette
   `κ₃`, are pair colors on **distinct** ordered pairs (no diagonal), and are relative densities / top
-  regularity **color-indexed**? Does induced counting use `expectedInducedCount H' C F₀` (predicted
-  from the approximant, transferred to the original `H` through the edit bound), the pattern-size
-  error scale `|V|^{F₀.k}` (not `|V|³`), and a **`V`-independent regularity parameter**
-  `inducedCountingParameter3 q₃ k ε` (never the counting error `ε` itself as the regularity strength)?
+  regularity **color-indexed**? Is `expectedInducedCount` **intrinsically specified** — a sum over
+  placements (`PatternPlacement3`, `PairColorPlacement3`) of a pinned product of cell-size,
+  pair-color-density, and top-color-relative-density factors, **never** defined through
+  `inducedCopyCount`? Does induced counting run through the placed local theorem
+  (`placed_induced_counting3`), the diagonal floor (`VertexCellsControlled` at
+  `diagonalControl3 F₀.k ε`), the pattern-size error scale `|V|^{F₀.k}` (not `|V|³`), and
+  **`V`-independent** regularity parameter and rank `inducedCountingParameter3` /
+  `inducedCountingRank3` (never the counting error `ε` itself as the regularity strength)?
 - Are error hierarchies explicit `F : ℕ → ℝ` with the evaluation argument pinned (`#vertex-cells`,
   `C.complexity`), and is the `card V < r ⇒ density 0` convention pinned?
 - Does `Suggested.lean` avoid `def _ : Prop := sorry` and contentless `Prop` fields, using `sorry` only
