@@ -639,11 +639,13 @@ through `inducedCopyCount` (explicit definition is a target). -/
 def expectedInducedCount (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) : ℝ := sorry
 
-/-- **Layer 9.** The regularity parameter that suffices for induced counting: how strong an
-approximation is needed, as a function of the top palette size `q₃`, the pattern size `k`, and the
-target counting error `ε` — manifestly independent of `V` (explicit value is a target). The counting
-error and the regularity parameter cannot be the same `ε`: counting needs the local regularity to be
-small in terms of the error, the pattern, and the palette. -/
+/-- **Layer 9.** The **global** edit/exceptional parameter for induced counting: the bound demanded
+of the edit discrepancy and of the exceptional-polyad mass (the `ε`-slot of
+`IsStrongRegularApproximation3`), as a function of the top palette size `q₃`, the pattern size `k`,
+and the target counting error `ε` — manifestly independent of `V` (explicit value is a target).
+The **local** regularity strengths are the separate `inducedCountingSchedule3`; the counting error
+and this parameter cannot be the same `ε`, and its `ε/6` charges are pinned by
+`inducedCountingParameter3_charge`. -/
 def inducedCountingParameter3 (q₃ k : ℕ) (ε : ℝ) : ℝ := sorry
 
 /-- **Layer 9.** Positivity of the counting parameter (part of the target). -/
@@ -669,9 +671,29 @@ edit/exceptional parameter `inducedCountingParameter3` — one is a local schedu
 global mass bound (explicit value is a target). -/
 def inducedCountingSchedule3 (q₃ k : ℕ) (ε : ℝ) : ℕ → ℝ := sorry
 
+/-- **Layer 9.** Positivity of the schedule everywhere — required to instantiate the Layer-8
+summit's `hF` with it (part of the target). -/
+theorem inducedCountingSchedule3_pos (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) (n : ℕ) :
+    0 < inducedCountingSchedule3 q₃ k ε n := sorry
+
+/-- **Layer 9 (charge pinning).** The global parameter fits its `ε/6` charges: the edit-transfer,
+actual-discarded, and predicted-discarded-**mass** contributions to the global error are each at
+most `k³ · inducedCountingParameter3 · |V|^k`, so this single inequality closes those three
+charges (part of the target — without pinned inequalities like this, the four-step assembly's
+charges would not visibly fit inside the final `ε`). -/
+theorem inducedCountingParameter3_charge (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) :
+    (k : ℝ) ^ 3 * inducedCountingParameter3 q₃ k ε ≤ ε / 6 := sorry
+
+/-- **Layer 9 (charge pinning).** The schedule fits its `ε/6` charge **including the route-count
+factor**: per-route pair-counting slack accumulates over up to `q₂^(k choose 2) ≤ ℓ^(k choose 2)`
+routes (with `ℓ` the lower complexity), so the schedule must beat that growth at every complexity —
+`k² · schedule` alone would not account for the route count (part of the target). -/
+theorem inducedCountingSchedule3_charge (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) (ℓ : ℕ) :
+    (k : ℝ) ^ 3 * (ℓ : ℝ) ^ Nat.choose k 2 * inducedCountingSchedule3 q₃ k ε ℓ ≤ ε / 6 := sorry
+
 /-- **Layer 9.** The vertex-complexity floor the diagonal-cell gate demands: with an equitable
 vertex partition of at least this many cells, the nontransversal (repeated-cell) placement mass is
-below the counting error (explicit value is a target — `V`-independent). -/
+below its **`ε/6` charge** of the counting error (explicit value is a target — `V`-independent). -/
 def diagonalControl3 (k : ℕ) (ε : ℝ) : ℕ := sorry
 
 /-- **Layer 9.** The per-route error budget. A placement admits up to
@@ -689,12 +711,15 @@ here, its mass bounded separately by `exceptional_route_mass_le`), the placed in
 the approximant `H'`** is within `ε · ∏ᵢ |cellᵢ|` of the intrinsic prediction. Counting here must
 be in `H'`, not `H`: a small *global* edit discrepancy can be concentrated entirely inside one
 placement, so it yields no per-placement bound — the `H'`-to-`H` transfer is global, through
-`inducedCopyCount_edit_transfer`. The error is the **per-route budget** `routeBudget3` (not a bare
-`ε`): a placement admits up to `q₂^(k choose 2)` routes, and only the budgeted bound sums back to
-the global `ε · |V|^k`. The regularity hypothesis runs at the genuine **schedule**
-`inducedCountingSchedule3` (local strengths), with the **global** edit/exceptional mass at the
-separate `inducedCountingParameter3`; the route is required top-regular at the schedule's value at
-the complexity. -/
+`inducedCopyCount_edit_transfer`. The error is the **per-route budget at the `ε/6` placed-counting
+charge** `routeBudget3 C F₀.k (ε/6)` — not a bare `ε`, for two stacked reasons: a placement admits
+up to `q₂^(k choose 2)` routes (so per-route errors carry the route-count divisor), and the global
+`ε` splits into **six explicit `ε/6` charges** (placed counting; actual discarded mass; predicted
+discarded mass; predicted lower-route slack; diagonal; edit transfer) — allocating the full `ε`
+here would exhaust the budget before the other steps contribute. The regularity hypothesis runs at
+the genuine **schedule** `inducedCountingSchedule3` (local strengths), with the **global**
+edit/exceptional mass at the separate `inducedCountingParameter3`; the route is required
+top-regular at the schedule's value at the complexity. -/
 theorem placed_induced_counting3 (H H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal)
     (ψ : PairColorPlacement3 C F₀ φ) (ε : ℝ) (hε : 0 < ε) (t₀ : ℕ)
@@ -706,7 +731,7 @@ theorem placed_induced_counting3 (H H' : Colored3Graph κ₃ V) (C : TriadicComp
       (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε C.complexity)
       (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε)) :
     |((placedInducedCopyCount H' φ ψ : ℝ)) - expectedInducedCountAt H' C F₀ φ ψ| ≤
-      routeBudget3 C F₀.k ε * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
+      routeBudget3 C F₀.k (ε / 6) * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
 
 open Classical in
 /-- **Layer 9 (exceptional routes — the step-2 union bound).** The named lemma making step 2 of
@@ -737,18 +762,27 @@ def exceptionalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 
 under lower-skeleton regularity **at the counting schedule** and top-regularity over most polyads,
 the predicted mass of discarded routes is small — lower regularity ties each route's pair-density
 product to its polyads' actual supports, so predictions concentrated on exceptional polyads
-inherit the exceptional-mass bound up to schedule slack. Without this lemma the global assembly
-would bound only the actual side of the discarded routes. -/
+inherit the exceptional-mass bound up to schedule slack. Three deliberate signature choices:
+the exceptional-mass parameter `εmass` and the schedule's counting error `εcount` are **separate**
+(the global theorem supplies the mass bound at `inducedCountingParameter3` but the schedule at the
+final counting error — a single shared `ε` could not be instantiated without an unpinned
+comparison); the slack charges the schedule at the **lower complexity**
+`#vertex-cells + #pair-colors` — the evaluation point `hlower` actually supplies, not
+`C.complexity`; and the slack carries the **route-count factor** `q₂^(k choose 2)` — per-route
+pair-counting errors accumulate over that many routes, so a bare `k²·schedule` would not account
+for them. Without this lemma the global assembly would bound only the actual side of the discarded
+routes. -/
 theorem exceptional_route_prediction_mass_le (H' : Colored3Graph κ₃ V)
-    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (η ε : ℝ) (r : ℕ)
+    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (η εmass εcount : ℝ) (r : ℕ)
     (hdecomp : IsPolyadDecomposition C)
     (hlower : LowerSkeletonRegular C.skeleton
-      (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε))
-    (hmost : TopRegularOverMostPolyads H' C η ε r) :
+      (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k εcount))
+    (hmost : TopRegularOverMostPolyads H' C η εmass r) :
     exceptionalPredictedMass3 H' C F₀ η r ≤
       (F₀.k : ℝ) ^ 3 *
-        (ε + (F₀.k : ℝ) ^ 2 *
-          inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε C.complexity) *
+        (εmass + (C.pairColorCount : ℝ) ^ Nat.choose F₀.k 2 *
+          inducedCountingSchedule3 (Fintype.card κ₃) F₀.k εcount
+            (C.skeleton.vertexPart.parts.card + C.pairColorCount)) *
         (Fintype.card V : ℝ) ^ F₀.k := sorry
 
 /-- **Layer 9 (edit transfer).** The named global transfer lemma: two colorings' induced copy
@@ -766,18 +800,21 @@ approximation of `H` at the (`V`-independent) parameter `inducedCountingParamete
 rank `inducedCountingRank3 q₃ F₀.k ε`, **and** the vertex cells are controlled at the diagonal
 floor `diagonalControl3 F₀.k ε` (equitable, enough cells — so the nontransversal placement mass is
 below the error), then the induced copy count **in the original `H`** of the fixed pattern `F₀` on
-`k` vertices is within `ε · |V|^k` of the intrinsic prediction from the approximant. Assembled in
-**four** explicit global steps: (1) `placed_induced_counting3` summed over transversal placements
-with **top-regular routes** — the per-route `routeBudget3` sums back to `ε` across the up to
+`k` vertices is within `ε · |V|^k` of the intrinsic prediction from the approximant. The final `ε`
+splits into **six explicit `ε/6` charges** across four steps, each charge closed by a pinned
+target: (1) `placed_induced_counting3` summed over transversal placements with **top-regular
+routes** — the per-route `routeBudget3 _ _ (ε/6)` sums back to `ε/6` across the up to
 `q₂^(k choose 2)` routes per placement; (2) the discarded routes bounded on **both** sides —
-actual mass by `exceptional_route_mass_le`, predicted mass by
-`exceptional_route_prediction_mass_le`; (3) the diagonal gate bounding the omitted nontransversal
-placements; (4) `inducedCopyCount_edit_transfer` moving the `H'`-count to the `H`-count (the
-transfer is global — never per placement). The regularity hypothesis runs at the genuine schedule
-`inducedCountingSchedule3` with the global edit/exceptional mass at the separate
-`inducedCountingParameter3`. Induced-removal-style corollaries are downstream consumers, not part
-of the roadmap's summit. Architectural blueprint: the binary-palette counting phase of
-`regularity-lemmata` — transversal counting first, then the diagonal-cell gate. -/
+actual mass by `exceptional_route_mass_le` and predicted mass (two charges: exceptional mass +
+lower-route slack) by `exceptional_route_prediction_mass_le`, their fits pinned by
+`inducedCountingParameter3_charge` and `inducedCountingSchedule3_charge`; (3) the diagonal gate
+bounding the omitted nontransversal placements at its `ε/6` charge; (4)
+`inducedCopyCount_edit_transfer` moving the `H'`-count to the `H`-count (the transfer is global —
+never per placement), its fit again `inducedCountingParameter3_charge`. The regularity hypothesis
+runs at the genuine schedule `inducedCountingSchedule3` with the global edit/exceptional mass at
+the separate `inducedCountingParameter3`. Induced-removal-style corollaries are downstream
+consumers, not part of the roadmap's summit. Architectural blueprint: the binary-palette counting
+phase of `regularity-lemmata` — transversal counting first, then the diagonal-cell gate. -/
 theorem induced_counting_from_strong_regular_complex3 (H H' : Colored3Graph κ₃ V)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
     (hcells : VertexCellsControlled C (diagonalControl3 F₀.k ε))
