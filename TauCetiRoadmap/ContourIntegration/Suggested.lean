@@ -113,20 +113,27 @@ def IsPiecewiseC1On (γ : ℝ → ℂ) (a b : ℝ) : Prop :=
       ∀ c d : ℝ, Set.Icc c d ⊆ Set.uIcc a b → Disjoint (↑p : Set ℝ) (Set.Ioo c d) →
         ContDiffOn ℝ 1 γ (Set.Icc c d)
 
-/-- **Piecewise-`C¹` immersion on `[[a, b]]`.** Strengthens `IsPiecewiseC1On` by requiring the
-derivative to be **non-vanishing** off a finite set — the raw-`γ` mirror of AINTLIB's `PwC1Immersion`
-/ `ClosedPwC1Immersion` (`Λ̇|_{[aₖ,aₖ₊₁]} ≠ 0` on each piece; HW arXiv:1808.00997 p. 3). This is the
-regularity the **on-cycle** residue theorems carry: Hungerbühler–Wasem represents each on-cycle
-singularity by model sectors of a definite opening angle, which needs a well-defined non-zero tangent
-there, and AINTLIB accordingly states HW Thm 3.3 — and even condition (A′) — over an immersion
-(`ClosedPwC1Immersion` / `PwC1Immersion`), not a bare piecewise-`C¹` path. (The homology Cauchy
-theorem, whose singularities lie *off* `γ`, needs only `IsPiecewiseC1On`.) The `deriv γ t ≠ 0` clause
-uses the global `deriv`; a port may prefer the one-sided `derivWithin` at breakpoints, as AINTLIB
-does at corners. -/
+/-- **Piecewise-`C¹` immersion on `[[a, b]]`** — `IsPiecewiseC1On` strengthened, over a **common**
+breakpoint witness, by a non-vanishing tangent on every piece: on each breakpoint-free closed piece
+`[c, d]`, the curve is `C¹` and its within-piece derivative is non-zero on **all** of `[c, d]` —
+one-sided at the piece endpoints, HW's `Λ̇|_{[aₖ,aₖ₊₁]} ≠ 0` (arXiv:1808.00997, p. 3). This is the
+raw-`γ` mirror of the `derivWithin_ne_zero_pieces` field of AINTLIB's `ClosedPwC1Immersion` (whose
+closed partition includes the interval endpoints; closedness itself stays the theorems' separate
+`γ a = γ b` hypothesis), the type its HW summit is stated over; `SatisfiesConditionA'` is likewise
+typed over an immersion, since the on-cycle model-sector analysis needs a well-defined non-zero
+tangent at each on-cycle singularity. The one-sided conditions are load-bearing: merely asking
+`deriv γ ≠ 0` off a finite set would admit zero-speed turnarounds (`γ t = t ^ 2` on `[-1, 1]`,
+whose one-sided tangents both vanish at `0`) and zero-speed seams, which are not immersions.
+`derivWithin` is used because at a corner the global `deriv` is `0` by Mathlib convention, which
+would falsely contradict non-vanishing; at interior points of a piece it agrees with `deriv`.
+Implies `IsPiecewiseC1On` with the same witness (pieces with `c ≥ d` are degenerate). (The homology
+Cauchy theorem, whose singularities lie *off* `γ`, needs only `IsPiecewiseC1On`.) -/
 def IsPwC1ImmersionOn (γ : ℝ → ℂ) (a b : ℝ) : Prop :=
-  IsPiecewiseC1On γ a b ∧
+  ContinuousOn γ (Set.uIcc a b) ∧
     ∃ p : Finset ℝ, ↑p ⊆ Set.Ioo (min a b) (max a b) ∧
-      ∀ t ∈ Set.Ioo (min a b) (max a b), t ∉ p → deriv γ t ≠ 0
+      ∀ c d : ℝ, c < d → Set.Icc c d ⊆ Set.uIcc a b → Disjoint (↑p : Set ℝ) (Set.Ioo c d) →
+        ContDiffOn ℝ 1 γ (Set.Icc c d) ∧
+          ∀ t ∈ Set.Icc c d, derivWithin γ (Set.Icc c d) t ≠ 0
 
 /-- A cycle `γ` on `[a, b]` is **null-homologous** in `Ω` when its winding number about every point
 outside `Ω` vanishes (`n_w(γ) = 0` for all `w ∉ Ω`) — the hypothesis of the homology Cauchy theorem
