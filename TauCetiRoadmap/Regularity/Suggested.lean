@@ -218,8 +218,10 @@ structure StrongRegular (G : SimpleGraph V) [DecidableRel G.Adj]
 
 /-- **Layer 4 (summit).** Strong graph regularity, **compositional form**: against a starting
 equipartition `P₀` and a requested minimum complexity `l`, coarse/fine equipartitions with the
-`StrongRegular` properties exist, with the coarse partition **almost-refining** `P₀` (exact
-refinement of an arbitrary equipartition is impossible — Layer 2's caveat) and at least `l` parts —
+`StrongRegular` properties exist, with the coarse partition **almost-refining** `P₀` (the chosen
+Layer-2 wrapper guarantees only almost-refinement of the *input* partition; the exact nesting
+`exists_regular_exact_refining_equipartition` provides holds between the partitions the iteration
+itself constructs) and at least `l` parts —
 the starting-partition/lower-bound parameters counting applications need, mirrored from the prior
 formalization's `exists_strongWitness` (proved there with host-independent bounds on **both**
 partitions via iterated `monoStepBound`, but for its weaker witness shape; this statement remains
@@ -500,22 +502,25 @@ def ComplexityBounded (C : TriadicComplex3 κ₃ V) (b : ℕ) : Prop :=
   C.complexity ≤ b
 
 /-- **Layer 8.** The `V`-independent complexity bound for the strong arity-3 approximation,
-depending on the **top palette size** `q₃`, the error hierarchy, and the NRS rank `r` (explicit
-value is a target). Caution from the proved Boolean precursor: its `triadRegularityBound` iterates
+depending on the **top palette size** `q₃`, the error hierarchy, the NRS rank `r`, and the
+**vertex-complexity floor** `t₀` (explicit value is a target). `t₀` must feed the bound: the summit
+demands both `t₀ ≤ #vertex-cells ≤ C.complexity` and `C.complexity ≤ regularityBound3 …`, so a
+bound independent of `t₀` makes the summit false for `t₀` above it (mirroring Layer 4's starting
+complexity `l₀`). Caution from the proved Boolean precursor: its `triadRegularityBound` iterates
 a `cutBound` recurrence of shape `K ↦ K·2^{O(K³)}` per round — **not** a single exponential. -/
-def regularityBound3 (q₃ : ℕ) (ε : ℝ) (F : ℕ → ℝ) (r : ℕ) : ℕ := sorry
+def regularityBound3 (q₃ : ℕ) (ε : ℝ) (F : ℕ → ℝ) (r t₀ : ℕ) : ℕ := sorry
 
 /-- **Layer 8.** The strong arity-3 regular-approximation predicate, with an **explicit
 approximant**: `H'` is within `ε` edit discrepancy of `H`, `C`'s polyads decompose the injective
 triples, `C`'s lower skeleton is regular, the **approximant `H'`** is `(F C.complexity, r)`-top-
 regular over most polyads (exceptional mass `ε`), and `C`'s complexity is bounded (by a bound
-depending on the top palette size and the rank). Counting happens on `H'` and transfers to `H`
-through the edit bound (Layer 9). -/
+depending on the top palette size, the rank, and the vertex floor `t₀`). Counting happens on `H'`
+and transfers to `H` through the edit bound (Layer 9). -/
 def IsStrongRegularApproximation3 (H H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
-    (ε : ℝ) (F : ℕ → ℝ) (r : ℕ) : Prop :=
+    (ε : ℝ) (F : ℕ → ℝ) (r t₀ : ℕ) : Prop :=
   Approximates3 H H' ε ∧ IsPolyadDecomposition C ∧ LowerSkeletonRegular C.skeleton F ∧
     TopRegularOverMostPolyads H' C (F C.complexity) ε r ∧
-    ComplexityBounded C (regularityBound3 (Fintype.card κ₃) ε F r)
+    ComplexityBounded C (regularityBound3 (Fintype.card κ₃) ε F r t₀)
 
 /-- **Layer 8 (summit).** Strong arity-3 regular approximation: for every requested NRS rank `r`
 and vertex-complexity floor `t₀` (with `V` large enough to house it), every colored 3-graph has an
@@ -530,9 +535,9 @@ explicit-approximant architecture (the full shapes still differ; see the Layers 
 `README.md`). -/
 theorem exists_strong_regular_approximation3 (H : Colored3Graph κ₃ V)
     (ε : ℝ) (hε : 0 < ε) (F : ℕ → ℝ) (hF : ∀ n, 0 < F n) (r t₀ : ℕ)
-    (hV : t₀ ≤ Fintype.card V) :
+    (hV : regularityBound3 (Fintype.card κ₃) ε F r t₀ ≤ Fintype.card V) :
     ∃ (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V),
-      VertexCellsControlled C t₀ ∧ IsStrongRegularApproximation3 H H' C ε F r := sorry
+      VertexCellsControlled C t₀ ∧ IsStrongRegularApproximation3 H H' C ε F r t₀ := sorry
 
 /-! ### Layer 9 — induced counting and embedding -/
 
@@ -556,23 +561,37 @@ structure PatternPlacement3 (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3
   /-- Each assigned cell is a cell of the complex's vertex partition. -/
   vertexCell_mem : ∀ i, vertexCell i ∈ C.skeleton.vertexPart.parts
 
-/-- **Layer 9.** A lower-color route for a placed pattern: a pair color for every ordered distinct
-pair of pattern vertices, such that every pattern triple's induced polyad (cells + pair colors, via
-`Polyad3.ofData`) is one of the complex's polyads — so the route stays inside `C`'s decomposition. -/
+/-- **Layer 9.** The placement is transversal: the assigned vertex cells are pairwise distinct.
+The placed counting theorem is stated for transversal placements; the diagonal gate bounds the
+omitted repeated-cell placements. -/
+def PatternPlacement3.Transversal {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    (φ : PatternPlacement3 C F₀) : Prop :=
+  Function.Injective φ.vertexCell
+
+/-- **Layer 9.** A lower-color route for a placed pattern: **one pair color per canonically
+oriented pattern pair `i < j`** — not per ordered pair. Assigning both orientations independently
+and multiplying both marginal densities would assume an unproved independence:
+`IsPairColorRegular` controls each orientation's marginal but not their joint correlation (reverse
+colors could always equal forward colors, making a route that demands opposite colors have actual
+count zero against a positive product of marginals). One oriented bigraph per role pair is also the
+primary-source triad shape. The `polyad_mem` clause (for `i < j < l`, via `Polyad3.ofData`) keeps
+every pattern triple's induced polyad inside `C`'s decomposition. -/
 structure PairColorPlacement3 (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃)
     (φ : PatternPlacement3 C F₀) where
-  /-- The pair color assigned to each ordered distinct pair of pattern vertices. -/
-  pairColor : {p : Fin F₀.k × Fin F₀.k // p.1 ≠ p.2} → Fin C.pairColorCount
-  /-- Every pattern triple's induced polyad belongs to the complex. -/
-  polyad_mem : ∀ (i j l : Fin F₀.k) (hij : i ≠ j) (hil : i ≠ l) (hjl : j ≠ l),
+  /-- The pair color assigned to each canonically oriented (`i < j`) pattern pair. -/
+  pairColor : {p : Fin F₀.k × Fin F₀.k // p.1 < p.2} → Fin C.pairColorCount
+  /-- Every pattern triple's induced polyad (in canonical orientation) belongs to the complex. -/
+  polyad_mem : ∀ (i j l : Fin F₀.k) (hij : i < j) (hjl : j < l),
     Polyad3.ofData (φ.vertexCell i) (φ.vertexCell j) (φ.vertexCell l)
       (φ.vertexCell_mem i) (φ.vertexCell_mem j) (φ.vertexCell_mem l)
-      (pairColor ⟨(i, j), hij⟩) (pairColor ⟨(i, l), hil⟩) (pairColor ⟨(j, l), hjl⟩)
+      (pairColor ⟨(i, j), hij⟩) (pairColor ⟨(i, l), hij.trans hjl⟩) (pairColor ⟨(j, l), hjl⟩)
       ∈ C.polyads
 
-/-- **Layer 9.** The number of induced copies realizing a fixed placement and lower-color route:
-labeled injective maps `g` with `g i` in the assigned cell, every coordinate pair carrying `ψ`'s
-pair color, and every triple's top color matching the pattern (explicit definition is a target). -/
+/-- **Layer 9.** The number of induced copies, **in a given coloring**, realizing a fixed placement
+and lower-color route: labeled injective maps `g` with `g i` in the assigned cell, every
+canonically oriented coordinate pair carrying `ψ`'s pair color, and every triple's top color
+matching the pattern (explicit definition is a target). The placed theorem applies it to the
+**approximant** `H'`; the global theorem transfers to `H` through the named edit-transfer lemma. -/
 def placedInducedCopyCount (H : Colored3Graph κ₃ V) {C : TriadicComplex3 κ₃ V}
     {F₀ : FiniteColored3Pattern κ₃} (φ : PatternPlacement3 C F₀)
     (ψ : PairColorPlacement3 C F₀ φ) : ℕ := sorry
@@ -580,10 +599,11 @@ def placedInducedCopyCount (H : Colored3Graph κ₃ V) {C : TriadicComplex3 κ�
 /-- **Layer 9.** The predicted count at a fixed placement `φ` and lower-color route `ψ` (explicit
 formula is a target, but its **shape is pinned**): the product of (i) the injection/cell-size
 factor from the assigned cells (falling-factorial-corrected when cells repeat), (ii) over each
-ordered distinct pattern pair, the `pairColorDensity` of `ψ.pairColor` between the assigned cells,
-and (iii) over each pattern triple, the relative density in the approximant `H'` of the required
-top color `F₀.pattern s` over the polyad `ψ` induces (each unordered triple entering once — the six
-ordered representatives are identified here, not in the support). It is **never** defined through
+**canonically oriented** pattern pair `i < j` — one orientation per pair, never both marginals —
+the `pairColorDensity` of `ψ.pairColor` between the assigned cells, and (iii) over each pattern
+triple, the relative density in the approximant `H'` of the required top color `F₀.pattern s` over
+the polyad `ψ` induces (each unordered triple entering once — the six ordered representatives are
+identified here, not in the support). It is **never** defined through
 `Colored3Graph.inducedCopyCount` — that would hide the counting theorem inside the definition. -/
 def expectedInducedCountAt (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀)
@@ -617,39 +637,54 @@ vertex partition of at least this many cells, the nontransversal (repeated-cell)
 below the counting error (explicit value is a target — `V`-independent). -/
 def diagonalControl3 (k : ℕ) (ε : ℝ) : ℕ := sorry
 
-/-- **Layer 9 (placed local counting — the real counting lemma).** At a fixed placement `φ` and
-lower-color route `ψ`, the placed induced count in the **original** `H` is within
-`ε · ∏ᵢ |cellᵢ|` of the intrinsic prediction from the approximant. The global theorem below is
-assembled from this by summing over placements, with the diagonal-cell gate bounding the
-nontransversal mass. -/
+/-- **Layer 9 (placed local counting — the real counting lemma).** At a fixed **transversal**
+placement `φ` (distinct assigned cells — repeated-cell placements are the diagonal gate's job, not
+this lemma's) and lower-color route `ψ`, the placed induced count **in the approximant `H'`** is
+within `ε · ∏ᵢ |cellᵢ|` of the intrinsic prediction. Counting here must be in `H'`, not `H`: a
+small *global* edit discrepancy can be concentrated entirely inside one placement, so it yields no
+per-placement bound — the `H'`-to-`H` transfer is global, through
+`inducedCopyCount_edit_transfer`. The global theorem below is assembled from this by summing over
+transversal placements, with the diagonal-cell gate bounding the omitted nontransversal mass. -/
 theorem placed_induced_counting3 (H H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
-    (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀)
-    (ψ : PairColorPlacement3 C F₀ φ) (ε : ℝ) (hε : 0 < ε)
+    (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal)
+    (ψ : PairColorPlacement3 C F₀ φ) (ε : ℝ) (hε : 0 < ε) (t₀ : ℕ)
     (hreg : IsStrongRegularApproximation3 H H' C
       (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
       (fun _ => inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
-      (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε)) :
-    |((placedInducedCopyCount H φ ψ : ℝ)) - expectedInducedCountAt H' C F₀ φ ψ| ≤
+      (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε) t₀) :
+    |((placedInducedCopyCount H' φ ψ : ℝ)) - expectedInducedCountAt H' C F₀ φ ψ| ≤
       ε * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
+
+/-- **Layer 9 (edit transfer).** The named global transfer lemma: two colorings' induced copy
+counts differ by at most the edit mass times the number of placements meeting a fixed triple —
+`k³ · editDiscrepancy3 · |V|^k` is a safe explicit form. This is the **only** place the `H`/`H'`
+difference enters the counting chain; it is global by nature (per-placement transfer is false under
+edit concentration). -/
+theorem inducedCopyCount_edit_transfer (H H' : Colored3Graph κ₃ V)
+    (F₀ : FiniteColored3Pattern κ₃) :
+    |((H.inducedCopyCount F₀ : ℝ)) - (H'.inducedCopyCount F₀ : ℝ)| ≤
+      (F₀.k : ℝ) ^ 3 * (editDiscrepancy3 H H' : ℝ) * (Fintype.card V : ℝ) ^ F₀.k := sorry
 
 /-- **Layer 9 (global counting summit).** Induced counting: if `(H', C)` is a strong regular
 approximation of `H` at the (`V`-independent) parameter `inducedCountingParameter3 q₃ F₀.k ε` and
 rank `inducedCountingRank3 q₃ F₀.k ε`, **and** the vertex cells are controlled at the diagonal
 floor `diagonalControl3 F₀.k ε` (equitable, enough cells — so the nontransversal placement mass is
 below the error), then the induced copy count **in the original `H`** of the fixed pattern `F₀` on
-`k` vertices is within `ε · |V|^k` of the intrinsic prediction from the approximant. Assembled from
-`placed_induced_counting3` by summing over placements (the transversal-first, diagonal-gate route);
-the edit transfer absorbs the `H`/`H'` difference (an edit discrepancy `ε'` moves at most
-`O(k³ · ε' · |V|^k)` placements). Induced-removal-style corollaries are downstream consumers, not
-part of the roadmap's summit. Architectural blueprint: the binary-palette counting phase of
-`regularity-lemmata` — transversal counting first, then the diagonal-cell gate. -/
+`k` vertices is within `ε · |V|^k` of the intrinsic prediction from the approximant. Assembled in
+three global steps: `placed_induced_counting3` summed over **transversal** placements, the diagonal
+gate bounding the omitted repeated-cell placements, and `inducedCopyCount_edit_transfer` moving the
+`H'`-count to the `H`-count (the transfer is global — never per placement). Induced-removal-style
+corollaries are downstream consumers, not part of the roadmap's summit. Architectural blueprint:
+the binary-palette counting phase of `regularity-lemmata` — transversal counting first, then the
+diagonal-cell gate. -/
 theorem induced_counting_from_strong_regular_complex3 (H H' : Colored3Graph κ₃ V)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
     (hcells : VertexCellsControlled C (diagonalControl3 F₀.k ε))
     (hreg : IsStrongRegularApproximation3 H H' C
       (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
       (fun _ => inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
-      (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε)) :
+      (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε)
+      (diagonalControl3 F₀.k ε)) :
     |((H.inducedCopyCount F₀ : ℝ)) - expectedInducedCount H' C F₀| ≤
       ε * (Fintype.card V : ℝ) ^ F₀.k :=
   sorry
