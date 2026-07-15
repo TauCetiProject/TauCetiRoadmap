@@ -21,7 +21,8 @@ Hungerbühler–Wasem generalized residue theorem (arXiv:1808.00997, Thm 3.3) fo
 *on* the cycle, with non-integer winding-number weights. We build that in `TauCeti/Analysis/Contour/`.
 
 This file pins the roadmap's load-bearing **definitions** (`windingNumber`, `residue`,
-`HasCauchyPV`, the HW conditions, `IsNullHomologous`) and its **named milestones** as `sorry`-targets
+`HasCauchyPV`, `IsPiecewiseC1On`, `IsPwC1ImmersionOn`, the HW conditions, `IsNullHomologous`) and its
+**named milestones** as `sorry`-targets
 (`sorry` is allowed in this human-owned roadmap library — these are goals, not proofs). The
 `def`s fix the objects the roadmap is *about* so the statements below are expressible at all; the
 generalized winding number, the classical residue theorem, the homology Cauchy theorem and HW
@@ -99,13 +100,33 @@ a finite breakpoint set, is `C¹` on each closed
 piece. This is the regularity that AINTLIB's bundled `PiecewiseC1Path` carries *inside its type*;
 stated on a raw `γ : ℝ → ℂ` it must be an **explicit hypothesis**, because the winding number, the
 contour integral `∫ deriv γ • f (γ ·)`, and Dixon's argument are all ill-posed for an arbitrary
-continuous `γ` (a space-filling curve has no honest derivative and can even cover `Ω`). This mirrors
-`TauCeti.Contour.IsPiecewiseC1On`; it is the hypothesis the Layer 3–4 theorems below carry. -/
+continuous `γ`: a space-filling continuous `γ` has no honest derivative, so `∫ deriv γ • …` is not
+the contour integral at all, and Dixon's argument needs differentiability off a countable set to
+make the winding number integer-valued. (The off-curve base point Dixon picks, by contrast, exists
+already from continuity and compactness — the image of `[[a, b]]` is compact, so it cannot fill a
+nonempty open `Ω` — and is not what this regularity is for.) This mirrors
+`TauCeti.Contour.IsPiecewiseC1On`; it is the base regularity the homology Cauchy theorem (Layer 3)
+carries. The **on-cycle** residue theorems (Layer 4) need the stronger `IsPwC1ImmersionOn` below. -/
 def IsPiecewiseC1On (γ : ℝ → ℂ) (a b : ℝ) : Prop :=
   ContinuousOn γ (Set.uIcc a b) ∧
     ∃ p : Finset ℝ, ↑p ⊆ Set.Ioo (min a b) (max a b) ∧
       ∀ c d : ℝ, Set.Icc c d ⊆ Set.uIcc a b → Disjoint (↑p : Set ℝ) (Set.Ioo c d) →
         ContDiffOn ℝ 1 γ (Set.Icc c d)
+
+/-- **Piecewise-`C¹` immersion on `[[a, b]]`.** Strengthens `IsPiecewiseC1On` by requiring the
+derivative to be **non-vanishing** off a finite set — the raw-`γ` mirror of AINTLIB's `PwC1Immersion`
+/ `ClosedPwC1Immersion` (`Λ̇|_{[aₖ,aₖ₊₁]} ≠ 0` on each piece; HW arXiv:1808.00997 p. 3). This is the
+regularity the **on-cycle** residue theorems carry: Hungerbühler–Wasem represents each on-cycle
+singularity by model sectors of a definite opening angle, which needs a well-defined non-zero tangent
+there, and AINTLIB accordingly states HW Thm 3.3 — and even condition (A′) — over an immersion
+(`ClosedPwC1Immersion` / `PwC1Immersion`), not a bare piecewise-`C¹` path. (The homology Cauchy
+theorem, whose singularities lie *off* `γ`, needs only `IsPiecewiseC1On`.) The `deriv γ t ≠ 0` clause
+uses the global `deriv`; a port may prefer the one-sided `derivWithin` at breakpoints, as AINTLIB
+does at corners. -/
+def IsPwC1ImmersionOn (γ : ℝ → ℂ) (a b : ℝ) : Prop :=
+  IsPiecewiseC1On γ a b ∧
+    ∃ p : Finset ℝ, ↑p ⊆ Set.Ioo (min a b) (max a b) ∧
+      ∀ t ∈ Set.Ioo (min a b) (max a b), t ∉ p → deriv γ t ≠ 0
 
 /-- A cycle `γ` on `[a, b]` is **null-homologous** in `Ω` when its winding number about every point
 outside `Ω` vanishes (`n_w(γ) = 0` for all `w ∉ Ω`) — the hypothesis of the homology Cauchy theorem
@@ -228,14 +249,14 @@ theorem homologyCauchyTheorem {f : ℂ → ℂ} {Ω : Set ℂ} (hΩ : IsOpen Ω)
 
 /-- **Hungerbühler–Wasem generalized residue theorem** (HW Thm 3.3) — the summit. Let `U ⊆ ℂ` be
 open, `S ⊆ U` finite, `f` holomorphic on `U ∖ S` and meromorphic at each `s ∈ S`, and `γ` a
-**null-homologous** closed piecewise-`C¹` cycle in `U` whose singularities may lie *on* `γ`, under
+**null-homologous** closed piecewise-`C¹` **immersion** in `U` whose singularities may lie *on* `γ`, under
 conditions (A′) and (B). Then the principal value exists and
 `PV (2πi)⁻¹ ∮_γ f = Σ_{s ∈ S} n_s(γ) · Res_s f`, with the generalized (non-integer) winding numbers
 as weights. Subsumes the classical residue theorem (poles off `γ`, integer weights) and the
 half-residue case below. -/
 theorem hungerbuhlerWasem_residueTheorem {f : ℂ → ℂ} {U : Set ℂ} (hU : IsOpen U) (S : Finset ℂ)
     (γ : ℝ → ℂ) (a b : ℝ)
-    (hγ_pc1 : IsPiecewiseC1On γ a b)
+    (hγ_imm : IsPwC1ImmersionOn γ a b)
     (hSU : (S : Set ℂ) ⊆ U) (hclosed : γ a = γ b) (hγU : ∀ t ∈ Set.uIcc a b, γ t ∈ U)
     (hf : DifferentiableOn ℂ f (U \ (S : Set ℂ)))
     (hmero : ∀ s ∈ S, MeromorphicAt f s)
@@ -245,13 +266,22 @@ theorem hungerbuhlerWasem_residueTheorem {f : ℂ → ℂ} {U : Set ℂ} (hU : I
       (2 * (Real.pi : ℂ) * Complex.I * (∑ s ∈ S, windingNumber γ a b s * residue f s)) :=
   sorry
 
-/-- **Half-residue on a smooth arc** — the on-cycle acceptance gate and the bridge to the valence
-formula's `i`, `ρ`. A simple pole of `f` lying *on* a smooth arc `γ` (generalized winding `½`)
-contributes `πi · Res_s f` to the principal-value contour integral: the `α = π` specialisation of
-HW Thm 3.3. -/
-theorem hasCauchyPV_half_residue {f : ℂ → ℂ} (γ : ℝ → ℂ) (a b : ℝ) (s : ℂ)
-    (hγ_pc1 : IsPiecewiseC1On γ a b)
-    (hf : MeromorphicAt f s) (hwind : windingNumber γ a b s = 1 / 2) :
+/-- **Half-residue: the winding-`½` on-cycle case of HW Thm 3.3** — the acceptance gate and the
+bridge to the valence formula's `i`, `ρ`. Stated as the genuine `S = {s}` specialisation of
+`hungerbuhlerWasem_residueTheorem`: a **closed, null-homologous** piecewise-`C¹` **immersion** `γ` in an
+open `U`, with `f` holomorphic on `U ∖ {s}` and meromorphic at `s`, under conditions (A′)/(B); when
+the generalized winding number about `s` is `½`, the principal value equals `πi · Res_s f` — the
+`S = {s}`, `n_s(γ) = ½` case of the HW sum `2πi · Σ n_s(γ)·Res_s f`. The closedness,
+holomorphy-off-`s`, null-homology and (A′)/(B) hypotheses are **load-bearing**, not decoration:
+without them the whole PV integral is *not* determined by `n_s(γ)` and `Res_s f` alone (a non-closed
+arc integrates the holomorphic part of `f` to a nonzero remainder — e.g. `γ(t) = e^{i t}` on
+`[0, π]`, `s = 0`, `f z = z⁻¹ + 1` has winding `½` and residue `1` but integral `πi − 2`). -/
+theorem hasCauchyPV_half_residue {f : ℂ → ℂ} {U : Set ℂ} (hU : IsOpen U) (γ : ℝ → ℂ) (a b : ℝ)
+    (s : ℂ) (hγ_imm : IsPwC1ImmersionOn γ a b) (hsU : s ∈ U) (hclosed : γ a = γ b)
+    (hγU : ∀ t ∈ Set.uIcc a b, γ t ∈ U) (hf : DifferentiableOn ℂ f (U \ {s}))
+    (hmero : MeromorphicAt f s) (hnull : IsNullHomologous γ a b U)
+    (hA : ConditionAprime γ a b f {s}) (hB : ConditionB γ a b f)
+    (hwind : windingNumber γ a b s = 1 / 2) :
     HasCauchyPV γ a b f ((Real.pi : ℂ) * Complex.I * residue f s) :=
   sorry
 
