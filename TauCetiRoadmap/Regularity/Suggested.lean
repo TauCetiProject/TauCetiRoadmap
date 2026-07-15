@@ -587,6 +587,26 @@ structure PairColorPlacement3 (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColore
       (pairColor ⟨(i, j), hij⟩) (pairColor ⟨(i, l), hij.trans hjl⟩) (pairColor ⟨(j, l), hjl⟩)
       ∈ C.polyads
 
+/-- **Layer 9.** The polyad a route induces at a pattern triple `i < j < l`. -/
+def PairColorPlacement3.polyad {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    {φ : PatternPlacement3 C F₀} (ψ : PairColorPlacement3 C F₀ φ)
+    (i j l : Fin F₀.k) (hij : i < j) (hjl : j < l) : Polyad3 C.skeleton :=
+  Polyad3.ofData (φ.vertexCell i) (φ.vertexCell j) (φ.vertexCell l)
+    (φ.vertexCell_mem i) (φ.vertexCell_mem j) (φ.vertexCell_mem l)
+    (ψ.pairColor ⟨(i, j), hij⟩) (ψ.pairColor ⟨(i, l), hij.trans hjl⟩)
+    (ψ.pairColor ⟨(j, l), hjl⟩)
+
+/-- **Layer 9.** The route is **top-regular**: every pattern triple's induced polyad is one over
+which the given coloring is `(η, r)`-top-regular. `IsStrongRegularApproximation3` guarantees top
+regularity only over **most** polyads, so a route through an exceptional polyad has no counting
+control — the placed theorem requires this predicate, and the global assembly bounds the routes
+that lack it by the exceptional-polyad mass (`exceptional_route_mass_le`). -/
+def PairColorPlacement3.IsTopRegularRoute {C : TriadicComplex3 κ₃ V}
+    {F₀ : FiniteColored3Pattern κ₃} {φ : PatternPlacement3 C F₀}
+    (ψ : PairColorPlacement3 C F₀ φ) (H' : Colored3Graph κ₃ V) (η : ℝ) (r : ℕ) : Prop :=
+  ∀ (i j l : Fin F₀.k) (hij : i < j) (hjl : j < l),
+    IsTopRegularOverPolyad H' (ψ.polyad i j l hij hjl) η r
+
 /-- **Layer 9.** The number of induced copies, **in a given coloring**, realizing a fixed placement
 and lower-color route: labeled injective maps `g` with `g i` in the assigned cell, every
 canonically oriented coordinate pair carrying `ψ`'s pair color, and every triple's top color
@@ -639,21 +659,40 @@ def diagonalControl3 (k : ℕ) (ε : ℝ) : ℕ := sorry
 
 /-- **Layer 9 (placed local counting — the real counting lemma).** At a fixed **transversal**
 placement `φ` (distinct assigned cells — repeated-cell placements are the diagonal gate's job, not
-this lemma's) and lower-color route `ψ`, the placed induced count **in the approximant `H'`** is
-within `ε · ∏ᵢ |cellᵢ|` of the intrinsic prediction. Counting here must be in `H'`, not `H`: a
-small *global* edit discrepancy can be concentrated entirely inside one placement, so it yields no
-per-placement bound — the `H'`-to-`H` transfer is global, through
-`inducedCopyCount_edit_transfer`. The global theorem below is assembled from this by summing over
-transversal placements, with the diagonal-cell gate bounding the omitted nontransversal mass. -/
+this lemma's) and a **top-regular route** `ψ` (`hroute` — the strong approximation controls only
+most polyads, so a route through an exceptional polyad has no counting control and is excluded
+here, its mass bounded separately by `exceptional_route_mass_le`), the placed induced count **in
+the approximant `H'`** is within `ε · ∏ᵢ |cellᵢ|` of the intrinsic prediction. Counting here must
+be in `H'`, not `H`: a small *global* edit discrepancy can be concentrated entirely inside one
+placement, so it yields no per-placement bound — the `H'`-to-`H` transfer is global, through
+`inducedCopyCount_edit_transfer`. -/
 theorem placed_induced_counting3 (H H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal)
     (ψ : PairColorPlacement3 C F₀ φ) (ε : ℝ) (hε : 0 < ε) (t₀ : ℕ)
     (hreg : IsStrongRegularApproximation3 H H' C
       (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
       (fun _ => inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
-      (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε) t₀) :
+      (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε) t₀)
+    (hroute : ψ.IsTopRegularRoute H' (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
+      (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε)) :
     |((placedInducedCopyCount H' φ ψ : ℝ)) - expectedInducedCountAt H' C F₀ φ ψ| ≤
       ε * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
+
+open Classical in
+/-- **Layer 9 (exceptional routes — the step-2 union bound).** The named lemma making step 2 of
+the global assembly explicit rather than a hidden bridge: the number of injective `k`-tuples one
+of whose coordinate triples lands in the support of an exceptional (non-`(η, r)`-top-regular)
+polyad is at most `k³` times the exceptional-polyad mass times `|V|^k` — pattern-local: under the
+decomposition hypothesis each unit of exceptional support meets at most `k³ · |V|^{k−3}` tuples,
+and the total support is at most `|V|³`. -/
+theorem exceptional_route_mass_le (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+    (F₀ : FiniteColored3Pattern κ₃) (η : ℝ) (r : ℕ) (hdecomp : IsPolyadDecomposition C) :
+    ((univ.filter fun g : Fin F₀.k → V => Function.Injective g ∧
+        ∃ P ∈ C.polyads, ¬ IsTopRegularOverPolyad H' P η r ∧
+          ∃ x : {x : Fin 3 → V // Function.Injective x}, x ∈ P.support ∧
+            ∃ i j l : Fin F₀.k, i < j ∧ j < l ∧
+              x.1 0 = g i ∧ x.1 1 = g j ∧ x.1 2 = g l).card : ℝ) ≤
+      (F₀.k : ℝ) ^ 3 * exceptionalPolyadMass H' C η r * (Fintype.card V : ℝ) ^ F₀.k := sorry
 
 /-- **Layer 9 (edit transfer).** The named global transfer lemma: two colorings' induced copy
 counts differ by at most the edit mass times the number of placements meeting a fixed triple —
@@ -671,11 +710,13 @@ rank `inducedCountingRank3 q₃ F₀.k ε`, **and** the vertex cells are control
 floor `diagonalControl3 F₀.k ε` (equitable, enough cells — so the nontransversal placement mass is
 below the error), then the induced copy count **in the original `H`** of the fixed pattern `F₀` on
 `k` vertices is within `ε · |V|^k` of the intrinsic prediction from the approximant. Assembled in
-three global steps: `placed_induced_counting3` summed over **transversal** placements, the diagonal
-gate bounding the omitted repeated-cell placements, and `inducedCopyCount_edit_transfer` moving the
-`H'`-count to the `H`-count (the transfer is global — never per placement). Induced-removal-style
-corollaries are downstream consumers, not part of the roadmap's summit. Architectural blueprint:
-the binary-palette counting phase of `regularity-lemmata` — transversal counting first, then the
+**four** explicit global steps: (1) `placed_induced_counting3` summed over transversal placements
+with **top-regular routes**; (2) `exceptional_route_mass_le` bounding the routes that are not
+top-regular by the exceptional-polyad mass; (3) the diagonal gate bounding the omitted
+nontransversal placements; (4) `inducedCopyCount_edit_transfer` moving the `H'`-count to the
+`H`-count (the transfer is global — never per placement). Induced-removal-style corollaries are
+downstream consumers, not part of the roadmap's summit. Architectural blueprint: the
+binary-palette counting phase of `regularity-lemmata` — transversal counting first, then the
 diagonal-cell gate. -/
 theorem induced_counting_from_strong_regular_complex3 (H H' : Colored3Graph κ₃ V)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
