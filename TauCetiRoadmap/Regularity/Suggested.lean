@@ -785,6 +785,28 @@ theorem exceptional_route_prediction_mass_le (H' : Colored3Graph κ₃ V)
             (C.skeleton.vertexPart.parts.card + C.pairColorCount)) *
         (Fintype.card V : ℝ) ^ F₀.k := sorry
 
+/-- **Layer 9.** The total **predicted** contribution of nontransversal placements: the sum of
+`expectedInducedCountAt` over all placements with a repeated cell and all their routes (explicit
+definition is a target — the companion of `exceptionalPredictedMass3` on the diagonal side). -/
+def nontransversalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+    (F₀ : FiniteColored3Pattern κ₃) : ℝ := sorry
+
+/-- **Layer 9 (diagonal gate — the pinned `ε/6` charge).** The theorem `VertexCellsControlled` is
+*for*: under an equitable vertex partition with at least `diagonalControl3 F₀.k ε` cells, the
+**sum of both sides omitted by transversal counting** — the actual injective tuples with two
+coordinates in a common cell, plus the predicted mass of nontransversal placements — is at most
+`ε/6 · |V|^k`. Each cell holds roughly `|V|/t` vertices, so repeated-cell tuples number about
+`k²·|V|^k/t`; the floor makes that (and its predicted mirror) fit the charge. Without this pinned
+target the diagonal charge would be asserted only in prose, unlike the other five. -/
+theorem nontransversal_actual_and_predicted_mass_le (H' : Colored3Graph κ₃ V)
+    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
+    (hcells : VertexCellsControlled C (diagonalControl3 F₀.k ε)) :
+    ((univ.filter fun g : Fin F₀.k → V => Function.Injective g ∧
+        ∃ i j : Fin F₀.k, i ≠ j ∧
+          ∃ A ∈ C.skeleton.vertexPart.parts, g i ∈ A ∧ g j ∈ A).card : ℝ)
+      + nontransversalPredictedMass3 H' C F₀ ≤
+      ε / 6 * (Fintype.card V : ℝ) ^ F₀.k := sorry
+
 /-- **Layer 9 (edit transfer).** The named global transfer lemma: two colorings' induced copy
 counts differ by at most the edit mass times the number of placements meeting a fixed triple —
 `k³ · editDiscrepancy3 · |V|^k` is a safe explicit form. This is the **only** place the `H`/`H'`
@@ -808,7 +830,8 @@ routes** — the per-route `routeBudget3 _ _ (ε/6)` sums back to `ε/6` across 
 actual mass by `exceptional_route_mass_le` and predicted mass (two charges: exceptional mass +
 lower-route slack) by `exceptional_route_prediction_mass_le`, their fits pinned by
 `inducedCountingParameter3_charge` and `inducedCountingSchedule3_charge`; (3) the diagonal gate
-bounding the omitted nontransversal placements at its `ε/6` charge; (4)
+bounding the omitted nontransversal placements — actual **and** predicted — at its `ε/6` charge,
+pinned by `nontransversal_actual_and_predicted_mass_le`; (4)
 `inducedCopyCount_edit_transfer` moving the `H'`-count to the `H`-count (the transfer is global —
 never per placement), its fit again `inducedCountingParameter3_charge`. The regularity hypothesis
 runs at the genuine schedule `inducedCountingSchedule3` with the global edit/exceptional mass at
