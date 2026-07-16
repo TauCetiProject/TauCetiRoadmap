@@ -259,12 +259,15 @@ open, `S ⊆ U` finite, `f` holomorphic on `U ∖ S` and meromorphic at each `s 
 **null-homologous** closed piecewise-`C¹` **immersion** in `U` whose singularities may lie *on* `γ`, under
 conditions (A′) and (B). Then the principal value exists and
 `PV (2πi)⁻¹ ∮_γ f = Σ_{s ∈ S} n_s(γ) · Res_s f`, with the generalized (non-integer) winding numbers
-as weights. Subsumes the classical residue theorem (poles off `γ`, integer weights) and the
+as weights. The basepoint stays off the poles (`hγa`) so every crossing is interior to the
+parameter interval — for a closed curve this is a reparametrization away, never a real
+restriction. Subsumes the classical residue theorem (poles off `γ`, integer weights) and the
 half-residue case below. -/
 theorem hungerbuhlerWasem_residueTheorem {f : ℂ → ℂ} {U : Set ℂ} (hU : IsOpen U) (S : Finset ℂ)
     (γ : ℝ → ℂ) (a b : ℝ)
     (hγ_imm : IsPwC1ImmersionOn γ a b)
-    (hSU : (S : Set ℂ) ⊆ U) (hclosed : γ a = γ b) (hγU : ∀ t ∈ Set.uIcc a b, γ t ∈ U)
+    (hSU : (S : Set ℂ) ⊆ U) (hclosed : γ a = γ b) (hγa : γ a ∉ (S : Set ℂ))
+    (hγU : ∀ t ∈ Set.uIcc a b, γ t ∈ U)
     (hf : DifferentiableOn ℂ f (U \ (S : Set ℂ)))
     (hmero : ∀ s ∈ S, MeromorphicAt f s)
     (hnull : IsNullHomologous γ a b U)
@@ -285,6 +288,7 @@ arc integrates the holomorphic part of `f` to a nonzero remainder — e.g. `γ(t
 `[0, π]`, `s = 0`, `f z = z⁻¹ + 1` has winding `½` and residue `1` but integral `πi − 2`). -/
 theorem hasCauchyPV_half_residue {f : ℂ → ℂ} {U : Set ℂ} (hU : IsOpen U) (γ : ℝ → ℂ) (a b : ℝ)
     (s : ℂ) (hγ_imm : IsPwC1ImmersionOn γ a b) (hsU : s ∈ U) (hclosed : γ a = γ b)
+    (hγa : γ a ≠ s)
     (hγU : ∀ t ∈ Set.uIcc a b, γ t ∈ U) (hf : DifferentiableOn ℂ f (U \ {s}))
     (hmero : MeromorphicAt f s) (hnull : IsNullHomologous γ a b U)
     (hA : ConditionAprime γ a b f {s}) (hB : ConditionB γ a b f)
