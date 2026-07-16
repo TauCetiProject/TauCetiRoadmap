@@ -53,11 +53,13 @@ cleanup opportunity. File map (relative to that project's `LeanModularForms/`):
   (`generalizedResidueTheorem'`, `residueSimplePole`, `residueAt`, `simple_poles_decomposition`).
 * Global (homological) Cauchy theorem, via Dixon's argument (Layer 3):
   `ForMathlib/DixonDef.lean`, `…/DixonDiff.lean`, `…/DixonTheorem.lean`.
-* HW generalized residue theorem (Layer 4, Thm 3.3, conditions (A′)/(B)): `Chapters/HW33.lean`,
-  `ForMathlib/HW33Clean.lean`, `ForMathlib/HungerbuhlerWasem/MultiCrossingCPV.lean`,
-  `ForMathlib/GeneralizedResidueTheory/{Residue/MultipointPV*,OnCurvePV/*,PVInfrastructure/*}`,
-  `ForMathlib/CauchyPrincipalValue.lean` (`HasCauchyPVOn'`, `pv_integral_simple_pole`, the
-  paper-faithful `HungerbuhlerWasem.residueTheorem_crossing_paper_faithful_clean`).
+* HW generalized residue theorem (Layer 4, Thm 3.3, conditions (A′)/(B)):
+  `ForMathlib/HW33Clean.lean` (`hw_3_3_clean_full_mero`),
+  `ForMathlib/HungerbuhlerWasem/MultiCrossingCPV.lean` (the paper-faithful
+  `HungerbuhlerWasem.residueTheorem_crossing_paper_faithful_clean` and the multi-crossing PV
+  engine), `ForMathlib/GeneralizedResidueTheory/{Residue/MultipointPV*,OnCurvePV/*,PVInfrastructure/*}`,
+  `ForMathlib/GeneralizedResidueTheory/Residue.lean` (`HasCauchyPVOn'`,
+  `pv_integral_simple_pole`).
 
 The fundamental-domain-specific winding machinery (`ForMathlib/*FDBoundary*`, `*CornerFTC*`,
 `*CrossingAt{Rho,I}*`, `*ExitTime*`) is **not** migrated here; it is the bridge from this engine to
@@ -262,7 +264,14 @@ conditions (A′) and (B). Then the principal value exists and
 as weights. The basepoint stays off the poles (`hγa`) so every crossing is interior to the
 parameter interval — for a closed curve this is a reparametrization away, never a real
 restriction. Subsumes the classical residue theorem (poles off `γ`, integer weights) and the
-half-residue case below. -/
+half-residue case below.
+
+Scope, relative to the printed theorem: HW state Thm 3.3 for a *cycle* and a singular set
+without accumulation points in `U`, and allow an essential singularity on the cycle where the
+cycle is locally straight (condition (A)'s second branch). This target takes a single closed
+curve, a **finite** `S`, and `MeromorphicAt` at each `s ∈ S` — the scope the
+`residue`/`meromorphicOrderAt` API expresses and the valence formula consumes. Each narrowing
+is deliberate, not an oversight; cycles are a finite-sum layer over this statement. -/
 theorem hungerbuhlerWasem_residueTheorem {f : ℂ → ℂ} {U : Set ℂ} (hU : IsOpen U) (S : Finset ℂ)
     (γ : ℝ → ℂ) (a b : ℝ)
     (hγ_imm : IsPwC1ImmersionOn γ a b)

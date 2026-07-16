@@ -179,6 +179,10 @@ expressible in `TauCeti/`, its milestones go into `Suggested.lean` (with `sorry`
   with the **generalized (non-integer) winding numbers** of Layer 1 as the weights. Subsumes
   the classical residue theorem (Layer 2, poles off `C`, integer weights) and the half-residue
   case (`S = {s}` with winding `½`: an on-cycle simple pole contributes `πi·Res_s f`).
+  The pinned form (`Suggested.lean`) takes a single closed curve, a finite `S`, and
+  `MeromorphicAt` at each singularity, with the basepoint off the poles — deliberately narrower
+  than the paper's cycle, accumulation-free `S`, and locally-straight essential singularities;
+  the docstring records each narrowing.
 - **The two regularity conditions** under which the paper-faithful form holds: condition (A′)
   (the cycle approaches each on-cycle singularity transversally / as a finite union of sectors,
   with a prescribed pole order) and condition (B) (the higher-order Laurent parts cancel by the
