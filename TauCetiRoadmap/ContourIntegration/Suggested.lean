@@ -262,8 +262,10 @@ open, `S ⊆ U` finite, `f` holomorphic on `U ∖ S` and meromorphic at each `s 
 conditions (A′) and (B). Then the principal value exists and
 `PV (2πi)⁻¹ ∮_γ f = Σ_{s ∈ S} n_s(γ) · Res_s f`, with the generalized (non-integer) winding numbers
 as weights. The basepoint stays off the poles (`hγa`) so every crossing is interior to the
-parameter interval — for a closed curve this is a reparametrization away, never a real
-restriction. Subsumes the classical residue theorem (poles off `γ`, integer weights) and the
+parameter interval — for the intended nondegenerate closed immersions with finite `S` this is
+mathematically removable by cyclic reparametrization, but it remains a formalization residual
+until a reparametrization-invariance API exists (it is likewise a hypothesis of the AINTLIB
+summit). Subsumes the classical residue theorem (poles off `γ`, integer weights) and the
 half-residue case below.
 
 Scope, relative to the printed theorem: HW state Thm 3.3 for a *cycle* and a singular set
