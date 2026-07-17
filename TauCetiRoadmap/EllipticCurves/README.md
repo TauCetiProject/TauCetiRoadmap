@@ -81,14 +81,14 @@ This is the foundation the roadmap builds on; it is consumed, not rebuilt.
 
 - **The Weierstrass model and its invariants.** `WeierstrassCurve R`, the `a`-invariants,
   `b₂`/`b₄`/`b₆`/`b₈`, `c₄`/`c₆`, `Δ`, `WeierstrassCurve.j`, `WeierstrassCurve.IsElliptic`, the
-  `VariableChange` group and its action, the normal forms, `ModelsWithJ`/`ofJ`, and base change
+  `VariableChange` group and its action, the normal forms, `ofJ` (in `ModelsWithJ.lean`), and base change
   `WeierstrassCurve.baseChange`
   (`Mathlib/AlgebraicGeometry/EllipticCurve/{Weierstrass,VariableChange,NormalForms,ModelsWithJ}.lean`).
 - **The group law.** `WeierstrassCurve.Affine.Point` and its `AddCommGroup`
   (`.../Affine/Point.lean`), with the projective and Jacobian models (`.../Projective/*`,
   `.../Jacobian/*`).
 - **Division polynomials and elliptic divisibility sequences.** `WeierstrassCurve.Ψ`, `Φ`, `ψ`
-  (`.../DivisionPolynomial/*`) and `EllipticDivisibilitySequence`
+  (`.../DivisionPolynomial/*`) and `IsEllDivSequence`/`normEDS`
   (`Mathlib/NumberTheory/EllipticDivisibilitySequence.lean`).
 - **Reduction over a DVR.** The good/multiplicative/additive trichotomy, minimal models, the
   reduction predicates `HasGood/Multiplicative/SplitMultiplicative/AdditiveReduction`, and
@@ -261,7 +261,8 @@ is why the honest theory needs the scheme (Layer 0), not just the Weierstrass mo
 ## Worked examples (acceptance criteria, keeping the theory honest)
 
 - **The scheme and its points.** `projModel W` is a smooth proper scheme whose `K`-points
-  match `W.toAffine.Point` (`projModel_points`) — the Layer-0 bridge every later layer uses.
+  match `(W.baseChange K).toAffine.Point` (`projModel_points`) — the Layer-0 bridge every later layer
+  uses.
 - **`[n]` is surjective on `E(Kˢᵉᵖ)`** and `#E[N] = N²` for `N` invertible in `K` — the Layer 1/2
   counting gate (`smul_surjective`, `torsion_addEquiv_prod`).
 - **The Weil pairing is bilinear and nondegenerate** — an additive bilinear map into
@@ -309,13 +310,23 @@ discharges parts of them, as sources of proofs to migrate — never as the speci
   in the AINTLIB modular curves project — `projModel`, `IsWeierstrassModel`, `projModel_points`,
   `projModel_smooth`, `isPullback_projModelBaseChange`, the `EllipticCurve S` group scheme, and
   `pointedIso_exists_variableChange` — is the model to port (its moduli / `Y(N)` part is out of
-  scope).
-- **`E[N] ≅ (ℤ/N)²` (Layer 2).** A `sorry`-free proof exists in the same project as
-  `torsion_geometricFibre_rank_two` (scheme-theoretic); the milestone here is the intrinsic
-  `WeierstrassCurve` statement over `Submodule.torsionBy ℤ (E.Point) N`.
-- **Hasse bound (Layer 3).** Proved `sorry`-free and axiom-clean (`propext`, `Classical.choice`,
-  `Quot.sound`) in the AINTLIB `HasseWeil` project (`HasseWeil/HasseBound.lean`, with
-  `trace_sq_le_four_mul_deg` and `abs_le_two_sqrt_of_sq_le`); port the `#print axioms` gate with it.
+  scope). Its working group law (`mulBy`, the group axioms, base change) is `sorry`-free, but the
+  `EllipticCurve S` object's canonical group-enrichment existence/uniqueness (`abelEnrichment_*`) is
+  still `sorry` there — to be built, not inherited.
+- **`E[N] ≅ (ℤ/N)²` (Layer 2).** A `sorry`-free proof over **algebraically closed** geometric fibres
+  exists as `torsion_geometricFibre_rank_two` (scheme-theoretic; its `deg[N] = N²` anchor is in the
+  sibling `HasseWeil` project's division-polynomial route). The milestone here is the intrinsic
+  `WeierstrassCurve` statement over `Submodule.torsionBy ℤ (E.Point) N`, over a **separably** closed
+  field (`torsion_addEquiv_prod`).
+- **Hasse bound (Layer 3).** Proved in the AINTLIB `HasseWeil` project as `hasse_bound` /
+  `hasse_bound_unconditional` (`HasseWeil/WeilPairing/HasseBound.lean`), in the real form
+  `|#E(𝔽_q) − q − 1| ≤ 2√q` over `Fintype.card W.toAffine.Point` (the projective count, matching the
+  seed; the integer form `a_q² ≤ 4q` is the trivial corollary). The flagship is gated by an in-repo
+  `#print axioms` check to `propext`, `Classical.choice`, `Quot.sound` — port that gate — but the
+  surrounding project is not globally `sorry`-free (the capstone routes around its in-progress
+  conditional lemmas), and its `maxHeartbeats` override must be removed for TauCeti CI. (The
+  `trace_sq_le_four_mul_deg` quadratic-form step belongs to that separate conditional route, not the
+  flagship.)
 - **The Tate curve (Layer 4).** Partial AI developments exist in the FLT project
   (`FLT/KnownIn1980s/EllipticCurves/TateCurve*`, `FLT/TateCurve/*`); the merge state there changes
   frequently and is not tracked here.

@@ -144,10 +144,10 @@ classification is `H¹(Gal, Aut E)`, reducing to `K^×/(K^×)²` for `j ≠ 0, 1
 quadratic-twist development (`ImperialCollegeLondon/FLT` #1088) — several thousand lines of AI Lean,
 to be brought into Tau Ceti first — so porting it is a transcription rather than a re-derivation. A
 quadratic twist is a twist by a **quadratic** `x² − t x + n` (trace `t`, norm `n`), with
-discriminant `D = t² − 4n` — equivalently, by a separable quadratic extension `L/K`.
-`Algebra.IsQuadraticExtension` is not yet in Mathlib (FLT is upstreaming it), so the extension form
-uses the proxy `Module.finrank K L = 2`; the Galois character of the point isomorphism uses FLT's
-`quadraticCharacter`, so it is stated in `README.md` §Layer 5 rather than seeded here. -/
+discriminant `D = t² − 4n` — equivalently, by a separable quadratic extension `L/K`, carried by the
+`Algebra.IsQuadraticExtension K L` typeclass (in pinned Mathlib, and used directly by FLT). The
+Galois character of the point isomorphism uses FLT's `quadraticCharacter`, so it is stated in
+`README.md` §Layer 5 rather than seeded here. -/
 
 /-- **The quadratic twist** `E_{t,n}` by the quadratic `x² − t x + n` (FLT `quadraticTwistOf`),
 over any `CommRing`. Its discriminant is `D⁶ · Δ(E)` with `D = t² − 4n` (`Δ_quadraticTwistOf`), so
@@ -158,7 +158,8 @@ noncomputable def quadraticTwistOf {A : Type*} [CommRing A] (E : WeierstrassCurv
   sorry
 
 /-- **The twist discriminant** `Δ(E_{t,n}) = (t² − 4n)⁶ · Δ(E)` (FLT `Δ_quadraticTwistOf`) — the
-identity behind ellipticity and the reduction behaviour (`c₄ ↦ D²c₄`, `c₆ ↦ D³c₆` likewise). -/
+identity behind ellipticity and the reduction behaviour (`c₄_quadraticTwistOf`: `c₄ ↦ D²c₄`;
+`c₆_quadraticTwistOf`: `c₆ ↦ D³c₆`). -/
 theorem Δ_quadraticTwistOf {A : Type*} [CommRing A] (E : WeierstrassCurve A) (t n : A) :
     (quadraticTwistOf E t n).Δ = (t ^ 2 - 4 * n) ^ 6 * E.Δ :=
   sorry
@@ -178,18 +179,18 @@ theorem j_quadraticTwistOf {A : Type*} [CommRing A] (E : WeierstrassCurve A) (t 
 
 /-- **The canonical quadratic twist by a separable quadratic extension** `L/K` (FLT
 `quadraticTwist`): twist by the trace and norm of a generator of `L/K`, a `WeierstrassCurve K`
-independent of the generator. `Module.finrank K L = 2` is the Mathlib proxy for
-`Algebra.IsQuadraticExtension K L`. -/
+independent of the generator. `Algebra.IsQuadraticExtension K L` (in pinned Mathlib) is the
+quadratic-extension hypothesis, exactly as FLT states it. -/
 noncomputable def quadraticTwist {K : Type*} [Field K] (E : WeierstrassCurve K) (L : Type*)
-    [Field L] [Algebra K L] [Algebra.IsSeparable K L] (hL : Module.finrank K L = 2) :
+    [Field L] [Algebra K L] [Algebra.IsQuadraticExtension K L] [Algebra.IsSeparable K L] :
     WeierstrassCurve K :=
   sorry
 
 /-- **`j` is preserved by the extension twist**: `j(Eᴸ) = j(E)` (FLT `j_quadraticTwist`). -/
 theorem j_quadraticTwist {K : Type*} [Field K] (E : WeierstrassCurve K) (L : Type*) [Field L]
-    [Algebra K L] [Algebra.IsSeparable K L] (hL : Module.finrank K L = 2) [E.IsElliptic]
-    [(quadraticTwist E L hL).IsElliptic] :
-    (quadraticTwist E L hL).j = E.j :=
+    [Algebra K L] [Algebra.IsQuadraticExtension K L] [Algebra.IsSeparable K L] [E.IsElliptic]
+    [(quadraticTwist E L).IsElliptic] :
+    (quadraticTwist E L).j = E.j :=
   sorry
 
 /-- **The twist point-isomorphism** `Eᴸ(M) ≅ E(M)` over any field `M ⊇ L` (FLT
@@ -198,10 +199,10 @@ The isomorphism is **Galois anti-equivariant** — for `σ ∈ Gal(M/K)` it inte
 with `χ(σ)·σ`, `χ` the quadratic character of `L/K` (FLT `quadraticTwistPointEquiv_galois`, the
 datum that defines the twist by Galois descent); stated in `README.md` §Layer 5. -/
 noncomputable def quadraticTwistPointEquiv {K : Type*} [Field K] (E : WeierstrassCurve K)
-    [E.IsElliptic] (L : Type*) [Field L] [Algebra K L] [Algebra.IsSeparable K L]
-    (hL : Module.finrank K L = 2) (M : Type*) [Field M] [Algebra K M] [Algebra L M]
+    [E.IsElliptic] (L : Type*) [Field L] [Algebra K L] [Algebra.IsQuadraticExtension K L]
+    [Algebra.IsSeparable K L] (M : Type*) [Field M] [DecidableEq M] [Algebra K M] [Algebra L M]
     [IsScalarTower K L M] :
-    ((quadraticTwist E L hL).baseChange M).toAffine.Point ≃+ (E.baseChange M).toAffine.Point :=
+    ((quadraticTwist E L).baseChange M).toAffine.Point ≃+ (E.baseChange M).toAffine.Point :=
   sorry
 
 /-- **Quadratic twist to split multiplicative reduction** — FLT #1088's headline
@@ -214,9 +215,9 @@ theorem exists_quadraticTwist_hasSplitMultiplicativeReduction {R : Type*} [CommR
     [IsDiscreteValuationRing R] {K : Type*} [Field K] [Algebra R K] [IsFractionRing R K]
     (E : WeierstrassCurve K) [E.IsElliptic] [E.HasMultiplicativeReduction R]
     (h : ¬ E.HasSplitMultiplicativeReduction R) :
-    ∃ (L : Type*) (_ : Field L) (_ : Algebra K L) (_ : Algebra.IsSeparable K L)
-      (hL : Module.finrank K L = 2),
-      ((quadraticTwist E L hL).minimal R).HasSplitMultiplicativeReduction R :=
+    ∃ (L : Type*) (_ : Field L) (_ : Algebra K L) (_ : Algebra.IsQuadraticExtension K L)
+      (_ : Algebra.IsSeparable K L),
+      ((quadraticTwist E L).minimal R).HasSplitMultiplicativeReduction R :=
   sorry
 
 /-! ## Layer 6: the Mordell–Weil theorem (AEC VIII) -/
