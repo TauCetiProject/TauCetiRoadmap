@@ -20,7 +20,7 @@ each object, not a transcription of any one book. The theorem we can land almost
 it and the later layers rest on.
 
 **The scheme is the foundation.** An elliptic curve is not just a Weierstrass equation and a group
-law on its points — it is a smooth proper genus-`1` group scheme, and the honest notions of
+law on its points — it is a smooth proper group scheme, and the honest notions of
 *morphism*, *isogeny*, *Néron model*, and *twist* (a torsor that need not have a rational point)
 only make sense scheme-theoretically. So this roadmap **builds the scheme associated to a
 Weierstrass curve**, following the development already carried out in the
@@ -131,15 +131,18 @@ The ordering is the dependency order.
 The foundation. Following the modular curves project's elliptic-curve-as-group-scheme development:
 
 - **The scheme of a Weierstrass curve.** `projModel W`, the `Proj` of the homogenised Weierstrass
-  cubic over the base, together with the proofs that it is **smooth**, **proper**, of **genus 1**,
-  with the marked section `O` at infinity (`IsWeierstrassModel`, `projModel_smooth`). Base change is
-  compatible with `WeierstrassCurve.baseChange` (`isPullback_projModelBaseChange`).
+  cubic over the base, together with the proofs that it is **smooth** and **proper**, with the
+  marked section `O` at infinity (`IsWeierstrassModel`, `projModel_smooth`). Base change is
+  compatible with `WeierstrassCurve.baseChange` (`isPullback_projModelBaseChange`). (The classical
+  *genus-`1`* characterisation is deliberately not a target: Mathlib has no genus — it would need
+  coherent cohomology — and being **locally Weierstrass** is the definition that carries that
+  content here.)
 - **The bridge to Mathlib's group law.** `projModel_points`: the `K`-points of `projModel W` are in
   natural, pointed bijection with `(W.baseChange K).toAffine.Point`, identifying the scheme-theoretic
   group with Mathlib's `AddCommGroup`. This is what lets every later layer speak scheme-theoretically
   while reusing Mathlib's `Point`.
 - **The group scheme.** The elliptic curve as a commutative group object over the base
-  (`EllipticCurve S` extending a smooth proper genus-`1` scheme with section and a locally-Weierstrass
+  (`EllipticCurve S` extending a smooth proper scheme with section and a locally-Weierstrass
   structure), with `mulBy`, the group axioms, and base change. Isogenies (Layer 1), the Néron model
   (Layer 4), and general twists (Layer 5) are defined against this object.
 - **Isomorphisms of models.** An isomorphism of Weierstrass models corresponds to a Mathlib
@@ -240,7 +243,7 @@ is why the honest theory needs the scheme (Layer 0), not just the Weierstrass mo
 - **The torsion subgroup and Nagell–Lutz.** The torsion subgroup `E(K)_tors` is finite and
   computable; over `ℚ`, the Nagell–Lutz theorem (integral coordinates, `y = 0` or `y² ∣ Δ`) (AEC
   VIII.7) and the reduction-injectivity bound on torsion (`E(ℚ)_tors ↪ E_ns(𝔽_p)` for good `p`)
-  (VII.3). Mazur's classification of `E(ℚ)_tors` is cited as the summit here, taken as known.
+  (VII.3).
 
 ### Layer 7: Selmer groups and Sha (AEC X.4)
 
@@ -257,7 +260,7 @@ is why the honest theory needs the scheme (Layer 0), not just the Weierstrass mo
 
 ## Worked examples (acceptance criteria, keeping the theory honest)
 
-- **The scheme and its points.** `projModel W` is a smooth proper genus-`1` scheme whose `K`-points
+- **The scheme and its points.** `projModel W` is a smooth proper scheme whose `K`-points
   match `W.toAffine.Point` (`projModel_points`) — the Layer-0 bridge every later layer uses.
 - **`[n]` is surjective on `E(Kˢᵉᵖ)`** and `#E[N] = N²` for `N` invertible in `K` — the Layer 1/2
   counting gate (`smul_surjective`, `torsion_addEquiv_prod`).

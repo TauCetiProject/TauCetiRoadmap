@@ -51,8 +51,9 @@ open scoped Classical
 /-! ## Layer 0: the elliptic curve as a scheme
 
 The foundation, ported from the modular curves project's elliptic-curve-as-group-scheme
-development: the scheme `projModel W` (`Proj` of the Weierstrass cubic), smooth and proper of genus
-`1` with its section, the bridge `projModel_points` identifying its `K`-points with
+development: the scheme `projModel W` (`Proj` of the Weierstrass cubic), smooth and proper with its
+section and locally-Weierstrass structure, the bridge `projModel_points` identifying its `K`-points
+with
 `W.toAffine.Point`, and the group-scheme structure against which isogenies (Layer 1), the Néron
 model (Layer 4), and general twists (Layer 5) are defined. These are new constructions needing the
 `AlgebraicGeometry` API and the ported machinery, not pinned here as `sorry`-typed types; they are
