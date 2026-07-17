@@ -198,17 +198,24 @@ below sketches signatures; it is illustrative, not required to compile.
 
 ### Layer 1: the valence formula (general level)
 - Consumes the [Contour Integration roadmap](../ContourIntegration/README.md). For a nonzero
-  `f ∈ M_k(SL₂(ℤ))`, the **valence formula** (Diamond–Shurman Thm 3.1.1) is a sum over the
+  `f ∈ M_k(SL₂(ℤ))`, the **valence formula** is a sum over the
   `SL₂(ℤ)`-**orbits** of points of `ℍ` — `ord_P(f)` is constant on an orbit, hence well-defined
   on it — with the two **elliptic orbits** `[i]`, `[ρ]` weighted by the reciprocal `1/e_P` of
-  their stabilizer orders (`e_i = 2`, `e_ρ = 3`) and the cusp `∞` contributing `ord_∞`:
-  ```text
-  ord_∞(f) + ½·ord_i(f) + ⅓·ord_ρ(f) + Σ_{q ∈ (non-elliptic SL₂(ℤ)-orbits of ℍ)} ord_q(f) = k/12
+  their stabilizer orders (`e_i = 2`, `e_ρ = 3`) and the cusp `∞` contributing `ord_∞`. The
+  statement is AINTLIB's, already proved — port it as it stands
+  (`ForMathlib/ValenceFormulaFinal.lean`):
+  ```lean
+  theorem valence_formula_textbook {k : ℤ} (f : ModularForm (Gamma 1) k) (hf : f ≠ 0) :
+      (orderAtCusp' f : ℂ) +
+      (1/2 : ℂ) * ↑(orderOfVanishingAt' (⇑f) ellipticPointI') +
+      (1/3 : ℂ) * ↑(orderOfVanishingAt' (⇑f) ellipticPointRho') +
+      ∑ᶠ (q : NonEllOrbitFM), ordOrbitQ f q =
+      (k : ℂ) / 12
   ```
-  equivalently `Σ_{P ∈ SL₂(ℤ)\ℍ*} (1/e_P)·ord_P(f) = k/12` over the orbits of the extended
-  upper half-plane `ℍ* = ℍ ∪ {cusps}`. ⚠ The summation index is **orbits in `ℍ`, not points** —
-  the precise content of the formula `valence_formula_textbook` already proved, where the sum is
-  `∑ᶠ (q : non-elliptic orbits), ord_q(f)`.
+  in text: `ord_∞(f) + ½·ord_i(f) + ⅓·ord_ρ(f) + Σ_q ord_q(f) = k/12`, the sum running over the
+  non-elliptic `SL₂(ℤ)`-orbits of `ℍ`; equivalently `Σ_{P ∈ SL₂(ℤ)\ℍ*} (1/e_P)·ord_P(f) = k/12`
+  over the orbits of the extended upper half-plane `ℍ* = ℍ ∪ {cusps}`. ⚠ The summation index is
+  **orbits in `ℍ`, not points** — exactly the `∑ᶠ` over `NonEllOrbitFM` above.
 - The proof is the contour integral of `f'/f` around the fundamental-domain boundary; `i` and `ρ`
   sit **on** that contour, so their `½` and `⅓` weights are the Hungerbühler–Wasem generalized
   winding numbers of points on a cycle (Contour roadmap) — the precise reason the elliptic weights
