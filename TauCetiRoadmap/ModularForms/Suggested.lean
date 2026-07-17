@@ -6,10 +6,12 @@ import Mathlib
 The narrative roadmap (the standing conventions, the layer-by-layer build plan Layers 0–10, the
 worked examples, the provenance map, and the references) is in `README.md`. Mathlib has the
 analytic foundation of modular forms — `ModularForm`, `CuspForm`, congruence subgroups, Eisenstein
-series, `q`-expansions, the Petersson integrand, and the level-one dimension formula
-(`ModularForm.dimension_level_one`) — but no Hecke operators, eigenform/newform theory, L-function
-of a modular form, valence formula, or **general-level dimension formulas**. We build the
-classical arithmetic theory in `TauCeti/NumberTheory/ModularForms/`.
+series, `q`-expansions, the Petersson integrand, the level-one dimension formula and Sturm bound
+(`ModularForm.dimension_level_one`, `ModularForm.sturm_bound_levelOne`), and the first slice of
+the abstract Hecke ring (`NumberTheory/HeckeRing/Defs.lean`) — but no Hecke operators acting on
+forms, no eigenform/newform theory, no L-function of a modular form, no valence formula, and no
+**general-level dimension formulas**. We build the classical arithmetic theory in
+`TauCeti/NumberTheory/ModularForms/`.
 
 This file seeds the **Layer 10 dimension-formula** milestones at levels other than one
 (Diamond–Shurman Thm 3.5.1; the same numbers are tabulated in Stein, *Modular Forms: A
@@ -29,13 +31,17 @@ general-level counterpart of Mathlib's level-one `ModularForm.dimension_level_on
 
 Migrated from the AINTLIB `LeanModularForms` project
 ([github.com/CBirkbeck/AINTLIB](https://github.com/CBirkbeck/AINTLIB)); the per-layer file map is in
-`README.md`'s *Provenance* section. The level-one dimension data and finite-dimensionality are in
-`Modularforms/DimensionFormulas.lean` (`dim_gen_cong_levels`, `cuspform_weight_lt_12_zero`); the
-general-level formula via the analytic theory of `Γ\ℍ*` (Layer 10) is **new**. The two open
-`sorry`s to discharge elsewhere are the Atkin–Lehner Main Lemma and `heckeAlgℤ_finite` (the
-coefficient-field lynchpin, Layer 8). The targets discharge LeanBridge "def-wanted" issues #13,
-#18, #19, #30–#35, #37, #38, #42, #54, #55 (the geometric specs #27, #36, #39–#41, #68–#70 are out
-of scope here).
+`README.md`'s *Provenance* section. General-level **finite-dimensionality** is AINTLIB's
+`dim_gen_cong_levels` (`Modularforms/DimGenCongLevels/*`), now heading into Mathlib as the
+finite-index **Sturm bound** stack — mathlib4#39000 with #39083/#39086/#39087/#39088, on top of
+the merged level-one #38993 — whose `Module.Finite ℂ (ModularForm 𝒢 k)` instance is the substrate
+these `finrank` instances sit on; the general-level *formula* via the analytic theory of `Γ\ℍ*`
+(Layer 10) is **new**. The Main Lemma is proved in AINTLIB; the open `sorry`s to discharge
+elsewhere are the weight-1 Hecke-stable lattice `exists_HeckeStableLattice_one` and the
+Eichler–Shimura Stokes step `interior_edges_cancel_sum` (both Layer 8), and the bad-prime
+old-stability `peterssonInner_aggregate_eq_zero_of_new_old` (Layer 3). The targets discharge
+LeanBridge "def-wanted" issues #13, #18, #19, #30–#35, #37, #38, #42, #54, #55 (the geometric
+specs #27, #36, #39–#41, #68–#70 are out of scope here).
 -/
 
 namespace TauCetiRoadmap.ModularForms
