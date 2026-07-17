@@ -15,8 +15,9 @@ form**, no **valence formula**, and no **general dimension formulas**. We build 
 arithmetic theory of modular forms on top of Mathlib's analytic foundation: modular forms with
 character, the valence formula at general level, the Hecke algebra, the Petersson inner
 product, newforms and strong multiplicity one, Atkin–Lehner and Fricke operators, the
-L-function with its Euler product and functional equation, and the theorem that the coefficient
-field of a newform is a number field — the content of a masters/PhD course on the subject,
+L-function with its Euler product and functional equation, the theorem that the coefficient
+field of a newform is a number field, and the level-one **Eichler–Selberg trace formula** — the
+content of a masters/PhD course on the subject,
 resting throughout on complex analysis, Fourier analysis, and the arithmetic of `SL₂(ℤ)`.
 
 The summit is the **dimension formulas** for `M_k(Γ)` and `S_k(Γ)` at general level
@@ -140,8 +141,10 @@ signs; the L-function of a modular form with its **Euler product**, **completed 
 **functional equation**, and **analytic continuation**; the **coefficient field** and the proof
 that it is a number field; the LMFDB invariants (Satake parameters, Hecke characteristic
 polynomials, Galois orbits, labels, …); the **modular curve** `X(Γ)` as the compactified analytic
-quotient `Γ\ℍ`, with its cusps, elliptic points, and genus; and the **dimension formulas** for
-`M_k(Γ)` and `S_k(Γ)` by the valence-formula route. Apart from the abstract Hecke ring and the
+quotient `Γ\ℍ`, with its cusps, elliptic points, and genus; the **dimension formulas** for
+`M_k(Γ)` and `S_k(Γ)` by the valence-formula route; and the level-one **Eichler–Selberg trace
+formula** together with the **Hurwitz class numbers** it needs (absent from Mathlib). Apart from
+the abstract Hecke ring and the
 Sturm-bound finiteness now landing in Mathlib (consumed above), none of this is upstream.
 
 ---
@@ -476,6 +479,62 @@ representability, no moduli problem**.
   false for the wrong data. We keep only the concrete, verifiable instances and pin the general
   statement in prose.
 
+### Layer 11: the Eichler–Selberg trace formula (level one)
+An independent lane off Layers 2–3 and **not an AINTLIB migration**: neither AINTLIB nor Mathlib
+has any of it (no Hurwitz class numbers, no trace formula) — this layer is new formalization
+ground, and no Lean prior art exists anywhere.
+
+- **Hurwitz class numbers, combinatorially.** `H : ℕ → ℚ` with `H 0 = −1/12` and, for `D > 0`
+  with `−D ≡ 0, 1 (mod 4)`, `H D` = the number of `SL₂(ℤ)`-classes of positive-definite integral
+  binary quadratic forms `ax² + bxy + cy²` of discriminant `b² − 4ac = −D`, counting the classes
+  of multiples of `x² + y²` with weight `1/2` and of `x² + xy + y²` with weight `1/3`
+  (`H D = 0` for `−D ≡ 2, 3 (mod 4)`). Define it by **reduced forms** — a finite, decidable
+  count: **no class groups, no class field theory** — and ship it with the first values
+  `H 3 = 1/3`, `H 4 = 1/2`, `H 7 = 1`, `H 8 = 1` as `decide`-style tests. Independently
+  Mathlib-worthy.
+- **The weight polynomials.** `P_k(t, n)`, the coefficient family with generating function
+  `Σ_{k ≥ 2} P_k(t,n)·x^{k−2} = (1 − tx + nx²)⁻¹`, i.e.
+  `P_k(t,n) = (ρ^{k−1} − ρ̄^{k−1})/(ρ − ρ̄)` for `ρ + ρ̄ = t`, `ρρ̄ = n` — Miyake's elliptic
+  weight `a_k(t)` (§6.8) — equivalently `n^{(k−2)/2}·U_{k−2}(t/(2√n))`: relate it to Mathlib's
+  Chebyshev polynomials (`Polynomial.Chebyshev.U`), do not re-found a polynomial family.
+- **The trace formula** (even `k ≥ 4`, `n ≥ 1`):
+  ```text
+  tr(Tₙ | S_k(SL₂(ℤ))) = −½·Σ_{t ∈ ℤ, t² ≤ 4n} P_k(t,n)·H(4n − t²) − ½·Σ_{d·d′ = n, d,d′ > 0} min(d,d′)^{k−1}
+  ```
+  ⚠ Pin the packaging before writing code: this is Zagier's normalization, in which
+  `H 0 = −1/12` makes the `t² = 4n` terms absorb the identity/volume contribution
+  (`P_k(±2√n, n) = (k−1)·n^{(k−2)/2}`) and the divisor sum carries the hyperbolic and parabolic
+  mass; Miyake Thm 6.8.4 keeps these contributions separate. Either bookkeeping works; do not
+  mix them. The `k = 2` variant carries a `σ₁(n)`-type correction term — a later refinement, not
+  the first target.
+- **Two proof routes, both substantially on rails this roadmap already lays; choose one:**
+  - *(A) the kernel route* (Miyake §§6.1–6.4; Zagier's appendix in Lang): the two-variable
+    kernel `ω_n(z, w) = Σ_{ad−bc=n} (czw + dz + aw + b)^{−k}` — absolute convergence for
+    `k ≥ 4` is the same lattice-sum technology as Mathlib's Eisenstein series — is, up to an
+    explicit constant, the **Petersson kernel of `Tₙ`** (the reproducing property; this is the
+    Petersson-coefficient / Poincaré-series machinery of Miyake Thms 2.6.9–2.6.10, built here
+    since neither Mathlib nor AINTLIB has it), and `tr Tₙ = ∫_{Γ\ℍ} ω_n(z, ·)`-on-the-diagonal
+    unfolds over `SL₂(ℤ)`-conjugacy classes into closed-form elliptic and hyperbolic integrals —
+    on Layer 3's `petN`/`μ_hyp`/fundamental-domain apparatus, the same unfolding pattern as
+    AINTLIB's `heckeT_n_adjoint`. The class `H(4n − t²)` enters by counting integer matrices of
+    determinant `n` and trace `t` up to conjugacy ↔ binary quadratic forms of discriminant
+    `t² − 4n`.
+  - *(B) the period-polynomial route* (Popa–Zagier): compute the Hecke action and its trace on
+    **period polynomials** — the world of AINTLIB's `HeckeRIngs/GL2/ModularSymbols/*`
+    (`HeckeSymbol`, `PeriodHecke`, `SL2Generation`) — where the trace identity is provable with
+    **no analytic input**; the transfer to `S_k(SL₂(ℤ))` rides the Eichler–Shimura isomorphism,
+    so the Layer-8 Stokes wall `interior_edges_cancel_sum` gains a second consumer.
+- **Acceptance criteria:** `tr T(1) = dim S_k(SL₂(ℤ))` against Mathlib's
+  `ModularForm.dimension_level_one` — the trace formula re-derives the level-one dimension
+  formula; `tr T(2) | S₁₂ = τ(2) = −24` — the Δ worked example, reached from a second direction;
+  the characteristic polynomial of `T₂` on `S_k(SL₂(ℤ))` for a few `k`, feeding Layer 9's
+  `charpoly` targets at level one.
+- **Scope wall.** The general-level formula — `tr(Tₙ | S_k(Γ₀(N), χ))`, Miyake Thm 6.8.4, proved
+  there for orders in indefinite quaternion algebras via §§6.5–6.7 (local conjugacy classes,
+  optimal-embedding counts, Eichler symbols, class numbers of non-maximal orders of `ℚ[α]`) — is
+  **out of scope**: that apparatus shares nothing with this roadmap's layers and belongs to a
+  future roadmap (Hijikata's formula), not to an extension of this layer.
+
 ## Worked examples (acceptance criteria, keeping the theory honest)
 
 - **Δ at level one** (`k = 12`, `N = 1`): the unique normalized cusp form; `τ(p)` are its Hecke
@@ -511,7 +570,10 @@ Layers 3–5 (Petersson → newforms → strong multiplicity one) are the core a
 sequential. Layers 6–7 (Atkin–Lehner → L-functions) and Layer 8 (coefficient fields) consume
 Layer 5; Layer 9 (LMFDB invariants) consumes Layer 8. Layer 10 (the modular curve `Γ\ℍ` and the
 dimension formulas) consumes Layer 1 and Mathlib's Sturm-bound finiteness, and is otherwise
-independent.
+independent. Layer 11 (the level-one trace formula) consumes Layers 2–3 on the kernel route or
+the Layer-8 modular-symbol machinery on the period-polynomial route, is otherwise independent,
+and feeds Layer 9's characteristic-polynomial targets while cross-checking Layer 10 at level
+one.
 
 ## Provenance (migrate and clean from AINTLIB `LeanModularForms`)
 
@@ -581,6 +643,8 @@ general-`n` branch.
   finite-dimensionality by the norm-map route, the content being upstreamed as the Mathlib Sturm
   stack #39000; `cuspform_weight_lt_12_zero`); the general-level analytic
   cusp/compactification theory and the general dimension formula are **new** here.
+- **Trace formula (L11):** no AINTLIB source — entirely **new**; route B's substrate is the
+  `ModularSymbols` subtree above.
 
 The two structural audits `.mathlib-quality/{newforms,eigenforms-smo}-overview-2026-05-31.md`
 catalogue the redundancy to collapse during migration.
@@ -591,7 +655,12 @@ catalogue the redundancy to collapse during migration.
   the genus, the analytic theory of `Γ\ℍ*`), Ch. 5 (Hecke operators, newforms, Thm 5.8.2, Props
   5.8.4–5.8.5, §5.9 L-functions).
 - T. Miyake, *Modular Forms*: §4.5–4.6 (the integral structure, the conductor theorem, and strong
-  multiplicity one Thm 4.6.12) — the numbering the AINTLIB code follows.
+  multiplicity one Thm 4.6.12) — the numbering the AINTLIB code follows; Ch. 6 (the trace
+  formula: §§6.1–6.8, Thm 6.8.4 — Layer 11's kernel route, and the general-level scope wall).
+- D. Zagier, *The Eichler–Selberg trace formula on SL₂(ℤ)*, appendix to S. Lang, *Introduction to
+  Modular Forms* — the level-one normalization of Layer 11; A. Popa, D. Zagier, *A simple proof
+  of the Eichler–Selberg trace formula*
+  ([arXiv:1711.00327](https://arxiv.org/abs/1711.00327)) — the period-polynomial route.
 - G. Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions*: Ch. 3 (the Hecke
   algebra and its integral structure, Thms 3.48/3.51/3.52).
 - K. Buzzard, *On the eigenvalues of the Hecke operator T₂*, J. Number Theory **57** (1996) — the

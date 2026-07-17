@@ -3,7 +3,7 @@ import Mathlib
 /-!
 # Modular forms — Hecke theory, newforms, and L-functions: target signatures
 
-The narrative roadmap (the standing conventions, the layer-by-layer build plan Layers 0–10, the
+The narrative roadmap (the standing conventions, the layer-by-layer build plan Layers 0–11, the
 worked examples, the provenance map, and the references) is in `README.md`. Mathlib has the
 analytic foundation of modular forms — `ModularForm`, `CuspForm`, congruence subgroups, Eisenstein
 series, `q`-expansions, the Petersson integrand, the level-one dimension formula and Sturm bound
