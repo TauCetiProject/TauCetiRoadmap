@@ -177,9 +177,16 @@ The moduli / `Y(N)` superstructure of the modular curves project is **not** part
   `finrank` equals the fibre count — identifying every kernel-cardinality "degree" on points with
   the scheme degree; **(iii)** the `q`-power **Frobenius** `π_q` as a scheme morphism (`Proj` of
   the `q`-power graded ring map), inducing `(x, y) ↦ (x^q, y^q)` on points under the bridge, with
-  `deg (1 − π_q) = #E(𝔽_q)` — Layer 3's hinge. These are the same lemmas the provenance's own
+  `deg π_q = q` and `deg (1 − π_q) = #E(𝔽_q)` — Layer 3's hinge. These are the same lemmas the
+  provenance's own
   degree pins are designed to be anchored by (`deg [N] = N²` to the division polynomials), so the
-  contract sits on the existing critical path.
+  contract sits on the existing critical path. ⚠ Agreement is needed only on the maps the proofs
+  actually use — the Frobenius pencil `ℤ + ℤπ_q ⊆ End(E)`, where it follows from (i), (iii), and
+  the hom-group structure; **no general fullness theorem** (scheme `End(E)` ↔ point-level maps) is
+  required. Kernel-cardinality equals degree only on the **separable** locus, and that is the only
+  locus where the existing Hasse proof uses it (its coprime-route design); the one inseparable
+  actor, `π_q` itself, never has its kernel counted — its degree `q` enters through the Galois
+  `q`-power pairing scaling, matching the separate pin above.
 - **The invariant differential.** The translation-invariant differential
   `ω = dx / (2y + a₁x + a₃)` (AEC III.5), its translation-invariance, and additivity
   `(φ + ψ)^* ω = φ^* ω + ψ^* ω` (III.5.2), giving `[n]^* ω = n·ω` — the identity forcing `[n]` to be
@@ -220,10 +227,14 @@ The moduli / `Y(N)` superstructure of the modular curves project is **not** part
   own equation-level Frobenius, kernel-cardinality degrees, and finite-level pairing. The
   statement consumes none of them, and none of them may appear in a **public** statement — Layer 1
   is the sole public notion of isogeny; the surrogate stays proof-internal. Once Layers 1–2 and
-  the compatibility contract land, the **scheme-level re-proof is a named milestone**:
-  `deg (1 − π_q) = #E(𝔽_q)` (compatibility (iii)), positivity, and Cauchy–Schwarz on the degree
-  form re-derive the bound in a page — the statement unchanged, being isogeny-free — and the
-  bespoke route is demoted to an implementation detail or deleted.
+  the compatibility contract land, the **scheme-level restatement is a named milestone discharged
+  by transport, not by a second proof**: the contract identifies the proof's maps with the real
+  Frobenius pencil `ℤ + ℤπ_q ⊆ End(E)` and its kernel-cardinality degrees with `deg` on the
+  separable locus — the only locus where the existing proof uses them — so the **existing lemmas
+  become the degree-form facts** (positive-definite quadraticity on the pencil,
+  `deg (1 − π_q) = #E(𝔽_q)`) and the bound re-derives by rewriting, the statement unchanged. The
+  bespoke notions are thereby *certified as computations of the real ones* and kept as the
+  engine, not replaced by a fresh proof.
 - **The zeta function of `E/𝔽_q`.** `Z(E/𝔽_q, T) = (1 − a_q T + q T²)/((1 − T)(1 − qT))`, its
   functional equation, and the Riemann hypothesis for `E/𝔽_q` (roots of absolute value `q^{-1/2}`,
   equivalent to Hasse) (AEC V.2); the `a_q`-recursion for `#E(𝔽_{qⁿ})`.
@@ -298,9 +309,9 @@ is why the honest theory needs the scheme (Layer 0), not just the Weierstrass mo
   `Additive (rootsOfUnity N K)`, with `e_N(P, ·) ≡ 0 ⇒ P = 0` over a separably closed field
   (`weilPairing`, `weilPairing_nondegenerate`).
 - **Hasse:** `a_q² ≤ 4q` for the Frobenius trace `a_q = q + 1 − #E(𝔽_q)` (`hasse_bound`) — landed
-  first from the equation-level proof; **re-proved from the Layer-1 degree form** once the
-  compatibility contract is in. The second proof of the unchanged statement is the acceptance test
-  of the contract itself.
+  first from the equation-level proof; then **restated against the Layer-1 degree form by
+  transport** across the compatibility contract, the existing proof reused rather than redone.
+  The transported restatement is the acceptance test of the contract itself.
 - **`j` is a twist invariant** but the curves differ: `j(E^L) = j(E)` while `E^L ≇ E` over `K`, and
   `E^L(M) ≅ E(M)` once `L ⊆ M`, with the Galois action twisted by the quadratic character
   (`j_quadraticTwist`, `quadraticTwistPointEquiv`).
