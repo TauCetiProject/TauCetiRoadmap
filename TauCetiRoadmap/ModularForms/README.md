@@ -333,7 +333,10 @@ below sketches signatures; it is illustrative, not required to compile.
   target assembled from the dichotomy and the Main Lemma.
 
 ### Layer 5: strong multiplicity one and the eigenform characterization
-- **Strong multiplicity one** (Diamond–Shurman Thm 5.8.2 / Miyake Thm 4.6.12), **as proved in
+- **Strong multiplicity one** (Miyake Thm 4.6.12 — the "strong" form, with eigenvalue agreement
+  only at indices prime to some integer `L`, is **Miyake's**; Diamond–Shurman Thm 5.8.2 is the
+  weaker all-`(n,N) = 1` version, and D–S explicitly defer strong multiplicity one to [Miy89]),
+  **as proved in
   AINTLIB** (`strongMultiplicityOne`, `StrongMultiplicityOne/ConstantMultiple.lean`): two
   `Newform N k` **with the same nebentypus** — both underlying forms in `modFormCharSpace k χ` —
   whose eigenvalues agree at every index `n` coprime to `N` outside a **finite exceptional set**
@@ -344,7 +347,8 @@ below sketches signatures; it is illustrative, not required to compile.
   `1`.
 - On top of the migrated theorem, the further targets of this layer: **multiplicity one** (each
   simultaneous Hecke eigenspace in the new subspace is one-dimensional) and the newforms as an
-  **orthogonal basis** of `S_k(Γ₁(N))^{new}`.
+  **orthogonal basis** of `S_k(Γ₁(N))^{new}` (the closing clause of Diamond–Shurman Thm 5.8.2;
+  Miyake Thm 4.6.13(2): the new part has a basis of primitive forms).
 - **Diamond–Shurman Proposition 5.8.5** (the coefficient characterization): for `f ∈ M_k(N,χ)`,
   `f` is a normalized eigenform **iff** its Fourier coefficients satisfy
   ```text
@@ -357,9 +361,17 @@ below sketches signatures; it is illustrative, not required to compile.
 
 ### Layer 6: Atkin–Lehner and Fricke operators
 - The Atkin–Lehner involutions `W_Q` for each exact divisor `Q ‖ N` (#18), the **Fricke
-  involution** `W_N` (the `Q = N` slash by `[0,-1;N,0]`), their relations with `Tₙ` (commute away
-  from `Q`), and on a newform the **signs** `W_Q f = ε_Q(f)·f` with `ε_Q ∈ {±1}` for real
-  nebentypus, multiplying to the Fricke sign — the sign of the functional equation.
+  involution** `W_N` (the `Q = N` slash by `[0,-1;N,0]`), and their relations with `Tₙ`
+  (commute away from `Q`).
+- **The signs, at the right generality.** For **trivial nebentypus** — Atkin–Lehner's setting —
+  the `W_Q` are involutions of `S_k(Γ₀(N))` commuting with the good `Tₙ`, and on a newform
+  `W_Q f = ε_Q(f)·f` with `ε_Q ∈ {±1}`, the signs multiplying to the Fricke sign — the sign of
+  the functional equation. For **general nebentypus** the `W_Q` are *not* involutions of the
+  `χ`-space: the Fricke operator sends a primitive form to a scalar multiple of its **conjugate
+  form** (`f ∣ W_N = c·f_ρ`, with `f_ρ` the primitive form with conjugated coefficients —
+  Miyake Thm 4.6.15(2)), and the right invariants are the Atkin–Li **pseudo-eigenvalues**
+  `λ_Q(f)` of modulus `1`. State the `±1` sign theorems for trivial `χ` only; a genuine FE sign
+  beyond that needs `f` self-dual (`f = f_ρ`).
 - AINTLIB provides the Fricke side to migrate — `frickeOperator`/`frickeOperatorCusp`, the
   normalizing `frickeScalar`, and the character-space transport `frickeCharRestrict`/
   `frickeCharEquiv` (`HeckeRIngs/GL2/Fricke.lean`), with old-space stability in
@@ -368,11 +380,14 @@ below sketches signatures; it is illustrative, not required to compile.
 
 ### Layer 7: L-functions
 - **The L-function** `L(s,f) = Σ_{n≥1} aₙ(f)·n^{-s}` (AINTLIB `lCoeff`/`lSeries`,
-  `Modularforms/LFunction.lean`), built on Mathlib's `LSeries`, with **convergence** as proved
-  (Diamond–Shurman Prop 5.9.1, on arithmetic subgroups — the `Γ.IsArithmetic` class): abscissa
-  `≤ k/2 + 1` for cusp forms (`abscissaOfAbsConv_lCoeff_le_cuspForm`); `≤ k + 1` for modular
-  forms **of weight `k ≥ 0`** (`abscissaOfAbsConv_lCoeff_le` carries the hypothesis `0 ≤ k` —
-  keep it).
+  `Modularforms/LFunction.lean`), built on Mathlib's `LSeries`, with **convergence** as proved,
+  on arithmetic subgroups (the `Γ.IsArithmetic` class): abscissa `≤ k/2 + 1` for cusp forms
+  (`abscissaOfAbsConv_lCoeff_le_cuspForm` — the cusp-form half of Diamond–Shurman Prop 5.9.1,
+  from Hecke's `aₙ = O(n^{k/2})`), and `≤ k + 1` for modular forms **of weight `k ≥ 0`**
+  (`abscissaOfAbsConv_lCoeff_le` carries the hypothesis `0 ≤ k` — keep it). ⚠ The non-cuspidal
+  bound comes from Mathlib's `aₙ = O(nᵏ)` and is **weaker** than D–S Prop 5.9.1, whose
+  non-cuspidal statement is `Re s > k` (via `aₙ = O(n^{k−1})`); tightening the abscissa to
+  `≤ k` is a cheap upgrade target, not an obligation of this layer.
 - **The Euler product** for a newform (from Prop 5.8.5; AINTLIB `lSeries_eulerProduct`,
   `Modularforms/LFunctionEuler.lean`): for `f : Newform N k` and `Re s > k/2 + 1`,
   `L(s,f) = ∏_p (1 − aₚ p^{-s} + χ(p) p^{k-1-2s})^{-1}` (#30), the nebentypus zero-extended to
@@ -385,8 +400,9 @@ below sketches signatures; it is illustrative, not required to compile.
   `Γ₁(N)` carrier as `…_Gamma1`); `Λ_N(·, f)` is **entire** (`differentiable_lcompletedΛN`) and
   `L(s,f)` has **analytic continuation** to `ℂ` (`lSeriesN_hasEntireExtension`). Port the
   two-form statement with its hypotheses (`0 < k`, strict width one, the companion equation);
-  the self-dual `Λ(s,f) = ε·Λ(k−s,f)` with a **sign** is the corollary once Layer 6 gives
-  `W_N f = ε·f` on newforms with real nebentypus.
+  the one-form `Λ_N(s,f) = ±Λ_N(k−s,f)` with a genuine **sign** (Diamond–Shurman Thm 5.10.2, on
+  the Fricke eigenspaces `S_k(Γ₁(N))^±`) is the corollary once Layer 6 gives `W_N f = ε·f` —
+  trivial nebentypus, or self-dual `f = f_ρ`.
 - **Analytic rank and analytic conductor** (#31): the order of vanishing of `L(f,·)` at the central
   point `s = k/2`, and the conductor `N·(…Γ-factor…)`.
 
@@ -671,7 +687,9 @@ catalogue the redundancy to collapse during migration.
 - N. Hungerbühler, M. Wasem, *Non-integer valued winding numbers and a generalized Residue
   Theorem*, arXiv:1808.00997 — the contour-integration engine behind the valence formula's
   elliptic-point weights (see the [Contour Integration roadmap](../ContourIntegration/README.md)).
-- A. Atkin, J. Lehner, *Hecke operators on Γ₀(m)*; W. Stein, *Modular Forms: A Computational
+- A. Atkin, J. Lehner, *Hecke operators on Γ₀(m)*; A. Atkin, W. Li, *Twists of newforms and
+  pseudo-eigenvalues of W-operators*, Invent. Math. **48** (1978) — Layer 6's sign theory at
+  general nebentypus; W. Stein, *Modular Forms: A Computational
   Approach* (the small-level dimension tables). The **LMFDB** (`https://www.lmfdb.org`) knowls
   fixed by the target definitions.
 
