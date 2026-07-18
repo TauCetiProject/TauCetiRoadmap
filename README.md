@@ -3,16 +3,11 @@
 The human-controlled roadmaps for [Tau Ceti](https://github.com/TauCetiProject/TauCeti), an
 AIs-welcome Lean 4 library downstream of Mathlib. Humans steer the project from here: each
 roadmap is a markdown `README.md`, the definitive specification of its area, usually with
-suggested Lean target signatures in `Suggested.lean` (with `sorry`, which is allowed in this
-repo because these are goals, not proofs). `Suggested.lean` is never exhaustive: it pins names
-and signatures for particular milestones so contributors and reviewers converge, and a
-roadmap is finished only when the maintainers judge its `README.md` discharged, never
-because everything in its `Suggested.lean` has landed. The AI-authored mathematics lives
+suggested Lean target signatures in `Suggested.lean`. The AI-authored mathematics lives
 in the code repo; review machinery lives in
 [TauCetiReview](https://github.com/TauCetiProject/TauCetiReview).
 
-Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) in partnership with academic and
-industry groups.
+Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and the [Mathlib Initiative](https://mathlib-initiative.org/) in partnership with academic and industry groups.
 
 ## Roadmaps
 
@@ -40,7 +35,7 @@ Roadmaps the maintainers have declared complete (a judgment against the roadmap'
 
 ## Writing a roadmap
 
-A roadmap is a specification for work we want done, written so an AI contributor, and its
+A roadmap is a specification for material we want added to Tau Ceti, written so an AI contributor, and its
 reviewers, can act on it without guessing.
 
 - **Build the library, don't race to the theorem.** For each object you introduce, ask for its
@@ -63,7 +58,7 @@ reviewers, can act on it without guessing.
 - **Use Mathlib's vocabulary.** Where Mathlib already has a way to say something, use it rather
   than a private version, both in the roadmap and in the code. A standard notion said in our own
   dialect drifts from the library it builds on and grows a redundant theory of lemmas Mathlib
-  already proves. Boundedness is the example: Mathlib has no "bounded on a set" predicate, so a
+  already proves. As an example: Mathlib has no "bounded on a set" predicate, so a
   result that needs an explicit bound carries `∀ x ∈ s, ‖f x‖ ≤ C` directly in its hypotheses (as
   in `norm_cfc_le`), and uses `Bornology.IsBounded` when no constant is needed
   (`isBounded_iff_forall_norm_le'` relates the two). We do the same, and never wrap a one-line
@@ -72,13 +67,21 @@ reviewers, can act on it without guessing.
   first time you use it, so a reader can see what the term denotes rather than guess.
 
 - **Specify the mathematics, not your existing code.** Say what each milestone should prove,
-  intrinsically, so a reviewer can judge it on its own terms. If you're porting existing work,
-  keep the file-by-file map in a clearly secondary provenance section, so reviewers don't treat
-  your code as the standard.
+  intrinsically, so a reviewer can judge it on its own terms.
+  Tau Ceti roadmaps can be "green field developments", i.e. you don't know of existing formalization of the material,
+  or can be used to direct the integration of an existing developement into Tau Ceti.
+  (In this case, it is essential that you work in coordination with, and with the permission of, the authors of that material.
+  If that coordination is not possible, but the legal licence of the existing material does allow using it as a source and you want to proceed anyway, please discuss this ahead of time on the Lean zulip, so that the community can have input.)
+  If you're porting existing work, aspire to making it better as it moves into Tau Ceti!
+  Don't write the roadmap merely to follow closely what's in the existing formalization,
+  and be careful to consider all the principles above. If it takes extra work to get your material through the Tau Ceti reviewers,
+  it's effort well spent, because we'll end up with a higher quality, and more reusable, library.
+  If your roadmap includes a file-by-file map of existing material, ensures this is in a clearly secondary provenance section,
+  so reviewers don't think this is prescriptive or exemplary.
 
 - **Nothing is "optional".** Don't use the word, and don't imply it. Everything on a roadmap is
   work we want. Sequencing is good, so split into milestones and put the harder material later,
-  but every item lives in *some* milestone, or a contributor reads "later" as "never".
+  but every item lives in *some* milestone, or a contributor may misread "later" as "never".
 
 - **Do things right the first time.** Decide the generality up front and write it down. Don't
   recommend intermediate implementations that will be replaced later.
