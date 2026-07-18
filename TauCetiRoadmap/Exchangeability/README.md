@@ -493,17 +493,17 @@ only the reversal, the antitone adapter, and the `⨅ n, 𝔽 n` identification:
    ```lean
    condExp_exists_ae_limit_antitone
    ae_limit_is_condexp_iInf
-   condExp_tendsto_iInf
+   tendsto_ae_condExp_iInf
    ```
 
 Target theorem:
 
 ```lean
-theorem condExp_tendsto_iInf
-    [IsProbabilityMeasure μ]
+theorem tendsto_ae_condExp_iInf
+    [IsFiniteMeasure μ]
     {𝔽 : ℕ → MeasurableSpace Ω}
     (h_filtration : Antitone 𝔽)
-    (h_le : ∀ n, 𝔽 n ≤ (inferInstance : MeasurableSpace Ω))
+    (h_le0 : 𝔽 0 ≤ (inferInstance : MeasurableSpace Ω))
     (f : Ω → ℝ)
     (h_f_int : Integrable f μ) :
     ∀ᵐ ω ∂μ,
@@ -596,7 +596,7 @@ Build:
 
 * Kallenberg's contraction-independence lemma;
 * future filtrations and their relation to `tailProcess X`;
-* conditional-law convergence by `condExp_tendsto_iInf`;
+* conditional-law convergence by `tendsto_ae_condExp_iInf`;
 * the directing measure from tail conditional laws;
 * finite-product factorization;
 * the final theorem wrappers.
@@ -703,7 +703,7 @@ objects, not just the final theorem.
 * Hewitt–Savage: the symmetric σ-algebra of an i.i.d. sequence is trivial.
 * The tail-family of a process is antitone.
 * The Lévy downward theorem specializes correctly to an eventually constant decreasing
-  filtration (a test of `condExp_tendsto_iInf`, not a de Finetti example).
+  filtration (a test of `tendsto_ae_condExp_iInf`, not a de Finetti example).
 * In the real-valued L² lane, bounded observables give `MemLp 2` automatically.
 
 ## Ordering
