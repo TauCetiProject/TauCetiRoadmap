@@ -138,9 +138,13 @@ The foundation. Following the modular curves project's elliptic-curve-as-group-s
   coherent cohomology — and being **locally Weierstrass** is the definition that carries that
   content here.)
 - **The bridge to Mathlib's group law.** `projModel_points`: the `K`-points of `projModel W` are in
-  natural, pointed bijection with `(W.baseChange K).toAffine.Point`, identifying the scheme-theoretic
-  group with Mathlib's `AddCommGroup`. This is what lets every later layer speak scheme-theoretically
-  while reusing Mathlib's `Point`.
+  natural, pointed bijection with `(W.baseChange K).toAffine.Point` — and, the load-bearing
+  upgrade, that bijection is a **group isomorphism**, transporting the scheme group law (`mulBy`)
+  to Mathlib's `AddCommGroup`. State it as a named pointed `AddEquiv`, not an `∃` of an `Equiv`
+  (the provenance artifact is the weaker existential pointed bijection; the group clause is
+  chart-level computation on the three affine charts). This is what lets every later layer speak
+  scheme-theoretically while reusing Mathlib's `Point`, and every fibre-anchor in Layers 1–3
+  rides on it.
 - **The group scheme.** The elliptic curve as a commutative group object over the base
   (`EllipticCurve S` extending a smooth proper scheme with section and a locally-Weierstrass
   structure), with `mulBy`, the group axioms, and base change. Isogenies (Layer 1), the Néron model
@@ -154,11 +158,28 @@ The moduli / `Y(N)` superstructure of the modular curves project is **not** part
 ### Layer 1: isogenies, the invariant differential, and formal groups (AEC III.4–5, IV)
 
 - **Isogenies.** An isogeny `φ : E → E'` is a finite surjective morphism of the group schemes
-  (Layer 0) taking `O` to `O` — hence a group homomorphism, and the *same* notion as an isogeny of
-  abelian varieties. Its degree `deg φ`, the dual isogeny `φ̂` with `φ̂φ = [deg φ]` and `φφ̂ = [deg φ]`
+  (Layer 0) taking `O` to `O` — hence a group homomorphism (rigidity; proved in the provenance
+  over a locally noetherian base, the hypothesis to be dropped by spreading out), and the *same*
+  notion as an isogeny of
+  abelian varieties. Its degree `deg φ` (the finite-locally-free rank at the zero fibre), the dual
+  isogeny `φ̂` with `φ̂φ = [deg φ]` and `φφ̂ = [deg φ]`
   (AEC III.6.1), bilinearity of `(φ, ψ) ↦ φ̂ψ`, and multiplication-by-`n` `[n]` as an isogeny of
   degree `n²` (III.6). `[n]`'s surjectivity on `Kˢᵉᵖ`-points is the first concrete milestone
-  (seeded).
+  (seeded). ⚠ The hard core of this layer is the **quadraticity of the degree** — `φ̂φ = [deg φ]`
+  and `deg (φψ) = (deg φ)(deg ψ)`, the Abel-grade content, open `sorry`s in the provenance — and
+  it is hard for *any* definition of isogeny; the compatibility contract below is what lets it be
+  discharged on geometric fibres against equation-level division-polynomial/pencil facts, with no
+  `Pic⁰` and no representability anywhere.
+- **The compatibility contract — the scheme notions are computable on fibres.** Three named
+  milestones tie Layer 1 to the equation level, so that no parallel "equation isogeny" theory
+  survives in the API: **(i)** the Layer-0 bridge as a group isomorphism (above); **(ii)** for a
+  **separable** isogeny, `deg φ` equals the cardinality of the geometric kernel — finite-locally-free
+  `finrank` equals the fibre count — identifying every kernel-cardinality "degree" on points with
+  the scheme degree; **(iii)** the `q`-power **Frobenius** `π_q` as a scheme morphism (`Proj` of
+  the `q`-power graded ring map), inducing `(x, y) ↦ (x^q, y^q)` on points under the bridge, with
+  `deg (1 − π_q) = #E(𝔽_q)` — Layer 3's hinge. These are the same lemmas the provenance's own
+  degree pins are designed to be anchored by (`deg [N] = N²` to the division polynomials), so the
+  contract sits on the existing critical path.
 - **The invariant differential.** The translation-invariant differential
   `ω = dx / (2y + a₁x + a₃)` (AEC III.5), its translation-invariance, and additivity
   `(φ + ψ)^* ω = φ^* ω + ψ^* ω` (III.5.2), giving `[n]^* ω = n·ω` — the identity forcing `[n]` to be
@@ -195,6 +216,14 @@ The moduli / `Y(N)` superstructure of the modular curves project is **not** part
   on it (AEC V.1.2). Grounded on the degree form (Layer 1) and the Frobenius apparatus (Layer 2), it
   is nonetheless landable now: the existing proof (provenance) carries a self-contained finite-level
   pairing, so this headline can be the first PR while Layers 0–2 are still built out.
+  ⚠ **The proof's internal isogeny surrogate is not API.** That existing proof manufactures its
+  own equation-level Frobenius, kernel-cardinality degrees, and finite-level pairing. The
+  statement consumes none of them, and none of them may appear in a **public** statement — Layer 1
+  is the sole public notion of isogeny; the surrogate stays proof-internal. Once Layers 1–2 and
+  the compatibility contract land, the **scheme-level re-proof is a named milestone**:
+  `deg (1 − π_q) = #E(𝔽_q)` (compatibility (iii)), positivity, and Cauchy–Schwarz on the degree
+  form re-derive the bound in a page — the statement unchanged, being isogeny-free — and the
+  bespoke route is demoted to an implementation detail or deleted.
 - **The zeta function of `E/𝔽_q`.** `Z(E/𝔽_q, T) = (1 − a_q T + q T²)/((1 − T)(1 − qT))`, its
   functional equation, and the Riemann hypothesis for `E/𝔽_q` (roots of absolute value `q^{-1/2}`,
   equivalent to Hasse) (AEC V.2); the `a_q`-recursion for `#E(𝔽_{qⁿ})`.
@@ -268,7 +297,10 @@ is why the honest theory needs the scheme (Layer 0), not just the Weierstrass mo
 - **The Weil pairing is bilinear and nondegenerate** — an additive bilinear map into
   `Additive (rootsOfUnity N K)`, with `e_N(P, ·) ≡ 0 ⇒ P = 0` over a separably closed field
   (`weilPairing`, `weilPairing_nondegenerate`).
-- **Hasse:** `a_q² ≤ 4q` for the Frobenius trace `a_q = q + 1 − #E(𝔽_q)` (`hasse_bound`).
+- **Hasse:** `a_q² ≤ 4q` for the Frobenius trace `a_q = q + 1 − #E(𝔽_q)` (`hasse_bound`) — landed
+  first from the equation-level proof; **re-proved from the Layer-1 degree form** once the
+  compatibility contract is in. The second proof of the unchanged statement is the acceptance test
+  of the contract itself.
 - **`j` is a twist invariant** but the curves differ: `j(E^L) = j(E)` while `E^L ≇ E` over `K`, and
   `E^L(M) ≅ E(M)` once `L ⊆ M`, with the Galois action twisted by the quadratic character
   (`j_quadraticTwist`, `quadraticTwistPointEquiv`).
@@ -312,7 +344,20 @@ discharges parts of them, as sources of proofs to migrate — never as the speci
   `pointedIso_exists_variableChange` — is the model to port (its moduli / `Y(N)` part is out of
   scope). Its working group law (`mulBy`, the group axioms, base change) is `sorry`-free, but the
   `EllipticCurve S` object's canonical group-enrichment existence/uniqueness (`abelEnrichment_*`) is
-  still `sorry` there — to be built, not inherited.
+  still `sorry` there — to be built, not inherited. ⚠ Its `projModel_points` is an **existential
+  pointed bijection** only; the Layer-0 group-isomorphism clause is the port's upgrade, not
+  inherited.
+- **Isogenies and the degree (Layer 1).** The same project's `EndomorphismDegree.lean` (following
+  Katz–Mazur) already carries, `sorry`-free: **rigidity** (`endMonHom` — a pointed endomorphism is
+  a homomorphism, over a locally noetherian base), the hom-group on `End(E/S)`, the `mulBy`
+  algebra, the **degree as finite-locally-free rank at the zero fibre** (`endDeg` via
+  `Scheme.Hom.finrank`), the trace `endTrace f = deg(1 + f) − 1 − deg f`, and the **Abel-free
+  dual** `endDual f := [tr f] − f` (Katz–Mazur 2.6.2.2 solved for the dual — no `Pic⁰`). Its open
+  `sorry`s are exactly Layer 1's hard core — `endDual_comp_self` (`φ̂φ = [deg φ]`) and `endDeg`
+  multiplicativity — with `deg [N] = N²` designed to fibre-anchor to the HasseWeil
+  `mulByInt_degree`. On the equation side, HasseWeil's `DualIsogeny.lean` and
+  `DegreeQuadraticForm.lean` (its conditional route) are the anchor material for the
+  compatibility contract.
 - **`E[N] ≅ (ℤ/N)²` (Layer 2).** A `sorry`-free proof over **algebraically closed** geometric fibres
   exists as `torsion_geometricFibre_rank_two` (scheme-theoretic; its `deg[N] = N²` anchor is in the
   sibling `HasseWeil` project's division-polynomial route). The milestone here is the intrinsic
@@ -341,6 +386,6 @@ discharges parts of them, as sources of proofs to migrate — never as the speci
 - **Mordell–Weil and Selmer (Layers 6–7).** Michael Stoll's recent AI-assisted formalisation of
   Mordell–Weil is the model to migrate; the Selmer/Sha layer waits on continuous Galois cohomology.
 
-Isogenies, the invariant differential, the formal group, Néron models, and Tate's algorithm are, to
-our knowledge, not yet formalised for Mathlib's `WeierstrassCurve`; they are built here on the
-Layer-0 scheme.
+The invariant differential, the formal group, Néron models, and Tate's algorithm are, to our
+knowledge, not yet formalised anywhere; they are built here on the Layer-0 scheme, alongside the
+completion of the isogeny foundations above.
