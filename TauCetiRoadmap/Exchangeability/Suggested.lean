@@ -164,11 +164,6 @@ example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i))
 @[reducible] def tailProcess (X : ℕ → Ω → α) : MeasurableSpace Ω :=
   ⨅ n, tailFamily X n
 
-/-- **Layer 2, the shift-invariant σ-algebra** on path space. The strictly shift-invariant
-measurable sets already form a σ-algebra; `generateFrom` just packages them. -/
-@[reducible] def shiftInvariantSigma (α : Type*) [MeasurableSpace α] : MeasurableSpace (ℕ → α) :=
-  MeasurableSpace.generateFrom {s | MeasurableSet s ∧ shift α ⁻¹' s = s}
-
 /-- **Layer 2, the exchangeable (symmetric) σ-algebra** on path space: measurable sets
 invariant under every finitely supported permutation of the coordinates. -/
 @[reducible] def exchangeableSigma (α : Type*) [MeasurableSpace α] : MeasurableSpace (ℕ → α) :=
@@ -189,7 +184,8 @@ example (hX : ∀ i, Measurable (X i)) :
 /-- **Layer 2, the path-space σ-algebras are sub-σ-algebras.** (Do not silently identify
 them: for one-sided sequences the tail, shift-invariant, and exchangeable σ-algebras are
 related through invariance, almost invariance, and completions; see `README.md`.) -/
-example : shiftInvariantSigma α ≤ (inferInstance : MeasurableSpace (ℕ → α)) ∧
+example : MeasurableSpace.invariants (shift α) ≤
+      (inferInstance : MeasurableSpace (ℕ → α)) ∧
     exchangeableSigma α ≤ (inferInstance : MeasurableSpace (ℕ → α)) := by
   sorry
 

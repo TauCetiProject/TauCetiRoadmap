@@ -344,7 +344,6 @@ Suggested home:
 ```text
 TauCeti/Probability/Process/Tail.lean
 TauCeti/Probability/PathSpace/Shift.lean
-TauCeti/Probability/Ergodic/ShiftInvariantSigma.lean
 ```
 
 Build process-relative tails:
@@ -366,16 +365,13 @@ shift_measurable
 shift_iterate_measurable
 ```
 
-Build shift-invariant σ-algebras:
-
-```lean
-isShiftInvariant
-shiftInvariantSigma
-shiftInvariantSigma_le
-mem_shiftInvariantSigma_iff
-shiftInvariantSigma_measurable_shift_eq
-shiftInvariant_implies_shiftInvariantMeasurable
-```
+For the shift-invariant σ-algebra, consume Mathlib's
+`MeasurableSpace.invariants (shift α)` directly. Its existing API already provides the membership
+characterization, comparison with the ambient measurable space, iterate invariance, and the
+measurable-function/fixed-point correspondence. Do not introduce shift-specialized aliases such as
+`isShiftInvariant`, `shiftInvariantSigma`, `shiftInvariantSigma_le`, or
+`mem_shiftInvariantSigma_iff`; state only genuinely new path-space results that downstream proof
+routes require.
 
 ⚠ **Tail vs invariant σ-algebra.** Do not silently identify the tail σ-algebra with the
 shift-invariant σ-algebra. For one-sided sequences, the relationship runs through
