@@ -68,16 +68,22 @@ reviewers, can act on it without guessing.
 
 - **Specify the mathematics, not your existing code.** Say what each milestone should prove,
   intrinsically, so a reviewer can judge it on its own terms.
-  Tau Ceti roadmaps can be "green field developments", i.e. you don't know of existing formalization of the material,
-  or can be used to direct the integration of an existing developement into Tau Ceti.
-  (In this case, it is essential that you work in coordination with, and with the permission of, the authors of that material.
-  If that coordination is not possible, but the legal licence of the existing material does allow using it as a source and you want to proceed anyway, please discuss this ahead of time on the Lean zulip, so that the community can have input.)
-  If you're porting existing work, aspire to making it better as it moves into Tau Ceti!
-  Don't write the roadmap merely to follow closely what's in the existing formalization,
-  and be careful to consider all the principles above. If it takes extra work to get your material through the Tau Ceti reviewers,
-  it's effort well spent, because we'll end up with a higher quality, and more reusable, library.
-  If your roadmap includes a file-by-file map of existing material, ensures this is in a clearly secondary provenance section,
-  so reviewers don't think this is prescriptive or exemplary.
+  A Tau Ceti roadmap may direct either a greenfield development, where the checks above have
+  identified no existing formalization, or the integration of existing work into Tau Ceti.
+
+- **Coordinate before integrating existing work.** Work with the authors of the existing material
+  and obtain their agreement before integrating it. If coordination is not possible, do not assume
+  that mathematical overlap permits reuse of their code: verify that its licence permits the
+  intended copying or adaptation, and discuss the plan on the Lean Zulip before proceeding so the
+  community can provide input. A roadmap that independently develops the same mathematics should
+  still cite the existing work and coordinate where possible to avoid needless duplication or
+  incompatible design choices.
+
+- **Improve existing work rather than canonizing it.** When porting material, do not write the
+  roadmap merely to follow the existing formalization. Apply all the principles above and use the
+  review process to make the result more general, reusable, and maintainable. Put any file-by-file
+  map in a clearly secondary provenance section so reviewers do not treat the source code as
+  prescriptive or exemplary.
 
 - **Nothing is "optional".** Don't use the word, and don't imply it. Everything on a roadmap is
   work we want. Sequencing is good, so split into milestones and put the harder material later,
