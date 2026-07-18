@@ -80,11 +80,11 @@ def prefixProj (α : Type*) (n : ℕ) (x : ℕ → α) : Fin n → α := fun i =
 /-- **Layer 0, left shift** on path space. -/
 def shift (α : Type*) (x : ℕ → α) : ℕ → α := fun n => x (n + 1)
 
-/-- **Layer 0, conditionally i.i.d.** There is a measurable random probability measure
+/-- **Layer 0, i.i.d. mixture representation.** There is a measurable random probability measure
 `ν : Ω → ProbabilityMeasure α` so that every finite block of distinct coordinates is
 distributed as the `ν`-mixture of the corresponding product measure (the explicit
 finite-index factorization; `ProbabilityMeasure.pi` supplies the product). -/
-def ConditionallyIID (μ : Measure Ω) (X : ℕ → Ω → α) : Prop :=
+def IsIIDMixture (μ : Measure Ω) (X : ℕ → Ω → α) : Prop :=
   ∃ ν : Ω → ProbabilityMeasure α, Measurable ν ∧
     ∀ (m : ℕ) (k : Fin m → ℕ), Function.Injective k →
       μ.map (fun ω => fun i : Fin m => X (k i) ω) =
@@ -115,9 +115,9 @@ example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i)) :
 example (hX : ∀ i, Measurable (X i)) (h : Exchangeable μ X) : Contractable μ X := by
   sorry
 
-/-- **Layer 0 bridge, conditionally i.i.d. ⇒ exchangeable.** Permutation invariance of the
+/-- **Layer 0 bridge, i.i.d. mixture ⇒ exchangeable.** Permutation invariance of the
 finite product measures; will later move to the product-kernel layer once that lands. -/
-example (hX : ∀ i, Measurable (X i)) (h : ConditionallyIID μ X) : Exchangeable μ X := by
+example (hX : ∀ i, Measurable (X i)) (h : IsIIDMixture μ X) : Exchangeable μ X := by
   sorry
 
 /-- **Layer 0 bridge, full exchangeability ⇒ shift-preservation** of the path law (the link
@@ -142,7 +142,7 @@ example (ν : Ω → ProbabilityMeasure α) (hν : Measurable ν) (m : ℕ) :
 
 /-- **Layer 1, the common de Finetti ending.** A measurable random probability measure whose
 mixtures match the finite-dimensional laws on measurable rectangles is a directing measure:
-rectangle agreement upgrades to the full `ConditionallyIID` factorization by the π-system
+rectangle agreement upgrades to the full `IsIIDMixture` factorization by the π-system
 argument. Shared by the L², Koopman, and martingale routes. -/
 example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i))
     (ν : Ω → ProbabilityMeasure α) (hν : Measurable ν)
@@ -151,7 +151,7 @@ example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i))
         μ.map (fun ω => fun i : Fin m => X (k i) ω) (Set.univ.pi B) =
           μ.bind (fun ω => (ProbabilityMeasure.pi fun _ : Fin m => ν ω).toMeasure)
             (Set.univ.pi B)) :
-    ConditionallyIID μ X := by
+    IsIIDMixture μ X := by
   sorry
 
 /-! ## Layer 2: process tails, path-space σ-algebras, and Hewitt–Savage -/
@@ -225,18 +225,18 @@ theorem should be the reverse-martingale route.
 -/
 
 /-- **Layer 6 summit, de Finetti's theorem** on a standard Borel state space: an
-exchangeable sequence is conditionally i.i.d. -/
+exchangeable sequence has an i.i.d. mixture representation. -/
 example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
     (hX : ∀ i, Measurable (X i)) (h_exch : Exchangeable μ X) :
-    ConditionallyIID μ X := by
+    IsIIDMixture μ X := by
   sorry
 
 /-- **Layer 6 summit, the de Finetti–Ryll-Nardzewski equivalence**:
-`contractable ↔ exchangeable ↔ conditionally i.i.d.` for sequences on a standard Borel
+`contractable ↔ exchangeable ↔ i.i.d. mixture` for sequences on a standard Borel
 state space. -/
 example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
     (hX : ∀ i, Measurable (X i)) :
-    Contractable μ X ↔ Exchangeable μ X ∧ ConditionallyIID μ X := by
+    Contractable μ X ↔ Exchangeable μ X ∧ IsIIDMixture μ X := by
   sorry
 
 end TauCetiRoadmap.Exchangeability

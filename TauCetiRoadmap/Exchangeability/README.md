@@ -12,7 +12,7 @@ The first summit is the de Finetti–Ryll-Nardzewski theorem for sequences on a 
 Borel space:
 
 ```text
-contractable ↔ exchangeable ↔ conditionally i.i.d.
+contractable ↔ exchangeable ↔ representable as a mixture of i.i.d. laws
 ```
 
 It has three classical proof routes: reverse martingales, L² contractability bounds, and
@@ -54,7 +54,7 @@ with `α` a standard Borel space, prove the de Finetti–Ryll-Nardzewski equival
 --     {μ : Measure Ω} [IsProbabilityMeasure μ]
 --     (X : ℕ → Ω → α)
 --     (hX_meas : ∀ i, Measurable (X i)) :
---     Contractable μ X ↔ Exchangeable μ X ∧ ConditionallyIID μ X
+--     Contractable μ X ↔ Exchangeable μ X ∧ IsIIDMixture μ X
 --
 -- theorem deFinetti
 --     {Ω : Type*} [MeasurableSpace Ω]
@@ -63,7 +63,7 @@ with `α` a standard Borel space, prove the de Finetti–Ryll-Nardzewski equival
 --     (X : ℕ → Ω → α)
 --     (hX_meas : ∀ i, Measurable (X i))
 --     (hX_exch : Exchangeable μ X) :
---     ConditionallyIID μ X
+--     IsIIDMixture μ X
 ```
 
 The standard-Borel hypothesis is on the value space `α`, where the directing measure and
@@ -91,7 +91,7 @@ output. The spine is:
 2. exchangeability, full exchangeability, spreadability/contractability, and the bridges
    between the process-level and path-law formulations;
 3. product kernels and mixtures of finite product measures;
-4. conditional independence and conditionally i.i.d. APIs;
+4. measurable mixtures of i.i.d. product laws;
 5. process-relative tail σ-algebras and path-space shifts;
 6. reverse martingales for arbitrary decreasing filtrations;
 7. Koopman operators and invariant σ-algebras for arbitrary measure-preserving maps.
@@ -108,14 +108,20 @@ The basic definitions should be as hypothesis-light as possible:
 * `Exchangeable μ X`: invariance of finite-dimensional laws under permutations of `Fin n`.
 * `FullyExchangeable μ X`: invariance of the path law under all permutations of `ℕ`.
 * `Contractable μ X`: invariance under strictly increasing finite subsequences.
-* `ConditionallyIID μ X`: existence of a measurable random probability measure whose
+* `IsIIDMixture μ X`: existence of a measurable random probability measure whose
   finite product kernels give the finite-dimensional laws. Pin the directing-measure API
   before stating it: either `ν : Ω → ProbabilityMeasure α` (with Mathlib's
   `ProbabilityMeasure.pi`, and `ProbabilityMeasure.toMeasure_pi` / `ProbabilityMeasure.pi_pi`
   for the bridge to `Measure.pi` and rectangle evaluation), or a raw `ν : Ω → Measure α`
   together with an explicit `∀ ω, IsProbabilityMeasure (ν ω)` hypothesis. A
-  `ConditionallyIIDWith μ X ν` relation plus an existential wrapper keeps the directing
+  `IsIIDMixtureWith μ X ν` relation plus an existential wrapper keeps the directing
   measure nameable in proofs.
+
+This is a representation property of the **unconditional finite-dimensional laws**. Do not call
+it `ConditionallyIID`: that standard phrase normally asserts conditional independence relative to
+a σ-algebra or random element, using conditional laws or almost-sure conditional-expectation
+identities. The mixture equation above is the conclusion of integrating out such conditional
+structure, not a definition of conditional independence on the original probability space.
 
 The standard-Borel hypotheses belong in the directing-measure construction and final
 de Finetti theorem, not in every elementary definition. Similarly, L² assumptions belong
@@ -163,7 +169,7 @@ The missing pieces are:
 * the `pathLaw` / `Fin n`-prefix wrappers over Mathlib's projective-limit uniqueness
   (`IsProjectiveLimit.unique`, from `Mathlib.MeasureTheory.Constructions.Projective`);
 * product-kernel measurability for random finite product measures;
-* the common de Finetti ending turning a directing-measure bridge into `ConditionallyIID`;
+* the common de Finetti ending turning a directing-measure bridge into `IsIIDMixture`;
 * process-relative tail σ-algebras and their antitone filtration structure;
 * reverse martingale convergence for conditional expectations along decreasing filtrations;
 * Koopman operators and the identification of the mean-ergodic projection with conditional
@@ -291,8 +297,8 @@ Also build the implication lattice and the alternate characterizations as named 
 * closure of each symmetry class under coordinatewise pushforward `X ↦ (f ∘ Xᵢ)`;
 * mixtures of i.i.d. laws are exchangeable, and exchangeable laws are stationary;
 * the implication lattice among `ExchangeableAt n`, `Exchangeable`, `FullyExchangeable`,
-  `Contractable`, and `ConditionallyIID`, with every easy arrow named and the hard arrow
-  `Contractable → ConditionallyIID` isolated;
+  `Contractable`, and `IsIIDMixture`, with every easy arrow named and the hard arrow
+  `Contractable → IsIIDMixture` isolated;
 * the process-level ↔ path-law bridges in both directions.
 
 State each equivalence with its hypotheses: finite ↔ full exchangeability needs a probability
@@ -305,7 +311,7 @@ only, or as a property of a process only, without bridges. Both viewpoints are u
 the process-level statements are what users want, while the path-law statements make
 π-system and shift arguments cleaner.
 
-### Layer 1: product kernels, conditional independence, and mixtures
+### Layer 1: product kernels and mixtures
 
 Suggested home:
 
@@ -327,7 +333,7 @@ Consume Mathlib's product/cylinder infrastructure — `generateFrom_pi`, `isPiSy
 Then build the common de Finetti ending:
 
 ```lean
-conditional_iid_from_directing_measure
+iidMixture_of_directingMeasure
 ```
 
 The intended bridge hypothesis is an indicator-product factorization: for every finite
@@ -427,7 +433,7 @@ Build:
 * extension from bounded measurable real observables to a countable determining class on the
   standard Borel state space;
 * the directing-measure bridge;
-* the call to `conditional_iid_from_directing_measure`.
+* the call to `iidMixture_of_directingMeasure`.
 
 Key milestones:
 
@@ -438,7 +444,7 @@ l2_bound_long_vs_tail
 weighted_sums_converge_L1
 realObservables_determine_directing_measure
 directing_measure_satisfies_requirements
-conditionallyIID_of_contractable_viaL2
+iidMixture_of_contractable_viaL2
 deFinetti_viaL2
 deFinetti_RyllNardzewski_equivalence_viaL2
 ```
@@ -569,8 +575,8 @@ Finally build the exchangeability-specific bridge:
 pathSpace_contractable_of_contractable
 measure_map_shift_eq_of_contractable
 pathSpace_shift_preserving_of_contractable
-conditionallyIID_transfer
-conditionallyIID_bind_of_contractable
+iidMixture_transfer
+iidMixture_bind_of_contractable
 deFinetti_viaKoopman
 ```
 
@@ -604,7 +610,7 @@ Build:
 Key milestones:
 
 ```lean
-conditionallyIID_of_contractable
+iidMixture_of_contractable
 deFinetti
 deFinetti_equivalence
 deFinetti_RyllNardzewski_equivalence
@@ -643,13 +649,13 @@ Expose:
 Exchangeable
 FullyExchangeable
 Contractable
-ConditionallyIID
+IsIIDMixture
 
 exchangeable_iff_fullyExchangeable
 contractable_of_exchangeable
-exchangeable_of_conditionallyIID
+exchangeable_of_iidMixture
 
-conditionallyIID_of_contractable
+iidMixture_of_contractable
 deFinetti
 deFinetti_equivalence
 deFinetti_RyllNardzewski_equivalence
@@ -659,7 +665,7 @@ deFinetti_viaKoopman
 
 deFinetti_empiricalMeasure
 deFinetti_mixture
-conditionallyIID_ae_unique
+iidMixture_ae_unique
 exchangeable_extreme_iff_iid
 ```
 
@@ -689,7 +695,7 @@ martingales, Koopman operators, product kernels — is a parallel ongoing goal.
 Discharge these alongside the layers; they check that the API describes real probability
 objects, not just the final theorem.
 
-* The law of an i.i.d. sequence is `ConditionallyIID`, `Exchangeable`, and `Contractable`.
+* The law of an i.i.d. sequence is `IsIIDMixture`, `Exchangeable`, and `Contractable`.
 * A mixture of i.i.d. `Bool`-valued laws, parameterized by a random `θ`, is exchangeable,
   with `ω ↦ κ (θ ω)` (`κ` a two-point kernel) as the directing measure. The directing
   measure is the random probability measure induced by `θ`, not `θ` itself; phrasing it via
