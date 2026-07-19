@@ -435,15 +435,32 @@ the already-formalized parts and treating the open parts as goals to be discharg
   | `cutDist_eq_zero_of_homDensity_eq` | 6 (separation) |
   | `lovasz_szegedy_representability` | 8 (representability) |
 
-- [`cameronfreer/graphon`](https://github.com/cameronfreer/graphon) — no custom axioms, three
-  `sorry`s (`exists_common_extension` (Rokhlin), algebraic determination, the determination
-  theorem); blueprint and dependency graph; `AEEqFun` carrier, measure-preserving-map `cutDist`;
-  active spectral / determination work (issue #70). Supplies the proof routes for Layers 3, 5, 6
-  and the blueprint dependency spine. In particular `exists_common_extension` is the Layer-5
-  measure-preserving input, and issue #70 is the Layer-6 inverse-counting route.
+- [`cameronfreer/graphon`](https://github.com/cameronfreer/graphon) — **no custom axioms and now
+  `sorry`-free** (CI-enforced; the three sorries previously listed here are closed:
+  `exists_common_extension` (Rokhlin) is proved, and the algebraic-determination campaign —
+  issue #70 — closed 2026-07-02 via the Cai–Govorov descent); blueprint and dependency graph;
+  `AEEqFun` carrier, measure-preserving-map `cutDist`. Declaration-level claims in this roadmap are
+  checked at commit
+  [`6eccca5`](https://github.com/cameronfreer/graphon/tree/6eccca5bbe5c9df46d7129bf59575b8b9b1d6699)
+  (the pinned migration source; later commits may move things). Supplies proof routes for Layers 3–6
+  on the canonical carrier (compactness in `Compactness.lean`; the inverse counting lemma —
+  qualitative and quantitative — in `InverseCounting.lean`), the connection-matrix
+  algebra and determination substrate of Layer 8a (`Lovasz.lean`, `MatrixDetermination.lean`,
+  `CaiGovorov.lean`), and — since 2026-07 — the Layer-9 sampling and graph-law stack: the first
+  sampling lemma (proved 2026-07-08, `SamplingLemma.lean`, via the two-stage point-sampling +
+  rounding decomposition of `SamplingConcentration.lean`), the explicit one-space infinite sampler
+  with its finite-marginal identification (`InfiniteSampler.lean`), almost-sure sampling
+  convergence (`AlmostSureSampling.lean`), exchangeable graph laws with the finite↔infinite
+  equivalence (`ExchangeableGraphLaw.lean`, `InfiniteLaw.lean`, `InfiniteExchangeability.lean`),
+  the graphon-mixture representation `infiniteMixtureLawEquiv`
+  (`InfiniteRepresentation.lean`), and the dissociated-law extremality
+  `isDissociated_iff_exists_sampleExchangeableLaw` (`MixtureExtremality.lean`).
 
-Already-formalized (modulo the above) and therefore migration-first: Layers 0–2 and 7. Open and
-therefore discharge-targets: Layers 4, 5, 6, 8 (and 9).
+Already-formalized on the canonical carrier and therefore migration-first: Layers 0–7 and 9 (the
+cross-carrier / arbitrary-probability-space generality of Layers 1, 5, and 6 — the Janson
+statements — remains discharge work, as the library works on the `[0,1]` / `AEEqFun` carrier). The
+open discharge-target is Layer 8b (representability), whose spine consumes the Layer-9 graph-law
+infrastructure — see *Ordering*.
 
 An early community pointer in this direction: in the October 2021 Lean Zulip thread on the
 Dillies–Mehta Szemerédi-regularity formalization (see References), Mauricio Collares flagged the
