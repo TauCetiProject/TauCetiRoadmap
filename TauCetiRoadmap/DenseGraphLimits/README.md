@@ -128,7 +128,10 @@ some prose paths below are abbreviated.)
   `MeasureTheory/Constructions/UnitInterval` (`I` has `IsProbabilityMeasure` + `NoAtoms`).
 - **Weak convergence of measures:** `MeasureTheory.ProbabilityMeasure` / `FiniteMeasure`,
   `LevyProkhorovMetric` (`levyProkhorovDist`), `Prokhorov` (tightness ↔ relative compactness),
-  `Portmanteau`, `IsTightMeasureSet` — for the sampling and array laws (Layer 9).
+  `Portmanteau`, `IsTightMeasureSet` — supporting the mixture existence/representation side of
+  Layer 9 (measures on `GraphonSpaceI`, the compactness extension). The sampling-convergence
+  targets deliberately do **not** consume this stack — their routes are the two-stage
+  decomposition and concentration + Borel–Cantelli (see Layer 9).
 - **Kernels / disintegration** (coupling and gluing *ingredients*, not the gluing lemma itself):
   `Kernel.compProd` (`⊗ₖ`), `Measure.compProd` (`⊗ₘ`), and `condKernel`
   (`Probability/Kernel/Composition/*`, `…/Disintegration/StandardBorel`).
@@ -159,7 +162,13 @@ Everything graphon-specific: the `Graphon` object and its symmetric-kernel algeb
 `homDensity`, `cutNorm` (seminorm + set form), the coupling `cutDist` and its gluing triangle,
 `GraphonSpace`, the counting lemma (both directions), step approximation / weak regularity,
 total boundedness / completeness / compactness, inverse counting / separation, and the
-convergence equivalence. None of it is upstream.
+convergence equivalence; the Layer-9 sampling stack (`sampleGraph`, the joint `infiniteSampleLaw`,
+the finite estimators, the two convergence modes), the exchangeable graph laws and their
+graphon-mixture representation (`ExchangeableGraphLaw` / `InfiniteExchangeableGraphLaw` /
+`graphonMixtureLawEquiv`), and the Layer-8 gluing algebra and representability spine
+(`LabeledGraph` / `connectionMatrix` / `graphParamMobius` / `paramExchangeableLaw` /
+`lovasz_szegedy_representability`) — see the per-layer sections and the *Suggested signatures*
+inventory for the full lists. None of it is upstream.
 
 ---
 
@@ -550,12 +559,11 @@ the already-formalized parts and treating the open parts as goals to be discharg
   (`InfiniteRepresentation.lean`), and the dissociated-law extremality
   `isDissociated_iff_exists_sampleExchangeableLaw` (`MixtureExtremality.lean`).
 
-Already-formalized on the canonical carrier and therefore migration-first: Layers 0–7 and 9 (the
-library is parameterized over a fixed standard-Borel carrier, so what remains discharge work is
-primarily this roadmap's **coupling-based cross-carrier generality** for Layers 1, 5, and 6 — the
-Janson statements over arbitrary probability carriers). The
-open discharge-target is Layer 8b (representability), whose spine consumes the Layer-9 graph-law
-infrastructure — see *Ordering*.
+Already formalized over a fixed standard-Borel carrier, making the canonical specializations
+migration-first: Layers 0–7 and 9. The **coupling-based cross-carrier generality** of Layers 1, 5,
+and 6 — the Janson statements over arbitrary probability carriers — is also discharge work. The
+remaining headline discharge target is Layer 8b (representability), whose spine consumes the
+Layer-9 graph-law infrastructure — see *Ordering*.
 
 An early community pointer in this direction: in the October 2021 Lean Zulip thread on the
 Dillies–Mehta Szemerédi-regularity formalization (see References), Mauricio Collares flagged the
