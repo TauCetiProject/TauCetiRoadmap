@@ -310,9 +310,25 @@ here because `GraphParam` is representation-sensitive). Explicit `[0,1]`-bounded
 hypothesis — it follows from the representation (`t(F, W) ∈ [0,1]`), pinned as the derived corollary
 `graphParam_mem_Icc_of_representability_axioms`. Stating the
 existential over `(I, volume)` — every graphon is representable there — keeps the statement on the
-roadmap's canonical `GraphonSpaceI` carrier rather than an abstract existential space. Grounded on the
-reflection-positivity development of Layer 8a above — a target built here, not a re-derivation deferred
-to external material. Sequenced late because it depends on Layer 8a, and it is required work.
+roadmap's canonical `GraphonSpaceI` carrier rather than an abstract existential space.
+
+**The proof spine, pinned** — saying the gluing algebra's laws are "expressible" does not make
+their theory a target, so the route from the Layer-8a predicates to the summit is itself a chain of
+named targets, with no jump: reflection positivity → `graphParamMobius_nonneg` (`f† ≥ 0`: the
+fully-labelled connection matrices are PSD, and the Möbius transform is a congruence by an
+invertible `0/1` matrix, so the transformed diagonal is nonnegative) and
+`graphParamMobius_sum_eq_one` (`∑ f† = 1`: the double sum telescopes to `f` of the edgeless graph
+`= f(K₁)^n = 1`) → the random graph law `paramExchangeableLaw` (`L_f`, an `ExchangeableGraphLaw`
+with level-`n` masses `f†` — a random object with **no representing graphon in sight yet**) →
+`paramExchangeableLaw_upperMass` (`upperMass L_f F = f F`, Möbius inversion) →
+`isDissociated_paramExchangeableLaw` (multiplicativity makes disjoint label windows independent) →
+Layer 9's extremality `exists_graphon_of_isDissociated` gives `L_f = sampleExchangeableLaw W` →
+the sampling anchor `upperMass_sampleExchangeableLaw` closes `f F = t(F, W)`. **What Layer 8b
+consumes from Layer 9 is the graph-law representation/extremality infrastructure only — not the
+graphon-sampling concentration theorems**: at the point the spine runs no representing graphon
+exists, so the classical random-graphs-plus-convergent-subsequence route would additionally need
+an `f†`-specific variance or simultaneous-selection lemma; the extremality route needs none.
+Sequenced after Layer 9's graph-law layer accordingly — see *Ordering*.
 
 ### Layer 9 — sampling and the graph-law representation
 The `W`-random graph law `sampleGraph W n` (a probability measure on `SimpleGraph (Fin n)`, on the
@@ -462,8 +478,12 @@ Layers 0–2 and 7 first — they validate the pipeline and give visible checkpo
 (Layer 3) lands next, as the prerequisite for the analytic layers. Then Layer 6a (separation) as the
 highest-leverage self-contained summit, with Layer 4 (compactness) alongside it. Layer 5
 (coupling↔map) runs in parallel, gated on the measure-preserving mod-null equivalence, and must not
-block the others. Representability (Layer 8), sampling / exchangeable arrays (Layer 9), and
-the Mathlib upstreaming follow.
+block the others. The representability summit's real build order is
+**Layer 8a → Layer 9's graph-law representation/extremality → Layer 8b**: the 8b spine consumes
+`ExchangeableGraphLaw`, `upperMass`, `IsDissociated`, and `exists_graphon_of_isDissociated`, so
+the graph-law layer of Layer 9 precedes 8b (Layer 9's sampling-convergence targets are independent
+of 8b and can land in parallel; 8a is independent and can land any time after Layer 0). The
+Mathlib upstreaming follows.
 
 Layers 4–6 are independent and likely to attract duplicate work, so **register an Intention and
 `claim` the specific target** before a substantial push (see *Coordinating work* in the repository

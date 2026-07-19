@@ -27,7 +27,13 @@ the graph parameter `GraphParam` with `IsIsoInvariant`, the finite `connectionMa
 `connectionMatrix_apply`) and `IsReflectionPositive` (finite principal blocks PSD), `IsMultiplicative` / `IsNormalized`, and
 `lovasz_szegedy_representability` (the four-condition iff over the canonical `(I, volume)` carrier,
 with the `[0,1]` range a derived corollary, per Lovász–Szegedy Thm 2.2) —
-are pinned here too.
+are pinned here too. So are the Layer-9 sampling/graph-law targets — the joint `infiniteSampleLaw`
+with its finite-marginal identification and the two (deliberately distinct) convergence modes,
+`ExchangeableGraphLaw` / `upperMass` / `IsDissociated` with the extremality
+`exists_graphon_of_isDissociated`, and the Diaconis–Janson summit `graphonMixtureLawEquiv` — and
+the Layer-8b Möbius spine (`graphParamMobius` with its positivity and total-mass laws,
+`paramExchangeableLaw` with its upper-mass and dissociativity laws) that grounds
+`lovasz_szegedy_representability` on Layer 9's graph-law layer.
 
 Objects whose precise Lean shape would force a premature API choice — the weak-regularity
 `Finpartition` adapter and the exact mod-null transport bundle — are described in `README.md` instead.
@@ -745,6 +751,52 @@ def IsMultiplicative (f : GraphParam) : Prop :=
 `(⊥ : SimpleGraph (Fin 1))`. -/
 def IsNormalized (f : GraphParam) : Prop := f 1 ⊥ = 1
 
+open Classical in
+/-- **Layer 8b (Möbius transform `f†`).** The supergraph-inclusion Möbius transform on the same
+vertex set: `f†(F) = ∑_{G ⊇ F} (−1)^{e(G) − e(F)} · f(G)` — the coefficients of `f` in the
+"contains exactly" basis (edge counts via `Nat.card`, so no decidability on the summed `G`). The
+first rung of the representability spine. -/
+def graphParamMobius (f : GraphParam) : GraphParam := fun n F =>
+  ∑ G ∈ Finset.univ.filter (fun G : SimpleGraph (Fin n) => F ≤ G),
+    (-1 : ℝ) ^ (Nat.card G.edgeSet - Nat.card F.edgeSet) * f n G
+
+/-- **Layer 8b (spine 1 — `f† ≥ 0`).** Reflection positivity forces the Möbius transform
+nonnegative: the fully-labelled connection matrices (every vertex labeled) are PSD — a special
+family of Layer 8a's finite blocks — and the Möbius transform is a congruence by an invertible
+`0/1` matrix, so the transformed diagonal, whose entries are the values `f†`, is nonnegative. -/
+theorem graphParamMobius_nonneg (f : GraphParam) (hrp : IsReflectionPositive f)
+    (n : ℕ) (F : SimpleGraph (Fin n)) : 0 ≤ graphParamMobius f n F := sorry
+
+open Classical in
+/-- **Layer 8b (spine 2 — `∑ f† = 1`).** The Möbius masses at each level sum to one: the double
+sum telescopes to `f` of the edgeless graph on `n` vertices, which is `f(K₁)^n = 1` by
+multiplicativity and normalization. With spine 1 this makes `f†` a probability mass function at
+every level. -/
+theorem graphParamMobius_sum_eq_one (f : GraphParam) (hmul : IsMultiplicative f)
+    (hnorm : IsNormalized f) (n : ℕ) :
+    ∑ G : SimpleGraph (Fin n), graphParamMobius f n G = 1 := sorry
+
+/-- **Layer 8b (spine 3 — the random graph law `L_f`).** The exchangeable graph law whose level-`n`
+masses are `f†` — well-formed by spines 1–2 and a Möbius consistency calculus under label
+injections (iso-invariance enters here). This is where a parameter becomes a random object, with
+**no representing graphon in sight yet**. -/
+def paramExchangeableLaw (f : GraphParam) (h₁ : IsIsoInvariant f) (h₂ : IsMultiplicative f)
+    (h₃ : IsNormalized f) (h₄ : IsReflectionPositive f) : ExchangeableGraphLaw := sorry
+
+/-- **Layer 8b (spine 4 — `f` is the upper mass of `L_f`).** Möbius inversion:
+`P(F ≤ ·) = ∑_{G ⊇ F} f†(G) = f(F)` under `L_f`. -/
+theorem paramExchangeableLaw_upperMass (f : GraphParam) (h₁ : IsIsoInvariant f)
+    (h₂ : IsMultiplicative f) (h₃ : IsNormalized f) (h₄ : IsReflectionPositive f)
+    {k : ℕ} (F : SimpleGraph (Fin k)) :
+    (paramExchangeableLaw f h₁ h₂ h₃ h₄).upperMass F = f k F := sorry
+
+/-- **Layer 8b (spine 5 — multiplicativity dissociates `L_f`).** Disjoint label windows are
+independent under `L_f`, because upper masses on a disjoint union factor by multiplicativity. This
+is the hypothesis Layer 9's extremality theorem consumes. -/
+theorem isDissociated_paramExchangeableLaw (f : GraphParam) (h₁ : IsIsoInvariant f)
+    (h₂ : IsMultiplicative f) (h₃ : IsNormalized f) (h₄ : IsReflectionPositive f) :
+    (paramExchangeableLaw f h₁ h₂ h₃ h₄).IsDissociated := sorry
+
 /-- **Layer 8b (Lovász–Szegedy representability — the moment problem for graphs).** A graph
 parameter equals `t(·, W)` for some graphon on the canonical carrier `(I, volume)` iff it is
 isomorphism-invariant, multiplicative, normalized, and reflection-positive (Lovász–Szegedy,
@@ -752,8 +804,16 @@ isomorphism-invariant, multiplicative, normalized, and reflection-positive (Lov�
 graph parameter; it is explicit here because `GraphParam` is representation-sensitive). Explicit
 `[0,1]`-boundedness is **not** a hypothesis: it is a consequence
 (`graphParam_mem_Icc_of_representability_axioms` below). Every graphon is representable on
-`(I, volume)`, so the existential carrier collapses to the canonical one. Grounded on the
-reflection-positivity development (8a) above — not a leap. -/
+`(I, volume)`, so the existential carrier collapses to the canonical one. **The hard direction
+runs on the pinned spine**: reflection positivity → `f† ≥ 0` and `∑ f† = 1` (spines 1–2) → the
+random graph law `L_f` (spine 3) → `upperMass L_f = f` (spine 4) → `L_f` dissociated (spine 5) →
+Layer 9's extremality `exists_graphon_of_isDissociated` gives `L_f = sampleExchangeableLaw W` →
+the sampling anchor `upperMass_sampleExchangeableLaw` closes `f F = t(F, W)`. What this consumes
+from Layer 9 is the **graph-law representation/extremality infrastructure only — not the
+graphon-sampling concentration theorems** (at the point the spine runs, no representing graphon
+exists, so a classical random-graphs-plus-convergent-subsequence route would additionally need an
+`f†`-specific variance or simultaneous-selection lemma; the extremality route needs none). The
+easy direction checks the four axioms for `t(·, W)`. -/
 theorem lovasz_szegedy_representability (f : GraphParam) :
     (∃ W : Graphon I (volume : Measure I),
         ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
