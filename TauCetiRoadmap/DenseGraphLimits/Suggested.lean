@@ -521,6 +521,65 @@ theorem homDensity_finiteGraphGraphon {V : Type*} [Fintype V] [DecidableEq V] (F
     [DecidableRel F.Adj] {m : ℕ} (hm : 0 < m) (G : SimpleGraph (Fin m)) :
     homDensity (volume : Measure I) F (finiteGraphGraphon G) = homDensityFin F G := sorry
 
+/-- **Layer 9 (restriction).** The initial `n`-vertex window of a graph on `ℕ` — the finite view of
+the joint sampling object. (Mathlib's `MeasurableSpace (SimpleGraph V)` — comapped from `Adj` —
+covers `V = ℕ`, so laws on `SimpleGraph ℕ` need no new σ-algebra.) -/
+def restrictFin (G : SimpleGraph ℕ) (n : ℕ) : SimpleGraph (Fin n) :=
+  SimpleGraph.comap (fun i => (i : ℕ)) G
+
+/-- **Layer 9 (the joint sampling object).** The law of the **infinite** `W`-random graph, all
+samples on one probability space: i.i.d. `μ`-positions `x : ℕ → Ω`, one uniform per unordered pair,
+and `i ~ j` iff the pair's uniform falls below `W (x i) (x j)`. Every finite sampling law is then a
+**restriction of this single object** (`infiniteSampleLaw_map_restrictFin`) — the coupling that
+almost-sure statements quantify over; the marginal family `sampleGraph W n` alone cannot state
+them. -/
+def infiniteSampleLaw (W : Graphon Ω μ) : Measure (SimpleGraph ℕ) := sorry
+
+/-- **Layer 9.** The joint sampling law is a probability measure. -/
+instance infiniteSampleLaw_isProbabilityMeasure (W : Graphon Ω μ) :
+    IsProbabilityMeasure (infiniteSampleLaw μ W) := sorry
+
+/-- **Layer 9 (finite marginal identification).** The level-`n` window of the joint law is exactly
+the finite sampling law — `G(n, W)` for every `n`, realized as restrictions of one infinite random
+graph. -/
+theorem infiniteSampleLaw_map_restrictFin (W : Graphon Ω μ) (n : ℕ) :
+    (infiniteSampleLaw μ W).map (restrictFin · n) = sampleGraph μ W n := sorry
+
+/-- **Layer 9 (per-coordinate concentration — the almost-sure engine).** McDiarmid/Azuma for the
+injective density: changing one sampled vertex moves `t₀(F, ·)` by at most `k/n`, giving
+`P(|t₀(F, G(n,W)) − t(F,W)| ≥ ε) ≤ 2·exp(−ε²n/(2k²))` (the LNGL Prop 11.32 shape) — summable in
+`n` at every fixed `ε`, which is exactly what Borel–Cantelli consumes. -/
+theorem sampleGraph_injHomDensity_concentration {V : Type*} [Fintype V] [DecidableEq V]
+    (F : SimpleGraph V) [DecidableRel F.Adj] (W : Graphon Ω μ) {n : ℕ}
+    (hkn : Fintype.card V ≤ n) {ε : ℝ} (hε : 0 < ε) :
+    ((sampleGraph μ W n) {G | ε ≤ |injHomDensity F G - homDensity μ F W|}).toReal
+      ≤ 2 * Real.exp (-(ε ^ 2 * n) / (2 * (Fintype.card V : ℝ) ^ 2)) := sorry
+
+/-- **Layer 9 (second sampling lemma — convergence in probability).** `δ□(G(n,W), W) → 0` in
+probability (LNGL Lemma 10.16), via the **two-stage first-sampling-lemma decomposition**: point
+sampling (the genuinely analytic Azuma step, on the weighted sampled graphon) + Bernoulli edge
+rounding (a finite union bound over cuts). This mode is a statement about the marginal laws alone.
+Deliberately distinct from the almost-sure route below — neither consumes the other's proof. -/
+theorem sampleGraph_cutDist_tendsto_inProbability (W : Graphon Ω μ) {ε : ℝ} (hε : 0 < ε) :
+    Filter.Tendsto
+      (fun n => ((sampleGraph μ W n)
+        {G | ε ≤ cutDist (volume : Measure I) μ (finiteGraphGraphon G) W}).toReal)
+      Filter.atTop (nhds 0) := sorry
+
+/-- **Layer 9 (almost-sure convergence — on the joint space).** On the joint law, almost every
+infinite `W`-random graph has its finite windows converging to `W` in cut distance. The route:
+per-coordinate concentration (`sampleGraph_injHomDensity_concentration` — summable tails) feeds
+Borel–Cantelli for each fixed `F`; intersecting over the countable family `Σ n, SimpleGraph (Fin n)`
+gives a full-measure set of pointwise hom-density convergence; the Layer-6b convergence equivalence
+upgrades that to cut-distance convergence. The almost-sure proof does **not** run through the
+two-stage cut-distance sampling lemma, and the statement is unstateable for the marginal family —
+it needs `infiniteSampleLaw`. -/
+theorem infiniteSampleLaw_ae_tendsto_cutDist (W : Graphon Ω μ) :
+    ∀ᵐ G ∂(infiniteSampleLaw μ W),
+      Filter.Tendsto
+        (fun n => cutDist (volume : Measure I) μ (finiteGraphGraphon (restrictFin G n)) W)
+        Filter.atTop (nhds 0) := sorry
+
 /-- **Layer 8a (k-labeled graph).** A finite simple graph with an ordered `k`-tuple of *distinct*
 labeled vertices (labels injective) — the objects of the gluing algebra behind connection matrices. -/
 structure LabeledGraph (k : ℕ) where

@@ -322,10 +322,33 @@ estimators: the finite-graph hom density `homDensityFin` and the **injective hom
 `injHomDensity` (`t₀`, ordered injective count over the falling factorial `(n)_k` — see Conventions),
 with the hom-vs-injective **closeness bound** `|t(F,·) − t₀(F,·)| ≤ C(k,2)/n` and the **unbiasedness
 anchor** `E_{G(n,W)}[t₀(F,·)] = t(F,W)` that pins the `(n)_k` normalization. Both finite estimators
-have a planned downstream consumer: the companion graph-regularity roadmap builds its plain-graph densities
-so as to refactor onto `homDensityFin` / `injHomDensity` once this roadmap lands. Then the
-almost-sure first sampling lemma and the second sampling lemma `δ□(G(n,W), W) → 0` (LNGL Lemma 10.16),
-via the weak-convergence stack (`LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet`); then the
+have a natural consumer: the companion graph-regularity roadmap may align its plain-graph densities
+with `homDensityFin` / `injHomDensity` — optional interoperability on its side, not a dependency in
+either direction.
+
+**The joint sampling architecture.** `sampleGraph W n` is a *marginal* law for each `n`; an
+almost-sure convergence claim across `n` is unstateable for the marginal family alone. The pinned
+joint object is `infiniteSampleLaw W` — the law of the infinite `W`-random graph on **one**
+probability space (i.i.d. `μ`-positions, one uniform per unordered pair) — with the finite-marginal
+identification `infiniteSampleLaw_map_restrictFin`: `G(n, W)` for every `n` is the level-`n`
+restriction (`restrictFin`) of this single object. (Mathlib's `MeasurableSpace (SimpleGraph V)`,
+comapped from `Adj`, covers `V = ℕ`, so no new σ-algebra is needed.) The two convergence modes are
+then **deliberately distinct**, with distinct proof routes, and neither consumes the other:
+
+* **in probability** — `sampleGraph_cutDist_tendsto_inProbability`, the second sampling lemma
+  `δ□(G(n,W), W) → 0` (LNGL Lemma 10.16), a statement about the marginals alone, via the two-stage
+  first-sampling-lemma decomposition: point sampling (the analytic Azuma step on the weighted
+  sampled graphon) plus Bernoulli edge rounding (a finite union bound over cuts);
+* **almost surely** — `infiniteSampleLaw_ae_tendsto_cutDist`, on the joint space, via
+  per-coordinate concentration (`sampleGraph_injHomDensity_concentration`, the McDiarmid/Azuma
+  bound of LNGL Prop 11.32 shape, with tails summable in `n`), Borel–Cantelli per fixed `F`, a
+  countable intersection over `Σ n, SimpleGraph (Fin n)`, and the Layer-6b convergence equivalence
+  upgrading pointwise hom-density convergence to cut-distance convergence. The almost-sure proof
+  does **not** run through the two-stage cut-distance lemma.
+
+(The `LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet` weak-convergence stack, previously
+cited for these targets, does not by itself supply this specification and is no longer load-bearing
+here.) Then the
 exchangeable-arrays / Aldous–Hoover representation connecting graphons to infinite exchangeable random
 graphs. The long-horizon endpoint.
 
