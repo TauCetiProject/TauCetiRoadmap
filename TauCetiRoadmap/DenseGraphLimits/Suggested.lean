@@ -580,6 +580,109 @@ theorem infiniteSampleLaw_ae_tendsto_cutDist (W : Graphon Ω μ) :
         (fun n => cutDist (volume : Measure I) μ (finiteGraphGraphon (restrictFin G n)) W)
         Filter.atTop (nhds 0) := sorry
 
+/-- **Layer 9 (exchangeable graph laws).** An exchangeable random graph presented by its consistent
+finite marginals: a probability law on `SimpleGraph (Fin k)` for every `k`, consistent under
+restriction along **every** injection of labels (which subsumes relabeling invariance). -/
+structure ExchangeableGraphLaw where
+  /-- The level-`k` marginal law. -/
+  law : (k : ℕ) → Measure (SimpleGraph (Fin k))
+  /-- Every marginal is a probability measure. -/
+  prob : ∀ k, IsProbabilityMeasure (law k)
+  /-- Consistency under restriction along every injection of labels. -/
+  consistent : ∀ {k l : ℕ} (f : Fin k ↪ Fin l),
+    (law l).map (SimpleGraph.comap ⇑f) = law k
+
+/-- **Layer 9.** Consistency of the sampling laws under label injections — the theorem making
+`sampleExchangeableLaw` well-formed. -/
+theorem sampleGraph_map_comap (W : Graphon Ω μ) {k l : ℕ} (f : Fin k ↪ Fin l) :
+    (sampleGraph μ W l).map (SimpleGraph.comap ⇑f) = sampleGraph μ W k := sorry
+
+/-- **Layer 9.** The sampling laws of a fixed graphon, packaged as an exchangeable graph law. -/
+def sampleExchangeableLaw (W : Graphon Ω μ) : ExchangeableGraphLaw where
+  law k := sampleGraph μ W k
+  prob k := sampleGraph_isProbabilityMeasure μ W k
+  consistent f := sampleGraph_map_comap μ W f
+
+/-- **Layer 9 (upper mass).** The probability that the level-`k` sample contains a fixed graph:
+`P(F ≤ ·)` — the observable through which a graph parameter reads off a law (the Layer-8b spine's
+`paramExchangeableLaw_upperMass`). -/
+def ExchangeableGraphLaw.upperMass (L : ExchangeableGraphLaw) {k : ℕ}
+    (F : SimpleGraph (Fin k)) : ℝ :=
+  ((L.law k) {G | F ≤ G}).toReal
+
+/-- **Layer 9 (sampling anchor).** The upper mass of the sampling law is the homomorphism density:
+`P(F ≤ G(k,W)) = t(F, W)` — the identity through which the Layer-8b spine's final arrow
+`f F = t(F, W)` closes. -/
+theorem upperMass_sampleExchangeableLaw {k : ℕ} (F : SimpleGraph (Fin k)) [DecidableRel F.Adj]
+    (W : Graphon Ω μ) :
+    (sampleExchangeableLaw μ W).upperMass F = homDensity μ F W := sorry
+
+/-- **Layer 9 (dissociated laws).** Restrictions to disjoint label windows are independent: the
+level-`(k + l)` marginal pushed to the pair of windows is the product of the level-`k` and
+level-`l` marginals. Sampling laws are dissociated (`isDissociated_sampleExchangeableLaw`); the
+extremality theorem below says they are the **only** dissociated laws. -/
+def ExchangeableGraphLaw.IsDissociated (L : ExchangeableGraphLaw) : Prop :=
+  ∀ k l : ℕ,
+    (L.law (k + l)).map
+        (fun G => (SimpleGraph.comap (Fin.castAdd l) G, SimpleGraph.comap (Fin.natAdd k) G))
+      = (L.law k).prod (L.law l)
+
+/-- **Layer 9.** The sampling laws are dissociated (disjoint windows use disjoint sources). -/
+theorem isDissociated_sampleExchangeableLaw (W : Graphon Ω μ) :
+    (sampleExchangeableLaw μ W).IsDissociated := sorry
+
+/-- **Layer 9 (extremality — dissociated laws are exactly the sample laws).** A dissociated
+exchangeable graph law is the sampling law of a graphon on the canonical carrier — the
+graph-law-level extreme-point theorem the Layer-8b spine consumes (its converse is
+`isDissociated_sampleExchangeableLaw`). Prior formalization:
+`isDissociated_iff_exists_sampleExchangeableLaw` (`MixtureExtremality.lean`). -/
+theorem exists_graphon_of_isDissociated (L : ExchangeableGraphLaw) (h : L.IsDissociated) :
+    ∃ W : Graphon I (volume : Measure I),
+      L = sampleExchangeableLaw (volume : Measure I) W := sorry
+
+/-- **Layer 9 (infinite form).** An exchangeable law on infinite graphs: a probability law on
+`SimpleGraph ℕ` invariant under relabeling along every permutation of `ℕ`. -/
+structure InfiniteExchangeableGraphLaw where
+  /-- The law on infinite graphs. -/
+  law : Measure (SimpleGraph ℕ)
+  /-- It is a probability measure. -/
+  prob : IsProbabilityMeasure law
+  /-- Invariance under every relabeling. -/
+  exchangeable : ∀ e : Equiv.Perm ℕ, law.map (SimpleGraph.comap ⇑e) = law
+
+/-- **Layer 9 (finite ↔ infinite).** Consistent finite marginals extend uniquely to an exchangeable
+law on infinite graphs (a compactness extension), and restriction along `restrictFin` recovers the
+marginals — the packaging that lets the representation below be stated in the infinite form. Prior
+formalization: `InfiniteLaw.lean` + `InfiniteExchangeability.lean`. -/
+def exchangeableGraphLawEquivInfinite :
+    ExchangeableGraphLaw ≃ InfiniteExchangeableGraphLaw := sorry
+
+/-- **Layer 9.** The Borel σ-algebra of the cut metric — so `GraphonSpaceI` carries probability
+measures (the mixture side of the representation). -/
+instance : MeasurableSpace GraphonSpaceI := borel GraphonSpaceI
+
+/-- **Layer 9.** The σ-algebra is definitionally Borel. -/
+instance : BorelSpace GraphonSpaceI := ⟨rfl⟩
+
+/-- **Layer 9 (the graph-law representation — Diaconis–Janson).** Every exchangeable law on
+infinite graphs is a **graphon mixture**, uniquely: a bijection with the probability measures on
+the **graphon quotient** `GraphonSpaceI`. Uniqueness lives on the quotient, never among raw kernel
+representatives — two kernels at cut distance zero give the same mixture. This is the
+Diaconis–Janson graphon-mixture representation, a graph-level Aldous–Hoover *consequence* —
+deliberately not labeled "Aldous–Hoover": the array-level representation theorem is the
+Exchangeability roadmap's independent parallel theory, and this target neither consumes nor
+supplies it (see the Layer-9 cross-roadmap note in `README.md`). Prior formalization:
+`infiniteMixtureLawEquiv` (`InfiniteRepresentation.lean`), proved without array-level input. -/
+def graphonMixtureLawEquiv :
+    MeasureTheory.ProbabilityMeasure GraphonSpaceI ≃ InfiniteExchangeableGraphLaw := sorry
+
+/-- **Layer 9 (anchor).** The representation sends the Dirac mass at the class of `W` to the
+infinite `W`-sampling law — tying the correspondence back to the sampling stack. -/
+theorem graphonMixtureLawEquiv_dirac (W : Graphon I (volume : Measure I)) :
+    graphonMixtureLawEquiv
+        ⟨Measure.dirac (Quotient.mk (graphonSetoid (volume : Measure I)) W), inferInstance⟩
+      = exchangeableGraphLawEquivInfinite (sampleExchangeableLaw (volume : Measure I) W) := sorry
+
 /-- **Layer 8a (k-labeled graph).** A finite simple graph with an ordered `k`-tuple of *distinct*
 labeled vertices (labels injective) — the objects of the gluing algebra behind connection matrices. -/
 structure LabeledGraph (k : ℕ) where

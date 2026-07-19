@@ -314,7 +314,7 @@ roadmap's canonical `GraphonSpaceI` carrier rather than an abstract existential 
 reflection-positivity development of Layer 8a above — a target built here, not a re-derivation deferred
 to external material. Sequenced late because it depends on Layer 8a, and it is required work.
 
-### Layer 9 — sampling and exchangeable arrays
+### Layer 9 — sampling and the graph-law representation
 The `W`-random graph law `sampleGraph W n` (a probability measure on `SimpleGraph (Fin n)`, on the
 measurable-graph σ-algebra `MeasurableSpace (SimpleGraph V)`), with the **compatibility target**
 `sampleGraph (Graphon.const p) n = G(Fin n, p)` recovering Mathlib's `binomialRandom`. The sampling
@@ -348,9 +348,36 @@ then **deliberately distinct**, with distinct proof routes, and neither consumes
 
 (The `LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet` weak-convergence stack, previously
 cited for these targets, does not by itself supply this specification and is no longer load-bearing
-here.) Then the
-exchangeable-arrays / Aldous–Hoover representation connecting graphons to infinite exchangeable random
-graphs. The long-horizon endpoint.
+here.)
+
+**The graph-law representation (Diaconis–Janson).** The layer's endpoint, pinned: an
+`ExchangeableGraphLaw` is a family of probability laws on `SimpleGraph (Fin k)` consistent under
+restriction along **every** label injection (which subsumes relabeling invariance);
+`sampleExchangeableLaw W` packages the sampling laws (consistency `sampleGraph_map_comap`); the
+observable is `upperMass` — `P(F ≤ ·)` — with the sampling anchor
+`upperMass_sampleExchangeableLaw : P(F ≤ G(k,W)) = t(F,W)`. A law is **dissociated**
+(`IsDissociated`) when disjoint label windows are independent; sampling laws are dissociated
+(`isDissociated_sampleExchangeableLaw`), and the **extremality** target
+`exists_graphon_of_isDissociated` says they are the only ones — the extreme points of the
+exchangeable simplex, and the Layer-8b spine's key input. The infinite form
+(`InfiniteExchangeableGraphLaw`, permutation-invariant laws on `SimpleGraph ℕ`) is reached by the
+compactness extension `exchangeableGraphLawEquivInfinite`, and the summit is
+`graphonMixtureLawEquiv : ProbabilityMeasure GraphonSpaceI ≃ InfiniteExchangeableGraphLaw` (with
+the Borel structure of the cut metric on `GraphonSpaceI`, and the Dirac anchor
+`graphonMixtureLawEquiv_dirac` sending `δ_{⟦W⟧}` to the infinite `W`-sampling law): every
+exchangeable law on infinite graphs is a graphon mixture, **uniquely — on the graphon quotient,
+never among raw kernel representatives** (kernels at cut distance zero give the same mixture).
+This is the **Diaconis–Janson graphon-mixture representation**, a graph-level Aldous–Hoover
+*consequence*; the roadmap deliberately does not call it "Aldous–Hoover".
+
+**Cross-roadmap boundary (exchangeable arrays).** The array-level Aldous–Hoover representation is
+the Exchangeability roadmap's Layer 8 — an **independent parallel theory**: nothing here consumes
+it (the prior formalization proves the graph-level correspondence by compactness extension plus
+the mixture representation, with no array-level input), and nothing there consumes this layer. The
+two developments are joined by one named future interface — a target equating exchangeable graph
+laws with the laws of symmetric, irreflexive, jointly exchangeable Boolean arrays — which becomes
+a Lean pin once the Exchangeability roadmap's array API exists (per the roadmap guide, a condition
+whose API does not yet exist is described here rather than `sorry`-pinned).
 
 ### Upstream to Mathlib
 Several prerequisites are reusable beyond graphons and are upstream candidates, once the API has
@@ -506,6 +533,9 @@ is Layer 4's `CompactSpace GraphonSpaceI`.
   I–II*.
 - L. Lovász, B. Szegedy, *Szemerédi's Lemma for the Analyst*, GAFA 17 (2007), 252–270 — weak
   regularity and the compactness of the graphon space (Layers 2 and 4).
+- P. Diaconis, S. Janson, *Graph limits and exchangeable random graphs*, Rend. Mat. Appl. (7) 28
+  (2008), 33–61 ([arXiv:0712.2749](https://arxiv.org/abs/0712.2749)) — the exchangeable graph law ↔
+  graphon mixture correspondence and the dissociated/extreme-point characterization (Layer 9).
 - S. Janson, *Graphons, cut norm and distance, couplings and rearrangements*, NYJM Monographs 4
   (2013) ([arXiv:1009.2376](https://arxiv.org/abs/1009.2376)) — the general-carrier statements:
   the coupling triangle inequality on arbitrary probability spaces (Lemma 6.5), the coupling↔map
