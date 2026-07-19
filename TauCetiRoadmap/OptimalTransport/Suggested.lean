@@ -190,7 +190,7 @@ def IsKantorovichOptimalTransportMap [MeasurableSpace X] [MeasurableSpace Y]
 
 /-- For finite-second-moment Euclidean laws with absolutely continuous source, there is
 an almost-everywhere unique map attaining the quadratic Kantorovich value. -/
-theorem exists_brenierMap {n : ℕ}
+theorem exists_isKantorovichOptimalTransportMap_quadratic_of_ac {n : ℕ}
     (μ ν : WassersteinSpace 2 (EuclideanSpace ℝ (Fin n)))
     (hμ : μ.1.toMeasure ≪ volume) :
     ∃ T : EuclideanSpace ℝ (Fin n) → EuclideanSpace ℝ (Fin n),
