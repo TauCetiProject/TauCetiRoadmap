@@ -663,6 +663,16 @@ formalization: `InfiniteLaw.lean` + `InfiniteExchangeability.lean`. -/
 def exchangeableGraphLawEquivInfinite :
     ExchangeableGraphLaw ≃ InfiniteExchangeableGraphLaw := sorry
 
+/-- **Layer 9 (the sampler realizes the abstract law).** The explicit joint sampling law **is** the
+compactness extension of the sampling marginals. This certifies in particular that the explicit
+sampler is exchangeable, and it is the identification connecting the sampling, graph-law, and
+mixture subsections — without it `infiniteSampleLaw` and the abstract infinite law would be two
+unconnected objects. Prior formalization: `map_sampleInfinite` /
+`map_sampleInfinite_eq_infiniteSampleLaw_mk` (`InfiniteSampler.lean`). -/
+theorem infiniteSampleLaw_eq_extension (W : Graphon Ω μ) :
+    infiniteSampleLaw μ W
+      = (exchangeableGraphLawEquivInfinite (sampleExchangeableLaw μ W)).law := sorry
+
 /-- **Layer 9.** The Borel σ-algebra of the cut metric — so `GraphonSpaceI` carries probability
 measures (the mixture side of the representation). -/
 instance : MeasurableSpace GraphonSpaceI := borel GraphonSpaceI
@@ -688,6 +698,19 @@ theorem graphonMixtureLawEquiv_dirac (W : Graphon I (volume : Measure I)) :
     graphonMixtureLawEquiv
         ⟨Measure.dirac (Quotient.mk (graphonSetoid (volume : Measure I)) W), inferInstance⟩
       = exchangeableGraphLawEquivInfinite (sampleExchangeableLaw (volume : Measure I) W) := sorry
+
+/-- **Layer 9 (mixture coordinates — every finite marginal pinned).** What a **general** mixing
+measure maps to — the Dirac anchor alone would leave non-Dirac mixtures unconstrained (an
+arbitrary `Equiv` could permute them): under `graphonMixtureLawEquiv P`, the upper mass of every
+finite graph is the `P`-average of its hom-density, `upperMass F = ∫ t(F, ·) dP`, integrated on
+the quotient through the descended `homDensityOnSpace`. Upper masses determine each finite
+marginal by Möbius inversion, so this pins the entire correspondence, not just its Dirac fibers.
+Prior formalization: `infiniteMixtureLawEquiv_law_map_restrictFin`
+(`InfiniteRepresentation.lean`). -/
+theorem graphonMixtureLawEquiv_upperMass (P : MeasureTheory.ProbabilityMeasure GraphonSpaceI)
+    {k : ℕ} (F : SimpleGraph (Fin k)) [DecidableRel F.Adj] :
+    (exchangeableGraphLawEquivInfinite.symm (graphonMixtureLawEquiv P)).upperMass F
+      = ∫ x, homDensityOnSpace (volume : Measure I) k F x ∂(P : Measure GraphonSpaceI) := sorry
 
 /-- **Layer 8a (k-labeled graph).** A finite simple graph with an ordered `k`-tuple of *distinct*
 labeled vertices (labels injective) — the objects of the gluing algebra behind connection matrices. -/

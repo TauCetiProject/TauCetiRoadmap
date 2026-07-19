@@ -379,10 +379,18 @@ exchangeable simplex, and the Layer-8b spine's key input. The infinite form
 (`InfiniteExchangeableGraphLaw`, permutation-invariant laws on `SimpleGraph ℕ`) is reached by the
 compactness extension `exchangeableGraphLawEquivInfinite`, and the summit is
 `graphonMixtureLawEquiv : ProbabilityMeasure GraphonSpaceI ≃ InfiniteExchangeableGraphLaw` (with
-the Borel structure of the cut metric on `GraphonSpaceI`, and the Dirac anchor
-`graphonMixtureLawEquiv_dirac` sending `δ_{⟦W⟧}` to the infinite `W`-sampling law): every
+the Borel structure of the cut metric on `GraphonSpaceI`, the Dirac anchor
+`graphonMixtureLawEquiv_dirac` sending `δ_{⟦W⟧}` to the infinite `W`-sampling law, **and the
+general mixture-coordinate law `graphonMixtureLawEquiv_upperMass`**: for *every* mixing measure
+`P`, `upperMass F = ∫ t(F,·) dP` on the quotient — upper masses determine each finite marginal by
+Möbius inversion, so the correspondence is pinned beyond its Dirac fibers, not an arbitrary
+`Equiv`): every
 exchangeable law on infinite graphs is a graphon mixture, **uniquely — on the graphon quotient,
-never among raw kernel representatives** (kernels at cut distance zero give the same mixture).
+never among raw kernel representatives** (kernels at cut distance zero give the same mixture). The
+explicit joint sampler is identified with the abstract extension by
+`infiniteSampleLaw_eq_extension` (`infiniteSampleLaw W` **is** the compactness extension of
+`sampleExchangeableLaw W`) — certifying the sampler's exchangeability and welding the sampling,
+graph-law, and mixture subsections into one architecture.
 This is the **Diaconis–Janson graphon-mixture representation**, a graph-level Aldous–Hoover
 *consequence*; the roadmap deliberately does not call it "Aldous–Hoover".
 
@@ -390,10 +398,11 @@ This is the **Diaconis–Janson graphon-mixture representation**, a graph-level 
 the Exchangeability roadmap's Layer 8 — an **independent parallel theory**: nothing here consumes
 it (the prior formalization proves the graph-level correspondence by compactness extension plus
 the mixture representation, with no array-level input), and nothing there consumes this layer. The
-two developments are joined by one named future interface — a target equating exchangeable graph
-laws with the laws of symmetric, irreflexive, jointly exchangeable Boolean arrays — which becomes
-a Lean pin once the Exchangeability roadmap's array API exists (per the roadmap guide, a condition
-whose API does not yet exist is described here rather than `sorry`-pinned).
+two developments are joined by one **documented future interface** — proposed identifier
+`graphLawArrayLawEquiv`, equating exchangeable graph laws with the laws of symmetric, irreflexive,
+jointly exchangeable Boolean arrays — which becomes a Lean pin once the Exchangeability roadmap's
+array API exists (per the roadmap guide, a condition whose API does not yet exist is described
+here rather than `sorry`-pinned).
 
 ### Upstream to Mathlib
 Several prerequisites are reusable beyond graphons and are upstream candidates, once the API has
@@ -450,9 +459,24 @@ quotient-level separation `graphonSpace_ext_homDensity`; and the **Layer-8 repre
 `IsIsoInvariant`, the finite `connectionMatrix` (+ the entry law `connectionMatrix_apply`), its
 `IsReflectionPositive` (finite principal blocks PSD) / `IsMultiplicative` / `IsNormalized` predicates, the four-condition iff
 `lovasz_szegedy_representability` (over the canonical `(I, volume)` carrier), and its derived range
-corollary `graphParam_mem_Icc_of_representability_axioms`. Described in prose rather than pinned (to
-avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape and the exact
-mod-null transport bundle. An `IsCoupling` *structure/class* is **deliberately not** introduced — a
+corollary `graphParam_mem_Icc_of_representability_axioms`; the **Layer-9 sampling/graph-law**
+targets — `restrictFin`, `infiniteSampleLaw` (+ its probability instance, the finite-marginal
+identification `infiniteSampleLaw_map_restrictFin`, and the extension identification
+`infiniteSampleLaw_eq_extension`), the concentration bound
+`sampleGraph_injHomDensity_concentration`, the two convergence modes
+`sampleGraph_cutDist_tendsto_inProbability` / `infiniteSampleLaw_ae_tendsto_cutDist`,
+`ExchangeableGraphLaw` / `sampleExchangeableLaw` (+ `sampleGraph_map_comap`), `upperMass`
+(+ `upperMass_sampleExchangeableLaw`), `IsDissociated`
+(+ `isDissociated_sampleExchangeableLaw` and the extremality `exists_graphon_of_isDissociated`),
+`InfiniteExchangeableGraphLaw` + `exchangeableGraphLawEquivInfinite`, the Borel instances on
+`GraphonSpaceI`, and the representation summit `graphonMixtureLawEquiv` (+ `_dirac` and the
+mixture-coordinate law `_upperMass`); and the **Layer-8b spine** `graphParamMobius`
+(+ `graphParamMobius_nonneg` / `graphParamMobius_sum_eq_one`), `paramExchangeableLaw`
+(+ `paramExchangeableLaw_upperMass`, `isDissociated_paramExchangeableLaw`). Described in prose
+rather than pinned (to
+avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape, the exact
+mod-null transport bundle, and the exchangeable-graph-law ↔ Boolean-array interface
+`graphLawArrayLawEquiv` (awaiting the Exchangeability roadmap's array API). An `IsCoupling` *structure/class* is **deliberately not** introduced — a
 coupling of given marginals is not canonical, so typeclass resolution would pick an arbitrary one; the
 `Prop` + `isProbabilityMeasure_of_isCoupling` is the right pattern.
 
@@ -527,8 +551,9 @@ the already-formalized parts and treating the open parts as goals to be discharg
   `isDissociated_iff_exists_sampleExchangeableLaw` (`MixtureExtremality.lean`).
 
 Already-formalized on the canonical carrier and therefore migration-first: Layers 0–7 and 9 (the
-cross-carrier / arbitrary-probability-space generality of Layers 1, 5, and 6 — the Janson
-statements — remains discharge work, as the library works on the `[0,1]` / `AEEqFun` carrier). The
+library is parameterized over a fixed standard-Borel carrier, so what remains discharge work is
+primarily this roadmap's **coupling-based cross-carrier generality** for Layers 1, 5, and 6 — the
+Janson statements over arbitrary probability carriers). The
 open discharge-target is Layer 8b (representability), whose spine consumes the Layer-9 graph-law
 infrastructure — see *Ordering*.
 
@@ -606,5 +631,21 @@ The mathematics and proof routes draw on two prior Lean developments,
   `IsReflectionPositive`) carry real bodies — never `def … : Prop := sorry`, which asserts nothing?
 - Is `IsCoupling` a named `Prop` (not a structure/typeclass), matching the vocabulary and docstring?
 - Is the injective density `t₀` normalized by the falling factorial `(n)_k`, **never** `Nat.choose n k`?
+- Is Layer 9's sampling architecture **joint** — `infiniteSampleLaw` with the finite-marginal
+  identification and the extension identification `infiniteSampleLaw_eq_extension` — with the two
+  convergence modes kept distinct (in probability on the marginals, via the two-stage
+  point-sampling + rounding decomposition; almost surely on the joint space, via per-coordinate
+  concentration + Borel–Cantelli + the Layer-6b equivalence — never through the two-stage
+  cut-distance lemma)?
+- Is the graph-law representation pinned **beyond its Dirac fibers** — the mixture-coordinate law
+  `graphonMixtureLawEquiv_upperMass` (`upperMass F = ∫ t(F,·) dP` for every mixing measure) — with
+  uniqueness on the graphon quotient, the wording "Diaconis–Janson graphon-mixture representation /
+  graph-level Aldous–Hoover consequence" (never bare "Aldous–Hoover"), and the array-level theory
+  kept an independent parallel development joined only by the documented `graphLawArrayLawEquiv`
+  interface?
+- Does the Layer-8b spine run through named targets (`graphParamMobius` with positivity and total
+  mass, `paramExchangeableLaw`, upper-mass inversion, dissociativity, Layer 9's extremality) and
+  consume only Layer 9's graph-law representation/extremality infrastructure — never the
+  graphon-sampling concentration theorems?
 - Do the computed-value backstops hold (`t(K₂, W_{K₄}) = 3/4`, `t(K₃, W_{C₅}) = 0`, `t(F, W_p) = p^{e(F)}`)?
 - Are the source repositories confined to Provenance?
