@@ -41,9 +41,7 @@ variable {X : Type u} {Y : Type v} {Z : Type w}
 
 namespace Measure
 
-/-- **Layer 0.** A plan-first, raw-measure coupling relation. The final declaration should
-live in Mathlib/Tau Ceti's measure namespace and retain this argument order so facts about a
-plan support dot notation. -/
+/-- A measure on `X × Y` whose first and second marginals are `μ` and `ν`. -/
 structure IsCoupling [MeasurableSpace X] [MeasurableSpace Y]
     (π : Measure (X × Y)) (μ : Measure X) (ν : Measure Y) : Prop where
   fst_eq : π.fst = μ
@@ -51,31 +49,27 @@ structure IsCoupling [MeasurableSpace X] [MeasurableSpace Y]
 
 end Measure
 
-/-- **Layer 0.** Bundled probability couplings inherit all topology from
-`ProbabilityMeasure`; `Measure.IsCoupling` remains the algebraic root relation. -/
+/-- Probability measures on `X × Y` whose marginals are `μ` and `ν`. -/
 abbrev Coupling [MeasurableSpace X] [MeasurableSpace Y]
     (μ : ProbabilityMeasure X) (ν : ProbabilityMeasure Y) :=
   {π : ProbabilityMeasure (X × Y) //
     Measure.IsCoupling π.toMeasure μ.toMeasure ν.toMeasure}
 
-/-- **Layer 0 target: raw nonemptiness.** Finite measures with equal mass have a coupling,
-including the zero-mass case. -/
+/-- Finite measures of equal mass admit a coupling, including when both have zero mass. -/
 theorem exists_coupling_of_isFiniteMeasure [MeasurableSpace X] [MeasurableSpace Y]
     (μ : Measure X) (ν : Measure Y) [IsFiniteMeasure μ] [IsFiniteMeasure ν]
     (hmass : μ Set.univ = ν Set.univ) :
     ∃ π : Measure (X × Y), Measure.IsCoupling π μ ν := by
   sorry
 
-/-- **Layer 0 target: probability nonemptiness.** This is the bundled product-coupling
-corollary of the raw equal-mass theorem. -/
+/-- The type of probability couplings of any two probability measures is nonempty. -/
 theorem coupling_nonempty [MeasurableSpace X] [MeasurableSpace Y]
     (μ : ProbabilityMeasure X) (ν : ProbabilityMeasure Y) :
     Nonempty (Coupling μ ν) := by
   sorry
 
-/-- **Layer 0 target: one-sided gluing.** The two requested pair marginals share `ν`.
-Only the carrier being disintegrated out of `πYZ` must be standard Borel; no topological
-hypothesis belongs on `X` or `Y`. The symmetric theorem disintegrates `πXY` instead. -/
+/-- If `Z` is standard Borel, couplings of `(μ,ν)` and `(ν,ρ)` are the two pair
+marginals of a probability measure on `X × (Y × Z)`. -/
 theorem exists_gluing [MeasurableSpace X] [MeasurableSpace Y] [MeasurableSpace Z]
     [StandardBorelSpace Z]
     {μ : ProbabilityMeasure X} {ν : ProbabilityMeasure Y} {ρ : ProbabilityMeasure Z}
@@ -87,20 +81,19 @@ theorem exists_gluing [MeasurableSpace X] [MeasurableSpace Y] [MeasurableSpace Z
 
 /-! ## Layer 1: transport cost and primal attainment -/
 
-/-- **Layer 1.** The primary Kantorovich value is rooted on raw measures, has an extended
-nonnegative cost, and keeps `∞` for an empty feasible set or an infinite optimum. -/
+/-- The infimum of `∫⁻ c dπ` over raw-measure couplings of `μ` and `ν`. -/
 def transportCost [MeasurableSpace X] [MeasurableSpace Y]
     (c : X × Y → ℝ≥0∞) (μ : Measure X) (ν : Measure Y) : ℝ≥0∞ :=
   ⨅ π : Measure (X × Y), ⨅ _hπ : Measure.IsCoupling π μ ν, ∫⁻ z, c z ∂π
 
-/-- **Layer 1.** Optimality is equality with the extended primal value. -/
+/-- A probability coupling whose `c`-cost equals the Kantorovich value. -/
 def IsOptimalCoupling [MeasurableSpace X] [MeasurableSpace Y]
     (c : X × Y → ℝ≥0∞) (μ : ProbabilityMeasure X) (ν : ProbabilityMeasure Y)
     (π : Coupling μ ν) : Prop :=
   (∫⁻ z, c z ∂π.1.toMeasure) = transportCost c μ.toMeasure ν.toMeasure
 
-/-- **Layer 1 target: primal attainment** for a lower-semicontinuous extended cost on
-Polish spaces. Finite value is a separate conclusion, not an existence hypothesis. -/
+/-- A lower-semicontinuous nonnegative extended cost on two Polish spaces admits an
+optimal probability coupling. -/
 theorem exists_isOptimalCoupling
     [PseudoMetricSpace X] [MeasurableSpace X] [BorelSpace X] [PolishSpace X]
     [PseudoMetricSpace Y] [MeasurableSpace Y] [BorelSpace Y] [PolishSpace Y]
@@ -111,20 +104,18 @@ theorem exists_isOptimalCoupling
 
 /-! ## Layer 2: Kantorovich duality and optimality certificates -/
 
-/-- **Layer 2.** Pin the finite-real dual sign and argument convention independently of
-later integrability/topological hypotheses. The extended-cost branch and `c`-transform
-wait for an honest extended-real API that prevents undefined `∞-∞`. -/
+/-- Kantorovich dual feasibility with convention `φ x + ψ y ≤ c (x,y)`. -/
 def DualFeasible (c : X × Y → ℝ) (φ : X → ℝ) (ψ : Y → ℝ) : Prop :=
   ∀ x y, φ x + ψ y ≤ c (x, y)
 
-/-- **Layer 2.** Finite `c`-cyclical monotonicity uses arbitrary finite permutations.
-Later prove equivalence with the cyclic-permutation presentation. -/
+/-- A set is `c`-cyclically monotone when every finite reassignment of its second
+coordinates has at least the original total cost. -/
 def IsCCyclicallyMonotone (c : X × Y → ℝ) (Γ : Set (X × Y)) : Prop :=
   ∀ (n : ℕ) (z : Fin n → X × Y) (σ : Equiv.Perm (Fin n)),
     (∀ i, z i ∈ Γ) →
       (∑ i, c (z i)) ≤ ∑ i, c ((z i).1, (z (σ i)).2)
 
-/-- **Layer 2 target:** a dual contact set is `c`-cyclically monotone. -/
+/-- The contact set of a dual-feasible pair is `c`-cyclically monotone. -/
 theorem DualFeasible.isCCyclicallyMonotone_contact
     {c : X × Y → ℝ} {φ : X → ℝ} {ψ : Y → ℝ} (h : DualFeasible c φ ψ) :
     IsCCyclicallyMonotone c {z | φ z.1 + ψ z.2 = c z} := by
@@ -132,37 +123,31 @@ theorem DualFeasible.isCCyclicallyMonotone_contact
 
 /-! ## Layer 3: Wasserstein distance and finite-distance components -/
 
-/-- **Layer 3.** On an ordinary (finite-valued) pseudometric space, moment finiteness uses
-Mathlib's extended exponent and `MemLp` applied to the real-valued distance; the roadmap
-requires proof that the choice of basepoint is immaterial when `1 ≤ p` only under
-explicit a.e.-measurability of all distance sections. -/
+/-- A probability measure has finite `p`-moment if its real-valued distance from some
+basepoint belongs to `Lᵖ`. -/
 def HasFiniteMoment [MeasurableSpace X] [PseudoMetricSpace X]
     (p : ℝ≥0∞) (μ : ProbabilityMeasure X) : Prop :=
   ∃ x₀ : X, MemLp (fun x => dist x x₀) p μ.toMeasure
 
-/-- **Layer 3.** The ordinary pseudometric-space finite-moment wrapper. On an extended
-metric space use a component anchored at a reference law instead. Its measurable space is
-Mathlib's inherited `Subtype.instMeasurableSpace`; do not add a duplicate instance. -/
+/-- Probability measures on a pseudometric space with finite `p`-moment. -/
 def WassersteinSpace (p : ℝ≥0∞) (X : Type u)
     [MeasurableSpace X] [PseudoMetricSpace X] :=
   {μ : ProbabilityMeasure X // HasFiniteMoment p μ}
 
-/-- **Layer 3.** One definition covers finite exponents and `p = ∞` by using `eLpNorm`.
-For finite `p`, prove the integral/root formula; at `∞`, prove the essential-supremum form. -/
+/-- The infimum, over couplings of `μ` and `ν`, of the `Lᵖ` norm of the ground extended
+distance. -/
 def wassersteinEDist [MeasurableSpace X] [PseudoEMetricSpace X]
     (p : ℝ≥0∞) (μ ν : ProbabilityMeasure X) : ℝ≥0∞ :=
   ⨅ π : Coupling μ ν,
     eLpNorm (fun z : X × X => edist z.1 z.2) p π.1.toMeasure
 
-/-- **Layer 3.** An anchored finite-distance component for an extended metric base. It too
-uses Mathlib's inherited subtype measurable structure. -/
+/-- Probability measures at finite `p`-Wasserstein extended distance from `μ₀`. -/
 def WassersteinComponent [MeasurableSpace X] [PseudoEMetricSpace X]
     (p : ℝ≥0∞) (μ₀ : ProbabilityMeasure X) :=
   {μ : ProbabilityMeasure X // wassersteinEDist p μ₀ μ ≠ ∞}
 
-/-- **Layer 3 target:** the extended-metric triangle inequality is proved from Layer 0
-standard-Borel gluing, measurable `edist`, and Mathlib's `eLpNorm` Minkowski inequality.
-Completeness and finite-valuedness of the ground distance are not needed. -/
+/-- On a standard Borel extended pseudometric space with measurable ground distance,
+`wassersteinEDist p` satisfies the triangle inequality when `1 ≤ p`. -/
 theorem wassersteinEDist_triangle
     [PseudoEMetricSpace X] [MeasurableSpace X] [StandardBorelSpace X]
     (hedist : Measurable fun z : X × X => edist z.1 z.2)
@@ -170,8 +155,8 @@ theorem wassersteinEDist_triangle
     wassersteinEDist p μ ρ ≤ wassersteinEDist p μ ν + wassersteinEDist p ν ρ := by
   sorry
 
-/-- **Layer 3 target:** `p = ∞` is definitionally on Mathlib's `eLpNorm` scale and is
-proved equal to the explicit coupling-wise essential-supremum formula. -/
+/-- At exponent `∞`, Wasserstein extended distance is the infimum of the coupling-wise
+essential suprema of the ground distance. -/
 theorem wassersteinEDist_top [MeasurableSpace X] [PseudoEMetricSpace X]
     (μ ν : ProbabilityMeasure X) :
     wassersteinEDist ∞ μ ν =
@@ -181,36 +166,30 @@ theorem wassersteinEDist_top [MeasurableSpace X] [PseudoEMetricSpace X]
 
 /-! ## Layer 4: the Monge problem and abstract transport maps -/
 
-/-- **Layer 4.** Cost of a deterministic candidate, rooted on an arbitrary source measure. -/
+/-- The extended cost of a deterministic map under the source measure `μ`. -/
 def transportMapCost [MeasurableSpace X] [MeasurableSpace Y]
     (c : X × Y → ℝ≥0∞) (μ : Measure X) (T : X → Y) : ℝ≥0∞ :=
   ∫⁻ x, c (x, T x) ∂μ
 
-/-- **Layer 4.** The Monge value minimizes only over maps with
-`ProbabilityTheory.HasLaw T ν μ` and therefore remains distinct from the Kantorovich
-relaxation. The definition applies to arbitrary measures; equal mass follows from feasibility. -/
+/-- The infimum of deterministic transport cost over maps with target law `ν` under `μ`. -/
 def mongeCost [MeasurableSpace X] [MeasurableSpace Y]
     (c : X × Y → ℝ≥0∞) (μ : Measure X) (ν : Measure Y) : ℝ≥0∞ :=
   ⨅ T : X → Y, ⨅ _hT : ProbabilityTheory.HasLaw T ν μ, transportMapCost c μ T
 
-/-- **Layer 4.** A feasible minimizer of the Monge problem, whether or not relaxation has
-the same value. -/
+/-- A map with target law `ν` under `μ` whose cost equals the Monge value. -/
 def IsMongeMinimizer [MeasurableSpace X] [MeasurableSpace Y]
     (c : X × Y → ℝ≥0∞) (μ : Measure X) (ν : Measure Y) (T : X → Y) : Prop :=
   ProbabilityTheory.HasLaw T ν μ ∧ transportMapCost c μ T = mongeCost c μ ν
 
-/-- **Layer 4.** A feasible map that attains the Kantorovich relaxation. This is stronger
-than `IsMongeMinimizer` until equality of the Monge and Kantorovich values is proved. -/
+/-- A map with target law `ν` under `μ` whose cost equals the Kantorovich value. -/
 def IsKantorovichOptimalTransportMap [MeasurableSpace X] [MeasurableSpace Y]
     (c : X × Y → ℝ≥0∞) (μ : Measure X) (ν : Measure Y) (T : X → Y) : Prop :=
   ProbabilityTheory.HasLaw T ν μ ∧ transportMapCost c μ T = transportCost c μ ν
 
 /-! ## Layer 5: Brenier's theorem -/
 
-/-- **Layer 5 target, map-facing Brenier corollary.** The full potential is a proper l.s.c.
-extended-valued convex function; that signature waits for Layer 5's honest
-extended convex/subgradient API. `README.md` additionally requires uniqueness of the
-optimal plan, the potential/contact theorem, conjugate inverse, and polar factorization. -/
+/-- For finite-second-moment Euclidean laws with absolutely continuous source, there is
+an almost-everywhere unique map attaining the quadratic Kantorovich value. -/
 theorem exists_brenierMap {n : ℕ}
     (μ ν : WassersteinSpace 2 (EuclideanSpace ℝ (Fin n)))
     (hμ : μ.1.toMeasure ≪ volume) :
@@ -224,34 +203,26 @@ theorem exists_brenierMap {n : ℕ}
 
 /-! ## Layer 12: Fréchet and Wasserstein barycenters -/
 
-/-- **Layer 12.** General metric Fréchet minimizers precede Wasserstein barycenters. The
-`eLpNorm` radius has the same minimizers as the usual `p`th-power functional for
-`0 < p < ∞`, and also gives the Chebyshev-center endpoint at `p = ∞`.  Downstream
-identities take `AEMeasurable (fun y ↦ edist x y) P.toMeasure` explicitly;
-`OpensMeasurableSpace X` is a standard sufficient corollary, not a definitional gate. -/
+/-- The `Lᵖ(P)` norm of the extended distance from `x`. -/
 def frechetRadius [MeasurableSpace X] [PseudoEMetricSpace X]
     (p : ℝ≥0∞) (P : ProbabilityMeasure X) (x : X) : ℝ≥0∞ :=
   eLpNorm (fun y => edist x y) p P.toMeasure
 
-/-- **Layer 12.** Membership in the finite-exponent metric Fréchet-barycenter set. The
-side conditions keep Mathlib's degenerate `L⁰` convention out of the barycenter API, while
-the explicit finite-radius gate rules out the vacuous all-`∞` case and `IsMinOn` supplies
-the standard minimizer vocabulary. -/
+/-- A finite-radius minimizer of the Fréchet radius for an exponent `1 ≤ p < ∞`. -/
 def IsFrechetBarycenter [MeasurableSpace X] [PseudoEMetricSpace X]
     (p : ℝ≥0∞) (P : ProbabilityMeasure X) (x : X) : Prop :=
   1 ≤ p ∧ p ≠ ∞ ∧ (∃ y, frechetRadius p P y ≠ ∞) ∧
     IsMinOn (frechetRadius p P) Set.univ x
 
-/-- **Layer 12.** The `p=∞` endpoint is named separately as the Chebyshev-center problem. -/
+/-- A finite-radius minimizer of the essential-supremum Fréchet radius. -/
 def IsChebyshevCenter [MeasurableSpace X] [PseudoEMetricSpace X]
     (P : ProbabilityMeasure X) (x : X) : Prop :=
   (∃ y, frechetRadius ∞ P y ≠ ∞) ∧ IsMinOn (frechetRadius ∞ P) Set.univ x
 
 /-! ## Layer 13: entropic transport and finite Sinkhorn scaling -/
 
-/-- **Layer 13 target: finite positive-kernel Sinkhorn scaling.** The roadmap also
-requires support-feasible nonnegative kernels, uniqueness modulo scalar, convergence,
-and agreement with measurable IPFP. -/
+/-- A strictly positive rectangular matrix and strictly positive marginals of equal mass
+admit strictly positive diagonal scaling factors with those row and column sums. -/
 theorem exists_sinkhorn_scaling {n m : ℕ} [NeZero n] [NeZero m]
     (K : Matrix (Fin n) (Fin m) ℝ) (a : Fin n → ℝ) (b : Fin m → ℝ)
     (hK : ∀ i j, 0 < K i j) (ha : ∀ i, 0 < a i) (hb : ∀ j, 0 < b j)
