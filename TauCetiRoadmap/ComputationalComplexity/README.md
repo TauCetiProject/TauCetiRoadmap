@@ -26,14 +26,13 @@ The concept here is that, even though different references might construct encod
 
 We can then derive this class in a variety of ways:
 
-1. Subtypes can be encoded as their base types.
-2. Composite types (Like `Prod`, `List`) can be encoded using a self-delimiting transformation that takes a `List Bool` and converts it to a format where it can be parsed as part of a larger block with information about where the delimitation starts and ends. This delimitation operation can then be applied to each suubcomponent.
+1. Subtypes can be encoded as their base types. In general, encodings can be lifted through injections.
+2. Composite types (Like `Prod`, `List`) can be encoded using a self-delimiting transformation that takes a `List Bool` and converts it to a format where it can be parsed as part of a larger block with information about where the delimitation starts and ends. This delimitation operation (see `delimit : List Bool → List Bool` in `Suggested.lean`) can then be applied to each suubcomponent.
 3. Disjunctive type constructors (Like `Sum`, `Option`, `Bool`) can be encoded by having a prefix representing which case we are in, followed by the encoding of any additional information for that value (or a list of delimited pieces of information).
 4. `Nat`s can be encoded in binary. Other numeric types like `Int`, `Rat`, can then be derived using principles above (Ints as disjunctively either negative, zero, or positive, and `Rat`s as a subtype of pair of an `Int` and `Nat`)
-
-The self-delimiting operation `delimit : List Bool → List Bool` in `Suggested.lean` prefixes
-each bit with a `true` continuation marker and terminates with a `false`, so a delimited block
-can be parsed out of a longer string.
+5. `Finset` and `Multisets` can be injectively converted to `List`s by sorting the encodings of the elements lexicographically, and then encoded through this injection.
+6. Finite graphs can be encoded as a natural number to represent number of vertices, paired with a list of edges represented as pairs of vertices.
+7. Constraint satisfaction problem instances can be represented as
 
 ## Construction of low-level Polynomial time Turing Machines
 
@@ -48,7 +47,7 @@ Once this is in place, we can prove several facts about polynomial time computab
 - Reassociation of pairs is polynomial time 
 - Many of the basic functions defined on types in `Data` are polynomial time.
 
-The AI could either try to generate a list of these functions en masse, or identify them as they beome needed downstream and add them one at a time.
+At this point, I would like to say something like: "The AI should generate a list of en masses of **EVERY SINGLE FUNCTION IN MATHLIB** and then prove (or disprove), the claim that conditional on (the curryings of) the functional arguments being poly-time, the function itself is polytime if we give encodings to all the atomic type arguments". But I am a bit concerned this is a sidetrack, and it would be more useful for the AI to just prove some basic polytime computability facts and then proceed to complexity.
 
 ## Complexity Theory Basics
 
@@ -70,22 +69,22 @@ And we can proceed to define a number of complexity classes:
 - `Σᴾ n` and `Πᴾ n` as the `n`th levels of the polynomial time hierarchy, defined inductively as
   `Σᴾ 0 = P`, `Σᴾ (n + 1) = ∃ᴾ (Πᴾ n)`, and `Πᴾ n = (Σᴾ n).complement`.
 - `PH` as the union of all levels of the polynomial time hierarchy.
-- `BPP` as the set of decision problems decidable with two-sided error at most `1/3` by
-  counting witnesses for a polynomial time machine.
-- `RP` as the set of decision problems decidable with one-sided error at most `1/3`:
-  members are accepted on at least `2/3` of witnesses, non-members on none.
-- `coRP` as the set of decision problems whose complements are in `RP`.
+- Probabilitstic classes defined in terms of error rates for members and non-members.
+  - `BPP` with two-sided error below `1/3`.
+  - `RP` with one-sided error below `1/3` for members and 0 error for non-members.
+  - `coRP` with one-sided error below `1/3` for non-members and 0 error for members.
+  - `PP` with error below 1/2
 - `ZPP` as the intersection of `RP` and `coRP`.
-- `AM`
-- `MA`
-- `PP`
+- `AM`/`AM[k]` and `MA`, the classes defined by [Arthur Merlin Protocols](https://en.wikipedia.org/wiki/Arthur%E2%80%93Merlin_protocol)
 
-## Basic inclusions
+## Basic inclusions and identifications
 
 We can then prove basic inclusions among these. The ["Complexity Zoo"](https://complexityzoo.net/Petting_Zoo) is a good reference for this.
 
 * P is contained in NP, coNP, and BPP, by virtue of being able to make a trivial witness and ignore it.
-* RP and coRP are contained in BPP by using the same witness checking procedure
+* Changing the `1/3` constants in the definition of `BPP` is equivalent to any separated nonzero contstant error bounds.
+* RP and coRP are contained in BPP because weakening the error requirements broadens the class.
+* RP is the complimentary class to coRP, as defined above.
 
 ## NP-Completeness, Cook-Levin, and the Karp Problems
 
@@ -96,14 +95,14 @@ and [NP-Completeness](https://en.wikipedia.org/wiki/NP-completeness) as the inte
 We can then prove the [Cook-Levin theorem](https://en.wikipedia.org/wiki/Cook%E2%80%93Levin_theorem), 
 and from there prove the NP-completeness of [the 21 Karp problems](https://en.wikipedia.org/wiki/Karp%27s_21_NP-complete_problems) by constructing the reductions.
 
-## Other theorems
+## Advanced inclusions and separations
 
 Once basic infrastructure on classes has been established, we can proceed to more advanced theorems:
 
 - [Ladner's theorem](https://en.wikipedia.org/wiki/NP-intermediate)
 - [Schaefer's dichotomy theorem](https://en.wikipedia.org/wiki/Schaefer%27s_dichotomy_theorem)
-- [Valiant-Vazirani](https://en.wikipedia.org/wiki/Valiant%E2%80%93Vazirani_theorem)
-- [Sipser-Lautemann](https://en.wikipedia.org/wiki/Sipser%E2%80%93Lautemann_theorem)
+- The [Sipser-Lautemann theorem](https://en.wikipedia.org/wiki/Sipser%E2%80%93Lautemann_theorem), BPP is contained in `Πᴾ 2`/`Σᴾ 2`
+- `NP` and `BPP` are contained in `MA`, which is contained in `AM`, which is contained in `Πᴾ 2`
 
 ## References
 
