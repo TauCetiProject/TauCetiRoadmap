@@ -125,7 +125,7 @@ def IsCCyclicallyMonotone (c : X × Y → ℝ) (Γ : Set (X × Y)) : Prop :=
       (∑ i, c (z i)) ≤ ∑ i, c ((z i).1, (z (σ i)).2)
 
 /-- **Layer 2 target:** a dual contact set is `c`-cyclically monotone. -/
-theorem DualFeasible.contact_isCCyclicallyMonotone
+theorem DualFeasible.isCCyclicallyMonotone_contact
     {c : X × Y → ℝ} {φ : X → ℝ} {ψ : Y → ℝ} (h : DualFeasible c φ ψ) :
     IsCCyclicallyMonotone c {z | φ z.1 + ψ z.2 = c z} := by
   sorry
