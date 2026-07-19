@@ -11,23 +11,18 @@ This should be suitable task for AI, because while the descriptions of low-level
 
 ## Framework and preexisting material: Binary strings
 
-Existing formalizations of computability theory or complexity theory in `/Mathlib/Computability/TuringMachine` or `/Cslib/Computability/Machines/Turing/SingleTape` tend to provide machines that operate over an arbitrary finite alphabet. This proposal, however, suggests using a specialized machine definition that operates over binary strings (i.e. `List Bool`) as its input and output type. The reasoning for this is that it is generally considered that alphabet choice does not affect most questions in complexity theory, and so it will perhaps be simpler to avoid the need to repeatedly include `variable` statements to specify the alphabet. Thus, we can just use
+Existing formalizations of computability theory or complexity theory in `/Mathlib/Computability/TuringMachine` or `/Cslib/Computability/Machines/Turing/SingleTape` tend to provide machines that operate over an arbitrary finite alphabet. This proposal, however, suggests using a specialized machine definition that operates over binary strings (i.e. `List Bool`) as its input and output type. The reasoning for this is that it is generally considered that alphabet choice does not affect most questions in complexity theory, and so it will perhaps be simpler to avoid the need to repeatedly include `variable` statements to specify the alphabet.
 
-In order to do this, it will be necessary to encode types as Binary strings. 
-This development should do so using a typeclass similar to Mathlib's `Computability.Encoding`
+Suggested Lean forms for the definitions and milestones below are collected in
+[`Suggested.lean`](Suggested.lean); the prose here is definitive.
 
-```lean
-/-- A canonical encoding of a type as bitstrings (`List Bool`). -/
-class BitstringEncoding (α : Type*) where
-  /-- The encoding function. -/
-  encode : α → List Bool
-  /-- The decoding function; `none` on bitstrings that encode nothing. -/
-  decode : List Bool → Option α
-  /-- Decoding is a left inverse of encoding. -/
-  decode_encode : ∀ x, decode (encode x) = some x
-```
+In order to do this, it will be necessary to encode types as binary strings. This
+development should do so using a typeclass `BitstringEncoding` (see `Suggested.lean`)
+similar to Mathlib's `Computability.Encoding`, carrying an `encode : α → List Bool`, a
+partial `decode : List Bool → Option α`, and a proof that decoding is a left inverse of
+encoding.
 
-The concept here is that, even though different references might construct encodings for a type in different ways, these ways should all by polynomial-time transcodable to each other, so it does not matter too much how we encode a type, as long as it is consistent and somewhat sensible.
+The concept here is that, even though different references might construct encodings for a type in different ways, these ways should all be polynomial-time transcodable to each other, so it does not matter too much how we encode a type, as long as it is consistent and somewhat sensible.
 
 We can then derive this class in a variety of ways:
 
@@ -36,22 +31,16 @@ We can then derive this class in a variety of ways:
 3. Disjunctive type constructors (Like `Sum`, `Option`, `Bool`) can be encoded by having a prefix representing which case we are in, followed by the encoding of any additional information for that value (or a list of delimited pieces of information).
 4. `Nat`s can be encoded in binary. Other numeric types like `Int`, `Rat`, can then be derived using principles above (Ints as disjunctively either negative, zero, or positive, and `Rat`s as a subtype of pair of an `Int` and `Nat`)
 
-Here is a suggested implementation of a delimiting operation
-
-```lean
-def delimit : List Bool → List Bool
-  | [] => [false]
-  | b :: l => true :: b :: delimit l
-```
+The self-delimiting operation `delimit : List Bool → List Bool` in `Suggested.lean` prefixes
+each bit with a `true` continuation marker and terminates with a `false`, so a delimited block
+can be parsed out of a longer string.
 
 ## Construction of low-level Polynomial time Turing Machines
 
-Once this class is defined, we can write a definition for computability of a function which should look something like
-
-```lean
-def IsPolyTime {α β : Type} [BitstringEncoding α] [BitstringEncoding β] (f : α → β) : Prop :=
-  Nonempty (@TM2ComputableInPolyTime Bool Bool (BitstringEncoding.encode α) (BitstringEncoding.encode β) f)
-```
+Once this class is defined, we can write a definition `IsPolyTime` (see `Suggested.lean`) for
+polynomial-time computability of a function `f : α → β` between `BitstringEncoding` types: it
+asserts that some bitstring-encoded machine computes `f` within a polynomial step bound,
+built on Mathlib's `Turing.TM2ComputableInPolyTime` specialized to the `Bool` alphabet.
 
 Once this is in place, we can prove several facts about polynomial time computability of various encoding operations:
 
@@ -63,13 +52,9 @@ The AI could either try to generate a list of these functions en masse, or ident
 
 ## Complexity Theory Basics
 
-With this framework in place, we can start to define the basics of complexity theory. We can define the type of decision problems and the type of complexity classes as
-
-```lean
-abbrev BitstringDecisionProblem : Type := Bitstring → Bool
-
-abbrev ComplexityClass : Type := Set BitstringDecisionProblem
-```
+With this framework in place, we can start to define the basics of complexity theory. A
+decision problem `BitstringDecisionProblem` is a predicate `Bitstring → Bool`, and a
+`ComplexityClass` is a `Set BitstringDecisionProblem` (both in `Suggested.lean`).
 
 And we can proceed to define a number of complexity classes:
 
@@ -91,19 +76,16 @@ And we can proceed to define a number of complexity classes:
   members are accepted on at least `2/3` of witnesses, non-members on none.
 - `coRP` as the set of decision problems whose complements are in `RP`.
 - `ZPP` as the intersection of `RP` and `coRP`.
-
-And perhaps also
-
 - `AM`
 - `MA`
 - `PP`
 
 ## Basic inclusions
 
-We can then prove basic inclusions among these
+We can then prove basic inclusions among these. The ["Complexity Zoo"](https://complexityzoo.net/Petting_Zoo) is a good reference for this.
 
 * P is contained in NP, coNP, and BPP, by virtue of being able to make a trivial witness and ignore it.
-* RP and coRP contain BPP by using the same witness checking procedure
+* RP and coRP are contained in BPP by using the same witness checking procedure
 
 ## NP-Completeness, Cook-Levin, and the Karp Problems
 
@@ -116,7 +98,13 @@ and from there prove the NP-completeness of [the 21 Karp problems](https://en.wi
 
 ## Other theorems
 
+Once basic infrastructure on classes has been established, we can proceed to more advanced theorems:
+
 - [Ladner's theorem](https://en.wikipedia.org/wiki/NP-intermediate)
 - [Schaefer's dichotomy theorem](https://en.wikipedia.org/wiki/Schaefer%27s_dichotomy_theorem)
 - [Valiant-Vazirani](https://en.wikipedia.org/wiki/Valiant%E2%80%93Vazirani_theorem)
 - [Sipser-Lautemann](https://en.wikipedia.org/wiki/Sipser%E2%80%93Lautemann_theorem)
+
+## References
+
+- [The Complexity Zoo: Petting Zoo](https://complexityzoo.net/Petting_Zoo)
