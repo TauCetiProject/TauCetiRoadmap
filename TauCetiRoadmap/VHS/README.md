@@ -306,11 +306,14 @@ polarization / mixed / period-domain / variation superstructure.
 
 *NOTE: `Suggested.lean` proposes the core definitions (the chief deliverable of this entry) with a
 genuine milestone `sorry` at **L0, L1, L2, L3, L5**. The Hodge structure carries its integral lattice
-`V_ℤ` as primary datum; the complexification is pinned to the **`IsBaseChange` interface** (see
-*Conventions*) with the concrete tensor `V_ℂ = ℂ ⊗ V_ℤ` as the canonical instance `Suggested.lean`
-currently encodes (interface-parametrizing the definitions is the planned refactor), and a *defined*
-canonical conjugation `latticeConj`; it is grounded in Mathlib's base-change vocabulary throughout
-(`IsBaseChange`, `BilinForm.baseChange`, `Submodule.baseChange`, `cancelBaseChange`). **L4**
+`V_ℤ` as primary datum; the definitions are stated against the abstract **`IsBaseChange` interface**
+(see *Conventions*) — every structure is parametric over an abstract `V_ℂ` with `hℂ : IsBaseChange ℂ ιℂ`
+(and `V_ℚ` with `IsBaseChange ℚ ιℚ` where the tower is used) — with the concrete tensor
+`V_ℂ = ℂ ⊗ V_ℤ` as the canonical instance, witnessed by `complexificationMap_isBaseChange`
+(`TensorProduct.isBaseChange`). The canonical conjugation `latticeConj` is *defined* by transporting the
+concrete lattice conjugation through `hℂ.equiv` (proven to fix `ιℂ(V)` and be involutive); the `ℤ→ℚ→ℂ`
+tower and each construction are transported the same way. It is grounded in Mathlib's base-change
+vocabulary throughout (`IsBaseChange`, `BilinForm.baseChange`, `Submodule.baseChange`, `cancelBaseChange`). **L4**
 seeds only the honest monodromy facet `PolarizedMonodromyRepresentation` — it has **no self-contained
 provable milestone**, because period-map horizontality / Griffiths transversality is analytic and out
 of scope; its provable engine is the L5 Schur lemma. The full VHS structure is **not stated**: its
