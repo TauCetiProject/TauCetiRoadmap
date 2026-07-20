@@ -241,28 +241,27 @@ the pinned Mathlib.
   total dimension is the finsum of piece dimensions — additivity of `Module.finrank` over the internal
   direct sum (via `DirectSum.IsInternal` + `Module.finrank`/`Basis`); `Basis.baseChange` gives
   `dim_ℂ V_ℂ = rank_ℤ V`.
-  *Deeper target (out of scope here):* the complex structure on `D` as an **open** subset of the flag
-  variety of filtrations with the given ranks, the `G_ℝ`-action, and the weight-1 ⇒ Siegel
-  identification — these need flag-variety topology and are described but not seeded.
+  *Out of scope (downstream, not a milestone):* the complex structure on `D` as an **open** subset of
+  the flag variety of filtrations with the given ranks, the `G_ℝ`-action, and the weight-1 ⇒ Siegel
+  identification — these need flag-variety topology Mathlib lacks; named as a downstream target, not
+  seeded here.
 - **L4 — Variations of Hodge structure.**
-  *Definitions:* `PolarizedMonodromyRepresentation` (the honest monodromy facet: `ρ : Γ →* (V ≃ₗ[ℤ] V)`
-  preserving `Qint`, with the derived `complexMonodromy : Γ →* (V_ℂ ≃ₗ[ℂ] V_ℂ)`), and a schematic
-  `VariationOfHodgeStructure B V n Γ` (fiber HS + polarization + monodromy + a `hodgeBundle` +
-  `holomorphic`/`griffiths_transversality` placeholders).
-  *Milestone:* **none self-contained.** The genuine L4 target — the period map `B̃ → D` (holomorphic,
-  **horizontal**, i.e. Griffiths transversality `∇F^p ⊆ F^{p−1}⊗Ω¹`) — is analytic and needs the
-  connection / complex-geometry infrastructure the README declares downstream. The provable engine that
-  L4 contributes to the rigidity theory is the **L5 Schur** lemma below.
-  *Mathlib interface (when built):* model the **local system** as a functor
-  `CategoryTheory.FundamentalGroupoid B ⥤ Module ℤ` (equivalently, on a connected base, a
-  `π₁(B, b₀)`-representation on the fiber — Mathlib's `FundamentalGroup` / `MonoidHom`); the filtration
-  bundle and Griffiths transversality build on Mathlib's complex-manifold + connection API. The bare
-  `holomorphic`/`griffiths_transversality` fields are placeholders for exactly these.
-  *Implementation staging:* `PolarizedMonodromyRepresentation` is the concrete **pre-variation**
-  deliverable (local system + monodromy + integral form) and lands first, independently of any analytic
-  input. The full `VariationOfHodgeStructure` (holomorphic `hodgeBundle` + Griffiths transversality) is
-  deferred until Mathlib's complex-manifold/connection API can *replace* the placeholder `Prop` fields —
-  those placeholders are roadmap-spec markers and are **not** carried into merged implementation code.
+  *In-scope definition:* `PolarizedMonodromyRepresentation` — the honest monodromy facet
+  (`ρ : Γ →* (V ≃ₗ[ℤ] V)` preserving `Qint`, with the derived `complexMonodromy : Γ →* (V_ℂ ≃ₗ[ℂ] V_ℂ)`).
+  This is the concrete **pre-variation** deliverable (local system + monodromy + integral form); it
+  lands independently of any analytic input and is what the L5 Schur milestone consumes.
+  *Milestone:* **none self-contained** at L4; the provable engine L4 contributes to the rigidity theory
+  is the **L5 Schur** lemma below.
+  *Out of scope (downstream, not seeded):* the **full variation of Hodge structure** — a holomorphic
+  Hodge-filtration bundle over `B` with Griffiths transversality (`∇F^p ⊆ F^{p−1}⊗Ω¹`) and the period
+  map `B̃ → D` (holomorphic, horizontal). These analytic conditions **cannot yet be stated** in Lean
+  (they need Mathlib's complex-manifold / connection API), so per the roadmap convention they are
+  **omitted** here rather than installed as content-free `Prop` placeholders — `Suggested.lean` seeds
+  only the monodromy facet, and carries no schematic full-VHS structure. When that API exists the local
+  system is modelled as a functor `CategoryTheory.FundamentalGroupoid B ⥤ Module ℤ` (on a connected
+  base, a `π₁(B, b₀)`-representation on the fiber), the filtration bundle + Griffiths transversality
+  build on the complex-manifold / connection API, and the full `VariationOfHodgeStructure` datum becomes
+  stateable — at which point it moves in-scope.
 - **L5 — Rigidity & semisimplicity.** Two tiers, kept distinct:
   *(i) the linear-algebraic engine (the milestone):* **finite-dimensional Schur** — if
   `complexMonodromy` is irreducible then its commutant is scalar (`∃ c, ∀ v, T v = c • v`).
@@ -270,10 +269,10 @@ the pinned Mathlib.
   irreducible representation has an eigenvalue (`Module.End.exists_eigenvalue`); `ker (T − c)` is a
   nonzero invariant subspace, hence everything, so `T = c`. Consume `Module.End.HasEigenvalue`,
   invariant-subspace API.
-  *(ii) the genuine theorems that invoke it (deeper targets, not the Schur lemma):* period-map
-  **rigidity** and Deligne's **theorem of the fixed part** / semisimplicity of monodromy — these need
-  actual *polarizable VHS* hypotheses (a real variation, not merely a form-preserving representation)
-  and are stated as downstream targets, not milestones here.
+  *(ii) Out of scope (downstream, not milestones):* period-map **rigidity** and Deligne's **theorem of
+  the fixed part** / semisimplicity of monodromy. These need actual *polarizable VHS* hypotheses (a real
+  variation, not merely a form-preserving representation), so they depend on the out-of-scope L4
+  analytic layer above; named as downstream targets, not seeded here.
 
 ## Relation to sibling roadmaps
 
@@ -312,13 +311,11 @@ genuine milestone `sorry` at **L0, L1, L2, L3, L5**. The Hodge structure carries
 currently encodes (interface-parametrizing the definitions is the planned refactor), and a *defined*
 canonical conjugation `latticeConj`; it is grounded in Mathlib's base-change vocabulary throughout
 (`IsBaseChange`, `BilinForm.baseChange`, `Submodule.baseChange`, `cancelBaseChange`). **L4**
-contributes the honest monodromy facet plus a schematic
-`VariationOfHodgeStructure` seed — it has **no self-contained provable milestone**, because period-map
-horizontality / Griffiths transversality is analytic and out of scope; its provable engine is the L5
-Schur lemma. The only remaining schematic placeholders are the **L4 analytic fields** (`holomorphic`,
-`griffiths_transversality`), written as explicit `(sorry : Prop)` holes — so an instance genuinely
-cannot be built without the (out-of-scope) complex-geometry inputs, rather than being silently
-satisfiable by `True`; the MHS `graded_pure` axiom is now fully encoded (real induced purity on the
-rational `gr^W_k`). Elaborated green against `TauCetiRoadmap`'s pinned Mathlib
-(leanprover/lean4:v4.31.0-rc1); apart from those two L4 fields (and the milestone `example`s), every
-definition is complete and axiom-clean (only `propext`, `Classical.choice`, `Quot.sound`).*
+seeds only the honest monodromy facet `PolarizedMonodromyRepresentation` — it has **no self-contained
+provable milestone**, because period-map horizontality / Griffiths transversality is analytic and out
+of scope; its provable engine is the L5 Schur lemma. The full VHS structure is **not stated**: its
+analytic conditions cannot yet be expressed, so per the roadmap convention they are omitted rather than
+installed as content-free `Prop` placeholders. The MHS `graded_pure` axiom is fully encoded (real
+induced purity on the rational `gr^W_k`). Elaborated green against `TauCetiRoadmap`'s pinned Mathlib
+(leanprover/lean4:v4.31.0-rc1); every definition is complete (no `sorry` in any definition) and
+axiom-clean (only `propext`, `Classical.choice`, `Quot.sound`); the milestone `example`s carry `sorry`.*

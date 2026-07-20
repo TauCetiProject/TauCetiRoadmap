@@ -11,15 +11,15 @@ The narrative roadmap (layers, generality bar, the structural-vs-geometric bound
 sibling relations) is in `README.md`. **Mathlib has no Hodge structures**, so the chief
 deliverable of this entry is getting the *definitions* right (the `JacobianChallenge`
 philosophy); below are proposed core definitions and a milestone `sorry` for each layer with a
-self-contained target (L0, L1, L2, L3, L5; L4 is a schematic structure seed — see `README.md`). The
-deep geometric/analytic engines (Kähler Hodge decomposition, Gauss-Manin of general families,
-Schmid's asymptotics) are **out of scope** -- this is the weight-general *structural* theory;
-instances come from elsewhere (the weight-1 / curve case is the worked model).
+self-contained target (L0, L1, L2, L3, L5; L4 seeds only the honest monodromy facet
+`PolarizedMonodromyRepresentation` — the full VHS structure is out of scope until Mathlib's
+complex-geometry API exists, see `README.md`). The deep geometric/analytic engines (Kähler Hodge
+decomposition, Gauss-Manin of general families, Schmid's asymptotics) are **out of scope** -- this is
+the weight-general *structural* theory; instances come from elsewhere (the weight-1 / curve case is
+the worked model).
 
 NOTE: elaborates green against `TauCetiRoadmap`'s pinned Mathlib (leanprover/lean4:v4.31.0-rc1); the
-milestone `example`s carry `sorry`, and the two analytic L4 fields of `VariationOfHodgeStructure`
-(`holomorphic`, `griffiths_transversality`) are explicit `(sorry : Prop)` holes awaiting the
-complex-geometry API; every other definition is complete.
+milestone `example`s carry `sorry`, and every definition is complete (no `sorry` in any definition).
 -/
 
 namespace TauCetiRoadmap.VHS
@@ -715,28 +715,14 @@ def PolarizedMonodromyRepresentation.complexMonodromy {n : ℤ} {hs : HodgeStruc
     Γ →* (Complexification V ≃ₗ[ℂ] Complexification V) :=
   (complexificationLinearEquivHom (V := V)).comp M.ρ
 
-/-- **L4 -- variation of Hodge structure (schematic full datum).** This seeds the genuine VHS layer:
-a local system of integral lattices on a base `B`, a holomorphic Hodge-filtration bundle recorded
-schematically as complex subbundles, Griffiths transversality, and polarized monodromy. The analytic
-notions are placeholders until the roadmap imports the needed complex-geometry infrastructure. -/
-structure VariationOfHodgeStructure (B : Type*) (V : Type*) [AddCommGroup V] [Module ℤ V]
-    [Module.Free ℤ V] [Module.Finite ℤ V] (n : ℤ) (Γ : Type*) [Group Γ] where
-  fiber : HodgeStructure V n
-  polarization : Polarization fiber
-  monodromy : PolarizedMonodromyRepresentation fiber polarization Γ
-  hodgeBundle : ℤ → B → Submodule ℂ (Complexification V)
-  -- The two analytic L4 obligations are genuine `(sorry : Prop)` holes, not a bare `Prop` field
-  -- type: with `: Prop` any instance discharges them by `True`, making the datum silently vacuous.
-  -- As `(sorry : Prop)` an instance cannot be built without discharging the analytic condition --
-  -- the true state until Mathlib's complex-geometry API exists. These are the only definitional
-  -- `sorry`s here, and are not carried into merged implementation code.
-  holomorphic : ∀ _ : ℤ, (sorry : Prop)
-  griffiths_transversality : (sorry : Prop)
-
--- L4 has no self-contained provable milestone: period-map horizontality / Griffiths transversality
--- (`∇F^p ⊆ F^{p-1}⊗Ω¹`) is an analytic statement needing the connection/complex-geometry
--- infrastructure that the README declares out of scope. `VariationOfHodgeStructure` above is
--- the schematic structural seed; the provable engine for the L4/L5 rigidity theory is the Schur
+-- **L4 -- the full VHS datum is deliberately not stated here.** A variation of Hodge structure over
+-- a base `B` additionally carries a holomorphic Hodge-filtration bundle and Griffiths transversality
+-- (`∇F^p ⊆ F^{p-1}⊗Ω¹`). Those analytic conditions cannot yet be *stated* in Lean -- they need
+-- Mathlib's complex-manifold / connection API, which the README places downstream -- and per the
+-- roadmap convention an unstateable condition is *omitted*, not installed as a content-free `Prop`
+-- placeholder. So L4 seeds only the honest `PolarizedMonodromyRepresentation` facet above; the full
+-- `VariationOfHodgeStructure` datum is out of scope until that API exists. L4 therefore has no
+-- self-contained provable milestone; the provable engine for the L4/L5 rigidity theory is the Schur
 -- milestone below.
 
 /-- **L5 milestone -- Schur (the linear-algebraic core).** If the complexified monodromy
