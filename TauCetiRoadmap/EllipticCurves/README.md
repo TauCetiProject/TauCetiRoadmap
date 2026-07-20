@@ -299,8 +299,8 @@ Twists here are twists of the **pointed** curve `(E, O)`: elliptic curves `E'/K`
 isomorphic to `E` over `Kˢᵉᵖ` *as pointed curves*, classified by `H¹(Gal(Kˢᵉᵖ/K), Aut (E, O))` via
 Galois descent on the scheme (Layer 0). A pointed twist keeps its rational point — it is again an
 elliptic curve with a Weierstrass model. This is a **different theory from the genus-one
-torsors** (principal homogeneous spaces): smooth projective curves `K`-isomorphic to `E` over
-`Kˢᵉᵖ` as bare curves, with **no** rational point in general — hence no Weierstrass model, which
+torsors** (principal homogeneous spaces): smooth projective curves over `K` that become
+isomorphic to `E` over `Kˢᵉᵖ` as bare curves, with **no** rational point in general — hence no Weierstrass model, which
 is where the scheme is truly indispensable — classified by `H¹(Gal(Kˢᵉᵖ/K), E(Kˢᵉᵖ))`. Those form
 the Weil–Châtelet group and belong to **Layer 7**, next to Ш; this layer deliberately does not
 conflate the two.

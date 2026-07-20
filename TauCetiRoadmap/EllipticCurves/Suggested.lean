@@ -109,7 +109,8 @@ theorem torsion_linearEquiv_prod {K : Type*} [Field K] [IsSepClosed K] (W : Weie
 /-- **The Weil pairing** `e_N : E[N] × E[N] → μ_N` (AEC III.8.1), over **any** field — no closure
 hypothesis. Pinned as an additive **bilinear** map (`→+ →+`, i.e. linear in both variables) into
 `Additive (rootsOfUnity N K)`, so `ℤ`-bilinearity and the `μ_N`-valued codomain are part of the
-type. It is alternating and, over a separably closed field, nondegenerate
+type. It is alternating and, over a separably closed field with `N` invertible in `K`,
+nondegenerate
 (`weilPairing_nondegenerate`); the load-bearing API is **functoriality under change of field**
 (`README.md` §Layer 2). -/
 noncomputable def weilPairing {K : Type*} [Field K] (W : WeierstrassCurve K) [W.IsElliptic]
@@ -158,9 +159,9 @@ Layer 0 and Mathlib's reduction theory; they are not pinned here as `sorry`-type
 
 /-! ## Layer 5: twists (AEC X.2, X.5)
 
-These are twists of the **pointed** curve `(E, O)`: elliptic curves `K`-isomorphic to `E` over
-`Kˢᵉᵖ` as pointed curves, classified by `H¹(Gal(Kˢᵉᵖ/K), Aut (E, O))` via Galois descent on the
-scheme (Layer 0). A pointed twist keeps its rational point, hence has a Weierstrass model — this
+These are twists of the **pointed** curve `(E, O)`: elliptic curves over `K` that become
+isomorphic to `E` over `Kˢᵉᵖ` as pointed curves, classified by `H¹(Gal(Kˢᵉᵖ/K), Aut (E, O))` via
+Galois descent on the scheme (Layer 0). A pointed twist keeps its rational point, hence has a Weierstrass model — this
 is a different theory from the **genus-one torsors** (no rational point, classified by
 `H¹(Gal, E(Kˢᵉᵖ))`), which belong to the Weil–Châtelet/Sha circle of `README.md` §Layer 7. For
 `j ≠ 0, 1728`, `Aut (E, O) ≅ {±1}` and the twists are the quadratic twists: for `char K ≠ 2`
@@ -217,7 +218,10 @@ noncomputable def quadraticTwist {K : Type*} [Field K] (E : WeierstrassCurve K) 
     WeierstrassCurve K :=
   sorry
 
-/-- **`j` is preserved by the extension twist**: `j(Eᴸ) = j(E)` (FLT `j_quadraticTwist`). -/
+/-- **`j` is preserved by the extension twist**: `j(Eᴸ) = j(E)` (FLT `j_quadraticTwist`). FLT
+*derives* the twist's ellipticity as an instance (`instance : (E.quadraticTwist L).IsElliptic`),
+so its statement carries no hypothesis; the instance binder here stands in for that until the
+port brings the construction. -/
 theorem j_quadraticTwist {K : Type*} [Field K] (E : WeierstrassCurve K) (L : Type*) [Field L]
     [Algebra K L] [Algebra.IsQuadraticExtension K L] [Algebra.IsSeparable K L] [E.IsElliptic]
     [(quadraticTwist E L).IsElliptic] :
