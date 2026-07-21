@@ -87,7 +87,9 @@ Modular curves, moduli, and the representability questions around them are a sep
 arithmetic — it needs a complex-manifold structure on `E(ℂ)`, a substantial and orthogonal
 development — and belongs on a dedicated complex-analytic roadmap. The **Birch–Swinnerton-Dyer
 conjecture** is out: its statement needs the analytic continuation of `L(E, s)`, which Mathlib
-does not have. Everything else — through Mordell–Weil and Selmer/Sha — is in.
+does not have. (The *arithmetic* BSD quotient, assuming `Ш` finite, is a marked stretch
+milestone in §Layer 7; the conjecture is not.) Everything else — through Mordell–Weil and
+Selmer/Sha — is in.
 
 Suggested home: `TauCeti/AlgebraicGeometry/EllipticCurve/` (mirroring Mathlib's layout).
 
@@ -106,7 +108,12 @@ Suggested home: `TauCeti/AlgebraicGeometry/EllipticCurve/` (mirroring Mathlib's 
   `WeierstrassCurve.Affine.Point` — the nonsingular affine points with the point at infinity as the
   identity — with its `AddCommGroup` instance (the ideal-class-group route of Angdinata–Xu). Over a
   field this group is available with no `IsElliptic` hypothesis; the elliptic-curve hypotheses enter
-  through the theorems, not the group. Reuse it and the projective/Jacobian models.
+  through the theorems, not the group. Reuse it and the projective/Jacobian models. ⚠ Upstream may
+  make `Projective` the default point API — the formulae need no field, and
+  [mathlib #25991](https://github.com/leanprover-community/mathlib4/pull/25991) generalises the
+  nonsingularity API as a first step (review note). The milestones here are statements about the
+  abstract group and survive that migration; only the seeds' spellings (`W.toAffine.Point`) would
+  update.
 - **Isogenies are function-field embeddings, backwards.** An isogeny `φ : W₁ → W₂` is the
   structure above: a `K`-algebra map `pullback : W₂.FunctionField →ₐ[K] W₁.FunctionField`
   together with `mapsInfinity`, i.e. `φ(O₁) = O₂` read through `inducedPlace`. Every such map is
@@ -138,6 +145,14 @@ Suggested home: `TauCeti/AlgebraicGeometry/EllipticCurve/` (mirroring Mathlib's 
   and does quadratic twists only in `char ≠ 2` (X.3 Example 2.4), which we do not. Where existing
   Lean work proves a milestone, that is provenance (final section), never the standard it is judged
   against.
+- **Mathlib-track material is built here, then deduplicated.** Several objects below are
+  expected to land in Mathlib directly — some from this roadmap's reviewers' own in-flight
+  work: the division-polynomial `[n]`-formulas, the structure of `E[N]`, the Tate module, and
+  Tate's algorithm with the conductor exponent and local index. Waiting would serialise the
+  roadmap behind upstream timelines, so the policy agreed on review is: **build them here when
+  a layer needs them, and swap in the upstream version — deleting the duplication — the moment
+  it lands.** The ⚠ *mathlib-track* tags below and the provenance section record what is in
+  flight where.
 
 ## What Mathlib already has (consume)
 
@@ -156,16 +171,24 @@ This is the foundation the roadmap builds on; it is consumed, not rebuilt.
   an integral domain), the function field `Affine.FunctionField` (its fraction field), and the
   injective class-group map `Point.toClass` — Layer 0 is built directly on these.
 - **Division polynomials and elliptic divisibility sequences.** `WeierstrassCurve.Ψ`, `Φ`, `ψ`
-  (`.../DivisionPolynomial/*`) and `IsEllDivSequence`/`normEDS`
-  (`Mathlib/NumberTheory/EllipticDivisibilitySequence.lean`).
+  (`.../DivisionPolynomial/*`) and the elliptic-divisibility-sequence development
+  (`Mathlib/NumberTheory/EllipticDivisibilitySequence.lean` — cited by file: the sequence
+  predicates' names are in flux upstream (review note), so the roadmap does not pin them).
+- **Formal group laws.** One-dimensional formal group laws over a commutative ring —
+  associativity and units, inverses, the additive and multiplicative laws, and the group
+  instance on evaluation ideals (`Mathlib/RingTheory/FormalGroup/Basic.lean`, W. Zou). Layer 1's
+  `Ê` is built as an *instance* of this API (the elliptic formal group law from the expansion at
+  `O`), not as a parallel formal-group theory.
 - **Reduction over a DVR.** The good/multiplicative/additive trichotomy, minimal models, the
   reduction predicates `HasGood/Multiplicative/SplitMultiplicative/AdditiveReduction`, and
   `WeierstrassCurve.minimal` (`.../EllipticCurve/Reduction.lean`).
   ⚠ Mathlib states these only over a **DVR** — the right base for Layer 4's Tate's-algorithm
   strand, which stays there. But multiplicative/split reduction is also wanted over **rank-1
   valued** fields (so one can speak of `E/ℂ_p`, needed for `p`-adic analysis), where the valuation
-  is not discrete; generalising Mathlib's reduction *predicates* off
-  the DVR is an **upstream prerequisite** for Layer 4's Tate-curve strand, flagged here.
+  is not discrete; the agreed target shape (review) re-founds the
+  reduction predicates over **an arbitrary ring with a valuation** — no fraction field in the
+  definitions at all — with the DVR and valued-field statements derived; that refactor is an
+  **upstream prerequisite** for Layer 4's Tate-curve strand, flagged here.
 - **Heights and the `L`-function definition.** `Mathlib/NumberTheory/Height/*`,
   `.../Height/EllipticCurve.lean` (the quasi-quadraticity bound), and `.../EllipticCurve/LFunction.lean`.
 - **Field theory and valuation theory.** Finite extensions and `Module.finrank`, separable and
@@ -174,7 +197,7 @@ This is the foundation the roadmap builds on; it is consumed, not rebuilt.
   Layer 0's places are built.
 
 What is *not* here is the roadmap: places and the divisor calculus, isogenies and the dual, the
-Weil pairing and the Tate module, the invariant differential and the formal group, the finiteness
+Weil pairing and the Tate module, the finiteness
 and count of `E(𝔽_q)`, the Hasse bound, the reduction filtration on points and Tate's algorithm,
 the Tate curve, the twists, the Mordell–Weil theorem, and Selmer/Sha.
 
@@ -242,7 +265,11 @@ coordinated with Angdinata's in-flight upstream work, whose interface this layer
   `toClass`).
 - **The standard isogenies.** `[n]` for `n ≠ 0`: the pullback is pinned on `x` by the division
   polynomials (`x ∘ [n] = φ_n / ψ_n²` — Mathlib's `DivisionPolynomial` files carry the
-  material), with the headline **`deg [n] = n²`** (AEC III.6.2). The `q`-power **Frobenius**
+  polynomials; the `[n]`-compatibility on points is ⚠ *mathlib-track*:
+  [mathlib #13782](https://github.com/leanprover-community/mathlib4/pull/13782) and its bumped
+  versions, plus further division-polynomial upstreaming by the reviewers — assumed done,
+  consumed here per the dedupe convention), with the headline **`deg [n] = n²`** (AEC III.6.2).
+  The `q`-power **Frobenius**
   `π_q` over `𝔽_q` (`pullback = (·) ^ q`), purely inseparable with `deg π_q = q`; the relative
   Frobenius `W → W^{(p)}` in general, and the factorisation of every isogeny as
   (separable) ∘ (Frobenius power) (AEC II.2.12). `deg (1 − π_q) = #E(𝔽_q)` is Layer 3's hinge.
@@ -275,7 +302,8 @@ coordinated with Angdinata's in-flight upstream work, whose interface this layer
   to be separable exactly when `char K ∤ n`.
 - **The formal group.** `Ê`, from expanding the group law at `O` (AEC IV.1): the formal group law,
   the formal logarithm/exponential in characteristic `0`, `[m]` on `Ê`, and the theory of the kernel
-  of reduction (IV.6, used in Layers 3–4).
+  of reduction (IV.6, used in Layers 3–4). The formal group *law* substrate is Mathlib's
+  (`RingTheory/FormalGroup`, consume section); `Ê` instantiates it.
 
 ### Layer 2: torsion, the Weil pairing, and the Tate module (AEC III.6–8)
 
@@ -288,7 +316,9 @@ coordinated with Angdinata's in-flight upstream work, whose interface this layer
   in `Nonempty` because the basis is noncanonical (the equivalent `≃+` form carries the same
   content, additive maps of `ZMod N`-modules being automatically linear). The full `N`-torsion
   theory throughout requires `char K ∤ N`. Layer 1's `[N]`-surjectivity supplies the counting
-  input.
+  input. ⚠ *Mathlib-track* (review): the `E[N]`-structure code itself is expected to be done in
+  Mathlib directly (reviewer work in flight); it is built here when Layer 2 needs it and swapped
+  for upstream when that lands, per the dedupe convention.
 - **The Weil pairing.** `e_N : E[N] × E[N] → μ_N` (AEC III.8.1), pinned as an additive **bilinear**
   map into `Additive (rootsOfUnity N K)` over any field (seeded). Its theory: alternating,
   **nondegenerate** over a separably closed field with `N` invertible in `K` (seeded),
@@ -301,6 +331,8 @@ coordinated with Angdinata's in-flight upstream work, whose interface this layer
   `ℓ`-adic Weil pairing, and the continuous Galois representation
   `Gal(Kˢᵉᵖ/K) → GL(T_ℓ E) ≅ GL₂(ℤ_ℓ)` (AEC III.7). The rank-`2` freeness and the Galois action are
   the milestones; the pairing gives the determinant (the cyclotomic character).
+  ⚠ *Mathlib-track* (review agreement): to be done directly in Mathlib in due course — built
+  here per the dedupe convention and deduplicated when upstream catches up.
 
 ### Layer 3: elliptic curves over finite fields — the Hasse bound (AEC V.1)
 
@@ -362,10 +394,15 @@ future scheme-facing roadmap.
   (classically complete) DVR with **perfect** residue field: the **Kodaira type**
   (`I₀, Iₙ, II, III, IV, I₀*, Iₙ*, IV*, III*, II*`) — a new enumerated type, *defined* here as
   the algorithm's output, its geometric reading deferred with the Néron model — the **conductor
-  exponent** `f_p` (Ogg's formula `f_p = v(Δ) − m + 1`, with `m` the component count read off
-  the type; in residue characteristic `2` and `3` this is genuinely Saito's theorem, not Ogg's),
-  and the local index `c_p = [E(K) : E₀(K)]` (ATAEC IV.9; Tate, LNM 476, 1975). The algorithm is
-  the Kodaira type's decision procedure.
+  exponent** `f_p`, here *defined* algorithmically by Ogg's formula `f_p = v(Δ) − m + 1` (`m`
+  the component count read off the type), and the local index `c_p = [E(K) : E₀(K)]`
+  (ATAEC IV.9; Tate, LNM 476, 1975). The algorithm is the Kodaira type's decision procedure.
+  ⚠ *Mathlib-track* (review): all of this is expected to land in Mathlib directly — built here
+  per the dedupe convention and swapped for upstream when it arrives. The
+  **ramification-theoretic** conductor and its identification with this algorithmic `f_p` —
+  genuinely Saito's theorem in residue characteristics `2` and `3`, not Ogg's — is a
+  **separate, related project**, cited (Saito) for context only; likewise the deeper
+  Tamagawa-number theory once the point-level reduction map exists.
 - **The Tate curve (analytic strand).** For `K` a complete rank-1 valued field (nondiscrete
   allowed — `ℂ_p` qualifies) and `|q| < 1`, the Tate curve `E_q` and the rigid-analytic
   uniformisation `Kˢᵉᵖ^× / qᶻ ≅ E_q(Kˢᵉᵖ)` (ATAEC V.3) — the `p`-adic model for split multiplicative
@@ -402,14 +439,18 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   over a field, as FLT states it — exactly when `D ≠ 0`, with
   `j(E_{t,n}) = j(E)` (seeded); the extension twist `quadraticTwist E L` by a separable quadratic
   `L/K` with `j(E^L) = j(E)` (seeded); the point isomorphism `E^L(M) ≅ E(M)` over `M ⊇ L`, Galois
-  anti-equivariant by the quadratic character (seeded); and the headline that a curve with **nonsplit**
+  anti-equivariant by the quadratic character (seeded — ⚠ per review, the finite-`M/K` case of
+  the isomorphism is in an in-flight mathlib PR; the target here is general `M`, e.g.
+  `M = Kˢᵉᵖ`, which the Galois statement needs); and the headline that a curve with **nonsplit**
   multiplicative reduction acquires **split** reduction after a separable quadratic twist (seeded,
   over Mathlib's reduction predicates). This is *not* Silverman's `char ≠ 2` Example X.3 2.4.
 
 ### Layer 6: the Mordell–Weil theorem (AEC VIII)
 
 - **Mordell–Weil.** For `K` a number field, `E(K)` is a **finitely generated** abelian group (AEC
-  VIII.6.7) — `AddGroup.FG (W.toAffine.Point)` (seeded). **Self-contained at this layer — no
+  VIII.6.7) — `AddGroup.FG (W.toAffine.Point)` (seeded as `fg_point_of_numberField`:
+  statement-named per Mathlib convention, "Mordell–Weil" in the docstring only).
+  **Self-contained at this layer — no
   Layer 7 input.** The weak Mordell–Weil theorem (`E(K)/2E(K)` finite) is proved directly by the
   Kummer argument: the `x − θ` map into the étale algebra `A = K[X]/(f)` lands in the subgroup
   `A(S, 2)` of square classes unramified outside the bad set `S`, and `A(S, 2)` is finite because
@@ -419,21 +460,42 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   (Mathlib's height machinery, and the canonical/Néron–Tate height with its quadraticity), gives
   the full theorem by descent. The elliptic-curve Selmer group `Sel_m(E/K)` of Layer 7 is the
   cohomological *refinement* of this argument, not its prerequisite.
-- **The torsion subgroup and Nagell–Lutz.** The torsion subgroup `E(K)_tors` is finite and
-  computable; over `ℚ`, the Nagell–Lutz theorem (integral coordinates, `y = 0` or `y² ∣ Δ`) (AEC
-  VIII.7) and the reduction-injectivity bound on torsion (`E(ℚ)_tors ↪ E_ns(𝔽_p)` for good `p`)
-  (VII.3).
+- **The torsion subgroup and Nagell–Lutz.** Finiteness of `E(K)_tors` is a *corollary* of
+  Mordell–Weil (finitely generated abelian groups have finite torsion), not a separate
+  milestone (review); the content is **computability**. Over `ℚ`: the **Nagell–Lutz theorem** —
+  torsion points have integral coordinates, and `y = 0` or `y² ∣ Δ` (AEC VIII.7) — proved
+  through the division polynomials (⚠ *mathlib-track*: the division-polynomial material being
+  upstreamed by the reviewers is assumed done and consumed here; the formal-group route to
+  integrality (VII.3) is the optional strengthening), and the **reduction-injectivity bound**
+  `E(ℚ)_tors ↪ Ẽ_ns(𝔽_p)` for good `p` (VII.3.1) — gated on Layer 4's point-level reduction
+  map (the projective-coordinates API flagged there).
 
 ### Layer 7: Selmer groups and Sha (AEC X.4)
 
-- **Descent and the Selmer group.** The `m`-descent exact sequence
-  `0 → E(K)/mE(K) → Sel_m(E/K) → Ш(E/K)[m] → 0` from the Kummer sequence in Galois cohomology, the
-  finiteness of the `m`-Selmer group `Sel_m(E/K)` (AEC X.4.2) — the **effective refinement** of
-  Layer 6's weak Mordell–Weil, giving the computable rank bound — and the Shafarevich–Tate group
-  `Ш(E/K)`, with its local conditions. The **genus-one torsors** excluded from Layer 5 appear here
-  *as cohomology*: the Weil–Châtelet group `WC(E/K) = H¹(Gal(Kˢᵉᵖ/K), E(Kˢᵉᵖ))` (AEC X.3) needs
-  no geometry to define, and `Ш` is its everywhere-locally-trivial part; the geometric reading of
-  its classes as curves is deferred to the scheme-facing roadmap.
+- **Selmer structures, the Selmer group, and Sha.** Selmer theory is set up **for a general
+  Galois module first** (review): a **Selmer structure** `𝓕` on a discrete
+  `Gal(Kˢᵉᵖ/K)`-module `M` — local-condition subgroups `H¹_𝓕(K_v, M) ⊆ H¹(K_v, M)` for each
+  place `v`, unramified at almost all `v` — with its Selmer group `Sel_𝓕(M/K) ⊆ H¹(K, M)`, à la
+  Rubin's *Euler Systems* I.§1–2, so the same API later serves abelian varieties and other
+  Kummer sequences; whether the topology on `M` is carried in the definition is a design point
+  settled at build time (review note). The elliptic instances plug in the classical conditions:
+  the `m`-descent exact sequence `0 → E(K)/mE(K) → Sel_m(E/K) → Ш(E/K)[m] → 0` from the Kummer
+  sequence for `[m] : E → E`, the finiteness of `Sel_m(E/K)` (AEC X.4.2) — the **effective
+  refinement** of Layer 6's weak Mordell–Weil, giving the computable rank bound — and the
+  Shafarevich–Tate group `Ш(E/K)` for the module `E(Kˢᵉᵖ)`, cut out by everywhere-local
+  triviality. The **genus-one torsors** excluded from Layer 5 appear here *as cohomology*: the
+  Weil–Châtelet group `WC(E/K) = H¹(Gal(Kˢᵉᵖ/K), E(Kˢᵉᵖ))` (AEC X.3) needs no geometry to
+  define, and `Ш` is its everywhere-locally-trivial part; the geometric reading of its classes
+  as curves is deferred to the scheme-facing roadmap.
+- **Stretch: the BSD quotient and Cassels' isogeny-invariance.** The conjecture stays out, but
+  **assuming `Ш(E/K)` finite** the *arithmetic* side of BSD is definable: the BSD quotient
+  `Ω(E) · Reg(E/K) · #Ш(E/K) · ∏_p c_p / #E(K)_tors²` — the regulator from the canonical height
+  (Layer 6), the `c_p` from Tate's algorithm (Layer 4), `Ш` from this layer — and **Cassels'
+  theorem** that it is unchanged by isogeny (Cassels 1965), making the truth of BSD
+  isogeny-invariant. Marked a stretch goal: the period `Ω(E)` needs integration of `ω` over
+  `E(ℝ)`/`E(ℂ)` — real analysis this roadmap otherwise avoids — so whether to build the full
+  quotient or its period-free part is a scoping decision taken when the layer is reached; BSD
+  itself stays out of scope either way.
 - ⚠ **Dependency — what is actually missing.** Pinned Mathlib already has the general cohomological
   substrate: continuous cohomology of topological groups
   (`Mathlib/Algebra/Category/ContinuousCohomology/`), group cohomology with the explicit low-degree
@@ -474,8 +536,8 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   (`j_quadraticTwist`, `quadraticTwistPointEquiv`).
 - **Tate's algorithm on a table entry:** a curve with `v(Δ) = n`, `v(c₄) = 0` returns Kodaira type
   `Iₙ` with conductor exponent `1`.
-- **Mordell–Weil:** `E(K)` is finitely generated for a number field `K` (`mordellWeil`), and its
-  free rank plus a finite torsion subgroup describe it.
+- **Mordell–Weil:** `E(K)` is finitely generated for a number field `K`
+  (`fg_point_of_numberField`), and its free rank plus a finite torsion subgroup describe it.
 
 ## Ordering
 
@@ -503,7 +565,13 @@ cohomological form and is gated on the continuous-Galois-cohomology packaging (�
 - J. Tate, *Algorithm for determining the type of a singular fibre in an elliptic pencil*, in
   *Modular Functions of One Variable IV*, LNM 476 (Springer, 1975), 33–52 — Tate's algorithm.
 - T. Saito, *Conductor, discriminant, and the Noether formula of arithmetic surfaces*, Duke Math.
-  J. 57 (1988), 151–173 — Ogg's formula in residue characteristic `2` (Layer 4).
+  J. 57 (1988), 151–173 — the ramification-theoretic conductor and its identification with the
+  algorithmic `f_p` (context for the separate project noted in Layer 4).
+- J. W. S. Cassels, *Arithmetic on curves of genus 1. VIII. On conjectures of Birch and
+  Swinnerton-Dyer*, J. reine angew. Math. 217 (1965), 180–199 — isogeny-invariance of the BSD
+  quotient (Layer 7 stretch).
+- K. Rubin, *Euler Systems*, Annals of Mathematics Studies 147 (Princeton, 2000) — Selmer
+  structures (Layer 7).
 - H. Hasse, *Zur Theorie der abstrakten elliptischen Funktionenkörper*, J. reine angew. Math. 175
   (1936) — the Hasse bound.
 
@@ -549,10 +617,12 @@ only hold for, these revisions:
   where they fit.
 - **`E[N] ≅ (ℤ/N)²` (Layer 2).** A `sorry`-free proof over **algebraically closed** geometric
   fibres exists in AINTLIB as `torsion_geometricFibre_rank_two` — scheme-theoretic, so after the
-  pivot a feasibility model rather than a port source (its `deg [N] = N²` anchor is
-  division-polynomial material in the sibling `HasseWeil` project). The milestone here is the
-  intrinsic `WeierstrassCurve` statement over `Submodule.torsionBy ℤ (E.Point) N`, over a
-  **separably** closed field, exposed as a free rank-`2` `ZMod N`-module
+  pivot a feasibility model rather than a port source (its `deg [N] = N²` anchor is the
+  division-polynomial `[N]`-formula of
+  [mathlib #13782](https://github.com/leanprover-community/mathlib4/pull/13782) and its bumped
+  versions — credited there, not to the `HasseWeil` copy of the same material). The milestone
+  here is the intrinsic `WeierstrassCurve` statement over `Submodule.torsionBy ℤ (E.Point) N`,
+  over a **separably** closed field, exposed as a free rank-`2` `ZMod N`-module
   (`torsion_linearEquiv_prod`).
 - **Hasse bound (Layer 3).** Proved in the AINTLIB `HasseWeil` project as `hasse_bound` /
   `hasse_bound_unconditional` (`HasseWeil/WeilPairing/HasseBound.lean`), in the real form
@@ -588,9 +658,10 @@ only hold for, these revisions:
   étale algebra (`Heights/WeakMordellWeil.lean`); and the étale-algebra Selmer-group finiteness
   extending Mathlib's `DedekindDomain.SelmerGroup` and discharging its finiteness TODO
   (`Heights/SelmerGroup.lean` — the *arithmetic* `K(S,n)`, not Layer 7's `Sel_m(E/K)`). Porting
-  notes: the seeded `mordellWeil` is stated for any `WeierstrassCurve` over a number field, so the
-  port adds the variable-change reduction to short normal form; and the GPL-2.0 licence must be
-  resolved first (pinned-sources note above).
+  notes: the seeded `fg_point_of_numberField` is stated for any `WeierstrassCurve` over a number
+  field (deliberately the same name as the pinned repository's theorem, whose statement it
+  matches), so the port adds the variable-change reduction to short normal form; and the GPL-2.0
+  licence must be resolved first (pinned-sources note above).
 - **Selmer/Sha (Layer 7)** waits on the continuous-Galois-cohomology packaging (§Layer 7 lists the
   concrete missing pieces).
 

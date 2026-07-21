@@ -301,9 +301,11 @@ The proof is weak Mordell–Weil — `E(K)/2E(K)` finite by the Kummer (`x − �
 finiteness input is the `S`-class group and `S`-unit theorems of number fields, **not** Layer 7's
 elliptic-curve Selmer group — plus the theory of heights, by descent (`README.md` §Layer 6; this
 is also how the existing formalisation proves it, there under a short-normal-form hypothesis that
-the port removes by variable change). -/
-theorem mordellWeil {K : Type*} [Field K] [NumberField K] (W : WeierstrassCurve K) [W.IsElliptic] :
-    AddGroup.FG W.toAffine.Point :=
+the port removes by variable change). Statement-named per Mathlib convention — the name describes
+the conclusion, matching the existing formalisation's `fg_point_of_numberField`, and
+"Mordell–Weil" lives here in the docstring. -/
+theorem fg_point_of_numberField {K : Type*} [Field K] [NumberField K] (W : WeierstrassCurve K)
+    [W.IsElliptic] : AddGroup.FG W.toAffine.Point :=
   sorry
 
 /-! ## Layer 7: Selmer groups and Sha (AEC X.4)
