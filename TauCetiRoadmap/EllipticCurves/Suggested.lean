@@ -11,28 +11,40 @@ finishes neither a layer nor the roadmap.
 The narrative roadmap (the conventions, the layer-by-layer build plan Layers 0–7, the worked
 examples, and the references) is in `README.md`. Mathlib has the Weierstrass model
 (`WeierstrassCurve R`, `WeierstrassCurve.IsElliptic`, `WeierstrassCurve.j`, `VariableChange`,
-`baseChange`), the group law on `WeierstrassCurve.Affine.Point`, the division polynomials and
-elliptic divisibility sequences, reduction over a DVR, heights and the `L`-function definition, and
-the scheme-theoretic substrate (`AlgebraicGeometry`, `Proj`). It has **no** scheme attached to a
-`WeierstrassCurve`, **no** isogenies, **no** Weil pairing, **no** finiteness or count of `E(𝔽_q)`
-and hence **no** Hasse bound, **no** Néron models, **no** Tate curve, **no** twists, **no** Tate's
-algorithm, and neither the **Mordell–Weil** theorem nor **Selmer/Sha**. We build these in
-`TauCeti/AlgebraicGeometry/EllipticCurve/`, on the scheme of a Weierstrass curve (Layer 0, ported
-from the modular curves project), with AEC/ATAEC cited for the mathematics, not as the specification.
+`baseChange`), the group law on `WeierstrassCurve.Affine.Point` — proved through the coordinate
+ring `Affine.CoordinateRing` and function field `Affine.FunctionField`, with the injective
+class-group map `Point.toClass` — the division polynomials and elliptic divisibility sequences,
+reduction over a DVR, and heights and the `L`-function definition. It has **no** theory of places
+of the function field, **no** isogenies, **no** Weil pairing, **no** finiteness or count of
+`E(𝔽_q)` and hence **no** Hasse bound, **no** Tate curve, **no** twists, **no** Tate's algorithm,
+and neither the **Mordell–Weil** theorem nor **Selmer/Sha**. We build these in
+`TauCeti/AlgebraicGeometry/EllipticCurve/`, on the function field of a Weierstrass curve and its
+places (Layer 0), with an isogeny defined as a function-field embedding, backwards (Layer 1):
+
+```
+structure Isogeny (W₁ W₂ : Affine K) where
+  pullback : W₂.FunctionField →ₐ[K] W₁.FunctionField
+  mapsInfinity : inducedPlace pullback W₁.infinityPlace = W₂.infinityPlace
+```
+
+(D. Angdinata's definition, from this roadmap's review) — no schemes anywhere, and AEC/ATAEC
+cited for the mathematics, not as the specification.
 
 `sorry` is allowed in this human-owned roadmap library — these are goals, not proofs. Following
 the roadmap-writing guide, objects with a genuine type are pinned as `def … := sorry` (the Weil
 pairing, the quadratic twist), and only statements are `theorem … := sorry`; nothing is a
-`Prop`-typed placeholder. The layers whose central objects are new *types* — the scheme of a
-Weierstrass curve (Layer 0), the isogeny type, the dual isogeny, the invariant differential and the
-formal group (Layer 1), the Néron model, the Kodaira type and the Tate-curve isomorphism (Layer 4),
-and the Selmer/Sha groups (Layer 7) — need the very API those layers introduce; they are specified
-in `README.md` and built there, not pinned here as `sorry`-typed junk types.
+`Prop`-typed placeholder. The layers whose central objects are new *types* — the places of the
+function field (Layer 0), the isogeny type, the dual isogeny, the invariant differential and the
+formal group (Layer 1), the Kodaira type and the Tate-curve isomorphism (Layer 4), and the
+Selmer/Sha groups (Layer 7) — need the very API those layers introduce; they are specified in
+`README.md` and built there, not pinned here as `sorry`-typed junk types.
 
 ## Provenance (migrate and clean from existing sorry-free work)
 
-The scheme of a Weierstrass curve is ported from the AINTLIB modular curves project (`projModel`,
-`projModel_points`, the `EllipticCurve S` group scheme; its moduli superstructure is out of scope).
+The isogeny layer coordinates with D. Angdinata's in-flight mathlib work (the isogeny and
+Weil-pairing development the definition above comes from, and the division-polynomial
+upstreaming); the AINTLIB modular-curves scheme development is, after the function-field pivot,
+a strategy library and feasibility evidence rather than a port source (`README.md` §Provenance).
 The Hasse bound is proved `sorry`-free in the AINTLIB `HasseWeil` project, as the capstone
 `hasse_bound` of `HasseWeil/WeilPairing/HasseBound.lean` (the sibling `HasseWeil/HasseBound.lean`
 is the conditional skeleton, not the capstone; revision pins and the axiom audit are in
@@ -50,27 +62,48 @@ namespace TauCetiRoadmap.EllipticCurves
 
 open scoped Classical
 
-/-! ## Layer 0: the elliptic curve as a scheme
+/-! ## Layer 0: the function field, places, and divisors
 
-The foundation, ported from the modular curves project's elliptic-curve-as-group-scheme
-development: the scheme `projModel W` (`Proj` of the Weierstrass cubic), smooth and proper with its
-section and locally-Weierstrass structure, the bridge `projModel_points` identifying its `K`-points
-with
-`W.toAffine.Point`, and the group-scheme structure against which isogenies (Layer 1), the Néron
-model (Layer 4), and general twists (Layer 5) are defined. These are new constructions needing the
-`AlgebraicGeometry` API and the ported machinery, not pinned here as `sorry`-typed types; they are
-specified in `README.md` §Layer 0. (Its moduli / `Y(N)` superstructure is out of scope.) -/
+The foundation. Mathlib already has the coordinate ring `Affine.CoordinateRing` (an integral
+domain), the function field `Affine.FunctionField` (its fraction field), and the injective
+class-group map `Point.toClass`. This layer builds the **places** of the function field — the
+place at infinity `W.infinityPlace`, the place of an affine point, `inducedPlace` along a
+`K`-algebra map, degrees — the point–place dictionary (`W.toAffine.Point` ↔ the degree-`1`
+places), and the divisor calculus (`div f`, `deg (div f) = 0`), specified in `README.md`
+§Layer 0; the types are new API and are built there, not pinned here. The milestone statable
+against today's Mathlib is that `toClass` is onto the class group: -/
 
-/-! ## Layer 1: isogenies, the invariant differential, and formal groups (AEC III.4–5, IV)
+/-- **The point group is the ideal class group** (AEC III.3.4–5): for an elliptic `W`, Mathlib's
+`Point.toClass` — injective upstream (`toClass_injective`) — is also **surjective**, so
+`W.toAffine.Point ≃+ Additive (ClassGroup W.toAffine.CoordinateRing)`. This is the Layer-0
+divisor anchor: the class group is the degree-`0` divisor class group of the function field in
+disguise, so the principal-divisor characterisation (`Σ nᵢ Pᵢ` is principal iff `deg = 0` and
+`Σ [nᵢ] Pᵢ = O`) rides on the group law Mathlib already proved, with no Riemann–Roch anywhere. -/
+theorem toClass_surjective {K : Type*} [Field K] (W : WeierstrassCurve K) [W.IsElliptic] :
+    Function.Surjective <| WeierstrassCurve.Affine.Point.toClass (W := W.toAffine) :=
+  sorry
 
-An isogeny is a **finite locally free, surjective** homomorphism of the group schemes (Layer 0) —
-equivalently finite faithfully flat; over a field this is the same as finite surjective, but over
-the general Layer-0 base plain "finite surjective" gives no flatness and hence no degree or kernel
-theory — the same notion as an isogeny of abelian varieties, so no bespoke equation-level
-definition to reconcile later. The dual isogeny, the invariant differential, and the formal group
-are specified in `README.md` §Layer 1. The one milestone statable against the existing point group
-is the surjectivity of multiplication-by-`n`: over a separably closed field, `[n]` is surjective on
-points for `n` invertible in `K` (AEC III.4.10), the counting input to `E[N] ≅ (ℤ/N)²`. -/
+/-! ## Layer 1: isogenies, the dual, the invariant differential, and formal groups (AEC II.2, III.4–6, IV)
+
+An isogeny `φ : W₁ → W₂` is a `K`-algebra map of function fields, backwards, fixing infinity:
+
+```
+structure Isogeny (W₁ W₂ : Affine K) where
+  pullback : W₂.FunctionField →ₐ[K] W₁.FunctionField
+  mapsInfinity : inducedPlace pullback W₁.infinityPlace = W₂.infinityPlace
+```
+
+Such a map is automatically injective and finite, so `deg φ` is `Module.finrank`, separability
+is that of the field extension, multiplicativity of `deg` under composition is the tower
+formula, and the `q`-power Frobenius (`pullback = (·) ^ q`) is purely inseparable of degree `q`
+— field theory Mathlib already has. The type needs Layer 0's places, so it is specified in
+`README.md` §Layer 1 and built there, together with the hom-group (zero adjoined) and the
+quadraticity of the degree, the dual isogeny with `φ̂ ∘ φ = [deg φ]`, `deg [n] = n²` via the
+division polynomials, and the invariant differential `ω` in `Ω[W.FunctionField⁄K]` with
+`φ^* = KaehlerDifferential.map` and the formal group. The one milestone statable against the
+existing point group is the surjectivity of multiplication-by-`n`: over a separably closed
+field, `[n]` is surjective on points for `n` invertible in `K` (AEC III.4.10), the counting
+input to `E[N] ≅ (ℤ/N)²`. -/
 
 /-- **Multiplication-by-`n` is surjective on `E(Kˢᵉᵖ)`** (AEC III.4.10) over a separably closed
 field, for `n` **invertible in `K`** (`(n : K) ≠ 0`, i.e. `char K ∤ n` — which also forces
@@ -150,18 +183,22 @@ theorem hasse_bound {K : Type*} [Field K] [Finite K] (W : WeierstrassCurve K) [W
     ((Nat.card W.toAffine.Point : ℤ) - ((Nat.card K : ℤ) + 1)) ^ 2 ≤ 4 * (Nat.card K : ℤ) :=
   sorry
 
-/-! ## Layer 4: local fields — reduction, Néron models, the Tate curve, Tate's algorithm (AEC VII, ATAEC IV–V)
+/-! ## Layer 4: local fields — reduction, Tate's algorithm, the Tate curve (AEC VII, ATAEC IV–V)
 
-The Néron model (now a genuine scheme, well-defined because of Layer 0), the Kodaira type (an
-enumerated type), the conductor exponent, the component group, and the Tate-curve isomorphism
-`\bar K^× / q^ℤ ≅ E_q(\bar K)` are new objects specified in `README.md` §Layer 4 and built there on
-Layer 0 and Mathlib's reduction theory; they are not pinned here as `sorry`-typed types. -/
+The reduction filtration `0 → E₁(K) → E₀(K) → Ẽ_ns(k) → 0` on the points of a minimal equation,
+the Kodaira type (an enumerated type, defined as the output of Tate's algorithm), the conductor
+exponent, the local index `c_p`, and the Tate-curve isomorphism `Kˢᵉᵖ^× / qᶻ ≅ E_q(Kˢᵉᵖ)` are
+new objects specified in `README.md` §Layer 4 and built there on Layers 0–1 and Mathlib's
+reduction theory; they are not pinned here as `sorry`-typed types. Néron models are **out of
+scope**: they are schemes, and belong to the future scheme-facing roadmap (`README.md`). -/
 
 /-! ## Layer 5: twists (AEC X.2, X.5)
 
 These are twists of the **pointed** curve `(E, O)`: elliptic curves over `K` that become
-isomorphic to `E` over `Kˢᵉᵖ` as pointed curves, classified by `H¹(Gal(Kˢᵉᵖ/K), Aut (E, O))` via
-Galois descent on the scheme (Layer 0). A pointed twist keeps its rational point, hence has a Weierstrass model — this
+isomorphic to `E` over `Kˢᵉᵖ` as pointed curves, classified by `H¹(Gal(Kˢᵉᵖ/K), Aut (E, O))` —
+over `Kˢᵉᵖ` every isomorphism of pointed Weierstrass curves is a change of variables, so
+`Aut (E, O)` is the stabiliser of the base-changed curve in Mathlib's `VariableChange` group and
+the descent is cocycle-level, with no schemes. A pointed twist keeps its rational point, hence has a Weierstrass model — this
 is a different theory from the **genus-one torsors** (no rational point, classified by
 `H¹(Gal, E(Kˢᵉᵖ))`), which belong to the Weil–Châtelet/Sha circle of `README.md` §Layer 7. For
 `j ≠ 0, 1728`, `Aut (E, O) ≅ {±1}` and the twists are the quadratic twists: for `char K ≠ 2`
