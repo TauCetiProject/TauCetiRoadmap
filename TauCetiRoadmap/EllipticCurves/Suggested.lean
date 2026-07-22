@@ -75,7 +75,10 @@ against today's Mathlib is that `toClass` is onto the class group: -/
 `W.toAffine.Point ≃+ Additive (ClassGroup W.toAffine.CoordinateRing)`. This is the Layer-0
 divisor anchor: the class group is the degree-`0` divisor class group of the function field in
 disguise, so the principal-divisor characterisation (`Σ nᵢ Pᵢ` is principal iff `deg = 0` and
-`Σ [nᵢ] Pᵢ = O`) rides on the group law Mathlib already proved, with no Riemann–Roch anywhere. -/
+`Σ [nᵢ] Pᵢ = O`) rides on the group law Mathlib already proved, with no Riemann–Roch anywhere.
+⚠ *Mathlib-track*: proven in the shared upstream `CoordinateRing` split-out
+(`Point.toClass_surjective`/`toClassEquiv`) — and there with **no** `IsElliptic` hypothesis,
+so this seed is the weaker statement; dedupe on landing. -/
 theorem toClass_surjective {K : Type*} [Field K] (W : WeierstrassCurve K) [W.IsElliptic] :
     Function.Surjective <| WeierstrassCurve.Affine.Point.toClass (W := W.toAffine) :=
   sorry
@@ -83,59 +86,85 @@ theorem toClass_surjective {K : Type*} [Field K] (W : WeierstrassCurve K) [W.IsE
 /-! ## Layer 1: isogenies, the dual, the invariant differential, and formal groups (AEC II.2, III.4–6, IV)
 
 An isogeny `φ : W₁ → W₂` is an `F`-algebra map of function fields, backwards, with the
-pointedness `φ(O₁) = O₂` expressed as integrality over the coordinate rings — no places in the
-definition, so the structure is seeded verbatim below (D. Angdinata's definition, in its
-integral-closure form), with its degree defined outright and its automatic finiteness,
-positivity, and Frobenius seeded. Such a map is automatically injective and finite, so `deg φ`
-is `Module.finrank`, separability is that of the field extension, and multiplicativity of
-`deg` under composition is the tower formula — field theory Mathlib already has. The
-hom-group (zero adjoined) and the quadraticity of the degree, the dual isogeny with
-`φ̂ ∘ φ = [deg φ]`, `deg [n] = n²` via the division polynomials, and the invariant
-differential `ω` in `Ω[W.FunctionField⁄K]` with `φ^* = KaehlerDifferential.map` are specified
-in `README.md` §Layer 1 and built there. The milestone statable against the existing point
+pointedness `φ(O₁) = O₂` expressed as integrality over the coordinate rings — no places in
+the definition, so the structure is seeded verbatim below (D. Angdinata's definition), with
+its degree defined outright and its finiteness, positivity, point map, normality input, and
+Frobenius seeded. ⚠ *Mathlib-track*: the seeded material of this section is proven in the
+shared upstream development (`README.md` §Provenance) and is deduplicated when its PRs land.
+Such a map is automatically injective and finite, so `deg φ` is `Module.finrank`,
+separability is that of the field extension, and multiplicativity of `deg` under composition
+is the tower formula — field theory Mathlib already has; the induced point map goes through
+the intermediate ring (the integral closure of `W₂.CoordinateRing` in `W₁.FunctionField`)
+by ideal extension and relative norm, making it additive by construction. The hom-group
+(zero adjoined) and the quadraticity of the degree, the dual isogeny with
+`φ̂ ∘ φ = [deg φ]`, `deg [n] = n²` via the division polynomials, the invariant differential
+`ω` in `Ω[W.FunctionField⁄K]` with `φ^* = KaehlerDifferential.map`, and the
+separable-⟹-unramified milestone (`e_w = 1` at every place, which turns Layer 0's
+`Σ e · f = deg` into the fibre count) are specified in `README.md` §Layer 1 and built there.
+The milestone statable against the existing point
 group is the surjectivity of multiplication-by-`n`: over a separably closed field, `[n]` is
 surjective on points for `n` invertible in `K` (AEC III.4.10), the counting input to
 `E[N] ≅ (ℤ/N)²`. -/
 
-open WeierstrassCurve in
-/-- **An isogeny of elliptic curves, as a function-field embedding backwards**
-(AEC II.2.4-shape; D. Angdinata's definition, in its integral-closure form). `toFun` is the
-contravariant map on function fields; `map_zero` makes `W₁.FunctionField` a
-`W₂.CoordinateRing`-algebra through `toFun` and demands that `W₁.CoordinateRing` be integral
-over it — functions with poles only at `O₂` pull back to functions with poles only at `O₁`,
-which is exactly `φ(O₁) = O₂`, with no places API in the statement. An `Isogeny` is
-automatically nonzero (`toFun` is a map of fields) and finite
-(`Isogeny.finite_functionField`), so "isogeny" means *nonzero* isogeny by construction; the
+section Isogeny
+
+open WeierstrassCurve.Affine
+
+variable {F : Type*} [Field F]
+
+/-- A contravariant pullback between the function fields of two affine Weierstrass curves
+(the shape of the shared upstream development — ⚠ *mathlib-track* throughout this section:
+these declarations are proven there and are deduplicated when its PRs land). -/
+abbrev FunctionFieldPullback (W₁ W₂ : WeierstrassCurve.Affine F) :=
+  W₂.FunctionField →ₐ[F] W₁.FunctionField
+
+/-- The target-coordinate-ring algebra structure on the source function field induced by
+pullback. -/
+@[reducible]
+noncomputable def FunctionFieldPullback.coordinateRingAlgebra
+    {W₁ W₂ : WeierstrassCurve.Affine F} (pullback : FunctionFieldPullback W₁ W₂) :
+    Algebra W₂.CoordinateRing W₁.FunctionField :=
+  (pullback.toRingHom.comp (algebraMap W₂.CoordinateRing W₂.FunctionField)).toAlgebra
+
+/-- **The source point at infinity maps to the target point at infinity**: every affine
+function of `W₁` is integral over the pulled-back coordinate ring of `W₂`. The integral
+closure is the ring of functions regular away from the whole fibre over `O₂` — kernel points
+included — so the condition says exactly that `O₁` lies in that fibre. -/
+def FunctionFieldPullback.MapsInfinity {W₁ W₂ : WeierstrassCurve.Affine F}
+    (pullback : FunctionFieldPullback W₁ W₂) : Prop :=
+  letI := pullback.coordinateRingAlgebra
+  ∀ x : W₁.CoordinateRing,
+    algebraMap W₁.CoordinateRing W₁.FunctionField x ∈
+      integralClosure W₂.CoordinateRing W₁.FunctionField
+
+/-- **The function-field data of an isogeny** (AEC II.2.4-shape; D. Angdinata's definition).
+An `Isogeny` is automatically nonzero (`pullback` is a map of fields) and finite
+(`Isogeny.finiteDimensional`), so "isogeny" means *nonzero* isogeny by construction; the
 hom-group adjoining zero is `README.md` §Layer 1. -/
-structure Isogeny {F : Type*} [Field F] (W₁ W₂ : Affine F) where
+structure Isogeny (W₁ W₂ : WeierstrassCurve.Affine F) where
   /-- The contravariant function-field map. -/
-  toFun : W₂.FunctionField →ₐ[F] W₁.FunctionField
-  /-- `φ(O₁) = O₂`: the coordinate ring of `W₁` is integral over that of `W₂`. -/
-  map_zero :
-    letI : Algebra W₂.CoordinateRing W₁.FunctionField :=
-      (toFun.toRingHom.comp (algebraMap W₂.CoordinateRing W₂.FunctionField)).toAlgebra
-    ∀ x : W₁.CoordinateRing,
-      algebraMap W₁.CoordinateRing W₁.FunctionField x ∈
-        integralClosure W₂.CoordinateRing W₁.FunctionField
+  pullback : FunctionFieldPullback W₁ W₂
+  /-- `φ(O₁) = O₂`, as integrality over the coordinate rings. -/
+  mapsInfinity : pullback.MapsInfinity
 
 namespace Isogeny
 
-variable {F : Type*} [Field F] {W₁ W₂ : WeierstrassCurve.Affine F}
+variable {W₁ W₂ : WeierstrassCurve.Affine F}
 
 /-- **The degree of an isogeny** (AEC II.2.4(a)-shape): the rank
-`[W₁.FunctionField : W₂.FunctionField]` of the function-field extension along `toFun`.
+`[W₁.FunctionField : W₂.FunctionField]` of the function-field extension along `pullback`.
 Multiplicativity under composition is the finrank tower formula; `deg [n] = n²` and
 `deg π_q = q` are the Layer 1/3 milestones. -/
 noncomputable def degree (φ : Isogeny W₁ W₂) : ℕ :=
-  letI : Algebra W₂.FunctionField W₁.FunctionField := φ.toFun.toRingHom.toAlgebra
+  letI : Algebra W₂.FunctionField W₁.FunctionField := φ.pullback.toRingHom.toAlgebra
   Module.finrank W₂.FunctionField W₁.FunctionField
 
-/-- **Automatic finiteness** (AEC II.2.4(a)): both function fields have transcendence degree
-`1` over `F`, so `W₁.FunctionField` is a finite module over the image of `toFun` — with no
-properness input. This is what makes `degree` honest (`finrank` of an infinite extension
-reads `0`) and "nonconstant" free. -/
-theorem finite_functionField (φ : Isogeny W₁ W₂) :
-    letI : Algebra W₂.FunctionField W₁.FunctionField := φ.toFun.toRingHom.toAlgebra
+/-- **Automatic finiteness** (AEC II.2.4(a)): a nonconstant map of one-variable function
+fields is finite, the inseparable case included — no properness input. This is what makes
+`degree` honest (`finrank` of an infinite extension reads `0`) and "nonconstant" free.
+⚠ *Mathlib-track*: proven in the shared upstream development as `Isogeny.finiteDimensional`. -/
+theorem finiteDimensional (φ : Isogeny W₁ W₂) :
+    letI : Algebra W₂.FunctionField W₁.FunctionField := φ.pullback.toRingHom.toAlgebra
     Module.Finite W₂.FunctionField W₁.FunctionField :=
   sorry
 
@@ -144,21 +173,42 @@ extension. -/
 theorem degree_pos (φ : Isogeny W₁ W₂) : 0 < φ.degree :=
   sorry
 
+/-- **The induced map on points** (⚠ *mathlib-track*: constructed upstream as
+`Isogeny.toPointHom`, by extending ideals to the intermediate ring — the integral closure of
+`W₂.CoordinateRing` in `W₁.FunctionField`, module-finite and integrally closed — taking
+relative ideal norms down to `W₂.CoordinateRing`, and conjugating the resulting class-group
+homomorphism by `Point.toClassEquiv`). Additive **by construction**: AEC III.4.8 is built in,
+not a separate rigidity theorem. The normality input holds for elliptic `W₂` by
+`isIntegrallyClosed_coordinateRing` below. -/
+noncomputable def toPointHom [DecidableEq F] (φ : Isogeny W₁ W₂)
+    [IsIntegrallyClosed W₂.CoordinateRing] : W₁.Point →+ W₂.Point :=
+  sorry
+
 end Isogeny
 
+/-- **The coordinate ring of an elliptic curve is integrally closed** — smoothness of the
+affine curve, in the form the point-map construction consumes (its `IsIntegrallyClosed`
+input). For elliptic `W` the coordinate ring is in fact a Dedekind domain (Layer 0); this is
+the normality half. -/
+theorem isIntegrallyClosed_coordinateRing (W : WeierstrassCurve.Affine F) [W.IsElliptic] :
+    IsIntegrallyClosed W.CoordinateRing :=
+  sorry
+
 /-- **The Frobenius isogeny** of a Weierstrass curve over a finite field (AEC II.2.11):
-`toFun = (· ^ q)` with `q = #F` — an `F`-algebra map because `c ^ q = c` on `F` — whose
-`map_zero` is the integrality of the coordinates over their `q`-th powers. Purely
+`pullback = (· ^ q)` with `q = #F` — an `F`-algebra map because `c ^ q = c` on `F` — whose
+`MapsInfinity` is the integrality of the coordinates over their `q`-th powers. Purely
 inseparable; Layer 3's engine, inducing `(x, y) ↦ (x^q, y^q)` on points. -/
-noncomputable def frobeniusIsogeny {F : Type*} [Field F] [Finite F]
-    (W : WeierstrassCurve.Affine F) : Isogeny W W :=
+noncomputable def frobeniusIsogeny [Finite F] (W : WeierstrassCurve.Affine F) :
+    Isogeny W W :=
   sorry
 
 /-- **`deg π_q = q`** (AEC II.2.11(c)): the Frobenius isogeny has degree `#F` — the first
 computed degree, and the input to `deg (1 − π_q) = #E(𝔽_q)` (Layer 3). -/
-theorem degree_frobeniusIsogeny {F : Type*} [Field F] [Finite F]
-    (W : WeierstrassCurve.Affine F) : (frobeniusIsogeny W).degree = Nat.card F :=
+theorem degree_frobeniusIsogeny [Finite F] (W : WeierstrassCurve.Affine F) :
+    (frobeniusIsogeny W).degree = Nat.card F :=
   sorry
+
+end Isogeny
 
 /-- **Multiplication-by-`n` is surjective on `E(Kˢᵉᵖ)`** (AEC III.4.10) over a separably closed
 field, for `n` **invertible in `K`** (`(n : K) ≠ 0`, i.e. `char K ∤ n` — which also forces
