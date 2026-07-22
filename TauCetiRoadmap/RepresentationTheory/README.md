@@ -26,8 +26,9 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   the fundamental domain, and the Dynkin-diagram classification.
 - [**Semisimple Lie algebras: sl₂, highest weight, and the Weyl character formula**](LieHighestWeight/README.md)
   - sl₂ as the engine case, the root-space decomposition, weights, Verma modules and `L(λ)`, the
-  highest-weight classification, Weyl's complete reducibility, and the Weyl character and dimension
-  formulas.
+  highest-weight classification, Weyl's complete reducibility, the Weyl character and dimension
+  formulas, the isotypic decomposition toolkit with the minuscule Pieri rule, and reductive Lie
+  algebras with the concrete `gl_n` theory.
 - [**Finite-dimensional representations of the classical groups**](ClassicalGroups/README.md) - the
   standard representation and its tensor powers, the Weyl construction via Young symmetrizers, highest
   weights, Schur polynomials as characters, the Weyl dimension formula, and branching rules.
@@ -45,7 +46,9 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 - [**Clifford algebras, the Pin and Spin groups, and spin representations**](SpinRepresentations/README.md)
   - Clifford algebras and their structure, the Pin and Spin groups as double covers of O and SO, the
   spin and half-spin representations that supply the fundamental representations of types B and D, the
-  low-dimensional exceptional isomorphisms, real Clifford algebras, and triality.
+  low-dimensional exceptional isomorphisms, real Clifford algebras, triality, and Kostant's isotypy
+  corollary: Lie algebras acting through the Clifford algebra, with the Clifford algebra of a
+  semisimple Lie algebra isotypic for the half-sum of positive roots.
 - [**Quiver representations and finite-dimensional algebras**](QuiverRepresentations/README.md) - path
   algebras, representations of a quiver, Krull-Schmidt, Gabriel's theorem (finite type ⇔ ADE Dynkin,
   indecomposables ↔ positive roots), reflection and Coxeter functors, and Auslander-Reiten theory.
@@ -58,7 +61,9 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   the Murnaghan-Nakayama rule for symmetric groups, are character-table tools.
 - **Root systems → Lie highest weight → classical groups.** Root systems and Weyl groups are the shared
   language; the highest-weight theory of semisimple Lie algebras specializes to the classical groups,
-  where Schur-Weyl duality and Young symmetrizers connect to the symmetric group.
+  where Schur-Weyl duality and Young symmetrizers connect to the symmetric group. The highest-weight
+  roadmap's reductive `gl_n` layer supplies the Lie-algebra half of the classical-groups dictionary,
+  matching `DominantWeight n` up to the non-integral central direction.
 - **Character theory is the finite case of compact groups.** Peter-Weyl, restricted to a finite group,
   recovers the finite-group character theory, and the two share the orthogonality machinery.
 - **Lie groups sit under the Lie-algebra and compact-group theory.** The Lie-group roadmap builds the
@@ -68,6 +73,11 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 - **Spin representations complete the classical groups.** The spin and half-spin representations are the
   fundamental representations of types B and D that are not realized in tensor powers of the standard
   representation, so they finish the classical-groups picture.
+- **Lie highest weight and the spin roadmap meet again at Kostant's corollary.** The spin roadmap's
+  Kostant layer states its summit against the highest-weight roadmap's reductive vocabulary (the
+  `gl_n` classification and the isotypic decomposition toolkit) and cites its minuscule Pieri rule
+  for the `gl_N` worked instance; in return it supplies the Clifford algebra of a Lie algebra with an
+  invariant form as the model isotypic module, the Clifford analogue of Hopf-Koszul-Samelson.
 - **Quiver representations meet root systems.** Gabriel's theorem identifies the finite-type quivers with
   the ADE Dynkin diagrams and the indecomposables with the positive roots, tying the finite-dimensional
   algebra theory back to root systems.

@@ -30,20 +30,28 @@ double-cover theorem** (nothing says `Spin(V) → SO(V)` is surjective with kern
 conjugation action preserves `V`), **no spin module** (`⋀·W` is never made a Clifford module), **no
 identification of `𝔰𝔬(V)` with `⋀²V` inside the Clifford algebra**, **no spin or half-spin representation**,
 **no highest-weight identification** of them as the `Bₗ`/`Dₗ` fundamentals, **no exceptional isomorphisms**,
-**no Bott-periodic classification of the real Clifford algebras**, and **no triality**. (The word "spin" does
+**no Bott-periodic classification of the real Clifford algebras**, **no triality**, **no Lie-algebra
+action through the Clifford algebra** (the quadratic realization of `𝔰𝔬(V, Q)` exists for no form at all,
+so no homomorphism `𝔤 → 𝔰𝔬(V, Q)` makes a Clifford module a `𝔤`-module), and **no Kostant
+`ρ`-decomposition corollary** (the Clifford algebra of a semisimple Lie algebra with its Killing form,
+under left multiplication by the quadratic lift of the adjoint representation, is isotypic for the
+half-sum of positive roots). (The word "spin" does
 not occur elsewhere in these roadmaps except inside "spine", and "Clifford" elsewhere always means
 [Clifford theory over a normal subgroup](../InductionRestriction/README.md); the two are unrelated.)
 
 This roadmap builds that theory, ending at the spin and half-spin representations as the fundamental
-representations of types `Bₗ` and `Dₗ`, the low-dimensional exceptional isomorphisms, and triality for
-`Spin₈`. It rests on [the classical-groups roadmap](../ClassicalGroups/README.md) for the standard
+representations of types `Bₗ` and `Dₗ`, the low-dimensional exceptional isomorphisms, triality for
+`Spin₈`, and Kostant's isotypy corollary for the Clifford algebra of a Lie algebra with an invariant
+form. It rests on [the classical-groups roadmap](../ClassicalGroups/README.md) for the standard
 representation and the orthogonal group, on [the highest-weight roadmap](../LieHighestWeight/README.md) for
-the theorem of the highest weight and the fundamental weights, and on
+the theorem of the highest weight and the fundamental weights (and, for Layer 9, its reductive `gl_n`
+layer and decomposition toolkit), and on
 [the root-systems roadmap](../RootSystems/README.md) for the `Bₗ`/`Dₗ` root data and the outer-automorphism
 graph symmetry that underlies triality. Suggested home:
 `TauCeti/LinearAlgebra/CliffordAlgebra/` (the structure theory, the double covers, and the real
 classification, upstreamable to Mathlib on their own) and
-`TauCeti/RepresentationTheory/Spin/` (the spin modules, the highest-weight identification, and triality).
+`TauCeti/RepresentationTheory/Spin/` (the spin modules, the highest-weight identification, triality, and
+the Kostant layer).
 
 ## Standing conventions
 
@@ -133,6 +141,20 @@ classification, upstreamable to Mathlib on their own) and
   filtration and induces the exterior-degree quotient `Fₖ / Fₖ₋₁ ≅ ⋀ᵏV`. This is a PBW-type theorem for the
   Clifford algebra, not an immediate read-off from the module isomorphism `equivExterior`. Keep the two
   gradings distinct in name and statement.
+- **`𝔰𝔬(V, Q)` for an abstract form is `skewAdjointLieSubalgebra (QuadraticMap.polarBilin Q)`, and
+  quadratic elements are half-normalized commutators (Layer 9).** The orthogonal Lie algebra of an
+  abstract nondegenerate `Q` is Mathlib's Lie subalgebra of skew-adjoint endomorphisms of the polar
+  form; never introduce a private synonym. The quadratic element attached to a pair `(a, b)` is
+  `⅟2 • ⁅ι Q a, ι Q b⁆`, and its defining property is the bracket identity
+  `⁅β(a, b), ι Q x⁆ = ι Q (polar Q b x • a - polar Q a x • b)`, the same formula that pins
+  `soEquivBivector_wedge_mulVec` in Layer 3; do not hard-code the `⅟2` anywhere else. **Normal-ordered
+  quadratics** (products `ι a · ι b`, as in `F_ij = ½ Σ_k d_ik d_kj`) differ from the antisymmetrized
+  ones by a scalar, the **normal-ordering constant**; for a reductive `𝔤` this constant shifts the
+  central component of the highest weight, so every statement names which of the two embeddings it
+  uses. And **two `𝔤`-actions on `Cliff(𝔤, B)` must never be conflated**: the commutator action
+  `x • c = ⁅q(x), c⁆` (the exterior extension of the adjoint representation, not isotypic) and the
+  **left-regular** action `x • c = q(x) · c` (the isotypic one, Kostant's); every isotypy statement
+  says which action it is about, and the two carry different names in `Suggested.lean`.
 
 ## What Mathlib already has (consume)
 
@@ -186,6 +208,18 @@ classification, upstreamable to Mathlib on their own) and
   `exteriorPower.ιMulti`, `exteriorPower.map`, `exteriorPower.basis`), `Module.Dual`, `Module.End`,
   `Module.finrank`; `RepresentationTheory/Basic.lean` (`Representation`), `RepresentationTheory/FDRep.lean`
   (`FDRep`), `RepresentationTheory/Character.lean` (`FDRep.character`).
+- **The Lie-theory vocabulary of Layer 9** - `Algebra/Lie/SkewAdjoint.lean`
+  (`skewAdjointLieSubalgebra`, the skew-adjoint endomorphisms of a bilinear form as a Lie
+  subalgebra of `Module.End`), `Algebra/Lie/InvariantForm.lean` (`LinearMap.BilinForm.lieInvariant`),
+  `Algebra/Lie/TraceForm.lean` (`LieModule.traceForm`, `killingForm`), `Algebra/Lie/Killing.lean`
+  (`LieAlgebra.IsKilling`), `Algebra/Lie/Rank.lean` (`LieAlgebra.rank`),
+  `Algebra/Lie/OfAssociative.lean` (the commutator `LieRing` on any associative algebra, so
+  `CliffordAlgebra Q` and `Matrix n n ℂ` carry `⁅·,·⁆` with no new instances, and `AlgHom.toLieHom`),
+  `Algebra/Lie/Semisimple/Defs.lean` (`LieModule.IsIrreducible`), `Algebra/Lie/DirectSum.lean` (the
+  Lie module instances on `⨁`), `QuadraticMap.polarBilin`, `LinearMap.BilinMap.toQuadraticMap` with
+  `LinearMap.BilinMap.polarBilin_toQuadraticMap` (`polarBilin (toQuadraticMap B) = B + B.flip`, the
+  factor-of-two bookkeeping), `Algebra.lmul` (the left-regular action), and `Matrix.single` (the
+  matrix units) with `Matrix.trace`.
 
 ## What is missing (build here)
 
@@ -209,13 +243,24 @@ fundamental representations with the half-integer weights, and the **dimension `
 exceptional isomorphisms** `Spin₃ ≅ SL₂`, `Spin₄ ≅ SL₂ × SL₂`, `Spin₅ ≅ Sp₄`, `Spin₆ ≅ SL₄`; the **real
 Clifford algebras** `Cliff(p, q)`, their **Bott-periodic** structure `Cliff(p+1, q+1) ≅ Cliff(p, q) ⊗ M₂(ℝ)`
 and the mod-`8` table, and the **real groups** `Spin(p, q)`; and **triality** for `Spin₈`, the order-three
-outer automorphism cyclically permuting `V, S⁺, S⁻`. None of this is upstream.
+outer automorphism cyclically permuting `V, S⁺, S⁻`. Beyond these, Layer 9 builds the **abstract
+quadratic realization** (`𝔰𝔬(V, Q)` as the quadratic elements of `Cliff(V, Q)` for any nondegenerate
+`Q`, freeing Layer 3 from the standard form), the **induced `𝔤`-module structure** on every Clifford
+module along a homomorphism `θ : 𝔤 → 𝔰𝔬(V, Q)`, the **adjoint embedding** `ad : 𝔤 → 𝔰𝔬(𝔤, B)` for an
+invariant nondegenerate symmetric form, and **Kostant's isotypy corollary**: the left-regular
+`Cliff(𝔤, κ)` of a Killing-semisimple `𝔤` is isotypic, a direct sum of `2^{(d+l)/2}` copies of one
+simple of dimension `2^{(d-l)/2}`, with the spin-module variant of multiplicity `2^{⌊l/2⌋}`, and the
+`gl_N`-on-`M_N` worked instance (the CAR algebra of the fermionic Fock space). None of this is
+upstream.
 
 `Suggested.lean` pins the load-bearing objects (`orthogonalGroup`, `filtration`, `filtrationGradedEquiv`,
 `ιRangeEquiv`, `pinToOrthogonal`, `spinToSpecialOrthogonal`, `soEquivBivector`, `spinAction`, `spinRep`, `spinPlus`,
-`spinMinus`, `realCliffordForm`, `spinPQ`, `trialityAut`) and the named milestones below as `sorry`-targets,
-so each is claimable and the summit statements (the double cover, the highest-weight identification, and
-triality) are machine-checked to be expressible against the pinned Mathlib.
+`spinMinus`, `realCliffordForm`, `spinPQ`, `trialityAut`, and Layer 9's `cliffordBivector`,
+`soEquivQuadratic`, `cliffordInducedRep`, `adjointSO`, `kostant_isotypic`, `kostant_multiplicity`,
+`traceQuadraticForm`, `glCliffordHom`, `car_isotypic`, `car_simple_highestWeight`) and the named
+milestones below as `sorry`-targets,
+so each is claimable and the summit statements (the double cover, the highest-weight identification,
+triality, and the Kostant corollary) are machine-checked to be expressible against the pinned Mathlib.
 
 ---
 
@@ -328,7 +373,10 @@ module simple.
   `B = QuadraticMap.polar Q`. Choose the Clifford formula and scalar normalization (a multiple of
   `ι u · ι v - ι v · ι u`) so as to prove this identity against Mathlib's `polar` convention; do not fix the
   factor `½` before the convention is pinned. The bracket of a bivector with `ι v` is the infinitesimal
-  rotation of `v`, which is the differential of the Layer-2 conjugation.
+  rotation of `v`, which is the differential of the Layer-2 conjugation. Stated here for the standard form
+  on `Fin n → R`; Layer 9 restates the realization for an arbitrary nondegenerate `Q`, as
+  `soEquivQuadratic` against Mathlib's `skewAdjointLieSubalgebra`, pinned to the same action formula,
+  and builds the module-making machinery on it.
 - **The differential of the double cover.** The Lie-algebra homomorphism differentiating
   `spinToSpecialOrthogonal` is the isomorphism `soEquivBivector` composed with the adjoint action; state the
   compatibility `d(conjugation) = ad(bivector)` as a named lemma, so the group double cover and the
@@ -489,6 +537,68 @@ second.
   octonions (the multiplication `𝕆 ⊗ 𝕆 → 𝕆` as the triality form); state the trilinear form and its
   invariance as the concrete outcome, cross-referencing the octonion structure where it is available.
 
+### Layer 9: Lie algebras acting through the Clifford algebra, and Kostant's isotypy corollary
+
+Layer 3 realizes `𝔰𝔬(V)` inside the Clifford algebra of the standard form; this layer frees that
+realization from the standard form, turns it into a machine (every Clifford module becomes a
+`𝔤`-module along any `θ : 𝔤 → 𝔰𝔬(V, Q)`), and climbs to its summit application: Kostant's isotypy
+corollary for `Cliff(𝔤, B)` under **left multiplication** by the quadratic lift of the adjoint
+representation. The two-actions convention of the standing conventions governs every statement
+here. Independent of Layers 6-8.
+
+- **The abstract quadratic realization.** The quadratic element `β(a, b) = ⅟2 • ⁅ι Q a, ι Q b⁆`,
+  pinned by the bracket identity `⁅β(a, b), ι Q x⁆ = ι Q (polar Q b x • a - polar Q a x • b)` with
+  `polar` Mathlib's, exactly Layer 3's normalization; the quadratic elements as a `LieSubalgebra` of
+  `Cliff(V, Q)` (contained in `even Q` and in `filtration Q 2`); and `soEquivQuadratic`, the Lie
+  isomorphism from `skewAdjointLieSubalgebra (polarBilin Q)` onto them for nondegenerate `Q` on a
+  finite-dimensional space, pinned by its own generator-action identity so no automorphism of `𝔰𝔬`
+  can be silently composed in.
+- **Every Clifford module is a `𝔤`-module.** A homomorphism `θ : 𝔤 →ₗ⁅K⁆ 𝔰𝔬(V, Q)` composed with
+  the quadratic realization and any Clifford action `ρ : Cliff(V, Q) →ₐ[K] End(S)` gives
+  `𝔤 →ₗ⁅K⁆ End(S)` (`cliffordInducedRep`). The two actions on `Cliff(V, Q)` itself are named apart:
+  the **commutator action** (`cliffordDerivationRep`, the exterior extension of the `V`-action under
+  `equivExterior`, **not** isotypic) and the **left-regular action** (via `Algebra.lmul`, the
+  isotypic one). The worked non-example pinning the distinction:
+  `⋀𝔰𝔩₂ ≅ 1 ⊕ V(2) ⊕ V(2) ⊕ 1` under the commutator action, against the four copies of the
+  `2`-dimensional simple under left multiplication.
+- **The adjoint embedding and the rank bookkeeping.** For a symmetric invariant nondegenerate `B`
+  (the Killing form of a semisimple `𝔤`, or the trace form of a faithful representation where the
+  Killing form is degenerate), `ad : 𝔤 →ₗ⁅K⁆ 𝔰𝔬(𝔤, B)` (`adjointSO`), pinned by
+  `(adjointSO … x) y = ⁅x, y⁆`. Two bookkeeping pins absent from Mathlib precede the multiplicity
+  statements: `LieAlgebra.rank ℂ 𝔤 = dim H` for a Cartan subalgebra `H`, and the parity identity
+  `d = l + 2 · #Δ⁺`, stated additively so the exponents `(d ± l)/2` below are exact divisions.
+- **Kostant's isotypy corollary (the summit).** For Killing-semisimple `𝔤` over `ℂ`, the
+  left-regular `Cliff(𝔤, κ)` (carrier the Clifford algebra of the Killing quadratic form,
+  `⁅x, c⁆ = q(ad x) · c`, identified with `⋀𝔤` by `equivExterior` and of dimension `2^d` by Layer
+  0): any two simple submodules are isomorphic, and the pinned decomposition equivalence exhibits
+  `2^{(d+l)/2}` copies of one simple of dimension `2^{(d-l)/2}`. In the vocabulary of
+  [the highest-weight roadmap](../LieHighestWeight/README.md) the simple constituent is `L(ρ)`, the
+  irreducible of highest weight the half-sum of positive roots; that name is prose here (the Layer 5
+  device), and the Lean statements carry the content without it. Kostant's full `ρ`-decomposition
+  `C(𝔤) ≅ End(V_ρ) ⊗ C(P)` (with the primitive subspace `P`) is strictly stronger and is a possible
+  later strengthening, deliberately not pinned. The **spin-module variant**: the full spinor module
+  `⋀·W` of `Cliff(𝔤, κ)` (Layer 4's `spinAction` composed with the adjoint quadratic lift; in even
+  dimension it is `S⁺ ⊕ S⁻`, and the half-spin summands separately are smaller by a factor of two)
+  is isotypic with multiplicity `2^{⌊l/2⌋}`.
+- **The worked instance: `gl_N` on `M_N(ℂ)` (the CAR algebra).** `𝔤 = gl_N` is **reductive, not
+  Killing-semisimple**, so its form is the **trace form** `Q X = tr (X²)` (nondegenerate where the
+  Killing form is not), and its highest weight carries a half-integral central component; the
+  reductive highest-weight vocabulary is
+  [the highest-weight roadmap](../LieHighestWeight/README.md)'s Layer 9, cited in prose only. The
+  generators `d_ab = ι (E_ab)` satisfy the CAR relations `d_ab d_cd + d_cd d_ab = 2 δ_bc δ_ad`
+  (pinned as the polar-form equation); the **normal-ordered quadratics** `F_ij = ½ Σ_k d_ik d_kj`
+  form a Lie homomorphism `glCliffordHom` with `[F_ij, d_kl] = δ_jk d_il - δ_li d_kj` (basis-free:
+  bracketing a generator is the adjoint action), and differ from the antisymmetrized quadratic
+  elements by the **normal-ordering constant** `(N/2) δ_ij`, the source of the half-integral central
+  weight. The left-regular `Cliff(M_N)` (the fermionic Fock space `⋀(M_N)` via `equivExterior`,
+  dimension `2^{N²}`) is isotypic with `2^{N(N+1)/2}` simple summands of dimension `2^{N(N-1)/2}`,
+  each containing a highest weight vector of weight `ν = (N - 1/2, …, 1/2)` for the matrix-unit
+  positive system. This is Panyushev's Prop. 2.4 and Ex. 2.5(1), and the decomposition behind the
+  CAR-matrix analysis of Shlyakhtenko (arXiv:2606.28648); the companion decomposition
+  `V* ⊗ L(ν) ≅ ⨁_{t=1}^{N} L(ν - ε_t)` is the dual-standard Pieri rule of
+  [the highest-weight roadmap](../LieHighestWeight/README.md), uniform in `t` because every
+  `ν - ε_t` stays dominant.
+
 ---
 
 ## Worked examples (acceptance criteria)
@@ -511,6 +621,20 @@ second.
   `Spin₈` cyclically permuting `V, S⁺, S⁻`, and the trilinear form `V ⊗ S⁺ ⊗ S⁻ → ℂ` is `Spin₈`-invariant.
   Acceptance: `trialityAut ^ 3 = 1`, `trialityAut ≠ 1`, and the three `8`-dimensional representations are
   cyclically permuted.
+- **`⋀𝔰𝔩₂` under the two actions (the Layer 9 non-example and smallest example).** Under the
+  **commutator** action, `⋀𝔰𝔩₂ ≅ 1 ⊕ V(2) ⊕ V(2) ⊕ 1` (dimensions `1 + 3 + 3 + 1 = 8 = 2³`), not
+  isotypic; under **left multiplication**, `Cliff(𝔰𝔩₂, κ)` is four copies of one `2`-dimensional
+  simple (`d = 3`, `l = 1`: simple dimension `2^{(3-1)/2} = 2`, multiplicity `2^{(3+1)/2} = 4`). The
+  pair is the acceptance check that the two actions are truly kept apart.
+- **The CAR algebra on `N × N` matrices (the Shlyakhtenko instance).** For `𝔤 = gl_N` with the trace
+  form: the CAR relations from the polar-form pin (`2 δ_bc δ_ad`), the `gl_N` relations
+  `[F_ij, F_kl] = δ_jk F_il - δ_li F_kj` from `glCliffordHom`, the normal-ordering constant
+  `(N/2) δ_ij`, and the isotypic decomposition of the left-regular `Cliff(M_N)` into `2^{N(N+1)/2}`
+  simples of dimension `2^{N(N-1)/2}` with highest weight `ν = (N - 1/2, …, 1/2)`. Acceptance
+  arithmetic: `2^{N(N-1)/2} · 2^{N(N+1)/2} = 2^{N²} = dim ⋀(M_N)`, and `d ± l` bookkeeping
+  `d + l = N² + N`, `d - l = N² - N = 2 · #Δ⁺`. The `V* ⊗ L(ν)` decomposition and the Casimir
+  separation of its blocks are the matching worked examples of
+  [the highest-weight roadmap](../LieHighestWeight/README.md).
 
 ## Ordering
 
@@ -544,6 +668,18 @@ further integration theorem; it is the summit. A contributor can complete Layers
 and the double cover) and the `Spin₃` and real-form examples well before the highest-weight identification of
 Layers 5, 8 lands.
 
+Layer 9 needs Layer 0's filtration vocabulary, restates Layer 3's realization for an abstract
+nondegenerate form (as new parallel targets; Layer 3's standard-form statements are unchanged), and
+consumes Layer 4's `spinAction` for its spin-module variant; it is independent of Layers 6, 7, and 8,
+so a contributor can reach Kostant's isotypy corollary directly from the core summit. Its
+highest-weight content follows the Layer 5 device: isotypicity in Mathlib's `LieModule` vocabulary,
+the names `L(ρ)` and `L(ν)` in prose against
+[the highest-weight roadmap](../LieHighestWeight/README.md) (whose reductive `gl_n` layer and
+decomposition toolkit are the matching development), and the weight itself pinned in Lean only for
+`gl_N`, where the Cartan and Borel are concrete matrices. Within the layer, the abstract realization
+and `cliffordInducedRep` come first, the rank/parity pins precede the multiplicity statements, and
+the CAR instance is a self-contained claimable unit needing only the abstract realization.
+
 ## References
 
 - W. Fulton, J. Harris, *Representation Theory: A First Course*, Springer GTM 129 (1991), Lecture 20 - the
@@ -563,5 +699,15 @@ Layers 5, 8 lands.
   isotropic subspaces, and triality for `Spin₈`.
 - J. F. Adams, *Lectures on Exceptional Lie Groups*, Chicago (1996) - triality, the octonions, and the
   trilinear form `V ⊗ S⁺ ⊗ S⁻ → ℂ` on `Spin₈` (the octonion multiplication as the triality form).
+- B. Kostant, *Clifford algebra analogue of the Hopf-Koszul-Samelson theorem, the ρ-decomposition
+  C(𝔤) = End V_ρ ⊗ C(P), and the 𝔤-module structure of ⋀𝔤*, Adv. Math. 125 (1997), 275-350 - the
+  source for Layer 9's isotypy corollary and the full ρ-decomposition it is a corollary of.
+- D. Panyushev, *The exterior algebra and "spin" of an orthogonal 𝔤-module*, Transform. Groups 6
+  (2001), 371-396 - the extension to orthogonal `𝔤`-modules; Prop. 2.4 and Ex. 2.5(1) are exactly
+  the `gl_N`-on-`M_N` worked instance.
+- E. Meinrenken, *Clifford Algebras and Lie Theory*, Springer Ergebnisse 58 (2013), Chapters 5-10 -
+  the modern textbook account of the quadratic realization and the Kostant theory.
+- D. Shlyakhtenko, arXiv:2606.28648 - the CAR-matrix analysis whose `gl_N` representation theory is
+  the motivating application of the Layer 9 worked instance.
 </content>
 </invoke>
