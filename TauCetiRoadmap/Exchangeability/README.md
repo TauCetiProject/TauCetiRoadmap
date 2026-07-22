@@ -66,6 +66,15 @@ with `α` a standard Borel space, prove the de Finetti–Ryll-Nardzewski equival
 --     ConditionallyIID μ X
 ```
 
+**Status (2026-07):** both v1 shapes are implemented **in mixture form**, at the stronger
+`[IsFiniteMeasure μ]`: the `deFinetti` implication as `conditionallyIID_of_exchangeable`, and
+the equivalence as `contractable_iff_conditionallyIID` /
+`contractable_iff_exchangeable_and_conditionallyIID` with the roadmap handles as aliases — see
+*As landed* under Layer 6. TauCeti's landed predicate under the `ConditionallyIID` name is the
+mixture shape (this roadmap's `MixedIID`; see the sequencing note under *Standing hypotheses*),
+so the landed declarations discharge the mixture corollaries; the v1 shapes as stated above —
+concluding the genuine joint-law `ConditionallyIID` — remain open pending the rename.
+
 The standard-Borel hypothesis is on the value space `α`, where the directing measure and
 the conditional distributions live; the public statement keeps `Ω` with only a measurable
 structure. Build the tail-conditional path law via `condDistrib` on `ℕ → α` (standard Borel
@@ -557,6 +566,17 @@ proof. The L¹ and Lᵖ convergence forms (for `f ∈ L¹` / `Lᵖ`, using Mathl
 uniform-integrability and eLp-norm conditional-expectation tools) are follow-up Layer 4
 targets; the L¹ form is what most uses want.
 
+**As landed (2026-07).** The layer is complete in `TauCeti/Probability/Martingale/`
+(`Reverse.lean`, `Crossings/`, `AntitoneLimit.lean`, `Convergence.lean`), namespace
+`MeasureTheory`, at `[IsFiniteMeasure μ]` and with only `𝔽 0 ≤ m₀` assumed (antitonicity
+upgrades it). The review rubric prefers conclusion-descriptive names, so the crossing bound
+landed as `exists_lintegral_upcrossings_condExp_le` and the a.e.-limit existence as
+`exists_integrable_tendsto_ae_condExp_of_antitone`, each keeping its roadmap name
+(`upcrossings_bdd_uniform`, `condExp_exists_ae_limit_antitone`) as an `alias`;
+`ae_limit_is_condexp_iInf` was folded into the proof of `tendsto_ae_condExp_iInf` rather
+than kept as a standalone lemma. Time reversal runs through Mathlib's `Polynomial.revAt`
+(`revProcess`). The L¹ / Lᵖ convergence forms remain open.
+
 ### Layer 5: Koopman operators and invariant σ-algebras
 
 Suggested home:
@@ -689,6 +709,37 @@ The directing-measure theorem should expose a real API, not just an existence pr
 
 This is the default route for the final public API.
 
+**As landed (2026-07).** The martingale route is merged in `TauCeti/Probability/DeFinetti/`
+— `PrefixDeletion.lean`, `FutureFactorization.lean`, `TailFactorization.lean`,
+`CondExpConvergence.lean`, `DirectingMeasure.lean` / `DirectingMeasureCoord.lean`, and
+`BlockFactorization.lean` — rather than under the `ViaMartingale/` file plan above. Three
+route deviations worth recording:
+
+* the contraction-independence step is packaged as Mathlib's `ProbabilityTheory.CondIndep`
+  (`PrefixDeletion.lean`), not a bespoke predicate;
+* the factorization runs at the `blockLaw` level, with general injective selections reduced
+  to strictly monotone prefixes by `Tuple.sort` + `Contractable.map` — so no
+  `iCondIndepFun`-style conditional-independence capstone sits on the critical path;
+* the summit implications landed as `conditionallyIID_of_contractable` and
+  `conditionallyIID_of_exchangeable` on an arbitrary measurable `Ω` at `[IsFiniteMeasure μ]`
+  — exceeding the probability-measure target — via path-space transfer, with the
+  standard-Borel-`Ω` step `private`: exactly the public-statement discipline prescribed in
+  *The end goal* above. Both conclude the **mixture-shaped** predicate that TauCeti currently
+  names `ConditionallyIID` (this roadmap's `MixedIID`), so in the vocabulary above they
+  discharge `mixedIID_of_contractable` and the mixture reading of `deFinetti`; the conditional
+  summit theorems, concluding the joint-law `ConditionallyIID`, remain open pending the
+  rename.
+
+The named equivalences landed in `TauCeti/Probability/DeFinetti/Theorem.lean`:
+`exchangeable_iff_conditionallyIID`, the two-way `contractable_iff_conditionallyIID`, the
+conjunction form `contractable_iff_exchangeable_and_conditionallyIID` derived from it, and the
+roadmap handles `deFinetti` / `deFinetti_equivalence` / `deFinetti_RyllNardzewski_equivalence` as
+`alias`es — all in mixture form, per the previous paragraph. Still open in this layer: the code
+rename to `MixedIID` / `MixedIIDWith` followed by the conditional upgrade (the joint-law
+`ConditionallyIIDWith` targets, i.e. `conditionallyIID_of_exchangeable` in its sharp
+conditional reading), and the directing-measure API beyond existence (a.e. uniqueness,
+the empirical-measure and mixture forms, the extreme-point corollary).
+
 ### Layer 7: public API and examples
 
 Suggested home:
@@ -734,7 +785,12 @@ exchangeable_extreme_iff_iid
 ```
 
 Route-specific theorem names should keep their suffixes. The unsuffixed theorem should be
-the general martingale route.
+the general martingale route. Per the Layer-4 naming pattern, the implementation's
+conclusion-descriptive names (`conditionallyIID_of_contractable`,
+`conditionallyIID_of_exchangeable`, the `_iff_` equivalences — currently mixture-shaped under
+the legacy name, per the Layer 6 *As landed* note) are the primary declarations; the
+roadmap handles (`deFinetti`, `deFinetti_equivalence`, `deFinetti_RyllNardzewski_equivalence`)
+landed as `alias`es over them in `TauCeti/Probability/DeFinetti/Theorem.lean`.
 
 ### Layer 8: generalized exchangeability and representation theorems
 
