@@ -265,8 +265,9 @@ Finite `G`. The finite-dimensionality result and the induced-character formula n
   the trivial representation gives the **left**-coset permutation representation
   `Ind_H^G (trivial) ≅ Rep.ofMulAction k G (G ⧸ H)` on Mathlib's quotient `G ⧸ H`, with `G` acting by left
   translation. Its character at `g` is `#{xH : g • xH = xH}`, the number of fixed cosets; and, over a
-  splitting field with `IsUnit (Nat.card G : k)`, `⟨Ind_H^G 1, 1⟩_G = #(H \ G / H)` via Frobenius
-  reciprocity.
+  splitting field with `IsUnit (Nat.card G : k)`, `⟨Ind_H^G 1, Ind_H^G 1⟩_G = #(H \ G / H)` via
+  Frobenius reciprocity and Mackey (`⟨Ind 1, 1⟩_G` itself is just `1`, by reciprocity against the
+  trivial representation).
 - **Frobenius reciprocity as a character identity.** Over a splitting field with `IsUnit (Nat.card G : k)`,
   for `A : FDRep k S` and `B : FDRep k G`,
   `⟨(indFDRep A).character, B.character⟩_G = ⟨A.character, (res S.subtype B).character⟩_S`, proved from
