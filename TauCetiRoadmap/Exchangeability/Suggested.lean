@@ -11,19 +11,23 @@ and reviewers converge on names and signatures. Discharging every statement here
 finishes a layer nor the roadmap; what the area asks for is what `README.md` says.
 
 This file currently holds suggested forms for: **Layer 0** (the core symmetry notions,
-landed in `TauCeti/Probability/Exchangeability/`), **Layer 1** (the random product kernel
-and the common de Finetti ending — landed: `ConditionallyIIDWith` plus the existential
-wrapper and `ConditionallyIID.of_directing`), **Layer 2** (process tails, the
+landed in `TauCeti/Probability/Exchangeability/`; note TauCeti's landed
+`ConditionallyIIDWith` / `ConditionallyIID` currently pin the *mixture* shape, this file's
+`MixedIIDWith` / `MixedIID` — see the README's sequencing note on the pending rename),
+**Layer 1** (the random product kernel and the common de Finetti endings — the mixture-shaped
+predicate plus the existential wrapper and `ConditionallyIID.of_directing` landed under the
+legacy names), **Layer 2** (process tails, the
 shift-invariant and exchangeable σ-algebras — landed in `TauCeti/Probability/`
 (`Process/Tail`, `Ergodic/ShiftInvariantSigma`, `Exchangeability/PathSpace/ExchangeableSigma`),
 with `tailFamily`/`tailProcess` generalized to dependent codomains `β k`; Hewitt–Savage
 still open), **Layer 4** (the Lévy downward theorem — landed in
 `TauCeti/Probability/Martingale/` as `MeasureTheory.tendsto_ae_condExp_iInf`), and the
 **Layer 6 summit** (de Finetti and the Ryll-Nardzewski equivalence, expressible since
-Layer 0; both landed — `conditionallyIID_of_exchangeable` and the equivalences
+Layer 0; landed in **mixture form** — `conditionallyIID_of_exchangeable` and the equivalences
 `contractable_iff_conditionallyIID` / `contractable_iff_exchangeable_and_conditionallyIID`
 with the roadmap-handle aliases, general `Ω`, `[IsFiniteMeasure μ]`,
-`TauCeti/Probability/DeFinetti/`). These elaborate
+`TauCeti/Probability/DeFinetti/` — while the genuine conditional summit, concluding this
+file's joint-law `ConditionallyIID`, remains open). These elaborate
 against the pinned Mathlib and are stated with `sorry` (allowed in this human-owned
 roadmap library).
 
@@ -89,15 +93,48 @@ def prefixProj (α : Type*) (n : ℕ) (x : ℕ → α) : Fin n → α := fun i =
 /-- **Layer 0, left shift** on path space. -/
 def shift (α : Type*) (x : ℕ → α) : ℕ → α := fun n => x (n + 1)
 
-/-- **Layer 0, conditionally i.i.d.** There is a measurable random probability measure
-`ν : Ω → ProbabilityMeasure α` so that every finite block of distinct coordinates is
-distributed as the `ν`-mixture of the corresponding product measure (the explicit
-finite-index factorization; `ProbabilityMeasure.pi` supplies the product). -/
-def ConditionallyIID (μ : Measure Ω) (X : ℕ → Ω → α) : Prop :=
-  ∃ ν : Ω → ProbabilityMeasure α, Measurable ν ∧
+/-- **Layer 0, mixed i.i.d. with a fixed mixing representative.** Every finite block of
+distinct coordinates is distributed as the `μ`-mixture of `ν`'s finite products (the explicit
+finite-index factorization; `ProbabilityMeasure.pi` supplies the product). An **unconditional**
+identity: it constrains only each block's marginal law, never the joint law of `(ν, X)` — the
+genuine conditional strengthening is `ConditionallyIIDWith` below, and `ν` here is a **mixing
+representative**, not a directing measure. -/
+def MixedIIDWith (μ : Measure Ω) (X : ℕ → Ω → α) (ν : Ω → ProbabilityMeasure α) : Prop :=
+  Measurable ν ∧
     ∀ (m : ℕ) (k : Fin m → ℕ), Function.Injective k →
       μ.map (fun ω => fun i : Fin m => X (k i) ω) =
         μ.bind (fun ω => (ProbabilityMeasure.pi (fun _ : Fin m => ν ω)).toMeasure)
+
+/-- **Layer 0, mixed i.i.d.** (Kallenberg's terminology): some measurable random probability
+measure mixes to the finite-dimensional laws — the existential wrapper over `MixedIIDWith`. -/
+def MixedIID (μ : Measure Ω) (X : ℕ → Ω → α) : Prop :=
+  ∃ ν : Ω → ProbabilityMeasure α, MixedIIDWith μ X ν
+
+/-- **Layer 0, conditionally i.i.d. given `ν` — the genuine conditional notion.** The **joint**
+law of the random measure and each finite distinct block disintegrates as `δ_ν ⊗ ν^{⊗m}`:
+conditionally on `ν`, the block is i.i.d. `ν` (Kallenberg, *Probabilistic Symmetries and
+Invariance Principles* (2005), §1.1 eq. (2) — stated as a joint-law identity, so no conditional
+expectations are needed to define it; Thm 1.1 there is the equivalence with exchangeability).
+Strictly stronger **at fixed `ν`** than `MixedIIDWith`, which constrains only the block's
+marginal law: for a nondegenerate mixing law, on a rich enough space an independent copy of a
+directing measure witnesses the mixture identity while the process is not conditionally i.i.d.
+given it. The term **directing measure** is reserved for a `ν` witnessing this predicate —
+witness-level a.e. uniqueness lives here, never on the mixture side. Equivalence with
+Kallenberg's probabilistic notion is asserted under `[IsProbabilityMeasure μ]` with
+measurable coordinates (as the summit theorems supply); the definition itself stays
+hypothesis-light by design, and under `μ = 0` it degenerates as ordinary measure
+identities do. -/
+def ConditionallyIIDWith (μ : Measure Ω) (X : ℕ → Ω → α)
+    (ν : Ω → ProbabilityMeasure α) : Prop :=
+  Measurable ν ∧
+    ∀ (m : ℕ) (k : Fin m → ℕ), Function.Injective k →
+      μ.map (fun ω => (ν ω, fun i : Fin m => X (k i) ω)) =
+        μ.bind fun ω =>
+          (Measure.dirac (ν ω)).prod (ProbabilityMeasure.pi fun _ : Fin m => ν ω).toMeasure
+
+/-- **Layer 0, conditionally i.i.d.** — the existential wrapper over `ConditionallyIIDWith`. -/
+def ConditionallyIID (μ : Measure Ω) (X : ℕ → Ω → α) : Prop :=
+  ∃ ν : Ω → ProbabilityMeasure α, ConditionallyIIDWith μ X ν
 
 /-- **Layer 0, finite-marginal uniqueness.** Two measures on path space, with `μ` finite,
 agreeing on every finite-dimensional prefix marginal are equal (`ν`'s finiteness is forced by
@@ -124,9 +161,23 @@ example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i)) :
 example (hX : ∀ i, Measurable (X i)) (h : Exchangeable μ X) : Contractable μ X := by
   sorry
 
-/-- **Layer 0 bridge, conditionally i.i.d. ⇒ exchangeable.** Permutation invariance of the
+/-- **Layer 0 bridge, mixed i.i.d. ⇒ exchangeable.** Permutation invariance of the
 finite product measures; will later move to the product-kernel layer once that lands. -/
-example (hX : ∀ i, Measurable (X i)) (h : ConditionallyIID μ X) : Exchangeable μ X := by
+example (hX : ∀ i, Measurable (X i)) (h : MixedIID μ X) : Exchangeable μ X := by
+  sorry
+
+/-- **Layer 0 bridge, conditionally i.i.d. ⇒ mixed i.i.d., at a fixed witness**
+(`mixedIIDWith_of_conditionallyIIDWith`). Project the joint identity to the block coordinate
+(integrate `ν` out) — the theorem matching the fixed-`ν` discussion. The converse **at a fixed
+`ν`** is false for a nondegenerate mixing law (the independent-copy counterexample); the
+existential converse is de Finetti's upgrade `conditionallyIID_of_exchangeable` (Layer 6),
+which produces the canonical directing measure. -/
+example (hX : ∀ i, Measurable (X i)) {ν : Ω → ProbabilityMeasure α}
+    (h : ConditionallyIIDWith μ X ν) : MixedIIDWith μ X ν := by
+  sorry
+
+/-- **Layer 0 bridge, the existential corollary** (`mixedIID_of_conditionallyIID`). -/
+example (hX : ∀ i, Measurable (X i)) (h : ConditionallyIID μ X) : MixedIID μ X := by
   sorry
 
 /-- **Layer 0 bridge, full exchangeability ⇒ shift-preservation** of the path law (the link
@@ -149,10 +200,21 @@ example (ν : Ω → ProbabilityMeasure α) (hν : Measurable ν) (m : ℕ) :
     Measurable fun ω => (ProbabilityMeasure.pi fun _ : Fin m => ν ω).toMeasure := by
   sorry
 
-/-- **Layer 1, the common de Finetti ending.** A measurable random probability measure whose
-mixtures match the finite-dimensional laws on measurable rectangles is a directing measure:
-rectangle agreement upgrades to the full `ConditionallyIID` factorization by the π-system
-argument. Shared by the L², Koopman, and martingale routes. -/
+/-- **Layer 1, joint-kernel measurability.** The conditional common ending additionally needs
+measurability of `ω ↦ δ_{ν ω} ⊗ (ν ω)^{⊗m}` (for `Measure.bind_apply` and measure
+extensionality on the joint space); provable from the Giry measurable structure, measurable
+Dirac, the product-kernel adapter above, and `ProbabilityMeasure.measurable_fun_prod`, with
+no extra hypotheses. -/
+example (ν : Ω → ProbabilityMeasure α) (hν : Measurable ν) (m : ℕ) :
+    Measurable fun ω =>
+      (Measure.dirac (ν ω)).prod (ProbabilityMeasure.pi fun _ : Fin m => ν ω).toMeasure := by
+  sorry
+
+/-- **Layer 1, the mixture common ending** (`mixedIID_of_mixingRepresentative`). A measurable
+random probability measure whose mixtures match the finite-dimensional laws on measurable
+rectangles is a **mixing representative**: rectangle agreement upgrades to the full
+`MixedIIDWith` factorization by the π-system argument. Shared by the L², Koopman, and
+martingale routes. -/
 example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i))
     (ν : Ω → ProbabilityMeasure α) (hν : Measurable ν)
     (h : ∀ (m : ℕ) (k : Fin m → ℕ), Function.Injective k →
@@ -160,7 +222,26 @@ example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i))
         μ.map (fun ω => fun i : Fin m => X (k i) ω) (Set.univ.pi B) =
           μ.bind (fun ω => (ProbabilityMeasure.pi fun _ : Fin m => ν ω).toMeasure)
             (Set.univ.pi B)) :
-    ConditionallyIID μ X := by
+    MixedIIDWith μ X ν := by
+  sorry
+
+/-- **Layer 1, the conditional common ending** (`conditionallyIID_of_jointRectangles`). The
+joint-rectangle criterion: if the joint law of `(ν, block)` agrees with the disintegration
+`δ_ν ⊗ ν^{⊗m}` on rectangles `S ×ˢ univ.pi B` — measurable sets in the `ν` coordinate times
+block rectangles — then `ConditionallyIIDWith μ X ν` holds, again by the π-system argument.
+This is how each proof route's conditional-law identity upgrades to the Layer-6 summit; without
+it the conditional target would be named but unconnected to the routes. -/
+example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i))
+    (ν : Ω → ProbabilityMeasure α) (hν : Measurable ν)
+    (h : ∀ (m : ℕ) (k : Fin m → ℕ), Function.Injective k →
+      ∀ S : Set (ProbabilityMeasure α), MeasurableSet S →
+        ∀ B : Fin m → Set α, (∀ i, MeasurableSet (B i)) →
+          μ.map (fun ω => (ν ω, fun i : Fin m => X (k i) ω)) (S ×ˢ Set.univ.pi B) =
+            μ.bind (fun ω =>
+                (Measure.dirac (ν ω)).prod
+                  (ProbabilityMeasure.pi fun _ : Fin m => ν ω).toMeasure)
+              (S ×ˢ Set.univ.pi B)) :
+    ConditionallyIIDWith μ X ν := by
   sorry
 
 /-! ## Layer 2: process tails, path-space σ-algebras, and Hewitt–Savage -/
@@ -172,11 +253,6 @@ example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i))
 /-- **Layer 2, the tail σ-algebra of the process**: `⋂ n, σ(X i : i ≥ n)`. -/
 @[reducible] def tailProcess (X : ℕ → Ω → α) : MeasurableSpace Ω :=
   ⨅ n, tailFamily X n
-
-/-- **Layer 2, the shift-invariant σ-algebra** on path space. The strictly shift-invariant
-measurable sets already form a σ-algebra; `generateFrom` just packages them. -/
-@[reducible] def shiftInvariantSigma (α : Type*) [MeasurableSpace α] : MeasurableSpace (ℕ → α) :=
-  MeasurableSpace.generateFrom {s | MeasurableSet s ∧ shift α ⁻¹' s = s}
 
 /-- **Layer 2, the exchangeable (symmetric) σ-algebra** on path space: measurable sets
 invariant under every finitely supported permutation of the coordinates. -/
@@ -198,7 +274,8 @@ example (hX : ∀ i, Measurable (X i)) :
 /-- **Layer 2, the path-space σ-algebras are sub-σ-algebras.** (Do not silently identify
 them: for one-sided sequences the tail, shift-invariant, and exchangeable σ-algebras are
 related through invariance, almost invariance, and completions; see `README.md`.) -/
-example : shiftInvariantSigma α ≤ (inferInstance : MeasurableSpace (ℕ → α)) ∧
+example : MeasurableSpace.invariants (shift α) ≤
+      (inferInstance : MeasurableSpace (ℕ → α)) ∧
     exchangeableSigma α ≤ (inferInstance : MeasurableSpace (ℕ → α)) := by
   sorry
 
@@ -233,31 +310,54 @@ example [IsFiniteMeasure μ] {𝔽 : ℕ → MeasurableSpace Ω}
 
 Expressible since Layer 0, so the suggested forms are pinned now; the proof routes and the
 directing-measure API (Layers 3–6 in `README.md`) land in between. The unsuffixed public
-theorem should be the reverse-martingale route. **Status:** the summit is complete — the
-implications `conditionallyIID_of_contractable` / `conditionallyIID_of_exchangeable`
-(`TauCeti/Probability/DeFinetti/BlockFactorization.lean`) and the named equivalences with their
-roadmap-handle aliases (`TauCeti/Probability/DeFinetti/Theorem.lean`), all on an arbitrary
-measurable `Ω` at `[IsFiniteMeasure μ]` — so the suggested forms below carry the achieved
-finite-measure generality.
+theorem should be the reverse-martingale route. **Status:** the **mixture-form** summit is
+complete — the implications `conditionallyIID_of_contractable` /
+`conditionallyIID_of_exchangeable` (`TauCeti/Probability/DeFinetti/BlockFactorization.lean`)
+and the named equivalences with their roadmap-handle aliases
+(`TauCeti/Probability/DeFinetti/Theorem.lean`), all on an arbitrary measurable `Ω` at
+`[IsFiniteMeasure μ]`. TauCeti's landed predicate under the `ConditionallyIID` name is the
+mixture shape (this file's `MixedIID`), so those declarations discharge the mixture
+corollaries; the genuine conditional summit below — concluding this file's joint-law
+`ConditionallyIID` — remains **open**, pending the code rename recorded in the README's
+sequencing note. The landed finite-measure generality is recorded per-target below.
 -/
 
-/-- **Layer 6 summit, de Finetti's theorem** on a standard Borel state space: an
-exchangeable sequence is conditionally i.i.d. **Landed** as
-`conditionallyIID_of_exchangeable` (general `Ω`, `[IsFiniteMeasure μ]`, via path-space
-transfer with the standard-Borel-`Ω` step kept `private`); the roadmap handle `deFinetti`
-landed as an `alias` over it (`DeFinetti/Theorem.lean`), per the Layer-4 naming pattern. -/
-example [IsFiniteMeasure μ] [StandardBorelSpace α] [Nonempty α]
+/-- **Layer 6 summit, the hard route theorem** (`conditionallyIID_of_contractable`): a
+contractable sequence on a standard Borel state space is **conditionally i.i.d.** — the
+Ryll-Nardzewski strengthening of de Finetti, and the statement every proof route actually
+proves before the equivalences are assembled. **Mixture form landed** under this name
+(`DeFinetti/BlockFactorization.lean`, general `Ω`, `[IsFiniteMeasure μ]`, via path-space
+transfer with the standard-Borel-`Ω` step kept `private`): TauCeti's landed predicate is
+the mixture shape, so in this file's vocabulary it discharges `mixedIID_of_contractable`;
+this conditional target stays open pending the rename. -/
+example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
+    (hX : ∀ i, Measurable (X i)) (h_contr : Contractable μ X) :
+    ConditionallyIID μ X := by
+  sorry
+
+/-- **Layer 6 summit, de Finetti's theorem** on a standard Borel state space: an exchangeable
+sequence is **conditionally i.i.d.** — the sharp Kallenberg form (2005, Thm 1.1), concluding
+the joint-law disintegration for the canonical directing measure. The mixed-i.i.d.
+representation is the integrated-out corollary (`mixedIID_of_conditionallyIID`), never the
+summit. **Mixture form landed** as `conditionallyIID_of_exchangeable` with the roadmap
+handle `deFinetti` an `alias` over it (`DeFinetti/Theorem.lean`, general `Ω`,
+`[IsFiniteMeasure μ]`): in this file's vocabulary that discharges the `MixedIID` corollary;
+this conditional target stays open pending the rename. -/
+example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
     (hX : ∀ i, Measurable (X i)) (h_exch : Exchangeable μ X) :
     ConditionallyIID μ X := by
   sorry
 
 /-- **Layer 6 summit, the de Finetti–Ryll-Nardzewski equivalence**:
-`contractable ↔ exchangeable ↔ conditionally i.i.d.` for sequences on a standard Borel
-state space. **Landed** as the conjunction form
-`contractable_iff_exchangeable_and_conditionallyIID`, derived from the two-way
+`contractable ↔ exchangeable ↔ conditionally i.i.d.` for sequences on a standard Borel state
+space. The mixture form `Contractable ↔ Exchangeable ∧ MixedIID` is the integrated-out
+corollary — and it is **landed**, as the conjunction form
+`contractable_iff_exchangeable_and_conditionallyIID` derived from the two-way
 `contractable_iff_conditionallyIID`, with the roadmap handle
-`deFinetti_RyllNardzewski_equivalence` an `alias` (`DeFinetti/Theorem.lean`). -/
-example [IsFiniteMeasure μ] [StandardBorelSpace α] [Nonempty α]
+`deFinetti_RyllNardzewski_equivalence` an `alias` (`DeFinetti/Theorem.lean`, general `Ω`,
+`[IsFiniteMeasure μ]`, mixture-shaped predicate under the legacy name); this conditional
+equivalence stays open pending the rename. -/
+example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
     (hX : ∀ i, Measurable (X i)) :
     Contractable μ X ↔ Exchangeable μ X ∧ ConditionallyIID μ X := by
   sorry
