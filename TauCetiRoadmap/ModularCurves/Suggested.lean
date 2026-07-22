@@ -1,7 +1,7 @@
 import Mathlib
 
 /-!
-# Modular curves, after Katz–Mazur: target signatures
+# Modular curves, following Katz–Mazur: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. The statements here suggest Lean forms for particular milestones, so that

@@ -1,4 +1,4 @@
-# Roadmap: modular curves, after Katz–Mazur
+# Roadmap: modular curves, following Katz–Mazur
 
 Mathlib's algebraic geometry has grown into a real theory of schemes and their morphisms —
 `Scheme`, `Proj` and `Spec`, fibre products, and a morphism-property library covering étale,
