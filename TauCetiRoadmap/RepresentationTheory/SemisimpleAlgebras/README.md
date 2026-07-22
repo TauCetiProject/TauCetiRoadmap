@@ -149,10 +149,15 @@ split by a finite extension, refined to a finite separable one, and by a maximal
 division algebra), from which the **index** `ind A = deg D` is read off. None of these is upstream as
 stated; each object here also gets its basic API, not only the headline theorem.
 
-`Suggested.lean` pins the load-bearing objects (`wedderburnComponents`, `simpleModuleEquivBlock`,
-`endEquivMatrix`, `isCentral_of_isSimpleModule`, `finrank_isSquare`, `tensorOpEquivMatrix`,
-`skolemNoether`, `centralizer_isSimple`, `brauerMul`, `IsSplittingField`, `splits_of_finrank`) and the
-named milestones below as `sorry`-targets.
+`Suggested.lean` pins the load-bearing objects (`card_blocks_eq` with its essential block-positivity
+hypotheses, `simpleModule_linearEquiv_simple_submodule` and `blocks_equiv_simpleModules` — the
+machine-checked block ⇆ simple-module dictionary that `../CharacterTheory` consumes,
+`toModuleEnd_bijective`, `tensorProduct_isSimpleRing`, `finrank_isSquare`, `tensorOp_algEquiv_matrix`,
+`skolemNoether`, `centralizer_isSimpleRing`, `finrank_mul_finrank_centralizer`, `brauerCommGroup`,
+`IsSplittingField`, `isSplittingField_of_isAlgClosed`) and the named milestones below as
+`sorry`-targets; further objects named in the layers (a chosen `WedderburnPresentation`, `brauerMul`
+as a standalone operation, `splits_of_finrank`) are described here and pinned as their types become
+expressible.
 
 ---
 

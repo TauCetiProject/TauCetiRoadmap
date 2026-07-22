@@ -67,12 +67,37 @@ theorem algEquiv_self_of_finiteDimensional_divisionRing {k D : Type u} [Field k]
 
 /-- **Invariance of the block count**: two Wedderburn presentations of the same semisimple ring have
 the same number of blocks. The base case of Wedderburn uniqueness; the degrees and division rings are
-invariants read off the same isotypic decomposition. -/
+invariants read off the same isotypic decomposition. The `NeZero` hypotheses are essential (as in
+Mathlib's `exists_ringEquiv_pi_matrix_divisionRing`): a zero-size block is the trivial ring, so
+without positivity any presentation could be padded with empty blocks and the count would not be an
+invariant. Any chosen-presentation object (README Layer 2) must carry the same positivity for its
+index to be canonical. -/
 theorem card_blocks_eq {R : Type u} [Ring R] [IsSemisimpleRing R]
     {m n : ℕ} {D : Fin m → Type u} {D' : Fin n → Type u}
     [∀ i, DivisionRing (D i)] [∀ i, DivisionRing (D' i)] {d : Fin m → ℕ} {d' : Fin n → ℕ}
+    [∀ i, NeZero (d i)] [∀ i, NeZero (d' i)]
     (e : R ≃+* Π i, Matrix (Fin (d i)) (Fin (d i)) (D i))
     (e' : R ≃+* Π i, Matrix (Fin (d' i)) (Fin (d' i)) (D' i)) : m = n := sorry
+
+/-- **Every simple module is a minimal left ideal**, up to isomorphism: over a semisimple ring, any
+simple module is linearly equivalent to a simple submodule of `R`. The first half of the
+block ⇆ simple-module dictionary consumed by `../CharacterTheory`. -/
+theorem simpleModule_linearEquiv_simple_submodule {R : Type u} [Ring R] [IsSemisimpleRing R]
+    {M : Type u} [AddCommGroup M] [Module R M] [IsSimpleModule R M] :
+    ∃ I : Submodule R R, IsSimpleModule R I ∧ Nonempty (M ≃ₗ[R] I) := sorry
+
+/-- **Blocks enumerate the simple modules**: a Wedderburn presentation with `n` (positive-size) blocks
+yields `n` pairwise non-isomorphic simple submodules of `R` exhausting all simple `R`-modules up to
+isomorphism — `#blocks = #(iso classes of simple modules)`. This is the machine-checked form of the
+counting interface `../CharacterTheory` consumes (`#irreducibles = #conjugacy classes` factors through
+it), promised in prose by the README and the family index. -/
+theorem blocks_equiv_simpleModules {R : Type u} [Ring R] [IsSemisimpleRing R]
+    {n : ℕ} {D : Fin n → Type u} [∀ i, DivisionRing (D i)] {d : Fin n → ℕ} [∀ i, NeZero (d i)]
+    (e : R ≃+* Π i, Matrix (Fin (d i)) (Fin (d i)) (D i)) :
+    ∃ S : Fin n → Submodule R R,
+      (∀ i, IsSimpleModule R (S i)) ∧
+      (∀ i j, Nonempty (S i ≃ₗ[R] S j) → i = j) ∧
+      ∀ I : Submodule R R, IsSimpleModule R I → ∃ i, Nonempty (I ≃ₗ[R] S i) := sorry
 
 /-- **The dimension count** for a finite-dimensional semisimple algebra:
 `finrank K A = ∑ᵢ nᵢ² · finrank K Dᵢ`. -/
@@ -174,7 +199,8 @@ theorem isSplittingField_of_isAlgClosed {K A L : Type u} [Field K] [Field L] [Is
 /-- `ℍ[ℝ]` is central over `ℝ`. -/
 theorem quaternion_isCentral : Algebra.IsCentral ℝ (Quaternion ℝ) := sorry
 
-/-- `ℍ[ℝ]` has dimension `4` over `ℝ` (degree `2`). -/
+/-- `ℍ[ℝ]` has dimension `4` over `ℝ` (degree `2`). Consume, don't build: this is Mathlib's
+`Quaternion.finrank_eq_four`; the target stays only as the worked example's stepping stone. -/
 theorem quaternion_finrank : Module.finrank ℝ (Quaternion ℝ) = 4 := sorry
 
 /-- `ℍ[ℝ] ⊗ ℍ[ℝ] ≃ M₄(ℝ)`, so the Brauer class `[ℍ]` has order `2` (using `ℍ ≃ ℍᵒᵖ`); `[ℍ]` generates
