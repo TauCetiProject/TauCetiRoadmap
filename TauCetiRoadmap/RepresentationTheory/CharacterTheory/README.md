@@ -27,7 +27,7 @@ anywhere.
 This roadmap builds that theory and ends at an **executable, proven-correct** character-table
 algorithm: a Lean function that `#eval`s to the character table of a concrete finite group, together with
 a theorem that its output is *the* character table. The vehicle is the **Burnside-Dixon-Schneider
-algorithm**: the irreducible characters are read off the common eigenvectors of the commuting
+algorithm**: the irreducible characters are read off the common left eigenrows of the commuting
 class-multiplication matrices, a computation Dixon reduces to linear algebra over a finite field
 `ZMod p` and then lifts to the cyclotomic integers. Reaching a proven-correct solver forces the whole
 classical theory first, because correctness is proved by showing the computed table satisfies a
@@ -223,7 +223,11 @@ normality and `frobeniusKernel_isComplement'`, and `GL2Borel`, `GL2PrincipalSeri
 - **`k[G] ≅ ∏ᵢ Matₙᵢ(k)`.** Compose Maschke with `exists_algEquiv_pi_matrix_of_isAlgClosed`
   (`k` algebraically closed, `char ∤ |G|`), a **noncomputable** algebra equivalence over a finite index
   set of isomorphism classes of simple `k[G]`-modules; and `∑ᵢ nᵢ² = |G|` by comparing `k`-dimensions
-  (`finrank k k[G] = |G|`).
+  (`finrank k k[G] = |G|`). Dependency clarification: this layer consumes **Mathlib's**
+  Artin-Wedderburn directly; the `../SemisimpleAlgebras` roadmap is not a prerequisite for it. What
+  that roadmap supplies to this one is the machine-checked block ⇆ simple-module dictionary
+  (`blocks_equiv_simpleModules` there), which the Layer 2.5 indexing may consume instead of
+  reproving.
 - **Layer 2.5: irreducible-indexing infrastructure.** A type `Irreps k G` of isomorphism classes of
   simple `k[G]`-modules with `character : Irreps k G → ClassFunction k G`, `degree : Irreps k G → ℕ`,
   and the equivalence with the Wedderburn block index; `char_orthonormal` imported through it. Everything
@@ -297,12 +301,16 @@ packages the checker. It is stated over `ℂ`; deliverable C computes it.
   `KᵢKⱼ = ∑ₖ aᵢⱼᵏ Kₖ`: `ωᵪ(Kᵢ) ωᵪ(Kⱼ) = ∑ₖ aᵢⱼᵏ ωᵪ(Kₖ)`. Prove this first; it is the algebraic fact the
   eigenvector theorem rests on.
 - **Class-multiplication matrices, with a pinned convention.** `classMultMatrix i`, `(Mᵢ)ⱼₖ = aᵢₖⱼ`
-  (transpose convention fixed as API, not prose), acting on **column** vectors. The `{Mᵢ}` commute
-  (center commutative). Then, from the coordinate identity, the column vector
-  `vᵪ = (ωᵪ(K₁), …, ωᵪ(Kᵣ))ᵀ` satisfies `Mᵢ vᵪ = ωᵪ(Kᵢ) vᵪ` - proved as a theorem *after* the coordinate
-  identity, with indices explicit - and the `{vᵪ}` are a basis of common eigenvectors. Conversely the
-  common eigenvectors of `{Mᵢ}` are exactly the `{vᵪ}` up to scale.
-- **Normalization and degree recovery.** Normalize each eigenvector by `ωᵪ(K₁) = 1` (the identity class).
+  (transpose convention fixed as API, not prose), acting on **row vectors from the left** (`ᵥ*`,
+  `Matrix.vecMul`). The `{Mᵢ}` commute (center commutative). Then, from the coordinate identity and
+  commutativity of the class algebra, the row vector `vᵪ = (ωᵪ(K₁), …, ωᵪ(Kᵣ))` satisfies
+  `vᵪ ᵥ* Mᵢ = ωᵪ(Kᵢ) vᵪ` — the **rows** of `Ω` are common **left** eigenvectors — proved as a theorem
+  *after* the coordinate identity, with indices explicit — and the `{vᵪ}` are a basis of common left
+  eigenvectors. Conversely the common left eigenvectors of `{Mᵢ}` are exactly the `{vᵪ}` up to scale
+  (`normalized_eigenrow_iff_algHom`). Do not mix in the column/`*ᵥ` convention: that would require
+  the transposed matrix `(Mᵢ)ⱼₖ = aᵢⱼₖ` instead; either pairing of (matrix, action side) is valid,
+  but exactly one is pinned here.
+- **Normalization and degree recovery.** Normalize each eigenrow by `ωᵪ(K₁) = 1` (the identity class).
   Then `dᵪ² = |G| / ∑ⱼ |Cⱼ|⁻¹ ωᵪ(Kⱼ) ωᵪ(Kⱼ⁻¹)` recovers only the *square* of the degree; the checker
   additionally **requires** `dᵪ ∈ ℕ`, `dᵪ > 0`, `dᵪ ∣ |G|`, and `∑ᵪ dᵪ² = |G|`, which pin the degree
   and hence, via `χ(gⱼ) = dᵪ · ωᵪ(Kⱼ) / |Cⱼ|`, the ordinary character table `X` from the central table
@@ -381,7 +389,8 @@ Layer 4 pins the indicator `ν₂(χ) = |G|⁻¹ ∑_g χ(g²)` as a `def` and u
 This layer proves what it measures.
 
 - **The indicator on the module spine.** `frobeniusSchurIndicatorRep ρ = |G|⁻¹ ∑_g ρ.character (g²)` for
-  `ρ : Representation ℂ G V`, agreeing with the existing `FDRep`-level `frobeniusSchurIndicator` under
+  `ρ : Representation ℂ G V`, agreeing with the `FDRep`-level `frobeniusSchurIndicator` (also a build target here: Mathlib has no
+  Frobenius-Schur indicator) under
   `Rep.equivalenceModuleMonoidAlgebra`. This is the computation-friendly form; state both and their equality.
 - **The symmetric and exterior squares (a build target, not consumed).** Mathlib has no character-level
   `Sym²`/`Λ²` of a representation, so this layer **builds** the symmetric- and exterior-square
