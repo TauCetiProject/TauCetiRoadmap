@@ -160,15 +160,15 @@ locally isomorphic **in `𝒱`** — presheaf and stalk valuations included, not
 homeomorphic — to affinoids; morphisms, open subspaces, gluing, and the open unit disc as the
 first glued non-affinoid example. Specified in `README.md` §Layer 5. -/
 
-/-! ## Layer 6: uniformity and the finite-jet pinching example ([FJP]; Buzzard–Verberkmoes)
+/-! ## Layer 6: uniformity, Buzzard–Verberkmoes, and the finite-jet stress test ([BV]; [FJP])
 
 `IsUniform` (`A°` bounded) and `IsStablyUniform`; the Buzzard–Verberkmoes theorem (stably
-uniform ⇒ sheafy); the finite-jet pinching square over `K = F⸨t⸩` — `𝓐 = 𝓑 ×_𝓓 𝓒` with its
-strict Milnor row — and the headline theorems: `𝓐` is a uniform non-noetherian domain,
-`(𝓐, 𝓐°)` is **sheafy** by Milnor-square transfer from strongly noetherian vertices, `𝓐` is
-**not stably uniform** (`𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` is sheafy but not uniform), and strong
-sheafiness (`𝓐⟨T₁, …, Tₙ⟩` sheafy for all `n`). Sheafy ⇏ stably uniform — the answer to
-Hansen–Kedlaya Remark 3.16. The rings need Layers 0 and 3, so the statements are specified in
-`README.md` §Layer 6 and built there. -/
+uniform ⇒ sheafy), this layer's theorem. The layer closes with a suggested worked example
+stress-testing Layers 0–4 end to end: the finite-jet pinching algebra `𝓐 = 𝓑 ×_𝓓 𝓒` over
+`K = F⸨t⸩` ([FJP]) — a uniform non-noetherian domain, **sheafy** by Milnor-square transfer
+from strongly noetherian vertices (two non-reduced, exercising Layer 4's hypotheses as
+pinned), and **not stably uniform** (`𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` is sheafy but not uniform) — so
+sheafy ⇏ stably uniform, answering Hansen–Kedlaya Remark 3.16. The rings need Layers 0 and 3,
+so the statements are specified in `README.md` §Layer 6 and built there. -/
 
 end TauCetiRoadmap.AdicSpaces

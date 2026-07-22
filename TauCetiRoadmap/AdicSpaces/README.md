@@ -14,13 +14,14 @@ and the **sheafiness** question, the sheafiness theorem for **strongly noetheria
 mathlib4 PR is building it (checked 2026-07-21; the Lean 3 perfectoid-spaces project of
 Buzzard–Commelin–Massot did construct `Spa` and its presheaf, but was never ported).
 
-This roadmap builds that theory, up to and including four headline theorems: the structure
-presheaf of a **complete strongly noetherian Tate** affinoid pair is a **sheaf**; **Tate
-acyclicity** (the augmented Čech complex of a rational cover is exact in all degrees); the
-definition of **adic spaces** as locally-affinoid objects of Huber's category `𝒱`; and the
-**finite-jet pinching example** — a uniform, non-noetherian, sheafy Tate ring that is **not**
-stably uniform, answering the question of Hansen–Kedlaya (*Sheafiness criteria for Huber rings*,
-Remark 3.16) and separating "sheafy" from the Buzzard–Verberkmoes criterion. The sources are
+This roadmap builds that theory. The headline is **Tate acyclicity** in Huber's generality:
+for a **complete strongly noetherian Tate** affinoid pair, the augmented Čech complex of every
+finite rational cover is exact in **all** degrees — with the theorem that the structure
+presheaf is a **sheaf** as its degree-`≤ 1` shadow — and, on top of sheafiness, the definition
+of **adic spaces** as locally-affinoid objects of Huber's category `𝒱`. The closing layer
+stress-tests the definitions on a suggested worked example, the **finite-jet pinching
+algebra** of [FJP]: a uniform, non-noetherian, sheafy Tate ring that is not stably uniform
+(answering Hansen–Kedlaya, *Sheafiness criteria for Huber rings*, Remark 3.16). The sources are
 T. Wedhorn, *Adic Spaces* (arXiv:1910.05934) — whose section numbering is this roadmap's shared
 coordinate system — and R. Huber's original papers ([Hu1], [Hu2], [Hu3] below); the mathematics
 is theirs, but the specification is a **thorough, Mathlib-style API** for each object, not a
@@ -30,7 +31,7 @@ transcription of either.
 already carried this program a long way in Lean 4 — sorry-free foundations for Huber rings,
 `Spv` **built directly on Mathlib's `ValuativeRel`**, `Spa`, rational subsets, restricted power
 series and strong noetherianness, and a sorry-free formalization of the finite-jet pinching
-headlines — with the structure presheaf, spectrality, and full acyclicity as its open frontier.
+example — with the structure presheaf, spectrality, and full acyclicity as its open frontier.
 This roadmap specifies the mathematics intrinsically; the provenance section maps each layer to
 that code as material to migrate and complete, never as the standard.
 
@@ -43,8 +44,7 @@ generic fibres, and GAGA. Berkovich spaces and the comparison functors. Fibre pr
 spaces (they need stability theorems for sheafiness that do not exist classically in useful
 generality). Huber's *other* sheafiness cases — rings with a noetherian ring of definition
 ([Hu2] Theorem 2.2(i)) and the stably-uniform-plus refinements beyond Buzzard–Verberkmoes — are
-excluded so this roadmap has one spine: the strongly noetherian Tate case plus the [FJP]
-counterpoint.
+excluded so this roadmap has one spine: the strongly noetherian Tate case.
 
 Suggested home: `TauCeti/RingTheory/Huber/` for the ring-level theory,
 `TauCeti/AlgebraicGeometry/AdicSpace/` for `Spv`/`Spa`/presheaf/spaces (mirroring Mathlib's
@@ -290,37 +290,33 @@ of integral elements.
   adic space via Layer 4; the open disc as an increasing union of closed discs — the first
   genuinely glued, non-affinoid adic space, exercising the gluing API.
 
-### Layer 6: uniformity and the finite-jet pinching example ([FJP]; [BV]; [HK])
+### Layer 6: uniformity, Buzzard–Verberkmoes, and the finite-jet stress test ([BV]; [FJP]; [HK])
 
-The counterpoint to Layer 4: sheafiness is *not* controlled by the known criteria.
+Uniformity completes the basic theory of Huber pairs; the layer closes with a suggested
+worked example exercising everything built above.
 
 - **Uniformity.** `IsUniform A` (`A°` bounded, Wedhorn Definition 7.36) and
   `IsStablyUniform (A, A⁺)` (every rational localization `A⟨T/s⟩` is uniform, Definition 7.37;
   both sorry-free in the provenance); basic stability and the discrete case.
 - **Buzzard–Verberkmoes.** Stably uniform complete Tate pairs are sheafy ([BV], J. reine angew.
-  Math. 740 (2018); in the bounded-denominator formulation that [FJP] §1 translates). This is
-  the criterion the finite-jet example is built to evade, so it is proved, not merely cited.
-- **The finite-jet pinching square.** Over `K = F⸨t⸩` (any field `F`; `K` complete discretely
-  valued): `L = K⟨W, W⁻¹⟩` the radius-one restricted Laurent algebra, `𝓑 = K⟨W, Q⟩/(Q²)`
-  (realised as dual numbers `DualNumber (K⟨W⟩)` with the max norm), `𝓒 = L⟨Q⟩`,
-  `𝓓 = L⟨Q⟩/(Q²) = DualNumber L`, and the pinching algebra
-  **`𝓐 = 𝓑 ×_𝓓 𝓒`** — concretely the closed subring of `𝓒` of series whose `Q⁰`- and
-  `Q¹`-coefficients have nonnegative `W`-support ([FJP] §1.4–§2, (1.8)) — with the **strict
-  Milnor row** `0 → 𝓐 → 𝓑 ⊕ 𝓒 → 𝓓 → 0`, exact with all norm constants `1` ([FJP] Prop 2.1).
-  Each of `𝓑, 𝓒, 𝓓` is complete strongly noetherian Tate (two of them non-reduced — Layer 4's
-  theorem must apply to them, which is why it carries no reducedness hypothesis).
-- **The headline theorems** ([FJP] Theorem 1.3, one conclusion per declaration): `𝓐` is a
-  **uniform**, **non-noetherian** **domain**; `(𝓐, 𝓐°)` is **sheafy** — proved by
-  **transferring the sheaf condition across the Milnor square** from the three strongly
-  noetherian vertices, each sheafy by Layer 4; and `𝓐` is **not stably uniform**: the rational
-  localization `𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` (`X = W/ϖ`; [FJP] Prop 3.1) is strongly noetherian and
-  sheafy but not uniform — `Q·f` is nilpotent hence power-bounded for every `f`, so `A°` is
-  unbounded. Together: **a sheafy Tate ring need not be stably uniform**, answering [HK]
-  Remark 3.16 and showing Layer 4 and [BV] each cover ground the other does not.
-- **Strong sheafiness.** `𝓐⟨T₁, …, Tₙ⟩` is sheafy for every `n` ([FJP] Corollary 5.5) — the
-  full "strongly sheafy" claim of the paper's title, by the same Milnor-square transfer over
-  the polydisc localizations. (The provenance stops short of this; it is work to be done here,
-  and the layer is not discharged without it.)
+  Math. 740 (2018), in its bounded-denominator formulation) — the standard sheafiness
+  criterion complementary to Layer 4, and this layer's theorem.
+- **The finite-jet stress test.** A suggested worked example that exercises Layers 0–4 end to
+  end — every definition, and the sheafiness theorem in its full non-reduced generality — from
+  [FJP] (references; the construction is specified self-containedly here because the preprint
+  is not public). Over `K = F⸨t⸩`: `L = K⟨W, W⁻¹⟩`, `𝓑 = K⟨W, Q⟩/(Q²)`, `𝓒 = L⟨Q⟩`,
+  `𝓓 = L⟨Q⟩/(Q²)`, and the pinching algebra **`𝓐 = 𝓑 ×_𝓓 𝓒`** — concretely the closed
+  subring of `𝓒` of series whose `Q⁰`- and `Q¹`-coefficients have nonnegative `W`-support —
+  with its strict Milnor row `0 → 𝓐 → 𝓑 ⊕ 𝓒 → 𝓓 → 0`, exact with all norm constants `1`. The
+  test ([FJP] Theorem 1.3, one conclusion per declaration): `𝓐` is a **uniform**,
+  **non-noetherian** **domain**; `(𝓐, 𝓐°)` is **sheafy**, by transferring the sheaf condition
+  across the Milnor square from the three vertices — each complete strongly noetherian Tate,
+  two of them non-reduced, so each sheafy by exactly Layer 4's theorem as pinned; and `𝓐` is
+  **not stably uniform**, witnessed by `𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` (`X = W/ϖ`) — strongly
+  noetherian and sheafy but not uniform (`Q·f` is nilpotent hence power-bounded for every `f`,
+  so its `A°` is unbounded). The example shows **sheafy ⇏ stably uniform**, answering [HK]
+  Remark 3.16, and certifies that Layer 4 and [BV] each cover ground the other does not. Its
+  strong-sheafiness refinement ([FJP] Corollary 5.5) is deliberately **not** a target.
 
 ---
 
@@ -338,9 +334,11 @@ The counterpoint to Layer 4: sheafiness is *not* controlled by the known criteri
 - **Sheafiness with a nilpotent.** Layer 4's theorem applied to `K⟨X, Q⟩/(Q²)` — non-reduced,
   strongly noetherian, Tate — produces a sheafy pair that is *not* uniform: the hypotheses of
   the headline were pinned correctly.
-- **The [FJP] punchline.** `(𝓐, 𝓐°)` sheafy, `𝓐` uniform non-noetherian domain, `𝓐⟨W/ϖ⟩` not
-  uniform (`finiteJet_isSheafy`, `finiteJet_isUniform`, `finiteJet_not_noetherian`,
-  `finiteJet_not_stablyUniform`) — sheafy ⇏ stably uniform, [HK] Remark 3.16 answered in Lean.
+- **The finite-jet stress test.** `(𝓐, 𝓐°)` sheafy, `𝓐` uniform non-noetherian domain,
+  `𝓐⟨W/ϖ⟩` not uniform (`finiteJet_isSheafy`, `finiteJet_isUniform`,
+  `finiteJet_not_noetherian`, `finiteJet_not_stablyUniform`) — the definitions survive a
+  worked example that Layer 4 alone and [BV] alone cannot reach, and [HK] Remark 3.16 is
+  answered in Lean.
 - **A glued adic space.** The open unit disc over `ℚ_p` as an increasing union of closed discs —
   a non-affinoid adic space built by the Layer-5 gluing API.
 
@@ -353,9 +351,9 @@ foundation. Layer 1 (`Spv` and its spectrality) needs only Mathlib's `ValuativeR
 restricted series and completions. Layer 4 (the sheafiness theorem and Tate acyclicity)
 consumes Layer 3, Layer 0's open mapping theorem and strong noetherianness, and Mathlib's
 noetherian-completion flatness. Layer 5 (adic spaces) consumes Layers 3–4 (sheafy pairs give
-affinoids). Layer 6 (uniformity, [BV], the finite-jet example) consumes Layers 3–4 in full —
-its vertices are Layer-4 instances — and is independent of Layer 5. The two headline strands
-(Layers 4–5 and Layer 6) can proceed in parallel once Layer 3 lands.
+affinoids). Layer 6 (uniformity, [BV], and the stress-test example) consumes Layers 3–4 in
+full — the example's vertices are Layer-4 instances — and is independent of Layer 5, so it can
+proceed in parallel with the headline strand (Layers 4–5) once Layer 3 lands.
 
 ## References
 
@@ -377,7 +375,7 @@ its vertices are Layer-4 instances — and is independent of Layer 5. The two he
 - D. Hansen, K. Kedlaya, *Sheafiness criteria for Huber rings* (preprint, 2025 version) —
   [HK]: Remark 3.16 is the question Layer 6 answers.
 - **[FJP]** *Finite-jet pinching: a uniform strongly sheafy domain which is not stably uniform*
-  (anonymous preprint, 16 July 2026, 27 pp.) — the Layer-6 example. ⚠ Unpublished and not
+  (anonymous preprint, 16 July 2026, 27 pp.) — the Layer-6 stress-test example. ⚠ Unpublished and not
   publicly posted; the PDF is held by the maintainers and available to contributors on request.
   The roadmap therefore specifies the construction and statements **self-containedly above**,
   and the formalization is the referee: the paper's proofs are to be checked adversarially,
@@ -448,12 +446,13 @@ scope and are not migration targets.
   `FiniteJetUniformDomain.lean`, `FiniteJetNoetherianVertices.lean`,
   `FiniteJetStrictLocalization.lean` (`𝓐⟨W/ϖ⟩ ≅ K⟨X,Q⟩/(Q²)`), `FiniteJetSheafTransfer.lean`
   (the Milnor-square sheaf transfer), `FiniteJetChart.lean`, `FiniteJetGraphKoszul.lean`,
-  `Milnor/StrictMilnorSquare.lean`, and the headline exports in `FiniteJetMain.lean`
+  `Milnor/StrictMilnorSquare.lean`, and the capstone exports in `FiniteJetMain.lean`
   (`finiteJet_isSheafy`, `finiteJet_isUniform`, `finiteJet_isDomain`,
   `finiteJet_not_noetherian`, `finiteJet_not_stablyUniform`). ⚠ These consume the 828b
   capstone and the `IsSheafy` infrastructure, so their effective status inherits the Layer-3/4
-  audit above; `[FJP] Corollary 5.5` (strong sheafiness) is not attempted there. The `[BV]`
-  theorem is likewise absent from the provenance and is built here.
+  audit above; `[FJP] Corollary 5.5` (strong sheafiness) is not attempted there, and is not a
+  target here either (§Layer 6). The `[BV]` theorem is absent from the provenance and is built
+  here.
 - **Vendored inputs.** `Vendored/Coram*`/`Vendored/Xia*` (Gauss-norm and `MvPowerSeries`
   equivalence material) — check for upstream Mathlib overlap (e.g.
   `PowerSeries.IsRestricted`) at migration time rather than porting blindly.
