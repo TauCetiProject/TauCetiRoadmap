@@ -642,7 +642,7 @@ A contributor can build `𝕆`, `G₂ = Der(𝕆)`, and its `7` as a self-contai
 - J.-P. Serre, *Complex Semisimple Lie Algebras*, Springer (1987), the concise development of `sl₂`,
   root systems, and the highest-weight classification.
 - W. Fulton, J. Harris, *Representation Theory: A First Course*, Springer GTM 129 (1991), `sl₂`,
-  `sl₃` weight diagrams (Lectures 11-12), the classical-series representations, and the Weyl character
+  `sl₃` weight diagrams (Lectures 12-13), the classical-series representations, and the Weyl character
   and dimension formulas (Lecture 25) with many worked examples; the source for the `sl₃` acceptance
   criteria.
 - J. E. Humphreys, *Representations of Semisimple Lie Algebras in the BGG Category O*, AMS GSM 94

@@ -43,8 +43,10 @@ universe u
 
 Built first and in full, because Layers 2, 4, and 5 reduce to it. The worked `sl₂` is
 `LieAlgebra.SpecialLinear.sl (Fin 2) K` with its standard triple; here we state the results for an
-arbitrary `sl₂` triple `t : IsSl2Triple h e f`, so they apply verbatim to the triples attached to
-roots (`exists_isSl2Triple_of_weight_isNonZero`). -/
+arbitrary `sl₂` triple `t : IsSl2Triple h e f`. Only the integer-spectrum statement applies verbatim
+to the triples attached to roots (`exists_isSl2Triple_of_weight_isNonZero`); the finrank and
+classification statements require irreducibility **over the triple's own subalgebra** and are false
+for modules merely irreducible over the ambient `L` (see their docstrings). -/
 
 section Sl2
 
@@ -59,20 +61,30 @@ spectrum, and is the fact Layer 2 restricts to along each root. -/
 theorem sl2_hAction_eigenvalue_isInt [FiniteDimensional K M] {μ : K}
     (hμ : (toEnd K L M h).HasEigenvalue μ) : ∃ n : ℤ, μ = (n : K) := sorry
 
-/-- **Dimension of the highest weight module.** A finite-dimensional irreducible with a highest
-weight (primitive) vector of weight `n` is `(n+1)`-dimensional (the module `V(n)`). -/
-theorem sl2_finrank_of_hasPrimitiveVector [FiniteDimensional K M] [LieModule.IsIrreducible K L M]
+/-- **Dimension of the highest weight module.** A finite-dimensional module, **irreducible over the
+sl₂ subalgebra of the triple itself**, with a highest weight (primitive) vector of weight `n` is
+`(n+1)`-dimensional (the module `V(n)`). Irreducibility over an ambient `L` would not suffice: for
+`L = sl₃` acting on its 8-dimensional adjoint module, the highest-root vector is primitive of weight
+`1` for the `α₁`-triple, and `8 ≠ 2` — the restricted irreducibility is the minimal correct
+hypothesis (`htop : t.toLieSubalgebra K = ⊤` is the special case where the two coincide). -/
+theorem sl2_finrank_of_hasPrimitiveVector [FiniteDimensional K M]
+    [LieModule.IsIrreducible K (t.toLieSubalgebra K) M]
     {m : M} {n : ℕ} (P : t.HasPrimitiveVectorWith m (n : K)) :
     Module.finrank K M = n + 1 := sorry
 
-/-- **Highest weight determines the irreducible.** Two finite-dimensional irreducibles with primitive
-vectors of the same weight `n` are isomorphic: the classification `{fin-dim irreducibles}/≅ ≃ ℕ`. -/
+/-- **Highest weight determines the irreducible.** Two finite-dimensional modules, irreducible over
+the triple's sl₂ subalgebra, with primitive vectors of the same weight `n` are isomorphic **as
+modules over that subalgebra**: the classification `{fin-dim sl₂-irreducibles}/≅ ≃ ℕ`. The
+conclusion cannot be an `L`-equivalence under the restricted hypothesis (the actions outside the
+sl₂ may differ); the `L`-level statement requires `htop : t.toLieSubalgebra K = ⊤`, under which this
+statement specializes to it. -/
 theorem sl2_irreducible_ext {M' : Type u} [AddCommGroup M'] [Module K M'] [LieRingModule L M']
     [LieModule K L M'] [FiniteDimensional K M] [FiniteDimensional K M']
-    [LieModule.IsIrreducible K L M] [LieModule.IsIrreducible K L M']
+    [LieModule.IsIrreducible K (t.toLieSubalgebra K) M]
+    [LieModule.IsIrreducible K (t.toLieSubalgebra K) M']
     {m : M} {m' : M'} {n : ℕ} (P : t.HasPrimitiveVectorWith m (n : K))
     (P' : t.HasPrimitiveVectorWith m' (n : K)) :
-    Nonempty (M ≃ₗ⁅K,L⁆ M') := sorry
+    Nonempty (M ≃ₗ⁅K, t.toLieSubalgebra K⁆ M') := sorry
 
 /-- **Existence of `V(n)`.** For each `n`, the standard `(n+1)`-dimensional irreducible with a
 primitive vector of weight `n` exists (as `Symⁿ` of the standard module, or on `Kⁿ⁺¹`). Complete
@@ -153,7 +165,9 @@ def borelSubalgebra (base : (LieAlgebra.IsKilling.rootSystem H).Base) : LieSubal
 `IsSl2Triple.HasPrimitiveVectorWith`. -/
 def IsHighestWeightVector (base : (LieAlgebra.IsKilling.rootSystem H).Base) (lam : Module.Dual K H)
     {M : Type u} [AddCommGroup M] [Module K M] [LieRingModule L M] [LieModule K L M] (v : M) :
-    Prop := sorry
+    Prop :=
+  v ≠ 0 ∧ (∀ x : H, ⁅(x : L), v⁆ = lam x • v) ∧
+    ∀ x ∈ positiveNilradical base, ⁅x, v⁆ = 0
 
 /-- **The Verma module** `M(λ) = U(L) ⊗_{U(𝔟)} K_λ` for the Borel `𝔟 = borelSubalgebra base`, the
 universal highest weight module. Presented here as an opaque carrier with its `L`-module structure; its
@@ -177,6 +191,17 @@ theorem exists_isHighestWeightVector_vermaModule (base : (LieAlgebra.IsKilling.r
     (lam : Module.Dual K H) :
     ∃ v : vermaModule base lam, IsHighestWeightVector base lam v := sorry
 
+/-- **The Verma universal property**, pinned (previously prose-only, though it is the load-bearing
+characterization Layer 7's central-character construction depends on): maps out of `M(λ)` correspond
+to highest weight vectors of weight `λ` in the target, by evaluation at the canonical vector. The
+freeness of `M(λ)` over `U(n⁻)` is the companion structural target, stated once a `U(n⁻)`-module
+structure on the carrier is fixed. -/
+theorem vermaModule_universal (base : (LieAlgebra.IsKilling.rootSystem H).Base)
+    (lam : Module.Dual K H) {M : Type u} [AddCommGroup M] [Module K M] [LieRingModule L M]
+    [LieModule K L M] (v : M) (hv : IsHighestWeightVector base lam v) :
+    ∃! φ : vermaModule base lam →ₗ⁅K,L⁆ M,
+      ∀ w : vermaModule base lam, IsHighestWeightVector base lam w → ∃ c : K, φ w = c • v := sorry
+
 /-- **The irreducible quotient** `L(λ)`: the unique irreducible quotient of `M(λ)`, obtained by
 quotienting by the unique maximal submodule. -/
 def irreducibleQuotient (base : (LieAlgebra.IsKilling.rootSystem H).Base) (lam : Module.Dual K H) :
@@ -195,6 +220,14 @@ noncomputable instance (base : (LieAlgebra.IsKilling.rootSystem H).Base) (lam : 
 theorem isIrreducible_irreducibleQuotient (base : (LieAlgebra.IsKilling.rootSystem H).Base)
     (lam : Module.Dual K H) :
     LieModule.IsIrreducible K L (irreducibleQuotient base lam) := sorry
+
+/-- `L(λ)` **is a highest weight module of weight `λ`** — without this pin, any family of pairwise
+non-isomorphic irreducibles would discharge the `irreducibleQuotient` targets; this is the
+anti-vacuity companion of `isIrreducible_irreducibleQuotient` and
+`irreducibleQuotient_nonempty_equiv_iff`. -/
+theorem exists_isHighestWeightVector_irreducibleQuotient
+    (base : (LieAlgebra.IsKilling.rootSystem H).Base) (lam : Module.Dual K H) :
+    ∃ v : irreducibleQuotient base lam, IsHighestWeightVector base lam v := sorry
 
 /-- **The classification of irreducible highest weight modules.** `L(λ) ≅ L(μ)` iff `λ = μ`. -/
 theorem irreducibleQuotient_nonempty_equiv_iff (base : (LieAlgebra.IsKilling.rootSystem H).Base)
@@ -277,7 +310,11 @@ theorem casimirElement_mem_center :
 
 /-- **Weyl's complete reducibility theorem.** Every finite-dimensional module over a
 Killing-semisimple Lie algebra in characteristic zero is a direct sum of irreducibles: every
-submodule has a complement. Proved via the Casimir element; the `sl₂` case is its rank-one instance. -/
+submodule has a complement. Proved via the Casimir element; the `sl₂` case is its rank-one instance.
+Hypothesis note for the implementation: this theorem and the Casimir pair above need only
+semisimplicity and characteristic zero — the section-blanket `[IsAlgClosed K]` and
+`[IsTriangularizable K H L]` are not required and should be shed when the code lands (they sit here
+only because the roadmap section fixes them for the weight theory). -/
 theorem weyl_complete_reducibility {M : Type u} [AddCommGroup M] [Module K M] [LieRingModule L M]
     [LieModule K L M] [FiniteDimensional K M] (N : LieSubmodule K L M) :
     ∃ N' : LieSubmodule K L M, IsCompl N N' := sorry
@@ -289,9 +326,26 @@ multiplicities, by `isSemisimple_toEnd_cartan`), an element of the integral grou
 lattice. Additive on short exact sequences, multiplicative on tensor products, and Weyl-invariant. -/
 noncomputable def formalCharacter {M : Type u} [AddCommGroup M] [Module K M] [LieRingModule L M]
     [LieModule K L M] [FiniteDimensional K M] : AddMonoidAlgebra ℤ (Module.Dual K H) := sorry
+-- The carrier is the group algebra of the whole dual, a faithful over-embedding of the README's
+-- `ℤ[X]` (the weight lattice `X` group algebra): all characters land in the lattice part.
+
+/-- **Multiplicativity of the formal character** (coverage: the representation-ring interface): on
+tensor products, `ch (M ⊗ N) = ch M · ch N`. Together with additivity on short exact sequences this
+makes `formalCharacter` the character homomorphism from the Grothendieck **ring** of
+finite-dimensional `L`-modules into `ℤ[X]` — the multiplicative structure the family index promises
+(the finite-group representation ring itself is pinned in `../CharacterTheory`); Racah-Speiser and
+Littlewood-Richardson tensor decompositions are computations in its image. -/
+theorem formalCharacter_tensor {M N : Type u} [AddCommGroup M] [Module K M] [LieRingModule L M]
+    [LieModule K L M] [FiniteDimensional K M] [AddCommGroup N] [Module K N] [LieRingModule L N]
+    [LieModule K L N] [FiniteDimensional K N] :
+    formalCharacter (K := K) (L := L) (H := H) (M := TensorProduct K M N)
+      = formalCharacter (M := M) * formalCharacter (M := N) := sorry
 
 /-- The integer pairing `⟨λ, αᵢ^∨⟩ ∈ ℤ` of an integral weight against a coroot (well-defined by
-`weight_apply_coroot_isInt`); indexed by the roots `H.root`. -/
+`weight_apply_coroot_isInt`); indexed by the roots `H.root`. Total on `Module.Dual K H` for
+signature convenience, but **meaningful only on the integral weight lattice** (junk elsewhere); its
+uses below are at `λ + ρ` and `ρ` with `λ` dominant integral, and any new consumer must carry the
+integrality hypothesis or take the lattice from `../RootSystems` as its domain. -/
 noncomputable def coweightPairing (lam : Module.Dual K H) (i : H.root) : ℤ := sorry
 
 /-- **The Weyl denominator**, stated in the *integral* group algebra where it actually lives:
@@ -322,6 +376,40 @@ theorem weyl_dimension_formula (base : (LieAlgebra.IsKilling.rootSystem H).Base)
     (Module.finrank K (irreducibleQuotient base lam) : ℚ)
       = ∏ i ∈ Finset.univ.filter (fun i => base.IsPos i),
           (coweightPairing (lam + weylVector base) i : ℚ) / (coweightPairing (weylVector base) i : ℚ) :=
+  sorry
+
+/-- **Self-duality of `L(λ)`** (coverage: the compact Frobenius-Schur interface of
+`../CompactGroups`): `L(λ)` carries a nonzero invariant bilinear form iff `−(w₀ • λ) = λ` for the
+longest Weyl element `w₀` — characterized here, without importing a length function, as a Weyl
+element carrying the dominant cone to its negative. For an irreducible, a nonzero invariant form is
+exactly self-duality, so this is the `−w₀λ = λ` criterion in invariant-form clothing. -/
+theorem exists_invariantForm_iff_neg_longest_smul_eq
+    (base : (LieAlgebra.IsKilling.rootSystem H).Base) (lam : Module.Dual K H)
+    (hlam : IsDominantIntegral base lam)
+    [FiniteDimensional K (irreducibleQuotient base lam)] :
+    (∃ B : LinearMap.BilinForm K (irreducibleQuotient base lam), B ≠ 0 ∧
+        ∀ (x : L) (v w : irreducibleQuotient base lam), B ⁅x, v⁆ w + B v ⁅x, w⁆ = 0) ↔
+      ∃ w ∈ (LieAlgebra.IsKilling.rootSystem H).weylGroup,
+        (∀ mu : Module.Dual K H, IsDominantIntegral base mu →
+          IsDominantIntegral base (-(RootPairing.Equiv.weightEquiv _ _ w mu))) ∧
+        -(RootPairing.Equiv.weightEquiv _ _ w lam) = lam := sorry
+
+/-- **The real-vs-quaternionic sign criterion** (coverage companion, pinned as an exact formula
+rather than prose): on a self-dual `L(λ)` the invariant form is unique up to scalar, and it is
+symmetric or alternating according to the **Tits sign** `(−1)^{⟨λ, 2ρ^∨⟩}`, where
+`⟨λ, 2ρ^∨⟩ = ∑_{α > 0} ⟨λ, α^∨⟩` is the sum of the coroot pairings over the positive roots:
+`+1` gives the orthogonal (real) type, `−1` the symplectic (quaternionic) type. Self-duality alone
+(`−w₀λ = λ`) does not decide between them — this sign does. -/
+theorem invariantForm_isSymm_iff_tits_sign
+    (base : (LieAlgebra.IsKilling.rootSystem H).Base) (lam : Module.Dual K H)
+    (hlam : IsDominantIntegral base lam)
+    [FiniteDimensional K (irreducibleQuotient base lam)]
+    (B : LinearMap.BilinForm K (irreducibleQuotient base lam)) (hB : B ≠ 0)
+    (hinv : ∀ (x : L) (v w : irreducibleQuotient base lam), B ⁅x, v⁆ w + B v ⁅x, w⁆ = 0) :
+    ((∀ v w, B v w = B w v) ↔
+        (-1 : ℤˣ) ^ (∑ i : {j : H.root // base.IsPos j}, coweightPairing lam (i : H.root)) = 1) ∧
+    ((∀ v w, B v w = - B w v) ↔
+        (-1 : ℤˣ) ^ (∑ i : {j : H.root // base.IsPos j}, coweightPairing lam (i : H.root)) = -1) :=
   sorry
 
 /-- **The Kostant partition function** `P(ν)` for a base `base`: the number of ways to write `ν` as a sum
@@ -363,9 +451,12 @@ noncomputable def dotAction (base : (LieAlgebra.IsKilling.rootSystem H).Base)
     (w : (LieAlgebra.IsKilling.rootSystem H).weylGroup) (lam : Module.Dual K H) :
     Module.Dual K H := sorry
 
-/-- **The Harish-Chandra projection** `Z(U(L)) →ₐ[K] S(H)`: the composite of restriction to the
-`U(H) = S(H)` factor of the triangular decomposition (Layer 3) with the `ρ`-shift automorphism of
-`S(H)`. Its range is exactly the dot-invariants below. -/
+/-- **The Harish-Chandra projection** `Z(U(L)) →ₐ[K] S(H)`: the **raw** restriction `ξ` to the
+`U(H) = S(H)` factor of the triangular decomposition (Layer 3), with **no** `ρ`-shift. The choice is
+forced by the headline: the raw `ξ` has image the dot-invariants `S(H)^{W·}` below, whereas the
+`ρ`-shifted `γ = τ_{-ρ} ∘ ξ` has image the ordinary invariants `S(H)^W`; composing the shift in
+while targeting the dot-invariants would be inconsistent. The `ξ`/`γ` bridge is exactly the
+evaluation characterization recorded in `dotInvariants`. -/
 noncomputable def hcProjection (base : (LieAlgebra.IsKilling.rootSystem H).Base) :
     Subalgebra.center K (UniversalEnvelopingAlgebra K L) →ₐ[K] SymmetricAlgebra K H := sorry
 
@@ -422,10 +513,19 @@ theorem freudenthal_multiplicity_formula (base : (LieAlgebra.IsKilling.rootSyste
 normalized generators `eᵢ ∈ Lα`, `fᵢ ∈ L_{-α}`, `hᵢ = αᵢ^∨` with `⁅eᵢ, fᵢ⁆ = hᵢ` and the correct
 `⁅hᵢ, eᵢ⁆ = ⟨αᵢ, αⱼ^∨⟩ eⱼ` scalings: the root spaces are only lines, so the `eᵢ`, `fᵢ` require an
 explicit normalization (and sign choice) for the Cartan-matrix and higher Serre relations to hold with
-Mathlib's `CartanMatrix.Relations` conventions. This existence statement is the milestone the
-presentation isomorphism is built on. -/
+Mathlib's `CartanMatrix.Relations` conventions. The data is bundled — root-space membership for
+`eᵢ`/`fᵢ`, `hᵢ` the coroot vector, `⁅eᵢ, fᵢ⁆ = hᵢ`, and the `h`-eigenvalue relations — because a
+bare "nonzero functions exist" conclusion would be unrelated to the Serre presentation this
+milestone feeds; the higher Serre relations (`ad(eᵢ)^{1-aᵢⱼ} eⱼ = 0`) are consumed by
+`serre_presentation_equiv` below. -/
 theorem exists_chevalleySystem (base : (LieAlgebra.IsKilling.rootSystem H).Base) :
-    ∃ (e f : H.root → L), (∀ i, e i ≠ 0) ∧ (∀ i, f i ≠ 0) := sorry
+    ∃ e f : H.root → L,
+      (∀ i, e i ≠ 0) ∧ (∀ i, f i ≠ 0) ∧
+      (∀ i : H.root, e i ∈ LieAlgebra.rootSpace H (i.1 : H → K)) ∧
+      (∀ i : H.root, f i ∈ LieAlgebra.rootSpace H (-(i.1 : H → K))) ∧
+      (∀ i : H.root, ⁅e i, f i⁆ = (LieAlgebra.IsKilling.coroot i.1 : L)) ∧
+      ∀ i j : H.root, ⁅(LieAlgebra.IsKilling.coroot i.1 : L), e j⁆
+          = (j.1 : H → K) (LieAlgebra.IsKilling.coroot i.1) • e j := sorry
 
 /-- **The Serre presentation** of a **simple** `L`. Mathlib builds `Matrix.ToLieAlgebra K CM`, the
 quotient of the free Lie algebra by the Serre relations of a Cartan matrix `CM`
@@ -459,15 +559,14 @@ variable (K : Type) [Field K] [CharZero K]
 the split quaternions: an `8`-dimensional non-associative alternative composition algebra. This is the
 **split** form (the one whose derivations are the split `LieAlgebra.g₂`); the compact division
 octonions are a distinct `K = ℝ` real form. Absent from Mathlib, so building it is itself a target. The
-multiplication is `K`-bilinear (hence `NonUnitalNonAssocRing` with the two scalar towers, not a bare
-`Mul`) and unital. -/
+multiplication is `K`-bilinear and unital (hence `NonAssocRing` — which packages the unit — with the
+two scalar towers, not a bare `Mul` or a separate `One`). -/
 def Octonion (K : Type) : Type := sorry
 
-noncomputable instance : NonUnitalNonAssocRing (Octonion K) := sorry
+noncomputable instance : NonAssocRing (Octonion K) := sorry
 noncomputable instance : Module K (Octonion K) := sorry
 noncomputable instance : SMulCommClass K (Octonion K) (Octonion K) := sorry
 noncomputable instance : IsScalarTower K (Octonion K) (Octonion K) := sorry
-noncomputable instance : One (Octonion K) := sorry
 
 /-- `𝕆` is `8`-dimensional. -/
 theorem finrank_octonion : Module.finrank K (Octonion K) = 8 := sorry
