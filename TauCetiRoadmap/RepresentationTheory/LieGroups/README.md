@@ -100,7 +100,7 @@ matrix-group engine), mirroring Mathlib's `Geometry/Manifold/Algebra/`.
   The bracket is the derivation commutator already in Mathlib; do not reintroduce it.
 - **The exponential map is built here; Mathlib's `NormedSpace.exp` is its `GL`-shadow.** The general
   `lieExp : 𝔤 → G` is a **new** object (Layer 0), the time-one flow of the left-invariant vector field.
-  On `G = Rˣ` (units of a Banach algebra, `Lie(Rˣ) = R`) it must coincide with `NormedSpace.exp ℝ`, on
+  On `G = Rˣ` (units of a Banach algebra, `Lie(Rˣ) = R`) it must coincide with `NormedSpace.exp`, on
   matrix groups with `Matrix.exp`, and on the circle with `Circle.exp`; those coincidences are
   acceptance criteria, not definitions. Reuse Mathlib's `NormedSpace.exp`, `Matrix.exp` lemmas, and
   `Circle.exp` for the worked arena; never redefine the matrix exponential.
@@ -245,7 +245,7 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
   for a unique `X` (a continuous one-parameter subgroup is automatically smooth). This bijection
   `Hom_cont(ℝ, G) ≃ 𝔤` is the definition's justification.
 - **The matrix and circle shadows.** On `G = Rˣ` for a Banach algebra `R` (with `Lie(Rˣ) ≅ R`),
-  `lieExp = NormedSpace.exp ℝ` landing in `Rˣ` (`isUnit_exp`); on matrix groups it is `Matrix.exp`, whose
+  `lieExp = NormedSpace.exp` landing in `Rˣ` (`isUnit_exp`); on matrix groups it is `Matrix.exp`, whose
   `Matrix.exp_diagonal`, `Matrix.exp_transpose`, `Matrix.exp_conj` are the computational identities; on
   the circle it is `Circle.exp`, with `Circle.exp_add` its one-parameter-subgroup law. These are proved
   here as the coincidence lemmas that ground the abstract `lieExp`.
@@ -259,7 +259,7 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
   `ad = LieAlgebra.ad ℝ 𝔤 : 𝔤 →ₗ⁅ℝ⁆ Module.End ℝ 𝔤`, `ad X = ⁅X, ·⁆` (`LieAlgebra.ad_apply`). The
   milestone is that it is the derivative of `Ad`: `ad = d(Ad)_1`, i.e.
   `mfderiv Ad 1 X = LieAlgebra.ad ℝ 𝔤 X`. This *is* the geometric meaning of the bracket.
-- **The conjugation formulas.** `Ad (lieExp X) = NormedSpace.exp ℝ (ad X)` (the exponential of the
+- **The conjugation formulas.** `Ad (lieExp X) = NormedSpace.exp (ad X)` (the exponential of the
   endomorphism `ad X`), `g · lieExp X · g⁻¹ = lieExp (Ad g X)`, and the derivative-of-`lieExp` formula
   `d(lieExp)_X = d(L_{lieExp X})_1 ∘ (1 - exp(-ad X))/ad X` (the source of the singularities of `lieExp`,
   and the first place BCH will need `ad`). State the naturality `Ad_lieExp` as the headline.
