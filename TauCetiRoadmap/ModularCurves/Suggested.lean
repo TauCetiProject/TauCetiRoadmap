@@ -141,15 +141,21 @@ covers, and no stacks anywhere (`README.md` conventions). Specified in `README.m
 
 Tate normal form and the universal Tate curve `Spec ℤ[A, B][Δ⁻¹]`; `Y₁(N)` for `N ≥ 4`
 representable, smooth and affine over `ℤ[1/N]` (the provenance's completed axiom-clean
-headline, to migrate); `Y(N)` for `N ≥ 3` via rigidity and the Weil-pairing determinant, with
-the `GL₂(ℤ/N)`-action. Specified in `README.md` §Layer 5. -/
+headline, to migrate); `Y(N)` for `N ≥ 3` via rigidity (KM 2.7.2) and the closed full-level
+locus through the KM 4.7.0 engine, with the `GL₂(ℤ/N)`-action; and the twisted curve
+**`Y(ρ)`** (Buzzard, *Formalizing Fermat* Lecture 8) — `V_ρ` by Galois descent of the
+constant group scheme, the symplectic-`Isom` moduli problem against the Weil pairing,
+`yRho_representable` over `ℚ`, and the field-points description the FLT `3`–`5` switch
+consumes. Specified in `README.md` §Layer 5. -/
 
-/-! ## Layer 6: Drinfeld representability over `ℤ`, `Γ_H`, and coarse spaces (KM 3.6, Ch. 7)
+/-! ## Layer 6: Drinfeld representability over `ℤ`, `Γ_H`, and coarse spaces (KM 3.6, Ch. 7–8)
 
 Relative representability of the Drinfeld problems over `ℤ` (the exact-order locus as the
 relative representing object), `[Γ_H]`-problems (KM 7.1.3), and coarse moduli by the
-simultaneous-rigidification quotient: the `j`-line `Y(1) = Spec ℤ[j]` and `Y₀(N)`, with the
-coarse universal property. Specified in `README.md` §Layer 6. -/
+KM 8.1.1/8.1.5 quotient: the `j`-line `Y(1) = Spec ℤ[j]` and `Y₀(N) = Y(N)/Borel` —
+coarse-only, since the Borel contains `−1` and rigidity fails (Loeffler 3.8.3) — with the
+coarse universal property and KM 8.1.7's no-base-change caveat recorded. Specified in
+`README.md` §Layer 6. -/
 
 /-! ## Layer 7: the First Main Theorem — regularity (KM Ch. 5–6)
 

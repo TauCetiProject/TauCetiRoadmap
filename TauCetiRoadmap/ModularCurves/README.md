@@ -21,7 +21,9 @@ Drinfeld as the classical sources KM builds on. The headline is the **Katz–Maz
 of the modular curves**: the moduli problems in their **Drinfeld form over all of `ℤ`**, their
 relative representability, the representability of the rigid ones by **schemes** (`Y(N)` for
 `N ≥ 3`, `Y₁(N)` for `N ≥ 4`, smooth affine over `ℤ[1/N]`), coarse spaces for the non-rigid
-ones (the `j`-line, `Y₀(N)`), and — the summit — KM's First Main Theorem 5.1.1: the four basic
+ones (the `j`-line, and `Y₀(N)` as the Borel quotient of `Y(N)`), the twisted curve `Y(ρ)`
+that the FLT project's `3`–`5` switch consumes, and — the summit — KM's First Main Theorem
+5.1.1: the four basic
 problems are relatively representable, finite flat over the moduli of elliptic curves, and
 **regular of dimension two**.
 
@@ -190,7 +192,11 @@ including staged upstream PR drafts — is the evidence base and the model).
   cancellation and descent, enough Galois-category material to move between "finite étale of
   degree `d`" and "fppf-locally constant" — the engine of the `ℤ[1/N]` half (naive = Drinfeld,
   étaleness of the level covers). Full `π₁`-theory is **not** required; pin exactly the
-  lemmas Layers 3 and 5 consume.
+  lemmas Layers 3 and 5 consume. One named piece **is** required in full: the
+  **Grothendieck–Galois dictionary over a field** — finite étale (group) schemes over `F` ↔
+  finite (abelian) groups with continuous `Gal(Fˢ/F)`-action, with morphisms and group
+  structures descending (the provenance's "scary étale descent of morphisms") — the substrate
+  of Layer 5's twisted group scheme `V_ρ`.
 - **Descent.** Faithfully flat (finite, and Zariski) descent for morphisms, group structures,
   and the level-structure predicates; spreading out over noetherian bases where KM's
   arguments need it (the provenance's `RigiditySpreadingOut`, `FinitePresentationDescent`).
@@ -241,10 +247,26 @@ including staged upstream PR drafts — is the evidence base and the model).
   pairing** of the elliptic-curves roadmap on fibres (the two-normalisations ambiguity is
   resolved by fiat, once, here); Galois equivariance and étale descent. Its determinant role
   in `[Γ(N)]` (Layer 3) is the consumer.
-- **The function-field comparison contract** (conventions): over a field, the equivalence
-  between scheme isogenies and the elliptic-curves roadmap's function-field `Isogeny`,
-  matching `deg`, separability, `[N]`, Frobenius, and the induced maps on points through the
-  Layer-1 dictionary. Discharging it certifies the two roadmaps as two views of one theory.
+- **The function-field comparison contract** (conventions): over a field `F`, the equivalence
+  between scheme isogenies and the elliptic-curves roadmap's function-field `Isogeny` (an
+  `F`-algebra map `toFun` of function fields whose `map_zero` clause makes
+  `W₁.CoordinateRing` integral over `W₂.CoordinateRing`), matching `deg`, separability,
+  `[N]`, Frobenius, and the induced maps on points through the Layer-1 dictionary.
+  Discharging it certifies the two roadmaps as two views of one theory. ⚠ **Scoping the
+  proof**, so nobody overestimates it: it needs **neither Riemann–Roch nor base change**.
+  Scheme-to-function-field is bookkeeping — the generic point lies in the affine chart, so
+  the scheme's function field *is* `W.FunctionField`, and a finite pointed morphism restricts
+  to a finite map of affine charts, which is the integrality clause outright.
+  Function-field-to-scheme is the real direction, and its inputs are exactly: finiteness of
+  integral closures in function-field extensions (Krull–Akizuki-grade commutative algebra,
+  inseparable case included), by which `map_zero` produces the finite morphism of affine
+  charts; the valuative criterion of properness (in Mathlib) to extend across the single
+  point at infinity — `map_zero` forces the place at `O₁` to restrict to the place at `O₂`,
+  because valuation rings are integrally closed; and miracle flatness (finite surjective
+  between smooth curves ⟹ finite locally free) to land in this roadmap's isogeny notion.
+  Riemann–Roch enters only the *other* comparison (genus-`1` ⟹ locally Weierstrass, Layer
+  1's gated milestone), and base change would enter only if the contract were stated over a
+  general base — it is deliberately stated over a field.
 
 ### Layer 3: Drinfeld level structures (KM Ch. 1, 3)
 
@@ -316,6 +338,21 @@ curves. Base `ℤ[1/N]`, naive register (Layer 3's equivalences bridge back).
   KM Ch. 10's algebraic route, whose own transcendental input — connectedness of the complex
   fibre — is isolated as an explicit hypothesis until a complex-analytic supplier exists;
   nothing else on the roadmap consumes it.
+- **The twisted modular curve `Y(ρ)`** (Buzzard, *Formalizing Fermat*, Lecture 8 — the
+  object the FLT project's `3`–`5` switch consumes). Data: a finite abelian group
+  `V ≅ (ℤ/N)²` with a continuous `Gal(ℚ̄/ℚ)`-action `ρ` and an alternating
+  Galois-equivariant perfect pairing to `μ_N`. Build: the finite étale group scheme `V_ρ/ℚ`
+  attached by Layer 0's Grothendieck–Galois dictionary (Galois descent of the constant group
+  scheme, group structure included); the moduli problem of pairs `(E, α)` with
+  `α : E[N] ≅ V_ρ` carrying the Weil pairing to the given pairing (the symplectic-`Isom`
+  functor — Layer 2's pairing is the input); and **`yRho_representable`**: for `N ≥ 3` the
+  problem is rigid and representable by a smooth affine curve over `ℚ` — a twisted form of
+  `Y(N)`, through the same KM 4.7.0 engine. The **field-points description** — for
+  characteristic-zero fields `K`, the `K`-points are canonically (naturally in `K`) the pairs
+  `(E/K, E[N] ≅ ρ|_{G_K})` as representations-with-pairing — is the statement the FLT
+  application consumes, and is a named milestone of its own. Geometric irreducibility of
+  `Y(ρ)` has the same status as `Y(N)`'s above: the classical proof is complex-analytic, so
+  it is stated with the same isolated connectedness hypothesis.
 
 ### Layer 6: Drinfeld representability over `ℤ`, `Γ_H`, and coarse spaces (KM 3.6, Ch. 7; Loeffler §3.6, 3.8)
 
@@ -328,15 +365,22 @@ curves. Base `ℤ[1/N]`, naive register (Layer 3's equivalences bridge back).
   variants), the intermediate problems between `[Γ(N)]` and the classical ones, their
   relative representability (KM 7.1.3), and `Y₁(N)`, `Y₀(N)` as instances — the uniform
   framework the provenance's `GammaH` stream follows.
-- **Quotient problems and coarse spaces** (KM 4.7 + Ch. 8 statements; Loeffler §3.6, §3.8
-  Remark 1): for non-rigid problems — level `1`, `N ≤ 2`, `[Γ₀(N)]` — the **coarse moduli
-  scheme** as the finite-group quotient `M(𝒫, [Γ(ℓ)])/GL₂(ℤ/ℓ)` (simultaneous-rigidification
-  trick, `ℓ` an auxiliary prime), with its universal property (initial among maps to schemes)
-  and its field-point description (bijective on algebraically-closed points). Deliverables:
-  the **`j`-line** `Y(1) = 𝔸¹_j = Spec ℤ[j]` and **`Y₀(N)`**, coarse over `ℤ[1/N]`. ⚠ The
-  coarse statements whose KM-route proofs live in Ch. 8 are sourced from the companion notes
-  (conventions' sourcing flag); their proofs here go through the quotient construction, not
-  through memory of KM Ch. 8.
+- **Quotient problems and coarse spaces** (KM 8.1.1, 8.1.5, 7.4.2; Loeffler §3.6, §3.8): for
+  non-rigid problems — level `1`, `N ≤ 2`, `[Γ₀(N)]` — the **coarse moduli scheme**
+  `M(𝒫) = 𝔐(𝒫, δ)/G`, quotient along an auxiliary representable finite étale Galois `δ`
+  (KM 8.1.1; e.g. `δ = [Γ(N)]`, `G = GL₂(ℤ/N)`). Over a fixed base with some `N ≥ 3`
+  invertible the machinery collapses (KM 8.1.5, `M(𝒫)/G ≅ M(𝒫/G)`): for `𝒫 = [Γ(N)]/H`
+  the coarse scheme is the plain finite-group quotient **`Y_H = Y(N)/H`** of the Layer-5
+  scheme, by Layer 0's invariant-`Spec` quotient engine. The **Borel no-go** keeps the layer
+  honest: for `H ∋ −1` — the Borel `(∗ ∗; 0 ∗)`, whose quotient is `[Γ₀(N)]` (KM 7.4.2(4)) —
+  rigidity *fails* (Loeffler 3.8.3), so `Y₀(N)` is genuinely coarse-only; the semi-Borel
+  `H ⊆ (1 ∗; 0 ∗)` with `N ≥ 4` stays rigid and fine, recovering `Y₁(N)` (KM 7.4.2(3)).
+  Deliverables: the **`j`-line** `Y(1) = 𝔸¹_j = Spec ℤ[j]` and **`Y₀(N) = Y(N)/Borel`**,
+  coarse over `ℤ[1/N]`, with the coarse universal property (initial among maps to schemes),
+  the field-point description (bijective on algebraically-closed points), and — recorded, not
+  assumed — KM 8.1.7's caveat that coarse formation does **not** commute with base change.
+  ⚠ Coarse statements whose KM-route proofs live in Ch. 8 are sourced verbatim where the
+  provenance did so (conventions' sourcing flag).
 
 ### Layer 7: the First Main Theorem — regularity (KM Ch. 5–6)
 
@@ -384,7 +428,14 @@ The summit, and KM's *raison d'être*: good moduli at **all** primes.
   has no point of naive order `p` — the example that forces Drinfeld's definition.
 - **The comparison contract discharged over `ℚ`:** scheme isogenies `E ⟶ E′` over a field
   biject with the elliptic-curves roadmap's function-field isogenies, matching degree and
-  `[N]` — one theory, two roadmaps.
+  `[N]` — one theory, two roadmaps — with no Riemann–Roch and no base change consumed
+  (Layer 2's scoping note).
+- **`Y₀(N)` is `Y(N)/Borel`, and not fine:** the coarse quotient exists by the
+  invariant-`Spec` engine, while `−1` in the Borel breaks rigidity (Loeffler 3.8.3) —
+  coarseness is forced, not chosen.
+- **`Y(ρ)` sees the Galois action:** for `K/ℚ` of characteristic zero, `Y(ρ)(K)` is
+  naturally the set of pairs `(E/K, E[N] ≅ ρ|_{G_K})` as representations-with-pairing — the
+  statement the FLT `3`–`5` switch consumes.
 
 ## Ordering
 
@@ -394,7 +445,9 @@ Layer 0's descent only for the group-law gluing; its seeded entry points need no
 (isogenies, `E[N]`, quotients, Weil pairing) builds on Layers 0–1. Layer 3 (Drinfeld
 structures) consumes Layers 0 and 2. Layer 4 (the formalism) consumes Layer 1 and the
 Weierstrass atlas; its rigidifiers consume Layer 3's naive registers. Layer 5 (`Y₁(N)`,
-`Y(N)` over `ℤ[1/N]`) consumes Layers 3–4 in naive register and is the first modular-curve
+`Y(N)`, and `Y(ρ)` over `ℤ[1/N]`/`ℚ` — the last also consuming Layer 0's
+Grothendieck–Galois dictionary and Layer 2's Weil pairing) consumes Layers 3–4 in naive
+register and is the first modular-curve
 payoff. Layer 6 (Drinfeld representability, `Γ_H`, coarse spaces) consumes Layers 3–5. Layer
 7 (regularity) consumes everything and is gated on its own deformation-theoretic vocabulary;
 its `ℤ[1/N]` clauses land with Layer 6. The elliptic-curves roadmap is a sibling, not a
@@ -419,6 +472,8 @@ here.
   structures.
 - B. Conrad, *Arithmetic moduli of generalized elliptic curves*, J. Inst. Math. Jussieu 6
   (2007) — background for the excluded compactified theory (successor roadmap).
+- K. Buzzard, *Formalizing Fermat* (lecture slides; Lecture 8) — the `Y(ρ)` target and its
+  field-points specification (Layer 5), quoted verbatim by the provenance.
 - Mathlib in flight: [#25983](https://github.com/leanprover-community/mathlib4/pull/25983)
   (affine scheme of an elliptic curve), [#35151](https://github.com/leanprover-community/mathlib4/pull/35151)
   (group-scheme structure on a Weierstrass curve) — Layers 1–2 coordinate with both
@@ -443,16 +498,18 @@ material is part of the migration contract):
   documents). This is Layer 5's `Y₁(N)` milestone, essentially done: the migration work is
   decomposition to TauCeti CI standards (several 200–300-line proofs, one 5,900-line atlas
   file), not mathematics.
-- **`dev/modular-curves @ 55feda6a301d`** (2026-07-22) — the active KM program: 309 Lean
+- **`dev/modular-curves @ 9fec8eba7652`** (2026-07-22) — the active KM program: 310 Lean
   files, 247 file-level `sorry` occurrences by grep. Per directory (files/`sorry`s):
-  `EllipticCurve` 66/26, `ForMathlib` 129/41, `GroupScheme` 33/36, `LevelStructure` 10/20,
-  `Moduli` 50/70, `ModularCurve` 5/39, `Picard` 9/4, `WeilPairing` 4/11.
+  `EllipticCurve` 66/26, `ForMathlib` 130/41, `GroupScheme` 33/36, `LevelStructure` 10/20,
+  `Moduli` 52/70, `ModularCurve` 5/39, `Picard` 9/4, `WeilPairing` 4/11.
 - **Specialized stream branches** (smaller pins, each feeding one milestone):
   **`dev/modular-curves-y1 @ d9f2fbbb7b3e`** — the `Y(N)` **route of record**
   (`gammaFullNaive_representable` through KM 4.7.0/Cor 4.7.2: rigidity KM 2.7.2 plus the
   closed full-level locus in `E[N] ×_S E[N]` as the relative presentation; its
   inclusion/clopen/étale ingredient theorems are complete at the pin, the assembly staged)
-  together with the étale-section-counting `ForMathlib` files — Layer 5's `Y(N)`.
+  together with the étale-section-counting `ForMathlib` files — Layer 5's `Y(N)`; its
+  headline has since landed into `dev` (`gammaFullNaive_rigid_and_representable`, pin above),
+  while some of its étale-count supplier files remain unmerged, so the branch pin stands.
   **`dev/modular-curves-b5da @ 0bb37c442f89`** (with `-b5d`) — the `[N]`-formally-unramified
   skeleton via the `E[N]`-torsor route grounded in KM 2.3, with the tempting-but-dead routes
   explicitly mapped — Layer 2's étale-away-from-`N` clause.
@@ -488,11 +545,17 @@ Layer map at the `dev` pin (headline files; `sorry` counts in parentheses):
   stacks-without-stacks remark, kept a remark), `Moduli/WeierstrassAtlas.lean` (0), the
   rigidifier torsors `Legendre*`/`LevelThreeTorsor`/`LevelFourTorsor`/`Universal*`,
   `Moduli/Representability.lean` (the 4.7.0 engine).
-- **Layers 5–6.** The `main`-branch `Y₁(N)` chain (above); `Moduli/DrinfeldRepresentability.lean`,
-  `GammaH*.lean`, `QuotientProblem`/`QuotientRepresentability`, `Moduli/Coarse.lean` (3),
-  `ModularCurve/YRho.lean`/`YFullRoute.lean`/`YOneAssembly.lean` (the `Y(N)`-side assembly,
-  open at the `dev` pin — the fresher `Y(N)` stream lives on `dev/modular-curves-y1`, pinned
-  above).
+- **Layers 5–6.** The `main`-branch `Y₁(N)` chain (above). At the `dev` pin the `Y(N)`
+  headline **`gammaFullNaive_rigid_and_representable`** (`N ≥ 3`) is in-tree and file-level
+  sorry-free (`Moduli/GammaHClosure.lean` (0)); `Moduli/CoarseSpace.lean` (0) carries the
+  KM 8.1.1/8.1.5 fixed-base coarse engine — `Y_H = Y(N)/H` over the proven quotient engine
+  `ForMathlib/RelativeInvariantSpec.lean` (0), with `Y₀(N)` as the Borel instance — and
+  `Moduli/GammaHSemiBorel.lean` (0) the semi-Borel rigidity plus the Borel no-go. The `Y(ρ)`
+  stream: `ModularCurve/YRho.lean` (5 — `rhoProblem`, the symplectic-`Isom` route,
+  `yRho_representable` staged, the field-points policy stated) with
+  `ModularCurve/VRhoGroup.lean` (0) and the Grothendieck–Galois prerequisite registered
+  (Layer 0). Still open: `Moduli/DrinfeldRepresentability.lean`, the `GammaH*` residuals,
+  `Moduli/Coarse.lean` (3), `ModularCurve/YFullRoute.lean` (7)/`YOneAssembly.lean`.
 - **Layer 7.** `Moduli/DrinfeldRegularity.lean` — the KM-INTEGRAL skeleton: its early waves
   (W0–W3) are stated, and its deformation-theoretic waves are explicitly recorded as API
   gaps; Layer 7's gating paragraph mirrors that assessment. The regularity theorem itself
