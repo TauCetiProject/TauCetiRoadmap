@@ -53,9 +53,11 @@ theorem card_conjClasses_perm (n : ℕ) :
 noncomputable def diagramOf {n : ℕ} (μ : n.Partition) : YoungDiagram :=
   (partitionEquivYoungDiagram n μ).1
 
-/-- **Dominance order** on partitions: `∀ k, ∑_{i<k} μᵢ ≥ ∑_{i<k} νᵢ` (partial order), the order in which
-Specht modules appear in the permutation modules. -/
-def Dominates {n : ℕ} (μ ν : n.Partition) : Prop := sorry
+/-- **Dominance order** on partitions: `∀ k, ∑_{i<k} μᵢ ≥ ∑_{i<k} νᵢ` with the parts taken in
+decreasing order (a partial order), the order in which Specht modules appear in the permutation
+modules. Stated on sorted parts because `Nat.Partition.parts` is an unordered multiset. -/
+def Dominates {n : ℕ} (μ ν : n.Partition) : Prop :=
+  ∀ k : ℕ, ((ν.parts.sort (· ≥ ·)).take k).sum ≤ ((μ.parts.sort (· ≥ ·)).take k).sum
 
 /-- The **conjugate (transpose) partition** `μᵀ`, read off the transposed Young diagram. -/
 noncomputable def conjugate {n : ℕ} (μ : n.Partition) : n.Partition := sorry
@@ -68,13 +70,23 @@ theorem dominates_transpose_iff {n : ℕ} (μ ν : n.Partition) :
 only the semistandard `SemistandardYoungTableau`). -/
 def StandardYoungTableau (μ : YoungDiagram) : Type := sorry
 
-/-- The number of standard Young tableaux of shape `μ`; this is `f^λ`, the dimension of `S^λ`. -/
-def standardCount (μ : YoungDiagram) : ℕ := sorry
+/-- Standard Young tableaux of a fixed shape are finitely many. -/
+noncomputable instance instFintypeStandardYoungTableau (μ : YoungDiagram) :
+    Fintype (StandardYoungTableau μ) := sorry
+
+/-- The number of standard Young tableaux of shape `μ`; this is `f^λ`, the dimension of `S^λ`.
+Defined as the cardinality of the tableau type, so the counting statements below
+(`finrank_spechtModule`, `sum_sq_standardCount`) constrain `StandardYoungTableau`, not an
+unattached natural number. -/
+noncomputable def standardCount (μ : YoungDiagram) : ℕ :=
+  Fintype.card (StandardYoungTableau μ)
 
 /-! ## Layer 1: Young subgroups and the permutation modules `M^λ` -/
 
 /-- **The Young subgroup** `Sλ ≤ Sₙ`, the stabilizer of the ordered partition of `Fin n` into consecutive
-blocks of sizes `μ₁, μ₂, …`; isomorphic to `∏ᵢ Perm (Fin μᵢ)`. -/
+blocks of sizes `μ₁, μ₂, …` taken in the decreasing order `μ.parts.sort (· ≥ ·)` (the parts multiset is
+unordered, so the definition must pin a sort; the card/index statements below are order-independent);
+isomorphic to `∏ᵢ Perm (Fin μᵢ)`. -/
 def youngSubgroup {n : ℕ} (μ : n.Partition) : Subgroup (Equiv.Perm (Fin n)) := sorry
 
 theorem card_youngSubgroup {n : ℕ} (μ : n.Partition) :
@@ -205,7 +217,11 @@ theorem schurPoly_isSymmetric (σ : Type*) (R : Type*) [Fintype σ] [DecidableEq
     {n : ℕ} (μ : n.Partition) : (schurPoly σ R μ).IsSymmetric := sorry
 
 /-- **The Frobenius characteristic / power-sum expansion** `p_μ = ∑_λ χ^λ(μ) s_λ`: the character table
-is the change of basis between power sums (`MvPolynomial.psumPart`) and Schur functions. -/
+is the change of basis between power sums (`MvPolynomial.psumPart`) and Schur functions. The identity
+holds for every variable set `σ` (setting variables to zero is a ring homomorphism), but it determines
+the character table only when `Fintype.card σ ≥ n` — for fewer variables the rows with `ℓ(λ) > |σ|`
+have `s_λ = 0` and drop out. The "this is the character table" reading of README Layer 7 is the
+`|σ| ≥ n` instance of this statement. -/
 theorem frobenius_powerSum (σ : Type*) [Fintype σ] [DecidableEq σ] {n : ℕ} (ν : n.Partition) :
     MvPolynomial.psumPart σ ℤ ν
       = ∑ μ : n.Partition, spechtCharValue μ ν • schurPoly σ ℤ μ := sorry
@@ -249,10 +265,23 @@ theorem permAction_glAction_doubleCentralizer (d n : ℕ) :
         (Set.range fun σ : Equiv.Perm (Fin n) => (permAction d n σ).toLinearMap)
       = Algebra.adjoin ℂ (Set.range fun g : GL (Fin d) ℂ => (glAction d n g).toLinearMap) := sorry
 
-/-- **Faithfulness refinement**: once `d ≥ n`, the `Sₙ`-action on `(ℂᵈ)^{⊗n}` is faithful, so the image of
-`ℂ[Sₙ]` is all of `ℂ[Sₙ]` rather than a proper quotient. -/
-theorem permAction_injective_of_le (d n : ℕ) (h : n ≤ d) :
-    Function.Injective (permAction d n) := sorry
+/-- The induced **algebra map** `ℂ[Sₙ] → End((ℂᵈ)^{⊗n})`: the `MonoidAlgebra.lift` of `permAction`,
+sending `σ` to `(permAction d n σ).toLinearMap` (pinned by `permActionAlgHom_single`). This, not the
+group homomorphism, is the object whose injectivity is the Layer-8 faithfulness milestone. -/
+noncomputable def permActionAlgHom (d n : ℕ) :
+    MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₐ[ℂ]
+      Module.End ℂ (⨂[ℂ] (_ : Fin n), (Fin d → ℂ)) := sorry
+
+/-- The defining property of `permActionAlgHom`: on group elements it is `permAction`. -/
+theorem permActionAlgHom_single (d n : ℕ) (σ : Equiv.Perm (Fin n)) :
+    permActionAlgHom d n (MonoidAlgebra.single σ 1) = (permAction d n σ).toLinearMap := sorry
+
+/-- **Faithfulness refinement**: once `d ≥ n`, the algebra map `ℂ[Sₙ] → End((ℂᵈ)^{⊗n})` is injective,
+so the image of `ℂ[Sₙ]` is all of `ℂ[Sₙ]` rather than a proper quotient. (The group homomorphism
+`permAction` itself is injective already for every `d ≥ 2`; the substantive `n ≤ d` threshold belongs
+to the algebra map, which is why the milestone is stated here and not on `permAction`.) -/
+theorem permActionAlgHom_injective_of_le (d n : ℕ) (h : n ≤ d) :
+    Function.Injective (permActionAlgHom d n) := sorry
 
 /-- **The complex Specht module** `ℂ ⊗ S^λ`, still irreducible (absolute irreducibility over `ℚ`). -/
 noncomputable def spechtModuleℂ {n : ℕ} (μ : n.Partition) :
@@ -270,13 +299,25 @@ theorem schurWeyl_finrank (d n : ℕ) :
       = ∑ μ : n.Partition, (if μ.parts.card ≤ d then
           Module.finrank ℚ (spechtModule μ) * Module.finrank ℂ (schurFunctor d μ) else 0) := sorry
 
-/-- **Schur-Weyl duality**: as an `Sₙ × GLₔ`-representation (here stated as a `ℂ`-linear isomorphism; the
-equivariance is the content of `README.md` Layer 8),
-`(ℂᵈ)^{⊗n} ≅ ⊕_{λ ⊢ n, ℓ(λ) ≤ d} S^λ ⊗ 𝕊^λ(ℂᵈ)`. -/
+/-- **Schur-Weyl duality**: `(ℂᵈ)^{⊗n} ≅ ⊕_{λ ⊢ n, ℓ(λ) ≤ d} S^λ ⊗ 𝕊^λ(ℂᵈ)` as an
+`Sₙ × GLₔ`-representation. The equivariance **is** the theorem — a bare `ℂ`-linear equivalence would
+be equivalent to the dimension count `schurWeyl_finrank` — so the isomorphism is required to
+intertwine `permAction` with the summand-wise Specht actions and `glAction` with the summand-wise
+Schur-functor actions (`DirectSum.lmap` transports the componentwise actions). -/
 theorem schurWeylDecomposition (d n : ℕ) :
-    Nonempty ((⨂[ℂ] (_ : Fin n), (Fin d → ℂ)) ≃ₗ[ℂ]
-      DirectSum {μ : n.Partition // μ.parts.card ≤ d}
-        (fun μ => TensorProduct ℂ (spechtModuleℂ μ.1) (schurFunctor d μ.1))) := sorry
+    ∃ e : (⨂[ℂ] (_ : Fin n), (Fin d → ℂ)) ≃ₗ[ℂ]
+        DirectSum {μ : n.Partition // μ.parts.card ≤ d}
+          (fun μ => TensorProduct ℂ (spechtModuleℂ μ.1) (schurFunctor d μ.1)),
+      (∀ σ : Equiv.Perm (Fin n),
+        e.toLinearMap ∘ₗ (permAction d n σ).toLinearMap
+          = DirectSum.lmap
+              (fun μ => TensorProduct.map ((spechtModuleℂ μ.1).ρ σ) LinearMap.id)
+            ∘ₗ e.toLinearMap) ∧
+      ∀ g : GL (Fin d) ℂ,
+        e.toLinearMap ∘ₗ (glAction d n g).toLinearMap
+          = DirectSum.lmap
+              (fun μ => TensorProduct.map LinearMap.id ((schurFunctor d μ.1).ρ g))
+            ∘ₗ e.toLinearMap := sorry
 
 /-! ## Layer 9: Schur-Weyl duality for the orthogonal and symplectic groups (the Brauer algebra) -/
 
@@ -421,7 +462,9 @@ theorem brauerActionSymp_reverse_centralizer (l k : ℕ) :
 /-- **Semisimplicity of `B_k(δ)` for large/generic `δ`**: whenever `|δ| ≥ 2k - 2`, the Brauer algebra is
 semisimple, with irreducibles indexed by partitions of `k, k-2, k-4, …`. Stated on `|δ|` with `δ : ℤ` so that
 it covers both geometric values, orthogonal `δ = n` and symplectic `δ = -2l`. The bound is sufficient, not
-sharp (the exact criterion is Wenzl's). -/
+sharp (the exact criterion is Wenzl's); before this target is relied on, the constant `2k - 2` must be
+re-checked against Wenzl's / Rui's criterion, since the geometric specializations sit exactly where
+semisimplicity can fail. -/
 theorem brauerAlgebra_isSemisimple_of_large_abs (δ : ℤ) (k : ℕ) (h : (2 * k - 2 : ℤ) ≤ |δ|) :
     IsSemisimpleRing (brauerAlgebra (δ : ℂ) k) := sorry
 
