@@ -309,11 +309,13 @@ curves. Base `ℤ[1/N]`, naive register (Layer 3's equivalences bridge back).
   to be migrated, decomposed, and consumed. Étaleness of the forgetful cover
   `Y₁(N) ⟶ Ell` clause included.
 - **`Y(N)`, `N ≥ 3`** (KM 3.1, 4.7; Loeffler §3.8): rigidity of naive `[Γ(N)]` for `N ≥ 3`
-  (KM 4.6.2-shape, through the Weil pairing's determinant constraint), representability via
-  the Layer-4 engine over the rigidifier torsors, `Y(N)` smooth affine over `ℤ[1/N]`; the
-  `GL₂(ℤ/N)`-action on `Y(N)`. Geometric connectedness of `Y(N) ⊗ ℚ(ζ_N)` is **stated** as a
-  flagged milestone (KM's Ch. 4 argument via the `ζ_N`-component decomposition), not assumed
-  elsewhere.
+  (KM 2.7.2), relative representability by the **closed full-level locus** inside
+  `E[N] ×_S E[N]` (KM 3.7.1), and representability by the Layer-4 engine (KM 4.7.0, exactly
+  as in KM Cor 4.7.2) — `Y(N)` smooth affine over `ℤ[1/N]`, with the `GL₂(ℤ/N)`-action.
+  Geometric irreducibility of `Y(N) ⊗ ℚ(ζ_N)` is **stated** as a flagged milestone via
+  KM Ch. 10's algebraic route, whose own transcendental input — connectedness of the complex
+  fibre — is isolated as an explicit hypothesis until a complex-analytic supplier exists;
+  nothing else on the roadmap consumes it.
 
 ### Layer 6: Drinfeld representability over `ℤ`, `Γ_H`, and coarse spaces (KM 3.6, Ch. 7; Loeffler §3.6, 3.8)
 
@@ -445,6 +447,19 @@ material is part of the migration contract):
   files, 247 file-level `sorry` occurrences by grep. Per directory (files/`sorry`s):
   `EllipticCurve` 66/26, `ForMathlib` 129/41, `GroupScheme` 33/36, `LevelStructure` 10/20,
   `Moduli` 50/70, `ModularCurve` 5/39, `Picard` 9/4, `WeilPairing` 4/11.
+- **Specialized stream branches** (smaller pins, each feeding one milestone):
+  **`dev/modular-curves-y1 @ d9f2fbbb7b3e`** — the `Y(N)` **route of record**
+  (`gammaFullNaive_representable` through KM 4.7.0/Cor 4.7.2: rigidity KM 2.7.2 plus the
+  closed full-level locus in `E[N] ×_S E[N]` as the relative presentation; its
+  inclusion/clopen/étale ingredient theorems are complete at the pin, the assembly staged)
+  together with the étale-section-counting `ForMathlib` files — Layer 5's `Y(N)`.
+  **`dev/modular-curves-b5da @ 0bb37c442f89`** (with `-b5d`) — the `[N]`-formally-unramified
+  skeleton via the `E[N]`-torsor route grounded in KM 2.3, with the tempting-but-dead routes
+  explicitly mapped — Layer 2's étale-away-from-`N` clause.
+  **`dev/modular-curves-irr @ 320d99ea6182`** — the geometric-irreducibility scoping
+  (KM Ch. 10's algebraic route, the complex-connectedness input isolated as a hypothesis) —
+  Layer 5's flagged milestone. (`-b3` is fully merged into `main`; `-y1-atlas` is superseded
+  by `main`'s atlas file.)
 
 Layer map at the `dev` pin (headline files; `sorry` counts in parentheses):
 
@@ -476,7 +491,8 @@ Layer map at the `dev` pin (headline files; `sorry` counts in parentheses):
 - **Layers 5–6.** The `main`-branch `Y₁(N)` chain (above); `Moduli/DrinfeldRepresentability.lean`,
   `GammaH*.lean`, `QuotientProblem`/`QuotientRepresentability`, `Moduli/Coarse.lean` (3),
   `ModularCurve/YRho.lean`/`YFullRoute.lean`/`YOneAssembly.lean` (the `Y(N)`-side assembly,
-  open at the pin).
+  open at the `dev` pin — the fresher `Y(N)` stream lives on `dev/modular-curves-y1`, pinned
+  above).
 - **Layer 7.** `Moduli/DrinfeldRegularity.lean` — the KM-INTEGRAL skeleton: its early waves
   (W0–W3) are stated, and its deformation-theoretic waves are explicitly recorded as API
   gaps; Layer 7's gating paragraph mirrors that assessment. The regularity theorem itself
