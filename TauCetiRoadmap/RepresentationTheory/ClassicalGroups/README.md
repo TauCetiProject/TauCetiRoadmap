@@ -354,7 +354,9 @@ matrix groups.
   **centres of the universal enveloping algebras `Z(U(𝔤𝔩_k))`** (`1 ≤ k ≤ n`), embedded via the chain
   `𝔤𝔩_1 ⊂ ⋯ ⊂ 𝔤𝔩_n` (**not** the Lie-algebra centres of the `𝔤𝔩_k`, which are only the scalars and are far
   too small). Level `k` contributes `k` generators (the Gelfand invariants / Capelli elements, degrees
-  `1 ≤ r ≤ k`), so `gtGenerator` is indexed by `(k, r)`. This maximal commutative family is **simultaneously
+  `1 ≤ r ≤ k`), so `gtGenerator` is indexed by `(k, r)` — in `Suggested.lean` the level is 0-based
+  (`k : Fin n`, matrix size `k + 1`, with `k + 1` generator degrees `r : Fin (k.val + 1)`), matching
+  this 1-based description at level `= k + 1`. This maximal commutative family is **simultaneously
   diagonalized** in `gtBasis`, with eigenvalues explicit polynomials in the pattern entries; state that each
   `gtBasis` vector is a joint eigenvector and that the joint eigencharacter **separates** the basis (distinct
   patterns give distinct eigenvalue systems). That separation is what makes the GT basis intrinsic (the

@@ -24,7 +24,7 @@ The design follows the layers of `README.md`: **0** the groups and the standard 
 (`stdRep`, `IsRationalRep`); **1** functorial powers (`tensorPowerRep`, `symPowerRep`, `extPowerRep`) and
 their characters; **2** the Weyl construction (`permTensorAction`, `schurFunctor`, Schur-Weyl, shared with
 `../SchurWeyl`); **3** weights and the highest-weight classification (`diagonalTorus`, `DominantWeight`,
-`weightSpace`, `irreducible`, built on `../RootSystems` and `../LieHighestWeight`); **4** Schur polynomials
+`weightSpace`, `highestWeightRep`, built on `../RootSystems` and `../LieHighestWeight`); **4** Schur polynomials
 as characters (`schurPoly`, the Weyl character formula specialized); **5** the Weyl dimension formula
 (`weylDimension`); **6** branching and the Gelfand-Tsetlin basis (`interlacingShapes`, `GTPattern`,
 `gtBasis`). `README.md` remains the definitive document.
@@ -35,6 +35,9 @@ namespace TauCetiRoadmap.RepresentationTheory.ClassicalGroups
 open Matrix CategoryTheory
 open scoped TensorProduct
 
+/- Needed for instance resolution in the multilinear signatures below (checked: the file does not
+elaborate without it). Roadmap-file only: the built library under `TauCeti/` textually bans
+`set_option`, so the implementation must instead thread the transparency through explicit instances. -/
 set_option backward.isDefEq.respectTransparency false
 
 universe u
@@ -47,14 +50,23 @@ every **polynomial** irreducible is cut from a tensor power of this, and the gen
 are determinant twists `det^m ⊗ (polynomial irreducible)` of those. -/
 def stdRep (n : ℕ) : Representation ℂ (GL (Fin n) ℂ) (Fin n → ℂ) := sorry
 
-/-- **Rational representations** of `GLₙ`: on a chosen basis the matrix entries are rational functions of
-the `gᵢⱼ` and `det⁻¹`. The condition is basis-independent (equivalently: the representation is a comodule
-over the coordinate ring `ℂ[GLₙ] = ℂ[gᵢⱼ, det⁻¹]`), and this is the pinned meaning; the coordinate-entry
-form is a lemma. The polynomial ones (no `det⁻¹`) are the sub-notion indexing partitions; `stdRep` and its
-tensor powers are polynomial, and `det^m` are the one-dimensional rationals. (The comodule framework is
-`../ReductiveGroups`, cited; here it is a property of an honest `Representation` of the matrix group.) -/
+/-- **Rational representations** of `GLₙ`: on a basis indexed by `Fin (finrank ℂ W)` the matrix
+entries are polynomial in the `gᵢⱼ` divided by a power of `det` — the coordinate-entry form, which is
+the **pinned meaning** (a finite-dimensional carrier is forced: no such basis exists otherwise).
+Basis-independence is a companion lemma, and the equivalence with the comodule formulation over the
+coordinate ring `ℂ[GLₙ] = ℂ[gᵢⱼ, det⁻¹]` is a further lemma cited to `../ReductiveGroups`; here the
+notion is a property of an honest `Representation` of the matrix group. The polynomial ones (`m = 0`,
+no `det⁻¹`) are the sub-notion indexing partitions; `stdRep` and its tensor powers are polynomial, and
+`det^m` are the one-dimensional rationals. -/
 def IsRationalRep {n : ℕ} {W : Type u} [AddCommGroup W] [Module ℂ W]
-    (ρ : Representation ℂ (GL (Fin n) ℂ) W) : Prop := sorry
+    (ρ : Representation ℂ (GL (Fin n) ℂ) W) : Prop :=
+  ∃ (b : Module.Basis (Fin (Module.finrank ℂ W)) ℂ W)
+    (P : Fin (Module.finrank ℂ W) → Fin (Module.finrank ℂ W) →
+      MvPolynomial (Fin n × Fin n) ℂ) (m : ℕ),
+    ∀ (g : GL (Fin n) ℂ) (i j : Fin (Module.finrank ℂ W)),
+      LinearMap.toMatrix b b (ρ g) i j
+        = ((g : Matrix (Fin n) (Fin n) ℂ).det ^ m)⁻¹
+          * MvPolynomial.eval (fun p => (g : Matrix (Fin n) (Fin n) ℂ) p.1 p.2) (P i j)
 
 /-- **Complete reducibility over `ℂ`**: every finite-dimensional rational representation is semisimple
 (Weyl's unitarian trick / characteristic-0 linear reductivity). -/
@@ -98,7 +110,9 @@ theorem tensorSquare_char (n : ℕ) [FiniteDimensional ℂ (Sym[ℂ]^2 (Fin n �
 
 /-! ## Layer 2: the Weyl construction via Young symmetrizers (shared with `../SchurWeyl`) -/
 
-/-- **The symmetric-group action** on `V^{⊗d}` permuting tensor factors. -/
+/-- **The symmetric-group action** on `V^{⊗d}` permuting tensor factors. Ownership: in the built
+library this is `../SchurWeyl`'s action specialized to `V = ℂⁿ`, re-exported — not a second
+definition; the `def` here only pins the specialized signature this roadmap consumes. -/
 def permTensorAction (n d : ℕ) : Representation ℂ (Equiv.Perm (Fin d)) (⨂[ℂ]^d (Fin n → ℂ)) := sorry
 
 /-- **Schur-Weyl commutation**: the `GLₙ`-action and the `Sₐ`-action on `V^{⊗d}` commute (they generate each
@@ -108,7 +122,9 @@ theorem schurWeyl_commute (n d : ℕ) (g : GL (Fin n) ℂ) (σ : Equiv.Perm (Fin
       = (tensorPowerRep n d g) ∘ₗ (permTensorAction n d σ) := sorry
 
 /-- **The Schur functor** `Sᵘ V`: the image of the Young symmetrizer `c_λ` (from `../SchurWeyl`) acting on
-`V^{⊗|λ|}`, a `GLₙ`-subrepresentation. `S^{(d)}V ≅ Symᵈ V`, `S^{(1ᵈ)}V ≅ ⋀ᵈ V`. -/
+`V^{⊗|λ|}`, a `GLₙ`-subrepresentation. `S^{(d)}V ≅ Symᵈ V`, `S^{(1ᵈ)}V ≅ ⋀ᵈ V`. Ownership: the Young
+symmetrizer and the Schur-functor construction are owned by `../SchurWeyl`; this `def` pins only the
+`GLₙ`-specialized signature (in the built library, a definitional re-export, not a fork). -/
 def schurFunctor (n : ℕ) (μ : YoungDiagram) : FDRep ℂ (GL (Fin n) ℂ) := sorry
 
 /-! ## Layer 3: maximal torus, weights, and the highest-weight classification
@@ -122,8 +138,9 @@ def diagonalTorus (n : ℕ) : Subgroup (GL (Fin n) ℂ) := sorry
 the irreducibles; `λ n ≥ 0` picks out the polynomial ones (partitions with ≤ `n` rows). The "last
 coordinate" `λₙ` (the determinant-twist exponent) is read through a dedicated accessor, so the `n = 0` case
 (the empty weight, indexing the trivial representation) needs no special casing at each use site; formulas
-involving `Fin.last`, `λₙ`, and `j - i` are designed for the `Fin n` edge cases. -/
-def DominantWeight (n : ℕ) : Type := {l : Fin n → ℤ // Antitone l}
+involving `Fin.last`, `λₙ`, and `j - i` are designed for the `Fin n` edge cases. An `abbrev` (thin
+subtype wrapper), per the def-vs-abbrev guardrail. -/
+abbrev DominantWeight (n : ℕ) : Type := {l : Fin n → ℤ // Antitone l}
 
 /-- **The weight space** `Wλ` for `λ : Fin n → ℤ`: vectors on which `diagonal t` acts by `∏ tᵢ^{λᵢ}`. -/
 def weightSpace {n : ℕ} {W : Type u} [AddCommGroup W] [Module ℂ W]
@@ -135,23 +152,30 @@ theorem weightSpace_isInternal {n : ℕ} {W : Type u} [AddCommGroup W] [Module �
     [FiniteDimensional ℂ W] (ρ : Representation ℂ (GL (Fin n) ℂ) W) (h : IsRationalRep ρ) :
     DirectSum.IsInternal (fun l : Fin n → ℤ => weightSpace ρ l) := sorry
 
-/-- **The irreducible of highest weight `λ`**. `λ ↦ irreducible n λ` is a bijection from `DominantWeight n`
+/-- **The irreducible of highest weight `λ`**. `λ ↦ highestWeightRep n λ` is a bijection from `DominantWeight n`
 to isomorphism classes of irreducible rational `GLₙ`-representations. `𝔤𝔩ₙ` is reductive, not semisimple, so
 this is not a direct specialization of the semisimple theorem of the highest weight: it combines the
 `𝔰𝔩ₙ` highest weight with the central character of the diagonal torus, whose integrality picks out exactly
-the weakly decreasing integer sequences (`../LieHighestWeight` supplies the `𝔰𝔩ₙ` input). -/
-def irreducible (n : ℕ) (l : DominantWeight n) : FDRep ℂ (GL (Fin n) ℂ) := sorry
+the weakly decreasing integer sequences (`../LieHighestWeight` supplies the `𝔰𝔩ₙ` input). Named
+`highestWeightRep` rather than `irreducible` to avoid colliding with Lean's `irreducible` attribute
+and Mathlib's `Irreducible`. -/
+def highestWeightRep (n : ℕ) (l : DominantWeight n) : FDRep ℂ (GL (Fin n) ℂ) := sorry
 
 /-- The irreducibles are simple objects of `FDRep ℂ (GL (Fin n) ℂ)`. -/
-theorem irreducible_simple (n : ℕ) (l : DominantWeight n) : Simple (irreducible n l) := sorry
+theorem highestWeightRep_simple (n : ℕ) (l : DominantWeight n) : Simple (highestWeightRep n l) := sorry
 
-/-- The dominant weight of a partition (its shape read as a weakly decreasing sequence). -/
+/-- The dominant weight of a partition (its shape read as a weakly decreasing sequence). Only
+meaningful on its intended domain `μ.colLen 0 ≤ n` (at most `n` rows): the definition reads the
+first `n` row lengths, so for taller diagrams it silently truncates, and every consumer below
+carries the row bound explicitly. -/
 def weightOfShape (n : ℕ) (μ : YoungDiagram) : DominantWeight n := sorry
 
-/-- **The Weyl construction meets the classification**: for a partition `μ`, the Schur functor is the
-irreducible of the corresponding highest weight. -/
-theorem schurFunctor_iso_irreducible (n : ℕ) (μ : YoungDiagram) :
-    Nonempty (schurFunctor n μ ≅ irreducible n (weightOfShape n μ)) := sorry
+/-- **The Weyl construction meets the classification**: for a partition `μ` with at most `n` rows,
+the Schur functor is the irreducible of the corresponding highest weight. The row bound
+`μ.colLen 0 ≤ n` is essential: for taller `μ` the Schur functor vanishes (`Sᵘ V = 0` iff `μ` has
+more than `n` rows, README Layer 2) while `highestWeightRep` of the truncated weight is nonzero. -/
+theorem schurFunctor_iso_irreducible (n : ℕ) (μ : YoungDiagram) (hμ : μ.colLen 0 ≤ n) :
+    Nonempty (schurFunctor n μ ≅ highestWeightRep n (weightOfShape n μ)) := sorry
 
 /-! ## Layer 4: characters and Schur polynomials -/
 
@@ -159,16 +183,21 @@ theorem schurFunctor_iso_irreducible (n : ℕ) (μ : YoungDiagram) :
 are owned by `../SchurWeyl`; this is their `GLₙ`-variable specialization, consumed here. Defined by the
 tableau sum `∑_T x^{wt T}` (or the Jacobi-Trudi determinant `det(h_{μ_i - i + j})`); the bialternant
 `det(x_i^{μ_j + n - j}) / det(x_i^{n - j})` is a later theorem, since that quotient is not itself an
-`MvPolynomial` and needs Vandermonde divisibility. -/
+`MvPolynomial` and needs Vandermonde divisibility. Ownership: in the built library this is
+`../SchurWeyl`'s `schurPoly` specialized to `σ = Fin n`, `R = ℤ` (a definitional alias, not a second
+Schur-function foundation); the `def` here pins the specialized signature only. -/
 def schurPoly (n : ℕ) (μ : YoungDiagram) : MvPolynomial (Fin n) ℤ := sorry
 
 /-- The Schur polynomials are symmetric. -/
 theorem schurPoly_isSymmetric (n : ℕ) (μ : YoungDiagram) : (schurPoly n μ).IsSymmetric := sorry
 
 /-- **The summit of the character theory** (the Weyl character formula specialized to `GLₙ`): the character
-of the irreducible `V_μ`, restricted to the torus, is the Schur polynomial `s_μ`. -/
-theorem character_irreducible_eq_schurPoly (n : ℕ) (μ : YoungDiagram) (t : Fin n → ℂˣ) :
-    (irreducible n (weightOfShape n μ)).character (diagGL t)
+of the irreducible `V_μ`, restricted to the torus, is the Schur polynomial `s_μ`. The row bound is
+essential: for `μ` with more than `n` rows, `schurPoly n μ = 0` (no SSYT in `n` letters) while the
+irreducible of the truncated weight has nonzero character. -/
+theorem character_irreducible_eq_schurPoly (n : ℕ) (μ : YoungDiagram) (hμ : μ.colLen 0 ≤ n)
+    (t : Fin n → ℂˣ) :
+    (highestWeightRep n (weightOfShape n μ)).character (diagGL t)
       = MvPolynomial.eval (fun i => (t i : ℂ))
           (MvPolynomial.map (Int.castRingHom ℂ) (schurPoly n μ)) := sorry
 
@@ -184,7 +213,7 @@ def DominantWeight.detShiftShape {n : ℕ} (l : DominantWeight n) : YoungDiagram
 determinant twist of a Schur polynomial. With `m = λₙ` and `μ_i = λ_i - m` (a partition),
 `χ_{V_λ}(diagonal t) = (∏ tᵢ)^m · s_μ(t)`. `schurPoly` alone only reaches the polynomial case `m = 0`. -/
 theorem character_irreducible_eq_detTwist (n : ℕ) (l : DominantWeight n) (t : Fin n → ℂˣ) :
-    (irreducible n l).character (diagGL t)
+    (highestWeightRep n l).character (diagGL t)
       = (((∏ i, t i) ^ (DominantWeight.detShift l) : ℂˣ) : ℂ)
         * MvPolynomial.eval (fun i => (t i : ℂ))
             (MvPolynomial.map (Int.castRingHom ℂ) (schurPoly n (DominantWeight.detShiftShape l))) :=
@@ -199,7 +228,7 @@ def weylDimension (n : ℕ) (l : DominantWeight n) : ℕ := sorry
 /-- **Dimensions**: the value of the character at `1` is `weylDimension` (`char_one`). Obtained from
 Layer 4 by evaluating `s_λ` at `x = (1,…,1)`. -/
 theorem character_irreducible_one_eq_weylDimension (n : ℕ) (l : DominantWeight n) :
-    (irreducible n l).character 1 = (weylDimension n l : ℂ) := sorry
+    (highestWeightRep n l).character 1 = (weylDimension n l : ℂ) := sorry
 
 /-! ## Layer 6: branching rules -/
 
@@ -240,8 +269,10 @@ def GTPattern.topRow {n : ℕ} (P : GTPattern n) : Fin n → ℤ := fun i => P.e
 patterns with top row the shape `μ` (read as a weakly decreasing sequence) correspond to semistandard Young
 tableaux of shape `μ` **with entries in `{0,…,n-1}`**, the `j`-th row of the pattern recording the sub-shape
 on entries `< j` (shared with `../SchurWeyl`). Mathlib's `SemistandardYoungTableau μ` allows unbounded `ℕ`
-entries, an infinite set for a nonempty shape, so the target is the bounded subtype `T i j < n`. -/
-def gtPatternEquivSSYT (n : ℕ) (μ : YoungDiagram) :
+entries, an infinite set for a nonempty shape, so the target is the bounded subtype `T i j < n`. The row
+bound `μ.colLen 0 ≤ n` is essential: without it (e.g. `n = 0`, `μ` a single cell) the pattern side is a
+singleton while the tableau side is empty. -/
+def gtPatternEquivSSYT (n : ℕ) (μ : YoungDiagram) (hμ : μ.colLen 0 ≤ n) :
     {P : GTPattern n // ∀ i, P.topRow i = (μ.rowLen i : ℤ)} ≃
       {T : SemistandardYoungTableau μ // ∀ i j, T i j < n} := sorry
 
@@ -252,13 +283,13 @@ of normalization (the joint eigenbasis of the Gelfand-Tsetlin subalgebra below, 
 contravariant-form scaling). Valid for every `l : DominantWeight n`, since patterns carry negative entries;
 the pattern ↔ tableau reading is the polynomial specialization `λ n ≥ 0`. -/
 def gtBasis (n : ℕ) (l : DominantWeight n) :
-    Module.Basis {P : GTPattern n // P.topRow = l.1} ℂ (irreducible n l) := sorry
+    Module.Basis {P : GTPattern n // P.topRow = l.1} ℂ (highestWeightRep n l) := sorry
 
 /-- **The Gelfand-Tsetlin dimension count**: `dim V_λ` is the number of GT patterns with top row `λ`, proved
 from the branching side by induction on `n` and then compared with the Weyl dimension formula of Layer 5 and,
 via `gtPatternEquivSSYT`, with the tableau count `s_λ(1,…,1)`. -/
 theorem finrank_irreducible_eq_card_gtPatterns (n : ℕ) (l : DominantWeight n) :
-    Module.finrank ℂ (irreducible n l) = Nat.card {P : GTPattern n // P.topRow = l.1} := sorry
+    Module.finrank ℂ (highestWeightRep n l) = Nat.card {P : GTPattern n // P.topRow = l.1} := sorry
 
 /-- The GT-pattern count agrees with the Weyl dimension formula of Layer 5. -/
 theorem card_gtPatterns_eq_weylDimension (n : ℕ) (l : DominantWeight n) :
@@ -267,10 +298,12 @@ theorem card_gtPatterns_eq_weylDimension (n : ℕ) (l : DominantWeight n) :
 /-- **The Gelfand-Tsetlin generators**: the images on `V_λ` of the **centre of the universal enveloping
 algebra** `Z(U(𝔤𝔩_k))` (the Gelfand invariants / Capelli elements), for each level `k` of the chain
 `GL₁ ⊂ ⋯ ⊂ GLₙ` and each degree `r ≤ k`. The Lie-algebra centre of `𝔤𝔩_k` is only the scalars; it is the
-enveloping-algebra centre that yields the full maximal commutative Gelfand-Tsetlin subalgebra, so a level `k`
-contributes `k` generators, not one. -/
+enveloping-algebra centre that yields the full maximal commutative Gelfand-Tsetlin subalgebra. Indexing
+convention: the chain level is written 0-based as `k : Fin n` (matrix size `k + 1`), contributing the
+`k + 1` generators `r : Fin (k.val + 1)` of degrees `1, …, k + 1` — this matches the README's 1-based
+"level `k` contributes `k` generators" with level `= k + 1`, total `∑ₖ (k+1) = n(n+1)/2`. -/
 def gtGenerator (n : ℕ) (l : DominantWeight n) (k : Fin n) (r : Fin (k.val + 1)) :
-    Module.End ℂ (irreducible n l) := sorry
+    Module.End ℂ (highestWeightRep n l) := sorry
 
 /-- **The Gelfand-Tsetlin eigenvalue** of the generator `(k, r)` on the basis vector indexed by pattern `P`,
 an explicit polynomial in the entries of the first `k+1` rows of `P`. -/
