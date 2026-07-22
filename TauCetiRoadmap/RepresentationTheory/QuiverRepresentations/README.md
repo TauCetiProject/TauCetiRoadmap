@@ -44,15 +44,17 @@ finite-length modules and is upstreamable to Mathlib on its own).
 - **The base field.** `k` is a field throughout (`[Field k]`). The general structure theory (path
   algebra, representations, Krull-Schmidt), the Euler and Tits forms, the dimension vector, and the BGP
   reflection and Coxeter functors all live over an arbitrary field and carry no closedness hypothesis.
-  **Algebraic closedness (`[IsAlgClosed k]`) enters only for the classification statements**: the
-  bijection between indecomposables and positive roots, the `kQ/I` presentation, and the identification
-  of block endomorphism rings with `k`. These are false over a field that is not algebraically closed
-  (division-algebra endomorphism rings appear). Spell `[IsAlgClosed k]` in each result that needs it
-  rather than bundling it into the ambient context.
+  **Algebraic closedness (`[IsAlgClosed k]`) enters only where it is genuinely needed**: the `kQ/I`
+  presentation (Layer 3) and the non-simply-laced species theory, where division-algebra endomorphism
+  rings appear over a non-closed field. The simply-laced (ADE) Gabriel statements themselves —
+  finite type ⇔ positive-definite Tits form, the indecomposable ↔ positive-root bijection — are
+  **field-independent** (the BGP reflection-functor proof works over any field, and every ADE
+  indecomposable is a brick with `End = k`), so those targets carry no closedness hypothesis. Spell
+  `[IsAlgClosed k]` in each result that needs it rather than bundling it into the ambient context.
 - **Quivers are finite.** `Q` is a finite quiver: `[Quiver Q]` with `[Finite Q]` on the vertices and
   `[∀ a b, Finite (a ⟶ b)]` (finitely many arrows). Reuse Mathlib's `Quiver` class, `Quiver.Path`,
   `Quiver.Path.comp`, `Quiver.Path.length`, and `Prefunctor`; never a private quiver datum. "Connected"
-  means connected as an underlying graph (`Quiver.symmetrify` is Mathlib's symmetrization).
+  means connected as an underlying graph (`Quiver.Symmetrify` is Mathlib's symmetrization).
   **Acyclicity** is the conceptual predicate `IsAcyclic Q`, "every closed path is trivial"
   (`∀ a, ∀ p : Quiver.Path a a, p = Quiver.Path.nil`), independent of any finiteness; the reflection
   functors and the homological identities are stated against it. Separately, `Finite (Σ a b : Q,
@@ -102,7 +104,7 @@ finite-length modules and is upstreamable to Mathlib on its own).
 ## What Mathlib already has (consume)
 
 - **Quivers, paths, prefunctors:** `Combinatorics/Quiver/Basic.lean` - `Quiver` (with `Hom`, `⟶`),
-  `Quiver.IsThin`, `Quiver.symmetrify` (`.../Symmetric.lean`); `Combinatorics/Quiver/Path.lean` -
+  `Quiver.IsThin`, `Quiver.Symmetrify` (`.../Symmetric.lean`); `Combinatorics/Quiver/Path.lean` -
   `Quiver.Path`, `Quiver.Path.nil`, `Quiver.Path.cons`, `Quiver.Path.comp`, `Quiver.Path.length`,
   `Quiver.Path.toPath`; `Combinatorics/Quiver/Prefunctor.lean` - `Prefunctor` (`⥤q`), `Prefunctor.comp`
   (`⋙q`), `Prefunctor.id`; `Combinatorics/Quiver/ConnectedComponent.lean`,
