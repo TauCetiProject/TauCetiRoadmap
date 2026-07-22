@@ -117,21 +117,47 @@ theorem spinToSpecialOrthogonal_surjective {V : Type v} [AddCommGroup V] [Module
     [FiniteDimensional ℂ V] (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) :
     Function.Surjective (spinToSpecialOrthogonal Q) := sorry
 
-/-- **The double cover, kernel `{±1}`**: `1 → ℤ/2 → Spin(V) → SO(V) → 1`. -/
+/-- **The double cover, kernel `{±1}`**: `1 → ℤ/2 → Spin(V) → SO(V) → 1`. The positive-dimension
+hypothesis is essential: for `V = 0` the spin group and `SO(0)` are both trivial and the kernel has
+cardinality `1`. -/
 theorem card_ker_spinToSpecialOrthogonal {V : Type v} [AddCommGroup V] [Module ℂ V]
-    [FiniteDimensional ℂ V] (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) :
+    [FiniteDimensional ℂ V] (hV : 0 < Module.finrank ℂ V)
+    (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) :
     Nat.card (MonoidHom.ker (spinToSpecialOrthogonal Q)) = 2 := sorry
 
 /-! ### Layer 3: the Lie algebra `𝔰𝔬(V) ≅ ⋀²V` inside the Clifford algebra -/
 
-/-- **Bivectors are `𝔰𝔬(V)`**: `⋀²V`, embedded in `even Q` as a scalar multiple of
-`w₁ ∧ w₂ ↦ ι w₁ · ι w₂ - ι w₂ · ι w₁` and equipped with the commutator bracket, is isomorphic to the
-skew-adjoint endomorphisms `LieAlgebra.Orthogonal.so`. The normalization is fixed by the action, not by a
-hard-coded `½`: `ad (bivector u v) x = polar Q v x • u - polar Q u x • v`, against Mathlib's `polar`
-convention. Stated for the standard form here; the bracket of a bivector with `ι v` is the differential of
-the Layer-2 conjugation. -/
-noncomputable def soEquivBivector (n : ℕ) (R : Type u) [CommRing R] :
-    ⋀[R]^2 (Fin n → R) ≃ₗ[R] ↥(LieAlgebra.Orthogonal.so (Fin n) R) := sorry
+/-- **The bivector Lie ring**: the bracket on `⋀[R]^2 (Fin n → R)` transported from the Clifford
+**commutator** through the embedding `w₁ ∧ w₂ ↦ ι w₁ · ι w₂ - ι w₂ · ι w₁` into the even Clifford
+algebra of the standard form. Defining the bracket on the Clifford side is what keeps
+`soEquivBivector` below a faithful statement — a bracket transported backwards from `so` would make
+the Lie equivalence tautological. `[Invertible (2 : R)]` is required for the normalization (and the
+equivalence itself is **false in characteristic 2**: for `n = 1`, `⋀²(𝔽₂) = 0` while
+`so(1, 𝔽₂) ≅ 𝔽₂`). Scoped instances: roadmap-local. -/
+noncomputable scoped instance bivectorLieRing (n : ℕ) (R : Type u) [CommRing R]
+    [Invertible (2 : R)] : LieRing (⋀[R]^2 (Fin n → R)) := sorry
+
+noncomputable scoped instance bivectorLieAlgebra (n : ℕ) (R : Type u) [CommRing R]
+    [Invertible (2 : R)] : LieAlgebra R (⋀[R]^2 (Fin n → R)) := sorry
+
+/-- **Bivectors are `𝔰𝔬(V)`** — as **Lie algebras**, with the Clifford-commutator bracket of
+`bivectorLieRing` on the left: a `LinearEquiv` would be pure rank-counting (`n(n-1)/2` on both
+sides) and carry none of the content that bivectors under the Clifford commutator *are* `𝔰𝔬`.
+The normalization is fixed by the action (`soEquivBivector_wedge_mulVec` below), not by a
+hard-coded `½`. Stated for the standard form here; the bracket of a bivector with `ι v` is the
+differential of the Layer-2 conjugation. -/
+noncomputable def soEquivBivector (n : ℕ) (R : Type u) [CommRing R] [Invertible (2 : R)] :
+    ⋀[R]^2 (Fin n → R) ≃ₗ⁅R⁆ ↥(LieAlgebra.Orthogonal.so (Fin n) R) := sorry
+
+/-- **The action-normalization pin** for `soEquivBivector`: the image of `u ∧ v` acts on vectors by
+`x ↦ polar(v, x) • u - polar(u, x) • v`, where `polar` of the standard form is
+`polar(u, x) = 2 ∑ᵢ uᵢ xᵢ`. This is the advertised lemma that pins which Lie equivalence
+`soEquivBivector` is (any automorphism of `so` composed with it would otherwise also satisfy the
+bare equivalence). -/
+theorem soEquivBivector_wedge_mulVec (n : ℕ) (R : Type u) [CommRing R] [Invertible (2 : R)]
+    (u v x : Fin n → R) :
+    ((soEquivBivector n R (exteriorPower.ιMulti R 2 ![u, v]) : Matrix (Fin n) (Fin n) R)).mulVec x
+      = (2 * ∑ i, v i * x i) • u - (2 * ∑ i, u i * x i) • v := sorry
 
 /-! ### Layer 4: the spin and half-spin representations (over `ℂ`) -/
 
@@ -140,8 +166,34 @@ theorem exists_maximalIsotropic {V : Type v} [AddCommGroup V] [Module ℂ V] [Fi
     (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (l : ℕ) (hV : Module.finrank ℂ V = 2 * l) :
     ∃ W : Submodule ℂ V, Module.finrank ℂ W = l ∧ ∀ x ∈ W, Q x = 0 := sorry
 
+/-- **Polarization data** for a complex quadratic space: a maximal isotropic `W`, a complementary
+isotropic `W'` in perfect `polar`-pairing with `W`, and an anisotropic line (`⊥` in even dimension,
+one-dimensional in odd dimension, orthogonal to both). This is the data the spinor action needs to
+be **well-defined**: acting by a general `v` uses its `W`/`W'`/line components, so with `W` alone
+the advertised target can even be empty (`W = 0` against a 2-dimensional nondegenerate `V` would
+ask for a unital algebra map `Mat₂(ℂ) → ℂ`). -/
+structure SpinPolarizationData {V : Type v} [AddCommGroup V] [Module ℂ V]
+    (Q : QuadraticForm ℂ V) where
+  W : Submodule ℂ V
+  W' : Submodule ℂ V
+  line : Submodule ℂ V
+  isotropic_W : ∀ x ∈ W, Q x = 0
+  isotropic_W' : ∀ x ∈ W', Q x = 0
+  pairing_nondegenerate_left : ∀ x ∈ W, (∀ y ∈ W', QuadraticMap.polar Q x y = 0) → x = 0
+  pairing_nondegenerate_right : ∀ y ∈ W', (∀ x ∈ W, QuadraticMap.polar Q x y = 0) → y = 0
+  line_orthogonal : ∀ e ∈ line, ∀ x ∈ W ⊔ W', QuadraticMap.polar Q e x = 0
+  line_anisotropic : ∀ e ∈ line, e ≠ 0 → Q e ≠ 0
+  line_rank_le_one : Module.finrank ℂ line ≤ 1
+  disjoint_W_W' : Disjoint W W'
+  disjoint_line : Disjoint (W ⊔ W') line
+  span_top : W ⊔ W' ⊔ line = ⊤
+
 /-- **The spinor representation of the Clifford algebra**: `Cliff(V, Q)` acts on `S = ⋀·W` by exterior
-multiplication `w ∧ -` for `w ∈ W` and by `contractLeft` against `QuadraticMap.polar Q w'` for `w' ∈ W'`.
+multiplication `w ∧ -` for `w ∈ W` and by interior product against `QuadraticMap.polar Q w'` for
+`w' ∈ W'` — note the operator acts on `ExteriorAlgebra ℂ W = CliffordAlgebra (0)`, so the exact API
+is the zero-form specialization `CliffordAlgebra.contractLeft` transported along
+`CliffordAlgebra.equivExterior` (there is no bespoke exterior interior-product; name this route in
+the implementation).
 The coefficient is pinned to `polar` by the anticommutator identity `c x ∘ c y + c y ∘ c x = polar Q x y • 1`
 (so `c v ∘ c v = Q v • 1` via `polar Q v v = 2 • Q v`), not a prose "twice". In **even** dimension this is an
 isomorphism onto `End S` (`dim S = 2ˡ`), proved forward by generation and a dimension count, which supplies
@@ -149,36 +201,44 @@ the Layer-1 structure theorem. In **odd** dimension it is not injective (`dim Cl
 through one central-idempotent summand, with the extra vector `e` acting as the parity operator scaled so
 `c e ∘ c e = Q e • 1`. -/
 noncomputable def spinAction {V : Type v} [AddCommGroup V] [Module ℂ V] (Q : QuadraticForm ℂ V)
-    (W : Submodule ℂ V) :
-    CliffordAlgebra Q →ₐ[ℂ] Module.End ℂ (ExteriorAlgebra ℂ W) := sorry
+    (P : SpinPolarizationData Q) :
+    CliffordAlgebra Q →ₐ[ℂ] Module.End ℂ (ExteriorAlgebra ℂ P.W) := sorry
 
 /-- **The spin representation of the group**, the restriction of `spinAction` along
 `spinGroup.toUnits`. -/
 noncomputable def spinRep {V : Type v} [AddCommGroup V] [Module ℂ V] (Q : QuadraticForm ℂ V)
-    (W : Submodule ℂ V) :
-    Representation ℂ (spinGroup Q) (ExteriorAlgebra ℂ W) := sorry
+    (P : SpinPolarizationData Q) :
+    Representation ℂ (spinGroup Q) (ExteriorAlgebra ℂ P.W) := sorry
 
 /-- **The even half-spin summand** `S⁺ = ⋀ᵉᵛᵉⁿ W` (the odd part `S⁻` is defined dually); a
 `spinGroup`-subrepresentation, since the spin group is even and preserves exterior parity. -/
 noncomputable def spinPlus {V : Type v} [AddCommGroup V] [Module ℂ V] (Q : QuadraticForm ℂ V)
-    (W : Submodule ℂ V) : Submodule ℂ (ExteriorAlgebra ℂ W) := sorry
+    (P : SpinPolarizationData Q) : Submodule ℂ (ExteriorAlgebra ℂ P.W) := sorry
 
 /-- `S⁺` is invariant under the spin representation. -/
 theorem spinPlus_invariant {V : Type v} [AddCommGroup V] [Module ℂ V] (Q : QuadraticForm ℂ V)
-    (W : Submodule ℂ V) (g : spinGroup Q) :
-    (spinPlus Q W).map (spinRep Q W g) ≤ spinPlus Q W := sorry
+    (P : SpinPolarizationData Q) (g : spinGroup Q) :
+    (spinPlus Q P).map (spinRep Q P g) ≤ spinPlus Q P := sorry
 
-/-- The dimension of the spin module is `2ˡ`. -/
-theorem finrank_spinRep {V : Type v} [AddCommGroup V] [Module ℂ V] (Q : QuadraticForm ℂ V)
-    (W : Submodule ℂ V) [FiniteDimensional ℂ W] :
+/-- The exterior algebra of an `l`-dimensional space has dimension `2ˡ` — a pure exterior-algebra
+fact, genuinely absent from Mathlib, named for what it says (the previous name `finrank_spinRep`
+referenced neither the representation nor `Q`). -/
+theorem finrank_exteriorAlgebra {W : Type v} [AddCommGroup W] [Module ℂ W]
+    [FiniteDimensional ℂ W] :
     Module.finrank ℂ (ExteriorAlgebra ℂ W) = 2 ^ Module.finrank ℂ W := sorry
+
+/-- The dimension of the spin module is `2ˡ` — the representation-level corollary. -/
+theorem finrank_spinRep {V : Type v} [AddCommGroup V] [Module ℂ V] (Q : QuadraticForm ℂ V)
+    (P : SpinPolarizationData Q) [FiniteDimensional ℂ P.W] (l : ℕ)
+    (hW : Module.finrank ℂ P.W = l) :
+    Module.finrank ℂ (ExteriorAlgebra ℂ P.W) = 2 ^ l := sorry
 
 /-- **Irreducibility in odd dimension**: `S` is a simple `spinGroup`-module (the Clifford action is
 the full matrix algebra). -/
 theorem spinRep_isIrreducible_of_odd {V : Type v} [AddCommGroup V] [Module ℂ V]
-    [FiniteDimensional ℂ V] (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (W : Submodule ℂ V)
-    (l : ℕ) (hV : Module.finrank ℂ V = 2 * l + 1) :
-    (spinRep Q W).IsIrreducible := sorry
+    [FiniteDimensional ℂ V] (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate)
+    (P : SpinPolarizationData Q) (l : ℕ) (hV : Module.finrank ℂ V = 2 * l + 1) :
+    (spinRep Q P).IsIrreducible := sorry
 
 /-! ### Layer 5: the fundamental representations of `Bₗ` and `Dₗ`
 
@@ -191,17 +251,24 @@ lattice generated by the vector weights `±eᵢ` (hence outside every tensor pow
 passage from `Representation ℂ (spinGroup Q)` to this Lie module is the differential of the double cover, a
 separate lemma, not folded into the highest-weight theorem. -/
 
-/-- The half-spin representation of `𝔰𝔬(2l)` has dimension `2^{l-1}`. -/
+/-- The half-spin representation of `𝔰𝔬(2l)` has dimension `2^{l-1}`. The intended domain is
+`1 ≤ l`, carried explicitly: at `l = 0` the truncated subtraction would make the statement
+coincidentally true but meaningless (there is no half-spin split of a point). -/
 theorem finrank_spinPlus {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
-    (Q : QuadraticForm ℂ V) (W : Submodule ℂ V) (l : ℕ) (hW : Module.finrank ℂ W = l) :
-    Module.finrank ℂ (spinPlus Q W) = 2 ^ (l - 1) := sorry
+    (Q : QuadraticForm ℂ V) (P : SpinPolarizationData Q) (l : ℕ) (hl : 1 ≤ l)
+    (hW : Module.finrank ℂ P.W = l) :
+    Module.finrank ℂ (spinPlus Q P) = 2 ^ (l - 1) := sorry
 
 /-! ### Layer 6: the low-dimensional exceptional isomorphisms -/
 
 /-- **`Spin₃ ≅ SL₂`** (type `B₁ = A₁`); the `2`-dimensional spin representation is the standard
 representation of `SL₂`. Over `ℝ` this is `Spin(3) ≅ SU(2)`. The isomorphism needs three steps:
 `even Cliff(V, Q) ≅ M₂(ℂ)`; the spin group is the reversal-norm-one subgroup, identified with the
-determinant-one subgroup; and the image is exactly `SL₂`, both directions. -/
+determinant-one subgroup; and the image is exactly `SL₂`, both directions. Definitional-matching
+risk (review): Mathlib's `spinGroup Q` is the even units with its norm/`star` condition, not by
+construction the `ℂ`-points of algebraic Spin — this `Spin₃` case is the early sanity check that
+the norm condition yields the connected simply connected group with no spurious center or
+component, and it should land before the higher cases are attempted. -/
 theorem spin3_equiv_sl2 {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (hV : Module.finrank ℂ V = 3) :
     Nonempty (spinGroup Q ≃* Matrix.SpecialLinearGroup (Fin 2) ℂ) := sorry
@@ -253,11 +320,15 @@ noncomputable def trialityAut {V : Type v} [AddCommGroup V] [Module ℂ V] [Fini
     (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (hV : Module.finrank ℂ V = 8) :
     spinGroup Q ≃* spinGroup Q := sorry
 
-/-- **Triality has order three** (and is not inner). -/
+/-- **Triality has order three** (and is not inner). The nontriviality conjunct is the anti-vacuity
+half: order dividing three alone is satisfied by the identity, so without `≠ refl` the target would
+pin nothing. The full rep-permutation statement (`V ≅ S⁰ ↦ S⁺ ↦ S⁻ ↦ V`) is the Layer-8 companion
+recorded in the comment below. -/
 theorem trialityAut_order_three {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (hV : Module.finrank ℂ V = 8) :
     (trialityAut Q hQ hV).trans ((trialityAut Q hQ hV).trans (trialityAut Q hQ hV))
-      = MulEquiv.refl (spinGroup Q) := sorry
+      = MulEquiv.refl (spinGroup Q) ∧
+    trialityAut Q hQ hV ≠ MulEquiv.refl (spinGroup Q) := sorry
 
 -- The `Spin₈`-invariant trilinear form `V ⊗ S⁺ ⊗ S⁻ → ℂ` permuted by triality (the octonion
 -- multiplication as the triality form) is the concrete outcome; see `README.md` Layer 8.
