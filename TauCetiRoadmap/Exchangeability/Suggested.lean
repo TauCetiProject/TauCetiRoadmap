@@ -106,7 +106,11 @@ Strictly stronger **at fixed `ν`** than `MixedIIDWith`, which constrains only t
 marginal law: for a nondegenerate mixing law, on a rich enough space an independent copy of a
 directing measure witnesses the mixture identity while the process is not conditionally i.i.d.
 given it. The term **directing measure** is reserved for a `ν` witnessing this predicate —
-witness-level a.e. uniqueness lives here, never on the mixture side. -/
+witness-level a.e. uniqueness lives here, never on the mixture side. Equivalence with
+Kallenberg's probabilistic notion is asserted under `[IsProbabilityMeasure μ]` with
+measurable coordinates (as the summit theorems supply); the definition itself stays
+hypothesis-light by design, and under `μ = 0` it degenerates as ordinary measure
+identities do. -/
 def ConditionallyIIDWith (μ : Measure Ω) (X : ℕ → Ω → α)
     (ν : Ω → ProbabilityMeasure α) : Prop :=
   Measurable ν ∧
@@ -181,6 +185,16 @@ random probability measure is measurable into `Measure (Fin m → α)`, the meas
 input `Measure.bind` needs in every mixture identity. -/
 example (ν : Ω → ProbabilityMeasure α) (hν : Measurable ν) (m : ℕ) :
     Measurable fun ω => (ProbabilityMeasure.pi fun _ : Fin m => ν ω).toMeasure := by
+  sorry
+
+/-- **Layer 1, joint-kernel measurability.** The conditional common ending additionally needs
+measurability of `ω ↦ δ_{ν ω} ⊗ (ν ω)^{⊗m}` (for `Measure.bind_apply` and measure
+extensionality on the joint space); provable from the Giry measurable structure, measurable
+Dirac, the product-kernel adapter above, and `ProbabilityMeasure.measurable_fun_prod`, with
+no extra hypotheses. -/
+example (ν : Ω → ProbabilityMeasure α) (hν : Measurable ν) (m : ℕ) :
+    Measurable fun ω =>
+      (Measure.dirac (ν ω)).prod (ProbabilityMeasure.pi fun _ : Fin m => ν ω).toMeasure := by
   sorry
 
 /-- **Layer 1, the mixture common ending** (`mixedIID_of_mixingRepresentative`). A measurable

@@ -354,6 +354,8 @@ Consume Mathlib's product/cylinder infrastructure — `generateFrom_pi`, `isPiSy
 `Measure.pi_eq`, `Measure.pi_pi` — and build only the de Finetti-facing adapters over it:
 
 * measurability of `ω ↦ Measure.pi fun _ : Fin m => ν ω` (the random product kernel);
+* measurability of the joint kernel `ω ↦ δ_{ν ω} ⊗ (ν ω)^{⊗m}`, which the conditional common
+  ending needs for `Measure.bind_apply` and extensionality on the joint space;
 * the AE-measurable version needed for `Measure.bind_apply`;
 * rectangle evaluation and equality-from-rectangles specialized to those random product
   measures (that rectangles form a π-system and generate the product σ-algebra is Mathlib's
@@ -666,12 +668,19 @@ The directing-measure theorem should expose a real API, not just an existence pr
   2005, Thm 1.1), the sharp form from which the mixture identity follows by integrating out;
 * **a.e.** uniqueness of `ν` **among directing measures**, i.e. among witnesses of
   `ConditionallyIIDWith` (`conditionallyIID_ae_unique`: equality of probability measures a.e.
-  under the base law, tested against a determining class — not pointwise). Mere mixing
+  under the base law, tested against a determining class — not pointwise). Pin its hypotheses:
+  `[IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]`, measurable `X`, and two
+  explicit `ConditionallyIIDWith μ X ν` / `ConditionallyIIDWith μ X ν'` hypotheses, concluding
+  `ν =ᵐ[μ] ν'`. Mere mixing
   representatives (witnesses of `MixedIIDWith`) are **not** a.e. unique when the mixing law is
   nondegenerate — an independent copy of `ν` is one — so no witness-level a.e.-equality
   theorem may conclude `ν = ν'` from `MixedIIDWith` alone; the mixture-side uniqueness is of
   the mixing law `μ.map ν` (`mixedIID_mixingLaw_unique`, which does quantify over mixture
-  witnesses);
+  witnesses: two `MixedIIDWith` hypotheses, measurable `X`, concluding `μ.map ν = μ.map ν'`).
+  The `[IsProbabilityMeasure μ]` hypothesis on `mixedIID_mixingLaw_unique` is load-bearing,
+  not decorative: for infinite base measures, distinct mixing measures can give identical
+  `∞`-valued finite-dimensional mixtures, so mixing-law uniqueness fails at the hypothesis-light
+  generality of the definitions;
 * the finite-dimensional factorization identity;
 * the empirical-measure form: `(1/n) Σ_{i<n} δ_{Xᵢ}(ω) ⇒ ν(ω)` weakly in `P(α)`, tested
   against bounded continuous functions (a milestone in its own right, bringing in the weak
