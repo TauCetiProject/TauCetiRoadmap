@@ -186,21 +186,27 @@ noncomputable instance (base : (LieAlgebra.IsKilling.rootSystem H).Base) (lam : 
 noncomputable instance (base : (LieAlgebra.IsKilling.rootSystem H).Base) (lam : Module.Dual K H) :
     LieModule K L (vermaModule base lam) := sorry
 
-/-- The canonical highest weight vector of the Verma module `M(λ)`. -/
-theorem exists_isHighestWeightVector_vermaModule (base : (LieAlgebra.IsKilling.rootSystem H).Base)
-    (lam : Module.Dual K H) :
-    ∃ v : vermaModule base lam, IsHighestWeightVector base lam v := sorry
+/-- The canonical highest weight vector of the Verma module `M(λ)` (the class of `1 ⊗ 1`), named so
+the universal property below can be stated against it. -/
+noncomputable def vermaHighestWeightVector (base : (LieAlgebra.IsKilling.rootSystem H).Base)
+    (lam : Module.Dual K H) : vermaModule base lam := sorry
+
+theorem isHighestWeightVector_vermaHighestWeightVector
+    (base : (LieAlgebra.IsKilling.rootSystem H).Base) (lam : Module.Dual K H) :
+    IsHighestWeightVector base lam (vermaHighestWeightVector base lam) := sorry
 
 /-- **The Verma universal property**, pinned (previously prose-only, though it is the load-bearing
-characterization Layer 7's central-character construction depends on): maps out of `M(λ)` correspond
-to highest weight vectors of weight `λ` in the target, by evaluation at the canonical vector. The
-freeness of `M(λ)` over `U(n⁻)` is the companion structural target, stated once a `U(n⁻)`-module
-structure on the carrier is fixed. -/
+characterization Layer 7's central-character construction depends on): maps out of `M(λ)`
+correspond to highest weight vectors of weight `λ` in the target by **evaluation at the canonical
+vector** — `∃! φ` with `φ (vermaHighestWeightVector) = v`. (The earlier "every highest-weight
+vector maps into the line of `v`" phrasing was satisfied by `φ = 0`, so its uniqueness claim was
+false; the second review pass caught this.) The freeness of `M(λ)` over `U(n⁻)` is the companion
+structural target, stated once a `U(n⁻)`-module structure on the carrier is fixed. -/
 theorem vermaModule_universal (base : (LieAlgebra.IsKilling.rootSystem H).Base)
     (lam : Module.Dual K H) {M : Type u} [AddCommGroup M] [Module K M] [LieRingModule L M]
     [LieModule K L M] (v : M) (hv : IsHighestWeightVector base lam v) :
     ∃! φ : vermaModule base lam →ₗ⁅K,L⁆ M,
-      ∀ w : vermaModule base lam, IsHighestWeightVector base lam w → ∃ c : K, φ w = c • v := sorry
+      φ (vermaHighestWeightVector base lam) = v := sorry
 
 /-- **The irreducible quotient** `L(λ)`: the unique irreducible quotient of `M(λ)`, obtained by
 quotienting by the unique maximal submodule. -/
@@ -531,11 +537,16 @@ theorem exists_chevalleySystem (base : (LieAlgebra.IsKilling.rootSystem H).Base)
 quotient of the free Lie algebra by the Serre relations of a Cartan matrix `CM`
 (`Mathlib/Algebra/Lie/SerreConstruction.lean`). For simple `L`, the Chevalley system of
 `exists_chevalleySystem` satisfies exactly the Serre relations of `base.cartanMatrix` and the induced
-map is a Lie-algebra isomorphism. Simplicity keeps `base.cartanMatrix` indecomposable; the reducible
-Killing-semisimple case is the direct sum of the simple-ideal presentations, handled componentwise. -/
+map is a Lie-algebra isomorphism. **Orientation pin** (second review pass): Mathlib's
+`base.cartanMatrix i j` is `αᵢ(hⱼ)` while `Matrix.ToLieAlgebra CM` imposes `⁅Hᵢ, Eⱼ⁆ = CM i j • Eⱼ`
+`= αⱼ(hᵢ) • Eⱼ`, so the Serre matrix is the **transpose** `base.cartanMatrixᵀ` — invisible in
+simply-laced types but exactly the `Bₙ`/`Cₙ` swap otherwise. Simplicity keeps the matrix
+indecomposable; the reducible Killing-semisimple case is the direct sum of the simple-ideal
+presentations, handled componentwise. A refinement worth adopting at implementation time: index the
+Chevalley generators by `base.support` (the statement above quantifies over all roots). -/
 theorem serre_presentation_equiv [LieAlgebra.IsSimple K L]
     (base : (LieAlgebra.IsKilling.rootSystem H).Base) :
-    Nonempty (Matrix.ToLieAlgebra K base.cartanMatrix ≃ₗ⁅K⁆ L) := sorry
+    Nonempty (Matrix.ToLieAlgebra K base.cartanMatrix.transpose ≃ₗ⁅K⁆ L) := sorry
 
 end General
 

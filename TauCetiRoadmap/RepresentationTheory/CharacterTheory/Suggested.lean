@@ -415,23 +415,26 @@ def liftCyclotomic {e p : ℕ} (α : ZMod p) (residues : (ZMod e)ˣ → ZMod p) 
 `α ^ u`. -/
 def cyclotomicReduce {e : ℕ} (p : ℕ) (α : ZMod p) : Cyclotomic e →+* ZMod p := sorry
 
+/-- The reduction sends the generator to `α` — the pin that makes `cyclotomicReduce` the map it
+claims to be. -/
+theorem cyclotomicReduce_gen {e p : ℕ} [NeZero e] (α : ZMod p) :
+    cyclotomicReduce (e := e) p α (cyclotomicGen e) = α := sorry
+
 /-- **Lift correctness and uniqueness** — the load-bearing companion of `liftCyclotomic`, previously
-only a comment: the lift reduces to the prescribed residues under every embedding
-(`u ↦ cyclotomicReduce p (α ^ (u : ZMod e).val)`), its power-basis coefficients are within `bound`,
-and it is the **unique** such element (with `2 * bound < p` the coefficient window is single-valued
-mod `p`; Dixon's `2√|G| < p` supplies this for character data). Without this theorem the summit
-`characterTable_eq` would silently depend on an unspecified `def`. -/
+only a comment. Stated **conditionally on an admissible witness** `y` (residue-matching with
+coefficients within `bound`): for arbitrary `residues`/`bound` no such element need exist (e.g.
+`bound = 0` with nonzero residues), so an unconditional existence claim would be false; given a
+witness, the window `2 * bound < p` (equivalently `2 * bound + 1 ≤ p`, the count of representable
+values) makes it unique and the lift returns exactly it. `orderOf α = e` — not mere divisibility —
+is required so the evaluation points `α ^ u` are the primitive embeddings. Dixon's `2√|G| < p`
+supplies the window for character data; without this theorem the summit `characterTable_eq` would
+silently depend on an unspecified `def`. -/
 theorem liftCyclotomic_spec {e p : ℕ} [NeZero e] (hp : p.Prime) (he : e ∣ p - 1)
     (α : ZMod p) (hα : orderOf α = e) (residues : (ZMod e)ˣ → ZMod p) (bound : ℕ)
-    (hbound : 2 * bound < p) :
-    (∀ u : (ZMod e)ˣ,
-        cyclotomicReduce p (α ^ (u : ZMod e).val) (liftCyclotomic α residues bound)
-          = residues u) ∧
-      (∀ j, (cyclotomicCoeff (liftCyclotomic α residues bound) j).natAbs ≤ bound) ∧
-      ∀ y : Cyclotomic e,
-        (∀ u : (ZMod e)ˣ, cyclotomicReduce p (α ^ (u : ZMod e).val) y = residues u) →
-        (∀ j, (cyclotomicCoeff y j).natAbs ≤ bound) →
-        y = liftCyclotomic α residues bound := sorry
+    (hbound : 2 * bound < p) (y : Cyclotomic e)
+    (hy_res : ∀ u : (ZMod e)ˣ, cyclotomicReduce p (α ^ (u : ZMod e).val) y = residues u)
+    (hy_bound : ∀ j, (cyclotomicCoeff y j).natAbs ≤ bound) :
+    liftCyclotomic α residues bound = y := sorry
 
 /-- **The assembled solver**: modular reduction, the eigenvector search, degree recovery, and the lift,
 returning the exact table. A genuine `def` on `[DecidableEq G] [Fintype G]` data, `#eval`-able. -/

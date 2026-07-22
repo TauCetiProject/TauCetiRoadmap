@@ -521,6 +521,16 @@ theorem exists_holomorphic_extension [CompactSpace G] [ConnectedSpace G]
     {Gc : Type w} [TopologicalSpace Gc] [ChartedSpace Hc Gc] [IsManifold Ic ∞ Gc]
     [Group Gc] [LieGroup Ic ∞ Gc] (ι : G →* Gc) (hι : Continuous (ι : G → Gc))
     (hινj : Function.Injective ι)
+    -- `Gc` must actually be the complexification: an injective continuous `ι` alone is not enough
+    -- (embed `U(1)` in `SL₂(ℂ)`: its weight-one character extends to no holomorphic character of
+    -- `SL₂(ℂ)`). The universal property is consumed as a hypothesis, matching the conclusion of
+    -- `exists_complexification`.
+    (huniv : ∀ (Ec' : Type u) (_ : NormedAddCommGroup Ec') (_ : NormedSpace ℂ Ec')
+      (Hc' : Type v) (_ : TopologicalSpace Hc') (Ic' : ModelWithCorners ℂ Ec' Hc')
+      (Gc' : Type w) (_ : TopologicalSpace Gc') (_ : ChartedSpace Hc' Gc')
+      (_ : IsManifold Ic' ∞ Gc') (_ : Group Gc') (_ : LieGroup Ic' ∞ Gc')
+      (φ : G →* Gc'), Continuous (φ : G → Gc') →
+      ∃! ψ : Gc →* Gc', ContMDiff Ic Ic' ∞ (ψ : Gc → Gc') ∧ ψ.comp ι = φ)
     (ρ : G →* (V →L[ℂ] V)ˣ) (hρ : Continuous (ρ : G → (V →L[ℂ] V)ˣ)) :
     ∃ ρc : Gc →* (V →L[ℂ] V)ˣ,
       ρc.comp ι = ρ ∧
@@ -540,14 +550,40 @@ as `G_ℂ` is Layer 7's, and the target module `L(λ)` is `../LieHighestWeight/R
 coset space. -/
 def flagManifold (Gc : Type w) [Group Gc] (B : Subgroup Gc) : Type w := Gc ⧸ B
 
-/-- **The Bruhat decomposition** `G_ℂ = ⨆_{w ∈ W} B w B`: every element lies in some double coset
-`B w B`, with `W` now forced to be the genuine geometric Weyl group `N(T)/T` (the group-theoretic
-`weylGroup` above) and `rep` a section of the quotient — the previous arbitrary-`(W, rep, B)` form
-was false (empty `W`). The remaining hypotheses (`Gc` reductive, `B` a Borel containing the maximal
-torus `T`) stay prose-pending the reductive-group API, so this signature is a milestone shape, not
-yet the full theorem; disjointness over `W` and the cell-dimension formula `dim BwB/B = ℓ(w)`
+/-- **A Tits system (BN-pair)** on `(B, T)` with simple reflections `S ⊆ N(T)/T`: the elementary
+group-theoretic axioms (generation, involutive generators, the exchange inclusion, and
+non-normalization) from which the Bruhat decomposition follows. This is the bundled datum standing
+in for "complex reductive `Gc`, Borel `B ⊇ T` maximal" — for such groups the axioms hold, but they
+are statable with no reductive API, which is what lets the decomposition below be a true theorem
+rather than a milestone shape. -/
+structure IsTitsSystem {Gc : Type w} [Group Gc] (B T : Subgroup Gc)
+    (S : Set (weylGroup T)) : Prop where
+  t_le_b : T ≤ B
+  closure_eq_top :
+    Subgroup.closure ((B : Set Gc) ∪ (Subgroup.normalizer (T : Set Gc) : Set Gc)) = ⊤
+  gen_weyl : Subgroup.closure S = ⊤
+  sq_one : ∀ s ∈ S, s * s = 1
+  exchange : ∀ s ∈ S, ∀ ns nw : ↥(Subgroup.normalizer (T : Set Gc)),
+    (QuotientGroup.mk ns :
+        ↥(Subgroup.normalizer (T : Set Gc))
+          ⧸ Subgroup.subgroupOf T (Subgroup.normalizer (T : Set Gc))) = s →
+    ({((ns : ↥(Subgroup.normalizer (T : Set Gc))) : Gc)} : Set Gc) * (B : Set Gc)
+        * {((nw : ↥(Subgroup.normalizer (T : Set Gc))) : Gc)}
+      ⊆ (B : Set Gc) * {((ns : Gc) : Gc) * ((nw : Gc) : Gc)} * (B : Set Gc)
+        ∪ (B : Set Gc) * {((nw : Gc) : Gc)} * (B : Set Gc)
+  not_le : ∀ s ∈ S, ∀ ns : ↥(Subgroup.normalizer (T : Set Gc)),
+    (QuotientGroup.mk ns :
+        ↥(Subgroup.normalizer (T : Set Gc))
+          ⧸ Subgroup.subgroupOf T (Subgroup.normalizer (T : Set Gc))) = s →
+    ¬ ((fun x => ((ns : Gc) : Gc) * x * (((ns : Gc) : Gc))⁻¹) '' (B : Set Gc) ⊆ (B : Set Gc))
+
+/-- **The Bruhat decomposition** `G_ℂ = ⨆_{w ∈ W} B w B` for a Tits system: every element lies in
+some double coset `B w B`, with `W = N(T)/T` and `rep` a genuine section. The Tits-system
+hypothesis is what makes this true (with a bare `T ≤ B` the union can be a proper subgroup — take
+`B = T` self-normalizing); disjointness over `W` and the cell-dimension formula `dim BwB/B = ℓ(w)`
 remain in `README.md`. -/
-theorem bruhat_decomposition {Gc : Type w} [Group Gc] (B T : Subgroup Gc) (hTB : T ≤ B)
+theorem bruhat_decomposition {Gc : Type w} [Group Gc] (B T : Subgroup Gc)
+    (S : Set (weylGroup T)) (hBN : IsTitsSystem B T S)
     (rep : weylGroup T → Gc)
     (hrep : ∀ w : weylGroup T, ∃ n : ↥(Subgroup.normalizer (T : Set Gc)),
       (QuotientGroup.mk n :
@@ -574,16 +610,34 @@ noncomputable instance {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* 
 noncomputable def borelWeilRep {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* ℂˣ) :
     Representation ℂ Gc (borelWeilSpace B lam) := sorry
 
-/-- **Borel-Weil, summit pins** (previously README-only, contradicting the roadmap's own contract
-that named milestones appear as `sorry`-targets): the section space is finite-dimensional and the
-translation representation is irreducible. The identification with `../LieHighestWeight`'s `L(λ)`
-(and the dominance condition on `lam`) is stated there once the complexified highest-weight API
-exists; these two pins are the group-side halves. -/
-theorem finiteDimensional_borelWeilSpace {Gc : Type w} [Group Gc] (B : Subgroup Gc)
-    (lam : B →* ℂˣ) : FiniteDimensional ℂ (borelWeilSpace B lam) := sorry
+/-- **The algebraic induced-function model** of the section space (a real definition): the
+`B`-equivariant functions `f (g b) = lam(b)⁻¹ f g`, the space `L_λ`-sections live in once
+holomorphy is imposed. -/
+def borelWeilSpaceAlg {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* ℂˣ) :
+    Submodule ℂ (Gc → ℂ) where
+  carrier := {f | ∀ (g : Gc) (b : B), f (g * (b : Gc)) = (((lam b)⁻¹ : ℂˣ) : ℂ) * f g}
+  add_mem' := by
+    intro f₁ f₂ h₁ h₂ g b
+    simp [h₁ g b, h₂ g b, mul_add]
+  zero_mem' := by intro g b; simp
+  smul_mem' := by
+    intro c f hf g b
+    simp only [Pi.smul_apply, hf g b, smul_eq_mul]
+    ring
 
-theorem borelWeilRep_isIrreducible {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* ℂˣ) :
-    (borelWeilRep B lam).IsIrreducible := sorry
+/-- **The Borel-Weil anti-vacuity pin**: `borelWeilSpace` embeds `Gc`-equivariantly into the
+algebraic model, with the translation action `(g · f) x = f (g⁻¹ x)` on the target. This ties the
+opaque holomorphic-section carrier to a concrete space (an opaque carrier alone could be
+discharged by any representation whatsoever). The **summit** — finite-dimensionality,
+irreducibility, and the identification with `../LieHighestWeight`'s `L(λ)` — additionally needs
+`Gc` reductive, `B` a Borel, and `lam` dominant; those hypotheses are not yet expressible here, so
+per the second review pass the summit statements stay in `README.md` rather than being pinned
+falsely over arbitrary `(Gc, B, lam)`. -/
+theorem borelWeilSpace_embeds {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* ℂˣ) :
+    ∃ ψ : borelWeilSpace B lam →ₗ[ℂ] ↥(borelWeilSpaceAlg B lam),
+      Function.Injective ψ ∧
+      ∀ (g : Gc) (f : borelWeilSpace B lam) (x : Gc),
+        (ψ (borelWeilRep B lam g f) : Gc → ℂ) x = (ψ f : Gc → ℂ) (g⁻¹ * x) := sorry
 
 /-! ### Layer 9: the Cartan, Iwasawa, and KAK decompositions
 
@@ -642,6 +696,14 @@ structure IwasawaData (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSp
   A_eq : (A : Set G) = lieExp (I := I) '' 𝔞
   N : Subgroup G
   N_closed : IsClosed (N : Set G)
+  N_connected : IsConnected (N : Set G)
+  /-- `N` is globally the exponential of its Lie algebra — with connectedness, this is what rules
+  out discrete counterfeits (e.g. `ℤ` inside `ℝ`) whose Lie algebra satisfies the complement
+  fields while the global factorization fails. -/
+  N_exp : (N : Set G)
+    = lieExp (I := I) '' ((lieSubalgebraOfSubgroup (I := I) N).toSubmodule : Set (LeftInvariantDerivation I G))
+  /-- `lieExp` is injective on `𝔞` (global uniqueness of the `A`-factor). -/
+  A_exp_injOn : Set.InjOn (lieExp (I := I)) (𝔞 : Set (LeftInvariantDerivation I G))
   N_normalized : ∀ X ∈ 𝔞, ∀ Y ∈ (lieSubalgebraOfSubgroup (I := I) N).toSubmodule,
     ⁅X, Y⁆ ∈ (lieSubalgebraOfSubgroup (I := I) N).toSubmodule
   iwasawa_disjoint : Disjoint (lieSubalgebraOfSubgroup (I := I) K).toSubmodule 𝔞
@@ -652,6 +714,10 @@ structure IwasawaData (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSp
   chamber_subset : chamber ⊆ (𝔞 : Set (LeftInvariantDerivation I G))
   chamber_cone : ∀ X ∈ chamber, ∀ Y ∈ chamber, X + Y ∈ chamber
   chamber_smul : ∀ X ∈ chamber, ∀ c : ℝ, 0 ≤ c → c • X ∈ chamber
+  /-- The chamber is a **full** cone: it spans `𝔞` (an empty or lower-dimensional cone would
+  trivialize the KAK factorization below). That it also meets every restricted-Weyl orbit is the
+  companion condition, stated once the restricted root system is attached. -/
+  chamber_span : Submodule.span ℝ chamber = 𝔞
 
 /-- **`IsIwasawaTriple K A N`**: `(K, A, N)` are the subgroups of some Iwasawa datum. The
 existential wrapper keeps the consuming decomposition theorems' signatures stable. -/
@@ -671,12 +737,14 @@ theorem iwasawaDecomposition (hG : IsRealReductive I G)
     ∀ g : G, ∃! p : K × A × N, g = (p.1 : G) * (p.2.1 : G) * (p.2.2 : G) := sorry
 
 /-- **The KAK (Cartan) decomposition** `G = K · closure(A⁺) · K`: for a real reductive `G`, maximal
-compact `K`, and the positive restricted chamber `Aplus`, every `g` factors as `k₁ a k₂` with `a ∈ Aplus`,
-unique up to the restricted Weyl group. Stated as existence of the `K A K` factorization; the restricted
-root system and the uniqueness up to `W(𝔞)` are in `README.md`. -/
-theorem kakDecomposition (hG : IsRealReductive I G)
-    (K : Subgroup G) (Aplus : Set G) (hAplus : IsPositiveRestrictedChamber (I := I) Aplus) :
-    ∀ g : G, ∃ (k₁ k₂ : K) (a : G), a ∈ Aplus ∧ g = (k₁ : G) * a * (k₂ : G) := sorry
+compact `K`, and the positive restricted chamber, every `g` factors as `k₁ a k₂` with `a` in the
+exponential of the chamber — with `K` and the chamber drawn from the **same** Iwasawa datum (with
+independent `K`/`Aplus` arguments the statement would relate unrelated witnesses, and an empty
+chamber would falsify it; `chamber_span` in the datum rules that out). Uniqueness up to the
+restricted Weyl group and the restricted root system are in `README.md`. -/
+theorem kakDecomposition (D : IwasawaData I G) :
+    ∀ g : G, ∃ (k₁ k₂ : D.K) (a : G),
+      a ∈ lieExp (I := I) '' D.chamber ∧ g = (k₁ : G) * a * (k₂ : G) := sorry
 
 /-- **The global Cartan (polar) decomposition** `G = K · exp 𝔭` (summit pin, previously
 README-only): for a Cartan involution datum, every `g` factors uniquely as `k · lieExp X` with

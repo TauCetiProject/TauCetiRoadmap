@@ -283,7 +283,7 @@ whose base Cartan matrix is the symmetrized Tits Gram matrix `2·I − (adjacenc
 whose roots are exactly the nonzero `d` with `titsForm Q d = 1`. This is the interface the family
 index advertises to `../RootSystems` (its `posRoots`/`HasCartanType` vocabulary applies to the
 witness); `dimVector_isRoot_iff` then matches indecomposables to the positive half. -/
-theorem exists_rootPairing_titsForm {Q : Type} [Quiver Q] [Fintype Q]
+theorem exists_rootPairing_titsForm {Q : Type} [Quiver Q] [Fintype Q] [Nonempty Q]
     [∀ a b : Q, Fintype (a ⟶ b)] [DecidableEq Q]
     (hconn : Subsingleton (Quiver.WeaklyConnectedComponent Q))
     (hADE : ∀ d : Q → ℤ, d ≠ 0 → 0 < titsForm Q d) :
@@ -331,16 +331,31 @@ structure IsAlmostSplit {k Q : Type*} [Field k] [Quiver Q]
     ¬ IsSplitEpi h → ∃ h' : Z ⟶ S.X₂, h' ≫ S.g = h
   left_almost_split : ∀ (Z : QuiverRep k Q), IsFinDim k Q Z → ∀ h : S.X₁ ⟶ Z,
     ¬ IsSplitMono h → ∃ h' : S.X₂ ⟶ Z, S.f ≫ h' = h
+  /-- The left end is the Auslander-Reiten translate of the right end — the field that connects the
+  sequence to `arTranslate` (without it the structure would never mention `τ`). -/
+  tau_iso : Nonempty (S.X₁ ≅ arTranslate k Q S.X₃)
 
 /-- **Existence and uniqueness of almost-split sequences** (the Auslander-Reiten theorem): for each
 **finite-dimensional** indecomposable non-projective `M` there is an almost-split sequence ending at
-`M`. The finiteness hypothesis is essential: on the full functor category the statement is false
+`M`. Both finiteness hypotheses are essential: on the full functor category the statement is false
 (the Kronecker quiver has infinite-dimensional indecomposable nonprojective representations that end
-no almost-split sequence — Paquette 2011, arXiv:1104.1195). -/
+no almost-split sequence — Paquette 2011, arXiv:1104.1195), and `[Finite Q]` alone would still
+allow infinitely many arrows, i.e. an infinite-dimensional path algebra whose finite-dimensional
+representations need not be finitely presented — hence the finite-path hypothesis, the same one
+`finiteDimensional_pathAlgebra` uses. -/
 theorem exists_almostSplitSequence {k Q : Type*} [Field k] [IsAlgClosed k] [Quiver Q] [Finite Q]
+    [Finite (Σ a b : Q, Quiver.Path a b)]
     (M : QuiverRep k Q) (hfd : IsFinDim k Q M) (hM : Indecomposable M) (hproj : ¬ Projective M) :
     ∃ S : CategoryTheory.ShortComplex (QuiverRep k Q),
       IsAlmostSplit S ∧ Nonempty (S.X₃ ≅ M) := sorry
+
+/-- **Uniqueness of the almost-split sequence** ending at a given indecomposable, up to isomorphism
+of short complexes fixing the end — the companion of existence that the review noted was absent. -/
+theorem almostSplitSequence_unique {k Q : Type*} [Field k] [IsAlgClosed k] [Quiver Q] [Finite Q]
+    [Finite (Σ a b : Q, Quiver.Path a b)]
+    (S S' : CategoryTheory.ShortComplex (QuiverRep k Q))
+    (hS : IsAlmostSplit S) (hS' : IsAlmostSplit S') (h3 : Nonempty (S.X₃ ≅ S'.X₃)) :
+    Nonempty (S.X₁ ≅ S'.X₁) ∧ Nonempty (S.X₂ ≅ S'.X₂) := sorry
 
 /-- **The Auslander-Reiten quiver**: a quiver whose vertices are isomorphism classes of
 finite-dimensional indecomposables and whose arrows are a basis of the irreducible morphisms
@@ -349,6 +364,9 @@ noncomputable def arQuiver (k Q : Type*) [Field k] [Quiver Q] : Type _ :=
   Skeleton (ObjectProperty.FullSubcategory
     (fun M : QuiverRep k Q => IsFinDim k Q M ∧ Indecomposable M))
 
+-- The arrows (a basis of `rad(M, N)/rad²(M, N)`) remain an opaque instance: pinning them needs the
+-- radical bimodule of the category, which is the companion API target; until then the vertex type
+-- above is real but arrow-level statements about `arQuiver` must not be treated as constrained.
 noncomputable instance (k Q : Type*) [Field k] [Quiver Q] : Quiver (arQuiver k Q) := sorry
 
 end TauCetiRoadmap.RepresentationTheory.QuiverRepresentations
