@@ -77,3 +77,23 @@ border [reductive algebraic groups](../ReductiveGroups/README.md) and
 [weighted orthogonal L² bases](../OrthogonalL2Bases/README.md), the character-theory roadmap shares the
 Frobenius-Schur indicator with [pivotal and spherical categories](../PivotalSpherical/README.md), and the
 Schur-Weyl roadmap borders [Temperley-Lieb](../TemperleyLieb/README.md).
+
+## Scope and boundaries
+
+Three deliberate exclusions bound this family; they are choices, not omissions, and roadmaps for the
+excluded material are welcome as separate future work.
+
+- **No modular representation theory of finite groups.** Where individual roadmaps work over general
+  fields or rings they say so (the semisimple-algebra and quiver-representation theory is stated over
+  arbitrary fields, and the induction/restriction functorial layer over commutative rings), but the
+  modular theory proper — Brauer characters, decomposition matrices, blocks with defect, the modular
+  representation theory of symmetric groups — is out of scope for every roadmap here.
+- **Finite and compact groups only, on the unitary side.** The analytic representation theory stops at
+  compact groups (Peter-Weyl, compact Frobenius-Schur): no infinite-dimensional unitary
+  representations of noncompact groups, no Plancherel theory, no tempered spectrum. The *structure*
+  theory of noncompact real reductive groups (Cartan involutions, Iwasawa and KAK decompositions in
+  the Lie-groups roadmap) is in scope, because the compact theory consumes it; their unitary duals
+  are not.
+- **Finite-type root systems only.** The root-system and highest-weight roadmaps stop at the finite
+  (Cartan-Killing) classification: no affine or general Kac-Moody theory, no quantum groups. The
+  quiver roadmap's Gabriel dichotomy points at tame/wild phenomena but does not develop them.
