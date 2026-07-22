@@ -19,22 +19,19 @@ of the function field, **no** isogenies, **no** Weil pairing, **no** finiteness 
 `E(𝔽_q)` and hence **no** Hasse bound, **no** Tate curve, **no** twists, **no** Tate's algorithm,
 and neither the **Mordell–Weil** theorem nor **Selmer/Sha**. We build these in
 `TauCeti/AlgebraicGeometry/EllipticCurve/`, on the function field of a Weierstrass curve and its
-places (Layer 0), with an isogeny defined as a function-field embedding, backwards (Layer 1):
-
-```
-structure Isogeny (W₁ W₂ : Affine K) where
-  pullback : W₂.FunctionField →ₐ[K] W₁.FunctionField
-  mapsInfinity : inducedPlace pullback W₁.infinityPlace = W₂.infinityPlace
-```
-
-(D. Angdinata's definition, from this roadmap's review) — no schemes anywhere, and AEC/ATAEC
-cited for the mathematics, not as the specification.
+places (Layer 0), with an isogeny defined as a function-field embedding, backwards, its
+pointedness `φ(O₁) = O₂` expressed as integrality over the coordinate rings (Layer 1) —
+D. Angdinata's definition, in its integral-closure form, statable against today's Mathlib and
+**seeded verbatim below** (`Isogeny`). No schemes anywhere, and AEC/ATAEC cited for the
+mathematics, not as the specification.
 
 `sorry` is allowed in this human-owned roadmap library — these are goals, not proofs. Following
 the roadmap-writing guide, objects with a genuine type are pinned as `def … := sorry` (the Weil
-pairing, the quadratic twist), and only statements are `theorem … := sorry`; nothing is a
-`Prop`-typed placeholder. The layers whose central objects are new *types* — the places of the
-function field (Layer 0), the isogeny type, the dual isogeny, the invariant differential and the
+pairing, the quadratic twist, the Frobenius isogeny), the `Isogeny` structure and its `degree`
+are **defined outright** (their Mathlib vocabulary exists), and only statements are
+`theorem … := sorry`; nothing is a `Prop`-typed placeholder. The layers whose central objects
+are new *types* — the places of the
+function field (Layer 0), the hom-group, the dual isogeny, the invariant differential and the
 formal group (Layer 1), the Kodaira type and the Tate-curve isomorphism (Layer 4), and the
 Selmer/Sha groups (Layer 7) — need the very API those layers introduce; they are specified in
 `README.md` and built there, not pinned here as `sorry`-typed junk types.
@@ -85,25 +82,83 @@ theorem toClass_surjective {K : Type*} [Field K] (W : WeierstrassCurve K) [W.IsE
 
 /-! ## Layer 1: isogenies, the dual, the invariant differential, and formal groups (AEC II.2, III.4–6, IV)
 
-An isogeny `φ : W₁ → W₂` is a `K`-algebra map of function fields, backwards, fixing infinity:
+An isogeny `φ : W₁ → W₂` is an `F`-algebra map of function fields, backwards, with the
+pointedness `φ(O₁) = O₂` expressed as integrality over the coordinate rings — no places in the
+definition, so the structure is seeded verbatim below (D. Angdinata's definition, in its
+integral-closure form), with its degree defined outright and its automatic finiteness,
+positivity, and Frobenius seeded. Such a map is automatically injective and finite, so `deg φ`
+is `Module.finrank`, separability is that of the field extension, and multiplicativity of
+`deg` under composition is the tower formula — field theory Mathlib already has. The
+hom-group (zero adjoined) and the quadraticity of the degree, the dual isogeny with
+`φ̂ ∘ φ = [deg φ]`, `deg [n] = n²` via the division polynomials, and the invariant
+differential `ω` in `Ω[W.FunctionField⁄K]` with `φ^* = KaehlerDifferential.map` are specified
+in `README.md` §Layer 1 and built there. The milestone statable against the existing point
+group is the surjectivity of multiplication-by-`n`: over a separably closed field, `[n]` is
+surjective on points for `n` invertible in `K` (AEC III.4.10), the counting input to
+`E[N] ≅ (ℤ/N)²`. -/
 
-```
-structure Isogeny (W₁ W₂ : Affine K) where
-  pullback : W₂.FunctionField →ₐ[K] W₁.FunctionField
-  mapsInfinity : inducedPlace pullback W₁.infinityPlace = W₂.infinityPlace
-```
+open WeierstrassCurve in
+/-- **An isogeny of elliptic curves, as a function-field embedding backwards**
+(AEC II.2.4-shape; D. Angdinata's definition, in its integral-closure form). `toFun` is the
+contravariant map on function fields; `map_zero` makes `W₁.FunctionField` a
+`W₂.CoordinateRing`-algebra through `toFun` and demands that `W₁.CoordinateRing` be integral
+over it — functions with poles only at `O₂` pull back to functions with poles only at `O₁`,
+which is exactly `φ(O₁) = O₂`, with no places API in the statement. An `Isogeny` is
+automatically nonzero (`toFun` is a map of fields) and finite
+(`Isogeny.finite_functionField`), so "isogeny" means *nonzero* isogeny by construction; the
+hom-group adjoining zero is `README.md` §Layer 1. -/
+structure Isogeny {F : Type*} [Field F] (W₁ W₂ : Affine F) where
+  /-- The contravariant function-field map. -/
+  toFun : W₂.FunctionField →ₐ[F] W₁.FunctionField
+  /-- `φ(O₁) = O₂`: the coordinate ring of `W₁` is integral over that of `W₂`. -/
+  map_zero :
+    letI : Algebra W₂.CoordinateRing W₁.FunctionField :=
+      (toFun.toRingHom.comp (algebraMap W₂.CoordinateRing W₂.FunctionField)).toAlgebra
+    ∀ x : W₁.CoordinateRing,
+      algebraMap W₁.CoordinateRing W₁.FunctionField x ∈
+        integralClosure W₂.CoordinateRing W₁.FunctionField
 
-Such a map is automatically injective and finite, so `deg φ` is `Module.finrank`, separability
-is that of the field extension, multiplicativity of `deg` under composition is the tower
-formula, and the `q`-power Frobenius (`pullback = (·) ^ q`) is purely inseparable of degree `q`
-— field theory Mathlib already has. The type needs Layer 0's places, so it is specified in
-`README.md` §Layer 1 and built there, together with the hom-group (zero adjoined) and the
-quadraticity of the degree, the dual isogeny with `φ̂ ∘ φ = [deg φ]`, `deg [n] = n²` via the
-division polynomials, and the invariant differential `ω` in `Ω[W.FunctionField⁄K]` with
-`φ^* = KaehlerDifferential.map` and the formal group. The one milestone statable against the
-existing point group is the surjectivity of multiplication-by-`n`: over a separably closed
-field, `[n]` is surjective on points for `n` invertible in `K` (AEC III.4.10), the counting
-input to `E[N] ≅ (ℤ/N)²`. -/
+namespace Isogeny
+
+variable {F : Type*} [Field F] {W₁ W₂ : WeierstrassCurve.Affine F}
+
+/-- **The degree of an isogeny** (AEC II.2.4(a)-shape): the rank
+`[W₁.FunctionField : W₂.FunctionField]` of the function-field extension along `toFun`.
+Multiplicativity under composition is the finrank tower formula; `deg [n] = n²` and
+`deg π_q = q` are the Layer 1/3 milestones. -/
+noncomputable def degree (φ : Isogeny W₁ W₂) : ℕ :=
+  letI : Algebra W₂.FunctionField W₁.FunctionField := φ.toFun.toRingHom.toAlgebra
+  Module.finrank W₂.FunctionField W₁.FunctionField
+
+/-- **Automatic finiteness** (AEC II.2.4(a)): both function fields have transcendence degree
+`1` over `F`, so `W₁.FunctionField` is a finite module over the image of `toFun` — with no
+properness input. This is what makes `degree` honest (`finrank` of an infinite extension
+reads `0`) and "nonconstant" free. -/
+theorem finite_functionField (φ : Isogeny W₁ W₂) :
+    letI : Algebra W₂.FunctionField W₁.FunctionField := φ.toFun.toRingHom.toAlgebra
+    Module.Finite W₂.FunctionField W₁.FunctionField :=
+  sorry
+
+/-- The degree of an isogeny is positive — finiteness plus nontriviality of the field
+extension. -/
+theorem degree_pos (φ : Isogeny W₁ W₂) : 0 < φ.degree :=
+  sorry
+
+end Isogeny
+
+/-- **The Frobenius isogeny** of a Weierstrass curve over a finite field (AEC II.2.11):
+`toFun = (· ^ q)` with `q = #F` — an `F`-algebra map because `c ^ q = c` on `F` — whose
+`map_zero` is the integrality of the coordinates over their `q`-th powers. Purely
+inseparable; Layer 3's engine, inducing `(x, y) ↦ (x^q, y^q)` on points. -/
+noncomputable def frobeniusIsogeny {F : Type*} [Field F] [Finite F]
+    (W : WeierstrassCurve.Affine F) : Isogeny W W :=
+  sorry
+
+/-- **`deg π_q = q`** (AEC II.2.11(c)): the Frobenius isogeny has degree `#F` — the first
+computed degree, and the input to `deg (1 − π_q) = #E(𝔽_q)` (Layer 3). -/
+theorem degree_frobeniusIsogeny {F : Type*} [Field F] [Finite F]
+    (W : WeierstrassCurve.Affine F) : (frobeniusIsogeny W).degree = Nat.card F :=
+  sorry
 
 /-- **Multiplication-by-`n` is surjective on `E(Kˢᵉᵖ)`** (AEC III.4.10) over a separably closed
 field, for `n` **invertible in `K`** (`(n : K) ≠ 0`, i.e. `char K ∤ n` — which also forces

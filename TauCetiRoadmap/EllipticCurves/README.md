@@ -29,20 +29,29 @@ curves — the coordinate ring `Affine.CoordinateRing` (`AdjoinRoot W.polynomial
 domain) and the function field `Affine.FunctionField` (its fraction field) — and the group law on
 the points is *already proved* through that algebra, as the ideal class group of the coordinate
 ring (Angdinata–Xu, Mathlib's `Point.toClass`). So an **isogeny is defined as a function-field
-embedding, backwards**, its pointedness expressed through **places**:
+embedding, backwards**, its pointedness expressed through **integrality over the coordinate
+rings**:
 
 ```lean
-structure Isogeny (W₁ W₂ : Affine K) where
-  pullback : W₂.FunctionField →ₐ[K] W₁.FunctionField
-  mapsInfinity :
-    inducedPlace pullback W₁.infinityPlace = W₂.infinityPlace
+structure Isogeny (W₁ W₂ : Affine F) where
+  toFun : W₂.FunctionField →ₐ[F] W₁.FunctionField
+  map_zero :
+    letI : Algebra W₂.CoordinateRing W₁.FunctionField :=
+      (toFun.toRingHom.comp (algebraMap W₂.CoordinateRing W₂.FunctionField)).toAlgebra
+    ∀ x : W₁.CoordinateRing,
+      algebraMap W₁.CoordinateRing W₁.FunctionField x ∈
+        integralClosure W₂.CoordinateRing W₁.FunctionField
 ```
 
-— the definition proposed by D. Angdinata on this roadmap's review, matching his in-progress
-isogeny and Weil-pairing development (this roadmap **coordinates with that work**, it does not
-fork it). Here `inducedPlace pullback` restricts a place of `W₁.FunctionField` along `pullback`
-to a place of `W₂.FunctionField`, and `mapsInfinity` says exactly `φ(O₁) = O₂`. Why this is the
-right foundation, and a cheap one:
+— D. Angdinata's definition, in its integral-closure form (this roadmap **coordinates with his
+in-progress isogeny and Weil-pairing development**, it does not fork it). `toFun` is the
+contravariant function-field map; `map_zero` makes `W₁.FunctionField` a
+`W₂.CoordinateRing`-algebra through `toFun` and demands that `W₁.CoordinateRing` be
+**integral** over it. That integrality is exactly `φ(O₁) = O₂`: the coordinate ring is the
+ring of functions regular away from the point at infinity, so the condition says functions
+with poles only at `O₂` pull back to functions with poles only at `O₁` — the finite map of
+affine curves underneath a pointed map of the projective ones, with no places in the
+statement. Why this is the right foundation, and a cheap one:
 
 - **Nonconstancy is free.** A `K`-algebra map between the function fields is injective, and
   automatically **finite** (both sides have transcendence degree `1` over `K`), so an `Isogeny`
@@ -54,19 +63,27 @@ right foundation, and a cheap one:
   existing `FieldTheory`, not a flatness theory of morphisms. Multiplicativity of `deg` under
   composition is the finrank tower formula.
 - **Frobenius is a one-liner.** Over `𝔽_q`, `f ↦ f ^ q` is an `𝔽_q`-algebra endomorphism of the
-  function field fixing the infinity place: the Frobenius isogeny `π_q`, purely inseparable of
-  degree `q` — Layer 3's engine.
+  function field satisfying `map_zero` (the coordinates are integral over their `q`-th powers):
+  the Frobenius isogeny `π_q`, purely inseparable of degree `q` — Layer 3's engine.
 - **Points come along.** A point of `W` is a degree-`1` place of the function field (Layer 0's
-  dictionary), and `inducedPlace` preserves degree-`1` places, so an isogeny induces
-  `W₁.Point → W₂.Point` — a group homomorphism by the class-group functoriality of the *same*
-  algebra that proves Mathlib's group law.
+  dictionary) — for affine points, a maximal ideal of the coordinate ring with residue field
+  `F` — and `map_zero` puts `W₁.CoordinateRing` inside the integral closure of
+  `W₂.CoordinateRing`; for elliptic `W₁` the coordinate ring *is* that integral closure (it is
+  integrally closed and the extension is finite), giving a finite ring map
+  `W₂.CoordinateRing → W₁.CoordinateRing` along which maximal ideals contract. So an isogeny
+  induces `W₁.Point → W₂.Point` — a group homomorphism by the class-group functoriality of the
+  *same* algebra that proves Mathlib's group law.
 - **The differential calculus is upstream.** The invariant differential is an element of
   Mathlib's Kähler module `Ω[W.FunctionField⁄K]`, and `φ^*` is `KaehlerDifferential.map` along
-  `pullback`; separability of `φ` is `φ^*ω ≠ 0`.
+  `toFun`; separability of `φ` is `φ^*ω ≠ 0`.
 
-What the definition needs and Mathlib lacks is the **theory of places** of the function field —
-the place at infinity, the place of an affine point, `inducedPlace`, degrees, divisors. That is
-Layer 0, and it is valuation theory over the existing coordinate ring, not geometry.
+The definition itself needs nothing Mathlib lacks — `CoordinateRing`, `FunctionField`, and
+`integralClosure` are upstream, so the structure is **seeded verbatim in `Suggested.lean`**,
+together with its degree (`Module.finrank` through `toFun`), automatic finiteness, and the
+Frobenius isogeny. What the *theory* needs, and Mathlib lacks, is the **places-and-divisors
+dictionary** of the function field — the place at infinity, the place of an affine point,
+degrees, the fibre-counting identity, divisors. That is Layer 0, and it is valuation theory
+over the existing coordinate ring, not geometry.
 
 **No schemes.** Silverman's isogenies are morphisms of curves-as-varieties, and Mathlib has
 scheme-track work in flight that will eventually provide exactly that: the affine scheme of an
@@ -115,8 +132,9 @@ Suggested home: `TauCeti/AlgebraicGeometry/EllipticCurve/` (mirroring Mathlib's 
   abstract group and survive that migration; only the seeds' spellings (`W.toAffine.Point`) would
   update.
 - **Isogenies are function-field embeddings, backwards.** An isogeny `φ : W₁ → W₂` is the
-  structure above: a `K`-algebra map `pullback : W₂.FunctionField →ₐ[K] W₁.FunctionField`
-  together with `mapsInfinity`, i.e. `φ(O₁) = O₂` read through `inducedPlace`. Every such map is
+  structure above: an `F`-algebra map `toFun : W₂.FunctionField →ₐ[F] W₁.FunctionField`
+  together with `map_zero` — integrality of `W₁.CoordinateRing` over `W₂.CoordinateRing`
+  through `toFun`, i.e. `φ(O₁) = O₂` with no places in the statement. Every such map is
   injective and automatically **finite**, so an `Isogeny` is a *nonzero* isogeny by
   construction; `deg φ` is `Module.finrank`, and (in)separability is that of the field
   extension. The zero map is not an `Isogeny`: hom-groups adjoin it explicitly (§Layer 1), and
@@ -204,16 +222,19 @@ the Tate curve, the twists, the Mordell–Weil theorem, and Selmer/Sha.
 ## What is missing (build here)
 
 `Suggested.lean` pins the load-bearing milestones that are expressible against the pinned Mathlib
-as `sorry`-targets: the Layer-0 **class-group anchor** — Mathlib's `Point.toClass` is surjective,
+as `sorry`-targets — and, because the isogeny definition needs no new API, the **`Isogeny`
+structure itself, verbatim**, with its degree defined outright and its automatic finiteness,
+positivity, and the Frobenius isogeny seeded (Layer 1). The other seeds: the Layer-0
+**class-group anchor** — Mathlib's `Point.toClass` is surjective,
 so the point group *is* the ideal class group (`toClass_surjective`) — `[n]`-surjectivity for `n`
 invertible in `K` (Layer 1), the `N`-torsion `E[N] ≅ (ℤ/N)²` — exposed as a free rank-`2`
 `ZMod N`-module — and the bilinear **Weil pairing** (Layer 2), the finiteness of `E(𝔽_q)` and the
 **Hasse bound** as the integer inequality `a_q² ≤ 4q` (Layer 3), the **quadratic twist** and the
 split-multiplicative-reduction theorem (Layer 5), and the **Mordell–Weil theorem**
 `AddGroup.FG (E K)` (Layer 6). The layers whose central objects are new *types* — the places of
-the function field (Layer 0), the isogeny type and the formal group (Layer 1), the Kodaira type
-(Layer 4), and the Selmer/Sha groups (Layer 7) — are specified in the narrative below and built
-there, not pinned here as `sorry`-typed placeholder types.
+the function field (Layer 0), the hom-group, dual isogeny, and formal group (Layer 1), the
+Kodaira type (Layer 4), and the Selmer/Sha groups (Layer 7) — are specified in the narrative
+below and built there, not pinned here as `sorry`-typed placeholder types.
 
 ---
 
@@ -254,14 +275,18 @@ coordinated with Angdinata's in-flight upstream work, whose interface this layer
 
 ### Layer 1: isogenies, the dual, the invariant differential, and formal groups (AEC II.2, III.4–6, IV)
 
-- **The isogeny type.** The structure of the foundations section: `pullback` and `mapsInfinity`.
-  First theory: automatic injectivity and **finiteness** of `pullback` (transcendence degree
-  `1`), the degree `deg φ := Module.finrank` with `deg φ ≥ 1`, the separable and inseparable
+- **The isogeny type** (seeded verbatim, with `Isogeny.degree` defined outright). The structure
+  of the foundations section: `toFun` and `map_zero`. First theory: automatic injectivity and
+  **finiteness** (seeded, `Isogeny.finite_functionField` — transcendence degree `1` forces the
+  extension to be finite), `deg φ ≥ 1` (seeded), the sharpened reading of `map_zero` for
+  elliptic `W₁` — `W₁.CoordinateRing` *is* the integral closure of `W₂.CoordinateRing` in
+  `W₁.FunctionField`, a finite ring extension — the separable and inseparable
   degrees, identity and composition with `deg (ψ ∘ φ) = deg ψ · deg φ` — the tower formula;
   under the scheme definition this was half the hard core, here it is field theory. The
-  **induced map on points** through the place dictionary (degree-`1` places push forward), and
+  **induced map on points** through the place dictionary (degree-`1` places push forward;
+  on affine points, maximal-ideal contraction along the finite ring map), and
   **rigidity**: the induced map is a group homomorphism (AEC III.4.8), by the class-group
-  functoriality of Layer 0 (pushforward of divisors along `inducedPlace`, compatible with
+  functoriality of Layer 0 (pushforward of divisors, compatible with
   `toClass`).
 - **The standard isogenies.** `[n]` for `n ≠ 0`: the pullback is pinned on `x` by the division
   polynomials (`x ∘ [n] = φ_n / ψ_n²` — Mathlib's `DivisionPolynomial` files carry the
@@ -270,7 +295,7 @@ coordinated with Angdinata's in-flight upstream work, whose interface this layer
   versions, plus further division-polynomial upstreaming by the reviewers — assumed done,
   consumed here per the dedupe convention), with the headline **`deg [n] = n²`** (AEC III.6.2).
   The `q`-power **Frobenius**
-  `π_q` over `𝔽_q` (`pullback = (·) ^ q`), purely inseparable with `deg π_q = q`; the relative
+  `π_q` over `𝔽_q` (`toFun = (· ^ q)`; seeded as `frobeniusIsogeny`, with `degree_frobeniusIsogeny`), purely inseparable with `deg π_q = q`; the relative
   Frobenius `W → W^{(p)}` in general, and the factorisation of every isogeny as
   (separable) ∘ (Frobenius power) (AEC II.2.12). `deg (1 − π_q) = #E(𝔽_q)` is Layer 3's hinge.
 - **The hom-group and the degree form.** `Hom(W₁, W₂)`: the isogenies with a zero adjoined. The
@@ -296,7 +321,7 @@ coordinated with Angdinata's in-flight upstream work, whose interface this layer
 - **The invariant differential.** `ω = dx / (2y + a₁x + a₃)` as an element of Mathlib's
   `Ω[W.FunctionField⁄K]` (for elliptic `W` the denominator is nonzero in every characteristic);
   `Ω[F⁄K]` is `1`-dimensional over `F` with basis `ω`; the pullback `φ^*` is
-  `KaehlerDifferential.map` along `pullback`; translation-invariance (AEC III.5.1); the
+  `KaehlerDifferential.map` along `toFun`; translation-invariance (AEC III.5.1); the
   **separability criterion** — `φ` separable `↔ φ^*ω ≠ 0` (II.4.2); and **additivity**
   `(φ ∔ ψ)^* ω = φ^* ω + ψ^* ω` (III.5.2), giving `[n]^* ω = n • ω` — the identity forcing `[n]`
   to be separable exactly when `char K ∤ n`.
@@ -354,7 +379,7 @@ coordinated with Angdinata's in-flight upstream work, whose interface this layer
   function-field definition these are not a parallel theory to be reconciled across worlds; they
   are the **point-level shadows** of Layer 1's objects, identified by two named lemmas: the
   Frobenius isogeny induces `(x, y) ↦ (x^q, y^q)` on points (the Layer-0 dictionary applied to
-  `pullback = (·)^q`), and kernel cardinality equals `deg` on the **separable** locus (the
+  `toFun = (· ^ q)`), and kernel cardinality equals `deg` on the **separable** locus (the
   `Σ e · f` identity) — the only locus where the existing proof counts kernels (its
   coprime-route design; the one inseparable actor, `π_q` itself, never has its kernel counted —
   its degree `q` enters through the Galois `q`-power pairing scaling). Once Layers 0–1 land, the
@@ -519,9 +544,9 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   degree-`1` places of the function field (`O ↦ infinityPlace`), and `toClass` is onto the ideal
   class group (`toClass_surjective`, with Mathlib's `toClass_injective`) — the Layer-0 bridges
   every later layer uses.
-- **Frobenius is an isogeny:** over `𝔽_q`, `pullback = (·) ^ q` fixes the infinity place, is
-  purely inseparable of degree `q`, and induces `(x, y) ↦ (x^q, y^q)` on points
-  (`frobeniusIsogeny`).
+- **Frobenius is an isogeny:** over `𝔽_q`, `toFun = (· ^ q)` satisfies the integrality
+  condition `map_zero`, is purely inseparable of degree `q`, and induces
+  `(x, y) ↦ (x^q, y^q)` on points (`frobeniusIsogeny` and `degree_frobeniusIsogeny`, seeded).
 - **`[n]` is surjective on `E(Kˢᵉᵖ)`** for `n` invertible in `K`, and `#E[N] = N²` for `N`
   invertible in `K` — the Layer 1/2 counting gate (`smul_surjective`, `torsion_linearEquiv_prod`).
 - **The Weil pairing is bilinear and nondegenerate** — an additive bilinear map into
@@ -541,8 +566,10 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
 
 ## Ordering
 
-Layer 0 (places and divisors) is the foundation and comes first: the isogeny type quotes its
-API, and its class-group anchor is the group law's own algebra. Layer 1 (isogenies, the dual,
+Layer 0 (places and divisors) is the foundation and comes first: the isogeny *type* is
+already seeded (its integral-closure form needs no places), but its kernels, fibres, and
+point dictionary are Layer-0 material, and the class-group anchor is the group law's own
+algebra. Layer 1 (isogenies, the dual,
 the invariant differential, the formal group) builds on it and on the division polynomials;
 Layer 2 (torsion, the Weil pairing, the Tate module) on the dual isogeny. Layer 3 (Hasse) is
 the earliest PR, its existing proof being self-contained. Layer 4 (reduction, Tate's algorithm,
@@ -599,7 +626,8 @@ only hold for, these revisions:
   source to transcribe.
 
 - **Function-field foundations and isogenies (Layers 0–1).** The `Isogeny` definition is
-  D. Angdinata's, proposed on this roadmap's review in the course of his in-progress isogeny and
+  D. Angdinata's — proposed on this roadmap's review and since sharpened to the integral-closure
+  form above, which states `φ(O₁) = O₂` with no places API — from his in-progress isogeny and
   Weil-pairing development, with his upstreaming of division-polynomial material also in flight;
   Layers 0–1 are specified to **coordinate with that work, not fork it** — where his upstream
   lands first, the roadmap consumes it and deletes the duplication. The AINTLIB modular-curves
