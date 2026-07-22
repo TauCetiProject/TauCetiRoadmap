@@ -70,7 +70,7 @@ separate development.
   finite-dimensional complex `V` with `[NormedAddCommGroup V] [InnerProductSpace ℂ V]`
   `[FiniteDimensional ℂ V]`, the `L²`-side (Layer 5) on the separable complex Hilbert space
   `Lp ℂ 2 μ_G`. A **continuous representation** is Mathlib's `ContRepresentation ℂ G V`
-  (`= G →* V →L[ℂ] V`, `RepresentationTheory/Continuous/Basic.lean`); a **unitary** one additionally
+  (a one-field structure **wrapping** `G →* (V →L[ℂ] V)` — not definitionally equal to it; use `ContRepresentation.toMonoidHom_apply` where the unfolding matters; `RepresentationTheory/Continuous/Basic.lean`); a **unitary** one additionally
   lands in the unitary group, `π g ∈ unitary (V →L[ℂ] V)` for every `g` (equivalently each `π g`
   preserves the inner product). Reuse `ContRepresentation`, `ContRepresentation.toRepresentation`,
   and `ContIntertwiningMap` rather than a private synonym; the unitarity predicate is the one new
@@ -116,7 +116,7 @@ separate development.
 - **Bochner integral.** `MeasureTheory.integral` (`Integral/Bochner/Basic.lean`), for the
   operator- and vector-valued averaging integrals; integrability of continuous functions on a
   compact finite-measure space.
-- **Continuous representations.** `ContRepresentation R G V` (`= G →* V →L[R] V`),
+- **Continuous representations.** `ContRepresentation R G V` (wrapping `G →* (V →L[R] V)`),
   `ContRepresentation.toRepresentation`, `ContIntertwiningMap`
   (`RepresentationTheory/Continuous/Basic.lean`).
 - **Representations, irreducibility, Schur.** `Representation`, `Representation.IsIrreducible`

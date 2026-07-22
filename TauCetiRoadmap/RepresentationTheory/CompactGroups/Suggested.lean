@@ -18,7 +18,7 @@ invariance, regularity, and the uniqueness theorem `isHaarMeasure_eq_of_isProbab
 complete **Hilbert-basis** API (`HilbertBasis`, `mkOfOrthogonalEqBot`, `tsum_inner_mul_inner`), the
 `L²` inner product (`L2.innerProductSpace`), density of continuous functions
 (`ContinuousMap.toLp_denseRange`), the **compact-operator spectral theorem**
-(`IsCompactOperator`, `IsCompactOperator.finite_dimensional_eigenspace`,
+(`IsCompactOperator`, `ContinuousLinearMap.finite_dimensional_eigenspace`,
 `ContinuousLinearMap.adjoint`), and **one worked instance of the whole theory** -- the Fourier
 basis `fourierBasis : HilbertBasis ℤ ℂ (Lp ℂ 2 haarAddCircle)` of `L²(S¹)`. It has **no Peter-Weyl
 theorem, no continuous unitary-representation theory, no Haar averaging / unitarian trick, no matrix
@@ -38,6 +38,9 @@ namespace TauCetiRoadmap.RepresentationTheory.CompactGroups
 open MeasureTheory
 open scoped InnerProductSpace
 
+/- Needed for instance resolution in the signatures below (checked: the file does not elaborate
+without it). Roadmap-file only: the built library under `TauCeti/` textually bans `set_option`,
+so the implementation must thread the transparency through explicit instances instead. -/
 set_option backward.isDefEq.respectTransparency false
 
 /-! ### Layer 0: normalized Haar measure and averaging -/
@@ -168,14 +171,18 @@ noncomputable def representativeStarSubalgebra (G : Type*) [Group G] [Topologica
 
 /-- **Schur orthogonality, one irreducible (coordinate-free).** For a unitary irreducible `π` of
 dimension `d`, the `L²` inner product of two matrix coefficients is
-`d⁻¹ ⟪v₁,v₂⟫ · conj⟪w₁,w₂⟫`. Proved by averaging a rank-one operator into a self-intertwiner and
-applying Schur. The exact placement of the conjugation is convention-sensitive against Mathlib's `L2`
-inner product; `schur_orthogonality_basis` pins it at the basis level and the README asks that it be
-checked against `fourierBasis`. -/
+`d⁻¹ · conj⟪v₁,v₂⟫ · ⟪w₁,w₂⟫` — equivalently `d⁻¹ ⟪v₂,v₁⟫ ⟪w₁,w₂⟫`. The conjugation sits on the
+**first** factor: with Mathlib's convention (inner conjugate-linear in the first slot,
+`⟪F, H⟫_{L²} = ∫ conj F · H`), the `S¹` scalar check `π_n(g) = e^{2πing}` fixes this placement; the
+previously stated `⟪v₁,v₂⟫ · conj⟪w₁,w₂⟫` is its complex conjugate and false for non-real data.
+Proved by averaging a rank-one operator into a self-intertwiner and applying Schur;
+`schur_orthogonality_basis` pins the convention at the basis level (where the misplacement is
+invisible — Kronecker deltas are real) and the README asks that it be checked against
+`fourierBasis`. -/
 theorem schur_orthogonality_self (π : ContRepresentation ℂ G V) (hπ : IsUnitary π)
   (hirr : Representation.IsIrreducible π.toRepresentation) (v₁ w₁ v₂ w₂ : V) :
   ⟪matrixCoeffLp π v₁ w₁, matrixCoeffLp π v₂ w₂⟫_ℂ
-   = (Module.finrank ℂ V : ℂ)⁻¹ * (⟪v₁, v₂⟫_ℂ * (starRingEnd ℂ) ⟪w₁, w₂⟫_ℂ) := sorry
+   = (Module.finrank ℂ V : ℂ)⁻¹ * ((starRingEnd ℂ) ⟪v₁, v₂⟫_ℂ * ⟪w₁, w₂⟫_ℂ) := sorry
 
 /-- **Schur orthogonality, basis form (convention pin).** With
 `π_{ij}(g) = ⟪π g eⱼ, eᵢ⟫ = matrixCoeff π (e j) (e i)`, the `L²` inner product of `π_{ij}` and
@@ -212,7 +219,12 @@ noncomputable def convolutionOperator (k : C(G, ℂ)) :
 
 /-- **Compactness of the convolution operator.** The load-bearing analytic input; Mathlib supplies
 the spectral theorem for compact self-adjoint operators
-(`IsCompactOperator.finite_dimensional_eigenspace`). -/
+(`ContinuousLinearMap.finite_dimensional_eigenspace`). -/
+-- Schedule-risk note (review): this one-liner hides the analytic crux of the whole route. The
+-- standard path is Hilbert-Schmidt: (a) an HS-operator API over `L²(G)`; (b) "continuous kernel on
+-- a compact space ⇒ Hilbert-Schmidt integral operator"; (c) "Hilbert-Schmidt ⇒ compact"; and, for
+-- the approximate identity `approx_identity_exists` (README), an approximate-identity theory that
+-- Mathlib currently lacks. Each of (a)-(c) is a sub-milestone in its own right.
 theorem convolutionOperator_isCompact (k : C(G, ℂ)) :
   IsCompactOperator (convolutionOperator k) := sorry
 
@@ -260,10 +272,24 @@ structure IrrepModel (G : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGr
  dim : ℕ
  dim_eq : dim = Module.finrank ℂ carrier
 
+attribute [instance] IrrepModel.normedAddCommGroup IrrepModel.innerProductSpace
+  IrrepModel.finiteDimensional
+
 /-- **A skeleton of the unitary dual**: the family `models` is pairwise inequivalent and hits every
 finite-dimensional continuous irreducible up to isomorphism. This is the chosen data the Peter-Weyl
-index `Σ i, Fin dᵢ × Fin dᵢ` rests on. -/
-def IsIrrepSkeleton {ι : Type} (models : ι → IrrepModel G) : Prop := sorry
+index `Σ i, Fin dᵢ × Fin dᵢ` rests on. The body reads equivalence through Schur: a **nonzero**
+continuous intertwiner between unitary irreducibles is an isomorphism, so "hits up to isomorphism"
+is "admits a nonzero intertwiner into some model". Exhaustiveness quantifies test representations in
+universe `0`, matching `IrrepModel.carrier : Type`; the across-universe statement follows by
+transporting a finite-dimensional carrier along a basis, which is why the pin is harmless. -/
+def IsIrrepSkeleton {ι : Type} (models : ι → IrrepModel G) : Prop :=
+  (∀ i j : ι,
+    (∃ f : ContIntertwiningMap (models i).rep (models j).rep, f.toContinuousLinearMap ≠ 0) →
+      i = j) ∧
+  ∀ (W : Type) (_ : NormedAddCommGroup W) (_ : InnerProductSpace ℂ W)
+    (_ : FiniteDimensional ℂ W) (π : ContRepresentation ℂ G W),
+    IsUnitary π → Representation.IsIrreducible π.toRepresentation →
+      ∃ (i : ι) (f : ContIntertwiningMap π (models i).rep), f.toContinuousLinearMap ≠ 0
 
 /-- **The Peter-Weyl predicate (element-level).** Holds when the Hilbert basis `b`
 is the family of normalized matrix coefficients `√dᵢ · (models i)_{jk}`: `b ⟨i, j, k⟩` equals
@@ -272,7 +298,11 @@ carriers. Because the summit theorem quantifies the basis existentially, all the
 content must live *here* (a bundled `HilbertBasis` without its `coe_*` is near-vacuous). -/
 def IsPeterWeylBasis {ι : Type} (models : ι → IrrepModel G)
   (b : HilbertBasis (Σ i : ι, Fin (models i).dim × Fin (models i).dim) ℂ (Lp ℂ 2 (haarProb G))) :
-  Prop := sorry
+  Prop :=
+  ∃ e : ∀ i : ι, OrthonormalBasis (Fin (models i).dim) ℂ (models i).carrier,
+    ∀ (i : ι) (j k : Fin (models i).dim),
+      (b ⟨i, (j, k)⟩ : Lp ℂ 2 (haarProb G))
+        = (Real.sqrt (models i).dim : ℂ) • matrixCoeffLp (models i).rep (e i j) (e i k)
 
 /-- **The Peter-Weyl theorem (the summit).** There is a skeleton of finite-dimensional unitary
 irreducibles whose normalized matrix coefficients form a Hilbert basis of `L²(G)`, indexed by
@@ -323,6 +353,52 @@ theorem character_orthonormal_distinct (π : ContRepresentation ℂ G V) (ρ : C
   (hπ : IsUnitary π) (hρ : IsUnitary ρ)
   (hdistinct : ∀ f : ContIntertwiningMap π ρ, f.toContinuousLinearMap = 0) :
   ⟪characterLp π, characterLp ρ⟫_ℂ = 0 := sorry
+
+/-! ### Layer 6b: the Frobenius-Schur reality trichotomy for compact groups
+
+Coverage requirement from review: the reality invariant (real / quaternionic / complex type) is
+built for finite groups in `../CharacterTheory` Layer 7 but is needed for compact groups — spinor
+reality types (Majorana / symplectic-Majorana / Dirac) and matter-representation reality generally.
+The Haar integral replaces the finite average; every prerequisite (characters, Haar probability
+measure, invariant forms) is already in this roadmap. Wording deliberately restricted to **compact**
+groups: the Haar-integral route does not apply to noncompact `Spin(p, q)`; the Lie-algebra side
+(`−w₀` self-duality and the Tits sign) is pinned in `../LieHighestWeight`. -/
+
+/-- **The Frobenius-Schur indicator** of a finite-dimensional continuous representation of a compact
+group: `ν₂(π) = ∫_G χ_π(g²) dμ`, the Haar form of the finite-group average. -/
+noncomputable def frobeniusSchurIndicator (π : ContRepresentation ℂ G V) : ℂ :=
+  ∫ g, character π (g * g) ∂(haarProb G)
+
+/-- **The trichotomy**: for a unitary irreducible, the indicator is `+1`, `0`, or `-1`. -/
+theorem frobeniusSchurIndicator_trichotomy (π : ContRepresentation ℂ G V) (hπ : IsUnitary π)
+  (hirr : Representation.IsIrreducible π.toRepresentation) :
+  frobeniusSchurIndicator π = 1 ∨ frobeniusSchurIndicator π = 0
+    ∨ frobeniusSchurIndicator π = -1 := sorry
+
+/-- **`ν₂ = +1` iff orthogonal type**: a nonzero invariant symmetric nondegenerate bilinear form
+exists (mirror of the finite-group `frobeniusSchurIndicatorRep_eq_one_iff`). -/
+theorem frobeniusSchurIndicator_eq_one_iff (π : ContRepresentation ℂ G V) (hπ : IsUnitary π)
+  (hirr : Representation.IsIrreducible π.toRepresentation) :
+  frobeniusSchurIndicator π = 1 ↔
+    ∃ B : LinearMap.BilinForm ℂ V, B ≠ 0 ∧ B.IsSymm ∧ B.Nondegenerate ∧
+      ∀ (g : G) (v w : V), B (π g v) (π g w) = B v w := sorry
+
+/-- **`ν₂ = -1` iff symplectic (quaternionic) type**: a nonzero invariant alternating nondegenerate
+bilinear form exists. -/
+theorem frobeniusSchurIndicator_eq_neg_one_iff (π : ContRepresentation ℂ G V) (hπ : IsUnitary π)
+  (hirr : Representation.IsIrreducible π.toRepresentation) :
+  frobeniusSchurIndicator π = -1 ↔
+    ∃ B : LinearMap.BilinForm ℂ V, B ≠ 0 ∧ B.IsAlt ∧ B.Nondegenerate ∧
+      ∀ (g : G) (v w : V), B (π g v) (π g w) = B v w := sorry
+
+/-- **`ν₂ = +1` iff realizable over `ℝ`**, in structure-map form: there is a conjugate-linear
+`J : V →ₗ⋆[ℂ] V` with `J² = 1` commuting with the action (its fixed points are the real form); the
+quaternionic case `ν₂ = -1` is `J² = -1`. This is the operational reality criterion the spinor
+applications consume. -/
+theorem frobeniusSchurIndicator_eq_one_iff_exists_structureMap (π : ContRepresentation ℂ G V)
+  (hπ : IsUnitary π) (hirr : Representation.IsIrreducible π.toRepresentation) :
+  frobeniusSchurIndicator π = 1 ↔
+    ∃ J : V →ₗ⋆[ℂ] V, (∀ v, J (J v) = v) ∧ ∀ (g : G) (v : V), J (π g v) = π g (J v) := sorry
 
 /-! ### The engine case: `SU(2)`, the maximal torus, and the irreducible classification
 
