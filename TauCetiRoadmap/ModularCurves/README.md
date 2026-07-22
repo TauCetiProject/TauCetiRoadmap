@@ -54,8 +54,13 @@ characteristic-`p` fine structure of KM Chapters 12–14. Generalized elliptic c
 Deligne–Rapoport. A general theory of algebraic stacks or algebraic spaces — deliberately:
 see the conventions. Modular forms, Hecke operators, and Eichler–Shimura (a separate
 project). Néron models — deferred again, as in the elliptic-curves roadmap; they are not
-KM's subject. Complex uniformisation `Γ\ℍ ≅ Y(Γ)(ℂ)` — analytic, and belongs with a
-complex-analytic roadmap.
+KM's subject. **Riemann–Roch and the coherent cohomology of curves** — an independent
+formalization effort is building these, so this roadmap never constructs them: the critical
+path to the modular curves does not use them at all, and the one milestone that
+mathematically needs them (Layer 1's genus-`1` ⟹ locally-Weierstrass converse) is stated
+against an **assumed Riemann–Roch interface**, an explicit hypothesis to be discharged by
+that external work when it lands. Complex uniformisation `Γ\ℍ ≅ Y(Γ)(ℂ)` — analytic, and
+belongs with a complex-analytic roadmap.
 
 Suggested home: `TauCeti/AlgebraicGeometry/EllipticCurve/Scheme/` for Layers 1–2 and
 `TauCeti/AlgebraicGeometry/ModularCurve/` for Layers 3–7 (mirroring Mathlib's layout), with
@@ -73,7 +78,9 @@ the Layer-0 material filed where Mathlib would put it (`Morphisms/`, `GroupSchem
   Deligne–Rapoport/KM 2.1.1 condition (proper flat, fibres smooth genus-`1`); the **converse**
   (genus-`1` fibres ⟹ locally Weierstrass, via cohomology and the Riemann–Roch argument) is a
   named comparison milestone (Layer 1), stated but off the critical path to the modular
-  curves. Do not introduce a genus-based definition of record: Mathlib has no genus.
+  curves — and stated against an **assumed** Riemann–Roch interface, since Riemann–Roch is
+  being formalized independently and is out of scope here. Do not introduce a genus-based
+  definition of record: Mathlib has no genus.
 - **Group schemes are group objects; the group law is data with a uniqueness theorem.** The
   group structure on `E/S` is a commutative-group-object structure (Mathlib's
   `Grp_`/`CommGrp_` vocabulary in the cartesian monoidal `Over S`) with identity the given
@@ -220,8 +227,12 @@ including staged upstream PR drafts — is the evidence base and the model).
   the constructive evidence), commutativity and associativity included, and its **uniqueness**
   given the identity section. Base change of elliptic curves; the fibrewise-elliptic
   comparison (`LocallyWeierstrass → fibres are elliptic`), and the **converse comparison
-  milestone** (genus-`1`-with-section ⟹ locally Weierstrass; the coherent-cohomology
-  argument, KM 2.1.1/DR II.1.1) — stated here, consumed nowhere on the critical path.
+  milestone** (genus-`1`-with-section ⟹ locally Weierstrass, KM 2.1.1/DR II.1.1) — stated
+  here, consumed nowhere on the critical path, and stated **conditionally on the
+  Riemann–Roch interface it needs** (the space-of-sections dimensions for the divisors
+  `n·[0]` on a relative curve): Riemann–Roch is being formalized independently, this roadmap
+  assumes it as an explicit hypothesis and never builds it (out-of-scope note), and the
+  hypothesis is discharged when that work lands.
 
 ### Layer 2: isogenies, torsion, quotients, and the Weil pairing (KM Ch. 1–2)
 
@@ -265,8 +276,9 @@ including staged upstream PR drafts — is the evidence base and the model).
   because valuation rings are integrally closed; and miracle flatness (finite surjective
   between smooth curves ⟹ finite locally free) to land in this roadmap's isogeny notion.
   Riemann–Roch enters only the *other* comparison (genus-`1` ⟹ locally Weierstrass, Layer
-  1's gated milestone), and base change would enter only if the contract were stated over a
-  general base — it is deliberately stated over a field.
+  1's gated milestone — where it is **assumed** from the independent Riemann–Roch
+  formalization, never built here), and base change would enter only if the contract were
+  stated over a general base — it is deliberately stated over a field.
 
 ### Layer 3: Drinfeld level structures (KM Ch. 1, 3)
 
