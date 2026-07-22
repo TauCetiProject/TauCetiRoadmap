@@ -120,6 +120,13 @@ Mathlib on their own).
 - **Value subrings and crystallographic condition** - `.../RootSystem/IsValuedIn.lean`:
   `RootPairing.IsValuedIn`, `RootPairing.IsCrystallographic` (`= IsValuedIn ℤ`),
   `RootPairing.pairingIn`, `RootPairing.coxeterWeightIn`, `algebraMap_pairingIn`.
+- **Finite crystallographic pairing constraints** - `.../RootSystem/Finite/Lemmas.lean`:
+  `RootPairing.coxeterWeightIn_mem_set_of_isCrystallographic`, `coxeterWeightIn_le_four`,
+  `linearIndependent_iff_coxeterWeightIn_ne_four`, and most directly
+  `pairingIn_pairingIn_mem_set_of_isCrystal_of_isRed` (for `[P.IsReduced]`, the pair
+  `(pairingIn i j, pairingIn j i)` lies in an explicit finite list). These discharge the
+  `{0,1,2,3}` Coxeter-product bound consumed by `coxeterMatrixOfBase` and the rank-2 subdiagram
+  case analysis in `existsUnique_dynkinType`; the difficulty there is assembly, not new estimates.
 - **Reduced and irreducible** - `.../RootSystem/Reduced.lean` (`RootPairing.IsReduced`, with
   `isReduced_iff'`, `IsReduced.linearIndependent`, the four-Coxeter-weight dichotomy
   `linearIndependent_iff_coxeterWeight_ne_four`, and `pairingIn_two_two_iff` etc.),
@@ -128,7 +135,7 @@ Mathlib on their own).
 - **Bases and simple roots** - `.../RootSystem/Base.lean`: `RootPairing.Base` (`support`,
   `linearIndepOn_root/coroot`, `root_mem_or_neg_mem`), `Base.height`, `Base.IsPos`, `Base.IsPos.or_neg`,
   `Base.toWeightBasis`, `exists_root_eq_sum_nat_or_neg`, `exists_root_eq_sum_int`; existence
-  `.../RootSystem/BaseExists.lean`: `RootPairing.Base.nonempty_base`, `Base.mk'`.
+  `.../RootSystem/BaseExists.lean`: `RootPairing.nonempty_base`, `Base.mk'`.
 - **Cartan matrices** - `.../RootSystem/CartanMatrix.lean`: `RootPairing.Base.cartanMatrixIn`,
   `RootPairing.Base.cartanMatrix : Matrix b.support b.support ℤ`, `cartanMatrix_apply_same` (`= 2`),
   `cartanMatrix_le_zero_of_ne`, `cartanMatrix_mem_of_ne`, `cartanMatrix_nondegenerate`,
@@ -390,9 +397,9 @@ The worked examples are built alongside the layer that first makes them expressi
 ## References
 
 - N. Bourbaki, *Lie Groups and Lie Algebras, Chapters 4-6*, Springer (2002) - the definitive source:
-  Coxeter systems, the exchange condition and reduced words (Ch. 4), root systems, bases, the Weyl
-  group, Weyl chambers and the fundamental domain (Ch. 5-6), and the classification via Cartan matrices
-  and Dynkin diagrams (Ch. 6, §4).
+  Coxeter systems, the exchange condition and reduced words (Ch. 4), Weyl chambers and the
+  fundamental domain (Ch. 5), root systems, bases, and the Weyl group (Ch. 6), and the
+  classification via Cartan matrices and Dynkin diagrams (Ch. 6, §4).
 - J. E. Humphreys, *Reflection Groups and Coxeter Groups*, CUP (1990) - Layers 1-4: the root
   combinatorics, the Coxeter presentation of a reflection group, the strong exchange condition,
   Matsumoto's word property, the length function and Poincaré polynomial, and the geometry of chambers.

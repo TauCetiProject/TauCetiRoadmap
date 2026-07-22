@@ -79,7 +79,7 @@ def inversions (b : P.Base) (w : P.weylGroup) : Set ι :=
 /-- **The root-level exchange step.** Right-multiplying by a simple reflection changes the number of
 inversions by exactly one. Iterated, this is the exchange/deletion condition on the geometric action
 and the combinatorial core of both generation and the Coxeter presentation. -/
-theorem inversions_ncard_mul_ofIdx [Finite ι] [CharZero R] [IsDomain R]
+theorem inversions_ncard_mul_ofIdx [Finite ι]
     [P.IsRootSystem] [P.IsCrystallographic] [P.IsReduced]
     (b : P.Base) (w : P.weylGroup) {i : ι} (hi : i ∈ b.support) :
     (inversions P b (w * weylGroup.ofIdx P i)).ncard = (inversions P b w).ncard + 1 ∨
@@ -97,9 +97,13 @@ variable {ι R M N : Type*}
 
 /-- **The Coxeter matrix of a base.** Its off-diagonal entry `m i j` is the order of `sᵢ sⱼ`, read off
 the Cartan product `b.cartanMatrix i j * b.cartanMatrix j i ∈ {0,1,2,3}` as `0 ↦ 2, 1 ↦ 3, 2 ↦ 4,
-3 ↦ 6`. That the product lands in `{0,1,2,3}`, so that the entry is a genuine Coxeter order, is the
-reduced crystallographic finite-type input (`chainBotCoeff_add_chainTopCoeff_le_three`,
-`coxeterWeight_nonneg`). -/
+3 ↦ 6`. That the product lands in `{0,1,2,3}`, so that the entry is a genuine Coxeter order, is
+already packaged by Mathlib's `Finite/Lemmas.lean`: consume
+`RootPairing.pairingIn_pairingIn_mem_set_of_isCrystal_of_isRed` (which pins the pair
+`(pairingIn i j, pairingIn j i)` to an explicit finite list), with
+`coxeterWeightIn_mem_set_of_isCrystallographic` / `coxeterWeightIn_le_four` /
+`linearIndependent_iff_coxeterWeightIn_ne_four` as the surrounding API — this is a consume-and-read
+step, not a new estimate. -/
 def coxeterMatrixOfBase [Finite ι] [CharZero R] [IsDomain R]
     [P.IsRootSystem] [P.IsCrystallographic] [P.IsReduced] (b : P.Base) :
     CoxeterMatrix b.support := sorry
@@ -226,9 +230,14 @@ and their multiplicities encoding the diagram). It is oriented: `DynkinType.cart
 transpose of `DynkinType.cartanMatrix (.C n)`, which is exactly what distinguishes `Bₙ` from `Cₙ`. -/
 def DynkinType.cartanMatrix (t : DynkinType) : Matrix (Fin t.rank) (Fin t.rank) ℤ := sorry
 
-/-- **The finite-type condition** on a Cartan matrix: a Cartan matrix (diagonal `2`, off-diagonal
-`≤ 0`, `A i j = 0 ↔ A j i = 0`) that is symmetrizable with positive-definite symmetrization. -/
-def IsFiniteType {B : Type*} [Fintype B] (A : Matrix B B ℤ) : Prop := sorry
+/-- **The finite-type condition** on a Cartan matrix: a generalized Cartan matrix (diagonal `2`,
+off-diagonal `≤ 0`, vanishing symmetric in the sense `A i j = 0 → A j i = 0`) that is symmetrizable
+with positive-definite symmetrization. The symmetrizer is taken over `ℚ` (positive diagonal `d` with
+`(d i * A i j)` positive-definite), which is equivalent to the usual formulations over `ℝ` for an
+integer matrix. -/
+def IsFiniteType {B : Type*} [Fintype B] (A : Matrix B B ℤ) : Prop :=
+  (∀ i, A i i = 2) ∧ (∀ i j, i ≠ j → A i j ≤ 0) ∧ (∀ i j, A i j = 0 → A j i = 0) ∧
+    ∃ d : B → ℚ, (∀ i, 0 < d i) ∧ (Matrix.of fun i j => d i * (A i j : ℚ)).PosDef
 
 section Classification
 
@@ -243,7 +252,9 @@ def HasCartanType [P.IsCrystallographic] (b : P.Base) (t : DynkinType) : Prop :=
   ∃ e : b.support ≃ Fin t.rank, ∀ i j, b.cartanMatrix i j = DynkinType.cartanMatrix t (e i) (e j)
 
 /-- **The Cartan matrix of a finite crystallographic root system is of finite type.** Consumes the
-positive-definiteness of the canonical form (`posRootForm_rootFormIn_posDef`). -/
+positive-definiteness of the canonical form (`posRootForm_rootFormIn_posDef`). Deliberately stated
+without `[P.IsReduced]`, unlike the rest of this layer: positive-definiteness of the canonical form
+does not need reducedness. -/
 theorem isFiniteType_cartanMatrix [Finite ι] [CharZero R] [IsDomain R]
     [P.IsRootSystem] [P.IsCrystallographic] (b : P.Base) :
     IsFiniteType b.cartanMatrix := sorry
@@ -274,7 +285,11 @@ end Classification
 /-- **The classification (existence/realization).** Each **valid** Dynkin type is realized by an
 irreducible reduced crystallographic finite root system over `ℚ`, in its ambient space of dimension
 equal to the rank, built from an explicit coordinate model (so realization is independent of the
-classification theorems it supports and introduces no circularity). -/
+classification theorems it supports and introduces no circularity). Pinning the carrier to
+`Fin t.rank → ℚ` is a deliberate choice: it keeps the statement instance-light, at the cost that the
+type-`A` model (the sum-zero hyperplane of `ℚ^{n+1}`, README worked example) enters through an
+explicit basis of that hyperplane rather than in its natural ambient space; an implementation may
+add an ambient-existential variant alongside, but this fixed-carrier form is the pinned target. -/
 theorem exists_rootPairing_of_dynkinType (t : DynkinType) (ht : t.Valid) :
     ∃ (P : RootPairing (Fin t.rank) ℚ (Fin t.rank → ℚ) (Fin t.rank → ℚ)) (b : P.Base)
       (_hrs : P.IsRootSystem) (hcrys : P.IsCrystallographic) (_hred : P.IsReduced)
