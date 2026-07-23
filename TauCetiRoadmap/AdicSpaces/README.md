@@ -234,12 +234,20 @@ The ordering is the dependency order.
 - **The category `𝒱` and sheafiness.** Presheafed spaces of complete topological rings with
   equivalence-class valuations on the stalks, and their morphisms (ring-map plus
   place-compatibility; Wedhorn Definitions 8.5, 8.7, Remark 8.20 — Mathlib's `PresheafedSpace`
-  is the substrate). `IsSheafy (A, A⁺)`: the structure presheaf is a sheaf of topological rings
-  — equivalently (and this equivalence is a milestone, Wedhorn 8.16-shape) the equalizer
-  condition for **finite rational covers of rational subsets**, in the two-part form the
-  provenance pins: the restriction product map is a topological embedding, and compatible
-  families glue. Sheafiness transports along isomorphisms of pairs and is insensitive to
-  completion.
+  is the substrate). **The definition of record is `IsSheafOfTopologicalRings`**: the
+  structure presheaf, valued in topological commutative rings, satisfies Mathlib's sheaf
+  condition *in that category* — every open cover's equalizer diagram is a limit of
+  topological rings, so the glued sections carry the right topology too (Mathlib's
+  category-valued sheaf conditions and `TopCommRingCat` are the substrate; the name and shape
+  follow the Lean 3 perfectoid project's `is_sheaf_of_topological_rings`) — and
+  `IsSheafy (A, A⁺) := IsSheafOfTopologicalRings 𝒪_X`. **The equivalence milestone**:
+  `IsSheafy` holds iff the equalizer condition holds for **finite rational covers of rational
+  subsets**, in the two-part form the provenance works with — the restriction product map is
+  a topological embedding, and compatible families glue — (Wedhorn 8.16-shape: rational
+  subsets are a basis of quasi-compact opens, so finite rational covers are cofinal). Every
+  downstream sheafiness proof (Layers 4 and 6) is discharged in the two-part form and reaches
+  the definition of record across this equivalence, which is proved once, here. Sheafiness
+  transports along isomorphisms of pairs and is insensitive to completion.
 
 ### Layer 4: sheafiness and Tate acyclicity for strongly noetherian Tate rings (Wedhorn §8.2; [Hu2] Theorem 2.2(ii), 2.5; Tate 1971)
 
@@ -262,7 +270,8 @@ of integral elements.
   Theorem 2.2(ii) — with **no** domain hypothesis and no discreteness (the provenance's
   `isSheafy_of_stronglyNoetherian_828b` pins exactly this hypothesis bundle, and Layer 6 needs
   the non-reduced case). The proof route is the Laurent-cover induction on the Čech complex,
-  Tate's argument in Huber's generality.
+  Tate's argument in Huber's generality; it lands in the two-part rational-cover form and
+  reaches the definition of record across Layer 3's equivalence.
 - **Tate acyclicity, in all degrees.** For every rational subset `U ⊆ X` and every finite
   rational cover `𝔘` of `U`, the augmented Čech complex
   `0 → 𝒪_X(U) → ∏ 𝒪_X(U_i) → ∏ 𝒪_X(U_i ∩ U_j) → ⋯` is **exact**: `Ȟ⁰(𝔘, 𝒪_X) = 𝒪_X(U)` and
@@ -421,8 +430,12 @@ scope and are not migration targets.
   `IsRingOfIntegralElements`, `IsAffinoidRing`, Remark 7.15), `AdicSpectrum.lean` (sorry-free
   `Spa`), `RationalSubsets.lean` (sorry-free: openness, intersection stability 7.30/7.35).
 - **Layers 3–4 (the open frontier).** `Presheaf.lean` (**49**), `StructureSheaf.lean` (**38**,
-  including the `IsSheafy` class in exactly the embedding+gluing two-part form Layer 3 pins,
-  and the `𝒱`-category material over `PresheafedSpace CompleteTopCommRingCat`),
+  including the `IsSheafy` class in exactly the embedding+gluing two-part form that Layer 3
+  now designates the **equivalent characterization** — the definition of record is
+  `IsSheafOfTopologicalRings`, the provenance's class is the other side of the equivalence
+  milestone and its machinery discharges it; capstones stated against the two-part class are
+  re-expressed through that equivalence on migration — and the `𝒱`-category material over
+  `PresheafedSpace CompleteTopCommRingCat`),
   `PresheafTateStructure.lean` (19), `StandardCover.lean` (8), `Cor832.lean` (18),
   `Wedhorn828.lean` (17), `LaurentRefinementCore.lean` (25), `TateAcyclicityResiduals.lean`
   (35), `TateAcyclicity.lean` (6), `TateAcyclicityFinalAssembly.lean` (11), and the ~40

@@ -138,8 +138,11 @@ the openness is part of the definition), their intersection stability (Remark 7.
 `A⟨T/s⟩` with its universal property (the API everything downstream consumes — the
 construction via restricted power series is private), iterated localization (Lemma 7.54 =
 Huber's Lemma 2.6), the presheaf `𝒪_X` (values complete topological rings), `𝒪_X⁺`, stalks
-with their valuations, the category `𝒱` on Mathlib's `PresheafedSpace`, and the `IsSheafy`
-class in the embedding-plus-gluing form over finite rational covers. Specified in `README.md`
+with their valuations, the category `𝒱` on Mathlib's `PresheafedSpace`, and sheafiness with
+**`IsSheafOfTopologicalRings` as the definition of record** — the sheaf condition in the
+category of topological rings, `IsSheafy (A, A⁺) := IsSheafOfTopologicalRings 𝒪_X` — proved
+**equivalent** to the embedding-plus-gluing form over finite rational covers that the
+provenance works with (the workhorse for Layers 4 and 6). Specified in `README.md`
 §Layer 3. -/
 
 /-! ## Layer 4: sheafiness and Tate acyclicity (Wedhorn §8.2, Theorem 8.28; Huber; Tate 1971)
