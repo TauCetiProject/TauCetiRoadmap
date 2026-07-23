@@ -96,7 +96,8 @@ separability is that of the field extension, and multiplicativity of `deg` under
 is the tower formula — field theory Mathlib already has; the induced point map goes through
 the intermediate ring (the integral closure of `W₂.CoordinateRing` in `W₁.FunctionField`)
 by ideal extension and relative norm, making it additive by construction. The hom-group
-(zero adjoined) and the quadraticity of the degree, the dual isogeny with
+(carrier pinned as `WithZero (Isogeny W₁ W₂)`) and the quadraticity of the degree, the
+`HasCMBy` predicate on `End`, the dual isogeny with
 `φ̂ ∘ φ = [deg φ]`, `deg [n] = n²` via the division polynomials, the invariant differential
 `ω` in `Ω[W.FunctionField⁄K]` with `φ^* = KaehlerDifferential.map`, and the
 separable-⟹-unramified milestone (`e_w = 1` at every place, which turns Layer 0's
