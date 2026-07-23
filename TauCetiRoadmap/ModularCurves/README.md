@@ -184,7 +184,7 @@ including staged upstream PR drafts — is the evidence base and the model).
   relative curve `C/S` that is **finite locally free over `S`** — the form the provenance
   works with throughout, chosen because Mathlib has no invertible-ideal-sheaf API. On it: the
   divisor of a section, sums `Σᵢ [Pᵢ]`, the fibrewise degree, base change, and flat pullback.
-  The **official definition** (KM 1.1.1: flat, with invertible ideal sheaf) and its
+  The **invertible-ideal-sheaf definition** (KM 1.1.1: flat, with invertible ideal sheaf) and its
   equivalence with the working one over a smooth relative curve is a **flagged comparison
   milestone off the critical path**, gated on an invertible-ideal-sheaf API — the same
   pattern as the genus-`1` converse and the Riemann–Roch interface; its one genuine consumer
@@ -567,8 +567,8 @@ Layer map at the `dev` pin (headline files; `sorry` counts in parentheses):
 - **Layer 3.** `LevelStructure/`: `CartierDivisor.lean` (4) — the design of record Layer 0
   now mirrors: the KM 1.2.3 working definition `RelEffCartierDiv` (finite locally free over
   the base), `sectionDivisor`/`sectionsDivisor`, the norm-form full sets
-  (`IsFullSetOfSectionsAlg`/`Charpoly`), and the official KM 1.1.1 definition kept only as
-  the deferred `IsOfficialCartier` comparison — `Basic.lean` (3 — the
+  (`IsFullSetOfSectionsAlg`/`Charpoly`), and the KM 1.1.1 invertible-ideal-sheaf form kept only as
+  a deferred comparison predicate — `Basic.lean` (3 — the
   naive⟺Drinfeld and fppf bridges are the open pieces), `ExactOrder*.lean`,
   `FullLevelBridge`/`FullLevelDictionary`, `Incidence.lean`, `IsoTransport.lean`;
   `GroupScheme/CyclicSubgroup.lean`, `DeligneOrder.lean`.

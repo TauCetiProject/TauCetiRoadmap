@@ -54,7 +54,7 @@ open scoped Classical
 /-! ## Layer 0: scheme-theoretic prerequisites (what KM silently assume)
 
 Relative effective Cartier divisors in the curve case (KM 1.1–1.2, with the finite-locally-free
-characterisation KM 1.2.3 as the definition of record and the official invertible-ideal-sheaf
+characterisation KM 1.2.3 as the definition of record and the invertible-ideal-sheaf
 form a flagged off-critical-path comparison), finite locally free group schemes with
 `(ℤ/N)_S`, `μ_N`, and Cartier duality, quotients (invariants, free actions, torsors,
 Hopf-invariant quotients of curves by finite subgroups), the finite étale dictionary, and
