@@ -439,14 +439,17 @@ future scheme-facing roadmap.
   residue field `k`, from a minimal Weierstrass equation (Mathlib's `WeierstrassCurve.minimal`):
   the **reduction map on points** — via the projective-coordinate representation, so that every
   `K`-point reduces honestly (an API Mathlib's `Reduction.lean` does not yet have: it reduces
-  the curve, not the points) — the subgroups `E₀(K)` (nonsingular reduction) and `E₁(K)` (kernel
+  the curve, not the points; the Stoll repository now carries exactly this map — provenance) — the subgroups `E₀(K)` (nonsingular reduction) and `E₁(K)` (kernel
   of reduction), the exact sequence `0 → E₁(K) → E₀(K) → Ẽ_ns(k) → 0` (AEC VII.2.1; `K`
   complete — Hensel's lemma drives the right-exactness), and the identification `Ê(𝔪) ≅ E₁(K)`
   connecting the formal group (Layer 1) to the kernel of reduction (VII.2.2, the formal group
   converging over complete `K`).
-- **Néron–Ogg–Shafarevich (discrete strand).** Good reduction `↔` unramified `T_ℓ`-action
-  (AEC VII.7.1, over complete `K` with perfect `k`), consuming the Tate module (Layer 2) and the
-  filtration above; with it, potential good reduction and the `E[N]`-criterion for `N ≥ 3`.
+- **Néron–Ogg–Shafarevich (discrete strand).** Good reduction `↔` unramified `T_ℓ`-action for
+  **`ℓ ≠ char k`** — the *residue* characteristic: `ℓ ≠ char K` is vacuous in mixed
+  characteristic, and `T_p E` need not be unramified even with good reduction
+  (AEC VII.7.1, over complete `K` with perfect `k`) — consuming the Tate module (Layer 2) and
+  the filtration above; with it, potential good reduction and the `E[N]`-criterion for
+  `N ≥ 3` with **`char k ∤ N`**.
   Stated and proved on equations — precisely the part of the local theory that never needed the
   Néron model.
 - **Tate's algorithm (discrete strand).** From a minimal Weierstrass equation over a Henselian
@@ -544,8 +547,9 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   `Gal(Kˢᵉᵖ/K)`-module `M` — local-condition subgroups `H¹_𝓕(K_v, M) ⊆ H¹(K_v, M)` for each
   place `v`, unramified at almost all `v` — with its Selmer group `Sel_𝓕(M/K) ⊆ H¹(K, M)`, à la
   Rubin's *Euler Systems* I.§1–2, so the same API later serves abelian varieties and other
-  Kummer sequences; whether the topology on `M` is carried in the definition is a design point
-  settled at build time (review note). The elliptic instances plug in the classical conditions:
+  Kummer sequences. Decided here, not at build time (review): the modules are **discrete**,
+  with continuous `Gal(Kˢᵉᵖ/K)`-action and no further topology carried in the definition —
+  the standard setting for `E[m]` and `E(Kˢᵉᵖ)`, and all that `Sel_m` and `Ш` need. The elliptic instances plug in the classical conditions:
   the `m`-descent exact sequence `0 → E(K)/mE(K) → Sel_m(E/K) → Ш(E/K)[m] → 0` from the Kummer
   sequence for `[m] : E → E`, the finiteness of `Sel_m(E/K)` (AEC X.4.2) — the **effective
   refinement** of Layer 6's weak Mordell–Weil, giving the computable rank bound — and the
@@ -559,10 +563,12 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   `Ω(E) · Reg(E/K) · #Ш(E/K) · ∏_p c_p / #E(K)_tors²` — the regulator from the canonical height
   (Layer 6), the `c_p` from Tate's algorithm (Layer 4), `Ш` from this layer — and **Cassels'
   theorem** that it is unchanged by isogeny (Cassels 1965), making the truth of BSD
-  isogeny-invariant. Marked a stretch goal: the period `Ω(E)` needs integration of `ω` over
-  `E(ℝ)`/`E(ℂ)` — real analysis this roadmap otherwise avoids — so whether to build the full
-  quotient or its period-free part is a scoping decision taken when the layer is reached; BSD
-  itself stays out of scope either way.
+  isogeny-invariant. Still a stretch goal, but with the target fixed now (review): the
+  milestone is the **full quotient, period included** — the period-free part is not
+  isogeny-invariant, so it would gut Cassels' theorem — with `Ω(E)` defined by integrating
+  the invariant differential `ω` (Layer 1) over `E(ℝ)`/`E(ℂ)` through Mathlib's integration;
+  the dependencies are `ω` (Layer 1), the `c_p` (Layer 4), the regulator (Layer 6), and `Ш`
+  (this layer). BSD itself stays out of scope either way.
 - ⚠ **Dependency — what is actually missing.** Pinned Mathlib already has the general cohomological
   substrate: continuous cohomology of topological groups
   (`Mathlib/Algebra/Category/ContinuousCohomology/`), group cohomology with the explicit low-degree
@@ -666,12 +672,12 @@ only hold for, these revisions:
   Details in the Layers 0–1 entry below; re-pin to the PR numbers when they open.
 - **FLT** (`github.com/ImperialCollegeLondon/FLT`, Apache-2.0): the quadratic-twist development of
   PR #1088, merged as `bc2fe8ff7396` (2026-07-10).
-- **Heights / Mordell–Weil** (`github.com/MichaelStollBayreuth/Heights`, **GPL-2.0**):
-  `master @ 678f461488ce` (2026-07-12). ⚠ GPL-2.0 is incompatible with Tau Ceti's Apache-2.0, so
-  this code cannot be copied in as-is: migration needs the author's relicensing or direct
-  contribution (coordination with M. Stoll was opened on this roadmap's review thread). Until
-  that lands, Layer 6 treats the pinned repository as the *model* for a to-build proof, not as a
-  source to transcribe.
+- **Mordell–Weil / local fields** (`github.com/MichaelStollBayreuth/EllipticCurves`,
+  **Apache-2.0**): `66889eada51a` — the elliptic-curve part of the former Heights development,
+  extracted to its own repository, ported to the Lean 4 module system, pinned to Mathlib
+  v4.32.0, and sorry-free (per its author on this roadmap's review thread). The earlier
+  GPL-2.0 licence obstruction is **resolved**: this is a source to migrate, not merely a
+  model.
 
 - **Function-field foundations and isogenies (Layers 0–1).** The `Isogeny` definition and its
   opening theory are D. Angdinata's, shared as working files ahead of their mathlib PRs:
@@ -745,19 +751,29 @@ only hold for, these revisions:
   hypothesis, and the `κ² ∣ 4Δ` discriminant form) — the model for the formal-group
   refinement milestone. Migration must dedupe its vendored division-polynomial files against
   the reviewers' upstreaming (mathlib-track convention).
-- **Mordell–Weil (Layer 6).** Michael Stoll's AI-assisted formalisation (pinned above) proves it
-  `sorry`-free, by exactly the route Layer 6 specifies: `fg_point` over the fraction field of a
-  Dedekind domain — the finiteness inputs (finite class group, finitely generated unit group, for
-  the integer rings of the field factors of `K[X]/(f)`) taken as hypotheses, the curve in short
-  normal form (`[W.IsShortNF]`) — and `fg_point_of_numberField` discharging those hypotheses over
-  a number field (`Heights/EllipticCurve.lean`); weak Mordell–Weil by the `x − θ` map into the
-  étale algebra (`Heights/WeakMordellWeil.lean`); and the étale-algebra Selmer-group finiteness
-  extending Mathlib's `DedekindDomain.SelmerGroup` and discharging its finiteness TODO
-  (`Heights/SelmerGroup.lean` — the *arithmetic* `K(S,n)`, not Layer 7's `Sel_m(E/K)`). Porting
-  notes: the seeded `fg_point_of_numberField` is stated for any `WeierstrassCurve` over a number
-  field (deliberately the same name as the pinned repository's theorem, whose statement it
-  matches), so the port adds the variable-change reduction to short normal form; and the GPL-2.0
-  licence must be resolved first (pinned-sources note above).
+- **Mordell–Weil (Layer 6).** Michael Stoll's formalisation (pinned above, Apache-2.0) proves
+  it `sorry`-free, by exactly the route Layer 6 specifies:
+  `WeierstrassCurve.Affine.fg_point_of_numberField` for an **arbitrary** elliptic curve over a
+  number field — the variable-change reduction to short normal form is performed internally,
+  so it matches the seed here in name and generality alike — resting on the general `fg_point`
+  (over the fraction field of a Dedekind domain, the per-factor class-group and unit-group
+  finiteness taken as hypotheses) and weak Mordell–Weil by the `x − θ` map into the étale
+  algebra `K[X]/(f)`; and the étale-algebra Selmer-group finiteness
+  (`IsDedekindDomain.finite_selmerGroup`, with the fundamental exact sequence and
+  `finite_selmerGroupOfEquiv`) building directly on Mathlib's `DedekindDomain.SelmerGroup` and
+  discharging that file's own finiteness TODO — an upstreaming target in its own right, after
+  careful review (the *arithmetic* `K(S,n)`, not Layer 7's `Sel_m(E/K)`). Porting note:
+  nothing structural remains; the work is Mathlib-polish and the dedupe discipline.
+- **The reduction filtration (Layer 4).** The same repository (pinned above) already carries
+  the local-field material Layer 4 flags as missing from Mathlib: the **point-level reduction
+  map** `redHom : E(K_v) → Ẽ(k_v)` via the projective representation — injective on torsion
+  and order-preserving there — the valuation **filtration `E₁(K_v)`** with the structure
+  theorem that `E(K_v)` has a finite-index subgroup `≅ (𝒪_v, +)`, torsion-freeness of `E₁`
+  under the standard ramification condition, and integral-model existence; all sorry-free,
+  not yet Mathlib-polished. Its formal group is built on a small vendored multivariate
+  formal-group kit (from as-yet-unpublished Chabauty–Coleman work); on migration the
+  one-dimensional elliptic case is refounded on Mathlib's `RingTheory/FormalGroup`, per the
+  Layer-1 convention.
 - **Selmer/Sha (Layer 7)** waits on the continuous-Galois-cohomology packaging (§Layer 7 lists the
   concrete missing pieces).
 

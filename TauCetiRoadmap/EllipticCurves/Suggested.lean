@@ -352,9 +352,12 @@ theorem j_quadraticTwistOf {K : Type*} [Field K] (E : WeierstrassCurve K) (t n :
   sorry
 
 /-- **The canonical quadratic twist by a separable quadratic extension** `L/K` (FLT
-`quadraticTwist`): twist by the trace and norm of a generator of `L/K`, a `WeierstrassCurve K`
-independent of the generator. `Algebra.IsQuadraticExtension K L` (in pinned Mathlib) is the
-quadratic-extension hypothesis, exactly as FLT states it. -/
+`quadraticTwist`): twist by the trace and norm of a generator of `L/K` — a noncomputable
+choice, with the resulting `WeierstrassCurve K` **well-defined up to `K`-isomorphism**:
+replacing the generator changes the coefficients by an admissible change of variables, and
+FLT's `exists_smul_quadraticTwistBy_eq` is that independence-up-to-isomorphism statement.
+`Algebra.IsQuadraticExtension K L` (in pinned Mathlib) is the quadratic-extension hypothesis,
+exactly as FLT states it. -/
 noncomputable def quadraticTwist {K : Type*} [Field K] (E : WeierstrassCurve K) (L : Type*)
     [Field L] [Algebra K L] [Algebra.IsQuadraticExtension K L] [Algebra.IsSeparable K L] :
     WeierstrassCurve K :=
