@@ -115,7 +115,7 @@ Pin these conventions before writing code — implementors make bad, divergent c
   `HeckeCosetModule Δ H₁ H₂ Z`, and the Hecke ring `HeckeRing Δ H Z` (notation `𝕋`), on top of
   `GroupTheory/DoubleCoset` and `GroupTheory/Commensurable`. The **convolution product, identity,
   and associativity** are the open review stack
-  [#41253](https://github.com/leanprover-community/mathlib4/pull/41253)–[#41328](https://github.com/leanprover-community/mathlib4/pull/41328),
+  [#41253](https://github.com/leanprover-community/mathlib4/pull/41253)–[#41256](https://github.com/leanprover-community/mathlib4/pull/41256), [#41277](https://github.com/leanprover-community/mathlib4/pull/41277), [#41279](https://github.com/leanprover-community/mathlib4/pull/41279), and [#41328](https://github.com/leanprover-community/mathlib4/pull/41328),
   upstreamed from AINTLIB's `HeckeRIngs/AbstractHeckeRing/*`. Layer 2 **consumes** this; do not
   re-found the abstract ring in `TauCeti/`.
 - **The Sturm bound — level one merged, finite index in review:**
@@ -236,7 +236,7 @@ below sketches signatures; it is illustrative, not required to compile.
 ### Layer 2: Hecke operators and the Hecke algebra
 - **(a) The abstract Hecke ring — consume Mathlib's.** The double-coset ring of a Hecke pair is
   landing in Mathlib (`NumberTheory/HeckeRing/Defs.lean` #41251, merged; the convolution ring
-  structure in review, #41253–#41328 — see *What Mathlib already has*): `IsHeckeTriple`,
+  structure in review, #41253–#41256, #41277, #41279, #41328 — see *What Mathlib already has*): `IsHeckeTriple`,
   `HeckeCoset`, `𝕋 Δ H Z`, with the finiteness (`Γ ∩ gΓg⁻¹` of finite index, so `ΓgΓ = ⊔ᵢ gᵢΓ`
   is a finite union of cosets) packaged in the commensurator conditions. What this roadmap adds
   on top: the classical `GL₂(ℚ)` instances — `Γ₀(N)`, `Γ₁(N)` inside the integral-matrix
@@ -328,9 +328,17 @@ below sketches signatures; it is illustrative, not required to compile.
   is the level-lowering step: for `l ∣ N`, `χ : DirichletCharacter ℂ N`, and a `T`-periodic
   `f : ℍ → ℂ` whose level-raise by `l` lies in `S_k(N, χ)`, **either** `χ` factors through `N/l`
   and `f` is itself a cusp form in `S_k(N/l, χ↓)` for the lowered character, **or** `f = 0`.
-  Port that statement as-is; the packaged **conductor theorem** — every normalized eigenform is
-  the level-raise of a newform of a unique minimal level `M ∣ N`, its **conductor** — is the
-  target assembled from the dichotomy and the Main Lemma.
+  Port that statement as-is; the packaged **conductor theorem** — every normalized good-Hecke
+  eigenform at level `N` shares its eigenvalues away from `N` with a **unique** newform `g` of
+  a **unique** minimal level `M ∣ N`, its **conductor**, and lies in the associated oldspace
+  `span { g(dz) : d ∣ N/M }` (Diamond–Shurman Thm 5.8.3) — is the target assembled from the
+  dichotomy and the Main Lemma. ⚠ The uniqueness is of `(M, g)` — equivalently of the
+  good-Hecke eigensystem, by Layer 5's strong multiplicity one — **not** of the eigenform
+  itself: an `Eigenform` records eigen-ness only at `n` coprime to `N`, so at level `2M` every
+  normalized `g(z) + c·g(2z)` qualifies, and the `Uₚ`-eigenvectors in the oldspace are the
+  `p`-stabilizations — nontrivial combinations, not single degeneracy images `g(dz)`. Do not
+  strengthen the conclusion to "`f` *is* a level-raise of `g`"; it is false in exactly these
+  examples.
 
 ### Layer 5: strong multiplicity one and the eigenform characterization
 - **Strong multiplicity one** (Miyake Thm 4.6.12 — the "strong" form, with eigenvalue agreement
@@ -386,8 +394,10 @@ below sketches signatures; it is illustrative, not required to compile.
   from Hecke's `aₙ = O(n^{k/2})`), and `≤ k + 1` for modular forms **of weight `k ≥ 0`**
   (`abscissaOfAbsConv_lCoeff_le` carries the hypothesis `0 ≤ k` — keep it). ⚠ The non-cuspidal
   bound comes from Mathlib's `aₙ = O(nᵏ)` and is **weaker** than D–S Prop 5.9.1, whose
-  non-cuspidal statement is `Re s > k` (via `aₙ = O(n^{k−1})`); tightening the abscissa to
-  `≤ k` is a cheap upgrade target, not an obligation of this layer.
+  non-cuspidal statement is `Re s > k` (via `aₙ = O(n^{k−1})`); **tightening the non-cuspidal
+  abscissa to `≤ k` is a milestone of this layer** — the honest D–S 5.9.1 bound, a
+  divisor-sum estimate `aₙ = O(n^{k−1})` on the Eisenstein part, aligning the roadmap with the
+  result it cites.
 - **The Euler product** for a newform (from Prop 5.8.5; AINTLIB `lSeries_eulerProduct`,
   `Modularforms/LFunctionEuler.lean`): for `f : Newform N k` and `Re s > k/2 + 1`,
   `L(s,f) = ∏_p (1 − aₚ p^{-s} + χ(p) p^{k-1-2s})^{-1}` (#30), the nebentypus zero-extended to
@@ -403,8 +413,14 @@ below sketches signatures; it is illustrative, not required to compile.
   the one-form `Λ_N(s,f) = ±Λ_N(k−s,f)` with a genuine **sign** (Diamond–Shurman Thm 5.10.2, on
   the Fricke eigenspaces `S_k(Γ₁(N))^±`) is the corollary once Layer 6 gives `W_N f = ε·f` —
   trivial nebentypus, or self-dual `f = f_ρ`.
-- **Analytic rank and analytic conductor** (#31): the order of vanishing of `L(f,·)` at the central
-  point `s = k/2`, and the conductor `N·(…Γ-factor…)`.
+- **Analytic rank and analytic conductor** (#31): the order of vanishing of `L(f,·)` at the
+  central point `s = k/2`, and the **analytic conductor pinned** as Iwaniec–Kowalski (5.7) for
+  the weight-`k` gamma factor: with `s_an := s − (k−1)/2` the analytic normalization (the
+  central point `s = k/2` is `s_an = 1/2`, and the Γ-factor is
+  `Γ_ℝ(s_an + (k−1)/2)·Γ_ℝ(s_an + (k+1)/2)` up to exponentials),
+  `𝔮(f, s) := N · (|s_an + (k−1)/2| + 3) · (|s_an + (k+1)/2| + 3)`, and `𝔮(f) := 𝔮(f, k/2)`
+  at the central point. This is the definition; do not substitute another normalization
+  without renaming.
 
 ### Layer 8: coefficient fields and the integral Hecke algebra
 - **The coefficient field** `CoefficientField f = ℚ(aₙ : n) ⊆ ℂ` of a newform (#34), and the
@@ -521,25 +537,24 @@ ground, and no Lean prior art exists anywhere.
   `H 0 = −1/12` makes the `t² = 4n` terms absorb the identity/volume contribution
   (`P_k(±2√n, n) = (k−1)·n^{(k−2)/2}`) and the divisor sum carries the hyperbolic and parabolic
   mass; Miyake Thm 6.8.4 keeps these contributions separate. Either bookkeeping works; do not
-  mix them. The `k = 2` variant carries a `σ₁(n)`-type correction term — a later refinement, not
-  the first target.
-- **Two proof routes, both substantially on rails this roadmap already lays; choose one:**
-  - *(A) the kernel route* (Miyake §§6.1–6.4; Zagier's appendix in Lang): the two-variable
-    kernel `ω_n(z, w) = Σ_{ad−bc=n} (czw + dz + aw + b)^{−k}` — absolute convergence for
-    `k ≥ 4` is the same lattice-sum technology as Mathlib's Eisenstein series — is, up to an
-    explicit constant, the **Petersson kernel of `Tₙ`** (the reproducing property; this is the
-    Petersson-coefficient / Poincaré-series machinery of Miyake Thms 2.6.9–2.6.10, built here
-    since neither Mathlib nor AINTLIB has it), and `tr Tₙ = ∫_{Γ\ℍ} ω_n(z, ·)`-on-the-diagonal
-    unfolds over `SL₂(ℤ)`-conjugacy classes into closed-form elliptic and hyperbolic integrals —
-    on Layer 3's `petN`/`μ_hyp`/fundamental-domain apparatus, the same unfolding pattern as
-    AINTLIB's `heckeT_n_adjoint`. The class `H(4n − t²)` enters by counting integer matrices of
-    determinant `n` and trace `t` up to conjugacy ↔ binary quadratic forms of discriminant
-    `t² − 4n`.
-  - *(B) the period-polynomial route* (Popa–Zagier): compute the Hecke action and its trace on
-    **period polynomials** — the world of AINTLIB's `HeckeRIngs/GL2/ModularSymbols/*`
-    (`HeckeSymbol`, `PeriodHecke`, `SL2Generation`) — where the trace identity is provable with
-    **no analytic input**; the transfer to `S_k(SL₂(ℤ))` rides the Eichler–Shimura isomorphism,
-    so the Layer-8 Stokes wall `interior_edges_cancel_sum` gains a second consumer.
+  mix them. The `k = 2` variant carries a `σ₁(n)`-type correction term — the quasi-modular
+  `E₂`/regularization phenomenon — and is **out of scope**: the scope wall below applies to it
+  as to general level, and nothing on this roadmap consumes it (the acceptance criteria live
+  at `k ≥ 4` and `k = 12`).
+- **The route of record is the period-polynomial route** (Popa–Zagier): compute the Hecke
+  action and its trace on **period polynomials** — the world of AINTLIB's
+  `HeckeRIngs/GL2/ModularSymbols/*` (`HeckeSymbol`, `PeriodHecke`, `SL2Generation`) — where
+  the trace identity is provable with **no analytic input**; the transfer to `S_k(SL₂(ℤ))`
+  rides the Eichler–Shimura isomorphism, so the Layer-8 Stokes wall
+  `interior_edges_cancel_sum` gains a second consumer. Chosen over the kernel route (Miyake
+  §§6.1–6.4; Zagier's appendix in Lang: the two-variable kernel
+  `ω_n(z, w) = Σ_{ad−bc=n} (czw + dz + aw + b)^{−k}` as the Petersson kernel of `Tₙ`, unfolded
+  over conjugacy classes) because the kernel route requires the Petersson-coefficient /
+  Poincaré-series machinery of Miyake Thms 2.6.9–2.6.10, which neither Mathlib nor AINTLIB
+  has — that machinery is **out of scope for this layer** (it would be a subproject of its
+  own), while the period-polynomial route consumes only rails Layers 2 and 8 already lay. The
+  class `H(4n − t²)` enters either way by counting integer matrices of determinant `n` and
+  trace `t` up to conjugacy ↔ binary quadratic forms of discriminant `t² − 4n`.
 - **Acceptance criteria:** `tr T(1) = dim S_k(SL₂(ℤ))` against Mathlib's
   `ModularForm.dimension_level_one` — the trace formula re-derives the level-one dimension
   formula; `tr T(2) | S₁₂ = τ(2) = −24` — the Δ worked example, reached from a second direction;
@@ -586,15 +601,16 @@ Layers 3–5 (Petersson → newforms → strong multiplicity one) are the core a
 sequential. Layers 6–7 (Atkin–Lehner → L-functions) and Layer 8 (coefficient fields) consume
 Layer 5; Layer 9 (LMFDB invariants) consumes Layer 8. Layer 10 (the modular curve `Γ\ℍ` and the
 dimension formulas) consumes Layer 1 and Mathlib's Sturm-bound finiteness, and is otherwise
-independent. Layer 11 (the level-one trace formula) consumes Layers 2–3 on the kernel route or
-the Layer-8 modular-symbol machinery on the period-polynomial route, is otherwise independent,
+independent. Layer 11 (the level-one trace formula) consumes Layer 2 and the Layer-8
+modular-symbol/Eichler–Shimura machinery on its period-polynomial route of record, is
+otherwise independent,
 and feeds Layer 9's characteristic-polynomial targets while cross-checking Layer 10 at level
 one.
 
 ## Provenance (migrate and clean from AINTLIB `LeanModularForms`)
 
 Secondary to the mathematics above: the migration map. The reference is the AINTLIB monorepo's
-`projects/LeanModularForms/` on branch **`dev/leanmodularforms`** (resynced **2026-07-17**, at
+`projects/LeanModularForms/` on branch **`dev/leanmodularforms`** (resynced **2026-07-17**, re-verified **2026-07-23**, at
 `112d12d95`); paths are relative to its `LeanModularForms/`. The tree is **actively
 restructured**, so verify names against the live tree before porting. Headline theorems are
 `sorry`-free unless flagged; the flagged open `sorry`s are exactly three —
@@ -612,7 +628,7 @@ general-`n` branch.
   with the FD-boundary bridge (`ForMathlib/*FDBoundary*`, `*CornerFTC*`, `*CrossingAt*`) over
   the Contour Integration engine.
 - **Hecke theory (L2):** `HeckeRIngs/AbstractHeckeRing/*` (the abstract ring — **being
-  upstreamed** as Mathlib #41251 merged + #41253–#41328 in review; commutativity via
+  upstreamed** as Mathlib #41251 merged + #41253–#41256, #41277, #41279, #41328 in review; commutativity via
   `mul_comm_of_antiInvolution` with `GLn/TransposeAntiInvolution.lean`);
   `HeckeRIngs/GL2/{Basic,HeckeT_p,HeckeT_p_Gamma0,HeckeT_p_Gamma1,HeckeT_p_GLpair,HeckeT_n,FourierHecke,MultiplicationTable,CongruenceIndex,Degree,LevelEmbed,LevelRaise}.lean`;
   the ring-action layer
