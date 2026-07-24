@@ -20,7 +20,8 @@ finite rational cover is exact in **all** degrees — with the theorem that the 
 presheaf is a **sheaf** as its degree-`≤ 1` shadow — and, on top of sheafiness, the definition
 of **adic spaces** as locally-affinoid objects of Huber's category `𝒱`. The closing layer
 stress-tests the definitions on a suggested worked example, the **finite-jet pinching
-algebra** of [FJP]: a uniform, non-noetherian, sheafy Tate ring that is not stably uniform
+algebra** — already formalised `sorry`-free in the AINTLIB provenance: a uniform,
+non-noetherian, sheafy Tate ring that is not stably uniform
 (answering Hansen–Kedlaya, *Sheafiness criteria for Huber rings*, Remark 3.16). The sources are
 T. Wedhorn, *Adic Spaces* (arXiv:1910.05934) — whose section numbering is this roadmap's shared
 coordinate system — and R. Huber's original papers ([Hu1], [Hu2], [Hu3] below); the mathematics
@@ -38,7 +39,7 @@ that code as material to migrate and complete, never as the standard.
 **Out of scope.** Perfectoid rings and spaces, tilting, and diamonds — a future roadmap; the
 Lean 3 perfectoid project and AINTLIB's partial `PerfectoidRing/PerfectoidSpace` files are its
 provenance, not this roadmap's targets. The Fargues–Fontaine curve and almost mathematics.
-Derived and condensed approaches to sheafiness (Andreychev, Clausen–Scholze; also §7 of [FJP]).
+Derived and condensed approaches to sheafiness (Andreychev, Clausen–Scholze).
 The étale site and étale cohomology of adic spaces. Rigid-analytic formal models, Raynaud
 generic fibres, and GAGA. Berkovich spaces and the comparison functors. Fibre products of adic
 spaces (they need stability theorems for sheafiness that do not exist classically in useful
@@ -87,10 +88,12 @@ layout).
   Do not weaken to "uniform" hypotheses silently and do not strengthen to Banach-algebra
   assumptions from the rigid-analytic literature.
 - **Sources, not a single specification.** Wedhorn is a careful survey and Huber is the origin;
-  neither develops Mathlib-grade API (and [FJP] is an unrefereed preprint: its proofs are to be
-  **checked adversarially, with the formalization as the referee** — discrepancies get reported
-  against the paper, not patched silently). Where existing Lean work proves a milestone, that is
-  provenance (final section), never the standard it is judged against.
+  neither develops Mathlib-grade API. Where existing Lean work proves a milestone, that is
+  provenance (final section), never the standard it is judged against. One layer has no paper
+  source at all: the finite-jet stress test (§Layer 6) is specified **self-containedly in this
+  roadmap's own text**, and the `sorry`-free AINTLIB formalisation of it is the provenance
+  evidencing that the specification is consistent and provable — cite the formalisation, not
+  an unpublished document.
 
 ## What Mathlib already has (consume)
 
@@ -299,7 +302,7 @@ of integral elements.
   adic space via Layer 4; the open disc as an increasing union of closed discs — the first
   genuinely glued, non-affinoid adic space, exercising the gluing API.
 
-### Layer 6: uniformity, Buzzard–Verberkmoes, and the finite-jet stress test ([BV]; [FJP]; [HK])
+### Layer 6: uniformity, Buzzard–Verberkmoes, and the finite-jet stress test ([BV]; [HK]; provenance)
 
 Uniformity completes the basic theory of Huber pairs; the layer closes with a suggested
 worked example exercising everything built above.
@@ -311,21 +314,25 @@ worked example exercising everything built above.
   Math. 740 (2018), in its bounded-denominator formulation) — the standard sheafiness
   criterion complementary to Layer 4, and this layer's theorem.
 - **The finite-jet stress test.** A suggested worked example that exercises Layers 0–4 end to
-  end — every definition, and the sheafiness theorem in its full non-reduced generality — from
-  [FJP] (references; the construction is specified self-containedly here because the preprint
-  is not public). Over `K = F⸨t⸩`: `L = K⟨W, W⁻¹⟩`, `𝓑 = K⟨W, Q⟩/(Q²)`, `𝓒 = L⟨Q⟩`,
+  end — every definition, and the sheafiness theorem in its full non-reduced generality. It
+  has **no public paper source**: the construction is specified self-containedly here, and its
+  reference is the `sorry`-free **AINTLIB formalisation** (the `FJP/` directory, §Provenance),
+  whose capstone exports carry exactly the statements below. Over `K = F⸨t⸩`:
+  `L = K⟨W, W⁻¹⟩`, `𝓑 = K⟨W, Q⟩/(Q²)`, `𝓒 = L⟨Q⟩`,
   `𝓓 = L⟨Q⟩/(Q²)`, and the pinching algebra **`𝓐 = 𝓑 ×_𝓓 𝓒`** — concretely the closed
   subring of `𝓒` of series whose `Q⁰`- and `Q¹`-coefficients have nonnegative `W`-support —
   with its strict Milnor row `0 → 𝓐 → 𝓑 ⊕ 𝓒 → 𝓓 → 0`, exact with all norm constants `1`. The
-  test ([FJP] Theorem 1.3, one conclusion per declaration): `𝓐` is a **uniform**,
+  test (one conclusion per declaration, matching the formalisation's exports): `𝓐` is a
+  **uniform**,
   **non-noetherian** **domain**; `(𝓐, 𝓐°)` is **sheafy**, by transferring the sheaf condition
   across the Milnor square from the three vertices — each complete strongly noetherian Tate,
   two of them non-reduced, so each sheafy by exactly Layer 4's theorem as pinned; and `𝓐` is
   **not stably uniform**, witnessed by `𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` (`X = W/ϖ`) — strongly
   noetherian and sheafy but not uniform (`Q·f` is nilpotent hence power-bounded for every `f`,
   so its `A°` is unbounded). The example shows **sheafy ⇏ stably uniform**, answering [HK]
-  Remark 3.16, and certifies that Layer 4 and [BV] each cover ground the other does not. Its
-  strong-sheafiness refinement ([FJP] Corollary 5.5) is deliberately **not** a target.
+  Remark 3.16, and certifies that Layer 4 and [BV] each cover ground the other does not. The
+  strong-sheafiness refinement (`𝓐⟨T₁, …, Tₙ⟩` sheafy for every `n`) is deliberately **not**
+  a target.
 
 ---
 
@@ -383,12 +390,9 @@ proceed in parallel with the headline strand (Layers 4–5) once Layer 3 lands.
   (2018), 25–39 — [BV] (Layer 6).
 - D. Hansen, K. Kedlaya, *Sheafiness criteria for Huber rings* (preprint, 2025 version) —
   [HK]: Remark 3.16 is the question Layer 6 answers.
-- **[FJP]** *Finite-jet pinching: a uniform strongly sheafy domain which is not stably uniform*
-  (anonymous preprint, 16 July 2026, 27 pp.) — the Layer-6 stress-test example. ⚠ Unpublished and not
-  publicly posted; the PDF is held by the maintainers and available to contributors on request.
-  The roadmap therefore specifies the construction and statements **self-containedly above**,
-  and the formalization is the referee: the paper's proofs are to be checked adversarially,
-  with discrepancies reported.
+- The Layer-6 stress-test example has **no paper reference**: it is specified self-containedly
+  in §Layer 6, and its reference is the `sorry`-free AINTLIB formalisation pinned in
+  §Provenance (the `FJP/` directory and its capstone exports).
 - L. Henkel, *An Open Mapping Theorem for rings with a zero sequence of units*
   (arXiv:1407.5647) — the Tate-ring open mapping theorem (Layer 0).
 - K. Hübner, on separatedness of structure presheaves (arXiv:2405.06435) — the separation
@@ -463,7 +467,7 @@ scope and are not migration targets.
   (`finiteJet_isSheafy`, `finiteJet_isUniform`, `finiteJet_isDomain`,
   `finiteJet_not_noetherian`, `finiteJet_not_stablyUniform`). ⚠ These consume the 828b
   capstone and the `IsSheafy` infrastructure, so their effective status inherits the Layer-3/4
-  audit above; `[FJP] Corollary 5.5` (strong sheafiness) is not attempted there, and is not a
+  audit above; strong sheafiness (`𝓐⟨T₁, …, Tₙ⟩` sheafy for every `n`) is not attempted there, and is not a
   target here either (§Layer 6). The `[BV]` theorem is absent from the provenance and is built
   here.
 - **Vendored inputs.** `Vendored/Coram*`/`Vendored/Xia*` (Gauss-norm and `MvPowerSeries`
@@ -473,5 +477,6 @@ scope and are not migration targets.
 The audit method above is file-level `grep`-counting of `sorry` at the pinned revision: it
 over-counts (comments mentioning the word) and cannot see cross-file dependence, which is why
 the migration contract for every "sorry-free" claim is a `#print axioms` gate on the actual
-capstones in TauCeti CI. The [FJP] PDF itself is deliberately not in the repository; request it
-from the maintainers before working on Layer 6.
+capstones in TauCeti CI. Layer 6's reference is the formalisation itself — the `FJP/`
+directory, whose file docstrings carry the construction and statements — together with this
+roadmap's self-contained §Layer 6; there is no paper to consult.
