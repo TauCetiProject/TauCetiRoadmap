@@ -25,10 +25,11 @@ comparison in `Exchangeability/PathSpace/InvariantTail.lean`, and with
 open), **Layer 4** (the Lévy downward theorem — landed in
 `TauCeti/Probability/Martingale/` as `MeasureTheory.tendsto_ae_condExp_iInf`), and the
 **Layer 6 summit** (de Finetti and the Ryll-Nardzewski equivalence, expressible since
-Layer 0; landed in **mixture form** — `mixedIID_of_exchangeable` and the equivalences
-`contractable_iff_mixedIID` / `contractable_iff_exchangeable_and_mixedIID`, general `Ω`,
-`[IsFiniteMeasure μ]`, `TauCeti/Probability/DeFinetti/` — while the genuine conditional
-summit, concluding this file's joint-law `ConditionallyIID`, remains open). These elaborate
+Layer 0). What has landed there are the **mixture corollaries** —
+`mixedIID_of_exchangeable` and the equivalences `contractable_iff_mixedIID` /
+`contractable_iff_exchangeable_and_mixedIID`, general `Ω`, `[IsFiniteMeasure μ]`,
+`TauCeti/Probability/DeFinetti/`; the summit itself, concluding this file's joint-law
+`ConditionallyIID`, remains open. These elaborate
 against the pinned Mathlib and are stated with `sorry` (allowed in this human-owned
 roadmap library).
 
@@ -314,8 +315,9 @@ example [IsFiniteMeasure μ] {𝔽 : ℕ → MeasurableSpace Ω}
 
 Expressible since Layer 0, so the suggested forms are pinned now; the proof routes and the
 directing-measure API (Layers 3–6 in `README.md`) land in between. The unsuffixed public
-theorem should be the reverse-martingale route. **Status:** the **mixture-form** summit is
-complete — the implications `mixedIID_of_contractable` / `mixedIID_of_exchangeable`
+theorem should be the reverse-martingale route. **Status:** the **mixture corollaries** are
+complete and the conditional summit remains open. Landed: the mixture implications
+`mixedIID_of_contractable` / `mixedIID_of_exchangeable`
 (`TauCeti/Probability/DeFinetti/BlockFactorization.lean`) and the named equivalences
 `exchangeable_iff_mixedIID`, `contractable_iff_mixedIID`,
 `contractable_iff_exchangeable_and_mixedIID`

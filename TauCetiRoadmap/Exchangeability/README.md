@@ -66,10 +66,11 @@ with `α` a standard Borel space, prove the de Finetti–Ryll-Nardzewski equival
 --     ConditionallyIID μ X
 ```
 
-**Status (2026-07):** both v1 shapes are implemented **in mixture form**, at the stronger
-`[IsFiniteMeasure μ]`: the implication as `mixedIID_of_exchangeable`, and the equivalence as
-`contractable_iff_mixedIID` / `contractable_iff_exchangeable_and_mixedIID` — see *As landed*
-under Layer 6. The `MixedIID` rename prescribed by the sequencing note under *Standing
+**Status (2026-07):** the **mixture corollaries** of both v1 shapes are implemented, at the
+stronger `[IsFiniteMeasure μ]`: the implication as `mixedIID_of_exchangeable`, and the
+equivalence as `contractable_iff_mixedIID` / `contractable_iff_exchangeable_and_mixedIID` —
+see *As landed* under Layer 6. The v1 shapes themselves, concluding `ConditionallyIID`, are
+the summit and are not among them. The `MixedIID` rename prescribed by the sequencing note under *Standing
 hypotheses* has landed (TauCeti #1192), so those declarations carry their roadmap names
 directly. The v1 shapes as stated above — concluding the genuine joint-law `ConditionallyIID`
 — remain open; the names `deFinetti`, `deFinetti_equivalence` and
@@ -567,7 +568,8 @@ proof. The L¹ and Lᵖ convergence forms (for `f ∈ L¹` / `Lᵖ`, using Mathl
 uniform-integrability and eLp-norm conditional-expectation tools) are follow-up Layer 4
 targets; the L¹ form is what most uses want.
 
-**As landed (2026-07).** The layer is complete in `TauCeti/Probability/Martingale/`
+**As landed (2026-07).** The core a.e.-convergence target and its supporting spine are
+complete in `TauCeti/Probability/Martingale/`
 (`Reverse.lean`, `Crossings/`, `AntitoneLimit.lean`, `Convergence.lean`), namespace
 `MeasureTheory`, at `[IsFiniteMeasure μ]`, with only `𝔽 0 ≤ m₀` assumed (antitonicity
 upgrades it), and with **no integrability hypothesis** on `f` — the proof case-splits, the
@@ -723,7 +725,7 @@ route deviations worth recording:
 * the factorization runs at the `blockLaw` level, with general injective selections reduced
   to strictly monotone prefixes by `Tuple.sort` + `Contractable.map` — so no
   `iCondIndepFun`-style conditional-independence capstone sits on the critical path;
-* the summit implications landed as `mixedIID_of_contractable` and
+* the mixture implications landed as `mixedIID_of_contractable` and
   `mixedIID_of_exchangeable` on an arbitrary measurable `Ω` at `[IsFiniteMeasure μ]`
   — exceeding the probability-measure target — via path-space transfer, with the
   standard-Borel-`Ω` step `private`: exactly the public-statement discipline prescribed in
