@@ -11,23 +11,24 @@ and reviewers converge on names and signatures. Discharging every statement here
 finishes a layer nor the roadmap; what the area asks for is what `README.md` says.
 
 This file currently holds suggested forms for: **Layer 0** (the core symmetry notions,
-landed in `TauCeti/Probability/Exchangeability/`; note TauCeti's landed
-`ConditionallyIIDWith` / `ConditionallyIID` currently pin the *mixture* shape, this file's
-`MixedIIDWith` / `MixedIID` — see the README's sequencing note on the pending rename),
-**Layer 1** (the random product kernel and the common de Finetti endings — the mixture-shaped
-predicate plus the existential wrapper and `ConditionallyIID.of_directing` landed under the
-legacy names), **Layer 2** (process tails, the
-shift-invariant and exchangeable σ-algebras — landed in `TauCeti/Probability/`
-(`Process/Tail`, `Ergodic/ShiftInvariantSigma`, `Exchangeability/PathSpace/ExchangeableSigma`),
-with `tailFamily`/`tailProcess` generalized to dependent codomains `β k`; Hewitt–Savage
-still open), **Layer 4** (the Lévy downward theorem — landed in
+landed in `TauCeti/Probability/Exchangeability/`; the `MixedIID` rename has landed
+(TauCeti #1192), so TauCeti's mixture predicate now carries this file's names
+`MixedIIDWith` / `MixedIID`), **Layer 1** (the random product kernel and the mixture common
+de Finetti ending — `mixedIID_of_mixingRepresentative`, with the named relation, the
+existential wrapper and `MixedIID.of_mixingRepresentative`; the joint-rectangle conditional
+ending is open), **Layer 2** (process tails, the shift-invariant and exchangeable σ-algebras
+— landed in `TauCeti/Probability/` (`Process/Tail`,
+`Exchangeability/PathSpace/Exchangeable/Sigma.lean`), with the shift-invariant σ-algebra
+consumed directly from Mathlib's `MeasurableSpace.invariants` and the tail-versus-invariant
+comparison in `Exchangeability/PathSpace/InvariantTail.lean`, and with
+`tailFamily`/`tailProcess` generalized to dependent codomains `β k`; Hewitt–Savage still
+open), **Layer 4** (the Lévy downward theorem — landed in
 `TauCeti/Probability/Martingale/` as `MeasureTheory.tendsto_ae_condExp_iInf`), and the
 **Layer 6 summit** (de Finetti and the Ryll-Nardzewski equivalence, expressible since
-Layer 0; landed in **mixture form** — `conditionallyIID_of_exchangeable` and the equivalences
-`contractable_iff_conditionallyIID` / `contractable_iff_exchangeable_and_conditionallyIID`
-with the roadmap-handle aliases, general `Ω`, `[IsFiniteMeasure μ]`,
-`TauCeti/Probability/DeFinetti/` — while the genuine conditional summit, concluding this
-file's joint-law `ConditionallyIID`, remains open). These elaborate
+Layer 0; landed in **mixture form** — `mixedIID_of_exchangeable` and the equivalences
+`contractable_iff_mixedIID` / `contractable_iff_exchangeable_and_mixedIID`, general `Ω`,
+`[IsFiniteMeasure μ]`, `TauCeti/Probability/DeFinetti/` — while the genuine conditional
+summit, concluding this file's joint-law `ConditionallyIID`, remains open). These elaborate
 against the pinned Mathlib and are stated with `sorry` (allowed in this human-owned
 roadmap library).
 
@@ -296,12 +297,15 @@ example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i))
 exchangeability: consume Mathlib's upcrossing API and build only the reversal, the
 antitone adapter, and the `⨅ n, 𝔽 n` identification; the martingale route consumes this.
 **Landed** as `MeasureTheory.tendsto_ae_condExp_iInf`
-(`TauCeti/Probability/Martingale/Convergence.lean`) in exactly this form —
-`[IsFiniteMeasure μ]`, and only `h_le0 : 𝔽 0 ≤ m₀` (antitonicity upgrades it to every `n`).
-The L¹ and Lᵖ convergence forms are follow-up Layer 4 targets. -/
+(`TauCeti/Probability/Martingale/Convergence.lean`), *stronger* than the original target:
+`[IsFiniteMeasure μ]` rather than a probability measure, only `h_le0 : 𝔽 0 ≤ m₀`
+(antitonicity upgrades it to every `n`), and **no integrability hypothesis** on `f` — the
+proof case-splits, the non-integrable branch closing through `condExp_of_not_integrable`.
+The form below is the landed one. The L¹ and Lᵖ convergence forms are follow-up Layer 4
+targets. -/
 example [IsFiniteMeasure μ] {𝔽 : ℕ → MeasurableSpace Ω}
     (h_filtration : Antitone 𝔽) (h_le0 : 𝔽 0 ≤ (inferInstance : MeasurableSpace Ω))
-    (f : Ω → ℝ) (h_f_int : Integrable f μ) :
+    (f : Ω → ℝ) :
     ∀ᵐ ω ∂μ,
       Tendsto (fun n => (μ[f|𝔽 n]) ω) atTop (𝓝 ((μ[f|⨅ n, 𝔽 n]) ω)) := by
   sorry
@@ -311,25 +315,26 @@ example [IsFiniteMeasure μ] {𝔽 : ℕ → MeasurableSpace Ω}
 Expressible since Layer 0, so the suggested forms are pinned now; the proof routes and the
 directing-measure API (Layers 3–6 in `README.md`) land in between. The unsuffixed public
 theorem should be the reverse-martingale route. **Status:** the **mixture-form** summit is
-complete — the implications `conditionallyIID_of_contractable` /
-`conditionallyIID_of_exchangeable` (`TauCeti/Probability/DeFinetti/BlockFactorization.lean`)
-and the named equivalences with their roadmap-handle aliases
+complete — the implications `mixedIID_of_contractable` / `mixedIID_of_exchangeable`
+(`TauCeti/Probability/DeFinetti/BlockFactorization.lean`) and the named equivalences
+`exchangeable_iff_mixedIID`, `contractable_iff_mixedIID`,
+`contractable_iff_exchangeable_and_mixedIID`
 (`TauCeti/Probability/DeFinetti/Theorem.lean`), all on an arbitrary measurable `Ω` at
-`[IsFiniteMeasure μ]`. TauCeti's landed predicate under the `ConditionallyIID` name is the
-mixture shape (this file's `MixedIID`), so those declarations discharge the mixture
-corollaries; the genuine conditional summit below — concluding this file's joint-law
-`ConditionallyIID` — remains **open**, pending the code rename recorded in the README's
-sequencing note. The landed finite-measure generality is recorded per-target below.
+`[IsFiniteMeasure μ]`. The `MixedIID` rename has landed (TauCeti #1192), so these carry
+their roadmap names directly. The genuine conditional summit below — concluding this file's
+joint-law `ConditionallyIID` — remains **open**, and the handles `deFinetti`,
+`deFinetti_equivalence`, `deFinetti_RyllNardzewski_equivalence` are deliberately **absent**
+from TauCeti until it lands, rather than aliasing mixture-form statements. The landed
+finite-measure generality is recorded per-target below.
 -/
 
 /-- **Layer 6 summit, the hard route theorem** (`conditionallyIID_of_contractable`): a
 contractable sequence on a standard Borel state space is **conditionally i.i.d.** — the
 Ryll-Nardzewski strengthening of de Finetti, and the statement every proof route actually
-proves before the equivalences are assembled. **Mixture form landed** under this name
-(`DeFinetti/BlockFactorization.lean`, general `Ω`, `[IsFiniteMeasure μ]`, via path-space
-transfer with the standard-Borel-`Ω` step kept `private`): TauCeti's landed predicate is
-the mixture shape, so in this file's vocabulary it discharges `mixedIID_of_contractable`;
-this conditional target stays open pending the rename. -/
+proves before the equivalences are assembled. **Mixture form landed** as
+`mixedIID_of_contractable` (`DeFinetti/BlockFactorization.lean`, general `Ω`,
+`[IsFiniteMeasure μ]`, via path-space transfer with the standard-Borel-`Ω` step kept
+`private`); this conditional target stays open. -/
 example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
     (hX : ∀ i, Measurable (X i)) (h_contr : Contractable μ X) :
     ConditionallyIID μ X := by
@@ -339,10 +344,10 @@ example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
 sequence is **conditionally i.i.d.** — the sharp Kallenberg form (2005, Thm 1.1), concluding
 the joint-law disintegration for the canonical directing measure. The mixed-i.i.d.
 representation is the integrated-out corollary (`mixedIID_of_conditionallyIID`), never the
-summit. **Mixture form landed** as `conditionallyIID_of_exchangeable` with the roadmap
-handle `deFinetti` an `alias` over it (`DeFinetti/Theorem.lean`, general `Ω`,
-`[IsFiniteMeasure μ]`): in this file's vocabulary that discharges the `MixedIID` corollary;
-this conditional target stays open pending the rename. -/
+summit. **Mixture form landed** as `mixedIID_of_exchangeable`
+(`DeFinetti/BlockFactorization.lean`, general `Ω`, `[IsFiniteMeasure μ]`); this conditional
+target stays open, and the handle `deFinetti` is deliberately absent from TauCeti until it
+lands. -/
 example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
     (hX : ∀ i, Measurable (X i)) (h_exch : Exchangeable μ X) :
     ConditionallyIID μ X := by
@@ -352,11 +357,11 @@ example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
 `contractable ↔ exchangeable ↔ conditionally i.i.d.` for sequences on a standard Borel state
 space. The mixture form `Contractable ↔ Exchangeable ∧ MixedIID` is the integrated-out
 corollary — and it is **landed**, as the conjunction form
-`contractable_iff_exchangeable_and_conditionallyIID` derived from the two-way
-`contractable_iff_conditionallyIID`, with the roadmap handle
-`deFinetti_RyllNardzewski_equivalence` an `alias` (`DeFinetti/Theorem.lean`, general `Ω`,
-`[IsFiniteMeasure μ]`, mixture-shaped predicate under the legacy name); this conditional
-equivalence stays open pending the rename. -/
+`contractable_iff_exchangeable_and_mixedIID` derived from the two-way
+`contractable_iff_mixedIID` (`DeFinetti/Theorem.lean`, general `Ω`, `[IsFiniteMeasure μ]`);
+this conditional equivalence stays open, and the handle
+`deFinetti_RyllNardzewski_equivalence` is deliberately absent from TauCeti until it
+lands. -/
 example [IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]
     (hX : ∀ i, Measurable (X i)) :
     Contractable μ X ↔ Exchangeable μ X ∧ ConditionallyIID μ X := by
