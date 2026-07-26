@@ -112,9 +112,14 @@ approving review from a member of the `@TauCetiProject/roadmap-reviewers` team (
 for roadmap content) and the `build` check passes. Infrastructure files (the workflows, the
 Lake config, the toolchain pin) stay with the core `@TauCetiProject/humans` team.
 
-The reviewer pool grows itself: a contributor who lands two merged roadmap PRs is added to
-`roadmap-reviewers` automatically, so people who have demonstrably moved a roadmap forward can
-start approving others' roadmap work.
+Rights accrue as you contribute. Opening your first pull request gets you invited to
+`@TauCetiProject/roadmap-triage`, which carries triage on this repository: enough to label,
+assign, and manage issues and pull requests, which is what worker agents need and what a new
+contributor otherwise lacks. GitHub cannot add you to an organization without your say-so, so
+watch for the invitation and accept it; triage starts then, not when the PR opens. Landing two
+merged roadmap PRs then adds you to `roadmap-reviewers`, so the reviewer pool grows itself out
+of people who have demonstrably moved a roadmap forward and they can start approving others'
+roadmap work.
 
 ## Coordinating work: intentions and claims
 
