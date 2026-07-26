@@ -545,14 +545,34 @@ convention but has a different topology from the finite-exponent spaces.
    measurability needed by later uses.  Prove compatibility among `dist`, `edist`,
    `eLpNorm`, the primal cost, and optimal couplings.
 3. For `1 ≤ p < ∞`, prove separability and completeness of `P_p(X)` when `X` has those
-   properties; prove compactness/tightness criteria, density of finitely supported
-   measures, and approximation by empirical or quantized measures.
+   properties.  Then prove this definite list on a Polish `X`, rather than "compactness and
+   approximation" generically: a family in `P_p(X)` is relatively compact exactly when it
+   is tight and its `p`-moment tails about one basepoint are uniformly integrable, and
+   compact when it is also closed; finitely supported probability measures are dense in
+   `P_p(X)`; for i.i.d. `X_i ∼ μ ∈ P_p(X)`, `W_p(n⁻¹∑_{i=1}^n δ_{X_i}, μ) → 0` almost
+   surely; and the `N`-point quantization error
+   `e_{N,p}(μ) = inf {W_p(μ,ν) | card (support ν) ≤ N}` tends to `0`.  Existence of a best
+   `N`-point quantizer and any quantitative rate are separate targets carrying their own
+   properness, finite-dimensional, or regularity hypotheses.  State them as such; do not
+   fold them into the convergence statements above.
 4. For `1 ≤ p < ∞`, characterize `W_p` convergence as weak convergence plus
    convergence/uniform integrability of `p`-moments.  Prove lower semicontinuity under
    weak convergence and continuity under the stronger topology.
-5. Prove functorial estimates: pushforward by an `L`-Lipschitz map is `L`-Lipschitz in
-   `W_p`; products, mixtures, convolution/translation on normed groups, and Markov-kernel
-   contractions have their standard bounds under explicit assumptions.
+5. Prove functorial estimates, each written out rather than called standard.  Pushforward
+   by an `L`-Lipschitz map is `L`-Lipschitz in `W_p`.  For products, fix the `ℓᵖ` product
+   metric--in Lean the metric carried by `WithLp p (X × Y)`, not Mathlib's default sup
+   metric on `X × Y`--and prove the equality
+   `W_p(μ₁⊗μ₂,ν₁⊗ν₂)^p = W_p(μ₁,ν₁)^p + W_p(μ₂,ν₂)^p`.
+   For a probability vector `(a_i)`, prove the mixture bound
+   `W_p(∑ a_i μ_i, ∑ a_i ν_i)^p ≤ ∑ a_i W_p(μ_i,ν_i)^p`.
+   On a normed additive group, prove `W_p(μ*η,ν*η) ≤ W_p(μ,ν)`, with translation as its
+   specialization.  For a Markov kernel `K`, take the pointwise Wasserstein-Lipschitz
+   hypothesis `W_p(K(x,·),K(y,·)) ≤ L d(x,y)` and deduce `W_p(μK,νK) ≤ L W_p(μ,ν)` by
+   gluing.  That proof consumes a measurably chosen family of optimal or near-optimal
+   couplings of `K(x,·)` and `K(y,·)`, so record the standard-Borel/Polish hypotheses
+   supporting the selection, together with the measurability and moment hypotheses that
+   place `μK` in the intended finite-moment space.  The maximum-form product and mixture
+   statements for `p=∞` belong to item 6, stated separately.
 6. Prove that the `p=∞` specialization is the infimum of coupling-wise essential suprema
    and give it the conventional notation `W_∞`.  Build its anchored finite-distance
    components.  If `X` is a complete separable metric space with its Borel structure,
@@ -567,7 +587,12 @@ convention but has a different topology from the finite-exponent spaces.
    `W_∞(μ,ν) = sup_{1≤p<∞} W_p(μ,ν) = lim_{p→∞} W_p(μ,ν)`, and prove
    attainment of the `W_∞` infimum.  Retaining infinite values removes any need for a
    bounded-support or all-moments hypothesis; follow
-   [Givens--Shortt Proposition 1](https://doi.org/10.1307/mmj/1029003026).
+   [Givens--Shortt Proposition 1](https://doi.org/10.1307/mmj/1029003026).  Give item 5's
+   product and mixture estimates their maximum forms here: for the sup product metric on
+   `X × Y`, prove `W_∞(μ₁⊗μ₂,ν₁⊗ν₂) = max (W_∞(μ₁,ν₁)) (W_∞(μ₂,ν₂))`, and for a
+   probability vector `(a_i)` prove
+   `W_∞(∑ a_i μ_i, ∑ a_i ν_i) ≤ max_{i | a_i>0} W_∞(μ_i,ν_i)`, consuming the attainment
+   just proved.
 7. Consume `ProbabilityTheory.cdf` on `ℝ`; build the generalized inverse/quantile of a
    Borel probability law, its measurability and pushforward of uniform measure, and the
    optimal monotone quantile coupling.  For every `p ∈ [1,∞]`, prove that `W_p` is the
@@ -715,8 +740,14 @@ tower rather than hiding it inside the final proof.
    `μ(U⁻¹(E))=0` for every Lebesgue-null `E`, prove
    `U = ∇Ψ ∘ s`, where `∇Ψ` is the unique monotone rearrangement of `U` on `(Ω,P)` and
    `s : (X,μ) → (Ω,P)` is the unique measure-preserving maximizer in Brenier's theorem.
-   Distinguish the two uniqueness statements and prove continuity of the factors in the
-   sourced topologies.  Give the smooth bounded `Ω` with normalized Lebesgue `P`
+   Distinguish the two uniqueness statements, and state the continuity theorem rather than
+   deferring to "the sourced topologies".  Under the weighted compactness assumption
+   already imposed here, and following Brenier's Theorem 1.2(c), prove that the
+   rearrangement `U ↦ ∇Ψ` is continuous from `Lᵖ(X,μ;ℝᵈ)` to `Lᵖ(Ω,P;ℝᵈ)` with no
+   nondegeneracy hypothesis, and that on the nondegenerate set carrying the relative `Lᵖ`
+   topology--where `s` is the unique factor--the pair `U ↦ (∇Ψ,s)` is continuous into
+   `Lᵖ(Ω,P;ℝᵈ) × L^q(X,μ;ℝᵈ)` for every finite `1 ≤ q < ∞`.  Give the smooth bounded `Ω`
+   with normalized Lebesgue `P`
    specialization, where the compact-embedding hypothesis follows by bridging PDE Lane
    A.6's Rellich--Kondrachov theorem to the weighted definition.
 
@@ -746,13 +777,30 @@ This is a full regularity layer, not a one-line determinant corollary of Brenier
    relatively compact continuity sets); upgrade this to narrow convergence only with
    finite total mass and tightness.  Prove the comparison principle, the Aleksandrov
    maximum principle, and Alexandrov's twice-differentiability theorem.
-3. Define Aleksandrov, viscosity, a.e./Sobolev, and classical solutions separately.  Prove
-   the equivalences that hold under continuity, strict positivity, and convexity
-   assumptions; keep counterexamples showing why the notions differ outside those
-   regimes.
-4. Prove existence, uniqueness, and stability for the convex Dirichlet problem on bounded
-   convex domains with finite Borel right-hand side, including the boundary-value
-   hypotheses needed by the comparison argument.
+3. Define Aleksandrov, viscosity, a.e./Sobolev, and classical solutions separately, and
+   name each bridge rather than referring to "the equivalences".  A convex `C²` solution
+   induces the corresponding Aleksandrov measure.  For continuous `f > 0`, a continuous
+   convex function is an Aleksandrov solution of `MA_u = f dx` if and only if it is a
+   convex viscosity solution; strict positivity is used there, so any degenerate `f ≥ 0`
+   viscosity result is a separate statement.  The a.e. Hessian determines only the
+   absolutely continuous part, so prove the decomposition
+   `MA_u = det(D²u) dx + (MA_u)^s` and treat `det D²u = f` a.e. as strictly weaker: it
+   gives the Aleksandrov identity only after a further theorem rules out `(MA_u)^s`, with
+   local `C^{1,1}` plus the area formula as one concrete sufficient regime.  Keep the
+   counterexample that forces this--a convex function satisfying `det D²u = f` almost
+   everywhere whose Aleksandrov measure still carries singular mass--along with the others
+   showing why the notions differ outside these regimes.
+4. Prove the convex Dirichlet problem in its standard strictly convex form: for `Ω ⊆ ℝⁿ`
+   bounded and strictly convex, a finite Borel measure `μ` on `Ω`, and `g ∈ C(∂Ω)`, there
+   is a unique convex `u ∈ C(cl Ω)` with `MA_u = μ` and `u = g` on `∂Ω`.  Strict convexity
+   is exactly what admits arbitrary continuous boundary data; a merely bounded convex `Ω`
+   is a different theorem, in which the datum satisfies an admissibility/convex-trace
+   condition or the boundary condition is weakened, so do not present it as the same
+   result.  For stability prove a named theorem rather than the word: in the zero-boundary
+   formulation, Hausdorff convergence of bounded convex domains together with a uniform
+   mass bound and weak-* convergence of the right-hand sides gives uniform convergence of
+   the solutions.  A fixed-domain, varying-boundary-data version carries its own measure
+   topology and the hypotheses that preserve the boundary trace.
 
 #### 6B. The transport equation
 
@@ -789,9 +837,17 @@ estimates.
    section normalization/distance, and quantitative dependence of constants visibly.
 9. Add the sharper section-local tiers for a strictly convex Aleksandrov solution with
    `0 < λ ≤ f ≤ Λ`: continuity or vanishing-mean-oscillation (VMO) control of `f`
-   with its modulus gives `W²,p` for every fixed finite `p`; `f ∈ C⁰,α` gives `C²,α`;
-   smoother right-hand side gives higher interior regularity.  Do not state these from
-   positivity without the normalized-section and oscillation hypotheses.
+   with its modulus gives `W²,p` for every fixed finite `p`; `f ∈ C⁰,α` gives `C²,α`.
+   State the bootstrap as a theorem instead of "higher interior regularity": for every
+   integer `k ≥ 0` and every `0 < α < 1`, such a solution with `f ∈ C^{k,α}_loc` lies in
+   `C^{k+2,α}_loc`.  The `k=0` step carries the normalized-section hypotheses and
+   estimates; for `k ≥ 1` use the ordinary interior Schauder bootstrap on relatively
+   compact subdomains, available once the `C^{2,α}` conclusion has made the differentiated
+   Monge--Ampère equation uniformly elliptic.  Smooth `f` then gives `C^∞`.  Make the
+   constants depend visibly on the dimension, the quantitative section geometry or
+   strict-convexity input at the base step, the distance to the boundary, `λ`, `Λ`, and
+   the relevant `C^{k,α}` norm of `f`.  Do not state any of these from positivity without
+   the normalized-section and oscillation hypotheses.
 10. Prove global boundary regularity and smooth-diffeomorphism results for smooth uniformly
     convex source and target domains with smooth densities bounded away from zero and
     infinity.  Build the boundary estimates they consume rather than importing a theorem
@@ -920,8 +976,20 @@ Build the maximally general path-space theory first, then the Eulerian specializ
 1. Define `ACᵖ([0,T];X)`, metric derivatives, length, `p`-energy/action, constant-speed
    curves, geodesics, length spaces, and measurable families of curves.  Prove the
    fundamental theorem for absolutely continuous metric-valued curves, reparameterization,
-   lower semicontinuity of action, and compactness under equicontinuity/tightness.  Build
-   the reusable Alexandrov curvature-bounded-below predicate `CBB(κ)`, its
+   and lower semicontinuity of action.  Split compactness into its two genuinely different
+   theorems rather than one clause.  First, the deterministic Arzelà--Ascoli theorem on
+   `C([0,T];X)`: a common modulus of continuity together with relative compactness of the
+   values at each time--equivalently at a dense set of times--or an explicit
+   compact-containment/coercive-function hypothesis.  Equicontinuity and a common initial
+   point do not suffice on a nonproper carrier, and the regression example is
+   `γ_n(t)=t e_n` in an infinite-dimensional Hilbert space: equi-Lipschitz, all starting at
+   zero, with no uniformly convergent subsequence.  Second, tightness for probability laws
+   on path space: tight time marginals plus a uniform probabilistic modulus-of-continuity
+   bound.  When an expected `p`-action bound is what supplies that modulus, state the range
+   `p > 1` and the Hölder/Markov estimate used, and record that the action bound supplies
+   only the modulus--pointwise or dense-time tightness on an arbitrary nonproper carrier
+   remains a separate hypothesis.  Build the reusable Alexandrov
+   curvature-bounded-below predicate `CBB(κ)`, its
    triangle/quadruple comparison formulations, their equivalence in the applicable
    geodesic category, and basic isometry/geodesic-invariance API.  Keep lower curvature
    bounds distinct from CAT(0)'s upper bound.
@@ -983,8 +1051,19 @@ Build the maximally general path-space theory first, then the Eulerian specializ
    which `ψ∞` lacks.
 7. On finite-dimensional normed spaces, define distributional solutions of
    `∂ₜμₜ + div(vₜ μₜ)=0`, including measurable time slices, vector-valued flux measures,
-   test functions, and boundary-time terms.  Prove superposition in both directions and
-   identify minimal `Lᵖ(μₜ)` velocity fields for `1 < p < ∞`.
+   test functions, and boundary-time terms.  Name the two superposition statements instead
+   of writing "both directions", since one builds a field by conditional expectation and
+   the other asserts concentration on integral curves of a given field.  Lagrangian from
+   Eulerian: if a narrowly continuous `μ_t` and a Borel field `v_t` solve the continuity
+   equation with `∫₀ᵀ∫‖v_t‖^p dμ_t dt < ∞`, construct a law `η` on `ACᵖ` paths with
+   `(e_t)_#η=μ_t` and `γ̇_t=v_t(γ_t)` for `dt⊗η`-almost every `(t,γ)`.  Eulerian from
+   Lagrangian: from a dynamic plan `η` of finite averaged action, construct its
+   vector-valued flux, disintegrate over `e_t` to obtain the barycentric field `v_t`, and
+   prove the continuity equation together with `∫∫‖v_t‖^p dμ_t dt ≤ ∫ A_p(γ) dη(γ)`.  For
+   `1 < p < ∞`, state the minimal-velocity conclusion as the exact relation
+   `‖v_t‖_{Lᵖ(μ_t)}=|μ′|(t)` for a.e. `t`, and prove uniqueness of the minimal field only
+   under the strict convexity that gives it; do not leave uniqueness implicit for an
+   arbitrary normed space.
 8. Prove the Eulerian **Benamou--Brenier formula** for `1 < p < ∞`, with `p=2` as the
    named classical theorem:
    `W_p(μ₀,μ₁)^p = inf ∫₀¹ ∫ ‖v_t(x)‖^p dμ_t(x)dt`
@@ -1041,11 +1120,23 @@ Turn `P_p(X)` from a metric space into a usable geodesic space.
 5. Define potential energy `μ ↦ ∫ V dμ`, symmetric interaction energy
    `μ ↦ (1/2)∫ W d(μ⊗μ)`, and internal energy relative to `m`, with
    `∫ U(ρ) dm` on the absolutely continuous part and the recession constant multiplying
-   singular mass.  Pin safe `EReal` and integrability conventions before algebra.  Prove
-   McCann's displacement-convexity conditions for internal energies and the standard
-   convexity results for potential and interaction energies under explicit
-   Hessian/convexity hypotheses.  The signed Boltzmann-entropy instance is proved in
-   Layer 11 after that functional exists.
+   singular mass.  Pin safe `EReal` and integrability conventions before algebra.  Then
+   state each convexity regime with its own hypotheses rather than calling any of them
+   standard.  For internal energy relative to Lebesgue measure on `ℝⁿ`, prove McCann's
+   condition: for convex lower-semicontinuous `U` with `U(0)=0`, displacement convexity
+   follows when `s ↦ s^n U(s^(-n))` is convex and nonincreasing on `(0,∞)`, with the
+   recession convention above for singular mass.  This is not by itself a theorem for
+   internal energy relative to a general reference `m`; that version needs Layer 14's
+   curvature-dimension hypotheses and belongs there.  For potential energy, prove that
+   `λ`-convex `V` gives `λ`-displacement-convex `μ ↦ ∫ V dμ`, with its growth and domain
+   assumptions visible.  For interaction energy, prove the exact statement, not a
+   transplanted one: `μ ↦ (1/2)∫ W d(μ⊗μ)` is invariant under translating `μ`, so it is
+   never globally `λ`-displacement convex on `P₂(ℝⁿ)` for any `λ>0`, however strongly
+   convex `W` is.  The strong-convexity remainder is proportional to
+   `W₂(μ₀,μ₁)² - |∫x dμ₀ - ∫x dμ₁|²`, so prove global displacement convexity for convex
+   symmetric `W`, and obtain a positive modulus only on a fixed-barycenter class or by
+   retaining that variance-type remainder.  The signed Boltzmann-entropy instance is proved
+   in Layer 11 after that functional exists.
 6. Consume Layer 3's quantile-coupling theorem to develop the one-dimensional quantile
    isometry, geodesics, geodesic convexity, and pointwise minimization identities without
    Euclidean-density assumptions.  Layer 12 consumes those identities for barycenter
@@ -1075,9 +1166,19 @@ ordinary metric spaces receive the global corollaries.
    a definition that merely packages an equality.
 3. Consume Layer 9's componentwise `λ`-geodesic-convexity predicates and define `EVI_λ`
    solutions, quantifying its comparison point over the same finite-distance component
-   and the effective domain of the energy.  Prove that EVI implies the
-   energy-dissipation identity, contraction, uniqueness, regularization, and semigroup
-   laws.  Do not assert the converse or EVI existence on every geodesic metric space.
+   and the effective domain of the energy.  Prove that EVI implies the energy-dissipation
+   identity, contraction, and uniqueness.  Separate the pointwise regularization estimates
+   from the semigroup, which is not a consequence of one EVI curve existing.  With
+   `I_λ(t)=∫₀ᵗ exp(λs)ds`, integrating the EVI gives the concrete energy-regularization
+   estimate
+   `Φ(x_t) ≤ Φ(y) + (d(x₀,y)² - exp(λt) d(x_t,y)²)/(2 I_λ(t))`
+   for `t>0` and `y ∈ Dom(Φ)` in the same finite-distance component as `x₀`; enumerate the
+   finite-energy and positive-time slope and local-Lipschitz conclusions wanted from it,
+   under their usual hypotheses.  A semigroup needs three further hypotheses made visible:
+   existence of an EVI solution from every point of the chosen initial domain, uniqueness,
+   and closure under time translation.  Only then define `S_t x` and prove
+   `S_{t+s}=S_t ∘ S_s`.  Do not assert the converse or EVI existence on every geodesic
+   metric space.
 4. Define the Moreau--Yosida functional, resolvent set/map when single-valued, implicit
    Euler step, discrete variational interpolation, and De Giorgi interpolation.  Interpret
    the squared-distance penalty as `∞` outside the anchor's finite-distance component,
@@ -1144,12 +1245,17 @@ using it.
    `klDiv μ m = Ent_m(μ) + m(univ) - μ(univ)`, and build lower-semicontinuity/coercivity
    statements in the following reference regime.  On a complete separable metric space,
    assume the Borel reference satisfies
-   `Z_a=∫ exp(-a d(x,x₀)²)dm<∞` for some `a>0`; define the probability
-   `m_a=Z_a⁻¹ exp(-a d(x,x₀)²)m` and prove the change-of-reference identity
-   `Ent_m(μ)+a∫d(x,x₀)²dμ+log Z_a=klDiv μ m_a`.  Deduce the corresponding
-   `W₂` lower-semicontinuity and tightness/coercivity of sublevels after adding a moment
-   coefficient strictly larger than `a`.  This is the entropy functional used by
-   gradient and heat flows; it may be negative and is not `ℝ≥0∞`.
+   `0<Z_a=∫ exp(-a d(x,x₀)²)dm<∞` for some `a>0`--both bounds, since `m_a` below must be a
+   probability measure--and define `m_a=Z_a⁻¹ exp(-a d(x,x₀)²)m`.  Keep the mass
+   correction visible in the change-of-reference identity, because this item admits finite
+   measures and not only probability measures: with `M=μ(univ)`, Mathlib's finite-measure
+   convention gives
+   `klDiv μ m_a = Ent_m(μ) + a∫d(x,x₀)²dμ + M log Z_a + 1 - M`,
+   which collapses to `Ent_m(μ)+a∫d(x,x₀)²dμ+log Z_a` exactly when `M=1`.  Prove the
+   general form, and restrict to `μ ∈ P₂(X)` before the corresponding `W₂`
+   lower-semicontinuity and tightness/coercivity of sublevels, which are deduced after
+   adding a moment coefficient strictly larger than `a`.  This is the entropy functional
+   used by gradient and heat flows; it may be negative and is not `ℝ≥0∞`.
 3. On `P₂(ℝⁿ)`, define tangent velocity fields as the `L²(μ)` closure of gradients and
    prove existence/uniqueness of the minimal-norm representative of an absolutely
    continuous curve.  Relate it to Layer 8's distributional continuity equation and
@@ -1232,11 +1338,19 @@ API.
    supremum radius and define finite Chebyshev centers separately.  For a Polish metric
    space with its Borel structure, prove that this radius equals the supremum of the
    distance over the topological support.
-2. Prove lower semicontinuity, coercivity criteria, existence in proper settings, and
-   compactness of the minimizer set.  After Layer 8's geodesic infrastructure, define a
-   reusable CAT(0)/Hadamard-space predicate, prove the CN inequality and strong convexity
-   of squared distance, and derive quadratic barycenter uniqueness; state no uniqueness
-   theorem in a general geodesic space.
+2. State the proper-space theorem explicitly rather than as "existence in proper settings".
+   Write `R_p(x)=‖d(x,·)‖_{Lᵖ(P)}` and assume it finite at one point.  Minkowski's
+   inequality then gives `|R_p(x)-R_p(y)| ≤ d(x,y)`, so `R_p` is `1`-Lipschitz and lower
+   semicontinuity is automatic; the reverse triangle inequality gives
+   `R_p(x) ≥ d(x,x₀)-R_p(x₀)`, so every finite-radius sublevel is bounded.  On a proper
+   metric space those sublevels are therefore compact, the radius attains its minimum, and
+   the finite minimizer set is compact--prove exactly that chain, and the analogous
+   essential-supremum argument at `p=∞`.  Any broader existence criterion must name the
+   compact-sublevel or coercive-function hypothesis that replaces properness rather than
+   gesturing at coercivity.  After Layer 8's geodesic infrastructure, define a reusable
+   CAT(0)/Hadamard-space predicate, prove the CN inequality and strong convexity of squared
+   distance, and derive quadratic barycenter uniqueness; state no uniqueness theorem in a
+   general geodesic space.
 3. Fix the carrier regime used by items 4--5 and 8: `1 ≤ p < ∞` and a separable, locally
    compact, complete, geodesic space `X`.  Build the base-space selection first, since the
    existence theorem consumes it.  Prove Le Gouic--Loubes' Lemma 7: for finitely many
@@ -1318,18 +1432,51 @@ measurable entropy-projection theory, not the definition of entropic transport.
 2. Let `(X,ℱ_X,μ)` and `(Y,ℱ_Y,ν)` be separable probability spaces--equivalently,
    `L¹(μ)` and `L¹(ν)` are separable--and let `R ∈ P(X×Y)`.  Following Nutz Theorem 2.1,
    if `{ π ∈ Π(μ,ν) | klDiv π R < ∞ }` is nonempty, prove existence and uniqueness
-   of the entropy minimizer.  Extend this to finite nonzero `R` by normalization.  Add
-   Polish lower-semicontinuous stability/compactness results without making topology part
-   of the root definition; do not advertise arbitrary measurable spaces without a
-   separate proof.
+   of the entropy minimizer.  Extend this to finite nonzero `R` by normalization.  Name
+   the data that varies before claiming stability, since the marginals, the reference `R`,
+   the cost, and `ε` give different theorems.  On fixed Polish `X` and `Y`, the intended
+   statement starts from joint weak lower semicontinuity--`π_n ⇒ π` and `R_n ⇒ R` imply
+   `klDiv π R ≤ liminf_n klDiv π_n R_n`--and adds `μ_n ⇒ μ`, `ν_n ⇒ ν` plus tightness to
+   get cluster points of feasible minimizers together with the liminf inequality.  Mark the
+   boundary explicitly: convergence of values and of minimizers needs a recovery sequence
+   of couplings with the exact varying marginals, so state either that construction or a
+   separately sourced sufficient theorem supplying it, and do not present the liminf half
+   as the whole result.  Keep topology out of the root definition, and do not advertise
+   arbitrary measurable spaces without a separate proof.
 3. Prove entropic duality and the Gibbs/Schrödinger density
-   `dπ/d(μ⊗ν)=exp((φ⊕ψ-c)/ε)`, with existence and uniqueness-up-to-constants of potentials
-   under their real finiteness and integrability hypotheses.  Infinite costs get a
-   separate support-constrained statement.
-4. In named finite-positive-kernel and bounded-positive continuous-kernel regimes, prove
-   continuity, smoothness, and differentiation theorems for the regularized value under
-   their separate explicit hypotheses.  Keep strict convexity of the plan objective
-   distinct from the generally non-strict marginal-value functional.  Define the debiased
+   `dπ/d(μ⊗ν)=exp((φ⊕ψ-c)/ε)`, splitting the full-support and support-constrained regimes
+   rather than saying "up to constants" once.  Under finite-entropy feasibility and
+   `R ∼ μ⊗ν`--which in the Gibbs formulation requires the cost to be finite `μ⊗ν`-almost
+   everywhere--Nutz's Theorem 2.1 gives real measurable potentials, unique modulo one
+   global additive constant.  Integrability of the potentials is a further conclusion,
+   under `log(dR/d(μ⊗ν)) ∈ L¹(μ⊗ν)`, equivalently `c ∈ L¹(μ⊗ν)` after normalization; state
+   it as such.  If only `R ≪ μ⊗ν` and the reference has support zeros, uniqueness weakens
+   to one normalization per connected component of the bipartite support graph, not one
+   additive constant: the two-point diagonal reference already exhibits this, since its two
+   diagonal equations constrain `φ_i+ψ_i` independently and leave a constant on each
+   component.  Name that support-component theorem separately, and treat infinite costs
+   under it.
+4. Say which function is being differentiated before asking for smoothness: the regularized
+   value may vary in the marginals, in the cost or Gibbs kernel, or in `ε`, and the
+   topology and the differentiability statement differ in each case.  Prove the finite
+   theorem explicitly.  On finite spaces, for `ε>0`, a strictly positive Gibbs kernel
+   `K_{ij}=exp(-C_{ij}/ε)`, and strictly positive marginals, prove smooth dependence of the
+   value and of the normalized dual potentials on `(a,b,C)`, together with the envelope
+   formula `D_C OT_ε[H]=∑_{i,j} π^*_{ij} H_{ij}`, which is a genuine derivative because the
+   regularized optimizer is unique.  For the marginal directions, pin the dual convention
+   to item 1's marginal-dependent reference `a ⊗ b`; with those potentials the intrinsic
+   formula on tangent perturbations `∑_i h_i = ∑_j k_j = 0` is
+   `D_{a,b} OT_ε[(h,k)] = ∑_i f_i h_i + ∑_j g_j k_j`.
+   Potentials for a fixed reference measure are shifted by marginal entropy terms and must
+   not be substituted into it.  Distinguish differentiation in `C` from differentiation in
+   `K`: under `C=-ε log K` the latter acquires the factor `-ε/K_{ij}`.  Smoothness in the
+   marginals needs the relative interior, so do not state it with zero coordinates allowed.
+   Boundary continuity is then a separate statement: in the compact continuous-kernel
+   setting, name the topology on measures and the intended derivative--directional,
+   Fréchet, or Hadamard--or restrict this item to the one continuity theorem the
+   Sinkhorn-divergence result below actually consumes.  Keep strict convexity of the plan
+   objective distinct from the generally non-strict marginal-value functional.  Define the
+   debiased
    Sinkhorn divergence by
    `S_ε(μ,ν)=OT_ε(μ,ν)-OT_ε(μ,μ)/2-OT_ε(ν,ν)/2`;
    first build continuous positive-definite and universal-kernel predicates on compact
@@ -1349,8 +1496,16 @@ measurable entropy-projection theory, not the definition of entropic transport.
    integrably dominated costs.  If the optimal face contains a plan with finite
    `klDiv (·) (μ⊗ν)`, prove selection of the optimal plan minimizing that exact KL
    functional.  Do not claim potential convergence from plan convergence alone.
-6. Build entropically regularized Wasserstein barycenters and prove convergence to an
-   unregularized barycenter under equicoercivity and uniqueness/cluster-point hypotheses.
+6. Write the entropic barycenter objective out, since several inequivalent functionals carry
+   that name.  Take minimizers over `ν` of
+   `F_ε(ν) = ∑_i λ_i inf_{π ∈ Π(ν,μ_i)} [∫ d(x,y)^p dπ + ε klDiv π (ν⊗μ_i)]`,
+   and record that regularizing the entropy of the barycenter itself, using a fixed ambient
+   reference, or replacing `OT_ε` by the debiased Sinkhorn divergence are different
+   functionals with different minimizers and bias.  Fix the optimization domain and every
+   entropy reference explicitly.  Then state the convergence theorem with its topology and
+   its mechanism: Γ-convergence of exactly these objectives, equicoercivity giving cluster
+   points, and uniqueness of the unregularized barycenter giving convergence of the full
+   sequence.
 
 #### 13B. Iterative proportional fitting and finite Sinkhorn
 
@@ -1475,15 +1630,37 @@ predicate.
    2024 corrigendum: do not state blanket tensorization from the original Bacher--Sturm
    proof.  Prove the elementary implications among curvature-dimension conditions, and
    do not infer nonbranching from a curvature bound unless the theorem supplies it.
-6. In the smooth weighted Riemannian setting, prove equivalence between the synthetic
-   condition and the corresponding Ricci/Bakry--Émery lower bound, including the
-   dimension and weighting conventions.  This consumes curvature and volume from the
-   geometric-topology roadmap.
+6. Write the smooth weighted comparison out, since the finite- and infinite-dimensional
+   conventions part company exactly here.  For a complete, connected, boundaryless
+   `n`-dimensional weighted manifold `(M,g,m=e^{-V} vol_g)` with `V ∈ C²(M)`, prove
+   `RCD(K,∞) ⇔ Ric_g + Hess V ≥ K g`
+   and, for `N>n`,
+   `RCD*(K,N) ⇔ Ric_g + Hess V - (dV⊗dV)/(N-n) ≥ K g`,
+   accounting for the selected `CD` versus `CD*` convention, which encodes the same tensor
+   inequality in the smooth setting.  Pin the sign convention `m=e^{-V} vol_g`.  Prove that
+   at `N=n` a finite lower bound forces `V` constant, record that an `n`-dimensional smooth
+   weighted manifold with `N<n` lies outside the finite-`N` theory, and treat a manifold
+   with boundary through a separate convex-boundary formulation.  This consumes curvature
+   and volume from the geometric-topology roadmap.
 7. Prove that on `RCD(K,∞)` spaces the `L²(m)` gradient flow of Cheeger energy on
    densities/functions corresponds, through `ρ ↦ ρ m` in the unit-mass finite-entropy
    regime, to the `W₂` `EVI_K` gradient flow of Boltzmann entropy on `P₂(X)`.  The two flows
-   do not literally have the same carrier.  Derive heat-flow contraction and the
-   curvature-sensitive estimates available from the cited theory.
+   do not literally have the same carrier.  Then enumerate the consequences instead of
+   claiming the estimates "available" from the theory.  The two intended statements are the
+   dual heat-flow contraction
+   `W_p(H_t^* μ, H_t^* ν) ≤ exp(-K t) W_p(μ,ν)`
+   and the Bakry--Émery gradient estimate
+   `|D H_t f|² ≤ exp(-2 K t) H_t(|Df|²)`,
+   the latter `m`-almost everywhere on its precise Sobolev domain--`W^{1,2} ∩ L∞` in
+   Savaré's formulation--with `|Df|` the minimal weak upper gradient of item 3.  Make the
+   ambient assumptions on `(X,d,m)`, `H_t`, and its dual `H_t^*` visible; Savaré's
+   formulation assumes a complete separable length space, full support, and a
+   Gaussian-type volume-growth bound on `m`.  Name the range of `p` and the proof: `p=2` on
+   `P₂(X)` follows directly from `EVI_K`, whereas all `p ∈ [1,∞]` uses Kuwada duality and
+   Savaré's self-improvement of the Bakry--Émery estimate, followed by measurable gluing of
+   the pointwise `W_∞` coupling.  If only the `W₂` consequence is wanted, say that and stop
+   there.  Any further consequence--entropy dissipation, regularization, Harnack--is named
+   individually or is not on the roadmap.
 8. For `1 ≤ N < ∞`, prove the Gigli--Rajala--Sturm nonsmooth optimal-map theorem on
    `RCD*(K,N)` spaces for `μ₀,μ₁ ∈ P₂(X)` with `μ₀ ≪ m`: the quadratic optimal
    coupling is unique and induced by a map.  For `1 < N < ∞`, separately add the
@@ -1624,14 +1801,23 @@ the theorem numbers below refer to that paper.
 9. Show that finite weighted distance matrices give exactly the standard nonconvex
    quadratic GW objective.  Build exact small examples and certified objective/lower-bound
    calculations.
-10. Define entropically regularized finite GW on top of Layer 13 and relate it to the
-    generic kernel definition.  Use compactness of the finite coupling polytope and
-    continuity of the quadratic distortion plus entropy to prove existence of global
-    minimizers.  As `ε↓0`, prove convergence of optimal values and that every cluster
-    point of global minimizers is an unregularized global minimizer.  The objective
-    remains nonconvex: make no algorithmic global-convergence claim in this roadmap
-    without first naming an update and a sourced stationarity theorem.  Treat GW
-    barycenters through the same measured-kernel API.
+10. Define entropically regularized finite GW by writing its objective, not by naming it.
+    For the quadratic problem, minimize over `π ∈ Π(μ_X,μ_Y)` the unrooted functional
+    `∑_{i,i',j,j'} d_Z(ω_X(i,i'),ω_Y(j,j'))² π_{ij} π_{i'j'} + ε klDiv π (μ_X⊗μ_Y)`,
+    which regularizes the squared distortion and not the already square-rooted `GW₂` value.
+    Choose the KL convention above and record the bridge to the frequently used `-ε H(π)`
+    convention, which differs on a fixed coupling polytope by the constant marginal term
+    `klDiv π (μ_X⊗μ_Y) = -H(π) + H(μ_X) + H(μ_Y)`.
+    For general finite `p`, say whether the `p`th distortion power is what gets
+    regularized; the formula does not extend to `p=∞`.  Relate this to the generic kernel
+    definition.  Use compactness of the finite coupling polytope and continuity of the
+    quadratic distortion plus entropy to prove existence of global minimizers of that exact
+    functional.  As `ε↓0`, prove convergence of optimal values and that every cluster point
+    of its global minimizers is an unregularized global minimizer.  The objective remains
+    nonconvex: make no algorithmic global-convergence claim in this roadmap without first
+    naming an update and a sourced stationarity theorem.  Give GW barycenters their own
+    written objective and normalization through the same measured-kernel API, rather than
+    carrying them as an unnamed extension.
 
 The general measured-kernel route follows Bauer--Mémoli--Needham--Nishino,
 [*The Z-Gromov-Wasserstein
