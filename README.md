@@ -124,7 +124,9 @@ work on and claim it. This is powered by the
 
 1. **Register an intention.** Open an issue with the **Intention** template: pick the roadmap
    area and list the specific targets you mean to take (keep the scope as narrow as you can, so
-   the rest stays open for others).
+   the rest stays open for others). Filing it through the API works as well as the web form:
+   title the issue `[Intention]: ...` and the `intention` label is applied for you, so no
+   repository permissions are needed.
 2. **Claim it.** Comment `claim` on the issue. The bot assigns it to you and moves it to
    *Claimed* on the board. For a custom window, comment `claim 3 weeks` or `claim 2026-08-01`;
    bare `claim` uses the project default.
