@@ -213,11 +213,21 @@ rebuilding it.
   Wasserstein API so `p=∞` inherits Mathlib's essential-supremum convention.
 * `InformationTheory.klDiv` in
   `Mathlib/InformationTheory/KullbackLeibler/Basic.lean`, including its Radon--Nikodym
-  integral formula, finite-measure mass correction, and zero characterization.  Extend
-  this definition with the
-  lower-semicontinuity, strict-convexity, data-processing, tensorization, disintegration,
-  and variational theory needed by entropic OT.  Build a distinct signed extended-real
-  Boltzmann entropy for infinite reference measures.
+  integral formula, finite-measure mass correction, and zero characterization, together
+  with the composition-product chain rule already proved in
+  `Mathlib/InformationTheory/KullbackLeibler/ChainRule.lean`:
+  `InformationTheory.klDiv_compProd_eq_add`, which states
+  `klDiv (μ ⊗ₘ κ) (ν ⊗ₘ η) = klDiv μ ν + klDiv (μ ⊗ₘ κ) (μ ⊗ₘ η)`
+  with no hypotheses on the measurable spaces, and
+  `InformationTheory.klDiv_compProd_left`.  Consume these rather than restating them.
+  Extend the definition with the lower-semicontinuity, strict-convexity,
+  data-processing, tensorization, and variational theory needed by entropic OT, and with
+  the conditional form that file records as open,
+  `klDiv (μ ⊗ₘ κ) (ν ⊗ₘ η) = klDiv μ ν + ∫⁻ x, klDiv (κ x) (η x) ∂μ`,
+  whose obstruction is measurability of `x ↦ klDiv (κ x) (η x)`; the disintegration
+  statements this roadmap needs rest on that conditional form, not on the product-kernel
+  identity.  Build a distinct signed extended-real Boltzmann entropy for infinite
+  reference measures.
 * Metric-space completeness/separability, compactness, continuous maps, quotient types,
   convexity on real vector spaces, separation theorems, and doubly stochastic matrices.
   The finite Sinkhorn development should reuse Mathlib's matrix and finite-sum APIs.
@@ -251,8 +261,9 @@ The audit also found genuine prerequisites that must be built in the layers belo
   Alexandrov transport and Sturm's moduli space;
 * distributional continuity equations with measure-valued time slices and vector-valued
   fluxes;
-* the advanced `InformationTheory.klDiv` API--lower semicontinuity, strict convexity,
-  chain rules, data processing, tensorization, Pinsker, and variational formulas--plus
+* the advanced `InformationTheory.klDiv` API--lower semicontinuity, strict convexity, the
+  conditional/disintegration chain rule missing from `ChainRule.lean`, data processing,
+  tensorization, Pinsker, and variational formulas--plus
   signed extended Boltzmann entropy and finite-reference bridge lemmas; a continuous
   positive-definite/universal-kernel and signed-Radon-energy API for Sinkhorn divergences;
 * the nonsmooth energy and weak-gradient substrate needed to state `RCD`, where that layer
@@ -512,11 +523,20 @@ convention but has a different topology from the finite-exponent spaces.
    `PseudoEMetricSpace` component anchored at a reference law `μ₀` by finite `W_p`
    distance.  On an ordinary `PseudoMetricSpace` with measurable distance sections,
    define `P_p(X)` by finite moment about one/every basepoint and prove that it is the
-   corresponding component.  Give it a `PseudoMetricSpace`; under the Polish/Borel
-   hypotheses give a genuine `MetricSpace` when the ground distance separates points,
-   and otherwise a quotient metric.  Consume `Subtype.instMeasurableSpace`, which
-   definitionally pulls back the measurable structure from `ProbabilityMeasure`; do not
-   add a second measurable-space instance.  For `1 ≤ p < ∞`, under the Polish/Borel
+   component anchored at a Dirac law `δ_{x₀}`, through the unique coupling identity
+   `W_p(δ_{x₀},μ)=‖d(x₀,·)‖_{Lᵖ(μ)}`.  A general anchor gives that same set exactly
+   when `μ₀ ∈ P_p(X)`; state that hypothesis wherever the identification is used, and
+   record the guardrail that without it the anchored component is a different set--a
+   Cauchy law lies in its own finite-`W₂` component but not in `P₂(ℝ)`.  At `p=∞` the
+   moment condition reads `MemLp _ ∞`, so `P_∞(X)` is the laws at essentially bounded
+   ground distance from a basepoint; prove the `δ_{x₀}` identification there too, and
+   keep the metric, topological, and density statements for that endpoint in item 6
+   rather than inheriting them from `1 ≤ p < ∞`.  Give it a `PseudoMetricSpace`; under
+   the Polish/Borel hypotheses give a genuine `MetricSpace` when the ground distance
+   separates points, and otherwise a quotient metric.  Consume
+   `Subtype.instMeasurableSpace`, which definitionally pulls back the measurable
+   structure from `ProbabilityMeasure`; do not add a second measurable-space instance.
+   For `1 ≤ p < ∞`, under the Polish/Borel
    hypotheses, prove that this inherited structure is the Borel σ-algebra of the `W_p`
    topology, hence that opens are measurable; do the same for anchored components.  This
    compatibility is a prerequisite for population laws `P ∈ P_p(P_p(X))` in Layer 12.
@@ -839,10 +859,16 @@ single-valued logarithm is introduced across the cut locus.
    differentiability facts used by transport.  State connectedness, geodesic completeness,
    and moment hypotheses separately from compactness.
 2. Specialize Layer 2's `c`-concave/contact API to `c(x,y)=d(x,y)²/2`.  At every
-   differentiability point of the semiconcave potential, prove that contact endpoints
-   avoid the relevant cut locus and equal `exp_x(-∇φ(x))`.  Deduce this volume-a.e., and
-   hence `μ`-a.e. only when `μ ≪ volume`; connect the sign convention to the Riemannian
-   exponential map.
+   differentiability point `x` of the semiconcave potential `φ`, prove that each contact
+   endpoint `y` is joined to `x` by a unique minimizing geodesic, that its initial
+   velocity is `-∇φ(x)`, and hence that `y=exp_x(-∇φ(x))`.  Do not strengthen this to
+   `y ∉ Cut(x)`: differentiability of `d(·,y)²/2` at `x` is equivalent to uniqueness of
+   the minimizing geodesic, and a first conjugate point is a cut point that can still be
+   joined to `x` by a unique minimizing one, so cut-locus avoidance does not follow.
+   State every cut-locus claim separately, from item 1's measurability and volume-nullity
+   of the cut locus and with its own hypotheses.  Deduce the displayed pointwise
+   conclusion volume-a.e., and hence `μ`-a.e. only when `μ ≪ volume`; connect the sign
+   convention to the Riemannian exponential map.
 3. Prove **McCann's theorem**: for finite-second-moment laws on a finite-dimensional,
    connected, boundaryless, geodesically complete smooth Riemannian manifold, with source
    absolutely continuous with respect to Riemannian volume, the unique quadratic optimal
@@ -920,9 +946,30 @@ Build the maximally general path-space theory first, then the Eulerian specializ
    Prove that every two-time projection is optimal and obtain the metric dynamic-action
    formula.
 5. Develop the `p=1` endpoint separately through BV path lifts and total-variation
-   measures.  Include a regression example where an absolutely continuous `W₁` curve is
-   produced by mixing discontinuous particle paths, showing why the `1 < p < ∞` theorem
-   cannot simply be generalized.
+   measures.  This is not item 3 read at `p=1`: Lisini's superposition principle covers
+   `1 < p < ∞`, and his Wasserstein--Orlicz extension does not reach `d¹` either.  The
+   source is Abedi--Li--Schultz, [Absolutely continuous and BV-curves in 1-Wasserstein
+   spaces](https://arxiv.org/abs/2209.04268).  On a complete separable `X` and
+   `I=[0,1]`, build the Skorokhod space `D(I;X)` of càdlàg curves with its Polish
+   structure, the Borel subset `BV(I;X)`, and the total-variation measure `|Dγ| ∈ M(I)`
+   of such a curve.  Following their Remark 3.2, prove that `γ ↦ |Dγ|(A)` is Borel for
+   every Borel `A ⊆ I`--from lower semicontinuity of the variation on open sets--so that
+   `A ↦ ∫ |Dγ|(A) dπ(γ)` is a measure and is integrated against nonnegative Borel
+   `f : I → ℝ` as `∫∫ f(t) d|Dγ|(t) dπ(γ)`.  Prove their Theorem 3.1 first: if
+   `π ∈ P(D(I;X))` is concentrated on `BV(I;X)` with `∫ |Dγ|(I) dπ(γ) < ∞` and
+   `(e₀)_#π ∈ P₁(X)`, then `t ↦ μ_t=(e_t)_#π` lies in `BV(I;P₁(X))` and
+   `|Dμ| ≤ ∫ |Dγ| dπ(γ)` as measures, so equality is an optimality condition among lifts
+   exactly as at `1 < p < ∞`.  Then prove their Theorem 3.3: every
+   `(μ_t) ∈ BV(I;P₁(X))` admits `π̃ ∈ P(D(I;X))` concentrated on `BV(I;X)` with
+   `(e_t)_#π̃=μ_t` for all `t ∈ I` and the exact identity `|Dμ| = ∫ |Dγ| dπ̃(γ)`, whose
+   absolutely continuous part in the Lebesgue decomposition satisfies
+   `|μ̇_t| = lim_{h→0} ∫ d(γ_t,γ_{t+h})/|h| dπ̃(γ) = lim_{h→0} ∫ |Dγ|([t,t+h])/|h| dπ̃(γ)`
+   for `L¹`-a.e. `t`; deduce that `(μ_t) ∈ AC¹(I;P₁(X))` gives `|Dμ|=|μ̇|L¹` and
+   characterizes the metric speed.  Include their Example 1.1, `μ_t=(1-t)δ₀+tδ₁` on `ℝ`,
+   as the regression test: a constant-speed `W₁` geodesic that admits no lift on
+   continuous curves at all, lifted instead by the uniform mixture of the jump paths
+   `γ^{(α)}_t=1_{[α,1]}(t)`.  It is why the `1 < p < ∞` theorem cannot simply be
+   generalized.
 6. Let `(X,τ,d)` be an extended Polish space in Lisini's sense: `τ` is induced by a
    complete separable metric, `d` is an extended complete metric, `d`-convergence implies
    `τ`-convergence, and `d` is `τ×τ` lower semicontinuous.  For the Orlicz function
@@ -960,7 +1007,8 @@ The original Euclidean theorem is Benamou--Brenier,
 [doi:10.1007/s002110050002](https://doi.org/10.1007/s002110050002).  The more general
 dynamic-plan route follows Lisini's [characterization of absolutely continuous
 Wasserstein curves](https://cvgmt.sns.it/paper/568/); the extended endpoint follows his
-[Wasserstein--Orlicz theory](https://www.numdam.org/articles/10.1051/cocv/2015020/).
+[Wasserstein--Orlicz theory](https://www.numdam.org/articles/10.1051/cocv/2015020/), which
+does not cover `d¹`, and the `p=1` endpoint follows Abedi--Li--Schultz.
 
 Acceptance checks: moving a Dirac mass along a base geodesic has exactly the base action;
 linear interpolation of an optimal Euclidean plan gives the expected `W_p` geodesic;
@@ -1072,10 +1120,16 @@ continuity-equation, Sobolev, or compactness lemma, build and expose the bridge 
 using it.
 
 1. Extend Mathlib's nonnegative `InformationTheory.klDiv` for probability/finite
-   references.  Prove strict convexity, lower semicontinuity, change of reference, data
-   processing, tensorization, the disintegration chain rule, Pinsker, and the
-   Donsker--Varadhan variational formula, always retaining its finite-mass correction.
-   This slice is the entropy dependency of Layer 13.
+   references.  Consume `InformationTheory.klDiv_compProd_eq_add` and
+   `klDiv_compProd_left` for the composition-product chain rule; the genuinely missing
+   piece is the conditional form
+   `klDiv (μ ⊗ₘ κ) (ν ⊗ₘ η) = klDiv μ ν + ∫⁻ x, klDiv (κ x) (η x) ∂μ`,
+   so supply the measurability of `x ↦ klDiv (κ x) (η x)` that it needs--on standard-Borel
+   targets, or under whatever weaker hypothesis the proof actually uses--and derive the
+   disintegration corollaries from it.  Prove strict convexity, lower semicontinuity,
+   change of reference, data processing, tensorization, Pinsker, and the Donsker--Varadhan
+   variational formula, always retaining its finite-mass correction.  This slice is the
+   entropy dependency of Layer 13.
 2. Specialize Layer 9's internal-energy functional to `U(r)=r log r`, whose recession
    constant is `∞`, and expose the result as the signed extended-real Boltzmann entropy
    `Ent_m(μ) : EReal` for every finite or probability measure `μ` and a σ-finite or
@@ -1183,17 +1237,28 @@ API.
    reusable CAT(0)/Hadamard-space predicate, prove the CN inequality and strong convexity
    of squared distance, and derive quadratic barycenter uniqueness; state no uniqueness
    theorem in a general geodesic space.
-3. For `1 ≤ p < ∞`, a separable, locally compact, complete, geodesic space `X`, and
-   `P ∈ P_p(P_p(X))`, define population Wasserstein barycenters and prove the
-   Le Gouic--Loubes existence theorem: the Fréchet functional is measurable and attains
-   its minimum.  Do not assume or claim that `P_p(X)` itself is proper.
-4. If `P_j → P` in `W_p(P_p(X))`, prove that every sequence of barycenters is precompact
-   and that every limit point is a barycenter of `P`.  Uniqueness may upgrade this to
-   convergence of the full sequence, but it is not part of the compactness theorem.
-5. Relate finite Euclidean `W₂` barycenters to a multi-marginal transport problem through
-   a measurable pointwise-barycenter selector.  Prove the multi-marginal primal and dual
+3. Fix the carrier regime used by items 4--5 and 8: `1 ≤ p < ∞` and a separable, locally
+   compact, complete, geodesic space `X`.  Build the base-space selection first, since the
+   existence theorem consumes it.  Prove Le Gouic--Loubes' Lemma 7: for finitely many
+   positive weights summing to one there is a Borel *barycenter application* `X^J → X`
+   sending a `J`-tuple to a barycenter of the corresponding weighted combination of Dirac
+   laws.  Consume it for their Theorem 8, the finitely supported case: for
+   `P = ∑_j λ_j δ_{μ_j}` in `P_p(P_p(X))`, prove the multi-marginal formulation and
+   existence of a barycenter.  Do not assume or claim that `P_p(X)` itself is proper.
+4. If `P_j → P` in `W_p(P_p(X))` and each `P_j` has a barycenter, prove that every sequence
+   of barycenters is precompact and that every limit point is a barycenter of `P`.
+   Uniqueness may upgrade this to convergence of the full sequence, but it is not part of
+   the compactness theorem.
+5. For general `P ∈ P_p(P_p(X))` in item 3's carrier regime, define population Wasserstein
+   barycenters and prove the Le Gouic--Loubes existence theorem: the Fréchet functional is
+   measurable and attains its minimum.  Assemble it in their order--item 3's finitely
+   supported case, density of finitely supported laws in `P_p(P_p(X))`, and item 4 applied
+   to the approximating sequence--so that no step reaches forward to a later item.
+6. Relate finite Euclidean `W₂` barycenters to a multi-marginal transport problem through
+   a measurable pointwise-barycenter selector, which item 3 supplies in general and which
+   is the explicit weighted average on `ℝⁿ`.  Prove the multi-marginal primal and dual
    formulas rather than using the selector without a measurability theorem.
-6. For normalized positive weights, define Agueh--Carlier's "vanishes on small sets"
+7. For normalized positive weights, define Agueh--Carlier's "vanishes on small sets"
    predicate exactly as in their Definition 3.2: `μ(A)=0` for every Borel `A⊆ℝⁿ`
    whose Hausdorff dimension is less than `n-1`.  Prove existence and uniqueness in
    `P₂(ℝⁿ)` when one positive-weight input has this property; absolute continuity is
@@ -1201,7 +1266,7 @@ API.
    that input has density in `L∞`, prove the separate Agueh--Carlier estimate
    `‖ρ_bar‖_∞ ≤ λ_j^(-n) ‖ρ_j‖_∞`; do not infer this density bound from the
    small-set predicate alone.
-7. Prove the quadratic one-dimensional formula
+8. Prove the quadratic one-dimensional formula
    `Q_bar(s)=∑ i, λ_i Q_i(s)`.  For normalized nonnegative weights and Gaussian
    inputs `N(m_i,S_i)`, assume some `λ_j>0` has `S_j` positive definite.  Prove that the
    unique Gaussian barycenter has mean `m̄=∑_i λ_i m_i`, positive-definite covariance
@@ -1214,9 +1279,14 @@ API.
    `t^(1/(p-1)) / ((1-t)^(1/(p-1)) + t^(1/(p-1)))`.  For i.i.d. random input laws with
    distribution `P ∈ P_p(P_p(X))` in item 3's carrier regime, prove the empirical laws
    converge almost surely to `P` in `W_p` by building the required finite-moment strong
-   law.  Then consume item 4: empirical barycenters are almost surely precompact, every
-   limit is a population barycenter, and the full sequence converges when that barycenter
-   is unique.
+   law.  Each empirical law is finitely supported, so item 3 already gives it a barycenter;
+   consume item 4 on that almost-sure event.  For every choice of barycenter of each
+   empirical law the resulting sequence is precompact, every limit is a population
+   barycenter, and the full sequence converges when that barycenter is unique.  State it
+   in exactly that choice-free form.  Item 3's Borel barycenter application selects in the
+   base space `X`, and the local compactness it needs is not available for `P_p(X)`, so do
+   not silently treat "the" empirical barycenter as a random element; a statement about a
+   random element needs its own measurable-selection theorem, stated and proved here.
 
 The population theory follows Le Gouic--Loubes,
 [arXiv:1506.04153](https://arxiv.org/abs/1506.04153); the finite Euclidean theory follows
@@ -1336,14 +1406,27 @@ measurable entropy-projection theory, not the definition of entropic transport.
     principle in Laplace-principle form for `√ε`-Brownian paths, including exponential
     tightness, and derive the endpoint rate `‖x-y‖²/2`.  In Layer 10's Γ-convergence
     interface, prove equicoercivity and Γ-convergence of `ε` times constrained path entropy
-    to kinetic action.  The recovery theorem must explicitly construct, for every
-    finite-quadratic-cost endpoint plan `π`, plans `π_ε≪R^ε₀₁` with the same
-    endpoints and
-    `limsup ε klDiv(π_ε,R^ε₀₁) ≤ (1/2)∫‖x-y‖²dπ`; prove the matching
-    liminf and bridge-law tightness for fixed endpoints in `P₂(ℝⁿ)`.  Deduce
-    convergence of values, global minimizers, and entropic interpolations to Layer 9
-    displacement interpolations, giving full convergence when the quadratic optimizer is
-    unique and only cluster-point convergence otherwise.
+    to kinetic action.  Pin the effective domain before stating any endpoint-constrained
+    result.  Marginalizing `π ≪ R^ε₀₁` gives `μ ≪ (R^ε₀₁)₀` and `ν ≪ (R^ε₀₁)₁`, so exact
+    endpoints are unavailable for general `μ,ν ∈ P₂(ℝⁿ)`: both endpoint marginals of item
+    12's reversible reference are Lebesgue, and for `μ=δ_a`, `ν=δ_b` with `a≠b` the unique
+    coupling has finite quadratic cost `‖a-b‖²/2` while every `π ∈ Π(μ,ν)` has
+    `klDiv(π,R^ε₀₁)=∞` at every `ε>0`.  Keep that pair as a guardrail counterexample.
+    Define the plan domain by finite quadratic cost together with finite Boltzmann entropy
+    `Ent_{vol⊗vol}(π)`, where the moment bound already forces the negative part to be
+    finite, and the endpoint domain by `μ,ν ∈ P₂(ℝⁿ)` with `Ent_vol(μ),Ent_vol(ν)<∞`,
+    so that `μ⊗ν` witnesses feasibility.  On the plan domain prove the exact identity
+    `ε klDiv(π,R^ε₀₁) = (1/2)∫‖x-y‖²dπ + ε Ent_{vol⊗vol}(π) + ε(n/2)log(2πε)`,
+    whose error terms vanish as `ε ↓ 0`, so the constant sequence `π_ε=π` is already a
+    recovery sequence with exact endpoints.  For an arbitrary finite-quadratic-cost `π`
+    prove the relaxed recovery theorem instead: Gaussian mollification gives plans `π_ε`
+    in the plan domain with `π_ε → π` in `W₂`, marginals converging to `μ` and `ν`, and
+    `limsup ε klDiv(π_ε,R^ε₀₁) ≤ (1/2)∫‖x-y‖²dπ`; those endpoints converge and are not
+    exact.  Prove the matching liminf along sequences of uniformly bounded second moment,
+    and bridge-law tightness for fixed endpoints in the endpoint domain.  Over that same
+    endpoint domain deduce convergence of values, global minimizers, and entropic
+    interpolations to Layer 9 displacement interpolations, giving full convergence when
+    the quadratic optimizer is unique and only cluster-point convergence otherwise.
 
 Use Nutz's [entropic optimal-transport
 notes](https://www.math.columbia.edu/~mnutz/docs/EOT_lecture_notes.pdf) for the measurable
@@ -1657,14 +1740,22 @@ guardrails.
 * A Brenier weak solution is automatically an Aleksandrov solution.
 * Smooth positive densities alone make a general-cost optimal map smooth.
 * Nonnegative sectional curvature alone implies MTW regularity.
+* Differentiability of `d(·,y)²/2` at `x` puts `y` off `Cut(x)`; it gives only uniqueness
+  of the minimizing geodesic, and a first conjugate point is a cut point reached by one.
 * `W_p` is finite on all probability measures, or the same definition gives a metric for
   `p<1`.
+* The finite-`W_p` component of an arbitrary anchor law is `P_p(X)`; that needs the anchor
+  to lie in `P_p(X)` and fails, for instance, for a Cauchy law at `p=2`.
 * Every Wasserstein geodesic is induced by a unique family of particle geodesics.
+* Lisini's superposition principle covers `p=1`, or an absolutely continuous `W₁` curve
+  always lifts to a measure on continuous paths.
 * A vector-field continuity equation is available on an arbitrary metric space.
 * Geodesic convexity automatically supplies an EVI flow.
 * Completeness and geodesicity alone guarantee existence or uniqueness of a barycenter.
 * Sinkhorn plan convergence automatically gives convergence of potentials when the cost
   may be infinite.
+* Every finite-quadratic-cost endpoint plan admits an entropic recovery sequence with its
+  own exact marginals; absolute continuity against the reference constrains the endpoints.
 * Entropic regularization makes the GW objective convex or its iteration globally
   convergent.
 * Raw GW is a metric on presentations rather than a pseudometric before quotienting.
@@ -1772,7 +1863,10 @@ PRs leave every landed intermediate reusable.
   Ginzburg--Landau](https://doi.org/10.1002/cpa.20046), 2004; S. Serfaty,
   [the Hilbert/metric-space scheme](https://doi.org/10.3934/dcds.2011.31.1427), 2011.
 * S. Lisini, [Characterization of absolutely continuous curves in Wasserstein
-  spaces](https://cvgmt.sns.it/paper/568/), 2007; J.-D. Benamou and Y. Brenier,
+  spaces](https://cvgmt.sns.it/paper/568/), 2007; E. Abedi, Z. Li, and T. Schultz,
+  [Absolutely continuous and BV-curves in 1-Wasserstein
+  spaces](https://doi.org/10.1007/s00526-023-02616-1), 2024, for the `p=1` endpoint;
+  J.-D. Benamou and Y. Brenier,
   [A computational fluid mechanics solution to the Monge--Kantorovich mass transfer
   problem](https://doi.org/10.1007/s002110050002), 2000.
 * R. Jordan, D. Kinderlehrer, and F. Otto, [The variational formulation of the
