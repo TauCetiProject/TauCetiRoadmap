@@ -130,7 +130,12 @@ noncomputable def FunctionFieldPullback.coordinateRingAlgebra
 /-- **The source point at infinity maps to the target point at infinity**: every affine
 function of `W₁` is integral over the pulled-back coordinate ring of `W₂`. The integral
 closure is the ring of functions regular away from the whole fibre over `O₂` — kernel points
-included — so the condition says exactly that `O₁` lies in that fibre. -/
+included — and `W₁.CoordinateRing` consists of functions regular away from `O₁` (the full
+ring of those is its normalization, equal to it exactly when the coordinate ring is
+integrally closed), so the condition says exactly that `O₁` lies in that fibre.
+No ellipticity or normality hypothesis is needed for that equivalence: the point at infinity
+of *every* Weierstrass cubic is smooth in every characteristic
+(`WeierstrassCurve.Projective.nonsingular_zero`) with `ord_O x = −2`. -/
 def FunctionFieldPullback.MapsInfinity {W₁ W₂ : WeierstrassCurve.Affine F}
     (pullback : FunctionFieldPullback W₁ W₂) : Prop :=
   letI := pullback.coordinateRingAlgebra
@@ -258,11 +263,19 @@ noncomputable def weilPairing {K : Type*} [Field K] (W : WeierstrassCurve K) [W.
       Submodule.torsionBy ℤ W.toAffine.Point (N : ℤ) →+ Additive (rootsOfUnity N K) :=
   sorry
 
-/-- The **Weil pairing is nondegenerate** over a separably closed field (AEC III.8.1(d)): if
+/-- The **Weil pairing is nondegenerate** over a separably closed field (AEC III.8.1(c) — the
+parts are (a) bilinear, (b) alternating, (c) nondegenerate, (d) Galois-equivariant, (e)
+compatible in the level; adjointness under the dual is III.8.2): if
 `e_N(P, Q) = 0` for every `Q`, then `P = 0`. Bilinearity and the `μ_N`-valued codomain are already
 in the type of `weilPairing`, so together this makes `e_N` a perfect pairing. (`[NeZero N]` is kept
 only because the `weilPairing` definition needs it as an instance; `hN` supplies the invertibility
-nondegeneracy actually requires.) -/
+nondegeneracy actually requires.) ⚠ AEC III.8 assumes `N` prime to `char K`, and that is not a
+convenience: when `char K = p ∣ N` the point-valued pairing genuinely **degenerates** — for
+ordinary `E`, `E[p](K̄) ≅ ℤ/p` while `μ_p(K̄) = {1}`, so it is identically trivial, and for
+supersingular `E`, `E[p](K̄) = {O}` makes it vacuous. The perfect pairing in that case is
+scheme-theoretic (finite flat group schemes, Cartier duality, Katz–Mazur §2.8) and is **not**
+expressible in this `Submodule.torsionBy`/`rootsOfUnity` type; it belongs to the scheme-facing
+roadmap. -/
 theorem weilPairing_nondegenerate {K : Type*} [Field K] [IsSepClosed K] (W : WeierstrassCurve K)
     [W.IsElliptic] (N : ℕ) [NeZero N] (hN : (N : K) ≠ 0)
     (P : Submodule.torsionBy ℤ W.toAffine.Point (N : ℤ)) :
@@ -389,7 +402,10 @@ noncomputable def quadraticTwistPointEquiv {K : Type*} [Field K] (E : Weierstras
 /-- **Quadratic twist to split multiplicative reduction** — FLT #1088's headline
 (`exists_quadraticTwist_hasSplitMultiplicativeReduction`): over the fraction field `K` of a
 discrete valuation ring `R`, a curve with multiplicative but **non-split** reduction acquires
-**split** multiplicative reduction after a separable quadratic twist. Consumes Mathlib's reduction
+**split** multiplicative reduction after a separable quadratic twist. Note Mathlib's
+`HasMultiplicativeReduction R` already **extends `IsMinimal R`**, so the hypothesis is about a
+minimal equation; the conclusion minimises the twist explicitly (`.minimal R`), and the
+apparent asymmetry between hypothesis and conclusion is exactly that. Consumes Mathlib's reduction
 classes (`WeierstrassCurve.HasMultiplicativeReduction`, `HasSplitMultiplicativeReduction`,
 `WeierstrassCurve.minimal`) refined in Layer 4; the concrete FLT-facing deliverable. -/
 theorem exists_quadraticTwist_hasSplitMultiplicativeReduction {R : Type*} [CommRing R] [IsDomain R]
@@ -409,8 +425,10 @@ is the **rank** of `E/K` and its torsion subgroup is finite (Nagell–Lutz, `REA
 The proof is weak Mordell–Weil — `E(K)/2E(K)` finite by the Kummer (`x − θ`) argument, whose
 finiteness input is the `S`-class group and `S`-unit theorems of number fields, **not** Layer 7's
 elliptic-curve Selmer group — plus the theory of heights, by descent (`README.md` §Layer 6; this
-is also how the existing formalisation proves it, there under a short-normal-form hypothesis that
-the port removes by variable change). Statement-named per Mathlib convention — the name describes
+is also how the existing formalisation proves it: `fg_point_of_numberField` there already treats
+an arbitrary Weierstrass curve, performing the reduction to short normal form **internally**, so
+the port retains that variable-change reduction rather than eliminating a hypothesis).
+Statement-named per Mathlib convention — the name describes
 the conclusion, matching the existing formalisation's `fg_point_of_numberField`, and
 "Mordell–Weil" lives here in the docstring. -/
 theorem fg_point_of_numberField {K : Type*} [Field K] [NumberField K] (W : WeierstrassCurve K)

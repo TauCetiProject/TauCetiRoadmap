@@ -22,9 +22,12 @@ it and the later layers rest on.
 **The function field is the foundation.** An elliptic curve is more than a Weierstrass equation
 and a group law on its points: Layers 1–3 need honest *morphisms* — isogenies, Frobenius, the
 dual — with degrees, separability, and kernels. The classical dictionary supplies them without
-leaving the commutative algebra Mathlib already has: a smooth projective curve with its
+leaving the commutative algebra Mathlib already has: a **regular** proper curve with its
 nonconstant morphisms is equivalent, contravariantly, to its function field with the `K`-algebra
-embeddings (AEC II.2.4). Mathlib holds the function-field side of this dictionary for Weierstrass
+embeddings (AEC II.2.4). ⚠ Say *regular*, not *smooth*: over an imperfect `K` the normalization
+of a curve is a regular proper model but need not be smooth over `K` (`y² = x³ + t` over
+`𝔽₃(t)` acquires a cusp after adjoining `t^{1/3}`), and this roadmap works over arbitrary
+fields — the separable-closure convention below exists for exactly this reason. Mathlib holds the function-field side of this dictionary for Weierstrass
 curves — the coordinate ring `Affine.CoordinateRing` (`AdjoinRoot W.polynomial`, an integral
 domain) and the function field `Affine.FunctionField` (its fraction field) — and the group law on
 the points is *already proved* through that algebra, as the ideal class group of the coordinate
@@ -56,10 +59,17 @@ is the `W₂.CoordinateRing`-algebra structure on `W₁.FunctionField` through `
 `pullback` is the contravariant function-field map; `MapsInfinity` demands that every affine
 function of `W₁` be **integral** over the pulled-back coordinate ring of `W₂`. That is
 exactly `φ(O₁) = O₂`: the integral closure is the ring of functions regular away from the
-*whole fibre* `φ⁻¹(O₂)` — which contains every kernel point, not only `O₁` — and asking
-`W₁.CoordinateRing`, the functions regular away from `O₁`, to sit inside it says precisely
-that `O₁` lies in that fibre. No places in the statement. Why this is the right foundation,
-and a cheap one:
+*whole fibre* `φ⁻¹(O₂)` — which contains every kernel point, not only `O₁` — and
+`W₁.CoordinateRing` consists of functions regular away from `O₁` (the full ring of those is
+its normalization, equal to it exactly when the coordinate ring is integrally closed), so
+asking it to sit inside says precisely that `O₁` lies in that fibre. ⚠ Note the equivalence
+`MapsInfinity ⟺ φ(O₁) = O₂` needs **no ellipticity and no normality hypothesis** on either
+curve: the point at infinity `[0 : 1 : 0]` of *every* Weierstrass cubic — singular ones
+included — is a smooth point in every characteristic (Mathlib's
+`WeierstrassCurve.Projective.nonsingular_zero`), with `ord_O x = −2`, so `x ∈ W₁.CoordinateRing`
+has a pole exactly there and forces `O₁ ∈ φ⁻¹(O₂)`; the converse is the inclusion
+`W₁.CoordinateRing ⊆ 𝒪(C₁ ∖ {O₁})`, which holds normal or not. No places in the statement.
+Why this is the right foundation, and a cheap one:
 
 - **Nonconstancy is free.** A `K`-algebra map between the function fields is injective, and
   automatically **finite** (both sides have transcendence degree `1` over `K`), so an `Isogeny`
@@ -243,7 +253,7 @@ This is the foundation the roadmap builds on; it is consumed, not rebuilt.
   (`Ω[F⁄K]`, `KaehlerDifferential.map`), and the valuation/`ValuationSubring` substrate on which
   Layer 0's places are built.
 - **Continuous cohomology and the Weierstrass `℘`-function.** Continuous cohomology of
-  topological groups (`Mathlib/Algebra/Category/ContinuousCohomology/`, E. Xie) — Layer 7's
+  topological groups (`Mathlib/Algebra/Category/ContinuousCohomology/`, R. Hill and A. Yang) — Layer 7's
   substrate, itemised there — and the Weierstrass `℘`-function
   (`Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`, A. Yang), which nothing on
   this roadmap's critical path consumes (complex uniformisation is out of scope) but which the
@@ -295,7 +305,7 @@ algebra over `Affine.CoordinateRing`; the design is coordinated with Angdinata's
 upstream work, whose interface this layer follows.
 
 - **Places.** The places of `W.FunctionField` over `K` — the valuation-theoretic points of the
-  smooth projective curve (Stichtenoth I.1). The affine places are the maximal ideals of the
+  regular proper curve (Stichtenoth I.1; *regular*, not *smooth* — conventions). The affine places are the maximal ideals of the
   coordinate ring (for elliptic `W` a Dedekind domain — itself a worthwhile lemma); one further
   place, **`W.infinityPlace`**, sits where `x` and `y` have their poles (`ord_∞ x = −2`,
   `ord_∞ y = −3`, residue field `K`). API: `ord_v`, uniformisers, residue fields, the **degree**
@@ -370,18 +380,44 @@ upstream work, whose interface this layer follows.
   manufactured from the same rational addition formulas Mathlib's group law is proved by — this
   is what makes `Hom` an additive group and `End(E)` a ring containing the Frobenius pencil
   `ℤ + ℤπ_q`. **Complex multiplication enters as a predicate**: `HasCMBy E R` — a ring
-  isomorphism `End(E) ≃+* R` — is a named definition milestone here, with its transport API;
-  over `𝔽_q` the Frobenius pencil witnesses it for an order of `ℚ(π_q)` (ordinary case), and
-  `j = 0, 1728` give the classical examples (worked examples). The CM **main theorem** is out
+  isomorphism `End(E) ≃+* R` — is a named definition milestone here, with its transport API.
+  **`Aut (E, O)` is built here too**, as `End(E)ˣ`, together with its identification with the
+  stabiliser of the (base-changed) curve in Mathlib's `VariableChange` group — the object
+  Layer 5's descent classification quantifies over, so Layer 5's dependency on this layer is
+  real and discharged here rather than assumed.
+  ⚠ The Frobenius pencil does **not** witness it: it gives only the suborder
+  `ℤ[π_q] ⊆ End(E)`, and the inclusion is genuinely strict in general — for `y² = x³ + x`
+  over `𝔽₅` one has `#E(𝔽₅) = 4`, `a₅ = 2`, so `π = 1 ± 2i` and
+  `ℤ[π] = ℤ[2i] ⊊ ℤ[i] ≅ End(E)`, of index `2`. The correct ordinary-case target is therefore
+  **`End(E)` is an order in `ℚ(π_q)` containing `ℤ[π_q]`**, with `HasCMBy` witnessed
+  separately and explicitly (worked examples). The CM **main theorem** is out
   of scope. ⚠ The hard core of the layer — for *any* definition of isogeny — is the
   **quadraticity of the degree**: `deg` extends to a positive-definite quadratic form on
   `Hom(W₁, W₂)` (`deg [n] = n²`, the parallelogram law, bilinearity of
   `(φ, ψ) ↦ deg (φ ∔ ψ) − deg φ − deg ψ`) — the Abel-grade content behind Hasse.
+- **The kernel-factorisation theorem** — made a milestone in its own right, because it is what
+  the dual is built from and it is easy to state wrongly. Over **any** field `K`: for an
+  isogeny `φ : W₁ → W₂` and a homomorphism `ψ : W₁ → W₃`, `ψ` factors as `ψ = λ ∘ φ` for a
+  unique `K`-homomorphism `λ` **iff `ker φ ⊆ ker ψ` as finite `K`-group schemes** — with
+  `deg ψ = deg φ · deg λ` when `ψ` is an isogeny (AEC III.4.11 in its `K̄`, separable form;
+  the general statement is the quotient `W₂ ≅ W₁/ker φ`). ⚠ Two failures the scheme-theoretic
+  kernel is there to prevent: **`K`-point kernels are not enough** — over `ℚ` with
+  `E(ℚ)[2] = 0`, `ker [2](ℚ) = ker(id)(ℚ) = {O}` but `id` does not factor through `[2]`; and
+  for **inseparable** `φ` even *geometric* point kernels are not enough — relative Frobenius
+  has trivial geometric point kernel, yet `id` does not factor through it.
 - **The dual isogeny.** `φ̂` with `φ̂ ∘ φ = [deg φ]` and `φ ∘ φ̂ = [deg φ]` (AEC III.6.1–2),
-  constructed by factoring `[deg φ]` through `φ`: the separable part by the **Galois
-  correspondence for function fields** (AEC III.4.10–11 — this framework's home turf: subgroups
-  of the kernel correspond to intermediate fields of the extension `pullback` embeds), the
-  inseparable part through Frobenius. Bilinearity of `(φ, ψ) ↦ φ̂ ∘ ψ` and `deg φ̂ = deg φ`.
+  constructed by factoring `[deg φ]` through `φ` via the milestone above: for the **separable**
+  part, base change to `Kˢᵉᵖ`, where `Kˢᵉᵖ(W₁)/φ^*Kˢᵉᵖ(W₂)` **is** Galois with group
+  `ker φ(Kˢᵉᵖ)` acting by translations (AEC III.4.10(b),(c)), take the fixed field, and
+  **descend** the resulting `λ` back to `K` by Galois equivariance and the uniqueness clause
+  (`φ^*(σλ^*f) = σψ^*f = ψ^*f = φ^*(λ^*f)` forces `λ^*f ∈ K(W₂)`); the **inseparable** part
+  goes through Frobenius separately, `[p]` being factored through it (AEC III.6.1).
+  ⚠ Do **not** say "the Galois correspondence over `K`": the extension attached to a separable
+  isogeny is generally *not* Galois over the ground field — `[2]` over `ℚ` with no rational
+  `2`-torsion gives a degree-`4` separable extension with trivial `ℚ`-automorphism group. The
+  `Kˢᵉᵖ` base change and the descent step are part of the milestone, not bookkeeping. And
+  `MapsInfinity` for `λ` is not an extra obligation: `λ(O₂) = λ(φ(O₁)) = ψ(O₁) = O₃`.
+  Bilinearity of `(φ, ψ) ↦ φ̂ ∘ ψ` and `deg φ̂ = deg φ`.
   (For **endomorphisms** — the only place `[tr φ] − φ` type-checks — the Abel-free trace
   trick of Katz–Mazur 2.6.2.2, the scheme provenance's route, replays verbatim once `End(E)`
   is a ring and may be taken there instead; a general `φ : W₁ → W₂` has its dual in
@@ -512,11 +548,15 @@ future scheme-facing roadmap.
   ⚠ *Mathlib-track* (review): all of this is expected to land in Mathlib directly — built here
   per the dedupe convention and swapped for upstream when it arrives. The
   **ramification-theoretic** conductor and its identification with this algorithmic `f_p` —
-  genuinely Saito's theorem in residue characteristics `2` and `3`, not Ogg's — is a
+  where residue characteristics `2` and `3` both bring wild-conductor complications, but only
+  the **mixed characteristic `(0, 2)`** case was missing from Ogg's proof: Silverman does
+  residue characteristic `3` and refers `2` to Saito (Duke 1988), whose arithmetic-surface
+  proof is uniform in the residue characteristic — is a
   **separate, related project**, cited (Saito) for context only; likewise the deeper
   Tamagawa-number theory once the point-level reduction map exists.
 - **The Tate curve (analytic strand).** For `K` a complete rank-1 valued field (nondiscrete
-  allowed — `ℂ_p` qualifies) and `|q| < 1`, the Tate curve `E_q` and the rigid-analytic
+  allowed — `ℂ_p` qualifies) and `q : Kˣ` with `|q| < 1` — ⚠ type `q` as a **unit**, since
+  `q = 0` satisfies `|q| < 1` and makes `qᶻ` meaningless at negative exponents — the Tate curve `E_q` and the rigid-analytic
   uniformisation `Kˢᵉᵖ^× / qᶻ ≅ E_q(Kˢᵉᵖ)` (ATAEC V.3) — the `p`-adic model for split multiplicative
   reduction, and (unlike complex uniformisation) an *algebraic/rigid* statement that stays in
   scope. This strand consumes the rank-1 generalisation of Mathlib's reduction predicates flagged
@@ -600,7 +640,9 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   Kummer sequences. Decided here, not at build time (review): the modules are **discrete**,
   with continuous `Gal(Kˢᵉᵖ/K)`-action and no further topology carried in the definition —
   the standard setting for `E[m]` and `E(Kˢᵉᵖ)`, and all that `Sel_m` and `Ш` need. The elliptic instances plug in the classical conditions:
-  the `m`-descent exact sequence `0 → E(K)/mE(K) → Sel_m(E/K) → Ш(E/K)[m] → 0` from the Kummer
+  the `m`-descent exact sequence (**`m ≥ 2`** throughout — `m = 1` is tautological with all
+  three terms zero, and `[0]` is not a finite isogeny, so the Kummer sequence does not apply)
+  `0 → E(K)/mE(K) → Sel_m(E/K) → Ш(E/K)[m] → 0` from the Kummer
   sequence for `[m] : E → E`, the finiteness of `Sel_m(E/K)` (AEC X.4.2) — the **effective
   refinement** of Layer 6's weak Mordell–Weil, giving the computable rank bound — and the
   Shafarevich–Tate group `Ш(E/K)` for the module `E(Kˢᵉᵖ)`, cut out by everywhere-local
@@ -616,10 +658,24 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   isogeny-invariant. Still a stretch goal, with the target fixed and now **pinned to
   `K = ℚ`** (review): the milestone is the full quotient, period included — the period-free
   part is not isogeny-invariant, so it would gut Cassels' theorem — with
-  `Ω(E) = ∫_{E(ℝ)} |ω_min|` for the global minimal Weierstrass equation, which exists over
-  `ℚ` (Layer 4's minimality), through Mathlib's integration; the dependencies are `ω`
-  (Layer 1), minimality and the `c_p` (Layer 4), the regulator (Layer 6), and `Ш` (this
-  layer). ⚠ Over a general number field there is no global minimal model, and the honest
+  the real period of the **global minimal** Weierstrass equation. Two prerequisites, both now
+  explicit milestones rather than assumptions (review):
+  **(i) the global minimal model is its own theorem** — Layer 4 minimises over *one* DVR at a
+  time, which does not by itself produce a single integral equation minimal at every prime.
+  The obstruction is the **Weierstrass class** `[𝔞_Δ]` in the ideal class group, with
+  `𝔇_{E/K} = (Δ)·𝔞_Δ^{12}`: a global minimal equation exists iff `[𝔞_Δ] = 1` (AEC VIII.8.2),
+  which holds over `ℚ` because `h(ℚ) = 1` (VIII.8.3), the translations glued by CRT; two such
+  equations differ by `u = ±1` and `r, s, t ∈ ℤ`, so `ω_min` is **well-defined up to sign**.
+  **(ii) the period is defined by an explicit integral**, not by an unexplained
+  `∫_{E(ℝ)}|ω_min|`: with `D_W(x) = 4x³ + b₂x² + 2b₄x + b₆ = (2y + a₁x + a₃)²`, the target is
+  `Ω(E) = 2·∫_{{x ∈ ℝ : D_W(x) > 0}} dx / √(D_W(x))` (the factor `2` for the two `y`-branches;
+  one or two real components handled uniformly), stated with `lintegral` plus a finiteness
+  proof and `ENNReal.toReal` so that non-integrability cannot silently read as `0`. Mathlib has
+  `b₂`, `b₄`, `b₆` and `Real.sqrt`. The manifold formulation `∫_{E(ℝ)}|ω|` — needing the real
+  locus as a compact `1`-manifold with a density — is the *later* comparison theorem, not the
+  definition (Haar measure alone will not do: its normalisation is arbitrary). Dependencies:
+  `ω` (Layer 1), minimality and the `c_p` (Layer 4), the regulator (Layer 6), `Ш` (this
+  layer). ⚠ Over a general number field there is no global minimal model in general, and the honest
   general-`K` period is defined through complex uniformisation on `ℂ/Λ` (J. Cremona, via
   review) — exactly the material this roadmap excludes; the general-`K` BSD quotient
   therefore belongs to the complex-analytic successor roadmap, where Mathlib's `℘`-function
@@ -666,15 +722,24 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   parametric family `v(Δ) = n`, `v(c₄) = 0 ↦ Iₙ` with `f = 1` — instances `I₁` on 11.a1@11,
   `I₂` on 14.a4@7, `I₅` on 11.a2@11 — then `II` on 27.a4@3, `III` on 24.a5@2, `IV` on
   20.a3@2, `I₀*` on 32.a1@2, the `Iₙ*` family with `I₁*` on 24.a4@2 and `I₂*` on 45.a8@3,
-  `IV*` on 20.a2@2, `III*` on 24.a3@2, and `II*` on 24.a1@2 — every branch of the algorithm
-  exercised.
+  `IV*` on 20.a2@2, `III*` on 24.a3@2, and `II*` on 24.a1@2 — one certified example per
+  Kodaira symbol. ⚠ That is **not** the same as every branch of the algorithm: the multiplicative
+  entries above are all *split* (e.g. `I₅` on 11.a2@11 has `c_p = 5`), and the splitting test is
+  what the Tamagawa number sees — `c_p = n` when `Iₙ` is split, `gcd(2, n)` when it is nonsplit.
+  So the list also carries the missing branches: **good reduction** (`I₀`) at 11.a1@2, and
+  **nonsplit** `Iₙ` at both parities — `I₈` on 45.a8@5 (`c_p = 2`, even) and `I₁` on 24.a5@3
+  (`c_p = 1`, odd). Additive types have their own residue-polynomial splitting subbranches
+  affecting `c_p`; genuine decision-path coverage is a stronger goal than this list, and is
+  named as such.
 - **Torsion and rank on named curves:** `E(ℚ)_tors ≅ ℤ/5ℤ` for 11.a3, certified by
   Nagell–Lutz (a finite integral search); rank `≥ 1` for 37.a1 via the point `(0, 0)` of
   positive canonical height, upgraded to rank `= 1` once Layer 7's `2`-descent Selmer bound
   lands — torsion is decidable today, rank upper bounds are Layer-7 material.
-- **CM as a predicate:** over `ℚ(i)` the curve `y² = x³ + x` witnesses `HasCMBy` for `ℤ[i]`,
-  and an ordinary curve over `𝔽_q` witnesses it for an order of `ℚ(π_q)` containing
-  `ℤ[π_q]` — the predicate and its witnesses only; the CM main theorem stays out of scope.
+- **CM as a predicate, and the gap the Frobenius pencil leaves:** over `ℚ(i)` the curve
+  `y² = x³ + x` witnesses `HasCMBy` for `ℤ[i]`; and the *same equation over `𝔽₅`* is the
+  cautionary instance — it is ordinary with `π = 1 ± 2i`, so `ℤ[π] = ℤ[2i]` is index `2` in
+  `End(E) ≅ ℤ[i]`, showing that "contains `ℤ[π_q]`" is strictly weaker than `HasCMBy`. The
+  predicate and its witnesses only; the CM main theorem stays out of scope.
 - **Mordell–Weil:** `E(K)` is finitely generated for a number field `K`
   (`fg_point_of_numberField`), and its free rank plus a finite torsion subgroup describe it.
 
@@ -755,9 +820,14 @@ only hold for, these revisions:
   `toPointHom : W₁.Point →+ W₂.Point`; its supports are the `CoordinateRing` split-out
   (with `Point.toClass_surjective` and `toClassEquiv`, **no ellipticity hypothesis**),
   `RingTheory/ClassGroup/RelNorm`, and `RingTheory/IntegralClosure/NormalizationFinite`.
-  Hypothesis inventory — the minimal conditions: the definition needs only `[Field F]`;
-  finiteness nothing more; the point map needs `[IsIntegrallyClosed W₂.CoordinateRing]`
-  (supplied for elliptic curves by the seeded smoothness milestone) and `[DecidableEq F]`.
+  Hypothesis inventory — the minimal conditions, and they are genuinely minimal:
+  `IsElliptic` appears **nowhere** in that development. The definition needs only `[Field F]`;
+  `finiteDimensional`, `intermediateRingFinite` and `intermediateRingIsIntegrallyClosed` need
+  nothing more; only the class-group half — `pushClass`, `toPointHom` — needs
+  `[IsIntegrallyClosed W₂.CoordinateRing]` (supplied for elliptic curves by the seeded
+  smoothness milestone) and `[DecidableEq F]`. In particular the equivalence
+  `MapsInfinity ⟺ φ(O₁) = O₂` is hypothesis-free (foundations above), so do not add an
+  ellipticity or normality side condition to statements that do not use one.
   His upstreaming of division-polynomial material is also in flight; Layers 0–1 are specified
   to **coordinate with that work, not fork it** — where the upstream lands first, the roadmap
   consumes it and deletes the duplication (the ⚠ *mathlib-track* tags). The AINTLIB modular-curves
@@ -805,7 +875,9 @@ only hold for, these revisions:
   frequently and is not tracked here.
 - **Quadratic twists (Layer 5).** The FLT project has a `sorry`-free quadratic-twist development —
   several thousand lines of AI-generated Lean — supplying `quadraticTwistOf` and its invariants,
-  `quadraticTwist`, `exists_smul_eq_or_exists_smul_eq_quadraticTwist`, `quadraticTwistPointEquiv`
+  `quadraticTwist`, `exists_smul_quadraticTwistBy_eq` (the independence-of-generator lemma the
+  `Suggested.lean` docstring cites) alongside the distinct classification theorem
+  `exists_smul_eq_or_exists_smul_eq_quadraticTwist`, `quadraticTwistPointEquiv`
   with `quadraticTwistPointEquiv_galois`, and `exists_quadraticTwist_hasSplitMultiplicativeReduction`,
   plus base-change/`VariableChange`/`Aut`/reduction support. It is a body of code to bring **into Tau
   Ceti first**, not a Mathlib dependency. At the pinned revision it consumes
