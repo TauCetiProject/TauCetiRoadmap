@@ -10,10 +10,15 @@ aₙ(T) = inf { ‖T - R‖ : rank R ≤ n }.
 
 They are defined on general normed spaces, while on finite-dimensional Hilbert
 spaces they coincide with the usual zero-based singular values.  This roadmap
-builds the complete reusable API connecting those two viewpoints: the
-field-generic approximation-number theory, its behavior under addition and
-composition, its relation to finite rank and compact approximation, adjoint
-invariance, finite-dimensional Eckart--Young, and the exact min--max theorem.
+builds the complete reusable API connecting those two viewpoints: 
+
+* the field-generic approximation-number theory,
+* its behavior under addition and composition,
+* its relation to finite rank and compact approximation,
+* adjoint invariance,
+* the its identification with singular values in finite dimensions (Eckart--Young),
+* and its relation to subspaces via the finite-dimensional min--max formula (Courant--Fischer).
+
 
 Suggested homes:
 
@@ -26,34 +31,6 @@ TauCeti/Analysis/InnerProductSpace/CourantFischer.lean
 `Suggested.lean` gives prototype signatures.  The markdown specification is
 definitive; the prototypes are neither exhaustive nor prescriptive about proof
 architecture.
-
-## Scope boundary
-
-This roadmap owns:
-
-- approximation numbers of bounded linear maps between normed spaces;
-- their elementary order, additive, homogeneous, and two-sided ideal API;
-- the distinction between approximable and compact operators;
-- adjoint invariance on real and complex Hilbert spaces;
-- a rectangular operator-modulus API where Mathlib's functional calculus
-  supports it;
-- finite-dimensional singular-value identification and Eckart--Young;
-- an exact finite-dimensional min--max characterization;
-- the unconditional infinite-dimensional lower-bound half of min--max.
-
-This roadmap does **not** own:
-
-- symmetric norming functions or their extension to infinite sequences;
-- Ky Fan dominance;
-- Schatten, Hilbert--Schmidt, or trace-class ideals;
-- block-sum rearrangement theory;
-- general real/complex transport of operator ideals;
-- unbounded operators, spectral projections, or Davis--Kahan angle theorems;
-- a general partial-isometry polar decomposition.
-
-Those form a dependent roadmap on symmetric operator ideals.  They should be
-specified only after the approximation-number API below is settled, because
-their central objects are gauges of the sequence `n ↦ aₙ(T)`.
 
 ## Generality and pinned conventions
 
@@ -131,7 +108,7 @@ finite-dimensional identification is a named theorem rather than a global
 Do not introduce private wrappers around these notions merely to restate a
 single hypothesis.
 
-## Work already in motion
+## Related Work
 
 As of 2026-07-27, Mathlib PR
 [#32126](https://github.com/leanprover-community/mathlib4/pull/32126) is an open
@@ -389,13 +366,7 @@ migration in downstream Davis--Kahan code with new Tau Ceti mathematics.
 
 ## Provenance and coordination
 
-A sorry-free staged implementation of most of Parts A and B exists in the
-Davis--Kahan formalization repository under `ForTauCeti/`.  It was adapted in
-part from Mathlib PR #32126 and developed further for Davis--Kahan perturbation
-theory.  This is useful implementation evidence, not a prescriptive file map.
-Tau Ceti review should improve names, generality, and dependencies rather than
-canonizing the source layout.
-
-When code is migrated, preserve declaration-level provenance, authorship, and
-Apache-2.0 licensing.  Coordinate with the authors of Mathlib PR #32126 before
-copying or independently replacing overlapping declarations.
+An implementation of most of Parts A and B exists in the Davis--Kahan
+  [formalization repository](https://github.com/AIQ-Kitware/aiq-dkps-formalization) under `ForTauCeti/`.
+The base of this work was adapted in part from Mathlib PR #32126 and developed further for
+  Davis--Kahan perturbation theory.
