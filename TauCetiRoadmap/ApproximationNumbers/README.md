@@ -16,7 +16,7 @@ builds the complete reusable API connecting those two viewpoints:
 * its behavior under addition and composition,
 * its relation to finite rank and compact approximation,
 * adjoint invariance,
-* the its identification with singular values in finite dimensions (Eckart--Young),
+* its identification with singular values in finite dimensions (Eckart--Young),
 * and its relation to subspaces via the finite-dimensional min--max formula (Courant--Fischer).
 
 
@@ -97,8 +97,9 @@ finite-dimensional identification is a named theorem rather than a global
 - **Order completeness:** real infima and the `iInf`/`ciInf` API needed for the
   defining distance.
 - **Hilbert-space spectral theory:** `ContinuousLinearMap.adjoint`,
-  finite-dimensional `ContinuousLinearMap.singularValues`, self-adjoint
-  eigenvalue enumeration, orthogonal projections, and Courant--Fischer tools.
+  finite-dimensional `LinearMap.singularValues`, self-adjoint eigenvalue
+  enumeration, orthogonal projections, and the spectral-theory tools needed
+  for the Courant--Fischer formula.
 - **Positive square roots:** the continuous functional calculus and `CFC.sqrt`
   on complex Hilbert-space operators, used to define
   `|T| = (T⋆T)^(1/2)` on the source.
@@ -127,6 +128,9 @@ Mathlib reviewers.  The acceptable outcomes are:
 The zero-based convention is compatible.  The name and codomain differ from the
 current staged Tau Ceti proposal, so they must be resolved before the first code
 PR, not by maintaining both APIs.
+
+See also the
+[public Mathlib discussion of singular values and approximation numbers](https://leanprover-community.github.io/archive/stream/217875-Is-there-code-for-X%3F/topic/Singular.20Value.20Decomposition.html).
 
 ## What is missing
 
@@ -269,7 +273,7 @@ For finite-dimensional real or complex inner-product spaces, use Mathlib's
 zero-based singular values and prove
 
 ```text
-aₙ(T) = T.singularValues n.
+aₙ(T) = T.toLinearMap.singularValues n
 ```
 
 The lower inequality must state that every rank-`≤ n` approximant has error at
@@ -355,14 +359,33 @@ migration in downstream Davis--Kahan code with new Tau Ceti mathematics.
 
 ## References
 
-- A. Pietsch, *Operator Ideals*, North-Holland, 1980.
-- A. Pietsch, *Eigenvalues and s-Numbers*, Cambridge University Press, 1987.
-- I. C. Gohberg and M. G. Krein, *Introduction to the Theory of Linear
-  Nonselfadjoint Operators*, AMS, 1969.
-- R. Bhatia, *Matrix Analysis*, Springer, 1997, for finite-dimensional singular
-  values, Ky Fan inequalities, and min--max principles.
-- C. Eckart and G. Young, "The approximation of one matrix by another of lower
-  rank," *Psychometrika* 1 (1936), 211--218.
+- A. Pietsch, [*Operator Ideals*](https://www.sciencedirect.com/bookseries/north-holland-mathematical-library/vol/20/suppl/C), North-Holland Mathematical Library 20, North-Holland, 1980.
+
+- A. Pietsch, [*Eigenvalues and s-Numbers*](https://openlibrary.org/books/OL2708279M/Eigenvalues_and_s-numbers), Cambridge Studies in Advanced Mathematics 13, Cambridge University Press, 1987.
+
+- I. C. Gohberg and M. G. Kreĭn, [*Introduction to the Theory of Linear Nonselfadjoint Operators in Hilbert Space*](https://bookstore.ams.org/MMONO/18), Translations of Mathematical Monographs 18, American Mathematical Society, 1969.
+
+- R. Bhatia, [*Matrix Analysis*](https://doi.org/10.1007/978-1-4612-0653-8), Graduate Texts in Mathematics 169, Springer, 1997.
+
+- C. Eckart and G. Young, ["The Approximation of One Matrix by Another of Lower Rank"](https://doi.org/10.1007/BF02288367), *Psychometrika* 1(3) (1936), 211--218.
+
+- L. Mirsky, ["Symmetric Gauge Functions and Unitarily Invariant Norms"](https://doi.org/10.1093/qmath/11.1.50), *Quarterly Journal of Mathematics* 11(1) (1960), 50--59.
+
+- M. Ullrich, ["Inequalities between s-Numbers"](https://doi.org/10.1007/s43036-024-00386-x),
+  *Advances in Operator Th:contentReference[oaicite:13]{index=13}2.
+
+
+## Mathlib References
+
+- **Adjoints:** [`ContinuousLinearMap.adjoint`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/Adjoint.html).
+
+- **Finite-dimensional singular values:** [`LinearMap.singularValues`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/SingularValues.html).
+
+- **Positive square roots:** [`CFC.sqrt`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.html).
+
+- **Compact operators:** [`IsCompactOperator`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Operator/Compact/Basic.html).
+
+- **Rank:** [`LinearMap.rank`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/LinearAlgebra/Dimension/LinearMap.html).
 
 ## Provenance and coordination
 
