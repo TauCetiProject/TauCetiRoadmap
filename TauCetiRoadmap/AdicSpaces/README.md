@@ -102,12 +102,16 @@ layout).
   roadmap, and the code. ⚠ Two of Wedhorn's proofs are literally "*Proof.* Missing" (Props
   6.17–6.18, the open-mapping content); the roadmap proves them via Henkel's Tate-ring open
   mapping theorem (arXiv:1407.5647), and they are milestones here, never axioms.
-  ⚠ **Verify the sheafiness theorem's number against the pinned revision.** This roadmap and
-  the provenance both cite the strongly-noetherian sheafiness theorem as **8.28(b)**; an
-  independent check against another circulating version of the notes put it at **8.27(b)**,
-  with 8.28 a remark inside its proof. The mathematics is not in doubt, the numbering is:
-  fix it once against arXiv:1910.05934 (the pinned version) and correct every citation
-  together, including the provenance file and lemma names.
+  ✅ **The sheafiness theorem is 8.28(b)** — verified against arXiv:1910.05934 itself, which
+  has only ever had one version (v1, 14 Oct 2019), so the pin is also the current text:
+  Definition 8.26 is "sheafy"/"stably sheafy", **Remark 8.27** is the criterion for a pre-adic
+  space to be an adic space, and **Theorem 8.28** is "let `A = (A, A⁺)` be an affinoid ring …
+  (b) `A` is a strongly noetherian Tate ring … then `O_X` is a sheaf of complete topological
+  rings; moreover `H^q(U, O_X) = 0` for all `q ≥ 1` and all rational subsets `U`". A review
+  reading a *different* edition reported this as 8.27(b); it is not, and no citation here or
+  in the provenance needs changing. Note also that **8.28 already contains the acyclicity
+  clause**: Layer 4's sheafiness and its rational-cover acyclicity are one theorem in the
+  source, not two.
 - **Pin the hypotheses of the headline exactly.** The sheafiness theorem is stated for a
   **complete, Hausdorff, strongly noetherian Tate** ring with a ring of integral elements
   `A⁺` — no noetherian ring of definition, no `IsDomain`, no discreteness of the value groups.
@@ -452,7 +456,13 @@ the hypothesis is not carried here.
   `𝒪⁺`. The expected route is the wandering-slice identity
   `q⁻¹(q(W)) = ⊔_{n ∈ ℤ} φⁿ(W)` together with `𝒪_𝒴(q⁻¹(q(W)))^φ ≅ 𝒪_𝒴(W)`, proved sheafwise
   and topologically. No further global gluing theorem is needed after that: local isomorphism
-  in `𝒱` *is* Layer 5's definition.
+  in `𝒱` *is* Layer 5's definition. ⚠ **A second route worth costing before taking the first**:
+  Wedhorn **Remark 8.27** says a pre-adic space is an adic space as soon as it has a cover by
+  open affinoids `Spa A` with `A` **stably** sheafy — and stable sheafiness of the chart rings
+  is exactly what Kedlaya 4.10 gives, since it makes every `B^I⟨T₁, …, T_k⟩` noetherian, hence
+  every topologically finite-type `B^I`-algebra sheafy by 8.28(b). Taking that route trades the
+  `𝒱`-isomorphism for the pre-adic-space packaging plus a stable-sheafiness milestone; decide
+  which before starting, and record the decision here.
 - **Independence of choices.** `𝒴` and `𝒳` must be proved independent of the pseudouniformizer
   `ϖ` (the windows are not — they are indexed by the choice, which is exactly why this needs
   saying).
