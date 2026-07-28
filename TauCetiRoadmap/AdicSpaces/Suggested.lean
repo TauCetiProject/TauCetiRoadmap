@@ -19,7 +19,10 @@ rational subsets or rational localization, **no** structure presheaf and hence *
 sheafiness question, **no** Tate acyclicity, and **no** adic spaces. We build these in
 `TauCeti/RingTheory/Huber/` and `TauCeti/AlgebraicGeometry/AdicSpace/`, with Wedhorn
 (arXiv:1910.05934) as the numbering coordinate system and Huber's papers as the origin —
-cited for the mathematics, not as the specification.
+cited for the mathematics, not as the specification. The roadmap's summit is the **adic
+Fargues–Fontaine curve** `𝒳 = 𝒴/φ^ℤ` (Layer 7), for `E = Q_p` and a perfectoid field `F` of
+characteristic `p`; the general theory of Layers 0–6 is what it consumes and what the rest of
+the subject reuses.
 
 `sorry` is allowed in this human-owned roadmap library — these are goals, not proofs.
 Following the roadmap-writing guide, the Layer-0 vocabulary that is fully statable against
@@ -174,5 +177,19 @@ from strongly noetherian vertices (two non-reduced, exercising Layer 4's hypothe
 pinned), and **not stably uniform** (`𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` is sheafy but not uniform) — so
 sheafy ⇏ stably uniform, answering Hansen–Kedlaya Remark 3.16. The rings need Layers 0 and 3,
 so the statements are specified in `README.md` §Layer 6 and built there. -/
+
+/-! ## Layer 7: the adic Fargues–Fontaine curve — the summit
+
+`A_inf = W(O_F)` with the `(p, [ϖ])`-adic ("weak") topology as a complete Huber ring with
+`A_inf⁺ = A_inf`; `𝒴 = {v ∈ Spa(A_inf, A_inf) : v(p[ϖ]) ≠ 0}`, open, `φ`-stable and nonempty
+(a Gauss point) — and **not** the analytic locus, which is `D(p) ∪ D([ϖ])`; the rank-free
+radius predicates and the windows, with the breakpoint `c ∈ (1, p) ∩ ℚ` **our** choice
+(`(p+1)/2`), not Kedlaya's `1 + 1/p`; covering, `φ`-translation and disjointness, hence a free
+wandering action; `𝒳 = 𝒴/φ^ℤ` quasi-compact and `T0` with an open quotient map and the
+two-window cover; Kedlaya's interval rings `B^I` strongly noetherian (Thm 4.10) hence sheafy
+**by Layer 4**, with `B^{I,+}` the unit ball of `λ_I` and the inverse `κ`-to-interval
+dictionary pinned; the descended `φ`-invariant structure presheaf a sheaf of topological
+rings, `𝒳` an object of `𝒱`; and the final clause, `𝒳` locally isomorphic **in `𝒱`** to those
+affinoids. All specified in `README.md` §Layer 7 and built there. -/
 
 end TauCetiRoadmap.AdicSpaces
