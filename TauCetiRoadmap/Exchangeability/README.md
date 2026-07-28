@@ -671,12 +671,10 @@ The directing-measure theorem should expose a real API, not just an existence pr
   representatives (witnesses of `MixedIIDWith`) are **not** a.e. unique when the mixing law is
   nondegenerate — an independent copy of `ν` is one — so no witness-level a.e.-equality
   theorem may conclude `ν = ν'` from `MixedIIDWith` alone; the mixture-side uniqueness is of
-  the mixing law `μ.map ν` (`mixedIID_mixingLaw_unique`, which does quantify over mixture
-  witnesses: two `MixedIIDWith` hypotheses, measurable `X`, concluding `μ.map ν = μ.map ν'`).
-  The `[IsProbabilityMeasure μ]` hypothesis on `mixedIID_mixingLaw_unique` is load-bearing,
-  not decorative: for infinite base measures, distinct mixing measures can give identical
-  `∞`-valued finite-dimensional mixtures, so mixing-law uniqueness fails at the hypothesis-light
-  generality of the definitions;
+  the mixing law `μ.map ν`. `mixedIID_mixingLaw_unique` quantifies over mixture witnesses under
+  `[IsFiniteMeasure μ]`: two `MixedIIDWith` hypotheses and measurable `X`, concluding
+  `μ.map ν = μ.map ν'`. Finiteness is load-bearing: without it, distinct mixing measures can give
+  identical `∞`-valued finite-dimensional mixtures;
 * the finite-dimensional factorization identity;
 * the empirical-measure form: `(1/n) Σ_{i<n} δ_{Xᵢ}(ω) ⇒ ν(ω)` weakly in `P(α)`, tested
   against bounded continuous functions (a milestone in its own right, bringing in the weak
