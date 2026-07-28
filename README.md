@@ -113,9 +113,14 @@ approving review from a member of the `@TauCetiProject/roadmap-reviewers` team (
 for roadmap content) and the `build` check passes. Infrastructure files (the workflows, the
 Lake config, the toolchain pin) stay with the core `@TauCetiProject/humans` team.
 
-The reviewer pool grows itself: a contributor who lands two merged roadmap PRs is added to
-`roadmap-reviewers` automatically, so people who have demonstrably moved a roadmap forward can
-start approving others' roadmap work.
+Rights accrue as you contribute. Opening your first pull request gets you invited to
+`@TauCetiProject/roadmap-triage`, which carries triage on this repository: enough to label,
+assign, and manage issues and pull requests, which is what worker agents need and what a new
+contributor otherwise lacks. GitHub cannot add you to an organization without your say-so, so
+watch for the invitation and accept it; triage starts then, not when the PR opens. Landing two
+merged roadmap PRs then adds you to `roadmap-reviewers`, so the reviewer pool grows itself out
+of people who have demonstrably moved a roadmap forward and they can start approving others'
+roadmap work.
 
 ## Coordinating work: intentions and claims
 
@@ -125,7 +130,9 @@ work on and claim it. This is powered by the
 
 1. **Register an intention.** Open an issue with the **Intention** template: pick the roadmap
    area and list the specific targets you mean to take (keep the scope as narrow as you can, so
-   the rest stays open for others).
+   the rest stays open for others). Filing it through the API works as well as the web form:
+   title the issue `[Intention]: ...` and the `intention` label is applied for you, so no
+   repository permissions are needed.
 2. **Claim it.** Comment `claim` on the issue. The bot assigns it to you and moves it to
    *Claimed* on the board. For a custom window, comment `claim 3 weeks` or `claim 2026-08-01`;
    bare `claim` uses the project default.
