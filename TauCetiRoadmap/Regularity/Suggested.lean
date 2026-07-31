@@ -875,12 +875,12 @@ supplies the conversion's requirement at the global instantiation
 (`δ = routeBudget3 C F₀.k (ε/12)`), **for complexity-bounded complexes**. The `hC` hypothesis is
 essential: over arbitrary complexes the route budget shrinks with an unbounded
 `C.pairColorCount`, and no fixed rank could dominate the requirement at arbitrarily small
-errors. With the bound in hand the statement is the fixed-point form the architecture needs —
-the rank being calibrated appears inside the complexity bound itself, the wellfounded parameter
-choice of the published architecture. If no such fixed point exists, the rank must instead
-become a schedule `ℕ → ℕ` evaluated at the complexity, mirroring the NRS regularity lemma's
-`r : ℕ → ℕ` — either resolution changes this statement visibly rather than silently (part of
-the target). -/
+errors. With the bound in hand the statement is an explicit fixed-point target for **this
+roadmap's constant-rank specialization** — the rank being calibrated appears inside the
+complexity bound itself. Rödl–Schacht themselves permit a rank *function* (their regularity
+lemma accepts `r : ℕ → ℕ`-shaped rank schedules); that rank schedule, evaluated at the
+complexity, remains the fallback if no constant-rank fixed point exists — either resolution
+changes this statement visibly rather than silently (part of the target). -/
 theorem requiredTopCountingRank3_le_inducedCountingRank3 (q₃ : ℕ) (ε : ℝ) (hε : 0 < ε)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (t₀ : ℕ)
     (hC : ComplexityBounded C
@@ -1008,7 +1008,9 @@ routes that are **not** `(η, r)`-top-regular (explicit definition is a target �
 placement structures, once their `Fintype` instances are set up). Transversal-only by design:
 the lower-route bridge that bounds this mass requires transversality, and the nontransversal
 (repeated-cell) predicted side is owned by `nontransversalPredictedMass3` under the diagonal
-gate — the six-charge split stays overlap-free, with no hidden repeated-cell counting lemma.
+gate — the predicted-side partition stays overlap-free, with no hidden repeated-cell counting
+lemma. (The actual-side union bound `exceptional_route_mass_le` may still overcount
+nontransversal tuples also covered by the diagonal bound — harmless in an upper bound.)
 The global absolute-difference argument must bound this **alongside** the actual discarded mass
 (`exceptional_route_mass_le`): `expectedInducedCount` sums predictions over *all* routes,
 including the discarded ones. -/
