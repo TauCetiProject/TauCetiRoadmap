@@ -43,7 +43,10 @@ variable {κ₂ κ₃ : Type*} [Fintype κ₂] [DecidableEq κ₂] [Fintype κ�
 
 /-! ### Layer 0 — finite colored graph and 3-uniform vocabulary -/
 
-/-- **Layer 0.** A finite `r`-uniform hypergraph: a finset of `r`-element edges. -/
+/-- **Layer 0.** A finite `r`-uniform hypergraph: a finset of `r`-element edges. A deliberately
+finite computational representation: Mathlib master now carries a general set-based `Hypergraph`
+(absent at the current Tau Ceti Mathlib pin), and this layer owes a `toHypergraph` bridge with an
+agreement statement once the pin includes it (see *Layer 0 — migration boundary* in `README.md`). -/
 structure UniformHypergraph (r : ℕ) (V : Type*) [DecidableEq V] where
   edges : Finset (Finset V)
   edge_card : ∀ e ∈ edges, e.card = r
