@@ -97,7 +97,7 @@ is the tower formula — field theory Mathlib already has; the induced point map
 the intermediate ring (the integral closure of `W₂.CoordinateRing` in `W₁.FunctionField`)
 by ideal extension and relative norm, making it additive by construction. The hom-group
 (carrier pinned as `WithZero (Isogeny W₁ W₂)`) and the quadraticity of the degree, the
-`HasCMBy` predicate on `End`, the dual isogeny with
+`CMStructure`/`HasCM` on `End`, the dual isogeny with
 `φ̂ ∘ φ = [deg φ]`, `deg [n] = n²` via the division polynomials, the invariant differential
 `ω` in `Ω[W.FunctionField⁄K]` with `φ^* = KaehlerDifferential.map`, and the
 separable-⟹-unramified milestone (`e_w = 1` at every place, which turns Layer 0's
@@ -120,7 +120,16 @@ abbrev FunctionFieldPullback (W₁ W₂ : WeierstrassCurve.Affine F) :=
   W₂.FunctionField →ₐ[F] W₁.FunctionField
 
 /-- The target-coordinate-ring algebra structure on the source function field induced by
-pullback. -/
+pullback.
+
+⚠ **`letI`-local only — never a global `instance`.** `integralClosure` forces an `Algebra`
+structure into existence here (Mathlib has no `RingHom.IsIntegral`-relative API for it), but
+this structure must stay confined to `letI` inside definition bodies: registered globally it
+would collide with `Algebra.id` when `W₁ = W₂` and the pullback is the identity — two
+non-defeq instances of the same `Algebra` type, the classic diamond. Kept local, instance
+search never sees it and the diamond has no scope to form; specialised statements about
+`φ = id` bridge with a one-off `finrank`-congruence when the identity arrives in disguised
+form. -/
 @[reducible]
 noncomputable def FunctionFieldPullback.coordinateRingAlgebra
     {W₁ W₂ : WeierstrassCurve.Affine F} (pullback : FunctionFieldPullback W₁ W₂) :
@@ -223,31 +232,29 @@ separable isogeny is surjective on `Kˢᵉᵖ`-points: over an imperfect separab
 (e.g. `𝔽_p(t)ˢᵉᵖ`) the fibres of an inseparable `[n]` live in a purely inseparable extension, so
 the bare `n ≠ 0` claim is false as stated. (Over `[IsAlgClosed K]` every `n ≠ 0` works, but the
 separably closed statement is the one the torsion count consumes.) Here `n • ·` is the `n`-fold
-sum in the point group; the kernel is `E[n]`, whose structure is `torsion_linearEquiv_prod`
+sum in the point group; the kernel is `E[n]`, whose structure is `torsion_addEquiv_prod`
 below. -/
 theorem smul_surjective {K : Type*} [Field K] [IsSepClosed K] (W : WeierstrassCurve K)
     [W.IsElliptic] (n : ℕ) (hn : (n : K) ≠ 0) :
-    Function.Surjective (fun P : W.toAffine.Point => n • P) :=
+    Function.Surjective (fun P : W.toAffine.Point ↦ n • P) :=
   sorry
 
 /-! ## Layer 2: torsion, the Weil pairing, and the Tate module (AEC III.6–8)
 
 `E[N]` is the `ℤ`-module `N`-torsion of the point group, `Submodule.torsionBy ℤ (E.Point) N`. -/
 
-attribute [local instance] AddSubgroup.torsionBy.zmodModule in
-/-- **`E[N] ≅ (ℤ/N)²`** (AEC III.6.4): over a separably closed field `K` in which `N` is invertible
-(`(N : K) ≠ 0`, i.e. `char K ∤ N`), the `N`-torsion is a **free `ZMod N`-module of rank `2`** —
-stated as a `ZMod N`-linear equivalence with `ZMod N × ZMod N`, since freeness-plus-rank-two is
-the form the Tate module and the Galois representation (`README.md` §Layer 2) consume. The
-carrier `AddSubgroup.torsionBy A (N : ℤ)` is Mathlib's `A[N]`, reducibly the
-`Submodule.torsionBy ℤ A (N : ℤ)` used by `weilPairing` below; its `ZMod N`-module structure is
-`AddSubgroup.torsionBy.zmodModule` (a plain `def` upstream, hence the local-instance attribute).
-The statement is wrapped in `Nonempty` because the equivalence — a choice of basis — is
-noncanonical; and it is no stronger than its `≃+` form, since an additive equivalence of
-`ZMod N`-modules is automatically `ZMod N`-linear. This is the "N-torsion" milestone. -/
-theorem torsion_linearEquiv_prod {K : Type*} [Field K] [IsSepClosed K] (W : WeierstrassCurve K)
+/-- **`E[N] ≃+ (ℤ/N)²`** (AEC III.6.4): over a separably closed field `K` in which `N` is
+invertible (`(N : K) ≠ 0`, i.e. `char K ∤ N`), the `N`-torsion is additively equivalent to
+`ZMod N × ZMod N` — stated as a bare `≃+`, with no `ZMod N`-module packaging (review): the
+additive equivalence carries the same content, since a `≃+` between `ZMod N`-modules is
+automatically `ZMod N`-linear, and it avoids installing the `AddSubgroup.torsionBy.zmodModule`
+instance. The carrier `AddSubgroup.torsionBy A (N : ℤ)` is Mathlib's `A[N]`, reducibly the
+`Submodule.torsionBy ℤ A (N : ℤ)` used by `weilPairing` below. The statement is wrapped in
+`Nonempty` because the equivalence — a choice of basis — is noncanonical. This is the
+"N-torsion" milestone. -/
+theorem torsion_addEquiv_prod {K : Type*} [Field K] [IsSepClosed K] (W : WeierstrassCurve K)
     [W.IsElliptic] (N : ℕ) [NeZero N] (hN : (N : K) ≠ 0) :
-    Nonempty (AddSubgroup.torsionBy W.toAffine.Point (N : ℤ) ≃ₗ[ZMod N] ZMod N × ZMod N) :=
+    Nonempty (AddSubgroup.torsionBy W.toAffine.Point (N : ℤ) ≃+ ZMod N × ZMod N) :=
   sorry
 
 /-- **The Weil pairing** `e_N : E[N] × E[N] → μ_N` (AEC III.8.1), over **any** field — no closure
@@ -255,8 +262,9 @@ hypothesis. Pinned as an additive **bilinear** map (`→+ →+`, i.e. linear in 
 `Additive (rootsOfUnity N K)`, so `ℤ`-bilinearity and the `μ_N`-valued codomain are part of the
 type. It is alternating and, over a separably closed field with `N` invertible in `K`,
 nondegenerate
-(`weilPairing_nondegenerate`); the load-bearing API is **functoriality under change of field**
-(`README.md` §Layer 2). -/
+(`weilPairing_nondegenerate` and `weilPairing_self`); the primary consumer-facing API is
+**compatibility with isogenies via the dual**, with change-of-field functoriality
+near-definitional (`README.md` §Layer 2). -/
 noncomputable def weilPairing {K : Type*} [Field K] (W : WeierstrassCurve K) [W.IsElliptic]
     (N : ℕ) [NeZero N] :
     Submodule.torsionBy ℤ W.toAffine.Point (N : ℤ) →+
@@ -280,6 +288,16 @@ theorem weilPairing_nondegenerate {K : Type*} [Field K] [IsSepClosed K] (W : Wei
     [W.IsElliptic] (N : ℕ) [NeZero N] (hN : (N : K) ≠ 0)
     (P : Submodule.torsionBy ℤ W.toAffine.Point (N : ℤ)) :
     (∀ Q, weilPairing W N P Q = 0) → P = 0 :=
+  sorry
+
+/-- The **Weil pairing is alternating** (AEC III.8.1(b)): `e_N(P, P) = 0` (written additively —
+the root of unity `1`). Over any field, no closure hypothesis. Together with bilinearity this
+gives skew-symmetry, and with the left-nondegeneracy above it makes the pairing nondegenerate
+on both sides (review): left-nondegeneracy alone is only half the statement. -/
+theorem weilPairing_self {K : Type*} [Field K] (W : WeierstrassCurve K)
+    [W.IsElliptic] (N : ℕ) [NeZero N]
+    (P : Submodule.torsionBy ℤ W.toAffine.Point (N : ℤ)) :
+    weilPairing W N P P = 0 :=
   sorry
 
 /-! ## Layer 3: elliptic curves over finite fields — the Hasse bound (AEC V.1) -/
@@ -336,10 +354,16 @@ Galois character of the point isomorphism uses FLT's `quadraticCharacter`, so it
 over any `CommRing`. Its discriminant is `D⁶ · Δ(E)` with `D = t² − 4n` (`Δ_quadraticTwistOf`), so
 it is elliptic exactly when `D` is **invertible** — seeded below over a field, where that is
 `D ≠ 0`, exactly as FLT states it — with the same `j`-invariant. This is the primitive the
-whole layer (and FLT's split-reduction theorem) is built from. -/
+whole layer (and FLT's split-reduction theorem) is built from. The body is **copied verbatim
+from FLT's `quadraticTwistOf`** (review) — pinned as a definition, not a `sorry`, so an
+implementation cannot drift to a different twist normalization. -/
 noncomputable def quadraticTwistOf {A : Type*} [CommRing A] (E : WeierstrassCurve A) (t n : A) :
-    WeierstrassCurve A :=
-  sorry
+    WeierstrassCurve A where
+  a₁ := t * E.a₁
+  a₂ := (t ^ 2 - 4 * n) * E.a₂ - n * E.a₁ ^ 2
+  a₃ := (t ^ 2 - 4 * n) * t * E.a₃
+  a₄ := (t ^ 2 - 4 * n) ^ 2 * E.a₄ - 2 * (t ^ 2 - 4 * n) * n * E.a₁ * E.a₃
+  a₆ := (t ^ 2 - 4 * n) ^ 3 * E.a₆ - (t ^ 2 - 4 * n) ^ 2 * n * E.a₃ ^ 2
 
 /-- **The twist discriminant** `Δ(E_{t,n}) = (t² − 4n)⁶ · Δ(E)` (FLT `Δ_quadraticTwistOf`) — the
 identity behind ellipticity and the reduction behaviour (`c₄_quadraticTwistOf`: `c₄ ↦ D²c₄`;
