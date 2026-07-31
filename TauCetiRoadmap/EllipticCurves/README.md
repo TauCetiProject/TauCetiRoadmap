@@ -868,9 +868,9 @@ discharges parts of them, as sources of proofs to migrate — never as the speci
 **Pinned sources.** The claims below about `sorry`s, axioms, and heartbeats were audited at, and
 only hold for, these revisions:
 
-- **AINTLIB** (`github.com/CBirkbeck/AINTLIB`; public, currently **no license file** — the
-  repository belongs to this roadmap's author, and Apache-2.0 licensing of the migrated material
-  is part of the migration contract): the modular-curves project at
+- **AINTLIB** (`github.com/CBirkbeck/AINTLIB`; public, **Apache-2.0** — the `LICENSE` file
+  was added at the reviewers' prompting, and the repository belongs to this roadmap's
+  author, so relicensing questions do not arise for the migration): the modular-curves project at
   `dev/modular-curves @ 50d5f9d37387` (after the function-field pivot: strategy library and
   feasibility evidence, not a port source — see below), the HasseWeil project at
   `dev/hasse-weil @ 513e83879e2f`, and the NagellLutz project (`projects/NagellLutz`) at
