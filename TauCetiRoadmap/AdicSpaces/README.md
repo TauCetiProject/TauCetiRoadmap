@@ -29,10 +29,11 @@ The *general* machinery underneath it — the structure presheaf for arbitrary H
 sheafiness theorem, acyclicity — still has open gaps, and closing them is most of the work this
 roadmap asks for: a formalization that only reached the curve through chart-specific arguments
 would not deliver what the rest of the subject needs. Layers 0–6 build the theory; Layer 7
-applies it. Layer 6 also carries the **finite-jet pinching
-algebra** — likewise `sorry`-free in provenance: a uniform,
-non-noetherian, sheafy Tate ring that is not stably uniform
-(answering Hansen–Kedlaya, *Sheafiness criteria for Huber rings*, Remark 3.16). The sources are
+applies it. Layer 6 closes with a worked example — likewise `sorry`-free in provenance: an
+interesting Tate ring (uniform, non-noetherian, built as a fibre product of simpler rings) is
+proved sheafy, and turns out not to be stably uniform
+(answering Hansen–Kedlaya, *Sheafiness criteria for Huber rings*, Remark 3.16). The
+construction is a one-off made for this purpose, not a standard object. The sources are
 T. Wedhorn, *Adic Spaces* (arXiv:1910.05934) — whose section numbering is this roadmap's shared
 coordinate system — and R. Huber's original papers ([Hu1], [Hu2], [Hu3] below); the mathematics
 is theirs, but the specification is a **thorough, Mathlib-style API** for each object, not a
@@ -41,7 +42,7 @@ transcription of either.
 **The existing development.** The AINTLIB `dev/adic-spaces` project (provenance section) has
 already carried this program a long way in Lean 4 — sorry-free foundations for Huber rings,
 `Spv` **built directly on Mathlib's `ValuativeRel`**, `Spa`, rational subsets, restricted power
-series and strong noetherianness, and a sorry-free formalization of interesting examples, like the finite-jet pinching example
+series and strong noetherianness, and a sorry-free formalization of interesting examples, like the sheafy ring of §Layer 6
 — with the structure presheaf, spectrality, and full acyclicity as its open frontier.
 This roadmap specifies the mathematics intrinsically; the provenance section maps each layer to
 that code as material to migrate and complete, never as the standard.
@@ -119,7 +120,7 @@ layout).
 - **Sources, not a single specification.** Wedhorn is a careful survey and Huber is the origin;
   neither develops Mathlib-grade API. Where existing Lean work proves a milestone, that is
   provenance (final section), never the standard it is judged against. One layer has no paper
-  source at all: the finite-jet example (§Layer 6) is specified **self-containedly in this
+  source at all: the Layer-6 worked example is a one-off, specified **self-containedly in this
   roadmap's own text**, and the `sorry`-free AINTLIB formalisation of it is the provenance
   evidencing that the specification is consistent and provable — cite the formalisation, not
   an unpublished document.
@@ -157,8 +158,10 @@ This is the substrate the roadmap builds on; it is consumed, not rebuilt.
   here so neither is rebuilt.
 - **Restricted power series, normed flavour.** `PowerSeries.IsRestricted`
   (`Mathlib/RingTheory/PowerSeries/Restricted.lean`) is the normed-ring cousin of Layer 0's
-  adically restricted series; coordinate the two rather than duplicating (a shared home upstream
-  is the right endgame), but the roadmap's notion is the topological one below.
+  adically restricted series. The restricted-power-series development — this Mathlib file and
+  the Gauss-norm material vendored in the provenance — is **William Coram's work**;
+  coordinate with him and with it rather than duplicating (a shared home upstream is the
+  right endgame), but the roadmap's notion is the topological one below.
 
 What is *not* here is the roadmap: Huber and Tate rings, `Spv`, continuity of valuations, `Spa`,
 rational subsets and localization, the structure presheaf, sheafiness, acyclicity, and adic
@@ -172,7 +175,7 @@ first milestones over it as `sorry`-targets: discrete rings are Huber, `ℚ_[p]`
 is Huber but **not** Tate. The layers whose central objects are new *types* — `Spv` and its
 topology (Layer 1), `Spa` and rational subsets (Layer 2), rational localization, the structure
 presheaf and the category `𝒱` (Layer 3), the Čech complexes (Layer 4), adic spaces (Layer 5),
-and the finite-jet rings (Layer 6) — are specified in the narrative below with embedded Lean
+and the Layer-6 example rings — are specified in the narrative below with embedded Lean
 prototypes and built there, not pinned as `sorry`-typed placeholder types.
 
 ---
@@ -341,7 +344,7 @@ noetherian Tate ring, `A⁺` a ring of integral elements.
   adic space via Layer 4; the open disc as an increasing union of closed discs — the first
   genuinely glued, non-affinoid adic space, exercising the gluing API.
 
-### Layer 6: uniformity, Buzzard–Verberkmoes, and the finite-jet example ([BV]; [HK]; provenance)
+### Layer 6: uniformity, Buzzard–Verberkmoes, and a worked example ([BV]; [HK]; provenance)
 
 Uniformity completes the basic theory of Huber pairs; the layer closes with a suggested
 worked example exercising everything built above.
@@ -352,13 +355,13 @@ worked example exercising everything built above.
 - **Buzzard–Verberkmoes.** Stably uniform complete Tate pairs are sheafy ([BV], J. reine angew.
   Math. 740 (2018), in its bounded-denominator formulation) — the standard sheafiness
   criterion complementary to Layer 4, and this layer's theorem.
-- **The finite-jet example.** A suggested worked example that exercises Layers 0–4 end to
+- **A worked example: an interesting ring to prove sheafy.** A suggested example that exercises Layers 0–4 end to
   end — every definition, and the sheafiness theorem in its full non-reduced generality. It
   has **no public paper source**: the construction is specified self-containedly here, and its
   reference is the `sorry`-free **AINTLIB formalisation** (the `FJP/` directory, §Provenance),
   whose capstone exports carry exactly the statements below. Over `K = F⸨t⸩`:
   `L = K⟨W, W⁻¹⟩`, `𝓑 = K⟨W, Q⟩/(Q²)`, `𝓒 = L⟨Q⟩`,
-  `𝓓 = L⟨Q⟩/(Q²)`, and the pinching algebra **`𝓐 = 𝓑 ×_𝓓 𝓒`** — concretely the closed
+  `𝓓 = L⟨Q⟩/(Q²)`, and the fibre product **`𝓐 = 𝓑 ×_𝓓 𝓒`** — concretely the closed
   subring of `𝓒` of series whose `Q⁰`- and `Q¹`-coefficients have nonnegative `W`-support —
   with its strict Milnor row `0 → 𝓐 → 𝓑 ⊕ 𝓒 → 𝓓 → 0`, exact with all norm constants `1`. The
   test (one conclusion per declaration, matching the formalisation's exports): `𝓐` is a
@@ -493,7 +496,7 @@ the hypothesis is not carried here.
 - **Sheafiness with a nilpotent.** Layer 4's theorem applied to `K⟨X, Q⟩/(Q²)` — non-reduced,
   strongly noetherian, Tate — produces a sheafy pair that is *not* uniform: the hypotheses of
   the sheafiness theorem were pinned correctly.
-- **The finite-jet example.** `(𝓐, 𝓐°)` sheafy, `𝓐` uniform non-noetherian domain,
+- **The Layer-6 example.** `(𝓐, 𝓐°)` sheafy, `𝓐` uniform non-noetherian domain,
   `𝓐⟨W/ϖ⟩` not uniform (`finiteJet_isSheafy`, `finiteJet_isUniform`,
   `finiteJet_not_noetherian`, `finiteJet_not_stablyUniform`) — the definitions survive a
   worked example that Layer 4 alone and [BV] alone cannot reach, and [HK] Remark 3.16 is
@@ -518,7 +521,7 @@ foundation. Layer 1 (`Spv` and its spectrality) needs only Mathlib's `ValuativeR
 restricted series and completions. Layer 4 (the sheafiness theorem and Tate acyclicity)
 consumes Layer 3, Layer 0's open mapping theorem and strong noetherianness, and Mathlib's
 noetherian-completion flatness. Layer 5 (adic spaces) consumes Layers 3–4 (sheafy pairs give
-affinoids). Layer 6 (uniformity, [BV], and the finite-jet example) consumes Layers 3–4 in
+affinoids). Layer 6 (uniformity, [BV], and the worked example) consumes Layers 3–4 in
 full — the example's vertices are Layer-4 instances — and is independent of Layer 5, so it can
 proceed in parallel once Layer 3 lands; its stable-uniformity material is also what a future
 *relative* Fargues–Fontaine curve would need, where strong noetherianity fails. Layer 7 (the
@@ -566,7 +569,7 @@ far ahead of the general machinery.
   bundles on the Fargues–Fontaine curve*
   ([arXiv:1705.00710](https://arxiv.org/abs/1705.00710)) — Definition 2.1.1, the statement of
   the adic curve that Layer 7 formalizes (specialised to `E = Q_p`).
-- The Layer-6 finite-jet example has **no paper reference**: it is specified self-containedly
+- The Layer-6 worked example has **no paper reference** — it is a one-off construction for this roadmap, specified self-containedly
   in §Layer 6, and its reference is the `sorry`-free AINTLIB formalisation pinned in
   §Provenance (the `FJP/` directory and its capstone exports).
 - L. Henkel, *An Open Mapping Theorem for rings which have a zero sequence of units*
@@ -670,9 +673,10 @@ scope and are not migration targets.
   specification, not migration. A planning packet for this campaign
   (`.mathlib-quality/chatgpt-packet-fargues-fontaine-plan-2026-07-24.md`) records the scope
   decisions and the questions that shaped them.
-- **Vendored inputs.** `Vendored/Coram*`/`Vendored/Xia*` (Gauss-norm and `MvPowerSeries`
-  equivalence material) — check for upstream Mathlib overlap (e.g.
-  `PowerSeries.IsRestricted`) at migration time rather than porting blindly.
+- **Vendored inputs.** `Vendored/Coram*`/`Vendored/Xia*` — the Gauss-norm and `MvPowerSeries`
+  equivalence material; the `Coram*` files are **William Coram's** restricted-power-series
+  work, whose Mathlib face is `PowerSeries.IsRestricted` (consume section) — check for
+  upstream overlap at migration time, and coordinate with him rather than porting blindly.
 
 The audit method above is file-level `grep`-counting of `sorry` at the pinned revision: it
 over-counts (comments mentioning the word) and cannot see cross-file dependence, which is why

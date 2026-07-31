@@ -31,7 +31,7 @@ pinned Mathlib is **prototyped as honest definitions** below (`PairOfDefinition`
 over it are seeded as `theorem … := sorry`; nothing is a `Prop`-typed placeholder. The layers
 whose central objects are new *types* — `Spv` and its topology (Layer 1), `Spa` and rational
 subsets (Layer 2), rational localization, the structure presheaf and the category `𝒱`
-(Layer 3), the Čech complexes (Layer 4), adic spaces (Layer 5), and the finite-jet pinching
+(Layer 3), the Čech complexes (Layer 4), adic spaces (Layer 5), and the Layer-6 example
 rings (Layer 6) — need the very API those layers introduce; they are specified in `README.md`
 with embedded Lean prototypes and built there, not pinned here as `sorry`-typed junk types.
 
@@ -41,7 +41,7 @@ The AINTLIB `dev/adic-spaces` project (revision pinned in `README.md` §Provenan
 sorry-free foundations whose shapes these prototypes follow — `PairOfDefinition`,
 `IsHuberRing`, `IsTateRing`, `Spv` built on Mathlib's `ValuativeRel`, `Spa`, rational
 subsets, `IsStronglyNoetherian`, `IsUniform`/`IsStablyUniform` — a sorry-free formalization
-of the finite-jet pinching results (`FJP/`), and an in-progress structure-presheaf and
+of the Layer-6 example (`FJP/`), and an in-progress structure-presheaf and
 sheafiness campaign (`isSheafy_of_stronglyNoetherian_828b`) whose dependency cone must be
 audited on migration. It is material to migrate and complete, never the standard.
 -/
@@ -166,11 +166,11 @@ locally isomorphic **in `𝒱`** — presheaf and stalk valuations included, not
 homeomorphic — to affinoids; morphisms, open subspaces, gluing, and the open unit disc as the
 first glued non-affinoid example. Specified in `README.md` §Layer 5. -/
 
-/-! ## Layer 6: uniformity, Buzzard–Verberkmoes, and the finite-jet example ([BV]; provenance)
+/-! ## Layer 6: uniformity, Buzzard–Verberkmoes, and a worked example ([BV]; provenance)
 
 `IsUniform` (`A°` bounded) and `IsStablyUniform`; the Buzzard–Verberkmoes theorem (stably
 uniform ⇒ sheafy), this layer's theorem. The layer closes with a suggested worked example
-exercising Layers 0–4 end to end: the finite-jet pinching algebra `𝓐 = 𝓑 ×_𝓓 𝓒` over
+exercising Layers 0–4 end to end: an interesting ring to prove sheafy, `𝓐 = 𝓑 ×_𝓓 𝓒` over
 `K = F⸨t⸩` — specified self-containedly in `README.md` §Layer 6, its reference the sorry-free
 AINTLIB formalisation — a uniform non-noetherian domain, **sheafy** by Milnor-square transfer
 from strongly noetherian vertices (two non-reduced, exercising Layer 4's hypotheses as
