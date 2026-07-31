@@ -15,10 +15,10 @@ The pinned choices, at a glance: finite graphs use Mathlib's `SimpleGraph` and p
 unweighted `Finpartition.energy`; hypergraphs are unordered (`UniformHypergraph`) with ordered
 injective-tuple views for counting; top relations are a **total, unordered** coloring
 `Colored3Graph κ₃ V`, and pair colors use a **separate** palette (`κ₂` for the generic lower-skeleton
-API; the summit chooses `Fin C.pairColorCount`). A polyad is genuinely built over a lower skeleton
+API; the regular-approximation theorem chooses `Fin C.pairColorCount`). A polyad is genuinely built over a lower skeleton
 (cells + the three pair colors); a subpolyad selects **arbitrary subgraphs of the parent polyad's
 three pair graphs** (the vertex-subcell restriction is only a constructor), and top regularity is
-the NRS-style rank-`r` test against unions of at most `r` subpolyads. The summit quantifies an
+the NRS-style rank-`r` test against unions of at most `r` subpolyads. The regular-approximation theorem quantifies an
 **explicit approximant** `H'` within a pinned edit discrepancy of the original `H`: top regularity
 is of `H'` relative to the complex's polyad decomposition, and counting is performed on `H'` — via
 an intrinsic placed-count formula — and transferred back to `H` through the edit bound.
@@ -112,7 +112,7 @@ equipartition, and the statement is false. Bridge to Mathlib's `szemeredi_regula
 duplicate its `SimpleGraph` statement. `regularity-lemmata` proves the two-partition intermediate
 (`exists_regular_refinement_and_almostRefining_equipartition`: a regular exact refinement plus a
 separate, not-itself-regular almost-refining equipartition); this self-regular form is its explicitly
-deferred summit. -/
+deferred endpoint. -/
 theorem exists_regular_equipartition_almost_refining (G : SimpleGraph V) [DecidableRel G.Adj]
     (P₀ : Finpartition (univ : Finset V)) (hP₀ : P₀.IsEquipartition) (ε : ℝ) (hε : 0 < ε)
     (hV : refiningRegularityBound ε P₀.parts.card ≤ Fintype.card V) :
@@ -159,7 +159,7 @@ theorem cutDiscrepancy_le_iff {G : SimpleGraph V} [DecidableRel G.Adj]
   · rintro h ⟨A, B⟩ _
     exact h A B
 
-/-- **Layer 3 (summit).** The finite Frieze–Kannan weak regularity theorem, with the rectangle
+/-- **Layer 3 (endpoint).** The finite Frieze–Kannan weak regularity theorem, with the rectangle
 conclusion quantified (the directly usable form) and the explicit single-exponential bound. Proved
 in `regularity-lemmata` (`frieze_kannan`, `Graph/FriezeKannan.lean`) by direct energy increment,
 with **no analytic prerequisites**; the target here is its `SimpleGraph` specialization. -/
@@ -219,7 +219,7 @@ structure StrongRegular (G : SimpleGraph V) [DecidableRel G.Adj]
   energyClose : weightedEnergy G Q - weightedEnergy G P ≤ ε
   boundedFine : Q.parts.card ≤ strongGraphRegularityBound ε F l₀
 
-/-- **Layer 4 (summit).** Strong graph regularity, **compositional form**: against a starting
+/-- **Layer 4 (endpoint).** Strong graph regularity, **compositional form**: against a starting
 equipartition `P₀` and a requested minimum complexity `l`, coarse/fine equipartitions with the
 `StrongRegular` properties exist, with the coarse partition **almost-refining** `P₀` (the chosen
 Layer-2 wrapper guarantees only almost-refinement of the *input* partition; the exact nesting
@@ -408,7 +408,7 @@ union of at most `r` **subpolyads** (arbitrary subgraphs of the parent pair grap
 Rödl–Schacht/Nagle–Rödl–Schacht test surface) carrying a `δ`-fraction of the parent support, the
 relative density is stable. `r = 1` is the disc-regular form ("disc-regular" is descriptive
 shorthand; NRS write `(δ, r)`-regular, so this is their `(δ, 1)`-regular case); Layer 9 pins the
-rank the counting summit needs from the pattern size. Prior-formalization correspondence:
+rank the counting theorem needs from the pattern size. Prior-formalization correspondence:
 `IsDiscRegularAt` (`r = 1`) and `IsPolyadRegularAt … r`. -/
 def IsTopRegularOverPolyad (H : Colored3Graph κ₃ V) {S : PairSkeleton3 κ₂ V}
     (P : Polyad3 S) (δ : ℝ) (r : ℕ) : Prop :=
@@ -418,7 +418,7 @@ def IsTopRegularOverPolyad (H : Colored3Graph κ₃ V) {S : PairSkeleton3 κ₂ 
 
 /-- **Layer 7.** The honest **weaker** predicate: density stability on vertex-box restrictions only
 (shrink the three cells, keep the full pair graphs). Useful as an intermediate target and for the
-`r = 2` shadow gate — but **not** the predicate the induced-counting summit consumes: vertex-box
+`r = 2` shadow gate — but **not** the predicate the induced-counting theorem consumes: vertex-box
 discrepancy alone is generally not counting-ready strength. -/
 def IsVertexBoxRegularOverPolyad (H : Colored3Graph κ₃ V) {S : PairSkeleton3 κ₂ V}
     (P : Polyad3 S) (ε : ℝ) : Prop :=
@@ -429,11 +429,11 @@ def IsVertexBoxRegularOverPolyad (H : Colored3Graph κ₃ V) {S : PairSkeleton3 
             (P.support.filter fun x => x.1 0 ∈ c₀' ∧ x.1 1 ∈ c₁' ∧ x.1 2 ∈ c₂') : ℝ)
           - (relDensityOn H c P.support : ℝ)| ≤ ε
 
-/-! ### Layer 8 — strong arity-3 regular approximation (summit) -/
+/-! ### Layer 8 — strong arity-3 regular approximation -/
 
 /-- **Layer 8.** A triadic complex: it **chooses** the lower pair palette (`Fin pairColorCount`), a
 lower `skeleton` over that palette, and a family of `polyads` **over that skeleton**. Bundling
-`pairColorCount` here lets the summit's complexity bound control the lower color system rather than
+`pairColorCount` here lets the regular-approximation theorem's complexity bound control the lower color system rather than
 fixing an arbitrary ambient palette. -/
 structure TriadicComplex3 (κ₃ : Type*) (V : Type*) [Fintype V] [DecidableEq V] where
   pairColorCount : ℕ
@@ -488,7 +488,7 @@ def IsPolyadDecomposition (C : TriadicComplex3 κ₃ V) : Prop :=
 open Classical in
 /-- **Layer 8.** The support-weighted mass of `C`'s polyads over which the coloring `H` fails to be
 `η`-top-regular, relative to `C`'s polyad decomposition (`IsTopRegularOverPolyad` composes
-directly). The coloring argument is generic; in the summit it is applied to the **approximant**
+directly). The coloring argument is generic; in the regular-approximation theorem it is applied to the **approximant**
 `H'`, whose fidelity to the original is `Approximates3`. **Convention:** with no polyads or
 all-empty supports the denominator is `0` and the mass is `0` (Lean's `_ / 0 = 0`); substantive
 statements assume positive total support. -/
@@ -510,9 +510,9 @@ def ComplexityBounded (C : TriadicComplex3 κ₃ V) (b : ℕ) : Prop :=
 
 /-- **Layer 8.** The `V`-independent complexity bound for the strong arity-3 approximation,
 depending on the **top palette size** `q₃`, the error hierarchy, the NRS rank `r`, and the
-**vertex-complexity floor** `t₀` (explicit value is a target). `t₀` must feed the bound: the summit
+**vertex-complexity floor** `t₀` (explicit value is a target). `t₀` must feed the bound: the theorem
 demands both `t₀ ≤ #vertex-cells ≤ C.complexity` and `C.complexity ≤ regularityBound3 …`, so a
-bound independent of `t₀` makes the summit false for `t₀` above it (mirroring Layer 4's starting
+bound independent of `t₀` makes the statement false for `t₀` above it (mirroring Layer 4's starting
 complexity `l₀`). Caution from the proved Boolean precursor: its `triadRegularityBound` iterates
 a `cutBound` recurrence of shape `K ↦ K·2^{O(K³)}` per round — **not** a single exponential. -/
 def regularityBound3 (q₃ : ℕ) (ε : ℝ) (F : ℕ → ℝ) (r t₀ : ℕ) : ℕ := sorry
@@ -529,14 +529,14 @@ def IsStrongRegularApproximation3 (H H' : Colored3Graph κ₃ V) (C : TriadicCom
     TopRegularOverMostPolyads H' C (F C.complexity) ε r ∧
     ComplexityBounded C (regularityBound3 (Fintype.card κ₃) ε F r t₀)
 
-/-- **Layer 8 (summit).** Strong arity-3 regular approximation: for every requested NRS rank `r`
+/-- **Layer 8 (endpoint).** Strong arity-3 regular approximation: for every requested NRS rank `r`
 and vertex-complexity floor `t₀` (with `V` large enough to house it), every colored 3-graph has an
 **explicit approximant** `H'` within `ε` edit discrepancy, together with a bounded-complexity
 complex with **controlled vertex cells** (equitable, at least `t₀` of them — the diagonal-gate
 input Layer 9 consumes) over which `H'` is `(·, r)`-regular. The complex **chooses** its own lower
 pair palette (`Fin C.pairColorCount`), so the theorem does not assume an arbitrary fixed pair
-palette works. Boolean precursors proved in `regularity-lemmata`: the weak summit
-`exists_goodColoring` and the edited summit `exists_triadic_regular_approximation`, whose
+palette works. Boolean precursors proved in `regularity-lemmata`: the weak endpoint
+`exists_goodColoring` and the edited endpoint `exists_triadic_regular_approximation`, whose
 deletion-only edited hypergraph is the Boolean specialization precedent for this
 explicit-approximant architecture (the full shapes still differ; see the Layers 5–8 note in
 `README.md`). -/
@@ -676,7 +676,7 @@ global mass bound (explicit value is a target). -/
 def inducedCountingSchedule3 (q₃ k : ℕ) (ε : ℝ) : ℕ → ℝ := sorry
 
 /-- **Layer 9.** Positivity of the schedule everywhere — required to instantiate the Layer-8
-summit's `hF` with it (part of the target). -/
+regular-approximation theorem's `hF` with it (part of the target). -/
 theorem inducedCountingSchedule3_pos (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) (n : ℕ) :
     0 < inducedCountingSchedule3 q₃ k ε n := sorry
 
@@ -821,7 +821,7 @@ theorem inducedCopyCount_edit_transfer (H H' : Colored3Graph κ₃ V)
     |((H.inducedCopyCount F₀ : ℝ)) - (H'.inducedCopyCount F₀ : ℝ)| ≤
       (F₀.k : ℝ) ^ 3 * (editDiscrepancy3 H H' : ℝ) * (Fintype.card V : ℝ) ^ F₀.k := sorry
 
-/-- **Layer 9 (global counting summit).** Induced counting: if `(H', C)` is a strong regular
+/-- **Layer 9 (global counting theorem).** Induced counting: if `(H', C)` is a strong regular
 approximation of `H` at the (`V`-independent) parameter `inducedCountingParameter3 q₃ F₀.k ε` and
 rank `inducedCountingRank3 q₃ F₀.k ε`, **and** the vertex cells are controlled at the diagonal
 floor `diagonalControl3 F₀.k ε` (equitable, enough cells — so the nontransversal placement mass is
@@ -840,7 +840,7 @@ pinned by `nontransversal_actual_and_predicted_mass_le`; (4)
 never per placement), its fit again `inducedCountingParameter3_charge`. The regularity hypothesis
 runs at the genuine schedule `inducedCountingSchedule3` with the global edit/exceptional mass at
 the separate `inducedCountingParameter3`. Induced-removal-style corollaries are downstream
-consumers, not part of the roadmap's summit. Architectural blueprint: the binary-palette counting
+consumers, not part of the roadmap's endpoints. Architectural blueprint: the binary-palette counting
 phase of `regularity-lemmata` — transversal counting first, then the diagonal-cell gate. -/
 theorem induced_counting_from_strong_regular_complex3 (H H' : Colored3Graph κ₃ V)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
