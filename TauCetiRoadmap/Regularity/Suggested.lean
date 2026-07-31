@@ -707,30 +707,205 @@ budget therefore carries the route-count factor explicitly. -/
 def routeBudget3 (C : TriadicComplex3 κ₃ V) (k : ℕ) (ε : ℝ) : ℝ :=
   ε / max 1 ((C.pairColorCount : ℝ) ^ Nat.choose k 2)
 
+/-! #### Layer 9 — the lower-route counting bridge (sparse/dense split)
+
+The named sublayer between pair regularity and placed induced counting. It works at the
+**placement scale** `∏ᵢ |cellᵢ|` — deliberately distinct from the triad-support scale
+(`k³ · mass · |V|^k`) of `exceptional_route_mass_le`: that union bound controls whole-host masses
+of discarded routes, this bridge controls a single kept route, and the two meet only in the global
+assembly. -/
+
+open Classical in
+/-- **Layer 9 (lower-route bridge).** The actual count at a placement and route constrained by the
+**lower layers only**: injective maps landing in the assigned cells whose canonically oriented
+coordinate pairs carry the route's pair colors — no top-color constraint. A concrete definition,
+unlike the target `placedInducedCopyCount` it caps
+(`placedInducedCopyCount_le_lowerRouteCountAt`). -/
+def lowerRouteCountAt {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) : ℕ :=
+  (univ.filter fun g : Fin F₀.k → V => Function.Injective g ∧ (∀ i, g i ∈ φ.vertexCell i) ∧
+    ∀ p : {p : Fin F₀.k × Fin F₀.k // p.1 < p.2},
+      C.skeleton.pairColors.colorOfPair (g p.1.1) (g p.1.2) = some (ψ.pairColor p)).card
+
+/-- **Layer 9 (lower-route bridge).** The lower-layer prediction at a placement and route: the
+plain cell-size factor times the product, over canonically oriented pattern pairs, of the route's
+pair-color densities between the assigned cells. Concrete (unlike `expectedInducedCountAt`, whose
+repeated-cell correction and top factors make its explicit formula a target): the bridge theorems
+are stated at transversal placements, where the plain product is the right injection scale. -/
+def expectedLowerRouteCountAt (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃)
+    (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) : ℝ :=
+  (∏ i, ((φ.vertexCell i).card : ℝ)) *
+    ∏ p : {p : Fin F₀.k × Fin F₀.k // p.1 < p.2},
+      (pairColorDensity C.skeleton.pairColors (ψ.pairColor p)
+        (φ.vertexCell p.1.1) (φ.vertexCell p.1.2) : ℝ)
+
+/-- **Layer 9 (lower-route bridge).** The route is **sparse at floor `ρ`**: some canonically
+oriented pattern pair's route color has density below `ρ` between its assigned cells. Sparse is an
+**easy local case, not a failure of regularity**: it is deliberately neither a seventh global
+charge nor folded into Layer 8's exceptional polyads — conflating near-empty pair support with
+top-irregularity would obscure the mass bookkeeping. -/
+def PairColorPlacement3.IsSparseRoute {C : TriadicComplex3 κ₃ V}
+    {F₀ : FiniteColored3Pattern κ₃} {φ : PatternPlacement3 C F₀}
+    (ψ : PairColorPlacement3 C F₀ φ) (ρ : ℝ) : Prop :=
+  ∃ p : {p : Fin F₀.k × Fin F₀.k // p.1 < p.2},
+    (pairColorDensity C.skeleton.pairColors (ψ.pairColor p)
+      (φ.vertexCell p.1.1) (φ.vertexCell p.1.2) : ℝ) < ρ
+
+/-- **Layer 9 (lower-route bridge, sparse).** Sparse routes self-bound on the actual side, with
+**no regularity input**: the sparse pair's colored-pair count caps the whole route count at `ρ`
+times the placement scale. -/
+theorem lowerRouteCountAt_le_of_sparseRoute {C : TriadicComplex3 κ₃ V}
+    {F₀ : FiniteColored3Pattern κ₃} {φ : PatternPlacement3 C F₀}
+    (ψ : PairColorPlacement3 C F₀ φ) {ρ : ℝ} (hρ : 0 ≤ ρ) (hsparse : ψ.IsSparseRoute ρ) :
+    (lowerRouteCountAt φ ψ : ℝ) ≤ ρ * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
+
+/-- **Layer 9 (lower-route bridge, sparse).** Sparse routes self-bound on the predicted side:
+every pair-density factor lies in `[0, 1]`, so the sparse factor caps the product. -/
+theorem expectedLowerRouteCountAt_le_of_sparseRoute {C : TriadicComplex3 κ₃ V}
+    {F₀ : FiniteColored3Pattern κ₃} {φ : PatternPlacement3 C F₀}
+    (ψ : PairColorPlacement3 C F₀ φ) {ρ : ℝ} (hρ : 0 ≤ ρ) (hsparse : ψ.IsSparseRoute ρ) :
+    expectedLowerRouteCountAt C F₀ φ ψ ≤ ρ * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
+
+/-- **Layer 9 (lower-route bridge).** The placed induced count refines the lower-route count —
+the top-color constraint only restricts. Pins the relationship between the target
+`placedInducedCopyCount` and the concrete `lowerRouteCountAt`. -/
+theorem placedInducedCopyCount_le_lowerRouteCountAt (H' : Colored3Graph κ₃ V)
+    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) :
+    placedInducedCopyCount H' φ ψ ≤ lowerRouteCountAt φ ψ := sorry
+
+/-- **Layer 9 (lower-route bridge).** The intrinsic prediction refines the lower prediction: its
+cell factor is at most the plain product (falling-factorial-corrected) and its top factors lie in
+`[0, 1]`. -/
+theorem expectedInducedCountAt_le_expectedLowerRouteCountAt (H' : Colored3Graph κ₃ V)
+    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃)
+    (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) :
+    expectedInducedCountAt H' C F₀ φ ψ ≤ expectedLowerRouteCountAt C F₀ φ ψ := sorry
+
+/-- **Layer 9 (lower-route bridge).** The intrinsic prediction is nonnegative — a product of
+counts and densities; needed for the sparse case's two-sided bound. -/
+theorem expectedInducedCountAt_nonneg (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+    (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀)
+    (ψ : PairColorPlacement3 C F₀ φ) :
+    0 ≤ expectedInducedCountAt H' C F₀ φ ψ := sorry
+
+/-- **Layer 9 (lower-route bridge, sparse).** Placed counting closes on sparse routes with **no
+counting lemma**: both the actual and the predicted count lie in `[0, ρ · ∏ᵢ |cellᵢ|]`, so their
+difference does too. The instantiation `ρ := routeBudget3 C F₀.k (ε/6)` closes the sparse branch
+of `placed_induced_counting3` exactly at its charge. -/
+theorem placed_induced_counting3_of_sparseRoute (H' : Colored3Graph κ₃ V)
+    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) {ρ : ℝ} (hρ : 0 ≤ ρ)
+    (hsparse : ψ.IsSparseRoute ρ) :
+    |((placedInducedCopyCount H' φ ψ : ℝ)) - expectedInducedCountAt H' C F₀ φ ψ| ≤
+      ρ * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
+
+/-- **Layer 9 (lower-route bridge).** The pair-regularity **input-strength threshold** for dense
+lower-route counting: regularity at `pairRouteRegularityThreshold3 k ρ δ` suffices to count routes
+whose pair densities all reach the floor `ρ`, with output error `δ` at the placement scale
+(`lowerRoute_counting3`). Input strength and output slack are **deliberately decoupled**: a linear
+conversion (`≈ δ/C(k)`, as in the classical triangle counting lemma against regular pairs) and a
+power-loss conversion (`≈ (δ/C(k))⁴`) both instantiate this definition, so the targets do not
+silently bet on the linear modulus (explicit value is a target). Non-vacuity is pinned from both
+sides: `pairRouteRegularityThreshold3_pos` (the demanded input strength is achievable) and the
+calibration theorems below (the schedule actually supplies it at the route-budgeted charge) — an
+instantiation vacuously large or unreachably small breaks one pin or the other. -/
+def pairRouteRegularityThreshold3 (k : ℕ) (ρ δ : ℝ) : ℝ := sorry
+
+/-- **Layer 9 (lower-route bridge).** Positivity of the threshold: dense counting demands an
+achievable input strength (part of the target). -/
+theorem pairRouteRegularityThreshold3_pos (k : ℕ) (ρ δ : ℝ) (hρ : 0 < ρ) (hδ : 0 < δ) :
+    0 < pairRouteRegularityThreshold3 k ρ δ := sorry
+
+/-- **Layer 9 (lower-route bridge).** Pair regularity is monotone in its parameter: sub-cells
+large at the weaker scale are large at the stronger one, and the stronger deviation bound implies
+the weaker — the glue letting `LowerSkeletonRegular` at the schedule supply `IsPairColorRegular`
+at the threshold through the calibration below. -/
+theorem IsPairColorRegular.mono {S : PairSkeleton3 κ₂ V} {ε ε' : ℝ}
+    (h : IsPairColorRegular S ε) (hle : ε ≤ ε') : IsPairColorRegular S ε' := sorry
+
+/-- **Layer 9 (lower-route bridge, dense — the regularity-to-counting theorem).** At a transversal
+placement, a route none of whose pair densities falls below the floor `ρ` is counted by the lower
+prediction within `δ` at the placement scale, given pair regularity at the threshold. This is the
+one place regularity strength converts into counting error, and the conversion's modulus lives
+entirely inside `pairRouteRegularityThreshold3` — the statement is agnostic between a linear and a
+power-loss conversion. -/
+theorem lowerRoute_counting3 {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal) (ψ : PairColorPlacement3 C F₀ φ)
+    {ρ δ : ℝ} (hρ : 0 < ρ) (hδ : 0 < δ) (hδρ : δ ≤ ρ) (hdense : ¬ ψ.IsSparseRoute ρ)
+    (hreg : IsPairColorRegular C.skeleton (pairRouteRegularityThreshold3 F₀.k ρ δ)) :
+    |((lowerRouteCountAt φ ψ : ℝ)) - expectedLowerRouteCountAt C F₀ φ ψ| ≤
+      δ * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
+
+/-- **Layer 9 (lower-route bridge, dense — the conversion).** Lower-route control plus route-local
+top regularity yields placed induced counting: the top factors are read off the route's polyads at
+relative error `η` per pattern triple against the lower-route mass, so the placed count meets the
+intrinsic prediction within `δ + k³·η` at the placement scale. The parameter inequalities `δ ≤ ρ`
+and `η ≤ δ` are the explicit smallness the derivation needs — the calibration theorems make them
+instantiable at the route budget. -/
+theorem placed_induced_counting3_of_denseRoute (H' : Colored3Graph κ₃ V)
+    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal) (ψ : PairColorPlacement3 C F₀ φ)
+    {ρ δ η : ℝ} {r : ℕ} (hρ : 0 < ρ) (hδ : 0 < δ) (hη : 0 < η) (hr : 1 ≤ r)
+    (hδρ : δ ≤ ρ) (hηδ : η ≤ δ) (hdense : ¬ ψ.IsSparseRoute ρ)
+    (hreg : IsPairColorRegular C.skeleton (pairRouteRegularityThreshold3 F₀.k ρ δ))
+    (hroute : ψ.IsTopRegularRoute H' η r) :
+    |((placedInducedCopyCount H' φ ψ : ℝ)) - expectedInducedCountAt H' C F₀ φ ψ| ≤
+      (δ + (F₀.k : ℝ) ^ 3 * η) * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
+
+/-- **Layer 9 (lower-route bridge, calibration).** The schedule supplies the dense threshold at
+the route-budgeted charge: at the lower complexity (the evaluation point `LowerSkeletonRegular`
+actually provides), the schedule is at least as strong as the threshold at floor
+`routeBudget3 C k (ε/6)` and output error `routeBudget3 C k (ε/12)` — half the placed-counting
+charge, the other half absorbing the top slack (`inducedCountingSchedule3_top_le_routeBudget3`).
+Together with `pairRouteRegularityThreshold3_pos` this pins the threshold from both sides: an
+instantiation vacuously large fails this inequality; one vacuously small fails positivity (part
+of the target). -/
+theorem inducedCountingSchedule3_le_pairRouteRegularityThreshold3 (q₃ : ℕ) (ε : ℝ)
+    (hε : 0 < ε) (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) :
+    inducedCountingSchedule3 q₃ F₀.k ε
+        (C.skeleton.vertexPart.parts.card + C.pairColorCount) ≤
+      pairRouteRegularityThreshold3 F₀.k (routeBudget3 C F₀.k (ε / 6))
+        (routeBudget3 C F₀.k (ε / 12)) := sorry
+
+/-- **Layer 9 (lower-route bridge, calibration).** The top slack fits the other half of the
+placed charge: `k³` times the schedule at the complexity (the strength `IsTopRegularRoute` runs
+at) is at most `routeBudget3 C k (ε/12)`, so the dense conversion's `δ + k³·η` lands inside
+`routeBudget3 C k (ε/6)` — the sparse and dense branches then close the localized
+`placed_induced_counting3` at the same charge (part of the target). -/
+theorem inducedCountingSchedule3_top_le_routeBudget3 (q₃ : ℕ) (ε : ℝ) (hε : 0 < ε)
+    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) :
+    (F₀.k : ℝ) ^ 3 * inducedCountingSchedule3 q₃ F₀.k ε C.complexity ≤
+      routeBudget3 C F₀.k (ε / 12) := sorry
+
 /-- **Layer 9 (placed local counting — the real counting lemma).** At a fixed **transversal**
 placement `φ` (distinct assigned cells — repeated-cell placements are the diagonal gate's job, not
 this lemma's) and a **top-regular route** `ψ` (`hroute` — the strong approximation controls only
 most polyads, so a route through an exceptional polyad has no counting control and is excluded
 here, its mass bounded separately by `exceptional_route_mass_le`), the placed induced count **in
-the approximant `H'`** is within `ε · ∏ᵢ |cellᵢ|` of the intrinsic prediction. Counting here must
-be in `H'`, not `H`: a small *global* edit discrepancy can be concentrated entirely inside one
-placement, so it yields no per-placement bound — the `H'`-to-`H` transfer is global, through
-`inducedCopyCount_edit_transfer`. The error is the **per-route budget at the `ε/6` placed-counting
-charge** `routeBudget3 C F₀.k (ε/6)` — not a bare `ε`, for two stacked reasons: a placement admits
-up to `q₂^(k choose 2)` routes (so per-route errors carry the route-count divisor), and the global
-`ε` splits into **six explicit `ε/6` charges** (placed counting; actual discarded mass; predicted
-discarded mass; predicted lower-route slack; diagonal; edit transfer) — allocating the full `ε`
-here would exhaust the budget before the other steps contribute. The regularity hypothesis runs at
-the genuine **schedule** `inducedCountingSchedule3` (local strengths), with the **global**
-edit/exceptional mass at the separate `inducedCountingParameter3`; the route is required
-top-regular at the schedule's value at the complexity. -/
-theorem placed_induced_counting3 (H H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+the approximant `H'`** is within the per-route budget of the intrinsic prediction. The hypotheses
+are exactly the **local contract** — transversality, lower-skeleton regularity at the schedule,
+and route-local top regularity — never the full `IsStrongRegularApproximation3` bundle: the
+original `H`, the edit bound, the exceptional mass, and the complexity control are global data
+this local lemma does not consume (the global theorem extracts the local hypotheses from its
+`hreg`). Counting here must be in `H'`, not `H`: a small *global* edit discrepancy can be
+concentrated entirely inside one placement, so it yields no per-placement bound — the `H'`-to-`H`
+transfer is global, through `inducedCopyCount_edit_transfer`. The error is the **per-route budget
+at the `ε/6` placed-counting charge** `routeBudget3 C F₀.k (ε/6)` — not a bare `ε`, for two
+stacked reasons: a placement admits up to `q₂^(k choose 2)` routes (so per-route errors carry the
+route-count divisor), and the global `ε` splits into **six explicit `ε/6` charges** (placed
+counting; actual discarded mass; predicted discarded mass; predicted lower-route slack; diagonal;
+edit transfer) — allocating the full `ε` here would exhaust the budget before the other steps
+contribute. Proof route through the lower-route bridge: split on
+`IsSparseRoute (routeBudget3 C F₀.k (ε/6))` — sparse routes self-bound
+(`placed_induced_counting3_of_sparseRoute`); dense routes run the threshold counting theorem and
+the conversion (`lowerRoute_counting3`, `placed_induced_counting3_of_denseRoute`), instantiated
+through the calibration theorems and `IsPairColorRegular.mono`. -/
+theorem placed_induced_counting3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal)
-    (ψ : PairColorPlacement3 C F₀ φ) (ε : ℝ) (hε : 0 < ε) (t₀ : ℕ)
-    (hreg : IsStrongRegularApproximation3 H H' C
-      (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
-      (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε)
-      (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε) t₀)
+    (ψ : PairColorPlacement3 C F₀ φ) (ε : ℝ) (hε : 0 < ε)
+    (hlower : LowerSkeletonRegular C.skeleton
+      (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε))
     (hroute : ψ.IsTopRegularRoute H'
       (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε C.complexity)
       (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε)) :
@@ -821,6 +996,52 @@ theorem inducedCopyCount_edit_transfer (H H' : Colored3Graph κ₃ V)
     |((H.inducedCopyCount F₀ : ℝ)) - (H'.inducedCopyCount F₀ : ℝ)| ≤
       (F₀.k : ℝ) ^ 3 * (editDiscrepancy3 H H' : ℝ) * (Fintype.card V : ℝ) ^ F₀.k := sorry
 
+/-! #### Layer 9 — assembly discipline: the fibration identity and the six-charge arithmetic -/
+
+/-- **Layer 9 (assembly).** Placements over a complex form a finite type — a subtype of
+`Fin F₀.k → Finset V` (explicit construction is a target; needed to state the fibration and
+predicted-sum identities as sums). -/
+noncomputable instance instFintypePatternPlacement3 (C : TriadicComplex3 κ₃ V)
+    (F₀ : FiniteColored3Pattern κ₃) : Fintype (PatternPlacement3 C F₀) := sorry
+
+/-- **Layer 9 (assembly).** Routes over a placement form a finite type (explicit construction is
+a target). -/
+noncomputable instance instFintypePairColorPlacement3 (C : TriadicComplex3 κ₃ V)
+    (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) :
+    Fintype (PairColorPlacement3 C F₀ φ) := sorry
+
+/-- **Layer 9 (assembly — the fibration identity).** Under a polyad decomposition, the
+approximant's induced copy count is **exactly** the sum of placed counts over all placements and
+routes: each actual copy lands its vertices in unique cells (its placement) and its coordinate
+pairs in unique colors (its route), and the induced polyads lie in `C` automatically — the
+decomposition's covering polyad at each triple is determined by the triple's cells and pair
+colors. Without this named identity the global theorem's step 1 would rest on an unstated
+bijection. -/
+theorem inducedCopyCount_eq_sum_placed (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+    (F₀ : FiniteColored3Pattern κ₃) (hdecomp : IsPolyadDecomposition C) :
+    H'.inducedCopyCount F₀ =
+      ∑ φ : PatternPlacement3 C F₀, ∑ ψ : PairColorPlacement3 C F₀ φ,
+        placedInducedCopyCount H' φ ψ := sorry
+
+/-- **Layer 9 (assembly).** The predicted mirror of the fibration identity: the global prediction
+is the sum of the per-placement predictions — pinning `expectedInducedCount`'s definitional
+docstring as a named identity once the `Fintype` instances exist. -/
+theorem expectedInducedCount_eq_sum (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+    (F₀ : FiniteColored3Pattern κ₃) :
+    expectedInducedCount H' C F₀ =
+      ∑ φ : PatternPlacement3 C F₀, ∑ ψ : PairColorPlacement3 C F₀ φ,
+        expectedInducedCountAt H' C F₀ φ ψ := sorry
+
+/-- **Layer 9 (assembly — the six-charge arithmetic, proved).** If the actual-vs-predicted
+difference splits into six contributions and each fits its `ε/6` charge at scale `N`, the total
+fits `ε · N`. Proved here, not a target: the assembly arithmetic is machine-checked now, so the
+global theorem's remaining depth is exactly the six charge bounds and the split itself. -/
+theorem sixCharge_assembly {x y e₁ e₂ e₃ e₄ e₅ e₆ N ε : ℝ}
+    (hsplit : |x - y| ≤ e₁ + e₂ + e₃ + e₄ + e₅ + e₆)
+    (h₁ : e₁ ≤ ε / 6 * N) (h₂ : e₂ ≤ ε / 6 * N) (h₃ : e₃ ≤ ε / 6 * N)
+    (h₄ : e₄ ≤ ε / 6 * N) (h₅ : e₅ ≤ ε / 6 * N) (h₆ : e₆ ≤ ε / 6 * N) :
+    |x - y| ≤ ε * N := by linarith
+
 /-- **Layer 9 (global counting theorem).** Induced counting: if `(H', C)` is a strong regular
 approximation of `H` at the (`V`-independent) parameter `inducedCountingParameter3 q₃ F₀.k ε` and
 rank `inducedCountingRank3 q₃ F₀.k ε`, **and** the vertex cells are controlled at the diagonal
@@ -839,7 +1060,11 @@ pinned by `nontransversal_actual_and_predicted_mass_le`; (4)
 `inducedCopyCount_edit_transfer` moving the `H'`-count to the `H`-count (the transfer is global —
 never per placement), its fit again `inducedCountingParameter3_charge`. The regularity hypothesis
 runs at the genuine schedule `inducedCountingSchedule3` with the global edit/exceptional mass at
-the separate `inducedCountingParameter3`. Induced-removal-style corollaries are downstream
+the separate `inducedCountingParameter3`. Assembly discipline: step 1's sum runs through the
+fibration identity `inducedCopyCount_eq_sum_placed` and its predicted mirror
+`expectedInducedCount_eq_sum`, the local hypotheses of `placed_induced_counting3` are extracted
+from `hreg`, and the final arithmetic is the **proved** `sixCharge_assembly`.
+Induced-removal-style corollaries are downstream
 consumers, not part of the roadmap's endpoints. Architectural blueprint: the binary-palette counting
 phase of `regularity-lemmata` — transversal counting first, then the diagonal-cell gate. -/
 theorem induced_counting_from_strong_regular_complex3 (H H' : Colored3Graph κ₃ V)
