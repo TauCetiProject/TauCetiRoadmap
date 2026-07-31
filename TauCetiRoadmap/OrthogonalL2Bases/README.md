@@ -353,9 +353,11 @@ enhancement) and `A`/`A3′`, and its targets `piHilbertBasis` / `gaussianHermit
   measure-side analogue of the basis above — related to it by the **coordinatewise** `weightL2Isometry`
   + `u = xᵢ√2` dilation (same caveat as A3′, per coordinate), not by the isometry alone.
 
-**A separate future roadmap:** Laguerre and Jacobi L² bases. Unlike Chebyshev, **Mathlib has neither
+**A separate roadmap:** Laguerre and Jacobi L² bases. Unlike Chebyshev, **Mathlib has neither
 the Laguerre nor the Jacobi polynomials**, so grounding them means defining the families first —
-which belongs in its own roadmap, not here.
+which belongs in its own roadmap, not here. That roadmap is
+[LaguerreJacobi](../LaguerreJacobi/README.md); it defines both families and then consumes this
+area's completeness toolkit (B1) and bridge (B2) as a cited dependency rather than rebuilding them.
 
 ## Dependency ordering
 
