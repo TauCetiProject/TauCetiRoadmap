@@ -855,17 +855,51 @@ theorem lowerRoute_counting3 {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored
     |((lowerRouteCountAt φ ψ : ℝ)) - expectedLowerRouteCountAt C F₀ φ ψ| ≤
       δ * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
 
+/-- **Layer 9 (lower-route bridge, dense — the rank requirement).** The NRS rank the dense
+conversion genuinely needs, as a function of the pattern size and the dense output error
+(explicit value is a target). The NRS counting architecture chooses its integer rank **after**
+the pattern and density parameters (NRS, *The counting lemma for regular k-uniform hypergraphs*,
+Theorem 1.5); rank `1` does not suffice for `k`-vertex counting, so the conversion must not
+assert the result for every positive rank — that would make the pattern-dependent
+`inducedCountingRank3` ornamental. -/
+def requiredTopCountingRank3 (k : ℕ) (δ : ℝ) : ℕ := sorry
+
+/-- **Layer 9 (lower-route bridge, dense).** The required rank is at least one — the rank-`0`
+test is vacuous on nonempty polyads (part of the target). -/
+theorem one_le_requiredTopCountingRank3 (k : ℕ) (δ : ℝ) (hδ : 0 < δ) :
+    1 ≤ requiredTopCountingRank3 k δ := sorry
+
+/-- **Layer 9 (lower-route bridge, calibration — the rank decision point).** The global rank
+supplies the conversion's requirement at the global instantiation
+(`δ = routeBudget3 C F₀.k (ε/12)`). Deliberately pinned as a target rather than assumed: the
+required rank is instantiated at a **complexity-dependent** route budget, so this inequality is
+exactly where the complexity-independence of `inducedCountingRank3` is decided — if the required
+rank grows as the route budget shrinks, `inducedCountingRank3` must absorb the complexity bound's
+fixed point, or the rank must become a schedule `ℕ → ℕ` evaluated at the complexity, mirroring
+the NRS regularity lemma's `r : ℕ → ℕ`. Either resolution changes this statement visibly rather
+than silently. -/
+theorem requiredTopCountingRank3_le_inducedCountingRank3 (q₃ : ℕ) (ε : ℝ) (hε : 0 < ε)
+    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) :
+    requiredTopCountingRank3 F₀.k (routeBudget3 C F₀.k (ε / 12)) ≤
+      inducedCountingRank3 q₃ F₀.k ε := sorry
+
 /-- **Layer 9 (lower-route bridge, dense — the conversion).** Lower-route control plus route-local
 top regularity yields placed induced counting: the top factors are read off the route's polyads at
 relative error `η` per pattern triple against the lower-route mass, so the placed count meets the
-intrinsic prediction within `δ + k³·η` at the placement scale. The parameter inequalities `δ ≤ ρ`
-and `η ≤ δ` are the explicit smallness the derivation needs — the calibration theorems make them
-instantiable at the route budget. -/
+intrinsic prediction within `δ + k³·η` at the placement scale. The rank hypothesis is a genuine
+pattern/error-dependent lower bound `requiredTopCountingRank3 F₀.k δ ≤ r`, not a bare `1 ≤ r` —
+NRS choose the rank after the pattern and density parameters, and rank `1` is not counting-ready
+strength for a `k`-vertex pattern. The parameter inequalities `δ ≤ ρ` and `k³·η ≤ δ` are the
+explicit smallness the derivation needs, in exactly the scaled form the calibration theorems
+supply (`inducedCountingSchedule3_top_le_routeBudget3` gives `k³·η ≤ δ` directly; the unscaled
+`η ≤ δ` would not follow from it at `k = 0`, where the empty pattern makes the statement
+degenerate anyway). -/
 theorem placed_induced_counting3_of_denseRoute (H' : Colored3Graph κ₃ V)
     {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal) (ψ : PairColorPlacement3 C F₀ φ)
-    {ρ δ η : ℝ} {r : ℕ} (hρ : 0 < ρ) (hδ : 0 < δ) (hη : 0 < η) (hr : 1 ≤ r)
-    (hδρ : δ ≤ ρ) (hηδ : η ≤ δ) (hdense : ¬ ψ.IsSparseRoute ρ)
+    {ρ δ η : ℝ} {r : ℕ} (hρ : 0 < ρ) (hδ : 0 < δ) (hη : 0 < η)
+    (hr : requiredTopCountingRank3 F₀.k δ ≤ r)
+    (hδρ : δ ≤ ρ) (hηδ : (F₀.k : ℝ) ^ 3 * η ≤ δ) (hdense : ¬ ψ.IsSparseRoute ρ)
     (hreg : IsPairColorRegular C.skeleton (pairRouteRegularityThreshold3 F₀.k ρ δ))
     (hroute : ψ.IsTopRegularRoute H' η r) :
     |((placedInducedCopyCount H' φ ψ : ℝ)) - expectedInducedCountAt H' C F₀ φ ψ| ≤
@@ -929,7 +963,8 @@ contribute. Proof route through the lower-route bridge: split on
 `IsSparseRoute (routeBudget3 C F₀.k (ε/6))` — sparse routes self-bound
 (`placed_induced_counting3_of_sparseRoute`); dense routes run the threshold counting theorem and
 the conversion (`lowerRoute_counting3`, `placed_induced_counting3_of_denseRoute`), instantiated
-through the calibration theorems and `IsPairColorRegular.mono`. -/
+through the calibration theorems — including the rank calibration
+`requiredTopCountingRank3_le_inducedCountingRank3` — and `IsPairColorRegular.mono`. -/
 theorem placed_induced_counting3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal)
     (ψ : PairColorPlacement3 C F₀ φ) (ε : ℝ) (hε : 0 < ε)
