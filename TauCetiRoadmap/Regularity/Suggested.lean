@@ -688,12 +688,30 @@ charges would not visibly fit inside the final `ε`). -/
 theorem inducedCountingParameter3_charge (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) :
     (k : ℝ) ^ 3 * inducedCountingParameter3 q₃ k ε ≤ ε / 6 := sorry
 
-/-- **Layer 9 (charge pinning).** The schedule fits its `ε/6` charge **including the route-count
-factor**: per-route pair-counting slack accumulates over up to `q₂^(k choose 2) ≤ ℓ^(k choose 2)`
-routes (with `ℓ` the lower complexity), so the schedule must beat that growth at every complexity —
-`k² · schedule` alone would not account for the route count (part of the target). -/
-theorem inducedCountingSchedule3_charge (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) (ℓ : ℕ) :
-    (k : ℝ) ^ 3 * (ℓ : ℝ) ^ Nat.choose k 2 * inducedCountingSchedule3 q₃ k ε ℓ ≤ ε / 6 := sorry
+/-- **Layer 9 (discarded predictions — the output slack).** The per-route **output** error for
+the discarded-route prediction bound, as a function of the lower complexity. Deliberately a
+separate function from the **input** schedule `inducedCountingSchedule3`: the discarded-side
+theorem must not feed the same function in as regularity strength and out as conclusion slack —
+that shape bakes a linear regularity-to-counting modulus into the statement. The two are tied
+only through `pairRouteRegularityThreshold3` by the calibration
+`inducedCountingSchedule3_le_exceptionalPredictionThreshold` (explicit value is a target;
+`V`-independent). Used as floor and error alike — `ρ = δ = exceptionalPredictionSlack3 … ℓ`
+satisfies the bridge's `δ ≤ ρ`. -/
+def exceptionalPredictionSlack3 (q₃ k : ℕ) (ε : ℝ) : ℕ → ℝ := sorry
+
+/-- **Layer 9 (discarded predictions).** Positivity of the output slack (part of the target). -/
+theorem exceptionalPredictionSlack3_pos (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) (n : ℕ) :
+    0 < exceptionalPredictionSlack3 q₃ k ε n := sorry
+
+/-- **Layer 9 (charge pinning).** The discarded-prediction slack fits its `ε/6` charge
+**including the route-count factor**: per-route slack `δ + ρ = 2 · slack(ℓ)` accumulates over up
+to `q₂^(k choose 2) ≤ ℓ^(k choose 2)` routes (with `ℓ` the lower complexity), so the slack must
+beat that growth at every complexity (part of the target). This is an inequality about the
+**output** slack, not the input schedule — the schedule is constrained only through the threshold
+calibration. -/
+theorem exceptionalPredictionSlack3_charge (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) (ℓ : ℕ) :
+    (k : ℝ) ^ 3 * (ℓ : ℝ) ^ Nat.choose k 2 * (2 * exceptionalPredictionSlack3 q₃ k ε ℓ) ≤
+      ε / 6 := sorry
 
 /-- **Layer 9.** The vertex-complexity floor the diagonal-cell gate demands: with an equitable
 vertex partition of at least this many cells, the nontransversal (repeated-cell) placement mass is
@@ -878,6 +896,17 @@ theorem inducedCountingSchedule3_top_le_routeBudget3 (q₃ : ℕ) (ε : ℝ) (h�
     (F₀.k : ℝ) ^ 3 * inducedCountingSchedule3 q₃ F₀.k ε C.complexity ≤
       routeBudget3 C F₀.k (ε / 12) := sorry
 
+/-- **Layer 9 (lower-route bridge, calibration — discarded side).** The schedule supplies the
+threshold at the discarded-prediction slack pair (`ρ = δ = exceptionalPredictionSlack3 … ℓ`), at
+every complexity: this is the only link between the input schedule and the discarded-side output
+slack, so `exceptional_route_prediction_mass_le` never feeds the schedule in as strength and out
+as slack (part of the target). -/
+theorem inducedCountingSchedule3_le_exceptionalPredictionThreshold (q₃ k : ℕ) (ε : ℝ)
+    (hε : 0 < ε) (ℓ : ℕ) :
+    inducedCountingSchedule3 q₃ k ε ℓ ≤
+      pairRouteRegularityThreshold3 k (exceptionalPredictionSlack3 q₃ k ε ℓ)
+        (exceptionalPredictionSlack3 q₃ k ε ℓ) := sorry
+
 /-- **Layer 9 (placed local counting — the real counting lemma).** At a fixed **transversal**
 placement `φ` (distinct assigned cells — repeated-cell placements are the diagonal gate's job, not
 this lemma's) and a **top-regular route** `ψ` (`hroute` — the strong approximation controls only
@@ -937,31 +966,31 @@ actual discarded mass (`exceptional_route_mass_le`): `expectedInducedCount` sums
 def exceptionalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (η : ℝ) (r : ℕ) : ℝ := sorry
 
-/-- **Layer 9 (discarded routes, predicted side).** Companion to `exceptional_route_mass_le`:
-under lower-skeleton regularity **at the counting schedule** and top-regularity over most polyads,
-the predicted mass of discarded routes is small — lower regularity ties each route's pair-density
-product to its polyads' actual supports, so predictions concentrated on exceptional polyads
-inherit the exceptional-mass bound up to schedule slack. Three deliberate signature choices:
-the exceptional-mass parameter `εmass` and the schedule's counting error `εcount` are **separate**
-(the global theorem supplies the mass bound at `inducedCountingParameter3` but the schedule at the
-final counting error — a single shared `ε` could not be instantiated without an unpinned
-comparison); the slack charges the schedule at the **lower complexity**
-`#vertex-cells + #pair-colors` — the evaluation point `hlower` actually supplies, not
-`C.complexity`; and the slack carries the **route-count factor** `q₂^(k choose 2)` — per-route
-pair-counting errors accumulate over that many routes, so a bare `k²·schedule` would not account
-for them. Without this lemma the global assembly would bound only the actual side of the discarded
-routes. -/
+/-- **Layer 9 (discarded routes, predicted side).** Companion to `exceptional_route_mass_le`,
+**through the lower-route bridge**: sparse routes' predictions self-bound at the floor `ρ`, dense
+routes' predictions tie to their polyads' actual supports within `δ` by threshold regularity, so
+predictions concentrated on exceptional polyads inherit the exceptional-mass bound up to a
+per-route slack `δ + ρ` — accumulated over the **route-count factor** `q₂^(k choose 2)`. Three
+deliberate signature choices: input regularity is at the **threshold**
+`pairRouteRegularityThreshold3` while the conclusion slack is the **separate output pair**
+`(ρ, δ)` — never the same function in as strength and out as slack, which would bake a linear
+regularity-to-counting modulus into the statement (the global instantiation takes
+`ρ = δ = exceptionalPredictionSlack3 … ℓ` at the lower complexity `ℓ`, supplied from the schedule
+via `inducedCountingSchedule3_le_exceptionalPredictionThreshold` and `IsPairColorRegular.mono`,
+and fits its `ε/6` charge by `exceptionalPredictionSlack3_charge`); the exceptional-mass
+parameter `εmass` is separate from the counting slack (the global theorem supplies it at
+`inducedCountingParameter3` — a single shared `ε` could not be instantiated without an unpinned
+comparison); and the slack carries the route-count factor — per-route errors accumulate over that
+many routes. Without this lemma the global assembly would bound only the actual side of the
+discarded routes. -/
 theorem exceptional_route_prediction_mass_le (H' : Colored3Graph κ₃ V)
-    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (η εmass εcount : ℝ) (r : ℕ)
-    (hdecomp : IsPolyadDecomposition C)
-    (hlower : LowerSkeletonRegular C.skeleton
-      (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k εcount))
+    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (η εmass ρ δ : ℝ) (r : ℕ)
+    (hdecomp : IsPolyadDecomposition C) (hρ : 0 < ρ) (hδ : 0 < δ) (hδρ : δ ≤ ρ)
+    (hlower : IsPairColorRegular C.skeleton (pairRouteRegularityThreshold3 F₀.k ρ δ))
     (hmost : TopRegularOverMostPolyads H' C η εmass r) :
     exceptionalPredictedMass3 H' C F₀ η r ≤
       (F₀.k : ℝ) ^ 3 *
-        (εmass + (C.pairColorCount : ℝ) ^ Nat.choose F₀.k 2 *
-          inducedCountingSchedule3 (Fintype.card κ₃) F₀.k εcount
-            (C.skeleton.vertexPart.parts.card + C.pairColorCount)) *
+        (εmass + (C.pairColorCount : ℝ) ^ Nat.choose F₀.k 2 * (δ + ρ)) *
         (Fintype.card V : ℝ) ^ F₀.k := sorry
 
 /-- **Layer 9.** The total **predicted** contribution of nontransversal placements: the sum of
@@ -1053,8 +1082,10 @@ target: (1) `placed_induced_counting3` summed over transversal placements with *
 routes** — the per-route `routeBudget3 _ _ (ε/6)` sums back to `ε/6` across the up to
 `q₂^(k choose 2)` routes per placement; (2) the discarded routes bounded on **both** sides —
 actual mass by `exceptional_route_mass_le` and predicted mass (two charges: exceptional mass +
-lower-route slack) by `exceptional_route_prediction_mass_le`, their fits pinned by
-`inducedCountingParameter3_charge` and `inducedCountingSchedule3_charge`; (3) the diagonal gate
+lower-route slack) by `exceptional_route_prediction_mass_le` — instantiated at
+`ρ = δ = exceptionalPredictionSlack3 … ℓ` through the discarded-side calibration — their fits
+pinned by `inducedCountingParameter3_charge` and `exceptionalPredictionSlack3_charge`; (3) the
+diagonal gate
 bounding the omitted nontransversal placements — actual **and** predicted — at its `ε/6` charge,
 pinned by `nontransversal_actual_and_predicted_mass_le`; (4)
 `inducedCopyCount_edit_transfer` moving the `H'`-count to the `H`-count (the transfer is global —
