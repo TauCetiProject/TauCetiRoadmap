@@ -35,16 +35,12 @@ on:
         required: true
         type: number
 
+# The floor. `resolve` needs no more than this; the `gate` job raises its own, because a called
+# workflow can never exceed what the caller grants.
 permissions:
   contents: read
   pull-requests: read
 
-# No concurrency group HERE. GitHub keeps one running and one pending run per group and discards the
-# pending one when a newer event arrives, so a repository-wide group on the caller lets any pull
-# request activity evict a queued progress run. The merge itself still has to be serialised — the
-# compare-and-swap depends on `main` not moving underneath it — and the called workflow declares that
-# group itself, so serialisation happens where it is needed without letting unrelated events crowd
-# the queue.
 
 jobs:
   resolve:
@@ -62,8 +58,7 @@ jobs:
           # Quoted through env rather than interpolated into the script: everything from the event
           # payload is attacker-influenced, and this job holds a token.
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
-          # Through env, never interpolated into the script: both are attacker-controlled.
-          PR_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          # Through env, never interpolated into the script: attacker-controlled.
           PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: |
           set -euo pipefail
@@ -76,10 +71,6 @@ jobs:
               # activity could keep evicting a queued report.
               if [ "${{ github.event.pull_request.draft }}" = "true" ]; then
                 echo "draft pull request; nothing to do"; echo "pr=" >> "$GITHUB_OUTPUT"; exit 0
-              fi
-              if [ "$PR_HEAD_REPO" != "$REPO" ]; then
-                echo "head is in $PR_HEAD_REPO, not $REPO; not a generated report"
-                echo "pr=" >> "$GITHUB_OUTPUT"; exit 0
               fi
               case "$PR_HEAD_REF" in
                 progress/*) ;;
@@ -97,22 +88,31 @@ jobs:
               # push the legitimate report out of the window -- its build would complete and this
               # trigger would never find it.
               #
-              # The result is also restricted to a head IN THIS REPOSITORY. A fork can create a branch
-              # at the very same commit, and "first match wins" would let it shadow the real one: the
-              # gate would refuse the fork, correctly, and the report would never be considered.
-              # `--slurp` so the pages arrive as ONE array and the filter runs over all of them.
-              # Without it `--jq` is applied page by page: page one emits an empty line, `head -n1`
-              # takes it, and a legitimate match on page two is discarded -- the same starvation the
-              # 30-item default allowed, just moved.
+              # Fork heads are included. Anyone may publish a report, and an operator without push
+              # access here publishes from their own fork, so excluding them would mean their build
+              # completing and this trigger never finding the pull request.
+              #
+              # Every condition the gate itself would refuse on is filtered FIRST, and only then is
+              # one chosen. Sharing a head SHA means sharing a tree, but not a base branch, a draft
+              # flag, or a branch name: an older pull request at the same commit, retargeted or
+              # renamed, would otherwise be selected, refused forever, and the legitimate report
+              # never reconsidered once CI completed.
+              #
+              # `min` among what survives, so repeated runs agree with each other.
+              #
               # `--slurp` so the pages arrive as ONE array; the filter then runs over all of them.
               # Without it `--jq` is applied page by page: page one emits an empty line, and a
               # legitimate match on a later page is lost -- the same starvation the 30-item default
               # allowed, just moved. `--slurp` cannot be combined with `--jq`, hence the pipe.
               pr="$(gh api --paginate --slurp "repos/$REPO/commits/$HEAD_SHA/pulls" \
-                    | jq -r '[.[][] | select(.state == "open")
-                                    | select(.head.ref | startswith("progress/"))
-                                    | select(.head.repo.full_name == env.REPO)
-                                    | .number] | first // ""')"
+                    | jq -r --arg repo "$REPO" '
+                         [.[][]
+                          | select(.state == "open")
+                          | select(.draft | not)
+                          | select(.base.ref == "main")
+                          | select(.base.repo.full_name == $repo)
+                          | select(.head.ref | test("^progress/[0-9a-f]{7}-[0-9a-f]{7}/[A-Za-z0-9]+$"))
+                          | .number] | min // ""')"
               echo "pr=$pr" >> "$GITHUB_OUTPUT" ;;
           esac
 
@@ -122,16 +122,19 @@ jobs:
     # Pinned to a full TauCetiProgress SHA. `progress_ref` must be the SAME SHA: it selects the
     # validator code checked out inside, and a mismatch would validate with different rules than the
     # ones reviewed here.
-    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@6d1f1d1d50bdfe869d254b0a93ffc5c10c64aefd
+    # `write` here and nowhere else: the called workflow narrows it again to the one job that
+    # explains a refusal on the pull request, and a called workflow cannot exceed what this grants.
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@744493d446f5188f89e372b9d00b0a6d6ed87e08
     with:
       pr: ${{ fromJSON(needs.resolve.outputs.pr) }}
-      progress_ref: 6d1f1d1d50bdfe869d254b0a93ffc5c10c64aefd
-      # Numeric user ids permitted to author progress pull requests. Ids, never logins: a login can
-      # be renamed and the old name re-registered by someone else.
-      #   477956 = kim-em, the account the worker authenticates as.
-      # This grants no privilege that account lacks -- it is already an OrganizationAdmin bypass
-      # actor on this ruleset -- so the check's real job is excluding everyone else.
-      allowed_user_ids: "477956"
+      progress_ref: 744493d446f5188f89e372b9d00b0a6d6ed87e08
+      # There is deliberately no author allowlist. Anyone may publish a progress report, including
+      # from a fork: what bounds this is the shape of the diff (two generated files, one roadmap,
+      # append-only log, window ending in published history), not who sent it. See
+      # roadmap-workflows/README.md in TauCetiProgress.
       # `tau-ceti-roadmap-sync`, the App this repository's ruleset lists as a bypass actor. It must be
       # this one and not `secrets.APP_ID` (the review bot, which auto-merge.yml uses): the review bot
       # bypasses TauCeti's ruleset, not this one, so a direct merge with its token would be refused
