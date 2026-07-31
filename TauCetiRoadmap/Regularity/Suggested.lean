@@ -824,10 +824,11 @@ whose pair densities all reach the floor `ρ`, with output error `δ` at the pla
 (`lowerRoute_counting3`). Input strength and output slack are **deliberately decoupled**: a linear
 conversion (`≈ δ/C(k)`, as in the classical triangle counting lemma against regular pairs) and a
 power-loss conversion (`≈ (δ/C(k))⁴`) both instantiate this definition, so the targets do not
-silently bet on the linear modulus (explicit value is a target). Non-vacuity is pinned from both
-sides: `pairRouteRegularityThreshold3_pos` (the demanded input strength is achievable) and the
-calibration theorems below (the schedule actually supplies it at the route-budgeted charge) — an
-instantiation vacuously large or unreachably small breaks one pin or the other. -/
+silently bet on the linear modulus (explicit value is a target). The dense counting theorem
+`lowerRoute_counting3` is what gives the threshold its mathematical meaning — it must genuinely
+suffice for dense counting; `pairRouteRegularityThreshold3_pos` makes it admissible to the
+approximation theorem, and the calibration theorems ensure the chosen schedule is strong enough
+to supply it. -/
 def pairRouteRegularityThreshold3 (k : ℕ) (ρ δ : ℝ) : ℝ := sorry
 
 /-- **Layer 9 (lower-route bridge).** Positivity of the threshold: dense counting demands an
@@ -910,9 +911,9 @@ the route-budgeted charge: at the lower complexity (the evaluation point `LowerS
 actually provides), the schedule is at least as strong as the threshold at floor
 `routeBudget3 C k (ε/6)` and output error `routeBudget3 C k (ε/12)` — half the placed-counting
 charge, the other half absorbing the top slack (`inducedCountingSchedule3_top_le_routeBudget3`).
-Together with `pairRouteRegularityThreshold3_pos` this pins the threshold from both sides: an
-instantiation vacuously large fails this inequality; one vacuously small fails positivity (part
-of the target). -/
+The threshold's meaning comes from `lowerRoute_counting3`, which it must genuinely suffice for;
+this calibration ensures the chosen schedule is strong enough to supply it (part of the
+target). -/
 theorem inducedCountingSchedule3_le_pairRouteRegularityThreshold3 (q₃ : ℕ) (ε : ℝ)
     (hε : 0 < ε) (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) :
     inducedCountingSchedule3 q₃ F₀.k ε
