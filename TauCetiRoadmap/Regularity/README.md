@@ -8,7 +8,7 @@ compactness, sampling) is an **independent parallel analytic development**, owne
 roadmap builds the **finite combinatorial regularity tower** — finite weak (Frieze–Kannan)
 regularity, **strong graph regularity**, and **arity-3 hypergraph-complex regularity and counting** —
 the material Mathlib lacks, with **no analytic prerequisites**: nothing here waits on the graphon
-roadmap, and any finite–analytic comparison is an optional downstream adapter (see *Interfaces
+roadmap, and any finite–analytic comparison is owned by a downstream consumer (see *Interfaces
 exported to other roadmaps*).
 
 The local summit is an **arity-3 strong hypergraph regularity / regular-approximation package**,
@@ -103,7 +103,7 @@ some prose paths below are abbreviated.)
 | Area | Owner | This roadmap's role |
 |---|---|---|
 | `SimpleGraph`, graph maps/counting, `Finpartition`, Szemerédi regularity | **Mathlib** | consume directly; add thin Tau Ceti-facing wrappers only where they remove friction |
-| Graphons, analytic cut norm / Frieze–Kannan, cut distance, graphon sampling | **Dense graph limits roadmap** | **independent parallel theory**; optional interoperability adapters later |
+| Graphons, analytic cut norm / Frieze–Kannan, cut distance, graphon sampling | **Dense graph limits roadmap** | **independent parallel theory**; comparison adapters, where wanted, are owned downstream |
 | Sequence exchangeability, de Finetti, exchangeable arrays / Aldous–Hoover | **Exchangeability roadmap** | background/consumer only; **not** the peak |
 | Finite weak regularity (`steppedCount`, `cutDiscrepancy`, finite Frieze–Kannan) | **this roadmap** | build (Layer 3) |
 | Strong graph regularity | **this roadmap** | build (Layer 4) |
@@ -113,8 +113,8 @@ The dense graph limits roadmap covers graphons, the analytic cut norm, cut dista
 Frieze–Kannan, and sampling. This roadmap's Layer 3 develops **finite weak regularity** —
 `steppedCount`, the count-scaled `cutDiscrepancy`, and a directly proved finite Frieze–Kannan
 theorem — as its own layer, with no graphon imports: the finite and analytic theorems are
-**independent formulations, neither derived from the other**, and may later be compared by optional
-adapters (see *Interfaces exported to other roadmaps*). `Suggested.lean` imports only Mathlib and
+**independent formulations, neither derived from the other**, and may later be compared by
+consumer-owned adapters (see *Interfaces exported to other roadmaps*). `Suggested.lean` imports only Mathlib and
 pins the Layer-3 targets directly.
 
 ## The build, in layers
@@ -123,12 +123,12 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 
 ### Layer 0 — finite colored graph and 3-uniform vocabulary
 - **Consume.** `SimpleGraph`, `SimpleGraph.Copy` / `copyCount`, `Nat.descFactorial`, `Finset.powersetCard`.
-- **Build.** `UniformHypergraph r V` and `UniformHypergraph.edgeDensity`; the total unordered top-coloring carrier `Colored3Graph κ₃ V`; colored / hypergraph copy-counts and densities Mathlib lacks. Plain-graph hom/injective densities are built here from `Copy` / `descFactorial` (name alignment with the dense graph limits roadmap's `homDensityFin` / `injHomDensity` is optional interoperability, not a dependency — see *Interfaces exported to other roadmaps*).
+- **Build.** `UniformHypergraph r V` and `UniformHypergraph.edgeDensity`; the total unordered top-coloring carrier `Colored3Graph κ₃ V`; colored / hypergraph copy-counts and densities Mathlib lacks. Plain-graph hom/injective densities are built here from `Copy` / `descFactorial` (name alignment with the dense graph limits roadmap's `homDensityFin` / `injHomDensity` is a downstream-owned comparison, not a dependency — see *Interfaces exported to other roadmaps*).
 - **Gate.** `K₂`, a triangle, the complete and empty `r`-uniform hypergraphs; hom densities normalized by powers, injective densities by the falling factorial `(n)_k`.
 
 ### Layer 1 — partitions, block densities, refinement, energy
 - **Consume.** `Finpartition`, `equitabilise`, `edgeDensity`. Mathlib's `SzemerediRegularity.increment` boost machinery is an **alignment point / proof template**, not a consumed theorem: it is stated for Mathlib's unweighted `Finpartition.energy`, and no comparison lemma transporting its boost to `weightedEnergy` is pinned (if one is added later, this becomes a real consume).
-- **Build.** `UniformHypergraph.blockDensity`; the **size-weighted** graph energy `weightedEnergy` (the `L²` norm of the block-average step function, casts before division, **including** the diagonal blocks `i = j`) and its refinement-monotonicity `weightedEnergy_mono_of_refines`; the hypergraph-level analogue. **Not** Mathlib's unweighted `Finpartition.energy`, an `offDiag`-based average that is *not* Jensen-monotone under arbitrary refinement (it is monotone only inside the `increment` argument). (Comparison with the dense graph limits roadmap's analytic `graphonPartitionEnergy` is optional interoperability, not a deliverable — see *Interfaces exported to other roadmaps*.)
+- **Build.** `UniformHypergraph.blockDensity`; the **size-weighted** graph energy `weightedEnergy` (the `L²` norm of the block-average step function, casts before division, **including** the diagonal blocks `i = j`) and its refinement-monotonicity `weightedEnergy_mono_of_refines`; the hypergraph-level analogue. **Not** Mathlib's unweighted `Finpartition.energy`, an `offDiag`-based average that is *not* Jensen-monotone under arbitrary refinement (it is monotone only inside the `increment` argument). (Comparison with the dense graph limits roadmap's analytic `graphonPartitionEnergy` is a downstream-owned comparison, not a deliverable here — see *Interfaces exported to other roadmaps*.)
 - **Gate.** `weightedEnergy` agrees with the block-average `L²` on graphs; the diagonal and repeated-part conventions are explicit.
 
 **Prior formalization ([`regularity-lemmata`](https://github.com/cameronfreer/regularity-lemmata)).**
@@ -285,8 +285,10 @@ hooks. These are **downstream consumers, not local endpoints**. In particular, o
 exchangeable-array API exists, the finite sampling lemmas here should provide deterministic
 regularity inputs for random-array statements; this roadmap does not own the representation theorem.
 
-**Optional interoperability (not gating any layer).** The finite and analytic developments may later
-be compared by adapters, owned by whichever side finds them useful: a `stepGraphonOfFinpartition`
+**Interoperability adapters (owned downstream; not gating any layer).** This roadmap does not
+specify finite–analytic comparison maps: a consumer roadmap that requires such a map owns it as a
+named milestone there, and no layer or acceptance gate here depends on one. The finite and analytic
+developments may later be compared by adapters, owned by whichever side finds them useful: a `stepGraphonOfFinpartition`
 compatibility; identification of the finite `cutDiscrepancy`'s `SimpleGraph` specialization with the
 analytic Frieze–Kannan statement (minding the scaling — `cutDiscrepancy` is count-scaled by `|V|²`,
 the graphon cut norm is normalized); the energy comparison `graphonPartitionEnergy_finiteGraphGraphon`
@@ -304,8 +306,8 @@ dependency or an acceptance gate.
 - This roadmap does **not** own dense graph limit theory (graphons, the analytic cut norm / cut
   distance, compactness, analytic Frieze–Kannan); those live in the dense graph limits roadmap. It
   **does** own the finite weak-regularity theory (`steppedCount`, `cutDiscrepancy`, the finite
-  Frieze–Kannan theorem); finite–analytic comparisons are optional downstream adapters, not
-  deliverables.
+  Frieze–Kannan theorem); finite–analytic comparisons are owned by downstream consumers, not
+  deliverables here.
 - It does **not** own exchangeability or representation theorems for exchangeable arrays; it exports
   deterministic finite regularity inputs those roadmaps may consume.
 - It does **not** culminate in arithmetic applications, and does **not** package a one-off induced
@@ -379,8 +381,8 @@ formalization*.
   of actual vertex cells `A, B ∈ S.vertexPart.parts` and their sub-cells, not arbitrary finsets?
 - Is the independence boundary respected — the finite objects named `steppedCount` /
   `cutDiscrepancy` (never "the canonical finite cut norm"), **no graphon imports or analytic
-  prerequisites** in any layer, and all finite–analytic comparisons confined to the *Optional
-  interoperability* paragraph?
+  prerequisites** in any layer, and every finite–analytic comparison confined to the
+  *Interoperability adapters* paragraph with a downstream owner?
 - Does the roadmap use `SimpleGraph`, `Finpartition (univ)`, `IsUniform`, and the Mathlib regularity
   vocabulary (with `[DecidableRel G.Adj]`), and the size-weighted `weightedEnergy` rather than
   overclaiming Mathlib's unweighted `Finpartition.energy` as refinement-monotone?

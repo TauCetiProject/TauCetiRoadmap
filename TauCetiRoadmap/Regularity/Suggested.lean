@@ -25,7 +25,7 @@ an intrinsic placed-count formula — and transferred back to `H` through the ed
 
 The finite roadmap is **self-contained**: Layer 3 is finite weak regularity (`steppedCount`,
 `cutDiscrepancy`, a direct finite Frieze–Kannan theorem), owned here with no graphon imports —
-analytic comparison adapters are out of scope (see *Optional interoperability* in `README.md`). Much
+analytic comparison adapters are owned downstream (see *Interoperability adapters* in `README.md`). Much
 of Layers 1–4, and Boolean precursors of Layers 5–8, is proved in the prior formalization
 [`cameronfreer/regularity-lemmata`](https://github.com/cameronfreer/regularity-lemmata) (see *Prior
 formalization* in `README.md`); docstrings below point at the proved counterparts and record shape
