@@ -14,23 +14,22 @@ and the **sheafiness** question, the sheafiness theorem for **strongly noetheria
 mathlib4 PR is building it (checked 2026-07-21; the Lean 3 perfectoid-spaces project of
 Buzzard–Commelin–Massot did construct `Spa` and its presheaf, but was never ported).
 
-This roadmap builds that theory, and it is organised around the object that demands all of
-it: the **adic Fargues–Fontaine curve** `𝒳 = 𝒴/φ^ℤ`, the summit of the roadmap (Layer 7).
-Everything below it is what the curve needs and what other developments will reuse — the
-general **sheafiness** theorem for complete strongly noetherian Tate affinoid pairs and its
+This roadmap develops that theory: Huber and Tate rings, the valuation spectrum, continuous
+valuations and the adic spectrum, rational localization and the structure presheaf, the
+**sheafiness** theorem for complete strongly noetherian Tate affinoid pairs together with its
 full-strength form **Tate acyclicity** (the augmented Čech complex of every finite rational
 cover is exact in all degrees), and the definition of **adic spaces** as objects of Huber's
-category `𝒱` that are locally isomorphic *in `𝒱`* to affinoids.
+category `𝒱` that are locally isomorphic *in `𝒱`* to affinoids. As an application, the final
+layer uses all of it to construct the **adic Fargues–Fontaine curve** `𝒳 = 𝒴/φ^ℤ` (Layer 7).
 
-AINTLIB has a `sorry`-free, Fargues–Fontaine
+AINTLIB has a `sorry`-free Fargues–Fontaine
 development that constructs `𝒳`, proves it quasi-compact and `T0`, descends a structure
 presheaf that **is a sheaf of topological rings**, and packages the result as an object of `𝒱`.
-The *general* machinery underneath it, the structure presheaf for arbitrary Huber pairs, the
-sheafiness theorem, acyclicity, are the parts with some open gaps. So this roadmap's headline result
-is the curve, but the **work it principally asks for is the reusable general theory**: a
-formalization that only reached the curve through chart-specific arguments would not deliver
-what the rest of the subject needs. Layers 0–6 are that theory; Layer 7 is what it is for, and
-the evidence that it is reachable. Also in the closing layer: the **finite-jet pinching
+The *general* machinery underneath it — the structure presheaf for arbitrary Huber pairs, the
+sheafiness theorem, acyclicity — still has open gaps, and closing them is most of the work this
+roadmap asks for: a formalization that only reached the curve through chart-specific arguments
+would not deliver what the rest of the subject needs. Layers 0–6 build the theory; Layer 7
+applies it. Layer 6 also carries the **finite-jet pinching
 algebra** — likewise `sorry`-free in provenance: a uniform,
 non-noetherian, sheafy Tate ring that is not stably uniform
 (answering Hansen–Kedlaya, *Sheafiness criteria for Huber rings*, Remark 3.16). The sources are
@@ -64,7 +63,7 @@ generic fibres, and GAGA. Berkovich spaces and the comparison functors. Fibre pr
 spaces (they need stability theorems for sheafiness that do not exist classically in useful
 generality). Huber's *other* sheafiness cases — rings with a noetherian ring of definition
 ([Hu2] Theorem 2.2(i)) and the stably-uniform-plus refinements beyond Buzzard–Verberkmoes — are
-excluded so this roadmap has one spine: the strongly noetherian Tate case.
+excluded so this roadmap follows one main line: the strongly noetherian Tate case.
 
 Suggested home: `TauCeti/RingTheory/Huber/` for the ring-level theory,
 `TauCeti/AlgebraicGeometry/AdicSpace/` for `Spv`/`Spa`/presheaf/spaces (mirroring Mathlib's
@@ -89,11 +88,12 @@ layout).
   complete when `CompleteSpace A` holds for
   `IsTopologicalAddGroup.rightUniformSpace A`; state it exactly this way everywhere (the letI
   idiom of the provenance), so hypotheses compose instead of multiplying uniform structures.
-- **Spectrality is spelled in Mathlib's vocabulary.** "`X` is spectral" is the conjunction
-  `CompactSpace X ∧ QuasiSober X ∧ PrespectralSpace X ∧ QuasiSeparatedSpace X` — all four
-  classes exist upstream, with `PrimeSpectrum` the model — asserted as the four instances, not
-  as a new bundled `SpectralSpace` class. If Mathlib later bundles spectral spaces, these
-  milestones refactor onto it; do not introduce the bundle here.
+- **Spectrality is Mathlib's `SpectralSpace`.** Mathlib bundles it
+  (`Topology/Spectral/Basic.lean`, Stacks 08YG): `SpectralSpace X` extends `T0Space`,
+  `CompactSpace`, `QuasiSober`, `QuasiSeparatedSpace`, and `PrespectralSpace`, with
+  `PrimeSpectrum` the worked model. Spectrality milestones assert this class — equivalently
+  its five parents, and note `T0Space` is genuinely one of them: quasi-sobriety gives
+  *existence* of generic points, `T0` their uniqueness. Do not introduce a rival bundle.
 - **Wedhorn's numbering is the coordinate system.** Milestones cite Wedhorn (arXiv:1910.05934)
   by result number — Definition 6.1, Theorem 7.35, Theorem 8.28, … — with Huber's originals
   cited in parallel; the provenance's files are already named this way (`Cor732.lean`,
@@ -111,7 +111,7 @@ layout).
   in the provenance needs changing. Note also that **8.28 already contains the acyclicity
   clause**: Layer 4's sheafiness and its rational-cover acyclicity are one theorem in the
   source, not two.
-- **Pin the hypotheses of the headline exactly.** The sheafiness theorem is stated for a
+- **Pin the hypotheses of the sheafiness theorem exactly.** It is stated for a
   **complete, Hausdorff, strongly noetherian Tate** ring with a ring of integral elements
   `A⁺` — no noetherian ring of definition, no `IsDomain`, no discreteness of the value groups.
   Do not weaken to "uniform" hypotheses silently and do not strengthen to Banach-algebra
@@ -119,7 +119,7 @@ layout).
 - **Sources, not a single specification.** Wedhorn is a careful survey and Huber is the origin;
   neither develops Mathlib-grade API. Where existing Lean work proves a milestone, that is
   provenance (final section), never the standard it is judged against. One layer has no paper
-  source at all: the finite-jet stress test (§Layer 6) is specified **self-containedly in this
+  source at all: the finite-jet example (§Layer 6) is specified **self-containedly in this
   roadmap's own text**, and the `sorry`-free AINTLIB formalisation of it is the provenance
   evidencing that the specification is consistent and provable — cite the formalisation, not
   an unpublished document.
@@ -138,12 +138,12 @@ This is the substrate the roadmap builds on; it is consumed, not rebuilt.
   subring/quotient instances.
 - **Completions.** `UniformSpace.Completion` with its ring structure for topological rings, and
   the algebraic `AdicCompletion` with `AdicCompletion.flat_of_isNoetherian` (Stacks 00MB) — the
-  flatness engine Layer 4 leans on.
+  flatness input Layer 4 uses.
 - **Valued fields and examples.** `Valued`, `ℚ_[p]`/`ℤ_[p]` with their topology, Laurent series
   `F⸨t⸩` with its `t`-adic valuation, rank-one valuations (`Valuation.RankOne`).
-- **The spectral-space vocabulary.** `CompactSpace`, `QuasiSober`, `PrespectralSpace` (compact
-  opens form a basis, Stacks 08YG), `QuasiSeparatedSpace`, with `PrimeSpectrum` as the worked
-  model of all four.
+- **The spectral-space vocabulary.** The bundle `SpectralSpace` (Stacks 08YG) with its parents
+  `T0Space`, `CompactSpace`, `QuasiSober`, `PrespectralSpace` (compact opens form a basis),
+  and `QuasiSeparatedSpace`, with `PrimeSpectrum` as the worked model.
 - **Presheaf machinery.** `TopCat.Presheaf`, `PresheafedSpace`, stalks, and the categorical
   limits API; homological algebra (`HomologicalComplex`, exactness) for the Čech complexes of
   Layer 4.
@@ -206,9 +206,11 @@ The ordering is the dependency order.
   statement with BGR 5.2.6 as the classical source and prove the cases the examples need
   (`ℚ_p`, `F⸨t⸩`), so Layer 6's vertices have their instances.
 - **The open mapping theorem for Tate rings.** A continuous surjective module map of complete
-  Tate rings is open (Henkel, arXiv:1407.5647, the zero-sequence route — the classical Banach
-  OMT does not apply verbatim: complete Tate rings need not be σ-compact). This discharges
-  Wedhorn's "Proof. Missing" Props 6.17–6.18 and is the topological engine behind Layer 4's
+  Tate rings is open (Henkel, arXiv:1407.5647, the zero-sequence route — the classical
+  Banach-space open mapping theorem does not apply verbatim, since a complete Tate ring is not
+  in general a Banach space over a valued field; Henkel's zero-sequence-of-units setting is
+  the right generality). This discharges
+  Wedhorn's "Proof. Missing" Props 6.17–6.18 and is the topological input behind Layer 4's
   embedding half.
 - **Examples** (seeded where statable now): every discrete ring is Huber (`(A, (0))`); `ℚ_[p]`
   is Tate (`(ℤ_[p], (p))`, `ϖ = p`); `ℤ_[p]` is Huber and **not** Tate (its units have norm
@@ -222,9 +224,9 @@ The ordering is the dependency order.
   ideal), functorial `comap` along ring maps (continuous), and the lifts to quotients
   `Spv (A ⧸ 𝔞)` (for `𝔞 ≤ supp v`) and localizations — the transport lemmas everything later
   uses. (All of this is sorry-free in the provenance.)
-- **Spectrality of `Spv A`** (Wedhorn Theorem 4.20-shape; [Hu1] §2): `Spv A` is quasi-compact,
-  quasi-sober, prespectral, and quasi-separated — the four Mathlib instances of the
-  conventions — with the basic opens quasi-compact, via the patch/constructible topology
+- **Spectrality of `Spv A`** (Wedhorn Theorem 4.20-shape; [Hu1] §2): `SpectralSpace (Spv A)` —
+  the conventions' bundled instance, `T0` included — with the basic opens quasi-compact, via
+  the patch/constructible topology
   exactly as for `PrimeSpectrum`. This is real work (the provenance's spectrality file is its
   most open frontier) and the model proof to follow is Mathlib's own Hochster development for
   `PrimeSpectrum`.
@@ -291,8 +293,8 @@ The ordering is the dependency order.
 
 ### Layer 4: sheafiness and Tate acyclicity for strongly noetherian Tate rings (Wedhorn §8.2; [Hu2] Theorem 2.2(ii), 2.5; Tate 1971)
 
-The headline layer. Base: `A` a complete Hausdorff strongly noetherian Tate ring, `A⁺` a ring
-of integral elements.
+The central theorem of the general theory lives here. Base: `A` a complete Hausdorff strongly
+noetherian Tate ring, `A⁺` a ring of integral elements.
 
 - **Cover normalization.** Every open cover of `X = Spa (A, A⁺)` refines to a finite cover by
   rational subsets; every finite rational cover refines to a **standard (Laurent-type) cover**
@@ -318,7 +320,7 @@ of integral elements.
   `Ȟⁿ(𝔘, 𝒪_X) = 0` for `n ≥ 1` (Wedhorn Theorem 8.28's full statement; [Hu2] Theorem 2.5;
   Tate's original theorem in the rigid case, *Rigid analytic spaces*, Invent. Math. 12 (1971)).
   Stated over Mathlib's `HomologicalComplex` API so the cohomological content is real, not an
-  ad-hoc exactness predicate. The sheafiness theorem is its degree-`≤ 1` shadow; state both,
+  ad-hoc exactness predicate. The sheafiness theorem is the degree-`≤ 1` part; state both,
   derive the first from the second.
 - **The classical corollary.** For the Tate algebra `ℚ_p⟨T⟩` (unit disc) and its standard
   Laurent covers, the acyclicity instance — Tate's 1971 theorem as a worked corollary, keeping
@@ -339,7 +341,7 @@ of integral elements.
   adic space via Layer 4; the open disc as an increasing union of closed discs — the first
   genuinely glued, non-affinoid adic space, exercising the gluing API.
 
-### Layer 6: uniformity, Buzzard–Verberkmoes, and the finite-jet stress test ([BV]; [HK]; provenance)
+### Layer 6: uniformity, Buzzard–Verberkmoes, and the finite-jet example ([BV]; [HK]; provenance)
 
 Uniformity completes the basic theory of Huber pairs; the layer closes with a suggested
 worked example exercising everything built above.
@@ -350,7 +352,7 @@ worked example exercising everything built above.
 - **Buzzard–Verberkmoes.** Stably uniform complete Tate pairs are sheafy ([BV], J. reine angew.
   Math. 740 (2018), in its bounded-denominator formulation) — the standard sheafiness
   criterion complementary to Layer 4, and this layer's theorem.
-- **The finite-jet stress test.** A suggested worked example that exercises Layers 0–4 end to
+- **The finite-jet example.** A suggested worked example that exercises Layers 0–4 end to
   end — every definition, and the sheafiness theorem in its full non-reduced generality. It
   has **no public paper source**: the construction is specified self-containedly here, and its
   reference is the `sorry`-free **AINTLIB formalisation** (the `FJP/` directory, §Provenance),
@@ -366,16 +368,21 @@ worked example exercising everything built above.
   two of them non-reduced, so each sheafy by exactly Layer 4's theorem as pinned; and `𝓐` is
   **not stably uniform**, witnessed by `𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` (`X = W/ϖ`) — strongly
   noetherian and sheafy but not uniform (`Q·f` is nilpotent hence power-bounded for every `f`,
-  so its `A°` is unbounded). The example shows **sheafy ⇏ stably uniform**, answering [HK]
+  so its `A°` is unbounded). Two steps of this are computations, not formalities, and are
+  milestones of the example: the sheaf transfer requires identifying the **localized Milnor
+  row** over each rational subset and checking strict exactness is preserved there; and the
+  identification `𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` is a completed-localization calculation, not a
+  formal localization identity. The example shows **sheafy ⇏ stably uniform**, answering [HK]
   Remark 3.16, and certifies that Layer 4 and [BV] each cover ground the other does not. The
   strong-sheafiness refinement (`𝓐⟨T₁, …, Tₙ⟩` sheafy for every `n`) is deliberately **not**
   a target.
 
 ---
 
-### Layer 7: the adic Fargues–Fontaine curve — the summit
+### Layer 7: application — the adic Fargues–Fontaine curve
 
-The object the rest of the roadmap exists to build. Base case fixed by scope: **`E = Q_p`**
+This layer constructs the curve with the theory built above; it is also the test that the
+general theory is strong enough. Base case fixed by scope: **`E = Q_p`**
 (so `W_{E°}(F°) = W(F°)`, `q = p`; the general `E` needs ramified Witt vectors, which Mathlib
 does not have — successor roadmap) and **`F` a perfectoid field of characteristic `p`** with a
 chosen pseudouniformizer `ϖ`, **not** assumed algebraically closed. ⚠ Nothing in the
@@ -416,8 +423,8 @@ the hypothesis is not carried here.
   a closed `I = [s, r] ⊂ (0, ∞)`, `λ_I = max(λ_s, λ_r)`: **`B^I` is strongly noetherian**
   (Kedlaya, *Noetherian properties of Fargues–Fontaine curves*, Thm 4.10 — its hypotheses ask
   only for a perfect complete nonarchimedean `F`, so this is where the no-algebraic-closedness
-  scope is cashed), hence `Spa(B^I, B^{I,+})` is **sheafy by Layer 4**. This is the roadmap's
-  own theorem being consumed by its summit, and it is the standard route for the *absolute*
+  scope is used), hence `Spa(B^I, B^{I,+})` is **sheafy by Layer 4**. This is the roadmap's
+  own sheafiness theorem in use, and it is the standard route for the *absolute*
   curve; the relative curve over a perfectoid base goes instead through stable uniformity
   (successor roadmap, and the reason Layer 6's [BV] theorem is not a detour).
   ⚠ Three pins. **(i) The plus ring**: `B^{I,+} := {x : λ_I(x) ≤ 1}`, which since `λ_I` is
@@ -425,10 +432,12 @@ the hypothesis is not carried here.
   closure of the image of the localized `A_inf` — the description that makes the chart a
   *rational subset* of `Spa(A_inf, A_inf)` — is a **theorem to prove**, not a definitional
   identification. Sheafiness is insensitive to the choice, but `Spa(B, B⁺)` is not.
-  **(ii) The radius dictionary is inverse**: with `|ϖ| = p^{-α}`, a `κ`-window `[a, b]`
-  corresponds to Kedlaya's interval `[1/(αb), 1/(αa)]`, equivalently to `ρ ∈ [|ϖ|^b, |ϖ|^a]`
-  in the `ρ`-Gauss convention `‖Σ [x_m]p^m‖_ρ = max_m ρ^m |x_m|`. State the conversion lemma
-  and prove it; do not identify the two parameters by notation. **(iii) The completion model**:
+  **(ii) The radius dictionary is reciprocal**: in the `ρ`-Gauss convention
+  `‖Σ [x_m]p^m‖_ρ = max_m ρ^m |x_m|` with `|ϖ| = p^{-α}` and `r := −log_p ρ`, one computes
+  `κ = α/r`, so a `κ`-window `[a, b]` corresponds to `r ∈ [α/b, α/a]`, i.e.
+  `ρ ∈ [|ϖ|^{1/a}, |ϖ|^{1/b}]` — the endpoints swap and invert. State the conversion lemma
+  and prove it; do not identify the two parameters by notation, and expect sign/reciprocal
+  slips to be the failure mode a wrong guess produces. **(iii) The completion model**:
   realising `B^I` as the closure of the diagonal image of the localization in the product of
   the two completed endpoint fields (with the **max** norm) is faithful *provided* the diagonal
   is an isometry for `λ_I` and injective — the checklist is: the algebraic source is dense in
@@ -436,9 +445,9 @@ the hypothesis is not carried here.
   is multiplicative and separated; the product carries the max norm; the diagonal norm is
   `λ_I` on the nose (not merely equivalent); the map from the abstract completion is an
   isometric isomorphism onto the closure; and the model is compatible with restriction
-  `B^I → B^J` and with `φ`. A virtue of the closure model worth recording: elements of `B^I`
-  need **not** admit globally convergent Witt expansions — only finite Witt sums are dense —
-  and a closure model cannot accidentally assume otherwise.
+  `B^I → B^J` and with `φ`. One warning the closure model builds in for free: only **finite**
+  Witt sums are dense in `B^I` — do not assume every element admits a globally convergent
+  Witt expansion, and do not state milestones that would require one.
 - **The structure sheaf and the `𝒱`-object.** The presheaf on `𝒳` defined by `φ`-**invariant**
   sections over saturated preimages — a **topological** equalizer, not merely a ring-level
   invariant subring — with the milestone that it **is a sheaf of topological rings**
@@ -446,7 +455,7 @@ the hypothesis is not carried here.
   valuations on stalks. ⚠ Two clauses that must be proved, not assumed: the stalk valuations
   must be **independent of the orbit representative**, and they must factor through the residue
   fields.
-- **The summit: `𝒳` is an adic space.** Every point has an open neighbourhood **isomorphic in
+- **The main statement: `𝒳` is an adic space.** Every point has an open neighbourhood **isomorphic in
   `𝒱`** — not merely homeomorphic — to `Spa` of a sheafy complete strongly noetherian Tate
   affinoid. ⚠ This is the one place where the provenance stops short and the roadmap must be
   read as a specification: what exists there is the **topological** chart (a homeomorphism onto
@@ -459,9 +468,13 @@ the hypothesis is not carried here.
   Wedhorn **Remark 8.27** says a pre-adic space is an adic space as soon as it has a cover by
   open affinoids `Spa A` with `A` **stably** sheafy — and stable sheafiness of the chart rings
   is exactly what Kedlaya 4.10 gives, since it makes every `B^I⟨T₁, …, T_k⟩` noetherian, hence
-  every topologically finite-type `B^I`-algebra sheafy by 8.28(b). Taking that route trades the
-  `𝒱`-isomorphism for the pre-adic-space packaging plus a stable-sheafiness milestone; decide
-  which before starting, and record the decision here.
+  every topologically finite-type `B^I`-algebra sheafy by 8.28(b). Two costs must be priced
+  into that trade before choosing it: `𝒳` still has to be exhibited as a **pre-adic space**
+  in the first place — charts as morphisms of pre-adic spaces, which is much of route (a)'s
+  content returning through the back door — and the stable-sheafiness step needs **quotient
+  permanence** spelled out: a topologically finite-type `B^I`-algebra is a complete quotient
+  of some `B^I⟨T₁, …, T_k⟩`, noetherianness passes to quotients, and only then does 8.28(b)
+  apply. Decide which route before starting, and record the decision here.
 - **Independence of choices.** `𝒴` and `𝒳` must be proved independent of the pseudouniformizer
   `ϖ` (the windows are not — they are indexed by the choice, which is exactly why this needs
   saying).
@@ -479,15 +492,15 @@ the hypothesis is not carried here.
   Tate's 1971 example, as a computed instance of Layer 4.
 - **Sheafiness with a nilpotent.** Layer 4's theorem applied to `K⟨X, Q⟩/(Q²)` — non-reduced,
   strongly noetherian, Tate — produces a sheafy pair that is *not* uniform: the hypotheses of
-  the headline were pinned correctly.
-- **The finite-jet stress test.** `(𝓐, 𝓐°)` sheafy, `𝓐` uniform non-noetherian domain,
+  the sheafiness theorem were pinned correctly.
+- **The finite-jet example.** `(𝓐, 𝓐°)` sheafy, `𝓐` uniform non-noetherian domain,
   `𝓐⟨W/ϖ⟩` not uniform (`finiteJet_isSheafy`, `finiteJet_isUniform`,
   `finiteJet_not_noetherian`, `finiteJet_not_stablyUniform`) — the definitions survive a
   worked example that Layer 4 alone and [BV] alone cannot reach, and [HK] Remark 3.16 is
   answered in Lean.
 - **The Fargues–Fontaine curve exists and is nonempty.** `𝒴` contains the Gauss point, `𝒳` is
   quasi-compact and `T0`, the images of `U_0` and `V_0` cover it, and its structure presheaf is
-  a sheaf of topological rings — the Layer-7 gateway (`Y_nonempty`, `instCompactSpaceCurve`,
+  a sheaf of topological rings — the first Layer-7 facts (`Y_nonempty`, `instCompactSpaceCurve`,
   `instT0SpaceCurve`, `curve_eq_image_window_zero`, `xPresheaf_isSheafOfTopologicalRings`).
 - **The curve's charts are Layer 4's theorem in action.** `B^I` strongly noetherian
   (Kedlaya 4.10) feeding the sheafiness theorem to give `Spa(B^I, B^{I,+})` sheafy — the
@@ -505,11 +518,11 @@ foundation. Layer 1 (`Spv` and its spectrality) needs only Mathlib's `ValuativeR
 restricted series and completions. Layer 4 (the sheafiness theorem and Tate acyclicity)
 consumes Layer 3, Layer 0's open mapping theorem and strong noetherianness, and Mathlib's
 noetherian-completion flatness. Layer 5 (adic spaces) consumes Layers 3–4 (sheafy pairs give
-affinoids). Layer 6 (uniformity, [BV], and the stress-test example) consumes Layers 3–4 in
+affinoids). Layer 6 (uniformity, [BV], and the finite-jet example) consumes Layers 3–4 in
 full — the example's vertices are Layer-4 instances — and is independent of Layer 5, so it can
 proceed in parallel once Layer 3 lands; its stable-uniformity material is also what a future
 *relative* Fargues–Fontaine curve would need, where strong noetherianity fails. Layer 7 (the
-curve) is the summit and consumes the most: Layer 0's Huber/Tate vocabulary and restricted
+curve) consumes the most: Layer 0's Huber/Tate vocabulary and restricted
 power series for `A_inf` and the interval rings, Layer 2's `Spa` and rational subsets for `𝒴`
 and the charts, Layer 3's presheaf and its sheaf-of-topological-rings definition for the
 descended structure sheaf, **Layer 4's sheafiness theorem** for the charts, and Layer 5's
@@ -553,13 +566,13 @@ far ahead of the general machinery.
   bundles on the Fargues–Fontaine curve*
   ([arXiv:1705.00710](https://arxiv.org/abs/1705.00710)) — Definition 2.1.1, the statement of
   the adic curve that Layer 7 formalizes (specialised to `E = Q_p`).
-- The Layer-6 stress-test example has **no paper reference**: it is specified self-containedly
+- The Layer-6 finite-jet example has **no paper reference**: it is specified self-containedly
   in §Layer 6, and its reference is the `sorry`-free AINTLIB formalisation pinned in
   §Provenance (the `FJP/` directory and its capstone exports).
-- L. Henkel, *An Open Mapping Theorem for rings with a zero sequence of units*
+- L. Henkel, *An Open Mapping Theorem for rings which have a zero sequence of units*
   (arXiv:1407.5647) — the Tate-ring open mapping theorem (Layer 0).
-- K. Hübner, on separatedness of structure presheaves (arXiv:2405.06435) — the separation
-  route the provenance's Layer-4 files follow.
+- K. Hübner, *Adic spaces* (lecture notes, arXiv:2405.06435) — the
+  separatedness-of-structure-presheaves route the provenance's Layer-4 files follow.
 - S. Bosch, U. Güntzer, R. Remmert, *Non-Archimedean Analysis*, Grundlehren 261 (Springer,
   1984) — BGR: classical affinoid algebra inputs (strong noetherianness of `K⟨T⟩`, BGR 5.2.6).
 - K. Buzzard, J. Commelin, P. Massot, *Formalising perfectoid spaces* (arXiv:1910.12320) — the
@@ -573,9 +586,8 @@ already discharges parts of them, as material to migrate and complete — never 
 specification.
 
 **Pinned source.** All claims below were audited at, and only hold for, this revision:
-**AINTLIB** (`github.com/CBirkbeck/AINTLIB`; public, currently **no license file** — the
-repository belongs to this roadmap's author, and Apache-2.0 licensing of the migrated material
-is part of the migration contract): branch `dev/adic-spaces @ 59bbbe8ba14a` (2026-07-28),
+**AINTLIB** (`github.com/CBirkbeck/AINTLIB`; public, **Apache-2.0**): branch
+`dev/adic-spaces @ 59bbbe8ba14a` (2026-07-28),
 project `projects/AdicSpaces/` — **363 Lean files, 507 file-level `sorry` occurrences overall** (≈250 Lean files; the audit below counts `sorry` occurrences per file at
 that revision). The project's `ScottishBook/`, `FarguesFontaine.lean`, `AlmostMathematics.lean`,
 `PerfectoidRing.lean`, `PerfectoidSpace.lean`, and `Tilting.lean` are out of this roadmap's
@@ -634,7 +646,7 @@ scope and are not migration targets.
   target here either (§Layer 6). The `[BV]` theorem is absent from the provenance and is built
   here.
 - **Layer 7 — the Fargues–Fontaine curve (the furthest-advanced strand).** The
-  `Adic spaces/FarguesFontaine/` directory: **39 files, ~1.9 MB, and `0` `sorry`s at file
+  `Adic spaces/FarguesFontaine/` directory: **39 files, `0` `sorry`s at file
   level.** Foundations `WittF.lean`, `PerfectoidFieldCharP.lean`, `AinfHuber.lean` (`A_inf`
   complete Huber, `A_inf⁺ = A_inf`); the space `YSpace.lean` (`Y`, the rank-free `KGE`/`KLE`
   radius predicates, the windows, covering, translation, disjointness), `YCharts`,
@@ -643,7 +655,7 @@ scope and are not migration targets.
   (`FrobeniusAction/Gauss/Limit/Spa/Valuation`, `UniformizerEquivariance`,
   `UniformizerTwist`); the interval-ring strand (`IntervalRing`, `IntervalCoordinates`,
   `IntervalSplitting`, `ArCompletion`, `GaussNorm`, `Euclidean`, `Groebner`, `Presentation`,
-  `RobbaPresentation` — 342 KB alone — `RobbaCorrespondence`, `RobbaLoc`) culminating in
+  `RobbaPresentation`, `RobbaCorrespondence`, `RobbaLoc`) culminating in
   `StronglyNoetherianB.lean` (`isStronglyNoetherian_BISub`, Kedlaya 4.10) and `SheafyBI.lean`
   (`isSheafy_BISub`, **through the roadmap's own sheafiness theorem**); `Curve.lean` (the
   curve, freeness, wandering, open quotient map, window injectivity, the two-chart cover,
@@ -653,7 +665,7 @@ scope and are not migration targets.
   reading**: these files are `sorry`-free but sit on the Layer-3/4 machinery that is *not* —
   `isSheafy_BISub` reaches `isSheafy_of_stronglyNoetherian_828b`, whose own dependency cone is
   the audit gate above. So "the curve is done" means "done modulo the general theory this
-  roadmap is asking for", which is exactly the division of labour the introduction states.
+  roadmap is asking for".
   The `𝒱`-level chart isomorphism (§Layer 7's final clause) is genuinely absent and is
   specification, not migration. A planning packet for this campaign
   (`.mathlib-quality/chatgpt-packet-fargues-fontaine-plan-2026-07-24.md`) records the scope

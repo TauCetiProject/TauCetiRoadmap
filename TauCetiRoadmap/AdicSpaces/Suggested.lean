@@ -19,7 +19,7 @@ rational subsets or rational localization, **no** structure presheaf and hence *
 sheafiness question, **no** Tate acyclicity, and **no** adic spaces. We build these in
 `TauCeti/RingTheory/Huber/` and `TauCeti/AlgebraicGeometry/AdicSpace/`, with Wedhorn
 (arXiv:1910.05934) as the numbering coordinate system and Huber's papers as the origin —
-cited for the mathematics, not as the specification. The roadmap's summit is the **adic
+cited for the mathematics, not as the specification. The roadmap's closing application is the **adic
 Fargues–Fontaine curve** `𝒳 = 𝒴/φ^ℤ` (Layer 7), for `E = Q_p` and a perfectoid field `F` of
 characteristic `p`; the general theory of Layers 0–6 is what it consumes and what the rest of
 the subject reuses.
@@ -41,7 +41,7 @@ The AINTLIB `dev/adic-spaces` project (revision pinned in `README.md` §Provenan
 sorry-free foundations whose shapes these prototypes follow — `PairOfDefinition`,
 `IsHuberRing`, `IsTateRing`, `Spv` built on Mathlib's `ValuativeRel`, `Spa`, rational
 subsets, `IsStronglyNoetherian`, `IsUniform`/`IsStablyUniform` — a sorry-free formalization
-of the finite-jet pinching headlines (`FJP/`), and an in-progress structure-presheaf and
+of the finite-jet pinching results (`FJP/`), and an in-progress structure-presheaf and
 sheafiness campaign (`isSheafy_of_stronglyNoetherian_828b`) whose dependency cone must be
 audited on migration. It is material to migrate and complete, never the standard.
 -/
@@ -150,7 +150,7 @@ provenance works with (the workhorse for Layers 4 and 6). Specified in `README.m
 
 /-! ## Layer 4: sheafiness and Tate acyclicity (Wedhorn §8.2, Theorem 8.28; Huber; Tate 1971)
 
-The headline: for a **complete Hausdorff strongly noetherian Tate** ring with a ring of
+The main theorem: for a **complete Hausdorff strongly noetherian Tate** ring with a ring of
 integral elements — no domain or reducedness hypothesis — the structure presheaf is a sheaf,
 and every finite rational cover of a rational subset has an **exact augmented Čech complex in
 all degrees** (`Ȟ⁰ = 𝒪_X(U)`, `Ȟⁿ = 0` for `n ≥ 1`), stated over Mathlib's
@@ -166,11 +166,11 @@ locally isomorphic **in `𝒱`** — presheaf and stalk valuations included, not
 homeomorphic — to affinoids; morphisms, open subspaces, gluing, and the open unit disc as the
 first glued non-affinoid example. Specified in `README.md` §Layer 5. -/
 
-/-! ## Layer 6: uniformity, Buzzard–Verberkmoes, and the finite-jet stress test ([BV]; provenance)
+/-! ## Layer 6: uniformity, Buzzard–Verberkmoes, and the finite-jet example ([BV]; provenance)
 
 `IsUniform` (`A°` bounded) and `IsStablyUniform`; the Buzzard–Verberkmoes theorem (stably
 uniform ⇒ sheafy), this layer's theorem. The layer closes with a suggested worked example
-stress-testing Layers 0–4 end to end: the finite-jet pinching algebra `𝓐 = 𝓑 ×_𝓓 𝓒` over
+exercising Layers 0–4 end to end: the finite-jet pinching algebra `𝓐 = 𝓑 ×_𝓓 𝓒` over
 `K = F⸨t⸩` — specified self-containedly in `README.md` §Layer 6, its reference the sorry-free
 AINTLIB formalisation — a uniform non-noetherian domain, **sheafy** by Milnor-square transfer
 from strongly noetherian vertices (two non-reduced, exercising Layer 4's hypotheses as
@@ -178,7 +178,7 @@ pinned), and **not stably uniform** (`𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` is s
 sheafy ⇏ stably uniform, answering Hansen–Kedlaya Remark 3.16. The rings need Layers 0 and 3,
 so the statements are specified in `README.md` §Layer 6 and built there. -/
 
-/-! ## Layer 7: the adic Fargues–Fontaine curve — the summit
+/-! ## Layer 7: application — the adic Fargues–Fontaine curve
 
 `A_inf = W(O_F)` with the `(p, [ϖ])`-adic ("weak") topology as a complete Huber ring with
 `A_inf⁺ = A_inf`; `𝒴 = {v ∈ Spa(A_inf, A_inf) : v(p[ϖ]) ≠ 0}`, open, `φ`-stable and nonempty
