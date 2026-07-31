@@ -1,6 +1,6 @@
 # Roadmap: adic spaces
 
-Mathlib can talk about valuations in the way this subject needs — `ValuativeRel R` packages an
+Mathlib has the valuations in the way we need — `ValuativeRel R` packages an
 equivalence class of valuations on a ring, with the canonical valuation into its value group,
 compatibility (`Valuation.Compatible`), extensions, and the induced topology
 (`Mathlib/RingTheory/Valuation/ValuativeRel/`, `Mathlib/Topology/Algebra/ValuativeRel/`) — and it
@@ -22,12 +22,11 @@ full-strength form **Tate acyclicity** (the augmented Čech complex of every fin
 cover is exact in all degrees), and the definition of **adic spaces** as objects of Huber's
 category `𝒱` that are locally isomorphic *in `𝒱`* to affinoids.
 
-⚠ **Read the division of labour honestly, since it is unusual.** The curve is the part that is
-*furthest along*: the AINTLIB provenance has a `sorry`-free, ~1.9 MB Fargues–Fontaine
+AINTLIB has a `sorry`-free, Fargues–Fontaine
 development that constructs `𝒳`, proves it quasi-compact and `T0`, descends a structure
 presheaf that **is a sheaf of topological rings**, and packages the result as an object of `𝒱`.
-The *general* machinery underneath it — the structure presheaf for arbitrary Huber pairs, the
-sheafiness theorem, acyclicity — is the part with open gaps. So this roadmap's headline result
+The *general* machinery underneath it, the structure presheaf for arbitrary Huber pairs, the
+sheafiness theorem, acyclicity, are the parts with some open gaps. So this roadmap's headline result
 is the curve, but the **work it principally asks for is the reusable general theory**: a
 formalization that only reached the curve through chart-specific arguments would not deliver
 what the rest of the subject needs. Layers 0–6 are that theory; Layer 7 is what it is for, and
@@ -43,8 +42,8 @@ transcription of either.
 **The existing development.** The AINTLIB `dev/adic-spaces` project (provenance section) has
 already carried this program a long way in Lean 4 — sorry-free foundations for Huber rings,
 `Spv` **built directly on Mathlib's `ValuativeRel`**, `Spa`, rational subsets, restricted power
-series and strong noetherianness, and a sorry-free formalization of the finite-jet pinching
-example — with the structure presheaf, spectrality, and full acyclicity as its open frontier.
+series and strong noetherianness, and a sorry-free formalization of interesting examples, like the finite-jet pinching example
+— with the structure presheaf, spectrality, and full acyclicity as its open frontier.
 This roadmap specifies the mathematics intrinsically; the provenance section maps each layer to
 that code as material to migrate and complete, never as the standard.
 
