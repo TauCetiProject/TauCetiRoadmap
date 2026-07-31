@@ -872,15 +872,20 @@ theorem one_le_requiredTopCountingRank3 (k : ℕ) (δ : ℝ) (hδ : 0 < δ) :
 
 /-- **Layer 9 (lower-route bridge, calibration — the rank decision point).** The global rank
 supplies the conversion's requirement at the global instantiation
-(`δ = routeBudget3 C F₀.k (ε/12)`). Deliberately pinned as a target rather than assumed: the
-required rank is instantiated at a **complexity-dependent** route budget, so this inequality is
-exactly where the complexity-independence of `inducedCountingRank3` is decided — if the required
-rank grows as the route budget shrinks, `inducedCountingRank3` must absorb the complexity bound's
-fixed point, or the rank must become a schedule `ℕ → ℕ` evaluated at the complexity, mirroring
-the NRS regularity lemma's `r : ℕ → ℕ`. Either resolution changes this statement visibly rather
-than silently. -/
+(`δ = routeBudget3 C F₀.k (ε/12)`), **for complexity-bounded complexes**. The `hC` hypothesis is
+essential: over arbitrary complexes the route budget shrinks with an unbounded
+`C.pairColorCount`, and no fixed rank could dominate the requirement at arbitrarily small
+errors. With the bound in hand the statement is the fixed-point form the architecture needs —
+the rank being calibrated appears inside the complexity bound itself, the wellfounded parameter
+choice of the published architecture. If no such fixed point exists, the rank must instead
+become a schedule `ℕ → ℕ` evaluated at the complexity, mirroring the NRS regularity lemma's
+`r : ℕ → ℕ` — either resolution changes this statement visibly rather than silently (part of
+the target). -/
 theorem requiredTopCountingRank3_le_inducedCountingRank3 (q₃ : ℕ) (ε : ℝ) (hε : 0 < ε)
-    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) :
+    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (t₀ : ℕ)
+    (hC : ComplexityBounded C
+      (regularityBound3 q₃ (inducedCountingParameter3 q₃ F₀.k ε)
+        (inducedCountingSchedule3 q₃ F₀.k ε) (inducedCountingRank3 q₃ F₀.k ε) t₀)) :
     requiredTopCountingRank3 F₀.k (routeBudget3 C F₀.k (ε / 12)) ≤
       inducedCountingRank3 q₃ F₀.k ε := sorry
 
@@ -949,10 +954,12 @@ most polyads, so a route through an exceptional polyad has no counting control a
 here, its mass bounded separately by `exceptional_route_mass_le`), the placed induced count **in
 the approximant `H'`** is within the per-route budget of the intrinsic prediction. The hypotheses
 are exactly the **local contract** — transversality, lower-skeleton regularity at the schedule,
-and route-local top regularity — never the full `IsStrongRegularApproximation3` bundle: the
-original `H`, the edit bound, the exceptional mass, and the complexity control are global data
-this local lemma does not consume (the global theorem extracts the local hypotheses from its
-`hreg`). Counting here must be in `H'`, not `H`: a small *global* edit discrepancy can be
+route-local top regularity, and rank adequacy (`hrank`, which the global theorem extracts from
+`hreg`'s complexity bound through the rank calibration
+`requiredTopCountingRank3_le_inducedCountingRank3`) — never the full
+`IsStrongRegularApproximation3` bundle: the original `H`, the edit bound, the exceptional mass,
+and the complexity control are global data this local lemma does not consume (the global theorem
+extracts the local hypotheses from its `hreg`). Counting here must be in `H'`, not `H`: a small *global* edit discrepancy can be
 concentrated entirely inside one placement, so it yields no per-placement bound — the `H'`-to-`H`
 transfer is global, through `inducedCopyCount_edit_transfer`. The error is the **per-route budget
 at the `ε/6` placed-counting charge** `routeBudget3 C F₀.k (ε/6)` — not a bare `ε`, for two
@@ -964,13 +971,15 @@ contribute. Proof route through the lower-route bridge: split on
 `IsSparseRoute (routeBudget3 C F₀.k (ε/6))` — sparse routes self-bound
 (`placed_induced_counting3_of_sparseRoute`); dense routes run the threshold counting theorem and
 the conversion (`lowerRoute_counting3`, `placed_induced_counting3_of_denseRoute`), instantiated
-through the calibration theorems — including the rank calibration
-`requiredTopCountingRank3_le_inducedCountingRank3` — and `IsPairColorRegular.mono`. -/
+through the calibration theorems and `IsPairColorRegular.mono`, with the conversion's rank
+requirement met by `hrank`. -/
 theorem placed_induced_counting3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal)
     (ψ : PairColorPlacement3 C F₀ φ) (ε : ℝ) (hε : 0 < ε)
     (hlower : LowerSkeletonRegular C.skeleton
       (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε))
+    (hrank : requiredTopCountingRank3 F₀.k (routeBudget3 C F₀.k (ε / 12)) ≤
+      inducedCountingRank3 (Fintype.card κ₃) F₀.k ε)
     (hroute : ψ.IsTopRegularRoute H'
       (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε C.complexity)
       (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε)) :
@@ -993,12 +1002,16 @@ theorem exceptional_route_mass_le (H' : Colored3Graph κ₃ V) (C : TriadicCompl
               x.1 0 = g i ∧ x.1 1 = g j ∧ x.1 2 = g l).card : ℝ) ≤
       (F₀.k : ℝ) ^ 3 * exceptionalPolyadMass H' C η r * (Fintype.card V : ℝ) ^ F₀.k := sorry
 
-/-- **Layer 9.** The total **predicted** contribution of discarded routes: the sum of
-`expectedInducedCountAt` over all placements and all routes that are **not** `(η, r)`-top-regular
-(explicit definition is a target — the sum over the placement structures, once their `Fintype`
-instances are set up). The global absolute-difference argument must bound this **alongside** the
-actual discarded mass (`exceptional_route_mass_le`): `expectedInducedCount` sums predictions over
-*all* routes, including the discarded ones. -/
+/-- **Layer 9.** The total **predicted** contribution of discarded routes **among transversal
+placements**: the sum of `expectedInducedCountAt` over all transversal placements and all their
+routes that are **not** `(η, r)`-top-regular (explicit definition is a target — the sum over the
+placement structures, once their `Fintype` instances are set up). Transversal-only by design:
+the lower-route bridge that bounds this mass requires transversality, and the nontransversal
+(repeated-cell) predicted side is owned by `nontransversalPredictedMass3` under the diagonal
+gate — the six-charge split stays overlap-free, with no hidden repeated-cell counting lemma.
+The global absolute-difference argument must bound this **alongside** the actual discarded mass
+(`exceptional_route_mass_le`): `expectedInducedCount` sums predictions over *all* routes,
+including the discarded ones. -/
 def exceptionalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (η : ℝ) (r : ℕ) : ℝ := sorry
 
@@ -1006,7 +1019,10 @@ def exceptionalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 
 **through the lower-route bridge**: sparse routes' predictions self-bound at the floor `ρ`, dense
 routes' predictions tie to their polyads' actual supports within `δ` by threshold regularity, so
 predictions concentrated on exceptional polyads inherit the exceptional-mass bound up to a
-per-route slack `δ + ρ` — accumulated over the **route-count factor** `q₂^(k choose 2)`. Three
+per-route slack `δ + ρ` — accumulated over the **route-count factor** `q₂^(k choose 2)`. The
+mass is **transversal-only** (see `exceptionalPredictedMass3`) — exactly what lets the bridge,
+whose dense theorem requires transversality, apply per placement; the repeated-cell predicted
+side is the diagonal gate's. Three
 deliberate signature choices: input regularity is at the **threshold**
 `pairRouteRegularityThreshold3` while the conclusion slack is the **separate output pair**
 `(ρ, δ)` — never the same function in as strength and out as slack, which would bake a linear
@@ -1117,7 +1133,8 @@ splits into **six explicit `ε/6` charges** across four steps, each charge close
 target: (1) `placed_induced_counting3` summed over transversal placements with **top-regular
 routes** — the per-route `routeBudget3 _ _ (ε/6)` sums back to `ε/6` across the up to
 `q₂^(k choose 2)` routes per placement; (2) the discarded routes bounded on **both** sides —
-actual mass by `exceptional_route_mass_le` and predicted mass (two charges: exceptional mass +
+actual mass by `exceptional_route_mass_le` and predicted mass **among transversal placements**
+(two charges: exceptional mass +
 lower-route slack) by `exceptional_route_prediction_mass_le` — instantiated at
 `ρ = δ = exceptionalPredictionSlack3 … ℓ` through the discarded-side calibration — their fits
 pinned by `inducedCountingParameter3_charge` and `exceptionalPredictionSlack3_charge`; (3) the
