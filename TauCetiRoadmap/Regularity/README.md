@@ -319,20 +319,23 @@ no custom axioms (CI-enforced by its `scripts/check.sh`). Its partition/graph la
 for **directed relations on an arbitrary `Finset` host** (subsuming `SimpleGraph`); its hypergraph
 development is Boolean and unordered. The declaration-level claims in this section and the
 per-layer notes were checked at commit
-[`f7403c9`](https://github.com/cameronfreer/regularity-lemmata/tree/f7403c9943fa47b83d071e6d622a87fe14122f79)
-(the pinned migration source; later commits may move things). Much of Layers 1–4, and Boolean
+[`a18f98c96770967bc9f3ab5a81fdf642d9f68b99`](https://github.com/cameronfreer/regularity-lemmata/tree/a18f98c96770967bc9f3ab5a81fdf642d9f68b99),
+which the protected tag
+[`tauceti-roadmap-pin-1`](https://github.com/cameronfreer/regularity-lemmata/releases/tag/tauceti-roadmap-pin-1)
+also names (the full SHA is authoritative; later commits may move things). Much of Layers 1–4, and Boolean
 precursors of Layers 5–8, are proved there; the per-layer *Prior formalization* notes above record the shape
-deviations a TauCeti implementation must reconcile. Summary map:
+deviations a TauCeti implementation must reconcile. Summary map, with each row's exact
+relationship to the targets here condensed from the per-layer notes:
 
-| Roadmap layer | Proved there (representative names) |
-|---|---|
-| 1 | `energy`, `energy_mono`, `energy_le_one` (`Partition/Energy.lean`) |
-| 2 | `AlmostRefinesAt` / `exceptionalMass` / `AlmostRefines`; `IsRegularPartition`; `exists_regular_refinement_and_almostRefining_equipartition` (+ `_of_bound_le`, `_ceil`); the separate Mathlib `szemeredi_regularity` bridge (`Graph/Bridge.lean`) |
-| 3 | `steppedCount`, `cutDiscrepancy`, `cutDiscrepancy_le_iff`, `frieze_kannan`, `frieze_kannan_cutDiscrepancy` (`Graph/{CutNorm,FriezeKannan}.lean`) |
-| 4 | `ErrorSchedule`, `StrongWitness`, `exists_strongWitness` (`Graph/Strong.lean`); the binary-palette strong-witness counting chain and graph bridges (`Relational/GraphCounting.lean`) as the closest counting analogue |
-| 5–8 (precursor) | `IsLocalDiscRegular`, `exists_goodColoring`, `exists_triadic_regular_approximation` (`Hypergraph/*.lean`) |
-| 9 (blueprint) | transversal counting plus the diagonal-cell gate and pattern-local union bounds (its binary-palette counting phase) |
-| Convention 5 (validation) | the complete two-way binary palette (`Bool × Bool` per symbol, both directions, loops via vertex profiles) with kernel-`decide` falsification examples — a proved arity-2 validation of "control presence *and* absence" |
+| Roadmap layer | Proved there (representative names) | Relationship to the targets here |
+|---|---|---|
+| 1 | `energy`, `energy_mono`, `energy_le_one` (`Partition/Energy.lean`) | more general (mass-weighted, directed, arbitrary `Finset` host); `weightedEnergy` can specialize it |
+| 2 | `AlmostRefinesAt` / `exceptionalMass` / `AlmostRefines`; `IsRegularPartition`; `exists_regular_refinement_and_almostRefining_equipartition` (+ `_of_bound_le`, `_ceil`); the separate Mathlib `szemeredi_regularity` bridge (`Graph/Bridge.lean`) | two-partition intermediate (exact refinement + a separate, non-regular almost-refining equipartition); the self-regular target here is its explicitly deferred summit |
+| 3 | `steppedCount`, `cutDiscrepancy`, `cutDiscrepancy_le_iff`, `frieze_kannan`, `frieze_kannan_cutDiscrepancy` (`Graph/{CutNorm,FriezeKannan}.lean`) | same statement shapes for directed relations; the targets here are its `SimpleGraph` specialization |
+| 4 | `ErrorSchedule`, `StrongWitness`, `exists_strongWitness` (`Graph/Strong.lean`); the binary-palette strong-witness counting chain and graph bridges (`Relational/GraphCounting.lean`) as the closest counting analogue | precursor witness (no equipartition or coarse-regularity fields; complexity bound in the conclusion); the counting gate stays open |
+| 5–8 (precursor) | `IsLocalDiscRegular`, `exists_goodColoring`, `exists_triadic_regular_approximation` (`Hypergraph/*.lean`) | Boolean, unordered-pair, no-vertex-partition precursor by a deliberately different route (see the Layers 5–8 note) |
+| 9 (blueprint) | transversal counting plus the diagonal-cell gate and pattern-local union bounds (its binary-palette counting phase) | architectural blueprint (transversal-first + diagonal gate), not a statement-level match |
+| Convention 5 (validation) | the complete two-way binary palette (`Bool × Bool` per symbol, both directions, loops via vertex profiles) with kernel-`decide` falsification examples — a proved arity-2 validation of "control presence *and* absence" | proved arity-2 validation of the convention, not a migration source |
 
 [`cameronfreer/graphon`](https://github.com/cameronfreer/graphon) is the **parallel analytic
 development** (graphons, analytic cut norm, step approximation) that `regularity-lemmata`'s cut-norm
