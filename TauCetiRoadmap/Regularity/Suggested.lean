@@ -691,7 +691,7 @@ theorem inducedCountingParameter3_charge (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε
 /-- **Layer 9 (discarded predictions — the output slack).** The per-route **output** error for
 the discarded-route prediction bound, as a function of the lower complexity. Deliberately a
 separate function from the **input** schedule `inducedCountingSchedule3`: the discarded-side
-theorem must not feed the same function in as regularity strength and out as conclusion slack —
+statement must not feed the same function in as regularity strength and out as conclusion slack —
 that shape bakes a linear regularity-to-counting modulus into the statement. The two are tied
 only through `pairRouteRegularityThreshold3` by the calibration
 `inducedCountingSchedule3_le_exceptionalPredictionThreshold` (explicit value is a target;
