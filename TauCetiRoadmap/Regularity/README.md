@@ -210,7 +210,7 @@ proved — its binary-palette strong-witness counting chain and graph bridges
 
 ### Layer 7 — top-layer regularity over polyads
 - **Consume.** Layer 6.
-- **Build.** `IsTopRegularOverPolyad H P δ r` — the **`(δ, r)` NRS-rank form**: for every top color and every union of at most `r` subpolyads (`unionSupport` — arbitrary subgraphs of the parent pair graphs, *not* just vertex boxes) carrying a `δ`-fraction of the parent support, relative-density stability. `r = 1` is the disc-regular form; the rank the counting summit needs is pinned by pattern size in Layer 9 (`inducedCountingRank3`). The honest **weaker** predicate `IsVertexBoxRegularOverPolyad` (shrink the three cells, keep the full pair graphs) is kept as an intermediate target and for the `r = 2` shadow gate — it is **not** the predicate the induced-counting summit consumes: vertex-box discrepancy alone is generally not counting-ready strength. Plus the most-polyads / exceptional-mass and slicing/inheritance targets.
+- **Build.** `IsTopRegularOverPolyad H P δ r` — the **`(δ, r)` NRS-rank form**: for every top color and every union of at most `r` subpolyads (`unionSupport` — arbitrary subgraphs of the parent pair graphs, *not* just vertex boxes) carrying a `δ`-fraction of the parent support, relative-density stability. `r = 1` is the disc-regular form ("disc-regular" is descriptive shorthand from the hypergraph-regularity literature — NRS themselves write `(δ, r)`-regular, so this is their `(δ, 1)`-regular case); the rank the counting summit needs is pinned by pattern size in Layer 9 (`inducedCountingRank3`). The honest **weaker** predicate `IsVertexBoxRegularOverPolyad` (shrink the three cells, keep the full pair graphs) is kept as an intermediate target and for the `r = 2` shadow gate — it is **not** the predicate the induced-counting summit consumes: vertex-box discrepancy alone is generally not counting-ready strength. Plus the most-polyads / exceptional-mass and slicing/inheritance targets.
 - **Gate.** The `r = 2` shadow of the vertex-box form matches pair regularity; per-color quantification is present; the summit consumes the rank form, never the vertex-box form.
 
 ### Layer 8 — strong arity-3 regular approximation (summit)
@@ -353,8 +353,10 @@ parallel of this roadmap, not a supplier.
   strong-regularity (energy-gap stopping) iteration Layer 4 follows.
 - Y. Zhao, *Graph Theory and Additive Combinatorics* (2023), ch. 2 — graph regularity, counting, and
   the strong-regularity exposition.
-- V. Rödl, M. Schacht, *Regular partitions of hypergraphs* (2007); B. Nagle, V. Rödl, M. Schacht,
-  *The counting lemma for regular k-uniform hypergraphs*, Random Struct. Alg. 28 (2006).
+- V. Rödl, M. Schacht, *Regular Partitions of Hypergraphs: Regularity Lemmas*, Combin. Probab.
+  Comput. 16(6) (2007), 833–885 (the companion *Regular Partitions of Hypergraphs: Counting
+  Lemmas* is ibid., 887–901); B. Nagle, V. Rödl, M. Schacht, *The counting lemma for regular
+  k-uniform hypergraphs*, Random Struct. Alg. 28 (2006), 113–179.
 - C. Terry, *Growth of regular partitions 4: strong regularity and the pairs partition*
   ([arXiv:2404.02030](https://arxiv.org/abs/2404.02030)) — the subtriad test surface (three
   component bigraphs, one per role pair) and the lower error schedule evaluated at the

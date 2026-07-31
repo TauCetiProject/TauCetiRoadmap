@@ -220,7 +220,7 @@ structure StrongRegular (G : SimpleGraph V) [DecidableRel G.Adj]
 equipartition `P₀` and a requested minimum complexity `l`, coarse/fine equipartitions with the
 `StrongRegular` properties exist, with the coarse partition **almost-refining** `P₀` (the chosen
 Layer-2 wrapper guarantees only almost-refinement of the *input* partition; the exact nesting
-`exists_regular_exact_refining_equipartition` provides holds between the partitions the iteration
+provided by `exists_regular_exact_refining_equipartition` holds between the partitions the iteration
 itself constructs) and at least `l` parts —
 the starting-partition/lower-bound parameters counting applications need, mirrored from the prior
 formalization's `exists_strongWitness` (proved there with host-independent bounds on **both**
@@ -403,9 +403,10 @@ def unionSupport {S : PairSkeleton3 κ₂ V} {P : Polyad3 S} {r : ℕ}
 /-- **Layer 7.** `H` is `(δ, r)`-top-regular over the polyad `P`: for every top color and every
 union of at most `r` **subpolyads** (arbitrary subgraphs of the parent pair graphs — the
 Rödl–Schacht/Nagle–Rödl–Schacht test surface) carrying a `δ`-fraction of the parent support, the
-relative density is stable. `r = 1` is the disc-regular form; Layer 9 pins the rank the counting
-summit needs from the pattern size. Prior-formalization correspondence: `IsDiscRegularAt` (`r = 1`)
-and `IsPolyadRegularAt … r`. -/
+relative density is stable. `r = 1` is the disc-regular form ("disc-regular" is descriptive
+shorthand; NRS write `(δ, r)`-regular, so this is their `(δ, 1)`-regular case); Layer 9 pins the
+rank the counting summit needs from the pattern size. Prior-formalization correspondence:
+`IsDiscRegularAt` (`r = 1`) and `IsPolyadRegularAt … r`. -/
 def IsTopRegularOverPolyad (H : Colored3Graph κ₃ V) {S : PairSkeleton3 κ₂ V}
     (P : Polyad3 S) (δ : ℝ) (r : ℕ) : Prop :=
   ∀ (c : κ₃) (Q : Fin r → Subpolyad3 P),
