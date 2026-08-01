@@ -19,10 +19,10 @@ divisors or scheme quotients, **no** Drinfeld level structures, **no** moduli fo
 `Ell/R`, and **no** modular curves. We build these in
 `TauCeti/AlgebraicGeometry/EllipticCurve/Scheme/` and `TauCeti/AlgebraicGeometry/ModularCurve/`,
 following Katz–Mazur (*Arithmetic Moduli of Elliptic Curves*, whose result numbering is the
-coordinate system) with Loeffler's notes as the companion spine — cited for the mathematics,
-not as the specification. This roadmap absorbs the scheme-facing elliptic-curve layer that the
-elliptic-curves roadmap deliberately defers, and owes it the function-field comparison
-contract (`README.md` §Layer 2).
+coordinate system) with Loeffler's notes as the companion — cited for the mathematics,
+not as the specification. This roadmap builds the scheme-facing elliptic-curve layer that the
+elliptic-curves roadmap deliberately defers, and carries the function-field comparison
+theorem (`README.md` §Layer 2).
 
 `sorry` is allowed in this human-owned roadmap library — these are goals, not proofs.
 Following the roadmap-writing guide, the Layer-1 entry points statable against pinned Mathlib
@@ -37,7 +37,7 @@ and built there, not pinned here as `sorry`-typed junk types.
 ## Provenance (migrate and complete from existing work)
 
 The AINTLIB modular-curves project (revisions pinned in `README.md` §Provenance) carries the
-program a long way: the `Y₁(N)` naive-representability headline `gammaOneNaive_representable`
+program a long way: the `Y₁(N)` naive-representability theorem `gammaOneNaive_representable`
 is complete and axiom-clean on its `main` branch, and the active branch holds the elliptic
 curve over a base (locally-Weierstrass record, chart-built group law, points dictionary), the
 Katz–Mazur endomorphism/degree material, subgroup quotients, `μ_N`, level structures, the
@@ -126,7 +126,7 @@ by factoring `[deg φ]` through `E/ker φ ≅ E′` — the trace-reflection `α
 `E/C` by finite locally free subgroups; the Weil pairing
 `e_N : E[N] ×_S E[N] ⟶ μ_N` (KM 2.8), constructed via Cartier duality and the self-duality
 of `E[N]`, with the normalisation pinned against the field-level pairing last; and the
-function-field comparison contract with the elliptic-curves roadmap. All need Layer 1's
+function-field comparison theorem with the elliptic-curves roadmap. All need Layer 1's
 bundled object; specified in `README.md` §Layer 2. -/
 
 /-! ## Layer 3: Drinfeld level structures (KM Ch. 1, 3)
@@ -148,14 +148,14 @@ covers, and no stacks anywhere (`README.md` conventions). Specified in `README.m
 
 Tate normal form and the universal Tate curve `Spec ℤ[A, B][Δ⁻¹]`; `Y₁(N)` for `N ≥ 4`
 representable, smooth and affine over `ℤ[1/N]` (the provenance's completed axiom-clean
-headline, to migrate); the full ordered-basis scheme `Y_full(N)` for `N ≥ 3` via rigidity
-(KM 2.7.2) and the closed full-level locus through the KM 4.7.0 engine, with its
+main theorem, to migrate); the full ordered-basis scheme `Y_full(N)` for `N ≥ 3` via rigidity
+(KM 2.7.2) and the closed full-level locus through the KM 4.7.0 representability theorem, with its
 `GL₂(ℤ/N)`-action, determinant map, and **fixed-pairing component** `Y(N, ζ_N)` with its
 `SL₂(ℤ/N)`-action (irreducibility statements live on the component); and the twisted curve
 **`Y(ρ)`** (Buzzard, *Formalizing Fermat* Lecture 8) — `V_ρ` by Galois descent of the
 constant group scheme, the symplectic-`Isom` moduli problem against the Weil pairing,
 `yRho_representable` over `ℚ`, and the field-points description the FLT `3`–`5` switch
-consumes. Specified in `README.md` §Layer 5. -/
+uses. Specified in `README.md` §Layer 5. -/
 
 /-! ## Layer 6: Drinfeld representability over `ℤ`, `Γ_H`, and coarse spaces (KM 3.6, Ch. 7–8)
 

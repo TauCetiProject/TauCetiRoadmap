@@ -18,7 +18,7 @@ This roadmap owns the scheme-theoretic elliptic-curve layer. The elliptic-curves
 ([`TauCetiRoadmap/EllipticCurves/`](../EllipticCurves/README.md)) develops its arithmetic on
 the Weierstrass equation and its function field, with no schemes; Layers 1–2 here build the
 elliptic curve over an arbitrary base with its group law, isogenies, degree, and dual — KM's
-Chapter 2 — and carry the comparison contract between the two theories. (PR 68 is open, so
+Chapter 2 — and carry the comparison theorem between the two theories. (PR 68 is open, so
 the relative link resolves only once that roadmap merges; the comparison interface is
 therefore also stated self-containedly in Layer 2.)
 
@@ -217,7 +217,7 @@ chart chain exists in provenance; both in-flight Mathlib PRs overlap here.
   field-level pairing of the elliptic-curves roadmap when `N` is invertible, which pins the
   normalisation. A comparison can fix a convention; it cannot replace the construction,
   especially in residue characteristic dividing `N`.
-- **The function-field comparison contract.** Over a field `F`: scheme isogenies of elliptic
+- **The function-field comparison theorem.** Over a field `F`: scheme isogenies of elliptic
   curves correspond to the elliptic-curves roadmap's function-field isogenies — in that
   roadmap's current interface, a contravariant `pullback` of function fields with a
   `MapsInfinity` condition — matching `deg`, separability, `[N]`, Frobenius, and the induced
@@ -231,7 +231,7 @@ chart chain exists in provenance; both in-flight Mathlib PRs overlap here.
   flatness (finite surjective between smooth curves ⟹ finite locally free) complete the
   passage into this roadmap's isogeny notion.
 
-**Dependencies.** Layers 0–1; the elliptic-curves roadmap only for the comparison contract.
+**Dependencies.** Layers 0–1; the elliptic-curves roadmap only for the comparison theorem.
 
 **Status.** `[N]` finite-locally-free material and the quotient construction exist in
 provenance; the general dual isogeny is **new** (the provenance's `endDual` is
@@ -307,7 +307,7 @@ meaningful only after this definition.
 
 **Dependencies.** Layers 1, 3 (rigidifiers use naive registers).
 
-**Status.** `EllCategory`, the atlas, the rigidifier torsors, and the 4.7.0 engine exist in
+**Status.** `EllCategory`, the atlas, the rigidifier torsors, and the KM 4.7.0 construction exist in
 provenance; the presentation theorem and the regularity definition are new as named
 statements.
 
@@ -346,15 +346,15 @@ with a continuous `Gal(ℚ̄/ℚ)`-action and an alternating Galois-equivariant 
 to `μ_N`. Build: `V_ρ/ℚ` by Layer 0's Grothendieck–Galois dictionary; the moduli problem of
 pairs `(E, α)` with `α : E[N] ≅ V_ρ` carrying the Weil pairing to the given pairing — a
 symplectic problem, hence a twist of the **fixed-pairing component**, not of `Y_full(N)`;
-`yRho_representable` for `N ≥ 3` through the same engine; and the field-points description
+`yRho_representable` for `N ≥ 3` by the same KM 4.7.0 theorem; and the field-points description
 (for characteristic-zero `K`, the `K`-points are naturally the pairs
 `(E/K, E[N] ≅ ρ|_{G_K})` respecting the pairings) — the statement the FLT `3`–`5` switch
-consumes.
+uses.
 
 **Dependencies.** Layers 3–4; Layer 0's dictionary and Layer 2's pairing for `Y(ρ)`.
 
-**Status.** The `Y₁(N)` chain is the most complete piece of provenance (axiom-clean
-headline, migration = decomposition); the full-level headline exists at the dev pin;
+**Status.** The `Y₁(N)` chain is the most complete piece of provenance (its main theorem
+axiom-clean; migration = decomposition); the full-level theorem exists at the dev pin;
 `Y(ρ)` is staged; the `Y_full`/fixed-component split is a **correction** new to this
 revision.
 
@@ -390,7 +390,7 @@ acting Borel and side, its effect on the pairing components, and the coarse prop
 
 **Dependencies.** Layers 3–5; Layer 0's quotients.
 
-**Status.** The coarse engine, semi-Borel rigidity, and Borel obstruction exist at the dev
+**Status.** The coarse-space construction, semi-Borel rigidity, and Borel obstruction exist at the dev
 pin; `Γ₀`'s cyclic substrate (`NIsogeny`) is genuinely open; the `Γ_H` convention fixes are
 new.
 
@@ -452,7 +452,7 @@ document, it becomes a successor roadmap; until then, 7A–7E is its dependency 
   `Σ_{a ∈ ℤ/p} [a·0] = p·[0] = ker F_{E/S}` — the kernel of relative Frobenius, a finite
   locally free subgroup of rank `p` — while `E(𝔽̄_p)` has no point of naive order `p`.
   (The divisor `p·[0]` has degree `p`; it is not `E[p]`, whose rank is `p²`.)
-- The comparison contract over a field: scheme isogenies biject with function-field
+- The comparison theorem over a field: scheme isogenies biject with function-field
   isogenies, matching degree and `[N]`.
 - `Y₀(N) = Y_full(N)/Borel` is coarse and not fine; `−1` in the Borel breaks rigidity.
 - `Y(ρ)(K)` is naturally the set of pairs `(E/K, E[N] ≅ ρ|_{G_K})` respecting the pairings —
@@ -460,12 +460,12 @@ document, it becomes a successor roadmap; until then, 7A–7E is its dependency 
 
 ## Ordering
 
-Layer 0 unblocks everything and proceeds in parallel strands. Layer 1 needs Layer 0's
-descent only for the group-law gluing. Layer 2 builds on Layers 0–1. Layer 3 consumes
-Layers 0 and 2. Layer 4 consumes Layers 1 and 3. Layer 5 consumes Layers 3–4 (plus Layer
-0's dictionary and Layer 2's pairing for `Y(ρ)`). Layer 6 consumes Layers 3–5. Layer 7
-consumes everything, in the order 7A → 7B → 7C → 7D → 7E; its `ℤ[1/N]` clauses land with
-Layer 6. The elliptic-curves roadmap is a sibling: only the Layer-2 comparison contract
+Layer 0 comes first and proceeds in parallel strands. Layer 1 needs Layer 0's
+descent only for the group-law gluing. Layer 2 builds on Layers 0–1. Layer 3 uses
+Layers 0 and 2. Layer 4 uses Layers 1 and 3. Layer 5 uses Layers 3–4 (plus Layer
+0's dictionary and Layer 2's pairing for `Y(ρ)`). Layer 6 uses Layers 3–5. Layer 7
+uses everything, in the order 7A → 7B → 7C → 7D → 7E; its `ℤ[1/N]` clauses land with
+Layer 6. The elliptic-curves roadmap is a sibling: only the Layer-2 comparison theorem
 touches it.
 
 ## References
@@ -509,7 +509,7 @@ and see no cross-file dependence); every "axiom-clean" claim is re-established b
 | Balanced `[Γ₁(N)]` | absent | — | — | **new, not yet scoped** |
 | `Ell/R`, atlas, rigidifiers, 4.7.0 | AINTLIB `Moduli/` | 2 | pending | migrate |
 | KM regularity definition | absent | — | — | **new** |
-| Tate normal form, `Y₁(N)` | AINTLIB `main` chain (≈21k lines) | 16 carriers | headline axiom-clean 2026-07-12 | proved; migration = decomposition |
+| Tate normal form, `Y₁(N)` | AINTLIB `main` chain (≈21k lines) | 16 carriers | main theorem axiom-clean 2026-07-12 | proved; migration = decomposition |
 | `Y_full(N)` representability | AINTLIB dev + `-y1` branch | — | pending | assembled at pin |
 | Fixed-pairing `Y(N, ζ_N)` | absent | — | — | **new (correction)** |
 | `Y(ρ)` | AINTLIB `YRho.lean` | 5 | — | staged |
