@@ -9,7 +9,7 @@ schemes, isogenies, quotients, and the Weil pairing. We then define Drinfeld `[�
 `[Γ₁(N)]`-, balanced `[Γ₁(N)]`-, and `[Γ₀(N)]`-structures and prove their relative
 representability. Over `ℤ[1/N]` the rigid problems give fine modular curves such as `Y₁(N)`
 and the fixed-pairing full-level curve `Y(N, ζ_N)`; non-rigid problems, including `Y(1)` and
-`Y₀(N)`, are treated through coarse moduli schemes; the twisted curve `Y(ρ)` consumed by the
+`Y₀(N)`, are treated through coarse moduli schemes; the twisted curve `Y(ρ)` used by the
 FLT project's `3`–`5` switch is built on the same machinery. The final part develops the
 deformation theory needed for KM's First Main Theorem 5.1.1: integral finite flatness and
 regularity of the four basic level problems.
