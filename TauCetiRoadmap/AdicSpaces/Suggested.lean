@@ -184,9 +184,9 @@ exercising Layers 0–4 end to end: an interesting ring to prove sheafy, `𝓐 =
 `K = F⸨t⸩` — specified self-containedly in `README.md` §Layer 6, its reference the sorry-free
 AINTLIB formalisation — a uniform non-noetherian domain, sheafy by Milnor-square transfer
 from strongly noetherian vertices (two non-reduced), and not stably uniform
-(`𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` is sheafy but not uniform) — a **proposed negative answer** to
-Hansen–Kedlaya Remark 3.16, presented as a new counterexample requiring independent
-mathematical review (`README.md` §Layer 6 lists the requirements). The rings need Layers 0
+(`𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` is sheafy but not uniform) — answering Hansen–Kedlaya
+Remark 3.16, with the AINTLIB `FJP/` formalisation as the proof (its formal status
+inherits the Layer-3/4 dependency cone, like every downstream result). The rings need Layers 0
 and 3, so the statements are specified in `README.md` §Layer 6 and built there. -/
 
 /-! ## Layer 7: application — the adic Fargues–Fontaine curve

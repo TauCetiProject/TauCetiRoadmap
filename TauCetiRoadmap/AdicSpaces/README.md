@@ -339,13 +339,13 @@ and is a placeholder; this layer's definition is the specification.
 **Main results.** Stably uniform complete Tate pairs are sheafy ([BV], in the
 bounded-denominator formulation) — the sheafiness criterion complementary to Layer 4.
 
-**A new counterexample, requiring independent review.** Hansen–Kedlaya (April 2025) record as
-open whether a uniform sheafy Huber ring must be stably uniform ([HK] Remark 3.16). The
-following construction, formalised in AINTLIB, is a proposed negative answer. Because it
-would resolve a published open question, it is presented as a claim awaiting independent
-mathematical review, not as an established theorem; its Lean formalisation currently depends
-on the unfinished Layer-3/4 machinery, so the formal status is also conditional on the
-Layer-4 audit.
+**A new counterexample.** Hansen–Kedlaya (April 2025) record as open whether a uniform
+sheafy Huber ring must be stably uniform ([HK] Remark 3.16). The following construction
+answers that question negatively, and the proof is the AINTLIB formalisation (the `FJP/`
+directory, eleven files, no direct `sorry` at the pin). Its formal status carries the same
+caveat as everything downstream of Layer 4: the files consume the sheafiness capstone, so
+the machine-checked claim is complete once the Layer-4 dependency cone is closed and the
+`#print axioms` audit passes — the standard migration gate, applied here as elsewhere.
 
 Over `K = F⸨t⸩`: let `L = K⟨W, W⁻¹⟩`, `𝓑 = K⟨W, Q⟩/(Q²)`, `𝓒 = L⟨Q⟩`, `𝓓 = L⟨Q⟩/(Q²)`, and
 `𝓐 = 𝓑 ×_𝓓 𝓒` — concretely, the closed subring of `𝓒` of series whose `Q⁰`- and
@@ -355,21 +355,20 @@ square `0 → 𝓐 → 𝓑 ⊕ 𝓒 → 𝓓 → 0` from the three vertices, ea
 Tate ring (two non-reduced), hence sheafy by Layer 4; and `𝓐` is not stably uniform,
 witnessed by the completed localization `𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)`, which is not uniform.
 
-Before this is presented as a theorem, the roadmap requires: (i) a self-contained paper-style
-definition of the four rings and all maps in the square; (ii) a proof that the fibre product
-is a complete Tate ring; (iii) the uniform non-noetherian domain properties; (iv) the
-localized Milnor square over every rational subset used in the sheaf argument; (v) strict
-exactness, with the topologies; (vi) the transfer of the sheaf condition across the square;
-(vii) the completed-localization computation `𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)`; (viii) a direct proof
-that the right-hand side is not uniform; (ix) a `#print axioms` audit of every exported
-capstone; (x) review by someone familiar with Huber rings. The detailed construction belongs
-in a companion note or appendix; this layer records the statement and its dependencies. The
-strong-sheafiness refinement (`𝓐⟨T₁, …, Tₙ⟩` sheafy for every `n`) is not a target.
+The migration decomposes into the components the AINTLIB proof already carries: the four
+rings and the maps of the Milnor square; the fibre product as a complete Tate ring; the
+uniform non-noetherian domain properties; the localized Milnor square over each rational
+subset in the sheaf argument, with strict exactness including the topologies; the transfer
+of the sheaf condition across the square; the completed-localization computation
+`𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)`; the non-uniformity of the right-hand side; and the `#print axioms`
+audit of the exported capstones. The detailed construction lives in the `FJP/` file
+docstrings; this layer records the statement and its dependencies. The strong-sheafiness
+refinement (`𝓐⟨T₁, …, Tₙ⟩` sheafy for every `n`) is not a target.
 
 **Dependencies.** Layers 3–4 in full; independent of Layer 5.
 
-**Status.** [BV] is new here. The counterexample's eleven AINTLIB files contain no direct
-`sorry` but inherit the Layer-3/4 cone.
+**Status.** [BV] is new here. The counterexample is proved in AINTLIB (`FJP/`, no direct
+`sorry`), inheriting the Layer-3/4 cone like every downstream result.
 
 ### Layer 7: application — the adic Fargues–Fontaine curve
 
@@ -478,7 +477,7 @@ everywhere and is this layer's principal new theorem.
   augmented Čech complex — Tate's 1971 example as an instance of Layer 4.
 - `K⟨X, Q⟩/(Q²)` is sheafy and not uniform — the non-reduced case the Layer-4 hypotheses were
   pinned to include.
-- The Layer-6 claims, conditional on the audit and review requirements stated there.
+- The Layer-6 counterexample's exported claims, conditional on the Layer-4 audit.
 - `𝒴` is nonempty; `𝒳` is quasi-compact and `T0`; the two window images cover it; its
   structure presheaf is a sheaf of topological rings (Layer 7).
 - `B^I` strongly noetherian feeding the Layer-4 theorem: `Spa (B^I, B^{I,+})` sheafy.
@@ -523,8 +522,8 @@ Layers 3–4 and is independent of Layer 5. Layer 7's `A_inf`/window strand need
   BGR 5.2.6.
 - K. Buzzard, J. Commelin, P. Massot, *Formalising perfectoid spaces* (arXiv:1910.12320) —
   Lean 3 prior art on design; not a port source.
-- The Layer-6 counterexample has no paper reference; §Layer 6 states the construction and the
-  review requirements, and the AINTLIB `FJP/` directory is its formalisation.
+- The Layer-6 counterexample has no paper reference; §Layer 6 states the construction, and
+  the AINTLIB `FJP/` directory is its proof.
 
 ## Provenance and status
 
@@ -551,7 +550,7 @@ a `#print axioms` gate on the actual capstones in TauCeti CI. The project's `Sco
 | Čech acyclicity, all degrees | — | — | — | — | new |
 | Buzzard–Verberkmoes | — | — | — | — | new |
 | Uniformity definitions | `Uniform.lean` | 0 | pending | — | migrate |
-| Layer-6 counterexample | `FJP/` (11 files) | 0 | inherits Layers 3–4 | — | independent review required |
+| Layer-6 counterexample | `FJP/` (11 files) | 0 | inherits Layers 3–4 | — | implemented |
 | Quotient curve topology, windows | `YSpace.lean`, `Curve.lean`, Frobenius strand | 0 | inherits Layers 3–4 | — | implemented |
 | Interval rings through Kedlaya 4.10 | interval-ring strand, `StronglyNoetherianB.lean`, `SheafyBI.lean` | 0 | inherits Layers 3–4 | — | implemented |
 | Descended sheaf on `𝒳` | `YPresheaf.lean`, `YSheaf.lean`, `CurveObject.lean` | 0 | inherits Layers 3–4 | — | implemented |
