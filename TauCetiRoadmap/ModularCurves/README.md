@@ -307,9 +307,12 @@ meaningful only after this definition.
 
 **Dependencies.** Layers 1, 3 (rigidifiers use naive registers).
 
-**Status.** `EllCategory`, the atlas, the rigidifier torsors, and the KM 4.7.0 construction exist in
-provenance; the presentation theorem and the regularity definition are new as named
-statements.
+**Status.** `EllCategory`, the atlas, the rigidifier torsors, and the KM 4.7.0 construction
+exist in provenance; the presentation theorem and the regularity definition are new as named
+statements. One design decision is inherited from the provenance's own audit: its shared
+engine states a global Legendre-action lemma that is **false as stated** (the receipts
+handover records three candidate resolutions); resolving that choice is part of migrating
+the engine, and the fine-curve theorems below stay conditional on it.
 
 ### Layer 5: fine curves over `ℤ[1/N]` — Tate normal form, `Y₁(N)`, full level (KM Ch. 3–4; Loeffler §§3.3–3.4, 3.8)
 
@@ -354,9 +357,10 @@ uses.
 **Dependencies.** Layers 3–4; Layer 0's dictionary and Layer 2's pairing for `Y(ρ)`.
 
 **Status.** The `Y₁(N)` chain is the most complete piece of provenance (its main theorem
-axiom-clean; migration = decomposition); the full-level theorem exists at the dev pin;
-`Y(ρ)` is staged; the `Y_full`/fixed-component split is a **correction** new to this
-revision.
+axiom-clean at the `main` pin; migration = decomposition). The full-level theorem and
+`yRho_representable` are in-tree at the dev head with no direct `sorry`, but both route
+through the shared engine whose cone is held open by the Legendre wall (provenance); the
+`Y_full`/fixed-component split is a **correction** new to this revision.
 
 ### Layer 6: Drinfeld representability over `ℤ`, `Γ_H`, and coarse spaces (KM 3.6, Ch. 7)
 
@@ -390,9 +394,12 @@ acting Borel and side, its effect on the pairing components, and the coarse prop
 
 **Dependencies.** Layers 3–5; Layer 0's quotients.
 
-**Status.** The coarse-space construction, semi-Borel rigidity, and Borel obstruction exist at the dev
-pin; `Γ₀`'s cyclic substrate (`NIsogeny`) is genuinely open; the `Γ_H` convention fixes are
-new.
+**Status.** The Drinfeld representability theorems for `[Γ(N)]` and `[Γ₁(N)]` over `ℤ` are
+in-tree at the dev head with no direct `sorry`, routing through the shared engine; their
+cones are additionally held open by the Oort–Tate wall, which is Layer 7B's material — so
+Layer 6's Drinfeld clause closes only with 7B. The coarse-space construction, semi-Borel
+rigidity, and Borel obstruction exist at the pin; `Γ₀`'s cyclic substrate (`NIsogeny`, 25
+direct `sorry`s) is genuinely open; the `Γ_H` convention fixes are new.
 
 ### Layer 7: the First Main Theorem — regularity (KM Ch. 5–6)
 
@@ -484,15 +491,26 @@ touches it.
 ## Provenance and status
 
 Sources: **AINTLIB** (`github.com/CBirkbeck/AINTLIB`, public, **Apache-2.0**), at
-`main @ 911a2eca9a04` (the consolidated `Y₁(N)` chain) and
-`dev/modular-curves @ 9fec8eba7652` (2026-07-22; the active KM program — 310 files, 247
-file-level `sorry` occurrences by grep), plus the stream branches
+`main @ 1c1c746` (2026-07-31; carries the consolidated `Y₁(N)` chain unchanged since
+`911a2eca`, plus a Mathlib bump) and `dev/modular-curves @ 5c25ad561` (2026-08-01; the
+active KM program — 824 files, ≈231 file-level `sorry` occurrences by grep, per directory:
+`EllipticCurve` 189/26, `ForMathlib` 442/40, `GroupScheme` 33/36, `LevelStructure` 10/19,
+`Moduli` 62/70, `ModularCurve` 12/17, `Picard` 57/7, `WeilPairing` 19/16), plus the stream
+branches
 `dev/modular-curves-y1 @ d9f2fbbb7b3e` (full-level route),
 `dev/modular-curves-b5da @ 0bb37c442f89` (`[N]` formally unramified), and
 `dev/modular-curves-irr @ 320d99ea6182` (irreducibility scoping — deferred with its
 milestone). Direct `sorry` counts are grep counts at those pins (they over-count comments
 and see no cross-file dependence); every "axiom-clean" claim is re-established by
 `#print axioms` in TauCeti CI at migration. The dev branch moves; re-pin before migrating.
+The repository carries its own capstone audit (`.mathlib-quality/scripts/capstone-census.lean`
+and the handover receipts document): at its 2026-07-20 audit, of the seven fine-curve
+representability receipts only the étaleness statement `levelSpaceΓπ_etale` was axiom-clean;
+the others have no direct `sorry` but route through a shared KM 4.7.0 construction whose
+dependency cones are held open by two identified obstacles — a Legendre-action lemma that is
+**false as stated** and awaits an owner design decision, and the absence of
+Oort–Tate/finite-flat group-scheme theory from Mathlib (exactly Layer 7B's material). So
+"in-tree, no direct `sorry`" below never means "proved".
 
 | Milestone | Source | Direct `sorry` | Transitive audit | Status |
 |---|---|---:|---|---|
@@ -510,8 +528,10 @@ and see no cross-file dependence); every "axiom-clean" claim is re-established b
 | `Ell/R`, atlas, rigidifiers, 4.7.0 | AINTLIB `Moduli/` | 2 | pending | migrate |
 | KM regularity definition | absent | — | — | **new** |
 | Tate normal form, `Y₁(N)` | AINTLIB `main` chain (≈21k lines) | 16 carriers | main theorem axiom-clean 2026-07-12 | proved; migration = decomposition |
-| `Y_full(N)` representability | AINTLIB dev + `-y1` branch | — | pending | assembled at pin |
+| `Y_full(N)` representability (naive, `N ≥ 3`) | dev `Moduli/GammaHClosure.lean`, `Representability.lean` | 0 in capstone files | open: engine (Legendre wall) | in-tree; cone open |
+| Drinfeld `[Γ(N)]`, `[Γ₁(N)]` representability over `ℤ` | dev `Moduli/GammaHClosure.lean` | 0 in file | open: engine + Oort–Tate walls | in-tree; cone open |
+| Étale receipt `levelSpaceΓπ_etale` | dev `Moduli/GammaHRepresentability.lean` | 2 in file | **axiom-clean at the 2026-07-20 audit** | proved; re-verify after bumps |
 | Fixed-pairing `Y(N, ζ_N)` | absent | — | — | **new (correction)** |
-| `Y(ρ)` | AINTLIB `YRho.lean` | 5 | — | staged |
-| `Γ_H`, coarse spaces, `j`-line | AINTLIB `CoarseSpace`, `GammaH*` | 0–3 | pending | partially done |
+| `Y(ρ)` (`yRho_representable`) | dev `ModularCurve/RhoPoints.lean` (`YRho.lean` support) | 0 in file (support 3) | open: engine cone | in-tree; cone open |
+| `Γ_H` master theorems, coarse spaces, `j`-line | dev `GammaHMaster.lean` (1), `CoarseSpace.lean` (0) | 0–1 | open: engine cone | partially done |
 | First Main Theorem (7A–7E) | skeleton only | — | — | **major new development** |
