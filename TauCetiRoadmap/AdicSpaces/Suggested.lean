@@ -8,7 +8,7 @@ import Mathlib
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
-The narrative roadmap (the conventions, the layer-by-layer build plan Layers 0–6, the worked
+The narrative roadmap (the conventions, the layer-by-layer build plan Layers 0–7, the worked
 examples, and the references) is in `README.md`. Mathlib has the valuative substrate
 (`ValuativeRel`, `Valuation.Compatible`, the valuative topology), nonarchimedean topological
 algebra (`NonarchimedeanRing`, `IsAdic`, `IsTopologicallyNilpotent`, `OpenSubgroup`), uniform
@@ -24,13 +24,23 @@ Fargues–Fontaine curve** `𝒳 = 𝒴/φ^ℤ` (Layer 7), for `E = Q_p` and a p
 characteristic `p`; the general theory of Layers 0–6 is what it consumes and what the rest of
 the subject reuses.
 
+**Coordination with Mathlib.** Open Mathlib PRs now develop this material: mathlib4#38009
+(`Spv` and its topology, on `ValuativeRel`), mathlib4#42312 (Huber rings), and mathlib4#42315
+(`Spa (A, A⁺)` as a topological space). The Layer-0 prototypes below are suggested forms; the
+final names and structures follow the upstream decisions once those PRs are reviewed, and
+upstream wins at migration time. Signatures for the later layers' objects — `Spv`, `Cont`,
+`Spa`, rational data and localization with its universal property, the structure presheaf,
+`𝒱^pre` and `𝒱`, pair- and ring-level sheafiness, the augmented Čech complex, affinoid
+pre-adic and adic spaces, and the final chart isomorphism for the quotient curve — are named
+in `README.md`'s layer sections and are added here as the upstream Layer-0/1/2 API settles.
+
 `sorry` is allowed in this human-owned roadmap library — these are goals, not proofs.
 Following the roadmap-writing guide, the Layer-0 vocabulary that is fully statable against
 pinned Mathlib is **prototyped as honest definitions** below (`PairOfDefinition`,
 `IsHuberRing`, `IsTateRing` — suggested forms, not the specification), and first milestones
 over it are seeded as `theorem … := sorry`; nothing is a `Prop`-typed placeholder. The layers
 whose central objects are new *types* — `Spv` and its topology (Layer 1), `Spa` and rational
-subsets (Layer 2), rational localization, the structure presheaf and the category `𝒱`
+subsets (Layer 2), rational localization, the structure presheaf and the categories `𝒱^pre`/`𝒱`
 (Layer 3), the Čech complexes (Layer 4), adic spaces (Layer 5), and the Layer-6 example
 rings (Layer 6) — need the very API those layers introduce; they are specified in `README.md`
 with embedded Lean prototypes and built there, not pinned here as `sorry`-typed junk types.
@@ -140,13 +150,13 @@ the openness is part of the definition), their intersection stability (Remark 7.
 
 `A⟨T/s⟩` with its universal property (the API everything downstream consumes — the
 construction via restricted power series is private), iterated localization (Lemma 7.54 =
-Huber's Lemma 2.6), the presheaf `𝒪_X` (values complete topological rings), `𝒪_X⁺`, stalks
-with their valuations, the category `𝒱` on Mathlib's `PresheafedSpace`, and sheafiness with
-**`IsSheafOfTopologicalRings` as the definition of record** — the sheaf condition in the
-category of topological rings, `IsSheafy (A, A⁺) := IsSheafOfTopologicalRings 𝒪_X` — proved
-**equivalent** to the embedding-plus-gluing form over finite rational covers that the
-provenance works with (the workhorse for Layers 4 and 6). Specified in `README.md`
-§Layer 3. -/
+Huber's Lemma 2.6), the presheaf `𝒪_X` (values complete topological rings; stalks are colimit
+rings, no topology claimed), `𝒪_X⁺` defined via the stalk valuations, the category ladder
+`𝒱^pre` → pre-adic spaces → `𝒱` on Mathlib's `PresheafedSpace`, and sheafiness in three
+named notions — `IsSheafyPair A Aplus` (this presheaf is a sheaf of topological rings),
+`IsSheafyRing A` (Wedhorn's ring-level Definition 8.26), `IsStablySheafyRing A` — with the
+finite-rational-cover criterion for the pair-level notion proved once. Specified in
+`README.md` §Layer 3. -/
 
 /-! ## Layer 4: sheafiness and Tate acyclicity (Wedhorn §8.2, Theorem 8.28; Huber; Tate 1971)
 
@@ -172,11 +182,12 @@ first glued non-affinoid example. Specified in `README.md` §Layer 5. -/
 uniform ⇒ sheafy), this layer's theorem. The layer closes with a suggested worked example
 exercising Layers 0–4 end to end: an interesting ring to prove sheafy, `𝓐 = 𝓑 ×_𝓓 𝓒` over
 `K = F⸨t⸩` — specified self-containedly in `README.md` §Layer 6, its reference the sorry-free
-AINTLIB formalisation — a uniform non-noetherian domain, **sheafy** by Milnor-square transfer
-from strongly noetherian vertices (two non-reduced, exercising Layer 4's hypotheses as
-pinned), and **not stably uniform** (`𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` is sheafy but not uniform) — so
-sheafy ⇏ stably uniform, answering Hansen–Kedlaya Remark 3.16. The rings need Layers 0 and 3,
-so the statements are specified in `README.md` §Layer 6 and built there. -/
+AINTLIB formalisation — a uniform non-noetherian domain, sheafy by Milnor-square transfer
+from strongly noetherian vertices (two non-reduced), and not stably uniform
+(`𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` is sheafy but not uniform) — a **proposed negative answer** to
+Hansen–Kedlaya Remark 3.16, presented as a new counterexample requiring independent
+mathematical review (`README.md` §Layer 6 lists the requirements). The rings need Layers 0
+and 3, so the statements are specified in `README.md` §Layer 6 and built there. -/
 
 /-! ## Layer 7: application — the adic Fargues–Fontaine curve
 
@@ -189,7 +200,9 @@ wandering action; `𝒳 = 𝒴/φ^ℤ` quasi-compact and `T0` with an open quoti
 two-window cover; Kedlaya's interval rings `B^I` strongly noetherian (Thm 4.10) hence sheafy
 **by Layer 4**, with `B^{I,+}` the unit ball of `λ_I` and the inverse `κ`-to-interval
 dictionary pinned; the descended `φ`-invariant structure presheaf a sheaf of topological
-rings, `𝒳` an object of `𝒱`; and the final clause, `𝒳` locally isomorphic **in `𝒱`** to those
-affinoids. All specified in `README.md` §Layer 7 and built there. -/
+rings, `𝒳` an object of `𝒱`; and the final clause, by the wandering-slice route fixed in
+`README.md` §Layer 7: every point has a neighbourhood isomorphic in `𝒱^pre` — then in `𝒱`
+after sheafiness — to `Spa (B^I, B^{I,+})`. All specified in `README.md` §Layer 7 and built
+there. -/
 
 end TauCetiRoadmap.AdicSpaces
