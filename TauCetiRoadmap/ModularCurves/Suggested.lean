@@ -117,20 +117,25 @@ noncomputable def projModelPointsEquiv {K : Type u} [Field K] (W : WeierstrassCu
 
 /-! ## Layer 2: isogenies, torsion, quotients, and the Weil pairing (KM Ch. 1–2)
 
-`[N]` finite locally free of rank `N²` with `E[N] := ker [N]` (KM 2.3.1), rigidity, the
-hom-group and `End_S(E)`, degree as rank, the Abel-free dual `φ̂ := [tr φ] − φ` with
-`φ̂ ∘ φ = [deg φ]` (KM 2.6.2.2), quotients `E/C` by finite locally free subgroups, the Weil
-pairing `e_N : E[N] ×_S E[N] ⟶ μ_N` (KM 2.8) with its normalisation pinned against the
-field-level pairing, and the function-field comparison contract with the elliptic-curves
-roadmap. All need Layer 1's bundled object; specified in `README.md` §Layer 2. -/
+`[N]` finite locally free of rank `N²` for `[NeZero N]`, with `E[N] := ker [N]` (KM 2.3.1;
+rank by scheme-theoretic fibre length — the geometric-point count is a separate corollary
+for invertible `N`); rigidity, the hom-group and `End_S(E)`; degree as a locally constant
+rank, with `IsogenyOfDegree n` naming the constant case; the **general dual isogeny** built
+by factoring `[deg φ]` through `E/ker φ ≅ E′` — the trace-reflection `α̂ = [tr α] − α`
+(KM 2.6.2.2) is the endomorphism theorem proved afterwards, not the definition; quotients
+`E/C` by finite locally free subgroups; the Weil pairing
+`e_N : E[N] ×_S E[N] ⟶ μ_N` (KM 2.8), constructed via Cartier duality and the self-duality
+of `E[N]`, with the normalisation pinned against the field-level pairing last; and the
+function-field comparison contract with the elliptic-curves roadmap. All need Layer 1's
+bundled object; specified in `README.md` §Layer 2. -/
 
 /-! ## Layer 3: Drinfeld level structures (KM Ch. 1, 3)
 
 Full sets of sections (KM 1.3.5–1.3.7) and their closed-subscheme representability
 (KM 1.6.1–1.6.2), exact order `N` with the exact-order locus (KM 1.4), cyclic subgroups
-(KM 1.4.1, Ch. 6), the three structures `[Γ(N)]`, `[Γ₁(N)]`, `[Γ₀(N)]` (KM 3.1–3.4) over an
-arbitrary base, and the naive ⟺ Drinfeld equivalences over `ℤ[1/N]` (KM 1.4.4, 3.7).
-Specified in `README.md` §Layer 3. -/
+(KM 1.4.1, Ch. 6), the four structures `[Γ(N)]`, `[Γ₁(N)]`, **balanced `[Γ₁(N)]`**, `[Γ₀(N)]`
+(KM 3.1–3.4) over an arbitrary base, and the naive ⟺ Drinfeld equivalences over `ℤ[1/N]`
+(KM 1.4.4, 3.7). Specified in `README.md` §Layer 3. -/
 
 /-! ## Layer 4: the moduli formalism (KM Ch. 4)
 
@@ -143,8 +148,10 @@ covers, and no stacks anywhere (`README.md` conventions). Specified in `README.m
 
 Tate normal form and the universal Tate curve `Spec ℤ[A, B][Δ⁻¹]`; `Y₁(N)` for `N ≥ 4`
 representable, smooth and affine over `ℤ[1/N]` (the provenance's completed axiom-clean
-headline, to migrate); `Y(N)` for `N ≥ 3` via rigidity (KM 2.7.2) and the closed full-level
-locus through the KM 4.7.0 engine, with the `GL₂(ℤ/N)`-action; and the twisted curve
+headline, to migrate); the full ordered-basis scheme `Y_full(N)` for `N ≥ 3` via rigidity
+(KM 2.7.2) and the closed full-level locus through the KM 4.7.0 engine, with its
+`GL₂(ℤ/N)`-action, determinant map, and **fixed-pairing component** `Y(N, ζ_N)` with its
+`SL₂(ℤ/N)`-action (irreducibility statements live on the component); and the twisted curve
 **`Y(ρ)`** (Buzzard, *Formalizing Fermat* Lecture 8) — `V_ρ` by Galois descent of the
 constant group scheme, the symplectic-`Isom` moduli problem against the Weil pairing,
 `yRho_representable` over `ℚ`, and the field-points description the FLT `3`–`5` switch
@@ -163,8 +170,24 @@ coarse universal property and KM 8.1.7's no-base-change caveat recorded. Specifi
 
 KM 5.1.1: `[Γ(N)]`, `[Γ₁(N)]`, `[bal. Γ₁(N)]`, `[Γ₀(N)]` are relatively representable,
 finite flat over `Ell/ℤ`, **regular of dimension two**, and finite étale over `Ell/ℤ[1/N]`.
-The regularity clause is gated on deformation-theoretic vocabulary (universal formal
-deformations, Serre–Tate/Drinfeld homogeneity at supersingular points) that this roadmap
-builds in order; `README.md` §Layer 7 stages the waves. -/
+Regularity is in the Layer-4 Katz–Mazur sense (tested on rigidified representing schemes);
+its proof is the deformation-theoretic development 7A–7E of `README.md` §Layer 7 — formal
+deformation categories, formal and `p`-divisible groups, Serre–Tate, the Drinfeld
+deformation rings (`W(k)⟦u⟧` at supersingular points: one parameter, Krull dimension two),
+and globalisation via completed local rings. -/
+
+/-! ## Signature seeds to add as the layers land
+
+The interfaces on which the roadmap is most likely to go wrong should be seeded here as
+soon as their ambient types exist (they are not statable against pinned Mathlib today, and
+placeholder types would not check coherence): the bundled `EllipticCurveGeom S` /
+`EllipticCurve S` with base change; `[N]` and `IsogenyOfDegree n`; the general dual isogeny
+and the endomorphism trace formula; `E[N]` as a finite locally free group scheme; the
+constant group scheme and `μ_N` as *separate* constructions with Cartier duality between
+them; relative effective Cartier divisors (standard definition); Drinfeld exact-order and
+balanced-`Γ₁` structures; the Weil pairing; relative representability and rigidity; the
+Katz–Mazur regularity predicate; the fixed-pairing component of full level; and the coarse
+universal property of the `j`-line. Had the dual-isogeny signature been seeded, its
+ill-typed general form would have failed to elaborate — that is the point of this list. -/
 
 end TauCetiRoadmap.ModularCurves
