@@ -115,9 +115,21 @@ The algebraic geometry Mathlib does not yet have, each item built at Mathlib gen
   (KM 1.2.3), and the finite-flat package used by Drinfeld structures (divisor of a section,
   sums `Σᵢ [Pᵢ]`, fibrewise degree, base change, flat pullback) is derived from it. This
   order avoids introducing a bespoke working notion and replacing it later; sums, pullbacks,
-  and divisor equality are then transparent. Scope: general-ambient Cartier theory beyond
-  relative curves, `A`-structures for general finite abelian `A`, and KM §§1.11, 1.13 are
-  not treated; §1.10 contributes the three cyclic facts Layer 3 names.
+  and divisor equality are then transparent. **Scope, from an audit of the provenance's
+  actual usage** (dev head `5c25ad561`): the finite-flat package is consumed by the Drinfeld
+  register — `ExactOrder`, `CyclicSubgroup`, `DeligneOrder`, the `[Γ₀]` substrate, so
+  Layers 3, 6, and 7 — by the pole-sheaf presentation of the curve and the degree theory
+  (Layers 1–2), and by the Weil pairing. The `ℤ[1/N]` fine-curve chain and the KM 4.7.0
+  representability machinery consume **none of it**: the `Y₁(N)` chain and the `Moduli/`
+  engine are divisor-free at the pins (three marginal exceptions: section-marking, pull-back
+  canonicity, and the Layer-7 regularity skeleton). Both notions and their comparison
+  already exist in provenance (`RelEffCartierDiv`, `IsOfficialCartier`,
+  `sectionDivisor_isOfficial` on smooth relative curves), and the only consumer of the
+  official form beyond that comparison is the Picard-side material — so no
+  invertible-ideal-sheaf development beyond the definition and the one comparison theorem is
+  a target. General-ambient Cartier theory beyond relative curves, `A`-structures for
+  general finite abelian `A`, and KM §§1.11, 1.13 are not treated; §1.10 contributes the
+  three cyclic facts Layer 3 names.
 - **Finite locally free group schemes, with the constant/diagonalizable distinction
   correct.** Two separate constructions:
   the **constant group scheme** `(ℤ/N)_S` — the disjoint union of one copy of `S` per
@@ -354,7 +366,9 @@ symplectic problem, hence a twist of the **fixed-pairing component**, not of `Y_
 `(E/K, E[N] ≅ ρ|_{G_K})` respecting the pairings) — the statement the FLT `3`–`5` switch
 uses.
 
-**Dependencies.** Layers 3–4; Layer 0's dictionary and Layer 2's pairing for `Y(ρ)`.
+**Dependencies.** Layers 3–4; Layer 0's dictionary and Layer 2's pairing for `Y(ρ)`. No
+Cartier-divisor input: the naive fine-curve chain is divisor-free in provenance, so this
+layer can proceed in parallel with the Drinfeld divisor development.
 
 **Status.** The `Y₁(N)` chain is the most complete piece of provenance (its main theorem
 axiom-clean at the `main` pin; migration = decomposition). The full-level theorem and
@@ -467,7 +481,9 @@ document, it becomes a successor roadmap; until then, 7A–7E is its dependency 
 
 ## Ordering
 
-Layer 0 comes first and proceeds in parallel strands. Layer 1 needs Layer 0's
+Layer 0 comes first and proceeds in parallel strands — and its Cartier-divisor block gates
+only Layers 3, 6, and 7 (plus the pole-sheaf and pairing parts of Layers 1–2): Layers 4–5
+do not use it. Layer 1 needs Layer 0's
 descent only for the group-law gluing. Layer 2 builds on Layers 0–1. Layer 3 uses
 Layers 0 and 2. Layer 4 uses Layers 1 and 3. Layer 5 uses Layers 3–4 (plus Layer
 0's dictionary and Layer 2's pairing for `Y(ρ)`). Layer 6 uses Layers 3–5. Layer 7
