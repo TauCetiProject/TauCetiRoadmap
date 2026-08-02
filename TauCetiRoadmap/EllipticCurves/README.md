@@ -418,11 +418,18 @@ being distributed as bookkeeping. Its milestones:
 - **The hom-group and the degree form.** `Hom(W₁, W₂)`: the isogenies with a zero adjoined —
   the carrier is **pinned as `WithZero (Isogeny W₁ W₂)`** (review: settled by convention, not
   left to the implementer — definitionally `Option`, so the `WithZero`/`Option` API is reused
-  and no bespoke inductive or recursor is introduced. A reviewed alternative — `K`-algebra
-  homs `R(W₂) → K(W₁)` out of the affine ring, in the hope of treating `0` uniformly — is
-  recorded as rejected: such homs are exactly the dominant maps *plus the evaluations at
-  affine points*, so they adjoin every constant map except the wanted constant-at-`O₂`,
-  where `x` has a pole. The layer's real content is the
+  and no bespoke inductive or recursor is introduced. A reviewed alternative in
+  *unconditioned* form — all `K`-algebra homs `R(W₂) → K(W₁)` out of the affine ring, in
+  the hope of treating `0` uniformly — is recorded as rejected: such homs are exactly the
+  dominant maps *plus the evaluations at affine points*, so they adjoin every constant map
+  except the wanted constant-at-`O₂`, where `x` has a pole. A conditioned variant works
+  (Buzzard, review): keep the maps-infinity-to-infinity condition of the isogeny
+  definition, take the source to be the coordinate ring `R(W₂)` and the target the
+  function field `K(W₁)`, and admit the map through the ground field as the zero element;
+  the degree is then the dimension of `K(W₁)` over the fraction field of the image of
+  `R(W₂)`, and nothing is adjoined artificially. The pin stands because the present
+  development is formalised against `WithZero`; the conditioned variant is the recorded
+  route should the carrier ever be refactored. The layer's real content is the
   `AddCommGroup` instance on it). That content is the theorem that the **pointwise sum of
   isogenies is an isogeny or zero**: its pullback is
   manufactured from the same rational addition formulas Mathlib's group law is proved by — this
@@ -483,9 +490,15 @@ being distributed as bookkeeping. Its milestones:
   pole orders `2` and `3` at the base point) is replaced by exhibited functions and a
   verifiable rational-function identity — Vélu (1971); Galbraith Ch. 25 for the checkable
   modern statement; Kohel's thesis for the kernel-polynomial, fully `K`-rational packaging
-  (references). Inseparable quotients are not Vélu's business and not needed: the
-  (separable) ∘ (Frobenius power) factorisation above reduces every quotient to Vélu plus
-  the explicit `W → W^{(p)}`.
+  (references). Vélu's construction takes a finite set of points as input, so it produces
+  exactly the quotients by separable kernels; an inseparable kernel is invisible to it —
+  relative Frobenius has trivial geometric point kernel — and needs no formulas either:
+  the quotient of `W` by `ker F_{W/K}` *is* the twist `W^{(p)}`, with pullback the
+  inclusion of `p`-th powers `K(W)^p ⊆ K(W)` (AEC II.2.11). Exhaustiveness is part of the
+  milestone rather than an aside: by the factorisation `φ = φ_sep ∘ F^r` of the
+  relative-Frobenius bullet above (AEC II.2.12), every quotient is a Frobenius power
+  followed by a Vélu quotient by a set of points, so the two constructions together reach
+  every isogeny.
 - **The dual isogeny.** `φ̂` with `φ̂ ∘ φ = [deg φ]` and `φ ∘ φ̂ = [deg φ]` (AEC III.6.1–2),
   constructed by factoring `[deg φ]` through `φ` via the milestone above: for the **separable**
   part, base change to `Kˢᵉᵖ`, where `Kˢᵉᵖ(W₁)/φ^*Kˢᵉᵖ(W₂)` **is** Galois with group

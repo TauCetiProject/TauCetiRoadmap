@@ -124,12 +124,15 @@ pullback.
 
 ⚠ **`letI`-local only — never a global `instance`.** `integralClosure` forces an `Algebra`
 structure into existence here (Mathlib has no `RingHom.IsIntegral`-relative API for it), but
-this structure must stay confined to `letI` inside definition bodies: registered globally it
-would collide with `Algebra.id` when `W₁ = W₂` and the pullback is the identity — two
-non-defeq instances of the same `Algebra` type, the classic diamond. Kept local, instance
-search never sees it and the diamond has no scope to form; specialised statements about
-`φ = id` bridge with a one-off `finrank`-congruence when the identity arrives in disguised
-form. -/
+the structure depends on the pullback: for `W₁ = W₂` every endomorphism induces its own,
+distinct from `Algebra.id` whenever `φ ≠ id`, so a global registration would be a genuine
+diamond. Confined to `letI` inside definition bodies, each declaration fixes its own
+pullback and nothing leaks. The identity case itself is harmless by definitional equality:
+Mathlib defines `Algebra.id K` as `(RingHom.id K).toAlgebra`, so at `φ = id` the local
+structure is the canonical instance on the nose — `rfl`, no transport. The shared
+development is the working evidence: `finiteDimensional` and the `intermediateRing*` lemmas
+are proved in exactly this style with no workaround lemmas, and public statements are
+phrased over the pullback ring map, never over an instance. -/
 @[reducible]
 noncomputable def FunctionFieldPullback.coordinateRingAlgebra
     {W₁ W₂ : WeierstrassCurve.Affine F} (pullback : FunctionFieldPullback W₁ W₂) :
