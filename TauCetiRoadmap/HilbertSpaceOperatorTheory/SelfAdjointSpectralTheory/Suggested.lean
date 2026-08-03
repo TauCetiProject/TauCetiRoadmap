@@ -63,22 +63,44 @@ theorem generator_commute (U : OneParameterUnitaryGroup H) (T : H →L[ℂ] H)
 
 section BorelCalculus
 
-variable (a : H →L[ℂ] H)
+variable {a : H →L[ℂ] H}
+
+/-- A symbol admissible for the bounded Borel calculus: measurable and uniformly bounded.
+
+Bundled rather than carried as two loose hypotheses, because the calculus is a homomorphism
+*out of* this class and the class has its own closure theory. With the conditions loose,
+multiplicativity cannot even be stated without additionally assuming measurability and
+boundedness of `f * g`, both of which are consequences of the hypotheses already present. -/
+structure IsBddMeasurable (f : spectrum ℂ a → ℂ) : Prop where
+  measurable : Measurable f
+  exists_bound : ∃ M : ℝ, 0 ≤ M ∧ ∀ x, ‖f x‖ ≤ M
+
+/-- Admissible symbols are closed under products. This is the lemma that lets
+multiplicativity below take two hypotheses instead of four. -/
+theorem IsBddMeasurable.mul {f g : spectrum ℂ a → ℂ}
+    (hf : IsBddMeasurable f) (hg : IsBddMeasurable g) :
+    IsBddMeasurable (fun x => f x * g x) := sorry
+
+/-- Admissible symbols are closed under sums and scalar multiples, so the calculus is
+linear on a class that is itself a module. -/
+theorem IsBddMeasurable.add {f g : spectrum ℂ a → ℂ}
+    (hf : IsBddMeasurable f) (hg : IsBddMeasurable g) :
+    IsBddMeasurable (fun x => f x + g x) := sorry
 
 /-- The bounded Borel functional calculus of a normal operator, extending the
 continuous calculus along dominated convergence of diagonal measures. -/
-noncomputable def borelCalculus (ha : IsStarNormal a)
-    (f : spectrum ℂ a → ℂ) (hf : Measurable f) (hb : ∃ C, ∀ x, ‖f x‖ ≤ C) :
-    H →L[ℂ] H := sorry
+noncomputable def borelCalculus (ha : IsStarNormal a) {f : spectrum ℂ a → ℂ}
+    (hf : IsBddMeasurable f) : H →L[ℂ] H := sorry
 
 /-- Multiplicativity of the Borel calculus, carried from the continuous calculus
-by the polarised transport principle. -/
-theorem borelCalculus_mul (ha : IsStarNormal a)
-    {f g : spectrum ℂ a → ℂ} (hf : Measurable f) (hfb : ∃ C, ∀ x, ‖f x‖ ≤ C)
-    (hg : Measurable g) (hgb : ∃ C, ∀ x, ‖g x‖ ≤ C)
-    (hfg : Measurable (f * g)) (hfgb : ∃ C, ∀ x, ‖(f * g) x‖ ≤ C) :
-    borelCalculus a ha (f * g) hfg hfgb
-      = borelCalculus a ha f hf hfb * borelCalculus a ha g hg hgb := sorry
+by the polarised transport principle.
+
+Admissibility of the product is *constructed* from the two hypotheses via
+`IsBddMeasurable.mul`, not assumed, which is what keeps the signature at two hypotheses
+and lets the calculus be stated as a homomorphism. -/
+theorem borelCalculus_mul (ha : IsStarNormal a) {f g : spectrum ℂ a → ℂ}
+    (hf : IsBddMeasurable f) (hg : IsBddMeasurable g) :
+    borelCalculus ha (hf.mul hg) = borelCalculus ha hf * borelCalculus ha hg := sorry
 
 /-- A projection-valued measure on the Borel sets of `ℝ`: projections, countable
 additivity in the strong topology, and the diagonal scalar measures as data. -/
@@ -87,9 +109,8 @@ structure ProjValMeasure (H : Type*) [NormedAddCommGroup H]
   /-- The projection assigned to each Borel set.  Measurability is an argument, not a
   side condition: `proj` is meaningless off the Borel sets. -/
   proj : ∀ B : Set ℝ, MeasurableSet B → (H →L[ℂ] H)
-  /-- The diagonal scalar measures, carried **as data**.  The docstring above promised
-  them; the previous version of this structure did not have the field, so nothing in the
-  roadmap could state the resolvent formula. -/
+  /-- The diagonal scalar measures, carried **as data** rather than constructed: the
+  resolvent formula quantifies over them, so they have to be nameable from the structure. -/
   diag : H → MeasureTheory.Measure ℝ
   /-- Each diagonal measure is finite -- its mass is `‖ξ‖ ^ 2`. -/
   diag_finite : ∀ ξ : H, MeasureTheory.IsFiniteMeasure (diag ξ)
@@ -142,10 +163,8 @@ structure SylvesterEquation (A : E →ₗ.[𝕜] E) (B : F →ₗ.[𝕜] F)
 
 /-! ### The form-bound vocabulary
 
-Two predicates and the spectral bridges that produce them.  This replaces a
-single `quadraticForm_lowerBound_target` placeholder, which named no theorem:
-the prose behind it said lower bounds "transport along the graph norm", which is
-not a statement one can name, and the API the spectral-gap results actually
+Two predicates and the spectral bridges that produce them.  "Lower bounds transport
+along the graph norm" is not a statement one can name; what the spectral-gap results
 consume is the pair below plus a bridge in each direction. -/
 
 /-- Lower quadratic-form bound on a subspace. -/

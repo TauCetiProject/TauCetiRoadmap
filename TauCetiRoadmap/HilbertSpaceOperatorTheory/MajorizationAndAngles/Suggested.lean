@@ -158,9 +158,8 @@ theorem RectangularUnitarilyInvariantSeminorm.apply_le_of_kyFanSum_le
 
 /-! ### The orthogonal block sum
 
-A single `blockSum_target` placeholder stood here and identified no theorem: the block-sum
-layer is **four** results, and they are milestones in sequence rather than alternate names
-for one statement.  The last is the consumer-facing one. -/
+The block-sum layer is **four** results, milestones in sequence rather than alternate
+names for one statement.  The last is the consumer-facing one. -/
 
 /-- The orthogonal block sum of two rectangular maps, on `WithLp 2` products. -/
 noncomputable def orthogonalBlockSum {E₁ E₂ F₁ F₂ : Type*}
@@ -229,11 +228,11 @@ theorem sum_eigenvalues_mul_re_inner_self_le {T S : E →ₗ[𝕜] E}
 /-- **Hoffman--Wielandt**: the squared Euclidean distance between the sorted
 spectra of two symmetric operators is at most the squared Frobenius distance.
 
-**Quantified over an arbitrary orthonormal basis `e`, and that is the point.**  The
-existing proof states the right-hand side against `hT.eigenvectorBasis`, which is enough
-to prove it but is not the invariant Frobenius statement a consumer wants.  This clean
-name belongs to the arbitrary-basis version; the eigenbasis-specialized theorem should
-be private, or qualified `..._eigenvectorBasis` if it stays public. -/
+**Quantified over an arbitrary orthonormal basis `e`, and that is the point.**  Stating
+the right-hand side against `hT.eigenvectorBasis` suffices to prove the inequality but is
+not the invariant Frobenius statement a consumer wants.  This clean name belongs to the
+arbitrary-basis version; an eigenbasis-specialized variant should be private, or qualified
+`..._eigenvectorBasis` if it stays public. -/
 theorem sum_sq_eigenvalues_sub_le_sum_sq_norm_apply {T S : E →ₗ[𝕜] E}
     (hT : T.IsSymmetric) (hS : S.IsSymmetric) (hn : finrank 𝕜 E = n)
     (e : OrthonormalBasis (Fin n) 𝕜 E) :

@@ -88,11 +88,9 @@ theorem exists_subseq_tendsto_isMinOn_of_approxMinOn [FirstCountableTopology X]
     ∃ φ : ℕ → ℕ, StrictMono φ ∧ ∃ ψ ∈ K, IsMinOn F K ψ ∧
       Filter.Tendsto (fun t => z (φ t)) Filter.atTop (nhds ψ) := sorry
 
-/-! **The quantitative stability statement is deliberately unnamed.**  A
-`approxMinimizer_stability_target` placeholder stood here, and it named nothing: the
-prose behind it -- "an approximate minimizer at a nearby parameter is close to the
-argmin set" -- is three different theorems depending on the quantifier order, and the
-one worth proving has a shape like
+/-! **The quantitative stability statement is deliberately unnamed.**  "An approximate
+minimizer at a nearby parameter is close to the argmin set" is three different theorems
+depending on the quantifier order, and the one worth proving has a shape like
 
 ```text
 ∀ ε > 0, ∃ δ > 0, ∃ η > 0, dist p p₀ < δ → x ∈ K → IsApproxMinOn (g p) K η x →
@@ -100,16 +98,16 @@ one worth proving has a shape like
 ```
 
 Once that signature is fixed, `exists_isMinOn_dist_lt_of_approxMinOn` names it from its
-conclusion.  Guessing the name before the quantifiers are settled is what produced the
-placeholder. -/
+conclusion.  The name is withheld until the quantifiers are settled, because a name
+chosen first will not survive them. -/
 
 /-- **Berge, argmin half**: the argmin correspondence over a fixed compact
 feasible set is upper hemicontinuous, through Mathlib's own predicate.
 
-The clean name belongs to this statement.  The existing proof additionally assumes
-`[FirstCountableTopology X]`, which is a proof artifact -- it goes through the
-sequential characterization -- so if both versions coexist it is the *restricted* one
-that should be qualified (`..._of_firstCountable`) or kept private, not this one.
+The clean name belongs to this statement.  A `[FirstCountableTopology X]` hypothesis is an
+artifact of proving it through the sequential characterization, not part of the
+mathematics, so if a restricted version coexists it is *that* one which should be qualified
+(`..._of_firstCountable`) or kept private, not this one.
 
 `IsMinOn` rather than an invented argmin-set API: the predicate is Mathlib's. -/
 theorem upperHemicontinuousAt_isMinOn [T2Space X]
@@ -119,9 +117,9 @@ theorem upperHemicontinuousAt_isMinOn [T2Space X]
 
 /-- **Berge, value half**: the value function is continuous.
 
-Stated without `[FirstCountableTopology P]`.  The existing proof carries that hypothesis
-and this is the intended endpoint, so the general theorem should own the clean name and
-the sequential one be qualified if it has to survive. -/
+Stated without `[FirstCountableTopology P]`, which no part of the mathematics needs.  This
+is the intended endpoint and owns the clean name; a sequential variant, if one is wanted,
+carries the qualifier. -/
 theorem continuous_iInf_of_isCompact
     (hK : IsCompact K) (hKne : K.Nonempty) (hg : Continuous (Function.uncurry g)) :
     Continuous (fun p => ⨅ x : ↥K, g p ↑x) := sorry
@@ -159,10 +157,24 @@ section MatrixSpectra
 variable {n : ℕ} {Ω : Type*} [MeasurableSpace Ω]
 
 /-- `Matrix` is a type-level `def`, so the pi `MeasurableSpace` instance does not fire
-through it.  The existing implementation names this instance for the same reason; without it the
-measurability statement below does not elaborate. -/
-instance instMeasurableSpaceMatrix : MeasurableSpace (Matrix (Fin n) (Fin n) ℝ) :=
-  inferInstanceAs (MeasurableSpace (Fin n → Fin n → ℝ))
+through it and the entrywise σ-algebra has to be registered; without it the measurability
+statement below does not elaborate.
+
+Stated for arbitrary index and entry types. Nothing about the σ-algebra needs finite
+indices or real entries — it is the pi instance transported across a type-level `def` — and
+a `Matrix (Fin n) (Fin n) ℝ` version would have to be widened before it could go to
+Mathlib, which has no `MeasurableSpace` instance for `Matrix` at all. -/
+instance instMeasurableSpaceMatrix {m n α : Type*} [MeasurableSpace α] :
+    MeasurableSpace (Matrix m n α) :=
+  inferInstanceAs (MeasurableSpace (m → n → α))
+
+/-- The Borel companion, whose hypotheses are exactly `Pi.borelSpace`'s applied twice:
+countability of each index and second countability of the entry type. Spectral functions of
+a matrix are shown measurable entrywise, which needs this rather than the σ-algebra alone. -/
+instance instBorelSpaceMatrix {m n α : Type*} [Countable m] [Countable n]
+    [TopologicalSpace α] [MeasurableSpace α] [SecondCountableTopology α] [BorelSpace α] :
+    BorelSpace (Matrix m n α) :=
+  inferInstanceAs (BorelSpace (m → n → α))
 
 /-- Sorted eigenvalues of a Hermitian matrix, the ordering every perturbation
 statement below is stated against. -/
@@ -191,12 +203,11 @@ theorem measurable_specTransform (h : ℝ → ℝ) (hh : Continuous h)
 
 /-! ### The `RCLike` norm comparisons (open half of Milestone C1)
 
-No new mathematics: Cauchy--Schwarz and the triangle inequality are field-generic.  What
-the port costs is that the real proofs use `|·|` and `Real`-specific order lemmas where
-these need `‖·‖`.  Two consequences are decisions rather than bookkeeping -- the entrywise
-hypothesis becomes a bound on `‖A i j‖`, so **complex Hermitian matrices are covered by
-the same statement**, and both constants survive unchanged, which a complexification
-argument would not have managed. -/
+No new mathematics: Cauchy--Schwarz and the triangle inequality are field-generic, and the
+work is replacing `|·|` and `Real`-specific order lemmas by `‖·‖`.  Two consequences are
+decisions rather than bookkeeping -- the entrywise hypothesis becomes a bound on `‖A i j‖`,
+so **complex Hermitian matrices are covered by the same statement**, and both constants
+survive unchanged, which a complexification argument would not have managed. -/
 
 section RCLikeComparisons
 
@@ -252,9 +263,9 @@ noncomputable def centeredScatter (𝕜 : Type*) [RCLike 𝕜] {E : Type*} [Norm
 /-- **The exact add-one update for the centered scatter operator**, the streaming
 identity of the sample-moment layer.
 
-Named for the operation rather than as a target: this is an exact identity, and the
-existing implementation proves it under this name.  `_snoc` would be marginally more literal --
-the implementation appends with `Fin.snoc` -- but `append` names the mathematics. -/
+Named for the operation rather than as a target, since this is an exact identity rather
+than an estimate.  `_snoc` would track the `Fin.snoc` in the statement more literally, but
+`append` names the mathematics. -/
 theorem centeredScatter_append (𝕜 : Type*) [RCLike 𝕜] {E : Type*} [NormedAddCommGroup E]
     [InnerProductSpace 𝕜 E] {n : ℕ} (z : Fin n → E) (y : E) :
     centeredScatter 𝕜 (Fin.snoc z y) = centeredScatter 𝕜 z +
