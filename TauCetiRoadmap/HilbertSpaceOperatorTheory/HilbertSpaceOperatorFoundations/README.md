@@ -453,7 +453,7 @@ the [Hilbert-space operator theory](../README.md) family cites.
   frames and applications*, SIAM J. Discrete Math. **30** (2016), arXiv:1312.5393 — Gram
   rigidity in its frame-theoretic form.
 
-## Provenance
+## Acknowledgements
 
 A substantial implementation of all four Parts exists in the AIQ DKPS formalization
 (Kitware, Inc., Apache-2.0), in namespaces `TauCeti.*`, `LinearMap.*` and

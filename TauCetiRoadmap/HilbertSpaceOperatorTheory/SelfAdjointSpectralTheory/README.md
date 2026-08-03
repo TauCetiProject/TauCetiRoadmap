@@ -37,39 +37,6 @@ TauCeti/Analysis/CStarAlgebra/SelfAdjointGapInverse.lean
 TauCeti/MeasureTheory/    (the generic measurability and Helly-selection layer)
 ```
 
-## Scope boundary
-
-This roadmap owns the **self-adjoint** side of spectral theory:
-
-- the bounded Borel functional calculus of a normal operator, and projection-valued
-  measures;
-- resolvents, spectra and the Cayley transform of a self-adjoint `LinearPMap`;
-- the spectral measure of an unbounded self-adjoint operator and its spectral projections;
-- one-parameter unitary groups, and Stone's theorem as the bridge between the developed
-  group and spectral APIs.
-
-It does **not** own:
-
-- strongly continuous semigroups and groups in general, their generators as general
-  unbounded operators, Hille–Yosida, Lumer–Phillips, or the general theory of a generator's
-  resolvent. Those belong to the
-  [one-parameter semigroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
-  roadmap;
-- solvability theorems of Rosenblum type, spectral-gap Sylvester estimates, and their
-  `sin Θ` consequences. Those belong to
-  [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md), which
-  consumes this roadmap. The domain-aware Sylvester *equation* — the transport statement
-  `A X − X B = C` with its domain bookkeeping — is owned here, because it is a statement
-  about the objects this roadmap defines; the estimates are not.
-
-**Do not define a second generator or resolvent vocabulary.** Both this roadmap and the
-one-parameter semigroups roadmap model an unbounded operator as a Mathlib `LinearPMap`, and
-that is what makes one shared vocabulary possible. A `LinearPMap` is not an algebra element,
-so it needs its own resolvent *set* (see the generality bar); that definition should be
-shared with the semigroup development rather than duplicated on either side. Landing
-Stone's theorem here discharges the `C₀`-group stretch goal that roadmap already records,
-and the two should cite each other.
-
 ## Generality bar
 
 ### An unbounded operator *is* a `LinearPMap`
@@ -436,6 +403,10 @@ Duhamel estimate from A. It does not consume Part C: the shared carrier of C, D 
 construction.
 
 **External.** `HilbertSpaceOperatorFoundations`, for Part C's spectral-order bridge only.
+Strongly continuous semigroups in general, their generators, Hille–Yosida and
+Lumer–Phillips belong to the
+[one-parameter semigroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
+roadmap, not here.
 
 **Downstream.** `SpectralSubspacePerturbation` consumes Parts A, D and E; `OperatorIdeals`
 consumes Part E for approximation numbers of spectral bands; `MatrixSpectralStatistics`
@@ -458,7 +429,7 @@ consumes Part B's measurability layer.
 - K.-J. Engel, R. Nagel, *One-Parameter Semigroups for Linear Evolution Equations* (GTM 194,
   2000) — the semigroup side of Stone's theorem and the Yosida approximation.
 
-## Provenance
+## Acknowledgements
 
 A substantial implementation of all five Parts exists in the AIQ DKPS formalization
 (Kitware, Inc., Apache-2.0), in namespaces `TauCeti.*` and `LinearPMap.*`. It establishes
@@ -469,5 +440,4 @@ architecture.
 Part of the unitary-group material was adapted from the Spectra Formalization Project
 (Apache-2.0, Adam Bornemann), with per-file provenance headers; the construction of the
 spectral measure through the Cayley transform and the Borel calculus was chosen over that
-project's Herglotz/Poisson route. Integration must preserve licensing, identify which
-material is copied, adapted or new, and coordinate with the original author.
+project's Herglotz/Poisson route.

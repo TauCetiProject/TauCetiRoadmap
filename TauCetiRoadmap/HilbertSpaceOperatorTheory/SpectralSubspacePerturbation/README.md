@@ -349,7 +349,7 @@ equation (Parts B–C). Nothing here waits on `MatrixSpectralStatistics`.
 - Y. Yu, T. Wang, R. J. Samworth, *A useful variant of the Davis–Kahan theorem for
   statisticians*, Biometrika **102** (2015), 315–323.
 
-## Provenance
+## Acknowledgements
 
 A substantial implementation of all four Parts exists in the AIQ DKPS formalization (Kitware,
 Inc., Apache-2.0). It establishes feasibility and provides source provenance for integration,
@@ -360,6 +360,4 @@ source correspondence confined to the downstream acceptance layer of Part C.
 
 Material in the Sylvester and `sin Θ` lineage was adapted from the Spectra Formalization
 Project at upstream revision `8dbaaf6728d1342ae16acf79fd7eef7c59b37e63`, with a recorded
-compatibility patch; the Haagerup–Zsidó kernel material has no such influence. Integration must
-preserve licensing, identify which material is copied, adapted, generalized or new, and
-coordinate with that project's author — or discuss the plan publicly — before reuse.
+compatibility patch; the Haagerup–Zsidó kernel material has no such influence.

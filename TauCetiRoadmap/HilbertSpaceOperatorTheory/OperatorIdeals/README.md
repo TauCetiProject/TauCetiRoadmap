@@ -33,21 +33,6 @@ Suggested homes: `TauCeti/Analysis/OperatorIdeal/ApproximationNumber/`,
 `TauCeti/Analysis/OperatorIdeal/Family/`,
 `TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/`.
 
-## Scope boundary
-
-This roadmap owns **approximation numbers and every gauge of them**. That includes the
-approximation numbers of a spectral band (Part D), whose proofs run through the unbounded
-spectral measure: the proof is spectral theory, the statement is not, and ownership follows
-the statement.
-
-It does not own: singular values in finite dimension, the operator modulus, or
-Courant–Fischer, which come from
-[`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md); weak
-majorization and unitarily invariant norms on finite-dimensional spaces, which come from
-[`MajorizationAndAngles`](../MajorizationAndAngles/README.md); or the spectral measure
-itself, which comes from
-[`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md).
-
 ## Generality bar
 
 - **Zero-based indexing.** `aₙ(T) = dist(T, {R : rank R ≤ n})`, so `a₀(T) = ‖T‖`, matching
@@ -468,7 +453,7 @@ ship first.
 - R. A. Horn and C. R. Johnson, *Matrix Analysis*, 2nd ed., Cambridge, 2013, Thm. 4.2.6.
 - M. Ullrich, "Inequalities between s-numbers", *Adv. Oper. Theory* **9** (2024), art. 75.
 
-## Provenance
+## Acknowledgements
 
 A substantial implementation of nearly all of the above exists in the AIQ DKPS
 [formalization repository](https://github.com/AIQ-Kitware/aiq-dkps-formalization) under

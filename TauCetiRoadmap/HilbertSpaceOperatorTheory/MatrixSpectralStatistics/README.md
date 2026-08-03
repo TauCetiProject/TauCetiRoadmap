@@ -40,16 +40,6 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
 `TauCeti/Analysis/Matrix/`, `TauCeti/Probability/Moments/`, with two supporting lemmas in
 `TauCeti/MeasureTheory/`.
 
-## Scope boundary
-
-This roadmap owns matrix-level statements with **entrywise** hypotheses, the measurability of
-spectral functions of a random matrix, and the elementary concentration that follows. It does
-not own the abstract operator theory those statements are compared against — that is
-[`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md) — and it
-does not own random matrix theory: limiting spectral distributions, universality, and the
-sharp dimensional constants of matrix Bernstein are out of scope, and the deliberately
-elementary route taken in Part D says so in its statements.
-
 ## Generality bar
 
 - **Matrices, deliberately.** Parts C and D are about concrete matrices with entrywise
@@ -419,7 +409,7 @@ of the rest.
 - R. Vershynin, *High-Dimensional Probability* (2018) — sample covariance concentration and its
   uses.
 
-## Provenance
+## Acknowledgements
 
 A complete implementation of Parts A and B and of most of Parts C and D exists in the AIQ DKPS
 formalization (Kitware, Inc., Apache-2.0), in `TauCeti.*` and `TauCeti.Matrix.*` namespaces. It

@@ -350,7 +350,7 @@ must not restate it.
 - Y. Yu, T. Wang, R. J. Samworth, *A useful variant of the Davis–Kahan theorem for
   statisticians*, Biometrika **102** (2015) — the aligned-basis bound.
 
-## Provenance
+## Acknowledgements
 
 A substantial implementation of all four Parts exists in the AIQ DKPS formalization
 (Kitware, Inc., Apache-2.0). It establishes feasibility and provides source provenance for
@@ -361,4 +361,3 @@ The Schur–Horn proof strategy was read from and is credited to
 [`rjwalters/lean-genius`](https://github.com/rjwalters/lean-genius),
 `proofs/Proofs/SchurHornMajorization.lean` (commit `3e09c97`, retrieved 2026-07-04; no
 licence declared upstream), and was re-derived on this development's own foundations.
-Coordinate with that author before reusing any of it.
