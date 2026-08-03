@@ -262,30 +262,6 @@ subspaces with their projection and gap formulas and angular operators.
 `A`-spectrum from the complementary `B`-spectrum alone,
 `δ · N (sinThetaMap U V) ≤ (π/2) · N (B − A)` for every unitarily invariant `N`.
 
-### The domain-aware `sin Θ` theorem — deliberately out of scope
-
-An earlier draft carried this as Milestone C3, stated as a bundled record
-(`UnboundedSinThetaProblem`) collecting the ambient operator, the trial and complementary
-blocks, their embeddings, the residual, a frame constant and a gap. **It has been cut.**
-
-The bundle is a hypothesis pack for a single theorem, not a mathematical object with
-independent standing — nothing else ever constructs one. Its own justification, that each
-specialization becomes a *constructor* so the bounded and finite-dimensional forms follow by
-supplying data, is an argument about proof engineering inside the donor repository rather
-than about reusable mathematics, and it is not one this roadmap should ask a skeptical
-reviewer to accept. Bundling the gap and frame constant as *fields* compounds it: the record
-is then not determined by its operators, since one configuration admits a different term for
-every admissible constant, so no sharp-constant statement can even be phrased.
-
-What was genuinely reusable in it survives elsewhere, and that is where the effort belongs:
-the domain-aware Sylvester equation on `LinearPMap` (Milestone B1, with the resolvent and
-intertwining layer in
-[`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md)); the spectral
-separation predicates in
-[`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md); and the
-`sin Θ` operator between closed subspaces. Once those land, a domain-aware statement can be
-written directly over them, with the gap and the frame bound as ordinary hypotheses.
-
 **Acceptance suite — Davis–Kahan Part III.** A source-facing layer recording the correspondence
 between the paper's statements and the reusable declarations, in real and complex forms: the
 generalized and ordinary `sin Θ` theorems; equal-rank and lower-rank Ritz-residual `tan Θ`;
@@ -353,7 +329,8 @@ subspaces, the separation predicates, the modulus, singular values (Parts B–D)
 [`MajorizationAndAngles`](../MajorizationAndAngles/README.md): the unitarily invariant norm
 structures with Fan dominance, principal angles, the angle operators, aligned bases, Weyl
 perturbation (Parts B–D). [`OperatorIdeals`](../OperatorIdeals/README.md): the Hilbert–Schmidt
-space, the energy calculus and unitary conjugation (Parts B–C). [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md): unitary
+space, the energy calculus and unitary conjugation (Parts B–C).
+[`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md): unitary
 groups and Stone, the `LinearPMap` resolvent and spectrum layer with the Cayley transform and
 the intertwining chain, the spectral measure and its support, and the domain-aware Sylvester
 equation (Parts B–C). Nothing here waits on `MatrixSpectralStatistics`.
