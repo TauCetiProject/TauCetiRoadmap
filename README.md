@@ -25,6 +25,7 @@ Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and th
 12. [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
 13. [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
 14. [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
+15. [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
 
 ## Completed roadmaps
 
