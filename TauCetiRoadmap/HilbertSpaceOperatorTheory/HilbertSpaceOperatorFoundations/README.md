@@ -85,8 +85,6 @@ complete spaces here.
 
 ## What Mathlib already has (consume)
 
-Consume these and connect to them.
-
 - **The spectral theorem:** `LinearMap.IsSymmetric` with `eigenvalues` / `eigenvectorBasis`,
   `LinearMap.IsPositive` with `nonneg_eigenvalues`, adjoints, and the rank-one operators
   `InnerProductSpace.rankOne`. Part A is a finite sum of these.
@@ -108,7 +106,7 @@ Consume these and connect to them.
 
 ## What is missing (build here)
 
-None of the following is in Mathlib; this roadmap builds it.
+Not in Mathlib:
 
 * The finite self-adjoint functional calculus over `RCLike`, which Mathlib registers only over
   `ℂ`, together with the theorem that the two agree where both apply.

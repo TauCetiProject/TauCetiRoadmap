@@ -76,7 +76,7 @@ Suggested homes: `TauCeti/Analysis/OperatorIdeal/ApproximationNumber/`,
 
 ## What Mathlib already has (consume)
 
-Used rather than rebuilt: `ContinuousLinearMap` with its operator norm and
+Reused: `ContinuousLinearMap` with its operator norm and
 [`adjoint`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/Adjoint.html);
 `LinearMap.rank`, `Module.finrank` and `Cardinal` arithmetic for cross-universe rank bounds;
 [`LinearMap.singularValues`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/SingularValues.html)
@@ -86,7 +86,7 @@ Used rather than rebuilt: `ContinuousLinearMap` with its operator norm and
 `HilbertBasis` with Parseval; and `lp` with its inner-product instance at `p = 2`.
 `ENNReal.tsum_comm` is the whole content of adjoint invariance for the Hilbert–Schmidt energy.
 
-Three gaps this roadmap fills:
+The gaps to fill are:
 
 - **No finite-rank-implies-compact lemma.** A Part A target.
 - **No hypothesis-free `ℝ≥0∞` Minkowski for `tsum`.** `NNReal.Lp_add_le_tsum` carries
@@ -101,7 +101,7 @@ Three gaps this roadmap fills:
 
 ## What is missing (build here)
 
-None of the following is in Mathlib; this roadmap builds it.
+Not in Mathlib:
 
 * The approximation numbers `aₙ(T)` on seminormed spaces over a `NontriviallyNormedField`,
   with the additive and multiplicative index laws, the two-sided ideal bound, and the

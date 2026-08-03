@@ -108,7 +108,7 @@ below is absent upstream.
 
 ## What is missing (build here)
 
-None of the following is in Mathlib; this roadmap builds it.
+Not in Mathlib:
 
 * The Haagerup–Zsidó kernel, its Fourier transform, and the integrability that makes the
   sharp `π/2` constant available.

@@ -121,7 +121,7 @@ The rest below — the projection-valued and unbounded-spectral layer — is abs
 
 ## What is missing (build here)
 
-None of the following is in Mathlib; this roadmap builds it.
+Not in Mathlib:
 
 * One-parameter unitary groups and Stone's theorem, with the generator as a `LinearPMap` and
   density of its domain derived.

@@ -115,7 +115,7 @@ Everything below is absent upstream.
 
 ## What is missing (build here)
 
-None of the following is in Mathlib; this roadmap builds it.
+Not in Mathlib:
 
 * Rank factorization through `Fin r` as an iff, the positive-semidefinite Gram factorization
   behind multidimensional scaling, and their uniqueness statements — up to `GL` for general

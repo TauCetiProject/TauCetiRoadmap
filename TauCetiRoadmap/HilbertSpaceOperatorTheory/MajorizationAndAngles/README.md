@@ -124,7 +124,7 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
 
 ## What is missing (build here)
 
-None of the following is in Mathlib; this roadmap builds it.
+Not in Mathlib:
 
 * Weak majorization on `Fin n → ℝ`, the transfer operation, and descent into a symmetric
   convex set — the vector layer, with no operator imports.
