@@ -45,7 +45,7 @@ TauCeti/Analysis/Operator/Sylvester/
 TauCeti/Analysis/Operator/Perturbation/
 ```
 
-## Generality bar
+## Standing conventions
 
 - **Scalar fields, rectangular shapes.** Algebraic and finite statements over `[RCLike 𝕜]`;
   complex-calculus results over `ℂ` with explicit real descent. The `π/2` bound holds
@@ -96,7 +96,7 @@ TauCeti/Analysis/Operator/Perturbation/
   *corresponding ordered eigenvalue indices* rather than as an arbitrary reducing subspace.
   Pinned so that nobody simplifies it back to a two-sided gap.
 
-## What Mathlib already has
+## What Mathlib already has (consume)
 
 - **For Part A:** the Fourier transform with inversion (mind the `2π` convention), the Bochner
   integral, `Integrable`, exponential decay, Poisson summation, `Real.tanh`, `Analysis/PSeries`.
@@ -112,7 +112,24 @@ implementing, search the Lean Zulip and the open Mathlib pull requests for newly
 overlap and follow what is in motion rather than duplicating it. Everything below is absent
 upstream.
 
-## Part A — the Haagerup–Zsidó kernel and its Fourier transform
+## What is missing (build here)
+
+None of the following is in Mathlib; this roadmap builds it.
+
+* The Haagerup–Zsidó kernel, its Fourier transform, and the integrability that makes the
+  sharp `π/2` constant available.
+* The Sylvester operator on rectangular maps, the gap taxonomy, and Rosenblum's theorem, with
+  the domain-aware form on `LinearPMap` alongside the bounded one.
+* The Davis–Kahan `sin Θ` theorems: the dimension-free bounds, the finite spectral forms in
+  every unitarily invariant norm, the double-angle and tangent theory, and the graph-subspace
+  Riccati correspondence.
+* The Yu–Wang–Samworth statistical variant, whose gap hypothesis sits on the population
+  spectrum rather than the perturbed one — the substance of that Part — together with the
+  complement identity, the residual sandwich, and the aligned-basis form.
+
+## The build, in layers
+
+### Part A — the Haagerup–Zsidó kernel and its Fourier transform
 
 Independently submittable; no prerequisites.
 
@@ -154,11 +171,8 @@ about why `tanh(π y/2)` appears at all.
 **Milestone A2 — the normalization bridge** to Mathlib's Fourier transform, so users mixing
 the two conventions have a lemma rather than a warning.
 
-**Acceptance examples.** The identity at a concrete `x`; the mass bounding one concrete
-convolution; documentation stating that `π/2` is attained and that minimality is cited rather
-than proved, the Lean-proved obstruction being Part B's `5/3`.
 
-## Part B — Sylvester equations and the Rosenblum theorem
+### Part B — Sylvester equations and the Rosenblum theorem
 
 The hinge: it consumes Part A and all four external roadmaps, and Part C consumes it.
 
@@ -208,12 +222,8 @@ the pairwise bound with `π/2`.
 **Milestone B2 — Rosenblum's theorem** for self-adjoint `LinearPMap`s: a bounded operator
 intertwining two of them with disjoint spectra is zero.
 
-**Acceptance examples.** The two-by-two obstruction data (`α = (−1,1)`, `β = (0,2)`, gap one)
-is admissible yet forces mass `≥ 5/3` on every real undoubled certificate; a bounded pair as
-total partial maps recovers bounded uniqueness; the coercive bound on a concrete
-multiplication pair.
 
-## Part C — the Davis–Kahan sin Θ theorems
+### Part C — the Davis–Kahan sin Θ theorems
 
 Consumes Part B; the acceptance suite is Davis–Kahan Part III.
 
@@ -260,16 +270,8 @@ subspaces with their projection and gap formulas and angular operators.
 `A`-spectrum from the complementary `B`-spectrum alone,
 `δ · N (sinThetaMap U V) ≤ (π/2) · N (B − A)` for every unitarily invariant `N`.
 
-**Acceptance suite — Davis–Kahan Part III.** A source-facing layer recording the correspondence
-between the paper's statements and the reusable declarations, in real and complex forms: the
-generalized and ordinary `sin Θ` theorems; equal-rank and lower-rank Ritz-residual `tan Θ`;
-`sin 2Θ` in unitarily invariant norms; the sharp operator-norm `tan 2Θ` with the quarter-turn
-conclusion; the projector-difference companions; the paper's printed counterexample and
-sharpness statements; equality models of arbitrary finite multiplicity; and explicit statements
-of what is *not* claimed. Cross-checks between projection, singular-value, column-energy and
-tensor formulations on small matrix models complete it.
 
-## Part D — the Yu–Wang–Samworth statistical variant
+### Part D — the Yu–Wang–Samworth statistical variant
 
 Consumes Part C; a leaf.
 
@@ -307,13 +309,45 @@ singular subspaces via the Gram operators and the Hermitian dilation `[[0, A⋆]
 **Milestone D1 — the population-gap theorem and its single-vector form**, the latter being the
 sign-aligned eigenvector corollary that statisticians quote.
 
+
+## Worked examples (acceptance criteria)
+
+Discharge these alongside the layers; they check that the API describes real
+operators rather than only the headline theorems.
+
+### Part A — the Haagerup–Zsidó kernel and its Fourier transform
+
+**Acceptance examples.** The identity at a concrete `x`; the mass bounding one concrete
+convolution; documentation stating that `π/2` is attained and that minimality is cited rather
+than proved, the Lean-proved obstruction being Part B's `5/3`.
+
+### Part B — Sylvester equations and the Rosenblum theorem
+
+**Acceptance examples.** The two-by-two obstruction data (`α = (−1,1)`, `β = (0,2)`, gap one)
+is admissible yet forces mass `≥ 5/3` on every real undoubled certificate; a bounded pair as
+total partial maps recovers bounded uniqueness; the coercive bound on a concrete
+multiplication pair.
+
+### Part C — the Davis–Kahan sin Θ theorems
+
+**Acceptance suite — Davis–Kahan Part III.** A source-facing layer recording the correspondence
+between the paper's statements and the reusable declarations, in real and complex forms: the
+generalized and ordinary `sin Θ` theorems; equal-rank and lower-rank Ritz-residual `tan Θ`;
+`sin 2Θ` in unitarily invariant norms; the sharp operator-norm `tan 2Θ` with the quarter-turn
+conclusion; the projector-difference companions; the paper's printed counterexample and
+sharpness statements; equality models of arbitrary finite multiplicity; and explicit statements
+of what is *not* claimed. Cross-checks between projection, singular-value, column-energy and
+tensor formulations on small matrix models complete it.
+
+### Part D — the Yu–Wang–Samworth statistical variant
+
 **Acceptance examples.** A spiked model where the sample gap closes but the population gap does
 not; consistency — when a two-sided gap does hold, Part C's constant-one bound is stronger; a
 non-square matrix through the Gram route. Cite and cross-check, never vendor, the related
 endpoints in `YuanheZ/lean-stat-learning-theory` and `facebookresearch/atlas-lean`, the latter
 for statement comparison only, its repository terms being incompatible.
 
-## Dependency ordering
+## Ordering
 
 **Internal.** Part A is independent and independently submittable — this roadmap's cheapest
 first contact with review. Part B consumes Part A for the constant; Part C consumes Part B;

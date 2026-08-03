@@ -38,7 +38,7 @@ developed theory.
 Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
 `TauCeti/Analysis/InnerProductSpace/` for everything else.
 
-## Generality bar
+## Standing conventions
 
 - **Setting.** Finite-dimensional inner product spaces over `[RCLike 𝕜]`, so `ℝ` and `ℂ`
   uniformly; operators as `E →ₗ[𝕜] F`, with `toContinuousLinearMap` appearing only where
@@ -103,7 +103,7 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
   factorization of an injective map (Part D) is stated free of any gap or perturbation
   hypothesis, so anything needing a trial map factored can reuse it.
 
-## What Mathlib already has
+## What Mathlib already has (consume)
 
 - **Spectral theory:** `LinearMap.IsSymmetric.eigenvalues` / `eigenvectorBasis` and
   `LinearMap.singularValues : ℕ →₀ ℝ`, with `LinearMap.adjoint` and
@@ -127,7 +127,26 @@ Before implementing, search the Lean Zulip and the open Mathlib pull requests: m
 and doubly stochastic matrices are an area with recurring activity, and a landing
 majorization API should be followed rather than duplicated.
 
-## Part A — majorization, Schur–Horn, and unitarily invariant norms
+## What is missing (build here)
+
+None of the following is in Mathlib; this roadmap builds it.
+
+* Weak majorization on `Fin n → ℝ`, the transfer operation, and descent into a symmetric
+  convex set — the vector layer, with no operator imports.
+* Schur–Horn in Karamata form, and the Ky Fan triangle inequality that makes every Ky Fan
+  norm subadditive at once.
+* Unitarily invariant seminorms, square and rectangular, with Fan dominance: one
+  majorization estimate yielding the operator, Frobenius, Ky Fan and nuclear norms together.
+* Principal angles as singular values of the overlap operator, so ordering and bounds are
+  inherited rather than re-proved, with the aligned-basis layer over them.
+* The orthogonal block sum and its sharp two-sided comparison.
+* Angle geometry and the eigenvalue-perturbation results: the von Neumann trace core,
+  Hoffman–Wielandt against an arbitrary orthonormal basis, and Davis's eigenvalue-change
+  lower bound.
+
+## The build, in layers
+
+### Part A — majorization, Schur–Horn, and unitarily invariant norms
 
 **Objects.** `prefixSum` and `WeaklyMajorized` on `Fin n → ℝ`; the elementary `transfer`
 (Robin Hood move) and `IsTTransform`; `IsSymmetricConvex` sets and `FiniteSymmetricGauge`
@@ -172,12 +191,8 @@ arbitrary orthonormal basis, and any convex `φ` on a set containing the spectru
 **Milestone — Fan dominance.** Ky Fan domination implies domination in every unitarily
 invariant norm.
 
-**Acceptance examples.** Basis independence of the trace (the equality case of Schur
-majorization, no convexity needed); the `φ = (·)²` instance, that the diagonal is
-Euclidean-shorter than the spectrum; the Frobenius norm satisfies the three laws and
-`frobenius A = √(∑ σᵢ(A)²)` in every orthonormal basis.
 
-## Part B — principal angles, aligned bases, and finite frames
+### Part B — principal angles, aligned bases, and finite frames
 
 The order of construction is the mathematics: the frame layer gives the analysis/synthesis
 pair, the aligned-basis layer packages an orthonormal family as an isometry from coordinate
@@ -212,11 +227,8 @@ are actually proved.
 operator rotates `v` into a basis `w` of its span with `∑ⱼ ‖wⱼ − uⱼ‖² ≤ 2 · sinThetaSq hu hv`
 — the form the statistical perturbation theory consumes.
 
-**Acceptance examples.** The selected-block family of an orthonormal basis is orthonormal
-with span the selected coordinate block, and the `sinThetaSq` of two eigenblock families is
-the cross-block overlap sum; `familyIsometry` sends the `k`-th coordinate vector to `v k`.
 
-## Part C — rectangular unitarily invariant norms
+### Part C — rectangular unitarily invariant norms
 
 This Part exists for one composite theorem: Ky Fan domination implies membership in the
 convex hull of the two-sided unitary orbit, which implies domination in *every* rectangular
@@ -256,11 +268,8 @@ changes *are* two-sided unitary actions — so Part A's transfer descent applies
 what remains here is the operator-theoretic half: the lift, the extension of coordinate
 unitaries, and the SVD transport.
 
-**Acceptance examples.** The four instances satisfy the three laws with everything else
-derived; `σ(zeroExtension A) = σ(A)`; a square norm read through the rectangular bridge
-agrees with itself on square operators.
 
-## Part D — angle geometry and eigenvalue perturbation
+### Part D — angle geometry and eigenvalue perturbation
 
 Two things a reader might expect to be separate, kept together because they are the same
 step of the Davis–Kahan argument: the **angle dictionary** — cosine, sine, angle and tangent
@@ -313,11 +322,38 @@ smallness threshold are both part of the statement; without them it reads as an
 unconditional bound, which is false. Proved around a point of the permutation-orbit hull,
 with membership discharged from Birkhoff and not from Part A's engine.
 
+
+## Worked examples (acceptance criteria)
+
+Discharge these alongside the layers; they check that the API describes real
+operators rather than only the headline theorems.
+
+### Part A — majorization, Schur–Horn, and unitarily invariant norms
+
+**Acceptance examples.** Basis independence of the trace (the equality case of Schur
+majorization, no convexity needed); the `φ = (·)²` instance, that the diagonal is
+Euclidean-shorter than the spectrum; the Frobenius norm satisfies the three laws and
+`frobenius A = √(∑ σᵢ(A)²)` in every orthonormal basis.
+
+### Part B — principal angles, aligned bases, and finite frames
+
+**Acceptance examples.** The selected-block family of an orthonormal basis is orthonormal
+with span the selected coordinate block, and the `sinThetaSq` of two eigenblock families is
+the cross-block overlap sum; `familyIsometry` sends the `k`-th coordinate vector to `v k`.
+
+### Part C — rectangular unitarily invariant norms
+
+**Acceptance examples.** The four instances satisfy the three laws with everything else
+derived; `σ(zeroExtension A) = σ(A)`; a square norm read through the rectangular bridge
+agrees with itself on square operators.
+
+### Part D — angle geometry and eigenvalue perturbation
+
 **Acceptance examples.** Two unit-generated lines have a single principal cosine `‖⟪u, v⟫‖`;
 `principalAngles U U = 0`; the equal-rank operator-norm identity
 `‖P_U − P_V‖ = ‖sinThetaMap U V‖`.
 
-## Dependency ordering
+## Ordering
 
 Part A's convex engine has no prerequisites at all and could be submitted before, or
 independently of, everything else here. The operator half of Part A needs

@@ -37,7 +37,7 @@ TauCeti/Analysis/CStarAlgebra/SelfAdjointGapInverse.lean
 TauCeti/MeasureTheory/    (the generic measurability and Helly-selection layer)
 ```
 
-## Generality bar
+## Standing conventions
 
 ### An unbounded operator *is* a `LinearPMap`
 
@@ -89,7 +89,7 @@ C⋆-algebra facts — the norm/spectrum interval characterization, the gap inve
 for C⋆-algebras, not for Hilbert-space operators. The measurability lemmas behind the calculus
 are stated in `MeasureTheory` for their own hypotheses, with no operator theory in sight.
 
-## What Mathlib already has
+## What Mathlib already has (consume)
 
 - **`LinearPMap`** with `domain`, `graph`, `adjoint`, `IsFormalAdjoint`, `IsSelfAdjoint`,
   `IsSelfAdjoint.dense_domain`, `IsSelfAdjoint.isClosed`, and closure/core material — the
@@ -112,7 +112,26 @@ unbounded operators and the functional calculus are areas with recurring activit
 
 ---
 
-## Part A — one-parameter unitary groups and Stone's theorem
+## What is missing (build here)
+
+None of the following is in Mathlib; this roadmap builds it.
+
+* One-parameter unitary groups and Stone's theorem, with the generator as a `LinearPMap` and
+  density of its domain derived rather than assumed.
+* The bounded Borel functional calculus of a normal operator, and projection-valued measures
+  carrying their diagonal measures as data.
+* The closed-operator layer on `LinearPMap`: domain-aware perturbation, the rectangular
+  Sylvester equation as a structure, and the quadratic-form bounds with their spectral
+  bridges.
+* A resolvent set and spectrum for a `LinearPMap` — Mathlib's `spectrum` is defined for an
+  algebra element, which a partial map is not — with the Cayley transform and the bridge to
+  Mathlib's notion in the bounded case.
+* The spectral measure of an unbounded self-adjoint operator, its spectral projections,
+  Stone uniqueness, and the Yosida approximants.
+
+## The build, in layers
+
+### Part A — one-parameter unitary groups and Stone's theorem
 
 Independently submittable.
 
@@ -156,11 +175,8 @@ surjective is self-adjoint, with density of the domain derived rather than assum
 unitary group is self-adjoint. The proof is the criterion: symmetry is the easy half,
 surjectivity of `A ± i` via the semigroup resolvent is the work, density is derived.
 
-**Acceptance examples.** For bounded self-adjoint `S`, the flow `t ↦ exp (i t S)` is a
-one-parameter unitary group whose generator is `S` viewed as a total partial map; the
-difference-quotient domain is all of `H` exactly when the group is norm-continuous.
 
-## Part B — the Borel functional calculus and projection-valued measures
+### Part B — the Borel functional calculus and projection-valued measures
 
 Independently submittable.
 
@@ -215,11 +231,8 @@ extension of `cfcHom` whose matrix elements are integrals against the diagonal m
 a bounded self-adjoint operator is the integral of the identity against its
 projection-valued measure — the headline a reader opens the topic for.
 
-**Acceptance examples.** On a multiplication operator the calculus is multiplication by the
-symbol; the measure of a bounded self-adjoint operator assigns to `[c, ∞)` the spectral
-projection that half-line form bounds detect.
 
-## Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
+### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
 
 Needs the spectral-subspace layer of
 [`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md), and
@@ -272,11 +285,8 @@ relatively bounded perturbation with bound `b < 1` of a self-adjoint operator is
 self-adjoint, for which `perturb`, `RelativelyBounded` and Milestone A1's criterion are
 exactly the ingredients.
 
-**Acceptance examples.** A bounded self-adjoint operator as a total partial map is
-self-adjoint in the `LinearPMap` sense; the graph norm of a bounded map is equivalent to the
-ambient norm; `⊤` is a graph core.
 
-## Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
+### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
 
 Independently submittable, and the cheapest way into the unbounded theory.
 
@@ -321,11 +331,8 @@ identifying `z ∈ resolventSet A` with *`A − z` injective with closed dense r
 inverse*, and analyticity of `z ↦ resolvent A hz` on the resolvent set — the natural next
 statement after the first resolvent identity.
 
-**Acceptance examples.** For bounded self-adjoint `T` as a total partial map, `resolventSet`
-agrees with the complement of Mathlib's `spectrum ℂ T` and the resolvent matches the Neumann
-series; a multiplication operator's spectrum is the essential range of its symbol.
 
-## Part E — the spectral measure of an unbounded self-adjoint operator, Stone uniqueness, Yosida
+### Part E — the spectral measure of an unbounded self-adjoint operator, Stone uniqueness, Yosida
 
 Needs Parts A, B and D. The deepest Part, and the reason the others exist.
 
@@ -385,6 +392,38 @@ bijection between self-adjoint operators and strongly continuous one-parameter u
 groups; and uniqueness of the spectral measure — a `ProjValMeasure` satisfying the resolvent
 formula is `spectralPVM hA`.
 
+
+## Worked examples (acceptance criteria)
+
+Discharge these alongside the layers; they check that the API describes real
+operators rather than only the headline theorems.
+
+### Part A — one-parameter unitary groups and Stone's theorem
+
+**Acceptance examples.** For bounded self-adjoint `S`, the flow `t ↦ exp (i t S)` is a
+one-parameter unitary group whose generator is `S` viewed as a total partial map; the
+difference-quotient domain is all of `H` exactly when the group is norm-continuous.
+
+### Part B — the Borel functional calculus and projection-valued measures
+
+**Acceptance examples.** On a multiplication operator the calculus is multiplication by the
+symbol; the measure of a bounded self-adjoint operator assigns to `[c, ∞)` the spectral
+projection that half-line form bounds detect.
+
+### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
+
+**Acceptance examples.** A bounded self-adjoint operator as a total partial map is
+self-adjoint in the `LinearPMap` sense; the graph norm of a bounded map is equivalent to the
+ambient norm; `⊤` is a graph core.
+
+### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
+
+**Acceptance examples.** For bounded self-adjoint `T` as a total partial map, `resolventSet`
+agrees with the complement of Mathlib's `spectrum ℂ T` and the resolvent matches the Neumann
+series; a multiplication operator's spectrum is the essential range of its symbol.
+
+### Part E — the spectral measure of an unbounded self-adjoint operator, Stone uniqueness, Yosida
+
 **Acceptance examples.** For bounded self-adjoint `T` as a total partial map, `spectralPVM`
 agrees with Part B's measure under the real-part relabelling and `genToGroup` is
 `t ↦ exp(itT)`; a multiplication operator's spectral projections are multiplication by
@@ -392,7 +431,7 @@ indicators.
 
 ---
 
-## Dependency ordering
+## Ordering
 
 **Internal.** Parts A, B and D are mutually independent and each independently submittable.
 Part C is independent of them but consumes the foundations roadmap. Part E is the confluence

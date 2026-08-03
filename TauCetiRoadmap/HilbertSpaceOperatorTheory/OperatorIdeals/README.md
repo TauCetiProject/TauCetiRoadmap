@@ -33,7 +33,7 @@ Suggested homes: `TauCeti/Analysis/OperatorIdeal/ApproximationNumber/`,
 `TauCeti/Analysis/OperatorIdeal/Family/`,
 `TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/`.
 
-## Generality bar
+## Standing conventions
 
 - **Zero-based indexing.** `aₙ(T) = dist(T, {R : rank R ≤ n})`, so `a₀(T) = ‖T‖`, matching
   Mathlib's zero-based singular values index for index. The one-based literature convention
@@ -75,7 +75,7 @@ Suggested homes: `TauCeti/Analysis/OperatorIdeal/ApproximationNumber/`,
 - **Normal forms.** The approximation number is the normal form of the field-generic theory;
   its identification with singular values is a named theorem, not a global `@[simp]`.
 
-## What Mathlib already has
+## What Mathlib already has (consume)
 
 Used rather than rebuilt: `ContinuousLinearMap` with its operator norm and
 [`adjoint`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/Adjoint.html);
@@ -101,7 +101,32 @@ Three gaps this roadmap fills:
   If that PR lands, an interoperability layer becomes a migration milestone. **Re-check
   before implementing.**
 
-## Part A — approximation numbers and Hilbert-space singular values
+## What is missing (build here)
+
+None of the following is in Mathlib; this roadmap builds it.
+
+* The approximation numbers `aₙ(T)` on seminormed spaces over a `NontriviallyNormedField`,
+  with the additive and multiplicative index laws, the two-sided ideal bound, and the
+  rank/compactness boundary.
+* Their Hilbert identifications: adjoint invariance, Eckart–Young against the
+  finite-dimensional singular values, and both directions of the min–max principle.
+* `OperatorIdealFamily` — one `ℝ≥0∞` gauge on every Hilbert pair, with its four laws — and
+  the symmetric family for the diagonal case, where the adjoint keeps source and target in
+  one universe.
+* The Ky Fan dominance class, and the symmetric-gauge construction realizing a family from a
+  gauge on sequences, together with its injectivity.
+* The Schatten scale `S_p` for `1 ≤ p ≤ ∞`, obtained from that construction rather than built
+  separately, with the nesting `S_p ⊆ S_q`.
+* Hilbert–Schmidt operators as `ℓ²` of columns: the energy, its basis-independence, and the
+  reconciliation with `S₂`.
+* The approximation numbers of a spectral band of an unbounded self-adjoint operator.
+
+Two lemmas Mathlib itself lacks are named in the inventory above and are targets here:
+finite-rank-implies-compact, and a hypothesis-free `ℝ≥0∞` Minkowski inequality for `tsum`.
+
+## The build, in layers
+
+### Part A — approximation numbers and Hilbert-space singular values
 
 **Objects.** `ContinuousLinearMap.approximationNumber T n : ℝ`, the infimum of `‖T − R‖`
 over bounded `R` with `R.rank ≤ n`, on seminormed spaces over a `NontriviallyNormedField`;
@@ -165,20 +190,8 @@ onto the span of the net, use that the orthogonal projection is the nearest poin
 the stronger statement through a far smaller prerequisite than the spectral theorem for
 `T⋆T`.
 
-**Acceptance examples**, theorem-level tests proved from the public API with the defining
-infimum never unfolded: (1) zero and identity — `aₙ(id)` is `1` below the dimension and `0`
-at or past it; (2) a rank-`r` orthogonal projection has exactly `r` approximation numbers
-equal to `1`; (3) a rectangular diagonal map has approximation numbers its entries sorted
-decreasingly, unequal dimensions included; (4) an explicit rank-`r` map has `aₙ = 0` for
-`n ≥ r`; (5) on a small diagonal matrix the orthogonal-tail infimum selects the span of the
-largest singular directions and returns the next singular value; (6) a diagonal operator on
-`lp (fun _ : ℕ => 𝕜) 2` with coefficients tending to zero has `aₙ → 0`. Example (6) should be
-proved by truncation rather than through Milestone A3 — the `N`-th truncation has rank at
-most `N` and the tail of the coefficients bounds `‖T − T_N‖` — because the approximation
-numbers of a diagonal operator *are* its tail suprema, and compactness then falls out as a
-corollary rather than being assumed.
 
-## Part B — symmetric operator ideals and Schatten norms
+### Part B — symmetric operator ideals and Schatten norms
 
 **Objects.** `OperatorIdealFamily 𝕜`: a single field `gauge : (E →L[𝕜] F) → ℝ≥0∞` quantified
 over all Hilbert pairs in two independent universes, with the four laws;
@@ -346,12 +359,8 @@ saying "over `ℂ`, where the continuous functional calculus is registered" is h
 reviewer will ask what it costs to remove, and the answer should be a named milestone with a
 route. The route is one sequence identity and no new analysis.
 
-**Acceptance examples.** The four instances instantiate the interface with their gauges
-identified definitionally; the operator-norm and Ky Fan carriers are provably `⊤` while the
-trace-class carrier is not — exhibiting a bounded non-trace-class operator, for which an
-infinite orthonormal family suffices, is part of this milestone's acceptance.
 
-## Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
+### Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
 
 **Objects.** For a Hilbert basis `b` of `F`: the columns `columns b T = fun i => T (b i)` of
 `T : F →L[𝕜] E`, and the representation `ofLp b f : F →L[𝕜] E` for `f : lp (fun _ : ι => E) 2`,
@@ -386,12 +395,8 @@ norm (`∑' i, ‖P i v‖ₑ ² = ‖v‖ₑ ²`) splits the energy on either s
 countability, projection, or operator-topology summability hypothesis: the pointwise norm
 split is all, and `ℝ≥0∞` keeps it side-condition-free.
 
-**Acceptance criteria.** That the right-hand side of the membership characterization is
-Part B's basis-independent energy, so nothing here is circular; that the basis is a parameter
-of every statement, and no statement asserts basis-independence of the representation; that
-`ofLp` is continuous, so the space is never presented without its bounded representation map.
 
-## Part D — approximation numbers of spectral bands
+### Part D — approximation numbers of spectral bands
 
 **This Part depends on
 [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md), and is the only part
@@ -419,12 +424,49 @@ of `A` gives `(−δ, δ)` no mass on a subspace and the band above `δ` has ran
 that lets a perturbation argument use an ideal gauge with a *spectral* hypothesis rather than
 a rank hypothesis.
 
+
+## Worked examples (acceptance criteria)
+
+Discharge these alongside the layers; they check that the API describes real
+operators rather than only the headline theorems.
+
+### Part A — approximation numbers and Hilbert-space singular values
+
+**Acceptance examples**, theorem-level tests proved from the public API with the defining
+infimum never unfolded: (1) zero and identity — `aₙ(id)` is `1` below the dimension and `0`
+at or past it; (2) a rank-`r` orthogonal projection has exactly `r` approximation numbers
+equal to `1`; (3) a rectangular diagonal map has approximation numbers its entries sorted
+decreasingly, unequal dimensions included; (4) an explicit rank-`r` map has `aₙ = 0` for
+`n ≥ r`; (5) on a small diagonal matrix the orthogonal-tail infimum selects the span of the
+largest singular directions and returns the next singular value; (6) a diagonal operator on
+`lp (fun _ : ℕ => 𝕜) 2` with coefficients tending to zero has `aₙ → 0`. Example (6) should be
+proved by truncation rather than through Milestone A3 — the `N`-th truncation has rank at
+most `N` and the tail of the coefficients bounds `‖T − T_N‖` — because the approximation
+numbers of a diagonal operator *are* its tail suprema, and compactness then falls out as a
+corollary rather than being assumed.
+
+### Part B — symmetric operator ideals and Schatten norms
+
+**Acceptance examples.** The four instances instantiate the interface with their gauges
+identified definitionally; the operator-norm and Ky Fan carriers are provably `⊤` while the
+trace-class carrier is not — exhibiting a bounded non-trace-class operator, for which an
+infinite orthonormal family suffices, is part of this milestone's acceptance.
+
+### Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
+
+**Acceptance criteria.** That the right-hand side of the membership characterization is
+Part B's basis-independent energy, so nothing here is circular; that the basis is a parameter
+of every statement, and no statement asserts basis-independence of the representation; that
+`ofLp` is continuous, so the space is never presented without its bounded representation map.
+
+### Part D — approximation numbers of spectral bands
+
 **Acceptance examples.** A bounded self-adjoint operator with finite spectrum: the bands are
 its eigenspaces and the bound is the next eigenvalue; a diagonal operator on `ℓ²` with
 coefficients tending to zero: the band above `δ` is finite-rank and the bound recovers
 Part A's acceptance example (6).
 
-## Dependency ordering
+## Ordering
 
 Part A first, consuming `HilbertSpaceOperatorFoundations` (operator modulus, finite-dimensional
 singular values, Courant–Fischer) and `MajorizationAndAngles` (the finite Ky Fan inequality).

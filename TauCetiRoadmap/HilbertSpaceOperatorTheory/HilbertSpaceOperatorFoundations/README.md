@@ -40,7 +40,7 @@ between spectral projections of unbounded operators. Stating those results in fi
 dimension and generalizing later would mean proving them twice, so they are stated for
 complete spaces here.
 
-## Generality bar
+## Standing conventions
 
 - **Scalars are `𝕜 : RCLike`; finite dimension exactly where the eigenbasis is used.** The
   functional calculus is a finite sum over `LinearMap.IsSymmetric.eigenvectorBasis`, so
@@ -84,7 +84,7 @@ complete spaces here.
   `‖P − Q‖ = max (‖(1−Q)P‖, ‖(1−P)Q‖)` is an equality, with factor one and no equal-rank
   hypothesis. It must not be weakened to a two-sided estimate.
 
-## What Mathlib already has
+## What Mathlib already has (consume)
 
 Consume these and connect to them.
 
@@ -111,7 +111,29 @@ in motion — and follow what is landing rather than duplicating it.
 
 ---
 
-## Part A — the functional calculus, the positive square root, and the two moduli
+## What is missing (build here)
+
+None of the following is in Mathlib; this roadmap builds it.
+
+* The finite self-adjoint functional calculus over `RCLike`, which Mathlib registers only over
+  `ℂ`, together with the theorem that the two agree where both apply.
+* The positive square root and its uniqueness, and the two moduli — square over `RCLike`,
+  rectangular over `ℂ` — with the proof that they agree.
+* Partial isometries for maps between *different* spaces, and their geometric
+  characterization; Mathlib has no `IsPartialIsometry` at all.
+* The polar decomposition with a genuine unitary factor in finite dimension, and its
+  rectangular bounded counterpart.
+* The singular system: right singular basis, left singular vectors, the rank-one expansion,
+  and the Moore–Penrose inverse characterized by Penrose's four conditions rather than
+  constructed and named.
+* Gram rigidity — equal pairwise inner products force a linear isometry — and the isometric
+  first isomorphism theorem it rests on.
+* Spectral subspaces, the restricted spectrum, and the separation predicates the perturbation
+  roadmaps consume.
+
+## The build, in layers
+
+### Part A — the functional calculus, the positive square root, and the two moduli
 
 **Objects.** The finite self-adjoint functional calculus
 `selfAdjointFunctionalCalculus hT f = ∑ᵢ f(λᵢ) • rankOne eᵢ eᵢ` for a symmetric
@@ -176,12 +198,8 @@ At `Real.sqrt` this identifies the two moduli; for a general continuous `f` it l
 consumer move between the two calculi freely, and it is a target here rather than a remark.
 Without it a reader cannot tell whether the two developments describe one object.
 
-**Acceptance examples.** `calculus id = T`; the calculus of a constant is that multiple of
-the identity; on a concrete diagonal operator the square root and modulus take their
-expected diagonal values; the Weyl bound is sharp for a rank-one perturbation of the
-identity.
 
-## Part B — polar decomposition and partial isometries
+### Part B — polar decomposition and partial isometries
 
 Every operator factors as an isometric part times its modulus. That statement appears in
 two genuinely different forms, differing on three axes, and each direction of
@@ -242,12 +260,8 @@ projections `(Pⱼ)`, `(P'ⱼ)` satisfying Davis's non-degeneracy condition, the
 factors assemble into a unitary `U` with `U ∘ₗ Pⱼ = P'ⱼ ∘ₗ U` for every `j` — this Part's
 modulus-inverse-times-operator construction applied to a projection pair.
 
-**Acceptance criteria.** That the two decompositions are not redundant (the table above, in
-particular that the general one is `ℂ`-only); that square and rectangular partial-isometry
-predicates state the same typed equation and agree in the endomorphism case; and that
-`polarInitial M = (ker M)ᗮ` is a theorem.
 
-## Part C — singular values and the singular system
+### Part C — singular values and the singular system
 
 Mathlib has `LinearMap.singularValues`; this Part adds everything around it, and each layer
 answers a different question:
@@ -326,13 +340,8 @@ basis of the ambient spaces beyond the constructed singular one.
 **Milestone — existence and uniqueness of the Moore–Penrose inverse**, in the form above:
 the predicate, the construction, and the theorem that they determine each other.
 
-**Acceptance criteria.** That the accessor layer has no mathematical content; that no
-statement of the singular system mentions a basis of the ambient spaces beyond the
-constructed singular one; that the uniqueness converse is proved and not just the four
-conditions; that zero singular values are handled in the singular relation — the case a
-rectangular treatment gets wrong first.
 
-## Part D — Gram rigidity, projections, and spectral subspaces
+### Part D — Gram rigidity, projections, and spectral subspaces
 
 The vocabulary the perturbation theory is stated in, and the one sharp identity that
 vocabulary exists for:
@@ -422,12 +431,42 @@ definition.
 **Milestone — the sharp gap identity**, as an equality with no equal-rank hypothesis, and
 **Gram rigidity** in its family form.
 
+
+## Worked examples (acceptance criteria)
+
+Discharge these alongside the layers; they check that the API describes real
+operators rather than only the headline theorems.
+
+### Part A — the functional calculus, the positive square root, and the two moduli
+
+**Acceptance examples.** `calculus id = T`; the calculus of a constant is that multiple of
+the identity; on a concrete diagonal operator the square root and modulus take their
+expected diagonal values; the Weyl bound is sharp for a rank-one perturbation of the
+identity.
+
+### Part B — polar decomposition and partial isometries
+
+**Acceptance criteria.** That the two decompositions are not redundant (the table above, in
+particular that the general one is `ℂ`-only); that square and rectangular partial-isometry
+predicates state the same typed equation and agree in the endomorphism case; and that
+`polarInitial M = (ker M)ᗮ` is a theorem.
+
+### Part C — singular values and the singular system
+
+**Acceptance criteria.** That the accessor layer has no mathematical content; that no
+statement of the singular system mentions a basis of the ambient spaces beyond the
+constructed singular one; that the uniqueness converse is proved and not just the four
+conditions; that zero singular values are handled in the singular relation — the case a
+rectangular treatment gets wrong first.
+
+### Part D — Gram rigidity, projections, and spectral subspaces
+
 **Acceptance criteria.** That the gap identity is an equality with no equal-rank
 hypothesis; that the separation predicates are shared, not parallel definitions with one
 name; that reducing subspaces import no perturbation theory; that the orthogonal-series
 constructor fills the non-unit-vector gap rather than duplicating `OrthogonalFamily`.
 
-## Dependency ordering
+## Ordering
 
 Part A comes first: Parts B, C and D each consume it and nothing else — B needs both
 moduli, C needs the Gram operator's eigenbasis and the eigenvalue-counting lemmas, D needs

@@ -40,7 +40,7 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
 `TauCeti/Analysis/Matrix/`, `TauCeti/Probability/Moments/`, with two supporting lemmas in
 `TauCeti/MeasureTheory/`.
 
-## Generality bar
+## Standing conventions
 
 - **Matrices, deliberately.** Parts C and D are about concrete matrices with entrywise
   hypotheses, not abstract operators. This is not a lapse into coordinates: statistical data
@@ -84,7 +84,7 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
   of the empty family is `0` by Mathlib's total-inverse convention, and the add-one mean
   identity is deliberately stated to hold *at* `n = 0`.
 
-## What Mathlib already has
+## What Mathlib already has (consume)
 
 - **Matrix linear algebra:** `Matrix.rank` with `rank_mul_le` and the column-space API;
   `Matrix.PosSemidef` with `posSemidef_conjTranspose_mul_self` and
@@ -114,7 +114,25 @@ Mathlib pull requests, particularly around hemicontinuity and matrix concentrati
 
 ---
 
-## Part A — rank factorization and positive-semidefinite Gram factorization
+## What is missing (build here)
+
+None of the following is in Mathlib; this roadmap builds it.
+
+* Rank factorization through `Fin r` as an iff, the positive-semidefinite Gram factorization
+  behind multidimensional scaling, and their uniqueness statements — up to `GL` for general
+  factors, up to a left unitary for Gram factors.
+* Berge's maximum theorem: continuity of the value function and upper hemicontinuity of the
+  argmin correspondence, over a fixed compact feasible set and over a varying one.
+* A `MeasurableSpace` instance for `Matrix`, which Mathlib lacks entirely, and the
+  measurability of spectral functions of a random matrix.
+* Sorted eigenvalues of a Hermitian matrix with the entrywise-to-spectral bridge, and the
+  `RCLike` norm comparisons that carry it to complex Hermitian matrices.
+* The elementary matrix concentration that follows: Chebyshev and a union bound over the
+  entries, converted to simultaneous eigenvalue and operator-norm control.
+
+## The build, in layers
+
+### Part A — rank factorization and positive-semidefinite Gram factorization
 
 The multidimensional-scaling embedding step.
 
@@ -176,11 +194,8 @@ here and inventing one would be a second, unasked-for design. Minimal rank only.
 `LinearIsometryEquiv`. That depends on which the eventual consumer holds, and there is no
 consumer yet.
 
-**Acceptance examples.** The Gram matrix of `n` explicit points in `𝕜^d` has rank `≤ d`; a
-diagonal positive semidefinite matrix factors through its number of nonzero entries; the easy
-direction recovers `rank_mul_le`.
 
-## Part B — Berge's maximum theorem
+### Part B — Berge's maximum theorem
 
 Argmin stability under objective perturbation.
 
@@ -245,12 +260,8 @@ varying case as they do at fixed `K`. At fixed `K` that hypothesis is a proof ar
 roadmap asks to remove; whether the varying case can avoid it is genuinely unknown, so it is
 not promised.
 
-**Acceptance examples.** `g p x = ‖x − p‖²` on a compact `K`: the argmin correspondence is the
-metric projection, and the modulus form is nontrivial exactly where the projection is
-set-valued; a symmetric objective whose minimizers form an orbit, exercising the
-invariant-family modulus.
 
-## Part C — matrix spectra and spectral measurability
+### Part C — matrix spectra and spectral measurability
 
 Everything else in this family is about abstract operators; this Part is about matrices, and
 about matrices whose entries are random.
@@ -305,11 +316,8 @@ glued over a countable entrywise-bound cover by the countable-restriction lemma 
 that makes the statistical track well posed: without it, "the top-`k` eigenspace of the sample
 covariance" carries no measurability and no probability statement about it means anything.
 
-**Acceptance examples.** `specTransform id hB = B`, the spectral theorem read entrywise; for a
-diagonal matrix the perturbation bound checked against explicit eigenvalues; a concentration
-bound with rate `1/√n` feeding the `TendstoInMeasure` conversion.
 
-## Part D — sample moments and matrix concentration
+### Part D — sample moments and matrix concentration
 
 The applied end of the toolkit.
 
@@ -372,12 +380,39 @@ bound is **not sharp in the dimension**, and nothing downstream may treat the `n
 intrinsic. A matrix-Bernstein upgrade is future work *on top of* this API, not a replacement for
 it.
 
+
+## Worked examples (acceptance criteria)
+
+Discharge these alongside the layers; they check that the API describes real
+operators rather than only the headline theorems.
+
+### Part A — rank factorization and positive-semidefinite Gram factorization
+
+**Acceptance examples.** The Gram matrix of `n` explicit points in `𝕜^d` has rank `≤ d`; a
+diagonal positive semidefinite matrix factors through its number of nonzero entries; the easy
+direction recovers `rank_mul_le`.
+
+### Part B — Berge's maximum theorem
+
+**Acceptance examples.** `g p x = ‖x − p‖²` on a compact `K`: the argmin correspondence is the
+metric projection, and the modulus form is nontrivial exactly where the projection is
+set-valued; a symmetric objective whose minimizers form an orbit, exercising the
+invariant-family modulus.
+
+### Part C — matrix spectra and spectral measurability
+
+**Acceptance examples.** `specTransform id hB = B`, the spectral theorem read entrywise; for a
+diagonal matrix the perturbation bound checked against explicit eigenvalues; a concentration
+bound with rate `1/√n` feeding the `TendstoInMeasure` conversion.
+
+### Part D — sample moments and matrix concentration
+
 **Acceptance examples.** I.i.d. coordinates with a fourth-moment bound give an explicit `v` and
 the `v/n` entry rate; `η = c/(2d)` keeps a population eigenvalue floored at `c` above `c/2`
 with high probability — the eigengap a downstream Davis–Kahan application needs; the add-one
 scatter identity checked against a two-point family.
 
-## Dependency ordering
+## Ordering
 
 **Parts A and B are independent leaves**: they need nothing beyond Mathlib — not each other,
 not Parts C–D, and no other roadmap — and are submittable immediately and in parallel, each as
