@@ -19,12 +19,10 @@ quantitative resolvent bounds; and the Cayley transform welds these into the spe
 measure of an unbounded self-adjoint operator, with Stone's theorem in both directions as
 the dynamical payoff.
 
-The goal is to build the reusable theory of these objects, not to race to the named
-theorems. The bar for done: a researcher in mathematical physics or spectral perturbation
+The goal is to build the reusable theory of these objects. The bar for done: a researcher in mathematical physics or spectral perturbation
 theory finds unbounded self-adjoint operators, their resolvents, their spectral projections
 and their unitary groups defined at their natural generality and equipped with the standard
-API, so that the spectral theorem and Stone's theorem are consequences of a developed theory
-rather than isolated endpoints.
+API, so that the spectral theorem and Stone's theorem are consequences of a developed theory.
 
 Suggested homes:
 
@@ -118,8 +116,6 @@ API, `expShift`, `ofBounded`, and the abstract Cauchy problem as `IsClassicalSol
 built. Nothing here restates it.
 
 The rest below — the projection-valued and unbounded-spectral layer — is absent upstream.
-Before implementing, check the Lean Zulip and the open Mathlib pull requests: unbounded
-operators and the functional calculus are areas with recurring activity.
 
 ---
 
@@ -128,7 +124,7 @@ operators and the functional calculus are areas with recurring activity.
 None of the following is in Mathlib; this roadmap builds it.
 
 * One-parameter unitary groups and Stone's theorem, with the generator as a `LinearPMap` and
-  density of its domain derived rather than assumed.
+  density of its domain derived.
 * The bounded Borel functional calculus of a normal operator, and projection-valued measures
   carrying their diagonal measures as data.
 * The closed-operator layer on `LinearPMap`: domain-aware perturbation, the rectangular
@@ -180,12 +176,11 @@ self-adjointness statement weaker than what Part E consumes.
   commute among themselves.
 
 **Milestone A1 — von Neumann's criterion.** A symmetric operator with `A + i` and `A − i`
-surjective is self-adjoint, with density of the domain derived rather than assumed.
+surjective is self-adjoint, with density of the domain derived.
 
 **Milestone A2 — Stone's theorem, forward direction.** The generator of a one-parameter
 unitary group is self-adjoint. The proof is the criterion: symmetry is the easy half,
 surjectivity of `A ± i` via the semigroup resolvent is the work, density is derived.
-
 
 ### Part B — the Borel functional calculus and projection-valued measures
 
@@ -217,8 +212,7 @@ structure `ProjValMeasure H`.
   modification with respect to every diagonal measure.
 - **Multiplicativity** — the one step needing the transport twice, in a fixed order: the
   approximant of `f` is chosen first, and the tolerance for the approximant of `g` depends on
-  it. There is no uniform bound over approximants, and a reviewer should see that stated
-  rather than discover it.
+  it. There is no uniform bound over approximants, and a reviewer should see that stated.
 - Indicators to projections: the spectral projections, idempotent and self-adjoint, with
   intersection-to-composition; the diagonal masses; the assembled `ProjValMeasure` along a
   measurable relabelling `κ`; for bounded self-adjoint `T`, the relabelling is the real part,
@@ -241,7 +235,6 @@ and its diagonals the pushed-forward diagonal measures.
 extension of `cfcHom` whose matrix elements are integrals against the diagonal measures; and
 a bounded self-adjoint operator is the integral of the identity against its
 projection-valued measure — the headline a reader opens the topic for.
-
 
 ### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
 
@@ -296,7 +289,6 @@ relatively bounded perturbation with bound `b < 1` of a self-adjoint operator is
 self-adjoint, for which `perturb`, `RelativelyBounded` and Milestone A1's criterion are
 exactly the ingredients.
 
-
 ### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
 
 Independently submittable, and the cheapest way into the unbounded theory.
@@ -341,7 +333,6 @@ the named `resolvent A hz : E →L[𝕜] E`; the **Cayley transform** of a self-
 identifying `z ∈ resolventSet A` with *`A − z` injective with closed dense range and bounded
 inverse*, and analyticity of `z ↦ resolvent A hz` on the resolvent set — the natural next
 statement after the first resolvent identity.
-
 
 ### Part E — the spectral measure of an unbounded self-adjoint operator, Stone uniqueness, Yosida
 
@@ -406,11 +397,9 @@ bijection between self-adjoint operators and strongly continuous one-parameter u
 groups; and uniqueness of the spectral measure — a `ProjValMeasure` satisfying the resolvent
 formula is `spectralPVM hA`.
 
-
 ## Worked examples (acceptance criteria)
 
-Discharge these alongside the layers; they check that the API describes real
-operators rather than only the headline theorems.
+Discharge these alongside the layers; they check that the API describes real operators.
 
 ### Part A — one-parameter unitary groups and Stone's theorem
 

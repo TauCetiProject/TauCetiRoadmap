@@ -20,8 +20,7 @@ functional calculus, `IsCompactOperator`, the `lp` spaces — but none of the s-
 no approximation numbers, no object over which a theorem can be stated once for "an
 arbitrary symmetric ideal norm", and no Schatten, trace-class or Hilbert–Schmidt theory.
 
-The goal is to build the reusable theory of these objects, not to race to a handful of named
-identities. The bar for done: a researcher in operator or perturbation theory finds the
+The goal is to build the reusable theory of these objects. The bar for done: a researcher in operator or perturbation theory finds the
 approximation numbers with their complete elementary calculus (Part A), a symmetric-ideal
 interface whose laws hold unconditionally and whose standard instances — operator norm, Ky
 Fan, Hilbert–Schmidt, trace class, Schatten `p` — are constructed rather than postulated
@@ -98,8 +97,7 @@ Three gaps this roadmap fills:
   `ContinuousLinearMap.singularValue : ℕ → ℝ≥0`; see also the
   [Zulip thread](https://leanprover-community.github.io/archive/stream/217875-Is-there-code-for-X%3F/topic/Singular.20Value.20Decomposition.html).
   This roadmap pins `approximationNumber : ℕ → ℝ`, aligned with real-valued norms and infima.
-  If that PR lands, an interoperability layer becomes a migration milestone. **Re-check
-  before implementing.**
+  If that PR lands, an interoperability layer becomes a migration milestone.
 
 ## What is missing (build here)
 
@@ -190,7 +188,6 @@ onto the span of the net, use that the orthogonal projection is the nearest poin
 the stronger statement through a far smaller prerequisite than the spectral theorem for
 `T⋆T`.
 
-
 ### Part B — symmetric operator ideals and Schatten norms
 
 **Objects.** `OperatorIdealFamily 𝕜`: a single field `gauge : (E →L[𝕜] F) → ℝ≥0∞` quantified
@@ -270,7 +267,7 @@ input: subadditivity is Milestone B2 applied to `a(S + T)` against `a S + a T`; 
 is `aₙ(c • T) = ‖c‖ aₙ(T)` with homogeneity of `Φ`; domination of the operator norm is
 `a₀(T) = ‖T‖` with `‖a‖_∞ ≤ Φ a`; the composition bound is the two-sided ideal law with
 monotonicity of `Φ`; and adjoint invariance is `aₙ(T⋆) = aₙ(T)`. Subadditivity is the only
-hard one, which is why it is stated as Milestone B2 rather than buried inside.
+hard one, which is why it is stated as Milestone B2.
 
 **The Calkin correspondence.** Symmetric ideals of `B(H)` on a separable infinite-dimensional
 Hilbert space are in bijection with the symmetric sequence ideals, via `T ↦ a(T)`. This
@@ -294,7 +291,7 @@ The sequence form is the Hardy–Littlewood–Pólya transfer of the majorizatio
 weakly majorized vector is dominated termwise by a convex combination of permutations of the
 majorizing one, and `Φ` is monotone, symmetric and convex. Lifting to sequences is monotone
 convergence along the truncations, and that is the whole infinite-dimensional content — which
-is why the extension in B1 is a supremum of truncations rather than anything cleverer.
+is why the extension in B1 is a supremum of truncations.
 
 **This is the load-bearing milestone**: it delivers the triangle inequality for every
 symmetric ideal norm at once. Milestone A2 says exactly that `a(S + T)` is weakly majorized
@@ -334,7 +331,7 @@ is what lets Part C stand on it — so they must be proved equal:
 
 Both sides are basis-independent, so the statement is well-posed; the proof is the
 singular-value expansion of a Hilbert–Schmidt operator, and it is the one place in Part B
-where Milestone A3 is genuinely needed rather than convenient. **This debt is incurred
+where Milestone A3 is genuinely needed. **This debt is incurred
 knowingly and is the price of Part C being independent of the ideal machinery.**
 
 ### Milestone B4 — block sums and scalar transport
@@ -359,7 +356,6 @@ between what this roadmap states and what a reader assumes it states. A generali
 saying "over `ℂ`, where the continuous functional calculus is registered" is honest, but a
 reviewer will ask what it costs to remove, and the answer should be a named milestone with a
 route. The route is one sequence identity and no new analysis.
-
 
 ### Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
 
@@ -396,7 +392,6 @@ norm (`∑' i, ‖P i v‖ₑ ² = ‖v‖ₑ ²`) splits the energy on either s
 countability, projection, or operator-topology summability hypothesis: the pointwise norm
 split is all, and `ℝ≥0∞` keeps it side-condition-free.
 
-
 ### Part D — approximation numbers of spectral bands
 
 **This Part depends on
@@ -425,11 +420,9 @@ of `A` gives `(−δ, δ)` no mass on a subspace and the band above `δ` has ran
 that lets a perturbation argument use an ideal gauge with a *spectral* hypothesis rather than
 a rank hypothesis.
 
-
 ## Worked examples (acceptance criteria)
 
-Discharge these alongside the layers; they check that the API describes real
-operators rather than only the headline theorems.
+Discharge these alongside the layers; they check that the API describes real operators.
 
 ### Part A — approximation numbers and Hilbert-space singular values
 

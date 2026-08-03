@@ -16,12 +16,11 @@ uniqueness theory at that generality, no partial-isometry API, no polar decompos
 singular *vectors*, no Moore–Penrose inverse, no sharp projector-difference identity, and
 no shared vocabulary of spectral-separation hypotheses.
 
-The goal is to build the reusable theory of these objects, not to race to a handful of
-named theorems. The bar for done: a researcher in matrix analysis or spectral perturbation
+The goal is to build the reusable theory of these objects. The bar for done: a researcher in matrix analysis or spectral perturbation
 finds each object defined once, at its natural generality, with its complete basic API —
 closure and composition laws, kernels and ranges, the standard identities, the connections
 to existing Mathlib structures — so that the headline results are consequences of a
-developed theory rather than isolated endpoints. A contribution that proves a headline
+developed theory. A contribution that proves a headline
 theorem and leaves the surrounding object without its basic API is not yet what is wanted.
 
 Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar square-root
@@ -104,10 +103,6 @@ Consume these and connect to them.
   non-normalized families the singular expansion produces.
 - **Gram matrices:** `Matrix.gram` and the matrix-side spectral theory; Part D's rigidity
   theorem characterizes equality of `Matrix.gram`.
-
-Before implementing, search the Lean Zulip and the open Mathlib pull requests for
-overlapping work — in particular for singular-value and pseudoinverse API, which has been
-in motion — and follow what is landing rather than duplicating it.
 
 ---
 
@@ -195,9 +190,8 @@ symmetric perturbation moves each eigenvalue by at most the operator norm.
 **Milestone — the two moduli agree, and so do the two calculi.** Over `ℂ` the `RCLike`
 functional calculus and Mathlib's continuous functional calculus compute the same operator.
 At `Real.sqrt` this identifies the two moduli; for a general continuous `f` it lets a
-consumer move between the two calculi freely, and it is a target here rather than a remark.
+consumer move between the two calculi freely, and it is a target here.
 Without it a reader cannot tell whether the two developments describe one object.
-
 
 ### Part B — polar decomposition and partial isometries
 
@@ -260,7 +254,6 @@ projections `(Pⱼ)`, `(P'ⱼ)` satisfying Davis's non-degeneracy condition, the
 factors assemble into a unitary `U` with `U ∘ₗ Pⱼ = P'ⱼ ∘ₗ U` for every `j` — this Part's
 modulus-inverse-times-operator construction applied to a projection pair.
 
-
 ### Part C — singular values and the singular system
 
 Mathlib has `LinearMap.singularValues`; this Part adds everything around it, and each layer
@@ -317,9 +310,7 @@ conjugation.
 
 A `Prop`-valued structure with four named fields, rather than an iterated conjunction, so
 that the conditions have accessors and a caller supplying them writes `⟨h₁, h₂, h₃, h₄⟩`.
-Mathlib has neither a Moore–Penrose inverse nor such a predicate; check the current Zulip
-and the open pull requests before fixing the shape, and follow anything in flight rather
-than competing with it.
+Mathlib has neither a Moore–Penrose inverse nor such a predicate.
 
 The roadmap asks for:
 
@@ -339,7 +330,6 @@ basis of the ambient spaces beyond the constructed singular one.
 
 **Milestone — existence and uniqueness of the Moore–Penrose inverse**, in the form above:
 the predicate, the construction, and the theorem that they determine each other.
-
 
 ### Part D — Gram rigidity, projections, and spectral subspaces
 
@@ -431,11 +421,9 @@ definition.
 **Milestone — the sharp gap identity**, as an equality with no equal-rank hypothesis, and
 **Gram rigidity** in its family form.
 
-
 ## Worked examples (acceptance criteria)
 
-Discharge these alongside the layers; they check that the API describes real
-operators rather than only the headline theorems.
+Discharge these alongside the layers; they check that the API describes real operators.
 
 ### Part A — the functional calculus, the positive square root, and the two moduli
 

@@ -19,7 +19,7 @@ allows.
 Mathlib has the static operator-theory stack but none of this layer: no operator angles, no
 Sylvester equations, no spectral-subspace perturbation theory, no statistical variant.
 
-The goal is to build the reusable theory of these objects, not to race to the named theorems.
+The goal is to build the reusable theory of these objects.
 The bar for done: a researcher in operator theory or statistics finds Sylvester equations with
 solvability and a-priori estimates at every relevant generality — bounded and domain-aware,
 operator norm through arbitrary unitarily invariant norms, constant one and `π/2` — the
@@ -57,8 +57,7 @@ TauCeti/Analysis/Operator/Perturbation/
   [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md) roadmap's
   `resolventSet` complement — are primary; bounded operators enter through
   `T.toLinearMap.toPMap ⊤`, finite dimension through restriction. Bounded and finite theorems
-  are *specializations*, and Part C says how that is made true in the code rather than only
-  in the prose.
+  are *specializations*, and Part C says how that is made true in the code.
 - **Norms: one statement per family.** State results for an arbitrary (rectangular) unitarily
   invariant seminorm — subadditive, absolutely homogeneous, two-sided unitarily invariant,
   definiteness deliberately unbundled — with operator, Frobenius, Ky Fan and Schatten forms
@@ -110,7 +109,7 @@ TauCeti/Analysis/Operator/Perturbation/
 The spectral predicates, norms, angle operators, Hilbert–Schmidt space and unbounded spectral
 theory come from the sibling roadmaps itemized under *Dependency ordering*. Before
 implementing, search the Lean Zulip and the open Mathlib pull requests for newly landed
-overlap and follow what is in motion rather than duplicating it. Everything below is absent
+overlap and follow what is in motion. Everything below is absent
 upstream.
 
 ## What is missing (build here)
@@ -172,7 +171,6 @@ about why `tanh(π y/2)` appears at all.
 **Milestone A2 — the normalization bridge** to Mathlib's Fourier transform, so users mixing
 the two conventions have a lemma rather than a warning.
 
-
 ### Part B — Sylvester equations and the Rosenblum theorem
 
 The hinge: it consumes Part A and all four external roadmaps, and Part C consumes it.
@@ -227,7 +225,6 @@ the pairwise bound with `π/2`.
 **Milestone B2 — Rosenblum's theorem** for self-adjoint `LinearPMap`s: a bounded operator
 intertwining two of them with disjoint spectra is zero.
 
-
 ### Part C — the Davis–Kahan sin Θ theorems
 
 Consumes Part B; the acceptance suite is Davis–Kahan Part III.
@@ -275,7 +272,6 @@ subspaces with their projection and gap formulas and angular operators.
 `A`-spectrum from the complementary `B`-spectrum alone,
 `δ · N (sinThetaMap U V) ≤ (π/2) · N (B − A)` for every unitarily invariant `N`.
 
-
 ### Part D — the Yu–Wang–Samworth statistical variant
 
 Consumes Part C; a leaf.
@@ -314,11 +310,9 @@ singular subspaces via the Gram operators and the Hermitian dilation `[[0, A⋆]
 **Milestone D1 — the population-gap theorem and its single-vector form**, the latter being the
 sign-aligned eigenvector corollary that statisticians quote.
 
-
 ## Worked examples (acceptance criteria)
 
-Discharge these alongside the layers; they check that the API describes real
-operators rather than only the headline theorems.
+Discharge these alongside the layers; they check that the API describes real operators.
 
 ### Part A — the Haagerup–Zsidó kernel and its Fourier transform
 

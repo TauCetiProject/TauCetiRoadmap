@@ -30,7 +30,7 @@ probability `1 − δ`", Part C makes the spectral quantities of `Σ̂` measurab
 the bound to minimizers of spectral objectives, and Part A realizes the estimated Gram
 structure as an explicit embedding.
 
-The goal is to build the reusable theory of these objects, not to race to the composite. The
+The goal is to build the reusable theory of these objects. The
 bar for done: a formalizer working from a spectral-methods paper finds each object — rank
 factorizations, argmin correspondences, sorted eigenvalues, spectral transforms, sample
 moments — defined at the pinned generality and equipped with its basic API, so that the
@@ -54,7 +54,7 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
 - **Sorted eigenvalues: transport, never re-prove.** The decreasing indexing is Mathlib's
   `Matrix.IsHermitian.eigenvalues₀` for matrices and `LinearMap.IsSymmetric.eigenvalues` for
   operators. Facts stated upstream for the matrix-indexed `eigenvalues` are *transported*
-  along the defining index equivalence rather than duplicated.
+  along the defining index equivalence.
 - **Inner dimensions are `Fin r`, not a subtype.** A caller who wants "at most `d` rows" gets
   `Fin d` directly, with the `≤`-relaxed form stated beside the exact-rank form, so no
   cardinality-equivalence transport is ever needed at a use site.
@@ -109,8 +109,7 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
 - **Approximation:** Stone–Weierstrass, `Polynomial.aeval` on matrices with `continuous_aeval`,
   and the Borel-space constructions — the ingredients of Part C's measurability argument.
 
-Everything below is absent upstream. Before implementing, re-check the Zulip and the open
-Mathlib pull requests, particularly around hemicontinuity and matrix concentration.
+Everything below is absent upstream.
 
 ---
 
@@ -194,7 +193,6 @@ here and inventing one would be a second, unasked-for design. Minimal rank only.
 `LinearIsometryEquiv`. That depends on which the eventual consumer holds, and there is no
 consumer yet.
 
-
 ### Part B — Berge's maximum theorem
 
 Argmin stability under objective perturbation.
@@ -260,7 +258,6 @@ varying case as they do at fixed `K`. At fixed `K` that hypothesis is a proof ar
 roadmap asks to remove; whether the varying case can avoid it is genuinely unknown, so it is
 not promised.
 
-
 ### Part C — matrix spectra and spectral measurability
 
 Everything else in this family is about abstract operators; this Part is about matrices, and
@@ -315,7 +312,6 @@ glued over a countable entrywise-bound cover by the countable-restriction lemma 
 [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md). This is the statement
 that makes the statistical track well posed: without it, "the top-`k` eigenspace of the sample
 covariance" carries no measurability and no probability statement about it means anything.
-
 
 ### Part D — sample moments and matrix concentration
 
@@ -380,11 +376,9 @@ bound is **not sharp in the dimension**, and nothing downstream may treat the `n
 intrinsic. A matrix-Bernstein upgrade is future work *on top of* this API, not a replacement for
 it.
 
-
 ## Worked examples (acceptance criteria)
 
-Discharge these alongside the layers; they check that the API describes real
-operators rather than only the headline theorems.
+Discharge these alongside the layers; they check that the API describes real operators.
 
 ### Part A — rank factorization and positive-semidefinite Gram factorization
 

@@ -26,8 +26,7 @@ majorization file that quietly depends on a Hilbert space cannot serve the two c
 has — square norms in Part A, rectangular norms in Part C — and loses its independent value
 to convex analysis.
 
-The goal is to build the reusable theory of these objects, not to race to the named
-inequalities. The bar for done: a researcher in matrix analysis or statistics finds weak
+The goal is to build the reusable theory of these objects. The bar for done: a researcher in matrix analysis or statistics finds weak
 majorization, symmetric gauges, Ky Fan sums, unitarily invariant norms square and
 rectangular, principal angles (family-level and subspace-level, with the bridge between
 them proved), and the eigenvalue-perturbation inequalities, each with its basic API —
@@ -53,7 +52,7 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
   majorization completion — one convexity application and one closure property per step.
   The descent is stated for a **symmetric-convex set** (convex, transposition-closed,
   closed under single-coordinate sign flips), and the gauge form is read off through
-  sublevel sets rather than re-proved.
+  sublevel sets.
 - **Schur–Horn is stated for an arbitrary orthonormal basis**, in convex (Karamata) form
   `∑ₖ φ(dₖ) ≤ ∑ᵢ φ(λᵢ)` for every convex `φ`. In the eigenbasis the theorem is vacuous,
   since there the diagonal *is* the spectrum. The mechanism is the doubly stochastic weight
@@ -123,10 +122,6 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
   singular-value facts `σ(A⋆) = σ(A)` and `σᵢ(A)² = λᵢ(A⋆A)`, and the projection and
   spectral-subspace API. Every Part below consumes these; nothing here re-proves them.
 
-Before implementing, search the Lean Zulip and the open Mathlib pull requests: majorization
-and doubly stochastic matrices are an area with recurring activity, and a landing
-majorization API should be followed rather than duplicated.
-
 ## What is missing (build here)
 
 None of the following is in Mathlib; this roadmap builds it.
@@ -138,7 +133,7 @@ None of the following is in Mathlib; this roadmap builds it.
 * Unitarily invariant seminorms, square and rectangular, with Fan dominance: one
   majorization estimate yielding the operator, Frobenius, Ky Fan and nuclear norms together.
 * Principal angles as singular values of the overlap operator, so ordering and bounds are
-  inherited rather than re-proved, with the aligned-basis layer over them.
+  inherited, with the aligned-basis layer over them.
 * The orthogonal block sum and its sharp two-sided comparison.
 * Angle geometry and the eigenvalue-perturbation results: the von Neumann trace core,
   Hoffman–Wielandt against an arbitrary orthonormal basis, and Davis's eigenvalue-change
@@ -192,7 +187,6 @@ arbitrary orthonormal basis, and any convex `φ` on a set containing the spectru
 **Milestone — Fan dominance.** Ky Fan domination implies domination in every unitarily
 invariant norm.
 
-
 ### Part B — principal angles, aligned bases, and finite frames
 
 The order of construction is the mathematics: the frame layer gives the analysis/synthesis
@@ -227,7 +221,6 @@ are actually proved.
 **Milestone — the aligned-basis (Procrustes) bound.** The polar unitary of the overlap
 operator rotates `v` into a basis `w` of its span with `∑ⱼ ‖wⱼ − uⱼ‖² ≤ 2 · sinThetaSq hu hv`
 — the form the statistical perturbation theory consumes.
-
 
 ### Part C — rectangular unitarily invariant norms
 
@@ -268,7 +261,6 @@ lift to a symmetric-convex set of coordinate vectors — coordinate swaps and si
 changes *are* two-sided unitary actions — so Part A's transfer descent applies directly;
 what remains here is the operator-theoretic half: the lift, the extension of coordinate
 unitaries, and the SVD transport.
-
 
 ### Part D — angle geometry and eigenvalue perturbation
 
@@ -323,11 +315,9 @@ smallness threshold are both part of the statement; without them it reads as an
 unconditional bound, which is false. Proved around a point of the permutation-orbit hull,
 with membership discharged from Birkhoff and not from Part A's engine.
 
-
 ## Worked examples (acceptance criteria)
 
-Discharge these alongside the layers; they check that the API describes real
-operators rather than only the headline theorems.
+Discharge these alongside the layers; they check that the API describes real operators.
 
 ### Part A — majorization, Schur–Horn, and unitarily invariant norms
 
