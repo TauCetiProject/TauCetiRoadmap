@@ -107,10 +107,8 @@ TauCeti/Analysis/Operator/Perturbation/
   `Module.finrank`, `WithLp 2 (E × F)`, `lp`.
 
 The spectral predicates, norms, angle operators, Hilbert–Schmidt space and unbounded spectral
-theory come from the sibling roadmaps itemized under *Dependency ordering*. Before
-implementing, search the Lean Zulip and the open Mathlib pull requests for newly landed
-overlap and follow what is in motion. Everything below is absent
-upstream.
+theory come from the sibling roadmaps itemized under *Dependency ordering*. Everything
+below is absent upstream.
 
 ## What is missing (build here)
 
