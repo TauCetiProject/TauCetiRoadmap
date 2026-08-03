@@ -202,6 +202,34 @@ additionally assumes…"). The guideline asks for the opposite — say what the 
 be, and keep provenance in a clearly secondary section so reviewers do not read the source as
 prescriptive. Sites are listed in `llm_notes.md`.
 
+### 8. `HilbertSpaceOperatorFoundations` — read in full, three findings
+
+This is the file the other five import, so anything here propagates. It is in better shape
+than the audit of the others suggested; the `CalculusAgreement` section in particular is
+model work — it proves the finite `RCLike` calculus agrees with Mathlib's `cfc` over `ℂ`,
+which is exactly the grounding that stops a new construction from floating free of the
+library it sits on.
+
+**(a) The rectangular predicate has no geometric characterization.** The file exists to add
+`LinearMap.IsPartialIsometry` for `u : E →ₗ[𝕜] F` (:45). But
+`isPartialIsometry_iff_norm_map` (:161) is stated only for `{u : E →ₗ[𝕜] E}` — the square
+case — while the `ContinuousLinearMap` counterpart (:306) *is* rectangular. The statement
+`∀ x ∈ (ker u)ᗮ, ‖u x‖ = ‖x‖` is meaningful for a rectangular `u`, so the restriction has no
+stated reason, and it leaves the file's own headline predicate without the characterization
+its bounded sibling gets.
+
+**(b) The modulus is split two ways at once.** `LinearMap.operatorAbs` (:98) is `RCLike` and
+square; `ContinuousLinearMap.modulus` (:320) is `ℂ`-only and rectangular, via `CFC.sqrt`.
+One concept, two names *and* two scalar generalities. The naming half is already an open
+question flagged in the file; the scalar half is not, and the two should be decided together.
+See also the semantic clash with Mathlib's `ContinuousMap.modulus`, which is a modulus of
+*continuity* — adjacent namespace, same word, unrelated concept, and nothing will ever error.
+
+**(c) One declaration states its own misplacement.** `exists_linearIsometryEquiv_norm_sub_le`
+(:389) sits in `TauCetiRoadmap.HilbertSpaceOperatorFoundations` and its docstring reads
+"Intended home: `LinearMap`." Under the convention in §2c that home is `TauCeti.LinearMap`;
+either way it should be where it says it belongs.
+
 ---
 
 ## Not a problem — recorded so it is not re-raised
