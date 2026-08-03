@@ -63,17 +63,18 @@ TauCeti/Analysis/Operator/Perturbation/
   invariant seminorm — subadditive, absolutely homogeneous, two-sided unitarily invariant,
   definiteness deliberately unbundled — with operator, Frobenius, Ky Fan and Schatten forms
   as instantiations. Ky Fan prefixes plus Fan dominance is the pinned lifting route.
-- **Gap predicates and angles stay distinct.** Ordered separation (`λ + δ ≤ μ`),
-  interval/exterior separation (one spectrum in `[a,b]`, the other outside `(a−δ, b+δ)`), and
-  pairwise separation (`δ ≤ |λ − μ|`) carry constants one, one and `π/2`. None is silently
-  strengthened, and `tan 2Θ` needs *ordered* internal separation: interlacing spectra satisfy
-  pairwise separation while an off-diagonal perturbation produces a quarter turn. One
-  interval/exterior gap controls the directed sine `P_{Vᗮ} ∘ P_U` in every unitarily invariant
-  norm; the symmetric sine `|P_U − P_V|` needs the gap in both orientations; only the operator
-  norm erases the difference, and only under equal ranks. Both angles are public API.
-  The two primitive predicates — pairwise and ordered — are owned by
-  [`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md); the
-  interval/exterior and two-block forms are application shapes and are defined here.
+- **Gap predicates and angles stay distinct.**
+  - Three separations, carrying constants one, one and `π/2`: ordered (`λ + δ ≤ μ`),
+    interval/exterior (one spectrum in `[a,b]`, the other outside `(a−δ, b+δ)`), and pairwise
+    (`δ ≤ |λ − μ|`). None is silently strengthened.
+  - `tan 2Θ` needs *ordered* internal separation: interlacing spectra satisfy pairwise
+    separation while an off-diagonal perturbation produces a quarter turn.
+  - One interval/exterior gap controls the directed sine `P_{Vᗮ} ∘ P_U` in every unitarily
+    invariant norm; the symmetric sine `|P_U − P_V|` needs the gap in both orientations. Only
+    the operator norm erases the difference, and only under equal ranks.
+  - Both angles are public API. The primitive predicates — pairwise and ordered — belong to
+    [`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md); the
+    interval/exterior and two-block forms are application shapes, defined here.
 - **Rosenblum without a Borel functional calculus.** Both Cayley spectra contain `1` once
   both operators are unbounded, so no continuous symbol separates them — but `1` is a **null
   point for every diagonal spectral measure**, so continuous symbols damped at `1` separate
@@ -197,23 +198,27 @@ here; and the **Sylvester flow** `W t Z = U_A(t) ∘ Z ∘ U_B(t)⋆` on the Hil
   polar absorption — shift the interval to its midpoint, replace the exterior operator by its
   modulus, absorb the polar partial isometry into the unknown — with the reverse orientation
   by adjoint transport.
-- **Pairwise separation, constant `π/2`**: the analytic root is a *simultaneous Ky Fan prefix
-  estimate* — one finite family of left and right unitaries realizing the reciprocal
-  multiplier on every coordinate matrix unit at once, with mass at most `π/2`, by finite
-  Fourier interpolation against Part A's kernel. The `π/2` is Part A's mass, not an
-  unspecified constant. Fan dominance lifts the estimate to every unitarily invariant norm,
-  orbit convexity packages the scaled solution as a barycenter of the defect's unitary orbit,
-  and the **Frobenius norm loses nothing** — constant one, by dividing the coordinate equation
-  and summing squares. The interpolation layer is internal, not public surface.
-- **The flow route to the unbounded theory**: the flow is a one-parameter unitary group on the
-  Hilbert–Schmidt space — unitarity from the `OperatorIdeals` conjugation theorem; strong
-  continuity is the analytic content, since the columns must go to zero *together*, and the
-  energy split is carried in `ℝ≥0∞` so no finiteness side conditions appear. Stone's theorem
-  hands back a self-adjoint generator, **identified** — not defined, or nothing about
-  Sylvester equations would be proved — as `Z ↦ A Z − Z B`, with domain membership a
-  conclusion; separated spectra force a generator gap at every Hilbert–Schmidt vector.
-  Unbounded endpoints across a pairwise gap `δ`: `δ · ‖X‖₂ ≤ ‖C‖₂` with constant one, and
-  `δ · ‖X‖ ≤ (π/2) · ‖C‖` for bounded solutions of the domain-aware equation.
+- **Pairwise separation, constant `π/2`.**
+  - The analytic root is a *simultaneous Ky Fan prefix estimate*: one finite family of left
+    and right unitaries realizing the reciprocal multiplier on every coordinate matrix unit
+    at once, with mass at most `π/2`, by finite Fourier interpolation against Part A's kernel.
+    The `π/2` is Part A's mass, not an unspecified constant.
+  - Fan dominance lifts the estimate to every unitarily invariant norm, and orbit convexity
+    packages the scaled solution as a barycenter of the defect's unitary orbit.
+  - The **Frobenius norm loses nothing** — constant one, by dividing the coordinate equation
+    and summing squares.
+  - The interpolation layer is internal, not public surface.
+- **The flow route to the unbounded theory.**
+  - The flow is a one-parameter unitary group on the Hilbert–Schmidt space, unitarity coming
+    from the `OperatorIdeals` conjugation theorem.
+  - Strong continuity is the analytic content, since the columns must go to zero *together*.
+    The energy split is carried in `ℝ≥0∞`, so no finiteness side conditions appear.
+  - Stone's theorem hands back a self-adjoint generator, **identified** — not defined, or
+    nothing about Sylvester equations would be proved — as `Z ↦ A Z − Z B`, with domain
+    membership a conclusion. Separated spectra force a generator gap at every
+    Hilbert–Schmidt vector.
+  - Unbounded endpoints across a pairwise gap `δ`: `δ · ‖X‖₂ ≤ ‖C‖₂` with constant one, and
+    `δ · ‖X‖ ≤ (π/2) · ‖C‖` for bounded solutions of the domain-aware equation.
 
 **Milestone B1 — the a-priori bounds**: the dimension-free coercive bound, the
 interval/exterior bound with constant one in every rectangular unitarily invariant norm, and
@@ -385,7 +390,7 @@ equation (Parts B–C). Nothing here waits on `MatrixSpectralStatistics`.
 
 ## Acknowledgements
 
-A substantial implementation of all four Parts exists in the AIQ DKPS formalization (Kitware,
+A substantial implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware,
 Inc., Apache-2.0). It establishes feasibility and provides source provenance for integration,
 but this roadmap specifies the desired mathematics intrinsically and does not prescribe the
 donor API or proof architecture. In particular, the existing statements carry paper numbering and

@@ -221,16 +221,17 @@ completeness of that space as a typeclass rather than a hand-rolled Cauchy crite
   around one example.
 - Ky Fan dominance as a class over families, with its membership-transport corollary and
   direct instances for the operator-norm, Ky Fan and trace-class families.
-- Finite-dimensional **Schatten norms** `schattenNorm p` for real `p ≥ 1` on the
-  singular-value vector, as rectangular unitarily invariant norms: triangle inequality from
-  Ky Fan subadditivity plus `ℓᵖ`-gauge monotonicity under weak majorization, both consumed
-  from the majorization roadmap; definiteness; adjoint invariance; the ideal inequalities;
-  and the endpoint identifications `S₁ =` nuclear, `S₂ =` Frobenius, `S∞ =` operator norm.
-  **This finite-dimensional layer is not a special case of Milestone B3 and does not wait on
-  it**: it is a norm on a vector, consumed by the majorization arm, whereas B3 is a family on
-  operators between infinite-dimensional spaces. The two are related by Milestone A1, and
-  that agreement is itself a target — without it a reader cannot tell whether `S₂` means the
-  same thing in the two halves of this Part.
+- Finite-dimensional **Schatten norms** `schattenNorm p`, for real `p ≥ 1` on the
+  singular-value vector, as rectangular unitarily invariant norms.
+  - Triangle inequality from Ky Fan subadditivity plus `ℓᵖ`-gauge monotonicity under weak
+    majorization, both consumed from the majorization roadmap.
+  - Definiteness, adjoint invariance, and the ideal inequalities.
+  - The endpoint identifications `S₁ =` nuclear, `S₂ =` Frobenius, `S∞ =` operator norm.
+  - **Not a special case of Milestone B3, and not waiting on it**: this is a norm on a
+    vector, consumed by the majorization arm, whereas B3 is a family on operators between
+    infinite-dimensional spaces. Milestone A1 relates them, and that agreement is itself a
+    target — without it a reader cannot tell whether `S₂` means the same thing in the two
+    halves of this Part.
 
 ### Milestone B1 — symmetric norming functions and the Calkin correspondence
 

@@ -80,13 +80,13 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
   in `u, v` are then inherited from the singular-value API — the last because the overlap
   operators of the swapped pair are adjoint. The recursion should be *absent*, not hidden,
   or the definitional choice is not paying.
-- **Families first, subspaces later, and the bridge is a Part D target.** Part B's
-  `cosPrincipalAngles hu hv` is indexed by orthonormal families, so as stated it is an
-  invariant of the chosen families. Part D defines `principalCosines U V` for submodules as
-  the singular values of `P_V P_U` and proves the two agree on spans — the statement that
-  the family invariant depends only on the spans. The bridge lives in Part D because it
-  needs the projector dictionary built there, and a reviewer of Part B alone should know
-  that its name is justified one Part later.
+- **Families first, subspaces later, and the bridge is a Part D target.**
+  - Part B's `cosPrincipalAngles hu hv` is indexed by orthonormal families, so as stated it
+    is an invariant of the chosen families.
+  - Part D defines `principalCosines U V` for submodules as the singular values of `P_V P_U`,
+    and proves the two agree on spans — that the family invariant depends only on the spans.
+  - The bridge lives in Part D because it needs the projector dictionary built there. A
+    reviewer of Part B alone should know its name is justified one Part later.
 - **Directed sines are not symmetric.** `principalSines U V` are the singular values of
   `P_{Vᗮ} P_U`; symmetry of the sines and of the angles holds under an equal-rank
   hypothesis, which matches the multiplicities of the quarter-turn defect directions, and
@@ -172,14 +172,15 @@ orthonormal basis; and the three-law structure `UnitarilyInvariantSeminorm 𝕜 
   unitarily invariant seminorm is determined by the singular-value sequence; derived `nonneg`,
   `apply_zero`, `apply_adjoint`, and the ideal property `N (C ∘ₗ X) ≤ c · N X`; the
   Frobenius norm as the first instance.
-- Gram-perturbation groundwork: `‖A⋆y‖ ≤ c‖y‖` from an elementwise bound on `A`; the
-  splitting `Â⋆Â − A⋆A = Â⋆(Â−A) + (Â−A)⋆A` giving `‖(Â⋆Â − A⋆A)x‖ ≤ (a+â)ε‖x‖` and the
-  squared singular-value perturbation `|σₖ(Â)² − σₖ(A)²| ≤ (a+â)ε`. This block is here for
-  one downstream consumer — the Yu–Wang–Samworth singular-vector bound applies the symmetric
-  perturbation theory to `A⋆A` — and it is not a step in the majorization pipeline. It is
-  deliberately not called "Weyl's inequality": it bounds squares, carries the factor
-  `a + â`, and is implied by but does not imply the sharp `|σₙ(T) − σₙ(S)| ≤ ‖T − S‖`, which
-  belongs to [`OperatorIdeals`](../OperatorIdeals/README.md).
+- **Gram-perturbation groundwork.**
+  - `‖A⋆y‖ ≤ c‖y‖` from an elementwise bound on `A`.
+  - The splitting `Â⋆Â − A⋆A = Â⋆(Â−A) + (Â−A)⋆A`, giving `‖(Â⋆Â − A⋆A)x‖ ≤ (a+â)ε‖x‖` and
+    the squared singular-value perturbation `|σₖ(Â)² − σₖ(A)²| ≤ (a+â)ε`.
+  - Here for one downstream consumer — the Yu–Wang–Samworth singular-vector bound applies the
+    symmetric perturbation theory to `A⋆A` — and not a step in the majorization pipeline.
+  - Deliberately **not** called "Weyl's inequality": it bounds squares, carries the factor
+    `a + â`, and is implied by but does not imply the sharp `|σₙ(T) − σₙ(S)| ≤ ‖T − S‖`,
+    which belongs to [`OperatorIdeals`](../OperatorIdeals/README.md).
 
 **Milestone — the transfer descent.** A symmetric-convex set containing `y` contains every
 antitone nonnegative `z` whose prefix sums it dominates. This is the engine, and it must
@@ -388,7 +389,7 @@ must not restate it.
 
 ## Acknowledgements
 
-A substantial implementation of all four Parts exists in the AIQ DKPS formalization
+A substantial implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
 (Kitware, Inc., Apache-2.0). It establishes feasibility and provides source provenance for
 integration, but this roadmap specifies the desired mathematics intrinsically and does not
 prescribe the donor API or proof architecture.

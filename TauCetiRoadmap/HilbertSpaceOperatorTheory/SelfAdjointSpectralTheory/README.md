@@ -360,14 +360,15 @@ map `w ↦ i(1+w)/(1−w)`; the spectral projections; the spectral subspace and 
 - **Form bounds from spectral support**: vanishing of the spectral projection on `(−∞, c)`
   yields `c‖x‖² ≤ Re⟪A x, x⟫` on the domain, and dually; on a spectral range with
   `B ⊆ [β, α]` the quadratic form is confined to `[β, α]`.
-- **The Yosida scheme, with named approximants**: `yosidaApprox hA n = n²·R(in) − in` and its
-  symmetrized and mirrored forms, the contractions `n·R(±in)`, strong convergence on the
-  domain; the exponentials `exp(it·(symmetrized approximant))`, unitary and Cauchy uniformly
-  on compact time intervals via Part A's Duhamel estimate — the approximants commute, which
-  is why Duhamel's commutation hypothesis suffices; the strong limit, and `genToGroup hA`,
-  which is **Stone's theorem, construction half**. The approximants are public and named
-  because the convergence statements are about them, not about a limit appearing from
-  nowhere.
+- **The Yosida scheme, with named approximants.**
+  - `yosidaApprox hA n = n²·R(in) − in`, with its symmetrized and mirrored forms, the
+    contractions `n·R(±in)`, and strong convergence on the domain.
+  - The exponentials `exp(it·(symmetrized approximant))`: unitary, and Cauchy uniformly on
+    compact time intervals via Part A's Duhamel estimate — the approximants commute, which is
+    why Duhamel's commutation hypothesis suffices.
+  - The strong limit, and `genToGroup hA`, which is **Stone's theorem, construction half**.
+  - The approximants are public and named because the convergence statements are about them,
+    not about a limit appearing from nowhere.
 - **Maximality, proved once**: self-adjoint `A ≤ B` forces `A = B`. This is why identifying
   two self-adjoint operators never requires proving both inclusions.
 - **Stone uniqueness** as the payoff of maximality: the generator of `genToGroup hA` is `A`.
@@ -470,7 +471,7 @@ consumes Part B's measurability layer.
 
 ## Acknowledgements
 
-A substantial implementation of all five Parts exists in the AIQ DKPS formalization
+A substantial implementation of all five Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
 (Kitware, Inc., Apache-2.0), in namespaces `TauCeti.*` and `LinearPMap.*`. It establishes
 feasibility and provides source provenance for integration, but this roadmap specifies the
 desired mathematics intrinsically and does not prescribe the donor API or proof

@@ -494,7 +494,7 @@ the [Hilbert-space operator theory](../README.md) family cites.
 
 ## Acknowledgements
 
-A substantial implementation of all four Parts exists in the AIQ DKPS formalization
+A substantial implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
 (Kitware, Inc., Apache-2.0), in namespaces `TauCeti.*`, `LinearMap.*` and
 `ContinuousLinearMap.*`. It establishes feasibility and provides source provenance for
 integration, but this roadmap specifies the desired mathematics intrinsically and does not

@@ -446,8 +446,7 @@ of the rest.
 
 ## Acknowledgements
 
-A complete implementation of Parts A and B and of most of Parts C and D exists in the AIQ DKPS
-formalization (Kitware, Inc., Apache-2.0), in `TauCeti.*` and `TauCeti.Matrix.*` namespaces. It
+A complete implementation of Parts A and B and of most of Parts C and D exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware, Inc., Apache-2.0), in `TauCeti.*` and `TauCeti.Matrix.*` namespaces. It
 establishes feasibility and provides source provenance for integration, but this roadmap
 specifies the desired mathematics intrinsically and does not prescribe the donor API or proof
 architecture.
