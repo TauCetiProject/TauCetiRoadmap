@@ -91,7 +91,31 @@ predicate drifts from the theory it abstracts.
 
 Still open, same category: the missing `→L`/`→ₗ` bridge for `IsPartialIsometry` in item 1.
 
-### 2c. Namespace discrepancy for the form bounds
+### 2c. Namespace: mirror Mathlib type namespaces *inside* `TauCeti`
+
+**Resolved, and it applies to this roadmap.** Tau Ceti never extends a root Mathlib
+namespace; it mirrors them inside its own — `TauCeti.ContinuousLinearMap.foo`, not
+`ContinuousLinearMap.foo`. Verified in `external/TauCeti`:
+`Analysis/Fredholm/Basic.lean` and `LinearAlgebra/TotallyReal.lean` both open the Mathlib
+type namespace *within* `namespace TauCeti`.
+
+The reason is specific to this project and worth restating wherever the question comes up:
+Mathlib does not accept AI-authored contributions, so a name taken in a root Mathlib
+namespace can never be resolved by coordination if Mathlib later wants it. Nesting removes
+the risk entirely, and costs only an `open TauCeti` in each consuming file.
+
+One measured fact that any statement of this rule must include, because it is the trap:
+**dot notation resolves through `open`, not through the enclosing namespace.** A file inside
+`namespace TauCeti` does *not* get `A.LowerFormBoundOn` — it needs `open TauCeti`, and so
+does the file that declares it.
+
+For this roadmap that means `HilbertSpaceOperatorFoundations`'s top-level
+`namespace LinearMap` (34) and `namespace ContinuousLinearMap` (292) blocks are the ones out
+of line, not `SelfAdjointSpectralTheory`'s. Both should become `TauCeti.LinearMap` /
+`TauCeti.ContinuousLinearMap`, and the form bounds should move there too rather than staying
+in `TauCetiRoadmap.SelfAdjointSpectralTheory`.
+
+### 2d. Superseded: namespace discrepancy for the form bounds
 
 The donor declares `LowerFormBoundOn` / `UpperFormBoundOn` inside `namespace
 ContinuousLinearMap`, so consumers write `A.LowerFormBoundOn U c`. The roadmap declares them
