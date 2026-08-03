@@ -382,7 +382,7 @@ Inc., Apache-2.0). It establishes feasibility and provides source provenance for
 but this roadmap specifies the desired mathematics intrinsically and does not prescribe the
 donor API or proof architecture. In particular, the existing statements carry paper numbering and
 paper-flavoured names; a submission states the theorems in terms of the objects above, with the
-source correspondence confined to the downstream acceptance layer of Part C.
+source correspondence confined to the acceptance layer of Part C.
 
 Material in the Sylvester and `sin Θ` lineage was adapted from the Spectra Formalization
 Project at upstream revision `8dbaaf6728d1342ae16acf79fd7eef7c59b37e63`, with a recorded

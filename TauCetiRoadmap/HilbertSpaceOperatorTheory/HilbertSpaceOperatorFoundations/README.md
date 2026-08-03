@@ -267,7 +267,7 @@ answers a different question:
 
 The accessor exists so that operator-norm consumers — approximation numbers, Ky Fan norms,
 Eckart–Young — never spell `T.toLinearMap.singularValues` in a public statement. It fixes
-the public spelling for four downstream developments, so it is a target of this Part and
+the public spelling for the four roadmaps that consume it, so it is a target of this Part and
 not an afterthought; but its lemmas should be one-line delegations, and a reviewer should
 confirm exactly that. Any lemma there with real content belongs at the `LinearMap` level
 instead.
@@ -288,7 +288,7 @@ built from the singular system with coefficient `(σᵢ²)⁻¹` against rank-on
   including the zero case; the `uᵢ` with `σᵢ ≠ 0` are orthonormal and are eigenvectors of
   `AA⋆` at `σᵢ²`; `A⋆ uᵢ = σᵢ • vᵢ`; the singular expansion of `A x` and the rank-one
   reconstruction of `A`; the extension of the nonzero left family to an orthonormal basis of
-  the codomain — the statement downstream consumers actually need, and not automatic for a
+  the codomain — the statement consumers actually need, and not automatic for a
   rectangular map.
 
 ### The Moore–Penrose interface

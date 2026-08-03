@@ -72,7 +72,7 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
   predicate or an ad-hoc sup norm.
 - **Dimension constants are explicit.** The entrywise-to-operator comparison
   carries the factor `n`, and the union bound carries `n²`. Neither is dimension-free and
-  neither may be silently dropped: downstream bounds are *wrong*, not merely weak, without
+  neither may be silently dropped: the Part D concentration bounds are *wrong*, not merely weak, without
   them. Where the constant is suboptimal by design (Part D), the statement says so.
 - **Independence is pairwise; means are common.** Sample-moment identities assume pairwise
   independence and a common mean, never full mutual independence or identical distribution;
@@ -281,7 +281,7 @@ symmetry through `Matrix.isSymmetric_toEuclideanLin_iff`); the decreasingly sort
   and reduces to plain matrix–vector multiplication, with conjugation entering only the
   adjoint, which this bound never touches.
 
-  The eigenvalue statements downstream stay real for now: `sortedEigenvalues` is built on
+  The eigenvalue statements of Parts C and D stay real for now: `sortedEigenvalues` is built on
   `LinearMap.IsSymmetric.eigenvalues`, and generalizing the *spectral* layer is a different and
   larger question than generalizing one norm inequality. Doing the norm half alone is
   worthwhile because it is what the operator-norm deviation event of Part D consumes, and it
@@ -369,7 +369,7 @@ bound costs a factor `n` (entrywise to operator) and `n²` (the union bound); a 
 inequality would give `log n` dimension dependence, at the price of the matrix Laplace-transform
 machinery Mathlib does not have. The trade — a weaker constant from ingredients that exist over
 a sharper constant requiring a substantial new development — is right for a first pass, but the
-bound is **not sharp in the dimension**, and nothing downstream may treat the `n`-dependence as
+bound is **not sharp in the dimension**, and no consumer may treat the `n`-dependence as
 intrinsic. A matrix-Bernstein upgrade is future work *on top of* this API, not a replacement for
 it.
 
@@ -400,7 +400,8 @@ bound with rate `1/√n` feeding the `TendstoInMeasure` conversion.
 
 **Acceptance examples.** I.i.d. coordinates with a fourth-moment bound give an explicit `v` and
 the `v/n` entry rate; `η = c/(2d)` keeps a population eigenvalue floored at `c` above `c/2`
-with high probability — the eigengap a downstream Davis–Kahan application needs; the add-one
+with high probability — the eigengap the Davis–Kahan applications of
+[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) need; the add-one
 scatter identity checked against a two-point family.
 
 ## Ordering

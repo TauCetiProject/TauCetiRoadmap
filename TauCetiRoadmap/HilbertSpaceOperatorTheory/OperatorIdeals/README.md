@@ -277,7 +277,7 @@ roadmap specifies the direction it needs and is explicit about the other:
   ideal really is a function of the singular-value sequence alone.
 - **Not claimed:** surjectivity, that *every* symmetric ideal arises from a symmetric norming
   function. That is the substantial half of Calkin's theorem, it needs a separability
-  hypothesis nothing else here needs, and no downstream result consumes it. If a reviewer
+  hypothesis nothing else here needs, and no result in this group consumes it. If a reviewer
   wants it, it is a milestone of its own.
 
 ### Milestone B2 — the Ky Fan dominance principle

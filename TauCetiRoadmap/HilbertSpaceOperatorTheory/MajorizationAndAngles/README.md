@@ -171,7 +171,8 @@ orthonormal basis; and the three-law structure `UnitarilyInvariantSeminorm 𝕜 
   - `‖A⋆y‖ ≤ c‖y‖` from an elementwise bound on `A`.
   - The splitting `Â⋆Â − A⋆A = Â⋆(Â−A) + (Â−A)⋆A`, giving `‖(Â⋆Â − A⋆A)x‖ ≤ (a+â)ε‖x‖` and
     the squared singular-value perturbation `|σₖ(Â)² − σₖ(A)²| ≤ (a+â)ε`.
-  - Here for one downstream consumer — the Yu–Wang–Samworth singular-vector bound applies the
+  - Here for one consumer — the Yu–Wang–Samworth singular-vector bound of
+    [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) applies the
     symmetric perturbation theory to `A⋆A` — and not a step in the majorization pipeline.
   - Deliberately **not** called "Weyl's inequality": it bounds squares, carries the factor
     `a + â`, and is implied by but does not imply the sharp `|σₙ(T) − σₙ(S)| ≤ ‖T − S‖`,
@@ -226,7 +227,8 @@ operator rotates `v` into a basis `w` of its span with `∑ⱼ ‖wⱼ − uⱼ�
 
 This Part exists for one composite theorem: Ky Fan domination implies membership in the
 convex hull of the two-sided unitary orbit, which implies domination in *every* rectangular
-unitarily invariant norm. The perturbation estimates downstream are proved once, as Ky Fan
+unitarily invariant norm. The Davis–Kahan estimates of
+[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) are proved once, as Ky Fan
 dominations, and this Part turns each such proof into a statement about the operator norm,
 the Frobenius norm, every Ky Fan norm, and the nuclear norm.
 
@@ -248,15 +250,16 @@ singular-value theory.
 - Block sums: componentwise action, adjoint, composition; doubling a map interleaves its
   singular values; Ky Fan sums and orbit-hull membership for block sums. This is how the
   two directed sine blocks are assembled *without* a triangle inequality, which is what
-  preserves the sharp constants downstream.
+  preserves the sharp constants in [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
 - The concrete instances — operator, Frobenius, Ky Fan `k`, nuclear — with their identities
   `frobenius A = √(∑ σᵢ²)`, `nuclear A = ∑ σᵢ`, `nuclear ≤ √(finrank) · frobenius`.
 - Two-dimensional sharpness models: the singular values of `2 × 2` diagonal, off-diagonal
   and triangular models, and the trace/determinant characterization — the witnesses for the
-  sharpness claims downstream.
+  sharpness claims of [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
 
 **Milestone — orbit-hull majorization and rectangular Fan dominance**, the pair whose
-composite is quoted everywhere downstream. The majorization half pulls back along a diagonal
+composite is quoted throughout [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) and
+[`OperatorIdeals`](../OperatorIdeals/README.md). The majorization half pulls back along a diagonal
 lift to a symmetric-convex set of coordinate vectors — coordinate swaps and single sign
 changes *are* two-sided unitary actions — so Part A's transfer descent applies directly;
 what remains here is the operator-theoretic half: the lift, the extension of coordinate
@@ -357,6 +360,12 @@ results and portable early.
 One duplication to resolve at implementation time: determination of a unitarily invariant
 norm by the singular-value sequence is specified once, in Part A. Part D consumes it and
 must not restate it.
+
+**Downstream.** [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md)
+consumes Parts B–D — the angles, the seminorm structures with Fan dominance, aligned bases,
+and Weyl perturbation — and is where the estimates lifted by Part C are stated.
+[`OperatorIdeals`](../OperatorIdeals/README.md) consumes Part A for the Ky Fan triangle
+inequality that seeds its symmetric-gauge layer.
 
 ## References
 
