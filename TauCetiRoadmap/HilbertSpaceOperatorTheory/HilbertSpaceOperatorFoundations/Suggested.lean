@@ -50,6 +50,17 @@ theorem isPartialIsometry_iff_starMul {u : E →ₗ[𝕜] E} :
     u.IsPartialIsometry ↔ _root_.IsPartialIsometry u := by
   sorry
 
+/-- Operator characterization: a partial isometry is exactly a map that is norm-preserving
+on the orthogonal complement of its kernel (Conway VI.3.2).
+
+Stated **rectangularly**, for `u : E →ₗ[𝕜] F`, which is the predicate this file exists to
+add; the square case is the specialization.  The star-monoid proof does not reach here --
+`star u` would be an `F →ₗ[𝕜] E` -- so the argument is the decomposition one: `u⋆ u` is the
+orthogonal projection onto `(ker u)ᗮ`. -/
+theorem isPartialIsometry_iff_norm_map {u : E →ₗ[𝕜] F} :
+    u.IsPartialIsometry ↔ ∀ x ∈ (LinearMap.ker u)ᗮ, ‖u x‖ = ‖x‖ := by
+  sorry
+
 end PartialIsometry
 
 section FunctionalCalculus
@@ -155,12 +166,6 @@ section SquarePolar
 
 variable {𝕜 : Type u} [RCLike 𝕜]
 variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
-
-/-- Operator characterization: a partial isometry is exactly a map that is norm-preserving
-on the orthogonal complement of its kernel (Conway VI.3.2). -/
-theorem isPartialIsometry_iff_norm_map {u : E →ₗ[𝕜] E} :
-    u.IsPartialIsometry ↔ ∀ x ∈ (LinearMap.ker u)ᗮ, ‖u x‖ = ‖x‖ := by
-  sorry
 
 /-- Polar decomposition with a genuine unitary factor, available for every endomorphism of
 a finite-dimensional space (Horn–Johnson 7.3.1; the factor is not unique when `A` is
@@ -287,6 +292,24 @@ theorem exists_linearIsometryEquiv_map_eq_of_inner_eq {ι : Type*}
 
 end GramRigidity
 
+section NearIsometry
+
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+
+/-- **The near-isometry polar factorization.** A real map whose quadratic form is uniformly
+`δ`-close to the identity factors as an isometry equivalence times the positive square root
+of its Gram operator, and the square root is uniformly close to the identity — hence
+`‖M − W‖ ≤ 2δ` for `δ ≤ 1/2`. This is the form a perturbation argument can use and the
+exact decompositions cannot give. -/
+theorem exists_linearIsometryEquiv_norm_sub_le
+    (M : E →ₗ[ℝ] E) {δ : ℝ} (hδ : 0 ≤ δ) (hδ1 : δ ≤ 1 / 2)
+    (hM : ∀ x : E, |⟪M x, M x⟫_ℝ - ⟪x, x⟫_ℝ| ≤ δ * ‖x‖ ^ 2) :
+    ∃ W : E ≃ₗᵢ[ℝ] E,
+      ‖LinearMap.toContinuousLinearMap (M - (W : E →ₗ[ℝ] E))‖ ≤ 2 * δ := by
+  sorry
+
+end NearIsometry
+
 end LinearMap
 
 namespace ContinuousLinearMap
@@ -376,24 +399,6 @@ end ContinuousLinearMap
 namespace TauCetiRoadmap.HilbertSpaceOperatorFoundations
 
 /-! ## Part B — the near-isometry factorization and Davis's intertwining unitary -/
-
-section NearIsometry
-
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
-
-/-- **The near-isometry polar factorization.** A real map whose quadratic form is uniformly
-`δ`-close to the identity factors as an isometry equivalence times the positive square root
-of its Gram operator, and the square root is uniformly close to the identity — hence
-`‖M − W‖ ≤ 2δ` for `δ ≤ 1/2`. This is the form a perturbation argument can use and the
-exact decompositions cannot give. Intended home: `LinearMap`. -/
-theorem exists_linearIsometryEquiv_norm_sub_le
-    (M : E →ₗ[ℝ] E) {δ : ℝ} (hδ : 0 ≤ δ) (hδ1 : δ ≤ 1 / 2)
-    (hM : ∀ x : E, |⟪M x, M x⟫_ℝ - ⟪x, x⟫_ℝ| ≤ δ * ‖x‖ ^ 2) :
-    ∃ W : E ≃ₗᵢ[ℝ] E,
-      ‖LinearMap.toContinuousLinearMap (M - (W : E →ₗ[ℝ] E))‖ ≤ 2 * δ := by
-  sorry
-
-end NearIsometry
 
 section Intertwining
 
