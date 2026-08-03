@@ -312,11 +312,6 @@ variable {𝕜 : Type u} [RCLike 𝕜]
 variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
   [FiniteDimensional 𝕜 E]
 
-/-- Population-only gap: the selected block of `A` is separated from its own
-complementary block.  No hypothesis on the perturbed spectrum. -/
-def PopulationGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (Δ : ℝ) : Prop :=
-  HilbertSpaceOperatorFoundations.SpectraSeparated A U A Uᗮ Δ
-
 /-- `U` and `V` are eigenblocks of `A` and `B` selected by the same ordered
 eigenvalue indices — the branch selection that excludes arbitrary reducing
 subspaces when `B = A`. -/
@@ -350,7 +345,7 @@ theorem yuWangSamworth_sinTheta_le
     [V.HasOrthogonalProjection]
     (hcorr : CorrespondingEigenblock hA hB U V)
     {d : ℕ} (hrank : finrank 𝕜 U = d) {Δ : ℝ} (hΔ : 0 < Δ)
-    (hgap : PopulationGap A U Δ) :
+    (hgap : HilbertSpaceOperatorFoundations.InternalGap A U Δ) :
     sinThetaFrobenius U V ≤
       2 * min (Real.sqrt d * ‖(B - A).toContinuousLinearMap‖)
         (frobeniusNorm (B - A)) / Δ := by
@@ -365,7 +360,7 @@ theorem yuWangSamworth_alignedBasis_le
     [V.HasOrthogonalProjection]
     (hcorr : CorrespondingEigenblock hA hB U V)
     {d : ℕ} (hrankU : finrank 𝕜 U = d) (hrankV : finrank 𝕜 V = d)
-    {Δ : ℝ} (hΔ : 0 < Δ) (hgap : PopulationGap A U Δ) :
+    {Δ : ℝ} (hΔ : 0 < Δ) (hgap : HilbertSpaceOperatorFoundations.InternalGap A U Δ) :
     ∃ (u v : Fin d → E), Orthonormal 𝕜 u ∧ Orthonormal 𝕜 v ∧
       Submodule.span 𝕜 (Set.range u) = U ∧
       Submodule.span 𝕜 (Set.range v) = V ∧

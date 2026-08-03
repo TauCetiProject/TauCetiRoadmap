@@ -175,6 +175,40 @@ def LowerFormBoundOn (A : E →L[𝕜] E) (U : Submodule 𝕜 E) (c : ℝ) : Pro
 def UpperFormBoundOn (A : E →L[𝕜] E) (U : Submodule 𝕜 E) (c : ℝ) : Prop :=
   ∀ x ∈ U, RCLike.re ⟪A x, x⟫_𝕜 ≤ c * ‖x‖ ^ 2
 
+/-! #### Basic theory of the form bounds
+
+The two directions in which a bound weakens, and the identification of the degenerate case
+with Mathlib's `ContinuousLinearMap.IsPositive`.  Without these a consumer holding a bound
+on `U` at constant `c`, who needs one on a subspace of `U` or at a worse constant, reproves
+it from the definition — which is what makes a named predicate drift from the theory it is
+supposed to abstract. -/
+
+/-- A lower form bound weakens as the constant decreases. -/
+theorem LowerFormBoundOn.mono_const {A : E →L[𝕜] E} {U : Submodule 𝕜 E} {c c' : ℝ}
+    (h : LowerFormBoundOn A U c) (hc : c' ≤ c) : LowerFormBoundOn A U c' := sorry
+
+/-- A lower form bound restricts to a smaller subspace. -/
+theorem LowerFormBoundOn.mono_subspace {A : E →L[𝕜] E} {U U' : Submodule 𝕜 E} {c : ℝ}
+    (h : LowerFormBoundOn A U c) (hU : U' ≤ U) : LowerFormBoundOn A U' c := sorry
+
+/-- An upper form bound weakens as the constant increases. -/
+theorem UpperFormBoundOn.mono_const {A : E →L[𝕜] E} {U : Submodule 𝕜 E} {c c' : ℝ}
+    (h : UpperFormBoundOn A U c) (hc : c ≤ c') : UpperFormBoundOn A U c' := sorry
+
+/-- An upper form bound restricts to a smaller subspace. -/
+theorem UpperFormBoundOn.mono_subspace {A : E →L[𝕜] E} {U U' : Submodule 𝕜 E} {c : ℝ}
+    (h : UpperFormBoundOn A U c) (hU : U' ≤ U) : UpperFormBoundOn A U' c := sorry
+
+/-- **The grounding to Mathlib.**  A positive operator is one with the zero lower form bound
+on the whole space, so Mathlib's positivity API reaches anything stated with these. -/
+theorem IsPositive.lowerFormBoundOn_top {A : E →L[𝕜] E} (hA : A.IsPositive) :
+    LowerFormBoundOn A ⊤ 0 := sorry
+
+/-- The converse, which is what makes `LowerFormBoundOn _ ⊤ 0` a generalization of Mathlib's
+predicate rather than a competitor to it. -/
+theorem isPositive_of_lowerFormBoundOn_top {A : E →L[𝕜] E} (hsym : A.IsSymmetric)
+    (h : LowerFormBoundOn A ⊤ 0) : A.IsPositive := sorry
+
 section ComplexScalars
 
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]

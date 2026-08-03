@@ -450,13 +450,34 @@ variable {𝕜 : Type u} [RCLike 𝕜]
 variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
 variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F]
 
-/-- A nonzero eigenvector of an operator at a real eigenvalue. -/
-def IsEigenvectorAt (A : E →ₗ[𝕜] E) (lam : ℝ) (x : E) : Prop :=
-  x ≠ 0 ∧ A x = (lam : 𝕜) • x
+/-- The point spectrum of `A` carried by `U`.
 
-/-- The point spectrum of `A` carried by `U`. -/
+Eigenvectors are Mathlib's `Module.End.HasEigenvector`. A local "eigenvector at a real
+eigenvalue" predicate adds only the realness of `lam`, which the `lam : ℝ` binder here
+already supplies, and would grow a second theory of eigenvector lemmas beside Mathlib's. -/
 def restrictedSpectrum (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) : Set ℝ :=
-  {lam | ∃ x, x ∈ U ∧ IsEigenvectorAt A lam x}
+  {lam | ∃ x, x ∈ U ∧ Module.End.HasEigenvector A (lam : 𝕜) x}
+
+/-- **The membership characterization**, in the eigenvalue-equation form consumers want.
+
+The definition goes through `Module.End.HasEigenvector` so Mathlib's eigenspace API applies,
+but proofs want `A x = lam • x`. This lemma is the intended sole conversion point, so that
+the internal shape of `HasEigenvector` — which orders its conjuncts
+`(mem_eigenspace, ne_zero)` — never becomes part of this definition's interface. Without it
+every consumer destructures the definition, and a change to either side propagates.
+
+Together with the introduction rule below, this is the whole intended API of
+`restrictedSpectrum`; `SpectrumIn` and the separation predicates are then stated over it
+without ever unfolding it. -/
+theorem mem_restrictedSpectrum_iff {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E} {lam : ℝ} :
+    lam ∈ restrictedSpectrum A U ↔ ∃ x ∈ U, x ≠ 0 ∧ A x = (lam : 𝕜) • x := by
+  sorry
+
+/-- The introduction rule: a nonzero eigenvector in `U` witnesses its eigenvalue. -/
+theorem mem_restrictedSpectrum {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E} {lam : ℝ} {x : E}
+    (hxU : x ∈ U) (hx0 : x ≠ 0) (hxEig : A x = (lam : 𝕜) • x) :
+    lam ∈ restrictedSpectrum A U := by
+  sorry
 
 /-- Every eigenvalue of `A` carried by `U` lies in `Ω`. -/
 def SpectrumIn (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (Ω : Set ℝ) : Prop :=
@@ -464,7 +485,7 @@ def SpectrumIn (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (Ω : Set ℝ) : Pr
 
 /-- The canonical spectral subspace selected by a real set. -/
 noncomputable def spectralSubspace (A : E →ₗ[𝕜] E) (Ω : Set ℝ) : Submodule 𝕜 E :=
-  Submodule.span 𝕜 {x | ∃ lam ∈ Ω, IsEigenvectorAt A lam x}
+  Submodule.span 𝕜 {x | ∃ lam ∈ Ω, Module.End.HasEigenvector A (lam : 𝕜) x}
 
 /-- **The symmetric separation predicate**: two restricted spectra are at distance at least
 `δ`. The weaker of the two primitives, with no ordering implied; it is what the `π/2`
@@ -472,6 +493,20 @@ theorems assume. -/
 def SpectraSeparated (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E)
     (B : F →ₗ[𝕜] F) (V : Submodule 𝕜 F) (δ : ℝ) : Prop :=
   ∀ lam μ, lam ∈ restrictedSpectrum A U → μ ∈ restrictedSpectrum B V → δ ≤ |lam - μ|
+
+/-- **Absolute separation between the two diagonal blocks of one operator.**
+
+The member of the separation family in which both spectra come from the same `A`, on `U`
+and `Uᗮ`. It carries its own name because the theorems that consume it are a different
+family — the `sin Θ` and `sin 2Θ` results and the disjoint-spectrum Sylvester estimate —
+and because it is *not* enough for the sharp `tan 2Θ` theorem, where interlacing spectra
+can satisfy absolute separation while an off-diagonal perturbation produces a quarter turn.
+
+A statistics-facing synonym for this predicate is not wanted: the population/sample
+distinction belongs in the names of the theorems that use it, not in a fourth name for the
+same separation. -/
+def InternalGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (δ : ℝ) : Prop :=
+  SpectraSeparated A U A Uᗮ δ
 
 /-- **The ordered separation predicate**: one restricted spectrum lies below the other with
 margin `δ`. Strictly stronger than `SpectraSeparated`, and the hypothesis under which the

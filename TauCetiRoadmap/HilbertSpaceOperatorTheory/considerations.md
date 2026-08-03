@@ -52,26 +52,65 @@ operator satisfy" is exactly what a surface has to answer.
 The guideline is explicit — *never wrap a one-line bound in a new predicate* — with
 `norm_cfc_le` carrying `∀ x ∈ s, ‖f x‖ ≤ C` inline as the worked example.
 
-| Declaration | Body |
-|---|---|
-| `SelfAdjointSpectralTheory:152` `LowerFormBoundOn` | `∀ x ∈ U, c * ‖x‖ ^ 2 ≤ re ⟪A x, x⟫` |
-| `SelfAdjointSpectralTheory:156` `UpperFormBoundOn` | the same with the inequality reversed |
-| `SpectralSubspacePerturbation:317` `PopulationGap` | `SpectraSeparated A U A Uᗮ Δ` |
-| `HilbertSpaceOperatorFoundations:462` `SpectrumIn` | `restrictedSpectrum A U ⊆ Ω` |
+Only one member of the original list survives scrutiny, and the test that separates them is
+**whether the predicate has an interface**: producers whose conclusion it is, consumers that
+take it as a hypothesis, and lemmas about it — versus a name that only saves typing.
 
-`PopulationGap` is the clearest: the body is an application of a sibling roadmap's own
-predicate, so the PR proposes two public names for one notion.
+**Genuinely gratuitous — resolved.** `PopulationGap` was
+`SpectraSeparated A U A Uᗮ Δ`, i.e. a second name for `InternalGap`, which is a third name
+for a `SpectraSeparated` instance. Removed in favour of `InternalGap`.
 
-The form bounds have a second issue independent of the guideline — Mathlib's `IsPositive`
-covers the `U = ⊤`, `c = 0` case and nothing relates them.
+**Not gratuitous, and the flag was wrong** — `LowerFormBoundOn` / `UpperFormBoundOn`
+(`SelfAdjointSpectralTheory:170, 174`). They have eight producer theorems whose *conclusion*
+is a form bound (`{lower,upper}FormBoundOn_{top_of_spectrum_subset,of_restriction_spectrum_subset}_{Ici,Iic}`,
+in both the real and complex spectral-order files) and consumers in the sin Θ and projector
+estimates. Nothing anywhere unfolds them. They are the interface between the spectral layer
+and the estimate layer: spectral information in, quadratic-form currency out. Inline them and
+those eight theorems have conclusions naming nothing, and the boundary disappears. Mathlib
+names the degenerate case itself — `ContinuousLinearMap.IsPositive` is symmetry plus
+`LowerFormBoundOn _ ⊤ 0`.
 
-*Against acting:* the form bounds appear in many statements, and a name is more readable than
-a repeated two-line hypothesis. *For:* that is the argument the guideline anticipates and
-rejects, and a redundant predicate grows a redundant theory of lemmas.
+**Not gratuitous** — `SpectrumIn` (`HilbertSpaceOperatorFoundations`), 124 uses across 19
+files in the donor. That is vocabulary.
 
 **Keep `MapsDomainTo`** (`SelfAdjointSpectralTheory:130`) despite being a one-liner:
 `SylvesterEquation.equation` is a *dependent* field referring to it, so it cannot be inlined.
 Worth stating as the explicit exception so nobody "fixes" it.
+
+### 2b. Objects that lack their basic theory
+
+The guideline's other rule — *for each object you introduce, ask for its complete basic
+theory* — is where the form bounds actually fall short, and it is a better use of effort than
+removing them.
+
+Added (proved in the donor, stated here as signatures): weakening in the constant and
+restriction to a subspace for each bound, plus both directions of the `IsPositive`
+identification. Before, a consumer holding a bound on `U` at constant `c` and needing one on
+a subspace of `U` had to reprove it from the definition — which is exactly how a named
+predicate drifts from the theory it abstracts.
+
+Still open, same category: the missing `→L`/`→ₗ` bridge for `IsPartialIsometry` in item 1.
+
+### 2c. Namespace discrepancy for the form bounds
+
+The donor declares `LowerFormBoundOn` / `UpperFormBoundOn` inside `namespace
+ContinuousLinearMap`, so consumers write `A.LowerFormBoundOn U c`. The roadmap declares them
+inside `TauCetiRoadmap.SelfAdjointSpectralTheory`, so they must be written
+`LowerFormBoundOn A U c`.
+
+This is not a stylistic tie. `HilbertSpaceOperatorFoundations/Suggested.lean` opens
+`namespace LinearMap` and `namespace ContinuousLinearMap` at **top level, outside** the
+roadmap namespace, and says so explicitly: *"the namespace is part of the proposal."* That
+file is proposing Mathlib-namespace declarations and gets dot notation for them.
+`SelfAdjointSpectralTheory` wraps its whole body in the roadmap namespace, so the same
+declarations there cannot reach `ContinuousLinearMap`.
+
+Two roadmaps in the same PR therefore propose two different conventions for where an
+operator predicate lives, and the donor sides with Foundations. Resolving it means moving the
+form-bound block outside `namespace TauCetiRoadmap.SelfAdjointSpectralTheory` — which also
+moves it out of `section ClosedOperators` and its `𝕜 / E / F` variables, so it is a
+structural edit rather than a one-liner. Left as-is pending that decision; the statements
+below use explicit application, matching the rest of that file.
 
 ### 3. `IsEigenvectorAt` restates Mathlib
 

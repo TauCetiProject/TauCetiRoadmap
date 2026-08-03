@@ -239,19 +239,33 @@ theorem sum_sq_eigenvalues_sub_le_sum_sq_norm_apply {T S : E →ₗ[𝕜] E}
     ∑ i, (hT.eigenvalues hn i - hS.eigenvalues hn i) ^ 2
       ≤ ∑ k, ‖T (e k) - S (e k)‖ ^ 2 := sorry
 
-/-- **Davis's eigenvalue-change bound**, through Birkhoff's theorem and the
-permutation-orbit convex hull: under a spectral separation `γ` for `S`, a Frobenius
-perturbation smaller than `γ/√2` cannot move the sorted spectrum by more than it.
+/-- **Davis's eigenvalue-change lower bound**, through Birkhoff's theorem and the
+permutation-orbit convex hull.
 
-The `γ` separation hypothesis and the `γ/√2` smallness threshold are both part of the
-statement; a name without them would read as an unconditional bound, which is false. -/
+Writing `H = S − T` and reading it in `T`'s eigenbasis, `𝒞H` is the diagonal part and
+`𝒞⊥H` the off-diagonal part. Under a `γ`-separated spectrum for `S` and `‖𝒞H‖_F ≤ γ/√2`,
+the sorted spectra move by at least the excess of the diagonal energy over the
+off-diagonal energy:
+
+`∑ᵢ (λ'ᵢ − λᵢ)² ≥ ‖𝒞H‖²_F − ‖𝒞⊥H‖²_F`.
+
+Below, `‖𝒞H‖²_F` is the first sum and `‖𝒞⊥H‖²_F` is written as the Pythagorean
+complement `∑ᵢ λᵢ(S)² − ∑ᵢ (re ⟪vᵢ, S vᵢ⟫)²`, which avoids naming the off-diagonal
+projection.
+
+This is a **lower** bound and the direction is the whole content — an upper bound on the
+same left-hand side is Hoffman--Wielandt above, holds unconditionally, and uses neither
+`γ` hypothesis. A statement carrying `hsep` and `hCH` whose conclusion did not mention the
+diagonal/off-diagonal split would be that upper bound with two unused hypotheses. -/
 theorem sum_sq_eigenvalues_sub_ge {T S : E →ₗ[𝕜] E}
     (hT : T.IsSymmetric) (hS : S.IsSymmetric) (hn : finrank 𝕜 E = n)
     {γ : ℝ} (hγ : 0 ≤ γ)
     (hsep : ∀ i j, i ≠ j → γ ≤ |hS.eigenvalues hn i - hS.eigenvalues hn j|)
     (hCH : ∑ i, (RCLike.re ⟪hT.eigenvectorBasis hn i, (S - T) (hT.eigenvectorBasis hn i)⟫_𝕜) ^ 2
             ≤ (γ / Real.sqrt 2) ^ 2) :
-    ∑ i, (hT.eigenvalues hn i - hS.eigenvalues hn i) ^ 2
-      ≤ ∑ k, ‖(S - T) (hT.eigenvectorBasis hn k)‖ ^ 2 := sorry
+    (∑ i, (RCLike.re ⟪hT.eigenvectorBasis hn i, (S - T) (hT.eigenvectorBasis hn i)⟫_𝕜) ^ 2)
+        - ((∑ i, (hS.eigenvalues hn i) ^ 2)
+            - ∑ i, (RCLike.re ⟪hT.eigenvectorBasis hn i, S (hT.eigenvectorBasis hn i)⟫_𝕜) ^ 2)
+      ≤ ∑ i, (hS.eigenvalues hn i - hT.eigenvalues hn i) ^ 2 := sorry
 
 end TauCetiRoadmap.MajorizationAndAngles
