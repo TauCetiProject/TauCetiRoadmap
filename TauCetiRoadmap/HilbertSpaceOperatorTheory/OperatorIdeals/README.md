@@ -227,8 +227,7 @@ completeness of that space as a typeclass rather than a hand-rolled Cauchy crite
   - **Not a special case of Milestone B3, and not waiting on it**: this is a norm on a
     vector, consumed by the majorization arm, whereas B3 is a family on operators between
     infinite-dimensional spaces. Milestone A1 relates them, and that agreement is itself a
-    target — without it a reader cannot tell whether `S₂` means the same thing in the two
-    halves of this Part.
+    target: it is what makes `S₂` one object across both halves of this Part.
 
 ### Milestone B1 — symmetric norming functions and the Calkin correspondence
 
@@ -293,7 +292,7 @@ majorizing one, and `Φ` is monotone, symmetric and convex. Lifting to sequences
 convergence along the truncations, and that is the whole infinite-dimensional content — which
 is why the extension in B1 is a supremum of truncations.
 
-**This is the load-bearing milestone**: it delivers the triangle inequality for every
+**This milestone** delivers the triangle inequality for every
 symmetric ideal norm at once. Milestone A2 says exactly that `a(S + T)` is weakly majorized
 by `a(S) + a(T)`; feeding that in gives `gauge (S + T) ≤ gauge S + gauge T` for every `Φ`
 from a single inequality. Every symmetric ideal in this roadmap stands on A2 through this
@@ -351,11 +350,9 @@ transported instance rather than a re-proof.** Concretely this is what discharge
 over `ℝ`, the Ky Fan family over `ℝ`, and the min–max converse over `ℝ` all follow by
 transport once the sequence identity is proved.
 
-**Why this is a milestone and not a remark.** The `ℂ`-only hypotheses are the largest gap
-between what this roadmap states and what a reader assumes it states. A generality bar
-saying "over `ℂ`, where the continuous functional calculus is registered" is honest, but a
-reviewer will ask what it costs to remove, and the answer should be a named milestone with a
-route. The route is one sequence identity and no new analysis.
+**Why this is a milestone.** The `ℂ`-only hypotheses are the largest gap between what this
+roadmap states and what it appears to state. What it costs to remove them is a named
+milestone with a route: one sequence identity, and no new analysis.
 
 ### Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
 
@@ -510,7 +507,7 @@ Part A's elementary layer was adapted in part from Mathlib PR
 for spectral perturbation theory; migration must preserve provenance, authorship and
 licensing while allowing review to improve the public API.
 
-Two design decisions are worth flagging because a reader may expect otherwise. The
+Two design decisions. The
 single-gauge presentation replaces an earlier record carrying membership and a total real
 gauge as independent fields; that form is derivable from this one and not conversely, and it
 has been retired. And `p = 2` was built by the direct orthonormal route rather than through

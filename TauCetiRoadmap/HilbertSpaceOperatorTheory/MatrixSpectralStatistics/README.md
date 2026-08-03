@@ -70,7 +70,7 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
   `∀ i j, |A i j| ≤ ε`, and operator control at `LinearMap` level is `∀ x, ‖T x‖ ≤ C * ‖x‖`,
   carried directly in the style of Mathlib's `norm_cfc_le` — never wrapped in a named
   predicate or an ad-hoc sup norm.
-- **Dimension constants are explicit and honest.** The entrywise-to-operator comparison
+- **Dimension constants are explicit.** The entrywise-to-operator comparison
   carries the factor `n`, and the union bound carries `n²`. Neither is dimension-free and
   neither may be silently dropped: downstream bounds are *wrong*, not merely weak, without
   them. Where the constant is suboptimal by design (Part D), the statement says so.
@@ -162,9 +162,8 @@ theorem posSemidef_and_rank_le_iff_exists_conjTranspose_mul_self
     (B.PosSemidef ∧ B.rank ≤ d) ↔ ∃ A : Matrix (Fin d) (Fin n) 𝕜, B = Aᴴ * A
 ```
 
-**Milestone A2 — uniqueness up to the obvious action.** This is what a reader asks immediately
-after seeing an existence iff, and it is the difference between a *factorization theorem* and
-an existence lemma. Two statements, whose acting groups differ in a way that is easy to get
+**Milestone A2 — uniqueness up to the obvious action.** The difference between a
+factorization theorem and an existence lemma. Two statements, whose acting groups differ in a way that is easy to get
 wrong:
 
 - **rank factorization at the exact rank**: the factors are unique up to a change of basis of
@@ -175,12 +174,11 @@ wrong:
 They are one milestone because they are the two uniqueness statements of the same Part and
 share an idea — the factor is determined by its Gram data up to the symmetry group of the
 intermediate space — but the groups differ, because the second remembers an inner product and
-the first does not. Stating them together is what stops a reader assuming the general-field
-statement carries a unitary.
+the first does not; the general-field statement carries no unitary.
 
 **Only the minimal-rank case is claimed.** At `r > M.rank` the factors are *not* unique up to
 `GL (Fin r) 𝕜` — the extra columns are unconstrained — so the statement carries `r = M.rank`
-and not the `≤ r` of Milestone A1. This is the hypothesis a reader is most likely to drop.
+and not the `≤ r` of Milestone A1.
 
 **The multidimensional-scaling consumer fixes the second statement's shape.** Classical scaling
 recovers points from a Gram matrix, and the recovered configuration is meaningful only up to a
@@ -222,8 +220,7 @@ the case where minimizers are determined only up to a symmetry group.
 fixed minimizer of `g p₀` and the moving minimizers.
 
 **Milestone B3 — the classical theorem, over a varying constraint correspondence.** This is the
-classical statement's actual generality and the first thing a reviewer who knows Berge will ask
-for. **The fixed-constraint case is a special case of it, not a step toward it**: the engine
+classical statement's actual generality. **The fixed-constraint case is a special case of it, not a step toward it**: the engine
 that proves the fixed case does not generalize by adding a hypothesis, because with `K` varying
 the approximate-minimizer sequence need not stay in one compact set.
 
@@ -248,7 +245,7 @@ half is provable on its own. Asking for "Berge's theorem" as a single target hid
 two independent lemmas with opposite hypotheses, and hides that half of it is already available
 from Milestone B2.
 
-**Scope, honestly.** The vocabulary is upstream, so what is genuinely new is the two theorems
+**Scope.** The vocabulary is upstream; new here are the two theorems
 above and nothing else; mistaking this for "define hemicontinuity, then prove Berge" is what
 makes it look large.
 

@@ -47,7 +47,7 @@ complete spaces here.
   needs neither the spectral theorem nor finite dimension — inner products of linear
   combinations, orthogonal series, projection-gap geometry — must not assume them.
 - **One square root, defined once.** The positive square root *is* the functional calculus
-  at `Real.sqrt`, by definition and not by a bridging lemma. A reader must never meet two
+  at `Real.sqrt`, by definition. There must not be two
   constructions of one object; the square-root-specific theory (uniqueness, kernel, range,
   the isometry-defect identity) attaches to that single definition.
 - **Two moduli, neither subsuming the other.** The square modulus
@@ -191,7 +191,6 @@ symmetric perturbation moves each eigenvalue by at most the operator norm.
 functional calculus and Mathlib's continuous functional calculus compute the same operator.
 At `Real.sqrt` this identifies the two moduli; for a general continuous `f` it lets a
 consumer move between the two calculi freely, and it is a target here.
-Without it a reader cannot tell whether the two developments describe one object.
 
 ### Part B — polar decomposition and partial isometries
 

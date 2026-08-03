@@ -212,7 +212,7 @@ structure `ProjValMeasure H`.
   modification with respect to every diagonal measure.
 - **Multiplicativity** — the one step needing the transport twice, in a fixed order: the
   approximant of `f` is chosen first, and the tolerance for the approximant of `g` depends on
-  it. There is no uniform bound over approximants, and a reviewer should see that stated.
+  it. There is no uniform bound over approximants.
 - Indicators to projections: the spectral projections, idempotent and self-adjoint, with
   intersection-to-composition; the diagonal masses; the assembled `ProjValMeasure` along a
   measurable relabelling `κ`; for bounded self-adjoint `T`, the relabelling is the real part,
@@ -234,7 +234,7 @@ and its diagonals the pushed-forward diagonal measures.
 **Milestone B3 — uniqueness and the bounded spectral theorem.** The calculus is the unique
 extension of `cfcHom` whose matrix elements are integrals against the diagonal measures; and
 a bounded self-adjoint operator is the integral of the identity against its
-projection-valued measure — the headline a reader opens the topic for.
+projection-valued measure.
 
 ### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
 
@@ -345,7 +345,7 @@ map `w ↦ i(1+w)/(1−w)`; the spectral projections; the spectral subspace and 
 
 **API to develop.**
 
-- **The construction, honestly.** The relabelling blows up at `w = 1`, which can lie in the
+- **The construction.** The relabelling blows up at `w = 1`, which can lie in the
   spectrum of the Cayley transform, so the construction is faithful only because every
   diagonal measure gives `{1}` zero mass — the symbol `(1 − w)·1_{{1}}(w)` vanishes
   identically while `1 − U = 2i·R(−i)` is injective. A specification omitting this would hide
@@ -392,7 +392,7 @@ the operator.
 
 **Milestone E3 — the packaged statements.** Three targets completing the theory: the spectral
 theorem as one declaration (*`A` is the integral of the identity against its spectral
-measure*, the statement a reader opens the topic for); Stone's theorem as the packaged
+measure*); Stone's theorem as the packaged
 bijection between self-adjoint operators and strongly continuous one-parameter unitary
 groups; and uniqueness of the spectral measure — a `ProjValMeasure` satisfying the resolvent
 formula is `spectralPVM hA`.

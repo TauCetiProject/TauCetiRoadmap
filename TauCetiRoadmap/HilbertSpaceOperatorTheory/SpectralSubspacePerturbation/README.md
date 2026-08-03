@@ -28,7 +28,7 @@ the way its consumers use it.
 
 This roadmap is the **endpoint of the
 [Hilbert-space operator theory](../README.md) family**: it consumes all five of the others.
-That transitive depth is the honest cost of stating Davis–Kahan over objects that exist
+That transitive depth is the cost of stating Davis–Kahan over objects that exist
 rather than over objects assumed — every norm, angle, ideal and spectral projection its
 theorems quantify over is built first.
 
@@ -49,15 +49,14 @@ TauCeti/Analysis/Operator/Perturbation/
 
 - **Scalar fields, rectangular shapes.** Algebraic and finite statements over `[RCLike 𝕜]`;
   complex-calculus results over `ℂ` with explicit real descent. The `π/2` bound holds
-  verbatim over `ℝ` and `ℂ` — the real case is a theorem, via the doubled-phase certificate
-  of Part B, and not a remark. Estimates run between two different Hilbert spaces with
-  independent universes; endomorphisms are the diagonal case.
-- **Unbounded statements are canonical.** The domain-aware forms — the Sylvester equation on
-  `LinearPMap` with domain transport as data, spectra via the
+  verbatim over `ℝ` and `ℂ`; the real case is proved via the doubled-phase certificate of
+  Part B. Estimates run between two Hilbert spaces with independent universes; endomorphisms
+  are the diagonal case.
+- **Unbounded statements are canonical.** The domain-aware forms are primary: the Sylvester
+  equation on `LinearPMap` with domain transport as data, and spectra via the
   [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md) roadmap's
-  `resolventSet` complement — are primary; bounded operators enter through
-  `T.toLinearMap.toPMap ⊤`, finite dimension through restriction. Bounded and finite theorems
-  are *specializations*, and Part C says how that is made true in the code.
+  `resolventSet` complement. Bounded operators enter through `T.toLinearMap.toPMap ⊤`, finite
+  dimension through restriction. Part C proves both are specializations.
 - **Norms: one statement per family.** State results for an arbitrary (rectangular) unitarily
   invariant seminorm — subadditive, absolutely homogeneous, two-sided unitarily invariant,
   definiteness deliberately unbundled — with operator, Frobenius, Ky Fan and Schatten forms
@@ -75,17 +74,14 @@ TauCeti/Analysis/Operator/Perturbation/
     [`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md); the
     interval/exterior and two-block forms are application shapes, defined here.
 - **Rosenblum without a Borel functional calculus.** Both Cayley spectra contain `1` once
-  both operators are unbounded, so no continuous symbol separates them — but `1` is a **null
-  point for every diagonal spectral measure**, so continuous symbols damped at `1` separate
-  in the limit and dominated convergence finishes. A reviewer should check the null claim
-  rather than the proof: if it failed, the argument would be wrong rather than merely
-  different.
-- **The constant `π/2`, honestly.** Part A's kernel *attains* `π/2`; that no admissible kernel
-  beats it is a literature citation, not a target here, and the module documentation must say
-  so. What *is* proved is a partial converse: every **real, undoubled** interpolation
-  certificate for the two-by-two obstruction data has coefficient mass at least `5/3 > π/2` —
-  so the real-field `π/2` theorem goes through the doubled-phase certificate and never a real
-  kernel.
+  both operators are unbounded, so no continuous symbol separates them. But `1` is a null
+  point for every diagonal spectral measure, so continuous symbols damped at `1` separate in
+  the limit, and dominated convergence finishes.
+- **The constant `π/2`.** Part A's kernel attains `π/2`. That no admissible kernel beats it
+  is a literature citation, not a target here, and the module documentation says so. The
+  partial converse is proved: every real, undoubled interpolation certificate for the
+  two-by-two obstruction data has coefficient mass at least `5/3 > π/2`. The real-field
+  `π/2` theorem therefore goes through the doubled-phase certificate.
 - **Kernel conventions.** The real kernel `ℝ → ℝ` and the complex kernel `ℝ → ℂ`
   (`k = −i·k_ℝ`) both stay: mass and positivity use the real one, the Fourier identity states
   cleanly with the complex one. The Laplace transform integrates over `Set.Ioi 0`. The
@@ -155,7 +151,7 @@ is specified here intrinsically.
   Cauchy-type integrals.
 - One **product-integrability certificate** on `Ioi 0 × ℝ` licensing both the Tonelli exchange
   in the mass computation and the later Fourier exchange, with the generic lemmas placed
-  generically so a reviewer can take them without the topic.
+  generically.
 
 **Milestone A1 — the exterior identity and the exact mass.** The Fourier integral of
 `reciprocalKernel` is `1/x` for `1 ≤ |x|`, and `∫ ‖reciprocalKernel‖ = π/2`.
@@ -163,8 +159,7 @@ is specified here intrinsically.
 The mass is not an estimate. Tonelli gives
 `½ ∫_{y>0} weight y · (∫ |sin t| e^{−y|t|} dt) dy`; the inner integral is closed-form, and its
 product with `tanh(π y/2)` collapses — **the weight is chosen to make that cancellation
-exact** — leaving `∫_{y>0} (1+y²)⁻¹ = π/2`. That is the one sentence a reader should take away
-about why `tanh(π y/2)` appears at all.
+exact** — leaving `∫_{y>0} (1+y²)⁻¹ = π/2`.
 
 **Milestone A2 — the normalization bridge** to Mathlib's Fourier transform, so users mixing
 the two conventions have a lemma rather than a warning.

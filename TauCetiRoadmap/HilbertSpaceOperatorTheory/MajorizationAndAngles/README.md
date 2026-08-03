@@ -228,7 +228,7 @@ This Part exists for one composite theorem: Ky Fan domination implies membership
 convex hull of the two-sided unitary orbit, which implies domination in *every* rectangular
 unitarily invariant norm. The perturbation estimates downstream are proved once, as Ky Fan
 dominations, and this Part turns each such proof into a statement about the operator norm,
-the Frobenius norm, every Ky Fan norm, the nuclear norm, and any norm a reader supplies.
+the Frobenius norm, every Ky Fan norm, and the nuclear norm.
 
 **Objects.** The three-law structure `RectangularUnitarilyInvariantSeminorm 𝕜 E F`; the
 rectangular Ky Fan sums; the **two-sided unitary orbit** and finite orbit certificates (a
@@ -264,8 +264,7 @@ unitaries, and the SVD transport.
 
 ### Part D — angle geometry and eigenvalue perturbation
 
-Two things a reader might expect to be separate, kept together because they are the same
-step of the Davis–Kahan argument: the **angle dictionary** — cosine, sine, angle and tangent
+Two things kept together because they are the same step of the Davis–Kahan argument: the **angle dictionary** — cosine, sine, angle and tangent
 objects for a pair of subspaces, each with a singular-value and a projector description —
 and **eigenvalue perturbation**, how far the spectrum moves when the operator does. The
 subspace-perturbation theorems consume both in the same breath.
