@@ -77,27 +77,28 @@ end ApproximationNumbers
 
 section HilbertIdentifications
 
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
-variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace ℂ F] [CompleteSpace F]
+variable {𝕜 : Type u} [RCLike 𝕜]
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
+variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
 
 /-- Adjoint invariance, the Hilbert-space symmetry the Banach theory lacks. -/
-@[simp] theorem approximationNumber_adjoint (T : E →L[ℂ] F) (n : ℕ) :
+@[simp] theorem approximationNumber_adjoint (T : E →L[𝕜] F) (n : ℕ) :
     approximationNumber (ContinuousLinearMap.adjoint T) n
       = approximationNumber T n := sorry
 
 /-- On finite-dimensional inner-product spaces, the approximation numbers are the
 singular values: Eckart--Young. -/
 theorem approximationNumber_eq_singularValues
-    [FiniteDimensional ℂ E] [FiniteDimensional ℂ F] (T : E →L[ℂ] F) (n : ℕ) :
-    approximationNumber T n = (T : E →ₗ[ℂ] F).singularValues n := sorry
+    [FiniteDimensional 𝕜 E] [FiniteDimensional 𝕜 F] (T : E →L[𝕜] F) (n : ℕ) :
+    approximationNumber T n = (T : E →ₗ[𝕜] F).singularValues n := sorry
 
 /-- The min--max principle in the form the perturbation theory consumes: a subspace of
 rank greater than `n` on which `T` is `c`-coercive forces `aₙ(T) ≥ c`.
 
 Deliberately not called `approximationNumber_minmax`: this is one direction, and a name
 claiming the equality would overstate what the declaration says. -/
-theorem le_approximationNumber_of_lt_rank (T : E →L[ℂ] F) (n : ℕ) (V : Submodule ℂ E)
-    {c : ℝ} (hVrank : (n : Cardinal) < Module.rank ℂ V)
+theorem le_approximationNumber_of_lt_rank (T : E →L[𝕜] F) (n : ℕ) (V : Submodule 𝕜 E)
+    {c : ℝ} (hVrank : (n : Cardinal) < Module.rank 𝕜 V)
     (hV : ∀ x : V, c * ‖(x : E)‖ ≤ ‖T (x : E)‖) :
     c ≤ approximationNumber T n := sorry
 

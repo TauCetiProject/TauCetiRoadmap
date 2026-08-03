@@ -230,6 +230,29 @@ See also the semantic clash with Mathlib's `ContinuousMap.modulus`, which is a m
 "Intended home: `LinearMap`." Under the convention in §2c that home is `TauCeti.LinearMap`;
 either way it should be where it says it belongs.
 
+### 9. `OperatorIdeals` Part A — audited; one fix applied
+
+Part A is the strongest-scoped material in the roadmap. The approximation numbers are stated
+over a `NontriviallyNormedField` on seminormed spaces — Banach-level generality, with the
+Hilbert facts deliberately deferred to a later section. And the naming discussion at
+`approximationNumber_comp_add_le_mul` is what pinning a convention should look like: it
+explains why the name carries `add`, and then *states the theorem that owns the name it
+avoided* (`approximationNumber_comp_comp_le`, the fixed-index two-sided ideal bound) so the
+collision is visible rather than latent.
+
+**Fixed: the `HilbertIdentifications` section was ℂ-only while the donor proves `RCLike`.**
+All three — `approximationNumber_adjoint`, `approximationNumber_eq_singularValues`,
+`le_approximationNumber_of_lt_rank` — are `variable {𝕜 : Type u} [RCLike 𝕜]` in
+`ForTauCeti/Analysis/OperatorIdeal/ApproximationNumber/{Adjoint,FiniteDimensional,MinMax}.lean`.
+The roadmap was proposing *less* than what is already proved, which is the reverse of the
+usual risk and costs nothing to correct. Now `RCLike 𝕜`.
+
+This narrows §4 but does not close it: `OperatorIdealFamily` in Part B is still ℂ-only, and
+that is what forces the `.{0, v, w}` universe pin. Whether the family interface should be
+`RCLike` is a real design question, not a transcription slip — the gauge quantifies over all
+Hilbert pairs, so the scalar choice interacts with the universe constraint documented on the
+structure itself.
+
 ---
 
 ## Not a problem — recorded so it is not re-raised
