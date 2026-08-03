@@ -58,12 +58,15 @@ few lines of inner-product algebra.
 
 ### A `LinearPMap` needs its own resolvent set
 
-Mathlib's `spectrum R a` is defined for an algebra element, and a `LinearPMap` is not one —
-`A − z` exists only on the domain. So `resolventSet A` is the set of `z` for which `A − z` has
-a **two-sided bounded inverse**: a left inverse on the domain, and a right inverse on the whole
-space whose values land back in the domain. Both halves are load-bearing, since injectivity on
-the domain and surjectivity onto the space are independent for an unbounded operator.
-Agreement with Mathlib's notion at `domain = ⊤` is a stated target.
+This decision is not ours and is not re-argued here: the
+[one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
+owns it, and its statement — an unbounded generator needs its own resolvent notion, with a
+bridge lemma to Mathlib's `resolvent` in the bounded case — is the one to follow.
+
+What is specific here is the range. That roadmap works over a real Banach space and takes
+`λ` real, complexifying for the complex resolvent set; the spectral theorem needs `z` ranging
+over `𝕜` from the outset, so `resolventSet A : Set 𝕜` is a specialization of theirs rather
+than a second notion, and the two should be related rather than developed twice.
 
 ### Projection-valued measures live on `ℝ`, with their diagonal measures as data
 
@@ -360,7 +363,9 @@ map `w ↦ i(1+w)/(1−w)`; the spectral projections; the spectral subspace and 
 - **Form bounds from spectral support**: vanishing of the spectral projection on `(−∞, c)`
   yields `c‖x‖² ≤ Re⟪A x, x⟫` on the domain, and dually; on a spectral range with
   `B ⊆ [β, α]` the quadratic form is confined to `[β, α]`.
-- **The Yosida scheme, with named approximants.**
+- **The Yosida scheme, with named approximants.** The construction is the
+  [one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)'s
+  `Aλ = λ²R(λ,A) − λI`, at imaginary shifts; it is specialized here, not proposed.
   - `yosidaApprox hA n = n²·R(in) − in`, with its symmetrized and mirrored forms, the
     contractions `n·R(±in)`, and strong convergence on the domain.
   - The exponentials `exp(it·(symmetrized approximant))`: unitary, and Cauchy uniformly on
@@ -443,10 +448,20 @@ Duhamel estimate from A. It does not consume Part C: the shared carrier of C, D 
 construction.
 
 **External.** `HilbertSpaceOperatorFoundations`, for Part C's spectral-order bridge only.
-Strongly continuous semigroups in general, their generators, Hille–Yosida and
-Lumer–Phillips belong to the
-[one-parameter semigroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
-roadmap, not here.
+
+The [one-parameter semigroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
+roadmap is the canonical one for the dynamical layer, and it predates this one. Strongly
+continuous semigroups, their generators, Hille–Yosida and Lumer–Phillips belong there, not
+here. Two things overlap and should be built once:
+
+- the unbounded resolvent set and its bridge to Mathlib — theirs is the general statement,
+  ours the `𝕜`-valued specialization;
+- the Yosida approximation, theirs at real `λ` and ours at imaginary shifts.
+
+Conversely, Stone's theorem is a *stretch goal* there and a milestone here, so Parts A and E
+discharge it — but only once `OneParameterUnitaryGroup` is related to their
+`StronglyContinuousSemigroup` by a stated lemma. That relating lemma does not exist in either
+roadmap and is the gap between them.
 
 **Downstream.** `SpectralSubspacePerturbation` consumes Parts A, D and E; `OperatorIdeals`
 consumes Part E for approximation numbers of spectral bands; `MatrixSpectralStatistics`
