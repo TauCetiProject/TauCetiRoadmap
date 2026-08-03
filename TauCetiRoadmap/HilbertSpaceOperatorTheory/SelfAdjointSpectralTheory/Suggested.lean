@@ -273,7 +273,14 @@ theorem norm_resolvent_le_of_im_ne_zero {A : E →ₗ.[ℂ] E} (hA : IsSelfAdjoi
 
 end ComplexResolvent
 
-/-- The first resolvent identity on the common resolvent set. -/
+/-- The first resolvent identity on the common resolvent set.
+
+Tau Ceti already proves this identity for a *semigroup's* resolvent
+(`TauCeti.Analysis.Semigroups.Resolvent.Identity.resolvent_sub_resolvent`), keyed to a
+`StronglyContinuousSemigroup` with growth-bound hypotheses and real `λ`, `μ`. This is the
+`LinearPMap` statement: any `z` in the resolvent set, over `𝕜`. Neither subsumes the other
+as stated, but a semigroup generator *is* a `LinearPMap`, so the two should be related
+rather than proved twice. -/
 theorem resolvent_sub_resolvent {A : E →ₗ.[𝕜] E} {w z : 𝕜}
     (hw : w ∈ resolventSet A) (hz : z ∈ resolventSet A) (φ : E) :
     resolvent A hw φ - resolvent A hz φ

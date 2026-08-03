@@ -109,9 +109,17 @@ are stated in `MeasureTheory` for their own hypotheses, with no operator theory 
 - **Topology and analysis**: `Submodule.topologicalClosure`, orthogonal projections and
   `HasOrthogonalProjection`, Neumann series, `Tendsto` filters.
 
-Everything below — the dynamical, projection-valued and unbounded-spectral layer — is absent
-upstream. Before implementing, check the Lean Zulip and the open Mathlib pull requests:
-unbounded operators and the functional calculus are areas with recurring activity.
+**Tau Ceti already ships the semigroup layer, and it is consumed rather than rebuilt.**
+`TauCeti/Analysis/Semigroups/` contains roughly 130 declarations: `StronglyContinuousSemigroup`
+and `ContractionSemigroup`, `.generator` with its domain, `.resolvent` with the growth-bound
+API, `expShift`, `ofBounded`, and the abstract Cauchy problem as `IsClassicalSolution` /
+`IsMildSolution`. That is Part A of the
+[one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md),
+built. Nothing here restates it.
+
+The rest below — the projection-valued and unbounded-spectral layer — is absent upstream.
+Before implementing, check the Lean Zulip and the open Mathlib pull requests: unbounded
+operators and the functional calculus are areas with recurring activity.
 
 ---
 
@@ -459,9 +467,13 @@ here. Two things overlap and should be built once:
 - the Yosida approximation, theirs at real `λ` and ours at imaginary shifts.
 
 Conversely, Stone's theorem is a *stretch goal* there and a milestone here, so Parts A and E
-discharge it — but only once `OneParameterUnitaryGroup` is related to their
-`StronglyContinuousSemigroup` by a stated lemma. That relating lemma does not exist in either
-roadmap and is the gap between them.
+discharge it. The lemma relating `OneParameterUnitaryGroup` to `StronglyContinuousSemigroup`
+already exists in the donor repository as `toSemigroup` with `generator_toSemigroup` — the
+semigroup generator is `i` times the group generator, the factor being the Stone convention
+`U t = exp (i t A)` with `A` self-adjoint, so that `i A` is skew-adjoint. Only the inclusion
+`generatorDomain U ⊆ (toSemigroup U).domain` is proved; the reverse is the standard first step
+of Stone's theorem and no consumer needs it yet. What is missing is not the bridge but its
+statement in either roadmap.
 
 **Downstream.** `SpectralSubspacePerturbation` consumes Parts A, D and E; `OperatorIdeals`
 consumes Part E for approximation numbers of spectral bands; `MatrixSpectralStatistics`
