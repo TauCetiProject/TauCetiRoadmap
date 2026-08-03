@@ -2,9 +2,9 @@
 Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import ForTauCetiRoadmap.HilbertSpaceOperatorTheory.HilbertSpaceOperatorFoundations.Suggested
-import ForTauCetiRoadmap.HilbertSpaceOperatorTheory.MajorizationAndAngles.Suggested
-import ForTauCetiRoadmap.HilbertSpaceOperatorTheory.SelfAdjointSpectralTheory.Suggested
+import TauCetiRoadmap.HilbertSpaceOperatorTheory.HilbertSpaceOperatorFoundations.Suggested
+import TauCetiRoadmap.HilbertSpaceOperatorTheory.MajorizationAndAngles.Suggested
+import TauCetiRoadmap.HilbertSpaceOperatorTheory.SelfAdjointSpectralTheory.Suggested
 
 /-!
 # Spectral-subspace perturbation: target signatures
