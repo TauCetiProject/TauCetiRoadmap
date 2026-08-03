@@ -50,98 +50,71 @@ itself, which comes from
 
 ## Generality bar
 
-Decide these up front; do not silently specialize.
-
-- **Zero-based indexing.** `aₙ(T) = dist(T, {R : rank R ≤ n})`, so `a₀(T) = ‖T‖` and the
-  finite-dimensional identification is index-for-index against Mathlib's zero-based singular
-  values. The one-based literature convention is the documented translation
-  `sₙ(T) = aₙ₋₁(T)`; no duplicate one-based API is maintained.
-- **Real-valued approximation numbers, extended-real ideal gauges.**
-  `approximationNumber T n : ℝ` with nonnegativity a theorem, matching Mathlib's `norm`,
-  `dist` and singular values. Ideal gauges are `ℝ≥0∞`-valued and genuinely `∞` off their
-  ideal. Two different objects, not a conflict: a real number attached to one operator versus
-  a gauge whose finiteness *defines* a class.
-- **Rectangular, with independent universes.** Source and target are distinct spaces in
+- **Zero-based indexing.** `aₙ(T) = dist(T, {R : rank R ≤ n})`, so `a₀(T) = ‖T‖`, matching
+  Mathlib's zero-based singular values index for index. The one-based literature convention
+  is the translation `sₙ(T) = aₙ₋₁(T)`.
+- **Real approximation numbers, `ℝ≥0∞` ideal gauges.** `approximationNumber T n : ℝ`, with
+  nonnegativity a theorem, matching Mathlib's `norm` and `dist`. Gauges are `ℝ≥0∞` and
+  genuinely `∞` off their ideal: a number attached to one operator, versus a gauge whose
+  finiteness *defines* a class.
+- **Rectangular, independent universes.** Source and target are distinct spaces in
   independent universes throughout the base layer; rank comparisons use `LinearMap.rank` with
-  explicit `Cardinal.lift` lemmas where universes differ. Square operators are
-  specializations, never the primitive interface.
-- **Scalar generality is a ladder, stated explicitly.** The norm-and-rank layer is over a
-  `NontriviallyNormedField 𝕜` on seminormed spaces; adjoint invariance and Eckart–Young over
-  `[RCLike 𝕜]`; the min–max converse, the Ky Fan triangle inequality, and anything routed
-  through the operator modulus over `ℂ`, where the Hilbert-space continuous functional
-  calculus is registered. A real theorem is never claimed merely by writing `[RCLike 𝕜]`; it
-  needs a grounded real argument or the complexification transport of Milestone B4.
-- **The approximable/compact boundary.** `aₙ(T) → 0` characterizes finite-rank
-  approximability on any normed pair, and approximable implies compact over a `ProperSpace`
-  scalar; the converse is asserted **only when the target is a Hilbert space**. It is false
-  for general Banach spaces without an approximation-property hypothesis, and none is
-  smuggled in. The hypothesis sits on the target rather than on the pair because that is
-  where the approximation property lives; the domain stays an arbitrary normed space.
-- **One `ℝ≥0∞` gauge as the sole datum of an ideal family.** A family is presented by a
-  single total gauge, the ideal recovered as its finiteness domain — never by a membership
-  predicate plus an independent real gauge. Only this presentation has an extensionality
-  theorem, since free data leaves the gauge unconstrained off the ideal; it is the classical
-  symmetric-norming-function presentation of Gohberg–Kreĭn and Calkin; every law holds
-  unconditionally at non-members; and four laws suffice — subadditivity, absolute
-  homogeneity, domination of the operator norm, the two-sided composition bound — with
-  closure of the ideal under module operations a consequence rather than an axiom.
-- **Hilbert spaces for the family layer, forced by the examples.** The four laws are
-  norm-only and meaningful over Banach spaces, but of the motivating gauges only the operator
-  norm survives outside Hilbert space: Ky Fan subadditivity runs through singular values and
-  majorization, and `a_{m+n}(S+T) ≤ aₘ(S) + aₙ(T)` does not recover it — at `k = 2` it yields
-  only `a₀(S) + 2a₀(T) + a₁(S)`. No proof in the interface uses the inner product, so
-  re-widening is mechanical should a Banach instance appear.
+  explicit `Cardinal.lift`. Square operators are specializations.
+- **Scalar ladder.** Norm-and-rank over `NontriviallyNormedField 𝕜` on seminormed spaces;
+  adjoint invariance and Eckart–Young over `RCLike 𝕜`; the min–max converse, the Ky Fan
+  triangle inequality, and anything through the operator modulus over `ℂ`, where the
+  continuous functional calculus is registered.
+- **The approximable/compact boundary.** `aₙ(T) → 0` characterizes finite-rank approximability
+  on any normed pair, and approximable implies compact over a `ProperSpace` scalar. The
+  converse is claimed **only for a Hilbert target** — it fails for general Banach spaces
+  without an approximation property, and the hypothesis sits on the target because that is
+  where the property lives.
+- **One `ℝ≥0∞` gauge is the sole datum of an ideal family**, the ideal being its finiteness
+  domain. This is the Gohberg–Kreĭn/Calkin symmetric-norming-function presentation and the
+  only one with an extensionality theorem. Four laws suffice — subadditivity, absolute
+  homogeneity, domination of the operator norm, the two-sided composition bound — and closure
+  under module operations follows.
+- **Hilbert spaces at the family layer, forced by the examples.** The four laws are norm-only,
+  but of the motivating gauges only the operator norm survives outside Hilbert space: Ky Fan
+  subadditivity runs through singular values and majorization. No proof in the interface uses
+  the inner product, so re-widening is mechanical if a Banach instance appears.
 - **Two structures for the universe split.** The rectangular family keeps source and target
-  universes independent; the adjoint exchanges source and target, so the symmetric family is
-  a second structure extending the diagonal instantiation rather than an extra field.
-- **Dominance is a property, not data.** Ky Fan dominance is a class over families, so a
-  family carries it as a fact about the family it already is. It is *false* for an arbitrary
-  family satisfying the four laws, which is why it is a class and not a theorem.
-- **Hilbert–Schmidt is `ℓ²` of columns, not a tensor product.** The two models are
-  isomorphic; they are not equally cheap. The tensor route must construct the Hilbert tensor
-  product and its basis-independence theory; the `ℓ²` route gets inner product and
-  completeness from Mathlib's `lp` and leaves only the column bijection to prove. The Hilbert
-  basis is an explicit **parameter** of every statement — nothing asserts basis-independence
-  of the representation, because nothing needs it; basis-independence of the underlying
-  *energy* is a theorem of Part B.
+  universes independent; the adjoint exchanges them, so the symmetric family is a second
+  structure over the diagonal instantiation.
+- **Ky Fan dominance is a class, not a field.** It is false for an arbitrary family satisfying
+  the four laws, so a family carries it as a property rather than as data.
+- **Hilbert–Schmidt is `ℓ²` of columns, not a tensor product.** Isomorphic models, unequal
+  cost: the `ℓ²` route inherits inner product and completeness from Mathlib's `lp`, leaving
+  only the column bijection. The Hilbert basis is an explicit parameter of every statement;
+  basis-independence of the *energy* is a theorem of Part B.
 - **Normal forms.** The approximation number is the normal form of the field-generic theory;
-  the identification with singular values is a named theorem, not a global `@[simp]` rewrite.
-  Do not introduce private wrappers around existing Mathlib notions to restate a single
-  hypothesis.
+  its identification with singular values is a named theorem, not a global `@[simp]`.
 
 ## What Mathlib already has
 
-- **Operators:** `ContinuousLinearMap`, the operator norm, composition, and
-  [`ContinuousLinearMap.adjoint`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/Adjoint.html)
-  as a `LinearIsometryEquiv`; `LinearMap.rank`, `Module.finrank`, and `Cardinal` arithmetic
-  for cross-universe rank bounds.
-- **Finite-dimensional spectral theory:**
-  [`LinearMap.singularValues`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/SingularValues.html)
-  (zero-based), self-adjoint eigenbases, orthogonal projections, and
-  [`CFC.sqrt`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.html)
-  behind the operator modulus consumed from the foundations roadmap.
-- **Compact operators:**
-  [`IsCompactOperator`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Operator/Compact/Basic.html)
-  with norm-limit closure and `isCompactOperator_of_locallyCompactSpace_dom`. Mathlib has
-  **no finite-rank-implies-compact lemma**; providing it is a Part A target.
-- **Hilbert bases and `ℓ²`:** `HilbertBasis`, `exists_hilbertBasis`, Parseval via
-  `HilbertBasis.hasSum_inner_mul_inner`; `lp` with its inner-product-space instance at
-  `p = 2`, completeness for `1 ≤ p`, and `Memℓp`.
-- **`ℝ≥0∞` machinery:** `ENNReal.tsum_comm` — the unconditional Fubini exchange that is the
-  whole content of adjoint invariance for the Hilbert–Schmidt energy — and
-  `ENNReal.Lp_add_le` (finite Minkowski). Minkowski for `tsum` at general `p` is **not** in
-  Mathlib: `NNReal.Lp_add_le_tsum` exists but carries summability hypotheses on both
-  summands, and there is no `ENNReal` `tsum` version. A hypothesis-free `ℝ≥0∞` form at
-  `1 ≤ p` is needed by the energy layer, and upstreaming it would be a reasonable Mathlib
-  contribution.
-- **Work in motion:** Mathlib PR
+Used rather than rebuilt: `ContinuousLinearMap` with its operator norm and
+[`adjoint`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/Adjoint.html);
+`LinearMap.rank`, `Module.finrank` and `Cardinal` arithmetic for cross-universe rank bounds;
+[`LinearMap.singularValues`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/SingularValues.html)
+(zero-based), self-adjoint eigenbases and
+[`CFC.sqrt`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.html);
+[`IsCompactOperator`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Operator/Compact/Basic.html);
+`HilbertBasis` with Parseval; and `lp` with its inner-product instance at `p = 2`.
+`ENNReal.tsum_comm` is the whole content of adjoint invariance for the Hilbert–Schmidt energy.
+
+Three gaps this roadmap fills:
+
+- **No finite-rank-implies-compact lemma.** A Part A target.
+- **No hypothesis-free `ℝ≥0∞` Minkowski for `tsum`.** `NNReal.Lp_add_le_tsum` carries
+  summability hypotheses on both summands and there is no `ENNReal` `tsum` form; the energy
+  layer needs one at `1 ≤ p`. Upstreaming it would be a reasonable Mathlib contribution.
+- **In motion.** Mathlib PR
   [#32126](https://github.com/leanprover-community/mathlib4/pull/32126) drafts a zero-based
-  `ContinuousLinearMap.singularValue : ℕ → ℝ≥0` for normed spaces; see also the
-  [Zulip thread](https://leanprover-community.github.io/archive/stream/217875-Is-there-code-for-X%3F/topic/Singular.20Value.20Decomposition.html)
-  on singular values. This roadmap deliberately pins `approximationNumber : ℕ → ℝ`, aligned
-  with real-valued norms and infima and exposing nonnegativity separately. If that PR lands,
-  an interoperability layer becomes a milestone of the migration; two public APIs should not
-  be maintained in the meantime. **Re-check both before implementing.**
+  `ContinuousLinearMap.singularValue : ℕ → ℝ≥0`; see also the
+  [Zulip thread](https://leanprover-community.github.io/archive/stream/217875-Is-there-code-for-X%3F/topic/Singular.20Value.20Decomposition.html).
+  This roadmap pins `approximationNumber : ℕ → ℝ`, aligned with real-valued norms and infima.
+  If that PR lands, an interoperability layer becomes a migration milestone. **Re-check
+  before implementing.**
 
 ## Part A — approximation numbers and Hilbert-space singular values
 
@@ -468,18 +441,14 @@ Part A's acceptance example (6).
 
 ## Dependency ordering
 
-Part A comes first and consumes two external roadmaps: `HilbertSpaceOperatorFoundations`, for
-the operator modulus, the finite-dimensional singular-value library and Courant–Fischer behind
-Milestone A1; and `MajorizationAndAngles`, for the finite-dimensional Ky Fan norm inequality
-that seeds Milestone A2. Part B consumes Part A — every ideal gauge here is a functional of the
-`a`-sequence — plus the majorization engine for Milestones B2–B3 and the Schatten layer.
-Part C consumes Part B for the energy and the ideal framing, and otherwise only Mathlib's `lp`
-and `HilbertBasis`. Part D consumes Part A and `SelfAdjointSpectralTheory`, and nothing in
-Parts B or C waits on it.
+Part A first, consuming `HilbertSpaceOperatorFoundations` (operator modulus, finite-dimensional
+singular values, Courant–Fischer) and `MajorizationAndAngles` (the finite Ky Fan inequality).
+Part B consumes Part A — every ideal gauge is a functional of the `a`-sequence — plus the
+majorization engine. Part C consumes Part B, and otherwise only `lp` and `HilbertBasis`.
+Part D consumes Part A and `SelfAdjointSpectralTheory`; nothing in B or C waits on it.
 
-Within Part A, acceptance examples (5)–(6) can land after the min–max layer; within Part B,
-the interface and its four instances are dependency-closed on Part A and can ship first, with
-B1–B4 following in order.
+Within Part B, the interface and its four instances are dependency-closed on Part A and can
+ship first.
 
 ## References
 
