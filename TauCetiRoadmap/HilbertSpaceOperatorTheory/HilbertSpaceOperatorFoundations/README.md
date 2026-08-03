@@ -42,8 +42,6 @@ complete spaces here.
 
 ## Generality bar
 
-Decide these up front; do not silently specialize.
-
 - **Scalars are `𝕜 : RCLike`; finite dimension exactly where the eigenbasis is used.** The
   functional calculus is a finite sum over `LinearMap.IsSymmetric.eigenvectorBasis`, so
   `[FiniteDimensional 𝕜 E]` is what makes the definition exist. Supporting material that

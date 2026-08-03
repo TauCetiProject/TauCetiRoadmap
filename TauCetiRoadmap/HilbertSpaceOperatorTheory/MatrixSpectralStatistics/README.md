@@ -52,8 +52,6 @@ elementary route taken in Part D says so in its statements.
 
 ## Generality bar
 
-Decide these up front; do not silently specialize.
-
 - **Matrices, deliberately.** Parts C and D are about concrete matrices with entrywise
   hypotheses, not abstract operators. This is not a lapse into coordinates: statistical data
   arrives as a matrix, entrywise, and the bounds a statistician can assume are entrywise

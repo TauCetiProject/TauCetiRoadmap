@@ -40,8 +40,6 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
 
 ## Generality bar
 
-Decide these up front; do not silently specialize.
-
 - **Setting.** Finite-dimensional inner product spaces over `[RCLike 𝕜]`, so `ℝ` and `ℂ`
   uniformly; operators as `E →ₗ[𝕜] F`, with `toContinuousLinearMap` appearing only where
   the operator norm itself is quoted. Sorted spectral data are finitely supported sequences

@@ -72,72 +72,55 @@ and the two should cite each other.
 
 ## Generality bar
 
-Decide these up front; do not silently specialize.
-
 ### An unbounded operator *is* a `LinearPMap`
 
-This is the premise every Part inherits, and the first thing to hold an implementation to.
+Mathlib's `LinearPMap` (`H →ₗ.[ℂ] H`) is the foundational object; there is no parallel
+`ClosedOperator` type. Closedness, dense domain, symmetry (`LinearPMap.IsFormalAdjoint`) and
+self-adjointness (`IsSelfAdjoint A`, i.e. `A.adjoint = A`) are **hypotheses on a raw partial
+map, not structure fields**. A theorem needing three properties carries three hypotheses; in
+exchange no consumer unwraps a bundle, and Mathlib's `LinearPMap` API applies directly. A
+derived convenience bundle may carry a `LinearPMap` and proofs, but not its own domain/action
+representation. Bounded operators enter through `T.toLinearMap.toPMap ⊤`.
 
-1. Mathlib's `LinearPMap` (`H →ₗ.[ℂ] H`) is the foundational object. There is no second
-   bundled `ClosedOperator`-style foundation.
-2. Closedness, dense domain, symmetry (`LinearPMap.IsFormalAdjoint`) and self-adjointness
-   (Mathlib's `IsSelfAdjoint A`, that is `A.adjoint = A`) are **hypotheses on a raw partial
-   map — properties, never structure fields** of a parallel operator type. A theorem needing
-   three properties carries three hypotheses; the benefit is that no consumer ever unwraps a
-   bundle, and Mathlib's `LinearPMap` API applies directly.
-3. A bundle may be added as a derived convenience carrying a `LinearPMap` and proofs; it may
-   not own a parallel domain/action representation.
-4. Bounded operators enter through the existing full-domain construction
-   (`T.toLinearMap.toPMap ⊤`), and their self-adjointness transports.
+### Self-adjointness by von Neumann's criterion, with density derived
 
-### Self-adjointness is proved by von Neumann's criterion, with density derived
-
-The route is symmetry plus **surjectivity of `A ± i`**, with density of the domain
-**derived** from symmetry and surjectivity of `A + i` rather than assumed. Assuming density
-up front would make Stone's theorem apply to fewer groups than claimed; deriving it replaces
-the mollification argument of the textbook proof with a few lines of inner-product algebra.
-No consumer of the criterion may smuggle a density hypothesis back in.
+Symmetry plus surjectivity of `A ± i`, with density of the domain **derived** from symmetry
+and surjectivity of `A + i` rather than assumed. Assuming it would make Stone's theorem apply
+to fewer groups than claimed; deriving it replaces the textbook mollification argument with a
+few lines of inner-product algebra.
 
 ### A `LinearPMap` needs its own resolvent set
 
-Mathlib's `spectrum R a` is `¬IsUnit (algebraMap R A z - a)`, defined for an element of an
-algebra. A `LinearPMap` is not an algebra element — `A − z` is only defined on the domain —
-so `resolventSet A` is defined directly: the `z` for which `A − z` has a **two-sided bounded
-inverse**, a left inverse on the domain and a right inverse on the whole space whose values
-land back in the domain. Both halves are load-bearing: for an unbounded operator,
-injectivity on the domain and surjectivity onto the space are independent, and a one-sided
-definition would admit "inverses" that leave the domain. In the bounded (`domain = ⊤`) case
-this agrees with Mathlib's notion, and the bridge is a stated target rather than an implicit
-identification.
+Mathlib's `spectrum R a` is defined for an algebra element, and a `LinearPMap` is not one —
+`A − z` exists only on the domain. So `resolventSet A` is the set of `z` for which `A − z` has
+a **two-sided bounded inverse**: a left inverse on the domain, and a right inverse on the whole
+space whose values land back in the domain. Both halves are load-bearing, since injectivity on
+the domain and surjectivity onto the space are independent for an unbounded operator.
+Agreement with Mathlib's notion at `domain = ⊤` is a stated target.
 
-### Projection-valued measures live on `ℝ`, carry their diagonal measures as data, and relabel explicitly
+### Projection-valued measures live on `ℝ`, with their diagonal measures as data
 
-`ProjValMeasure H` is a measure on the Borel sets of `ℝ` bundling the projection field *and*
-the scalar diagonal measures, welded by `⟪ξ, P B ξ⟫ = (diag ξ) B`. Countable additivity is
-therefore never an axiom — it already lives inside `Measure ℝ`; idempotence,
-self-adjointness, positivity and finite additivity are theorems. The alternative —
-projections as the only data, additivity as a field — would put a summability side condition
-on every consumer. The spectrum of a normal operator lies in `ℂ`, so the measure of a normal
-operator is indexed along an explicit measurable relabelling `κ : spectrum ℂ a → ℝ`: the
-real part for a bounded self-adjoint operator, the inverse Cayley map for the unbounded
-theory. `κ` is a parameter, not a special case.
+`ProjValMeasure H` bundles the projection field *and* the scalar diagonal measures, welded by
+`⟪ξ, P B ξ⟫ = (diag ξ) B`. Countable additivity is then never an axiom — it already lives
+inside `Measure ℝ` — and idempotence, self-adjointness, positivity and finite additivity
+become theorems; the alternative puts a summability side condition on every consumer. A normal
+operator's spectrum lies in `ℂ`, so its measure is indexed along an explicit measurable
+relabelling `κ : spectrum ℂ a → ℝ`: the real part when bounded self-adjoint, the inverse
+Cayley map in the unbounded theory. `κ` is a parameter, not a special case.
 
-### Semibounds and lower bounds are hypotheses the consumer supplies
+### Semibounds are hypotheses the consumer supplies
 
-`SemiboundedBelow A c` and `SemiboundedAbove A c` are predicates on a partial map and a real
-constant, never a subtype. Where a lower bound `c‖x‖ ≤ ‖A x − z x‖` is free — off the real
-axis, from `|Im z|` — the theorem proves it; at a real point there is no free bound, so the
-real-point resolvent lemma **takes the bound as a hypothesis** and reruns the same
-closed-range argument. That is a factored theorem, not a weaker one: the caller with a
-spectral gap or a semibound must not have to reprove closed range.
+`SemiboundedBelow A c` and `SemiboundedAbove A c` are predicates on a partial map and a
+constant, never a subtype. Off the real axis a lower bound is free from `|Im z|` and the
+theorem proves it; at a real point there is none, so the real-point resolvent lemma takes the
+bound as a hypothesis and reruns the same closed-range argument. A caller holding a spectral
+gap or a semibound should not have to reprove closed range.
 
 ### Statements live at their natural generality
 
-Facts about C⋆-algebra elements — the norm/spectrum interval characterization, the gap
-inverse — are stated for C⋆-algebras, not for Hilbert-space operators. The measurability
-lemmas behind the calculus (measurability of `ω ↦ cfc f (a ω)`, compact-infimum
-measurability, Helly selection) are stated in `MeasureTheory` for their own hypotheses, with
-no operator theory in sight.
+C⋆-algebra facts — the norm/spectrum interval characterization, the gap inverse — are stated
+for C⋆-algebras, not for Hilbert-space operators. The measurability lemmas behind the calculus
+are stated in `MeasureTheory` for their own hypotheses, with no operator theory in sight.
 
 ## What Mathlib already has
 
@@ -444,22 +427,19 @@ indicators.
 
 ## Dependency ordering
 
-**Internal.** Parts A, B and D are mutually independent and each is independently
-submittable; any of the three is a reasonable first contribution. Part C is independent of
-A, B and D but consumes the foundations roadmap. Part E is the confluence and needs exactly
-A + B + D: the Cayley transform and resolvent bounds from D, the Borel calculus and
-`ProjValMeasure` from B, and the unitary-group vocabulary, von Neumann criterion and Duhamel
-estimate from A. Part E does not consume Part C's constructions — the shared carrier of C, D
-and E is Mathlib's `LinearPMap` itself, which is the representation decision working as
-intended. Within Part E, the Yosida and maximality material precedes the construction, and
-the grid/cut/block shapes depend on the construction only through the cut operator.
+**Internal.** Parts A, B and D are mutually independent and each independently submittable.
+Part C is independent of them but consumes the foundations roadmap. Part E is the confluence
+and needs exactly A + B + D — the Cayley transform and resolvent bounds from D, the Borel
+calculus and `ProjValMeasure` from B, the unitary-group vocabulary, von Neumann criterion and
+Duhamel estimate from A. It does not consume Part C: the shared carrier of C, D and E is
+`LinearPMap` itself. Within Part E the Yosida and maximality material precedes the
+construction.
 
-**External.** `HilbertSpaceOperatorFoundations`: Part C's spectral-order bridge consumes its
-spectral-subspace layer. Nothing else here depends on it.
+**External.** `HilbertSpaceOperatorFoundations`, for Part C's spectral-order bridge only.
 
-**Downstream.** `SpectralSubspacePerturbation` consumes Parts A, D and E; the scope boundary
-above marks the line. `OperatorIdeals` consumes Part E for the approximation numbers of
-spectral bands, and `MatrixSpectralStatistics` consumes Part B's measurability layer.
+**Downstream.** `SpectralSubspacePerturbation` consumes Parts A, D and E; `OperatorIdeals`
+consumes Part E for approximation numbers of spectral bands; `MatrixSpectralStatistics`
+consumes Part B's measurability layer.
 
 ## References
 

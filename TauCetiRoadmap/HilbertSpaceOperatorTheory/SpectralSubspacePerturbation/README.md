@@ -47,8 +47,6 @@ TauCeti/Analysis/Operator/Perturbation/
 
 ## Generality bar
 
-Decide these up front; do not silently specialize.
-
 - **Scalar fields, rectangular shapes.** Algebraic and finite statements over `[RCLike 𝕜]`;
   complex-calculus results over `ℂ` with explicit real descent. The `π/2` bound holds
   verbatim over `ℝ` and `ℂ` — the real case is a theorem, via the doubled-phase certificate
