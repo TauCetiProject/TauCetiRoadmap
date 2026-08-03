@@ -39,7 +39,7 @@ Suggested homes: `TauCeti/Analysis/OperatorIdeal/ApproximationNumber/`,
   is the translation `sₙ(T) = aₙ₋₁(T)`.
 - **Real approximation numbers, `ℝ≥0∞` ideal gauges.** `approximationNumber T n : ℝ`, with
   nonnegativity a theorem, matching Mathlib's `norm` and `dist`. Gauges are `ℝ≥0∞` and
-  genuinely `∞` off their ideal: a number attached to one operator, versus a gauge whose
+  `∞` off their ideal: a number attached to one operator, versus a gauge whose
   finiteness *defines* a class.
 - **Rectangular, independent universes.** Source and target are distinct spaces in
   independent universes throughout the base layer; rank comparisons use `LinearMap.rank` with
@@ -249,7 +249,7 @@ rearrangement**. Three decisions are pinned here because each has a wrong answer
 right:
 
 - **`ℝ≥0∞`-valued, and a supremum over truncations rather than a `tsum`.** The gauge must be
-  total and genuinely `∞` off its ideal; a supremum of an increasing net is total by
+  total and `∞` off its ideal; a supremum of an increasing net is total by
   construction, whereas any route through summability reintroduces the side conditions the
   interface was designed to avoid.
 - **The truncations are of the decreasing rearrangement**, so that `Φ∞` sees a sequence the
@@ -330,7 +330,7 @@ is what lets Part C stand on it — so they must be proved equal:
 
 Both sides are basis-independent, so the statement is well-posed; the proof is the
 singular-value expansion of a Hilbert–Schmidt operator, and it is the one place in Part B
-where Milestone A3 is genuinely needed. **This debt is incurred
+where Milestone A3 is needed. **This debt is incurred
 knowingly and is the price of Part C being independent of the ideal machinery.**
 
 ### Milestone B4 — block sums and scalar transport

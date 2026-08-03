@@ -146,7 +146,7 @@ Independently submittable.
 space, unitary, a group homomorphism, strongly continuous. Its **generator**: the
 `LinearPMap` whose domain is *exactly* the set of vectors where the difference quotient
 `t ↦ (U t ψ − ψ)/(it)` converges, and whose value is the limit. That domain choice is the
-design decision worth reviewing: the generator is genuinely unbounded, nothing assumes a
+design decision worth reviewing: the generator is unbounded, nothing assumes a
 core or a dense domain in advance, and a smaller convenient domain would make the
 self-adjointness statement weaker than what Part E consumes.
 
@@ -171,8 +171,7 @@ self-adjointness statement weaker than what Part E consumes.
 - **Skew-adjoint exponentials**: for bounded self-adjoint `S`, the flow `t ↦ exp (t (iS))`
   is such a group, norm-preserving, with derivative `exp(tB)·B` — the source of concrete
   examples — and the **Duhamel estimate** for *commuting* bounded self-adjoint `Sₘ, Sₙ`:
-  `‖exp(it Sₘ)ψ − exp(it Sₙ)ψ‖ ≤ |t|·‖(i Sₘ − i Sₙ)ψ‖`. The commutation hypothesis is
-  genuine, and it is all the Yosida scheme of Part E needs, since resolvents of one operator
+  `‖exp(it Sₘ)ψ − exp(it Sₙ)ψ‖ ≤ |t|·‖(i Sₘ − i Sₙ)ψ‖`. The commutation hypothesis holds, and it is all the Yosida scheme of Part E needs, since resolvents of one operator
   commute among themselves.
 
 **Milestone A1 — von Neumann's criterion.** A symmetric operator with `A + i` and `A − i`

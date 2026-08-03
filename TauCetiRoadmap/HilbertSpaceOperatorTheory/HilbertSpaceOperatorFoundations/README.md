@@ -65,7 +65,7 @@ complete spaces here.
   geometric characterization — isometric on `(ker u)ᗮ`, zero on `ker u` — is a theorem,
   never the definition.
 - **Three polar factorizations, one hierarchy.** Finite-dimensional endomorphisms over
-  `RCLike` factor through a genuine unitary; a rectangular complex operator with invertible
+  `RCLike` factor through a unitary; a rectangular complex operator with invertible
   modulus factors through an isometry; a general bounded rectangular complex operator
   factors through a partial isometry. Dropping finite dimension costs the unitary;
   invertibility of the modulus buys an isometry back. All three are stated, each with its
@@ -116,7 +116,7 @@ None of the following is in Mathlib; this roadmap builds it.
   rectangular over `ℂ` — with the proof that they agree.
 * Partial isometries for maps between *different* spaces, and their geometric
   characterization; Mathlib has no `IsPartialIsometry` at all.
-* The polar decomposition with a genuine unitary factor in finite dimension, and its
+* The polar decomposition with a unitary factor in finite dimension, and its
   rectangular bounded counterpart.
 * The singular system: right singular basis, left singular vectors, the rank-one expansion,
   and the Moore–Penrose inverse characterized by Penrose's four conditions rather than
@@ -195,7 +195,7 @@ consumer move between the two calculi freely, and it is a target here.
 ### Part B — polar decomposition and partial isometries
 
 Every operator factors as an isometric part times its modulus. That statement appears in
-two genuinely different forms, differing on three axes, and each direction of
+two different forms, differing on three axes, and each direction of
 generalization loses something:
 
 | | square decomposition | rectangular decomposition |
@@ -203,7 +203,7 @@ generalization loses something:
 | scalars | `[RCLike 𝕜]` — `ℝ` and `ℂ` | `ℂ` only |
 | dimension | `[FiniteDimensional]` | `[CompleteSpace]` — infinite allowed |
 | shape | `E →ₗ[𝕜] E`, endomorphism | `E →L[ℂ] F`, rectangular |
-| isometric factor | genuine **unitary** `E ≃ₗᵢ[𝕜] E` | **partial isometry** |
+| isometric factor | **unitary** `E ≃ₗᵢ[𝕜] E` | **partial isometry** |
 
 The obstruction is upstream, in Part A: the two moduli have complementary limitations, so
 there is no single modulus and hence no single polar decomposition subsuming both. Their

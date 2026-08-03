@@ -203,7 +203,7 @@ correspondence `p ↦ {x ∈ K | IsMinOn (g p) K x}` and the value function
 
 - The **engine**, and the actual content of the fixed-constraint case: a sequence of
   *approximate* minimizers in a compact set (`F (z k) ≤ F x + ε x k` for `x ∈ K`, with
-  `ε x k → 0`) has a subsequence converging to a genuine minimizer on `K`. This is the recovery
+  `ε x k → 0`) has a subsequence converging to a minimizer on `K`. This is the recovery
   half of the fundamental theorem of Γ-convergence, with a global-comparison variant beside it.
 - The **sequential uniform-convergence step**: along `p k → p₀`, the evaluation difference
   `g (p k) (x k) − g p₀ (x k)` vanishes for points staying in `K`, proved by the subsequence
@@ -252,7 +252,7 @@ makes it look large.
 **Decided.** Mathlib's hemicontinuity predicates, not a bespoke correspondence structure.
 **Open.** Whether the sequential characterizations force `[FirstCountableTopology]` in the
 varying case as they do at fixed `K`. At fixed `K` that hypothesis is a proof artifact the
-roadmap asks to remove; whether the varying case can avoid it is genuinely unknown, so it is
+roadmap asks to remove; whether the varying case can avoid it is unknown, so it is
 not promised.
 
 ### Part C — matrix spectra and spectral measurability
