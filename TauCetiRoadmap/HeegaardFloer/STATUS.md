@@ -1,0 +1,39 @@
+<!--tauceti-status:v1 {"roadmap":"HeegaardFloer","to_sha":"6919462d4134c7850ded5c71cc7a2e8a9054a2d0","ts":"2026-08-01T03:46:02Z"}-->
+# Status: HeegaardFloer
+
+This file documents the status of the HeegaardFloer roadmap up until `6919462` (2026-08-01T03:46:02Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**Lane M (Morse homology).** Untouched. Neither the dynamical route (stable and unstable manifolds, the λ-lemma, Morse–Smale transversality) nor the functional-analytic one has any declarations.
+
+**Lane F0 (the nonlinear-analysis substrate).** Partly done, and the only lane with real depth. Fredholm operators exist as a predicate with an integer [`index`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Fredholm/Basic.html#TauCeti.ContinuousLinearMap.index), together with the standard package: recognition criteria for injective, surjective and bijective maps, [`isFredholm_iff_finite_ker_coker`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Fredholm/ClosedRange.html#TauCeti.isFredholm_iff_finite_ker_coker) removing closed range as an independent hypothesis over Banach spaces, additivity of the index under composition and products, invariance under finite-rank perturbation, the adjoint theory ([`isFredholm_adjoint_iff`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Fredholm/Adjoint.html#TauCeti.isFredholm_adjoint_iff), index negated), index zero for self-adjoint operators, and stability: [`isOpen_setOf_isFredholm_index_eq`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Fredholm/SmallPerturbation.html#TauCeti.isOpen_setOf_isFredholm_index_eq) and local constancy of the index along continuous families. What is missing is everything nonlinear: no compact perturbations, no finite-dimensional Sard, no Sard–Smale, no Fredholm property for `d/ds + A(s)` on the strip, and no "zero set of a Fredholm section is a manifold of dimension the index" package. The linear half is in good shape; the transversality half has not started.
+
+**Lane F1 (the Cauchy–Riemann elliptic package).** Untouched. No `W^{k,p}` of maps of surfaces or strips, no Calderón–Zygmund inequality, no boundary regularity for totally real boundary conditions, no Riemann–Roch with boundary, and no Maslov index or spectral flow.
+
+**Lane F2 (J-holomorphic curves).** F2.1 is done in its linear, pointwise form and only there. [`SymplecticForm`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Symplectic/AlmostComplex.html#TauCeti.SymplecticForm) and [`AlmostComplexStructure`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Symplectic/AlmostComplex.html#TauCeti.AlmostComplexStructure) are structures on a real module, with `Tames`, `Invariant` and [`Compatible`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Symplectic/AlmostComplex.html#TauCeti.SymplecticForm.Compatible) kept as separate unbundled predicates exactly as the standing conventions ask; the associated metric, its symmetrisation in the merely tame case, and the [Hermitian inner product](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Symplectic/Hermitian.html#TauCeti.SymplecticForm.Compatible.hermitianCore) of a compatible pair are all available, as are rescaling, transport along linear equivalences, [`IsSymplectomorphism`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Symplectic/SymplecticTransport.html#TauCeti.SymplecticForm.IsSymplectomorphism), the standard form on `V × V` and the canonical form on `V × V*`. [`IsMaximalTotallyReal`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/TotallyReal/Basic.html#TauCeti.IsMaximalTotallyReal) has its dimension theory, and Lagrangian subspaces of a taming pair are maximal totally real. [`IsJHolomorphic`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Symplectic/JHolomorphic/Varying.html#TauCeti.IsJHolomorphic) is defined for structures varying over the source and target with a full at/within/on API and a chain rule. There is no symplectic manifold, no almost complex structure on a tangent bundle, no energy, and no Darboux or Moser. F2.2 through F2.5 (local theory, Gromov compactness, transversality, gluing) are untouched.
+
+**Lane F3 (exact Lagrangian Floer homology).** Untouched, beyond the linear cotangent model that its first computation will sit over: the zero section and the fibre are both Lagrangian and both [maximal totally real](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Symplectic/Cotangent/Compatible.html#TauCeti.SymplecticForm.isMaximalTotallyReal_cotangentZeroSection) for the canonical compatible pair. No action functional, no strips, no continuation maps.
+
+**Lane F4 (`HF̂` holomorphically).** Effectively untouched. The one piece of F4.1 groundwork is [`Sym.monicEquiv`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Polynomial/SymmetricPower.html#TauCeti.Sym.monicEquiv), identifying unordered `n`-tuples with monic degree-`n` polynomials and hence with their coefficients — the elementary-symmetric-function input to the complex structure on `Sym^g(Σ)`, but a bijection of types only, with no topology or complex structure attached. Nothing on `T_α`, `T_β`, `π₂`, spin^c structures, the combinatorial Maslov index, nearly-symmetric `J`, admissibility, or the differential.
+
+**Lane F5 and the reconciliations.** Untouched, and blocked on everything above. None of the four acceptance criteria is met: no Morse homology of `S^n` or `T^n`, no rank-2 computation in `T*S¹`, no `HF̂(L(p,q))`, and so no seam crossed.
+
+Some of the work in this window is grid-diagram combinatorics — Maslov and Alexander gradings, fully blocked rectangles, cyclic intervals — which belongs to the sibling combinatorial roadmap and is listed here only because the same pull requests touched both.
+
+## The frontier
+
+The nearest genuinely unblocked target is **finite-dimensional Sard**. The roadmap names it as the load-bearing gap, and nothing in the repository addresses it; it blocks Morse–Smale transversality in Lane M, Sard–Smale in F0, and every transversality argument downstream.
+
+Second, the Fredholm theory is one theorem short of the classical package: **invariance of the index under compact perturbation**. Small-norm and finite-rank perturbations are both done, and the continuous-family result is in place, so this is the natural next increment and it needs no new infrastructure.
+
+Third, **Lane M can start immediately**. It waits on nothing but Sard, and the roadmap is explicit that it is the cheapest full rehearsal of the Floer architecture.
+
+On the symplectic side the obvious step is to **lift the pointwise definitions to manifolds**: an almost complex structure on a tangent bundle, a symplectic form as a closed nondegenerate 2-form, and the energy of a map. Everything currently proved is linear algebra on a single module, so no statement about a `J`-holomorphic curve in a symplectic manifold can even be written yet. Darboux and Moser are self-contained and reachable once that is done.
+
+`Sym^g(Σ)` needs its complex structure: promoting `Sym.monicEquiv` from a bijection to a homeomorphism, and then to a chart, is a concrete and independent task that does not wait on the analytic tower.
+
+Lane F1 remains the long pole for anything with a moduli space in it, and the roadmap asks for it to be planned jointly with the PDE roadmap rather than built here. Until `W^{k,p}` on strips and the Calderón–Zygmund estimate exist, the Fredholm theory above has nothing to be applied to: the strip operator `d/ds + A(s)` is the first place F0 and F1 meet, and neither side of that meeting is ready.
