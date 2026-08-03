@@ -251,11 +251,6 @@ subspaces with their projection and gap formulas and angular operators.
   estimates on the acute branch from Ritz residuals, equal-rank and lower-rank; and the sharp
   `tan 2θ` with vanishing-pinch hypotheses and the quarter-turn conclusion, under *ordered*
   internal separation.
-- **Domain-aware forms.** The unbounded `sin Θ` surface over the closed-operator layer:
-  residual identities extended from a graph core to the full domain; common-domain and
-  common-core variants; bounded-residual and lower-frame formulations; interval/exterior and
-  pairwise-gap forms in the supported unitarily invariant norms, with the Hilbert–Schmidt case
-  through Part B's flow; and the bounded and finite theorems as specializations.
 - **Graph subspaces and Riccati.** The graph-reduction/Riccati equivalence — a graph subspace
   is invariant iff its angular operator solves the Riccati equation — with existence, bounds
   and uniqueness for contractive solutions under the gaps above.
@@ -267,71 +262,29 @@ subspaces with their projection and gap formulas and angular operators.
 `A`-spectrum from the complementary `B`-spectrum alone,
 `δ · N (sinThetaMap U V) ≤ (π/2) · N (B − A)` for every unitarily invariant `N`.
 
-### Milestone C3 — the domain-aware `sin Θ` theorem
+### The domain-aware `sin Θ` theorem — deliberately out of scope
 
-**This is the roadmap's headline, and the one milestone whose statement a reader cannot
-reconstruct from the milestones around it.** Everything above is bounded or finite; the
-generality bar says the unbounded form is canonical and those are its specializations, so the
-canonical statement has to be written out.
+An earlier draft carried this as Milestone C3, stated as a bundled record
+(`UnboundedSinThetaProblem`) collecting the ambient operator, the trial and complementary
+blocks, their embeddings, the residual, a frame constant and a gap. **It has been cut.**
 
-**Data.** All from sibling roadmaps except the last two:
+The bundle is a hypothesis pack for a single theorem, not a mathematical object with
+independent standing — nothing else ever constructs one. Its own justification, that each
+specialization becomes a *constructor* so the bounded and finite-dimensional forms follow by
+supplying data, is an argument about proof engineering inside the donor repository rather
+than about reusable mathematics, and it is not one this roadmap should ask a skeptical
+reviewer to accept. Bundling the gap and frame constant as *fields* compounds it: the record
+is then not determined by its operators, since one configuration admits a different term for
+every admissible constant, so no sharp-constant statement can even be phrased.
 
-- a self-adjoint `A : E →ₗ.[ℂ] E`, possibly unbounded, with its spectrum via `resolventSet`;
-- a **trial map** `X : H →L[ℂ] E` with a **lower frame bound** `c > 0` (`c‖h‖ ≤ ‖X h‖`), not
-  required to be isometric — which is what makes the statement *generalized* and what the
-  Ritz layer needs;
-- a self-adjoint **trial block** `A₀` on `H`, with `X` transporting `dom A₀` into `dom A`;
-- a self-adjoint **complementary block** `Λ` on `K` together with an **isometric embedding**
-  `Y : K →L[ℂ] E` whose range is *exactly* invariant: `A ∘ Y = Y ∘ Λ` on `dom Λ`. This is what
-  replaces "`V` is an invariant subspace" once no spectral projection is available, and
-  without it there is nothing for the sine operator to be an angle *to*;
-- the **residual** `R : H →L[ℂ] E`, a bounded operator even though `A` is not: the
-  domain-aware content is that `A X − X A₀` extends from a graph core to a bounded operator on
-  all of `H`, and the hypothesis is bounded-residual, never bounded-`A`;
-- the **gap** `g > 0`, a spectral separation between `A₀` and `Λ` in one of the three forms of
-  the generality bar, carrying constants `1`, `1` and `π/2` respectively.
-
-**The directed sine operator is constructed from that data**, not supplied: it is
-`sin Θ = Y⋆ ∘ X : H →L[ℂ] K`, the component of the trial map along the complementary range,
-read in the complementary coordinates. Constructing it is the whole point — a statement
-quantified over an arbitrary operator called `sin Θ` says nothing, because both sides scale
-independently.
-
-**Statement.** `g · ‖sin Θ‖ ≤ ‖R‖` under ordered or interval/exterior separation, and
-`g · ‖sin Θ‖ ≤ (π/2) · ‖R‖` under pairwise separation. The mechanism is that the residual
-identity and the exact invariance of the complementary range make `Y⋆ X` solve the Sylvester
-equation `Λ S − S A₀ = Y⋆ R`, to which Milestone B1 applies; `Y⋆` is a contraction, so the
-right-hand side is bounded by `‖R‖`. Dividing by `‖X h‖` and using the frame bound turns the
-operator statement into the subspace one, `g · c · ‖sin Θ h‖ ≤ ‖R‖ · ‖X h‖`, where the
-left-hand side is the sine of the angle between the trial vector and the orthogonal complement
-of the complementary range, and `c = 1` recovers the classical form.
-
-**Hypotheses are bundled as a record, deliberately.** A flat theorem takes upwards of a dozen
-arguments with non-obvious mutual constraints, and every specialization repeats all of them.
-Bundling them makes each specialization a *constructor* — bounded operators build the record
-with `A.toLinearMap.toPMap ⊤` and a trivial domain transport, and finite dimension adds
-`FiniteDimensional` and reads the blocks off an eigenbasis — so specializations are proved by
-supplying data rather than by re-proving the estimate. **This is the decision that makes
-"bounded and finite are specializations" true in the code rather than only in the prose**, and
-it is why the roadmap can carry one theorem where the literature carries a family.
-
-**The ideal-gauge form.** At this generality the natural norm is not a unitarily invariant norm
-on a finite-dimensional space but a Ky Fan dominant symmetric ideal gauge from
-[`OperatorIdeals`](../OperatorIdeals/README.md): a total `ℝ≥0∞` gauge whose finiteness is a
-*hypothesis* on the residual and a *conclusion* about `sin Θ`. In that form the conclusion is
-a conjunction — `sin Θ ∈ N` and `g · c · N(sin Θ) ≤ N(R)` — and the membership half is content
-a bounded statement cannot express, because there every operator lies in every carrier or the
-carrier is `⊤`. The two roadmaps must agree that the dominant class quantified over here is the
-class `OperatorIdeals` constructs from a symmetric gauge, **or this theorem quantifies over a
-class no other roadmap builds**; that reconciliation is the real dependency between them, and
-it is why C3 cannot land before `OperatorIdeals` Part B.
-
-**Acceptance.** A reviewer should be able to check, without reading a proof: that no hypothesis
-says `A` is bounded; that boundedness of the residual is a hypothesis and the bound on the
-sine operator is a conclusion; that the sine operator is built from the data rather than
-quantified over; that instantiating the record with a bounded self-adjoint `A` and an isometric
-trial map yields Milestone C1 by construction; and that `π/2` appears only under pairwise
-separation, the other two gap forms carrying constant one.
+What was genuinely reusable in it survives elsewhere, and that is where the effort belongs:
+the domain-aware Sylvester equation on `LinearPMap` (Milestone B1, with the resolvent and
+intertwining layer in
+[`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md)); the spectral
+separation predicates in
+[`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md); and the
+`sin Θ` operator between closed subspaces. Once those land, a domain-aware statement can be
+written directly over them, with the gap and the frame bound as ordinary hypotheses.
 
 **Acceptance suite — Davis–Kahan Part III.** A source-facing layer recording the correspondence
 between the paper's statements and the reusable declarations, in real and complex forms: the
@@ -392,7 +345,7 @@ for statement comparison only, its repository terms being incompatible.
 first contact with review. Part B consumes Part A for the constant; Part C consumes Part B;
 Part D consumes Part C. Within Part B the finite core, the dimension-free bounds and the flow
 can proceed in parallel once their external inputs exist; within Part C the dimension-free
-layer precedes the finite spectral forms, and the domain-aware forms come last.
+layer precedes the finite spectral forms.
 
 **External.**
 [`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md): spectral
@@ -400,8 +353,7 @@ subspaces, the separation predicates, the modulus, singular values (Parts B–D)
 [`MajorizationAndAngles`](../MajorizationAndAngles/README.md): the unitarily invariant norm
 structures with Fan dominance, principal angles, the angle operators, aligned bases, Weyl
 perturbation (Parts B–D). [`OperatorIdeals`](../OperatorIdeals/README.md): the Hilbert–Schmidt
-space, the energy calculus, unitary conjugation, and the ideal-gauge class of Milestone C3
-(Parts B–C). [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md): unitary
+space, the energy calculus and unitary conjugation (Parts B–C). [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md): unitary
 groups and Stone, the `LinearPMap` resolvent and spectrum layer with the Cayley transform and
 the intertwining chain, the spectral measure and its support, and the domain-aware Sylvester
 equation (Parts B–C). Nothing here waits on `MatrixSpectralStatistics`.
