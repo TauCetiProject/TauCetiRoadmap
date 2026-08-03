@@ -364,6 +364,21 @@ the bridge from the model to the ideal theory of Part B. -/
 theorem memLp_columns_iff (b : HilbertBasis ι 𝕜 F) (T : F →L[𝕜] E) :
     Memℓp (columns b T) 2 ↔ hilbertSchmidtEnergy T b ≠ ⊤ := sorry
 
+/-- **Hilbert–Schmidt operators are compact.**
+
+Named because a consumer needs it by name, not because it is deep: finite energy forces
+`∑ aₙ(T)² < ∞` through `tsum_approximationNumber_sq_eq_hilbertSchmidtEnergy`, hence
+`aₙ(T) → 0`, hence approximability, hence compactness by Part A's boundary.
+
+The Peter–Weyl roadmap
+(`TauCetiRoadmap/RepresentationTheory/CompactGroups`) records "Hilbert–Schmidt ⇒ compact"
+as one of three sub-milestones blocking `convolutionOperator_isCompact`, alongside an
+HS-operator API — which is this Part — and "continuous kernel on a compact space ⇒ HS
+integral operator", which is kernel theory and stays there. -/
+theorem isCompactOperator_of_hilbertSchmidtEnergy_ne_top
+    (b : HilbertBasis ι 𝕜 F) (T : F →L[𝕜] E) (h : hilbertSchmidtEnergy T b ≠ ⊤) :
+    IsCompactOperator T := sorry
+
 /-- The representation map: an `ℓ²` family of columns determines a bounded
 operator through the absolutely convergent expansion against the basis. -/
 noncomputable def ofLp (b : HilbertBasis ι 𝕜 F) (f : lp (fun _ : ι => E) 2) :

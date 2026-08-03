@@ -117,8 +117,8 @@ None of the following is in Mathlib; this roadmap builds it.
   gauge on sequences, together with its injectivity.
 * The Schatten scale `S_p` for `1 ≤ p ≤ ∞`, obtained from that construction rather than built
   separately, with the nesting `S_p ⊆ S_q`.
-* Hilbert–Schmidt operators as `ℓ²` of columns: the energy, its basis-independence, and the
-  reconciliation with `S₂`.
+* Hilbert–Schmidt operators as `ℓ²` of columns: the energy, its basis-independence, the
+  reconciliation with `S₂`, and the named corollary **Hilbert–Schmidt ⇒ compact**.
 * The approximation numbers of a spectral band of an unbounded self-adjoint operator.
 
 Two lemmas Mathlib itself lacks are named in the inventory above and are targets here:
@@ -474,6 +474,13 @@ singular values, Courant–Fischer) and `MajorizationAndAngles` (the finite Ky F
 Part B consumes Part A — every ideal gauge is a functional of the `a`-sequence — plus the
 majorization engine. Part C consumes Part B, and otherwise only `lp` and `HilbertBasis`.
 Part D consumes Part A and `SelfAdjointSpectralTheory`; nothing in B or C waits on it.
+
+**Downstream, outside this group.** The Peter–Weyl roadmap
+[`RepresentationTheory/CompactGroups`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CompactGroups/README.md)
+records three sub-milestones blocking its `convolutionOperator_isCompact`: an HS-operator
+API, "continuous kernel on a compact space ⇒ HS integral operator", and
+"Hilbert–Schmidt ⇒ compact". Part C supplies the first and third; the second is kernel
+theory and stays there.
 
 Within Part B, the interface and its four instances are dependency-closed on Part A and can
 ship first.
