@@ -1,0 +1,145 @@
+name: progress-merge
+
+# Auto-merge generated progress reports (STATUS.md / PROGRESS.md) in this repository.
+#
+# All the validation, and the merge itself, live in a SHA-pinned reusable workflow in
+# TauCetiProgress -- the same discipline TauCeti uses for TauCetiReview, and for the same reason: an
+# unpinned `@main` would let an upstream change alter what is allowed to merge here without review.
+# The pin must be bumped deliberately, in step with the `progress_ref` input and with the version the
+# worker runs (see TauCetiProgress' README).
+#
+# `pull_request_target` rather than `pull_request` so the App secrets are available for the events we
+# care about. That is safe here only because the called workflow never checks out or executes pull
+# request content: it reads the PR through the API and merges. Note that `opened` fires for drafts
+# too, hence the explicit draft guard below as well as inside the called workflow.
+#
+# Anyone may open a pull request against this repository. A pull request that fails any check is
+# simply left alone for a human to review, which is the normal path for roadmap contributions.
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review]
+  # A progress pull request usually opens before its `build` check finishes, so the gate has to be
+  # re-run when CI reports. This listens for the CI WORKFLOW rather than for `check_suite`: GitHub
+  # deliberately suppresses `check_suite` and `check_run` events for suites created by GitHub Actions
+  # (it would otherwise recurse), and `build` is a job in this repository's own Actions `CI`
+  # workflow. A `check_suite` trigger therefore never fires for it, and every report would sit
+  # unmerged after the first pass saw `build` still pending.
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: Pull request number to consider.
+        required: true
+        type: number
+
+# The floor. `resolve` needs no more than this; the `gate` job raises its own, because a called
+# workflow can never exceed what the caller grants.
+permissions:
+  contents: read
+  pull-requests: read
+
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    outputs:
+      pr: ${{ steps.pick.outputs.pr }}
+    steps:
+      - name: Decide which pull request to consider
+        id: pick
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          REPO: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+          # Quoted through env rather than interpolated into the script: everything from the event
+          # payload is attacker-influenced, and this job holds a token.
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          # Through env, never interpolated into the script: attacker-controlled.
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          case "$EVENT" in
+            pull_request_target)
+              # Cheap prefilter, so that only a plausible report ever reaches the gate. The gate
+              # re-checks all of this and is the authority; the point here is queueing. The called
+              # workflow serialises on a single group, which permits one running and one pending run,
+              # so if every pull request in the repository were forwarded, ordinary contributor
+              # activity could keep evicting a queued report.
+              if [ "${{ github.event.pull_request.draft }}" = "true" ]; then
+                echo "draft pull request; nothing to do"; echo "pr=" >> "$GITHUB_OUTPUT"; exit 0
+              fi
+              case "$PR_HEAD_REF" in
+                progress/*) ;;
+                *) echo "head branch $PR_HEAD_REF is not a progress branch"
+                   echo "pr=" >> "$GITHUB_OUTPUT"; exit 0 ;;
+              esac
+              echo "pr=${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT" ;;
+            workflow_dispatch)
+              echo "pr=${{ inputs.pr }}" >> "$GITHUB_OUTPUT" ;;
+            workflow_run)
+              # The open progress pull request for this head, if any.
+              #
+              # Asked of the commit directly, not of a list of recent pull requests. `gh pr list`
+              # returns only the newest 30 by default, so anyone could open 30 newer pull requests and
+              # push the legitimate report out of the window -- its build would complete and this
+              # trigger would never find it.
+              #
+              # Fork heads are included. Anyone may publish a report, and an operator without push
+              # access here publishes from their own fork, so excluding them would mean their build
+              # completing and this trigger never finding the pull request.
+              #
+              # Every condition the gate itself would refuse on is filtered FIRST, and only then is
+              # one chosen. Sharing a head SHA means sharing a tree, but not a base branch, a draft
+              # flag, or a branch name: an older pull request at the same commit, retargeted or
+              # renamed, would otherwise be selected, refused forever, and the legitimate report
+              # never reconsidered once CI completed.
+              #
+              # `min` among what survives, so repeated runs agree with each other.
+              #
+              # `--slurp` so the pages arrive as ONE array; the filter then runs over all of them.
+              # Without it `--jq` is applied page by page: page one emits an empty line, and a
+              # legitimate match on a later page is lost -- the same starvation the 30-item default
+              # allowed, just moved. `--slurp` cannot be combined with `--jq`, hence the pipe.
+              pr="$(gh api --paginate --slurp "repos/$REPO/commits/$HEAD_SHA/pulls" \
+                    | jq -r --arg repo "$REPO" '
+                         [.[][]
+                          | select(.state == "open")
+                          | select(.draft | not)
+                          | select(.base.ref == "main")
+                          | select(.base.repo.full_name == $repo)
+                          | select(.head.ref | test("^progress/[0-9a-f]{7}-[0-9a-f]{7}/[A-Za-z0-9]+$"))
+                          | .number] | min // ""')"
+              echo "pr=$pr" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+  gate:
+    needs: resolve
+    if: needs.resolve.outputs.pr != ''
+    # Pinned to a full TauCetiProgress SHA. `progress_ref` must be the SAME SHA: it selects the
+    # validator code checked out inside, and a mismatch would validate with different rules than the
+    # ones reviewed here.
+    # `write` here and nowhere else: the called workflow narrows it again to the one job that
+    # explains a refusal on the pull request, and a called workflow cannot exceed what this grants.
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@0da572fb3ef51afa1f9fe90492cc489a078423ce
+    with:
+      pr: ${{ fromJSON(needs.resolve.outputs.pr) }}
+      progress_ref: 0da572fb3ef51afa1f9fe90492cc489a078423ce
+      # There is deliberately no author allowlist. Anyone may publish a progress report, including
+      # from a fork: what bounds this is the shape of the diff (two generated files, one roadmap,
+      # append-only log, window ending in published history), not who sent it. See
+      # roadmap-workflows/README.md in TauCetiProgress.
+      # `tau-ceti-roadmap-sync`, the App this repository's ruleset lists as a bypass actor. It must be
+      # this one and not `secrets.APP_ID` (the review bot, which auto-merge.yml uses): the review bot
+      # bypasses TauCeti's ruleset, not this one, so a direct merge with its token would be refused
+      # for want of a code-owner review. auto-merge.yml can use it because it only *enables* GitHub's
+      # native auto-merge and lets the ruleset gate the merge; this workflow merges directly.
+      app_id: ${{ vars.SYNC_BOT_APP_ID }}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.SYNC_BOT_APP_PRIVATE_KEY }}
