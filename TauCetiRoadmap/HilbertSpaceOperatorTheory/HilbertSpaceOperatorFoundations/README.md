@@ -443,6 +443,14 @@ and can proceed in parallel once A lands.
 This roadmap is independent: it rests only on Mathlib, and it is the foundation the rest of
 the [Hilbert-space operator theory](../README.md) family cites.
 
+## Definitions
+
+**D1** `S x ↦ T x` — the isometry of ranges induced by two maps out of a common module with
+equal pullback inner products.
+
+**D2** `|M| x ↦ M x`, extended by continuity to the closure of `range |M|` and by zero on its
+orthogonal complement — the rectangular polar partial isometry.
+
 ## References
 
 - R. A. Horn, C. R. Johnson, *Matrix Analysis*, 2nd ed., Cambridge (2013) — Thm 7.2.6

@@ -177,9 +177,12 @@ instance instBorelSpaceMatrix {m n α : Type*} [Countable m] [Countable n]
   inferInstanceAs (BorelSpace (m → n → α))
 
 /-- Sorted eigenvalues of a Hermitian matrix, the ordering every perturbation
-statement below is stated against. -/
+statement below is stated against.
+
+Spec: D1. -/
 noncomputable def sortedEigenvalues {A : Matrix (Fin n) (Fin n) ℝ}
-    (hA : A.IsHermitian) : Fin n → ℝ := sorry
+    (hA : A.IsHermitian) : Fin n → ℝ :=
+  (Matrix.isSymmetric_toEuclideanLin_iff.mpr hA).eigenvalues finrank_euclideanSpace_fin
 
 /-- **Weyl composed with the entrywise bridge**: an entrywise `ε`-perturbation
 moves each sorted eigenvalue by at most `n·ε`.  The entrywise-to-operator-norm
@@ -189,9 +192,15 @@ theorem abs_sortedEigenvalues_sub_le_of_entry_le {A Ahat : Matrix (Fin n) (Fin n
     {ε : ℝ} (hentry : ∀ i j, |Ahat i j - A i j| ≤ ε) (k : Fin n) :
     |sortedEigenvalues hAhat k - sortedEigenvalues hA k| ≤ (n : ℝ) * ε := sorry
 
-/-- The spectral `h`-transform of a Hermitian matrix. -/
+/-- The spectral `h`-transform of a Hermitian matrix.
+
+Spec: D2. -/
 noncomputable def specTransform (h : ℝ → ℝ) {A : Matrix (Fin n) (Fin n) ℝ}
-    (hA : A.IsHermitian) : Matrix (Fin n) (Fin n) ℝ := sorry
+    (hA : A.IsHermitian) : Matrix (Fin n) (Fin n) ℝ :=
+  let hsym := Matrix.isSymmetric_toEuclideanLin_iff.mpr hA
+  Matrix.of fun i j => ∑ k : Fin n, h (sortedEigenvalues hA k)
+    * hsym.eigenvectorBasis finrank_euclideanSpace_fin k i
+    * hsym.eigenvectorBasis finrank_euclideanSpace_fin k j
 
 /-- **Spectral measurability**: the `h`-transform of a measurable Hermitian
 random matrix is measurable — without which no probability statement about a

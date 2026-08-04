@@ -275,7 +275,9 @@ variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
 
 /-- Isometric first isomorphism theorem: two linear maps out of a common module with equal
 pullback inner products have canonically isometric ranges, by `S x ↦ T x`. No finiteness is
-assumed and the ambient spaces may differ. -/
+assumed and the ambient spaces may differ.
+
+Spec: D1. -/
 noncomputable def rangeEquivOfInnerEq {M : Type*} [AddCommGroup M] [Module 𝕜 M]
     (S : M →ₗ[𝕜] E) (T : M →ₗ[𝕜] F)
     (h : ∀ x y, ⟪S x, S y⟫_𝕜 = ⟪T x, T y⟫_𝕜) :
@@ -353,7 +355,9 @@ noncomputable def polarInitial (M : E →L[ℂ] F) : Submodule ℂ E :=
   (LinearMap.range (modulus M).toLinearMap).topologicalClosure
 
 /-- The polar partial isometry of a bounded rectangular complex operator: isometric on the
-initial space, zero on its orthogonal complement. -/
+initial space, zero on its orthogonal complement.
+
+Spec: D2. -/
 noncomputable def polarPartial (M : E →L[ℂ] F) : E →L[ℂ] F :=
   sorry
 

@@ -443,6 +443,25 @@ statement in either roadmap.
 consumes Part E for approximation numbers of spectral bands; `MatrixSpectralStatistics`
 consumes Part B's measurability layer.
 
+## Definitions
+
+**D1** domain `{ψ : (U t ψ − ψ)/(i t) converges as t → 0}`, value the limit — the generator of
+a one-parameter unitary group.
+
+**D2** matrix elements the polarized quarter-sum `¼ ∑ₖ iᵏ ∫ f d(diag (ξ + iᵏ ψ))` — the bounded
+Borel functional calculus.
+
+**D3** `(A + V) ψ = A ψ + V ψ` on `dom A` — perturbation by a map defined on the domain.
+
+**D4** the bounded two-sided inverse of `A − z` — the resolvent at a point of the resolvent set.
+
+**D5** the Borel calculus of the Cayley transform, relabelled along `w ↦ i(1 + w)/(1 − w)` —
+the spectral measure of an unbounded self-adjoint operator.
+
+**D6** `t ↦ e^{i t A}`, the strong limit of `t ↦ exp (i t Aₙ)` — the generated unitary group.
+
+**D7** `Aₙ = n² R(i n) − i n`, `n ≥ 1` — the Yosida approximants.
+
 ## References
 
 - M. Reed, B. Simon, *Methods of Modern Mathematical Physics I: Functional Analysis*

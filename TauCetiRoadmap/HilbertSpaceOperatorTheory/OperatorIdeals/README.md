@@ -456,6 +456,21 @@ theory and stays there.
 Within Part B, the interface and its four instances are dependency-closed on Part A and can
 ship first.
 
+## Definitions
+
+**D1** `Φ∞ a = ⨆ N, Φ (truncate a N) = ⨆ {Φ b : b finitely supported, b ≤ a}` — a symmetric
+gauge extended to infinite sequences; the two agree because `Φ` is symmetric and monotone.
+
+**D2** `gauge T = Φ∞ (n ↦ aₙ T)` — the ideal family induced by a symmetric gauge.
+
+**D3** `Φ_p a = (∑ aₙ^p)^(1/p)`, `1 ≤ p` — the `ℓᵖ` symmetric gauge.
+
+**D4** `gauge T = ‖T‖`, equivalently `⨆ n, aₙ(T)` — the `p = ∞` endpoint.
+
+**D5** `(∑_{i < finrank E} σᵢ(T)^p)^(1/p)` — the finite-dimensional Schatten `p`-norm.
+
+**D6** `x ↦ ∑' i, ⟪bᵢ, x⟫ • fᵢ` — the operator represented by an `ℓ²` family of columns.
+
 ## References
 
 - A. Pietsch, *Operator Ideals*, North-Holland, 1980; *Eigenvalues and s-Numbers*, Cambridge

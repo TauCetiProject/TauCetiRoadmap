@@ -345,6 +345,13 @@ and Weyl perturbation — and is where the estimates lifted by Part C are stated
 [`OperatorIdeals`](../OperatorIdeals/README.md) consumes Part A for the Ky Fan triangle
 inequality that seeds its symmetric-gauge layer.
 
+## Definitions
+
+**D1** `x ↦ ∑ⱼ xⱼ vⱼ`, so `eⱼ ↦ vⱼ` — the coordinate isometry of an orthonormal family.
+
+**D2** `cos Θ(u, v) = σ(overlap operator)` — the principal-angle cosines, sorted decreasingly
+and zero-padded.
+
 ## References
 
 - R. Bhatia, *Matrix Analysis* (GTM 169, 1997), Chapters II–IV — majorization, symmetric

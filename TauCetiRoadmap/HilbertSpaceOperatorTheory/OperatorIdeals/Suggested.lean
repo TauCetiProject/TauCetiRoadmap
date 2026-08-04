@@ -237,9 +237,11 @@ rearrangement.
 
 **A supremum, not a `tsum`.**  The gauge must be total and genuinely `∞` off its
 ideal, and a supremum of an increasing net is total by construction; any route
-through summability reintroduces the side conditions the interface avoids. -/
+through summability reintroduces the side conditions the interface avoids.
+
+Spec: D1. -/
 noncomputable def SymmetricGauge.extend (Φ : SymmetricGauge) (a : ℕ → ℝ≥0∞) : ℝ≥0∞ :=
-  sorry
+  ⨆ b : {b : ℕ →₀ ℝ≥0 // ∀ i, (b i : ℝ≥0∞) ≤ a i}, (Φ.toFun b.1 : ℝ≥0∞)
 
 /-- Both ends of the scale, and the reason the normalization is not a restriction. -/
 theorem SymmetricGauge.iSup_le_extend_le_tsum (Φ : SymmetricGauge) (a : ℕ → ℝ≥0∞) :
@@ -248,9 +250,15 @@ theorem SymmetricGauge.iSup_le_extend_le_tsum (Φ : SymmetricGauge) (a : ℕ →
 /-- **Milestone B1.**  The family induced by a symmetric gauge, with gauge
 `Φ∞ ∘ a`.  Its five structure fields are theorems, one input each: `gauge_add_le` is
 Milestone B2, `gauge_smul` and `gauge_adjoint` and `enorm_le_gauge` and `gauge_comp_le`
-are the corresponding approximation-number facts of Part A. -/
-noncomputable def symmetricGaugeFamily (Φ : SymmetricGauge) : OperatorIdealFamily ℂ :=
-  sorry
+are the corresponding approximation-number facts of Part A.
+
+Spec: D2. -/
+noncomputable def symmetricGaugeFamily (Φ : SymmetricGauge) : OperatorIdealFamily ℂ where
+  gauge A := Φ.extend fun n => ENNReal.ofReal (approximationNumber A n)
+  gauge_add_le := sorry
+  gauge_smul := sorry
+  enorm_le_gauge := sorry
+  gauge_comp_le := sorry
 
 /-- **Milestone B2.**  Every family induced by a symmetric gauge respects Ky Fan
 domination.  This is the Hardy--Littlewood--Pólya transfer of the
@@ -284,8 +292,16 @@ theorem symmetricGaugeFamily_injective {Φ Ψ : SymmetricGauge}
 The Schatten classes are *obtained* from Milestone B1 rather than constructed, so
 their four laws are B1's and not new work. -/
 
-/-- The `ℓᵖ` symmetric gauge, `Φ_p a = (∑ aₙ ^ p) ^ (1 / p)`, for `1 ≤ p`. -/
-noncomputable def schattenGauge (p : ℝ) (hp : 1 ≤ p) : SymmetricGauge := sorry
+/-- The `ℓᵖ` symmetric gauge, `Φ_p a = (∑ aₙ ^ p) ^ (1 / p)`, for `1 ≤ p`.
+
+Spec: D3. -/
+noncomputable def schattenGauge (p : ℝ) (hp : 1 ≤ p) : SymmetricGauge where
+  toFun a := (∑ n ∈ a.support, a n ^ p) ^ (1 / p)
+  add_le := sorry
+  smul := sorry
+  symm := sorry
+  mono := sorry
+  normalized := sorry
 
 /-- The Schatten-`p` family for a finite real exponent `1 ≤ p`. -/
 noncomputable def schattenFamily (p : ℝ) (hp : 1 ≤ p) : OperatorIdealFamily.{0, v, w} ℂ :=
@@ -293,8 +309,15 @@ noncomputable def schattenFamily (p : ℝ) (hp : 1 ≤ p) : OperatorIdealFamily.
 
 /-- The `p = ∞` endpoint, specified separately because a real exponent cannot represent
 infinity. Its gauge is the operator norm, equivalently the supremum of the approximation
-numbers. -/
-noncomputable def schattenFamilyInf : OperatorIdealFamily.{0, v, w} ℂ := sorry
+numbers.
+
+Spec: D4. -/
+noncomputable def schattenFamilyInf : OperatorIdealFamily.{0, v, w} ℂ where
+  gauge A := ‖A‖ₑ
+  gauge_add_le := sorry
+  gauge_smul := sorry
+  enorm_le_gauge := sorry
+  gauge_comp_le := sorry
 
 /-- The scale is monotone, hence the ideals nest: `S_p ⊆ S_q` for `p ≤ q`.  Strictness
 is witnessed by a diagonal operator with coefficients `n ↦ n ^ (-1/r)`, `p < r < q` --
@@ -319,11 +342,14 @@ the singular-value vector, with the finite endpoint identifications `S₁` nucle
 This layer is **not** a special case of `schattenFamily` and does not wait on it: it is
 a rectangular unitarily invariant norm on a vector, consumed by the
 MajorizationAndAngles arm.  That the two agree in finite dimensions is a separate
-target, and without it a reader cannot tell whether `S₂` means one thing or two. -/
+target, and without it a reader cannot tell whether `S₂` means one thing or two.
+
+Spec: D5. -/
 noncomputable def schattenNorm (p : ℝ)
     {E F : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [FiniteDimensional ℂ E]
     [NormedAddCommGroup F] [InnerProductSpace ℂ F] [FiniteDimensional ℂ F]
-    (T : E →ₗ[ℂ] F) : ℝ := sorry
+    (T : E →ₗ[ℂ] F) : ℝ :=
+  (∑ i : Fin (finrank ℂ E), T.singularValues (i : ℕ) ^ p) ^ (1 / p)
 
 /-- **Milestone B4, block sums.**  The two-block comparison consumers actually use, for an
 operator that is block-diagonal for orthogonal decompositions of source and target: its
@@ -380,9 +406,16 @@ theorem isCompactOperator_of_hilbertSchmidtEnergy_ne_top
     IsCompactOperator T := sorry
 
 /-- The representation map: an `ℓ²` family of columns determines a bounded
-operator through the absolutely convergent expansion against the basis. -/
+operator through the absolutely convergent expansion against the basis.
+
+Spec: D6. -/
 noncomputable def ofLp (b : HilbertBasis ι 𝕜 F) (f : lp (fun _ : ι => E) 2) :
-    F →L[𝕜] E := sorry
+    F →L[𝕜] E :=
+  LinearMap.mkContinuous
+    { toFun := fun x => ∑' i, (b.repr x i) • f i
+      map_add' := sorry
+      map_smul' := sorry }
+    ‖f‖ sorry
 
 /-- Round trip: the columns of the represented operator are the family. -/
 theorem columns_ofLp (b : HilbertBasis ι 𝕜 F) (f : lp (fun _ : ι => E) 2) :

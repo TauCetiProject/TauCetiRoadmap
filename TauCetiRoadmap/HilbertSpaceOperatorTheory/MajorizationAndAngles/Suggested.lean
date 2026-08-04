@@ -104,7 +104,9 @@ theorem UnitarilyInvariantSeminorm.eq_of_same_singularValues
 Angles are singular values of the overlap operator, so nonnegativity, the `≤ 1`
 bound, ordering and symmetry are inherited rather than re-proved by induction. -/
 
-/-- The coordinate isometry of an orthonormal family, `eⱼ ↦ vⱼ`. -/
+/-- The coordinate isometry of an orthonormal family, `eⱼ ↦ vⱼ`.
+
+Spec: D1. -/
 noncomputable def familyIsometry {v : Fin d → E} (hv : Orthonormal 𝕜 v) :
     EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E := sorry
 
@@ -114,10 +116,12 @@ noncomputable def overlapOp {u v : Fin d → E} (hu : Orthonormal 𝕜 u)
     (hv : Orthonormal 𝕜 v) : EuclideanSpace 𝕜 (Fin d) →ₗ[𝕜] EuclideanSpace 𝕜 (Fin d) :=
   (familyIsometry hu).toLinearMap.adjoint ∘ₗ (familyIsometry hv).toLinearMap
 
-/-- Principal-angle cosines: the singular values of the overlap operator. -/
+/-- Principal-angle cosines: the singular values of the overlap operator.
+
+Spec: D2. -/
 noncomputable def cosPrincipalAngles {u v : Fin d → E} (hu : Orthonormal 𝕜 u)
     (hv : Orthonormal 𝕜 v) : ℕ →₀ ℝ :=
-  sorry
+  (overlapOp hu hv).singularValues
 
 /-- The squared Frobenius sine of the angle configuration. -/
 noncomputable def sinThetaSq {u v : Fin d → E} (hu : Orthonormal 𝕜 u)

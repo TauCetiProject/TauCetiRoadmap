@@ -401,6 +401,13 @@ eigenvalue perturbation → sorted-indexing theory → measurability; within Par
 → sample mean → matrix concentration → sample covariance, with the centered scatter independent
 of the rest.
 
+## Definitions
+
+**D1** `λ₀ ≥ λ₁ ≥ ⋯`, the eigenvalues of the associated Euclidean operator — the decreasingly
+sorted spectrum of a Hermitian matrix.
+
+**D2** `∑ₖ h(λₖ) uₖ uₖᵀ` — the spectral `h`-transform.
+
 ## References
 
 - R. A. Horn, C. R. Johnson, *Matrix Analysis*, 2nd ed. (2013) — spectral theorem, positive
