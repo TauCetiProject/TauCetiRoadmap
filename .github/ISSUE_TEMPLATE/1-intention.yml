@@ -25,11 +25,13 @@ body:
         - GeometricTopology
         - HeegaardFloer
         - JacobianChallenge
+        - ModularForms
         - Multiquadratic
         - OneParameterSemigroups
         - OrthogonalL2Bases
         - PDE
         - ReductiveGroups
+        - RepresentationTheory
         - UniversalCovers
     validations:
       required: true
