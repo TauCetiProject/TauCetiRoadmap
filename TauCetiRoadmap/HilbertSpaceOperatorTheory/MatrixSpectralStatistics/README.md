@@ -25,16 +25,13 @@ Chebyshev and a union bound, hence spectrally through Part C's bridge (Part D).
 
 Composed with
 [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md), this is how a
-perturbation theorem becomes a statistical one: Part D supplies "`Σ̂` is within `ε` of `Σ` with
-probability `1 − δ`", Part C makes the spectral quantities of `Σ̂` measurable, Part B transfers
+perturbation theorem becomes a statistical one: Part D supplies `‖Σ̂ − Σ‖ ≤ ε` with
+probability `1 − δ`, Part C makes the spectral quantities of `Σ̂` measurable, Part B transfers
 the bound to minimizers of spectral objectives, and Part A realizes the estimated Gram
 structure as an explicit embedding.
 
-The goal is to build the reusable theory of these objects. The
-bar for done: a formalizer working from a spectral-methods paper finds each object — rank
-factorizations, argmin correspondences, sorted eigenvalues, spectral transforms, sample
-moments — defined at the pinned generality and equipped with its basic API, so that the
-concentration and stability theorems are consequences of a developed theory.
+Each object should be defined at the pinned generality and equipped with its basic API, not
+only the concentration and stability theorems that consume it.
 
 Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
 `TauCeti/Analysis/Matrix/`, `TauCeti/Probability/Moments/`, with two supporting lemmas in
@@ -219,9 +216,10 @@ the case where minimizers are determined only up to a symmetry group.
 **Milestone B2 — the value function** at fixed `K` is continuous, by the squeeze between a
 fixed minimizer of `g p₀` and the moving minimizers.
 
-**Milestone B3 — the classical theorem, over a varying constraint correspondence.** This is the
-classical statement's actual generality. **The fixed-constraint case is a special case of it, not a step toward it**: the engine
-that proves the fixed case does not generalize by adding a hypothesis, because with `K` varying
+**Milestone B3 — the classical theorem, over a varying constraint correspondence.** This is
+the classical statement's actual generality. **The fixed-constraint case is a special case of
+it, not a step toward it**: the argument that proves the fixed case does not generalize by
+adding a hypothesis, because with `K` varying
 the approximate-minimizer sequence need not stay in one compact set.
 
 Both hemicontinuity predicates already exist upstream, so nothing here defines a hemicontinuity
@@ -238,9 +236,9 @@ notion. What the milestone adds is a correspondence `Γ : P → Set X` that is
 The conclusion: the value function `v p = ⨅ x ∈ Γ p, g p x` is continuous, and the argmin
 correspondence is upper hemicontinuous with nonempty compact values.
 
-**The decomposition is the substance, and belongs in the roadmap because it is what makes the
-milestone reviewable**: continuity of `v` splits into *lower* semicontinuity from upper
-hemicontinuity of `Γ` and *upper* semicontinuity from lower hemicontinuity of `Γ`, and each
+**The decomposition is the substance**: continuity of `v` splits into *lower* semicontinuity
+from upper hemicontinuity of `Γ` and *upper* semicontinuity from lower hemicontinuity of `Γ`,
+and each
 half is provable on its own. Asking for "Berge's theorem" as a single target hides that it is
 two independent lemmas with opposite hypotheses, and hides that half of it is already available
 from Milestone B2.
@@ -375,8 +373,6 @@ it.
 
 ## Worked examples (acceptance criteria)
 
-Discharge these alongside the layers; they check that the API describes real operators.
-
 ### Part A — rank factorization and positive-semidefinite Gram factorization
 
 **Acceptance examples.** The Gram matrix of `n` explicit points in `𝕜^d` has rank `≤ d`; a
@@ -438,10 +434,10 @@ of the rest.
 
 ## Acknowledgements
 
-A complete implementation of Parts A and B and of most of Parts C and D exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware, Inc., Apache-2.0), in `TauCeti.*` and `TauCeti.Matrix.*` namespaces. It
-establishes feasibility and provides source provenance for integration, but this roadmap
-specifies the desired mathematics intrinsically and does not prescribe the donor API or proof
-architecture.
+An Apache-2.0 implementation of Parts A and B and of most of Parts C and D exists in the
+[AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware,
+Inc.), in `TauCeti.*` and `TauCeti.Matrix.*` namespaces. The public API and proof structure
+may change during integration.
 
 Milestones A2, B3 and the `RCLike` half of C1 are specified above and not implemented there.
 Several Part A and B statements are additionally pinned as data by a conformance harness in

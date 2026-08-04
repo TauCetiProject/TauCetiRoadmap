@@ -16,12 +16,9 @@ uniqueness theory at that generality, no partial-isometry API, no polar decompos
 singular *vectors*, no Moore–Penrose inverse, no sharp projector-difference identity, and
 no shared vocabulary of spectral-separation hypotheses.
 
-The goal is to build the reusable theory of these objects. The bar for done: a researcher in matrix analysis or spectral perturbation
-finds each object defined once, at its natural generality, with its complete basic API —
-closure and composition laws, kernels and ranges, the standard identities, the connections
-to existing Mathlib structures — so that the headline results are consequences of a
-developed theory. A contribution that proves a headline
-theorem and leaves the surrounding object without its basic API is not yet what is wanted.
+Each object should be defined once, at its natural generality, with its basic API — closure
+and composition laws, kernels and ranges, the standard identities, the connections to
+existing Mathlib structures — not only the named theorem that uses it.
 
 Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar square-root
 estimates in `TauCeti/Analysis/SpecialFunctions/` and the subspace-equality isometry lemma
@@ -167,15 +164,12 @@ ContinuousLinearMap.modulus (T : E →L[ℂ] F) : E →L[ℂ] E   -- complex, re
 
 each in the namespace of its carrier, so both support dot notation.
 
-**`operatorAbs` is a deliberate placeholder, and the name is an open question for review.**
-A bare `abs` is the natural mathematical spelling but collides with the lattice absolute
-value that `|·|` denotes in Lean, so an unqualified `abs A` in a file with both in scope
-reads as the wrong object; `modulus` avoids the collision but then the two constructions
-carry names a reader has to be told are the same notion. Rather than settle that here, the
-square construction and its lemmas use a distinctive token — `operatorAbs`,
-`norm_operatorAbs_apply`, `ker_operatorAbs` — which appears nowhere else in Mathlib or in
-this development, so that whichever name the review settles on, adopting it is one
-mechanical replacement.
+**`operatorAbs` is a placeholder, and the name is an open question for review.** A bare
+`abs` collides with the lattice absolute value that `|·|` denotes in Lean, and `modulus`
+names the rectangular construction. The square construction and its lemmas therefore use a
+distinctive token — `operatorAbs`, `norm_operatorAbs_apply`, `ker_operatorAbs` — which
+appears nowhere else in Mathlib or in this development, so adopting whichever name the
+review settles on is one mechanical replacement.
 
 **Milestone — uniqueness, at both layers.** The square root is the unique positive operator
 squaring to `T` (Horn–Johnson 7.2.6); and the calculus itself is the unique symmetric
@@ -265,10 +259,9 @@ answers a different question:
 
 The accessor exists so that operator-norm consumers — approximation numbers, Ky Fan norms,
 Eckart–Young — never spell `T.toLinearMap.singularValues` in a public statement. It fixes
-the public spelling for the four roadmaps that consume it, so it is a target of this Part and
-not an afterthought; but its lemmas should be one-line delegations, and a reviewer should
-confirm exactly that. Any lemma there with real content belongs at the `LinearMap` level
-instead.
+the public spelling for the four roadmaps that consume it, so it is a target of this Part.
+Its lemmas should be one-line delegations; any lemma there with real content belongs at the
+`LinearMap` level instead.
 
 **Objects.** The right singular basis `rightSingularBasis A` (the sorted orthonormal
 eigenbasis of `A⋆A`); the left singular vectors `leftSingularVector A i = σᵢ⁻¹ • A vᵢ`
@@ -420,8 +413,6 @@ definition.
 
 ## Worked examples (acceptance criteria)
 
-Discharge these alongside the layers; they check that the API describes real operators.
-
 ### Part A — the functional calculus, the positive square root, and the two moduli
 
 **Acceptance examples.** `calculus id = T`; the calculus of a constant is that multiple of
@@ -479,11 +470,9 @@ the [Hilbert-space operator theory](../README.md) family cites.
 
 ## Acknowledgements
 
-A substantial implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
-(Kitware, Inc., Apache-2.0), in namespaces `TauCeti.*`, `LinearMap.*` and
-`ContinuousLinearMap.*`. It establishes feasibility and provides source provenance for
-integration, but this roadmap specifies the desired mathematics intrinsically and does not
-prescribe the donor API or proof architecture.
+An Apache-2.0 implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
+(Kitware, Inc.), in namespaces `TauCeti.*`, `LinearMap.*` and `ContinuousLinearMap.*`. The
+public API and proof structure may change during integration.
 
 Two differences between that implementation and what is specified above should be expected
 at integration: the square modulus is currently named `abs` there, and the Moore–Penrose

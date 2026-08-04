@@ -8,8 +8,8 @@ projections, and a spectral gap `δ` between the parts of the spectrum forces
 invariant norm, with **constant one** under interval/exterior or ordered separation and the
 sharp constant **`π/2`** under arbitrary two-sided separation.
 
-The engine is the Sylvester equation `A X − X B = C`: spectral separation makes it uniquely
-solvable with an a-priori bound, and the `sin Θ` theorems are that bound read through
+The main reduction is the Sylvester equation `A X − X B = C`: spectral separation makes it
+uniquely solvable with an a-priori bound, and the `sin Θ` theorems are that bound read through
 projection geometry. Its qualitative limit is **Rosenblum's theorem** — an operator
 intertwining two self-adjoint operators with disjoint spectra is zero, in the unbounded case
 that matters. Its statistical variant, **Yu–Wang–Samworth**, moves the gap hypothesis from
@@ -19,18 +19,13 @@ allows.
 Mathlib has the static operator-theory stack but none of this layer: no operator angles, no
 Sylvester equations, no spectral-subspace perturbation theory, no statistical variant.
 
-The goal is to build the reusable theory of these objects.
-The bar for done: a researcher in operator theory or statistics finds Sylvester equations with
-solvability and a-priori estimates at every relevant generality — bounded and domain-aware,
-operator norm through arbitrary unitarily invariant norms, constant one and `π/2` — the
-`sin Θ` family as consequences of that developed theory, and the statistical variant stated
-the way its consumers use it.
+Sylvester equations should arrive with solvability and a-priori estimates at every relevant
+generality — bounded and domain-aware, operator norm through arbitrary unitarily invariant
+norms, constant one and `π/2` — with the `sin Θ` family as consequences and the statistical
+variant stated the way its consumers use it.
 
 This roadmap is the **endpoint of the
 [Hilbert-space operator theory](../README.md) family**: it consumes all five of the others.
-That transitive depth is the cost of stating Davis–Kahan over objects that exist
-rather than over objects assumed — every norm, angle, ideal and spectral projection its
-theorems quantify over is built first.
 
 Its `Suggested.lean` imports the sibling signature files and uses their declarations directly.
 In particular, spectral predicates come from operator foundations, invariant seminorms from
@@ -166,11 +161,12 @@ the two conventions have a lemma rather than a warning.
 
 ### Part B — Sylvester equations and the Rosenblum theorem
 
-The hinge: it consumes Part A and all four external roadmaps, and Part C consumes it.
+Needs Part A and the four external roadmaps; Part C consumes it.
 
-The headline is qualitative — an operator intertwining two self-adjoint operators with
-**disjoint** spectra is zero, with `A` and `B` unbounded. The quantitative companions — a-priori
-bounds on `‖X‖` when the spectra are **separated** by `δ` — are what Part C actually consumes.
+Rosenblum's theorem is qualitative: an operator intertwining two self-adjoint operators with
+**disjoint** spectra is zero, with `A` and `B` unbounded. The quantitative companions —
+a-priori bounds on `‖X‖` when the spectra are **separated** by `δ` — are what Part C
+actually consumes.
 
 **Objects.** The Sylvester operator `X ↦ A X − X B` on rectangular maps; the gap taxonomy of
 the generality bar; the domain-aware Sylvester equation on `LinearPMap`, consumed from
@@ -305,8 +301,6 @@ sign-aligned eigenvector corollary that statisticians quote.
 
 ## Worked examples (acceptance criteria)
 
-Discharge these alongside the layers; they check that the API describes real operators.
-
 ### Part A — the Haagerup–Zsidó kernel and its Fourier transform
 
 **Acceptance examples.** The identity at a concrete `x`; the mass bounding one concrete
@@ -377,12 +371,11 @@ equation (Parts B–C). Nothing here waits on `MatrixSpectralStatistics`.
 
 ## Acknowledgements
 
-A substantial implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware,
-Inc., Apache-2.0). It establishes feasibility and provides source provenance for integration,
-but this roadmap specifies the desired mathematics intrinsically and does not prescribe the
-donor API or proof architecture. In particular, the existing statements carry paper numbering and
-paper-flavoured names; a submission states the theorems in terms of the objects above, with the
-source correspondence confined to the acceptance layer of Part C.
+An Apache-2.0 implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware,
+Inc.). The public API and proof structure may change during integration. In particular, the
+existing statements carry paper numbering and paper-flavoured names; a submission states the
+theorems in terms of the objects above, with the source correspondence confined to the
+acceptance layer of Part C.
 
 Material in the Sylvester and `sin Θ` lineage was adapted from the Spectra Formalization
 Project at upstream revision `8dbaaf6728d1342ae16acf79fd7eef7c59b37e63`, with a recorded

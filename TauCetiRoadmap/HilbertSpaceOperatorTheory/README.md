@@ -1,17 +1,12 @@
 # Hilbert-space operator theory
 
 A connected family of roadmaps for the theory of bounded operators on Hilbert spaces and
-the spectral perturbation theory built on it. Each subdirectory is a self-contained
-roadmap — a definitive `README.md` and a `Suggested.lean` of representative target
-signatures; this page is the index, the scope boundary, and the map of how they fit
-together.
+the spectral perturbation theory built on it. Each subdirectory contains a roadmap
+`README.md` and representative signatures in `Suggested.lean`; this page records their
+scope and dependencies.
 
-**This family does not claim all of operator theory.** It develops one connected body of
-material: the functional calculus of a self-adjoint operator and the decompositions it
-supports, the order and norm theory that measures them, the ideals that extend singular
-values to infinite dimensions, the spectral theory of self-adjoint operators bounded and
-unbounded, and the perturbation theorems that consume all of it. The exclusions below are
-choices, and roadmaps for the excluded material are welcome as separate work.
+This family does not cover all of operator theory. Roadmaps for the excluded material are
+welcome as separate work.
 
 ## Scope
 
@@ -55,7 +50,7 @@ Excluded:
   the functional calculus of a symmetric operator over `RCLike`, the positive square root
   and the operator modulus, polar decomposition and partial isometries, singular systems
   and the Moore–Penrose inverse, Gram rigidity, projection geometry and spectral
-  subspaces. The vocabulary every other roadmap here is stated in.
+  subspaces.
 - [**Majorization and angles**](MajorizationAndAngles/README.md) — weak majorization and
   the transfer descent as convex analysis, Schur–Horn, Ky Fan sums and Fan dominance,
   unitarily invariant norms square and rectangular, principal angles as singular values of
@@ -102,23 +97,11 @@ MajorizationAndAngles   SelfAdjointSpectralTheory         (wave 2)
 | `MatrixSpectralStatistics` | foundations, self-adjoint spectral theory |
 | `SpectralSubspacePerturbation` | all five preceding roadmaps |
 
-These edges state mathematical ownership: each roadmap consumes public objects and theorems
-specified by its predecessors. Exact donor-module counts and import-graph diagnostics belong to
-this repository's internal topic map, not to the upstream mathematical specification.
+Each roadmap consumes public objects and theorems specified by its predecessors. Two edges
+are worth naming: `OperatorIdeals` needs the majorization roadmap for the Ky Fan triangle
+inequality, and the spectral theory for the finite-rank behaviour of spectral bands.
 
-Reading the waves:
-
-1. **Foundations goes first.** It rests only on Mathlib, and every other roadmap names it.
-2. **Majorization and self-adjoint spectral theory unlock in parallel.** Neither needs the
-   other: the first is finite-dimensional order and norm theory, the second is measure
-   theory and unbounded operators.
-3. **Operator ideals and matrix spectral statistics follow.** Operator ideals needs the
-   norm theory of the majorization roadmap for the Ky Fan triangle inequality, and the
-   spectral theory for the finite-rank behaviour of spectral bands.
-4. **Spectral-subspace perturbation is the endpoint** and needs everything. That
-   transitive depth is the honest cost of stating Davis–Kahan over objects that exist
-   rather than over objects assumed: every norm, angle, ideal, and spectral projection its
-   theorems quantify over is built first.
+### Independently submittable material
 
 Independent material inside later roadmaps can be started earlier. The Haagerup–Zsidó
 kernel (perturbation, Part A), Stone's theorem and the Borel calculus (spectral theory,
@@ -136,15 +119,13 @@ Between roadmaps in this family:
   gap uses those predicates.
 - **Approximation numbers and every gauge of them** belong to `OperatorIdeals`, including
   approximation numbers of spectral bands, whose proofs consume the unbounded spectral
-  measure. That the *proof* runs through spectral theory does not make the *statement*
-  spectral theory.
+  measure.
 - **The domain-aware Sylvester equation** — the transport statement `A X − X B = C` with
   its domain bookkeeping — belongs to `SelfAdjointSpectralTheory`, which owns
   `LinearPMap`. Its solvability and its a-priori estimates belong to
   `SpectralSubspacePerturbation`.
 - **Matrix-level statements with entrywise hypotheses** belong to
-  `MatrixSpectralStatistics`. The abstract operator theory does not descend into
-  coordinates.
+  `MatrixSpectralStatistics`.
 
 With roadmaps outside this family:
 
@@ -155,27 +136,15 @@ With roadmaps outside this family:
   calculus, projection-valued measures, spectral measures, the self-adjoint `LinearPMap`
   theory, the self-adjoint and unitary specialization, and Stone's theorem as the bridge
   between the two developments. **The two must not carry competing generator or resolvent
-  vocabularies.** Both roadmaps model an unbounded operator as a Mathlib `LinearPMap`,
-  which is what makes one vocabulary possible; a self-adjoint operator needs its own
-  resolvent *set* because Mathlib's `resolvent` is a Banach-algebra notion, and that
-  definition should be shared rather than duplicated. Landing Stone's theorem discharges
-  the `C₀`-group stretch goal that roadmap already records, so the coordinated edit there
-  is to cite this family for it rather than to specify it twice.
+  vocabularies.** Both model an unbounded operator as a Mathlib `LinearPMap`, so one
+  vocabulary suffices; a self-adjoint operator needs its own resolvent *set*, because
+  Mathlib's `resolvent` is a Banach-algebra notion, and that definition should be shared.
+  Landing Stone's theorem discharges the `C₀`-group stretch goal that roadmap records, so
+  it should cite this family for it rather than specify it twice.
 
-## Submitting the family, and implementing it
+## Acknowledgements
 
-A roadmap is accepted before the mathematics is contributed, and the two are separate
-reviews. Accepting this family settles what the mathematics is, what the public API should
-look like, and where the boundaries between the six documents run. Implementation then
-arrives as pull requests against the accepted roadmaps, sized for review rather than by
-roadmap: a roadmap's Parts are its natural PR seams, and several Parts here are
-independently submittable before the roadmap around them is finished.
-
-A substantial implementation of most of this material exists in the 
-[AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware, Inc., Apache-2.0).
-It establishes feasibility and provides source provenance for integration, but
-each roadmap here specifies the desired mathematics and does not prescribe the
-donor API or proof architecture. Each roadmap's provenance section says what
-exists and under what terms.
-
-The child `README.md` files remain the definitive roadmap documents.
+An Apache-2.0 implementation of most of this material exists in the
+[AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
+(Kitware, Inc.); each child roadmap records the relevant provenance. The public API and
+proof structure may change during integration.

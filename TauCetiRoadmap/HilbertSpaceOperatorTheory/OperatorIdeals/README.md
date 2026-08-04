@@ -20,13 +20,9 @@ functional calculus, `IsCompactOperator`, the `lp` spaces — but none of the s-
 no approximation numbers, no object over which a theorem can be stated once for "an
 arbitrary symmetric ideal norm", and no Schatten, trace-class or Hilbert–Schmidt theory.
 
-The goal is to build the reusable theory of these objects. The bar for done: a researcher in operator or perturbation theory finds the
-approximation numbers with their complete elementary calculus (Part A), a symmetric-ideal
-interface whose laws hold unconditionally and whose standard instances — operator norm, Ky
-Fan, Hilbert–Schmidt, trace class, Schatten `p` — are constructed rather than postulated
-(Part B), a Hilbert–Schmidt space that arrives with inner product and completeness already
-proved because it *is* Mathlib's `lp` (Part C), and the approximation numbers of a spectral
-band (Part D).
+Each object should arrive with its basic API: the symmetric-ideal interface laws should hold
+unconditionally, and the standard instances — operator norm, Ky Fan, Hilbert–Schmidt, trace
+class, Schatten `p` — should be constructed rather than postulated.
 
 Suggested homes: `TauCeti/Analysis/OperatorIdeal/ApproximationNumber/`,
 `TauCeti/Analysis/OperatorIdeal/Family/`,
@@ -224,16 +220,16 @@ completeness of that space as a typeclass rather than a hand-rolled Cauchy crite
     majorization, both consumed from the majorization roadmap.
   - Definiteness, adjoint invariance, and the ideal inequalities.
   - The endpoint identifications `S₁ =` nuclear, `S₂ =` Frobenius, `S∞ =` operator norm.
-  - **Not a special case of Milestone B3, and not waiting on it**: this is a norm on a
-    vector, consumed by the majorization arm, whereas B3 is a family on operators between
-    infinite-dimensional spaces. Milestone A1 relates them, and that agreement is itself a
-    target: it is what makes `S₂` one object across both halves of this Part.
+  - **Separate from Milestone B3, and not blocked by it**: this is a norm on a vector,
+    consumed by the majorization arm, whereas B3 is a family on operators between
+    infinite-dimensional spaces. Milestone A1 proves the two agree, which is what makes `S₂`
+    one object across both halves of this Part.
 
 ### Milestone B1 — symmetric norming functions and the Calkin correspondence
 
-The construction the whole interface exists to receive: what turns "here are four gauges we
-happened to build" into "here is every symmetric ideal, from its symbol". Four instances are
-examples; a map from symbols to families is a theory.
+The Calkin correspondence: a map from a symmetric norming function to the ideal family it
+induces, so that ideals are obtained from their symbols rather than constructed one at a
+time.
 
 **Objects.** `SymmetricGauge`, a symmetric norming function in the sense of Gohberg–Kreĭn: a
 map `Φ : (ℕ →₀ ℝ≥0) → ℝ≥0` on finitely supported sequences with subadditivity and positive
@@ -277,8 +273,7 @@ roadmap specifies the direction it needs and is explicit about the other:
   ideal really is a function of the singular-value sequence alone.
 - **Not claimed:** surjectivity, that *every* symmetric ideal arises from a symmetric norming
   function. That is the substantial half of Calkin's theorem, it needs a separability
-  hypothesis nothing else here needs, and no result in this group consumes it. If a reviewer
-  wants it, it is a milestone of its own.
+  hypothesis nothing else here needs, and no result in this group consumes it.
 
 ### Milestone B2 — the Ky Fan dominance principle
 
@@ -380,9 +375,9 @@ inner product and completeness already proved.
 when `U` is norm-preserving and `V` has norm-preserving adjoint. The left case is termwise
 trivial — composing with an isometry changes no column norm — and the right case is the same
 statement about the adjoint; no basis-independence argument appears, which in the tensor
-model is precisely the part that costs. This is what makes the Sylvester flow
-`Z ↦ U_A t ∘ Z ∘ (U_B t)⋆` a unitary group on the Hilbert–Schmidt space, the hypothesis
-under which the perturbation roadmap applies Stone's theorem.
+model is precisely the part that costs. The Sylvester flow `Z ↦ U_A t ∘ Z ∘ (U_B t)⋆` is
+therefore a unitary group on the Hilbert–Schmidt space, the hypothesis under which the
+perturbation roadmap applies Stone's theorem.
 
 **Milestone C2 — Pythagoras along an orthogonal family.** A family splitting every vector's
 norm (`∑' i, ‖P i v‖ₑ ² = ‖v‖ₑ ²`) splits the energy on either side and jointly. No
@@ -418,8 +413,6 @@ that lets a perturbation argument use an ideal gauge with a *spectral* hypothesi
 a rank hypothesis.
 
 ## Worked examples (acceptance criteria)
-
-Discharge these alongside the layers; they check that the API describes real operators.
 
 ### Part A — approximation numbers and Hilbert-space singular values
 
@@ -495,12 +488,11 @@ ship first.
 
 ## Acknowledgements
 
-A substantial implementation of nearly all of the above exists in the AIQ DKPS
+An Apache-2.0 implementation of nearly all of the above exists in the AIQ DKPS
 [formalization repository](https://github.com/AIQ-Kitware/aiq-dkps-formalization) under
-`ForTauCeti/` (namespaces `TauCeti.*` and `ContinuousLinearMap.*`), Apache-2.0, Copyright
-Kitware, Inc., with per-module provenance headers. It establishes feasibility and provides
-source provenance for integration, but this roadmap specifies the desired mathematics
-intrinsically and does not prescribe the donor API or proof architecture.
+`ForTauCeti/` (namespaces `TauCeti.*` and `ContinuousLinearMap.*`), Copyright Kitware, Inc.,
+with per-module provenance headers. The public API and proof structure may change during
+integration.
 
 Part A's elementary layer was adapted in part from Mathlib PR
 [#32126](https://github.com/leanprover-community/mathlib4/pull/32126) and developed further

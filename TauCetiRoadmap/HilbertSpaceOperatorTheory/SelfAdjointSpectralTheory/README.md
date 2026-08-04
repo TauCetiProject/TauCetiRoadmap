@@ -11,18 +11,14 @@ calculus, no projection-valued measures, no resolvent theory for a partially def
 operator, no spectral measure of an unbounded self-adjoint operator, and no Stone's theorem
 connecting self-adjoint operators to one-parameter unitary groups.
 
-This roadmap builds that layer as one body of mathematics. Its five Parts are five faces of
-a single subject: a one-parameter unitary group has a self-adjoint generator; a bounded
-normal operator has a Borel calculus and a projection-valued measure; a partially defined
-operator has a graph-and-domain calculus and, when self-adjoint, a real spectrum with
-quantitative resolvent bounds; and the Cayley transform welds these into the spectral
-measure of an unbounded self-adjoint operator, with Stone's theorem in both directions as
-the dynamical payoff.
+This roadmap builds that layer. A one-parameter unitary group has a self-adjoint generator;
+a bounded normal operator has a Borel calculus and a projection-valued measure; a partially
+defined operator has a graph-and-domain calculus and, when self-adjoint, a real spectrum
+with quantitative resolvent bounds; and the Cayley transform carries these into the spectral
+measure of an unbounded self-adjoint operator, with Stone's theorem in both directions.
 
-The goal is to build the reusable theory of these objects. The bar for done: a researcher in mathematical physics or spectral perturbation
-theory finds unbounded self-adjoint operators, their resolvents, their spectral projections
-and their unitary groups defined at their natural generality and equipped with the standard
-API, so that the spectral theorem and Stone's theorem are consequences of a developed theory.
+Each object should be defined at its natural generality and equipped with the standard API,
+not only the spectral theorem and Stone's theorem that consume it.
 
 Suggested homes:
 
@@ -178,8 +174,8 @@ self-adjointness statement weaker than what Part E consumes.
 surjective is self-adjoint, with density of the domain derived.
 
 **Milestone A2 — Stone's theorem, forward direction.** The generator of a one-parameter
-unitary group is self-adjoint. The proof is the criterion: symmetry is the easy half,
-surjectivity of `A ± i` via the semigroup resolvent is the work, density is derived.
+unitary group is self-adjoint. The proof combines symmetry with surjectivity of `A ± i`
+from the semigroup resolvent; density is derived.
 
 ### Part B — the Borel functional calculus and projection-valued measures
 
@@ -290,7 +286,7 @@ exactly the ingredients.
 
 ### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
 
-Independently submittable, and the cheapest way into the unbounded theory.
+Independently submittable.
 
 **Objects.** `resolventSet A` and `spectrum A` for `A : E →ₗ.[𝕜] E`, per the generality bar;
 the named `resolvent A hz : E →L[𝕜] E`; the **Cayley transform** of a self-adjoint operator.
@@ -335,7 +331,7 @@ statement after the first resolvent identity.
 
 ### Part E — the spectral measure of an unbounded self-adjoint operator, Stone uniqueness, Yosida
 
-Needs Parts A, B and D. The deepest Part, and the reason the others exist.
+Needs Parts A, B and D.
 
 **Objects.** For self-adjoint `A : H →ₗ.[ℂ] H`: the spectral measure `spectralPVM hA`,
 obtained by relabelling the Borel calculus of the Cayley transform along the inverse Cayley
@@ -374,7 +370,7 @@ map `w ↦ i(1+w)/(1−w)`; the spectral projections; the spectral subspace and 
     not about a limit appearing from nowhere.
 - **Maximality, proved once**: self-adjoint `A ≤ B` forces `A = B`. This is why identifying
   two self-adjoint operators never requires proving both inclusions.
-- **Stone uniqueness** as the payoff of maximality: the generator of `genToGroup hA` is `A`.
+- **Stone uniqueness** as a consequence of maximality: the generator of `genToGroup hA` is `A`.
   Spectral projections commute with the group, and interval cutoffs tend strongly to the
   identity.
 - **The block-argument shapes** consumed by spectral perturbation theory: the grid
@@ -397,8 +393,6 @@ groups; and uniqueness of the spectral measure — a `ProjValMeasure` satisfying
 formula is `spectralPVM hA`.
 
 ## Worked examples (acceptance criteria)
-
-Discharge these alongside the layers; they check that the API describes real operators.
 
 ### Part A — one-parameter unitary groups and Stone's theorem
 
@@ -486,11 +480,9 @@ consumes Part B's measurability layer.
 
 ## Acknowledgements
 
-A substantial implementation of all five Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
-(Kitware, Inc., Apache-2.0), in namespaces `TauCeti.*` and `LinearPMap.*`. It establishes
-feasibility and provides source provenance for integration, but this roadmap specifies the
-desired mathematics intrinsically and does not prescribe the donor API or proof
-architecture.
+An Apache-2.0 implementation of all five Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
+(Kitware, Inc.), in namespaces `TauCeti.*` and `LinearPMap.*`. The public API and proof
+structure may change during integration.
 
 Part of the unitary-group material was adapted from the Spectra Formalization Project
 (Apache-2.0, Adam Bornemann), with per-file provenance headers; the construction of the

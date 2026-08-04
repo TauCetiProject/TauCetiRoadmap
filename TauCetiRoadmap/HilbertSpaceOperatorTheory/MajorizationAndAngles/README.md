@@ -12,27 +12,16 @@ majorization predicate, no **Schur–Horn** theorem (its absence is noted in a c
 `Mathlib/Analysis/InnerProductSpace/Spectrum.lean`), no Ky Fan sums, no unitarily invariant
 norms, no principal angles, no **Hoffman–Wielandt**.
 
-This roadmap builds that layer as one body of mathematics, because it is one: the norm
-theory and the subspace geometry interleave rather than stack. The four Parts below are
-strictly layered, with the geometry of Part B sitting *between* the square norm theory of
-Part A and the rectangular norm theory of Part C, and Part D consuming all three. Splitting
-the norms from the angles would sever the dependencies in both directions.
+The four Parts are strictly layered: the geometry of Part B sits *between* the square norm
+theory of Part A and the rectangular norm theory of Part C, and Part D consumes all three.
+Splitting the norms from the angles would break the dependencies in both directions.
 
-One boundary is absolute, and it is this roadmap's central architectural claim: **the
-majorization engine is convex analysis and imports no operator theory at all.** Weak
-majorization is a statement about real tuples; it belongs under `Analysis/Convex`, and
-everything operator-theoretic here consumes it through exactly one interface. A
-majorization file that quietly depends on a Hilbert space cannot serve the two consumers it
-has — square norms in Part A, rectangular norms in Part C — and loses its independent value
-to convex analysis.
+**The majorization engine is convex analysis: it belongs under `Analysis/Convex` and imports
+no operator theory.** Weak majorization is a statement about real tuples, and it serves two
+consumers — square norms in Part A, rectangular norms in Part C — through one interface.
 
-The goal is to build the reusable theory of these objects. The bar for done: a researcher in matrix analysis or statistics finds weak
-majorization, symmetric gauges, Ky Fan sums, unitarily invariant norms square and
-rectangular, principal angles (family-level and subspace-level, with the bridge between
-them proved), and the eigenvalue-perturbation inequalities, each with its basic API —
-closure properties, invariances, the variational characterizations — so that Fan dominance,
-Schur–Horn, Hoffman–Wielandt and Davis's eigenvalue-change bound are consequences of a
-developed theory.
+Each object should arrive with its basic API — closure properties, invariances, the
+variational characterizations — not only the named theorems that consume it.
 
 Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
 `TauCeti/Analysis/InnerProductSpace/` for everything else.
@@ -84,8 +73,7 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
     is an invariant of the chosen families.
   - Part D defines `principalCosines U V` for submodules as the singular values of `P_V P_U`,
     and proves the two agree on spans — that the family invariant depends only on the spans.
-  - The bridge lives in Part D because it needs the projector dictionary built there. A
-    reviewer of Part B alone should know its name is justified one Part later.
+  - The bridge lives in Part D because it needs the projector dictionary built there.
 - **Directed sines are not symmetric.** `principalSines U V` are the singular values of
   `P_{Vᗮ} P_U`; symmetry of the sines and of the angles holds under an equal-rank
   hypothesis, which matches the multiplicities of the quarter-turn defect directions, and
@@ -270,7 +258,7 @@ unitaries, and the SVD transport.
 Two things kept together because they are the same step of the Davis–Kahan argument: the **angle dictionary** — cosine, sine, angle and tangent
 objects for a pair of subspaces, each with a singular-value and a projector description —
 and **eigenvalue perturbation**, how far the spectrum moves when the operator does. The
-subspace-perturbation theorems consume both in the same breath.
+subspace-perturbation theorems consume both.
 
 **Objects.** The Gram operators `rightGram A = A⋆A` and `leftGram A = AA⋆`; the
 cross-projections `cosThetaMap U V = P_V ∘ P_U` and `sinThetaMap U V = P_{Vᗮ} ∘ P_U`; their
@@ -318,8 +306,6 @@ unconditional bound, which is false. Proved around a point of the permutation-or
 with membership discharged from Birkhoff and not from Part A's engine.
 
 ## Worked examples (acceptance criteria)
-
-Discharge these alongside the layers; they check that the API describes real operators.
 
 ### Part A — majorization, Schur–Horn, and unitarily invariant norms
 
@@ -387,10 +373,8 @@ inequality that seeds its symmetric-gauge layer.
 
 ## Acknowledgements
 
-A substantial implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
-(Kitware, Inc., Apache-2.0). It establishes feasibility and provides source provenance for
-integration, but this roadmap specifies the desired mathematics intrinsically and does not
-prescribe the donor API or proof architecture.
+An Apache-2.0 implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
+(Kitware, Inc.). The public API and proof structure may change during integration.
 
 The Schur–Horn proof strategy was read from and is credited to
 [`rjwalters/lean-genius`](https://github.com/rjwalters/lean-genius),
