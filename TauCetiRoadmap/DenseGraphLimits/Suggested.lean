@@ -752,6 +752,40 @@ theorem infiniteSampleLaw_eq_extension (W : Graphon Ω μ) :
     infiniteSampleLaw μ W
       = (exchangeableGraphLawEquivInfinite (sampleExchangeableLaw μ W)).law := sorry
 
+/-- **Layer 9b (edge coordinates).** The index type of an unordered, non-diagonal pair of
+naturals — the coordinate set of the graph ↔ array carrier bridge. (Prior formalization:
+`InfiniteGraph.EdgeIndex`, `InfiniteGraph.lean` — edge-set coordinates over `Sym2`, deliberately
+not an `ℕ → ℕ → Bool` subtype with a `Symmetric` side condition.) -/
+abbrev EdgeIndex : Type := {s : Sym2 ℕ // ¬ s.IsDiag}
+
+/-- **Layer 9b (the carrier bridge — graphs are symmetric irreflexive Boolean arrays).** An
+infinite simple graph *is* a Boolean function on the unordered non-diagonal pairs. This is the
+carrier level of the future law-level interface `graphLawArrayLawEquiv` (see the cross-roadmap
+note in `README.md`), pinned **now** so the meeting point with the Exchangeability roadmap's
+array theory is a concrete contract rather than prose; only the law-level adapter — whose target
+type is selected when that roadmap's array API exists — waits. -/
+def graphCoordEquiv : SimpleGraph ℕ ≃ (EdgeIndex → Bool) := sorry
+
+/-- **Layer 9b.** The coordinate map is measurable (Mathlib's σ-algebra on `SimpleGraph ℕ`
+against the product σ-algebra on the coordinates) — one half of what a pushforward of laws along
+the bridge needs. -/
+theorem measurable_graphCoordEquiv : Measurable ⇑graphCoordEquiv := sorry
+
+/-- **Layer 9b.** …and so is its inverse, making the bridge a measurable equivalence in
+substance. -/
+theorem measurable_graphCoordEquiv_symm : Measurable ⇑graphCoordEquiv.symm := sorry
+
+/-- **Layer 9b (relabeling on coordinates).** The action of a permutation of `ℕ` on edge
+indices — `Sym2.map` restricted to non-diagonal pairs (injectivity keeps them non-diagonal). -/
+def edgeIndexMap (e : Equiv.Perm ℕ) : EdgeIndex ≃ EdgeIndex := sorry
+
+/-- **Layer 9b (the relabeling commuting square).** Relabeling the graph is jointly relabeling
+the coordinates: the coordinate of `G.comap e` at a pair is the coordinate of `G` at the mapped
+pair. This is the equivariance that will let pushforward along the bridge identify graph
+exchangeability with joint array exchangeability once the law-level target type exists. -/
+theorem graphCoordEquiv_comap (e : Equiv.Perm ℕ) (G : SimpleGraph ℕ) (p : EdgeIndex) :
+    graphCoordEquiv (SimpleGraph.comap ⇑e G) p = graphCoordEquiv G (edgeIndexMap e p) := sorry
+
 /-- **Layer 9b.** The Borel σ-algebra of the cut metric — so `GraphonSpaceI` carries probability
 measures (the mixture side of the representation). -/
 instance : MeasurableSpace GraphonSpaceI := borel GraphonSpaceI

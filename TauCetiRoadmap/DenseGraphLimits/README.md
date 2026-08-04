@@ -463,7 +463,15 @@ The two developments meet at one **documented future interface** — proposed id
 `graphLawArrayLawEquiv`, equating exchangeable graph laws with the laws of symmetric, irreflexive,
 jointly exchangeable Boolean arrays — which becomes a Lean pin once the Exchangeability roadmap's
 array API exists (per the roadmap guide, a condition whose API does not yet exist is described
-here rather than `sorry`-pinned).
+here rather than `sorry`-pinned). **The carrier level of that bridge is pinned now**, so the
+meeting point is a concrete contract rather than prose: `EdgeIndex` (unordered non-diagonal
+pairs of `ℕ`), the coordinate equivalence `graphCoordEquiv : SimpleGraph ℕ ≃ (EdgeIndex → Bool)`
+with measurability in both directions, and the relabeling commuting square `graphCoordEquiv_comap`
+(relabeling the graph = jointly relabeling the coordinates along `edgeIndexMap`). Only the
+law-level adapter waits for its target type; pushforward along the measurable equivalence then
+identifies graph exchangeability with joint array exchangeability. (The encoding follows the
+prior formalization's `InfiniteGraph.coordEquiv` — edge-set coordinates over `Sym2`, deliberately
+not an `ℕ → ℕ → Bool` subtype carrying a `Symmetric` side condition.)
 
 ### Layer 9c — sampling convergence
 
@@ -575,7 +583,9 @@ the summability bridge `tsum_sampleGraph_homDensityFin_tail_ne_top`), the two co
 `ExchangeableGraphLaw` / `sampleExchangeableLaw` (+ `sampleGraph_map_comap`), `upperMass`
 (+ `upperMass_sampleExchangeableLaw`), `IsDissociated`
 (+ `isDissociated_sampleExchangeableLaw` and the extremality `exists_graphon_of_isDissociated`),
-`InfiniteExchangeableGraphLaw` + `exchangeableGraphLawEquivInfinite`, the Borel instances on
+`InfiniteExchangeableGraphLaw` + `exchangeableGraphLawEquivInfinite`, the **carrier bridge**
+(`EdgeIndex`, `graphCoordEquiv` + measurability both ways, `edgeIndexMap`, and the relabeling
+square `graphCoordEquiv_comap`), the Borel instances on
 `GraphonSpaceI`, the **empirical-mixing existence spine** (`mixtureExchangeableLaw` + its
 coordinate law and Dirac fiber, `empiricalMixing`, the collision estimate, the compactness
 extraction `exists_subseq_tendsto_probabilityMeasure`, limit identification, existence,
@@ -592,8 +602,9 @@ a **visible assembly** of those fields —
 (+ `paramExchangeableLaw_upperMass`, `isDissociated_paramExchangeableLaw`). Described in prose
 rather than pinned (to
 avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape, the exact
-mod-null transport bundle, and the exchangeable-graph-law ↔ Boolean-array interface
-`graphLawArrayLawEquiv` (awaiting the Exchangeability roadmap's array API). An `IsCoupling` *structure/class* is **deliberately not** introduced — a
+mod-null transport bundle, and the exchangeable-graph-law ↔ Boolean-array **law-level** interface
+`graphLawArrayLawEquiv` (awaiting the Exchangeability roadmap's array API; its carrier level is
+pinned above). An `IsCoupling` *structure/class* is **deliberately not** introduced — a
 coupling of given marginals is not canonical, so typeclass resolution would pick an arbitrary one; the
 `Prop` + `isProbabilityMeasure_of_isCoupling` is the right pattern.
 
@@ -770,7 +781,7 @@ The mathematics and proof routes draw on two prior Lean developments,
   generic exchangeable-law API owned by the Exchangeability roadmap with a refactor-onto
   commitment (no build dependency), the graphon-mixture proof independent of the array-level
   Aldous–Hoover converse, and the two joined by the documented `graphLawArrayLawEquiv`
-  interface?
+  interface — with its carrier level (`graphCoordEquiv` + the relabeling square) pinned now?
 - Does the Layer-8b spine run through named targets (`graphParamMobius` with positivity and total
   mass, the Möbius consistency calculus `graphParamMobius_sum_comap` + `paramGraphLaw` — never a
   `paramExchangeableLaw` constructor absorbing the consistency theorem — upper-mass inversion,
