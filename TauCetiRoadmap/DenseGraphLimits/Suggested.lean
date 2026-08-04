@@ -551,35 +551,100 @@ graph. -/
 theorem infiniteSampleLaw_map_restrictFin (W : Graphon Ω μ) (n : ℕ) :
     (infiniteSampleLaw μ W).map (restrictFin · n) = sampleGraph μ W n := sorry
 
-/-- **Layer 9c (per-coordinate concentration — the almost-sure engine).** McDiarmid/Azuma for the
-injective density: changing one sampled vertex moves `t₀(F, ·)` by at most `k/n`, giving
-`P(|t₀(F, G(n,W)) − t(F,W)| ≥ ε) ≤ 2·exp(−ε²n/(2k²))` (the LNGL Prop 11.32 shape) — summable in
-`n` at every fixed `ε`, which is exactly what Borel–Cantelli consumes. -/
-theorem sampleGraph_injHomDensity_concentration {V : Type*} [Fintype V] [DecidableEq V]
-    (F : SimpleGraph V) [DecidableRel F.Adj] (W : Graphon Ω μ) {n : ℕ}
-    (hkn : Fintype.card V ≤ n) {ε : ℝ} (hε : 0 < ε) :
-    ((sampleGraph μ W n) {G | ε ≤ |injHomDensity F G - homDensity μ F W|}).toReal
+/-- **Layer 9c (the exposure source).** The product source the bounded-differences inequality
+runs on: `n` i.i.d. exposed vertices, each carrying its `μ`-position **and a full padded row of
+`n` independent uniform edge coins**. A bare "change one sampled vertex" claim on `G(n, W)`
+suppresses the independent edge randomness and is not yet a McDiarmid setup; the padded exposure
+makes the product structure explicit — the `sorry` is the padded coin-row measure (`n`
+independent `[0,1]`-uniforms). (Prior formalization: `exposureMeasure`, `SampleExposure.lean`.) -/
+def exposureMeasure (n : ℕ) : Measure (Fin n → Ω × (Fin n → ℝ)) :=
+  Measure.pi fun _ : Fin n => μ.prod sorry
+
+/-- **Layer 9c.** The exposure source is a probability measure (an i.i.d. finite product). -/
+instance exposureMeasure_isProbabilityMeasure (n : ℕ) :
+    IsProbabilityMeasure (exposureMeasure μ n) := sorry
+
+/-- **Layer 9c (the exposed sampled graph).** Include the edge `{i, j}` exactly when the coin in
+row `max i j`, column `min i j` falls below the graphon value at the endpoint positions — every
+edge reads its coin from one designated row, so **updating one exposed coordinate changes only
+edges incident with that vertex**. Symmetric because `max`/`min`/`{i,j}` are; irreflexive by the
+`i ≠ j` conjunct. -/
+def exposedSample (W : Graphon Ω μ) (n : ℕ) (x : Fin n → Ω × (Fin n → ℝ)) :
+    SimpleGraph (Fin n) := sorry
+
+/-- **Layer 9c (the law identification).** Pushing the exposure source through the exposed
+sampler gives exactly the finite sampling law — the identity that makes the exposure a genuine
+representation of `G(n, W)`, not a heuristic. -/
+theorem map_exposedSample (W : Graphon Ω μ) (n : ℕ) :
+    (exposureMeasure μ n).map (exposedSample μ W n) = sampleGraph μ W n := sorry
+
+/-- **Layer 9c (the oscillation bound).** Updating one exposed vertex moves the **ordinary** hom
+density by at most `q/n`: only the at most `q·n^{q−1}` of the `n^q` vertex maps whose range meets
+the updated vertex can change status. This is the bounded-differences hypothesis, stated for the
+exact function McDiarmid is fed. -/
+theorem abs_homDensityFin_exposedSample_update_le {V : Type*} [Fintype V] [DecidableEq V]
+    (F : SimpleGraph V) [DecidableRel F.Adj] (W : Graphon Ω μ) {n : ℕ} (hn : 0 < n)
+    (x : Fin n → Ω × (Fin n → ℝ)) (i : Fin n) (b : Ω × (Fin n → ℝ)) :
+    |homDensityFin F (exposedSample μ W n (Function.update x i b))
+        - homDensityFin F (exposedSample μ W n x)|
+      ≤ (Fintype.card V : ℝ) / n := sorry
+
+/-- **Layer 9c (concentration — the almost-sure engine).** McDiarmid on the exposure source, for
+the **ordinary** hom density: `P(|t(F, G(n,W)) − t(F,W)| ≥ ε) ≤ 2·exp(−ε²n/(2q²))` under the side
+condition `2q² ≤ εn`, which absorbs the collision bias between the finite-sample mean and
+`t(F, W)`. (The injective density `t₀` keeps its unbiasedness anchor in Layer 9a but is **not**
+the concentration engine.) -/
+theorem sampleGraph_homDensityFin_concentration {V : Type*} [Fintype V] [DecidableEq V]
+    (F : SimpleGraph V) [DecidableRel F.Adj] (W : Graphon Ω μ) {n : ℕ} {ε : ℝ} (hε : 0 < ε)
+    (hn : 2 * (Fintype.card V : ℝ) ^ 2 ≤ ε * n) :
+    ((sampleGraph μ W n) {G | ε ≤ |homDensityFin F G - homDensity μ F W|}).toReal
       ≤ 2 * Real.exp (-(ε ^ 2 * n) / (2 * (Fintype.card V : ℝ) ^ 2)) := sorry
+
+/-- **Layer 9c (the summability bridge).** For each fixed `F` and `ε > 0` the deviation masses at
+sizes `n + 1` have finite total — finitely many initial terms bounded by `1`, the rest decaying
+geometrically by the concentration bound. Exactly what Borel–Cantelli consumes on the joint space
+(the events are finite-marginal, so their joint-space masses are these marginal masses by
+`infiniteSampleLaw_map_restrictFin`). -/
+theorem tsum_sampleGraph_homDensityFin_tail_ne_top {V : Type*} [Fintype V] [DecidableEq V]
+    (F : SimpleGraph V) [DecidableRel F.Adj] (W : Graphon Ω μ) {ε : ℝ} (hε : 0 < ε) :
+    (∑' n : ℕ, (sampleGraph μ W (n + 1)) {G | ε ≤ |homDensityFin F G - homDensity μ F W|})
+      ≠ ⊤ := sorry
 
 /-- **Layer 9c (second sampling lemma — convergence in probability).** `δ□(G(n,W), W) → 0` in
 probability (LNGL Lemma 10.16), via the **two-stage first-sampling-lemma decomposition**: point
 sampling (the genuinely analytic Azuma step, on the weighted sampled graphon) + Bernoulli edge
-rounding (a finite union bound over cuts). This mode is a statement about the marginal laws alone.
-Deliberately distinct from the almost-sure route below — neither consumes the other's proof. -/
+rounding (a finite union bound over cuts). This mode is a statement about the marginal laws alone
+(which is why it is phrased as a per-`ε` bad-event limit — the marginal family carries no single
+measure for `TendstoInMeasure`; the joint-space packaging below does). Deliberately distinct from
+the almost-sure route below — neither consumes the other's proof. -/
 theorem sampleGraph_cutDist_tendsto_inProbability (W : Graphon Ω μ) {ε : ℝ} (hε : 0 < ε) :
     Filter.Tendsto
       (fun n => ((sampleGraph μ W n)
         {G | ε ≤ cutDist (volume : Measure I) μ (finiteGraphGraphon G) W}).toReal)
       Filter.atTop (nhds 0) := sorry
 
+/-- **Layer 9c (in probability — Mathlib packaging on the joint space).** The same convergence
+mode phrased through Mathlib's `TendstoInMeasure`, on the single joint law: the
+graphon-quotient-valued restriction maps converge in measure to the class of `W`. Stated on the
+canonical carrier so the target lives in `GraphonSpaceI`; unfolding `TendstoInMeasure` at each `ε`
+recovers the marginal bad-event form above through `infiniteSampleLaw_map_restrictFin`. (Prior
+formalization: `sampledEmpiricalGraphon_tendstoInMeasure`, `InfiniteSamplingConvergence.lean`.) -/
+theorem infiniteSampleLaw_tendstoInMeasure_cutDist (W : Graphon I (volume : Measure I)) :
+    MeasureTheory.TendstoInMeasure (E := GraphonSpaceI)
+      (infiniteSampleLaw (volume : Measure I) W)
+      (fun n G => Quotient.mk (graphonSetoid (volume : Measure I))
+        (finiteGraphGraphon (restrictFin G (n + 1))))
+      Filter.atTop
+      (fun _ => Quotient.mk (graphonSetoid (volume : Measure I)) W) := sorry
+
 /-- **Layer 9c (almost-sure convergence — on the joint space).** On the joint law, almost every
 infinite `W`-random graph has its finite windows converging to `W` in cut distance. The route:
-per-coordinate concentration (`sampleGraph_injHomDensity_concentration` — summable tails) feeds
-Borel–Cantelli for each fixed `F`; intersecting over the countable family `Σ n, SimpleGraph (Fin n)`
-gives a full-measure set of pointwise hom-density convergence; the Layer-6b convergence equivalence
-upgrades that to cut-distance convergence. The almost-sure proof does **not** run through the
-two-stage cut-distance sampling lemma, and the statement is unstateable for the marginal family —
-it needs `infiniteSampleLaw`. -/
+the padded-exposure concentration engine (`sampleGraph_homDensityFin_concentration`, through the
+summability bridge) feeds Borel–Cantelli for each fixed `F` at tolerances `1/(m+1)`; intersecting
+over the countable family of finite graphs and tolerances gives a full-measure set of pointwise
+hom-density convergence; the Layer-6b convergence equivalence upgrades that to cut-distance
+convergence. The almost-sure proof does **not** run through the two-stage cut-distance sampling
+lemma, and the statement is unstateable for the marginal family — it needs `infiniteSampleLaw`. -/
 theorem infiniteSampleLaw_ae_tendsto_cutDist (W : Graphon Ω μ) :
     ∀ᵐ G ∂(infiniteSampleLaw μ W),
       Filter.Tendsto

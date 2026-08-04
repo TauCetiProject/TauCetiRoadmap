@@ -473,13 +473,33 @@ consumes the other:
 * **in probability** — `sampleGraph_cutDist_tendsto_inProbability`, the second sampling lemma
   `δ□(G(n,W), W) → 0` (LNGL Lemma 10.16), a statement about the marginals alone, via the two-stage
   first-sampling-lemma decomposition: point sampling (the analytic Azuma step on the weighted
-  sampled graphon) plus Bernoulli edge rounding (a finite union bound over cuts);
-* **almost surely** — `infiniteSampleLaw_ae_tendsto_cutDist`, on the joint space, via
-  per-coordinate concentration (`sampleGraph_injHomDensity_concentration`, the McDiarmid/Azuma
-  bound of LNGL Prop 11.32 shape, with tails summable in `n`), Borel–Cantelli per fixed `F`, a
-  countable intersection over `Σ n, SimpleGraph (Fin n)`, and the Layer-6b convergence equivalence
+  sampled graphon) plus Bernoulli edge rounding (a finite union bound over cuts) — with the
+  Mathlib-idiomatic joint packaging `infiniteSampleLaw_tendstoInMeasure_cutDist`
+  (`TendstoInMeasure` for the graphon-quotient-valued restrictions on the single joint law; the
+  marginal family carries no one measure, so the `TendstoInMeasure` form lives on the joint
+  space);
+* **almost surely** — `infiniteSampleLaw_ae_tendsto_cutDist`, on the joint space, via the
+  padded-exposure concentration engine below (tails summable in `n`), Borel–Cantelli per fixed
+  `F` at tolerances `1/(m+1)`, a countable intersection, and the Layer-6b convergence equivalence
   upgrading pointwise hom-density convergence to cut-distance convergence. The almost-sure proof
   does **not** run through the two-stage cut-distance lemma.
+
+**The concentration engine (padded vertex exposure).** A bounded-differences argument needs a
+product source, and a bare "changing one sampled vertex moves the estimator by `k/n`" claim
+suppresses the independent edge coins — it is not yet a McDiarmid setup. The pinned route (proved
+in the provenance repo, `SampleExposure.lean`): `exposureMeasure` — `n` i.i.d. exposed vertices,
+each carrying its `μ`-position and a full padded row of edge coins; `exposedSample` — every edge
+reads its coin from one designated row (row `max`, column `min`), so updating one exposed
+coordinate changes only edges at that vertex; the **law identification** `map_exposedSample`
+(pushforward of the exposure source = `sampleGraph W n`), which makes the exposure a genuine
+representation rather than a heuristic; the oscillation bound
+`abs_homDensityFin_exposedSample_update_le` (`≤ q/n`, on the **ordinary** hom density — at most
+`q·n^{q−1}` of the `n^q` vertex maps meet the updated vertex); McDiarmid then gives
+`sampleGraph_homDensityFin_concentration` (`≤ 2·exp(−ε²n/(2q²))`, the side condition `2q² ≤ εn`
+absorbing the collision bias between the finite-sample mean and `t(F,W)`), with
+`tsum_sampleGraph_homDensityFin_tail_ne_top` the summability Borel–Cantelli consumes. The
+ordinary hom density is the load-bearing estimator; `injHomDensity` keeps its unbiasedness anchor
+(Layer 9a) but is **not** the concentration engine.
 
 (The `LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet` weak-convergence stack, previously
 cited for these targets, does not by itself supply this specification and is no longer load-bearing
@@ -546,9 +566,12 @@ quotient-level separation `graphonSpace_ext_homDensity`; and the **Layer-8 repre
 corollary `graphParam_mem_Icc_of_representability_axioms`; the **Layer-9a/9b/9c sampling and
 graph-law** targets — `restrictFin`, `infiniteSampleLaw` (+ its probability instance, the
 finite-marginal identification `infiniteSampleLaw_map_restrictFin`, and the extension
-identification `infiniteSampleLaw_eq_extension`), the concentration bound
-`sampleGraph_injHomDensity_concentration`, the two convergence modes
-`sampleGraph_cutDist_tendsto_inProbability` / `infiniteSampleLaw_ae_tendsto_cutDist`,
+identification `infiniteSampleLaw_eq_extension`), the **padded-exposure concentration engine**
+(`exposureMeasure` / `exposedSample`, the law identification `map_exposedSample`, the oscillation
+bound `abs_homDensityFin_exposedSample_update_le`, `sampleGraph_homDensityFin_concentration`, and
+the summability bridge `tsum_sampleGraph_homDensityFin_tail_ne_top`), the two convergence modes
+`sampleGraph_cutDist_tendsto_inProbability` / `infiniteSampleLaw_ae_tendsto_cutDist` with the
+`TendstoInMeasure` joint packaging `infiniteSampleLaw_tendstoInMeasure_cutDist`,
 `ExchangeableGraphLaw` / `sampleExchangeableLaw` (+ `sampleGraph_map_comap`), `upperMass`
 (+ `upperMass_sampleExchangeableLaw`), `IsDissociated`
 (+ `isDissociated_sampleExchangeableLaw` and the extremality `exists_graphon_of_isDissociated`),
@@ -728,9 +751,13 @@ The mathematics and proof routes draw on two prior Lean developments,
 - Is Layer 9a's sampling architecture **joint** — `infiniteSampleLaw` with the finite-marginal
   identification and the extension identification `infiniteSampleLaw_eq_extension` — with the two
   Layer-9c convergence modes kept distinct (in probability on the marginals, via the two-stage
-  point-sampling + rounding decomposition; almost surely on the joint space, via per-coordinate
-  concentration + Borel–Cantelli + the Layer-6b equivalence — never through the two-stage
-  cut-distance lemma)?
+  point-sampling + rounding decomposition; almost surely on the joint space, via the
+  padded-exposure concentration engine + Borel–Cantelli + the Layer-6b equivalence — never through
+  the two-stage cut-distance lemma)?
+- Is the concentration engine stated on a **product exposure source** — position plus padded coin
+  row per vertex, with the law identification `map_exposedSample` — on the **ordinary** hom
+  density, never a bare one-vertex-change claim on the sampled graph (which suppresses the edge
+  coins and is not a McDiarmid setup)?
 - Is the graph-law representation pinned **beyond its Dirac fibers** — the mixture-coordinate law
   `graphonMixtureLawEquiv_upperMass` (`upperMass F = ∫ t(F,·) dP` for every mixing measure) — with
   uniqueness on the graphon quotient, and the wording "Diaconis–Janson graphon-mixture
