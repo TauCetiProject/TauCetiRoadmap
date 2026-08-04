@@ -640,7 +640,10 @@ theorem isDissociated_sampleExchangeableLaw (W : Graphon Ω μ) :
 /-- **Layer 9b (extremality — dissociated laws are exactly the sample laws).** A dissociated
 exchangeable graph law is the sampling law of a graphon on the canonical carrier — the
 graph-law-level extreme-point theorem the Layer-8b spine consumes (its converse is
-`isDissociated_sampleExchangeableLaw`). Prior formalization:
+`isDissociated_sampleExchangeableLaw`). With the empirical-mixing spine below this is a **short
+consequence**, not an independent representation theorem: existence writes `L` as a mixture,
+`isDissociated_mixtureExchangeableLaw_iff` collapses the mixing measure to a Dirac, and the Dirac
+fiber is a sampling law (`mixtureExchangeableLaw_diracProba`). Prior formalization:
 `isDissociated_iff_exists_sampleExchangeableLaw` (`MixtureExtremality.lean`). -/
 theorem exists_graphon_of_isDissociated (L : ExchangeableGraphLaw) (h : L.IsDissociated) :
     ∃ W : Graphon I (volume : Measure I),
@@ -680,6 +683,117 @@ instance : MeasurableSpace GraphonSpaceI := borel GraphonSpaceI
 /-- **Layer 9b.** The σ-algebra is definitionally Borel. -/
 instance : BorelSpace GraphonSpaceI := ⟨rfl⟩
 
+/-- **Layer 9b (the mixture map).** The exchangeable graph law of a mixing measure `P` on the
+graphon quotient: sample `⟦W⟧ ∼ P`, then sample `G(k, W)` — the level-`k` marginal is the
+`P`-mixture of the sampling marginals. This is the *object direction* of the representation; the
+spine below proves it bijective. -/
+def mixtureExchangeableLaw (P : MeasureTheory.ProbabilityMeasure GraphonSpaceI) :
+    ExchangeableGraphLaw := sorry
+
+/-- **Layer 9b (mixture coordinates, finite level).** The upper mass of a mixture law is the
+`P`-average of the descended hom-density: `upperMass F = ∫ t(F, ·) dP` on the quotient. Upper
+masses determine each finite marginal by Möbius inversion, so this pins `mixtureExchangeableLaw`
+itself (and, by transport, the summit's coordinate law `graphonMixtureLawEquiv_upperMass`). -/
+theorem upperMass_mixtureExchangeableLaw (P : MeasureTheory.ProbabilityMeasure GraphonSpaceI)
+    {k : ℕ} (F : SimpleGraph (Fin k)) [DecidableRel F.Adj] :
+    (mixtureExchangeableLaw P).upperMass F
+      = ∫ x, homDensityOnSpace (volume : Measure I) k F x ∂(P : Measure GraphonSpaceI) := sorry
+
+/-- **Layer 9b (Dirac fibers of the mixture map).** The mixture of the Dirac mass at `⟦W⟧` is the
+`W`-sampling law — the anchor tying the mixture map to the sampling stack at the finite level
+(the summit's Dirac anchor `graphonMixtureLawEquiv_dirac` is its transport). -/
+theorem mixtureExchangeableLaw_diracProba (W : Graphon I (volume : Measure I)) :
+    mixtureExchangeableLaw
+        (MeasureTheory.diracProba
+          (X := GraphonSpaceI) (Quotient.mk (graphonSetoid (volume : Measure I)) W))
+      = sampleExchangeableLaw (volume : Measure I) W := sorry
+
+/-- **Layer 9b (empirical mixing measures — existence spine 1).** Sample an `n`-vertex graph from
+the law's level-`n` marginal and take the graphon class of its step graphon: the pushforward of
+`L.law n` along `G ↦ ⟦finiteGraphGraphon G⟧`, a probability measure on the graphon quotient (the
+map is measurable since `SimpleGraph (Fin n)` is countable and discrete). The candidate mixing
+measures whose subsequential weak limit represents `L`. -/
+def empiricalMixing (L : ExchangeableGraphLaw) (n : ℕ) :
+    MeasureTheory.ProbabilityMeasure GraphonSpaceI :=
+  ⟨(L.law n).map
+      (fun G => Quotient.mk (graphonSetoid (volume : Measure I)) (finiteGraphGraphon G)),
+    sorry⟩
+
+/-- **Layer 9b (the collision estimate — existence spine 2).** The empirical hom-density integrals
+converge to the upper masses, quantitatively: injective vertex maps contribute the exact upper
+mass by consistency of `L`, and the non-injective maps are bounded by their proportion — at most
+`k²/(n+1)` of the total. Stated in successor form so positivity of the sample size is structural.
+(Prior formalization: `abs_integral_homDensityCoord_empiricalMixing_sub_le`,
+`MixtureExistence.lean`.) -/
+theorem abs_integral_homDensityOnSpace_empiricalMixing_sub_le (L : ExchangeableGraphLaw)
+    {k : ℕ} (F : SimpleGraph (Fin k)) [DecidableRel F.Adj] (n : ℕ) :
+    |(∫ x, homDensityOnSpace (volume : Measure I) k F x
+        ∂(empiricalMixing L (n + 1) : Measure GraphonSpaceI)) - L.upperMass F|
+      ≤ (k * k : ℝ) / (n + 1) := sorry
+
+/-- **Layer 9b (compactness extraction — existence spine 3, and the point where Layer 4 is
+consumed).** Every sequence of mixing measures has a weakly convergent subsequence: Layer 4's
+`CompactSpace GraphonSpaceI` makes `ProbabilityMeasure GraphonSpaceI` compact in the topology of
+weak convergence (the compact-space direction of Prokhorov — no tightness argument is needed), and
+compactness of a metrizable space extracts the subsequence. Stated for an arbitrary sequence: the
+extraction is not specific to empirical mixing measures. -/
+theorem exists_subseq_tendsto_probabilityMeasure
+    (Ps : ℕ → MeasureTheory.ProbabilityMeasure GraphonSpaceI) :
+    ∃ (P : MeasureTheory.ProbabilityMeasure GraphonSpaceI) (φ : ℕ → ℕ),
+      StrictMono φ ∧ Filter.Tendsto (Ps ∘ φ) Filter.atTop (nhds P) := sorry
+
+/-- **Layer 9b (limit identification — existence spine 4).** Every weak limit of the empirical
+mixing measures along a diverging index sequence represents the law: weak convergence moves the
+hom-density integrals to the limit (each descended `t(F, ·)` is continuous and bounded), the
+collision estimate identifies them with the upper masses of `L`, and upper masses determine the
+finite marginals by Möbius inversion. -/
+theorem mixtureExchangeableLaw_eq_of_tendsto_empiricalMixing (L : ExchangeableGraphLaw)
+    {P : MeasureTheory.ProbabilityMeasure GraphonSpaceI} {φ : ℕ → ℕ}
+    (hφ : Filter.Tendsto φ Filter.atTop Filter.atTop)
+    (hconv : Filter.Tendsto (fun m => empiricalMixing L (φ m + 1))
+      Filter.atTop (nhds P)) :
+    mixtureExchangeableLaw P = L := sorry
+
+/-- **Layer 9b (existence — spine 5).** Every exchangeable graph law is a graphon mixture: apply
+the compactness extraction to `fun n => empiricalMixing L (n + 1)` and identify the limit. This is
+the existence half of the Diaconis–Janson correspondence, proved by graphon-space compactness —
+with **no array-level input**. -/
+theorem exists_mixtureExchangeableLaw_eq (L : ExchangeableGraphLaw) :
+    ∃ P : MeasureTheory.ProbabilityMeasure GraphonSpaceI, mixtureExchangeableLaw P = L := sorry
+
+/-- **Layer 9b (uniqueness — spine 6).** The mixture map is injective: the descended hom-densities
+`t(F, ·)` form a point-separating, multiplication-closed family of bounded continuous functions on
+the compact metrizable `GraphonSpaceI` (Layer 6a separation + Layer 1 products), so their
+integrals — which the mixture law's upper masses record — determine the mixing measure
+(Stone–Weierstrass / determination by a separating algebra). -/
+theorem mixtureExchangeableLaw_injective :
+    Function.Injective
+      (mixtureExchangeableLaw : MeasureTheory.ProbabilityMeasure GraphonSpaceI →
+        ExchangeableGraphLaw) := sorry
+
+/-- **Layer 9b (the packaged finite-level correspondence).** Existence (spine 5) and uniqueness
+(spine 6) package as an equivalence; `mixtureExchangeableLawEquiv_apply` pins its forward map to
+the mixture map, so this cannot be an arbitrary `Equiv`. -/
+def mixtureExchangeableLawEquiv :
+    MeasureTheory.ProbabilityMeasure GraphonSpaceI ≃ ExchangeableGraphLaw := sorry
+
+/-- **Layer 9b.** The forward map of the packaged correspondence is the mixture map. -/
+theorem mixtureExchangeableLawEquiv_apply (P : MeasureTheory.ProbabilityMeasure GraphonSpaceI) :
+    mixtureExchangeableLawEquiv P = mixtureExchangeableLaw P := sorry
+
+/-- **Layer 9b (dissociated ⟺ Dirac).** A graphon mixture is dissociated **iff** its mixing
+measure is a Dirac mass: sampling laws are dissociated (Dirac direction), and a dissociated
+mixture forces the hom-density coordinates to be multiplicative, collapsing the mixing measure to
+a point of the quotient. With the spine this makes `exists_graphon_of_isDissociated` a short
+consequence rather than an independent representation theorem. -/
+theorem isDissociated_mixtureExchangeableLaw_iff
+    (P : MeasureTheory.ProbabilityMeasure GraphonSpaceI) :
+    (mixtureExchangeableLaw P).IsDissociated
+      ↔ ∃ W : Graphon I (volume : Measure I),
+          P = MeasureTheory.diracProba
+            (X := GraphonSpaceI) (Quotient.mk (graphonSetoid (volume : Measure I)) W) :=
+  sorry
+
 /-- **Layer 9b (the graph-law representation — Diaconis–Janson).** Every exchangeable law on
 infinite graphs is a **graphon mixture**, uniquely: a bijection with the probability measures on
 the **graphon quotient** `GraphonSpaceI`. Uniqueness lives on the quotient, never among raw kernel
@@ -687,13 +801,19 @@ representatives — two kernels at cut distance zero give the same mixture. This
 Diaconis–Janson graphon-mixture representation, a graph-level Aldous–Hoover *consequence* —
 deliberately not labeled "Aldous–Hoover": the array-level representation theorem is the
 Exchangeability roadmap's independent parallel theory, and this target neither consumes nor
-supplies it (see the Layer-9 cross-roadmap note in `README.md`). Prior formalization:
+supplies it (see the Layer-9b cross-roadmap note in `README.md`). The summit is **assembled, not
+opaque**: the existence/uniqueness content lives in the finite-level empirical-mixing spine above
+(`mixtureExchangeableLawEquiv`), and the infinite form is its transport along the finite↔infinite
+extension — so this definition carries a real body. Prior formalization:
 `infiniteMixtureLawEquiv` (`InfiniteRepresentation.lean`), proved without array-level input. -/
 def graphonMixtureLawEquiv :
-    MeasureTheory.ProbabilityMeasure GraphonSpaceI ≃ InfiniteExchangeableGraphLaw := sorry
+    MeasureTheory.ProbabilityMeasure GraphonSpaceI ≃ InfiniteExchangeableGraphLaw :=
+  mixtureExchangeableLawEquiv.trans exchangeableGraphLawEquivInfinite
 
 /-- **Layer 9b (anchor).** The representation sends the Dirac mass at the class of `W` to the
-infinite `W`-sampling law — tying the correspondence back to the sampling stack. -/
+infinite `W`-sampling law — tying the correspondence back to the sampling stack. With the spine,
+this is the transport of `mixtureExchangeableLaw_diracProba` through
+`mixtureExchangeableLawEquiv_apply` and the extension identification. -/
 theorem graphonMixtureLawEquiv_dirac (W : Graphon I (volume : Measure I)) :
     graphonMixtureLawEquiv
         ⟨Measure.dirac (Quotient.mk (graphonSetoid (volume : Measure I)) W), inferInstance⟩
@@ -705,8 +825,9 @@ arbitrary `Equiv` could permute them): under `graphonMixtureLawEquiv P`, the upp
 finite graph is the `P`-average of its hom-density, `upperMass F = ∫ t(F, ·) dP`, integrated on
 the quotient through the descended `homDensityOnSpace`. Upper masses determine each finite
 marginal by Möbius inversion, so this pins the entire correspondence, not just its Dirac fibers.
-Prior formalization: `infiniteMixtureLawEquiv_law_map_restrictFin`
-(`InfiniteRepresentation.lean`). -/
+With the spine, this is the transport of the finite-level coordinate law
+`upperMass_mixtureExchangeableLaw`. Prior formalization:
+`infiniteMixtureLawEquiv_law_map_restrictFin` (`InfiniteRepresentation.lean`). -/
 theorem graphonMixtureLawEquiv_upperMass (P : MeasureTheory.ProbabilityMeasure GraphonSpaceI)
     {k : ℕ} (F : SimpleGraph (Fin k)) [DecidableRel F.Adj] :
     (exchangeableGraphLawEquivInfinite.symm (graphonMixtureLawEquiv P)).upperMass F

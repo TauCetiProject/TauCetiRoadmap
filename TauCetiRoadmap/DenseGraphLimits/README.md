@@ -371,20 +371,52 @@ observable is `upperMass` — `P(F ≤ ·)` — with the sampling anchor
 (`IsDissociated`) when disjoint label windows are independent; sampling laws are dissociated
 (`isDissociated_sampleExchangeableLaw`), and the **extremality** target
 `exists_graphon_of_isDissociated` says they are the only ones — the extreme points of the
-exchangeable simplex, and the Layer-8b spine's key input. The infinite form
+exchangeable simplex, and the Layer-8b spine's key input (with the mixture spine below it is a
+short consequence, not an independent representation theorem). The infinite form
 (`InfiniteExchangeableGraphLaw`, permutation-invariant laws on `SimpleGraph ℕ`) is reached by the
-compactness extension `exchangeableGraphLawEquivInfinite`, and the summit is
-`graphonMixtureLawEquiv : ProbabilityMeasure GraphonSpaceI ≃ InfiniteExchangeableGraphLaw` (with
-the Borel structure of the cut metric on `GraphonSpaceI`, the Dirac anchor
-`graphonMixtureLawEquiv_dirac` sending `δ_{⟦W⟧}` to the infinite `W`-sampling law, **and the
-general mixture-coordinate law `graphonMixtureLawEquiv_upperMass`**: for *every* mixing measure
-`P`, `upperMass F = ∫ t(F,·) dP` on the quotient — upper masses determine each finite marginal by
-Möbius inversion, so the correspondence is pinned beyond its Dirac fibers, not an arbitrary
-`Equiv`): every
-exchangeable law on infinite graphs is a graphon mixture, **uniquely — on the graphon quotient,
-never among raw kernel representatives** (kernels at cut distance zero give the same mixture). The
-explicit joint sampler is identified with the abstract extension by
-`infiniteSampleLaw_eq_extension` (`infiniteSampleLaw W` **is** the compactness extension of
+finite↔infinite extension `exchangeableGraphLawEquivInfinite` — the projective-limit extension of
+consistent marginals, **distinct from** the graphon-mixture extraction below, which the previous
+phrase "compactness extension plus the mixture representation" conflated.
+
+**The existence spine (empirical mixing measures).** How the mixing measure is *obtained* is
+itself a chain of named targets, not a jump — this is where Layer 4's compactness is load-bearing
+for the summit:
+
+1. `mixtureExchangeableLaw` — the mixture map `P ↦ ∫ sampling laws dP`, with its finite-level
+   coordinate law `upperMass_mixtureExchangeableLaw` (`upperMass F = ∫ t(F,·) dP`) and Dirac-fiber
+   anchor `mixtureExchangeableLaw_diracProba` (`δ_{⟦W⟧} ↦` the `W`-sampling law);
+2. `empiricalMixing L n` — sample an `n`-vertex graph from `L`'s level-`n` marginal and take its
+   graphon class: the candidate mixing measures;
+3. the **collision estimate** `abs_integral_homDensityOnSpace_empiricalMixing_sub_le` —
+   `|∫ t(F,·) d(empiricalMixing L (n+1)) − upperMass F| ≤ k²/(n+1)` (injective vertex maps
+   contribute the exact upper mass by consistency; non-injective maps are bounded by their
+   proportion);
+4. **compactness extraction** `exists_subseq_tendsto_probabilityMeasure` — the point where Layer
+   4's `CompactSpace GraphonSpaceI` is consumed: it makes `ProbabilityMeasure GraphonSpaceI`
+   weakly compact (the compact-space direction of Prokhorov, no tightness argument), so the
+   empirical sequence has a convergent subsequence;
+5. **limit identification** `mixtureExchangeableLaw_eq_of_tendsto_empiricalMixing` — weak
+   convergence moves the hom-density integrals to the limit (each descended `t(F,·)` is bounded
+   continuous, Layer 6a/2), the collision estimate identifies them with `L`'s upper masses, and
+   Möbius inversion recovers the marginals — hence **existence** `exists_mixtureExchangeableLaw_eq`;
+6. **uniqueness** `mixtureExchangeableLaw_injective` — the descended hom-densities are a
+   point-separating algebra on the compact `GraphonSpaceI` (Layer 6a), so their integrals
+   determine the mixing measure;
+7. the packaged `mixtureExchangeableLawEquiv : ProbabilityMeasure GraphonSpaceI ≃
+   ExchangeableGraphLaw`, pinned to the mixture map by `mixtureExchangeableLawEquiv_apply`, with
+   the extreme-point characterization `isDissociated_mixtureExchangeableLaw_iff` (dissociated ⟺
+   Dirac mixing measure).
+
+The summit is then **assembled, not opaque**:
+`graphonMixtureLawEquiv : ProbabilityMeasure GraphonSpaceI ≃ InfiniteExchangeableGraphLaw` carries
+a real body — the transport of `mixtureExchangeableLawEquiv` along the finite↔infinite extension —
+and its Dirac anchor `graphonMixtureLawEquiv_dirac` (`δ_{⟦W⟧} ↦` the infinite `W`-sampling law)
+and **general mixture-coordinate law `graphonMixtureLawEquiv_upperMass`** (for *every* mixing
+measure `P`, `upperMass F = ∫ t(F,·) dP` on the quotient) are the transports of the spine's
+finite-level anchors. Every exchangeable law on infinite graphs is a graphon mixture, **uniquely —
+on the graphon quotient, never among raw kernel representatives** (kernels at cut distance zero
+give the same mixture). The explicit joint sampler is identified with the abstract extension by
+`infiniteSampleLaw_eq_extension` (`infiniteSampleLaw W` **is** the extension of
 `sampleExchangeableLaw W`) — certifying the sampler's exchangeability and welding the sampling,
 graph-law, and mixture subsections into one architecture.
 This is the **Diaconis–Janson graphon-mixture representation**, a graph-level Aldous–Hoover
@@ -458,7 +490,7 @@ AE-invariance trio, the `(I, volume)` transport targets (`exists_measurePreservi
 `cutDist_eq_zero_of_forall_homDensity_eq_cross` with its same-carrier specialization
 `cutDist_eq_zero_of_forall_homDensity_eq`, and the separation iff
 `cutDist_eq_zero_iff_forall_homDensity_eq_cross`**
-(all over `SimpleGraph (Fin n)`, all with no carrier hypotheses), `sampleGraph` + the `G(V,p)` compatibility, the **Layer-9 injective
+(all over `SimpleGraph (Fin n)`, all with no carrier hypotheses), `sampleGraph` + the `G(V,p)` compatibility, the **Layer-9a injective
 density** `homDensityFin` / `injHomDensity` (the `(n)_k = descFactorial` denominator) with the
 closeness bound and the `injHomDensity_integral_sampleGraph` unbiasedness anchor, the set-form /
 signed cut norm (`cutNormSet` + `cutNorm_eq_cutNormSet`, `cutNormSigned` + the factor-4 sandwich), the
@@ -478,18 +510,24 @@ quotient-level separation `graphonSpace_ext_homDensity`; and the **Layer-8 repre
 `IsIsoInvariant`, the finite `connectionMatrix` (+ the entry law `connectionMatrix_apply`), its
 `IsReflectionPositive` (finite principal blocks PSD) / `IsMultiplicative` / `IsNormalized` predicates, the four-condition iff
 `lovasz_szegedy_representability` (over the canonical `(I, volume)` carrier), and its derived range
-corollary `graphParam_mem_Icc_of_representability_axioms`; the **Layer-9 sampling/graph-law**
-targets — `restrictFin`, `infiniteSampleLaw` (+ its probability instance, the finite-marginal
-identification `infiniteSampleLaw_map_restrictFin`, and the extension identification
-`infiniteSampleLaw_eq_extension`), the concentration bound
+corollary `graphParam_mem_Icc_of_representability_axioms`; the **Layer-9a/9b/9c sampling and
+graph-law** targets — `restrictFin`, `infiniteSampleLaw` (+ its probability instance, the
+finite-marginal identification `infiniteSampleLaw_map_restrictFin`, and the extension
+identification `infiniteSampleLaw_eq_extension`), the concentration bound
 `sampleGraph_injHomDensity_concentration`, the two convergence modes
 `sampleGraph_cutDist_tendsto_inProbability` / `infiniteSampleLaw_ae_tendsto_cutDist`,
 `ExchangeableGraphLaw` / `sampleExchangeableLaw` (+ `sampleGraph_map_comap`), `upperMass`
 (+ `upperMass_sampleExchangeableLaw`), `IsDissociated`
 (+ `isDissociated_sampleExchangeableLaw` and the extremality `exists_graphon_of_isDissociated`),
 `InfiniteExchangeableGraphLaw` + `exchangeableGraphLawEquivInfinite`, the Borel instances on
-`GraphonSpaceI`, and the representation summit `graphonMixtureLawEquiv` (+ `_dirac` and the
-mixture-coordinate law `_upperMass`); and the **Layer-8b spine** `graphParamMobius`
+`GraphonSpaceI`, the **empirical-mixing existence spine** (`mixtureExchangeableLaw` + its
+coordinate law and Dirac fiber, `empiricalMixing`, the collision estimate, the compactness
+extraction `exists_subseq_tendsto_probabilityMeasure`, limit identification, existence,
+injectivity, the packaged `mixtureExchangeableLawEquiv` + `_apply`, and
+`isDissociated_mixtureExchangeableLaw_iff`), and the representation summit
+`graphonMixtureLawEquiv` — now a **real body** transporting `mixtureExchangeableLawEquiv` along
+the extension — (+ `_dirac` and the mixture-coordinate law `_upperMass`); and the **Layer-8b
+spine** `graphParamMobius`
 (+ `graphParamMobius_nonneg` / `graphParamMobius_sum_eq_one`), `paramExchangeableLaw`
 (+ `paramExchangeableLaw_upperMass`, `isDissociated_paramExchangeableLaw`). Described in prose
 rather than pinned (to
@@ -598,7 +636,7 @@ is Layer 4's `CompactSpace GraphonSpaceI`.
   regularity and the compactness of the graphon space (Layers 2 and 4).
 - P. Diaconis, S. Janson, *Graph limits and exchangeable random graphs*, Rend. Mat. Appl. (7) 28
   (2008), 33–61 ([arXiv:0712.2749](https://arxiv.org/abs/0712.2749)) — the exchangeable graph law ↔
-  graphon mixture correspondence and the dissociated/extreme-point characterization (Layer 9).
+  graphon mixture correspondence and the dissociated/extreme-point characterization (Layer 9b).
 - S. Janson, *Graphons, cut norm and distance, couplings and rearrangements*, NYJM Monographs 4
   (2013) ([arXiv:1009.2376](https://arxiv.org/abs/1009.2376)) — the general-carrier statements:
   the coupling triangle inequality on arbitrary probability spaces (Lemma 6.5), the coupling↔map
