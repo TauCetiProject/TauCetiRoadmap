@@ -32,7 +32,9 @@ universe u v w
 /-! ## Local derived objects
 
 The spectral predicates and seminorm structures used below are imported from their owner
-roadmaps. Only perturbation-specific constructions are declared here. -/
+roadmaps. `sinThetaMap` and `frobeniusNorm` are exceptions: this file's README lists them as
+consumed from `MajorizationAndAngles`, which does not declare them, so they are restated here
+to make the file elaborate. They belong to that roadmap, not this one. -/
 
 section LocalObjects
 
