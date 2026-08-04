@@ -8,14 +8,16 @@ import Mathlib
 acceptance gates, so contributors and reviewers converge on conventions; discharging all of them
 finishes neither a lane nor the roadmap.
 
-The summit is Yagasaki, arXiv:2106.04925v7, Theorem 1.1: meromorphic nonintegrability of the
-planar and spatial circular restricted three-body problem near either primary for every
-`0 < μ < 1`. The prerequisite tower and the precise scope are in `README.md`.
+The roadmap first reaches Poincaré's classical planar theorem, which excludes an additional first
+integral jointly real-analytic in the state and mass parameter near `μ=0`. Its final summit is
+Yagasaki, arXiv:2106.04925v7, Theorem 1.1: meromorphic nonintegrability of the planar and spatial
+circular restricted three-body problem near either primary for every `0 < μ < 1`. The prerequisite
+tower, the distinction between these statements, and their precise scope are in `README.md`.
 
 Only objects expressible honestly against current Mathlib are pinned here. In particular, this file
-does not invent empty `Prop` placeholders for meromorphic maps on complex manifolds,
-Picard--Vessiot extensions, Morales--Ramis--Simó, or the final theorem. Add those signatures as the
-corresponding types land in Tau Ceti.
+does not invent empty `Prop` placeholders for joint real-analytic parameter families, meromorphic
+maps on complex manifolds, Picard--Vessiot extensions, Morales--Ramis--Simó, or either summit. Add
+those signatures as the corresponding types land in Tau Ceti.
 -/
 
 namespace TauCetiRoadmap.RestrictedThreeBody

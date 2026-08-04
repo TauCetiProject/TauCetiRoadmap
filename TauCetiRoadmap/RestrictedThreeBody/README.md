@@ -1,19 +1,28 @@
-# Roadmap: meromorphic nonintegrability of the circular restricted three-body problem
+# Roadmap: nonintegrability of the circular restricted three-body problem
 
-The summit is Yagasaki's theorem that the **circular restricted** three-body problem is
-meromorphically nonintegrable near either primary, for every fixed mass ratio
-`0 < μ < 1`, in both the planar and spatial cases. More precisely, on the complex
-algebraic varieties used to make the square-root potentials single-valued, there is no
-complete set of first integrals in involution, functionally independent almost
-everywhere, and meromorphic away from the critical set. The planar problem would need
-one first integral independent of its Hamiltonian; the spatial problem would need two.
+The roadmap has two summits, in historical and logical order. The first is Poincaré's
+classical theorem: the planar **circular restricted** three-body problem has no
+additional first integral that is real-analytic in the state variables, functionally
+independent of the Hamiltonian, and also real-analytic in the mass parameter `μ` near
+`μ = 0`. This parameter-analyticity hypothesis is essential to the statement; the
+theorem is not a fixed-`μ` result. Poincaré's original result is planar. A later
+parameter-dependent spatial result belongs to the modern checkpoint below.
 
-The target is [Yagasaki, *Non-integrability of the restricted three-body problem*,
+The final summit is Yagasaki's theorem that the same problem is meromorphically
+nonintegrable near either primary, for every fixed mass ratio `0 < μ < 1`, in both the
+planar and spatial cases. More precisely, on the complex algebraic varieties used to
+make the square-root potentials single-valued, there is no complete set of first
+integrals in involution, functionally independent almost everywhere, and meromorphic
+away from the critical set. The planar problem would need one first integral independent
+of its Hamiltonian; the spatial problem would need two.
+
+The final target is [Yagasaki, *Non-integrability of the restricted three-body problem*,
 Theorem 1.1](https://arxiv.org/html/2106.04925v7#S1.Thmthm1), published in
 [*Ergodic Theory and Dynamical Systems* 44 (2024), 3012–3040](https://doi.org/10.1017/etds.2024.4).
 The paper's more reusable engine, its Theorem 2.1, is an equally important target: a
 nonintegrability criterion for meromorphic perturbations of integrable systems near a
-resonant periodic orbit.
+resonant periodic orbit. Before the fixed-mass blow-up argument, Lane E reaches the
+classical theorem and records Yagasaki's shorter parameter-dependent comparison theorem.
 
 This is a library roadmap, not a plan to transcribe one calculation. The proof rests on
 classical mechanics, complex manifolds and meromorphic continuation, higher variational
@@ -33,7 +42,7 @@ Suggested homes:
 - `TauCeti/CelestialMechanics/` for Kepler, Delaunay variables, and the restricted
   three-body application.
 
-## Scope: what the summit does and does not say
+## Scope: what the summits do and do not say
 
 - **Restricted, circular problem.** Two primaries move on circular orbits and the third
   body is massless. This is not the unrestricted Newtonian three-body problem, and the
@@ -41,6 +50,10 @@ Suggested homes:
 - **Local meromorphic obstruction.** The theorem is near either primary on a punctured
   complex neighbourhood, not a classification of all real trajectories and not a claim
   that solutions do not exist.
+- **Classical parameter-analytic obstruction.** Poincaré's theorem concerns a putative
+  extra integral for the planar problem, jointly real-analytic in phase variables and
+  `μ` near `μ=0`. Keep this theorem distinct from both modern results below, including
+  the later parameter-dependent spatial extension.
 - **Fixed physical mass ratio.** The conclusion holds for every `μ ∈ (0,1)`. The
   perturbation parameter `ε` used in the blow-up near a primary is not `μ`; dependence of
   putative integrals on `ε` is induced by the coordinate change and must be justified.
@@ -52,8 +65,8 @@ Suggested homes:
   open locus (equivalently, away from a proper analytic/algebraic exceptional set in the
   applications), not measure-theoretic `ae`. Pin that convention in the API.
 - **The integrable boundary matters.** At `μ = 0` the problem reduces, after the standard
-  frame changes, to Kepler and is integrable. The summit assumes `0 < μ < 1`; endpoint
-  simplifications are acceptance tests, not cases of the theorem.
+  frame changes, to Kepler and is integrable. The final summit assumes `0 < μ < 1`;
+  endpoint simplifications are acceptance tests, not cases of that theorem.
 
 ## Coordinate and sign conventions
 
@@ -131,6 +144,9 @@ No matching open Mathlib or Tau Ceti pull request was found in searches made on
 - meromorphic maps and vector fields on complex manifolds/algebraic varieties;
 - parameter-dependent flows and a packaged theory of first and higher variational
   equations;
+- jointly analytic Hamiltonian and first-integral families, convergent parameter-series
+  coefficient extraction, action-angle Fourier series, and Poincaré's dense-resonance
+  obstruction;
 - Picard–Vessiot extensions, differential Galois groups as linear algebraic groups,
   identity components, and the monodromy subgroup;
 - Morales–Ramis, Morales–Ramis–Simó, and Ayoul–Zung;
@@ -311,50 +327,111 @@ systems without any three-body definitions.
     continuation, as the paper does with auxiliary `v₁,v₂,v₃`. Identify the smooth
     chart and prove the coordinate transformation meromorphic there.
 
-**Gate D.** The exact transformed CR3BP is a meromorphic nearly integrable system of the
-form required by Lane C, with the paper's `h`, `g`, actions, frequencies, and resonant
-periodic Kepler orbit.
+**Gate D.** Two exact nearly integrable presentations are available: the `μ`-dependent
+family near `μ=0` used for the classical summit, and the blown-up `ε`-family for each
+fixed `0<μ<1` used for the final summit. Both satisfy Lane C's domain, meromorphicity,
+action, frequency, and resonant-periodic-orbit requirements.
 
-## Lane E: verify (A2) and reach the summit
+## Lane E: Poincaré's classical parameter-analytic summit
 
-### E1. Planar contour calculation
+### E1. The Poincaré perturbation obstruction
 
-33. Choose `I₁*>0` and an eccentricity `0<e<1`, set
+33. Define a jointly real-analytic Hamiltonian family `H(μ)` and a jointly
+    real-analytic first integral `F(μ)` on a named action-angle domain. State the exact
+    classical target before proving it: for the planar CR3BP there is no such `F`,
+    functionally independent of `H`, near `μ=0`. Make clear what uniformity in the
+    angles and what phase-space domain are required.
+34. Expand `H=H₀+μH₁+⋯` and `F=F₀+μF₁+⋯`, justify termwise Poisson brackets, and derive
+    every homological equation from `{H,F}=0`. Formalize the normalization used by
+    Poincaré and Whittaker: after subtracting a locally analytic function of `H` and
+    dividing by the first possible power of `μ`, a genuinely new integral may be assumed
+    to have `F₀` not locally a function of `H₀`.
+35. Prove the abstract Poincaré-set lemma. Fourier expansion in the angles first makes
+    `F₀` a function of the actions. At a resonance `k·ω(I)=0`, the first homological
+    equation and a nonzero disturbing-function coefficient `H₁,k(I)` force
+    `k·D F₀(I)=0`. If such effective resonances are dense, prove `D F₀` is collinear with
+    `D H₀`, hence `F₀` is locally a function of `H₀`, contradicting the normalization.
+
+### E2. The classical circular restricted problem
+
+36. Put the planar `μ`-family into Keplerian/Delaunay variables and compute the Fourier
+    coefficients of its first disturbing function. Prove on an explicit elliptic domain
+    the historical nonvanishing/density condition required by milestone 35; do not hide
+    the calculation behind the phrase “Poincaré set is dense.”
+37. Package Poincaré's planar theorem. Include joint real-analyticity in `(state,μ)`, the
+    neighbourhood of `μ=0`, functional independence from the Hamiltonian, angle
+    uniformity, collision exclusions, and the precise phase domain in the theorem
+    statement. Do not silently strengthen the historical attribution to the spatial
+    problem.
+
+### E3. A modern parameter-dependent checkpoint
+
+38. Independently recover Yagasaki's parameter-dependent comparison result (arXiv 2022,
+    published 2025) by taking Lane C's perturbation parameter to be `ε=μ`. In Delaunay
+    variables prove
+    `H₀=-1/(2I₁²)-I₂` in the planar case (and the corresponding spatial formula), choose
+    `I₁*³=k₂/k₁∈ℚ`, and verify (A1). This is a useful shorter bridge to the final paper,
+    not a replacement for milestones 36–37.
+39. Verify planar assumption (A2) at `k=0` by continuing the Kepler orbit to the complex
+    singular time
+    `k₂(π+iK)/k₁`, integrating around a small circle, and proving the leading
+    `δ⁻³ᐟ²` coefficient is nonzero. Recover the planar meromorphic nonintegrability
+    statement near resonant elliptic orbits (Yagasaki Theorem 3.1).
+40. Extend the Delaunay and algebraization construction to the spatial family. Restrict
+    the obstruction calculation to the invariant equatorial plane and recover Yagasaki
+    Theorem 4.1. Record explicitly that this obstructs a complete involutive set in the
+    spatial problem; it is a modern extension, not part of Poincaré's classical planar
+    theorem and not a claim that one arbitrary additional spatial integral cannot exist.
+
+**Gate E.** Poincaré's exact classical planar theorem is available before any fixed-`μ`
+blow-up calculation begins. The parameter-dependent meromorphic checkpoint has also
+tested Lane C at first perturbative order without being conflated with that theorem.
+
+## Lane F: verify (A2) and reach the fixed-mass summit
+
+### F1. Planar contour calculation
+
+41. Choose `I₁*>0` and an eccentricity `0<e<1`, set
     `I₂*=I₁*(1-μ)^(1/3)√(1-e²)`, and `ω*=ω₁/3`. Prove (A1) for the resulting resonant
     Kepler torus.
-34. Compute `(Dω) ∂_ε^5 h / 5!` and reduce its first component to Yagasaki's integral
+42. Compute `(Dω) ∂_ε^5 h / 5!` and reduce its first component to Yagasaki's integral
     (3.15). Make every automatic-differentiation, trigonometric, and Hamiltonian
     simplification a separately testable lemma.
-35. Continue the eccentric anomaly/true anomaly relation into complex time. Locate the
+43. Continue the eccentric anomaly/true anomaly relation into complex time. Locate the
     singular heights `K₁` and `K₂`, prove `K₁>0`, and establish the Laurent/asymptotic
     expansions used near `1+e cos φ=0`.
-36. Define the large closed path of Figure 5, with the two small semicircular detours and
+44. Define the large closed path of Figure 5, with the two small semicircular detours and
     the high horizontal segment. Prove it stays in the meromorphic domain and avoids the
     forbidden vertical lines after period refinement.
-37. Bound every segment, pass first through the large-height and then small-radius limits
+45. Bound every segment, pass first through the large-height and then small-radius limits
     in the paper's order, and prove the integral is nonzero on a dense set of phases.
     Also formalize Remark 3.1's warning that a small circle around a single apparent
     singularity has zero integral; it is a useful guard against an invalid shortcut.
-38. Apply Theorem 2.1 and the transport lemma to obtain planar meromorphic
+46. Apply Theorem 2.1 and the transport lemma to obtain planar meromorphic
     nonintegrability near `(-μ,0)`, then use the primary-exchange symmetry for
     `(1-μ,0)`.
 
-### E2. Spatial case and final theorem
+### F2. Spatial case and final theorem
 
-39. Carry the spatial expansion through order `ε⁶`, construct the spatial resonant torus,
+47. Carry the spatial expansion through order `ε⁶`, construct the spatial resonant torus,
     and prove that on the equatorial invariant plane its fifth-order obstruction integral
     is the planar expression with the corresponding phase substitution.
-40. Apply Theorem 2.1 to obtain the two-missing-integrals spatial conclusion, transfer it
+48. Apply Theorem 2.1 to obtain the two-missing-integrals spatial conclusion, transfer it
     back to `𝒮₃`, and use primary exchange for the second primary.
-41. Package Yagasaki Theorem 1.1 with separate planar and spatial statements and a final
+49. Package Yagasaki Theorem 1.1 with separate planar and spatial statements and a final
     combined theorem. State all domains, excluded critical sets, generic independence,
     and meromorphicity hypotheses in the theorem—not only in prose.
 
 ## Acceptance tests
 
 - Direct differentiation of `H₂,H₃` reproduces every displayed rotating-frame equation.
-- At `μ=0`, the potential and scaled unperturbed dynamics reduce to Kepler; the theorem
-  itself is unavailable because its strict mass hypothesis fails.
+- At `μ=0`, the potential and scaled unperturbed dynamics reduce to Kepler; the final
+  fixed-mass theorem itself is unavailable because its strict mass hypothesis fails.
+- The classical summit explicitly assumes joint real-analytic dependence on `μ` near
+  zero and excludes a single additional integral in the planar problem.
+- The parameter-dependent comparison theorem uses `ε=μ` and its first obstruction has
+  `k=0`; its spatial conclusion is not silently attributed to Poincaré or promoted from
+  failure of Liouville integrability to nonexistence of any one additional integral.
 - Rotation by `π` together with `μ ↔ 1-μ` exchanges the two primaries and conjugates the
   systems.
 - The first nonzero obstruction is normalized as `k=5`, corresponding to the sixth-order
@@ -364,8 +441,9 @@ periodic Kepler orbit.
   component.
 - The contour result proves nonzero, not merely “has a singular integrand”; the tempting
   small-circle contour evaluates to zero.
-- The planar and spatial summits assert respectively one and two additional independent
-  first integrals do not exist, always relative to the Hamiltonian already present.
+- The final fixed-mass planar and spatial summits obstruct respectively the one and two
+  additional independent integrals required for Liouville integrability, always relative
+  to the Hamiltonian already present.
 
 ## Ordering and parallel work
 
@@ -374,14 +452,31 @@ the Heegaard Floer roadmap, while the Riemann-surface continuation work (A3/B3) 
 paths and contour infrastructure with Contour Integration and Universal Covers. B1
 depends on A1; B3 depends on A3 and B2; B4 depends on all of B1–B3. Lane C then becomes
 a self-contained theorem. D1 can proceed in parallel with B, but D2/D3 require A2/A3.
-Only after Gates B–D should the proof-specific calculation in Lane E dominate effort.
+Lane E1 can be developed alongside B, but its CR3BP application consumes D1/D3. Finish
+the exact classical Gate E before treating the fixed-`μ` blow-up calculation in Lane F.
+The shorter E3 checkpoint consumes Lane C and much of the same Delaunay infrastructure,
+and is a useful integration test before the substantially harder large contour in F1.
 
 ## References
 
 - K. Yagasaki, [*Nonintegrability of the restricted three-body
   problem*](https://arxiv.org/abs/2106.04925), arXiv:2106.04925v7; ETDS 44 (2024),
-  3012–3040. Theorem 1.1 is the summit; Theorem 2.1 is Lane C; Sections 3–4 are Lane E;
+  3012–3040. Theorem 1.1 is the final summit; Theorem 2.1 is Lane C; Sections 3–4 are Lane F;
   Appendices A–B summarize the Picard–Vessiot and monodromy inputs.
+- H. Poincaré, *Les méthodes nouvelles de la mécanique céleste*, vol. I,
+  Gauthier-Villars, 1892, especially the parameter-series nonexistence argument; English
+  translation: *New Methods of Celestial Mechanics*, vol. I, AIP, 1993 (Lane E).
+- E. T. Whittaker, [*A Treatise on the Analytical Dynamics of Particles and Rigid
+  Bodies*](https://commons.wikimedia.org/wiki/File:A_treatise_on_the_analytical_dynamics_of_particles_and_rigid_bodies;_with_an_introduction_to_the_problem_of_three_bodies_(IA_treatisanalytdyn00whitrich).pdf),
+  4th ed., Cambridge, 1937, Chapter XIV, §165: an accessible classical presentation of
+  the planar Fourier/secular-coefficient proof (Lane E1–E2).
+- K. Yagasaki, [*A new proof of Poincaré's result on the restricted three-body
+  problem*](https://arxiv.org/abs/2111.11031), arXiv:2111.11031v2; *Journal of
+  Mathematical Physics* 66 (2025), 051101,
+  [doi:10.1063/5.0266087](https://doi.org/10.1063/5.0266087). Theorem 1.1 records the
+  classical planar statement; Theorems 3.1 and 4.1 are the distinct meromorphic
+  checkpoint E3. The published version corrects the broader historical attribution in
+  arXiv v2.
 - M. Ayoul and N. T. Zung, [*Galoisian obstructions to non-Hamiltonian
   integrability*](https://doi.org/10.1016/j.crma.2010.10.024), C. R. Math. 348 (2010),
   1323–1326 (Lane B4).
