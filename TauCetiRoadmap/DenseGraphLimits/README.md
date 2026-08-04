@@ -430,13 +430,36 @@ give the same mixture). The explicit joint sampler is identified with the abstra
 `sampleExchangeableLaw W`) — certifying the sampler's exchangeability and welding the sampling,
 graph-law, and mixture subsections into one architecture.
 This is the **Diaconis–Janson graphon-mixture representation**, a graph-level Aldous–Hoover
-*consequence*; the roadmap deliberately does not call it "Aldous–Hoover".
+*consequence*; the roadmap deliberately does not call it "Aldous–Hoover". For attribution at
+theorem granularity: classically, mixture *existence* is the symmetric Boolean specialization of
+Aldous–Hoover; Diaconis–Janson **Theorem 5.3** identifies the unique law on graph-limit space
+(the correspondence the summit packages), while **Corollary 5.4 and Theorem 5.5** identify fixed
+graphons with the extreme/dissociated laws — never cite 5.5 alone for general mixing-measure
+uniqueness.
 
-**Cross-roadmap boundary (exchangeable arrays).** The array-level Aldous–Hoover representation is
-the Exchangeability roadmap's Layer 8 — an **independent parallel theory**: nothing here consumes
-it (the prior formalization proves the graph-level correspondence by compactness extension plus
-the mixture representation, with no array-level input), and nothing there consumes this layer. The
-two developments are joined by one **documented future interface** — proposed identifier
+**Cross-roadmap boundary (exchangeable arrays and relational laws).** Two different questions get
+two different answers here — *who owns the API* and *what the proof consumes*:
+
+- **API ownership.** The generic exchangeable relational-law infrastructure — consistent finite
+  and infinite relational laws, relabeling invariance, dissociation, ergodicity, extremality —
+  belongs to the **Exchangeability roadmap**, whose Layer 8 names exchangeable arrays and
+  Aldous–Hoover. This layer presently uses graph-specialized structures (`ExchangeableGraphLaw`,
+  `InfiniteExchangeableGraphLaw`, `IsDissociated`) and **commits to refactoring them into
+  adapters to that shared API once it lands** — the specialization to the one-sort symmetric
+  irreflexive binary signature, never a parallel reimplementation of the generic law theory. The
+  refactor is an interface obligation on this roadmap, not a build dependency: no target here is
+  gated on unbuilt Exchangeability work.
+- **Proof dependency.** The graphon-mixture representation does **not** depend on the array-level
+  Aldous–Hoover representation, nor on its hard functional converse. It is proved
+  graph-specifically — empirical graphons, the collision estimate, Layer 4's compactness of
+  `GraphonSpaceI`, and the point-separating hom-density coordinates (the Layer-9b spine above) —
+  and the prior formalization confirms this route end to end with no array-level input. Gating
+  the completed graphon argument on the generic converse would put a proved theorem behind a
+  substantially harder open development; instead, the later generic representation theorem owes a
+  **specialization/compatibility result**: its graph case must induce the same infinite graph
+  laws and the same quotient-valued graphon mixing measure.
+
+The two developments meet at one **documented future interface** — proposed identifier
 `graphLawArrayLawEquiv`, equating exchangeable graph laws with the laws of symmetric, irreflexive,
 jointly exchangeable Boolean arrays — which becomes a Lean pin once the Exchangeability roadmap's
 array API exists (per the roadmap guide, a condition whose API does not yet exist is described
@@ -650,7 +673,8 @@ is Layer 4's `CompactSpace GraphonSpaceI`.
   regularity and the compactness of the graphon space (Layers 2 and 4).
 - P. Diaconis, S. Janson, *Graph limits and exchangeable random graphs*, Rend. Mat. Appl. (7) 28
   (2008), 33–61 ([arXiv:0712.2749](https://arxiv.org/abs/0712.2749)) — the exchangeable graph law ↔
-  graphon mixture correspondence and the dissociated/extreme-point characterization (Layer 9b).
+  graphon mixture correspondence (Thm 5.3) and the dissociated/extreme-point characterization
+  (Cor 5.4, Thm 5.5) — Layer 9b.
 - S. Janson, *Graphons, cut norm and distance, couplings and rearrangements*, NYJM Monographs 4
   (2013) ([arXiv:1009.2376](https://arxiv.org/abs/1009.2376)) — the general-carrier statements:
   the coupling triangle inequality on arbitrary probability spaces (Lemma 6.5), the coupling↔map
@@ -709,9 +733,16 @@ The mathematics and proof routes draw on two prior Lean developments,
   cut-distance lemma)?
 - Is the graph-law representation pinned **beyond its Dirac fibers** — the mixture-coordinate law
   `graphonMixtureLawEquiv_upperMass` (`upperMass F = ∫ t(F,·) dP` for every mixing measure) — with
-  uniqueness on the graphon quotient, the wording "Diaconis–Janson graphon-mixture representation /
-  graph-level Aldous–Hoover consequence" (never bare "Aldous–Hoover"), and the array-level theory
-  kept an independent parallel development joined only by the documented `graphLawArrayLawEquiv`
+  uniqueness on the graphon quotient, and the wording "Diaconis–Janson graphon-mixture
+  representation / graph-level Aldous–Hoover consequence" (never bare "Aldous–Hoover")?
+- Is the mixing measure's **existence route pinned** — empirical mixing, the collision estimate,
+  the compactness extraction (Layer 4 visibly consumed), limit identification, injectivity — with
+  the summit `graphonMixtureLawEquiv` a real-body transport of the finite-level equivalence,
+  never an opaque `Equiv`?
+- Does the cross-roadmap boundary distinguish **API ownership from proof dependency** — the
+  generic exchangeable-law API owned by the Exchangeability roadmap with a refactor-onto
+  commitment (no build dependency), the graphon-mixture proof independent of the array-level
+  Aldous–Hoover converse, and the two joined by the documented `graphLawArrayLawEquiv`
   interface?
 - Does the Layer-8b spine run through named targets (`graphParamMobius` with positivity and total
   mass, the Möbius consistency calculus `graphParamMobius_sum_comap` + `paramGraphLaw` — never a

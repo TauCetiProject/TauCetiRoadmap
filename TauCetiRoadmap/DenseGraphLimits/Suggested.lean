@@ -810,9 +810,10 @@ infinite graphs is a **graphon mixture**, uniquely: a bijection with the probabi
 the **graphon quotient** `GraphonSpaceI`. Uniqueness lives on the quotient, never among raw kernel
 representatives — two kernels at cut distance zero give the same mixture. This is the
 Diaconis–Janson graphon-mixture representation, a graph-level Aldous–Hoover *consequence* —
-deliberately not labeled "Aldous–Hoover": the array-level representation theorem is the
-Exchangeability roadmap's independent parallel theory, and this target neither consumes nor
-supplies it (see the Layer-9b cross-roadmap note in `README.md`). The summit is **assembled, not
+deliberately not labeled "Aldous–Hoover": the array-level representation theorem is owned by the
+Exchangeability roadmap and this target does not consume it, while the generic exchangeable-law
+API, once it lands there, is what these graph-law structures refactor onto (see the Layer-9b
+cross-roadmap note in `README.md`). The summit is **assembled, not
 opaque**: the existence/uniqueness content lives in the finite-level empirical-mixing spine above
 (`mixtureExchangeableLawEquiv`), and the infinite form is its transport along the finite↔infinite
 extension — so this definition carries a real body. Prior formalization:
