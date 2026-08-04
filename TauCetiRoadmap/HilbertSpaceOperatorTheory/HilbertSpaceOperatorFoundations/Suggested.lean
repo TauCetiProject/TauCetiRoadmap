@@ -53,8 +53,7 @@ theorem isPartialIsometry_iff_starMul {u : E →ₗ[𝕜] E} :
 /-- Operator characterization: a partial isometry is exactly a map that is norm-preserving
 on the orthogonal complement of its kernel (Conway VI.3.2).
 
-Stated **rectangularly**, for `u : E →ₗ[𝕜] F`, which is the predicate this file exists to
-add; the square case is the specialization.  The star-monoid proof does not reach here --
+Stated **rectangularly**, for `u : E →ₗ[𝕜] F`; the square case is the specialization.  The star-monoid proof does not reach here --
 `star u` would be an `F →ₗ[𝕜] E` -- so the argument is the decomposition one: `u⋆ u` is the
 orthogonal projection onto `(ker u)ᗮ`. -/
 theorem isPartialIsometry_iff_norm_map {u : E →ₗ[𝕜] F} :
@@ -146,8 +145,7 @@ variable {H : Type v} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
 
 /-- **The two calculi agree.** Over `ℂ` the finite `RCLike` calculus computes the same
 operator as Mathlib's continuous functional calculus, so a consumer may move between them
-freely. This is a target, not a remark: without it a reader cannot tell whether the two
-developments describe one object. -/
+freely. -/
 theorem selfAdjointFunctionalCalculus_toContinuousLinearMap_eq_cfc
     {T : H →ₗ[ℂ] H} (hT : T.IsSymmetric) (f : ℝ → ℝ) (hf : Continuous f) :
     (selfAdjointFunctionalCalculus hT f).toContinuousLinearMap =
@@ -225,10 +223,7 @@ theorem exists_orthonormalBasis_extending_leftSingularVector (A : E →ₗ[𝕜]
   sorry
 
 /-- **`B` is a Moore–Penrose inverse of `A`**: Penrose's four conditions, as a predicate
-with named accessors rather than four anonymous hypotheses. Packaging them is what lets the
-uniqueness theorem below read as *the Moore–Penrose inverse is unique*, and gives the
-relation somewhere to carry its own theory — symmetry under `A ↔ B`, transport along
-adjoints, invariance under unitary conjugation. -/
+with named accessors. -/
 structure IsMoorePenroseInverse (A : E →ₗ[𝕜] F) (B : F →ₗ[𝕜] E) : Prop where
   /-- `B` is a generalized inverse of `A`. -/
   comp_comp_self : A ∘ₗ B ∘ₗ A = A
@@ -253,8 +248,7 @@ theorem isMoorePenroseInverse_moorePenroseInverse (A : E →ₗ[𝕜] F) :
   sorry
 
 /-- **The characterization** (Penrose 1955): anything satisfying the four conditions *is*
-the constructed pseudoinverse, and uniqueness follows. Without this converse the
-construction is merely *a* generalized inverse; with it, the name is earned. -/
+the constructed pseudoinverse, and uniqueness follows. -/
 theorem eq_moorePenroseInverse_of_isMoorePenroseInverse
     {A : E →ₗ[𝕜] F} {B : F →ₗ[𝕜] E} (h : IsMoorePenroseInverse A B) :
     B = moorePenroseInverse A := by
@@ -301,8 +295,7 @@ variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDi
 /-- **The near-isometry polar factorization.** A real map whose quadratic form is uniformly
 `δ`-close to the identity factors as an isometry equivalence times the positive square root
 of its Gram operator, and the square root is uniformly close to the identity — hence
-`‖M − W‖ ≤ 2δ` for `δ ≤ 1/2`. This is the form a perturbation argument can use and the
-exact decompositions cannot give. -/
+`‖M − W‖ ≤ 2δ` for `δ ≤ 1/2`. -/
 theorem exists_linearIsometryEquiv_norm_sub_le
     (M : E →ₗ[ℝ] E) {δ : ℝ} (hδ : 0 ≤ δ) (hδ1 : δ ≤ 1 / 2)
     (hM : ∀ x : E, |⟪M x, M x⟫_ℝ - ⟪x, x⟫_ℝ| ≤ δ * ‖x‖ ^ 2) :
@@ -463,21 +456,19 @@ variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteD
 
 Eigenvectors are Mathlib's `Module.End.HasEigenvector`. A local "eigenvector at a real
 eigenvalue" predicate adds only the realness of `lam`, which the `lam : ℝ` binder here
-already supplies, and would grow a second theory of eigenvector lemmas beside Mathlib's. -/
+already supplies. -/
 def restrictedSpectrum (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) : Set ℝ :=
   {lam | ∃ x, x ∈ U ∧ Module.End.HasEigenvector A (lam : 𝕜) x}
 
-/-- **The membership characterization**, in the eigenvalue-equation form consumers want.
+/-- **The membership characterization.**
 
 The definition goes through `Module.End.HasEigenvector` so Mathlib's eigenspace API applies,
 but proofs want `A x = lam • x`. This lemma is the intended sole conversion point, so that
 the internal shape of `HasEigenvector` — which orders its conjuncts
-`(mem_eigenspace, ne_zero)` — never becomes part of this definition's interface. Without it
-every consumer destructures the definition, and a change to either side propagates.
+`(mem_eigenspace, ne_zero)` — never becomes part of this definition's interface.
 
-Together with the introduction rule below, this is the whole intended API of
-`restrictedSpectrum`; `SpectrumIn` and the separation predicates are then stated over it
-without ever unfolding it. -/
+Together with the introduction rule below, this is the intended API of
+`restrictedSpectrum`; `SpectrumIn` and the separation predicates are then stated over it. -/
 theorem mem_restrictedSpectrum_iff {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E} {lam : ℝ} :
     lam ∈ restrictedSpectrum A U ↔ ∃ x ∈ U, x ≠ 0 ∧ A x = (lam : 𝕜) • x := by
   sorry
@@ -508,7 +499,7 @@ def SpectraSeparated (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E)
 The member of the separation family in which both spectra come from the same `A`, on `U`
 and `Uᗮ`. It carries its own name because the theorems that consume it are a different
 family — the `sin Θ` and `sin 2Θ` results and the disjoint-spectrum Sylvester estimate —
-and because it is *not* enough for the sharp `tan 2Θ` theorem, where interlacing spectra
+and because it is not enough for the sharp `tan 2Θ` theorem, where interlacing spectra
 can satisfy absolute separation while an off-diagonal perturbation produces a quarter turn.
 
 A statistics-facing synonym for this predicate is not wanted: the population/sample

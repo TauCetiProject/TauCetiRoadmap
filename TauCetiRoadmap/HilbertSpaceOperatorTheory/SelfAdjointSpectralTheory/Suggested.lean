@@ -51,9 +51,7 @@ theorem isSelfAdjoint_generator (U : OneParameterUnitaryGroup H) :
 `U t` maps the generator's domain into itself and commutes with the generator
 there.
 
-Named for the conclusion, which is a relation: `commutant` conventionally names
-a *set* of operators, and the theorem also delivers domain invariance, so a
-noun-only name says neither thing.  The two conclusions are packaged as a
+The two conclusions are packaged as a
 dependent pair because the second cannot be stated without the first. -/
 theorem generator_commute (U : OneParameterUnitaryGroup H) (T : H →L[ℂ] H)
     (hT : ∀ t : ℝ, ∀ y : H, T (U.U t y) = U.U t (T y))
@@ -100,8 +98,7 @@ noncomputable def borelCalculus (ha : IsStarNormal a) {f : spectrum ℂ a → �
 by the polarised transport principle.
 
 Admissibility of the product is *constructed* from the two hypotheses via
-`IsBddMeasurable.mul`, not assumed, which is what keeps the signature at two hypotheses
-and lets the calculus be stated as a homomorphism. -/
+`IsBddMeasurable.mul`, not assumed. -/
 theorem borelCalculus_mul (ha : IsStarNormal a) {f g : spectrum ℂ a → ℂ}
     (hf : IsBddMeasurable f) (hg : IsBddMeasurable g) :
     borelCalculus ha (hf.mul hg) = borelCalculus ha hf * borelCalculus ha hg := sorry
@@ -171,9 +168,7 @@ structure SylvesterEquation (A : E →ₗ.[𝕜] E) (B : F →ₗ.[𝕜] F)
 
 /-! ### The form-bound vocabulary
 
-Two predicates and the spectral bridges that produce them.  "Lower bounds transport
-along the graph norm" is not a statement one can name; what the spectral-gap results
-consume is the pair below plus a bridge in each direction. -/
+Two predicates and the spectral bridges that produce them. -/
 
 /-- Lower quadratic-form bound on a subspace. -/
 def LowerFormBoundOn (A : E →L[𝕜] E) (U : Submodule 𝕜 E) (c : ℝ) : Prop :=
@@ -186,10 +181,7 @@ def UpperFormBoundOn (A : E →L[𝕜] E) (U : Submodule 𝕜 E) (c : ℝ) : Pro
 /-! #### Basic theory of the form bounds
 
 The two directions in which a bound weakens, and the identification of the degenerate case
-with Mathlib's `ContinuousLinearMap.IsPositive`.  Without these a consumer holding a bound
-on `U` at constant `c`, who needs one on a subspace of `U` or at a worse constant, reproves
-it from the definition — which is what makes a named predicate drift from the theory it is
-supposed to abstract. -/
+with Mathlib's `ContinuousLinearMap.IsPositive`. -/
 
 /-- A lower form bound weakens as the constant decreases. -/
 theorem LowerFormBoundOn.mono_const {A : E →L[𝕜] E} {U : Submodule 𝕜 E} {c c' : ℝ}
@@ -213,7 +205,7 @@ theorem IsPositive.lowerFormBoundOn_top {A : E →L[𝕜] E} (hA : A.IsPositive)
     LowerFormBoundOn A ⊤ 0 := sorry
 
 /-- The converse, which is what makes `LowerFormBoundOn _ ⊤ 0` a generalization of Mathlib's
-predicate rather than a competitor to it. -/
+predicate. -/
 theorem isPositive_of_lowerFormBoundOn_top {A : E →L[𝕜] E} (hsym : A.IsSymmetric)
     (h : LowerFormBoundOn A ⊤ 0) : A.IsPositive := sorry
 

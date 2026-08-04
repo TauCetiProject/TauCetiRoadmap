@@ -53,13 +53,10 @@ theorem approximationNumber_add_le (S T : E →L[𝕜] F) (m n : ℕ) :
 
 /-- Composition multiplicativity across indices.
 
-**The name carries `add` deliberately.**  `approximationNumber_comp_comp_le` is
-already taken, by the *two-sided ideal* bound
+`approximationNumber_comp_comp_le` is
+already taken, by the two-sided ideal bound
 `aₙ(L ∘ T ∘ R) ≤ ‖L‖ · aₙ(T) · ‖R‖`, which is a different theorem at a fixed
-index; this one splits the index.  Naming the index addition also keeps it
-legible beside `approximationNumber_add_le` and distinguishes it from the
-fixed-index bounds `approximationNumber_comp_le_mul_norm` and
-`approximationNumber_comp_le_norm_mul`. -/
+index; this one splits the index. -/
 theorem approximationNumber_comp_add_le_mul (S : F →L[𝕜] G) (T : E →L[𝕜] F) (m n : ℕ) :
     approximationNumber (S ∘L T) (m + n)
       ≤ approximationNumber S m * approximationNumber T n := sorry
@@ -182,8 +179,8 @@ noncomputable def nuclearENorm (T : E →L[𝕜] F) : ℝ≥0∞ :=
   ∑' n, ENNReal.ofReal (approximationNumber T n)
 
 /-- **Ky Fan dominance as a property of a family.**  It is *false* for an arbitrary
-`OperatorIdealFamily` — the four laws do not force it — so it is a class over families
-rather than a theorem about them, and Milestone B2 is the statement that the
+`OperatorIdealFamily` — the four laws do not force it — so it is a class over families,
+and Milestone B2 is the statement that the
 symmetric-gauge construction always lands in this subclass. -/
 class IsKyFanDominant (Φ : OperatorIdealFamily.{0, v, w} ℂ) : Prop where
   gauge_le_of_forall_kyFanGauge_le : ∀ {E : Type v} {F : Type w}
@@ -392,7 +389,7 @@ theorem memLp_columns_iff (b : HilbertBasis ι 𝕜 F) (T : F →L[𝕜] E) :
 
 /-- **Hilbert–Schmidt operators are compact.**
 
-Named because a consumer needs it by name, not because it is deep: finite energy forces
+Finite energy forces
 `∑ aₙ(T)² < ∞` through `tsum_approximationNumber_sq_eq_hilbertSchmidtEnergy`, hence
 `aₙ(T) → 0`, hence approximability, hence compactness by Part A's boundary.
 

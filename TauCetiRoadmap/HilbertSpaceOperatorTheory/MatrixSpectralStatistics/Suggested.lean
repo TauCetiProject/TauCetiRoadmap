@@ -39,8 +39,7 @@ theorem posSemidef_and_rank_le_iff_exists_conjTranspose_mul_self
 
 /-- **Milestone A2, general factors.** At minimal rank the factorization is unique up to
 the obvious `GL` action.  Stated as an existence over the group rather than through a
-quotient object: there is no quotient here, and inventing one would be an unasked-for
-design. `r = M.rank` is load-bearing -- above the rank the extra columns are
+quotient object. `r = M.rank` is load-bearing -- above the rank the extra columns are
 unconstrained and the statement is false. -/
 theorem exists_units_eq_mul_of_rank_factorization {r : ℕ} (M : Matrix m n 𝕜)
     (hr : M.rank = r) {L L' : Matrix m (Fin r) 𝕜} {R R' : Matrix (Fin r) n 𝕜}
@@ -98,13 +97,12 @@ depending on the quantifier order, and the one worth proving has a shape like
 ```
 
 Once that signature is fixed, `exists_isMinOn_dist_lt_of_approxMinOn` names it from its
-conclusion.  The name is withheld until the quantifiers are settled, because a name
-chosen first will not survive them. -/
+conclusion. -/
 
 /-- **Berge, argmin half**: the argmin correspondence over a fixed compact
 feasible set is upper hemicontinuous, through Mathlib's own predicate.
 
-The clean name belongs to this statement.  A `[FirstCountableTopology X]` hypothesis is an
+A `[FirstCountableTopology X]` hypothesis is an
 artifact of proving it through the sequential characterization, not part of the
 mathematics, so if a restricted version coexists it is *that* one which should be qualified
 (`..._of_firstCountable`) or kept private, not this one.
@@ -117,9 +115,8 @@ theorem upperHemicontinuousAt_isMinOn [T2Space X]
 
 /-- **Berge, value half**: the value function is continuous.
 
-Stated without `[FirstCountableTopology P]`, which no part of the mathematics needs.  This
-is the intended endpoint and owns the clean name; a sequential variant, if one is wanted,
-carries the qualifier. -/
+Stated without `[FirstCountableTopology P]`, which no part of the mathematics needs.  A
+sequential variant, if one is wanted, carries the qualifier. -/
 theorem continuous_iInf_of_isCompact
     (hK : IsCompact K) (hKne : K.Nonempty) (hg : Continuous (Function.uncurry g)) :
     Continuous (fun p => ⨅ x : ↥K, g p ↑x) := sorry
@@ -216,7 +213,7 @@ No new mathematics: Cauchy--Schwarz and the triangle inequality are field-generi
 work is replacing `|·|` and `Real`-specific order lemmas by `‖·‖`.  Two consequences are
 decisions rather than bookkeeping -- the entrywise hypothesis becomes a bound on `‖A i j‖`,
 so **complex Hermitian matrices are covered by the same statement**, and both constants
-survive unchanged, which a complexification argument would not have managed. -/
+survive unchanged. -/
 
 section RCLikeComparisons
 
@@ -272,8 +269,7 @@ noncomputable def centeredScatter (𝕜 : Type*) [RCLike 𝕜] {E : Type*} [Norm
 /-- **The exact add-one update for the centered scatter operator**, the streaming
 identity of the sample-moment layer.
 
-Named for the operation rather than as a target, since this is an exact identity rather
-than an estimate.  `_snoc` would track the `Fin.snoc` in the statement more literally, but
+`_snoc` would track the `Fin.snoc` in the statement more literally, but
 `append` names the mathematics. -/
 theorem centeredScatter_append (𝕜 : Type*) [RCLike 𝕜] {E : Type*} [NormedAddCommGroup E]
     [InnerProductSpace 𝕜 E] {n : ℕ} (z : Fin n → E) (y : E) :
@@ -287,12 +283,11 @@ eigenvalue event above so that the two are visibly one event read two ways.
 **Not a corollary of D1.**  Eigenvalue closeness does not bound an operator-norm
 difference: two matrices can have identical spectra and differ by a rotation.  Both
 descend from the same entrywise event, D1 through Weyl's inequality and this through
-Part C's `norm_toEuclideanLin_le_of_entry_le` -- siblings, not parent and child.
+Part C's `norm_toEuclideanLin_le_of_entry_le`.
 
-So the route is a refactor, not a new probability argument: factor the entrywise event
+So the route is a refactor: factor the entrywise event
 out of the eigenvalue theorem first, then compose it with the norm comparison here and
-with Weyl there.  In the other order the Chebyshev-plus-union-bound argument gets written
-twice, and the two probabilities are only coincidentally equal.
+with Weyl there.
 
 **No symmetry hypothesis**, deliberately: an operator-norm bound needs none, while D1
 needs both matrices Hermitian to have eigenvalues at all. -/

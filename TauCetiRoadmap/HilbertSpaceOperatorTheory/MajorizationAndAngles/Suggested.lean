@@ -182,8 +182,7 @@ theorem singularValues_orthogonalBlockSum_self (A : E →ₗ[𝕜] F) (i : ℕ) 
 
 /-- **The principal endpoint.**  Two simultaneous rectangular Ky Fan majorizations combine
 sharply on the orthogonal block sum.  Not shortened to `blockSum_le`: the hypotheses are
-specifically Ky Fan majorization, and the longer name is what makes that interface
-discoverable. -/
+specifically Ky Fan majorization. -/
 theorem orthogonalBlockSum_apply_le_of_kyFanSum_le
     {E₁ E₂ F₁ F₂ : Type*}
     [NormedAddCommGroup E₁] [InnerProductSpace 𝕜 E₁] [FiniteDimensional 𝕜 E₁]
@@ -232,7 +231,7 @@ theorem sum_eigenvalues_mul_re_inner_self_le {T S : E →ₗ[𝕜] E}
 /-- **Hoffman--Wielandt**: the squared Euclidean distance between the sorted
 spectra of two symmetric operators is at most the squared Frobenius distance.
 
-**Quantified over an arbitrary orthonormal basis `e`, and that is the point.**  Stating
+**Quantified over an arbitrary orthonormal basis `e`.**  Stating
 the right-hand side against `hT.eigenvectorBasis` suffices to prove the inequality but is
 not the invariant Frobenius statement a consumer wants.  This clean name belongs to the
 arbitrary-basis version; an eigenbasis-specialized variant should be private, or qualified
@@ -257,10 +256,9 @@ Below, `‖𝒞H‖²_F` is the first sum and `‖𝒞⊥H‖²_F` is written as
 complement `∑ᵢ λᵢ(S)² − ∑ᵢ (re ⟪vᵢ, S vᵢ⟫)²`, which avoids naming the off-diagonal
 projection.
 
-This is a **lower** bound and the direction is the whole content — an upper bound on the
+This is a **lower** bound — an upper bound on the
 same left-hand side is Hoffman--Wielandt above, holds unconditionally, and uses neither
-`γ` hypothesis. A statement carrying `hsep` and `hCH` whose conclusion did not mention the
-diagonal/off-diagonal split would be that upper bound with two unused hypotheses. -/
+`γ` hypothesis. -/
 theorem sum_sq_eigenvalues_sub_ge {T S : E →ₗ[𝕜] E}
     (hT : T.IsSymmetric) (hS : S.IsSymmetric) (hn : finrank 𝕜 E = n)
     {γ : ℝ} (hγ : 0 ≤ γ)
