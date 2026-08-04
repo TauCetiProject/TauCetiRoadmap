@@ -429,10 +429,14 @@ of rank at most `r`, so the residual bound transfers to `a_r(T)` directly.
 The unbounded form replaces `P` by a spectral projection of the `SelfAdjointSpectralTheory`
 roadmap's spectral measure, and is the statement the perturbation roadmap consumes: it lets
 an argument bound an ideal gauge from a *spectral* hypothesis rather than from a rank
-hypothesis. -/
+hypothesis.
+
+`0 ≤ δ` is part of the statement, not padding.  Without it the theorem is false: at `P = 1`
+the band hypothesis reads `0 ≤ 0` and holds for every `δ`, while `r ≥ finrank E` makes the
+conclusion `0 ≤ δ`, which fails at `δ = -1`. -/
 theorem approximationNumber_le_of_spectral_band
     {T : E →L[ℂ] F} {P : E →L[ℂ] E} {r : ℕ} {δ : ℝ}
-    (hidem : IsIdempotentElem P) (hsa : IsSelfAdjoint P)
+    (hδ : 0 ≤ δ) (hidem : IsIdempotentElem P) (hsa : IsSelfAdjoint P)
     (hrank : P.rank ≤ (r : Cardinal))
     (hband : ∀ x : E, ‖T (x - P x)‖ ≤ δ * ‖x - P x‖) :
     approximationNumber T r ≤ δ := sorry
