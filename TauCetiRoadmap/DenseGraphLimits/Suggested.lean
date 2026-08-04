@@ -898,8 +898,7 @@ theorem isDissociated_mixtureExchangeableLaw_iff
 /-- **Layer 9b (extremality — dissociated laws are exactly the sample laws).** A dissociated
 exchangeable graph law is the sampling law of a graphon on the canonical carrier — the
 graph-law-level extreme-point theorem the Layer-8b spine consumes (its converse is
-`isDissociated_sampleExchangeableLaw`). Positioned after the empirical-mixing spine, whose targets its proof uses:
-a **short
+`isDissociated_sampleExchangeableLaw`). With the empirical-mixing spine above, this is a **short
 consequence**, not an independent representation theorem — existence writes `L` as a mixture,
 `isDissociated_mixtureExchangeableLaw_iff` collapses the mixing measure to a Dirac, and the Dirac
 fiber is a sampling law (`mixtureExchangeableLaw_diracProba`). Prior formalization:
