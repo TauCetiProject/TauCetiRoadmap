@@ -327,10 +327,20 @@ named targets, with no jump: reflection positivity → `graphParamMobius_nonneg`
 fully-labelled connection matrices are PSD, and the Möbius transform is a congruence by an
 invertible `0/1` matrix, so the transformed diagonal is nonnegative) and
 `graphParamMobius_sum_eq_one` (`∑ f† = 1`: the double sum telescopes to `f` of the edgeless graph
-`= f(K₁)^n = 1`) → the random graph law `paramExchangeableLaw` (`L_f`, an `ExchangeableGraphLaw`
-with level-`n` masses `f†` — a random object with **no representing graphon in sight yet**) →
+`= f(K₁)^n = 1`) → the **Möbius consistency calculus** `graphParamMobius_sum_comap` (each
+level-`k` mass is the total level-`n` mass of its extension event, for every label injection —
+**not mere assembly**: spines 1–2 give a probability mass at each fixed level only, and this
+identity is the theorem binding the levels; iso-invariance handles relabeling, multiplicativity +
+normalization the added-vertex telescope `f(F ⊔ K₁) = f(F)`, and reflection positivity is
+deliberately not a hypothesis) with its measure packaging `paramGraphLaw` (an explicit weighted
+sum of Dirac masses), `paramGraphLaw_isProbabilityMeasure`, and `paramGraphLaw_map_comap` → the
+random graph law `paramExchangeableLaw` (`L_f`, now a **visible assembly** of these fields rather
+than an opaque constructor — a random object with **no representing graphon in sight yet**) →
 `paramExchangeableLaw_upperMass` (`upperMass L_f F = f F`, Möbius inversion) →
-`isDissociated_paramExchangeableLaw` (multiplicativity makes disjoint label windows independent) →
+`isDissociated_paramExchangeableLaw` (visible through the Layer-9b bridge
+`isDissociated_iff_upperMass_mul` — itself a real theorem, since dissociation is an equality of
+product *laws* while upper-mass multiplicativity constrains only upper events, and two-window
+Möbius inversion closes the gap: `upperMass L_f = f` factors by multiplicativity) →
 Layer 9b's extremality `exists_graphon_of_isDissociated` gives `L_f = sampleExchangeableLaw W` →
 the sampling anchor `upperMass_sampleExchangeableLaw` closes `f F = t(F, W)`. **What Layer 8b
 consumes from Layer 9b is the graph-law representation/extremality infrastructure only — not the
@@ -524,11 +534,15 @@ identification `infiniteSampleLaw_eq_extension`), the concentration bound
 coordinate law and Dirac fiber, `empiricalMixing`, the collision estimate, the compactness
 extraction `exists_subseq_tendsto_probabilityMeasure`, limit identification, existence,
 injectivity, the packaged `mixtureExchangeableLawEquiv` + `_apply`, and
-`isDissociated_mixtureExchangeableLaw_iff`), and the representation summit
+`isDissociated_mixtureExchangeableLaw_iff`), the dissociation bridge
+`isDissociated_iff_upperMass_mul`, and the representation summit
 `graphonMixtureLawEquiv` — now a **real body** transporting `mixtureExchangeableLawEquiv` along
 the extension — (+ `_dirac` and the mixture-coordinate law `_upperMass`); and the **Layer-8b
 spine** `graphParamMobius`
-(+ `graphParamMobius_nonneg` / `graphParamMobius_sum_eq_one`), `paramExchangeableLaw`
+(+ `graphParamMobius_nonneg` / `graphParamMobius_sum_eq_one`), the Möbius consistency calculus
+`graphParamMobius_sum_comap` with its measure packaging `paramGraphLaw`
+(+ `paramGraphLaw_isProbabilityMeasure`, `paramGraphLaw_map_comap`), `paramExchangeableLaw` — now
+a **visible assembly** of those fields —
 (+ `paramExchangeableLaw_upperMass`, `isDissociated_paramExchangeableLaw`). Described in prose
 rather than pinned (to
 avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape, the exact
@@ -700,8 +714,10 @@ The mathematics and proof routes draw on two prior Lean developments,
   kept an independent parallel development joined only by the documented `graphLawArrayLawEquiv`
   interface?
 - Does the Layer-8b spine run through named targets (`graphParamMobius` with positivity and total
-  mass, `paramExchangeableLaw`, upper-mass inversion, dissociativity, Layer 9b's extremality) and
-  consume only Layer 9b's graph-law representation/extremality infrastructure — never the
-  Layer-9c graphon-sampling concentration theorems?
+  mass, the Möbius consistency calculus `graphParamMobius_sum_comap` + `paramGraphLaw` — never a
+  `paramExchangeableLaw` constructor absorbing the consistency theorem — upper-mass inversion,
+  dissociativity via `isDissociated_iff_upperMass_mul`, Layer 9b's extremality) and consume only
+  Layer 9b's graph-law representation/extremality infrastructure — never the Layer-9c
+  graphon-sampling concentration theorems?
 - Do the computed-value backstops hold (`t(K₂, W_{K₄}) = 3/4`, `t(K₃, W_{C₅}) = 0`, `t(F, W_p) = p^{e(F)}`)?
 - Are the source repositories confined to Provenance?

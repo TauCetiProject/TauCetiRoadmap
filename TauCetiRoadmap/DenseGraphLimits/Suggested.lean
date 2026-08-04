@@ -637,6 +637,17 @@ def ExchangeableGraphLaw.IsDissociated (L : ExchangeableGraphLaw) : Prop :=
 theorem isDissociated_sampleExchangeableLaw (W : Graphon Ω μ) :
     (sampleExchangeableLaw μ W).IsDissociated := sorry
 
+/-- **Layer 9b (dissociation via upper masses).** A law is dissociated **iff** its upper masses
+are multiplicative over disjoint unions. A genuine theorem, not a rewrite: `IsDissociated` is an
+equality of product *laws* on disjoint windows, while upper-mass multiplicativity only constrains
+upper events — the two-window Möbius inversion (upper masses determine the pair law) closes the
+gap. This is the bridge that makes `isDissociated_paramExchangeableLaw` a visible computation. -/
+theorem isDissociated_iff_upperMass_mul (L : ExchangeableGraphLaw) :
+    L.IsDissociated
+      ↔ ∀ (k l : ℕ) (F₁ : SimpleGraph (Fin k)) (F₂ : SimpleGraph (Fin l)),
+          L.upperMass ((F₁ ⊕g F₂).map finSumFinEquiv.toEmbedding)
+            = L.upperMass F₁ * L.upperMass F₂ := sorry
+
 /-- **Layer 9b (extremality — dissociated laws are exactly the sample laws).** A dissociated
 exchangeable graph law is the sampling law of a graphon on the canonical carrier — the
 graph-law-level extreme-point theorem the Layer-8b spine consumes (its converse is
@@ -920,12 +931,53 @@ theorem graphParamMobius_sum_eq_one (f : GraphParam) (hmul : IsMultiplicative f)
     (hnorm : IsNormalized f) (n : ℕ) :
     ∑ G : SimpleGraph (Fin n), graphParamMobius f n G = 1 := sorry
 
-/-- **Layer 8b (spine 3 — the random graph law `L_f`).** The exchangeable graph law whose level-`n`
-masses are `f†` — well-formed by spines 1–2 and a Möbius consistency calculus under label
-injections (iso-invariance enters here). This is where a parameter becomes a random object, with
-**no representing graphon in sight yet**. -/
+open Classical in
+/-- **Layer 8b (spine 3a — the Möbius consistency calculus).** The raw mass identity making the
+`f†` levels a consistent family: for every label injection, each level-`k` mass is the total
+level-`n` mass of its extension event. **Not mere assembly** — from `f† ≥ 0` and `∑ f† = 1` one
+only gets a probability mass at each fixed level; this identity is the theorem that binds the
+levels. Hypotheses deliberately minimal: iso-invariance handles relabeling, and multiplicativity
+with normalization gives the added-vertex telescope `f(F ⊔ K₁) = f(F) · f(K₁) = f(F)`; reflection
+positivity is **not** needed here. -/
+theorem graphParamMobius_sum_comap (f : GraphParam) (h₁ : IsIsoInvariant f)
+    (h₂ : IsMultiplicative f) (h₃ : IsNormalized f) {k n : ℕ} (e : Fin k ↪ Fin n)
+    (G : SimpleGraph (Fin k)) :
+    graphParamMobius f k G
+      = ∑ H ∈ Finset.univ.filter (fun H : SimpleGraph (Fin n) => H.comap ⇑e = G),
+          graphParamMobius f n H := sorry
+
+open Classical in
+/-- **Layer 8b (spine 3b — the level-`n` measure).** The measure on `n`-vertex graphs with mass
+`f†(H)` at each `H`, as an explicit weighted sum of Dirac masses — a real body, so the passage
+from parameter to measure hides nothing. -/
+def paramGraphLaw (f : GraphParam) (n : ℕ) : Measure (SimpleGraph (Fin n)) :=
+  ∑ H : SimpleGraph (Fin n), ENNReal.ofReal (graphParamMobius f n H) • Measure.dirac H
+
+/-- **Layer 8b.** The level measures are probability measures — total mass by spine 2, and spine
+1's nonnegativity makes the `ENNReal.ofReal` weights faithful. -/
+theorem paramGraphLaw_isProbabilityMeasure (f : GraphParam) (h₂ : IsMultiplicative f)
+    (h₃ : IsNormalized f) (h₄ : IsReflectionPositive f) (n : ℕ) :
+    IsProbabilityMeasure (paramGraphLaw f n) := sorry
+
+/-- **Layer 8b (spine 3a, packaged).** The consistency calculus as pushforward consistency of the
+level measures — the exact field `ExchangeableGraphLaw.consistent` demands. Reflection positivity
+enters only here (nonnegativity keeps the `ENNReal.ofReal` weights faithful to the raw
+identity). -/
+theorem paramGraphLaw_map_comap (f : GraphParam) (h₁ : IsIsoInvariant f)
+    (h₂ : IsMultiplicative f) (h₃ : IsNormalized f) (h₄ : IsReflectionPositive f)
+    {k n : ℕ} (e : Fin k ↪ Fin n) :
+    (paramGraphLaw f n).map (SimpleGraph.comap ⇑e) = paramGraphLaw f k := sorry
+
+/-- **Layer 8b (spine 3c — the random graph law `L_f`).** The exchangeable graph law whose
+level-`n` masses are `f†` — now a **visible assembly** rather than an opaque constructor: the
+level measures are `paramGraphLaw`, probability by spines 1–2, consistency by the packaged
+calculus. This is where a parameter becomes a random object, with **no representing graphon in
+sight yet**. -/
 def paramExchangeableLaw (f : GraphParam) (h₁ : IsIsoInvariant f) (h₂ : IsMultiplicative f)
-    (h₃ : IsNormalized f) (h₄ : IsReflectionPositive f) : ExchangeableGraphLaw := sorry
+    (h₃ : IsNormalized f) (h₄ : IsReflectionPositive f) : ExchangeableGraphLaw where
+  law n := paramGraphLaw f n
+  prob n := paramGraphLaw_isProbabilityMeasure f h₂ h₃ h₄ n
+  consistent e := paramGraphLaw_map_comap f h₁ h₂ h₃ h₄ e
 
 /-- **Layer 8b (spine 4 — `f` is the upper mass of `L_f`).** Möbius inversion:
 `P(F ≤ ·) = ∑_{G ⊇ F} f†(G) = f(F)` under `L_f`. -/
@@ -935,8 +987,10 @@ theorem paramExchangeableLaw_upperMass (f : GraphParam) (h₁ : IsIsoInvariant f
     (paramExchangeableLaw f h₁ h₂ h₃ h₄).upperMass F = f k F := sorry
 
 /-- **Layer 8b (spine 5 — multiplicativity dissociates `L_f`).** Disjoint label windows are
-independent under `L_f`, because upper masses on a disjoint union factor by multiplicativity. This
-is the hypothesis Layer 9b's extremality theorem consumes. -/
+independent under `L_f` — now a visible computation through the Layer-9b bridge: by spine 4 the
+upper masses of `L_f` are `f`, multiplicativity factors them over disjoint unions, and
+`isDissociated_iff_upperMass_mul` upgrades upper-mass multiplicativity to dissociation. This is
+the hypothesis Layer 9b's extremality theorem consumes. -/
 theorem isDissociated_paramExchangeableLaw (f : GraphParam) (h₁ : IsIsoInvariant f)
     (h₂ : IsMultiplicative f) (h₃ : IsNormalized f) (h₄ : IsReflectionPositive f) :
     (paramExchangeableLaw f h₁ h₂ h₃ h₄).IsDissociated := sorry
