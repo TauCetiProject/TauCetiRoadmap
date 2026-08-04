@@ -16,7 +16,7 @@ and hypothesis-free in both directions** (forward via the coupling counting lemm
 Janson, Thm 8.10) — the same-carrier forms are corollaries, and the assembled iff is pinned; all
 over `SimpleGraph (Fin n)` representatives. The Layer-2 `stepGraphon` / `stepGraphonAvg`, the analytic `graphonPartitionEnergy`
 (block-average based) with the L²-Pythagoras `graphonPartitionEnergy_increment`, `GraphonSpaceI` + its
-`MetricSpace` instance, the descent `homDensityOnSpace`, and the Layer-9 injective density
+`MetricSpace` instance, the descent `homDensityOnSpace`, and the Layer-9a injective density
 `injHomDensity` (normalized by the falling factorial `(n)_k = Nat.descFactorial`, **not** `Nat.choose`)
 are pinned here too — as are the endpoint milestones: Frieze–Kannan weak regularity,
 compactness/completeness of `GraphonSpaceI`, the coupling↔map `cutDistPullback`, the Layer-6b
@@ -27,13 +27,13 @@ the graph parameter `GraphParam` with `IsIsoInvariant`, the finite `connectionMa
 `connectionMatrix_apply`) and `IsReflectionPositive` (finite principal blocks PSD), `IsMultiplicative` / `IsNormalized`, and
 `lovasz_szegedy_representability` (the four-condition iff over the canonical `(I, volume)` carrier,
 with the `[0,1]` range a derived corollary, per Lovász–Szegedy Thm 2.2) —
-are pinned here too. So are the Layer-9 sampling/graph-law targets — the joint `infiniteSampleLaw`
+are pinned here too. So are the Layer-9a/9b/9c sampling and graph-law targets — the joint `infiniteSampleLaw`
 with its finite-marginal identification and the two (deliberately distinct) convergence modes,
 `ExchangeableGraphLaw` / `upperMass` / `IsDissociated` with the extremality
 `exists_graphon_of_isDissociated`, and the Diaconis–Janson summit `graphonMixtureLawEquiv` — and
 the Layer-8b Möbius spine (`graphParamMobius` with its positivity and total-mass laws,
 `paramExchangeableLaw` with its upper-mass and dissociativity laws) that grounds
-`lovasz_szegedy_representability` on Layer 9's graph-law layer.
+`lovasz_szegedy_representability` on Layer 9b.
 
 Objects whose precise Lean shape would force a premature API choice — the weak-regularity
 `Finpartition` adapter and the exact mod-null transport bundle — are described in `README.md` instead.
@@ -479,36 +479,36 @@ theorem cutDist_eq_zero_of_forall_homDensity_eq (U W : Graphon Ω μ)
     cutDistSame μ U W = 0 :=
   cutDist_eq_zero_of_forall_homDensity_eq_cross μ μ U W h
 
-/-- **Layer 9 (sampling).** The `W`-random graph law `G(n, W)`. -/
+/-- **Layer 9a (sampling).** The `W`-random graph law `G(n, W)`. -/
 def sampleGraph (W : Graphon Ω μ) (n : ℕ) : Measure (SimpleGraph (Fin n)) := sorry
 
-/-- **Layer 9.** The sampling law is a probability measure. -/
+/-- **Layer 9a.** The sampling law is a probability measure. -/
 instance sampleGraph_isProbabilityMeasure (W : Graphon Ω μ) (n : ℕ) :
     IsProbabilityMeasure (sampleGraph μ W n) := sorry
 
-/-- **Layer 7/9 compatibility.** Sampling the constant-`p` graphon recovers Mathlib's `G(V, p)`
+/-- **Layer 7/9a compatibility.** Sampling the constant-`p` graphon recovers Mathlib's `G(V, p)`
 binomial random graph (same `unitInterval` parameter). -/
 theorem sampleGraph_const (p : I) (n : ℕ) :
     sampleGraph μ (Graphon.const μ p) n = SimpleGraph.binomialRandom (Fin n) p := sorry
 
-/-- **Layer 9 (finite-graph hom density).** `t(F, G) = hom(F,G) / m^{|V(F)|}` for a finite target
+/-- **Layer 9a (finite-graph hom density).** `t(F, G) = hom(F,G) / m^{|V(F)|}` for a finite target
 graph `G` on `Fin m`. Defined via `Nat.card` (no `Fintype`/decidability on the hom type or on `G`). -/
 def homDensityFin {V : Type*} [Fintype V] (F : SimpleGraph V) {m : ℕ} (G : SimpleGraph (Fin m)) : ℝ :=
   (Nat.card (F →g G) : ℝ) / (m ^ Fintype.card V : ℝ)
 
-/-- **Layer 9 (injective hom density `t₀`).** The *ordered injective* hom count over the **falling
+/-- **Layer 9a (injective hom density `t₀`).** The *ordered injective* hom count over the **falling
 factorial `(m)_k = m.descFactorial k`** (`k = |V(F)|`) — **not** `Nat.choose m k`, which would bias
 the sampling estimator by `k!`. Via `Nat.card`; no decidability on the target graph `G`. -/
 def injHomDensity {V : Type*} [Fintype V] (F : SimpleGraph V) {m : ℕ} (G : SimpleGraph (Fin m)) : ℝ :=
   (Nat.card {φ : F →g G // Function.Injective φ} : ℝ) / (m.descFactorial (Fintype.card V) : ℝ)
 
-/-- **Layer 9 (hom vs injective closeness).** `|t(F,·) − t₀(F,·)| ≤ C(k,2)/m`, the bound the
+/-- **Layer 9a (hom vs injective closeness).** `|t(F,·) − t₀(F,·)| ≤ C(k,2)/m`, the bound the
 convergence-via-sampling route needs. Requires `0 < m`. -/
 theorem homDensityFin_sub_injHomDensity_le {V : Type*} [Fintype V] (F : SimpleGraph V) {m : ℕ}
     (G : SimpleGraph (Fin m)) (hm : 0 < m) :
     |homDensityFin F G - injHomDensity F G| ≤ ((Fintype.card V).choose 2 : ℝ) / (m : ℝ) := sorry
 
-/-- **Layer 9 (unbiasedness anchor).** `E_{G(m,W)}[t₀(F, ·)] = t(F, W)` — the identity that pins the
+/-- **Layer 9a (unbiasedness anchor).** `E_{G(m,W)}[t₀(F, ·)] = t(F, W)` — the identity that pins the
 `(m)_k` normalization (with `Nat.choose` it would read `k!·t(F,W)`). Needs `|V(F)| ≤ m` (else
 `(m)_k = 0`); the `homDensity` RHS forces `[DecidableEq V] [DecidableRel F.Adj]` on `F`, **not** on
 the integrated `G`. -/
@@ -527,13 +527,13 @@ theorem homDensity_finiteGraphGraphon {V : Type*} [Fintype V] [DecidableEq V] (F
     [DecidableRel F.Adj] {m : ℕ} (hm : 0 < m) (G : SimpleGraph (Fin m)) :
     homDensity (volume : Measure I) F (finiteGraphGraphon G) = homDensityFin F G := sorry
 
-/-- **Layer 9 (restriction).** The initial `n`-vertex window of a graph on `ℕ` — the finite view of
+/-- **Layer 9a (restriction).** The initial `n`-vertex window of a graph on `ℕ` — the finite view of
 the joint sampling object. (Mathlib's `MeasurableSpace (SimpleGraph V)` — comapped from `Adj` —
 covers `V = ℕ`, so laws on `SimpleGraph ℕ` need no new σ-algebra.) -/
 def restrictFin (G : SimpleGraph ℕ) (n : ℕ) : SimpleGraph (Fin n) :=
   SimpleGraph.comap (fun i => (i : ℕ)) G
 
-/-- **Layer 9 (the joint sampling object).** The law of the **infinite** `W`-random graph, all
+/-- **Layer 9a (the joint sampling object).** The law of the **infinite** `W`-random graph, all
 samples on one probability space: i.i.d. `μ`-positions `x : ℕ → Ω`, one uniform per unordered pair,
 and `i ~ j` iff the pair's uniform falls below `W (x i) (x j)`. Every finite sampling law is then a
 **restriction of this single object** (`infiniteSampleLaw_map_restrictFin`) — the coupling that
@@ -541,17 +541,17 @@ almost-sure statements quantify over; the marginal family `sampleGraph W n` alon
 them. -/
 def infiniteSampleLaw (W : Graphon Ω μ) : Measure (SimpleGraph ℕ) := sorry
 
-/-- **Layer 9.** The joint sampling law is a probability measure. -/
+/-- **Layer 9a.** The joint sampling law is a probability measure. -/
 instance infiniteSampleLaw_isProbabilityMeasure (W : Graphon Ω μ) :
     IsProbabilityMeasure (infiniteSampleLaw μ W) := sorry
 
-/-- **Layer 9 (finite marginal identification).** The level-`n` window of the joint law is exactly
+/-- **Layer 9a (finite marginal identification).** The level-`n` window of the joint law is exactly
 the finite sampling law — `G(n, W)` for every `n`, realized as restrictions of one infinite random
 graph. -/
 theorem infiniteSampleLaw_map_restrictFin (W : Graphon Ω μ) (n : ℕ) :
     (infiniteSampleLaw μ W).map (restrictFin · n) = sampleGraph μ W n := sorry
 
-/-- **Layer 9 (per-coordinate concentration — the almost-sure engine).** McDiarmid/Azuma for the
+/-- **Layer 9c (per-coordinate concentration — the almost-sure engine).** McDiarmid/Azuma for the
 injective density: changing one sampled vertex moves `t₀(F, ·)` by at most `k/n`, giving
 `P(|t₀(F, G(n,W)) − t(F,W)| ≥ ε) ≤ 2·exp(−ε²n/(2k²))` (the LNGL Prop 11.32 shape) — summable in
 `n` at every fixed `ε`, which is exactly what Borel–Cantelli consumes. -/
@@ -561,7 +561,7 @@ theorem sampleGraph_injHomDensity_concentration {V : Type*} [Fintype V] [Decidab
     ((sampleGraph μ W n) {G | ε ≤ |injHomDensity F G - homDensity μ F W|}).toReal
       ≤ 2 * Real.exp (-(ε ^ 2 * n) / (2 * (Fintype.card V : ℝ) ^ 2)) := sorry
 
-/-- **Layer 9 (second sampling lemma — convergence in probability).** `δ□(G(n,W), W) → 0` in
+/-- **Layer 9c (second sampling lemma — convergence in probability).** `δ□(G(n,W), W) → 0` in
 probability (LNGL Lemma 10.16), via the **two-stage first-sampling-lemma decomposition**: point
 sampling (the genuinely analytic Azuma step, on the weighted sampled graphon) + Bernoulli edge
 rounding (a finite union bound over cuts). This mode is a statement about the marginal laws alone.
@@ -572,7 +572,7 @@ theorem sampleGraph_cutDist_tendsto_inProbability (W : Graphon Ω μ) {ε : ℝ}
         {G | ε ≤ cutDist (volume : Measure I) μ (finiteGraphGraphon G) W}).toReal)
       Filter.atTop (nhds 0) := sorry
 
-/-- **Layer 9 (almost-sure convergence — on the joint space).** On the joint law, almost every
+/-- **Layer 9c (almost-sure convergence — on the joint space).** On the joint law, almost every
 infinite `W`-random graph has its finite windows converging to `W` in cut distance. The route:
 per-coordinate concentration (`sampleGraph_injHomDensity_concentration` — summable tails) feeds
 Borel–Cantelli for each fixed `F`; intersecting over the countable family `Σ n, SimpleGraph (Fin n)`
@@ -586,7 +586,7 @@ theorem infiniteSampleLaw_ae_tendsto_cutDist (W : Graphon Ω μ) :
         (fun n => cutDist (volume : Measure I) μ (finiteGraphGraphon (restrictFin G n)) W)
         Filter.atTop (nhds 0) := sorry
 
-/-- **Layer 9 (exchangeable graph laws).** An exchangeable random graph presented by its consistent
+/-- **Layer 9b (exchangeable graph laws).** An exchangeable random graph presented by its consistent
 finite marginals: a probability law on `SimpleGraph (Fin k)` for every `k`, consistent under
 restriction along **every** injection of labels (which subsumes relabeling invariance). -/
 structure ExchangeableGraphLaw where
@@ -598,32 +598,32 @@ structure ExchangeableGraphLaw where
   consistent : ∀ {k l : ℕ} (f : Fin k ↪ Fin l),
     (law l).map (SimpleGraph.comap ⇑f) = law k
 
-/-- **Layer 9.** Consistency of the sampling laws under label injections — the theorem making
+/-- **Layer 9b.** Consistency of the sampling laws under label injections — the theorem making
 `sampleExchangeableLaw` well-formed. -/
 theorem sampleGraph_map_comap (W : Graphon Ω μ) {k l : ℕ} (f : Fin k ↪ Fin l) :
     (sampleGraph μ W l).map (SimpleGraph.comap ⇑f) = sampleGraph μ W k := sorry
 
-/-- **Layer 9.** The sampling laws of a fixed graphon, packaged as an exchangeable graph law. -/
+/-- **Layer 9b.** The sampling laws of a fixed graphon, packaged as an exchangeable graph law. -/
 def sampleExchangeableLaw (W : Graphon Ω μ) : ExchangeableGraphLaw where
   law k := sampleGraph μ W k
   prob k := sampleGraph_isProbabilityMeasure μ W k
   consistent f := sampleGraph_map_comap μ W f
 
-/-- **Layer 9 (upper mass).** The probability that the level-`k` sample contains a fixed graph:
+/-- **Layer 9b (upper mass).** The probability that the level-`k` sample contains a fixed graph:
 `P(F ≤ ·)` — the observable through which a graph parameter reads off a law (the Layer-8b spine's
 `paramExchangeableLaw_upperMass`). -/
 def ExchangeableGraphLaw.upperMass (L : ExchangeableGraphLaw) {k : ℕ}
     (F : SimpleGraph (Fin k)) : ℝ :=
   ((L.law k) {G | F ≤ G}).toReal
 
-/-- **Layer 9 (sampling anchor).** The upper mass of the sampling law is the homomorphism density:
+/-- **Layer 9b (sampling anchor).** The upper mass of the sampling law is the homomorphism density:
 `P(F ≤ G(k,W)) = t(F, W)` — the identity through which the Layer-8b spine's final arrow
 `f F = t(F, W)` closes. -/
 theorem upperMass_sampleExchangeableLaw {k : ℕ} (F : SimpleGraph (Fin k)) [DecidableRel F.Adj]
     (W : Graphon Ω μ) :
     (sampleExchangeableLaw μ W).upperMass F = homDensity μ F W := sorry
 
-/-- **Layer 9 (dissociated laws).** Restrictions to disjoint label windows are independent: the
+/-- **Layer 9b (dissociated laws).** Restrictions to disjoint label windows are independent: the
 level-`(k + l)` marginal pushed to the pair of windows is the product of the level-`k` and
 level-`l` marginals. Sampling laws are dissociated (`isDissociated_sampleExchangeableLaw`); the
 extremality theorem below says they are the **only** dissociated laws. -/
@@ -633,11 +633,11 @@ def ExchangeableGraphLaw.IsDissociated (L : ExchangeableGraphLaw) : Prop :=
         (fun G => (SimpleGraph.comap (Fin.castAdd l) G, SimpleGraph.comap (Fin.natAdd k) G))
       = (L.law k).prod (L.law l)
 
-/-- **Layer 9.** The sampling laws are dissociated (disjoint windows use disjoint sources). -/
+/-- **Layer 9b.** The sampling laws are dissociated (disjoint windows use disjoint sources). -/
 theorem isDissociated_sampleExchangeableLaw (W : Graphon Ω μ) :
     (sampleExchangeableLaw μ W).IsDissociated := sorry
 
-/-- **Layer 9 (extremality — dissociated laws are exactly the sample laws).** A dissociated
+/-- **Layer 9b (extremality — dissociated laws are exactly the sample laws).** A dissociated
 exchangeable graph law is the sampling law of a graphon on the canonical carrier — the
 graph-law-level extreme-point theorem the Layer-8b spine consumes (its converse is
 `isDissociated_sampleExchangeableLaw`). Prior formalization:
@@ -646,7 +646,7 @@ theorem exists_graphon_of_isDissociated (L : ExchangeableGraphLaw) (h : L.IsDiss
     ∃ W : Graphon I (volume : Measure I),
       L = sampleExchangeableLaw (volume : Measure I) W := sorry
 
-/-- **Layer 9 (infinite form).** An exchangeable law on infinite graphs: a probability law on
+/-- **Layer 9b (infinite form).** An exchangeable law on infinite graphs: a probability law on
 `SimpleGraph ℕ` invariant under relabeling along every permutation of `ℕ`. -/
 structure InfiniteExchangeableGraphLaw where
   /-- The law on infinite graphs. -/
@@ -656,14 +656,14 @@ structure InfiniteExchangeableGraphLaw where
   /-- Invariance under every relabeling. -/
   exchangeable : ∀ e : Equiv.Perm ℕ, law.map (SimpleGraph.comap ⇑e) = law
 
-/-- **Layer 9 (finite ↔ infinite).** Consistent finite marginals extend uniquely to an exchangeable
+/-- **Layer 9b (finite ↔ infinite).** Consistent finite marginals extend uniquely to an exchangeable
 law on infinite graphs (a compactness extension), and restriction along `restrictFin` recovers the
 marginals — the packaging that lets the representation below be stated in the infinite form. Prior
 formalization: `InfiniteLaw.lean` + `InfiniteExchangeability.lean`. -/
 def exchangeableGraphLawEquivInfinite :
     ExchangeableGraphLaw ≃ InfiniteExchangeableGraphLaw := sorry
 
-/-- **Layer 9 (the sampler realizes the abstract law).** The explicit joint sampling law **is** the
+/-- **Layer 9b (the sampler realizes the abstract law).** The explicit joint sampling law **is** the
 compactness extension of the sampling marginals. This certifies in particular that the explicit
 sampler is exchangeable, and it is the identification connecting the sampling, graph-law, and
 mixture subsections — without it `infiniteSampleLaw` and the abstract infinite law would be two
@@ -673,14 +673,14 @@ theorem infiniteSampleLaw_eq_extension (W : Graphon Ω μ) :
     infiniteSampleLaw μ W
       = (exchangeableGraphLawEquivInfinite (sampleExchangeableLaw μ W)).law := sorry
 
-/-- **Layer 9.** The Borel σ-algebra of the cut metric — so `GraphonSpaceI` carries probability
+/-- **Layer 9b.** The Borel σ-algebra of the cut metric — so `GraphonSpaceI` carries probability
 measures (the mixture side of the representation). -/
 instance : MeasurableSpace GraphonSpaceI := borel GraphonSpaceI
 
-/-- **Layer 9.** The σ-algebra is definitionally Borel. -/
+/-- **Layer 9b.** The σ-algebra is definitionally Borel. -/
 instance : BorelSpace GraphonSpaceI := ⟨rfl⟩
 
-/-- **Layer 9 (the graph-law representation — Diaconis–Janson).** Every exchangeable law on
+/-- **Layer 9b (the graph-law representation — Diaconis–Janson).** Every exchangeable law on
 infinite graphs is a **graphon mixture**, uniquely: a bijection with the probability measures on
 the **graphon quotient** `GraphonSpaceI`. Uniqueness lives on the quotient, never among raw kernel
 representatives — two kernels at cut distance zero give the same mixture. This is the
@@ -692,14 +692,14 @@ supplies it (see the Layer-9 cross-roadmap note in `README.md`). Prior formaliza
 def graphonMixtureLawEquiv :
     MeasureTheory.ProbabilityMeasure GraphonSpaceI ≃ InfiniteExchangeableGraphLaw := sorry
 
-/-- **Layer 9 (anchor).** The representation sends the Dirac mass at the class of `W` to the
+/-- **Layer 9b (anchor).** The representation sends the Dirac mass at the class of `W` to the
 infinite `W`-sampling law — tying the correspondence back to the sampling stack. -/
 theorem graphonMixtureLawEquiv_dirac (W : Graphon I (volume : Measure I)) :
     graphonMixtureLawEquiv
         ⟨Measure.dirac (Quotient.mk (graphonSetoid (volume : Measure I)) W), inferInstance⟩
       = exchangeableGraphLawEquivInfinite (sampleExchangeableLaw (volume : Measure I) W) := sorry
 
-/-- **Layer 9 (mixture coordinates — every finite marginal pinned).** What a **general** mixing
+/-- **Layer 9b (mixture coordinates — every finite marginal pinned).** What a **general** mixing
 measure maps to — the Dirac anchor alone would leave non-Dirac mixtures unconstrained (an
 arbitrary `Equiv` could permute them): under `graphonMixtureLawEquiv P`, the upper mass of every
 finite graph is the `P`-average of its hom-density, `upperMass F = ∫ t(F, ·) dP`, integrated on
@@ -815,7 +815,7 @@ theorem paramExchangeableLaw_upperMass (f : GraphParam) (h₁ : IsIsoInvariant f
 
 /-- **Layer 8b (spine 5 — multiplicativity dissociates `L_f`).** Disjoint label windows are
 independent under `L_f`, because upper masses on a disjoint union factor by multiplicativity. This
-is the hypothesis Layer 9's extremality theorem consumes. -/
+is the hypothesis Layer 9b's extremality theorem consumes. -/
 theorem isDissociated_paramExchangeableLaw (f : GraphParam) (h₁ : IsIsoInvariant f)
     (h₂ : IsMultiplicative f) (h₃ : IsNormalized f) (h₄ : IsReflectionPositive f) :
     (paramExchangeableLaw f h₁ h₂ h₃ h₄).IsDissociated := sorry
@@ -830,10 +830,10 @@ graph parameter; it is explicit here because `GraphParam` is representation-sens
 `(I, volume)`, so the existential carrier collapses to the canonical one. **The hard direction
 runs on the pinned spine**: reflection positivity → `f† ≥ 0` and `∑ f† = 1` (spines 1–2) → the
 random graph law `L_f` (spine 3) → `upperMass L_f = f` (spine 4) → `L_f` dissociated (spine 5) →
-Layer 9's extremality `exists_graphon_of_isDissociated` gives `L_f = sampleExchangeableLaw W` →
+Layer 9b's extremality `exists_graphon_of_isDissociated` gives `L_f = sampleExchangeableLaw W` →
 the sampling anchor `upperMass_sampleExchangeableLaw` closes `f F = t(F, W)`. What this consumes
-from Layer 9 is the **graph-law representation/extremality infrastructure only — not the
-graphon-sampling concentration theorems** (at the point the spine runs, no representing graphon
+from Layer 9b is the **graph-law representation/extremality infrastructure only — not the
+Layer-9c graphon-sampling concentration theorems** (at the point the spine runs, no representing graphon
 exists, so a classical random-graphs-plus-convergent-subsequence route would additionally need an
 `f†`-specific variance or simultaneous-selection lemma; the extremality route needs none). The
 easy direction checks the four axioms for `t(·, W)`. -/

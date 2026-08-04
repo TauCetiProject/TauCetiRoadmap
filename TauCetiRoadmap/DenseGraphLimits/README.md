@@ -129,9 +129,9 @@ some prose paths below are abbreviated.)
 - **Weak convergence of measures:** `MeasureTheory.ProbabilityMeasure` / `FiniteMeasure`,
   `LevyProkhorovMetric` (`levyProkhorovDist`), `Prokhorov` (tightness ↔ relative compactness),
   `Portmanteau`, `IsTightMeasureSet` — supporting the mixture existence/representation side of
-  Layer 9 (measures on `GraphonSpaceI`, the compactness extension). The sampling-convergence
+  Layer 9b (measures on `GraphonSpaceI`, the compactness extension). The sampling-convergence
   targets deliberately do **not** consume this stack — their routes are the two-stage
-  decomposition and concentration + Borel–Cantelli (see Layer 9).
+  decomposition and concentration + Borel–Cantelli (see Layer 9c).
 - **Kernels / disintegration** (coupling and gluing *ingredients*, not the gluing lemma itself):
   `Kernel.compProd` (`⊗ₖ`), `Measure.compProd` (`⊗ₘ`), and `condKernel`
   (`Probability/Kernel/Composition/*`, `…/Disintegration/StandardBorel`).
@@ -162,9 +162,9 @@ Everything graphon-specific: the `Graphon` object and its symmetric-kernel algeb
 `homDensity`, `cutNorm` (seminorm + set form), the coupling `cutDist` and its gluing triangle,
 `GraphonSpace`, the counting lemma (both directions), step approximation / weak regularity,
 total boundedness / completeness / compactness, inverse counting / separation, and the
-convergence equivalence; the Layer-9 sampling stack (`sampleGraph`, the joint `infiniteSampleLaw`,
-the finite estimators, the two convergence modes), the exchangeable graph laws and their
-graphon-mixture representation (`ExchangeableGraphLaw` / `InfiniteExchangeableGraphLaw` /
+convergence equivalence; the Layer-9a sampling stack (`sampleGraph`, the joint `infiniteSampleLaw`,
+the finite estimators), the Layer-9c convergence modes, the Layer-9b exchangeable graph laws and
+their graphon-mixture representation (`ExchangeableGraphLaw` / `InfiniteExchangeableGraphLaw` /
 `graphonMixtureLawEquiv`), and the Layer-8 gluing algebra and representability spine
 (`LabeledGraph` / `connectionMatrix` / `graphParamMobius` / `paramExchangeableLaw` /
 `lovasz_szegedy_representability`) — see the per-layer sections and the *Suggested signatures*
@@ -331,15 +331,15 @@ invertible `0/1` matrix, so the transformed diagonal is nonnegative) and
 with level-`n` masses `f†` — a random object with **no representing graphon in sight yet**) →
 `paramExchangeableLaw_upperMass` (`upperMass L_f F = f F`, Möbius inversion) →
 `isDissociated_paramExchangeableLaw` (multiplicativity makes disjoint label windows independent) →
-Layer 9's extremality `exists_graphon_of_isDissociated` gives `L_f = sampleExchangeableLaw W` →
+Layer 9b's extremality `exists_graphon_of_isDissociated` gives `L_f = sampleExchangeableLaw W` →
 the sampling anchor `upperMass_sampleExchangeableLaw` closes `f F = t(F, W)`. **What Layer 8b
-consumes from Layer 9 is the graph-law representation/extremality infrastructure only — not the
-graphon-sampling concentration theorems**: at the point the spine runs no representing graphon
-exists, so the classical random-graphs-plus-convergent-subsequence route would additionally need
-an `f†`-specific variance or simultaneous-selection lemma; the extremality route needs none.
-Sequenced after Layer 9's graph-law layer accordingly — see *Ordering*.
+consumes from Layer 9b is the graph-law representation/extremality infrastructure only — not the
+Layer-9c graphon-sampling concentration theorems**: at the point the spine runs no representing
+graphon exists, so the classical random-graphs-plus-convergent-subsequence route would
+additionally need an `f†`-specific variance or simultaneous-selection lemma; the extremality route
+needs none. Sequenced after Layer 9b accordingly — see *Ordering*.
 
-### Layer 9 — sampling and the graph-law representation
+### Layer 9a — finite and joint graphon sampling
 The `W`-random graph law `sampleGraph W n` (a probability measure on `SimpleGraph (Fin n)`, on the
 measurable-graph σ-algebra `MeasurableSpace (SimpleGraph V)`), with the **compatibility target**
 `sampleGraph (Graphon.const p) n = G(Fin n, p)` recovering Mathlib's `binomialRandom`. The sampling
@@ -351,29 +351,16 @@ have a natural consumer: the companion graph-regularity roadmap may align its pl
 with `homDensityFin` / `injHomDensity` — optional interoperability on its side, not a dependency in
 either direction.
 
-**The joint sampling architecture.** `sampleGraph W n` is a *marginal* law for each `n`; an
+**The joint sampling object.** `sampleGraph W n` is a *marginal* law for each `n`; an
 almost-sure convergence claim across `n` is unstateable for the marginal family alone. The pinned
 joint object is `infiniteSampleLaw W` — the law of the infinite `W`-random graph on **one**
 probability space (i.i.d. `μ`-positions, one uniform per unordered pair) — with the finite-marginal
 identification `infiniteSampleLaw_map_restrictFin`: `G(n, W)` for every `n` is the level-`n`
 restriction (`restrictFin`) of this single object. (Mathlib's `MeasurableSpace (SimpleGraph V)`,
-comapped from `Adj`, covers `V = ℕ`, so no new σ-algebra is needed.) The two convergence modes are
-then **deliberately distinct**, with distinct proof routes, and neither consumes the other:
+comapped from `Adj`, covers `V = ℕ`, so no new σ-algebra is needed.) The convergence theorems on
+these objects are Layer 9c; the exchangeable-law and mixture theory they anchor is Layer 9b.
 
-* **in probability** — `sampleGraph_cutDist_tendsto_inProbability`, the second sampling lemma
-  `δ□(G(n,W), W) → 0` (LNGL Lemma 10.16), a statement about the marginals alone, via the two-stage
-  first-sampling-lemma decomposition: point sampling (the analytic Azuma step on the weighted
-  sampled graphon) plus Bernoulli edge rounding (a finite union bound over cuts);
-* **almost surely** — `infiniteSampleLaw_ae_tendsto_cutDist`, on the joint space, via
-  per-coordinate concentration (`sampleGraph_injHomDensity_concentration`, the McDiarmid/Azuma
-  bound of LNGL Prop 11.32 shape, with tails summable in `n`), Borel–Cantelli per fixed `F`, a
-  countable intersection over `Σ n, SimpleGraph (Fin n)`, and the Layer-6b convergence equivalence
-  upgrading pointwise hom-density convergence to cut-distance convergence. The almost-sure proof
-  does **not** run through the two-stage cut-distance lemma.
-
-(The `LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet` weak-convergence stack, previously
-cited for these targets, does not by itself supply this specification and is no longer load-bearing
-here.)
+### Layer 9b — exchangeable graph laws and graphon mixtures
 
 **The graph-law representation (Diaconis–Janson).** The layer's endpoint, pinned: an
 `ExchangeableGraphLaw` is a family of probability laws on `SimpleGraph (Fin k)` consistent under
@@ -412,6 +399,29 @@ two developments are joined by one **documented future interface** — proposed 
 jointly exchangeable Boolean arrays — which becomes a Lean pin once the Exchangeability roadmap's
 array API exists (per the roadmap guide, a condition whose API does not yet exist is described
 here rather than `sorry`-pinned).
+
+### Layer 9c — sampling convergence
+
+The two convergence modes are **deliberately distinct**, with distinct proof routes, and neither
+consumes the other:
+
+* **in probability** — `sampleGraph_cutDist_tendsto_inProbability`, the second sampling lemma
+  `δ□(G(n,W), W) → 0` (LNGL Lemma 10.16), a statement about the marginals alone, via the two-stage
+  first-sampling-lemma decomposition: point sampling (the analytic Azuma step on the weighted
+  sampled graphon) plus Bernoulli edge rounding (a finite union bound over cuts);
+* **almost surely** — `infiniteSampleLaw_ae_tendsto_cutDist`, on the joint space, via
+  per-coordinate concentration (`sampleGraph_injHomDensity_concentration`, the McDiarmid/Azuma
+  bound of LNGL Prop 11.32 shape, with tails summable in `n`), Borel–Cantelli per fixed `F`, a
+  countable intersection over `Σ n, SimpleGraph (Fin n)`, and the Layer-6b convergence equivalence
+  upgrading pointwise hom-density convergence to cut-distance convergence. The almost-sure proof
+  does **not** run through the two-stage cut-distance lemma.
+
+(The `LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet` weak-convergence stack, previously
+cited for these targets, does not by itself supply this specification and is no longer load-bearing
+here.)
+
+This layer consumes Layer 9a's objects and the Layer-6b convergence equivalence only; it is
+independent of Layer 9b and of the Layer-8b spine, and can land in parallel with both.
 
 ### Upstream to Mathlib
 Several prerequisites are reusable beyond graphons and are upstream candidates, once the API has
@@ -512,11 +522,11 @@ Layers 0–2 and 7 first — they validate the pipeline and give visible checkpo
 highest-leverage self-contained summit, with Layer 4 (compactness) alongside it. Layer 5
 (coupling↔map) runs in parallel, gated on the measure-preserving mod-null equivalence, and must not
 block the others. The representability summit's real build order is
-**Layer 8a → Layer 9's graph-law representation/extremality → Layer 8b**: the 8b spine consumes
+**Layer 8a → Layer 9b (graph-law representation/extremality) → Layer 8b**: the 8b spine consumes
 `ExchangeableGraphLaw`, `upperMass`, `IsDissociated`, and `exists_graphon_of_isDissociated`, so
-the graph-law layer of Layer 9 precedes 8b (Layer 9's sampling-convergence targets are independent
-of 8b and can land in parallel; 8a is independent and can land any time after Layer 0). The
-Mathlib upstreaming follows.
+Layer 9b precedes 8b. Layer 9b itself consumes Layer 9a's sampling objects and Layer 4's
+compactness; Layer 9c (sampling convergence) is independent of both 9b and 8b and can land in
+parallel; 8a is independent and can land any time after Layer 0. The Mathlib upstreaming follows.
 
 Layers 4–6 are independent and likely to attract duplicate work, so **register an Intention and
 `claim` the specific target** before a substantial push (see *Coordinating work* in the repository
@@ -563,7 +573,7 @@ Already formalized over a fixed standard-Borel carrier, making the canonical spe
 migration-first: Layers 0–7 and 9. The **coupling-based cross-carrier generality** of Layers 1, 5,
 and 6 — the Janson statements over arbitrary probability carriers — is also discharge work. The
 remaining headline discharge target is Layer 8b (representability), whose spine consumes the
-Layer-9 graph-law infrastructure — see *Ordering*.
+Layer-9b graph-law infrastructure — see *Ordering*.
 
 An early community pointer in this direction: in the October 2021 Lean Zulip thread on the
 Dillies–Mehta Szemerédi-regularity formalization (see References), Mauricio Collares flagged the
@@ -639,9 +649,9 @@ The mathematics and proof routes draw on two prior Lean developments,
   `IsReflectionPositive`) carry real bodies — never `def … : Prop := sorry`, which asserts nothing?
 - Is `IsCoupling` a named `Prop` (not a structure/typeclass), matching the vocabulary and docstring?
 - Is the injective density `t₀` normalized by the falling factorial `(n)_k`, **never** `Nat.choose n k`?
-- Is Layer 9's sampling architecture **joint** — `infiniteSampleLaw` with the finite-marginal
+- Is Layer 9a's sampling architecture **joint** — `infiniteSampleLaw` with the finite-marginal
   identification and the extension identification `infiniteSampleLaw_eq_extension` — with the two
-  convergence modes kept distinct (in probability on the marginals, via the two-stage
+  Layer-9c convergence modes kept distinct (in probability on the marginals, via the two-stage
   point-sampling + rounding decomposition; almost surely on the joint space, via per-coordinate
   concentration + Borel–Cantelli + the Layer-6b equivalence — never through the two-stage
   cut-distance lemma)?
@@ -652,8 +662,8 @@ The mathematics and proof routes draw on two prior Lean developments,
   kept an independent parallel development joined only by the documented `graphLawArrayLawEquiv`
   interface?
 - Does the Layer-8b spine run through named targets (`graphParamMobius` with positivity and total
-  mass, `paramExchangeableLaw`, upper-mass inversion, dissociativity, Layer 9's extremality) and
-  consume only Layer 9's graph-law representation/extremality infrastructure — never the
-  graphon-sampling concentration theorems?
+  mass, `paramExchangeableLaw`, upper-mass inversion, dissociativity, Layer 9b's extremality) and
+  consume only Layer 9b's graph-law representation/extremality infrastructure — never the
+  Layer-9c graphon-sampling concentration theorems?
 - Do the computed-value backstops hold (`t(K₂, W_{K₄}) = 3/4`, `t(K₃, W_{C₅}) = 0`, `t(F, W_p) = p^{e(F)}`)?
 - Are the source repositories confined to Provenance?
