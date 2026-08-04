@@ -119,7 +119,7 @@ Not in Mathlib:
   reconciliation with `S₂`, and the named corollary **Hilbert–Schmidt ⇒ compact**.
 * The approximation numbers of a spectral band of an unbounded self-adjoint operator.
 
-Two lemmas Mathlib itself lacks are named in the inventory above and are targets here:
+Two lemmas Mathlib lacks are named in the inventory above and are targets here:
 finite-rank-implies-compact, and a hypothesis-free `ℝ≥0∞` Minkowski inequality for `tsum`.
 
 ## The build, in layers
@@ -153,7 +153,7 @@ the Ky Fan gauge `kyFanGauge T k = ∑_{n<k} aₙ(T)`.
   converse, closing the boundary as an equivalence.
 - **Hilbert layer:** adjoint invariance `aₙ(T⋆) = aₙ(T)`, via rank invariance under the
   adjoint and the adjoint isometry; over `ℂ` the sequence identity `aₙ(|T|) = aₙ(T)`, from
-  the pointwise identity `‖|T|x‖ = ‖Tx‖`, with the modulus itself belonging to the
+  the pointwise identity `‖|T|x‖ = ‖Tx‖`, with the modulus belonging to the
   foundations roadmap; and the unconditional lower bound `c ≤ aₙ(T)` from a `c`-coercive
   subspace of rank `> n`, with unit-vector and linearly-independent-family forms.
 - **Min–max, both halves.** The orthogonal-tail equality on a complete source, its collapse
