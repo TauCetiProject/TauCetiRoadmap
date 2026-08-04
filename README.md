@@ -26,6 +26,7 @@ Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and th
 13. [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
 14. [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
 15. [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
+16. [Meromorphic nonintegrability of the circular restricted three-body problem](TauCetiRoadmap/RestrictedThreeBody/README.md)
 
 ## Completed roadmaps
 
