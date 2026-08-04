@@ -24,11 +24,8 @@ in `TauCeti/Analysis/Normed/Operator/`.
 finite-dimensional: the functional calculus is a finite sum over an eigenbasis, and that
 is what makes it exist. But three of the constructions here — the rectangular operator
 modulus, the polar decomposition through a partial isometry, and the projection geometry —
-need no finite-dimensional hypothesis at all, and later roadmaps consume them in that
-stronger form. [`OperatorIdeals`](../OperatorIdeals/README.md) applies the modulus to
-operators on infinite-dimensional spaces;
-[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) measures gaps
-between spectral projections of unbounded operators. Stating those results in finite
+need no finite-dimensional hypothesis at all, and consumers need them in that stronger
+form. Stating those results in finite
 dimension and generalizing later would mean proving them twice, so they are stated for
 complete spaces here.
 
@@ -251,9 +248,9 @@ answers a different question:
 | singular system | the singular **vectors** — Mathlib has the values, not the system |
 | Moore–Penrose | the pseudoinverse, with all four Penrose conditions and the converse |
 
-The accessor exists so that operator-norm consumers — approximation numbers, Ky Fan norms,
-Eckart–Young — never spell `T.toLinearMap.singularValues` in a public statement. It fixes
-the public spelling for the four roadmaps that consume it, so it is a target of this Part.
+The accessor exists so that operator-norm consumers never spell
+`T.toLinearMap.singularValues` in a public statement. It fixes
+the public spelling for the roadmaps that consume it, so it is a target of this Part.
 Its lemmas should be one-line delegations; any lemma there with real content belongs at the
 `LinearMap` level instead.
 
@@ -381,8 +378,7 @@ Two notions are primitive and belong here:
 
 Everything else that has appeared in this material is a specialization and belongs where it
 is consumed. The interval/exterior form — one spectrum in `[a,b]`, the other outside
-`(a−δ, b+δ)` — and the two-block form are application shapes of the perturbation theory and
-are specified in [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md);
+`(a−δ, b+δ)` — and the two-block form are application shapes of the perturbation theory;
 they are not reusable primitives with several independent consumers here.
 
 The roadmap therefore asks for:

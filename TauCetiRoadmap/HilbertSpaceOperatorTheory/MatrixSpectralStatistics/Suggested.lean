@@ -5,7 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib
 
 /-!
-# Matrix spectra, concentration, and the toolkit of spectral statistics: target signatures
+# Matrix spectra and spectral measurability: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. The statements here suggest Lean forms for particular milestones, so that
@@ -68,84 +68,6 @@ theorem exists_unitary_mul_of_conjTranspose_mul_self_eq {n d : ℕ}
     ∃ U ∈ Matrix.unitaryGroup (Fin d) 𝕜, A' = U * A := sorry
 
 end GramUniqueness
-
-/-! ## Part B -- Berge's maximum theorem over a fixed compact feasible set -/
-
-section Berge
-
-variable {P X : Type*} [TopologicalSpace P] [TopologicalSpace X]
-variable {K : Set X} {g : P → X → ℝ}
-
-/-- Compactness form of approximate-minimizer stability: an approximate minimizing
-sequence on a compact feasible set has a subsequence converging to a true minimizer.
-This one is proved, and it is the statement the Berge argument below consumes. -/
-theorem exists_subseq_tendsto_isMinOn_of_approxMinOn [FirstCountableTopology X]
-    (hK : IsCompact K) {F : X → ℝ} (hF : Continuous F)
-    {z : ℕ → X} (hz : ∀ k, z k ∈ K)
-    {ε : X → ℕ → ℝ} (hε : ∀ x ∈ K, Filter.Tendsto (ε x) Filter.atTop (nhds 0))
-    (happrox : ∀ x ∈ K, ∀ k, F (z k) ≤ F x + ε x k) :
-    ∃ φ : ℕ → ℕ, StrictMono φ ∧ ∃ ψ ∈ K, IsMinOn F K ψ ∧
-      Filter.Tendsto (fun t => z (φ t)) Filter.atTop (nhds ψ) := sorry
-
-/-! **The quantitative stability statement is deliberately unnamed.**  "An approximate
-minimizer at a nearby parameter is close to the argmin set" is three different theorems
-depending on the quantifier order, and the one worth proving has a shape like
-
-```text
-∀ ε > 0, ∃ δ > 0, ∃ η > 0, dist p p₀ < δ → x ∈ K → IsApproxMinOn (g p) K η x →
-  ∃ x₀ ∈ K, IsMinOn (g p₀) K x₀ ∧ dist x x₀ < ε
-```
-
-Once that signature is fixed, `exists_isMinOn_dist_lt_of_approxMinOn` names it from its
-conclusion. -/
-
-/-- **Berge, argmin half**: the argmin correspondence over a fixed compact
-feasible set is upper hemicontinuous, through Mathlib's own predicate.
-
-A `[FirstCountableTopology X]` hypothesis is an
-artifact of proving it through the sequential characterization, not part of the
-mathematics, so if a restricted version coexists it is *that* one which should be qualified
-(`..._of_firstCountable`) or kept private, not this one.
-
-`IsMinOn` rather than an invented argmin-set API: the predicate is Mathlib's. -/
-theorem upperHemicontinuousAt_isMinOn [T2Space X]
-    (hK : IsCompact K) (hg : Continuous (Function.uncurry g))
-    (p₀ : P) [(nhds p₀).IsCountablyGenerated] :
-    UpperHemicontinuousAt (fun p => {x ∈ K | IsMinOn (g p) K x}) p₀ := sorry
-
-/-- **Berge, value half**: the value function is continuous.
-
-Stated without `[FirstCountableTopology P]`, which no part of the mathematics needs.  A
-sequential variant, if one is wanted, carries the qualifier. -/
-theorem continuous_iInf_of_isCompact
-    (hK : IsCompact K) (hKne : K.Nonempty) (hg : Continuous (Function.uncurry g)) :
-    Continuous (fun p => ⨅ x : ↥K, g p ↑x) := sorry
-
-/-! ### Milestone B3 -- the classical theorem, over a varying constraint
-
-The two halves use *different* hypotheses on `K`, which is the content of the classical
-proof and the reason the fixed-`K` case is a special case rather than a step: upper
-semicontinuity of the value needs `K` upper hemicontinuous, lower semicontinuity needs it
-lower hemicontinuous. -/
-
-/-- **Berge, value half, varying constraint.** -/
-theorem continuous_iInf_of_hemicontinuous {K : P → Set X}
-    (hKcompact : ∀ p, IsCompact (K p)) (hKne : ∀ p, (K p).Nonempty)
-    (hKu : ∀ p, UpperHemicontinuousAt K p) (hKl : ∀ p, LowerHemicontinuousAt K p)
-    (hg : Continuous (Function.uncurry g)) :
-    Continuous (fun p => ⨅ x : ↥(K p), g p ↑x) := sorry
-
-/-- **Berge, argmin half, varying constraint.** Upper hemicontinuity keeps limits of
-nearby feasible points feasible; lower hemicontinuity is separately needed so every feasible
-competitor at the limiting parameter can be approximated nearby. Nonempty compact values
-ensure the argmin correspondence is well-defined and nonempty. -/
-theorem upperHemicontinuousAt_isMinOn_of_hemicontinuous [T2Space X] {K : P → Set X}
-    (hKcompact : ∀ p, IsCompact (K p)) (hKne : ∀ p, (K p).Nonempty)
-    (hKu : ∀ p, UpperHemicontinuousAt K p) (hKl : ∀ p, LowerHemicontinuousAt K p)
-    (hg : Continuous (Function.uncurry g)) (p₀ : P) :
-    UpperHemicontinuousAt (fun p => {x ∈ K p | IsMinOn (g p) (K p) x}) p₀ := sorry
-
-end Berge
 
 /-! ## Part C -- matrix spectra and spectral measurability -/
 
@@ -231,76 +153,5 @@ theorem norm_toEuclideanLin_le_of_entry_le {n : ℕ} {A : Matrix (Fin n) (Fin n)
 end RCLikeComparisons
 
 end MatrixSpectra
-
-/-! ## Part D -- sample moments and matrix concentration
-
-Chebyshev plus a union bound over `n²` entries, converted to a spectral bound
-by Part C.  The elementary route is dimension-suboptimal by design: matrix
-Bernstein would give `log n` in place of `n`, at the cost of Laplace-transform
-machinery Mathlib does not have. -/
-
-section Concentration
-
-variable {n : ℕ} {Ω : Type*} [MeasurableSpace Ω]
-
-/-- **Eigenvalue concentration of a sample matrix**: second moments of the
-entries give, by Chebyshev and a union bound, simultaneous control of every
-sorted eigenvalue with probability `1 − n²v/η²`. -/
-theorem measure_forall_abs_sortedEigenvalues_sub_le_ge
-    (P : Measure Ω) [IsProbabilityMeasure P]
-    (Shat : Ω → Matrix (Fin n) (Fin n) ℝ) (A : Matrix (Fin n) (Fin n) ℝ)
-    (hSherm : ∀ ω, (Shat ω).IsHermitian) (hAherm : A.IsHermitian)
-    (hmeas : ∀ k l, Measurable fun ω => Shat ω k l)
-    (hint : ∀ k l, Integrable (fun ω => (Shat ω k l - A k l) ^ 2) P)
-    {v η : ℝ} (hη : 0 < η) (hmoment : ∀ k l, ∫ ω, (Shat ω k l - A k l) ^ 2 ∂P ≤ v) :
-    P {ω | ∀ k, |sortedEigenvalues (hSherm ω) k - sortedEigenvalues hAherm k|
-        ≤ (n : ℝ) * η} ≥ 1 - ENNReal.ofReal ((n : ℝ) ^ 2 * v / η ^ 2) := sorry
-
-/-- The empirical mean of a finite family. -/
-noncomputable def finiteMean (𝕜 : Type*) [RCLike 𝕜] {E : Type*} [NormedAddCommGroup E]
-    [InnerProductSpace 𝕜 E] {n : ℕ} (z : Fin n → E) : E :=
-  ((n : 𝕜)⁻¹) • ∑ i, z i
-
-/-- The unnormalized centered scatter operator `∑ᵢ (zᵢ − mean z) ⊗ (zᵢ − mean z)`. -/
-noncomputable def centeredScatter (𝕜 : Type*) [RCLike 𝕜] {E : Type*} [NormedAddCommGroup E]
-    [InnerProductSpace 𝕜 E] {n : ℕ} (z : Fin n → E) : E →L[𝕜] E :=
-  ∑ i, rankOne 𝕜 (z i - finiteMean 𝕜 z) (z i - finiteMean 𝕜 z)
-
-/-- **The exact add-one update for the centered scatter operator**, the streaming
-identity of the sample-moment layer.
-
-`_snoc` would track the `Fin.snoc` in the statement more literally, but
-`append` names the mathematics. -/
-theorem centeredScatter_append (𝕜 : Type*) [RCLike 𝕜] {E : Type*} [NormedAddCommGroup E]
-    [InnerProductSpace 𝕜 E] {n : ℕ} (z : Fin n → E) (y : E) :
-    centeredScatter 𝕜 (Fin.snoc z y) = centeredScatter 𝕜 z +
-      ((n : 𝕜) / ((n : 𝕜) + 1)) •
-        rankOne 𝕜 (y - finiteMean 𝕜 z) (y - finiteMean 𝕜 z) := sorry
-
-/-- **Milestone D2 -- the operator-norm deviation event**, on the same hypotheses as the
-eigenvalue event above so that the two are visibly one event read two ways.
-
-**Not a corollary of D1.**  Eigenvalue closeness does not bound an operator-norm
-difference: two matrices can have identical spectra and differ by a rotation.  Both
-descend from the same entrywise event, D1 through Weyl's inequality and this through
-Part C's `norm_toEuclideanLin_le_of_entry_le`.
-
-So the route is a refactor: factor the entrywise event
-out of the eigenvalue theorem first, then compose it with the norm comparison here and
-with Weyl there.
-
-**No symmetry hypothesis**, deliberately: an operator-norm bound needs none, while D1
-needs both matrices Hermitian to have eigenvalues at all. -/
-theorem measure_forall_norm_toEuclideanLin_sub_le_ge
-    (P : Measure Ω) [IsProbabilityMeasure P]
-    (Shat : Ω → Matrix (Fin n) (Fin n) ℝ) (A : Matrix (Fin n) (Fin n) ℝ)
-    (hmeas : ∀ k l, Measurable fun ω => Shat ω k l)
-    (hint : ∀ k l, Integrable (fun ω => (Shat ω k l - A k l) ^ 2) P)
-    {v η : ℝ} (hη : 0 < η) (hmoment : ∀ k l, ∫ ω, (Shat ω k l - A k l) ^ 2 ∂P ≤ v) :
-    P {ω | ∀ x : EuclideanSpace ℝ (Fin n),
-        ‖Matrix.toEuclideanLin (Shat ω - A) x‖ ≤ (n : ℝ) * η * ‖x‖}
-      ≥ 1 - ENNReal.ofReal ((n : ℝ) ^ 2 * v / η ^ 2) := sorry
-
-end Concentration
 
 end TauCetiRoadmap.MatrixSpectralStatistics
