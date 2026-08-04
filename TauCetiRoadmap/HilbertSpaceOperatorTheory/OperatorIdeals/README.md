@@ -235,7 +235,7 @@ at both ends of the scale.
 
 **The extension to infinite sequences** is a monotone limit, not a new definition:
 `Φ∞ a = ⨆ N, Φ (truncate a N)` over the finitely supported truncations of the **decreasing
-rearrangement**. Three decisions are pinned here:
+rearrangement**.
 
 - **`ℝ≥0∞`-valued, and a supremum over truncations rather than a `tsum`.** The gauge must be
   total and `∞` off its ideal; a supremum of an increasing net is total by
@@ -309,8 +309,8 @@ obtained rather than constructed**, and their laws are B1's.
 
 **The reconciliation obligation.** `p = 2` is defined twice: through `schattenGauge 2` on the
 singular-value sequence, and through the Hilbert–Schmidt energy on an orthonormal expansion.
-The two routes are deliberately different — the energy route needs no spectral theory, which
-is what lets Part C stand on it — so they must be proved equal:
+The energy definition requires no spectral theory, so Part C depends on it. The two
+definitions must therefore be proved equal:
 
 ```text
 ∑' n, ENNReal.ofReal (aₙ T) ^ 2  =  hilbertSchmidtEnergy T b        (any Hilbert basis b)

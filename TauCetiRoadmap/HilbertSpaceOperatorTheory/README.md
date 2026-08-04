@@ -5,8 +5,6 @@ the spectral perturbation theory built on it. Each subdirectory contains a roadm
 `README.md` and representative signatures in `Suggested.lean`; this page records their
 scope and dependencies.
 
-Roadmaps for the excluded material are welcome as separate work.
-
 ## Scope
 
 Included:

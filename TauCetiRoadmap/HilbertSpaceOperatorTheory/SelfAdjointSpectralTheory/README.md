@@ -9,12 +9,6 @@ no Borel functional calculus, no projection-valued measures, no resolvent theory
 partially defined operator, no spectral measure of an unbounded self-adjoint operator, and
 no Stone's theorem connecting self-adjoint operators to one-parameter unitary groups.
 
-This roadmap builds that layer. A one-parameter unitary group has a self-adjoint generator;
-a bounded normal operator has a Borel calculus and a projection-valued measure; a partially
-defined operator has a graph-and-domain calculus and, when self-adjoint, a real spectrum
-with quantitative resolvent bounds; and the Cayley transform carries these into the spectral
-measure of an unbounded self-adjoint operator, with Stone's theorem in both directions.
-
 Suggested homes:
 
 ```text
@@ -102,9 +96,8 @@ are stated in `MeasureTheory` for their own hypotheses, with no operator theory 
 roughly 130 declarations: `StronglyContinuousSemigroup` and `ContractionSemigroup`,
 `.generator` with its domain, `.resolvent` with the growth-bound API, `expShift`,
 `ofBounded`, and the abstract Cauchy problem as `IsClassicalSolution` / `IsMildSolution`.
-That is Part A of the
-[one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md),
-built.
+This implements Part A of the
+[one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md).
 
 The rest below — the projection-valued and unbounded-spectral layer — is absent upstream.
 

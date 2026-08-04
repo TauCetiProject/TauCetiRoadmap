@@ -349,17 +349,12 @@ number in both rather than two coincidentally equal bounds.
 
 **No symmetry hypothesis appears in D2**, deliberately: `Ŝ ω − A` needs none for an
 operator-norm bound, whereas D1 needs both matrices Hermitian to have eigenvalues at all.
-The event is therefore consumable by an application that has already discharged symmetry
-elsewhere.
+D2 can therefore be applied after symmetry has been established elsewhere.
 
-**The route is deliberately elementary.** Chebyshev plus a union bound costs a factor `n`
-(entrywise to operator) and `n²` (the union bound); a matrix Bernstein inequality would give
-`log n` dimension dependence, at the price of the matrix Laplace-transform machinery Mathlib
-does not have. The trade — a weaker constant from ingredients that exist over
-a sharper constant requiring a substantial new development — is right for a first pass, but the
-bound is **not sharp in the dimension**, and no consumer may treat the `n`-dependence as
-intrinsic. A matrix-Bernstein upgrade is future work *on top of* this API, not a replacement for
-it.
+This roadmap uses Chebyshev's inequality and a union bound, producing factors `n` and `n²`.
+Matrix Bernstein could improve the dimension dependence to `log n`, but requires matrix
+Laplace-transform machinery not currently in Mathlib. The stated bound is therefore not
+dimension-sharp.
 
 ## Worked examples (acceptance criteria)
 

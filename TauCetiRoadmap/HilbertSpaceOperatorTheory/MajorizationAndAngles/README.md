@@ -249,10 +249,8 @@ unitaries, and the SVD transport.
 
 ### Part D — angle geometry and eigenvalue perturbation
 
-Two things kept together because they are the same step of the Davis–Kahan argument: the
-**angle dictionary** — cosine, sine, angle and tangent objects for a pair of subspaces, each
-with a singular-value and a projector description — and **eigenvalue perturbation**, how far
-the spectrum moves when the operator does. The subspace-perturbation theorems consume both.
+Part D combines the angle dictionary with eigenvalue perturbation; the spectral-subspace
+perturbation theorems use both.
 
 **Objects.** The Gram operators `rightGram A = A⋆A` and `leftGram A = AA⋆`; the
 cross-projections `cosThetaMap U V = P_V ∘ P_U` and `sinThetaMap U V = P_{Vᗮ} ∘ P_U`; their

@@ -19,11 +19,6 @@ allows.
 Mathlib has the static operator-theory stack but none of this layer: no operator angles, no
 Sylvester equations, no spectral-subspace perturbation theory, no statistical variant.
 
-Sylvester equations should arrive with solvability and a-priori estimates at every relevant
-generality — bounded and domain-aware, operator norm through arbitrary unitarily invariant
-norms, constant one and `π/2` — with the `sin Θ` family as consequences and the statistical
-variant stated the way its consumers use it.
-
 This roadmap is the **endpoint of the
 [Hilbert-space operator theory](../README.md) family**: it consumes all five of the others.
 
@@ -83,7 +78,7 @@ TauCeti/Analysis/Operator/Perturbation/
 - **Population gaps in the statistical variant.** Part D's hypothesis is a gap in the spectrum
   of **one** designated (population) operator, with the perturbed block selected by
   *corresponding ordered eigenvalue indices* rather than as an arbitrary reducing subspace.
-  It must not be simplified back to a two-sided gap.
+  The hypothesis is one-sided: no spectral gap is assumed for the perturbed operator.
 
 ## What Mathlib already has (consume)
 
@@ -118,13 +113,12 @@ below is absent upstream.
 
 Independently submittable; no prerequisites.
 
-This Part exists for a constant. There is an explicit integrable `k : ℝ → ℂ` whose Fourier
-integral reproduces the reciprocal on the whole exterior region `1 ≤ |x|`, and whose total
-mass is exactly `π/2`. Any kernel with the first property yields, on substituting
-a separated pair of self-adjoint operators for `x`, a Sylvester solution bound with constant
-`‖k‖₁`; a kernel with the right transform and worse mass proves a weaker Part B. So both
-halves — identity and mass — are milestones. The mathematics is due to Haagerup and Zsidó and
-is specified here intrinsically.
+Part A constructs an integrable `k : ℝ → ℂ` whose Fourier integral reproduces the reciprocal
+on the whole exterior region `1 ≤ |x|`, and whose total mass is exactly `π/2`. Any kernel
+with the first property yields, on substituting a separated pair of self-adjoint operators
+for `x`, a Sylvester solution bound with constant `‖k‖₁`; a kernel with the right transform
+and worse mass proves a weaker Part B. So both halves — identity and mass — are milestones.
+The mathematics is due to Haagerup and Zsidó and is specified here intrinsically.
 
 **Objects.** A four-definition chain: `weight y = tanh (π y / 2)`;
 `weightLaplaceTransform t = ∫ y in Ioi 0, weight y · e^{−|t| y}`;

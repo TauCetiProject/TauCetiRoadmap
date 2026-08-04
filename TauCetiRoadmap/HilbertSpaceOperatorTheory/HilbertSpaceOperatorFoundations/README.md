@@ -16,10 +16,6 @@ uniqueness theory at that generality, no partial-isometry API, no polar decompos
 singular *vectors*, no Moore–Penrose inverse, no sharp projector-difference identity, and
 no shared vocabulary of spectral-separation hypotheses.
 
-Each object should be defined once, at its natural generality, with its basic API: closure
-and composition laws, kernels and ranges, the standard identities, and the connections to
-existing Mathlib structures.
-
 Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar square-root
 estimates in `TauCeti/Analysis/SpecialFunctions/` and the subspace-equality isometry lemma
 in `TauCeti/Analysis/Normed/Operator/`.
