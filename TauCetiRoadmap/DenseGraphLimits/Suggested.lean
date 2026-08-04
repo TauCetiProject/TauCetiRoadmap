@@ -713,18 +713,6 @@ theorem isDissociated_iff_upperMass_mul (L : ExchangeableGraphLaw) :
           L.upperMass ((F₁ ⊕g F₂).map finSumFinEquiv.toEmbedding)
             = L.upperMass F₁ * L.upperMass F₂ := sorry
 
-/-- **Layer 9b (extremality — dissociated laws are exactly the sample laws).** A dissociated
-exchangeable graph law is the sampling law of a graphon on the canonical carrier — the
-graph-law-level extreme-point theorem the Layer-8b spine consumes (its converse is
-`isDissociated_sampleExchangeableLaw`). With the empirical-mixing spine below this is a **short
-consequence**, not an independent representation theorem: existence writes `L` as a mixture,
-`isDissociated_mixtureExchangeableLaw_iff` collapses the mixing measure to a Dirac, and the Dirac
-fiber is a sampling law (`mixtureExchangeableLaw_diracProba`). Prior formalization:
-`isDissociated_iff_exists_sampleExchangeableLaw` (`MixtureExtremality.lean`). -/
-theorem exists_graphon_of_isDissociated (L : ExchangeableGraphLaw) (h : L.IsDissociated) :
-    ∃ W : Graphon I (volume : Measure I),
-      L = sampleExchangeableLaw (volume : Measure I) W := sorry
-
 /-- **Layer 9b (infinite form).** An exchangeable law on infinite graphs: a probability law on
 `SimpleGraph ℕ` invariant under relabeling along every permutation of `ℕ`. -/
 structure InfiniteExchangeableGraphLaw where
@@ -882,14 +870,17 @@ theorem mixtureExchangeableLaw_injective :
         ExchangeableGraphLaw) := sorry
 
 /-- **Layer 9b (the packaged finite-level correspondence).** Existence (spine 5) and uniqueness
-(spine 6) package as an equivalence; `mixtureExchangeableLawEquiv_apply` pins its forward map to
-the mixture map, so this cannot be an arbitrary `Equiv`. -/
+(spine 6) package as an equivalence — a **real body** by `Equiv.ofBijective`, so the forward map
+is the mixture map by construction and this cannot be an arbitrary `Equiv`. -/
 def mixtureExchangeableLawEquiv :
-    MeasureTheory.ProbabilityMeasure GraphonSpaceI ≃ ExchangeableGraphLaw := sorry
+    MeasureTheory.ProbabilityMeasure GraphonSpaceI ≃ ExchangeableGraphLaw :=
+  Equiv.ofBijective mixtureExchangeableLaw
+    ⟨mixtureExchangeableLaw_injective, exists_mixtureExchangeableLaw_eq⟩
 
-/-- **Layer 9b.** The forward map of the packaged correspondence is the mixture map. -/
+/-- **Layer 9b.** The forward map of the packaged correspondence is the mixture map —
+definitional, by the `Equiv.ofBijective` assembly. -/
 theorem mixtureExchangeableLawEquiv_apply (P : MeasureTheory.ProbabilityMeasure GraphonSpaceI) :
-    mixtureExchangeableLawEquiv P = mixtureExchangeableLaw P := sorry
+    mixtureExchangeableLawEquiv P = mixtureExchangeableLaw P := rfl
 
 /-- **Layer 9b (dissociated ⟺ Dirac).** A graphon mixture is dissociated **iff** its mixing
 measure is a Dirac mass: sampling laws are dissociated (Dirac direction), and a dissociated
@@ -903,6 +894,19 @@ theorem isDissociated_mixtureExchangeableLaw_iff
           P = MeasureTheory.diracProba
             (X := GraphonSpaceI) (Quotient.mk (graphonSetoid (volume : Measure I)) W) :=
   sorry
+
+/-- **Layer 9b (extremality — dissociated laws are exactly the sample laws).** A dissociated
+exchangeable graph law is the sampling law of a graphon on the canonical carrier — the
+graph-law-level extreme-point theorem the Layer-8b spine consumes (its converse is
+`isDissociated_sampleExchangeableLaw`). Positioned after the empirical-mixing spine, whose targets its proof uses:
+a **short
+consequence**, not an independent representation theorem — existence writes `L` as a mixture,
+`isDissociated_mixtureExchangeableLaw_iff` collapses the mixing measure to a Dirac, and the Dirac
+fiber is a sampling law (`mixtureExchangeableLaw_diracProba`). Prior formalization:
+`isDissociated_iff_exists_sampleExchangeableLaw` (`MixtureExtremality.lean`). -/
+theorem exists_graphon_of_isDissociated (L : ExchangeableGraphLaw) (h : L.IsDissociated) :
+    ∃ W : Graphon I (volume : Measure I),
+      L = sampleExchangeableLaw (volume : Measure I) W := sorry
 
 /-- **Layer 9b (the graph-law representation — Diaconis–Janson).** Every exchangeable law on
 infinite graphs is a **graphon mixture**, uniquely: a bijection with the probability measures on

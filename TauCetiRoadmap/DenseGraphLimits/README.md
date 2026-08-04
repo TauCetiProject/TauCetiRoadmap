@@ -357,9 +357,9 @@ estimators: the finite-graph hom density `homDensityFin` and the **injective hom
 `injHomDensity` (`t₀`, ordered injective count over the falling factorial `(n)_k` — see Conventions),
 with the hom-vs-injective **closeness bound** `|t(F,·) − t₀(F,·)| ≤ C(k,2)/n` and the **unbiasedness
 anchor** `E_{G(n,W)}[t₀(F,·)] = t(F,W)` that pins the `(n)_k` normalization. Both finite estimators
-have a natural consumer: the companion graph-regularity roadmap may align its plain-graph densities
-with `homDensityFin` / `injHomDensity` — optional interoperability on its side, not a dependency in
-either direction.
+have a natural consumer: the companion graph-regularity roadmap **owns** any adapters aligning its
+plain-graph densities with `homDensityFin` / `injHomDensity`, as named milestones there; neither
+roadmap depends on those adapters.
 
 **The joint sampling object.** `sampleGraph W n` is a *marginal* law for each `n`; an
 almost-sure convergence claim across `n` is unstateable for the marginal family alone. The pinned
@@ -413,9 +413,10 @@ for the summit:
    point-separating algebra on the compact `GraphonSpaceI` (Layer 6a), so their integrals
    determine the mixing measure;
 7. the packaged `mixtureExchangeableLawEquiv : ProbabilityMeasure GraphonSpaceI ≃
-   ExchangeableGraphLaw`, pinned to the mixture map by `mixtureExchangeableLawEquiv_apply`, with
-   the extreme-point characterization `isDissociated_mixtureExchangeableLaw_iff` (dissociated ⟺
-   Dirac mixing measure).
+   ExchangeableGraphLaw` — a real body, assembled by `Equiv.ofBijective` from spines 5–6, so
+   `mixtureExchangeableLawEquiv_apply` (the forward map is the mixture map) is definitional —
+   with the extreme-point characterization `isDissociated_mixtureExchangeableLaw_iff`
+   (dissociated ⟺ Dirac mixing measure).
 
 The summit is then **assembled, not opaque**:
 `graphonMixtureLawEquiv : ProbabilityMeasure GraphonSpaceI ≃ InfiniteExchangeableGraphLaw` carries
@@ -633,9 +634,11 @@ highest-leverage self-contained summit, with Layer 4 (compactness) alongside it.
 block the others. The representability summit's real build order is
 **Layer 8a → Layer 9b (graph-law representation/extremality) → Layer 8b**: the 8b spine consumes
 `ExchangeableGraphLaw`, `upperMass`, `IsDissociated`, and `exists_graphon_of_isDissociated`, so
-Layer 9b precedes 8b. Layer 9b itself consumes Layer 9a's sampling objects and Layer 4's
-compactness; Layer 9c (sampling convergence) is independent of both 9b and 8b and can land in
-parallel; 8a is independent and can land any time after Layer 0. The Mathlib upstreaming follows.
+Layer 9b precedes 8b. Layer 9b itself consumes Layer 9a's sampling objects, Layer 4's
+compactness, and the hom-density continuity/separation algebra of Layers 1–2 and 6a (the
+descended coordinates that drive limit identification and uniqueness); Layer 9c (sampling
+convergence) is independent of both 9b and 8b and can land in parallel; 8a is independent and can
+land any time after Layer 0. The Mathlib upstreaming follows.
 
 Layers 4–6 are independent and likely to attract duplicate work, so **register an Intention and
 `claim` the specific target** before a substantial push (see *Coordinating work* in the repository
@@ -702,7 +705,7 @@ the already-formalized parts and treating the open parts as goals to be discharg
   proved without it.
 
 Already formalized over a fixed standard-Borel carrier, making the canonical specializations
-migration-first: Layers 0–7 and 9. The **coupling-based cross-carrier generality** of Layers 1, 5,
+migration-first: Layers 0–7 and 9a–9c. The **coupling-based cross-carrier generality** of Layers 1, 5,
 and 6 — the Janson statements over arbitrary probability carriers — is also discharge work. The
 remaining headline discharge target is Layer 8b (representability), whose spine consumes the
 Layer-9b graph-law infrastructure — see *Ordering*.
