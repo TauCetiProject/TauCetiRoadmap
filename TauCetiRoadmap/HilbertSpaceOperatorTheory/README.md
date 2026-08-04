@@ -10,9 +10,8 @@ Included:
 
 - bounded operators between Hilbert spaces, over `ℝ` and `ℂ` uniformly where the
   mathematics permits;
-- the functional calculus of a self-adjoint operator in finite dimension, positive square
-  roots, the operator modulus, polar decomposition, and partial isometries;
-- singular systems and Moore–Penrose inverses;
+- the operator modulus, polar decomposition, and partial isometries;
+- singular systems;
 - Gram operators, orthogonal projections, and the geometry of spectral subspaces;
 - principal angles, and the eigenvalue-perturbation theorems stated in them;
 - closed operators and resolvents on `LinearPMap`;
@@ -36,16 +35,13 @@ Excluded:
 ## The roadmaps
 
 - [**Hilbert-space operator foundations**](HilbertSpaceOperatorFoundations/README.md) —
-  the functional calculus of a symmetric operator over `RCLike`, the positive square root
-  and the operator modulus, polar decomposition and partial isometries, singular systems
-  and the Moore–Penrose inverse, Gram rigidity, projection geometry and spectral
-  subspaces.
+  the operator modulus, polar decomposition and partial isometries, singular systems,
+  Gram rigidity, projection geometry and spectral subspaces.
 - [**Majorization and angles**](MajorizationAndAngles/README.md) — principal angles as
   singular values of an overlap operator, the von Neumann trace inequality,
   Hoffman–Wielandt and Davis's eigenvalue-change bound.
 - [**Self-adjoint spectral theory**](SelfAdjointSpectralTheory/README.md) — closed
-  operators and resolvents on `LinearPMap`, with the Cayley transform and the
-  quadratic-form bounds.
+  operators on `LinearPMap`: domain-aware perturbation and the quadratic-form bounds.
 - [**Matrix spectral statistics**](MatrixSpectralStatistics/README.md) — rank and Gram
   factorizations with their uniqueness, entrywise-to-spectral comparisons and
   measurability of spectral functions.

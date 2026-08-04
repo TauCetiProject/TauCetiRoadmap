@@ -68,57 +68,6 @@ variable {𝕜 : Type u} [RCLike 𝕜]
 variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
 variable {n : ℕ}
 
-/-- Apply a real function to the spectrum of a symmetric endomorphism: the finite `RCLike`
-counterpart of the continuous functional calculus, which Mathlib registers only over `ℂ`. -/
-noncomputable def selfAdjointFunctionalCalculus
-    {T : E →ₗ[𝕜] E} (hT : T.IsSymmetric) (f : ℝ → ℝ) : E →ₗ[𝕜] E :=
-  ∑ i : Fin (finrank 𝕜 E),
-    ((f (hT.eigenvalues rfl i) : ℝ) : 𝕜) •
-      (InnerProductSpace.rankOne 𝕜 (hT.eigenvectorBasis rfl i)
-        (hT.eigenvectorBasis rfl i)).toLinearMap
-
-/-- The calculus on an arbitrary eigenvector. Unlike the eigenbasis lemma this form is
-stable on repeated eigenspaces, and it is what makes the commutant property available. -/
-theorem selfAdjointFunctionalCalculus_apply_of_apply_eq_smul
-    {T : E →ₗ[𝕜] E} (hT : T.IsSymmetric) (f : ℝ → ℝ)
-    {x : E} {lam : ℝ} (hx : T x = (lam : 𝕜) • x) :
-    selfAdjointFunctionalCalculus hT f x = ((f lam : ℝ) : 𝕜) • x := by
-  sorry
-
-/-- The positive square root: the calculus at `Real.sqrt`, by definition rather than by a
-bridging lemma. -/
-noncomputable def IsPositive.sqrt {T : E →ₗ[𝕜] E} (hT : T.IsPositive) : E →ₗ[𝕜] E :=
-  selfAdjointFunctionalCalculus hT.isSymmetric Real.sqrt
-
-/-- Uniqueness: any positive operator squaring to `T` is the square root
-(Horn–Johnson 7.2.6). -/
-theorem sqrt_unique {T S : E →ₗ[𝕜] E} (hT : T.IsPositive) (hS : S.IsPositive)
-    (h : S ∘ₗ S = T) : S = hT.sqrt := by
-  sorry
-
-/-- **The square modulus** `|A| = (A⋆A)^(1/2)`, over `RCLike` and in finite dimension.
-
-`operatorAbs` is a deliberate placeholder: a bare `abs` collides with the lattice absolute
-value denoted by `|·|`, `modulus` splits the name from its rectangular counterpart, and
-`README.md` leaves the choice to review. The token appears nowhere else, so adopting the
-settled name is one mechanical replacement.
-
-The rectangular complex counterpart is `ContinuousLinearMap.modulus`, and
-`operatorAbs_toContinuousLinearMap_eq_cfcAbs` proves the two agree where both apply. -/
-noncomputable def operatorAbs (A : E →ₗ[𝕜] E) : E →ₗ[𝕜] E :=
-  (LinearMap.isPositive_adjoint_comp_self A).sqrt
-
-/-- The polar norm identity `‖|A| x‖ = ‖A x‖`, the seed of the isometry route to the polar
-decomposition (Conway VI.3.9). -/
-@[simp] theorem norm_operatorAbs_apply (A : E →ₗ[𝕜] E) (x : E) : ‖operatorAbs A x‖ = ‖A x‖ := by
-  sorry
-
-/-- `ker |A| = ker A`; with `range |A| = (ker A)ᗮ` this is what identifies the initial
-space of the polar factor. -/
-theorem ker_operatorAbs (A : E →ₗ[𝕜] E) : ker (operatorAbs A) = ker A := by
-  sorry
-
-/-- Courant–Fischer min–max equality (Horn–Johnson 4.2.6). -/
 theorem eigenvalues_eq_iSup_iInf_re_inner
     {T : E →ₗ[𝕜] E} (hT : T.IsSymmetric) (hn : finrank 𝕜 E = n) (k : Fin n) :
     hT.eigenvalues hn k =
@@ -137,42 +86,6 @@ theorem abs_eigenvalues_sub_le_opNorm
   sorry
 
 end FunctionalCalculus
-
-section CalculusAgreement
-
-variable {H : Type v} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
-  [FiniteDimensional ℂ H] [CompleteSpace H]
-
-/-- **The two calculi agree.** Over `ℂ` the finite `RCLike` calculus computes the same
-operator as Mathlib's continuous functional calculus, so a consumer may move between them
-freely. -/
-theorem selfAdjointFunctionalCalculus_toContinuousLinearMap_eq_cfc
-    {T : H →ₗ[ℂ] H} (hT : T.IsSymmetric) (f : ℝ → ℝ) (hf : Continuous f) :
-    (selfAdjointFunctionalCalculus hT f).toContinuousLinearMap =
-      cfc f T.toContinuousLinearMap := by
-  sorry
-
-/-- The two moduli agree wherever both are defined: the `RCLike` construction, transported
-across the `LinearMap ↔ ContinuousLinearMap` adjoint bridge, is `CFC.abs`. -/
-theorem operatorAbs_toContinuousLinearMap_eq_cfcAbs (A : H →ₗ[ℂ] H) :
-    (operatorAbs A).toContinuousLinearMap = CFC.abs A.toContinuousLinearMap := by
-  sorry
-
-end CalculusAgreement
-
-section SquarePolar
-
-variable {𝕜 : Type u} [RCLike 𝕜]
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
-
-/-- Polar decomposition with a genuine unitary factor, available for every endomorphism of
-a finite-dimensional space (Horn–Johnson 7.3.1; the factor is not unique when `A` is
-singular). -/
-theorem exists_polar_decomposition_unitary (A : E →ₗ[𝕜] E) :
-    ∃ U : E ≃ₗᵢ[𝕜] E, A = (U : E →ₗ[𝕜] E) ∘ₗ operatorAbs A := by
-  sorry
-
-end SquarePolar
 
 section SingularSystem
 
@@ -221,44 +134,6 @@ theorem exists_orthonormalBasis_extending_leftSingularVector (A : E →ₗ[𝕜]
           (fun i : {j : Fin (finrank 𝕜 E) // A.singularValues j ≠ 0} =>
             leftSingularVector A i.1) ⊆ Set.range b := by
   sorry
-
-/-- **`B` is a Moore–Penrose inverse of `A`**: Penrose's four conditions, as a predicate
-with named accessors. -/
-structure IsMoorePenroseInverse (A : E →ₗ[𝕜] F) (B : F →ₗ[𝕜] E) : Prop where
-  /-- `B` is a generalized inverse of `A`. -/
-  comp_comp_self : A ∘ₗ B ∘ₗ A = A
-  /-- `A` is a generalized inverse of `B`. -/
-  comp_comp_self' : B ∘ₗ A ∘ₗ B = B
-  /-- The idempotent `A B` onto the range of `A` is self-adjoint. -/
-  isSymmetric_comp : (A ∘ₗ B).IsSymmetric
-  /-- The idempotent `B A` onto the range of `B` is self-adjoint. -/
-  isSymmetric_comp' : (B ∘ₗ A).IsSymmetric
-
-/-- The Moore–Penrose inverse, reconstructed from the singular system; zero singular values
-contribute zero through total field inversion. -/
-noncomputable def moorePenroseInverse (A : E →ₗ[𝕜] F) : F →ₗ[𝕜] E :=
-  ∑ i : Fin (finrank 𝕜 E),
-    ((A.singularValues i ^ 2 : ℝ) : 𝕜)⁻¹ •
-      (InnerProductSpace.rankOne 𝕜 (rightSingularBasis A i)
-        (A (rightSingularBasis A i))).toLinearMap
-
-/-- The construction satisfies the four conditions, so a Moore–Penrose inverse exists. -/
-theorem isMoorePenroseInverse_moorePenroseInverse (A : E →ₗ[𝕜] F) :
-    IsMoorePenroseInverse A (moorePenroseInverse A) := by
-  sorry
-
-/-- **The characterization** (Penrose 1955): anything satisfying the four conditions *is*
-the constructed pseudoinverse, and uniqueness follows. -/
-theorem eq_moorePenroseInverse_of_isMoorePenroseInverse
-    {A : E →ₗ[𝕜] F} {B : F →ₗ[𝕜] E} (h : IsMoorePenroseInverse A B) :
-    B = moorePenroseInverse A := by
-  sorry
-
-/-- The relation is compatible with adjoints. -/
-theorem isMoorePenroseInverse_adjoint {A : E →ₗ[𝕜] F} {B : F →ₗ[𝕜] E} :
-    IsMoorePenroseInverse A B ↔ IsMoorePenroseInverse A.adjoint B.adjoint := by
-  sorry
-
 end SingularSystem
 
 section GramRigidity
@@ -375,23 +250,6 @@ end RectangularModulus
 section SingularValueAccessor
 
 variable {𝕜 : Type u} [RCLike 𝕜]
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
-variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F]
-
-/-- The singular values of a bounded operator: the accessor that keeps
-`T.toLinearMap.singularValues` out of public statements about operator norms. It carries no
-mathematical content of its own — every lemma about it should be a one-line delegation to
-the `LinearMap` level — but it fixes the spelling that approximation numbers, Ky Fan norms
-and Eckart–Young are stated in. -/
-noncomputable def singularValues (T : E →L[𝕜] F) : ℕ →₀ ℝ :=
-  T.toLinearMap.singularValues
-
-@[simp] theorem singularValues_toLinearMap (T : E →L[𝕜] F) :
-    T.toLinearMap.singularValues = singularValues T := rfl
-
-end SingularValueAccessor
-
-end ContinuousLinearMap
 
 namespace TauCetiRoadmap.HilbertSpaceOperatorFoundations
 
