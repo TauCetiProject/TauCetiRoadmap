@@ -1,0 +1,54 @@
+name: label-intentions
+
+# Apply the `intention` label on the author's behalf, so filing an intention needs nothing but
+# permission to open an issue.
+#
+# `.github/ISSUE_TEMPLATE/1-intention.yml` carries `labels: ["intention"]`, but GitHub applies a
+# template's labels server-side only when the issue is submitted through the web form. Anyone
+# opening the issue through the API instead (`gh issue create --label intention`, which is what a
+# worker agent does) needs triage rights on this repository, and a contributor who has just
+# arrived does not have them: the call fails with `does not have the correct permissions to
+# execute AddLabelsToLabelable`. Labelling here means the web form and the API behave the same,
+# and nobody has to be granted repository permissions to register an intention.
+#
+# The label matters because intentions.yml sets `auto-add-labels: intention`, so an unlabelled
+# intention issue never reaches the Tau Ceti board.
+#
+# Deliberately uses the claim-bot App token rather than GITHUB_TOKEN: a label applied by
+# GITHUB_TOKEN does not trigger further workflow runs, so intentions.yml would never see the
+# resulting `labeled` event and the issue would still miss the board. Requires the App to hold
+# repository **Issues: write** (it already does; that is how it assigns and comments).
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  label:
+    # The template pins `title: "[Intention]: "`, so the prefix identifies an intention issue
+    # whichever way it was filed. Web-form submissions already carry the label; skip those rather
+    # than firing a redundant `labeled` event.
+    if: >-
+      startsWith(github.event.issue.title, '[Intention]:') &&
+      !contains(github.event.issue.labels.*.name, 'intention')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint App token (issues write)
+        id: token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.CLAIM_BOT_APP_ID }}
+          private-key: ${{ secrets.CLAIM_BOT_APP_PRIVATE_KEY }}
+          owner: TauCetiProject
+          repositories: TauCetiRoadmap
+          permission-issues: write
+
+      - name: Apply the intention label
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+        run: |
+          gh issue edit "${{ github.event.issue.number }}" \
+            --repo "${{ github.repository }}" --add-label intention

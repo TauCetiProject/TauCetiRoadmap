@@ -4,7 +4,9 @@ on:
   issue_comment:
     types: [created]
   issues:
-    types: [opened, closed, reopened]
+    # `labeled` catches the intention issues that label-intentions.yml labels after the fact:
+    # they open without `intention`, so the `opened` event fails the auto-add filter below.
+    types: [opened, labeled, closed, reopened]
   pull_request_target:
     types: [opened, reopened, ready_for_review, converted_to_draft, closed]
   schedule:

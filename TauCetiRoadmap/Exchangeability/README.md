@@ -91,7 +91,8 @@ output. The spine is:
 2. exchangeability, full exchangeability, spreadability/contractability, and the bridges
    between the process-level and path-law formulations;
 3. product kernels and mixtures of finite product measures;
-4. conditional independence and conditionally i.i.d. APIs;
+4. measurable mixtures of i.i.d. product laws, and the genuine conditionally-i.i.d. upgrade
+   (the joint-law disintegration given the directing measure);
 5. process-relative tail σ-algebras and path-space shifts;
 6. reverse martingales for arbitrary decreasing filtrations;
 7. Koopman operators and invariant σ-algebras for arbitrary measure-preserving maps.
@@ -108,14 +109,47 @@ The basic definitions should be as hypothesis-light as possible:
 * `Exchangeable μ X`: invariance of finite-dimensional laws under permutations of `Fin n`.
 * `FullyExchangeable μ X`: invariance of the path law under all permutations of `ℕ`.
 * `Contractable μ X`: invariance under strictly increasing finite subsequences.
-* `ConditionallyIID μ X`: existence of a measurable random probability measure whose
-  finite product kernels give the finite-dimensional laws. Pin the directing-measure API
+* `MixedIID μ X` (Kallenberg's terminology for the unconditional identity): existence of a
+  measurable random probability measure whose
+  finite product kernels give the finite-dimensional laws. Pin the random-measure API
   before stating it: either `ν : Ω → ProbabilityMeasure α` (with Mathlib's
   `ProbabilityMeasure.pi`, and `ProbabilityMeasure.toMeasure_pi` / `ProbabilityMeasure.pi_pi`
   for the bridge to `Measure.pi` and rectangle evaluation), or a raw `ν : Ω → Measure α`
-  together with an explicit `∀ ω, IsProbabilityMeasure (ν ω)` hypothesis. A
-  `ConditionallyIIDWith μ X ν` relation plus an existential wrapper keeps the directing
-  measure nameable in proofs.
+  together with an explicit `∀ ω, IsProbabilityMeasure (ν ω)` hypothesis. The
+  `MixedIIDWith μ X ν` relation plus the existential wrapper keeps the mixing
+  representative nameable in proofs.
+
+This is a representation property of the **unconditional finite-dimensional laws**. Do not call
+it `ConditionallyIID`: that standard phrase normally asserts conditional independence relative to
+a σ-algebra or random element, using conditional laws or almost-sure conditional-expectation
+identities. The mixture equation above is the conclusion of integrating out such conditional
+structure, not a definition of conditional independence on the original probability space.
+
+The genuine conditional notion is the **summit predicate**, a separate, stronger target:
+
+* `ConditionallyIIDWith μ X ν`: the **joint-law disintegration**
+  `Law(ν, block) = ∫ δ_{ν(ω)} ⊗ (ν(ω))^{⊗m} dμ(ω)` — conditionally on `ν`, every finite
+  distinct block is i.i.d. `ν` (Kallenberg 2005, §1.1 eq. (2); stated as a joint-law identity,
+  so the definition needs no conditional expectations — Thm 1.1 there is the equivalence with
+  exchangeability), with `ConditionallyIID` its existential wrapper.
+
+It strictly strengthens the mixture identity **at a fixed `ν`**: the mixture relation
+constrains only the block's marginal law, so for a **nondegenerate mixing law**, on a rich
+enough space an **independent copy** of a directing measure also witnesses `MixedIIDWith`
+while the process is not conditionally i.i.d. given it. Terminology follows: a `ν` witnessing
+only the mixture identity is a **mixing representative**; **directing measure** is reserved
+for the conditional predicate's witness. Uniqueness splits the same way: no witness-level
+a.e.-equality theorem may conclude `ν = ν'` from `MixedIIDWith` alone — what is unique on the
+mixture side is the **mixing law** `μ.map ν` (`mixedIID_mixingLaw_unique`), while a.e.
+uniqueness of the witness itself holds on the conditional side
+(`conditionallyIID_ae_unique`, Layer 6). The easy arrow is
+`ConditionallyIIDWith μ X ν → MixedIIDWith μ X ν` with its existential corollary
+`mixedIID_of_conditionallyIID`; the hard converse is de Finetti's upgrade to the canonical
+tail-measurable directing measure (`conditionallyIID_of_exchangeable`, Layer 6), and the
+summit theorems conclude `ConditionallyIID`, never merely `MixedIID`. Sequencing note:
+TauCeti's landed API currently uses the name `ConditionallyIID` for the *mixture* shape, so
+the code rename (to `MixedIID` / `MixedIIDWith`) must land **before** the conditional
+predicate is implemented under this name.
 
 The standard-Borel hypotheses belong in the directing-measure construction and final
 de Finetti theorem, not in every elementary definition. Similarly, L² assumptions belong
@@ -163,7 +197,8 @@ The missing pieces are:
 * the `pathLaw` / `Fin n`-prefix wrappers over Mathlib's projective-limit uniqueness
   (`IsProjectiveLimit.unique`, from `Mathlib.MeasureTheory.Constructions.Projective`);
 * product-kernel measurability for random finite product measures;
-* the common de Finetti ending turning a directing-measure bridge into `ConditionallyIID`;
+* the common de Finetti endings turning a mixing-representative bridge into `MixedIIDWith` and
+  its joint-rectangle strengthening into `ConditionallyIIDWith`;
 * process-relative tail σ-algebras and their antitone filtration structure;
 * reverse martingale convergence for conditional expectations along decreasing filtrations;
 * Koopman operators and the identification of the mean-ergodic projection with conditional
@@ -291,8 +326,8 @@ Also build the implication lattice and the alternate characterizations as named 
 * closure of each symmetry class under coordinatewise pushforward `X ↦ (f ∘ Xᵢ)`;
 * mixtures of i.i.d. laws are exchangeable, and exchangeable laws are stationary;
 * the implication lattice among `ExchangeableAt n`, `Exchangeable`, `FullyExchangeable`,
-  `Contractable`, and `ConditionallyIID`, with every easy arrow named and the hard arrow
-  `Contractable → ConditionallyIID` isolated;
+  `Contractable`, `MixedIID`, and `ConditionallyIID`, with every easy arrow named and the hard
+  arrow `Contractable → ConditionallyIID` isolated;
 * the process-level ↔ path-law bridges in both directions.
 
 State each equivalence with its hypotheses: finite ↔ full exchangeability needs a probability
@@ -305,7 +340,7 @@ only, or as a property of a process only, without bridges. Both viewpoints are u
 the process-level statements are what users want, while the path-law statements make
 π-system and shift arguments cleaner.
 
-### Layer 1: product kernels, conditional independence, and mixtures
+### Layer 1: product kernels and mixtures
 
 Suggested home:
 
@@ -319,20 +354,27 @@ Consume Mathlib's product/cylinder infrastructure — `generateFrom_pi`, `isPiSy
 `Measure.pi_eq`, `Measure.pi_pi` — and build only the de Finetti-facing adapters over it:
 
 * measurability of `ω ↦ Measure.pi fun _ : Fin m => ν ω` (the random product kernel);
+* measurability of the joint kernel `ω ↦ δ_{ν ω} ⊗ (ν ω)^{⊗m}`, which the conditional common
+  ending needs for `Measure.bind_apply` and extensionality on the joint space;
 * the AE-measurable version needed for `Measure.bind_apply`;
 * rectangle evaluation and equality-from-rectangles specialized to those random product
   measures (that rectangles form a π-system and generate the product σ-algebra is Mathlib's
   `isPiSystem_pi` / `generateFrom_pi`).
 
-Then build the common de Finetti ending:
+Then build the common de Finetti endings:
 
 ```lean
-conditional_iid_from_directing_measure
+mixedIID_of_mixingRepresentative
+conditionallyIID_of_jointRectangles
 ```
 
-The intended bridge hypothesis is an indicator-product factorization: for every finite
-injective selection `k : Fin m → ℕ` and measurable rectangle `B`, the law of
-`(X (k i))ᵢ` equals the mixture of product measures induced by `ν`.
+The intended bridge hypothesis of the first is an indicator-product factorization: for every
+finite injective selection `k : Fin m → ℕ` and measurable rectangle `B`, the law of
+`(X (k i))ᵢ` equals the mixture of product measures induced by `ν`. The second is its
+**joint-rectangle strengthening** — agreement of the joint law of `(ν, block)` with the
+disintegration `δ_ν ⊗ ν^{⊗m}` on rectangles `S ×ˢ B` (measurable `S` in the `ν` coordinate) —
+which upgrades to `ConditionallyIIDWith` by the same π-system argument and is what each proof
+route calls to reach the conditional summit.
 
 This layer is shared by the L² and Koopman routes, and also useful for the martingale
 route's final finite-product step.
@@ -423,7 +465,8 @@ Build:
 * extension from bounded measurable real observables to a countable determining class on the
   standard Borel state space;
 * the directing-measure bridge;
-* the call to `conditional_iid_from_directing_measure`.
+* the calls to the common endings — `mixedIID_of_mixingRepresentative` and the joint-rectangle
+  `conditionallyIID_of_jointRectangles` for the conditional summit.
 
 Key milestones:
 
@@ -601,16 +644,39 @@ Key milestones:
 
 ```lean
 conditionallyIID_of_contractable
+conditionallyIID_of_exchangeable
 deFinetti
 deFinetti_equivalence
 deFinetti_RyllNardzewski_equivalence
+mixedIID_of_contractable
 ```
+
+`conditionallyIID_of_contractable` is the actual hard route theorem; `deFinetti` and the
+Ryll-Nardzewski equivalence conclude `ConditionallyIID`, and the mixture forms
+(`mixedIID_of_contractable`, `deFinetti_mixture`) are retained as integrated-out corollaries,
+never as the summit.
 
 The directing-measure theorem should expose a real API, not just an existence proof:
 
 * construction of the directing measure `ν`;
-* **a.e.** uniqueness of `ν` (equality of probability measures a.e. under the base law, tested
-  against a determining class — not pointwise);
+* the **conditional upgrade** `conditionallyIID_of_exchangeable`: the constructed `ν` satisfies
+  `ConditionallyIIDWith μ X ν` — conditionally on `ν` the process is i.i.d. `ν` (Kallenberg
+  2005, Thm 1.1), the sharp form from which the mixture identity follows by integrating out;
+* **a.e.** uniqueness of `ν` **among directing measures**, i.e. among witnesses of
+  `ConditionallyIIDWith` (`conditionallyIID_ae_unique`: equality of probability measures a.e.
+  under the base law, tested against a determining class — not pointwise). Pin its hypotheses:
+  `[IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]`, measurable `X`, and two
+  explicit `ConditionallyIIDWith μ X ν` / `ConditionallyIIDWith μ X ν'` hypotheses, concluding
+  `ν =ᵐ[μ] ν'`. Mere mixing
+  representatives (witnesses of `MixedIIDWith`) are **not** a.e. unique when the mixing law is
+  nondegenerate — an independent copy of `ν` is one — so no witness-level a.e.-equality
+  theorem may conclude `ν = ν'` from `MixedIIDWith` alone; the mixture-side uniqueness is of
+  the mixing law `μ.map ν` (`mixedIID_mixingLaw_unique`, which does quantify over mixture
+  witnesses: two `MixedIIDWith` hypotheses, measurable `X`, concluding `μ.map ν = μ.map ν'`).
+  The `[IsProbabilityMeasure μ]` hypothesis on `mixedIID_mixingLaw_unique` is load-bearing,
+  not decorative: for infinite base measures, distinct mixing measures can give identical
+  `∞`-valued finite-dimensional mixtures, so mixing-law uniqueness fails at the hypothesis-light
+  generality of the definitions;
 * the finite-dimensional factorization identity;
 * the empirical-measure form: `(1/n) Σ_{i<n} δ_{Xᵢ}(ω) ⇒ ν(ω)` weakly in `P(α)`, tested
   against bounded continuous functions (a milestone in its own right, bringing in the weak
@@ -639,22 +705,30 @@ Expose:
 Exchangeable
 FullyExchangeable
 Contractable
+MixedIIDWith
+MixedIID
+ConditionallyIIDWith
 ConditionallyIID
 
 exchangeable_iff_fullyExchangeable
 contractable_of_exchangeable
-exchangeable_of_conditionallyIID
+exchangeable_of_mixedIID
+mixedIIDWith_of_conditionallyIIDWith
+mixedIID_of_conditionallyIID
 
 conditionallyIID_of_contractable
+conditionallyIID_of_exchangeable
 deFinetti
 deFinetti_equivalence
 deFinetti_RyllNardzewski_equivalence
+mixedIID_of_contractable
 
 deFinetti_viaL2
 deFinetti_viaKoopman
 
 deFinetti_empiricalMeasure
 deFinetti_mixture
+mixedIID_mixingLaw_unique
 conditionallyIID_ae_unique
 exchangeable_extreme_iff_iid
 ```
@@ -685,11 +759,14 @@ martingales, Koopman operators, product kernels — is a parallel ongoing goal.
 Discharge these alongside the layers; they check that the API describes real probability
 objects, not just the final theorem.
 
-* The law of an i.i.d. sequence is `ConditionallyIID`, `Exchangeable`, and `Contractable`.
-* A mixture of i.i.d. `Bool`-valued laws, parameterized by a random `θ`, is exchangeable,
-  with `ω ↦ κ (θ ω)` (`κ` a two-point kernel) as the directing measure. The directing
-  measure is the random probability measure induced by `θ`, not `θ` itself; phrasing it via
-  the two-point kernel keeps the example independent of a mature `Bernoulli` API.
+* The law of an i.i.d. sequence is `MixedIID` — indeed `ConditionallyIID`, with the constant
+  directing measure — `Exchangeable`, and `Contractable`.
+* A `Bool`-valued sequence generated **conditionally i.i.d. given a random `θ`** (draw `θ`,
+  then flip i.i.d. `κ (θ ω)`-coins) is exchangeable, with `ω ↦ κ (θ ω)` (`κ` a two-point
+  kernel) as the directing measure — genuinely: the generating construction makes it a witness
+  of `ConditionallyIIDWith`, not merely a mixing representative. The directing measure is the
+  random probability measure induced by `θ`, not `θ` itself; phrasing it via the two-point
+  kernel keeps the example independent of a mature `Bernoulli` API.
 * Finite-dimensional prefix marginals determine a probability measure on `ℕ → α`.
 * Full exchangeability of a path law implies shift-preservation.
 * A stationary non-reversible finite-state Markov chain — for instance the deterministic
