@@ -671,12 +671,35 @@ the already-formalized parts and treating the open parts as goals to be discharg
   `CaiGovorov.lean`), and — since 2026-07 — the Layer-9 sampling and graph-law stack: the first
   sampling lemma (proved 2026-07-08, `SamplingLemma.lean`, via the two-stage point-sampling +
   rounding decomposition of `SamplingConcentration.lean`), the explicit one-space infinite sampler
-  with its finite-marginal identification (`InfiniteSampler.lean`), almost-sure sampling
-  convergence (`AlmostSureSampling.lean`), exchangeable graph laws with the finite↔infinite
-  equivalence (`ExchangeableGraphLaw.lean`, `InfiniteLaw.lean`, `InfiniteExchangeability.lean`),
-  the graphon-mixture representation `infiniteMixtureLawEquiv`
+  with its finite-marginal identification (`InfiniteSampler.lean`), the padded-exposure
+  concentration engine (`SampleExposure.lean`), almost-sure sampling
+  convergence (`AlmostSureSampling.lean`) and the `TendstoInMeasure` packaging
+  (`InfiniteSamplingConvergence.lean`), exchangeable graph laws with the finite↔infinite
+  equivalence (`ExchangeableGraphLaw.lean`, `InfiniteLaw.lean`, `InfiniteExchangeability.lean` —
+  with the `EdgeIndex` coordinate bridge in `InfiniteGraph.lean`), the empirical-mixing
+  existence/uniqueness spine (`MixtureConvergence.lean`, `MixtureExistence.lean`,
+  `MixtureUniqueness.lean`, packaged in `MixtureRepresentation.lean`), the graphon-mixture
+  representation `infiniteMixtureLawEquiv`
   (`InfiniteRepresentation.lean`), and the dissociated-law extremality
-  `isDissociated_iff_exists_sampleExchangeableLaw` (`MixtureExtremality.lean`).
+  `isDissociated_iff_exists_sampleExchangeableLaw` (`MixtureExtremality.lean`) — so every proved
+  route this roadmap's Layer 9 pins is checkable at the `6eccca5` pin.
+
+  **Since the pin** — checked at the later snapshot
+  [`bbc82c4`](https://github.com/cameronfreer/graphon/tree/bbc82c45b43db1082a93ec0a770b00ba573dd250)
+  (2026-08-03; still `sorry`-free in code, no custom axioms), the repository has grown a **generic
+  multi-sorted relational exchangeability framework** (`RelationalSignature.lean`,
+  `RelExchangeableLaw.lean` and the `Rel*` family): the finite/infinite relational law
+  equivalence (`RelLawEquivalence.lean`) and representation-free extremality
+  (`RelExtremality.lean`, `RelErgodicExtreme.lean`) are proved, kernel evaluation and the easy
+  direction of the functional Aldous–Hoover–Kallenberg representation are proved
+  (`RelKernelEvaluator.lean`), and fixing-algebra conditional independence and latent/factor
+  infrastructure have landed (`RelFixingCondIndep.lean`, `RelRankLatents.lean`). The **hard
+  functional converse remains open**: `RelRankRepresentation.lean` is explicitly an interface —
+  "no existence theorem accompanies this definition, at any rank". This is why the cross-roadmap
+  boundary (Layer 9b) assigns the generic law API to the Exchangeability roadmap as a
+  refactor-onto commitment while keeping the graphon-mixture proof independent of the generic
+  converse: the shared-law substrate is real and advancing, and the graph theorem is already
+  proved without it.
 
 Already formalized over a fixed standard-Borel carrier, making the canonical specializations
 migration-first: Layers 0–7 and 9. The **coupling-based cross-carrier generality** of Layers 1, 5,
