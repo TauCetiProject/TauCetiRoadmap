@@ -78,14 +78,14 @@ TauCeti/Analysis/Operator/Perturbation/
   two-by-two obstruction data has coefficient mass at least `5/3 > π/2`. The real-field
   `π/2` theorem therefore goes through the doubled-phase certificate.
 - **Kernel conventions.** The real kernel `ℝ → ℝ` and the complex kernel `ℝ → ℂ`
-  (`k = −i·k_ℝ`) both stay: mass and positivity use the real one, the Fourier identity states
-  cleanly with the complex one. The Laplace transform integrates over `Set.Ioi 0`. The
+  (`k = −i·k_ℝ`) both stay: mass and positivity use the real one, the Fourier identity uses
+  the complex one. The Laplace transform integrates over `Set.Ioi 0`. The
   Fourier identity is a bare integral against `exp(i t x)` — the form an operator is
   substituted into — with an explicit bridge to Mathlib's `2π`-normalized transform.
 - **Population gaps in the statistical variant.** Part D's hypothesis is a gap in the spectrum
   of **one** designated (population) operator, with the perturbed block selected by
   *corresponding ordered eigenvalue indices* rather than as an arbitrary reducing subspace.
-  Pinned so that nobody simplifies it back to a two-sided gap.
+  It must not be simplified back to a two-sided gap.
 
 ## What Mathlib already has (consume)
 
@@ -113,8 +113,8 @@ Not in Mathlib:
   every unitarily invariant norm, the double-angle and tangent theory, and the graph-subspace
   Riccati correspondence.
 * The Yu–Wang–Samworth statistical variant, whose gap hypothesis sits on the population
-  spectrum rather than the perturbed one — the substance of that Part — together with the
-  complement identity, the residual sandwich, and the aligned-basis form.
+  spectrum rather than the perturbed one — together with the complement identity, the
+  residual sandwich, and the aligned-basis form.
 
 ## The build, in layers
 
@@ -166,7 +166,7 @@ Needs Part A and the four external roadmaps; Part C consumes it.
 Rosenblum's theorem is qualitative: an operator intertwining two self-adjoint operators with
 **disjoint** spectra is zero, with `A` and `B` unbounded. The quantitative companions —
 a-priori bounds on `‖X‖` when the spectra are **separated** by `δ` — are what Part C
-actually consumes.
+consumes.
 
 **Objects.** The Sylvester operator `X ↦ A X − X B` on rectangular maps; the gap taxonomy of
 the generality bar; the domain-aware Sylvester equation on `LinearPMap`, consumed from

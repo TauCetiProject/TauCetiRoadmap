@@ -16,9 +16,9 @@ uniqueness theory at that generality, no partial-isometry API, no polar decompos
 singular *vectors*, no Moore–Penrose inverse, no sharp projector-difference identity, and
 no shared vocabulary of spectral-separation hypotheses.
 
-Each object should be defined once, at its natural generality, with its basic API — closure
-and composition laws, kernels and ranges, the standard identities, the connections to
-existing Mathlib structures — not only the named theorem that uses it.
+Each object should be defined once, at its natural generality, with its basic API: closure
+and composition laws, kernels and ranges, the standard identities, and the connections to
+existing Mathlib structures.
 
 Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar square-root
 estimates in `TauCeti/Analysis/SpecialFunctions/` and the subspace-equality isometry lemma
@@ -64,8 +64,8 @@ complete spaces here.
 - **Three polar factorizations, one hierarchy.** Finite-dimensional endomorphisms over
   `RCLike` factor through a unitary; a rectangular complex operator with invertible
   modulus factors through an isometry; a general bounded rectangular complex operator
-  factors through a partial isometry. Dropping finite dimension costs the unitary;
-  invertibility of the modulus buys an isometry back. All three are stated, each with its
+  factors through a partial isometry. Dropping finite dimension loses the unitary;
+  invertibility of the modulus recovers an isometry. All three are stated, each with its
   own theory.
 - **Intrinsic, basis-free statements.** The singular system is built for a linear map
   between spaces, never for a matrix in a chosen pair of bases: the consumers (principal
@@ -227,7 +227,7 @@ orthogonal projection families.
   `V` with `V ∘L |M| = M` vanishing on `(polarInitial M)ᗮ` is `polarPartial M`.
 - The bounded-below rung: when `|M|` is a unit the factor is an isometry outright, with the
   quantitative comparison `‖M − W‖ ≤ ‖|M| − 1‖`. This rung stays separate from the general
-  one: bounded-below is the hypothesis perturbation estimates actually have, and under it
+  one: bounded-below is the hypothesis perturbation estimates have, and under it
   the conclusion is strictly stronger.
 
 **Milestone — the two decompositions.** The general one has content beyond the
@@ -279,7 +279,7 @@ built from the singular system with coefficient `(σᵢ²)⁻¹` against rank-on
   including the zero case; the `uᵢ` with `σᵢ ≠ 0` are orthonormal and are eigenvectors of
   `AA⋆` at `σᵢ²`; `A⋆ uᵢ = σᵢ • vᵢ`; the singular expansion of `A x` and the rank-one
   reconstruction of `A`; the extension of the nonzero left family to an orthonormal basis of
-  the codomain — the statement consumers actually need, and not automatic for a
+  the codomain — the statement consumers need, and not automatic for a
   rectangular map.
 
 ### The Moore–Penrose interface
@@ -309,8 +309,8 @@ The roadmap asks for:
   finite-dimensional spaces, and the proof that it satisfies the predicate;
 - **uniqueness**: two operators satisfying the predicate against the same `A` are equal;
 - **the converse characterization**: anything satisfying the predicate *is* the constructed
-  pseudoinverse. Without this the construction is merely *a* generalized inverse; with it,
-  the name is earned;
+  pseudoinverse. Without this the construction is *a* generalized inverse, not *the*
+  pseudoinverse;
 - compatibility with the adjoint: `IsMoorePenroseInverse A B ↔ IsMoorePenroseInverse A⋆ B⋆`;
 - inverse behaviour under injectivity, surjectivity, and invertibility — `A⁺A = 1` for
   injective `A`, `A A⁺ = 1` for surjective `A`, and `A⁺ = A⁻¹` for invertible `A`.
@@ -431,8 +431,8 @@ predicates state the same typed equation and agree in the endomorphism case; and
 
 **Acceptance criteria.** That the accessor layer has no mathematical content; that no
 statement of the singular system mentions a basis of the ambient spaces beyond the
-constructed singular one; that the uniqueness converse is proved and not just the four
-conditions; that zero singular values are handled in the singular relation — the case a
+constructed singular one; that the four conditions and the uniqueness converse are both
+proved; that zero singular values are handled in the singular relation — the case a
 rectangular treatment gets wrong first.
 
 ### Part D — Gram rigidity, projections, and spectral subspaces

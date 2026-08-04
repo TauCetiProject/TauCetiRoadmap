@@ -30,8 +30,7 @@ probability `1 − δ`, Part C makes the spectral quantities of `Σ̂` measurabl
 the bound to minimizers of spectral objectives, and Part A realizes the estimated Gram
 structure as an explicit embedding.
 
-Each object should be defined at the pinned generality and equipped with its basic API, not
-only the concentration and stability theorems that consume it.
+Each object should be defined at the pinned generality and equipped with its basic API.
 
 Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
 `TauCeti/Analysis/Matrix/`, `TauCeti/Probability/Moments/`, with two supporting lemmas in
@@ -55,7 +54,7 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
 - **Inner dimensions are `Fin r`, not a subtype.** A caller who wants "at most `d` rows" gets
   `Fin d` directly, with the `≤`-relaxed form stated beside the exact-rank form, so no
   cardinality-equivalence transport is ever needed at a use site.
-- **Fixed feasible set, said out loud.** Part B formalizes the *fixed-constraint* case of
+- **Fixed feasible set.** Part B formalizes the *fixed-constraint* case of
   Berge's theorem: the compact `K` does not vary with the parameter. The parameter-varying
   constraint correspondence is a later milestone of the same Part, and every statement says
   which case it is.
@@ -87,7 +86,7 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
   `Matrix.PosSemidef` with `posSemidef_conjTranspose_mul_self` and
   `rank_conjTranspose_mul_self`; `Matrix.IsHermitian.spectral_theorem`, `eigenvalues`,
   `eigenvectorUnitary`; `Matrix.toEuclideanLin` and the `ℓ²` operator-norm API.
-- **Two gaps, stated precisely.** (1) There is **no entrywise-to-operator-norm comparison**:
+- **Two gaps.** (1) There is **no entrywise-to-operator-norm comparison**:
   nothing bounds `‖toEuclideanLin A‖` by entrywise control of `A`. (2) The sorted indexing
   **`Matrix.IsHermitian.eigenvalues₀` carries almost no theory**: it is the primitive from
   which `eigenvalues` is *defined*, yet upstream it has only `eigenvalues₀_antitone` and the
@@ -236,16 +235,13 @@ notion. What the milestone adds is a correspondence `Γ : P → Set X` that is
 The conclusion: the value function `v p = ⨅ x ∈ Γ p, g p x` is continuous, and the argmin
 correspondence is upper hemicontinuous with nonempty compact values.
 
-**The decomposition is the substance**: continuity of `v` splits into *lower* semicontinuity
-from upper hemicontinuity of `Γ` and *upper* semicontinuity from lower hemicontinuity of `Γ`,
-and each
-half is provable on its own. Asking for "Berge's theorem" as a single target hides that it is
-two independent lemmas with opposite hypotheses, and hides that half of it is already available
-from Milestone B2.
+Continuity of `v` splits into *lower* semicontinuity from upper hemicontinuity of `Γ` and
+*upper* semicontinuity from lower hemicontinuity of `Γ`, and each half is provable on its
+own. As a single target, "Berge's theorem" is two independent lemmas with opposite
+hypotheses, and half of it is already available from Milestone B2.
 
-**Scope.** The vocabulary is upstream; new here are the two theorems
-above and nothing else; mistaking this for "define hemicontinuity, then prove Berge" is what
-makes it look large.
+**Scope.** The vocabulary is upstream; new here are the two theorems above and nothing
+else.
 
 **Decided.** Mathlib's hemicontinuity predicates, not a bespoke correspondence structure.
 **Open.** Whether the sequential characterizations force `[FirstCountableTopology]` in the

@@ -17,8 +17,7 @@ defined operator has a graph-and-domain calculus and, when self-adjoint, a real 
 with quantitative resolvent bounds; and the Cayley transform carries these into the spectral
 measure of an unbounded self-adjoint operator, with Stone's theorem in both directions.
 
-Each object should be defined at its natural generality and equipped with the standard API,
-not only the spectral theorem and Stone's theorem that consume it.
+Each object should be defined at its natural generality and equipped with the standard API.
 
 Suggested homes:
 
@@ -141,10 +140,9 @@ Independently submittable.
 **Objects.** `OneParameterUnitaryGroup H`: a map `U : ℝ → (H →L[ℂ] H)` on a complex Hilbert
 space, unitary, a group homomorphism, strongly continuous. Its **generator**: the
 `LinearPMap` whose domain is *exactly* the set of vectors where the difference quotient
-`t ↦ (U t ψ − ψ)/(it)` converges, and whose value is the limit. That domain choice is the
-design decision worth reviewing: the generator is unbounded, nothing assumes a
-core or a dense domain in advance, and a smaller convenient domain would make the
-self-adjointness statement weaker than what Part E consumes.
+`t ↦ (U t ψ − ψ)/(it)` converges, and whose value is the limit. The generator is unbounded,
+nothing assumes a core or a dense domain in advance, and a smaller convenient domain would
+make the self-adjointness statement weaker than what Part E consumes.
 
 **API to develop.**
 

@@ -333,7 +333,7 @@ knowingly and is the price of Part C being independent of the ideal machinery.**
 **Block sums.** For an orthogonal decomposition of source and target and a block-diagonal
 operator, the approximation-number sequence of the sum is the decreasing rearrangement of the
 union of the summands' sequences — hence a formula for every symmetric gauge, and, for the
-two-block case consumers actually use, the sharp comparison
+two-block case consumers use, the sharp comparison
 `max (gauge T₁) (gauge T₂) ≤ gauge (T₁ ⊕ T₂) ≤ gauge T₁ + gauge T₂`. The lower bound is
 restriction–corestriction through the two-sided ideal law; the upper is subadditivity applied
 to the two extensions by zero.
@@ -375,7 +375,7 @@ inner product and completeness already proved.
 when `U` is norm-preserving and `V` has norm-preserving adjoint. The left case is termwise
 trivial — composing with an isometry changes no column norm — and the right case is the same
 statement about the adjoint; no basis-independence argument appears, which in the tensor
-model is precisely the part that costs. The Sylvester flow `Z ↦ U_A t ∘ Z ∘ (U_B t)⋆` is
+model is the expensive step. The Sylvester flow `Z ↦ U_A t ∘ Z ∘ (U_B t)⋆` is
 therefore a unitary group on the Hilbert–Schmidt space, the hypothesis under which the
 perturbation roadmap applies Stone's theorem.
 

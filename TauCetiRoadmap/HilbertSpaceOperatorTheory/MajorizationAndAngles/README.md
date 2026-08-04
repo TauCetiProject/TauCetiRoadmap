@@ -20,8 +20,8 @@ Splitting the norms from the angles would break the dependencies in both directi
 no operator theory.** Weak majorization is a statement about real tuples, and it serves two
 consumers — square norms in Part A, rectangular norms in Part C — through one interface.
 
-Each object should arrive with its basic API — closure properties, invariances, the
-variational characterizations — not only the named theorems that consume it.
+Each object should arrive with its basic API: closure properties, invariances, and the
+variational characterizations.
 
 Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
 `TauCeti/Analysis/InnerProductSpace/` for everything else.
@@ -66,8 +66,7 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
 - **Principal-angle cosines are singular values of the overlap operator** `⟪uᵢ, vⱼ⟫`, not
   the textbook variational recursion. Nonnegativity, `≤ 1`, decreasing order, and symmetry
   in `u, v` are then inherited from the singular-value API — the last because the overlap
-  operators of the swapped pair are adjoint. The recursion should be *absent*, not hidden,
-  or the definitional choice is not paying.
+  operators of the swapped pair are adjoint. The recursion should be *absent*, not hidden.
 - **Families first, subspaces later, and the bridge is a Part D target.**
   - Part B's `cosPrincipalAngles hu hv` is indexed by orthonormal families, so as stated it
     is an invariant of the chosen families.
@@ -205,7 +204,7 @@ Frobenius sine `sinThetaSq hu hv = ∑ₖ (1 − cos²θₖ)`.
 
 **Milestone — the Frobenius sine identity** `‖sin Θ‖²_F = d − overlap`, which converts an
 angle statement into an inner-product statement: the form in which perturbation estimates
-are actually proved.
+are proved.
 
 **Milestone — the aligned-basis (Procrustes) bound.** The polar unitary of the overlap
 operator rotates `v` into a basis `w` of its span with `∑ⱼ ‖wⱼ − uⱼ‖² ≤ 2 · sinThetaSq hu hv`

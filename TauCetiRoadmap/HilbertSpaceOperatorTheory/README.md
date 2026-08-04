@@ -97,9 +97,9 @@ MajorizationAndAngles   SelfAdjointSpectralTheory         (wave 2)
 | `MatrixSpectralStatistics` | foundations, self-adjoint spectral theory |
 | `SpectralSubspacePerturbation` | all five preceding roadmaps |
 
-Each roadmap consumes public objects and theorems specified by its predecessors. Two edges
-are worth naming: `OperatorIdeals` needs the majorization roadmap for the Ky Fan triangle
-inequality, and the spectral theory for the finite-rank behaviour of spectral bands.
+Each roadmap consumes public objects and theorems specified by its predecessors.
+`OperatorIdeals` needs the majorization roadmap for the Ky Fan triangle inequality, and the
+spectral theory for the finite-rank behaviour of spectral bands.
 
 ### Independently submittable material
 
