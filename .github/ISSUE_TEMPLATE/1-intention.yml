@@ -25,6 +25,7 @@ body:
         - GeometricTopology
         - HeegaardFloer
         - JacobianChallenge
+        - ModularForms
         - Multiquadratic
         - OneParameterSemigroups
         - OrthogonalL2Bases

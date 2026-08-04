@@ -25,7 +25,8 @@ Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and th
 12. [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
 13. [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
 14. [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
-15. [Geodesics, the exponential map, and the Hopf-Rinow theorem](TauCetiRoadmap/HopfRinow/README.md)
+15. [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
+16. [Geodesics, the exponential map, and the Hopf-Rinow theorem](TauCetiRoadmap/HopfRinow/README.md)
 
 ## Completed roadmaps
 
@@ -34,6 +35,25 @@ Roadmaps the maintainers have declared complete (a judgment against the roadmap'
 [`Completed/`](Completed/README.md), outside the active list above.
 
 - [Effective arithmetic bounds and geometry of numbers](Completed/EffectiveBounds/README.md)
+
+## Generated status files
+
+Each roadmap directory may carry two files that are **written by machine, not by hand**:
+
+- `STATUS.md` — a snapshot of where that roadmap stands, rewritten whole on each update and headed
+  by the Tau Ceti commit it describes. It is updated asynchronously from the work it reports, so it
+  is never authoritative about the current tip.
+- `PROGRESS.md` — an append-only log, one section per window of merged pull requests. Each new
+  section is normally announced in the **Tau Ceti > Progress logs** Zulip topic; announcing is a
+  separate step from merging, so it can fail without holding the report back.
+
+Both are produced by [TauCetiProgress](https://github.com/TauCetiProject/TauCetiProgress). A pull
+request carrying them can merge without human review, but only when an automated gate accepts it;
+anything the gate declines is left for a human like any other contribution. **Their prose is not
+security-validated**: the gate proves which paths changed and that the log only grew at the end, but
+it cannot prove that the summary is accurate. Read them as a machine's account of the work, and treat
+the roadmap `README.md` beside them — which humans own and review — as the authority on what the
+roadmap actually asks for.
 
 ## Writing a roadmap
 
