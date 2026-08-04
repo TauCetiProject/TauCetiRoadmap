@@ -1,23 +1,19 @@
 # Self-adjoint spectral theory: the Borel functional calculus, unbounded operators, and Stone's theorem
 
-The spectral theorem for unbounded self-adjoint operators is the most consequential absence
-in Mathlib's operator theory. Mathlib has the static stack — `ContinuousLinearMap` with
-adjoints and operator norms, the continuous functional calculus of a normal element,
-`spectrum` and `resolvent` for Banach-algebra elements, `Measure` with
-Riesz–Markov–Kakutani, and unbounded operators as `LinearPMap` with `adjoint`,
-`IsSelfAdjoint` and closedness — but none of the layer that makes quantum mechanics,
-spectral perturbation theory, or evolution equations expressible: no Borel functional
-calculus, no projection-valued measures, no resolvent theory for a partially defined
-operator, no spectral measure of an unbounded self-adjoint operator, and no Stone's theorem
-connecting self-adjoint operators to one-parameter unitary groups.
+Mathlib has the static stack — `ContinuousLinearMap` with adjoints and operator norms, the
+continuous functional calculus of a normal element, `spectrum` and `resolvent` for
+Banach-algebra elements, `Measure` with Riesz–Markov–Kakutani, and unbounded operators as
+`LinearPMap` with `adjoint`, `IsSelfAdjoint` and closedness — but none of the layer that
+makes quantum mechanics, spectral perturbation theory, or evolution equations expressible:
+no Borel functional calculus, no projection-valued measures, no resolvent theory for a
+partially defined operator, no spectral measure of an unbounded self-adjoint operator, and
+no Stone's theorem connecting self-adjoint operators to one-parameter unitary groups.
 
 This roadmap builds that layer. A one-parameter unitary group has a self-adjoint generator;
 a bounded normal operator has a Borel calculus and a projection-valued measure; a partially
 defined operator has a graph-and-domain calculus and, when self-adjoint, a real spectrum
 with quantitative resolvent bounds; and the Cayley transform carries these into the spectral
 measure of an unbounded self-adjoint operator, with Stone's theorem in both directions.
-
-Each object should be defined at its natural generality and equipped with the standard API.
 
 Suggested homes:
 
@@ -51,10 +47,10 @@ few lines of inner-product algebra.
 
 ### A `LinearPMap` needs its own resolvent set
 
-This decision is not ours and is not re-argued here: the
-[one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
-owns it, and its statement — an unbounded generator needs its own resolvent notion, with a
-bridge lemma to Mathlib's `resolvent` in the bounded case — is the one to follow.
+This decision belongs to the
+[one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md):
+an unbounded generator needs its own resolvent notion, with a bridge lemma to Mathlib's
+`resolvent` in the bounded case.
 
 What is specific here is the range. That roadmap works over a real Banach space and takes
 `λ` real, complexifying for the complex resolvent set; the spectral theorem needs `z` ranging
@@ -102,21 +98,19 @@ are stated in `MeasureTheory` for their own hypotheses, with no operator theory 
 - **Topology and analysis**: `Submodule.topologicalClosure`, orthogonal projections and
   `HasOrthogonalProjection`, Neumann series, `Tendsto` filters.
 
-**Tau Ceti already ships the semigroup layer, and it is consumed rather than rebuilt.**
-`TauCeti/Analysis/Semigroups/` contains roughly 130 declarations: `StronglyContinuousSemigroup`
-and `ContractionSemigroup`, `.generator` with its domain, `.resolvent` with the growth-bound
-API, `expShift`, `ofBounded`, and the abstract Cauchy problem as `IsClassicalSolution` /
-`IsMildSolution`. That is Part A of the
+**Tau Ceti already ships the semigroup layer.** `TauCeti/Analysis/Semigroups/` contains
+roughly 130 declarations: `StronglyContinuousSemigroup` and `ContractionSemigroup`,
+`.generator` with its domain, `.resolvent` with the growth-bound API, `expShift`,
+`ofBounded`, and the abstract Cauchy problem as `IsClassicalSolution` / `IsMildSolution`.
+That is Part A of the
 [one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md),
-built. Nothing here restates it.
+built.
 
 The rest below — the projection-valued and unbounded-spectral layer — is absent upstream.
 
 ---
 
 ## What is missing (build here)
-
-Not in Mathlib:
 
 * One-parameter unitary groups and Stone's theorem, with the generator as a `LinearPMap` and
   density of its domain derived.
@@ -154,9 +148,9 @@ make the self-adjointness statement weaker than what Part E consumes.
 - **Symmetry without density**: the generator is formally self-adjoint, proved pointwise
   from `U t⋆ = U (−t)`. This half needs no density.
 - **The commutant preserves the generator**: a bounded operator commuting with every `U t`
-  maps the domain into itself and commutes with the generator there. This is what lets a
-  symmetry of an underlying problem descend to the generator; its consumer is the
-  perturbation roadmap.
+  maps the domain into itself and commutes with the generator there. A symmetry of an
+  underlying problem therefore descends to the generator; its consumer is the perturbation
+  roadmap.
 - **The semigroup bridge**: restricting to `t ≥ 0` and forgetting the complex structure
   exhibits the group as a strongly continuous contraction semigroup over the underlying real
   Banach space, with semigroup generator `i·A` on the same domain. It must be built against
@@ -165,8 +159,8 @@ make the self-adjointness statement weaker than what Part E consumes.
 - **Skew-adjoint exponentials**: for bounded self-adjoint `S`, the flow `t ↦ exp (t (iS))`
   is such a group, norm-preserving, with derivative `exp(tB)·B` — the source of concrete
   examples — and the **Duhamel estimate** for *commuting* bounded self-adjoint `Sₘ, Sₙ`:
-  `‖exp(it Sₘ)ψ − exp(it Sₙ)ψ‖ ≤ |t|·‖(i Sₘ − i Sₙ)ψ‖`. The commutation hypothesis holds, and it is all the Yosida scheme of Part E needs, since resolvents of one operator
-  commute among themselves.
+  `‖exp(it Sₘ)ψ − exp(it Sₙ)ψ‖ ≤ |t|·‖(i Sₘ − i Sₙ)ψ‖`. The commutation hypothesis is all the
+  Yosida scheme of Part E needs, since resolvents of one operator commute among themselves.
 
 **Milestone A1 — von Neumann's criterion.** A symmetric operator with `A + i` and `A − i`
 surjective is self-adjoint, with density of the domain derived.
@@ -262,11 +256,10 @@ becomes code.
 - Shifted-inverse data and the elementary real resolvent predicates `realResolventSet`,
   `realSpectrum`, `SpectralSetsSeparated` — the hypothesis shapes Part D's quantitative
   statements consume.
-- The rectangular domain-aware **Sylvester equation** `SylvesterEquation A B X C` with domain transport
-  as a field, allowing different source and target Hilbert spaces; its module structure,
-  the bounded case as a full-domain instance, and
-  `HasBoundedEverywhereInverse`. Transport statements only; the estimates belong to the
-  perturbation roadmap.
+- The rectangular domain-aware **Sylvester equation** `SylvesterEquation A B X C` with domain
+  transport as a field, allowing different source and target Hilbert spaces; its module
+  structure, the bounded case as a full-domain instance, and `HasBoundedEverywhereInverse`.
+  Transport statements only; the estimates belong to the perturbation roadmap.
 - **Quadratic-form bounds**: `LowerFormBoundOn` and `UpperFormBoundOn` for a bounded operator
   on a subspace, and the bridge from a spectral inclusion of a restriction to those bounds
   over `ℂ` — where the foundations' spectral-subspace layer is consumed.
@@ -341,8 +334,7 @@ map `w ↦ i(1+w)/(1−w)`; the spectral projections; the spectral subspace and 
 - **The construction.** The relabelling blows up at `w = 1`, which can lie in the
   spectrum of the Cayley transform, so the construction is faithful only because every
   diagonal measure gives `{1}` zero mass — the symbol `(1 − w)·1_{{1}}(w)` vanishes
-  identically while `1 − U = 2i·R(−i)` is injective. A specification omitting this would hide
-  the one place the construction could fail.
+  identically while `1 − U = 2i·R(−i)` is injective.
 - **The resolvent formula**, the property that characterizes the measure:
   `⟪ξ, R(z) ξ⟫ = ∫ (s − z)⁻¹ d(diag ξ)` for `z` off the real axis; spectral projections
   commute with the resolvent and preserve the domain.
@@ -385,10 +377,9 @@ the operator.
 
 **Milestone E3 — the packaged statements.** Three targets completing the theory: the spectral
 theorem as one declaration (*`A` is the integral of the identity against its spectral
-measure*); Stone's theorem as the packaged
-bijection between self-adjoint operators and strongly continuous one-parameter unitary
-groups; and uniqueness of the spectral measure — a `ProjValMeasure` satisfying the resolvent
-formula is `spectralPVM hA`.
+measure*); Stone's theorem as the packaged bijection between self-adjoint operators and
+strongly continuous one-parameter unitary groups; and uniqueness of the spectral measure — a
+`ProjValMeasure` satisfying the resolvent formula is `spectralPVM hA`.
 
 ## Worked examples (acceptance criteria)
 

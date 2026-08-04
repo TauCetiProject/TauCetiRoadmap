@@ -20,9 +20,6 @@ Splitting the norms from the angles would break the dependencies in both directi
 no operator theory.** Weak majorization is a statement about real tuples, and it serves two
 consumers — square norms in Part A, rectangular norms in Part C — through one interface.
 
-Each object should arrive with its basic API: closure properties, invariances, and the
-variational characterizations.
-
 Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
 `TauCeti/Analysis/InnerProductSpace/` for everything else.
 
@@ -110,8 +107,6 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
   spectral-subspace API. Every Part below consumes these; nothing here re-proves them.
 
 ## What is missing (build here)
-
-Not in Mathlib:
 
 * Weak majorization on `Fin n → ℝ`, the transfer operation, and descent into a symmetric
   convex set — the vector layer, with no operator imports.
@@ -254,10 +249,10 @@ unitaries, and the SVD transport.
 
 ### Part D — angle geometry and eigenvalue perturbation
 
-Two things kept together because they are the same step of the Davis–Kahan argument: the **angle dictionary** — cosine, sine, angle and tangent
-objects for a pair of subspaces, each with a singular-value and a projector description —
-and **eigenvalue perturbation**, how far the spectrum moves when the operator does. The
-subspace-perturbation theorems consume both.
+Two things kept together because they are the same step of the Davis–Kahan argument: the
+**angle dictionary** — cosine, sine, angle and tangent objects for a pair of subspaces, each
+with a singular-value and a projector description — and **eigenvalue perturbation**, how far
+the spectrum moves when the operator does. The subspace-perturbation theorems consume both.
 
 **Objects.** The Gram operators `rightGram A = A⋆A` and `leftGram A = AA⋆`; the
 cross-projections `cosThetaMap U V = P_V ∘ P_U` and `sinThetaMap U V = P_{Vᗮ} ∘ P_U`; their

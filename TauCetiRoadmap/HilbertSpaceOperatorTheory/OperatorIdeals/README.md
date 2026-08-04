@@ -20,9 +20,9 @@ functional calculus, `IsCompactOperator`, the `lp` spaces — but none of the s-
 no approximation numbers, no object over which a theorem can be stated once for "an
 arbitrary symmetric ideal norm", and no Schatten, trace-class or Hilbert–Schmidt theory.
 
-Each object should arrive with its basic API: the symmetric-ideal interface laws should hold
-unconditionally, and the standard instances — operator norm, Ky Fan, Hilbert–Schmidt, trace
-class, Schatten `p` — should be constructed rather than postulated.
+The symmetric-ideal interface laws should hold unconditionally, and the standard instances —
+operator norm, Ky Fan, Hilbert–Schmidt, trace class, Schatten `p` — should be constructed
+rather than postulated.
 
 Suggested homes: `TauCeti/Analysis/OperatorIdeal/ApproximationNumber/`,
 `TauCeti/Analysis/OperatorIdeal/Family/`,
@@ -97,8 +97,6 @@ The gaps to fill are:
 
 ## What is missing (build here)
 
-Not in Mathlib:
-
 * The approximation numbers `aₙ(T)` on seminormed spaces over a `NontriviallyNormedField`,
   with the additive and multiplicative index laws, the two-sided ideal bound, and the
   rank/compactness boundary.
@@ -114,9 +112,6 @@ Not in Mathlib:
 * Hilbert–Schmidt operators as `ℓ²` of columns: the energy, its basis-independence, the
   reconciliation with `S₂`, and the named corollary **Hilbert–Schmidt ⇒ compact**.
 * The approximation numbers of a spectral band of an unbounded self-adjoint operator.
-
-Two lemmas Mathlib lacks are named in the inventory above and are targets here:
-finite-rank-implies-compact, and a hypothesis-free `ℝ≥0∞` Minkowski inequality for `tsum`.
 
 ## The build, in layers
 
@@ -209,9 +204,8 @@ completeness of that space as a typeclass rather than a hand-rolled Cauchy crite
   conditions anywhere: Parseval in `ℝ≥0∞`, the rectangular adjoint swap by unconditional
   Fubini, hence **basis independence**; the norm as its square root, with Minkowski extended
   to `tsum`, domination of the operator norm, adjoint invariance, the two-sided ideal bound,
-  and the family itself — built from orthonormal expansions and sharing no machinery with
-  the approximation-number instances, which is the evidence that the interface is not shaped
-  around one example.
+  and the family itself, built from orthonormal expansions and sharing no machinery with the
+  approximation-number instances.
 - Ky Fan dominance as a class over families, with its membership-transport corollary and
   direct instances for the operator-norm, Ky Fan and trace-class families.
 - Finite-dimensional **Schatten norms** `schattenNorm p`, for real `p ≥ 1` on the
@@ -241,8 +235,7 @@ at both ends of the scale.
 
 **The extension to infinite sequences** is a monotone limit, not a new definition:
 `Φ∞ a = ⨆ N, Φ (truncate a N)` over the finitely supported truncations of the **decreasing
-rearrangement**. Three decisions are pinned here because each has a wrong answer that looks
-right:
+rearrangement**. Three decisions are pinned here:
 
 - **`ℝ≥0∞`-valued, and a supremum over truncations rather than a `tsum`.** The gauge must be
   total and `∞` off its ideal; a supremum of an increasing net is total by
@@ -287,11 +280,11 @@ majorizing one, and `Φ` is monotone, symmetric and convex. Lifting to sequences
 convergence along the truncations, and that is the whole infinite-dimensional content — which
 is why the extension in B1 is a supremum of truncations.
 
-**This milestone** delivers the triangle inequality for every
-symmetric ideal norm at once. Milestone A2 says exactly that `a(S + T)` is weakly majorized
-by `a(S) + a(T)`; feeding that in gives `gauge (S + T) ≤ gauge S + gauge T` for every `Φ`
-from a single inequality. Every symmetric ideal in this roadmap stands on A2 through this
-milestone, and nothing else in Part B needs A2 directly.
+This milestone delivers the triangle inequality for every symmetric ideal norm at once.
+Milestone A2 says exactly that `a(S + T)` is weakly majorized by `a(S) + a(T)`; feeding that
+in gives `gauge (S + T) ≤ gauge S + gauge T` for every `Φ` from a single inequality. Every
+symmetric ideal in this roadmap stands on A2 through this milestone, and nothing else in
+Part B needs A2 directly.
 
 ### Milestone B3 — Schatten `p` in infinite dimensions, and the reconciliation
 
@@ -312,7 +305,7 @@ obtained rather than constructed**, and their laws are B1's.
 - **Hölder duality** — `‖T‖_p` as a supremum of trace pairings against `S_q` with
   `1/p + 1/q = 1` — is deliberately deferred: it needs a trace functional, which this roadmap
   does not define, and no milestone here consumes it. It is the natural first milestone of a
-  successor roadmap, and saying so is more useful than half-specifying it.
+  successor roadmap.
 
 **The reconciliation obligation.** `p = 2` is defined twice: through `schattenGauge 2` on the
 singular-value sequence, and through the Hilbert–Schmidt energy on an orthonormal expansion.
@@ -325,8 +318,7 @@ is what lets Part C stand on it — so they must be proved equal:
 
 Both sides are basis-independent, so the statement is well-posed; the proof is the
 singular-value expansion of a Hilbert–Schmidt operator, and it is the one place in Part B
-where Milestone A3 is needed. **This debt is incurred
-knowingly and is the price of Part C being independent of the ideal machinery.**
+where Milestone A3 is needed.
 
 ### Milestone B4 — block sums and scalar transport
 
@@ -344,10 +336,6 @@ transported instance rather than a re-proof.** Concretely this is what discharge
 `ℂ`-only hypotheses standing in Part A and in the Ky Fan instance: A2's triangle inequality
 over `ℝ`, the Ky Fan family over `ℝ`, and the min–max converse over `ℝ` all follow by
 transport once the sequence identity is proved.
-
-**Why this is a milestone.** The `ℂ`-only hypotheses are the largest gap between what this
-roadmap states and what it appears to state. What it costs to remove them is a named
-milestone with a route: one sequence identity, and no new analysis.
 
 ### Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
 
@@ -498,10 +486,3 @@ Part A's elementary layer was adapted in part from Mathlib PR
 [#32126](https://github.com/leanprover-community/mathlib4/pull/32126) and developed further
 for spectral perturbation theory; migration must preserve provenance, authorship and
 licensing while allowing review to improve the public API.
-
-Two design decisions. The
-single-gauge presentation replaces an earlier record carrying membership and a total real
-gauge as independent fields; that form is derivable from this one and not conversely, and it
-has been retired. And `p = 2` was built by the direct orthonormal route rather than through
-symmetric gauges — deliberately, since it needs no spectral theory, at the price of the
-reconciliation obligation in Milestone B3.

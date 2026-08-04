@@ -27,10 +27,8 @@ variant stated the way its consumers use it.
 This roadmap is the **endpoint of the
 [Hilbert-space operator theory](../README.md) family**: it consumes all five of the others.
 
-Its `Suggested.lean` imports the sibling signature files and uses their declarations directly.
-In particular, spectral predicates come from operator foundations, invariant seminorms from
-majorization and angles, and the rectangular domain-aware Sylvester equation and resolvent
-vocabulary from self-adjoint spectral theory. No dependent roadmap redeclares those objects.
+Its `Suggested.lean` imports the sibling signature files and uses their declarations
+directly; no dependent roadmap redeclares those objects.
 
 Suggested homes:
 
@@ -73,15 +71,15 @@ TauCeti/Analysis/Operator/Perturbation/
   point for every diagonal spectral measure, so continuous symbols damped at `1` separate in
   the limit, and dominated convergence finishes.
 - **The constant `π/2`.** Part A's kernel attains `π/2`. That no admissible kernel beats it
-  is a literature citation, not a target here, and the module documentation says so. The
-  partial converse is proved: every real, undoubled interpolation certificate for the
-  two-by-two obstruction data has coefficient mass at least `5/3 > π/2`. The real-field
-  `π/2` theorem therefore goes through the doubled-phase certificate.
+  is a literature citation, not a target here. The partial converse is proved: every real,
+  undoubled interpolation certificate for the two-by-two obstruction data has coefficient
+  mass at least `5/3 > π/2`. The real-field `π/2` theorem therefore goes through the
+  doubled-phase certificate.
 - **Kernel conventions.** The real kernel `ℝ → ℝ` and the complex kernel `ℝ → ℂ`
   (`k = −i·k_ℝ`) both stay: mass and positivity use the real one, the Fourier identity uses
-  the complex one. The Laplace transform integrates over `Set.Ioi 0`. The
-  Fourier identity is a bare integral against `exp(i t x)` — the form an operator is
-  substituted into — with an explicit bridge to Mathlib's `2π`-normalized transform.
+  the complex one. The Laplace transform integrates over `Set.Ioi 0`. The Fourier identity is
+  a bare integral against `exp(i t x)` — the form an operator is substituted into — with an
+  explicit bridge to Mathlib's `2π`-normalized transform.
 - **Population gaps in the statistical variant.** Part D's hypothesis is a gap in the spectrum
   of **one** designated (population) operator, with the perturbed block selected by
   *corresponding ordered eigenvalue indices* rather than as an arbitrary reducing subspace.
@@ -103,8 +101,6 @@ below is absent upstream.
 
 ## What is missing (build here)
 
-Not in Mathlib:
-
 * The Haagerup–Zsidó kernel, its Fourier transform, and the integrability that makes the
   sharp `π/2` constant available.
 * The Sylvester operator on rectangular maps, the gap taxonomy, and Rosenblum's theorem, with
@@ -122,9 +118,9 @@ Not in Mathlib:
 
 Independently submittable; no prerequisites.
 
-This Part exists for a constant, and says so. There is an explicit integrable `k : ℝ → ℂ`
-whose Fourier integral reproduces the reciprocal on the whole exterior region `1 ≤ |x|`, and
-whose total mass is exactly `π/2`. Any kernel with the first property yields, on substituting
+This Part exists for a constant. There is an explicit integrable `k : ℝ → ℂ` whose Fourier
+integral reproduces the reciprocal on the whole exterior region `1 ≤ |x|`, and whose total
+mass is exactly `π/2`. Any kernel with the first property yields, on substituting
 a separated pair of self-adjoint operators for `x`, a Sylvester solution bound with constant
 `‖k‖₁`; a kernel with the right transform and worse mass proves a weaker Part B. So both
 halves — identity and mass — are milestones. The mathematics is due to Haagerup and Zsidó and
@@ -268,8 +264,7 @@ Consumes Part C; a leaf.
 Davis–Kahan hypothesizes a gap in the spectrum of one of the two operators — in practice the
 perturbed one. That is the wrong shape for statistics: the perturbed operator is a *sample*
 covariance and its spectrum is random; what one can assume is a gap in the **population**
-spectrum. Yu–Wang–Samworth is the variant stated that way, and that hypothesis change is the
-substance of this Part. Its probabilistic inputs live in
+spectrum. Yu–Wang–Samworth is the variant stated that way. Its probabilistic inputs live in
 [`MatrixSpectralStatistics`](../MatrixSpectralStatistics/README.md); this Part is the
 deterministic inequality they compose with.
 
@@ -335,11 +330,10 @@ for statement comparison only, its repository terms being incompatible.
 
 ## Ordering
 
-**Internal.** Part A is independent and independently submittable — this roadmap's cheapest
-first contact with review. Part B consumes Part A for the constant; Part C consumes Part B;
-Part D consumes Part C. Within Part B the finite core, the dimension-free bounds and the flow
-can proceed in parallel once their external inputs exist; within Part C the dimension-free
-layer precedes the finite spectral forms.
+**Internal.** Part A is independent and independently submittable. Part B consumes Part A for
+the constant; Part C consumes Part B; Part D consumes Part C. Within Part B the finite core,
+the dimension-free bounds and the flow can proceed in parallel once their external inputs
+exist; within Part C the dimension-free layer precedes the finite spectral forms.
 
 **External.**
 [`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md): spectral

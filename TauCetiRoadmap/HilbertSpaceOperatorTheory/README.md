@@ -5,8 +5,7 @@ the spectral perturbation theory built on it. Each subdirectory contains a roadm
 `README.md` and representative signatures in `Suggested.lean`; this page records their
 scope and dependencies.
 
-This family does not cover all of operator theory. Roadmaps for the excluded material are
-welcome as separate work.
+Roadmaps for the excluded material are welcome as separate work.
 
 ## Scope
 
@@ -97,7 +96,6 @@ MajorizationAndAngles   SelfAdjointSpectralTheory         (wave 2)
 | `MatrixSpectralStatistics` | foundations, self-adjoint spectral theory |
 | `SpectralSubspacePerturbation` | all five preceding roadmaps |
 
-Each roadmap consumes public objects and theorems specified by its predecessors.
 `OperatorIdeals` needs the majorization roadmap for the Ky Fan triangle inequality, and the
 spectral theory for the finite-rank behaviour of spectral bands.
 

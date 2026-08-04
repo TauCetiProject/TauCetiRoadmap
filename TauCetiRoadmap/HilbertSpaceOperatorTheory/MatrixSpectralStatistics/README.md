@@ -30,8 +30,6 @@ probability `1 − δ`, Part C makes the spectral quantities of `Σ̂` measurabl
 the bound to minimizers of spectral objectives, and Part A realizes the estimated Gram
 structure as an explicit embedding.
 
-Each object should be defined at the pinned generality and equipped with its basic API.
-
 Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
 `TauCeti/Analysis/Matrix/`, `TauCeti/Probability/Moments/`, with two supporting lemmas in
 `TauCeti/MeasureTheory/`.
@@ -68,8 +66,9 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Topology/`,
   predicate or an ad-hoc sup norm.
 - **Dimension constants are explicit.** The entrywise-to-operator comparison
   carries the factor `n`, and the union bound carries `n²`. Neither is dimension-free and
-  neither may be silently dropped: the Part D concentration bounds are *wrong*, not merely weak, without
-  them. Where the constant is suboptimal by design (Part D), the statement says so.
+  neither may be silently dropped: the Part D concentration bounds are *wrong*, not merely
+  weak, without them. Where the constant is suboptimal by design (Part D), the statement
+  says so.
 - **Independence is pairwise; means are common.** Sample-moment identities assume pairwise
   independence and a common mean, never full mutual independence or identical distribution;
   the i.i.d. forms are corollaries. The scaled-sum identity is stated as `r⁻²` times the sum
@@ -110,8 +109,6 @@ Everything below is absent upstream.
 ---
 
 ## What is missing (build here)
-
-Not in Mathlib:
 
 * Rank factorization through `Fin r` as an iff, the positive-semidefinite Gram factorization
   behind multidimensional scaling, and their uniqueness statements — up to `GL` for general
@@ -158,9 +155,8 @@ theorem posSemidef_and_rank_le_iff_exists_conjTranspose_mul_self
     (B.PosSemidef ∧ B.rank ≤ d) ↔ ∃ A : Matrix (Fin d) (Fin n) 𝕜, B = Aᴴ * A
 ```
 
-**Milestone A2 — uniqueness up to the obvious action.** The difference between a
-factorization theorem and an existence lemma. Two statements, whose acting groups differ in a way that is easy to get
-wrong:
+**Milestone A2 — uniqueness up to the obvious action**, the difference between a
+factorization theorem and an existence lemma. Two statements, whose acting groups differ:
 
 - **rank factorization at the exact rank**: the factors are unique up to a change of basis of
   the intermediate space, `L' = L g` and `R' = g⁻¹ R` for some `g ∈ GL (Fin r) 𝕜`;
@@ -179,7 +175,7 @@ and not the `≤ r` of Milestone A1.
 **The multidimensional-scaling consumer fixes the second statement's shape.** Classical scaling
 recovers points from a Gram matrix, and the recovered configuration is meaningful only up to a
 rigid motion; `A' = U A` is exactly that indeterminacy. A statement quantified the other way —
-a unitary on the `n` side — would be false and would look plausible.
+a unitary on the `n` side — would be false.
 
 **Decided.** Existence over the group rather than a quotient type; there is no quotient object
 here and inventing one would be a second, unasked-for design. Minimal rank only.
@@ -218,8 +214,8 @@ fixed minimizer of `g p₀` and the moving minimizers.
 **Milestone B3 — the classical theorem, over a varying constraint correspondence.** This is
 the classical statement's actual generality. **The fixed-constraint case is a special case of
 it, not a step toward it**: the argument that proves the fixed case does not generalize by
-adding a hypothesis, because with `K` varying
-the approximate-minimizer sequence need not stay in one compact set.
+adding a hypothesis, because with `K` varying the approximate-minimizer sequence need not
+stay in one compact set.
 
 Both hemicontinuity predicates already exist upstream, so nothing here defines a hemicontinuity
 notion. What the milestone adds is a correspondence `Γ : P → Set X` that is
@@ -277,10 +273,9 @@ symmetry through `Matrix.isSymmetric_toEuclideanLin_iff`); the decreasingly sort
 
   The eigenvalue statements of Parts C and D stay real for now: `sortedEigenvalues` is built on
   `LinearMap.IsSymmetric.eigenvalues`, and generalizing the *spectral* layer is a different and
-  larger question than generalizing one norm inequality. Doing the norm half alone is
-  worthwhile because it is what the operator-norm deviation event of Part D consumes, and it
-  removes an `ℝ`-only hypothesis from the entry point of the Part rather than from its
-  interior.
+  larger question than generalizing one norm inequality. The operator-norm deviation event of
+  Part D consumes only the norm half, which removes an `ℝ`-only hypothesis from the entry
+  point of the Part rather than from its interior.
 - **Entrywise eigenvalue perturbation**: Weyl's inequality, consumed from the foundations
   roadmap, composed with the comparison gives that entrywise `ε`-close symmetric matrices have
   sorted eigenvalues within `n · ε`, together with the a-priori bound on the eigenvalues
@@ -348,20 +343,19 @@ two matrices can have identical spectra and differ by a rotation. Both descend f
 entrywise event, D1 through Weyl's inequality and D2 through Part C's norm comparison — they
 are siblings, not parent and child.
 
-**Structuring the proof that way is part of the milestone**: the entrywise event should be a
-named lemma with the Chebyshev and union-bound cost paid once, and both conclusions read off
-it, so that the probability `1 − n²v/η²` is literally the same number in both rather than two
-coincidentally equal bounds. In the other order the argument gets written twice.
+The entrywise event should be a named lemma with the Chebyshev and union-bound cost paid
+once, and both conclusions read off it, so that the probability `1 − n²v/η²` is the same
+number in both rather than two coincidentally equal bounds.
 
 **No symmetry hypothesis appears in D2**, deliberately: `Ŝ ω − A` needs none for an
 operator-norm bound, whereas D1 needs both matrices Hermitian to have eigenvalues at all.
-Dropping the hypothesis where it is not used is what lets this event be consumed by an
-application that has already discharged symmetry elsewhere.
+The event is therefore consumable by an application that has already discharged symmetry
+elsewhere.
 
-**The route is deliberately elementary, and the statement must say so.** Chebyshev plus a union
-bound costs a factor `n` (entrywise to operator) and `n²` (the union bound); a matrix Bernstein
-inequality would give `log n` dimension dependence, at the price of the matrix Laplace-transform
-machinery Mathlib does not have. The trade — a weaker constant from ingredients that exist over
+**The route is deliberately elementary.** Chebyshev plus a union bound costs a factor `n`
+(entrywise to operator) and `n²` (the union bound); a matrix Bernstein inequality would give
+`log n` dimension dependence, at the price of the matrix Laplace-transform machinery Mathlib
+does not have. The trade — a weaker constant from ingredients that exist over
 a sharper constant requiring a substantial new development — is right for a first pass, but the
 bound is **not sharp in the dimension**, and no consumer may treat the `n`-dependence as
 intrinsic. A matrix-Bernstein upgrade is future work *on top of* this API, not a replacement for

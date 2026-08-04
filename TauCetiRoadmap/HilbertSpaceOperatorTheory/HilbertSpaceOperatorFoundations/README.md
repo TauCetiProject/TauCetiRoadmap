@@ -44,9 +44,9 @@ complete spaces here.
   needs neither the spectral theorem nor finite dimension — inner products of linear
   combinations, orthogonal series, projection-gap geometry — must not assume them.
 - **One square root, defined once.** The positive square root *is* the functional calculus
-  at `Real.sqrt`, by definition. There must not be two
-  constructions of one object; the square-root-specific theory (uniqueness, kernel, range,
-  the isometry-defect identity) attaches to that single definition.
+  at `Real.sqrt`, by definition. There must not be two constructions of one object; the
+  square-root-specific theory (uniqueness, kernel, range, the isometry-defect identity)
+  attaches to that single definition.
 - **Two moduli, neither subsuming the other.** The square modulus
   `LinearMap.operatorAbs A = sqrt (A⋆ ∘ₗ A)` is `RCLike`-generic and finite-dimensional; the
   rectangular modulus `ContinuousLinearMap.modulus T = CFC.sqrt (T⋆ ∘L T)` is complex and
@@ -102,8 +102,6 @@ complete spaces here.
 ---
 
 ## What is missing (build here)
-
-Not in Mathlib:
 
 * The finite self-adjoint functional calculus over `RCLike`, which Mathlib registers only over
   `ℂ`, together with the theorem that the two agree where both apply.
@@ -186,9 +184,9 @@ consumer move between the two calculi freely, and it is a target here.
 
 ### Part B — polar decomposition and partial isometries
 
-Every operator factors as an isometric part times its modulus. That statement appears in
-two different forms, differing on three axes, and each direction of
-generalization loses something:
+Every operator factors as an isometric part times its modulus. That statement appears in two
+different forms, differing on three axes, and each direction of generalization loses
+something:
 
 | | square decomposition | rectangular decomposition |
 |---|---|---|
@@ -237,8 +235,8 @@ definition.
 **Milestone — the near-isometry factorization.** A real finite-dimensional map whose
 quadratic form is uniformly `δ`-close to the identity (`δ < 1`) factors as `M = W ∘ₗ S`
 with `W` an isometry equivalence and `S` the positive square root of the Gram operator,
-satisfying `‖S x − x‖ ≤ δ‖x‖`; consequently `‖M − W‖ ≤ 2δ` for `δ ≤ 1/2`. This is what a
-perturbation argument needs and what the exact decompositions cannot give.
+satisfying `‖S x − x‖ ≤ δ‖x‖`; consequently `‖M − W‖ ≤ 2δ` for `δ ≤ 1/2`. The exact
+decompositions give no such estimate.
 
 **Milestone — Davis's intertwining unitary.** For two complete orthogonal families of
 projections `(Pⱼ)`, `(P'ⱼ)` satisfying Davis's non-degeneracy condition, the block polar
@@ -273,14 +271,13 @@ built from the singular system with coefficient `(σᵢ²)⁻¹` against rank-on
 - The spectrum bridge: `A⋆A` and `AA⋆` are symmetric and positive; their sorted eigenvalue
   lists agree at every index below both dimensions — no relation between the dimensions is
   required, since both lists are zero past the rank; consequently
-  `singularValues A⋆ = singularValues A`. This is what lets a rectangular map carry *one*
-  singular sequence rather than two.
+  `singularValues A⋆ = singularValues A`, so a rectangular map carries one singular sequence
+  rather than two.
 - The singular system: `A⋆A` acts on `vᵢ` by `σᵢ²`; the singular relation `A vᵢ = σᵢ • uᵢ`
   including the zero case; the `uᵢ` with `σᵢ ≠ 0` are orthonormal and are eigenvectors of
   `AA⋆` at `σᵢ²`; `A⋆ uᵢ = σᵢ • vᵢ`; the singular expansion of `A x` and the rank-one
   reconstruction of `A`; the extension of the nonzero left family to an orthonormal basis of
-  the codomain — the statement consumers need, and not automatic for a
-  rectangular map.
+  the codomain — the statement consumers need, and not automatic for a rectangular map.
 
 ### The Moore–Penrose interface
 
@@ -389,9 +386,8 @@ Two notions are primitive and belong here:
 Everything else that has appeared in this material is a specialization and belongs where it
 is consumed. The interval/exterior form — one spectrum in `[a,b]`, the other outside
 `(a−δ, b+δ)` — and the two-block form are application shapes of the perturbation theory and
-are specified in
-[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md); they are not
-reusable primitives with several independent consumers here.
+are specified in [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md);
+they are not reusable primitives with several independent consumers here.
 
 The roadmap therefore asks for:
 
@@ -432,8 +428,7 @@ predicates state the same typed equation and agree in the endomorphism case; and
 **Acceptance criteria.** That the accessor layer has no mathematical content; that no
 statement of the singular system mentions a basis of the ambient spaces beyond the
 constructed singular one; that the four conditions and the uniqueness converse are both
-proved; that zero singular values are handled in the singular relation — the case a
-rectangular treatment gets wrong first.
+proved; that zero singular values are handled in the singular relation.
 
 ### Part D — Gram rigidity, projections, and spectral subspaces
 
