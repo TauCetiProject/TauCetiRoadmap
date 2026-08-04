@@ -1,0 +1,78 @@
+name: grant-triage
+
+# Give anyone who opens a pull request here triage rights, by inviting them to the
+# `roadmap-triage` team. Triage lets a contributor label and manage issues and PRs, which is what
+# a worker agent keeps tripping over: labelling anything needs triage, so a contributor who has
+# just arrived gets `does not have the correct permissions to execute AddLabelsToLabelable`.
+#
+# Opening a PR is the bar on purpose. Commenting is not: triage is repository-wide (close and
+# reopen any issue or PR, add and remove any label, assign, request review), so granting it to
+# anyone who comments would hand a repository-wide switch to any account that types anything on a
+# public repository. Adding `issue_comment` to the triggers below is a one-line change if that
+# trade is ever worth making.
+#
+# NOT AUTOMATIC, and it cannot be: `PUT /orgs/{org}/teams/{team}/memberships/{user}` adds the user
+# outright only if they are already an organization member. For everyone else it opens a pending
+# invitation they have to accept from email or their GitHub notifications. So this turns a click
+# per label into one click, once, and the contributor's first labelling attempt still fails until
+# they accept.
+#
+# Requires:
+#   - a `roadmap-triage` team in the organization, holding **Triage** on this repository
+#   - the tauceti-review-bot App to have organization **Members: write** (promote-reviewers.yml
+#     needs the same grant; repository-scoped permissions are not enough to manage team membership)
+
+on:
+  pull_request_target:
+    types: [opened]
+  # Grant to one named person on demand, for someone who needs triage before they have opened
+  # anything. Deliberately not a sweep over past authors: that would fire a burst of invitations.
+  workflow_dispatch:
+    inputs:
+      user:
+        description: GitHub login to invite to the triage team
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  grant:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint App token (organization Members write)
+        id: token
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: TauCetiProject
+          permission-members: write
+
+      - name: Invite the author to the triage team
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+          ORG: TauCetiProject
+          TEAM: roadmap-triage
+          REPO: ${{ github.repository }}
+          USER: ${{ inputs.user || github.event.pull_request.user.login }}
+        run: |
+          set -euo pipefail
+
+          case "$USER" in *"[bot]") echo "· $USER is a bot; nothing to do"; exit 0 ;; esac
+
+          # Anyone already at triage or above has nothing to gain, and re-inviting them would
+          # send pointless notifications. On a public repository a stranger reads as "read".
+          have=$(gh api "/repos/$REPO/collaborators/$USER/permission" --jq '.permission' 2>/dev/null || echo none)
+          case "$have" in
+            triage|write|maintain|admin) echo "· $USER already has $have; nothing to do"; exit 0 ;;
+          esac
+
+          state=$(gh api -X PUT "/orgs/$ORG/teams/$TEAM/memberships/$USER" \
+            -f role=member --jq '.state')
+          if [ "$state" = "active" ]; then
+            echo "✓ $USER added to @$ORG/$TEAM (already an org member)"
+          else
+            echo "✓ $USER invited to @$ORG/$TEAM — triage starts once they accept the invitation"
+          fi
