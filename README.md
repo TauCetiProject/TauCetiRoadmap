@@ -3,32 +3,30 @@
 The human-controlled roadmaps for [Tau Ceti](https://github.com/TauCetiProject/TauCeti), an
 AIs-welcome Lean 4 library downstream of Mathlib. Humans steer the project from here: each
 roadmap is a markdown `README.md`, the definitive specification of its area, usually with
-suggested Lean target signatures in `Suggested.lean` (with `sorry`, which is allowed in this
-repo because these are goals, not proofs). `Suggested.lean` is never exhaustive: it pins names
-and signatures for particular milestones so contributors and reviewers converge, and a
-roadmap is finished only when the maintainers judge its `README.md` discharged, never
-because everything in its `Suggested.lean` has landed. The AI-authored mathematics lives
+suggested Lean target signatures in `Suggested.lean`. The AI-authored mathematics lives
 in the code repo; review machinery lives in
 [TauCetiReview](https://github.com/TauCetiProject/TauCetiReview).
 
-Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) in partnership with academic and
-industry groups.
+Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and the [Mathlib Initiative](https://mathlib-initiative.org/) in partnership with academic and industry groups.
 
 ## Roadmaps
 
-1. [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
-2. [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
-3. [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
-4. [Partial differential equations](TauCetiRoadmap/PDE/README.md)
-5. [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
-6. [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
-7. [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
-8. [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
-9. [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
-10. [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
-11. [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
-12. [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
-13. [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
+- [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
+- [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
+- [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
+- [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
+- [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
+- [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
+- [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
+- [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
+- [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
+- [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
+- [Partial differential equations](TauCetiRoadmap/PDE/README.md)
+- [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
+- [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
+- [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
+- [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
+- [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
 
 ## Completed roadmaps
 
@@ -38,9 +36,29 @@ Roadmaps the maintainers have declared complete (a judgment against the roadmap'
 
 - [Effective arithmetic bounds and geometry of numbers](Completed/EffectiveBounds/README.md)
 
+## Generated status files
+
+Each roadmap directory may carry two files that are **written by machine, not by hand**:
+
+- `STATUS.md` — a snapshot of where that roadmap stands, rewritten whole on each update and headed
+  by the Tau Ceti commit it describes. It is updated asynchronously from the work it reports, so it
+  is never authoritative about the current tip.
+- `PROGRESS.md` — an append-only log, one section per window of merged pull requests. Each new
+  section is normally announced in the **Tau Ceti > Progress logs** Zulip topic with links to both
+  the full log and current `STATUS.md`; announcing is a separate step from merging, so it can fail
+  without holding the report back.
+
+Both are produced by [TauCetiProgress](https://github.com/TauCetiProject/TauCetiProgress). A pull
+request carrying them can merge without human review, but only when an automated gate accepts it;
+anything the gate declines is left for a human like any other contribution. **Their prose is not
+security-validated**: the gate proves which paths changed and that the log only grew at the end, but
+it cannot prove that the summary is accurate. Read them as a machine's account of the work, and treat
+the roadmap `README.md` beside them — which humans own and review — as the authority on what the
+roadmap actually asks for.
+
 ## Writing a roadmap
 
-A roadmap is a specification for work we want done, written so an AI contributor, and its
+A roadmap is a specification for material we want added to Tau Ceti, written so an AI contributor, and its
 reviewers, can act on it without guessing.
 
 - **Build the library, don't race to the theorem.** For each object you introduce, ask for its
@@ -63,7 +81,7 @@ reviewers, can act on it without guessing.
 - **Use Mathlib's vocabulary.** Where Mathlib already has a way to say something, use it rather
   than a private version, both in the roadmap and in the code. A standard notion said in our own
   dialect drifts from the library it builds on and grows a redundant theory of lemmas Mathlib
-  already proves. Boundedness is the example: Mathlib has no "bounded on a set" predicate, so a
+  already proves. As an example: Mathlib has no "bounded on a set" predicate, so a
   result that needs an explicit bound carries `∀ x ∈ s, ‖f x‖ ≤ C` directly in its hypotheses (as
   in `norm_cfc_le`), and uses `Bornology.IsBounded` when no constant is needed
   (`isBounded_iff_forall_norm_le'` relates the two). We do the same, and never wrap a one-line
@@ -72,13 +90,27 @@ reviewers, can act on it without guessing.
   first time you use it, so a reader can see what the term denotes rather than guess.
 
 - **Specify the mathematics, not your existing code.** Say what each milestone should prove,
-  intrinsically, so a reviewer can judge it on its own terms. If you're porting existing work,
-  keep the file-by-file map in a clearly secondary provenance section, so reviewers don't treat
-  your code as the standard.
+  intrinsically, so a reviewer can judge it on its own terms.
+  A Tau Ceti roadmap may direct either a greenfield development, where the checks above have
+  identified no existing formalization, or the integration of existing work into Tau Ceti.
+
+- **Coordinate before integrating existing work.** Work with the authors of the existing material
+  and obtain their agreement before integrating it. If coordination is not possible, do not assume
+  that mathematical overlap permits reuse of their code: verify that its licence permits the
+  intended copying or adaptation, and discuss the plan on the Lean Zulip before proceeding so the
+  community can provide input. A roadmap that independently develops the same mathematics should
+  still cite the existing work and coordinate where possible to avoid needless duplication or
+  incompatible design choices.
+
+- **Improve existing work rather than canonizing it.** When porting material, do not write the
+  roadmap merely to follow the existing formalization. Apply all the principles above and use the
+  review process to make the result more general, reusable, and maintainable. Put any file-by-file
+  map in a clearly secondary provenance section so reviewers do not treat the source code as
+  prescriptive or exemplary.
 
 - **Nothing is "optional".** Don't use the word, and don't imply it. Everything on a roadmap is
   work we want. Sequencing is good, so split into milestones and put the harder material later,
-  but every item lives in *some* milestone, or a contributor reads "later" as "never".
+  but every item lives in *some* milestone, or a contributor may misread "later" as "never".
 
 - **Do things right the first time.** Decide the generality up front and write it down. Don't
   recommend intermediate implementations that will be replaced later.
@@ -102,9 +134,14 @@ approving review from a member of the `@TauCetiProject/roadmap-reviewers` team (
 for roadmap content) and the `build` check passes. Infrastructure files (the workflows, the
 Lake config, the toolchain pin) stay with the core `@TauCetiProject/humans` team.
 
-The reviewer pool grows itself: a contributor who lands two merged roadmap PRs is added to
-`roadmap-reviewers` automatically, so people who have demonstrably moved a roadmap forward can
-start approving others' roadmap work.
+Rights accrue as you contribute. Opening your first pull request gets you invited to
+`@TauCetiProject/roadmap-triage`, which carries triage on this repository: enough to label,
+assign, and manage issues and pull requests, which is what worker agents need and what a new
+contributor otherwise lacks. GitHub cannot add you to an organization without your say-so, so
+watch for the invitation and accept it; triage starts then, not when the PR opens. Landing two
+merged roadmap PRs then adds you to `roadmap-reviewers`, so the reviewer pool grows itself out
+of people who have demonstrably moved a roadmap forward and they can start approving others'
+roadmap work.
 
 ## Coordinating work: intentions and claims
 
@@ -114,7 +151,9 @@ work on and claim it. This is powered by the
 
 1. **Register an intention.** Open an issue with the **Intention** template: pick the roadmap
    area and list the specific targets you mean to take (keep the scope as narrow as you can, so
-   the rest stays open for others).
+   the rest stays open for others). Filing it through the API works as well as the web form:
+   title the issue `[Intention]: ...` and the `intention` label is applied for you, so no
+   repository permissions are needed.
 2. **Claim it.** Comment `claim` on the issue. The bot assigns it to you and moves it to
    *Claimed* on the board. For a custom window, comment `claim 3 weeks` or `claim 2026-08-01`;
    bare `claim` uses the project default.

@@ -9,9 +9,20 @@ cannot be removed -- but they can be checked, and regenerated.
 
 Run with no arguments to check (exit 1 on drift); run with `--fix` to repair.
 `--fix` regenerates the two dropdowns wholesale, and heals the README list by
-filling gaps only: it appends a missing roadmap (title from that roadmap's own
-`# ` heading) and drops an orphaned line, but never rewrites an existing entry,
-so the curated order and any hand-shortened titles survive.
+filling gaps only: it inserts a missing roadmap (title from that roadmap's own
+`# ` heading) and drops an orphaned line, but never rewrites the text of an
+existing entry, so hand-shortened titles survive.
+
+The README list is an unnumbered bullet list sorted by title. Both properties
+exist to keep concurrent roadmap pull requests from colliding. When the list
+was numbered, every new roadmap claimed the next integer, so any two open pull
+requests conflicted on the same line and every merge re-broke the rest; and
+inserting mid-list renumbered the whole tail. Without numbers, and sorted, a
+new roadmap touches exactly one line at a position determined by its own
+title, so two pull requests conflict only when their titles are adjacent.
+
+The item pattern still accepts the old `N. ` form so that pull requests written
+against the numbered list keep parsing; `--fix` normalizes them to bullets.
 """
 
 from __future__ import annotations
@@ -81,9 +92,11 @@ def title_from_h1(area: str) -> str:
     return area
 
 
-# A line in the README's "## Roadmaps" list: `N. [Title](TauCetiRoadmap/X/README.md)`.
+# A line in the README's "## Roadmaps" list: `- [Title](TauCetiRoadmap/X/README.md)`.
+# The legacy `N. ` bullet is still accepted so that pull requests opened against
+# the numbered list keep parsing; `--fix` rewrites them as `- `.
 _README_ITEM = re.compile(
-    r"^\d+\.\s+\[(?P<title>.+?)\]\(TauCetiRoadmap/(?P<area>[^/]+)/README\.md\)\s*$"
+    r"^(?:-|\d+\.)\s+\[(?P<title>.+?)\]\(TauCetiRoadmap/(?P<area>[^/]+)/README\.md\)\s*$"
 )
 _README_SECTION = re.compile(r"(?ms)^(## Roadmaps\n\n)(?P<body>.*?)(\n## )")
 
@@ -104,11 +117,12 @@ def readme_entries() -> list[tuple[str, str]]:
 def rewrite_readme(text: str, canonical: list[str]) -> str:
     """Fill gaps in the README list without touching anything else.
 
-    Replace only the contiguous run of numbered list lines: keep every existing
-    entry whose directory still exists (in order, with its curated title), drop
-    an orphaned line, drop a duplicate, append any roadmap not yet listed (title
-    from its H1), and renumber. Prose before or after the list -- an intro
-    sentence, a note -- is left exactly as it is.
+    Replace only the contiguous run of list lines: keep every existing entry
+    whose directory still exists (with its curated title), drop an orphaned
+    line, drop a duplicate, add any roadmap not yet listed (title from its H1),
+    and emit the result as an unnumbered bullet list sorted by title. Prose
+    before or after the list -- an intro sentence, a note -- is left exactly as
+    it is.
     """
     m = _README_SECTION.search(text)
     if not m:
@@ -135,13 +149,16 @@ def rewrite_readme(text: str, canonical: list[str]) -> str:
         if a in present and a not in seen:
             seen.add(a)
             kept.append((a, t))
-    for area in canonical:  # canonical is sorted, so new entries append stably
+    for area in canonical:
         if area not in seen:
             seen.add(area)
             kept.append((area, title_from_h1(area)))
 
+    # Sorted by title, so a new roadmap lands at a position fixed by its own
+    # title rather than at the end, where every other new roadmap would land.
+    kept.sort(key=lambda entry: entry[1].casefold())
     lines[start : end + 1] = [
-        f"{i}. [{t}](TauCetiRoadmap/{a}/README.md)" for i, (a, t) in enumerate(kept, 1)
+        f"- [{t}](TauCetiRoadmap/{a}/README.md)" for a, t in kept
     ]
     return text[: m.start("body")] + "\n".join(lines) + text[m.end("body") :]
 
@@ -171,17 +188,18 @@ def main() -> int:
             detail.append("out of order")
         problems.append(f"{path.relative_to(ROOT)}: {', '.join(detail)}")
 
-    # The README list keeps its curated order and titles; we only fill gaps
-    # (append a missing roadmap, drop an orphaned line). Existing lines are
-    # never rewritten, so any hand-shortened title survives.
+    # The README list keeps its curated titles, but its membership, bullet form,
+    # and title order are all derived. Compare against the healed rendering so
+    # that a stray number or a misplaced line is caught, not just a missing
+    # roadmap; existing lines are never retitled, so hand-shortened titles
+    # survive.
     rm_text = README.read_text()
     listed = [a for a, _ in readme_entries()]
-    if sorted(listed) != canonical:  # multiplicity matters, so duplicates show up
+    healed = rewrite_readme(rm_text, canonical)
+    if healed != rm_text:
         if fix:
-            new = rewrite_readme(rm_text, canonical)
-            if new != rm_text:
-                README.write_text(new)
-                print(f"fixed: {README.relative_to(ROOT)}")
+            README.write_text(healed)
+            print(f"fixed: {README.relative_to(ROOT)}")
         else:
             missing = [a for a in canonical if a not in listed]
             extra = [a for a in set(listed) if a not in set(canonical)]
@@ -193,6 +211,8 @@ def main() -> int:
                 detail.append(f"links a roadmap with no directory {extra}")
             if dups:
                 detail.append(f"listed more than once {dups}")
+            if not detail:
+                detail.append("not an unnumbered list sorted by title")
             problems.append(f"README.md: {', '.join(detail)}")
 
     if problems and not fix:
