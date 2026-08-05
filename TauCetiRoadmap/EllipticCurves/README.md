@@ -32,32 +32,41 @@ fields — the separable-closure convention below exists for exactly this reason
 curves — the coordinate ring `Affine.CoordinateRing` (`AdjoinRoot W.polynomial`, an integral
 domain) and the function field `Affine.FunctionField` (its fraction field) — and the group law on
 the points is *already proved* through that algebra, as the ideal class group of the coordinate
-ring (Angdinata–Xu, Mathlib's `Point.toClass`). So an **isogeny is defined as a function-field
-embedding, backwards**, its pointedness expressed through **integrality over the coordinate
-rings**:
+ring (Angdinata–Xu, Mathlib's `Point.toClass`). So an **isogeny is defined by a
+coordinate-ring pullback, backwards** — an `F`-algebra map out of the target's affine ring
+into the source's function field (Buzzard's domain, review) — its pointedness expressed
+through **integrality over the coordinate rings**:
 
 ```lean
-/-- A contravariant pullback between the function fields of two affine Weierstrass curves. -/
-abbrev FunctionFieldPullback (W₁ W₂ : Affine F) :=
-  W₂.FunctionField →ₐ[F] W₁.FunctionField
+/-- A contravariant pullback out of the target's affine coordinate ring into the source's
+function field. -/
+abbrev CoordinatePullback (W₁ W₂ : Affine F) :=
+  W₂.CoordinateRing →ₐ[F] W₁.FunctionField
 
 /-- The source point at infinity maps to the target point at infinity. -/
-def FunctionFieldPullback.MapsInfinity (pullback : FunctionFieldPullback W₁ W₂) : Prop :=
-  letI := pullback.coordinateRingAlgebra
+def CoordinatePullback.MapsInfinity (pullback : CoordinatePullback W₁ W₂) : Prop :=
+  letI := pullback.toRingHom.toAlgebra
   ∀ x : W₁.CoordinateRing,
     algebraMap W₁.CoordinateRing W₁.FunctionField x ∈
       integralClosure W₂.CoordinateRing W₁.FunctionField
 
-/-- The function-field data of an isogeny. -/
+/-- The pullback data of an isogeny. -/
 structure Isogeny (W₁ W₂ : Affine F) where
-  pullback : FunctionFieldPullback W₁ W₂
+  pullback : CoordinatePullback W₁ W₂
   mapsInfinity : pullback.MapsInfinity
 ```
 
-— D. Angdinata's definition and development, shared with this roadmap ahead of its mathlib
-PRs (this roadmap **coordinates with that work**, it does not fork it; `coordinateRingAlgebra`
-is the `W₂.CoordinateRing`-algebra structure on `W₁.FunctionField` through `pullback`).
-`pullback` is the contravariant function-field map; `MapsInfinity` demands that every affine
+— Buzzard's coordinate-ring domain (review) on D. Angdinata's definition and development,
+shared with this roadmap ahead of its mathlib PRs (this roadmap **coordinates with that
+work**, it does not fork it): a conditioned pullback is injective — a maximal kernel would
+make the image a finite extension of `F`, forcing `x`, which has a pole at `O₁`, to be
+integral over the constants — and extends uniquely across the fraction field to that
+development's function-field embedding, so the two forms are the same data after
+localization, and its theorems transfer intact. (⚠ For *singular* Weierstrass curves the
+pullback formalism is unchanged, but reading a pullback as an everywhere-defined morphism of
+the singular projective curve is a separate descent statement — the elliptic theory
+downstream assumes `IsElliptic` exactly as before.)
+`pullback` is the contravariant map out of the affine ring; `MapsInfinity` demands that every affine
 function of `W₁` be **integral** over the pulled-back coordinate ring of `W₂`. That is
 exactly `φ(O₁) = O₂`: the integral closure is the ring of functions regular away from the
 *whole fibre* `φ⁻¹(O₂)` — which contains every kernel point, not only `O₁` — and
@@ -72,19 +81,20 @@ has a pole exactly there and forces `O₁ ∈ φ⁻¹(O₂)`; the converse is th
 `W₁.CoordinateRing ⊆ 𝒪(C₁ ∖ {O₁})`, which holds normal or not. No places in the statement.
 Why this is the right foundation, and a cheap one:
 
-- **Nonconstancy is free.** A `K`-algebra map between the function fields is injective, and
-  automatically **finite** (both sides have transcendence degree `1` over `K`), so an `Isogeny`
-  is a *nonzero* isogeny by construction. The zero map is adjoined only where hom-groups need
-  it (§Layer 1: `WithZero`, with Buzzard's coordinate-ring presentation recorded as the agreed
-  refactor target).
+- **Nonzero comes with the condition.** A conditioned pullback is injective (the pole
+  argument above), and its fraction-field extension is automatically **finite** (both sides
+  have transcendence degree `1` over `K`), so an `Isogeny` is a *nonzero* isogeny by
+  construction. The zero morphism appears only as the Layer-1 hom carrier's **zero map** — a
+  formal representative, not a pullback (§Layer 1) — with no `WithZero` adjunction anywhere.
 - **Degree and separability are field theory.** `deg φ` is `Module.finrank` of
-  `W₁.FunctionField` over the pulled-back copy of `W₂.FunctionField`; the separable and
+  `W₁.FunctionField` over the fraction field of the pulled-back coordinate ring — the
+  pulled-back copy of `W₂.FunctionField` (Buzzard's degree form); the separable and
   inseparable degrees, and separability of `φ`, are those of the field extension — Mathlib's
   existing `FieldTheory`, not a flatness theory of morphisms. Multiplicativity of `deg` under
   composition is the finrank tower formula.
-- **Frobenius is a one-liner.** Over `𝔽_q`, `f ↦ f ^ q` is an `𝔽_q`-algebra endomorphism of the
-  function field satisfying `MapsInfinity` (the coordinates are integral over their `q`-th
-  powers): the Frobenius isogeny `π_q`, purely inseparable of degree `q` — the key input to
+- **Frobenius is a one-liner.** Over `𝔽_q`, `f ↦ f ^ q` out of the coordinate ring into the
+  function field is an `𝔽_q`-algebra map satisfying `MapsInfinity` (the coordinates are
+  integral over their `q`-th powers): the Frobenius isogeny `π_q`, purely inseparable of degree `q` — the key input to
   Layer 3.
 - **`[n]` is division polynomials.** For `n ≠ 0`, multiplication-by-`n` is an isogeny of
   degree `n²` (in characteristic `p ∣ n` its inseparable part is a Frobenius power): the
@@ -108,7 +118,8 @@ Why this is the right foundation, and a cheap one:
 
 The definition itself needs nothing Mathlib lacks — `CoordinateRing`, `FunctionField`, and
 `integralClosure` are upstream, so the structure is **seeded verbatim in `Suggested.lean`**,
-together with its degree (`Module.finrank` through `pullback`), automatic finiteness, the
+together with its injectivity and unique fraction-field extension, its degree
+(`Module.finrank` over the extension's field range), automatic finiteness, the
 point map, and the Frobenius isogeny. Better: this entire opening theory — finiteness
 (inseparable included), the intermediate ring's finiteness and normality, `pushClass`,
 `toPointHom`, and the Layer-0 `toClass` surjectivity — is already **proven in the shared
@@ -169,13 +180,13 @@ Suggested home: `TauCeti/AlgebraicGeometry/EllipticCurve/` (mirroring Mathlib's 
   nonsingularity API as a first step (review note). The milestones here are statements about the
   abstract group and survive that migration; only the seeds' spellings (`W.toAffine.Point`) would
   update.
-- **Isogenies are function-field embeddings, backwards.** An isogeny `φ : W₁ → W₂` is the
-  structure above: a `pullback : FunctionFieldPullback W₁ W₂` together with
+- **Isogenies are coordinate-ring pullbacks, backwards.** An isogeny `φ : W₁ → W₂` is the
+  structure above: a `pullback : CoordinatePullback W₁ W₂` together with
   `mapsInfinity` — integrality of `W₁.CoordinateRing` over the pulled-back
   `W₂.CoordinateRing`, i.e. `φ(O₁) = O₂` with no places in the statement (the fibre over
-  `O₂` may, and for nontrivial kernels does, contain other points). Every such map is
-  injective and automatically **finite**, so an `Isogeny` is a *nonzero* isogeny by
-  construction; `deg φ` is `Module.finrank`, and (in)separability is that of the field
+  `O₂` may, and for nontrivial kernels does, contain other points). Every conditioned map is
+  injective, with automatically **finite** fraction-field extension, so an `Isogeny` is a
+  *nonzero* isogeny by construction; `deg φ` is `Module.finrank`, and (in)separability is that of the field
   extension. The zero map is not an `Isogeny`: it is the Layer-1 hom carrier's zero (§Layer 1), and
   no statement quantifies over "isogenies including zero" implicitly. The induced map on
   `Point` is `toPointHom`, through the class group (§Layer 1); the place dictionary (§Layer 0)
@@ -392,7 +403,7 @@ being distributed as bookkeeping. Its milestones:
   every fibre over an affine point has `deg φ` points with multiplicity, and translation
   moves the kernel fibre onto one — is the alternate route Layers 2–3 may take.
 - **The standard isogenies: `[n]`, fully specified.** `[n] : Hom(E, E)` is defined for every
-  `n : ℤ`, with `[0]` the adjoined zero and `[n]` an `Isogeny` for `n ≠ 0`. The `x`-coordinate
+  `n : ℤ`, with `[0]` the carrier's zero map and `[n]` an `Isogeny` for `n ≠ 0`. The `x`-coordinate
   alone does not determine the map (`[n]` and `[−n]` share it), so the definition fixes
   **both pullbacks**: either the complete `x`- and `y`-pullback formulas, or the
   function-field map manufactured from the rational group-law addition formulas, with the
@@ -416,27 +427,30 @@ being distributed as bookkeeping. Its milestones:
   (AEC II.2.12); and **Verschiebung** `V` as the dual of relative Frobenius, with
   `V ∘ F = [p]` and `F ∘ V = [p]`. The dual construction and the finite-field theory below
   consume every one of these.
-- **The hom-group and the degree form.** `Hom(W₁, W₂)`: the isogenies with a zero adjoined —
-  the carrier is **pinned as `WithZero (Isogeny W₁ W₂)`** for the present development
-  (definitionally `Option`, so the `WithZero`/`Option` API is reused and no bespoke inductive
-  or recursor is introduced), with **Buzzard's conditioned coordinate-ring presentation
-  adopted in review as the agreed refactor target**: there an element is a map
-  `R(W₂) → K(W₁)` out of the affine ring that is either the zero map or an `F`-algebra map
-  satisfying the maps-infinity-to-infinity condition of the isogeny definition — the zero
-  morphism is the honest zero map rather than an adjoined symbol; a nonzero element is
-  conditioned, hence injective (a maximal kernel would force `x`, which has a pole at `O₁`,
-  to be integral over the constants), and extends uniquely across the fraction field to
-  exactly an `Isogeny`; and the degree form is uniform — the dimension of `K(W₁)` over the
-  fraction field of the image of `R(W₂)`, the finrank degree on an isogeny, reading `0` on
-  the zero map with no convention. The two carriers are canonically equivalent (`0` ↦ the
-  zero map, `φ` ↦ `φ.pullback` restricted to `R(W₂)`), so the pin can be flipped later
-  without disturbing the formalised material — that equivalence is the recorded migration
-  path, and the shared upstream development is consumed unchanged under either carrier. The
-  *unconditioned* form — all `K`-algebra homs `R(W₂) → K(W₁)`, in the hope of treating `0`
-  uniformly without the condition — remains rejected: such homs are exactly the dominant
-  maps *plus the evaluations at affine points*, so they adjoin every constant map except the
-  wanted constant-at-`O₂`, where `x` has a pole. The layer's real content is the same under
-  either carrier: the `AddCommGroup` instance — the theorem that the **pointwise sum of
+- **The hom-group and the degree form.** `Hom(W₁, W₂)`: **Buzzard's carrier — no `WithZero`**
+  (review, adopted): the `F`-linear multiplicative maps `R(W₂) → K(W₁)` that are either the
+  zero map or a conditioned `F`-algebra map. Into a field a multiplicative map satisfies
+  `p(1) = p(1)²`, so every element is the zero map or unital: the **zero map is the unique
+  non-unital element**, and the nonzero elements are exactly the `Isogeny`s — the carrier is
+  the disjoint union `{0} ⊔ Isogeny W₁ W₂` carved from one mapping type, nothing adjoined
+  (the previously pinned `WithZero (Isogeny W₁ W₂)` is the same set through `0 ↦` the zero
+  map and `φ ↦ φ.pullback`, which is how the formalised material migrates). ⚠ **The zero
+  element is a formal tag, not a pullback** (Birkbeck, review): the zero morphism sends
+  every point to `O₂`, which is not a point of `Spec R(W₂)`, so it has no pullback of
+  functions — indeed the genuine constant-at-`O₂` morphism would pull the constant `1` back
+  to `1`, while the zero map sends it to `0`. No pullback-versus-composition compatibility
+  is claimed at zero; the correctly phrased compatibility ("if the induced point map sends
+  `P` to an *affine* `Q`, then `(p f)(P) = f(Q)`") is vacuous there, every point landing at
+  infinity. ⚠ **The additive structure is not pointwise**: a sum of multiplicative maps is
+  not multiplicative, so `Hom` is *not* an additive subgroup of the linear maps — addition
+  comes from the group law (below), with the zero map as its zero. The **degree form** is
+  Buzzard's: `deg` is the dimension of `K(W₁)` over the fraction field of the image, with
+  `deg 0 = 0` **stipulated** (the image `{0}` generates no field — the same convention
+  `WithZero` used). The *unconditioned* form — all unital `K`-algebra homs `R(W₂) → K(W₁)`
+  with no condition — remains rejected: those are the dominant maps *plus the evaluations at
+  affine points*, adjoining every constant map except the wanted constant-at-`O₂`, where `x`
+  has a pole. The layer's real content is unchanged: the `AddCommGroup` instance — the
+  theorem that the **pointwise sum of
   isogenies is an isogeny or zero**: its pullback is
   manufactured from the same rational addition formulas Mathlib's group law is proved by — this
   is what makes `Hom` an additive group and `End(E)` a ring containing the subring
@@ -1062,7 +1076,8 @@ only hold for, these revisions:
 
 - **Function-field foundations and isogenies (Layers 0–1).** The `Isogeny` definition and its
   opening theory are D. Angdinata's, shared as working files ahead of their mathlib PRs:
-  `Isogeny.lean` carries the `FunctionFieldPullback`/`MapsInfinity`/`Isogeny` design above,
+  `Isogeny.lean` carries the function-field form (`FunctionFieldPullback`/`MapsInfinity`/
+`Isogeny`) that the coordinate-ring domain of record localizes to,
   `finiteDimensional` (nonconstant maps of one-variable function fields are finite —
   inseparable case and Frobenius included), the `IntermediateRing` with
   `intermediateRingFinite` and `intermediateRingIsIntegrallyClosed`, `pushClass` by ideal
