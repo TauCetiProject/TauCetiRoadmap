@@ -63,10 +63,11 @@ Spell hypotheses out; do not bundle them. Work with a finite-dimensional manifol
 
 ## What is missing (build here)
 
-The Levi-Civita connection and covariant derivative along a curve; the geodesic equation and its
-solutions; constant speed; the exponential map and its domain; normal neighbourhoods, the Gauss
-lemma, and minimizing geodesics; geodesic completeness; and the Hopf–Rinow equivalence itself.
-None of this is upstream.
+The Levi-Civita connection and covariant derivative along a curve; an interval-aware geodesic
+predicate carrying its parameter set and initial data; the geodesic equation and its solutions;
+constant speed; maximal intervals of existence; the exponential map and its domain; normal
+neighbourhoods, the Gauss lemma, and minimizing geodesic segments; geodesic completeness; and the
+Hopf–Rinow equivalence itself. None of this is upstream.
 
 ## Prior art and coordination
 
@@ -78,10 +79,11 @@ conventions that emerge there, and treat any overlapping local definitions as te
 delete or refactor once the Mathlib versions land.
 
 The author has related Lean material in `~/Poincare-Conjecture`, especially the DoCarmo and
-Petersen developments around connections, geodesics, exponential maps, and Hopf–Rinow. That code
-is useful provenance and a source of possible target shapes, but it is not the standard for Tau
-Ceti: implementors should build fresh against the roadmap, current Mathlib, and reviewer
-feedback, improving generality and API design where appropriate.
+Petersen developments around connections, geodesics, exponential maps, and Hopf–Rinow. Its
+interval-aware geodesics, explicit initial data, maximal intervals, and intrinsic exponential
+domain ground the target shapes below. That code is prior art rather than a Tau Ceti dependency:
+implementors should port the ideas to the connection API that lands in Mathlib or Tau Ceti and
+prove the chart geodesic equation equivalent to covariant acceleration vanishing.
 
 ---
 
@@ -104,21 +106,30 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   where the metric-level API already proves a fact, consume it.
 
 ### Layer 1: the geodesic equation, the flow, and the exponential map
-- **`IsGeodesicCurve`:** the covariant derivative of the velocity vanishes; equivalently, in a
-  chart, the second-order geodesic ODE with the Christoffel symbols. State it chart-independently
-  and prove the chart form equivalent. (Needs the Levi-Civita connection — built here or in a
-  shared connection home; see the Geometric Topology roadmap's curvature layer for the same
-  substrate.)
-- **Local existence, uniqueness, smooth dependence** of the geodesic from `(p, v)`, consumed from
-  Mathlib's ODE flow theory after reducing to a first-order system on `TM`.
+- **`IsGeodesicCurveOn g γ s`:** `γ` is continuous on the parameter set `s`, and its velocity has
+  vanishing covariant derivative there for the Levi-Civita connection of `g`. Define the all-time
+  abbreviation only as the `s = univ` specialization. In a chart this is the second-order geodesic
+  ODE with the Christoffel symbols; prove the chart form equivalent to the connection-based
+  definition. (Needs the Levi-Civita connection — built here or in a shared connection home; see
+  the Geometric Topology roadmap's curvature layer for the same substrate.)
+- **Initial data:** package `γ 0 = p`, velocity `γ'(0) = v`, and
+  `IsGeodesicCurveOn g γ s` in a real predicate; the initial velocity may not be an unused binder.
+- **Local existence, uniqueness, smooth dependence** of the geodesic from `(p, v)` on an open
+  interval containing `0`, consumed from Mathlib's ODE flow theory after reducing to a first-order
+  system on `TM`. State uniqueness on the overlap of two such intervals.
 - **Constant speed** (`‖γ'‖_g` is constant — the connection is metric): the lemma that makes a
   geodesic Cauchy at a finite endpoint of its interval.
-- **Homogeneity** `γ_{p, λv}(t) = γ_{p, v}(λt)`, the **maximal interval of existence**, and the
-  **exponential map** `exp_p v = γ_{p,v}(1)` with its domain, `exp_p 0 = p`, and
-  `d(exp_p)_0 = id` (so `exp_p` is a local diffeomorphism at `0`).
-- Milestone **(a)** is that the domain of `exp_p` is all of `T_p M`; milestone **(d)** is geodesic
-  completeness (every `v` launches an all-time geodesic). (a) ⇔ (d) at a point, via homogeneity,
-  is proved here.
+- **Maximal interval and homogeneity:** define the maximal open interval `J_g(p,v)` from genuine
+  geodesic witnesses with initial data `(p,v)`. State
+  `γ_{p,λv}(t) = γ_{p,v}(λt)` only when the corresponding times belong to their maximal intervals,
+  together with the precise relation between those domains.
+- **Exponential map:** define `expDomain g p = {v | 1 ∈ J_g(p,v)}` and
+  `exp_p v = γ_{p,v}(1)` on that domain, with `exp_p 0 = p` and `d(exp_p)_0 = id` (so `exp_p` is a
+  local diffeomorphism at `0`). Any total implementation with a junk value outside the natural
+  domain must carry a `v ∈ expDomain g p` hypothesis in mathematical statements.
+- Milestone **(a) at `p`** is `expDomain g p = univ`. Define geodesic completeness at `p` by
+  `∀ v, J_g(p,v) = univ`, and global milestone **(d)** by requiring this at every `p`. Prove the
+  pointwise exponential-domain/completeness equivalence via domain-aware homogeneity.
 - ⚠ Read curves through the chart at the *current* point of the curve, not one global chart. The
   word "intrinsic" belongs to those chart-reading auxiliaries, **not** to `exp_p` or the
   book-numbered statements.
@@ -128,15 +139,20 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   neighbourhood of `0`, giving normal balls and normal coordinates.
 - **The Gauss lemma** and **local minimization:** inside a normal ball the radial geodesic is the
   unique shortest path to its endpoint and realizes the distance (stated via the Layer-0 distance,
-  `pathELength γ = riemannianEDist p (γ 1)`).
+  `pathELength γ = edist p (γ 1)`).
 - **The first variation of energy**, enough to characterize geodesics as critical points and to
   drive the endpoint arguments of Layer 3.
-- **Minimizing geodesics from `p`** (milestone **(f)**): every `q` is joined to `p` by a geodesic
-  on `[0,1]` whose subsegments realize distance and whose length equals `d(p, q)`.
+- **Minimizing geodesics from `p`** (milestone **(f)**): every `q` is joined to `p` by a curve
+  satisfying `IsGeodesicCurveOn g γ (Icc 0 1)`, `γ 0 = p`, `γ 1 = q`, and
+  `pathELength I γ 0 1 = edist p q`; its subsegments also realize distance. Do not require this
+  witness to extend to an all-time geodesic.
 
 ### Layer 3: the Hopf–Rinow equivalence
-- Assemble the `TFAE` of (a)–(e) and the implication (a) ⇒ (f). The weight is in the two
-  directions joining metric and geodesic completeness; the rest are short.
+- Assemble the `TFAE` of (a)–(e) and the implication (a) ⇒ (f). Give (e) the explicit Lean form
+  `∃ K : ℕ → Set M, (∀ n, IsCompact (K n)) ∧ Monotone K ∧ (⋃ n, K n) = univ ∧
+  ∀ q : ℕ → M, (∀ n, q n ∉ K n) → Tendsto (fun n ↦ dist p (q n)) atTop atTop`.
+  The weight is in the two directions joining metric and geodesic completeness; the rest are
+  short.
 - **(c) ⇔ (d):** constant speed makes a geodesic Cauchy at a finite endpoint of its maximal
   interval; metric completeness supplies the limit and a local flow extends past it, so no maximal
   interval is bounded — and conversely.

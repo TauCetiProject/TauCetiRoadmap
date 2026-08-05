@@ -11,7 +11,7 @@ do not commit Tau Ceti to a full geodesic API yet.
 namespace TauCetiRoadmap.HopfRinow
 
 open Set
-open scoped Bundle Manifold
+open scoped Bundle ContDiff Manifold
 
 variable
   {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
@@ -22,47 +22,22 @@ variable
   [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
   [IsRiemannianManifold I M]
 
-/-- Suggested shape for geodesic completeness, parametrised by the eventual intrinsic geodesic
-predicate so this roadmap does not freeze the implementation API too early. -/
-def IsGeodesicallyComplete (IsGeodesic : (ℝ → M) → Prop) : Prop :=
-  ∀ p : M, ∀ _v : TangentSpace I p, ∃ γ : ℝ → M, γ 0 = p ∧ IsGeodesic γ
-
-/-- Suggested shape for condition (a): the exponential map at `p` is defined on the whole tangent
-space. The domain is a parameter until the exponential-map API exists. -/
-def ExpEverywhereAt (expDomain : (p : M) → Set (TangentSpace I p)) (p : M) : Prop :=
-  expDomain p = univ
-
-/-- Suggested shape for Hopf-Rinow's minimizing-geodesic conclusion. -/
-def HasLengthMinimizingGeodesicsFrom (IsGeodesic : (ℝ → M) → Prop) (p : M) : Prop :=
-  ∀ q : M, ∃ γ : ℝ → M, γ 0 = p ∧ γ 1 = q ∧ IsGeodesic γ ∧
-    Manifold.pathELength I γ 0 1 = ENNReal.ofReal (dist p q)
-
-/-- Layer 1/3 target: metric completeness and geodesic completeness agree for the Riemannian
-distance. -/
-theorem completeSpace_iff_isGeodesicallyComplete
-    (IsGeodesic : (ℝ → M) → Prop) [ConnectedSpace M] [IsRiemannianManifold I M] :
-    CompleteSpace M ↔ IsGeodesicallyComplete (I := I) IsGeodesic := by
+/-- Layer 0 target: Mathlib's Riemannian extended distance agrees with the infimum of
+`pathELength` over curves that are `C¹` on every piece of a finite strict partition. -/
+theorem riemannianEDist_eq_iInf_piecewiseCOne (x y : M) :
+    Manifold.riemannianEDist I x y =
+      ⨅ (γ : ℝ → M) (n : ℕ) (τ : ℕ → ℝ) (_ : 0 < n)
+        (_ : ∀ i < n, τ i < τ (i + 1))
+        (_ : ∀ i < n, ContMDiffOn 𝓘(ℝ, ℝ) I 1 γ (Icc (τ i) (τ (i + 1))))
+        (_ : γ (τ 0) = x) (_ : γ (τ n) = y),
+        Manifold.pathELength I γ (τ 0) (τ n) := by
   sorry
 
-/-- Layer 3 target: the classical Hopf-Rinow equivalence at a base point, plus the minimizing
-geodesic conclusion. -/
-theorem hopfRinow
-    (IsGeodesic : (ℝ → M) → Prop) (expDomain : (p : M) → Set (TangentSpace I p))
-    [ConnectedSpace M] [IsRiemannianManifold I M] (p : M) :
-    List.TFAE
-      [ExpEverywhereAt (I := I) expDomain p,
-       ProperSpace M,
-       CompleteSpace M,
-       IsGeodesicallyComplete (I := I) IsGeodesic] ∧
-      (ExpEverywhereAt (I := I) expDomain p →
-        ∀ q : M, ∃ γ : ℝ → M, γ 0 = p ∧ γ 1 = q ∧ IsGeodesic γ ∧
-          Manifold.pathELength I γ 0 1 = ENNReal.ofReal (dist p q)) := by
-  sorry
-
-/-- Layer 4 target: do Carmo, Corollary 2.9. -/
-theorem isGeodesicallyComplete_of_compactSpace
-    (IsGeodesic : (ℝ → M) → Prop) [CompactSpace M] [IsRiemannianManifold I M] :
-    IsGeodesicallyComplete (I := I) IsGeodesic := by
-  sorry
+/-!
+Geodesic-level signatures are intentionally deferred until Layer 1 provides the real types for
+covariant differentiation along a curve, interval-aware geodesics with initial data, maximal
+existence intervals, and the exponential map. In particular, these targets must not be simulated
+by quantifying over free `Prop`-valued predicates or arbitrary exponential-map domains.
+-/
 
 end TauCetiRoadmap.HopfRinow
