@@ -11,14 +11,16 @@ do not commit Tau Ceti to a full geodesic API yet.
 namespace TauCetiRoadmap.HopfRinow
 
 open Set
-open scoped Manifold
+open scoped Bundle Manifold
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
-  {M : Type*} [TopologicalSpace M] [MetricSpace M] [ChartedSpace H M] [IsManifold I 1 M]
-  [∀ x : M, ENorm (TangentSpace I x)]
+variable
+  {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {H : Type*} [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+  {M : Type*} [MetricSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
   [Bundle.RiemannianBundle (fun x : M => TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
+  [IsRiemannianManifold I M]
 
 /-- Suggested shape for geodesic completeness, parametrised by the eventual intrinsic geodesic
 predicate so this roadmap does not freeze the implementation API too early. -/
