@@ -11,22 +11,23 @@ Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and th
 
 ## Roadmaps
 
-1. [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
-2. [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
-3. [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
-4. [Partial differential equations](TauCetiRoadmap/PDE/README.md)
-5. [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
-6. [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
-7. [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
-8. [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
-9. [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
-10. [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
-11. [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
-12. [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
-13. [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
-14. [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
-15. [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
-16. [The Laguerre and Jacobi orthogonal polynomials, and their L² bases](TauCetiRoadmap/LaguerreJacobi/README.md)
+- [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
+- [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
+- [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
+- [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
+- [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
+- [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
+- [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
+- [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
+- [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
+- [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
+- [Partial differential equations](TauCetiRoadmap/PDE/README.md)
+- [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
+- [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
+- [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
+- [The Laguerre and Jacobi orthogonal polynomials, and their L² bases](TauCetiRoadmap/LaguerreJacobi/README.md)
+- [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
+- [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
 
 ## Completed roadmaps
 
@@ -44,8 +45,9 @@ Each roadmap directory may carry two files that are **written by machine, not by
   by the Tau Ceti commit it describes. It is updated asynchronously from the work it reports, so it
   is never authoritative about the current tip.
 - `PROGRESS.md` — an append-only log, one section per window of merged pull requests. Each new
-  section is normally announced in the **Tau Ceti > Progress logs** Zulip topic; announcing is a
-  separate step from merging, so it can fail without holding the report back.
+  section is normally announced in the **Tau Ceti > Progress logs** Zulip topic with links to both
+  the full log and current `STATUS.md`; announcing is a separate step from merging, so it can fail
+  without holding the report back.
 
 Both are produced by [TauCetiProgress](https://github.com/TauCetiProject/TauCetiProgress). A pull
 request carrying them can merge without human review, but only when an automated gate accepts it;
