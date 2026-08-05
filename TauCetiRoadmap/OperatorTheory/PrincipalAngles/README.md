@@ -1,4 +1,4 @@
-# Principal angles, projection geometry, and spectral subspaces
+# Principal angles, the projection gap, and spectral subspaces
 
 How far does a subspace rotate when its operator is perturbed? The classical answers —
 Davis–Kahan, Hoffman–Wielandt, Yu–Wang–Samworth — measure the rotation in **principal
@@ -207,8 +207,7 @@ Parallel definitions encoding the same condition under different names are the f
 to avoid. If two forms turn out to be equivalent, one of them is a theorem and not a
 definition.
 
-**Milestone — the sharp gap identity**, as an equality with no equal-rank hypothesis, and
-**Gram rigidity** in its family form.
+**Milestone — the sharp gap identity**, as an equality with no equal-rank hypothesis.
 
 ## Worked examples (acceptance criteria)
 
@@ -253,7 +252,7 @@ and zero-padded.
 - A. J. Hoffman, H. W. Wielandt, *The variation of the spectrum of a normal matrix*, Duke
   Math. J. **20** (1953); C. Davis, *The rotation of eigenvectors by a perturbation*,
   J. Math. Anal. Appl. **6** (1963), Theorem 4.1 — the eigenvalue-change bound and the
-  projection geometry.
+  projection gap.
 
 ## Acknowledgements
 

@@ -10,7 +10,8 @@ with `HasOrthogonalProjection`, and `OrthogonalFamily`, whose only vector-level 
 `Orthonormal.orthogonalFamily` requires *unit* vectors. It has no Gram-rigidity theorem, no
 bundled coordinate isometry of an orthonormal family, and no reducing-subspace API.
 
-Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
+Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the subspace-equality isometry
+lemma in `TauCeti/Analysis/Normed/Operator/`.
 
 ## Standing conventions
 
@@ -52,6 +53,8 @@ vectors.
 - Invariance: invariant and reducing kept as distinct named notions — they coincide for
   symmetric operators, and that coincidence is a theorem; restriction of a symmetric
   operator to an invariant subspace.
+- Supporting identities the layer above is stated from: the inner product of two linear
+  combinations of a family, and the isometry between two subspaces that are equal.
 - Orthogonal series: a pairwise-orthogonal family of vectors spans an orthogonal family of
   lines — the constructor Mathlib's unit-vector hypothesis blocks; Pythagoras for finite
   sums; summability iff square-norm summability; Parseval for a family with a specified
@@ -66,9 +69,8 @@ non-unit-vector gap rather than duplicating `OrthogonalFamily`.
 
 ## Ordering
 
-This roadmap rests on [`PolarDecomposition`](../PolarDecomposition/README.md) for the
-inner-product linear-combination identity and the subspace-equality isometry lemma, and on
-nothing else in the family.
+This roadmap rests on Mathlib and on nothing else in the family, so it can be reviewed
+independently of [`PolarDecomposition`](../PolarDecomposition/README.md).
 
 **Downstream.** [`Majorization`](../Majorization/README.md) states its rectangular
 constructions against the coordinate isometry and Gram rigidity;

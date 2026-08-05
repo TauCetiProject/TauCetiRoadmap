@@ -6,7 +6,7 @@ import Mathlib
 import TauCetiRoadmap.OperatorTheory.OrthogonalGeometry.Suggested
 
 /-!
-# Principal angles, projection geometry, and spectral subspaces: target signatures
+# Principal angles, the projection gap, and spectral subspaces: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. The statements here suggest Lean forms for particular milestones, so that

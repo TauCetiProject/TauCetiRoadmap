@@ -252,7 +252,8 @@ becomes code.
   Transport statements only; the estimates belong to the perturbation roadmap.
 - **Quadratic-form bounds**: `LowerFormBoundOn` and `UpperFormBoundOn` for a bounded operator
   on a subspace, and the bridge from a spectral inclusion of a restriction to those bounds
-  over `ℂ` — where the foundations' spectral-subspace layer is consumed.
+  over `ℂ` — where [`OrthogonalGeometry`](../OrthogonalGeometry/README.md)'s restriction and
+  reducing-subspace API is consumed.
 
 **Milestone C1 — bounded Kato–Rellich.** A bounded self-adjoint perturbation of a
 self-adjoint partial map is self-adjoint on the same domain, directly and with no
@@ -417,7 +418,8 @@ indicators.
 ## Ordering
 
 **Internal.** Parts A, B and D are mutually independent and each independently submittable.
-Part C is independent of them but consumes the foundations roadmap. Part E is the confluence
+Part C is independent of them but consumes
+[`OrthogonalGeometry`](../OrthogonalGeometry/README.md). Part E is the confluence
 and needs exactly A + B + D — the Cayley transform and resolvent bounds from D, the Borel
 calculus and `ProjValMeasure` from B, the unitary-group vocabulary, von Neumann criterion and
 Duhamel estimate from A. It does not consume Part C: the shared carrier of C, D and E is

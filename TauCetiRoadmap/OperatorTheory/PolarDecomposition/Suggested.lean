@@ -261,33 +261,6 @@ theorem isMoorePenroseInverse_adjoint {A : E →ₗ[𝕜] F} {B : F →ₗ[𝕜]
 
 end SingularSystem
 
-section GramRigidity
-
-variable {𝕜 : Type u} [RCLike 𝕜]
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
-variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
-
-/-- Isometric first isomorphism theorem: two linear maps out of a common module with equal
-pullback inner products have canonically isometric ranges, by `S x ↦ T x`. No finiteness is
-assumed and the ambient spaces may differ.
-
-Spec: D1. -/
-noncomputable def rangeEquivOfInnerEq {M : Type*} [AddCommGroup M] [Module 𝕜 M]
-    (S : M →ₗ[𝕜] E) (T : M →ₗ[𝕜] F)
-    (h : ∀ x y, ⟪S x, S y⟫_𝕜 = ⟪T x, T y⟫_𝕜) :
-    LinearMap.range S ≃ₗᵢ[𝕜] LinearMap.range T :=
-  sorry
-
-/-- Gram rigidity: families with equal pairwise inner products differ by a linear isometry
-equivalence of the ambient space. -/
-theorem exists_linearIsometryEquiv_map_eq_of_inner_eq {ι : Type*}
-    [FiniteDimensional 𝕜 E] {φ ψ : ι → E}
-    (h : ∀ i j, ⟪φ i, φ j⟫_𝕜 = ⟪ψ i, ψ j⟫_𝕜) :
-    ∃ W : E ≃ₗᵢ[𝕜] E, ∀ i, W (φ i) = ψ i := by
-  sorry
-
-end GramRigidity
-
 section NearIsometry
 
 variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
@@ -350,7 +323,7 @@ noncomputable def polarInitial (M : E →L[ℂ] F) : Submodule ℂ E :=
 /-- The polar partial isometry of a bounded rectangular complex operator: isometric on the
 initial space, zero on its orthogonal complement.
 
-Spec: D2. -/
+Spec: D1. -/
 noncomputable def polarPartial (M : E →L[ℂ] F) : E →L[ℂ] F :=
   sorry
 

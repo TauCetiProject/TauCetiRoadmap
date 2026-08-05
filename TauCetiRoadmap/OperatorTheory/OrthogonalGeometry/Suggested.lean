@@ -60,15 +60,27 @@ theorem orthogonalFamily_of_pairwise_inner_eq_zero {ι : Type*} {f : ι → E}
       fun i => (𝕜 ∙ f i).subtypeₗᵢ := by
   sorry
 
-/-! ## Reducing subspaces -/
+end TauCetiRoadmap.OrthogonalGeometry
+
+/-! ## Reducing subspaces
+
+Both facts are about a Mathlib carrier and are written in that carrier's namespace, so that
+each supports dot notation on the object it is about. -/
+
+namespace Submodule
 
 /-- A subspace admitting an orthogonal projection is complete when the ambient space is. -/
-theorem isComplete_coe_of_hasOrthogonalProjection [CompleteSpace E] (U : Submodule 𝕜 E)
+theorem isComplete_coe_of_hasOrthogonalProjection {𝕜 E : Type*} [RCLike 𝕜]
+    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E] (U : Submodule 𝕜 E)
     [U.HasOrthogonalProjection] : IsComplete (U : Set E) := sorry
 
-/-- Restricting a symmetric operator to an invariant subspace preserves symmetry. -/
-theorem isSymmetric_restrict_of_invariant {A : E →L[𝕜] E}
-    (hA : (A : E →ₗ[𝕜] E).IsSymmetric) {U : Submodule 𝕜 E} (hU : ∀ x ∈ U, A x ∈ U) :
-    (A.restrict hU).IsSymmetric := sorry
+end Submodule
 
-end TauCetiRoadmap.OrthogonalGeometry
+namespace ContinuousLinearMap
+
+/-- Restricting a symmetric operator to an invariant subspace preserves symmetry. -/
+theorem IsSymmetric.restrict_of_invariant {𝕜 E : Type*} [RCLike 𝕜]
+    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] {A : E →L[𝕜] E} (hA : A.IsSymmetric)
+    {U : Submodule 𝕜 E} (hU : ∀ x ∈ U, A x ∈ U) : (A.restrict hU).IsSymmetric := sorry
+
+end ContinuousLinearMap

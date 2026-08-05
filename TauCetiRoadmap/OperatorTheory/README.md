@@ -37,8 +37,8 @@ scope and dependencies.
   as convex analysis, Schur–Horn, Ky Fan sums and Fan dominance, unitarily invariant norms
   square and rectangular, and the Frobenius seminorm.
 - [**Principal angles**](PrincipalAngles/README.md) — principal angles as singular values
-  of an overlap operator, Gram rigidity, projection geometry, spectral subspaces and the
-  separation predicates, Hoffman–Wielandt and Davis's eigenvalue-change bound.
+  of an overlap operator, the projection gap, spectral subspaces and the separation
+  predicates, Hoffman–Wielandt and Davis's eigenvalue-change bound.
 - [**Self-adjoint spectral theory**](SelfAdjointSpectralTheory/README.md) — one-parameter
   unitary groups and Stone's theorem, the bounded Borel functional calculus and
   projection-valued measures, closed operators and resolvents on `LinearPMap`, and the

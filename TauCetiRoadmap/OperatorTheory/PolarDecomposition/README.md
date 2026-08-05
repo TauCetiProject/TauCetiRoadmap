@@ -16,13 +16,12 @@ uniqueness theory at that generality, no partial-isometry API, no polar decompos
 singular *vectors*, and no Moore–Penrose inverse.
 
 Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar square-root
-estimates in `TauCeti/Analysis/SpecialFunctions/` and the subspace-equality isometry lemma
-in `TauCeti/Analysis/Normed/Operator/`.
+estimates in `TauCeti/Analysis/SpecialFunctions/`.
 
 **Why "Hilbert-space" and not "finite-dimensional".** The organizing core is
 finite-dimensional: the functional calculus is a finite sum over an eigenbasis, and that
-is what makes it exist. But three of the constructions here — the rectangular operator
-modulus, the polar decomposition through a partial isometry, and the projection geometry —
+is what makes it exist. But two of the constructions here — the rectangular operator
+modulus and the polar decomposition through a partial isometry —
 need no finite-dimensional hypothesis at all, and later roadmaps consume them in that
 stronger form. [`OperatorIdeals`](../OperatorIdeals/README.md) applies the modulus to
 operators on infinite-dimensional spaces;
@@ -36,8 +35,8 @@ complete spaces here.
 - **Scalars are `𝕜 : RCLike`; finite dimension exactly where the eigenbasis is used.** The
   functional calculus is a finite sum over `LinearMap.IsSymmetric.eigenvectorBasis`, so
   `[FiniteDimensional 𝕜 E]` is what makes the definition exist. Supporting material that
-  needs neither the spectral theorem nor finite dimension — inner products of linear
-  combinations, orthogonal series, projection-gap geometry — must not assume them.
+  needs neither the spectral theorem nor finite dimension — the partial-isometry API, the
+  rectangular modulus — must not assume them.
 - **One square root, defined once.** The positive square root *is* the functional calculus
   at `Real.sqrt`, by definition. There must not be two constructions of one object; the
   square-root-specific theory (uniqueness, kernel, range, the isometry-defect identity)
@@ -345,13 +344,9 @@ orthogonal complement — the rectangular polar partial isometry.
   VI.3.2, VI.3.9); M. Reed, B. Simon, *Methods of Modern Mathematical Physics I*, §VI — the
   polar decomposition on Hilbert space.
 - C. Davis, *The rotation of eigenvectors by a perturbation*, J. Math. Anal. Appl. **6**
-  (1963) — the intertwining unitary and the projection geometry.
+  (1963) — the intertwining unitary.
 - R. Penrose, *A generalized inverse for matrices*, Proc. Cambridge Philos. Soc. **51**
   (1955) — the four conditions and the uniqueness characterization.
-- T.-Y. Chien, S. Waldron, *A characterization of projective unitary equivalence of finite
-  frames and applications*, SIAM J. Discrete Math. **30** (2016), arXiv:1312.5393 — Gram
-  rigidity in its frame-theoretic form.
-
 ## Acknowledgements
 
 An Apache-2.0 implementation of all three Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
@@ -361,9 +356,3 @@ public API and proof structure may change during integration.
 One difference should be expected at integration: the Moore–Penrose conditions are
 currently passed as four anonymous hypotheses rather than through a predicate, which is a
 target of Part C.
-
-The Gram-matrix material was submitted as mathlib4 pull request
-[#40567](https://github.com/leanprover-community/mathlib4/pull/40567) and reshaped on
-review: the linear-combination identity moved to its natural home, and the quotient
-plumbing became the standalone `rangeEquivOfInnerEq`. That pull request is closed —
-Mathlib is not the destination — and the module was generalized further afterwards.

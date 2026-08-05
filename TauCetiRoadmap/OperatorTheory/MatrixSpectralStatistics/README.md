@@ -161,8 +161,8 @@ rigid motion; `A' = U A` is exactly that indeterminacy. A statement quantified t
 a unitary on the `n` side — would be false.
 
 Existence over the group rather than a quotient type; there is no quotient object here.
-Minimal rank only. The Gram statement uses `LinearIsometryEquiv`, the carrier Gram rigidity
-is stated against in [`PrincipalAngles`](../PrincipalAngles/README.md).
+Minimal rank only. The Gram statement uses `LinearIsometryEquiv`, the same carrier
+[`OrthogonalGeometry`](../OrthogonalGeometry/README.md) states Gram rigidity against.
 
 ### Part B — matrix spectra and spectral measurability
 
@@ -176,8 +176,9 @@ symmetry through `Matrix.isSymmetric_toEuclideanLin_iff`); the decreasingly sort
 
 **API to develop.**
 
-- **Entrywise eigenvalue perturbation**: Weyl's inequality, consumed from the foundations
-  roadmap, composed with the comparison gives that entrywise `ε`-close symmetric matrices have
+- **Entrywise eigenvalue perturbation**: Weyl's inequality, consumed from
+  [`PolarDecomposition`](../PolarDecomposition/README.md),
+  composed with the comparison gives that entrywise `ε`-close symmetric matrices have
   sorted eigenvalues within `n · ε`, together with the a-priori bound on the eigenvalues
   themselves. This composite is the whole reason the pair exists: entrywise control in,
   spectral conclusions out.
