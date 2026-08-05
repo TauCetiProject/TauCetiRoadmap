@@ -3,9 +3,10 @@ import Mathlib
 /-!
 # Geodesics, the exponential map, and Hopf-Rinow: target signatures
 
-This file is not the roadmap and is not exhaustive. The definitive document is `README.md`.
-The statements here suggest Lean forms for a few milestones; they are intentionally schematic and
-do not commit Tau Ceti to a full geodesic API yet.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. The statements here suggest Lean forms for particular milestones, so that
+contributors and reviewers converge on names and signatures; discharging all of them
+finishes neither a layer nor the roadmap.
 -/
 
 namespace TauCetiRoadmap.HopfRinow
