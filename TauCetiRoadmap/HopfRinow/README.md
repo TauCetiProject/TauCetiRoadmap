@@ -40,10 +40,11 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
   `[IsManifold I ∞ M]`, `[Bundle.RiemannianBundle (fun x : M ↦ TangentSpace I x)]`, and
   `[IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]`.
 - **No boundary** is the explicit model-space hypothesis `[I.Boundaryless]`.
-- **Topology and separation.** An existing `[EMetricSpace M]` or `[MetricSpace M]` supplies the
-  topology and its separation properties; do not add an independent `[TopologicalSpace M]`.
-  When constructing `EMetricSpace.ofRiemannianMetric` from the manifold topology, assume
-  `[T3Space M]`; the pseudo-emetric construction instead assumes `[RegularSpace M]`.
+- **Topology, Hausdorffness, and separation.** Require `[T2Space M]` explicitly in topological
+  statements; a genuine `[EMetricSpace M]` or `[MetricSpace M]` supplies both the topology and
+  this instance, so do not add an independent `[TopologicalSpace M]`. When constructing
+  `EMetricSpace.ofRiemannianMetric` from the manifold topology, assume `[T3Space M]`; the
+  pseudo-emetric construction instead assumes `[RegularSpace M]`.
 - **Connectedness** (`[ConnectedSpace M]`) is load-bearing and stated explicitly wherever used:
   without it the distance is not finite and assertion (f) fails across components. The purely
   local geodesic theory (Layers 1–2) does not need it; the equivalence and (f) (Layers 3–4) do.
@@ -70,10 +71,12 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
   (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.lean`), together with the
   torsion tensor and `CovariantDerivative.torsion_eq_zero_iff`
   (`.../CovariantDerivative/Torsion.lean`).
-- **Completeness and properness.** `CompleteSpace`, `ProperSpace` (with `ProperSpace.complete`),
-  `Metric.isCompact_iff_isClosed_bounded`, Cauchy/total-boundedness API
-  (`Mathlib/Topology/MetricSpace/`, `.../EMetricSpace/`). (b) is `ProperSpace M`; (c) is
-  `CompleteSpace M`.
+- **Completeness and properness.** `CompleteSpace`, `ProperSpace`, the instances
+  `complete_of_proper` and `proper_of_compact`, `Metric.isCompact_iff_isClosed_bounded` (under
+  `[T2Space M]`), `IsClosed.completeSpace_coe`, and the Cauchy/total-boundedness API
+  (`Mathlib/Topology/MetricSpace/`, `.../EMetricSpace/`, and `.../UniformSpace/`). Assertion (b)
+  is `ProperSpace M`; (c) is `CompleteSpace M`. Consume these results rather than restating them
+  as Riemannian milestones.
 - **ODE estimates and local solutions.** `Mathlib/Analysis/ODE/` supplies Picard–Lindelöf local
   existence, `ODE_solution_unique*`, Gronwall estimates, and Lipschitz dependence on initial
   conditions. It does not yet supply `C^k` dependence, flows, or maximal intervals.
@@ -91,8 +94,9 @@ the geodesic spray, its smooth local flow, and maximal intervals of existence; a
 geodesic predicate carrying its parameter set and initial data; constant speed; the exponential
 map and its domain; the manifold inverse-function theorem needed for normal coordinates; normal
 neighbourhoods, the Gauss lemma, and minimizing geodesic segments; geodesic completeness; and the
-Hopf–Rinow equivalence itself. The roadmap must consume the general connection, torsion, ODE, and
-integral-curve APIs above while building these specifically Riemannian results.
+Hopf–Rinow equivalence itself. Open-submanifold metric restriction and metric-level length-space
+and geodesic-space interfaces are also missing. The roadmap must consume the general connection,
+torsion, ODE, and integral-curve APIs above while building these results.
 
 ## Prior art and coordination
 
@@ -167,6 +171,11 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
 - **Canonical convention:** all downstream Tau Ceti statements use Mathlib's `C¹`
   `Manifold.pathELength` and `Manifold.riemannianEDist`; the piecewise-`C¹` formulation is exposed
   only through the comparison theorem above.
+- **Restriction to open submanifolds:** for `U : TopologicalSpace.Opens M`, construct the restricted
+  `RiemannianBundle` and its smoothness instance and apply `EMetricSpace.ofRiemannianMetric` on
+  `U`. For a convex open subset of a finite-dimensional real inner-product space, prove that the
+  resulting Riemannian distance agrees with the ambient norm distance. This owned target is what
+  makes the open-unit-ball acceptance example below expressible.
 - **Distance compatibility and finiteness.** Consume `IsRiemannianManifold I M` and rewrite with
   `IsRiemannianManifold.out`. Prove `Manifold.riemannianEDist I x y ≠ ∞` on a connected manifold,
   then expose the ordinary metric-space presentation needed by `dist`, `ProperSpace`, and
@@ -212,6 +221,12 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   initial data `(p,v)`. State
   `γ_{p,λv}(t) = γ_{p,v}(λt)` only when the corresponding times belong to their maximal intervals,
   together with the precise relation between those domains.
+- **Finite-endpoint extension criterion:** for `z : ℝ → TM` an integral curve on a maximal open
+  interval `J` with finite right endpoint `b`, prove that if `t_n ∈ J`, `t_n → b`, and
+  `z (t_n) → z_b` in `TM`, then local existence at `z_b` and uniqueness on the overlap extend `z`
+  past `b`, contradicting maximality; state the left-endpoint analogue too. This is a named target
+  because the pinned integral-curve API has no maximal-solution extension theorem; consume
+  mathlib4#26413 if it supplies the required form first.
 - **Exponential map:** define `expDomain g p = {v | 1 ∈ J_g(p,v)}` and
   `exp_p v = γ_{p,v}(1)` on that domain, with `exp_p 0 = p`. Any total implementation with a junk
   value outside the natural domain must carry a `v ∈ expDomain g p` hypothesis in mathematical
@@ -261,33 +276,56 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   together with `(a_p) ⇒ (f_p)`. Give `(e_p)` the explicit Lean form
   `∃ K : ℕ → Set M, (∀ n, IsCompact (K n)) ∧ Monotone K ∧ (⋃ n, K n) = univ ∧
   ∀ q : ℕ → M, (∀ n, q n ∉ K n) → Tendsto (fun n ↦ dist p (q n)) atTop atTop`.
-  The weight is in the two directions joining metric and geodesic completeness; the rest are
-  short.
-- **(c) ⇔ (d):** constant speed makes a geodesic Cauchy at a finite endpoint of its maximal
-  interval; metric completeness supplies the limit and a local flow extends past it, so no maximal
-  interval is bounded — and conversely.
+  The implication graph to implement is
+  `(c) ⇒ (d) ⇒ (a_p) ⇒ (f_p)`, `(a_p) ∧ (f_p) ⇒ (b) ⇒ (c)`, and `(b) ⇔ (e_p)`.
+- **(c) ⇒ (d), including convergence in `TM`:** at a finite endpoint of a maximal geodesic,
+  constant speed makes the base curve Cauchy, so metric completeness supplies a limit `q : M`.
+  Prove local uniform equivalence between the smooth Riemannian norm and the chart norm near `q`;
+  in the resulting tangent-bundle trivialization the velocity coordinates are bounded. Finite
+  dimensionality then gives a convergent subsequence of the lifted fixed-speed states
+  `(γ(t_n), γ'(t_n))`. Apply the Layer-1 finite-endpoint extension criterion to its limit in `TM`,
+  and use uniqueness for the geodesic spray to identify the extension with the original curve.
+  Prove the analogous argument at the left endpoint. Neither convergence of the velocities nor
+  the extension lemma is implicit in constant speed.
+- **(d) ⇒ (a_p):** global geodesic completeness gives `(d_p)`, and the Layer-1 pointwise
+  equivalence `(d_p) ↔ (a_p)` makes `exp_p` defined on all of `T_p M`.
 - **(a_p) ⇒ (f_p):** with `exp_p` everywhere defined, every `q` is joined to `p` by a curve
   satisfying `IsGeodesicCurveOn g γ (Icc 0 1)`, `γ 0 = p`, `γ 1 = q`, and
   `pathELength I γ 0 1 = edist p q`; its subsegments also realize distance. Do not require this
-  witness to extend to an all-time geodesic.
-- **(a_p) ⇒ (b):** the sphere-compactness argument and the preceding minimizers exhibit closed
-  balls as compact images, i.e. `ProperSpace M`.
+  witness to extend to an all-time geodesic. Build it by minimizing distance on compact spheres
+  in the finite-dimensional `T_p M`, using continuity of distance to `q`, and iterating the
+  normal-ball radial extension step.
+- **(a_p) and (f_p) ⇒ (b):** the minimizing initial velocities identify each closed ball centered
+  at `p` with the image under `exp_p` of a compact closed ball in `T_p M`. A closed ball centered
+  at an arbitrary `q` is a closed subset of a sufficiently large compact ball centered at `p`, by
+  the triangle inequality. Hence every closed ball is compact and `ProperSpace M` follows.
+- **(b) ⇒ (c):** consume the instance `complete_of_proper`.
+- **(b) ⇒ (e_p):** take `K_n = closedBall p n`; properness makes each `K_n` compact, connectedness
+  and finiteness of `dist` give `⋃ n, K_n = univ`, and `q_n ∉ K_n` forces
+  `dist p (q_n) → ∞`.
+- **(e_p) ⇒ (b):** if a closed bounded set `A` were contained in no `K_n`, choose
+  `q_n ∈ A ∖ K_n`. The divergence clause in `(e_p)` contradicts boundedness of `A`, so
+  `A ⊆ K_N` for some `N`; being closed in the compact set `K_N`, it is compact.
 - **Base-point propagation:** after proving the equivalence, state explicitly that `(a_p)` at one
   point implies global (d), hence `(d_q)` and `(a_q)` for every `q`. This global step belongs here,
   not in the pointwise homogeneity argument of Layer 1.
-- **(b) ⇒ (c)** is `ProperSpace.complete`; **(b) ⇔ (e)** uses the closed-ball exhaustion
-  `K_n = closedBall p n`.
 - ⚠ **(f_p) does not imply (b).** Properness follows from `(a_p)` — all-time `exp_p` is what makes
   closed balls compact images of Euclidean balls — *together with* `(f_p)`, never from the
   existence-of-minimizers `(f_p)` alone. Any narrative must route properness through `(a_p)`.
 
 ### Layer 4: corollaries and downstream theory
-- **Compact ⇒ geodesically complete** (do Carmo, Corollary 2.9), with a direct proof (a geodesic
-  on a compact manifold cannot escape, so its interval is unbounded) as well as via completeness.
-- **Minimizing geodesics between arbitrary points** of a complete connected manifold, and hence
-  that `(M, d_g)` is a geodesic (length) metric space.
-- **Closed subsets inherit completeness**; closed bounded subsets are compact; the diameter
-  corollaries.
+- **Compact ⇒ geodesically complete** (do Carmo, Corollary 2.9): use `proper_of_compact`, then
+  `complete_of_proper`, then Layer 3's `(c) ⇒ (d)`. Do not claim compactness of `M` directly
+  confines the flow on noncompact `TM`; connectedness is unnecessary for this corollary.
+- **Metric length-space API:** in `TauCeti/Topology/MetricSpace/Length.lean`, define metric curve
+  length as the supremum of finite sums of successive distances, and define a length space by
+  equality of `dist x y` with the infimum of lengths of continuous curves from `x` to `y`.
+- **Metric geodesic-space API:** in the same file, define a geodesic space by the existence, for
+  every `x y`, of a constant-speed segment `γ` on `[0,1]` satisfying
+  `dist (γ s) (γ t) = |s - t| * dist x y`. Prove separately that geodesic spaces are length spaces
+  and that a complete connected Riemannian manifold is both, using `(f_p)` and the Layer-0 length
+  comparison. Coordinate names and reuse with the Lean Zulip metric-geometry discussion before
+  upstreaming this shared API; this roadmap owns delivery if no upstream definition lands.
 - **Transport of geodesic completeness** across isometries and through the
   `IsRiemannianManifold` identification, so downstream roadmaps (constant-curvature model spaces)
   apply the theory without reopening it.
@@ -296,43 +334,40 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
 
 Discharge these alongside the layers; they catch a vacuous equivalence or a hidden completeness
 assumption:
-- **`ℝⁿ`** with its flat metric is geodesically and metrically complete, including when `n = 0`,
-  and the minimizing geodesic from `x` to `y` is the affine segment, with
-  `pathELength = ‖x − y‖`. Both directions of the equivalence are non-vacuous in positive
-  dimension, while the zero-dimensional case checks that no unnecessary hypothesis leaks into
-  the public theorem.
-- **`Sⁿ`** is compact, hence geodesically complete by Layer 4, and a great-circle arc realizes the
-  distance. Exercises Corollary 2.9.
-- **An open ball in `ℝⁿ` (or `ℝⁿ ∖ {0}`)** is neither geodesically nor metrically complete, and a
-  radial geodesic leaves it in finite time: the equivalence correctly reports incompleteness, so
-  no hypothesis silently forces completeness.
-- **(f)-without-(b) guard:** a witness where minimizers from `p` exist yet closed balls are not
-  compact, matching the trap in Layer 3.
+- **A finite-dimensional real inner-product space `F`:** consume Mathlib's existing
+  `IsRiemannianManifold 𝓘(ℝ, F) F` instance. Prove that geodesics are affine lines, `F` is
+  geodesically and metrically complete, and the affine segment from `x` to `y` has
+  `pathELength = ‖x - y‖`. Include the trivial space; no `NeZero` hypothesis is needed.
+- **The open unit ball in `ℝ`, with `p = 0`:** use the Layer-0 open-submanifold restriction of the
+  flat metric. Every `q` is joined to `0` by its radial segment, which realizes `dist 0 q`, but
+  `closedBall 0 2` is the whole open ball and is not compact. A unit-speed radial geodesic reaches
+  the missing boundary in finite time, so the space is neither metrically nor geodesically
+  complete. This single example is both the incompleteness check and the explicit
+  `(f_p)`-without-(b) guard.
 
 ## Ordering
 
-Layer 0 first: corner smoothing, the piecewise-`C¹`/`C¹` infimum comparison, and the distance
-bridge settle the `Manifold.riemannianEDist` convention. In Layer 1, the Levi-Civita connection and
-along-curve derivative come before the geodesic spray; the spray then feeds local existence,
-smooth dependence, constant speed, maximal intervals, and `exp_p`. The derivative of `exp_p` and
-the manifold inverse-function theorem precede Layer 2's normal neighbourhoods. Layer 2 supplies
-the local minimizing theory; the global minimizing statement (f) and the two hard completeness
-directions belong to Layer 3. The remaining implications of Layer 3 and all of Layer 4 are short.
+Layer 0 first: corner smoothing, open-submanifold restriction, the piecewise-`C¹`/`C¹` infimum
+comparison, and the distance bridge settle the metric convention. In Layer 1, the Levi-Civita
+connection and along-curve derivative come before the geodesic spray; the spray then feeds local
+existence, smooth dependence, constant speed, maximal intervals, the finite-endpoint extension
+criterion, and `exp_p`. The derivative of `exp_p` and the manifold inverse-function theorem
+precede Layer 2's normal neighbourhoods. Layer 2 supplies the local minimizing theory. Layer 3
+closes the explicit Hopf–Rinow implication graph, and Layer 4 packages its corollaries and the
+shared metric length/geodesic-space API.
 
 ## References
 
-- M. P. do Carmo, *Riemannian Geometry*, Birkhäuser, 1992: **Ch. 1–2** (the Riemannian metric,
-  the induced distance, the Levi-Civita connection), **Ch. 3 §2–3** (the geodesic equation and
-  flow, the exponential map, the Gauss lemma, minimizing geodesics, normal neighbourhoods —
-  Layers 0–2), and **Ch. 7 §2** (Theorem 2.8, Hopf–Rinow, and Corollary 2.9 — Layers 3–4). The
-  primary target.
+- M. P. do Carmo, *Riemannian Geometry*, Birkhäuser, 1992: **Ch. 1, Def. 2.9** (arc length),
+  **Ch. 2 §§2–3** (covariant differentiation and the Riemannian connection), **Ch. 3 §2**
+  (geodesic equation, flow, and exponential map), **§3** (Gauss lemma, normal neighbourhoods, and
+  minimizing geodesics), **§4** (convex neighbourhoods), **Ch. 7 §2, Def. 2.4 and Thm. 2.8/Cor.
+  2.9** (Riemannian distance and Hopf–Rinow), and **Ch. 9 §2, Props. 2.4–2.5** (first variation
+  and geodesics as critical points). See the reviewer-checkable
+  [source extract](references/do-carmo-hopf-rinow.md).
 - J. Lee, *Introduction to Riemannian Manifolds*, GTM 176, 2018: the Levi-Civita connection
   (Thm 5.10), geodesics and the exponential map (Ch. 5–6), the Gauss lemma and the Hopf–Rinow
   theorem (Ch. 6). Its connection material is the substrate shared with the Geometric Topology
   roadmap's curvature layer.
 - P. Petersen, *Riemannian Geometry*, GTM 171: an alternative account of completeness, minimizing
   geodesics, and the length-space view (cross-checks for Layers 2–4).
-
-## Authorship
-
-Drafted with AI assistance from Codex/GPT-5 and reviewed by the human author before submission.
