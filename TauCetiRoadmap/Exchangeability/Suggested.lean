@@ -282,10 +282,13 @@ example [IsProbabilityMeasure μ] (hX : ∀ i, Measurable (X i))
 /-- **Layer 4, the Lévy downward theorem** along an antitone filtration. Independent of
 exchangeability: consume Mathlib's upcrossing API and build only the reversal, the
 antitone adapter, and the `⨅ n, 𝔽 n` identification; the martingale route consumes this.
-The L¹ and Lᵖ convergence forms are follow-up Layer 4 targets. -/
-example [IsProbabilityMeasure μ] {𝔽 : ℕ → MeasurableSpace Ω}
-    (h_filtration : Antitone 𝔽) (h_le : ∀ n, 𝔽 n ≤ (inferInstance : MeasurableSpace Ω))
-    (f : Ω → ℝ) (h_f_int : Integrable f μ) :
+It is enough to assume `𝔽 0 ≤ m₀`, since antitonicity gives `𝔽 n ≤ 𝔽 0` for every `n`.
+No integrability hypothesis on `f` is needed: by convention, conditional expectation is
+zero for a non-integrable function. The L¹ and Lᵖ convergence forms are follow-up Layer 4
+targets. -/
+example [IsFiniteMeasure μ] {𝔽 : ℕ → MeasurableSpace Ω}
+    (h_filtration : Antitone 𝔽) (h_le0 : 𝔽 0 ≤ (inferInstance : MeasurableSpace Ω))
+    (f : Ω → ℝ) :
     ∀ᵐ ω ∂μ,
       Tendsto (fun n => (μ[f|𝔽 n]) ω) atTop (𝓝 ((μ[f|⨅ n, 𝔽 n]) ω)) := by
   sorry
