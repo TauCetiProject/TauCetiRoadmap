@@ -443,7 +443,7 @@ theorem norm_sq_eq_tsum_norm_column_sq (b : HilbertBasis ι 𝕜 F)
 
 /-- **Milestone C1, isometric conjugation**: composition with a norm-preserving
 map on the left and a map with norm-preserving adjoint on the right preserves
-the energy — what makes the Sylvester flow a unitary group on this space. -/
+the energy. -/
 theorem hilbertSchmidtEnergy_isometry_comp (b : HilbertBasis ι 𝕜 F)
     (U : E →L[𝕜] E) (hU : ∀ x, ‖U x‖ = ‖x‖) (T : F →L[𝕜] E) :
     hilbertSchmidtEnergy (U ∘L T) b = hilbertSchmidtEnergy T b := sorry

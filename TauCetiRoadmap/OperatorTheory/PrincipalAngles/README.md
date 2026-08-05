@@ -22,9 +22,6 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
 - **Equalities where equalities hold.** The projector-difference identity
   `‖P − Q‖ = max (‖(1−Q)P‖, ‖(1−P)Q‖)` is an equality, with factor one and no equal-rank
   hypothesis. It must not be weakened to a two-sided estimate.
-- **Gram rigidity produces a `LinearIsometryEquiv`.** Equal pairwise inner products give an
-  isometry equivalence of the ambient space in finite dimension, and that is the carrier
-  every consumer is stated against.
 
 ## What Mathlib already has (consume)
 
@@ -33,8 +30,6 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
 - **Orthogonal families:** `OrthogonalFamily`, whose only vector-level constructor
   `Orthonormal.orthogonalFamily` requires *unit* vectors — the gap Part C fills for the
   non-normalized families a singular expansion produces.
-- **Gram matrices:** `Matrix.gram` and the matrix-side spectral theory; Part C's rigidity
-  theorem characterizes equality of `Matrix.gram`.
 - **Singular values:** `LinearMap.singularValues`, which the principal cosines are defined
   as.
 
@@ -45,8 +40,6 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
 * Angle geometry and the eigenvalue-perturbation results: the von Neumann trace core,
   Hoffman–Wielandt against an arbitrary orthonormal basis, and Davis's eigenvalue-change
   lower bound.
-* Gram rigidity — equal pairwise inner products force a linear isometry equivalence — and
-  the isometric first isomorphism theorem it rests on.
 * The sharp projector-gap identity, spectral subspaces, the restricted spectrum, and the
   separation predicates the perturbation roadmap consumes.
 * `sinThetaMap`, the directed sine cross-projection the Davis–Kahan estimates are stated
@@ -250,13 +243,8 @@ consumes the angles, `sinThetaMap`, the separation predicates and `spectralSubsp
 
 ## Definitions
 
-**D1** `x ↦ ∑ⱼ xⱼ vⱼ`, so `eⱼ ↦ vⱼ` — the coordinate isometry of an orthonormal family.
-
-**D2** `cos Θ(u, v) = σ(overlap operator)` — the principal-angle cosines, sorted decreasingly
+**D1** `cos Θ(u, v) = σ(overlap operator)` — the principal-angle cosines, sorted decreasingly
 and zero-padded.
-
-**D3** `S x ↦ T x` — the isometry of ranges induced by two maps out of a common module with
-equal pullback inner products.
 
 ## References
 
@@ -266,18 +254,9 @@ equal pullback inner products.
   Math. J. **20** (1953); C. Davis, *The rotation of eigenvectors by a perturbation*,
   J. Math. Anal. Appl. **6** (1963), Theorem 4.1 — the eigenvalue-change bound and the
   projection geometry.
-- T.-Y. Chien, S. Waldron, *A characterization of projective unitary equivalence of finite
-  frames and applications*, SIAM J. Discrete Math. **30** (2016), arXiv:1312.5393 — Gram
-  rigidity in its frame-theoretic form.
 
 ## Acknowledgements
 
 An Apache-2.0 implementation of all three Parts exists in the
 [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
 (Kitware, Inc.). The public API and proof structure may change during integration.
-
-The Gram-matrix material was submitted as mathlib4 pull request
-[#40567](https://github.com/leanprover-community/mathlib4/pull/40567) and reshaped on
-review: the linear-combination identity moved to its natural home, and the quotient
-plumbing became the standalone `rangeEquivOfInnerEq`. That pull request is closed —
-Mathlib is not the destination — and the module was generalized further afterwards.

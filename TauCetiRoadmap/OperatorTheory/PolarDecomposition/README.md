@@ -13,7 +13,7 @@ functional calculus over `ℂ`, and singular *values*
 — but not the operator-theoretic layer over `RCLike`: no functional calculus for a
 symmetric `LinearMap` covering `ℝ` and `ℂ` together, no positive square root with its
 uniqueness theory at that generality, no partial-isometry API, no polar decomposition, no
-singular *vectors*, no Moore–Penrose inverse, and no Moore–Penrose inverse.
+singular *vectors*, and no Moore–Penrose inverse.
 
 Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar square-root
 estimates in `TauCeti/Analysis/SpecialFunctions/` and the subspace-equality isometry lemma
@@ -102,9 +102,6 @@ complete spaces here.
 * The singular system: right singular basis, left singular vectors, the rank-one expansion,
   and the Moore–Penrose inverse characterized by Penrose's four conditions rather than
   constructed and named.
-* Gram rigidity — equal pairwise inner products force a linear isometry equivalence — the
-  isometric first isomorphism theorem it rests on, and the orthogonal-series constructor for
-  non-normalizable families.
 
 ## The build, in layers
 
@@ -301,35 +298,6 @@ basis of the ambient spaces beyond the constructed singular one.
 
 **Milestone — existence and uniqueness of the Moore–Penrose inverse**, in the form above:
 the predicate, the construction, and the theorem that they determine each other.
-
-### Part D — Gram rigidity, projection geometry, and orthogonal series
-
-**Objects.** The isometric first isomorphism theorem `rangeEquivOfInnerEq` — two maps out
-of a common module with equal pullback inner products have canonically isometric ranges —
-and the Gram-rigidity theorems it yields; the coordinate isometry `familyIsometry` of an
-orthonormal family; projections onto spans of orthonormal families; invariant and reducing
-subspaces; the orthogonal-series constructor for pairwise orthogonal, not necessarily unit,
-vectors.
-
-**API to develop.**
-
-- Gram rigidity: equal pullback inner products give equal kernels and the range isometry;
-  for families, equal pairwise inner products give a span-to-span isometry sending
-  `φ i ↦ ψ i`, extended in finite dimension to a `LinearIsometryEquiv` of the ambient
-  space, which is the carrier consumers are stated against; the `Matrix.gram`
-  characterization as an iff.
-- Projection geometry: projections onto spans of orthonormal families, and the coordinate
-  isometry `eⱼ ↦ vⱼ` of an orthonormal family that
-  [`Majorization`](../Majorization/README.md) and
-  [`PrincipalAngles`](../PrincipalAngles/README.md) both state their constructions against.
-- Invariance: invariant and reducing kept as distinct named notions — they coincide for
-  symmetric operators, and that coincidence is a theorem; restriction of a symmetric
-  operator to an invariant subspace.
-- Orthogonal series: a pairwise-orthogonal family of vectors spans an orthogonal family of
-  lines — the constructor Mathlib's unit-vector hypothesis blocks; Pythagoras for finite
-  sums; summability iff square-norm summability; Parseval for a family with a specified
-  sum. The families this produces are `σᵢ • uᵢ`, orthogonal but not normalizable when some
-  `σᵢ` vanish, which is why the unit-vector constructor does not suffice.
 
 ## Worked examples (acceptance criteria)
 

@@ -3,6 +3,7 @@ Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
+import TauCetiRoadmap.OperatorTheory.OrthogonalGeometry.Suggested
 
 /-!
 # Principal angles, projection geometry, and spectral subspaces: target signatures
@@ -31,17 +32,12 @@ variable {n d : ℕ}
 Angles are singular values of the overlap operator, so nonnegativity, the `≤ 1`
 bound, ordering and symmetry are inherited rather than re-proved by induction. -/
 
-/-- The coordinate isometry of an orthonormal family, `eⱼ ↦ vⱼ`.
-
-Spec: D1. -/
-noncomputable def familyIsometry {v : Fin d → E} (hv : Orthonormal 𝕜 v) :
-    EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E := sorry
-
 /-- The overlap operator of two orthonormal families: the composite of one
 coordinate isometry's adjoint with the other, with matrix `⟪uᵢ, vⱼ⟫`. -/
 noncomputable def overlapOp {u v : Fin d → E} (hu : Orthonormal 𝕜 u)
     (hv : Orthonormal 𝕜 v) : EuclideanSpace 𝕜 (Fin d) →ₗ[𝕜] EuclideanSpace 𝕜 (Fin d) :=
-  (familyIsometry hu).toLinearMap.adjoint ∘ₗ (familyIsometry hv).toLinearMap
+  (OrthogonalGeometry.familyIsometry hu).toLinearMap.adjoint ∘ₗ
+    (OrthogonalGeometry.familyIsometry hv).toLinearMap
 
 /-- Principal-angle cosines: the singular values of the overlap operator.
 
@@ -151,7 +147,7 @@ noncomputable def sinThetaMap (U V : Submodule 𝕜 E)
 
 end SinThetaMap
 
-/-! ## Part C -- projection geometry, spectral subspaces, and the separation predicates -/
+/-! ## Part C -- the projection gap, spectral subspaces, and the separation predicates -/
 
 section ProjectionGap
 
@@ -166,15 +162,6 @@ theorem norm_starProjection_sub_eq_max (U V : Submodule 𝕜 E)
     ‖(U.starProjection - V.starProjection : E →L[𝕜] E)‖ =
       max ‖(1 - V.starProjection) ∘L U.starProjection‖
           ‖(1 - U.starProjection) ∘L V.starProjection‖ := by
-  sorry
-
-/-- A pairwise orthogonal family of vectors spans an orthogonal family of lines: the
-vector-level constructor whose upstream counterpart requires unit vectors, and which the
-singular expansion needs because `σᵢ • uᵢ` is not normalizable at `σᵢ = 0`. -/
-theorem orthogonalFamily_of_pairwise_inner_eq_zero {ι : Type*} {f : ι → E}
-    (hf : Pairwise fun i j => ⟪f i, f j⟫_𝕜 = 0) :
-    OrthogonalFamily 𝕜 (fun i => (𝕜 ∙ f i : Submodule 𝕜 E))
-      fun i => (𝕜 ∙ f i).subtypeₗᵢ := by
   sorry
 
 end ProjectionGap

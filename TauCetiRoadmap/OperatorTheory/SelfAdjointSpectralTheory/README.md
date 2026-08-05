@@ -337,10 +337,9 @@ map `w ↦ i(1+w)/(1−w)`; the spectral projections; the spectral subspace and 
 - **Form bounds from spectral support**: vanishing of the spectral projection on `(−∞, c)`
   yields `c‖x‖² ≤ Re⟪A x, x⟫` on the domain, and dually; on a spectral range with
   `B ⊆ [β, α]` the quadratic form is confined to `[β, α]`. The spectral hypothesis is the
-  **Banach-algebra spectrum of the restriction**, `spectrum ℝ (A.restrict hU)`; the
-  finite-dimensional point-spectrum predicates of
-  [`PrincipalAngles`](../PrincipalAngles/README.md) are a different layer and this bridge
-  does not consume them.
+  Banach-algebra spectrum of the restriction, `spectrum ℝ (A.restrict hU)`, so the bridge
+  consumes the restriction of a symmetric operator to a reducing subspace from
+  [`OrthogonalGeometry`](../OrthogonalGeometry/README.md).
 - **The Yosida scheme, with named approximants.** The construction is the
   [one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)'s
   `Aλ = λ²R(λ,A) − λI`, at imaginary shifts; it is specialized here, not proposed.
@@ -425,7 +424,9 @@ Duhamel estimate from A. It does not consume Part C: the shared carrier of C, D 
 `LinearPMap` itself. Within Part E the Yosida and maximality material precedes the
 construction.
 
-**External.** This roadmap rests only on Mathlib.
+**External.** [`OrthogonalGeometry`](../OrthogonalGeometry/README.md), for the reducing
+subspaces and the restriction of a symmetric operator that Part C's form bounds are stated
+over.
 
 The [one-parameter semigroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
 roadmap is the canonical one for the dynamical layer, and it predates this one. Strongly
@@ -445,8 +446,8 @@ semigroup generator is `i` times the group generator, the factor being the Stone
 of Stone's theorem and no consumer needs it yet. What is missing is not the bridge but its
 statement in either roadmap.
 
-**Downstream.** `SpectralSubspacePerturbation` consumes Parts A, D and E; `OperatorIdeals`
-consumes Part B's measurability layer.
+**Downstream.** `SpectralSubspacePerturbation` consumes Parts A, D and E;
+`MatrixSpectralStatistics` consumes Part B's measurability layer.
 
 ## Definitions
 

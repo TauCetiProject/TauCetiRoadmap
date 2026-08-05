@@ -30,6 +30,9 @@ scope and dependencies.
   symmetric operator over `RCLike`, the positive square root and the operator modulus,
   polar decomposition and partial isometries, singular systems and the Moore–Penrose
   inverse.
+- [**Orthogonal geometry**](OrthogonalGeometry/README.md) — Gram rigidity, the coordinate
+  isometry of an orthonormal family, projection geometry, orthogonal series, and reducing
+  subspaces.
 - [**Majorization**](Majorization/README.md) — weak majorization and the transfer descent
   as convex analysis, Schur–Horn, Ky Fan sums and Fan dominance, unitarily invariant norms
   square and rectangular, and the Frobenius seminorm.
@@ -58,12 +61,13 @@ scope and dependencies.
 | roadmap | mathematical prerequisites |
 |---|---|
 | `PolarDecomposition` | Mathlib |
-| `Majorization` | `PolarDecomposition` |
-| `PrincipalAngles` | `PolarDecomposition`, `Majorization` |
-| `SelfAdjointSpectralTheory` | `PolarDecomposition` |
+| `OrthogonalGeometry` | `PolarDecomposition` |
+| `Majorization` | `PolarDecomposition`, `OrthogonalGeometry` |
+| `PrincipalAngles` | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization` |
+| `SelfAdjointSpectralTheory` | `OrthogonalGeometry` |
 | `OperatorIdeals` | `PolarDecomposition`, `Majorization` |
 | `MatrixSpectralStatistics` | `PolarDecomposition`, `SelfAdjointSpectralTheory` |
-| `SpectralSubspacePerturbation` | `PolarDecomposition`, `Majorization`, `PrincipalAngles`, `SelfAdjointSpectralTheory` |
+| `SpectralSubspacePerturbation` | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization`, `PrincipalAngles`, `SelfAdjointSpectralTheory` |
 
 `PrincipalAngles` needs `Majorization` for Davis's eigenvalue-change bound, which runs
 through Birkhoff's theorem and the permutation-orbit convex hull. `OperatorIdeals` needs it
@@ -87,9 +91,8 @@ Between roadmaps in this family:
   perturbation roadmap states its estimates in that vocabulary and defines no norm of its
   own.
 - **The operator modulus and the polar decomposition** belong to `PolarDecomposition`.
-- **Gram rigidity, projection geometry, orthogonal series and reducing subspaces** belong
-  to `PolarDecomposition`; every roadmap that needs a coordinate isometry or a projection
-  onto a span takes it from there.
+- **Gram rigidity, the coordinate isometry, projection geometry, orthogonal series and
+  reducing subspaces** belong to `OrthogonalGeometry`.
 - **The projection gap, spectral subspaces, the restricted spectrum, the separation
   predicates and `sinThetaMap`** belong to `PrincipalAngles`. `InternalGap`, the member of the separation
   family with both spectra from one operator, belongs to `SpectralSubspacePerturbation`,

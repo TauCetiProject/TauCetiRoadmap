@@ -111,7 +111,6 @@ The gaps to fill are:
   separately, with the nesting `S_p ⊆ S_q`.
 * Hilbert–Schmidt operators as `ℓ²` of columns: the energy, its basis-independence, the
   reconciliation with `S₂`, and the named corollary **Hilbert–Schmidt ⇒ compact**.
-* The approximation numbers of a spectral band of an unbounded self-adjoint operator.
 
 ## The build, in layers
 
@@ -145,8 +144,8 @@ carry `0 < k`.
   converse, closing the boundary as an equivalence.
 - **Hilbert layer:** adjoint invariance `aₙ(T⋆) = aₙ(T)`, via rank invariance under the
   adjoint and the adjoint isometry; over `ℂ` the sequence identity `aₙ(|T|) = aₙ(T)`, from
-  the pointwise identity `‖|T|x‖ = ‖Tx‖`, with the modulus belonging to the
-  foundations roadmap; and the unconditional lower bound `c ≤ aₙ(T)` from a `c`-coercive
+  the pointwise identity `‖|T|x‖ = ‖Tx‖`, with the modulus belonging to
+  [`PolarDecomposition`](../PolarDecomposition/README.md); and the unconditional lower bound `c ≤ aₙ(T)` from a `c`-coercive
   subspace of rank `> n`, with unit-vector and linearly-independent-family forms.
 - **Min–max, both halves.** The orthogonal-tail equality on a complete source, its collapse
   to `0` once `n` reaches the source dimension, and the supremum formulation on the closed
@@ -365,9 +364,7 @@ inner product and completeness already proved.
 when `U` is norm-preserving and `V` has norm-preserving adjoint. The left case is termwise
 trivial — composing with an isometry changes no column norm — and the right case is the same
 statement about the adjoint; no basis-independence argument appears, which in the tensor
-model is the expensive step. The Sylvester flow `Z ↦ U_A t ∘ Z ∘ (U_B t)⋆` is
-therefore a unitary group on the Hilbert–Schmidt space, the hypothesis under which the
-perturbation roadmap applies Stone's theorem.
+model is the expensive step.
 
 **Milestone C2 — Pythagoras along an orthogonal family.** A family splitting every vector's
 norm (`∑' i, ‖P i v‖ₑ ² = ‖v‖ₑ ²`) splits the energy on either side and jointly. No

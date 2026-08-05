@@ -32,7 +32,7 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Analysis/Matrix/`,
 
 ## Standing conventions
 
-- **Matrices, deliberately.** Parts C and D are about concrete matrices with entrywise
+- **Matrices, deliberately.** Parts B and C are about concrete matrices with entrywise
   hypotheses, not abstract operators. This is not a lapse into coordinates: statistical data
   arrives as a matrix, entrywise, and the bounds a statistician can assume are entrywise
   bounds. The abstract operator theory lives in
@@ -282,12 +282,15 @@ scatter identity checked against a two-point family.
 **Part A is an independent leaf**: it needs nothing beyond Mathlib and is submittable
 immediately, as a single small contribution.
 
-**Parts B and C are a chain.** Part C consumes Part B and nothing else. Internal order:
+**Parts B and C are a chain.** Part C consumes Part B. Internal order:
 within Part B, norm comparisons → eigenvalue perturbation → sorted-indexing theory →
 measurability; within Part C, scalar moments → sample mean → matrix concentration → sample
 second moment, with the centered scatter independent of the rest.
 
-This roadmap rests only on Mathlib.
+**External.** [`PolarDecomposition`](../PolarDecomposition/README.md), for
+Courant–Fischer and Weyl's inequality behind the entrywise eigenvalue bridge, and
+[`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md), for the
+measurability layer Part B's spectral transform is glued over.
 
 ## Definitions
 
