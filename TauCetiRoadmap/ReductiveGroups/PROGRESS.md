@@ -92,3 +92,38 @@ plumbing that makes the comodule API usable. One other design point is visible t
 declaration list: everything is stated over a general commutative base ring `R` rather than over a
 field, so the field-specific parts of the roadmap, geometric connectedness, smoothness, and
 anything defined after base change to `k̄`, remain untouched.
+
+<!--tauceti-progress:v1 {"from_sha":"ed837d596f81c587c5b9696efed02a869f945e7e","prs":[1505,1508,1514,1516,1518,1521,1617,1620,1626,1627,1632,1640,1644,1651,1652,1661,1664,1669,1671,1672,1674,1676,1678,1683,1689,1691,1692,1694,1696,1697,1709,1711,1729,1753,1776,1805,1809,1813,1815,1816,1817,1818,1825,1831,1833,1841,1843,1845,1853,1856,1862,1863,1869,1889,1905,1906,1910,1921,1924],"roadmap":"ReductiveGroups","to_sha":"11ef09d4d6e560655ed762ace27ef2858e9117cd"}-->
+## ReductiveGroups: 2026-07-29 to 2026-08-03 (`ed837d5` to `11ef09d`)
+
+Layer 0 reached its summit. `Spec` is now an anti-equivalence from commutative `S`-Hopf algebras
+onto affine group schemes over `Spec S`
+([`commHopfAlgCatOpEquivAffineGroupSchemeCat`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/AffineGroupScheme/Equivalence.html#TauCeti.commHopfAlgCatOpEquivAffineGroupSchemeCat),
+TauCeti#1626), the `Γ` direction coming from a Hopf-algebra structure on the global sections of an
+affine group scheme, and the functor of points was reconciled with it: it is corepresentable, full
+and faithful. So the roadmap's three views are finally interchangeable. Built on that, closed
+subgroup schemes of `Spec H` are classified by Hopf ideals under reverse inclusion
+([`hopfIdealOrderIsoClosedSubgroup`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/HopfIdeal/Scheme/Classification.html#TauCeti.CommHopfAlgCat.hopfIdealOrderIsoClosedSubgroup)),
+and the kernel of a morphism, cut out by the extended augmentation ideal, is the scheme-theoretic
+fibre over the identity.
+
+Comodules got their two structural theorems. Every element of a coalgebra over a field lies in a
+finite-dimensional subcoalgebra
+([`Subcoalgebra.exists_finiteDimensional_subcoalgebra_mem`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Coalgebra/Subcoalgebra/Finite.html#TauCeti.Subcoalgebra.exists_finiteDimensional_subcoalgebra_mem)),
+and, when the coefficient coalgebra is free, every comodule is the union of its finite subcomodules.
+Finite-dimensional comodules over a commutative Hopf algebra now form a rigid symmetric monoidal
+category
+([`FGComoduleCat.instRigidCategory`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Coalgebra/Comodule/Finite/Rigid.html#TauCeti.FGComoduleCat.instRigidCategory)),
+duals twisted by the antipode. And the dictionary the roadmap wanted is in place: representations
+of the group functor on `V` are exactly comodule structures on `V`
+([`pointRepresentationEquivComodule`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Comodule/Basic.html#TauCeti.HopfAlgebra.pointRepresentationEquivComodule)),
+with a matching criterion for when a linear map is colinear.
+
+Layer 2 opened: the tangent space at the identity, defined as dual-number points lying over the
+identity, is the module of derivations at the counit, and carries the convolution commutator as a
+Lie bracket
+([`Derivation.instLieAlgebra`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Tangent/Lie/Basic.html#TauCeti.Derivation.instLieAlgebra)),
+with the differential of a Hopf morphism a Lie morphism. The adjoint action is not there. The
+worked examples caught up with the scheme language: `GLₙ`, `SLₙ` as a closed subgroup of it, `𝔾ₐ`
+as affine one-space, `μ_n` as a closed subgroup of `𝔾ₘ`, and split tori, each with its
+scheme-valued points identified with the expected classical group.

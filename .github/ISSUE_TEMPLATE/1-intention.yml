@@ -28,6 +28,7 @@ body:
         - ModularForms
         - Multiquadratic
         - OneParameterSemigroups
+        - OptimalTransport
         - OrthogonalL2Bases
         - PDE
         - ReductiveGroups
