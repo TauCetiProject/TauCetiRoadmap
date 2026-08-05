@@ -1,9 +1,9 @@
-# Hilbert-space operator foundations: functional calculus, polar decomposition, singular systems, and projection geometry
+# Polar decomposition: functional calculus, the operator modulus, and singular systems
 
 Spectral perturbation theory is written in a small, stable vocabulary: apply a real
 function to a self-adjoint operator; factor an operator through its modulus; expand a
 rectangular map in its singular system; measure the gap between two orthogonal
-projections; separate two pieces of a spectrum. This roadmap builds that vocabulary.
+projections. This roadmap builds that vocabulary.
 
 Mathlib has the static ingredients — the spectral theorem
 ([`LinearMap.IsSymmetric.eigenvalues`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/Spectrum.html)
@@ -13,8 +13,7 @@ functional calculus over `ℂ`, and singular *values*
 — but not the operator-theoretic layer over `RCLike`: no functional calculus for a
 symmetric `LinearMap` covering `ℝ` and `ℂ` together, no positive square root with its
 uniqueness theory at that generality, no partial-isometry API, no polar decomposition, no
-singular *vectors*, no Moore–Penrose inverse, no sharp projector-difference identity, and
-no shared vocabulary of spectral-separation hypotheses.
+singular *vectors*, no Moore–Penrose inverse, and no Moore–Penrose inverse.
 
 Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar square-root
 estimates in `TauCeti/Analysis/SpecialFunctions/` and the subspace-equality isometry lemma
@@ -87,13 +86,6 @@ complete spaces here.
 - **Singular values:** `LinearMap.singularValues : ℕ →₀ ℝ` between finite-dimensional inner
   product spaces — zero-indexed, antitone, zero past the rank. Mathlib has the values;
   Part C adds the vectors, the two-sided spectrum bridge, and the pseudoinverse.
-- **Projections:** `Submodule.starProjection` with `HasOrthogonalProjection`,
-  `IsStarProjection`, `Submodule.reflection` — the raw material of Part D.
-- **Orthogonal families:** `OrthogonalFamily`, whose only vector-level constructor
-  `Orthonormal.orthogonalFamily` requires *unit* vectors — the gap Part D fills for the
-  non-normalized families the singular expansion produces.
-- **Gram matrices:** `Matrix.gram` and the matrix-side spectral theory; Part D's rigidity
-  theorem characterizes equality of `Matrix.gram`.
 
 ---
 
@@ -110,10 +102,6 @@ complete spaces here.
 * The singular system: right singular basis, left singular vectors, the rank-one expansion,
   and the Moore–Penrose inverse characterized by Penrose's four conditions rather than
   constructed and named.
-* Gram rigidity — equal pairwise inner products force a linear isometry — and the isometric
-  first isomorphism theorem it rests on.
-* Spectral subspaces, the restricted spectrum, and the separation predicates the perturbation
-  roadmaps consume.
 
 ## The build, in layers
 
@@ -158,12 +146,9 @@ ContinuousLinearMap.modulus (T : E →L[ℂ] F) : E →L[ℂ] E   -- complex, re
 
 each in the namespace of its carrier, so both support dot notation.
 
-**`operatorAbs` is a placeholder, and the name is an open question for review.** A bare
-`abs` collides with the lattice absolute value that `|·|` denotes in Lean, and `modulus`
-names the rectangular construction. The square construction and its lemmas therefore use a
-distinctive token — `operatorAbs`, `norm_operatorAbs_apply`, `ker_operatorAbs` — which
-appears nowhere else in Mathlib or in this development, so adopting whichever name the
-review settles on is one mechanical replacement.
+The square construction and its lemmas use `operatorAbs` — `norm_operatorAbs_apply`,
+`ker_operatorAbs`. A bare `abs` collides with the lattice absolute value that `|·|` denotes
+in Lean, and `modulus` names the rectangular construction.
 
 **Milestone — uniqueness, at both layers.** The square root is the unique positive operator
 squaring to `T` (Horn–Johnson 7.2.6); and the calculus itself is the unique symmetric
@@ -314,95 +299,6 @@ basis of the ambient spaces beyond the constructed singular one.
 **Milestone — existence and uniqueness of the Moore–Penrose inverse**, in the form above:
 the predicate, the construction, and the theorem that they determine each other.
 
-### Part D — Gram rigidity, projections, and spectral subspaces
-
-The vocabulary the perturbation theory is stated in, and the one sharp identity that
-vocabulary exists for:
-
-```text
-‖P − Q‖ = max (‖(1−Q) P‖, ‖(1−P) Q‖)        for orthogonal projections P, Q
-```
-
-Perturbation arguments naturally produce two one-sided estimates; this equality upgrades
-the pair to a bound on `‖P − Q‖` itself with factor one and no equal-rank hypothesis.
-Without it a development loses a factor of two or carries a rank condition through every
-statement. The proof is the block decomposition `(P−Q)² = P(1−Q)P + (1−P)Q(1−P)` with the
-C⋆-norm identities, scalar-generic over `RCLike`.
-
-**Objects.** The isometric first isomorphism theorem `rangeEquivOfInnerEq` — two maps out
-of a common module with equal pullback inner products have canonically isometric ranges —
-and the Gram-rigidity theorems it yields; reflections, diagonal and off-diagonal parts of
-an operator relative to `U ⊕ Uᗮ`; the symmetric and directed projection gaps; invariant and
-reducing subspaces; restricted spectra with the canonical spectral subspace
-`spectralSubspace A Ω` and projector `spectralProjection A Ω`; the spectral-separation
-predicates; the orthogonal-series constructor for pairwise orthogonal, not necessarily
-unit, vectors.
-
-**API to develop.**
-
-- Gram rigidity: equal pullback inner products give equal kernels and the range isometry;
-  for families, equal pairwise inner products give a span-to-span isometry sending
-  `φ i ↦ ψ i`, extended in finite dimension to an isometry equivalence of the ambient
-  space; the `Matrix.gram` characterization as an iff.
-- Projection geometry: projections onto spans of orthonormal families; reflections with
-  involutivity, isometry, and commutation-when-reducing; the diagonal/off-diagonal calculus
-  (`2·diag = A + R A R`, `2·offdiag = A − R A R`).
-- The gap: symmetry, the directed-gap comparison, the max identity above.
-- Invariance: invariant and reducing kept as distinct named notions — they coincide for
-  symmetric operators, and that coincidence is a theorem; restriction of a symmetric
-  operator to an invariant subspace and its restricted spectrum; the quadratic-form bridges
-  `SpectrumIn A U (Iic a) → re ⟪A x, x⟫ ≤ a‖x‖²` on `U`, with their converses. Reducing
-  subspaces stay independent of all perturbation theory, so they are separately reviewable
-  and separately consumable.
-- Orthogonal series: a pairwise-orthogonal family of vectors spans an orthogonal family of
-  lines — the constructor Mathlib's unit-vector hypothesis blocks; Pythagoras for finite
-  sums; summability iff square-norm summability; Parseval for a family with a specified
-  sum. The families this roadmap produces are `σᵢ • uᵢ`, orthogonal but not normalizable
-  when some `σᵢ` vanish, which is why the unit-vector constructor does not suffice.
-
-### The spectral-separation predicates
-
-Several theorem families across this roadmap family — sine, tangent, double-angle,
-Sylvester — hypothesize that two pieces of spectrum are separated, and they do not all
-hypothesize the same thing. Naming the separations rather than writing each as an explicit
-inequality is what makes "these two theorems have the same gap hypothesis" a checkable
-claim; it is also what lets a caller discharge the hypothesis once and feed it to several
-theorems.
-
-Two notions are primitive and belong here:
-
-- **`SpectraSeparated A U B V δ`** — every eigenvalue of `A` carried by `U` and every
-  eigenvalue of `B` carried by `V` are at distance at least `δ`. This is the weakest and
-  most symmetric form; it is what the `π/2` theorems assume, and no ordering of the two
-  spectra is implied.
-- **`OrderedGap`** — one spectrum lies below the other with a margin: `λ + δ ≤ μ` for every
-  `λ` in the first and `μ` in the second. Strictly stronger, and the hypothesis under which
-  the constants improve to one.
-
-Everything else that has appeared in this material is a specialization and belongs where it
-is consumed. The interval/exterior form — one spectrum in `[a,b]`, the other outside
-`(a−δ, b+δ)` — and the two-block form are application shapes of the perturbation theory and
-are specified in [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md);
-they are not reusable primitives with several independent consumers here.
-
-The roadmap therefore asks for:
-
-- the two primitive predicates, each stated for restricted spectra of a symmetric operator
-  on a named subspace;
-- the conversions between them: ordered separation implies `SpectraSeparated` at the same
-  `δ`; spectral inclusion on opposite sides of a cut gives ordered separation; and the
-  bridges to the quadratic-form bounds above, which is how a spectral hypothesis becomes
-  usable in an operator estimate;
-- for each named form, a statement of which theorem families consume it, so that a
-  predicate with no consumer is visible as such.
-
-Parallel definitions encoding the same condition under different names are the failure mode
-to avoid. If two forms turn out to be equivalent, one of them is a theorem and not a
-definition.
-
-**Milestone — the sharp gap identity**, as an equality with no equal-rank hypothesis, and
-**Gram rigidity** in its family form.
-
 ## Worked examples (acceptance criteria)
 
 ### Part A — the functional calculus, the positive square root, and the two moduli
@@ -426,29 +322,18 @@ statement of the singular system mentions a basis of the ambient spaces beyond t
 constructed singular one; that the four conditions and the uniqueness converse are both
 proved; that zero singular values are handled in the singular relation.
 
-### Part D — Gram rigidity, projections, and spectral subspaces
-
-**Acceptance criteria.** That the gap identity is an equality with no equal-rank
-hypothesis; that the separation predicates are shared, not parallel definitions with one
-name; that reducing subspaces import no perturbation theory; that the orthogonal-series
-constructor fills the non-unit-vector gap rather than duplicating `OrthogonalFamily`.
-
 ## Ordering
 
-Part A comes first: Parts B, C and D each consume it and nothing else — B needs both
-moduli, C needs the Gram operator's eigenbasis and the eigenvalue-counting lemmas, D needs
-the eigenvalue API behind its quadratic-form bridges. B, C and D are mutually independent
-and can proceed in parallel once A lands.
+Part A comes first: Parts B and C each consume it and nothing else — B needs both moduli,
+C needs the Gram operator's eigenbasis and the eigenvalue-counting lemmas. B and C are
+mutually independent and can proceed in parallel once A lands.
 
 This roadmap is independent: it rests only on Mathlib, and it is the foundation the rest of
-the [Hilbert-space operator theory](../README.md) family cites.
+the [operator theory](../README.md) family cites.
 
 ## Definitions
 
-**D1** `S x ↦ T x` — the isometry of ranges induced by two maps out of a common module with
-equal pullback inner products.
-
-**D2** `|M| x ↦ M x`, extended by continuity to the closure of `range |M|` and by zero on its
+**D1** `|M| x ↦ M x`, extended by continuity to the closure of `range |M|` and by zero on its
 orthogonal complement — the rectangular polar partial isometry.
 
 ## References
@@ -469,15 +354,13 @@ orthogonal complement — the rectangular polar partial isometry.
 
 ## Acknowledgements
 
-An Apache-2.0 implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
+An Apache-2.0 implementation of all three Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
 (Kitware, Inc.), in namespaces `TauCeti.*`, `LinearMap.*` and `ContinuousLinearMap.*`. The
 public API and proof structure may change during integration.
 
-Two differences between that implementation and what is specified above should be expected
-at integration: the square modulus is currently named `abs` there, and the Moore–Penrose
-conditions are currently passed as four anonymous hypotheses rather than through a
-predicate. The first is the open naming question of Part A; the second is a target of
-Part C.
+One difference should be expected at integration: the Moore–Penrose conditions are
+currently passed as four anonymous hypotheses rather than through a predicate, which is a
+target of Part C.
 
 The Gram-matrix material was submitted as mathlib4 pull request
 [#40567](https://github.com/leanprover-community/mathlib4/pull/40567) and reshaped on

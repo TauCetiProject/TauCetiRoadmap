@@ -19,8 +19,8 @@ allows.
 Mathlib has the static operator-theory stack but none of this layer: no operator angles, no
 Sylvester equations, no spectral-subspace perturbation theory, no statistical variant.
 
-This roadmap is the **endpoint of the
-[Hilbert-space operator theory](../README.md) family**: it consumes all five of the others.
+This roadmap is the **endpoint of the [operator theory](../README.md) family**: it consumes
+`PolarDecomposition`, `Majorization`, `PrincipalAngles` and `SelfAdjointSpectralTheory`.
 
 Its `Suggested.lean` imports the sibling signature files and uses their declarations
 directly; no dependent roadmap redeclares those objects.
@@ -59,8 +59,9 @@ TauCeti/Analysis/Operator/Perturbation/
     invariant norm; the symmetric sine `|P_U − P_V|` needs the gap in both orientations. Only
     the operator norm erases the difference, and only under equal ranks.
   - Both angles are public API. The primitive predicates — pairwise and ordered — belong to
-    [`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md); the
-    interval/exterior and two-block forms are application shapes, defined here.
+    [`PrincipalAngles`](../PrincipalAngles/README.md); the interval/exterior and two-block
+    forms, and `InternalGap`, in which both spectra come from one operator, are application
+    shapes defined here.
 - **Rosenblum without a Borel functional calculus.** Both Cayley spectra contain `1` once
   both operators are unbounded, so no continuous symbol separates them. But `1` is a null
   point for every diagonal spectral measure, so continuous symbols damped at `1` separate in
@@ -101,8 +102,7 @@ below is absent upstream.
 * The Sylvester operator on rectangular maps, the gap taxonomy, and Rosenblum's theorem, with
   the domain-aware form on `LinearPMap` alongside the bounded one.
 * The Davis–Kahan `sin Θ` theorems: the dimension-free bounds, the finite spectral forms in
-  every unitarily invariant norm, the double-angle and tangent theory, and the graph-subspace
-  Riccati correspondence.
+  every unitarily invariant norm, and the double-angle and tangent theory.
 * The Yu–Wang–Samworth statistical variant, whose gap hypothesis sits on the population
   spectrum rather than the perturbed one — together with the complement identity, the
   residual sandwich, and the aligned-basis form.
@@ -185,18 +185,6 @@ here; and the **Sylvester flow** `W t Z = U_A(t) ∘ Z ∘ U_B(t)⋆` on the Hil
   - The **Frobenius norm loses nothing** — constant one, by dividing the coordinate equation
     and summing squares.
   - The interpolation layer is internal, not public surface.
-- **The flow route to the unbounded theory.**
-  - The flow is a one-parameter unitary group on the Hilbert–Schmidt space, unitarity coming
-    from the `OperatorIdeals` conjugation theorem.
-  - Strong continuity is the analytic content, since the columns must go to zero *together*.
-    The energy split is carried in `ℝ≥0∞`, so no finiteness side conditions appear.
-  - Stone's theorem hands back a self-adjoint generator, **identified** — not defined, or
-    nothing about Sylvester equations would be proved — as `Z ↦ A Z − Z B`, with domain
-    membership a conclusion. Separated spectra force a generator gap at every
-    Hilbert–Schmidt vector.
-  - Unbounded endpoints across a pairwise gap `δ`: `δ · ‖X‖₂ ≤ ‖C‖₂` with constant one, and
-    `δ · ‖X‖ ≤ (π/2) · ‖C‖` for bounded solutions of the domain-aware equation.
-
 **Milestone B1 — the a-priori bounds**: the dimension-free coercive bound, the
 interval/exterior bound with constant one in every rectangular unitarily invariant norm, and
 the pairwise bound with `π/2`.
@@ -215,7 +203,7 @@ subspace with residual `R = A X − X M` is tilted by at most `‖R‖/δ` — a
 tilted by at most `‖B − A‖/δ` — each for every relevant unitarily invariant norm, with the
 interval, spectral-projector and concrete-norm corollaries.
 
-**Objects.** Consumed from `MajorizationAndAngles`: `sinThetaMap U V = P_{Vᗮ} ∘ P_U`, the
+**Objects.** Consumed from `PrincipalAngles`: `sinThetaMap U V = P_{Vᗮ} ∘ P_U`, the
 symmetric sine `|P_U − P_V|`, and the principal angles. Built here: the trial-map layer — the
 compression `X⋆ A X` along a trial map, isometric or not, its residual, the Ritz residual
 (Rayleigh–Ritz makes it Frobenius-minimal), and the sine and cosine embeddings with their
@@ -240,9 +228,6 @@ subspaces with their projection and gap formulas and angular operators.
   estimates on the acute branch from Ritz residuals, equal-rank and lower-rank; and the sharp
   `tan 2θ` with vanishing-pinch hypotheses and the quarter-turn conclusion, under *ordered*
   internal separation.
-- **Graph subspaces and Riccati.** The graph-reduction/Riccati equivalence — a graph subspace
-  is invariant iff its angular operator solves the Riccati equation — with existence, bounds
-  and uniqueness for contractive solutions under the gaps above.
 
 **Milestone C1 — the perturbation family**, with the canonical spectral-projector corollary
 `δ · ‖P_{spec A [a,b]} − P_{spec B [a,b]}‖ ≤ ‖B − A‖` under equal ranks.
@@ -293,8 +278,7 @@ sign-aligned eigenvector corollary that statisticians quote.
 ### Part A — the Haagerup–Zsidó kernel and its Fourier transform
 
 **Acceptance examples.** The identity at a concrete `x`; the mass bounding one concrete
-convolution; documentation stating that `π/2` is attained and that minimality is cited rather
-than proved, the Lean-proved obstruction being Part B's `5/3`.
+convolution; `π/2` is attained by Part A's kernel.
 
 ### Part B — Sylvester equations and the Rosenblum theorem
 
@@ -330,16 +314,15 @@ the dimension-free bounds and the flow can proceed in parallel once their extern
 exist; within Part C the dimension-free layer precedes the finite spectral forms.
 
 **External.**
-[`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md): spectral
-subspaces, the separation predicates, the modulus, singular values (Parts B–D).
-[`MajorizationAndAngles`](../MajorizationAndAngles/README.md): the unitarily invariant norm
-structures with Fan dominance, principal angles, the angle operators, aligned bases, Weyl
-perturbation (Parts B–D). [`OperatorIdeals`](../OperatorIdeals/README.md): the Hilbert–Schmidt
-space, the energy calculus and unitary conjugation (Parts B–C).
-[`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md): unitary
+[`PolarDecomposition`](../PolarDecomposition/README.md): the modulus and singular values
+(Parts B–D). [`Majorization`](../Majorization/README.md): the unitarily invariant seminorm
+structures with Fan dominance and the Frobenius seminorm (Parts B–D).
+[`PrincipalAngles`](../PrincipalAngles/README.md): `sinThetaMap`, the angle operators,
+spectral subspaces, the separation predicates, aligned bases and Weyl perturbation
+(Parts B–D). [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md): unitary
 groups and Stone, the `LinearPMap` resolvent and spectrum layer with the Cayley transform and
 the intertwining chain, the spectral measure and its support, and the domain-aware Sylvester
-equation (Parts B–C). Nothing here waits on `MatrixSpectralStatistics`.
+equation (Parts B–C).
 
 ## References
 

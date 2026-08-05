@@ -116,7 +116,8 @@ The rest below — the projection-valued and unbounded-spectral layer — is abs
   algebra element, which a partial map is not — with the Cayley transform and the bridge to
   Mathlib's notion in the bounded case.
 * The spectral measure of an unbounded self-adjoint operator, its spectral projections,
-  Stone uniqueness, and the Yosida approximants.
+  Stone uniqueness, and the Yosida approximants. This roadmap owns the self-adjoint
+  `LinearPMap` resolvent *set* and the imaginary-shift Yosida approximants.
 
 ## The build, in layers
 
@@ -217,10 +218,6 @@ a bounded self-adjoint operator is the integral of the identity against its
 projection-valued measure.
 
 ### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
-
-Needs the spectral-subspace layer of
-[`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md), and
-nothing else.
 
 The vocabulary layer of the unbounded theory: everything Parts D and E state about a partial
 map is phrased in the notions defined here. This is where the representation decision
@@ -339,13 +336,22 @@ map `w ↦ i(1+w)/(1−w)`; the spectral projections; the spectral subspace and 
   restriction.
 - **Form bounds from spectral support**: vanishing of the spectral projection on `(−∞, c)`
   yields `c‖x‖² ≤ Re⟪A x, x⟫` on the domain, and dually; on a spectral range with
-  `B ⊆ [β, α]` the quadratic form is confined to `[β, α]`.
+  `B ⊆ [β, α]` the quadratic form is confined to `[β, α]`. The spectral hypothesis is the
+  **Banach-algebra spectrum of the restriction**, `spectrum ℝ (A.restrict hU)`; the
+  finite-dimensional point-spectrum predicates of
+  [`PrincipalAngles`](../PrincipalAngles/README.md) are a different layer and this bridge
+  does not consume them.
 - **The Yosida scheme, with named approximants.** The construction is the
   [one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)'s
   `Aλ = λ²R(λ,A) − λI`, at imaginary shifts; it is specialized here, not proposed.
-  - `yosidaApprox hA n = n²·R(in) − in`, with its symmetrized and mirrored forms, the
-    contractions `n·R(±in)`, and strong convergence on the domain.
-  - The exponentials `exp(it·(symmetrized approximant))`: unitary, and Cauchy uniformly on
+  - `yosidaApproximant hA n = n²·R(in) − in` is the **raw** single-shift form: bounded,
+    strongly convergent on the domain, and **not** self-adjoint, since one shift leaves the
+    imaginary parts uncancelled.
+  - `yosidaApproximantNeg` at the mirrored shift `−in`, and the symmetrized
+    `yosidaApproximantSym = ½(yosidaApproximant + yosidaApproximantNeg)`, which is the
+    self-adjoint one; the contractions `n·R(±in)`.
+  - The exponentials `exp(it·yosidaApproximantSym)` — the symmetrized form, since the raw
+    approximant generates no unitary group: unitary, and Cauchy uniformly on
     compact time intervals via Part A's Duhamel estimate — the approximants commute, which is
     why Duhamel's commutation hypothesis suffices.
   - The strong limit, and `genToGroup hA`, which is **Stone's theorem, construction half**.
@@ -419,7 +425,7 @@ Duhamel estimate from A. It does not consume Part C: the shared carrier of C, D 
 `LinearPMap` itself. Within Part E the Yosida and maximality material precedes the
 construction.
 
-**External.** `HilbertSpaceOperatorFoundations`, for Part C's spectral-order bridge only.
+**External.** This roadmap rests only on Mathlib.
 
 The [one-parameter semigroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
 roadmap is the canonical one for the dynamical layer, and it predates this one. Strongly
@@ -430,8 +436,8 @@ here. Two things overlap and should be built once:
   ours the `𝕜`-valued specialization;
 - the Yosida approximation, theirs at real `λ` and ours at imaginary shifts.
 
-Conversely, Stone's theorem is a *stretch goal* there and a milestone here, so Parts A and E
-discharge it. The lemma relating `OneParameterUnitaryGroup` to `StronglyContinuousSemigroup`
+Conversely, Stone's theorem is a milestone here, so Parts A and E discharge it and that
+roadmap cites this one. The lemma relating `OneParameterUnitaryGroup` to `StronglyContinuousSemigroup`
 already exists in the donor repository as `toSemigroup` with `generator_toSemigroup` — the
 semigroup generator is `i` times the group generator, the factor being the Stone convention
 `U t = exp (i t A)` with `A` self-adjoint, so that `i A` is skew-adjoint. Only the inclusion
@@ -460,7 +466,8 @@ the spectral measure of an unbounded self-adjoint operator.
 
 **D6** `t ↦ e^{i t A}`, the strong limit of `t ↦ exp (i t Aₙ)` — the generated unitary group.
 
-**D7** `Aₙ = n² R(i n) − i n`, `n ≥ 1` — the Yosida approximants.
+**D7** `Aₙ = n² R(i n) − i n`, `n ≥ 1` — the raw Yosida approximant;
+`½(Aₙ + Aₙ')` with `Aₙ' = n² R(−i n) + i n` — the symmetrized, self-adjoint one.
 
 ## References
 

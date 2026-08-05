@@ -154,7 +154,8 @@ the Ky Fan gauge `kyFanGauge T k = ∑_{n<k} aₙ(T)`.
   `n + 1` independent vectors, making `aₙ(T)` the least upper bound of its finite
   restrictions.
 - **Ky Fan gauges:** `kyFanGauge T 1 = ‖T‖`, the ideal laws, adjoint invariance, and the
-  two-sided comparison `‖T‖ ≤ kyFanGauge T k ≤ k‖T‖`.
+  two-sided comparison `‖T‖ ≤ kyFanGauge T k ≤ k‖T‖` for `0 < k`. The lower bound fails at
+  `k = 0`, where the gauge is the empty sum.
 
 **Milestone A1 — Eckart–Young.** On finite-dimensional inner-product spaces over
 `[RCLike 𝕜]`, `aₙ(T) = σₙ(T)` index for index, covering rectangular maps and the range
@@ -181,12 +182,13 @@ the stronger statement through a far smaller prerequisite than the spectral theo
 
 ### Part B — symmetric operator ideals and Schatten norms
 
-**Objects.** `OperatorIdealFamily 𝕜`: a single field `gauge : (E →L[𝕜] F) → ℝ≥0∞` quantified
-over all Hilbert pairs in two independent universes, with the four laws;
-`SymmetricOperatorIdealFamily 𝕜`, its diagonal extension by adjoint invariance. Derived: the
-ideal as a submodule of finite gauge; the carrier as a type synonym carrying the **ideal**
-norm — the bare subtype inherits the operator norm, which is the wrong instance; and
-completeness of that space as a typeclass rather than a hand-rolled Cauchy criterion.
+**Objects.** `OperatorIdealFamily 𝕜`: five fields — the gauge
+`gauge : (E →L[𝕜] F) → ℝ≥0∞` quantified over all Hilbert pairs in two independent universes,
+and its four laws. `SymmetricOperatorIdealFamily 𝕜` extends it with a fifth law, adjoint
+invariance, on the diagonal; `symmetricGaugeFamily` returns that type, since its gauge is
+adjoint invariant. Derived: the ideal as a submodule of finite gauge, and the carrier as a
+type synonym carrying the **ideal** norm — the bare subtype inherits the operator norm, which
+is the wrong instance.
 
 **API to develop.**
 
@@ -195,6 +197,9 @@ completeness of that space as a typeclass rather than a hand-rolled Cauchy crite
   and contraction composition bounds, extensionality, closure of the carrier under module
   operations and outer composition; the ideal space's normed-space structure with
   `‖A‖ = (gauge A).toReal`, lossless on members, and the contractive embedding.
+  Completeness of the carrier is **not** among them — the four laws do not force it. Where a
+  concrete family is complete, that is a per-instance theorem, or a structure supplied
+  separately.
 - The instances, each with its gauge identified definitionally: the **operator norm** family,
   whose carrier is `⊤`; the **Ky Fan families** over `ℂ`, complete via the two-sided
   comparison with the operator norm; the **Hilbert–Schmidt family** below; and **trace
@@ -213,7 +218,10 @@ completeness of that space as a typeclass rather than a hand-rolled Cauchy crite
   - Triangle inequality from Ky Fan subadditivity plus `ℓᵖ`-gauge monotonicity under weak
     majorization, both consumed from the majorization roadmap.
   - Definiteness, adjoint invariance, and the ideal inequalities.
-  - The endpoint identifications `S₁ =` nuclear, `S₂ =` Frobenius, `S∞ =` operator norm.
+  - The endpoint identifications `S₁ =` nuclear, `S∞ =` operator norm, and `S₂ =` the
+    rectangular Frobenius seminorm owned by [`Majorization`](../Majorization/README.md),
+    together with the finite-dimensional identification of the Hilbert–Schmidt energy with
+    its square.
   - **Separate from Milestone B3, and not blocked by it**: this is a norm on a vector,
     consumed by the majorization arm, whereas B3 is a family on operators between
     infinite-dimensional spaces. Milestone A1 proves the two agree, which is what makes `S₂`
@@ -233,9 +241,11 @@ normalization is a scale fixing rather than a restriction: it gives `‖a‖_∞
 those two bounds are the first theorems, since they are what make the extension well behaved
 at both ends of the scale.
 
-**The extension to infinite sequences** is a monotone limit, not a new definition:
-`Φ∞ a = ⨆ N, Φ (truncate a N)` over the finitely supported truncations of the **decreasing
-rearrangement**.
+**The extension to infinite sequences** is the supremum of `Φ` over the finitely supported
+sequences dominated by `a`: `Φ∞ a = ⨆ {Φ b : b finitely supported, b ≤ a}`. For an
+**antitone** `a` this is the monotone limit `⨆ N, Φ (truncate a N)` of its initial
+truncations; for a general `a` the initial truncations do not exhaust the dominated
+sequences, and only the supremum form is correct.
 
 - **`ℝ≥0∞`-valued, and a supremum over truncations rather than a `tsum`.** The gauge must be
   total and `∞` off its ideal; a supremum of an increasing net is total by
@@ -261,12 +271,8 @@ hard one, which is why it is stated as Milestone B2.
 Hilbert space are in bijection with the symmetric sequence ideals, via `T ↦ a(T)`. This
 roadmap specifies the direction it needs and is explicit about the other:
 
-- **Targeted:** the map `Φ ↦ symmetricGaugeFamily Φ` is injective up to equality of gauges on
-  antitone sequences, and membership transports along `HasSameApproximationNumbers` — so the
-  ideal really is a function of the singular-value sequence alone.
-- **Not claimed:** surjectivity, that *every* symmetric ideal arises from a symmetric norming
-  function. That is the substantial half of Calkin's theorem, it needs a separability
-  hypothesis nothing else here needs, and no result in this group consumes it.
+- Membership transports along `HasSameApproximationNumbers`, so the ideal is a function of
+  the singular-value sequence alone.
 
 ### Milestone B2 — the Ky Fan dominance principle
 
@@ -302,11 +308,6 @@ obtained rather than constructed**, and their laws are B1's.
 - The scale is monotone — `p ≤ q → gauge_q T ≤ gauge_p T`, hence `S_p ⊆ S_q` — with the
   inclusions strict, witnessed by a diagonal operator with coefficients `n ↦ n^{-1/r}` for
   `p < r < q`, the same diagonal machinery as Part A's acceptance example (6).
-- **Hölder duality** — `‖T‖_p` as a supremum of trace pairings against `S_q` with
-  `1/p + 1/q = 1` — is deliberately deferred: it needs a trace functional, which this roadmap
-  does not define, and no milestone here consumes it. It is the natural first milestone of a
-  successor roadmap.
-
 **The reconciliation obligation.** `p = 2` is defined twice: through `schattenGauge 2` on the
 singular-value sequence, and through the Hilbert–Schmidt energy on an orthonormal expansion.
 The energy definition requires no spectral theory, so Part C depends on it. The two
@@ -372,34 +373,6 @@ norm (`∑' i, ‖P i v‖ₑ ² = ‖v‖ₑ ²`) splits the energy on either s
 countability, projection, or operator-topology summability hypothesis: the pointwise norm
 split is all, and `ℝ≥0∞` keeps it side-condition-free.
 
-### Part D — approximation numbers of spectral bands
-
-**This Part depends on
-[`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md), and is the only part
-of this roadmap that does.** It is here rather than there because its statements are about
-approximation numbers and finite ranks; that their proofs run through the spectral measure of
-an unbounded operator makes the *proof* spectral theory, not the *statement*.
-
-**Objects and API to develop.**
-
-- The rank of a spectral band: for a self-adjoint operator whose spectral measure gives a
-  bounded Borel set `B` a projection of finite rank, the finite-dimensionality of the
-  spectral subspace and the rank count.
-- The **Gram spectral rank**: for a bounded `X` into the domain, the rank of the spectral
-  band of `X⋆X` and the resulting approximation numbers of `X`, giving finite-rank
-  approximants selected by spectral cutoff rather than by an abstract net.
-- The **finite spectral selection**: an orthonormal family spanning the range of a
-  finite-rank spectral projection, and its use as the approximant in the min–max bound of
-  Part A.
-- The **polar form**: the polar decomposition of a band-compressed operator, so that a
-  spectral band bound becomes an approximation-number bound.
-
-**Milestone D1 — spectral cutoff bounds the approximation numbers.** If the spectral measure
-of `A` gives `(−δ, δ)` no mass on a subspace and the band above `δ` has rank `r`, then
-`a_r` of the corresponding compression is bounded by the band data. This is the statement
-that lets a perturbation argument use an ideal gauge with a *spectral* hypothesis rather than
-a rank hypothesis.
-
 ## Worked examples (acceptance criteria)
 
 ### Part A — approximation numbers and Hilbert-space singular values
@@ -431,20 +404,14 @@ Part B's basis-independent energy, so nothing here is circular; that the basis i
 of every statement, and no statement asserts basis-independence of the representation; that
 `ofLp` is continuous, so the space is never presented without its bounded representation map.
 
-### Part D — approximation numbers of spectral bands
-
-**Acceptance examples.** A bounded self-adjoint operator with finite spectrum: the bands are
-its eigenspaces and the bound is the next eigenvalue; a diagonal operator on `ℓ²` with
-coefficients tending to zero: the band above `δ` is finite-rank and the bound recovers
-Part A's acceptance example (6).
-
 ## Ordering
 
-Part A first, consuming `HilbertSpaceOperatorFoundations` (operator modulus, finite-dimensional
-singular values, Courant–Fischer) and `MajorizationAndAngles` (the finite Ky Fan inequality).
-Part B consumes Part A — every ideal gauge is a functional of the `a`-sequence — plus the
-majorization engine. Part C consumes Part B, and otherwise only `lp` and `HilbertBasis`.
-Part D consumes Part A and `SelfAdjointSpectralTheory`; nothing in B or C waits on it.
+Part A first, consuming [`PolarDecomposition`](../PolarDecomposition/README.md) (operator
+modulus, finite-dimensional singular values, Courant–Fischer) and
+[`Majorization`](../Majorization/README.md) (the finite Ky Fan inequality, and the Frobenius
+seminorm the `S₂` identification is stated against). Part B consumes Part A — every ideal
+gauge is a functional of the `a`-sequence — plus the majorization engine. Part C consumes
+Part B, and otherwise only `lp` and `HilbertBasis`.
 
 **Downstream, outside this group.** The Peter–Weyl roadmap
 [`RepresentationTheory/CompactGroups`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CompactGroups/README.md)
@@ -458,8 +425,8 @@ ship first.
 
 ## Definitions
 
-**D1** `Φ∞ a = ⨆ N, Φ (truncate a N) = ⨆ {Φ b : b finitely supported, b ≤ a}` — a symmetric
-gauge extended to infinite sequences; the two agree because `Φ` is symmetric and monotone.
+**D1** `Φ∞ a = ⨆ {Φ b : b finitely supported, b ≤ a}` — a symmetric gauge extended to
+infinite sequences. For antitone `a` this equals `⨆ N, Φ (truncate a N)`.
 
 **D2** `gauge T = Φ∞ (n ↦ aₙ T)` — the ideal family induced by a symmetric gauge.
 

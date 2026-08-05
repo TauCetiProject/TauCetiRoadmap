@@ -1,20 +1,14 @@
-# Majorization, unitarily invariant norms, and the geometry of principal angles
+# Majorization and unitarily invariant norms
 
-How far does an eigenvector rotate when its operator is perturbed? The classical answers —
-Davis–Kahan, Hoffman–Wielandt, Yu–Wang–Samworth — measure the rotation in **principal
-angles** between subspaces and size the perturbation in a **unitarily invariant norm**, and
-both of those theories stand on **majorization**: the partial order on real tuples under
-which every symmetric gauge is monotone.
+The classical perturbation theorems size a perturbation in a **unitarily invariant norm**,
+and that theory stands on **majorization**: the partial order on real tuples under which
+every symmetric gauge is monotone.
 
 Mathlib has the static layer — the spectral theorem, singular values, adjoints, orthogonal
-projections, Birkhoff's theorem — but none of the order-theoretic or geometric layer: no
-majorization predicate, no **Schur–Horn** theorem (its absence is noted in a comment in
-`Mathlib/Analysis/InnerProductSpace/Spectrum.lean`), no Ky Fan sums, no unitarily invariant
-norms, no principal angles, no **Hoffman–Wielandt**.
-
-The four Parts are strictly layered: the geometry of Part B sits *between* the square norm
-theory of Part A and the rectangular norm theory of Part C, and Part D consumes all three.
-Splitting the norms from the angles would break the dependencies in both directions.
+projections, Birkhoff's theorem — but none of the order-theoretic layer: no majorization
+predicate, no **Schur–Horn** theorem (its absence is noted in a comment in
+`Mathlib/Analysis/InnerProductSpace/Spectrum.lean`), no Ky Fan sums, and no unitarily
+invariant norms.
 
 **The majorization engine is convex analysis: it belongs under `Analysis/Convex` and imports
 no operator theory.** Weak majorization is a statement about real tuples, and it serves two
@@ -100,7 +94,7 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
 - **Geometry:** `EuclideanSpace`, `OrthonormalBasis`, `Orthonormal`, `LinearIsometry` /
   `LinearIsometryEquiv`, `Submodule.orthogonal`; `Real.arcsin` and `Real.tan` for the angle
   sequences.
-- **From [`HilbertSpaceOperatorFoundations`](../HilbertSpaceOperatorFoundations/README.md)**,
+- **From [`PolarDecomposition`](../PolarDecomposition/README.md)**,
   an explicit dependency and not Mathlib: the positive square root and operator modulus,
   the polar decomposition and its unitary, Courant–Fischer min–max, the rectangular
   singular-value facts `σ(A⋆) = σ(A)` and `σᵢ(A)² = λᵢ(A⋆A)`, and the projection and
@@ -114,12 +108,7 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
   norm subadditive at once.
 * Unitarily invariant seminorms, square and rectangular, with Fan dominance: one
   majorization estimate yielding the operator, Frobenius, Ky Fan and nuclear norms together.
-* Principal angles as singular values of the overlap operator, so ordering and bounds are
-  inherited, with the aligned-basis layer over them.
 * The orthogonal block sum and its sharp two-sided comparison.
-* Angle geometry and the eigenvalue-perturbation results: the von Neumann trace core,
-  Hoffman–Wielandt against an arbitrary orthonormal basis, and Davis's eigenvalue-change
-  lower bound.
 
 ## The build, in layers
 
@@ -170,42 +159,7 @@ arbitrary orthonormal basis, and any convex `φ` on a set containing the spectru
 **Milestone — Fan dominance.** Ky Fan domination implies domination in every unitarily
 invariant norm.
 
-### Part B — principal angles, aligned bases, and finite frames
-
-The order of construction is the mathematics: the frame layer gives the analysis/synthesis
-pair, the aligned-basis layer packages an orthonormal family as an isometry from coordinate
-space, and the overlap operator is then literally a composite of two of those — which is
-why its adjoint is the swapped pair, and why the symmetry of the cosines is immediate.
-
-**Objects.** For a finite family `v : ι → E`: the analysis map `x ↦ (⟪vᵢ, x⟫)ᵢ`, the
-synthesis map, the **frame operator** on `E` and the **Gram operator** on coefficient space.
-For an orthonormal family: the coordinate isometry
-`familyIsometry hv : EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E`. For two orthonormal families: the
-**overlap operator** `overlapOp hu hv = (familyIsometry hu)⋆ ∘ (familyIsometry hv)`, with
-matrix `⟪uᵢ, vⱼ⟫`; its singular values `cosPrincipalAngles hu hv : ℕ →₀ ℝ`; and the squared
-Frobenius sine `sinThetaSq hu hv = ∑ₖ (1 − cos²θₖ)`.
-
-**API to develop.**
-
-- Analysis/synthesis adjointness; frame and Gram operators positive and symmetric;
-  `‖analysis x‖² = ∑ᵢ ‖⟪vᵢ, x⟫‖²`; the frame-bound dictionary — a lower frame bound is
-  exactly a floor on the first `finrank 𝕜 E` sorted Gram eigenvalues, in both directions.
-- `familyIsometry` on basis vectors and its adjoint as the coordinate map; membership of its
-  image in the span.
-- `overlapOp` is a contraction; `(overlapOp hu hv)⋆ = overlapOp hv hu`; its entrywise matrix
-  description; `∑ σᵢ(overlapOp)² = ∑ⱼ∑ᵢ ‖⟪uᵢ, vⱼ⟫‖²`.
-- The four basic facts about `cosPrincipalAngles` — nonnegative, `≤ 1`, antitone, symmetric
-  — inherited from the singular-value API, with no inductive proofs.
-
-**Milestone — the Frobenius sine identity** `‖sin Θ‖²_F = d − overlap`, which converts an
-angle statement into an inner-product statement: the form in which perturbation estimates
-are proved.
-
-**Milestone — the aligned-basis (Procrustes) bound.** The polar unitary of the overlap
-operator rotates `v` into a basis `w` of its span with `∑ⱼ ‖wⱼ − uⱼ‖² ≤ 2 · sinThetaSq hu hv`
-— the form the statistical perturbation theory consumes.
-
-### Part C — rectangular unitarily invariant norms
+### Part B — rectangular unitarily invariant norms
 
 This Part exists for one composite theorem: Ky Fan domination implies membership in the
 convex hull of the two-sided unitary orbit, which implies domination in *every* rectangular
@@ -235,6 +189,10 @@ singular-value theory.
   preserves the sharp constants in [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
 - The concrete instances — operator, Frobenius, Ky Fan `k`, nuclear — with their identities
   `frobenius A = √(∑ σᵢ²)`, `nuclear A = ∑ σᵢ`, `nuclear ≤ √(finrank) · frobenius`.
+- The rectangular `frobenius` is the owner of the Frobenius seminorm for the whole family.
+  The square Frobenius seminorm is its restriction along `toSquare`, not a second
+  construction; [`OperatorIdeals`](../OperatorIdeals/README.md) identifies the Schatten `S₂`
+  norm and the finite-dimensional Hilbert–Schmidt energy against it.
 - Two-dimensional sharpness models: the singular values of `2 × 2` diagonal, off-diagonal
   and triangular models, and the trace/determinant characterization — the witnesses for the
   sharpness claims of [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
@@ -247,56 +205,6 @@ changes *are* two-sided unitary actions — so Part A's transfer descent applies
 what remains here is the operator-theoretic half: the lift, the extension of coordinate
 unitaries, and the SVD transport.
 
-### Part D — angle geometry and eigenvalue perturbation
-
-Part D combines the angle dictionary with eigenvalue perturbation; the spectral-subspace
-perturbation theorems use both.
-
-**Objects.** The Gram operators `rightGram A = A⋆A` and `leftGram A = AA⋆`; the
-cross-projections `cosThetaMap U V = P_V ∘ P_U` and `sinThetaMap U V = P_{Vᗮ} ∘ P_U`; their
-moduli (`cosAngleOperator`, `sinAngleOperator = |P_U − P_V|`) and the one-sided double-angle
-map `sinTwoAngleOperator = 2 P_{Uᗮ} P_V P_U`; the sequences `principalCosines`,
-`principalSines`, `principalAngles`, `principalTangents : ℕ →₀ ℝ`; the transversality
-predicates (`IsTransverse`, `IsAcute`, `AvoidsQuarterTurn`); the gap-free
-`TrialMapFrameFactorization` of an injective map.
-
-**API to develop.**
-
-- Gram perturbation identities `Â⋆Â − A⋆A = Â⋆(Â−A) + (Â−A)⋆A` and the operator-norm bounds
-  `‖Â⋆Â − A⋆A‖ ≤ (‖A‖+‖Â‖)·‖Â−A‖`, both sides.
-- The dictionary: `σ(cosThetaMap) = principalCosines`; `σ(P_U − P_V) = σ(sinAngleOperator)`,
-  hence the norm bridge `N (P_U − P_V) = N (sinAngleOperator U V)` for every unitarily
-  invariant `N`, via Part A's determination by singular values; equal-rank symmetry of sines
-  and angles; angles of a pair with itself vanish; acuteness from a projection gap `< 1`.
-- **The Part B bridge**, the theorem that makes `cosPrincipalAngles` well-named: the
-  subspace-level cosines of the spans equal the family-level cosines. It does double duty —
-  the subspace/family dictionary entry for this Part, and the independence-of-presentation
-  statement for the Part upstream.
-- The sorted rearrangement inequality and the Birkhoff bilinear bound; the von Neumann trace
-  inequality `tr(TS) ≤ ∑ λᵢ(T)λᵢ(S)`; basis independence of the squared Frobenius norm of a
-  symmetric operator.
-- The Birkhoff bridge: the diagonal of `S` in `T`'s eigenbasis lies in the convex hull of
-  the permutation orbit of `S`'s spectrum; the vector-level displacement estimate around a
-  `γ`-separated tuple.
-- The trial-map factorization `X = (isometry) ∘ (Gram square root)` with range preservation,
-  inverse-factor bounds from a lower frame bound, and the composition cost
-  `N (A ∘ coordinate⁻¹) ≤ N A · ε⁻¹` in every rectangular unitarily invariant norm.
-
-**Milestone — the family/subspace bridge**, as above.
-
-**Milestone — Hoffman–Wielandt.** `∑ᵢ (λᵢ(T) − λᵢ(S))² ≤ ∑ₖ ‖(S−T) eₖ‖²` for symmetric
-`T, S` with sorted spectra and an **arbitrary** orthonormal basis `e`. The arbitrary basis
-is the point: the eigenbasis-specialized form is enough to prove the theorem but is not the
-invariant Frobenius statement a consumer wants, so the clean name belongs to the general
-one.
-
-**Milestone — Davis's eigenvalue-change lower bound.** For symmetric `T, S` with `H = S − T`,
-a `γ`-separated spectrum of `S`, and diagonal part (in `T`'s eigenbasis) of Frobenius norm
-at most `γ/√2`: `∑ᵢ (λ'ᵢ − λᵢ)² ≥ ‖𝒞H‖²_F − ‖𝒞⊥H‖²_F`. The separation hypothesis and the
-smallness threshold are both part of the statement; without them it reads as an
-unconditional bound, which is false. Proved around a point of the permutation-orbit hull,
-with membership discharged from Birkhoff and not from Part A's engine.
-
 ## Worked examples (acceptance criteria)
 
 ### Part A — majorization, Schur–Horn, and unitarily invariant norms
@@ -306,51 +214,31 @@ majorization, no convexity needed); the `φ = (·)²` instance, that the diagona
 Euclidean-shorter than the spectrum; the Frobenius norm satisfies the three laws and
 `frobenius A = √(∑ σᵢ(A)²)` in every orthonormal basis.
 
-### Part B — principal angles, aligned bases, and finite frames
-
-**Acceptance examples.** The selected-block family of an orthonormal basis is orthonormal
-with span the selected coordinate block, and the `sinThetaSq` of two eigenblock families is
-the cross-block overlap sum; `familyIsometry` sends the `k`-th coordinate vector to `v k`.
-
-### Part C — rectangular unitarily invariant norms
+### Part B — rectangular unitarily invariant norms
 
 **Acceptance examples.** The four instances satisfy the three laws with everything else
 derived; `σ(zeroExtension A) = σ(A)`; a square norm read through the rectangular bridge
 agrees with itself on square operators.
 
-### Part D — angle geometry and eigenvalue perturbation
-
-**Acceptance examples.** Two unit-generated lines have a single principal cosine `‖⟪u, v⟫‖`;
-`principalAngles U U = 0`; the equal-rank operator-norm identity
-`‖P_U − P_V‖ = ‖sinThetaMap U V‖`.
-
 ## Ordering
 
 Part A's convex engine has no prerequisites at all and could be submitted before, or
 independently of, everything else here. The operator half of Part A needs
-`HilbertSpaceOperatorFoundations`; Part B needs the same, and states its norms in Part A's
-vocabulary; Part C needs A (the engine and the square structure it bridges to) and B (the
-geometry its estimates are stated in); Part D needs everything — the angles from B, the
-norms they are measured in from A and C, and the projection and polar machinery from the
-foundations. Within Part D, the frame factorization is independent of the perturbation
-results and portable early.
+`PolarDecomposition`; Part B needs A, both the engine and the square structure it bridges
+to.
 
-One duplication to resolve at implementation time: determination of a unitarily invariant
-norm by the singular-value sequence is specified once, in Part A. Part D consumes it and
-must not restate it.
-
-**Downstream.** [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md)
-consumes Parts B–D — the angles, the seminorm structures with Fan dominance, aligned bases,
-and Weyl perturbation — and is where the estimates lifted by Part C are stated.
-[`OperatorIdeals`](../OperatorIdeals/README.md) consumes Part A for the Ky Fan triangle
-inequality that seeds its symmetric-gauge layer.
+**Downstream.** [`PrincipalAngles`](../PrincipalAngles/README.md) states its estimates in
+this vocabulary and consumes the permutation-orbit hull for Davis's bound.
+[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) consumes the
+seminorm structures with Fan dominance, and is where the estimates lifted by Part B are
+stated. [`OperatorIdeals`](../OperatorIdeals/README.md) consumes Part A for the Ky Fan
+triangle inequality that seeds its symmetric-gauge layer, and identifies its `S₂` norm with
+the Frobenius seminorm owned here.
 
 ## Definitions
 
-**D1** `x ↦ ∑ⱼ xⱼ vⱼ`, so `eⱼ ↦ vⱼ` — the coordinate isometry of an orthonormal family.
-
-**D2** `cos Θ(u, v) = σ(overlap operator)` — the principal-angle cosines, sorted decreasingly
-and zero-padded.
+**D1** `frobenius A = √(∑ᵢ ‖A bᵢ‖²)` over an orthonormal basis of the domain — the
+rectangular Frobenius seminorm, independent of the basis.
 
 ## References
 
@@ -372,7 +260,7 @@ and zero-padded.
 
 ## Acknowledgements
 
-An Apache-2.0 implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
+An Apache-2.0 implementation of both Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
 (Kitware, Inc.). The public API and proof structure may change during integration.
 
 The Schur–Horn proof strategy was read from and is credited to

@@ -23,7 +23,7 @@ open scoped ENNReal Matrix
 
 section RankFactorization
 
-variable {𝕜 : Type*} [Field 𝕜] {m n : Type*} [Fintype m] [Fintype n] [DecidableEq n]
+variable {𝕜 : Type*} [Field 𝕜] {m n : Type*} [Fintype m] [Fintype n]
 
 /-- Rank at most `r` is exactly factorization through `Fin r`. -/
 theorem rank_le_iff_exists_eq_mul (M : Matrix m n 𝕜) (r : ℕ) :
@@ -69,84 +69,6 @@ theorem exists_unitary_mul_of_conjTranspose_mul_self_eq {n d : ℕ}
 
 end GramUniqueness
 
-/-! ## Part B -- Berge's maximum theorem over a fixed compact feasible set -/
-
-section Berge
-
-variable {P X : Type*} [TopologicalSpace P] [TopologicalSpace X]
-variable {K : Set X} {g : P → X → ℝ}
-
-/-- Compactness form of approximate-minimizer stability: an approximate minimizing
-sequence on a compact feasible set has a subsequence converging to a true minimizer.
-This one is proved, and it is the statement the Berge argument below consumes. -/
-theorem exists_subseq_tendsto_isMinOn_of_approxMinOn [FirstCountableTopology X]
-    (hK : IsCompact K) {F : X → ℝ} (hF : Continuous F)
-    {z : ℕ → X} (hz : ∀ k, z k ∈ K)
-    {ε : X → ℕ → ℝ} (hε : ∀ x ∈ K, Filter.Tendsto (ε x) Filter.atTop (nhds 0))
-    (happrox : ∀ x ∈ K, ∀ k, F (z k) ≤ F x + ε x k) :
-    ∃ φ : ℕ → ℕ, StrictMono φ ∧ ∃ ψ ∈ K, IsMinOn F K ψ ∧
-      Filter.Tendsto (fun t => z (φ t)) Filter.atTop (nhds ψ) := sorry
-
-/-! **The quantitative stability statement is deliberately unnamed.**  "An approximate
-minimizer at a nearby parameter is close to the argmin set" is three different theorems
-depending on the quantifier order, and the one worth proving has a shape like
-
-```text
-∀ ε > 0, ∃ δ > 0, ∃ η > 0, dist p p₀ < δ → x ∈ K → IsApproxMinOn (g p) K η x →
-  ∃ x₀ ∈ K, IsMinOn (g p₀) K x₀ ∧ dist x x₀ < ε
-```
-
-Once that signature is fixed, `exists_isMinOn_dist_lt_of_approxMinOn` names it from its
-conclusion. -/
-
-/-- **Berge, argmin half**: the argmin correspondence over a fixed compact
-feasible set is upper hemicontinuous, through Mathlib's own predicate.
-
-A `[FirstCountableTopology X]` hypothesis is an
-artifact of proving it through the sequential characterization, not part of the
-mathematics, so if a restricted version coexists it is *that* one which should be qualified
-(`..._of_firstCountable`) or kept private, not this one.
-
-`IsMinOn` rather than an invented argmin-set API: the predicate is Mathlib's. -/
-theorem upperHemicontinuousAt_isMinOn [T2Space X]
-    (hK : IsCompact K) (hg : Continuous (Function.uncurry g))
-    (p₀ : P) [(nhds p₀).IsCountablyGenerated] :
-    UpperHemicontinuousAt (fun p => {x ∈ K | IsMinOn (g p) K x}) p₀ := sorry
-
-/-- **Berge, value half**: the value function is continuous.
-
-Stated without `[FirstCountableTopology P]`, which no part of the mathematics needs.  A
-sequential variant, if one is wanted, carries the qualifier. -/
-theorem continuous_iInf_of_isCompact
-    (hK : IsCompact K) (hKne : K.Nonempty) (hg : Continuous (Function.uncurry g)) :
-    Continuous (fun p => ⨅ x : ↥K, g p ↑x) := sorry
-
-/-! ### Milestone B3 -- the classical theorem, over a varying constraint
-
-The two halves use *different* hypotheses on `K`, which is the content of the classical
-proof and the reason the fixed-`K` case is a special case rather than a step: upper
-semicontinuity of the value needs `K` upper hemicontinuous, lower semicontinuity needs it
-lower hemicontinuous. -/
-
-/-- **Berge, value half, varying constraint.** -/
-theorem continuous_iInf_of_hemicontinuous {K : P → Set X}
-    (hKcompact : ∀ p, IsCompact (K p)) (hKne : ∀ p, (K p).Nonempty)
-    (hKu : ∀ p, UpperHemicontinuousAt K p) (hKl : ∀ p, LowerHemicontinuousAt K p)
-    (hg : Continuous (Function.uncurry g)) :
-    Continuous (fun p => ⨅ x : ↥(K p), g p ↑x) := sorry
-
-/-- **Berge, argmin half, varying constraint.** Upper hemicontinuity keeps limits of
-nearby feasible points feasible; lower hemicontinuity is separately needed so every feasible
-competitor at the limiting parameter can be approximated nearby. Nonempty compact values
-ensure the argmin correspondence is well-defined and nonempty. -/
-theorem upperHemicontinuousAt_isMinOn_of_hemicontinuous [T2Space X] {K : P → Set X}
-    (hKcompact : ∀ p, IsCompact (K p)) (hKne : ∀ p, (K p).Nonempty)
-    (hKu : ∀ p, UpperHemicontinuousAt K p) (hKl : ∀ p, LowerHemicontinuousAt K p)
-    (hg : Continuous (Function.uncurry g)) (p₀ : P) :
-    UpperHemicontinuousAt (fun p => {x ∈ K p | IsMinOn (g p) (K p) x}) p₀ := sorry
-
-end Berge
-
 /-! ## Part C -- matrix spectra and spectral measurability -/
 
 section MatrixSpectra
@@ -173,21 +95,13 @@ instance instBorelSpaceMatrix {m n α : Type*} [Countable m] [Countable n]
     BorelSpace (Matrix m n α) :=
   inferInstanceAs (BorelSpace (m → n → α))
 
-/-- Sorted eigenvalues of a Hermitian matrix, the ordering every perturbation
-statement below is stated against.
-
-Spec: D1. -/
-noncomputable def sortedEigenvalues {A : Matrix (Fin n) (Fin n) ℝ}
-    (hA : A.IsHermitian) : Fin n → ℝ :=
-  (Matrix.isSymmetric_toEuclideanLin_iff.mpr hA).eigenvalues finrank_euclideanSpace_fin
-
 /-- **Weyl composed with the entrywise bridge**: an entrywise `ε`-perturbation
 moves each sorted eigenvalue by at most `n·ε`.  The entrywise-to-operator-norm
 comparison is one of the two Mathlib gaps this Part states precisely. -/
-theorem abs_sortedEigenvalues_sub_le_of_entry_le {A Ahat : Matrix (Fin n) (Fin n) ℝ}
+theorem abs_eigenvalues₀_sub_le_of_entry_le {A Ahat : Matrix (Fin n) (Fin n) ℝ}
     (hA : A.IsHermitian) (hAhat : Ahat.IsHermitian)
-    {ε : ℝ} (hentry : ∀ i j, |Ahat i j - A i j| ≤ ε) (k : Fin n) :
-    |sortedEigenvalues hAhat k - sortedEigenvalues hA k| ≤ (n : ℝ) * ε := sorry
+    {ε : ℝ} (hentry : ∀ i j, |Ahat i j - A i j| ≤ ε) (k : Fin (Fintype.card (Fin n))) :
+    |hAhat.eigenvalues₀ k - hA.eigenvalues₀ k| ≤ (n : ℝ) * ε := sorry
 
 /-- The spectral `h`-transform of a Hermitian matrix.
 
@@ -195,9 +109,9 @@ Spec: D2. -/
 noncomputable def specTransform (h : ℝ → ℝ) {A : Matrix (Fin n) (Fin n) ℝ}
     (hA : A.IsHermitian) : Matrix (Fin n) (Fin n) ℝ :=
   let hsym := Matrix.isSymmetric_toEuclideanLin_iff.mpr hA
-  Matrix.of fun i j => ∑ k : Fin n, h (sortedEigenvalues hA k)
-    * hsym.eigenvectorBasis finrank_euclideanSpace_fin k i
-    * hsym.eigenvectorBasis finrank_euclideanSpace_fin k j
+  Matrix.of fun i j => ∑ k : Fin (Fintype.card (Fin n)), h (hA.eigenvalues₀ k)
+    * hsym.eigenvectorBasis finrank_euclideanSpace k i
+    * hsym.eigenvectorBasis finrank_euclideanSpace k j
 
 /-- **Spectral measurability**: the `h`-transform of a measurable Hermitian
 random matrix is measurable — without which no probability statement about a
@@ -206,29 +120,6 @@ theorem measurable_specTransform (h : ℝ → ℝ) (hh : Continuous h)
     {Bm : Ω → Matrix (Fin n) (Fin n) ℝ} (hBmeas : Measurable Bm)
     (hsym : ∀ ω, (Bm ω).IsHermitian) :
     Measurable fun ω => specTransform h (hsym ω) := sorry
-
-/-! ### The `RCLike` norm comparisons (open half of Milestone C1)
-
-No new mathematics: Cauchy--Schwarz and the triangle inequality are field-generic, and the
-work is replacing `|·|` and `Real`-specific order lemmas by `‖·‖`.  Two consequences are
-decisions rather than bookkeeping -- the entrywise hypothesis becomes a bound on `‖A i j‖`,
-so **complex Hermitian matrices are covered by the same statement**, and both constants
-survive unchanged. -/
-
-section RCLikeComparisons
-
-variable {𝕜 : Type*} [RCLike 𝕜]
-
-theorem sum_norm_le_sqrt_card_mul_norm {ι : Type*} [Fintype ι]
-    (x : EuclideanSpace 𝕜 ι) :
-    ∑ i, ‖x i‖ ≤ Real.sqrt (Fintype.card ι) * ‖x‖ := sorry
-
-theorem norm_toEuclideanLin_le_of_entry_le {n : ℕ} {A : Matrix (Fin n) (Fin n) 𝕜}
-    {ε : ℝ} (hε : 0 ≤ ε) (hentry : ∀ i j, ‖A i j‖ ≤ ε)
-    (x : EuclideanSpace 𝕜 (Fin n)) :
-    ‖Matrix.toEuclideanLin A x‖ ≤ (n : ℝ) * ε * ‖x‖ := sorry
-
-end RCLikeComparisons
 
 end MatrixSpectra
 
@@ -246,14 +137,14 @@ variable {n : ℕ} {Ω : Type*} [MeasurableSpace Ω]
 /-- **Eigenvalue concentration of a sample matrix**: second moments of the
 entries give, by Chebyshev and a union bound, simultaneous control of every
 sorted eigenvalue with probability `1 − n²v/η²`. -/
-theorem measure_forall_abs_sortedEigenvalues_sub_le_ge
+theorem measure_forall_abs_eigenvalues₀_sub_le_ge
     (P : Measure Ω) [IsProbabilityMeasure P]
     (Shat : Ω → Matrix (Fin n) (Fin n) ℝ) (A : Matrix (Fin n) (Fin n) ℝ)
     (hSherm : ∀ ω, (Shat ω).IsHermitian) (hAherm : A.IsHermitian)
     (hmeas : ∀ k l, Measurable fun ω => Shat ω k l)
     (hint : ∀ k l, Integrable (fun ω => (Shat ω k l - A k l) ^ 2) P)
     {v η : ℝ} (hη : 0 < η) (hmoment : ∀ k l, ∫ ω, (Shat ω k l - A k l) ^ 2 ∂P ≤ v) :
-    P {ω | ∀ k, |sortedEigenvalues (hSherm ω) k - sortedEigenvalues hAherm k|
+    P {ω | ∀ k, |(hSherm ω).eigenvalues₀ k - hAherm.eigenvalues₀ k|
         ≤ (n : ℝ) * η} ≥ 1 - ENNReal.ofReal ((n : ℝ) ^ 2 * v / η ^ 2) := sorry
 
 /-- The empirical mean of a finite family. -/

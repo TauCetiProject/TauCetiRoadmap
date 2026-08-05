@@ -2,9 +2,9 @@
 Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import TauCetiRoadmap.HilbertSpaceOperatorTheory.HilbertSpaceOperatorFoundations.Suggested
-import TauCetiRoadmap.HilbertSpaceOperatorTheory.MajorizationAndAngles.Suggested
-import TauCetiRoadmap.HilbertSpaceOperatorTheory.SelfAdjointSpectralTheory.Suggested
+import TauCetiRoadmap.OperatorTheory.Majorization.Suggested
+import TauCetiRoadmap.OperatorTheory.PrincipalAngles.Suggested
+import TauCetiRoadmap.OperatorTheory.SelfAdjointSpectralTheory.Suggested
 
 /-!
 # Spectral-subspace perturbation: target signatures
@@ -29,29 +29,33 @@ open MeasureTheory
 
 universe u v w
 
-/-! ## Local derived objects
+/-! ## The internal gap
 
-The spectral predicates and seminorm structures used below are imported from their owner
-roadmaps. `sinThetaMap` and `frobeniusNorm` are exceptions: this file's README lists them as
-consumed from `MajorizationAndAngles`, which does not declare them, so they are restated here
-to make the file elaborate. They belong to that roadmap, not this one. -/
+The member of the separation family in which both spectra come from the same operator, on
+`U` and `Uᗮ`. The remaining separation vocabulary is owned by
+[`PrincipalAngles`](../PrincipalAngles/README.md). -/
 
-section LocalObjects
+section InternalGap
 
 variable {𝕜 : Type u} [RCLike 𝕜]
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
-variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
 
-/-- The directed sine cross-projection `P_{Vᗮ} ∘ P_U`. -/
-noncomputable def sinThetaMap (U V : Submodule 𝕜 E)
-    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : E →ₗ[𝕜] E :=
-  ((Vᗮ.starProjection ∘L U.starProjection : E →L[𝕜] E) : E →ₗ[𝕜] E)
+/-- **Absolute separation between the two diagonal blocks of one operator.**
 
-/-- The Frobenius (Hilbert–Schmidt) norm through the standard orthonormal basis. -/
-noncomputable def frobeniusNorm [FiniteDimensional 𝕜 E] (T : E →ₗ[𝕜] F) : ℝ :=
-  Real.sqrt (∑ i, ‖T (stdOrthonormalBasis 𝕜 E i)‖ ^ 2)
+The member of the separation family in which both spectra come from the same `A`, on `U`
+and `Uᗮ`. It carries its own name because the theorems that consume it are a different
+family — the `sin Θ` and `sin 2Θ` results and the disjoint-spectrum Sylvester estimate —
+and because it is not enough for the sharp `tan 2Θ` theorem, where interlacing spectra
+can satisfy absolute separation while an off-diagonal perturbation produces a quarter turn.
 
-end LocalObjects
+A statistics-facing synonym for this predicate is not wanted: the population/sample
+distinction belongs in the names of the theorems that use it, not in a fourth name for the
+same separation. -/
+def InternalGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (δ : ℝ) : Prop :=
+  PrincipalAngles.SpectraSeparated A U A Uᗮ δ
+
+
+end InternalGap
 
 /-! ## Part A -- the Haagerup–Zsidó kernel and its Fourier transform -/
 
@@ -134,12 +138,12 @@ variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
 /-- **Interval/exterior separation, constant one, every rectangular unitarily
 invariant norm.** -/
 theorem uiNorm_sylvester_le_of_intervalGap
-    (N : MajorizationAndAngles.RectangularUnitarilyInvariantSeminorm 𝕜 E F)
+    (N : Majorization.RectangularUnitarilyInvariantSeminorm 𝕜 E F)
     {A : F →ₗ[𝕜] F} {B : E →ₗ[𝕜] E} {X C : E →ₗ[𝕜] F}
     (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {a b δ : ℝ} (hδ : 0 < δ)
-    (hBin : HilbertSpaceOperatorFoundations.SpectrumIn B ⊤ (Set.Icc a b))
-    (hAout : HilbertSpaceOperatorFoundations.SpectrumIn A ⊤ {lam | lam ∉ Set.Ioo (a - δ) (b + δ)})
+    (hBin : PrincipalAngles.SpectrumIn B ⊤ (Set.Icc a b))
+    (hAout : PrincipalAngles.SpectrumIn A ⊤ {lam | lam ∉ Set.Ioo (a - δ) (b + δ)})
     (hEq : A ∘ₗ X - X ∘ₗ B = C) :
     δ * N X ≤ N C := by
   sorry
@@ -148,10 +152,10 @@ theorem uiNorm_sylvester_le_of_intervalGap
 the Part A kernel), lifted from the simultaneous Ky Fan prefix estimate by Fan
 dominance. -/
 theorem uiNorm_sylvester_le_of_spectralDistance
-    (N : MajorizationAndAngles.RectangularUnitarilyInvariantSeminorm 𝕜 E F)
+    (N : Majorization.RectangularUnitarilyInvariantSeminorm 𝕜 E F)
     {A : F →ₗ[𝕜] F} {B : E →ₗ[𝕜] E} {X C : E →ₗ[𝕜] F}
     (hA : A.IsSymmetric) (hB : B.IsSymmetric)
-    {δ : ℝ} (hδ : 0 < δ) (hgap : HilbertSpaceOperatorFoundations.SpectraSeparated A ⊤ B ⊤ δ)
+    {δ : ℝ} (hδ : 0 < δ) (hgap : PrincipalAngles.SpectraSeparated A ⊤ B ⊤ δ)
     (hEq : A ∘ₗ X - X ∘ₗ B = C) :
     δ * N X ≤ (Real.pi / 2) * N C := by
   sorry
@@ -177,18 +181,6 @@ theorem eq_zero_of_intertwines_of_disjoint_spectrum
     (hint : ∀ y : B.domain, A ⟨X (y : F), hmaps y⟩ = X (B y))
     (hdisj : Disjoint (SelfAdjointSpectralTheory.spectrum A) (SelfAdjointSpectralTheory.spectrum B)) :
     X = 0 := by
-  sorry
-
-/-- The unbounded pairwise-separation bound with the sharp constant: open
-target.  The Hilbert–Schmidt form with constant one, through the Sylvester
-flow's generator gap, is the companion target. -/
-example {A : E →ₗ.[ℂ] E} {B : F →ₗ.[ℂ] F}
-    (hA : IsSelfAdjoint A) (hB : IsSelfAdjoint B)
-    {X C : F →L[ℂ] E} (hEq : SelfAdjointSpectralTheory.SylvesterEquation A B X C)
-    {δ : ℝ} (hδ : 0 < δ)
-    (hgap : ∀ z ∈ SelfAdjointSpectralTheory.spectrum A,
-      ∀ w ∈ SelfAdjointSpectralTheory.spectrum B, δ ≤ ‖z - w‖) :
-    δ * ‖X‖ ≤ (Real.pi / 2) * ‖C‖ := by
   sorry
 
 end Unbounded
@@ -225,15 +217,14 @@ variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
 /-- **Milestone C1 — Davis–Kahan `sin Θ`, perturbation form, every square
 unitarily invariant norm**, under the interval/exterior gap. -/
 theorem sinTheta_perturbation_le
-    (N : MajorizationAndAngles.UnitarilyInvariantSeminorm 𝕜 E)
+    (N : Majorization.UnitarilyInvariantSeminorm 𝕜 E)
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {U V : Submodule 𝕜 E} [U.HasOrthogonalProjection]
     [V.HasOrthogonalProjection]
     (hU : ∀ x ∈ U, A x ∈ U) (hV : ∀ x ∈ V, B x ∈ V)
     {a b δ : ℝ} (hδ : 0 < δ)
-    (hAin : HilbertSpaceOperatorFoundations.SpectrumIn A U (Set.Icc a b))
-    (hBout : HilbertSpaceOperatorFoundations.SpectrumIn B Vᗮ {lam | lam ∉ Set.Ioo (a - δ) (b + δ)}) :
-    δ * N (sinThetaMap U V) ≤ N (B - A) := by
+    (hBout : PrincipalAngles.SpectrumIn B Vᗮ {lam | lam ∉ Set.Ioo (a - δ) (b + δ)}) :
+    δ * N (PrincipalAngles.sinThetaMap U V) ≤ N (B - A) := by
   sorry
 
 /-- **Canonical spectral-projector Davis–Kahan theorem** with no eigenbasis
@@ -242,13 +233,12 @@ full projector difference. -/
 theorem opNorm_spectralProjection_sub_spectralProjection_le
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {a b δ : ℝ} (hδ : 0 < δ)
-    (hrank : finrank 𝕜 (HilbertSpaceOperatorFoundations.spectralSubspace A (Set.Icc a b)) =
-      finrank 𝕜 (HilbertSpaceOperatorFoundations.spectralSubspace B (Set.Icc a b)))
-    (hAin : HilbertSpaceOperatorFoundations.SpectrumIn A (HilbertSpaceOperatorFoundations.spectralSubspace A (Set.Icc a b)) (Set.Icc a b))
-    (hBout : HilbertSpaceOperatorFoundations.SpectrumIn B (HilbertSpaceOperatorFoundations.spectralSubspace B (Set.Icc a b))ᗮ
+    (hrank : finrank 𝕜 (PrincipalAngles.spectralSubspace A (Set.Icc a b)) =
+      finrank 𝕜 (PrincipalAngles.spectralSubspace B (Set.Icc a b)))
+    (hBout : PrincipalAngles.SpectrumIn B (PrincipalAngles.spectralSubspace B (Set.Icc a b))ᗮ
       {lam | lam ∉ Set.Ioo (a - δ) (b + δ)}) :
-    δ * ‖((HilbertSpaceOperatorFoundations.spectralSubspace A (Set.Icc a b)).starProjection -
-        (HilbertSpaceOperatorFoundations.spectralSubspace B (Set.Icc a b)).starProjection : E →L[𝕜] E)‖ ≤
+    δ * ‖((PrincipalAngles.spectralSubspace A (Set.Icc a b)).starProjection -
+        (PrincipalAngles.spectralSubspace B (Set.Icc a b)).starProjection : E →L[𝕜] E)‖ ≤
       ‖(B - A).toContinuousLinearMap‖ := by
   sorry
 
@@ -256,13 +246,13 @@ theorem opNorm_spectralProjection_sub_spectralProjection_le
 separation of the selected `A`-spectrum from the complementary `B`-spectrum,
 every square unitarily invariant norm. -/
 theorem sinTheta_perturbation_le_of_spectralDistance
-    (N : MajorizationAndAngles.UnitarilyInvariantSeminorm 𝕜 E)
+    (N : Majorization.UnitarilyInvariantSeminorm 𝕜 E)
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {U V : Submodule 𝕜 E} [U.HasOrthogonalProjection]
     [V.HasOrthogonalProjection]
     (hU : ∀ x ∈ U, A x ∈ U) (hV : ∀ x ∈ V, B x ∈ V)
-    {δ : ℝ} (hδ : 0 < δ) (hgap : HilbertSpaceOperatorFoundations.SpectraSeparated A U B Vᗮ δ) :
-    δ * N (sinThetaMap U V) ≤ (Real.pi / 2) * N (B - A) := by
+    {δ : ℝ} (hδ : 0 < δ) (hgap : PrincipalAngles.SpectraSeparated A U B Vᗮ δ) :
+    δ * N (PrincipalAngles.sinThetaMap U V) ≤ (Real.pi / 2) * N (B - A) := by
   sorry
 
 /-- **Davis's `sin 2θ` theorem, per-eigenvector product form**: for a unit
@@ -280,31 +270,6 @@ theorem sin_two_theta_le
   sorry
 
 end FiniteSinTheta
-
-section Riccati
-
-variable {U : Type v} [NormedAddCommGroup U] [InnerProductSpace ℂ U]
-  [CompleteSpace U]
-variable {W : Type w} [NormedAddCommGroup W] [InnerProductSpace ℂ W]
-  [CompleteSpace W]
-
-/-- Graph-subspace/Riccati target (open): for a self-adjoint block operator
-`[[A₁, C⋆], [C, A₂]]` with an ordered form gap `g` between the diagonal
-blocks, the Riccati equation has a solution whose norm obeys the tangent
-bound; contractivity and uniqueness among contractions are the companion
-targets. -/
-example {A₁ : U →L[ℂ] U} {A₂ : W →L[ℂ] W} {C : U →L[ℂ] W}
-    (hA₁ : (A₁ : U →ₗ[ℂ] U).IsSymmetric) (hA₂ : (A₂ : W →ₗ[ℂ] W).IsSymmetric)
-    {c g : ℝ} (hg : 0 < g)
-    (h₁ : ∀ x, RCLike.re ⟪A₁ x, x⟫_ℂ ≤ c * ‖x‖ ^ 2)
-    (h₂ : ∀ y, (c + g) * ‖y‖ ^ 2 ≤ RCLike.re ⟪A₂ y, y⟫_ℂ)
-    (hC : ‖C‖ < g / 2) :
-    ∃ X : U →L[ℂ] W,
-      X ∘L A₁ - A₂ ∘L X + X ∘L ContinuousLinearMap.adjoint C ∘L X = C ∧
-        g * ‖X‖ ≤ 2 * ‖C‖ := by
-  sorry
-
-end Riccati
 
 /-! ## Part D -- the Yu–Wang–Samworth statistical variant -/
 
@@ -327,7 +292,7 @@ def CorrespondingEigenblock {A B : E →ₗ[𝕜] E}
 /-- Frobenius sine distance in canonical subspace notation. -/
 noncomputable def sinThetaFrobenius (U V : Submodule 𝕜 E)
     [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : ℝ :=
-  frobeniusNorm (sinThetaMap U V)
+  Majorization.frobenius (PrincipalAngles.sinThetaMap U V)
 
 /-- **The complement identity**: the Frobenius sine of two equally indexed
 blocks is exactly the square root of the cross-block overlap sum — the bridge
@@ -347,10 +312,10 @@ theorem yuWangSamworth_sinTheta_le
     [V.HasOrthogonalProjection]
     (hcorr : CorrespondingEigenblock hA hB U V)
     {d : ℕ} (hrank : finrank 𝕜 U = d) {Δ : ℝ} (hΔ : 0 < Δ)
-    (hgap : HilbertSpaceOperatorFoundations.InternalGap A U Δ) :
+    (hgap : InternalGap A U Δ) :
     sinThetaFrobenius U V ≤
       2 * min (Real.sqrt d * ‖(B - A).toContinuousLinearMap‖)
-        (frobeniusNorm (B - A)) / Δ := by
+        (Majorization.frobenius (B - A)) / Δ := by
   sorry
 
 /-- **The aligned-basis (Procrustes) surface**: orthonormal bases of the two
@@ -362,14 +327,14 @@ theorem yuWangSamworth_alignedBasis_le
     [V.HasOrthogonalProjection]
     (hcorr : CorrespondingEigenblock hA hB U V)
     {d : ℕ} (hrankU : finrank 𝕜 U = d) (hrankV : finrank 𝕜 V = d)
-    {Δ : ℝ} (hΔ : 0 < Δ) (hgap : HilbertSpaceOperatorFoundations.InternalGap A U Δ) :
+    {Δ : ℝ} (hΔ : 0 < Δ) (hgap : InternalGap A U Δ) :
     ∃ (u v : Fin d → E), Orthonormal 𝕜 u ∧ Orthonormal 𝕜 v ∧
       Submodule.span 𝕜 (Set.range u) = U ∧
       Submodule.span 𝕜 (Set.range v) = V ∧
       Real.sqrt (∑ i, ‖v i - u i‖ ^ 2) ≤
         2 * Real.sqrt 2 *
           min (Real.sqrt d * ‖(B - A).toContinuousLinearMap‖)
-            (frobeniusNorm (B - A)) / Δ := by
+            (Majorization.frobenius (B - A)) / Δ := by
   sorry
 
 /-- **The single-vector bound**: the rank-one, sign-aligned eigenvector
@@ -381,7 +346,7 @@ theorem yuWangSamworth_eigenvector_le
     (hcorr : CorrespondingEigenblock hA hB
       (Submodule.span 𝕜 {u}) (Submodule.span 𝕜 {v}))
     (hΔ : 0 < Δ)
-    (hgap : ∀ ν ∈ HilbertSpaceOperatorFoundations.restrictedSpectrum A (Submodule.span 𝕜 {u})ᗮ,
+    (hgap : ∀ ν ∈ PrincipalAngles.restrictedSpectrum A (Submodule.span 𝕜 {u})ᗮ,
       Δ ≤ |lam - ν|) :
     ∃ c : 𝕜, ‖c‖ = 1 ∧
       ‖c • v - u‖ ≤

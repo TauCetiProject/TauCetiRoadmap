@@ -1,8 +1,7 @@
 # Roadmap: one-parameter semigroups, completely monotone and positive-definite functions, and Bochner-type representations
 
-Operator semigroups are the analytic backbone of evolution equations (heat, Fokker–Planck;
-the conservative Schrödinger case is a unitary *group*, a stretch goal below) and of
-Markov-process theory. Mathlib has the *static* functional-analysis
+Operator semigroups are the analytic backbone of evolution equations (heat, Fokker–Planck)
+and of Markov-process theory. Mathlib has the *static* functional-analysis
 stack — Banach/Hilbert spaces, bounded operators, `spectrum` and `resolvent`, the
 holomorphic functional calculus, the Bochner integral, Fourier theory, unbounded operators
 via `LinearPMap` — but **not the dynamical layer**: strongly continuous (C₀) semigroups,
@@ -34,15 +33,20 @@ Suggested home: `TauCeti/Analysis/Semigroups/`, `TauCeti/Analysis/CompletelyMono
   space is usable as a real Banach space for the semigroup action. Get the complex resolvent
   set and the analyticity of `λ ↦ R(λ,A)` via **complexification** `X_ℂ`. (An `[RCLike 𝕜]`
   formulation is a possible later generalization.)
-- **C₀ groups as a stretch.** Two-sided strongly continuous groups `(S(t))_{t∈ℝ}` — e.g. the
-  unitary `e^{itH}` of Schrödinger — are *not* reached by the contraction-semigroup API;
-  include them as a stretch goal / example (Stone's theorem on Hilbert space).
+- **C₀ groups.** Two-sided strongly continuous groups `(S(t))_{t∈ℝ}` — e.g. the unitary
+  `e^{itH}` of Schrödinger — are *not* reached by the contraction-semigroup API. Stone's
+  theorem on Hilbert space is a milestone of
+  [`OperatorTheory/SelfAdjointSpectralTheory`](../OperatorTheory/SelfAdjointSpectralTheory/README.md),
+  which is cited for it rather than specifying it twice.
 - **Generators are unbounded.** The generator carries a **dense domain**; model it as a
   `LinearPMap` / submodule, never a total operator. Mathlib's `resolvent`/`spectrum` are
   **Banach-algebra-only**, so an unbounded generator needs its **own** resolvent notion
   (`λ ∈ ρ(A)` iff `λ·I − A : D(A) → X` is a bijection with bounded inverse); add a **bridge
   lemma** identifying it with Mathlib's `resolvent` in the bounded (`domain = ⊤`) case, rather
-  than duplicating effort.
+  than duplicating effort. This roadmap owns the general generator and its resolvent;
+  [`OperatorTheory/SelfAdjointSpectralTheory`](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
+  owns the self-adjoint `LinearPMap` resolvent set and the imaginary-shift Yosida
+  approximants, and the shared resolvent definition is stated once.
 - **Bochner at its natural generality.** A continuous positive-definite function lives on a
   **general finite-dimensional real inner-product space** `V` (so `ℝ²` as `ℝ × ℝ`, or any
   finite-dim space, is covered) — *not* on hard-coded `Fin d` coordinates. State Bochner for

@@ -5,7 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib
 
 /-!
-# Hilbert-space operator foundations: target signatures
+# Polar decomposition, the functional calculus, and singular systems: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. The statements here suggest Lean forms for particular milestones, so that
@@ -393,7 +393,7 @@ end SingularValueAccessor
 
 end ContinuousLinearMap
 
-namespace TauCetiRoadmap.HilbertSpaceOperatorFoundations
+namespace TauCetiRoadmap.PolarDecomposition
 
 /-! ## Part B — the near-isometry factorization and Davis's intertwining unitary -/
 
@@ -418,119 +418,5 @@ theorem exists_linearIsometryEquiv_comp_eq_comp
 
 end Intertwining
 
-/-! ## Part D — projection geometry, spectral subspaces, and the separation predicates -/
 
-section ProjectionGap
-
-variable {𝕜 : Type u} [RCLike 𝕜]
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
-
-/-- The sharp projector-gap identity: the gap between two subspaces is the maximum of the
-two one-sided defects. An equality, with factor one and no equal-rank hypothesis.
-Intended home: `Submodule`. -/
-theorem norm_starProjection_sub_eq_max (U V : Submodule 𝕜 E)
-    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] :
-    ‖(U.starProjection - V.starProjection : E →L[𝕜] E)‖ =
-      max ‖(1 - V.starProjection) ∘L U.starProjection‖
-          ‖(1 - U.starProjection) ∘L V.starProjection‖ := by
-  sorry
-
-/-- A pairwise orthogonal family of vectors spans an orthogonal family of lines: the
-vector-level constructor whose upstream counterpart requires unit vectors, and which the
-singular expansion needs because `σᵢ • uᵢ` is not normalizable at `σᵢ = 0`. -/
-theorem orthogonalFamily_of_pairwise_inner_eq_zero {ι : Type*} {f : ι → E}
-    (hf : Pairwise fun i j => ⟪f i, f j⟫_𝕜 = 0) :
-    OrthogonalFamily 𝕜 (fun i => (𝕜 ∙ f i : Submodule 𝕜 E))
-      fun i => (𝕜 ∙ f i).subtypeₗᵢ := by
-  sorry
-
-end ProjectionGap
-
-section SpectralVocabulary
-
-variable {𝕜 : Type u} [RCLike 𝕜]
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
-variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F]
-
-/-- The point spectrum of `A` carried by `U`.
-
-Eigenvectors are Mathlib's `Module.End.HasEigenvector`. A local "eigenvector at a real
-eigenvalue" predicate adds only the realness of `lam`, which the `lam : ℝ` binder here
-already supplies. -/
-def restrictedSpectrum (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) : Set ℝ :=
-  {lam | ∃ x, x ∈ U ∧ Module.End.HasEigenvector A (lam : 𝕜) x}
-
-/-- **The membership characterization.**
-
-The definition goes through `Module.End.HasEigenvector` so Mathlib's eigenspace API applies,
-but proofs want `A x = lam • x`. This lemma is the intended sole conversion point, so that
-the internal shape of `HasEigenvector` — which orders its conjuncts
-`(mem_eigenspace, ne_zero)` — never becomes part of this definition's interface.
-
-Together with the introduction rule below, this is the intended API of
-`restrictedSpectrum`; `SpectrumIn` and the separation predicates are then stated over it. -/
-theorem mem_restrictedSpectrum_iff {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E} {lam : ℝ} :
-    lam ∈ restrictedSpectrum A U ↔ ∃ x ∈ U, x ≠ 0 ∧ A x = (lam : 𝕜) • x := by
-  sorry
-
-/-- The introduction rule: a nonzero eigenvector in `U` witnesses its eigenvalue. -/
-theorem mem_restrictedSpectrum {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E} {lam : ℝ} {x : E}
-    (hxU : x ∈ U) (hx0 : x ≠ 0) (hxEig : A x = (lam : 𝕜) • x) :
-    lam ∈ restrictedSpectrum A U := by
-  sorry
-
-/-- Every eigenvalue of `A` carried by `U` lies in `Ω`. -/
-def SpectrumIn (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (Ω : Set ℝ) : Prop :=
-  restrictedSpectrum A U ⊆ Ω
-
-/-- The canonical spectral subspace selected by a real set. -/
-noncomputable def spectralSubspace (A : E →ₗ[𝕜] E) (Ω : Set ℝ) : Submodule 𝕜 E :=
-  Submodule.span 𝕜 {x | ∃ lam ∈ Ω, Module.End.HasEigenvector A (lam : 𝕜) x}
-
-/-- **The symmetric separation predicate**: two restricted spectra are at distance at least
-`δ`. The weaker of the two primitives, with no ordering implied; it is what the `π/2`
-theorems assume. -/
-def SpectraSeparated (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E)
-    (B : F →ₗ[𝕜] F) (V : Submodule 𝕜 F) (δ : ℝ) : Prop :=
-  ∀ lam μ, lam ∈ restrictedSpectrum A U → μ ∈ restrictedSpectrum B V → δ ≤ |lam - μ|
-
-/-- **Absolute separation between the two diagonal blocks of one operator.**
-
-The member of the separation family in which both spectra come from the same `A`, on `U`
-and `Uᗮ`. It carries its own name because the theorems that consume it are a different
-family — the `sin Θ` and `sin 2Θ` results and the disjoint-spectrum Sylvester estimate —
-and because it is not enough for the sharp `tan 2Θ` theorem, where interlacing spectra
-can satisfy absolute separation while an off-diagonal perturbation produces a quarter turn.
-
-A statistics-facing synonym for this predicate is not wanted: the population/sample
-distinction belongs in the names of the theorems that use it, not in a fourth name for the
-same separation. -/
-def InternalGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (δ : ℝ) : Prop :=
-  SpectraSeparated A U A Uᗮ δ
-
-/-- **The ordered separation predicate**: one restricted spectrum lies below the other with
-margin `δ`. Strictly stronger than `SpectraSeparated`, and the hypothesis under which the
-perturbation constants improve to one. -/
-def OrderedGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E)
-    (B : F →ₗ[𝕜] F) (V : Submodule 𝕜 F) (δ : ℝ) : Prop :=
-  ∀ lam μ, lam ∈ restrictedSpectrum A U → μ ∈ restrictedSpectrum B V → lam + δ ≤ μ
-
-/-- The conversion between the two primitives, and the reason both are named: a theorem
-family stated against the weaker hypothesis applies to a caller holding the stronger one. -/
-theorem SpectraSeparated.of_orderedGap {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E}
-    {B : F →ₗ[𝕜] F} {V : Submodule 𝕜 F} {δ : ℝ} (hδ : 0 ≤ δ)
-    (h : OrderedGap A U B V δ) : SpectraSeparated A U B V δ := by
-  sorry
-
-/-- Spectral inclusion on opposite sides of a cut gives ordered separation: the bridge that
-turns a hypothesis a caller can check into the one the theorems consume. -/
-theorem orderedGap_of_restrictedSpectrum_subset {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E}
-    {B : F →ₗ[𝕜] F} {V : Submodule 𝕜 F} {a δ : ℝ}
-    (hA : restrictedSpectrum A U ⊆ Set.Iic a)
-    (hB : restrictedSpectrum B V ⊆ Set.Ici (a + δ)) :
-    OrderedGap A U B V δ := by
-  sorry
-
-end SpectralVocabulary
-
-end TauCetiRoadmap.HilbertSpaceOperatorFoundations
+end TauCetiRoadmap.PolarDecomposition

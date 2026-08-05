@@ -320,8 +320,9 @@ is the operator, closing the loop with Part A. -/
 theorem generator_genToGroup (hA : IsSelfAdjoint A) :
     generator (genToGroup A hA) = A := sorry
 
-/-- Yosida approximants: bounded self-adjoint approximations converging strongly
-on the domain, the bridge a Hilbert--Schmidt block argument needs.
+/-- The **raw** Yosida approximant at the single imaginary shift `i n`. It is bounded and
+converges strongly on the domain, and it is **not** self-adjoint: one shift is used, so the
+imaginary parts do not cancel.
 
 Indexed by `ℕ+`: at `n = 0` the resolvent argument `i n` is real, so `R(i n)` need not
 exist.
@@ -332,6 +333,32 @@ noncomputable def yosidaApproximant (hA : IsSelfAdjoint A) (n : ℕ+) : H →L[�
       resolvent A (mem_resolventSet_of_im_ne_zero hA
         (z := Complex.I * (n : ℂ)) (by simp [n.ne_zero]))
     - (Complex.I * (n : ℂ)) • ContinuousLinearMap.id ℂ H
+
+/-- The mirrored approximant, at the shift `-i n`. -/
+noncomputable def yosidaApproximantNeg (hA : IsSelfAdjoint A) (n : ℕ+) : H →L[ℂ] H :=
+  ((n : ℂ) ^ 2) •
+      resolvent A (mem_resolventSet_of_im_ne_zero hA
+        (z := -(Complex.I * (n : ℂ))) (by simp [n.ne_zero]))
+    + (Complex.I * (n : ℂ)) • ContinuousLinearMap.id ℂ H
+
+/-- The **symmetrized** Yosida approximant, the average of the two shifts. This is the
+self-adjoint one, and the form the unitary exponentials are built from. -/
+noncomputable def yosidaApproximantSym (hA : IsSelfAdjoint A) (n : ℕ+) : H →L[ℂ] H :=
+  (2 : ℂ)⁻¹ • (yosidaApproximant A hA n + yosidaApproximantNeg A hA n)
+
+/-- Self-adjointness holds for the symmetrized form. -/
+theorem isSelfAdjoint_yosidaApproximantSym (hA : IsSelfAdjoint A) (n : ℕ+) :
+    IsSelfAdjoint (yosidaApproximantSym A hA n) := sorry
+
+/-- The approximating unitary groups are the exponentials of the symmetrized approximant;
+`yosidaApproximant` alone does not generate one. -/
+noncomputable def yosidaGroup (hA : IsSelfAdjoint A) (n : ℕ+) :
+    OneParameterUnitaryGroup H := sorry
+
+/-- The approximating groups converge strongly to the group `A` generates. -/
+theorem tendsto_yosidaGroup (hA : IsSelfAdjoint A) (t : ℝ) (ψ : H) :
+    Filter.Tendsto (fun n : ℕ+ => (yosidaGroup A hA n).U t ψ) Filter.atTop
+      (nhds ((genToGroup A hA).U t ψ)) := sorry
 
 end SpectralMeasure
 

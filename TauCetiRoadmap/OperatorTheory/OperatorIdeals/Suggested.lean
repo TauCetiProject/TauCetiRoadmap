@@ -3,6 +3,7 @@ Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
+import TauCetiRoadmap.OperatorTheory.Majorization.Suggested
 
 /-!
 # Operator ideals: target signatures
@@ -245,24 +246,26 @@ theorem SymmetricGauge.iSup_le_extend_le_tsum (Φ : SymmetricGauge) (a : ℕ →
     (⨆ n, a n) ≤ Φ.extend a ∧ Φ.extend a ≤ ∑' n, a n := sorry
 
 /-- **Milestone B1.**  The family induced by a symmetric gauge, with gauge
-`Φ∞ ∘ a`.  Its five structure fields are theorems, one input each: `gauge_add_le` is
-Milestone B2, `gauge_smul` and `gauge_adjoint` and `enorm_le_gauge` and `gauge_comp_le`
+`Φ∞ ∘ a`.  Its structure fields are theorems, one input each: `gauge_add_le` is
+Milestone B2, and `gauge_smul`, `gauge_adjoint`, `enorm_le_gauge` and `gauge_comp_le`
 are the corresponding approximation-number facts of Part A.
 
 Spec: D2. -/
-noncomputable def symmetricGaugeFamily (Φ : SymmetricGauge) : OperatorIdealFamily ℂ where
+noncomputable def symmetricGaugeFamily (Φ : SymmetricGauge) :
+    SymmetricOperatorIdealFamily.{0, v} ℂ where
   gauge A := Φ.extend fun n => ENNReal.ofReal (approximationNumber A n)
   gauge_add_le := sorry
   gauge_smul := sorry
   enorm_le_gauge := sorry
   gauge_comp_le := sorry
+  gauge_adjoint := sorry
 
 /-- **Milestone B2.**  Every family induced by a symmetric gauge respects Ky Fan
 domination.  This is the Hardy--Littlewood--Pólya transfer of the
-MajorizationAndAngles roadmap, lifted to sequences by monotone convergence along the
+Majorization roadmap, lifted to sequences by monotone convergence along the
 truncations -- which is why `extend` is a supremum of truncations and nothing cleverer. -/
 instance isKyFanDominant_symmetricGaugeFamily (Φ : SymmetricGauge) :
-    IsKyFanDominant (symmetricGaugeFamily Φ) := sorry
+    IsKyFanDominant (symmetricGaugeFamily Φ).toOperatorIdealFamily := sorry
 
 /-- The sequence form of Milestone B2, and the form the proof actually establishes:
 weak majorization of antitone sequences implies domination under every symmetric
@@ -274,11 +277,7 @@ theorem SymmetricGauge.extend_le_extend_of_forall_sum_le (Φ : SymmetricGauge)
 
 /-- **Milestone B1, the direction of the Calkin correspondence we claim.**  The
 construction is injective up to equality of gauges on antitone sequences, so the
-ideal really is a function of the singular-value sequence alone.
-
-Surjectivity -- that every symmetric ideal arises this way -- is *not* claimed here;
-it is the substantial half of Calkin's theorem, needs a separability hypothesis
-nothing else in this roadmap needs, and no downstream result consumes it. -/
+ideal really is a function of the singular-value sequence alone. -/
 theorem symmetricGaugeFamily_injective {Φ Ψ : SymmetricGauge}
     (h : symmetricGaugeFamily Φ = symmetricGaugeFamily Ψ)
     {a : ℕ → ℝ≥0∞} (ha : Antitone a) :
@@ -301,7 +300,7 @@ noncomputable def schattenGauge (p : ℝ) (hp : 1 ≤ p) : SymmetricGauge where
   normalized := sorry
 
 /-- The Schatten-`p` family for a finite real exponent `1 ≤ p`. -/
-noncomputable def schattenFamily (p : ℝ) (hp : 1 ≤ p) : OperatorIdealFamily.{0, v, w} ℂ :=
+noncomputable def schattenFamily (p : ℝ) (hp : 1 ≤ p) : SymmetricOperatorIdealFamily.{0, v} ℂ :=
   symmetricGaugeFamily (schattenGauge p hp)
 
 /-- The `p = ∞` endpoint, specified separately because a real exponent cannot represent
@@ -320,6 +319,8 @@ noncomputable def schattenFamilyInf : OperatorIdealFamily.{0, v, w} ℂ where
 is witnessed by a diagonal operator with coefficients `n ↦ n ^ (-1/r)`, `p < r < q` --
 the same diagonal machinery as Part A's acceptance example (6). -/
 theorem gauge_schattenFamily_antitone {p q : ℝ} (hp : 1 ≤ p) (hq : 1 ≤ q) (hpq : p ≤ q)
+    {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
+    {F : Type v} [NormedAddCommGroup F] [InnerProductSpace ℂ F] [CompleteSpace F]
     (T : E →L[ℂ] F) :
     (schattenFamily q hq).gauge T ≤ (schattenFamily p hp).gauge T := sorry
 
@@ -337,16 +338,34 @@ the singular-value vector, with the finite endpoint identifications `S₁` nucle
 `S₂` Frobenius; `S∞` is the separately named operator-norm endpoint.
 
 This layer is **not** a special case of `schattenFamily` and does not wait on it: it is
-a rectangular unitarily invariant norm on a vector, consumed by the
-MajorizationAndAngles arm.  That the two agree in finite dimensions is a separate
-target, and without it a reader cannot tell whether `S₂` means one thing or two.
+a rectangular unitarily invariant norm on a vector.  That the two agree in finite
+dimensions is a separate target, and without it a reader cannot tell whether `S₂` means one
+thing or two.
 
 Spec: D5. -/
-noncomputable def schattenNorm (p : ℝ)
+noncomputable def schattenNorm (p : ℝ) (hp : 1 ≤ p)
     {E F : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [FiniteDimensional ℂ E]
     [NormedAddCommGroup F] [InnerProductSpace ℂ F] [FiniteDimensional ℂ F]
     (T : E →ₗ[ℂ] F) : ℝ :=
   (∑ i : Fin (finrank ℂ E), T.singularValues (i : ℕ) ^ p) ^ (1 / p)
+
+/-- `S₂` is the rectangular Frobenius seminorm owned by
+[`Majorization`](../Majorization/README.md). -/
+theorem schattenNorm_two_apply
+    {E F : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [FiniteDimensional ℂ E]
+    [NormedAddCommGroup F] [InnerProductSpace ℂ F] [FiniteDimensional ℂ F]
+    (T : E →ₗ[ℂ] F) :
+    schattenNorm 2 (by norm_num) T = Majorization.frobenius T := sorry
+
+/-- The Hilbert--Schmidt energy is the squared Frobenius seminorm in finite dimensions,
+which is what makes the two `p = 2` developments one object. -/
+theorem hilbertSchmidtEnergy_eq_ofReal_frobenius_sq
+    {E F : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [FiniteDimensional ℂ E]
+    [CompleteSpace E]
+    [NormedAddCommGroup F] [InnerProductSpace ℂ F] [FiniteDimensional ℂ F] [CompleteSpace F]
+    (T : E →L[ℂ] F) (b : HilbertBasis ι ℂ E) :
+    hilbertSchmidtEnergy T b
+      = ENNReal.ofReal (Majorization.frobenius T.toLinearMap ^ 2) := sorry
 
 /-- **Milestone B4, block sums.**  The two-block comparison consumers actually use, for an
 operator that is block-diagonal for orthogonal decompositions of source and target: its
@@ -439,38 +458,5 @@ theorem tsum_energy_isometryFamily_comp {κ : Type y} (b : HilbertBasis ι 𝕜 
     ∑' k, hilbertSchmidtEnergy ((P k) ∘L T) b = hilbertSchmidtEnergy T b := sorry
 
 end HilbertSchmidt
-
-/-! ## Part D -- approximation numbers of spectral bands
-
-The one Part that depends on `SelfAdjointSpectralTheory`.  Its statements are about
-approximation numbers, so this roadmap owns them; only the proofs are spectral theory. -/
-
-section SpectralBands
-
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
-variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace ℂ F] [CompleteSpace F]
-
-/-- **Milestone D1 -- a spectral cutoff bounds the approximation numbers.**
-
-Stated here in the bounded form, where the band is presented by its orthogonal projection
-and by the bound `T` satisfies off it: the compression `T ∘ P` is an admissible approximant
-of rank at most `r`, so the residual bound transfers to `a_r(T)` directly.
-
-The unbounded form replaces `P` by a spectral projection of the `SelfAdjointSpectralTheory`
-roadmap's spectral measure, and is the statement the perturbation roadmap consumes: it lets
-an argument bound an ideal gauge from a *spectral* hypothesis rather than from a rank
-hypothesis.
-
-`0 ≤ δ` is part of the statement, not padding.  Without it the theorem is false: at `P = 1`
-the band hypothesis reads `0 ≤ 0` and holds for every `δ`, while `r ≥ finrank E` makes the
-conclusion `0 ≤ δ`, which fails at `δ = -1`. -/
-theorem approximationNumber_le_of_spectral_band
-    {T : E →L[ℂ] F} {P : E →L[ℂ] E} {r : ℕ} {δ : ℝ}
-    (hδ : 0 ≤ δ) (hidem : IsIdempotentElem P) (hsa : IsSelfAdjoint P)
-    (hrank : P.rank ≤ (r : Cardinal))
-    (hband : ∀ x : E, ‖T (x - P x)‖ ≤ δ * ‖x - P x‖) :
-    approximationNumber T r ≤ δ := sorry
-
-end SpectralBands
 
 end TauCetiRoadmap.OperatorIdeals
