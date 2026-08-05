@@ -10,7 +10,9 @@ covariant differentiation along curves, geodesics and their flow, the exponentia
 geodesic completeness. Without that layer, Hopf–Rinow — which ties metric completeness of a
 Riemannian manifold to the global existence of its geodesics — cannot yet be stated.
 
-Suggested home: `TauCeti/Geometry/Manifold/Riemannian/Geodesic/`.
+Suggested home: `TauCeti/Geometry/Manifold/Riemannian/Geodesic/`. Shared connection and
+local-diffeomorphism prerequisites belong under `TauCeti/Geometry/Manifold/`, but their delivery
+is explicitly owned by this roadmap rather than deferred to another roadmap.
 
 The target is do Carmo, *Riemannian Geometry*, Chapter 7 §2, Theorem 2.8 with Corollary 2.9,
 stated under that chapter's standing assumption that `M` is **connected** (do Carmo carries this
@@ -87,10 +89,10 @@ Metric compatibility for a covariant derivative and existence and uniqueness of 
 Levi-Civita connection; the pullback connection and covariant differentiation along a curve;
 the geodesic spray, its smooth local flow, and maximal intervals of existence; an interval-aware
 geodesic predicate carrying its parameter set and initial data; constant speed; the exponential
-map and its domain; normal neighbourhoods, the Gauss lemma, and minimizing geodesic segments;
-geodesic completeness; and the Hopf–Rinow equivalence itself. The roadmap must consume the
-general connection, torsion, ODE, and integral-curve APIs above while building these specifically
-Riemannian results.
+map and its domain; the manifold inverse-function theorem needed for normal coordinates; normal
+neighbourhoods, the Gauss lemma, and minimizing geodesic segments; geodesic completeness; and the
+Hopf–Rinow equivalence itself. The roadmap must consume the general connection, torsion, ODE, and
+integral-curve APIs above while building these specifically Riemannian results.
 
 ## Prior art and coordination
 
@@ -125,8 +127,11 @@ provenance under `formalized-sources/DoCarmo/` is concentrated in:
   `Existence.lean` for along-curve differentiation and the geodesic equation;
 - `DoCarmoLib/Riemannian/Geodesic/FlowCInftyDependence.lean` and `MaximalInterval.lean` for flow
   regularity and maximal domains;
-- `DoCarmoLib/Riemannian/Exponential/{Defs,Intrinsic}.lean` for the exponential map and its
-  interval-aware domain; and
+- `DoCarmoLib/Riemannian/Exponential/{Defs,Intrinsic,StrictDerivative,CInftyBall}.lean` for the
+  exponential map, its interval-aware domain, its derivative at zero, and its local inverse;
+- `DoCarmoLib/Riemannian/Exponential/{GaussLemma,NormalBallEDist}.lean` and
+  `DoCarmoLib/Riemannian/Variation/FirstVariation.lean` for radial comparison, the escape
+  estimate, and variation theory; and
 - `DoCarmoLib/Riemannian/Geodesic/{Completeness,HopfRinow}.lean` for completeness and the
   headline theorem.
 
@@ -144,13 +149,24 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
 `Suggested.lean` (with `sorry`).
 
 ### Layer 0: the reconciled Riemannian distance
-- **Length of a piecewise-`C¹` curve** and its API: additivity under concatenation, invariance
-  under monotone reparametrization, constant-speed reparametrization, lower semicontinuity under
-  uniform limits. State it through Mathlib's `pathELength` where possible.
-- **The length–distance identity.** do Carmo's infimum over piecewise-`C¹` curves equals
-  `Manifold.riemannianEDist`; this is what makes every later "distance" the Mathlib one. The tools
-  (piecewise length, chart-straight polygonal approximants with continuity-based length control)
-  are within the metric-level API; the work is assembly.
+- **Existing `C¹` length algebra (consume):** use `Manifold.pathELength_add` for subdivision and
+  `Manifold.pathELength_comp_of_monotoneOn` for differentiable monotone reparametrizations. Do not
+  reprove either result in a piecewise-length wrapper.
+- **Regular reparametrization and limits:** prove constant-speed reparametrization for a regular
+  `C¹` curve, explicitly assuming its speed is nowhere zero. State lower semicontinuity only for
+  a sequence of `C¹` curves `γ_n` and a `C¹` limit curve `γ` on one fixed compact interval, with
+  `γ_n → γ` uniformly there:
+  `pathELength I γ a b ≤ liminf_n pathELength I (γ_n n) a b`. No claim is made for a
+  non-differentiable limit, where `mfderiv` is junk-valued.
+- **Corner smoothing and the piecewise-`C¹` comparison:** define a piecewise-`C¹` path by a finite
+  partition and compute its length as the sum of Mathlib `pathELength`s on the pieces. Prove
+  independence under refinement, then prove a named corner-smoothing reparametrization theorem:
+  every piecewise-`C¹` path has a `C¹` path with the same endpoints and length. Deduce that do
+  Carmo's piecewise-`C¹` infimum equals Mathlib's `C¹` infimum
+  `Manifold.riemannianEDist`. This comparison is a substantive target, not an assembly lemma.
+- **Canonical convention:** all downstream Tau Ceti statements use Mathlib's `C¹`
+  `Manifold.pathELength` and `Manifold.riemannianEDist`; the piecewise-`C¹` formulation is exposed
+  only through the comparison theorem above.
 - **Distance compatibility and finiteness.** Consume `IsRiemannianManifold I M` and rewrite with
   `IsRiemannianManifold.out`. Prove `Manifold.riemannianEDist I x y ≠ ∞` on a connected manifold,
   then expose the ordinary metric-space presentation needed by `dist`, `ProperSpace`, and
@@ -163,7 +179,8 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
 - **The Levi-Civita connection:** define metric compatibility for Mathlib's bundled
   `CovariantDerivative` and prove existence and uniqueness of the torsion-free,
   metric-compatible connection. Reuse `CovariantDerivative.torsion_eq_zero_iff`; consume
-  mathlib4#36845 if it lands first.
+  mathlib4#36845 if it lands first. Otherwise this roadmap owns the implementation in the shared
+  manifold connection namespace; the Geometric Topology roadmap consumes the resulting API.
 - **Covariant derivative along a curve:** construct the pullback of a covariant derivative along
   `γ` and its action on sections of `γ*TM`. Establish linearity, the Leibniz rule, locality under
   restriction, naturality under reparametrization, agreement with the ambient derivative for a
@@ -174,13 +191,17 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   vanishing covariant derivative there for the Levi-Civita connection of `g`. Define the all-time
   abbreviation only as the `s = univ` specialization. In a chart this is the second-order geodesic
   ODE with the Christoffel symbols; prove the chart form equivalent to the connection-based
-  definition. Use the Levi-Civita connection milestone above, shared with the Geometric Topology
-  roadmap's curvature layer.
+  definition. Use the Levi-Civita connection milestone above.
 - **Initial data:** package `γ 0 = p`, velocity `γ'(0) = v`, and
   `IsGeodesicCurveOn g γ s` in a real predicate; the initial velocity may not be an unused binder.
+- **The geodesic spray:** construct the vector field `S_g` on `TM`. Prove that in a tangent-bundle
+  chart it is `(x, v) ↦ (v, -Γ_x(v, v))`, that this formula is independent of the chart, and that
+  `S_g` is `C^∞`. Prove that integral curves of `S_g` are exactly the velocity lifts of curves
+  satisfying the covariant geodesic equation, with set-restricted versions on their common time
+  domains. This is the object to which Mathlib's `IsIntegralCurve` API is applied.
 - **Local existence and uniqueness** of the geodesic from `(p, v)` on an open interval containing
-  `0`: define the geodesic spray on `TM`, use Mathlib's manifold integral-curve API, and prove
-  uniqueness on the overlap of two such intervals.
+  `0`: apply Mathlib's manifold integral-curve API to `S_g` and prove uniqueness on the overlap of
+  two such intervals.
 - **Smooth dependence and the local geodesic flow:** prove `C^∞` dependence on time and initial
   data and package the resulting local flow on `TM`. This is a target, not a theorem available in
   the pinned ODE library; consume mathlib4#26394 and mathlib4#40062 if their APIs land first.
@@ -192,12 +213,24 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   `γ_{p,λv}(t) = γ_{p,v}(λt)` only when the corresponding times belong to their maximal intervals,
   together with the precise relation between those domains.
 - **Exponential map:** define `expDomain g p = {v | 1 ∈ J_g(p,v)}` and
-  `exp_p v = γ_{p,v}(1)` on that domain, with `exp_p 0 = p` and `d(exp_p)_0 = id` (so `exp_p` is a
-  local diffeomorphism at `0`). Any total implementation with a junk value outside the natural
-  domain must carry a `v ∈ expDomain g p` hypothesis in mathematical statements.
-- Milestone **(a) at `p`** is `expDomain g p = univ`. Define geodesic completeness at `p` by
-  `∀ v, J_g(p,v) = univ`, and global milestone **(d)** by requiring this at every `p`. Prove the
-  pointwise exponential-domain/completeness equivalence via domain-aware homogeneity.
+  `exp_p v = γ_{p,v}(1)` on that domain, with `exp_p 0 = p`. Any total implementation with a junk
+  value outside the natural domain must carry a `v ∈ expDomain g p` hypothesis in mathematical
+  statements.
+- **The derivative at zero:** make the canonical identification
+  `T_0(T_p M) ≃L[ℝ] T_p M` explicit using `NormedSpace.fromTangentSpace`, and prove that
+  `mfderiv exp_p 0` is the identity under this identification. Record the corresponding strict
+  derivative statement needed by the inverse-function theorem.
+- **The manifold inverse-function theorem:** add the missing shared theorem to
+  `TauCeti/Geometry/Manifold/LocalDiffeomorph.lean`: for `C¹` boundaryless Banach manifolds, a
+  `C¹` map whose `mfderiv` at a point is a continuous linear equivalence induces a
+  `LocalDiffeomorphAt` there. Mathlib's
+  `Geometry/Manifold/LocalDiffeomorph.lean` lists this implication as a TODO, so this roadmap owns
+  it as a prerequisite rather than consuming it. Apply it to the preceding derivative theorem to
+  obtain that `exp_p` is a local diffeomorphism at `0`.
+- Milestone **(a) at `p`**, written `(a_p)`, is `expDomain g p = univ`. Define pointwise geodesic
+  completeness `(d_p)` by `∀ v, J_g(p,v) = univ`, and prove `(a_p) ↔ (d_p)` via domain-aware
+  homogeneity. Global milestone **(d)** is `∀ p, (d_p)` and is not inferred in Layer 1 from one
+  base point.
 - ⚠ Read curves through the chart at the *current* point of the curve, not one global chart. The
   word "intrinsic" belongs to those chart-reading auxiliaries, **not** to `exp_p` or the
   book-numbered statements.
@@ -205,18 +238,27 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
 ### Layer 2: normal neighbourhoods, the Gauss lemma, and minimizing geodesics
 - **Normal neighbourhoods:** `exp_p` restricts to a diffeomorphism from a star-shaped
   neighbourhood of `0`, giving normal balls and normal coordinates.
-- **The Gauss lemma** and **local minimization:** inside a normal ball the radial geodesic is the
-  unique shortest path to its endpoint and realizes the distance (stated via the Layer-0 distance,
-  `pathELength γ = edist p (γ 1)`).
-- **The first variation of energy**, enough to characterize geodesics as critical points and to
-  drive the endpoint arguments of Layer 3.
-- **Minimizing geodesics from `p`** (milestone **(f)**): every `q` is joined to `p` by a curve
-  satisfying `IsGeodesicCurveOn g γ (Icc 0 1)`, `γ 0 = p`, `γ 1 = q`, and
-  `pathELength I γ 0 1 = edist p q`; its subsegments also realize distance. Do not require this
-  witness to extend to an all-time geodesic.
+- **The Gauss lemma:** prove the radial/tangential orthogonality identity for `mfderiv exp_p` and
+  its polar length inequality on a normal ball.
+- **Ball-internal radial minimization:** a radial segment from `p` minimizes length against every
+  piecewise-`C¹` competitor with the same endpoints whose image stays in the normal ball. State
+  the equality case as uniqueness of the constant-speed affinely parametrized radial geodesic,
+  and separately as uniqueness of arbitrary minimizers up to a nondecreasing surjective
+  reparametrization; pauses do not give a different unparametrized minimizer.
+- **The escape estimate and local distance identity:** shrink the normal ball and prove that every
+  competitor which leaves the larger ball is longer than the radial segment. Combining this with
+  ball-internal minimization gives the global-infimum statement
+  `pathELength I γ 0 1 = edist p (γ 1)` for radial segments in the smaller ball.
+- **The first variation of energy:** define the energy functional on `C¹` curves, smooth
+  variations with fixed endpoints, and their variation fields. Build covariant differentiation
+  in both variation directions, prove the integration-by-parts step and the first-variation
+  formula, define criticality by vanishing derivative for every fixed-endpoint variation, and
+  prove that a smooth curve is critical exactly when it is a geodesic. This milestone is part of
+  the reusable geodesic API; it is not an input to the Hopf–Rinow implication graph below.
 
 ### Layer 3: the Hopf–Rinow equivalence
-- Assemble the `TFAE` of (a)–(e) and the implication (a) ⇒ (f). Give (e) the explicit Lean form
+- For the fixed base point `p`, assemble the `TFAE` of `(a_p)`, (b), (c), global (d), and `(e_p)`,
+  together with `(a_p) ⇒ (f_p)`. Give `(e_p)` the explicit Lean form
   `∃ K : ℕ → Set M, (∀ n, IsCompact (K n)) ∧ Monotone K ∧ (⋃ n, K n) = univ ∧
   ∀ q : ℕ → M, (∀ n, q n ∉ K n) → Tendsto (fun n ↦ dist p (q n)) atTop atTop`.
   The weight is in the two directions joining metric and geodesic completeness; the rest are
@@ -224,14 +266,20 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
 - **(c) ⇔ (d):** constant speed makes a geodesic Cauchy at a finite endpoint of its maximal
   interval; metric completeness supplies the limit and a local flow extends past it, so no maximal
   interval is bounded — and conversely.
-- **(a) ⇒ (b) and (a) ⇒ (f):** with `exp_p` everywhere defined, a compactness argument on spheres
-  in `T_p M` produces a minimizing geodesic to each `q` (f) and exhibits closed balls as compact
-  images, i.e. `ProperSpace M` (b).
+- **(a_p) ⇒ (f_p):** with `exp_p` everywhere defined, every `q` is joined to `p` by a curve
+  satisfying `IsGeodesicCurveOn g γ (Icc 0 1)`, `γ 0 = p`, `γ 1 = q`, and
+  `pathELength I γ 0 1 = edist p q`; its subsegments also realize distance. Do not require this
+  witness to extend to an all-time geodesic.
+- **(a_p) ⇒ (b):** the sphere-compactness argument and the preceding minimizers exhibit closed
+  balls as compact images, i.e. `ProperSpace M`.
+- **Base-point propagation:** after proving the equivalence, state explicitly that `(a_p)` at one
+  point implies global (d), hence `(d_q)` and `(a_q)` for every `q`. This global step belongs here,
+  not in the pointwise homogeneity argument of Layer 1.
 - **(b) ⇒ (c)** is `ProperSpace.complete`; **(b) ⇔ (e)** uses the closed-ball exhaustion
   `K_n = closedBall p n`.
-- ⚠ **(f) does not imply (b).** Properness follows from (a) — all-time `exp_p` is what makes closed
-  balls compact images of Euclidean balls — *together with* (f), never from the
-  existence-of-minimizers (f) alone. Any narrative must route properness through (a).
+- ⚠ **(f_p) does not imply (b).** Properness follows from `(a_p)` — all-time `exp_p` is what makes
+  closed balls compact images of Euclidean balls — *together with* `(f_p)`, never from the
+  existence-of-minimizers `(f_p)` alone. Any narrative must route properness through `(a_p)`.
 
 ### Layer 4: corollaries and downstream theory
 - **Compact ⇒ geodesically complete** (do Carmo, Corollary 2.9), with a direct proof (a geodesic
@@ -263,12 +311,13 @@ assumption:
 
 ## Ordering
 
-Layer 0 first: the length–distance identity and the bridge unblock every completeness statement
-and settle the `Manifold.riemannianEDist` reconciliation. Layer 1 is the bulk (along-curve
-covariant differentiation, the geodesic ODE and flow, and `exp_p`) and gates the rest; within it,
-the equation and local existence come before smooth dependence, constant speed, and homogeneity,
-which come before the maximal interval and `exp_p`. Layer 2 and the two hard directions of Layer
-3 follow; the remaining implications of Layer 3 and all of Layer 4 are short.
+Layer 0 first: corner smoothing, the piecewise-`C¹`/`C¹` infimum comparison, and the distance
+bridge settle the `Manifold.riemannianEDist` convention. In Layer 1, the Levi-Civita connection and
+along-curve derivative come before the geodesic spray; the spray then feeds local existence,
+smooth dependence, constant speed, maximal intervals, and `exp_p`. The derivative of `exp_p` and
+the manifold inverse-function theorem precede Layer 2's normal neighbourhoods. Layer 2 supplies
+the local minimizing theory; the global minimizing statement (f) and the two hard completeness
+directions belong to Layer 3. The remaining implications of Layer 3 and all of Layer 4 are short.
 
 ## References
 
