@@ -69,8 +69,7 @@ non-unit-vector gap rather than duplicating `OrthogonalFamily`.
 
 ## Ordering
 
-This roadmap rests on Mathlib and on nothing else in the family, so it can be reviewed
-independently of [`PolarDecomposition`](../PolarDecomposition/README.md).
+This roadmap is independent and rests only on Mathlib.
 
 **Downstream.** [`Majorization`](../Majorization/README.md) states its rectangular
 constructions against the coordinate isometry and Gram rigidity;

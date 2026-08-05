@@ -61,7 +61,7 @@ scope and dependencies.
 | roadmap | mathematical prerequisites |
 |---|---|
 | `PolarDecomposition` | Mathlib |
-| `OrthogonalGeometry` | `PolarDecomposition` |
+| `OrthogonalGeometry` | Mathlib |
 | `Majorization` | `PolarDecomposition`, `OrthogonalGeometry` |
 | `PrincipalAngles` | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization` |
 | `SelfAdjointSpectralTheory` | `OrthogonalGeometry` |
