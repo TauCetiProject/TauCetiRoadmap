@@ -30,19 +30,25 @@ implications the equivalence turns on.
 
 ## Standing hypotheses
 
-Spell hypotheses out; do not bundle them. Work with a finite-dimensional manifold `M` over a
-`ModelWithCorners` without boundary, carrying a Riemannian metric `g`.
+Spell hypotheses out; do not bundle them. Work over a finite-dimensional real model
+(`[FiniteDimensional ℝ E]`) with the following conventions.
 
+- **Smoothness.** The manifold and its Riemannian metric are `C^∞`: use
+  `[IsManifold I ∞ M]`, `[Bundle.RiemannianBundle (fun x : M ↦ TangentSpace I x)]`, and
+  `[IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]`.
+- **No boundary** is the explicit model-space hypothesis `[I.Boundaryless]`.
+- **Topology and separation.** An existing `[EMetricSpace M]` or `[MetricSpace M]` supplies the
+  topology and its separation properties; do not add an independent `[TopologicalSpace M]`.
+  When constructing `EMetricSpace.ofRiemannianMetric` from the manifold topology, assume
+  `[T3Space M]`; the pseudo-emetric construction instead assumes `[RegularSpace M]`.
 - **Connectedness** (`[ConnectedSpace M]`) is load-bearing and stated explicitly wherever used:
   without it the distance is not finite and assertion (f) fails across components. The purely
   local geodesic theory (Layers 1–2) does not need it; the equivalence and (f) (Layers 3–4) do.
-- **Positive dimension** (`NeZero` on the model's `finrank`). The connected zero-dimensional case
-  is a one-point manifold where everything is trivial; exclude it rather than special-case it.
-- **The distance is `g`'s.** Completeness is a statement about the distance `g` induces
-  (`riemannianEDist`), so every completeness milestone carries the bridge identifying the ambient
-  `dist`/`edist` on `M` with the `g`-induced one. The preferred form takes the metric from
-  `EMetricSpace.ofRiemannianMetric`, making the bridge definitional; a bridge hypothesis is the
-  form used while an independent metric structure coexists.
+- **The ambient distance is the Riemannian distance.** Use Mathlib's
+  `[IsRiemannianManifold I M]`; its field `IsRiemannianManifold.out` identifies `edist` with
+  `riemannianEDist`. Do not introduce a private compatibility predicate. There is no
+  positive-dimension assumption: the connected zero-dimensional case remains part of the public
+  theorem.
 
 ## What Mathlib already has (consume)
 
@@ -100,8 +106,10 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   `riemannianEDist`; this is what makes every later "distance" the Mathlib one. The tools
   (piecewise length, chart-straight polygonal approximants with continuity-based length control)
   are within the metric-level API; the work is assembly.
-- **The distance-bridge predicate** identifying an ambient metric on `M` with the `g`-induced
-  distance, and the lemmas transporting completeness and boundedness across it.
+- **Distance compatibility and finiteness.** Consume `IsRiemannianManifold I M` and rewrite with
+  `IsRiemannianManifold.out`. Prove `riemannianEDist I x y ≠ ∞` on a connected manifold, then
+  expose the ordinary metric-space presentation needed by `dist`, `ProperSpace`, and
+  `CompleteSpace`; do not introduce another compatibility predicate.
 - ⚠ Do **not** grow a private `length`/`dist` theory beside `pathELength`/`riemannianEDist`;
   where the metric-level API already proves a fact, consume it.
 
@@ -172,16 +180,19 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   that `(M, d_g)` is a geodesic (length) metric space.
 - **Closed subsets inherit completeness**; closed bounded subsets are compact; the diameter
   corollaries.
-- **Transport of geodesic completeness** across isometries and along the distance bridge, so
-  downstream roadmaps (constant-curvature model spaces) apply the theory without reopening it.
+- **Transport of geodesic completeness** across isometries and through the
+  `IsRiemannianManifold` identification, so downstream roadmaps (constant-curvature model spaces)
+  apply the theory without reopening it.
 
 ## Worked examples (acceptance criteria, keeping the theory honest)
 
 Discharge these alongside the layers; they catch a vacuous equivalence or a hidden completeness
 assumption:
-- **`ℝⁿ`** (flat metric, `NeZero n`) is geodesically and metrically complete, and the minimizing
-  geodesic from `x` to `y` is the affine segment, with `pathELength = ‖x − y‖`. Both directions of
-  the equivalence are non-vacuous.
+- **`ℝⁿ`** with its flat metric is geodesically and metrically complete, including when `n = 0`,
+  and the minimizing geodesic from `x` to `y` is the affine segment, with
+  `pathELength = ‖x − y‖`. Both directions of the equivalence are non-vacuous in positive
+  dimension, while the zero-dimensional case checks that no unnecessary hypothesis leaks into
+  the public theorem.
 - **`Sⁿ`** is compact, hence geodesically complete by Layer 4, and a great-circle arc realizes the
   distance. Exercises Corollary 2.9.
 - **An open ball in `ℝⁿ` (or `ℝⁿ ∖ {0}`)** is neither geodesically nor metrically complete, and a
