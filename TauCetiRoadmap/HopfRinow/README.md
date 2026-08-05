@@ -12,7 +12,13 @@ Riemannian manifold to the global existence of its geodesics — cannot yet be s
 
 Suggested home: `TauCeti/Geometry/Manifold/Riemannian/Geodesic/`. Shared connection and
 local-diffeomorphism prerequisites belong under `TauCeti/Geometry/Manifold/`, but their delivery
-is explicitly owned by this roadmap rather than deferred to another roadmap.
+is explicitly owned by this roadmap rather than deferred to another roadmap. In particular, this
+roadmap owns the Levi-Civita connection, geodesics and their flow, exponential maps and their local
+inverse logarithms, and Hopf--Rinow. The [Geometric Topology
+roadmap](../GeometricTopology/README.md) consumes the connection to build curvature and volume;
+the [Optimal Transport roadmap](../OptimalTransport/README.md) consumes the exponential,
+logarithm, completeness, and minimizing-geodesic APIs and owns the subsequent cut-locus and
+transport-specific theory.
 
 The target is do Carmo, *Riemannian Geometry*, Chapter 7 §2, Theorem 2.8 with Corollary 2.9,
 stated under that chapter's standing assumption that `M` is **connected** (do Carmo carries this
@@ -48,11 +54,14 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
 - **Connectedness** (`[ConnectedSpace M]`) is load-bearing and stated explicitly wherever used:
   without it the distance is not finite and assertion (f) fails across components. The purely
   local geodesic theory (Layers 1–2) does not need it; the equivalence and (f) (Layers 3–4) do.
-- **The ambient distance is the Riemannian distance.** Use Mathlib's
-  `[IsRiemannianManifold I M]`; its field `IsRiemannianManifold.out` identifies `edist` with
-  `Manifold.riemannianEDist`. Do not introduce a private compatibility predicate. There is no
-  positive-dimension assumption: the connected zero-dimensional case remains part of the public
-  theorem.
+- **The ambient distance is the Riemannian distance.** For abstract theory, use an existing
+  `[EMetricSpace M]` or `[MetricSpace M]` together with `[IsRiemannianManifold I M]`; its field
+  `IsRiemannianManifold.out` identifies `edist` with `Manifold.riemannianEDist`. For construction,
+  start from the manifold topology and `[T3Space M]`, install
+  `EMetricSpace.ofRiemannianMetric`, prove global finiteness under `[ConnectedSpace M]`, and only
+  then expose the compatible ordinary `MetricSpace` structure. Do not introduce a private
+  compatibility predicate. There is no positive-dimension assumption: the connected
+  zero-dimensional case remains part of the public theorem.
 
 ## What Mathlib already has (consume)
 
@@ -93,10 +102,11 @@ Levi-Civita connection; the pullback connection and covariant differentiation al
 the geodesic spray, its smooth local flow, and maximal intervals of existence; an interval-aware
 geodesic predicate carrying its parameter set and initial data; constant speed; the exponential
 map and its domain; the manifold inverse-function theorem needed for normal coordinates; normal
-neighbourhoods, the Gauss lemma, and minimizing geodesic segments; geodesic completeness; and the
-Hopf–Rinow equivalence itself. Open-submanifold metric restriction and metric-level length-space
-and geodesic-space interfaces are also missing. The roadmap must consume the general connection,
-torsion, ODE, and integral-curve APIs above while building these results.
+neighbourhoods and their local inverse logarithms, the Gauss lemma, and minimizing geodesic
+segments; geodesic completeness; and the Hopf–Rinow equivalence itself. Open-submanifold metric
+restriction and metric-level length-space and geodesic-space interfaces are also missing. The
+roadmap must consume the general connection, torsion, ODE, and integral-curve APIs above while
+building these results.
 
 ## Prior art and coordination
 
@@ -176,10 +186,13 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   `U`. For a convex open subset of a finite-dimensional real inner-product space, prove that the
   resulting Riemannian distance agrees with the ambient norm distance. This owned target is what
   makes the open-unit-ball acceptance example below expressible.
-- **Distance compatibility and finiteness.** Consume `IsRiemannianManifold I M` and rewrite with
-  `IsRiemannianManifold.out`. Prove `Manifold.riemannianEDist I x y ≠ ∞` on a connected manifold,
-  then expose the ordinary metric-space presentation needed by `dist`, `ProperSpace`, and
-  `CompleteSpace`; do not introduce another compatibility predicate.
+- **Distance compatibility and finiteness.** Starting with the extended metric supplied by
+  `EMetricSpace.ofRiemannianMetric`, prove
+  `Manifold.riemannianEDist I x y ≠ ∞` on a connected manifold. Only after this theorem, construct
+  the compatible ordinary metric-space presentation needed by `dist`, `ProperSpace`, and
+  `CompleteSpace`. For results stated against an existing metric, consume
+  `IsRiemannianManifold I M` and rewrite with `IsRiemannianManifold.out`; do not introduce another
+  compatibility predicate.
 - ⚠ Do **not** grow a private `length`/`dist` theory beside
   `Manifold.pathELength`/`Manifold.riemannianEDist`;
   where the metric-level API already proves a fact, consume it.
@@ -251,8 +264,11 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   book-numbered statements.
 
 ### Layer 2: normal neighbourhoods, the Gauss lemma, and minimizing geodesics
-- **Normal neighbourhoods:** `exp_p` restricts to a diffeomorphism from a star-shaped
-  neighbourhood of `0`, giving normal balls and normal coordinates.
+- **Normal neighbourhoods and the local logarithm:** `exp_p` restricts to a diffeomorphism from a
+  star-shaped neighbourhood of `0`, giving normal balls and normal coordinates. Define `log_p` on
+  the resulting neighbourhood of `p` as this restriction's inverse, with its domain in the type or
+  in every theorem. Prove smoothness, `log_p p = 0`, and the two inverse identities there. Do not
+  introduce a global single-valued logarithm across the cut locus.
 - **The Gauss lemma:** prove the radial/tangential orthogonality identity for `mfderiv exp_p` and
   its polar length inequality on a normal ball.
 - **Ball-internal radial minimization:** a radial segment from `p` minimizes length against every
@@ -324,8 +340,9 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   every `x y`, of a constant-speed segment `γ` on `[0,1]` satisfying
   `dist (γ s) (γ t) = |s - t| * dist x y`. Prove separately that geodesic spaces are length spaces
   and that a complete connected Riemannian manifold is both, using `(f_p)` and the Layer-0 length
-  comparison. Coordinate names and reuse with the Lean Zulip metric-geometry discussion before
-  upstreaming this shared API; this roadmap owns delivery if no upstream definition lands.
+  comparison. Coordinate names and reuse with [Evan Bailey's Lean Zulip metric-length
+  proposal](https://leanprover-community.github.io/archive/stream/113489-new-members/topic/Evan.20Bailey.20%28self-introduction%29.html#476429541)
+  before upstreaming this shared API; this roadmap owns delivery if no upstream definition lands.
 - **Transport of geodesic completeness** across isometries and through the
   `IsRiemannianManifold` identification, so downstream roadmaps (constant-curvature model spaces)
   apply the theory without reopening it.
@@ -348,13 +365,14 @@ assumption:
 ## Ordering
 
 Layer 0 first: corner smoothing, open-submanifold restriction, the piecewise-`C¹`/`C¹` infimum
-comparison, and the distance bridge settle the metric convention. In Layer 1, the Levi-Civita
+comparison, global finiteness of the extended distance, and only then the ordinary metric-space
+presentation settle the metric convention. In Layer 1, the Levi-Civita
 connection and along-curve derivative come before the geodesic spray; the spray then feeds local
 existence, smooth dependence, constant speed, maximal intervals, the finite-endpoint extension
 criterion, and `exp_p`. The derivative of `exp_p` and the manifold inverse-function theorem
-precede Layer 2's normal neighbourhoods. Layer 2 supplies the local minimizing theory. Layer 3
-closes the explicit Hopf–Rinow implication graph, and Layer 4 packages its corollaries and the
-shared metric length/geodesic-space API.
+precede Layer 2's normal neighbourhoods and local logarithms. Layer 2 supplies the local minimizing
+theory. Layer 3 closes the explicit Hopf–Rinow implication graph, and Layer 4 packages its
+corollaries and the shared metric length/geodesic-space API.
 
 ## References
 
