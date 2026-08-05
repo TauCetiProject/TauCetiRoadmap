@@ -74,9 +74,9 @@ Why this is the right foundation, and a cheap one:
 
 - **Nonconstancy is free.** A `K`-algebra map between the function fields is injective, and
   automatically **finite** (both sides have transcendence degree `1` over `K`), so an `Isogeny`
-  is a *nonzero* isogeny by construction. The zero morphism enters only in the Layer-1 hom
-  carrier (§Layer 1), as the honest zero map of its coordinate-ring presentation (Buzzard,
-  review) — not by a `WithZero` adjunction.
+  is a *nonzero* isogeny by construction. The zero map is adjoined only where hom-groups need
+  it (§Layer 1: `WithZero`, with Buzzard's coordinate-ring presentation recorded as the agreed
+  refactor target).
 - **Degree and separability are field theory.** `deg φ` is `Module.finrank` of
   `W₁.FunctionField` over the pulled-back copy of `W₂.FunctionField`; the separable and
   inseparable degrees, and separability of `φ`, are those of the field extension — Mathlib's
@@ -392,7 +392,7 @@ being distributed as bookkeeping. Its milestones:
   every fibre over an affine point has `deg φ` points with multiplicity, and translation
   moves the kernel fibre onto one — is the alternate route Layers 2–3 may take.
 - **The standard isogenies: `[n]`, fully specified.** `[n] : Hom(E, E)` is defined for every
-  `n : ℤ`, with `[0]` the carrier's zero map and `[n]` an `Isogeny` for `n ≠ 0`. The `x`-coordinate
+  `n : ℤ`, with `[0]` the adjoined zero and `[n]` an `Isogeny` for `n ≠ 0`. The `x`-coordinate
   alone does not determine the map (`[n]` and `[−n]` share it), so the definition fixes
   **both pullbacks**: either the complete `x`- and `y`-pullback formulas, or the
   function-field map manufactured from the rational group-law addition formulas, with the
@@ -416,28 +416,27 @@ being distributed as bookkeeping. Its milestones:
   (AEC II.2.12); and **Verschiebung** `V` as the dual of relative Frobenius, with
   `V ∘ F = [p]` and `F ∘ V = [p]`. The dual construction and the finite-field theory below
   consume every one of these.
-- **The hom-group and the degree form.** `Hom(W₁, W₂)`: the isogenies together with zero —
-  the carrier is **pinned as the conditioned coordinate-ring presentation** (Buzzard, review
-  — adopted): an element is a map `R(W₂) → K(W₁)` out of the affine ring that is either the
-  zero map or an `F`-algebra map satisfying the maps-infinity-to-infinity condition of the
-  isogeny definition. The zero morphism is the honest zero map, present for every pair of
-  curves with nothing adjoined artificially; a nonzero element is conditioned, hence
-  injective (a maximal kernel would force `x`, which has a pole at `O₁`, to be integral over
-  the constants), and extends uniquely across the fraction field to exactly an `Isogeny` —
-  so the nonzero fibre of the carrier *is* the isogeny structure of the foundations, and the
-  shared upstream development is consumed unchanged. The **degree form** is uniform: `deg`
-  is the dimension of `K(W₁)` over the fraction field of the image of `R(W₂)` — for an
-  isogeny that fraction field is the pulled-back copy of `K(W₂)`, recovering the finrank
-  degree of the foundations, and on the zero map it reads `0` with no convention needed. The
+- **The hom-group and the degree form.** `Hom(W₁, W₂)`: the isogenies with a zero adjoined —
+  the carrier is **pinned as `WithZero (Isogeny W₁ W₂)`** for the present development
+  (definitionally `Option`, so the `WithZero`/`Option` API is reused and no bespoke inductive
+  or recursor is introduced), with **Buzzard's conditioned coordinate-ring presentation
+  adopted in review as the agreed refactor target**: there an element is a map
+  `R(W₂) → K(W₁)` out of the affine ring that is either the zero map or an `F`-algebra map
+  satisfying the maps-infinity-to-infinity condition of the isogeny definition — the zero
+  morphism is the honest zero map rather than an adjoined symbol; a nonzero element is
+  conditioned, hence injective (a maximal kernel would force `x`, which has a pole at `O₁`,
+  to be integral over the constants), and extends uniquely across the fraction field to
+  exactly an `Isogeny`; and the degree form is uniform — the dimension of `K(W₁)` over the
+  fraction field of the image of `R(W₂)`, the finrank degree on an isogeny, reading `0` on
+  the zero map with no convention. The two carriers are canonically equivalent (`0` ↦ the
+  zero map, `φ` ↦ `φ.pullback` restricted to `R(W₂)`), so the pin can be flipped later
+  without disturbing the formalised material — that equivalence is the recorded migration
+  path, and the shared upstream development is consumed unchanged under either carrier. The
   *unconditioned* form — all `K`-algebra homs `R(W₂) → K(W₁)`, in the hope of treating `0`
   uniformly without the condition — remains rejected: such homs are exactly the dominant
   maps *plus the evaluations at affine points*, so they adjoin every constant map except the
-  wanted constant-at-`O₂`, where `x` has a pole. The previous pin, `WithZero (Isogeny W₁ W₂)`
-  — the shape parts of the formalised material were built against — is canonically
-  equivalent (`0` ↦ the zero map, `φ` ↦ `φ.pullback` restricted to `R(W₂)`); that
-  equivalence is the migration path, which is why the switch is cheap (review agreement).
-  The layer's real content is unchanged either way: the `AddCommGroup` instance on the
-  carrier — the theorem that the **pointwise sum of
+  wanted constant-at-`O₂`, where `x` has a pole. The layer's real content is the same under
+  either carrier: the `AddCommGroup` instance — the theorem that the **pointwise sum of
   isogenies is an isogeny or zero**: its pullback is
   manufactured from the same rational addition formulas Mathlib's group law is proved by — this
   is what makes `Hom` an additive group and `End(E)` a ring containing the subring
