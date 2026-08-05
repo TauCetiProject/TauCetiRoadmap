@@ -74,8 +74,9 @@ Why this is the right foundation, and a cheap one:
 
 - **Nonconstancy is free.** A `K`-algebra map between the function fields is injective, and
   automatically **finite** (both sides have transcendence degree `1` over `K`), so an `Isogeny`
-  is a *nonzero* isogeny by construction. The zero map is adjoined only where hom-groups need it
-  (Layer 1).
+  is a *nonzero* isogeny by construction. The zero morphism enters only in the Layer-1 hom
+  carrier (§Layer 1), as the honest zero map of its coordinate-ring presentation (Buzzard,
+  review) — not by a `WithZero` adjunction.
 - **Degree and separability are field theory.** `deg φ` is `Module.finrank` of
   `W₁.FunctionField` over the pulled-back copy of `W₂.FunctionField`; the separable and
   inseparable degrees, and separability of `φ`, are those of the field extension — Mathlib's
@@ -175,7 +176,7 @@ Suggested home: `TauCeti/AlgebraicGeometry/EllipticCurve/` (mirroring Mathlib's 
   `O₂` may, and for nontrivial kernels does, contain other points). Every such map is
   injective and automatically **finite**, so an `Isogeny` is a *nonzero* isogeny by
   construction; `deg φ` is `Module.finrank`, and (in)separability is that of the field
-  extension. The zero map is not an `Isogeny`: hom-groups adjoin it explicitly (§Layer 1), and
+  extension. The zero map is not an `Isogeny`: it is the Layer-1 hom carrier's zero (§Layer 1), and
   no statement quantifies over "isogenies including zero" implicitly. The induced map on
   `Point` is `toPointHom`, through the class group (§Layer 1); the place dictionary (§Layer 0)
   is its geometric reading.
@@ -391,7 +392,7 @@ being distributed as bookkeeping. Its milestones:
   every fibre over an affine point has `deg φ` points with multiplicity, and translation
   moves the kernel fibre onto one — is the alternate route Layers 2–3 may take.
 - **The standard isogenies: `[n]`, fully specified.** `[n] : Hom(E, E)` is defined for every
-  `n : ℤ`, with `[0]` the adjoined zero and `[n]` an `Isogeny` for `n ≠ 0`. The `x`-coordinate
+  `n : ℤ`, with `[0]` the carrier's zero map and `[n]` an `Isogeny` for `n ≠ 0`. The `x`-coordinate
   alone does not determine the map (`[n]` and `[−n]` share it), so the definition fixes
   **both pullbacks**: either the complete `x`- and `y`-pullback formulas, or the
   function-field map manufactured from the rational group-law addition formulas, with the
@@ -415,22 +416,28 @@ being distributed as bookkeeping. Its milestones:
   (AEC II.2.12); and **Verschiebung** `V` as the dual of relative Frobenius, with
   `V ∘ F = [p]` and `F ∘ V = [p]`. The dual construction and the finite-field theory below
   consume every one of these.
-- **The hom-group and the degree form.** `Hom(W₁, W₂)`: the isogenies with a zero adjoined —
-  the carrier is **pinned as `WithZero (Isogeny W₁ W₂)`** (review: settled by convention, not
-  left to the implementer — definitionally `Option`, so the `WithZero`/`Option` API is reused
-  and no bespoke inductive or recursor is introduced. A reviewed alternative in
-  *unconditioned* form — all `K`-algebra homs `R(W₂) → K(W₁)` out of the affine ring, in
-  the hope of treating `0` uniformly — is recorded as rejected: such homs are exactly the
-  dominant maps *plus the evaluations at affine points*, so they adjoin every constant map
-  except the wanted constant-at-`O₂`, where `x` has a pole. A conditioned variant works
-  (Buzzard, review): keep the maps-infinity-to-infinity condition of the isogeny
-  definition, take the source to be the coordinate ring `R(W₂)` and the target the
-  function field `K(W₁)`, and admit the map through the ground field as the zero element;
-  the degree is then the dimension of `K(W₁)` over the fraction field of the image of
-  `R(W₂)`, and nothing is adjoined artificially. The pin stands because the present
-  development is formalised against `WithZero`; the conditioned variant is the recorded
-  route should the carrier ever be refactored. The layer's real content is the
-  `AddCommGroup` instance on it). That content is the theorem that the **pointwise sum of
+- **The hom-group and the degree form.** `Hom(W₁, W₂)`: the isogenies together with zero —
+  the carrier is **pinned as the conditioned coordinate-ring presentation** (Buzzard, review
+  — adopted): an element is a map `R(W₂) → K(W₁)` out of the affine ring that is either the
+  zero map or an `F`-algebra map satisfying the maps-infinity-to-infinity condition of the
+  isogeny definition. The zero morphism is the honest zero map, present for every pair of
+  curves with nothing adjoined artificially; a nonzero element is conditioned, hence
+  injective (a maximal kernel would force `x`, which has a pole at `O₁`, to be integral over
+  the constants), and extends uniquely across the fraction field to exactly an `Isogeny` —
+  so the nonzero fibre of the carrier *is* the isogeny structure of the foundations, and the
+  shared upstream development is consumed unchanged. The **degree form** is uniform: `deg`
+  is the dimension of `K(W₁)` over the fraction field of the image of `R(W₂)` — for an
+  isogeny that fraction field is the pulled-back copy of `K(W₂)`, recovering the finrank
+  degree of the foundations, and on the zero map it reads `0` with no convention needed. The
+  *unconditioned* form — all `K`-algebra homs `R(W₂) → K(W₁)`, in the hope of treating `0`
+  uniformly without the condition — remains rejected: such homs are exactly the dominant
+  maps *plus the evaluations at affine points*, so they adjoin every constant map except the
+  wanted constant-at-`O₂`, where `x` has a pole. The previous pin, `WithZero (Isogeny W₁ W₂)`
+  — the shape parts of the formalised material were built against — is canonically
+  equivalent (`0` ↦ the zero map, `φ` ↦ `φ.pullback` restricted to `R(W₂)`); that
+  equivalence is the migration path, which is why the switch is cheap (review agreement).
+  The layer's real content is unchanged either way: the `AddCommGroup` instance on the
+  carrier — the theorem that the **pointwise sum of
   isogenies is an isogeny or zero**: its pullback is
   manufactured from the same rational addition formulas Mathlib's group law is proved by — this
   is what makes `Hom` an additive group and `End(E)` a ring containing the subring

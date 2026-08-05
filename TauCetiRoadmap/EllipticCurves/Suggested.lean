@@ -96,7 +96,9 @@ separability is that of the field extension, and multiplicativity of `deg` under
 is the tower formula — field theory Mathlib already has; the induced point map goes through
 the intermediate ring (the integral closure of `W₂.CoordinateRing` in `W₁.FunctionField`)
 by ideal extension and relative norm, making it additive by construction. The hom-group
-(carrier pinned as `WithZero (Isogeny W₁ W₂)`) and the quadraticity of the degree, the
+(carrier: the conditioned coordinate-ring presentation of `README.md` §Layer 1 — zero map or
+maps-infinity `F`-algebra map `R(W₂) → K(W₁)`, Buzzard's review form, canonically equivalent
+to the previous `WithZero (Isogeny W₁ W₂)` packaging) and the quadraticity of the degree, the
 `CMStructure`/`HasCM` on `End`, the dual isogeny with
 `φ̂ ∘ φ = [deg φ]`, `deg [n] = n²` via the division polynomials, the invariant differential
 `ω` in `Ω[W.FunctionField⁄K]` with `φ^* = KaehlerDifferential.map`, and the
@@ -158,7 +160,8 @@ def FunctionFieldPullback.MapsInfinity {W₁ W₂ : WeierstrassCurve.Affine F}
 /-- **The function-field data of an isogeny** (AEC II.2.4-shape; D. Angdinata's definition).
 An `Isogeny` is automatically nonzero (`pullback` is a map of fields) and finite
 (`Isogeny.finiteDimensional`), so "isogeny" means *nonzero* isogeny by construction; the
-hom-group adjoining zero is `README.md` §Layer 1. -/
+hom-group carrier — zero map or conditioned coordinate-ring map, `README.md` §Layer 1 —
+contains zero canonically rather than adjoining it. -/
 structure Isogeny (W₁ W₂ : WeierstrassCurve.Affine F) where
   /-- The contravariant function-field map. -/
   pullback : FunctionFieldPullback W₁ W₂
