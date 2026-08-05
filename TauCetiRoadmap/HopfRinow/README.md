@@ -1,13 +1,14 @@
 # Roadmap: geodesics, the exponential map, and the Hopf–Rinow theorem
 
-Mathlib's Riemannian library reaches the metric-and-distance level: a Riemannian metric induces
-`riemannianEDist` and, through `EMetricSpace.ofRiemannianMetric`, an (extended) metric space
-(`Mathlib/Geometry/Manifold/Riemannian/Basic.lean`), with path length in
-`Mathlib/Geometry/Manifold/Riemannian/PathELength.lean`. It **stops there**: there is no geodesic
-as a solution of the geodesic equation, no exponential map, and no notion of geodesic
-completeness, so the Hopf–Rinow theorem — which ties metric completeness of a Riemannian
-manifold to the global existence of its geodesics — cannot even be stated. We build that theory
-here.
+Mathlib's Riemannian library has the metric-and-distance layer: `RiemannianBundle`,
+`IsRiemannianManifold`, and `EMetricSpace.ofRiemannianMetric` live in
+`Mathlib/Geometry/Manifold/Riemannian/Basic.lean`, while `Manifold.pathELength` and
+`Manifold.riemannianEDist` live in `Mathlib/Geometry/Manifold/Riemannian/PathELength.lean`.
+Mathlib also has general covariant derivatives and their torsion. What remains is the
+Riemannian connection-and-geodesic layer: metric compatibility and the Levi-Civita theorem,
+covariant differentiation along curves, geodesics and their flow, the exponential map, and
+geodesic completeness. Without that layer, Hopf–Rinow — which ties metric completeness of a
+Riemannian manifold to the global existence of its geodesics — cannot yet be stated.
 
 Suggested home: `TauCeti/Geometry/Manifold/Riemannian/Geodesic/`.
 
@@ -46,7 +47,7 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
   local geodesic theory (Layers 1–2) does not need it; the equivalence and (f) (Layers 3–4) do.
 - **The ambient distance is the Riemannian distance.** Use Mathlib's
   `[IsRiemannianManifold I M]`; its field `IsRiemannianManifold.out` identifies `edist` with
-  `riemannianEDist`. Do not introduce a private compatibility predicate. There is no
+  `Manifold.riemannianEDist`. Do not introduce a private compatibility predicate. There is no
   positive-dimension assumption: the connected zero-dimensional case remains part of the public
   theorem.
 
@@ -55,41 +56,85 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
 - **Manifolds and tangent bundles.** `ModelWithCorners`, `IsManifold`, `TangentBundle`,
   `TangentSpace`, `ContMDiff`, `mfderiv`, charts/`extChartAt`
   (`Mathlib/Geometry/Manifold/`).
-- **The metric-level Riemannian API.** `RiemannianBundle`, `IsRiemannianManifold`,
-  `riemannianEDist`, `EMetricSpace.ofRiemannianMetric`
-  (`Mathlib/Geometry/Manifold/Riemannian/Basic.lean`), and path length
-  (`.../Riemannian/PathELength.lean`) — the substrate every layer builds on.
+- **The metric-level Riemannian API.** `RiemannianBundle`, `IsRiemannianManifold`, and
+  `EMetricSpace.ofRiemannianMetric` (`Mathlib/Geometry/Manifold/Riemannian/Basic.lean`), together
+  with `Manifold.pathELength` and `Manifold.riemannianEDist`
+  (`Mathlib/Geometry/Manifold/Riemannian/PathELength.lean`). The latter is defined as the infimum
+  of lengths of `C^1` paths and is the distance object Layer 0 must reconcile with the piecewise
+  `C^1` formulation.
+- **General covariant derivatives.** `IsCovariantDerivativeOn`, the bundled
+  `CovariantDerivative`, `ContMDiffCovariantDerivative`, and the difference of two connections
+  as an endomorphism-valued one-form
+  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.lean`), together with the
+  torsion tensor and `CovariantDerivative.torsion_eq_zero_iff`
+  (`.../CovariantDerivative/Torsion.lean`).
 - **Completeness and properness.** `CompleteSpace`, `ProperSpace` (with `ProperSpace.complete`),
   `Metric.isCompact_iff_isClosed_bounded`, Cauchy/total-boundedness API
   (`Mathlib/Topology/MetricSpace/`, `.../EMetricSpace/`). (b) is `ProperSpace M`; (c) is
   `CompleteSpace M`.
-- **ODE theory.** Picard–Lindelöf existence/uniqueness and `C^k` dependence of flows on initial
-  conditions (`Mathlib/Analysis/ODE/`), consumed for the geodesic equation after its reduction to
-  a first-order system on `TM`.
+- **ODE estimates and local solutions.** `Mathlib/Analysis/ODE/` supplies Picard–Lindelöf local
+  existence, `ODE_solution_unique*`, Gronwall estimates, and Lipschitz dependence on initial
+  conditions. It does not yet supply `C^k` dependence, flows, or maximal intervals.
+- **Integral curves on manifolds.** `IsIntegralCurve`, existence and uniqueness, transformation
+  lemmas, and a uniform-time theorem for local integral curves
+  (`Mathlib/Geometry/Manifold/IntegralCurve/{Basic,ExistUnique,Transform,UniformTime}.lean`). The
+  geodesic spray should be connected to this API rather than developed solely in model-space ODE
+  terms.
 
 ## What is missing (build here)
 
-The Levi-Civita connection and covariant derivative along a curve; an interval-aware geodesic
-predicate carrying its parameter set and initial data; the geodesic equation and its solutions;
-constant speed; maximal intervals of existence; the exponential map and its domain; normal
-neighbourhoods, the Gauss lemma, and minimizing geodesic segments; geodesic completeness; and the
-Hopf–Rinow equivalence itself. None of this is upstream.
+Metric compatibility for a covariant derivative and existence and uniqueness of the
+Levi-Civita connection; the pullback connection and covariant differentiation along a curve;
+the geodesic spray, its smooth local flow, and maximal intervals of existence; an interval-aware
+geodesic predicate carrying its parameter set and initial data; constant speed; the exponential
+map and its domain; normal neighbourhoods, the Gauss lemma, and minimizing geodesic segments;
+geodesic completeness; and the Hopf–Rinow equivalence itself. The roadmap must consume the
+general connection, torsion, ODE, and integral-curve APIs above while building these specifically
+Riemannian results.
 
 ## Prior art and coordination
 
-There is active Mathlib work on the substrate this roadmap needs. In particular,
-leanprover-community/mathlib4#36036 is the placeholder PR coordinating ongoing work on
-connections and geodesics, and leanprover-community/mathlib4#36845 develops the Levi-Civita
-connection on a manifold. Tau Ceti work on this roadmap should cite those PRs, follow the
-conventions that emerge there, and treat any overlapping local definitions as temporary shims to
-delete or refactor once the Mathlib versions land.
+There is active Mathlib work on the substrate this roadmap needs:
 
-The author has related Lean material in `~/Poincare-Conjecture`, especially the DoCarmo and
-Petersen developments around connections, geodesics, exponential maps, and Hopf–Rinow. Its
-interval-aware geodesics, explicit initial data, maximal intervals, and intrinsic exponential
-domain ground the target shapes below. That code is prior art rather than a Tau Ceti dependency:
-implementors should port the ideas to the connection API that lands in Mathlib or Tau Ceti and
-prove the chart geodesic equation equivalent to covariant acceleration vanishing.
+- [mathlib4#36036](https://github.com/leanprover-community/mathlib4/pull/36036) coordinates work
+  on connections and geodesics, and
+  [mathlib4#36845](https://github.com/leanprover-community/mathlib4/pull/36845) develops the
+  Levi-Civita connection on a manifold.
+- [mathlib4#26413](https://github.com/leanprover-community/mathlib4/pull/26413) develops maximal
+  solutions under Picard–Lindelöf hypotheses,
+  [mathlib4#26394](https://github.com/leanprover-community/mathlib4/pull/26394) develops local
+  flows on manifolds, and
+  [mathlib4#40062](https://github.com/leanprover-community/mathlib4/pull/40062) restates ODE
+  existence and uniqueness through the integral-curve API.
+
+These are in-flight dependencies, not facts to assume from the pinned Mathlib. Before beginning
+the overlapping milestones, check their status, follow any API that has landed, coordinate with
+their authors, and keep unavoidable local definitions as temporary shims to remove after
+upstreaming.
+
+### Existing implementation provenance (secondary)
+
+The author's public
+[`frenzymath/Poincare-Conjecture`](https://github.com/frenzymath/Poincare-Conjecture) repository
+is licensed under Apache-2.0 and contains a Hopf–Rinow development. It is prior art rather than a
+Tau Ceti dependency or specification: the mathematical milestones below are intrinsic, and the
+Tau Ceti API must be reviewed against current Mathlib rather than copied wholesale. The relevant
+provenance under `formalized-sources/DoCarmo/` is concentrated in:
+
+- `DoCarmoLib/Riemannian/Geodesic/CovariantDerivative.lean`, `Equation.lean`, and
+  `Existence.lean` for along-curve differentiation and the geodesic equation;
+- `DoCarmoLib/Riemannian/Geodesic/FlowCInftyDependence.lean` and `MaximalInterval.lean` for flow
+  regularity and maximal domains;
+- `DoCarmoLib/Riemannian/Exponential/{Defs,Intrinsic}.lean` for the exponential map and its
+  interval-aware domain; and
+- `DoCarmoLib/Riemannian/Geodesic/{Completeness,HopfRinow}.lean` for completeness and the
+  headline theorem.
+
+Coordination outcome for this roadmap PR: the roadmap author also owns that repository and agrees
+that it may be used as prior art and adapted under Apache-2.0; no source from it is being
+integrated or copied in this PR. Before a later implementation ports or adapts it, the implementor
+must coordinate with the Mathlib contributors, record the source revision and Apache-2.0
+attribution, and agree which parts should instead be replaced by the upstream work listed above.
 
 ---
 
@@ -103,32 +148,47 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   under monotone reparametrization, constant-speed reparametrization, lower semicontinuity under
   uniform limits. State it through Mathlib's `pathELength` where possible.
 - **The length–distance identity.** do Carmo's infimum over piecewise-`C¹` curves equals
-  `riemannianEDist`; this is what makes every later "distance" the Mathlib one. The tools
+  `Manifold.riemannianEDist`; this is what makes every later "distance" the Mathlib one. The tools
   (piecewise length, chart-straight polygonal approximants with continuity-based length control)
   are within the metric-level API; the work is assembly.
 - **Distance compatibility and finiteness.** Consume `IsRiemannianManifold I M` and rewrite with
-  `IsRiemannianManifold.out`. Prove `riemannianEDist I x y ≠ ∞` on a connected manifold, then
-  expose the ordinary metric-space presentation needed by `dist`, `ProperSpace`, and
+  `IsRiemannianManifold.out`. Prove `Manifold.riemannianEDist I x y ≠ ∞` on a connected manifold,
+  then expose the ordinary metric-space presentation needed by `dist`, `ProperSpace`, and
   `CompleteSpace`; do not introduce another compatibility predicate.
-- ⚠ Do **not** grow a private `length`/`dist` theory beside `pathELength`/`riemannianEDist`;
+- ⚠ Do **not** grow a private `length`/`dist` theory beside
+  `Manifold.pathELength`/`Manifold.riemannianEDist`;
   where the metric-level API already proves a fact, consume it.
 
 ### Layer 1: the geodesic equation, the flow, and the exponential map
+- **The Levi-Civita connection:** define metric compatibility for Mathlib's bundled
+  `CovariantDerivative` and prove existence and uniqueness of the torsion-free,
+  metric-compatible connection. Reuse `CovariantDerivative.torsion_eq_zero_iff`; consume
+  mathlib4#36845 if it lands first.
+- **Covariant derivative along a curve:** construct the pullback of a covariant derivative along
+  `γ` and its action on sections of `γ*TM`. Establish linearity, the Leibniz rule, locality under
+  restriction, naturality under reparametrization, agreement with the ambient derivative for a
+  pulled-back vector field, and the chart formula. Specialize it to the velocity field to define
+  covariant acceleration. This is the API through which the connection-based geodesic predicate
+  is stated.
 - **`IsGeodesicCurveOn g γ s`:** `γ` is continuous on the parameter set `s`, and its velocity has
   vanishing covariant derivative there for the Levi-Civita connection of `g`. Define the all-time
   abbreviation only as the `s = univ` specialization. In a chart this is the second-order geodesic
   ODE with the Christoffel symbols; prove the chart form equivalent to the connection-based
-  definition. (Needs the Levi-Civita connection — built here or in a shared connection home; see
-  the Geometric Topology roadmap's curvature layer for the same substrate.)
+  definition. Use the Levi-Civita connection milestone above, shared with the Geometric Topology
+  roadmap's curvature layer.
 - **Initial data:** package `γ 0 = p`, velocity `γ'(0) = v`, and
   `IsGeodesicCurveOn g γ s` in a real predicate; the initial velocity may not be an unused binder.
-- **Local existence, uniqueness, smooth dependence** of the geodesic from `(p, v)` on an open
-  interval containing `0`, consumed from Mathlib's ODE flow theory after reducing to a first-order
-  system on `TM`. State uniqueness on the overlap of two such intervals.
+- **Local existence and uniqueness** of the geodesic from `(p, v)` on an open interval containing
+  `0`: define the geodesic spray on `TM`, use Mathlib's manifold integral-curve API, and prove
+  uniqueness on the overlap of two such intervals.
+- **Smooth dependence and the local geodesic flow:** prove `C^∞` dependence on time and initial
+  data and package the resulting local flow on `TM`. This is a target, not a theorem available in
+  the pinned ODE library; consume mathlib4#26394 and mathlib4#40062 if their APIs land first.
 - **Constant speed** (`‖γ'‖_g` is constant — the connection is metric): the lemma that makes a
   geodesic Cauchy at a finite endpoint of its interval.
-- **Maximal interval and homogeneity:** define the maximal open interval `J_g(p,v)` from genuine
-  geodesic witnesses with initial data `(p,v)`. State
+- **Maximal interval and homogeneity:** using the preceding local theory (and mathlib4#26413 if it
+  lands first), define the maximal open interval `J_g(p,v)` from genuine geodesic witnesses with
+  initial data `(p,v)`. State
   `γ_{p,λv}(t) = γ_{p,v}(λt)` only when the corresponding times belong to their maximal intervals,
   together with the precise relation between those domains.
 - **Exponential map:** define `expDomain g p = {v | 1 ∈ J_g(p,v)}` and
@@ -204,11 +264,11 @@ assumption:
 ## Ordering
 
 Layer 0 first: the length–distance identity and the bridge unblock every completeness statement
-and settle the `riemannianEDist` reconciliation. Layer 1 is the bulk (the geodesic ODE theory and
-`exp_p`) and gates the rest; within it, the equation and local existence come before constant
-speed and homogeneity, which come before the maximal interval and `exp_p`. Layer 2 and the two
-hard directions of Layer 3 follow; the remaining implications of Layer 3 and all of Layer 4 are
-short.
+and settle the `Manifold.riemannianEDist` reconciliation. Layer 1 is the bulk (along-curve
+covariant differentiation, the geodesic ODE and flow, and `exp_p`) and gates the rest; within it,
+the equation and local existence come before smooth dependence, constant speed, and homogeneity,
+which come before the maximal interval and `exp_p`. Layer 2 and the two hard directions of Layer
+3 follow; the remaining implications of Layer 3 and all of Layer 4 are short.
 
 ## References
 
