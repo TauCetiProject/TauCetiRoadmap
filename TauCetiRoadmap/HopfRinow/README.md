@@ -14,7 +14,7 @@ Suggested home: `TauCeti/Geometry/Manifold/Riemannian/Geodesic/`.
 The target is do Carmo, *Riemannian Geometry*, Chapter 7 §2, Theorem 2.8 with Corollary 2.9,
 stated under that chapter's standing assumption that `M` is **connected** (do Carmo carries this
 as a chapter convention rather than in the theorem line; it is load-bearing — see Standing
-hypotheses). Verbatim:
+hypotheses). Paraphrased in the roadmap's normalized notation:
 
 > Let `M` be a (connected) Riemannian manifold and let `p ∈ M`. The following assertions are
 > equivalent: **(a)** `exp_p` is defined on all of `T_p M`; **(b)** the closed and bounded sets of
