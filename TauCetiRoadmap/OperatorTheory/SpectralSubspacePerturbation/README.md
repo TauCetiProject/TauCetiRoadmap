@@ -91,7 +91,7 @@ TauCeti/Analysis/Operator/Perturbation/
   `OrthonormalBasis`, `LinearMap.IsSymmetric.eigenvectorBasis` and `eigenvalues`,
   `Module.finrank`, `WithLp 2 (E × F)`, `lp`.
 
-The spectral predicates, norms, angle operators, Hilbert–Schmidt space and unbounded spectral
+The spectral predicates, norms, angle operators and unbounded spectral
 theory come from the sibling roadmaps itemized under *Dependency ordering*. Everything
 below is absent upstream.
 
@@ -161,7 +161,7 @@ consumes.
 **Objects.** The Sylvester operator `X ↦ A X − X B` on rectangular maps; the gap taxonomy of
 the generality bar; the domain-aware Sylvester equation on `LinearPMap`, consumed from
 `SelfAdjointSpectralTheory`, which owns the transport statement and excludes the estimates to
-here; and the **Sylvester flow** `W t Z = U_A(t) ∘ Z ∘ U_B(t)⋆` on the Hilbert–Schmidt space.
+here.
 
 **API to develop.**
 
@@ -310,7 +310,7 @@ for statement comparison only, its repository terms being incompatible.
 
 **Internal.** Part A is independent and independently submittable. Part B consumes Part A for
 the constant; Part C consumes Part B; Part D consumes Part C. Within Part B the finite core,
-the dimension-free bounds and the flow can proceed in parallel once their external inputs
+the dimension-free bounds can proceed in parallel once their external inputs
 exist; within Part C the dimension-free layer precedes the finite spectral forms.
 
 **External.**

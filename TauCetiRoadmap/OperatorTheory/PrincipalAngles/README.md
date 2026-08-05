@@ -141,7 +141,7 @@ unconditional bound, which is false. Proved around a point of the permutation-or
 with membership discharged from Birkhoff and not from the
 [`Majorization`](../Majorization/README.md) engine.
 
-### Part C — Gram rigidity, projections, and spectral subspaces
+### Part C — the projection gap and spectral subspaces
 
 The vocabulary the perturbation theory is stated in, and the one sharp identity that
 vocabulary exists for:
@@ -156,41 +156,24 @@ Without it a development loses a factor of two or carries a rank condition throu
 statement. The proof is the block decomposition `(P−Q)² = P(1−Q)P + (1−P)Q(1−P)` with the
 C⋆-norm identities, scalar-generic over `RCLike`.
 
-**Objects.** The isometric first isomorphism theorem `rangeEquivOfInnerEq` — two maps out
-of a common module with equal pullback inner products have canonically isometric ranges —
-and the Gram-rigidity theorems it yields; reflections, diagonal and off-diagonal parts of
-an operator relative to `U ⊕ Uᗮ`; the symmetric and directed projection gaps; invariant and
-reducing subspaces; restricted spectra with the canonical spectral subspace
-`spectralSubspace A Ω` and projector `spectralProjection A Ω`; the spectral-separation
-predicates; the orthogonal-series constructor for pairwise orthogonal, not necessarily
-unit, vectors.
+**Objects.** Reflections, diagonal and off-diagonal parts of an operator relative to
+`U ⊕ Uᗮ`; the symmetric and directed projection gaps; restricted spectra with the canonical
+spectral subspace `spectralSubspace A Ω` and projector `spectralProjection A Ω`; the
+spectral-separation predicates.
 
 **API to develop.**
 
-- Gram rigidity: equal pullback inner products give equal kernels and the range isometry;
-  for families, equal pairwise inner products give a span-to-span isometry sending
-  `φ i ↦ ψ i`, extended in finite dimension to a `LinearIsometryEquiv` of the ambient
-  space, which is the carrier consumers are stated against; the `Matrix.gram`
-  characterization as an iff.
-- Projection geometry: projections onto spans of orthonormal families; reflections with
-  involutivity, isometry, and commutation-when-reducing; the diagonal/off-diagonal calculus
+- Projection blocks: reflections with involutivity, isometry, and
+  commutation-when-reducing; the diagonal/off-diagonal calculus
   (`2·diag = A + R A R`, `2·offdiag = A − R A R`).
 - The gap: symmetry, the directed-gap comparison, the max identity above; `sinThetaMap`,
   the directed sine cross-projection `P_{Vᗮ} ∘ P_U` the Davis–Kahan estimates are stated in.
 - `spectrumIn_spectralSubspace`: the spectral subspace selected by `Ω` carries only
   spectrum in `Ω`. It is a theorem for every operator and every set, so no consumer of the
   perturbation theorems supplies it as a hypothesis.
-- Invariance: invariant and reducing kept as distinct named notions — they coincide for
-  symmetric operators, and that coincidence is a theorem; restriction of a symmetric
-  operator to an invariant subspace and its restricted spectrum; the quadratic-form bridges
-  `SpectrumIn A U (Iic a) → re ⟪A x, x⟫ ≤ a‖x‖²` on `U`, with their converses. Reducing
-  subspaces stay independent of all perturbation theory, so they are separately reviewable
-  and separately consumable.
-- Orthogonal series: a pairwise-orthogonal family of vectors spans an orthogonal family of
-  lines — the constructor Mathlib's unit-vector hypothesis blocks; Pythagoras for finite
-  sums; summability iff square-norm summability; Parseval for a family with a specified
-  sum. The families this roadmap produces are `σᵢ • uᵢ`, orthogonal but not normalizable
-  when some `σᵢ` vanish, which is why the unit-vector constructor does not suffice.
+- Restricted spectra: the restriction of a symmetric operator to an invariant subspace and
+  its restricted spectrum; the quadratic-form bridges
+  `SpectrumIn A U (Iic a) → re ⟪A x, x⟫ ≤ a‖x‖²` on `U`, with their converses.
 
 ### The spectral-separation predicates
 
@@ -248,12 +231,11 @@ the cross-block overlap sum; `familyIsometry` sends the `k`-th coordinate vector
 `principalAngles U U = 0`; the equal-rank operator-norm identity
 `‖P_U − P_V‖ = ‖sinThetaMap U V‖`.
 
-### Part C — Gram rigidity, projections, and spectral subspaces
+### Part C — the projection gap and spectral subspaces
 
 **Acceptance criteria.** That the gap identity is an equality with no equal-rank
 hypothesis; that the separation predicates are shared, not parallel definitions with one
-name; that reducing subspaces import no perturbation theory; that the orthogonal-series
-constructor fills the non-unit-vector gap rather than duplicating `OrthogonalFamily`.
+name.
 
 ## Ordering
 

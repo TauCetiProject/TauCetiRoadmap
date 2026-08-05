@@ -99,7 +99,7 @@ theorem UnitarilyInvariantSeminorm.eq_of_same_singularValues
     (N : UnitarilyInvariantSeminorm 𝕜 E) {A B : E →ₗ[𝕜] E}
     (h : A.singularValues = B.singularValues) : N.toFun A = N.toFun B := sorry
 
-/-! ## Part C -- rectangular unitarily invariant norms -/
+/-! ## Part B -- rectangular unitarily invariant norms -/
 
 /-- A unitarily invariant seminorm on rectangular operators `E →ₗ[𝕜] F`: the same
 three laws, with two-sided unitary invariance and no definiteness axiom. -/
@@ -140,8 +140,7 @@ Hilbert--Schmidt energy are identified against it in
 [`OperatorIdeals`](../OperatorIdeals/README.md). -/
 noncomputable def frobenius : RectangularUnitarilyInvariantSeminorm 𝕜 E F := sorry
 
-/-- The square Frobenius seminorm, as the square restriction of the rectangular one rather
-than a second construction. -/
+/-- The square Frobenius seminorm, as the square restriction of the rectangular one. -/
 noncomputable def squareFrobenius : UnitarilyInvariantSeminorm 𝕜 E :=
   (frobenius (𝕜 := 𝕜) (E := E) (F := E)).toSquare
 

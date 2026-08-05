@@ -28,15 +28,11 @@ Suggested home: `TauCeti/Topology/`.
 
 ## The build, in layers
 
-Argmin stability under objective perturbation.
-
 ### Part A — a fixed compact feasible set
 
 **Objects.** For jointly continuous `g : P → X → ℝ` and a nonempty compact `K ⊆ X`: the argmin
 correspondence `p ↦ {x ∈ K | IsMinOn (g p) K x}` and the value function
 `p ↦ ⨅ x : K, g p x`.
-
-Argmin stability under objective perturbation.
 
 **API to develop.**
 

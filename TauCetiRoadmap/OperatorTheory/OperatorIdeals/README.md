@@ -121,7 +121,8 @@ The gaps to fill are:
 over bounded `R` with `R.rank ≤ n`, on seminormed spaces over a `NontriviallyNormedField`;
 the relation `HasSameApproximationNumbers` between operators on possibly different space
 pairs, reflexive, symmetric and transitive — the vehicle for transporting ideal membership;
-the Ky Fan gauge `kyFanGauge T k = ∑_{n<k} aₙ(T)`.
+the Ky Fan gauge `kyFanGauge T k = ∑_{n<k} aₙ(T)`, whose bounds and induced families
+carry `0 < k`.
 
 **API to develop.**
 
@@ -201,7 +202,7 @@ is the wrong instance.
   concrete family is complete, that is a per-instance theorem, or a structure supplied
   separately.
 - The instances, each with its gauge identified definitionally: the **operator norm** family,
-  whose carrier is `⊤`; the **Ky Fan families** over `ℂ`, complete via the two-sided
+  whose carrier is `⊤`; the **Ky Fan families** over `ℂ`, indexed by `0 < k`, complete via the two-sided
   comparison with the operator norm; the **Hilbert–Schmidt family** below; and **trace
   class**, with gauge the nuclear norm `∑' n, aₙ(T)` in `ℝ≥0∞`, whose triangle inequality is
   the Ky Fan inequality in the limit.

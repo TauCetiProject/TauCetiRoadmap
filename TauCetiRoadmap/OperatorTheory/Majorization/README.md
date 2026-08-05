@@ -54,31 +54,6 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
   invariant norm on `E →ₗ[𝕜] F` is invariant under `U ∘ A ∘ V` for independent unitaries on
   `F` and `E`; the square theory is the diagonal case, with explicit bridges rather than a
   subsumption.
-- **Principal-angle cosines are singular values of the overlap operator** `⟪uᵢ, vⱼ⟫`, not
-  the textbook variational recursion. Nonnegativity, `≤ 1`, decreasing order, and symmetry
-  in `u, v` are then inherited from the singular-value API — the last because the overlap
-  operators of the swapped pair are adjoint. The recursion should be *absent*, not hidden.
-- **Families first, subspaces later, and the bridge is a Part D target.**
-  - Part B's `cosPrincipalAngles hu hv` is indexed by orthonormal families, so as stated it
-    is an invariant of the chosen families.
-  - Part D defines `principalCosines U V` for submodules as the singular values of `P_V P_U`,
-    and proves the two agree on spans — that the family invariant depends only on the spans.
-  - The bridge lives in Part D because it needs the projector dictionary built there.
-- **Directed sines are not symmetric.** `principalSines U V` are the singular values of
-  `P_{Vᗮ} P_U`; symmetry of the sines and of the angles holds under an equal-rank
-  hypothesis, which matches the multiplicities of the quarter-turn defect directions, and
-  is a theorem rather than a convention. Angles are `arcsin` of the sines, keeping the
-  support finite.
-- **Two proof routes into eigenvalue perturbation, chosen deliberately.** Davis's
-  eigenvalue-change bound goes through **Birkhoff's theorem** (already in Mathlib) and a
-  permutation-orbit convex hull, not through Part A's majorization engine — the
-  permutation-orbit hull is exactly what Birkhoff gives, and no vector-majorization API is
-  needed. Hoffman–Wielandt factors through the **von Neumann trace inequality**, whose
-  sorted rearrangement core is proved here from Mathlib's rearrangement inequality rather
-  than cited.
-- **The trial-map factorization carries no spectral gap.** The isometric range
-  factorization of an injective map (Part D) is stated free of any gap or perturbation
-  hypothesis, so anything needing a trial map factored can reuse it.
 
 ## What Mathlib already has (consume)
 
@@ -189,10 +164,10 @@ singular-value theory.
   preserves the sharp constants in [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
 - The concrete instances — operator, Frobenius, Ky Fan `k`, nuclear — with their identities
   `frobenius A = √(∑ σᵢ²)`, `nuclear A = ∑ σᵢ`, `nuclear ≤ √(finrank) · frobenius`.
-- The rectangular `frobenius` is the owner of the Frobenius seminorm for the whole family.
-  The square Frobenius seminorm is its restriction along `toSquare`, not a second
-  construction; [`OperatorIdeals`](../OperatorIdeals/README.md) identifies the Schatten `S₂`
-  norm and the finite-dimensional Hilbert–Schmidt energy against it.
+- The rectangular `frobenius` is the canonical public owner of the Frobenius seminorm for
+  the whole family. The square Frobenius seminorm, the Schatten `S₂` norm and the
+  finite-dimensional Hilbert–Schmidt energy are identified with it, the last two in
+  [`OperatorIdeals`](../OperatorIdeals/README.md).
 - Two-dimensional sharpness models: the singular values of `2 × 2` diagonal, off-diagonal
   and triangular models, and the trace/determinant characterization — the witnesses for the
   sharpness claims of [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
@@ -250,13 +225,6 @@ rectangular Frobenius seminorm, independent of the basis.
   (1923); K. Fan, *On a theorem of Weyl concerning eigenvalues of linear transformations I*,
   Proc. Nat. Acad. Sci. USA **35** (1949); L. Mirsky, *Symmetric gauge functions and
   unitarily invariant norms*, Quart. J. Math. Oxford **11** (1960).
-- Å. Björck, G. Golub, *Numerical methods for computing angles between linear subspaces*,
-  Math. Comp. **27** (1973) — principal angles via singular values.
-- A. J. Hoffman, H. W. Wielandt, *The variation of the spectrum of a normal matrix*, Duke
-  Math. J. **20** (1953); C. Davis, *The rotation of eigenvectors by a perturbation*,
-  J. Math. Anal. Appl. **6** (1963), Theorem 4.1.
-- Y. Yu, T. Wang, R. J. Samworth, *A useful variant of the Davis–Kahan theorem for
-  statisticians*, Biometrika **102** (2015) — the aligned-basis bound.
 
 ## Acknowledgements
 

@@ -23,7 +23,7 @@ open scoped ENNReal Matrix
 
 section RankFactorization
 
-variable {𝕜 : Type*} [Field 𝕜] {m n : Type*} [Fintype m] [Fintype n]
+variable {𝕜 : Type*} [Field 𝕜] {m n : Type*} [Fintype n]
 
 /-- Rank at most `r` is exactly factorization through `Fin r`. -/
 theorem rank_le_iff_exists_eq_mul (M : Matrix m n 𝕜) (r : ℕ) :
@@ -69,7 +69,7 @@ theorem exists_unitary_mul_of_conjTranspose_mul_self_eq {n d : ℕ}
 
 end GramUniqueness
 
-/-! ## Part C -- matrix spectra and spectral measurability -/
+/-! ## Part B -- matrix spectra and spectral measurability -/
 
 section MatrixSpectra
 
@@ -123,7 +123,7 @@ theorem measurable_specTransform (h : ℝ → ℝ) (hh : Continuous h)
 
 end MatrixSpectra
 
-/-! ## Part D -- sample moments and matrix concentration
+/-! ## Part C -- sample moments and matrix concentration
 
 Chebyshev plus a union bound over `n²` entries, converted to a spectral bound
 by Part C.  The elementary route is dimension-suboptimal by design: matrix

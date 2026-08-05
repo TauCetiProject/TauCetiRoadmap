@@ -230,8 +230,7 @@ structure SymmetricGauge where
   normalized : toFun (Finsupp.single 0 1) = 1
 
 /-- The extension of a symmetric gauge to arbitrary `ℝ≥0∞`-valued sequences: the
-supremum of `Φ` over the finitely supported truncations of the decreasing
-rearrangement.
+supremum of `Φ` over the finitely supported sequences dominated by `a`.
 
 **A supremum, not a `tsum`.**  The gauge must be total and genuinely `∞` off its
 ideal, and a supremum of an increasing net is total by construction; any route

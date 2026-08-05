@@ -54,28 +54,15 @@ scope and dependencies.
 
 ## How they depend on one another
 
-```text
-PolarDecomposition        SelfAdjointSpectralTheory     MatrixSpectralStatistics
-    │        │
-    │        ▼
-    │   Majorization
-    │        │    │
-    ▼        ▼    ▼
- PrincipalAngles  OperatorIdeals
-         │                    │
-         └──────┬─────────────┘
-                ▼
-    SpectralSubspacePerturbation
-```
 
 | roadmap | mathematical prerequisites |
 |---|---|
 | `PolarDecomposition` | Mathlib |
 | `Majorization` | `PolarDecomposition` |
 | `PrincipalAngles` | `PolarDecomposition`, `Majorization` |
-| `SelfAdjointSpectralTheory` | Mathlib |
+| `SelfAdjointSpectralTheory` | `PolarDecomposition` |
 | `OperatorIdeals` | `PolarDecomposition`, `Majorization` |
-| `MatrixSpectralStatistics` | Mathlib |
+| `MatrixSpectralStatistics` | `PolarDecomposition`, `SelfAdjointSpectralTheory` |
 | `SpectralSubspacePerturbation` | `PolarDecomposition`, `Majorization`, `PrincipalAngles`, `SelfAdjointSpectralTheory` |
 
 `PrincipalAngles` needs `Majorization` for Davis's eigenvalue-change bound, which runs
@@ -100,8 +87,11 @@ Between roadmaps in this family:
   perturbation roadmap states its estimates in that vocabulary and defines no norm of its
   own.
 - **The operator modulus and the polar decomposition** belong to `PolarDecomposition`.
-- **Spectral subspaces, the restricted spectrum, the separation predicates and
-  `sinThetaMap`** belong to `PrincipalAngles`. `InternalGap`, the member of the separation
+- **Gram rigidity, projection geometry, orthogonal series and reducing subspaces** belong
+  to `PolarDecomposition`; every roadmap that needs a coordinate isometry or a projection
+  onto a span takes it from there.
+- **The projection gap, spectral subspaces, the restricted spectrum, the separation
+  predicates and `sinThetaMap`** belong to `PrincipalAngles`. `InternalGap`, the member of the separation
   family with both spectra from one operator, belongs to `SpectralSubspacePerturbation`,
   which is where it is consumed.
 - **Approximation numbers and every gauge of them** belong to `OperatorIdeals`.

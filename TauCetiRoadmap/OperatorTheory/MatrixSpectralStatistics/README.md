@@ -35,8 +35,9 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Analysis/Matrix/`,
 - **Matrices, deliberately.** Parts C and D are about concrete matrices with entrywise
   hypotheses, not abstract operators. This is not a lapse into coordinates: statistical data
   arrives as a matrix, entrywise, and the bounds a statistician can assume are entrywise
-  bounds. The abstract operator theory lives in the foundations roadmap; here we build the
-  bridge from entries to spectra.
+  bounds. The abstract operator theory lives in
+  [`PolarDecomposition`](../PolarDecomposition/README.md); here we build the bridge from
+  entries to spectra.
 - **Scalar fields, pinned per Part.** Rank factorization (Part A) over an arbitrary `Field`;
   the Gram/positive-semidefinite factorization over `RCLike`. The spectral–statistical chain
   (Parts B–C) is stated over `ℝ`, for real symmetric matrices.
@@ -170,7 +171,8 @@ about matrices whose entries are random.
 
 **Objects.** Real symmetric matrices as Euclidean operators (`Matrix.toEuclideanLin`, with
 symmetry through `Matrix.isSymmetric_toEuclideanLin_iff`); the decreasingly sorted spectrum
-`sortedEigenvalues`; the spectral `h`-transform `specTransform h hB = Σ_k h(λ_k) u_k u_kᵀ`.
+`Matrix.IsHermitian.eigenvalues₀`; the spectral `h`-transform
+`specTransform h hB = Σ_k h(λ_k) u_k u_kᵀ`.
 
 **API to develop.**
 

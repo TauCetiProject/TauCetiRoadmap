@@ -446,7 +446,6 @@ of Stone's theorem and no consumer needs it yet. What is missing is not the brid
 statement in either roadmap.
 
 **Downstream.** `SpectralSubspacePerturbation` consumes Parts A, D and E; `OperatorIdeals`
-consumes Part E for approximation numbers of spectral bands; `MatrixSpectralStatistics`
 consumes Part B's measurability layer.
 
 ## Definitions
