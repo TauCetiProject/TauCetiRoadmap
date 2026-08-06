@@ -1,208 +1,182 @@
 import Mathlib
 
 /-!
-# Adic spaces: target signatures
+# Adic spaces: representative target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+The mathematical roadmap is `README.md`. This file records definitions and theorem signatures which
+can already be stated against the pinned Mathlib API. It is not an exhaustive list of the results in
+any layer.
 
-The narrative roadmap (the conventions, the layer-by-layer build plan Layers 0–7, the worked
-examples, and the references) is in `README.md`. Mathlib has the valuative substrate
-(`ValuativeRel`, `Valuation.Compatible`, the valuative topology), nonarchimedean topological
-algebra (`NonarchimedeanRing`, `IsAdic`, `IsTopologicallyNilpotent`, `OpenSubgroup`), uniform
-completions, valued fields (`ℚ_[p]`, `F⸨t⸩`), and the spectral-space vocabulary
-(`PrespectralSpace`, `QuasiSober`, `QuasiSeparatedSpace`). It has **no** Huber rings, **no**
-valuation spectrum `Spv`, **no** continuous valuations or adic spectrum `Spa (A, A⁺)`, **no**
-rational subsets or rational localization, **no** structure presheaf and hence **no**
-sheafiness question, **no** Tate acyclicity, and **no** adic spaces. We build these in
-`TauCeti/RingTheory/Huber/` and `TauCeti/AlgebraicGeometry/AdicSpace/`, with Wedhorn
-(arXiv:1910.05934) as the numbering coordinate system and Huber's papers as the origin —
-cited for the mathematics, not as the specification. The roadmap's closing application is the **adic
-Fargues–Fontaine curve** `𝒳 = 𝒴/φ^ℤ` (Layer 7), for `E = Q_p` and a perfectoid field `F` of
-characteristic `p`; the general theory of Layers 0–6 is what it consumes and what the rest of
-the subject reuses.
-
-**Coordination with Mathlib.** Open Mathlib PRs now develop this material: mathlib4#38009
-(`Spv` and its topology, on `ValuativeRel`), mathlib4#42312 (Huber rings), and mathlib4#42315
-(`Spa (A, A⁺)` as a topological space). The Layer-0 prototypes below are suggested forms; the
-final names and structures follow the upstream decisions once those PRs are reviewed, and
-upstream wins at migration time. Signatures for the later layers' objects — `Spv`, `Cont`,
-`Spa`, rational data and localization with its universal property, the structure presheaf,
-`𝒱^pre` and `𝒱`, pair- and ring-level sheafiness, the augmented Čech complex, affinoid
-pre-adic and adic spaces, and the final chart isomorphism for the quotient curve — are named
-in `README.md`'s layer sections and are added here as the upstream Layer-0/1/2 API settles.
-
-`sorry` is allowed in this human-owned roadmap library — these are goals, not proofs.
-Following the roadmap-writing guide, the Layer-0 vocabulary that is fully statable against
-pinned Mathlib is **prototyped as honest definitions** below (`PairOfDefinition`,
-`IsHuberRing`, `IsTateRing` — suggested forms, not the specification), and first milestones
-over it are seeded as `theorem … := sorry`; nothing is a `Prop`-typed placeholder. The layers
-whose central objects are new *types* — `Spv` and its topology (Layer 1), `Spa` and rational
-subsets (Layer 2), rational localization, the structure presheaf and the categories `𝒱^pre`/`𝒱`
-(Layer 3), the Čech complexes (Layer 4), adic spaces (Layer 5), and the Layer-6 example
-rings (Layer 6) — need the very API those layers introduce; they are specified in `README.md`
-with embedded Lean prototypes and built there, not pinned here as `sorry`-typed junk types.
-
-## Provenance (migrate and complete from existing work)
-
-The AINTLIB `dev/adic-spaces` project (revision pinned in `README.md` §Provenance) carries
-sorry-free foundations whose shapes these prototypes follow — `PairOfDefinition`,
-`IsHuberRing`, `IsTateRing`, `Spv` built on Mathlib's `ValuativeRel`, `Spa`, rational
-subsets, `IsStronglyNoetherian`, `IsUniform`/`IsStablyUniform` — a sorry-free formalization
-of the Layer-6 example (`FJP/`), and an in-progress structure-presheaf and
-sheafiness campaign (`isSheafy_of_stronglyNoetherian_828b`) whose dependency cone must be
-audited on migration. It is material to migrate and complete, never the standard.
+The first part makes two design choices explicit. Boundedness is part of the Huber-ring foundation,
+not an assumed Mathlib prerequisite, and the plus ring is explicit data. The second part prototypes
+`Spv A` directly from `ValuativeRel A`. Later signatures should use the Mathlib APIs which emerge
+from mathlib4#38009, #40013, #42312, #42314, and #42315.
 -/
 
 namespace TauCetiRoadmap.AdicSpaces
 
+open Filter Topology Pointwise
 open scoped Classical
 
-/-! ## Layer 0: Huber rings and Tate rings (Wedhorn §6; Huber)
+namespace Huber
 
-The foundation. A **pair of definition** is an open subring whose subspace topology is
-`I`-adic for a finitely generated ideal `I`; a **Huber ring** is a topological ring admitting
-one; a **Tate ring** is a Huber ring with a topologically nilpotent unit. Everything below is
-statable against pinned Mathlib (`IsAdic`, `IsTopologicallyNilpotent`, subring topology), so
-the vocabulary is prototyped honestly here. The rest of the layer — rings of definition are
-exactly the open bounded adic subrings, `A°`/`A°°`, pseudo-uniformizers, completions of Huber
-rings, restricted power series `A⟨T₁, …, Tₖ⟩` with `IsStronglyNoetherian`, and the open
-mapping theorem for complete Tate rings (Henkel, arXiv:1407.5647) — is specified in
-`README.md` §Layer 0. -/
+universe u
 
-/-- A **pair of definition** `(A₀, I)` for a topological ring `A` (Wedhorn, Definition 6.1):
-an open subring `A₀ ⊆ A` together with a finitely generated ideal `I ⊆ A₀` such that the
-subspace topology of `A₀` is the `I`-adic one. Suggested form; the field names follow the
-existing sorry-free development. -/
-structure PairOfDefinition (A : Type*) [CommRing A] [TopologicalSpace A]
+/-! ## Layer 0: boundedness, Huber rings, and Huber pairs -/
+
+/-- A subset `S` of a topological ring is bounded if every neighbourhood of zero absorbs `S` after
+multiplication by a sufficiently small neighbourhood of zero.
+
+This is the Huber-ring notion of boundedness. Its final home and name should agree with
+mathlib4#40013. -/
+def IsBounded {A : Type u} [CommRing A] [TopologicalSpace A] (S : Set A) : Prop :=
+  ∀ U ∈ 𝓝 (0 : A), ∃ V ∈ 𝓝 (0 : A), V * S ⊆ U
+
+/-- An element is power-bounded if its nonnegative powers form a bounded set. -/
+def IsPowerBounded {A : Type u} [CommRing A] [TopologicalSpace A] (a : A) : Prop :=
+  IsBounded (Set.range fun n : ℕ ↦ a ^ n)
+
+/-- The subring `A°` of power-bounded elements. That this is a subring is Wedhorn Proposition 5.30
+and needs the nonarchimedean topology — a neighbourhood basis of `0` by subgroups, *not* a basis of
+open ideals, which no nonzero Tate ring has. It belongs to Layer 0. -/
+noncomputable def powerBoundedSubring (A : Type u) [CommRing A] [TopologicalSpace A]
+    [NonarchimedeanRing A] : Subring A :=
+  sorry
+
+/-- A pair of definition `(A₀,I)` for a topological ring `A`. The topology on `A₀` is the subtype
+topology inherited from `A`. -/
+structure PairOfDefinition (A : Type u) [CommRing A] [TopologicalSpace A]
     [IsTopologicalRing A] where
-  /-- The ring of definition, an open subring of `A`. -/
   ringOfDefinition : Subring A
-  /-- The ring of definition is open. -/
   isOpen_ringOfDefinition : IsOpen (ringOfDefinition : Set A)
-  /-- The ideal of definition, an ideal of the ring of definition. -/
   idealOfDefinition : Ideal ringOfDefinition
-  /-- The ideal of definition is finitely generated. -/
   fg_idealOfDefinition : idealOfDefinition.FG
-  /-- The subspace topology of the ring of definition is the `I`-adic topology. -/
   isAdic_idealOfDefinition : IsAdic idealOfDefinition
 
-/-- A topological ring is a **Huber ring** (f-adic ring) if it admits a pair of definition
-(Wedhorn, Definition 6.1). -/
-class IsHuberRing (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] :
+/-- A topological ring is Huber if it admits a pair of definition. -/
+class IsHuberRing (A : Type u) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] :
     Prop where
-  /-- Some pair of definition exists. -/
   nonempty_pairOfDefinition : Nonempty (PairOfDefinition A)
 
-/-- A Huber ring is a **Tate ring** if it has a topologically nilpotent unit — a
-*pseudo-uniformizer* (Wedhorn, Definition 6.10). -/
-class IsTateRing (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] :
+/-- A Huber ring is Tate if it contains a topologically nilpotent unit. -/
+class IsTateRing (A : Type u) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] :
     Prop extends IsHuberRing A where
-  /-- Some unit is topologically nilpotent. -/
   exists_isTopologicallyNilpotent_unit : ∃ u : Aˣ, IsTopologicallyNilpotent (u : A)
 
-/-- **Discrete rings are Huber**: with the discrete topology, `(A, (0))` is a pair of
-definition — the `0`-adic topology is discrete. The degenerate example keeping the
-definitions honest (Wedhorn, Example 6.2). -/
-theorem isHuberRing_of_discreteTopology (A : Type*) [CommRing A] [TopologicalSpace A]
+/-- A subring of a Huber ring is a ring of integral elements if it is open, integrally closed in
+`A`, and contained in `A°`. -/
+structure IsRingOfIntegralElements {A : Type u} [CommRing A] [TopologicalSpace A]
+    [IsTopologicalRing A] [NonarchimedeanRing A]
+    (Aplus : Subring A) : Prop where
+  isOpen : IsOpen (Aplus : Set A)
+  integrallyClosed : ∀ x : A, IsIntegral Aplus x → x ∈ Aplus
+  le_powerBounded : Aplus ≤ powerBoundedSubring A
+
+/-- A Huber pair over a fixed topological ring. The Huber-ring hypothesis and the topological-ring
+structure are part of the parameters; only the noncanonical plus ring is stored. -/
+structure Pair (A : Type u) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
+    [NonarchimedeanRing A] [IsHuberRing A] where
+  plus : Subring A
+  isRingOfIntegralElements : IsRingOfIntegralElements plus
+
+/-- A discrete commutative ring is Huber. -/
+theorem isHuberRing_of_discreteTopology (A : Type u) [CommRing A] [TopologicalSpace A]
     [IsTopologicalRing A] [DiscreteTopology A] : IsHuberRing A :=
   sorry
 
-/-- **`ℚ_p` is a Tate ring**: `(ℤ_p, (p))` is a pair of definition and `p` is a topologically
-nilpotent unit (Wedhorn, Example 6.11-shape). The first nondegenerate example, and the base
-point of every worked example in `README.md`. -/
+/-- The `p`-adic field is Tate. -/
 theorem isTateRing_padic (p : ℕ) [Fact p.Prime] : IsTateRing ℚ_[p] :=
   sorry
 
-/-- **`ℤ_p` is a Huber ring**, with itself as ring of definition and `(p)` as ideal of
-definition. -/
+/-- The ring of `p`-adic integers is Huber. -/
 theorem isHuberRing_padicInt (p : ℕ) [Fact p.Prime] : IsHuberRing ℤ_[p] :=
   sorry
 
-/-- **`ℤ_p` is not Tate**: every unit of `ℤ_p` has norm `1`, so no unit is topologically
-nilpotent. The example separating `IsHuberRing` from `IsTateRing`. -/
+/-- The ring of `p`-adic integers is not Tate. -/
 theorem not_isTateRing_padicInt (p : ℕ) [Fact p.Prime] : ¬ IsTateRing ℤ_[p] :=
   sorry
 
-/-! ## Layer 1: the valuation spectrum (Wedhorn §4; Huber, *Continuous valuations*)
+end Huber
 
-`Spv A` is the type of Mathlib `ValuativeRel` instances on `A` — valuations up to
-equivalence, exactly Mathlib's reading — topologized by the basic opens
-`Spv(A)(f/s) = {v | v f ≤ v s ≠ 0}`, with `supp`, functorial `comap`, quotient and
-localization lifts, and **spectrality** (`CompactSpace` + `QuasiSober` + `PrespectralSpace` +
-`QuasiSeparatedSpace`, the conventions' spelling, with `PrimeSpectrum` as the model proof).
-The type and its topology are new API, specified in `README.md` §Layer 1 and built there, not
-pinned here. -/
+/-! ## Layer 1: the valuation spectrum -/
 
-/-! ## Layer 2: continuous valuations, affinoid pairs, and `Spa` (Wedhorn §7)
+universe u
 
-Continuity of a valuation over a Huber ring, `Cont A` spectral; rings of integral elements
-(`IsRingOfIntegralElements`: open, integrally closed, inside `A°` — Definition 7.14) and the
-`A⁺`-carrying class; `Spa (A, A⁺)` with rational subsets `R(T/s)` (`T` finite, `T·A` open —
-the openness is part of the definition), their intersection stability (Remark 7.30, Theorem
-7.35(2)), spectrality of `Spa` with rational subsets as quasi-compact basis, emptiness iff
-`A = 0` (complete case), and `A⁺` recovered from the spectrum. Specified in `README.md`
-§Layer 2. -/
+/-- The valuation spectrum of a commutative ring: valuations up to equivalence, represented by
+Mathlib's `ValuativeRel`. This is a local prototype of mathlib4#38009. -/
+@[ext]
+structure ValuationSpectrum (A : Type u) [CommRing A] where
+  toValuativeRel : ValuativeRel A
 
-/-! ## Layer 3: rational localization and the structure presheaf (Wedhorn §7.5–§8.1; Huber)
+@[inherit_doc] notation "Spv" => ValuationSpectrum
 
-`A⟨T/s⟩` with its universal property (the API everything downstream consumes — the
-construction via restricted power series is private), iterated localization (Lemma 7.54 =
-Huber's Lemma 2.6), the presheaf `𝒪_X` (values complete topological rings; stalks are colimit
-rings, no topology claimed), `𝒪_X⁺` defined via the stalk valuations, the category ladder
-`𝒱^pre` → pre-adic spaces → `𝒱` on Mathlib's `PresheafedSpace`, and sheafiness in three
-named notions — `IsSheafyPair A Aplus` (this presheaf is a sheaf of topological rings),
-`IsSheafyRing A` (Wedhorn's ring-level Definition 8.26), `IsStablySheafyRing A` — with the
-finite-rational-cover criterion for the pair-level notion proved once. Specified in
-`README.md` §Layer 3. -/
+namespace ValuationSpectrum
 
-/-! ## Layer 4: sheafiness and Tate acyclicity (Wedhorn §8.2, Theorem 8.28; Huber; Tate 1971)
+variable {A : Type u} [CommRing A]
 
-The main theorem: for a **complete Hausdorff strongly noetherian Tate** ring with a ring of
-integral elements — no domain or reducedness hypothesis — the structure presheaf is a sheaf,
-and every finite rational cover of a rational subset has an **exact augmented Čech complex in
-all degrees** (`Ȟ⁰ = 𝒪_X(U)`, `Ȟⁿ = 0` for `n ≥ 1`), stated over Mathlib's
-`HomologicalComplex`. Cover normalization (standard/Laurent covers), separatedness (Corollary
-8.32), and the noetherian-completion flatness input (Stacks 00MB, in Mathlib) are the route.
-Specified in `README.md` §Layer 4; the classical Tate 1971 disc example is its acceptance
-test. -/
+/-- The basic open `Spv(A)(f/s)`. -/
+def basicOpen (f s : A) : Set (Spv A) :=
+  {v | v.toValuativeRel.vle f s ∧ ¬v.toValuativeRel.vle s 0}
 
-/-! ## Layer 5: adic spaces (Wedhorn §8.2–8.3, Definition 8.22)
+/-- The topology generated by the basic opens. -/
+instance : TopologicalSpace (Spv A) :=
+  TopologicalSpace.generateFrom {U | ∃ f s : A, U = basicOpen f s}
 
-Affinoid adic spaces of sheafy pairs as objects of `𝒱`, and **adic spaces**: objects of `𝒱`
-locally isomorphic **in `𝒱`** — presheaf and stalk valuations included, not merely
-homeomorphic — to affinoids; morphisms, open subspaces, gluing, and the open unit disc as the
-first glued non-affinoid example. Specified in `README.md` §Layer 5. -/
+/-- The support prime of a point of `Spv A`. -/
+noncomputable def supp (_v : Spv A) : PrimeSpectrum A :=
+  sorry
 
-/-! ## Layer 6: uniformity, Buzzard–Verberkmoes, and a worked example ([BV]; provenance)
+/-- The continuous support map `Spv A → Spec A`. -/
+noncomputable def supportMap : Spv A → PrimeSpectrum A :=
+  supp
 
-`IsUniform` (`A°` bounded) and `IsStablyUniform`; the Buzzard–Verberkmoes theorem (stably
-uniform ⇒ sheafy), this layer's theorem. The layer closes with a suggested worked example
-exercising Layers 0–4 end to end: an interesting ring to prove sheafy, `𝓐 = 𝓑 ×_𝓓 𝓒` over
-`K = F⸨t⸩` — specified self-containedly in `README.md` §Layer 6, its reference the sorry-free
-AINTLIB formalisation — a uniform non-noetherian domain, sheafy by Milnor-square transfer
-from strongly noetherian vertices (two non-reduced), and not stably uniform
-(`𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)` is sheafy but not uniform) — answering Hansen–Kedlaya
-Remark 3.16, with the AINTLIB `FJP/` formalisation as the proof (its formal status
-inherits the Layer-3/4 dependency cone, like every downstream result). The rings need Layers 0
-and 3, so the statements are specified in `README.md` §Layer 6 and built there. -/
+/-- A prime ideal gives the corresponding trivial valuation. -/
+noncomputable def trivialSection (_p : PrimeSpectrum A) : Spv A :=
+  sorry
 
-/-! ## Layer 7: application — the adic Fargues–Fontaine curve
+/-- The trivial-valuation construction is a section of the support map. -/
+theorem supportMap_trivialSection (p : PrimeSpectrum A) :
+    supportMap (trivialSection p) = p :=
+  sorry
 
-`A_inf = W(O_F)` with the `(p, [ϖ])`-adic ("weak") topology as a complete Huber ring with
-`A_inf⁺ = A_inf`; `𝒴 = {v ∈ Spa(A_inf, A_inf) : v(p[ϖ]) ≠ 0}`, open, `φ`-stable and nonempty
-(a Gauss point) — and **not** the analytic locus, which is `D(p) ∪ D([ϖ])`; the rank-free
-radius predicates and the windows, with the breakpoint `c ∈ (1, p) ∩ ℚ` **our** choice
-(`(p+1)/2`), not Kedlaya's `1 + 1/p`; covering, `φ`-translation and disjointness, hence a free
-wandering action; `𝒳 = 𝒴/φ^ℤ` quasi-compact and `T0` with an open quotient map and the
-two-window cover; Kedlaya's interval rings `B^I` strongly noetherian (Thm 4.10) hence sheafy
-**by Layer 4**, with `B^{I,+}` the unit ball of `λ_I` and the inverse `κ`-to-interval
-dictionary pinned; the descended `φ`-invariant structure presheaf a sheaf of topological
-rings, `𝒳` an object of `𝒱`; and the final clause, by the wandering-slice route fixed in
-`README.md` §Layer 7: every point has a neighbourhood isomorphic in `𝒱^pre` — then in `𝒱`
-after sheafiness — to `Spa (B^I, B^{I,+})`. All specified in `README.md` §Layer 7 and built
-there. -/
+/-- The support map is continuous. -/
+theorem continuous_supportMap : Continuous (supportMap : Spv A → PrimeSpectrum A) :=
+  sorry
+
+/-- The valuation spectrum is spectral. The proof is the closed-subspace-of-`{0,1}^{A×A}`
+argument of Wedhorn Proposition 4.7 followed by the criterion of Proposition 3.31.
+
+Deliberately **not** an `instance`: it is a target, and registering a `sorry`-backed instance would
+put it into typeclass search for every later declaration in the file. `SpectralSpace` is
+`Prop`-valued, so it states cleanly as a theorem; promote it to an instance once proved. -/
+theorem spectralSpace_target : SpectralSpace (Spv A) :=
+  sorry
+
+end ValuationSpectrum
+
+/-!
+## Later representative signatures
+
+Once the upstream `Spv`, continuous-valuation, and `Spa` APIs have settled, add signatures for the
+following interfaces. Their hypotheses and conclusions are fixed in `README.md`.
+
+* the constructible topology, pro-constructible subsets, and spectrality of pro-constructible
+  subspaces;
+* `Spv(A,I)`, its retraction from `Spv A`, and the characterisation of `Cont A` inside it;
+* Huber pairs and morphisms with explicit plus rings;
+* rational subsets and the corrected emptiness theorem
+  `Spa(A,A⁺)=∅ ↔ A/closure{0}=0`;
+* weighted restricted series, topological localisation `A(T/S)`, and completed localisation
+  `A⟨T/S⟩` with the power-bounded universal property;
+* the category of complete separated topological commutative rings and its products and
+  equalizers;
+* the structure presheaf, local stalks, and residue-field valuations;
+* `𝒱^pre`, `𝒱`, affinoid pre-adic spaces, and adic spaces;
+* pair-level sheafiness, ring-level sheafiness, stable sheafiness, and stable uniformity;
+* the Laurent-cover Čech complex and the exactness theorem for strongly noetherian Tate rings;
+* quotient-pair closed immersions, locally finite-type morphisms, and gluing;
+* the finite-jet pinching theorem and the local affinoid chart isomorphisms on the
+  Fargues–Fontaine curve.
+-/
 
 end TauCetiRoadmap.AdicSpaces

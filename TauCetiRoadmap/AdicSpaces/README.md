@@ -1,493 +1,961 @@
 # Roadmap: foundations of adic spaces
 
-This roadmap develops the foundations of Huber's theory of adic spaces in Lean. It begins with
-Huber rings and Tate rings, constructs the valuation spectrum `Spv A` and the adic spectrum
-`Spa (A, A⁺)`, defines rational localizations and the structure presheaf, and proves the
-sheafiness theorem with Čech acyclicity for strongly noetherian Tate rings. It then defines
-adic spaces and applies the theory to construct the adic Fargues–Fontaine curve for `E = ℚ_p`
-and a perfectoid field `F` of characteristic `p`.
+This roadmap develops Huber's theory of adic spaces from the underlying topological algebra to
+Tate acyclicity and the gluing of adic spaces. The final application is the construction of the
+adic Fargues–Fontaine curve
 
-Parts of this development already exist in AINTLIB. The provenance section records the exact
-commit and distinguishes results proved without additional axioms from results whose dependency
-cones still contain `sorry`. Several closely related APIs are currently under review in
-Mathlib, and this roadmap follows those decisions rather than introducing competing
-definitions (see *Coordination with Mathlib*).
+```text
+𝒳 = 𝒴 / φ^ℤ
+```
 
-The roadmap does not treat: étale cohomology of adic spaces; rigid-analytic formal models,
-Raynaud generic fibres, or GAGA; Berkovich spaces and the comparison functors; fibre products
-of adic spaces; almost mathematics; derived and condensed approaches to sheafiness
-(Andreychev, Clausen–Scholze); perfectoid rings, spaces, tilting, and diamonds beyond the
-tilting-free perfectoid-field input Layer 7 needs; Huber's other sheafiness cases (noetherian
-ring of definition, [Hu2] Theorem 2.2(i)); or the structure theory of the Fargues–Fontaine
-curve beyond its construction — vector bundles and `𝒪(λ)`, Harder–Narasimhan, the
-classification theorem, `B_dR`/`B_cris`, classical points, the curve for general `E`, the
-relative curve, and the schematic curve are all left to a successor roadmap, and §Layer 7
-records the dependency order such a roadmap should follow.
+for `E = ℚ_p` and a perfectoid field `F` of characteristic `p`.
 
-Suggested home: `TauCeti/RingTheory/Huber/` for the ring-level theory,
-`TauCeti/AlgebraicGeometry/AdicSpace/` for `Spv`/`Spa`/presheaf/spaces.
+The first six layers form a general theory. They are intended to support later work on rigid
+geometry, perfectoid geometry, and the geometry of the Fargues–Fontaine curve. The last two layers
+are applications of that theory: the finite-jet pinching example and the Fargues–Fontaine curve.
 
-## Coordination with Mathlib
+## Scope
 
-Mathlib now has open PRs developing exactly this material: mathlib4#38009 (the valuation
-spectrum `Spv A` and its topology, built on `ValuativeRel`), mathlib4#42312 (Huber rings), and
-mathlib4#42315 (`Spa (A, A⁺)` as a topological space, with continuous valuations), with more
-of the series expected. Three consequences for this roadmap.
+The roadmap includes the following material.
 
-1. The intended final form of `Spa` is a subspace of `Spv A`, so points are valuations up to
-   equivalence — the `ValuativeRel` design. Layers 1–2 are stated in that form.
-2. The Layer-0–2 names and structures will follow the upstream decisions once those PRs are
-   reviewed; where prototypes here or in `Suggested.lean` differ from what lands, upstream
-   wins at migration time.
-3. Nothing in Layers 3–7 depends on the unsettled parts of the upstream API beyond the
-   existence of `Spv`, `Spa`, and rational subsets, so those layers can be specified now.
+- Bounded subsets of topological rings, power-bounded elements, Huber rings, Tate rings,
+  completion, weighted restricted power series, and strong noetherianness.
+- The valuation spectrum `Spv A`, the auxiliary spectra `Spv(A,I)`, continuous valuations, and
+  the adic spectrum `Spa(A,A⁺)`, with their spectral topologies.
+- Rational subsets and rational localisation for general Huber rings, not only for Tate rings.
+- The structure presheaf, its stalk valuations, the categories of pre-adic and adic spaces, and
+  the sheaf condition in the category of complete separated topological rings.
+- The strongly noetherian form of Tate acyclicity and the Buzzard–Verberkmoes stable-uniformity
+  criterion.
+- Open and closed adic subspaces, morphisms locally of finite type, and gluing.
+- The finite-jet pinching construction: a complete uniform sheafy Tate domain which is not
+  stably uniform.
+- The adic Fargues–Fontaine curve for `E = ℚ_p`.
 
-## Standing conventions
+The roadmap does not include étale sites or étale cohomology, formal models and Raynaud generic
+fibres, Berkovich spaces, general fibre products of adic spaces, completed tensor products,
+separated or proper morphisms, almost or condensed methods, perfectoid spaces and tilting, or the
+structure theory of the Fargues–Fontaine curve. In particular, vector bundles, the
+Harder–Narasimhan formalism, `B_dR`, `B_cris`, untilts, the curve for general coefficient field
+`E`, the relative curve, and the schematic curve are outside the scope.
 
-- **Valuations up to equivalence are Mathlib's `ValuativeRel`.** The valuation spectrum is the
-  type of `ValuativeRel` instances on `A`; facts about a single representative valuation go
-  through `Valuation.Compatible`.
-- **`A⁺` is explicit data, not a typeclass.** A ring of integral elements is not canonical:
-  one Huber ring has many, and the theory compares them, quantifies over them, and changes
-  them under localization. So: properties of the underlying ring (`IsHuberRing A`,
-  `IsTateRing A`, `IsStronglyNoetherian A`, `IsUniform A`) are `Prop`-valued mixins over
-  `[CommRing A] [TopologicalSpace A] [IsTopologicalRing A]`; ordinary theorems take
-  `Aplus : Subring A` with `IsRingOfIntegralElements Aplus` as explicit arguments; and where
-  the pair is genuinely a categorical object there is a bundled structure
+The exclusion of fibre products is deliberate. Open and closed immersions and morphisms locally
+of finite type can be developed affinoid-locally without them. Separatedness, properness, and the
+diagonal formalism should be treated together with completed tensor products and fibre products in
+a separate roadmap.
 
-  ```lean
-  structure HuberPair (A : Type u) [CommRing A] [TopologicalSpace A] where
-    plus : Subring A
-    isRingOfIntegralElements : IsRingOfIntegralElements plus
-  ```
+Ring-theoretic material belongs under `TauCeti/RingTheory/Huber/`. The valuation spectra,
+structure presheaf, and adic-space definitions belong under
+`TauCeti/AlgebraicGeometry/AdicSpace/`.
 
-  with morphisms of pairs carrying continuity and `f(A⁺) ⊆ B⁺`. This matches the direction of
-  the upstream `Spa` PR, which passes the plus subring explicitly. Neither the Lean 3
-  perfectoid project's globally bundled pair nor a global `A⁺`-typeclass is followed.
-- **Completeness.** A topological ring is complete when `CompleteSpace A` holds for the
-  canonical uniformity `IsTopologicalAddGroup.rightUniformSpace A`. Note the convention gap:
-  Wedhorn's "complete" includes Hausdorff, Lean's `CompleteSpace` does not. Every milestone
-  says explicitly whether Hausdorff is assumed.
-- **Spectrality is Mathlib's `SpectralSpace`** (`Topology/Spectral/Basic.lean`, Stacks 08YG),
-  which extends `T0Space`, `CompactSpace`, `QuasiSober`, `QuasiSeparatedSpace`, and
-  `PrespectralSpace`, with `PrimeSpectrum` the worked model.
-- **Wedhorn's numbering is the shared coordinate system.** Milestones cite Wedhorn
-  (arXiv:1910.05934, v1 — the only version) by result number, with Huber's originals in
-  parallel. The sheafiness theorem is Theorem 8.28(b); Definition 8.26 is sheafy/stably
-  sheafy; Remark 8.27 is the stable-sheafiness criterion for a pre-adic space to be adic.
-  Wedhorn's Propositions 6.17–6.18 have no printed proofs; they are proved here via Henkel's
-  open mapping theorem.
-- **Sources.** Wedhorn is a survey and Huber is the origin; neither is Mathlib-grade API, so
-  the specification here is its own document. Where existing Lean work proves a milestone,
-  that is provenance, not the standard it is judged against.
+## Conventions and coordination with Mathlib
 
-## What Mathlib already has (consume)
+The following Mathlib pull requests are relevant to the first three layers.
 
-- **Valuative relations.** `ValuativeRel R`, the canonical valuation into
-  `ValueGroupWithZero R`, `Valuation.Compatible`, `ValuativeExtension`, the induced topology,
-  `DiscreteValuativeRel`.
-- **Nonarchimedean topological algebra.** `NonarchimedeanRing`, `OpenSubgroup`, adic
-  topologies and `IsAdic`, `IsTopologicallyNilpotent`, boundedness, topological
-  subring/quotient instances.
-- **Completions.** `UniformSpace.Completion` for topological rings; the algebraic
-  `AdicCompletion` with `AdicCompletion.flat_of_isNoetherian` (Stacks 00MB), the flatness
-  input of Layer 4.
-- **Valued fields and examples.** `Valued`, `ℚ_[p]`/`ℤ_[p]`, Laurent series `F⸨t⸩`,
-  `Valuation.RankOne`.
-- **Spectral spaces.** The `SpectralSpace` bundle and its parents, with `PrimeSpectrum`.
-- **Presheaf machinery.** `TopCat.Presheaf`, `PresheafedSpace`, stalks, categorical limits;
-  `HomologicalComplex` and exactness for Layer 4's Čech complexes.
-- **Perfectoid and period-ring material.** `Mathlib/RingTheory/Perfectoid/` has Fontaine's
-  `θ`, untilts, and `B_dR`; `WittVector` has Frobenius, Teichmüller lifts, and `p`-adic
-  completeness of `W(k)`. Layer 7 consumes the Witt-vector API; the `θ`/`B_dR` material
-  belongs to the successor roadmap and is recorded so neither is rebuilt.
-- **Restricted power series, normed flavour.** `PowerSeries.IsRestricted` is William Coram's
-  work and the normed-ring cousin of Layer 0's adically restricted series; coordinate with him
-  and with it rather than duplicating.
+- mathlib4#38009 defines `Spv A`, its topology, pullback, support, and the support map to
+  `Spec A`.
+- mathlib4#40013 defines bounded subsets of topological rings and power-bounded elements.
+- mathlib4#42312 defines Huber rings and rings of definition.
+- mathlib4#42314 defines continuous valuations.
+- mathlib4#42315 defines an initial version of `Spa(A,A⁺)`.
 
-## The build, in layers
+The Tau Ceti API should agree with the final Mathlib API. The mathematical object `Spa(A,A⁺)` is a
+subspace of `Spv A`, so its points are valuations up to equivalence. An implementation which stores
+a representative valuation with a chosen value group must prove that it gives the same space before
+it is used by later layers.
 
-### Layer 0: Huber rings and Tate rings (Wedhorn §6; [Hu1] §1, [Hu2] §1)
+The following conventions apply throughout.
 
-**Definitions.** A ring of definition of a topological ring `A` is an open subring `A₀ ⊆ A`
-whose subspace topology is `I`-adic for a finitely generated ideal `I ⊆ A₀`. A Huber ring is a
-topological ring admitting a ring of definition; a Tate ring is a Huber ring with a
-topologically nilpotent unit (a pseudouniformizer). Define the topologically nilpotent
-elements `A°°`, the power-bounded subring `A°`, restricted power series `A⟨T₁, …, Tₖ⟩` (the
-completed algebra: coefficients tending to `0`, with its Huber topology), and strong
-noetherianness: `A` is strongly noetherian when every completed algebra `A⟨T₁, …, Tₖ⟩` is
+1. **Names.** Ring-theoretic predicates live in a `Huber` or `HuberRing` namespace. Names such as
+   `IsUniform` and `IsStronglyNoetherian` are not placed in the root namespace.
+
+2. **The plus ring is explicit.** A Huber ring may have many rings of integral elements. A theorem
+   about `(A,A⁺)` therefore takes `Aplus : Subring A` explicitly. When the pair is an object of a
+   category, the ring and its plus subring are bundled. There is no global typeclass selecting
+   `A⁺`.
+
+3. **Completeness includes separatedness in mathematical statements.** Wedhorn assumes that a
+   complete topological group or ring is Hausdorff. Lean's `CompleteSpace` does not. Every theorem
+   translated from that convention uses both `CompleteSpace` and `T2Space`, or a bundled
+   `CompleteSeparated` predicate.
+
+4. **Valuations are considered up to equivalence.** `Spv A` is built from `ValuativeRel A`.
+   Statements about a representative use the canonical valuation associated to the valuative
+   relation or `Valuation.Compatible`.
+
+5. **Spectrality uses Mathlib's `SpectralSpace`.** The roadmap also introduces the reusable notion
+   of a pro-constructible subset of a spectral space and proves that a pro-constructible subspace
+   is spectral.
+
+6. **Topological structure sheaves take values in complete separated rings.** Define the full
+   subcategory of `TopCommRingCat` consisting of complete Hausdorff topological commutative rings.
+   Prove that products and equalizers are created by the forgetful functor and remain complete and
+   Hausdorff. The equalizer is closed because the codomain is Hausdorff.
+
+Numbered references below are to Wedhorn's *Adic Spaces* unless another source is named. Huber's
+papers are the primary source. Existing Lean files are sources of proofs and implementation
+experience; they do not replace the mathematical specification.
+
+## Existing Mathlib used by the roadmap
+
+The roadmap uses the following material already present in Mathlib.
+
+- `ValuativeRel`, its canonical value group and valuation, compatible representatives,
+  localisation and quotient constructions, and valuation rings.
+- Nonarchimedean topological algebra: linear and adic topologies, open subgroups, topological
+  nilpotence, topological subrings and quotients, and uniform completion.
+- `SpectralSpace`, `PrimeSpectrum`, product topologies, and Tychonoff compactness.
+- Presheaves, stalks, `PresheafedSpace`, `CategoryTheory.GlueData`, and the existing gluing
+  theory for presheafed spaces.
+- `TopCommRingCat` (the category itself) and `HomologicalComplex`. ⚠ Mathlib registers **no**
+  limits for `TopCommRingCat` — no `HasLimits`, products, or equalizers — so Layer 3 must build
+  them from `HasLimits TopCat` and `HasLimits CommRingCat` before restricting to the complete
+  Hausdorff subcategory.
+- Laurent-series fields, which carry `Valued`. ⚠ `ℚ_[p]` carries `ValuativeRel` with
+  `Valuation.Compatible` rather than a `Valued` instance, and `ℤ_[p]` carries neither; adapt
+  rather than assume.
+- Witt vectors, Frobenius, and Teichmüller lifts. ⚠ Mathlib has **no** perfectoid ring or field
+  predicate — `RingTheory/Perfectoid/` is `FontaineTheta`, `Untilt` and `BDeRham`, and
+  `FontaineTheta` states outright that it does not require `R` perfectoid — so the
+  perfectoid-field input of Layer 7.1 is built here, as is the pseudouniformiser (Mathlib has
+  only the discrete `Valuation.IsUniformizer`) and the `(p,[ϖ])`-adic completeness of `W(𝒪_F)`
+  (Mathlib has only the `p`-adic `WittVector.isAdicCompleteIdealSpanP`).
+- `PowerSeries.IsRestricted`, which should be compared with the adic restricted-series
+  constructions rather than duplicated without coordination.
+
+Boundedness is not treated as pre-existing Mathlib input in the roadmap: it is a named Layer-0
+prerequisite, coordinated with mathlib4#40013.
+
+---
+
+## Layer 0: topological algebra, Huber rings, and Tate algebras
+
+References: Wedhorn §§5–6; Huber [Hu1, Hu2]; Henkel; BGR §5.2.
+
+### 0.1 Boundedness and power-bounded elements
+
+For a topological commutative ring `A`, define a subset `S ⊆ A` to be bounded if, for every
+neighbourhood `U` of zero, there is a neighbourhood `V` of zero such that
+
+```text
+V · S ⊆ U.
+```
+
+Coordinate this definition with mathlib4#40013. Develop the elementary calculus of bounded sets:
+subsets, finite unions, products, finite sets, images under continuous linear maps, and transport
+under topological-ring isomorphisms.
+
+Define
+
+```text
+A°  = {a : the set {aⁿ | n ≥ 0} is bounded},
+A°° = {a : aⁿ → 0}.
+```
+
+Prove that `A°` is a subring for **non-archimedean** commutative rings (Wedhorn Proposition 5.30 —
+a neighbourhood basis of `0` by subgroups; *not* "linearly topologised", which means a basis of
+open ideals and would exclude every Tate ring here, since a nonzero Tate ring has no proper open
+ideal), that `A°°` is an ideal of
+`A°`, and that both constructions are preserved by topological-ring isomorphisms. State separately the
+hypotheses under which a continuous homomorphism sends bounded or power-bounded subsets to bounded
+or power-bounded subsets; this is not asserted for an arbitrary continuous homomorphism.
+
+### 0.2 Huber rings and Tate rings
+
+A pair of definition of `A` consists of an open subring `A₀ ⊆ A` and a finitely generated ideal
+`I ⊆ A₀` such that the subspace topology on `A₀` is the `I`-adic topology. A Huber ring is a
+topological ring admitting a pair of definition. A Tate ring is a Huber ring containing a
+topologically nilpotent unit.
+
+Prove the following results.
+
+- Wedhorn Lemma 6.2: the rings of definition are exactly the open bounded subrings whose topology
+  is adic for a finitely generated ideal.
+- Wedhorn Corollary 6.4: intersections and products of rings of definition are rings of
+  definition, and `A°` is their union.
+- Wedhorn Lemma 6.6: for a pair of definition `(A₀,I)`, an ideal of `A` is open precisely when it
+  contains a sufficiently large power of `IA`, equivalently when `IA` is contained in its radical.
+- Every Huber ring is nonarchimedean, `A°` is open and integrally closed in `A`, and every open
+  integrally closed subring contains `A°°`.
+- In a Tate ring, sufficiently high powers of a pseudouniformiser belong to every ring of
+  definition, and `ϖⁿA₀` is a neighbourhood basis of zero.
+
+A ring of integral elements is an open integrally closed subring `A⁺ ⊆ A°`. Define Huber pairs and
+continuous morphisms of pairs.
+
+### 0.3 Completion
+
+Use Wedhorn Proposition and Definition 5.32 and Example 5.33 for completion of topological groups
+and rings. Prove that the completion map
+
+```text
+A → Â
+```
+
+has dense image and kernel `closure {0}`. If `A` is Hausdorff it is a topological embedding.
+Remark 6.8 supplies the Huber structure on `Â`; the Tate property is preserved. State separately
+the base-change result of Proposition 6.9(1), whose proof cites [Hu1] Lemma 1.6.
+
+Every theorem concerning a complete Huber ring from this point on includes the Hausdorff
+hypothesis explicitly.
+
+### 0.4 Weighted restricted series and topological localisation
+
+Develop the general topological-algebra constructions required for rational localisation of a
+Huber ring.
+
+- Define Wedhorn's weighted restricted power-series ring `A⟨X₁,…,Xₙ⟩_T` of Remark and
+  Definition 5.48, for a family `T = (T_i)` of subsets of `A` subject to Wedhorn's standing
+  hypothesis that each `T_i · A` is open (equivalently `T_i^m U` is a neighbourhood of `0` for
+  every `m` and every neighbourhood `U`) — without it neither `A[X]_T` nor `A⟨X⟩_T` is defined.
+  Include its topology, functoriality, the density of polynomials (5.49), and the universal
+  property for power-bounded weighted variables (5.50, which asks `A` complete and each `T_i`
+  bounded).
+- For a family `T = (T_i)_{i ∈ I}` of **subsets** of `A` and denominators `S = (s_i)_{i ∈ I}`
+  indexed by the same `I`, define the topological localisation `A(T/S)` of Proposition and
+  Definition 5.51 on the algebraic localisation in which the `s_i` are inverted. Its universal
+  property is: the `s_i` become units and every fraction `t/s_i` with `t ∈ T_i` is
+  power-bounded. (Numerators are indexed in bundles, not paired off one-to-one with the
+  denominators; the ordinary `A⟨t₁,…,tₙ/s⟩` is the case `I` a singleton with
+  `T = {t₁,…,tₙ}`.)
+- Define the separated completion `A⟨T/S⟩` and prove its corresponding universal property for
+  complete Hausdorff target rings.
+- Prove independence of auxiliary choices and compatibility with ordinary algebraic
+  localisation and completion.
+
+The usual rational localisation `A⟨T/s⟩` is the singleton-`I` case just described. This
+construction is required in Layer 7 because `A_inf` is Huber but not Tate.
+
+### 0.5 Restricted series over Tate rings and strong noetherianness
+
+For a complete Hausdorff Tate ring, compare the weighted construction with the usual completed restricted
+power-series algebra `A⟨X₁,…,Xₙ⟩`. Develop the following results as separate milestones.
+
+1. Restricted series with coefficients in a complete topological module, including the topology
+   and the universal property.
+2. Substitution and evaluation, quotient and iteration isomorphisms, and compatibility with
+   completed tensoring by a finitely generated module.
+3. Weierstrass division and preparation over a complete rank-one nonarchimedean field.
+4. Noetherianity of `K⟨X₁,…,Xₙ⟩` for such a field `K`.
+5. Stability of noetherianity under quotients and the iteration
+   `A⟨X⟩⟨Y⟩ ≅ A⟨X,Y⟩`.
+
+For an arbitrary Tate ring `A`, define `A⟨X₁,…,Xₙ⟩` using separated completion and say that `A`
+is strongly noetherian if every such algebra is noetherian. For zero variables this says that the
+separated completion `Â` is noetherian; if `A` is complete and Hausdorff, it says that `A` itself is
+noetherian. Conclude from BGR 5.2.6 that every complete rank-one nonarchimedean field is strongly
 noetherian.
 
-**Main results.**
+### 0.6 Open mapping and strict morphisms
 
-- Basic theory of rings of definition (Corollary 6.4, Lemma 6.6): powers of `I` are open,
-  elements of `I` are topologically nilpotent, rings of definition are exactly the open,
-  bounded, adically topologized subrings. A Huber ring is nonarchimedean. `A°` is open and
-  integrally closed. In a Tate ring, a pseudouniformizer lies in every ring of definition
-  after a power, and `(ϖⁿA₀)ₙ` is a neighbourhood basis of `0`.
-- **Completion.** The completion of a Huber ring is a complete Hausdorff Huber ring, with a
-  pair of definition induced from any pair for `A`, and completion preserves the Tate
-  property. The canonical map `A → Â` has dense image and kernel `closure {0}`. If `A` is
-  Hausdorff, it is a topological embedding with dense image. ([Hu2] Lemma 1.6, Wedhorn §6.4.)
-- **Strong noetherianness.** The `k = 0` case says that `Â` is noetherian; in particular a
-  complete strongly noetherian Tate ring is noetherian. Complete nonarchimedean fields with a
-  rank-one valuation are strongly noetherian (BGR 5.2.6) — stated and proved at rank one,
-  which is what the examples (`ℚ_p`, `F⸨t⸩`) and Layer 7's interval rings need; it is not
-  claimed for higher-rank valued fields.
-- **The open mapping theorem** (Henkel, arXiv:1407.5647). State Henkel's theorem with its
-  hypotheses: over a topological ring admitting a zero sequence of units, a continuous
-  surjective linear map between complete, Hausdorff, first-countable topological modules is
-  open. Derive the corollary used later: a continuous surjective map between completely
-  metrisable topological modules over a complete Tate ring is strict (equivalently, open onto
-  its image with the quotient topology). This discharges Wedhorn's Propositions 6.17–6.18 and
-  is the topological input to Layer 4's separatedness argument.
-- **Examples.** Discrete rings are Huber (`(A, (0))`); `ℚ_[p]` is Tate; `ℤ_[p]` is Huber and
-  not Tate; `F⸨t⸩` is Tate; `ℚ_p⟨T⟩` is Tate and strongly noetherian.
+Formalise Wedhorn Theorem 6.16 and Propositions 6.17–6.18 using Henkel's open mapping theorem.
+State Henkel's hypotheses explicitly: the base ring has a zero sequence of units, and the modules
+are complete, Hausdorff, and first countable. Derive the form used later: a continuous surjective
+linear map between completely metrisable modules over a complete Hausdorff Tate ring is open and induces the
+quotient topology.
 
-**Dependencies.** Mathlib only.
+### Examples
 
-**Status.** Huber rings are under review in mathlib4#42312. The AINTLIB Layer-0 files are
-listed in the status table; the open-mapping files are incomplete.
+Prove that a discrete ring is Huber, `ℤ_[p]` is Huber but not Tate, `ℚ_[p]` and `F⸨t⸩` are Tate,
+and `ℚ_p⟨T₁,…,Tₙ⟩` is complete and strongly noetherian.
 
-### Layer 1: the valuation spectrum (Wedhorn §4; [Hu1])
+### Dependencies
 
-**Definitions.** `Spv A` is the type of `ValuativeRel` instances on `A`, with the topology
-generated by the basic opens `{v : v f ≤ v s ≠ 0}`; the support `supp v` (a prime ideal);
-functorial `comap` along ring maps; lifts to quotients `Spv (A ⧸ 𝔞)` for `𝔞 ≤ supp v` and to
-localizations.
+Mathlib, together with the boundedness work coordinated with mathlib4#40013.
 
-**Main results — spectrality, as a theorem-level plan.**
+---
 
-1. Define the constructible (patch) topology, in which each basic open and its complement are
-   open.
-2. Prove compactness of the constructible space.
-3. Deduce quasi-compactness of each basic open in the spectral topology.
-4. Prove the basic opens form a basis closed under finite intersections.
-5. Prove `T0`.
-6. Construct generic points of irreducible closed subsets (quasi-sobriety), and conclude
+## Layer 1: valuation spectra and continuous valuations
+
+References: Wedhorn §§3–4 and §7.1; Huber [Hu1].
+
+### 1.1 The valuation spectrum
+
+For a commutative ring `A`, define `Spv A` to be the type of valuative relations on `A`, with
+basic opens
+
+```text
+Spv(A)(f/s) = {v : v(f) ≤ v(s) and v(s) ≠ 0}.
+```
+
+Develop support, pullback along ring homomorphisms, lifts through quotients and localisations, the
+continuous support map
+
+```text
+supp : Spv A → Spec A,
+```
+
+and the section of `supp` given by the trivial valuation attached to a prime ideal (Wedhorn
+Remark 4.6).
+
+### 1.2 Spectrality of `Spv A`
+
+Follow Wedhorn Proposition 4.7 and Proposition 3.31.
+
+1. Embed `Spv A` into the product `{0,1}^{A×A}` by the order relation
+   `(a,b) ↦ [v(a) ≤ v(b)]`.
+2. Express the valuation axioms as closed conditions and identify the image as a closed subspace.
+3. Use Tychonoff's theorem to prove compactness of the constructible topology.
+4. Prove that the basic opens are clopen in that topology and generate the spectral topology.
+5. Prove the `T0` property.
+6. Formalise the reusable topological criterion of Wedhorn Proposition 3.31 and deduce
    `SpectralSpace (Spv A)`.
 
-The model is Mathlib's Hochster development for `PrimeSpectrum`. The same machinery then
-yields, in Layer 2: `Cont A` is proconstructible in `Spv A`, hence spectral; `Spa (A, A⁺)` is
-proconstructible in `Cont A`, hence spectral; rational subsets form a basis of quasi-compact
-opens.
+This replaces an analogy with `PrimeSpectrum` by the actual proof used for valuation spectra.
 
-Also: vertical and horizontal specialization of valuations, in the amount Layer 2's analysis
-of `Cont` uses.
+### 1.3 Pro-constructible subspaces
 
-**Dependencies.** Layer 0 vocabulary; Mathlib's `ValuativeRel`.
+Define a subset of a spectral space to be pro-constructible if it is closed in the constructible
+or patch topology. Prove the standard calculus: intersections, inverse images under spectral maps,
+and products. Prove that a pro-constructible subspace of a spectral space is spectral.
 
-**Status.** `Spv` and its topology are under review in mathlib4#38009. The AINTLIB
-spectrality file is the least complete part of the existing development (36 direct `sorry`s).
+This is a reusable topology development and is a prerequisite for the spectrality of `Spa`.
 
-### Layer 2: continuous valuations, pairs, and `Spa` (Wedhorn §7; [Hu1] §3)
+### 1.4 The spaces `Spv(A,I)`
 
-**Definitions.** `v.IsContinuous` over a Huber ring (`{a | v a < γ}` open for every `γ` in
-the value group); `Cont A ⊆ Spv A` as a subspace. `IsRingOfIntegralElements (Aplus : Subring A)`:
-open, integrally closed, contained in `A°` (Definition 7.14). The bundled `HuberPair` and
-morphisms of pairs (continuous ring maps with `f(A⁺) ⊆ B⁺`), per the conventions.
-`Spa (A, A⁺) = {v ∈ Cont A : ∀ a ∈ A⁺, v a ≤ 1}` with the subspace topology. Rational
-subsets `R(T/s)` for finite `T ⊆ A` with `s ∈ T` and the ideal `T·A` open — for a Tate ring,
-the openness condition is equivalent to the elements of `T` generating the unit ideal,
-`(T)A = A`. (It does not require any element of `T` to be a unit: in `K⟨X⟩` the set
-`{X, 1 − X}` generates the unit ideal with both members nonunits.)
+Let `A` be an f-adic ring and `I ⊆ A` an ideal admitting a finitely generated `J` with
+`√I = √J` — Wedhorn's standing hypotheses for §7.1, both load-bearing (his proof of Lemma 7.5
+opens by reducing to `I` finitely generated). For a valuation `v`, develop the cofinality theory
+of Wedhorn Lemmas 7.1–7.2, the convex subgroup `cΓ_v(I)` of Definition 7.3, and Lemma 7.4.
 
-**Main results.** Any open integrally closed subring contains `A°°`; `A°` is the maximal ring
-of integral elements. `Cont A` is spectral ([Hu1] Theorem 3.1 shape). `Spa (A, A⁺)` is
-spectral with the rational subsets a basis of quasi-compact opens (Theorem 7.35); rational
-subsets are stable under finite intersection (Remark 7.30);
-`Spa (A, A⁺) = ∅ ↔ A = 0` for complete `A` (Proposition 7.32 shape);
-`A⁺ = {f : ∀ v ∈ Spa (A, A⁺), v f ≤ 1}` for complete pairs (Proposition 7.52 shape).
-Functoriality of `Spa` in morphisms of pairs.
+Define
 
-**Dependencies.** Layers 0–1.
+```text
+Spv(A,I) = {v ∈ Spv A : cΓ_v(I) = Γ_v}
+```
 
-**Status.** `Spa` as a topological space is under review in mathlib4#42315. AINTLIB's files
-here are close to complete (see the table).
+as in §7.1.1, and construct the retraction
 
-### Layer 3: rational localization, the structure presheaf, and the categories (Wedhorn §7.5–§8.1; [Hu2] §1)
+```text
+r_I : Spv A → Spv(A,I).
+```
 
-**Definitions.**
+of §7.1.2. Prove Lemma 7.5: `Spv(A,I)` is spectral. Record Remark 7.6 explicitly: the inclusion
+`Spv(A,I) → Spv A` is not spectral in general, so later proofs must not obtain spectrality merely
+by regarding it as a subspace of `Spv A`.
 
-- **Rational localization, by its universal property.** For a rational subset `U = R(T/s)` of
-  `X = Spa (A, A⁺)`, the localization is a complete Huber pair `(A⟨T/s⟩, A⟨T/s⟩⁺)` together
-  with a morphism of pairs `(A, A⁺) → (A⟨T/s⟩, A⟨T/s⟩⁺)` such that: the map is continuous;
-  `s` becomes invertible; `t/s ∈ A⟨T/s⟩⁺` for every `t ∈ T`; and the pair is initial among
-  complete pairs over `(A, A⁺)` with these properties — every such morphism of pairs factors
-  through it uniquely, by a continuous morphism of pairs. The plus ring is defined: the
-  integral closure in `A⟨T/s⟩` of the image of the subring generated by `A⁺` and the
-  fractions `t/s`. The construction is a quotient of Layer 0's restricted power series
-  `A⟨X_t⟩`; the universal property, not the construction, is the public interface. Iterated
-  localization: a rational subset of a rational subset is rational in `A` (Lemma 7.54 =
-  [Hu2] Lemma 2.6).
-- **Strictification.** The universal property determines the ring only up to canonical
-  isomorphism, and a presheaf needs actual restriction maps. Milestones: the canonical
-  isomorphism between the localizations of two presentations of the same rational subset;
-  compatibility of these isomorphisms over triples of presentations; the restriction maps for
-  inclusions of rational subsets; the identity and composition laws.
-- **The structure presheaf.** On rational `U`, `𝒪_X(U) = A⟨T/s⟩`; on an arbitrary open, the
-  limit over the rational subsets it contains. Values are complete topological rings. Define
-  `𝒪_X⁺(U) = {f ∈ 𝒪_X(U) : v_x(f_x) ≤ 1 for every x ∈ U}`, with its stalk description.
-  Stalks `𝒪_{X,x}` are formed as colimits of rings — they carry no useful topology and none
-  is claimed; they are local rings, and each point's valuation extends to the stalk and
-  factors through its residue field.
-- **The category ladder** (Wedhorn §8.1–8.2). `𝒱^pre`: topological spaces with a presheaf of
-  complete topological rings and an equivalence class of valuations on each stalk; morphisms
-  are continuous maps with presheaf maps compatible with the valuations. Affinoid pre-adic
-  spaces: objects of `𝒱^pre` isomorphic to some `Spa (A, A⁺)` with its presheaf (Remark and
-  Definition 8.10). Pre-adic spaces: objects of `𝒱^pre` admitting an open cover by affinoid
-  pre-adic spaces, with the presheaf adapted to that affinoid basis. `𝒱`: the full
-  subcategory of `𝒱^pre` whose structure presheaf is a sheaf of topological rings. Mathlib's
-  `PresheafedSpace` is the substrate.
-- **Sheafiness, three notions with three names.** `IsSheafyPair A Aplus`: the structure
-  presheaf of this `Spa (A, A⁺)` is a sheaf of topological rings (every open cover's
-  equalizer diagram is a limit in the category of topological commutative rings, so glued
-  sections carry the right topology). `IsSheafyRing A`: Wedhorn's ring-level notion
-  (Definition 8.26), which quantifies over the rings of integral elements of the completion.
-  `IsStablySheafyRing A`: sheafy after every topologically finite-type extension. State the
-  implications between the three; they are not interchangeable, and each later use names the
-  one it means.
+### 1.5 Continuous valuations
 
-**Main results.** `𝒪_X(X) = A` for complete `(A, A⁺)` ([Hu2] Proposition 1.6 shape). The
-finite-cover criterion: `IsSheafyPair A Aplus` holds if and only if the equalizer condition
-holds for finite rational covers of rational subsets. The proof needs, as named steps:
-rational subsets form a basis closed under finite intersections; rational subsets are
-quasi-compact; every open cover of a rational subset refines to a finite rational cover; the
-basis-sheaf criterion for presheaves valued in topological rings; the identification of the
-equalizer topology (products and equalizers in the category of topological rings are created
-by the forgetful functor and preserve completeness); and the extension from the rational
-basis to the limit-extended presheaf on all opens. Sheafiness transports along isomorphisms
-of pairs and is insensitive to completion.
+For a Huber ring with pair of definition `(A₀,I)`, define `Cont A` as the points represented by
+continuous valuations. Prove Theorem 7.10:
 
-**Dependencies.** Layer 2; Layer 0's restricted series and completions.
+```text
+Cont A = {v ∈ Spv(A,IA) : v(a) < 1 for every a ∈ I}.
+```
 
-**Status.** This is the largest open part of the existing development (see the table).
+Prove Corollary 7.12: `Cont A` is closed in `Spv(A,IA)`, hence spectral. Show that this space is
+independent of the chosen pair of definition. Develop vertical and horizontal specialisation only
+as needed for this theorem and for the stalk valuations in Layer 3.
 
-### Layer 4: sheafiness and Čech acyclicity for strongly noetherian Tate rings (Wedhorn §8.2; [Hu2] Theorem 2.2(ii), 2.5; Tate 1971)
+### Dependencies
 
-Base hypotheses, fixed for the layer: `A` a complete Hausdorff strongly noetherian Tate ring,
-`Aplus` a ring of integral elements. No domain hypothesis, no noetherian ring of definition,
-no discreteness of value groups. (Wedhorn states 8.28 for the completion; the complete
-Hausdorff version proved here recovers his formulation through Layer 3's
-completion-insensitivity.)
+Layer 0 and Mathlib's valuative-relation API.
 
-**Main results.**
+---
 
-- **Cover normalization.** Every open cover of `X` refines to a finite rational cover; every
-  finite rational cover refines to a standard (Laurent-type) cover; acyclicity reduces to
-  simple Laurent covers `{v f ≤ 1} ∪ {v f ≥ 1}` by induction (Wedhorn Lemma 8.31/8.34 shape).
-- **The flatness bridge, in five named steps.** (i) The algebraic prelocalization
-  `A[1/s]`-algebra from which the rational localization is completed; (ii) the finitely
-  generated ideal defining its topology; (iii) the theorem that the rational localization is
-  the adic completion of that algebra along that ideal; (iv) the noetherian hypotheses,
-  supplied by strong noetherianness; (v) the application of Mathlib's
-  `AdicCompletion.flat_of_isNoetherian`. Without steps (i)–(iv) the Mathlib lemma does not
-  attach to the construction.
-- **Separatedness.** Over a rational cover, the restriction map into the product of the cover
-  rings is injective with closed image and the quotient topologies match (Wedhorn Corollary
-  8.32, Lemmas 8.33–8.34), using the open-mapping corollary from Layer 0.
-- **The sheafiness theorem.** `IsSheafyPair A Aplus` under the layer's hypotheses — Wedhorn
-  Theorem 8.28(b), [Hu2] Theorem 2.2(ii) — by Laurent-cover induction on the Čech complex,
-  Tate's argument in Huber's generality.
-- **Čech acyclicity, in all degrees.** For every rational subset `U` and finite rational cover
-  `𝔘` of `U`, the augmented Čech complex `0 → 𝒪_X(U) → ∏ 𝒪_X(U_i) → ∏ 𝒪_X(U_ij) → ⋯` is
-  exact, over Mathlib's `HomologicalComplex` API. This is the Čech-level version used by all
-  later applications. Wedhorn's own statement of 8.28 is the sheaf property together with the
-  vanishing `H^q(U, 𝒪_X) = 0` for `q ≥ 1`; deducing that form requires a Čech-to-sheaf-
-  cohomology comparison, and this roadmap does not develop sheaf cohomology. The claim made
-  and proved here is the Čech-acyclicity theorem, and the text says so rather than calling it
-  verbatim 8.28.
-- **The classical corollary.** Tate's 1971 acyclicity for `ℚ_p⟨T⟩` and its standard Laurent
-  covers, as a worked instance.
+## Layer 2: affinoid spectra and rational subsets
 
-**Dependencies.** Layer 3; Layer 0's open mapping theorem and strong noetherianness;
-Mathlib's completion flatness.
+References: Wedhorn §7.2–§7.7; Huber [Hu1] §3.
 
-**Status.** The AINTLIB capstone exists with exactly this hypothesis bundle but sits in a
-13,000-line file with 9 direct `sorry`s; the dependency cone must be audited and the file
-decomposed before anything counts as discharged. The all-degrees statement is new.
+### 2.1 Huber pairs and `Spa`
 
-### Layer 5: adic spaces (Wedhorn §8.2–8.3, Definition 8.22; [Hu2] §2)
+For a Huber pair `(A,A⁺)`, define
 
-**Definitions.** Affinoid adic spaces: objects of `𝒱` isomorphic to `Spa (A, A⁺)` for a pair
-with `IsSheafyPair`. Adic spaces: objects of `𝒱` locally isomorphic in `𝒱` to affinoid adic
-spaces — carrying the presheaf and the stalk valuations, not merely locally homeomorphic.
-Morphisms are `𝒱`-morphisms; open adic subspaces.
+```text
+Spa(A,A⁺) = {v ∈ Cont A : v(a) ≤ 1 for every a ∈ A⁺}
+```
 
-**Gluing, specified.** Gluing data: an index set, objects of `𝒱`, open subobjects, transition
-isomorphisms, and the cocycle condition. Construction: the quotient topological space; the
-glued presheaf and the sheaf property; the glued stalk valuations; the universal property of
-the glued object; preservation of the pre-adic and adic conditions.
+with the subspace topology. Prove Theorem 7.35 by showing that `Spa(A,A⁺)` is
+pro-constructible in `Spv(A,IA)` for an ideal of definition `I`, and hence spectral.
 
-**Examples.** `Spa (K, K°)` for a complete nonarchimedean field, with points classified by
-the rank filtration. The closed unit disc `Spa (ℚ_p⟨T⟩, ℤ_p⟨T⟩)`, an adic space by Layer 4.
-The open unit disc: the union of the increasing family of rational closed discs
-`{v : v(Tⁿ) ≤ v(p)}` for `n ≥ 1`, whose radii `|p|^{1/n}` increase to `1`, with the affinoid
-rings `ℚ_p⟨T, Tⁿ/p⟩` and the evident transition maps; glued by the construction above. It is
-not affinoid: it is not quasi-compact, and every affinoid adic spectrum is quasi-compact.
+A morphism of Huber pairs induces the contravariant continuous map on adic spectra. State the exact
+hypotheses under which this map is spectral.
 
-**Dependencies.** Layers 3–4.
+### 2.2 Rational subsets
 
-**Status.** The existing `AdicSpace` structure in provenance asks only local homeomorphism
-and is a placeholder; this layer's definition is the specification.
+For a finite set `T ⊆ A` and `s ∈ A`, define
 
-### Layer 6: uniformity, Buzzard–Verberkmoes, and a new counterexample ([BV]; [HK])
+```text
+R(T/s) = {v ∈ Spa(A,A⁺) : v(t) ≤ v(s) ≠ 0 for every t ∈ T},
+```
 
-**Definitions.** `IsUniform A` (`A°` bounded, Definition 7.36); `IsStablyUniform A Aplus`
-(every rational localization is uniform, Definition 7.37).
+under the condition that the ideal `TA` is open. One may replace `T` by `T ∪ {s}`.
 
-**Main results.** Stably uniform complete Tate pairs are sheafy ([BV], in the
-bounded-denominator formulation) — the sheafiness criterion complementary to Layer 4.
+Prove the five parts of Remark 7.30 — including part (5), finite intersections of rational subsets,
+which Theorem 7.35's own proof consumes — using Lemma 6.6 for the open-ideal criterion. In a Tate ring,
+`TA` is open precisely when `T` generates the unit ideal; this does not imply that one element of
+`T` is a unit. Prove that rational subsets form a basis of quasi-compact opens and are closed under
+finite intersections.
 
-**A new counterexample.** Hansen–Kedlaya (April 2025) record as open whether a uniform
-sheafy Huber ring must be stably uniform ([HK] Remark 3.16). The following construction
-answers that question negatively, and the proof is the AINTLIB formalisation (the `FJP/`
-directory, eleven files, no direct `sorry` at the pin). Its formal status carries the same
-caveat as everything downstream of Layer 4: the files consume the sheafiness capstone, so
-the machine-checked claim is complete once the Layer-4 dependency cone is closed and the
-`#print axioms` audit passes — the standard migration gate, applied here as elsewhere.
+Add the following useful results.
 
-Over `K = F⸨t⸩`: let `L = K⟨W, W⁻¹⟩`, `𝓑 = K⟨W, Q⟩/(Q²)`, `𝓒 = L⟨Q⟩`, `𝓓 = L⟨Q⟩/(Q²)`, and
-`𝓐 = 𝓑 ×_𝓓 𝓒` — concretely, the closed subring of `𝓒` of series whose `Q⁰`- and
-`Q¹`-coefficients have nonnegative `W`-support. The claims: `𝓐` is a uniform non-noetherian
-domain; `(𝓐, 𝓐°)` is sheafy, by transferring the sheaf condition across the strict Milnor
-square `0 → 𝓐 → 𝓑 ⊕ 𝓒 → 𝓓 → 0` from the three vertices, each a complete strongly noetherian
-Tate ring (two non-reduced), hence sheafy by Layer 4; and `𝓐` is not stably uniform,
-witnessed by the completed localization `𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)`, which is not uniform.
+- Proposition 7.34: over a complete Hausdorff affinoid ring, rational subsets are unchanged by
+  sufficiently small perturbations of their defining functions.
+- Corollary 7.53: if `T` is a finite subset of a complete Hausdorff affinoid ring, then `T`
+  generates the unit ideal if and only if the standard family
 
-The migration decomposes into the components the AINTLIB proof already carries: the four
-rings and the maps of the Milnor square; the fibre product as a complete Tate ring; the
-uniform non-noetherian domain properties; the localized Milnor square over each rational
-subset in the sheaf argument, with strict exactness including the topologies; the transfer
-of the sheaf condition across the square; the completed-localization computation
-`𝓐⟨W/ϖ⟩ ≅ K⟨X, Q⟩/(Q²)`; the non-uniformity of the right-hand side; and the `#print axioms`
-audit of the exported capstones. The detailed construction lives in the `FJP/` file
-docstrings; this layer records the statement and its dependencies. The strong-sheafiness
-refinement (`𝓐⟨T₁, …, Tₙ⟩` sheafy for every `n`) is not a target.
+  ```text
+  (R(T/t))_{t ∈ T}
+  ```
 
-**Dependencies.** Layers 3–4 in full; independent of Layer 5.
+  covers `Spa(A,A⁺)`.
+- Proposition 8.2(2): a rational subset of a rational subset is rational in the original affinoid
+  spectrum.
+- Lemma 7.54: for complete `A`, every open cover — in particular every finite rational cover —
+  has a standard rational refinement. This result uses [Hu2] Lemma 2.6 (Wedhorn cites it under
+  his own key `[Hu3]`; see the References note on the two keying schemes) and is kept distinct
+  from iterated localisation.
 
-**Status.** [BV] is new here. The counterexample is proved in AINTLIB (`FJP/`, no direct
-`sorry`), inheriting the Layer-3/4 cone like every downstream result.
+### 2.3 The plus ring, emptiness, and analytic points
 
-### Layer 7: application — the adic Fargues–Fontaine curve
+Prove Proposition 7.52(1), with no completeness hypothesis:
 
-Scope: `E = ℚ_p` (so `W_{E°}(F°) = W(F°)` and `q = p`; general `E` needs ramified Witt
-vectors, which Mathlib lacks — successor roadmap), and `F` a perfectoid field of
-characteristic `p` with a chosen pseudouniformizer `ϖ`, not assumed algebraically closed
-(the construction needs no algebraic closedness; the structure theory that does is out of
-scope).
+```text
+A⁺ = {a ∈ A : v(a) ≤ 1 for every v ∈ Spa(A,A⁺)}.
+```
 
-**Perfectoid input, specified.** Layer 7 consumes exactly: a complete nonarchimedean field
-`F` of characteristic `p` with a rank-one valuation; perfection of `F` and of `𝒪_F`; a
-pseudouniformizer `ϖ` with `|ϖ| < 1`; completeness of `𝒪_F`; Witt vectors `W(𝒪_F)` with
-Frobenius and Teichmüller lifts; and the `(p, [ϖ])`-adic topology on `W(𝒪_F)`. These are
-built here (an `IsPerfectoidField p F` predicate packaging them does not yet exist in
-Mathlib); the Witt-vector API is Mathlib's.
+State Proposition 7.52(2), the complete-case unit criterion, separately.
 
-**Definitions and main results.**
+Prove Proposition 7.49(1):
 
-- **`A_inf`.** `A_inf := W(𝒪_F)` with the `(p, [ϖ])`-adic topology (the "weak topology" of
-  the Fargues–Fontaine literature — neither `p`-adic nor Witt-coordinate). Milestones: `𝒪_F`
-  perfect and `ϖ`-adically complete; `A_inf` a complete Huber ring with pair of definition
-  `(A_inf, (p, [ϖ]))`; `A_inf⁺ = A_inf` (every element power-bounded) — the right plus ring
-  for `A_inf` and not a pattern for the Tate charts below.
-- **The space `𝒴`.** `𝒴 := {v ∈ Spa (A_inf, A_inf) : v(p·[ϖ]) ≠ 0}` — open, `φ`-stable,
-  nonempty (a Gauss point, exhibited as a rank-one valuation continuous for the weak
-  topology). `𝒴` is not the analytic locus: `𝒴 = D(p) ∩ D([ϖ])`, while the analytic locus is
-  `D(p) ∪ D([ϖ])`.
-- **Power-comparability.** The lemma the window covering rests on, absent from the informal
-  sources because it is automatic at rank one: for `v ∈ 𝒴`, continuity for the
-  `(p, [ϖ])`-adic topology forces `v(p)` and `v([ϖ])` to be power-comparable — for every
-  `a > 0` there is `b > 0` with `v([ϖ])^b ≤ v(p)^a`, and symmetrically. (In an arbitrary
-  ordered group two elements below `1` need not be comparable in this sense.) Only with this
-  lemma do the rational windows below cover points of every rank.
-- **Frobenius and the windows.** `φ` is the Witt Frobenius, acting on `Spa` by
-  `φ_Spa(v) = v ∘ φ`; with `κ(v) = log v([ϖ]) / log v(p)` as mnemonic, `κ ∘ φ_Spa = p·κ`
-  (the inverse action gives `p⁻¹κ`; both conventions occur in the literature, this one is
-  fixed here). The windows `U_n`, `V_n` are defined rank-freely by clearing denominators
-  (`κ ≥ a/b :⇔ v([ϖ])^b ≤ v(p)^a`); no real-valued `κ` is constructed. The breakpoint
-  `c = (p+1)/2` is this roadmap's choice (Kedlaya's displayed windows use `1 + 1/p`).
-  Milestones: each window is a rational subset, hence quasi-compact; the windows cover `𝒴`
-  (via power-comparability); `φ` shifts the window index; same-family windows at different
-  indices are disjoint; hence the `φ^ℤ`-action is free and wandering.
-- **The curve as a topological space.** `𝒳 := 𝒴 / φ^ℤ`: the quotient map is open, injective
-  on each window; the images of `U_0` and `V_0` cover `𝒳`; `𝒳` is `T0` and quasi-compact.
-  (Quasi-compactness does not make it affinoid; non-affinoidness is a separate statement and
-  not claimed here.)
-- **The chart rings.** For a closed interval `I = [s, r] ⊂ (0, ∞)`, the interval ring `B^I`
-  with Kedlaya's norm `λ_I = max(λ_s, λ_r)`. To apply Layer 4 to `Spa (B^I, B^{I,+})`, each
-  of the following is a named milestone, none implied by the others: `B^I` is complete; `B^I`
-  is Hausdorff; `B^I` is Tate; `B^I` is strongly noetherian (Kedlaya, *Noetherian properties
-  of Fargues–Fontaine curves*, Theorem 4.10 — hypotheses: perfect complete nonarchimedean
-  `F`, which is why algebraic closedness is not needed); `B^{I,+}` is specified (the unit
-  ball of `λ_I`, which is the power-bounded subring since `λ_I` is power-multiplicative); and
-  `B^{I,+}` is a ring of integral elements. The identification of `B^{I,+}` with the integral
-  closure of the image of the localized `A_inf` — the description making the chart a rational
-  subset of `Spa (A_inf, A_inf)` — is a theorem. The radius dictionary is reciprocal: with
-  `|ϖ| = p^{-α}` and `r = −log_p ρ` one computes `κ = α/r`, so a `κ`-window `[a, b]`
-  corresponds to `ρ ∈ [|ϖ|^{1/a}, |ϖ|^{1/b}]`; the conversion is a lemma, and the endpoint
-  completions are Banach rings (no theorem that they are fields is cited, and none is used).
-  The realisation of `B^I` inside the product of the two endpoint completions is an
-  implementation device; its isometric universal property, if used, is a theorem in the
-  implementation notes, not part of this specification.
-- **The structure sheaf on `𝒳`.** The presheaf of `φ`-invariant sections over saturated
-  preimages — a topological equalizer — with the theorem that it is a sheaf of topological
-  rings; stalk valuations independent of the orbit representative, factoring through residue
-  fields.
-- **The main theorem, by the direct route.** Every point of `𝒳` has an open neighbourhood
-  isomorphic in `𝒱^pre` — then in `𝒱`, once sheafiness is known — to `Spa (B^I, B^{I,+})`.
-  The proof route is fixed (the wandering-slice route); the steps:
-  1. for a wandering window `W ⊆ 𝒴`, prove `q⁻¹(q(W)) = ⨆_{n ∈ ℤ} φⁿ(W)` and that `q|_W` is
-     a homeomorphism onto the open `q(W)`;
-  2. identify `W`, as an affinoid pre-adic space, with `Spa (B^I, B^{I,+})`;
-  3. for every open `V ⊆ W`, prove `𝒪_𝒳(q(V)) ≅ 𝒪_𝒴(V)` topologically, by extending
-     sections equivariantly over the disjoint translates;
-  4. check compatibility with all restriction maps;
-  5. identify `𝒪⁺`;
-  6. prove compatibility of the stalk valuations and independence of the orbit
-     representative;
-  7. conclude the chart is an isomorphism in `𝒱^pre`, hence in `𝒱` after sheafiness.
-  Kedlaya's Theorem 4.10 also makes every `B^I⟨T₁, …, T_k⟩` noetherian, so the chart rings
-  are stably sheafy; that is retained as a supporting theorem (it feeds Wedhorn Remark 8.27
-  and the successor roadmap), not as an alternative construction of the charts — it does not
-  by itself produce the morphism of pre-adic spaces or identify the quotient presheaf with
-  the affinoid structure sheaf.
-- **Independence of `ϖ`.** A theorem, in five steps: compare the ideals `(p, [ϖ])` and
-  `(p, [ϖ'])`; prove they define the same topology on `A_inf`; identify the opens `𝒴_ϖ` and
-  `𝒴_{ϖ'}`; show the Frobenius actions agree under the identification; construct the
-  induced isomorphism of quotient presheafed spaces, and of adic spaces once both sides are
-  adic. (The windows are indexed by the choice and are not independent of it.)
+```text
+Spa(A,A⁺) = ∅  ↔  A / closure{0} = 0.
+```
 
-**Dependencies.** Layer 0 (Huber/Tate vocabulary, restricted series), Layer 2 (`Spa`,
-rational subsets), Layer 3 (presheaf, `𝒱^pre`/`𝒱`), Layer 4 (sheafiness of the charts),
-Layer 5 (the definition the main theorem instantiates). The `A_inf`/window strand depends
-only on Layers 0–2.
+For a Hausdorff Huber ring this reduces to `Spa(A,A⁺)=∅ ↔ A=0`. Do not state the latter under
+`CompleteSpace` alone.
 
-**Status.** The quotient-curve topology, the window combinatorics, the interval-ring strand
-through Kedlaya 4.10, and the descended sheaf of topological rings exist in AINTLIB without
-direct `sorry`s (inheriting the Layer-3/4 cone); the chart isomorphism in `𝒱^pre` is absent
-everywhere and is this layer's principal new theorem.
+Define a point to be analytic when its support is not open (Definition 7.39), and define the
+analytic locus `Spa(A,A⁺)^a`. Prove Proposition 7.49(2), including the criterion for this locus to
+be empty; Remark 7.50 gives a second proof that a complete affinoid with empty analytic locus is
+discrete, while the behaviour under passage to the separated quotient is 7.49(2)(iii). Prove that the
+analytic locus is open and is covered by rational subsets whose coordinate rings are Tate. In
+particular, every point of a Tate affinoid is analytic, while a general Huber affinoid may have
+non-analytic points.
 
-## Worked examples (acceptance criteria)
+### 2.4 Quotients and classical affinoids
 
-- `ℚ_[p]` is Tate; `ℤ_[p]` is Huber and not Tate; discrete rings are Huber (Layer 0).
-- `Spa (ℚ_p, ℤ_p)` is a single point; `Spa (A, A⁺) = ∅ ↔ A = 0` for complete `A` (Layer 2).
-- The closed unit disc contains the Gauss point, and its standard Laurent cover has an exact
-  augmented Čech complex — Tate's 1971 example as an instance of Layer 4.
-- `K⟨X, Q⟩/(Q²)` is sheafy and not uniform — the non-reduced case the Layer-4 hypotheses were
-  pinned to include.
-- The Layer-6 counterexample's exported claims, conditional on the Layer-4 audit.
-- `𝒴` is nonempty; `𝒳` is quasi-compact and `T0`; the two window images cover it; its
-  structure presheaf is a sheaf of topological rings (Layer 7).
-- `B^I` strongly noetherian feeding the Layer-4 theorem: `Spa (B^I, B^{I,+})` sheafy.
-- The open unit disc as a glued non-affinoid adic space (Layer 5).
+For an ideal `J ⊆ A`, define the quotient Huber pair and prove Proposition 7.38: its adic spectrum
+is a closed subspace of `Spa(A,A⁺)`, with the expected universal property.
 
-## Ordering
+Define affinoid algebras over a complete rank-one nonarchimedean field as in Definition 7.56.
+Construct closed polydiscs from `K⟨T₁,…,Tₙ⟩` with plus ring `A°`, and describe the elementary
+points and rational subdomains of the closed unit disc (Example 7.57 and the examples following
+it).
 
-Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4 → Layer 5, in dependency order. Layer 6 needs
-Layers 3–4 and is independent of Layer 5. Layer 7's `A_inf`/window strand needs only Layers
-0–2 and can start early; its charts need Layer 4, and its final clause needs Layer 5.
+### Dependencies
+
+Layers 0 and 1.
+
+---
+
+## Layer 3: rational localisation and the structure presheaf
+
+References: Wedhorn §5.6 (where 5.48–5.51 live; §5.5 is the topology defined by a valuation) and
+§§8.1–8.2; Huber [Hu1, Hu2].
+
+### 3.1 Rational localisation of a Huber pair
+
+Let `U=R(T/s) ⊆ Spa(A,A⁺)`. Define its complete topological coordinate ring using Layer 0:
+
+```text
+A_U = A⟨T/s⟩.
+```
+
+The public universal property is the topological one: `s` is invertible and every `t/s` is
+power-bounded; every continuous map from `A` to a complete Hausdorff Huber ring with these
+properties factors uniquely through `A_U`.
+
+Define
+
+```text
+A_U⁺
+```
+
+as the integral closure in `A_U` of the image of the subring generated by `A⁺` and the fractions
+`t/s`. Prove that `(A_U,A_U⁺)` is a Huber pair and that its adic spectrum is naturally homeomorphic
+to `U`, with its valuations and rational subsets identified.
+
+A rational subset has many presentations. Construct the canonical isomorphism between the
+localisations associated with two presentations of the same subset, prove compatibility for three
+presentations, and construct restriction maps satisfying the identity and composition laws.
+
+### 3.2 Complete separated topological rings
+
+Define `CompleteSeparatedTopCommRingCat` as the full subcategory of `TopCommRingCat` on complete
+Hausdorff objects. Construct products and equalizers and prove that the forgetful functor creates
+them. The equalizer is a closed subring, hence complete; this is where separatedness of the codomain
+is used.
+
+### 3.3 The structure presheaf
+
+On the rational basis of `X=Spa(A,A⁺)`, define
+
+```text
+𝒪_X(U) = A_U.
+```
+
+Extend it to all open subsets by the limit over rational subsets contained in the open. The values
+lie in `CompleteSeparatedTopCommRingCat`, and the two definitions agree on rational subsets.
+
+Define
+
+```text
+𝒪_X⁺(U) = {f ∈ 𝒪_X(U) : v_x(f_x) ≤ 1 for every x ∈ U}.
+```
+
+Stalks are colimits in rings; no topology on a stalk is used. Prove that every stalk is a local
+ring, that the support of the point valuation is its maximal ideal, and that the valuation
+therefore factors through the residue field.
+
+### 3.4 Pre-adic spaces
+
+Define Wedhorn's category `𝒱^pre`. An object consists of a topological space, a presheaf of complete
+separated topological rings, local stalks, and an equivalence class of valuations on each residue
+field. A morphism consists of a continuous map, a morphism of presheaves, local homomorphisms on
+stalks, and compatibility with the residue-field valuations.
+
+Define affinoid pre-adic spaces and pre-adic spaces, including the condition that the presheaf is
+adapted to the affinoid basis. Let `𝒱` be the full subcategory in which the structure presheaf is a
+sheaf in `CompleteSeparatedTopCommRingCat`.
+
+Keep the following notions distinct.
+
+- `Huber.IsSheafyPair A Aplus`: the chosen pair has a sheaf structure presheaf.
+- `Huber.IsSheafyRing A`: Wedhorn Definition 8.26, quantified over rings of integral elements of
+  the completion.
+- `Huber.IsStablySheafyRing A`: every topologically finite-type algebra over the completion is
+  sheafy.
+
+Prove their precise implications and invariance under completion and isomorphism.
+
+### 3.5 Sheaf criteria on the rational basis
+
+Prove that `𝒪_X(X) ≅ A` as a topological ring for a complete Hausdorff pair. Prove the basis sheaf
+criterion in the target category:
+
+- rational subsets form a basis closed under finite intersections;
+- rational subsets are quasi-compact;
+- every cover of a rational subset admits a finite rational refinement;
+- the sheaf condition on this basis is equivalent to the sheaf condition on all opens;
+- the equalizer topology is the subspace topology inherited from the product.
+
+### Dependencies
+
+Layers 0 and 2, together with Mathlib's presheaf and category-theory libraries.
+
+---
+
+## Layer 4: sheafiness and Tate acyclicity
+
+References: Wedhorn §8.2, especially Theorem 8.28; Huber [Hu2, Hu3]; Tate; Buzzard–Verberkmoes;
+Hansen–Kedlaya.
+
+### 4.1 Strongly noetherian Tate rings
+
+First let `A` be a complete Hausdorff strongly noetherian Tate ring and let `A⁺` be a ring of
+integral elements. Prove the algebraic part of Wedhorn's argument in the following order.
+
+1. Remark 8.29: for every finitely generated `A`-module `M`, construct the natural isomorphism
+
+   ```text
+   M ⊗_A A⟨X⟩ ≅ M⟨X⟩.
+   ```
+
+2. Lemma 8.31: prove that `A⟨X⟩` is faithfully flat over `A`, and that the quotients
+
+   ```text
+   A⟨X⟩/(f-X),      A⟨X⟩/(1-fX)
+   ```
+
+   are flat in the cases used for Laurent rational subsets.
+
+3. Proposition 8.30: prove that restriction maps between rational localisations are flat. Use
+   Remark 7.55 for the required chain of rational subsets.
+
+4. Corollary 8.32: obtain the faithful-flatness and injectivity statements for rational covers.
+
+5. Lemma 8.33: prove exactness for a two-piece Laurent cover.
+
+6. Use Lemma 7.54 to refine to a standard rational cover and Lemma 8.34 to pass from the Laurent
+   case to an arbitrary finite rational cover.
+
+Do not replace this chain by an application of noetherian adic-completion flatness: a nonzero Tate
+ring has no proper open ideal, and rational localisation is not the adic completion of `A[1/s]`.
+
+Prove the additional topological statements separately. The rings and modules in the argument are
+complete, Hausdorff, and metrisable; use Layer 0's open mapping theorem to show that the relevant
+images are closed and that the algebraic quotient topology agrees with the topology on the target.
+
+Conclude for complete Hausdorff `A`:
+
+- `Huber.IsSheafyPair A Aplus`;
+- exactness in every degree of the augmented Čech complex for every finite rational cover of a
+  rational subset.
+
+Then prove that completion preserves strong noetherianness and identifies rational localisations
+and structure presheaves. Use this comparison to deduce Wedhorn Theorem 8.28(b) for an arbitrary
+strongly noetherian Tate ring, and Corollary 8.35: every strongly noetherian Tate ring is stably
+sheafy.
+
+The all-degrees Čech statement is the form used later. Wedhorn's Theorem 8.28 also states
+sheaf-cohomology vanishing; this roadmap does not identify Čech acyclicity with that statement
+without a separate comparison theorem.
+
+### 4.2 Stably uniform Tate rings
+
+Use Hansen–Kedlaya Definition 2.3 for uniformity (`A°` bounded) and Definition 3.13 for stable
+uniformity. A complete Hausdorff Tate pair is stably uniform when every rational localisation is
+uniform.
+
+Formalise the precise Buzzard–Verberkmoes theorem: if every affinoid rational subspace of
+`Spa(A,A⁺)` is uniform, then the structure presheaf is a sheaf. State this first at pair level and
+then derive any ring-level formulation. No noetherian hypothesis is used.
+
+### Examples
+
+Recover Tate's acyclicity theorem for standard Laurent covers of the closed `p`-adic unit disc.
+Prove that `K⟨X,Q⟩/(Q²)` is strongly noetherian and sheafy, but not uniform.
+
+### Dependencies
+
+Layers 0 and 3.
+
+---
+
+## Layer 5: adic spaces and elementary geometry
+
+References: Wedhorn §§8.2–8.3; Huber [Hu2].
+
+An affinoid adic space is an object of `𝒱` isomorphic to the pre-adic spectrum of a sheafy Huber
+pair. An adic space is an object of `𝒱` admitting an open cover by affinoid adic spaces. The local
+identifications are isomorphisms in `𝒱`, not merely homeomorphisms.
+
+### 5.1 Open and closed subspaces
+
+Define open immersions and open adic subspaces. Prove that restriction to an open subset preserves
+the adic-space structure and that rational subsets are open affinoid subspaces.
+
+Define closed immersions affinoid-locally using quotient Huber pairs from Proposition 7.38, for a
+**closed** ideal `J` with `A/J` sheafy — 7.38 itself holds for arbitrary `J`, but the quotient
+affinoid of 7.22 need be neither Hausdorff nor sheafy, and this layer works in `𝒱`. Prove
+independence of the chosen affinoid cover and the expected factorisation property.
+
+### 5.2 Morphisms locally of finite type
+
+Define a morphism of affinoid adic spaces to be topologically of finite type when the corresponding
+map of complete Hausdorff Huber rings presents the target as a quotient of a **weighted** restricted
+power-series algebra `A⟨X₁,…,Xₙ⟩_T` (§0.4) — not the Tate-only `A⟨X₁,…,Xₙ⟩`, since Layer 7's `A_inf`
+is Huber and not Tate — by a **quotient mapping** in Wedhorn's sense (§8.5): surjective, continuous
+and open, with the plus ring of the target the integral closure of the image of the source's. Define locally finite-type morphisms by affinoid covers, and prove independence under
+rational localisation and refinement.
+
+Separated and proper morphisms are not defined in this roadmap because their natural definitions
+use fibre products and diagonals.
+
+### 5.3 Gluing
+
+Use Mathlib's `CategoryTheory.GlueData` and the existing gluing of presheafed spaces. Add the data
+specific to adic spaces: local ring structures on stalks, residue-field valuations, their
+compatibility on overlaps, and the proof that the glued object is locally affinoid. Prove the
+universal property of the glued adic space.
+
+### 5.4 Examples
+
+Construct:
+
+- `Spa(K,K°)` for a complete rank-one nonarchimedean field;
+- the closed unit disc and closed polydiscs;
+- the open unit disc as the union of the rational closed discs
+
+  ```text
+  {v : v(Tⁿ) ≤ v(p)},    n ≥ 1,
+  ```
+
+  with coordinate rings `ℚ_p⟨T,Tⁿ/p⟩`.
+
+Prove that the open unit disc is not affinoid because it is not quasi-compact, while every affinoid
+adic spectrum is quasi-compact.
+
+### Dependencies
+
+Layers 3 and 4.
+
+---
+
+## Layer 6: the finite-jet pinching example
+
+Reference: Birkbeck–Torzewski, *Uniform sheafy Tate rings that are not stably uniform*
+(<https://cbirkbeck.github.io/uniform-sheafy-tate-domains/paper.html>); the AINTLIB `FJP/`
+development; Hansen–Kedlaya Remark 3.16 and §13.
+
+**Formal status.** The exported finite-jet pinching theorems in AINTLIB contain no direct `sorry`, but the
+sheafiness theorem in their dependency cone still passes through the unfinished structure-presheaf
+and Tate-acyclicity work of Layers 3–4. Completion of this layer therefore includes a transitive
+`#print axioms` audit after those layers are closed. Because the result settles a question the
+literature recorded as open, the layer also requires review by an expert in Huber rings, ideally one
+of the authors of [HK]. It no longer requires a self-contained mathematical note: the write-up
+exists (Birkbeck–Torzewski, above), which is a change of circumstances since this roadmap's earlier
+drafts and the reason the note requirement was dropped and is not being reinstated.
+
+⚠ **Status in the literature, as of 6 August 2026.** Hansen–Kedlaya revised [HK] that day; its §13
+now records "Using AI, Birkbeck and Torzewski have constructed examples of Huber rings that are
+uniform and sheafy, but not stably uniform", citing the paper above, and drops the corresponding
+entry from its list of open containments. Remark 3.16 itself is unchanged in that revision and still
+poses the question, so [HK] is internally inconsistent at this version; cite §13 for the status and
+Remark 3.16 only for the original question.
+
+This layer formalises the finite-jet pinching construction of Chris Birkbeck and Adam Torzewski,
+with the AINTLIB contributors. The initials `FJP` refer to “finite-jet pinching”. Uniform Huber rings which
+are not stably uniform were already known; the new assertion is that this example is also sheafy.
+Consequently it gives a negative answer to Hansen–Kedlaya Remark 3.16.
+
+Let `F` be a field, let
+
+```text
+K = F⸨t⸩,      ϖ = t,
+L = K⟨W,W⁻¹⟩,
+𝓑 = K⟨W,Q⟩/(Q²),
+𝓒 = L⟨Q⟩,
+𝓓 = L⟨Q⟩/(Q²),
+𝓐 = 𝓑 ×_𝓓 𝓒.
+```
+
+Give all four rings their Gauss topologies and define every map in the fibre square explicitly.
+Equivalently, identify `𝓐` with the closed subring of `𝓒` whose coefficients of `Q⁰` and `Q¹`
+have nonnegative `W`-support.
+
+Prove:
+
+1. `𝓐` is a complete Hausdorff Tate ring and an integral domain;
+2. `𝓐` is uniform and non-noetherian;
+3. the strict sequence
+
+   ```text
+   0 → 𝓐 → 𝓑 ⊕ 𝓒 → 𝓓 → 0
+   ```
+
+   remains a strict Milnor square after every rational localisation used in the sheaf argument;
+4. the sheaf condition transfers from the three strongly noetherian vertex rings to
+   `(𝓐,𝓐°)`;
+5. the rational subset
+
+   ```text
+   R({W,ϖ}/ϖ) = {v : v(W) ≤ v(ϖ) ≠ 0}
+   ```
+
+   has coordinate ring
+
+   ```text
+   𝓐⟨W/ϖ⟩ ≅ K⟨X,Q⟩/(Q²),
+   ```
+
+   and the ring on the right is not uniform;
+6. consequently, `(𝓐,𝓐°)` is sheafy but `𝓐` is not stably uniform.
+
+The mathematical note and expert review are part of the completion criterion, not substitutes for
+the Lean proof.
+
+This roadmap makes no assertion that every completed Tate algebra over `𝓐` is sheafy.
+
+### Dependencies
+
+Layers 3 and 4. The construction is independent of Layer 5.
+
+---
+
+## Layer 7: the adic Fargues–Fontaine curve
+
+References: Fargues–Fontaine; Kedlaya; Scholze–Weinstein.
+
+Let `F` be a complete rank-one nonarchimedean perfect field of characteristic `p`, equipped with a
+pseudouniformiser `ϖ`. No algebraic-closedness hypothesis is imposed.
+
+### 7.1 Perfectoid-field input and `A_inf`
+
+Package the following data and results:
+
+- perfection and completeness of `F` and `𝒪_F`;
+- a pseudouniformiser `ϖ` with `0<|ϖ|<1`;
+- Witt vectors `W(𝒪_F)`, Frobenius, and Teichmüller lifts;
+- completeness and separatedness of the `(p,[ϖ])`-adic topology.
+
+Define
+
+```text
+A_inf = W(𝒪_F)
+```
+
+with pair of definition `(A_inf,(p,[ϖ]))` and plus ring `A_inf`. Prove that it is a complete
+Hausdorff Huber ring and that it has no topologically nilpotent unit, hence is not Tate. Its rational
+localisations therefore use Layer 0's general topological localisation, not the Tate-only
+construction.
+
+Define
+
+```text
+𝒴 = {v ∈ Spa(A_inf,A_inf) : v(p[ϖ]) ≠ 0}
+   = D(p) ∩ D([ϖ]).
+```
+
+Prove that `𝒴` is open, nonempty, and stable under Witt Frobenius. Construct an explicit Gauss
+point. By the analytic-point theory of Layer 2, the analytic locus of `Spa(A_inf,A_inf)` is
+`D(p) ∪ D([ϖ])`; it is not equal to `𝒴`.
+
+### 7.2 Power comparison and Frobenius windows
+
+For every `v ∈ 𝒴`, prove that `v(p)` and `v([ϖ])` are power-comparable. For all positive `a` there
+is a positive `b` such that
+
+```text
+v([ϖ])^b ≤ v(p)^a,
+```
+
+and conversely. Derive this directly from continuity for the `(p,[ϖ])`-adic topology.
+
+Let `φ` act on valuations by precomposition with Witt Frobenius. Define radius inequalities without
+assigning a real number to a higher-rank valuation: for positive integers `a,b`, interpret
+
+```text
+κ(v) ≥ a/b
+```
+
+as `v([ϖ])^b ≤ v(p)^a`, and define the reverse inequality similarly. Prove
+
+```text
+κ(φ(v)) = p κ(v)
+```
+
+in this order-theoretic sense.
+
+Kedlaya's windows (AWS notes, Remark 3.1.9) take an arbitrary breakpoint `c ∈ (1,p) ∩ ℚ`; this
+roadmap fixes `c = (p+1)/2`, which lies in that range for every prime. The choice is ours, and
+nothing below depends on it beyond `1 < c < p`. For every integer `n`, define
+
+```text
+U_n = {v ∈ 𝒴 : p^n ≤ κ(v) ≤ c p^n},
+V_n = {v ∈ 𝒴 : c p^n ≤ κ(v) ≤ p^(n+1)}.
+```
+
+Clear positive denominators to express each condition as a rational inequality. Prove that these
+are rational subsets, that they cover `𝒴`, that Frobenius shifts the index, and that different
+translates in one family are disjoint. Deduce that the `ℤ`-action is free and each window is
+wandering.
+
+Define the quotient topological space
+
+```text
+𝒳 = 𝒴 / φ^ℤ.
+```
+
+Prove that the quotient map is open, injective on each wandering window, and that the images of
+`U_0` and `V_0` cover `𝒳`. Conclude that `𝒳` is quasi-compact and `T0`. Quasi-compactness does not
+make `𝒳` affinoid; non-affinoidness is a separate statement and is not claimed here.
+
+### 7.3 Interval rings
+
+For a closed interval `I=[s,r] ⊂ (0,∞)`, define Kedlaya's interval ring `B^I` and the norm
+
+```text
+λ_I = max(λ_s,λ_r).
+```
+
+Prove separately that:
+
+- `B^I` is a complete Hausdorff Tate ring;
+- `B^I` (Kedlaya's `B^I_{L,E}`, with the coefficient field fixed to `E = ℚ_p` throughout) is
+  strongly noetherian, by Kedlaya's Theorem 4.10 — whose hypotheses are that `L` is perfect,
+  complete and nonarchimedean, which is why algebraic closedness is not needed. Note his Remarks
+  4.12/4.14: the endpoint cases `I = [0,r]` and `[r,∞]` are not known to be strongly noetherian,
+  which is why `I` is restricted to closed intervals inside `(0,∞)` above;
+- the unit ball `B^{I,+}` equals the power-bounded subring and is a ring of integral elements;
+- `B^{I,+}` agrees with the integral closure of the image of the appropriate localised
+  `A_inf` plus ring;
+- the rational window and interval parameters are related by the reciprocal radius dictionary:
+  with `|ϖ| = p^(−α)` and `r = −log_p ρ` one computes `κ = α/r`, so a `κ`-window `[a, b]`
+  corresponds to `ρ ∈ [|ϖ|^(1/a), |ϖ|^(1/b)]`. The conversion is a lemma to be proved, not a
+  notational convention, and the endpoint completions are Banach rings — no theorem that they are
+  fields is cited or used.
+
+Do not assert that the endpoint completions are fields unless that theorem is proved separately.
+Layer 4 implies that every `Spa(B^I,B^{I,+})` is sheafy.
+
+### 7.4 The quotient sheaf and affinoid charts
+
+For an open `U ⊆ 𝒳`, define
+
+```text
+𝒪_𝒳(U) = 𝒪_𝒴(q⁻¹U)^{φ=1}.
+```
+
+Prove that this is a sheaf of complete separated topological rings and that the valuations on the
+stalks are independent of the representative of an orbit.
+
+For a wandering window `W`, prove in this order:
+
+1. `q⁻¹(q(W))` is the disjoint union of the translates `φⁿ(W)`;
+2. `q|_W` is a homeomorphism from `W` to the open subset `q(W)`;
+3. `W`, with its restricted pre-adic structure, is isomorphic to
+   `Spa(B^I,B^{I,+})` as an affinoid pre-adic space;
+4. for every open `V ⊆ W`, restriction gives a topological-ring isomorphism
+
+   ```text
+   𝒪_𝒳(q(V)) ≅ 𝒪_𝒴(V);
+   ```
+
+5. these isomorphisms commute with restrictions and identify plus subrings and residue-field
+   valuations.
+
+All five statements are needed for an isomorphism in `𝒱^pre`: statements 1–4 give a homeomorphism
+and a family of ring isomorphisms, and it is statement 5 — naturality together with compatibility of
+the residue-field valuations — that makes the data a morphism in `𝒱^pre` at all. Layer 4 supplies
+sheafiness of the interval ring and upgrades the result to an isomorphism in `𝒱`. Since the images
+of the windows cover `𝒳`, the quotient is an adic space; note that the sheaf property on `𝒳`
+descends from the window charts, not from Layer 4 applied to `𝒴` directly, since `A_inf` is not
+Tate. Kedlaya's Theorem 4.10 also makes every `B^I⟨T₁,…,T_k⟩` noetherian, so the chart rings are
+stably sheafy; that is retained as a supporting theorem — it feeds Wedhorn Remark 8.27 and the
+successor roadmap — and not as an alternative construction of the charts, since by itself it
+produces neither the morphism of pre-adic spaces nor the identification of the quotient presheaf
+with the affinoid structure sheaf.
+
+Finally, prove independence of the pseudouniformiser. Show that `(p,[ϖ])` and `(p,[ϖ'])` define the
+same topology, identify the two opens `𝒴` and their Frobenius actions, and construct an isomorphism
+of the quotient adic spaces.
+
+### Dependencies
+
+The construction of `A_inf`, `𝒴`, and the windows uses Layers 0–2. The structure presheaf uses
+Layer 3, sheafiness of the interval charts uses Layer 4, and the final local-to-global assertion
+uses Layer 5.
+
+---
+
+## Dependency graph
+
+The reusable foundations are ordered as follows.
+
+```text
+Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4 → Layer 5.
+```
+
+Layer 6 uses Layers 3–4 and is independent of Layer 5. Layer 7 has an initial topological part using
+Layers 0–2 and a final adic-space part using Layers 3–5.
+
+## Acceptance examples
+
+The following examples should be proved alongside the general theory.
+
+- The support map `Spv A → Spec A` has the trivial-valuation section.
+- `Spv(A,I)`, `Cont A`, and `Spa(A,A⁺)` are spectral by the stated proofs, not by an invalid
+  spectral-subspace argument.
+- `Spa(A,A⁺)` is empty precisely when `A/closure{0}=0`.
+- Closed quotient pairs give closed affinoid subspaces.
+- The closed and open unit discs are adic spaces, and the open disc is not affinoid.
+- The standard Laurent cover of the closed disc has exact augmented Čech complex.
+- `K⟨X,Q⟩/(Q²)` is sheafy and non-uniform.
+- The finite-jet pinching algebra is uniform and sheafy but not stably uniform.
+- `𝒴` is nonempty, the two window images cover `𝒳`, and each window image is an affinoid
+  `Spa(B^I,B^{I,+})`.
 
 ## References
 
@@ -496,67 +964,78 @@ Layers 3–4 and is independent of Layer 5. Layer 7's `A_inf`/window strand need
   (1994), 513–551 — [Hu2].
 - R. Huber, *Étale cohomology of rigid analytic varieties and adic spaces*, Vieweg 1996 —
   [Hu3] (background; its étale theory is out of scope).
-- T. Wedhorn, *Adic Spaces* (arXiv:1910.05934) — the coordinate system: §4 (`Spv`), §6
-  (Huber rings), §7 (`Cont`, pairs, `Spa`, rational subsets, uniformity), §8 (presheaf,
-  `𝒱^pre`/`𝒱`, pre-adic and adic spaces, Theorem 8.28).
+
+⚠ **Two keying schemes.** These keys are this roadmap's own and are shifted by one against
+Wedhorn's bibliography, where *Continuous valuations* is `[Hu2]`, *A generalization of formal
+schemes…* is `[Hu3]`, and the étale book is `[Hu4]`. When transcribing a citation out of Wedhorn,
+re-map it: his `[Hu2]` is our `[Hu1]`, his `[Hu3]` is our `[Hu2]`.
+
+- T. Wedhorn, *Adic Spaces*, arXiv:1910.05934, **v1 — the only version**. Every numbered
+  reference in this roadmap is to that version's numbering.
 - J. Tate, *Rigid analytic spaces*, Invent. Math. 12 (1971), 257–289.
-- K. Buzzard, A. Verberkmoes, *Stably uniform affinoids are sheafy*, J. reine angew. Math.
-  740 (2018), 25–39 — [BV].
-- D. Hansen, K. Kedlaya, *Sheafiness criteria for Huber rings* (preprint, April 2025
-  version) — [HK]; Remark 3.16 is the open question Layer 6 addresses.
-- K. Kedlaya, *Noetherian properties of Fargues–Fontaine curves* (arXiv:1410.5160) —
-  Definition 4.2 (`B^I`, `λ_I`), Theorem 4.10.
-- L. Fargues, J.-M. Fontaine, *Courbes et fibrés vectoriels en théorie de Hodge p-adique*,
-  Astérisque 406 (2018).
-- P. Scholze, J. Weinstein, *Berkeley Lectures on p-adic Geometry*, Ann. of Math. Studies 207
-  (2020) — §12.2, §13.1, Definition 13.5.1.
-- K. Kedlaya, *Sheaves, stacks, and shtukas* (Arizona Winter School 2017) — §3.1, Remark
-  3.1.9 (windows, proper discontinuity, the two-chart cover).
-- C. Birkbeck, T. Feng, D. Hansen, S. Hong, Q. Li, A. Wang, L. Ye, *Extensions of vector
-  bundles on the Fargues–Fontaine curve* (arXiv:1705.00710) — Definition 2.1.1, the adic
-  curve specialised to `E = ℚ_p`.
-- L. Henkel, *An Open Mapping Theorem for rings which have a zero sequence of units*
-  (arXiv:1407.5647).
-- K. Hübner, *Adic spaces* (lecture notes, arXiv:2405.06435).
-- S. Bosch, U. Güntzer, R. Remmert, *Non-Archimedean Analysis*, Grundlehren 261 (1984) —
-  BGR 5.2.6.
-- K. Buzzard, J. Commelin, P. Massot, *Formalising perfectoid spaces* (arXiv:1910.12320) —
-  Lean 3 prior art on design; not a port source.
-- The Layer-6 counterexample has no paper reference; §Layer 6 states the construction, and
-  the AINTLIB `FJP/` directory is its proof.
+- K. Buzzard and A. Verberkmoes, *Stably uniform affinoids are sheafy*, J. reine angew.
+  Math. 740 (2018), 25–39 — [BV].
+- D. Hansen and K. Kedlaya, *Sheafiness criteria for Huber rings*, version dated **6 August
+  2026**, `https://kskedlaya.org/papers/criteria.pdf` — [HK]. This is a living preprint served
+  from the author's page with no version history; cite it by date, and re-check the date when
+  relying on §13, whose statement of what remains open changed in this revision.
+- C. Birkbeck and A. Torzewski, *Uniform sheafy Tate rings that are not stably uniform*,
+  `https://cbirkbeck.github.io/uniform-sheafy-tate-domains/paper.html` — the write-up of the
+  Layer 6 example, cited as [13] in [HK] §13.
+- K. Kedlaya, *Noetherian properties of Fargues–Fontaine curves*, IMRN 2016, no. 8,
+  2544–2567; arXiv:1410.5160.
+- L. Fargues and J.-M. Fontaine, *Courbes et fibrés vectoriels en théorie de Hodge
+  p-adique*, Astérisque 406 (2018).
+- P. Scholze and J. Weinstein, *Berkeley Lectures on p-adic Geometry*, Annals of Mathematics
+  Studies 207 (2020).
+- L. Henkel, *An Open Mapping Theorem for rings which have a zero sequence of units*,
+  arXiv:1407.5647.
+- S. Bosch, U. Güntzer, and R. Remmert, *Non-Archimedean Analysis*, Grundlehren 261 (1984).
+- K. Buzzard, J. Commelin, and P. Massot, *Formalising perfectoid spaces*,
+  arXiv:1910.12320.
 
-## Provenance and status
+## Existing Lean work
 
-Source: AINTLIB (`github.com/CBirkbeck/AINTLIB`, Apache-2.0), branch
-`dev/adic-spaces @ 59bbbe8ba14a` (2026-07-28), project `projects/AdicSpaces/`. Direct `sorry`
-counts are file-level grep counts at that revision; they over-count (comments match) and see
-no cross-file dependence, so they are recorded separately from the transitive audit, which is
-a `#print axioms` gate on the actual capstones in TauCeti CI. The project's `ScottishBook/`,
-`FarguesFontaine.lean`, `AlmostMathematics.lean`, `PerfectoidRing.lean`,
-`PerfectoidSpace.lean`, and `Tilting.lean` are out of scope and not migration targets.
+The principal source of existing code is AINTLIB (`github.com/CBirkbeck/AINTLIB`, Apache-2.0),
+branch `dev/adic-spaces`, project `projects/AdicSpaces/`. For reproducibility, the previous roadmap
+audit used commit `59bbbe8ba14a` (2026-07-28); the branch had advanced to
+`37bbdaeb9ad9e3bc9f0d660feadc2779e455a91c` on 5 August 2026. Before migration, repin the branch and
+repeat both the direct-`sorry` count and the transitive `#print axioms` audit.
 
-| Milestone | AINTLIB source | Direct `sorry` | Transitive audit | Upstream | Status |
-|---|---|---:|---|---|---|
-| Huber/Tate definitions, basic theory | `HuberRings.lean`, `Bounded.lean`, `OpenIdeals.lean`, `PseudoUniformizer.lean` | 0 | pending | mathlib4#42312 | migrate, align with upstream |
-| Restricted series, strong noetherianness | `RestrictedPowerSeries.lean`, `TateAlgebra*.lean` | 0 | pending | — | migrate |
-| Open mapping theorem | `BanachOMT.lean`, `OpenMapping.lean` | open | — | — | incomplete |
-| `Spv`, basic opens, functoriality | `ValuationSpectrum.lean` | 0 | pending | mathlib4#38009 | upstream in review |
-| `Spv` spectrality | `SpvAITopology.lean` | 36 | 36+ | — | incomplete |
-| `Cont` | `ContinuousValuations.lean` | 2 | pending | — | near-complete |
-| Pairs, `Spa`, rational subsets | `AffinoidRings.lean`, `AdicSpectrum.lean`, `RationalSubsets.lean` | 0 | pending | mathlib4#42315 | migrate, align with upstream |
-| Compactness inputs | `ValuationSpectrumCompact.lean`, `SpaCompact.lean` | 0 | pending | — | migrate |
-| Presheaf, `𝒱^pre` substrate | `Presheaf.lean`, `StructureSheaf.lean`, `CompleteTopCommRingCat.lean` | 49 + 38 | — | — | incomplete |
-| Sheafiness theorem (8.28(b)) | `WedhornCechAcyclicity.lean` and ~40 supplier files | 9 in capstone file | audit required | — | incomplete |
-| Čech acyclicity, all degrees | — | — | — | — | new |
-| Buzzard–Verberkmoes | — | — | — | — | new |
-| Uniformity definitions | `Uniform.lean` | 0 | pending | — | migrate |
-| Layer-6 counterexample | `FJP/` (11 files) | 0 | inherits Layers 3–4 | — | implemented |
-| Quotient curve topology, windows | `YSpace.lean`, `Curve.lean`, Frobenius strand | 0 | inherits Layers 3–4 | — | implemented |
-| Interval rings through Kedlaya 4.10 | interval-ring strand, `StronglyNoetherianB.lean`, `SheafyBI.lean` | 0 | inherits Layers 3–4 | — | implemented |
-| Descended sheaf on `𝒳` | `YPresheaf.lean`, `YSheaf.lean`, `CurveObject.lean` | 0 | inherits Layers 3–4 | — | implemented |
-| Chart isomorphism in `𝒱^pre` | absent | — | — | — | new theorem |
-| Gluing, open disc | absent | — | — | — | new |
+The status table deliberately distinguishes a declaration with no direct `sorry` from a theorem
+whose dependency cone is axiom-clean. Direct counts are file-level grep counts: they over-count,
+because comments match, and they see no cross-file dependence, which is exactly why they are
+recorded separately from the transitive audit — a `#print axioms` gate on the actual capstones in
+TauCeti CI. At the audited pin `59bbbe8ba14a` those counts were: `Spv` spectrality 36; `Cont` 2;
+presheaf and `𝒱^pre` substrate 49 + 38; everything else in the table 0. They are stale for the
+current branch head and must be regenerated at the repin rather than carried over.
 
-Vendored inputs: `Vendored/Coram*` (William Coram's restricted-power-series and Gauss-norm
-work; its Mathlib face is `PowerSeries.IsRestricted`) and `Vendored/Xia*` — check upstream
-overlap at migration and coordinate rather than porting blindly.
+| Result | Existing source | Direct status at the audited pin | Transitive status | Roadmap status |
+|---|---|---|---|---|
+| Boundedness and power-bounded elements | `Bounded.lean` | no direct `sorry` | audit required | coordinate with mathlib4#40013 |
+| Huber and Tate rings | `HuberRings.lean`, `OpenIdeals.lean`, `PseudoUniformizer.lean` | no direct `sorry` | audit required | align with mathlib4#42312 |
+| Weighted series and topological localisation | restricted-series and localisation files | mixed | audit required | incomplete |
+| Strong noetherianness | `RestrictedPowerSeries.lean`, `TateAlgebra*.lean` | no direct `sorry` in principal definitions | audit required | needs decomposition by §0.5 |
+| Open mapping theorem | `BanachOMT.lean`, `OpenMapping.lean` | contains direct `sorry` | incomplete | incomplete |
+| `Spv`, support, and functoriality | `ValuationSpectrum.lean` | no direct `sorry` | audit required | align with mathlib4#38009 |
+| Spectrality of `Spv` | `SpvAITopology.lean` | contains many direct `sorry`s | incomplete | incomplete |
+| `Spv(A,I)` and continuous valuations | convexity and `ContinuousValuations.lean` files | contains direct `sorry` | incomplete | incomplete |
+| `Spa` and rational subsets | `AffinoidRings.lean`, `AdicSpectrum.lean`, `RationalSubsets.lean` | no direct `sorry` in main definitions | audit required | align with mathlib4#42315 |
+| Rational localisation and structure presheaf | `Presheaf.lean`, `StructureSheaf.lean`, localisation files | contains direct `sorry` | incomplete | incomplete |
+| Strongly noetherian sheafiness | `Wedhorn828.lean`, `WedhornCechAcyclicity.lean`, and their dependencies | contains direct `sorry` | incomplete | incomplete |
+| All-degree Čech acyclicity | no complete source | — | — | new |
+| Buzzard–Verberkmoes theorem | no complete source | — | — | new |
+| Adic-space gluing and open disc | partial adic-space files | incomplete | incomplete | not yet assembled |
+| Finite-jet pinching example | `FJP/` | no direct `sorry` in the exported theorems | inherits Layers 3–4 | requires a proof audit and expert review |
+| Fargues–Fontaine topology and windows | `YSpace.lean`, `Curve.lean`, Frobenius files | no direct `sorry` in the exported theorems | inherits earlier layers | implemented modulo dependencies |
+| Interval rings | interval-ring files, `StronglyNoetherianB.lean`, `SheafyBI.lean` | no direct `sorry` in the exported theorems | inherits earlier layers | implemented modulo dependencies |
+| Local chart isomorphism in `𝒱^pre` | no complete source | — | — | new |
+
+The AINTLIB `ScottishBook/` directory, almost-mathematics files, general perfectoid-space files, and
+other material outside the scope above are not migration sources for this roadmap.
+
+Vendored inputs, both under AINTLIB's Apache-2.0 licence: `Vendored/Coram*` — William Coram's
+restricted-power-series and Gauss-norm work, whose Mathlib face is `PowerSeries.IsRestricted`
+(a *normed* condition, `‖coeff‖·cⁱ → 0`, genuinely different from an adic one, and refactored
+upstream after this roadmap's pin) — and `Vendored/Xia*`. Compare both with current Mathlib at
+migration and coordinate rather than porting blindly.
