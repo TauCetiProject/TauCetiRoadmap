@@ -445,7 +445,10 @@ below sketches signatures; it is illustrative, not required to compile.
   invariant measure `dx dy/y²`, the effective `PSL₂` quotient (`−I` acts trivially), a
   measurable finite-volume fundamental domain for every finite-index subgroup with
   independence of the choice, convergence from decay at **every** cusp (not only `∞`), and
-  positive-definiteness (`∫ = 0 ⟹ f = 0`),
+  positive-definiteness (`∫ = 0 ⟹ f = 0`) — these **construction milestones are
+  independent of Layers 0 and 2** and may land first: they consume only Mathlib (the
+  invariant measure, `petersson`, cusp-form decay) and each other, while the adjoint,
+  old/new, and character-refined milestones below are what consume Layers 0 and 2 —
   and **the Petersson adjoint of `Tₙ`** for `(n,N)=1`: `⟨Tₙ f, g⟩ = ⟨f, ⟨n⟩⁻¹Tₙ g⟩`, i.e.
   `Tₙ* = ⟨n⟩⁻¹Tₙ` on `S_k(Γ₁(N))` — AINTLIB `heckeT_n_adjoint`, hypotheses `[NeZero n]` and
   `Nat.Coprime n N`, `HeckeRIngs/GL2/AdjointTheoryPetersson.lean`. On `S_k(N,χ)` this reads

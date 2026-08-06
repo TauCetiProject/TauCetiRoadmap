@@ -202,7 +202,8 @@ upstream.
 `Suggested.lean` pins the load-bearing objects (`posRoots`, `inversions`,
 `inversions_ncard_mul_ofIdx`, `coxeterMatrixOfBase`, `weylCoxeterSystem`, `dominantChamber`,
 `longestElement`, `DynkinType`, `DynkinType.Valid`, `DynkinType.cartanMatrix`, `IsFiniteType`,
-`existsUnique_dynkinType`, `exists_rootPairing_of_dynkinType`) and the milestones below as
+`existsUnique_dynkinType`, `exists_rootPairing_of_dynkinType`, `DynkinType.IsLongSimpleRoot`,
+`DynkinType.numRoots`, `DynkinType.simplyConnectedRootDatum`) and the milestones below as
 `sorry`-targets, so each is claimable and the summit statements are machine-checked to be expressible
 against the pinned Mathlib.
 
@@ -353,6 +354,41 @@ topology.
   (as a `RootPairing`) to the root system of a **unique valid** `DynkinType t` - a bijection between
   isomorphism classes of such root systems and the valid Dynkin types.
 
+### Layer 6: the Bourbaki numbering and integral root data
+
+Layer 5 classifies root systems up to isomorphism, and `exists_rootPairing_of_dynkinType` realizes
+each valid type. That is not enough for a consumer that needs a *carrier*: an existence statement can
+only be turned into data by `Classical.choose`, and a development that then builds a group out of the
+chosen root system has no way to show a reviewer what its group is made of. The
+CFSG statement roadmap ([Add CFSG statement roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/156)) needs exactly this, for the
+Chevalley--Demazure construction of the finite groups of Lie type, and it is not the only consumer:
+any explicit construction of a semisimple group scheme starts here.
+
+- **Pin the node numbering.** `DynkinType.cartanMatrix` is indexed by the Bourbaki labels, with
+  Bourbaki node `i` at `Fin` index `i - 1`, and `cartanMatrix t i j = ⟨α_i, α_j^∨⟩`. This is
+  currently unstated, so nothing downstream can say which node is which. Fix it as part of pinning
+  `cartanMatrix` itself: the `A_n` chain in order; the `B_n`/`C_n` double edge between the last two
+  nodes, short last in `B_n` and long last in `C_n`; the `D_n` fork at index `n - 3`; Bourbaki's
+  branch node for `E₆`, `E₇`, `E₈`; `F₄` long then short; and `G₂` short then long, giving
+  `!![2, -1; -3, 2]` as the worked example below already records. Add
+  `DynkinType.IsLongSimpleRoot` so downstream length-exchanging maps have something to refer to.
+  Zero-based `Fin` indices against one-based Bourbaki labels are the standing trap here, so state the
+  offset rather than leaving it to be inferred.
+
+- **A named datum per valid type.** `DynkinType.simplyConnectedRootDatum t ht`, a `RootDatum` over
+  `ℤ` with roots indexed by `Fin t.numRoots` and both lattices pinned to `Fin t.rank → ℤ`: the
+  cocharacter lattice with the simple coroots as its standard basis, the character lattice with the
+  fundamental weights as its standard basis, so that `⟨ω_i, α_j^∨⟩ = δ_ij` and the simple root `α_i`
+  is the `i`-th row of the Cartan matrix. The first `t.rank` root indices are the simple roots in
+  Bourbaki order, and `DynkinType.simplyConnectedBase` is the corresponding base. Acceptance is
+  `DynkinType.hasCartanType_simplyConnectedRootDatum`, which says the pinned datum realizes its own
+  type against the pinned numbering, and `DynkinType.span_coroot_simplyConnectedRootDatum`, which
+  says the form is the simply connected one. The adjoint form is `RootPairing.flip` of the dual
+  type's datum, not a second pinned definition.
+
+  `DynkinType.numRoots` is part of this: `n(n+1)` for `A n`, `2n²` for `B n` and `C n`, `2n(n-1)`
+  for `D n`, and `72, 126, 240, 48, 12` for the exceptional types.
+
 ## Worked examples (acceptance criteria)
 
 - **`Aₙ` and the symmetric group.** Fix the indexing convention once: type `A n` (for `n ≥ 1`) has
@@ -391,8 +427,11 @@ action and the length-equals-inversions identity. Layer 5 (the classification) n
 positive-definite geometry that bounds the Cartan matrices; its uniqueness half (`existsUnique_dynkinType`)
 and its realization half (`exists_rootPairing_of_dynkinType`, explicit coordinate models) are
 independent and proceed in parallel, and the final isomorphism step consumes `equivOfCartanMatrixEq`.
-The worked examples are built alongside the layer that first makes them expressible: `Aₙ` after Layer
-2, `G₂` after Layer 5.
+Layer 6 (the Bourbaki numbering and the pinned integral root data) needs only the `DynkinType`
+enumeration and its Cartan matrices, so it does not wait on either half of Layer 5, and the numbering
+convention should be fixed at the same time as `DynkinType.cartanMatrix` rather than afterwards. The
+worked examples are built alongside the layer that first makes them expressible: `Aₙ` after Layer 2,
+`G₂` after Layer 5.
 
 ## References
 

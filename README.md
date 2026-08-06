@@ -9,6 +9,8 @@ in the code repo; review machinery lives in
 
 Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and the [Mathlib Initiative](https://mathlib-initiative.org/) in partnership with academic and industry groups.
 
+If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Roadmaps
 
 - [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
