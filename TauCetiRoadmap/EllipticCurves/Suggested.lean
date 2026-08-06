@@ -139,20 +139,46 @@ of *every* Weierstrass cubic is smooth in every characteristic
 ⚠ The `Algebra W₂.CoordinateRing W₁.FunctionField` structure here is **`letI`-local only —
 never a global `instance`.** `integralClosure` forces an `Algebra` structure into existence
 (Mathlib has no `RingHom.IsIntegral`-relative API for it), but the structure depends on the
-pullback: for `W₁ = W₂` every endomorphism induces its own, distinct from `Algebra.id`
-whenever `φ ≠ id`, so a global registration would be a genuine diamond. Confined to `letI`
-inside definition bodies, each declaration fixes its own pullback and nothing leaks; at
-`φ = id` the local structure is the canonical instance on the nose (`Algebra.id K` is
-`(RingHom.id K).toAlgebra` — `rfl`, no transport). The shared development is the working
-evidence: `finiteDimensional` and the `intermediateRing*` lemmas are proved in exactly this
-style with no workaround lemmas, and public statements are phrased over the pullback ring
-map, never over an instance. -/
+pullback: for `W₁ = W₂` every endomorphism induces its own, so a global registration would be a
+genuine diamond. Confined to `letI` inside definition bodies, each declaration fixes its own
+pullback and nothing leaks.
+
+⚠ The cost is one rewrite, not zero (review): even at the identity pullback the local structure
+is **not** definitionally the ambient one. The instance in play there is the localization
+instance on `Algebra W.CoordinateRing W.FunctionField`, and elaborating `MapsInfinity` against
+it fails with *"synthesized type class instance is not definitionally equal ... synthesized
+`OreLocalization.instAlgebra`, inferred `(identityPullback W).toAlgebra`"* — the two are
+propositionally but not definitionally equal (Mathlib's `Algebra.toAlgebra_algebraMap` is the
+general statement, itself proved by `algebra_ext`, not `rfl`). Proofs bridge the gap with a
+single `Algebra.algebra_ext` rewrite, as `MapsInfinity.id` below does; the scalar actions
+themselves do agree by `rfl`, and what does not line up is the dependent `Subalgebra` type
+`integralClosure` lands in. This is an ergonomics cost, not evidence against the definition:
+public statements stay phrased over the pullback ring map, never over an instance. -/
 def CoordinatePullback.MapsInfinity {W₁ W₂ : WeierstrassCurve.Affine F}
     (pullback : CoordinatePullback W₁ W₂) : Prop :=
   letI := pullback.toRingHom.toAlgebra
   ∀ x : W₁.CoordinateRing,
     algebraMap W₁.CoordinateRing W₁.FunctionField x ∈
       integralClosure W₂.CoordinateRing W₁.FunctionField
+
+/-- **The identity pullback**: the coordinate ring of `W` sitting inside its own function
+field. -/
+noncomputable def CoordinatePullback.id (W : WeierstrassCurve.Affine F) :
+    CoordinatePullback W W :=
+  IsScalarTower.toAlgHom F W.CoordinateRing W.FunctionField
+
+/-- **The identity satisfies `MapsInfinity`** — proved, not asserted (review), because the proof
+*is* the content of the `letI` note above: the ambient localization instance and
+`(CoordinatePullback.id W).toRingHom.toAlgebra` are propositionally but not definitionally equal,
+so one `Algebra.algebra_ext` rewrite is needed before `isIntegral_algebraMap` applies. -/
+theorem CoordinatePullback.mapsInfinity_id (W : WeierstrassCurve.Affine F) :
+    CoordinatePullback.MapsInfinity (CoordinatePullback.id W) := by
+  unfold CoordinatePullback.MapsInfinity
+  have h : (CoordinatePullback.id W).toRingHom.toAlgebra =
+      (inferInstance : Algebra W.CoordinateRing W.FunctionField) := by
+    apply Algebra.algebra_ext; intro x; rfl
+  rw [h]
+  exact fun _ ↦ isIntegral_algebraMap
 
 /-- **The pullback data of an isogeny** (AEC II.2.4-shape; Buzzard's domain, review, on
 D. Angdinata's definition). An `Isogeny` is automatically nonzero (`pullback_injective`, the
@@ -184,6 +210,22 @@ and `MapsInfinity` is literally the same condition on both sides (same image sub
 noncomputable def fieldPullback (φ : Isogeny W₁ W₂) :
     W₂.FunctionField →ₐ[F] W₁.FunctionField :=
   IsFractionRing.liftAlgHom φ.pullback_injective
+
+/-- **The identity isogeny**, on `CoordinatePullback.mapsInfinity_id`. -/
+noncomputable def id (W : WeierstrassCurve.Affine F) : Isogeny W W where
+  pullback := CoordinatePullback.id W
+  mapsInfinity := CoordinatePullback.mapsInfinity_id W
+
+/-- **Composition of isogenies**: pull back along `ψ` into `K(W₂)`, then carry that across the
+fraction field by `fieldPullback φ`. `MapsInfinity` for the composite is transitivity of
+integrality (`Algebra.IsIntegral.trans`): `R(W₁)` is integral over `φ(R(W₂))` by `φ.mapsInfinity`,
+and applying `fieldPullback φ` to `ψ.mapsInfinity` makes `φ(R(W₂))` integral over the composite
+image of `R(W₃)`. Degree multiplicativity along this composite is the finrank tower formula
+(`README.md` §Layer 1). -/
+noncomputable def comp {W₃ : WeierstrassCurve.Affine F} (ψ : Isogeny W₂ W₃) (φ : Isogeny W₁ W₂) :
+    Isogeny W₁ W₃ where
+  pullback := φ.fieldPullback.comp ψ.pullback
+  mapsInfinity := sorry
 
 /-- **The degree of an isogeny** (AEC II.2.4(a)-shape; Buzzard's degree form): the dimension
 of `W₁.FunctionField` over the fraction field of the pullback's image — the field range of
@@ -483,11 +525,17 @@ theorem fg_point_of_numberField {K : Type*} [Field K] [NumberField K] (W : Weier
 The `m`-descent sequence `0 → E(K)/mE(K) → Selₘ(E/K) → Ш(E/K)[m] → 0`, the finiteness of the
 `m`-Selmer group `Selₘ(E/K)` (the **effective refinement** of Layer 6's weak Mordell–Weil — a
 computable bound on the rank, not its prerequisite), and the Shafarevich–Tate group `Ш(E/K)` are
-specified in `README.md` §Layer 7. Pinned Mathlib already has the cohomological substrate
-(continuous cohomology of topological groups, `groupCohomology` with its low-degree API and long
-exact sequence, nonabelian `H¹`); what gates this layer is the **Galois-specific packaging** on
-top — profinite Galois modules with the finite-level comparison, the Kummer connecting map for
-`[m]`, inflation–restriction there, and the local conditions at the places of `K` — listed
+specified in `README.md` §Layer 7. Pinned Mathlib has the *abelian* substrate this layer needs —
+`groupCohomology` with its low-degree API and long exact sequence, Shapiro, Hilbert 90 for
+**finite** extensions, and continuous cohomology of topological groups — and this layer's
+coefficient modules (`E[m]`, `E(Kˢᵉᵖ)`, the Cassels/local-duality material) are all abelian, so
+the continuous *nonabelian* `H¹` prerequisite belongs to Layer 5's twist classification, not
+here (`Mathlib/CategoryTheory/Sites/NonabelianCohomology/H1.lean` is Čech-style cohomology of a
+presheaf of groups, not continuous nonabelian cohomology of a profinite group on a discrete one).
+What gates this layer is the **forced-discrete continuous-cohomology constructor** — the first
+milestone of `README.md` §Layer 7, absent upstream — and then the **Galois-specific packaging**
+on top: profinite Galois modules with the finite-level comparison, the Kummer connecting map for
+`[m]`, inflation–restriction there, and the local conditions at the places of `K`, listed
 precisely in `README.md` §Layer 7. Nothing is pinned here; the layer states its objects against
 that API once it exists. -/
 

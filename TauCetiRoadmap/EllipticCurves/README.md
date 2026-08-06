@@ -150,7 +150,10 @@ development — and belongs on a dedicated complex-analytic roadmap. The **Birch
 conjecture** is not proved here, and its unconditional *statement* needs the analytic
 continuation of `L(E, s)`, which Mathlib does not have; rather than rule it out on those
 grounds, §Layer 7 carries a **statement-only milestone**: full BSD over `ℚ` with the analytic
-continuation of `L(E, s)` to a neighbourhood of `s = 1` as an explicit hypothesis — every
+hypothesis pinned exactly as that layer states it — an analytic function on a connected open
+set containing both `s = 1` and part of the half-plane of convergence, agreeing with the
+Dirichlet series there, since merely assuming "a function analytic near `s = 1`" admits an
+unrelated germ and states nothing — every
 other ingredient is built by Layers 4–7, so modulo that hypothesis the statement is cheap.
 (The *arithmetic* BSD quotient **over `ℚ`**, assuming `Ш` finite, is a marked stretch
 milestone in §Layer 7; *proving* anything about either form is out — as is the
@@ -267,8 +270,14 @@ This is the foundation the roadmap builds on; it is consumed, not rebuilt.
   reduction predicates over **an arbitrary ring with a valuation** — no fraction field in the
   definitions at all — with the DVR and valued-field statements derived; that refactor is an
   **upstream prerequisite** for Layer 4's Tate-curve strand, flagged here.
-- **Heights and the `L`-function definition.** `Mathlib/NumberTheory/Height/*`,
-  `.../Height/EllipticCurve.lean` (the quasi-quadraticity bound), and `.../EllipticCurve/LFunction.lean`.
+- **Heights and the `L`-function definition.** `Mathlib/NumberTheory/Height/*` (the general
+  height API and Northcott) and `.../EllipticCurve/LFunction.lean`. ⚠ `.../Height/EllipticCurve.lean`
+  (M. Stoll) is **newer than this roadmap's Mathlib pin** `9caeba10` and so is not consumable
+  until the pin moves: on master it proves the height bound
+  `∃ C, ∀ x, |logHeight (fun i ↦ (addSubMap W i).eval x) − 2 * logHeight x| ≤ C`
+  (`abs_logHeight_addSubMap_sub_two_mul_logHeight_le`), which is the quasi-quadraticity input
+  Layer 6 consumes, while that file's own TODO list still carries the naïve height on points
+  and the statement of the approximate parallelogram law — so Layer 6 builds those.
 - **Field theory and valuation theory.** Finite extensions and `Module.finrank`, separable and
   purely inseparable extensions with `Field.finSepDegree`, Kähler differentials
   (`Ω[F⁄K]`, `KaehlerDifferential.map`), and the valuation/`ValuationSubring` material on which
@@ -292,8 +301,8 @@ structure itself, verbatim**, with its degree defined outright and its automatic
 positivity, and the Frobenius isogeny seeded (Layer 1). The other seeds: the Layer-0
 **class-group anchor** — Mathlib's `Point.toClass` is surjective,
 so the point group *is* the ideal class group (`toClass_surjective`) — `[n]`-surjectivity for `n`
-invertible in `K` (Layer 1), the `N`-torsion `E[N] ≅ (ℤ/N)²` — exposed as a free rank-`2`
-`ZMod N`-module — and the bilinear **Weil pairing** (Layer 2), the finiteness of `E(𝔽_q)` and the
+invertible in `K` (Layer 1), the `N`-torsion `E[N] ≅ (ℤ/N)²` — stated as an additive
+equivalence (§Conventions) — and the bilinear **Weil pairing** (Layer 2), the finiteness of `E(𝔽_q)` and the
 **Hasse bound** as the integer inequality `a_q² ≤ 4q` (Layer 3), the **quadratic twist** and the
 split-multiplicative-reduction theorem (Layer 5), and the **Mordell–Weil theorem**
 `AddGroup.FG (E K)` (Layer 6). The layers whose central objects are new *types* — the places of
@@ -580,9 +589,9 @@ being distributed as bookkeeping. Its milestones:
   `O`, counted by Layer 0's `Σ e · f = deg` identity together with Layer 1's
   separable-⟹-unramified milestone. The milestone
   (seeded) exposes what the later layers consume: `E[N]` is a
-  **free `ZMod N`-module of rank `2`** — a `ZMod N`-linear equivalence with `(ZMod N)²`, wrapped
-  in `Nonempty` because the basis is noncanonical (the equivalent `≃+` form carries the same
-  content, additive maps of `ZMod N`-modules being automatically linear). The full `N`-torsion
+  **additively equivalent to `(ZMod N)²`** (`torsion_addEquiv_prod`), wrapped
+  in `Nonempty` because the basis is noncanonical — stated as a `≃+` with no `ZMod N`-module
+  packaging, per §Conventions, since such an equivalence is automatically `ZMod N`-linear. The full `N`-torsion
   theory throughout requires `char K ∤ N`. Layer 1's `[N]`-surjectivity supplies the counting
   input. ⚠ *Mathlib-track* (review): the `E[N]`-structure code itself is expected to be done in
   Mathlib directly (reviewer work in flight); it is built here when Layer 2 needs it and swapped
@@ -760,8 +769,9 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   models is a `VariableChange` (which is what makes the descent equation-level). The
   classification `H¹(Gal, Aut (E_{Kˢᵉᵖ}, O))` (AEC X.5) then states a bijection between the
   two constructed sides. Concrete quadratic twists (below) are **core**; the full nonabelian-
-  `H¹` classification is a **stretch** milestone (its continuous nonabelian `H¹` prerequisite
-  is Layer 7's, needed here too). For `j ≠ 0, 1728`, `Aut (E, O) ≅ {±1}` — in characteristics
+  `H¹` classification is a **stretch** milestone, and the continuous nonabelian `H¹`
+  prerequisite (spelled out in §Layer 7's dependency note) is **this layer's**: Layer 7's own
+  coefficient modules are abelian, so it needs the forced-discrete constructor, not this. For `j ≠ 0, 1728`, `Aut (E, O) ≅ {±1}` — in characteristics
   `2` and `3` the two exceptional values coincide at `j = 0 = 1728` — and the twists are the
   **quadratic twists**: for `char K ≠ 2` classified by the square classes `K^×/(K^×)²` (Kummer;
   AEC X.5.4); in characteristic `2`, where separable quadratic extensions are Artin–Schreier, by
@@ -914,8 +924,11 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   groups. It does **not** have the nonabelian `H¹` this roadmap needs: the file
   `Mathlib/CategoryTheory/Sites/NonabelianCohomology/H1.lean` is degree-one cohomology of a
   presheaf of groups in a Čech-like site setting, not continuous nonabelian cohomology of a
-  profinite group on a discrete group. A prerequisite lane, needed by **Layer 5 as well as
-  this layer**: continuous nonabelian `1`-cocycles, the coboundary equivalence, the pointed
+  profinite group on a discrete group. A prerequisite lane, needed by **Layer 5** — the
+  twist classification is the nonabelian statement; *this* layer's coefficient modules
+  (`E[m]`, `E(Kˢᵉᵖ)`, and the Cassels/local-duality material) are all abelian, and what it
+  needs from below is the forced-discrete constructor: continuous nonabelian `1`-cocycles,
+  the coboundary equivalence, the pointed
   set `H¹_cts(G, A)`, functoriality and restriction, and the reduction to finite quotients
   for profinite `G` and discrete `A`. Beyond that, the **Galois-specific packaging**, none
   of it upstream yet: profinite Galois groups acting continuously on discrete modules such
@@ -931,9 +944,9 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   degree and Hermite–Minkowski. The discreteness of coefficient modules is carried by the
   forced-discrete constructor above (a wrapper, so no reliance on one topology instance
   "winning" against a pre-existing one). The layer is stated against that packaging once it
-  exists. (BSD, which would relate `Ш` and the rank to
+  exists. (***Proving*** BSD, which would relate `Ш` and the rank to
   `L(E, s)`, is out of scope — it needs the analytic continuation of `L(E, s)` that Mathlib does
-  not have.)
+  not have; the statement-only milestone above, with its analytic hypothesis, is what is in.)
 
 ---
 
@@ -947,7 +960,7 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   purely inseparable of degree `q`, and induces `(x, y) ↦ (x^q, y^q)` on points
   (`frobeniusIsogeny` and `degree_frobeniusIsogeny`, seeded).
 - **`[n]` is surjective on `E(Kˢᵉᵖ)`** for `n` invertible in `K`, and `#E[N] = N²` for `N`
-  invertible in `K` — the Layer 1/2 counting gate (`smul_surjective`, `torsion_linearEquiv_prod`).
+  invertible in `K` — the Layer 1/2 counting gate (`smul_surjective`, `torsion_addEquiv_prod`).
 - **The Weil pairing is bilinear and nondegenerate** — an additive bilinear map into
   `Additive (rootsOfUnity N K)`, with `e_N(P, ·) ≡ 0 ⇒ P = 0` over a separably closed field with
   `N` invertible (`weilPairing`, `weilPairing_nondegenerate`).
@@ -1115,8 +1128,8 @@ only hold for, these revisions:
   [mathlib #13782](https://github.com/leanprover-community/mathlib4/pull/13782) and its bumped
   versions — credited there, not to the `HasseWeil` copy of the same material). The milestone
   here is the intrinsic `WeierstrassCurve` statement over `Submodule.torsionBy ℤ (E.Point) N`,
-  over a **separably** closed field, exposed as a free rank-`2` `ZMod N`-module
-  (`torsion_linearEquiv_prod`).
+  over a **separably** closed field, stated as an additive equivalence with `(ZMod N)²`
+  (`torsion_addEquiv_prod`).
 - **Hasse bound (Layer 3).** Proved in the AINTLIB `HasseWeil` project as `hasse_bound` /
   `hasse_bound_unconditional` (`HasseWeil/WeilPairing/HasseBound.lean`), in the real form
   `|#E(𝔽_q) − q − 1| ≤ 2√q` over `Fintype.card W.toAffine.Point` (the projective count, matching the
