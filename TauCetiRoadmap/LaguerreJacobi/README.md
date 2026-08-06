@@ -103,9 +103,18 @@ This area owns **two polynomial families and their L² structure**. The split fr
   The Jacobi weight is unbounded at both endpoints for negative parameters, and `Real.rpow` at a
   negative base is *not* the classical power (`x ^ y = exp (y log x) * cos (π y)` there), so every
   statement about the weight either carries `0 < 1 - x` and `0 < 1 + x` or escapes to natural-number
-  exponents via `Real.rpow_natCast`. Chebyshev's `measureT` uses `Set.Ioc (-1) 1`; the half-open
-  choice is harmless for its bounded weight but not for a general Jacobi weight, so this roadmap
-  deliberately differs and says so.
+  exponents via `Real.rpow_natCast`. **The reason is pointwise, not measure-theoretic.** Chebyshev's
+  `measureT` uses `Set.Ioc (-1) 1`, and it would be wrong to say the half-open choice is harmful for
+  a general Jacobi weight: `{1}` is `volume`-null, a `withDensity` of `volume` is absolutely
+  continuous with respect to `volume` however badly the density blows up at an endpoint, so
+  `jacobiMeasure` built over `Ioo` and over `Ioc` agree — an integrable endpoint singularity changes
+  nothing. The open interval is chosen because it is the better *pointwise* domain: on `Ioo` both
+  `0 < 1 - x` and `0 < 1 + x` hold, which is what `Real.rpow` needs to be the classical power, so
+  every weight lemma states without an endpoint carve-out.
+  Because the two conventions genuinely agree as measures, F3 must supply that agreement explicitly
+  — an `ae`/measure comparison lemma bridging `Set.Ioo (-1) 1` and Chebyshev's `Set.Ioc (-1) 1` — or
+  it cannot consume Mathlib's `measureT` results at all. That bridge is a target of F3, not an
+  incidental step.
 - **Parameter hypotheses are carried, never assumed globally.** `-1 < α` for Laguerre; `-1 < α` and
   `-1 < β` for Jacobi. These are exactly the conditions for weight integrability, so a statement
   that omits them is false, not merely weaker.
@@ -126,8 +135,12 @@ Verified present at the pinned toolchain; names are exact.
   `Real.Gamma_add_one`, `Real.Gamma_nat_eq_factorial` (`Gamma (n+1) = n !`), `Real.Gamma_pos_of_pos`,
   and `Real.GammaIntegral_convergent`.
 - `Complex.betaIntegral`, `Complex.Gamma_mul_Gamma_eq_betaIntegral`,
-  `Complex.betaIntegral_eq_Gamma_mul_div`. **There is no real-valued Beta function** — see **C1**,
-  which makes it a target.
+  `Complex.betaIntegral_eq_Gamma_mul_div`.
+- `ProbabilityTheory.beta` (`= Gamma α * Gamma β / Gamma (α + β)`) and
+  `ProbabilityTheory.beta_eq_betaIntegralReal`, in
+  `Mathlib/Probability/Distributions/Beta.lean`. The real Beta **constant** therefore already
+  exists and is consumed, not built; what is missing is only its identification with the
+  real-variable interval integral, which is what **C1** targets.
 
 **The weight integrals, already evaluated.**
 - `integral_rpow_mul_exp_neg_mul_rpow : 0 < p → -1 < q → 0 < b → ∫ x in Ioi (0:ℝ), x ^ q * exp (-b * x ^ p) = b ^ (-(q+1)/p) * (1/p) * Gamma ((q+1)/p)`.
@@ -159,6 +172,17 @@ and D should read like it.
 ## What `OrthogonalL2Bases` already has (consume — cited dependency)
 
 This roadmap depends on the following, by name. Each is merged and carries no `sorry`.
+
+**Pinned revision.** These names are read from Tau Ceti at
+[`0a9009b`](https://github.com/TauCetiProject/TauCeti/blob/0a9009b8390867b3963af0c0da6a77454c8d3ebe/TauCeti/Analysis/InnerProductSpace/PolynomialCompleteness.lean),
+which is the revision this roadmap is written against, and the pin is load-bearing rather than
+decorative: `OrthogonalL2Bases/Suggested.lean` still advertises an earlier shape of this API
+(`barePolyLp_ortho_eq_bot`, a different `barePolyLp`, and an `∀ a ≥ 0` exponential-moment
+hypothesis) that the implementation has since moved past. A contributor who takes the *suggested*
+forms as the contract will write statements that do not typecheck against what actually landed. Where
+the two disagree, the pinned Tau Ceti revision above is the contract for this roadmap; updating
+`OrthogonalL2Bases/Suggested.lean` to match is that area's own task and is deliberately not done in
+this pull request, whose scope is the Laguerre/Jacobi area.
 
 - `TauCeti.Measure.ext_of_forall_integral_pow_eq_of_exists_integrable_exp` — moment determinacy from
   a finite exponential moment. **The completeness mechanism.**
@@ -207,22 +231,32 @@ without it Part B cannot start.
 - `Polynomial.laguerre_zero` (`= 1`), `Polynomial.laguerre_one` (`= C (α + 1) - X`).
 - `Polynomial.laguerre_succ_succ`, the three-term recurrence
   `(n+2) • Lₙ₊₂^{(α)} = (C (2n + α + 3) - X) * Lₙ₊₁^{(α)} - C (n + α + 1) * Lₙ^{(α)}`.
-- `Polynomial.derivative_laguerre` : `derivative (Lₙ^{(α)}) = -Lₙ₋₁^{(α+1)}`, the identity that
+- `Polynomial.derivative_laguerre` : `derivative (Lₙ₊₁^{(α)}) = -Lₙ^{(α+1)}`, the identity that
   moves the parameter, and the reason the parameter must be a variable of the definition rather than
   fixed at `0`.
-- `Polynomial.laguerre_add_one_sub` relating `Lₙ^{(α+1)}` to `Lₙ^{(α)}` and `Lₙ₋₁^{(α+1)}`.
+- `Polynomial.laguerre_add_one_sub` relating `Lₙ₊₁^{(α+1)}` to `Lₙ₊₁^{(α)}` and `Lₙ^{(α+1)}`.
+
+  **Both are stated in `n+1` form deliberately, and the `n` form is false.** With truncated
+  natural-number subtraction `0 - 1 = 0`, so a `derivative (Lₙ^{(α)}) = -Lₙ₋₁^{(α+1)}` phrasing
+  reads at `n = 0` as `0 = -L₀^{(α+1)} = -1`. The alternative repair — carrying `0 < n` — is worse
+  here: every consumer would then discharge a side condition on an identity that is really a
+  statement about successors. Contributors should not "simplify" these back to `n`/`n - 1`.
 
 **A3. Rodrigues.**
 
-`Polynomial.laguerre_rodrigues`, the polynomial-level identity in the shape Mathlib already uses for
-`shiftedLegendre`: `n ! • Lₙ^{(α)}` equals the `n`-fold `Polynomial.derivative` of `X^(n+α)`
-weighted appropriately. Because the exponent `α` is not a natural number, the honest statement is
-the **analytic** one on `Set.Ioi 0`,
+`Polynomial.laguerre_rodrigues`, stated **analytically** on `Set.Ioi 0`,
 
 `Lₙ^{(α)}.eval x = x ^ (-α) * exp x / n ! * iteratedDeriv n (fun t => exp (-t) * t ^ (n + α)) x`,
 
 stated with `Real.rpow` and the hypothesis `0 < x`. This is the form the orthogonality proof in B3
 consumes, so it is stated the way it is used.
+
+**There is deliberately no polynomial-level Rodrigues target here**, and the `shiftedLegendre` shape
+in Mathlib is not available to imitate. That shape differentiates `X ^ (n + α)` with
+`Polynomial.derivative`, which requires `n + α : ℕ`; for the real parameter `α` this roadmap is
+built around, `X ^ (n + α)` is not a polynomial and the operation does not typecheck. A polynomial
+Rodrigues identity for the `α : ℕ` specialization is a legitimate later addition, but it is a
+different statement about a different family and must not be listed as the general target.
 
 **A4. Special values.** `Polynomial.laguerre_eval_zero` (`= ascPochhammer` at `α+1` over `n!`), and
 the simple-Laguerre lemmas as the `α = 0` specialization.
@@ -271,28 +305,62 @@ Both pins are required, per the generality bar.
 
 ## Part C — the Jacobi family (algebraic)
 
-**C1. A real Beta function.** `Real.betaIntegral (u v : ℝ) : ℝ := ∫ x in (0:ℝ)..1, x ^ (u-1) * (1-x) ^ (v-1)`,
-with `Real.betaIntegral_convergent`, `Real.betaIntegral_symm`, and
-`Real.betaIntegral_eq_Gamma_mul_div : 0 < u → 0 < v → betaIntegral u v = Gamma u * Gamma v / Gamma (u + v)`,
-each obtained from the existing `Complex` development by taking real parts. Mathlib has the complex
-Beta function and no real one; the Jacobi weight integral is a Beta integral, so rather than route
-every statement through `Complex.betaIntegral` and re-extract, this roadmap builds the real
-counterpart and states the Jacobi results against it. This is a target here because the roadmap
-needs it and it does not exist — not a dependency assumed to appear.
+**C1. The real Beta integral.** The closed-form real Beta constant **already exists** and must be
+consumed, not rebuilt: at the pinned Mathlib revision,
+`Mathlib/Probability/Distributions/Beta.lean` defines
+`ProbabilityTheory.beta (α β : ℝ) : ℝ := Real.Gamma α * Real.Gamma β / Real.Gamma (α + β)` and
+proves `ProbabilityTheory.beta_eq_betaIntegralReal : 0 < α → 0 < β → beta α β = (Complex.betaIntegral α β).re`.
+So the `Gamma`-quotient value and its bridge to the complex development are dependencies, not
+targets, and D1/D3 state their constants as `ProbabilityTheory.beta`.
+
+What is genuinely missing is the **real interval integral itself**. `beta_eq_betaIntegralReal`
+evaluates the real part of a `Complex.betaIntegral`, whose integrand uses `Complex.cpow`; nothing in
+Mathlib identifies that with the real-variable, `Real.rpow` integrand the Jacobi weight actually
+presents. The single target is therefore the extraction lemma
+
+`Real.betaIntegral_eq_beta : 0 < u → 0 < v → ∫ x in (0:ℝ)..1, x ^ (u-1) * (1-x) ^ (v-1) = ProbabilityTheory.beta u v`
+
+(`^` being `Real.rpow`), together with its integrability side condition. A `Real.betaIntegral`
+abbreviation may be introduced for readability, but it must be *defeq to the integral above and
+proved equal to `ProbabilityTheory.beta`* — it must not restate the `Gamma`-quotient as a new
+definition, which would fork the constant that D3 and F3 are checked against.
 
 **C2. Definition and degree.** `Polynomial.jacobi (α β : R) (n : ℕ) : R[X]`, defined by the
 classical explicit sum
 
-`Pₙ^{(α,β)}(X) = (2^n)⁻¹ • ∑ k ∈ Finset.range (n+1), (binomial in ascPochhammer form) • (X - 1)^(n-k) * (X + 1)^k`,
+`Pₙ^{(α,β)}(X) = (2^n)⁻¹ • ∑ k ∈ Finset.range (n+1), (((ascPochhammer R (n-k)).smeval (α + k + 1) / (n-k)!) * ((ascPochhammer R k).smeval (β + n - k + 1) / k !)) • ((X - 1)^(n-k) * (X + 1)^k)`
 
-with `Polynomial.degree_jacobi` (`= n`, under the standing parameter hypotheses), `natDegree_jacobi`,
-`coeff_jacobi`, and `leadingCoeff_jacobi`
+**Both coefficient factors are written out, and their orientation is part of the specification.**
+They are the `ascPochhammer` forms of `(n+α).choose (n-k)` and `(n+β).choose k` respectively; `α`
+travels with `(X - 1)^(n-k)` and `β` with `(X + 1)^k`. Swapping them gives a different family, so
+this is not a normalization detail a contributor may settle locally: `jacobi_neg_comp` in C3 and
+every `α ↔ β` argument downstream depend on exactly this pairing.
+
+Two consistency checks the orientation satisfies, and which a contributor should re-derive before
+changing anything above:
+
+- At `n = 0` the sum is the single term `k = 0`, both `ascPochhammer` factors are `1`, and the
+  result is `jacobi_zero = 1`.
+- Every summand `(X - 1)^(n-k) * (X + 1)^k` is monic of degree `n`, so the leading coefficient is
+  `(2^n)⁻¹ • ∑ k, (n+α).choose (n-k) * (n+β).choose k`, which Vandermonde collapses to
+  `(2n + α + β).choose n` — the `leadingCoeff_jacobi` below.
+
+Targets: `Polynomial.degree_jacobi`, `natDegree_jacobi`, `coeff_jacobi`, and `leadingCoeff_jacobi`
 (`= (ascPochhammer R n).smeval (n + α + β + 1) / (2^n * n !)`).
 
-**Degeneracy to pin now, not discover later.** The leading coefficient vanishes exactly when
-`n + α + β + 1` hits a non-positive integer, so `degree_jacobi = n` is *false* without a hypothesis.
-Carry `-1 < α`, `-1 < β` (which suffice) rather than the sharper arithmetic condition, and say so in
-the docstring.
+**Degeneracy to pin now, not discover later — and to state at the right generality.** Writing
+`z = n + α + β + 1`, the leading coefficient is `(z)ₙ = z (z+1) ⋯ (z + n - 1)`, which vanishes
+exactly when `z ∈ {0, -1, …, -(n-1)}` — *not* whenever `z` is a non-positive integer. `z = -n`
+leaves `(z)ₙ` non-zero, and `(z)₀ = 1`, so `n = 0` never degenerates; in particular `z = 0`, which
+is the Chebyshev edge `α = β = -1/2` at `n = 0` that F3 exercises, causes **no** degree drop.
+
+Since `jacobi` is stated over `[CommRing R] [Algebra ℚ R]`, where `-1 < α` is not even a well-formed
+hypothesis, `degree_jacobi` carries the *algebraic* condition
+`(ascPochhammer R n).smeval (n + α + β + 1) ≠ 0`. The ordered real statement is a corollary: over
+`ℝ`, `-1 < α` and `-1 < β` give `z > n - 1 ≥ 0` for `n ≥ 1`, and `(z)₀ = 1` handles `n = 0`, so the
+condition is discharged once and Part D carries only `-1 < α`, `-1 < β`. Making the real inequality
+*the* hypothesis of `degree_jacobi` would silently specialize the entire algebraic layer to `ℝ`,
+which is the error this paragraph exists to prevent.
 
 **C3. The recurrences, symmetry, and the derivative.**
 - `Polynomial.jacobi_zero` (`= 1`), `Polynomial.jacobi_one`.
@@ -300,7 +368,10 @@ the docstring.
   it is what makes the `α ↔ β` half of every later proof free, and it is the analogue of the
   existing `Polynomial.neg_one_pow_mul_shiftedLegendre_comp_one_sub_X_eq`.
 - `Polynomial.jacobi_succ_succ`, the three-term recurrence.
-- `Polynomial.derivative_jacobi` : `derivative (Pₙ^{(α,β)}) = C ((n + α + β + 1)/2) * Pₙ₋₁^{(α+1,β+1)}`.
+- `Polynomial.derivative_jacobi` : `derivative (Pₙ₊₁^{(α,β)}) = C ((n + α + β + 2)/2) * Pₙ^{(α+1,β+1)}`.
+  Stated in `n+1` form for the same reason as `derivative_laguerre` in A2: the `n`/`n-1` phrasing is
+  false at `n = 0`, where truncated subtraction makes the right-hand side `C ((α+β+1)/2) * P₀`,
+  generally non-zero, while the left-hand side is `derivative 1 = 0`.
 
 **C4. Rodrigues.** `Polynomial.jacobi_rodrigues`, in the analytic form on `Set.Ioo (-1) 1`:
 
@@ -313,7 +384,8 @@ with `-1 < x` and `x < 1`. As in A3, stated as the orthogonality proof consumes 
 **D1. The measure.** `Polynomial.jacobiMeasure (α β : ℝ) : Measure ℝ`, namely
 `(volume.withDensity fun x => ENNReal.ofReal ((1-x) ^ α * (1+x) ^ β)).restrict (Set.Ioo (-1) 1)`,
 with density measurability, and `IsFiniteMeasure` for `-1 < α`, `-1 < β` — the latter being
-`Real.betaIntegral` from C1 after the affine change of variables `x = 2t - 1`.
+`ProbabilityTheory.beta` via C1's interval-integral identification, after the affine change of
+variables `x = 2t - 1`.
 
 **D2. Completeness is automatic.** `jacobiMeasure α β` is supported in `[-1, 1]`, so the finite
 exponential moment follows from `TauCeti.Integrable.exp_abs_smul_of_ae_abs_le` with no analytic
@@ -359,8 +431,22 @@ currently lacks entirely** — as a corollary of D3. Also the Legendre `HilbertB
 
 **F2. Gegenbauer.** `Polynomial.gegenbauer (lam : R) (n : ℕ) : R[X]`, defined as the classical
 scalar multiple of `jacobi (lam - 1/2) (lam - 1/2) n` — a `def` because the classical normalization
-genuinely differs, not a second recursion — with its degree, recurrence, and orthogonality
-inherited from Part C and D3.
+genuinely differs, not a second recursion. **The scalar, the parameter hypotheses, and the `λ = 0`
+convention are all part of the milestone**, because the degree and orthogonality statements are
+*not* simply inherited from Part C and D3:
+
+`Cₙ^{(λ)} = ((ascPochhammer R n).smeval (2*lam) / (ascPochhammer R n).smeval (lam + 1/2)) • jacobi (lam - 1/2) (lam - 1/2) n`
+
+- **Degree does not transfer at `λ = 0`.** The numerator `(2λ)ₙ` vanishes for every `n ≥ 1` at
+  `λ = 0`, so `C₀ⁿ = 0` there and `degree_gegenbauer = n` is false — even though the underlying
+  `jacobi (-1/2) (-1/2) n` has full degree. Carry the algebraic hypothesis
+  `(ascPochhammer R n).smeval (2*lam) ≠ 0` (with `(ascPochhammer R n).smeval (lam + 1/2) ≠ 0` for
+  the denominator), specializing over `ℝ` to `0 < lam`. The classical `λ = 0` family is recovered by
+  the renormalization `lim_{λ→0} (n/λ) Cₙ^{(λ)} = 2 Tₙ` for `n ≥ 1`, which is a *different* def and
+  is out of scope here; the roadmap must not pretend `gegenbauer 0 n` is it.
+- **Orthogonality needs `-1/2 < lam`, not `-1 < α`.** The weight is `(1 - x²)^(lam - 1/2)`, and the
+  Part D hypothesis `-1 < α = lam - 1/2` is exactly `-1/2 < lam`. State it in the `lam` variable so
+  a contributor is not left translating it at each call site.
 
 **F3. The Chebyshev consistency check.** `Polynomial.Chebyshev.T ℝ n` is `jacobi (-1/2) (-1/2) n`
 up to an explicit constant. Mathlib **already proves** the Chebyshev orthogonality integrals
@@ -371,8 +457,12 @@ result — it is a test of D3 against a value the library already knows**, and i
 `n = 0`, `α + β = -1` case in D3 must be stated correctly: `α = β = -1/2` is exactly that case, and
 `π` versus `π/2` is exactly where a wrong constant shows up.
 
-Target: `Polynomial.jacobi_neg_half_neg_half_eq_T`, relating the two families, and from it a proof
-that D3's constants reproduce Mathlib's three Chebyshev integrals. A contributor who lands D3
+Targets: `Polynomial.jacobi_neg_half_neg_half_eq_T`, relating the two families; the measure bridge
+`Polynomial.jacobiMeasure_neg_half_neg_half_eq_measureT` identifying `jacobiMeasure (-1/2) (-1/2)`
+with Chebyshev's `measureT` — the two are built over `Set.Ioo (-1) 1` and `Set.Ioc (-1) 1`
+respectively, and as noted in the generality bar they agree because `{1}` is `volume`-null, but that
+agreement has to be *proved* before any `measureT` lemma can be consumed; and from those two, a
+proof that D3's constants reproduce Mathlib's three Chebyshev integrals. A contributor who lands D3
 without F3 has shipped an unchecked formula; **F3 is the anti-vacuity milestone of this roadmap**,
 in the same spirit as the `coe_*` pins.
 
@@ -380,9 +470,12 @@ in the same spirit as the `coe_*` pins.
 
 Two failure modes are specific to this area and each has a milestone that catches it.
 
-1. **A degenerate family.** If `degree_jacobi` is stated without the parameter hypotheses it is
-   false, and if it is stated with hypotheses that are never checked downstream the basis milestones
-   are vacuous. C2 pins the hypotheses and Part D carries them.
+1. **A degenerate family.** If `degree_jacobi` is stated without its non-vanishing hypothesis it is
+   false, and if it is stated with a hypothesis that is never discharged downstream the basis
+   milestones are vacuous. C2 pins the algebraic condition and its real specialization, Part D
+   carries the real one, and F2 is where the same trap bites hardest — `gegenbauer 0 n` is
+   identically zero for `n ≥ 1`, so a Gegenbauer basis milestone stated without `0 < lam` would be
+   a basis of nothing.
 2. **A wrong normalizing constant.** The orthogonality constants are the whole content of B3 and D3,
    and nothing in the Hilbert-basis layer would detect an error in them: the bridge takes `cₙ > 0` as
    a hypothesis and normalizes by it, so a wrong-but-positive `cₙ` still yields a perfectly good
@@ -393,7 +486,7 @@ Two failure modes are specific to this area and each has a milestone that catche
 
 Part A, then B, is the shorter of the two families and establishes the proof shape
 (Rodrigues → repeated integration by parts → Gamma constant → instantiate the bridge). Part C then
-follows that shape on the harder family, with **C1** (the real Beta function) landing first since D1
+follows that shape on the harder family, with **C1** (the real Beta interval integral) landing first since D1
 needs it. **D3 and F3 belong to the same milestone in practice** — the check is not a follow-up, it
 is how the constant is known to be right. Part E is independent of C/D once B4 exists and can land
 in parallel. Part F1's Legendre export is the highest-value single item for existing Mathlib users
