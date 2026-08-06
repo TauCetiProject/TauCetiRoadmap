@@ -15,9 +15,9 @@ self-contained target (L0 pure Hodge structures, L1 polarization/semisimplicity,
 structures/strictness, L3 period-domain points). This is the weight-general *structural* theory of
 Hodge structures — pure linear algebra over filtrations. The **variations** of Hodge structure
 (period domains as complex manifolds, the VHS datum with Griffiths transversality, period maps,
-monodromy and rigidity) are the **successor `Variations of Hodge structure` roadmap**: they need
-Mathlib's complex-manifold / connection API, which does not yet exist, so they are named there rather
-than seeded here. The deep geometric/analytic engines that *produce* Hodge structures (Kähler Hodge
+monodromy and rigidity) are the **successor `Variations of Hodge structure` roadmap**, which uses
+Mathlib's complex-manifold / connection API for those analytic parts. The deep geometric/analytic
+engines that *produce* Hodge structures (Kähler Hodge
 decomposition, Gauss-Manin, Schmid's asymptotics) supply instances from elsewhere (the weight-1 /
 curve case is the worked model).
 

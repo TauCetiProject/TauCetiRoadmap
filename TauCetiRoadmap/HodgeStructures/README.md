@@ -23,9 +23,9 @@ not as non-milestone prose here:
 
 - The **variations** of Hodge structure — period domains as complex manifolds, the VHS datum
   (holomorphic Hodge-filtration bundle + Griffiths transversality `∇F^p ⊆ F^{p−1}⊗Ω¹`), period maps,
-  and monodromy/rigidity — are the **successor roadmap** *Variations of Hodge structure*, gated on
-  Mathlib's complex-manifold / connection API (see *Successor roadmap* below). They build directly on
-  the fiber datum, period-domain points, and symmetry group defined here.
+  and monodromy/rigidity — are the **successor roadmap** *Variations of Hodge structure* (see
+  *Successor roadmap* below), which uses Mathlib's complex-manifold / connection API. They build
+  directly on the fiber datum, period-domain points, and symmetry group defined here.
 - The **geometric/analytic engines** that *produce* Hodge structures — the Kähler Hodge decomposition
   (`Hⁿ = ⊕ H^{p,q}`), Gauss–Manin, and Schmid's asymptotics — supply *instances* from elsewhere (the
   weight-1 / abelian-variety case — curves and their Jacobians — is the worked model; see *Relation to
@@ -50,18 +50,14 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
     `Module.Free`/`Module.Finite` (the lattice), `Antitone`/`Monotone`.
   - Conjugation: `starRingEnd ℂ` (complex conjugation as the semilinearity ring hom); there is **no**
     packaged real/integral complexification-with-conjugation, so `latticeConj` is built here.
-  - **Incoming Mathlib filtration / complex-structure API (build *toward* it; track, don't consume yet).**
-    Hodge-adjacent linear algebra is landing in Mathlib now; L0/L2 should be **refactored onto it once it
-    merges** rather than duplicating it long-term:
-    - *Filtration API* — [mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954),
-      formalizing Deligne, *Théorie de Hodge II* §1.1, is explicitly PR 1/4 with **opposed filtrations
-      (§1.2.1–1.2.3)** and **induced filtrations on graded pieces (§1.2.1)** named as the follow-ups —
-      exactly what L0's `opposed` (`IsCompl (F^p) (conj F^{n+1−p})`) and L2's `gradedF` /
-      `gradedComplexEquiv` build by hand here. That PR lives in an abstract abelian category while this
-      roadmap is concrete over `Submodule ℂ V_ℂ`, so it is **not consumed verbatim today**; the plan is to
-      specialize L0/L2 from it once merged and **align naming with Deligne §1.2.1**. (Grew out of Joël
-      Riou's `n`-opposed-filtrations proposal on the `#mathlib4` *Complexifications with a view towards
-      Hodge theory* thread.)
+  - **Filtration / complex-structure API, aligned with Deligne §1.2.1.** L0's opposed filtration
+    (`IsCompl (F^p) (conj F^{n+1−p})`) and L2's `gradedF` / `gradedComplexEquiv` follow Deligne,
+    *Théorie de Hodge II* §1.2.1 (opposed filtrations §1.2.1–1.2.3; induced filtrations on graded pieces
+    §1.2.1). Mathlib carries an abstract abelian-category version of this filtration API (cf.
+    [mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954), from Joël Riou's
+    `n`-opposed-filtrations work on the `#mathlib4` *Complexifications with a view towards Hodge theory*
+    thread); this roadmap is concrete over `Submodule ℂ V_ℂ`, so L0/L2 name their filtration API to
+    align with Deligne §1.2.1 and specialize the abstract version where it applies.
     - *Complex structures on real vector spaces* —
       [mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975), the `J`, `J² = −1`
       route to the `(p,q)`-decomposition (the `±i`-eigenspace picture). The Deligne opposed-filtration
@@ -76,7 +72,7 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
     `Representation.irreducible_iff_isSimpleModule_asModule`.)*
 - **Other proof assistants.** Hodge structures, polarizations, and variations of Hodge structure are
   largely unformalized (Isabelle/HOL, Coq/Rocq); adjacent pieces exist (abelian varieties, the upper
-  half-space). In Lean 4, **concurrent** work by Booker Smith
+  half-space). In Lean 4, work by Booker Smith
   ([pure-hodge-structures-lean4](https://github.com/thebookersmith/pure-hodge-structures-lean4),
   [announcement](https://leanprover.zulipchat.com/#narrow/channel/583339-AI-authored-projects/topic/Pure.20Hodge.20structures.20in.20Lean.204))
   formalizes exactly the **L0** layer — the `(p,q)`-decomposition ↔ opposed-filtration equivalence,
@@ -194,9 +190,9 @@ the pinned Mathlib.
   `opposed` (`IsCompl (F^p) (conj F^{n+1−p})`) plus boundedness, prove by descending induction on `p`
   that `F^p = ⨆_{p'≥p} H^{p',·}` and that the pieces are independent (`H^{p,q} ⊓ ⨆_{p'>p} H^{p',·} = ⊥`
   from opposedness); assemble via `DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top`,
-  `iSupIndep`, `IsCompl`. Voisin I, §6 (the opposedness lemma). Align `opposed` with Deligne §1.2.1 and
-  plan to specialize it from [mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954)
-  once merged (see *Prior art*). *Companions to build:* morphisms of HS, the `(p,q)` symmetry
+  `iSupIndep`, `IsCompl`. Voisin I, §6 (the opposedness lemma). Name `opposed` to align with Deligne
+  §1.2.1 and specialize Mathlib's abstract filtration API where it applies (see *Prior art*).
+  *Companions to build:* morphisms of HS, the `(p,q)` symmetry
   `conj (piece p) = piece (n−p)`, `ℤ`-Tate twist, `⊗`/`Hom`/dual.
   *Effectivity:* `HodgeStructure.IsEffective` (Hodge numbers in `[0,n]`, i.e. `F^0 = ⊤`, `F^{n+1} = ⊥`)
   is the named hypothesis under which the classical weight-1 identifications hold — see the instance
@@ -252,9 +248,8 @@ the pinned Mathlib.
   elements through `gradedConj`/`gradedF` (as with `Polarization.Q_tmul`) will be wanted to keep the
   quotient manipulations tractable. Deligne, *Théorie de Hodge II*, 1.2.10 & 2.3.5; Peters–Steenbrink
   Ch. 3. The `gradedF` / `gradedComplexEquiv` apparatus is Deligne §1.2.1 "induced filtrations on graded
-  pieces"; specialize it from
-  [mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954)'s named §1.2.1 follow-up
-  once merged, aligning naming with Deligne §1.2.1 (see *Prior art*).
+  pieces"; name it to align with Deligne §1.2.1 and specialize Mathlib's abstract §1.2.1 filtration API
+  where it applies (see *Prior art*).
   *Morphisms:* the milestone takes the morphism as a single unbundled rational map `fQ` (complex action
   derived), so the target is bundling-agnostic. The implementation should then bundle it into an
   `MHS.Hom` / category to carry the **abelian-category** structure — strictness is exactly what makes
@@ -279,10 +274,10 @@ the pinned Mathlib.
 
 ## Successor roadmap: Variations of Hodge structure
 
-The **variations** theory is a separate, later roadmap (to be seeded as its own entry, *Variations of
-Hodge structure*, once its Mathlib prerequisites land). It is *not* out-of-scope prose here — it is a
-distinct roadmap that **builds on the objects defined above**, exactly as `JacobianChallenge` builds on
-its own prerequisites. Its intended milestones:
+The **variations** theory is a separate roadmap, *Variations of Hodge structure*, that **builds on the
+objects defined above** — exactly as `JacobianChallenge` builds on its own prerequisites — using
+Mathlib's complex-manifold / connection API and flag-variety topology for the analytic parts that lie
+outside this roadmap's linear-algebraic scope. Its milestones:
 
 - **Period domains as complex manifolds** — `D` open in the flag variety of filtrations of a fixed
   `HodgeType`, the `Aut(V,Qint)_ℝ`-action, and the weight-1 (effective) ⇒ Siegel `Sp(2g,ℝ)/U(g)`
@@ -295,13 +290,6 @@ its own prerequisites. Its intended milestones:
   engine is **Schur's lemma, which Mathlib already provides**
   (`IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed` via
   `Representation.irreducible_iff_isSimpleModule_asModule`) — consumed, not re-proved.
-
-**Blocked on:** Mathlib's complex-manifold / connection API, and the incoming filtration /
-complex-structure PRs tracked in *Prior art*
-([mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954),
-[mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975)). Until those exist the
-analytic conditions **cannot be stated**, so this roadmap is named here rather than seeded with
-content-free placeholders. A tracking issue records it.
 
 ## Relation to sibling roadmaps
 
@@ -329,10 +317,9 @@ Voisin, *Hodge Theory and Complex Algebraic Geometry I–II*. Carlson–Müller-
 Mappings and Period Domains*. Griffiths, *Periods of integrals on algebraic manifolds (I, II)* and
 *Topics in transcendental algebraic geometry*. Deligne, *Théorie de Hodge II, III*. Schmid, *Variation
 of Hodge structure: the singularities of the period mapping*. Peters–Steenbrink, *Mixed Hodge
-Structures*. New Lean formalization; concurrent with Booker Smith's Lean 4
-*pure-hodge-structures-lean4* at the **L0** layer (see *Prior art*), original for the L1–L3
-polarization / mixed / period-domain superstructure. (Schmid is a reference for the successor
-variations roadmap.)
+Structures*. Alongside Booker Smith's Lean 4 *pure-hodge-structures-lean4* at the **L0** layer (see
+*Prior art*); the L1–L3 polarization / mixed / period-domain superstructure is original. (Schmid is a
+reference for the successor variations roadmap.)
 
 ---
 
