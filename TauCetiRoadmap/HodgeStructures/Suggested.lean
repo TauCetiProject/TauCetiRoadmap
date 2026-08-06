@@ -1,7 +1,7 @@
 import Mathlib
 
 /-!
-# Variation of Hodge structure (general): proposed definitions + target signatures
+# Hodge structures (pure, mixed, and polarized): proposed definitions + target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 The statements here suggest Lean forms for particular milestones, so that contributors and reviewers
@@ -11,18 +11,21 @@ The narrative roadmap (layers, generality bar, the structural-vs-geometric bound
 sibling relations) is in `README.md`. **Mathlib has no Hodge structures**, so the chief
 deliverable of this entry is getting the *definitions* right (the `JacobianChallenge`
 philosophy); below are proposed core definitions and a milestone `sorry` for each layer with a
-self-contained target (L0, L1, L2, L3, L5; L4 seeds only the honest monodromy facet
-`PolarizedMonodromyRepresentation` — the full VHS structure is out of scope until Mathlib's
-complex-geometry API exists, see `README.md`). The deep geometric/analytic engines (Kähler Hodge
-decomposition, Gauss-Manin of general families, Schmid's asymptotics) are **out of scope** -- this is
-the weight-general *structural* theory; instances come from elsewhere (the weight-1 / curve case is
-the worked model).
+self-contained target (L0 pure Hodge structures, L1 polarization/semisimplicity, L2 mixed Hodge
+structures/strictness, L3 period-domain points). This is the weight-general *structural* theory of
+Hodge structures — pure linear algebra over filtrations. The **variations** of Hodge structure
+(period domains as complex manifolds, the VHS datum with Griffiths transversality, period maps,
+monodromy and rigidity) are the **successor `Variations of Hodge structure` roadmap**: they need
+Mathlib's complex-manifold / connection API, which does not yet exist, so they are named there rather
+than seeded here. The deep geometric/analytic engines that *produce* Hodge structures (Kähler Hodge
+decomposition, Gauss-Manin, Schmid's asymptotics) supply instances from elsewhere (the weight-1 /
+curve case is the worked model).
 
 NOTE: elaborates green against `TauCetiRoadmap`'s pinned Mathlib (leanprover/lean4:v4.31.0-rc1); the
 milestone `example`s carry `sorry`, and every definition is complete (no `sorry` in any definition).
 -/
 
-namespace TauCetiRoadmap.VHS
+namespace TauCetiRoadmap.HodgeStructures
 
 open Complex
 
@@ -197,6 +200,15 @@ noncomputable def HodgeStructure.piece {n : ℤ} (hs : HodgeStructure hℂ n) (p
     Submodule ℂ Vℂ :=
   hs.F p ⊓ (hs.F (n - p)).map (latticeConj hℂ)
 
+/-- A weight-`n` Hodge structure is **effective** (of level `n`) when its Hodge numbers are supported
+in `[0, n]`: `F^0 = ⊤` and `F^{n+1} = ⊥`, so every `(p,q)`-piece with `p < 0` or `p > n` vanishes.
+This is the hypothesis under which the weight-1 case is exactly abelian varieties / complex tori and
+the `±i`-eigenspaces of a `J` with `J² = −1` are exactly the `(1,0)`/`(0,1)` pieces — the *general*
+weight-1 Hodge structure (admitting `H^{2,−1}`, `H^{−1,2}`, …) is not effective and those
+identifications fail for it. -/
+def HodgeStructure.IsEffective {n : ℤ} (hs : HodgeStructure hℂ n) : Prop :=
+  hs.F 0 = ⊤ ∧ hs.F (n + 1) = ⊥
+
 /-- **L0 milestone -- the Hodge decomposition.** The `(p,q)`-pieces give an **internal direct sum**
 `V_ℂ = ⨁_p H^{p,q}` (independence + spanning) -- the structural content of `n`-opposedness + the
 bounded filtration. -/
@@ -209,13 +221,12 @@ noncomputable def baseChangedBilinForm (hℂ : IsBaseChange ℂ ιℂ)
     (Qint : LinearMap.BilinForm ℤ V) : LinearMap.BilinForm ℂ Vℂ :=
   LinearMap.BilinForm.congr hℂ.equiv (Qint.baseChange ℂ)
 
-/-- **L1 -- polarization.** The primary datum is an integral bilinear form `Qint` on the
-lattice. Its complex-bilinear form on `V_ℂ` is obtained by Mathlib's bilinear-form base
-change, so values on pure lattice tensors are forced by the extension-of-scalars API. It
-satisfies the Hodge-Riemann relations: orthogonality `Q(F^p, F^{n-p+1}) = 0` and positivity
-`i^{p-q} Q(v, conj v) > 0` on `H^{p,q}`. -/
-structure Polarization {n : ℤ} (hs : HodgeStructure hℂ n) where
-  Qint : LinearMap.BilinForm ℤ V
+/-- **L1 -- the Hodge-Riemann conditions** saying a *given* integral form `Qint` polarizes `hs`:
+`(-1)^n`-symmetry, nondegeneracy of the complexified form, orthogonality `Q(F^p, F^{n-p+1}) = 0`,
+and positivity `i^{p-q} Q(v, conj v) > 0` on `H^{p,q}`. A genuine `Prop`, so a *fixed* form can be
+required to polarize a structure (as in `PeriodDomain.Point`) without carrying the form twice. -/
+structure IsPolarization {n : ℤ} (hs : HodgeStructure hℂ n)
+    (Qint : LinearMap.BilinForm ℤ V) : Prop where
   symm : ∀ v w, Qint v w = (-1 : ℤ) ^ n.natAbs * Qint w v
   nondegenerate : (baseChangedBilinForm hℂ Qint).Nondegenerate
   orthogonal : ∀ p, ∀ v ∈ hs.F p, ∀ w ∈ hs.F (n - p + 1),
@@ -226,6 +237,14 @@ structure Polarization {n : ℤ} (hs : HodgeStructure hℂ n) where
     (Complex.I ^ (2 * p - n) * (baseChangedBilinForm hℂ Qint) v (latticeConj hℂ v)).im = 0 ∧
       0 < (Complex.I ^ (2 * p - n) *
         (baseChangedBilinForm hℂ Qint) v (latticeConj hℂ v)).re
+
+/-- **L1 -- polarization.** The primary datum is an integral bilinear form `Qint` on the lattice,
+together with a proof `isPol` that it satisfies the Hodge-Riemann relations (`IsPolarization`). Its
+complex-bilinear form on `V_ℂ` is obtained by Mathlib's bilinear-form base change, so values on pure
+lattice tensors are forced by the extension-of-scalars API. -/
+structure Polarization {n : ℤ} (hs : HodgeStructure hℂ n) where
+  Qint : LinearMap.BilinForm ℤ V
+  isPol : IsPolarization hs Qint
 
 /-- The complex polarization form obtained from the integral form by extension of scalars. -/
 noncomputable def Polarization.Q {n : ℤ} {hs : HodgeStructure hℂ n}
@@ -826,135 +845,46 @@ example {V' V'ℚ V'ℂ : Type*} [AddCommGroup V'] [Module ℤ V'] [Module.Free 
       (∀ p, LinearMap.range (rationalMapToComplex hℚ hℂ h'ℚ h'ℂ fQ) ⊓ mhs'.F p =
         (mhs.F p).map (rationalMapToComplex hℚ hℂ h'ℚ h'ℂ fQ)) := sorry
 
-/-- Fixed Hodge numbers for a period-domain target. -/
+/-- Fixed Hodge numbers for a period-domain point: a weight `weight`, Hodge numbers `h` of finite
+support, and **Hodge symmetry** `h p = h (weight - p)`. The symmetry is forced by
+`conj (piece p) = piece (weight - p)` on any realizable structure, so requiring it here excludes the
+asymmetric types on which the L3 dimension milestone would hold vacuously. -/
 structure HodgeType where
+  weight : ℤ
   h : ℤ → ℕ
   finite_support : {p | h p ≠ 0}.Finite
+  symm : ∀ p, h p = h (weight - p)
 
-/-- **L3 -- period domain.** Following Griffiths, the lattice `V_ℤ`, the integral polarization form
-`Qint`, and the Hodge type are **fixed**; a *point* of the period domain is a Hodge filtration making
-`(V, Qint)` a polarized Hodge structure of that type. Only the filtration varies — so the symmetry
-group `G = Aut(V, Qint)` acts and `D` is the homogeneous space `G_ℝ/V` (open in a flag variety). The
-`pol_form` field pins the polarization to the fixed form. -/
-structure PeriodDomain (hℂ : IsBaseChange ℂ ιℂ)
+/-- **Symmetry group.** `IsLatticeIsometry Qint e` says an integral automorphism preserves the
+polarization form. The symmetry group `Aut(V, Qint)` -- where a variation's monodromy lands, in the
+successor *Variations of Hodge structure* roadmap -- is the subgroup of `V ≃ₗ[ℤ] V` this predicate
+cuts out; its `Subgroup`/`Group` packaging is companion API to build. -/
+def IsLatticeIsometry (Qint : LinearMap.BilinForm ℤ V) (e : V ≃ₗ[ℤ] V) : Prop :=
+  ∀ v w, Qint (e v) (e w) = Qint v w
+
+/-- **L3 -- a point of the period domain.** Following Griffiths, the lattice `V_ℤ`, the integral
+polarization form `Qint`, and the Hodge type are **fixed**; a *point* of the classifying set is a
+Hodge filtration making `(V, Qint)` a polarized Hodge structure of that type — only the filtration
+varies. This is the point/parameter object. The complex-manifold structure on the set of such points
+(openness in a flag variety, the `Aut(V,Qint)_ℝ`-action, the weight-1 ⇒ Siegel identification) is the
+successor *Variations of Hodge structure* roadmap's target; it needs flag-variety topology Mathlib
+lacks. The fixed form enters as the `IsPolarization` witness, so it is not duplicated. -/
+structure PeriodDomain.Point (hℂ : IsBaseChange ℂ ιℂ)
     (n : ℤ) (Qint : LinearMap.BilinForm ℤ V) (htype : HodgeType) where
   hs : HodgeStructure hℂ n
-  pol : Polarization hs
-  /-- The point's polarization is the fixed form `Qint` -- the domain varies only the filtration. -/
-  pol_form : pol.Qint = Qint
+  /-- The Hodge type's weight is the structure's weight. -/
+  htype_weight : htype.weight = n
+  /-- The fixed form `Qint` polarizes `hs` (no duplicated form; `IsPolarization` is a `Prop`). -/
+  pol : IsPolarization hs Qint
   hodge_numbers : ∀ p : ℤ, Module.finrank ℂ (hs.piece p) = htype.h p
 
 /-- **L3 milestone -- Hodge numbers partition the dimension.** For any point of the period domain,
 the prescribed Hodge numbers sum to the dimension of `V_ℂ` (the numerical shadow of the Hodge
-decomposition; a genuine constraint on `HodgeType`). The deeper target -- openness of the period
-domain in its flag variety, and the weight-1 identification with the Siegel domain -- needs
-flag-variety topology and is described in the README (out of scope for this seed). -/
+decomposition; a genuine constraint on `HodgeType`). The manifold structure on the period domain
+(openness in its flag variety, the weight-1 ⇒ Siegel identification) is the successor
+*Variations of Hodge structure* roadmap, not this milestone. -/
 example {n : ℤ} (Qint : LinearMap.BilinForm ℤ V) (htype : HodgeType)
-    (D : PeriodDomain hℂ n Qint htype) :
+    (D : PeriodDomain.Point hℂ n Qint htype) :
     ∑ᶠ p, (htype.h p : ℕ) = Module.finrank ℂ Vℂ := sorry
 
-omit [Module.Free ℤ V] [Module.Finite ℤ V] in
-/-- Complexification of an integral linear equivalence. -/
-def concreteComplexificationLinearEquiv (e : V ≃ₗ[ℤ] V) :
-    Complexification V ≃ₗ[ℂ] Complexification V :=
-  TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl ℂ ℂ) e
-
-omit [Module.Free ℤ V] [Module.Finite ℤ V] in
-@[simp]
-theorem concreteComplexificationLinearEquiv_tmul (e : V ≃ₗ[ℤ] V) (z : ℂ) (v : V) :
-    concreteComplexificationLinearEquiv (V := V) e (z ⊗ₜ[ℤ] v) = z ⊗ₜ[ℤ] e v :=
-  rfl
-
-omit [Module.Free ℤ V] [Module.Finite ℤ V] in
-/-- Concrete complexification as a monoid homomorphism from integral automorphisms to
-complex-linear automorphisms. -/
-def concreteComplexificationLinearEquivHom :
-    (V ≃ₗ[ℤ] V) →* (Complexification V ≃ₗ[ℂ] Complexification V) where
-  toFun := concreteComplexificationLinearEquiv (V := V)
-  map_one' := by
-    apply LinearEquiv.ext
-    intro x
-    refine TensorProduct.induction_on x (by simp) ?_ ?_
-    · intro z v
-      simp [concreteComplexificationLinearEquiv]
-    · intro x y hx hy
-      simp [map_add, hx, hy]
-  map_mul' e f := by
-    apply LinearEquiv.ext
-    intro x
-    refine TensorProduct.induction_on x (by simp) ?_ ?_
-    · intro z v
-      simp [concreteComplexificationLinearEquiv]
-    · intro x y hx hy
-      simp [map_add, hx, hy]
-
-omit [Module.Free ℤ V] [Module.Finite ℤ V] in
-/-- Complexification of an integral linear equivalence, transported to an abstract complex
-base-change model. -/
-noncomputable def complexificationLinearEquiv (hℂ : IsBaseChange ℂ ιℂ) (e : V ≃ₗ[ℤ] V) :
-    Vℂ ≃ₗ[ℂ] Vℂ :=
-  hℂ.equiv.symm.trans ((concreteComplexificationLinearEquivHom (V := V) e).trans hℂ.equiv)
-
-omit [Module.Free ℤ V] [Module.Finite ℤ V] in
-/-- Complexification as a monoid homomorphism from integral automorphisms to complex-linear
-automorphisms. -/
-noncomputable def complexificationLinearEquivHom (hℂ : IsBaseChange ℂ ιℂ) :
-    (V ≃ₗ[ℤ] V) →* (Vℂ ≃ₗ[ℂ] Vℂ) where
-  toFun := complexificationLinearEquiv hℂ
-  map_one' := by
-    ext x
-    simp [complexificationLinearEquiv]
-  map_mul' e f := by
-    ext x
-    simp [complexificationLinearEquiv]
-
-/-- **L4 -- the monodromy facet of a VHS.** The *full* L4 target is a variation of Hodge
-structure over a base `B`: a local system + a holomorphic Hodge-filtration bundle +
-Griffiths transversality (`∇F^p ⊆ F^{p-1}⊗Ω¹`), with monodromy landing in `G(ℤ)` -- see
-README. This signature captures only its **monodromy representation** facet (the part the
-L5 milestone uses): a representation on the integral lattice preserving the integral
-polarization form. Named to be honest that it is *not* the full VHS datum. -/
-structure PolarizedMonodromyRepresentation {n : ℤ} (hs : HodgeStructure hℂ n)
-    (pol : Polarization hs) (Γ : Type*) [Group Γ] where
-  ρ : Γ →* (V ≃ₗ[ℤ] V)
-  preserves_integral_form : ∀ (g : Γ) v w, pol.Qint (ρ g v) (ρ g w) = pol.Qint v w
-
-/-- The complexified monodromy representation attached to an integral monodromy representation. -/
-noncomputable def PolarizedMonodromyRepresentation.complexMonodromy
-    {n : ℤ} {hs : HodgeStructure hℂ n}
-    {pol : Polarization hs} {Γ : Type*} [Group Γ]
-    (M : PolarizedMonodromyRepresentation hs pol Γ) :
-    Γ →* (Vℂ ≃ₗ[ℂ] Vℂ) :=
-  (complexificationLinearEquivHom hℂ).comp M.ρ
-
--- **L4 -- the full VHS datum is deliberately not stated here.** A variation of Hodge structure over
--- a base `B` additionally carries a holomorphic Hodge-filtration bundle and Griffiths transversality
--- (`∇F^p ⊆ F^{p-1}⊗Ω¹`). Those analytic conditions cannot yet be *stated* in Lean -- they need
--- Mathlib's complex-manifold / connection API, which the README places downstream -- and per the
--- roadmap convention an unstateable condition is *omitted*, not installed as a content-free `Prop`
--- placeholder. So L4 seeds only the honest `PolarizedMonodromyRepresentation` facet above; the full
--- `VariationOfHodgeStructure` datum is out of scope until that API exists. L4 therefore has no
--- self-contained provable milestone; the provable engine for the L4/L5 rigidity theory is the Schur
--- milestone below.
-
-/-- **L5 milestone -- Schur (the linear-algebraic core).** If the complexified monodromy
-representation is irreducible, its commutant is scalar. This is the *engine* under period-map
-rigidity and Deligne's theorem of the fixed part / semisimplicity -- but those full theorems need
-genuine *polarizable VHS* hypotheses (a real VHS, not just a form-preserving representation); this
-milestone is the plain finite-dimensional Schur lemma that they invoke.
-
-Discharge caveat: the standard argument (a commuting `T` on a finite-dimensional irreducible rep
-over algebraically closed `ℂ` has an eigenvalue via `Module.End.exists_eigenvalue`, and
-`ker (T - c • 1)` is a nonzero invariant subspace hence `⊤`) assumes `V_ℂ ≠ 0`. When
-`V = 0` the space is `0` and `hirr` holds vacuously: the conclusion is still trivially true for any
-`c`, but the proof must dispatch the `Subsingleton V_ℂ` case first. -/
-example {n : ℤ} (hs : HodgeStructure hℂ n) (pol : Polarization hs)
-    {Γ : Type*} [Group Γ]
-    (M : PolarizedMonodromyRepresentation hs pol Γ)
-    (hirr : ∀ W : Submodule ℂ Vℂ,
-      (∀ g, W.map ((M.complexMonodromy g).toLinearMap) = W) → W = ⊥ ∨ W = ⊤)
-    (T : Vℂ →ₗ[ℂ] Vℂ)
-    (hT : ∀ g v, T (M.complexMonodromy g v) = M.complexMonodromy g (T v)) :
-    ∃ c : ℂ, ∀ v, T v = c • v := sorry
-
-end TauCetiRoadmap.VHS
+end TauCetiRoadmap.HodgeStructures

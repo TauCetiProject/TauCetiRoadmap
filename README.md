@@ -17,6 +17,7 @@ Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and th
 - [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
 - [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
 - [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
+- [Hodge structures: pure, mixed, and polarized](TauCetiRoadmap/HodgeStructures/README.md)
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
 - [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
 - [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)

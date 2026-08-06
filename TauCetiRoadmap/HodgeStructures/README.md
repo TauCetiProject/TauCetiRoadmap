@@ -1,43 +1,45 @@
-# Roadmap: variation of Hodge structure (general)
+# Roadmap: Hodge structures (pure, mixed, and polarized)
 
-The narrative roadmap for **Hodge theory's linear-algebraic core and the abstract theory of its
-variations**, at general weight, as a reusable library; `Suggested.lean` states the milestones as
-`sorry`-goals. Its summit in the pure theory is the **semisimplicity of polarized Hodge structures**
-(Hodge–Riemann), and in the mixed theory Deligne's **strictness**; on top sits the abstract framework
-of **variations of Hodge structure** (period domains, period maps, monodromy). Written to the roadmap
-conventions: build the library not one theorem, ground in Mathlib's vocabulary, pin conventions up
-front, and — because this is a subject Mathlib has *nothing* on — get the **definitions** right (the
-`JacobianChallenge` philosophy: the definitions are the deliverable).
+The narrative roadmap for **Hodge theory's linear-algebraic core** — pure, mixed, and polarized
+Hodge structures and their period-domain points — at general weight, as a reusable library;
+`Suggested.lean` states the milestones as `sorry`-goals. Its summit in the pure theory is the
+**semisimplicity of polarized Hodge structures** (Hodge–Riemann), and in the mixed theory Deligne's
+**strictness**. Written to the roadmap conventions: build the library not one theorem, ground in
+Mathlib's vocabulary, pin conventions up front, and — because this is a subject Mathlib has *nothing*
+on — get the **definitions** right (the `JacobianChallenge` philosophy: the definitions are the
+deliverable).
 
 **Mathlib has no Hodge structures at all** — no pure or mixed Hodge structures, no polarizations, no
-Hodge–Riemann relations, no period domains, no variations, no period maps, no Griffiths transversality.
-It has exactly the linear-algebra and geometry *prerequisites*, and this roadmap is built on them
-(named in *Prior art*). The goal is that a researcher in Hodge theory, periods, modular forms, motives,
-or mathematical physics finds pure and mixed Hodge structures, polarizations, period domains, and
-variations (with the period map and monodromy) at their natural generality with full basic API — so
-that the structural theorems are *consequences of a developed library*, not isolated endpoints.
+Hodge–Riemann relations, no period domains. It has exactly the linear-algebra *prerequisites*, and
+this roadmap is built on them (named in *Prior art*). The goal is that a researcher in Hodge theory,
+periods, modular forms, motives, or mathematical physics finds pure and mixed Hodge structures,
+polarizations, and period-domain points at their natural generality with full basic API — so that the
+structural theorems (semisimplicity, strictness) are *consequences of a developed library*, not
+isolated endpoints.
 
-Crucially, **this entry is the *structural* theory only.** Everything below is formalizable as linear
-algebra + filtrations + local systems, with **no deep analysis or geometry**. The two deep inputs that
-*produce* Hodge structures —
+**This entry is the structural theory of Hodge structures only** — linear algebra over filtrations,
+with no analysis or geometry. Two things sit outside it; each is named as a real target *elsewhere*,
+not as non-milestone prose here:
 
-- the **Hodge decomposition** of a compact Kähler manifold (`Hⁿ = ⊕ H^{p,q}`, harmonic theory), and
-- **Gauss–Manin** for a general smooth projective family (fibers' cohomology ⇒ a variation),
-
-— together with **Schmid's asymptotic theory** (nilpotent/`SL₂`-orbit theorems, limiting MHS) are
-**out of scope** here; they are the geometric/analytic engines that supply *instances*. The framework
-defines what a Hodge structure and a variation *are* and proves their structural properties; concrete
-instances come from elsewhere (the weight-1 / abelian-variety case — curves and their Jacobians — is
-the worked model; see *Relation to sibling roadmaps*).
+- The **variations** of Hodge structure — period domains as complex manifolds, the VHS datum
+  (holomorphic Hodge-filtration bundle + Griffiths transversality `∇F^p ⊆ F^{p−1}⊗Ω¹`), period maps,
+  and monodromy/rigidity — are the **successor roadmap** *Variations of Hodge structure*, gated on
+  Mathlib's complex-manifold / connection API (see *Successor roadmap* below). They build directly on
+  the fiber datum, period-domain points, and symmetry group defined here.
+- The **geometric/analytic engines** that *produce* Hodge structures — the Kähler Hodge decomposition
+  (`Hⁿ = ⊕ H^{p,q}`), Gauss–Manin, and Schmid's asymptotics — supply *instances* from elsewhere (the
+  weight-1 / abelian-variety case — curves and their Jacobians — is the worked model; see *Relation to
+  sibling roadmaps*).
 
 Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Polarization.lean`,
-`…/Mixed.lean`, `…/PeriodDomain.lean`, `…/Variation.lean`).
+`…/Mixed.lean`, `…/PeriodDomain.lean`).
 
 ## Prior art
 
 - **Mathlib — the prerequisites this entry consumes (nothing on Hodge theory itself).**
-  - Tensor/base change: the complexification is stated via **`IsBaseChange`** (`Module.IsBaseChange`;
-    the `ℤ→ℚ→ℂ` tower composes by `IsBaseChange.comp`), with the **canonical instance** the concrete
+  - Tensor/base change: the complexification is stated via **`IsBaseChange`** (root namespace, in
+    `Mathlib/RingTheory/IsTensorProduct.lean`; the `ℤ→ℚ→ℂ` tower composes by `IsBaseChange.comp`),
+    with the **canonical instance** the concrete
     tensor `TensorProduct ℤ ℂ V` / `TensorProduct ℤ ℚ V` (base-change witness `TensorProduct.isBaseChange`;
     on that instance the tower iso is `…cancelBaseChange : ℂ ⊗_ℚ (ℚ ⊗_ℤ V) ≃ ℂ ⊗_ℤ V`). Supporting
     tensor API: `TensorProduct.map`, `TensorProduct.AlgebraTensorModule.congr`, `LinearMap.baseChange`,
@@ -66,10 +68,12 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
       route taken here (L0 `piece`, per Riou's recommendation) and the `J`-eigenspace route yield the
       **same** decomposition; the L0 *instance bridge* note records how weight-1 / abelian-variety
       instances carrying a `J` plug in.
-  - For variations (L4, downstream): `CategoryTheory.FundamentalGroupoid`, `Module ℤ` (local systems),
-    and Mathlib's complex-manifold / connection API (Griffiths transversality).
-  - Rigidity engine (L5): `Module.End`, `Module.End.HasEigenvalue` / `Module.End.exists_eigenvalue`
-    over the algebraically closed `ℂ`.
+  - *(For the successor `Variations of Hodge structure` roadmap, not consumed here:*
+    `CategoryTheory.FundamentalGroupoid` and `ModuleCat ℤ` for local systems, Mathlib's
+    complex-manifold / connection API for Griffiths transversality, and — for monodromy rigidity —
+    the Schur lemma **Mathlib already provides**, `IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed`
+    (over the algebraically closed `ℂ`, every endomorphism of a simple module is scalar), reached via
+    `Representation.irreducible_iff_isSimpleModule_asModule`.)*
 - **Other proof assistants.** Hodge structures, polarizations, and variations of Hodge structure are
   largely unformalized (Isabelle/HOL, Coq/Rocq); adjacent pieces exist (abelian varieties, the upper
   half-space). In Lean 4, **concurrent** work by Booker Smith
@@ -77,13 +81,20 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
   [announcement](https://leanprover.zulipchat.com/#narrow/channel/583339-AI-authored-projects/topic/Pure.20Hodge.20structures.20in.20Lean.204))
   formalizes exactly the **L0** layer — the `(p,q)`-decomposition ↔ opposed-filtration equivalence,
   both directions, axiom-clean — taking the `ℚ`-space as primary where this roadmap takes the
-  `ℤ`-lattice; it is a useful cross-check for the L0 signature. The polarization / mixed / period-
-  domain / variation superstructure (L1–L5) remains new foundational material, not a port.
-- **The weight-1 instance is concrete and reachable.** Polarized weight-1 Hodge structures are
-  abelian varieties / complex tori `ℂ^g/Λ`; their period domain is the **Siegel upper half space**;
-  their integral symmetry group is `Sp(2g, ℤ)`. That case (periods of curves, Jacobians) is a worked
-  realization of the framework's weight-1 interface and is being developed concretely — evidence the
-  abstract definitions are instantiable.
+  `ℤ`-lattice; it is a useful cross-check for the L0 signature. The polarization / mixed /
+  period-domain superstructure (L1–L3) remains new foundational material, not a port.
+- **The weight-1 instance is concrete and reachable.** Polarized weight-1 Hodge structures **that are
+  effective (of type `{(1,0),(0,1)}`)** are abelian varieties / complex tori `ℂ^g/Λ`; their period
+  domain is the **Siegel upper half space**; their integral symmetry group is `Sp(2g, ℤ)`. The
+  effectivity hypothesis is essential: a *general* weight-1 Hodge structure may carry `H^{2,−1}`,
+  `H^{−1,2}`, … (the Weil operator's `±i`-eigenspaces then aggregate *all* odd-`(p−q)` classes, not
+  just `H^{1,0}`/`H^{0,1}`), so the abelian-variety / Siegel / `J`-eigenspace identifications hold only
+  under `HodgeStructure.IsEffective` (Hodge numbers supported in `[0,n]`). That effective case (periods
+  of curves, Jacobians) is a worked realization of the framework's weight-1 interface and is being
+  developed concretely — evidence the abstract definitions are instantiable.
+  *(Torsion caveat: for a geometric instance the lattice `V_ℤ` is `Hⁿ(X;ℤ)/torsion`, or the rational
+  structure taken as primary with a chosen lattice — `Module.Free ℤ V` rules out the torsion that
+  integral cohomology can carry.)*
 
 ## Core definitions (the chief deliverable)
 
@@ -104,8 +115,8 @@ the pinned Mathlib.
   Yang and Kevin Buzzard converged on for Hodge theory (`#mathlib4`, *Complexifications with a view
   towards Hodge theory*), adopted here because it buys two things the concrete tensor does not: (i)
   **geometric instances plug in with no transport iso** — a `V_ℂ` arising as `Hⁿ(X;ℂ)` (not literally
-  `ℂ ⊗ Hⁿ(X;ℤ)`) satisfies the predicate directly, decisive for the L4 variations whose fibers are
-  cohomology; and (ii) the nested-tower pain below is dissolved by transitivity of base change
+  `ℂ ⊗ Hⁿ(X;ℤ)`) satisfies the predicate directly, decisive for the successor's variations whose fibers
+  are cohomology; and (ii) the nested-tower pain below is dissolved by transitivity of base change
   (`IsBaseChange.comp`) rather than a hand-threaded `cancelBaseChange`. The integral lattice `V_ℤ`
   stays the primary datum — `IsBaseChange` is a predicate *about* the structure map out of it.
 - **Conjugation is defined, not assumed.** `latticeConj : V_ℂ →ₛₗ[starRingEnd ℂ] V_ℂ` is the unique
@@ -114,11 +125,15 @@ the pinned Mathlib.
   `TensorProduct.map (starRingEnd ℂ) id` (`z ⊗ v ↦ z̄ ⊗ v`), with `map_smul` and
   `latticeConj_involutive` **proved**. The `n`-opposedness `IsCompl (F^p) (conj F^{n+1-p})` and the
   `(p,q)`-piece `F^p ⊓ conj(F^{n-p})` use this canonical map.
-- **Polarization is one integral form.** `Polarization` stores a single
-  `Qint : LinearMap.BilinForm ℤ V`; its complex form is **derived**, `Q := Qint.baseChange ℂ`, so the
-  integral↔complex link is Mathlib's `baseChange_tmul`, not a hand-imposed axiom. `(-1)^n`-symmetry
-  lives on `Qint`; `nondegenerate` is `BilinForm.Nondegenerate`; `orthogonal` is `BilinForm.IsOrtho`;
-  the Hodge–Riemann positivity `i^{p−q} Q(v, v̄) > 0` on `H^{p,q}` is a real-and-positive condition.
+- **Polarization is one integral form, with the Hodge–Riemann relations as a `Prop` mixin.** The
+  conditions that a *given* integral form polarizes a structure — `(-1)^n`-symmetry, nondegeneracy,
+  orthogonality `Q(F^p, F^{n−p+1}) = 0`, and positivity `i^{p−q} Q(v, v̄) > 0` on `H^{p,q}` — are
+  packaged as a genuine `Prop`, `IsPolarization hs Qint`. `Polarization hs` is then just
+  `{ Qint : LinearMap.BilinForm ℤ V // IsPolarization hs Qint }` (a form plus a proof it polarizes),
+  and its complex form is **derived**, `Q := Qint.baseChange ℂ`, so the integral↔complex link is
+  Mathlib's `baseChange_tmul`, not a hand-imposed axiom. Splitting the predicate out lets a **fixed**
+  form be required to polarize a structure without carrying the form twice — used by
+  `PeriodDomain.Point`.
 - **Rational substructures derive their complexification.** A `RationalHodgeSubstructure` carries only
   its `ℚ`-subspace `WQ`; the complex side `WC := rationalToComplexSubmodule WQ` is its base change along
   the `ℚ→ℂ` structure map — so there is no bare-`Prop` "is the complexification" placeholder. Likewise
@@ -133,16 +148,17 @@ the pinned Mathlib.
 
 - **Weight-general, polarized, integral.** State pure Hodge structures for arbitrary weight `n : ℤ` on
   the integral lattice; `ℚ`/`ℝ` variants are base changes. Do **not** hardcode weight 1 — weight 1 is
-  the *example*, not the definition. Semisimplicity is stated over `ℚ`; monodromy lands in `Aut(V_ℤ, Q)`
-  (integral automorphisms preserving the form).
-- **Period domains à la Griffiths.** The classifying space `D` of polarized Hodge structures of a fixed
-  Hodge type is a homogeneous space `G_ℝ/V`, open in a flag variety; weight 1 recovers Siegel
-  (`Sp(2g,ℝ)/U(g)`). Build `D` at general type; do not collapse to Siegel.
-- **Variations are abstract.** A VHS is a local system + a holomorphic Hodge-filtration bundle +
-  **Griffiths transversality** (`∇F^p ⊆ F^{p−1}⊗Ω¹`), over a complex-manifold base — *defined*, not
-  produced from geometry.
-- **Stop at the structural theory.** Hodge decomposition for Kähler manifolds, Gauss–Manin of general
-  families, and Schmid's asymptotics are **explicitly downstream** — name them, don't bake them in.
+  the *example*, not the definition. Semisimplicity is stated over `ℚ`.
+- **Effectivity is a named hypothesis, never a silent default.** The weight-general definition admits
+  non-effective structures (`H^{p,q}` with `p < 0` or `p > n`). The abelian-variety / Siegel /
+  `J`-eigenspace facts are stated under `HodgeStructure.IsEffective` (Hodge numbers in `[0,n]`).
+- **The symmetry group is exposed.** `IsLatticeIsometry Qint` cuts out `Aut(V_ℤ, Qint)` (integral
+  automorphisms preserving the form) — the target of a variation's monodromy, provided here so the
+  successor roadmap consumes it rather than redefining it.
+- **Period-domain points at general type.** A *point* of the classifying space `D` of polarized Hodge
+  structures of a fixed Hodge type is a filtration of that type on the fixed `(V, Qint)`; build it at
+  general type, not just weight 1. The **manifold** structure on `D` (`G_ℝ/V` open in a flag variety;
+  weight 1 ⇒ Siegel `Sp(2g,ℝ)/U(g)`) is the successor roadmap, not this one.
 
 ## Conventions (pinned)
 
@@ -156,10 +172,17 @@ the pinned Mathlib.
   the `(p,q)`-decomposition with `V^{q,p} = \overline{V^{p,q}}`). Bounded: `F^p = ⊤` for `p ≪ 0`, `⊥`
   for `p ≫ 0` (needed to rule out degenerate filtrations with vanishing pieces).
 - **Polarization:** a `(−1)^n`-symmetric integral form `Q` with the **Hodge–Riemann relations**
-  (`Q(F^p, F^{n−p+1}) = 0`; `i^{p−q} Q(v, v̄) > 0` on `V^{p,q}`).
+  (`Q(F^p, F^{n−p+1}) = 0`; `i^{p−q} Q(v, v̄) > 0` on `V^{p,q}`), packaged as the `IsPolarization` `Prop`.
+  **Sign convention (pinned):** we use `Q(y,x) = (−1)^n Q(x,y)` with `i^{p−q} Q(v, v̄) > 0`. This is
+  internally consistent, but a **geometric** cup-product polarization normally carries an extra
+  `(−1)^{n(n−1)/2}` together with a Lefschetz-power and primitivity convention; an instance realized
+  from cup product must insert that factor to match. Pinned here so instance authors do not pick the
+  wrong sign.
 - **Mixed:** an increasing weight filtration `W_•` (over `ℚ`) + decreasing `F^•` inducing a pure
   weight-`k` HS on each `gr^W_k`.
-- **Symmetry group / monodromy:** `G = Aut(V, Q)`; monodromy of a VHS is `ρ : π₁(B) → G(ℤ)`.
+- **Symmetry group:** `G = Aut(V, Q)`, cut out by `IsLatticeIsometry Q` (integral automorphisms
+  preserving the form). This is where a variation's monodromy `ρ : π₁(B) → G(ℤ)` lands — defined in the
+  successor roadmap, on top of this group.
 
 ## Layers (each a discharge-gated milestone; the `sorry` goal in `Suggested.lean` is the target)
 
@@ -175,15 +198,20 @@ the pinned Mathlib.
   plan to specialize it from [mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954)
   once merged (see *Prior art*). *Companions to build:* morphisms of HS, the `(p,q)` symmetry
   `conj (piece p) = piece (n−p)`, `ℤ`-Tate twist, `⊗`/`Hom`/dual.
-  *Instance bridge (weight 1):* a weight-1 / abelian-variety HS naturally carries a complex structure `J`
-  (`J² = −1`); its `±i`-eigenspaces are exactly the `(1,0)`/`(0,1)` pieces, so `piece` agrees with the
+  *Effectivity:* `HodgeStructure.IsEffective` (Hodge numbers in `[0,n]`, i.e. `F^0 = ⊤`, `F^{n+1} = ⊥`)
+  is the named hypothesis under which the classical weight-1 identifications hold — see the instance
+  bridge and *Prior art*.
+  *Instance bridge (weight 1, effective):* an **effective** weight-1 HS carries a complex structure `J`
+  (`J² = −1`) whose `±i`-eigenspaces are exactly the `(1,0)`/`(0,1)` pieces, so `piece` agrees with the
   `J`-eigenspace decomposition of
-  [mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975). The roadmap consumes the
-  Deligne opposed-filtration route (`piece = F^p ⊓ conj(F^{n−p})`, per Riou); `#40975` instances supply
-  the `J`, so weight-1 examples can be produced either way and the two agree.
+  [mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975). *(Without effectivity a
+  weight-1 HS may have `H^{2,−1}`, `H^{−1,2}`, … and the `±i`-eigenspaces mix odd-`(p−q)` classes, so
+  the agreement fails.)* The roadmap consumes the Deligne opposed-filtration route
+  (`piece = F^p ⊓ conj(F^{n−p})`, per Riou); `#40975` instances supply the `J`, so effective weight-1
+  examples can be produced either way and the two agree.
 - **L1 — Polarization & Hodge–Riemann; semisimplicity (summit of the pure theory).**
-  *Definitions:* `Polarization hs` (integral `Qint`, derived `Q`, HR relations),
-  `RationalHodgeSubstructure`.
+  *Definitions:* `IsPolarization hs Qint` (the HR relations as a `Prop` on a given form),
+  `Polarization hs` (integral `Qint` + an `IsPolarization` proof; derived `Q`), `RationalHodgeSubstructure`.
   *Milestone:* every rational Hodge substructure `W` has an orthogonal rational Hodge-substructure
   complement (`IsCompl` on both `WQ` and `WC`, `Q`-orthogonal) — hence **the category of polarized
   `ℚ`-HS is semisimple.**
@@ -231,48 +259,49 @@ the pinned Mathlib.
   derived), so the target is bundling-agnostic. The implementation should then bundle it into an
   `MHS.Hom` / category to carry the **abelian-category** structure — strictness is exactly what makes
   kernels and cokernels of MHS morphisms again MHS (with the induced filtrations).
-- **L3 — Period domains.**
-  *Definitions:* `HodgeType` (fixed Hodge numbers `h : ℤ → ℕ`, finite support),
-  `PeriodDomain V n Qint htype` (a Hodge filtration for the **fixed** integral polarization form
-  `Qint`, with the prescribed type). The form is not allowed to vary with the point of the domain.
+- **L3 — Period-domain points; the symmetry group.**
+  *Definitions:* `HodgeType` (a weight, fixed Hodge numbers `h : ℤ → ℕ` of finite support, and the
+  **Hodge symmetry** `h p = h (weight − p)`), `PeriodDomain.Point V n Qint htype` (a Hodge filtration
+  of the prescribed type making the **fixed** form `Qint` a polarization — the form does not vary with
+  the point; it enters as the `IsPolarization` witness, not as duplicated data), and `IsLatticeIsometry
+  Qint` cutting out the symmetry group `Aut(V, Qint)`.
   *Milestone (seeded):* the Hodge numbers partition the dimension, `∑ᶠ p, h p = dim_ℂ V_ℂ` — the
   numerical shadow of L0, a genuine constraint on `HodgeType`.
   *Discharge:* from L0 (`DirectSum.IsInternal`) plus `hodge_numbers` (`finrank (piece p) = h p`), the
   total dimension is the finsum of piece dimensions — additivity of `Module.finrank` over the internal
   direct sum (via `DirectSum.IsInternal` + `Module.finrank`/`Basis`); `Basis.baseChange` gives
   `dim_ℂ V_ℂ = rank_ℤ V`.
-  *Out of scope (downstream, not a milestone):* the complex structure on `D` as an **open** subset of
-  the flag variety of filtrations with the given ranks, the `G_ℝ`-action, and the weight-1 ⇒ Siegel
-  identification — these need flag-variety topology Mathlib lacks; named as a downstream target, not
-  seeded here.
-- **L4 — Variations of Hodge structure.**
-  *In-scope definition:* `PolarizedMonodromyRepresentation` — the honest monodromy facet
-  (`ρ : Γ →* (V ≃ₗ[ℤ] V)` preserving `Qint`, with the derived `complexMonodromy : Γ →* (V_ℂ ≃ₗ[ℂ] V_ℂ)`).
-  This is the concrete **pre-variation** deliverable (local system + monodromy + integral form); it
-  lands independently of any analytic input and is what the L5 Schur milestone consumes.
-  *Milestone:* **none self-contained** at L4; the provable engine L4 contributes to the rigidity theory
-  is the **L5 Schur** lemma below.
-  *Out of scope (downstream, not seeded):* the **full variation of Hodge structure** — a holomorphic
-  Hodge-filtration bundle over `B` with Griffiths transversality (`∇F^p ⊆ F^{p−1}⊗Ω¹`) and the period
-  map `B̃ → D` (holomorphic, horizontal). These analytic conditions **cannot yet be stated** in Lean
-  (they need Mathlib's complex-manifold / connection API), so per the roadmap convention they are
-  **omitted** here rather than installed as content-free `Prop` placeholders — `Suggested.lean` seeds
-  only the monodromy facet, and carries no schematic full-VHS structure. When that API exists the local
-  system is modelled as a functor `CategoryTheory.FundamentalGroupoid B ⥤ Module ℤ` (on a connected
-  base, a `π₁(B, b₀)`-representation on the fiber), the filtration bundle + Griffiths transversality
-  build on the complex-manifold / connection API, and the full `VariationOfHodgeStructure` datum becomes
-  stateable — at which point it moves in-scope.
-- **L5 — Rigidity & semisimplicity.** Two tiers, kept distinct:
-  *(i) the linear-algebraic engine (the milestone):* **finite-dimensional Schur** — if
-  `complexMonodromy` is irreducible then its commutant is scalar (`∃ c, ∀ v, T v = c • v`).
-  *Discharge:* over the algebraically closed `ℂ`, a commuting endomorphism `T` of a finite-dimensional
-  irreducible representation has an eigenvalue (`Module.End.exists_eigenvalue`); `ker (T − c)` is a
-  nonzero invariant subspace, hence everything, so `T = c`. Consume `Module.End.HasEigenvalue`,
-  invariant-subspace API.
-  *(ii) Out of scope (downstream, not milestones):* period-map **rigidity** and Deligne's **theorem of
-  the fixed part** / semisimplicity of monodromy. These need actual *polarizable VHS* hypotheses (a real
-  variation, not merely a form-preserving representation), so they depend on the out-of-scope L4
-  analytic layer above; named as downstream targets, not seeded here.
+  *Companions to build:* the `Subgroup`/`Group` packaging of `Aut(V, Qint)` from `IsLatticeIsometry`
+  (the successor's monodromy target). The **manifold** structure on the period domain — `D` as an open
+  subset of the flag variety of filtrations of the given ranks, the `Aut(V,Qint)_ℝ`-action, and the
+  weight-1 ⇒ Siegel identification — is the **successor roadmap** below, not this milestone (it needs
+  flag-variety topology Mathlib lacks).
+
+## Successor roadmap: Variations of Hodge structure
+
+The **variations** theory is a separate, later roadmap (to be seeded as its own entry, *Variations of
+Hodge structure*, once its Mathlib prerequisites land). It is *not* out-of-scope prose here — it is a
+distinct roadmap that **builds on the objects defined above**, exactly as `JacobianChallenge` builds on
+its own prerequisites. Its intended milestones:
+
+- **Period domains as complex manifolds** — `D` open in the flag variety of filtrations of a fixed
+  `HodgeType`, the `Aut(V,Qint)_ℝ`-action, and the weight-1 (effective) ⇒ Siegel `Sp(2g,ℝ)/U(g)`
+  identification. *Consumes:* `PeriodDomain.Point`, `IsLatticeIsometry`/`Aut(V,Qint)` from L3.
+- **The VHS datum** — a local system (`CategoryTheory.FundamentalGroupoid B ⥤ ModuleCat ℤ`) + a
+  holomorphic Hodge-filtration bundle + **Griffiths transversality** (`∇F^p ⊆ F^{p−1}⊗Ω¹`) + the period
+  map `B̃ → D` (holomorphic, horizontal). *Consumes:* the L0–L1 fiber datum (each fiber a polarized HS).
+- **Monodromy and rigidity** — the monodromy `ρ : π₁(B) → Aut(V,Qint)(ℤ)`; period-map rigidity;
+  Deligne's **theorem of the fixed part** and **semisimplicity of monodromy**. The linear-algebraic
+  engine is **Schur's lemma, which Mathlib already provides**
+  (`IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed` via
+  `Representation.irreducible_iff_isSimpleModule_asModule`) — consumed, not re-proved.
+
+**Blocked on:** Mathlib's complex-manifold / connection API, and the incoming filtration /
+complex-structure PRs tracked in *Prior art*
+([mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954),
+[mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975)). Until those exist the
+analytic conditions **cannot be stated**, so this roadmap is named here rather than seeded with
+content-free placeholders. A tracking issue records it.
 
 ## Relation to sibling roadmaps
 
@@ -281,16 +310,18 @@ the pinned Mathlib.
   Hodge theory. They meet at one bridge — over `ℂ`, `Jac(X)(ℂ) ≅ ℂ^g/period-lattice` (the weight-1
   instance) — a natural joint target, not a duplication.
 - **`ModularForms` (PR #47).** Modular forms are sections over modular curves carrying the universal
-  weight-1 VHS; this framework supplies the VHS/period-map side.
+  weight-1 VHS; this roadmap supplies the fiber Hodge-structure side (and its successor the
+  VHS/period-map side).
 - **`ContourIntegration` (PR #35).** Periods of the concrete instances are contour integrals —
   consumed when realizing examples (the weight-1 period matrices).
 
 ## Downstream
 
-Periods and period maps; the Hodge conjecture's setting; mixed Hodge modules and motives; mirror
-symmetry; modular/Shimura varieties; and the concrete **weight-1 / curve** realization (Jacobians,
-period matrices, Riemann bilinear relations) — the worked instance of L0–L4 at `n = 1`, and the point
-of contact with the Seiberg–Witten period story.
+Downstream *applications* that consume this library (motivation, not milestones of this roadmap):
+the variations theory (the *Successor roadmap* above); periods and period maps; the Hodge conjecture's
+setting; mixed Hodge modules and motives; mirror symmetry; modular/Shimura varieties; and the concrete
+**weight-1 / curve** realization (Jacobians, period matrices, Riemann bilinear relations) — the worked
+instance of L0–L3 at `n = 1`, and the point of contact with the Seiberg–Witten period story.
 
 ## References
 
@@ -299,26 +330,27 @@ Mappings and Period Domains*. Griffiths, *Periods of integrals on algebraic mani
 *Topics in transcendental algebraic geometry*. Deligne, *Théorie de Hodge II, III*. Schmid, *Variation
 of Hodge structure: the singularities of the period mapping*. Peters–Steenbrink, *Mixed Hodge
 Structures*. New Lean formalization; concurrent with Booker Smith's Lean 4
-*pure-hodge-structures-lean4* at the **L0** layer (see *Prior art*), original for the L1–L5
-polarization / mixed / period-domain / variation superstructure.
+*pure-hodge-structures-lean4* at the **L0** layer (see *Prior art*), original for the L1–L3
+polarization / mixed / period-domain superstructure. (Schmid is a reference for the successor
+variations roadmap.)
 
 ---
 
 *NOTE: `Suggested.lean` proposes the core definitions (the chief deliverable of this entry) with a
-genuine milestone `sorry` at **L0, L1, L2, L3, L5**. The Hodge structure carries its integral lattice
-`V_ℤ` as primary datum; the definitions are stated against the abstract **`IsBaseChange` interface**
-(see *Conventions*) — every structure is parametric over an abstract `V_ℂ` with `hℂ : IsBaseChange ℂ ιℂ`
+genuine milestone `sorry` at **L0, L1, L2, L3** (four milestones; the variations/rigidity material is
+the successor roadmap and is not seeded here). The Hodge structure carries its integral lattice `V_ℤ`
+as primary datum; the definitions are stated against the abstract **`IsBaseChange` interface** (see
+*Conventions*) — every structure is parametric over an abstract `V_ℂ` with `hℂ : IsBaseChange ℂ ιℂ`
 (and `V_ℚ` with `IsBaseChange ℚ ιℚ` where the tower is used) — with the concrete tensor
 `V_ℂ = ℂ ⊗ V_ℤ` as the canonical instance, witnessed by `complexificationMap_isBaseChange`
 (`TensorProduct.isBaseChange`). The canonical conjugation `latticeConj` is *defined* by transporting the
 concrete lattice conjugation through `hℂ.equiv` (proven to fix `ιℂ(V)` and be involutive); the `ℤ→ℚ→ℂ`
-tower and each construction are transported the same way. It is grounded in Mathlib's base-change
-vocabulary throughout (`IsBaseChange`, `BilinForm.baseChange`, `Submodule.baseChange`, `cancelBaseChange`). **L4**
-seeds only the honest monodromy facet `PolarizedMonodromyRepresentation` — it has **no self-contained
-provable milestone**, because period-map horizontality / Griffiths transversality is analytic and out
-of scope; its provable engine is the L5 Schur lemma. The full VHS structure is **not stated**: its
-analytic conditions cannot yet be expressed, so per the roadmap convention they are omitted rather than
-installed as content-free `Prop` placeholders. The MHS `graded_pure` axiom is fully encoded (real
-induced purity on the rational `gr^W_k`). Elaborated green against `TauCetiRoadmap`'s pinned Mathlib
+tower and each construction are transported the same way, grounded in Mathlib's base-change vocabulary
+throughout (`IsBaseChange`, `BilinForm.baseChange`, `Submodule.baseChange`, `cancelBaseChange`).
+Effectivity is a named predicate `HodgeStructure.IsEffective`; polarization is split into the `Prop`
+mixin `IsPolarization hs Qint` and the bundled `Polarization`; `PeriodDomain.Point` predicates the
+*fixed* form via `IsPolarization` (no duplicated form); the symmetry group `Aut(V, Qint)` is exposed as
+`IsLatticeIsometry` for the successor. The MHS `graded_pure` axiom is fully encoded (real induced purity
+on the rational `gr^W_k`). Elaborated green against `TauCetiRoadmap`'s pinned Mathlib
 (leanprover/lean4:v4.31.0-rc1); every definition is complete (no `sorry` in any definition) and
 axiom-clean (only `propext`, `Classical.choice`, `Quot.sound`); the milestone `example`s carry `sorry`.*
