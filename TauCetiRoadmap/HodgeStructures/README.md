@@ -153,8 +153,8 @@ the pinned Mathlib.
   successor roadmap consumes it rather than redefining it.
 - **Period-domain points at general type.** A *point* of the classifying space `D` of polarized Hodge
   structures of a fixed Hodge type is a filtration of that type on the fixed `(V, Qint)`; build it at
-  general type, not just weight 1. The **manifold** structure on `D` (`G_ℝ/V` open in a flag variety;
-  weight 1 ⇒ Siegel `Sp(2g,ℝ)/U(g)`) is the successor roadmap, not this one.
+  general type, not just weight 1. (The **manifold** structure on `D` is the successor roadmap — see
+  *Successor roadmap*.)
 
 ## Conventions (pinned)
 
@@ -217,43 +217,28 @@ the pinned Mathlib.
   and nondegenerate) it is defined over `ℚ`. `V = W ⊕ W^⊥`. Consume the `BilinForm.Nondegenerate`
   orthogonal-complement API and the L0 decomposition. Voisin I, §7.1.2; Peters–Steenbrink §2.
 - **L2 — Mixed Hodge structures; strictness (Deligne).**
-  *Definitions:* `MixedHodgeStructure V` — the `ℚ`-weight filtration `WQ` (monotone and **bounded**,
-  `WQ_top`/`WQ_bot`), the Hodge filtration `F` (antitone and **bounded**, `F_top`/`F_bot`, mirroring
-  `HodgeStructure`), and `graded_pure`. The complexified weight `WC_k := rationalToComplexSubmodule (WQ_k)`
-  is *derived*, and its monotonicity and conjugation-stability are **proved lemmas**
-  (`rationalToComplexSubmodule_mono`, `…_conj`), not structure fields — so instances are
-  correct-by-construction, not burdened with re-proving them. `graded_pure` is the **genuine
-  induced-purity axiom, stated rationally** (not a placeholder, and not merely the complex shadow): the
-  *rational* graded piece `grᵂ_k = W_{ℚ,k}/W_{ℚ,k-1}` is built as a `ℚ`-quotient (`weightGradedRat`),
-  its complexification `ℂ ⊗_ℚ grᵂ_k` (`ratComplexify`) carries the canonical rational conjugation
-  `ratConj` (bundled as a conjugate-linear **equivalence** `gradedConj`, involutivity proved), `F`
-  induces a filtration `gradedF` on it, and `graded_pure` requires that induced filtration to be
-  **bounded, antitone, and `k`-opposed** with respect to `gradedConj` — structurally identical to
-  `HodgeStructure` (`F_top`/`F_bot` + `F_antitone` + `opposed`). The complex weight quotient
-  `WC_k/WC_{k-1}` is **identified** with `ℂ ⊗_ℚ grᵂ_k` by a *proved* isomorphism `gradedComplexEquiv`
-  (complexification commutes with the quotient — `tensorQuotientEquiv` / right-exactness composed with
-  the per-level `ℂ ⊗_ℚ W ≃ WC` iso). So an MHS genuinely induces a pure *rational* Hodge structure on
-  each graded — the correct object, not just its complexification.
-  *Milestone:* a morphism of MHS is **strict** for the weight filtration (at both the **rational** level
-  `range fQ ⊓ W'_{ℚ,k} = fQ(W_{ℚ,k})` and its complexification) **and** the Hodge filtration
-  `range f_ℂ ⊓ F'^p = f_ℂ(F^p)`. The morphism is a **single rational map**
-  `fQ`; its complex action is the *derived* `fC := rationalMapToComplex fQ`, whose conjugation-equivariance
-  and `WC`-compatibility are **proved lemmas** (`rationalMapToComplex_conj`, `…_maps_WC`) rather than
-  hypotheses. So the target is Deligne strictness for a genuine rational MHS morphism, not for an
-  arbitrary pair of filtered maps.
-  *Discharge:* Deligne's canonical `(p,q)`-bigrading of an MHS (the Deligne splitting) — every MHS
-  morphism respects the bigrading, whence strictness for both filtrations. Requires the two-filtration
-  / bigrading lemma. For the roadmap it suffices to establish the splitting *propositionally* (existence
-  of the `I^{p,q}` bigrading), not as a computational normal form. A `@[simp]` suite for pushing
-  elements through `gradedConj`/`gradedF` (as with `Polarization.Q_tmul`) will be wanted to keep the
-  quotient manipulations tractable. Deligne, *Théorie de Hodge II*, 1.2.10 & 2.3.5; Peters–Steenbrink
-  Ch. 3. The `gradedF` / `gradedComplexEquiv` apparatus is Deligne §1.2.1 "induced filtrations on graded
-  pieces"; name it to align with Deligne §1.2.1 and specialize Mathlib's abstract §1.2.1 filtration API
-  where it applies (see *Prior art*).
-  *Morphisms:* the milestone takes the morphism as a single unbundled rational map `fQ` (complex action
-  derived), so the target is bundling-agnostic. The implementation should then bundle it into an
-  `MHS.Hom` / category to carry the **abelian-category** structure — strictness is exactly what makes
-  kernels and cokernels of MHS morphisms again MHS (with the induced filtrations).
+  *Definitions:* `MixedHodgeStructure V` — a bounded monotone `ℚ`-weight filtration `WQ`
+  (`WQ_top`/`WQ_bot`) and a bounded antitone Hodge filtration `F` (`F_top`/`F_bot`, mirroring
+  `HodgeStructure`), plus `graded_pure`. The complex weight `WC_k := rationalToComplexSubmodule (WQ_k)`
+  is derived, with monotonicity and conjugation-stability as proved lemmas
+  (`rationalToComplexSubmodule_mono`/`…_conj`). `graded_pure` is stated **rationally**: the rational
+  graded `grᵂ_k = W_{ℚ,k}/W_{ℚ,k−1}` (`weightGradedRat`) carries an induced conjugation `gradedConj`
+  (a proved conjugate-linear involution) and induced filtration `gradedF`, and `graded_pure` requires
+  `gradedF` to be bounded, antitone, and `k`-opposed w.r.t. `gradedConj` — the `HodgeStructure` shape.
+  A proved iso `gradedComplexEquiv : WC_k/WC_{k−1} ≃ ℂ ⊗_ℚ grᵂ_k` (complexification commutes with the
+  quotient) identifies the two, so an MHS induces a pure *rational* HS on each graded.
+  *Milestone:* a morphism of MHS — a single rational map `fQ`, complex action the derived
+  `fC := rationalMapToComplex fQ` (conjugation-equivariance and `WC`-compatibility proved, not assumed)
+  — is **strict** for both filtrations: `range fQ ⊓ W'_{ℚ,k} = fQ(W_{ℚ,k})` (and its complexification)
+  and `range fC ⊓ F'^p = fC(F^p)`.
+  *Discharge:* Deligne's canonical `(p,q)`-bigrading (the Deligne splitting), which every MHS morphism
+  respects; establishing the splitting propositionally (existence of the `I^{p,q}` bigrading) suffices.
+  A `@[simp]` suite for `gradedConj`/`gradedF` keeps the quotient manipulations tractable. Deligne,
+  *Théorie de Hodge II* 1.2.10 & 2.3.5; Peters–Steenbrink Ch. 3. Name `gradedF`/`gradedComplexEquiv` to
+  align with Deligne §1.2.1 and specialize Mathlib's abstract filtration API where it applies.
+  *Morphisms:* the milestone is bundling-agnostic (unbundled `fQ`); the implementation bundles it into
+  an `MHS.Hom` / category, whose **abelian-category** structure is exactly what strictness provides
+  (kernels/cokernels of MHS morphisms are again MHS).
 - **L3 — Period-domain points; the symmetry group.**
   *Definitions:* `HodgeType` (a weight, fixed Hodge numbers `h : ℤ → ℕ` of finite support, and the
   **Hodge symmetry** `h p = h (weight − p)`), `PeriodDomain.Point V n Qint htype` (a Hodge filtration
@@ -267,10 +252,8 @@ the pinned Mathlib.
   direct sum (via `DirectSum.IsInternal` + `Module.finrank`/`Basis`); `Basis.baseChange` gives
   `dim_ℂ V_ℂ = rank_ℤ V`.
   *Companions to build:* the `Subgroup`/`Group` packaging of `Aut(V, Qint)` from `IsLatticeIsometry`
-  (the successor's monodromy target). The **manifold** structure on the period domain — `D` as an open
-  subset of the flag variety of filtrations of the given ranks, the `Aut(V,Qint)_ℝ`-action, and the
-  weight-1 ⇒ Siegel identification — is the **successor roadmap** below, not this milestone (it needs
-  flag-variety topology Mathlib lacks).
+  (the successor's monodromy target). The period domain's **manifold** structure is the successor
+  roadmap, not this milestone.
 
 ## Successor roadmap: Variations of Hodge structure
 
