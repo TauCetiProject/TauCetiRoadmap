@@ -257,10 +257,11 @@ the pinned Mathlib.
 
 ## Successor roadmap: Variations of Hodge structure
 
-The **variations** theory is a separate roadmap, *Variations of Hodge structure*, that **builds on the
-objects defined above** — exactly as `JacobianChallenge` builds on its own prerequisites — using
-Mathlib's complex-manifold / connection API and flag-variety topology for the analytic parts that lie
-outside this roadmap's linear-algebraic scope. Its milestones:
+The **variations** theory is a separate roadmap,
+[*Variations of Hodge structure*](https://github.com/TauCetiProject/TauCetiRoadmap/issues/167), that
+**builds on the objects defined above** — exactly as `JacobianChallenge` builds on its own
+prerequisites — using Mathlib's complex-manifold / connection API and flag-variety topology for the
+analytic parts that lie outside this roadmap's linear-algebraic scope. Its milestones:
 
 - **Period domains as complex manifolds** — `D` open in the flag variety of filtrations of a fixed
   `HodgeType`, the `Aut(V,Qint)_ℝ`-action, and the weight-1 (effective) ⇒ Siegel `Sp(2g,ℝ)/U(g)`
