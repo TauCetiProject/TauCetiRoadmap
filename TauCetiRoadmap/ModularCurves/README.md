@@ -695,9 +695,11 @@ Prove the implication used throughout the roadmap (KM 4.7.0):
 
 The proof represents the simultaneous problem with a rigidifier, proves that the finite group action
 has the invariant-affine-cover or quasi-projectivity hypothesis required by Layer 0C, forms the
-quotient, and descends both the universal elliptic curve and the additional structure. KM states
-4.7.0 as a *Scholie* and as a biconditional — rigidity is necessary as well as sufficient, the
-converse being immediate from KM 4.4 — and only the stated direction is used here. The passage from
+quotient, and descends both the universal elliptic curve and the additional structure. Only this
+direction is used here. The converse is cheap and KM records it: its Appendix A.4 opens with the
+tautology (A.4.1.2) that `𝒫` is representable exactly when `𝒫̃` is representable and `𝒫` is rigid,
+and Proposition A.4.2 gives the three-way equivalence under the étale-sheaf hypothesis that relative
+representability supplies. The passage from
 representability to a **smooth affine curve over `ℤ`**, which Layers 5B and 5C invoke, is KM
 Corollary 4.7.1.
 
@@ -856,7 +858,7 @@ Under the row-vector convention:
   `P↦dP`. With that reading it agrees with the corresponding quotient of the full-level action.
 
 Prove the rigidity criterion for quotient problems and recover the semi-Borel rigid case for
-`N≥4` (rigidity for `N ≥ 4` is KM Corollary 2.7.3, sharpened by 2.7.4; the rigidity criterion for
+`N≥4` (rigidity for `N ≥ 4` is KM 2.7.4, which is what KM itself cites at printed p. 120; the rigidity criterion for
 `Γ_H` is Loeffler Proposition 3.8.3, over `ℤ[1/6]`. KM 7.4.2(3) is only the quotient identification
 `[Γ₁(N)] = [Γ(N)]/(1 *; 0 *)` and states no rigidity).
 
