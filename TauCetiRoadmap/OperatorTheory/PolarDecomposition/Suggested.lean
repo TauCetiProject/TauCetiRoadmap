@@ -98,10 +98,8 @@ theorem sqrt_unique {T S : E →ₗ[𝕜] E} (hT : T.IsPositive) (hS : S.IsPosit
 
 /-- **The square modulus** `|A| = (A⋆A)^(1/2)`, over `RCLike` and in finite dimension.
 
-`operatorAbs` is a deliberate placeholder: a bare `abs` collides with the lattice absolute
-value denoted by `|·|`, `modulus` splits the name from its rectangular counterpart, and
-`README.md` leaves the choice to review. The token appears nowhere else, so adopting the
-settled name is one mechanical replacement.
+`operatorAbs` names the square construction. A bare `abs` collides with the lattice absolute
+value denoted by `|·|`; `modulus` names the rectangular `ContinuousLinearMap` construction.
 
 The rectangular complex counterpart is `ContinuousLinearMap.modulus`, and
 `operatorAbs_toContinuousLinearMap_eq_cfcAbs` proves the two agree where both apply. -/
