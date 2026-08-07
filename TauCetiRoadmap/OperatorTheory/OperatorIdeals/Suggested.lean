@@ -117,7 +117,7 @@ def HasMinMaxLowerBound (E : Type v) (F : Type w)
     ∃ s : ℝ, r < s ∧ ∃ v : Fin (n + 1) → E, LinearIndependent 𝕜 v ∧
       ∀ x ∈ Submodule.span 𝕜 (Set.range v), s * ‖x‖ ≤ ‖T x‖
 
-/-- The pair-level min--max localization is proof infrastructure.  Public ideal theorems
+/- The pair-level min--max localization is proof infrastructure.  Public ideal theorems
 quantify only over `RCLike`; real and complex proofs may discharge this lemma differently. -/
 
 end MinMaxLocalization
