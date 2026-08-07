@@ -3,6 +3,7 @@ Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
+import TauCetiRoadmap.OperatorTheory.OrthogonalGeometry.Suggested
 
 /-!
 # Spectral theory of self-adjoint operators: target signatures
@@ -65,66 +66,71 @@ section BorelCalculus
 
 variable {a : H →L[ℂ] H}
 
-/-- A symbol admissible for the bounded Borel calculus: measurable and uniformly bounded.
+/-- A bounded Borel function.  This is a genuine source algebra for the Borel calculus,
+not a raw function plus repeated side hypotheses. -/
+structure BoundedBorelFunction (X : Type*) [MeasurableSpace X] where
+  toFun : X → ℂ
+  measurable_toFun : Measurable toFun
+  exists_bound : ∃ M : ℝ, 0 ≤ M ∧ ∀ x, ‖toFun x‖ ≤ M
 
-Bundled rather than carried as two loose hypotheses, because the calculus is a homomorphism
-*out of* this class and the class has its own closure theory. With the conditions loose,
-multiplicativity cannot even be stated without additionally assuming measurability and
-boundedness of `f * g`, both of which are consequences of the hypotheses already present. -/
-structure IsBddMeasurable (f : spectrum ℂ a → ℂ) : Prop where
-  measurable : Measurable f
-  exists_bound : ∃ M : ℝ, 0 ≤ M ∧ ∀ x, ‖f x‖ ≤ M
+instance {X : Type*} [MeasurableSpace X] : CoeFun (BoundedBorelFunction X) (fun _ => X → ℂ) :=
+  ⟨BoundedBorelFunction.toFun⟩
 
-/-- Admissible symbols are closed under products. This is the lemma that lets
-multiplicativity below take two hypotheses instead of four. -/
-theorem IsBddMeasurable.mul {f g : spectrum ℂ a → ℂ}
-    (hf : IsBddMeasurable f) (hg : IsBddMeasurable g) :
-    IsBddMeasurable (fun x => f x * g x) := sorry
+noncomputable instance {X : Type*} [MeasurableSpace X] : CommRing (BoundedBorelFunction X) := by
+  sorry
+noncomputable instance {X : Type*} [MeasurableSpace X] : Star (BoundedBorelFunction X) := by
+  sorry
+noncomputable instance {X : Type*} [MeasurableSpace X] : StarRing (BoundedBorelFunction X) := by
+  sorry
+noncomputable instance {X : Type*} [MeasurableSpace X] : Algebra ℂ (BoundedBorelFunction X) := by
+  sorry
+noncomputable instance {X : Type*} [MeasurableSpace X] :
+    StarModule ℂ (BoundedBorelFunction X) := by
+  sorry
 
-/-- Admissible symbols are closed under sums and scalar multiples, so the calculus is
-linear on a class that is itself a module. -/
-theorem IsBddMeasurable.add {f g : spectrum ℂ a → ℂ}
-    (hf : IsBddMeasurable f) (hg : IsBddMeasurable g) :
-    IsBddMeasurable (fun x => f x + g x) := sorry
+@[ext] theorem BoundedBorelFunction.ext {X : Type*} [MeasurableSpace X]
+    {f g : BoundedBorelFunction X} (h : ∀ x, f x = g x) : f = g := by
+  sorry
 
-/-- The bounded Borel functional calculus of a normal operator, extending the
-continuous calculus along dominated convergence of diagonal measures.
+/-- **The bounded Borel functional calculus** as the homomorphism it mathematically is.
+Agreement with `cfcHom` on continuous symbols and the norm/spectral-support theorems are API
+lemmas about this map rather than separate algebraic laws. -/
+noncomputable def borelCalculus (ha : IsStarNormal a) :
+    BoundedBorelFunction (spectrum ℂ a) →⋆ₐ[ℂ] (H →L[ℂ] H) := by
+  sorry
 
-Spec: D2. -/
-noncomputable def borelCalculus (ha : IsStarNormal a) {f : spectrum ℂ a → ℂ}
-    (hf : IsBddMeasurable f) : H →L[ℂ] H := sorry
-
-/-- Multiplicativity of the Borel calculus, carried from the continuous calculus
-by the polarised transport principle.
-
-Admissibility of the product is *constructed* from the two hypotheses via
-`IsBddMeasurable.mul`, not assumed. -/
-theorem borelCalculus_mul (ha : IsStarNormal a) {f g : spectrum ℂ a → ℂ}
-    (hf : IsBddMeasurable f) (hg : IsBddMeasurable g) :
-    borelCalculus ha (hf.mul hg) = borelCalculus ha hf * borelCalculus ha hg := sorry
-
-/-- A projection-valued measure on the Borel sets of `ℝ`: projections, countable
-additivity in the strong topology, and the diagonal scalar measures as data. -/
-structure ProjValMeasure (H : Type*) [NormedAddCommGroup H]
-    [InnerProductSpace ℂ H] [CompleteSpace H] where
-  /-- The projection assigned to each Borel set.  Measurability is an argument, not a
-  side condition: `proj` is meaningless off the Borel sets. -/
-  proj : ∀ B : Set ℝ, MeasurableSet B → (H →L[ℂ] H)
-  /-- The diagonal scalar measures, carried **as data** rather than constructed: the
-  resolvent formula quantifies over them, so they have to be nameable from the structure. -/
-  diag : H → MeasureTheory.Measure ℝ
-  /-- Each diagonal measure is finite -- its mass is `‖ξ‖ ^ 2`. -/
-  diag_finite : ∀ ξ : H, MeasureTheory.IsFiniteMeasure (diag ξ)
-  /-- The weld: diagonal matrix elements of the projections are the diagonal measures.
-  Idempotence and self-adjointness are consequences of this and `proj_inter`, so they are
-  not fields. -/
-  inner_proj : ∀ (B : Set ℝ) (hB : MeasurableSet B) (ξ : H),
-    ⟪ξ, proj B hB ξ⟫_ℂ = (((diag ξ) B).toReal : ℂ)
-  /-- The whole line carries the identity. -/
+/-- A projection-valued measure on a measurable parameter space, specified intrinsically
+by its orthogonal projections and strong countable additivity. Scalar diagonal measures are
+derived from this structure. -/
+structure ProjValMeasure (X : Type*) [MeasurableSpace X] (H : Type*)
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] where
+  proj : ∀ B : Set X, MeasurableSet B → (H →L[ℂ] H)
+  proj_empty : proj ∅ MeasurableSet.empty = 0
   proj_univ : proj Set.univ MeasurableSet.univ = ContinuousLinearMap.id ℂ H
-  /-- Multiplicativity: intersection of sets is composition of projections. -/
-  proj_inter : ∀ (B₁ B₂ : Set ℝ) (hB₁ : MeasurableSet B₁) (hB₂ : MeasurableSet B₂),
+  proj_selfAdjoint : ∀ (B : Set X) (hB : MeasurableSet B), IsSelfAdjoint (proj B hB)
+  proj_inter : ∀ (B₁ B₂ : Set X) (hB₁ : MeasurableSet B₁) (hB₂ : MeasurableSet B₂),
     proj B₁ hB₁ * proj B₂ hB₂ = proj (B₁ ∩ B₂) (hB₁.inter hB₂)
+  strongly_countably_additive :
+    ∀ (B : ℕ → Set X) (hB : ∀ n, MeasurableSet (B n))
+      (hdisj : Pairwise fun i j => Disjoint (B i) (B j))
+      (hUnion : MeasurableSet (⋃ n, B n)) (ξ : H),
+      HasSum (fun n => proj (B n) (hB n) ξ) (proj (⋃ n, B n) hUnion ξ)
+
+/-- Reindex a PVM along a measurable map by taking inverse images of measurable sets. -/
+noncomputable def ProjValMeasure.map {X Y : Type*} [MeasurableSpace X] [MeasurableSpace Y]
+    (P : ProjValMeasure X H) (κ : X → Y) (hκ : Measurable κ) : ProjValMeasure Y H := by
+  sorry
+
+/-- The scalar measure induced by a PVM and a vector: `μξ(B) = ⟪ξ,P(B)ξ⟫`. -/
+noncomputable def ProjValMeasure.diagMeasure {X : Type*} [MeasurableSpace X]
+    (P : ProjValMeasure X H) (ξ : H) : MeasureTheory.Measure X := by
+  sorry
+
+/-- The defining diagonal-mass identity for the derived scalar measure. -/
+theorem ProjValMeasure.inner_proj {X : Type*} [MeasurableSpace X]
+    (P : ProjValMeasure X H) (B : Set X) (hB : MeasurableSet B) (ξ : H) :
+    ⟪ξ, P.proj B hB ξ⟫_ℂ = (((P.diagMeasure ξ) B).toReal : ℂ) := by
+  sorry
 
 end BorelCalculus
 
@@ -301,14 +307,14 @@ variable (A : H →ₗ.[ℂ] H)
 self-adjoint operator, constructed through the Cayley transform.
 
 Spec: D5. -/
-noncomputable def spectralPVM (hA : IsSelfAdjoint A) : ProjValMeasure H := sorry
+noncomputable def spectralPVM (hA : IsSelfAdjoint A) : ProjValMeasure ℝ H := sorry
 
 /-- The resolvent formula: the diagonal matrix elements of the resolvent are
 Cauchy--Stieltjes transforms of the diagonal spectral measures. -/
 theorem spectralPVM_resolvent_formula (hA : IsSelfAdjoint A) {z : ℂ}
     (hz : z.im ≠ 0) (hzr : z ∈ resolventSet A) (ξ : H) :
     ⟪ξ, resolvent A hzr ξ⟫_ℂ
-      = ∫ s, ((s : ℂ) - z)⁻¹ ∂((spectralPVM A hA).diag ξ) := sorry
+      = ∫ s, ((s : ℂ) - z)⁻¹ ∂((spectralPVM A hA).diagMeasure ξ) := sorry
 
 /-- The unitary group generated by a self-adjoint operator, `t ↦ e^{itA}`.
 

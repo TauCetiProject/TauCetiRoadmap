@@ -17,7 +17,7 @@ TauCeti/Analysis/InnerProductSpace/BorelCalculus/
 TauCeti/Analysis/InnerProductSpace/ProjValMeasure/
 TauCeti/Analysis/InnerProductSpace/LinearPMap/
 TauCeti/Analysis/CStarAlgebra/SelfAdjointGapInverse.lean
-TauCeti/MeasureTheory/    (the generic measurability and Helly-selection layer)
+TauCeti/MeasureTheory/    (the compact-infimum and Helly-selection layer)
 ```
 
 ## Standing conventions
@@ -51,15 +51,16 @@ What is specific here is the range. That roadmap works over a real Banach space 
 over `𝕜` from the outset, so `resolventSet A : Set 𝕜` is a specialization of theirs rather
 than a second notion, and the two should be related rather than developed twice.
 
-### Projection-valued measures live on `ℝ`, with their diagonal measures as data
+### Projection-valued measures are generic in their measurable parameter space
 
-`ProjValMeasure H` bundles the projection field *and* the scalar diagonal measures, welded by
-`⟪ξ, P B ξ⟫ = (diag ξ) B`. Countable additivity is then never an axiom — it already lives
-inside `Measure ℝ` — and idempotence, self-adjointness, positivity and finite additivity
-become theorems; the alternative puts a summability side condition on every consumer. A normal
-operator's spectrum lies in `ℂ`, so its measure is indexed along an explicit measurable
-relabelling `κ : spectrum ℂ a → ℝ`: the real part when bounded self-adjoint, the inverse
-Cayley map in the unbounded theory. `κ` is a parameter, not a special case.
+`ProjValMeasure X H` is intrinsic: for any measurable space `X`, it bundles the orthogonal
+projection field on measurable subsets of `X` and strong countable additivity. For each vector
+`ξ`, the finite scalar measure `diagMeasure P ξ` is derived from `B ↦ ⟪ξ, P(B) ξ⟫`; the
+diagonal-mass identity is part of the API. Strong countable additivity belongs to the PVM
+itself; idempotence, positivity and finite additivity are theorems. The indicator calculus of a
+normal bounded operator gives a PVM on `spectrum ℂ a`; the self-adjoint specialization is
+transported to `ℝ`. Reindexing along a measurable map is a generic PVM operation, so the
+inverse Cayley map used by the unbounded theory introduces no second spectral-measure type.
 
 ### Semibounds are hypotheses the consumer supplies
 
@@ -72,8 +73,9 @@ gap or a semibound should not have to reprove closed range.
 ### Statements live at their natural generality
 
 C⋆-algebra facts — the norm/spectrum interval characterization, the gap inverse — are stated
-for C⋆-algebras, not for Hilbert-space operators. The measurability lemmas behind the calculus
-are stated in `MeasureTheory` for their own hypotheses, with no operator theory in sight.
+for C⋆-algebras, not for Hilbert-space operators. Generic measure-theoretic lemmas such as
+compact infima and Helly selection are stated in `MeasureTheory` for their own hypotheses,
+with no operator theory in sight.
 
 ## What Mathlib already has (consume)
 
@@ -107,8 +109,9 @@ The rest below — the projection-valued and unbounded-spectral layer — is abs
 
 * One-parameter unitary groups and Stone's theorem, with the generator as a `LinearPMap` and
   density of its domain derived.
-* The bounded Borel functional calculus of a normal operator, and projection-valued measures
-  carrying their diagonal measures as data.
+* The bounded Borel functional calculus of a normal operator as a star-algebra homomorphism
+  on bundled bounded Borel symbols, and intrinsic projection-valued measures with derived
+  diagonal scalar measures.
 * The closed-operator layer on `LinearPMap`: domain-aware perturbation, the rectangular
   Sylvester equation as a structure, and the quadratic-form bounds with their spectral
   bridges.
@@ -173,12 +176,12 @@ between: for a normal `a : H →L[ℂ] H`, a bounded Borel symbol on `spectrum �
 bounded operator, the assignment is a `*`-homomorphism extending `cfcHom`, and indicator
 symbols yield a projection-valued measure.
 
-**Objects.** The **diagonal measure**: the finite regular Borel measure on `spectrum ℂ a`
-produced by Riesz–Markov–Kakutani from the positive functional `f ↦ ⟪ξ, cfcHom ha f ξ⟫`. The
-**polarized pairing**, defined for any bounded Borel symbol by the quarter-sum of diagonal
-integrals at `ξ + iᵏ ψ`. The admissibility predicate `IsBddMeasurable f` (measurable, with a
-uniform bound). The operator `borelCalculus ha hf` whose matrix elements are the pairing. The
-structure `ProjValMeasure H`.
+**Objects.** `BoundedBorelFunction (spectrum ℂ a)`, the pointwise star algebra of measurable
+uniformly bounded symbols; `borelCalculus ha`, a star-algebra homomorphism out of that source.
+For construction, the **diagonal measure** is the finite regular Borel measure produced by
+Riesz–Markov–Kakutani from `f ↦ ⟪ξ, cfcHom ha f ξ⟫`, and the **polarized pairing** is the
+quarter-sum of its diagonal integrals. `ProjValMeasure (spectrum ℂ a) H` packages the indicator projection field and
+strong countable additivity; its diagonal scalar measures are derived.
 
 **API to develop.**
 
@@ -187,30 +190,35 @@ structure `ProjValMeasure H`.
   `ε`-approximation in the `L¹` of the finite sum of diagonal measures occurring in the
   statement. An identity mentioning finitely many vectors mentions finitely many diagonal
   measures, so one finite measure controls it.
-- The calculus: agreement with `cfcHom` on continuous symbols; linearity; conjugation;
-  commutation with `a` and among values of the calculus; the norm bound
-  `‖borelCalculus ha hf ξ‖ ≤ M‖ξ‖` for a symbol bound `M`; invariance under a.e.
+- The calculus: agreement with `cfcHom` on continuous symbols; its linear, multiplicative and
+  star-preserving laws come from the bundled homomorphism; commutation with `a` and among
+  values of the calculus; the norm bound `‖borelCalculus ha f ξ‖ ≤ M‖ξ‖` for a symbol bound
+  `M`; invariance under a.e.
   modification with respect to every diagonal measure.
 - **Multiplicativity** — the one step needing the transport twice, in a fixed order: the
   approximant of `f` is chosen first, and the tolerance for the approximant of `g` depends on
   it. There is no uniform bound over approximants.
 - Indicators to projections: the spectral projections, idempotent and self-adjoint, with
-  intersection-to-composition; the diagonal masses; the assembled `ProjValMeasure` along a
-  measurable relabelling `κ`; for bounded self-adjoint `T`, the relabelling is the real part,
-  and half-line projections vanish exactly where the quadratic form is confined.
-- The `ProjValMeasure` theory: idempotence, self-adjointness, monotone and finite additivity,
-  `‖proj B ξ‖ ≤ ‖ξ‖`, extensionality in either field, and the countable splitting
+  intersection-to-composition; the diagonal masses; the PVM reindexing operation along measurable maps; for bounded
+  self-adjoint `T`, transport to `ℝ` by the real coordinate, and half-line projections vanish
+  exactly where the quadratic form is confined.
+- The `ProjValMeasure` theory: orthogonal projections and strong countable additivity as the
+  intrinsic data; idempotence, monotonicity and finite additivity,
+  `‖proj B ξ‖ ≤ ‖ξ‖`, extensionality from the projection field (equivalently from all derived
+  diagonal scalar measures), and the countable splitting
   `∑' k, ‖proj (B k) ξ‖ₑ² = ‖ξ‖ₑ²` along a partition.
 - The generic measure-theoretic layer, stated in `MeasureTheory` with no operator content:
-  measurability of `ω ↦ cfc f (B ω)` for fixed continuous `f` and no measurable eigenbasis
-  selection; measurability of compact infima of Carathéodory functions; Helly selection with
-  the Stieltjes measure of the monotone limit.
+  measurability of compact infima of Carathéodory functions and Helly selection with the
+  Stieltjes measure of the monotone limit. Continuity/measurability of continuous functional
+  calculus in the operator variable is consumed from Mathlib; the Hermitian-matrix corollary
+  belongs to `MatrixSpectralStatistics`.
 
 **Milestone B1 — the homomorphism.** The calculus is a linear, multiplicative,
 star-preserving extension of the continuous calculus.
 
-**Milestone B2 — the projection-valued measure**, with its projections the indicator calculus
-and its diagonals the pushed-forward diagonal measures.
+**Milestone B2 — the projection-valued measure**, first on `spectrum ℂ a` for a normal
+bounded operator, with its projections the indicator calculus and its diagonal scalar measures
+derived; then the generic measurable-reindexing API and the self-adjoint `ℝ` specialization.
 
 **Milestone B3 — uniqueness and the bounded spectral theorem.** The calculus is the unique
 extension of `cfcHom` whose matrix elements are integrals against the diagonal measures; and
@@ -378,7 +386,7 @@ the operator.
 theorem as one declaration (*`A` is the integral of the identity against its spectral
 measure*); Stone's theorem as the packaged bijection between self-adjoint operators and
 strongly continuous one-parameter unitary groups; and uniqueness of the spectral measure — a
-`ProjValMeasure` satisfying the resolvent formula is `spectralPVM hA`.
+`ProjValMeasure ℝ H` satisfying the resolvent formula is `spectralPVM hA`.
 
 ## Worked examples (acceptance criteria)
 
@@ -448,8 +456,9 @@ semigroup generator is `i` times the group generator, the factor being the Stone
 of Stone's theorem and no consumer needs it yet. What is missing is not the bridge but its
 statement in either roadmap.
 
-**Downstream.** `SpectralSubspacePerturbation` consumes Parts A, D and E;
-`MatrixSpectralStatistics` consumes Part B's measurability layer.
+**Downstream.** `SpectralSubspacePerturbation` consumes Parts A, D and E.
+`MatrixSpectralStatistics` consumes Mathlib's Hermitian continuous-functional-calculus
+continuity directly rather than depending on this roadmap.
 
 ## Definitions
 

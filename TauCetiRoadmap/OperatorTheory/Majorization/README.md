@@ -198,9 +198,9 @@ agrees with itself on square operators.
 ## Ordering
 
 Part A's convex engine has no prerequisites at all and could be submitted before, or
-independently of, everything else here. The operator half of Part A needs
-`PolarDecomposition`; Part B needs A, both the engine and the square structure it bridges
-to.
+independently of, everything else here. The operator half of Part A consumes
+`PolarDecomposition` for singular-value/polar structure and `OrthogonalGeometry` for the
+Gram/isometry rigidity used by the rectangular orbit arguments. Part B consumes Part A.
 
 **Downstream.** [`PrincipalAngles`](../PrincipalAngles/README.md) states its estimates in
 this vocabulary and consumes the permutation-orbit hull for Davis's bound.

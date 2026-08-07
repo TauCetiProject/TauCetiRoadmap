@@ -6,7 +6,7 @@ angles**, which are the singular values of an overlap operator, so their orderin
 bounds are inherited rather than re-proved.
 
 This roadmap also owns the vocabulary those theorems are hypothesized in: the projector
-gap, spectral subspaces, the restricted spectrum, and the spectral-separation predicates.
+gap, spectral subspaces, the restricted point spectrum, and the spectral-separation predicates.
 
 Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
 
@@ -16,7 +16,7 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
   eigenbasis is used; the projector-gap material is stated without finite-dimensional or
   completeness hypotheses.
 - **`SpectrumIn` and `SpectraSeparated` are finite-dimensional point-spectrum vocabulary.**
-  They are stated over `restrictedSpectrum`, a set of eigenvalues of an endomorphism. The
+  They are stated over `restrictedPointSpectrum`, a set of eigenvalues of an endomorphism. The
   Banach-algebra spectrum of a restriction is a different object and belongs to
   [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md).
 - **Exact projector-gap identity.** The projector-difference identity
@@ -40,7 +40,7 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
 * Angle geometry and the eigenvalue-perturbation results: the von Neumann trace core,
   Hoffman–Wielandt against an arbitrary orthonormal basis, and Davis's eigenvalue-change
   lower bound.
-* The sharp projector-gap identity, spectral subspaces, the restricted spectrum, and the
+* The sharp projector-gap identity, spectral subspaces, the restricted point spectrum, and the
   separation predicates the perturbation roadmap consumes.
 * `sinThetaMap`, the directed sine cross-projection the Davis–Kahan estimates are stated
   in, and `spectrumIn_spectralSubspace`, which is why no consumer supplies a
@@ -89,9 +89,10 @@ Part B combines the angle dictionary with eigenvalue perturbation; the spectral-
 perturbation theorems use both.
 
 **Objects.** The Gram operators `rightGram A = A⋆A` and `leftGram A = AA⋆`; the
-cross-projections `cosThetaMap U V = P_V ∘ P_U` and `sinThetaMap U V = P_{Vᗮ} ∘ P_U`; their
-moduli (`cosAngleOperator`, `sinAngleOperator = |P_U − P_V|`) and the one-sided double-angle
-map `sinTwoAngleOperator = 2 P_{Uᗮ} P_V P_U`; the sequences `principalCosines`,
+dimension-free cross-projections `cosThetaMap U V = P_V ∘ P_U`,
+`sinThetaMap U V = P_{Vᗮ} ∘ P_U`, and `sinTwoAngleOperator = 2 P_{Uᗮ} P_V P_U`;
+the complete-space moduli `cosAngleOperator = |P_V P_U|` and
+`sinAngleOperator = |P_U − P_V|`; and the finite-dimensional sequences `principalCosines`,
 `principalSines`, `principalAngles`, `principalTangents : ℕ →₀ ℝ`; the predicates `IsAcute`
 and `AvoidsQuarterTurn`; the gap-free
 `TrialMapFrameFactorization` of an injective map.
@@ -101,11 +102,13 @@ and `AvoidsQuarterTurn`; the gap-free
 - Gram perturbation identities `Â⋆Â − A⋆A = Â⋆(Â−A) + (Â−A)⋆A` and the operator-norm bounds
   `‖Â⋆Â − A⋆A‖ ≤ (‖A‖+‖Â‖)·‖Â−A‖`, both sides.
 - The dictionary: `σ(cosThetaMap) = principalCosines`; `σ(P_U − P_V) = σ(sinAngleOperator)`,
-  hence the norm bridge `N (P_U − P_V) = N (sinAngleOperator U V)` for every unitarily
+  hence the norm bridge `N (P_U − P_V) = N (sinAngleOperator U V).toLinearMap` for every unitarily
   invariant `N`, via determination by singular values; equal-rank symmetry of sines
   and angles; angles of a pair with itself vanish; acuteness from a projection gap `< 1`.
-- Double-angle and tangent objects: `sinTwoAngleOperator U V =
-  2 • (P_{Uᗮ} ∘ P_V ∘ P_U)`; `principalTangents` is `Real.tan` applied to
+- Projection-angle maps are dimension-free bounded operators: `cosThetaMap`, `sinThetaMap`, and
+  `sinTwoAngleOperator U V = 2 • (P_{Uᗮ} ∘ P_V ∘ P_U)`. On complete spaces,
+  `cosAngleOperator` and `sinAngleOperator` use the scalar-generic modulus from
+  `PolarDecomposition`. The singular-value sequences remain finite-dimensional. `principalTangents` is `Real.tan` applied to
   `principalAngles`; `AvoidsQuarterTurn U V` means no principal angle equals `π/4`, with
   `avoidsQuarterTurn_self` as the base case.
 - **The Part A bridge**, the theorem that makes `cosPrincipalAngles` well-named: the
@@ -154,7 +157,7 @@ statement. The proof is the block decomposition `(P−Q)² = P(1−Q)P + (1−P)
 C⋆-norm identities, scalar-generic over `RCLike`.
 
 **Objects.** Reflections, diagonal and off-diagonal parts of an operator relative to
-`U ⊕ Uᗮ`; the symmetric and directed projection gaps; restricted spectra with the canonical
+`U ⊕ Uᗮ`; the symmetric and directed projection gaps; the restricted point spectrum with the canonical
 spectral subspace `spectralSubspace A Ω` and projector `spectralProjection A Ω`; the
 spectral-separation predicates.
 
@@ -166,10 +169,11 @@ spectral-separation predicates.
 - The gap: symmetry, the directed-gap comparison, the max identity above; `sinThetaMap`,
   the directed sine cross-projection `P_{Vᗮ} ∘ P_U` the Davis–Kahan estimates are stated in.
 - `spectrumIn_spectralSubspace`: the spectral subspace selected by `Ω` carries only
-  spectrum in `Ω`. It is a theorem for every operator and every set, giving perturbation
+  restricted point spectrum in `Ω`. It is a theorem for every finite-dimensional operator and
+  every set, giving perturbation
   consumers the spectral-containment fact directly.
-- Restricted spectra: the restriction of a symmetric operator to an invariant subspace and
-  its restricted spectrum; the quadratic-form bridges
+- Restricted point spectra: the restriction of a symmetric operator to an invariant subspace
+  and its eigenvalues; the quadratic-form bridges
   `SpectrumIn A U (Iic a) → re ⟪A x, x⟫ ≤ a‖x‖²` on `U`, with their converses.
 
 ### The spectral-separation predicates
@@ -181,25 +185,29 @@ inequality is what makes "these two theorems have the same gap hypothesis" a che
 claim; it is also what lets a caller discharge the hypothesis once and feed it to several
 theorems.
 
-Two notions are primitive and belong here:
+The finite-dimensional separation vocabulary is point-spectral. Pairwise and ordered
+separation are primitive; the bundled interval/exterior condition used by the factor-one sine
+theorem belongs here with them:
 
 - **`SpectraSeparated A U B V δ`** — every eigenvalue of `A` carried by `U` and every
   eigenvalue of `B` carried by `V` are at distance at least `δ`. This is the weakest and
   most symmetric form; it is what the `π/2` theorems assume, and no ordering of the two
   spectra is implied.
+- **`IntervalExteriorGap A U B V a b δ`** — `A` on `U` lies in `[a,b]` and `B` on `V` lies
+  outside `(a-δ,b+δ)`; bundling both halves is the canonical hypothesis for the factor-one
+  Davis–Kahan sine theorem.
 - **`OrderedGap`** — one spectrum lies below the other with a margin: `λ + δ ≤ μ` for every
   `λ` in the first and `μ` in the second. Strictly stronger, and the hypothesis under which
   the constants improve to one.
 
-Everything else is a specialization and belongs where it is consumed. The interval/exterior
-form — one spectrum in `[a,b]`, the other outside `(a−δ, b+δ)` — and
-`InternalGap`, in which both spectra come from one operator, are specified in
+`InternalGap`, in which both pieces of point spectrum come from one operator, is the
+application-shaped specialization defined in
 [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
 
 The roadmap therefore asks for:
 
-- the two primitive predicates, each stated for restricted spectra of a symmetric operator
-  on a named subspace;
+- the pairwise and ordered primitive predicates, plus the bundled interval/exterior
+  predicate, each stated for restricted point spectra on named subspaces;
 - the conversions between them: ordered separation implies `SpectraSeparated` at the same
   `δ`; spectral inclusion on opposite sides of a cut gives ordered separation; and the
   bridges to the quadratic-form bounds above, which is how a spectral hypothesis becomes

@@ -3,6 +3,7 @@ Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
+import TauCetiRoadmap.OperatorTheory.PolarDecomposition.Suggested
 import TauCetiRoadmap.OperatorTheory.Majorization.Suggested
 
 /-!
@@ -102,7 +103,7 @@ theorem le_approximationNumber_of_lt_rank (T : E →L[𝕜] F) (n : ℕ) (V : Su
 
 end HilbertIdentifications
 
-section MinMaxCapability
+section MinMaxLocalization
 
 variable {𝕜 : Type u} [RCLike 𝕜]
 
@@ -116,27 +117,10 @@ def HasMinMaxLowerBound (E : Type v) (F : Type w)
     ∃ s : ℝ, r < s ∧ ∃ v : Fin (n + 1) → E, LinearIndependent 𝕜 v ∧
       ∀ x ∈ Submodule.span 𝕜 (Set.range v), s * ‖x‖ ≤ ‖T x‖
 
-/-- The converse min--max localization as a scalar-field capability, uniformly over
-complete Hilbert-space pairs in one universe. The class contains the localization theorem,
-not the Ky Fan inequality derived from it. -/
-class HasMinMaxLowerBoundEverywhere (𝕜 : Type u) [RCLike 𝕜] : Prop where
-  out : ∀ {E F : Type v}
-    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
-    [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F],
-    HasMinMaxLowerBound (𝕜 := 𝕜) E F
+/-- The pair-level min--max localization is proof infrastructure.  Public ideal theorems
+quantify only over `RCLike`; real and complex proofs may discharge this lemma differently. -/
 
-/-- The complex field has the min--max lower-bound capability directly. -/
-instance hasMinMaxLowerBoundEverywhere_complex :
-    HasMinMaxLowerBoundEverywhere.{0, v} ℂ := by
-  sorry
-
-/-- The real field has the same capability, obtained by complexification once at this
-boundary rather than by transporting every downstream ideal theorem separately. -/
-instance hasMinMaxLowerBoundEverywhere_real :
-    HasMinMaxLowerBoundEverywhere.{0, v} ℝ := by
-  sorry
-
-end MinMaxCapability
+end MinMaxLocalization
 
 /-! ## Part B -- symmetric operator ideals and Schatten norms
 
@@ -216,14 +200,10 @@ theorem kyFanGauge_add_le_of_hasMinMaxLowerBound
     kyFanGauge (S + T) k ≤ kyFanGauge S k + kyFanGauge T k := by
   sorry
 
-/-- **Milestone A2.** Once the scalar field supplies finite-restriction min--max
-localization uniformly, Ky Fan subadditivity is one theorem over `RCLike`. Both `ℝ` and
-`ℂ` instantiate the capability above. -/
-theorem kyFanGauge_add_le [HasMinMaxLowerBoundEverywhere.{u, v} 𝕜]
-    {E F : Type v}
-    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
-    [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
-    (S T : E →L[𝕜] F) (k : ℕ) :
+/-- **Milestone A2.** Ky Fan subadditivity at the natural public generality.  A proof may
+use `HasMinMaxLowerBound` internally, with separate real and complex routes, but callers only
+need the scalar field to be `RCLike`. -/
+theorem kyFanGauge_add_le (S T : E →L[𝕜] F) (k : ℕ) :
     kyFanGauge (S + T) k ≤ kyFanGauge S k + kyFanGauge T k := by
   sorry
 
@@ -232,11 +212,11 @@ Ky Fan inequality in the limit. -/
 noncomputable def nuclearENorm (T : E →L[𝕜] F) : ℝ≥0∞ :=
   ∑' n, ENNReal.ofReal (approximationNumber T n)
 
-/-- **Ky Fan dominance as a property of a symmetric family.** The ideal-family laws do not
+/-- **Ky Fan dominance as a property of an ideal family.** The ideal-family laws do not
 force it; a family carries dominance as a separate property. -/
 class IsKyFanDominant {𝕜 : Type u} [RCLike 𝕜]
-    (Φ : SymmetricOperatorIdealFamily.{u, v} 𝕜) : Prop where
-  gauge_le_of_forall_kyFanGauge_le : ∀ {E F : Type v}
+    (Φ : OperatorIdealFamily.{u, v, w} 𝕜) : Prop where
+  gauge_le_of_forall_kyFanGauge_le : ∀ {E : Type v} {F : Type w}
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
     [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
     (A B : E →L[𝕜] F), (∀ k, kyFanGauge A k ≤ kyFanGauge B k) → Φ.gauge A ≤ Φ.gauge B
@@ -245,14 +225,13 @@ end IdealFamilies
 
 /-! ## Part B, the symmetric-gauge construction (Milestones B1-B4)
 
-The sequence layer is scalar-free. The induced ideal families are stated over `RCLike 𝕜`
-under `HasMinMaxLowerBoundEverywhere 𝕜`; both `ℝ` and `ℂ` provide that capability. -/
+The sequence layer is scalar-free.  The induced ideal families are stated at their
+mathematical public generality over `RCLike 𝕜`; min--max localization is proof infrastructure. -/
 
 section SymmetricGauges
 
 variable {𝕜 : Type u} [RCLike 𝕜]
-  [HasMinMaxLowerBoundEverywhere.{u, v} 𝕜]
-variable {E F : Type v}
+variable {E : Type v} {F : Type w}
   [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
   [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
 variable {ι : Type x}
@@ -299,28 +278,47 @@ noncomputable def SymmetricGauge.extend (Φ : SymmetricGauge) (a : ℕ → ℝ�
 theorem SymmetricGauge.iSup_le_extend_le_tsum (Φ : SymmetricGauge) (a : ℕ → ℝ≥0∞) :
     (⨆ n, a n) ≤ Φ.extend a ∧ Φ.extend a ≤ ∑' n, a n := sorry
 
-/-- **Milestone B1.**  The family induced by a symmetric gauge, with gauge
-`Φ∞ ∘ a`.  Its structure fields are theorems, one input each: `gauge_add_le` is
-Milestone B2, and `gauge_smul`, `gauge_adjoint`, `enorm_le_gauge` and `gauge_comp_le`
-are the corresponding approximation-number facts of Part A.
+/-- **Milestone B1.**  The rectangular family induced by a symmetric gauge, with gauge
+`Φ∞ ∘ a`, across independent source and target universes. Its four base-family fields are
+theorems, one input each: `gauge_add_le` is Milestone B2, while `gauge_smul`,
+`enorm_le_gauge` and `gauge_comp_le` are the corresponding approximation-number facts of
+Part A. Adjoint invariance is stated separately across swapped universes and packaged by the
+diagonal companion below.
 
 Spec: D2. -/
-noncomputable def symmetricGaugeFamily (𝕜 : Type u) [RCLike 𝕜]
-    [HasMinMaxLowerBoundEverywhere.{u, v} 𝕜] (Φ : SymmetricGauge) :
-    SymmetricOperatorIdealFamily.{u, v} 𝕜 where
+noncomputable def symmetricGaugeFamily (𝕜 : Type u) [RCLike 𝕜] (Φ : SymmetricGauge) :
+    OperatorIdealFamily.{u, v, w} 𝕜 where
   gauge A := Φ.extend fun n => ENNReal.ofReal (approximationNumber A n)
   gauge_add_le := sorry
   gauge_smul := sorry
   enorm_le_gauge := sorry
   gauge_comp_le := sorry
+
+/-- Adjoint invariance of an induced symmetric-gauge family across swapped source and target
+universes. This is the rectangular symmetry theorem; no same-universe restriction belongs in
+the base family. -/
+theorem gauge_adjoint_symmetricGaugeFamily (Φ : SymmetricGauge)
+    {E' : Type v} {F' : Type w}
+    [NormedAddCommGroup E'] [InnerProductSpace 𝕜 E'] [CompleteSpace E']
+    [NormedAddCommGroup F'] [InnerProductSpace 𝕜 F'] [CompleteSpace F']
+    (A : E' →L[𝕜] F') :
+    (symmetricGaugeFamily.{u, w, v} 𝕜 Φ).gauge (ContinuousLinearMap.adjoint A) =
+      (symmetricGaugeFamily.{u, v, w} 𝕜 Φ).gauge A := by
+  sorry
+
+/-- The adjoint-invariant diagonal view of an induced symmetric-gauge family. -/
+noncomputable def symmetricGaugeFamilySymmetric (𝕜 : Type u) [RCLike 𝕜]
+    (Φ : SymmetricGauge) : SymmetricOperatorIdealFamily.{u, v} 𝕜 where
+  toOperatorIdealFamily := symmetricGaugeFamily.{u, v, v} 𝕜 Φ
   gauge_adjoint := sorry
 
 /-- **Milestone B2.**  Every family induced by a symmetric gauge respects Ky Fan
-domination.  This is the Hardy--Littlewood--Pólya transfer of the
-Majorization roadmap, lifted to sequences by monotone convergence along the
-truncations -- which is why `extend` is a supremum of truncations and nothing cleverer. -/
+domination. This is the Hardy--Littlewood--Pólya transfer of the Majorization roadmap. The
+extension is the supremum over finitely supported dominated sequences; on antitone
+approximation-number sequences it is computed by monotone convergence along initial
+truncations. -/
 instance isKyFanDominant_symmetricGaugeFamily (Φ : SymmetricGauge) :
-    IsKyFanDominant (symmetricGaugeFamily 𝕜 Φ) := sorry
+    IsKyFanDominant (symmetricGaugeFamily.{u, v, w} 𝕜 Φ) := sorry
 
 /-- The sequence form of Milestone B2, and the form the proof actually establishes:
 weak majorization of antitone sequences implies domination under every symmetric
@@ -333,7 +331,7 @@ theorem SymmetricGauge.extend_le_extend_of_forall_sum_le (Φ : SymmetricGauge)
 /-- **Milestone B1.** Equality of the operator-ideal families induced by two
 symmetric gauges forces their extensions to agree on antitone sequences. -/
 theorem symmetricGaugeFamily_injective {Φ Ψ : SymmetricGauge}
-    (h : symmetricGaugeFamily 𝕜 Φ = symmetricGaugeFamily 𝕜 Ψ)
+    (h : symmetricGaugeFamily.{u, v, w} 𝕜 Φ = symmetricGaugeFamily.{u, v, w} 𝕜 Ψ)
     {a : ℕ → ℝ≥0∞} (ha : Antitone a) :
     Φ.extend a = Ψ.extend a := sorry
 
@@ -353,11 +351,17 @@ noncomputable def schattenGauge (p : ℝ) (hp : 1 ≤ p) : SymmetricGauge where
   mono := sorry
   normalized := sorry
 
-/-- The Schatten-`p` family for a finite real exponent `1 ≤ p`. -/
+/-- The rectangular Schatten-`p` family for a finite real exponent `1 ≤ p`, across
+independent source and target universes. -/
 noncomputable def schattenFamily (𝕜 : Type u) [RCLike 𝕜]
-    [HasMinMaxLowerBoundEverywhere.{u, v} 𝕜] (p : ℝ) (hp : 1 ≤ p) :
-    SymmetricOperatorIdealFamily.{u, v} 𝕜 :=
-  symmetricGaugeFamily 𝕜 (schattenGauge p hp)
+    (p : ℝ) (hp : 1 ≤ p) :
+    OperatorIdealFamily.{u, v, w} 𝕜 :=
+  symmetricGaugeFamily.{u, v, w} 𝕜 (schattenGauge p hp)
+
+/-- The adjoint-invariant diagonal view of a finite-`p` Schatten family. -/
+noncomputable def schattenFamilySymmetric (𝕜 : Type u) [RCLike 𝕜]
+    (p : ℝ) (hp : 1 ≤ p) : SymmetricOperatorIdealFamily.{u, v} 𝕜 :=
+  symmetricGaugeFamilySymmetric 𝕜 (schattenGauge p hp)
 
 /-- The `p = ∞` endpoint, specified separately because a real exponent cannot represent
 infinity. Its gauge is the operator norm, equivalently the supremum of the approximation
@@ -371,6 +375,14 @@ noncomputable def schattenFamilyInf (𝕜 : Type u) [RCLike 𝕜] :
   gauge_smul := sorry
   enorm_le_gauge := sorry
   gauge_comp_le := sorry
+
+/-- The adjoint-invariant diagonal view of the infinity endpoint.  The rectangular family
+above keeps independent source and target universes; this companion records the symmetry law
+without making `p = ∞` look mathematically less symmetric than finite `p`. -/
+noncomputable def schattenFamilyInfSymmetric (𝕜 : Type u) [RCLike 𝕜] :
+    SymmetricOperatorIdealFamily.{u, v} 𝕜 where
+  toOperatorIdealFamily := schattenFamilyInf.{u, v, v} 𝕜
+  gauge_adjoint := sorry
 
 /-- The infinity endpoint is equivalently the supremum of the approximation-number
 sequence.  For an antitone sequence this supremum is its zeroth term, `a₀(T) = ‖T‖`. -/

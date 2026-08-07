@@ -143,8 +143,7 @@ theorem uiNorm_sylvester_le_of_intervalGap
     {A : F →ₗ[𝕜] F} {B : E →ₗ[𝕜] E} {X C : E →ₗ[𝕜] F}
     (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {a b δ : ℝ} (hδ : 0 < δ)
-    (hBin : PrincipalAngles.SpectrumIn B ⊤ (Set.Icc a b))
-    (hAout : PrincipalAngles.SpectrumIn A ⊤ {lam | lam ∉ Set.Ioo (a - δ) (b + δ)})
+    (hgap : PrincipalAngles.IntervalExteriorGap B ⊤ A ⊤ a b δ)
     (hEq : A ∘ₗ X - X ∘ₗ B = C) :
     δ * N X ≤ N C := by
   sorry
@@ -170,19 +169,6 @@ variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E]
   [CompleteSpace E]
 variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace ℂ F]
   [CompleteSpace F]
-
-/-- **Milestone B1 — unbounded pairwise-separation bound.** A bounded solution of the
-domain-aware Sylvester equation for self-adjoint partial maps satisfies the `π / 2`
-operator-norm estimate when their spectra are separated by `δ`. -/
-theorem opNorm_sylvester_le_of_spectralDistance_unbounded
-    {A : E →ₗ.[ℂ] E} {B : F →ₗ.[ℂ] F} {X C : F →L[ℂ] E}
-    (hA : IsSelfAdjoint A) (hB : IsSelfAdjoint B)
-    (hEq : SelfAdjointSpectralTheory.SylvesterEquation A B X C)
-    {δ : ℝ} (hδ : 0 < δ)
-    (hgap : ∀ z ∈ SelfAdjointSpectralTheory.spectrum A,
-      ∀ w ∈ SelfAdjointSpectralTheory.spectrum B, δ ≤ ‖z - w‖) :
-    δ * ‖X‖ ≤ (Real.pi / 2) * ‖C‖ := by
-  sorry
 
 /-- **Milestone B2 — Rosenblum's theorem.**  A bounded operator intertwining
 two self-adjoint partial maps with disjoint spectra is zero.  Proved without
@@ -237,8 +223,8 @@ theorem sinTheta_perturbation_le
     [V.HasOrthogonalProjection]
     (hU : ∀ x ∈ U, A x ∈ U) (hV : ∀ x ∈ V, B x ∈ V)
     {a b δ : ℝ} (hδ : 0 < δ)
-    (hBout : PrincipalAngles.SpectrumIn B Vᗮ {lam | lam ∉ Set.Ioo (a - δ) (b + δ)}) :
-    δ * N (PrincipalAngles.sinThetaMap U V) ≤ N (B - A) := by
+    (hgap : PrincipalAngles.IntervalExteriorGap A U B Vᗮ a b δ) :
+    δ * N (PrincipalAngles.sinThetaMap U V).toLinearMap ≤ N (B - A) := by
   sorry
 
 /-- **Canonical spectral-projector Davis–Kahan theorem** with no eigenbasis
@@ -266,7 +252,7 @@ theorem sinTheta_perturbation_le_of_spectralDistance
     [V.HasOrthogonalProjection]
     (hU : ∀ x ∈ U, A x ∈ U) (hV : ∀ x ∈ V, B x ∈ V)
     {δ : ℝ} (hδ : 0 < δ) (hgap : PrincipalAngles.SpectraSeparated A U B Vᗮ δ) :
-    δ * N (PrincipalAngles.sinThetaMap U V) ≤ (Real.pi / 2) * N (B - A) := by
+    δ * N (PrincipalAngles.sinThetaMap U V).toLinearMap ≤ (Real.pi / 2) * N (B - A) := by
   sorry
 
 /-- **Davis's `sin 2θ` theorem, per-eigenvector product form**: for a unit
@@ -306,7 +292,7 @@ def CorrespondingEigenblock {A B : E →ₗ[𝕜] E}
 /-- Frobenius sine distance in canonical subspace notation. -/
 noncomputable def sinThetaFrobenius (U V : Submodule 𝕜 E)
     [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : ℝ :=
-  Majorization.frobenius (PrincipalAngles.sinThetaMap U V)
+  Majorization.frobenius (PrincipalAngles.sinThetaMap U V).toLinearMap
 
 /-- **The complement identity**: the Frobenius sine of two equally indexed
 blocks is exactly the square root of the cross-block overlap sum — the bridge
@@ -360,7 +346,7 @@ theorem yuWangSamworth_eigenvector_le
     (hcorr : CorrespondingEigenblock hA hB
       (Submodule.span 𝕜 {u}) (Submodule.span 𝕜 {v}))
     (hΔ : 0 < Δ)
-    (hgap : ∀ ν ∈ PrincipalAngles.restrictedSpectrum A (Submodule.span 𝕜 {u})ᗮ,
+    (hgap : ∀ ν ∈ PrincipalAngles.restrictedPointSpectrum A (Submodule.span 𝕜 {u})ᗮ,
       Δ ≤ |lam - ν|) :
     ∃ c : 𝕜, ‖c‖ = 1 ∧
       ‖c • v - u‖ ≤

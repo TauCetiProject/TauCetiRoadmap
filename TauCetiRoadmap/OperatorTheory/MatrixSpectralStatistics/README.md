@@ -1,7 +1,7 @@
 # Matrix spectral statistics: rank factorizations, spectral measurability, and concentration
 
 Spectral methods in statistics — principal component analysis, spectral embedding, classical
-multidimensional scaling — all run one pipeline: estimate a symmetric matrix from samples,
+multidimensional scaling — all run one pipeline: estimate a Hermitian matrix from samples,
 control the estimation error, push that control through eigenvalue and eigenvector
 perturbation theory, and read off a stable embedding or a stable minimizer.
 
@@ -15,8 +15,8 @@ concentration statement, and no factorization realizing `Matrix.rank` as an inne
 
 This roadmap builds that toolkit as three Parts that meet in the statistics. A positive
 semidefinite matrix of rank at most `d` *is* the Gram matrix of `n` points in `𝕜^d` (Part A —
-the multidimensional-scaling embedding step). Entrywise error on a symmetric matrix controls
-spectral error, and spectral quantities of a *random* symmetric matrix are measurable, so
+the multidimensional-scaling embedding step). Entrywise error on a Hermitian matrix controls
+spectral error, and spectral quantities of a *random* Hermitian matrix are measurable, so
 probability statements about them are well posed (Part B). A sample second moment
 concentrates about the population matrix — entrywise by Chebyshev and a union bound, hence
 spectrally through Part B's bridge (Part C).
@@ -38,9 +38,10 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Analysis/Matrix/`,
   bounds. The abstract operator theory lives in
   [`PolarDecomposition`](../PolarDecomposition/README.md); here we build the bridge from
   entries to spectra.
-- **Scalar fields, pinned per Part.** Rank factorization (Part A) over an arbitrary `Field`;
-  the Gram/positive-semidefinite factorization over `RCLike`. The spectral–statistical chain
-  (Parts B–C) is stated over `ℝ`, for real symmetric matrices.
+- **Scalar fields, pinned per Part.** Rank factorization (Part A) is over an arbitrary
+  `Field`; the Gram/positive-semidefinite factorization and deterministic spectral bridge
+  (Part B) are over `RCLike`, for Hermitian matrices. The sample-moment and concentration
+  layer (Part C) remains over `ℝ` for its present real-valued statistical model.
 - **Sorted eigenvalues: transport, never re-prove.** The decreasing indexing is Mathlib's
   `Matrix.IsHermitian.eigenvalues₀`, indexed by `Fin (Fintype.card n)` and antitone by
   `Matrix.IsHermitian.eigenvalues₀_antitone`. This roadmap defines no second sorted-eigenvalue
@@ -49,8 +50,9 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Analysis/Matrix/`,
 - **Inner dimensions are `Fin r`, not a subtype.** A caller who wants "at most `d` rows" gets
   `Fin d` directly, with the `≤`-relaxed form stated beside the exact-rank form, so no
   cardinality-equivalence transport is ever needed at a use site.
-- **No new predicates for one-line bounds.** Entrywise control is the hypothesis
-  `∀ i j, |A i j| ≤ ε`, and operator control at `LinearMap` level is `∀ x, ‖T x‖ ≤ C * ‖x‖`,
+- **No new predicates for one-line bounds.** Entrywise control in Part B is the hypothesis
+  `∀ i j, ‖A i j‖ ≤ ε`; the real Part C specialization may write absolute values. Operator
+  control at `LinearMap` level is `∀ x, ‖T x‖ ≤ C * ‖x‖`,
   carried directly in the style of Mathlib's `norm_cfc_le` — never wrapped in a named
   predicate or an ad-hoc sup norm.
 - **Dimension constants are explicit.** The entrywise-to-operator comparison
@@ -87,10 +89,12 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Analysis/Matrix/`,
   `meas_ge_le_variance_div_sq`, the *centered* Chebyshev inequality — the uncentered form is
   missing; `MemLp`, the Bochner integral, `MeasureTheory.TendstoInMeasure`. The covariance API
   has no trace identity and no sample-mean lemmas.
-- **Approximation:** Stone–Weierstrass, `Polynomial.aeval` on matrices with `continuous_aeval`,
-  and the Borel-space constructions — the ingredients of Part B's measurability argument.
+- **Hermitian continuous functional calculus:** Mathlib's generic `cfc` for Hermitian
+  matrices over `RCLike`, including continuity in the operator variable (`continuousOn_cfc`);
+  Part B consumes this calculus directly and proves only the matrix/random-matrix corollaries.
 
-Everything below is absent upstream.
+The roadmap builds the missing bridges and statistical corollaries below. Hermitian CFC
+itself and generic continuity in the operator variable are consumed from Mathlib.
 
 ---
 
@@ -169,18 +173,19 @@ Minimal rank only. The Gram statement uses `LinearIsometryEquiv`, the same carri
 Everything else in this family is about abstract operators; this Part is about matrices, and
 about matrices whose entries are random.
 
-**Objects.** Real symmetric matrices as Euclidean operators (`Matrix.toEuclideanLin`, with
-symmetry through `Matrix.isSymmetric_toEuclideanLin_iff`); the decreasingly sorted spectrum
-`Matrix.IsHermitian.eigenvalues₀`; the spectral `h`-transform
-`specTransform h hB = Σ_k h(λ_k) u_k u_kᵀ`.
+**Objects.** Hermitian matrices over `RCLike` as Euclidean operators
+(`Matrix.toEuclideanLin`); the decreasingly sorted spectrum
+`Matrix.IsHermitian.eigenvalues₀`; and the generic Mathlib continuous functional calculus
+`cfc h B` for Hermitian `B`.
 
 **API to develop.**
 
-- **Entrywise-to-operator comparison**: for a real square matrix, `∀ i j, |A i j| ≤ ε`
-  gives `∀ x, ‖Matrix.toEuclideanLin A x‖ ≤ n · ε · ‖x‖`.
+- **Entrywise-to-operator comparison**: for an `RCLike` square matrix,
+  `∀ i j, ‖A i j‖ ≤ ε` gives
+  `∀ x, ‖Matrix.toEuclideanLin A x‖ ≤ n · ε · ‖x‖`.
 - **Entrywise eigenvalue perturbation**: Weyl's inequality, consumed from
   [`PolarDecomposition`](../PolarDecomposition/README.md),
-  composed with the comparison gives that entrywise `ε`-close symmetric matrices have
+  composed with the comparison gives that entrywise `ε`-close Hermitian matrices have
   sorted eigenvalues within `n · ε`, together with the a-priori bound on the eigenvalues
   themselves. This composite is the whole reason the pair exists: entrywise control in,
   spectral conclusions out.
@@ -194,14 +199,15 @@ symmetry through `Matrix.isSymmetric_toEuclideanLin_iff`); the decreasingly sort
   the family converting "with high probability the error is at most `rate i`" into
   `TendstoInMeasure`.
 
-**Milestone B1 — measurability of the spectral transform.** For fixed continuous `h`, `specTransform h` is measurable in the matrix, with **no
-measurable selection of an eigenbasis** — `B ↦ u_k(B)` is discontinuous at eigenvalue
-crossings. The route is that `specTransform h B` is the entrywise limit of matrix polynomials
-`p(B)`, by Stone–Weierstrass on a spectral interval bounded via the a-priori eigenvalue bound,
-glued over a countable entrywise-bound cover by the countable-restriction lemma of
-[`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md). This is the statement
-that makes the statistical track well posed: without it, "the top-`k` eigenspace of the
-sample second-moment matrix" carries no measurability and no probability statement about it means anything.
+**Milestone B1 — continuity and measurability of Hermitian CFC in the matrix.** Mathlib already
+provides the Hermitian continuous functional calculus over `RCLike` and generic continuity
+theorems for `cfc` in the operator variable. This roadmap packages the matrix consequence: for
+fixed continuous `h`, `B ↦ cfc h B` is continuous on Hermitian matrices and therefore measurable
+for measurable Hermitian random matrices, with **no measurable selection of an eigenbasis**.
+Use Mathlib's `continuousOn_cfc` locally on a compact spectral interval, with the interval
+chosen from a local operator-norm bound. This is the statement that makes the statistical track
+well posed: without it, "the top-`k` eigenspace of the sample second-moment matrix" carries no
+measurability and no probability statement about it means anything.
 
 ### Part C — sample moments and matrix concentration
 
@@ -267,7 +273,7 @@ direction recovers `rank_mul_le`.
 
 ### Part B — matrix spectra and spectral measurability
 
-**Acceptance examples.** `specTransform id hB = B`, the spectral theorem read entrywise; for a
+**Acceptance examples.** `cfc id B = B`, the spectral theorem read entrywise; for a
 diagonal matrix the perturbation bound checked against explicit eigenvalues; a concentration
 bound with rate `1/√n` feeding the `TendstoInMeasure` conversion.
 
@@ -285,19 +291,18 @@ scatter identity checked against a two-point family.
 immediately, as a single small contribution.
 
 **Parts B and C are a chain.** Part C consumes Part B. Internal order:
-within Part B, norm comparisons → eigenvalue perturbation → sorted-indexing theory →
-measurability; within Part C, scalar moments → sample mean → matrix concentration → sample
+within Part B, norm comparisons → eigenvalue perturbation → sorted-indexing theory → the
+Hermitian-CFC continuity/measurability corollary; within Part C, scalar moments → sample mean → matrix concentration → sample
 second moment, with the centered scatter independent of the rest.
 
 **External.** [`PolarDecomposition`](../PolarDecomposition/README.md), for
-Courant–Fischer and Weyl's inequality behind the entrywise eigenvalue bridge, and
-[`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md), for the
-measurability layer Part B's spectral transform is glued over.
+Courant–Fischer and Weyl's inequality behind the entrywise eigenvalue bridge. Hermitian CFC
+and continuity in the operator variable are consumed directly from Mathlib.
 
 ## Definitions
 
-**D1** `∑ₖ h(λₖ) uₖ uₖᵀ` — the spectral `h`-transform, against Mathlib's
-`Matrix.IsHermitian.eigenvalues₀`.
+**D1** `cfc h B` — Mathlib's Hermitian continuous functional calculus, used directly
+rather than redefined through an eigenbasis sum.
 
 **D2** `n⁻¹ ∑ᵢ Vᵢ Vᵢᵀ` — the uncentered empirical second-moment matrix.
 

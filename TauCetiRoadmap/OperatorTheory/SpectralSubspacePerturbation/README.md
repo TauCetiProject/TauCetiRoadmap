@@ -58,10 +58,10 @@ TauCeti/Analysis/Operator/Perturbation/
   - One interval/exterior gap controls the directed sine `P_{Vᗮ} ∘ P_U` in every unitarily
     invariant norm; the symmetric sine `|P_U − P_V|` needs the gap in both orientations. Only
     the operator norm erases the difference, and only under equal ranks.
-  - Both angles are public API. The primitive predicates — pairwise and ordered — belong to
-    [`PrincipalAngles`](../PrincipalAngles/README.md); the interval/exterior form and
-    `InternalGap`, in which both spectra come from one operator, are application shapes
-    defined here.
+  - Both angles are public API. The finite-dimensional separation predicates — pairwise,
+    ordered, and the bundled interval/exterior condition `IntervalExteriorGap` — belong to
+    [`PrincipalAngles`](../PrincipalAngles/README.md). `InternalGap`, in which both spectra
+    come from one operator, is the application-shaped predicate defined here.
 - **Rosenblum without a Borel functional calculus.** Both Cayley spectra contain `1` once
   both operators are unbounded, so no continuous symbol separates them. But `1` is a null
   point for every diagonal spectral measure, so continuous symbols damped at `1` separate in
@@ -236,7 +236,7 @@ subspaces with their projection and gap formulas and angular operators.
 
 **Milestone C2 — the two-sided `π/2` form**: under pairwise separation of the selected
 `A`-spectrum from the complementary `B`-spectrum alone,
-`δ · N (sinThetaMap U V) ≤ (π/2) · N (B − A)` for every unitarily invariant `N`.
+`δ · N (sinThetaMap U V).toLinearMap ≤ (π/2) · N (B − A)` for every unitarily invariant `N`.
 
 ### Part D — the Yu–Wang–Samworth statistical variant
 

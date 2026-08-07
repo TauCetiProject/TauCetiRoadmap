@@ -3,6 +3,7 @@ Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
+import TauCetiRoadmap.OperatorTheory.PolarDecomposition.Suggested
 
 /-!
 # Matrix spectra, concentration, and the toolkit of spectral statistics: target signatures
@@ -95,37 +96,32 @@ instance instBorelSpaceMatrix {m n α : Type*} [Countable m] [Countable n]
     BorelSpace (Matrix m n α) :=
   inferInstanceAs (BorelSpace (m → n → α))
 
-/-- **Entrywise → Euclidean operator-norm bound.** If every entry of a real square
-matrix is bounded by `ε`, its Euclidean action is bounded by `n · ε`. -/
-theorem norm_toEuclideanLin_le_of_entry_le {A : Matrix (Fin n) (Fin n) ℝ}
-    {ε : ℝ} (hentry : ∀ i j, |A i j| ≤ ε) (x : EuclideanSpace ℝ (Fin n)) :
+variable {𝕜 : Type*} [RCLike 𝕜]
+
+/-- **Entrywise → Euclidean operator-norm bound.** If every entry of an `RCLike` square
+matrix has norm at most `ε`, its Euclidean action is bounded by `n · ε`. -/
+theorem norm_toEuclideanLin_le_of_entry_le {A : Matrix (Fin n) (Fin n) 𝕜}
+    {ε : ℝ} (hentry : ∀ i j, ‖A i j‖ ≤ ε) (x : EuclideanSpace 𝕜 (Fin n)) :
     ‖Matrix.toEuclideanLin A x‖ ≤ (n : ℝ) * ε * ‖x‖ := sorry
 
-/-- **Weyl composed with the entrywise bridge**: an entrywise `ε`-perturbation
-moves each sorted eigenvalue by at most `n·ε`.  The entrywise-to-operator-norm
-comparison is one of the two Mathlib gaps this Part states precisely. -/
-theorem abs_eigenvalues₀_sub_le_of_entry_le {A Ahat : Matrix (Fin n) (Fin n) ℝ}
+/-- **Weyl composed with the entrywise bridge** over either real or complex Hermitian
+matrices. -/
+theorem abs_eigenvalues₀_sub_le_of_entry_le {A Ahat : Matrix (Fin n) (Fin n) 𝕜}
     (hA : A.IsHermitian) (hAhat : Ahat.IsHermitian)
-    {ε : ℝ} (hentry : ∀ i j, |Ahat i j - A i j| ≤ ε) (k : Fin (Fintype.card (Fin n))) :
+    {ε : ℝ} (hentry : ∀ i j, ‖Ahat i j - A i j‖ ≤ ε) (k : Fin (Fintype.card (Fin n))) :
     |hAhat.eigenvalues₀ k - hA.eigenvalues₀ k| ≤ (n : ℝ) * ε := sorry
 
-/-- The spectral `h`-transform of a Hermitian matrix.
+/-- For fixed continuous `h`, Mathlib's Hermitian continuous functional calculus depends
+continuously on the Hermitian matrix.  This is the canonical deterministic statement; the roadmap uses Mathlib's generic `cfc` as the public construction. -/
+theorem continuous_cfc_on_hermitian (h : ℝ → ℝ) (hh : Continuous h) :
+    Continuous fun A : {A : Matrix (Fin n) (Fin n) 𝕜 // A.IsHermitian} => cfc h A.1 := sorry
 
-Spec: D1. -/
-noncomputable def specTransform (h : ℝ → ℝ) {A : Matrix (Fin n) (Fin n) ℝ}
-    (hA : A.IsHermitian) : Matrix (Fin n) (Fin n) ℝ :=
-  let hsym := Matrix.isSymmetric_toEuclideanLin_iff.mpr hA
-  Matrix.of fun i j => ∑ k : Fin (Fintype.card (Fin n)), h (hA.eigenvalues₀ k)
-    * hsym.eigenvectorBasis finrank_euclideanSpace k i
-    * hsym.eigenvectorBasis finrank_euclideanSpace k j
-
-/-- **Spectral measurability**: the `h`-transform of a measurable Hermitian
-random matrix is measurable — without which no probability statement about a
-sample eigenspace is well-posed. -/
-theorem measurable_specTransform (h : ℝ → ℝ) (hh : Continuous h)
-    {Bm : Ω → Matrix (Fin n) (Fin n) ℝ} (hBmeas : Measurable Bm)
-    (hsym : ∀ ω, (Bm ω).IsHermitian) :
-    Measurable fun ω => specTransform h (hsym ω) := sorry
+/-- The measurable random-matrix form consumed by probability: a measurable Hermitian
+random matrix remains measurable after applying a fixed continuous spectral function. -/
+theorem measurable_cfc_of_hermitian (h : ℝ → ℝ) (hh : Continuous h)
+    {Bm : Ω → Matrix (Fin n) (Fin n) 𝕜} (hBmeas : Measurable Bm)
+    (hherm : ∀ ω, (Bm ω).IsHermitian) :
+    Measurable fun ω => cfc h (Bm ω) := sorry
 
 end MatrixSpectra
 
@@ -195,7 +191,7 @@ eigenvalue event above so that the two are visibly one event read two ways.
 **A sibling of C1.**  Eigenvalue closeness does not bound an operator-norm
 difference: two matrices can have identical spectra and differ by a rotation.  Both
 descend from the same entrywise event, C1 through Weyl's inequality and this through
-Part B's `norm_toEuclideanLin_le_of_entry_le`.
+Part B's scalar-generic `norm_toEuclideanLin_le_of_entry_le`.
 
 So the route is a refactor: factor the entrywise event
 out of the eigenvalue theorem first, then compose it with the norm comparison here and

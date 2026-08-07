@@ -3,7 +3,9 @@ Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
+import TauCetiRoadmap.OperatorTheory.Majorization.Suggested
 import TauCetiRoadmap.OperatorTheory.OrthogonalGeometry.Suggested
+import TauCetiRoadmap.OperatorTheory.PolarDecomposition.Suggested
 
 /-!
 # Principal angles, the projection gap, and spectral subspaces: target signatures
@@ -57,13 +59,50 @@ theorem sinThetaSq_eq_card_sub_sum_sq {u v : Fin d → E} (hu : Orthonormal 𝕜
     (hv : Orthonormal 𝕜 v) :
     sinThetaSq hu hv = d - ∑ k : Fin d, cosPrincipalAngles hu hv (k : ℕ) ^ 2 := sorry
 
-/-! ## Part B -- angle geometry and eigenvalue perturbation -/
+/-! ## Dimension-free projection-angle maps -/
 
-/-- The cross projection `P_V P_U`, whose singular values are the principal cosines. -/
+section ProjectionAngleMaps
+
+variable {𝕜 : Type u} [RCLike 𝕜]
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
+
+/-- The cross projection `P_V P_U`.  Finite-dimensional principal cosines are its singular
+values, but the operator itself is dimension-free. -/
 noncomputable def cosThetaMap (U V : Submodule 𝕜 E)
-    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : E →ₗ[𝕜] E :=
-  ((V.starProjection : E →L[𝕜] E) : E →ₗ[𝕜] E) ∘ₗ
-    ((U.starProjection : E →L[𝕜] E) : E →ₗ[𝕜] E)
+    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : E →L[𝕜] E :=
+  V.starProjection ∘L U.starProjection
+
+/-- The directed sine cross-projection `P_{Vᗮ} P_U`. -/
+noncomputable def sinThetaMap (U V : Submodule 𝕜 E)
+    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : E →L[𝕜] E :=
+  Vᗮ.starProjection ∘L U.starProjection
+
+/-- The one-sided double-angle map `2 P_{Uᗮ} P_V P_U`. Like the cross projections,
+this bounded operator is dimension-free; finite-dimensional spectral data are layered on top. -/
+noncomputable def sinTwoAngleOperator (U V : Submodule 𝕜 E)
+    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : E →L[𝕜] E :=
+  (2 : 𝕜) • (Uᗮ.starProjection ∘L V.starProjection ∘L U.starProjection)
+
+end ProjectionAngleMaps
+
+section CompleteAngleOperators
+
+variable {𝕜 : Type u} [RCLike 𝕜]
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
+
+/-- The cosine angle operator: the modulus of the cross projection. -/
+noncomputable def cosAngleOperator (U V : Submodule 𝕜 E)
+    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : E →L[𝕜] E :=
+  ContinuousLinearMap.modulus (cosThetaMap U V)
+
+/-- The sine angle operator: the modulus of the projector difference. -/
+noncomputable def sinAngleOperator (U V : Submodule 𝕜 E)
+    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : E →L[𝕜] E :=
+  ContinuousLinearMap.modulus (U.starProjection - V.starProjection)
+
+end CompleteAngleOperators
+
+/-! ## Part B -- angle geometry and eigenvalue perturbation -/
 
 /-- Principal-angle cosines of a pair of subspaces: the singular values of the cross
 projection, sorted decreasingly and padded by zeros beyond the finite rank. -/
@@ -130,34 +169,13 @@ theorem sum_sq_eigenvalues_sub_ge {T S : E →ₗ[𝕜] E}
       ≤ ∑ i, (hS.eigenvalues hn i - hT.eigenvalues hn i) ^ 2 := sorry
 
 
-/-! ## The directed sine map
-
-`sinThetaMap` is the object the Davis--Kahan estimates are stated in. It is owned here and
-consumed by [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md). -/
-
-section SinThetaMap
-
-variable {𝕜 : Type u} [RCLike 𝕜]
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
-
-/-- The directed sine cross-projection `P_{Vᗮ} ∘ P_U`. -/
-noncomputable def sinThetaMap (U V : Submodule 𝕜 E)
-    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : E →ₗ[𝕜] E :=
-  ((Vᗮ.starProjection ∘L U.starProjection : E →L[𝕜] E) : E →ₗ[𝕜] E)
-
-end SinThetaMap
+/-! ## Finite-dimensional principal-angle spectral data -/
 
 section AngleGeometry
 
 variable {𝕜 : Type u} [RCLike 𝕜]
 variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
   [FiniteDimensional 𝕜 E]
-
-/-- The one-sided double-angle map `2 P_{Uᗮ} P_V P_U`. -/
-noncomputable def sinTwoAngleOperator (U V : Submodule 𝕜 E)
-    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : E →ₗ[𝕜] E :=
-  (((2 : 𝕜) • (Uᗮ.starProjection ∘L V.starProjection ∘L U.starProjection) :
-      E →L[𝕜] E) : E →ₗ[𝕜] E)
 
 /-- Principal-angle sines: the singular values of the directed sine map. -/
 noncomputable def principalSines (U V : Submodule 𝕜 E)
@@ -216,7 +234,7 @@ variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteD
 Eigenvectors are Mathlib's `Module.End.HasEigenvector`. A local "eigenvector at a real
 eigenvalue" predicate adds only the realness of `lam`, which the `lam : ℝ` binder here
 already supplies. -/
-def restrictedSpectrum (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) : Set ℝ :=
+def restrictedPointSpectrum (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) : Set ℝ :=
   {lam | ∃ x, x ∈ U ∧ Module.End.HasEigenvector A (lam : 𝕜) x}
 
 /-- **The membership characterization.**
@@ -227,38 +245,47 @@ the internal shape of `HasEigenvector` — which orders its conjuncts
 `(mem_eigenspace, ne_zero)` — never becomes part of this definition's interface.
 
 Together with the introduction rule below, this is the intended API of
-`restrictedSpectrum`; `SpectrumIn` and the separation predicates are then stated over it. -/
-theorem mem_restrictedSpectrum_iff {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E} {lam : ℝ} :
-    lam ∈ restrictedSpectrum A U ↔ ∃ x ∈ U, x ≠ 0 ∧ A x = (lam : 𝕜) • x := by
+`restrictedPointSpectrum`; `SpectrumIn` and the separation predicates are then stated over it. -/
+theorem mem_restrictedPointSpectrum_iff {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E} {lam : ℝ} :
+    lam ∈ restrictedPointSpectrum A U ↔ ∃ x ∈ U, x ≠ 0 ∧ A x = (lam : 𝕜) • x := by
   sorry
 
 /-- The introduction rule: a nonzero eigenvector in `U` witnesses its eigenvalue. -/
-theorem mem_restrictedSpectrum {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E} {lam : ℝ} {x : E}
+theorem mem_restrictedPointSpectrum {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E} {lam : ℝ} {x : E}
     (hxU : x ∈ U) (hx0 : x ≠ 0) (hxEig : A x = (lam : 𝕜) • x) :
-    lam ∈ restrictedSpectrum A U := by
+    lam ∈ restrictedPointSpectrum A U := by
   sorry
 
 /-- Every eigenvalue of `A` carried by `U` lies in `Ω`. -/
 def SpectrumIn (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (Ω : Set ℝ) : Prop :=
-  restrictedSpectrum A U ⊆ Ω
+  restrictedPointSpectrum A U ⊆ Ω
 
 /-- The canonical spectral subspace selected by a real set. -/
 noncomputable def spectralSubspace (A : E →ₗ[𝕜] E) (Ω : Set ℝ) : Submodule 𝕜 E :=
   Submodule.span 𝕜 {x | ∃ lam ∈ Ω, Module.End.HasEigenvector A (lam : 𝕜) x}
 
-/-- **The symmetric separation predicate**: two restricted spectra are at distance at least
+/-- **The symmetric separation predicate**: two restricted point spectra are at distance at least
 `δ`. The weaker of the two primitives, with no ordering implied; it is what the `π/2`
 theorems assume. -/
 def SpectraSeparated (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E)
     (B : F →ₗ[𝕜] F) (V : Submodule 𝕜 F) (δ : ℝ) : Prop :=
-  ∀ lam μ, lam ∈ restrictedSpectrum A U → μ ∈ restrictedSpectrum B V → δ ≤ |lam - μ|
+  ∀ lam μ, lam ∈ restrictedPointSpectrum A U → μ ∈ restrictedPointSpectrum B V → δ ≤ |lam - μ|
 
-/-- **The ordered separation predicate**: one restricted spectrum lies below the other with
+/-- **The ordered separation predicate**: one restricted point spectrum lies below the other with
 margin `δ`. Strictly stronger than `SpectraSeparated`, and the hypothesis under which the
 perturbation constants improve to one. -/
 def OrderedGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E)
     (B : F →ₗ[𝕜] F) (V : Submodule 𝕜 F) (δ : ℝ) : Prop :=
-  ∀ lam μ, lam ∈ restrictedSpectrum A U → μ ∈ restrictedSpectrum B V → lam + δ ≤ μ
+  ∀ lam μ, lam ∈ restrictedPointSpectrum A U → μ ∈ restrictedPointSpectrum B V → lam + δ ≤ μ
+
+/-- The interval/exterior gap used by the factor-one Davis--Kahan `sin Θ` theorem:
+the selected `A` spectrum lies in `[a,b]`, while the complementary `B` spectrum lies outside
+`(a-δ,b+δ)`.  Bundling both halves prevents theorem signatures from accidentally dropping
+the selected-spectrum hypothesis. -/
+def IntervalExteriorGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E)
+    (B : F →ₗ[𝕜] F) (V : Submodule 𝕜 F) (a b δ : ℝ) : Prop :=
+  SpectrumIn A U (Set.Icc a b) ∧
+    SpectrumIn B V {lam | lam ∉ Set.Ioo (a - δ) (b + δ)}
 
 /-- The conversion between the two primitives, and the reason both are named: a theorem
 family stated against the weaker hypothesis applies to a caller holding the stronger one. -/
@@ -269,10 +296,10 @@ theorem SpectraSeparated.of_orderedGap {A : E →ₗ[𝕜] E} {U : Submodule �
 
 /-- Spectral inclusion on opposite sides of a cut gives ordered separation: the bridge that
 turns a hypothesis a caller can check into the one the theorems consume. -/
-theorem orderedGap_of_restrictedSpectrum_subset {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E}
+theorem orderedGap_of_restrictedPointSpectrum_subset {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E}
     {B : F →ₗ[𝕜] F} {V : Submodule 𝕜 F} {a δ : ℝ}
-    (hA : restrictedSpectrum A U ⊆ Set.Iic a)
-    (hB : restrictedSpectrum B V ⊆ Set.Ici (a + δ)) :
+    (hA : restrictedPointSpectrum A U ⊆ Set.Iic a)
+    (hB : restrictedPointSpectrum B V ⊆ Set.Ici (a + δ)) :
     OrderedGap A U B V δ := by
   sorry
 

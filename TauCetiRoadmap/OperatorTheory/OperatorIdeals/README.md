@@ -42,10 +42,9 @@ Suggested homes: `TauCeti/Analysis/OperatorIdeal/ApproximationNumber/`,
   explicit `Cardinal.lift`. Square operators are specializations.
 - **Scalar ladder.** Norm-and-rank over `NontriviallyNormedField 𝕜` on seminormed spaces;
   adjoint invariance and Eckart–Young over `RCLike 𝕜`. The finite-restriction min–max
-  converse is packaged as `HasMinMaxLowerBoundEverywhere 𝕜`; both `ℂ` and `ℝ` are
-  instances, the real instance by complexification. Ky Fan subadditivity and the induced
-  symmetric-ideal theory are stated once over `RCLike 𝕜` under that capability. Only
-  constructions that actually use the infinite-dimensional operator modulus remain `ℂ`-only.
+  converse is a pair-level proof lemma: direct over `ℂ`, and obtained once by complexification
+  over `ℝ`. Ky Fan subadditivity and the induced symmetric-ideal theory expose only the
+  natural `[RCLike 𝕜]` hypothesis to callers.
 - **The approximable/compact boundary.** `aₙ(T) → 0` characterizes finite-rank approximability
   on any normed pair, and approximable implies compact over a `ProperSpace` scalar. The
   converse is claimed **only for a Hilbert target** — it fails for general Banach spaces
@@ -145,17 +144,16 @@ carry `0 < k`.
   approximable implies compact; and, once the *target* is an inner product space, the
   converse, closing the boundary as an equivalence.
 - **Hilbert layer:** adjoint invariance `aₙ(T⋆) = aₙ(T)`, via rank invariance under the
-  adjoint and the adjoint isometry; over `ℂ` the sequence identity `aₙ(|T|) = aₙ(T)`, from
+  adjoint and the adjoint isometry; over `RCLike` the sequence identity `aₙ(|T|) = aₙ(T)`, from
   the pointwise identity `‖|T|x‖ = ‖Tx‖`, with the modulus belonging to
-  [`PolarDecomposition`](../PolarDecomposition/README.md); and the unconditional lower bound `c ≤ aₙ(T)` from a `c`-coercive
+  [`PolarDecomposition`](../PolarDecomposition/README.md), now scalar-generic; and the unconditional lower bound `c ≤ aₙ(T)` from a `c`-coercive
   subspace of rank `> n`, with unit-vector and linearly-independent-family forms.
 - **Min–max, both halves.** The orthogonal-tail equality on a complete source, its collapse
   to `0` once `n` reaches the source dimension, and the supremum formulation on the closed
   unit **ball** of `Vᗮ` — the sphere is empty at `V = ⊤`. The converse localization is the
-  field capability `HasMinMaxLowerBoundEverywhere 𝕜`: every strict lower bound of `aₙ(T)`
-  is beaten on a subspace spanned by `n + 1` independent vectors, making `aₙ(T)` the least
-  upper bound of its finite restrictions. The complex instance is direct; the real instance
-  is obtained by complexification.
+  pair-level predicate `HasMinMaxLowerBound`: every strict lower bound of `aₙ(T)` is beaten
+  on a subspace spanned by `n + 1` independent vectors, making `aₙ(T)` the least upper bound
+  of its finite restrictions. The complex proof is direct; the real proof uses complexification.
 - **Ky Fan gauges:** `kyFanGauge T 1 = ‖T‖`, the ideal laws, adjoint invariance, and the
   two-sided comparison `‖T‖ ≤ kyFanGauge T k ≤ k‖T‖` for `0 < k`. The lower bound fails at
   `k = 0`, where the gauge is the empty sum.
@@ -166,13 +164,12 @@ carry `0 < k`.
 `|σₙ(T) − σₙ(S)| ≤ ‖T − S‖` falls out by transport.
 
 **Milestone A2 — the Ky Fan triangle inequality from finite-restriction min–max.**
-For `[RCLike 𝕜] [HasMinMaxLowerBoundEverywhere 𝕜]`,
+For every `[RCLike 𝕜]`,
 `kyFanGauge (S + T) k ≤ kyFanGauge S k + kyFanGauge T k`. It is false termwise. The
 finite-dimensional case is the Ky Fan norm inequality of the majorization roadmap transported
 along Milestone A1; a finite-dimensional source with arbitrary codomain follows by range
-compression; the general case localizes along the min–max capability. Both `ℂ` and `ℝ`
-instantiate that capability, so Part B consumes one theorem rather than separate scalar-field
-versions.
+compression; the general case localizes through the pair-level min–max lemma. Part B
+consumes one `RCLike` theorem rather than separate scalar-field versions.
 
 **Milestone A3 — compact implies approximable on a Hilbert target.** A compact operator into
 a Hilbert space has `aₙ(T) → 0`, completing the boundary whose other three edges are in the
@@ -189,9 +186,10 @@ the stronger statement through a far smaller prerequisite than the spectral theo
 
 **Objects.** `OperatorIdealFamily 𝕜`: five fields — the gauge
 `gauge : (E →L[𝕜] F) → ℝ≥0∞` quantified over all Hilbert pairs in two independent universes,
-and its four laws. `SymmetricOperatorIdealFamily 𝕜` extends it with a fifth law, adjoint
-invariance, on the diagonal; `symmetricGaugeFamily` returns that type, since its gauge is
-adjoint invariant. Derived: the ideal as a submodule of finite gauge, and the carrier as a
+and its four laws. `SymmetricOperatorIdealFamily 𝕜` is the diagonal view that additionally
+records adjoint invariance. `symmetricGaugeFamily` keeps the rectangular base family across
+independent source and target universes, with `symmetricGaugeFamilySymmetric` as its diagonal
+adjoint-invariant view. Derived: the ideal as a submodule of finite gauge, and the carrier as a
 type synonym carrying the **ideal** norm — the bare subtype inherits the operator norm, which
 is the wrong instance.
 
@@ -205,12 +203,13 @@ is the wrong instance.
   Completeness of the carrier is **not** among them — the four laws do not force it. It is
   a separate property of a family. The operator-norm, finite Ky Fan, Hilbert–Schmidt,
   trace-class and finite-`p` Schatten families are complete; the Ky Fan, trace-class and
-  Schatten proofs use the min–max capability, while Hilbert–Schmidt completeness is
-  scalar-generic over `RCLike`.
+  Schatten proofs use the pair-level min–max localization, while Hilbert–Schmidt completeness
+  is scalar-generic over `RCLike`.
 - The instances, each with its gauge identified definitionally: the **operator norm** family,
-  whose carrier is `⊤`; the **Ky Fan families** over `RCLike 𝕜` with
-  `HasMinMaxLowerBoundEverywhere 𝕜`, indexed by `0 < k`; the **Hilbert–Schmidt family** over
-  `RCLike 𝕜`; and **trace class** over `RCLike 𝕜` with the min–max capability, with gauge the
+  whose carrier is `⊤`; the **Ky Fan families** over `RCLike 𝕜`, indexed by `0 < k`; the
+  **Hilbert–Schmidt family** over
+  `RCLike 𝕜`; and **trace class** over `RCLike 𝕜`, with the proof using the pair-level min–max
+  localization and gauge the
   nuclear norm `∑' n, aₙ(T)` in `ℝ≥0∞`.
 - The **Hilbert–Schmidt energy** `∑' i, ‖T (b i)‖ₑ ^ 2` in `ℝ≥0∞`, with no summability side
   conditions anywhere: Parseval in `ℝ≥0∞`, the rectangular adjoint swap by unconditional
@@ -262,29 +261,30 @@ sequences, and only the supremum form is correct.
 - **Monotone convergence is the only limit theorem needed**, so nothing here waits on a
   theory of symmetric sequence spaces.
 
-**The induced family** `symmetricGaugeFamily 𝕜 Φ`, for
-`[RCLike 𝕜] [HasMinMaxLowerBoundEverywhere 𝕜]`, has gauge
-`Φ∞ (fun n => aₙ T)`. Its five structure fields are theorems, each tracing to one input:
-subadditivity is Milestone B2 applied to `a(S + T)` against `a S + a T`; homogeneity is
-`aₙ(c • T) = ‖c‖ aₙ(T)` with homogeneity of `Φ`; domination of the operator norm is
-`a₀(T) = ‖T‖` with `‖a‖_∞ ≤ Φ a`; the composition bound is the two-sided ideal law with
-monotonicity of `Φ`; and adjoint invariance is `aₙ(T⋆) = aₙ(T)`. Subadditivity is the only
-hard one, which is why it is stated as Milestone B2.
+**The induced family** `symmetricGaugeFamily 𝕜 Φ`, for `[RCLike 𝕜]`, is rectangular across
+independent source and target universes and has gauge `Φ∞ (fun n => aₙ T)`. Its four base-family
+fields are theorems, each tracing to one input: subadditivity is Milestone B2 applied to
+`a(S + T)` against `a S + a T`; homogeneity is `aₙ(c • T) = ‖c‖ aₙ(T)` with homogeneity of
+`Φ`; domination of the operator norm is `a₀(T) = ‖T‖` with `‖a‖_∞ ≤ Φ a`; and the composition
+bound is the two-sided ideal law with monotonicity of `Φ`. Adjoint invariance is the separate
+cross-universe theorem `gauge_adjoint_symmetricGaugeFamily`; on the diagonal it is packaged as
+`symmetricGaugeFamilySymmetric`. Subadditivity is the only hard base-family law, which is why
+it is stated as Milestone B2.
 
 Equality of induced families determines the extended gauge on antitone sequences, and membership is invariant under `HasSameApproximationNumbers`; thus the resulting ideal depends only on the approximation-number sequence.
 
 ### Milestone B2 — the Ky Fan dominance principle
 
-For every symmetric gauge `Φ` and every scalar field carrying the min–max capability, the
+For every symmetric gauge `Φ` and every `RCLike` scalar field, the
 family `symmetricGaugeFamily 𝕜 Φ` is Ky Fan dominant. Equivalently, and more usefully as a
 lemma about sequences: if antitone `a` and `b` satisfy
 `∑_{n<k} aₙ ≤ ∑_{n<k} bₙ` for every `k`, then `Φ∞ a ≤ Φ∞ b`.
 
 The sequence form is the Hardy–Littlewood–Pólya transfer of the majorization roadmap: a
 weakly majorized vector is dominated termwise by a convex combination of permutations of the
-majorizing one, and `Φ` is monotone, symmetric and convex. Lifting to sequences is monotone
-convergence along the truncations, and that is the whole infinite-dimensional content — which
-is why the extension in B1 is a supremum of truncations.
+majorizing one, and `Φ` is monotone, symmetric and convex. Lifting to sequences uses the
+supremum over finitely supported dominated sequences; on the antitone approximation-number
+sequences this reduces to monotone convergence along the initial truncations.
 
 This milestone delivers the triangle inequality for every symmetric ideal norm at once.
 Milestone A2 says exactly that `a(S + T)` is weakly majorized by `a(S) + a(T)`; feeding that
@@ -296,16 +296,18 @@ Part B needs A2 directly.
 
 `schattenGauge p` for each finite real exponent `1 ≤ p`, with
 `Φ_p a = (∑ aₙ^p)^{1/p}`, and a separately named infinity endpoint
-`schattenFamilyInf 𝕜` whose gauge is `Φ_∞ = ‖·‖_∞`; for finite `p` and any
-`[RCLike 𝕜] [HasMinMaxLowerBoundEverywhere 𝕜]`,
-`schattenFamily 𝕜 p = symmetricGaugeFamily 𝕜 (schattenGauge p)`, so **the Schatten classes
-are obtained rather than constructed**, and their laws are B1's.
+`schattenFamilyInf 𝕜` whose gauge is `Φ_∞ = ‖·‖_∞`, together with its adjoint-invariant
+diagonal view `schattenFamilyInfSymmetric`; for finite `p` and any `[RCLike 𝕜]`,
+`schattenFamily 𝕜 p = symmetricGaugeFamily 𝕜 (schattenGauge p)` is likewise rectangular across
+independent universes, with diagonal view `schattenFamilySymmetric 𝕜 p`. Thus **the Schatten
+classes are obtained rather than constructed**, and their laws are B1's.
 
 - `Φ_p` is a symmetric gauge: subadditivity is Minkowski in `ℓᵖ`, monotonicity and symmetry
   are termwise, normalization is by inspection.
-- The endpoint identifications, each an equality of *families* and not merely of gauges on
-  the ideal: `schattenFamily 1` is the trace-class family, `schattenFamily 2` has the
-  Hilbert–Schmidt gauge, and `schattenFamilyInf` is the operator-norm family.
+- The endpoint identifications, each an equality of rectangular *families* and not merely of
+  gauges on the ideal: `schattenFamily 1` is the trace-class family, `schattenFamily 2` has the
+  Hilbert–Schmidt gauge, and `schattenFamilyInf` is the operator-norm family. Their diagonal
+  symmetric views agree as a consequence.
 - The scale is monotone — `p ≤ q → gauge_q T ≤ gauge_p T`, hence `S_p ⊆ S_q` — with the
   inclusions strict, witnessed by a diagonal operator with coefficients `n ↦ (n + 1)^{-1/r}` for
   `p < r < q`, the same diagonal machinery as Part A's acceptance example (6).
@@ -322,7 +324,7 @@ Both sides are basis-independent, so the statement is well-posed; the proof is t
 singular-value expansion of a Hilbert–Schmidt operator, and it is the one place in Part B
 where Milestone A3 is needed.
 
-### Milestone B4 — block sums and scalar min–max instances
+### Milestone B4 — block sums and the min–max proof interface
 
 **Block sums.** For an orthogonal decomposition of source and target and a block-diagonal
 operator, the approximation-number sequence of the sum is the decreasing rearrangement of the
@@ -332,14 +334,11 @@ two-block case consumers use, the sharp comparison
 restriction–corestriction through the two-sided ideal law; the upper is subadditivity applied
 to the two extensions by zero.
 
-**Scalar min–max instances.** The complex field satisfies
-`HasMinMaxLowerBoundEverywhere ℂ` directly. A real Hilbert space complexifies, and
-complexification preserves the approximation-number and finite-restriction data needed for
-the converse min–max theorem, giving `HasMinMaxLowerBoundEverywhere ℝ`. Once those two
-instances are installed, the Ky Fan triangle inequality, symmetric-gauge construction, Ky
-Fan dominance and finite-`p` Schatten families are all the same `RCLike` declarations for
-`ℝ` and `ℂ`; complexification is spent once at the capability boundary rather than repeated
-through the ideal theory.
+**Min–max proof interface.** Prove the pair-level converse localization directly over `ℂ` and
+by real complexification over `ℝ`; complexification preserves exactly the approximation-number
+and finite-restriction data that lemma needs.  The public Ky Fan, symmetric-gauge and Schatten
+statements remain bare-`RCLike` theorems.  The pair-level predicate is reusable proof
+infrastructure, not an assumption exposed to consumers.
 
 ### Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
 
