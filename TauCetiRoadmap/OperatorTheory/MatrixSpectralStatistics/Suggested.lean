@@ -17,7 +17,7 @@ library — these are goals, not proofs.
 namespace TauCetiRoadmap.MatrixSpectralStatistics
 
 open MeasureTheory InnerProductSpace
-open scoped ENNReal Matrix
+open scoped ENNReal Matrix ComplexOrder
 
 /-! ## Part A -- rank factorization and positive-semidefinite Gram factorization -/
 
