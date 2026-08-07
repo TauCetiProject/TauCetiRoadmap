@@ -87,7 +87,7 @@ The gaps to fill are:
 - **No finite-rank-implies-compact lemma.** A Part A target.
 - **No hypothesis-free `ℝ≥0∞` Minkowski for `tsum`.** `NNReal.Lp_add_le_tsum` carries
   summability hypotheses on both summands and there is no `ENNReal` `tsum` form; the energy
-  layer needs one at `1 ≤ p`. Upstreaming it would be a reasonable Mathlib contribution.
+  layer needs one at `1 ≤ p`. 
 - **In motion.** Mathlib PR
   [#32126](https://github.com/leanprover-community/mathlib4/pull/32126) drafts a zero-based
   `ContinuousLinearMap.singularValue : ℕ → ℝ≥0`; see also the
