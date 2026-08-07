@@ -5,11 +5,11 @@ Mathlib's Riemannian library has the metric-and-distance layer: `RiemannianBundl
 `Mathlib/Geometry/Manifold/Riemannian/Basic.lean`, while `Manifold.pathELength` and
 `Manifold.riemannianEDist` live in `Mathlib/Geometry/Manifold/Riemannian/PathELength.lean`.
 Mathlib also has general covariant derivatives and their torsion. The pinned revision predates
-Mathlib's `CovariantDerivative.IsMetricCompatible`; after the next dependency bump, consume that
-predicate rather than maintaining a local duplicate. The owned Riemannian connection-and-geodesic
-work is existence and uniqueness and `C^∞` regularity of the Levi-Civita connection, covariant
-differentiation along curves, geodesics and their flow, the exponential map, and geodesic
-completeness. Without that layer, Hopf–Rinow — which ties metric completeness of a Riemannian
+Mathlib's `CovariantDerivative.IsMetricCompatible`; whenever the working Mathlib revision contains
+it, consume that predicate rather than maintaining a local duplicate. The owned Riemannian
+connection-and-geodesic work is existence and uniqueness and `C^∞` regularity of the Levi-Civita
+connection, covariant differentiation along curves, geodesics and their flow, the exponential map,
+and geodesic completeness. Without that layer, Hopf–Rinow — which ties metric completeness of a Riemannian
 manifold to the global existence of its geodesics — cannot yet be stated.
 
 Suggested home: `TauCeti/Geometry/Manifold/Riemannian/Geodesic/`. Shared connection and
@@ -82,12 +82,12 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
   (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.lean`), together with the
   torsion tensor and `CovariantDerivative.torsion_eq_zero_iff`
   (`.../CovariantDerivative/Torsion.lean`).
-- **Metric compatibility after the next dependency bump.** Current Mathlib master provides
+- **Metric compatibility in newer Mathlib revisions.** Mathlib after mathlib4#36299 provides
   `CovariantDerivative.IsMetricCompatible` in
   `Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Metric.lean` (from
   [mathlib4#36299](https://github.com/leanprover-community/mathlib4/pull/36299)). That file is absent
-  from the pinned revision; consume the upstream predicate after the bump rather than defining a
-  lasting duplicate here.
+  from the pinned revision; use the Mathlib predicate whenever the working dependency contains it
+  rather than defining a lasting duplicate here.
 - **Completeness and properness.** `CompleteSpace`, `ProperSpace`, the instances
   `complete_of_proper` and `proper_of_compact`, `Metric.isCompact_iff_isClosed_bounded` (under
   `[T2Space M]`), `IsClosed.completeSpace_coe`, and the Cauchy/total-boundedness API
@@ -127,7 +127,7 @@ torsion, ODE, and integral-curve APIs above while building these results.
 
 ## Prior art and coordination
 
-There is active Mathlib work on the substrate this roadmap needs:
+The following Mathlib work establishes API direction for the substrate this roadmap needs:
 
 - [mathlib4#36036](https://github.com/leanprover-community/mathlib4/pull/36036) coordinates work
   on connections and geodesics, and
@@ -142,10 +142,10 @@ There is active Mathlib work on the substrate this roadmap needs:
   [mathlib4#40062](https://github.com/leanprover-community/mathlib4/pull/40062) restates ODE
   existence and uniqueness through the integral-curve API.
 
-These are in-flight dependencies, not facts to assume from the pinned Mathlib. Before beginning
-the overlapping milestones, check their status, follow any API that has landed, coordinate with
-their authors, and keep unavoidable local definitions as temporary shims to remove after
-upstreaming.
+These proposals determine API shape but are not Tau Ceti dependencies. Implement every missing
+milestone in Tau Ceti without waiting: first use declarations present in the working Mathlib pin,
+and otherwise follow the proposals' API direction where practical. If Mathlib later supplies an
+equivalent declaration, remove the local version and adopt Mathlib's.
 
 ### Existing implementation provenance (secondary)
 
@@ -170,9 +170,9 @@ provenance under `formalized-sources/DoCarmo/` is concentrated in:
 
 Coordination outcome for this roadmap PR: the roadmap author also owns that repository and agrees
 that it may be used as prior art and adapted under Apache-2.0; no source from it is being
-integrated or copied in this PR. Before a later implementation ports or adapts it, the implementor
-must coordinate with the Mathlib contributors, record the source revision and Apache-2.0
-attribution, and agree which parts should instead be replaced by the upstream work listed above.
+integrated or copied in this PR. Before an implementation ports or adapts it, the implementor must
+record the source revision and Apache-2.0 attribution, use any corresponding declarations already
+present in the working Mathlib pin, and implement every remaining roadmap target in Tau Ceti.
 
 ---
 
@@ -217,22 +217,23 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   where the metric-level API already proves a fact, consume it.
 
 ### Layer 1: the geodesic equation, the flow, and the exponential map
-- **The Levi-Civita connection:** after the next dependency bump, consume
-  `CovariantDerivative.IsMetricCompatible` from Mathlib's `Metric.lean`; it is absent from the
-  pinned revision and must not be replaced by a lasting local predicate. If a temporary shim is
-  needed before that bump, remove it when the upstream API is available. Prove existence and
-  uniqueness of the torsion-free, metric-compatible connection, reusing
-  `CovariantDerivative.torsion_eq_zero_iff`; consume mathlib4#36845 if it lands first. Otherwise
-  this roadmap owns the implementation in the shared manifold connection namespace; the
-  Geometric Topology roadmap consumes the resulting API.
+- **The Levi-Civita connection:** use `CovariantDerivative.IsMetricCompatible` from Mathlib's
+  `Metric.lean` whenever the working dependency contains it. At the pinned revision, define only
+  the matching local shim needed to state metric compatibility, and remove that shim when the
+  Mathlib declaration becomes available. Prove existence and uniqueness of the torsion-free,
+  metric-compatible connection, reusing `CovariantDerivative.torsion_eq_zero_iff`.
+  mathlib4#36845 is the design reference: adopt its implementation when available, and otherwise
+  implement the same milestone in Tau Ceti's shared manifold connection namespace. This roadmap
+  owns delivery in either case; the Geometric Topology roadmap consumes the resulting API.
 - **Regularity of the Levi-Civita connection:** under the standing `C^∞` manifold and metric
   hypotheses, prove `ContMDiffCovariantDerivative ∇ ∞` for the resulting Levi-Civita connection
   `∇`. In every smooth tangent-bundle chart, define its local Christoffel-symbol map
   `x ↦ Γ_x` and prove that it is `C^∞` on the chart source, as a map into the continuous bilinear
   maps on the model space; also expose the corresponding smoothness of its scalar coordinate
-  coefficients. Consume an upstream regularity API if one lands, but do not treat mathlib4#36845
-  alone as supplying it. This milestone precedes and supplies the regularity input for the
-  geodesic-spray milestone below.
+  coefficients. This roadmap owns that proof in Tau Ceti; adopt an equivalent Mathlib regularity
+  API whenever the working dependency supplies one, but do not treat mathlib4#36845 alone as
+  supplying it. This milestone precedes and supplies the regularity input for the geodesic-spray
+  milestone below.
 - **Covariant derivative along a curve:** construct the pullback of a covariant derivative along
   `γ` and its action on sections of `γ*TM`. Establish linearity, the Leibniz rule, locality under
   restriction, naturality under reparametrization, agreement with the ambient derivative for a
@@ -262,13 +263,14 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   two such intervals.
 - **Smooth dependence and the local geodesic flow:** prove `C^∞` dependence on time and initial
   data and package the resulting local flow on `TM`. This is a target, not a theorem available in
-  the pinned ODE library; consume mathlib4#26394 and mathlib4#40062 if their APIs land first.
+  the pinned ODE library. Use mathlib4#26394 and mathlib4#40062 as design references, implement the
+  target in Tau Ceti, and adopt their APIs whenever the working Mathlib dependency supplies them.
 - **Constant speed:** on a preconnected parameter set `s`, the Riemannian norm `‖γ'‖` takes the
   same value at every two points of `s` because the connection is metric; without preconnectedness,
   state the conclusion componentwise. Prove in particular the form for the maximal open intervals
   below; this is the lemma that makes a geodesic Cauchy at a finite endpoint of its interval.
-- **Maximal interval and homogeneity:** using the preceding local theory (and mathlib4#26413 if it
-  lands first), define the maximal open interval `J(p,v)` from genuine geodesic witnesses with
+- **Maximal interval and homogeneity:** using the preceding local theory and mathlib4#26413 as an
+  API reference, define the maximal open interval `J(p,v)` from genuine geodesic witnesses with
   initial data `(p,v)`. State
   `γ_{p,λv}(t) = γ_{p,v}(λt)` only when the corresponding times belong to their maximal intervals,
   together with the precise relation between those domains.
@@ -276,8 +278,9 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   interval `J` with finite right endpoint `b`, prove that if `t_n ∈ J`, `t_n → b`, and
   `z (t_n) → z_b` in `TM`, then local existence at `z_b` and uniqueness on the overlap extend `z`
   past `b`, contradicting maximality; state the left-endpoint analogue too. This is a named target
-  because the pinned integral-curve API has no maximal-solution extension theorem; consume
-  mathlib4#26413 if it supplies the required form first.
+  because the pinned integral-curve API has no maximal-solution extension theorem. Implement it in
+  Tau Ceti, adopting mathlib4#26413's result whenever the working Mathlib dependency supplies the
+  required form.
 - **Exponential-map basic API:** define `expDomain p = {v | 1 ∈ J(p,v)}` and
   `exp_p v = γ_{p,v}(1)` there. Prove `0 ∈ expDomain p`, `exp_p 0 = p`, and
   `IsOpen (expDomain p)`. On the open subset of the geodesic-flow domain where time `1` is
@@ -395,7 +398,8 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   and that a complete connected Riemannian manifold is both, using `(f_p)` and the Layer-0 length
   comparison. Coordinate names and reuse with [Evan Bailey's Lean Zulip metric-length
   proposal](https://leanprover-community.github.io/archive/stream/113489-new-members/topic/Evan.20Bailey.20%28self-introduction%29.html#476429541)
-  before upstreaming this shared API; this roadmap owns delivery if no upstream definition lands.
+  when implementing this shared API. This roadmap owns delivery in Tau Ceti; if Mathlib later
+  supplies an equivalent API, adopt it.
 - **Transport across smooth Riemannian isometries:** define a smooth Riemannian isometry between
   two standing-hypothesis manifolds as an equivalence whose forward and inverse maps are `C^∞` and
   whose tangent maps preserve the Riemannian inner products at every point. Transport the
