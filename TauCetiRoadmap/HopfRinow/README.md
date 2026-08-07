@@ -389,9 +389,15 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   comparison. Coordinate names and reuse with [Evan Bailey's Lean Zulip metric-length
   proposal](https://leanprover-community.github.io/archive/stream/113489-new-members/topic/Evan.20Bailey.20%28self-introduction%29.html#476429541)
   before upstreaming this shared API; this roadmap owns delivery if no upstream definition lands.
-- **Transport of geodesic completeness** across isometries and through the
-  `IsRiemannianManifold` identification, so downstream roadmaps (constant-curvature model spaces)
-  apply the theory without reopening it.
+- **Transport across smooth Riemannian isometries:** define a smooth Riemannian isometry between
+  two standing-hypothesis manifolds as an equivalence whose forward and inverse maps are `C^∞` and
+  whose tangent maps preserve the Riemannian inner products at every point. Transport the
+  Levi-Civita connection and identify it with the target connection by uniqueness; then prove
+  preservation of geodesics, maximal intervals, exponential maps, and geodesic completeness,
+  including transport through the `IsRiemannianManifold` identification for downstream roadmaps
+  (constant-curvature model spaces). Do not state this for a bare metric `IsometryEquiv`: obtaining
+  the required smoothness from metric preservation is a Myers–Steenrod theorem, which would be a
+  separate owned milestone.
 
 ## Worked examples (acceptance criteria, keeping the theory honest)
 
