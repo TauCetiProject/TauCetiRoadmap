@@ -13,8 +13,8 @@ Riemannian manifold to the global existence of its geodesics — cannot yet be s
 Suggested home: `TauCeti/Geometry/Manifold/Riemannian/Geodesic/`. Shared connection and
 local-diffeomorphism prerequisites belong under `TauCeti/Geometry/Manifold/`, but their delivery
 is explicitly owned by this roadmap rather than deferred to another roadmap. In particular, this
-roadmap owns the Levi-Civita connection, geodesics and their flow, exponential maps and their local
-inverse logarithms, and Hopf--Rinow. The [Geometric Topology
+roadmap owns the Levi-Civita connection and its regularity, geodesics and their flow, exponential
+maps and their local inverse logarithms, and Hopf--Rinow. The [Geometric Topology
 roadmap](../GeometricTopology/README.md) consumes the connection to build curvature and volume;
 the [Optimal Transport roadmap](../OptimalTransport/README.md) consumes the exponential,
 logarithm, completeness, and minimizing-geodesic APIs and owns the subsequent cut-locus and
@@ -97,16 +97,16 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
 
 ## What is missing (build here)
 
-Metric compatibility for a covariant derivative and existence and uniqueness of the
-Levi-Civita connection; the pullback connection and covariant differentiation along a curve;
+Metric compatibility for a covariant derivative; existence, uniqueness, and `C^∞` regularity of
+the Levi-Civita connection; the pullback connection and covariant differentiation along a curve;
 the geodesic spray, its smooth local flow, and maximal intervals of existence; an interval-aware
 geodesic predicate carrying its parameter set and initial data; constant speed; the exponential
-map and its domain; the manifold inverse-function theorem needed for normal coordinates; normal
-neighbourhoods and their local inverse logarithms, the Gauss lemma, and minimizing geodesic
-segments; geodesic completeness; and the Hopf–Rinow equivalence itself. Open-submanifold metric
-restriction and metric-level length-space and geodesic-space interfaces are also missing. The
-roadmap must consume the general connection, torsion, ODE, and integral-curve APIs above while
-building these results.
+map, openness of its natural domain, and its smooth basic API; the manifold inverse-function
+theorem needed for normal coordinates; normal neighbourhoods and their local inverse logarithms,
+the Gauss lemma, and minimizing geodesic segments; geodesic completeness; and the Hopf–Rinow
+equivalence itself. Open-submanifold metric restriction and metric-level length-space and
+geodesic-space interfaces are also missing. The roadmap must consume the general connection,
+torsion, ODE, and integral-curve APIs above while building these results.
 
 ## Prior art and coordination
 
@@ -115,7 +115,9 @@ There is active Mathlib work on the substrate this roadmap needs:
 - [mathlib4#36036](https://github.com/leanprover-community/mathlib4/pull/36036) coordinates work
   on connections and geodesics, and
   [mathlib4#36845](https://github.com/leanprover-community/mathlib4/pull/36845) develops the
-  Levi-Civita connection on a manifold.
+  Levi-Civita connection on a manifold. The latter constructs the bare `CovariantDerivative` but
+  explicitly leaves its `C^k` regularity to future work, so it does not by itself discharge the
+  regularity milestone below.
 - [mathlib4#26413](https://github.com/leanprover-community/mathlib4/pull/26413) develops maximal
   solutions under Picard–Lindelöf hypotheses,
   [mathlib4#26394](https://github.com/leanprover-community/mathlib4/pull/26394) develops local
@@ -203,6 +205,14 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   metric-compatible connection. Reuse `CovariantDerivative.torsion_eq_zero_iff`; consume
   mathlib4#36845 if it lands first. Otherwise this roadmap owns the implementation in the shared
   manifold connection namespace; the Geometric Topology roadmap consumes the resulting API.
+- **Regularity of the Levi-Civita connection:** under the standing `C^∞` manifold and metric
+  hypotheses, prove `ContMDiffCovariantDerivative ∇ ∞` for the resulting Levi-Civita connection
+  `∇`. In every smooth tangent-bundle chart, define its local Christoffel-symbol map
+  `x ↦ Γ_x` and prove that it is `C^∞` on the chart source, as a map into the continuous bilinear
+  maps on the model space; also expose the corresponding smoothness of its scalar coordinate
+  coefficients. Consume an upstream regularity API if one lands, but do not treat mathlib4#36845
+  alone as supplying it. This milestone precedes and supplies the regularity input for the
+  geodesic-spray milestone below.
 - **Covariant derivative along a curve:** construct the pullback of a covariant derivative along
   `γ` and its action on sections of `γ*TM`. Establish linearity, the Leibniz rule, locality under
   restriction, naturality under reparametrization, agreement with the ambient derivative for a
@@ -240,10 +250,19 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   past `b`, contradicting maximality; state the left-endpoint analogue too. This is a named target
   because the pinned integral-curve API has no maximal-solution extension theorem; consume
   mathlib4#26413 if it supplies the required form first.
-- **Exponential map:** define `expDomain g p = {v | 1 ∈ J_g(p,v)}` and
-  `exp_p v = γ_{p,v}(1)` on that domain, with `exp_p 0 = p`. Any total implementation with a junk
-  value outside the natural domain must carry a `v ∈ expDomain g p` hypothesis in mathematical
-  statements.
+- **Exponential-map basic API:** define `expDomain g p = {v | 1 ∈ J_g(p,v)}` and
+  `exp_p v = γ_{p,v}(1)` there. Prove `0 ∈ expDomain g p`, `exp_p 0 = p`, and
+  `IsOpen (expDomain g p)`. On the open subset of the geodesic-flow domain where time `1` is
+  defined, prove that evaluation of the smooth flow at time `1`, restricted to initial states
+  `(p,v)`, is `C^∞`; identify its base projection with `exp_p`. Deduce that `exp_p`, as a map from
+  `T_p M` to `M`, is `C^∞` on `expDomain g p`, and expose the resulting `ContinuousOn` theorem and
+  the `ContMDiffAt` and `ContinuousAt` consequences at every point of the domain. Specialize the
+  preceding homogeneity theorem to prove
+  `t ∈ J_g(p,v) ↔ t • v ∈ expDomain g p` and, under these equivalent domain conditions,
+  `exp_p (t • v) = γ_{p,v}(t)`; deduce that `expDomain g p` is star-shaped at `0`. If `exp_p` is
+  implemented as a total function with a junk value outside its natural domain, make every theorem
+  that uses its mathematical value carry the relevant domain hypothesis; require no continuity at
+  boundary points or outside the domain.
 - **The derivative at zero:** make the canonical identification
   `T_0(T_p M) ≃L[ℝ] T_p M` explicit using `NormedSpace.fromTangentSpace`, and prove that
   `mfderiv exp_p 0` is the identity under this identification. Record the corresponding strict
@@ -366,13 +385,15 @@ assumption:
 
 Layer 0 first: corner smoothing, open-submanifold restriction, the piecewise-`C¹`/`C¹` infimum
 comparison, global finiteness of the extended distance, and only then the ordinary metric-space
-presentation settle the metric convention. In Layer 1, the Levi-Civita
-connection and along-curve derivative come before the geodesic spray; the spray then feeds local
-existence, smooth dependence, constant speed, maximal intervals, the finite-endpoint extension
-criterion, and `exp_p`. The derivative of `exp_p` and the manifold inverse-function theorem
-precede Layer 2's normal neighbourhoods and local logarithms. Layer 2 supplies the local minimizing
-theory. Layer 3 closes the explicit Hopf–Rinow implication graph, and Layer 4 packages its
-corollaries and the shared metric length/geodesic-space API.
+presentation settle the metric convention. In Layer 1, construct the Levi-Civita connection, prove
+its `C^∞` regularity and the chart-level smoothness of its Christoffel symbols, and build the
+along-curve derivative before constructing the geodesic spray. The spray then feeds local
+existence, smooth dependence, constant speed, maximal intervals, and the finite-endpoint extension
+criterion. Next build the open-domain, smooth exponential-map basic API; only then prove the
+derivative of `exp_p` and apply the manifold inverse-function theorem. These precede Layer 2's
+normal neighbourhoods and local logarithms. Layer 2 supplies the local minimizing theory. Layer 3
+closes the explicit Hopf–Rinow implication graph, and Layer 4 packages its corollaries and the
+shared metric length/geodesic-space API.
 
 ## References
 
