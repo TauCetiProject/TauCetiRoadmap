@@ -43,7 +43,7 @@ variable {𝕜 : Type*} [RCLike 𝕜]
 multiplication by `√w` is a linear isometric equivalence `L²(w·μ) ≃ₗᵢ L²(μ)`
 (`w·μ := μ.withDensity (ofReal ∘ w)`); an *equivalence* precisely because `w > 0` a.e. (`hwpos`
 load-bearing). Purely measure-theoretic, so stated over an arbitrary `MeasurableSpace` (only the
-polynomial bridge below needs `Measure ℝ`); a genuine Mathlib gap and an upstream candidate. The
+polynomial bridge below needs `Measure ℝ`); a genuine Mathlib gap. The
 single primitive converting weight-in-measure ↔ weight-in-function; transports any Hilbert basis
 across (`mapₗᵢ`). -/
 noncomputable def weightL2Isometry {α : Type*} [MeasurableSpace α] (μ : Measure α) (w : α → ℝ)

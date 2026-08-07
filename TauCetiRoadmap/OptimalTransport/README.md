@@ -283,8 +283,8 @@ cost, real cost-generic results through `ENNReal.ofReal`, gluing, finite
 linear-programming attainment and approximation, hard Kantorovich--Rubinstein duality,
 map functoriality, and lower semicontinuity of `W₁`.  Its argument order is the convention
 pinned above, while the eventual namespace remains a coordination decision.  This work is
-a migration and upstream-coordination source, not permission to specialize the full
-roadmap to `W₁` or to its application.
+a migration source, not permission to specialize the full roadmap to `W₁` or to its
+application.
 
 Daniel Lyng's Apache-2.0
 [`Econlib/Optimization/OptimalTransport`](https://github.com/danlyng/Econlib/tree/003655ccf010cdf44c4f67d6675167b54ce0e9df/Econlib/Optimization/OptimalTransport)
@@ -310,7 +310,7 @@ topology do not replace the raw-measure and Polish-space foundation here.
 Before porting or adapting these developments, coordinate with Joseph Miller, Daniel
 Lyng, and the VCVio maintainers
 [@quangvdao](https://github.com/quangvdao) and [@dtumad](https://github.com/dtumad).  Decide
-whether reusable PMF/SPMF results should be upstreamed, adapted through bridge lemmas, or
+whether reusable PMF/SPMF results should be ported here, adapted through bridge lemmas, or
 kept as application-specific prior art; agree on attribution and API direction, and
 record the pinned source SHA, license provenance, and chosen boundary in the
 implementation PR.  Even an independent implementation should coordinate to avoid
@@ -671,7 +671,8 @@ tower rather than hiding it inside the final proof.
    conjugate-subgradient reciprocity, and the algebraic Rockafellar theorem for cyclically
    monotone sets.  Under compatible Hausdorff locally convex topologies, prove the
    lower-semicontinuous Fenchel--Moreau theorem.  Consume Mathlib's `SeparatingDual` and
-   `LocallyConvexSpace` vocabulary where applicable and upstream general-purpose additions.
+   `LocallyConvexSpace` vocabulary where applicable, and state the general-purpose additions
+   at the generality that vocabulary supports.
 2. Specialize the dual-pair tower to finite-dimensional real spaces: build epigraphs and
    effective domains; consume Mathlib's `affineSpan` and `intrinsicInterior` API for
    relative interiors, adding only the convex-analysis bridge lemmas it lacks; and prove
@@ -1847,10 +1848,11 @@ library.
    finite/Dirac/product specializations, and theorem aliases only where Mathlib convention
    calls for them.  Definitions must not expose arbitrary basepoints, normalizations, or
    representatives.
-3. Extract general-purpose additions--gluing, lower-semicontinuous integral lemmas,
+3. Keep the general-purpose additions--gluing, lower-semicontinuous integral lemmas,
    extended convex duality, metric curves, the advanced `klDiv` API, signed Boltzmann
-   entropy, and Fréchet means--to Mathlib in coordinated PRs when maintainers agree.  Tau
-   Ceti consumes the upstream form after merge rather than preserving parallel APIs.
+   entropy, and Fréchet means--separate from the transport-specific material, each stated
+   at its own natural generality, so nothing reusable is trapped behind a Wasserstein
+   hypothesis.
 4. Write module documentation that maps hypotheses to the theorem regimes in this
    roadmap.  Each headline theorem should have a compact canonical corollary and a link to
    the more general form, not a proliferation of unrelated re-statements.

@@ -8,7 +8,7 @@ https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Both named summits are reached: the Hermite functions are a complete orthonormal basis of `L²(ℝ)` and the Chebyshev polynomials a complete orthonormal basis of their weighted `L²`, assembled from one family-agnostic layer that also produces the weighted-measure and multidimensional bases. What remains is not a missing theorem but missing packaging: expansion API for the non-Hermite bases, operator-level statements, and upstreaming two general-purpose primitives.
+**At a glance.** Both named summits are reached: the Hermite functions are a complete orthonormal basis of `L²(ℝ)` and the Chebyshev polynomials a complete orthonormal basis of their weighted `L²`, assembled from one family-agnostic layer that also produces the weighted-measure and multidimensional bases. What remains is not a missing theorem but missing packaging: expansion API for the non-Hermite bases, and operator-level statements.
 
 ### Named results
 
@@ -33,5 +33,4 @@ Part A is done: the Hermite polynomial calculus and both forms of the orthogonal
 - **Expansion API for the Chebyshev and Gaussian Hermite bases** — Parseval exists generically and concretely for the Hermite functions, but the coefficient, summability and expansion lemmas have no counterpart yet for `chebyshevTHilbertBasis` or `gaussianHermiteHilbertBasis`. Pure specialization; no blocker.
 - **The Fourier transform as a diagonalized operator on `L²(ℝ)`** — lifting the `(-i)ⁿ` eigenrelation from the pointwise integral to a unitary on `Lp` needs the rescaled `Φₙ` packaged as `L²` vectors and identified with a dilation of `hermiteFunctionLp`.
 - **Ladder operators on `L²`** — `a` and `a†` as continuous linear operators with `[a,a†] = 1`. The identities are already available at Schwartz level via [`hermiteSchwartzMap`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/SpecialFunctions/Hermite/Function/Schwartz.html#TauCeti.hermiteSchwartzMap), which is exactly the form the roadmap wanted so the operator packaging costs no reproving.
-- **Upstreaming `weightL2Isometry` and `HilbertBasis.mapₗᵢ`** — both are measure-theoretic or Hilbert-space generic, independent of the polynomial layer, and the roadmap flags both as Mathlib candidates.
 - **Laguerre and Jacobi** — out of scope as stated, and the roadmap's reason still holds: those families would have to be defined before any `L²` basis statement about them can be made.

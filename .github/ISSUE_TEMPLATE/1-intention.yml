@@ -21,6 +21,7 @@ body:
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - ContourIntegration
+        - EllipticCurves
         - Exchangeability
         - GeometricTopology
         - HeegaardFloer

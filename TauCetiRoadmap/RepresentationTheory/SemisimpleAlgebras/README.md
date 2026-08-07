@@ -170,8 +170,8 @@ are the central-simple and Brauer theory over a field, resting on Layers 0-3.
 
 This layer is supporting cleanup, not on the critical path: character theory and the central-simple/Brauer
 development need finite-dimensional semisimple structure, not the full left-right symmetry of semiprimary
-rings. Discharge it as upstream cleanup, or skip to Layer 1 and pull in only the radical facts a later
-theorem explicitly names.
+rings. Build it as general supporting API, or skip to Layer 1 and pull in only the radical facts a
+later theorem explicitly names.
 
 - **The radical as an intersection and its quotient.** Consume `Ring.jacobson`, `jacobson_quotient_jacobson`,
   `IsSemisimpleRing.jacobson_eq_bot`, and `IsArtinianRing.isSemisimpleRing_iff_jacobson`. Build the
