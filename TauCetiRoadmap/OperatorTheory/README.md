@@ -58,16 +58,17 @@ scope and dependencies.
 ## How they depend on one another
 
 
-| roadmap | mathematical prerequisites |
-|---|---|
-| `PolarDecomposition` | Mathlib |
-| `OrthogonalGeometry` | Mathlib |
-| `Majorization` | `PolarDecomposition`, `OrthogonalGeometry` |
-| `PrincipalAngles` | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization` |
-| `SelfAdjointSpectralTheory` | `OrthogonalGeometry` |
-| `OperatorIdeals` | `PolarDecomposition`, `Majorization` |
-| `MatrixSpectralStatistics` | `PolarDecomposition`, `SelfAdjointSpectralTheory` |
+| roadmap                        | mathematical prerequisites                                                                                 |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `PolarDecomposition`           | Mathlib                                                                                                    |
+| `OrthogonalGeometry`           | Mathlib                                                                                                    |
+| `Majorization`                 | `PolarDecomposition`, `OrthogonalGeometry`                                                                 |
+| `PrincipalAngles`              | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization`                                                 |
+| `SelfAdjointSpectralTheory`    | `OrthogonalGeometry`                                                                                       |
+| `OperatorIdeals`               | `PolarDecomposition`, `Majorization`                                                                       |
+| `MatrixSpectralStatistics`     | `PolarDecomposition`, `SelfAdjointSpectralTheory`                                                          |
 | `SpectralSubspacePerturbation` | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization`, `PrincipalAngles`, `SelfAdjointSpectralTheory` |
+
 
 `PrincipalAngles` needs `Majorization` for Davis's eigenvalue-change bound, which runs
 through Birkhoff's theorem and the permutation-orbit convex hull. `OperatorIdeals` needs it
