@@ -54,8 +54,8 @@ The route's own pieces are named and reusable: the extremal family
 `TauCeti.IsPointedDiscInjectionOn` and its maximizer, the Koebe expansion step, the disc-injection
 nonemptiness, and holomorphic (not merely continuous) branch-log and `n`-th-root statements
 (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/BranchLogRoot.html#TauCeti.exists_differentiableOn_pow_eq>)
-upgrading Mathlib's `BranchLogRoot`. All of this is shim material under the roadmap's coordination
-clause.
+upgrading Mathlib's `BranchLogRoot`. All of this duplicates material Mathlib's own RMT work is
+formalizing, and the roadmap commits to deleting it and refactoring onto Mathlib's if that lands.
 
 **L4 — analytic continuation and reflection: done for the stated targets.** The Schwarz reflection
 principle across the real axis, in explicit-witness and existential form
@@ -110,11 +110,11 @@ be `π`
   only after the boundary correspondence closes.
 - **Prime ends** remain deliberately out of scope, as the roadmap states; the L5 milestone is the
   Jordan-domain case only.
-- **Shim retirement.** L0–L3 duplicate mathematics that upstream Mathlib is formalizing. The
-  outstanding obligation is to re-back `TauCeti.rouche`, the Hurwitz family, `TauCeti.montel`,
-  `TauCeti.riemannMapping` and the `BranchLogRoot` upgrades onto the Mathlib lemmas once they land,
-  and to refactor the L4/L5 consumers accordingly. Nothing in this window discharged that; it is
-  waiting on upstream, not on work here.
+- **Duplication with Mathlib's RMT work.** L0–L3 duplicate mathematics Mathlib is also formalizing.
+  Once the Mathlib lemmas land, `TauCeti.rouche`, the Hurwitz family, `TauCeti.montel`,
+  `TauCeti.riemannMapping` and the `BranchLogRoot` upgrades are reproved from them, and the L4/L5
+  consumers refactored accordingly. They had not landed as of this snapshot, so none of that has
+  happened; no work on this roadmap is held up by it.
 - **Monodromy against étale spaces.** `TauCeti.TopCat.Presheaf.EtaleSpace` landed with its
   germ-section API, but `TauCeti.monodromy_theorem` is still stated in the ad hoc germ-family
   language of `TauCeti.IsAnalyticContinuationAlong`. Restating monodromy as a lifting property of

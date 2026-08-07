@@ -17,6 +17,7 @@ body:
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - ContourIntegration
+        - EllipticCurves
         - Exchangeability
         - GeometricTopology
         - HeegaardFloer
@@ -24,6 +25,7 @@ body:
         - ModularForms
         - Multiquadratic
         - OneParameterSemigroups
+        - OptimalTransport
         - OrthogonalL2Bases
         - PDE
         - ReductiveGroups
