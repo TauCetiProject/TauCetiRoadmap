@@ -4,11 +4,13 @@ Mathlib's Riemannian library has the metric-and-distance layer: `RiemannianBundl
 `IsRiemannianManifold`, and `EMetricSpace.ofRiemannianMetric` live in
 `Mathlib/Geometry/Manifold/Riemannian/Basic.lean`, while `Manifold.pathELength` and
 `Manifold.riemannianEDist` live in `Mathlib/Geometry/Manifold/Riemannian/PathELength.lean`.
-Mathlib also has general covariant derivatives and their torsion. What remains is the
-Riemannian connection-and-geodesic layer: metric compatibility and the Levi-Civita theorem,
-covariant differentiation along curves, geodesics and their flow, the exponential map, and
-geodesic completeness. Without that layer, Hopf–Rinow — which ties metric completeness of a
-Riemannian manifold to the global existence of its geodesics — cannot yet be stated.
+Mathlib also has general covariant derivatives and their torsion. The pinned revision predates
+Mathlib's `CovariantDerivative.IsMetricCompatible`; after the next dependency bump, consume that
+predicate rather than maintaining a local duplicate. The owned Riemannian connection-and-geodesic
+work is existence and uniqueness and `C^∞` regularity of the Levi-Civita connection, covariant
+differentiation along curves, geodesics and their flow, the exponential map, and geodesic
+completeness. Without that layer, Hopf–Rinow — which ties metric completeness of a Riemannian
+manifold to the global existence of its geodesics — cannot yet be stated.
 
 Suggested home: `TauCeti/Geometry/Manifold/Riemannian/Geodesic/`. Shared connection and
 local-diffeomorphism prerequisites belong under `TauCeti/Geometry/Manifold/`, but their delivery
@@ -80,6 +82,12 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
   (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.lean`), together with the
   torsion tensor and `CovariantDerivative.torsion_eq_zero_iff`
   (`.../CovariantDerivative/Torsion.lean`).
+- **Metric compatibility after the next dependency bump.** Current Mathlib master provides
+  `CovariantDerivative.IsMetricCompatible` in
+  `Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Metric.lean` (from
+  [mathlib4#36299](https://github.com/leanprover-community/mathlib4/pull/36299)). That file is absent
+  from the pinned revision; consume the upstream predicate after the bump rather than defining a
+  lasting duplicate here.
 - **Completeness and properness.** `CompleteSpace`, `ProperSpace`, the instances
   `complete_of_proper` and `proper_of_compact`, `Metric.isCompact_iff_isClosed_bounded` (under
   `[T2Space M]`), `IsClosed.completeSpace_coe`, and the Cauchy/total-boundedness API
@@ -106,8 +114,8 @@ bundle, that is a separate design and must not be mixed into these names.
 
 ## What is missing (build here)
 
-Metric compatibility for a covariant derivative; existence, uniqueness, and `C^∞` regularity of
-the Levi-Civita connection; the pullback connection and covariant differentiation along a curve;
+Existence, uniqueness, and `C^∞` regularity of the Levi-Civita connection; the pullback connection
+and covariant differentiation along a curve;
 the geodesic spray, its smooth local flow, and maximal intervals of existence; an interval-aware
 geodesic predicate carrying its parameter set and initial data; constant speed; the exponential
 map, openness of its natural domain, and its smooth basic API; the manifold inverse-function
@@ -209,11 +217,14 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   where the metric-level API already proves a fact, consume it.
 
 ### Layer 1: the geodesic equation, the flow, and the exponential map
-- **The Levi-Civita connection:** define metric compatibility for Mathlib's bundled
-  `CovariantDerivative` and prove existence and uniqueness of the torsion-free,
-  metric-compatible connection. Reuse `CovariantDerivative.torsion_eq_zero_iff`; consume
-  mathlib4#36845 if it lands first. Otherwise this roadmap owns the implementation in the shared
-  manifold connection namespace; the Geometric Topology roadmap consumes the resulting API.
+- **The Levi-Civita connection:** after the next dependency bump, consume
+  `CovariantDerivative.IsMetricCompatible` from Mathlib's `Metric.lean`; it is absent from the
+  pinned revision and must not be replaced by a lasting local predicate. If a temporary shim is
+  needed before that bump, remove it when the upstream API is available. Prove existence and
+  uniqueness of the torsion-free, metric-compatible connection, reusing
+  `CovariantDerivative.torsion_eq_zero_iff`; consume mathlib4#36845 if it lands first. Otherwise
+  this roadmap owns the implementation in the shared manifold connection namespace; the
+  Geometric Topology roadmap consumes the resulting API.
 - **Regularity of the Levi-Civita connection:** under the standing `C^∞` manifold and metric
   hypotheses, prove `ContMDiffCovariantDerivative ∇ ∞` for the resulting Levi-Civita connection
   `∇`. In every smooth tangent-bundle chart, define its local Christoffel-symbol map
