@@ -20,8 +20,8 @@ of the function field, **no** isogenies, **no** Weil pairing, **no** finiteness 
 and neither the **Mordell–Weil** theorem nor **Selmer/Sha**. We build these in
 `TauCeti/AlgebraicGeometry/EllipticCurve/`, on the function field of a Weierstrass curve and its
 places (Layer 0), with an isogeny defined by a coordinate-ring pullback, backwards, its
-pointedness `φ(O₁) = O₂` expressed as integrality over the coordinate rings (Layer 1) —
-Buzzard's domain (review) on D. Angdinata's definition, statable against today's Mathlib and
+pointedness `φ(O₁) = O₂` expressed as integrality over the coordinate rings (Layer 1) — the
+coordinate-ring form of D. Angdinata's definition, statable against today's Mathlib and
 **seeded verbatim below** (`Isogeny`). No schemes anywhere, and AEC/ATAEC cited for the
 mathematics, not as the specification.
 
@@ -40,7 +40,7 @@ Selmer/Sha groups (Layer 7) — need the very API those layers introduce; they a
 
 The isogeny layer coordinates with D. Angdinata's in-flight mathlib work (the isogeny and
 Weil-pairing development the definition above comes from, and the division-polynomial
-upstreaming); the AINTLIB modular-curves scheme development is, after the function-field pivot,
+upstreaming); the AINTLIB modular-curves scheme development is
 a strategy library and feasibility evidence rather than a port source (`README.md` §Provenance).
 The Hasse bound is proved `sorry`-free in the AINTLIB `HasseWeil` project, as the capstone
 `hasse_bound` of `HasseWeil/WeilPairing/HasseBound.lean` (the sibling `HasseWeil/HasseBound.lean`
@@ -88,7 +88,7 @@ theorem toClass_surjective {K : Type*} [Field K] (W : WeierstrassCurve K) [W.IsE
 An isogeny `φ : W₁ → W₂` is an `F`-algebra map out of the target's affine coordinate ring
 into the source's function field, backwards, with the pointedness `φ(O₁) = O₂` expressed as
 integrality over the coordinate rings — no places in the definition, so the structure is
-seeded verbatim below (Buzzard's domain, review, on D. Angdinata's definition), with its
+seeded verbatim below (the coordinate-ring form of D. Angdinata's definition), with its
 injectivity, fraction-field extension, degree, finiteness, positivity, point map, normality
 input, and Frobenius seeded. ⚠ *Mathlib-track*: the seeded material of this section is proven
 in the shared upstream development (`README.md` §Provenance) — in its function-field form,
@@ -100,7 +100,7 @@ separability is that of the field extension, and multiplicativity of `deg` under
 is the tower formula — field theory Mathlib already has; the induced point map goes through
 the intermediate ring (the integral closure of `W₂.CoordinateRing` in `W₁.FunctionField`)
 by ideal extension and relative norm, making it additive by construction. The hom-group
-(carrier: Buzzard's, `README.md` §Layer 1 — the zero map or a conditioned coordinate-ring
+(carrier: `README.md` §Layer 1 — the zero map or a conditioned coordinate-ring
 pullback, no `WithZero`; the zero is a formal tag, not a pullback, and the additive
 structure is the group law's, not pointwise) and the quadraticity of the degree, the
 `CMStructure`/`HasCM` on `End`, the dual isogeny with
@@ -120,7 +120,7 @@ open WeierstrassCurve.Affine
 variable {F : Type*} [Field F]
 
 /-- A contravariant pullback out of the target's affine coordinate ring into the source's
-function field (Buzzard's domain, review — ⚠ *mathlib-track* throughout this section: the
+function field (⚠ *mathlib-track* throughout this section: the
 shared upstream development proves these declarations in their function-field form, which
 `Isogeny.fieldPullback` below identifies with this one; deduplicated when its PRs land). -/
 abbrev CoordinatePullback (W₁ W₂ : WeierstrassCurve.Affine F) :=
@@ -143,14 +143,14 @@ pullback: for `W₁ = W₂` every endomorphism induces its own, so a global regi
 genuine diamond. Confined to `letI` inside definition bodies, each declaration fixes its own
 pullback and nothing leaks.
 
-⚠ The cost is one rewrite, not zero (review): even at the identity pullback the local structure
+⚠ The cost is one rewrite, not zero: even at the identity pullback the local structure
 is **not** definitionally the ambient one. The instance in play there is the localization
 instance on `Algebra W.CoordinateRing W.FunctionField`, and elaborating `MapsInfinity` against
 it fails with *"synthesized type class instance is not definitionally equal ... synthesized
 `OreLocalization.instAlgebra`, inferred `(identityPullback W).toAlgebra`"* — the two are
 propositionally but not definitionally equal (Mathlib's `toAlgebra_algebraMap` is the
 general statement, itself proved by `algebra_ext`, not `rfl`). Proofs bridge the gap with a
-single `Algebra.algebra_ext` rewrite, as `MapsInfinity.id` below does; the scalar actions
+single `Algebra.algebra_ext` rewrite, as `mapsInfinity_id` below does; the scalar actions
 themselves do agree by `rfl`, and what does not line up is the dependent `Subalgebra` type
 `integralClosure` lands in. This is an ergonomics cost, not evidence against the definition:
 public statements stay phrased over the pullback ring map, never over an instance. -/
@@ -167,7 +167,7 @@ noncomputable def CoordinatePullback.id (W : WeierstrassCurve.Affine F) :
     CoordinatePullback W W :=
   IsScalarTower.toAlgHom F W.CoordinateRing W.FunctionField
 
-/-- **The identity satisfies `MapsInfinity`** — proved, not asserted (review), because the proof
+/-- **The identity satisfies `MapsInfinity`** — proved, not asserted, because the proof
 *is* the content of the `letI` note above: the ambient localization instance and
 `(CoordinatePullback.id W).toRingHom.toAlgebra` are propositionally but not definitionally equal,
 so one `Algebra.algebra_ext` rewrite is needed before `isIntegral_algebraMap` applies. -/
@@ -180,8 +180,7 @@ theorem CoordinatePullback.mapsInfinity_id (W : WeierstrassCurve.Affine F) :
   rw [h]
   exact fun _ ↦ isIntegral_algebraMap
 
-/-- **The pullback data of an isogeny** (AEC II.2.4-shape; Buzzard's domain, review, on
-D. Angdinata's definition). An `Isogeny` is automatically nonzero (`pullback_injective`, the
+/-- **The pullback data of an isogeny** (AEC II.2.4-shape, on D. Angdinata's definition). An `Isogeny` is automatically nonzero (`pullback_injective`, the
 pole argument) and finite (`Isogeny.finiteDimensional`), so "isogeny" means *nonzero*
 isogeny by construction; the hom carrier — the zero map or a conditioned pullback, no
 `WithZero`, the zero a formal tag rather than a pullback — is `README.md` §Layer 1. -/
@@ -227,7 +226,7 @@ noncomputable def comp {W₃ : WeierstrassCurve.Affine F} (ψ : Isogeny W₂ W�
   pullback := φ.fieldPullback.comp ψ.pullback
   mapsInfinity := sorry
 
-/-- **The degree of an isogeny** (AEC II.2.4(a)-shape; Buzzard's degree form): the dimension
+/-- **The degree of an isogeny** (AEC II.2.4(a)-shape): the dimension
 of `W₁.FunctionField` over the fraction field of the pullback's image — the field range of
 the extension `fieldPullback`. Multiplicativity under composition is the finrank tower
 formula; `deg [n] = n²` and `deg π_q = q` are the Layer 1/3 milestones; the hom carrier's
@@ -306,7 +305,7 @@ theorem smul_surjective {K : Type*} [Field K] [IsSepClosed K] (W : WeierstrassCu
 
 /-- **`E[N] ≃+ (ℤ/N)²`** (AEC III.6.4): over a separably closed field `K` in which `N` is
 invertible (`(N : K) ≠ 0`, i.e. `char K ∤ N`), the `N`-torsion is additively equivalent to
-`ZMod N × ZMod N` — stated as a bare `≃+`, with no `ZMod N`-module packaging (review): the
+`ZMod N × ZMod N` — stated as a bare `≃+`, with no `ZMod N`-module packaging: the
 additive equivalence carries the same content, since a `≃+` between `ZMod N`-modules is
 automatically `ZMod N`-linear, and it avoids installing the `AddSubgroup.torsionBy.zmodModule`
 instance. The carrier `AddSubgroup.torsionBy A (N : ℤ)` is Mathlib's `A[N]`, reducibly the
@@ -354,7 +353,7 @@ theorem weilPairing_nondegenerate {K : Type*} [Field K] [IsSepClosed K] (W : Wei
 /-- The **Weil pairing is alternating** (AEC III.8.1(b)): `e_N(P, P) = 0` (written additively —
 the root of unity `1`). Over any field, no closure hypothesis. Together with bilinearity this
 gives skew-symmetry, and with the left-nondegeneracy above it makes the pairing nondegenerate
-on both sides (review): left-nondegeneracy alone is only half the statement. -/
+on both sides: left-nondegeneracy alone is only half the statement. -/
 theorem weilPairing_self {K : Type*} [Field K] (W : WeierstrassCurve K)
     [W.IsElliptic] (N : ℕ) [NeZero N]
     (P : Submodule.torsionBy ℤ W.toAffine.Point (N : ℤ)) :
@@ -416,7 +415,7 @@ over any `CommRing`. Its discriminant is `D⁶ · Δ(E)` with `D = t² − 4n` (
 it is elliptic exactly when `D` is **invertible** — seeded below over a field, where that is
 `D ≠ 0`, exactly as FLT states it — with the same `j`-invariant. This is the primitive the
 whole layer (and FLT's split-reduction theorem) is built from. The body is **copied verbatim
-from FLT's `quadraticTwistOf`** (review) — pinned as a definition, not a `sorry`, so an
+from FLT's `quadraticTwistOf`** — pinned as a definition, not a `sorry`, so an
 implementation cannot drift to a different twist normalization. -/
 noncomputable def quadraticTwistOf {A : Type*} [CommRing A] (E : WeierstrassCurve A) (t n : A) :
     WeierstrassCurve A where
