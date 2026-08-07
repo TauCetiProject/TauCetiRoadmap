@@ -13,15 +13,15 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
 ## Standing conventions
 
 - **Setting.** Finite-dimensional inner product spaces over `[RCLike 𝕜]` where the
-  eigenbasis is used; the projector-gap material needs neither finite dimension nor
-  completeness and must not assume them.
+  eigenbasis is used; the projector-gap material is stated without finite-dimensional or
+  completeness hypotheses.
 - **`SpectrumIn` and `SpectraSeparated` are finite-dimensional point-spectrum vocabulary.**
   They are stated over `restrictedSpectrum`, a set of eigenvalues of an endomorphism. The
   Banach-algebra spectrum of a restriction is a different object and belongs to
   [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md).
-- **Equalities where equalities hold.** The projector-difference identity
+- **Exact projector-gap identity.** The projector-difference identity
   `‖P − Q‖ = max (‖(1−Q)P‖, ‖(1−P)Q‖)` is an equality, with factor one and no equal-rank
-  hypothesis. It must not be weakened to a two-sided estimate.
+  hypothesis. The roadmap carries this result in equality form.
 
 ## What Mathlib already has (consume)
 
@@ -166,8 +166,8 @@ spectral-separation predicates.
 - The gap: symmetry, the directed-gap comparison, the max identity above; `sinThetaMap`,
   the directed sine cross-projection `P_{Vᗮ} ∘ P_U` the Davis–Kahan estimates are stated in.
 - `spectrumIn_spectralSubspace`: the spectral subspace selected by `Ω` carries only
-  spectrum in `Ω`. It is a theorem for every operator and every set, so no consumer of the
-  perturbation theorems supplies it as a hypothesis.
+  spectrum in `Ω`. It is a theorem for every operator and every set, giving perturbation
+  consumers the spectral-containment fact directly.
 - Restricted spectra: the restriction of a symmetric operator to an invariant subspace and
   its restricted spectrum; the quadratic-form bridges
   `SpectrumIn A U (Iic a) → re ⟪A x, x⟫ ≤ a‖x‖²` on `U`, with their converses.
@@ -204,12 +204,11 @@ The roadmap therefore asks for:
   `δ`; spectral inclusion on opposite sides of a cut gives ordered separation; and the
   bridges to the quadratic-form bounds above, which is how a spectral hypothesis becomes
   usable in an operator estimate;
-- for each named form, a statement of which theorem families consume it, so that a
-  predicate with no consumer is visible as such.
+- for each named form, the theorem families that consume it, making ownership and use
+  explicit.
 
-Parallel definitions encoding the same condition under different names are the failure mode
-to avoid. If two forms turn out to be equivalent, one of them is a theorem and not a
-definition.
+Each separation condition has one canonical named predicate. Equivalent formulations are
+connected by theorems, so theorem families share the same underlying hypothesis vocabulary.
 
 **Milestone — the sharp gap identity**, as an equality with no equal-rank hypothesis.
 
@@ -230,8 +229,7 @@ the cross-block overlap sum; `familyIsometry` sends the `k`-th coordinate vector
 ### Part C — the projection gap and spectral subspaces
 
 **Acceptance criteria.** That the gap identity is an equality with no equal-rank
-hypothesis; that the separation predicates are shared, not parallel definitions with one
-name.
+hypothesis; that the separation predicates use the shared canonical vocabulary.
 
 ## Ordering
 

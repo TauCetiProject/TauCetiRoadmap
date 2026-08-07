@@ -19,8 +19,8 @@ lemma in `TauCeti/Analysis/Normed/Operator/`.
   isometry equivalence of the ambient space in finite dimension, and that is the carrier
   every consumer is stated against.
 - **Invariant and reducing are distinct named notions.** They coincide for symmetric
-  operators, and that coincidence is a theorem. Reducing subspaces stay independent of all
-  perturbation theory.
+  operators, and that coincidence is a theorem. Reducing subspaces form a geometry-only
+  layer consumed by perturbation theory.
 
 ## What is missing (build here)
 
@@ -64,8 +64,8 @@ vectors.
 ## Worked examples (acceptance criteria)
 
 **Acceptance criteria.** That Gram rigidity lands in `LinearIsometryEquiv`; that reducing
-subspaces import no perturbation theory; that the orthogonal-series constructor fills the
-non-unit-vector gap rather than duplicating `OrthogonalFamily`.
+subspaces remain dependency-closed within the geometry layer; that the orthogonal-series
+constructor covers the non-unit-vector case alongside `OrthogonalFamily`.
 
 ## Ordering
 
@@ -96,8 +96,6 @@ An Apache-2.0 implementation exists in the
 [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
 (Kitware, Inc.). The public API and proof structure may change during integration.
 
-The Gram-matrix material was submitted as mathlib4 pull request
-[#40567](https://github.com/leanprover-community/mathlib4/pull/40567) and reshaped on
-review: the linear-combination identity moved to its natural home, and the quotient
-plumbing became the standalone `rangeEquivOfInnerEq`. That pull request is closed —
-Mathlib is not the destination — and the module was generalized further afterwards.
+The Gram-matrix material also appeared in mathlib4 pull request
+[#40567](https://github.com/leanprover-community/mathlib4/pull/40567). Its Tau Ceti API
+exposes the range isometry as `rangeEquivOfInnerEq`.
