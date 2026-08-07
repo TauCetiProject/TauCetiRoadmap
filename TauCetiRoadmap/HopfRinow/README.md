@@ -353,10 +353,12 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   witness to extend to an all-time geodesic. Build it by minimizing distance on compact spheres
   in the finite-dimensional `T_p M`, using continuity of distance to `q`, and iterating the
   normal-ball radial extension step.
-- **(a_p) and (f_p) ⇒ (b):** the minimizing initial velocities identify each closed ball centered
-  at `p` with the image under `exp_p` of a compact closed ball in `T_p M`. A closed ball centered
-  at an arbitrary `q` is a closed subset of a sufficiently large compact ball centered at `p`, by
-  the triangle inequality. Hence every closed ball is compact and `ProperSpace M` follows.
+- **(a_p) and (f_p) ⇒ (b):** for every `r ≥ 0`, the minimizing initial velocities give the set
+  equality `closedBall p r = exp_p '' closedBall 0 r`, where the ball on the right lies in `T_p M`.
+  This does not assert that `exp_p` is injective there. The source ball is compact and `exp_p` is
+  continuous, so `closedBall p r` is compact. A closed ball centered at an arbitrary `q` is a closed
+  subset of a sufficiently large compact ball centered at `p`, by the triangle inequality. Hence
+  every closed ball is compact and `ProperSpace M` follows.
 - **(b) ⇒ (c):** consume the instance `complete_of_proper`.
 - **(b) ⇒ (e_p):** take `K_n = closedBall p n`; properness makes each `K_n` compact, connectedness
   and finiteness of `dist` give `⋃ n, K_n = univ`, and `q_n ∉ K_n` forces
