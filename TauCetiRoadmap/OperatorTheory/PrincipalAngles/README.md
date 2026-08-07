@@ -27,9 +27,10 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
 
 - **Projections:** `Submodule.starProjection` with `HasOrthogonalProjection`,
   `IsStarProjection`, `Submodule.reflection`.
-- **Orthogonal families:** `OrthogonalFamily`, whose only vector-level constructor
-  `Orthonormal.orthogonalFamily` requires *unit* vectors — the gap Part C fills for the
-  non-normalized families a singular expansion produces.
+- **Orthogonal families:** `OrthogonalFamily`; the non-normalized vector-to-line bridge,
+  coordinate isometry `familyIsometry`, and symmetric restriction theorem
+  `ContinuousLinearMap.IsSymmetric.restrict_of_invariant` are consumed from
+  [`OrthogonalGeometry`](../OrthogonalGeometry/README.md).
 - **Singular values:** `LinearMap.singularValues`, which the principal cosines are defined
   as.
 
@@ -172,8 +173,9 @@ spectral-separation predicates.
   restricted point spectrum in `Ω`. It is a theorem for every finite-dimensional operator and
   every set, giving perturbation
   consumers the spectral-containment fact directly.
-- Restricted point spectra: the restriction of a symmetric operator to an invariant subspace
-  and its eigenvalues; the quadratic-form bridges
+- Restricted point spectra: consume `ContinuousLinearMap.IsSymmetric.restrict_of_invariant`
+  from [`OrthogonalGeometry`](../OrthogonalGeometry/README.md), then develop the
+  finite-dimensional eigenvalue/point-spectrum layer and the quadratic-form bridges
   `SpectrumIn A U (Iic a) → re ⟪A x, x⟫ ≤ a‖x‖²` on `U`, with their converses.
 
 ### The spectral-separation predicates
@@ -241,11 +243,12 @@ hypothesis; that the separation predicates use the shared canonical vocabulary.
 
 ## Ordering
 
-Part A comes first and needs only singular values from
-[`PolarDecomposition`](../PolarDecomposition/README.md). Part B states its estimates in
-Part A's angles and needs the permutation-orbit hull of
+Part A comes first and consumes singular values from
+[`PolarDecomposition`](../PolarDecomposition/README.md) and the coordinate-isometry and
+orthogonal-family API from [`OrthogonalGeometry`](../OrthogonalGeometry/README.md). Part B
+states its estimates in Part A's angles and needs the permutation-orbit hull of
 [`Majorization`](../Majorization/README.md) for Davis's lower bound. Part C is independent
-of both and can proceed in parallel.
+of Parts A and B, but consumes `OrthogonalGeometry` for invariant-subspace restriction.
 
 **Downstream.** [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md)
 consumes the angles, `sinThetaMap`, the separation predicates and `spectralSubspace`.

@@ -12,7 +12,7 @@ invariant norms.
 
 **The majorization engine is convex analysis: it belongs under `Analysis/Convex` and imports
 no operator theory.** Weak majorization is a statement about real tuples, and it serves two
-consumers — square norms in Part A, rectangular norms in Part C — through one interface.
+consumers — square norms in Part A, rectangular norms in Part B — through one interface.
 
 Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
 `TauCeti/Analysis/InnerProductSpace/` for everything else.
@@ -113,16 +113,11 @@ orthonormal basis; and the three-law structure `UnitarilyInvariantSeminorm 𝕜 
   unitarily invariant seminorm is determined by the singular-value sequence; derived `nonneg`,
   `apply_zero`, `apply_adjoint`, and the ideal property `N (C ∘ₗ X) ≤ c · N X`; the
   Frobenius norm as the first instance.
-- **Gram-perturbation groundwork.**
-  - `‖A⋆y‖ ≤ c‖y‖` from an elementwise bound on `A`.
-  - The splitting `Â⋆Â − A⋆A = Â⋆(Â−A) + (Â−A)⋆A`, giving `‖(Â⋆Â − A⋆A)x‖ ≤ (a+â)ε‖x‖` and
-    the squared singular-value perturbation `|σₖ(Â)² − σₖ(A)²| ≤ (a+â)ε`.
-  - Here for one consumer — the Yu–Wang–Samworth singular-vector bound of
-    [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) applies the
-    symmetric perturbation theory to `A⋆A` — and not a step in the majorization pipeline.
-  - Deliberately **not** called "Weyl's inequality": it bounds squares, carries the factor
-    `a + â`, and is implied by but does not imply the sharp `|σₙ(T) − σₙ(S)| ≤ ‖T − S‖`,
-    which belongs to [`OperatorIdeals`](../OperatorIdeals/README.md).
+- The rectangular orbit and singular-value arguments consume Gram/isometry rigidity from
+  [`OrthogonalGeometry`](../OrthogonalGeometry/README.md). Gram perturbation identities and
+  squared-singular-value perturbation belong to
+  [`PrincipalAngles`](../PrincipalAngles/README.md), where they feed the statistical
+  singular-subspace theory; they are not part of the majorization engine.
 
 **Milestone — the transfer descent.** A symmetric-convex set containing `y` contains every
 antitone nonnegative `z` whose prefix sums it dominates. This is the engine, and it must

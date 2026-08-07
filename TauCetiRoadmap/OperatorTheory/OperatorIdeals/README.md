@@ -33,10 +33,11 @@ Suggested homes: `TauCeti/Analysis/OperatorIdeal/ApproximationNumber/`,
 - **Zero-based indexing.** `aₙ(T) = dist(T, {R : rank R ≤ n})`, so `a₀(T) = ‖T‖`, matching
   Mathlib's zero-based singular values index for index. The one-based literature convention
   is the translation `sₙ(T) = aₙ₋₁(T)`.
-- **Real approximation numbers, `ℝ≥0∞` ideal gauges.** `approximationNumber T n : ℝ`, with
-  nonnegativity a theorem, matching Mathlib's `norm` and `dist`. Gauges are `ℝ≥0∞` and
-  `∞` off their ideal: a number attached to one operator, versus a gauge whose
-  finiteness *defines* a class.
+- **Mathlib-shaped approximation numbers, `ℝ≥0∞` ideal gauges.** The approximation-number
+  sequence uses the upstream-facing name and codomain
+  `ContinuousLinearMap.singularValue T n : ℝ≥0`. Gauges coerce these values to `ℝ≥0∞` and are
+  `∞` off their ideal: a number attached to one operator, versus a gauge whose finiteness
+  *defines* a class.
 - **Rectangular, independent universes.** Source and target are distinct spaces in
   independent universes throughout the base layer; rank comparisons use `LinearMap.rank` with
   explicit `Cardinal.lift`. Square operators are specializations.
@@ -89,12 +90,13 @@ The gaps to fill are:
 - **No hypothesis-free `ℝ≥0∞` Minkowski for `tsum`.** `NNReal.Lp_add_le_tsum` carries
   summability hypotheses on both summands and there is no `ENNReal` `tsum` form; the energy
   layer needs one at `1 ≤ p`. 
-- **In motion.** Mathlib PR
-  [#32126](https://github.com/leanprover-community/mathlib4/pull/32126) drafts a zero-based
-  `ContinuousLinearMap.singularValue : ℕ → ℝ≥0`; see also the
+- **Approximation-number shape.** Mathlib PR
+  [#32126](https://github.com/leanprover-community/mathlib4/pull/32126) proposes the finite-rank
+  infimum as zero-based `ContinuousLinearMap.singularValue : ℕ → ℝ≥0`; see also the
   [Zulip thread](https://leanprover-community.github.io/archive/stream/217875-Is-there-code-for-X%3F/topic/Singular.20Value.20Decomposition.html).
-  This roadmap pins `approximationNumber : ℕ → ℝ`, aligned with real-valued norms and infima.
-  If that PR lands, an interoperability layer becomes a migration milestone.
+  Tau Ceti uses that spelling, indexing and codomain for the missing API, so adoption of an
+  upstream implementation is deletion plus import rather than migration between parallel
+  approximation-number interfaces.
 
 ## What is missing (build here)
 
@@ -117,7 +119,7 @@ The gaps to fill are:
 
 ### Part A — approximation numbers and Hilbert-space singular values
 
-**Objects.** `ContinuousLinearMap.approximationNumber T n : ℝ`, the infimum of `‖T − R‖`
+**Objects.** `ContinuousLinearMap.singularValue T n : ℝ≥0`, the infimum of `‖T − R‖₊`
 over bounded `R` with `R.rank ≤ n`, on seminormed spaces over a `NontriviallyNormedField`;
 the relation `HasSameApproximationNumbers` between operators on possibly different space
 pairs, reflexive, symmetric and transitive — the vehicle for transporting ideal membership;
@@ -228,7 +230,7 @@ is the wrong instance.
     rectangular Frobenius seminorm owned by [`Majorization`](../Majorization/README.md),
     together with the finite-dimensional identification of the Hilbert–Schmidt energy with
     its square.
-  - **Separate from Milestone B3, and not blocked by it**: this is a norm on a vector,
+  - **Independent of Milestone B3**: this is a norm on a vector,
     consumed by the majorization arm, whereas B3 is a family on operators between
     infinite-dimensional spaces. Milestone A1 proves the two agree, which is what makes `S₂`
     one object across both halves of this Part.
@@ -406,16 +408,16 @@ of every statement, and no statement asserts basis-independence of the represent
 
 ## Ordering
 
-Part A first, consuming [`PolarDecomposition`](../PolarDecomposition/README.md) (operator
-modulus, finite-dimensional singular values, Courant–Fischer) and
-[`Majorization`](../Majorization/README.md) (the finite Ky Fan inequality, and the Frobenius
-seminorm the `S₂` identification is stated against). Part B consumes Part A — every ideal
-gauge is a functional of the `a`-sequence — plus the majorization engine. Part C consumes
-Part B, and otherwise only `lp` and `HilbertBasis`.
+Part A comes first, consuming [`PolarDecomposition`](../PolarDecomposition/README.md) for the
+modulus, finite-dimensional singular values and Courant–Fischer, and
+[`Majorization`](../Majorization/README.md) for the finite-dimensional Ky Fan inequality used
+in Milestone A2. Part B consumes Part A plus the majorization engine; its finite-dimensional
+`S₂` identification also consumes Majorization's Frobenius seminorm. Part C consumes Part B,
+and otherwise only `lp` and `HilbertBasis`.
 
 **Downstream, outside this group.** The Peter–Weyl roadmap
 [`RepresentationTheory/CompactGroups`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CompactGroups/README.md)
-records three sub-milestones blocking its `convolutionOperator_isCompact`: an HS-operator
+depends on three supporting results for `convolutionOperator_isCompact`: an HS-operator
 API, "continuous kernel on a compact space ⇒ HS integral operator", and
 "Hilbert–Schmidt ⇒ compact". Part C supplies the first and third; the second is kernel
 theory and stays there.

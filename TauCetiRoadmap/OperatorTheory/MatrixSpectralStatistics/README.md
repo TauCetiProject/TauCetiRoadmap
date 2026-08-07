@@ -176,7 +176,9 @@ about matrices whose entries are random.
 **Objects.** Hermitian matrices over `RCLike` as Euclidean operators
 (`Matrix.toEuclideanLin`); the decreasingly sorted spectrum
 `Matrix.IsHermitian.eigenvalues₀`; and the generic Mathlib continuous functional calculus
-`cfc h B` for Hermitian `B`.
+`cfc h B` for Hermitian `B`; and, for a deterministic threshold `c`, the canonical
+orthogonal spectral projector `spectralProjectionIci c B` onto the eigenspaces with
+eigenvalue in `[c, ∞)`.
 
 **API to develop.**
 
@@ -195,6 +197,14 @@ about matrices whose entries are random.
   count against nonzero sorted eigenvalues, nonnegativity for positive semidefinite matrices,
   and the **vanishing tail**. Positive semidefiniteness is essential there rather than
   convenient: a rank-one Hermitian matrix with a negative eigenvalue sorts it *last*.
+- **Fixed-threshold spectral projectors:** for deterministic `c`, construct the orthogonal
+  projector onto the sum of eigenspaces with eigenvalue in `[c, ∞)` and prove its Borel
+  measurability as a function of a Hermitian matrix. No eigenbasis is selected. If `c` lies
+  strictly inside a population eigengap, then on the event that the operator perturbation is
+  smaller than the distance from `c` to the population spectrum, Weyl's inequality preserves
+  the number of eigenvalues above `c`. The sample projector then selects exactly the
+  corresponding spectral cluster. This is the measurable object used by the probability
+  pipeline; no globally defined top-`k` eigenspace is required.
 - **Concentration consumers**: the probability of a complement, needing no measurability, and
   the family converting "with high probability the error is at most `rate i`" into
   `TendstoInMeasure`.
@@ -205,9 +215,11 @@ theorems for `cfc` in the operator variable. This roadmap packages the matrix co
 fixed continuous `h`, `B ↦ cfc h B` is continuous on Hermitian matrices and therefore measurable
 for measurable Hermitian random matrices, with **no measurable selection of an eigenbasis**.
 Use Mathlib's `continuousOn_cfc` locally on a compact spectral interval, with the interval
-chosen from a local operator-norm bound. This is the statement that makes the statistical track
-well posed: without it, "the top-`k` eigenspace of the sample second-moment matrix" carries no
-measurability and no probability statement about it means anything.
+chosen from a local operator-norm bound. Continuous CFC measurability is one deterministic
+spectral bridge; the discontinuous indicator needed for a spectral projector is handled by the
+separate fixed-threshold construction above. The threshold is deterministic and lies inside a
+specified population gap, so ties at the threshold are excluded on the perturbation event rather
+than resolved by a measurable eigenbasis convention.
 
 ### Part C — sample moments and matrix concentration
 
@@ -273,7 +285,9 @@ direction recovers `rank_mul_le`.
 
 ### Part B — matrix spectra and spectral measurability
 
-**Acceptance examples.** `cfc id B = B`, the spectral theorem read entrywise; for a
+**Acceptance examples.** `cfc id B = B`; a two-cluster Hermitian family with a fixed cutoff
+inside the gap has a measurable `spectralProjectionIci` of constant rank on the corresponding
+operator-norm neighborhood; for a
 diagonal matrix the perturbation bound checked against explicit eigenvalues; a concentration
 bound with rate `1/√n` feeding the `TendstoInMeasure` conversion.
 

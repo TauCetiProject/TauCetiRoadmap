@@ -24,10 +24,18 @@ open Filter Topology
 
 universe u v w x y
 
-/-! ## Part A -- approximation numbers
+/-! ## Part A -- approximation numbers in the Mathlib-facing `singularValue` API
 
-Field-generic on normed spaces; the Hilbert identifications come later in the
-Part.  Zero-based indexing: `a₀(T) = ‖T‖`. -/
+The mathematical objects are approximation numbers. The public Lean shape follows Mathlib
+PR #32126: zero-based `ContinuousLinearMap.singularValue : ℕ → ℝ≥0`. -/
+
+end TauCetiRoadmap.OperatorIdeals
+
+namespace ContinuousLinearMap
+
+universe u v w x y
+
+open scoped NNReal
 
 section ApproximationNumbers
 
@@ -35,44 +43,54 @@ variable {𝕜 : Type u} [NontriviallyNormedField 𝕜]
 variable {E : Type v} [SeminormedAddCommGroup E] [NormedSpace 𝕜 E]
 variable {F : Type w} [SeminormedAddCommGroup F] [NormedSpace 𝕜 F]
 variable {G : Type x} [SeminormedAddCommGroup G] [NormedSpace 𝕜 G]
-variable {H : Type y} [SeminormedAddCommGroup H] [NormedSpace 𝕜 H]
 
-/-- The `n`-th approximation number: the distance from `T` to the operators of
-rank at most `n`. -/
-noncomputable def approximationNumber (T : E →L[𝕜] F) (n : ℕ) : ℝ :=
-  ⨅ R : {R : E →L[𝕜] F // R.rank ≤ (n : Cardinal)}, ‖T - R.1‖
+/-- The zero-based approximation-number sequence, in the shape proposed upstream. -/
+noncomputable def singularValue (T : E →L[𝕜] F) (n : ℕ) : ℝ≥0 :=
+  ⨅ R : {R : E →L[𝕜] F // R.rank ≤ (n : Cardinal)}, ‖T - R.1‖₊
 
-@[simp] theorem approximationNumber_index_zero (T : E →L[𝕜] F) :
-    approximationNumber T 0 = ‖T‖ := sorry
+@[simp] theorem singularValue_zero (T : E →L[𝕜] F) :
+    T.singularValue 0 = ‖T‖₊ := sorry
 
-theorem approximationNumber_antitone (T : E →L[𝕜] F) :
-    Antitone (approximationNumber T) := sorry
+theorem antitone_singularValue (T : E →L[𝕜] F) : Antitone T.singularValue := sorry
 
-/-- Additivity across indices: the mixed subadditivity law of `s`-number theory. -/
-theorem approximationNumber_add_le (S T : E →L[𝕜] F) (m n : ℕ) :
-    approximationNumber (S + T) (m + n)
-      ≤ approximationNumber S m + approximationNumber T n := sorry
+/-- The fixed-index perturbative triangle bound in the upstream API. -/
+theorem singularValue_add_le (S T : E →L[𝕜] F) (n : ℕ) :
+    ((S + T).singularValue n : ℝ) ≤ (S.singularValue n : ℝ) + ‖T‖ := sorry
 
-/-- Composition multiplicativity across indices.
-
-`approximationNumber_comp_comp_le` is
-already taken, by the two-sided ideal bound
-`aₙ(L ∘ T ∘ R) ≤ ‖L‖ · aₙ(T) · ‖R‖`, which is a different theorem at a fixed
-index; this one splits the index. -/
-theorem approximationNumber_comp_add_le_mul (S : F →L[𝕜] G) (T : E →L[𝕜] F) (m n : ℕ) :
-    approximationNumber (S ∘L T) (m + n)
-      ≤ approximationNumber S m * approximationNumber T n := sorry
-
-/-- The two-sided ideal inequality, at a fixed index.  Recorded here because it
-owns the name `approximationNumber_comp_comp_le`; the theorem above is the
-index-splitting statement and must not reuse it. -/
-theorem approximationNumber_comp_comp_le {G' H' : Type*}
+/-- The two-sided ideal inequality at a fixed index. -/
+theorem singularValue_comp_comp_le {G' H' : Type*}
     [SeminormedAddCommGroup G'] [NormedSpace 𝕜 G']
     [SeminormedAddCommGroup H'] [NormedSpace 𝕜 H']
     (L : F →L[𝕜] G') (T : E →L[𝕜] F) (R : H' →L[𝕜] E) (n : ℕ) :
-    approximationNumber (L ∘L T ∘L R) n ≤ ‖L‖ * approximationNumber T n * ‖R‖ := sorry
+    ((L ∘L T ∘L R).singularValue n : ℝ)
+      ≤ ‖L‖ * (T.singularValue n : ℝ) * ‖R‖ := sorry
 
 end ApproximationNumbers
+
+end ContinuousLinearMap
+
+namespace TauCetiRoadmap.OperatorIdeals
+
+open Module (finrank)
+open scoped InnerProductSpace ENNReal NNReal
+open Filter Topology
+
+section ApproximationNumberExtensions
+
+variable {𝕜 : Type u} [NontriviallyNormedField 𝕜]
+variable {E : Type v} [SeminormedAddCommGroup E] [NormedSpace 𝕜 E]
+variable {F : Type w} [SeminormedAddCommGroup F] [NormedSpace 𝕜 F]
+variable {G : Type x} [SeminormedAddCommGroup G] [NormedSpace 𝕜 G]
+
+/-- Exact zero-based mixed-index subadditivity, extending the upstream-facing s-number API. -/
+theorem singularValue_add_index_le (S T : E →L[𝕜] F) (m n : ℕ) :
+    (S + T).singularValue (m + n) ≤ S.singularValue m + T.singularValue n := sorry
+
+/-- Composition multiplicativity across indices. -/
+theorem singularValue_comp_add_le_mul (S : F →L[𝕜] G) (T : E →L[𝕜] F) (m n : ℕ) :
+    (S ∘L T).singularValue (m + n) ≤ S.singularValue m * T.singularValue n := sorry
+
+end ApproximationNumberExtensions
 
 section HilbertIdentifications
 
@@ -81,25 +99,25 @@ variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [Complet
 variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
 
 /-- Adjoint invariance, the Hilbert-space symmetry the Banach theory lacks. -/
-@[simp] theorem approximationNumber_adjoint (T : E →L[𝕜] F) (n : ℕ) :
-    approximationNumber (ContinuousLinearMap.adjoint T) n
-      = approximationNumber T n := sorry
+@[simp] theorem singularValue_adjoint (T : E →L[𝕜] F) (n : ℕ) :
+    (ContinuousLinearMap.adjoint T).singularValue n
+      = T.singularValue n := sorry
 
 /-- On finite-dimensional inner-product spaces, the approximation numbers are the
 singular values: Eckart--Young. -/
-theorem approximationNumber_eq_singularValues
+theorem singularValue_eq_linearMap_singularValues
     [FiniteDimensional 𝕜 E] [FiniteDimensional 𝕜 F] (T : E →L[𝕜] F) (n : ℕ) :
-    approximationNumber T n = (T : E →ₗ[𝕜] F).singularValues n := sorry
+    (T.singularValue n : ℝ) = (T : E →ₗ[𝕜] F).singularValues n := sorry
 
 /-- The min--max principle in the form the perturbation theory consumes: a subspace of
 rank greater than `n` on which `T` is `c`-coercive forces `aₙ(T) ≥ c`.
 
-Deliberately not called `approximationNumber_minmax`: this is one direction, and a name
+Deliberately not called `singularValue_minmax`: this is one direction, and a name
 claiming the equality would overstate what the declaration says. -/
-theorem le_approximationNumber_of_lt_rank (T : E →L[𝕜] F) (n : ℕ) (V : Submodule 𝕜 E)
+theorem le_singularValue_of_lt_rank (T : E →L[𝕜] F) (n : ℕ) (V : Submodule 𝕜 E)
     {c : ℝ} (hVrank : (n : Cardinal) < Module.rank 𝕜 V)
     (hV : ∀ x : V, c * ‖(x : E)‖ ≤ ‖T (x : E)‖) :
-    c ≤ approximationNumber T n := sorry
+    c ≤ (T.singularValue n : ℝ) := sorry
 
 end HilbertIdentifications
 
@@ -113,7 +131,7 @@ subspace. This is the analytic input from which the Ky Fan triangle inequality i
 def HasMinMaxLowerBound (E : Type v) (F : Type w)
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
     [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] : Prop :=
-  ∀ (T : E →L[𝕜] F) (n : ℕ) {r : ℝ}, 0 ≤ r → r < approximationNumber T n →
+  ∀ (T : E →L[𝕜] F) (n : ℕ) {r : ℝ}, 0 ≤ r → r < (T.singularValue n : ℝ) →
     ∃ s : ℝ, r < s ∧ ∃ v : Fin (n + 1) → E, LinearIndependent 𝕜 v ∧
       ∀ x ∈ Submodule.span 𝕜 (Set.range v), s * ‖x‖ ≤ ‖T x‖
 
@@ -191,8 +209,8 @@ theorem hilbertSchmidtEnergy_indep {ι' : Type y} (T : F →L[𝕜] E)
 
 /-- The Ky Fan gauge: the sum of the first `k` approximation numbers.  It is the gauge every
 dominance statement is phrased against. -/
-noncomputable def kyFanGauge (T : E →L[𝕜] F) (k : ℕ) : ℝ :=
-  ∑ n ∈ Finset.range k, approximationNumber T n
+noncomputable def kyFanGauge (T : E →L[𝕜] F) (k : ℕ) : ℝ≥0 :=
+  ∑ n ∈ Finset.range k, T.singularValue n
 
 /-- The Ky Fan triangle inequality from the converse min--max localization for this pair. -/
 theorem kyFanGauge_add_le_of_hasMinMaxLowerBound
@@ -210,7 +228,7 @@ theorem kyFanGauge_add_le (S T : E →L[𝕜] F) (k : ℕ) :
 /-- The nuclear gauge: the series of approximation numbers.  Its triangle inequality is the
 Ky Fan inequality in the limit. -/
 noncomputable def nuclearENorm (T : E →L[𝕜] F) : ℝ≥0∞ :=
-  ∑' n, ENNReal.ofReal (approximationNumber T n)
+  ∑' n, (T.singularValue n : ℝ≥0∞)
 
 /-- **Ky Fan dominance as a property of an ideal family.** The ideal-family laws do not
 force it; a family carries dominance as a separate property. -/
@@ -288,7 +306,7 @@ diagonal companion below.
 Spec: D2. -/
 noncomputable def symmetricGaugeFamily (𝕜 : Type u) [RCLike 𝕜] (Φ : SymmetricGauge) :
     OperatorIdealFamily.{u, v, w} 𝕜 where
-  gauge A := Φ.extend fun n => ENNReal.ofReal (approximationNumber A n)
+  gauge A := Φ.extend fun n => (A.singularValue n : ℝ≥0∞)
   gauge_add_le := sorry
   gauge_smul := sorry
   enorm_le_gauge := sorry
@@ -392,7 +410,7 @@ theorem gauge_schattenFamilyInf
     [NormedAddCommGroup F'] [InnerProductSpace 𝕜 F'] [CompleteSpace F']
     (T : E' →L[𝕜] F') :
     (schattenFamilyInf.{u, v, w} 𝕜).gauge T =
-      ⨆ n, ENNReal.ofReal (approximationNumber T n) := by
+      ⨆ n, (T.singularValue n : ℝ≥0∞) := by
   sorry
 
 /-- The scale is monotone, hence the ideals nest: `S_p ⊆ S_q` for `p ≤ q`.  Strictness
@@ -407,12 +425,12 @@ purpose -- through the singular-value sequence, and through an orthonormal expan
 that needs no spectral theory, which is what lets Part C stand on its own.  The two
 must therefore be proved equal.  Both sides are basis-independent, so the statement is
 well-posed; this is the one place in Part B where Milestone A3 is genuinely needed. -/
-theorem tsum_approximationNumber_sq_eq_hilbertSchmidtEnergy
+theorem tsum_singularValue_sq_eq_hilbertSchmidtEnergy
     {E' : Type v} {F' : Type w}
     [NormedAddCommGroup E'] [InnerProductSpace 𝕜 E'] [CompleteSpace E']
     [NormedAddCommGroup F'] [InnerProductSpace 𝕜 F'] [CompleteSpace F']
     (T : F' →L[𝕜] E') (b : HilbertBasis ι 𝕜 F') :
-    ∑' n, ENNReal.ofReal (approximationNumber T n) ^ 2 = hilbertSchmidtEnergy T b := sorry
+    ∑' n, (T.singularValue n : ℝ≥0∞) ^ 2 = hilbertSchmidtEnergy T b := sorry
 
 /-- **Milestone B3**: finite-dimensional Schatten `p`-norms for real `p ≥ 1` on
 the singular-value vector, with the finite endpoint identifications `S₁` nuclear and
@@ -501,12 +519,12 @@ theorem memLp_columns_iff (b : HilbertBasis ι 𝕜 F) (T : F →L[𝕜] E) :
 /-- **Hilbert–Schmidt operators are compact.**
 
 Finite energy forces
-`∑ aₙ(T)² < ∞` through `tsum_approximationNumber_sq_eq_hilbertSchmidtEnergy`, hence
+`∑ aₙ(T)² < ∞` through `tsum_singularValue_sq_eq_hilbertSchmidtEnergy`, hence
 `aₙ(T) → 0`, hence approximability, hence compactness by Part A's boundary.
 
 The Peter–Weyl roadmap
 (`TauCetiRoadmap/RepresentationTheory/CompactGroups`) records "Hilbert–Schmidt ⇒ compact"
-as one of three sub-milestones blocking `convolutionOperator_isCompact`, alongside an
+as one of three supporting results for `convolutionOperator_isCompact`, alongside an
 HS-operator API — which is this Part — and "continuous kernel on a compact space ⇒ HS
 integral operator", which is kernel theory and stays there. -/
 theorem isCompactOperator_of_hilbertSchmidtEnergy_ne_top

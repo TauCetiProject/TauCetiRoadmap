@@ -37,8 +37,8 @@ scope and dependencies.
   as convex analysis, Schur–Horn, Ky Fan sums and Fan dominance, unitarily invariant norms
   square and rectangular, and the Frobenius seminorm.
 - [**Principal angles**](PrincipalAngles/README.md) — principal angles as singular values
-  of an overlap operator, the projection gap, spectral subspaces and the separation
-  predicates, Hoffman–Wielandt and Davis's eigenvalue-change bound.
+  of an overlap operator, the projection gap, finite-dimensional point-spectral subspaces and
+  projectors, the separation predicates, Hoffman–Wielandt and Davis's eigenvalue-change bound.
 - [**Self-adjoint spectral theory**](SelfAdjointSpectralTheory/README.md) — one-parameter
   unitary groups and Stone's theorem, the bounded Borel functional calculus and
   projection-valued measures, closed operators and resolvents on `LinearPMap`, and the
@@ -92,8 +92,9 @@ Between roadmaps in this family:
 - **The operator modulus and the polar decomposition** belong to `PolarDecomposition`.
 - **Gram rigidity, the coordinate isometry, projection geometry, orthogonal series and
   reducing subspaces** belong to `OrthogonalGeometry`.
-- **The projection gap, spectral subspaces, the finite-dimensional restricted point spectrum, the separation
-  predicates and `sinThetaMap`** belong to `PrincipalAngles`. `InternalGap`, the member of the separation
+- **The projection gap, finite-dimensional point-spectral subspaces/projectors, the restricted point
+  spectrum, the separation predicates and `sinThetaMap`** belong to `PrincipalAngles`. PVM spectral
+  projections and their ranges belong to `SelfAdjointSpectralTheory`. `InternalGap`, the member of the separation
   family with both spectra from one operator, belongs to `SpectralSubspacePerturbation`,
   which is where it is consumed.
 - **Approximation numbers and every gauge of them** belong to `OperatorIdeals`.

@@ -227,9 +227,10 @@ projection-valued measure.
 
 ### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
 
-The vocabulary layer of the unbounded theory: everything Parts D and E state about a partial
-map is phrased in the notions defined here. This is where the representation decision
-becomes code.
+The domain-geometry and perturbation vocabulary layer of the unbounded theory. Parts D and E
+share the same `LinearPMap` carrier but are independently stated; Part C supplies the domain
+relations, transport, form bounds, relative-boundedness, and domain-aware Sylvester vocabulary
+used by perturbation consumers.
 
 **Objects and API to develop.**
 
@@ -439,24 +440,16 @@ subspaces and the restriction of a symmetric operator that Part C's form bounds 
 over.
 
 The [one-parameter semigroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
-roadmap is the canonical one for the dynamical layer, and it predates this one. Strongly
-continuous semigroups, their generators, Hille–Yosida and Lumer–Phillips belong there, not
-here. Two things overlap and should be built once:
+roadmap owns the general dynamical layer: strongly continuous semigroups, their generators,
+the general unbounded resolvent, Hille–Yosida, Lumer–Phillips, and real-shift Yosida
+approximation. This roadmap owns the unitary/self-adjoint specialization and Stone's theorem.
+The bridge is `OneParameterUnitaryGroup.toSemigroup` together with the exact generator relation
+for the convention `U t = exp (i t A)`: the semigroup generator is `i A`. The two roadmaps share
+that bridge rather than duplicating semigroup or generator theory.
 
-- the unbounded resolvent set and its bridge to Mathlib — theirs is the general statement,
-  ours the `𝕜`-valued specialization;
-- the Yosida approximation, theirs at real `λ` and ours at imaginary shifts.
-
-Conversely, Stone's theorem is a milestone here, so Parts A and E discharge it and that
-roadmap cites this one. The lemma relating `OneParameterUnitaryGroup` to `StronglyContinuousSemigroup`
-already exists in the donor repository as `toSemigroup` with `generator_toSemigroup` — the
-semigroup generator is `i` times the group generator, the factor being the Stone convention
-`U t = exp (i t A)` with `A` self-adjoint, so that `i A` is skew-adjoint. Only the inclusion
-`generatorDomain U ⊆ (toSemigroup U).domain` is proved; the reverse is the standard first step
-of Stone's theorem and no consumer needs it yet. What is missing is not the bridge but its
-statement in either roadmap.
-
-**Downstream.** `SpectralSubspacePerturbation` consumes Parts A, D and E.
+**Downstream.** `SpectralSubspacePerturbation` consumes Part A's unitary/Stone vocabulary,
+Part C's domain-aware `SylvesterEquation` and form-bound vocabulary, Part D's `LinearPMap`
+resolvent/spectrum API, and Part E's spectral-measure/intertwining results.
 `MatrixSpectralStatistics` consumes Mathlib's Hermitian continuous-functional-calculus
 continuity directly rather than depending on this roadmap.
 

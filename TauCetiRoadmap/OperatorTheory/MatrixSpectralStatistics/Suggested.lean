@@ -123,6 +123,25 @@ theorem measurable_cfc_of_hermitian (h : ℝ → ℝ) (hh : Continuous h)
     (hherm : ∀ ω, (Bm ω).IsHermitian) :
     Measurable fun ω => cfc h (Bm ω) := sorry
 
+/-- The canonical fixed-threshold spectral projector: the orthogonal projector onto the sum of
+Hermitian eigenspaces with eigenvalue in `[c, ∞)`. The definition is finite-dimensional and
+basis-free; unlike a top-`k` eigenspace it remains canonical in the presence of multiplicity
+away from the threshold. -/
+noncomputable def spectralProjectionIci (c : ℝ) (A : Matrix (Fin n) (Fin n) 𝕜)
+    (hA : A.IsHermitian) : Matrix (Fin n) (Fin n) 𝕜 := by
+  sorry
+
+/-- The fixed-threshold spectral projector is Borel measurable in the Hermitian matrix. -/
+theorem measurable_spectralProjectionIci (c : ℝ) :
+    Measurable fun A : {A : Matrix (Fin n) (Fin n) 𝕜 // A.IsHermitian} =>
+      spectralProjectionIci c A.1 A.2 := sorry
+
+/-- Random-matrix form of fixed-threshold spectral-projector measurability. -/
+theorem measurable_spectralProjectionIci_of_hermitian (c : ℝ)
+    {Bm : Ω → Matrix (Fin n) (Fin n) 𝕜} (hBmeas : Measurable Bm)
+    (hherm : ∀ ω, (Bm ω).IsHermitian) :
+    Measurable fun ω => spectralProjectionIci c (Bm ω) (hherm ω) := sorry
+
 end MatrixSpectra
 
 /-! ## Part C -- sample moments and matrix concentration
