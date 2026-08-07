@@ -34,6 +34,7 @@ body:
         - PDE
         - ReductiveGroups
         - RepresentationTheory
+        - RestrictedThreeBody
         - UniversalCovers
     validations:
       required: true
