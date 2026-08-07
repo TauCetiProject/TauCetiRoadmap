@@ -924,13 +924,13 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   groups. It does **not** have the nonabelian `H¹` this roadmap needs: the file
   `Mathlib/CategoryTheory/Sites/NonabelianCohomology/H1.lean` is degree-one cohomology of a
   presheaf of groups in a Čech-like site setting, not continuous nonabelian cohomology of a
-  profinite group on a discrete group. A prerequisite lane, needed by **Layer 5** — the
-  twist classification is the nonabelian statement; *this* layer's coefficient modules
-  (`E[m]`, `E(Kˢᵉᵖ)`, and the Cassels/local-duality material) are all abelian, and what it
-  needs from below is the forced-discrete constructor: continuous nonabelian `1`-cocycles,
-  the coboundary equivalence, the pointed
-  set `H¹_cts(G, A)`, functoriality and restriction, and the reduction to finite quotients
-  for profinite `G` and discrete `A`. Beyond that, the **Galois-specific packaging**, none
+  profinite group on a discrete group. That material is a prerequisite lane of its own,
+  needed by **Layer 5**, whose twist classification is the nonabelian statement: continuous
+  nonabelian `1`-cocycles, the coboundary equivalence, the pointed set `H¹_cts(G, A)`,
+  functoriality and restriction, and the reduction to finite quotients for profinite `G` and
+  discrete `A`. *This* layer's coefficient modules (`E[m]`, `E(Kˢᵉᵖ)`, and the
+  Cassels/local-duality material) are all abelian, so what it needs from below is instead the
+  **forced-discrete constructor** itemised at the head of this layer. Beyond that, the **Galois-specific packaging**, none
   of it upstream yet: profinite Galois groups acting continuously on discrete modules such
   as `E(Kˢᵉᵖ)` with the finite-level comparison (`H¹` as the colimit over finite Galois
   quotients); the Kummer/descent connecting map and exact sequence for `[m] : E → E`;

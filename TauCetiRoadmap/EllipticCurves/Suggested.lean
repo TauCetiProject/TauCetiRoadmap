@@ -148,7 +148,7 @@ is **not** definitionally the ambient one. The instance in play there is the loc
 instance on `Algebra W.CoordinateRing W.FunctionField`, and elaborating `MapsInfinity` against
 it fails with *"synthesized type class instance is not definitionally equal ... synthesized
 `OreLocalization.instAlgebra`, inferred `(identityPullback W).toAlgebra`"* — the two are
-propositionally but not definitionally equal (Mathlib's `Algebra.toAlgebra_algebraMap` is the
+propositionally but not definitionally equal (Mathlib's `toAlgebra_algebraMap` is the
 general statement, itself proved by `algebra_ext`, not `rfl`). Proofs bridge the gap with a
 single `Algebra.algebra_ext` rewrite, as `MapsInfinity.id` below does; the scalar actions
 themselves do agree by `rfl`, and what does not line up is the dependent `Subalgebra` type
