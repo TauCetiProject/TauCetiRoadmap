@@ -269,7 +269,8 @@ genuine Mathlib gaps — make B2's basis available on either side without re-pro
   (`‖√w·f‖²_{L²(μ)} = ∫ w|f|² = ‖f‖²_{L²(w·μ)}`). The isometry is purely measure-theoretic, so stated
   over an **arbitrary** measurable `α` (only the polynomial bridge below needs `Measure ℝ`); it ships
   the element-level `weightL2Isometry_apply` (a.e. `= √w · f`) as its anti-vacuity pin. Both this and
-  `mapₗᵢ` are general-purpose and are flagged as **upstream-Mathlib candidates**.
+  `mapₗᵢ` are **general-purpose**: neither mentions polynomials, so state them at the generality
+  above and put them where the rest of Tau Ceti can reuse them.
 - **`HilbertBasis.mapₗᵢ (b) (e : E ≃ₗᵢ F) : HilbertBasis ι 𝕜 F`** with `@[simp] mapₗᵢ_apply`
   (`ofRepr (e.symm.trans b.repr)`; Mathlib has `ofRepr` but no `≃ₗᵢ`-transport).
 

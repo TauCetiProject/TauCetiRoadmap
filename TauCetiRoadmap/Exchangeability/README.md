@@ -671,21 +671,54 @@ The directing-measure theorem should expose a real API, not just an existence pr
   representatives (witnesses of `MixedIIDWith`) are **not** a.e. unique when the mixing law is
   nondegenerate — an independent copy of `ν` is one — so no witness-level a.e.-equality
   theorem may conclude `ν = ν'` from `MixedIIDWith` alone; the mixture-side uniqueness is of
-  the mixing law `μ.map ν` (`mixedIID_mixingLaw_unique`, which does quantify over mixture
-  witnesses: two `MixedIIDWith` hypotheses, measurable `X`, concluding `μ.map ν = μ.map ν'`).
-  The `[IsProbabilityMeasure μ]` hypothesis on `mixedIID_mixingLaw_unique` is load-bearing,
-  not decorative: for infinite base measures, distinct mixing measures can give identical
-  `∞`-valued finite-dimensional mixtures, so mixing-law uniqueness fails at the hypothesis-light
-  generality of the definitions;
+  the mixing law `μ.map ν`. `mixedIID_mixingLaw_unique` quantifies over mixture witnesses under
+  `[IsFiniteMeasure μ]`: two `MixedIIDWith` hypotheses and measurable `X`, concluding
+  `μ.map ν = μ.map ν'`. Finiteness is load-bearing: without it, distinct mixing measures can give
+  identical `∞`-valued finite-dimensional mixtures;
 * the finite-dimensional factorization identity;
+* the **full-path joint disintegration** associated to a `ConditionallyIIDWith` witness: for
+  `[IsFiniteMeasure μ]`, arbitrary measurable sample and state spaces, measurable coordinates
+  `X`, and `h : ConditionallyIIDWith μ X ν`,
+
+  ```lean
+  μ.map (fun ω => (ν ω, fun i => X i ω)) = iidMixtureLaw (μ.map ν) id
+  ```
+
+  This is the whole-path form of the predicate's finite selected-block identities. It retains
+  the directing measure as a coordinate and is therefore strictly stronger than the integrated
+  mixture identity for `pathLaw μ X`. It is a derived public API theorem, **not** a prerequisite
+  for the v1 summit, empirical-measure convergence, or the extreme-point theorem;
 * the empirical-measure form: `(1/n) Σ_{i<n} δ_{Xᵢ}(ω) ⇒ ν(ω)` weakly in `P(α)`, tested
   against bounded continuous functions (a milestone in its own right, bringing in the weak
   topology on `ProbabilityMeasure α`; not a prerequisite for the base directing-measure
   theorem);
 * the mixture-of-product-measures form: `pathLaw X = ∫ p^{⊗ℕ} dπ(p)` with `π` the unique law
   of `ν` on `P(α)`;
-* the extreme-point corollary, once π-system uniqueness and the Hewitt–Savage input (Layer 2)
-  are available: the extreme exchangeable laws are exactly the i.i.d. laws.
+* the **zero-one, ergodic, and extreme interfaces** for exchangeable laws. For an exchangeable
+  probability law `ρ` on `ℕ → α`, with `α` standard Borel, the following characterize infinite
+  product laws:
+
+  1. the finite-permutation-invariant σ-field `exchangeableSigma` is `ρ`-trivial;
+  2. `ρ` is ergodic for the action of finitely supported coordinate permutations;
+  3. `ρ` is an extreme point among exchangeable probability laws;
+  4. there exists `p : ProbabilityMeasure α` with `ρ = p^{⊗ℕ}`.
+
+  These are distinct public interfaces and **need not be formalized in dependency order**:
+
+  - `exchangeableSigma_trivial_iff_iid` — (1) ⇔ (4). The product-to-zero–one direction is
+    Hewitt–Savage. The converse must show that triviality of `exchangeableSigma` makes the
+    directing measure almost surely constant, equivalently that the mixing law is Dirac;
+    `mixedIID_mixingLaw_unique` alone does not give this;
+  - the `ErgodicSMul` form — (1) ⇔ (2). ⚠ Ergodicity in (2) refers to the **finitely supported
+    permutation action**, and is distinct from one-sided shift ergodicity. This step bundles that
+    action and relates *exact* invariant events in `exchangeableSigma` to Mathlib's a.e.-invariant
+    formulation, which is a genuine API lemma rather than definitional plumbing;
+  - `exchangeable_extreme_iff_iid` — (3) ⇔ (4), the convex formulation advertised in Layer 7.
+    This interface is directly approachable from the de Finetti mixture representation, and depends
+    neither on the preceding two interfaces nor on the full-path joint disintegration.
+
+  The product parameter is determined by the one-coordinate marginal; bundle that uniqueness
+  where the affine representation API consumes it.
 
 This is the default route for the final public API.
 
@@ -727,6 +760,7 @@ deFinetti_viaL2
 deFinetti_viaKoopman
 
 deFinetti_empiricalMeasure
+ConditionallyIIDWith.jointPathLaw_eq_iidMixtureLaw
 deFinetti_mixture
 mixedIID_mixingLaw_unique
 conditionallyIID_ae_unique
@@ -746,7 +780,11 @@ Build:
 
 * finite de Finetti bounds, including quantitative approximation by mixtures of products;
 * de Finetti for other countable index types;
-* ergodic decomposition of exchangeable laws;
+* the affine and ergodic decomposition of exchangeable laws: package `p ↦ p^{⊗ℕ}` and the de
+  Finetti barycenter as an affine correspondence between mixing laws and exchangeable path laws.
+  The unique mixing law then gives the canonical decomposition supported on product — equivalently
+  extreme — laws. After the `ErgodicSMul` interface of Layer 6 is established, identify these
+  components with the ergodic components for the finitely supported permutation action;
 * Markov exchangeability;
 * exchangeable arrays and the Aldous–Hoover representation (a substantially larger tower than
   the sequence theorem, with its own prerequisites).
