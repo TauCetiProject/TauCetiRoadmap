@@ -1037,5 +1037,9 @@ other material outside the scope above are not migration sources for this roadma
 Vendored inputs, both under AINTLIB's Apache-2.0 licence: `Vendored/Coram*` — William Coram's
 restricted-power-series and Gauss-norm work, whose Mathlib face is `PowerSeries.IsRestricted`
 (a *normed* condition, `‖coeff‖·cⁱ → 0`, genuinely different from an adic one, and refactored
-upstream after this roadmap's pin) — and `Vendored/Xia*`. Compare both with current Mathlib at
-migration and coordinate rather than porting blindly.
+upstream after this roadmap's pin) — and `Vendored/XiaMvPowerSeriesEquiv.lean`, Bingyu Xia's
+`MvPowerSeries.map` lemmas and equivalence zoo, culminating in the power-series Fubini
+isomorphism `MvPowerSeries.finSuccEquiv` that the unit-disc sheafiness argument consumes. The
+latter was vendored from `WilliamCoram/PhD` pending its own upstream pull request, which is
+mathlib4#36507; Mathlib has `finSuccEquiv` for `MvPolynomial` but not yet for `MvPowerSeries`.
+Compare both with current Mathlib at migration and coordinate rather than porting blindly.
