@@ -15,8 +15,8 @@ library — these are goals, not proofs.
 
 Declarations that are facts about a Mathlib carrier are written in that carrier's
 namespace, because the namespace is part of the proposal: `LinearMap.operatorAbs` and
-`ContinuousLinearMap.modulus` are the two moduli of `README.md` Part A, each supporting dot
-notation on the object it is about. Everything else is written in this file's own
+`ContinuousLinearMap.modulus` are the carrier-level modulus constructions of `README.md`
+Part A, each supporting dot notation on the object it is about. Everything else is written in this file's own
 namespace, with its intended home named in the docstring.
 -/
 
@@ -66,6 +66,7 @@ section FunctionalCalculus
 
 variable {𝕜 : Type u} [RCLike 𝕜]
 variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
+variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F]
 variable {n : ℕ}
 
 /-- Apply a real function to the spectrum of a symmetric endomorphism: the finite `RCLike`
@@ -96,24 +97,32 @@ theorem sqrt_unique {T S : E →ₗ[𝕜] E} (hT : T.IsPositive) (hS : S.IsPosit
     (h : S ∘ₗ S = T) : S = hT.sqrt := by
   sorry
 
-/-- **The square modulus** `|A| = (A⋆A)^(1/2)`, over `RCLike` and in finite dimension.
-
-`operatorAbs` names the square construction. A bare `abs` collides with the lattice absolute
-value denoted by `|·|`; `modulus` names the rectangular `ContinuousLinearMap` construction.
-
-The rectangular complex counterpart is `ContinuousLinearMap.modulus`, and
-`operatorAbs_toContinuousLinearMap_eq_cfcAbs` proves the two agree where both apply. -/
-noncomputable def operatorAbs (A : E →ₗ[𝕜] E) : E →ₗ[𝕜] E :=
-  (LinearMap.isPositive_adjoint_comp_self A).sqrt
-
-/-- The polar norm identity `‖|A| x‖ = ‖A x‖`, the seed of the isometry route to the polar
-decomposition (Conway VI.3.9). -/
-@[simp] theorem norm_operatorAbs_apply (A : E →ₗ[𝕜] E) (x : E) : ‖operatorAbs A x‖ = ‖A x‖ := by
+/-- The positive square root is positive. -/
+theorem IsPositive.sqrt_isPositive {T : E →ₗ[𝕜] E} (hT : T.IsPositive) :
+    hT.sqrt.IsPositive := by
   sorry
 
-/-- `ker |A| = ker A`; with `range |A| = (ker A)ᗮ` this is what identifies the initial
-space of the polar factor. -/
-theorem ker_operatorAbs (A : E →ₗ[𝕜] E) : ker (operatorAbs A) = ker A := by
+/-- **The finite-dimensional rectangular modulus** `|A| = (A†A)^(1/2)`, over `RCLike`.
+The modulus acts on the source even when `A : E →ₗ[𝕜] F` is rectangular. -/
+noncomputable def operatorAbs (A : E →ₗ[𝕜] F) : E →ₗ[𝕜] E :=
+  (LinearMap.isPositive_adjoint_comp_self A).sqrt
+
+/-- The finite-dimensional modulus is positive. -/
+theorem isPositive_operatorAbs (A : E →ₗ[𝕜] F) : (operatorAbs A).IsPositive := by
+  sorry
+
+/-- The finite-dimensional modulus squares to the Gram operator. -/
+theorem operatorAbs_sq (A : E →ₗ[𝕜] F) :
+    operatorAbs A ∘ₗ operatorAbs A = A.adjoint ∘ₗ A := by
+  sorry
+
+/-- The polar norm identity `‖|A| x‖ = ‖A x‖`. -/
+@[simp] theorem norm_operatorAbs_apply (A : E →ₗ[𝕜] F) (x : E) :
+    ‖operatorAbs A x‖ = ‖A x‖ := by
+  sorry
+
+/-- The modulus has exactly the kernel of the original rectangular map. -/
+theorem ker_operatorAbs (A : E →ₗ[𝕜] F) : ker (operatorAbs A) = ker A := by
   sorry
 
 /-- Courant–Fischer min–max equality (Horn–Johnson 4.2.6). -/
@@ -150,8 +159,8 @@ theorem selfAdjointFunctionalCalculus_toContinuousLinearMap_eq_cfc
       cfc f T.toContinuousLinearMap := by
   sorry
 
-/-- The two moduli agree wherever both are defined: the `RCLike` construction, transported
-across the `LinearMap ↔ ContinuousLinearMap` adjoint bridge, is `CFC.abs`. -/
+/-- In the finite-dimensional complex endomorphism case, `operatorAbs` transported to
+bounded operators agrees with Mathlib's CFC absolute value. -/
 theorem operatorAbs_toContinuousLinearMap_eq_cfcAbs (A : H →ₗ[ℂ] H) :
     (operatorAbs A).toContinuousLinearMap = CFC.abs A.toContinuousLinearMap := by
   sorry
@@ -320,48 +329,93 @@ end GramContraction
 
 section RectangularModulus
 
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
-variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace ℂ F] [CompleteSpace F]
+variable {𝕜 : Type u} [RCLike 𝕜]
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
+variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
 
-/-- **The rectangular modulus** `|T| = (T⋆T)^(1/2)`, through Mathlib's continuous
-functional calculus: complex and rectangular where `LinearMap.operatorAbs` is `RCLike` and
-square, and defined on complete spaces of any dimension. -/
-noncomputable def modulus (T : E →L[ℂ] F) : E →L[ℂ] E :=
-  CFC.sqrt (T.adjoint ∘L T)
+/-- **The canonical rectangular modulus** `|T| = (T†T)^(1/2)`, on a real or complex
+Hilbert space of arbitrary dimension.  The complex implementation may use `CFC.sqrt`; the
+public object is scalar-generic. -/
+noncomputable def modulus (T : E →L[𝕜] F) : E →L[𝕜] E := by
+  sorry
+
+/-- The canonical modulus is positive. -/
+theorem isPositive_modulus (T : E →L[𝕜] F) : (modulus T).IsPositive := by
+  sorry
+
+/-- The modulus is self-adjoint. -/
+theorem isSelfAdjoint_modulus (T : E →L[𝕜] F) : IsSelfAdjoint (modulus T) := by
+  sorry
+
+/-- The modulus is the positive Gram square root. -/
+theorem modulus_sq (T : E →L[𝕜] F) :
+    modulus T ∘L modulus T = T.adjoint ∘L T := by
+  sorry
+
+/-- The modulus is the unique positive symmetric square root of the Gram operator. -/
+theorem eq_modulus_of_isPositive_sq {T : E →L[𝕜] F} {A : E →L[𝕜] E}
+    (hA : A.IsSymmetric) (hApos : A.IsPositive)
+    (hgram : A ∘L A = T.adjoint ∘L T) : A = modulus T := by
+  sorry
 
 /-- The modulus reproduces the norms of the original operator pointwise. -/
-@[simp] theorem norm_modulus_apply (T : E →L[ℂ] F) (x : E) : ‖modulus T x‖ = ‖T x‖ := by
+@[simp] theorem norm_modulus_apply (T : E →L[𝕜] F) (x : E) : ‖modulus T x‖ = ‖T x‖ := by
   sorry
 
 /-- The initial space of the rectangular polar decomposition: the closure of the range of
 the modulus. -/
-noncomputable def polarInitial (M : E →L[ℂ] F) : Submodule ℂ E :=
+noncomputable def polarInitial (M : E →L[𝕜] F) : Submodule 𝕜 E :=
   (LinearMap.range (modulus M).toLinearMap).topologicalClosure
 
-/-- The polar partial isometry of a bounded rectangular complex operator: isometric on the
-initial space, zero on its orthogonal complement.
-
-Spec: D1. -/
-noncomputable def polarPartial (M : E →L[ℂ] F) : E →L[ℂ] F :=
+/-- The canonical polar partial isometry: isometric on the initial space and zero on its
+orthogonal complement. -/
+noncomputable def polarPartial (M : E →L[𝕜] F) : E →L[𝕜] F := by
   sorry
 
 /-- The polar factor is a rectangular partial isometry. -/
-theorem polarPartial_isPartialIsometry (M : E →L[ℂ] F) :
+theorem polarPartial_isPartialIsometry (M : E →L[𝕜] F) :
     (polarPartial M).IsPartialIsometry := by
   sorry
 
-/-- The rectangular polar decomposition `M = W |M|` (Conway VI.3.9). -/
-theorem polarPartial_comp_modulus (M : E →L[ℂ] F) :
+/-- The rectangular polar decomposition `M = W |M|`. -/
+theorem polarPartial_comp_modulus (M : E →L[𝕜] F) :
     polarPartial M ∘L modulus M = M := by
   sorry
 
-/-- The initial space is exactly the orthogonal complement of the kernel: the content of
-the general decomposition, proved rather than taken as the definition. -/
-theorem polarInitial_orthogonal_eq_ker (M : E →L[ℂ] F) :
+/-- The initial space is exactly the orthogonal complement of the kernel. -/
+theorem polarInitial_orthogonal_eq_ker (M : E →L[𝕜] F) :
     (polarInitial M)ᗮ = LinearMap.ker M.toLinearMap := by
   sorry
 
 end RectangularModulus
+
+section ComplexModulusCFC
+
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
+variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace ℂ F] [CompleteSpace F]
+
+/-- Over complex Hilbert spaces, the scalar-generic modulus is the CFC positive square root
+of the Gram operator. -/
+theorem modulus_eq_cfcSqrt (T : E →L[ℂ] F) :
+    modulus T = CFC.sqrt (T.adjoint ∘L T) := by
+  sorry
+
+end ComplexModulusCFC
+
+section FiniteModulusAgreement
+
+variable {𝕜 : Type u} [RCLike 𝕜]
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
+variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F]
+
+/-- The finite-dimensional linear-map modulus and the complete-space bounded-operator modulus
+agree under the canonical coercions. -/
+theorem operatorAbs_toContinuousLinearMap_eq_modulus (A : E →ₗ[𝕜] F) :
+    (LinearMap.operatorAbs A).toContinuousLinearMap =
+      modulus A.toContinuousLinearMap := by
+  sorry
+
+end FiniteModulusAgreement
 
 section SingularValueAccessor
 

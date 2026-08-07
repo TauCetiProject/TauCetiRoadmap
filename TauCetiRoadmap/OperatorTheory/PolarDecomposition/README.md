@@ -21,11 +21,11 @@ estimates in `TauCeti/Analysis/SpecialFunctions/`.
 **Why "Hilbert-space" and not "finite-dimensional".** The organizing core is
 finite-dimensional: the functional calculus is a finite sum over an eigenbasis, and that
 is what makes it exist. But several constructions here need no finite-dimensional hypothesis at all: the rectangular
-operator modulus over `ℂ`, the polar decomposition through a partial isometry, and the
-scalar-generic Gram-contraction factorization once a self-adjoint Gram square root is given.
-Later roadmaps consume them in that stronger form. [`OperatorIdeals`](../OperatorIdeals/README.md)
-uses the Gram-contraction rung to keep ideal arguments scalar-generic and applies the complex
-modulus where the canonical square root itself is required;
+operator modulus, the polar decomposition through a partial isometry, and the Gram-contraction
+factorization are all naturally statements over `RCLike`.  The current complex C⋆ functional
+calculus is one construction route for the modulus, not part of its public theorem statement.
+Later roadmaps consume the scalar-generic form. [`OperatorIdeals`](../OperatorIdeals/README.md)
+uses the Gram-contraction rung directly;
 [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) uses the
 bounded polar factorization in its interval/exterior estimates. Stating those results in
 finite dimension and generalizing later would mean proving them twice, so they are stated
@@ -36,21 +36,19 @@ for complete spaces here.
 - **Scalars are `𝕜 : RCLike`; finite dimension exactly where the eigenbasis is used.** The
   functional calculus is a finite sum over `LinearMap.IsSymmetric.eigenvectorBasis`, so
   `[FiniteDimensional 𝕜 E]` is what makes the definition exist. Supporting material that
-  needs neither the spectral theorem nor finite dimension — the partial-isometry API and
-  Gram-contraction factorization — is stated on complete Hilbert spaces. The rectangular
-  modulus also has no dimension hypothesis, but remains complex because its construction uses
-  Mathlib's C⋆ functional calculus.
+  needs neither the finite spectral theorem nor finite dimension — the partial-isometry API,
+  modulus, polar factorization and Gram-contraction factorization — is stated on complete
+  Hilbert spaces over `RCLike`.
 - **One square root, defined once.** The positive square root *is* the functional calculus
   at `Real.sqrt`, by definition. There must not be two constructions of one object; the
   square-root-specific theory (uniqueness, kernel, range, the isometry-defect identity)
   attaches to that single definition.
-- **Two moduli, neither subsuming the other.** The square modulus
-  `LinearMap.operatorAbs A = sqrt (A⋆ ∘ₗ A)` is `RCLike`-generic and finite-dimensional; the
-  rectangular modulus `ContinuousLinearMap.modulus T = CFC.sqrt (T⋆ ∘L T)` is complex and
-  works on complete spaces, because Mathlib registers the C⋆-algebra instances on
-  `E →L[𝕜] E` only for `𝕜 = ℂ`. One is more general in the field, the other in the shape;
-  deleting either loses theorems, and a theorem proves they agree wherever both are
-  defined.
+- **One modulus semantics, with carrier-appropriate constructions.** For a rectangular map
+  `T : E → F`, the modulus is the positive square root of `T†T` and therefore acts on `E`.
+  `LinearMap.operatorAbs` states this over finite-dimensional `RCLike` spaces;
+  `ContinuousLinearMap.modulus` states the dimension-free bounded-operator API over `RCLike`.
+  Over `ℂ`, the latter is implemented by `CFC.sqrt`; finite-dimensional bridge theorems show
+  the constructions agree wherever both apply.
 - **One equation, with carrier-appropriate predicates.** In a star monoid,
   `IsPartialIsometry u` means `u * star u * u = u`; this covers endomorphisms and abstract
   C⋆-algebra elements. A rectangular map `u : E → F` is not an element of one monoid, so
@@ -61,9 +59,9 @@ for complete spaces here.
 - **Construct the square root where available; factor it at `RCLike` generality.** If
   `A : E →L[𝕜] E` is self-adjoint and `A ∘L A = T† ∘L T`, then on arbitrary complete
   `RCLike` Hilbert spaces there is a contraction `W : E →L[𝕜] F` with contractive adjoint
-  such that `W ∘L A = T` and `W† ∘L T = A`. Over `ℂ`, `A = modulus T` supplies the
-  canonical Gram square root and the construction sharpens to the rectangular polar partial
-  isometry. Finite-dimensional endomorphisms over `RCLike` further admit a unitary factor.
+  such that `W ∘L A = T` and `W† ∘L T = A`. Taking `A = modulus T` supplies the canonical
+  Gram square root and sharpens this to the rectangular polar partial isometry.
+  Finite-dimensional endomorphisms over `RCLike` further admit a unitary factor.
 - **Intrinsic, basis-free statements.** The singular system is built for a linear map
   between spaces, never for a matrix in a chosen pair of bases: the consumers (principal
   angles, unitarily invariant norms, spectral-subspace perturbation) are basis-free, and a
@@ -80,8 +78,8 @@ for complete spaces here.
   `LinearMap.IsPositive` with `nonneg_eigenvalues`, adjoints, and the rank-one operators
   `InnerProductSpace.rankOne`. Part A is a finite sum of these.
 - **The continuous functional calculus over `ℂ`:** `CFC.sqrt` and `CFC.abs` on `E →L[ℂ] E`.
-  The C⋆-instances exist only for `𝕜 = ℂ`, which is why the `RCLike` calculus of Part A is
-  built here and why there are two moduli. Bridge to it; do not duplicate it.
+  This supplies the complex implementation of the dimension-free modulus and the comparison
+  theorem with the finite `RCLike` construction.
 - **Singular values:** `LinearMap.singularValues : ℕ →₀ ℝ` between finite-dimensional inner
   product spaces — zero-indexed, antitone, zero past the rank. Mathlib has the values;
   Part C adds the vectors, the two-sided spectrum bridge, and the pseudoinverse.
@@ -90,10 +88,10 @@ for complete spaces here.
 
 ## What is missing (build here)
 
-* The finite self-adjoint functional calculus over `RCLike`, which Mathlib registers only over
-  `ℂ`, together with the theorem that the two agree where both apply.
-* The positive square root and its uniqueness, and the two moduli — square over `RCLike`,
-  rectangular over `ℂ` — with the proof that they agree.
+* The finite self-adjoint functional calculus over `RCLike`, together with comparison to the
+  complex continuous-functional-calculus implementation where both apply.
+* The positive square root and its uniqueness; the rectangular modulus over `RCLike` in both
+  finite and complete settings, with comparison to the complex CFC implementation.
 * Partial isometries for maps between *different* spaces, and their geometric
   characterization; Mathlib has no `IsPartialIsometry` at all.
 * The dimension-free `RCLike` Gram-contraction factorization from a self-adjoint square root
@@ -107,13 +105,13 @@ for complete spaces here.
 
 ## The build, in layers
 
-### Part A — the functional calculus, the positive square root, and the two moduli
+### Part A — the functional calculus, the positive square root, and the modulus
 
 **Objects.** The finite self-adjoint functional calculus
 `selfAdjointFunctionalCalculus hT f = ∑ᵢ f(λᵢ) • rankOne eᵢ eᵢ` for a symmetric
 endomorphism over `RCLike`; the positive square root `sqrt hT`, defined as the calculus at
-`Real.sqrt`; the square modulus `LinearMap.operatorAbs A = sqrt (A⋆ ∘ₗ A)`; the rectangular
-complex modulus `ContinuousLinearMap.modulus T = CFC.sqrt (T⋆ ∘L T)`; and the supporting
+`Real.sqrt`; the finite rectangular modulus `LinearMap.operatorAbs A = sqrt (A† ∘ₗ A)`; the
+dimension-free rectangular modulus `ContinuousLinearMap.modulus T = sqrt (T† ∘L T)`; and the supporting
 algebra — the expansion of `⟪∑ aᵢ • vᵢ, ∑ bⱼ • vⱼ⟫` over pairwise inner products, spans of
 orthonormal subfamilies, the eigenvector cross-term identity
 `⟪eᵢ, (S−T) fⱼ⟫ = (μⱼ − λᵢ) ⟪eᵢ, fⱼ⟫`, and two scalar square-root estimates near `1`.
@@ -129,60 +127,54 @@ orthonormal subfamilies, the eigenvector cross-term identity
 - The square root: positive, symmetric, squares to `T`; `ker (sqrt hT) = ker T`,
   `range (sqrt hT) = range T`; the isometry-defect identity `‖sqrt hT x‖² = re ⟪T x, x⟫`;
   invertible when `T` is.
-- The square modulus: positive; `|A|² = A⋆A`; the pointwise isometry `‖|A| x‖ = ‖A x‖` with
-  `ker |A| = ker A` and `range |A| = (ker A)ᗮ`; commutation with `A` when `A` is normal.
-- The rectangular modulus: nonnegative, self-adjoint, `|T|² = T⋆T`; the pointwise isometry
+- The finite-dimensional modulus: positive; `|A|² = A†A`; the pointwise isometry
+  `‖|A| x‖ = ‖A x‖` with `ker |A| = ker A` and `range |A| = (ker A)ᗮ`; commutation with
+  `A` in the endomorphism case when `A` is normal.
+- The complete-space modulus: positive and self-adjoint, `|T|² = T†T`; the pointwise isometry
   `‖|T| x‖ = ‖T x‖` with its kernel corollary; `‖|T|‖ = ‖T‖`; composition norm laws; the
-  characterization as the unique nonnegative square root of the Gram operator.
+  characterization as the unique positive symmetric square root of the Gram operator.
 - Courant–Fischer and Weyl: the quadratic form in the eigenbasis, the min–max equality,
   eigenvalue monotonicity, the perturbation bound.
 
-### Naming the square modulus
+### Naming the modulus
 
-The two constructions are
+The two carrier-level constructions are
 
 ```lean
-LinearMap.operatorAbs       (A : E →ₗ[𝕜] E) : E →ₗ[𝕜] E   -- RCLike, finite-dimensional
-ContinuousLinearMap.modulus (T : E →L[ℂ] F) : E →L[ℂ] E   -- complex, rectangular, complete
+LinearMap.operatorAbs       (A : E →ₗ[𝕜] F) : E →ₗ[𝕜] E   -- RCLike, finite-dimensional
+ContinuousLinearMap.modulus (T : E →L[𝕜] F) : E →L[𝕜] E   -- RCLike, rectangular, complete
 ```
 
 each in the namespace of its carrier, so both support dot notation.
 
-The square construction and its lemmas use `operatorAbs` — `norm_operatorAbs_apply`,
-`ker_operatorAbs`. A bare `abs` collides with the lattice absolute value that `|·|` denotes
-in Lean, and `modulus` names the rectangular construction.
+The finite-dimensional construction and its lemmas use `operatorAbs` —
+`norm_operatorAbs_apply`, `ker_operatorAbs`. A bare `abs` collides with the lattice absolute
+value that `|·|` denotes in Lean, while `modulus` is the bounded-operator spelling.
 
-**Milestone — uniqueness, at both layers.** The square root is the unique positive operator
-squaring to `T` (Horn–Johnson 7.2.6); and the calculus itself is the unique symmetric
-operator acting as `f (λᵢ)` on each eigenvector of `T`.
+**Milestone — uniqueness, at both layers.** The positive square root is unique
+(Horn–Johnson 7.2.6), so each modulus is the unique positive symmetric square root of its
+Gram operator. The finite functional calculus is likewise the unique symmetric operator
+acting as `f (λᵢ)` on each eigenvector of `T`.
 
 **Milestone — Courant–Fischer and Weyl.** The `k`-th sorted eigenvalue is the sup–inf of
 the Rayleigh quotient over `(k+1)`-dimensional subspaces (Horn–Johnson 4.2.6), and a
 symmetric perturbation moves each eigenvalue by at most the operator norm.
 
-**Milestone — the two moduli agree, and so do the two calculi.** Over `ℂ` the `RCLike`
-functional calculus and Mathlib's continuous functional calculus compute the same operator.
-At `Real.sqrt` this identifies the two moduli; for a general continuous `f` it lets a
-consumer move between the two calculi freely, and it is a target here.
+**Milestone — the modulus constructions agree.** In finite dimension,
+`LinearMap.operatorAbs A`, transported to a bounded operator, equals
+`ContinuousLinearMap.modulus A.toContinuousLinearMap` over every `RCLike` field. Over `ℂ`,
+the finite self-adjoint functional calculus also agrees with Mathlib's continuous functional
+calculus, and the complete-space modulus agrees with `CFC.sqrt (A†A)`.
 
 ### Part B — polar decomposition and partial isometries
 
-Every operator factors as an isometric part times its modulus. That statement appears in two
-different forms, differing on three axes, and each direction of generalization loses
-something:
-
-| | square decomposition | rectangular decomposition |
-|---|---|---|
-| scalars | `[RCLike 𝕜]` — `ℝ` and `ℂ` | `ℂ` only |
-| dimension | `[FiniteDimensional]` | `[CompleteSpace]` — infinite allowed |
-| shape | `E →ₗ[𝕜] E`, endomorphism | `E →L[ℂ] F`, rectangular |
-| isometric factor | **unitary** `E ≃ₗᵢ[𝕜] E` | **partial isometry** |
-
-The two moduli still have complementary limitations, so there is no single canonical modulus
-subsuming both. The factorization step is more general than either modulus construction:
-for `[RCLike 𝕜]`, a supplied self-adjoint Gram square root `A² = T†T` already determines a
-two-sided contractive factor. Their partial-isometry predicates share the same equation, but
-rectangular maps require typed composition rather than multiplication in one carrier.
+Every bounded rectangular operator on a real or complex Hilbert space factors as a partial
+isometry times its modulus.  Finite-dimensional endomorphisms have the stronger unitary-factor
+form.  These are specializations of one scalar-generic geometry rather than separate real and
+complex APIs.  A supplied self-adjoint Gram square root `A² = T†T` already determines the
+two-sided contractive factor; the modulus theorem supplies the canonical square root.
+Rectangular partial isometries use typed composition because the adjoint reverses source and
+target.
 
 **Objects.** The star-monoid and carrier-specific partial-isometry predicates; the polar
 factor `polarFactor A` (the partial isometry
@@ -208,7 +200,7 @@ orthogonal projection families.
   `A ∘L A = T† ∘L T`, a map `W` with `‖W‖ ≤ 1`, `‖W†‖ ≤ 1`, `W ∘L A = T`, and
   `W† ∘L T = A`. The statement is rectangular, dimension-free and over `RCLike`; it does
   not require a functional calculus once the Gram square root is supplied.
-- The rectangular complex decomposition: `polarPartial M ∘L |M| = M`; isometric on
+- The rectangular `RCLike` decomposition: `polarPartial M ∘L |M| = M`; isometric on
   `polarInitial M`, zero on its complement; `ker (polarPartial M) = (polarInitial M)ᗮ`; the
   adjoint formulas and the final space `polarFinal M = closure (range M)`; uniqueness — any
   `V` with `V ∘L |M| = M` vanishing on `(polarInitial M)ᗮ` is `polarPartial M`.
@@ -218,9 +210,10 @@ orthogonal projection families.
   the conclusion is strictly stronger.
 
 **Milestone — the Gram-contraction and polar decompositions.** The `RCLike`
-Gram-contraction theorem is the scalar-generic factorization layer. The complex polar
-decomposition adds the canonical CFC modulus and identifies its initial space with
-`(ker M)ᗮ`; the finite-dimensional square decomposition strengthens the factor to a unitary.
+Gram-contraction theorem is the factorization layer. The canonical `RCLike` modulus gives the
+polar partial isometry and identifies its initial space with `(ker M)ᗮ`; over `ℂ` the modulus
+is compared with the CFC construction. The finite-dimensional square decomposition
+strengthens the factor to a unitary.
 
 **Milestone — the near-isometry factorization.** A real finite-dimensional map whose
 quadratic form is uniformly `δ`-close to the identity (`δ < 1`) factors as `M = W ∘ₗ S`
@@ -310,7 +303,7 @@ the predicate, the construction, and the theorem that they determine each other.
 
 ## Worked examples (acceptance criteria)
 
-### Part A — the functional calculus, the positive square root, and the two moduli
+### Part A — the functional calculus, the positive square root, and the modulus
 
 **Acceptance examples.** `calculus id = T`; the calculus of a constant is that multiple of
 the identity; on a concrete diagonal operator the square root and modulus take their
@@ -319,10 +312,10 @@ identity.
 
 ### Part B — polar decomposition and partial isometries
 
-**Acceptance criteria.** That `exists_contraction_of_gram_eq` is rectangular,
-dimension-free and `RCLike`; that the canonical modulus-based rectangular decomposition
-remains `ℂ`-only; that square and rectangular partial-isometry predicates state the same
-typed equation and agree in the endomorphism case; and that
+**Acceptance criteria.** That `exists_contraction_of_gram_eq` and the canonical modulus-based
+rectangular decomposition are dimension-free, rectangular and `RCLike`; that the complex
+implementation agrees with CFC; that square and rectangular partial-isometry predicates state
+the same typed equation and agree in the endomorphism case; and that
 `polarInitial M = (ker M)ᗮ` is a theorem.
 
 ### Part C — singular values and the singular system
