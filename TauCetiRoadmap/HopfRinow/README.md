@@ -406,7 +406,14 @@ assumption:
 - **A finite-dimensional real inner-product space `F`:** consume Mathlib's existing
   `IsRiemannianManifold 𝓘(ℝ, F) F` instance. Prove that geodesics are affine lines, `F` is
   geodesically and metrically complete, and the affine segment from `x` to `y` has
-  `pathELength = ‖x - y‖`. Include the trivial space; no `NeZero` hypothesis is needed.
+  `pathELength = ‖x - y‖`. For every `p` and `v`, compute
+  `γ_{p,v}(t) = p + t • v`, `J(p,v) = univ`, `expDomain p = univ`, and `exp_p v = p + v` under
+  the canonical tangent-space identification. For every `r > 0`, identify `exp_p` on the tangent
+  ball of radius `r` with a diffeomorphism onto `Metric.ball p r`, compute its inverse as
+  `log_p q = q - p`, and compute the derivative of `exp_p` as the identity, hence the Gauss radial
+  identity. Include the trivial space; no `NeZero` hypothesis is needed. These computations are
+  acceptance tests for the Layer-1 exponential-map API and the Layer-2 normal-ball, logarithm, and
+  Gauss-lemma wiring, not only for the final completeness statements.
 - **The open unit ball in `ℝ`, with `p = 0`:** use the Layer-0 open-submanifold restriction of the
   flat metric. Every `q` is joined to `0` by its radial segment, which realizes `dist 0 q`, but
   `closedBall 0 2` is the whole open ball and is not compact. A unit-speed radial geodesic reaches
