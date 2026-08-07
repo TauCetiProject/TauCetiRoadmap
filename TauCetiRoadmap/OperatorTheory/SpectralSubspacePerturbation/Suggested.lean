@@ -148,7 +148,7 @@ theorem uiNorm_sylvester_le_of_intervalGap
     δ * N X ≤ N C := by
   sorry
 
-/-- **Arbitrary pairwise separation, the sharp constant `π / 2`** (the mass of
+/-- Arbitrary pairwise separation, constant π / 2 (the mass of
 the Part A kernel), lifted from the simultaneous Ky Fan prefix estimate by Fan
 dominance. -/
 theorem uiNorm_sylvester_le_of_spectralDistance

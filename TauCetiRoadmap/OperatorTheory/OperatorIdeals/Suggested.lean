@@ -274,9 +274,8 @@ theorem SymmetricGauge.extend_le_extend_of_forall_sum_le (Φ : SymmetricGauge)
     (h : ∀ k, ∑ n ∈ Finset.range k, a n ≤ ∑ n ∈ Finset.range k, b n) :
     Φ.extend a ≤ Φ.extend b := sorry
 
-/-- **Milestone B1, the direction of the Calkin correspondence we claim.**  The
-construction is injective up to equality of gauges on antitone sequences, so the
-ideal really is a function of the singular-value sequence alone. -/
+/-- **Milestone B1.** Equality of the operator-ideal families induced by two
+symmetric gauges forces their extensions to agree on antitone sequences. -/
 theorem symmetricGaugeFamily_injective {Φ Ψ : SymmetricGauge}
     (h : symmetricGaugeFamily Φ = symmetricGaugeFamily Ψ)
     {a : ℕ → ℝ≥0∞} (ha : Antitone a) :

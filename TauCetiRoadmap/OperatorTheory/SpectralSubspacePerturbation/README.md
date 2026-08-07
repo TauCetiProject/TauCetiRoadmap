@@ -66,11 +66,7 @@ TauCeti/Analysis/Operator/Perturbation/
   both operators are unbounded, so no continuous symbol separates them. But `1` is a null
   point for every diagonal spectral measure, so continuous symbols damped at `1` separate in
   the limit, and dominated convergence finishes.
-- **The constant `π/2`.** Part A's kernel attains `π/2`. That no admissible kernel beats it
-  is a literature citation, not a target here. The partial converse is proved: every real,
-  undoubled interpolation certificate for the two-by-two obstruction data has coefficient
-  mass at least `5/3 > π/2`. The real-field `π/2` theorem therefore goes through the
-  doubled-phase certificate.
+* **The constant `π/2`.** Part A constructs a kernel of mass exactly `π/2`. The partial converse is proved: every real, undoubled interpolation certificate for the two-by-two obstruction data has coefficient mass at least `5/3 > π/2`. The real-field `π/2` theorem therefore goes through the doubled-phase certificate.
 - **Kernel conventions.** The real kernel `ℝ → ℝ` and the complex kernel `ℝ → ℂ`
   (`k = −i·k_ℝ`) both stay: mass and positivity use the real one, the Fourier identity uses
   the complex one. The Laplace transform integrates over `Set.Ioi 0`. The Fourier identity is

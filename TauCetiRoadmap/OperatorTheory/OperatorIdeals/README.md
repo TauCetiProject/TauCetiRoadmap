@@ -49,11 +49,11 @@ Suggested homes: `TauCeti/Analysis/OperatorIdeal/ApproximationNumber/`,
   converse is claimed **only for a Hilbert target** — it fails for general Banach spaces
   without an approximation property, and the hypothesis sits on the target because that is
   where the property lives.
-- **One `ℝ≥0∞` gauge is the sole datum of an ideal family**, the ideal being its finiteness
-  domain. This is the Gohberg–Kreĭn/Calkin symmetric-norming-function presentation and the
-  only one with an extensionality theorem. Four laws suffice — subadditivity, absolute
-  homogeneity, domination of the operator norm, the two-sided composition bound — and closure
-  under module operations follows.
+* **One** **`ℝ≥0∞`** **gauge is the sole datum of an ideal family**, the ideal being its finiteness domain. This follows the symmetric-norming-function construction of Gohberg–Kreĭn and is
+  the presentation used throughout this roadmap, with an extensionality theorem for the
+  induced families. Four laws suffice — subadditivity, absolute homogeneity, domination of
+  the operator norm, and the two-sided composition bound — and closure under module
+  operations follows.
 - **Hilbert spaces at the family layer, forced by the examples.** The four laws are norm-only,
   but of the motivating gauges only the operator norm survives outside Hilbert space: Ky Fan
   subadditivity runs through singular values and majorization. No proof in the interface uses
@@ -227,11 +227,9 @@ is the wrong instance.
     infinite-dimensional spaces. Milestone A1 proves the two agree, which is what makes `S₂`
     one object across both halves of this Part.
 
-### Milestone B1 — symmetric norming functions and the Calkin correspondence
+### Milestone B1 — symmetric norming functions and induced ideal families
 
-The Calkin correspondence: a map from a symmetric norming function to the ideal family it
-induces, so that ideals are obtained from their symbols rather than constructed one at a
-time.
+A symmetric norming function determines an operator-ideal family by applying its extension to the approximation-number sequence. This gives a uniform construction of the ideal families used below rather than constructing each family separately.
 
 **Objects.** `SymmetricGauge`, a symmetric norming function in the sense of Gohberg–Kreĭn: a
 map `Φ : (ℕ →₀ ℝ≥0) → ℝ≥0` on finitely supported sequences with subadditivity and positive
@@ -267,12 +265,7 @@ is `aₙ(c • T) = ‖c‖ aₙ(T)` with homogeneity of `Φ`; domination of the
 monotonicity of `Φ`; and adjoint invariance is `aₙ(T⋆) = aₙ(T)`. Subadditivity is the only
 hard one, which is why it is stated as Milestone B2.
 
-**The Calkin correspondence.** Symmetric ideals of `B(H)` on a separable infinite-dimensional
-Hilbert space are in bijection with the symmetric sequence ideals, via `T ↦ a(T)`. This
-roadmap specifies the direction it needs and is explicit about the other:
-
-- Membership transports along `HasSameApproximationNumbers`, so the ideal is a function of
-  the singular-value sequence alone.
+Equality of induced families determines the extended gauge on antitone sequences, and membership is invariant under `HasSameApproximationNumbers`; thus the resulting ideal depends only on the approximation-number sequence.
 
 ### Milestone B2 — the Ky Fan dominance principle
 
@@ -442,8 +435,6 @@ infinite sequences. For antitone `a` this equals `⨆ N, Φ (truncate a N)`.
   Studies in Advanced Mathematics 13, 1987.
 - I. C. Gohberg and M. G. Kreĭn, *Introduction to the Theory of Linear Nonselfadjoint
   Operators in Hilbert Space*, AMS Translations of Mathematical Monographs 18, 1969.
-- J. W. Calkin, "Two-sided ideals and congruences in the ring of bounded operators in Hilbert
-  space", *Ann. of Math.* **42** (1941), 839–873.
 - B. Simon, *Trace Ideals and Their Applications*, 2nd ed., AMS, 2005; M. Reed and B. Simon,
   *Methods of Modern Mathematical Physics I* — the Hilbert–Schmidt class as `ℓ²` of columns.
 - R. Bhatia, *Matrix Analysis*, GTM 169, Springer, 1997 — Ky Fan inequalities and
