@@ -90,9 +90,10 @@ perturbation theorems use both.
 
 **Objects.** The Gram operators `rightGram A = A⋆A` and `leftGram A = AA⋆`; the
 cross-projections `cosThetaMap U V = P_V ∘ P_U` and `sinThetaMap U V = P_{Vᗮ} ∘ P_U`; their
-moduli (`cosAngleOperator`, `sinAngleOperator = |P_U − P_V|`); the sequences
-`principalCosines`, `principalSines`, `principalAngles : ℕ →₀ ℝ`; the predicate `IsAcute`;
-the gap-free
+moduli (`cosAngleOperator`, `sinAngleOperator = |P_U − P_V|`) and the one-sided double-angle
+map `sinTwoAngleOperator = 2 P_{Uᗮ} P_V P_U`; the sequences `principalCosines`,
+`principalSines`, `principalAngles`, `principalTangents : ℕ →₀ ℝ`; the predicates `IsAcute`
+and `AvoidsQuarterTurn`; the gap-free
 `TrialMapFrameFactorization` of an injective map.
 
 **API to develop.**
@@ -103,6 +104,10 @@ the gap-free
   hence the norm bridge `N (P_U − P_V) = N (sinAngleOperator U V)` for every unitarily
   invariant `N`, via determination by singular values; equal-rank symmetry of sines
   and angles; angles of a pair with itself vanish; acuteness from a projection gap `< 1`.
+- Double-angle and tangent objects: `sinTwoAngleOperator U V =
+  2 • (P_{Uᗮ} ∘ P_V ∘ P_U)`; `principalTangents` is `Real.tan` applied to
+  `principalAngles`; `AvoidsQuarterTurn U V` means no principal angle equals `π/4`, with
+  `avoidsQuarterTurn_self` as the base case.
 - **The Part A bridge**, the theorem that makes `cosPrincipalAngles` well-named: the
   subspace-level cosines of the spans equal the family-level cosines. It does double duty —
   the subspace/family dictionary entry for this Part, and the independence-of-presentation

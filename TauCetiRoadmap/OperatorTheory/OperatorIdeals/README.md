@@ -245,7 +245,7 @@ sequences dominated by `a`: `Φ∞ a = ⨆ {Φ b : b finitely supported, b ≤ a
 truncations; for a general `a` the initial truncations do not exhaust the dominated
 sequences, and only the supremum form is correct.
 
-- **`ℝ≥0∞`-valued, and a supremum over truncations rather than a `tsum`.** The gauge must be
+- **`ℝ≥0∞`-valued, and a supremum over finitely supported dominated sequences rather than a `tsum`.** The gauge must be
   total and `∞` off its ideal; a supremum of an increasing net is total by
   construction, whereas any route through summability reintroduces the side conditions the
   interface was designed to avoid.

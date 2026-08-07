@@ -147,6 +147,45 @@ noncomputable def sinThetaMap (U V : Submodule 𝕜 E)
 
 end SinThetaMap
 
+section AngleGeometry
+
+variable {𝕜 : Type u} [RCLike 𝕜]
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
+  [FiniteDimensional 𝕜 E]
+
+/-- The one-sided double-angle map `2 P_{Uᗮ} P_V P_U`. -/
+noncomputable def sinTwoAngleOperator (U V : Submodule 𝕜 E)
+    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : E →ₗ[𝕜] E :=
+  (((2 : 𝕜) • (Uᗮ.starProjection ∘L V.starProjection ∘L U.starProjection) :
+      E →L[𝕜] E) : E →ₗ[𝕜] E)
+
+/-- Principal-angle sines: the singular values of the directed sine map. -/
+noncomputable def principalSines (U V : Submodule 𝕜 E)
+    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : ℕ →₀ ℝ :=
+  (sinThetaMap U V).singularValues
+
+/-- Principal angles obtained by applying `arcsin` to the principal sines. -/
+noncomputable def principalAngles (U V : Submodule 𝕜 E)
+    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : ℕ →₀ ℝ :=
+  (principalSines U V).mapRange Real.arcsin Real.arcsin_zero
+
+/-- Principal-angle tangents. -/
+noncomputable def principalTangents (U V : Submodule 𝕜 E)
+    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : ℕ →₀ ℝ :=
+  (principalAngles U V).mapRange Real.tan Real.tan_zero
+
+/-- No principal angle is a quarter turn. -/
+def AvoidsQuarterTurn (U V : Submodule 𝕜 E)
+    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : Prop :=
+  ∀ i, principalAngles U V i ≠ Real.pi / 4
+
+/-- A subspace avoids the quarter turn with itself. -/
+theorem avoidsQuarterTurn_self (U : Submodule 𝕜 E) [U.HasOrthogonalProjection] :
+    AvoidsQuarterTurn U U := by
+  sorry
+
+end AngleGeometry
+
 /-! ## Part C -- the projection gap, spectral subspaces, and the separation predicates -/
 
 section ProjectionGap
