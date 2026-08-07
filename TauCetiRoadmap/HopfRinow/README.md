@@ -239,12 +239,15 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   pulled-back vector field, and the chart formula. Specialize it to the velocity field to define
   covariant acceleration. This is the API through which the connection-based geodesic predicate
   is stated.
-- **`IsGeodesicCurveOn γ s`:** require
-  `ContMDiffOn 𝓘(ℝ, ℝ) I 2 γ s`, use the resulting first derivative as the velocity section along
-  `γ`, and require its covariant derivative along `γ` to vanish on `s`. Do not define this predicate
-  from continuity alone: differentiating the velocity requires the `C²`-on-`s` hypothesis (or an
-  equivalent separately carried differentiable velocity section). Define the all-time abbreviation
-  only as the `s = univ` specialization. In a chart this is the second-order geodesic ODE with the
+- **`IsGeodesicCurveOn γ s`:** take a parameter set satisfying `UniqueDiffOn ℝ s`; the domains used
+  below are nondegenerate closed intervals, open intervals, or `univ`, which satisfy this condition.
+  Require `ContMDiffOn 𝓘(ℝ, ℝ) I 2 γ s`, define the velocity section by applying
+  `mfderivWithin 𝓘(ℝ, ℝ) I γ s t` to the unit tangent vector at each `t ∈ s`, and require its
+  covariant derivative along `γ` to vanish on `s`. The unique-differentiability hypothesis makes
+  this within-derivative canonical and lets the `C²` hypothesis supply the differentiable velocity
+  field. Equivalently, an implementation may carry a differentiable velocity section together with
+  `HasMFDerivWithinAt` witnesses identifying it with `γ'`. Define the all-time abbreviation only as
+  the `s = univ` specialization. In a chart this is the second-order geodesic ODE with the
   Christoffel symbols; prove the chart form equivalent to the connection-based definition. Use the
   Levi-Civita connection supplied by the canonical Riemannian bundle instance.
 - **Initial data:** package `0 ∈ s`, `γ 0 = p`, the velocity section at `0` equal to `v`, and
@@ -260,8 +263,10 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
 - **Smooth dependence and the local geodesic flow:** prove `C^∞` dependence on time and initial
   data and package the resulting local flow on `TM`. This is a target, not a theorem available in
   the pinned ODE library; consume mathlib4#26394 and mathlib4#40062 if their APIs land first.
-- **Constant speed:** the Riemannian norm `‖γ'‖` is constant because the connection is metric; this
-  is the lemma that makes a geodesic Cauchy at a finite endpoint of its interval.
+- **Constant speed:** on a preconnected parameter set `s`, the Riemannian norm `‖γ'‖` takes the
+  same value at every two points of `s` because the connection is metric; without preconnectedness,
+  state the conclusion componentwise. Prove in particular the form for the maximal open intervals
+  below; this is the lemma that makes a geodesic Cauchy at a finite endpoint of its interval.
 - **Maximal interval and homogeneity:** using the preceding local theory (and mathlib4#26413 if it
   lands first), define the maximal open interval `J(p,v)` from genuine geodesic witnesses with
   initial data `(p,v)`. State
