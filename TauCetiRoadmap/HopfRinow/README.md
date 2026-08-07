@@ -95,6 +95,13 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
   geodesic spray should be connected to this API rather than developed solely in model-space ODE
   terms.
 
+**Canonical metric convention for geodesic-level names.** The metric is the
+`[Bundle.RiemannianBundle (fun x : M ↦ TangentSpace I x)]` instance from the standing hypotheses;
+do not add a second explicit metric argument to each geodesic definition. Accordingly, the
+canonical names below are `IsGeodesicCurveOn γ s`, `J(p,v)`, `expDomain p`, and `S`, with the
+Riemannian bundle instance implicit. If a future API must support several metrics on the same
+bundle, that is a separate design and must not be mixed into these names.
+
 ## What is missing (build here)
 
 Metric compatibility for a covariant derivative; existence, uniqueness, and `C^∞` regularity of
@@ -219,28 +226,31 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   pulled-back vector field, and the chart formula. Specialize it to the velocity field to define
   covariant acceleration. This is the API through which the connection-based geodesic predicate
   is stated.
-- **`IsGeodesicCurveOn g γ s`:** `γ` is continuous on the parameter set `s`, and its velocity has
-  vanishing covariant derivative there for the Levi-Civita connection of `g`. Define the all-time
-  abbreviation only as the `s = univ` specialization. In a chart this is the second-order geodesic
-  ODE with the Christoffel symbols; prove the chart form equivalent to the connection-based
-  definition. Use the Levi-Civita connection milestone above.
-- **Initial data:** package `γ 0 = p`, velocity `γ'(0) = v`, and
-  `IsGeodesicCurveOn g γ s` in a real predicate; the initial velocity may not be an unused binder.
-- **The geodesic spray:** construct the vector field `S_g` on `TM`. Prove that in a tangent-bundle
+- **`IsGeodesicCurveOn γ s`:** require
+  `ContMDiffOn 𝓘(ℝ, ℝ) I 2 γ s`, use the resulting first derivative as the velocity section along
+  `γ`, and require its covariant derivative along `γ` to vanish on `s`. Do not define this predicate
+  from continuity alone: differentiating the velocity requires the `C²`-on-`s` hypothesis (or an
+  equivalent separately carried differentiable velocity section). Define the all-time abbreviation
+  only as the `s = univ` specialization. In a chart this is the second-order geodesic ODE with the
+  Christoffel symbols; prove the chart form equivalent to the connection-based definition. Use the
+  Levi-Civita connection supplied by the canonical Riemannian bundle instance.
+- **Initial data:** package `0 ∈ s`, `γ 0 = p`, the velocity section at `0` equal to `v`, and
+  `IsGeodesicCurveOn γ s` in a real predicate; the initial velocity may not be an unused binder.
+- **The geodesic spray:** construct the vector field `S` on `TM`. Prove that in a tangent-bundle
   chart it is `(x, v) ↦ (v, -Γ_x(v, v))`, that this formula is independent of the chart, and that
-  `S_g` is `C^∞`. Prove that integral curves of `S_g` are exactly the velocity lifts of curves
+  `S` is `C^∞`. Prove that integral curves of `S` are exactly the velocity lifts of curves
   satisfying the covariant geodesic equation, with set-restricted versions on their common time
   domains. This is the object to which Mathlib's `IsIntegralCurve` API is applied.
 - **Local existence and uniqueness** of the geodesic from `(p, v)` on an open interval containing
-  `0`: apply Mathlib's manifold integral-curve API to `S_g` and prove uniqueness on the overlap of
+  `0`: apply Mathlib's manifold integral-curve API to `S` and prove uniqueness on the overlap of
   two such intervals.
 - **Smooth dependence and the local geodesic flow:** prove `C^∞` dependence on time and initial
   data and package the resulting local flow on `TM`. This is a target, not a theorem available in
   the pinned ODE library; consume mathlib4#26394 and mathlib4#40062 if their APIs land first.
-- **Constant speed** (`‖γ'‖_g` is constant — the connection is metric): the lemma that makes a
-  geodesic Cauchy at a finite endpoint of its interval.
+- **Constant speed:** the Riemannian norm `‖γ'‖` is constant because the connection is metric; this
+  is the lemma that makes a geodesic Cauchy at a finite endpoint of its interval.
 - **Maximal interval and homogeneity:** using the preceding local theory (and mathlib4#26413 if it
-  lands first), define the maximal open interval `J_g(p,v)` from genuine geodesic witnesses with
+  lands first), define the maximal open interval `J(p,v)` from genuine geodesic witnesses with
   initial data `(p,v)`. State
   `γ_{p,λv}(t) = γ_{p,v}(λt)` only when the corresponding times belong to their maximal intervals,
   together with the precise relation between those domains.
@@ -250,16 +260,16 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   past `b`, contradicting maximality; state the left-endpoint analogue too. This is a named target
   because the pinned integral-curve API has no maximal-solution extension theorem; consume
   mathlib4#26413 if it supplies the required form first.
-- **Exponential-map basic API:** define `expDomain g p = {v | 1 ∈ J_g(p,v)}` and
-  `exp_p v = γ_{p,v}(1)` there. Prove `0 ∈ expDomain g p`, `exp_p 0 = p`, and
-  `IsOpen (expDomain g p)`. On the open subset of the geodesic-flow domain where time `1` is
+- **Exponential-map basic API:** define `expDomain p = {v | 1 ∈ J(p,v)}` and
+  `exp_p v = γ_{p,v}(1)` there. Prove `0 ∈ expDomain p`, `exp_p 0 = p`, and
+  `IsOpen (expDomain p)`. On the open subset of the geodesic-flow domain where time `1` is
   defined, prove that evaluation of the smooth flow at time `1`, restricted to initial states
   `(p,v)`, is `C^∞`; identify its base projection with `exp_p`. Deduce that `exp_p`, as a map from
-  `T_p M` to `M`, is `C^∞` on `expDomain g p`, and expose the resulting `ContinuousOn` theorem and
+  `T_p M` to `M`, is `C^∞` on `expDomain p`, and expose the resulting `ContinuousOn` theorem and
   the `ContMDiffAt` and `ContinuousAt` consequences at every point of the domain. Specialize the
   preceding homogeneity theorem to prove
-  `t ∈ J_g(p,v) ↔ t • v ∈ expDomain g p` and, under these equivalent domain conditions,
-  `exp_p (t • v) = γ_{p,v}(t)`; deduce that `expDomain g p` is star-shaped at `0`. If `exp_p` is
+  `t ∈ J(p,v) ↔ t • v ∈ expDomain p` and, under these equivalent domain conditions,
+  `exp_p (t • v) = γ_{p,v}(t)`; deduce that `expDomain p` is star-shaped at `0`. If `exp_p` is
   implemented as a total function with a junk value outside its natural domain, make every theorem
   that uses its mathematical value carry the relevant domain hypothesis; require no continuity at
   boundary points or outside the domain.
@@ -274,8 +284,8 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   `Geometry/Manifold/LocalDiffeomorph.lean` lists this implication as a TODO, so this roadmap owns
   it as a prerequisite rather than consuming it. Apply it to the preceding derivative theorem to
   obtain that `exp_p` is a local diffeomorphism at `0`.
-- Milestone **(a) at `p`**, written `(a_p)`, is `expDomain g p = univ`. Define pointwise geodesic
-  completeness `(d_p)` by `∀ v, J_g(p,v) = univ`, and prove `(a_p) ↔ (d_p)` via domain-aware
+- Milestone **(a) at `p`**, written `(a_p)`, is `expDomain p = univ`. Define pointwise geodesic
+  completeness `(d_p)` by `∀ v, J(p,v) = univ`, and prove `(a_p) ↔ (d_p)` via domain-aware
   homogeneity. Global milestone **(d)** is `∀ p, (d_p)` and is not inferred in Layer 1 from one
   base point.
 - ⚠ Read curves through the chart at the *current* point of the curve, not one global chart. The
@@ -325,7 +335,7 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
 - **(d) ⇒ (a_p):** global geodesic completeness gives `(d_p)`, and the Layer-1 pointwise
   equivalence `(d_p) ↔ (a_p)` makes `exp_p` defined on all of `T_p M`.
 - **(a_p) ⇒ (f_p):** with `exp_p` everywhere defined, every `q` is joined to `p` by a curve
-  satisfying `IsGeodesicCurveOn g γ (Icc 0 1)`, `γ 0 = p`, `γ 1 = q`, and
+  satisfying `IsGeodesicCurveOn γ (Icc 0 1)`, `γ 0 = p`, `γ 1 = q`, and
   `pathELength I γ 0 1 = edist p q`; its subsegments also realize distance. Do not require this
   witness to extend to an all-time geodesic. Build it by minimizing distance on compact spheres
   in the finite-dimensional `T_p M`, using continuity of distance to `q`, and iterating the
