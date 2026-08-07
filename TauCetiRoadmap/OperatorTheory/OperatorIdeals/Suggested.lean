@@ -102,6 +102,42 @@ theorem le_approximationNumber_of_lt_rank (T : E →L[𝕜] F) (n : ℕ) (V : Su
 
 end HilbertIdentifications
 
+section MinMaxCapability
+
+variable {𝕜 : Type u} [RCLike 𝕜]
+
+/-- The converse min--max localization for one Hilbert-space pair: every strict
+lower bound for `aₙ(T)` is improved by a uniform lower bound on an `(n+1)`-generated
+subspace. This is the analytic input from which the Ky Fan triangle inequality is derived. -/
+def HasMinMaxLowerBound (E : Type v) (F : Type w)
+    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
+    [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] : Prop :=
+  ∀ (T : E →L[𝕜] F) (n : ℕ) {r : ℝ}, 0 ≤ r → r < approximationNumber T n →
+    ∃ s : ℝ, r < s ∧ ∃ v : Fin (n + 1) → E, LinearIndependent 𝕜 v ∧
+      ∀ x ∈ Submodule.span 𝕜 (Set.range v), s * ‖x‖ ≤ ‖T x‖
+
+/-- The converse min--max localization as a scalar-field capability, uniformly over
+complete Hilbert-space pairs in one universe. The class contains the localization theorem,
+not the Ky Fan inequality derived from it. -/
+class HasMinMaxLowerBoundEverywhere (𝕜 : Type u) [RCLike 𝕜] : Prop where
+  out : ∀ {E F : Type v}
+    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
+    [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F],
+    HasMinMaxLowerBound (𝕜 := 𝕜) E F
+
+/-- The complex field has the min--max lower-bound capability directly. -/
+instance hasMinMaxLowerBoundEverywhere_complex :
+    HasMinMaxLowerBoundEverywhere.{0, v} ℂ := by
+  sorry
+
+/-- The real field has the same capability, obtained by complexification once at this
+boundary rather than by transporting every downstream ideal theorem separately. -/
+instance hasMinMaxLowerBoundEverywhere_real :
+    HasMinMaxLowerBoundEverywhere.{0, v} ℝ := by
+  sorry
+
+end MinMaxCapability
+
 /-! ## Part B -- symmetric operator ideals and Schatten norms
 
 One interface, gauge-valued in `ℝ≥0∞`, quantified over all Hilbert pairs; the
@@ -174,32 +210,51 @@ dominance statement is phrased against. -/
 noncomputable def kyFanGauge (T : E →L[𝕜] F) (k : ℕ) : ℝ :=
   ∑ n ∈ Finset.range k, approximationNumber T n
 
+/-- The Ky Fan triangle inequality from the converse min--max localization for this pair. -/
+theorem kyFanGauge_add_le_of_hasMinMaxLowerBound
+    (hmm : HasMinMaxLowerBound (𝕜 := 𝕜) E F) (S T : E →L[𝕜] F) (k : ℕ) :
+    kyFanGauge (S + T) k ≤ kyFanGauge S k + kyFanGauge T k := by
+  sorry
+
+/-- **Milestone A2.** Once the scalar field supplies finite-restriction min--max
+localization uniformly, Ky Fan subadditivity is one theorem over `RCLike`. Both `ℝ` and
+`ℂ` instantiate the capability above. -/
+theorem kyFanGauge_add_le [HasMinMaxLowerBoundEverywhere.{u, v} 𝕜]
+    {E F : Type v}
+    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
+    [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
+    (S T : E →L[𝕜] F) (k : ℕ) :
+    kyFanGauge (S + T) k ≤ kyFanGauge S k + kyFanGauge T k := by
+  sorry
+
 /-- The nuclear gauge: the series of approximation numbers.  Its triangle inequality is the
 Ky Fan inequality in the limit. -/
 noncomputable def nuclearENorm (T : E →L[𝕜] F) : ℝ≥0∞ :=
   ∑' n, ENNReal.ofReal (approximationNumber T n)
 
-/-- **Ky Fan dominance as a property of a family.**  It is *false* for an arbitrary
-`OperatorIdealFamily` — the four laws do not force it — so it is a class over families,
-and Milestone B2 is the statement that the
-symmetric-gauge construction always lands in this subclass. -/
-class IsKyFanDominant (Φ : OperatorIdealFamily.{0, v, w} ℂ) : Prop where
-  gauge_le_of_forall_kyFanGauge_le : ∀ {E : Type v} {F : Type w}
-    [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
-    [NormedAddCommGroup F] [InnerProductSpace ℂ F] [CompleteSpace F]
-    (A B : E →L[ℂ] F), (∀ k, kyFanGauge A k ≤ kyFanGauge B k) → Φ.gauge A ≤ Φ.gauge B
+/-- **Ky Fan dominance as a property of a symmetric family.** The ideal-family laws do not
+force it; a family carries dominance as a separate property. -/
+class IsKyFanDominant {𝕜 : Type u} [RCLike 𝕜]
+    (Φ : SymmetricOperatorIdealFamily.{u, v} 𝕜) : Prop where
+  gauge_le_of_forall_kyFanGauge_le : ∀ {E F : Type v}
+    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
+    [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
+    (A B : E →L[𝕜] F), (∀ k, kyFanGauge A k ≤ kyFanGauge B k) → Φ.gauge A ≤ Φ.gauge B
 
 end IdealFamilies
 
 /-! ## Part B, the symmetric-gauge construction (Milestones B1-B4)
 
-Everything below is over `ℂ`, where the Hilbert-space continuous functional calculus
-is registered; Milestone B4 is what removes that restriction. -/
+The sequence layer is scalar-free. The induced ideal families are stated over `RCLike 𝕜`
+under `HasMinMaxLowerBoundEverywhere 𝕜`; both `ℝ` and `ℂ` provide that capability. -/
 
 section SymmetricGauges
 
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
-variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace ℂ F] [CompleteSpace F]
+variable {𝕜 : Type u} [RCLike 𝕜]
+  [HasMinMaxLowerBoundEverywhere.{u, v} 𝕜]
+variable {E F : Type v}
+  [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
+  [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
 variable {ι : Type x}
 
 /-! ### Milestone B1 -- symmetric norming functions
@@ -250,8 +305,9 @@ Milestone B2, and `gauge_smul`, `gauge_adjoint`, `enorm_le_gauge` and `gauge_com
 are the corresponding approximation-number facts of Part A.
 
 Spec: D2. -/
-noncomputable def symmetricGaugeFamily (Φ : SymmetricGauge) :
-    SymmetricOperatorIdealFamily.{0, v} ℂ where
+noncomputable def symmetricGaugeFamily (𝕜 : Type u) [RCLike 𝕜]
+    [HasMinMaxLowerBoundEverywhere.{u, v} 𝕜] (Φ : SymmetricGauge) :
+    SymmetricOperatorIdealFamily.{u, v} 𝕜 where
   gauge A := Φ.extend fun n => ENNReal.ofReal (approximationNumber A n)
   gauge_add_le := sorry
   gauge_smul := sorry
@@ -264,7 +320,7 @@ domination.  This is the Hardy--Littlewood--Pólya transfer of the
 Majorization roadmap, lifted to sequences by monotone convergence along the
 truncations -- which is why `extend` is a supremum of truncations and nothing cleverer. -/
 instance isKyFanDominant_symmetricGaugeFamily (Φ : SymmetricGauge) :
-    IsKyFanDominant (symmetricGaugeFamily Φ).toOperatorIdealFamily := sorry
+    IsKyFanDominant (symmetricGaugeFamily 𝕜 Φ) := sorry
 
 /-- The sequence form of Milestone B2, and the form the proof actually establishes:
 weak majorization of antitone sequences implies domination under every symmetric
@@ -277,7 +333,7 @@ theorem SymmetricGauge.extend_le_extend_of_forall_sum_le (Φ : SymmetricGauge)
 /-- **Milestone B1.** Equality of the operator-ideal families induced by two
 symmetric gauges forces their extensions to agree on antitone sequences. -/
 theorem symmetricGaugeFamily_injective {Φ Ψ : SymmetricGauge}
-    (h : symmetricGaugeFamily Φ = symmetricGaugeFamily Ψ)
+    (h : symmetricGaugeFamily 𝕜 Φ = symmetricGaugeFamily 𝕜 Ψ)
     {a : ℕ → ℝ≥0∞} (ha : Antitone a) :
     Φ.extend a = Ψ.extend a := sorry
 
@@ -298,29 +354,41 @@ noncomputable def schattenGauge (p : ℝ) (hp : 1 ≤ p) : SymmetricGauge where
   normalized := sorry
 
 /-- The Schatten-`p` family for a finite real exponent `1 ≤ p`. -/
-noncomputable def schattenFamily (p : ℝ) (hp : 1 ≤ p) : SymmetricOperatorIdealFamily.{0, v} ℂ :=
-  symmetricGaugeFamily (schattenGauge p hp)
+noncomputable def schattenFamily (𝕜 : Type u) [RCLike 𝕜]
+    [HasMinMaxLowerBoundEverywhere.{u, v} 𝕜] (p : ℝ) (hp : 1 ≤ p) :
+    SymmetricOperatorIdealFamily.{u, v} 𝕜 :=
+  symmetricGaugeFamily 𝕜 (schattenGauge p hp)
 
 /-- The `p = ∞` endpoint, specified separately because a real exponent cannot represent
 infinity. Its gauge is the operator norm, equivalently the supremum of the approximation
 numbers.
 
 Spec: D4. -/
-noncomputable def schattenFamilyInf : OperatorIdealFamily.{0, v, w} ℂ where
+noncomputable def schattenFamilyInf (𝕜 : Type u) [RCLike 𝕜] :
+    OperatorIdealFamily.{u, v, w} 𝕜 where
   gauge A := ‖A‖ₑ
   gauge_add_le := sorry
   gauge_smul := sorry
   enorm_le_gauge := sorry
   gauge_comp_le := sorry
 
+/-- The infinity endpoint is equivalently the supremum of the approximation-number
+sequence.  For an antitone sequence this supremum is its zeroth term, `a₀(T) = ‖T‖`. -/
+theorem gauge_schattenFamilyInf
+    {E' : Type v} {F' : Type w}
+    [NormedAddCommGroup E'] [InnerProductSpace 𝕜 E'] [CompleteSpace E']
+    [NormedAddCommGroup F'] [InnerProductSpace 𝕜 F'] [CompleteSpace F']
+    (T : E' →L[𝕜] F') :
+    (schattenFamilyInf.{u, v, w} 𝕜).gauge T =
+      ⨆ n, ENNReal.ofReal (approximationNumber T n) := by
+  sorry
+
 /-- The scale is monotone, hence the ideals nest: `S_p ⊆ S_q` for `p ≤ q`.  Strictness
 is witnessed by a diagonal operator with coefficients `n ↦ (n + 1) ^ (-1/r)`, `p < r < q` --
 the same diagonal machinery as Part A's acceptance example (6). -/
 theorem gauge_schattenFamily_antitone {p q : ℝ} (hp : 1 ≤ p) (hq : 1 ≤ q) (hpq : p ≤ q)
-    {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
-    {F : Type v} [NormedAddCommGroup F] [InnerProductSpace ℂ F] [CompleteSpace F]
-    (T : E →L[ℂ] F) :
-    (schattenFamily q hq).gauge T ≤ (schattenFamily p hp).gauge T := sorry
+    (T : E →L[𝕜] F) :
+    (schattenFamily 𝕜 q hq).gauge T ≤ (schattenFamily 𝕜 p hp).gauge T := sorry
 
 /-- **Milestone B3, the reconciliation obligation.**  `p = 2` is defined twice on
 purpose -- through the singular-value sequence, and through an orthonormal expansion
@@ -328,40 +396,50 @@ that needs no spectral theory, which is what lets Part C stand on its own.  The 
 must therefore be proved equal.  Both sides are basis-independent, so the statement is
 well-posed; this is the one place in Part B where Milestone A3 is genuinely needed. -/
 theorem tsum_approximationNumber_sq_eq_hilbertSchmidtEnergy
-    (T : F →L[ℂ] E) (b : HilbertBasis ι ℂ F) :
+    {E' : Type v} {F' : Type w}
+    [NormedAddCommGroup E'] [InnerProductSpace 𝕜 E'] [CompleteSpace E']
+    [NormedAddCommGroup F'] [InnerProductSpace 𝕜 F'] [CompleteSpace F']
+    (T : F' →L[𝕜] E') (b : HilbertBasis ι 𝕜 F') :
     ∑' n, ENNReal.ofReal (approximationNumber T n) ^ 2 = hilbertSchmidtEnergy T b := sorry
 
 /-- **Milestone B3**: finite-dimensional Schatten `p`-norms for real `p ≥ 1` on
 the singular-value vector, with the finite endpoint identifications `S₁` nuclear and
 `S₂` Frobenius; `S∞` is the separately named operator-norm endpoint.
 
-This layer is **not** a special case of `schattenFamily` and does not wait on it: it is
-a rectangular unitarily invariant norm on a vector.  That the two agree in finite
-dimensions is a separate target, and without it a reader cannot tell whether `S₂` means one
-thing or two.
+This finite-dimensional layer is an independent rectangular unitarily invariant
+seminorm on operators, computed from their singular-value vectors.  Its agreement with the
+ideal-family gauge in finite dimensions is a separate target, making the two constructions
+of `S₂` coincide explicitly.
 
 Spec: D5. -/
 noncomputable def schattenNorm (p : ℝ) (hp : 1 ≤ p)
-    {E F : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [FiniteDimensional ℂ E]
-    [NormedAddCommGroup F] [InnerProductSpace ℂ F] [FiniteDimensional ℂ F]
-    (T : E →ₗ[ℂ] F) : ℝ :=
-  (∑ i : Fin (finrank ℂ E), T.singularValues (i : ℕ) ^ p) ^ (1 / p)
+    {E : Type v} {F : Type w}
+    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
+    [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F] :
+    Majorization.RectangularUnitarilyInvariantSeminorm 𝕜 E F where
+  toFun T :=
+    (∑ i : Fin (finrank 𝕜 E), T.singularValues (i : ℕ) ^ p) ^ (1 / p)
+  add_le' := sorry
+  smul' := sorry
+  unitary_invariant' := sorry
 
 /-- `S₂` is the rectangular Frobenius seminorm owned by
 [`Majorization`](../Majorization/README.md). -/
 theorem schattenNorm_two_apply
-    {E F : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [FiniteDimensional ℂ E]
-    [NormedAddCommGroup F] [InnerProductSpace ℂ F] [FiniteDimensional ℂ F]
-    (T : E →ₗ[ℂ] F) :
+    {E : Type v} {F : Type w}
+    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
+    [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F]
+    (T : E →ₗ[𝕜] F) :
     schattenNorm 2 (by norm_num) T = Majorization.frobenius T := sorry
 
 /-- The Hilbert--Schmidt energy is the squared Frobenius seminorm in finite dimensions,
 which is what makes the two `p = 2` developments one object. -/
 theorem hilbertSchmidtEnergy_eq_ofReal_frobenius_sq
-    {E F : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [FiniteDimensional ℂ E]
-    [CompleteSpace E]
-    [NormedAddCommGroup F] [InnerProductSpace ℂ F] [FiniteDimensional ℂ F] [CompleteSpace F]
-    (T : E →L[ℂ] F) (b : HilbertBasis ι ℂ E) :
+    {E' : Type v} {F' : Type w}
+    [NormedAddCommGroup E'] [InnerProductSpace 𝕜 E'] [FiniteDimensional 𝕜 E']
+    [CompleteSpace E']
+    [NormedAddCommGroup F'] [InnerProductSpace 𝕜 F'] [FiniteDimensional 𝕜 F'] [CompleteSpace F']
+    (T : E' →L[𝕜] F') (b : HilbertBasis ι 𝕜 E') :
     hilbertSchmidtEnergy T b
       = ENNReal.ofReal (Majorization.frobenius T.toLinearMap ^ 2) := sorry
 
@@ -369,12 +447,16 @@ theorem hilbertSchmidtEnergy_eq_ofReal_frobenius_sq
 operator that is block-diagonal for orthogonal decompositions of source and target: its
 gauge is squeezed between the maximum and the sum of the two block gauges.
 
-The upper bound is subadditivity applied to the splitting; the lower bound is the two-sided
-ideal law applied to each compression, and is the half that is not formal.  The general
-statement — that the approximation-number sequence of a block-diagonal sum is the decreasing
-rearrangement of the union of the summands' sequences — is the milestone this specializes. -/
-theorem gauge_blockSum_le (Φ : OperatorIdealFamily.{0, v, w} ℂ)
-    {T : E →L[ℂ] F} {P₁ P₂ : E →L[ℂ] E} {Q₁ Q₂ : F →L[ℂ] F}
+Both bounds are formal consequences of the family laws: the upper bound is
+subadditivity applied to the splitting, and the lower bound is the two-sided ideal law
+applied to each contractive compression.  The more general statement identifying the
+approximation-number sequence with the decreasing rearrangement of the union of the block
+sequences is a separate approximation-number target. -/
+theorem gauge_blockSum_le (Φ : OperatorIdealFamily.{u, v, w} 𝕜)
+    {E' : Type v} {F' : Type w}
+    [NormedAddCommGroup E'] [InnerProductSpace 𝕜 E'] [CompleteSpace E']
+    [NormedAddCommGroup F'] [InnerProductSpace 𝕜 F'] [CompleteSpace F']
+    {T : E' →L[𝕜] F'} {P₁ P₂ : E' →L[𝕜] E'} {Q₁ Q₂ : F' →L[𝕜] F'}
     (hP₁ : ‖P₁‖ ≤ 1) (hP₂ : ‖P₂‖ ≤ 1) (hQ₁ : ‖Q₁‖ ≤ 1) (hQ₂ : ‖Q₂‖ ≤ 1)
     (hsplit : Q₁ ∘L T ∘L P₁ + Q₂ ∘L T ∘L P₂ = T) :
     max (Φ.gauge (Q₁ ∘L T ∘L P₁)) (Φ.gauge (Q₂ ∘L T ∘L P₂)) ≤ Φ.gauge T ∧

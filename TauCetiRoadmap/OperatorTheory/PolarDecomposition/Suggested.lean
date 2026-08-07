@@ -298,6 +298,26 @@ theorem isPartialIsometry_iff_norm_map {u : E →L[𝕜] F} :
 
 end PartialIsometry
 
+section GramContraction
+
+variable {𝕜 : Type u} [RCLike 𝕜]
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
+variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
+
+/-- **Scalar-generic polar factorization from a Gram square root.** If a
+self-adjoint bounded operator `A` squares to the Gram operator `T†T`, then `T`
+factors through `A` by a contraction whose adjoint is also contractive.  This
+is dimension-free and valid over every `RCLike` field; the complex continuous
+functional calculus is needed only to construct the canonical choice
+`A = modulus T`. -/
+theorem exists_contraction_of_gram_eq {T : E →L[𝕜] F} {A : E →L[𝕜] E}
+    (hA : IsSelfAdjoint A) (hgram : A ∘L A = T.adjoint ∘L T) :
+    ∃ W : E →L[𝕜] F,
+      ‖W‖ ≤ 1 ∧ ‖W.adjoint‖ ≤ 1 ∧ W ∘L A = T ∧ W.adjoint ∘L T = A := by
+  sorry
+
+end GramContraction
+
 section RectangularModulus
 
 variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]

@@ -20,11 +20,12 @@ estimates in `TauCeti/Analysis/SpecialFunctions/`.
 
 **Why "Hilbert-space" and not "finite-dimensional".** The organizing core is
 finite-dimensional: the functional calculus is a finite sum over an eigenbasis, and that
-is what makes it exist. But two of the constructions here — the rectangular operator
-modulus and the polar decomposition through a partial isometry —
-need no finite-dimensional hypothesis at all, and later roadmaps consume them in that
-stronger form. [`OperatorIdeals`](../OperatorIdeals/README.md) applies the modulus to
-operators on infinite-dimensional spaces;
+is what makes it exist. But several constructions here need no finite-dimensional hypothesis at all: the rectangular
+operator modulus over `ℂ`, the polar decomposition through a partial isometry, and the
+scalar-generic Gram-contraction factorization once a self-adjoint Gram square root is given.
+Later roadmaps consume them in that stronger form. [`OperatorIdeals`](../OperatorIdeals/README.md)
+uses the Gram-contraction rung to keep ideal arguments scalar-generic and applies the complex
+modulus where the canonical square root itself is required;
 [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) uses the
 bounded polar factorization in its interval/exterior estimates. Stating those results in
 finite dimension and generalizing later would mean proving them twice, so they are stated
@@ -35,8 +36,10 @@ for complete spaces here.
 - **Scalars are `𝕜 : RCLike`; finite dimension exactly where the eigenbasis is used.** The
   functional calculus is a finite sum over `LinearMap.IsSymmetric.eigenvectorBasis`, so
   `[FiniteDimensional 𝕜 E]` is what makes the definition exist. Supporting material that
-  needs neither the spectral theorem nor finite dimension — the partial-isometry API, the
-  rectangular modulus — must not assume them.
+  needs neither the spectral theorem nor finite dimension — the partial-isometry API and
+  Gram-contraction factorization — is stated on complete Hilbert spaces. The rectangular
+  modulus also has no dimension hypothesis, but remains complex because its construction uses
+  Mathlib's C⋆ functional calculus.
 - **One square root, defined once.** The positive square root *is* the functional calculus
   at `Real.sqrt`, by definition. There must not be two constructions of one object; the
   square-root-specific theory (uniqueness, kernel, range, the isometry-defect identity)
@@ -55,12 +58,12 @@ for complete spaces here.
   equation `u ∘ u† ∘ u = u`. The endomorphism predicates are proved equivalent, and the
   geometric characterization — isometric on `(ker u)ᗮ`, zero on `ker u` — is a theorem,
   never the definition.
-- **Three polar factorizations, one hierarchy.** Finite-dimensional endomorphisms over
-  `RCLike` factor through a unitary; a rectangular complex operator with invertible
-  modulus factors through an isometry; a general bounded rectangular complex operator
-  factors through a partial isometry. Dropping finite dimension loses the unitary;
-  invertibility of the modulus recovers an isometry. All three are stated, each with its
-  own theory.
+- **Construct the square root where available; factor it at `RCLike` generality.** If
+  `A : E →L[𝕜] E` is self-adjoint and `A ∘L A = T† ∘L T`, then on arbitrary complete
+  `RCLike` Hilbert spaces there is a contraction `W : E →L[𝕜] F` with contractive adjoint
+  such that `W ∘L A = T` and `W† ∘L T = A`. Over `ℂ`, `A = modulus T` supplies the
+  canonical Gram square root and the construction sharpens to the rectangular polar partial
+  isometry. Finite-dimensional endomorphisms over `RCLike` further admit a unitary factor.
 - **Intrinsic, basis-free statements.** The singular system is built for a linear map
   between spaces, never for a matrix in a chosen pair of bases: the consumers (principal
   angles, unitarily invariant norms, spectral-subspace perturbation) are basis-free, and a
@@ -93,6 +96,9 @@ for complete spaces here.
   rectangular over `ℂ` — with the proof that they agree.
 * Partial isometries for maps between *different* spaces, and their geometric
   characterization; Mathlib has no `IsPartialIsometry` at all.
+* The dimension-free `RCLike` Gram-contraction factorization from a self-adjoint square root
+  of `T†T`, separating the geometry of the polar factor from the complex CFC construction of
+  the canonical modulus.
 * The polar decomposition with a unitary factor in finite dimension, and its
   rectangular bounded counterpart.
 * The singular system: right singular basis, left singular vectors, the rank-one expansion,
@@ -172,16 +178,18 @@ something:
 | shape | `E →ₗ[𝕜] E`, endomorphism | `E →L[ℂ] F`, rectangular |
 | isometric factor | **unitary** `E ≃ₗᵢ[𝕜] E` | **partial isometry** |
 
-The obstruction is upstream, in Part A: the two moduli have complementary limitations, so
-there is no single modulus and hence no single polar decomposition subsuming both. Their
-partial-isometry predicates share the same equation, but rectangular maps require typed
-composition rather than multiplication in one carrier.
+The two moduli still have complementary limitations, so there is no single canonical modulus
+subsuming both. The factorization step is more general than either modulus construction:
+for `[RCLike 𝕜]`, a supplied self-adjoint Gram square root `A² = T†T` already determines a
+two-sided contractive factor. Their partial-isometry predicates share the same equation, but
+rectangular maps require typed composition rather than multiplication in one carrier.
 
 **Objects.** The star-monoid and carrier-specific partial-isometry predicates; the polar
 factor `polarFactor A` (the partial isometry
 `|A| x ↦ A x` extended by zero) and its unitary witnesses (`polarUnitaryEquiv`, canonical
 as `A |A|⁻¹` when `A` is invertible; `choosePolarUnitary` in general); on the rectangular
-side, the initial space `polarInitial M` (the closure of `range |M|`), the partial isometry
+side, the scalar-generic Gram-contraction factor supplied by `exists_contraction_of_gram_eq`;
+the initial space `polarInitial M` (the closure of `range |M|`), the partial isometry
 `polarPartial M`, and the bounded-below isometry `polarIsometryOfIsUnitModulus`; the
 near-isometry factorization; and Davis's intertwining unitary for a pair of complete
 orthogonal projection families.
@@ -196,7 +204,11 @@ orthogonal projection families.
   commutes with `|A|`); uniqueness of the polar factor among unitary-times-positive
   factorizations of an invertible `A`; the adjoint formula
   `polarFactor A⋆ = (polarFactor A)⋆`.
-- The rectangular decomposition: `polarPartial M ∘L |M| = M`; isometric on
+- The scalar-generic Gram factorization: for self-adjoint `A` with
+  `A ∘L A = T† ∘L T`, a map `W` with `‖W‖ ≤ 1`, `‖W†‖ ≤ 1`, `W ∘L A = T`, and
+  `W† ∘L T = A`. The statement is rectangular, dimension-free and over `RCLike`; it does
+  not require a functional calculus once the Gram square root is supplied.
+- The rectangular complex decomposition: `polarPartial M ∘L |M| = M`; isometric on
   `polarInitial M`, zero on its complement; `ker (polarPartial M) = (polarInitial M)ᗮ`; the
   adjoint formulas and the final space `polarFinal M = closure (range M)`; uniqueness — any
   `V` with `V ∘L |M| = M` vanishing on `(polarInitial M)ᗮ` is `polarPartial M`.
@@ -205,9 +217,10 @@ orthogonal projection families.
   one: bounded-below is the hypothesis perturbation estimates have, and under it
   the conclusion is strictly stronger.
 
-**Milestone — the two decompositions.** The general one has content beyond the
-factorization: the initial space is *proved* equal to `(ker M)ᗮ`, never taken as its
-definition.
+**Milestone — the Gram-contraction and polar decompositions.** The `RCLike`
+Gram-contraction theorem is the scalar-generic factorization layer. The complex polar
+decomposition adds the canonical CFC modulus and identifies its initial space with
+`(ker M)ᗮ`; the finite-dimensional square decomposition strengthens the factor to a unitary.
 
 **Milestone — the near-isometry factorization.** A real finite-dimensional map whose
 quadratic form is uniformly `δ`-close to the identity (`δ < 1`) factors as `M = W ∘ₗ S`
@@ -306,9 +319,10 @@ identity.
 
 ### Part B — polar decomposition and partial isometries
 
-**Acceptance criteria.** That the two decompositions are not redundant (the table above, in
-particular that the general one is `ℂ`-only); that square and rectangular partial-isometry
-predicates state the same typed equation and agree in the endomorphism case; and that
+**Acceptance criteria.** That `exists_contraction_of_gram_eq` is rectangular,
+dimension-free and `RCLike`; that the canonical modulus-based rectangular decomposition
+remains `ℂ`-only; that square and rectangular partial-isometry predicates state the same
+typed equation and agree in the endomorphism case; and that
 `polarInitial M = (ker M)ᗮ` is a theorem.
 
 ### Part C — singular values and the singular system
