@@ -63,7 +63,7 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Analysis/Matrix/`,
   the i.i.d. forms are corollaries. The scaled-sum identity is stated as `r⁻²` times the sum
   of individual errors — the independence-free shape — rather than as `r⁻¹` times an average.
 - **Uncentered moments are the primitive.** Chebyshev is stated in raw second-moment form, with
-  no centering and no measurability of the variable itself; the sample covariance is the
+  no centering and no measurability of the variable itself; the sample second moment is the
   uncentered empirical second-moment matrix; centering is the scatter operator's job. The mean
   of the empty family is `0` by Mathlib's total-inverse convention, and the add-one mean
   identity is deliberately stated to hold *at* `n = 0`.
@@ -198,8 +198,8 @@ crossings. The route is that `specTransform h B` is the entrywise limit of matri
 `p(B)`, by Stone–Weierstrass on a spectral interval bounded via the a-priori eigenvalue bound,
 glued over a countable entrywise-bound cover by the countable-restriction lemma of
 [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md). This is the statement
-that makes the statistical track well posed: without it, "the top-`k` eigenspace of the sample
-covariance" carries no measurability and no probability statement about it means anything.
+that makes the statistical track well posed: without it, "the top-`k` eigenspace of the
+sample second-moment matrix" carries no measurability and no probability statement about it means anything.
 
 ### Part C — sample moments and matrix concentration
 
@@ -225,7 +225,7 @@ subtracted, so it is not a covariance; and the unnormalized centered scatter ope
   growth, and the quadratic-form versions.
 - **Matrix concentration**: the union bound `P {∃ k l, η < |Ŝ_{kl} − A_{kl}|} ≤ n² v/η²`, then
   through Part C's perturbation bound the eigenvalue concentration and its one-sided floor;
-  specialized to the empirical covariance by the per-entry mean-square bound `v/n` from the
+  specialized to the empirical second moment by the per-entry mean-square bound `v/n` from the
   scalar sample-mean identity.
 
 **Milestone D1 — eigenvalue concentration.** Second moments of the entries give, by Chebyshev
