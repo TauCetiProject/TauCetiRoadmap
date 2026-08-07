@@ -249,11 +249,9 @@ sequences, and only the supremum form is correct.
   total and `∞` off its ideal; a supremum of an increasing net is total by
   construction, whereas any route through summability reintroduces the side conditions the
   interface was designed to avoid.
-- **The truncations are of the decreasing rearrangement**, so that `Φ∞` sees a sequence the
-  way `Φ` sees a finite one. For the sequences this roadmap feeds it this costs nothing —
-  `n ↦ aₙ(T)` is already antitone by Part A, so the rearrangement is the identity and every
-  consumer-facing statement avoids it. The rearrangement is in the definition so that `Φ∞` is
-  defined on arbitrary sequences, not so that anyone rearranges anything.
+- **Initial truncations suffice for antitone sequences.** If `a` is antitone,
+  `Φ∞ a = ⨆ N, Φ (truncate a N)`. Approximation-number sequences are antitone by Part A,
+  so this is the form used by consumers.
 - **Monotone convergence is the only limit theorem needed**, so nothing here waits on a
   theory of symmetric sequence spaces.
 

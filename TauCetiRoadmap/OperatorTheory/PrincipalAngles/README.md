@@ -90,10 +90,9 @@ perturbation theorems use both.
 
 **Objects.** The Gram operators `rightGram A = A⋆A` and `leftGram A = AA⋆`; the
 cross-projections `cosThetaMap U V = P_V ∘ P_U` and `sinThetaMap U V = P_{Vᗮ} ∘ P_U`; their
-moduli (`cosAngleOperator`, `sinAngleOperator = |P_U − P_V|`) and the one-sided double-angle
-map `sinTwoAngleOperator = 2 P_{Uᗮ} P_V P_U`; the sequences `principalCosines`,
-`principalSines`, `principalAngles`, `principalTangents : ℕ →₀ ℝ`; the predicates `IsAcute`
-and `AvoidsQuarterTurn`; the gap-free
+moduli (`cosAngleOperator`, `sinAngleOperator = |P_U − P_V|`); the sequences
+`principalCosines`, `principalSines`, `principalAngles : ℕ →₀ ℝ`; the predicate `IsAcute`;
+the gap-free
 `TrialMapFrameFactorization` of an injective map.
 
 **API to develop.**

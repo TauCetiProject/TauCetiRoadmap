@@ -2,6 +2,7 @@
 Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
+import TauCetiRoadmap.OperatorTheory.PolarDecomposition.Suggested
 import TauCetiRoadmap.OperatorTheory.Majorization.Suggested
 import TauCetiRoadmap.OperatorTheory.PrincipalAngles.Suggested
 import TauCetiRoadmap.OperatorTheory.SelfAdjointSpectralTheory.Suggested
@@ -169,6 +170,19 @@ variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E]
   [CompleteSpace E]
 variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace ℂ F]
   [CompleteSpace F]
+
+/-- **Milestone B1 — unbounded pairwise-separation bound.** A bounded solution of the
+domain-aware Sylvester equation for self-adjoint partial maps satisfies the `π / 2`
+operator-norm estimate when their spectra are separated by `δ`. -/
+theorem opNorm_sylvester_le_of_spectralDistance_unbounded
+    {A : E →ₗ.[ℂ] E} {B : F →ₗ.[ℂ] F} {X C : F →L[ℂ] E}
+    (hA : IsSelfAdjoint A) (hB : IsSelfAdjoint B)
+    (hEq : SelfAdjointSpectralTheory.SylvesterEquation A B X C)
+    {δ : ℝ} (hδ : 0 < δ)
+    (hgap : ∀ z ∈ SelfAdjointSpectralTheory.spectrum A,
+      ∀ w ∈ SelfAdjointSpectralTheory.spectrum B, δ ≤ ‖z - w‖) :
+    δ * ‖X‖ ≤ (Real.pi / 2) * ‖C‖ := by
+  sorry
 
 /-- **Milestone B2 — Rosenblum's theorem.**  A bounded operator intertwining
 two self-adjoint partial maps with disjoint spectra is zero.  Proved without

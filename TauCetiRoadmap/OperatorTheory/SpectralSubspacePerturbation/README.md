@@ -180,10 +180,12 @@ here.
     packages the scaled solution as a barycenter of the defect's unitary orbit.
   - The **Frobenius norm loses nothing** — constant one, by dividing the coordinate equation
     and summing squares.
+  - For self-adjoint `LinearPMap`s, the domain-aware `SylvesterEquation` carries the same
+    pairwise `π/2` operator-norm estimate against `SelfAdjointSpectralTheory.spectrum`.
   - The interpolation layer is internal, not public surface.
 **Milestone B1 — the a-priori bounds**: the dimension-free coercive bound, the
 interval/exterior bound with constant one in every rectangular unitarily invariant norm, and
-the pairwise bound with `π/2`.
+the pairwise bound with `π/2`, including the domain-aware `LinearPMap` operator-norm endpoint.
 
 **Milestone B2 — Rosenblum's theorem** for self-adjoint `LinearPMap`s: a bounded operator
 intertwining two of them with disjoint spectra is zero.

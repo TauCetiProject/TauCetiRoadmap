@@ -58,7 +58,7 @@ scope and dependencies.
 ## How they depend on one another
 
 
-| roadmap                        | mathematical prerequisites                                                                                 |
+| roadmap                        | direct roadmap prerequisites                                                                                  |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | `PolarDecomposition`           | Mathlib                                                                                                    |
 | `OrthogonalGeometry`           | Mathlib                                                                                                    |
@@ -67,7 +67,7 @@ scope and dependencies.
 | `SelfAdjointSpectralTheory`    | `OrthogonalGeometry`                                                                                       |
 | `OperatorIdeals`               | `PolarDecomposition`, `Majorization`                                                                       |
 | `MatrixSpectralStatistics`     | `PolarDecomposition`, `SelfAdjointSpectralTheory`                                                          |
-| `SpectralSubspacePerturbation` | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization`, `PrincipalAngles`, `SelfAdjointSpectralTheory` |
+| `SpectralSubspacePerturbation` | `PolarDecomposition`, `Majorization`, `PrincipalAngles`, `SelfAdjointSpectralTheory`                        |
 
 
 `PrincipalAngles` needs `Majorization` for Davis's eigenvalue-change bound, which runs
