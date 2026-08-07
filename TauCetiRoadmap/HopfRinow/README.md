@@ -86,9 +86,11 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
   (`Mathlib/Topology/MetricSpace/`, `.../EMetricSpace/`, and `.../UniformSpace/`). Assertion (b)
   is `ProperSpace M`; (c) is `CompleteSpace M`. Consume these results rather than restating them
   as Riemannian milestones.
-- **ODE estimates and local solutions.** `Mathlib/Analysis/ODE/` supplies Picard–Lindelöf local
-  existence, `ODE_solution_unique*`, Gronwall estimates, and Lipschitz dependence on initial
-  conditions. It does not yet supply `C^k` dependence, flows, or maximal intervals.
+- **ODE estimates, local solutions, and local flows.** `Mathlib/Analysis/ODE/` supplies
+  Picard–Lindelöf local existence, `ODE_solution_unique*`, Gronwall estimates, and local flows
+  with Lipschitz or continuous dependence on initial conditions. It also has a `C¹` vector-field
+  local-flow theorem (`ContDiffAt.exists_eventually_eq_hasDerivAt`). The real gaps for this roadmap
+  are `C^k` dependence on initial data and maximal intervals in the required form.
 - **Integral curves on manifolds.** `IsIntegralCurve`, existence and uniqueness, transformation
   lemmas, and a uniform-time theorem for local integral curves
   (`Mathlib/Geometry/Manifold/IntegralCurve/{Basic,ExistUnique,Transform,UniformTime}.lean`). The
