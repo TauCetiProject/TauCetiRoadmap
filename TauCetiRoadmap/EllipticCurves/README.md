@@ -1182,7 +1182,7 @@ only hold for, these revisions:
   algebra `K[X]/(f)`; and the étale-algebra Selmer-group finiteness
   (`IsDedekindDomain.finite_selmerGroup`, with the fundamental exact sequence and
   `finite_selmerGroupOfEquiv`) building directly on Mathlib's `DedekindDomain.SelmerGroup` and
-  discharging that file's own finiteness TODO — an upstreaming target in its own right (the
+  discharging that file's own finiteness TODO (the
   *arithmetic* `K(S,n)`, not Layer 7's `Sel_m(E/K)`). The same repository
   carries the **explicit `2`-descent** Layer 6 names as its own lane: the local
   conditions, the étale-algebra `2`-Selmer group, its finiteness, the rank-bound theorem,
