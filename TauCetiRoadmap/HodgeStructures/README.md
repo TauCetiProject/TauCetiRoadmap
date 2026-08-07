@@ -275,6 +275,12 @@ analytic parts that lie outside this roadmap's linear-algebraic scope. Its miles
   (`IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed` via
   `Representation.irreducible_iff_isSimpleModule_asModule`) — consumed, not re-proved.
 
+A second, *purely algebraic* sibling produces this roadmap's objects rather than consuming period
+domains: the bridge from **bicomplexes to a Hodge decomposition** (an abstract ∂∂̄-lemma and
+E₁-degeneration of the Frölicher spectral sequence, making L0's `opposed` condition the output of a
+cohomological theorem). It is statable on current Mathlib (bicomplexes + spectral sequences) — see
+[TauCetiRoadmap#173](https://github.com/TauCetiProject/TauCetiRoadmap/issues/173).
+
 ## Relation to sibling roadmaps
 
 - **`JacobianChallenge` (AG Jacobian).** Complementary, not overlapping: that entry builds
