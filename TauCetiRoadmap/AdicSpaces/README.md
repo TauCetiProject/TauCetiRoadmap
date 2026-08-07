@@ -33,11 +33,7 @@ The roadmap includes the following material.
 The roadmap does not include étale sites or étale cohomology, formal models and Raynaud generic
 fibres, Berkovich spaces, general fibre products of adic spaces, completed tensor products,
 separated or proper morphisms, almost or condensed methods, perfectoid spaces and tilting, or the
-structure theory of the Fargues–Fontaine curve. The finite-jet pinching example — a complete
-uniform sheafy Tate domain that is not stably uniform — is likewise out of scope: it is written up
-in Birkbeck–Torzewski, *Uniform sheafy Tate rings that are not stably uniform*
-(<https://cbirkbeck.github.io/uniform-sheafy-tate-domains/paper.html>), recorded in Hansen–Kedlaya
-§13, and its formalisation belongs with that paper rather than with the general theory here. In particular, vector bundles, the
+structure theory of the Fargues–Fontaine curve. In particular, vector bundles, the
 Harder–Narasimhan formalism, `B_dR`, `B_cris`, untilts, the curve for general coefficient field
 `E`, the relative curve, and the schematic curve are outside the scope.
 
