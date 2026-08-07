@@ -75,8 +75,6 @@ through Birkhoff's theorem and the permutation-orbit convex hull. `OperatorIdeal
 for the Ky Fan triangle inequality and for the Frobenius seminorm its `S₂` identification is
 stated against.
 
-[`BergeMaximumTheorem`](../BergeMaximumTheorem/README.md) is independent of this family.
-
 ### Independently submittable material
 
 Independent material inside later roadmaps can be started earlier. The Haagerup–Zsidó
