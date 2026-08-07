@@ -51,8 +51,7 @@ and the Weyl-group action supplied here.
 
 Suggested home: `TauCeti/LinearAlgebra/RootSystem/` (the geometry, chambers, Coxeter presentation, and
 classification) and `TauCeti/GroupTheory/Coxeter/` (the strong exchange condition and Matsumoto's
-theorem, which are group-theory statements independent of root systems and are upstreamable to
-Mathlib on their own).
+theorem, which are group-theory statements independent of root systems).
 
 ## Standing conventions
 
@@ -272,7 +271,7 @@ Built on Layer 1's inversion combinatorics.
   `cs.length w = (inversions b w).ncard`. In particular `cs.length (weylGroup.ofIdx P i) = 1` for
   simple `i`, and `cs.IsReduced` words correspond to reduced reflection expressions.
 
-### Layer 3: the missing Coxeter combinatorics (upstreamable)
+### Layer 3: the missing Coxeter combinatorics (root-system-free)
 
 Stated for a general `cs : CoxeterSystem M W`, independent of root systems; these fill Mathlib's
 declared TODOs and belong in `TauCeti/GroupTheory/Coxeter/`.
@@ -421,7 +420,7 @@ its hardest target, `weylCoxeterSystem`, proves completeness of the braid relati
 root-level exchange condition of Layer 1 - a nonempty reduced word acts nontrivially because its
 inversion set is nonempty - so there is no circularity with the Coxeter machinery it is establishing.
 Layer 3 (the strong exchange condition and Matsumoto for abstract Coxeter systems) is a parallel,
-root-system-independent lane that only needs Mathlib's Coxeter API and is upstreamable on its own.
+root-system-independent lane that only needs Mathlib's Coxeter API.
 Layer 4 (chambers, the fundamental domain, the longest element) needs Layers 1-2 for the Weyl-group
 action and the length-equals-inversions identity. Layer 5 (the classification) needs Layer 4 for the
 positive-definite geometry that bounds the Cartan matrices; its uniqueness half (`existsUnique_dynkinType`)

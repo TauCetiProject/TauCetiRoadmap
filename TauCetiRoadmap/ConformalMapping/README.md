@@ -34,12 +34,11 @@ Suggested home: `TauCeti/Analysis/Complex/Conformal/` (with
 `…/Conformal/ArgumentPrinciple.lean`, `…/NormalFamilies.lean`, `…/RiemannMapping.lean`,
 `…/Reflection.lean`, `…/BoundaryCorrespondence.lean`).
 
-**RMT is being formalized upstream — we coordinate.** A complete Riemann mapping theorem is
-already in progress at Mathlib ([mathlib4#33505](https://github.com/leanprover-community/mathlib4/pull/33505)),
-being merged as a series of human-curated PRs. Tau Ceti may proceed with RMT in the meantime,
-but any duplicating L3 statement is a temporary shim: we cite the upstream work, delete the
-shim once the Mathlib theorem lands, and refactor downstream consumers to it — see
-*[Coordination with upstream Mathlib](#coordination-with-upstream-mathlib-rmt-is-being-formalized-at-mathlib)* below.
+**Mathlib is also formalizing RMT.** A complete Riemann mapping theorem is in progress at Mathlib
+([mathlib4#33505](https://github.com/leanprover-community/mathlib4/pull/33505)), being merged as a
+series of human-curated PRs. That is not a reason to wait: build L3 here now, named and shaped the
+way `#33505` does, and delete ours if theirs lands — see
+*[Relationship to Mathlib's RMT work](#relationship-to-mathlibs-rmt-work)* below.
 
 ## Prior art
 
@@ -57,8 +56,8 @@ shim once the Mathlib theorem lands, and refactor downstream consumers to it —
   likewise) — **consume these, do not rebuild them.** Beyond
   those, `#33505` itself proves the **L0–L2 prerequisites** — an argument principle, Hurwitz, and
   the Montel/normal-families equicontinuity — internally, as private lemmas rather than
-  reusable API. So the overlap with this roadmap is **L0–L3, not just L3**; see *Coordination with
-  upstream Mathlib* below for the (correspondingly broadened) shim-deletion commitment.
+  reusable API. So the overlap with this roadmap is **L0–L3, not just L3**; see *Relationship to
+  Mathlib's RMT work* below for the (correspondingly broadened) deletion commitment.
 - **Isabelle/HOL:** the **Riemann mapping theorem is formalized** (Paulson, `Riemann_Mapping`
   in `HOL-Complex_Analysis`), so RMT is *achievable* — Lean simply lacks it. The reflection
   principle and Schwarz–Christoffel appear unformalized in Lean and were not found in a
@@ -113,8 +112,8 @@ shim once the Mathlib theorem lands, and refactor downstream consumers to it —
   and normal (L1); maximize `|f′(z₀)|`; the maximizer is onto (else compose with a disc
   automorphism + square root to beat it — L2). Uniqueness up to `Aut(𝔻)`. The square-root /
   holomorphic-log step **consumes Mathlib's `BranchLogRoot` API** (`exists_continuousOn_pow_eq`,
-  `exists_continuousOn_eqOn_exp_comp`) rather than rebuilding it; coordinate with the in-progress
-  Mathlib RMT (#33505) per *Coordination with upstream Mathlib*.
+  `exists_continuousOn_eqOn_exp_comp`) rather than rebuilding it; follow the naming of the
+  in-progress Mathlib RMT (#33505) per *Relationship to Mathlib's RMT work*.
 - **L4 — analytic continuation & the reflection principle.** Morera-based **Schwarz
   reflection** across `ℝ` (witness `F z = if 0 ≤ z.im then f z else conj (f (conj z))`),
   then across an analytic arc / circle by Möbius reduction; **Painlevé removability** across
@@ -152,12 +151,11 @@ So the unique content of this entry — **Montel/normal families, the Riemann ma
 Schwarz–Pick, reflection, Carathéodory** — is exactly the conformal spine missing between the
 residue engine (#35) and the modular/geometric consumers (#47, HeegaardFloer, UniversalCovers).
 
-## Coordination with upstream Mathlib (RMT is being formalized at Mathlib)
+## Relationship to Mathlib's RMT work
 
-A complete RMT proof exists upstream as [mathlib4#33505](https://github.com/leanprover-community/mathlib4/pull/33505)
-(at the time of writing a **stalled draft** — last updated 2026-05, merge-conflicted), slated to
-land in `Analysis/Complex/RiemannMapping.lean` as a series of smaller, human-curated PRs. The key
-fact for scoping: **`#33505` does not reach RMT by magic — it proves the L0–L2 prerequisites
+A complete RMT proof exists at Mathlib as [mathlib4#33505](https://github.com/leanprover-community/mathlib4/pull/33505),
+slated to land in `Analysis/Complex/RiemannMapping.lean` as a series of smaller, human-curated PRs.
+The key fact for scoping: **`#33505` does not reach RMT by magic — it proves the L0–L2 prerequisites
 internally**, as private lemmas: an argument principle
 (`circleIntegral_logDeriv_eq_finsum_analyticOrderNatAdd`), Hurwitz
 (`eqOn_zero_or_forall_ne_zero_of_tendstoLocallyUniformlyOn`,
@@ -165,25 +163,21 @@ internally**, as private lemmas: an argument principle
 (`uniformEquicontinuousOn_…`), and holomorphic log / n-th-root (`exists_branch_log`,
 `exists_branch_nthRoot`). So the overlap with this roadmap is **L0–L3, not just L3** — while
 **L4–L6 (reflection, Carathéodory, Schwarz–Christoffel) are absent from `#33505` entirely** and
-unformalized elsewhere. Tau Ceti may proceed with L0–L3 in the meantime, under explicit conditions:
+unformalized elsewhere. Build L0–L3 here now; nothing on this roadmap waits on `#33505`.
 
-1. **Cite the upstream work.** Every Tau Ceti L0–L3 file and PR cites #33505 and the Mathlib
-   `RiemannMapping.lean` / `BranchLogRoot.lean` work as the preceding human-curated effort, and
-   reuses Mathlib API (`BranchLogRoot`, and `#33505`'s lemmas once they land) wherever it already
-   exists rather than re-deriving it.
-2. **Declare the shims temporary — across L0–L3, not only L3.** Any Tau Ceti statement that
-   duplicates content destined for Mathlib — the RMT itself *and* the argument-principle /
-   Hurwitz / Montel-equicontinuity / branch-log-root prerequisites `#33505` proves internally —
-   is a **temporary shim**: we delete it once the human-curated Mathlib version lands and
-   refactor every downstream consumer (L4/L5, the SW modular-`λ` covering, `HeegaardFloer`) to it.
-3. **Our distinctive L0–L2 value is API, not first proof.** Because `#33505` already contains this
+1. **Follow its shape.** State the L0–L3 material the way `#33505` and the Mathlib
+   `RiemannMapping.lean` / `BranchLogRoot.lean` work state it, and reuse the Mathlib API that
+   already exists (`BranchLogRoot`, and `#33505`'s lemmas once they land) rather than re-deriving
+   it. Every Tau Ceti L0–L3 file and PR cites that work as the preceding human-curated effort.
+2. **Our distinctive L0–L2 value is API, not first proof.** Because `#33505` already contains this
    mathematics (buried and unnamed), what Tau Ceti adds at L0–L2 is to expose it as the **named,
-   discoverable library API** (`argument_principle`, `Hurwitz`, `Montel`, …); once `#33505` lands,
-   those names should be backed by Mathlib's lemmas rather than independent re-proofs.
-4. **Follow through.** PRs introducing these shims state that intent in their description, and the
-   AIs carry out the deletion + downstream refactor promptly once the Mathlib lemmas are
-   available. (The reflection / Carathéodory / Schwarz–Christoffel layers **L4–L6 are genuinely
-   new** and not subject to this shim-deletion clause.)
+   discoverable library API** (`argument_principle`, `Hurwitz`, `Montel`, …).
+3. **If Mathlib's version lands, ours goes.** Any Tau Ceti statement that duplicates it — the RMT
+   itself *and* the argument-principle / Hurwitz / Montel-equicontinuity / branch-log-root
+   prerequisites `#33505` proves internally — is deleted, with every downstream consumer (L4/L5,
+   the SW modular-`λ` covering, `HeegaardFloer`) refactored onto Mathlib's. Because the names and
+   shapes match, that is a deletion plus an import, not a rewrite. (The reflection / Carathéodory /
+   Schwarz–Christoffel layers **L4–L6 are genuinely new** and unaffected.)
 
 ## Other downstream
 

@@ -33,5 +33,5 @@ injective continuous extension makes its domain a Jordan domain (TauCeti#1580), 
 "only if" half of the continuity theorem (TauCeti#1587). The extension itself is not established;
 what landed towards it is machinery — cluster sets, uniformly locally connected boundaries, the area
 formula (TauCeti#1555, TauCeti#1624, TauCeti#1583). Schwarz–Christoffel is untouched. Per the
-roadmap's own coordination clause, the L0–L3 material is a shim to be retired once the Mathlib proof
-lands.
+roadmap, the L0–L3 material is deleted and its consumers refactored onto Mathlib's if the Mathlib
+proof lands.

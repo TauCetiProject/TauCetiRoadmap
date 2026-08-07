@@ -133,7 +133,7 @@ theorem length_weylCoxeterSystem_eq [Finite ι] [CharZero R] [IsDomain R]
 
 end CoxeterPresentation
 
-/-! ## Layer 3: the missing Coxeter combinatorics (upstreamable, root-system-free) -/
+/-! ## Layer 3: the missing Coxeter combinatorics (root-system-free) -/
 
 section CoxeterCombinatorics
 

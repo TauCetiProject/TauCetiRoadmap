@@ -794,7 +794,7 @@ Euler class; vector bundles and their (to-be-built) Euler class; layer 1's manif
   Calegari, *Foliations and the Geometry of 3-Manifolds* (freely available online), is the
   reference.
 - The **Euler class** of an oriented plane bundle in degree-2 *cohomology* (a small standalone
-  addition to Mathlib's bundle theory), specialized to the tangent field of a codimension-one
+  layer on top of Mathlib's bundle theory), specialized to the tangent field of a codimension-one
   foliation. ⚠ Be explicit that this is singular *cohomology* `H²(M; ℤ)`, not homology; the
   notation in the target must name a cohomology group, since the statement pairs the class
   against surfaces.
