@@ -31,8 +31,7 @@ Suggested home: `TauCeti/Analysis/Semigroups/`, `TauCeti/Analysis/CompletelyMono
 - **Scalar field: real-Banach-first, stated explicitly.** Develop over a real Banach space
   `X` (`[NormedSpace ℝ X]`) — Hille–Yosida / Lumer–Phillips hold there, and a complex Hilbert
   space is usable as a real Banach space for the semigroup action. Get the complex resolvent
-  set and the analyticity of `λ ↦ R(λ,A)` via **complexification** `X_ℂ`. (An `[RCLike 𝕜]`
-  formulation is a possible later generalization.)
+  set and the analyticity of `λ ↦ R(λ,A)` via **complexification** `X_ℂ`.
 - **C₀ groups.** Two-sided strongly continuous groups `(S(t))_{t∈ℝ}` — e.g. the unitary
   `e^{itH}` of Schrödinger — are *not* reached by the contraction-semigroup API. Stone's
   theorem on Hilbert space is a milestone of
@@ -50,8 +49,7 @@ Suggested home: `TauCeti/Analysis/Semigroups/`, `TauCeti/Analysis/CompletelyMono
 - **Bochner at its natural generality.** A continuous positive-definite function lives on a
   **general finite-dimensional real inner-product space** `V` (so `ℝ²` as `ℝ × ℝ`, or any
   finite-dim space, is covered) — *not* on hard-coded `Fin d` coordinates. State Bochner for
-  such `V`. **Stretch goal:** a locally compact abelian group via Pontryagin duality (gated
-  on Mathlib's LCA/Pontryagin support). The BCR involutive-semigroup representation is then
+  such `V`. The BCR involutive-semigroup representation is then
   stated over `[0,∞) × V`.
 - **Spell hypotheses out; never bundle.** Positive-definiteness, complete monotonicity, the
   involution, growth bounds — each is a named predicate, stated explicitly, not folded into

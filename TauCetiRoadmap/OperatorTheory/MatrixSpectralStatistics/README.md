@@ -176,6 +176,8 @@ symmetry through `Matrix.isSymmetric_toEuclideanLin_iff`); the decreasingly sort
 
 **API to develop.**
 
+- **Entrywise-to-operator comparison**: for a real square matrix, `∀ i j, |A i j| ≤ ε`
+  gives `∀ x, ‖Matrix.toEuclideanLin A x‖ ≤ n · ε · ‖x‖`.
 - **Entrywise eigenvalue perturbation**: Weyl's inequality, consumed from
   [`PolarDecomposition`](../PolarDecomposition/README.md),
   composed with the comparison gives that entrywise `ε`-close symmetric matrices have
@@ -224,15 +226,15 @@ subtracted, so it is not a covariance; and the unnormalized centered scatter ope
   computable — with the mean update, the vanishing of the centered sum, positivity, Löwner
   growth, and the quadratic-form versions.
 - **Matrix concentration**: the union bound `P {∃ k l, η < |Ŝ_{kl} − A_{kl}|} ≤ n² v/η²`, then
-  through Part C's perturbation bound the eigenvalue concentration and its one-sided floor;
-  specialized to the empirical second moment by the per-entry mean-square bound `v/n` from the
-  scalar sample-mean identity.
+  through Part B's entrywise-to-operator comparison, eigenvalue concentration and its one-sided
+  floor; specialized to the empirical second moment by the per-entry mean-square bound `v/n`
+  from the scalar sample-mean identity.
 
-**Milestone D1 — eigenvalue concentration.** Second moments of the entries give, by Chebyshev
+**Milestone C1 — eigenvalue concentration.** Second moments of the entries give, by Chebyshev
 and a union bound, simultaneous control of every sorted eigenvalue with probability
 `1 − n²v/η²`.
 
-**Milestone D2 — the operator-norm deviation event**, on the *same* hypotheses as D1, so that
+**Milestone C2 — the operator-norm deviation event**, on the *same* hypotheses as C1, so that
 the two are visibly one event read two ways:
 
 ```lean
@@ -240,19 +242,18 @@ P {ω | ∀ x, ‖Matrix.toEuclideanLin (Shat ω - A) x‖ ≤ (n : ℝ) * η * 
   ≥ 1 - ENNReal.ofReal ((n : ℝ) ^ 2 * v / η ^ 2)
 ```
 
-This is the event the spectral-subspace perturbation statistics consumes directly, and it is
-**not a corollary of D1**: eigenvalue closeness does not bound an operator-norm difference, since
-two matrices can have identical spectra and differ by a rotation. Both descend from the same
-entrywise event, D1 through Weyl's inequality and D2 through Part C's norm comparison — they
-are siblings, not parent and child.
+This is the event the spectral-subspace perturbation statistics consumes directly.
+**C1 and C2 are sibling consequences of the entrywise event**: eigenvalue closeness does not
+bound an operator-norm difference, since two matrices can have identical spectra and differ by
+a rotation. C1 follows through Weyl's inequality and C2 through Part B's norm comparison.
 
 The entrywise event should be a named lemma with the Chebyshev and union-bound cost paid
 once, and both conclusions read off it, so that the probability `1 − n²v/η²` is the same
 number in both rather than two coincidentally equal bounds.
 
-**No symmetry hypothesis appears in D2**, deliberately: `Ŝ ω − A` needs none for an
-operator-norm bound, whereas D1 needs both matrices Hermitian to have eigenvalues at all.
-D2 can therefore be applied after symmetry has been established elsewhere.
+**C2 is stated without symmetry**: the operator-norm bound applies to `Ŝ ω − A` directly,
+while C1 carries Hermitian hypotheses for the eigenvalues. This keeps C2 available when
+symmetry is established elsewhere.
 
 This roadmap uses Chebyshev's inequality and a union bound, producing factors `n` and `n²`.
 
@@ -297,6 +298,8 @@ measurability layer Part B's spectral transform is glued over.
 
 **D1** `∑ₖ h(λₖ) uₖ uₖᵀ` — the spectral `h`-transform, against Mathlib's
 `Matrix.IsHermitian.eigenvalues₀`.
+
+**D2** `n⁻¹ ∑ᵢ Vᵢ Vᵢᵀ` — the uncentered empirical second-moment matrix.
 
 ## References
 

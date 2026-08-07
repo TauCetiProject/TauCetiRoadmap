@@ -297,7 +297,7 @@ obtained rather than constructed**, and their laws are B1's.
   the ideal: `schattenFamily 1` is the trace-class family, `schattenFamily 2` has the
   Hilbert–Schmidt gauge, and `schattenFamilyInf` is the operator-norm family.
 - The scale is monotone — `p ≤ q → gauge_q T ≤ gauge_p T`, hence `S_p ⊆ S_q` — with the
-  inclusions strict, witnessed by a diagonal operator with coefficients `n ↦ n^{-1/r}` for
+  inclusions strict, witnessed by a diagonal operator with coefficients `n ↦ (n + 1)^{-1/r}` for
   `p < r < q`, the same diagonal machinery as Part A's acceptance example (6).
 **The reconciliation obligation.** `p = 2` is defined twice: through `schattenGauge 2` on the
 singular-value sequence, and through the Hilbert–Schmidt energy on an orthonormal expansion.

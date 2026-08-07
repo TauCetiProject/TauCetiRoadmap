@@ -71,9 +71,9 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
   sequences.
 - **From [`PolarDecomposition`](../PolarDecomposition/README.md)**,
   an explicit dependency and not Mathlib: the positive square root and operator modulus,
-  the polar decomposition and its unitary, Courant–Fischer min–max, the rectangular
-  singular-value facts `σ(A⋆) = σ(A)` and `σᵢ(A)² = λᵢ(A⋆A)`, and the projection and
-  spectral-subspace API. Every Part below consumes these; nothing here re-proves them.
+  the polar decomposition and its unitary, Courant–Fischer min–max, and the rectangular
+  singular-value facts `σ(A⋆) = σ(A)` and `σᵢ(A)² = λᵢ(A⋆A)`. Every Part below consumes
+  these; nothing here re-proves them.
 
 ## What is missing (build here)
 

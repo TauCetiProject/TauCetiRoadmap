@@ -314,7 +314,7 @@ noncomputable def schattenFamilyInf : OperatorIdealFamily.{0, v, w} ℂ where
   gauge_comp_le := sorry
 
 /-- The scale is monotone, hence the ideals nest: `S_p ⊆ S_q` for `p ≤ q`.  Strictness
-is witnessed by a diagonal operator with coefficients `n ↦ n ^ (-1/r)`, `p < r < q` --
+is witnessed by a diagonal operator with coefficients `n ↦ (n + 1) ^ (-1/r)`, `p < r < q` --
 the same diagonal machinery as Part A's acceptance example (6). -/
 theorem gauge_schattenFamily_antitone {p q : ℝ} (hp : 1 ≤ p) (hq : 1 ≤ q) (hpq : p ≤ q)
     {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]

@@ -41,7 +41,7 @@ noncomputable def overlapOp {u v : Fin d → E} (hu : Orthonormal 𝕜 u)
 
 /-- Principal-angle cosines: the singular values of the overlap operator.
 
-Spec: D2. -/
+Spec: D1. -/
 noncomputable def cosPrincipalAngles {u v : Fin d → E} (hu : Orthonormal 𝕜 u)
     (hv : Orthonormal 𝕜 v) : ℕ →₀ ℝ :=
   (overlapOp hu hv).singularValues

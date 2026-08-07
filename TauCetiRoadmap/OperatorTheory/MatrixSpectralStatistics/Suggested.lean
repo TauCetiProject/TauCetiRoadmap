@@ -33,7 +33,7 @@ theorem rank_le_iff_exists_eq_mul (M : Matrix m n 𝕜) (r : ℕ) :
 positive semidefinite of rank at most `d` exactly when it is the Gram matrix of
 `n` points in `d`-dimensional space. -/
 theorem posSemidef_and_rank_le_iff_exists_conjTranspose_mul_self
-    {𝕜 : Type*} [RCLike 𝕜] [PartialOrder 𝕜] [StarOrderedRing 𝕜]
+    {𝕜 : Type*} [RCLike 𝕜]
     {n d : ℕ} (B : Matrix (Fin n) (Fin n) 𝕜) :
     (B.PosSemidef ∧ B.rank ≤ d) ↔ ∃ A : Matrix (Fin d) (Fin n) 𝕜, B = Aᴴ * A := sorry
 
@@ -95,6 +95,12 @@ instance instBorelSpaceMatrix {m n α : Type*} [Countable m] [Countable n]
     BorelSpace (Matrix m n α) :=
   inferInstanceAs (BorelSpace (m → n → α))
 
+/-- **Entrywise → Euclidean operator-norm bound.** If every entry of a real square
+matrix is bounded by `ε`, its Euclidean action is bounded by `n · ε`. -/
+theorem norm_toEuclideanLin_le_of_entry_le {A : Matrix (Fin n) (Fin n) ℝ}
+    {ε : ℝ} (hentry : ∀ i j, |A i j| ≤ ε) (x : EuclideanSpace ℝ (Fin n)) :
+    ‖Matrix.toEuclideanLin A x‖ ≤ (n : ℝ) * ε * ‖x‖ := sorry
+
 /-- **Weyl composed with the entrywise bridge**: an entrywise `ε`-perturbation
 moves each sorted eigenvalue by at most `n·ε`.  The entrywise-to-operator-norm
 comparison is one of the two Mathlib gaps this Part states precisely. -/
@@ -105,7 +111,7 @@ theorem abs_eigenvalues₀_sub_le_of_entry_le {A Ahat : Matrix (Fin n) (Fin n) �
 
 /-- The spectral `h`-transform of a Hermitian matrix.
 
-Spec: D2. -/
+Spec: D1. -/
 noncomputable def specTransform (h : ℝ → ℝ) {A : Matrix (Fin n) (Fin n) ℝ}
     (hA : A.IsHermitian) : Matrix (Fin n) (Fin n) ℝ :=
   let hsym := Matrix.isSymmetric_toEuclideanLin_iff.mpr hA
@@ -126,13 +132,28 @@ end MatrixSpectra
 /-! ## Part C -- sample moments and matrix concentration
 
 Chebyshev plus a union bound over `n²` entries, converted to a spectral bound
-by Part C.  The elementary route is dimension-suboptimal by design: matrix
+by Part B.  The elementary route is dimension-suboptimal by design: matrix
 Bernstein would give `log n` in place of `n`, at the cost of Laplace-transform
 machinery Mathlib does not have. -/
 
 section Concentration
 
 variable {n : ℕ} {Ω : Type*} [MeasurableSpace Ω]
+
+/-- The uncentered empirical second moment
+`M̂ₖₗ(ω) = n⁻¹ ∑ᵢ Vᵢ(ω)ₖ Vᵢ(ω)ₗ`.
+
+Spec: D2. -/
+noncomputable def sampleSecondMoment {r d : ℕ}
+    (V : Fin r → Ω → EuclideanSpace ℝ (Fin d)) (ω : Ω) : Matrix (Fin d) (Fin d) ℝ :=
+  fun k l => (r : ℝ)⁻¹ * ∑ i, V i ω k * V i ω l
+
+omit [MeasurableSpace Ω] in
+/-- The uncentered empirical second-moment matrix is Hermitian. -/
+theorem isHermitian_sampleSecondMoment {r d : ℕ}
+    (V : Fin r → Ω → EuclideanSpace ℝ (Fin d)) (ω : Ω) :
+    (sampleSecondMoment V ω).IsHermitian := by
+  sorry
 
 /-- **Eigenvalue concentration of a sample matrix**: second moments of the
 entries give, by Chebyshev and a union bound, simultaneous control of every
@@ -168,20 +189,20 @@ theorem centeredScatter_append (𝕜 : Type*) [RCLike 𝕜] {E : Type*} [NormedA
       ((n : 𝕜) / ((n : 𝕜) + 1)) •
         rankOne 𝕜 (y - finiteMean 𝕜 z) (y - finiteMean 𝕜 z) := sorry
 
-/-- **Milestone D2 -- the operator-norm deviation event**, on the same hypotheses as the
+/-- **Milestone C2 -- the operator-norm deviation event**, on the same hypotheses as the
 eigenvalue event above so that the two are visibly one event read two ways.
 
-**Not a corollary of D1.**  Eigenvalue closeness does not bound an operator-norm
+**A sibling of C1.**  Eigenvalue closeness does not bound an operator-norm
 difference: two matrices can have identical spectra and differ by a rotation.  Both
-descend from the same entrywise event, D1 through Weyl's inequality and this through
-Part C's `norm_toEuclideanLin_le_of_entry_le`.
+descend from the same entrywise event, C1 through Weyl's inequality and this through
+Part B's `norm_toEuclideanLin_le_of_entry_le`.
 
 So the route is a refactor: factor the entrywise event
 out of the eigenvalue theorem first, then compose it with the norm comparison here and
 with Weyl there.
 
-**No symmetry hypothesis**, deliberately: an operator-norm bound needs none, while D1
-needs both matrices Hermitian to have eigenvalues at all. -/
+**C2 is stated without symmetry**: the operator-norm conclusion applies directly, while C1
+carries Hermitian hypotheses for the eigenvalues. -/
 theorem measure_forall_norm_toEuclideanLin_sub_le_ge
     (P : Measure Ω) [IsProbabilityMeasure P]
     (Shat : Ω → Matrix (Fin n) (Fin n) ℝ) (A : Matrix (Fin n) (Fin n) ℝ)

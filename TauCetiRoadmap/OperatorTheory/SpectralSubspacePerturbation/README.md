@@ -214,6 +214,10 @@ subspaces with their projection and gap formulas and angular operators.
 - **Dimension-free first.** On arbitrary Hilbert spaces, from Milestone B1 alone: the directed
   bound `‖P_V ∘ P_U‖ ≤ ‖B − A‖ / g` for invariant subspaces with quadratic-form separation,
   and its projector-difference companions.
+- **Graph-subspace geometry.** Define `IsAngularOperator U X` by
+  `X P_U = X` and `P_U X = 0`, and define `graphSubspace U X`; prove the projection formula
+  `P_graph = A (1 + X⋆X)⁻¹ A⋆` with `A = P_U + X`, and the exact gap identity
+  `‖P_U − P_graph‖ = ‖X‖ / √(1 + ‖X‖²)`.
 - **Finite spectral forms.** Spectral coercivity bridges convert eigenvalue hypotheses into
   form bounds, giving the residual theorem in every rectangular unitarily invariant norm; the
   perturbation theorem in every square one, by transport across the subspace's isometric
@@ -245,7 +249,7 @@ spectrum. Yu–Wang–Samworth is the variant stated that way. Its probabilistic
 [`MatrixSpectralStatistics`](../MatrixSpectralStatistics/README.md); this Part is the
 deterministic inequality they compose with.
 
-**Objects.** `PopulationGap A U Δ`, the population operator's internal gap across the selected
+**Objects.** `InternalGap A U Δ`, the population operator's internal gap across the selected
 block; `CorrespondingEigenblock`, blocks of the two operators selected by the *same ordered
 eigenvalue indices*; the Frobenius sine distance; the residual columns
 `(S − λⱼ(T)) uⱼ(S)` in the population eigenbasis; and, for rectangular data, left and right

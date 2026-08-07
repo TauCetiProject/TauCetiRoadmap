@@ -2,8 +2,8 @@
 
 Spectral perturbation theory is written in a small, stable vocabulary: apply a real
 function to a self-adjoint operator; factor an operator through its modulus; expand a
-rectangular map in its singular system; measure the gap between two orthogonal
-projections. This roadmap builds that vocabulary.
+rectangular map in its singular system. This roadmap builds the functional-calculus,
+modulus, polar-decomposition and singular-system layers.
 
 Mathlib has the static ingredients — the spectral theorem
 ([`LinearMap.IsSymmetric.eigenvalues`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/Spectrum.html)
@@ -25,10 +25,10 @@ modulus and the polar decomposition through a partial isometry —
 need no finite-dimensional hypothesis at all, and later roadmaps consume them in that
 stronger form. [`OperatorIdeals`](../OperatorIdeals/README.md) applies the modulus to
 operators on infinite-dimensional spaces;
-[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) measures gaps
-between spectral projections of unbounded operators. Stating those results in finite
-dimension and generalizing later would mean proving them twice, so they are stated for
-complete spaces here.
+[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) uses the
+bounded polar factorization in its interval/exterior estimates. Stating those results in
+finite dimension and generalizing later would mean proving them twice, so they are stated
+for complete spaces here.
 
 ## Standing conventions
 
@@ -70,9 +70,6 @@ complete spaces here.
   through total field inversion, so it is defined (and zero) at `σᵢ = 0`; orthonormality is
   asserted on the subtype of indices with nonzero singular value, and the singular relation
   `A vᵢ = σᵢ • uᵢ` holds *including* the zero case.
-- **Equalities where equalities hold.** The projector-difference identity
-  `‖P − Q‖ = max (‖(1−Q)P‖, ‖(1−P)Q‖)` is an equality, with factor one and no equal-rank
-  hypothesis. It must not be weakened to a two-sided estimate.
 
 ## What Mathlib already has (consume)
 
