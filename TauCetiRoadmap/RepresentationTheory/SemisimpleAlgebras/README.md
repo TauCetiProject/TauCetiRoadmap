@@ -178,9 +178,10 @@ later theorem explicitly names.
   convenience API for finite-dimensional algebras: `Ring.jacobson A` is a nilpotent two-sided ideal
   (from `IsArtinianRing.isNilpotent_jacobson_bot` via `FiniteDimensional → IsArtinianRing`), the quotient
   `A ⧸ Ring.jacobson A` is semisimple, and `A` is semisimple iff its radical is `⊥`.
-- **Left-right symmetry.** Discharge Mathlib's standing `proof_wanted IsSemiprimaryRing.mulOpposite` and
-  `isSemiprimaryRing_mulOpposite_iff`, giving `Ring.jacobson Aᵐᵒᵖ` the expected description and completing
-  the "left Artinian ⇔ right Artinian for these rings" `example` noted in `WedderburnArtin.lean`.
+- **Left-right symmetry.** Prove the two statements Mathlib records as `proof_wanted` in
+  `WedderburnArtin.lean`, `IsSemiprimaryRing.mulOpposite` and `isSemiprimaryRing_mulOpposite_iff`,
+  giving `Ring.jacobson Aᵐᵒᵖ` the expected description and settling the "left Artinian ⇔ right
+  Artinian for these rings" `example` noted there.
 
 ### Layer 1: simple modules, Schur, and isotypic components
 

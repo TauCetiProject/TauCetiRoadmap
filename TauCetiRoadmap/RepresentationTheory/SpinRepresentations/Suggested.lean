@@ -275,7 +275,7 @@ theorem finrank_spinPlus {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDim
 representation of `SL₂`. Over `ℝ` this is `Spin(3) ≅ SU(2)`. The isomorphism needs three steps:
 `even Cliff(V, Q) ≅ M₂(ℂ)`; the spin group is the reversal-norm-one subgroup, identified with the
 determinant-one subgroup; and the image is exactly `SL₂`, both directions. Definitional-matching
-risk (review): Mathlib's `spinGroup Q` is the even units with its norm/`star` condition, not by
+risk: Mathlib's `spinGroup Q` is the even units with its norm/`star` condition, not by
 construction the `ℂ`-points of algebraic Spin — this `Spin₃` case is the early sanity check that
 the norm condition yields the connected simply connected group with no spurious center or
 component, and it should land before the higher cases are attempted. -/

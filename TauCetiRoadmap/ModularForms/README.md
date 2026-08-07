@@ -167,32 +167,35 @@ Pin these conventions before writing code — implementors make bad, divergent c
   `EulerProduct/*`).
 - **Number fields:** `NumberField`, `IntermediateField`, the Galois theory of `ℚ̄/ℚ` — the target
   of the coefficient-field layer.
-- **The abstract Hecke ring (landing now — July 2026):**
+- **The abstract Hecke ring, definitions only:**
   [`NumberTheory/HeckeRing/Defs.lean`](https://github.com/leanprover-community/mathlib4/pull/41251)
   has the Hecke-triple compatibility class `IsHeckeTriple Δ H₁ H₂` (commensurable subgroups of a
   common submonoid `Δ` lying in their commensurator — the finiteness making `H₁gH₂` a finite
   union of left cosets), the double-coset basis `HeckeCoset Δ H₁ H₂`, the coset module
   `HeckeCosetModule Δ H₁ H₂ Z`, and the Hecke ring `HeckeRing Δ H Z` (notation `𝕋`), on top of
-  `GroupTheory/DoubleCoset` and `GroupTheory/Commensurable`. The **convolution product, identity,
-  and associativity** are the open review stack
-  [#41253](https://github.com/leanprover-community/mathlib4/pull/41253)–[#41256](https://github.com/leanprover-community/mathlib4/pull/41256), [#41277](https://github.com/leanprover-community/mathlib4/pull/41277), [#41279](https://github.com/leanprover-community/mathlib4/pull/41279), and [#41328](https://github.com/leanprover-community/mathlib4/pull/41328),
-  upstreamed from AINTLIB's `HeckeRIngs/AbstractHeckeRing/*`. Layer 2 **consumes** this; do not
-  re-found the abstract ring in `TauCeti/`.
-- **The Sturm bound — level one merged, finite index in review:**
-  `ModularForm.sturm_bound_levelOne` and the even-weight dimension formula
-  `ModularForm.dimension_level_one` (`LevelOne/DimensionFormula.lean`,
-  [#38993](https://github.com/leanprover-community/mathlib4/pull/38993)); the finite-index Sturm
-  bound `ModularForm.sturm_bound_finiteIndex` with a `Module.Finite ℂ (ModularForm 𝒢 k)`
-  instance — finite-dimensionality at **every** level — is the open stack
-  [#39000](https://github.com/leanprover-community/mathlib4/pull/39000)
-  (+[#39083](https://github.com/leanprover-community/mathlib4/pull/39083)/[#39086](https://github.com/leanprover-community/mathlib4/pull/39086)/[#39087](https://github.com/leanprover-community/mathlib4/pull/39087)/[#39088](https://github.com/leanprover-community/mathlib4/pull/39088):
-  cusp widths, the modular norm map and its `q`-expansion decomposition). Layer 10 **consumes**
-  finite-dimensionality from here; the exact dimension formulas remain the hard target.
+  `GroupTheory/DoubleCoset` and `GroupTheory/Commensurable`. Consume these, and do not re-found
+  them in `TauCeti/`. The **convolution product, identity, and associativity** are *not* in
+  Mathlib; they are a Layer 2 target here (see below).
+- **The Sturm bound, level one only:** `ModularForm.sturm_bound_levelOne` and the even-weight
+  dimension formula `ModularForm.dimension_level_one` (`LevelOne/DimensionFormula.lean`,
+  [#38993](https://github.com/leanprover-community/mathlib4/pull/38993)). The finite-index bound
+  `ModularForm.sturm_bound_finiteIndex` and the `Module.Finite ℂ (ModularForm 𝒢 k)` instance —
+  finite-dimensionality at **every** level — are *not* in Mathlib; Layer 10 builds them here.
 
-⚠ **Dependency policy, stated once.** In-review Mathlib stacks are consumed **with a named
-fallback**: if the Sturm stack (#39000 + companions) stalls, AINTLIB's `dim_gen_cong_levels`
-(which it upstreams) is vendored; if the Hecke-ring convolution stack (#41253–#41328) stalls,
-AINTLIB's `AbstractHeckeRing/*` is. No milestone rests on an unmerged PR without its fallback.
+⚠ **Dependency policy, stated once.** Merged Mathlib material is consumed. Unmerged Mathlib
+material is not a dependency and never a reason to leave a gap: where a layer needs something that
+exists only as an open pull request, it is built here now, from AINTLIB's implementation where one
+exists, and named and shaped the way that pull request names and shapes it, so adopting Mathlib's
+version later is a deletion plus an import rather than a rewrite. Two instances:
+[#39000](https://github.com/leanprover-community/mathlib4/pull/39000)
+(+[#39083](https://github.com/leanprover-community/mathlib4/pull/39083)/[#39086](https://github.com/leanprover-community/mathlib4/pull/39086)/[#39087](https://github.com/leanprover-community/mathlib4/pull/39087)/[#39088](https://github.com/leanprover-community/mathlib4/pull/39088):
+cusp widths, the modular norm map and its `q`-expansion decomposition) carries the finite-index
+Sturm bound, so Layer 10 builds it from AINTLIB's `dim_gen_cong_levels` under the name
+`ModularForm.sturm_bound_finiteIndex`;
+[#41253](https://github.com/leanprover-community/mathlib4/pull/41253)–[#41256](https://github.com/leanprover-community/mathlib4/pull/41256), [#41277](https://github.com/leanprover-community/mathlib4/pull/41277), [#41279](https://github.com/leanprover-community/mathlib4/pull/41279), [#41328](https://github.com/leanprover-community/mathlib4/pull/41328)
+carry the Hecke-ring convolution product, so Layer 2 builds it from AINTLIB's
+`HeckeRIngs/AbstractHeckeRing/*` on top of Mathlib's merged definitions. No milestone waits on a
+pull request.
 
 ## What is missing (build here)
 
@@ -343,12 +346,14 @@ below sketches signatures; it is illustrative, not required to compile.
   dimension formulas.
 
 ### Layer 2: Hecke operators and the Hecke algebra
-- **(a) The Hecke ring, stated at `GL_n` — consume Mathlib's abstract ring, migrate AINTLIB's
-  `GLn/` development.** The double-coset ring of a Hecke pair is
-  landing in Mathlib (`NumberTheory/HeckeRing/Defs.lean` #41251, merged; the convolution ring
-  structure in review, #41253–#41256, #41277, #41279, #41328 — see *What Mathlib already has*): `IsHeckeTriple`,
-  `HeckeCoset`, `𝕋 Δ H Z`, with the finiteness (`Γ ∩ gΓg⁻¹` of finite index, so `ΓgΓ = ⊔ᵢ gᵢΓ`
-  is a finite union of cosets) packaged in the commensurator conditions. On top of it this
+- **(a) The Hecke ring, stated at `GL_n` — consume Mathlib's definitions, build the convolution
+  product here, migrate AINTLIB's `GLn/` development.** Mathlib has the double-coset objects of a
+  Hecke pair (`NumberTheory/HeckeRing/Defs.lean`, #41251 — see *What Mathlib already has*):
+  `IsHeckeTriple`, `HeckeCoset`, `𝕋 Δ H Z`, with the finiteness (`Γ ∩ gΓg⁻¹` of finite index, so
+  `ΓgΓ = ⊔ᵢ gᵢΓ` is a finite union of cosets) packaged in the commensurator conditions. The ring
+  structure on `𝕋` — convolution product, identity, associativity — is built here from AINTLIB's
+  `HeckeRIngs/AbstractHeckeRing/*`, under the names #41253–#41256, #41277, #41279 and #41328 give
+  it, and deleted if that stack lands. On top of it this
   roadmap states the concrete theory at **general `n`**, where AINTLIB has already built most of
   it (`HeckeRIngs/GLn/*`): the pair `(SL_n(ℤ), Δ_n)` with `Δ_n` the positive-determinant
   integral matrices (Shimura §3.2; `GLn/Basic.lean`); **commutativity** via the transpose
@@ -724,7 +729,7 @@ it constrains only `(n, N) = 1`. Per the conventions, it therefore ports as
 ### Layer 8: modular symbols, the integral Hecke algebra, and coefficient fields
 
 ⚠ **This layer contains the roadmap's one genuinely non-elementary machine, and it is named
-here rather than hidden in a file path** (review): the coefficient field is a number field
+here rather than hidden in a file path**: the coefficient field is a number field
 *because* of an integral structure, and the only route to that structure which stays inside
 this roadmap's analytic scope is **Eichler–Shimura via modular symbols**. (The alternative —
 `S_k(Γ) ≅ H⁰(X(Γ), ω^k)` over `ℚ` by GAGA and algebraic geometry — is a far bigger project
@@ -986,15 +991,16 @@ The modular curve here is the **analytic quotient `Γ\ℍ`**, compactified to a 
 surface `X(Γ) = Γ\ℍ*` by adjoining the cusps `Γ\ℙ¹(ℚ)` — defined directly, with **no functor, no
 representability, no moduli problem**.
 
-- **The Sturm bound and finite-dimensionality — consume from Mathlib, don't re-prove.** A
+- **The Sturm bound and finite-dimensionality — consume level one, build the general case.** A
   nonzero `f ∈ M_k(Γ)` has `q`-order at `∞` at most `k·[SL₂(ℤ):Γ]/12`; consequently `M_k(Γ)`
-  and `S_k(Γ)` are **finite-dimensional at every level**. Level one is merged
-  (`ModularForm.sturm_bound_levelOne`, #38993); the finite-index/arithmetic case —
-  `ModularForm.sturm_bound_finiteIndex` and the `Module.Finite ℂ (ModularForm 𝒢 k)` instance —
-  is the in-review stack #39000 (+#39083/#39086/#39087/#39088), proved by the elementary
-  **modular norm map** route (`∏_γ f∣[k]γ` over coset representatives lands at level one, where
-  the level-one bound kills it) — the same argument as AINTLIB's `dim_gen_cong_levels`
-  (`Modularforms/DimGenCongLevels/*`), which it upstreams. Downstream, the Sturm bound is this
+  and `S_k(Γ)` are **finite-dimensional at every level**. Level one is Mathlib's
+  (`ModularForm.sturm_bound_levelOne`, #38993) and is consumed. The finite-index/arithmetic case —
+  `ModularForm.sturm_bound_finiteIndex` and the `Module.Finite ℂ (ModularForm 𝒢 k)` instance — is
+  built here, under those names, from AINTLIB's `dim_gen_cong_levels`
+  (`Modularforms/DimGenCongLevels/*`), by the elementary **modular norm map** route (`∏_γ f∣[k]γ`
+  over coset representatives lands at level one, where the level-one bound kills it). Mathlib's
+  #39000 (+#39083/#39086/#39087/#39088) is the same argument; if it lands, ours goes and the
+  imports change. Downstream, the Sturm bound is this
   layer's **main computational criterion**: two forms agreeing on the first `⌊k·[SL₂(ℤ):Γ]/12⌋ + 1`
   coefficients are equal, which is how the concrete dimension instances in `Suggested.lean` and
   the LMFDB layer's equality checks (Layer 9) become finite computations.
@@ -1343,7 +1349,7 @@ be reached this way.
   example, computed by Buzzard in 1992 in answer to a question of Ramakrishnan
   ([*J. Number Theory* **57** (1996)](https://www.sciencedirect.com/science/article/pii/S0022314X96900396)),
   and suggested for this roadmap by its author on the predecessor PR.
-  ⚠ **Scope split (review).** The explicit numerical verification is *not* a target of this
+  ⚠ **Scope split.** The explicit numerical verification is *not* a target of this
   roadmap: it is an exact power-series-and-linear-algebra calculation of a different character
   from everything above, and it belongs in a **separate repository depending on Tau Ceti**
   (`CBirkbeck/LeanBridge` is the existing instance of exactly that — see §Provenance). What
@@ -1397,7 +1403,7 @@ Not a linear order: a graph, with the consumption edges named ("→" means "cons
 |---|---|
 | Layer 0 diamonds/nebentypus | migrate (AINTLIB); the cusp–Eisenstein decomposition is **new** |
 | Layer 1 valence formula | migrate (level one); the order dictionary and general level are **new** |
-| Layer 2 abstract ring | upstream Mathlib PR stack, AINTLIB fallback |
+| Layer 2 abstract ring | definitions consumed from Mathlib; the convolution product built here from AINTLIB |
 | Layer 2 `GL_n` block | migrate; general `n`: two named steps open (**source gap**); consumer PR #120 |
 | Layer 3 Petersson, old/new | migrate; bad-prime newspace stability a **known source gap**, route pinned |
 | Layers 4A/5/4B newforms, SMO | migrate (fixed-space); cross-level newform SMO **new** |
@@ -1430,8 +1436,7 @@ roadmap owes (Layer 9 and the weight-60 worked example list them), and the evide
 remaining work there is calculation rather than theory.
 
 Secondary to the mathematics above: the migration map. The reference is the AINTLIB monorepo's
-`projects/LeanModularForms/` on branch **`dev/leanmodularforms`** (resynced **2026-07-17**, re-verified **2026-07-23**, at
-`112d12d95`); paths are relative to its `LeanModularForms/`. The tree is **actively
+`projects/LeanModularForms/` on branch **`dev/leanmodularforms`**, at `112d12d95`; paths are relative to its `LeanModularForms/`. The tree is **actively
 restructured**, so verify names against the live tree before porting. Headline theorems are
 `sorry`-free unless flagged; the flagged **literal source `sorry`s** are exactly three —
 `exists_HeckeStableLattice_one` (L8), `interior_edges_cancel_sum` (L8), and
@@ -1448,8 +1453,8 @@ table; "three" counts literal source `sorry`s, not every unfinished target of th
   on top of `ForMathlib/ValenceFormula*.lean` and `ForMathlib/ValenceFormula/WindingWeights/*`,
   with the FD-boundary bridge (`ForMathlib/*FDBoundary*`, `*CornerFTC*`, `*CrossingAt*`) over
   the Contour Integration roadmap's results.
-- **Hecke theory (L2):** `HeckeRIngs/AbstractHeckeRing/*` (the abstract ring — **being
-  upstreamed** as Mathlib #41251 merged + #41253–#41256, #41277, #41279, #41328 in review; commutativity via
+- **Hecke theory (L2):** `HeckeRIngs/AbstractHeckeRing/*` (the abstract ring, whose Mathlib
+  counterparts are #41251 and #41253–#41256, #41277, #41279, #41328; commutativity via
   `mul_comm_of_antiInvolution` with `GLn/TransposeAntiInvolution.lean`);
   `HeckeRIngs/GL2/{Basic,HeckeT_p,HeckeT_p_Gamma0,HeckeT_p_Gamma1,HeckeT_p_GLpair,HeckeT_n,FourierHecke,MultiplicationTable,CongruenceIndex,Degree,LevelEmbed,LevelRaise}.lean`;
   the ring-action layer
@@ -1535,8 +1540,8 @@ catalogue the redundancy to collapse during migration.
 - K. Buzzard, *On the eigenvalues of the Hecke operator T₂*, J. Number Theory **57** (1996) — the
   weight-60 non-solvable coefficient-field example (worked examples).
 - J. Sturm, *On the congruence of modular forms*, in *Number Theory* (New York 1984–85), Springer
-  LNM **1240** — the Sturm bound (Layer 10), heading into Mathlib via the modular norm map
-  (#38993 merged, #39000 in review).
+  LNM **1240** — the Sturm bound (Layer 10), by the modular norm map route (Mathlib's #38993 and
+  #39000).
 - N. Hungerbühler, M. Wasem, *Non-integer valued winding numbers and a generalized Residue
   Theorem*, arXiv:1808.00997 — the contour-integration result behind the valence formula's
   elliptic-point weights (see the [Contour Integration roadmap](../ContourIntegration/README.md)).

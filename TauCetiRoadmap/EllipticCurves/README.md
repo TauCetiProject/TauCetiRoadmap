@@ -1070,13 +1070,13 @@ only hold for, these revisions:
   feasibility evidence, not a port source — see below), the HasseWeil project at
   `dev/hasse-weil @ 513e83879e2f`, and the NagellLutz project (`projects/NagellLutz`) at
   `dev/modular-curves @ 9fec8eba7652`.
-- **The Angdinata isogeny development** (shared with the roadmap authors on 2026-07-23, ahead
-  of its mathlib PRs — no public revision to pin yet; the shared files are the contract):
+- **The Angdinata isogeny development** (shared with the roadmap authors ahead of its mathlib PRs;
+  there is no public revision to pin, so the shared files are the contract):
   `Isogeny.lean` on three mathlib-bound supports — the `CoordinateRing` split-out,
   `RingTheory/ClassGroup/RelNorm`, and `RingTheory/IntegralClosure/NormalizationFinite`.
-  Details in the Layers 0–1 entry below; re-pin to the PR numbers when they open.
+  Details in the Layers 0–1 entry below; pin to the PR numbers once they exist.
 - **FLT** (`github.com/ImperialCollegeLondon/FLT`, Apache-2.0): the quadratic-twist development of
-  PR #1088, merged as `bc2fe8ff7396` (2026-07-10).
+  PR #1088, merged as `bc2fe8ff7396`.
 - **Mordell–Weil / local fields** (`github.com/MichaelStollBayreuth/EllipticCurves`,
   **Apache-2.0**): `66889eada51a` — the elliptic-curve part of the former Heights development,
   extracted to its own repository, ported to the Lean 4 module system, pinned to Mathlib

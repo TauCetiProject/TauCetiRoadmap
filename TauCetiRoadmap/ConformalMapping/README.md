@@ -57,7 +57,8 @@ way `#33505` does, and delete ours if theirs lands — see
   those, `#33505` itself proves the **L0–L2 prerequisites** — an argument principle, Hurwitz, and
   the Montel/normal-families equicontinuity — internally, as private lemmas rather than
   reusable API. So the overlap with this roadmap is **L0–L3, not just L3**; see *Relationship to
-  Mathlib's RMT work* below for the (correspondingly broadened) deletion commitment.
+  Mathlib's RMT work* below for what we commit to doing at each of those layers when Mathlib's
+  version lands.
 - **Isabelle/HOL:** the **Riemann mapping theorem is formalized** (Paulson, `Riemann_Mapping`
   in `HOL-Complex_Analysis`), so RMT is *achievable* — Lean simply lacks it. The reflection
   principle and Schwarz–Christoffel appear unformalized in Lean and were not found in a
@@ -172,12 +173,15 @@ unformalized elsewhere. Build L0–L3 here now; nothing on this roadmap waits on
 2. **Our distinctive L0–L2 value is API, not first proof.** Because `#33505` already contains this
    mathematics (buried and unnamed), what Tau Ceti adds at L0–L2 is to expose it as the **named,
    discoverable library API** (`argument_principle`, `Hurwitz`, `Montel`, …).
-3. **If Mathlib's version lands, ours goes.** Any Tau Ceti statement that duplicates it — the RMT
-   itself *and* the argument-principle / Hurwitz / Montel-equicontinuity / branch-log-root
-   prerequisites `#33505` proves internally — is deleted, with every downstream consumer (L4/L5,
-   the SW modular-`λ` covering, `HeegaardFloer`) refactored onto Mathlib's. Because the names and
-   shapes match, that is a deletion plus an import, not a rewrite. (The reflection / Carathéodory /
-   Schwarz–Christoffel layers **L4–L6 are genuinely new** and unaffected.)
+3. **If Mathlib's version lands, ours goes.** For the RMT itself, `TauCeti.riemannMapping` is
+   deleted and every downstream consumer (L4/L5, the SW modular-`λ` covering, `HeegaardFloer`)
+   refactored onto Mathlib's; because the names and shapes match, that is a deletion plus an
+   import, not a rewrite. The L0–L2 prerequisites are the exception `#33505` creates for itself:
+   it proves the argument principle, Hurwitz, Montel-equicontinuity and branch-log-root as
+   *private* lemmas, which nothing downstream can import. So our named versions stay until Mathlib
+   exposes them; what changes is their proofs, which then cite Mathlib's lemmas instead of arguing
+   from scratch. (The reflection /
+   Carathéodory / Schwarz–Christoffel layers **L4–L6 are genuinely new** and unaffected.)
 
 ## Other downstream
 

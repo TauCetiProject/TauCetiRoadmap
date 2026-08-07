@@ -226,8 +226,7 @@ inner-product space `V` is continuous and positive-definite **iff** it is the Fo
 transform of a finite positive measure on `V`. State it for general `V`, with `ℝᵈ` as a
 corollary.
 
-⚠ **Checked against the Mathlib source (v4.31, 2026-06-18; re-confirm against the pinned
-commit before relying on it):** Mathlib's "Bochner" is the *integral*, and its
+⚠ Mathlib's "Bochner" is the *integral*, and its
 positive-definiteness is only for *matrices* / quadratic forms — there is no
 continuous-positive-definite-*function* notion, and no Bochner representation. So this is
 build-here. Two routes: (i) the positive linear functional `f ↦ ∫ f̂ · φ` + Riesz–Markov, or
