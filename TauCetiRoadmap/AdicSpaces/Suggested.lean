@@ -175,8 +175,7 @@ following interfaces. Their hypotheses and conclusions are fixed in `README.md`.
 * pair-level sheafiness, ring-level sheafiness, stable sheafiness, and stable uniformity;
 * the Laurent-cover Čech complex and the exactness theorem for strongly noetherian Tate rings;
 * quotient-pair closed immersions, locally finite-type morphisms, and gluing;
-* the finite-jet pinching theorem and the local affinoid chart isomorphisms on the
-  Fargues–Fontaine curve.
+* the local affinoid chart isomorphisms on the Fargues–Fontaine curve.
 -/
 
 end TauCetiRoadmap.AdicSpaces

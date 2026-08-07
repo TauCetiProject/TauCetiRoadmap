@@ -11,8 +11,8 @@ adic Fargues–Fontaine curve
 for `E = ℚ_p` and a perfectoid field `F` of characteristic `p`.
 
 The first six layers form a general theory. They are intended to support later work on rigid
-geometry, perfectoid geometry, and the geometry of the Fargues–Fontaine curve. The last two layers
-are applications of that theory: the finite-jet pinching example and the Fargues–Fontaine curve.
+geometry, perfectoid geometry, and the geometry of the Fargues–Fontaine curve. The last layer is an
+application of that theory: the adic Fargues–Fontaine curve.
 
 ## Scope
 
@@ -28,14 +28,16 @@ The roadmap includes the following material.
 - The strongly noetherian form of Tate acyclicity and the Buzzard–Verberkmoes stable-uniformity
   criterion.
 - Open and closed adic subspaces, morphisms locally of finite type, and gluing.
-- The finite-jet pinching construction: a complete uniform sheafy Tate domain which is not
-  stably uniform.
 - The adic Fargues–Fontaine curve for `E = ℚ_p`.
 
 The roadmap does not include étale sites or étale cohomology, formal models and Raynaud generic
 fibres, Berkovich spaces, general fibre products of adic spaces, completed tensor products,
 separated or proper morphisms, almost or condensed methods, perfectoid spaces and tilting, or the
-structure theory of the Fargues–Fontaine curve. In particular, vector bundles, the
+structure theory of the Fargues–Fontaine curve. The finite-jet pinching example — a complete
+uniform sheafy Tate domain that is not stably uniform — is likewise out of scope: it is written up
+in Birkbeck–Torzewski, *Uniform sheafy Tate rings that are not stably uniform*
+(<https://cbirkbeck.github.io/uniform-sheafy-tate-domains/paper.html>), recorded in Hansen–Kedlaya
+§13, and its formalisation belongs with that paper rather than with the general theory here. In particular, vector bundles, the
 Harder–Narasimhan formalism, `B_dR`, `B_cris`, untilts, the curve for general coefficient field
 `E`, the relative curve, and the schematic curve are outside the scope.
 
@@ -117,7 +119,7 @@ The roadmap uses the following material already present in Mathlib.
 - Witt vectors, Frobenius, and Teichmüller lifts. ⚠ Mathlib has **no** perfectoid ring or field
   predicate — `RingTheory/Perfectoid/` is `FontaineTheta`, `Untilt` and `BDeRham`, and
   `FontaineTheta` states outright that it does not require `R` perfectoid — so the
-  perfectoid-field input of Layer 7.1 is built here, as is the pseudouniformiser (Mathlib has
+  perfectoid-field input of Layer 6.1 is built here, as is the pseudouniformiser (Mathlib has
   only the discrete `Valuation.IsUniformizer`) and the `(p,[ϖ])`-adic completeness of `W(𝒪_F)`
   (Mathlib has only the `p`-adic `WittVector.isAdicCompleteIdealSpanP`).
 - `PowerSeries.IsRestricted`, which should be compared with the adic restricted-series
@@ -224,7 +226,7 @@ Huber ring.
   localisation and completion.
 
 The usual rational localisation `A⟨T/s⟩` is the singleton-`I` case just described. This
-construction is required in Layer 7 because `A_inf` is Huber but not Tate.
+construction is required in Layer 6 because `A_inf` is Huber but not Tate.
 
 ### 0.5 Restricted series over Tate rings and strong noetherianness
 
@@ -645,7 +647,7 @@ independence of the chosen affinoid cover and the expected factorisation propert
 
 Define a morphism of affinoid adic spaces to be topologically of finite type when the corresponding
 map of complete Hausdorff Huber rings presents the target as a quotient of a **weighted** restricted
-power-series algebra `A⟨X₁,…,Xₙ⟩_T` (§0.4) — not the Tate-only `A⟨X₁,…,Xₙ⟩`, since Layer 7's `A_inf`
+power-series algebra `A⟨X₁,…,Xₙ⟩_T` (§0.4) — not the Tate-only `A⟨X₁,…,Xₙ⟩`, since Layer 6's `A_inf`
 is Huber and not Tate — by a **quotient mapping** in Wedhorn's sense (§8.5): surjective, continuous
 and open, with the plus ring of the target the integral closure of the image of the source's. Define locally finite-type morphisms by affinoid covers, and prove independence under
 rational localisation and refinement.
@@ -683,95 +685,14 @@ Layers 3 and 4.
 
 ---
 
-## Layer 6: the finite-jet pinching example
-
-Reference: Birkbeck–Torzewski, *Uniform sheafy Tate rings that are not stably uniform*
-(<https://cbirkbeck.github.io/uniform-sheafy-tate-domains/paper.html>); the AINTLIB `FJP/`
-development; Hansen–Kedlaya Remark 3.16 and §13.
-
-**Formal status.** The exported finite-jet pinching theorems in AINTLIB contain no direct `sorry`, but the
-sheafiness theorem in their dependency cone still passes through the unfinished structure-presheaf
-and Tate-acyclicity work of Layers 3–4. Completion of this layer therefore includes a transitive
-`#print axioms` audit after those layers are closed. Because the result settles a question the
-literature recorded as open, the layer also requires review by an expert in Huber rings, ideally one
-of the authors of [HK]. It no longer requires a self-contained mathematical note: the write-up
-exists (Birkbeck–Torzewski, above), which is a change of circumstances since this roadmap's earlier
-drafts and the reason the note requirement was dropped and is not being reinstated.
-
-⚠ **Status in the literature, as of 6 August 2026.** Hansen–Kedlaya revised [HK] that day; its §13
-now records "Using AI, Birkbeck and Torzewski have constructed examples of Huber rings that are
-uniform and sheafy, but not stably uniform", citing the paper above, and drops the corresponding
-entry from its list of open containments. Remark 3.16 itself is unchanged in that revision and still
-poses the question, so [HK] is internally inconsistent at this version; cite §13 for the status and
-Remark 3.16 only for the original question.
-
-This layer formalises the finite-jet pinching construction of Chris Birkbeck and Adam Torzewski,
-with the AINTLIB contributors. The initials `FJP` refer to “finite-jet pinching”. Uniform Huber rings which
-are not stably uniform were already known; the new assertion is that this example is also sheafy.
-Consequently it gives a negative answer to Hansen–Kedlaya Remark 3.16.
-
-Let `F` be a field, let
-
-```text
-K = F⸨t⸩,      ϖ = t,
-L = K⟨W,W⁻¹⟩,
-𝓑 = K⟨W,Q⟩/(Q²),
-𝓒 = L⟨Q⟩,
-𝓓 = L⟨Q⟩/(Q²),
-𝓐 = 𝓑 ×_𝓓 𝓒.
-```
-
-Give all four rings their Gauss topologies and define every map in the fibre square explicitly.
-Equivalently, identify `𝓐` with the closed subring of `𝓒` whose coefficients of `Q⁰` and `Q¹`
-have nonnegative `W`-support.
-
-Prove:
-
-1. `𝓐` is a complete Hausdorff Tate ring and an integral domain;
-2. `𝓐` is uniform and non-noetherian;
-3. the strict sequence
-
-   ```text
-   0 → 𝓐 → 𝓑 ⊕ 𝓒 → 𝓓 → 0
-   ```
-
-   remains a strict Milnor square after every rational localisation used in the sheaf argument;
-4. the sheaf condition transfers from the three strongly noetherian vertex rings to
-   `(𝓐,𝓐°)`;
-5. the rational subset
-
-   ```text
-   R({W,ϖ}/ϖ) = {v : v(W) ≤ v(ϖ) ≠ 0}
-   ```
-
-   has coordinate ring
-
-   ```text
-   𝓐⟨W/ϖ⟩ ≅ K⟨X,Q⟩/(Q²),
-   ```
-
-   and the ring on the right is not uniform;
-6. consequently, `(𝓐,𝓐°)` is sheafy but `𝓐` is not stably uniform.
-
-The mathematical note and expert review are part of the completion criterion, not substitutes for
-the Lean proof.
-
-This roadmap makes no assertion that every completed Tate algebra over `𝓐` is sheafy.
-
-### Dependencies
-
-Layers 3 and 4. The construction is independent of Layer 5.
-
----
-
-## Layer 7: the adic Fargues–Fontaine curve
+## Layer 6: the adic Fargues–Fontaine curve
 
 References: Fargues–Fontaine; Kedlaya; Scholze–Weinstein.
 
 Let `F` be a complete rank-one nonarchimedean perfect field of characteristic `p`, equipped with a
 pseudouniformiser `ϖ`. No algebraic-closedness hypothesis is imposed.
 
-### 7.1 Perfectoid-field input and `A_inf`
+### 6.1 Perfectoid-field input and `A_inf`
 
 Package the following data and results:
 
@@ -802,7 +723,7 @@ Prove that `𝒴` is open, nonempty, and stable under Witt Frobenius. Construct 
 point. By the analytic-point theory of Layer 2, the analytic locus of `Spa(A_inf,A_inf)` is
 `D(p) ∪ D([ϖ])`; it is not equal to `𝒴`.
 
-### 7.2 Power comparison and Frobenius windows
+### 6.2 Power comparison and Frobenius windows
 
 For every `v ∈ 𝒴`, prove that `v(p)` and `v([ϖ])` are power-comparable. For all positive `a` there
 is a positive `b` such that
@@ -852,7 +773,7 @@ Prove that the quotient map is open, injective on each wandering window, and tha
 `U_0` and `V_0` cover `𝒳`. Conclude that `𝒳` is quasi-compact and `T0`. Quasi-compactness does not
 make `𝒳` affinoid; non-affinoidness is a separate statement and is not claimed here.
 
-### 7.3 Interval rings
+### 6.3 Interval rings
 
 For a closed interval `I=[s,r] ⊂ (0,∞)`, define Kedlaya's interval ring `B^I` and the norm
 
@@ -880,7 +801,7 @@ Prove separately that:
 Do not assert that the endpoint completions are fields unless that theorem is proved separately.
 Layer 4 implies that every `Spa(B^I,B^{I,+})` is sheafy.
 
-### 7.4 The quotient sheaf and affinoid charts
+### 6.4 The quotient sheaf and affinoid charts
 
 For an open `U ⊆ 𝒳`, define
 
@@ -938,8 +859,8 @@ The reusable foundations are ordered as follows.
 Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4 → Layer 5.
 ```
 
-Layer 6 uses Layers 3–4 and is independent of Layer 5. Layer 7 has an initial topological part using
-Layers 0–2 and a final adic-space part using Layers 3–5.
+Layer 6 has an initial topological part using Layers 0–2 and a final adic-space part using
+Layers 3–5.
 
 ## Acceptance examples
 
@@ -953,7 +874,6 @@ The following examples should be proved alongside the general theory.
 - The closed and open unit discs are adic spaces, and the open disc is not affinoid.
 - The standard Laurent cover of the closed disc has exact augmented Čech complex.
 - `K⟨X,Q⟩/(Q²)` is sheafy and non-uniform.
-- The finite-jet pinching algebra is uniform and sheafy but not stably uniform.
 - `𝒴` is nonempty, the two window images cover `𝒳`, and each window image is an affinoid
   `Spa(B^I,B^{I,+})`.
 
@@ -977,11 +897,8 @@ re-map it: his `[Hu2]` is our `[Hu1]`, his `[Hu3]` is our `[Hu2]`.
   Math. 740 (2018), 25–39 — [BV].
 - D. Hansen and K. Kedlaya, *Sheafiness criteria for Huber rings*, version dated **6 August
   2026**, `https://kskedlaya.org/papers/criteria.pdf` — [HK]. This is a living preprint served
-  from the author's page with no version history; cite it by date, and re-check the date when
-  relying on §13, whose statement of what remains open changed in this revision.
-- C. Birkbeck and A. Torzewski, *Uniform sheafy Tate rings that are not stably uniform*,
-  `https://cbirkbeck.github.io/uniform-sheafy-tate-domains/paper.html` — the write-up of the
-  Layer 6 example, cited as [13] in [HK] §13.
+  from the author's page with no version history, so cite it by date and re-check that date when
+  relying on it.
 - K. Kedlaya, *Noetherian properties of Fargues–Fontaine curves*, IMRN 2016, no. 8,
   2544–2567; arXiv:1410.5160.
 - L. Fargues and J.-M. Fontaine, *Courbes et fibrés vectoriels en théorie de Hodge
@@ -1026,7 +943,6 @@ current branch head and must be regenerated at the repin rather than carried ove
 | All-degree Čech acyclicity | no complete source | — | — | new |
 | Buzzard–Verberkmoes theorem | no complete source | — | — | new |
 | Adic-space gluing and open disc | partial adic-space files | incomplete | incomplete | not yet assembled |
-| Finite-jet pinching example | `FJP/` | no direct `sorry` in the exported theorems | inherits Layers 3–4 | requires a proof audit and expert review |
 | Fargues–Fontaine topology and windows | `YSpace.lean`, `Curve.lean`, Frobenius files | no direct `sorry` in the exported theorems | inherits earlier layers | implemented modulo dependencies |
 | Interval rings | interval-ring files, `StronglyNoetherianB.lean`, `SheafyBI.lean` | no direct `sorry` in the exported theorems | inherits earlier layers | implemented modulo dependencies |
 | Local chart isomorphism in `𝒱^pre` | no complete source | — | — | new |
