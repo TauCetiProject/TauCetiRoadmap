@@ -188,7 +188,7 @@ Two notions are primitive and belong here:
   the constants improve to one.
 
 Everything else is a specialization and belongs where it is consumed. The interval/exterior
-form — one spectrum in `[a,b]`, the other outside `(a−δ, b+δ)` — the two-block form, and
+form — one spectrum in `[a,b]`, the other outside `(a−δ, b+δ)` — and
 `InternalGap`, in which both spectra come from one operator, are specified in
 [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
 

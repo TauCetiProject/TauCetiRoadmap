@@ -59,9 +59,9 @@ TauCeti/Analysis/Operator/Perturbation/
     invariant norm; the symmetric sine `|P_U − P_V|` needs the gap in both orientations. Only
     the operator norm erases the difference, and only under equal ranks.
   - Both angles are public API. The primitive predicates — pairwise and ordered — belong to
-    [`PrincipalAngles`](../PrincipalAngles/README.md); the interval/exterior and two-block
-    forms, and `InternalGap`, in which both spectra come from one operator, are application
-    shapes defined here.
+    [`PrincipalAngles`](../PrincipalAngles/README.md); the interval/exterior form and
+    `InternalGap`, in which both spectra come from one operator, are application shapes
+    defined here.
 - **Rosenblum without a Borel functional calculus.** Both Cayley spectra contain `1` once
   both operators are unbounded, so no continuous symbol separates them. But `1` is a null
   point for every diagonal spectral measure, so continuous symbols damped at `1` separate in
