@@ -349,9 +349,13 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   existence-of-minimizers `(f_p)` alone. Any narrative must route properness through `(a_p)`.
 
 ### Layer 4: corollaries and downstream theory
-- **Compact ⇒ geodesically complete** (do Carmo, Corollary 2.9): use `proper_of_compact`, then
-  `complete_of_proper`, then Layer 3's `(c) ⇒ (d)`. Do not claim compactness of `M` directly
-  confines the flow on noncompact `TM`; connectedness is unnecessary for this corollary.
+- **Compact ⇒ geodesically complete** (do Carmo, Corollary 2.9): the corollary itself holds
+  without `[ConnectedSpace M]`, but the ordinary-metric proof route does not. Layer 0 exposes a
+  compatible `MetricSpace M` only after global finiteness of `riemannianEDist`, which is proved
+  under `[ConnectedSpace M]`. This roadmap therefore takes the connected proof route here:
+  assume `[ConnectedSpace M]`, then use `proper_of_compact`, `complete_of_proper`, and Layer 3's
+  `(c) ⇒ (d)`. Do not claim that compactness of `M` directly confines the flow on noncompact
+  `TM`; a disconnected version requires a separate componentwise or extended-metric argument.
 - **Metric length-space API:** in `TauCeti/Topology/MetricSpace/Length.lean`, define metric curve
   length as the supremum of finite sums of successive distances, and define a length space by
   equality of `dist x y` with the infimum of lengths of continuous curves from `x` to `y`.
