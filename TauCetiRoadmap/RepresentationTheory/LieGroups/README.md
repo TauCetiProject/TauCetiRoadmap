@@ -328,8 +328,9 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
   embedded subgroups).
 - **Lie's third theorem.** Every **finite-dimensional real Lie algebra** `L` is `Lie(G)` for some
   **simply-connected** Lie group `G`: `∃ G, [LieGroup] ∧ SimplyConnectedSpace G ∧ Nonempty (Lie(G) ≃ₗ⁅ℝ⁆ L)`.
-  Prove it via **Ado's theorem** (every finite-dimensional Lie algebra embeds in `𝔤𝔩_n = Matrix n n ℝ`;
-  named as its own algebraic target) reducing to the subalgebra `L ↪ 𝔤𝔩_n`, integrating by the Frobenius
+  Prove it via the real specialization of the [**Ado–Iwasawa theorem**](../AdoIwasawa/README.md) (every
+  finite-dimensional Lie algebra embeds in `𝔤𝔩_n = Matrix n n ℝ`) reducing to the subalgebra
+  `L ↪ 𝔤𝔩_n`, integrating by the Frobenius
   correspondence to a connected immersed subgroup of `GL_n`, and passing to its **universal cover**. The
   covering-space construction is the topological half of Layer 5 and does **not** depend on Lie's third,
   so it is a prerequisite developed first, and the dependency is acyclic (universal covers precede Lie's
@@ -487,7 +488,8 @@ needs Layer 0's `lieExp` and Mathlib's `LieAlgebra.ad`. Layer 2 (the closed-subg
 Layer 0's `lieExp` chart and gives every matrix group its Lie structure, so it precedes all concrete
 examples. Layer 3 (the Lie functor, BCH) needs Layers 0-2 (BCH is proved on matrix groups first). Layer 4
 (Frobenius, Lie's third, the equivalence of categories) needs Layer 3's functor and BCH and the Frobenius
-theorem named within it; Ado's theorem is a named algebraic prerequisite. Within Deliverable B the
+theorem named within it; [Ado–Iwasawa](../AdoIwasawa/README.md) is the separately specified algebraic
+prerequisite. Within Deliverable B the
 dependency is acyclic: the **universal-cover construction** (the covering space, lifted group law, and
 transported Lie structure) is logically prior to Lie's third theorem, which uses it; Lie's third then
 feeds the equivalence of categories. Layer 5's remaining content (the connected-source refinement of the

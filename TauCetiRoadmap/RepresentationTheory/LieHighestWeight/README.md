@@ -398,6 +398,16 @@ Weyl-invariance, so that no later step silently assumes a decomposition that has
   the associated-graded map from the symmetric algebra `Sym(L)`; the ordered-monomial basis for a chosen
   basis of `L`; functoriality for subalgebras and direct sums; and, from the root-space decomposition,
   the **triangular decomposition** `U(L) ≅ U(n⁻) ⊗ U(H) ⊗ U(n⁺)`.
+
+  This roadmap owns the shared concrete PBW development, and that unit is the one place where the
+  standing conventions above do **not** apply: every target in this bullet is stated over an
+  arbitrary field, with no characteristic and no algebraic-closure hypothesis, because
+  [Ado–Iwasawa](../AdoIwasawa/README.md) consumes them over `𝔽₂`. Only the triangular decomposition,
+  which needs the root-space decomposition, keeps the semisimple characteristic-zero setting. Three
+  further general-field consequences belong to this unit and are tracked here rather than by the
+  consumer: **injectivity** of the canonical map `L → U(L)`; that `U(L)` is a **domain**; and that it
+  is left and right **Noetherian** for finite-dimensional `L`, both routed through the associated
+  graded symmetric algebra and filtered-to-graded transfer in reusable ring-theoretic form.
 - **The Borel and the nilradicals.** Name the subalgebras the base determines, keeping `base` for the
   root-system base alone: `positiveNilradical base = n⁺ = ⨁_{α>0} Lα`, its opposite
   `negativeNilradical base = n⁻`, and `borelSubalgebra base = 𝔟 = H ⊕ n⁺`. The Verma tensor product is

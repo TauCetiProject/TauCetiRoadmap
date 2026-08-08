@@ -7,6 +7,7 @@ import TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras.Suggested
 import TauCetiRoadmap.RepresentationTheory.CharacterTheory.Suggested
 import TauCetiRoadmap.RepresentationTheory.InductionRestriction.Suggested
 import TauCetiRoadmap.RepresentationTheory.RootSystems.Suggested
+import TauCetiRoadmap.RepresentationTheory.AdoIwasawa.Suggested
 import TauCetiRoadmap.RepresentationTheory.LieHighestWeight.Suggested
 import TauCetiRoadmap.RepresentationTheory.ClassicalGroups.Suggested
 import TauCetiRoadmap.RepresentationTheory.SchurWeyl.Suggested
