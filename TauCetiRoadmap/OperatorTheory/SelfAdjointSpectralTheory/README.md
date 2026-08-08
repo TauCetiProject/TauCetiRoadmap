@@ -1,0 +1,502 @@
+# Self-adjoint spectral theory: the Borel functional calculus, unbounded operators, and Stone's theorem
+
+Mathlib has the static stack — `ContinuousLinearMap` with adjoints and operator norms, the
+continuous functional calculus of a normal element, `spectrum` and `resolvent` for
+Banach-algebra elements, `Measure` with Riesz–Markov–Kakutani, and unbounded operators as
+`LinearPMap` with `adjoint`, `IsSelfAdjoint` and closedness — but none of the layer that
+makes quantum mechanics, spectral perturbation theory, or evolution equations expressible:
+no Borel functional calculus, no projection-valued measures, no resolvent theory for a
+partially defined operator, no spectral measure of an unbounded self-adjoint operator, and
+no Stone's theorem connecting self-adjoint operators to one-parameter unitary groups.
+
+Suggested homes:
+
+```text
+TauCeti/Analysis/InnerProductSpace/OneParameterUnitaryGroup/
+TauCeti/Analysis/InnerProductSpace/BorelCalculus/
+TauCeti/Analysis/InnerProductSpace/ProjValMeasure/
+TauCeti/Analysis/InnerProductSpace/LinearPMap/
+TauCeti/Analysis/CStarAlgebra/SelfAdjointGapInverse.lean
+TauCeti/MeasureTheory/    (the compact-infimum and Helly-selection layer)
+```
+
+## Standing conventions
+
+### An unbounded operator *is* a `LinearPMap`
+
+Mathlib's `LinearPMap` (`H →ₗ.[ℂ] H`) is the foundational object; there is no parallel
+`ClosedOperator` type. Closedness, dense domain, symmetry (`LinearPMap.IsFormalAdjoint`) and
+self-adjointness (`IsSelfAdjoint A`, i.e. `A.adjoint = A`) are **hypotheses on a raw partial
+map, not structure fields**. A theorem needing three properties carries three hypotheses; in
+exchange no consumer unwraps a bundle, and Mathlib's `LinearPMap` API applies directly. A
+derived convenience bundle may carry a `LinearPMap` and proofs, but not its own domain/action
+representation. Bounded operators enter through `T.toLinearMap.toPMap ⊤`.
+
+### Self-adjointness by von Neumann's criterion, with density derived
+
+Symmetry plus surjectivity of `A ± i`, with density of the domain **derived** from symmetry
+and surjectivity of `A + i` rather than assumed. Assuming it would make Stone's theorem apply
+to fewer groups than claimed; deriving it replaces the textbook mollification argument with a
+few lines of inner-product algebra.
+
+### A `LinearPMap` needs its own resolvent set
+
+This decision belongs to the
+[one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md):
+an unbounded generator needs its own resolvent notion, with a bridge lemma to Mathlib's
+`resolvent` in the bounded case.
+
+What is specific here is the range. That roadmap works over a real Banach space and takes
+`λ` real, complexifying for the complex resolvent set; the spectral theorem needs `z` ranging
+over `𝕜` from the outset, so `resolventSet A : Set 𝕜` is a specialization of theirs rather
+than a second notion, and the two should be related rather than developed twice.
+
+### Projection-valued measures are generic in their measurable parameter space
+
+`ProjValMeasure X H` is intrinsic: for any measurable space `X`, it bundles the orthogonal
+projection field on measurable subsets of `X` and strong countable additivity. For each vector
+`ξ`, the finite scalar measure `diagMeasure P ξ` is derived from `B ↦ ⟪ξ, P(B) ξ⟫`; the
+diagonal-mass identity is part of the API. Strong countable additivity belongs to the PVM
+itself; idempotence, positivity and finite additivity are theorems. The indicator calculus of a
+normal bounded operator gives a PVM on `spectrum ℂ a`; the self-adjoint specialization is
+transported to `ℝ`. Reindexing along a measurable map is a generic PVM operation, so the
+inverse Cayley map used by the unbounded theory introduces no second spectral-measure type.
+
+### Semibounds are hypotheses the consumer supplies
+
+`SemiboundedBelow A c` and `SemiboundedAbove A c` are predicates on a partial map and a
+constant, never a subtype. Off the real axis a lower bound is free from `|Im z|` and the
+theorem proves it; at a real point there is none, so the real-point resolvent lemma takes the
+bound as a hypothesis and reruns the same closed-range argument. A caller holding a spectral
+gap or a semibound should not have to reprove closed range.
+
+### Statements live at their natural generality
+
+C⋆-algebra facts — the norm/spectrum interval characterization, the gap inverse — are stated
+for C⋆-algebras, not for Hilbert-space operators. Generic measure-theoretic lemmas such as
+compact infima and Helly selection are stated in `MeasureTheory` for their own hypotheses,
+with no operator theory in sight.
+
+## What Mathlib already has (consume)
+
+- **`LinearPMap`** with `domain`, `graph`, `adjoint`, `IsFormalAdjoint`, `IsSelfAdjoint`,
+  `IsSelfAdjoint.dense_domain`, `IsSelfAdjoint.isClosed`, and closure/core material — the
+  canonical carrier of Parts C, D, E.
+- **`ContinuousLinearMap`** with operator norms, adjoints, `IsSelfAdjoint`, `unitary`, and
+  the exponential `exp` with `hasDerivAt_exp_smul_const` — the bounded side of Parts A and B.
+- **The continuous functional calculus**: `cfcHom` / `cfc` of an `IsStarNormal` element, its
+  multiplicativity, positivity and norm control — the input Part B extends.
+- **`spectrum` and `resolvent` for algebra elements**, including
+  `spectrum.isOpen_resolventSet` — the bounded theory Part D's notions must bridge to, never
+  duplicate.
+- **Measure theory**: `Measure`, `IsFiniteMeasure`, regularity, Riesz–Markov–Kakutani for
+  positive functionals, `StieltjesFunction`, dominated convergence, `Lp`.
+- **Topology and analysis**: `Submodule.topologicalClosure`, orthogonal projections and
+  `HasOrthogonalProjection`, Neumann series, `Tendsto` filters.
+
+**Tau Ceti already ships the semigroup layer.** `TauCeti/Analysis/Semigroups/` contains
+roughly 130 declarations: `StronglyContinuousSemigroup` and `ContractionSemigroup`,
+`.generator` with its domain, `.resolvent` with the growth-bound API, `expShift`,
+`ofBounded`, and the abstract Cauchy problem as `IsClassicalSolution` / `IsMildSolution`.
+This implements Part A of the
+[one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md).
+
+The rest below — the projection-valued and unbounded-spectral layer — is absent upstream.
+
+---
+
+## What is missing (build here)
+
+* One-parameter unitary groups and Stone's theorem, with the generator as a `LinearPMap` and
+  density of its domain derived.
+* The bounded Borel functional calculus of a normal operator as a star-algebra homomorphism
+  on bundled bounded Borel symbols, and intrinsic projection-valued measures with derived
+  diagonal scalar measures.
+* The closed-operator layer on `LinearPMap`: domain-aware perturbation, the rectangular
+  Sylvester equation as a structure, and the quadratic-form bounds with their spectral
+  bridges.
+* A resolvent set and spectrum for a `LinearPMap` — Mathlib's `spectrum` is defined for an
+  algebra element, which a partial map is not — with the Cayley transform and the bridge to
+  Mathlib's notion in the bounded case.
+* The spectral measure of an unbounded self-adjoint operator, its spectral projections,
+  Stone uniqueness, and the Yosida approximants. This roadmap owns the self-adjoint
+  `LinearPMap` resolvent *set* and the imaginary-shift Yosida approximants.
+
+## The build, in layers
+
+### Part A — one-parameter unitary groups and Stone's theorem
+
+Independently submittable.
+
+**Objects.** `OneParameterUnitaryGroup H`: a map `U : ℝ → (H →L[ℂ] H)` on a complex Hilbert
+space, unitary, a group homomorphism, strongly continuous. Its **generator**: the
+`LinearPMap` whose domain is *exactly* the set of vectors where the difference quotient
+`t ↦ (U t ψ − ψ)/(it)` converges, and whose value is the limit. The generator is unbounded,
+nothing assumes a core or a dense domain in advance, and a smaller convenient domain would
+make the self-adjointness statement weaker than what Part E consumes.
+
+**API to develop.**
+
+- Unitarity basics: `U(−t) = U(t)⋆`, norm preservation, `‖U t‖ = 1` on a nontrivial space;
+  the time-reversed group.
+- The difference quotient: additivity and `ℂ`-homogeneity in the vector (what makes the
+  generator linear), the defining `Tendsto` characterization of the domain, and the domain's
+  invariance under the group with `A (U s ψ) = U s (A ψ)`.
+- **Symmetry without density**: the generator is formally self-adjoint, proved pointwise
+  from `U t⋆ = U (−t)`. This half needs no density.
+- **The commutant preserves the generator**: a bounded operator commuting with every `U t`
+  maps the domain into itself and commutes with the generator there. A symmetry of an
+  underlying problem therefore descends to the generator; its consumer is the perturbation
+  roadmap.
+- **The semigroup bridge**: restricting to `t ≥ 0` and forgetting the complex structure
+  exhibits the group as a strongly continuous contraction semigroup over the underlying real
+  Banach space, with semigroup generator `i·A` on the same domain. It must be built against
+  the `StronglyContinuousSemigroup` and generator API of the one-parameter semigroups
+  roadmap, not a private duplicate.
+- **Skew-adjoint exponentials**: for bounded self-adjoint `S`, the flow `t ↦ exp (t (iS))`
+  is such a group, norm-preserving, with derivative `exp(tB)·B` — the source of concrete
+  examples — and the **Duhamel estimate** for *commuting* bounded self-adjoint `Sₘ, Sₙ`:
+  `‖exp(it Sₘ)ψ − exp(it Sₙ)ψ‖ ≤ |t|·‖(i Sₘ − i Sₙ)ψ‖`. The commutation hypothesis is all the
+  Yosida scheme of Part E needs, since resolvents of one operator commute among themselves.
+
+**Milestone A1 — von Neumann's criterion.** A symmetric operator with `A + i` and `A − i`
+surjective is self-adjoint, with density of the domain derived.
+
+**Milestone A2 — Stone's theorem, forward direction.** The generator of a one-parameter
+unitary group is self-adjoint. The proof combines symmetry with surjectivity of `A ± i`
+from the semigroup resolvent; density is derived.
+
+### Part B — the Borel functional calculus and projection-valued measures
+
+Independently submittable.
+
+Mathlib has the continuous functional calculus of a normal element and no Borel one; it has
+measures and Riesz–Markov–Kakutani and no spectral measures. This Part supplies the step
+between: for a normal `a : H →L[ℂ] H`, a bounded Borel symbol on `spectrum ℂ a` acts as a
+bounded operator, the assignment is a `*`-homomorphism extending `cfcHom`, and indicator
+symbols yield a projection-valued measure.
+
+**Objects.** `BoundedBorelFunction (spectrum ℂ a)`, the pointwise star algebra of measurable
+uniformly bounded symbols; `borelCalculus ha`, a star-algebra homomorphism out of that source.
+For construction, the **diagonal measure** is the finite regular Borel measure produced by
+Riesz–Markov–Kakutani from `f ↦ ⟪ξ, cfcHom ha f ξ⟫`, and the **polarized pairing** is the
+quarter-sum of its diagonal integrals. `ProjValMeasure (spectrum ℂ a) H` packages the indicator projection field and
+strong countable additivity; its diagonal scalar measures are derived.
+
+**API to develop.**
+
+- The transport principle, isolated in one place: every identity is checked for a continuous
+  symbol — where it is a fact about `cfcHom`, hence free — and moved to the Borel symbol by
+  `ε`-approximation in the `L¹` of the finite sum of diagonal measures occurring in the
+  statement. An identity mentioning finitely many vectors mentions finitely many diagonal
+  measures, so one finite measure controls it.
+- The calculus: agreement with `cfcHom` on continuous symbols; its linear, multiplicative and
+  star-preserving laws come from the bundled homomorphism; commutation with `a` and among
+  values of the calculus; the norm bound `‖borelCalculus ha f ξ‖ ≤ M‖ξ‖` for a symbol bound
+  `M`; invariance under a.e.
+  modification with respect to every diagonal measure.
+- **Multiplicativity** — the one step needing the transport twice, in a fixed order: the
+  approximant of `f` is chosen first, and the tolerance for the approximant of `g` depends on
+  it. There is no uniform bound over approximants.
+- Indicators to projections: the spectral projections, idempotent and self-adjoint, with
+  intersection-to-composition; the diagonal masses; the PVM reindexing operation along measurable maps; for bounded
+  self-adjoint `T`, transport to `ℝ` by the real coordinate, and half-line projections vanish
+  exactly where the quadratic form is confined.
+- The `ProjValMeasure` theory: orthogonal projections and strong countable additivity as the
+  intrinsic data; idempotence, monotonicity and finite additivity,
+  `‖proj B ξ‖ ≤ ‖ξ‖`, extensionality from the projection field (equivalently from all derived
+  diagonal scalar measures), and the countable splitting
+  `∑' k, ‖proj (B k) ξ‖ₑ² = ‖ξ‖ₑ²` along a partition.
+- The generic measure-theoretic layer, stated in `MeasureTheory` with no operator content:
+  measurability of compact infima of Carathéodory functions and Helly selection with the
+  Stieltjes measure of the monotone limit. Continuity/measurability of continuous functional
+  calculus in the operator variable is consumed from Mathlib; the Hermitian-matrix corollary
+  belongs to `MatrixSpectralStatistics`.
+
+**Milestone B1 — the homomorphism.** The calculus is a linear, multiplicative,
+star-preserving extension of the continuous calculus.
+
+**Milestone B2 — the projection-valued measure**, first on `spectrum ℂ a` for a normal
+bounded operator, with its projections the indicator calculus and its diagonal scalar measures
+derived; then the generic measurable-reindexing API and the self-adjoint `ℝ` specialization.
+
+**Milestone B3 — uniqueness and the bounded spectral theorem.** The calculus is the unique
+extension of `cfcHom` whose matrix elements are integrals against the diagonal measures; and
+a bounded self-adjoint operator is the integral of the identity against its
+projection-valued measure.
+
+### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
+
+The domain-geometry and perturbation vocabulary layer of the unbounded theory. Parts D and E
+share the same `LinearPMap` carrier but are independently stated; Part C supplies the domain
+relations, transport, form bounds, relative-boundedness, and domain-aware Sylvester vocabulary
+used by perturbation consumers.
+
+**Objects and API to develop.**
+
+- Domain relations as predicates: `SameDomain`, `MapsDomainTo`, `Extends`; domain-subtype
+  simp lemmas, so consumers never unfold.
+- Reducing subspaces: `InvariantSubspace`, `ReducesSubspace`, the reduced restriction of a
+  partial map to a reducing subspace with its density, closed-graph, symmetry and
+  self-adjointness inheritance.
+- Transport constructions, each with density and closed-graph transport: pullback along a
+  continuous linear equivalence, unitary conjugation preserving self-adjointness, and the
+  direct sum of two partial maps.
+- **The graph norm** `graphNorm A x = √(‖x‖² + ‖A x‖²)` on the domain subtype, with its
+  elementary estimates — deliberately *not* a second topology on the domain. **Graph cores**
+  are stated sequentially, recording exactly the two convergences a closed-graph argument
+  consumes, and closedness in sequential form is what carries an identity from a core to the
+  whole domain.
+- **Relative boundedness** `RelativelyBounded A V a b` (`‖V x‖ ≤ a‖x‖ + b‖A x‖`) with its
+  closure laws.
+- **Perturbations**: `perturb A V` for a domain-defined `V` — the same domain by
+  construction, which is where Kato–Rellich arguments start — and `boundedPerturbation` for
+  a bounded operator.
+- Shifted-inverse data and the elementary real resolvent predicates `realResolventSet`,
+  `realSpectrum`, `SpectralSetsSeparated` — the hypothesis shapes Part D's quantitative
+  statements consume.
+- The rectangular domain-aware **Sylvester equation** `SylvesterEquation A B X C` with domain
+  transport as a field, allowing different source and target Hilbert spaces; its module
+  structure, the bounded case as a full-domain instance, and `HasBoundedEverywhereInverse`.
+  Transport statements only; the estimates belong to the perturbation roadmap.
+- **Quadratic-form bounds**: `LowerFormBoundOn` and `UpperFormBoundOn` for a bounded operator
+  on a subspace, and the bridge from a spectral inclusion of a restriction to those bounds
+  over `ℂ` — where [`OrthogonalGeometry`](../OrthogonalGeometry/README.md)'s restriction and
+  reducing-subspace API is consumed.
+
+**Milestone C1 — bounded Kato–Rellich.** A bounded self-adjoint perturbation of a
+self-adjoint partial map is self-adjoint on the same domain, directly and with no
+relative-bound machinery, because a bounded perturbation does not move the adjoint domain.
+
+**Milestone C2 — the closed-graph characterization, and Kato–Rellich proper.** The single
+iff — `A` is closed iff its graph is closed iff every graph-convergent sequence has its
+limit in the domain with the expected image — and the Kato–Rellich theorem: a symmetric
+relatively bounded perturbation with bound `b < 1` of a self-adjoint operator is
+self-adjoint, for which `perturb`, `RelativelyBounded` and Milestone A1's criterion are
+exactly the ingredients.
+
+### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
+
+Independently submittable.
+
+**Objects.** `resolventSet A` and `spectrum A` for `A : E →ₗ.[𝕜] E`, per the generality bar;
+the named `resolvent A hz : E →L[𝕜] E`; the **Cayley transform** of a self-adjoint operator.
+
+**API to develop.**
+
+- The resolvent is named, not merely asserted: uniqueness (which lets any construction of an
+  inverse identify itself as *the* resolvent), the left- and right-inverse laws, membership
+  of values in the domain, the **first resolvent identity**
+  `R w − R z = (w − z) (R w ∘ R z)`, commutation of resolvents, and resolvent spectral
+  mapping in the consuming direction.
+- **Openness of the resolvent set** by Neumann-series perturbation through uniqueness;
+  closedness and hence **measurability of the real spectrum** — proved for the sake of
+  Part E, which must feed the spectrum to a projection-valued measure.
+- **Real spectrum with the quantitative bound**: for self-adjoint `A` and `Im z ≠ 0`, the
+  lower bound `‖(A − z)x‖ ≥ |Im z|·‖x‖` — the cross term in the expanded square is purely
+  imaginary — then closed range, then dense range; so `z ∈ resolventSet A`,
+  `spectrum A ⊆ ℝ`, and `‖R(z)‖ ≤ |Im z|⁻¹`. Adjoints: `R(z)⋆ = R(z̄)`, and `R(z)`
+  self-adjoint at real resolvent points.
+- **The real-point case as a hypothesis**: at real `z` there is no free lower bound, so the
+  same three steps run from an assumed `c‖x‖ ≤ ‖A x − z x‖` — the factored form semibounded
+  operators and spectral gaps plug into. A two-sided shifted inverse with norm `≤ (r − s)⁻¹`
+  exists across a spectral gap of width `r` around shift `s`.
+- **The Cayley transform** `cayley hA = 1 − 2i·R(−i)`, the manifestly bounded form of
+  `(A − i)(A + i)⁻¹`: norm-preserving, surjective, unitary, hence `IsStarNormal` — the
+  bounded unitary that hands Part E to Part B.
+- **The C⋆-algebra gap inverse**, at C⋆ generality: a self-adjoint element has `‖a‖ ≤ r` iff
+  its spectrum lies in `[−r, r]`; spectrum avoiding `(−r, r)` makes `a` a unit with
+  `‖a⁻¹‖ ≤ r⁻¹`.
+- **The intertwining chain**: a bounded `X` with `X ∘ A ⊆ B ∘ X`, stated domain-aware,
+  intertwines the resolvents, the Cayley transforms, and the continuous functional calculus
+  of the two operators. The chain stops before the Borel calculus so this Part stays
+  independent of Part B; the disjoint-spectra vanishing theorem it feeds belongs to the
+  perturbation roadmap.
+
+**Milestone D1 — real spectrum, quantitatively**, in the form above.
+
+**Milestone D2 — the textbook characterization, and analyticity.** The single iff
+identifying `z ∈ resolventSet A` with *`A − z` injective with closed dense range and bounded
+inverse*, and analyticity of `z ↦ resolvent A hz` on the resolvent set — the natural next
+statement after the first resolvent identity.
+
+### Part E — the spectral measure of an unbounded self-adjoint operator, Stone uniqueness, Yosida
+
+Needs Parts A, B and D.
+
+**Objects.** For self-adjoint `A : H →ₗ.[ℂ] H`: the spectral measure `spectralPVM hA`,
+obtained by relabelling the Borel calculus of the Cayley transform along the inverse Cayley
+map `w ↦ i(1+w)/(1−w)`; the spectral projections; the spectral subspace and the reduction of
+`A` to it; the Yosida approximants; and the unitary group `genToGroup hA` built from them.
+
+**API to develop.**
+
+- **The construction.** The relabelling blows up at `w = 1`, which can lie in the
+  spectrum of the Cayley transform, so the construction is faithful only because every
+  diagonal measure gives `{1}` zero mass — the symbol `(1 − w)·1_{{1}}(w)` vanishes
+  identically while `1 − U = 2i·R(−i)` is injective.
+- **The resolvent formula**, the property that characterizes the measure:
+  `⟪ξ, R(z) ξ⟫ = ∫ (s − z)⁻¹ d(diag ξ)` for `z` off the real axis; spectral projections
+  commute with the resolvent and preserve the domain.
+- **Support**: a Borel set of resolvent points carries the zero projection, stated as a null
+  statement rather than through a defined `support` with an inclusion.
+- **Reduction**: the restriction of `A` to a spectral subspace is again **self-adjoint** —
+  symmetry is inherited, and the surjectivities of `A ± i` come from the resolvent, which
+  preserves the range — and a spectral gap around `λ` puts `λ` in the resolvent set of the
+  restriction.
+- **Form bounds from spectral support**: vanishing of the spectral projection on `(−∞, c)`
+  yields `c‖x‖² ≤ Re⟪A x, x⟫` on the domain, and dually; on a spectral range with
+  `B ⊆ [β, α]` the quadratic form is confined to `[β, α]`. The spectral hypothesis is the
+  Banach-algebra spectrum of the restriction, `spectrum ℝ (A.restrict hU)`, so the bridge
+  consumes the restriction of a symmetric operator to a reducing subspace from
+  [`OrthogonalGeometry`](../OrthogonalGeometry/README.md).
+- **The Yosida scheme, with named approximants.** The construction is the
+  [one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)'s
+  `Aλ = λ²R(λ,A) − λI`, at imaginary shifts; it is specialized here, not proposed.
+  - `yosidaApproximant hA n = n²·R(in) − in` is the **raw** single-shift form: bounded,
+    strongly convergent on the domain, and **not** self-adjoint, since one shift leaves the
+    imaginary parts uncancelled.
+  - `yosidaApproximantNeg` at the mirrored shift `−in`, and the symmetrized
+    `yosidaApproximantSym = ½(yosidaApproximant + yosidaApproximantNeg)`, which is the
+    self-adjoint one; the contractions `n·R(±in)`.
+  - The exponentials `exp(it·yosidaApproximantSym)` — the symmetrized form, since the raw
+    approximant generates no unitary group: unitary, and Cauchy uniformly on
+    compact time intervals via Part A's Duhamel estimate — the approximants commute, which is
+    why Duhamel's commutation hypothesis suffices.
+  - The strong limit, and `genToGroup hA`, which is **Stone's theorem, construction half**.
+  - The approximants are public and named because the convergence statements are about them,
+    not about a limit appearing from nowhere.
+- **Maximality, proved once**: self-adjoint `A ≤ B` forces `A = B`. This is why identifying
+  two self-adjoint operators never requires proving both inclusions.
+- **Stone uniqueness** as a consequence of maximality: the generator of `genToGroup hA` is `A`.
+  Spectral projections commute with the group, and interval cutoffs tend strongly to the
+  identity.
+- **The block-argument shapes** consumed by spectral perturbation theory: the grid
+  `gridCell ε k = [kε, (k+1)ε)` with disjointness, covering and the norm splitting; the **cut
+  operator**, turning a pointwise bound `‖A y − c y‖ ≤ r‖y‖` on a spectral range into an
+  operator statement; the **gap inverse**, inverting `A` with norm `≤ δ⁻¹` on vectors whose
+  diagonal measure avoids `(−δ, δ)`; and the reassembly lemma, which turns per-block lower
+  bounds into a global one and says nothing about where the blocks come from.
+
+**Milestone E1 — the spectral measure and its resolvent formula.**
+
+**Milestone E2 — Stone's theorem, uniqueness half**: the generator of the generated group is
+the operator.
+
+**Milestone E3 — the packaged statements.** Three targets completing the theory: the spectral
+theorem as one declaration (*`A` is the integral of the identity against its spectral
+measure*); Stone's theorem as the packaged bijection between self-adjoint operators and
+strongly continuous one-parameter unitary groups; and uniqueness of the spectral measure — a
+`ProjValMeasure ℝ H` satisfying the resolvent formula is `spectralPVM hA`.
+
+## Worked examples (acceptance criteria)
+
+### Part A — one-parameter unitary groups and Stone's theorem
+
+**Acceptance examples.** For bounded self-adjoint `S`, the flow `t ↦ exp (i t S)` is a
+one-parameter unitary group whose generator is `S` viewed as a total partial map; the
+difference-quotient domain is all of `H` exactly when the group is norm-continuous.
+
+### Part B — the Borel functional calculus and projection-valued measures
+
+**Acceptance examples.** On a multiplication operator the calculus is multiplication by the
+symbol; the measure of a bounded self-adjoint operator assigns to `[c, ∞)` the spectral
+projection that half-line form bounds detect.
+
+### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
+
+**Acceptance examples.** A bounded self-adjoint operator as a total partial map is
+self-adjoint in the `LinearPMap` sense; the graph norm of a bounded map is equivalent to the
+ambient norm; `⊤` is a graph core.
+
+### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
+
+**Acceptance examples.** For bounded self-adjoint `T` as a total partial map, `resolventSet`
+agrees with the complement of Mathlib's `spectrum ℂ T` and the resolvent matches the Neumann
+series; a multiplication operator's spectrum is the essential range of its symbol.
+
+### Part E — the spectral measure of an unbounded self-adjoint operator, Stone uniqueness, Yosida
+
+**Acceptance examples.** For bounded self-adjoint `T` as a total partial map, `spectralPVM`
+agrees with Part B's measure under the real-part relabelling and `genToGroup` is
+`t ↦ exp(itT)`; a multiplication operator's spectral projections are multiplication by
+indicators.
+
+---
+
+## Ordering
+
+**Internal.** Parts A, B and D are mutually independent and each independently submittable.
+Part C is independent of them but consumes
+[`OrthogonalGeometry`](../OrthogonalGeometry/README.md). Part E is the confluence
+and needs exactly A + B + D — the Cayley transform and resolvent bounds from D, the Borel
+calculus and `ProjValMeasure` from B, the unitary-group vocabulary, von Neumann criterion and
+Duhamel estimate from A. It does not consume Part C: the shared carrier of C, D and E is
+`LinearPMap` itself. Within Part E the Yosida and maximality material precedes the
+construction.
+
+**External.** [`OrthogonalGeometry`](../OrthogonalGeometry/README.md), for the reducing
+subspaces and the restriction of a symmetric operator that Part C's form bounds are stated
+over.
+
+The [one-parameter semigroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
+roadmap owns the general dynamical layer: strongly continuous semigroups, their generators,
+the general unbounded resolvent, Hille–Yosida, Lumer–Phillips, and real-shift Yosida
+approximation. This roadmap owns the unitary/self-adjoint specialization and Stone's theorem.
+The bridge is `OneParameterUnitaryGroup.toSemigroup` together with the exact generator relation
+for the convention `U t = exp (i t A)`: the semigroup generator is `i A`. The two roadmaps share
+that bridge rather than duplicating semigroup or generator theory.
+
+**Downstream.** `SpectralSubspacePerturbation` consumes Part A's unitary/Stone vocabulary,
+Part C's domain-aware `SylvesterEquation` and form-bound vocabulary, Part D's `LinearPMap`
+resolvent/spectrum API, and Part E's spectral-measure/intertwining results.
+`MatrixSpectralStatistics` consumes Mathlib's Hermitian continuous-functional-calculus
+continuity directly rather than depending on this roadmap.
+
+## Definitions
+
+**D1** domain `{ψ : (U t ψ − ψ)/(i t) converges as t → 0}`, value the limit — the generator of
+a one-parameter unitary group.
+
+**D2** matrix elements the polarized quarter-sum `¼ ∑ₖ iᵏ ∫ f d(diag (ξ + iᵏ ψ))` — the bounded
+Borel functional calculus.
+
+**D3** `(A + V) ψ = A ψ + V ψ` on `dom A` — perturbation by a map defined on the domain.
+
+**D4** the bounded two-sided inverse of `A − z` — the resolvent at a point of the resolvent set.
+
+**D5** the Borel calculus of the Cayley transform, relabelled along `w ↦ i(1 + w)/(1 − w)` —
+the spectral measure of an unbounded self-adjoint operator.
+
+**D6** `t ↦ e^{i t A}`, the strong limit of `t ↦ exp (i t Aₙ)` — the generated unitary group.
+
+**D7** `Aₙ = n² R(i n) − i n`, `n ≥ 1` — the raw Yosida approximant;
+`½(Aₙ + Aₙ')` with `Aₙ' = n² R(−i n) + i n` — the symmetrized, self-adjoint one.
+
+## References
+
+- M. Reed, B. Simon, *Methods of Modern Mathematical Physics I: Functional Analysis*
+  (rev. ed. 1980) — VII (the spectral theorem, bounded and unbounded), VIII.3–4 (Stone's
+  theorem, the Cayley transform, von Neumann's criterion).
+- K. Schmüdgen, *Unbounded Self-adjoint Operators on Hilbert Space* (GTM 265, 2012) — graph
+  norms, cores, resolvents, semibounded operators, the spectral measure via the Cayley
+  transform.
+- W. Rudin, *Functional Analysis* (2nd ed. 1991), Ch. 12–13 — the Borel functional calculus
+  and projection-valued measures for normal operators.
+- T. Kato, *Perturbation Theory for Linear Operators* (2nd ed. 1976) — relative boundedness,
+  Kato–Rellich, resolvent perturbation.
+- J. Weidmann, *Linear Operators in Hilbert Spaces* (GTM 68, 1980) — closed operators, form
+  bounds, spectral representation.
+- K.-J. Engel, R. Nagel, *One-Parameter Semigroups for Linear Evolution Equations* (GTM 194,
+  2000) — the semigroup side of Stone's theorem and the Yosida approximation.
+
+## Acknowledgements
+
+An Apache-2.0 implementation of all five Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
+(Kitware, Inc.), in namespaces `TauCeti.*` and `LinearPMap.*`. The public API and proof
+structure may change during integration.
+
+Part of the unitary-group material was adapted from the Spectra Formalization Project
+(Apache-2.0, Adam Bornemann), with per-file provenance headers; the construction of the
+spectral measure through the Cayley transform and the Borel calculus was chosen over that
+project's Herglotz/Poisson route.

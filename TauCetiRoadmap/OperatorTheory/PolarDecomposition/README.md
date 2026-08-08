@@ -1,0 +1,362 @@
+# Polar decomposition: functional calculus, the operator modulus, and singular systems
+
+Spectral perturbation theory is written in a small, stable vocabulary: apply a real
+function to a self-adjoint operator; factor an operator through its modulus; expand a
+rectangular map in its singular system. This roadmap builds the functional-calculus,
+modulus, polar-decomposition and singular-system layers.
+
+Mathlib has the static ingredients — the spectral theorem
+([`LinearMap.IsSymmetric.eigenvalues`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/Spectrum.html)
+and `eigenvectorBasis`), positivity (`LinearMap.IsPositive`), adjoints, the continuous
+functional calculus over `ℂ`, and singular *values*
+([`LinearMap.singularValues`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/SingularValues.html))
+— but not the operator-theoretic layer over `RCLike`: no functional calculus for a
+symmetric `LinearMap` covering `ℝ` and `ℂ` together, no positive square root with its
+uniqueness theory at that generality, no partial-isometry API, no polar decomposition, no
+singular *vectors*, and no Moore–Penrose inverse.
+
+Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar square-root
+estimates in `TauCeti/Analysis/SpecialFunctions/`.
+
+**Why "Hilbert-space" and not "finite-dimensional".** The organizing core is
+finite-dimensional: the functional calculus is a finite sum over an eigenbasis, and that
+is what makes it exist. But several constructions here need no finite-dimensional hypothesis at all: the rectangular
+operator modulus, the polar decomposition through a partial isometry, and the Gram-contraction
+factorization are all naturally statements over `RCLike`.  The current complex C⋆ functional
+calculus is one construction route for the modulus, not part of its public theorem statement.
+Later roadmaps consume the scalar-generic form. [`OperatorIdeals`](../OperatorIdeals/README.md)
+uses the Gram-contraction rung directly;
+[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) uses the
+bounded polar factorization in its interval/exterior estimates. Stating those results in
+finite dimension and generalizing later would mean proving them twice, so they are stated
+for complete spaces here.
+
+## Standing conventions
+
+- **Scalars are `𝕜 : RCLike`; finite dimension exactly where the eigenbasis is used.** The
+  functional calculus is a finite sum over `LinearMap.IsSymmetric.eigenvectorBasis`, so
+  `[FiniteDimensional 𝕜 E]` is what makes the definition exist. Supporting material that
+  needs neither the finite spectral theorem nor finite dimension — the partial-isometry API,
+  modulus, polar factorization and Gram-contraction factorization — is stated on complete
+  Hilbert spaces over `RCLike`.
+- **One square root, defined once.** The positive square root *is* the functional calculus
+  at `Real.sqrt`, by definition. There must not be two constructions of one object; the
+  square-root-specific theory (uniqueness, kernel, range, the isometry-defect identity)
+  attaches to that single definition.
+- **One modulus semantics, with carrier-appropriate constructions.** For a rectangular map
+  `T : E → F`, the modulus is the positive square root of `T†T` and therefore acts on `E`.
+  `LinearMap.operatorAbs` states this over finite-dimensional `RCLike` spaces;
+  `ContinuousLinearMap.modulus` states the dimension-free bounded-operator API over `RCLike`.
+  Over `ℂ`, the latter is implemented by `CFC.sqrt`; finite-dimensional bridge theorems show
+  the constructions agree wherever both apply.
+- **One equation, with carrier-appropriate predicates.** In a star monoid,
+  `IsPartialIsometry u` means `u * star u * u = u`; this covers endomorphisms and abstract
+  C⋆-algebra elements. A rectangular map `u : E → F` is not an element of one monoid, so
+  `LinearMap.IsPartialIsometry` and `ContinuousLinearMap.IsPartialIsometry` state the typed
+  equation `u ∘ u† ∘ u = u`. The endomorphism predicates are proved equivalent, and the
+  geometric characterization — isometric on `(ker u)ᗮ`, zero on `ker u` — is a theorem,
+  never the definition.
+- **Construct the square root where available; factor it at `RCLike` generality.** If
+  `A : E →L[𝕜] E` is self-adjoint and `A ∘L A = T† ∘L T`, then on arbitrary complete
+  `RCLike` Hilbert spaces there is a contraction `W : E →L[𝕜] F` with contractive adjoint
+  such that `W ∘L A = T` and `W† ∘L T = A`. Taking `A = modulus T` supplies the canonical
+  Gram square root and sharpens this to the rectangular polar partial isometry.
+  Finite-dimensional endomorphisms over `RCLike` further admit a unitary factor.
+- **Intrinsic, basis-free statements.** The singular system is built for a linear map
+  between spaces, never for a matrix in a chosen pair of bases: the consumers (principal
+  angles, unitarily invariant norms, spectral-subspace perturbation) are basis-free, and a
+  matrix-mediated development would force each to carry a basis choice and prove
+  independence of it.
+- **Total operations at zero singular values.** The left singular vector is `σᵢ⁻¹ • A vᵢ`
+  through total field inversion, so it is defined (and zero) at `σᵢ = 0`; orthonormality is
+  asserted on the subtype of indices with nonzero singular value, and the singular relation
+  `A vᵢ = σᵢ • uᵢ` holds *including* the zero case.
+
+## What Mathlib already has (consume)
+
+- **The spectral theorem:** `LinearMap.IsSymmetric` with `eigenvalues` / `eigenvectorBasis`,
+  `LinearMap.IsPositive` with `nonneg_eigenvalues`, adjoints, and the rank-one operators
+  `InnerProductSpace.rankOne`. Part A is a finite sum of these.
+- **The continuous functional calculus over `ℂ`:** `CFC.sqrt` and `CFC.abs` on `E →L[ℂ] E`.
+  This supplies the complex implementation of the dimension-free modulus and the comparison
+  theorem with the finite `RCLike` construction.
+- **Singular values:** `LinearMap.singularValues : ℕ →₀ ℝ` between finite-dimensional inner
+  product spaces — zero-indexed, antitone, zero past the rank. Mathlib has the values;
+  Part C adds the vectors, the two-sided spectrum bridge, and the pseudoinverse.
+
+---
+
+## What is missing (build here)
+
+* The finite self-adjoint functional calculus over `RCLike`, together with comparison to the
+  complex continuous-functional-calculus implementation where both apply.
+* The positive square root and its uniqueness; the rectangular modulus over `RCLike` in both
+  finite and complete settings, with comparison to the complex CFC implementation.
+* Partial isometries for maps between *different* spaces, and their geometric
+  characterization; Mathlib has no `IsPartialIsometry` at all.
+* The dimension-free `RCLike` Gram-contraction factorization from a self-adjoint square root
+  of `T†T`, separating the geometry of the polar factor from the complex CFC construction of
+  the canonical modulus.
+* The polar decomposition with a unitary factor in finite dimension, and its
+  rectangular bounded counterpart.
+* The singular system: right singular basis, left singular vectors, the rank-one expansion,
+  and the Moore–Penrose inverse characterized by Penrose's four conditions rather than
+  constructed and named.
+
+## The build, in layers
+
+### Part A — the functional calculus, the positive square root, and the modulus
+
+**Objects.** The finite self-adjoint functional calculus
+`selfAdjointFunctionalCalculus hT f = ∑ᵢ f(λᵢ) • rankOne eᵢ eᵢ` for a symmetric
+endomorphism over `RCLike`; the positive square root `sqrt hT`, defined as the calculus at
+`Real.sqrt`; the finite rectangular modulus `LinearMap.operatorAbs A = sqrt (A† ∘ₗ A)`; the
+dimension-free rectangular modulus `ContinuousLinearMap.modulus T = sqrt (T† ∘L T)`; and the supporting
+algebra — the expansion of `⟪∑ aᵢ • vᵢ, ∑ bⱼ • vⱼ⟫` over pairwise inner products, spans of
+orthonormal subfamilies, the eigenvector cross-term identity
+`⟪eᵢ, (S−T) fⱼ⟫ = (μⱼ − λᵢ) ⟪eᵢ, fⱼ⟫`, and two scalar square-root estimates near `1`.
+
+**API to develop.**
+
+- The calculus: diagonal action on the eigenbasis; symmetry of the result; `id` recovers
+  `T`; functions agreeing on the eigenvalues give equal operators; composition is pointwise
+  multiplication; the *eigenvector-stable* form — `T x = λ • x` implies
+  `calculus f x = f λ • x`, which is what makes the calculus well behaved on repeated
+  eigenspaces; the commutant property (anything commuting with `T` commutes with every
+  `calculus f`).
+- The square root: positive, symmetric, squares to `T`; `ker (sqrt hT) = ker T`,
+  `range (sqrt hT) = range T`; the isometry-defect identity `‖sqrt hT x‖² = re ⟪T x, x⟫`;
+  invertible when `T` is.
+- The finite-dimensional modulus: positive; `|A|² = A†A`; the pointwise isometry
+  `‖|A| x‖ = ‖A x‖` with `ker |A| = ker A` and `range |A| = (ker A)ᗮ`; commutation with
+  `A` in the endomorphism case when `A` is normal.
+- The complete-space modulus: positive and self-adjoint, `|T|² = T†T`; the pointwise isometry
+  `‖|T| x‖ = ‖T x‖` with its kernel corollary; `‖|T|‖ = ‖T‖`; composition norm laws; the
+  characterization as the unique positive symmetric square root of the Gram operator.
+- Courant–Fischer and Weyl: the quadratic form in the eigenbasis, the min–max equality,
+  eigenvalue monotonicity, the perturbation bound.
+
+### Naming the modulus
+
+The two carrier-level constructions are
+
+```lean
+LinearMap.operatorAbs       (A : E →ₗ[𝕜] F) : E →ₗ[𝕜] E   -- RCLike, finite-dimensional
+ContinuousLinearMap.modulus (T : E →L[𝕜] F) : E →L[𝕜] E   -- RCLike, rectangular, complete
+```
+
+each in the namespace of its carrier, so both support dot notation.
+
+The finite-dimensional construction and its lemmas use `operatorAbs` —
+`norm_operatorAbs_apply`, `ker_operatorAbs`. A bare `abs` collides with the lattice absolute
+value that `|·|` denotes in Lean, while `modulus` is the bounded-operator spelling.
+
+**Milestone — uniqueness, at both layers.** The positive square root is unique
+(Horn–Johnson 7.2.6), so each modulus is the unique positive symmetric square root of its
+Gram operator. The finite functional calculus is likewise the unique symmetric operator
+acting as `f (λᵢ)` on each eigenvector of `T`.
+
+**Milestone — Courant–Fischer and Weyl.** The `k`-th sorted eigenvalue is the sup–inf of
+the Rayleigh quotient over `(k+1)`-dimensional subspaces (Horn–Johnson 4.2.6), and a
+symmetric perturbation moves each eigenvalue by at most the operator norm.
+
+**Milestone — the modulus constructions agree.** In finite dimension,
+`LinearMap.operatorAbs A`, transported to a bounded operator, equals
+`ContinuousLinearMap.modulus A.toContinuousLinearMap` over every `RCLike` field. Over `ℂ`,
+the finite self-adjoint functional calculus also agrees with Mathlib's continuous functional
+calculus, and the complete-space modulus agrees with `CFC.sqrt (A†A)`.
+
+### Part B — polar decomposition and partial isometries
+
+Every bounded rectangular operator on a real or complex Hilbert space factors as a partial
+isometry times its modulus.  Finite-dimensional endomorphisms have the stronger unitary-factor
+form.  These are specializations of one scalar-generic geometry rather than separate real and
+complex APIs.  A supplied self-adjoint Gram square root `A² = T†T` already determines the
+two-sided contractive factor; the modulus theorem supplies the canonical square root.
+Rectangular partial isometries use typed composition because the adjoint reverses source and
+target.
+
+**Objects.** The star-monoid and carrier-specific partial-isometry predicates; the polar
+factor `polarFactor A` (the partial isometry
+`|A| x ↦ A x` extended by zero) and its unitary witnesses (`polarUnitaryEquiv`, canonical
+as `A |A|⁻¹` when `A` is invertible; `choosePolarUnitary` in general); on the rectangular
+side, the scalar-generic Gram-contraction factor supplied by `exists_contraction_of_gram_eq`;
+the initial space `polarInitial M` (the closure of `range |M|`), the partial isometry
+`polarPartial M`, and the bounded-below isometry `polarIsometryOfIsUnitModulus`; the
+near-isometry factorization; and Davis's intertwining unitary for a pair of complete
+orthogonal projection families.
+
+**API to develop.**
+
+- The partial-isometry dictionary: `star u * u` is a star projection; closure under `star`;
+  isometries are partial isometries; the operator characterization — `u` is a partial
+  isometry iff it is norm-preserving on `(ker u)ᗮ` (Conway VI.3.2).
+- The square decomposition: `polarFactor` with `ker = ker A`, `range = range A`, partial
+  isometry, and the defining property `polarFactor A (|A| x) = A x`; the normal case (`A`
+  commutes with `|A|`); uniqueness of the polar factor among unitary-times-positive
+  factorizations of an invertible `A`; the adjoint formula
+  `polarFactor A⋆ = (polarFactor A)⋆`.
+- The scalar-generic Gram factorization: for self-adjoint `A` with
+  `A ∘L A = T† ∘L T`, a map `W` with `‖W‖ ≤ 1`, `‖W†‖ ≤ 1`, `W ∘L A = T`, and
+  `W† ∘L T = A`. The statement is rectangular, dimension-free and over `RCLike`; it does
+  not require a functional calculus once the Gram square root is supplied.
+- The rectangular `RCLike` decomposition: `polarPartial M ∘L |M| = M`; isometric on
+  `polarInitial M`, zero on its complement; `ker (polarPartial M) = (polarInitial M)ᗮ`; the
+  adjoint formulas and the final space `polarFinal M = closure (range M)`; uniqueness — any
+  `V` with `V ∘L |M| = M` vanishing on `(polarInitial M)ᗮ` is `polarPartial M`.
+- The bounded-below rung: when `|M|` is a unit the factor is an isometry outright, with the
+  quantitative comparison `‖M − W‖ ≤ ‖|M| − 1‖`. This rung stays separate from the general
+  one: bounded-below is the hypothesis perturbation estimates have, and under it
+  the conclusion is strictly stronger.
+
+**Milestone — the Gram-contraction and polar decompositions.** The `RCLike`
+Gram-contraction theorem is the factorization layer. The canonical `RCLike` modulus gives the
+polar partial isometry and identifies its initial space with `(ker M)ᗮ`; over `ℂ` the modulus
+is compared with the CFC construction. The finite-dimensional square decomposition
+strengthens the factor to a unitary.
+
+**Milestone — the near-isometry factorization.** A real finite-dimensional map whose
+quadratic form is uniformly `δ`-close to the identity (`δ < 1`) factors as `M = W ∘ₗ S`
+with `W` an isometry equivalence and `S` the positive square root of the Gram operator,
+satisfying `‖S x − x‖ ≤ δ‖x‖`; consequently `‖M − W‖ ≤ 2δ` for `δ ≤ 1/2`. The exact
+decompositions give no such estimate.
+
+**Milestone — Davis's intertwining unitary.** For two complete orthogonal families of
+projections `(Pⱼ)`, `(P'ⱼ)` satisfying Davis's non-degeneracy condition, the block polar
+factors assemble into a unitary `U` with `U ∘ₗ Pⱼ = P'ⱼ ∘ₗ U` for every `j` — this Part's
+modulus-inverse-times-operator construction applied to a projection pair.
+
+### Part C — singular values and the singular system
+
+Mathlib has `LinearMap.singularValues`; this Part adds everything around it, and each layer
+answers a different question:
+
+| layer | what is missing upstream |
+|---|---|
+| accessor | a `ContinuousLinearMap`-level view of `singularValues` — naming surface only |
+| spectrum bridge | that `A⋆A` and `AA⋆` share their nonzero spectrum **with multiplicity** |
+| singular system | the singular **vectors** — Mathlib has the values, not the system |
+| Moore–Penrose | the pseudoinverse, with all four Penrose conditions and the converse |
+
+The accessor exists so that operator-norm consumers — approximation numbers, Ky Fan norms,
+Eckart–Young — never spell `T.toLinearMap.singularValues` in a public statement. It fixes
+the public spelling for the four roadmaps that consume it, so it is a target of this Part.
+Its lemmas should be one-line delegations; any lemma there with real content belongs at the
+`LinearMap` level instead.
+
+**Objects.** The right singular basis `rightSingularBasis A` (the sorted orthonormal
+eigenbasis of `A⋆A`); the left singular vectors `leftSingularVector A i = σᵢ⁻¹ • A vᵢ`
+(total, zero at zero singular values); the Moore–Penrose inverse `moorePenroseInverse A`,
+built from the singular system with coefficient `(σᵢ²)⁻¹` against rank-one maps.
+
+**API to develop.**
+
+- The spectrum bridge: `A⋆A` and `AA⋆` are symmetric and positive; their sorted eigenvalue
+  lists agree at every index below both dimensions — no relation between the dimensions is
+  required, since both lists are zero past the rank; consequently
+  `singularValues A⋆ = singularValues A`, so a rectangular map carries one singular sequence
+  rather than two.
+- The singular system: `A⋆A` acts on `vᵢ` by `σᵢ²`; the singular relation `A vᵢ = σᵢ • uᵢ`
+  including the zero case; the `uᵢ` with `σᵢ ≠ 0` are orthonormal and are eigenvectors of
+  `AA⋆` at `σᵢ²`; `A⋆ uᵢ = σᵢ • vᵢ`; the singular expansion of `A x` and the rank-one
+  reconstruction of `A`; the extension of the nonzero left family to an orthonormal basis of
+  the codomain — the statement consumers need, and not automatic for a rectangular map.
+
+### The Moore–Penrose interface
+
+The four Penrose conditions
+
+```text
+A B A = A     B A B = B     (A B)⋆ = A B     (B A)⋆ = B A
+```
+
+should be a named predicate, `IsMoorePenroseInverse A B`, rather than four anonymous
+hypotheses repeated at every use. The reason is not brevity: the four conditions *are*
+Penrose's definition of a pseudoinverse, so a statement that spells them out loses the
+reading "`B` is a Moore–Penrose inverse of `A`" that makes the uniqueness theorem say what
+it means. A predicate also gives the theory somewhere to live — that the relation is
+symmetric under `A ↔ B`, that it transports along adjoints, that it survives unitary
+conjugation.
+
+A `Prop`-valued structure with four named fields, rather than an iterated conjunction, so
+that the conditions have accessors and a caller supplying them writes `⟨h₁, h₂, h₃, h₄⟩`.
+Mathlib has neither a Moore–Penrose inverse nor such a predicate.
+
+The roadmap asks for:
+
+- the predicate, with named access to each of the four conditions;
+- the construction `moorePenroseInverse A` from the singular system, for every `A` between
+  finite-dimensional spaces, and the proof that it satisfies the predicate;
+- **uniqueness**: two operators satisfying the predicate against the same `A` are equal;
+- **the converse characterization**: anything satisfying the predicate *is* the constructed
+  pseudoinverse. Without this the construction is *a* generalized inverse, not *the*
+  pseudoinverse;
+- compatibility with the adjoint: `IsMoorePenroseInverse A B ↔ IsMoorePenroseInverse A⋆ B⋆`;
+- inverse behaviour under injectivity, surjectivity, and invertibility — `A⁺A = 1` for
+  injective `A`, `A A⁺ = 1` for surjective `A`, and `A⁺ = A⁻¹` for invertible `A`.
+
+**Milestone — the singular expansion.** `A = ∑ᵢ σᵢ • rankOne uᵢ vᵢ`, intrinsically, with no
+basis of the ambient spaces beyond the constructed singular one.
+
+**Milestone — existence and uniqueness of the Moore–Penrose inverse**, in the form above:
+the predicate, the construction, and the theorem that they determine each other.
+
+## Worked examples (acceptance criteria)
+
+### Part A — the functional calculus, the positive square root, and the modulus
+
+**Acceptance examples.** `calculus id = T`; the calculus of a constant is that multiple of
+the identity; on a concrete diagonal operator the square root and modulus take their
+expected diagonal values; the Weyl bound is sharp for a rank-one perturbation of the
+identity.
+
+### Part B — polar decomposition and partial isometries
+
+**Acceptance criteria.** That `exists_contraction_of_gram_eq` and the canonical modulus-based
+rectangular decomposition are dimension-free, rectangular and `RCLike`; that the complex
+implementation agrees with CFC; that square and rectangular partial-isometry predicates state
+the same typed equation and agree in the endomorphism case; and that
+`polarInitial M = (ker M)ᗮ` is a theorem.
+
+### Part C — singular values and the singular system
+
+**Acceptance criteria.** That the accessor layer has no mathematical content; that no
+statement of the singular system mentions a basis of the ambient spaces beyond the
+constructed singular one; that the four conditions and the uniqueness converse are both
+proved; that zero singular values are handled in the singular relation.
+
+## Ordering
+
+Part A comes first: Parts B and C each consume it and nothing else — B needs both moduli,
+C needs the Gram operator's eigenbasis and the eigenvalue-counting lemmas. B and C are
+mutually independent and can proceed in parallel once A lands.
+
+This roadmap is independent: it rests only on Mathlib, and it is the foundation the rest of
+the [operator theory](../README.md) family cites.
+
+## Definitions
+
+**D1** `|M| x ↦ M x`, extended by continuity to the closure of `range |M|` and by zero on its
+orthogonal complement — the rectangular polar partial isometry.
+
+## References
+
+- R. A. Horn, C. R. Johnson, *Matrix Analysis*, 2nd ed., Cambridge (2013) — Thm 7.2.6
+  (unique positive square root), 7.2.7(b), 7.3.1 (polar decomposition), 4.2.6
+  (Courant–Fischer), Weyl's perturbation inequality.
+- J. B. Conway, *A Course in Functional Analysis*, 2nd ed. — §VI.3 (partial isometries,
+  VI.3.2, VI.3.9); M. Reed, B. Simon, *Methods of Modern Mathematical Physics I*, §VI — the
+  polar decomposition on Hilbert space.
+- C. Davis, *The rotation of eigenvectors by a perturbation*, J. Math. Anal. Appl. **6**
+  (1963) — the intertwining unitary.
+- R. Penrose, *A generalized inverse for matrices*, Proc. Cambridge Philos. Soc. **51**
+  (1955) — the four conditions and the uniqueness characterization.
+## Acknowledgements
+
+An Apache-2.0 implementation of all three Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
+(Kitware, Inc.), in namespaces `TauCeti.*`, `LinearMap.*` and `ContinuousLinearMap.*`. The
+public API and proof structure may change during integration.
+
+One difference should be expected at integration: the Moore–Penrose conditions are
+currently passed as four anonymous hypotheses rather than through a predicate, which is a
+target of Part C.

@@ -31,6 +31,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
 - [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
 - [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
+- [Operator theory (polar decomposition, majorization, principal angles, operator ideals, spectral-subspace perturbation)](TauCetiRoadmap/OperatorTheory/README.md)
 
 ## Completed roadmaps
 
