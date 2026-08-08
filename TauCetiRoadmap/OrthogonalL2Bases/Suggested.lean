@@ -22,7 +22,7 @@ Gaussian-Hermite instance (A3); and the product / `pi` bases (B3). The Hermite-f
 (A2), the function-side `hermiteHilbertBasis`, the completeness toolkit (B1), and the Chebyshev
 instance (Part C) are stated in full in `README.md`; this file seeds the representative core.
 
-Conventions folded in from review (a roadmap reviewer + Codex/GPT-5.4): `μ : Measure ℝ` (the bridge
+Conventions: `μ : Measure ℝ` (the bridge
 evaluates `Polynomial.eval`); `weightL2Isometry` needs only `0 < w` a.e. (no finiteness — the
 `ENNReal.ofReal` density is finite); `mapₗᵢ` body `ofRepr (e.symm.trans b.repr)` (Mathlib has no
 `≃ₗᵢ`-transport); ℕ-smul Hermite derivative; `ℤ[X]` Hermite mapped to `ℝ[X]` via `hermiteℝ`; every

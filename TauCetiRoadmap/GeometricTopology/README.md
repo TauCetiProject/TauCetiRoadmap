@@ -96,8 +96,6 @@ mutually unusable ones. The per-layer sections pin the rest; this section fixes 
 
 ## Inventory: what Mathlib gives us (consume)
 
-Verified against the pinned Mathlib (`Mathlib/`, commit `9caeba1`, Lean `v4.31.0-rc1`).
-
 - **Smooth manifolds with boundary and corners.** `ModelWithCorners` and `IsManifold` in
   `Mathlib/Geometry/Manifold/IsManifold/Basic.lean`; boundary and interior
   (`ModelWithCorners.boundary`, `ModelWithCorners.interior`, `IsInteriorPoint`,

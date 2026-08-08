@@ -334,8 +334,7 @@ thread](https://leanprover-community.github.io/archive/stream/541885-ItaLean-202
 records work coordinated by Till Wehling and Rémy Degenne; its linked repository is no
 longer publicly accessible.  Contact them as well, re-run all searches, and open a Lean
 Zulip design thread before beginning Layer 0.  This subject needs agreement on integrating
-the Vlasov/Econlib work, `ProbabilityMeasure`, `klDiv`, extended costs, and eventual
-Mathlib extraction.
+the Vlasov/Econlib work, `ProbabilityMeasure`, `klDiv`, and extended costs.
 
 ## The build, in dependency layers
 
