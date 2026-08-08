@@ -75,6 +75,8 @@ open Module (finrank)
 open scoped InnerProductSpace ENNReal NNReal
 open Filter Topology
 
+universe u v w x y
+
 section ApproximationNumberExtensions
 
 variable {𝕜 : Type u} [NontriviallyNormedField 𝕜]
