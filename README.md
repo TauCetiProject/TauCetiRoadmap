@@ -17,6 +17,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
 - [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
 - [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
+- [Differential geometry — forms, de Rham cohomology, flows, and degree](TauCetiRoadmap/DifferentialGeometry/README.md)
 - [Elliptic curves](TauCetiRoadmap/EllipticCurves/README.md)
 - [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
 - [Foundations of adic spaces](TauCetiRoadmap/AdicSpaces/README.md)
