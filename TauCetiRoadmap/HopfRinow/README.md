@@ -142,10 +142,11 @@ The following Mathlib work establishes API direction for the substrate this road
   [mathlib4#40062](https://github.com/leanprover-community/mathlib4/pull/40062) restates ODE
   existence and uniqueness through the integral-curve API.
 
-These proposals determine API shape but are not Tau Ceti dependencies. Implement every missing
-milestone in Tau Ceti without waiting: first use declarations present in the working Mathlib pin,
-and otherwise follow the proposals' API direction where practical. If Mathlib later supplies an
-equivalent declaration, remove the local version and adopt Mathlib's.
+These proposals determine API shape but are not Tau Ceti dependencies. Coordinate API direction
+with their authors where practical, to avoid needless duplication or incompatible designs, but
+implement every missing milestone in Tau Ceti without waiting: first use declarations present in
+the working Mathlib pin, and otherwise follow the proposals' API direction where practical. If
+Mathlib later supplies an equivalent declaration, remove the local version and adopt Mathlib's.
 
 ### Existing implementation provenance (secondary)
 
