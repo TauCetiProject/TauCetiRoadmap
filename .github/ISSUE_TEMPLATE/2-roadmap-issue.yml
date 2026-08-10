@@ -32,6 +32,7 @@ body:
         - PDE
         - ReductiveGroups
         - RepresentationTheory
+        - StandardDistributions
         - UniversalCovers
     validations:
       required: true
