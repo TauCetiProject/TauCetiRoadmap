@@ -28,3 +28,4 @@ import TauCetiRoadmap.ConformalMapping.Suggested
 import TauCetiRoadmap.OrthogonalL2Bases.Suggested
 import TauCetiRoadmap.OptimalTransport.Suggested
 import TauCetiRoadmap.CFSGStatement.Suggested
+import TauCetiRoadmap.Chebotarev.Suggested
