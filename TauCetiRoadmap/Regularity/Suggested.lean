@@ -247,16 +247,64 @@ structure HypergraphComplex (r : ℕ) (V : Type*) [DecidableEq V] where
   down_closed : ∀ k (hk : k ≤ r), ∀ s ∈ faces k hk, ∀ t ⊆ s,
     ∀ (htk : t.card ≤ r), t ∈ faces t.card htk
 
+/-- Reversal of an ordered distinct pair. -/
+def reversePair {V : Type*} (p : {p : V × V // p.1 ≠ p.2}) : {p : V × V // p.1 ≠ p.2} :=
+  ⟨(p.1.2, p.1.1), p.2.symm⟩
+
+theorem reversePair_involutive {V : Type*} :
+    Function.Involutive (reversePair (V := V)) := fun _ => rfl
+
 /-- **Layer 5.** A pair-color system: a coloring of ordered **distinct** vertex pairs into the pair
-palette `κ₂`. Diagonals `(v, v)` are excluded, matching the injective top supports (no loops in the
-lower skeleton while the top layer forbids them). -/
+palette `κ₂`, **together with the reversal law relating the two orientations of a pair**. Diagonals
+`(v, v)` are excluded, matching the injective top supports (no loops in the lower skeleton while the
+top layer forbids them).
+
+The involution `rev` and the coherence field `color_rev` are **not optional decoration**. Without
+them the two orientations of a pair carry independent colors, and the architecture becomes
+inconsistent with itself: polyad support (Layer 6) reads coordinate pairs at *both* orientations,
+while the route budget (Layer 9) allots one color per *unordered* pattern pair. Concretely,
+agreement on canonically oriented pairs does **not** determine polyad support — and it still fails
+when each system is merely swap-coherent for *some* involution of its own; the involution must be
+shared, which is why it lives in the signature rather than being quantified away. With `color_rev`
+in place the anti-canonical color is recovered from the canonical one, canonical routes carry one
+color per pattern pair, and the factor `ℓ ^ (k.choose 2)` in `routeBudget3` is honest arithmetic.
+
+Symmetric palettes (`rev = id`) and genuinely directed palettes (`rev` fixed-point-free) both
+instantiate this, so no generality is lost by asking for it. -/
 structure PairColorSystem (κ₂ : Type*) (V : Type*) where
   color : {p : V × V // p.1 ≠ p.2} → κ₂
+  /-- The reversal operation on the palette. -/
+  rev : κ₂ → κ₂
+  /-- Reversal is an involution. -/
+  rev_involutive : Function.Involutive rev
+  /-- **The coherence law**: reversing the pair applies `rev` to its color. -/
+  color_rev : ∀ p, color (reversePair p) = rev (color p)
 
 /-- The pair color of an ordered pair, as an `Option` (`none` on the diagonal). This total form lets
 densities and polyad conditions be stated without threading an `≠` proof. -/
 def PairColorSystem.colorOfPair (S : PairColorSystem κ₂ V) (u v : V) : Option κ₂ :=
   if h : u ≠ v then some (S.color ⟨(u, v), h⟩) else none
+
+/-- The reversal law at the `Option` level: swapping the arguments applies `rev`, and the diagonal
+stays `none`. -/
+theorem PairColorSystem.colorOfPair_swap (S : PairColorSystem κ₂ V) (u v : V) :
+    S.colorOfPair v u = (S.colorOfPair u v).map S.rev := by
+  sorry
+
+/-- **Layer 5 (expressiveness).** Arbitrary *raw* directed pair data — a bare coloring with no
+relation between the two orientations — embeds by recording both directions jointly, with `rev` the
+coordinate swap. So requiring coherence costs no expressive generality.
+
+It is **not** quantitatively free: the palette becomes `κ₂ × κ₂`, squaring its cardinality. Since
+the pair palette enters the complexity measure (`TriadicComplex3.complexity`) and the route budget
+(`routeBudget3`, through `ℓ ^ (k.choose 2)`), this is the price of embedding genuinely raw directed
+data — `ℓ ↦ ℓ²`. Data that is already coherent for some involution keeps its palette unchanged. -/
+def PairColorSystem.ofRaw {κ₂ : Type*} {V : Type*} (color : {p : V × V // p.1 ≠ p.2} → κ₂) :
+    PairColorSystem (κ₂ × κ₂) V where
+  color p := (color p, color (reversePair p))
+  rev := Prod.swap
+  rev_involutive := Prod.swap_swap
+  color_rev _ := rfl
 
 /-- **Layer 5.** The density of pair-color `c` over the ordered cell pair `(s, t)`, among the
 **distinct** ordered pairs. Convention: the density is `0` when there are no distinct pairs
@@ -305,15 +353,85 @@ structure Polyad3 (S : PairSkeleton3 κ₂ V) where
   color₀₁ : κ₂
   color₀₂ : κ₂
   color₁₂ : κ₂
-  support : Finset {x : Fin 3 → V // Function.Injective x}
-  mem_support_iff : ∀ x, x ∈ support ↔
-    x.1 0 ∈ c₀ ∧ x.1 1 ∈ c₁ ∧ x.1 2 ∈ c₂ ∧
-      S.pairColors.colorOfPair (x.1 0) (x.1 1) = some color₀₁ ∧
-      S.pairColors.colorOfPair (x.1 0) (x.1 2) = some color₀₂ ∧
-      S.pairColors.colorOfPair (x.1 1) (x.1 2) = some color₁₂
 
-/-- **Layer 6.** The polyad determined by cells and pair colors — its support pinned
-definitionally. The constructor `PairColorPlacement3` (Layer 9) and worked examples use it. -/
+/-- **Layer 6.** The support determined by cells and pair colors — a **computed definition**, not a
+proof-carrying field. -/
+def polyadSupport (C : PairColorSystem κ₂ V) (c₀ c₁ c₂ : Finset V) (k₀₁ k₀₂ k₁₂ : κ₂) :
+    Finset {x : Fin 3 → V // Function.Injective x} :=
+  univ.filter fun x => x.1 0 ∈ c₀ ∧ x.1 1 ∈ c₁ ∧ x.1 2 ∈ c₂ ∧
+    C.colorOfPair (x.1 0) (x.1 1) = some k₀₁ ∧
+    C.colorOfPair (x.1 0) (x.1 2) = some k₀₂ ∧
+    C.colorOfPair (x.1 1) (x.1 2) = some k₁₂
+
+theorem mem_polyadSupport {C : PairColorSystem κ₂ V} {c₀ c₁ c₂ : Finset V} {k₀₁ k₀₂ k₁₂ : κ₂}
+    {x : {x : Fin 3 → V // Function.Injective x}} :
+    x ∈ polyadSupport C c₀ c₁ c₂ k₀₁ k₀₂ k₁₂ ↔
+      x.1 0 ∈ c₀ ∧ x.1 1 ∈ c₁ ∧ x.1 2 ∈ c₂ ∧
+        C.colorOfPair (x.1 0) (x.1 1) = some k₀₁ ∧
+        C.colorOfPair (x.1 0) (x.1 2) = some k₀₂ ∧
+        C.colorOfPair (x.1 1) (x.1 2) = some k₁₂ := by
+  simp [polyadSupport]
+
+/-- **Layer 6.** A polyad's support. Dot notation `P.support` is unchanged for consumers; only its
+status changed, from bundled data to a definition. -/
+def Polyad3.support {S : PairSkeleton3 κ₂ V} (P : Polyad3 S) :
+    Finset {x : Fin 3 → V // Function.Injective x} :=
+  polyadSupport S.pairColors P.c₀ P.c₁ P.c₂ P.color₀₁ P.color₀₂ P.color₁₂
+
+theorem Polyad3.mem_support {S : PairSkeleton3 κ₂ V} (P : Polyad3 S)
+    (x : {x : Fin 3 → V // Function.Injective x}) :
+    x ∈ P.support ↔
+      x.1 0 ∈ P.c₀ ∧ x.1 1 ∈ P.c₁ ∧ x.1 2 ∈ P.c₂ ∧
+        S.pairColors.colorOfPair (x.1 0) (x.1 1) = some P.color₀₁ ∧
+        S.pairColors.colorOfPair (x.1 0) (x.1 2) = some P.color₀₂ ∧
+        S.pairColors.colorOfPair (x.1 1) (x.1 2) = some P.color₁₂ :=
+  mem_polyadSupport
+
+/-- **Layer 6 (extensionality).** A polyad **is** its six data fields: the cell-membership proofs
+are proof-irrelevant and the support is now derived, so nothing else can differ. -/
+theorem Polyad3.ext_data {S : PairSkeleton3 κ₂ V} {P Q : Polyad3 S}
+    (h₀ : P.c₀ = Q.c₀) (h₁ : P.c₁ = Q.c₁) (h₂ : P.c₂ = Q.c₂)
+    (k₀₁ : P.color₀₁ = Q.color₀₁) (k₀₂ : P.color₀₂ = Q.color₀₂)
+    (k₁₂ : P.color₁₂ = Q.color₁₂) : P = Q := by
+  obtain ⟨a₀, a₁, a₂, ha₀, ha₁, ha₂, x₀, x₁, x₂⟩ := P
+  obtain ⟨b₀, b₁, b₂, hb₀, hb₁, hb₂, y₀, y₁, y₂⟩ := Q
+  simp only at h₀ h₁ h₂ k₀₁ k₀₂ k₁₂
+  subst h₀; subst h₁; subst h₂; subst k₀₁; subst k₀₂; subst k₁₂
+  rfl
+
+/-- The forgetful map onto the data, refined through the parts subtype. -/
+def Polyad3.partData {S : PairSkeleton3 κ₂ V} (P : Polyad3 S) :
+    (↥S.vertexPart.parts × ↥S.vertexPart.parts × ↥S.vertexPart.parts) × κ₂ × κ₂ × κ₂ :=
+  ((⟨P.c₀, P.hc₀⟩, ⟨P.c₁, P.hc₁⟩, ⟨P.c₂, P.hc₂⟩), (P.color₀₁, P.color₀₂, P.color₁₂))
+
+theorem Polyad3.partData_injective (S : PairSkeleton3 κ₂ V) :
+    Function.Injective (Polyad3.partData (S := S)) := by
+  intro P Q h
+  simp only [Polyad3.partData, Prod.mk.injEq, Subtype.mk.injEq] at h
+  exact Polyad3.ext_data h.1.1 h.1.2.1 h.1.2.2 h.2.1 h.2.2.1 h.2.2.2
+
+/-- **Layer 6 (finite enumeration).** De-bundling supplies the decidable equality and finiteness
+that `TriadicComplex3.polyads : Finset (Polyad3 skeleton)` needs; neither was available while the
+support was a bundled field. -/
+instance {S : PairSkeleton3 κ₂ V} [DecidableEq κ₂] : DecidableEq (Polyad3 S) :=
+  (Polyad3.partData_injective S).decidableEq
+
+noncomputable instance {S : PairSkeleton3 κ₂ V} [Fintype κ₂] : Fintype (Polyad3 S) :=
+  Fintype.ofInjective _ (Polyad3.partData_injective S)
+
+/-- **Layer 6.** The enumeration bound behind the complexity count: at most `#parts³ · ℓ³`
+polyads. -/
+theorem card_polyad3_le (S : PairSkeleton3 κ₂ V) [Fintype κ₂] :
+    Fintype.card (Polyad3 S) ≤ S.vertexPart.parts.card ^ 3 * Fintype.card κ₂ ^ 3 := by
+  have h := Fintype.card_le_of_injective _ (Polyad3.partData_injective S)
+  simp only [Fintype.card_prod, Fintype.card_coe] at h
+  calc Fintype.card (Polyad3 S)
+      ≤ S.vertexPart.parts.card * (S.vertexPart.parts.card * S.vertexPart.parts.card) *
+        (Fintype.card κ₂ * (Fintype.card κ₂ * Fintype.card κ₂)) := h
+    _ = S.vertexPart.parts.card ^ 3 * Fintype.card κ₂ ^ 3 := by ring
+
+/-- **Layer 6.** The polyad determined by cells and pair colors. Signature unchanged; the support is
+now derived rather than supplied. -/
 def Polyad3.ofData {S : PairSkeleton3 κ₂ V} (c₀ c₁ c₂ : Finset V)
     (h₀ : c₀ ∈ S.vertexPart.parts) (h₁ : c₁ ∈ S.vertexPart.parts) (h₂ : c₂ ∈ S.vertexPart.parts)
     (k₀₁ k₀₂ k₁₂ : κ₂) : Polyad3 S where
@@ -326,11 +444,18 @@ def Polyad3.ofData {S : PairSkeleton3 κ₂ V} (c₀ c₁ c₂ : Finset V)
   color₀₁ := k₀₁
   color₀₂ := k₀₂
   color₁₂ := k₁₂
-  support := univ.filter fun x => x.1 0 ∈ c₀ ∧ x.1 1 ∈ c₁ ∧ x.1 2 ∈ c₂ ∧
-    S.pairColors.colorOfPair (x.1 0) (x.1 1) = some k₀₁ ∧
-    S.pairColors.colorOfPair (x.1 0) (x.1 2) = some k₀₂ ∧
-    S.pairColors.colorOfPair (x.1 1) (x.1 2) = some k₁₂
-  mem_support_iff := fun x => by simp [Finset.mem_filter]
+
+/-- **Layer 6 (the repository adapter's key dictionary).** `regularity-lemmata`'s `polyadBlock`
+keys a face by the coordinate it **omits**, while `Polyad3` keys a **role pair**. The translation is
+therefore index-reversed: `![k₁₂, k₀₂, k₀₁]`. Naming it here keeps the reversal out of the middle of
+a proof, where a silent mismatch would survive until a counting theorem failed. -/
+def faceKey (k₀₁ k₀₂ k₁₂ : κ₂) : Fin 3 → κ₂ := ![k₁₂, k₀₂, k₀₁]
+
+@[simp] theorem faceKey_zero (k₀₁ k₀₂ k₁₂ : κ₂) : faceKey k₀₁ k₀₂ k₁₂ 0 = k₁₂ := rfl
+
+@[simp] theorem faceKey_one (k₀₁ k₀₂ k₁₂ : κ₂) : faceKey k₀₁ k₀₂ k₁₂ 1 = k₀₂ := rfl
+
+@[simp] theorem faceKey_two (k₀₁ k₀₂ k₁₂ : κ₂) : faceKey k₀₁ k₀₂ k₁₂ 2 = k₀₁ := rfl
 
 /-- **Layer 6.** The ordered coordinate pair of an injective triple at two distinct roles, as a
 distinct pair. -/
@@ -367,18 +492,108 @@ structure Subpolyad3 {S : PairSkeleton3 κ₂ V} (P : Polyad3 S) where
   pair₀₁_sub : pair₀₁ ⊆ P.pairSupport₀₁
   pair₀₂_sub : pair₀₂ ⊆ P.pairSupport₀₂
   pair₁₂_sub : pair₁₂ ⊆ P.pairSupport₁₂
-  support : Finset {x : Fin 3 → V // Function.Injective x}
-  mem_support_iff : ∀ x, x ∈ support ↔ x ∈ P.support ∧
-    coordPair x 0 1 (by decide) ∈ pair₀₁ ∧
-    coordPair x 0 2 (by decide) ∈ pair₀₂ ∧
-    coordPair x 1 2 (by decide) ∈ pair₁₂
+
+/-- **Layer 6.** The subpolyad support — computed, like `polyadSupport`. -/
+def subpolyadSupport {S : PairSkeleton3 κ₂ V} (P : Polyad3 S)
+    (q₀₁ q₀₂ q₁₂ : Finset {p : V × V // p.1 ≠ p.2}) :
+    Finset {x : Fin 3 → V // Function.Injective x} :=
+  P.support.filter fun x =>
+    coordPair x 0 1 (by decide) ∈ q₀₁ ∧ coordPair x 0 2 (by decide) ∈ q₀₂ ∧
+      coordPair x 1 2 (by decide) ∈ q₁₂
+
+theorem mem_subpolyadSupport {S : PairSkeleton3 κ₂ V} {P : Polyad3 S}
+    {q₀₁ q₀₂ q₁₂ : Finset {p : V × V // p.1 ≠ p.2}}
+    {x : {x : Fin 3 → V // Function.Injective x}} :
+    x ∈ subpolyadSupport P q₀₁ q₀₂ q₁₂ ↔ x ∈ P.support ∧
+      coordPair x 0 1 (by decide) ∈ q₀₁ ∧ coordPair x 0 2 (by decide) ∈ q₀₂ ∧
+        coordPair x 1 2 (by decide) ∈ q₁₂ := by
+  simp [subpolyadSupport]
+
+/-- **Layer 6.** A subpolyad's support; dot notation is unchanged for consumers. -/
+def Subpolyad3.support {S : PairSkeleton3 κ₂ V} {P : Polyad3 S} (Q : Subpolyad3 P) :
+    Finset {x : Fin 3 → V // Function.Injective x} :=
+  subpolyadSupport P Q.pair₀₁ Q.pair₀₂ Q.pair₁₂
+
+/-- **Layer 6 (extensionality).** A subpolyad **is** its three selected pair graphs. -/
+theorem Subpolyad3.ext_data {S : PairSkeleton3 κ₂ V} {P : Polyad3 S} {Q R : Subpolyad3 P}
+    (h₀₁ : Q.pair₀₁ = R.pair₀₁) (h₀₂ : Q.pair₀₂ = R.pair₀₂) (h₁₂ : Q.pair₁₂ = R.pair₁₂) :
+    Q = R := by
+  obtain ⟨a, b, c, ha, hb, hc⟩ := Q
+  obtain ⟨a', b', c', ha', hb', hc'⟩ := R
+  simp only at h₀₁ h₀₂ h₁₂
+  subst h₀₁; subst h₀₂; subst h₁₂
+  rfl
+
+theorem Subpolyad3.pairData_injective {S : PairSkeleton3 κ₂ V} (P : Polyad3 S) :
+    Function.Injective (fun Q : Subpolyad3 P => (Q.pair₀₁, Q.pair₀₂, Q.pair₁₂)) := by
+  intro Q R h
+  simp only [Prod.mk.injEq] at h
+  exact Subpolyad3.ext_data h.1 h.2.1 h.2.2
+
+instance {S : PairSkeleton3 κ₂ V} (P : Polyad3 S) : DecidableEq (Subpolyad3 P) :=
+  (Subpolyad3.pairData_injective P).decidableEq
+
+noncomputable instance {S : PairSkeleton3 κ₂ V} (P : Polyad3 S) : Fintype (Subpolyad3 P) :=
+  Fintype.ofInjective _ (Subpolyad3.pairData_injective P)
+
+theorem coordPair_mem_pairSupport₀₁ {S : PairSkeleton3 κ₂ V} {P : Polyad3 S}
+    {x : {x : Fin 3 → V // Function.Injective x}} (hx : x ∈ P.support) :
+    coordPair x 0 1 (by decide) ∈ P.pairSupport₀₁ := by
+  rw [P.mem_support] at hx
+  obtain ⟨h₀, h₁, -, hk, -, -⟩ := hx
+  have hne : x.1 0 ≠ x.1 1 := fun h => (by decide : (0 : Fin 3) ≠ 1) (x.2 h)
+  rw [PairColorSystem.colorOfPair, dif_pos hne] at hk
+  exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, h₀, h₁, Option.some_injective _ hk⟩
+
+theorem coordPair_mem_pairSupport₀₂ {S : PairSkeleton3 κ₂ V} {P : Polyad3 S}
+    {x : {x : Fin 3 → V // Function.Injective x}} (hx : x ∈ P.support) :
+    coordPair x 0 2 (by decide) ∈ P.pairSupport₀₂ := by
+  rw [P.mem_support] at hx
+  obtain ⟨h₀, -, h₂, -, hk, -⟩ := hx
+  have hne : x.1 0 ≠ x.1 2 := fun h => (by decide : (0 : Fin 3) ≠ 2) (x.2 h)
+  rw [PairColorSystem.colorOfPair, dif_pos hne] at hk
+  exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, h₀, h₂, Option.some_injective _ hk⟩
+
+theorem coordPair_mem_pairSupport₁₂ {S : PairSkeleton3 κ₂ V} {P : Polyad3 S}
+    {x : {x : Fin 3 → V // Function.Injective x}} (hx : x ∈ P.support) :
+    coordPair x 1 2 (by decide) ∈ P.pairSupport₁₂ := by
+  rw [P.mem_support] at hx
+  obtain ⟨-, h₁, h₂, -, -, hk⟩ := hx
+  have hne : x.1 1 ≠ x.1 2 := fun h => (by decide : (1 : Fin 3) ≠ 2) (x.2 h)
+  rw [PairColorSystem.colorOfPair, dif_pos hne] at hk
+  exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, h₁, h₂, Option.some_injective _ hk⟩
 
 /-- **Layer 6.** The vertex-subcell restriction, as a subpolyad — the convenient constructor
-(select in each pair graph the pairs landing in the sub-cells); realizing it, with its
-`mem_support_iff`, is a target. -/
+(select in each pair graph the pairs landing in the sub-cells). **No longer a target**: de-bundling
+turns it into a definition, and its intended characterization is `mem_ofSubcells_support` below. -/
 def Subpolyad3.ofSubcells {S : PairSkeleton3 κ₂ V} (P : Polyad3 S)
-    (c₀' c₁' c₂' : Finset V) (h₀ : c₀' ⊆ P.c₀) (h₁ : c₁' ⊆ P.c₁) (h₂ : c₂' ⊆ P.c₂) :
-    Subpolyad3 P := sorry
+    (c₀' c₁' c₂' : Finset V) (_h₀ : c₀' ⊆ P.c₀) (_h₁ : c₁' ⊆ P.c₁) (_h₂ : c₂' ⊆ P.c₂) :
+    Subpolyad3 P where
+  pair₀₁ := P.pairSupport₀₁.filter fun p => p.1.1 ∈ c₀' ∧ p.1.2 ∈ c₁'
+  pair₀₂ := P.pairSupport₀₂.filter fun p => p.1.1 ∈ c₀' ∧ p.1.2 ∈ c₂'
+  pair₁₂ := P.pairSupport₁₂.filter fun p => p.1.1 ∈ c₁' ∧ p.1.2 ∈ c₂'
+  pair₀₁_sub := Finset.filter_subset _ _
+  pair₀₂_sub := Finset.filter_subset _ _
+  pair₁₂_sub := Finset.filter_subset _ _
+
+/-- **Layer 6.** The subcell restriction's support is exactly the parent tuples landing in the
+sub-cells — the property the bundled `mem_support_iff` field used to have to assert. -/
+theorem Subpolyad3.mem_ofSubcells_support {S : PairSkeleton3 κ₂ V} {P : Polyad3 S}
+    {c₀' c₁' c₂' : Finset V} (h₀ : c₀' ⊆ P.c₀) (h₁ : c₁' ⊆ P.c₁) (h₂ : c₂' ⊆ P.c₂)
+    (x : {x : Fin 3 → V // Function.Injective x}) :
+    x ∈ (Subpolyad3.ofSubcells P c₀' c₁' c₂' h₀ h₁ h₂).support ↔
+      x ∈ P.support ∧ x.1 0 ∈ c₀' ∧ x.1 1 ∈ c₁' ∧ x.1 2 ∈ c₂' := by
+  simp only [Subpolyad3.support, Subpolyad3.ofSubcells]
+  rw [mem_subpolyadSupport]
+  constructor
+  · rintro ⟨hP, h01, h02, -⟩
+    rw [Finset.mem_filter] at h01 h02
+    exact ⟨hP, h01.2.1, h01.2.2, h02.2.2⟩
+  · rintro ⟨hP, hx0, hx1, hx2⟩
+    exact ⟨hP,
+      Finset.mem_filter.mpr ⟨coordPair_mem_pairSupport₀₁ hP, hx0, hx1⟩,
+      Finset.mem_filter.mpr ⟨coordPair_mem_pairSupport₀₂ hP, hx0, hx2⟩,
+      Finset.mem_filter.mpr ⟨coordPair_mem_pairSupport₁₂ hP, hx1, hx2⟩⟩
 
 /-- The underlying unordered triple of a role-ordered injective triple (a `3`-element finset). -/
 def underlyingTriple (x : {x : Fin 3 → V // Function.Injective x}) : {s : Finset V // s.card = 3} :=
