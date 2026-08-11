@@ -24,13 +24,13 @@ TauCeti/MeasureTheory/    (the compact-infimum and Helly-selection layer)
 
 ### An unbounded operator *is* a `LinearPMap`
 
-Mathlib's `LinearPMap` (`H →ₗ.[ℂ] H`) is the foundational object; there is no parallel
-`ClosedOperator` type. Closedness, dense domain, symmetry (`LinearPMap.IsFormalAdjoint`) and
-self-adjointness (`IsSelfAdjoint A`, i.e. `A.adjoint = A`) are **hypotheses on a raw partial
-map, not structure fields**. A theorem needing three properties carries three hypotheses; in
-exchange no consumer unwraps a bundle, and Mathlib's `LinearPMap` API applies directly. A
-derived convenience bundle may carry a `LinearPMap` and proofs, but not its own domain/action
-representation. Bounded operators enter through `T.toLinearMap.toPMap ⊤`.
+Mathlib's `LinearPMap` (`H →ₗ.[𝕜] H`) over `[RCLike 𝕜]` is the foundational carrier for the
+domain and resolvent layers. Closedness, dense domain, symmetry
+(`LinearPMap.IsFormalAdjoint`) and self-adjointness (`IsSelfAdjoint A`, i.e. `A.adjoint = A`)
+are hypotheses on a raw partial map. Parts C and D use `[RCLike 𝕜]` for domain relations, graph
+and transport constructions, relative boundedness, perturbations, the Sylvester vocabulary,
+resolvent sets, and elementary resolvent algebra. Parts A, B, and E use the scalar fields stated
+in their constructions. Bounded operators enter through `T.toLinearMap.toPMap ⊤`.
 
 ### Self-adjointness by von Neumann's criterion, with density derived
 
@@ -72,16 +72,18 @@ gap or a semibound should not have to reprove closed range.
 
 ### Statements live at their natural generality
 
-C⋆-algebra facts — the norm/spectrum interval characterization, the gap inverse — are stated
-for C⋆-algebras, not for Hilbert-space operators. Generic measure-theoretic lemmas such as
-compact infima and Helly selection are stated in `MeasureTheory` for their own hypotheses,
-with no operator theory in sight.
+The `LinearPMap` domain, transport, relative-bound, Sylvester, resolvent-set, and elementary
+resolvent algebra are stated over `[RCLike 𝕜]` according to their formulas. Parts A, B, and E
+carry the scalar fields used by their unitary-group, Borel-calculus, Cayley-transform, and
+spectral-measure constructions. C⋆-algebra facts — the norm/spectrum interval characterization
+and the gap inverse — are stated for C⋆-algebras. Generic measure-theoretic lemmas such as
+compact infima and Helly selection are stated in `MeasureTheory` for their own hypotheses.
 
 ## What Mathlib already has (consume)
 
 - **`LinearPMap`** with `domain`, `graph`, `adjoint`, `IsFormalAdjoint`, `IsSelfAdjoint`,
   `IsSelfAdjoint.dense_domain`, `IsSelfAdjoint.isClosed`, and closure/core material — the
-  canonical carrier of Parts C, D, E.
+  canonical carrier of Parts C and D and the partial-operator carrier used by Part E.
 - **`ContinuousLinearMap`** with operator norms, adjoints, `IsSelfAdjoint`, `unitary`, and
   the exponential `exp` with `hasDerivAt_exp_smul_const` — the bounded side of Parts A and B.
 - **The continuous functional calculus**: `cfcHom` / `cfc` of an `IsStarNormal` element, its

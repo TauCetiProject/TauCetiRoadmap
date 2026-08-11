@@ -289,6 +289,18 @@ end LinearMap
 
 namespace ContinuousLinearMap
 
+section RealContinuousFunctionalCalculus
+
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [CompleteSpace E]
+
+/-- The continuous functional calculus over `ℝ` for bounded self-adjoint operators on every
+complete real Hilbert space. -/
+instance instContinuousFunctionalCalculusRealIsSelfAdjoint :
+    ContinuousFunctionalCalculus ℝ (E →L[ℝ] E) IsSelfAdjoint := by
+  sorry
+
+end RealContinuousFunctionalCalculus
+
 section PartialIsometry
 
 variable {𝕜 : Type u} [RCLike 𝕜]
@@ -315,10 +327,9 @@ variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [Complet
 
 /-- **Scalar-generic polar factorization from a Gram square root.** If a
 self-adjoint bounded operator `A` squares to the Gram operator `T†T`, then `T`
-factors through `A` by a contraction whose adjoint is also contractive.  This
-is dimension-free and valid over every `RCLike` field; the complex continuous
-functional calculus is needed only to construct the canonical choice
-`A = modulus T`. -/
+factors through `A` by a contraction whose adjoint is also contractive. The result is
+dimension-free over every `RCLike` field. The bounded real and complex continuous functional
+calculi supply the canonical square-root choice `A = modulus T`. -/
 theorem exists_contraction_of_gram_eq {T : E →L[𝕜] F} {A : E →L[𝕜] E}
     (hA : IsSelfAdjoint A) (hgram : A ∘L A = T.adjoint ∘L T) :
     ∃ W : E →L[𝕜] F,
@@ -334,8 +345,8 @@ variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [Complet
 variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
 
 /-- **The canonical rectangular modulus** `|T| = (T†T)^(1/2)`, on a real or complex
-Hilbert space of arbitrary dimension.  The complex implementation may use `CFC.sqrt`; the
-public object is scalar-generic. -/
+Hilbert space of arbitrary dimension. The bounded real and complex continuous functional
+calculi supply the square-root construction. -/
 noncomputable def modulus (T : E →L[𝕜] F) : E →L[𝕜] E := by
   sorry
 

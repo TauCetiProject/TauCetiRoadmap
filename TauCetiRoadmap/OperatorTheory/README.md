@@ -9,8 +9,9 @@ scope and dependencies.
 
 - bounded operators between Hilbert spaces, over `ℝ` and `ℂ` uniformly where the
   mathematics permits;
-- the functional calculus of a self-adjoint operator in finite dimension, positive square
-  roots, the operator modulus, polar decomposition, and partial isometries;
+- the finite-dimensional self-adjoint functional calculus over `RCLike`, the continuous
+  functional calculus for bounded self-adjoint operators on complete real Hilbert spaces,
+  positive square roots, the operator modulus, polar decomposition, and partial isometries;
 - singular systems and Moore–Penrose inverses;
 - Gram operators, orthogonal projections, and the geometry of spectral subspaces;
 - majorization and unitarily invariant norms, square and rectangular;
@@ -26,10 +27,11 @@ scope and dependencies.
 
 ## The roadmaps
 
-- [**Polar decomposition**](PolarDecomposition/README.md) — the functional calculus of a
-  symmetric operator over `RCLike`, the positive square root and the operator modulus,
-  polar decomposition and partial isometries, singular systems and the Moore–Penrose
-  inverse.
+- [**Polar decomposition**](PolarDecomposition/README.md) — the finite self-adjoint
+  functional calculus over `RCLike`, the continuous functional calculus for bounded
+  self-adjoint operators on complete real Hilbert spaces, the positive square root and the
+  operator modulus, polar decomposition and partial isometries, singular systems and the
+  Moore–Penrose inverse.
 - [**Orthogonal geometry**](OrthogonalGeometry/README.md) — Gram rigidity, the coordinate
   isometry of an orthonormal family, projection geometry, orthogonal series, and reducing
   subspaces.

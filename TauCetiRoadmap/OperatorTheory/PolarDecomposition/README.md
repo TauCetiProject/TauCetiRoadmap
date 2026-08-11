@@ -18,27 +18,24 @@ singular *vectors*, and no Moore–Penrose inverse.
 Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar square-root
 estimates in `TauCeti/Analysis/SpecialFunctions/`.
 
-**Why "Hilbert-space" and not "finite-dimensional".** The organizing core is
-finite-dimensional: the functional calculus is a finite sum over an eigenbasis, and that
-is what makes it exist. But several constructions here need no finite-dimensional hypothesis at all: the rectangular
-operator modulus, the polar decomposition through a partial isometry, and the Gram-contraction
-factorization are all naturally statements over `RCLike`.  The current complex C⋆ functional
-calculus is one construction route for the modulus, not part of its public theorem statement.
-Later roadmaps consume the scalar-generic form. [`OperatorIdeals`](../OperatorIdeals/README.md)
-uses the Gram-contraction rung directly;
-[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) uses the
-bounded polar factorization in its interval/exterior estimates. Stating those results in
-finite dimension and generalizing later would mean proving them twice, so they are stated
-for complete spaces here.
+**Hilbert-space generality.** The eigenbasis functional calculus is finite-dimensional.
+The continuous functional calculus for bounded self-adjoint operators on complete real Hilbert
+spaces supplies the dimension-free real calculus. The rectangular operator modulus, the polar
+factorization through a partial isometry, and the Gram-contraction factorization are complete-space
+statements over `RCLike`. [`OperatorIdeals`](../OperatorIdeals/README.md) uses the
+Gram-contraction rung directly;
+[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) uses the bounded
+polar factorization in its interval/exterior estimates.
 
 ## Standing conventions
 
 - **Scalars are `𝕜 : RCLike`; finite dimension exactly where the eigenbasis is used.** The
-  functional calculus is a finite sum over `LinearMap.IsSymmetric.eigenvectorBasis`, so
-  `[FiniteDimensional 𝕜 E]` is what makes the definition exist. Supporting material that
-  needs neither the finite spectral theorem nor finite dimension — the partial-isometry API,
-  modulus, polar factorization and Gram-contraction factorization — is stated on complete
-  Hilbert spaces over `RCLike`.
+  finite functional calculus is a sum over `LinearMap.IsSymmetric.eigenvectorBasis` and carries
+  `[FiniteDimensional 𝕜 E]`. The partial-isometry API, modulus, polar factorization, and
+  Gram-contraction factorization are stated on complete Hilbert spaces over `RCLike`.
+- **The bounded real continuous functional calculus is dimension-free.** Every complete real
+  Hilbert space carries `ContinuousFunctionalCalculus ℝ (E →L[ℝ] E) IsSelfAdjoint`, giving
+  bounded self-adjoint operators the standard `cfcHom` and `cfc` interface over `ℝ`.
 - **One square root, defined once.** The positive square root *is* the functional calculus
   at `Real.sqrt`, by definition. There must not be two constructions of one object; the
   square-root-specific theory (uniqueness, kernel, range, the isometry-defect identity)
@@ -47,8 +44,8 @@ for complete spaces here.
   `T : E → F`, the modulus is the positive square root of `T†T` and therefore acts on `E`.
   `LinearMap.operatorAbs` states this over finite-dimensional `RCLike` spaces;
   `ContinuousLinearMap.modulus` states the dimension-free bounded-operator API over `RCLike`.
-  Over `ℂ`, the latter is implemented by `CFC.sqrt`; finite-dimensional bridge theorems show
-  the constructions agree wherever both apply.
+  The bounded real and complex continuous functional calculi supply complete-space square-root
+  constructions; finite-dimensional bridge theorems identify the carrier-level constructions.
 - **One equation, with carrier-appropriate predicates.** In a star monoid,
   `IsPartialIsometry u` means `u * star u * u = u`; this covers endomorphisms and abstract
   C⋆-algebra elements. A rectangular map `u : E → F` is not an element of one monoid, so
@@ -90,6 +87,8 @@ for complete spaces here.
 
 * The finite self-adjoint functional calculus over `RCLike`, together with comparison to the
   complex continuous-functional-calculus implementation where both apply.
+* The continuous functional calculus for bounded self-adjoint operators on complete real Hilbert
+  spaces, presented through Mathlib's `ContinuousFunctionalCalculus` interface.
 * The positive square root and its uniqueness; the rectangular modulus over `RCLike` in both
   finite and complete settings, with comparison to the complex CFC implementation.
 * Partial isometries for maps between *different* spaces, and their geometric
@@ -107,18 +106,23 @@ for complete spaces here.
 
 ### Part A — the functional calculus, the positive square root, and the modulus
 
-**Objects.** The finite self-adjoint functional calculus
-`selfAdjointFunctionalCalculus hT f = ∑ᵢ f(λᵢ) • rankOne eᵢ eᵢ` for a symmetric
-endomorphism over `RCLike`; the positive square root `sqrt hT`, defined as the calculus at
-`Real.sqrt`; the finite rectangular modulus `LinearMap.operatorAbs A = sqrt (A† ∘ₗ A)`; the
-dimension-free rectangular modulus `ContinuousLinearMap.modulus T = sqrt (T† ∘L T)`; and the supporting
-algebra — the expansion of `⟪∑ aᵢ • vᵢ, ∑ bⱼ • vⱼ⟫` over pairwise inner products, spans of
-orthonormal subfamilies, the eigenvector cross-term identity
+**Objects.** The instance
+`ContinuousFunctionalCalculus ℝ (E →L[ℝ] E) IsSelfAdjoint` for every complete real Hilbert
+space; the finite self-adjoint functional calculus
+`selfAdjointFunctionalCalculus hT f = ∑ᵢ f(λᵢ) • rankOne eᵢ eᵢ` for a symmetric endomorphism
+over `RCLike`; the positive square root `sqrt hT`, defined as the calculus at `Real.sqrt`; the
+finite rectangular modulus `LinearMap.operatorAbs A = sqrt (A† ∘ₗ A)`; the dimension-free
+rectangular modulus `ContinuousLinearMap.modulus T = sqrt (T† ∘L T)`; and the supporting algebra —
+the expansion of `⟪∑ aᵢ • vᵢ, ∑ bⱼ • vⱼ⟫` over pairwise inner products, spans of orthonormal
+subfamilies, the eigenvector cross-term identity
 `⟪eᵢ, (S−T) fⱼ⟫ = (μⱼ − λᵢ) ⟪eᵢ, fⱼ⟫`, and two scalar square-root estimates near `1`.
 
 **API to develop.**
 
-- The calculus: diagonal action on the eigenbasis; symmetry of the result; `id` recovers
+- The bounded real continuous calculus: Mathlib's `cfcHom` / `cfc` interface for
+  `IsSelfAdjoint` operators on complete real Hilbert spaces, including continuity, injectivity,
+  the identity symbol, spectral mapping, and closure of the calculus in `IsSelfAdjoint`.
+- The finite calculus: diagonal action on the eigenbasis; symmetry of the result; `id` recovers
   `T`; functions agreeing on the eigenvalues give equal operators; composition is pointwise
   multiplication; the *eigenvector-stable* form — `T x = λ • x` implies
   `calculus f x = f λ • x`, which is what makes the calculus well behaved on repeated
@@ -135,6 +139,10 @@ orthonormal subfamilies, the eigenvector cross-term identity
   characterization as the unique positive symmetric square root of the Gram operator.
 - Courant–Fischer and Weyl: the quadratic form in the eigenbasis, the min–max equality,
   eigenvalue monotonicity, the perturbation bound.
+
+**Milestone — continuous functional calculus on real Hilbert spaces.** Every complete real
+Hilbert space carries `ContinuousFunctionalCalculus ℝ (E →L[ℝ] E) IsSelfAdjoint`, exposing the
+standard continuous-functional-calculus API for bounded self-adjoint operators over `ℝ`.
 
 ### Naming the modulus
 
@@ -305,10 +313,11 @@ the predicate, the construction, and the theorem that they determine each other.
 
 ### Part A — the functional calculus, the positive square root, and the modulus
 
-**Acceptance examples.** `calculus id = T`; the calculus of a constant is that multiple of
-the identity; on a concrete diagonal operator the square root and modulus take their
-expected diagonal values; the Weyl bound is sharp for a rank-one perturbation of the
-identity.
+**Acceptance examples.** The standard `cfc` interface is available for a bounded
+self-adjoint operator on an infinite-dimensional real Hilbert space; `calculus id = T`; the
+finite calculus of a constant is that multiple of the identity; on a concrete diagonal operator
+the square root and modulus take their expected diagonal values; the Weyl bound is sharp for a
+rank-one perturbation of the identity.
 
 ### Part B — polar decomposition and partial isometries
 
