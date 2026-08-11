@@ -87,108 +87,264 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
 
 ## The build, in layers
 
+The labels in Parts A and B form the complete mathematical obligation set for this roadmap.
+Each label names one obligation. Milestones and acceptance examples cite these labels, and
+`Suggested.lean` cites the labels represented by its sample declarations.
+
 ### Part A — majorization, Schur–Horn, and unitarily invariant norms
 
-**Objects.** `prefixSum` and `WeaklyMajorized` on `Fin n → ℝ`; the elementary `transfer`
-(Robin Hood move) and `IsTTransform`; `IsSymmetricConvex` sets and `FiniteSymmetricGauge`
-(subadditive, absolutely homogeneous, permutation- and sign-flip-invariant functions). Then,
-on operators: the Schur weight matrix `schurWeight`; the Ky Fan sums
-`kyFanSum k A = ∑_{i<k} σᵢ(A)`; the diagonal operator `diagOp b x` of a real tuple in an
-orthonormal basis; and the three-law structure `UnitarilyInvariantSeminorm 𝕜 E`.
+#### Convex majorization objects
 
-**API to develop.**
+- **MAJ-A01 — Prefix sums.** For `x : Fin n → ℝ` and `k ≤ n`, define the prefix sum
+  `Pₖ(x) = ∑_{i<k} xᵢ`.
+- **MAJ-A02 — Weak majorization.** For antitone nonnegative tuples `x,y : Fin n → ℝ`,
+  define `x ≺w y` by `Pₖ(x) ≤ Pₖ(y)` for every prefix length `k`.
+- **MAJ-A03 — Robin Hood transfer.** Define the elementary transfer that moves a
+  nonnegative amount from a larger coordinate to a smaller coordinate while preserving the
+  total sum.
+- **MAJ-A04 — T-transform relation.** Define the relation recording that one tuple is
+  obtained from another by one Robin Hood transfer, together with a coordinate permutation.
+- **MAJ-A05 — Symmetric-convex sets.** Define a class of subsets of `Fin n → ℝ` that are
+  convex, invariant under coordinate permutations, and invariant under changing the sign of
+  one coordinate.
+- **MAJ-A06 — Finite symmetric gauges.** Define real-valued gauges on `Fin n → ℝ` that are
+  subadditive, absolutely homogeneous, permutation-invariant, and invariant under coordinate
+  sign changes.
 
-- Prefix-sum algebra; `WeaklyMajorized` reflexive, transitive, additive, closed under
-  nonnegative scaling and zero-padding; the transfer lemma (a single T-transform makes
-  progress) and the **transfer descent** into any symmetric-convex set; every gauge sublevel
-  set is symmetric-convex, giving gauge monotonicity under weak majorization.
-- `schurWeight` nonnegative with row and column sums one; the diagonal of a symmetric
-  operator as the doubly stochastic image of its spectrum.
-- The Ky Fan trace inequality (family form) and the **Ky Fan variational principle** — upper
-  bound and achievability at the singular pairs — hence `σ(A+B) ≺w σ(A)+σ(B)`, the triangle
-  inequality for all Ky Fan norms simultaneously; unitary and adjoint invariance;
-  nonnegative-real scaling; the bounded-factor domination `σᵢ(C∘A) ≤ c·σᵢ(A)`.
-- `diagOp` algebra (additive, symmetric, its singular values); the SVD factorization of an
-  operator through a diagonal one; the **gauge representation** `N A = gauge(σ(A))`, so a
-  unitarily invariant seminorm is determined by the singular-value sequence; derived `nonneg`,
-  `apply_zero`, `apply_adjoint`, and the ideal property `N (C ∘ₗ X) ≤ c · N X`; the
-  Frobenius norm as the first instance.
-- The rectangular orbit and singular-value arguments consume Gram/isometry rigidity from
-  [`OrthogonalGeometry`](../OrthogonalGeometry/README.md). Gram perturbation identities and
-  squared-singular-value perturbation belong to
-  [`PrincipalAngles`](../PrincipalAngles/README.md), where they feed the statistical
-  singular-subspace theory; they are not part of the majorization engine.
+#### Weak-majorization calculus
 
-**Milestone — the transfer descent.** A symmetric-convex set containing `y` contains every
-antitone nonnegative `z` whose prefix sums it dominates. This is the engine, and it must
-land in `Analysis/Convex` with no operator imports.
+- **MAJ-A07 — Prefix sums of sums.** For tuples `x,y`, `Pₖ(x+y) = Pₖ(x) + Pₖ(y)`.
+- **MAJ-A08 — Prefix sums under nonnegative scaling.** For `c ≥ 0`,
+  `Pₖ(cx) = c Pₖ(x)`.
+- **MAJ-A09 — Reflexivity.** Every antitone nonnegative tuple weakly majorizes itself.
+- **MAJ-A10 — Transitivity.** If `x ≺w y` and `y ≺w z`, then `x ≺w z`.
+- **MAJ-A11 — Additivity.** If `x₁ ≺w y₁` and `x₂ ≺w y₂`, then
+  `x₁+x₂ ≺w y₁+y₂` whenever the displayed tuples satisfy the standing antitone and
+  nonnegativity conditions.
+- **MAJ-A12 — Nonnegative scaling.** If `x ≺w y` and `c ≥ 0`, then `cx ≺w cy`.
+- **MAJ-A13 — Zero padding.** Appending zero coordinates to two weakly-majorized tuples
+  preserves weak majorization.
+- **MAJ-A14 — Progress by one transfer.** If an antitone nonnegative tuple has a prefix sum
+  strictly above a target prefix while the preceding prefixes satisfy the target bounds, one
+  Robin Hood transfer decreases the excess and preserves the required preceding bounds.
+- **MAJ-A15 — Transfer descent.** A symmetric-convex set containing an antitone nonnegative
+  tuple `y` contains every antitone nonnegative tuple `z` satisfying `z ≺w y`.
+- **MAJ-A16 — Gauge sublevel symmetry and convexity.** Every sublevel set of a finite
+  symmetric gauge is symmetric-convex.
+- **MAJ-A17 — Gauge monotonicity.** If `x ≺w y`, then every finite symmetric gauge satisfies
+  `g(x) ≤ g(y)`.
 
-**Milestone — forward Schur–Horn, in Karamata form**, for a symmetric operator, an
-arbitrary orthonormal basis, and any convex `φ` on a set containing the spectrum.
+#### Schur–Horn
 
-**Milestone — Fan dominance.** Ky Fan domination implies domination in every unitarily
-invariant norm.
+- **MAJ-A18 — Schur weight.** For a symmetric endomorphism with orthonormal eigenbasis
+  `(vᵢ)` and an arbitrary orthonormal basis `(eₖ)`, define
+  `wᵢₖ = |⟪vᵢ,eₖ⟫|²`.
+- **MAJ-A19 — Nonnegativity of Schur weights.** Every coefficient `wᵢₖ` is nonnegative.
+- **MAJ-A20 — Row sums of Schur weights.** For every `i`, `∑ₖ wᵢₖ = 1`.
+- **MAJ-A21 — Column sums of Schur weights.** For every `k`, `∑ᵢ wᵢₖ = 1`.
+- **MAJ-A22 — Diagonal as a doubly stochastic image.** If `(λᵢ)` is the eigenvalue tuple
+  and `dₖ = Re⟪Teₖ,eₖ⟫`, then `dₖ = ∑ᵢ wᵢₖ λᵢ`.
+- **MAJ-A23 — Forward Schur–Horn.** For every convex function `φ` on a set containing the
+  spectrum and the diagonal entries, `∑ₖ φ(dₖ) ≤ ∑ᵢ φ(λᵢ)`.
+- **MAJ-A24 — Basis independence of the trace.** For every orthonormal basis `(eₖ)`,
+  `∑ₖ Re⟪Teₖ,eₖ⟫ = ∑ᵢ λᵢ`.
+- **MAJ-A25 — Euclidean contraction of the diagonal.** For every orthonormal basis,
+  `∑ₖ (Re⟪Teₖ,eₖ⟫)² ≤ ∑ᵢ λᵢ²`.
+
+#### Ky Fan sums
+
+- **MAJ-A26 — Ky Fan sums.** For a finite-dimensional endomorphism `A`, define
+  `Kₖ(A) = ∑_{i<k} σᵢ(A)` from its decreasing zero-padded singular-value sequence.
+- **MAJ-A27 — Ky Fan trace inequality.** If `S` is symmetric and `(wᵢ)_{i<k}` is an
+  orthonormal family, then `∑_{i<k} Re⟪Swᵢ,wᵢ⟫` is at most the sum of the `k` largest
+  eigenvalues of `S`.
+- **MAJ-A28 — Ky Fan variational upper bound.** For orthonormal families `(uᵢ)_{i<k}` and
+  `(vᵢ)_{i<k}`, `Re(∑_{i<k} ⟪uᵢ,Avᵢ⟫) ≤ Kₖ(A)`.
+- **MAJ-A29 — Ky Fan variational achievability.** The first `k` singular pairs attain the
+  upper bound in `MAJ-A28`.
+- **MAJ-A30 — Singular-value triangle majorization.** The singular-value tuple of `A+B` is
+  weakly majorized by the coordinatewise sum of the singular-value tuples of `A` and `B`.
+- **MAJ-A31 — Ky Fan triangle inequality.** For every `k`,
+  `Kₖ(A+B) ≤ Kₖ(A)+Kₖ(B)`.
+- **MAJ-A32 — Unitary invariance of Ky Fan sums.** Two-sided unitary multiplication leaves
+  every `Kₖ(A)` unchanged.
+- **MAJ-A33 — Adjoint invariance of Ky Fan sums.** For every `k`, `Kₖ(A†)=Kₖ(A)`.
+- **MAJ-A34 — Nonnegative-real scaling of Ky Fan sums.** For `c ≥ 0`,
+  `Kₖ(cA)=cKₖ(A)`.
+- **MAJ-A35 — Bounded-factor singular-value domination.** If `C` has operator norm at most
+  `c`, then `σᵢ(CA) ≤ c σᵢ(A)` for every `i`.
+
+#### Diagonal models and square unitarily invariant seminorms
+
+- **MAJ-A36 — Diagonal operator.** For a real tuple `b` and an orthonormal basis `(eᵢ)`,
+  define the endomorphism with `eᵢ` as eigenvectors and diagonal entries `bᵢ`.
+- **MAJ-A37 — Additivity of diagonal operators.** `diag(b+c) = diag(b)+diag(c)`.
+- **MAJ-A38 — Symmetry of real diagonal operators.** For real `b`, `diag(b)` is symmetric.
+- **MAJ-A39 — Singular values of a diagonal operator.** The singular-value sequence of
+  `diag(b)` is the decreasing zero-padded rearrangement of `(|bᵢ|)`.
+- **MAJ-A40 — Singular-value diagonal factorization.** Every finite-dimensional endomorphism
+  admits a two-sided unitary factorization through a diagonal operator whose entries are its
+  singular values.
+- **MAJ-A41 — Square unitarily invariant seminorm.** Define a seminorm on square operators
+  by subadditivity, absolute homogeneity, and invariance under independent unitary
+  multiplication on the left and right.
+- **MAJ-A42 — Gauge representation.** Every square unitarily invariant seminorm is the
+  symmetric gauge of the singular-value sequence of its argument.
+- **MAJ-A43 — Determination by singular values.** If two square operators have the same
+  singular-value sequence, every square unitarily invariant seminorm takes the same value on
+  them.
+- **MAJ-A44 — Nonnegativity.** Every square unitarily invariant seminorm takes nonnegative
+  values.
+- **MAJ-A45 — Value at zero.** Every square unitarily invariant seminorm vanishes at the
+  zero operator.
+- **MAJ-A46 — Adjoint invariance.** Every square unitarily invariant seminorm satisfies
+  `N(A†)=N(A)`.
+- **MAJ-A47 — Ideal inequality.** If `‖C‖ ≤ c`, then every square unitarily invariant
+  seminorm satisfies `N(CA) ≤ c N(A)`.
+- **MAJ-A48 — Fan dominance.** If `Kₖ(A) ≤ Kₖ(B)` for every `k`, then every square
+  unitarily invariant seminorm satisfies `N(A) ≤ N(B)`.
+- **MAJ-A49 — Square Frobenius instance.** The Frobenius functional on square operators is a
+  unitarily invariant seminorm in the sense of `MAJ-A41`.
+
+**Milestone — transfer descent.** `MAJ-A01`–`MAJ-A17`.
+
+**Milestone — forward Schur–Horn.** `MAJ-A18`–`MAJ-A25`.
+
+**Milestone — Ky Fan variational theory.** `MAJ-A26`–`MAJ-A35`.
+
+**Milestone — Fan dominance.** `MAJ-A36`–`MAJ-A49`.
 
 ### Part B — rectangular unitarily invariant norms
 
-This Part exists for one composite theorem: Ky Fan domination implies membership in the
-convex hull of the two-sided unitary orbit, which implies domination in *every* rectangular
-unitarily invariant norm. The Davis–Kahan estimates of
-[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) are proved once, as Ky Fan
-dominations, and this Part turns each such proof into a statement about the operator norm,
-the Frobenius norm, every Ky Fan norm, and the nuclear norm.
+#### Rectangular seminorms and transport
 
-**Objects.** The three-law structure `RectangularUnitarilyInvariantSeminorm 𝕜 E F`; the
-rectangular Ky Fan sums; the **two-sided unitary orbit** and finite orbit certificates (a
-finite combination `X = ∑ aᵢ • Uᵢ ∘ C ∘ Vᵢ` with coefficient mass tracked); the orthogonal
-**block sum** on Hilbert `L²` products; the planar sharpness models of two-dimensional
-singular-value theory.
+- **MAJ-B01 — Rectangular unitarily invariant seminorm.** Define a seminorm on maps
+  `A : E → F` by subadditivity, absolute homogeneity, and invariance under independent
+  unitary multiplication on `F` and `E`.
+- **MAJ-B02 — Rectangular Ky Fan sums.** For `A : E → F`, define
+  `Kₖ(A)=∑_{i<k} σᵢ(A)`.
+- **MAJ-B03 — Two-sided unitary orbit.** For `C : E → F`, define the set of operators
+  `UCV` as `U` and `V` range over the unitary groups of `F` and `E`.
+- **MAJ-B04 — Finite orbit certificate.** Record a finite representation
+  `X = ∑ᵢ aᵢ Uᵢ C Vᵢ` together with its coefficient mass `∑ᵢ |aᵢ|`.
+- **MAJ-B05 — Nonnegativity.** Every rectangular unitarily invariant seminorm takes
+  nonnegative values.
+- **MAJ-B06 — Value at zero.** Every rectangular unitarily invariant seminorm vanishes at
+  the zero operator.
+- **MAJ-B07 — Finite-sum triangle inequality.** For a finite family `(Aᵢ)`,
+  `N(∑ᵢ Aᵢ) ≤ ∑ᵢ N(Aᵢ)`.
+- **MAJ-B08 — Domain-isometry transport.** Transporting the domain through a linear
+  isometric equivalence preserves every rectangular unitarily invariant seminorm.
+- **MAJ-B09 — Codomain-isometry transport.** Transporting the codomain through a linear
+  isometric equivalence preserves every rectangular unitarily invariant seminorm.
+- **MAJ-B10 — Zero-extension singular values.** Extending a rectangular operator by zero
+  to the canonical square `L²` product preserves its complete singular-value sequence.
+- **MAJ-B11 — Adjoint transport.** Passing to the adjoint preserves the singular-value
+  sequence and transports rectangular unitarily invariant seminorms between the reversed
+  domain and codomain.
+- **MAJ-B12 — Restriction to square operators.** A rectangular unitarily invariant seminorm
+  with equal domain and codomain restricts to a square unitarily invariant seminorm.
+- **MAJ-B13 — Square seminorm viewed through the rectangular interface.** Every square
+  unitarily invariant seminorm on `E → E` defines a rectangular unitarily invariant
+  seminorm on the same carrier, with identical values.
 
-**API to develop.**
+#### Orbit-hull machinery
 
-- Derived seminorm facts (`nonneg`, `apply_zero`, finite `sum_le`); transport along
-  isometries of domain and codomain; zero extension and adjoint transport; the bridges to
-  and from Part A's square structure.
-- Orbit machinery: certificates from finite convex combinations, reindexing, the certificate
-  norm bound `N X ≤ mass · N C`; the rectangular SVD factorization through a coordinate
-  diagonal, so that equal singular values give a two-sided unitary factorization and a
-  rectangular norm is determined by the singular-value sequence.
-- Block sums: componentwise action, adjoint, composition; doubling a map interleaves its
-  singular values; Ky Fan sums and orbit-hull membership for block sums. This is how the
-  two directed sine blocks are assembled *without* a triangle inequality, which is what
-  preserves the sharp constants in [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
-- The concrete instances — operator, Frobenius, Ky Fan `k`, nuclear — with their identities
-  `frobenius A = √(∑ σᵢ²)`, `nuclear A = ∑ σᵢ`, `nuclear ≤ √(finrank) · frobenius`.
-- The rectangular `frobenius` is the canonical public owner of the Frobenius seminorm for
-  the whole family. The square Frobenius seminorm, the Schatten `S₂` norm and the
-  finite-dimensional Hilbert–Schmidt energy are identified with it, the last two in
-  [`OperatorIdeals`](../OperatorIdeals/README.md).
-- Two-dimensional sharpness models: the singular values of `2 × 2` diagonal, off-diagonal
-  and triangular models, and the trace/determinant characterization — the witnesses for the
-  sharpness claims of [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
+- **MAJ-B14 — Certificates from convex combinations.** Every finite convex combination of
+  the two-sided unitary orbit of `C` yields an orbit certificate of coefficient mass one.
+- **MAJ-B15 — Reindexing certificates.** Finite orbit certificates are preserved under
+  finite reindexing of their summands.
+- **MAJ-B16 — Certificate norm bound.** If `X` has an orbit certificate over `C` of mass
+  `m`, then every rectangular unitarily invariant seminorm satisfies `N(X) ≤ mN(C)`.
+- **MAJ-B17 — Rectangular singular-value factorization.** Every finite-dimensional
+  rectangular operator admits a factorization through a coordinate diagonal whose entries
+  are its singular values, with linear isometric equivalences on the domain and codomain.
+- **MAJ-B18 — Two-sided factorization from equal singular values.** If two maps
+  `A,B : E → F` have the same singular-value sequence, then there are unitary equivalences
+  `U : F ≃ F` and `V : E ≃ E` such that `A = UBV`.
+- **MAJ-B19 — Determination by singular values.** Every rectangular unitarily invariant
+  seminorm is determined by the singular-value sequence.
+- **MAJ-B20 — Orbit-hull characterization of Ky Fan domination.** If
+  `Kₖ(A) ≤ Kₖ(C)` for every `k`, then `A` belongs to the convex hull of the two-sided unitary
+  orbit of `C`.
+- **MAJ-B21 — Rectangular Fan dominance.** If `Kₖ(A) ≤ Kₖ(C)` for every `k`, then every
+  rectangular unitarily invariant seminorm satisfies `N(A) ≤ N(C)`.
 
-**Milestone — orbit-hull majorization and rectangular Fan dominance**, the pair whose
-composite is quoted throughout [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) and
-[`OperatorIdeals`](../OperatorIdeals/README.md). The majorization half pulls back along a diagonal
-lift to a symmetric-convex set of coordinate vectors — coordinate swaps and single sign
-changes *are* two-sided unitary actions — so Part A's transfer descent applies directly;
-what remains here is the operator-theoretic half: the lift, the extension of coordinate
-unitaries, and the SVD transport.
+#### Orthogonal block sums
+
+- **MAJ-B22 — Orthogonal block sum.** For `A : E₁ → F₁` and `B : E₂ → F₂`, define the
+  block-diagonal operator `A ⊕ B` on the Hilbert `L²` products.
+- **MAJ-B23 — Componentwise action.** `(A ⊕ B)(x,y) = (Ax,By)`.
+- **MAJ-B24 — Adjoint of a block sum.** `(A ⊕ B)† = A† ⊕ B†`.
+- **MAJ-B25 — Composition of block sums.** Whenever the compositions are typed,
+  `(A₁ ⊕ B₁)(A₂ ⊕ B₂) = A₁A₂ ⊕ B₁B₂`.
+- **MAJ-B26 — Singular values of a doubled block.** The singular values of `A ⊕ A` are the
+  singular values of `A`, each repeated twice in decreasing order.
+- **MAJ-B27 — Ky Fan sums of a doubled block.** For every `k`,
+  `K_{2k}(A ⊕ A) = 2Kₖ(A)`.
+- **MAJ-B28 — Block-sum orbit-hull stability.** If `A` lies in the two-sided unitary orbit
+  hull of `C` and `B` lies in the two-sided unitary orbit hull of `D`, then `A ⊕ B` lies in
+  the two-sided unitary orbit hull of `C ⊕ D`.
+- **MAJ-B29 — Sharp block-sum norm comparison.** If `Kₖ(A) ≤ Kₖ(C)` and
+  `Kₖ(B) ≤ Kₖ(D)` for every `k`, then every rectangular unitarily invariant seminorm
+  satisfies `N(A ⊕ B) ≤ N(C ⊕ D)`.
+
+#### Concrete rectangular seminorms
+
+- **MAJ-B30 — Operator-norm instance.** The operator norm defines a rectangular unitarily
+  invariant seminorm.
+- **MAJ-B31 — Frobenius instance.** The Frobenius functional defines a rectangular
+  unitarily invariant seminorm.
+- **MAJ-B32 — Ky Fan instances.** For every `k`, the Ky Fan `k`-sum defines a rectangular
+  unitarily invariant seminorm.
+- **MAJ-B33 — Nuclear-norm instance.** The sum of all singular values defines a rectangular
+  unitarily invariant seminorm.
+- **MAJ-B34 — Frobenius basis formula.** For every orthonormal basis `(bᵢ)` of the domain,
+  `F(A) = √(∑ᵢ ‖Abᵢ‖²)`.
+- **MAJ-B35 — Basis independence of Frobenius.** The value in `MAJ-B34` is independent of
+  the chosen orthonormal basis.
+- **MAJ-B36 — Frobenius singular-value formula.** `F(A) = √(∑ᵢ σᵢ(A)²)`.
+- **MAJ-B37 — Nuclear singular-value formula.** `N₁(A) = ∑ᵢ σᵢ(A)`.
+- **MAJ-B38 — Nuclear-to-Frobenius bound.** For `A : E → F`,
+  `N₁(A) ≤ √(dim E) F(A)`.
+- **MAJ-B39 — Square Frobenius bridge.** Restricting the rectangular Frobenius seminorm to
+  square operators gives the square Frobenius seminorm of Part A.
+
+#### Two-dimensional sharpness models
+
+- **MAJ-B40 — Diagonal planar model.** If `s₀ ≥ s₁ ≥ 0`, the singular-value sequence of
+  the planar diagonal operator `diag(s₀,s₁)` is `(s₀,s₁,0,0,…)`.
+- **MAJ-B41 — Symmetric off-diagonal planar model.** The singular-value sequence of
+  `[[0,r],[r,0]]` is `(|r|,|r|,0,0,…)`.
+- **MAJ-B42 — One-sided triangular planar model.** The singular-value sequence of
+  `[[0,0],[r,0]]` is `(|r|,0,0,…)`.
+- **MAJ-B43 — Trace-determinant recovery in dimension two.** For `A : 𝕜² → F`, the two
+  squared singular values have sum `tr(A†A)` and product `det(A†A)`; a nonnegative ordered
+  pair is determined by these two values.
+
+**Milestone — rectangular orbit-hull majorization.** `MAJ-B14`–`MAJ-B20`.
+
+**Milestone — rectangular Fan dominance.** `MAJ-B21`.
+
+**Milestone — orthogonal block sums.** `MAJ-B22`–`MAJ-B29`.
+
+**Milestone — concrete rectangular seminorms.** `MAJ-B30`–`MAJ-B39`.
+
+**Milestone — planar sharpness models.** `MAJ-B40`–`MAJ-B43`.
 
 ## Worked examples (acceptance criteria)
 
 ### Part A — majorization, Schur–Horn, and unitarily invariant norms
 
-**Acceptance examples.** Basis independence of the trace (the equality case of Schur
-majorization, no convexity needed); the `φ = (·)²` instance, that the diagonal is
-Euclidean-shorter than the spectrum; the Frobenius norm satisfies the three laws and
-`frobenius A = √(∑ σᵢ(A)²)` in every orthonormal basis.
+**Acceptance examples.** Trace basis independence is `MAJ-A24`; the quadratic Schur–Horn
+instance is `MAJ-A25`; the square Frobenius instance is `MAJ-A49`, with its singular-value
+formula supplied by `MAJ-B36`.
 
 ### Part B — rectangular unitarily invariant norms
 
-**Acceptance examples.** The four instances satisfy the three laws with everything else
-derived; `σ(zeroExtension A) = σ(A)`; a square norm read through the rectangular bridge
-agrees with itself on square operators.
+**Acceptance examples.** The four concrete seminorms are `MAJ-B30`–`MAJ-B33`; zero-extension
+transport is `MAJ-B10`; the square/rectangular bridges are `MAJ-B12`, `MAJ-B13`, and
+`MAJ-B39`.
 
 ## Ordering
 
@@ -207,7 +363,7 @@ the Frobenius seminorm owned here.
 
 ## Definitions
 
-**D1** `frobenius A = √(∑ᵢ ‖A bᵢ‖²)` over an orthonormal basis of the domain — the
+**D1 (`MAJ-B34`–`MAJ-B35`).** `F(A) = √(∑ᵢ ‖A bᵢ‖²)` over an orthonormal basis `(bᵢ)` of the domain — the
 rectangular Frobenius seminorm, independent of the basis.
 
 ## References

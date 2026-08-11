@@ -32,40 +32,86 @@ lemma in `TauCeti/Analysis/Normed/Operator/`.
 
 ## The build, in layers
 
-**Objects.** The isometric first isomorphism theorem `rangeEquivOfInnerEq` — two maps out
-of a common module with equal pullback inner products have canonically isometric ranges —
-and the Gram-rigidity theorems it yields; the coordinate isometry `familyIsometry` of an
-orthonormal family; projections onto spans of orthonormal families; invariant and reducing
-subspaces; the orthogonal-series constructor for pairwise orthogonal, not necessarily unit,
-vectors.
+The labels `OG-01`–`OG-22` form the complete mathematical obligation set for this roadmap.
+Each label names one obligation. Milestones and acceptance criteria cite these labels, and
+`Suggested.lean` cites the labels represented by its sample declarations.
 
-**API to develop.**
+### Gram rigidity
 
-- Gram rigidity: equal pullback inner products give equal kernels and the range isometry;
-  for families, equal pairwise inner products give a span-to-span isometry sending
-  `φ i ↦ ψ i`, extended in finite dimension to a `LinearIsometryEquiv` of the ambient
-  space, which is the carrier consumers are stated against; the `Matrix.gram`
-  characterization as an iff.
-- Projection geometry: projections onto spans of orthonormal families, and the coordinate
-  isometry `eⱼ ↦ vⱼ` of an orthonormal family that
-  [`Majorization`](../Majorization/README.md) and
-  [`PrincipalAngles`](../PrincipalAngles/README.md) both state their constructions against.
-- Invariance: invariant and reducing kept as distinct named notions — they coincide for
-  symmetric operators, and that coincidence is a theorem; restriction of a symmetric
-  operator to an invariant subspace.
-- Supporting identities the layer above is stated from: the inner product of two linear
-  combinations of a family, and the isometry between two subspaces that are equal.
-- Orthogonal series: a pairwise-orthogonal family of vectors spans an orthogonal family of
-  lines — the constructor Mathlib's unit-vector hypothesis blocks; Pythagoras for finite
-  sums; summability iff square-norm summability; Parseval for a family with a specified
-  sum. The families this produces are `σᵢ • uᵢ`, orthogonal but not normalizable when some
-  `σᵢ` vanish, which is why the unit-vector constructor does not suffice.
+- **OG-01 — Equality of kernels from equal pullback inner products.** If linear maps `S` and
+  `T` out of a common module satisfy `⟪Sx, Sy⟫ = ⟪Tx, Ty⟫` for all `x,y`, then
+  `ker S = ker T`.
+- **OG-02 — Isometry of ranges.** Under the hypotheses of `OG-01`, the rule `Sx ↦ Tx`
+  induces a linear isometric equivalence between `range S` and `range T`.
+- **OG-03 — Action of the range isometry.** The equivalence in `OG-02` sends the class of
+  `Sx` to `Tx` for every `x`.
+- **OG-04 — Inner product of linear combinations.** For finite coefficient families
+  `(aᵢ)` and `(bⱼ)` on vector families `(φᵢ)` and `(ψⱼ)`, the inner product
+  `⟪∑ᵢ aᵢφᵢ, ∑ⱼ bⱼψⱼ⟫` is the corresponding double sum of coefficient products and
+  pairwise inner products.
+- **OG-05 — Gram rigidity on spans.** Two finite families with equal pairwise inner products
+  admit a linear isometric equivalence between their spans.
+- **OG-06 — Action of the span equivalence.** The equivalence in `OG-05` sends each vector
+  of the first family to the corresponding vector of the second family.
+- **OG-07 — Ambient Gram rigidity.** In finite dimension, the span equivalence of `OG-05`
+  extends to a linear isometric equivalence of the ambient Hilbert space carrying each
+  vector of the first family to the corresponding vector of the second family.
+- **OG-08 — Gram-matrix characterization.** For finite families in a finite-dimensional
+  Hilbert space, equality of Gram matrices is equivalent to the existence of an ambient
+  linear isometric equivalence carrying one family to the other.
+
+### Coordinate isometries and projection geometry
+
+- **OG-09 — Coordinate isometry of an orthonormal family.** For an orthonormal family
+  `(vⱼ)_{j<d}`, the linear combination map from `𝕜^d` to the ambient Hilbert space is a
+  linear isometry.
+- **OG-10 — Coordinate formula.** The coordinate isometry of `OG-09` sends a coordinate
+  vector `x` to `∑ⱼ xⱼ vⱼ`.
+- **OG-11 — Standard-basis action.** The coordinate isometry of `OG-09` sends the standard
+  basis vector `eⱼ` to `vⱼ`.
+- **OG-12 — Projection onto an orthonormal span.** The span of a finite orthonormal family
+  admits its orthogonal projection in the ambient Hilbert space.
+- **OG-13 — Isometry between equal subspaces.** An equality `U = V` of inner-product
+  subspaces induces the canonical linear isometric equivalence `U ≃ V`.
+
+### Invariant and reducing subspaces
+
+- **OG-14 — Invariant subspace.** For an endomorphism `A`, define invariance of a subspace
+  `U` by the condition `A(U) ⊆ U`.
+- **OG-15 — Reducing subspace.** For an endomorphism `A`, define reduction by requiring
+  both `U` and `U⊥` to be invariant under `A`.
+- **OG-16 — Invariance and reduction for symmetric operators.** For a symmetric
+  endomorphism, a subspace is invariant exactly when it is reducing.
+- **OG-17 — Symmetry of the restriction.** The restriction of a symmetric endomorphism to
+  an invariant subspace is symmetric on that subspace.
+- **OG-18 — Completeness of projected subspaces.** In a complete Hilbert space, every
+  subspace admitting an orthogonal projection is complete in its induced norm.
+
+### Orthogonal series
+
+- **OG-19 — Orthogonal family of lines.** A pairwise-orthogonal family of vectors determines
+  an orthogonal family of the one-dimensional subspaces that they span, including vectors
+  equal to zero.
+- **OG-20 — Finite Pythagoras identity.** For every finite subfamily of pairwise-orthogonal
+  vectors, `‖∑ᵢ vᵢ‖² = ∑ᵢ ‖vᵢ‖²`.
+- **OG-21 — Orthogonal-series summability criterion.** A pairwise-orthogonal family is
+  summable exactly when the family of squared norms has finite sum.
+- **OG-22 — Parseval identity for a specified sum.** If a pairwise-orthogonal family sums to
+  `x`, then `‖x‖² = ∑ᵢ ‖vᵢ‖²`.
+
+**Milestone — Gram rigidity.** `OG-01`–`OG-08`.
+
+**Milestone — coordinate and projection geometry.** `OG-09`–`OG-13`.
+
+**Milestone — reducing subspaces.** `OG-14`–`OG-18`.
+
+**Milestone — orthogonal series.** `OG-19`–`OG-22`.
 
 ## Worked examples (acceptance criteria)
 
-**Acceptance criteria.** That Gram rigidity lands in `LinearIsometryEquiv`; that reducing
-subspaces remain dependency-closed within the geometry layer; that the orthogonal-series
-constructor covers the non-unit-vector case alongside `OrthogonalFamily`.
+**Acceptance criteria.** Ambient Gram rigidity is `OG-07`; the reducing-subspace layer is
+`OG-14`–`OG-18`; the orthogonal-series constructor for arbitrary pairwise-orthogonal vectors
+is `OG-19`.
 
 ## Ordering
 
@@ -79,9 +125,9 @@ restricts symmetric operators to reducing subspaces.
 
 ## Definitions
 
-**D1** `x ↦ ∑ⱼ xⱼ vⱼ`, so `eⱼ ↦ vⱼ` — the coordinate isometry of an orthonormal family.
+**D1 (`OG-09`–`OG-11`).** `x ↦ ∑ⱼ xⱼ vⱼ`, so `eⱼ ↦ vⱼ` — the coordinate isometry of an orthonormal family.
 
-**D2** `S x ↦ T x` — the isometry of ranges induced by two maps out of a common module with
+**D2 (`OG-02`–`OG-03`).** `S x ↦ T x` — the isometry of ranges induced by two maps out of a common module with
 equal pullback inner products.
 
 ## References

@@ -29,14 +29,16 @@ variable {d : ℕ}
 
 /-- The coordinate isometry of an orthonormal family, `eⱼ ↦ vⱼ`.
 
-Spec: D1. -/
+Roadmap: `OG-09`. -/
 noncomputable def familyIsometry {v : Fin d → E} (hv : Orthonormal 𝕜 v) :
     EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E := sorry
 
 /-! ## Gram rigidity -/
 
 /-- The isometric first isomorphism theorem: two maps out of a common module with equal
-pullback inner products have canonically isometric ranges. -/
+pullback inner products have canonically isometric ranges.
+
+Roadmap: `OG-02`. -/
 noncomputable def rangeEquivOfInnerEq {M : Type*} [AddCommGroup M] [Module 𝕜 M]
     {F : Type*} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
     (S : M →ₗ[𝕜] E) (T : M →ₗ[𝕜] F)
@@ -44,7 +46,9 @@ noncomputable def rangeEquivOfInnerEq {M : Type*} [AddCommGroup M] [Module 𝕜 
     LinearMap.range S ≃ₗᵢ[𝕜] LinearMap.range T := sorry
 
 /-- **Gram rigidity.** Two families with equal pairwise inner products are carried onto one
-another by a linear isometry equivalence of the ambient space. -/
+another by a linear isometry equivalence of the ambient space.
+
+Roadmap: `OG-07`. -/
 theorem exists_linearIsometryEquiv_map_eq_of_inner_eq [FiniteDimensional 𝕜 E]
     {ι : Type*} {φ ψ : ι → E} (h : ∀ i j, ⟪φ i, φ j⟫_𝕜 = ⟪ψ i, ψ j⟫_𝕜) :
     ∃ W : E ≃ₗᵢ[𝕜] E, ∀ i, W (φ i) = ψ i := sorry
@@ -53,7 +57,9 @@ theorem exists_linearIsometryEquiv_map_eq_of_inner_eq [FiniteDimensional 𝕜 E]
 
 /-- A pairwise orthogonal family of vectors spans an orthogonal family of lines: the
 vector-level constructor whose upstream counterpart requires unit vectors, and which the
-singular expansion needs because `σᵢ • uᵢ` is not normalizable at `σᵢ = 0`. -/
+singular expansion needs because `σᵢ • uᵢ` is not normalizable at `σᵢ = 0`.
+
+Roadmap: `OG-19`. -/
 theorem orthogonalFamily_of_pairwise_inner_eq_zero {ι : Type*} {f : ι → E}
     (hf : Pairwise fun i j => ⟪f i, f j⟫_𝕜 = 0) :
     OrthogonalFamily 𝕜 (fun i => (𝕜 ∙ f i : Submodule 𝕜 E))
@@ -69,7 +75,9 @@ each supports dot notation on the object it is about. -/
 
 namespace Submodule
 
-/-- A subspace admitting an orthogonal projection is complete when the ambient space is. -/
+/-- A subspace admitting an orthogonal projection is complete when the ambient space is.
+
+Roadmap: `OG-18`. -/
 theorem isComplete_coe_of_hasOrthogonalProjection {𝕜 E : Type*} [RCLike 𝕜]
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E] (U : Submodule 𝕜 E)
     [U.HasOrthogonalProjection] : IsComplete (U : Set E) := sorry
@@ -78,7 +86,9 @@ end Submodule
 
 namespace ContinuousLinearMap
 
-/-- Restricting a symmetric operator to an invariant subspace preserves symmetry. -/
+/-- Restricting a symmetric operator to an invariant subspace preserves symmetry.
+
+Roadmap: `OG-17`. -/
 theorem IsSymmetric.restrict_of_invariant {𝕜 E : Type*} [RCLike 𝕜]
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] {A : E →L[𝕜] E} (hA : A.IsSymmetric)
     {U : Submodule 𝕜 E} (hU : ∀ x ∈ U, A x ∈ U) : (A.restrict hU).IsSymmetric := sorry
