@@ -87,7 +87,7 @@ theorem weightedEnergy_mono_of_refines (G : SimpleGraph V) [DecidableRel G.Adj]
     {P Q : Finpartition (univ : Finset V)} (h : P ≤ Q) :
     weightedEnergy G Q ≤ weightedEnergy G P := sorry
 
-/-! ### Layer 2 — Szemerédi graph regularity: a construction over Mathlib, not a consumption
+/-! ### Layer 2 — Szemerédi graph regularity: a construction over Mathlib
 
 `szemeredi_regularity` takes no seed and relates its output to nothing, and the seed cannot be
 reintroduced afterwards: uniformity is not hereditary, so post-refinement is invalid, and common
@@ -250,10 +250,11 @@ palette `κ₂`, with an involutive reversal `rev` relating the two orientations
 are excluded, matching the injective top supports (no loops in the lower skeleton while the top
 layer forbids them).
 
-`color_rev` is load-bearing, not decoration: polyad support (Layer 6) reads coordinate pairs at
-both orientations, while the route budget (Layer 9) allots one color per **unordered** pattern
-pair. Unless the involution is *shared*, canonical-orientation data does not determine polyad
-support. Symmetric palettes (`rev = id`) and fixed-point-free ones both instantiate this. -/
+Polyad support (Layer 6) reads coordinate pairs at both orientations, while the route budget
+(Layer 9) allots one color per **unordered** pattern pair; the shared involution is what
+reconciles them, since canonical-orientation data determines polyad support only when `rev` is
+common to the systems compared. Symmetric palettes (`rev = id`) and fixed-point-free ones both
+instantiate this. -/
 structure PairColorSystem (κ₂ : Type*) (V : Type*) where
   color : {p : V × V // p.1 ≠ p.2} → κ₂
   /-- The palette's reversal operation. -/
@@ -278,8 +279,8 @@ theorem PairColorSystem.colorOfPair_swap (S : PairColorSystem κ₂ V) (u v : V)
   · rw [dif_neg h, dif_neg (fun hn => h (Ne.symm hn)), Option.map_none]
 
 /-- **Layer 5.** Raw directed pair data embeds by recording both orientations, so requiring
-coherence costs no expressiveness. It is not free quantitatively: the palette becomes `κ₂ × κ₂`,
-so `ℓ ↦ ℓ²` in both the complexity measure and `routeBudget3`. -/
+coherence costs no expressiveness. The palette becomes `κ₂ × κ₂`, so `ℓ ↦ ℓ²` in both the
+complexity measure and `routeBudget3`. -/
 def PairColorSystem.ofRaw {κ₂ : Type*} {V : Type*} (color : {p : V × V // p.1 ≠ p.2} → κ₂) :
     PairColorSystem (κ₂ × κ₂) V where
   color p := (color p, color (reversePair p))
@@ -305,9 +306,9 @@ ordered pair of **vertex cells** `A, B ∈ S.vertexPart.parts`, the per-color pa
 large enough sub-cells `A' ⊆ A`, `B' ⊆ B`. Quantifying over the actual cells (not arbitrary finsets)
 is what ties pair regularity to the skeleton.
 
-Deliberately coordinatewise. An `L¹`-in-palette variant would let the route divisor go, but rests
-on an open question — whether `L¹` regularity of two pairs bounds the cherry covariance by a
-palette-free modulus. Adopting half that trade would be unsound. -/
+An `L¹`-in-palette variant would let the route divisor go, but depends on an open question:
+whether `L¹` regularity of two pairs bounds the cherry covariance by a palette-free modulus. The
+predicate and the divisor therefore stand together. -/
 def IsPairColorRegular (S : PairSkeleton3 κ₂ V) (ε : ℝ) : Prop :=
   ∀ (c : κ₂), ∀ A ∈ S.vertexPart.parts, ∀ B ∈ S.vertexPart.parts, ∀ A' ⊆ A, ∀ B' ⊆ B,
     ε * (A.card : ℝ) ≤ A'.card → ε * (B.card : ℝ) ≤ B'.card →
@@ -324,7 +325,7 @@ def LowerSkeletonRegular (S : PairSkeleton3 κ₂ V) (F : ℕ → ℝ) : Prop :=
 three pair colors `color₀₁ / color₀₂ / color₁₂` on the coordinate pairs, and the support — the
 role-ordered injective triples whose vertices lie in the three cells **and** whose three coordinate
 pairs carry exactly those pair colors. So a polyad is determined by its cells and pair colors, not by
-an arbitrary support finset — so the support is a **definition**, not a field. -/
+an arbitrary support finset, and the support is a definition. -/
 structure Polyad3 (S : PairSkeleton3 κ₂ V) where
   c₀ : Finset V
   c₁ : Finset V
@@ -353,7 +354,7 @@ theorem mem_polyadSupport {C : PairColorSystem κ₂ V} {c₀ c₁ c₂ : Finset
         C.colorOfPair (x.1 1) (x.1 2) = some k₁₂ := by
   simp [polyadSupport]
 
-/-- **Layer 6.** A polyad's support; `P.support` is unchanged for consumers. -/
+/-- **Layer 6.** A polyad's support. -/
 def Polyad3.support {S : PairSkeleton3 κ₂ V} (P : Polyad3 S) :
     Finset {x : Fin 3 → V // Function.Injective x} :=
   polyadSupport S.pairColors P.c₀ P.c₁ P.c₂ P.color₀₁ P.color₀₂ P.color₁₂
@@ -483,7 +484,7 @@ theorem mem_subpolyadSupport {S : PairSkeleton3 κ₂ V} {P : Polyad3 S}
         coordPair x 1 2 (by decide) ∈ q₁₂ := by
   simp [subpolyadSupport]
 
-/-- **Layer 6.** A subpolyad's support; dot notation unchanged for consumers. -/
+/-- **Layer 6.** A subpolyad's support. -/
 def Subpolyad3.support {S : PairSkeleton3 κ₂ V} {P : Polyad3 S} (Q : Subpolyad3 P) :
     Finset {x : Fin 3 → V // Function.Injective x} :=
   subpolyadSupport P Q.pair₀₁ Q.pair₀₂ Q.pair₁₂
@@ -537,8 +538,8 @@ theorem coordPair_mem_pairSupport₁₂ {S : PairSkeleton3 κ₂ V} {P : Polyad3
   rw [PairColorSystem.colorOfPair, dif_pos hne] at hk
   exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, h₁, h₂, Option.some_injective _ hk⟩
 
-/-- **Layer 6.** The vertex-subcell restriction, as a subpolyad. De-bundling makes this a
-definition rather than a target; `mem_ofSubcells_support` is its characterization. -/
+/-- **Layer 6.** The vertex-subcell restriction, as a subpolyad; characterized by
+`mem_ofSubcells_support`. -/
 def Subpolyad3.ofSubcells {S : PairSkeleton3 κ₂ V} (P : Polyad3 S)
     (c₀' c₁' c₂' : Finset V) (_h₀ : c₀' ⊆ P.c₀) (_h₁ : c₁' ⊆ P.c₁) (_h₂ : c₂' ⊆ P.c₂) :
     Subpolyad3 P where
@@ -942,11 +943,11 @@ theorem one_le_requiredTopCountingRank3 (k : ℕ) (δ : ℝ) (hδ : 0 < δ) :
 /-- **Layer 9.** On complexity-bounded complexes, the global counting rank supplies the local
 rank required at the route budget.
 
-A satisfiability gate, not a refuted claim. Since complexity is the computed sum
-`#cells + pairColorCount + #polyads`, bounded complexity bounds the palette, so a cofinal
-falsification is vacuous; the honest form is pointwise and reduces to `1 + L ≤ regularityBound3 …`
-for a critical palette size `L`. The gate is blocked on that target's value, not on an argument.
-The rank-schedule formulation remains the fallback. -/
+Complexity is the computed sum `#cells + pairColorCount + #polyads`, so bounded complexity
+bounds the palette; the statement holds iff some admissible complex reaches the critical palette
+size `L` past which the demand exceeds the fixed supply, which reduces to
+`1 + L ≤ regularityBound3 …`. It is therefore settled by that target's value. The rank-schedule
+formulation is the fallback. -/
 theorem requiredTopCountingRank3_le_inducedCountingRank3 (q₃ : ℕ) (ε : ℝ) (hε : 0 < ε)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (t₀ : ℕ)
     (hC : ComplexityBounded C
