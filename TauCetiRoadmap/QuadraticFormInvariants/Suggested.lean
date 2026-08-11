@@ -311,6 +311,33 @@ example [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ)
     IsSquare ((∏ i, w i) * ∏ i, w' i) :=
   sorry
 
+/-- **Layer 3, the discriminant** of a regular-form class in the square-class group. -/
+noncomputable def discr [Invertible (2 : K)] :
+    RegularFormClass K → Kˣ ⧸ Subgroup.square Kˣ :=
+  sorry
+
+theorem discr_mk [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
+    discr (Quotient.mk _ ⟨n, w⟩) = QuotientGroup.mk (∏ i, w i) :=
+  sorry
+
+/-- **Layer 3, the signed discriminant**, kept separate from `discr` so that consumers cannot
+silently switch sign conventions. -/
+noncomputable def signedDiscr [Invertible (2 : K)] :
+    RegularFormClass K → Kˣ ⧸ Subgroup.square Kˣ :=
+  sorry
+
+theorem signedDiscr_mk [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
+    signedDiscr (Quotient.mk _ ⟨n, w⟩) =
+      QuotientGroup.mk ((-1 : Kˣ) ^ (n * (n - 1) / 2) * ∏ i, w i) :=
+  sorry
+
+theorem signedDiscr_eq_sign_mul_discr [Invertible (2 : K)] {n : ℕ}
+    (w : Fin n → Kˣ) :
+    signedDiscr (Quotient.mk _ ⟨n, w⟩) =
+      QuotientGroup.mk ((-1 : Kˣ) ^ (n * (n - 1) / 2)) *
+        discr (Quotient.mk _ ⟨n, w⟩) :=
+  sorry
+
 /-! ## Layer 5: the Brauer group and the Hasse invariant
 
 The carrier and the group law are both canonical. The law is the accepted
