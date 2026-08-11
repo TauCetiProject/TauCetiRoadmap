@@ -70,3 +70,36 @@ Root systems gained length-equals-inversions, the longest element
 a simply transitive Weyl action on the open chambers, and the Cartan-Killing classification in rank
 two only. The Clifford degree filtration has the exterior algebra as its associated graded, and
 `Pin(Q) → O(Q)` is built, but neither its surjectivity nor its kernel.
+
+<!--tauceti-progress:v1 {"from_sha":"eb0f4564349742315bf3e1cc2a7b9bf2ae7b96c0","prs":[2175,2265,2324,2336,2411,2452,2460,2461,2480,2504,2512,2518,2524,2532,2546,2550,2553,2559,2560,2562,2563,2566,2568,2569,2570,2579,2584,2587,2594,2595,2597,2599,2601,2602,2604,2606,2607,2608,2622,2625,2626,2628,2631,2635,2636,2637,2640,2646,2650,2654,2657,2666,2670,2673,2677,2685,2701,2711,2718,2722],"roadmap":"RepresentationTheory","to_sha":"671091ae4d4ff844de3ac9f31bb7d8a4610d75ba"}-->
+## RepresentationTheory: 2026-08-09 to 2026-08-11 (`eb0f456` to `671091a`)
+
+The Peter-Weyl theorem arrived (TauCeti#2677): for a compact Hausdorff group, the normalized matrix
+coefficients of a chosen set of representatives of the finite-dimensional irreducible unitary
+representations are a Hilbert basis of `L²(G)`
+<https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Compact/PeterWeyl.html#TauCeti.stdPeterWeylBasis>.
+The route is the non-circular one: an approximate identity of mollifying kernels, the eigenspaces of
+the resulting self-adjoint convolution operators as finite-dimensional unitary representations, and
+from those the uniform density of the representative ring in `C(G, 𝕜)`
+<https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Compact/RepresentativeDensity.html#TauCeti.dense_representativeSubmodule>,
+with point separation and having enough finite-dimensional representations as corollaries rather
+than inputs.
+
+Two classifications followed. The Specht modules exhaust the simple `ℚ[Sₙ]`-modules and are pairwise
+non-isomorphic, so partitions of `n` index the irreducible rational representations of the symmetric
+group
+<https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Completeness.html#TauCeti.partitionEquivSimpleModuleClasses>;
+this is stated over `ℚ`, not over an arbitrary field of characteristic zero. On the root-system
+side the rigidity half of Cartan-Killing was proved, two root systems with bases of the same Cartan
+type being isomorphic
+<https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/Isomorphism.html#TauCeti.nonempty_equiv_of_hasCartanType>,
+and the existence half was built type by type as pinned simply connected root data realizing the
+Bourbaki Cartan matrices of types A, C, D, E₆ and G₂ (TauCeti#2637)
+<https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/A.html#TauCeti.DynkinType.hasCartanType_typeASimplyConnectedRootDatum>.
+Types B, F₄ and E₇ have no datum yet, and E₈ only its root and coroot tables.
+
+Supporting work: uniqueness of the Wedderburn data of a simple Artinian ring, the BGP reflection
+functor on quiver representations with its fully faithfulness away from the vertex simple, the
+decomposition of a finite-dimensional `sl₂`-module as `⨁ V(nᵢ)`, highest weight vectors for
+Killing-semisimple Lie algebras, the certified cyclotomic lift at a Dixon prime, and Bott
+periodicity for the real Clifford algebras.
