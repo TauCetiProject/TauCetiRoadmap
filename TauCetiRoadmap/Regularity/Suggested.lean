@@ -89,42 +89,16 @@ theorem weightedEnergy_mono_of_refines (G : SimpleGraph V) [DecidableRel G.Adj]
 
 /-! ### Layer 2 — Szemerédi graph regularity: a construction over Mathlib, not a consumption
 
-**Classification (revised).** This layer is *not* a direct consumption of
-`szemeredi_regularity`; it is a **build that adapts Mathlib's exported iteration machinery**. A
-machine-checked consumption spike established the following.
+`szemeredi_regularity` takes no seed and relates its output to nothing, and the seed cannot be
+reintroduced afterwards: uniformity is not hereditary, so post-refinement is invalid, and common
+refinement destroys equitability. Mathlib still supplies the analytic content — its exported
+increment exactly refines its input, keeps equitability, and carries the gain and the bound. Two
+pieces remain project work: an initial equitable partition almost-refining the seed, and seeded
+execution of the energy induction. An upstream seeded induction would remove the second, not the
+first. -/
 
-The public summit cannot supply the seeded statement. `szemeredi_regularity` takes no seed
-parameter — its proof *chooses* a dummy equipartition — and its conclusion relates the output
-partition to nothing. Nor can the seed be reintroduced afterwards: **arbitrary post-refinement is
-invalid, because uniformity is not hereditary**. A regular pair has irregular sub-pairs (verified
-by a finite counterexample: one edge on six vertices, where `({0,1,2}, {3,4,5})` is `1/2`-uniform
-while the refined sub-pair `({0,1}, {3,4})` is not), and refining a partition manufactures exactly
-such sub-pairs. Common refinement with `P₀` also destroys equitability.
-
-Mathlib nevertheless supplies essentially all the analytic content. Its exported
-`SzemerediRegularity.increment` is literally a `bind` of per-part chunks, so it **exactly refines
-its input**; it preserves equitability, carries the required cardinality bound, and comes with the
-energy gain and the `energy ≤ 1` ceiling. The energy induction consumes its dummy seed only through
-that seed's size and equitability.
-
-Two pieces therefore remain project work:
-
-1. an **initial equitable partition almost-refining the seed** `P₀` — divisibility blocks exact
-   refinement here, which is where `AlmostRefines`' `δ` and the open `refiningRegularityBound`
-   live; and
-2. **seeded execution of the energy induction** from that start.
-
-Transporting almost-refinement through the (exactly refining) iteration is *not* an obstacle: if
-`P ≤ P₁` and `P₁` almost-refines `P₀`, then so does `P`. Exporting a seeded energy induction
-upstream would remove piece (2), but would **not** by itself supply piece (1); full consumption
-would require both. -/
-
-/-- **Layer 2.** `P` **almost-refines** `P₀` (up to a `δ`-remainder): each `P₀`-part `A` is covered,
-up to `δ·|A|` leftover vertices, by `P`-parts **contained in `A`**. The containment clause
-`∀ B ∈ T, B ⊆ A` is essential — without it `T = P.parts` makes the remainder empty vacuously.
-`regularity-lemmata` proves a **global**-mass variant (`AlmostRefines`: exceptional mass `≤ ε·|s|`,
-from the per-parent count form `AlmostRefinesAt`), which does not imply this per-part form; the two
-shapes must be reconciled at implementation time. -/
+/-- **Layer 2.** `P` almost-refines `P₀`: each `P₀`-part is covered, up to a `δ`-fraction, by
+`P`-parts contained in it. -/
 def AlmostRefines (P P₀ : Finpartition (univ : Finset V)) (δ : ℝ) : Prop :=
   ∀ A ∈ P₀.parts, ∃ T ⊆ P.parts, (∀ B ∈ T, B ⊆ A) ∧
     ((A \ T.biUnion id).card : ℝ) ≤ δ * A.card
@@ -135,14 +109,8 @@ almost-refining remains open; the prior formalization's `regularityBound ⌈1/ε
 only its intermediate exact refinement). -/
 def refiningRegularityBound (ε : ℝ) (l : ℕ) : ℕ := sorry
 
-/-- **Layer 2 (bridge).** A regular equipartition **almost-refining** a given equipartition `P₀`, with
-a `V`-independent complexity bound. `hP₀` (equipartition) and `hV` (`V` large enough) are **required**:
-without them a singleton `P₀`-part cannot be covered up to `ε·|A|` by contained cells of a bounded
-equipartition, and the statement is false. Bridge to Mathlib's `szemeredi_regularity` — don't
-duplicate its `SimpleGraph` statement. `regularity-lemmata` proves the two-partition intermediate
-(`exists_regular_refinement_and_almostRefining_equipartition`: a regular exact refinement plus a
-separate, not-itself-regular almost-refining equipartition); this self-regular form is its explicitly
-deferred endpoint. -/
+/-- **Layer 2.** A regular equipartition almost-refining `P₀`, with a host-independent complexity
+bound and an explicit large-host hypothesis. -/
 theorem exists_regular_equipartition_almost_refining (G : SimpleGraph V) [DecidableRel G.Adj]
     (P₀ : Finpartition (univ : Finset V)) (hP₀ : P₀.IsEquipartition) (ε : ℝ) (hε : 0 < ε)
     (hV : refiningRegularityBound ε P₀.parts.card ≤ Fintype.card V) :
@@ -219,12 +187,8 @@ def strongGraphRegularityBound (ε : ℝ) (F : ℕ → ℝ) (l₀ : ℕ) : ℕ :
 /-- **Layer 4.** The complexity bound for nested equitabilisation (explicit value is a target). -/
 def nestedRefinementBound (δ : ℝ) (l : ℕ) : ℕ := sorry
 
-/-- **Layer 4 (bridge from Layer 2).** Nested equitabilisation: an equipartition admits an **exact**
-refining equipartition that is regular, with bounded complexity. This is the named cleanup step
-turning Layer 2's *almost*-refining output into the exact `Q ≤ P` nesting `StrongRegular` iterates
-on — without it there is a hidden gap between the two layers. Mathlib's
-`SzemerediRegularity.increment` (which subdivides within parts) is the **alignment point / proof
-template**, not a consumed theorem: it is stated for Mathlib's unweighted energy. -/
+/-- **Layer 4.** An equipartition has an exact refining regular equipartition of bounded
+complexity. -/
 theorem exists_regular_exact_refining_equipartition (G : SimpleGraph V) [DecidableRel G.Adj]
     (P : Finpartition (univ : Finset V)) (hP : P.IsEquipartition)
     (δ : ℝ) (hδ : 0 < δ) (hV : nestedRefinementBound δ P.parts.card ≤ Fintype.card V) :
@@ -281,33 +245,22 @@ structure HypergraphComplex (r : ℕ) (V : Type*) [DecidableEq V] where
 def reversePair {V : Type*} (p : {p : V × V // p.1 ≠ p.2}) : {p : V × V // p.1 ≠ p.2} :=
   ⟨(p.1.2, p.1.1), p.2.symm⟩
 
-theorem reversePair_involutive {V : Type*} :
-    Function.Involutive (reversePair (V := V)) := fun _ => rfl
-
 /-- **Layer 5.** A pair-color system: a coloring of ordered **distinct** vertex pairs into the pair
-palette `κ₂`, **together with the reversal law relating the two orientations of a pair**. Diagonals
-`(v, v)` are excluded, matching the injective top supports (no loops in the lower skeleton while the
-top layer forbids them).
+palette `κ₂`, with an involutive reversal `rev` relating the two orientations. Diagonals `(v, v)`
+are excluded, matching the injective top supports (no loops in the lower skeleton while the top
+layer forbids them).
 
-The involution `rev` and the coherence field `color_rev` are **not optional decoration**. Without
-them the two orientations of a pair carry independent colors, and the architecture becomes
-inconsistent with itself: polyad support (Layer 6) reads coordinate pairs at *both* orientations,
-while the route budget (Layer 9) allots one color per *unordered* pattern pair. Concretely,
-agreement on canonically oriented pairs does **not** determine polyad support — and it still fails
-when each system is merely swap-coherent for *some* involution of its own; the involution must be
-shared, which is why it lives in the signature rather than being quantified away. With `color_rev`
-in place the anti-canonical color is recovered from the canonical one, canonical routes carry one
-color per pattern pair, and the factor `ℓ ^ (k.choose 2)` in `routeBudget3` is honest arithmetic.
-
-Symmetric palettes (`rev = id`) and genuinely directed palettes (`rev` fixed-point-free) both
-instantiate this, so no generality is lost by asking for it. -/
+`color_rev` is load-bearing, not decoration: polyad support (Layer 6) reads coordinate pairs at
+both orientations, while the route budget (Layer 9) allots one color per **unordered** pattern
+pair. Unless the involution is *shared*, canonical-orientation data does not determine polyad
+support. Symmetric palettes (`rev = id`) and fixed-point-free ones both instantiate this. -/
 structure PairColorSystem (κ₂ : Type*) (V : Type*) where
   color : {p : V × V // p.1 ≠ p.2} → κ₂
-  /-- The reversal operation on the palette. -/
+  /-- The palette's reversal operation. -/
   rev : κ₂ → κ₂
   /-- Reversal is an involution. -/
   rev_involutive : Function.Involutive rev
-  /-- **The coherence law**: reversing the pair applies `rev` to its color. -/
+  /-- Reversing a pair applies `rev` to its color. -/
   color_rev : ∀ p, color (reversePair p) = rev (color p)
 
 /-- The pair color of an ordered pair, as an `Option` (`none` on the diagonal). This total form lets
@@ -315,8 +268,7 @@ densities and polyad conditions be stated without threading an `≠` proof. -/
 def PairColorSystem.colorOfPair (S : PairColorSystem κ₂ V) (u v : V) : Option κ₂ :=
   if h : u ≠ v then some (S.color ⟨(u, v), h⟩) else none
 
-/-- The reversal law at the `Option` level: swapping the arguments applies `rev`, and the diagonal
-stays `none`. -/
+/-- The reversal law at the `Option` level. -/
 theorem PairColorSystem.colorOfPair_swap (S : PairColorSystem κ₂ V) (u v : V) :
     S.colorOfPair v u = (S.colorOfPair u v).map S.rev := by
   rw [PairColorSystem.colorOfPair, PairColorSystem.colorOfPair]
@@ -325,14 +277,9 @@ theorem PairColorSystem.colorOfPair_swap (S : PairColorSystem κ₂ V) (u v : V)
     exact congrArg some (S.color_rev ⟨(u, v), h⟩)
   · rw [dif_neg h, dif_neg (fun hn => h (Ne.symm hn)), Option.map_none]
 
-/-- **Layer 5 (expressiveness).** Arbitrary *raw* directed pair data — a bare coloring with no
-relation between the two orientations — embeds by recording both directions jointly, with `rev` the
-coordinate swap. So requiring coherence costs no expressive generality.
-
-It is **not** quantitatively free: the palette becomes `κ₂ × κ₂`, squaring its cardinality. Since
-the pair palette enters the complexity measure (`TriadicComplex3.complexity`) and the route budget
-(`routeBudget3`, through `ℓ ^ (k.choose 2)`), this is the price of embedding genuinely raw directed
-data — `ℓ ↦ ℓ²`. Data that is already coherent for some involution keeps its palette unchanged. -/
+/-- **Layer 5.** Raw directed pair data embeds by recording both orientations, so requiring
+coherence costs no expressiveness. It is not free quantitatively: the palette becomes `κ₂ × κ₂`,
+so `ℓ ↦ ℓ²` in both the complexity measure and `routeBudget3`. -/
 def PairColorSystem.ofRaw {κ₂ : Type*} {V : Type*} (color : {p : V × V // p.1 ≠ p.2} → κ₂) :
     PairColorSystem (κ₂ × κ₂) V where
   color p := (color p, color (reversePair p))
@@ -358,27 +305,16 @@ ordered pair of **vertex cells** `A, B ∈ S.vertexPart.parts`, the per-color pa
 large enough sub-cells `A' ⊆ A`, `B' ⊆ B`. Quantifying over the actual cells (not arbitrary finsets)
 is what ties pair regularity to the skeleton.
 
-**This predicate stays coordinatewise, deliberately.** An `L¹`-in-palette variant
-(`∑ c, |d_c(A',B') - d_c(A,B)| ≤ ε`) would let the route-count divisor be dropped from Layer 9's
-budget, because per-route errors would then be mass-weighted rather than uniform in cell volume.
-That variant is **not** adopted here: it requires a palette-free bound on the cherry/covariance
-statement — does `L¹` regularity of `(A,B)` and `(A,C)` control `∑_{c,c'} |Cov_a(β_a(c), γ_a(c'))|`
-by a modulus independent of `ℓ`? — which is **open**. What is settled: `L¹` regularity gives
-palette-free control of every *rectangle* test of that covariance matrix, while the generic
-cut-to-entrywise conversion costs exactly `ℓ`, and the natural extremal families fail to refute a
-linear bound because they pay for their own correlation. Until that question closes, the
-coordinatewise predicate and the route divisor stand together; adopting one half would be
-unsound. -/
+Deliberately coordinatewise. An `L¹`-in-palette variant would let the route divisor go, but rests
+on an open question — whether `L¹` regularity of two pairs bounds the cherry covariance by a
+palette-free modulus. Adopting half that trade would be unsound. -/
 def IsPairColorRegular (S : PairSkeleton3 κ₂ V) (ε : ℝ) : Prop :=
   ∀ (c : κ₂), ∀ A ∈ S.vertexPart.parts, ∀ B ∈ S.vertexPart.parts, ∀ A' ⊆ A, ∀ B' ⊆ B,
     ε * (A.card : ℝ) ≤ A'.card → ε * (B.card : ℝ) ≤ B'.card →
       |(pairColorDensity S.pairColors c A' B' : ℝ) - (pairColorDensity S.pairColors c A B : ℝ)| ≤ ε
 
-/-- **Layer 5.** The lower skeleton is regular when it is `F`-regular, with `F` evaluated
-explicitly at the **lower complexity** — vertex cells **plus pair colors** (no hidden
-error-hierarchy choice). Evaluating at the cell count alone is too weak: pair-level counting
-strength must depend on the pair-palette size, matching the published decomposition architecture's
-lower error function evaluated at the pairs-partition complexity `ℓ`. -/
+/-- **Layer 5.** Lower-skeleton regularity at the complexity given by vertex cells plus pair
+colors. -/
 def LowerSkeletonRegular (S : PairSkeleton3 κ₂ V) (F : ℕ → ℝ) : Prop :=
   IsPairColorRegular S (F (S.vertexPart.parts.card + Fintype.card κ₂))
 
@@ -388,7 +324,7 @@ def LowerSkeletonRegular (S : PairSkeleton3 κ₂ V) (F : ℕ → ℝ) : Prop :=
 three pair colors `color₀₁ / color₀₂ / color₁₂` on the coordinate pairs, and the support — the
 role-ordered injective triples whose vertices lie in the three cells **and** whose three coordinate
 pairs carry exactly those pair colors. So a polyad is determined by its cells and pair colors, not by
-an arbitrary support finset. -/
+an arbitrary support finset — so the support is a **definition**, not a field. -/
 structure Polyad3 (S : PairSkeleton3 κ₂ V) where
   c₀ : Finset V
   c₁ : Finset V
@@ -400,8 +336,7 @@ structure Polyad3 (S : PairSkeleton3 κ₂ V) where
   color₀₂ : κ₂
   color₁₂ : κ₂
 
-/-- **Layer 6.** The support determined by cells and pair colors — a **computed definition**, not a
-proof-carrying field. -/
+/-- **Layer 6.** The support determined by cells and pair colors. -/
 def polyadSupport (C : PairColorSystem κ₂ V) (c₀ c₁ c₂ : Finset V) (k₀₁ k₀₂ k₁₂ : κ₂) :
     Finset {x : Fin 3 → V // Function.Injective x} :=
   univ.filter fun x => x.1 0 ∈ c₀ ∧ x.1 1 ∈ c₁ ∧ x.1 2 ∈ c₂ ∧
@@ -418,8 +353,7 @@ theorem mem_polyadSupport {C : PairColorSystem κ₂ V} {c₀ c₁ c₂ : Finset
         C.colorOfPair (x.1 1) (x.1 2) = some k₁₂ := by
   simp [polyadSupport]
 
-/-- **Layer 6.** A polyad's support. Dot notation `P.support` is unchanged for consumers; only its
-status changed, from bundled data to a definition. -/
+/-- **Layer 6.** A polyad's support; `P.support` is unchanged for consumers. -/
 def Polyad3.support {S : PairSkeleton3 κ₂ V} (P : Polyad3 S) :
     Finset {x : Fin 3 → V // Function.Injective x} :=
   polyadSupport S.pairColors P.c₀ P.c₁ P.c₂ P.color₀₁ P.color₀₂ P.color₁₂
@@ -433,8 +367,7 @@ theorem Polyad3.mem_support {S : PairSkeleton3 κ₂ V} (P : Polyad3 S)
         S.pairColors.colorOfPair (x.1 1) (x.1 2) = some P.color₁₂ :=
   mem_polyadSupport
 
-/-- **Layer 6 (extensionality).** A polyad **is** its six data fields: the cell-membership proofs
-are proof-irrelevant and the support is now derived, so nothing else can differ. -/
+/-- **Layer 6.** A polyad is its six data fields. -/
 theorem Polyad3.ext_data {S : PairSkeleton3 κ₂ V} {P Q : Polyad3 S}
     (h₀ : P.c₀ = Q.c₀) (h₁ : P.c₁ = Q.c₁) (h₂ : P.c₂ = Q.c₂)
     (k₀₁ : P.color₀₁ = Q.color₀₁) (k₀₂ : P.color₀₂ = Q.color₀₂)
@@ -445,7 +378,7 @@ theorem Polyad3.ext_data {S : PairSkeleton3 κ₂ V} {P Q : Polyad3 S}
   subst h₀; subst h₁; subst h₂; subst k₀₁; subst k₀₂; subst k₁₂
   rfl
 
-/-- The forgetful map onto the data, refined through the parts subtype. -/
+/-- The forgetful map onto the data, through the parts subtype. -/
 def Polyad3.partData {S : PairSkeleton3 κ₂ V} (P : Polyad3 S) :
     (↥S.vertexPart.parts × ↥S.vertexPart.parts × ↥S.vertexPart.parts) × κ₂ × κ₂ × κ₂ :=
   ((⟨P.c₀, P.hc₀⟩, ⟨P.c₁, P.hc₁⟩, ⟨P.c₂, P.hc₂⟩), (P.color₀₁, P.color₀₂, P.color₁₂))
@@ -456,17 +389,14 @@ theorem Polyad3.partData_injective (S : PairSkeleton3 κ₂ V) :
   simp only [Polyad3.partData, Prod.mk.injEq, Subtype.mk.injEq] at h
   exact Polyad3.ext_data h.1.1 h.1.2.1 h.1.2.2 h.2.1 h.2.2.1 h.2.2.2
 
-/-- **Layer 6 (finite enumeration).** De-bundling supplies the decidable equality and finiteness
-that `TriadicComplex3.polyads : Finset (Polyad3 skeleton)` needs; neither was available while the
-support was a bundled field. -/
+/-- Decidable equality and finiteness, as `TriadicComplex3.polyads : Finset (Polyad3 _)` needs. -/
 instance {S : PairSkeleton3 κ₂ V} [DecidableEq κ₂] : DecidableEq (Polyad3 S) :=
   (Polyad3.partData_injective S).decidableEq
 
 noncomputable instance {S : PairSkeleton3 κ₂ V} [Fintype κ₂] : Fintype (Polyad3 S) :=
   Fintype.ofInjective _ (Polyad3.partData_injective S)
 
-/-- **Layer 6.** The enumeration bound behind the complexity count: at most `#parts³ · ℓ³`
-polyads. -/
+/-- **Layer 6.** The enumeration bound behind the complexity count. -/
 theorem card_polyad3_le (S : PairSkeleton3 κ₂ V) [Fintype κ₂] :
     Fintype.card (Polyad3 S) ≤ S.vertexPart.parts.card ^ 3 * Fintype.card κ₂ ^ 3 := by
   have h := Fintype.card_le_of_injective _ (Polyad3.partData_injective S)
@@ -476,8 +406,7 @@ theorem card_polyad3_le (S : PairSkeleton3 κ₂ V) [Fintype κ₂] :
         (Fintype.card κ₂ * (Fintype.card κ₂ * Fintype.card κ₂)) := h
     _ = S.vertexPart.parts.card ^ 3 * Fintype.card κ₂ ^ 3 := by ring
 
-/-- **Layer 6.** The polyad determined by cells and pair colors. Signature unchanged; the support is
-now derived rather than supplied. -/
+/-- **Layer 6.** The polyad determined by cells and pair colors. -/
 def Polyad3.ofData {S : PairSkeleton3 κ₂ V} (c₀ c₁ c₂ : Finset V)
     (h₀ : c₀ ∈ S.vertexPart.parts) (h₁ : c₁ ∈ S.vertexPart.parts) (h₂ : c₂ ∈ S.vertexPart.parts)
     (k₀₁ k₀₂ k₁₂ : κ₂) : Polyad3 S where
@@ -491,10 +420,9 @@ def Polyad3.ofData {S : PairSkeleton3 κ₂ V} (c₀ c₁ c₂ : Finset V)
   color₀₂ := k₀₂
   color₁₂ := k₁₂
 
-/-- **Layer 6 (the repository adapter's key dictionary).** `regularity-lemmata`'s `polyadBlock`
-keys a face by the coordinate it **omits**, while `Polyad3` keys a **role pair**. The translation is
-therefore index-reversed: `![k₁₂, k₀₂, k₀₁]`. Naming it here keeps the reversal out of the middle of
-a proof, where a silent mismatch would survive until a counting theorem failed. -/
+/-- **Layer 6.** The adapter key dictionary for `regularity-lemmata`'s `polyadBlock`, which keys a
+face by the coordinate it **omits** while `Polyad3` keys a role pair: the translation is
+index-reversed. -/
 def faceKey (k₀₁ k₀₂ k₁₂ : κ₂) : Fin 3 → κ₂ := ![k₁₂, k₀₂, k₀₁]
 
 @[simp] theorem faceKey_zero (k₀₁ k₀₂ k₁₂ : κ₂) : faceKey k₀₁ k₀₂ k₁₂ 0 = k₁₂ := rfl
@@ -555,12 +483,12 @@ theorem mem_subpolyadSupport {S : PairSkeleton3 κ₂ V} {P : Polyad3 S}
         coordPair x 1 2 (by decide) ∈ q₁₂ := by
   simp [subpolyadSupport]
 
-/-- **Layer 6.** A subpolyad's support; dot notation is unchanged for consumers. -/
+/-- **Layer 6.** A subpolyad's support; dot notation unchanged for consumers. -/
 def Subpolyad3.support {S : PairSkeleton3 κ₂ V} {P : Polyad3 S} (Q : Subpolyad3 P) :
     Finset {x : Fin 3 → V // Function.Injective x} :=
   subpolyadSupport P Q.pair₀₁ Q.pair₀₂ Q.pair₁₂
 
-/-- **Layer 6 (extensionality).** A subpolyad **is** its three selected pair graphs. -/
+/-- **Layer 6.** A subpolyad is its three selected pair graphs. -/
 theorem Subpolyad3.ext_data {S : PairSkeleton3 κ₂ V} {P : Polyad3 S} {Q R : Subpolyad3 P}
     (h₀₁ : Q.pair₀₁ = R.pair₀₁) (h₀₂ : Q.pair₀₂ = R.pair₀₂) (h₁₂ : Q.pair₁₂ = R.pair₁₂) :
     Q = R := by
@@ -609,9 +537,8 @@ theorem coordPair_mem_pairSupport₁₂ {S : PairSkeleton3 κ₂ V} {P : Polyad3
   rw [PairColorSystem.colorOfPair, dif_pos hne] at hk
   exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, h₁, h₂, Option.some_injective _ hk⟩
 
-/-- **Layer 6.** The vertex-subcell restriction, as a subpolyad — the convenient constructor
-(select in each pair graph the pairs landing in the sub-cells). **No longer a target**: de-bundling
-turns it into a definition, and its intended characterization is `mem_ofSubcells_support` below. -/
+/-- **Layer 6.** The vertex-subcell restriction, as a subpolyad. De-bundling makes this a
+definition rather than a target; `mem_ofSubcells_support` is its characterization. -/
 def Subpolyad3.ofSubcells {S : PairSkeleton3 κ₂ V} (P : Polyad3 S)
     (c₀' c₁' c₂' : Finset V) (_h₀ : c₀' ⊆ P.c₀) (_h₁ : c₁' ⊆ P.c₁) (_h₂ : c₂' ⊆ P.c₂) :
     Subpolyad3 P where
@@ -622,8 +549,7 @@ def Subpolyad3.ofSubcells {S : PairSkeleton3 κ₂ V} (P : Polyad3 S)
   pair₀₂_sub := Finset.filter_subset _ _
   pair₁₂_sub := Finset.filter_subset _ _
 
-/-- **Layer 6.** The subcell restriction's support is exactly the parent tuples landing in the
-sub-cells — the property the bundled `mem_support_iff` field used to have to assert. -/
+/-- **Layer 6.** The subcell restriction's support is the parent tuples landing in the sub-cells. -/
 theorem Subpolyad3.mem_ofSubcells_support {S : PairSkeleton3 κ₂ V} {P : Polyad3 S}
     {c₀' c₁' c₂' : Finset V} (h₀ : c₀' ⊆ P.c₀) (h₁ : c₁' ⊆ P.c₁) (h₂ : c₂' ⊆ P.c₂)
     (x : {x : Fin 3 → V // Function.Injective x}) :
@@ -708,40 +634,25 @@ nothing.) Each component is individually bounded by it. -/
 def TriadicComplex3.complexity (C : TriadicComplex3 κ₃ V) : ℕ :=
   C.skeleton.vertexPart.parts.card + C.pairColorCount + C.polyads.card
 
-/-- **Layer 8.** The triadic complex as a generic down-closed complex — vertices, the pairs carrying
-a pair color used by some polyad, the polyads' underlying triples (explicit construction is a
-target). This is the bridge that keeps `HypergraphComplex` consumed rather than ornamental. -/
+/-- **Layer 8.** The triadic complex as a generic down-closed complex. -/
 def TriadicComplex3.toHypergraphComplex (C : TriadicComplex3 κ₃ V) : HypergraphComplex 3 V :=
   sorry
 
-/-- **Layer 8.** The vertex cells are controlled: the vertex partition is an **equipartition** with
-at least `t₀` cells. This is the load-bearing input of the diagonal-cell gate — without
-equitability and a complexity floor, the transversal-to-global counting step has no bound on the
-nontransversal (repeated-cell) mass, and the promised diagonal-gate proof route has a hidden
-bridge. -/
+/-- **Layer 8.** The vertex partition is an equipartition with at least `t₀` cells. -/
 def VertexCellsControlled (C : TriadicComplex3 κ₃ V) (t₀ : ℕ) : Prop :=
   C.skeleton.vertexPart.IsEquipartition ∧ t₀ ≤ C.skeleton.vertexPart.parts.card
 
-/-- **Layer 8.** The edit discrepancy between two total top colorings: `6·`(number of unordered
-triples where they disagree)`/|V|³` — the ordered edit mass at the ordered normalization
-(`x / 0 = 0` on tiny `V`), the colored analogue of the Boolean convention proved in
-`regularity-lemmata` (unordered symmetric-difference count with the **proved** factor-6 ordered
-identity, normalized by `|V|³`). A real definition, not a target: the comparison is between `H` and
-an **explicit approximant** `H'`, so no induced coloring from the complex is needed. -/
+/-- **Layer 8.** Six times the fraction of unordered triples on which `H` and `H'` disagree,
+normalized by `|V|³`. -/
 def editDiscrepancy3 (H H' : Colored3Graph κ₃ V) : ℚ :=
   (6 * ((univ.filter fun s : {s : Finset V // s.card = 3} => H.color s ≠ H'.color s).card : ℚ)) /
     ((Fintype.card V : ℚ) ^ 3)
 
-/-- **Layer 8.** `H'` approximates `H` to within `ε` — the clause tying the regular approximant back
-to the original coloring; without it the regularity/complexity conjuncts below are satisfiable by
-data unrelated to `H`. -/
+/-- **Layer 8.** `H'` approximates `H` to within `ε`. -/
 def Approximates3 (H H' : Colored3Graph κ₃ V) (ε : ℝ) : Prop :=
   (editDiscrepancy3 H H' : ℝ) ≤ ε
 
-/-- **Layer 8.** `C`'s polyads form a genuine decomposition: their supports are pairwise disjoint and
-together cover every injective triple. Without this, `exceptionalPolyadMass` could be made meaningless
-by an empty or irrelevant polyad family. (v1 states coverage over all injective triples; restricting
-to distinct-cell triads is a later refinement.) -/
+/-- **Layer 8.** The polyad supports are pairwise disjoint and cover every injective triple. -/
 def IsPolyadDecomposition (C : TriadicComplex3 κ₃ V) : Prop :=
   (∀ P ∈ C.polyads, ∀ Q ∈ C.polyads, P ≠ Q → Disjoint P.support Q.support) ∧
     (∀ x : {x : Fin 3 → V // Function.Injective x}, ∃ P ∈ C.polyads, x ∈ P.support)
@@ -769,13 +680,8 @@ def TopRegularOverMostPolyads (H : Colored3Graph κ₃ V) (C : TriadicComplex3 �
 def ComplexityBounded (C : TriadicComplex3 κ₃ V) (b : ℕ) : Prop :=
   C.complexity ≤ b
 
-/-- **Layer 8.** The `V`-independent complexity bound for the strong arity-3 approximation,
-depending on the **top palette size** `q₃`, the error hierarchy, the NRS rank `r`, and the
-**vertex-complexity floor** `t₀` (explicit value is a target). `t₀` must feed the bound: the theorem
-demands both `t₀ ≤ #vertex-cells ≤ C.complexity` and `C.complexity ≤ regularityBound3 …`, so a
-bound independent of `t₀` makes the statement false for `t₀` above it (mirroring Layer 4's starting
-complexity `l₀`). Caution from the proved Boolean precursor: its `triadRegularityBound` iterates
-a `cutBound` recurrence of shape `K ↦ K·2^{O(K³)}` per round — **not** a single exponential. -/
+/-- **Layer 8.** The host-independent complexity bound, depending on the top palette, error
+hierarchy, NRS rank, and requested vertex-complexity floor. -/
 def regularityBound3 (q₃ : ℕ) (ε : ℝ) (F : ℕ → ℝ) (r t₀ : ℕ) : ℕ := sorry
 
 /-- **Layer 8.** The strong arity-3 regular-approximation predicate, with an **explicit
@@ -836,14 +742,8 @@ def PatternPlacement3.Transversal {C : TriadicComplex3 κ₃ V} {F₀ : FiniteCo
     (φ : PatternPlacement3 C F₀) : Prop :=
   Function.Injective φ.vertexCell
 
-/-- **Layer 9.** A lower-color route for a placed pattern: **one pair color per canonically
-oriented pattern pair `i < j`** — not per ordered pair. Assigning both orientations independently
-and multiplying both marginal densities would assume an unproved independence:
-`IsPairColorRegular` controls each orientation's marginal but not their joint correlation (reverse
-colors could always equal forward colors, making a route that demands opposite colors have actual
-count zero against a positive product of marginals). One oriented bigraph per role pair is also the
-primary-source triad shape. The `polyad_mem` clause (for `i < j < l`, via `Polyad3.ofData`) keeps
-every pattern triple's induced polyad inside `C`'s decomposition. -/
+/-- **Layer 9.** A lower-color route: one pair color for each canonical pair `i < j`, with every
+induced pattern polyad belonging to `C`. -/
 structure PairColorPlacement3 (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃)
     (φ : PatternPlacement3 C F₀) where
   /-- The pair color assigned to each canonically oriented (`i < j`) pattern pair. -/
@@ -864,160 +764,87 @@ def PairColorPlacement3.polyad {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColor
     (ψ.pairColor ⟨(i, j), hij⟩) (ψ.pairColor ⟨(i, l), hij.trans hjl⟩)
     (ψ.pairColor ⟨(j, l), hjl⟩)
 
-/-- **Layer 9.** The route is **top-regular**: every pattern triple's induced polyad is one over
-which the given coloring is `(η, r)`-top-regular. `IsStrongRegularApproximation3` guarantees top
-regularity only over **most** polyads, so a route through an exceptional polyad has no counting
-control — the placed theorem requires this predicate, and the global assembly bounds the routes
-that lack it by the exceptional-polyad mass (`exceptional_route_mass_le`). -/
+/-- **Layer 9.** Every pattern triple's induced polyad is `(η, r)`-top-regular for `H'`. -/
 def PairColorPlacement3.IsTopRegularRoute {C : TriadicComplex3 κ₃ V}
     {F₀ : FiniteColored3Pattern κ₃} {φ : PatternPlacement3 C F₀}
     (ψ : PairColorPlacement3 C F₀ φ) (H' : Colored3Graph κ₃ V) (η : ℝ) (r : ℕ) : Prop :=
   ∀ (i j l : Fin F₀.k) (hij : i < j) (hjl : j < l),
     IsTopRegularOverPolyad H' (ψ.polyad i j l hij hjl) η r
 
-/-- **Layer 9.** The number of induced copies, **in a given coloring**, realizing a fixed placement
-and lower-color route: labeled injective maps `g` with `g i` in the assigned cell, every
-canonically oriented coordinate pair carrying `ψ`'s pair color, and every triple's top color
-matching the pattern (explicit definition is a target). The placed theorem applies it to the
-**approximant** `H'`; the global theorem transfers to `H` through the named edit-transfer lemma. -/
+/-- **Layer 9.** The labeled injective copies realizing a fixed placement and lower-color route. -/
 def placedInducedCopyCount (H : Colored3Graph κ₃ V) {C : TriadicComplex3 κ₃ V}
     {F₀ : FiniteColored3Pattern κ₃} (φ : PatternPlacement3 C F₀)
     (ψ : PairColorPlacement3 C F₀ φ) : ℕ := sorry
 
-/-- **Layer 9.** The predicted count at a fixed placement `φ` and lower-color route `ψ` (explicit
-formula is a target, but its **shape is pinned**): the product of (i) the injection/cell-size
-factor from the assigned cells (falling-factorial-corrected when cells repeat), (ii) over each
-**canonically oriented** pattern pair `i < j` — one orientation per pair, never both marginals —
-the `pairColorDensity` of `ψ.pairColor` between the assigned cells, and (iii) over each pattern
-triple, the relative density in the approximant `H'` of the required top color `F₀.pattern s` over
-the polyad `ψ` induces (each unordered triple entering once — the six ordered representatives are
-identified here, not in the support). It is **never** defined through
-`Colored3Graph.inducedCopyCount` — that would hide the counting theorem inside the definition. -/
+/-- **Layer 9.** The predicted count for `φ` and `ψ`: the injection-corrected cell-size factor,
+times the pair-color densities over canonical pairs, times the required relative top-color
+densities over induced polyads. -/
 def expectedInducedCountAt (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀)
     (ψ : PairColorPlacement3 C F₀ φ) : ℝ := sorry
 
-/-- **Layer 9.** The induced count of `F₀` predicted from the regular **approximant** `H'` and the
-complex `C`: the sum of `expectedInducedCountAt` over all placements `φ` and lower-color routes
-`ψ` — an intrinsic formula in the polyad densities and pair-color densities, **never** defined
-through `inducedCopyCount` (explicit definition is a target). -/
+/-- **Layer 9.** The sum of `expectedInducedCountAt` over all placements and routes. -/
 def expectedInducedCount (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) : ℝ := sorry
 
-/-- **Layer 9.** The **global** edit/exceptional parameter for induced counting: the bound demanded
-of the edit discrepancy and of the exceptional-polyad mass (the `ε`-slot of
-`IsStrongRegularApproximation3`), as a function of the top palette size `q₃`, the pattern size `k`,
-and the target counting error `ε` — manifestly independent of `V` (explicit value is a target).
-The **local** regularity strengths are the separate `inducedCountingSchedule3`; the counting error
-and this parameter cannot be the same `ε`, and its `ε/6` charges are pinned by
-`inducedCountingParameter3_charge`. -/
+/-- **Layer 9.** The host-independent edit and exceptional-mass parameter for induced counting. -/
 def inducedCountingParameter3 (q₃ k : ℕ) (ε : ℝ) : ℝ := sorry
 
 /-- **Layer 9.** Positivity of the counting parameter (part of the target). -/
 theorem inducedCountingParameter3_pos (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) :
     0 < inducedCountingParameter3 q₃ k ε := sorry
 
-/-- **Layer 9.** The NRS rank that induced counting demands of the top-regularity test, as a
-function of the top palette size, the pattern size, and the counting error (explicit value is a
-target — `V`-independent). -/
+/-- **Layer 9.** The host-independent NRS rank used for induced counting. -/
 def inducedCountingRank3 (q₃ k : ℕ) (ε : ℝ) : ℕ := sorry
 
-/-- **Layer 9.** The counting rank is at least one — at rank `0` the top-regularity test is
-vacuous on nonempty polyads (part of the target). -/
+/-- **Layer 9.** The counting rank is at least one. -/
 theorem one_le_inducedCountingRank3 (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) :
     1 ≤ inducedCountingRank3 q₃ k ε := sorry
 
-/-- **Layer 9.** The lower error **schedule** counting demands — a genuine function of the
-complexity, not a constant: pair-level counting strength must depend on the pair-partition
-complexity, exactly why `LowerSkeletonRegular` evaluates its schedule at the lower complexity and
-`TopRegularOverMostPolyads` at `C.complexity` (the published decomposition architecture evaluates
-the lower error at the pairs complexity `ℓ`). Deliberately **separate** from the global
-edit/exceptional parameter `inducedCountingParameter3` — one is a local schedule, the other a
-global mass bound (explicit value is a target). -/
+/-- **Layer 9.** The host-independent local regularity schedule, indexed by complexity. -/
 def inducedCountingSchedule3 (q₃ k : ℕ) (ε : ℝ) : ℕ → ℝ := sorry
 
-/-- **Layer 9.** Positivity of the schedule everywhere — required to instantiate the Layer-8
-regular-approximation theorem's `hF` with it (part of the target). -/
+/-- **Layer 9.** Positivity of the local regularity schedule. -/
 theorem inducedCountingSchedule3_pos (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) (n : ℕ) :
     0 < inducedCountingSchedule3 q₃ k ε n := sorry
 
-/-- **Layer 9 (charge pinning).** The global parameter fits its `ε/6` charges: the edit-transfer,
-actual-discarded, and predicted-discarded-**mass** contributions to the global error are each at
-most `k³ · inducedCountingParameter3 · |V|^k`, so this single inequality closes those three
-charges (part of the target — without pinned inequalities like this, the four-step assembly's
-charges would not visibly fit inside the final `ε`). -/
+/-- **Layer 9.** The global parameter fits each of its `ε/6` error charges. -/
 theorem inducedCountingParameter3_charge (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) :
     (k : ℝ) ^ 3 * inducedCountingParameter3 q₃ k ε ≤ ε / 6 := sorry
 
-/-- **Layer 9 (discarded predictions — the output slack).** The per-route **output** error for
-the discarded-route prediction bound, as a function of the lower complexity. Deliberately a
-separate function from the **input** schedule `inducedCountingSchedule3`: the discarded-side
-statement must not feed the same function in as regularity strength and out as conclusion slack —
-that shape bakes a linear regularity-to-counting modulus into the statement. The two are tied
-only through `pairRouteRegularityThreshold3` by the calibration
-`inducedCountingSchedule3_le_exceptionalPredictionThreshold` (explicit value is a target;
-`V`-independent). Used as floor and error alike — `ρ = δ = exceptionalPredictionSlack3 … ℓ`
-satisfies the bridge's `δ ≤ ρ`. -/
+/-- **Layer 9.** The per-route output slack for discarded-route predictions, indexed by lower
+complexity and separate from the input regularity schedule. -/
 def exceptionalPredictionSlack3 (q₃ k : ℕ) (ε : ℝ) : ℕ → ℝ := sorry
 
 /-- **Layer 9 (discarded predictions).** Positivity of the output slack (part of the target). -/
 theorem exceptionalPredictionSlack3_pos (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) (n : ℕ) :
     0 < exceptionalPredictionSlack3 q₃ k ε n := sorry
 
-/-- **Layer 9 (charge pinning).** The discarded-prediction slack fits its `ε/6` charge
-**including the route-count factor**: per-route slack `δ + ρ = 2 · slack(ℓ)` accumulates over up
-to `q₂^(k choose 2) ≤ ℓ^(k choose 2)` routes (with `ℓ` the lower complexity), so the slack must
-beat that growth at every complexity (part of the target). This is an inequality about the
-**output** slack, not the input schedule — the schedule is constrained only through the threshold
-calibration. -/
+/-- **Layer 9.** The discarded-prediction slack, including route multiplicity, fits its `ε/6`
+charge. -/
 theorem exceptionalPredictionSlack3_charge (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) (ℓ : ℕ) :
     (k : ℝ) ^ 3 * (ℓ : ℝ) ^ Nat.choose k 2 * (2 * exceptionalPredictionSlack3 q₃ k ε ℓ) ≤
       ε / 6 := sorry
 
-/-- **Layer 9.** The vertex-complexity floor the diagonal-cell gate demands: with an equitable
-vertex partition of at least this many cells, the nontransversal (repeated-cell) placement mass is
-below its **`ε/6` charge** of the counting error (explicit value is a target — `V`-independent). -/
+/-- **Layer 9.** The vertex-complexity floor used by the diagonal-cell estimate. -/
 def diagonalControl3 (k : ℕ) (ε : ℝ) : ℕ := sorry
 
-/-- **Layer 9.** The per-route error budget. A placement admits up to
-`pairColorCount ^ (k choose 2)` lower-color routes, so a per-route error of `ε · ∏ᵢ|cellᵢ|` would
-sum to `ε · q₂^(k choose 2) · |V|^k` — **not** the claimed global `ε · |V|^k`. The placed theorem's
-budget therefore carries the route-count factor explicitly. -/
+/-- **Layer 9.** The per-route error budget, including the route-count divisor. -/
 def routeBudget3 (C : TriadicComplex3 κ₃ V) (k : ℕ) (ε : ℝ) : ℝ :=
   ε / max 1 ((C.pairColorCount : ℝ) ^ Nat.choose k 2)
 
-/-! #### Layer 9 — the lower-route counting bridge (sparse/dense split)
-
-The named sublayer between pair regularity and placed induced counting. It works at the
-**placement scale** `∏ᵢ |cellᵢ|` — deliberately distinct from the triad-support scale
-(`k³ · mass · |V|^k`) of `exceptional_route_mass_le`: that union bound controls whole-host masses
-of discarded routes, this bridge controls a single kept route, and the two meet only in the global
-assembly.
-
-**The sparse/dense split is retained deliberately.** It is tempting to read the aggregate route
-identities as making it redundant — routes, predictions, and placements each partition exactly, so
-no route multiplicity is created by the summation itself. That argument settles only the *lower
-skeleton*. The split may still be needed to convert top regularity stated relative to a small polyad
-support into an error at cell-volume scale, which is a different conversion; nothing established so
-far discharges it. It is therefore kept until a top-layer argument replaces it explicitly. -/
+/-! #### Layer 9 — lower-route counting -/
 
 open Classical in
-/-- **Layer 9 (lower-route bridge).** The actual count at a placement and route constrained by the
-**lower layers only**: injective maps landing in the assigned cells whose canonically oriented
-coordinate pairs carry the route's pair colors — no top-color constraint. A concrete definition,
-unlike the target `placedInducedCopyCount` it caps
-(`placedInducedCopyCount_le_lowerRouteCountAt`). -/
+/-- **Layer 9.** The injective maps realizing the cells and pair colors of a route, with no top-color
+constraint. -/
 def lowerRouteCountAt {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) : ℕ :=
   (univ.filter fun g : Fin F₀.k → V => Function.Injective g ∧ (∀ i, g i ∈ φ.vertexCell i) ∧
     ∀ p : {p : Fin F₀.k × Fin F₀.k // p.1 < p.2},
       C.skeleton.pairColors.colorOfPair (g p.1.1) (g p.1.2) = some (ψ.pairColor p)).card
 
-/-- **Layer 9 (lower-route bridge).** The lower-layer prediction at a placement and route: the
-plain cell-size factor times the product, over canonically oriented pattern pairs, of the route's
-pair-color densities between the assigned cells. Concrete (unlike `expectedInducedCountAt`, whose
-repeated-cell correction and top factors make its explicit formula a target): the bridge theorems
-are stated at transversal placements, where the plain product is the right injection scale. -/
+/-- **Layer 9.** The cell-size product times the route's pair-color densities. -/
 def expectedLowerRouteCountAt (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃)
     (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) : ℝ :=
   (∏ i, ((φ.vertexCell i).card : ℝ)) *
@@ -1025,11 +852,7 @@ def expectedLowerRouteCountAt (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColore
       (pairColorDensity C.skeleton.pairColors (ψ.pairColor p)
         (φ.vertexCell p.1.1) (φ.vertexCell p.1.2) : ℝ)
 
-/-- **Layer 9 (lower-route bridge).** The route is **sparse at floor `ρ`**: some canonically
-oriented pattern pair's route color has density below `ρ` between its assigned cells. Sparse is an
-**easy local case, not a failure of regularity**: it is deliberately neither a seventh global
-charge nor folded into Layer 8's exceptional polyads — conflating near-empty pair support with
-top-irregularity would obscure the mass bookkeeping. -/
+/-- **Layer 9.** A route is sparse at floor `ρ` when one of its pair densities is below `ρ`. -/
 def PairColorPlacement3.IsSparseRoute {C : TriadicComplex3 κ₃ V}
     {F₀ : FiniteColored3Pattern κ₃} {φ : PatternPlacement3 C F₀}
     (ψ : PairColorPlacement3 C F₀ φ) (ρ : ℝ) : Prop :=
@@ -1075,10 +898,8 @@ theorem expectedInducedCountAt_nonneg (H' : Colored3Graph κ₃ V) (C : TriadicC
     (ψ : PairColorPlacement3 C F₀ φ) :
     0 ≤ expectedInducedCountAt H' C F₀ φ ψ := sorry
 
-/-- **Layer 9 (lower-route bridge, sparse).** Placed counting closes on sparse routes with **no
-counting lemma**: both the actual and the predicted count lie in `[0, ρ · ∏ᵢ |cellᵢ|]`, so their
-difference does too. The instantiation `ρ := routeBudget3 C F₀.k (ε/6)` closes the sparse branch
-of `placed_induced_counting3` exactly at its charge. -/
+/-- **Layer 9.** The placed actual and predicted counts on a sparse route differ by at most the
+sparse-route bound. -/
 theorem placed_induced_counting3_of_sparseRoute (H' : Colored3Graph κ₃ V)
     {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) {ρ : ℝ} (hρ : 0 ≤ ρ)
@@ -1086,17 +907,8 @@ theorem placed_induced_counting3_of_sparseRoute (H' : Colored3Graph κ₃ V)
     |((placedInducedCopyCount H' φ ψ : ℝ)) - expectedInducedCountAt H' C F₀ φ ψ| ≤
       ρ * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
 
-/-- **Layer 9 (lower-route bridge).** The pair-regularity **input-strength threshold** for dense
-lower-route counting: regularity at `pairRouteRegularityThreshold3 k ρ δ` suffices to count routes
-whose pair densities all reach the floor `ρ`, with output error `δ` at the placement scale
-(`lowerRoute_counting3`). Input strength and output slack are **deliberately decoupled**: a linear
-conversion (`≈ δ/C(k)`, as in the classical triangle counting lemma against regular pairs) and a
-power-loss conversion (`≈ (δ/C(k))⁴`) both instantiate this definition, so the targets do not
-silently bet on the linear modulus (explicit value is a target). The dense counting theorem
-`lowerRoute_counting3` is what gives the threshold its mathematical meaning — it must genuinely
-suffice for dense counting; `pairRouteRegularityThreshold3_pos` makes it admissible to the
-approximation theorem, and the calibration theorems ensure the chosen schedule is strong enough
-to supply it. -/
+/-- **Layer 9.** The pair-regularity input strength for dense-route counting with density floor `ρ`
+and output error `δ`. -/
 def pairRouteRegularityThreshold3 (k : ℕ) (ρ δ : ℝ) : ℝ := sorry
 
 /-- **Layer 9 (lower-route bridge).** Positivity of the threshold: dense counting demands an
@@ -1111,12 +923,8 @@ at the threshold through the calibration below. -/
 theorem IsPairColorRegular.mono {S : PairSkeleton3 κ₂ V} {ε ε' : ℝ}
     (h : IsPairColorRegular S ε) (hle : ε ≤ ε') : IsPairColorRegular S ε' := sorry
 
-/-- **Layer 9 (lower-route bridge, dense — the regularity-to-counting theorem).** At a transversal
-placement, a route none of whose pair densities falls below the floor `ρ` is counted by the lower
-prediction within `δ` at the placement scale, given pair regularity at the threshold. This is the
-one place regularity strength converts into counting error, and the conversion's modulus lives
-entirely inside `pairRouteRegularityThreshold3` — the statement is agnostic between a linear and a
-power-loss conversion. -/
+/-- **Layer 9.** Dense lower routes at a transversal placement are counted within `δ` at the
+placement scale. -/
 theorem lowerRoute_counting3 {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal) (ψ : PairColorPlacement3 C F₀ φ)
     {ρ δ : ℝ} (hρ : 0 < ρ) (hδ : 0 < δ) (hδρ : δ ≤ ρ) (hdense : ¬ ψ.IsSparseRoute ρ)
@@ -1124,43 +932,21 @@ theorem lowerRoute_counting3 {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored
     |((lowerRouteCountAt φ ψ : ℝ)) - expectedLowerRouteCountAt C F₀ φ ψ| ≤
       δ * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
 
-/-- **Layer 9 (lower-route bridge, dense — the rank requirement).** The NRS rank the dense
-conversion genuinely needs, as a function of the pattern size and the dense output error
-(explicit value is a target). The NRS counting architecture chooses its integer rank **after**
-the pattern and density parameters (NRS, *The counting lemma for regular k-uniform hypergraphs*,
-Theorem 1.5); rank `1` does not suffice for `k`-vertex counting, so the conversion must not
-assert the result for every positive rank — that would make the pattern-dependent
-`inducedCountingRank3` ornamental. -/
+/-- **Layer 9.** The NRS rank required for a pattern of size `k` at output error `δ`. -/
 def requiredTopCountingRank3 (k : ℕ) (δ : ℝ) : ℕ := sorry
 
-/-- **Layer 9 (lower-route bridge, dense).** The required rank is at least one — the rank-`0`
-test is vacuous on nonempty polyads (part of the target). -/
+/-- **Layer 9.** The required top-counting rank is at least one. -/
 theorem one_le_requiredTopCountingRank3 (k : ℕ) (δ : ℝ) (hδ : 0 < δ) :
     1 ≤ requiredTopCountingRank3 k δ := sorry
 
-/-- **Layer 9 (lower-route bridge, calibration — the rank decision point).** The global rank
-supplies the conversion's requirement at the global instantiation
-(`δ = routeBudget3 C F₀.k (ε/12)`), **for complexity-bounded complexes**. The `hC` hypothesis is
-essential: over arbitrary complexes the route budget shrinks with an unbounded
-`C.pairColorCount`, and no fixed rank could dominate the requirement at arbitrarily small
-errors. With the bound in hand the statement is an explicit fixed-point target for **this
-roadmap's constant-rank specialization** — the rank being calibrated appears inside the
-complexity bound itself. Rödl–Schacht themselves permit a rank *function* (their regularity
-lemma accepts `r : ℕ → ℕ`-shaped rank schedules); that rank schedule, evaluated at the
-complexity, remains the fallback if no constant-rank fixed point exists — either resolution
-changes this statement visibly rather than silently (part of the target).
+/-- **Layer 9.** On complexity-bounded complexes, the global counting rank supplies the local
+rank required at the route budget.
 
-**Status: a genuine satisfiability gate, not a refuted claim.** An attempt to falsify it produced
-only a *conditional* obstruction, and the honest version is pointwise rather than cofinal: for fixed
-`(q₃, k, ε, t₀)` the bound `regularityBound3 …` is a fixed natural number, and Layer 8's complexity
-is the computed sum `#cells + pairColorCount + #polyads`, so every complexity-bounded complex has
-`pairColorCount` bounded too — a "for every `L` there is an admissible complex with palette `≥ L`"
-hypothesis is unsatisfiable, and any refutation built on it is vacuous. What survives is concrete:
-given an inverse-error blow-up for `requiredTopCountingRank3` (which `⌈1/δ⌉₊`-style calibrations
-satisfy), there is a **critical palette size** `L` past which the demand exceeds the fixed supply,
-and the calibration fails **iff** one admissible complex reaches it. The arithmetic side of that
-reduces exactly to `1 + L ≤ regularityBound3 …`. So the gate cannot be discharged *or* refuted while
-`regularityBound3` is a target: it is blocked on that value, not on an argument. -/
+A satisfiability gate, not a refuted claim. Since complexity is the computed sum
+`#cells + pairColorCount + #polyads`, bounded complexity bounds the palette, so a cofinal
+falsification is vacuous; the honest form is pointwise and reduces to `1 + L ≤ regularityBound3 …`
+for a critical palette size `L`. The gate is blocked on that target's value, not on an argument.
+The rank-schedule formulation remains the fallback. -/
 theorem requiredTopCountingRank3_le_inducedCountingRank3 (q₃ : ℕ) (ε : ℝ) (hε : 0 < ε)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (t₀ : ℕ)
     (hC : ComplexityBounded C
@@ -1169,17 +955,8 @@ theorem requiredTopCountingRank3_le_inducedCountingRank3 (q₃ : ℕ) (ε : ℝ)
     requiredTopCountingRank3 F₀.k (routeBudget3 C F₀.k (ε / 12)) ≤
       inducedCountingRank3 q₃ F₀.k ε := sorry
 
-/-- **Layer 9 (lower-route bridge, dense — the conversion).** Lower-route control plus route-local
-top regularity yields placed induced counting: the top factors are read off the route's polyads at
-relative error `η` per pattern triple against the lower-route mass, so the placed count meets the
-intrinsic prediction within `δ + k³·η` at the placement scale. The rank hypothesis is a genuine
-pattern/error-dependent lower bound `requiredTopCountingRank3 F₀.k δ ≤ r`, not a bare `1 ≤ r` —
-NRS choose the rank after the pattern and density parameters, and rank `1` is not counting-ready
-strength for a `k`-vertex pattern. The parameter inequalities `δ ≤ ρ` and `k³·η ≤ δ` are the
-explicit smallness the derivation needs, in exactly the scaled form the calibration theorems
-supply (`inducedCountingSchedule3_top_le_routeBudget3` gives `k³·η ≤ δ` directly; the unscaled
-`η ≤ δ` would not follow from it at `k = 0`, where the empty pattern makes the statement
-degenerate anyway). -/
+/-- **Layer 9.** Dense lower-route control and route-local top regularity give placed counting with
+error `(δ + k³η)` at the placement scale. -/
 theorem placed_induced_counting3_of_denseRoute (H' : Colored3Graph κ₃ V)
     {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal) (ψ : PairColorPlacement3 C F₀ φ)
@@ -1191,14 +968,7 @@ theorem placed_induced_counting3_of_denseRoute (H' : Colored3Graph κ₃ V)
     |((placedInducedCopyCount H' φ ψ : ℝ)) - expectedInducedCountAt H' C F₀ φ ψ| ≤
       (δ + (F₀.k : ℝ) ^ 3 * η) * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
 
-/-- **Layer 9 (lower-route bridge, calibration).** The schedule supplies the dense threshold at
-the route-budgeted charge: at the lower complexity (the evaluation point `LowerSkeletonRegular`
-actually provides), the schedule is at least as strong as the threshold at floor
-`routeBudget3 C k (ε/6)` and output error `routeBudget3 C k (ε/12)` — half the placed-counting
-charge, the other half absorbing the top slack (`inducedCountingSchedule3_top_le_routeBudget3`).
-The threshold's meaning comes from `lowerRoute_counting3`, which it must genuinely suffice for;
-this calibration ensures the chosen schedule is strong enough to supply it (part of the
-target). -/
+/-- **Layer 9.** The local schedule supplies the pair-regularity threshold at the route budget. -/
 theorem inducedCountingSchedule3_le_pairRouteRegularityThreshold3 (q₃ : ℕ) (ε : ℝ)
     (hε : 0 < ε) (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) :
     inducedCountingSchedule3 q₃ F₀.k ε
@@ -1206,53 +976,22 @@ theorem inducedCountingSchedule3_le_pairRouteRegularityThreshold3 (q₃ : ℕ) (
       pairRouteRegularityThreshold3 F₀.k (routeBudget3 C F₀.k (ε / 6))
         (routeBudget3 C F₀.k (ε / 12)) := sorry
 
-/-- **Layer 9 (lower-route bridge, calibration).** The top slack fits the other half of the
-placed charge: `k³` times the schedule at the complexity (the strength `IsTopRegularRoute` runs
-at) is at most `routeBudget3 C k (ε/12)`, so the dense conversion's `δ + k³·η` lands inside
-`routeBudget3 C k (ε/6)` — the sparse and dense branches then close the localized
-`placed_induced_counting3` at the same charge (part of the target). -/
+/-- **Layer 9.** The top-regularity slack fits half of the placed-counting charge. -/
 theorem inducedCountingSchedule3_top_le_routeBudget3 (q₃ : ℕ) (ε : ℝ) (hε : 0 < ε)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) :
     (F₀.k : ℝ) ^ 3 * inducedCountingSchedule3 q₃ F₀.k ε C.complexity ≤
       routeBudget3 C F₀.k (ε / 12) := sorry
 
-/-- **Layer 9 (lower-route bridge, calibration — discarded side).** The schedule supplies the
-threshold at the discarded-prediction slack pair (`ρ = δ = exceptionalPredictionSlack3 … ℓ`), at
-every complexity: this is the only link between the input schedule and the discarded-side output
-slack, so `exceptional_route_prediction_mass_le` never feeds the schedule in as strength and out
-as slack (part of the target). -/
+/-- **Layer 9.** The schedule supplies the threshold used for discarded-route predictions. -/
 theorem inducedCountingSchedule3_le_exceptionalPredictionThreshold (q₃ k : ℕ) (ε : ℝ)
     (hε : 0 < ε) (ℓ : ℕ) :
     inducedCountingSchedule3 q₃ k ε ℓ ≤
       pairRouteRegularityThreshold3 k (exceptionalPredictionSlack3 q₃ k ε ℓ)
         (exceptionalPredictionSlack3 q₃ k ε ℓ) := sorry
 
-/-- **Layer 9 (placed local counting — the real counting lemma).** At a fixed **transversal**
-placement `φ` (distinct assigned cells — repeated-cell placements are the diagonal gate's job, not
-this lemma's) and a **top-regular route** `ψ` (`hroute` — the strong approximation controls only
-most polyads, so a route through an exceptional polyad has no counting control and is excluded
-here, its mass bounded separately by `exceptional_route_mass_le`), the placed induced count **in
-the approximant `H'`** is within the per-route budget of the intrinsic prediction. The hypotheses
-are exactly the **local contract** — transversality, lower-skeleton regularity at the schedule,
-route-local top regularity, and rank adequacy (`hrank`, which the global theorem extracts from
-`hreg`'s complexity bound through the rank calibration
-`requiredTopCountingRank3_le_inducedCountingRank3`) — never the full
-`IsStrongRegularApproximation3` bundle: the original `H`, the edit bound, the exceptional mass,
-and the complexity control are global data this local lemma does not consume (the global theorem
-extracts the local hypotheses from its `hreg`). Counting here must be in `H'`, not `H`: a small *global* edit discrepancy can be
-concentrated entirely inside one placement, so it yields no per-placement bound — the `H'`-to-`H`
-transfer is global, through `inducedCopyCount_edit_transfer`. The error is the **per-route budget
-at the `ε/6` placed-counting charge** `routeBudget3 C F₀.k (ε/6)` — not a bare `ε`, for two
-stacked reasons: a placement admits up to `q₂^(k choose 2)` routes (so per-route errors carry the
-route-count divisor), and the global `ε` splits into **six explicit `ε/6` charges** (placed
-counting; actual discarded mass; predicted discarded mass; predicted lower-route slack; diagonal;
-edit transfer) — allocating the full `ε` here would exhaust the budget before the other steps
-contribute. Proof route through the lower-route bridge: split on
-`IsSparseRoute (routeBudget3 C F₀.k (ε/6))` — sparse routes self-bound
-(`placed_induced_counting3_of_sparseRoute`); dense routes run the threshold counting theorem and
-the conversion (`lowerRoute_counting3`, `placed_induced_counting3_of_denseRoute`), instantiated
-through the calibration theorems and `IsPairColorRegular.mono`, with the conversion's rank
-requirement met by `hrank`. -/
+/-- **Layer 9.** At a transversal placement with a top-regular route, adequate lower regularity,
+and adequate rank, the placed count in `H'` is within the per-route `ε/6` budget of its intrinsic
+prediction. -/
 theorem placed_induced_counting3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal)
     (ψ : PairColorPlacement3 C F₀ φ) (ε : ℝ) (hε : 0 < ε)
@@ -1267,12 +1006,8 @@ theorem placed_induced_counting3 (H' : Colored3Graph κ₃ V) (C : TriadicComple
       routeBudget3 C F₀.k (ε / 6) * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
 
 open Classical in
-/-- **Layer 9 (exceptional routes — the step-2 union bound).** The named lemma making step 2 of
-the global assembly explicit rather than a hidden bridge: the number of injective `k`-tuples one
-of whose coordinate triples lands in the support of an exceptional (non-`(η, r)`-top-regular)
-polyad is at most `k³` times the exceptional-polyad mass times `|V|^k` — pattern-local: under the
-decomposition hypothesis each unit of exceptional support meets at most `k³ · |V|^{k−3}` tuples,
-and the total support is at most `|V|³`. -/
+/-- **Layer 9.** The actual mass of routes meeting an exceptional polyad is bounded by
+`k³ · exceptionalPolyadMass · |V|^k`. -/
 theorem exceptional_route_mass_le (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (η : ℝ) (r : ℕ) (hdecomp : IsPolyadDecomposition C) :
     ((univ.filter fun g : Fin F₀.k → V => Function.Injective g ∧
@@ -1282,41 +1017,13 @@ theorem exceptional_route_mass_le (H' : Colored3Graph κ₃ V) (C : TriadicCompl
               x.1 0 = g i ∧ x.1 1 = g j ∧ x.1 2 = g l).card : ℝ) ≤
       (F₀.k : ℝ) ^ 3 * exceptionalPolyadMass H' C η r * (Fintype.card V : ℝ) ^ F₀.k := sorry
 
-/-- **Layer 9.** The total **predicted** contribution of discarded routes **among transversal
-placements**: the sum of `expectedInducedCountAt` over all transversal placements and all their
-routes that are **not** `(η, r)`-top-regular (explicit definition is a target — the sum over the
-placement structures, once their `Fintype` instances are set up). Transversal-only by design:
-the lower-route bridge that bounds this mass requires transversality, and the nontransversal
-(repeated-cell) predicted side is owned by `nontransversalPredictedMass3` under the diagonal
-gate — the predicted-side partition stays overlap-free, with no hidden repeated-cell counting
-lemma. (The actual-side union bound `exceptional_route_mass_le` may still overcount
-nontransversal tuples also covered by the diagonal bound — harmless in an upper bound.)
-The global absolute-difference argument must bound this **alongside** the actual discarded mass
-(`exceptional_route_mass_le`): `expectedInducedCount` sums predictions over *all* routes,
-including the discarded ones. -/
+/-- **Layer 9.** The predicted contribution of non-top-regular routes among transversal
+placements. -/
 def exceptionalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (η : ℝ) (r : ℕ) : ℝ := sorry
 
-/-- **Layer 9 (discarded routes, predicted side).** Companion to `exceptional_route_mass_le`,
-**through the lower-route bridge**: sparse routes' predictions self-bound at the floor `ρ`, dense
-routes' predictions tie to their polyads' actual supports within `δ` by threshold regularity, so
-predictions concentrated on exceptional polyads inherit the exceptional-mass bound up to a
-per-route slack `δ + ρ` — accumulated over the **route-count factor** `q₂^(k choose 2)`. The
-mass is **transversal-only** (see `exceptionalPredictedMass3`) — exactly what lets the bridge,
-whose dense theorem requires transversality, apply per placement; the repeated-cell predicted
-side is the diagonal gate's. Three
-deliberate signature choices: input regularity is at the **threshold**
-`pairRouteRegularityThreshold3` while the conclusion slack is the **separate output pair**
-`(ρ, δ)` — never the same function in as strength and out as slack, which would bake a linear
-regularity-to-counting modulus into the statement (the global instantiation takes
-`ρ = δ = exceptionalPredictionSlack3 … ℓ` at the lower complexity `ℓ`, supplied from the schedule
-via `inducedCountingSchedule3_le_exceptionalPredictionThreshold` and `IsPairColorRegular.mono`,
-and fits its `ε/6` charge by `exceptionalPredictionSlack3_charge`); the exceptional-mass
-parameter `εmass` is separate from the counting slack (the global theorem supplies it at
-`inducedCountingParameter3` — a single shared `ε` could not be instantiated without an unpinned
-comparison); and the slack carries the route-count factor — per-route errors accumulate over that
-many routes. Without this lemma the global assembly would bound only the actual side of the
-discarded routes. -/
+/-- **Layer 9.** The predicted mass of exceptional transversal routes is controlled by the
+exceptional mass and the route-counted output slack `δ + ρ`. -/
 theorem exceptional_route_prediction_mass_le (H' : Colored3Graph κ₃ V)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (η εmass ρ δ : ℝ) (r : ℕ)
     (hdecomp : IsPolyadDecomposition C) (hρ : 0 < ρ) (hδ : 0 < δ) (hδρ : δ ≤ ρ)
@@ -1333,13 +1040,8 @@ definition is a target — the companion of `exceptionalPredictedMass3` on the d
 def nontransversalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) : ℝ := sorry
 
-/-- **Layer 9 (diagonal gate — the pinned `ε/6` charge).** The theorem `VertexCellsControlled` is
-*for*: under an equitable vertex partition with at least `diagonalControl3 F₀.k ε` cells, the
-**sum of both sides omitted by transversal counting** — the actual injective tuples with two
-coordinates in a common cell, plus the predicted mass of nontransversal placements — is at most
-`ε/6 · |V|^k`. Each cell holds roughly `|V|/t` vertices, so repeated-cell tuples number about
-`k²·|V|^k/t`; the floor makes that (and its predicted mirror) fit the charge. Without this pinned
-target the diagonal charge would be asserted only in prose, unlike the other five. -/
+/-- **Layer 9.** Controlled vertex cells bound the combined actual and predicted nontransversal
+mass by the diagonal `ε/6` charge. -/
 theorem nontransversal_actual_and_predicted_mass_le (H' : Colored3Graph κ₃ V)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
     (hcells : VertexCellsControlled C (diagonalControl3 F₀.k ε)) :
@@ -1349,49 +1051,12 @@ theorem nontransversal_actual_and_predicted_mass_le (H' : Colored3Graph κ₃ V)
       + nontransversalPredictedMass3 H' C F₀ ≤
       ε / 6 * (Fintype.card V : ℝ) ^ F₀.k := sorry
 
-/-- **Layer 9 (edit transfer).** The named global transfer lemma: two colorings' induced copy
-counts differ by at most the edit mass times the number of placements meeting a fixed triple —
-`k³ · editDiscrepancy3 · |V|^k` is a safe explicit form. This is the **only** place the `H`/`H'`
-difference enters the counting chain; it is global by nature (per-placement transfer is false under
-edit concentration). -/
+/-- **Layer 9.** The global induced-copy counts differ by at most
+`k³ · editDiscrepancy3 H H' · |V|^k`. -/
 theorem inducedCopyCount_edit_transfer (H H' : Colored3Graph κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) :
     |((H.inducedCopyCount F₀ : ℝ)) - (H'.inducedCopyCount F₀ : ℝ)| ≤
       (F₀.k : ℝ) ^ 3 * (editDiscrepancy3 H H' : ℝ) * (Fintype.card V : ℝ) ^ F₀.k := sorry
-
-/-! #### Layer 9 — the counting objects, pinned
-
-The shapes below were validated against exact finite models before being written down here, so the
-combinatorial content of Layer 9 is fixed even though several definitions remain targets.
-
-* **Route count.** With the coherent pair-color signature of Layer 5, a route assigns one color per
-  **canonically oriented** pattern pair — the anti-canonical color is recovered by `rev`, not chosen
-  independently. The unconstrained assignment type therefore has cardinality exactly
-  `ℓ ^ (k.choose 2)`, which is what `routeBudget3` divides by. `PairColorPlacement3` is a *subtype*
-  of it (the `polyad_mem` clause), so its cardinality is at most that — the safe direction for a
-  budget divisor. Under the pre-coherence signature neither statement held: reverse colors were free
-  and the support-relevant data per cell pair was `ℓ²`-valued.
-
-* **Placement volume.** For a **transversal** placement (pairwise distinct cells) the number of
-  injective tuples is the plain product of cell sizes. For a placement with **repeated** cells it is
-  the product, over the parts of the vertex partition, of falling factorials
-  `(#C).descFactorial (#fibre C)` — the fibre being the set of pattern vertices sent to that cell.
-  This is the exact injection correction; it is **not** an informal collision subtraction, and it
-  degenerates to `0` exactly when some fibre outgrows its cell.
-
-* **Actual and predicted fibration identities are stated separately** below
-  (`inducedCopyCount_eq_sum_placed` and `expectedInducedCount_eq_sum`). That separation is
-  deliberate: only the actual identity is a partition of a genuine finite set, while the predicted
-  one is an identity between definitions. Merging them would hide which side still owes work.
-
-* **The predicted repeated-placement contribution stays open.** All placements split disjointly into
-  transversal and repeated-cell ones on *both* sides, but only the transversal predicted identity is
-  exact here. The repeated-cell predicted mass belongs to the diagonal gate
-  (`abs_inducedCount_sub_expected_le_of_diagonalControl`) and is deliberately **not** absorbed into
-  the transversal statement. `regularity-lemmata` now supplies that bound's mathematical core
-  generically — any weight dominated by the cell-triple volume obeys the diagonal charge, and
-  "volume times a factor at most one" is exactly the shape of a step estimate — but it does **not**
-  supply TauCeti's eventual `expectedInducedCountAt`, so the split is not yet complete here. -/
 
 /-! #### Layer 9 — assembly discipline: the fibration identity and the six-charge arithmetic -/
 
@@ -1407,13 +1072,8 @@ noncomputable instance instFintypePairColorPlacement3 (C : TriadicComplex3 κ₃
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) :
     Fintype (PairColorPlacement3 C F₀ φ) := sorry
 
-/-- **Layer 9 (assembly — the fibration identity).** Under a polyad decomposition, the
-approximant's induced copy count is **exactly** the sum of placed counts over all placements and
-routes: each actual copy lands its vertices in unique cells (its placement) and its coordinate
-pairs in unique colors (its route), and the induced polyads lie in `C` automatically — the
-decomposition's covering polyad at each triple is determined by the triple's cells and pair
-colors. Without this named identity the global theorem's step 1 would rest on an unstated
-bijection. -/
+/-- **Layer 9.** Under a polyad decomposition, the induced-copy count is the sum of the placed
+counts over all placements and routes. -/
 theorem inducedCopyCount_eq_sum_placed (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (hdecomp : IsPolyadDecomposition C) :
     H'.inducedCopyCount F₀ =
@@ -1429,44 +1089,15 @@ theorem expectedInducedCount_eq_sum (H' : Colored3Graph κ₃ V) (C : TriadicCom
       ∑ φ : PatternPlacement3 C F₀, ∑ ψ : PairColorPlacement3 C F₀ φ,
         expectedInducedCountAt H' C F₀ φ ψ := sorry
 
-/-- **Layer 9 (assembly — the six-charge arithmetic, proved).** If the actual-vs-predicted
-difference splits into six contributions and each fits its `ε/6` charge at scale `N`, the total
-fits `ε · N`. Proved here, not a target: the assembly arithmetic is machine-checked now, so the
-global theorem's remaining depth is exactly the six charge bounds and the split itself. -/
+/-- **Layer 9.** Six error terms bounded by `εN/6` have total at most `εN`. -/
 theorem sixCharge_assembly {x y e₁ e₂ e₃ e₄ e₅ e₆ N ε : ℝ}
     (hsplit : |x - y| ≤ e₁ + e₂ + e₃ + e₄ + e₅ + e₆)
     (h₁ : e₁ ≤ ε / 6 * N) (h₂ : e₂ ≤ ε / 6 * N) (h₃ : e₃ ≤ ε / 6 * N)
     (h₄ : e₄ ≤ ε / 6 * N) (h₅ : e₅ ≤ ε / 6 * N) (h₆ : e₆ ≤ ε / 6 * N) :
     |x - y| ≤ ε * N := by linarith
 
-/-- **Layer 9 (global counting theorem).** Induced counting: if `(H', C)` is a strong regular
-approximation of `H` at the (`V`-independent) parameter `inducedCountingParameter3 q₃ F₀.k ε` and
-rank `inducedCountingRank3 q₃ F₀.k ε`, **and** the vertex cells are controlled at the diagonal
-floor `diagonalControl3 F₀.k ε` (equitable, enough cells — so the nontransversal placement mass is
-below the error), then the induced copy count **in the original `H`** of the fixed pattern `F₀` on
-`k` vertices is within `ε · |V|^k` of the intrinsic prediction from the approximant. The final `ε`
-splits into **six explicit `ε/6` charges** across four steps, each charge closed by a pinned
-target: (1) `placed_induced_counting3` summed over transversal placements with **top-regular
-routes** — the per-route `routeBudget3 _ _ (ε/6)` sums back to `ε/6` across the up to
-`q₂^(k choose 2)` routes per placement; (2) the discarded routes bounded on **both** sides —
-actual mass by `exceptional_route_mass_le` and predicted mass **among transversal placements**
-(two charges: exceptional mass +
-lower-route slack) by `exceptional_route_prediction_mass_le` — instantiated at
-`ρ = δ = exceptionalPredictionSlack3 … ℓ` through the discarded-side calibration — their fits
-pinned by `inducedCountingParameter3_charge` and `exceptionalPredictionSlack3_charge`; (3) the
-diagonal gate
-bounding the omitted nontransversal placements — actual **and** predicted — at its `ε/6` charge,
-pinned by `nontransversal_actual_and_predicted_mass_le`; (4)
-`inducedCopyCount_edit_transfer` moving the `H'`-count to the `H`-count (the transfer is global —
-never per placement), its fit again `inducedCountingParameter3_charge`. The regularity hypothesis
-runs at the genuine schedule `inducedCountingSchedule3` with the global edit/exceptional mass at
-the separate `inducedCountingParameter3`. Assembly discipline: step 1's sum runs through the
-fibration identity `inducedCopyCount_eq_sum_placed` and its predicted mirror
-`expectedInducedCount_eq_sum`, the local hypotheses of `placed_induced_counting3` are extracted
-from `hreg`, and the final arithmetic is the **proved** `sixCharge_assembly`.
-Induced-removal-style corollaries are downstream
-consumers, not part of the roadmap's endpoints. Architectural blueprint: the binary-palette counting
-phase of `regularity-lemmata` — transversal counting first, then the diagonal-cell gate. -/
+/-- **Layer 9 (endpoint).** A strong regular approximation with controlled vertex cells predicts
+the induced copy count in `H` within `ε · |V|^k`. -/
 theorem induced_counting_from_strong_regular_complex3 (H H' : Colored3Graph κ₃ V)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
     (hcells : VertexCellsControlled C (diagonalControl3 F₀.k ε))
