@@ -602,6 +602,14 @@ edges incident with that vertex**. Symmetric because `max`/`min`/`{i,j}` are; ir
 def exposedSample (W : Graphon Ω μ) (n : ℕ) (x : Fin n → Ω × (Fin n → ℝ)) :
     SimpleGraph (Fin n) := sorry
 
+/-- **The exposure eliminator**: the edge `{i, j}` is present exactly when the coin in row
+`max i j`, column `min i j` falls below the graphon value at the endpoint positions. Pins the
+designated-row convention the oscillation bound depends on. -/
+@[simp] theorem exposedSample_adj (W : Graphon Ω μ) (n : ℕ) (x : Fin n → Ω × (Fin n → ℝ))
+    (i j : Fin n) :
+    (exposedSample μ W n x).Adj i j ↔
+      i ≠ j ∧ (x (max i j)).2 (min i j) ≤ W.toFun (x i).1 (x j).1 := sorry
+
 /-- **Layer 9c (the law identification).** Pushing the exposure source through the exposed
 sampler gives exactly the finite sampling law — the identity that makes the exposure a genuine
 representation of `G(n, W)`, not a heuristic. -/
@@ -795,6 +803,11 @@ array theory is a concrete contract rather than prose; only the law-level adapte
 type is selected when that roadmap's array API exists — waits. -/
 def graphCoordEquiv : SimpleGraph ℕ ≃ (EdgeIndex → Bool) := sorry
 
+/-- **The semantic pin of the bridge**: the coordinate at an edge index is the edge indicator —
+not, say, its complement. Without this the equivalence is observationally unconstrained. -/
+@[simp] theorem graphCoordEquiv_apply (G : SimpleGraph ℕ) (e : EdgeIndex) :
+    graphCoordEquiv G e = true ↔ e.1 ∈ G.edgeSet := sorry
+
 /-- **Layer 9b.** The coordinate map is measurable (Mathlib's σ-algebra on `SimpleGraph ℕ`
 against the product σ-algebra on the coordinates) — one half of what a pushforward of laws along
 the bridge needs. -/
@@ -807,6 +820,11 @@ theorem measurable_graphCoordEquiv_symm : Measurable ⇑graphCoordEquiv.symm := 
 /-- **Layer 9b (relabeling on coordinates).** The action of a permutation of `ℕ` on edge
 indices — `Sym2.map` restricted to non-diagonal pairs (injectivity keeps them non-diagonal). -/
 def edgeIndexMap (e : Equiv.Perm ℕ) : EdgeIndex ≃ EdgeIndex := sorry
+
+/-- The coordinate action is literally `Sym2.map`; identity and composition laws follow from
+this pointwise characterization. -/
+@[simp] theorem edgeIndexMap_val (e : Equiv.Perm ℕ) (p : EdgeIndex) :
+    (edgeIndexMap e p).1 = Sym2.map e p.1 := sorry
 
 /-- **Layer 9b (the relabeling commuting square).** Relabeling the graph is jointly relabeling
 the coordinates: the coordinate of `G.comap e` at a pair is the coordinate of `G` at the mapped
@@ -965,6 +983,17 @@ def graphonMixtureLawEquiv :
     MeasureTheory.ProbabilityMeasure GraphonSpaceI ≃ InfiniteExchangeableGraphLaw :=
   mixtureExchangeableLawEquiv.trans exchangeableGraphLawEquivInfinite
 
+/-- **Layer 9b (summit marginal eliminator, derived).** The summit-level restriction law is the
+composition of the finite-marginal eliminator with the summit's definition — derived, so it can
+never drift from the finite-level pin. -/
+@[simp] theorem graphonMixtureLawEquiv_law_map_restrictFin
+    (P : MeasureTheory.ProbabilityMeasure GraphonSpaceI) (k : ℕ) :
+    ((graphonMixtureLawEquiv P).law).map (restrictFin · k)
+      = (mixtureExchangeableLaw P).law k := by
+  simpa [graphonMixtureLawEquiv, mixtureExchangeableLawEquiv_apply]
+    using exchangeableGraphLawEquivInfinite_law_map_restrictFin
+      (mixtureExchangeableLawEquiv P) k
+
 /-- **Layer 9b (anchor).** The representation sends the Dirac mass at the class of `W` to the
 infinite `W`-sampling law — tying the correspondence back to the sampling stack. With the spine,
 this is the transport of `mixtureExchangeableLaw_diracProba` through
@@ -1004,10 +1033,26 @@ graphs. The underlying unlabeled graph is `forgetLabels`. -/
 def LabeledGraph.glue {k : ℕ} (G₁ G₂ : LabeledGraph k) : LabeledGraph k := sorry
 
 /-- **Layer 8a (gluing eliminators).** The two vertex maps into the gluing. -/
-def LabeledGraph.glueInl {k : ℕ} (G₁ G₂ : LabeledGraph k) : Fin G₁.n → Fin (G₁.glue G₂).n := sorry
+def LabeledGraph.glueInl {k : ℕ} (G₁ G₂ : LabeledGraph k) : Fin G₁.n ↪ Fin (G₁.glue G₂).n := sorry
 
 /-- The right vertex map into the gluing. -/
-def LabeledGraph.glueInr {k : ℕ} (G₁ G₂ : LabeledGraph k) : Fin G₂.n → Fin (G₁.glue G₂).n := sorry
+def LabeledGraph.glueInr {k : ℕ} (G₁ G₂ : LabeledGraph k) : Fin G₂.n ↪ Fin (G₁.glue G₂).n := sorry
+
+/-- **No other identifications**: the two sides meet exactly at corresponding labels — the
+vertex pushout, pinned. With joint surjectivity this determines the vertex set; a cardinality
+law `(G₁.glue G₂).n = G₁.n + G₂.n - k` is a derived regression, not a substitute. -/
+theorem LabeledGraph.glueInl_eq_glueInr_iff {k : ℕ} (G₁ G₂ : LabeledGraph k)
+    (a : Fin G₁.n) (b : Fin G₂.n) :
+    G₁.glueInl G₂ a = G₁.glueInr G₂ b ↔ ∃ i : Fin k, a = G₁.label i ∧ b = G₂.label i := sorry
+
+/-- **Adjacency is exactly the union of the two edge images** — the global eliminator: every
+glued edge has a preimage edge on one of the two sides, so no cross-edges between unlabeled
+vertices can be smuggled in. -/
+theorem LabeledGraph.glue_adj_iff {k : ℕ} (G₁ G₂ : LabeledGraph k)
+    (u v : Fin (G₁.glue G₂).n) :
+    (G₁.glue G₂).graph.Adj u v ↔
+      (∃ a b, u = G₁.glueInl G₂ a ∧ v = G₁.glueInl G₂ b ∧ G₁.graph.Adj a b) ∨
+      (∃ a b, u = G₁.glueInr G₂ a ∧ v = G₁.glueInr G₂ b ∧ G₂.graph.Adj a b) := sorry
 
 /-- The gluing identifies exactly the corresponding labeled vertices: the two maps agree on
 labels, and the labels of the gluing are the common image. -/

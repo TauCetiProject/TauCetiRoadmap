@@ -91,11 +91,11 @@ in *Why these two choices* below.
 `propext`, `Classical.choice`, `Quot.sound` (`TauCeti/AGENTS.md`). The roadmap states the goals
 with `sorry`; the code repo discharges them.
 
-## Verification status (added after migration-source review)
+## Proof-route validation gates
 
 Two kinds of pin coexist in this roadmap and must not be conflated.
 
-**Verified against a migration source** (exact statements proved in the pinned sources): the
+**Migration-backed routes** (exact statements proved in the pinned sources): the
 padded-exposure architecture and its concentration constants (the `q/k` oscillation and the
 `2·exp(−ε²k/(2q²))` tail under `2q² ≤ εk` are proved verbatim in `cameronfreer/graphon`,
 `SampleExposure.lean`); the finite-marginal eliminator for the finite↔infinite law equivalence;
@@ -112,13 +112,23 @@ the measurable adapter, exact agreement with Mathlib set averages, the zero conv
 rectangles, and unchanged weighted energy — **the convention only, not weak regularity and not
 the sharper exponent**.
 
-**Experimental — not validated by either migration source** (stop/go experiments pending; these
-routes are not endorsed until the experiments run): the coupling-primary cut-distance triangle
-inequality on arbitrary carriers (Janson 6.5 — finite coupling gluing with zero-mass middle
-atoms made explicit, then step-approximation stability); the strict ↔ `AEEqFun` quotient
-bridge; the Möbius / reflection-positivity spine of Layer 8b; the carrier-free representation
-reduction (Janson 7.1/7.3); and full Layer 5 (`cutDist_eq_cutDistPullback` itself — the A.9
-wrapper and its atomic battery are verified, the coupling↔map equivalence is not).
+**Required design-validation milestones.** Each of the following is the definite first
+milestone of its layer; the dependent route is committed only once its milestone is proved:
+
+- before the arbitrary-carrier triangle inequality (Janson 6.5): finite coupling gluing with
+  zero-mass middle atoms explicit, then stability of the reduction under step approximation —
+  finite gluing alone does not establish the arbitrary-carrier theorem;
+- before Layer 2 commits to the block-average representation: the null-cell regression lemmas
+  beyond the adapter (Pythagoras, increment, the iteration exponent);
+- before the coupling/map equivalence of Layer 5: the Dirac, finite-atomic, and mixed
+  regressions discharged against `cutDist_eq_cutDistPullback` itself;
+- before the strict/AE architecture becomes foundational: the representative round-trip proved
+  on the intended examples;
+- before Layer 8b begins: the injection-wise Möbius consistency and `isDissociated` bridge
+  validated in finite cases, then the connection-matrix factorization `C = Z · diag(f†) · Zᵀ`;
+- the carrier-free representation reduction (Janson 7.1/7.3): the two-coordinate factorization
+  through `q × q` with symmetry and range retained, before the hypothesis-free separation
+  converse relies on it.
 
 **Two requirements for every opaque constructor pinned here:**
 
@@ -155,7 +165,7 @@ some prose paths below are abbreviated.)
   target, which is a **distinct theorem built separately** (Layer 2). Do not route it into the
   Frieze–Kannan target. The finite regularity *tower* above it — strong graph regularity and
   arity-3 hypergraph-complex regularity — is likewise out of scope here: it is the subject of the
-  companion **graph-regularity roadmap** (developed in parallel, in review), which *consumes* this
+  companion **graph-regularity roadmap**, which *consumes* this
   roadmap's `cutNorm`, `stepGraphon`, and `weak_regularity_frieze_kannan` through finite adapters
   and never redefines them — so those names and shapes are load-bearing beyond this roadmap.
 - **Measurable / random graphs:** `MeasurableSpace (SimpleGraph V)` + `SimpleGraph.measurable_iff_adj`
