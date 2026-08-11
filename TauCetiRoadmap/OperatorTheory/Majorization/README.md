@@ -93,7 +93,15 @@ Each label names one obligation. Milestones and acceptance examples cite these l
 
 ### Part A — majorization, Schur–Horn, and unitarily invariant norms
 
+Part A builds the convex majorization engine and connects it to operator spectra through
+Schur–Horn and Ky Fan variational theory. Diagonal models then identify unitarily invariant
+seminorms with symmetric gauges of singular values.
+
 #### Convex majorization objects
+
+Prefix sums encode weak majorization, while Robin Hood transfers give its elementary geometric
+moves. Symmetric-convex sets and symmetric gauges turn these moves into convex containment and
+numerical monotonicity.
 
 - **MAJ-A01 — Prefix sums.** For `x : Fin n → ℝ` and `k ≤ n`, define the prefix sum
   `Pₖ(x) = ∑_{i<k} xᵢ`.
@@ -112,6 +120,10 @@ Each label names one obligation. Milestones and acceptance examples cite these l
   sign changes.
 
 #### Weak-majorization calculus
+
+The closure laws make weak majorization compositional under sums, scaling, and padding.
+Transfer descent is the convex engine that later converts Ky Fan prefix inequalities into gauge
+inequalities.
 
 - **MAJ-A07 — Prefix sums of sums.** For tuples `x,y`, `Pₖ(x+y) = Pₖ(x) + Pₖ(y)`.
 - **MAJ-A08 — Prefix sums under nonnegative scaling.** For `c ≥ 0`,
@@ -136,6 +148,10 @@ Each label names one obligation. Milestones and acceptance examples cite these l
 
 #### Schur–Horn
 
+Squared overlaps between an eigenbasis and an arbitrary orthonormal basis form a doubly
+stochastic weight matrix. This expresses diagonal data as a majorized image of the spectrum and
+yields the convex Schur–Horn inequalities.
+
 - **MAJ-A18 — Schur weight.** For a symmetric endomorphism with orthonormal eigenbasis
   `(vᵢ)` and an arbitrary orthonormal basis `(eₖ)`, define
   `wᵢₖ = |⟪vᵢ,eₖ⟫|²`.
@@ -152,6 +168,9 @@ Each label names one obligation. Milestones and acceptance examples cite these l
   `∑ₖ (Re⟪Teₖ,eₖ⟫)² ≤ ∑ᵢ λᵢ²`.
 
 #### Ky Fan sums
+
+Ky Fan sums package the leading singular values into variational quantities. Their variational
+principle yields singular-value triangle majorization and bounded-factor domination.
 
 - **MAJ-A26 — Ky Fan sums.** For a finite-dimensional endomorphism `A`, define
   `Kₖ(A) = ∑_{i<k} σᵢ(A)` from its decreasing zero-padded singular-value sequence.
@@ -175,6 +194,10 @@ Each label names one obligation. Milestones and acceptance examples cite these l
   `c`, then `σᵢ(CA) ≤ c σᵢ(A)` for every `i`.
 
 #### Diagonal models and square unitarily invariant seminorms
+
+Diagonal models connect symmetric gauges on coordinate tuples with seminorms on operators.
+The singular-value factorization makes this connection intrinsic, and Fan dominance transfers
+weak majorization to every square unitarily invariant seminorm.
 
 - **MAJ-A36 — Diagonal operator.** For a real tuple `b` and an orthonormal basis `(eᵢ)`,
   define the endomorphism with `eᵢ` as eigenvectors and diagonal entries `bᵢ`.
@@ -216,7 +239,16 @@ Each label names one obligation. Milestones and acceptance examples cite these l
 
 ### Part B — rectangular unitarily invariant norms
 
+Part B turns Ky Fan domination into domination for every rectangular unitarily invariant
+seminorm through the convex hull of the two-sided unitary orbit. Downstream perturbation proofs
+can establish a Ky Fan estimate once and obtain operator, Frobenius, Ky Fan, and nuclear
+consequences through this interface.
+
 #### Rectangular seminorms and transport
+
+The rectangular interface allows independent unitary changes of coordinates in the domain and
+codomain. Isometric transport, zero extension, and adjoint transport connect rectangular maps
+to the square singular-value theory.
 
 - **MAJ-B01 — Rectangular unitarily invariant seminorm.** Define a seminorm on maps
   `A : E → F` by subadditivity, absolute homogeneity, and invariance under independent
@@ -250,6 +282,10 @@ Each label names one obligation. Milestones and acceptance examples cite these l
 
 #### Orbit-hull machinery
 
+Two-sided unitary orbits encode the geometry of operators with fixed singular data. Finite orbit
+certificates convert convex orbit membership into seminorm bounds, and majorization supplies
+the orbit-hull criterion.
+
 - **MAJ-B14 — Certificates from convex combinations.** Every finite convex combination of
   the two-sided unitary orbit of `C` yields an orbit certificate of coefficient mass one.
 - **MAJ-B15 — Reindexing certificates.** Finite orbit certificates are preserved under
@@ -272,6 +308,10 @@ Each label names one obligation. Milestones and acceptance examples cite these l
 
 #### Orthogonal block sums
 
+Orthogonal block sums assemble directed estimates at the level of singular values and orbit
+hulls. This assembly preserves the sharp constants used by spectral-subspace perturbation
+estimates.
+
 - **MAJ-B22 — Orthogonal block sum.** For `A : E₁ → F₁` and `B : E₂ → F₂`, define the
   block-diagonal operator `A ⊕ B` on the Hilbert `L²` products.
 - **MAJ-B23 — Componentwise action.** `(A ⊕ B)(x,y) = (Ax,By)`.
@@ -290,6 +330,10 @@ Each label names one obligation. Milestones and acceptance examples cite these l
   satisfies `N(A ⊕ B) ≤ N(C ⊕ D)`.
 
 #### Concrete rectangular seminorms
+
+The operator, Frobenius, Ky Fan, and nuclear seminorms instantiate the common rectangular
+interface. Their basis and singular-value formulas identify the standard concrete norms with
+the abstract three-law structure.
 
 - **MAJ-B30 — Operator-norm instance.** The operator norm defines a rectangular unitarily
   invariant seminorm.
@@ -311,6 +355,10 @@ Each label names one obligation. Milestones and acceptance examples cite these l
   square operators gives the square Frobenius seminorm of Part A.
 
 #### Two-dimensional sharpness models
+
+Two-dimensional diagonal, off-diagonal, and triangular operators provide explicit singular-value
+models for sharpness arguments. Trace and determinant recover the complete squared singular
+spectrum in the planar case.
 
 - **MAJ-B40 — Diagonal planar model.** If `s₀ ≥ s₁ ≥ 0`, the singular-value sequence of
   the planar diagonal operator `diag(s₀,s₁)` is `(s₀,s₁,0,0,…)`.

@@ -141,6 +141,10 @@ operator whose domain consists of vectors with a convergent difference quotient
 
 #### Unitary groups and generators
 
+Strong continuity and the unitary group law determine a partial generator through the difference
+quotient at `0`. Domain invariance, symmetry, and commutant transport provide the generator
+calculus used by Stone theory.
+
 - **SA-A01 — One-parameter unitary group.** Define a family `U(t)` of bounded operators
   satisfying `U(0)=1`, `U(s+t)=U(s)U(t)`, preservation of the inner product, and strong
   continuity of `t ↦ U(t)ψ` for every `ψ`.
@@ -171,6 +175,10 @@ operator whose domain consists of vectors with a convergent difference quotient
 
 #### Semigroup and exponential bridges
 
+The positive-time restriction connects unitary groups with the strongly continuous contraction
+semigroup API. Bounded self-adjoint exponentials provide the model groups and the Duhamel
+estimate used by Yosida approximation.
+
 - **SA-A15 — Contraction-semigroup restriction.** Restricting `U(t)` to `t ≥ 0` and viewing
   the complex Hilbert space as a real Banach space gives a strongly continuous contraction
   semigroup.
@@ -187,6 +195,10 @@ operator whose domain consists of vectors with a convergent difference quotient
   `‖exp(itSₘ)ψ-exp(itSₙ)ψ‖ ≤ |t| ‖(iSₘ-iSₙ)ψ‖`.
 
 #### Self-adjointness and Stone's theorem
+
+Von Neumann's shifted-surjectivity criterion converts symmetry into self-adjointness. Stone's
+forward theorem applies this criterion to the generator of a strongly continuous unitary
+group.
 
 - **SA-A21 — von Neumann criterion.** A symmetric partial operator for which `A+i` and
   `A-i` are surjective is self-adjoint.
@@ -212,6 +224,10 @@ measurable set and is strongly countably additive. Scalar diagonal measures are 
 the projection-valued measure.
 
 #### Bounded Borel calculus
+
+Bounded measurable symbols on the spectrum form a pointwise star algebra, and the Borel calculus
+extends the continuous calculus to this algebra. Matrix-element integration supplies the norm,
+algebra, commutation, and almost-everywhere invariance properties.
 
 - **SA-B01 — Bounded Borel symbols.** For a measurable space `X`, define the star algebra of
   measurable functions `f : X → ℂ` admitting a uniform norm bound.
@@ -244,6 +260,10 @@ the projection-valued measure.
 
 #### Projection-valued measures
 
+Indicator symbols turn the Borel calculus into orthogonal projections. Strong countable
+additivity packages these projections into a projection-valued measure, with diagonal scalar
+measures recording vectorwise mass.
+
 - **SA-B14 — Projection-valued measure.** For a measurable space `X`, define a map from
   measurable sets to orthogonal projections with `P(X)=1` and strong countable additivity on
   pairwise-disjoint measurable families.
@@ -270,6 +290,10 @@ the projection-valued measure.
   `X` to a PVM on `Y` by inverse images.
 
 #### Spectral PVM of a bounded operator
+
+For a normal bounded operator, indicator calculus supplies its spectral projection-valued
+measure. Reindexing along the real coordinate gives the bounded self-adjoint real spectral
+measure and its half-line form-bound projections.
 
 - **SA-B26 — Indicator spectral projection.** For normal bounded `a`, the Borel calculus of
   an indicator symbol is an orthogonal projection.
@@ -298,6 +322,10 @@ the projection-valued measure.
 
 #### Generic measure-theoretic support
 
+Compact-infimum measurability and Helly selection provide the measure-theoretic compactness
+tools used by spectral constructions. These statements serve operator-valued applications
+through their scalar measures.
+
 - **SA-B37 — Measurability of compact infima.** The infimum over a compact parameter set of
   a Carathéodory function is measurable under the standard compactness and measurability
   hypotheses.
@@ -322,6 +350,10 @@ and graph cores, relative boundedness, perturbations, real spectral predicates, 
 Sylvester equations, bounded inverses, and quadratic-form bounds.
 
 #### Domain relations and reducing restrictions
+
+Domain relations make comparison and extension of partial operators explicit. Reducing
+restrictions carry self-adjoint operators to invariant subspaces together with the density,
+closedness, symmetry, and self-adjointness inherited there.
 
 - **SA-C01 — Same-domain relation.** Define equality of domains for two partial operators.
 - **SA-C02 — Reflexivity of same-domain.** Every partial operator has the same domain as
@@ -362,6 +394,10 @@ Sylvester equations, bounded inverses, and quadratic-form bounds.
 
 #### Transport constructions
 
+Pullback, unitary conjugation, and direct sum transport partial operators together with their
+domains between Hilbert spaces. Density, closedness, symmetry, and self-adjointness pass through
+these constructions.
+
 - **SA-C20 — Pullback by a continuous linear equivalence.** For a continuous linear
   equivalence `e`, define the partial operator `e⁻¹Ae` with its pulled-back domain.
 - **SA-C21 — Pullback-domain characterization.** A vector `x` lies in the pullback domain
@@ -393,6 +429,9 @@ Sylvester equations, bounded inverses, and quadratic-form bounds.
 
 #### Graph norm and graph cores
 
+The graph norm measures ambient and image size simultaneously on `dom A`. Sequential graph
+cores package the two convergences used to extend identities through closedness.
+
 - **SA-C34 — Graph norm.** On `dom A`, define
   `‖x‖_A = √(‖x‖²+‖Ax‖²)`.
 - **SA-C35 — Nonnegativity of the graph norm.** For every domain vector,
@@ -414,6 +453,10 @@ Sylvester equations, bounded inverses, and quadratic-form bounds.
   and the ambient norm are equivalent on the whole space.
 
 #### Relative boundedness and perturbations
+
+Relative boundedness compares a domain-defined perturbation with the ambient and graph terms
+of the base operator. The perturbation constructors keep the base domain explicit and support
+bounded and Kato–Rellich self-adjointness theorems.
 
 - **SA-C44 — Relative boundedness.** Define the estimate
   `‖Vx‖ ≤ a‖x‖ + b‖Ax‖` on `dom A`.
@@ -446,6 +489,10 @@ Sylvester equations, bounded inverses, and quadratic-form bounds.
 
 #### Real spectral predicates and shifted inverse data
 
+Real shifted-inverse data turns lower bounds for `A-c` into bounded inverse information. The
+associated real resolvent and separation predicates provide the quantitative hypotheses used by
+spectral perturbation statements.
+
 - **SA-C57 — Left shifted-inverse bound.** Define the data of a bounded left inverse for a
   real shift `A-c` together with an explicit inverse-norm bound.
 - **SA-C58 — Two-sided shifted-inverse bound.** Define the corresponding bounded two-sided
@@ -468,6 +515,10 @@ Sylvester equations, bounded inverses, and quadratic-form bounds.
 
 #### Domain-aware Sylvester equations
 
+The rectangular Sylvester equation packages `AX-XB=C` together with domain transport between
+possibly different Hilbert spaces. Its linear structure provides the interface consumed by
+quantitative Sylvester estimates.
+
 - **SA-C66 — Rectangular Sylvester equation.** For partial operators `A,B` and bounded maps
   `X,C`, define the domain-aware equation by `X(dom B) ⊆ dom A` and
   `AXx-XBx=Cx` for every `x ∈ dom B`.
@@ -489,6 +540,10 @@ Sylvester equations, bounded inverses, and quadratic-form bounds.
   data of `SA-C73` is surjective onto the ambient space.
 
 #### Quadratic-form bounds
+
+Lower and upper form bounds are the order language for spectral location on a subspace. The
+bounded spectral-restriction bridge converts selected spectrum into the corresponding quadratic
+form inequalities.
 
 - **SA-C76 — Lower form bound on a subspace.** Define
   `c‖x‖² ≤ Re⟪Ax,x⟫` for every `x ∈ U`.
@@ -529,6 +584,10 @@ operator.
 
 #### Resolvent algebra
 
+The resolvent set records shifts `A-z` with bounded two-sided inverses into the domain. The
+resolvent identity, commutation, openness, and spectral mapping form the algebraic layer for the
+self-adjoint estimates.
+
 - **SA-D01 — Resolvent set of a partial operator.** For `A : E →ₗ.[𝕜] E`, define the set of
   `z : 𝕜` for which `A-z` has a bounded two-sided inverse from `E` into `dom A`.
 - **SA-D02 — Spectrum of a partial operator.** Define the spectrum as the complement of the
@@ -555,6 +614,10 @@ operator.
 
 #### Self-adjoint resolvent estimates
 
+Symmetry gives the off-real lower bound, and self-adjointness upgrades it to surjectivity and
+the sharp resolvent norm estimate. Real spectral gaps give the corresponding shifted inverse
+bounds.
+
 - **SA-D14 — Off-real lower bound.** For symmetric complex `A`,
   `‖(A-z)x‖ ≥ |Im z| ‖x‖` for every `x ∈ dom A`.
 - **SA-D15 — Closed range off the real axis.** For self-adjoint `A` and `Im z ≠ 0`, the
@@ -580,6 +643,10 @@ operator.
 
 #### Cayley transform and C-star gap inverse
 
+The Cayley transform converts an unbounded self-adjoint operator into a bounded unitary. The
+C-star interval and gap-inverse statements provide bounded spectral estimates for this
+conversion and for spectral restrictions.
+
 - **SA-D24 — Cayley transform.** For self-adjoint `A`, define
   `U=1-2iR(-i)`, the bounded form of `(A-i)(A+i)⁻¹`.
 - **SA-D25 — Cayley norm preservation.** For every `x`, `‖Ux‖=‖x‖`.
@@ -594,6 +661,10 @@ operator.
 
 #### Intertwining
 
+Domain-aware intertwining passes through resolvents, Cayley transforms, and their continuous
+functional calculi. This makes bounded functional-calculus transport available from a
+partial-operator relation.
+
 - **SA-D31 — Domain-aware intertwining relation.** For partial operators `A,B` and bounded
   `X`, formulate `XA ⊆ BX` by domain transport together with equality on `dom A`.
 - **SA-D32 — Resolvent intertwining.** A domain-aware intertwiner of `A` and `B` intertwines
@@ -605,6 +676,10 @@ operator.
   transforms for matching continuous symbols.
 
 #### Completion statements
+
+The characterization and analyticity statements complete the general resolvent interface.
+Bounded and multiplication-operator bridges connect it to standard Banach-algebra and model
+examples.
 
 - **SA-D35 — Resolvent characterization.** A point `z` belongs to the resolvent set exactly
   when `A-z` is injective, has closed dense range, and its inverse on the range extends to a
@@ -636,6 +711,10 @@ produce bounded self-adjoint approximants and the generated unitary group.
 
 #### Spectral measure and reduction
 
+The inverse Cayley map transfers the bounded spectral PVM to a real spectral measure for `A`.
+The resolvent formula characterizes it, while spectral restrictions and support convert
+projection data into self-adjoint reductions and form bounds.
+
 - **SA-E01 — Spectral PVM of an unbounded self-adjoint operator.** Define a real PVM by
   reindexing the PVM of the Cayley transform along `w ↦ i(1+w)/(1-w)`.
 - **SA-E02 — Zero mass at the Cayley singular point.** Every diagonal measure of the Cayley
@@ -664,6 +743,10 @@ produce bounded self-adjoint approximants and the generated unitary group.
   `range P_A(B)` the quadratic form of `A` lies between `β‖x‖²` and `α‖x‖²`.
 
 #### Yosida approximation and generated group
+
+The two imaginary-shift resolvents produce bounded approximants, and symmetrization makes
+them self-adjoint. Their unitary exponentials converge strongly to the generated group, and
+maximality identifies its generator with `A`.
 
 - **SA-E14 — Positive-shift Yosida approximant.** For `n≥1`, define
   `A_n^+ = n²R(in)-inI`.
@@ -700,6 +783,9 @@ produce bounded self-adjoint approximants and the generated unitary group.
 
 #### Spectral block tools
 
+Spectral grid cells decompose vectors into orthogonal frequency blocks. Cut operators, gap
+inverses, and reassembly translate local spectral support into quantitative operator bounds.
+
 - **SA-E32 — Spectral grid cells.** For `ε>0` and integer `k`, define
   `I_k=[kε,(k+1)ε)`.
 - **SA-E33 — Disjointness of spectral grid cells.** Distinct grid cells are disjoint.
@@ -723,6 +809,10 @@ produce bounded self-adjoint approximants and the generated unitary group.
   uniform lower bound reassemble to the same lower bound on their Hilbert sum.
 
 #### Packaged spectral theorems
+
+These declarations package the preceding construction as the unbounded spectral theorem, Stone
+correspondence, and spectral-measure uniqueness. Compatibility results identify the bounded and
+multiplication-operator models.
 
 - **SA-E42 — Unbounded spectral theorem.** A self-adjoint partial operator is the spectral
   integral of the identity function against its spectral PVM.

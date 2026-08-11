@@ -38,6 +38,9 @@ Each label names one obligation. Milestones and acceptance criteria cite these l
 
 ### Gram rigidity
 
+Equal pullback inner products determine a canonical isometry between ranges. For finite families,
+equality of pairwise inner products promotes this range geometry to span and ambient isometries.
+
 - **OG-01 — Equality of kernels from equal pullback inner products.** If linear maps `S` and
   `T` out of a common module satisfy `⟪Sx, Sy⟫ = ⟪Tx, Ty⟫` for all `x,y`, then
   `ker S = ker T`.
@@ -62,6 +65,10 @@ Each label names one obligation. Milestones and acceptance criteria cite these l
 
 ### Coordinate isometries and projection geometry
 
+An orthonormal family determines a concrete isometric copy of coordinate space inside the
+ambient Hilbert space. Orthogonal projections and canonical equal-subspace isometries provide
+the geometric interface consumed by majorization and principal-angle constructions.
+
 - **OG-09 — Coordinate isometry of an orthonormal family.** For an orthonormal family
   `(vⱼ)_{j<d}`, the linear combination map from `𝕜^d` to the ambient Hilbert space is a
   linear isometry.
@@ -76,6 +83,10 @@ Each label names one obligation. Milestones and acceptance criteria cite these l
 
 ### Invariant and reducing subspaces
 
+Invariant subspaces record stability under an operator, while reducing subspaces record
+stability of the full orthogonal decomposition. Symmetric operators identify these notions and
+admit symmetric restrictions to invariant subspaces.
+
 - **OG-14 — Invariant subspace.** For an endomorphism `A`, define invariance of a subspace
   `U` by the condition `A(U) ⊆ U`.
 - **OG-15 — Reducing subspace.** For an endomorphism `A`, define reduction by requiring
@@ -88,6 +99,10 @@ Each label names one obligation. Milestones and acceptance criteria cite these l
   subspace admitting an orthogonal projection is complete in its induced norm.
 
 ### Orthogonal series
+
+Pairwise-orthogonal vectors support Pythagoras, summability, and Parseval directly at their
+natural norms. This includes families with zero vectors, as occur in singular expansions with
+vanishing coefficients.
 
 - **OG-19 — Orthogonal family of lines.** A pairwise-orthogonal family of vectors determines
   an orthogonal family of the one-dimensional subspaces that they span, including vectors

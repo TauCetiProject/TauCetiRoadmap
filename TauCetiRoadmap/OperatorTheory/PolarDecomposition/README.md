@@ -110,7 +110,14 @@ cites the labels represented by its sample declarations.
 
 ### Part A — the functional calculus, the positive square root, and the modulus
 
+Part A builds the positive square root and the finite and complete-space modulus constructions
+from self-adjoint functional calculus. The agreement and variational statements connect these
+constructions to the spectral and perturbation layers that consume them.
+
 **Supporting Hilbert-space and scalar API.**
+
+Finite-coordinate identities, selected basis spans, and scalar square-root estimates provide the
+elementary tools used by the functional calculus, Weyl theory, and near-isometry estimates.
 
 - **PD-A01 — Inner products of finite linear combinations.** For finitely supported coefficient
   families `(aᵢ)` and `(bⱼ)` on vectors `(vᵢ)`, the inner product of `∑ᵢ aᵢvᵢ` and `∑ⱼ bⱼvⱼ` is the double
@@ -133,6 +140,10 @@ cites the labels represented by its sample declarations.
 
 **Continuous and finite functional calculus.**
 
+The real bounded continuous functional calculus supplies the complete-space self-adjoint calculus
+over `ℝ`. The finite spectral calculus gives an explicit eigenbasis model with eigenspace
+stability and commutant preservation.
+
 - **PD-A10 — Real bounded continuous functional calculus.** Every complete real Hilbert space
   admits the continuous functional calculus for bounded self-adjoint operators with continuous
   real-valued functions.
@@ -152,6 +163,10 @@ cites the labels represented by its sample declarations.
 
 **Positive square root.**
 
+Applying the self-adjoint calculus to the scalar square-root function produces the positive
+square root. Its kernel, range, norm, invertibility, and uniqueness properties supply the Gram
+square roots used by the modulus.
+
 - **PD-A20 — Positive square root.** For a positive endomorphism `T`, define `√T` by applying the
   finite self-adjoint functional calculus to the scalar square-root function.
 - **PD-A21 — Positivity of the square root.** For positive `T`, `√T` is positive.
@@ -165,6 +180,10 @@ cites the labels represented by its sample declarations.
 
 **Finite-dimensional modulus.**
 
+The finite rectangular modulus is the positive square root of `A†A`. Its norm, kernel, range,
+and normal-commutation properties are the finite-dimensional input to polar and singular-value
+geometry.
+
 - **PD-A29 — Finite rectangular modulus.** For a linear map `A : E → F` between finite-dimensional
   real or complex Hilbert spaces, define its modulus on `E` by `|A| = √(A†A)`.
 - **PD-A30 — Positivity of the finite modulus.** The modulus `|A|` is positive.
@@ -176,6 +195,10 @@ cites the labels represented by its sample declarations.
 - **PD-A35 — Normal commutation.** For a normal finite-dimensional endomorphism `A`, `A|A| = |A|A`.
 
 **Complete-space modulus.**
+
+The complete-space modulus carries the same Gram-square-root construction to bounded
+rectangular operators. Its pointwise norm identity determines the kernel and operator norm and
+supports the dimension-free polar factor.
 
 - **PD-A36 — Complete-space rectangular modulus.** For a bounded operator `T : E → F` between
   complete real or complex Hilbert spaces, define its modulus on `E` by `|T| = √(T†T)`.
@@ -196,6 +219,10 @@ cites the labels represented by its sample declarations.
 
 **Agreement of constructions.**
 
+These statements identify the finite spectral construction with the continuous functional
+calculus and identify the finite and complete modulus constructions on their common domain.
+Downstream results can use one mathematical modulus across both layers.
+
 - **PD-A46 — Agreement with the complex continuous functional calculus.** For a
   finite-dimensional complex Hilbert space, symmetric `T`, and continuous `f : ℝ → ℝ`, the finite
   spectral construction of `f(T)` agrees with the bounded continuous functional calculus.
@@ -209,6 +236,9 @@ cites the labels represented by its sample declarations.
   continuous-functional-calculus absolute value of the corresponding bounded operator.
 
 **Courant–Fischer and Weyl.**
+
+Courant–Fischer turns quadratic-form control into ordered eigenvalue control. Eigenvalue
+monotonicity and Weyl's perturbation bound are the variational consequences used downstream.
 
 - **PD-A50 — Eigenbasis quadratic form.** If `T` is symmetric with orthonormal eigenbasis `(eᵢ)` and
   eigenvalues `(λᵢ)`, then `Re⟪Tx, x⟫ = ∑ᵢ λᵢ |⟪eᵢ, x⟫|²`.
@@ -253,6 +283,9 @@ the modulus supplies the canonical square root.
 
 **Partial-isometry API.**
 
+The algebraic equation `uu†u = u` and norm preservation on `(ker u)⊥` give compatible square
+and rectangular descriptions of partial isometries.
+
 - **PD-B01 — Partial isometries in star monoids.** An element `u` of a star monoid is a partial
   isometry exactly when `uu†u = u`.
 - **PD-B02 — Rectangular linear partial isometries.** A linear map `u : E → F` between
@@ -275,6 +308,9 @@ the modulus supplies the canonical square root.
   a partial isometry exactly when it preserves norms on `(ker u)⊥`.
 
 **Finite-dimensional square polar decomposition.**
+
+The rule `|A|x ↦ Ax` is isometric on `(ker A)⊥` and determines the canonical finite polar
+factor. In the endomorphism case the factor extends to a unitary.
 
 - **PD-B11 — Finite-dimensional polar factor.** For a finite-dimensional map `A`, the rule
   `|A|x ↦ Ax` defines an isometry on `(ker A)⊥`; extending it by zero on `ker A` gives the
@@ -304,11 +340,18 @@ the modulus supplies the canonical square root.
 
 **Gram-contraction factorization.**
 
+A self-adjoint square root of `T†T` determines a contractive factor carrying that square root
+to `T`. The canonical modulus supplies this square root for every bounded operator.
+
 - **PD-B22 — Contractive factor from a Gram square root.** Let `T : E → F` be bounded and let
   `A : E → E` be self-adjoint with `A² = T†T`. Then there is a contraction `W : E → F` whose
   adjoint is also contractive and which satisfies `WA = T` and `W†T = A`.
 
 **Complete-space rectangular polar decomposition.**
+
+The closure of `range |M|` is the initial space of the bounded polar factor. Extending the
+isometric rule `|M|x ↦ Mx` over this space produces the canonical rectangular partial isometry
+and its initial and final projections.
 
 - **PD-B23 — Initial space of the bounded polar factor.** For bounded `M : E → F`, the initial
   space of its polar factor is the closure of `range |M|`.
@@ -341,6 +384,10 @@ the modulus supplies the canonical square root.
 
 **Bounded-below and near-isometry rungs.**
 
+Invertibility of `|M|` upgrades the polar factor to an isometry on the whole source.
+Near-identity Gram bounds then control the distance from a finite-dimensional map to its unitary
+polar factor.
+
 - **PD-B37 — Polar isometry for bounded-below operators.** If `|M|` is invertible, then `U = M|M|⁻¹`
   defines an isometry on the whole source space.
 - **PD-B38 — Bounded-below polar identity.** If `|M|` is invertible and `U = M|M|⁻¹`, then `U|M| = M`.
@@ -359,6 +406,10 @@ the modulus supplies the canonical square root.
   `S = √(M†M)`, and let `M = WS` be the unitary factorization. Then `‖M − W‖ ≤ 2δ`.
 
 **Davis intertwining unitary.**
+
+Block polar factors of the overlaps `P′ⱼPⱼ` between complete projection families assemble into
+a global unitary. The block construction yields the simultaneous intertwining equations
+`UPⱼ = P′ⱼU`.
 
 - **PD-B44 — Complete orthogonal projection families.** A finite family `(Pⱼ)` is complete and
   orthogonal when every `Pⱼ` is an orthogonal projection, distinct ranges are orthogonal, and `∑ⱼ Pⱼ = I`.
@@ -383,6 +434,10 @@ rectangular Gram-spectrum bridge, the singular vectors, and the Moore–Penrose 
 
 **Singular-value accessor and spectrum bridge.**
 
+The bounded-operator accessor gives singular values a carrier-level interface, while the two
+Gram operators connect source and target spectral data. Their common nonzero spectrum gives
+adjoint invariance and the rectangular bridge used by the singular system.
+
 - **PD-C01 — Singular values of bounded operators.** For a finite-dimensional bounded operator,
   its singular-value sequence is the singular-value sequence of the underlying linear map.
 - **PD-C02 — Compatibility with the underlying linear map.** Passing a finite-dimensional
@@ -402,6 +457,9 @@ rectangular Gram-spectrum bridge, the singular vectors, and the Moore–Penrose 
 
 **Singular system.**
 
+An eigenbasis of `A†A` supplies the right singular vectors. Transport through `A` gives the
+nonzero left singular vectors and the vector and rank-one singular expansions.
+
 - **PD-C09 — Right singular basis.** Choose an orthonormal basis `(vᵢ)` of the source consisting
   of eigenvectors of `A†A`, ordered compatibly with the singular values.
 - **PD-C10 — Left singular vectors.** For each right singular vector `vᵢ` with singular value `σᵢ`,
@@ -420,6 +478,10 @@ rectangular Gram-spectrum bridge, the singular vectors, and the Moore–Penrose 
   to an orthonormal basis of the codomain.
 
 ### The Moore–Penrose interface
+
+The Moore–Penrose relation packages the four Penrose equations as one mathematical relation.
+Existence from the singular system and uniqueness make the pseudoinverse canonical, with
+adjoint, injective, surjective, and invertible cases following from the same relation.
 
 The Moore–Penrose relation consists of the four equations
 

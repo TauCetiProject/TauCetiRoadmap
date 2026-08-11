@@ -67,6 +67,10 @@ cosines, and the squared Frobenius sine.
 
 #### Finite frames
 
+Analysis and synthesis place a finite family between the ambient Hilbert space and its coefficient
+space. The frame and Gram operators record the same quadratic data on opposite carriers, linking
+lower frame bounds to Gram-spectrum bounds.
+
 - **PA-A01 — Analysis map.** For a finite family `(vᵢ)`, define the linear map
   `x ↦ (⟪vᵢ,x⟫)ᵢ` from the ambient Hilbert space to coefficient space.
 - **PA-A02 — Synthesis map.** For a finite family `(vᵢ)`, define the linear map
@@ -94,6 +98,10 @@ cosines, and the squared Frobenius sine.
   orthonormal family's coordinate isometry belongs to `span{vᵢ}`.
 
 #### Overlap operator and family-level angles
+
+For orthonormal families, coordinate isometries turn relative geometry into a square overlap
+operator. Its singular values are the family-level principal cosines, and polar alignment gives
+the Procrustes comparison between the two families.
 
 - **PA-A15 — Overlap operator.** For orthonormal families `(uᵢ)` and `(vᵢ)` of the same
   finite cardinality, define the overlap operator as the adjoint of the coordinate isometry
@@ -149,6 +157,10 @@ and the frame factorization of an injective trial map.
 
 #### Gram operators and angle objects
 
+Right and left Gram operators convert a rectangular map into positive operators on its source
+and target. Cross projections and their moduli encode relative subspace geometry as cosine,
+sine, and double-angle operator data.
+
 - **PA-B01 — Right Gram operator.** For `A : E → F`, define the source-space operator
   `A†A`.
 - **PA-B02 — Left Gram operator.** For `A : E → F`, define the target-space operator
@@ -188,6 +200,10 @@ and the frame factorization of an injective trial map.
 
 #### Principal-angle dictionary
 
+The singular values of cross projections give the principal cosines and sines. Scalar
+relations among cosine, sine, angle, and tangent connect these sequences to projector and
+unitarily invariant norm identities.
+
 - **PA-B19 — Cosines as singular values of the cross projection.** The singular-value
   sequence of `P_VP_U` is the principal-cosine sequence.
 - **PA-B20 — Sines from the projector difference.** The projector difference `P_U-P_V` and
@@ -212,6 +228,10 @@ and the frame factorization of an injective trial map.
   subspaces, `‖P_U-P_V‖ = ‖P_{V⊥}P_U‖`.
 
 #### Rearrangement and eigenvalue perturbation
+
+Sorted rearrangement and doubly stochastic orbit geometry convert basis overlaps into ordered
+eigenvalue comparisons. Gram perturbation and frame factorization then connect rectangular
+operator perturbations with eigenvalue displacement.
 
 - **PA-B30 — Sorted rearrangement inequality.** Pairing two real finite tuples in the same
   sorted order maximizes their bilinear pairing over coordinate permutations.
@@ -262,6 +282,10 @@ interval/exterior separation predicates.
 
 #### Projection blocks and gaps
 
+The decomposition `U ⊕ U⊥` separates an operator into diagonal and off-diagonal blocks.
+Reflection formulas and directed sine blocks combine into the sharp symmetric projection-gap
+identity.
+
 - **PA-C01 — Diagonal operator block.** Relative to `U ⊕ U⊥`, define the diagonal part of
   an operator by its `U→U` and `U⊥→U⊥` blocks.
 - **PA-C02 — Off-diagonal operator block.** Relative to `U ⊕ U⊥`, define the off-diagonal
@@ -288,6 +312,10 @@ interval/exterior separation predicates.
   `‖P_U-P_V‖ = max(‖P_{V⊥}P_U‖, ‖P_{U⊥}P_V‖)`.
 
 #### Restricted point spectrum and spectral subspaces
+
+Restricted point spectrum gives a basis-independent description of spectral data inside a
+subspace. Canonical spectral subspaces and quadratic-form bounds connect selected eigenvalues to
+the order hypotheses used by perturbation theory.
 
 - **PA-C13 — Restricted point spectrum.** For an endomorphism `A` and subspace `U`, define
   the real restricted point spectrum as the set of real `λ` admitting a nonzero eigenvector

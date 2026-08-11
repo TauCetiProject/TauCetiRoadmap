@@ -123,12 +123,20 @@ cite these labels. `Suggested.lean` cites the labels represented by its sample d
 
 ### Part A — approximation numbers and Hilbert-space singular values
 
+Approximation numbers extend finite-dimensional singular values to bounded operators by measuring
+best approximation by rank-bounded maps. Their Hilbert-space min–max theory connects finite
+rank, compactness, Ky Fan gauges, and finite singular-value theory.
+
 **Objects.** The approximation-number sequence assigns to a bounded map `T : E → F` the
 zero-based distances `aₙ(T)` from `T` to the maps of rank at most `n`. The relation of having
 the same approximation-number sequence compares maps on different Hilbert-space pairs. The
 Ky Fan gauge is the prefix sum `Kₖ(T) = ∑_{n<k} aₙ(T)`.
 
 #### Approximation-number definitions and elementary calculus
+
+Approximation numbers measure distance to rank-bounded operators. Their infimum calculus
+supplies the continuity, additive, scalar, and two-sided ideal laws used throughout the
+roadmap.
 
 - **OI-A01 — Approximation number.** For a bounded map `T : E → F` on seminormed spaces over
   a nontrivially normed field, define `aₙ(T) = inf {‖T-R‖ : rank R ≤ n}` with values in
@@ -168,6 +176,9 @@ Ky Fan gauge is the prefix sum `Kₖ(T) = ∑_{n<k} aₙ(T)`.
 
 #### Rank, approximability, and compactness
 
+Vanishing approximation numbers encode finite rank, while convergence to zero encodes
+finite-rank approximability. On Hilbert targets this convergence characterizes compactness.
+
 - **OI-A23 — Vanishing from rank.** If `rank T ≤ n`, then `aₙ(T)=0`.
 - **OI-A24 — Finite-dimensional rank characterization.** In finite dimension,
   `aₙ(T)=0` exactly when `rank T ≤ n`.
@@ -187,6 +198,9 @@ normed-space hypotheses of the approximation-number layer, and the target may be
 
 #### Hilbert-space invariance and lower bounds
 
+Adjoint and modulus invariance transport approximation data through Hilbert-space geometry.
+Coercive subspaces provide lower bounds that feed the min–max characterization.
+
 - **OI-A30 — Adjoint invariance.** Over `RCLike`, `aₙ(T†)=aₙ(T)`.
 - **OI-A31 — Modulus invariance.** Over `RCLike`, `aₙ(|T|)=aₙ(T)`, with the modulus supplied
   by `PolarDecomposition`.
@@ -199,6 +213,10 @@ normed-space hypotheses of the approximation-number layer, and the target may be
   holds.
 
 #### Min–max formulations
+
+The orthogonal-tail formulas localize approximation numbers to complements of finite-dimensional
+subspaces. Pair-level converse localization connects the global sequence to finite restrictions
+and supplies the bridge used by Ky Fan estimates.
 
 - **OI-A35 — Orthogonal-tail min–max equality.** On a complete source Hilbert space,
   `aₙ(T)` equals the infimum over subspaces `V` of dimension at most `n` of the operator norm
@@ -217,6 +235,10 @@ normed-space hypotheses of the approximation-number layer, and the target may be
 
 #### Ky Fan gauges and finite-dimensional identification
 
+Prefix sums of approximation numbers give the Hilbert-space Ky Fan gauges. Eckart–Young
+identifies them with finite singular-value Ky Fan sums, carrying finite-dimensional
+majorization estimates into the approximation-number layer.
+
 - **OI-A41 — First Ky Fan gauge.** `K₁(T)=‖T‖`.
 - **OI-A42 — Ky Fan homogeneity.** `Kₖ(cT)=‖c‖Kₖ(T)`.
 - **OI-A43 — Ky Fan two-sided ideal inequality.**
@@ -234,6 +256,9 @@ normed-space hypotheses of the approximation-number layer, and the target may be
   `|σₙ(T)-σₙ(S)| ≤ ‖T-S‖`.
 
 #### Acceptance theorems
+
+Identity, projection, diagonal, finite-rank, and compact diagonal models exercise the indexing,
+rank cutoff, min–max, and approximation behavior of the public API.
 
 - **OI-A51 — Identity example.** For a finite-dimensional identity map, `aₙ(id)=1` below the
   dimension and `aₙ(id)=0` at and above the dimension.
@@ -258,6 +283,10 @@ normed-space hypotheses of the approximation-number layer, and the target may be
 
 ### Part B — symmetric operator ideals and Schatten norms
 
+Part B turns approximation-number sequences into normed operator ideals. Symmetric gauges
+provide the common construction behind Ky Fan, trace-class, Schatten, and Hilbert–Schmidt
+families, with endpoint and block-sum compatibility connecting the concrete families.
+
 **Objects.** An operator-ideal family assigns an `ℝ≥0∞` gauge to bounded maps between every
 pair of Hilbert spaces and carries subadditivity, absolute homogeneity, domination of the
 operator norm, and the two-sided ideal inequality. A symmetric family adds adjoint
@@ -265,6 +294,10 @@ invariance on the diagonal universe. A symmetric gauge is a normalized permutati
 monotone sublinear gauge on finitely supported nonnegative sequences.
 
 #### Ideal-family interface
+
+The family interface packages gauges uniformly across source and target Hilbert spaces. Its
+structural laws generate the common ideal-space API and the finite-gauge carrier with the ideal
+norm.
 
 - **OI-B01 — Operator-ideal family.** Define a rectangular family of `ℝ≥0∞` gauges with the
   four laws: subadditivity, absolute homogeneity, domination of operator norm, and the
@@ -311,6 +344,10 @@ monotone sublinear gauge on finitely supported nonnegative sequences.
 
 #### Concrete families and Hilbert–Schmidt energy
 
+Operator, Ky Fan, Hilbert–Schmidt, and trace-class families instantiate the common interface.
+Hilbert–Schmidt energy uses squared column norms and basis independence to supply its gauge
+directly from Hilbert-space geometry.
+
 - **OI-B25 — Operator-norm family.** Construct the family with gauge `Φ(T)=‖T‖`.
 - **OI-B26 — Operator-norm carrier.** The finite-gauge carrier of `OI-B25` is the whole space
   of bounded operators.
@@ -343,6 +380,10 @@ monotone sublinear gauge on finitely supported nonnegative sequences.
 
 #### Ky Fan dominance and finite-dimensional Schatten norms
 
+Ky Fan dominance transfers prefix-sum comparison into ideal-gauge comparison. The
+finite-dimensional Schatten norms provide the singular-value models and endpoint
+identifications used to reconcile the finite and infinite-dimensional theories.
+
 - **OI-B42 — Ky Fan dominance property.** Define the property that `Kₖ(A)≤Kₖ(B)` for every
   `k` implies `Φ(A)≤Φ(B)`.
 - **OI-B43 — Membership transport under Ky Fan dominance.** A Ky Fan dominant family carries
@@ -368,6 +409,10 @@ monotone sublinear gauge on finitely supported nonnegative sequences.
   `E_b(T)=ENNReal.ofReal(‖T‖_F²)`.
 
 #### Symmetric gauges and induced ideal families
+
+A symmetric gauge on finitely supported sequences extends by a supremum over dominated finite
+sequences. Applying this extension to approximation-number sequences constructs a uniform
+operator-ideal family.
 
 - **OI-B56 — Symmetric gauge.** Define a gauge `Φ` on finitely supported nonnegative
   sequences that is subadditive, positively homogeneous, permutation invariant, monotone,
@@ -403,6 +448,10 @@ monotone sublinear gauge on finitely supported nonnegative sequences.
   symmetric-gauge family.
 
 #### Ky Fan transfer and infinite-dimensional Schatten families
+
+Weak-majorization transfer gives triangle inequalities and membership transport for all
+symmetric-gauge families at once. Choosing the `ℓᵖ` gauges produces the Schatten scale and its
+trace, Hilbert–Schmidt, and operator-norm endpoints.
 
 - **OI-B74 — Symmetric-gauge weak-majorization transfer.** For antitone nonnegative
   sequences `a,b`, if every prefix sum of `a` is at most the corresponding prefix sum of
@@ -440,6 +489,9 @@ monotone sublinear gauge on finitely supported nonnegative sequences.
 
 #### Orthogonal block sums
 
+Orthogonal block sums merge approximation-number sequences by decreasing rearrangement. The
+resulting gauge bounds provide the sharp two-block comparison used by downstream consumers.
+
 - **OI-B91 — Approximation numbers of a block sum.** For a block-diagonal operator on
   orthogonal source and target decompositions, its approximation-number sequence is the
   decreasing rearrangement of the union of the block sequences.
@@ -459,6 +511,10 @@ monotone sublinear gauge on finitely supported nonnegative sequences.
 **Milestone B4 — orthogonal block sums.** `OI-B91`–`OI-B94`.
 
 ### Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
+
+The column model identifies finite-energy operators with an `ℓ²` family relative to a Hilbert
+basis. Its norm and energy identities connect the representation directly to the
+Hilbert–Schmidt family from Part B.
 
 **Objects.** For a Hilbert basis `(bᵢ)` of the source, the column family of `T` is
 `i ↦ Tbᵢ`. An `ℓ²` family `(fᵢ)` represents the bounded operator
@@ -502,9 +558,6 @@ monotone sublinear gauge on finitely supported nonnegative sequences.
 - **OI-C20 — Joint Pythagoras.** Independent pointwise norm splittings on source and target
   give the corresponding double-sum decomposition of Hilbert–Schmidt energy.
 
-The representation `OI-C02` identifies the finite-energy operators with an `ℓ²` column
-model. Its norm and energy identities `OI-C11`–`OI-C12` connect that model to the
-Hilbert–Schmidt family from Part B.
 
 **Milestone C1 — isometric conjugation.** `OI-C15`–`OI-C17`.
 

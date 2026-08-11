@@ -113,6 +113,10 @@ declarations.
 
 ### Shared separation object
 
+The internal gap measures the separation between a selected spectral block and its complement
+inside one symmetric operator. It is the common spectral hypothesis for the double-angle and
+tangent estimates.
+
 - **SSP-S01 — Internal spectral gap.** For a symmetric finite-dimensional operator `A`, a
   projected subspace `U`, and `δ≥0`, define the internal gap by requiring the restricted point
   spectra of `A|_U` and `A|_{U⊥}` to be separated by at least `δ`.
@@ -188,6 +192,10 @@ partial-operator spectrum from `SelfAdjointSpectralTheory`.
 
 #### Finite core and dimension-free operator norm
 
+Coordinate division gives the finite-dimensional Sylvester model, while coercivity gives the
+dimension-free operator-norm bounds. These estimates establish the constant-one separated
+forms before the unitarily invariant extension.
+
 - **SSP-B01 — Sylvester map.** Define the rectangular linear map `X ↦ AX-XB` on bounded
   operators between the two Hilbert spaces.
 - **SSP-B02 — Injectivity under positive finite spectral separation.** In finite dimension,
@@ -211,6 +219,10 @@ partial-operator spectrum from `SelfAdjointSpectralTheory`.
   satisfies the same constant-one estimate.
 
 #### Unitarily invariant finite-dimensional bounds
+
+Interval/exterior separation gives constant-one bounds through polar geometry. Pairwise
+separation combines the Part A kernel with Ky Fan prefix control and Fan dominance, while the
+Frobenius estimate follows directly from the coordinate equation.
 
 - **SSP-B09 — Interval/exterior Sylvester bound.** Under interval/exterior separation by
   `δ>0`, every rectangular unitarily invariant seminorm `N` satisfies
@@ -239,6 +251,9 @@ partial-operator spectrum from `SelfAdjointSpectralTheory`.
 
 #### Acceptance theorems
 
+The obstruction and model theorems fix the endpoint constants and connect the finite,
+bounded, and domain-aware Sylvester formulations.
+
 - **SSP-B18 — Two-by-two real-certificate obstruction.** For spectra
   `α=(-1,1)` and `β=(0,2)`, every real undoubled reciprocal certificate has mass at least
   `5/3`.
@@ -266,6 +281,10 @@ graph subspaces, and the perturbation theorems obtained by applying Part B to pr
 blocks.
 
 #### Trial maps, residuals, and graph subspaces
+
+Trial compression and residuals turn approximate invariance into operator equations. Reduced
+extensions and graph subspaces provide the geometric models that convert those equations into
+subspace-angle statements.
 
 - **SSP-C01 — Trial compression.** For a trial map `X`, define the compression `X†AX`.
 - **SSP-C02 — Trial residual.** Define the residual `R=AX-XM` for a trial map `X` and a
@@ -298,6 +317,10 @@ blocks.
 
 #### Dimension-free and finite spectral `sin Θ`
 
+The Sylvester bounds from Part B become directed sine bounds after projection onto complementary
+subspaces. Finite spectral and equal-rank bridges then produce projector and unitarily invariant
+norm forms.
+
 - **SSP-C15 — Dimension-free directed `sin Θ` bound.** Under invariant-subspace form
   separation by `g>0`, `‖P_{V⊥}P_U‖ ≤ ‖B-A‖/g` on arbitrary Hilbert spaces.
 - **SSP-C16 — Dimension-free projector-gap companions.** Applying `SSP-C15` in both
@@ -322,6 +345,10 @@ blocks.
 
 #### Double-angle and tangent theory
 
+Ordered internal separation controls the off-diagonal blocks underlying `sin 2Θ` and tangent
+estimates. Acute and quarter-turn conditions determine the corresponding principal-angle
+regimes.
+
 - **SSP-C25 — Per-eigenvector `sin 2θ` product bound.** Under ordered internal form
   separation, a unit perturbed eigenvector satisfies the Davis product inequality
   `(b-a)‖P_Ux‖‖P_{U⊥}x‖≤ε`.
@@ -340,6 +367,9 @@ blocks.
   subspace remains on the prescribed side of the quarter turn.
 
 #### Davis–Kahan source-facing acceptance theorems
+
+These declarations connect the reusable perturbation theory with the theorem family and sharp
+models in Davis and Kahan's source treatment.
 
 - **SSP-C32 — Printed counterexample.** Formalize the Davis–Kahan Part III counterexample
   and prove the strict reverse inequality exhibited by the example.
