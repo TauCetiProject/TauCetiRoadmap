@@ -100,15 +100,17 @@ padded-exposure architecture and its concentration constants (the `q/k` oscillat
 `2·exp(−ε²k/(2q²))` tail under `2q² ≤ εk` are proved verbatim in `cameronfreer/graphon`,
 `SampleExposure.lean`); the finite-marginal eliminator for the finite↔infinite law equivalence;
 the weak-regularity baseline exponent `4^{⌈1/ε²⌉+1}`; the counting bridge
-`card_injective_hom_eq_labelledCopyCount` — **proved in `Suggested.lean` itself** and now also
-exactly in the migration source — so the `injHomDensity` numerator *is* Mathlib's
-`labelledCopyCount`; **Janson A.9 in full** — the named `I → Ω` measure-preserving wrapper with
-Dirac, finite-atomic, and mixed regressions (`exists_measurePreserving_from_unitInterval`,
-migration source at [`dfd7ecc`](https://github.com/cameronfreer/graphon/tree/dfd7ecc)); the
-**Boolean-lattice Möbius inversion orientation and sign conventions** (proved over `ℚ` with
-sign regressions — this settles conventions, *not* reflection positivity); and the
-**null-cell `Finpartition` convention** — the measurable adapter, exact agreement with Mathlib
-set averages, the zero convention on null rectangles, and unchanged weighted energy.
+`card_injective_hom_eq_labelledCopyCount` — **proved sorry-free in `Suggested.lean` itself** and independently
+in the migration source — so the `injHomDensity` numerator *is* Mathlib's `labelledCopyCount`;
+**Janson A.9** — the named `I → Ω` measure-preserving wrapper with Dirac, finite-atomic, and
+mixed regressions (`exists_measurePreserving_from_unitInterval`, migration source at
+[`dfd7ecc`](https://github.com/cameronfreer/graphon/tree/dfd7ecc)) — **A.9 only, not the full
+coupling↔map Layer-5 route**; the **Boolean-lattice Möbius inversion orientation and sign
+conventions** (proved over `ℚ` with sign regressions) — **conventions only, not marginal
+consistency and not reflection positivity**; and the **null-cell `Finpartition` convention** —
+the measurable adapter, exact agreement with Mathlib set averages, the zero convention on null
+rectangles, and unchanged weighted energy — **the convention only, not weak regularity and not
+the sharper exponent**.
 
 **Experimental — not validated by either migration source** (stop/go experiments pending; these
 routes are not endorsed until the experiments run): the coupling-primary cut-distance triangle
