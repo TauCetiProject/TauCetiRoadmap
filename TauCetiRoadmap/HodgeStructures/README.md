@@ -53,13 +53,16 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
   - **Filtration / complex-structure API, aligned with Deligne §1.2.1.** L0's opposed filtration
     (`IsCompl (F^p) (conj F^{n+1−p})`) and L2's `gradedF` / `gradedComplexEquiv` follow Deligne,
     *Théorie de Hodge II* §1.2.1 (opposed filtrations §1.2.1–1.2.3; induced filtrations on graded pieces
-    §1.2.1). Mathlib has **no** abelian-category filtration API of this kind at present:
-    [mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954) proposed one — out of
-    Joël Riou's `n`-opposed-filtrations work on the `#mathlib4` *Complexifications with a view towards
-    Hodge theory* thread — but it was closed unmerged on 2026-08-11. Nothing here depends on it: this
-    roadmap is concrete over `Submodule ℂ V_ℂ`, and L0/L2 name their filtration API to align with
-    Deligne §1.2.1 directly. Should an abstract filtration API land in Mathlib later, L0's `opposed`
-    and L2's `gradedF` / `gradedComplexEquiv` are the places to specialize onto it.
+    §1.2.1). Mathlib does not carry an abelian-category filtration API of this kind *yet*, but one is
+    in progress, out of Joël Riou's `n`-opposed-filtrations work on the `#mathlib4` *Complexifications
+    with a view towards Hodge theory* thread: the first attempt
+    ([mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954)) was retired on
+    2026-08-11 in favour of
+    [mathlib4#42642](https://github.com/leanprover-community/mathlib4/pull/42642)
+    (`CategoryTheory/Filtration`), which is open. Nothing here is blocked on it — this roadmap is concrete over
+    `Submodule ℂ V_ℂ`, and L0/L2 name their filtration API to align with Deligne §1.2.1 directly —
+    but if #42642 lands, L0's `opposed` and L2's `gradedF` / `gradedComplexEquiv` are the places to
+    specialize onto it.
     - *Complex structures on real vector spaces* —
       [mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975), the `J`, `J² = −1`
       route to the `(p,q)`-decomposition (the `±i`-eigenspace picture). The Deligne opposed-filtration
@@ -193,8 +196,8 @@ the pinned Mathlib.
   that `F^p = ⨆_{p'≥p} H^{p',·}` and that the pieces are independent (`H^{p,q} ⊓ ⨆_{p'>p} H^{p',·} = ⊥`
   from opposedness); assemble via `DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top`,
   `iSupIndep`, `IsCompl`. Voisin I, §6 (the opposedness lemma). Name `opposed` to align with Deligne
-  §1.2.1; if an abstract filtration API later lands in Mathlib, this is the place to specialize onto
-  it (see *Prior art*).
+  §1.2.1; if the in-progress Mathlib filtration API (mathlib4#42642) lands, this is the place to
+  specialize onto it (see *Prior art*).
   *Companions to build:* morphisms of HS, the `(p,q)` symmetry
   `conj (piece p) = piece (n−p)`, `ℤ`-Tate twist, `⊗`/`Hom`/dual.
   *Effectivity:* `HodgeStructure.IsEffective` (Hodge numbers in `[0,n]`, i.e. `F^0 = ⊤`, `F^{n+1} = ⊥`)
@@ -238,8 +241,8 @@ the pinned Mathlib.
   respects; establishing the splitting propositionally (existence of the `I^{p,q}` bigrading) suffices.
   A `@[simp]` suite for `gradedConj`/`gradedF` keeps the quotient manipulations tractable. Deligne,
   *Théorie de Hodge II* 1.2.10 & 2.3.5; Peters–Steenbrink Ch. 3. Name `gradedF`/`gradedComplexEquiv` to
-  align with Deligne §1.2.1; as for L0, specialize onto an abstract filtration API only if one lands
-  in Mathlib (see *Prior art*).
+  align with Deligne §1.2.1; as for L0, specialize onto the in-progress Mathlib filtration API
+  (mathlib4#42642) if it lands (see *Prior art*).
   *Morphisms:* the milestone is bundling-agnostic (unbundled `fQ`); the implementation bundles it into
   an `MHS.Hom` / category, whose **abelian-category** structure is exactly what strictness provides
   (kernels/cokernels of MHS morphisms are again MHS).
