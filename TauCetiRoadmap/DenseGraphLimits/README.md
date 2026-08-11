@@ -99,7 +99,10 @@ Two kinds of pin coexist in this roadmap and must not be conflated.
 padded-exposure architecture and its concentration constants (the `q/k` oscillation and the
 `2·exp(−ε²k/(2q²))` tail under `2q² ≤ εk` are proved verbatim in `cameronfreer/graphon`,
 `SampleExposure.lean`); the finite-marginal eliminator for the finite↔infinite law equivalence;
-the weak-regularity baseline exponent `4^{⌈1/ε²⌉+1}`. For Janson A.9, the **core
+the weak-regularity baseline exponent `4^{⌈1/ε²⌉+1}`; the counting bridge
+`card_injective_hom_eq_labelledCopyCount` — **proved in `Suggested.lean` itself**, so the
+`injHomDensity` numerator *is* Mathlib's `labelledCopyCount` and no parallel counting
+convention exists. For Janson A.9, the **core
 pushforward route is verified** (the migration source's kernel-randomization adapter on `ℝ`);
 the named `I → Ω` wrapper itself is pending and is the first queued experiment.
 

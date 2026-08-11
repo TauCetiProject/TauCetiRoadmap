@@ -508,11 +508,29 @@ def homDensityFin {V : Type*} [Fintype V] (F : SimpleGraph V) {m : ℕ} (G : Sim
 /-- **Layer 9a (injective hom density `t₀`).** The *ordered injective* hom count over the **falling
 factorial `(m)_k = m.descFactorial k`** (`k = |V(F)|`) — **not** `Nat.choose m k`, which would bias
 the sampling estimator by `k!`. Via `Nat.card`; no decidability on the target graph `G`.
-**Bridge to Mathlib**: `SimpleGraph.labelledCopyCount` counts labelled copies — injective
-homomorphisms — so this numerator should either be restated through it or accompanied by the
-one-line equivalence; a parallel injective-count primitive left unexplained is not acceptable. -/
+**Bridge to Mathlib**: the numerator equals `G.labelledCopyCount F` —
+`card_injective_hom_eq_labelledCopyCount` below, proved — so no parallel counting convention
+remains. -/
 def injHomDensity {V : Type*} [Fintype V] (F : SimpleGraph V) {m : ℕ} (G : SimpleGraph (Fin m)) : ℝ :=
   (Nat.card {φ : F →g G // Function.Injective φ} : ℝ) / (m.descFactorial (Fintype.card V) : ℝ)
+
+/-- **Layer 9a (the counting bridge — proved, not a pin).** The numerator of `injHomDensity` is
+Mathlib's labelled copy count: `SimpleGraph.Copy F G` is definitionally an injective
+homomorphism, and the host graph comes first — `G.labelledCopyCount F` counts copies of `F`
+inside `G`. This settles the normalization against the existing Mathlib primitive; no parallel
+counting convention remains. -/
+theorem card_injective_hom_eq_labelledCopyCount {V : Type*} [Fintype V] (F : SimpleGraph V)
+    {m : ℕ} (G : SimpleGraph (Fin m)) :
+    Nat.card {φ : F →g G // Function.Injective φ} = G.labelledCopyCount F := by
+  classical
+  rw [Nat.card_congr
+    ({ toFun := fun φ => ⟨φ.1, φ.2⟩
+       invFun := fun c => ⟨c.toHom, c.injective'⟩
+       left_inv := fun _ => rfl
+       right_inv := fun _ => rfl } :
+      {φ : F →g G // Function.Injective φ} ≃ SimpleGraph.Copy F G),
+    SimpleGraph.labelledCopyCount]
+  convert Nat.card_eq_fintype_card using 2
 
 /-- **Layer 9a (hom vs injective closeness).** `|t(F,·) − t₀(F,·)| ≤ C(k,2)/m`, the bound the
 convergence-via-sampling route needs. Requires `0 < m`. -/
