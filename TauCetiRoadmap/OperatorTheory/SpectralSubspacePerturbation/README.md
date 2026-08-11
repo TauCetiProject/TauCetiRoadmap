@@ -1,29 +1,24 @@
 # Spectral-subspace perturbation: Sylvester equations, the Rosenblum theorem, and the Davis–Kahan sin Θ theorems
 
-Perturbation theory for self-adjoint operators asks how an invariant subspace moves when the
-operator does. Davis and Kahan (1970) answered in the form the subject has used since: the
-displacement of a spectral subspace is the operator `sin Θ` built from the two orthogonal
-projections, and a spectral gap `δ` between the parts of the spectrum forces
-`δ · ‖sin Θ‖ ≤ ‖B − A‖` — in the operator norm, the Frobenius norm, and every unitarily
-invariant norm, with **constant one** under interval/exterior or ordered separation and the
-sharp constant **`π/2`** under arbitrary two-sided separation.
+## Introduction
 
-The main reduction is the Sylvester equation `A X − X B = C`: spectral separation makes it
-uniquely solvable with an a-priori bound, and the `sin Θ` theorems are that bound read through
-projection geometry. Its qualitative limit is **Rosenblum's theorem** — an operator
-intertwining two self-adjoint operators with disjoint spectra is zero, in the unbounded case
-that matters. Its statistical variant, **Yu–Wang–Samworth**, moves the gap hypothesis from
-the perturbed spectrum to the unperturbed one, which is what a random sample covariance
-allows.
+Spectral-subspace perturbation theory quantifies how an invariant subspace moves when a
+self-adjoint operator is perturbed. The displacement is expressed through the sine of the principal
+angle between the original and perturbed spectral subspaces. A spectral gap converts the
+intertwining or residual equation for these subspaces into a Sylvester equation, so norm bounds for
+the Sylvester inverse become `sin Θ`, tangent, and double-angle estimates.
 
-Mathlib has the static operator-theory stack but none of this layer: no operator angles, no
-Sylvester equations, no spectral-subspace perturbation theory, no statistical variant.
+Three separation geometries govern the sharp constants. Ordered and interval/exterior separation
+give constant-one estimates, while arbitrary pairwise separation gives the sharp factor `π/2` for
+general unitarily invariant norms. The Haagerup–Zsidó reciprocal kernel supplies this `π/2` bound.
+Rosenblum's theorem is the qualitative disjoint-spectrum limit. The Yu–Wang–Samworth form uses a
+population spectral gap and gives the finite-dimensional subspace bounds used in statistical
+applications.
 
-This roadmap is the **endpoint of the [operator theory](../README.md) family**: it consumes
-`PolarDecomposition`, `Majorization`, `PrincipalAngles` and `SelfAdjointSpectralTheory`.
-
-Its `Suggested.lean` imports the sibling signature files and uses their declarations
-directly; no dependent roadmap redeclares those objects.
+The roadmap assembles the angle geometry from [`PrincipalAngles`](../PrincipalAngles/README.md),
+the norm-transfer machinery from [`Majorization`](../Majorization/README.md), the bounded polar
+geometry from [`PolarDecomposition`](../PolarDecomposition/README.md), and the domain-aware
+resolvent theory from [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md).
 
 Suggested homes:
 
@@ -33,49 +28,42 @@ TauCeti/Analysis/Operator/Sylvester/
 TauCeti/Analysis/Operator/Perturbation/
 ```
 
-## Standing conventions
+## Notation and terminology
 
-- **Scalar fields, rectangular shapes.** Algebraic and finite statements over `[RCLike 𝕜]`;
-  complex-calculus results over `ℂ` with explicit real descent. The `π/2` bound holds
-  verbatim over `ℝ` and `ℂ`; the real case is proved via the doubled-phase certificate of
-  Part B. Estimates run between two Hilbert spaces with independent universes; endomorphisms
-  are the diagonal case.
-- **Unbounded statements are canonical.** The domain-aware forms are primary: the Sylvester
-  equation on `LinearPMap` with domain transport as data, and spectra via the
-  [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md) roadmap's
-  `resolventSet` complement. Bounded operators enter through `T.toLinearMap.toPMap ⊤`, finite
-  dimension through restriction. Part C proves both are specializations.
-- **Norms: one statement per family.** State results for an arbitrary (rectangular) unitarily
-  invariant seminorm — subadditive, absolutely homogeneous, two-sided unitarily invariant,
-  definiteness deliberately unbundled — with operator, Frobenius, Ky Fan and Schatten forms
-  as instantiations. Ky Fan prefixes plus Fan dominance is the pinned lifting route.
-- **Gap predicates and angles stay distinct.**
-  - Three separations, carrying constants one, one and `π/2`: ordered (`λ + δ ≤ μ`),
-    interval/exterior (one spectrum in `[a,b]`, the other outside `(a−δ, b+δ)`), and pairwise
-    (`δ ≤ |λ − μ|`). None is silently strengthened.
-  - `tan 2Θ` needs *ordered* internal separation: interlacing spectra satisfy pairwise
-    separation while an off-diagonal perturbation produces a quarter turn.
-  - One interval/exterior gap controls the directed sine `P_{Vᗮ} ∘ P_U` in every unitarily
-    invariant norm; the symmetric sine `|P_U − P_V|` needs the gap in both orientations. Only
-    the operator norm erases the difference, and only under equal ranks.
-  - Both angles are public API. The finite-dimensional separation predicates — pairwise,
-    ordered, and the bundled interval/exterior condition `IntervalExteriorGap` — belong to
-    [`PrincipalAngles`](../PrincipalAngles/README.md). `InternalGap`, in which both spectra
-    come from one operator, is the application-shaped predicate defined here.
-- **Rosenblum without a Borel functional calculus.** Both Cayley spectra contain `1` once
-  both operators are unbounded, so no continuous symbol separates them. But `1` is a null
-  point for every diagonal spectral measure, so continuous symbols damped at `1` separate in
-  the limit, and dominated convergence finishes.
-* **The constant `π/2`.** Part A constructs a kernel of mass exactly `π/2`. The partial converse is proved: every real, undoubled interpolation certificate for the two-by-two obstruction data has coefficient mass at least `5/3 > π/2`. The real-field `π/2` theorem therefore goes through the doubled-phase certificate.
-- **Kernel conventions.** The real kernel `ℝ → ℝ` and the complex kernel `ℝ → ℂ`
-  (`k = −i·k_ℝ`) both stay: mass and positivity use the real one, the Fourier identity uses
-  the complex one. The Laplace transform integrates over `Set.Ioi 0`. The Fourier identity is
-  a bare integral against `exp(i t x)` — the form an operator is substituted into — with an
-  explicit bridge to Mathlib's `2π`-normalized transform.
-- **Population gaps in the statistical variant.** Part D's hypothesis is a gap in the spectrum
-  of **one** designated (population) operator, with the perturbed block selected by
-  *corresponding ordered eigenvalue indices* rather than as an arbitrary reducing subspace.
-  The hypothesis is one-sided: no spectral gap is assumed for the perturbed operator.
+- **Scalars and Hilbert spaces.** Finite-dimensional algebraic statements use `𝕜 = ℝ` or `ℂ`.
+  Complex functional-calculus statements use complex Hilbert spaces, with real forms stated where
+  developed. Rectangular estimates allow different source and target Hilbert spaces.
+- **Self-adjoint operators and perturbations.** `A` and `B` denote self-adjoint operators. Their
+  difference `B-A` is the perturbation in the Davis–Kahan estimates.
+- **Subspaces and projections.** `U` and `V` denote projected subspaces, with orthogonal projections
+  `P_U` and `P_V`. Orthogonal complements are written `U⊥` and `V⊥`.
+- **Directed and symmetric sine.** `P_{V⊥}P_U` is the directed sine map from `U` toward `V⊥`.
+  `|P_U-P_V|` is the symmetric sine angle operator. Their operator norms agree under the standard
+  equal-rank hypotheses, while general unitarily invariant norms retain the orientation data.
+- **Spectral gaps.** `δ` or `g` denotes a positive separation parameter. *Ordered separation*
+  fixes the relative order of two spectra; *interval/exterior separation* places one spectrum in an
+  interval and the other outside an enlarged interval; *pairwise separation* bounds every
+  cross-distance between the two spectra.
+- **Internal gap.** An internal gap `Δ` separates the spectrum of a selected reducing block of one
+  self-adjoint operator from the spectrum of its orthogonal complement.
+- **Sylvester equation.** For self-adjoint `A` and `B`, the Sylvester equation is
+  `AX-XB=C`. The operator `X` is the unknown and `C` is the defect or forcing term.
+- **Unitarily invariant seminorms.** `N` denotes a rectangular unitarily invariant seminorm.
+  Operator, Frobenius, Ky Fan, and Schatten norms are the standard instances used in the theorem
+  family.
+- **Haagerup–Zsidó kernel.** The weight is `w(y)=tanh(πy/2)`, its one-sided Laplace transform is
+  `L(t)`, the real kernel is `r(t)=(sin t/2)L(t)`, and the reciprocal kernel is `k(t)=-ir(t)`.
+- **Fourier convention.** The reciprocal identity is written as the bare integral
+  `∫_ℝ k(t)e^{itx}dt = 1/x` for `1≤|x|`; a separate bridge relates this convention to Mathlib's
+  `2π`-normalized Fourier transform.
+- **Rosenblum intertwining.** An operator `X` satisfying `AX=XB` is an intertwiner. Rosenblum's
+  theorem asserts vanishing of such an intertwiner when the self-adjoint spectra are disjoint.
+- **Population and sample operators.** In the statistical layer, `T` denotes the population
+  operator, `S` the sample or perturbed operator, and `Δ` the population internal gap. Corresponding
+  eigenblocks use the same ordered eigenvalue-index set.
+- **Residual columns.** For a selected population eigenblock, `R_j` denotes the residual column
+  used to compare the population and sample eigenspaces. Frobenius sine distance is denoted
+  `‖sinΘ(U,V)‖_F`.
 
 ## What Mathlib already has (consume)
 

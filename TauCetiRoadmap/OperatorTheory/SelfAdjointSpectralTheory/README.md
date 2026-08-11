@@ -1,13 +1,20 @@
 # Self-adjoint spectral theory: the Borel functional calculus, unbounded operators, and Stone's theorem
 
-Mathlib has the static stack — `ContinuousLinearMap` with adjoints and operator norms, the
-continuous functional calculus of a normal element, `spectrum` and `resolvent` for
-Banach-algebra elements, `Measure` with Riesz–Markov–Kakutani, and unbounded operators as
-`LinearPMap` with `adjoint`, `IsSelfAdjoint` and closedness — but none of the layer that
-makes quantum mechanics, spectral perturbation theory, or evolution equations expressible:
-no Borel functional calculus, no projection-valued measures, no resolvent theory for a
-partially defined operator, no spectral measure of an unbounded self-adjoint operator, and
-no Stone's theorem connecting self-adjoint operators to one-parameter unitary groups.
+## Introduction
+
+Self-adjoint spectral theory links unitary evolution, functional calculus, resolvents, and spectral
+measures. A strongly continuous one-parameter unitary group determines a self-adjoint generator.
+For bounded normal operators, bounded Borel functions act through a functional calculus and
+indicator functions produce projection-valued measures. For unbounded self-adjoint operators, the
+resolvent and Cayley transform provide bounded objects from which the spectral measure and generated
+unitary group can be reconstructed.
+
+The roadmap develops these connections in five layers. Part A builds one-parameter unitary groups
+and Stone's forward theorem. Part B develops the bounded Borel functional calculus and
+projection-valued measures. Part C supplies the domain, graph, perturbation, and transport calculus
+for partial operators. Part D develops resolvents, spectral gaps, and the Cayley transform. Part E
+constructs the spectral measure of an unbounded self-adjoint operator and completes Stone theory via
+Yosida approximation.
 
 Suggested homes:
 
@@ -17,67 +24,50 @@ TauCeti/Analysis/InnerProductSpace/BorelCalculus/
 TauCeti/Analysis/InnerProductSpace/ProjValMeasure/
 TauCeti/Analysis/InnerProductSpace/LinearPMap/
 TauCeti/Analysis/CStarAlgebra/SelfAdjointGapInverse.lean
-TauCeti/MeasureTheory/    (the compact-infimum and Helly-selection layer)
+TauCeti/MeasureTheory/
 ```
 
-## Standing conventions
+## Notation and terminology
 
-### An unbounded operator *is* a `LinearPMap`
-
-Mathlib's `LinearPMap` (`H →ₗ.[𝕜] H`) over `[RCLike 𝕜]` is the foundational carrier for the
-domain and resolvent layers. Closedness, dense domain, symmetry
-(`LinearPMap.IsFormalAdjoint`) and self-adjointness (`IsSelfAdjoint A`, i.e. `A.adjoint = A`)
-are hypotheses on a raw partial map. Parts C and D use `[RCLike 𝕜]` for domain relations, graph
-and transport constructions, relative boundedness, perturbations, the Sylvester vocabulary,
-resolvent sets, and elementary resolvent algebra. Parts A, B, and E use the scalar fields stated
-in their constructions. Bounded operators enter through `T.toLinearMap.toPMap ⊤`.
-
-### Self-adjointness by von Neumann's criterion, with density derived
-
-Symmetry plus surjectivity of `A ± i`, with density of the domain **derived** from symmetry
-and surjectivity of `A + i` rather than assumed. Assuming it would make Stone's theorem apply
-to fewer groups than claimed; deriving it replaces the textbook mollification argument with a
-few lines of inner-product algebra.
-
-### A `LinearPMap` needs its own resolvent set
-
-This decision belongs to the
-[one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md):
-an unbounded generator needs its own resolvent notion, with a bridge lemma to Mathlib's
-`resolvent` in the bounded case.
-
-What is specific here is the range. That roadmap works over a real Banach space and takes
-`λ` real, complexifying for the complex resolvent set; the spectral theorem needs `z` ranging
-over `𝕜` from the outset, so `resolventSet A : Set 𝕜` is a specialization of theirs rather
-than a second notion, and the two should be related rather than developed twice.
-
-### Projection-valued measures are generic in their measurable parameter space
-
-`ProjValMeasure X H` is intrinsic: for any measurable space `X`, it bundles the orthogonal
-projection field on measurable subsets of `X` and strong countable additivity. For each vector
-`ξ`, the finite scalar measure `diagMeasure P ξ` is derived from `B ↦ ⟪ξ, P(B) ξ⟫`; the
-diagonal-mass identity is part of the API. Strong countable additivity belongs to the PVM
-itself; idempotence, positivity and finite additivity are theorems. The indicator calculus of a
-normal bounded operator gives a PVM on `spectrum ℂ a`; the self-adjoint specialization is
-transported to `ℝ`. Reindexing along a measurable map is a generic PVM operation, so the
-inverse Cayley map used by the unbounded theory introduces no second spectral-measure type.
-
-### Semibounds are hypotheses the consumer supplies
-
-`SemiboundedBelow A c` and `SemiboundedAbove A c` are predicates on a partial map and a
-constant, never a subtype. Off the real axis a lower bound is free from `|Im z|` and the
-theorem proves it; at a real point there is none, so the real-point resolvent lemma takes the
-bound as a hypothesis and reruns the same closed-range argument. A caller holding a spectral
-gap or a semibound should not have to reprove closed range.
-
-### Statements live at their natural generality
-
-The `LinearPMap` domain, transport, relative-bound, Sylvester, resolvent-set, and elementary
-resolvent algebra are stated over `[RCLike 𝕜]` according to their formulas. Parts A, B, and E
-carry the scalar fields used by their unitary-group, Borel-calculus, Cayley-transform, and
-spectral-measure constructions. C⋆-algebra facts — the norm/spectrum interval characterization
-and the gap inverse — are stated for C⋆-algebras. Generic measure-theoretic lemmas such as
-compact infima and Helly selection are stated in `MeasureTheory` for their own hypotheses.
+- **Scalars and Hilbert spaces.** `H` denotes a Hilbert space. Domain, graph, transport, relative
+  bound, Sylvester, and elementary resolvent statements use `𝕜 = ℝ` or `ℂ` according to their
+  formulas. The unitary-group and complex Borel-calculus layers use complex Hilbert spaces.
+- **Partial operators and domains.** `A : H →ₗ.[𝕜] H` denotes a partial linear operator and
+  `dom A` its domain. A bounded operator `T` is regarded as a total partial operator on `⊤` when it
+  enters the partial-operator theory.
+- **Symmetry and self-adjointness.** A partial operator is *symmetric* when it is formally
+  self-adjoint on its domain. It is *self-adjoint* when its adjoint has the same domain and action,
+  equivalently `A† = A` in the bundled partial-operator sense.
+- **Shifted operators.** `A-z` denotes the partial operator `A-zI` on `dom A`. The shifts `A±i`
+  are used in von Neumann's self-adjointness criterion.
+- **Resolvent and spectrum.** `ρ(A)` denotes the resolvent set, `σ(A)` its complement in the scalar
+  field, and `R_A(z)` or `R(z)` the bounded two-sided inverse of `A-z` for `z ∈ ρ(A)`.
+- **One-parameter unitary groups.** `U(t)` denotes a strongly continuous unitary representation of
+  `(ℝ,+)`. The generator convention is `U(t)=e^{itA}`, with generator difference quotient
+  `(U(t)ψ-ψ)/(it)` at `t=0`.
+- **Bounded Borel functional calculus.** For a normal bounded operator `a`, `f(a)` denotes the
+  operator assigned to a bounded Borel symbol `f` on the spectrum. Indicator functions give the
+  associated spectral projections.
+- **Projection-valued measures.** `P(B)` denotes the orthogonal projection assigned to a measurable
+  set `B`. For a vector `ξ`, the diagonal measure is
+  `μ_ξ(B) := ⟪ξ,P(B)ξ⟫`; polarized matrix elements are recovered from these diagonal measures.
+- **Semibounds.** A lower semibound `c` for `A` means `c‖x‖² ≤ Re⟪Ax,x⟫` on `dom A`; an upper
+  semibound is defined with the reversed inequality.
+- **Graph norm and cores.** The graph norm on `dom A` is
+  `‖x‖_A := sqrt(‖x‖²+‖Ax‖²)`. A *core* is a subspace of the domain that is dense for this graph
+  norm.
+- **Relative boundedness.** A partial map `V` is relatively `A`-bounded with coefficients `(a,b)`
+  when `‖Vx‖ ≤ a‖x‖+b‖Ax‖` on `dom A`.
+- **Cayley transform.** For complex self-adjoint `A`,
+  `U_A := 1-2iR_A(-i) = (A-i)(A+i)⁻¹` denotes the Cayley transform. The inverse Cayley coordinate is
+  `w ↦ i(1+w)/(1-w)` away from the point `w=1`.
+- **Spectral measure of an unbounded operator.** `P_A` denotes the real spectral PVM obtained from
+  the Cayley spectral measure. The corresponding scalar spectral measure for `ξ` is denoted
+  `μ^A_ξ`.
+- **Yosida approximants.** For `n≥1`,
+  `A_n^+ := n²R_A(in)-inI`, `A_n^- := n²R_A(-in)+inI`, and
+  `S_n := ½(A_n^+ + A_n^-)`. The bounded self-adjoint operators `S_n` generate the approximating
+  unitary groups.
 
 ## What Mathlib already has (consume)
 

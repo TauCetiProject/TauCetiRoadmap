@@ -1,76 +1,61 @@
 # Operator ideals: approximation numbers, symmetric ideals, and Hilbert–Schmidt structure
 
-Singular values do not stop at finite dimension. For a bounded operator between normed
-spaces their natural continuation is the sequence of **approximation numbers**
+## Introduction
+
+Approximation numbers extend finite-dimensional singular values to bounded operators by measuring
+best approximation in operator norm by maps of bounded rank:
 
 ```text
-aₙ(T) = inf { ‖T − R‖ : rank R ≤ n },
+aₙ(T) = inf { ‖T − R‖ : rank R ≤ n }.
 ```
 
-the operator-norm distances to the ranks. On finite-dimensional Hilbert spaces these *are*
-the singular values (Eckart–Young); in infinite dimensions they are the prototype
-**s-numbers** (Pietsch), and the gauges of the sequence `n ↦ aₙ(T)` — Ky Fan partial sums,
-`ℓᵖ` sums, the supremum — carve the bounded operators into the classical **symmetric
-operator ideals**: the finite-rank-approximable operators, the Schatten classes, trace
-class, Hilbert–Schmidt.
+On finite-dimensional Hilbert spaces they agree with singular values through Eckart–Young. In
+infinite dimensions they form the basic s-number sequence used to describe finite-rank
+approximability and compactness. Symmetric gauges applied to this sequence produce the classical
+operator ideals, including Ky Fan, Schatten, trace-class, and Hilbert–Schmidt classes.
 
-Mathlib has the static functional-analysis stack — `ContinuousLinearMap`, operator norms and
-adjoints, `LinearMap.rank`, finite-dimensional `LinearMap.singularValues`, the continuous
-functional calculus, `IsCompactOperator`, the `lp` spaces — but none of the s-number layer:
-no approximation numbers, no object over which a theorem can be stated once for "an
-arbitrary symmetric ideal norm", and no Schatten, trace-class or Hilbert–Schmidt theory.
-
-The symmetric-ideal interface laws should hold unconditionally, and the standard instances —
-operator norm, Ky Fan, Hilbert–Schmidt, trace class, Schatten `p` — should be constructed
-rather than postulated.
+The roadmap develops the approximation-number calculus first, then packages compatible gauges as
+operator-ideal families, and finally gives Hilbert–Schmidt operators their Hilbert-space structure
+through square-summable columns. This connects the singular-value theory of
+[`PolarDecomposition`](../PolarDecomposition/README.md) and the majorization theory of
+[`Majorization`](../Majorization/README.md) to infinite-dimensional ideal theory.
 
 Suggested homes: `TauCeti/Analysis/OperatorIdeal/ApproximationNumber/`,
-`TauCeti/Analysis/OperatorIdeal/Family/`,
+`TauCeti/Analysis/OperatorIdeal/Family/`, and
 `TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/`.
 
-## Standing conventions
+## Notation and terminology
 
-- **Zero-based indexing.** `aₙ(T) = dist(T, {R : rank R ≤ n})`, so `a₀(T) = ‖T‖`, matching
-  Mathlib's zero-based singular values index for index. The one-based literature convention
-  is the translation `sₙ(T) = aₙ₋₁(T)`.
-- **Mathlib-shaped approximation numbers, `ℝ≥0∞` ideal gauges.** The approximation-number
-  sequence uses the upstream-facing name and codomain
-  `ContinuousLinearMap.singularValue T n : ℝ≥0`. Gauges coerce these values to `ℝ≥0∞` and are
-  `∞` off their ideal: a number attached to one operator, versus a gauge whose finiteness
-  *defines* a class.
-- **Rectangular, independent universes.** Source and target are distinct spaces in
-  independent universes throughout the base layer; rank comparisons use `LinearMap.rank` with
-  explicit `Cardinal.lift`. Square operators are specializations.
-- **Scalar ladder.** Norm-and-rank over `NontriviallyNormedField 𝕜` on seminormed spaces;
-  adjoint invariance and Eckart–Young over `RCLike 𝕜`. The finite-restriction min–max
-  converse is a pair-level proof lemma: direct over `ℂ`, and obtained once by complexification
-  over `ℝ`. Ky Fan subadditivity and the induced symmetric-ideal theory expose only the
-  natural `[RCLike 𝕜]` hypothesis to callers.
-- **The approximable/compact boundary.** `aₙ(T) → 0` characterizes finite-rank approximability
-  on any normed pair, and approximable implies compact over a `ProperSpace` scalar. The
-  converse is claimed **only for a Hilbert target** — it fails for general Banach spaces
-  without an approximation property, and the hypothesis sits on the target because that is
-  where the property lives.
-* **One** **`ℝ≥0∞`** **gauge is the sole datum of an ideal family**, the ideal being its finiteness domain. This follows the symmetric-norming-function construction of Gohberg–Kreĭn and is
-  the presentation used throughout this roadmap, with an extensionality theorem for the
-  induced families. Four laws suffice — subadditivity, absolute homogeneity, domination of
-  the operator norm, and the two-sided composition bound — and closure under module
-  operations follows.
-- **Hilbert spaces at the family layer, forced by the examples.** The four laws are norm-only,
-  but of the motivating gauges only the operator norm survives outside Hilbert space: Ky Fan
-  subadditivity runs through singular values and majorization. No proof in the interface uses
-  the inner product, so re-widening is mechanical if a Banach instance appears.
-- **Two structures for the universe split.** The rectangular family keeps source and target
-  universes independent; the adjoint exchanges them, so the symmetric family is a second
-  structure over the diagonal instantiation.
-- **Ky Fan dominance is a class, not a field.** It is false for an arbitrary family satisfying
-  the four laws, so a family carries it as a property rather than as data.
-- **Hilbert–Schmidt is `ℓ²` of columns, not a tensor product.** Isomorphic models, unequal
-  cost: the `ℓ²` route inherits inner product and completeness from Mathlib's `lp`, leaving
-  only the column bijection. The Hilbert basis is an explicit parameter of every statement;
-  basis-independence of the *energy* is a theorem of Part B.
-- **Normal forms.** The approximation number is the normal form of the field-generic theory;
-  its identification with singular values is a named theorem, not a global `@[simp]`.
+- **Scalars and rectangular operators.** `T : E → F` denotes a bounded map between possibly
+  different normed or Hilbert spaces. Norm-and-rank statements use their natural normed-field
+  hypotheses; adjoint, singular-value, and symmetric-ideal statements use real or complex Hilbert
+  spaces as stated.
+- **Rank.** `rank T` denotes the algebraic rank of `T`. Rank bounds are interpreted on the actual
+  source and target spaces of the rectangular map.
+- **Approximation numbers.** `aₙ(T)` denotes the distance from `T` to the bounded maps of rank at
+  most `n`, with zero-based indexing. Thus `a₀(T)=‖T‖`. The common one-based s-number convention is
+  related by `sₙ(T)=aₙ₋₁(T)` for `n≥1`.
+- **Singular values.** In finite-dimensional Hilbert spaces, `σₙ(T)` denotes the singular values in
+  nonincreasing order with multiplicity. Eckart–Young identifies `aₙ(T)` with the corresponding
+  zero-based singular value.
+- **Ky Fan gauges.** `Kₖ(T) := ∑_{n<k} aₙ(T)` denotes the prefix gauge of the approximation-number
+  sequence.
+- **Finite-rank approximability.** An operator is *finite-rank approximable* when it is an
+  operator-norm limit of finite-rank maps, equivalently when `aₙ(T) → 0` in the setting developed
+  in Part A.
+- **Operator-ideal family.** An ideal family assigns a gauge `Φ(T) ∈ ℝ≥0∞` to every admissible
+  rectangular operator; the operators with finite gauge form the associated ideal. The symmetric
+  family is the square specialization carrying adjoint symmetry.
+- **Ky Fan dominance.** *Ky Fan dominance* is the principle that domination of every Ky Fan prefix
+  implies domination for every gauge in the specified symmetric ideal family.
+- **Schatten notation.** `S_p` denotes the Schatten `p` class and `‖T‖_p` its gauge for
+  `1≤p≤∞`. `S_1` is trace class and `S_2` is the Hilbert–Schmidt class; `p=∞` gives the operator
+  norm family.
+- **Hilbert–Schmidt energy.** For a Hilbert basis `(bᵢ)`, the column energy of `T` is
+  `∑ᵢ ‖Tbᵢ‖²`. Its square root is the Hilbert–Schmidt norm, and basis independence is part of the
+  developed theory.
+- **Column model.** Relative to a Hilbert basis `(bᵢ)`, an `ℓ²` family of columns `(fᵢ)` represents
+  the operator `x ↦ ∑' i, ⟪bᵢ,x⟫fᵢ`.
 
 ## What Mathlib already has (consume)
 

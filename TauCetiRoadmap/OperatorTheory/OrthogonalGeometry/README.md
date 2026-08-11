@@ -1,26 +1,41 @@
 # Orthogonal geometry: Gram rigidity, coordinate isometries, and orthogonal series
 
-The geometry of orthonormal families and of the subspaces they span: when two families are
-carried onto one another by an isometry of the ambient space, how a family is presented as a
-coordinate isometry, when a pairwise-orthogonal family spans an orthogonal family of lines,
-and what it means for a subspace to reduce an operator.
+## Introduction
 
-Mathlib has `Matrix.gram` and the matrix-side spectral theory, `Submodule.starProjection`
-with `HasOrthogonalProjection`, and `OrthogonalFamily`, whose only vector-level constructor
-`Orthonormal.orthogonalFamily` requires *unit* vectors. It has no Gram-rigidity theorem, no
-bundled coordinate isometry of an orthonormal family, and no reducing-subspace API.
+Orthogonal geometry turns inner-product data into canonical identifications of subspaces and
+coordinates. Equal Gram data determine an isometry between the spans of finite families; an
+orthonormal family identifies coordinate space isometrically with its span; and orthogonal
+projections organize the relation between a subspace and its orthogonal complement. For operators,
+invariant and reducing subspaces express compatibility with this orthogonal decomposition.
 
-Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the subspace-equality isometry
-lemma in `TauCeti/Analysis/Normed/Operator/`.
+The same geometry controls orthogonal series. Pairwise orthogonality gives Pythagoras for finite
+sums, a square-summability criterion for infinite sums, and Parseval identities for vectors of
+arbitrary norm, including zero. These constructions supply the coordinate and subspace
+infrastructure used by
+[`Majorization`](../Majorization/README.md), [`PrincipalAngles`](../PrincipalAngles/README.md), and
+[`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md).
 
-## Standing conventions
+Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the subspace-equality isometry lemma in
+`TauCeti/Analysis/Normed/Operator/`.
 
-- **Gram rigidity produces a `LinearIsometryEquiv`.** Equal pairwise inner products give an
-  isometry equivalence of the ambient space in finite dimension, and that is the carrier
-  every consumer is stated against.
-- **Invariant and reducing are distinct named notions.** They coincide for symmetric
-  operators, and that coincidence is a theorem. Reducing subspaces form a geometry-only
-  layer consumed by perturbation theory.
+## Notation and terminology
+
+- **Scalars and spaces.** `𝕜` denotes `ℝ` or `ℂ`, and `E`, `F`, and `G` denote inner-product
+  spaces over `𝕜`. Finite-dimensional hypotheses are stated where an ambient isometry is obtained
+  from finite Gram data.
+- **Gram data.** The Gram data of a family `(vᵢ)` are the pairwise inner products `⟪vᵢ,vⱼ⟫`.
+  *Gram rigidity* refers to reconstruction of the family, its span, or the ambient space up to a
+  linear isometry from these data.
+- **Range and span.** `range S` denotes the range of a linear map `S`. The span of a family is its
+  linear span over `𝕜`.
+- **Orthonormal coordinates.** For an orthonormal family `(vⱼ)`, the *coordinate isometry* is the
+  map `x ↦ ∑ⱼ xⱼvⱼ`; `eⱼ` denotes the corresponding standard coordinate vector.
+- **Orthogonal complements and projections.** `U⊥` denotes the orthogonal complement of a subspace
+  `U`. `P_U` denotes the orthogonal projection onto `U` when that projection is available.
+- **Invariant and reducing subspaces.** A subspace `U` is *invariant* for `A` when `A(U) ⊆ U`; it
+  is *reducing* when both `U` and `U⊥` are invariant.
+- **Orthogonal families and series.** Pairwise orthogonality permits zero vectors. An orthogonal
+  series is a sum of a pairwise-orthogonal family, with summability measured by the squared norms.
 
 ## What is missing (build here)
 

@@ -13,7 +13,7 @@ The roadmap develops the functional calculus and positive square root needed for
 the rectangular modulus and polar decomposition on complete Hilbert spaces over `ℝ` and `ℂ`, and
 the finite-dimensional singular-system theory. Finite-dimensional statements use eigenbases or
 finite singular systems. Complete-space statements use bounded operators and continuous functional
-calculus. The finite and complete constructions are connected where both apply.
+calculus. The finite and complete constructions are identified where both apply.
 
 These constructions supply common operator-theoretic infrastructure for the neighboring roadmaps.
 [`OperatorIdeals`](../OperatorIdeals/README.md) uses the modulus, singular values, and
@@ -26,51 +26,49 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar squar
 
 ## Notation and terminology
 
-1. **Scalars and Hilbert spaces.** `𝕜` denotes `ℝ` or `ℂ`. The letters `E`, `F`, and `G` denote
-   Hilbert spaces over `𝕜`. Finite-dimensional hypotheses are stated where an eigenbasis or finite
-   singular system is used.
-2. **Adjoint, kernel, range, and orthogonal complement.** `T†` denotes the adjoint of `T`; `ker T`
-   denotes its kernel; `ran T` denotes its algebraic range; `closure (ran T)` denotes the norm
-   closure of the range; and `V⊥` denotes the orthogonal complement of a subspace `V`. The identity
-   operator is denoted by `I`.
-3. **Symmetric and self-adjoint operators.** Finite-dimensional endomorphisms are called
-   *symmetric* when they are symmetric for the Hilbert-space inner product. Bounded endomorphisms
-   satisfying `T† = T` are called *self-adjoint*. In finite-dimensional Hilbert spaces these terms
-   describe the same operator class.
-4. **Functional calculus and positive square root.** For a self-adjoint operator `T`, `f(T)` denotes
-   the self-adjoint functional calculus applied to a real-valued function `f`. For positive `T`,
-   `√T` denotes its positive self-adjoint square root, characterized by `(√T)² = T`. The symbol
-   `√T` always refers to this functional-calculus square root.
-5. **Operator modulus and operator absolute value.** For `T : E → F`,
-   `|T| := √(T†T) : E → E`. The terms *operator modulus* and *operator absolute value* both refer
-   to `|T|`. Scalar absolute value uses the same bars and is determined by the scalar context.
-6. **Gram operators.** For `T : E → F`, `T†T : E → E` is the source Gram operator and
-   `TT† : F → F` is the target Gram operator.
-7. **Partial isometries.** A partial isometry `U : E → F` satisfies `UU†U = U`. Its initial space is
-   `(ker U)⊥`, and its final space is `closure (ran U)`. Equivalently, `U` is isometric on its
-   initial space and vanishes on `ker U`.
-8. **Polar factor and polar decomposition.** In the canonical factorization `T = U|T|`, `U` is the
-   *polar factor* or *polar partial isometry* of `T`. A factorization of this form is a *polar
-   decomposition*.
-9. **Contractions.** A bounded operator `W` is a contraction when `‖W‖ ≤ 1`. The
-   Gram-contraction factorization records the corresponding norm bound for `W†` as well.
-10. **Eigenvalue order.** For a finite-dimensional self-adjoint operator `T`, `λₖ(T)` denotes its
-    eigenvalues in nonincreasing order and with multiplicity. For self-adjoint operators, `S ≤ T`
-    denotes the Loewner order.
-11. **Singular values and singular systems.** `σᵢ(T)` denotes the singular values of `T` in
-    nonincreasing order and with multiplicity. A singular system consists of right singular
-    vectors `vᵢ`, left singular vectors `uᵢ`, and singular values `σᵢ` satisfying
-    `Tvᵢ = σᵢuᵢ` and, for `σᵢ ≠ 0`, `T†uᵢ = σᵢvᵢ`.
-12. **Zero singular values.** The formula `uᵢ = σᵢ⁻¹ • Tvᵢ` uses total field inversion, giving
-    `uᵢ = 0` when `σᵢ = 0`. Orthonormality of the left singular vectors is asserted on the
-    nonzero-singular-value indices, while `Tvᵢ = σᵢuᵢ` holds for every index.
-13. **Rank-one notation.** `u ⊗ v` denotes the rank-one operator `x ↦ ⟪v, x⟫u`. A singular
-    reconstruction writes `T` as a finite sum of terms `σᵢ uᵢ ⊗ vᵢ`.
-14. **Moore–Penrose inverse.** `T⁺` denotes the Moore–Penrose inverse of `T`, characterized by the
-    four Penrose equations. In a singular system, `T⁺` replaces each nonzero `σᵢ` by `σᵢ⁻¹`.
-15. **Projection families.** `P` denotes an orthogonal projection. A finite family `(Pⱼ)` is a
-    complete orthogonal projection family when its members are pairwise orthogonal and
-    `∑ⱼ Pⱼ = I`.
+- **Scalars and Hilbert spaces.** `𝕜` denotes `ℝ` or `ℂ`. The letters `E`, `F`, and `G` denote
+  Hilbert spaces over `𝕜`. Finite-dimensional hypotheses are stated where an eigenbasis or finite
+  singular system is used.
+- **Adjoint, kernel, range, and orthogonal complement.** `T†` denotes the adjoint of `T`; `ker T`
+  denotes its kernel; `ran T` denotes its algebraic range; `closure (ran T)` denotes the norm
+  closure of the range; and `V⊥` denotes the orthogonal complement of a subspace `V`. The identity
+  operator is denoted by `I`.
+- **Symmetric and self-adjoint operators.** Finite-dimensional endomorphisms are called
+  *symmetric* when they are symmetric for the Hilbert-space inner product. Bounded endomorphisms
+  satisfying `T† = T` are called *self-adjoint*. In finite-dimensional Hilbert spaces these terms
+  describe the same operator class.
+- **Functional calculus and positive square root.** For a self-adjoint operator `T`, `f(T)` denotes
+  the self-adjoint functional calculus applied to a real-valued function `f`. For positive `T`,
+  `√T` denotes its positive self-adjoint square root, characterized by `(√T)² = T`.
+- **Operator modulus (i.e. operator absolute value).** For `T : E → F`,
+  `|T| := √(T†T) : E → E`. Scalar absolute value uses the same bars and is determined by the
+  scalar context.
+- **Gram operators.** For `T : E → F`, `T†T : E → E` is the source Gram operator and
+  `TT† : F → F` is the target Gram operator.
+- **Partial isometries.** A partial isometry `U : E → F` satisfies `UU†U = U`. Its initial space is
+  `(ker U)⊥`, and its final space is `closure (ran U)`. Equivalently, `U` is isometric on its
+  initial space and vanishes on `ker U`.
+- **Polar factor and polar decomposition.** In the canonical factorization `T = U|T|`, `U` is the
+  *polar factor* or *polar partial isometry* of `T`. A factorization of this form is a *polar
+  decomposition*.
+- **Contractions.** A bounded operator `W` is a contraction when `‖W‖ ≤ 1`.
+- **Eigenvalue order.** For a finite-dimensional self-adjoint operator `T`, `λₖ(T)` denotes its
+  eigenvalues in nonincreasing order and with multiplicity. For self-adjoint operators, `S ≤ T`
+  denotes the Loewner order.
+- **Singular values and singular systems.** `σᵢ(T)` denotes the singular values of `T` in
+  nonincreasing order and with multiplicity. A singular system consists of right singular vectors
+  `vᵢ`, left singular vectors `uᵢ`, and singular values `σᵢ` satisfying `Tvᵢ = σᵢuᵢ` and, for
+  `σᵢ ≠ 0`, `T†uᵢ = σᵢvᵢ`.
+- **Zero singular values.** The formula `uᵢ = σᵢ⁻¹ • Tvᵢ` uses total field inversion, giving
+  `uᵢ = 0` when `σᵢ = 0`. Orthonormality of the left singular vectors is asserted on the
+  nonzero-singular-value indices, while `Tvᵢ = σᵢuᵢ` holds for every index.
+- **Rank-one notation.** `u ⊗ v` denotes the rank-one operator `x ↦ ⟪v, x⟫u`. A singular
+  reconstruction writes `T` as a finite sum of terms `σᵢ uᵢ ⊗ vᵢ`.
+- **Moore–Penrose inverse.** `T⁺` denotes the Moore–Penrose inverse of `T`, characterized by the
+  four Penrose equations. In a singular system, `T⁺` replaces each nonzero `σᵢ` by `σᵢ⁻¹`.
+- **Projection families.** `P` denotes an orthogonal projection. A finite family `(Pⱼ)` is a
+  complete orthogonal projection family when its members are pairwise orthogonal and
+  `∑ⱼ Pⱼ = I`.
 
 ## What Mathlib already has (consume)
 

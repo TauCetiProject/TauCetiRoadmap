@@ -1,27 +1,52 @@
 # Principal angles, the projection gap, and spectral subspaces
 
-How far does a subspace rotate when its operator is perturbed? The classical answers —
-Davis–Kahan, Hoffman–Wielandt, Yu–Wang–Samworth — measure the rotation in **principal
-angles**, which are the singular values of an overlap operator, so their ordering and
-bounds are inherited rather than re-proved.
+## Introduction
 
-This roadmap also owns the vocabulary those theorems are hypothesized in: the projector
-gap, spectral subspaces, the restricted point spectrum, and the spectral-separation predicates.
+Principal-angle theory quantifies the relative position of subspaces. For two finite orthonormal
+families, the singular values of their overlap operator give the principal cosines. On complete
+Hilbert spaces, products of orthogonal projections give the cosine and sine operators, while the
+projection difference gives the symmetric gap between the subspaces. Polar alignment converts the
+finite-dimensional angle data into comparisons between orthonormal bases.
+
+The roadmap also develops the spectral vocabulary used by perturbation theory: restricted point
+spectra, spectral subspaces, and pairwise, ordered, and interval/exterior separation. The finite
+frame layer connects analysis and synthesis operators to Gram spectra, and the angle layer connects
+these finite constructions to complete-space projection geometry. These objects feed directly into
+[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
 
 Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
 
-## Standing conventions
+## Notation and terminology
 
-- **Setting.** Finite-dimensional inner product spaces over `[RCLike 𝕜]` where the
-  eigenbasis is used; the projector-gap material is stated without finite-dimensional or
-  completeness hypotheses.
-- **`SpectrumIn` and `SpectraSeparated` are finite-dimensional point-spectrum vocabulary.**
-  They are stated over `restrictedPointSpectrum`, a set of eigenvalues of an endomorphism. The
-  Banach-algebra spectrum of a restriction is a different object and belongs to
+- **Scalars and spaces.** `𝕜` denotes `ℝ` or `ℂ`. Finite-dimensional hypotheses are used for
+  eigenvalue lists, singular-value lists, finite frames, and finite principal-angle sequences.
+  Projection-gap and complete-space angle-operator statements use their stated Hilbert-space
+  hypotheses.
+- **Finite frames.** For a finite family `(vᵢ)`, the *analysis map* sends `x` to
+  `(⟪vᵢ,x⟫)ᵢ`, the *synthesis map* sends coefficients `(aᵢ)` to `∑ᵢ aᵢvᵢ`, the *frame operator*
+  is synthesis after analysis, and the *Gram operator* is analysis after synthesis.
+- **Subspaces and projections.** `U` and `V` denote subspaces, `U⊥` denotes the orthogonal
+  complement, and `P_U` and `P_V` denote their orthogonal projections when available.
+- **Overlap operator.** For orthonormal families `(uᵢ)` and `(vᵢ)` of the same cardinality, the
+  overlap operator is the coordinate-space map with matrix entries `⟪uᵢ,vⱼ⟫`.
+- **Principal-angle data.** Principal cosines and sines are singular-value sequences of the
+  corresponding overlap or cross-projection operators. Principal angles are obtained from the
+  principal sines by `arcsin`, with values in `[0,π/2]`; their ordering follows the chosen
+  singular-value ordering.
+- **Directed and symmetric sine operators.** `P_{V⊥}P_U` is the directed sine map from `U` toward
+  `V⊥`. The operator absolute value `|P_U-P_V|` is the symmetric sine angle operator.
+- **Projection gap.** `‖P_U-P_V‖` denotes the operator-norm gap between projected subspaces. The
+  directed quantities `‖P_{V⊥}P_U‖` and `‖P_{U⊥}P_V‖` record the two orientations separately.
+- **Restricted point spectrum.** The restricted point spectrum of an operator on a subspace is the
+  set of eigenvalues carried by eigenvectors in that subspace. The Banach-algebra spectrum used for
+  unbounded spectral theory is denoted separately in
   [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md).
-- **Exact projector-gap identity.** The projector-difference identity
-  `‖P − Q‖ = max (‖(1−Q)P‖, ‖(1−P)Q‖)` is an equality, with factor one and no equal-rank
-  hypothesis. The roadmap carries this result in equality form.
+- **Spectral separation.** *Pairwise separation* bounds all cross-distances between two spectral
+  sets; *ordered separation* fixes their relative order; *interval/exterior separation* places one
+  set in an interval and the other outside a prescribed enlargement of that interval.
+- **Acute and quarter-turn configurations.** An acute pair has injective projection from one
+  subspace to the other. Quarter-turn language refers to principal angle `π/4` and is used by the
+  tangent and double-angle theory.
 
 ## What Mathlib already has (consume)
 

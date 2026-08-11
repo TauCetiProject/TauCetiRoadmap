@@ -1,59 +1,50 @@
 # Majorization and unitarily invariant norms
 
-The classical perturbation theorems size a perturbation in a **unitarily invariant norm**,
-and that theory stands on **majorization**: the partial order on real tuples under which
-every symmetric gauge is monotone.
+## Introduction
 
-Mathlib has the static layer — the spectral theorem, singular values, adjoints, orthogonal
-projections, Birkhoff's theorem — but none of the order-theoretic layer: no majorization
-predicate, no **Schur–Horn** theorem (its absence is noted in a comment in
-`Mathlib/Analysis/InnerProductSpace/Spectrum.lean`), no Ky Fan sums, and no unitarily
-invariant norms.
+Majorization connects convex geometry with spectral inequalities. Weak majorization compares
+nonnegative decreasing tuples by their prefix sums. Elementary transfers generate the associated
+convex order, and symmetric gauges are monotone for that order. Schur–Horn connects eigenvalues to
+diagonal data, while Ky Fan sums connect singular-value prefix inequalities to operator seminorms.
+Together these statements give a common route from spectral inequalities to unitarily invariant
+norm inequalities.
 
-**The majorization engine is convex analysis: it belongs under `Analysis/Convex` and imports
-no operator theory.** Weak majorization is a statement about real tuples, and it serves two
-consumers — square norms in Part A, rectangular norms in Part B — through one interface.
+The roadmap separates the convex engine from its operator-theoretic consumers. Part A develops
+weak majorization, Schur–Horn, Ky Fan variational theory, and square unitarily invariant seminorms.
+Part B extends the same singular-value and gauge language to rectangular maps, including the
+Frobenius seminorm. The convex majorization layer is formulated for real tuples and supplies both
+operator layers through one interface.
 
-Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the engine;
-`TauCeti/Analysis/InnerProductSpace/` for everything else.
+Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the convex engine and
+`TauCeti/Analysis/InnerProductSpace/` for the operator theory.
 
-## Standing conventions
+## Notation and terminology
 
-- **Setting.** Finite-dimensional inner product spaces over `[RCLike 𝕜]`, so `ℝ` and `ℂ`
-  uniformly; operators as `E →ₗ[𝕜] F`, with `toContinuousLinearMap` appearing only where
-  the operator norm itself is quoted. Sorted spectral data are finitely supported sequences
-  `ℕ →₀ ℝ`, decreasing and zero-padded, matching Mathlib's `LinearMap.singularValues`.
-- **The engine is convex analysis.** Weak majorization, T-transforms, and the
-  Hardy–Littlewood–Pólya transfer descent are stated for `Fin n → ℝ` and live under
-  `Analysis/Convex`. That file must not import inner-product theory.
-- **Weak majorization is for presented data.** `WeaklyMajorized x y` assumes both tuples
-  antitone and nonnegative and compares prefix sums; no total-sum equality is ever assumed,
-  and the descent uses no separation theorem, no Birkhoff decomposition, and no
-  majorization completion — one convexity application and one closure property per step.
-  The descent is stated for a **symmetric-convex set** (convex, transposition-closed,
-  closed under single-coordinate sign flips), and the gauge form is read off through
-  sublevel sets.
-- **Schur–Horn is stated for an arbitrary orthonormal basis**, in convex (Karamata) form
-  `∑ₖ φ(dₖ) ≤ ∑ᵢ φ(λᵢ)` for every convex `φ`. In the eigenbasis the theorem is vacuous,
-  since there the diagonal *is* the spectrum. The mechanism is the doubly stochastic weight
-  matrix `schurWeight i k = ‖⟪vᵢ, eₖ⟫‖²`, whose row and column sums are each proved to be
-  one.
-- **The Ky Fan trace inequality is stated for orthonormal families** `w : Fin k → E`, not
-  for subspaces or projections: the perturbation arguments build the family from singular
-  vectors, and the family form is what they can apply.
-- **Seminorm structures carry exactly three laws**: subadditivity, absolute homogeneity,
-  two-sided unitary invariance. Positivity, vanishing at zero, adjoint invariance and the
-  ideal property are derived, never assumed; definiteness is deliberately not required, so
-  everything holds at the seminorm level and a consumer supplying a norm has three
-  obligations rather than six.
-- **Ky Fan domination is the single mechanism.** Every "for every unitarily invariant norm"
-  statement is proved once, as a Ky Fan-sum domination, and converted by Fan dominance; the
-  rectangular form factors through convex-hull membership in the two-sided unitary orbit.
-  No inequality is proved per-norm.
-- **"Rectangular" means two independent isometry groups.** A rectangular unitarily
-  invariant norm on `E →ₗ[𝕜] F` is invariant under `U ∘ A ∘ V` for independent unitaries on
-  `F` and `E`; the square theory is the diagonal case, with explicit bridges rather than a
-  subsumption.
+- **Scalars and operator spaces.** `𝕜` denotes `ℝ` or `ℂ`. The operator layers use
+  finite-dimensional inner-product spaces over `𝕜`; rectangular maps `A : E → F` allow distinct
+  source and target spaces.
+- **Ordered spectral data.** Eigenvalues and singular values are listed in nonincreasing order with
+  multiplicity and are zero-padded when represented as finitely supported sequences.
+- **Prefix sums.** For `x : Fin n → ℝ`, `Pₖ(x) := ∑_{i<k} xᵢ` denotes the prefix sum of length
+  `k`.
+- **Weak majorization.** For antitone nonnegative tuples, `x ≺w y` means
+  `Pₖ(x) ≤ Pₖ(y)` for every prefix length `k`. Equality of the total sums is the additional
+  condition associated with ordinary majorization.
+- **Elementary majorization transfer.** A *Robin Hood transfer* moves mass from a larger coordinate
+  to a smaller coordinate while preserving the total sum. A *T-transform* denotes the corresponding
+  one-step transfer together with coordinate permutation.
+- **Symmetric-convex sets and symmetric gauges.** Symmetry means invariance under coordinate
+  permutations and coordinate sign changes. A finite symmetric gauge is subadditive, absolutely
+  homogeneous, and symmetric in this sense.
+- **Schur–Horn notation.** For an eigenvalue tuple `(λᵢ)` and an orthonormal basis `(eₖ)`,
+  `dₖ := Re⟪Teₖ,eₖ⟫` denotes the diagonal data and
+  `wᵢₖ := |⟪vᵢ,eₖ⟫|²` denotes the Schur weight matrix relative to an eigenbasis `(vᵢ)`.
+- **Ky Fan sums.** `Kₖ(A) := ∑_{i<k} σᵢ(A)` denotes the sum of the first `k` singular values.
+- **Unitarily invariant seminorms.** A square unitarily invariant seminorm is invariant under
+  two-sided unitary multiplication. In the rectangular setting the left and right unitaries act on
+  the target and source independently.
+- **Frobenius seminorm.** `‖A‖_F` denotes the square root of the sum of squared singular values,
+  equivalently the Hilbert–Schmidt norm in finite dimension.
 
 ## What Mathlib already has (consume)
 
