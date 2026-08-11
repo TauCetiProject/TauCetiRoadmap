@@ -9,13 +9,18 @@ in the code repo; review machinery lives in
 
 Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and the [Mathlib Initiative](https://mathlib-initiative.org/) in partnership with academic and industry groups.
 
+If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Roadmaps
 
+- [A statement of the classification of finite simple groups](TauCetiRoadmap/CFSGStatement/README.md)
 - [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
 - [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
 - [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
+- [Elliptic curves](TauCetiRoadmap/EllipticCurves/README.md)
 - [Dense graph limits and graphons](TauCetiRoadmap/DenseGraphLimits/README.md)
 - [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
+- [Foundations of adic spaces](TauCetiRoadmap/AdicSpaces/README.md)
 - [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
 - [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
@@ -63,58 +68,94 @@ A roadmap is a specification for material we want added to Tau Ceti, written so 
 reviewers, can act on it without guessing.
 
 - **Build the library, don't race to the theorem.** For each object you introduce, ask for its
-  complete basic theory, not just the lemma the headline needs.
-  Named theorems are milestones inside a fuller development, not the whole of it.
+  complete basic theory, not just the lemma the headline needs. Named theorems are milestones
+  inside a fuller development, not the whole of it. Mario's rule from Mathlib's early days still
+  applies: when you make a definition, it is your job to make it *usable*, which means the right
+  amount of API. A definition with no lemmas about it is not a contribution.
 
-- **Everything is grounded, with no leaps.** Every milestone must rest on existing Mathlib or
-  Tau Ceti material, on earlier material in the same roadmap, or on an explicitly cited
-  dependency in another roadmap. Anything else is a leap: a forward reference to a later layer, a
-  connection between two developments that nobody builds, an object named but never made a
-  target. If the roadmap needs something that doesn't exist, building it must itself be a target,
-  here or in a roadmap you cite. The bigger the gap, the worse AIs do with it.
+- **No gaps.** Every milestone must rest on existing Mathlib or Tau Ceti material, on earlier
+  material in the same roadmap, or on an explicitly cited dependency in another roadmap. Anything
+  else is a leap: a forward reference to a later layer, a connection between two developments that
+  nobody builds, an object named but never made a target. If the roadmap needs something that
+  doesn't exist, building it must itself be a target, here or in a roadmap you cite. The bigger the
+  gap, the worse AIs do with it.
 
-- **Check what's already in motion.** Before specifying an object, search Zulip and the open Mathlib
-  PRs for it — someone may already be building the API, settling the design, or have formalized it.
-  Cite what you find, follow the direction it's taking, and flag milestones that will refactor onto
-  in-flight Mathlib work once it lands. Reinventing an API Mathlib is already building, or picking a
-  convention the community is deciding against, wastes the work.
+- **Every item must be unambiguous.** A reasonably clever agent has to be able to work out exactly
+  which definition or theorem you mean, without guessing between candidates.
+
+- **Clear boundaries.** We keep roadmaps non-overlapping as far as we can, and where one depends on
+  material from another, that dependency is stated. Minimize the number of words a reader needs in
+  order to decide whether something is in scope; jagged boundaries make that impossible.
+
+- **Be definite about scope.** Nothing is "optional", "deferred" or "for later": don't use the
+  words and don't imply them. Everything on a roadmap is work we want. Sequencing is good, so split
+  into milestones and put the harder material later, but every item lives in *some* milestone, or a
+  contributor may misread "later" as "never". Decide the generality up front and write it down,
+  rather than recommending intermediate implementations that will be replaced.
+
+- **Roadmaps are timeless.** They say what we want, not how they came to say it. Don't call an item
+  "blocked" because an earlier roadmap is still being implemented; point at that roadmap instead.
+  When revising, don't leave war stories about why or how the roadmap changed, and don't refer to
+  the review process. Someone reading a year from now should not be able to tell which parts were
+  contentious.
+
+- **Aim for reusable material.** This one is a *should*, not a *must*, but it is what makes a
+  roadmap pay for itself beyond its own headline.
+
+- **Deep or broad is up to you.** Broad roadmaps are usually better: if we are doing
+  representation theory, let's cover everything taught in graduate classes at more than one
+  university. Breadth makes boundaries easier to draw and optimizes for reuse. But roadmaps also
+  have to *motivate* people to contribute, and a deep one is sometimes better at that.
+
+### Working with Mathlib
 
 - **Use Mathlib's vocabulary.** Where Mathlib already has a way to say something, use it rather
   than a private version, both in the roadmap and in the code. A standard notion said in our own
   dialect drifts from the library it builds on and grows a redundant theory of lemmas Mathlib
-  already proves. As an example: Mathlib has no "bounded on a set" predicate, so a
-  result that needs an explicit bound carries `∀ x ∈ s, ‖f x‖ ≤ C` directly in its hypotheses (as
-  in `norm_cfc_le`), and uses `Bornology.IsBounded` when no constant is needed
-  (`isBounded_iff_forall_norm_le'` relates the two). We do the same, and never wrap a one-line
-  bound in a new predicate. When Mathlib's name for something is itself a Mathlib-ism that a
-  mathematician would not recognize (`ModularFormClass`, say), link the Mathlib declaration the
-  first time you use it, so a reader can see what the term denotes rather than guess.
+  already proves. For example: Mathlib has no "bounded on a set" predicate, so a result needing an
+  explicit bound carries `∀ x ∈ s, ‖f x‖ ≤ C` directly in its hypotheses (as in `norm_cfc_le`), and
+  uses `Bornology.IsBounded` when no constant is needed (`isBounded_iff_forall_norm_le'` relates
+  the two). We do the same, and never wrap a one-line bound in a new predicate. When Mathlib's name
+  is itself a Mathlib-ism a mathematician would not recognize (`ModularFormClass`, say), link the
+  declaration the first time you use it.
+
+- **Defer to Mathlib.** Before specifying an object, search Zulip and the open Mathlib PRs for it.
+  Someone may already have formalized it or settled its design. **Mathlib owns its API decisions.**
+  Tau Ceti adopts the resulting design and refactors when it lands. Cite what you find, follow the
+  direction it takes, and don't argue for a Tau Ceti spelling against Mathlib's.
+
+- **But never wait.** Deferring to Mathlib is about *shape*, never about *timing*. An open Mathlib
+  PR covering ground a roadmap needs is not a blocker, not a reason to leave a gap, and not a
+  reason to send contributors elsewhere: build the thing here, now, naming and shaping it the way
+  that PR does so the eventual swap is a deletion plus an import rather than a rewrite. If it
+  lands, we delete ours and adopt Mathlib's; if it doesn't, we already have what we needed. Nothing
+  on a roadmap is ever "pending upstream".
+
+- **Never push work to Mathlib.** Tau Ceti material is built in Tau Ceti and stays there. Plenty of
+  it would make good Mathlib material, and Mathlib contributors are welcome to take any of it at
+  any time, but deciding what Mathlib absorbs is solely theirs. So don't write a roadmap item as
+  "to be upstreamed", don't hold one back because it "really belongs in Mathlib", and don't treat
+  opening a Mathlib pull request as part of discharging a target.
+
+### Porting existing work
 
 - **Specify the mathematics, not your existing code.** Say what each milestone should prove,
-  intrinsically, so a reviewer can judge it on its own terms.
-  A Tau Ceti roadmap may direct either a greenfield development, where the checks above have
-  identified no existing formalization, or the integration of existing work into Tau Ceti.
+  intrinsically, so a reviewer can judge it on its own terms. A roadmap may direct either a
+  greenfield development or the integration of existing work into Tau Ceti.
 
-- **Coordinate before integrating existing work.** Work with the authors of the existing material
-  and obtain their agreement before integrating it. If coordination is not possible, do not assume
-  that mathematical overlap permits reuse of their code: verify that its licence permits the
-  intended copying or adaptation, and discuss the plan on the Lean Zulip before proceeding so the
-  community can provide input. A roadmap that independently develops the same mathematics should
-  still cite the existing work and coordinate where possible to avoid needless duplication or
-  incompatible design choices.
+- **Coordinate first.** Work with the authors of the existing material and obtain their agreement
+  before integrating it. If coordination is not possible, do not assume that mathematical overlap
+  permits reuse of their code: verify that its licence permits the intended copying or adaptation,
+  and discuss the plan on the Lean Zulip first. A roadmap that independently develops the same
+  mathematics should still cite the existing work and coordinate where possible, to avoid needless
+  duplication or incompatible design choices.
 
-- **Improve existing work rather than canonizing it.** When porting material, do not write the
-  roadmap merely to follow the existing formalization. Apply all the principles above and use the
-  review process to make the result more general, reusable, and maintainable. Put any file-by-file
-  map in a clearly secondary provenance section so reviewers do not treat the source code as
-  prescriptive or exemplary.
+- **Improve it rather than canonizing it.** Do not write the roadmap merely to follow the existing
+  formalization; apply all the principles above to make the result more general, reusable and
+  maintainable. Put any file-by-file map in a clearly secondary provenance section, so that nobody
+  treats the source code as prescriptive.
 
-- **Nothing is "optional".** Don't use the word, and don't imply it. Everything on a roadmap is
-  work we want. Sequencing is good, so split into milestones and put the harder material later,
-  but every item lives in *some* milestone, or a contributor may misread "later" as "never".
-
-- **Do things right the first time.** Decide the generality up front and write it down. Don't
-  recommend intermediate implementations that will be replaced later.
+### Prototyping
 
 - **Write Lean code.** It's really helpful to prototype signatures, particularly for structures,
   classes, and definitions, by writing Lean code, either embedded in markdown or in associated

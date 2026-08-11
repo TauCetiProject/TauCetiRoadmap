@@ -14,9 +14,12 @@ body:
     attributes:
       label: Roadmap area
       options:
+        - AdicSpaces
+        - CFSGStatement
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - ContourIntegration
+        - EllipticCurves
         - Exchangeability
         - GeometricTopology
         - HeegaardFloer

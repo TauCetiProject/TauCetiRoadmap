@@ -49,7 +49,7 @@ layer and decomposition toolkit), and on
 [the root-systems roadmap](../RootSystems/README.md) for the `Bₗ`/`Dₗ` root data and the outer-automorphism
 graph symmetry that underlies triality. Suggested home:
 `TauCeti/LinearAlgebra/CliffordAlgebra/` (the structure theory, the double covers, and the real
-classification, upstreamable to Mathlib on their own) and
+classification, none of which mention spin representations) and
 `TauCeti/RepresentationTheory/Spin/` (the spin modules, the highest-weight identification, triality, and
 the Kostant layer).
 
