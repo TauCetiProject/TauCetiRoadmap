@@ -22,11 +22,11 @@ library).
 
 The earlier revision of this file prototyped **parallel inductives** (a ℕ-indexed `BoundedFormulaω`
 alongside a universe-indexed `BoundedFormulaInf` with per-node index types). That design is
-**retracted**: the fixed-carrier single inductive suggested by Aaron Liu on the Zulip thread
-(linked in `README.md`) was tested and is strictly better — the `(uι + 1)` universe bump
-disappears, the `ι := ℕ` specialization lands at exactly the finitary `BoundedFormula` universe,
-and Karp's backward direction needs only one carrier admitting codings of both structures, not
-per-node index types. See the design-evidence PR linked from `README.md`.
+**retracted** in favor of the fixed-carrier single inductive suggested by Aaron Liu on the Zulip
+thread (linked in `README.md`): the `(uι + 1)` universe bump disappears, the `ι := ℕ`
+specialization lands at exactly the finitary `BoundedFormula` universe, and Karp's backward
+direction needs only one carrier admitting codings of both structures, not per-node index types.
+See the design-evidence PR linked from `README.md`.
 
 Layer-2+ shapes are kept in `README.md` fenced code blocks until grounded: Layer 2 (the countable
 coded-formula proxy `FormulaCode` and the refinement-counting bridge) and Layer 3 (Scott rank,

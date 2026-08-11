@@ -44,18 +44,19 @@ contributors before starting parallel work.
   [ModelTheory: API for infinitary formulas of L_{∞,ω}](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/ModelTheory.3A.20API.20for.20infinitary.20formulas.20of.20L_.7B.E2.88.9E.2C.CF.89.7D)
   asked whether Mathlib should carry a single universe-indexed core (with Lω₁ω a fragment) or
   parallel types. An earlier revision of this roadmap answered **parallel inductives**; that answer
-  is now **explicitly retracted**. Aaron Liu suggested on that thread a third design neither option
-  anticipated — ONE inductive with the branching carrier a **fixed parameter of the whole formula**
-  (`BoundedFormulaInf L ι α n`), Lω₁ω the definitional `ι := ℕ` specialization — and it has been
-  tested end-to-end against the full downstream tower: the
+  is now **explicitly retracted**. Aaron Liu suggested on that thread the fixed-carrier
+  single-inductive design — ONE inductive with the branching carrier a **fixed parameter of the
+  whole formula** (`BoundedFormulaInf L ι α n`), Lω₁ω the definitional `ι := ℕ` specialization —
+  and it has been tested against the main downstream consumers: the
   [design-evidence PR](https://github.com/cameronfreer/infinitary-logic/pull/43) re-proves Karp,
   quantifier-rank transport, countability, and a carrier-general Scott analysis on the new syntax,
   axiom-clean. The two horns the parallel design tried to reconcile both dissolve: Scott analysis
   recurses structurally on the `ι := ℕ` instance directly (no fragment predicate), and Karp's
   backward direction needs only ONE carrier admitting codings of both structures (no per-node index
-  types). `Suggested.lean` now records the fixed-carrier shapes. A Mathlib PR staging this design
-  is in preparation on that thread; the roadmap does not claim Tau Ceti should settle the final
-  Mathlib API ahead of that review.
+  types). `Suggested.lean` now records the fixed-carrier shapes. This settles the architecture used
+  by this roadmap; Mathlib review and acceptance remain pending — a Mathlib PR stack from the
+  Mathlib-shaped staging branches is planned on that thread, and the roadmap does not claim Tau
+  Ceti should settle the final Mathlib API ahead of that review.
 * Cantor–Bendixson / perfect-kernel / ordinal-stabilization infrastructure (the Zulip
   [Cantor-Bendixson analysis](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Cantor-Bendixson.20analysis)
   thread; not in the pinned Mathlib): this roadmap does not
@@ -226,7 +227,7 @@ There are two sources with different roles:
   [PR #43](https://github.com/cameronfreer/infinitary-logic/pull/43) (`spike/`, an RFC artifact
   outside that repo's CI, deliberately unmerged) — carries the fixed-carrier syntax itself, the
   coding/transport algebra, Karp at a common carrier, and the carrier-general Scott analysis. Layer 0
-  shapes come from here (and from the Mathlib PR staged from it); it is evidence the shapes carry
+  shapes come from here (and from the Mathlib-shaped staging branches); it is evidence the shapes carry
   the spine, not a second production tree.
 
 Declaration map into the production tree:
@@ -276,7 +277,7 @@ TauCeti/ModelTheory/Infinitary/Operations.lean
 
 This layer has the largest blast radius — every later theorem inherits its binding, substitution, and
 recursion choices — so build it as a real development, not a bare inductive. It divides into three
-beats, each a coherent reviewable unit (this matches the staging of the Mathlib PR in preparation):
+beats, each a coherent reviewable unit (this matches the planned Mathlib PR stack):
 
 **Beat 1 — syntax and semantics.**
 
