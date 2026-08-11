@@ -87,7 +87,37 @@ theorem weightedEnergy_mono_of_refines (G : SimpleGraph V) [DecidableRel G.Adj]
     {P Q : Finpartition (univ : Finset V)} (h : P ≤ Q) :
     weightedEnergy G Q ≤ weightedEnergy G P := sorry
 
-/-! ### Layer 2 — Szemerédi graph regularity bridge -/
+/-! ### Layer 2 — Szemerédi graph regularity: a construction over Mathlib, not a consumption
+
+**Classification (revised).** This layer is *not* a direct consumption of
+`szemeredi_regularity`; it is a **build that adapts Mathlib's exported iteration machinery**. A
+machine-checked consumption spike established the following.
+
+The public summit cannot supply the seeded statement. `szemeredi_regularity` takes no seed
+parameter — its proof *chooses* a dummy equipartition — and its conclusion relates the output
+partition to nothing. Nor can the seed be reintroduced afterwards: **arbitrary post-refinement is
+invalid, because uniformity is not hereditary**. A regular pair has irregular sub-pairs (verified
+by a finite counterexample: one edge on six vertices, where `({0,1,2}, {3,4,5})` is `1/2`-uniform
+while the refined sub-pair `({0,1}, {3,4})` is not), and refining a partition manufactures exactly
+such sub-pairs. Common refinement with `P₀` also destroys equitability.
+
+Mathlib nevertheless supplies essentially all the analytic content. Its exported
+`SzemerediRegularity.increment` is literally a `bind` of per-part chunks, so it **exactly refines
+its input**; it preserves equitability, carries the required cardinality bound, and comes with the
+energy gain and the `energy ≤ 1` ceiling. The energy induction consumes its dummy seed only through
+that seed's size and equitability.
+
+Two pieces therefore remain project work:
+
+1. an **initial equitable partition almost-refining the seed** `P₀` — divisibility blocks exact
+   refinement here, which is where `AlmostRefines`' `δ` and the open `refiningRegularityBound`
+   live; and
+2. **seeded execution of the energy induction** from that start.
+
+Transporting almost-refinement through the (exactly refining) iteration is *not* an obstacle: if
+`P ≤ P₁` and `P₁` almost-refines `P₀`, then so does `P`. Exporting a seeded energy induction
+upstream would remove piece (2), but would **not** by itself supply piece (1); full consumption
+would require both. -/
 
 /-- **Layer 2.** `P` **almost-refines** `P₀` (up to a `δ`-remainder): each `P₀`-part `A` is covered,
 up to `δ·|A|` leftover vertices, by `P`-parts **contained in `A`**. The containment clause
@@ -289,7 +319,11 @@ def PairColorSystem.colorOfPair (S : PairColorSystem κ₂ V) (u v : V) : Option
 stays `none`. -/
 theorem PairColorSystem.colorOfPair_swap (S : PairColorSystem κ₂ V) (u v : V) :
     S.colorOfPair v u = (S.colorOfPair u v).map S.rev := by
-  sorry
+  rw [PairColorSystem.colorOfPair, PairColorSystem.colorOfPair]
+  by_cases h : u ≠ v
+  · rw [dif_pos h, dif_pos (Ne.symm h), Option.map_some]
+    exact congrArg some (S.color_rev ⟨(u, v), h⟩)
+  · rw [dif_neg h, dif_neg (fun hn => h (Ne.symm hn)), Option.map_none]
 
 /-- **Layer 5 (expressiveness).** Arbitrary *raw* directed pair data — a bare coloring with no
 relation between the two orientations — embeds by recording both directions jointly, with `rev` the
@@ -322,7 +356,19 @@ structure PairSkeleton3 (κ₂ : Type*) (V : Type*) [Fintype V] [DecidableEq V] 
 /-- **Layer 5.** The lower skeleton is `ε`-regular: **skeleton-relative** — for every color and every
 ordered pair of **vertex cells** `A, B ∈ S.vertexPart.parts`, the per-color pair density is stable on
 large enough sub-cells `A' ⊆ A`, `B' ⊆ B`. Quantifying over the actual cells (not arbitrary finsets)
-is what ties pair regularity to the skeleton. -/
+is what ties pair regularity to the skeleton.
+
+**This predicate stays coordinatewise, deliberately.** An `L¹`-in-palette variant
+(`∑ c, |d_c(A',B') - d_c(A,B)| ≤ ε`) would let the route-count divisor be dropped from Layer 9's
+budget, because per-route errors would then be mass-weighted rather than uniform in cell volume.
+That variant is **not** adopted here: it requires a palette-free bound on the cherry/covariance
+statement — does `L¹` regularity of `(A,B)` and `(A,C)` control `∑_{c,c'} |Cov_a(β_a(c), γ_a(c'))|`
+by a modulus independent of `ℓ`? — which is **open**. What is settled: `L¹` regularity gives
+palette-free control of every *rectangle* test of that covariance matrix, while the generic
+cut-to-entrywise conversion costs exactly `ℓ`, and the natural extremal families fail to refute a
+linear bound because they pay for their own correlation. Until that question closes, the
+coordinatewise predicate and the route divisor stand together; adopting one half would be
+unsound. -/
 def IsPairColorRegular (S : PairSkeleton3 κ₂ V) (ε : ℝ) : Prop :=
   ∀ (c : κ₂), ∀ A ∈ S.vertexPart.parts, ∀ B ∈ S.vertexPart.parts, ∀ A' ⊆ A, ∀ B' ⊆ B,
     ε * (A.card : ℝ) ≤ A'.card → ε * (B.card : ℝ) ≤ B'.card →
@@ -946,7 +992,14 @@ The named sublayer between pair regularity and placed induced counting. It works
 **placement scale** `∏ᵢ |cellᵢ|` — deliberately distinct from the triad-support scale
 (`k³ · mass · |V|^k`) of `exceptional_route_mass_le`: that union bound controls whole-host masses
 of discarded routes, this bridge controls a single kept route, and the two meet only in the global
-assembly. -/
+assembly.
+
+**The sparse/dense split is retained deliberately.** It is tempting to read the aggregate route
+identities as making it redundant — routes, predictions, and placements each partition exactly, so
+no route multiplicity is created by the summation itself. That argument settles only the *lower
+skeleton*. The split may still be needed to convert top regularity stated relative to a small polyad
+support into an error at cell-volume scale, which is a different conversion; nothing established so
+far discharges it. It is therefore kept until a top-layer argument replaces it explicitly. -/
 
 open Classical in
 /-- **Layer 9 (lower-route bridge).** The actual count at a placement and route constrained by the
@@ -1095,7 +1148,19 @@ roadmap's constant-rank specialization** — the rank being calibrated appears i
 complexity bound itself. Rödl–Schacht themselves permit a rank *function* (their regularity
 lemma accepts `r : ℕ → ℕ`-shaped rank schedules); that rank schedule, evaluated at the
 complexity, remains the fallback if no constant-rank fixed point exists — either resolution
-changes this statement visibly rather than silently (part of the target). -/
+changes this statement visibly rather than silently (part of the target).
+
+**Status: a genuine satisfiability gate, not a refuted claim.** An attempt to falsify it produced
+only a *conditional* obstruction, and the honest version is pointwise rather than cofinal: for fixed
+`(q₃, k, ε, t₀)` the bound `regularityBound3 …` is a fixed natural number, and Layer 8's complexity
+is the computed sum `#cells + pairColorCount + #polyads`, so every complexity-bounded complex has
+`pairColorCount` bounded too — a "for every `L` there is an admissible complex with palette `≥ L`"
+hypothesis is unsatisfiable, and any refutation built on it is vacuous. What survives is concrete:
+given an inverse-error blow-up for `requiredTopCountingRank3` (which `⌈1/δ⌉₊`-style calibrations
+satisfy), there is a **critical palette size** `L` past which the demand exceeds the fixed supply,
+and the calibration fails **iff** one admissible complex reaches it. The arithmetic side of that
+reduces exactly to `1 + L ≤ regularityBound3 …`. So the gate cannot be discharged *or* refuted while
+`regularityBound3` is a target: it is blocked on that value, not on an argument. -/
 theorem requiredTopCountingRank3_le_inducedCountingRank3 (q₃ : ℕ) (ε : ℝ) (hε : 0 < ε)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (t₀ : ℕ)
     (hC : ComplexityBounded C
@@ -1293,6 +1358,40 @@ theorem inducedCopyCount_edit_transfer (H H' : Colored3Graph κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) :
     |((H.inducedCopyCount F₀ : ℝ)) - (H'.inducedCopyCount F₀ : ℝ)| ≤
       (F₀.k : ℝ) ^ 3 * (editDiscrepancy3 H H' : ℝ) * (Fintype.card V : ℝ) ^ F₀.k := sorry
+
+/-! #### Layer 9 — the counting objects, pinned
+
+The shapes below were validated against exact finite models before being written down here, so the
+combinatorial content of Layer 9 is fixed even though several definitions remain targets.
+
+* **Route count.** With the coherent pair-color signature of Layer 5, a route assigns one color per
+  **canonically oriented** pattern pair — the anti-canonical color is recovered by `rev`, not chosen
+  independently. The unconstrained assignment type therefore has cardinality exactly
+  `ℓ ^ (k.choose 2)`, which is what `routeBudget3` divides by. `PairColorPlacement3` is a *subtype*
+  of it (the `polyad_mem` clause), so its cardinality is at most that — the safe direction for a
+  budget divisor. Under the pre-coherence signature neither statement held: reverse colors were free
+  and the support-relevant data per cell pair was `ℓ²`-valued.
+
+* **Placement volume.** For a **transversal** placement (pairwise distinct cells) the number of
+  injective tuples is the plain product of cell sizes. For a placement with **repeated** cells it is
+  the product, over the parts of the vertex partition, of falling factorials
+  `(#C).descFactorial (#fibre C)` — the fibre being the set of pattern vertices sent to that cell.
+  This is the exact injection correction; it is **not** an informal collision subtraction, and it
+  degenerates to `0` exactly when some fibre outgrows its cell.
+
+* **Actual and predicted fibration identities are stated separately** below
+  (`inducedCopyCount_eq_sum_placed` and `expectedInducedCount_eq_sum`). That separation is
+  deliberate: only the actual identity is a partition of a genuine finite set, while the predicted
+  one is an identity between definitions. Merging them would hide which side still owes work.
+
+* **The predicted repeated-placement contribution stays open.** All placements split disjointly into
+  transversal and repeated-cell ones on *both* sides, but only the transversal predicted identity is
+  exact here. The repeated-cell predicted mass belongs to the diagonal gate
+  (`abs_inducedCount_sub_expected_le_of_diagonalControl`) and is deliberately **not** absorbed into
+  the transversal statement. `regularity-lemmata` now supplies that bound's mathematical core
+  generically — any weight dominated by the cell-triple volume obeys the diagonal charge, and
+  "volume times a factor at most one" is exactly the shape of a step estimate — but it does **not**
+  supply TauCeti's eventual `expectedInducedCountAt`, so the split is not yet complete here. -/
 
 /-! #### Layer 9 — assembly discipline: the fibration identity and the six-charge arithmetic -/
 

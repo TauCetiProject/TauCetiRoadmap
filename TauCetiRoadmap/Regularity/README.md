@@ -328,7 +328,33 @@ which the protected tag
 [`tauceti-roadmap-pin-1`](https://github.com/cameronfreer/regularity-lemmata/tree/tauceti-roadmap-pin-1)
 also names (the full SHA is authoritative; later commits may move things). Much of Layers 1–4, and Boolean
 precursors of Layers 5–8, are proved there; the per-layer *Prior formalization* notes above record the shape
-deviations a TauCeti implementation must reconcile. Summary map, with each row's exact
+deviations a TauCeti implementation must reconcile.
+
+**Results landed upstream after the pin (inventory update deferred).** Five additions relevant to
+this roadmap have since merged into `regularity-lemmata`. They are **not** reflected in the pinned
+commit or the summary map below:
+
+* an **exact counterexample** showing Mathlib's off-diagonal `Finpartition.energy` is *not*
+  refinement-monotone while the mass-weighted energy is — six vertices split `2 + 4`, refined to
+  `2 + 2 + 2`, where the former falls from `1/2` to `4/9` and the latter is unchanged at `4/9`. This
+  is the concrete justification for the forked energy notion that Layer 1 relies on;
+* a **seeded Frieze–Kannan summit** (`frieze_kannan_refining`): from an arbitrary seed, a refinement
+  with the same rectangle guarantee and a part bound multiplicative in the seed's — the form Layer 3
+  wants when the seed carries structure to preserve;
+* a **refinement-preserving polyad iteration** (`ColoringRefines`, `exists_goodColoring_refining`):
+  the regularization summit now returns a coloring that refines the one it started from, which is
+  what Layers 5–8 need to insert it into a hierarchy;
+* a **generic diagonal-weight bound** (`sum_nontransversal_weight_le`): the `3·m·|s|²` charge holds
+  for *any* weight dominated by the cell-triple volume, so it serves the predicted side as well as
+  the actual one. This supplies the mathematical core of Layer 9's diagonal gate — but not TauCeti's
+  eventual expected-count definitions, so that gate stays open here;
+* **exact-refining finite-family regularity** (`exists_familyRegular_refinement`): arbitrary seed,
+  exact refinement, no equitability, fuel linear in the family size.
+
+A fresh immutable pin and a single consolidated inventory update are deliberately deferred until the
+in-flight generic-polyad work lands, so the map is re-cut once rather than drifting per commit.
+
+Summary map (as of the pinned commit), with each row's exact
 relationship to the targets here condensed from the per-layer notes:
 
 | Roadmap layer | Proved there (representative names) | Relationship to the targets here |
