@@ -242,6 +242,11 @@ Apply the theta transformation to partial zeta functions to construct `dedekindZ
 - uniqueness among continuations with the stated regularity;
 - the card `dedekindZetaData`, of degree `[K:ℚ]`, conductor `|d_K|`, and root number one.
 
+The exact downstream contracts include `analyticOnNhd_dedekindZetaC`,
+`meromorphicOrderAt_dedekindZetaC_nonneg`, `tendsto_sub_one_mul_dedekindZetaC`,
+`eq_of_meromorphic_of_eqOn_halfPlane`, the corresponding completed-zeta pole and regularity
+theorems, and `tendsto_mul_completedDedekindZeta_zero`.
+
 Develop the value at zero and the leading term at zero, the analytic class number formula, and the
 compatibility with Mathlib's real one-sided residue theorem. Special-value statements use named
 continued functions, never the junk values of raw Dirichlet series outside convergence.
@@ -277,6 +282,10 @@ character through `Re s = 1`. Build the theta and Mellin presentation for a prim
 evaluate the Gauss sum, and define its conductor, gamma factors, completion, and root number.
 Prove entirety for a nontrivial primitive character and the meromorphic two-pole statement for the
 trivial primitive character.
+
+Export the entirety and Mellin contracts as `differentiable_completedHeckeLFunction` and
+`exists_mellin_completedHeckeLFunction`; zero-distribution consumers should use these named
+theorems rather than recover them from the construction narrative.
 
 The analytic card has absolute degree `[K:ℚ]`, computed from its `r₁` real and `r₂` complex gamma
 factors. Keep this distinct from the relative degree one of a character of `K`; the two invariants

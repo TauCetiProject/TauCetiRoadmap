@@ -267,8 +267,24 @@ theorem meromorphic_dedekindZetaC : Meromorphic (dedekindZetaC K) := sorry
 theorem analyticAt_dedekindZetaC {s : ℂ} (hs : s ≠ 1) :
     AnalyticAt ℂ (dedekindZetaC K) s := sorry
 
+theorem analyticOnNhd_dedekindZetaC :
+    AnalyticOnNhd ℂ (dedekindZetaC K) {(1 : ℂ)}ᶜ := sorry
+
 theorem meromorphicOrderAt_dedekindZetaC_one :
     meromorphicOrderAt (dedekindZetaC K) 1 = (-1 : WithTop ℤ) := sorry
+
+theorem meromorphicOrderAt_dedekindZetaC_nonneg {s : ℂ} (hs : s ≠ 1) :
+    0 ≤ meromorphicOrderAt (dedekindZetaC K) s := sorry
+
+theorem tendsto_sub_one_mul_dedekindZetaC :
+    Tendsto (fun s : ℂ ↦ (s - 1) * dedekindZetaC K s) (𝓝[≠] 1)
+      (𝓝 (dedekindZeta_residue K : ℂ)) := sorry
+
+theorem eq_of_meromorphic_of_eqOn_halfPlane (Z W : ℂ → ℂ) (hZ : Meromorphic Z)
+    (hW : Meromorphic W)
+    (hZa : AnalyticOnNhd ℂ Z {0, 1}ᶜ) (hWa : AnalyticOnNhd ℂ W {0, 1}ᶜ)
+    (h : ∀ s : ℂ, 1 < s.re → Z s = W s) :
+    ∀ s : ℂ, s ≠ 0 → s ≠ 1 → Z s = W s := sorry
 
 noncomputable def completedDedekindZeta
     (K : Type u) [Field K] [NumberField K] : ℂ → ℂ := sorry
@@ -280,8 +296,33 @@ theorem completedDedekindZeta_eq {s : ℂ} (hs : 1 < s.re) :
 
 theorem meromorphic_completedDedekindZeta : Meromorphic (completedDedekindZeta K) := sorry
 
+theorem meromorphicOrderAt_completedDedekindZeta_zero :
+    meromorphicOrderAt (completedDedekindZeta K) 0 = (-1 : WithTop ℤ) := sorry
+
+theorem meromorphicOrderAt_completedDedekindZeta_one :
+    meromorphicOrderAt (completedDedekindZeta K) 1 = (-1 : WithTop ℤ) := sorry
+
 theorem analyticAt_completedDedekindZeta {s : ℂ} (h0 : s ≠ 0) (h1 : s ≠ 1) :
     AnalyticAt ℂ (completedDedekindZeta K) s := sorry
+
+theorem analyticOnNhd_completedDedekindZeta :
+    AnalyticOnNhd ℂ (completedDedekindZeta K) {0, 1}ᶜ := sorry
+
+theorem meromorphicOrderAt_completedDedekindZeta_nonneg
+    {s : ℂ} (h0 : s ≠ 0) (h1 : s ≠ 1) :
+    0 ≤ meromorphicOrderAt (completedDedekindZeta K) s := sorry
+
+theorem tendsto_sub_one_mul_completedDedekindZeta :
+    Tendsto (fun s : ℂ ↦ (s - 1) * completedDedekindZeta K s) (𝓝[≠] 1)
+      (𝓝 (((|discr K| : ℤ) : ℂ) ^ ((1 : ℂ) / 2) *
+        Gammaℝ 1 ^ nrRealPlaces K * Gammaℂ 1 ^ nrComplexPlaces K *
+        (dedekindZeta_residue K : ℂ))) := sorry
+
+theorem tendsto_mul_completedDedekindZeta_zero :
+    Tendsto (fun s : ℂ ↦ s * completedDedekindZeta K s) (𝓝[≠] 0)
+      (𝓝 (-(((|discr K| : ℤ) : ℂ) ^ ((1 : ℂ) / 2) *
+        Gammaℝ 1 ^ nrRealPlaces K * Gammaℂ 1 ^ nrComplexPlaces K *
+        (dedekindZeta_residue K : ℂ)))) := sorry
 
 theorem completedDedekindZeta_one_sub {s : ℂ} (h0 : s ≠ 0) (h1 : s ≠ 1) :
     completedDedekindZeta K (1 - s) = completedDedekindZeta K s := sorry
@@ -388,6 +429,11 @@ noncomputable def completedHeckeLFunction
     {𝔪 : GNF.Modulus K} (χ : GNF.RayClassCharacter 𝔪)
     (hχ : χ.IsPrimitive) : ℂ → ℂ := sorry
 
+theorem differentiable_completedHeckeLFunction
+    {𝔪 : GNF.Modulus K} {χ : GNF.RayClassCharacter 𝔪}
+    (hχ : χ ≠ 1) (hprim : χ.IsPrimitive) :
+    Differentiable ℂ (completedHeckeLFunction K χ hprim) := sorry
+
 noncomputable def heckeRootNumber
     {𝔪 : GNF.Modulus K} (χ : GNF.RayClassCharacter 𝔪)
     (hχ : χ.IsPrimitive) : ℂ := sorry
@@ -406,6 +452,12 @@ theorem completedHeckeLFunction_one_sub
     completedHeckeLFunction K χ hχ s =
       heckeRootNumber K χ hχ *
         completedHeckeLFunction K χ⁻¹ (rayClassCharacter_primitive_inv K hχ) (1 - s) := sorry
+
+theorem exists_mellin_completedHeckeLFunction
+    {𝔪 : GNF.Modulus K} (χ : GNF.RayClassCharacter 𝔪) (hχ : χ.IsPrimitive) :
+    ∃ θ : ℝ → ℂ, ∀ s : ℂ, 1 < s.re →
+      completedHeckeLFunction K χ hχ s =
+        ∫ t in Set.Ioi (0 : ℝ), θ t * (t : ℂ) ^ s / (t : ℂ) := sorry
 
 noncomputable def heckeData
     {𝔪 : GNF.Modulus K} (χ : GNF.RayClassCharacter 𝔪)
