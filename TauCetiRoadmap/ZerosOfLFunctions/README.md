@@ -137,10 +137,10 @@ separately.
 | 0.4 | LF 0 | the functional equation off the polar loci, reflected polar divisor, and `‖ε‖ = 1` | `AnalyticLFunctionData.HasFunctionalEquation`, fields `eq_away`, `polarOrder_reflect`, `norm_rootNumber` |
 | 0.5 | LF 0 | the average coefficient bound giving the right-edge estimate | `AnalyticLFunctionData.HasAverageCoefficientBound`, field `coeff_avg` |
 | 2.3 | LF 0.4 | the normalization translation, which is what makes "critical line" well defined | `NormalizationTranslation`, fields `gammaR_eq`, `gammaC_eq`, `completed_eq`, `polarOrder_eq`, `conductor_eq`, `rootNumber_eq`; `ArithmeticLFunctionData` |
-| 1.6, 3.4, 7.6 | LF 0, 3 | the named Riemann-zeta card and the continued and completed Dedekind zeta functions and their card | `riemannZetaData`, `dedekindZetaC`, `completedDedekindZeta`, `dedekindZetaData`, `analyticAt_dedekindZetaC`, `analyticAt_completedDedekindZeta`, `completedDedekindZeta_one_sub` |
+| 1.6, 3.4, 7.6 | LF 0, 3 | the named Riemann-zeta card and the continued and completed Dedekind zeta functions, exact pole and residue data, uniqueness, and their card | `riemannZetaData`; `dedekindZetaC`, `dedekindZetaC_eq`, `meromorphic_dedekindZetaC`, `analyticAt_dedekindZetaC`, `analyticOnNhd_dedekindZetaC`, `meromorphicOrderAt_dedekindZetaC_one`, `meromorphicOrderAt_dedekindZetaC_nonneg`, `tendsto_sub_one_mul_dedekindZetaC`; `completedDedekindZeta`, `completedDedekindZeta_eq`, `meromorphic_completedDedekindZeta`, `meromorphicOrderAt_completedDedekindZeta_zero`, `meromorphicOrderAt_completedDedekindZeta_one`, `analyticAt_completedDedekindZeta`, `analyticOnNhd_completedDedekindZeta`, `meromorphicOrderAt_completedDedekindZeta_nonneg`, `tendsto_sub_one_mul_completedDedekindZeta`, `tendsto_mul_completedDedekindZeta_zero`, `completedDedekindZeta_one_sub`; `eq_of_meromorphic_of_eqOn_halfPlane`; `dedekindZetaData` |
 | 6.2, 7.6 | LF 4 | continued quadratic and cyclotomic factorizations | `dedekindZetaC_quadratic`, `dedekindZetaC_cyclotomic`, `dedekindZetaC_cyclotomic_four` |
 | 4.7, 6 | LF 8 | the Dedekind-zeta logarithmic derivative and its nonnegative von Mangoldt coefficients | `dedekindZeta_logDeriv_eq`, `dedekindZeta_idealVonMangoldt_nonneg` |
-| 3.4, 6.4, 8.6 | LF 5 | primitive finite-order Hecke L-functions, completions, cards, and root numbers | `heckeLFunctionC`, `completedHeckeLFunction`, `heckeRootNumber`, `heckeData`, `norm_heckeRootNumber`, `completedHeckeLFunction_one_sub` |
+| 3.4, 6.4, 8.6 | LF 5 | primitive finite-order Hecke L-functions, completions, entirety, Mellin presentation, cards, and root numbers | `heckeLFunctionC`, `heckeLFunctionC_eq`, `completedHeckeLFunction`, `differentiable_completedHeckeLFunction`, `exists_mellin_completedHeckeLFunction`, `heckeRootNumber`, `heckeData`, `norm_heckeRootNumber`, `completedHeckeLFunction_one_sub` |
 | 6.5 | LF 7 | intrinsic boundary nonvanishing | `heckeLFunction_ne_zero_of_one_le_re` |
 
 The zero-distribution theory is polymorphic in `LFunctions.AnalyticLFunctionData`. A future
@@ -151,7 +151,7 @@ this roadmap currently owns no Artin instance and assumes no Artin-specific coef
 
 | Consumer layer | Exact declaration | Use |
 |---|---|---|
-| 4.7, 6 | `ArithmeticDirichletSeries.EulerProductData`, `idealVonMangoldt` | the generic Euler-product package and von Mangoldt transform; the Dedekind-zeta nonnegativity theorem is exported by L-functions |
+| 4.7, 6 | `ArithmeticDirichletSeries.normCoeff`, `abscissaOfAbsConv_normCoeff_one`, `EulerProductData`, `idealVonMangoldt` | the generic norm coefficient, trivial-weight abscissa, Euler-product package, and von Mangoldt transform; the Dedekind-zeta logarithmic-derivative and nonnegativity theorems are exported by L-functions |
 | 8 | `ArithmeticDirichletSeries.abelSummation` | transfer between weighted and unweighted effective counts |
 | 8.1 | `ArithmeticDirichletSeries.perronFormula`, `perronFormula_endpoint` | the truncated Perron kernel and exact endpoint value |
 | 8.5--8.7 | `ArithmeticDirichletSeries.wienerIkehara`, `primeNumberTheoremTransfer` | recovery of the qualitative asymptotic from the stronger effective estimate |
