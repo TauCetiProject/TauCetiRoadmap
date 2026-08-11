@@ -42,8 +42,8 @@ Decided now so contributors don't oscillate between incompatible designs.
 2. **Partitions use Mathlib's vocabulary.** `Finpartition (univ : Finset V)`, `IsEquipartition`,
    `equitabilise`, `IsUniform`; **`P ≤ Q` means `P` refines `Q`** (the finer partition is `≤`). *Why:*
    the whole regularity stack is stated in these terms; reusing them lets the roadmap consume
-   `szemeredi_regularity` directly (Mathlib's `increment` machinery is a proof template, not a
-   consume — see Layer 1).
+   Mathlib's `SzemerediRegularity` machinery — `increment`, its equitability and cardinality
+   lemmas, and the energy gain — as the analytic engine for Layer 2 (see Layer 2).
 3. **Hypergraphs are unordered, with ordered views for counting.** `UniformHypergraph r V` carries
    `edges : Finset (Finset V)`; counting/density statements use **ordered injective-tuple** views.
    Edge density is `0` when `Fintype.card V < r` (`Nat.choose` is then `0` and `_ / 0 = 0`); substantive
@@ -144,13 +144,23 @@ directedness is load-bearing downstream (its binary relational palettes). A TauC
 can specialize it.
 
 ### Layer 2 — Szemerédi graph regularity bridge
-- **Consume.** `szemeredi_regularity` — bridge to it, don't duplicate the `SimpleGraph` statement.
+- **Consume.** Mathlib's exported `SzemerediRegularity` machinery: `increment` (a `bind` of
+  per-part chunks, so it exactly refines its input), `increment_isEquipartition`, `card_increment`,
+  `energy_increment`, and `Finpartition.energy_le_one`. These supply the analytic content.
   (An implementation may prove its core ladder in greater generality — e.g. mass-weighted, directed —
   and bridge to Mathlib separately; see the prior-formalization note below.)
-- **Build.** `AlmostRefines`, including containment of each selected cell in its parent cell, and
-  `exists_regular_equipartition_almost_refining`. The theorem starts from an equipartition `P₀`,
-  assumes the host is large enough, and returns a regular equipartition almost-refining `P₀` with
-  complexity bounded by `refiningRegularityBound`.
+- **Build.** The seed-aware construction. `szemeredi_regularity` itself takes no seed and relates
+  its output to nothing, and the seed cannot be recovered afterwards: uniformity is not hereditary,
+  so post-refining a regular partition is invalid, and common refinement with `P₀` loses
+  equitability. So this layer builds: an **initial equitable partition almost-refining `P₀`** (where
+  divisibility forces `AlmostRefines`' `δ` and the open `refiningRegularityBound`), and a
+  **seed-aware run of the energy induction** over the consumed increment. Also `AlmostRefines`,
+  including containment of each selected cell in its parent cell, and
+  `exists_regular_equipartition_almost_refining`, which starts from an equipartition `P₀`, assumes
+  the host is large enough, and returns a regular equipartition almost-refining `P₀` with complexity
+  bounded by `refiningRegularityBound`. Exact refinement transports almost-refinement, so the
+  iteration preserves it. An upstream seed-aware induction would remove the second build item, not
+  the first.
 - **Gate.** Yields "all but ε-mass of pairs regular, boundedly many parts, almost-refining an equipartition `P₀`" — the input strong regularity iterates on.
 
 **Prior formalization.** `regularity-lemmata` proves the *two-partition* intermediate
@@ -164,7 +174,9 @@ mass-weighted directed energy-increment theorem (`exists_regular_refinement`); t
 `AlmostRefines` is a **global** normalized exceptional mass (`≤ ε·|s|`, built from the per-parent
 count form `AlmostRefinesAt`), which does not imply this roadmap's per-part `δ·|A|` clause; and its
 partition regularity is the mass-weighted `IsRegularPartition` (normalized bad **mass** `≤ ε`), not
-Mathlib's `Finpartition.IsUniform` pinned here. This roadmap's `refiningRegularityBound` — bounding a
+Mathlib's `Finpartition.IsUniform` pinned here. That library also exports the seeded weak-regularity
+shape this layer needs at Layer 3 (`frieze_kannan_refining`), and an exact-refining finite-family
+summit (`exists_familyRegular_refinement`). This roadmap's `refiningRegularityBound` — bounding a
 partition that is simultaneously regular, equitable, and almost-refining — remains open.
 
 ### Layer 3 — finite weak regularity
@@ -222,8 +234,12 @@ required here.
 **Build.**
 
 - `HypergraphComplex`, with faces of the prescribed size and downward closure;
-- `PairColorSystem κ₂ V` on ordered distinct pairs, together with `colorOfPair` and
-  `pairColorDensity`;
+- `PairColorSystem κ₂ V` on ordered distinct pairs, carrying an **involutive palette reversal**
+  `rev` and the coherence law `color_rev`, together with `colorOfPair`, `colorOfPair_swap`, and
+  `pairColorDensity`. Routes are then indexed by **canonical orientation** (`i < j`), the reverse
+  color being recovered by `rev`;
+- `PairColorSystem.ofRaw`, inducing a coherent coloring on `κ₂ × κ₂` from a raw directed one, at a
+  squared palette cardinality;
 - `PairSkeleton3 κ₂ V`, bundling a vertex partition and pair-color system;
 - skeleton-relative `IsPairColorRegular S ε`, quantified over cells of `S.vertexPart` and their
   subcells;
@@ -241,11 +257,17 @@ complex.
 
 **Build.**
 
-- `Polyad3 S`, determined by three vertex cells, three pair colors, and the corresponding
-  role-ordered injective triples;
+- `Polyad3 S`, determined by three vertex cells and three pair colors, with the **computed**
+  `polyadSupport` and `Polyad3.support` giving the corresponding role-ordered injective triples;
+- data extensionality (`Polyad3.ext_data`), `DecidableEq`, `Fintype`, and the enumeration bound
+  `card_polyad3_le` — the finiteness `TriadicComplex3.polyads : Finset (Polyad3 _)` requires;
+- `faceKey`, the named index-reversed dictionary `![k₁₂, k₀₂, k₀₁]` translating role-pair keys to
+  the omitted-coordinate keys a `polyadBlock`-style API uses;
 - `Polyad3.ofData` and the pair graphs `pairSupport₀₁`, `pairSupport₀₂`, and `pairSupport₁₂`;
 - `Subpolyad3 P` in the Rödl–Schacht/NRS form, selecting arbitrary subgraphs of those three pair
-  graphs, with `Subpolyad3.ofSubcells` as the vertex-subcell constructor;
+  graphs, with the computed `subpolyadSupport`, its own extensionality and finiteness, and
+  `Subpolyad3.ofSubcells` as the vertex-subcell constructor characterized by
+  `mem_ofSubcells_support`;
 - `relDensityOn` and the color-indexed `relativeDensity`, read through the underlying unordered
   triple.
 
@@ -451,6 +473,35 @@ dependency or an acceptance gate.
   deterministic finite regularity inputs those roadmaps may consume.
 - It does **not** culminate in arithmetic applications, and does **not** package a one-off induced
   removal theorem as its endpoint; those belong after the counting layer or in a consumer roadmap.
+
+## Open design gates
+
+Two questions are genuinely open. They are recorded here rather than in API docstrings, so that
+declarations state contracts and this section states status.
+
+**The pair-regularity predicate and the route divisor.** `IsPairColorRegular` is coordinatewise. An
+`L¹`-in-palette variant (`∑ c, |d_c(A',B') - d_c(A,B)| ≤ ε`) would let the route-count divisor be
+dropped from `routeBudget3`, because per-route errors would then be mass-weighted rather than
+uniform in cell volume. Adopting it turns on an open question: whether `L¹` regularity of `(A,B)`
+and `(A,C)` bounds the cherry covariance `∑_{c,c'} |Cov_a(β_a(c), γ_a(c'))|` by a modulus
+independent of the palette size `ℓ`. What is settled: `L¹` regularity gives palette-free control of
+every *rectangle* test of that covariance matrix, while the generic cut-to-entrywise conversion
+costs exactly `ℓ`. Until this closes, the coordinatewise predicate and the divisor stand together;
+taking one without the other would be unsound.
+
+**The fixed-rank calibration.** `requiredTopCountingRank3_le_inducedCountingRank3` asks a fixed rank
+to dominate a demand that grows as the route budget shrinks with the palette. Write `L` for the
+**critical palette size**: the least `ℓ` past which the rank required at `routeBudget3 C k (ε/12)`
+exceeds `inducedCountingRank3 q₃ k ε`. A complex whose pair palette reaches `L` **falsifies** the
+calibration. Because Layer 8's complexity is the computed sum `#cells + pairColorCount + #polyads`,
+such an admissible complex exists exactly when `1 + L ≤ regularityBound3 …` (take one vertex cell,
+`L` pair colors, no polyad keys). So the calibration **holds precisely when that bound stays below
+`1 + L`** — when the complexity bound excludes palettes of critical size. Whether it does is a
+question about `regularityBound3`'s eventual value, not about the argument. A cofinal formulation
+("for every `L` an admissible complex with palette `≥ L`") is vacuous and proves nothing, since
+bounded complexity bounds the palette. If no constant-rank fixed point exists, the fallback is the
+rank-*schedule* formulation — a rank function evaluated at the complexity, as Rödl–Schacht permit.
+
 
 ## Prior formalization
 

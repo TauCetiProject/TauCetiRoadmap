@@ -278,9 +278,8 @@ theorem PairColorSystem.colorOfPair_swap (S : PairColorSystem κ₂ V) (u v : V)
     exact congrArg some (S.color_rev ⟨(u, v), h⟩)
   · rw [dif_neg h, dif_neg (fun hn => h (Ne.symm hn)), Option.map_none]
 
-/-- **Layer 5.** Raw directed pair data embeds by recording both orientations, so requiring
-coherence costs no expressiveness. The palette becomes `κ₂ × κ₂`, so `ℓ ↦ ℓ²` in both the
-complexity measure and `routeBudget3`. -/
+/-- **Layer 5.** A raw directed coloring induces a coherent coloring on `κ₂ × κ₂`; the resulting
+palette cardinality is squared in complexity and route bounds. -/
 def PairColorSystem.ofRaw {κ₂ : Type*} {V : Type*} (color : {p : V × V // p.1 ≠ p.2} → κ₂) :
     PairColorSystem (κ₂ × κ₂) V where
   color p := (color p, color (reversePair p))
@@ -304,11 +303,7 @@ structure PairSkeleton3 (κ₂ : Type*) (V : Type*) [Fintype V] [DecidableEq V] 
 /-- **Layer 5.** The lower skeleton is `ε`-regular: **skeleton-relative** — for every color and every
 ordered pair of **vertex cells** `A, B ∈ S.vertexPart.parts`, the per-color pair density is stable on
 large enough sub-cells `A' ⊆ A`, `B' ⊆ B`. Quantifying over the actual cells (not arbitrary finsets)
-is what ties pair regularity to the skeleton.
-
-An `L¹`-in-palette variant would let the route divisor go, but depends on an open question:
-whether `L¹` regularity of two pairs bounds the cherry covariance by a palette-free modulus. The
-predicate and the divisor therefore stand together. -/
+is what ties pair regularity to the skeleton. -/
 def IsPairColorRegular (S : PairSkeleton3 κ₂ V) (ε : ℝ) : Prop :=
   ∀ (c : κ₂), ∀ A ∈ S.vertexPart.parts, ∀ B ∈ S.vertexPart.parts, ∀ A' ⊆ A, ∀ B' ⊆ B,
     ε * (A.card : ℝ) ≤ A'.card → ε * (B.card : ℝ) ≤ B'.card →
@@ -941,13 +936,7 @@ theorem one_le_requiredTopCountingRank3 (k : ℕ) (δ : ℝ) (hδ : 0 < δ) :
     1 ≤ requiredTopCountingRank3 k δ := sorry
 
 /-- **Layer 9.** On complexity-bounded complexes, the global counting rank supplies the local
-rank required at the route budget.
-
-Complexity is the computed sum `#cells + pairColorCount + #polyads`, so bounded complexity
-bounds the palette; the statement holds iff some admissible complex reaches the critical palette
-size `L` past which the demand exceeds the fixed supply, which reduces to
-`1 + L ≤ regularityBound3 …`. It is therefore settled by that target's value. The rank-schedule
-formulation is the fallback. -/
+rank required at the route budget. -/
 theorem requiredTopCountingRank3_le_inducedCountingRank3 (q₃ : ℕ) (ε : ℝ) (hε : 0 < ε)
     (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (t₀ : ℕ)
     (hC : ComplexityBounded C
