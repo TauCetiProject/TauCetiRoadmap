@@ -18,9 +18,12 @@ body:
       label: Roadmap area
       description: Which roadmap does this intention sit in?
       options:
+        - AdicSpaces
+        - CFSGStatement
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - ContourIntegration
+        - EllipticCurves
         - Exchangeability
         - GeometricTopology
         - HeegaardFloer

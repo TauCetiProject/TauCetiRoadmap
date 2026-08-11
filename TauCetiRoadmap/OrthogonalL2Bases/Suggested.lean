@@ -22,7 +22,7 @@ Gaussian-Hermite instance (A3); and the product / `pi` bases (B3). The Hermite-f
 (A2), the function-side `hermiteHilbertBasis`, the completeness toolkit (B1), and the Chebyshev
 instance (Part C) are stated in full in `README.md`; this file seeds the representative core.
 
-Conventions folded in from review (a roadmap reviewer + Codex/GPT-5.4): `μ : Measure ℝ` (the bridge
+Conventions: `μ : Measure ℝ` (the bridge
 evaluates `Polynomial.eval`); `weightL2Isometry` needs only `0 < w` a.e. (no finiteness — the
 `ENNReal.ofReal` density is finite); `mapₗᵢ` body `ofRepr (e.symm.trans b.repr)` (Mathlib has no
 `≃ₗᵢ`-transport); ℕ-smul Hermite derivative; `ℤ[X]` Hermite mapped to `ℝ[X]` via `hermiteℝ`; every
@@ -43,7 +43,7 @@ variable {𝕜 : Type*} [RCLike 𝕜]
 multiplication by `√w` is a linear isometric equivalence `L²(w·μ) ≃ₗᵢ L²(μ)`
 (`w·μ := μ.withDensity (ofReal ∘ w)`); an *equivalence* precisely because `w > 0` a.e. (`hwpos`
 load-bearing). Purely measure-theoretic, so stated over an arbitrary `MeasurableSpace` (only the
-polynomial bridge below needs `Measure ℝ`); a genuine Mathlib gap and an upstream candidate. The
+polynomial bridge below needs `Measure ℝ`); a genuine Mathlib gap. The
 single primitive converting weight-in-measure ↔ weight-in-function; transports any Hilbert basis
 across (`mapₗᵢ`). -/
 noncomputable def weightL2Isometry {α : Type*} [MeasurableSpace α] (μ : Measure α) (w : α → ℝ)
