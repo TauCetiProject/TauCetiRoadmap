@@ -49,197 +49,316 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
 
 ## The build, in layers
 
+The labels in Parts A–C form the complete mathematical obligation set for this roadmap.
+Each label names one definition or theorem. Milestones and acceptance examples cite these
+labels. `Suggested.lean` cites the labels represented by its sample declarations.
+
 ### Part A — principal angles, aligned bases, and finite frames
 
-The order of construction is the mathematics: the frame layer gives the analysis/synthesis
-pair, the aligned-basis layer packages an orthonormal family as an isometry from coordinate
-space, and the overlap operator is then literally a composite of two of those — which is
-why its adjoint is the swapped pair, and why the symmetry of the cosines is immediate.
+The frame layer supplies the analysis/synthesis pair. The aligned-basis layer consumes the
+coordinate isometry `OG-09`–`OG-11`; `PA-A13`–`PA-A14` record the coordinate formulas used by
+this roadmap. The overlap operator is the composite of two coordinate isometries, and its
+singular values use the singular-value theory `PD-C01`–`PD-C08`.
 
 **Objects.** For a finite family `v : ι → E`: the analysis map `x ↦ (⟪vᵢ, x⟫)ᵢ`, the
-synthesis map, the **frame operator** on `E` and the **Gram operator** on coefficient space.
-For an orthonormal family: the coordinate isometry
-`familyIsometry hv : EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E`. For two orthonormal families: the
-**overlap operator** `overlapOp hu hv = (familyIsometry hu)⋆ ∘ (familyIsometry hv)`, with
-matrix `⟪uᵢ, vⱼ⟫`; its singular values `cosPrincipalAngles hu hv : ℕ →₀ ℝ`; and the squared
-Frobenius sine `sinThetaSq hu hv = ∑ₖ (1 − cos²θₖ)`.
+synthesis map, the frame operator on `E`, and the Gram operator on coefficient space. For two
+orthonormal families: the overlap operator with matrix `⟪uᵢ, vⱼ⟫`, its principal-angle
+cosines, and the squared Frobenius sine.
 
-**API to develop.**
+#### Finite frames
 
-- Analysis/synthesis adjointness; frame and Gram operators positive and symmetric;
-  `‖analysis x‖² = ∑ᵢ ‖⟪vᵢ, x⟫‖²`; the frame-bound dictionary — a lower frame bound is
-  exactly a floor on the first `finrank 𝕜 E` sorted Gram eigenvalues, in both directions.
-- `familyIsometry` on basis vectors and its adjoint as the coordinate map; membership of its
-  image in the span.
-- `overlapOp` is a contraction; `(overlapOp hu hv)⋆ = overlapOp hv hu`; its entrywise matrix
-  description; `∑ σᵢ(overlapOp)² = ∑ⱼ∑ᵢ ‖⟪uᵢ, vⱼ⟫‖²`.
-- The four basic facts about `cosPrincipalAngles` — nonnegative, `≤ 1`, antitone, symmetric
-  — inherited from the singular-value API, with no inductive proofs.
+- **PA-A01 — Analysis map.** For a finite family `(vᵢ)`, define the linear map
+  `x ↦ (⟪vᵢ,x⟫)ᵢ` from the ambient Hilbert space to coefficient space.
+- **PA-A02 — Synthesis map.** For a finite family `(vᵢ)`, define the linear map
+  `(aᵢ) ↦ ∑ᵢ aᵢvᵢ` from coefficient space to the ambient Hilbert space.
+- **PA-A03 — Analysis/synthesis adjointness.** The synthesis map is the adjoint of the
+  analysis map.
+- **PA-A04 — Frame operator.** Define the frame operator as synthesis after analysis.
+- **PA-A05 — Gram operator.** Define the Gram operator as analysis after synthesis.
+- **PA-A06 — Positivity of the frame operator.** The frame operator is positive.
+- **PA-A07 — Symmetry of the frame operator.** The frame operator is symmetric.
+- **PA-A08 — Positivity of the Gram operator.** The Gram operator is positive.
+- **PA-A09 — Symmetry of the Gram operator.** The Gram operator is symmetric.
+- **PA-A10 — Analysis norm identity.** For every `x`,
+  `‖analysis x‖² = ∑ᵢ ‖⟪vᵢ,x⟫‖²`.
+- **PA-A11 — Gram spectrum from a lower frame bound.** If
+  `a‖x‖² ≤ ∑ᵢ ‖⟪vᵢ,x⟫‖²` for every `x`, then every sorted Gram eigenvalue whose index is
+  below `finrank 𝕜 E` is at least `a`.
+- **PA-A12 — Lower frame bound from Gram spectrum.** If coefficient space has dimension at
+  least `finrank 𝕜 E` and the first `finrank 𝕜 E` sorted Gram eigenvalues are at least `a`,
+  then `a‖x‖² ≤ ∑ᵢ ‖⟪vᵢ,x⟫‖²` for every `x`.
+- **PA-A13 — Adjoint coordinate formula.** For an orthonormal family `(vᵢ)` and ambient
+  vector `x`, the `i`-th coordinate of the adjoint of its coordinate isometry is
+  `⟪vᵢ,x⟫`.
+- **PA-A14 — Coordinate image lies in the family span.** Every vector in the image of an
+  orthonormal family's coordinate isometry belongs to `span{vᵢ}`.
 
-**Milestone — the Frobenius sine identity** `‖sin Θ‖²_F = d − overlap`, which converts an
-angle statement into an inner-product statement: the form in which perturbation estimates
-are proved.
+#### Overlap operator and family-level angles
 
-**Milestone — the aligned-basis (Procrustes) bound.** The polar unitary of the overlap
-operator rotates `v` into a basis `w` of its span with `∑ⱼ ‖wⱼ − uⱼ‖² ≤ 2 · sinThetaSq hu hv`
-— the form the statistical perturbation theory consumes.
+- **PA-A15 — Overlap operator.** For orthonormal families `(uᵢ)` and `(vᵢ)` of the same
+  finite cardinality, define the overlap operator as the adjoint of the coordinate isometry
+  for `(uᵢ)` composed with the coordinate isometry for `(vᵢ)`.
+- **PA-A16 — Matrix of the overlap operator.** In the standard coordinate bases, the
+  `(i,j)` entry of the overlap operator is `⟪uᵢ,vⱼ⟫`.
+- **PA-A17 — Contraction property.** The overlap operator has operator norm at most `1`.
+- **PA-A18 — Adjoint symmetry of overlap.** Swapping the two families gives the adjoint
+  overlap operator.
+- **PA-A19 — Frobenius singular-value identity for overlap.** The overlap operator satisfies
+  `∑ᵢ σᵢ² = ∑ⱼ∑ᵢ ‖⟪uᵢ,vⱼ⟫‖²`.
+- **PA-A20 — Principal-angle cosines of families.** Define the principal-angle cosine
+  sequence of two orthonormal families as the singular-value sequence of their overlap
+  operator.
+- **PA-A21 — Nonnegativity of family cosines.** Every principal-angle cosine is
+  nonnegative.
+- **PA-A22 — Unit upper bound for family cosines.** Every principal-angle cosine is at most
+  `1`.
+- **PA-A23 — Monotonicity of family cosines.** The principal-angle cosine sequence is
+  antitone.
+- **PA-A24 — Symmetry of family cosines.** Swapping the two orthonormal families leaves the
+  principal-angle cosine sequence unchanged.
+- **PA-A25 — Squared Frobenius sine.** Define
+  `sin²_F Θ = ∑ₖ (1 - cos² θₖ)` for two orthonormal families of the same finite cardinality.
+- **PA-A26 — Frobenius sine identity.** For families of cardinality `d`,
+  `sin²_F Θ = d - ∑ₖ cos² θₖ`.
+- **PA-A27 — Aligned orthonormal family.** The unitary factor in the finite-dimensional
+  polar decomposition `PD-B21` of the overlap operator produces an orthonormal family
+  `(wⱼ)` spanning the same subspace as `(vⱼ)`.
+- **PA-A28 — Procrustes bound.** The aligned family in `PA-A27` satisfies
+  `∑ⱼ ‖wⱼ-uⱼ‖² ≤ 2 sin²_F Θ`.
+- **PA-A29 — Coordinate-block orthonormality.** Restricting an orthonormal basis to a finite
+  coordinate block gives an orthonormal family whose span is the selected coordinate
+  subspace.
+- **PA-A30 — Eigenblock sine formula.** For two eigenblock families, the squared Frobenius
+  sine equals the corresponding cross-block sum of squared overlaps.
+
+**Milestone — finite-frame and overlap theory.** `PA-A01`–`PA-A26`.
+
+**Milestone — aligned bases.** `PA-A27`–`PA-A30`.
 
 ### Part B — angle geometry and eigenvalue perturbation
 
-Part B combines the angle dictionary with eigenvalue perturbation; the spectral-subspace
-perturbation theorems use both.
+Part B packages subspace angles, develops the Gram perturbation estimates, and proves the
+finite-dimensional eigenvalue perturbation statements. Rectangular unitarily invariant
+seminorms use `MAJ-B01`–`MAJ-B43`; the complete-space angle operators use the modulus
+`PD-A36`–`PD-A45`.
 
-**Objects.** The Gram operators `rightGram A = A⋆A` and `leftGram A = AA⋆`; the
-dimension-free cross-projections `cosThetaMap U V = P_V ∘ P_U`,
-`sinThetaMap U V = P_{Vᗮ} ∘ P_U`, and `sinTwoAngleOperator = 2 P_{Uᗮ} P_V P_U`;
-the complete-space moduli `cosAngleOperator = |P_V P_U|` and
-`sinAngleOperator = |P_U − P_V|`; and the finite-dimensional sequences `principalCosines`,
-`principalSines`, `principalAngles`, `principalTangents : ℕ →₀ ℝ`; the predicates `IsAcute`
-and `AvoidsQuarterTurn`; the gap-free
-`TrialMapFrameFactorization` of an injective map.
+**Objects.** The right and left Gram operators; the cross-projection cosine and sine maps;
+the double-angle map; the complete-space cosine and sine angle operators; the finite
+principal cosine, sine, angle, and tangent sequences; the acute and quarter-turn predicates;
+and the frame factorization of an injective trial map.
 
-**API to develop.**
+#### Gram operators and angle objects
 
-- Gram perturbation identities `Â⋆Â − A⋆A = Â⋆(Â−A) + (Â−A)⋆A` and the operator-norm bounds
-  `‖Â⋆Â − A⋆A‖ ≤ (‖A‖+‖Â‖)·‖Â−A‖`, both sides.
-- The dictionary: `σ(cosThetaMap) = principalCosines`; `σ(P_U − P_V) = σ(sinAngleOperator)`,
-  hence the norm bridge `N (P_U − P_V) = N (sinAngleOperator U V).toLinearMap` for every unitarily
-  invariant `N`, via determination by singular values; equal-rank symmetry of sines
-  and angles; angles of a pair with itself vanish; acuteness from a projection gap `< 1`.
-- Projection-angle maps are dimension-free bounded operators: `cosThetaMap`, `sinThetaMap`, and
-  `sinTwoAngleOperator U V = 2 • (P_{Uᗮ} ∘ P_V ∘ P_U)`. On complete spaces,
-  `cosAngleOperator` and `sinAngleOperator` use the scalar-generic modulus from
-  `PolarDecomposition`. The singular-value sequences remain finite-dimensional. `principalTangents` is `Real.tan` applied to
-  `principalAngles`; `AvoidsQuarterTurn U V` means no principal angle equals `π/4`, with
-  `avoidsQuarterTurn_self` as the base case.
-- **The Part A bridge**, the theorem that makes `cosPrincipalAngles` well-named: the
-  subspace-level cosines of the spans equal the family-level cosines. It does double duty —
-  the subspace/family dictionary entry for this Part, and the independence-of-presentation
-  statement for the Part upstream.
-- The sorted rearrangement inequality and the Birkhoff bilinear bound; the von Neumann trace
-  inequality `tr(TS) ≤ ∑ λᵢ(T)λᵢ(S)`; basis independence of the squared Frobenius norm of a
-  symmetric operator.
-- The Birkhoff bridge: the diagonal of `S` in `T`'s eigenbasis lies in the convex hull of
-  the permutation orbit of `S`'s spectrum; the vector-level displacement estimate around a
-  `γ`-separated tuple.
-- The trial-map factorization `X = (isometry) ∘ (Gram square root)` with range preservation,
-  inverse-factor bounds from a lower frame bound, and the composition cost
-  `N (A ∘ coordinate⁻¹) ≤ N A · ε⁻¹` in every rectangular unitarily invariant norm.
+- **PA-B01 — Right Gram operator.** For `A : E → F`, define the source-space operator
+  `A†A`.
+- **PA-B02 — Left Gram operator.** For `A : E → F`, define the target-space operator
+  `AA†`.
+- **PA-B03 — Right-Gram perturbation identity.** For `Â,A : E → F`,
+  `Â†Â - A†A = Â†(Â-A) + (Â-A)†A`.
+- **PA-B04 — Right-Gram perturbation bound.** For bounded `Â,A`,
+  `‖Â†Â-A†A‖ ≤ (‖A‖+‖Â‖)‖Â-A‖`.
+- **PA-B05 — Left-Gram perturbation identity.** For `Â,A : E → F`,
+  `ÂÂ† - AA† = Â(Â-A)† + (Â-A)A†`.
+- **PA-B06 — Left-Gram perturbation bound.** For bounded `Â,A`,
+  `‖ÂÂ†-AA†‖ ≤ (‖A‖+‖Â‖)‖Â-A‖`.
+- **PA-B07 — Cosine cross-projection.** For projected subspaces `U,V`, define the bounded
+  operator `P_V P_U`.
+- **PA-B08 — Directed sine cross-projection.** For projected subspaces `U,V`, define the
+  bounded operator `P_{V⊥}P_U`.
+- **PA-B09 — Double-angle operator.** Define the bounded operator `2P_{U⊥}P_VP_U`.
+- **PA-B10 — Cosine angle operator.** On a complete Hilbert space, define the cosine angle
+  operator as `|P_VP_U|`.
+- **PA-B11 — Sine angle operator.** On a complete Hilbert space, define the sine angle
+  operator as `|P_U-P_V|`.
+- **PA-B12 — Principal cosines of subspaces.** In finite dimension, define the principal
+  cosine sequence as the singular values of `P_VP_U`.
+- **PA-B13 — Principal sines of subspaces.** In finite dimension, define the principal sine
+  sequence as the singular values of `P_{V⊥}P_U`.
+- **PA-B14 — Principal angles.** Define the principal-angle sequence by applying `arcsin` to
+  the principal sines.
+- **PA-B15 — Principal tangents.** Define the principal-tangent sequence by applying `tan` to
+  the principal angles.
+- **PA-B16 — Acuteness.** Define a pair `(U,V)` to be acute when `P_V` is injective on `U`
+  and `P_U` is injective on `V`.
+- **PA-B17 — Quarter-turn avoidance.** Define quarter-turn avoidance by
+  `θᵢ(U,V) ≠ π/4` for every principal angle.
+- **PA-B18 — Trial-map frame factorization.** For an injective map `X : F → E`, package an
+  isometric embedding and an invertible coordinate factor whose composite is `X` and whose
+  isometric factor has range `range X`.
 
-**Milestone — the family/subspace bridge**, as above.
+#### Principal-angle dictionary
 
-**Milestone — Hoffman–Wielandt.** `∑ᵢ (λᵢ(T) − λᵢ(S))² ≤ ∑ₖ ‖(S−T) eₖ‖²` for symmetric
-`T, S` with sorted spectra and an **arbitrary** orthonormal basis `e`. The arbitrary basis
-is the point: the eigenbasis-specialized form is enough to prove the theorem but is not the
-invariant Frobenius statement a consumer wants, so the clean name belongs to the general
-one.
+- **PA-B19 — Cosines as singular values of the cross projection.** The singular-value
+  sequence of `P_VP_U` is the principal-cosine sequence.
+- **PA-B20 — Sines from the projector difference.** The projector difference `P_U-P_V` and
+  the sine angle operator `|P_U-P_V|` have the same singular-value sequence.
+- **PA-B21 — Unitarily invariant norm bridge.** Every rectangular unitarily invariant
+  seminorm satisfies `N(P_U-P_V) = N(|P_U-P_V|)`.
+- **PA-B22 — Equal-rank symmetry of principal sines.** If `U` and `V` have equal finite
+  dimension, swapping them leaves the principal-sine sequence unchanged.
+- **PA-B23 — Equal-rank symmetry of principal angles.** Under the hypotheses of `PA-B22`,
+  swapping `U` and `V` leaves the principal-angle sequence unchanged.
+- **PA-B24 — Angles of a subspace with itself.** For every projected finite-dimensional
+  subspace `U`, `θᵢ(U,U)=0` for every `i`.
+- **PA-B25 — Acuteness from the projection gap.** If `‖P_U-P_V‖ < 1`, then `(U,V)` is
+  acute.
+- **PA-B26 — Quarter-turn avoidance on the diagonal.** Every projected subspace avoids the
+  quarter turn with itself.
+- **PA-B27 — Family/subspace cosine bridge.** The principal cosines of the spans of two
+  orthonormal families equal their family-level principal cosines from `PA-A20`.
+- **PA-B28 — One-dimensional cosine formula.** For unit vectors `u,v`, the unique nonzero
+  principal cosine of `span{u}` and `span{v}` is `|⟪u,v⟫|`.
+- **PA-B29 — Equal-rank operator-norm sine identity.** For equal-dimensional projected
+  subspaces, `‖P_U-P_V‖ = ‖P_{V⊥}P_U‖`.
 
-**Milestone — Davis's eigenvalue-change lower bound.** For symmetric `T, S` with `H = S − T`,
-a `γ`-separated spectrum of `S`, and diagonal part (in `T`'s eigenbasis) of Frobenius norm
-at most `γ/√2`: `∑ᵢ (λ'ᵢ − λᵢ)² ≥ ‖𝒞H‖²_F − ‖𝒞⊥H‖²_F`. The separation hypothesis and the
-smallness threshold are both part of the statement; without them it reads as an
-unconditional bound, which is false. Proved around a point of the permutation-orbit hull,
-with membership discharged from Birkhoff and not from the
-[`Majorization`](../Majorization/README.md) engine.
+#### Rearrangement and eigenvalue perturbation
+
+- **PA-B30 — Sorted rearrangement inequality.** Pairing two real finite tuples in the same
+  sorted order maximizes their bilinear pairing over coordinate permutations.
+- **PA-B31 — Birkhoff bilinear bound.** A doubly stochastic mixture of permutations has
+  bilinear pairing at most the sorted pairing.
+- **PA-B32 — von Neumann trace inequality.** For symmetric finite-dimensional operators
+  `T,S`, `tr(TS) ≤ ∑ᵢ λᵢ(T)λᵢ(S)` for decreasing eigenvalue lists.
+- **PA-B33 — Basis independence of symmetric Frobenius energy.** For symmetric `T`, the
+  quantity `∑ₖ ‖Teₖ‖²` is independent of the orthonormal basis `(eₖ)`.
+- **PA-B34 — Permutation-orbit hull for diagonals.** The diagonal of a symmetric operator
+  `S` in an eigenbasis of a symmetric operator `T` lies in the convex hull of the
+  permutation orbit of the spectrum of `S`.
+- **PA-B35 — Separated-tuple displacement estimate.** If `γ≥0`, the coordinates of `w`
+  are pairwise `γ`-separated, and `c` lies in the convex hull of the coordinate-permutation
+  orbit of `w`, then `(γ/√2)‖w-c‖ ≤ ⟪w-c,w⟫`.
+- **PA-B36 — Gram frame factorization.** In the factorization `PA-B18`, the coordinate
+  factor is the positive square root of the trial Gram operator and the isometric factor is
+  the corresponding orthonormalized embedding.
+- **PA-B37 — Range preservation of the trial factorization.** The isometric factor in
+  `PA-B18` has range `range X`.
+- **PA-B38 — Inverse-coordinate bound.** A positive lower frame bound `ε` gives
+  `‖coordinate⁻¹‖ ≤ ε⁻¹`.
+- **PA-B39 — Composition cost in unitarily invariant seminorms.** Under the hypotheses of
+  `PA-B38`, every rectangular unitarily invariant seminorm satisfies
+  `N(A ∘ coordinate⁻¹) ≤ N(A) ε⁻¹`.
+- **PA-B40 — Hoffman–Wielandt inequality.** For symmetric `T,S` with decreasing eigenvalue
+  lists and every orthonormal basis `(eₖ)`,
+  `∑ᵢ (λᵢ(T)-λᵢ(S))² ≤ ∑ₖ ‖(S-T)eₖ‖²`.
+- **PA-B41 — Davis eigenvalue-change lower bound.** Let `H=S-T`. If the spectrum of `S` is
+  `γ`-separated and the diagonal part of `H` in an eigenbasis of `T` has Frobenius norm at
+  most `γ/√2`, then
+  `∑ᵢ (λᵢ(S)-λᵢ(T))² ≥ ‖𝒞H‖²_F - ‖𝒞⊥H‖²_F`.
+
+**Milestone — angle dictionary.** `PA-B01`–`PA-B29`.
+
+**Milestone — eigenvalue perturbation.** `PA-B30`–`PA-B41`.
 
 ### Part C — the projection gap and spectral subspaces
 
-The vocabulary the perturbation theory is stated in, and the one sharp identity that
-vocabulary exists for:
+Part C supplies the finite-dimensional point-spectral vocabulary used by perturbation
+statements and the dimension-free projection-gap identity. The restriction of a symmetric
+operator to an invariant subspace uses `OG-16`–`OG-17`.
 
-```text
-‖P − Q‖ = max (‖(1−Q) P‖, ‖(1−P) Q‖)        for orthogonal projections P, Q
-```
+**Objects.** Reflections; diagonal and off-diagonal operator blocks relative to `U ⊕ U⊥`;
+symmetric and directed projection gaps; the restricted point spectrum; canonical spectral
+subspaces and projectors; spectral containment; and the pairwise, ordered, and
+interval/exterior separation predicates.
 
-Perturbation arguments naturally produce two one-sided estimates; this equality upgrades
-the pair to a bound on `‖P − Q‖` itself with factor one and no equal-rank hypothesis.
-Without it a development loses a factor of two or carries a rank condition through every
-statement. The proof is the block decomposition `(P−Q)² = P(1−Q)P + (1−P)Q(1−P)` with the
-C⋆-norm identities, scalar-generic over `RCLike`.
+#### Projection blocks and gaps
 
-**Objects.** Reflections, diagonal and off-diagonal parts of an operator relative to
-`U ⊕ Uᗮ`; the symmetric and directed projection gaps; the restricted point spectrum with the canonical
-spectral subspace `spectralSubspace A Ω` and projector `spectralProjection A Ω`; the
-spectral-separation predicates.
+- **PA-C01 — Diagonal operator block.** Relative to `U ⊕ U⊥`, define the diagonal part of
+  an operator by its `U→U` and `U⊥→U⊥` blocks.
+- **PA-C02 — Off-diagonal operator block.** Relative to `U ⊕ U⊥`, define the off-diagonal
+  part by its `U→U⊥` and `U⊥→U` blocks.
+- **PA-C03 — Involutivity of reflection.** The reflection across a projected subspace
+  satisfies `R_U² = 1`.
+- **PA-C04 — Isometry of reflection.** The reflection across a projected subspace preserves
+  norms.
+- **PA-C05 — Reflection commutes with reducing operators.** If `U` reduces `A`, then
+  `R_U A = A R_U`.
+- **PA-C06 — Reflection formula for the diagonal block.** For every operator `A`,
+  `2 diag_U(A) = A + R_U A R_U`.
+- **PA-C07 — Reflection formula for the off-diagonal block.** For every operator `A`,
+  `2 offdiag_U(A) = A - R_U A R_U`.
+- **PA-C08 — Symmetric projection gap.** Define the gap between projected subspaces by
+  `‖P_U-P_V‖`.
+- **PA-C09 — Directed projection gap.** Define the directed gap from `U` to `V` by
+  `‖P_{V⊥}P_U‖`.
+- **PA-C10 — Symmetry of the projection gap.** The symmetric projection gap is unchanged by
+  swapping `U` and `V`.
+- **PA-C11 — Directed-gap comparison.** Each directed gap is bounded above by the symmetric
+  projection gap.
+- **PA-C12 — Sharp projector-gap identity.** For projected subspaces `U,V`,
+  `‖P_U-P_V‖ = max(‖P_{V⊥}P_U‖, ‖P_{U⊥}P_V‖)`.
 
-**API to develop.**
+#### Restricted point spectrum and spectral subspaces
 
-- Projection blocks: reflections with involutivity, isometry, and
-  commutation-when-reducing; the diagonal/off-diagonal calculus
-  (`2·diag = A + R A R`, `2·offdiag = A − R A R`).
-- The gap: symmetry, the directed-gap comparison, the max identity above; `sinThetaMap`,
-  the directed sine cross-projection `P_{Vᗮ} ∘ P_U` the Davis–Kahan estimates are stated in.
-- `spectrumIn_spectralSubspace`: the spectral subspace selected by `Ω` carries only
-  restricted point spectrum in `Ω`. It is a theorem for every finite-dimensional operator and
-  every set, giving perturbation
-  consumers the spectral-containment fact directly.
-- Restricted point spectra: consume `ContinuousLinearMap.IsSymmetric.restrict_of_invariant`
-  from [`OrthogonalGeometry`](../OrthogonalGeometry/README.md), then develop the
-  finite-dimensional eigenvalue/point-spectrum layer and the quadratic-form bridges
-  `SpectrumIn A U (Iic a) → re ⟪A x, x⟫ ≤ a‖x‖²` on `U`, with their converses.
+- **PA-C13 — Restricted point spectrum.** For an endomorphism `A` and subspace `U`, define
+  the real restricted point spectrum as the set of real `λ` admitting a nonzero eigenvector
+  in `U` with eigenvalue `λ`.
+- **PA-C14 — Membership characterization.** A real number `λ` belongs to the restricted
+  point spectrum on `U` exactly when there is `x ∈ U`, `x ≠ 0`, with `Ax = λx`.
+- **PA-C15 — Membership introduction.** A nonzero vector `x ∈ U` satisfying `Ax = λx`
+  places `λ` in the restricted point spectrum on `U`.
+- **PA-C16 — Spectral containment predicate.** Define spectral containment on `U` by
+  inclusion of the restricted point spectrum in a specified real set `Ω`.
+- **PA-C17 — Spectral subspace.** For a real set `Ω`, define the spectral subspace as the
+  span of eigenvectors with eigenvalues in `Ω`.
+- **PA-C18 — Spectral projector.** Define the orthogonal projector onto the spectral
+  subspace `PA-C17`.
+- **PA-C19 — Spectral-subspace containment.** The spectral subspace selected by `Ω` has
+  restricted point spectrum contained in `Ω`.
+- **PA-C20 — Upper form bound from point spectrum.** If a symmetric operator restricted to
+  `U` has restricted point spectrum in `(-∞,a]`, then
+  `Re⟪Ax,x⟫ ≤ a‖x‖²` for every `x ∈ U`.
+- **PA-C21 — Point spectrum from an upper form bound.** For symmetric `A`, the upper
+  quadratic-form bound `Re⟪Ax,x⟫ ≤ a‖x‖²` on `U` implies that the restricted point spectrum
+  on `U` lies in `(-∞,a]`.
+- **PA-C22 — Lower form bound from point spectrum.** If a symmetric operator restricted to
+  `U` has restricted point spectrum in `[a,∞)`, then
+  `a‖x‖² ≤ Re⟪Ax,x⟫` for every `x ∈ U`.
+- **PA-C23 — Point spectrum from a lower form bound.** For symmetric `A`, the lower
+  quadratic-form bound `a‖x‖² ≤ Re⟪Ax,x⟫` on `U` implies that the restricted point spectrum
+  on `U` lies in `[a,∞)`.
 
-### The spectral-separation predicates
+### Spectral-separation predicates
 
-Several theorem families across this roadmap family — sine, tangent, double-angle,
-Sylvester — hypothesize that two pieces of spectrum are separated, and they do not all
-hypothesize the same thing. Naming the separations rather than writing each as an explicit
-inequality is what makes "these two theorems have the same gap hypothesis" a checkable
-claim; it is also what lets a caller discharge the hypothesis once and feed it to several
-theorems.
+The named predicates give theorem families a shared point-spectral vocabulary.
 
-The finite-dimensional separation vocabulary is point-spectral. Pairwise and ordered
-separation are primitive; the bundled interval/exterior condition used by the factor-one sine
-theorem belongs here with them:
+- **PA-C24 — Pairwise spectral separation.** Define pairwise separation by requiring
+  `δ ≤ |λ-μ|` for every `λ` in the first restricted point spectrum and `μ` in the second.
+- **PA-C25 — Ordered spectral gap.** Define ordered separation by requiring
+  `λ+δ ≤ μ` for every `λ` in the first restricted point spectrum and `μ` in the second.
+- **PA-C26 — Interval/exterior gap.** Define the interval/exterior condition by requiring
+  the selected spectrum of `A` to lie in `[a,b]` and the selected spectrum of `B` to lie
+  outside `(a-δ,b+δ)`.
+- **PA-C27 — Ordered gap implies pairwise separation.** If `δ ≥ 0`, ordered separation by
+  `δ` implies pairwise separation by `δ`.
+- **PA-C28 — Opposite-side inclusions imply an ordered gap.** If the first restricted point
+  spectrum lies in `(-∞,a]` and the second lies in `[a+δ,∞)`, then the two are ordered by
+  gap `δ`.
+- **PA-C29 — Form bounds imply an ordered spectral gap.** If `A` has upper quadratic-form
+  bound `a` on the first subspace and `B` has lower quadratic-form bound `a+δ` on the
+  second, then their restricted point spectra have ordered gap `δ`.
 
-- **`SpectraSeparated A U B V δ`** — every eigenvalue of `A` carried by `U` and every
-  eigenvalue of `B` carried by `V` are at distance at least `δ`. This is the weakest and
-  most symmetric form; it is what the `π/2` theorems assume, and no ordering of the two
-  spectra is implied.
-- **`IntervalExteriorGap A U B V a b δ`** — `A` on `U` lies in `[a,b]` and `B` on `V` lies
-  outside `(a-δ,b+δ)`; bundling both halves is the canonical hypothesis for the factor-one
-  Davis–Kahan sine theorem.
-- **`OrderedGap`** — one spectrum lies below the other with a margin: `λ + δ ≤ μ` for every
-  `λ` in the first and `μ` in the second. Strictly stronger, and the hypothesis under which
-  the constants improve to one.
+**Milestone — projection blocks and the sharp gap identity.** `PA-C01`–`PA-C12`.
 
-`InternalGap`, in which both pieces of point spectrum come from one operator, is the
-application-shaped specialization defined in
-[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md).
+**Milestone — spectral subspaces and form bounds.** `PA-C13`–`PA-C23`.
 
-The roadmap therefore asks for:
-
-- the pairwise and ordered primitive predicates, plus the bundled interval/exterior
-  predicate, each stated for restricted point spectra on named subspaces;
-- the conversions between them: ordered separation implies `SpectraSeparated` at the same
-  `δ`; spectral inclusion on opposite sides of a cut gives ordered separation; and the
-  bridges to the quadratic-form bounds above, which is how a spectral hypothesis becomes
-  usable in an operator estimate;
-- for each named form, the theorem families that consume it, making ownership and use
-  explicit.
-
-Each separation condition has one canonical named predicate. Equivalent formulations are
-connected by theorems, so theorem families share the same underlying hypothesis vocabulary.
-
-**Milestone — the sharp gap identity**, as an equality with no equal-rank hypothesis.
+**Milestone — spectral-separation vocabulary.** `PA-C24`–`PA-C29`.
 
 ## Worked examples (acceptance criteria)
 
 ### Part A — principal angles, aligned bases, and finite frames
 
-**Acceptance examples.** The selected-block family of an orthonormal basis is orthonormal
-with span the selected coordinate block, and the `sinThetaSq` of two eigenblock families is
-the cross-block overlap sum; `familyIsometry` sends the `k`-th coordinate vector to `v k`.
+**Acceptance examples.** Coordinate-block families are `PA-A29`; eigenblock cross-overlap is
+`PA-A30`; the coordinate-isometry basis action is supplied by `OG-10`–`OG-11`.
 
 ### Part B — angle geometry and eigenvalue perturbation
 
-**Acceptance examples.** Two unit-generated lines have a single principal cosine `‖⟪u, v⟫‖`;
-`principalAngles U U = 0`; the equal-rank operator-norm identity
-`‖P_U − P_V‖ = ‖sinThetaMap U V‖`.
+**Acceptance examples.** The one-dimensional cosine formula is `PA-B28`; self-angles are
+`PA-B24`; the equal-rank operator-norm sine identity is `PA-B29`.
 
 ### Part C — the projection gap and spectral subspaces
 
-**Acceptance criteria.** That the gap identity is an equality with no equal-rank
-hypothesis; that the separation predicates use the shared canonical vocabulary.
+**Acceptance criteria.** The sharp gap equality is `PA-C12`; the canonical separation
+vocabulary is `PA-C24`–`PA-C29`.
 
 ## Ordering
 
@@ -255,8 +374,8 @@ consumes the angles, `sinThetaMap`, the separation predicates and `spectralSubsp
 
 ## Definitions
 
-**D1** `cos Θ(u, v) = σ(overlap operator)` — the principal-angle cosines, sorted decreasingly
-and zero-padded.
+**D1 (`PA-A20`).** `cos Θ(u,v) = σ(overlap(u,v))` — the principal-angle cosines of two
+orthonormal families, sorted decreasingly and zero-padded.
 
 ## References
 

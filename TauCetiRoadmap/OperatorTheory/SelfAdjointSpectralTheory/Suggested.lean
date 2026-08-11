@@ -28,7 +28,9 @@ variable {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteS
 /-! ## Part A -- one-parameter unitary groups and Stone's theorem -/
 
 /-- A strongly continuous one-parameter unitary group on a complex Hilbert
-space. -/
+space.
+
+Roadmap: `SA-A01`. -/
 structure OneParameterUnitaryGroup (H : Type*) [NormedAddCommGroup H]
     [InnerProductSpace ℂ H] [CompleteSpace H] where
   U : ℝ → (H →L[ℂ] H)
@@ -40,11 +42,15 @@ structure OneParameterUnitaryGroup (H : Type*) [NormedAddCommGroup H]
 /-- The generator: a `LinearPMap` defined on exactly the vectors where the
 difference quotient converges.
 
-Spec: D1. -/
+Spec: D1.
+
+Roadmap: `SA-A02`. -/
 noncomputable def generator (U : OneParameterUnitaryGroup H) : H →ₗ.[ℂ] H := sorry
 
 /-- **Stone's theorem, forward direction**: the generator is self-adjoint, with
-density of the domain derived rather than assumed. -/
+density of the domain derived rather than assumed.
+
+Roadmap: `SA-A22`. -/
 theorem isSelfAdjoint_generator (U : OneParameterUnitaryGroup H) :
     IsSelfAdjoint (generator U) := sorry
 
@@ -53,7 +59,9 @@ theorem isSelfAdjoint_generator (U : OneParameterUnitaryGroup H) :
 there.
 
 The two conclusions are packaged as a
-dependent pair because the second cannot be stated without the first. -/
+dependent pair because the second cannot be stated without the first.
+
+Roadmap: `SA-A13–SA-A14`. -/
 theorem generator_commute (U : OneParameterUnitaryGroup H) (T : H →L[ℂ] H)
     (hT : ∀ t : ℝ, ∀ y : H, T (U.U t y) = U.U t (T y))
     (x : (generator U).domain) :
@@ -67,41 +75,68 @@ section BorelCalculus
 variable {a : H →L[ℂ] H}
 
 /-- A bounded Borel function.  This is a genuine source algebra for the Borel calculus,
-not a raw function plus repeated side hypotheses. -/
+not a raw function plus repeated side hypotheses.
+
+Roadmap: `SA-B01`. -/
 structure BoundedBorelFunction (X : Type*) [MeasurableSpace X] where
   toFun : X → ℂ
   measurable_toFun : Measurable toFun
   exists_bound : ∃ M : ℝ, 0 ≤ M ∧ ∀ x, ‖toFun x‖ ≤ M
 
+/-- Function coercion for bounded Borel symbols.
+
+Roadmap: `SA-B01`. -/
 instance {X : Type*} [MeasurableSpace X] : CoeFun (BoundedBorelFunction X) (fun _ => X → ℂ) :=
   ⟨BoundedBorelFunction.toFun⟩
 
+/-- Pointwise commutative-ring structure for bounded Borel symbols.
+
+Roadmap: `SA-B01`. -/
 noncomputable instance {X : Type*} [MeasurableSpace X] : CommRing (BoundedBorelFunction X) := by
   sorry
+/-- Pointwise star operation for bounded Borel symbols.
+
+Roadmap: `SA-B01`. -/
 noncomputable instance {X : Type*} [MeasurableSpace X] : Star (BoundedBorelFunction X) := by
   sorry
+/-- Star-ring structure for bounded Borel symbols.
+
+Roadmap: `SA-B01`. -/
 noncomputable instance {X : Type*} [MeasurableSpace X] : StarRing (BoundedBorelFunction X) := by
   sorry
+/-- Complex algebra structure for bounded Borel symbols.
+
+Roadmap: `SA-B01`. -/
 noncomputable instance {X : Type*} [MeasurableSpace X] : Algebra ℂ (BoundedBorelFunction X) := by
   sorry
+/-- Star-module structure for bounded Borel symbols.
+
+Roadmap: `SA-B01`. -/
 noncomputable instance {X : Type*} [MeasurableSpace X] :
     StarModule ℂ (BoundedBorelFunction X) := by
   sorry
 
+/-- Extensionality of bounded Borel symbols by pointwise equality.
+
+Roadmap: `SA-B01`. -/
 @[ext] theorem BoundedBorelFunction.ext {X : Type*} [MeasurableSpace X]
     {f g : BoundedBorelFunction X} (h : ∀ x, f x = g x) : f = g := by
   sorry
 
 /-- **The bounded Borel functional calculus** as the homomorphism it mathematically is.
 Agreement with `cfcHom` on continuous symbols and the norm/spectral-support theorems are API
-lemmas about this map rather than separate algebraic laws. -/
+lemmas about this map rather than separate algebraic laws.
+
+Roadmap: `SA-B05`. -/
 noncomputable def borelCalculus (ha : IsStarNormal a) :
     BoundedBorelFunction (spectrum ℂ a) →⋆ₐ[ℂ] (H →L[ℂ] H) := by
   sorry
 
 /-- A projection-valued measure on a measurable parameter space, specified intrinsically
 by its orthogonal projections and strong countable additivity. Scalar diagonal measures are
-derived from this structure. -/
+derived from this structure.
+
+Roadmap: `SA-B14`. -/
 structure ProjValMeasure (X : Type*) [MeasurableSpace X] (H : Type*)
     [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] where
   proj : ∀ B : Set X, MeasurableSet B → (H →L[ℂ] H)
@@ -116,17 +151,23 @@ structure ProjValMeasure (X : Type*) [MeasurableSpace X] (H : Type*)
       (hUnion : MeasurableSet (⋃ n, B n)) (ξ : H),
       HasSum (fun n => proj (B n) (hB n) ξ) (proj (⋃ n, B n) hUnion ξ)
 
-/-- Reindex a PVM along a measurable map by taking inverse images of measurable sets. -/
+/-- Reindex a PVM along a measurable map by taking inverse images of measurable sets.
+
+Roadmap: `SA-B25`. -/
 noncomputable def ProjValMeasure.map {X Y : Type*} [MeasurableSpace X] [MeasurableSpace Y]
     (P : ProjValMeasure X H) (κ : X → Y) (hκ : Measurable κ) : ProjValMeasure Y H := by
   sorry
 
-/-- The scalar measure induced by a PVM and a vector: `μξ(B) = ⟪ξ,P(B)ξ⟫`. -/
+/-- The scalar measure induced by a PVM and a vector: `μξ(B) = ⟪ξ,P(B)ξ⟫`.
+
+Roadmap: `SA-B21`. -/
 noncomputable def ProjValMeasure.diagMeasure {X : Type*} [MeasurableSpace X]
     (P : ProjValMeasure X H) (ξ : H) : MeasureTheory.Measure X := by
   sorry
 
-/-- The defining diagonal-mass identity for the derived scalar measure. -/
+/-- The defining diagonal-mass identity for the derived scalar measure.
+
+Roadmap: `SA-B22`. -/
 theorem ProjValMeasure.inner_proj {X : Type*} [MeasurableSpace X]
     (P : ProjValMeasure X H) (B : Set X) (hB : MeasurableSet B) (ξ : H) :
     ⟪ξ, P.proj B hB ξ⟫_ℂ = (((P.diagMeasure ξ) B).toReal : ℂ) := by
@@ -145,27 +186,35 @@ variable {F : Type*} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [Complete
 /-- Perturbation of a partial map by an operator on its domain, the domain-aware
 sum that keeps the carrier a `LinearPMap`.
 
-Spec: D3. -/
+Spec: D3.
+
+Roadmap: `SA-C52`. -/
 def perturb (A : E →ₗ.[𝕜] E) (V : A.domain →ₗ[𝕜] E) : E →ₗ.[𝕜] E where
   domain := A.domain
   toFun := A.toFun + V
 
 /-- Self-adjointness survives a bounded symmetric perturbation
-(Kato--Rellich at relative bound zero). -/
+(Kato--Rellich at relative bound zero).
+
+Roadmap: `SA-C54`. -/
 theorem isSelfAdjoint_perturb_bounded {A : E →ₗ.[𝕜] E} (hA : IsSelfAdjoint A)
     {T : E →L[𝕜] E} (hT : IsSelfAdjoint T)
     (V : A.domain →ₗ[𝕜] E) (hV : ∀ x : A.domain, V x = T (x : E)) :
     IsSelfAdjoint (perturb A V) := sorry
 
 /-- A bounded rectangular map sends the domain of `B` into the domain of `A` -- the
-side condition without which `A (X x)` is not written down. -/
+side condition without which `A (X x)` is not written down.
+
+Roadmap: `SA-C05`. -/
 def MapsDomainTo (A : E →ₗ.[𝕜] E) (B : F →ₗ.[𝕜] F) (X : F →L[𝕜] E) : Prop :=
   ∀ x : B.domain, X (x : F) ∈ A.domain
 
 /-- The rectangular domain-aware Sylvester equation `A X − X B = C` on partial maps.
 It is a structure rather than an equation between operators because the left-hand side
 does not typecheck without domain transport, which is therefore a field. The square case
-is obtained by setting `E = F`. -/
+is obtained by setting `E = F`.
+
+Roadmap: `SA-C66`. -/
 structure SylvesterEquation (A : E →ₗ.[𝕜] E) (B : F →ₗ.[𝕜] F)
     (X C : F →L[𝕜] E) : Prop where
   mapsTo_domain : MapsDomainTo A B X
@@ -176,11 +225,15 @@ structure SylvesterEquation (A : E →ₗ.[𝕜] E) (B : F →ₗ.[𝕜] F)
 
 Two predicates and the spectral bridges that produce them. -/
 
-/-- Lower quadratic-form bound on a subspace. -/
+/-- Lower quadratic-form bound on a subspace.
+
+Roadmap: `SA-C76`. -/
 def LowerFormBoundOn (A : E →L[𝕜] E) (U : Submodule 𝕜 E) (c : ℝ) : Prop :=
   ∀ x ∈ U, c * ‖x‖ ^ 2 ≤ RCLike.re ⟪A x, x⟫_𝕜
 
-/-- Upper quadratic-form bound on a subspace. -/
+/-- Upper quadratic-form bound on a subspace.
+
+Roadmap: `SA-C77`. -/
 def UpperFormBoundOn (A : E →L[𝕜] E) (U : Submodule 𝕜 E) (c : ℝ) : Prop :=
   ∀ x ∈ U, RCLike.re ⟪A x, x⟫_𝕜 ≤ c * ‖x‖ ^ 2
 
@@ -189,29 +242,41 @@ def UpperFormBoundOn (A : E →L[𝕜] E) (U : Submodule 𝕜 E) (c : ℝ) : Pro
 The two directions in which a bound weakens, and the identification of the degenerate case
 with Mathlib's `ContinuousLinearMap.IsPositive`. -/
 
-/-- A lower form bound weakens as the constant decreases. -/
+/-- A lower form bound weakens as the constant decreases.
+
+Roadmap: `SA-C78`. -/
 theorem LowerFormBoundOn.mono_const {A : E →L[𝕜] E} {U : Submodule 𝕜 E} {c c' : ℝ}
     (h : LowerFormBoundOn A U c) (hc : c' ≤ c) : LowerFormBoundOn A U c' := sorry
 
-/-- A lower form bound restricts to a smaller subspace. -/
+/-- A lower form bound restricts to a smaller subspace.
+
+Roadmap: `SA-C79`. -/
 theorem LowerFormBoundOn.mono_subspace {A : E →L[𝕜] E} {U U' : Submodule 𝕜 E} {c : ℝ}
     (h : LowerFormBoundOn A U c) (hU : U' ≤ U) : LowerFormBoundOn A U' c := sorry
 
-/-- An upper form bound weakens as the constant increases. -/
+/-- An upper form bound weakens as the constant increases.
+
+Roadmap: `SA-C80`. -/
 theorem UpperFormBoundOn.mono_const {A : E →L[𝕜] E} {U : Submodule 𝕜 E} {c c' : ℝ}
     (h : UpperFormBoundOn A U c) (hc : c ≤ c') : UpperFormBoundOn A U c' := sorry
 
-/-- An upper form bound restricts to a smaller subspace. -/
+/-- An upper form bound restricts to a smaller subspace.
+
+Roadmap: `SA-C81`. -/
 theorem UpperFormBoundOn.mono_subspace {A : E →L[𝕜] E} {U U' : Submodule 𝕜 E} {c : ℝ}
     (h : UpperFormBoundOn A U c) (hU : U' ≤ U) : UpperFormBoundOn A U' c := sorry
 
 /-- **The grounding to Mathlib.**  A positive operator is one with the zero lower form bound
-on the whole space, so Mathlib's positivity API reaches anything stated with these. -/
+on the whole space, so Mathlib's positivity API reaches anything stated with these.
+
+Roadmap: `SA-C82`. -/
 theorem IsPositive.lowerFormBoundOn_top {A : E →L[𝕜] E} (hA : A.IsPositive) :
     LowerFormBoundOn A ⊤ 0 := sorry
 
 /-- The converse, which is what makes `LowerFormBoundOn _ ⊤ 0` a generalization of Mathlib's
-predicate. -/
+predicate.
+
+Roadmap: `SA-C83`. -/
 theorem isPositive_of_lowerFormBoundOn_top {A : E →L[𝕜] E} (hsym : A.IsSymmetric)
     (h : LowerFormBoundOn A ⊤ 0) : A.IsPositive := sorry
 
@@ -220,14 +285,18 @@ section ComplexScalars
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
 
 /-- Restriction-spectrum lower bridge: a spectral half-line for the restriction
-is a form bound on the subspace. -/
+is a form bound on the subspace.
+
+Roadmap: `SA-C84`. -/
 theorem lowerFormBoundOn_of_restriction_spectrum_subset_Ici
     {A : E →L[ℂ] E} (hA : A.IsSymmetric) {U : Submodule ℂ E}
     [U.HasOrthogonalProjection] (hU : ∀ x ∈ U, A x ∈ U) {c : ℝ}
     (hσ : spectrum ℝ (A.restrict hU) ⊆ Set.Ici c) :
     LowerFormBoundOn A U c := sorry
 
-/-- Restriction-spectrum upper bridge, the mirror image. -/
+/-- Restriction-spectrum upper bridge, the mirror image.
+
+Roadmap: `SA-C85`. -/
 theorem upperFormBoundOn_of_restriction_spectrum_subset_Iic
     {A : E →L[ℂ] E} (hA : A.IsSymmetric) {U : Submodule ℂ E}
     [U.HasOrthogonalProjection] (hU : ∀ x ∈ U, A x ∈ U) {c : ℝ}
@@ -250,19 +319,25 @@ variable {𝕜 : Type*} [RCLike 𝕜]
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
 
 /-- The resolvent set of a partial map: the points where `A − z` has a bounded
-two-sided inverse. -/
+two-sided inverse.
+
+Roadmap: `SA-D01`. -/
 def resolventSet (A : E →ₗ.[𝕜] E) : Set 𝕜 :=
   { z | ∃ R : E →L[𝕜] E,
       (∀ ψ : A.domain, R (A ψ - z • (ψ : E)) = (ψ : E)) ∧
       (∀ φ : E, ∃ h : R φ ∈ A.domain, A ⟨R φ, h⟩ - z • R φ = φ) }
 
-/-- The spectrum of a partial linear map, defined as the complement of its resolvent set. -/
+/-- The spectrum of a partial linear map, defined as the complement of its resolvent set.
+
+Roadmap: `SA-D02`. -/
 def spectrum (A : E →ₗ.[𝕜] E) : Set 𝕜 :=
   (resolventSet A)ᶜ
 
 /-- The named resolvent at a point of the resolvent set.
 
-Spec: D4. -/
+Spec: D4.
+
+Roadmap: `SA-D03`. -/
 noncomputable def resolvent (A : E →ₗ.[𝕜] E) {z : 𝕜} (hz : z ∈ resolventSet A) :
     E →L[𝕜] E :=
   hz.choose
@@ -271,11 +346,15 @@ section ComplexResolvent
 
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
 
-/-- A self-adjoint partial map has every non-real point in its resolvent set. -/
+/-- A self-adjoint partial map has every non-real point in its resolvent set.
+
+Roadmap: `SA-D17`. -/
 theorem mem_resolventSet_of_im_ne_zero {A : E →ₗ.[ℂ] E} (hA : IsSelfAdjoint A)
     {z : ℂ} (hz : z.im ≠ 0) : z ∈ resolventSet A := sorry
 
-/-- The quantitative resolvent bound `‖R z‖ ≤ |Im z|⁻¹`. -/
+/-- The quantitative resolvent bound `‖R z‖ ≤ |Im z|⁻¹`.
+
+Roadmap: `SA-D19`. -/
 theorem norm_resolvent_le_of_im_ne_zero {A : E →ₗ.[ℂ] E} (hA : IsSelfAdjoint A)
     {z : ℂ} (hz : z.im ≠ 0) :
     ‖resolvent A (mem_resolventSet_of_im_ne_zero hA hz)‖ ≤ |z.im|⁻¹ := sorry
@@ -289,7 +368,9 @@ Tau Ceti already proves this identity for a *semigroup's* resolvent
 `StronglyContinuousSemigroup` with growth-bound hypotheses and real `λ`, `μ`. This is the
 `LinearPMap` statement: any `z` in the resolvent set, over `𝕜`. Neither subsumes the other
 as stated, but a semigroup generator *is* a `LinearPMap`, so the two should be related
-rather than proved twice. -/
+rather than proved twice.
+
+Roadmap: `SA-D08`. -/
 theorem resolvent_sub_resolvent {A : E →ₗ.[𝕜] E} {w z : 𝕜}
     (hw : w ∈ resolventSet A) (hz : z ∈ resolventSet A) (φ : E) :
     resolvent A hw φ - resolvent A hz φ
@@ -306,11 +387,15 @@ variable (A : H →ₗ.[ℂ] H)
 /-- **The spectral theorem**: the projection-valued measure of an unbounded
 self-adjoint operator, constructed through the Cayley transform.
 
-Spec: D5. -/
+Spec: D5.
+
+Roadmap: `SA-E01`. -/
 noncomputable def spectralPVM (hA : IsSelfAdjoint A) : ProjValMeasure ℝ H := sorry
 
 /-- The resolvent formula: the diagonal matrix elements of the resolvent are
-Cauchy--Stieltjes transforms of the diagonal spectral measures. -/
+Cauchy--Stieltjes transforms of the diagonal spectral measures.
+
+Roadmap: `SA-E05`. -/
 theorem spectralPVM_resolvent_formula (hA : IsSelfAdjoint A) {z : ℂ}
     (hz : z.im ≠ 0) (hzr : z ∈ resolventSet A) (ξ : H) :
     ⟪ξ, resolvent A hzr ξ⟫_ℂ
@@ -318,11 +403,15 @@ theorem spectralPVM_resolvent_formula (hA : IsSelfAdjoint A) {z : ℂ}
 
 /-- The unitary group generated by a self-adjoint operator, `t ↦ e^{itA}`.
 
-Spec: D6. -/
+Spec: D6.
+
+Roadmap: `SA-E26`. -/
 noncomputable def genToGroup (hA : IsSelfAdjoint A) : OneParameterUnitaryGroup H := sorry
 
 /-- **Stone's theorem, uniqueness half**: the generator of the generated group
-is the operator, closing the loop with Part A. -/
+is the operator, closing the loop with Part A.
+
+Roadmap: `SA-E29`. -/
 theorem generator_genToGroup (hA : IsSelfAdjoint A) :
     generator (genToGroup A hA) = A := sorry
 
@@ -333,14 +422,18 @@ imaginary parts do not cancel.
 Indexed by `ℕ+`: at `n = 0` the resolvent argument `i n` is real, so `R(i n)` need not
 exist.
 
-Spec: D7. -/
+Spec: D7.
+
+Roadmap: `SA-E14`. -/
 noncomputable def yosidaApproximant (hA : IsSelfAdjoint A) (n : ℕ+) : H →L[ℂ] H :=
   ((n : ℂ) ^ 2) •
       resolvent A (mem_resolventSet_of_im_ne_zero hA
         (z := Complex.I * (n : ℂ)) (by simp [n.ne_zero]))
     - (Complex.I * (n : ℂ)) • ContinuousLinearMap.id ℂ H
 
-/-- The mirrored approximant, at the shift `-i n`. -/
+/-- The mirrored approximant, at the shift `-i n`.
+
+Roadmap: `SA-E15`. -/
 noncomputable def yosidaApproximantNeg (hA : IsSelfAdjoint A) (n : ℕ+) : H →L[ℂ] H :=
   ((n : ℂ) ^ 2) •
       resolvent A (mem_resolventSet_of_im_ne_zero hA
@@ -348,20 +441,28 @@ noncomputable def yosidaApproximantNeg (hA : IsSelfAdjoint A) (n : ℕ+) : H →
     + (Complex.I * (n : ℂ)) • ContinuousLinearMap.id ℂ H
 
 /-- The **symmetrized** Yosida approximant, the average of the two shifts. This is the
-self-adjoint one, and the form the unitary exponentials are built from. -/
+self-adjoint one, and the form the unitary exponentials are built from.
+
+Roadmap: `SA-E16`. -/
 noncomputable def yosidaApproximantSym (hA : IsSelfAdjoint A) (n : ℕ+) : H →L[ℂ] H :=
   (2 : ℂ)⁻¹ • (yosidaApproximant A hA n + yosidaApproximantNeg A hA n)
 
-/-- Self-adjointness holds for the symmetrized form. -/
+/-- Self-adjointness holds for the symmetrized form.
+
+Roadmap: `SA-E21`. -/
 theorem isSelfAdjoint_yosidaApproximantSym (hA : IsSelfAdjoint A) (n : ℕ+) :
     IsSelfAdjoint (yosidaApproximantSym A hA n) := sorry
 
 /-- The approximating unitary groups are the exponentials of the symmetrized approximant;
-`yosidaApproximant` alone does not generate one. -/
+`yosidaApproximant` alone does not generate one.
+
+Roadmap: `SA-E22`. -/
 noncomputable def yosidaGroup (hA : IsSelfAdjoint A) (n : ℕ+) :
     OneParameterUnitaryGroup H := sorry
 
-/-- The approximating groups converge strongly to the group `A` generates. -/
+/-- The approximating groups converge strongly to the group `A` generates.
+
+Roadmap: `SA-E27`. -/
 theorem tendsto_yosidaGroup (hA : IsSelfAdjoint A) (t : ℝ) (ψ : H) :
     Filter.Tendsto (fun n : ℕ+ => (yosidaGroup A hA n).U t ψ) Filter.atTop
       (nhds ((genToGroup A hA).U t ψ)) := sorry
