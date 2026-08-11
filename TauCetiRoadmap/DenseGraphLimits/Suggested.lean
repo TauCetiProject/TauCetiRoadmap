@@ -144,6 +144,13 @@ overlay of the two graphons. -/
 def overlayDiff (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) (π : Measure (Ω₁ × Ω₂))
     (hπ : IsCoupling μ₁ μ₂ π) : SymmKernel (Ω₁ × Ω₂) π := sorry
 
+/-- **Layer 1.** The overlaid difference evaluates pointwise as the difference of the two
+graphons read through the coupling's coordinates — the eliminator that pins the otherwise-opaque
+`overlayDiff`. -/
+theorem overlayDiff_apply (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) (π : Measure (Ω₁ × Ω₂))
+    (hπ : IsCoupling μ₁ μ₂ π) (p q : Ω₁ × Ω₂) :
+    (overlayDiff μ₁ μ₂ U W π hπ).toFun p q = U.toFun p.1 q.1 - W.toFun p.2 q.2 := sorry
+
 /-- **Layer 1 (coupling-primary, cross-carrier).** `cutDist` is the infimum over couplings of the
 cut norm of the overlaid difference. -/
 def cutDist (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) : ℝ := sorry
@@ -560,10 +567,10 @@ theorem infiniteSampleLaw_map_restrictFin (W : Graphon Ω μ) (n : ℕ) :
 runs on: `n` i.i.d. exposed vertices, each carrying its `μ`-position **and a full padded row of
 `n` independent uniform edge coins**. A bare "change one sampled vertex" claim on `G(n, W)`
 suppresses the independent edge randomness and is not yet a McDiarmid setup; the padded exposure
-makes the product structure explicit — the `sorry` is the padded coin-row measure (`n`
-independent `[0,1]`-uniforms). (Prior formalization: `exposureMeasure`, `SampleExposure.lean`.) -/
+makes the product structure explicit — the padded coin-row measure is `n`
+independent `[0,1]`-uniforms, given concretely. (Prior formalization: `exposureMeasure`, `SampleExposure.lean`.) -/
 def exposureMeasure (n : ℕ) : Measure (Fin n → Ω × (Fin n → ℝ)) :=
-  Measure.pi fun _ : Fin n => μ.prod sorry
+  Measure.pi fun _ : Fin n => μ.prod (Measure.pi fun _ : Fin n => volume.restrict (Set.Icc (0 : ℝ) 1))
 
 /-- **Layer 9c.** The exposure source is a probability measure (an i.i.d. finite product). -/
 instance exposureMeasure_isProbabilityMeasure (n : ℕ) :
@@ -977,6 +984,34 @@ labels (still distinct) — so gluing **iterates**, and the associativity/commut
 of the gluing algebra is expressible; this is Lovász–Szegedy's product `F₁F₂` of `k`-labeled
 graphs. The underlying unlabeled graph is `forgetLabels`. -/
 def LabeledGraph.glue {k : ℕ} (G₁ G₂ : LabeledGraph k) : LabeledGraph k := sorry
+
+/-- **Layer 8a (gluing eliminators).** The two vertex maps into the gluing. -/
+def LabeledGraph.glueInl {k : ℕ} (G₁ G₂ : LabeledGraph k) : Fin G₁.n → Fin (G₁.glue G₂).n := sorry
+
+/-- The right vertex map into the gluing. -/
+def LabeledGraph.glueInr {k : ℕ} (G₁ G₂ : LabeledGraph k) : Fin G₂.n → Fin (G₁.glue G₂).n := sorry
+
+/-- The gluing identifies exactly the corresponding labeled vertices: the two maps agree on
+labels, and the labels of the gluing are the common image. -/
+theorem LabeledGraph.glueInl_label {k : ℕ} (G₁ G₂ : LabeledGraph k) :
+    (G₁.glue G₂).label = G₁.glueInl G₂ ∘ G₁.label := sorry
+
+/-- The right labels agree with the glued labels. -/
+theorem LabeledGraph.glueInr_label {k : ℕ} (G₁ G₂ : LabeledGraph k) :
+    (G₁.glue G₂).label = G₁.glueInr G₂ ∘ G₂.label := sorry
+
+/-- Every vertex of the gluing comes from one of the two sides (joint surjectivity). -/
+theorem LabeledGraph.glue_surjective {k : ℕ} (G₁ G₂ : LabeledGraph k)
+    (v : Fin (G₁.glue G₂).n) :
+    (∃ a, v = G₁.glueInl G₂ a) ∨ ∃ b, v = G₁.glueInr G₂ b := sorry
+
+/-- Adjacency on the left side is reflected faithfully. -/
+theorem LabeledGraph.glue_adj_inl {k : ℕ} (G₁ G₂ : LabeledGraph k) (a b : Fin G₁.n) :
+    (G₁.glue G₂).graph.Adj (G₁.glueInl G₂ a) (G₁.glueInl G₂ b) ↔ G₁.graph.Adj a b := sorry
+
+/-- Adjacency on the right side is reflected faithfully. -/
+theorem LabeledGraph.glue_adj_inr {k : ℕ} (G₁ G₂ : LabeledGraph k) (a b : Fin G₂.n) :
+    (G₁.glue G₂).graph.Adj (G₁.glueInr G₂ a) (G₁.glueInr G₂ b) ↔ G₂.graph.Adj a b := sorry
 
 /-- **Layer 8a (unlabeling).** The underlying finite simple graph of a `k`-labeled graph, labels
 forgotten — the object a `GraphParam` evaluates, e.g. in the connection-matrix entries. -/

@@ -99,15 +99,18 @@ Two kinds of pin coexist in this roadmap and must not be conflated.
 padded-exposure architecture and its concentration constants (the `q/k` oscillation and the
 `2·exp(−ε²k/(2q²))` tail under `2q² ≤ εk` are proved verbatim in `cameronfreer/graphon`,
 `SampleExposure.lean`); the finite-marginal eliminator for the finite↔infinite law equivalence;
-the weak-regularity baseline exponent `4^{⌈1/ε²⌉+1}`; the unit-interval measure-preserving map
-of Janson A.9, as a pushforward statement.
+the weak-regularity baseline exponent `4^{⌈1/ε²⌉+1}`. For Janson A.9, the **core
+pushforward route is verified** (the migration source's kernel-randomization adapter on `ℝ`);
+the named `I → Ω` wrapper itself is pending and is the first queued experiment.
 
 **Experimental — not validated by either migration source** (stop/go experiments pending; these
 routes are not endorsed until the experiments run): the coupling-primary cut-distance triangle
 inequality on arbitrary carriers (Janson 6.5 — finite coupling gluing with zero-mass middle
 atoms made explicit, then step-approximation stability); the strict ↔ `AEEqFun` quotient
 bridge; the Möbius / reflection-positivity spine of Layer 8b; the carrier-free representation
-reduction (Janson 7.1/7.3).
+reduction (Janson 7.1/7.3); the null-cell `Finpartition` block-average architecture of Layer 2;
+and the atomic Layer-5 regression battery (Dirac, finite atomic, mixed) for
+`cutDist_eq_cutDistPullback`.
 
 **Two requirements for every opaque constructor pinned here:**
 
@@ -175,8 +178,8 @@ some prose paths below are abbreviated.)
 
 ### Reusable infrastructure to build here
 
-Absent from Mathlib and built as prerequisites (each a strong upstream candidate once its API is
-stable):
+Absent from Mathlib and built as prerequisites (each reusable beyond graphons, so each belongs
+in a general `TauCeti/` home once its API is stable):
 
 - the **measure-preserving map from `(I, volume)`** to any standard Borel probability space (a measurable map with the prescribed pushforward — not pointwise surjectivity) —
   atoms allowed (Janson, Thm A.9; input to Layer 5) — and the **measure-preserving mod-null
@@ -548,16 +551,15 @@ here.)
 This layer consumes Layer 9a's objects and the Layer-6b convergence equivalence only; it is
 independent of Layer 9b and of the Layer-8b spine, and can land in parallel with both.
 
-### Upstream to Mathlib
-Several prerequisites are reusable beyond graphons and are upstream candidates, once the API has
-stabilized here (premature upstreaming churns against Mathlib review). Deferred, not dropped;
-initial inventory:
+### Reusable beyond graphons — general Tau Ceti homes
+Several prerequisites are independent of graphons, so each belongs in a general home in
+`TauCeti/` rather than under `DenseGraphLimits/`, once its API has stabilized here (stabilizing
+an API before spreading it around is good practice). Inventory:
 - the **measure-preserving map from `(I, volume)`** to any standard Borel probability space (a measurable map with the prescribed pushforward — not pointwise surjectivity), and
   the **measure-preserving mod-null equivalence** with `(I, volume)` in the atomless case (Layer 5);
 - reusable **conditional-expectation / dyadic-martingale `L¹`-convergence** lemmas (Layer 4);
 - **finite product / `Measure.pi` curry–uncurry** lemmas (Layer 0);
 - **`AEEqFun`** ergonomics exercised by the Layer 3 view.
-No upstreaming is scheduled before Layers 1–4 are complete in `TauCeti/`.
 
 ---
 
@@ -669,7 +671,7 @@ Layer 9b precedes 8b. Layer 9b itself consumes Layer 9a's sampling objects, Laye
 compactness, and the hom-density continuity/separation algebra of Layers 1–2 and 6a (the
 descended coordinates that drive limit identification and uniqueness); Layer 9c (sampling
 convergence) is independent of both 9b and 8b and can land in parallel; 8a is independent and can
-land any time after Layer 0. The Mathlib upstreaming follows.
+land any time after Layer 0.
 
 Layers 4–6 are independent and likely to attract duplicate work, so **register an Intention and
 `claim` the specific target** before a substantial push (see *Coordinating work* in the repository
