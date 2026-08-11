@@ -91,6 +91,36 @@ in *Why these two choices* below.
 `propext`, `Classical.choice`, `Quot.sound` (`TauCeti/AGENTS.md`). The roadmap states the goals
 with `sorry`; the code repo discharges them.
 
+## Verification status (added after migration-source review)
+
+Two kinds of pin coexist in this roadmap and must not be conflated.
+
+**Verified against a migration source** (exact statements proved in the pinned sources): the
+padded-exposure architecture and its concentration constants (the `q/k` oscillation and the
+`2·exp(−ε²k/(2q²))` tail under `2q² ≤ εk` are proved verbatim in `cameronfreer/graphon`,
+`SampleExposure.lean`); the finite-marginal eliminator for the finite↔infinite law equivalence;
+the weak-regularity baseline exponent `4^{⌈1/ε²⌉+1}`; the unit-interval measure-preserving map
+of Janson A.9, as a pushforward statement.
+
+**Experimental — not validated by either migration source** (stop/go experiments pending; these
+routes are not endorsed until the experiments run): the coupling-primary cut-distance triangle
+inequality on arbitrary carriers (Janson 6.5 — finite coupling gluing with zero-mass middle
+atoms made explicit, then step-approximation stability); the strict ↔ `AEEqFun` quotient
+bridge; the Möbius / reflection-positivity spine of Layer 8b; the carrier-free representation
+reduction (Janson 7.1/7.3).
+
+**Two design lessons from the migration sources' converse campaign**, applying to every opaque
+constructor pinned here:
+
+- *Compiled contracts need adversarial examples.* A constructor can satisfy every stated law
+  while the laws themselves are inadequate; regressions designed to break the contract — each
+  blind to the others' failure mode — catch what type-checking cannot.
+- *Invariance of one marginal does not supply equivariance of a coupling.* When a
+  transformation crosses a boundary (a carrier split, a quotient, a relabeling class), every
+  coupled coordinate needs an explicit compatible action; without one the coupling is
+  equivariant only for the boundary-preserving action, and consumers needing the larger action
+  are blocked. State the acting family for every coupling explicitly.
+
 ## What Mathlib already has (consume)
 
 Reuse these by name; do not rebuild them. (**Entry points checked** against the pinned toolchain;
@@ -147,7 +177,7 @@ some prose paths below are abbreviated.)
 Absent from Mathlib and built as prerequisites (each a strong upstream candidate once its API is
 stable):
 
-- the **measure-preserving map from `(I, volume)`** onto any standard Borel probability space —
+- the **measure-preserving map from `(I, volume)`** to any standard Borel probability space (a measurable map with the prescribed pushforward — not pointwise surjectivity) —
   atoms allowed (Janson, Thm A.9; input to Layer 5) — and the **measure-preserving mod-null
   equivalence** with `(I, volume)` in the atomless case — Mathlib has the measurable equivalence
   (`PolishSpace.measurableEquivOfNotCountable`), not
@@ -205,7 +235,7 @@ graphon.
 The **forward counting lemma** `|t(F,U) − t(F,W)| ≤ e(F) · ‖U − W‖□` (in `Suggested.lean` the prefactor
 is `(F.edgeFinset.card : ℝ)`) and its **coupling / cut-distance form** `counting_lemma_coupling` (the
 cross-carrier engine); the descent of `t(F, ·)` to `GraphonSpace` (`homDensityOnSpace`); the
-**Frieze–Kannan weak regularity lemma** (`weak_regularity_frieze_kannan`, complexity `4^{⌈1/ε²⌉}`),
+**Frieze–Kannan weak regularity lemma** (`weak_regularity_frieze_kannan`, complexity `4^{⌈1/ε²⌉+1}` — the proved migration baseline; the sharper `4^{⌈1/ε²⌉}` is a prospective improvement, not a migration-source result),
 over a measurable `Finpartition` (the `Finpartition (Subtype MeasurableSet)` pattern, a thin adapter
 only if needed). **`equitabilise` / `Finpartition` are reusable infrastructure**, but Mathlib's
 `Finpartition.energy` is the *finite* edge-density energy — a **proof template / alignment point, not
@@ -521,7 +551,7 @@ independent of Layer 9b and of the Layer-8b spine, and can land in parallel with
 Several prerequisites are reusable beyond graphons and are upstream candidates, once the API has
 stabilized here (premature upstreaming churns against Mathlib review). Deferred, not dropped;
 initial inventory:
-- the **measure-preserving map from `(I, volume)`** onto any standard Borel probability space, and
+- the **measure-preserving map from `(I, volume)`** to any standard Borel probability space (a measurable map with the prescribed pushforward — not pointwise surjectivity), and
   the **measure-preserving mod-null equivalence** with `(I, volume)` in the atomless case (Layer 5);
 - reusable **conditional-expectation / dyadic-martingale `L¹`-convergence** lemmas (Layer 4);
 - **finite product / `Measure.pi` curry–uncurry** lemmas (Layer 0);
@@ -740,7 +770,7 @@ is Layer 4's `CompactSpace GraphonSpaceI`.
   the coupling triangle inequality on arbitrary probability spaces (Lemma 6.5), the coupling↔map
   equivalence and its atomless caveats (Thm 6.9, Remark 6.10), the representation of every graphon
   on `[0,1]` (Lemma 7.3, Thm 7.1), the carrier-free separation
-  (Thm 8.10), and the measure-preserving map from `[0,1]` onto any Borel probability space
+  (Thm 8.10), and the measure-preserving map from `[0,1]` to any Borel probability space (prescribed pushforward)
   (Thm A.9).
 - Y. Dillies, B. Mehta, *Formalising Szemerédi's Regularity Lemma in Lean*, ITP 2022
   ([doi:10.4230/LIPIcs.ITP.2022.9](https://doi.org/10.4230/LIPIcs.ITP.2022.9)) — the Mathlib
