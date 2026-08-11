@@ -308,13 +308,12 @@ variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDi
 
 /-- Roadmap: PD-B43.
 
-A real finite-dimensional near-isometry admits an isometry equivalence within operator norm
-`2δ` under the stated quadratic-form bound. -/
-theorem exists_linearIsometryEquiv_norm_sub_le
-    (M : E →ₗ[ℝ] E) {δ : ℝ} (hδ : 0 ≤ δ) (hδ1 : δ ≤ 1 / 2)
+A real finite-dimensional near-isometry admits an isometry equivalence with sharp pointwise
+error `δ`. -/
+theorem exists_linearIsometryEquiv_norm_sub_apply_le
+    (M : E →ₗ[ℝ] E) {δ : ℝ} (hδ : δ < 1)
     (hM : ∀ x : E, |⟪M x, M x⟫_ℝ - ⟪x, x⟫_ℝ| ≤ δ * ‖x‖ ^ 2) :
-    ∃ W : E ≃ₗᵢ[ℝ] E,
-      ‖LinearMap.toContinuousLinearMap (M - (W : E →ₗ[ℝ] E))‖ ≤ 2 * δ := by
+    ∃ W : E ≃ₗᵢ[ℝ] E, ∀ x : E, ‖M x - W x‖ ≤ δ * ‖x‖ := by
   sorry
 
 end NearIsometry

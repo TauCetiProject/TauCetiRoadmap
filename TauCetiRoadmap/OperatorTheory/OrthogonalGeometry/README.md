@@ -67,13 +67,13 @@ equality of pairwise inner products promotes this range geometry to span and amb
   `(aᵢ)` and `(bⱼ)` on vector families `(φᵢ)` and `(ψⱼ)`, the inner product
   `⟪∑ᵢ aᵢφᵢ, ∑ⱼ bⱼψⱼ⟫` is the corresponding double sum of coefficient products and
   pairwise inner products.
-- **OG-05 — Gram rigidity on spans.** Two finite families with equal pairwise inner products
-  admit a linear isometric equivalence between their spans.
+- **OG-05 — Gram rigidity on spans.** Two families indexed by the same type with equal
+  pairwise inner products admit a linear isometric equivalence between their spans.
 - **OG-06 — Action of the span equivalence.** The equivalence in `OG-05` sends each vector
   of the first family to the corresponding vector of the second family.
-- **OG-07 — Ambient Gram rigidity.** In finite dimension, the span equivalence of `OG-05`
-  extends to a linear isometric equivalence of the ambient Hilbert space carrying each
-  vector of the first family to the corresponding vector of the second family.
+- **OG-07 — Ambient Gram rigidity.** In a finite-dimensional Hilbert space, the span
+  equivalence of `OG-05` extends to a linear isometric equivalence of the ambient space
+  carrying each vector of the first family to the corresponding vector of the second family.
 - **OG-08 — Gram-matrix characterization.** For finite families in a finite-dimensional
   Hilbert space, equality of Gram matrices is equivalent to the existence of an ambient
   linear isometric equivalence carrying one family to the other.
@@ -119,15 +119,14 @@ Pairwise-orthogonal vectors support Pythagoras, summability, and Parseval direct
 natural norms. This includes families with zero vectors, as occur in singular expansions with
 vanishing coefficients.
 
-- **OG-19 — Orthogonal family of lines.** A pairwise-orthogonal family of vectors determines
-  an orthogonal family of the one-dimensional subspaces that they span, including vectors
-  equal to zero.
+- **OG-19 — Orthogonal family of cyclic spans.** A pairwise-orthogonal family of vectors
+  determines an orthogonal family of their spans; a zero vector contributes the zero subspace.
 - **OG-20 — Finite Pythagoras identity.** For every finite subfamily of pairwise-orthogonal
   vectors, `‖∑ᵢ vᵢ‖² = ∑ᵢ ‖vᵢ‖²`.
-- **OG-21 — Orthogonal-series summability criterion.** A pairwise-orthogonal family is
-  summable exactly when the family of squared norms has finite sum.
-- **OG-22 — Parseval identity for a specified sum.** If a pairwise-orthogonal family sums to
-  `x`, then `‖x‖² = ∑ᵢ ‖vᵢ‖²`.
+- **OG-21 — Orthogonal-series summability criterion.** In a complete Hilbert space, a
+  pairwise-orthogonal family is summable exactly when the family of squared norms is summable.
+- **OG-22 — Parseval identity for a specified sum.** In a complete Hilbert space, if a
+  pairwise-orthogonal family sums to `x`, then `‖x‖² = ∑ᵢ ‖vᵢ‖²`.
 
 **Milestone — Gram rigidity.** `OG-01`–`OG-08`.
 

@@ -79,9 +79,8 @@ The gaps to fill are:
   [#32126](https://github.com/leanprover-community/mathlib4/pull/32126) proposes the finite-rank
   infimum as zero-based `ContinuousLinearMap.singularValue : ℕ → ℝ≥0`; see also the
   [Zulip thread](https://leanprover-community.github.io/archive/stream/217875-Is-there-code-for-X%3F/topic/Singular.20Value.20Decomposition.html).
-  Tau Ceti uses that spelling, indexing and codomain for the missing API, so adoption of an
-  upstream implementation is deletion plus import rather than migration between parallel
-  approximation-number interfaces.
+  Tau Ceti uses that spelling, indexing and codomain for the missing API. A Mathlib
+  declaration with that interface can replace the local definition directly.
 
 ## What is missing (build here)
 
@@ -324,15 +323,6 @@ norm.
   operators has operator norm at most `1`.
 - **OI-B19 — Completeness property.** Define the property that the normed ideal carrier of a
   family is complete on every Hilbert-space pair.
-- **OI-B20 — Operator-norm family completeness.** The operator-norm ideal family satisfies
-  `OI-B19`.
-- **OI-B21 — Ky Fan family completeness.** Every finite Ky Fan family satisfies `OI-B19`.
-- **OI-B22 — Hilbert–Schmidt family completeness.** The Hilbert–Schmidt family satisfies
-  `OI-B19` over `RCLike`.
-- **OI-B23 — Trace-class family completeness.** The trace-class family satisfies `OI-B19`.
-- **OI-B24 — Finite Schatten family completeness.** Every finite-exponent Schatten family
-  with `1≤p` satisfies `OI-B19`.
-
 #### Concrete families and Hilbert–Schmidt energy
 
 Operator, Ky Fan, Hilbert–Schmidt, and trace-class families instantiate the common interface.
@@ -342,12 +332,16 @@ directly from Hilbert-space geometry.
 - **OI-B25 — Operator-norm family.** Construct the family with gauge `Φ(T)=‖T‖`.
 - **OI-B26 — Operator-norm carrier.** The finite-gauge carrier of `OI-B25` is the whole space
   of bounded operators.
+- **OI-B20 — Operator-norm family completeness.** The operator-norm ideal family satisfies
+  `OI-B19`.
 - **OI-B27 — Ky Fan family.** For `0<k`, construct the family with gauge `Kₖ(T)`.
 - **OI-B28 — Ky Fan carrier.** The finite-gauge carrier of every family in `OI-B27` is the
   whole space of bounded operators.
+- **OI-B21 — Ky Fan family completeness.** Every finite Ky Fan family satisfies `OI-B19`.
 - **OI-B29 — Nuclear gauge.** Define `ν(T)=∑' n, aₙ(T)` in `ℝ≥0∞`.
 - **OI-B30 — Trace-class family.** Construct the operator-ideal family whose gauge is
   `OI-B29`.
+- **OI-B23 — Trace-class family completeness.** The trace-class family satisfies `OI-B19`.
 - **OI-B31 — Bounded non-trace-class operator.** On an infinite-dimensional Hilbert space,
   there exists a bounded operator with infinite nuclear gauge.
 - **OI-B32 — Hilbert–Schmidt energy.** For a Hilbert basis `(bᵢ)`, define
@@ -368,6 +362,8 @@ directly from Hilbert-space geometry.
   `‖ATB‖_{HS} ≤ ‖A‖ ‖T‖_{HS} ‖B‖`.
 - **OI-B41 — Hilbert–Schmidt family.** Construct the operator-ideal family determined by the
   Hilbert–Schmidt norm.
+- **OI-B22 — Hilbert–Schmidt family completeness.** The Hilbert–Schmidt family satisfies
+  `OI-B19` over `RCLike`.
 
 #### Ky Fan dominance and finite-dimensional Schatten norms
 
@@ -393,7 +389,6 @@ identifications used to reconcile the finite and infinite-dimensional theories.
   the left, right, and two-sided ideal bounds.
 - **OI-B52 — Nuclear endpoint.** In finite dimension, the `p=1` Schatten norm equals the
   nuclear norm.
-- **OI-B53 — Operator-norm endpoint.** The `p=∞` endpoint equals the operator norm.
 - **OI-B54 — Frobenius endpoint.** The `p=2` Schatten norm equals the rectangular Frobenius
   seminorm from `Majorization`.
 - **OI-B55 — Finite-dimensional energy identity.** In finite dimension,
@@ -455,6 +450,8 @@ trace, Hilbert–Schmidt, and operator-norm endpoints.
   permutation invariance, monotonicity, and normalization.
 - **OI-B78 — Finite-exponent Schatten family.** Define the rectangular family induced from
   `OI-B76`.
+- **OI-B24 — Finite Schatten family completeness.** Every finite-exponent Schatten family
+  with `1≤p` satisfies `OI-B19`.
 - **OI-B79 — Finite-exponent symmetric Schatten family.** Package the diagonal
   adjoint-invariant view of `OI-B78`.
 - **OI-B80 — Infinite-exponent Schatten family.** Define the rectangular `p=∞` family with
@@ -473,8 +470,6 @@ trace, Hilbert–Schmidt, and operator-norm endpoints.
   the three endpoints in `OI-B83`–`OI-B85`.
 - **OI-B87 — Schatten scale monotonicity.** If `1≤p≤q`, then `Φ_q(T)≤Φ_p(T)`.
 - **OI-B88 — Schatten ideal inclusion.** If `1≤p≤q`, then `S_p⊆S_q`.
-- **OI-B89 — Strict Schatten inclusions.** For `p<q`, an intermediate-power diagonal
-  operator witnesses strictness of `S_p⊆S_q`.
 - **OI-B90 — Hilbert–Schmidt reconciliation.** For every Hilbert basis `b`,
   `∑' n, aₙ(T)² = E_b(T)` in `ℝ≥0∞`.
 
@@ -493,15 +488,16 @@ resulting gauge bounds provide the sharp two-block comparison used by downstream
 - **OI-B94 — Block upper bound.** For two blocks,
   `Φ(T₁⊕T₂) ≤ Φ(T₁)+Φ(T₂)`.
 
-**Milestone B1 — ideal-family interface.** `OI-B01`–`OI-B24`.
+**Milestone B1 — ideal-family interface.** `OI-B01`–`OI-B19`.
 
-**Milestone B2 — concrete families and Hilbert–Schmidt energy.** `OI-B25`–`OI-B41`.
+**Milestone B2 — concrete families and Hilbert–Schmidt energy.** `OI-B20`–`OI-B23`, `OI-B25`–`OI-B41`.
 
-**Milestone B3 — Ky Fan dominance and finite-dimensional Schatten norms.** `OI-B42`–`OI-B55`.
+**Milestone B3 — Ky Fan dominance and finite-dimensional Schatten norms.**
+`OI-B42`–`OI-B52`, `OI-B54`–`OI-B55`.
 
 **Milestone B4 — symmetric gauges and induced families.** `OI-B56`–`OI-B73`.
 
-**Milestone B5 — Ky Fan transfer and Schatten families.** `OI-B74`–`OI-B90`.
+**Milestone B5 — Ky Fan transfer and Schatten families.** `OI-B24`, `OI-B74`–`OI-B88`, `OI-B90`.
 
 **Milestone B6 — orthogonal block sums.** `OI-B91`–`OI-B94`.
 
@@ -548,10 +544,12 @@ Hilbert–Schmidt family from Part B.
 - **OI-C18 — Left Pythagoras.** If `(P_j)` satisfies
   `∑' j, ‖P_jv‖ₑ²=‖v‖ₑ²` for every `v`, then
   `∑' j, E_b(P_jT)=E_b(T)`.
-- **OI-C19 — Right Pythagoras.** The analogous pointwise norm splitting on the source side
-  splits Hilbert–Schmidt energy under right composition.
-- **OI-C20 — Joint Pythagoras.** Independent pointwise norm splittings on source and target
-  give the corresponding double-sum decomposition of Hilbert–Schmidt energy.
+- **OI-C19 — Right Pythagoras.** If `(Q_j)` is a family of source endomorphisms satisfying
+  `∑' j, ‖Q_j†v‖ₑ²=‖v‖ₑ²` for every source vector `v`, then
+  `∑' j, E_b(TQ_j)=E_b(T)`.
+- **OI-C20 — Joint Pythagoras.** If `(P_i)` satisfies
+  `∑' i, ‖P_iv‖ₑ²=‖v‖ₑ²` on the target and `(Q_j)` satisfies the hypothesis of `OI-C19`
+  on the source, then `∑' j, ∑' i, E_b(P_iTQ_j)=E_b(T)`.
 
 
 **Milestone C1 — Hilbert–Schmidt column model.** `OI-C01`–`OI-C14`.

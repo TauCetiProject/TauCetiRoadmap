@@ -30,10 +30,10 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
   complement, and `P_U` and `P_V` denote their orthogonal projections when available.
 - **Overlap operator.** For orthonormal families `(uᵢ)` and `(vᵢ)` of the same cardinality, the
   overlap operator is the coordinate-space map with matrix entries `⟪uᵢ,vⱼ⟫`.
-- **Principal-angle data.** Principal cosines and sines are singular-value sequences of the
-  corresponding overlap or cross-projection operators. Principal angles are obtained from the
-  principal sines by `arcsin`, with values in `[0,π/2]`; their ordering follows the chosen
-  singular-value ordering.
+- **Principal-angle data.** Principal cosines and principal sines are independently the
+  decreasing singular-value sequences of the corresponding overlap and cross-projection
+  operators. Principal angles are `arcsin` of the principal-sine sequence, with values in
+  `[0,π/2]`. This directed sine ordering does not assert a same-index cosine/sine pairing.
 - **Directed and symmetric sine operators.** `P_{V⊥}P_U` is the directed sine map from `U` toward
   `V⊥`. The operator absolute value `|P_U-P_V|` is the symmetric sine angle operator.
 - **Projection gap.** `‖P_U-P_V‖` denotes the operator-norm gap between projected subspaces. The
@@ -286,10 +286,11 @@ operator perturbations with eigenvalue displacement.
 - **PA-B40 — Hoffman–Wielandt inequality.** For symmetric `T,S` with decreasing eigenvalue
   lists and every orthonormal basis `(eₖ)`,
   `∑ᵢ (λᵢ(T)-λᵢ(S))² ≤ ∑ₖ ‖(S-T)eₖ‖²`.
-- **PA-B41 — Davis eigenvalue-change lower bound.** Let `H=S-T`. If the spectrum of `S` is
-  `γ`-separated and the diagonal part of `H` in an eigenbasis of `T` has Frobenius norm at
-  most `γ/√2`, then
-  `∑ᵢ (λᵢ(S)-λᵢ(T))² ≥ ‖𝒞H‖²_F - ‖𝒞⊥H‖²_F`.
+- **PA-B41 — Davis eigenvalue-change lower bound.** Let `H=S-T`, let `(vᵢ)` be an
+  orthonormal eigenbasis of `T`, and suppose the eigenvalues of `S` are `γ`-separated. If
+  `∑ᵢ (Re⟪vᵢ,Hvᵢ⟫)² ≤ (γ/√2)²`, then
+  `∑ᵢ (λᵢ(S)-λᵢ(T))² ≥ ∑ᵢ (Re⟪vᵢ,Hvᵢ⟫)² -
+  (∑ᵢ λᵢ(S)² - ∑ᵢ (Re⟪vᵢ,Svᵢ⟫)²)`.
 
 **Milestone — angle dictionary.** `PA-B01`–`PA-B29`.
 

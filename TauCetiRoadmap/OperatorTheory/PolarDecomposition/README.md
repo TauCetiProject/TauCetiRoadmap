@@ -76,7 +76,7 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar squar
   `LinearMap.IsPositive` with `nonneg_eigenvalues`, adjoints, and the rank-one operators
   `InnerProductSpace.rankOne`. Part A is a finite sum of these.
 - **The continuous functional calculus over `ℂ`:** `CFC.sqrt` and `CFC.abs` on `E →L[ℂ] E`.
-  This supplies the complex implementation of the dimension-free modulus and the comparison
+  This supplies the complex construction of the dimension-free modulus and the comparison
   theorem with the finite `RCLike` construction.
 - **Singular values:** `LinearMap.singularValues : ℕ →₀ ℝ` between finite-dimensional inner
   product spaces — zero-indexed, antitone, zero past the rank. Mathlib has the values;
@@ -87,11 +87,11 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar squar
 ## What is missing (build here)
 
 * The finite self-adjoint functional calculus over `RCLike`, together with comparison to the
-  complex continuous-functional-calculus implementation where both apply.
+  complex continuous-functional-calculus construction where both apply.
 * The continuous functional calculus for bounded self-adjoint operators on complete real Hilbert
   spaces, presented through Mathlib's `ContinuousFunctionalCalculus` interface.
 * The positive square root and its uniqueness; the rectangular modulus over `RCLike` in both
-  finite and complete settings, with comparison to the complex CFC implementation.
+  finite and complete settings, with comparison to the complex CFC construction.
 * Partial isometries for maps between *different* spaces, and their geometric
   characterization; Mathlib has no `IsPartialIsometry` at all.
 * The dimension-free `RCLike` Gram-contraction factorization from a self-adjoint square root
@@ -403,30 +403,30 @@ polar factor.
 - **PD-B40 — Bounded-below comparison estimate.** If `|M|` is invertible and `U = M|M|⁻¹`,
   then `‖M − U‖ ≤ ‖|M| − I‖`.
 - **PD-B41 — Near-isometry square-root estimate.** Let `M` be a real finite-dimensional
-  endomorphism whose quadratic form differs from the identity by at most `δ` with `δ < 1`.
-  If `S = √(M†M)`, then `‖Sx − x‖ ≤ δ‖x‖` for every `x`.
-- **PD-B42 — Near-isometry factorization.** Let `M` be a real finite-dimensional endomorphism
-  whose quadratic form differs from the identity by at most `δ` with `δ < 1`, and let
-  `S = √(M†M)`. Then there is a unitary operator `W` such that `M = WS`.
-- **PD-B43 — Near-isometry operator bound.** Let `M` be a real finite-dimensional endomorphism
-  whose quadratic form differs from the identity by at most `δ` with `δ ≤ 1/2`, let
-  `S = √(M†M)`, and let `M = WS` be the unitary factorization. Then `‖M − W‖ ≤ 2δ`.
+  endomorphism and let `δ < 1`. If
+  `|⟪Mx,Mx⟫ - ⟪x,x⟫| ≤ δ‖x‖²` for every `x`, and `S = √(M†M)`, then
+  `‖Sx − x‖ ≤ δ‖x‖` for every `x`.
+- **PD-B42 — Near-isometry factorization.** Under the hypotheses of `PD-B41`, there is a
+  unitary operator `W` such that `M = WS`.
+- **PD-B43 — Sharp near-isometry polar-factor bound.** Under the hypotheses of `PD-B41`, the
+  unitary factor in `PD-B42` can be chosen so that `‖Mx − Wx‖ ≤ δ‖x‖` for every `x`.
 
 **Davis intertwining unitary.**
 
-Block polar factors of the overlaps `P′ⱼPⱼ` between complete projection families assemble into
-a global unitary. The block construction yields the simultaneous intertwining equations
-`UPⱼ = P′ⱼU`.
+In finite dimension, block polar factors of the overlaps `P′ⱼPⱼ` between complete projection
+families assemble into a global unitary. The block construction yields the simultaneous
+intertwining equations `UPⱼ = P′ⱼU`.
 
 - **PD-B44 — Complete orthogonal projection families.** A finite family `(Pⱼ)` is complete and
   orthogonal when every `Pⱼ` is an orthogonal projection, distinct ranges are orthogonal, and `∑ⱼ Pⱼ = I`.
 - **PD-B45 — Davis non-degeneracy condition.** For complete orthogonal projection families
   `(Pⱼ)` and `(P′ⱼ)`, require `P′ⱼ` to be injective on `range Pⱼ` for every `j`.
-- **PD-B46 — Davis intertwining unitary.** For complete orthogonal projection families `(Pⱼ)`
-  and `(P′ⱼ)` such that `P′ⱼ` is injective on `range Pⱼ` for every `j`, the block polar factors
-  of `P′ⱼPⱼ` assemble to a unitary operator `U`.
-- **PD-B47 — Davis intertwining equation.** For the unitary assembled from the block polar
-  factors of `P′ⱼPⱼ` under the Davis non-degeneracy condition, `UPⱼ = P′ⱼU` for every `j`.
+- **PD-B46 — Davis intertwining unitary.** In a finite-dimensional Hilbert space, for complete
+  orthogonal projection families `(Pⱼ)` and `(P′ⱼ)` such that `P′ⱼ` is injective on
+  `range Pⱼ` for every `j`, the block polar factors of `P′ⱼPⱼ` assemble to a unitary operator
+  `U`.
+- **PD-B47 — Davis intertwining equation.** Under the finite-dimensional hypotheses of
+  `PD-B46`, the assembled unitary satisfies `UPⱼ = P′ⱼU` for every `j`.
 
 **Milestone — the Gram-contraction and polar decompositions.** `PD-B01`–`PD-B40`.
 
@@ -564,6 +564,7 @@ by zero on its orthogonal complement.
   (1963) — the intertwining unitary.
 - R. Penrose, *A generalized inverse for matrices*, Proc. Cambridge Philos. Soc. **51**
   (1955) — the four conditions and the uniqueness characterization.
+
 ## Acknowledgements
 
 An Apache-2.0 implementation of all three Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)

@@ -36,7 +36,8 @@ scope and dependencies.
   isometry of an orthonormal family, projection geometry, orthogonal series, and reducing
   subspaces.
 - [**Majorization**](Majorization/README.md) — weak majorization and the transfer descent
-  as convex analysis, Schur–Horn, Ky Fan sums and Fan dominance, unitarily invariant norms
+  as convex analysis, forward Schur–Horn/Karamata diagonal inequalities, Ky Fan sums and Fan
+  dominance, unitarily invariant norms
   square and rectangular, and the Frobenius seminorm.
 - [**Principal angles**](PrincipalAngles/README.md) — principal angles as singular values
   of an overlap operator, the projection gap, finite-dimensional point-spectral subspaces and

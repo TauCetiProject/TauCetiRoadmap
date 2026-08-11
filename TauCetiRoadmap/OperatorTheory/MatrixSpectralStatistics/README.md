@@ -149,9 +149,6 @@ multiplicity.
 - **MSS-B14 — Threshold rank stability.** Let `A` and `Â` be Hermitian, and suppose
   `|λ_k(A)-c|>δ` for every sorted eigenvalue index `k`. If `‖Â-A‖<δ`, then `A` and `Â` have the
   same number of eigenvalues in `[c,∞)`, counted with multiplicity.
-- **MSS-B15 — Threshold cluster identification.** Under `MSS-B14`, the range of
-  `P_[c,∞)(Â)` is the perturbed spectral cluster corresponding to the population cluster
-  selected by `P_[c,∞)(A)`.
 - **MSS-B16 — Measurability-free complement bound.** For a probability measure `P` and any set
   `S`, `1-P(Sᶜ)≤P(S)`.
 - **MSS-B17 — Convergence in measure from `edist` rates.** If `rate_i→0` and
@@ -166,7 +163,7 @@ multiplicity.
 
 **Milestone B2 — continuous spectral functions.** `MSS-B09`–`MSS-B10`.
 
-**Milestone B3 — fixed-threshold spectral projectors.** `MSS-B11`–`MSS-B15`.
+**Milestone B3 — fixed-threshold spectral projectors.** `MSS-B11`–`MSS-B14`.
 
 **Milestone B4 — probability-to-convergence bridges.** `MSS-B16`–`MSS-B19`.
 
@@ -208,9 +205,11 @@ concentration.
 - **MSS-C15 — Empirical second moment.** Define
   `M̂_{kl}(ω)=r⁻¹∑_i V_i(ω)_k V_i(ω)_l`.
 - **MSS-C16 — Hermitian empirical second moment.** For every sample `ω`, `M̂(ω)` is Hermitian.
-- **MSS-C17 — Per-entry second-moment bound.** Under pairwise independence, a common population
-  second moment, equal per-sample second moments, and a bound `v` on that common error moment,
-  each entry of `M̂-M` has mean square at most `v/r`.
+- **MSS-C17 — Per-entry second-moment bound.** Let `r>0`, fix coordinates `k,l`, and put
+  `Y_i(ω)=V_i(ω)_kV_i(ω)_l`. Assume every `Y_i` is square-integrable, every `Y_i` has common
+  mean `M_{kl}`, the family `(Y_i)` is pairwise independent, all centered second moments
+  `∫|Y_i-M_{kl}|²` are equal, and their common value is at most `v`. Then
+  `∫(M̂_{kl}-M_{kl})² ≤ v/r`.
 - **MSS-C18 — Entrywise concentration.** If every entry of `Ŝ-A` has mean square at most `v`, then
   `P{∃k,l, η<|Ŝ_{kl}-A_{kl}|}≤ENNReal.ofReal(n²v/η²)` for `η>0`.
 - **MSS-C19 — Measurability of the entrywise deviation event.** If every entry of `Ŝ` is
@@ -246,7 +245,7 @@ The rank-factorization characterization is `MSS-A01`–`MSS-A03`; the Gram chara
 ### Part B
 
 The deterministic entrywise-to-spectral path is `MSS-B03`–`MSS-B08`. The continuous and
-fixed-threshold measurable spectral constructions are `MSS-B09`–`MSS-B15`. The convergence-in-
+fixed-threshold measurable spectral constructions are `MSS-B09`–`MSS-B14`. The convergence-in-
 measure consumers are `MSS-B16`–`MSS-B19`.
 
 ### Part C
@@ -271,7 +270,7 @@ and the entrywise concentration event feeds both the eigenvalue and operator-nor
 **D1 (`MSS-B09`–`MSS-B10`).** `h(A)` denotes Mathlib's Hermitian continuous functional calculus
 for a fixed continuous real function `h`.
 
-**D2 (`MSS-B11`–`MSS-B15`).** `P_[c,∞)(A)` denotes the fixed-threshold orthogonal spectral
+**D2 (`MSS-B11`–`MSS-B14`).** `P_[c,∞)(A)` denotes the fixed-threshold orthogonal spectral
 projector of a Hermitian matrix.
 
 **D3 (`MSS-C15`–`MSS-C17`).** `M̂=r⁻¹∑ᵢVᵢVᵢᵀ` is the uncentered empirical

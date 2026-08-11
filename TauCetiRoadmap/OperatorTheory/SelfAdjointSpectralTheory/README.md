@@ -122,7 +122,9 @@ labels. `Suggested.lean` cites the labels represented by its sample declarations
 
 ### Part A — one-parameter unitary groups and Stone's theorem
 
-This Part depends only on Mathlib.
+`SA-A01`–`SA-A14` and `SA-A17`–`SA-A24` depend only on Mathlib. `SA-A15`–`SA-A16`
+consume the general contraction-semigroup API from
+[`OneParameterSemigroups`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md).
 
 **Objects.** A one-parameter unitary group is a strongly continuous homomorphism from
 `(ℝ,+)` to the unitary operators on a complex Hilbert space. Its generator is the partial
@@ -690,12 +692,9 @@ examples.
   resolvent agrees with the bounded Banach-algebra resolvent.
 - **SA-D39 — Neumann-series resolvent formula.** On a Neumann neighborhood of a bounded
   resolvent point, the resolvent is given by the convergent Neumann-series formula.
-- **SA-D40 — Multiplication-operator spectrum.** The spectrum of a multiplication operator
-  is the essential range of its symbol.
-
 **Milestone D1 — resolvent algebra and quantitative real spectrum.** `SA-D01`–`SA-D34`.
 
-**Milestone D2 — characterization and bounded models.** `SA-D35`–`SA-D40`.
+**Milestone D2 — characterization and bounded models.** `SA-D35`–`SA-D39`.
 
 ### Part E — the spectral measure of an unbounded self-adjoint operator, Stone uniqueness, Yosida
 
@@ -712,8 +711,10 @@ The inverse Cayley map transfers the bounded spectral PVM to a real spectral mea
 The resolvent formula characterizes it, while spectral restrictions and support convert
 projection data into self-adjoint reductions and form bounds.
 
-- **SA-E01 — Spectral PVM of an unbounded self-adjoint operator.** Define a real PVM by
-  reindexing the PVM of the Cayley transform along `w ↦ i(1+w)/(1-w)`.
+- **SA-E01 — Spectral PVM of an unbounded self-adjoint operator.** Define a measurable
+  coordinate `κ : ℂ → ℝ` by `κ(1)=0` and
+  `κ(w)=Re(i(1+w)/(1-w))` for `w≠1`, and reindex the Cayley PVM along `κ`. The chosen
+  value at `w=1` is immaterial by `SA-E02`.
 - **SA-E02 — Zero mass at the Cayley singular point.** Every diagonal measure of the Cayley
   spectral PVM assigns mass zero to `{1}`.
 - **SA-E03 — Spectral projection.** For a Borel set `B ⊆ ℝ`, define the spectral projection
@@ -807,12 +808,9 @@ inverses, and reassembly translate local spectral support into quantitative oper
 
 #### Packaged spectral theorems
 
-These declarations package the preceding construction as the unbounded spectral theorem, Stone
-correspondence, and spectral-measure uniqueness. Compatibility results identify the bounded and
-multiplication-operator models.
+These declarations package the Stone correspondence, spectral-measure uniqueness, and
+compatibility with bounded and multiplication-operator models.
 
-- **SA-E42 — Unbounded spectral theorem.** A self-adjoint partial operator is the spectral
-  integral of the identity function against its spectral PVM.
 - **SA-E43 — Packaged Stone theorem.** Self-adjoint operators and strongly continuous
   one-parameter unitary groups correspond through `A ↦ exp(itA)` and the generator.
 - **SA-E44 — Uniqueness of the spectral measure.** A real projection-valued measure whose
@@ -831,7 +829,7 @@ multiplication-operator models.
 
 **Milestone E2 — Yosida construction and Stone uniqueness.** `SA-E14`–`SA-E31`.
 
-**Milestone E3 — spectral block tools and packaged theorems.** `SA-E32`–`SA-E47`.
+**Milestone E3 — spectral block tools and packaged theorems.** `SA-E32`–`SA-E41`, `SA-E43`–`SA-E47`.
 
 ## Worked examples (acceptance criteria)
 
@@ -852,8 +850,7 @@ equivalence for bounded maps is `SA-C43`; the full domain is a graph core by `SA
 
 ### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
 
-**Acceptance examples.** Bounded resolvent compatibility is `SA-D37`–`SA-D39`; the spectrum
-of a multiplication operator is `SA-D40`.
+**Acceptance examples.** Bounded resolvent compatibility is `SA-D37`–`SA-D39`.
 
 ### Part E — the spectral measure of an unbounded self-adjoint operator, Stone uniqueness, Yosida
 
@@ -865,8 +862,8 @@ generated-group compatibility is `SA-E46`; multiplication-operator spectral proj
 
 ## Ordering
 
-**Internal.** Parts A, B and D are mutually independent and each depends only on Mathlib.
-Part C is independent of them and consumes
+**Internal.** Parts B and D depend only on Mathlib. Part A uses Mathlib together with the
+`OneParameterSemigroups` bridge in `SA-A15`–`SA-A16`. Part C is independent of them and consumes
 [`OrthogonalGeometry`](../OrthogonalGeometry/README.md). Part E is the confluence
 and needs exactly A + B + D — the Cayley transform and resolvent bounds from D, the Borel
 calculus and `ProjValMeasure` from B, the unitary-group vocabulary, von Neumann criterion and
@@ -906,8 +903,9 @@ domain.
 **D4 (`SA-D03`–`SA-D07`).** The bounded two-sided inverse of `A-z` — the resolvent at a
 point of the resolvent set.
 
-**D5 (`SA-E01`).** The spectral PVM of the Cayley transform, relabelled along
-`w ↦ i(1+w)/(1-w)` — the spectral measure of an unbounded self-adjoint operator.
+**D5 (`SA-E01`).** The spectral PVM of the Cayley transform, relabelled along the total
+coordinate `κ(1)=0` and `κ(w)=Re(i(1+w)/(1-w))` for `w≠1` — the spectral measure of an
+unbounded self-adjoint operator.
 
 **D6 (`SA-E26`–`SA-E27`).** `t ↦ e^{itA}`, defined as the strong limit of the Yosida
 unitary groups — the generated unitary group.

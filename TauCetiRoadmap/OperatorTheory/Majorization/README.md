@@ -4,13 +4,15 @@
 
 Majorization connects convex geometry with spectral inequalities. Weak majorization compares
 nonnegative decreasing tuples by their prefix sums. Elementary transfers generate the associated
-convex order, and symmetric gauges are monotone for that order. Schur–Horn connects eigenvalues to
-diagonal data, while Ky Fan sums connect singular-value prefix inequalities to operator seminorms.
+convex order, and symmetric gauges are monotone for that order. The forward
+Schur–Horn/Karamata inequality connects eigenvalues to diagonal data, while Ky Fan sums connect
+singular-value prefix inequalities to operator seminorms.
 Together these statements give a common route from spectral inequalities to unitarily invariant
 norm inequalities.
 
 The roadmap separates the convex engine from its operator-theoretic consumers. Part A develops
-weak majorization, Schur–Horn, Ky Fan variational theory, and square unitarily invariant seminorms.
+weak majorization, forward Schur–Horn/Karamata diagonal inequalities, Ky Fan variational theory,
+and square unitarily invariant seminorms.
 Part B extends the same singular-value and gauge language to rectangular maps, including the
 Frobenius seminorm. The convex majorization layer is formulated for real tuples and supplies both
 operator layers through one interface.
@@ -36,7 +38,7 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the convex engin
 - **Symmetric-convex sets and symmetric gauges.** Symmetry means invariance under coordinate
   permutations and coordinate sign changes. A finite symmetric gauge is subadditive, absolutely
   homogeneous, and symmetric in this sense.
-- **Schur–Horn notation.** For an eigenvalue tuple `(λᵢ)` and an orthonormal basis `(eₖ)`,
+- **Diagonal/eigenbasis notation.** For an eigenvalue tuple `(λᵢ)` and an orthonormal basis `(eₖ)`,
   `dₖ := Re⟪Teₖ,eₖ⟫` denotes the diagonal data and
   `wᵢₖ := |⟪vᵢ,eₖ⟫|²` denotes the Schur weight matrix relative to an eigenbasis `(vᵢ)`.
 - **Ky Fan sums.** `Kₖ(A) := ∑_{i<k} σᵢ(A)` denotes the sum of the first `k` singular values.
@@ -52,7 +54,8 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the convex engin
   `LinearMap.singularValues : ℕ →₀ ℝ`, with `LinearMap.adjoint` and
   `Submodule.starProjection`. All sorted data here are stated against these, never against
   a private ordering.
-- **Convexity:** `ConvexOn` and Jensen (`ConvexOn.map_sum_le`) for Schur–Horn; `convexHull`
+- **Convexity:** `ConvexOn` and Jensen (`ConvexOn.map_sum_le`) for the forward diagonal
+  inequality; `convexHull`
   and `mem_convexHull_iff_exists_fintype`; **Birkhoff**
   (`doublyStochastic_eq_convexHull_permMatrix`) for the eigenvalue-change bound; the
   **rearrangement inequality** (`MonovaryOn.sum_comp_perm_smul_le_sum_smul`) as the core of
@@ -70,7 +73,8 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the convex engin
 
 * Weak majorization on `Fin n → ℝ`, the transfer operation, and descent into a symmetric
   convex set — the vector layer, with no operator imports.
-* Schur–Horn in Karamata form, and the Ky Fan triangle inequality that makes every Ky Fan
+* The forward Schur–Horn/Karamata diagonal inequality, and the Ky Fan triangle inequality that
+  makes every Ky Fan
   norm subadditive at once.
 * Unitarily invariant seminorms, square and rectangular, with Fan dominance: one
   majorization estimate yielding the operator, Frobenius, Ky Fan and nuclear norms together.
@@ -82,11 +86,11 @@ The labels in Parts A and B form the complete mathematical obligation set for th
 Each label names one obligation. Milestones and acceptance examples cite these labels, and
 `Suggested.lean` cites the labels represented by its sample declarations.
 
-### Part A — majorization, Schur–Horn, and unitarily invariant norms
+### Part A — majorization, forward Schur–Horn, and unitarily invariant norms
 
-Part A builds the convex majorization engine and connects it to operator spectra through
-Schur–Horn and Ky Fan variational theory. Diagonal models then identify unitarily invariant
-seminorms with symmetric gauges of singular values.
+Part A builds the convex majorization engine and connects it to operator spectra through the
+forward Schur–Horn/Karamata inequality and Ky Fan variational theory. Diagonal models then
+identify unitarily invariant seminorms with symmetric gauges of singular values.
 
 #### Convex majorization objects
 
@@ -137,7 +141,7 @@ inequalities.
 - **MAJ-A17 — Gauge monotonicity.** If `x ≺w y`, then every finite symmetric gauge satisfies
   `g(x) ≤ g(y)`.
 
-#### Schur–Horn
+#### Forward Schur–Horn
 
 Squared overlaps between an eigenbasis and an arbitrary orthonormal basis form a doubly
 stochastic weight matrix. This expresses diagonal data as a majorized image of the spectrum and
@@ -375,10 +379,10 @@ spectrum in the planar case.
 
 ## Worked examples (acceptance criteria)
 
-### Part A — majorization, Schur–Horn, and unitarily invariant norms
+### Part A — majorization, forward Schur–Horn, and unitarily invariant norms
 
-**Acceptance examples.** Trace basis independence is `MAJ-A24`; the quadratic Schur–Horn
-instance is `MAJ-A25`; the square Frobenius instance is `MAJ-A49`, with its singular-value
+**Acceptance examples.** Trace basis independence is `MAJ-A24`; the quadratic forward
+Schur–Horn instance is `MAJ-A25`; the square Frobenius instance is `MAJ-A49`, with its singular-value
 formula supplied by `MAJ-B36`.
 
 ### Part B — rectangular unitarily invariant norms

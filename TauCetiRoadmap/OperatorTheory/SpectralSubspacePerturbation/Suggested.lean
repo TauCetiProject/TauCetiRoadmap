@@ -225,13 +225,13 @@ Roadmap: `SSP-C15`. -/
 theorem sinTheta_directed_coercive
     {A B : E →L[𝕜] E}
     (hA : (A : E →ₗ[𝕜] E).IsSymmetric) (hB : (B : E →ₗ[𝕜] E).IsSymmetric)
-    {U V : Submodule 𝕜 E} [U.HasOrthogonalProjection]
-    [V.HasOrthogonalProjection]
-    (hU : ∀ x ∈ U, A x ∈ U) (hV : ∀ x ∈ V, B x ∈ V)
+    {U W : Submodule 𝕜 E} [U.HasOrthogonalProjection]
+    [W.HasOrthogonalProjection]
+    (hU : ∀ x ∈ U, A x ∈ U) (hW : ∀ x ∈ W, B x ∈ W)
     {c g : ℝ} (hg : 0 < g)
     (hUc : ∀ x ∈ U, (c + g) * ‖x‖ ^ 2 ≤ RCLike.re ⟪A x, x⟫_𝕜)
-    (hVc : ∀ x ∈ V, RCLike.re ⟪B x, x⟫_𝕜 ≤ c * ‖x‖ ^ 2) :
-    ‖(V.starProjection ∘L U.starProjection : E →L[𝕜] E)‖ ≤ ‖B - A‖ / g := by
+    (hWc : ∀ x ∈ W, RCLike.re ⟪B x, x⟫_𝕜 ≤ c * ‖x‖ ^ 2) :
+    ‖(W.starProjection ∘L U.starProjection : E →L[𝕜] E)‖ ≤ ‖B - A‖ / g := by
   sorry
 
 end DimensionFreeSinTheta

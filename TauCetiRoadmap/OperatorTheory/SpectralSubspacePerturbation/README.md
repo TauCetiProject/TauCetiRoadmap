@@ -93,8 +93,8 @@ below is absent upstream.
 
 ## The build, in layers
 
-The labels `SSP-S01`, `SSP-A01`–`SSP-A26`, `SSP-B01`–`SSP-B21`,
-`SSP-C01`–`SSP-C37`, and `SSP-D01`–`SSP-D21` form the complete mathematical obligation set
+The labels `SSP-S01`, `SSP-A01`–`SSP-A26`, `SSP-B01`–`SSP-B17`, `SSP-B19`,
+`SSP-C01`–`SSP-C31`, and `SSP-D01`–`SSP-D19` form the complete mathematical obligation set
 for this roadmap. Each label names one definition or theorem. Milestones and acceptance
 examples cite these labels. `Suggested.lean` cites the labels represented by its sample
 declarations.
@@ -206,11 +206,13 @@ forms before the unitarily invariant extension.
 - **SSP-B06 — Lyapunov bound.** If the quadratic forms of self-adjoint `A` and `B` are
   bounded below by `δ>0`, every solution of `AX+XB=Y` satisfies
   `‖X‖≤‖Y‖/(2δ)`.
-- **SSP-B07 — Separated Sylvester bound.** If the quadratic forms of self-adjoint `A` and
-  `B` lie on opposite sides of a gap `g>0`, every solution of `AX-XB=Y` satisfies
-  `‖X‖≤‖Y‖/g`.
-- **SSP-B08 — Reverse separated bound.** The adjoint/reversed orientation of `SSP-B07`
-  satisfies the same constant-one estimate.
+- **SSP-B07 — Separated Sylvester bound.** Let `A` and `B` be bounded symmetric operators,
+  let `g>0`, and suppose for some `c` that
+  `(c+g)‖x‖² ≤ Re⟪Ax,x⟫` and `Re⟪Bv,v⟫ ≤ c‖v‖²` for all `x,v`. Every solution of
+  `AX-XB=Y` satisfies `‖X‖≤‖Y‖/g`.
+- **SSP-B08 — Reverse separated bound.** If instead
+  `Re⟪Ax,x⟫ ≤ c‖x‖²` and `(c+g)‖v‖² ≤ Re⟪Bv,v⟫` for all `x,v`, every solution of
+  `AX-XB=Y` satisfies `‖X‖≤‖Y‖/g`.
 
 #### Unitarily invariant finite-dimensional bounds
 
@@ -243,20 +245,12 @@ Frobenius estimate follows directly from the coordinate equation.
 - **SSP-B17 — Rosenblum theorem.** A bounded operator intertwining two self-adjoint partial
   operators with disjoint spectra is zero.
 
-#### Acceptance theorems
+#### Bounded/partial bridge
 
-The obstruction and model theorems fix the endpoint constants and connect the finite,
-bounded, and domain-aware Sylvester formulations.
+The bounded and partial-operator formulations share the same uniqueness theorem.
 
-- **SSP-B18 — Two-by-two real-certificate obstruction.** For spectra
-  `α=(-1,1)` and `β=(0,2)`, every real undoubled reciprocal certificate has mass at least
-  `5/3`.
 - **SSP-B19 — Bounded/partial uniqueness bridge.** Viewing bounded self-adjoint operators as
   total partial operators specializes `SSP-B17` to the bounded Rosenblum uniqueness theorem.
-- **SSP-B20 — Multiplication-operator coercive example.** A concrete separated pair of
-  multiplication operators realizes the estimate in `SSP-B07`.
-- **SSP-B21 — Pairwise constant source.** The `π/2` in `SSP-B11`–`SSP-B16` is the exact
-  kernel mass `SSP-A24`.
 
 **Milestone B1 — finite Sylvester core.** `SSP-B01`–`SSP-B05`.
 
@@ -264,7 +258,7 @@ bounded, and domain-aware Sylvester formulations.
 
 **Milestone B3 — Rosenblum theorem.** `SSP-B17`.
 
-**Milestone B4 — Sylvester acceptance and constant checks.** `SSP-B18`–`SSP-B21`.
+**Milestone B4 — bounded/partial uniqueness bridge.** `SSP-B19`.
 
 ### Part C — the Davis–Kahan `sin Θ` theorems
 
@@ -289,8 +283,9 @@ subspace-angle statements.
   model operator `M`.
 - **SSP-C03 — Ritz residual.** For an isometric trial map, define the Ritz residual by taking
   `M=X†AX` in `SSP-C02`.
-- **SSP-C04 — Frobenius minimality of the Ritz residual.** Among model operators on the trial
-  space, the Ritz choice minimizes the Frobenius norm of the residual.
+- **SSP-C04 — Frobenius minimality of the Ritz residual.** For finite-dimensional trial and
+  ambient Hilbert spaces, among model operators on the trial space, the Ritz choice minimizes
+  the Frobenius norm of the residual.
 - **SSP-C05 — Sine embedding.** Define the cross-complement map measuring the sine of the
   angle from the trial range to a target subspace.
 - **SSP-C06 — Cosine embedding.** Define the cross-projection map measuring the cosine of the
@@ -319,11 +314,14 @@ The Sylvester bounds from Part B become directed sine bounds after projection on
 subspaces. Finite spectral and equal-rank bridges then produce projector and unitarily invariant
 norm forms.
 
-- **SSP-C15 — Dimension-free directed `sin Θ` bound.** Under invariant-subspace form
-  separation by `g>0`, `‖P_{V⊥}P_U‖ ≤ ‖B-A‖/g` on arbitrary Hilbert spaces.
-- **SSP-C16 — Dimension-free projector-gap companions.** Applying `SSP-C15` in both
-  directions gives the corresponding operator-norm bounds for `P_U-P_V` under the two
-  directed hypotheses.
+- **SSP-C15 — Dimension-free directed `sin Θ` bound.** Let bounded symmetric `A,B` reduce
+  subspaces `U,W`, let `g>0`, and suppose for some `c` that
+  `(c+g)‖u‖² ≤ Re⟪Au,u⟫` on `U` and `Re⟪Bw,w⟫ ≤ c‖w‖²` on `W`. Then on arbitrary
+  Hilbert spaces, `‖P_WP_U‖ ≤ ‖B-A‖/g`.
+- **SSP-C16 — Dimension-free projector-gap companions.** For selected reducing subspaces
+  `U,V`, apply `SSP-C15` with `W=V⊥` and the reversed estimate with `U⊥` and `V`. Under
+  those two directed form-separation hypotheses, both directed sine bounds hold and hence
+  `‖P_U-P_V‖ ≤ ‖B-A‖/g`.
 - **SSP-C17 — Residual `sin Θ` theorem.** Under interval/exterior separation, every
   rectangular unitarily invariant seminorm satisfies `δ N(sinΘ)≤N(R)` for a trial residual.
 - **SSP-C18 — Perturbation `sin Θ` theorem.** Under interval/exterior separation, every
@@ -343,52 +341,44 @@ norm forms.
 
 #### Double-angle and tangent theory
 
-Ordered internal separation controls the off-diagonal blocks underlying `sin 2Θ` and tangent
-estimates. Acute and quarter-turn conditions determine the corresponding principal-angle
-regimes.
+Ordered two-block form separation gives the finite-dimensional `sin 2Θ` estimate. Ritz
+compression/exterior separation gives the tangent estimate, while an off-diagonal perturbation
+sharpens the eigenvector product inequality to the `tan 2θ` form.
 
-- **SSP-C25 — Per-eigenvector `sin 2θ` product bound.** Under ordered internal form
-  separation, a unit perturbed eigenvector satisfies the Davis product inequality
-  `(b-a)‖P_Ux‖‖P_{U⊥}x‖≤ε`.
-- **SSP-C26 — Per-eigenvector angle form.** `SSP-C25` is equivalent to the corresponding
-  bound on `sin(2θ)`.
-- **SSP-C27 — One-sided `sin 2Θ` operator theorem.** The map `2P_{U⊥}P_VP_U` satisfies the
-  Davis `sin 2Θ` inequality in every unitarily invariant seminorm.
-- **SSP-C28 — Equal-rank Ritz-residual `tan Θ` theorem.** On the acute branch and for equal
-  ranks, the principal tangents are controlled by the Ritz residual divided by the spectral
-  gap.
-- **SSP-C29 — Lower-rank Ritz-residual `tan Θ` theorem.** The tangent estimate in `SSP-C28`
-  has the corresponding lower-rank form.
-- **SSP-C30 — Sharp `tan 2θ` theorem.** Under ordered internal separation and the
-  vanishing-pinch hypotheses, the sharp operator-norm `tan 2θ` estimate holds.
-- **SSP-C31 — Quarter-turn conclusion.** Under the hypotheses of `SSP-C30`, the perturbed
-  subspace remains on the prescribed side of the quarter turn.
-
-#### Davis–Kahan source-facing acceptance theorems
-
-These declarations connect the reusable perturbation theory with the theorem family and sharp
-models in Davis and Kahan's source treatment.
-
-- **SSP-C32 — Printed counterexample.** Formalize the Davis–Kahan Part III counterexample
-  and prove the strict reverse inequality exhibited by the example.
-- **SSP-C33 — Sharpness model.** Formalize a finite-dimensional equality model attaining the
-  sharp constant in the corresponding `sin Θ` theorem.
-- **SSP-C34 — Arbitrary finite multiplicity sharpness.** The equality model in `SSP-C33`
-  extends to every positive finite multiplicity.
-- **SSP-C35 — Projection/singular-value cross-check.** On an explicit small matrix model,
-  the projection formulation and singular-value formulation of the angle agree.
-- **SSP-C36 — Column-energy cross-check.** On the same model, the Frobenius column-energy
-  formulation agrees with the principal-angle formulation.
-- **SSP-C37 — Tensor-form cross-check.** On the same model, the tensor formulation agrees
-  with the projection and singular-value formulations.
+- **SSP-C25 — Per-eigenvector `sin 2θ` product bound.** Let bounded symmetric `A,H` act on a
+  Hilbert space, let `U` be `A`-invariant, let `a<b`, and assume
+  `Re⟪Az,z⟫≤a‖z‖²` on `U⊥` and `b‖y‖²≤Re⟪Ay,y⟫` on `U`. If `‖H‖≤ε` and a unit
+  vector `x` satisfies `(A+H)x=λx`, then `(b-a)‖P_Ux‖‖P_{U⊥}x‖≤ε`.
+- **SSP-C26 — Per-eigenvector angle form.** Under `SSP-C25`, define
+  `θ=arccos ‖P_Ux‖`. Then `(b-a) sin(2θ)≤2ε`.
+- **SSP-C27 — Finite-dimensional `sin 2Θ` perturbation theorem.** Let finite-dimensional
+  symmetric `A,B` leave `U,V` invariant. If `a<b` and `A` satisfies the two-block form bounds
+  `Re⟪Az,z⟫≤a‖z‖²` on `U⊥` and `b‖y‖²≤Re⟪Ay,y⟫` on `U`, then every square
+  unitarily invariant seminorm `N` satisfies `(b-a) N(2P_{U⊥}P_VP_U) ≤ 2N(B-A)`.
+- **SSP-C28 — Equal-rank Ritz-residual `tan Θ` theorem.** Let `A` be symmetric on a
+  finite-dimensional Hilbert space, let `U` be `A`-invariant, and let an isometric trial map
+  `X` have `rank(range X)=rank(U)`. If the spectrum of `X†AX` lies in `[β,α]`, the spectrum
+  of `A|_{U⊥}` lies in `[α+δ,∞)`, and `δ>0`, then for every rectangular unitarily invariant
+  seminorm `N`, any tangent operator whose singular values are the principal tangents of
+  `range X` and `U` satisfies `δN(tanΘ)≤N(R)`, where `R=AX-X(X†AX)`.
+- **SSP-C29 — Lower-rank Ritz-residual `tan Θ` theorem.** The conclusion of `SSP-C28`
+  remains valid when `rank(range X)<rank(U)` under the same interval/exterior spectral
+  hypotheses.
+- **SSP-C30 — Off-diagonal `tan 2θ` product bound.** Under `SSP-C25`, additionally assume
+  that both diagonal blocks of `H` relative to `U⊕U⊥` vanish. Then
+  `(b-a)‖P_Ux‖‖P_{U⊥}x‖ ≤ |‖P_Ux‖²-‖P_{U⊥}x‖²| ε`.
+- **SSP-C31 — Quarter-acute branch from the ordered form gap.** Over `ℝ` or `ℂ`, let
+  self-adjoint `A,H` act on a Hilbert space, let `U` be `A`-invariant and `V` be
+  `(A+H)`-invariant, and let `a<b`. Assume `A` satisfies
+  `b‖u‖²≤Re⟪Au,u⟫` on `U` and `Re⟪Az,z⟫≤a‖z‖²` on `U⊥`, while `A+H` satisfies the
+  same two-block bounds relative to `V`. If `H(U)⊆U⊥` and `H(U⊥)⊆U`, then
+  `‖P_U-P_V‖<sqrt(2)/2`, equivalently the maximal angle from `U` to `V` is less than `π/4`.
 
 **Milestone C1 — trial maps, residuals, and graph subspaces.** `SSP-C01`–`SSP-C14`.
 
 **Milestone C2 — dimension-free and finite spectral `sin Θ` theory.** `SSP-C15`–`SSP-C24`.
 
 **Milestone C3 — double-angle and tangent theory.** `SSP-C25`–`SSP-C31`.
-
-**Milestone C4 — source-facing acceptance theorems.** `SSP-C32`–`SSP-C37`.
 
 ### Part D — the Yu–Wang–Samworth statistical variant
 
@@ -423,17 +413,19 @@ right and left Gram perturbation bounds `PA-B03`–`PA-B06` are consumed from
   `d` and `ε=‖S-T‖`, then `∑_j ‖R_j‖² ≤ 4dε²`.
 - **SSP-D11 — Residual column decomposition.** Each residual column decomposes into a direct
   perturbation term and an eigenvalue-displacement term controlled by Weyl's inequality.
-- **SSP-D12 — Singular-subspace Gram transfer.** Applying the symmetric subspace theorem to
-  `A†A` and `AA†` yields the corresponding right and left singular-subspace bounds.
+- **SSP-D12 — Singular-subspace Gram transfer.** For finite-dimensional rectangular
+  `A,Â:E→F`, an interval/exterior gap `δ>0` for the selected spectral blocks of `A†A,Â†Â`
+  gives `δ‖sinΘ(U_R,Ŭ_R)‖ ≤ (‖Â‖+‖A‖)‖Â-A‖`; the analogous gap for `AA†,ÂÂ†` gives
+  the same bound for the selected left singular subspaces.
 - **SSP-D13 — Hermitian-dilation perturbation bound.** The operator norm of the difference
   of two Hermitian dilations equals the operator norm of the difference of the rectangular
   maps.
 - **SSP-D14 — Hermitian-dilation spectral transfer.** Singular values and left/right
   singular subspaces of `A` are recovered from the positive and negative spectral blocks of
   its Hermitian dilation.
-- **SSP-D15 — Dilation pairwise-gap bound.** An arbitrary-set gap for the Hermitian
-  dilations gives the simultaneous left/right singular-subspace estimate with constant
-  `π/2`.
+- **SSP-D15 — Dilation pairwise-gap bound.** Let `D(A)` and `D(Â)` be the Hermitian
+  dilations and let `Ω⊆ℝ`. If their selected spectral subspaces satisfy a pairwise spectral
+  gap `δ>0`, then `δ‖sinΘ(E_{D(A)}(Ω),E_{D(Â)}(Ω))‖ ≤ (π/2)‖D(Â)-D(A)‖`.
 - **SSP-D16 — Population-gap `sin Θ` theorem.** For corresponding rank-`d` eigenblocks and
   population internal gap `Δ>0`,
   `‖sinΘ(U,V)‖_F ≤ 2 min(sqrt(d)‖B-A‖, ‖B-A‖_F)/Δ`.
@@ -442,20 +434,17 @@ right and left Gram perturbation bounds `PA-B03`–`PA-B06` are consumed from
   side of `SSP-D16`.
 - **SSP-D18 — Single-eigenvector population-gap theorem.** The rank-one case gives a
   phase-aligned eigenvector bound with constant `2sqrt(2)`.
-- **SSP-D19 — Rectangular singular-subspace population-gap theorem.** Applying the Gram or
-  Hermitian-dilation transfer to rectangular matrices gives the corresponding population-gap
-  bounds for left and right singular subspaces.
-- **SSP-D20 — Spiked population/sample acceptance model.** Exhibit a spiked population/sample
-  pair with positive population internal gap and sample internal gap equal to `0`, and verify
-  the bound `SSP-D16`.
-- **SSP-D21 — Rectangular acceptance model.** Exhibit a nonsquare matrix pair and verify the
-  left and right singular-subspace bounds `SSP-D19`.
+- **SSP-D19 — Rectangular singular-vector population-gap theorem.** Let finite-dimensional
+  `A,Â:E→F` satisfy `‖Ax‖≤a‖x‖`, `‖Âx‖≤â‖x‖`, and `‖(Â-A)x‖≤ε‖x‖`, with
+  `â,ε≥0`. If a finite index block `s` of the right Gram operator `A†A` is separated from
+  its complement by a squared-singular-value gap `Γ≥0`, then
+  `Γ²∑_{j∈s}∑_{k∉s}|⟪v_k(A†A),v_j(Â†Â)⟫|² ≤ 4|s|((a+â)ε)²`. Replacing
+  `A†A,Â†Â` by `AA†,ÂÂ†` gives the same inequality for the corresponding left singular
+  vectors.
 
 **Milestone D1 — statistical subspace objects and transfer lemmas.** `SSP-D01`–`SSP-D15`.
 
 **Milestone D2 — population-gap theorems.** `SSP-D16`–`SSP-D19`.
-
-**Milestone D3 — statistical acceptance models.** `SSP-D20`–`SSP-D21`.
 
 ## Worked examples (acceptance criteria)
 
@@ -465,24 +454,23 @@ The concrete exterior-transform and mass tests specialize `SSP-A23`–`SSP-A26`.
 
 ### Part B
 
-The obstruction, bounded bridge, and multiplication example are `SSP-B18`–`SSP-B20`.
+The bounded/partial uniqueness bridge is `SSP-B19`.
 
 ### Part C
 
-The Davis–Kahan Part III acceptance suite is `SSP-C32`–`SSP-C37` together with the theorem
-families `SSP-C17`–`SSP-C31`.
+The residual and perturbation `sin Θ` families are `SSP-C17`–`SSP-C24`; the double-angle and
+tangent and quarter-acute theorems are `SSP-C25`–`SSP-C31`.
 
 ### Part D
 
-The spiked population/sample and nonsquare acceptance models are `SSP-D20`–`SSP-D21`. The
+The symmetric and rectangular population-gap transfers are `SSP-D16`–`SSP-D19`. The
 two-sided-gap comparison uses `SSP-C24`.
 
 ## Ordering
 
 Part A is independent. Part B consumes Part A and the finite-dimensional separation,
 unitarily invariant norm, and partial-operator APIs of the prerequisite roadmaps. Part C
-consumes Part B and the angle geometry of `PrincipalAngles`. Part D consumes Part C and the
-finite-dimensional matrix perturbation APIs used to form the population/sample examples.
+consumes Part B and the angle geometry of `PrincipalAngles`. Part D consumes Part C and the finite-dimensional Gram and singular-subspace APIs.
 
 ## References
 
