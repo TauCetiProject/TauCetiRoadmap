@@ -356,16 +356,20 @@ sharpens the eigenvector product inequality to the `tan 2θ` form.
   symmetric `A,B` leave `U,V` invariant. If `a<b` and `A` satisfies the two-block form bounds
   `Re⟪Az,z⟫≤a‖z‖²` on `U⊥` and `b‖y‖²≤Re⟪Ay,y⟫` on `U`, then every square
   unitarily invariant seminorm `N` satisfies `(b-a) N(2P_{U⊥}P_VP_U) ≤ 2N(B-A)`.
-- **SSP-C28 — Equal-rank Ritz-residual `tan Θ` theorem.** Let `A` be symmetric on a
-  finite-dimensional Hilbert space, let `U` be `A`-invariant, and let an isometric trial map
-  `X` have `rank(range X)=rank(U)`. If the spectrum of `X†AX` lies in `[β,α]`, the spectrum
-  of `A|_{U⊥}` lies in `[α+δ,∞)`, and `δ>0`, then every directed principal angle from
-  `range X` to `U` is strictly below `π/2`. For every rectangular unitarily invariant seminorm
-  `N`, any tangent operator whose singular values are the resulting principal tangents satisfies
-  `δN(tanΘ)≤N(R)`, where `R=AX-X(X†AX)`.
-- **SSP-C29 — Lower-rank Ritz-residual `tan Θ` theorem.** The pole-free conclusion and
-  residual bound of `SSP-C28` remain valid when `rank(range X)<rank(U)` under the same
-  interval/exterior spectral hypotheses.
+- **SSP-C28 — Equal-rank Ritz-residual `tan Θ` theorem.** Over `ℝ` or `ℂ`, let `A` be
+  symmetric on a finite-dimensional Hilbert space, let `U` be `A`-invariant, and let `Z` be a
+  finite-dimensional trial subspace with `rank(Z)=rank(U)`. Let `M` be the compression of `A`
+  to `Z`, let `R : Z → H` be its Ritz residual, and suppose `β≤α`, `δ>0`,
+  `σ(M)⊆[β,α]`, and `σ(A|_{U⊥})⊆[α+δ,∞)`. The directed sine map from `Z` to `U⊥` has
+  singular values strictly below `1`, hence directed principal angles `θⱼ<π/2`. In a right
+  singular basis of that sine map, define the theorem-specific directed tangent representative
+  `T_{Z,U} : Z → H` by the diagonal values `tan θⱼ`, followed by the inclusion `Z↪H`. Its
+  singular values are the directed principal tangents, and every rectangular unitarily invariant
+  seminorm `N` satisfies `δ N(T_{Z,U}) ≤ N(R)`.
+- **SSP-C29 — Lower-rank Ritz-residual `tan Θ` theorem.** Under the same compression/exterior
+  spectral hypotheses, if `rank(Z)<rank(U)`, the same directed tangent representative
+  `T_{Z,U} : Z → H` has the directed principal tangents as its singular values and satisfies
+  `δ N(T_{Z,U}) ≤ N(R)` for every rectangular unitarily invariant seminorm `N`.
 - **SSP-C30 — Off-diagonal `tan 2θ` product bound.** Under `SSP-C25`, additionally assume
   that both diagonal blocks of `H` relative to `U⊕U⊥` vanish. Then
   `(b-a)‖P_Ux‖‖P_{U⊥}x‖ ≤ |‖P_Ux‖²-‖P_{U⊥}x‖²| ε`.

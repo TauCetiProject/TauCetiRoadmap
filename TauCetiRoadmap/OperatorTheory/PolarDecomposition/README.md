@@ -123,9 +123,6 @@ constructions to the spectral and perturbation layers that consume them.
 Finite-coordinate identities, selected basis spans, and scalar square-root estimates provide the
 elementary tools used by the functional calculus, Weyl theory, and near-isometry estimates.
 
-- **PD-A01 — Inner products of finite linear combinations.** For finitely supported coefficient
-  families `(aᵢ)` and `(bⱼ)` on vectors `(vᵢ)`, the inner product of `∑ᵢ aᵢvᵢ` and `∑ⱼ bⱼvⱼ` is the double
-  sum of `conjugate(aᵢ)bⱼ ⟪vᵢ, vⱼ⟫`.
 - **PD-A02 — Spans of orthonormal subfamilies.** For an orthonormal basis `(eᵢ)` indexed by `I`
   and a set `s ⊆ I`, define `Vₛ` as the span of the vectors `eᵢ` with `i ∈ s`.
 - **PD-A03 — Monotonicity of selected spans.** For index sets `s ⊆ t`, the span of the basis
@@ -270,7 +267,7 @@ The finite-dimensional construction and its lemmas use `operatorAbs` —
 `norm_operatorAbs_apply`, `ker_operatorAbs`. A bare `abs` collides with the lattice absolute
 value that `|·|` denotes in Lean, while `modulus` is the bounded-operator spelling.
 
-**Milestone A1 — supporting Hilbert-space and scalar API.** `PD-A01`–`PD-A09`.
+**Milestone A1 — supporting Hilbert-space and scalar API.** `PD-A02`–`PD-A09`.
 
 **Milestone A2 — real and finite self-adjoint functional calculi.** `PD-A10`–`PD-A19`.
 

@@ -51,6 +51,9 @@ TauCeti/MeasureTheory/
 - **Projection-valued measures.** `P(B)` denotes the orthogonal projection assigned to a measurable
   set `B`. For a vector `ξ`, the diagonal measure is
   `μ_ξ(B) := ⟪ξ,P(B)ξ⟫`; polarized matrix elements are recovered from these diagonal measures.
+- **Extended norms and infinite sums.** `‖x‖ₑ ∈ ℝ≥0∞` denotes the extended norm, and `∑'`
+  denotes an infinite `tsum`. These forms are used for countable spectral-grid decompositions and
+  block reassembly.
 - **Semibounds.** A lower semibound `c` for `A` means `c‖x‖² ≤ Re⟪Ax,x⟫` on `dom A`; an upper
   semibound is defined with the reversed inequality.
 - **Graph norm and cores.** The graph norm on `dom A` is
@@ -788,14 +791,16 @@ inverses, and reassembly translate local spectral support into quantitative oper
   `I_k=[kε,(k+1)ε)`.
 - **SA-E33 — Disjointness of spectral grid cells.** Distinct grid cells are disjoint.
 - **SA-E34 — Covering by spectral grid cells.** The union of all grid cells is `ℝ`.
-- **SA-E35 — Norm splitting across the grid.** For every vector, the squared norms of its
-  spectral-grid components sum to the squared norm of the vector.
+- **SA-E35 — Norm splitting across the grid.** For `ε>0`, every `v∈H` satisfies
+  `∑' k : ℤ, ‖P_A(I_k)v‖ₑ² = ‖v‖ₑ²`.
 - **SA-E36 — Spectral cut operator.** Let self-adjoint `A : H →ₗ.[ℂ] H`, let `B ⊆ ℝ` be
   measurable, and let `c,r ∈ ℝ` satisfy `0≤r` and `|s-c|≤r` for every `s∈B`. Define the bounded
   spectral cut operator with truncated symbol `(s-c)1_B(s)`.
-- **SA-E37 — Spectral cut bounds and action.** Under `SA-E36`, the cut operator `C` satisfies
-  `‖C‖≤r`. If `B` is also bounded, `y` lies in the spectral range `P_A(B)H`, and `y∈dom A`, then
-  `Cy=Ay-cy`.
+- **SA-E37 — Spectral cut bounds, domain, and action.** Under `SA-E36`, the cut operator `C`
+  satisfies `‖C‖≤r`; the spectral range `P_A(B)H` is contained in `dom A`; and for every
+  `y∈P_A(B)H`, `Cy=Ay-cy`, with `Ay` evaluated using that domain membership. The radius
+  hypothesis in `SA-E36` also gives `|s|≤|c|+r` on `B`, which supplies the bounded-spectral-range
+  domain inclusion.
 - **SA-E38 — Spectral-gap inverse.** For `δ>0`, define the bounded spectral multiplier
   obtained from the reciprocal symbol on `|s|≥δ` and zero on `|s|<δ`.
 - **SA-E39 — Spectral-gap inverse equation.** If the diagonal spectral measure of `ξ`
@@ -803,9 +808,10 @@ inverses, and reassembly translate local spectral support into quantitative oper
   applying `A` to it gives `ξ`.
 - **SA-E40 — Spectral-gap inverse norm bound.** Under the hypotheses of `SA-E39`, the
   spectral-gap inverse satisfies `‖G_δ ξ‖ ≤ δ⁻¹‖ξ‖`.
-- **SA-E41 — Reassembly of block lower bounds.** Let `(Qᵢ)` be bounded operators on a complex
-  inner-product space satisfying `∑ᵢ ‖Qᵢf‖²=‖f‖²` for every `f`. If `c≥0` and vectors `x,y`
-  satisfy `c‖Qᵢx‖≤‖Qᵢy‖` for every `i`, then `c‖x‖≤‖y‖`.
+- **SA-E41 — Reassembly of block lower bounds.** Let `(Qᵢ)_{i∈I}` be bounded operators on a
+  complex inner-product space and let `c∈ℝ≥0∞`. If
+  `∑' i, ‖Qᵢf‖ₑ² = ‖f‖ₑ²` for every `f` and
+  `c ‖Qᵢx‖ₑ ≤ ‖Qᵢy‖ₑ` for every `i`, then `c ‖x‖ₑ ≤ ‖y‖ₑ`.
 
 #### Packaged spectral theorems
 
