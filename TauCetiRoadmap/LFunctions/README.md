@@ -128,6 +128,7 @@ AnalyticLFunctionData.HasDirichletAgreement
 AnalyticLFunctionData.HasMeromorphicContinuation
 AnalyticLFunctionData.HasFunctionalEquation
 NormalizationTranslation
+riemannZetaData
 dedekindZetaC
 completedDedekindZeta
 dedekindZetaData
@@ -373,7 +374,9 @@ nontrivial dual, or an imprimitive Euler factor.
 Retain two number-field zeta specializations of the shared arithmetic-series infrastructure:
 
 - on `Re s > 1`, the norm-regrouped ideal von Mangoldt series is exactly
-  `-ζ'_K(s)/ζ_K(s)`, with the summability required by Tauberian consumers;
+  `-ζ'_K(s)/ζ_K(s)`, with the summability required by Tauberian consumers; export this as
+  `dedekindZeta_logDeriv_eq`, together with the exact positivity input
+  `dedekindZeta_idealVonMangoldt_nonneg`;
 - Mertens' product has constant `exp(γ) * κ_K`, where
   `κ_K = Res_(s=1) ζ_K(s)`. The generic sum/product transfer belongs to Arithmetic Dirichlet
   Series, but this residue specialization belongs here. The mandatory non-rational test is

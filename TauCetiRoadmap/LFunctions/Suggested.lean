@@ -173,6 +173,27 @@ theorem NormalizationTranslation.gammaC_delta (T : NormalizationTranslation)
     (hR : T.arithmetic.gammaR = 0) :
     T.analytic.gammaC = {(11 : ℂ) / 2} ∧ T.analytic.degree = 2 := sorry
 
+/-- Layer 0: the Riemann-zeta instance of the completed-function card.  Keeping this named card
+separate from `dedekindZetaData ℚ` supplies the exact normalization tests consumed by the zeros
+roadmap. -/
+noncomputable def riemannZetaData : AnalyticLFunctionData where
+  coeff _ := 1
+  conductor := 1
+  gammaR := {0}
+  gammaC := 0
+  rootNumber := 1
+  completed := completedRiemannZeta
+  polarOrder := Finsupp.single 0 1 + Finsupp.single 1 1
+
+theorem riemannZetaData_hasDirichletAgreement :
+    riemannZetaData.HasDirichletAgreement := sorry
+
+theorem riemannZetaData_hasContinuation :
+    riemannZetaData.HasMeromorphicContinuation := sorry
+
+theorem riemannZetaData_hasFunctionalEquation :
+    riemannZetaData.HasFunctionalEquation := sorry
+
 /-! ## Layer 1: Poisson summation and theta transformations -/
 
 structure FEPairWithLevel (E : Type*) [NormedAddCommGroup E] [NormedSpace ℂ E] where
@@ -297,6 +318,33 @@ theorem dedekindZetaC_quadratic
     (F : Type u) [Field F] [NumberField F] (hF : Module.finrank ℚ F = 2) :
     ∃ (N : ℕ) (_ : NeZero N) (χ : DirichletCharacter ℂ N),
       ∀ s : ℂ, dedekindZetaC F s = riemannZeta s * DirichletCharacter.LFunction χ s := sorry
+
+/-- Layer 4: cyclotomic factorization using primitive characters inducing the characters modulo
+`n`.  There is no correction factor in this primitive form. -/
+theorem dedekindZetaC_cyclotomic
+    (n : ℕ) [NeZero n] (F : Type u) [Field F] [NumberField F]
+    [IsCyclotomicExtension {n} ℚ F]
+    (m : DirichletCharacter ℂ n → ℕ) (hm : ∀ χ, NeZero (m χ))
+    (hdvd : ∀ χ, m χ ∣ n)
+    (χ' : ∀ χ : DirichletCharacter ℂ n, DirichletCharacter ℂ (m χ))
+    (hprim : ∀ χ, (χ' χ).IsPrimitive)
+    (hind : ∀ χ, DirichletCharacter.changeLevel (hdvd χ) (χ' χ) = χ) (s : ℂ) :
+    dedekindZetaC F s =
+      ∏ χ : DirichletCharacter ℂ n,
+        haveI := hm χ; DirichletCharacter.LFunction (χ' χ) s := sorry
+
+/-- Layer 4: the corresponding factorization in terms of level-`n` characters.  The extra Euler
+factors occur on the denominator side, as recorded by the product multiplying `dedekindZetaC`. -/
+theorem dedekindZetaC_cyclotomic_imprimitive
+    (n : ℕ) [NeZero n] (F : Type u) [Field F] [NumberField F]
+    [IsCyclotomicExtension {n} ℚ F]
+    (m : DirichletCharacter ℂ n → ℕ) (hdvd : ∀ χ, m χ ∣ n)
+    (χ' : ∀ χ : DirichletCharacter ℂ n, DirichletCharacter ℂ (m χ))
+    (hprim : ∀ χ, (χ' χ).IsPrimitive)
+    (hind : ∀ χ, DirichletCharacter.changeLevel (hdvd χ) (χ' χ) = χ) (s : ℂ) :
+    dedekindZetaC F s * ∏ χ : DirichletCharacter ℂ n, ∏ p ∈ n.primeFactors,
+        (if p ∣ m χ then (1 : ℂ) else 1 - χ' χ (p : ZMod (m χ)) * (p : ℂ) ^ (-s)) =
+      ∏ χ : DirichletCharacter ℂ n, DirichletCharacter.LFunction χ s := sorry
 
 theorem dedekindZetaC_cyclotomic_four
     (F : Type u) [Field F] [NumberField F] [IsCyclotomicExtension {4} ℚ F] (s : ℂ) :
@@ -536,6 +584,14 @@ theorem dedekindZeta_logDeriv_eq {s : ℂ} (hs : 1 < s.re) :
       ADS.idealVonMangoldt K (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K) I /
         (Ideal.absNorm I : ℂ) ^ s) =
       -deriv (dedekindZeta K) s / dedekindZeta K s := sorry
+
+/-- Nonnegativity of the Dedekind-zeta von Mangoldt coefficients. -/
+theorem dedekindZeta_idealVonMangoldt_nonneg (I : Ideal (𝓞 K)) :
+    0 ≤
+        (ADS.idealVonMangoldt K
+          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K) I).re ∧
+      (ADS.idealVonMangoldt K
+          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K) I).im = 0 := sorry
 
 end
 
