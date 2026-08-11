@@ -100,20 +100,23 @@ padded-exposure architecture and its concentration constants (the `q/k` oscillat
 `2·exp(−ε²k/(2q²))` tail under `2q² ≤ εk` are proved verbatim in `cameronfreer/graphon`,
 `SampleExposure.lean`); the finite-marginal eliminator for the finite↔infinite law equivalence;
 the weak-regularity baseline exponent `4^{⌈1/ε²⌉+1}`; the counting bridge
-`card_injective_hom_eq_labelledCopyCount` — **proved in `Suggested.lean` itself**, so the
-`injHomDensity` numerator *is* Mathlib's `labelledCopyCount` and no parallel counting
-convention exists. For Janson A.9, the **core
-pushforward route is verified** (the migration source's kernel-randomization adapter on `ℝ`);
-the named `I → Ω` wrapper itself is pending and is the first queued experiment.
+`card_injective_hom_eq_labelledCopyCount` — **proved in `Suggested.lean` itself** and now also
+exactly in the migration source — so the `injHomDensity` numerator *is* Mathlib's
+`labelledCopyCount`; **Janson A.9 in full** — the named `I → Ω` measure-preserving wrapper with
+Dirac, finite-atomic, and mixed regressions (`exists_measurePreserving_from_unitInterval`,
+migration source at [`dfd7ecc`](https://github.com/cameronfreer/graphon/tree/dfd7ecc)); the
+**Boolean-lattice Möbius inversion orientation and sign conventions** (proved over `ℚ` with
+sign regressions — this settles conventions, *not* reflection positivity); and the
+**null-cell `Finpartition` convention** — the measurable adapter, exact agreement with Mathlib
+set averages, the zero convention on null rectangles, and unchanged weighted energy.
 
 **Experimental — not validated by either migration source** (stop/go experiments pending; these
 routes are not endorsed until the experiments run): the coupling-primary cut-distance triangle
 inequality on arbitrary carriers (Janson 6.5 — finite coupling gluing with zero-mass middle
 atoms made explicit, then step-approximation stability); the strict ↔ `AEEqFun` quotient
 bridge; the Möbius / reflection-positivity spine of Layer 8b; the carrier-free representation
-reduction (Janson 7.1/7.3); the null-cell `Finpartition` block-average architecture of Layer 2;
-and the atomic Layer-5 regression battery (Dirac, finite atomic, mixed) for
-`cutDist_eq_cutDistPullback`.
+reduction (Janson 7.1/7.3); and full Layer 5 (`cutDist_eq_cutDistPullback` itself — the A.9
+wrapper and its atomic battery are verified, the coupling↔map equivalence is not).
 
 **Two requirements for every opaque constructor pinned here:**
 
@@ -724,7 +727,13 @@ the already-formalized parts and treating the open parts as goals to be discharg
   route this roadmap's Layer 9 pins is checkable at the `6eccca5` pin.
 
   **Since the pin** — checked at the later snapshot
-  [`bbc82c4`](https://github.com/cameronfreer/graphon/tree/bbc82c45b43db1082a93ec0a770b00ba573dd250)
+  [`bbc82c4`](https://github.com/cameronfreer/graphon/tree/bbc82c45b43db1082a93ec0a770b00ba573dd250);
+  a third pinned snapshot [`dfd7ecc`](https://github.com/cameronfreer/graphon/tree/dfd7ecc)
+  records the verification-experiment APIs (`exists_measurePreserving_from_unitInterval` with
+  its atomic battery, the Boolean Möbius inversion laws, the exact copy-count bridge, the
+  measurable-`Finpartition` null-cell adapter) and the corrected converse-side specification
+  (`RankRepresentation` is an interface with **no existence theorem at any rank**; the general
+  functional converse remains open)
   (2026-08-03; still `sorry`-free in code, no custom axioms), the repository has grown a **generic
   multi-sorted relational exchangeability framework** (`RelationalSignature.lean`,
   `RelExchangeableLaw.lean` and the `Rel*` family): the finite/infinite relational law
