@@ -10,35 +10,8 @@ Lean `sorry`-forms (allowed in this human-owned roadmap library) for *particular
 that contributors and reviewers converge on names and signatures; discharging every statement here
 neither finishes a layer nor the roadmap.
 
-This file holds the **Layer 0/1** target shapes whose types are already expressible against the
-pinned Mathlib: the fixed-carrier infinitary syntax `BoundedFormulaInf L ι α n` — ONE inductive,
-with `Lω₁ω` recovered as the definitional specialization `BoundedFormulaω := BoundedFormulaInf L ℕ`
-— its `Realize` semantics, the carrier-generic finitary embedding `toInf`, the minimal
-carrier-coding/transport signatures (`IndexCoding`, `iInfAlong`/`iSupAlong`, `reindex`), and
-potential isomorphism stated with Mathlib's back-and-forth vocabulary (`FGEquiv`,
-`IsExtensionPair`), with Karp's theorem in its common-carrier form. These elaborate against
-Mathlib and the milestone theorems are stated with `sorry` (allowed in this human-owned roadmap
-library).
-
-The earlier revision of this file prototyped **parallel inductives** (a ℕ-indexed `BoundedFormulaω`
-alongside a universe-indexed `BoundedFormulaInf` with per-node index types). That design is
-**retracted** in favor of the fixed-carrier single inductive suggested by Aaron Liu on the Zulip
-thread (linked in `README.md`): the `(uι + 1)` universe bump disappears, the `ι := ℕ`
-specialization lands at exactly the finitary `BoundedFormula` universe, and Karp's backward
-direction needs only one carrier admitting codings of both structures, not per-node index types.
-See the design-evidence PR linked from `README.md`.
-
-Layer-2+ shapes are kept in `README.md` fenced code blocks until grounded: Layer 2 (the countable
-coded-formula proxy `FormulaCode` and the refinement-counting bridge) and Layer 3 (Scott rank,
-canonical Scott formulas, and Scott's isomorphism theorem). The roadmap intentionally stops there:
-model existence, admissible sets / Barwise, invariant DST, Morley counting, Morley–Hanf, many-sorted
-model theory, and Lκλ are out of scope here (separate roadmap PRs).
-
-Names here are target shapes, not final namespace commitments; audit them against Mathlib conventions
-before implementation.
-
-These are roadmap-local target shapes; the implementation in `TauCeti/` may refine names and
-namespaces, but the statements below pin the intended early milestones and the dependency order.
+This file records the currently proposed Layer 0/1 signatures. Layer 2/3 targets remain in
+`README.md` until their dependencies are expressible. Names and namespaces are provisional.
 -/
 
 set_option autoImplicit false
@@ -134,10 +107,8 @@ namespace BoundedFormulaInf
 
 variable {ι : Type uι} {κ : Type uκ} {α : Type u'} {n : ℕ}
 
-/-- **Layer 0, coded conjunction.** An `ι`-indexed conjunction at carrier `κ`, along a coding.
-This replaces the earlier `Encodable` adapters `esup`/`einf` (`iInfAlong (.ofEncodable ι)` is the
-countable case) and, at the sum codings into `M ⊕ N`, provides the separating conjunctions Karp's
-backward direction needs. -/
+/-- **Layer 0, coded conjunction.** An `ι`-indexed conjunction at carrier `κ`, along a coding;
+the countable case is `iInfAlong` along an `Encodable`-derived coding. -/
 def iInfAlong (c : IndexCoding ι κ) (φs : ι → BoundedFormulaInf L κ α n) :
     BoundedFormulaInf L κ α n :=
   iInf (c.pad ⊤ φs)
@@ -147,10 +118,9 @@ def iSupAlong (c : IndexCoding ι κ) (φs : ι → BoundedFormulaInf L κ α n)
     BoundedFormulaInf L κ α n :=
   iSup (c.pad ⊥ φs)
 
-/-- **Layer 0, carrier transport.** Whole-formula transport along a coding — the replacement for
-a universe-lifting operation and the embedding triangle of the retracted two-inductive design.
-The target laws (functoriality `reindex_id`/`reindex_trans`, the equivalence-coding round trip,
-and realization preservation) are pinned in `README.md` Layer 0. -/
+/-- **Layer 0, carrier transport.** Whole-formula transport along a coding. The target laws
+(functoriality `reindex_id`/`reindex_trans`, the equivalence-coding round trip, and realization
+preservation) are pinned in `README.md` Layer 0. -/
 def reindex (c : IndexCoding ι κ) :
     {n : ℕ} → BoundedFormulaInf L ι α n → BoundedFormulaInf L κ α n
   | _, .falsum => .falsum
@@ -180,7 +150,7 @@ end BoundedFormulaInf
 /-- **Layer 0, finitary embedding.** Embed a Mathlib first-order bounded formula into the
 infinitary syntax. Since finitary formulas have no infinitary nodes, the target carrier is
 arbitrary — one embedding for all carriers and universes, with `toLω := toInf (ι := ℕ)` as the
-Lω₁ω case; no lifting layer and no embedding triangle. -/
+Lω₁ω case. -/
 def toInf {ι : Type uι} {α : Type u'} : {n : ℕ} → L.BoundedFormula α n → BoundedFormulaInf L ι α n
   | _, .falsum => .falsum
   | _, .equal t₁ t₂ => .equal t₁ t₂
@@ -209,7 +179,7 @@ def PotentialIso (M : Type w) (N : Type w) [L.Structure M] [L.Structure N] : Pro
 
 /-- **Layer 1, L∞ω-equivalence at a fixed carrier.** Agreement on all sentences with branching
 carrier `κ`. The full-equivalence notion quantifies over carriers OUTSIDE the syntax
-(`∀ κ : Type w, InfEquivAt L κ M N`), replacing the retracted design's per-node index types. -/
+(`∀ κ : Type w, InfEquivAt L κ M N`). -/
 def InfEquivAt (κ : Type uκ) (M N : Type w) [L.Structure M] [L.Structure N] : Prop :=
   ∀ φ : SentenceInf L κ,
     BoundedFormulaInf.Realize φ Empty.elim (Fin.elim0 : Fin 0 → M) ↔
@@ -238,14 +208,9 @@ theorem PotentialIso.symm {M N : Type w} [L.Structure M] [L.Structure N]
     (h : PotentialIso (L := L) M N) : PotentialIso (L := L) N M := by
   sorry
 
-/-- **Layer 1 (basic API).** Potential isomorphism is transitive — the system of composites
-`g ∘ f` (over `f` in the first system and `g` in the second with `f.cod ≤ g.dom`) is a
-back-and-forth system. Domain extension is *f then g*: extend `f` to include the element, then
-extend `g` over the finitely many generators of the enlarged `f.cod`. Codomain extension is
-*g, f, then g*: extend `g` so its codomain contains the requested element, extend `f` so its
-codomain contains that element's `g`-preimage, then extend `g` again over the generators of the
-enlarged `f.cod`. (Mathlib has no `PartialEquiv.comp`; implementation will introduce a small
-composition-under-`f.cod ≤ g.dom` helper.) -/
+/-- **Layer 1 (basic API).** Potential isomorphism is transitive — compose the two back-and-forth
+systems. (Mathlib has no `PartialEquiv.comp`; implementation will introduce a small composition
+helper.) -/
 theorem PotentialIso.trans {M N P : Type w} [L.Structure M] [L.Structure N] [L.Structure P]
     (hMN : PotentialIso (L := L) M N) (hNP : PotentialIso (L := L) N P) :
     PotentialIso (L := L) M P := by
@@ -261,9 +226,8 @@ theorem potentialIso_of_isExtensionPair {M N : Type w} [L.Structure M] [L.Struct
   sorry
 
 /-- **Layer 1 milestone, the countable corollary of Karp's theorem.** On countable structures,
-potential isomorphism coincides with isomorphism. Forward is the `S`-relative back-and-forth
-dovetailing — Mathlib's `equiv_between_cg` is the `S = Set.univ` case, and its engine
-`Order.sequenceOfCofinals` is the reusable tool; the converse is `potentialIso_of_equiv`. -/
+potential isomorphism coincides with isomorphism; the converse direction is
+`potentialIso_of_equiv`. -/
 theorem countable_potentialIso_iff_iso (M N : Type) [L.Structure M] [L.Structure N]
     [Countable M] [Countable N] :
     PotentialIso (L := L) M N ↔ Nonempty (M ≃[L] N) := by

@@ -40,23 +40,13 @@ student-project work, contributors should follow the repository process in the r
 the relevant Zulip threads, Mathlib PRs, and public project trackers, and asking the named
 contributors before starting parallel work.
 
-* Infinitary-formula API design: the Zulip discussion
+* **Infinitary syntax.** This roadmap uses the fixed-carrier syntax `BoundedFormulaInf L ι α n`,
+  with `BoundedFormulaω` as the definitional `ι := ℕ` specialization and `IndexCoding`/`reindex`
+  for carrier transport. The design was suggested on the Zulip discussion
   [ModelTheory: API for infinitary formulas of L_{∞,ω}](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/ModelTheory.3A.20API.20for.20infinitary.20formulas.20of.20L_.7B.E2.88.9E.2C.CF.89.7D)
-  asked whether Mathlib should carry a single universe-indexed core (with Lω₁ω a fragment) or
-  parallel types. An earlier revision of this roadmap answered **parallel inductives**; that answer
-  is now **explicitly retracted**. Aaron Liu suggested on that thread the fixed-carrier
-  single-inductive design — ONE inductive with the branching carrier a **fixed parameter of the
-  whole formula** (`BoundedFormulaInf L ι α n`), Lω₁ω the definitional `ι := ℕ` specialization —
-  and it has been tested against the main downstream consumers: the
-  [design-evidence PR](https://github.com/cameronfreer/infinitary-logic/pull/43) re-proves Karp,
-  quantifier-rank transport, countability, and a carrier-general Scott analysis on the new syntax,
-  axiom-clean. The two horns the parallel design tried to reconcile both dissolve: Scott analysis
-  recurses structurally on the `ι := ℕ` instance directly (no fragment predicate), and Karp's
-  backward direction needs only ONE carrier admitting codings of both structures (no per-node index
-  types). `Suggested.lean` now records the fixed-carrier shapes. This settles the architecture used
-  by this roadmap; Mathlib review and acceptance remain pending — a Mathlib PR stack from the
-  Mathlib-shaped staging branches is planned on that thread, and the roadmap does not claim Tau
-  Ceti should settle the final Mathlib API ahead of that review.
+  and validated against the main downstream consumers in
+  [`infinitary-logic` #43](https://github.com/cameronfreer/infinitary-logic/pull/43). Mathlib
+  review remains pending; implementation should follow the eventual upstream API.
 * Cantor–Bendixson / perfect-kernel / ordinal-stabilization infrastructure (the Zulip
   [Cantor-Bendixson analysis](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Cantor-Bendixson.20analysis)
   thread; not in the pinned Mathlib): this roadmap does not
@@ -133,8 +123,8 @@ not improvise.
   uncountable ordinal"). Do not introduce a bespoke `CountableOrdinal := {α // α < ω₁}` subtype; carry
   `α < ω₁` as an explicit hypothesis, the way Mathlib carries explicit bounds rather than a `Bounded`
   predicate.
-* **Infinitary syntax — ONE fixed-carrier inductive, not an extension of `BoundedFormula` and not
-  parallel types.** `BoundedFormulaInf L ι α n` is a new inductive over `FirstOrder.Language` whose
+* **Infinitary syntax — ONE fixed-carrier inductive, not an extension of `BoundedFormula`.**
+  `BoundedFormulaInf L ι α n` is a new inductive over `FirstOrder.Language` whose
   branching carrier `ι : Type uι` is a parameter of the whole formula: `iSup`/`iInf` take
   `φs : ι → BoundedFormulaInf L ι α n`, so the type lives in `Type (max u v u' uι)` — no `+ 1`
   universe bump. Pin the shapes exactly: **Lω₁ω is the definitional specialization**
@@ -144,8 +134,7 @@ not improvise.
   left-inverse on encoded values — `Encodable` is the codomain-`ℕ` case), and whole formulas
   transport between carriers by `reindex` with functoriality and realization-preservation laws. The
   finitary `BoundedFormula` maps in via the carrier-generic `toInf`, with realization
-  compatibility. One `Realize` recursion serves every carrier. (This supersedes the earlier
-  parallel-inductive convention — see Known WIP above for the retraction and evidence.)
+  compatibility. One `Realize` recursion serves every carrier.
 * **Carriers (Karp).** Karp's *backward* direction indexes conjunctions by structure elements, so
   the headline statement is at a **common carrier**: `karp_theorem_at` takes codings
   `IndexCoding M κ` and `IndexCoding N κ` of both structures into one carrier `κ` and concludes
@@ -208,46 +197,22 @@ Every item above is a target in some layer below; nothing is left as a gap to be
 ## Migration source
 
 A Lean formalization of this theory exists at
-[`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic), pinned at
-[`06bd522586f97ccf3503b7f47f250943b33a7f99`](https://github.com/cameronfreer/infinitary-logic/tree/06bd522586f97ccf3503b7f47f250943b33a7f99)
-(sorry-free, headline results axiom-clean, CI-enforced).
-Use it as a source of proof scripts to migrate or adapt, a declaration map for the spine, an
-API-warning source (where a local definition was convenient but should be generalized or replaced with
-Mathlib vocabulary for Tau Ceti), and an attribution source for ported files. It is **not** the
-mathematical specification; the map is "where to look", not "what is correct". Judge each milestone on
-its own terms.
+[`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic); use production
+checkpoint
+[`06bd522`](https://github.com/cameronfreer/infinitary-logic/tree/06bd522586f97ccf3503b7f47f250943b33a7f99)
+for proof scripts and the declaration map below. Its syntax predates the fixed-carrier design, so
+its Layer 0 type signatures should not be copied; Layer 0 signatures instead follow the evidence in
+[`infinitary-logic` #43](https://github.com/cameronfreer/infinitary-logic/pull/43) and the eventual
+Mathlib API. Neither source is the specification; the map is "where to look", not "what is
+correct".
 
-There are two sources with different roles:
-
-* **The production tree** (the pin above) proves the full spine on the *pre-fixed-carrier* syntax —
-  its `Lomega1omega/` and `Linf/` are the retracted parallel inductives. Its **proof scripts**
-  (back-and-forth, refinement counting, Scott recursion) migrate essentially unchanged; its Layer 0
-  **type shapes do not** — they are what the fixed-carrier design replaces.
-* **The design-evidence branch** — frozen as
-  [PR #43](https://github.com/cameronfreer/infinitary-logic/pull/43) (`spike/`, an RFC artifact
-  outside that repo's CI, deliberately unmerged) — carries the fixed-carrier syntax itself, the
-  coding/transport algebra, Karp at a common carrier, and the carrier-general Scott analysis. Layer 0
-  shapes come from here (and from the Mathlib-shaped staging branches); it is evidence the shapes carry
-  the spine, not a second production tree.
-
-Declaration map into the production tree:
-
-* Layer 0: `InfinitaryLogic/Lomega1omega/` and `InfinitaryLogic/Linf/` (proof scripts and lemma
-  inventory; type shapes superseded as above).
+* Layer 0: `InfinitaryLogic/Lomega1omega/` and `InfinitaryLogic/Linf/`.
 * Layer 1: `InfinitaryLogic/Karp/` and `InfinitaryLogic/Scott/BackAndForth.lean`.
 * Layer 2: `InfinitaryLogic/Scott/Code.lean` and `InfinitaryLogic/Scott/RefinementCount.lean`.
 * Layer 3: `InfinitaryLogic/Scott/` (`Formula.lean`, `Sentence.lean`, `Rank.lean`, `AtomicDiagram.lean`).
 
 Credit `cameronfreer/infinitary-logic` in each ported or adapted file, and record when a Tau Ceti file
 intentionally diverges from this source API.
-
-Provenance note, kept here rather than in the intrinsic layer text:
-
-* **Layer 2.** The source isolates the countability of refinement sets as
-  `CountableRefinementHypothesis` and discharges it (sorry-free) in `Scott/RefinementCount.lean` by a
-  self-stabilization / game-counting argument. This roadmap instead takes the **`FormulaCode` route**
-  (the source's `agree_codes_implies_BFEquiv` bridge) as the target; the self-stabilization argument is
-  provenance only — an alternative route, not the stated milestone.
 
 ---
 
@@ -277,7 +242,7 @@ TauCeti/ModelTheory/Infinitary/Operations.lean
 
 This layer has the largest blast radius — every later theorem inherits its binding, substitution, and
 recursion choices — so build it as a real development, not a bare inductive. It divides into three
-beats, each a coherent reviewable unit (this matches the planned Mathlib PR stack):
+beats, each a coherent reviewable unit:
 
 **Beat 1 — syntax and semantics.**
 
@@ -285,11 +250,8 @@ beats, each a coherent reviewable unit (this matches the planned Mathlib PR stac
   `ι : Type uι` (`φs : ι → BoundedFormulaInf L ι α n`), in `Type (max u v u' uι)`; the definitional
   specializations `BoundedFormulaω := BoundedFormulaInf L ℕ`, `FormulaInf`/`SentenceInf`,
   `Formulaω`/`Sentenceω`;
-* the **recursion / induction principle** (the workhorse every later proof uses; note the
-  nested-inductive caution — a strategy/"realizer" carried *inside* the inductive fails Lean's
-  positivity check, so recurse on a separate index). Convention worth pinning: tuple-indexed
-  recursive constructions live at `BoundedFormulaInf L ι Empty n` with tuples in BOUND positions —
-  no relabeling machinery;
+* recursion and induction principles suitable for structural operations; tuple-indexed recursive
+  constructions use bound-variable positions (`BoundedFormulaInf L ι Empty n`);
 * the derived connectives (`not`, `and`, `or`, `ex`, `iff`, `⊤`/`⊥`) by De Morgan, matching
   Mathlib's `BoundedFormula` conventions, plus `alls`/`exs`;
 * `Realize`, ONE recursion for every carrier, with simp lemmas for every connective and quantifier —
@@ -354,13 +316,12 @@ fixed carrier are the kernel-level constructors; `iInfAlong`/`iSupAlong` along a
 derived. Do not bake an encoding choice into the constructors, and do not special-case `Encodable` —
 it is one family of codings among several (`ofEquiv`, sum injections, subtype inclusions).
 
-⚠ **Universe note (resolved by this design).** `BoundedFormulaInf L ι α n : Type (max u v u' uι)` —
-the fixed carrier removes the `(uι + 1)` bump the earlier per-node design paid, and `ι := ℕ` lands at
-exactly the finitary `BoundedFormula` universe. The remaining discipline: a formula's carrier is part
-of its type, so statements ranging over "all sentences at carrier `κ`" fix `κ` (and its universe)
-explicitly, and cross-carrier claims go through `reindex`/`IndexCoding`. The trade accepted here:
-membership of a formula in a "fragment" becomes presentation-sensitive (the SAME mathematical
-disjunction can be written at different carriers); the coded connectives and Layer 2's `FormulaCode`
+⚠ **Universe discipline.** `BoundedFormulaInf L ι α n : Type (max u v u' uι)`, with `ι := ℕ` at
+exactly the finitary `BoundedFormula` universe. A formula's carrier is part of its type, so
+statements ranging over "all sentences at carrier `κ`" fix `κ` (and its universe) explicitly, and
+cross-carrier operations go through `IndexCoding` and `reindex`. Membership of a formula in a
+"fragment" is presentation-sensitive (the SAME mathematical disjunction can be written at different
+carriers), although `reindex` preserves semantics; the coded connectives and Layer 2's `FormulaCode`
 are how countable fragments are actually delimited.
 
 ### Layer 1: back-and-forth, potential isomorphism, and Karp's theorem
@@ -511,15 +472,6 @@ scott_isomorphism
 
 **Acceptance example:** the Scott sentence of a fixed finite structure (finite Scott rank) — the
 smallest end-to-end instance of the summit, once Layer 3 exists, using no later layers.
-
-Evidence note (not a scope change): the design-evidence branch (see Migration source) additionally
-proves, on the fixed-carrier syntax, Scott approximants for **arbitrary** structures at **all**
-ordinals (no countability, no `ω₁` bound), a stabilization ordinal, and a generalized Scott sentence
-characterizing **potential isomorphism** — of which this layer's countable summit is the case where
-Karp's countable corollary upgrades potential isomorphism to isomorphism. The v1 target above is
-unchanged; the evidence de-risks its Layer 0/1 substrate and shows the fences precisely (the general
-sentence characterizes potential isomorphism only, and its ordinal universe must match the carrier
-universe).
 
 ## Worked examples
 
