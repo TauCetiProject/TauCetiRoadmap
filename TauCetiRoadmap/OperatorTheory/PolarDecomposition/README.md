@@ -1,73 +1,76 @@
 # Polar decomposition: functional calculus, the operator modulus, and singular systems
 
-Spectral perturbation theory is written in a small, stable vocabulary: apply a real
-function to a self-adjoint operator; factor an operator through its modulus; expand a
-rectangular map in its singular system. This roadmap builds the functional-calculus,
-modulus, polar-decomposition and singular-system layers.
+## Introduction
 
-Mathlib has the static ingredients — the spectral theorem
-([`LinearMap.IsSymmetric.eigenvalues`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/Spectrum.html)
-and `eigenvectorBasis`), positivity (`LinearMap.IsPositive`), adjoints, the continuous
-functional calculus over `ℂ`, and singular *values*
-([`LinearMap.singularValues`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/SingularValues.html))
-— but not the operator-theoretic layer over `RCLike`: no functional calculus for a
-symmetric `LinearMap` covering `ℝ` and `ℂ` together, no positive square root with its
-uniqueness theory at that generality, no partial-isometry API, no polar decomposition, no
-singular *vectors*, and no Moore–Penrose inverse.
+Polar decomposition links the spectral theory of positive operators to the geometry of arbitrary
+bounded maps. For `T : E → F`, the source Gram operator `T†T` is positive, its positive square root
+`|T| = √(T†T)` measures the size of `T` on the source space, and the canonical polar factor records
+the corresponding isometric transport into the target. In finite dimension, the spectral data of
+`|T|` give the singular values and singular directions of `T`; the same singular system gives the
+Moore–Penrose inverse by inversion on the nonzero singular directions.
 
-Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar square-root
-estimates in `TauCeti/Analysis/SpecialFunctions/`.
+The roadmap develops the functional calculus and positive square root needed for this construction,
+the rectangular modulus and polar decomposition on complete Hilbert spaces over `ℝ` and `ℂ`, and
+the finite-dimensional singular-system theory. Finite-dimensional statements use eigenbases or
+finite singular systems. Complete-space statements use bounded operators and continuous functional
+calculus. The finite and complete constructions are connected where both apply.
 
-**Hilbert-space generality.** The eigenbasis functional calculus is finite-dimensional.
-The continuous functional calculus for bounded self-adjoint operators on complete real Hilbert
-spaces supplies the dimension-free real calculus. The rectangular operator modulus, the polar
-factorization through a partial isometry, and the Gram-contraction factorization are complete-space
-statements over `RCLike`. [`OperatorIdeals`](../OperatorIdeals/README.md) uses the
-Gram-contraction rung directly;
-[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) uses the bounded
-polar factorization in its interval/exterior estimates.
+These constructions supply common operator-theoretic infrastructure for the neighboring roadmaps.
+[`OperatorIdeals`](../OperatorIdeals/README.md) uses the modulus, singular values, and
+Gram-contraction factorization. [`PrincipalAngles`](../PrincipalAngles/README.md) uses singular
+systems. [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) uses bounded
+polar factorization in its interval and exterior estimates.
 
-## Standing conventions
+Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar square-root estimates in
+`TauCeti/Analysis/SpecialFunctions/`.
 
-- **Scalars are `𝕜 : RCLike`; finite dimension exactly where the eigenbasis is used.** The
-  finite functional calculus is a sum over `LinearMap.IsSymmetric.eigenvectorBasis` and carries
-  `[FiniteDimensional 𝕜 E]`. The partial-isometry API, modulus, polar factorization, and
-  Gram-contraction factorization are stated on complete Hilbert spaces over `RCLike`.
-- **The bounded real continuous functional calculus is dimension-free.** Every complete real
-  Hilbert space carries `ContinuousFunctionalCalculus ℝ (E →L[ℝ] E) IsSelfAdjoint`, giving
-  bounded self-adjoint operators the standard `cfcHom` and `cfc` interface over `ℝ`.
-- **One square root, defined once.** The positive square root *is* the functional calculus
-  at `Real.sqrt`, by definition. There must not be two constructions of one object; the
-  square-root-specific theory (uniqueness, kernel, range, the isometry-defect identity)
-  attaches to that single definition.
-- **One modulus semantics, with carrier-appropriate constructions.** For a rectangular map
-  `T : E → F`, the modulus is the positive square root of `T†T` and therefore acts on `E`.
-  `LinearMap.operatorAbs` states this over finite-dimensional `RCLike` spaces;
-  `ContinuousLinearMap.modulus` states the dimension-free bounded-operator API over `RCLike`.
-  The bounded real and complex continuous functional calculi supply complete-space square-root
-  constructions; finite-dimensional bridge theorems identify the carrier-level constructions.
-- **One equation, with carrier-appropriate predicates.** In a star monoid,
-  `IsPartialIsometry u` means `u * star u * u = u`; this covers endomorphisms and abstract
-  C⋆-algebra elements. A rectangular map `u : E → F` is not an element of one monoid, so
-  `LinearMap.IsPartialIsometry` and `ContinuousLinearMap.IsPartialIsometry` state the typed
-  equation `u ∘ u† ∘ u = u`. The endomorphism predicates are proved equivalent, and the
-  geometric characterization — isometric on `(ker u)ᗮ`, zero on `ker u` — is a theorem,
-  never the definition.
-- **Construct the square root where available; factor it at `RCLike` generality.** If
-  `A : E →L[𝕜] E` is self-adjoint and `A ∘L A = T† ∘L T`, then on arbitrary complete
-  `RCLike` Hilbert spaces there is a contraction `W : E →L[𝕜] F` with contractive adjoint
-  such that `W ∘L A = T` and `W† ∘L T = A`. Taking `A = modulus T` supplies the canonical
-  Gram square root and sharpens this to the rectangular polar partial isometry.
-  Finite-dimensional endomorphisms over `RCLike` further admit a unitary factor.
-- **Intrinsic, basis-free statements.** The singular system is built for a linear map
-  between spaces, never for a matrix in a chosen pair of bases: the consumers (principal
-  angles, unitarily invariant norms, spectral-subspace perturbation) are basis-free, and a
-  matrix-mediated development would force each to carry a basis choice and prove
-  independence of it.
-- **Total operations at zero singular values.** The left singular vector is `σᵢ⁻¹ • A vᵢ`
-  through total field inversion, so it is defined (and zero) at `σᵢ = 0`; orthonormality is
-  asserted on the subtype of indices with nonzero singular value, and the singular relation
-  `A vᵢ = σᵢ • uᵢ` holds *including* the zero case.
+## Notation and terminology
+
+1. **Scalars and Hilbert spaces.** `𝕜` denotes `ℝ` or `ℂ`. The letters `E`, `F`, and `G` denote
+   Hilbert spaces over `𝕜`. Finite-dimensional hypotheses are stated where an eigenbasis or finite
+   singular system is used.
+2. **Adjoint, kernel, range, and orthogonal complement.** `T†` denotes the adjoint of `T`; `ker T`
+   denotes its kernel; `ran T` denotes its algebraic range; `closure (ran T)` denotes the norm
+   closure of the range; and `V⊥` denotes the orthogonal complement of a subspace `V`. The identity
+   operator is denoted by `I`.
+3. **Symmetric and self-adjoint operators.** Finite-dimensional endomorphisms are called
+   *symmetric* when they are symmetric for the Hilbert-space inner product. Bounded endomorphisms
+   satisfying `T† = T` are called *self-adjoint*. In finite-dimensional Hilbert spaces these terms
+   describe the same operator class.
+4. **Functional calculus and positive square root.** For a self-adjoint operator `T`, `f(T)` denotes
+   the self-adjoint functional calculus applied to a real-valued function `f`. For positive `T`,
+   `√T` denotes its positive self-adjoint square root, characterized by `(√T)² = T`. The symbol
+   `√T` always refers to this functional-calculus square root.
+5. **Operator modulus and operator absolute value.** For `T : E → F`,
+   `|T| := √(T†T) : E → E`. The terms *operator modulus* and *operator absolute value* both refer
+   to `|T|`. Scalar absolute value uses the same bars and is determined by the scalar context.
+6. **Gram operators.** For `T : E → F`, `T†T : E → E` is the source Gram operator and
+   `TT† : F → F` is the target Gram operator.
+7. **Partial isometries.** A partial isometry `U : E → F` satisfies `UU†U = U`. Its initial space is
+   `(ker U)⊥`, and its final space is `closure (ran U)`. Equivalently, `U` is isometric on its
+   initial space and vanishes on `ker U`.
+8. **Polar factor and polar decomposition.** In the canonical factorization `T = U|T|`, `U` is the
+   *polar factor* or *polar partial isometry* of `T`. A factorization of this form is a *polar
+   decomposition*.
+9. **Contractions.** A bounded operator `W` is a contraction when `‖W‖ ≤ 1`. The
+   Gram-contraction factorization records the corresponding norm bound for `W†` as well.
+10. **Eigenvalue order.** For a finite-dimensional self-adjoint operator `T`, `λₖ(T)` denotes its
+    eigenvalues in nonincreasing order and with multiplicity. For self-adjoint operators, `S ≤ T`
+    denotes the Loewner order.
+11. **Singular values and singular systems.** `σᵢ(T)` denotes the singular values of `T` in
+    nonincreasing order and with multiplicity. A singular system consists of right singular
+    vectors `vᵢ`, left singular vectors `uᵢ`, and singular values `σᵢ` satisfying
+    `Tvᵢ = σᵢuᵢ` and, for `σᵢ ≠ 0`, `T†uᵢ = σᵢvᵢ`.
+12. **Zero singular values.** The formula `uᵢ = σᵢ⁻¹ • Tvᵢ` uses total field inversion, giving
+    `uᵢ = 0` when `σᵢ = 0`. Orthonormality of the left singular vectors is asserted on the
+    nonzero-singular-value indices, while `Tvᵢ = σᵢuᵢ` holds for every index.
+13. **Rank-one notation.** `u ⊗ v` denotes the rank-one operator `x ↦ ⟪v, x⟫u`. A singular
+    reconstruction writes `T` as a finite sum of terms `σᵢ uᵢ ⊗ vᵢ`.
+14. **Moore–Penrose inverse.** `T⁺` denotes the Moore–Penrose inverse of `T`, characterized by the
+    four Penrose equations. In a singular system, `T⁺` replaces each nonzero `σᵢ` by `σᵢ⁻¹`.
+15. **Projection families.** `P` denotes an orthogonal projection. A finite family `(Pⱼ)` is a
+    complete orthogonal projection family when its members are pairwise orthogonal and
+    `∑ⱼ Pⱼ = I`.
 
 ## What Mathlib already has (consume)
 
