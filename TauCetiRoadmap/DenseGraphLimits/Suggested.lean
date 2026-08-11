@@ -983,17 +983,6 @@ def graphonMixtureLawEquiv :
     MeasureTheory.ProbabilityMeasure GraphonSpaceI ≃ InfiniteExchangeableGraphLaw :=
   mixtureExchangeableLawEquiv.trans exchangeableGraphLawEquivInfinite
 
-/-- **Layer 9b (summit marginal eliminator, derived).** The summit-level restriction law is the
-composition of the finite-marginal eliminator with the summit's definition — derived, so it can
-never drift from the finite-level pin. -/
-@[simp] theorem graphonMixtureLawEquiv_law_map_restrictFin
-    (P : MeasureTheory.ProbabilityMeasure GraphonSpaceI) (k : ℕ) :
-    ((graphonMixtureLawEquiv P).law).map (restrictFin · k)
-      = (mixtureExchangeableLaw P).law k := by
-  simpa [graphonMixtureLawEquiv, mixtureExchangeableLawEquiv_apply]
-    using exchangeableGraphLawEquivInfinite_law_map_restrictFin
-      (mixtureExchangeableLawEquiv P) k
-
 /-- **Layer 9b (anchor).** The representation sends the Dirac mass at the class of `W` to the
 infinite `W`-sampling law — tying the correspondence back to the sampling stack. With the spine,
 this is the transport of `mixtureExchangeableLaw_diracProba` through
@@ -1045,14 +1034,12 @@ theorem LabeledGraph.glueInl_eq_glueInr_iff {k : ℕ} (G₁ G₂ : LabeledGraph 
     (a : Fin G₁.n) (b : Fin G₂.n) :
     G₁.glueInl G₂ a = G₁.glueInr G₂ b ↔ ∃ i : Fin k, a = G₁.label i ∧ b = G₂.label i := sorry
 
-/-- **Adjacency is exactly the union of the two edge images** — the global eliminator: every
-glued edge has a preimage edge on one of the two sides, so no cross-edges between unlabeled
-vertices can be smuggled in. -/
-theorem LabeledGraph.glue_adj_iff {k : ℕ} (G₁ G₂ : LabeledGraph k)
-    (u v : Fin (G₁.glue G₂).n) :
-    (G₁.glue G₂).graph.Adj u v ↔
-      (∃ a b, u = G₁.glueInl G₂ a ∧ v = G₁.glueInl G₂ b ∧ G₁.graph.Adj a b) ∨
-      (∃ a b, u = G₁.glueInr G₂ a ∧ v = G₁.glueInr G₂ b ∧ G₂.graph.Adj a b) := sorry
+/-- **The glued graph is exactly the supremum of the two mapped sources** — smaller and
+compositional than a raw adjacency eliminator, and it yields the full adjacency `iff` by
+`SimpleGraph.sup_adj` and `SimpleGraph.map_adj`: no cross-edges between unlabeled vertices can
+be smuggled in. -/
+theorem LabeledGraph.glue_graph {k : ℕ} (G₁ G₂ : LabeledGraph k) :
+    (G₁.glue G₂).graph = G₁.graph.map (G₁.glueInl G₂) ⊔ G₂.graph.map (G₁.glueInr G₂) := sorry
 
 /-- The gluing identifies exactly the corresponding labeled vertices: the two maps agree on
 labels, and the labels of the gluing are the common image. -/
