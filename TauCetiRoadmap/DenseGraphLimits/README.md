@@ -109,17 +109,18 @@ atoms made explicit, then step-approximation stability); the strict ↔ `AEEqFun
 bridge; the Möbius / reflection-positivity spine of Layer 8b; the carrier-free representation
 reduction (Janson 7.1/7.3).
 
-**Two design lessons from the migration sources' converse campaign**, applying to every opaque
-constructor pinned here:
+**Two requirements for every opaque constructor pinned here:**
 
-- *Compiled contracts need adversarial examples.* A constructor can satisfy every stated law
-  while the laws themselves are inadequate; regressions designed to break the contract — each
-  blind to the others' failure mode — catch what type-checking cannot.
-- *Invariance of one marginal does not supply equivariance of a coupling.* When a
-  transformation crosses a boundary (a carrier split, a quotient, a relabeling class), every
-  coupled coordinate needs an explicit compatible action; without one the coupling is
-  equivariant only for the boundary-preserving action, and consumers needing the larger action
-  are blocked. State the acting family for every coupling explicitly.
+- **Ship adversarial regressions with the contract.** Satisfying the stated laws is not
+  evidence that the laws suffice. Pair each constructor with examples chosen to *break* its
+  contract, each targeting a different failure mode; a contract with no such examples should be
+  treated as unreviewed.
+- **State the acting family for every coupling.** A coupling is equivariant only under actions
+  supplied compatibly on *every* coordinate — invariance of a marginal contributes nothing by
+  itself. When a transformation crosses a boundary (a carrier split, a quotient, a relabeling
+  class), say explicitly which actions lift and which do not: a coupling whose acting family is
+  smaller than its consumers need is a blocked route, and the mismatch belongs in the
+  signature, not in a downstream surprise.
 
 ## What Mathlib already has (consume)
 
