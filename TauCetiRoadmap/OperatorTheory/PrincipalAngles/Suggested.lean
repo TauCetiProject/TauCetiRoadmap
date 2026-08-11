@@ -219,11 +219,12 @@ noncomputable def principalAngles (U V : Submodule 𝕜 E)
     [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : ℕ →₀ ℝ :=
   (principalSines U V).mapRange Real.arcsin Real.arcsin_zero
 
-/-- Principal-angle tangents.
+/-- Principal-angle tangents on the pole-free locus.
 
 Roadmap: `PA-B15`. -/
 noncomputable def principalTangents (U V : Submodule 𝕜 E)
-    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : ℕ →₀ ℝ :=
+    [U.HasOrthogonalProjection] [V.HasOrthogonalProjection]
+    (_hpole : ∀ i, principalAngles U V i < Real.pi / 2) : ℕ →₀ ℝ :=
   (principalAngles U V).mapRange Real.tan Real.tan_zero
 
 /-- No principal angle is a quarter turn.

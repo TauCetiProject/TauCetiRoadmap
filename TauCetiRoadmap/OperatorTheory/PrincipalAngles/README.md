@@ -46,8 +46,8 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
   sets; *ordered separation* fixes their relative order; *interval/exterior separation* places one
   set in an interval and the other outside a prescribed enlargement of that interval.
 - **Acute and quarter-turn configurations.** An acute pair has injective projection from one
-  subspace to the other. Quarter-turn language refers to principal angle `π/4` and is used by the
-  tangent and double-angle theory.
+  subspace to the other. Principal tangents are used on the pole-free locus where every directed
+  principal angle is strictly below `π/2`. Quarter-turn language refers to principal angle `π/4`.
 
 ## What Mathlib already has (consume)
 
@@ -59,6 +59,8 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
   [`OrthogonalGeometry`](../OrthogonalGeometry/README.md).
 - **Singular values:** `LinearMap.singularValues`, which the principal cosines are defined
   as.
+- **Sorted rearrangement:** Mathlib's `Monovary` rearrangement inequality supplies the
+  permutation-maximality statement for similarly ordered finite tuples.
 
 ## What is missing (build here)
 
@@ -178,7 +180,8 @@ seminorms use `MAJ-B01`–`MAJ-B43`; the complete-space angle operators use the 
 
 **Objects.** The right and left Gram operators; the cross-projection cosine and sine maps;
 the double-angle map; the complete-space cosine and sine angle operators; the finite
-principal cosine, sine, angle, and tangent sequences; the acute and quarter-turn predicates;
+principal cosine, sine, and angle sequences; the pole-free principal tangent sequence; the acute
+and quarter-turn predicates;
 and the frame factorization of an injective trial map.
 
 #### Gram operators and angle objects
@@ -214,8 +217,9 @@ sine, and double-angle operator data.
   sequence as the singular values of `P_{V⊥}P_U`.
 - **PA-B14 — Principal angles.** Define the principal-angle sequence by applying `arcsin` to
   the principal sines.
-- **PA-B15 — Principal tangents.** Define the principal-tangent sequence by applying `tan` to
-  the principal angles.
+- **PA-B15 — Principal tangents.** For a finite-dimensional projected pair satisfying
+  `θᵢ(U,V) < π/2` for every directed principal angle, define the principal-tangent sequence by
+  applying `tan` to the principal angles.
 - **PA-B16 — Acuteness.** Define a pair `(U,V)` to be acute when `P_V` is injective on `U`
   and `P_U` is injective on `V`.
 - **PA-B17 — Quarter-turn avoidance.** Define quarter-turn avoidance by
@@ -259,8 +263,6 @@ Sorted rearrangement and doubly stochastic orbit geometry convert basis overlaps
 eigenvalue comparisons. Gram perturbation and frame factorization then connect rectangular
 operator perturbations with eigenvalue displacement.
 
-- **PA-B30 — Sorted rearrangement inequality.** Pairing two real finite tuples in the same
-  sorted order maximizes their bilinear pairing over coordinate permutations.
 - **PA-B31 — Birkhoff bilinear bound.** A doubly stochastic mixture of permutations has
   bilinear pairing at most the sorted pairing.
 - **PA-B32 — von Neumann trace inequality.** For symmetric finite-dimensional operators
@@ -294,7 +296,7 @@ operator perturbations with eigenvalue displacement.
 
 **Milestone — angle dictionary.** `PA-B01`–`PA-B29`.
 
-**Milestone — eigenvalue perturbation.** `PA-B30`–`PA-B41`.
+**Milestone — eigenvalue perturbation.** `PA-B31`–`PA-B41`.
 
 ### Part C — the projection gap and spectral subspaces
 

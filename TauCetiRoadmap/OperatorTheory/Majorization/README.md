@@ -42,6 +42,7 @@ Suggested home: `TauCeti/Analysis/Convex/Majorization.lean` for the convex engin
   `dₖ := Re⟪Teₖ,eₖ⟫` denotes the diagonal data and
   `wᵢₖ := |⟪vᵢ,eₖ⟫|²` denotes the Schur weight matrix relative to an eigenbasis `(vᵢ)`.
 - **Ky Fan sums.** `Kₖ(A) := ∑_{i<k} σᵢ(A)` denotes the sum of the first `k` singular values.
+- **Rank.** In finite dimension, `rank A` denotes the dimension of `range A`.
 - **Unitarily invariant seminorms.** A square unitarily invariant seminorm is invariant under
   two-sided unitary multiplication. In the rectangular setting the left and right unitaries act on
   the target and source independently.
@@ -344,8 +345,8 @@ the abstract three-law structure.
   the chosen orthonormal basis.
 - **MAJ-B36 — Frobenius singular-value formula.** `F(A) = √(∑ᵢ σᵢ(A)²)`.
 - **MAJ-B37 — Nuclear singular-value formula.** `N₁(A) = ∑ᵢ σᵢ(A)`.
-- **MAJ-B38 — Nuclear-to-Frobenius bound.** For `A : E → F`,
-  `N₁(A) ≤ √(dim E) F(A)`.
+- **MAJ-B38 — Rank-sharp nuclear-to-Frobenius bound.** For finite-dimensional
+  `A : E → F`, `N₁(A) ≤ √(rank A) F(A)`, where `rank A` is the dimension of `range A`.
 - **MAJ-B39 — Square Frobenius bridge.** Restricting the rectangular Frobenius seminorm to
   square operators gives the square Frobenius seminorm of Part A.
 

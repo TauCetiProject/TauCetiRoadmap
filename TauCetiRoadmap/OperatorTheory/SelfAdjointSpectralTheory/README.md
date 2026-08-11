@@ -790,12 +790,12 @@ inverses, and reassembly translate local spectral support into quantitative oper
 - **SA-E34 — Covering by spectral grid cells.** The union of all grid cells is `ℝ`.
 - **SA-E35 — Norm splitting across the grid.** For every vector, the squared norms of its
   spectral-grid components sum to the squared norm of the vector.
-- **SA-E36 — Cut operator on a spectral range.** For a spectral range and center `c`, define
-  the bounded restriction/cut operator representing `A-c` on that range under a pointwise
-  radius bound.
-- **SA-E37 — Pointwise-to-operator cut bound.** A pointwise estimate
-  `‖Ay-cy‖ ≤ r‖y‖` on a spectral range yields the corresponding operator-norm bound for the
-  cut operator.
+- **SA-E36 — Spectral cut operator.** Let self-adjoint `A : H →ₗ.[ℂ] H`, let `B ⊆ ℝ` be
+  measurable, and let `c,r ∈ ℝ` satisfy `0≤r` and `|s-c|≤r` for every `s∈B`. Define the bounded
+  spectral cut operator with truncated symbol `(s-c)1_B(s)`.
+- **SA-E37 — Spectral cut bounds and action.** Under `SA-E36`, the cut operator `C` satisfies
+  `‖C‖≤r`. If `B` is also bounded, `y` lies in the spectral range `P_A(B)H`, and `y∈dom A`, then
+  `Cy=Ay-cy`.
 - **SA-E38 — Spectral-gap inverse.** For `δ>0`, define the bounded spectral multiplier
   obtained from the reciprocal symbol on `|s|≥δ` and zero on `|s|<δ`.
 - **SA-E39 — Spectral-gap inverse equation.** If the diagonal spectral measure of `ξ`
@@ -803,8 +803,9 @@ inverses, and reassembly translate local spectral support into quantitative oper
   applying `A` to it gives `ξ`.
 - **SA-E40 — Spectral-gap inverse norm bound.** Under the hypotheses of `SA-E39`, the
   spectral-gap inverse satisfies `‖G_δ ξ‖ ≤ δ⁻¹‖ξ‖`.
-- **SA-E41 — Reassembly of block lower bounds.** Orthogonal spectral blocks carrying a
-  uniform lower bound reassemble to the same lower bound on their Hilbert sum.
+- **SA-E41 — Reassembly of block lower bounds.** Let `(Qᵢ)` be bounded operators on a complex
+  inner-product space satisfying `∑ᵢ ‖Qᵢf‖²=‖f‖²` for every `f`. If `c≥0` and vectors `x,y`
+  satisfy `c‖Qᵢx‖≤‖Qᵢy‖` for every `i`, then `c‖x‖≤‖y‖`.
 
 #### Packaged spectral theorems
 

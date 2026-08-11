@@ -81,6 +81,9 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar squar
 - **Singular values:** `LinearMap.singularValues : ℕ →₀ ℝ` between finite-dimensional inner
   product spaces — zero-indexed, antitone, zero past the rank. Mathlib has the values;
   Part C adds the vectors, the two-sided spectrum bridge, and the pseudoinverse.
+- **Gram symmetry and positivity:** `LinearMap.isSymmetric_adjoint_comp_self` and
+  `LinearMap.isPositive_adjoint_comp_self` give the source Gram facts; applying the same
+  results to the adjoint gives the target Gram facts.
 
 ---
 
@@ -449,14 +452,6 @@ adjoint invariance and the rectangular bridge used by the singular system.
   its singular-value sequence is the singular-value sequence of the underlying linear map.
 - **PD-C02 — Compatibility with the underlying linear map.** Passing a finite-dimensional
   bounded operator to its underlying linear map leaves every singular value unchanged.
-- **PD-C03 — Symmetry of the source Gram operator.** For every finite-dimensional linear map
-  `A : E → F`, `A†A` is symmetric.
-- **PD-C04 — Positivity of the source Gram operator.** For every finite-dimensional linear map
-  `A : E → F`, `A†A` is positive.
-- **PD-C05 — Symmetry of the target Gram operator.** For every finite-dimensional linear map
-  `A : E → F`, `AA†` is symmetric.
-- **PD-C06 — Positivity of the target Gram operator.** For every finite-dimensional linear map
-  `A : E → F`, `AA†` is positive.
 - **PD-C07 — Rectangular Gram-spectrum bridge.** The nonzero eigenvalues of `A†A` and `AA†` agree
   with multiplicity; equivalently, their sorted eigenvalue lists agree through the common rank
   and are zero beyond it.
@@ -513,7 +508,7 @@ A B A = A     B A B = B     (A B)† = A B     (B A)† = B A
 - **PD-C26 — Surjective case.** If `A` is surjective, then `AA⁺ = I`.
 - **PD-C27 — Invertible case.** If `A` is invertible, then `A⁺ = A⁻¹`.
 
-**Milestone C1 — Gram spectra and singular values.** `PD-C01`–`PD-C08`.
+**Milestone C1 — Gram spectra and singular values.** `PD-C01`–`PD-C02`, `PD-C07`–`PD-C08`.
 
 **Milestone C2 — singular expansion.** `PD-C09`–`PD-C18`.
 

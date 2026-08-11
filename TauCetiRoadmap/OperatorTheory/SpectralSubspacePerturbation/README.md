@@ -342,7 +342,8 @@ norm forms.
 #### Double-angle and tangent theory
 
 Ordered two-block form separation gives the finite-dimensional `sin 2Θ` estimate. Ritz
-compression/exterior separation gives the tangent estimate, while an off-diagonal perturbation
+compression/exterior separation gives the tangent estimate together with the pole-free
+transversality needed to interpret principal tangents, while an off-diagonal perturbation
 sharpens the eigenvector product inequality to the `tan 2θ` form.
 
 - **SSP-C25 — Per-eigenvector `sin 2θ` product bound.** Let bounded symmetric `A,H` act on a
@@ -358,12 +359,13 @@ sharpens the eigenvector product inequality to the `tan 2θ` form.
 - **SSP-C28 — Equal-rank Ritz-residual `tan Θ` theorem.** Let `A` be symmetric on a
   finite-dimensional Hilbert space, let `U` be `A`-invariant, and let an isometric trial map
   `X` have `rank(range X)=rank(U)`. If the spectrum of `X†AX` lies in `[β,α]`, the spectrum
-  of `A|_{U⊥}` lies in `[α+δ,∞)`, and `δ>0`, then for every rectangular unitarily invariant
-  seminorm `N`, any tangent operator whose singular values are the principal tangents of
-  `range X` and `U` satisfies `δN(tanΘ)≤N(R)`, where `R=AX-X(X†AX)`.
-- **SSP-C29 — Lower-rank Ritz-residual `tan Θ` theorem.** The conclusion of `SSP-C28`
-  remains valid when `rank(range X)<rank(U)` under the same interval/exterior spectral
-  hypotheses.
+  of `A|_{U⊥}` lies in `[α+δ,∞)`, and `δ>0`, then every directed principal angle from
+  `range X` to `U` is strictly below `π/2`. For every rectangular unitarily invariant seminorm
+  `N`, any tangent operator whose singular values are the resulting principal tangents satisfies
+  `δN(tanΘ)≤N(R)`, where `R=AX-X(X†AX)`.
+- **SSP-C29 — Lower-rank Ritz-residual `tan Θ` theorem.** The pole-free conclusion and
+  residual bound of `SSP-C28` remain valid when `rank(range X)<rank(U)` under the same
+  interval/exterior spectral hypotheses.
 - **SSP-C30 — Off-diagonal `tan 2θ` product bound.** Under `SSP-C25`, additionally assume
   that both diagonal blocks of `H` relative to `U⊕U⊥` vanish. Then
   `(b-a)‖P_Ux‖‖P_{U⊥}x‖ ≤ |‖P_Ux‖²-‖P_{U⊥}x‖²| ε`.
@@ -372,7 +374,8 @@ sharpens the eigenvector product inequality to the `tan 2θ` form.
   `(A+H)`-invariant, and let `a<b`. Assume `A` satisfies
   `b‖u‖²≤Re⟪Au,u⟫` on `U` and `Re⟪Az,z⟫≤a‖z‖²` on `U⊥`, while `A+H` satisfies the
   same two-block bounds relative to `V`. If `H(U)⊆U⊥` and `H(U⊥)⊆U`, then
-  `‖P_U-P_V‖<sqrt(2)/2`, equivalently the maximal angle from `U` to `V` is less than `π/4`.
+  `‖P_U-P_V‖<sqrt(2)/2`. In finite dimension, equivalently, the maximal principal angle
+  from `U` to `V` is less than `π/4`.
 
 **Milestone C1 — trial maps, residuals, and graph subspaces.** `SSP-C01`–`SSP-C14`.
 
