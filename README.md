@@ -33,6 +33,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
 - [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
 - [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
+- [Orthogonal and spin groups](TauCetiRoadmap/OrthogonalSpinGroups/README.md)
 - [Partial differential equations](TauCetiRoadmap/PDE/README.md)
 - [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
 - [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)

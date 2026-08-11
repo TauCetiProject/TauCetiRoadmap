@@ -36,3 +36,4 @@ import TauCetiRoadmap.HodgeStructures.Suggested
 import TauCetiRoadmap.AlgebraicCurves.Suggested
 import TauCetiRoadmap.DenseGraphLimits.Suggested
 import TauCetiRoadmap.ZigzagPreprojective.Suggested
+import TauCetiRoadmap.OrthogonalSpinGroups.Suggested
