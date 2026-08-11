@@ -340,11 +340,13 @@ theorem graphonPartitionEnergy_le_one (P : Finpartition (⊤ : Set Ω))
     graphonPartitionEnergy μ P hP W ≤ 1 := sorry
 
 /-- **Layer 2 (Frieze–Kannan weak regularity).** For every `ε > 0` there is a measurable finite
-partition of complexity `≤ 4^{⌈1/ε²⌉}` whose block-average step graphon approximates `W` to within
-`ε` in cut norm. (The exact cardinality shape may be adjusted to the `Finpartition` adapter.) -/
+partition of complexity `≤ 4^{⌈1/ε²⌉+1}` — the proved migration baseline (`cameronfreer/graphon`,
+`Regularity.lean`) — whose block-average step graphon approximates `W` to within `ε` in cut norm.
+Sharpening the exponent to `4^{⌈1/ε²⌉}` is a prospective improvement, not a migration-source
+result, and is priced separately. -/
 theorem weak_regularity_frieze_kannan (W : Graphon Ω μ) {ε : ℝ} (hε : 0 < ε) :
     ∃ (P : Finpartition (⊤ : Set Ω)) (hP : ∀ p ∈ P.parts, MeasurableSet p),
-      P.parts.card ≤ 4 ^ Nat.ceil (1 / ε ^ 2) ∧
+      P.parts.card ≤ 4 ^ (Nat.ceil (1 / ε ^ 2) + 1) ∧
       cutNorm μ (W.toSymmKernel - (stepGraphonAvg μ P hP W).toSymmKernel) ≤ ε := sorry
 
 /-- **Layer 2 (descent of `t(F, ·)`).** `homDensity` descends to `GraphonSpace` (well-defined by the
@@ -498,7 +500,10 @@ def homDensityFin {V : Type*} [Fintype V] (F : SimpleGraph V) {m : ℕ} (G : Sim
 
 /-- **Layer 9a (injective hom density `t₀`).** The *ordered injective* hom count over the **falling
 factorial `(m)_k = m.descFactorial k`** (`k = |V(F)|`) — **not** `Nat.choose m k`, which would bias
-the sampling estimator by `k!`. Via `Nat.card`; no decidability on the target graph `G`. -/
+the sampling estimator by `k!`. Via `Nat.card`; no decidability on the target graph `G`.
+**Bridge to Mathlib**: `SimpleGraph.labelledCopyCount` counts labelled copies — injective
+homomorphisms — so this numerator should either be restated through it or accompanied by the
+one-line equivalence; a parallel injective-count primitive left unexplained is not acceptable. -/
 def injHomDensity {V : Type*} [Fintype V] (F : SimpleGraph V) {m : ℕ} (G : SimpleGraph (Fin m)) : ℝ :=
   (Nat.card {φ : F →g G // Function.Injective φ} : ℝ) / (m.descFactorial (Fintype.card V) : ℝ)
 
@@ -593,7 +598,9 @@ theorem abs_homDensityFin_exposedSample_update_le {V : Type*} [Fintype V] [Decid
 the **ordinary** hom density: `P(|t(F, G(n,W)) − t(F,W)| ≥ ε) ≤ 2·exp(−ε²n/(2q²))` under the side
 condition `2q² ≤ εn`, which absorbs the collision bias between the finite-sample mean and
 `t(F, W)`. (The injective density `t₀` keeps its unbiasedness anchor in Layer 9a but is **not**
-the concentration engine.) -/
+the concentration engine.) The constants are **verified in the migration source**
+(`cameronfreer/graphon`, `SampleExposure.lean`): the `q/k` oscillation and this exact tail under
+this exact side condition are proved there verbatim. -/
 theorem sampleGraph_homDensityFin_concentration {V : Type*} [Fintype V] [DecidableEq V]
     (F : SimpleGraph V) [DecidableRel F.Adj] (W : Graphon Ω μ) {n : ℕ} {ε : ℝ} (hε : 0 < ε)
     (hn : 2 * (Fintype.card V : ℝ) ^ 2 ≤ ε * n) :
@@ -729,6 +736,15 @@ marginals — the packaging that lets the representation below be stated in the 
 formalization: `InfiniteLaw.lean` + `InfiniteExchangeability.lean`. -/
 def exchangeableGraphLawEquivInfinite :
     ExchangeableGraphLaw ≃ InfiniteExchangeableGraphLaw := sorry
+
+/-- **Layer 9b (the finite-marginal eliminator).** The equivalence's semantic pin: the level-`k`
+window of the extension is the level-`k` marginal. Without this named law the `Equiv` is
+observationally unconstrained — an arbitrary bijection could permute laws — and with it,
+consumers never unfold the equivalence. Proved in the migration source (`cameronfreer/graphon`:
+`infiniteLaw_map_restrictFin` composed with the equivalence's application law). -/
+@[simp] theorem exchangeableGraphLawEquivInfinite_law_map_restrictFin
+    (L : ExchangeableGraphLaw) (k : ℕ) :
+    ((exchangeableGraphLawEquivInfinite L).law).map (restrictFin · k) = L.law k := sorry
 
 /-- **Layer 9b (the sampler realizes the abstract law).** The explicit joint sampling law **is** the
 compactness extension of the sampling marginals. This certifies in particular that the explicit
