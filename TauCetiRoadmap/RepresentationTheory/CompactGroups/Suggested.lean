@@ -220,7 +220,7 @@ noncomputable def convolutionOperator (k : C(G, ℂ)) :
 /-- **Compactness of the convolution operator.** The load-bearing analytic input; Mathlib supplies
 the spectral theorem for compact self-adjoint operators
 (`ContinuousLinearMap.finite_dimensional_eigenspace`). -/
--- Schedule-risk note (review): this one-liner hides the analytic crux of the whole route. The
+-- This one-liner hides the analytic crux of the whole route. The
 -- standard path is Hilbert-Schmidt: (a) an HS-operator API over `L²(G)`; (b) "continuous kernel on
 -- a compact space ⇒ Hilbert-Schmidt integral operator"; (c) "Hilbert-Schmidt ⇒ compact"; and, for
 -- the approximate identity `approx_identity_exists` (README), an approximate-identity theory that
@@ -356,7 +356,7 @@ theorem character_orthonormal_distinct (π : ContRepresentation ℂ G V) (ρ : C
 
 /-! ### Layer 6b: the Frobenius-Schur reality trichotomy for compact groups
 
-Coverage requirement from review: the reality invariant (real / quaternionic / complex type) is
+The reality invariant (real / quaternionic / complex type) is
 built for finite groups in `../CharacterTheory` Layer 7 but is needed for compact groups — spinor
 reality types (Majorana / symplectic-Majorana / Dirac) and matter-representation reality generally.
 The Haar integral replaces the finite average; every prerequisite (characters, Haar probability

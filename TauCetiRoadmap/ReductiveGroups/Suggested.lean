@@ -9,7 +9,7 @@ contributors and reviewers converge on names and signatures; discharging all of 
 finishes neither a layer nor the roadmap.
 
 The narrative roadmap (the three synchronized models, the layer-by-layer build plan
-Layers 0–7, the worked examples, and the references) is in `README.md`.
+Layers 0–9, the worked examples, and the references) is in `README.md`.
 
 This file holds the **Layer 0** targets translating between affine group schemes and
 Hopf algebras (Kevin Buzzard). They elaborate against the pinned Mathlib commit and are
