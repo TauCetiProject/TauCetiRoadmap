@@ -44,20 +44,28 @@ variable {E : Type v} [SeminormedAddCommGroup E] [NormedSpace 𝕜 E]
 variable {F : Type w} [SeminormedAddCommGroup F] [NormedSpace 𝕜 F]
 variable {G : Type x} [SeminormedAddCommGroup G] [NormedSpace 𝕜 G]
 
-/-- The zero-based approximation-number sequence, in the shape proposed upstream. -/
+/-- The zero-based approximation-number sequence, in the shape proposed upstream.
+
+Roadmap: `OI-A01`. -/
 noncomputable def singularValue (T : E →L[𝕜] F) (n : ℕ) : ℝ≥0 :=
   ⨅ R : {R : E →L[𝕜] F // R.rank ≤ (n : Cardinal)}, ‖T - R.1‖₊
 
+/- Roadmap: `OI-A12`. -/
 @[simp] theorem singularValue_zero (T : E →L[𝕜] F) :
     T.singularValue 0 = ‖T‖₊ := sorry
 
+/- Roadmap: `OI-A13`. -/
 theorem antitone_singularValue (T : E →L[𝕜] F) : Antitone T.singularValue := sorry
 
-/-- The fixed-index perturbative triangle bound in the upstream API. -/
+/-- The fixed-index perturbative triangle bound in the upstream API.
+
+Roadmap: `OI-A16`. -/
 theorem singularValue_add_le (S T : E →L[𝕜] F) (n : ℕ) :
     ((S + T).singularValue n : ℝ) ≤ (S.singularValue n : ℝ) + ‖T‖ := sorry
 
-/-- The two-sided ideal inequality at a fixed index. -/
+/-- The two-sided ideal inequality at a fixed index.
+
+Roadmap: `OI-A20`. -/
 theorem singularValue_comp_comp_le {G' H' : Type*}
     [SeminormedAddCommGroup G'] [NormedSpace 𝕜 G']
     [SeminormedAddCommGroup H'] [NormedSpace 𝕜 H']
@@ -84,11 +92,15 @@ variable {E : Type v} [SeminormedAddCommGroup E] [NormedSpace 𝕜 E]
 variable {F : Type w} [SeminormedAddCommGroup F] [NormedSpace 𝕜 F]
 variable {G : Type x} [SeminormedAddCommGroup G] [NormedSpace 𝕜 G]
 
-/-- Exact zero-based mixed-index subadditivity, extending the upstream-facing s-number API. -/
+/-- Exact zero-based mixed-index subadditivity, extending the upstream-facing s-number API.
+
+Roadmap: `OI-A17`. -/
 theorem singularValue_add_index_le (S T : E →L[𝕜] F) (m n : ℕ) :
     (S + T).singularValue (m + n) ≤ S.singularValue m + T.singularValue n := sorry
 
-/-- Composition multiplicativity across indices. -/
+/-- Composition multiplicativity across indices.
+
+Roadmap: `OI-A22`. -/
 theorem singularValue_comp_add_le_mul (S : F →L[𝕜] G) (T : E →L[𝕜] F) (m n : ℕ) :
     (S ∘L T).singularValue (m + n) ≤ S.singularValue m * T.singularValue n := sorry
 
@@ -100,13 +112,17 @@ variable {𝕜 : Type u} [RCLike 𝕜]
 variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
 variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
 
-/-- Adjoint invariance, the Hilbert-space symmetry the Banach theory lacks. -/
+/-- Adjoint invariance, the Hilbert-space symmetry the Banach theory lacks.
+
+Roadmap: `OI-A30`. -/
 @[simp] theorem singularValue_adjoint (T : E →L[𝕜] F) (n : ℕ) :
     (ContinuousLinearMap.adjoint T).singularValue n
       = T.singularValue n := sorry
 
 /-- On finite-dimensional inner-product spaces, the approximation numbers are the
-singular values: Eckart--Young. -/
+singular values: Eckart--Young.
+
+Roadmap: `OI-A49`. -/
 theorem singularValue_eq_linearMap_singularValues
     [FiniteDimensional 𝕜 E] [FiniteDimensional 𝕜 F] (T : E →L[𝕜] F) (n : ℕ) :
     (T.singularValue n : ℝ) = (T : E →ₗ[𝕜] F).singularValues n := sorry
@@ -115,7 +131,9 @@ theorem singularValue_eq_linearMap_singularValues
 rank greater than `n` on which `T` is `c`-coercive forces `aₙ(T) ≥ c`.
 
 Deliberately not called `singularValue_minmax`: this is one direction, and a name
-claiming the equality would overstate what the declaration says. -/
+claiming the equality would overstate what the declaration says.
+
+Roadmap: `OI-A32`. -/
 theorem le_singularValue_of_lt_rank (T : E →L[𝕜] F) (n : ℕ) (V : Submodule 𝕜 E)
     {c : ℝ} (hVrank : (n : Cardinal) < Module.rank 𝕜 V)
     (hV : ∀ x : V, c * ‖(x : E)‖ ≤ ‖T (x : E)‖) :
@@ -129,7 +147,9 @@ variable {𝕜 : Type u} [RCLike 𝕜]
 
 /-- The converse min--max localization for one Hilbert-space pair: every strict
 lower bound for `aₙ(T)` is improved by a uniform lower bound on an `(n+1)`-generated
-subspace. This is the analytic input from which the Ky Fan triangle inequality is derived. -/
+subspace. This is the analytic input from which the Ky Fan triangle inequality is derived.
+
+Roadmap: `OI-A38`. -/
 def HasMinMaxLowerBound (E : Type v) (F : Type w)
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
     [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] : Prop :=
@@ -156,7 +176,9 @@ non-members; the ideal itself is recovered as the finiteness domain of the gauge
 
 The composition law is stated inside the family's two universes, which is what a
 rectangular family in two universes can express; the diagonal case, where the adjoint keeps
-source and target in one universe, is `SymmetricOperatorIdealFamily` below. -/
+source and target in one universe, is `SymmetricOperatorIdealFamily` below.
+
+Roadmap: `OI-B01`. -/
 structure OperatorIdealFamily (𝕜 : Type u) [RCLike 𝕜] where
   gauge : ∀ {E : Type v} {F : Type w}
       [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
@@ -186,7 +208,9 @@ structure OperatorIdealFamily (𝕜 : Type u) [RCLike 𝕜] where
 
 It is a second structure rather than an extra field because the adjoint exchanges source
 and target: `gauge_adjoint` compares the gauge at `(E, F)` with the gauge at `(F, E)`, which
-is only a statement inside one universe. -/
+is only a statement inside one universe.
+
+Roadmap: `OI-B02`. -/
 structure SymmetricOperatorIdealFamily (𝕜 : Type u) [RCLike 𝕜]
     extends OperatorIdealFamily.{u, v, v} 𝕜 where
   gauge_adjoint : ∀ {E F : Type v}
@@ -200,21 +224,29 @@ variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [Complet
 variable {ι : Type x}
 
 /-- The Hilbert--Schmidt energy in `ℝ≥0∞`: no summability side conditions
-anywhere, and basis independence is a theorem rather than a hypothesis. -/
+anywhere, and basis independence is a theorem rather than a hypothesis.
+
+Roadmap: `OI-B32`. -/
 noncomputable def hilbertSchmidtEnergy (T : F →L[𝕜] E) (b : HilbertBasis ι 𝕜 F) : ℝ≥0∞ :=
   ∑' i, ‖T (b i)‖ₑ ^ 2
 
-/-- Basis independence of the energy, by Parseval and unconditional Fubini. -/
+/-- Basis independence of the energy, by Parseval and unconditional Fubini.
+
+Roadmap: `OI-B35`. -/
 theorem hilbertSchmidtEnergy_indep {ι' : Type y} (T : F →L[𝕜] E)
     (b : HilbertBasis ι 𝕜 F) (c : HilbertBasis ι' 𝕜 F) :
     hilbertSchmidtEnergy T b = hilbertSchmidtEnergy T c := sorry
 
 /-- The Ky Fan gauge: the sum of the first `k` approximation numbers.  It is the gauge every
-dominance statement is phrased against. -/
+dominance statement is phrased against.
+
+Roadmap: `OI-A06`. -/
 noncomputable def kyFanGauge (T : E →L[𝕜] F) (k : ℕ) : ℝ≥0 :=
   ∑ n ∈ Finset.range k, T.singularValue n
 
-/-- The Ky Fan triangle inequality from the converse min--max localization for this pair. -/
+/-- The Ky Fan triangle inequality from the converse min--max localization for this pair.
+
+Roadmap: `OI-A47`. -/
 theorem kyFanGauge_add_le_of_hasMinMaxLowerBound
     (hmm : HasMinMaxLowerBound (𝕜 := 𝕜) E F) (S T : E →L[𝕜] F) (k : ℕ) :
     kyFanGauge (S + T) k ≤ kyFanGauge S k + kyFanGauge T k := by
@@ -222,18 +254,24 @@ theorem kyFanGauge_add_le_of_hasMinMaxLowerBound
 
 /-- **Milestone A2.** Ky Fan subadditivity at the natural public generality.  A proof may
 use `HasMinMaxLowerBound` internally, with separate real and complex routes, but callers only
-need the scalar field to be `RCLike`. -/
+need the scalar field to be `RCLike`.
+
+Roadmap: `OI-A48`. -/
 theorem kyFanGauge_add_le (S T : E →L[𝕜] F) (k : ℕ) :
     kyFanGauge (S + T) k ≤ kyFanGauge S k + kyFanGauge T k := by
   sorry
 
 /-- The nuclear gauge: the series of approximation numbers.  Its triangle inequality is the
-Ky Fan inequality in the limit. -/
+Ky Fan inequality in the limit.
+
+Roadmap: `OI-B29`. -/
 noncomputable def nuclearENorm (T : E →L[𝕜] F) : ℝ≥0∞ :=
   ∑' n, (T.singularValue n : ℝ≥0∞)
 
 /-- **Ky Fan dominance as a property of an ideal family.** The ideal-family laws do not
-force it; a family carries dominance as a separate property. -/
+force it; a family carries dominance as a separate property.
+
+Roadmap: `OI-B42`. -/
 class IsKyFanDominant {𝕜 : Type u} [RCLike 𝕜]
     (Φ : OperatorIdealFamily.{u, v, w} 𝕜) : Prop where
   gauge_le_of_forall_kyFanGauge_le : ∀ {E : Type v} {F : Type w}
@@ -266,7 +304,9 @@ normalized gauge on finitely supported nonnegative sequences.
 
 `symm` is stated against `Equiv.Perm ℕ` acting by precomposition on the finitely
 supported sequence, which is what makes "symmetric" a property of `Φ` rather than a
-property of the sequences it is applied to. -/
+property of the sequences it is applied to.
+
+Roadmap: `OI-B56`. -/
 structure SymmetricGauge where
   /-- The underlying gauge on finitely supported nonnegative sequences. -/
   toFun : (ℕ →₀ ℝ≥0) → ℝ≥0
@@ -290,11 +330,15 @@ supremum of `Φ` over the finitely supported sequences dominated by `a`.
 ideal, and a supremum of an increasing net is total by construction; any route
 through summability reintroduces the side conditions the interface avoids.
 
-Spec: D1. -/
+Spec: D1.
+
+Roadmap: `OI-B59`. -/
 noncomputable def SymmetricGauge.extend (Φ : SymmetricGauge) (a : ℕ → ℝ≥0∞) : ℝ≥0∞ :=
   ⨆ b : {b : ℕ →₀ ℝ≥0 // ∀ i, (b i : ℝ≥0∞) ≤ a i}, (Φ.toFun b.1 : ℝ≥0∞)
 
-/-- Both ends of the scale, and the reason the normalization is not a restriction. -/
+/-- Both ends of the scale, and the reason the normalization is not a restriction.
+
+Roadmap: `OI-B57`, `OI-B58`. -/
 theorem SymmetricGauge.iSup_le_extend_le_tsum (Φ : SymmetricGauge) (a : ℕ → ℝ≥0∞) :
     (⨆ n, a n) ≤ Φ.extend a ∧ Φ.extend a ≤ ∑' n, a n := sorry
 
@@ -305,7 +349,9 @@ theorems, one input each: `gauge_add_le` is Milestone B2, while `gauge_smul`,
 Part A. Adjoint invariance is stated separately across swapped universes and packaged by the
 diagonal companion below.
 
-Spec: D2. -/
+Spec: D2.
+
+Roadmap: `OI-B64`, `OI-B65`, `OI-B66`, `OI-B67`, `OI-B68`, `OI-B69`. -/
 noncomputable def symmetricGaugeFamily (𝕜 : Type u) [RCLike 𝕜] (Φ : SymmetricGauge) :
     OperatorIdealFamily.{u, v, w} 𝕜 where
   gauge A := Φ.extend fun n => (A.singularValue n : ℝ≥0∞)
@@ -316,7 +362,9 @@ noncomputable def symmetricGaugeFamily (𝕜 : Type u) [RCLike 𝕜] (Φ : Symme
 
 /-- Adjoint invariance of an induced symmetric-gauge family across swapped source and target
 universes. This is the rectangular symmetry theorem; no same-universe restriction belongs in
-the base family. -/
+the base family.
+
+Roadmap: `OI-B70`. -/
 theorem gauge_adjoint_symmetricGaugeFamily (Φ : SymmetricGauge)
     {E' : Type v} {F' : Type w}
     [NormedAddCommGroup E'] [InnerProductSpace 𝕜 E'] [CompleteSpace E']
@@ -326,7 +374,9 @@ theorem gauge_adjoint_symmetricGaugeFamily (Φ : SymmetricGauge)
       (symmetricGaugeFamily.{u, v, w} 𝕜 Φ).gauge A := by
   sorry
 
-/-- The adjoint-invariant diagonal view of an induced symmetric-gauge family. -/
+/-- The adjoint-invariant diagonal view of an induced symmetric-gauge family.
+
+Roadmap: `OI-B71`. -/
 noncomputable def symmetricGaugeFamilySymmetric (𝕜 : Type u) [RCLike 𝕜]
     (Φ : SymmetricGauge) : SymmetricOperatorIdealFamily.{u, v} 𝕜 where
   toOperatorIdealFamily := symmetricGaugeFamily.{u, v, v} 𝕜 Φ
@@ -336,20 +386,26 @@ noncomputable def symmetricGaugeFamilySymmetric (𝕜 : Type u) [RCLike 𝕜]
 domination. This is the Hardy--Littlewood--Pólya transfer of the Majorization roadmap. The
 extension is the supremum over finitely supported dominated sequences; on antitone
 approximation-number sequences it is computed by monotone convergence along initial
-truncations. -/
+truncations.
+
+Roadmap: `OI-B75`. -/
 instance isKyFanDominant_symmetricGaugeFamily (Φ : SymmetricGauge) :
     IsKyFanDominant (symmetricGaugeFamily.{u, v, w} 𝕜 Φ) := sorry
 
 /-- The sequence form of Milestone B2, and the form the proof actually establishes:
 weak majorization of antitone sequences implies domination under every symmetric
-gauge. -/
+gauge.
+
+Roadmap: `OI-B74`. -/
 theorem SymmetricGauge.extend_le_extend_of_forall_sum_le (Φ : SymmetricGauge)
     {a b : ℕ → ℝ≥0∞} (ha : Antitone a) (hb : Antitone b)
     (h : ∀ k, ∑ n ∈ Finset.range k, a n ≤ ∑ n ∈ Finset.range k, b n) :
     Φ.extend a ≤ Φ.extend b := sorry
 
 /-- **Milestone B1.** Equality of the operator-ideal families induced by two
-symmetric gauges forces their extensions to agree on antitone sequences. -/
+symmetric gauges forces their extensions to agree on antitone sequences.
+
+Roadmap: `OI-B72`. -/
 theorem symmetricGaugeFamily_injective {Φ Ψ : SymmetricGauge}
     (h : symmetricGaugeFamily.{u, v, w} 𝕜 Φ = symmetricGaugeFamily.{u, v, w} 𝕜 Ψ)
     {a : ℕ → ℝ≥0∞} (ha : Antitone a) :
@@ -362,7 +418,9 @@ their four laws are B1's and not new work. -/
 
 /-- The `ℓᵖ` symmetric gauge, `Φ_p a = (∑ aₙ ^ p) ^ (1 / p)`, for `1 ≤ p`.
 
-Spec: D3. -/
+Spec: D3.
+
+Roadmap: `OI-B76`, `OI-B77`. -/
 noncomputable def schattenGauge (p : ℝ) (hp : 1 ≤ p) : SymmetricGauge where
   toFun a := (∑ n ∈ a.support, a n ^ p) ^ (1 / p)
   add_le := sorry
@@ -372,13 +430,17 @@ noncomputable def schattenGauge (p : ℝ) (hp : 1 ≤ p) : SymmetricGauge where
   normalized := sorry
 
 /-- The rectangular Schatten-`p` family for a finite real exponent `1 ≤ p`, across
-independent source and target universes. -/
+independent source and target universes.
+
+Roadmap: `OI-B78`. -/
 noncomputable def schattenFamily (𝕜 : Type u) [RCLike 𝕜]
     (p : ℝ) (hp : 1 ≤ p) :
     OperatorIdealFamily.{u, v, w} 𝕜 :=
   symmetricGaugeFamily.{u, v, w} 𝕜 (schattenGauge p hp)
 
-/-- The adjoint-invariant diagonal view of a finite-`p` Schatten family. -/
+/-- The adjoint-invariant diagonal view of a finite-`p` Schatten family.
+
+Roadmap: `OI-B79`. -/
 noncomputable def schattenFamilySymmetric (𝕜 : Type u) [RCLike 𝕜]
     (p : ℝ) (hp : 1 ≤ p) : SymmetricOperatorIdealFamily.{u, v} 𝕜 :=
   symmetricGaugeFamilySymmetric 𝕜 (schattenGauge p hp)
@@ -387,7 +449,9 @@ noncomputable def schattenFamilySymmetric (𝕜 : Type u) [RCLike 𝕜]
 infinity. Its gauge is the operator norm, equivalently the supremum of the approximation
 numbers.
 
-Spec: D4. -/
+Spec: D4.
+
+Roadmap: `OI-B80`. -/
 noncomputable def schattenFamilyInf (𝕜 : Type u) [RCLike 𝕜] :
     OperatorIdealFamily.{u, v, w} 𝕜 where
   gauge A := ‖A‖ₑ
@@ -398,14 +462,18 @@ noncomputable def schattenFamilyInf (𝕜 : Type u) [RCLike 𝕜] :
 
 /-- The adjoint-invariant diagonal view of the infinity endpoint.  The rectangular family
 above keeps independent source and target universes; this companion records the symmetry law
-without making `p = ∞` look mathematically less symmetric than finite `p`. -/
+without making `p = ∞` look mathematically less symmetric than finite `p`.
+
+Roadmap: `OI-B81`. -/
 noncomputable def schattenFamilyInfSymmetric (𝕜 : Type u) [RCLike 𝕜] :
     SymmetricOperatorIdealFamily.{u, v} 𝕜 where
   toOperatorIdealFamily := schattenFamilyInf.{u, v, v} 𝕜
   gauge_adjoint := sorry
 
 /-- The infinity endpoint is equivalently the supremum of the approximation-number
-sequence.  For an antitone sequence this supremum is its zeroth term, `a₀(T) = ‖T‖`. -/
+sequence.  For an antitone sequence this supremum is its zeroth term, `a₀(T) = ‖T‖`.
+
+Roadmap: `OI-B82`. -/
 theorem gauge_schattenFamilyInf
     {E' : Type v} {F' : Type w}
     [NormedAddCommGroup E'] [InnerProductSpace 𝕜 E'] [CompleteSpace E']
@@ -417,7 +485,9 @@ theorem gauge_schattenFamilyInf
 
 /-- The scale is monotone, hence the ideals nest: `S_p ⊆ S_q` for `p ≤ q`.  Strictness
 is witnessed by a diagonal operator with coefficients `n ↦ (n + 1) ^ (-1/r)`, `p < r < q` --
-the same diagonal machinery as Part A's acceptance example (6). -/
+the same diagonal machinery as Part A's acceptance example (6).
+
+Roadmap: `OI-B87`. -/
 theorem gauge_schattenFamily_antitone {p q : ℝ} (hp : 1 ≤ p) (hq : 1 ≤ q) (hpq : p ≤ q)
     (T : E →L[𝕜] F) :
     (schattenFamily 𝕜 q hq).gauge T ≤ (schattenFamily 𝕜 p hp).gauge T := sorry
@@ -426,7 +496,9 @@ theorem gauge_schattenFamily_antitone {p q : ℝ} (hp : 1 ≤ p) (hq : 1 ≤ q) 
 purpose -- through the singular-value sequence, and through an orthonormal expansion
 that needs no spectral theory, which is what lets Part C stand on its own.  The two
 must therefore be proved equal.  Both sides are basis-independent, so the statement is
-well-posed; this is the one place in Part B where Milestone A3 is genuinely needed. -/
+well-posed; this is the one place in Part B where Milestone A3 is genuinely needed.
+
+Roadmap: `OI-B90`. -/
 theorem tsum_singularValue_sq_eq_hilbertSchmidtEnergy
     {E' : Type v} {F' : Type w}
     [NormedAddCommGroup E'] [InnerProductSpace 𝕜 E'] [CompleteSpace E']
@@ -443,7 +515,9 @@ seminorm on operators, computed from their singular-value vectors.  Its agreemen
 ideal-family gauge in finite dimensions is a separate target, making the two constructions
 of `S₂` coincide explicitly.
 
-Spec: D5. -/
+Spec: D5.
+
+Roadmap: `OI-B47`, `OI-B48`. -/
 noncomputable def schattenNorm (p : ℝ) (hp : 1 ≤ p)
     {E : Type v} {F : Type w}
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
@@ -456,7 +530,9 @@ noncomputable def schattenNorm (p : ℝ) (hp : 1 ≤ p)
   unitary_invariant' := sorry
 
 /-- `S₂` is the rectangular Frobenius seminorm owned by
-[`Majorization`](../Majorization/README.md). -/
+[`Majorization`](../Majorization/README.md).
+
+Roadmap: `OI-B54`. -/
 theorem schattenNorm_two_apply
     {E : Type v} {F : Type w}
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
@@ -465,7 +541,9 @@ theorem schattenNorm_two_apply
     schattenNorm 2 (by norm_num) T = Majorization.frobenius T := sorry
 
 /-- The Hilbert--Schmidt energy is the squared Frobenius seminorm in finite dimensions,
-which is what makes the two `p = 2` developments one object. -/
+which is what makes the two `p = 2` developments one object.
+
+Roadmap: `OI-B55`. -/
 theorem hilbertSchmidtEnergy_eq_ofReal_frobenius_sq
     {E' : Type v} {F' : Type w}
     [NormedAddCommGroup E'] [InnerProductSpace 𝕜 E'] [FiniteDimensional 𝕜 E']
@@ -483,7 +561,9 @@ Both bounds are formal consequences of the family laws: the upper bound is
 subadditivity applied to the splitting, and the lower bound is the two-sided ideal law
 applied to each contractive compression.  The more general statement identifying the
 approximation-number sequence with the decreasing rearrangement of the union of the block
-sequences is a separate approximation-number target. -/
+sequences is a separate approximation-number target.
+
+Roadmap: `OI-B93`, `OI-B94`. -/
 theorem gauge_blockSum_le (Φ : OperatorIdealFamily.{u, v, w} 𝕜)
     {E' : Type v} {F' : Type w}
     [NormedAddCommGroup E'] [InnerProductSpace 𝕜 E'] [CompleteSpace E']
@@ -509,12 +589,16 @@ variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [Complet
 variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
 variable {ι : Type x}
 
-/-- The columns of an operator in a Hilbert basis. -/
+/-- The columns of an operator in a Hilbert basis.
+
+Roadmap: `OI-C01`. -/
 noncomputable def columns (b : HilbertBasis ι 𝕜 F) (T : F →L[𝕜] E) : ι → E :=
   fun i => T (b i)
 
 /-- Membership in `ℓ²` of the columns is exactly finiteness of the energy —
-the bridge from the model to the ideal theory of Part B. -/
+the bridge from the model to the ideal theory of Part B.
+
+Roadmap: `OI-C03`. -/
 theorem memLp_columns_iff (b : HilbertBasis ι 𝕜 F) (T : F →L[𝕜] E) :
     Memℓp (columns b T) 2 ↔ hilbertSchmidtEnergy T b ≠ ⊤ := sorry
 
@@ -528,7 +612,9 @@ The Peter–Weyl roadmap
 (`TauCetiRoadmap/RepresentationTheory/CompactGroups`) records "Hilbert–Schmidt ⇒ compact"
 as one of three supporting results for `convolutionOperator_isCompact`, alongside an
 HS-operator API — which is this Part — and "continuous kernel on a compact space ⇒ HS
-integral operator", which is kernel theory and stays there. -/
+integral operator", which is kernel theory and stays there.
+
+Roadmap: `OI-C14`. -/
 theorem isCompactOperator_of_hilbertSchmidtEnergy_ne_top
     (b : HilbertBasis ι 𝕜 F) (T : F →L[𝕜] E) (h : hilbertSchmidtEnergy T b ≠ ⊤) :
     IsCompactOperator T := sorry
@@ -536,7 +622,9 @@ theorem isCompactOperator_of_hilbertSchmidtEnergy_ne_top
 /-- The representation map: an `ℓ²` family of columns determines a bounded
 operator through the absolutely convergent expansion against the basis.
 
-Spec: D6. -/
+Spec: D6.
+
+Roadmap: `OI-C02`, `OI-C09`, `OI-C10`. -/
 noncomputable def ofLp (b : HilbertBasis ι 𝕜 F) (f : lp (fun _ : ι => E) 2) :
     F →L[𝕜] E :=
   LinearMap.mkContinuous
@@ -545,25 +633,33 @@ noncomputable def ofLp (b : HilbertBasis ι 𝕜 F) (f : lp (fun _ : ι => E) 2)
       map_smul' := sorry }
     ‖f‖ sorry
 
-/-- Round trip: the columns of the represented operator are the family. -/
+/-- Round trip: the columns of the represented operator are the family.
+
+Roadmap: `OI-C05`. -/
 theorem columns_ofLp (b : HilbertBasis ι 𝕜 F) (f : lp (fun _ : ι => E) 2) :
     columns b (ofLp b f) = f := sorry
 
-/-- The `ℓ²` norm is the Hilbert--Schmidt norm. -/
+/-- The `ℓ²` norm is the Hilbert--Schmidt norm.
+
+Roadmap: `OI-C11`. -/
 theorem norm_sq_eq_tsum_norm_column_sq (b : HilbertBasis ι 𝕜 F)
     (f : lp (fun _ : ι => E) 2) :
     ‖f‖ ^ 2 = ∑' i, ‖ofLp b f (b i)‖ ^ 2 := sorry
 
 /-- **Milestone C1, isometric conjugation**: composition with a norm-preserving
 map on the left and a map with norm-preserving adjoint on the right preserves
-the energy. -/
+the energy.
+
+Roadmap: `OI-C15`. -/
 theorem hilbertSchmidtEnergy_isometry_comp (b : HilbertBasis ι 𝕜 F)
     (U : E →L[𝕜] E) (hU : ∀ x, ‖U x‖ = ‖x‖) (T : F →L[𝕜] E) :
     hilbertSchmidtEnergy (U ∘L T) b = hilbertSchmidtEnergy T b := sorry
 
 /-- **Milestone C2, Pythagoras along an orthogonal family**: a family splitting
 every vector's norm splits the energy, with no countability or summability
-side conditions. -/
+side conditions.
+
+Roadmap: `OI-C18`. -/
 theorem tsum_energy_isometryFamily_comp {κ : Type y} (b : HilbertBasis ι 𝕜 F)
     (P : κ → (E →L[𝕜] E)) (hP : ∀ v : E, ∑' k, ‖P k v‖ₑ ^ 2 = ‖v‖ₑ ^ 2)
     (T : F →L[𝕜] E) :

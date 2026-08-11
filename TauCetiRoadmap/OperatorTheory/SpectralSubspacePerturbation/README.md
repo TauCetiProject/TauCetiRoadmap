@@ -105,226 +105,348 @@ below is absent upstream.
 
 ## The build, in layers
 
+The labels `SSP-S01`, `SSP-A01`–`SSP-A26`, `SSP-B01`–`SSP-B21`,
+`SSP-C01`–`SSP-C37`, and `SSP-D01`–`SSP-D21` form the complete mathematical obligation set
+for this roadmap. Each label names one definition or theorem. Milestones and acceptance
+examples cite these labels. `Suggested.lean` cites the labels represented by its sample
+declarations.
+
+### Shared separation object
+
+- **SSP-S01 — Internal spectral gap.** For a symmetric finite-dimensional operator `A`, a
+  projected subspace `U`, and `δ≥0`, define the internal gap by requiring the restricted point
+  spectra of `A|_U` and `A|_{U⊥}` to be separated by at least `δ`.
+
 ### Part A — the Haagerup–Zsidó kernel and its Fourier transform
 
-Independently submittable; no prerequisites.
+Part A constructs an integrable kernel `k : ℝ → ℂ` whose Fourier integral is `1/x` on
+`1≤|x|` and whose `L¹` mass is exactly `π/2`.
 
-Part A constructs an integrable `k : ℝ → ℂ` whose Fourier integral reproduces the reciprocal
-on the whole exterior region `1 ≤ |x|`, and whose total mass is exactly `π/2`. Any kernel
-with the first property yields, on substituting a separated pair of self-adjoint operators
-for `x`, a Sylvester solution bound with constant `‖k‖₁`; a kernel with the right transform
-and worse mass proves a weaker Part B. So both halves — identity and mass — are milestones.
-The mathematics is due to Haagerup and Zsidó and is specified here intrinsically.
+**Objects.** The construction uses the hyperbolic weight, its one-sided Laplace transform, a
+real kernel, and its rotation by `-i`.
 
-**Objects.** A four-definition chain: `weight y = tanh (π y / 2)`;
-`weightLaplaceTransform t = ∫ y in Ioi 0, weight y · e^{−|t| y}`;
-`realKernel t = (sin t / 2) · weightLaplaceTransform t`;
-`reciprocalKernel t = −i · realKernel t`, the rotation that lands the transform on `1/x`.
+- **SSP-A01 — Hyperbolic weight.** Define `w(y)=tanh(πy/2)`.
+- **SSP-A02 — Weight Laplace transform.** Define
+  `L(t)=∫_{y>0} w(y)e^{-|t|y} dy`.
+- **SSP-A03 — Real kernel.** Define `r(t)=(sin t/2)L(t)`.
+- **SSP-A04 — Reciprocal kernel.** Define `k(t)=-i r(t)`.
+- **SSP-A05 — Weight positivity.** For `y≥0`, `0≤w(y)`.
+- **SSP-A06 — Weight continuity.** The function `w` is continuous.
+- **SSP-A07 — Laplace-transform positivity.** `0≤L(t)` for every `t`.
+- **SSP-A08 — Laplace-transform parity.** `L(-t)=L(t)`.
+- **SSP-A09 — Real-kernel measurability.** The function `r` is measurable.
+- **SSP-A10 — Reciprocal-kernel measurability.** The function `k` is measurable.
+- **SSP-A11 — Real-kernel oddness.** `r(-t)=-r(t)`.
+- **SSP-A12 — Reciprocal-kernel oddness.** `k(-t)=-k(t)`.
+- **SSP-A13 — Kernel norm formula.** `‖k(t)‖=|r(t)|`.
+- **SSP-A14 — Oscillatory two-sided Laplace integral.** For `y>0`,
+  `∫_ℝ e^{-y|t|}e^{itx}dt = 2y/(y²+x²)`.
+- **SSP-A15 — Fourier transform of a two-sided exponential.** In Mathlib's Fourier
+  normalization, the transform of `t ↦ e^{-2πy|t|}` is
+  `x ↦ y/(π(y²+x²))` for `y>0`.
+- **SSP-A16 — Exponential decay.** A two-sided exponential `e^{-a|x|}` with `a>0` is
+  little-o of every real power at infinity.
+- **SSP-A17 — Laplace transform of `|sin|`.** For `y>0`,
+  `∫_ℝ |sin t|e^{-y|t|}dt = 2(1+e^{-πy})/((1-e^{-πy})(1+y²))`.
+- **SSP-A18 — Cauchy-kernel Poisson summation.** The Cauchy kernel satisfies the Poisson
+  summation identity used to evaluate its odd lattice sum.
+- **SSP-A19 — Odd-pole expansion of the weight.** For `y>0`,
+  `w(y)/y = (4/π)∑'_{n≥0}(y²+(2n+1)²)⁻¹`.
+- **SSP-A20 — Rational telescoping integral.** For `a≥0`, integrating the odd-pole expansion
+  against the difference of the adjacent Cauchy resolvents gives `2/(a+1)`.
+- **SSP-A21 — Product integrability certificate.** The kernel integrand on
+  `(0,∞)×ℝ` used in the mass and Fourier calculations is integrable.
+- **SSP-A22 — Reciprocal-kernel integrability.** The kernel `k` is Bochner integrable on
+  `ℝ`.
+- **SSP-A23 — Exterior reciprocal Fourier identity.** If `1≤|x|`, then
+  `∫_ℝ k(t)e^{itx}dt = 1/x`.
+- **SSP-A24 — Exact kernel mass.** `∫_ℝ ‖k(t)‖dt = π/2`.
+- **SSP-A25 — Fourier-normalization bridge.** The exterior identity `SSP-A23` has an
+  equivalent statement in Mathlib's Fourier-transform normalization.
+- **SSP-A26 — Kernel-mass convolution test.** For the explicit bounded operator-valued test
+  integrand in the Part A acceptance suite, with `‖F(t)‖≤1`, prove
+  `‖∫_ℝ k(t)F(t)dt‖≤π/2`.
 
-**API to develop.**
+The mass identity `SSP-A24` follows by Tonelli: the inner `|sin|` Laplace integral from
+`SSP-A17` combines with `w(y)=tanh(πy/2)` so the integrand reduces to `(1+y²)⁻¹`, whose
+integral over `(0,∞)` is `π/2`.
 
-- Parity, nonnegativity of the weight and its transform, continuity, measurability; the kernel
-  is odd, so the two-sided identity follows from `1 ≤ x` by reflection.
-- The scalar integral layer, each piece independently reusable: the two-sided exponential
-  (oscillatory Laplace transform, its Fourier transform, decay at infinity); the closed-form
-  Laplace transform of `|sin|` by periodic decomposition; Poisson summation against the Cauchy
-  kernel and the odd-pole expansion `weight y / y = (4/π) ∑' n, (y² + (2n+1)²)⁻¹`; elementary
-  Cauchy-type integrals.
-- One **product-integrability certificate** on `Ioi 0 × ℝ` licensing both the Tonelli exchange
-  in the mass computation and the later Fourier exchange, with the generic lemmas placed
-  generically.
+**Milestone A1 — exterior identity and exact mass.** `SSP-A23`–`SSP-A24`.
 
-**Milestone A1 — the exterior identity and the exact mass.** The Fourier integral of
-`reciprocalKernel` is `1/x` for `1 ≤ |x|`, and `∫ ‖reciprocalKernel‖ = π/2`.
-
-The mass is not an estimate. Tonelli gives
-`½ ∫_{y>0} weight y · (∫ |sin t| e^{−y|t|} dt) dy`; the inner integral is closed-form, and its
-product with `tanh(π y/2)` collapses — **the weight is chosen to make that cancellation
-exact** — leaving `∫_{y>0} (1+y²)⁻¹ = π/2`.
-
-**Milestone A2 — the normalization bridge** to Mathlib's Fourier transform, so users mixing
-the two conventions have a lemma rather than a warning.
+**Milestone A2 — Fourier normalization.** `SSP-A25`.
 
 ### Part B — Sylvester equations and the Rosenblum theorem
 
-Needs Part A and the four external roadmaps; Part C consumes it.
+Rosenblum's theorem gives uniqueness for disjoint spectra. The quantitative Sylvester
+estimates strengthen positive spectral separation into norm bounds for solutions.
 
-Rosenblum's theorem is qualitative: an operator intertwining two self-adjoint operators with
-**disjoint** spectra is zero, with `A` and `B` unbounded. The quantitative companions —
-a-priori bounds on `‖X‖` when the spectra are **separated** by `δ` — are what Part C
-consumes.
+**Objects.** For self-adjoint operators `A` and `B`, the Sylvester map sends `X` to
+`AX-XB`. Finite-dimensional separation uses the predicates from `PrincipalAngles`, including
+pairwise separation `PA-C24` and interval/exterior separation `PA-C26`. The unbounded
+formulation consumes the domain-aware Sylvester equation `SA-C66` and the self-adjoint
+partial-operator spectrum from `SelfAdjointSpectralTheory`.
 
-**Objects.** The Sylvester operator `X ↦ A X − X B` on rectangular maps; the gap taxonomy of
-the generality bar; the domain-aware Sylvester equation on `LinearPMap`, consumed from
-`SelfAdjointSpectralTheory`, which owns the transport statement and excludes the estimates to
-here.
+#### Finite core and dimension-free operator norm
 
-**API to develop.**
+- **SSP-B01 — Sylvester map.** Define the rectangular linear map `X ↦ AX-XB` on bounded
+  operators between the two Hilbert spaces.
+- **SSP-B02 — Injectivity under positive finite spectral separation.** In finite dimension,
+  positive separation of the spectra of self-adjoint `A` and `B` makes the Sylvester map
+  injective.
+- **SSP-B03 — Canonical eigenbasis solution.** Under positive finite spectral separation,
+  the Sylvester equation has the solution obtained by dividing each matrix coefficient by
+  the corresponding eigenvalue difference.
+- **SSP-B04 — Coordinate Sylvester equation.** In eigenbases of `A` and `B`, every solution
+  of `AX-XB=C` satisfies `(αᵢ-βⱼ)Xᵢⱼ=Cᵢⱼ`.
+- **SSP-B05 — Coercive operator invertibility.** A bounded operator with a positive
+  coercivity lower bound is invertible with inverse norm bounded by the reciprocal of the
+  coercivity constant.
+- **SSP-B06 — Lyapunov bound.** If the quadratic forms of self-adjoint `A` and `B` are
+  bounded below by `δ>0`, every solution of `AX+XB=Y` satisfies
+  `‖X‖≤‖Y‖/(2δ)`.
+- **SSP-B07 — Separated Sylvester bound.** If the quadratic forms of self-adjoint `A` and
+  `B` lie on opposite sides of a gap `g>0`, every solution of `AX-XB=Y` satisfies
+  `‖X‖≤‖Y‖/g`.
+- **SSP-B08 — Reverse separated bound.** The adjoint/reversed orientation of `SSP-B07`
+  satisfies the same constant-one estimate.
 
-- Finite core: injectivity under positive separation, the canonical eigenbasis solution, the
-  coordinate equation `(αᵢ − βⱼ) Xᵢⱼ = Cᵢⱼ`.
-- **Dimension-free operator-norm bounds**, integral-free, on arbitrary Hilbert spaces, in both
-  orientations `A X ± X B = Y`: the coercive (Lyapunov) form `‖X‖ ≤ ‖Y‖ / (2δ)` and the
-  separated form `‖X‖ ≤ ‖Y‖ / g`, by shifting both operators to the midpoint and solving for
-  `‖X‖`; the operator-level Lax–Milgram lemma making a coercive operator a unit.
-- **Interval/exterior separation, constant one, every rectangular unitarily invariant norm**:
-  polar absorption — shift the interval to its midpoint, replace the exterior operator by its
-  modulus, absorb the polar partial isometry into the unknown — with the reverse orientation
-  by adjoint transport.
-- **Pairwise separation, constant `π/2`.**
-  - The analytic root is a *simultaneous Ky Fan prefix estimate*: one finite family of left
-    and right unitaries realizing the reciprocal multiplier on every coordinate matrix unit
-    at once, with mass at most `π/2`, by finite Fourier interpolation against Part A's kernel.
-    The `π/2` is Part A's mass, not an unspecified constant.
-  - Fan dominance lifts the estimate to every unitarily invariant norm, and orbit convexity
-    packages the scaled solution as a barycenter of the defect's unitary orbit.
-  - The **Frobenius norm loses nothing** — constant one, by dividing the coordinate equation
-    and summing squares.
-  - For self-adjoint `LinearPMap`s, the domain-aware `SylvesterEquation` carries the same
-    pairwise `π/2` operator-norm estimate against `SelfAdjointSpectralTheory.spectrum`.
-  - The interpolation layer is internal, not public surface.
-**Milestone B1 — the a-priori bounds**: the dimension-free coercive bound, the
-interval/exterior bound with constant one in every rectangular unitarily invariant norm, and
-the pairwise bound with `π/2`, including the domain-aware `LinearPMap` operator-norm endpoint.
+#### Unitarily invariant finite-dimensional bounds
 
-**Milestone B2 — Rosenblum's theorem** for self-adjoint `LinearPMap`s: a bounded operator
-intertwining two of them with disjoint spectra is zero.
+- **SSP-B09 — Interval/exterior Sylvester bound.** Under interval/exterior separation by
+  `δ>0`, every rectangular unitarily invariant seminorm `N` satisfies
+  `δ N(X)≤N(C)` for `AX-XB=C`.
+- **SSP-B10 — Reverse interval/exterior bound.** The reversed orientation of `SSP-B09`
+  satisfies the same constant-one estimate.
+- **SSP-B11 — Simultaneous Ky Fan prefix estimate.** Under pairwise spectral separation by
+  `δ>0`, all Ky Fan prefix gauges of the solution are bounded simultaneously by
+  `(π/(2δ))` times the corresponding prefixes of the defect.
+- **SSP-B12 — Reciprocal-multiplier unitary representation.** In finite dimension, the
+  reciprocal matrix multiplier for a separated pair is represented by a finite barycentric
+  combination of left and right unitary actions with total mass at most `π/2`.
+- **SSP-B13 — Pairwise unitarily invariant Sylvester bound.** Under pairwise separation by
+  `δ>0`, every rectangular unitarily invariant seminorm satisfies
+  `δ N(X)≤(π/2)N(C)`.
+- **SSP-B14 — Unitary-orbit barycenter form.** The scaled solution in `SSP-B13` lies in the
+  convex hull of the left-right unitary orbit of the defect with total coefficient mass at
+  most `π/2`.
+- **SSP-B15 — Frobenius constant-one bound.** Under pairwise separation by `δ>0`,
+  `δ‖X‖_F≤‖C‖_F`.
+- **SSP-B16 — Domain-aware pairwise bound.** For self-adjoint partial operators with spectra
+  separated by `δ>0`, every domain-aware Sylvester solution satisfies
+  `δ‖X‖≤(π/2)‖C‖`.
+- **SSP-B17 — Rosenblum theorem.** A bounded operator intertwining two self-adjoint partial
+  operators with disjoint spectra is zero.
 
-### Part C — the Davis–Kahan sin Θ theorems
+#### Acceptance theorems
 
-Consumes Part B; the acceptance suite is Davis–Kahan Part III.
+- **SSP-B18 — Two-by-two real-certificate obstruction.** For spectra
+  `α=(-1,1)` and `β=(0,2)`, every real undoubled reciprocal certificate has mass at least
+  `5/3`.
+- **SSP-B19 — Bounded/partial uniqueness bridge.** Viewing bounded self-adjoint operators as
+  total partial operators specializes `SSP-B17` to the bounded Rosenblum uniqueness theorem.
+- **SSP-B20 — Multiplication-operator coercive example.** A concrete separated pair of
+  multiplication operators realizes the estimate in `SSP-B07`.
+- **SSP-B21 — Pairwise constant source.** The `π/2` in `SSP-B11`–`SSP-B16` is the exact
+  kernel mass `SSP-A24`.
 
-The `sin Θ` family is Part B read through projection geometry. Two statement shapes, both
-public API: the **residual** form — the numerical analyst's, where an approximate invariant
-subspace with residual `R = A X − X M` is tilted by at most `‖R‖/δ` — and the
-**perturbation** form — the operator theorist's, where invariant subspaces of `A` and `B` are
-tilted by at most `‖B − A‖/δ` — each for every relevant unitarily invariant norm, with the
-interval, spectral-projector and concrete-norm corollaries.
+**Milestone B1 — a-priori bounds.** `SSP-B06`–`SSP-B16`.
 
-**Objects.** Consumed from `PrincipalAngles`: `sinThetaMap U V = P_{Vᗮ} ∘ P_U`, the
-symmetric sine `|P_U − P_V|`, and the principal angles. Built here: the trial-map layer — the
-compression `X⋆ A X` along a trial map, isometric or not, its residual, the Ritz residual
-(Rayleigh–Ritz makes it Frobenius-minimal), and the sine and cosine embeddings with their
-singular-value identifications; reduced extensions, a block operator extended by a scalar on
-the complement, which is the device that turns spectral hypotheses into coercivity; and graph
-subspaces with their projection and gap formulas and angular operators.
+**Milestone B2 — Rosenblum theorem.** `SSP-B17`.
 
-**API to develop.**
+### Part C — the Davis–Kahan `sin Θ` theorems
 
-- **Dimension-free first.** On arbitrary Hilbert spaces, from Milestone B1 alone: the directed
-  bound `‖P_V ∘ P_U‖ ≤ ‖B − A‖ / g` for invariant subspaces with quadratic-form separation,
-  and its projector-difference companions.
-- **Graph-subspace geometry.** Define `IsAngularOperator U X` by
-  `X P_U = X` and `P_U X = 0`, and define `graphSubspace U X`; prove the projection formula
-  `P_graph = A (1 + X⋆X)⁻¹ A⋆` with `A = P_U + X`, and the exact gap identity
-  `‖P_U − P_graph‖ = ‖X‖ / √(1 + ‖X‖²)`.
-- **Finite spectral forms.** Spectral coercivity bridges convert eigenvalue hypotheses into
-  form bounds, giving the residual theorem in every rectangular unitarily invariant norm; the
-  perturbation theorem in every square one, by transport across the subspace's isometric
-  inclusion; canonical spectral-subspace and spectral-projector statements with no eigenbasis
-  in the API; the equal-rank bridge `‖P_U − P_V‖ = ‖sinThetaMap U V‖`; the Frobenius and Ky
-  Fan corollaries; the `π/2` two-sided form; and the symmetric sharp theorem under the
-  two-orientation gap.
-- **Double-angle and tangent theory.** Davis's `sin 2θ` in per-eigenvector product and angle
-  forms; the one-sided `sin 2Θ` map `2 P_{Uᗮ} P_V P_U` in unitarily invariant norms; tangent
-  estimates on the acute branch from Ritz residuals, equal-rank and lower-rank; and the sharp
-  `tan 2θ` with vanishing-pinch hypotheses and the quarter-turn conclusion, under *ordered*
-  internal separation.
+The residual form controls the angle from an approximate invariant subspace through
+`R=AX-XM`. The perturbation form controls invariant subspaces of `A` and `B` through
+`B-A`. Both forms are public operator-theory statements.
 
-**Milestone C1 — the perturbation family**, with the canonical spectral-projector corollary
-`δ · ‖P_{spec A [a,b]} − P_{spec B [a,b]}‖ ≤ ‖B − A‖` under equal ranks.
+**Objects.** The angle maps, spectral subspaces, spectral form bounds, separation predicates,
+and equal-rank projector identity are supplied by `PrincipalAngles`, including
+`PA-B29`, `PA-C20`–`PA-C26`. This part adds the trial-map residual layer, reduced extensions,
+graph subspaces, and the perturbation theorems obtained by applying Part B to projection
+blocks.
 
-**Milestone C2 — the two-sided `π/2` form**: under pairwise separation of the selected
-`A`-spectrum from the complementary `B`-spectrum alone,
-`δ · N (sinThetaMap U V).toLinearMap ≤ (π/2) · N (B − A)` for every unitarily invariant `N`.
+#### Trial maps, residuals, and graph subspaces
+
+- **SSP-C01 — Trial compression.** For a trial map `X`, define the compression `X†AX`.
+- **SSP-C02 — Trial residual.** Define the residual `R=AX-XM` for a trial map `X` and a
+  model operator `M`.
+- **SSP-C03 — Ritz residual.** For an isometric trial map, define the Ritz residual by taking
+  `M=X†AX` in `SSP-C02`.
+- **SSP-C04 — Frobenius minimality of the Ritz residual.** Among model operators on the trial
+  space, the Ritz choice minimizes the Frobenius norm of the residual.
+- **SSP-C05 — Sine embedding.** Define the cross-complement map measuring the sine of the
+  angle from the trial range to a target subspace.
+- **SSP-C06 — Cosine embedding.** Define the cross-projection map measuring the cosine of the
+  same angle.
+- **SSP-C07 — Sine singular-value identification.** The singular values of `SSP-C05` are the
+  principal sines of the two subspaces.
+- **SSP-C08 — Cosine singular-value identification.** The singular values of `SSP-C06` are
+  the principal cosines of the two subspaces.
+- **SSP-C09 — Reduced extension.** Extend a self-adjoint block operator by a chosen real
+  scalar on the orthogonal complement.
+- **SSP-C10 — Reduced-extension form bound.** Spectral containment of the selected block and
+  the chosen scalar placement give the corresponding global quadratic-form bound for the
+  reduced extension.
+- **SSP-C11 — Angular operator.** Define an angular operator from `U` to `U⊥` by
+  `XP_U=X` and `P_UX=0`.
+- **SSP-C12 — Graph subspace.** Define `graph(U,X)={u+Xu : u∈U}` for an angular operator
+  `X`.
+- **SSP-C13 — Graph projection formula.** With `A=P_U+X`,
+  `P_graph = A(1+X†X)⁻¹A†`.
+- **SSP-C14 — Exact graph gap.**
+  `‖P_U-P_graph‖ = ‖X‖/sqrt(1+‖X‖²)`.
+
+#### Dimension-free and finite spectral `sin Θ`
+
+- **SSP-C15 — Dimension-free directed `sin Θ` bound.** Under invariant-subspace form
+  separation by `g>0`, `‖P_{V⊥}P_U‖ ≤ ‖B-A‖/g` on arbitrary Hilbert spaces.
+- **SSP-C16 — Dimension-free projector-gap companions.** Applying `SSP-C15` in both
+  directions gives the corresponding operator-norm bounds for `P_U-P_V` under the two
+  directed hypotheses.
+- **SSP-C17 — Residual `sin Θ` theorem.** Under interval/exterior separation, every
+  rectangular unitarily invariant seminorm satisfies `δ N(sinΘ)≤N(R)` for a trial residual.
+- **SSP-C18 — Perturbation `sin Θ` theorem.** Under interval/exterior separation, every
+  square unitarily invariant seminorm satisfies `δ N(sinΘ)≤N(B-A)`.
+- **SSP-C19 — Canonical spectral-subspace residual form.** `SSP-C17` specializes canonically
+  to spectral subspaces selected by real spectral sets.
+- **SSP-C20 — Canonical spectral-projector bound.** Under the interval/exterior hypotheses
+  and equal selected ranks, `δ‖P_{spec A}-P_{spec B}‖≤‖B-A‖`.
+- **SSP-C21 — Frobenius `sin Θ` corollary.** The residual and perturbation theorems specialize
+  to the Frobenius norm.
+- **SSP-C22 — Ky Fan `sin Θ` corollary.** The residual and perturbation theorems specialize
+  to every Ky Fan norm.
+- **SSP-C23 — Pairwise `π/2` perturbation theorem.** Under pairwise separation by `δ>0`,
+  `δN(sinΘ)≤(π/2)N(B-A)` for every square unitarily invariant seminorm.
+- **SSP-C24 — Symmetric two-orientation constant-one theorem.** When the interval/exterior
+  gap holds in both orientations, the symmetric projector-gap estimate has constant `1`.
+
+#### Double-angle and tangent theory
+
+- **SSP-C25 — Per-eigenvector `sin 2θ` product bound.** Under ordered internal form
+  separation, a unit perturbed eigenvector satisfies the Davis product inequality
+  `(b-a)‖P_Ux‖‖P_{U⊥}x‖≤ε`.
+- **SSP-C26 — Per-eigenvector angle form.** `SSP-C25` is equivalent to the corresponding
+  bound on `sin(2θ)`.
+- **SSP-C27 — One-sided `sin 2Θ` operator theorem.** The map `2P_{U⊥}P_VP_U` satisfies the
+  Davis `sin 2Θ` inequality in every unitarily invariant seminorm.
+- **SSP-C28 — Equal-rank Ritz-residual `tan Θ` theorem.** On the acute branch and for equal
+  ranks, the principal tangents are controlled by the Ritz residual divided by the spectral
+  gap.
+- **SSP-C29 — Lower-rank Ritz-residual `tan Θ` theorem.** The tangent estimate in `SSP-C28`
+  has the corresponding lower-rank form.
+- **SSP-C30 — Sharp `tan 2θ` theorem.** Under ordered internal separation and the
+  vanishing-pinch hypotheses, the sharp operator-norm `tan 2θ` estimate holds.
+- **SSP-C31 — Quarter-turn conclusion.** Under the hypotheses of `SSP-C30`, the perturbed
+  subspace remains on the prescribed side of the quarter turn.
+
+#### Davis–Kahan source-facing acceptance theorems
+
+- **SSP-C32 — Printed counterexample.** Formalize the Davis–Kahan Part III counterexample
+  and prove the strict reverse inequality exhibited by the example.
+- **SSP-C33 — Sharpness model.** Formalize a finite-dimensional equality model attaining the
+  sharp constant in the corresponding `sin Θ` theorem.
+- **SSP-C34 — Arbitrary finite multiplicity sharpness.** The equality model in `SSP-C33`
+  extends to every positive finite multiplicity.
+- **SSP-C35 — Projection/singular-value cross-check.** On an explicit small matrix model,
+  the projection formulation and singular-value formulation of the angle agree.
+- **SSP-C36 — Column-energy cross-check.** On the same model, the Frobenius column-energy
+  formulation agrees with the principal-angle formulation.
+- **SSP-C37 — Tensor-form cross-check.** On the same model, the tensor formulation agrees
+  with the projection and singular-value formulations.
+
+**Milestone C1 — perturbation family.** `SSP-C15`–`SSP-C22`.
+
+**Milestone C2 — pairwise `π/2` form.** `SSP-C23`.
 
 ### Part D — the Yu–Wang–Samworth statistical variant
 
-Consumes Part C; a leaf.
+The population-gap formulation uses a deterministic gap in the population spectrum and
+produces the subspace error bound used by statistical applications.
 
-Davis–Kahan hypothesizes a gap in the spectrum of one of the two operators — in practice the
-perturbed one. That is the wrong shape for statistics: the perturbed operator is a *sample*
-covariance and its spectrum is random; what one can assume is a gap in the **population**
-spectrum. Yu–Wang–Samworth is the variant stated that way. Its probabilistic inputs live in
-[`MatrixSpectralStatistics`](../MatrixSpectralStatistics/README.md); this Part is the
-deterministic inequality they compose with.
+**Objects.** This part selects corresponding eigenblocks by common ordered eigenvalue indices,
+measures their Frobenius sine distance, and transfers the symmetric perturbation theorem to
+left and right singular subspaces. The aligned-family construction `PA-A27`–`PA-A28` and the
+right and left Gram perturbation bounds `PA-B03`–`PA-B06` are consumed from
+`PrincipalAngles`.
 
-**Objects.** `InternalGap A U Δ`, the population operator's internal gap across the selected
-block; `CorrespondingEigenblock`, blocks of the two operators selected by the *same ordered
-eigenvalue indices*; the Frobenius sine distance; the residual columns
-`(S − λⱼ(T)) uⱼ(S)` in the population eigenbasis; and, for rectangular data, left and right
-singular subspaces via the Gram operators and the Hermitian dilation `[[0, A⋆], [A, 0]]`.
+- **SSP-D01 — Corresponding eigenblocks.** Define two eigenblocks of symmetric `A` and `B`
+  to correspond when they are spanned by the same ordered eigenvalue-index set.
+- **SSP-D02 — Frobenius sine distance.** Define `‖sinΘ(U,V)‖_F` as the Frobenius norm of the
+  directed sine map.
+- **SSP-D03 — Population residual columns.** For a selected population eigenblock, define
+  the residual columns `(S-λ_j(T))u_j(S)` in a population eigenbasis.
+- **SSP-D04 — Left singular subspace.** Define selected left singular subspaces through the
+  spectral subspaces of `AA†`.
+- **SSP-D05 — Right singular subspace.** Define selected right singular subspaces through
+  the spectral subspaces of `A†A`.
+- **SSP-D06 — Hermitian dilation.** Define the self-adjoint block operator
+  `[[0,A†],[A,0]]` associated to a rectangular map `A`.
+- **SSP-D07 — Complement identity.** For equally indexed eigenblocks, the squared
+  Frobenius sine equals the cross-block sum of squared overlaps.
+- **SSP-D08 — Residual lower sandwich.** Under population internal gap `Δ`,
+  `Δ²·overlap ≤ ∑_j ‖R_j‖²` for an arbitrary selected index block.
+- **SSP-D09 — Residual Frobenius upper sandwich.** For an arbitrary selected index block,
+  `∑_j ‖R_j‖² ≤ 4‖S-T‖_F²`.
+- **SSP-D10 — Residual operator-norm upper sandwich.** If the selected block has cardinality
+  `d` and `ε=‖S-T‖`, then `∑_j ‖R_j‖² ≤ 4dε²`.
+- **SSP-D11 — Residual column decomposition.** Each residual column decomposes into a direct
+  perturbation term and an eigenvalue-displacement term controlled by Weyl's inequality.
+- **SSP-D12 — Singular-subspace Gram transfer.** Applying the symmetric subspace theorem to
+  `A†A` and `AA†` yields the corresponding right and left singular-subspace bounds.
+- **SSP-D13 — Hermitian-dilation perturbation bound.** The operator norm of the difference
+  of two Hermitian dilations equals the operator norm of the difference of the rectangular
+  maps.
+- **SSP-D14 — Hermitian-dilation spectral transfer.** Singular values and left/right
+  singular subspaces of `A` are recovered from the positive and negative spectral blocks of
+  its Hermitian dilation.
+- **SSP-D15 — Dilation pairwise-gap bound.** An arbitrary-set gap for the Hermitian
+  dilations gives the simultaneous left/right singular-subspace estimate with constant
+  `π/2`.
+- **SSP-D16 — Population-gap `sin Θ` theorem.** For corresponding rank-`d` eigenblocks and
+  population internal gap `Δ>0`,
+  `‖sinΘ(U,V)‖_F ≤ 2 min(sqrt(d)‖B-A‖, ‖B-A‖_F)/Δ`.
+- **SSP-D17 — Aligned-basis population-gap theorem.** Under `SSP-D16`, corresponding
+  orthonormal bases can be aligned with discrepancy at most `sqrt(2)` times the right-hand
+  side of `SSP-D16`.
+- **SSP-D18 — Single-eigenvector population-gap theorem.** The rank-one case gives a
+  phase-aligned eigenvector bound with constant `2sqrt(2)`.
+- **SSP-D19 — Rectangular singular-subspace population-gap theorem.** Applying the Gram or
+  Hermitian-dilation transfer to rectangular matrices gives the corresponding population-gap
+  bounds for left and right singular subspaces.
+- **SSP-D20 — Spiked population/sample acceptance model.** Exhibit a spiked population/sample
+  pair with positive population internal gap and sample internal gap equal to `0`, and verify
+  the bound `SSP-D16`.
+- **SSP-D21 — Rectangular acceptance model.** Exhibit a nonsquare matrix pair and verify the
+  left and right singular-subspace bounds `SSP-D19`.
 
-**API to develop.**
-
-- The **complement identity**: the Frobenius sine of two equally indexed eigenblocks equals the
-  square root of the cross-block overlap sum. Every bound of the paper is proved as cross-block
-  energy and read back as an angle, so this bridge is public API rather than an internal step.
-- The **residual sandwich**, for an **arbitrary index block** — leading-only would not cover the
-  interval case: `Δ² · overlap ≤ ∑ⱼ ‖Rⱼ‖²` from the population gap below, and
-  `∑ⱼ ‖Rⱼ‖² ≤ 4 ‖S − T‖²_F` above, each column splitting into a perturbation piece and a
-  Hoffman–Wielandt eigenvalue piece; with the operator-norm branch
-  `∑_{j∈s} ‖Rⱼ‖² ≤ 4 |s| ε²` via Weyl.
-- The **aligned-basis (Procrustes) surface**: orthonormal bases of the two blocks with
-  `√(∑ ‖vᵢ − uᵢ‖²) ≤ √2 · ‖sin Θ‖_F` — the usable form when eigenbases are determined only up
-  to rotation, which is every application.
-- The **singular-subspace transfer**: the symmetric theorem applied to `A⋆A` and `A A⋆`, the
-  Gram perturbation bounded by `(‖Â‖ + ‖A‖) · ‖Â − A‖`, and the Hermitian-dilation form
-  controlling both sides at once — whose arbitrary-set gap supports `π/2`, not constant one.
-
-**Milestone D1 — the population-gap theorem and its single-vector form**, the latter being the
-sign-aligned eigenvector corollary that statisticians quote.
+**Milestone D1 — population-gap theorem and single-vector form.** `SSP-D16`–`SSP-D18`.
 
 ## Worked examples (acceptance criteria)
 
-### Part A — the Haagerup–Zsidó kernel and its Fourier transform
+### Part A
 
-**Acceptance examples.** The identity at a concrete `x`; the mass bounding one concrete
-convolution; `π/2` is attained by Part A's kernel.
+The concrete exterior-transform and mass tests specialize `SSP-A23`–`SSP-A26`.
 
-### Part B — Sylvester equations and the Rosenblum theorem
+### Part B
 
-**Acceptance examples.** The two-by-two obstruction data (`α = (−1,1)`, `β = (0,2)`, gap one)
-is admissible yet forces mass `≥ 5/3` on every real undoubled certificate; a bounded pair as
-total partial maps recovers bounded uniqueness; the coercive bound on a concrete
-multiplication pair.
+The obstruction, bounded bridge, and multiplication example are `SSP-B18`–`SSP-B20`.
 
-### Part C — the Davis–Kahan sin Θ theorems
+### Part C
 
-**Acceptance suite — Davis–Kahan Part III.** A source-facing layer recording the correspondence
-between the paper's statements and the reusable declarations, in real and complex forms: the
-generalized and ordinary `sin Θ` theorems; equal-rank and lower-rank Ritz-residual `tan Θ`;
-`sin 2Θ` in unitarily invariant norms; the sharp operator-norm `tan 2Θ` with the quarter-turn
-conclusion; the projector-difference companions; the paper's printed counterexample and
-sharpness statements; equality models of arbitrary finite multiplicity; and explicit statements
-of what is *not* claimed. Cross-checks between projection, singular-value, column-energy and
-tensor formulations on small matrix models complete it.
+The Davis–Kahan Part III acceptance suite is `SSP-C32`–`SSP-C37` together with the theorem
+families `SSP-C17`–`SSP-C31`.
 
-### Part D — the Yu–Wang–Samworth statistical variant
+### Part D
 
-**Acceptance examples.** A spiked model where the sample gap closes but the population gap does
-not; consistency — when a two-sided gap does hold, Part C's constant-one bound is stronger; a
-non-square matrix through the Gram route. Cite and cross-check, never vendor, the related
-endpoints in `YuanheZ/lean-stat-learning-theory` and `facebookresearch/atlas-lean`, the latter
-for statement comparison only, its repository terms being incompatible.
+The spiked population/sample and nonsquare acceptance models are `SSP-D20`–`SSP-D21`. The
+two-sided-gap comparison uses `SSP-C24`.
 
 ## Ordering
 
-**Internal.** Part A is independent and independently submittable. Part B consumes Part A for
-the constant; Part C consumes Part B; Part D consumes Part C. Within Part B the finite core,
-the dimension-free bounds can proceed in parallel once their external inputs
-exist; within Part C the dimension-free layer precedes the finite spectral forms.
-
-**External.**
-[`PolarDecomposition`](../PolarDecomposition/README.md): the modulus and singular values
-(Parts B–D). [`Majorization`](../Majorization/README.md): the unitarily invariant seminorm
-structures with Fan dominance and the Frobenius seminorm (Parts B–D).
-[`PrincipalAngles`](../PrincipalAngles/README.md): `sinThetaMap`, the angle operators,
-spectral subspaces, the separation predicates, aligned bases and Weyl perturbation
-(Parts B–D). [`SelfAdjointSpectralTheory`](../SelfAdjointSpectralTheory/README.md): unitary
-groups and Stone, the `LinearPMap` resolvent and spectrum layer with the Cayley transform and
-the intertwining chain, the spectral measure and its support, and the domain-aware Sylvester
-equation (Parts B–C).
+Part A is independent. Part B consumes Part A and the finite-dimensional separation,
+unitarily invariant norm, and partial-operator APIs of the prerequisite roadmaps. Part C
+consumes Part B and the angle geometry of `PrincipalAngles`. Part D consumes Part C and the
+finite-dimensional matrix perturbation APIs used to form the population/sample examples.
 
 ## References
 

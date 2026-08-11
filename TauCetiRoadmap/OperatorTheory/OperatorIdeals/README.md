@@ -89,7 +89,7 @@ The gaps to fill are:
 - **No finite-rank-implies-compact lemma.** A Part A target.
 - **No hypothesis-free `ℝ≥0∞` Minkowski for `tsum`.** `NNReal.Lp_add_le_tsum` carries
   summability hypotheses on both summands and there is no `ENNReal` `tsum` form; the energy
-  layer needs one at `1 ≤ p`. 
+  layer needs one at `1 ≤ p`.
 - **Approximation-number shape.** Mathlib PR
   [#32126](https://github.com/leanprover-community/mathlib4/pull/32126) proposes the finite-rank
   infimum as zero-based `ContinuousLinearMap.singularValue : ℕ → ℝ≥0`; see also the
@@ -117,328 +117,449 @@ The gaps to fill are:
 
 ## The build, in layers
 
+The labels in Parts A–C form the complete mathematical obligation set for this roadmap.
+Each label names one definition or theorem. Milestones, definitions, and acceptance examples
+cite these labels. `Suggested.lean` cites the labels represented by its sample declarations.
+
 ### Part A — approximation numbers and Hilbert-space singular values
 
-**Objects.** `ContinuousLinearMap.singularValue T n : ℝ≥0`, the infimum of `‖T − R‖₊`
-over bounded `R` with `R.rank ≤ n`, on seminormed spaces over a `NontriviallyNormedField`;
-the relation `HasSameApproximationNumbers` between operators on possibly different space
-pairs, reflexive, symmetric and transitive — the vehicle for transporting ideal membership;
-the Ky Fan gauge `kyFanGauge T k = ∑_{n<k} aₙ(T)`, whose bounds and induced families
-carry `0 < k`.
+**Objects.** The approximation-number sequence assigns to a bounded map `T : E → F` the
+zero-based distances `aₙ(T)` from `T` to the maps of rank at most `n`. The relation of having
+the same approximation-number sequence compares maps on different Hilbert-space pairs. The
+Ky Fan gauge is the prefix sum `Kₖ(T) = ∑_{n<k} aₙ(T)`.
 
-**API to develop.**
+#### Approximation-number definitions and elementary calculus
 
-- The defining infimum exposed once, then the workhorses: the upper bound against every
-  admissible approximant, the universal lower-bound iff, attainment given a best
-  approximant, existence of an `ε`-near approximant; `a₀(T) = ‖T‖`, antitonicity,
-  `0 ≤ aₙ(T) ≤ ‖T‖`, `aₙ(0) = 0`.
-- The exact zero-based additive law `a_{m+n}(S + T) ≤ aₘ(S) + aₙ(T)`, with no truncated
-  subtraction anywhere, together with the Lipschitz bound `|aₙ(S) − aₙ(T)| ≤ ‖S − T‖` and
-  norm-continuity of `T ↦ aₙ(T)`.
-- The two-sided ideal laws `aₙ(A ∘ T ∘ B) ≤ ‖A‖ aₙ(T) ‖B‖` and `aₙ(c • T) = ‖c‖ aₙ(T)`. The
-  index-splitting product inequality `a_{m+n}(S ∘ T) ≤ aₘ(S) · aₙ(T)` is a **separate**
-  target and must not share the fixed-index name: the two are different theorems, and the
-  word "multiplicativity" does not distinguish them.
-- **Rank and compactness:** `aₙ(T) = 0` when `rank T ≤ n`, with the finite-dimensional
-  converse as an iff; `aₙ(T) → 0` iff `T` is a norm limit of finite-rank operators with
-  `n`-th term of rank at most `n`, as an explicit sequence rather than a named predicate;
-  finite rank implies compact over a proper field — the lemma Mathlib lacks — hence
-  approximable implies compact; and, once the *target* is an inner product space, the
-  converse, closing the boundary as an equivalence.
-- **Hilbert layer:** adjoint invariance `aₙ(T⋆) = aₙ(T)`, via rank invariance under the
-  adjoint and the adjoint isometry; over `RCLike` the sequence identity `aₙ(|T|) = aₙ(T)`, from
-  the pointwise identity `‖|T|x‖ = ‖Tx‖`, with the modulus belonging to
-  [`PolarDecomposition`](../PolarDecomposition/README.md), now scalar-generic; and the unconditional lower bound `c ≤ aₙ(T)` from a `c`-coercive
-  subspace of rank `> n`, with unit-vector and linearly-independent-family forms.
-- **Min–max, both halves.** The orthogonal-tail equality on a complete source, its collapse
-  to `0` once `n` reaches the source dimension, and the supremum formulation on the closed
-  unit **ball** of `Vᗮ` — the sphere is empty at `V = ⊤`. The converse localization is the
-  pair-level predicate `HasMinMaxLowerBound`: every strict lower bound of `aₙ(T)` is beaten
-  on a subspace spanned by `n + 1` independent vectors, making `aₙ(T)` the least upper bound
-  of its finite restrictions. The complex proof is direct; the real proof uses complexification.
-- **Ky Fan gauges:** `kyFanGauge T 1 = ‖T‖`, the ideal laws, adjoint invariance, and the
-  two-sided comparison `‖T‖ ≤ kyFanGauge T k ≤ k‖T‖` for `0 < k`. The lower bound fails at
-  `k = 0`, where the gauge is the empty sum.
+- **OI-A01 — Approximation number.** For a bounded map `T : E → F` on seminormed spaces over
+  a nontrivially normed field, define `aₙ(T) = inf {‖T-R‖ : rank R ≤ n}` with values in
+  `ℝ≥0` and zero-based indexing.
+- **OI-A02 — Equality of approximation-number sequences.** Define the relation between two
+  bounded maps that requires equality of `aₙ` for every `n`.
+- **OI-A03 — Reflexivity.** Every bounded map has the same approximation numbers as itself.
+- **OI-A04 — Symmetry.** Equality of approximation-number sequences is symmetric.
+- **OI-A05 — Transitivity.** Equality of approximation-number sequences is transitive.
+- **OI-A06 — Ky Fan gauge.** Define `Kₖ(T) = ∑_{n<k} aₙ(T)`.
+- **OI-A07 — Infimum formula.** The approximation number is the infimum in `OI-A01` over the
+  bounded rank-`≤ n` approximants.
+- **OI-A08 — Approximation upper bound.** If `rank R ≤ n`, then `aₙ(T) ≤ ‖T-R‖`.
+- **OI-A09 — Universal lower-bound characterization.** A scalar `c` satisfies `c ≤ aₙ(T)`
+  exactly when `c ≤ ‖T-R‖` for every bounded `R` of rank at most `n`.
+- **OI-A10 — Best-approximant attainment.** A rank-`≤ n` approximant attaining the infimum
+  satisfies `aₙ(T)=‖T-R‖`.
+- **OI-A11 — Near-best approximant.** For every positive `ε`, there is a bounded `R` of rank
+  at most `n` with `‖T-R‖ < aₙ(T)+ε`.
+- **OI-A12 — Zeroth approximation number.** `a₀(T)=‖T‖`.
+- **OI-A13 — Antitonicity.** The sequence `n ↦ aₙ(T)` is antitone.
+- **OI-A14 — Operator-norm bound.** `aₙ(T) ≤ ‖T‖` for every `n`.
+- **OI-A15 — Zero operator.** `aₙ(0)=0` for every `n`.
+- **OI-A16 — Fixed-index perturbative triangle bound.**
+  `aₙ(S+T) ≤ aₙ(S)+‖T‖`.
+- **OI-A17 — Mixed-index additive inequality.**
+  `a_{m+n}(S+T) ≤ aₘ(S)+aₙ(T)`.
+- **OI-A18 — Lipschitz continuity at a fixed index.**
+  `|aₙ(S)-aₙ(T)| ≤ ‖S-T‖`.
+- **OI-A19 — Norm continuity.** For each `n`, the map `T ↦ aₙ(T)` is continuous in operator
+  norm.
+- **OI-A20 — Two-sided ideal inequality.** For composable bounded maps,
+  `aₙ(A T B) ≤ ‖A‖ aₙ(T) ‖B‖`.
+- **OI-A21 — Scalar homogeneity.** `aₙ(cT)=‖c‖ aₙ(T)`.
+- **OI-A22 — Mixed-index product inequality.** For composable bounded maps,
+  `a_{m+n}(ST) ≤ aₘ(S)aₙ(T)`.
 
-**Milestone A1 — Eckart–Young.** On finite-dimensional inner-product spaces over
-`[RCLike 𝕜]`, `aₙ(T) = σₙ(T)` index for index, covering rectangular maps and the range
-`n ≥ finrank 𝕜 E` where both sides vanish; Weyl's sharp inequality
-`|σₙ(T) − σₙ(S)| ≤ ‖T − S‖` falls out by transport.
+#### Rank, approximability, and compactness
 
-**Milestone A2 — the Ky Fan triangle inequality from finite-restriction min–max.**
-For every `[RCLike 𝕜]`,
-`kyFanGauge (S + T) k ≤ kyFanGauge S k + kyFanGauge T k`. It is false termwise. The
-finite-dimensional case is the Ky Fan norm inequality of the majorization roadmap transported
-along Milestone A1; a finite-dimensional source with arbitrary codomain follows by range
-compression; the general case localizes through the pair-level min–max lemma. Part B
-consumes one `RCLike` theorem rather than separate scalar-field versions.
+- **OI-A23 — Vanishing from rank.** If `rank T ≤ n`, then `aₙ(T)=0`.
+- **OI-A24 — Finite-dimensional rank characterization.** In finite dimension,
+  `aₙ(T)=0` exactly when `rank T ≤ n`.
+- **OI-A25 — Finite-rank approximation characterization.** `aₙ(T) → 0` exactly when there is
+  a sequence of bounded maps `(Rₙ)` with `rank Rₙ ≤ n` and `‖T-Rₙ‖ → 0`.
+- **OI-A26 — Finite rank implies compactness.** Over a proper scalar field, every finite-rank
+  bounded map is compact.
+- **OI-A27 — Approximability implies compactness.** Over a proper scalar field, every
+  operator satisfying the equivalent conditions of `OI-A25` is compact.
+- **OI-A28 — Compactness implies approximation on a Hilbert target.** If the target is an
+  inner-product space and `T` is compact, then `aₙ(T) → 0`.
+- **OI-A29 — Hilbert-target compactness characterization.** With a Hilbert target,
+  `T` is compact exactly when `aₙ(T) → 0`.
 
-**Milestone A3 — compact implies approximable on a Hilbert target.** A compact operator into
-a Hilbert space has `aₙ(T) → 0`, completing the boundary whose other three edges are in the
-API above. Two hypotheses one might expect are not needed and the statements should record
-it: the domain need not be a Hilbert space, since what the proof uses is an orthogonal
-projection onto a finite-dimensional subspace of the *codomain*; and completeness of the
-target is not needed for the forward implication, a finite-dimensional subspace being
-complete on its own. A finite-`ε`-net argument — cover the image of the unit ball, project
-onto the span of the net, use that the orthogonal projection is the nearest point — proves
-the stronger statement through a far smaller prerequisite than the spectral theorem for
-`T⋆T`.
+`OI-A28` places the inner-product structure on the target. The source retains the general
+normed-space hypotheses of the approximation-number layer, and the target may be incomplete.
+
+#### Hilbert-space invariance and lower bounds
+
+- **OI-A30 — Adjoint invariance.** Over `RCLike`, `aₙ(T†)=aₙ(T)`.
+- **OI-A31 — Modulus invariance.** Over `RCLike`, `aₙ(|T|)=aₙ(T)`, with the modulus supplied
+  by `PolarDecomposition`.
+- **OI-A32 — Coercive-subspace lower bound.** If a subspace `V` has rank greater than `n`
+  and `‖Tx‖ ≥ c‖x‖` for every `x ∈ V`, then `c ≤ aₙ(T)`.
+- **OI-A33 — Unit-vector lower-bound form.** The conclusion of `OI-A32` follows from the
+  corresponding lower bound on the unit vectors of `V`.
+- **OI-A34 — Independent-family lower-bound form.** The conclusion of `OI-A32` follows when
+  `V` is the span of `n+1` linearly independent vectors on which the same uniform lower bound
+  holds.
+
+#### Min–max formulations
+
+- **OI-A35 — Orthogonal-tail min–max equality.** On a complete source Hilbert space,
+  `aₙ(T)` equals the infimum over subspaces `V` of dimension at most `n` of the operator norm
+  of `T` on `V⊥`.
+- **OI-A36 — Dimension cutoff.** If `n` is at least the source dimension, the orthogonal-tail
+  value in `OI-A35` is `0`.
+- **OI-A37 — Closed-unit-ball formulation.** For each candidate `V`, the tail norm in
+  `OI-A35` is the supremum of `‖Tx‖` over `x ∈ V⊥` with `‖x‖ ≤ 1`.
+- **OI-A38 — Pair-level min–max localization property.** Define the property that every
+  strict lower bound `r<aₙ(T)` is improved by a uniform lower bound on the span of `n+1`
+  linearly independent vectors.
+- **OI-A39 — Converse min–max localization.** Every Hilbert-space pair over `RCLike`
+  satisfies the property in `OI-A38`.
+- **OI-A40 — Finite-restriction supremum.** `aₙ(T)` is the least upper bound of the lower
+  bounds obtained from the `(n+1)`-generated finite restrictions in `OI-A38`.
+
+#### Ky Fan gauges and finite-dimensional identification
+
+- **OI-A41 — First Ky Fan gauge.** `K₁(T)=‖T‖`.
+- **OI-A42 — Ky Fan homogeneity.** `Kₖ(cT)=‖c‖Kₖ(T)`.
+- **OI-A43 — Ky Fan two-sided ideal inequality.**
+  `Kₖ(ATB) ≤ ‖A‖ Kₖ(T) ‖B‖`.
+- **OI-A44 — Ky Fan adjoint invariance.** `Kₖ(T†)=Kₖ(T)`.
+- **OI-A45 — Ky Fan lower comparison.** If `0<k`, then `‖T‖ ≤ Kₖ(T)`.
+- **OI-A46 — Ky Fan upper comparison.** `Kₖ(T) ≤ k‖T‖`.
+- **OI-A47 — Pair-local Ky Fan triangle inequality.** On a pair satisfying `OI-A38`,
+  `Kₖ(S+T) ≤ Kₖ(S)+Kₖ(T)`.
+- **OI-A48 — Ky Fan triangle inequality.** Over every `RCLike` Hilbert-space pair,
+  `Kₖ(S+T) ≤ Kₖ(S)+Kₖ(T)`.
+- **OI-A49 — Eckart–Young identification.** In finite-dimensional Hilbert spaces,
+  `aₙ(T)=σₙ(T)` for every `n`, including the zero tail past the source dimension.
+- **OI-A50 — Weyl singular-value perturbation bound.** In finite dimension,
+  `|σₙ(T)-σₙ(S)| ≤ ‖T-S‖`.
+
+#### Acceptance theorems
+
+- **OI-A51 — Identity example.** For a finite-dimensional identity map, `aₙ(id)=1` below the
+  dimension and `aₙ(id)=0` at and above the dimension.
+- **OI-A52 — Projection example.** A rank-`r` orthogonal projection has exactly `r`
+  approximation numbers equal to `1` and the remaining terms equal to `0`.
+- **OI-A53 — Rectangular diagonal example.** A finite rectangular diagonal map has
+  approximation numbers equal to its diagonal magnitudes arranged in decreasing order,
+  including unequal source and target dimensions.
+- **OI-A54 — Finite diagonal min–max example.** For a finite diagonal map, the minimizer in
+  `OI-A35` is the span of the largest singular directions and the value is the next singular
+  value.
+- **OI-A55 — Infinite diagonal tail formula.** For a diagonal operator on
+  `ℓ²(ℕ,𝕜)` with antitone nonnegative coefficients `(dₙ)`, `aₙ(T)=sup_{m≥n} dₘ`.
+- **OI-A56 — Infinite diagonal convergence example.** If the coefficients in `OI-A55` tend
+  to `0`, then `aₙ(T) → 0` and `T` is compact.
+
+**Milestone A1 — Eckart–Young.** `OI-A49`–`OI-A50`.
+
+**Milestone A2 — Ky Fan triangle inequality.** `OI-A47`–`OI-A48`.
+
+**Milestone A3 — compactness and approximability on Hilbert targets.** `OI-A28`–`OI-A29`.
 
 ### Part B — symmetric operator ideals and Schatten norms
 
-**Objects.** `OperatorIdealFamily 𝕜`: five fields — the gauge
-`gauge : (E →L[𝕜] F) → ℝ≥0∞` quantified over all Hilbert pairs in two independent universes,
-and its four laws. `SymmetricOperatorIdealFamily 𝕜` is the diagonal view that additionally
-records adjoint invariance. `symmetricGaugeFamily` keeps the rectangular base family across
-independent source and target universes, with `symmetricGaugeFamilySymmetric` as its diagonal
-adjoint-invariant view. Derived: the ideal as a submodule of finite gauge, and the carrier as a
-type synonym carrying the **ideal** norm — the bare subtype inherits the operator norm, which
-is the wrong instance.
+**Objects.** An operator-ideal family assigns an `ℝ≥0∞` gauge to bounded maps between every
+pair of Hilbert spaces and carries subadditivity, absolute homogeneity, domination of the
+operator norm, and the two-sided ideal inequality. A symmetric family adds adjoint
+invariance on the diagonal universe. A symmetric gauge is a normalized permutation-invariant
+monotone sublinear gauge on finitely supported nonnegative sequences.
 
-**API to develop.**
+#### Ideal-family interface
 
-- The unconditional consequences of the four laws: `gauge 0 = 0`, definiteness from
-  domination of the operator norm, negation invariance, finite-sum subadditivity, one-sided
-  and contraction composition bounds, extensionality, closure of the carrier under module
-  operations and outer composition; the ideal space's normed-space structure with
-  `‖A‖ = (gauge A).toReal`, lossless on members, and the contractive embedding.
-  Completeness of the carrier is **not** among them — the four laws do not force it. It is
-  a separate property of a family. The operator-norm, finite Ky Fan, Hilbert–Schmidt,
-  trace-class and finite-`p` Schatten families are complete; the Ky Fan, trace-class and
-  Schatten proofs use the pair-level min–max localization, while Hilbert–Schmidt completeness
-  is scalar-generic over `RCLike`.
-- The instances, each with its gauge identified definitionally: the **operator norm** family,
-  whose carrier is `⊤`; the **Ky Fan families** over `RCLike 𝕜`, indexed by `0 < k`; the
-  **Hilbert–Schmidt family** over
-  `RCLike 𝕜`; and **trace class** over `RCLike 𝕜`, with the proof using the pair-level min–max
-  localization and gauge the
-  nuclear norm `∑' n, aₙ(T)` in `ℝ≥0∞`.
-- The **Hilbert–Schmidt energy** `∑' i, ‖T (b i)‖ₑ ^ 2` in `ℝ≥0∞`, with no summability side
-  conditions anywhere: Parseval in `ℝ≥0∞`, the rectangular adjoint swap by unconditional
-  Fubini, hence **basis independence**; the norm as its square root, with Minkowski extended
-  to `tsum`, domination of the operator norm, adjoint invariance, the two-sided ideal bound,
-  and the family itself, built from orthonormal expansions and sharing no machinery with the
-  approximation-number instances.
-- Ky Fan dominance as a class over families, with its membership-transport corollary and
-  direct instances for the operator-norm, Ky Fan and trace-class families.
-- Finite-dimensional **Schatten norms** `schattenNorm p`, over `RCLike 𝕜` for real
-  `p ≥ 1` on the singular-value vector, as rectangular unitarily invariant norms.
-  - Triangle inequality from Ky Fan subadditivity plus `ℓᵖ`-gauge monotonicity under weak
-    majorization, both consumed from the majorization roadmap.
-  - Definiteness, adjoint invariance, and the ideal inequalities.
-  - The endpoint identifications `S₁ =` nuclear, `S∞ =` operator norm, and `S₂ =` the
-    rectangular Frobenius seminorm owned by [`Majorization`](../Majorization/README.md),
-    together with the finite-dimensional identification of the Hilbert–Schmidt energy with
-    its square.
-  - **Independent of Milestone B3**: this is a norm on a vector,
-    consumed by the majorization arm, whereas B3 is a family on operators between
-    infinite-dimensional spaces. Milestone A1 proves the two agree, which is what makes `S₂`
-    one object across both halves of this Part.
+- **OI-B01 — Operator-ideal family.** Define a rectangular family of `ℝ≥0∞` gauges with the
+  four laws: subadditivity, absolute homogeneity, domination of operator norm, and the
+  two-sided composition inequality.
+- **OI-B02 — Symmetric operator-ideal family.** Define the diagonal specialization of
+  `OI-B01` together with adjoint invariance.
+- **OI-B03 — Finite-gauge ideal.** For a family `Φ`, the bounded maps with `Φ(T)<∞` form a
+  submodule.
+- **OI-B04 — Ideal carrier.** Define the type of finite-gauge operators with norm given by
+  the finite real value of the family gauge.
+- **OI-B05 — Zero gauge.** Every operator-ideal family satisfies `Φ(0)=0`.
+- **OI-B06 — Definiteness.** If `Φ(T)=0`, then `T=0`.
+- **OI-B07 — Negation invariance.** `Φ(-T)=Φ(T)`.
+- **OI-B08 — Finite-sum subadditivity.** The gauge of a finite sum is at most the sum of the
+  gauges.
+- **OI-B09 — Left composition bound.** `Φ(AT) ≤ ‖A‖ Φ(T)`.
+- **OI-B10 — Right composition bound.** `Φ(TB) ≤ Φ(T) ‖B‖`.
+- **OI-B11 — Contractive composition.** Composition on either side by contractions has gauge at most the
+  original gauge.
+- **OI-B12 — Family extensionality.** Two operator-ideal families are equal when their gauges
+  agree on every Hilbert-space pair and every bounded map.
+- **OI-B13 — Ideal closure under addition.** Finite-gauge operators are closed under
+  addition.
+- **OI-B14 — Ideal closure under scalar multiplication.** Finite-gauge operators are closed
+  under scalar multiplication.
+- **OI-B15 — Ideal closure under outer composition.** Finite-gauge operators remain in the
+  ideal after bounded composition on either side.
+- **OI-B16 — Ideal normed-space structure.** The carrier in `OI-B04` is a normed space with
+  `‖T‖ = Φ(T).toReal`.
+- **OI-B17 — Lossless finite-gauge norm.** For a finite-gauge operator,
+  `ENNReal.ofReal ‖T‖ = Φ(T)` under the ideal norm.
+- **OI-B18 — Contractive inclusion.** The inclusion of the ideal carrier into bounded
+  operators has operator norm at most `1`.
+- **OI-B19 — Completeness property.** Define the property that the normed ideal carrier of a
+  family is complete on every Hilbert-space pair.
+- **OI-B20 — Operator-norm family completeness.** The operator-norm ideal family satisfies
+  `OI-B19`.
+- **OI-B21 — Ky Fan family completeness.** Every finite Ky Fan family satisfies `OI-B19`.
+- **OI-B22 — Hilbert–Schmidt family completeness.** The Hilbert–Schmidt family satisfies
+  `OI-B19` over `RCLike`.
+- **OI-B23 — Trace-class family completeness.** The trace-class family satisfies `OI-B19`.
+- **OI-B24 — Finite Schatten family completeness.** Every finite-exponent Schatten family
+  with `1≤p` satisfies `OI-B19`.
 
-### Milestone B1 — symmetric norming functions and induced ideal families
+#### Concrete families and Hilbert–Schmidt energy
 
-A symmetric norming function determines an operator-ideal family by applying its extension to the approximation-number sequence. This gives a uniform construction of the ideal families used below rather than constructing each family separately.
+- **OI-B25 — Operator-norm family.** Construct the family with gauge `Φ(T)=‖T‖`.
+- **OI-B26 — Operator-norm carrier.** The finite-gauge carrier of `OI-B25` is the whole space
+  of bounded operators.
+- **OI-B27 — Ky Fan family.** For `0<k`, construct the family with gauge `Kₖ(T)`.
+- **OI-B28 — Ky Fan carrier.** The finite-gauge carrier of every family in `OI-B27` is the
+  whole space of bounded operators.
+- **OI-B29 — Nuclear gauge.** Define `ν(T)=∑' n, aₙ(T)` in `ℝ≥0∞`.
+- **OI-B30 — Trace-class family.** Construct the operator-ideal family whose gauge is
+  `OI-B29`.
+- **OI-B31 — Bounded non-trace-class operator.** On an infinite-dimensional Hilbert space,
+  there exists a bounded operator with infinite nuclear gauge.
+- **OI-B32 — Hilbert–Schmidt energy.** For a Hilbert basis `(bᵢ)`, define
+  `E_b(T)=∑' i, ‖Tbᵢ‖ₑ²` in `ℝ≥0∞`.
+- **OI-B33 — Parseval expansion for Hilbert–Schmidt energy.** The energy in `OI-B32` admits
+  the Parseval expansion obtained by expressing each column in any orthonormal basis of the
+  target.
+- **OI-B34 — Adjoint energy swap.** For bases of source and target,
+  `E_b(T)=E_c(T†)`.
+- **OI-B35 — Basis independence.** `E_b(T)` is independent of the Hilbert basis `b`.
+- **OI-B36 — Hilbert–Schmidt norm.** Define the Hilbert–Schmidt norm as the square root of
+  the finite value of `E_b(T)` on finite-energy operators.
+- **OI-B37 — Minkowski for unconditional `ℝ≥0∞` sums.** For `1≤p`, the `ℓᵖ` Minkowski
+  inequality extends to a total `tsum` inequality in `ℝ≥0∞`.
+- **OI-B38 — Hilbert–Schmidt domination.** `‖T‖ ≤ ‖T‖_{HS}` for every finite-energy `T`.
+- **OI-B39 — Hilbert–Schmidt adjoint invariance.** `‖T†‖_{HS}=‖T‖_{HS}`.
+- **OI-B40 — Hilbert–Schmidt ideal inequality.**
+  `‖ATB‖_{HS} ≤ ‖A‖ ‖T‖_{HS} ‖B‖`.
+- **OI-B41 — Hilbert–Schmidt family.** Construct the operator-ideal family determined by the
+  Hilbert–Schmidt norm.
 
-**Objects.** `SymmetricGauge`, a symmetric norming function in the sense of Gohberg–Kreĭn: a
-map `Φ : (ℕ →₀ ℝ≥0) → ℝ≥0` on finitely supported sequences with subadditivity and positive
-homogeneity, invariance under every permutation of `ℕ` (which is what "symmetric" names),
-monotonicity in the termwise order, and the normalization `Φ (single 0 1) = 1`. The
-normalization is a scale fixing rather than a restriction: it gives `‖a‖_∞ ≤ Φ a ≤ ∑ aₙ`, and
-those two bounds are the first theorems, since they are what make the extension well behaved
-at both ends of the scale.
+#### Ky Fan dominance and finite-dimensional Schatten norms
 
-**The extension to infinite sequences** is the supremum of `Φ` over the finitely supported
-sequences dominated by `a`: `Φ∞ a = ⨆ {Φ b : b finitely supported, b ≤ a}`. For an
-**antitone** `a` this is the monotone limit `⨆ N, Φ (truncate a N)` of its initial
-truncations; for a general `a` the initial truncations do not exhaust the dominated
-sequences, and only the supremum form is correct.
+- **OI-B42 — Ky Fan dominance property.** Define the property that `Kₖ(A)≤Kₖ(B)` for every
+  `k` implies `Φ(A)≤Φ(B)`.
+- **OI-B43 — Membership transport under Ky Fan dominance.** A Ky Fan dominant family carries
+  finite-gauge membership from `B` to `A` whenever all Ky Fan prefixes of `A` are bounded by
+  those of `B`.
+- **OI-B44 — Operator-norm Ky Fan dominance.** The operator-norm family is Ky Fan dominant.
+- **OI-B45 — Ky Fan family dominance.** Every finite Ky Fan family is Ky Fan dominant.
+- **OI-B46 — Trace-class Ky Fan dominance.** The trace-class family is Ky Fan dominant.
+- **OI-B47 — Finite-dimensional Schatten norm.** For real `p≥1`, define the rectangular
+  unitarily invariant norm `(∑ᵢ σᵢ(T)^p)^(1/p)`.
+- **OI-B48 — Schatten triangle inequality.** The norm in `OI-B47` is subadditive.
+- **OI-B49 — Schatten definiteness.** The norm in `OI-B47` vanishes exactly at the zero
+  operator.
+- **OI-B50 — Schatten adjoint invariance.** `‖T†‖_p=‖T‖_p`.
+- **OI-B51 — Schatten ideal inequalities.** The finite-dimensional Schatten norm satisfies
+  the left, right, and two-sided ideal bounds.
+- **OI-B52 — Nuclear endpoint.** In finite dimension, the `p=1` Schatten norm equals the
+  nuclear norm.
+- **OI-B53 — Operator-norm endpoint.** The `p=∞` endpoint equals the operator norm.
+- **OI-B54 — Frobenius endpoint.** The `p=2` Schatten norm equals the rectangular Frobenius
+  seminorm from `Majorization`.
+- **OI-B55 — Finite-dimensional energy identity.** In finite dimension,
+  `E_b(T)=ENNReal.ofReal(‖T‖_F²)`.
 
-- **`ℝ≥0∞`-valued, and a supremum over finitely supported dominated sequences rather than a `tsum`.** The gauge must be
-  total and `∞` off its ideal; a supremum of an increasing net is total by
-  construction, whereas any route through summability reintroduces the side conditions the
-  interface was designed to avoid.
-- **Initial truncations suffice for antitone sequences.** If `a` is antitone,
-  `Φ∞ a = ⨆ N, Φ (truncate a N)`. Approximation-number sequences are antitone by Part A,
-  so this is the form used by consumers.
-- **Monotone convergence is the only limit theorem needed**, so nothing here waits on a
-  theory of symmetric sequence spaces.
+#### Symmetric gauges and induced ideal families
 
-**The induced family** `symmetricGaugeFamily 𝕜 Φ`, for `[RCLike 𝕜]`, is rectangular across
-independent source and target universes and has gauge `Φ∞ (fun n => aₙ T)`. Its four base-family
-fields are theorems, each tracing to one input: subadditivity is Milestone B2 applied to
-`a(S + T)` against `a S + a T`; homogeneity is `aₙ(c • T) = ‖c‖ aₙ(T)` with homogeneity of
-`Φ`; domination of the operator norm is `a₀(T) = ‖T‖` with `‖a‖_∞ ≤ Φ a`; and the composition
-bound is the two-sided ideal law with monotonicity of `Φ`. Adjoint invariance is the separate
-cross-universe theorem `gauge_adjoint_symmetricGaugeFamily`; on the diagonal it is packaged as
-`symmetricGaugeFamilySymmetric`. Subadditivity is the only hard base-family law, which is why
-it is stated as Milestone B2.
+- **OI-B56 — Symmetric gauge.** Define a gauge `Φ` on finitely supported nonnegative
+  sequences that is subadditive, positively homogeneous, permutation invariant, monotone,
+  and normalized by `Φ(e₀)=1`.
+- **OI-B57 — Supremum lower bound for a symmetric gauge.**
+  `supₙ aₙ ≤ Φ(a)` for every finitely supported nonnegative sequence `a`.
+- **OI-B58 — Sum upper bound for a symmetric gauge.**
+  `Φ(a) ≤ ∑ₙ aₙ` for every finitely supported nonnegative sequence `a`.
+- **OI-B59 — Extension to arbitrary sequences.** Define
+  `Φ∞(a)=sup {Φ(b) : b finitely supported, b≤a}` with values in `ℝ≥0∞`.
+- **OI-B60 — Initial truncation formula.** If `a` is antitone, then
+  `Φ∞(a)=sup_N Φ(a restricted to {0,…,N-1})`.
+- **OI-B61 — Monotonicity of the extension.** If `a≤b`, then `Φ∞(a)≤Φ∞(b)`.
+- **OI-B62 — Homogeneity of the extension.** For `c≥0`, `Φ∞(ca)=cΦ∞(a)`.
+- **OI-B63 — Subadditivity of the extension.** `Φ∞(a+b)≤Φ∞(a)+Φ∞(b)`.
+- **OI-B64 — Symmetric-gauge ideal family.** For `RCLike 𝕜`, construct the rectangular
+  operator-ideal family induced by `Φ`.
+- **OI-B65 — Induced gauge formula.** The family in `OI-B64` has gauge
+  `T ↦ Φ∞(n ↦ aₙ(T))`.
+- **OI-B66 — Induced-family subadditivity.** The gauge in `OI-B65` is subadditive.
+- **OI-B67 — Induced-family homogeneity.** The gauge in `OI-B65` is absolutely homogeneous.
+- **OI-B68 — Induced-family operator-norm domination.** `‖T‖≤Φ∞(a(T))`.
+- **OI-B69 — Induced-family composition bound.** The gauge in `OI-B65` satisfies the
+  two-sided ideal inequality.
+- **OI-B70 — Cross-universe adjoint invariance.** The rectangular induced gauge of `T†`
+  equals that of `T` after exchanging source and target universes.
+- **OI-B71 — Symmetric diagonal view.** Package `OI-B70` as a symmetric operator-ideal family
+  on the diagonal universe.
+- **OI-B72 — Injectivity on antitone sequences.** Equality of two induced families forces
+  equality of the corresponding extended gauges on every antitone sequence.
+- **OI-B73 — Approximation-number membership invariance.** Operators with the same
+  approximation-number sequence have the same finite-gauge membership in every induced
+  symmetric-gauge family.
 
-Equality of induced families determines the extended gauge on antitone sequences, and membership is invariant under `HasSameApproximationNumbers`; thus the resulting ideal depends only on the approximation-number sequence.
+#### Ky Fan transfer and infinite-dimensional Schatten families
 
-### Milestone B2 — the Ky Fan dominance principle
+- **OI-B74 — Symmetric-gauge weak-majorization transfer.** For antitone nonnegative
+  sequences `a,b`, if every prefix sum of `a` is at most the corresponding prefix sum of
+  `b`, then `Φ∞(a)≤Φ∞(b)`.
+- **OI-B75 — Induced-family Ky Fan dominance.** Every symmetric-gauge family from `OI-B64`
+  satisfies `OI-B42`.
+- **OI-B76 — Schatten symmetric gauge.** For every finite real `p≥1`, define
+  `Φ_p(a)=(∑ aₙ^p)^(1/p)` as a symmetric gauge.
+- **OI-B77 — Schatten gauge laws.** `OI-B76` satisfies subadditivity, positive homogeneity,
+  permutation invariance, monotonicity, and normalization.
+- **OI-B78 — Finite-exponent Schatten family.** Define the rectangular family induced from
+  `OI-B76`.
+- **OI-B79 — Finite-exponent symmetric Schatten family.** Package the diagonal
+  adjoint-invariant view of `OI-B78`.
+- **OI-B80 — Infinite-exponent Schatten family.** Define the rectangular `p=∞` family with
+  gauge `‖T‖`.
+- **OI-B81 — Infinite-exponent symmetric Schatten family.** Package the diagonal
+  adjoint-invariant view of `OI-B80`.
+- **OI-B82 — Infinite-endpoint approximation-number formula.** The gauge of `OI-B80` equals
+  `supₙ aₙ(T)`.
+- **OI-B83 — Trace-class endpoint.** The finite-exponent family at `p=1` equals the
+  trace-class family.
+- **OI-B84 — Hilbert–Schmidt endpoint.** The finite-exponent family at `p=2` has the
+  Hilbert–Schmidt gauge.
+- **OI-B85 — Operator-norm endpoint family.** The infinite-exponent family equals the
+  operator-norm family.
+- **OI-B86 — Endpoint symmetry.** The corresponding diagonal symmetric families agree at
+  the three endpoints in `OI-B83`–`OI-B85`.
+- **OI-B87 — Schatten scale monotonicity.** If `1≤p≤q`, then `Φ_q(T)≤Φ_p(T)`.
+- **OI-B88 — Schatten ideal inclusion.** If `1≤p≤q`, then `S_p⊆S_q`.
+- **OI-B89 — Strict Schatten inclusions.** For `p<q`, an intermediate-power diagonal
+  operator witnesses strictness of `S_p⊆S_q`.
+- **OI-B90 — Hilbert–Schmidt reconciliation.** For every Hilbert basis `b`,
+  `∑' n, aₙ(T)² = E_b(T)` in `ℝ≥0∞`.
 
-For every symmetric gauge `Φ` and every `RCLike` scalar field, the
-family `symmetricGaugeFamily 𝕜 Φ` is Ky Fan dominant. Equivalently, and more usefully as a
-lemma about sequences: if antitone `a` and `b` satisfy
-`∑_{n<k} aₙ ≤ ∑_{n<k} bₙ` for every `k`, then `Φ∞ a ≤ Φ∞ b`.
+#### Orthogonal block sums
 
-The sequence form is the Hardy–Littlewood–Pólya transfer of the majorization roadmap: a
-weakly majorized vector is dominated termwise by a convex combination of permutations of the
-majorizing one, and `Φ` is monotone, symmetric and convex. Lifting to sequences uses the
-supremum over finitely supported dominated sequences; on the antitone approximation-number
-sequences this reduces to monotone convergence along the initial truncations.
+- **OI-B91 — Approximation numbers of a block sum.** For a block-diagonal operator on
+  orthogonal source and target decompositions, its approximation-number sequence is the
+  decreasing rearrangement of the union of the block sequences.
+- **OI-B92 — Symmetric-gauge block formula.** Every symmetric gauge applied to a block sum is
+  the same gauge applied to the decreasing rearrangement in `OI-B91`.
+- **OI-B93 — Block lower bound.** For two blocks,
+  `max(Φ(T₁),Φ(T₂)) ≤ Φ(T₁⊕T₂)`.
+- **OI-B94 — Block upper bound.** For two blocks,
+  `Φ(T₁⊕T₂) ≤ Φ(T₁)+Φ(T₂)`.
 
-This milestone delivers the triangle inequality for every symmetric ideal norm at once.
-Milestone A2 says exactly that `a(S + T)` is weakly majorized by `a(S) + a(T)`; feeding that
-in gives `gauge (S + T) ≤ gauge S + gauge T` for every `Φ` from a single inequality. Every
-symmetric ideal in this roadmap stands on A2 through this milestone, and nothing else in
-Part B needs A2 directly.
+**Milestone B1 — symmetric gauges and induced families.** `OI-B56`–`OI-B73`.
 
-### Milestone B3 — Schatten `p` in infinite dimensions, and the reconciliation
+**Milestone B2 — Ky Fan dominance.** `OI-B74`–`OI-B75`.
 
-`schattenGauge p` for each finite real exponent `1 ≤ p`, with
-`Φ_p a = (∑ aₙ^p)^{1/p}`, and a separately named infinity endpoint
-`schattenFamilyInf 𝕜` whose gauge is `Φ_∞ = ‖·‖_∞`, together with its adjoint-invariant
-diagonal view `schattenFamilyInfSymmetric`; for finite `p` and any `[RCLike 𝕜]`,
-`schattenFamily 𝕜 p = symmetricGaugeFamily 𝕜 (schattenGauge p)` is likewise rectangular across
-independent universes, with diagonal view `schattenFamilySymmetric 𝕜 p`. Thus **the Schatten
-classes are obtained rather than constructed**, and their laws are B1's.
+**Milestone B3 — Schatten families and reconciliation.** `OI-B76`–`OI-B90`.
 
-- `Φ_p` is a symmetric gauge: subadditivity is Minkowski in `ℓᵖ`, monotonicity and symmetry
-  are termwise, normalization is by inspection.
-- The endpoint identifications, each an equality of rectangular *families* and not merely of
-  gauges on the ideal: `schattenFamily 1` is the trace-class family, `schattenFamily 2` has the
-  Hilbert–Schmidt gauge, and `schattenFamilyInf` is the operator-norm family. Their diagonal
-  symmetric views agree as a consequence.
-- The scale is monotone — `p ≤ q → gauge_q T ≤ gauge_p T`, hence `S_p ⊆ S_q` — with the
-  inclusions strict, witnessed by a diagonal operator with coefficients `n ↦ (n + 1)^{-1/r}` for
-  `p < r < q`, the same diagonal machinery as Part A's acceptance example (6).
-**The reconciliation obligation.** `p = 2` is defined twice: through `schattenGauge 2` on the
-singular-value sequence, and through the Hilbert–Schmidt energy on an orthonormal expansion.
-The energy definition requires no spectral theory, so Part C depends on it. The two
-definitions must therefore be proved equal:
-
-```text
-∑' n, ENNReal.ofReal (aₙ T) ^ 2  =  hilbertSchmidtEnergy T b        (any Hilbert basis b)
-```
-
-Both sides are basis-independent, so the statement is well-posed; the proof is the
-singular-value expansion of a Hilbert–Schmidt operator, and it is the one place in Part B
-where Milestone A3 is needed.
-
-### Milestone B4 — block sums and the min–max proof interface
-
-**Block sums.** For an orthogonal decomposition of source and target and a block-diagonal
-operator, the approximation-number sequence of the sum is the decreasing rearrangement of the
-union of the summands' sequences — hence a formula for every symmetric gauge, and, for the
-two-block case consumers use, the sharp comparison
-`max (gauge T₁) (gauge T₂) ≤ gauge (T₁ ⊕ T₂) ≤ gauge T₁ + gauge T₂`. The lower bound is
-restriction–corestriction through the two-sided ideal law; the upper is subadditivity applied
-to the two extensions by zero.
-
-**Min–max proof interface.** Prove the pair-level converse localization directly over `ℂ` and
-by real complexification over `ℝ`; complexification preserves exactly the approximation-number
-and finite-restriction data that lemma needs.  The public Ky Fan, symmetric-gauge and Schatten
-statements remain bare-`RCLike` theorems.  The pair-level predicate is reusable proof
-infrastructure, not an assumption exposed to consumers.
+**Milestone B4 — orthogonal block sums.** `OI-B91`–`OI-B94`.
 
 ### Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
 
-**Objects.** For a Hilbert basis `b` of `F`: the columns `columns b T = fun i => T (b i)` of
-`T : F →L[𝕜] E`, and the representation `ofLp b f : F →L[𝕜] E` for `f : lp (fun _ : ι => E) 2`,
-defined by the absolutely convergent series `x ↦ ∑' i, (b.repr x i) • f i` through
-Cauchy–Schwarz against the basis coefficients.
+**Objects.** For a Hilbert basis `(bᵢ)` of the source, the column family of `T` is
+`i ↦ Tbᵢ`. An `ℓ²` family `(fᵢ)` represents the bounded operator
+`x ↦ ∑' i, ⟪bᵢ,x⟫ fᵢ`.
 
-**API to develop.**
+- **OI-C01 — Column family.** Define the columns `i ↦ Tbᵢ` of a bounded operator relative to
+  a Hilbert basis.
+- **OI-C02 — Operator represented by `ℓ²` columns.** For `f ∈ ℓ²(ι,E)`, define the bounded
+  operator `x ↦ ∑' i, ⟪bᵢ,x⟫ fᵢ`.
+- **OI-C03 — Column membership characterization.** The column family of `T` belongs to `ℓ²`
+  exactly when `E_b(T)<∞`.
+- **OI-C04 — Column summability characterization.** The condition in `OI-C03` is equivalent
+  to summability of `i ↦ ‖Tbᵢ‖²`.
+- **OI-C05 — Columns of the represented operator.** The column family of the operator in
+  `OI-C02` is `f`.
+- **OI-C06 — Reconstruction from columns.** Every finite-energy operator equals the operator
+  represented by its `ℓ²` column family.
+- **OI-C07 — Injectivity of column representation.** Two `ℓ²` column families representing
+  the same bounded operator are equal.
+- **OI-C08 — Unique column representative.** Every finite-energy operator has a unique
+  `ℓ²` column representative relative to `b`.
+- **OI-C09 — Linearity of column representation.** The map `f ↦ T_f` from `OI-C02` is linear.
+- **OI-C10 — Operator-norm bound.** `‖T_f‖≤‖f‖₂`.
+- **OI-C11 — Hilbert–Schmidt norm identity.**
+  `‖f‖₂² = ∑' i, ‖T_f bᵢ‖²`.
+- **OI-C12 — Energy identity.** The `ℝ≥0∞` energy of `T_f` equals the extended square of the
+  `ℓ²` norm of `f`.
+- **OI-C13 — Continuity of column representation.** The linear map `f ↦ T_f` is bounded.
+- **OI-C14 — Hilbert–Schmidt operators are compact.** If `E_b(T)<∞`, then `T` is compact.
+- **OI-C15 — Left isometric invariance.** If `U` preserves norms, then
+  `E_b(UT)=E_b(T)`.
+- **OI-C16 — Right coisometric invariance.** If `V†` preserves norms, then
+  `‖TV‖_{HS}=‖T‖_{HS}`.
+- **OI-C17 — Two-sided isometric conjugation.** Under the hypotheses of `OI-C15` and
+  `OI-C16`, `‖UTV‖_{HS}=‖T‖_{HS}`.
+- **OI-C18 — Left Pythagoras.** If `(P_j)` satisfies
+  `∑' j, ‖P_jv‖ₑ²=‖v‖ₑ²` for every `v`, then
+  `∑' j, E_b(P_jT)=E_b(T)`.
+- **OI-C19 — Right Pythagoras.** The analogous pointwise norm splitting on the source side
+  splits Hilbert–Schmidt energy under right composition.
+- **OI-C20 — Joint Pythagoras.** Independent pointwise norm splittings on source and target
+  give the corresponding double-sum decomposition of Hilbert–Schmidt energy.
 
-- Membership: `Memℓp (columns b T) 2 ↔ hilbertSchmidtEnergy T b ≠ ⊤`, stated against Part B's
-  energy so that the model connects to the ideal theory instead of redefining
-  "Hilbert–Schmidt"; and the summability form.
-- The bijection: both round trips, injectivity, and the unique-representative
-  characterization.
-- The representation map is linear, proved from the round trips, and bounded with
-  `‖ofLp b f‖ ≤ ‖f‖`.
-- The `ℓ²` norm **is** the Hilbert–Schmidt norm: `‖f‖² = ∑' i, ‖ofLp b f (b i)‖²`, with the
-  `ℝ≥0∞` comparison against the energy.
+The representation `OI-C02` identifies the finite-energy operators with an `ℓ²` column
+model. Its norm and energy identities `OI-C11`–`OI-C12` connect that model to the
+Hilbert–Schmidt family from Part B.
 
-So `lp (fun _ : ι => E) 2` *is* the Hilbert–Schmidt space, and it arrives with Mathlib's
-inner product and completeness already proved.
+**Milestone C1 — isometric conjugation.** `OI-C15`–`OI-C17`.
 
-**Milestone C1 — isometric conjugation.** `Z ↦ U ∘ Z ∘ V` preserves the Hilbert–Schmidt norm
-when `U` is norm-preserving and `V` has norm-preserving adjoint. The left case is termwise
-trivial — composing with an isometry changes no column norm — and the right case is the same
-statement about the adjoint; no basis-independence argument appears, which in the tensor
-model is the expensive step.
-
-**Milestone C2 — Pythagoras along an orthogonal family.** A family splitting every vector's
-norm (`∑' i, ‖P i v‖ₑ ² = ‖v‖ₑ ²`) splits the energy on either side and jointly. No
-countability, projection, or operator-topology summability hypothesis: the pointwise norm
-split is all, and `ℝ≥0∞` keeps it side-condition-free.
+**Milestone C2 — Pythagoras along orthogonal families.** `OI-C18`–`OI-C20`.
 
 ## Worked examples (acceptance criteria)
 
-### Part A — approximation numbers and Hilbert-space singular values
+### Part A
 
-**Acceptance examples**, theorem-level tests proved from the public API with the defining
-infimum never unfolded: (1) zero and identity — `aₙ(id)` is `1` below the dimension and `0`
-at or past it; (2) a rank-`r` orthogonal projection has exactly `r` approximation numbers
-equal to `1`; (3) a rectangular diagonal map has approximation numbers its entries sorted
-decreasingly, unequal dimensions included; (4) an explicit rank-`r` map has `aₙ = 0` for
-`n ≥ r`; (5) on a small diagonal matrix the orthogonal-tail infimum selects the span of the
-largest singular directions and returns the next singular value; (6) a diagonal operator on
-`lp (fun _ : ℕ => 𝕜) 2` with coefficients tending to zero has `aₙ → 0`. Example (6) should be
-proved by truncation rather than through Milestone A3 — the `N`-th truncation has rank at
-most `N` and the tail of the coefficients bounds `‖T − T_N‖` — because the approximation
-numbers of a diagonal operator *are* its tail suprema, and compactness then falls out as a
-corollary rather than being assumed.
+The acceptance examples are `OI-A51`–`OI-A56`, together with the rank-vanishing theorem
+`OI-A23` on an explicit finite-rank map.
 
-### Part B — symmetric operator ideals and Schatten norms
+### Part B
 
-**Acceptance examples.** The four instances instantiate the interface with their gauges
-identified definitionally; the operator-norm and Ky Fan carriers are provably `⊤` while the
-trace-class carrier is not — exhibiting a bounded non-trace-class operator, for which an
-infinite orthonormal family suffices, is part of this milestone's acceptance.
+The operator-norm and Ky Fan carriers are `OI-B26` and `OI-B28`. The trace-class boundary is
+witnessed by `OI-B31`. The concrete family constructions are `OI-B25`, `OI-B27`, `OI-B30`,
+and `OI-B41`.
 
-### Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
+### Part C
 
-**Acceptance criteria.** That the right-hand side of the membership characterization is
-Part B's basis-independent energy, so nothing here is circular; that the basis is a parameter
-of every statement, and no statement asserts basis-independence of the representation; that
-`ofLp` is continuous, so the space is never presented without its bounded representation map.
+The column model is identified with the basis-independent energy by `OI-C03`, `OI-B35`, and
+`OI-C12`. Its bounded representation map is `OI-C09`–`OI-C13`.
 
 ## Ordering
 
-Part A comes first, consuming [`PolarDecomposition`](../PolarDecomposition/README.md) for the
-modulus, finite-dimensional singular values and Courant–Fischer, and
-[`Majorization`](../Majorization/README.md) for the finite-dimensional Ky Fan inequality used
-in Milestone A2. Part B consumes Part A plus the majorization engine; its finite-dimensional
-`S₂` identification also consumes Majorization's Frobenius seminorm. Part C consumes Part B,
-and otherwise only `lp` and `HilbertBasis`.
+Part A consumes the modulus and finite-dimensional singular-value theory from
+[`PolarDecomposition`](../PolarDecomposition/README.md) and the finite-dimensional Ky Fan
+inequality from [`Majorization`](../Majorization/README.md). Part B consumes Part A and the
+majorization engine. Part C consumes the Hilbert–Schmidt energy and ideal theory from Part B,
+together with Mathlib's `lp` and `HilbertBasis` APIs.
 
-**Downstream, outside this group.** The Peter–Weyl roadmap
+The Peter–Weyl roadmap
 [`RepresentationTheory/CompactGroups`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CompactGroups/README.md)
-depends on three supporting results for `convolutionOperator_isCompact`: an HS-operator
-API, "continuous kernel on a compact space ⇒ HS integral operator", and
-"Hilbert–Schmidt ⇒ compact". Part C supplies the first and third; the second is kernel
-theory and stays there.
-
-Within Part B, the interface and its four instances are dependency-closed on Part A and can
-ship first.
+consumes the Hilbert–Schmidt operator API `OI-C01`–`OI-C14` and the compactness conclusion
+`OI-C14`.
 
 ## Definitions
 
-**D1** `Φ∞ a = ⨆ {Φ b : b finitely supported, b ≤ a}` — a symmetric gauge extended to
-infinite sequences. For antitone `a` this equals `⨆ N, Φ (truncate a N)`.
+**D1 (`OI-B59`, `OI-B60`).** The extension of a symmetric gauge is
+`Φ∞(a)=sup {Φ(b) : b finitely supported, b≤a}`. For antitone `a`, it is the supremum of the
+values on the initial truncations.
 
-**D2** `gauge T = Φ∞ (n ↦ aₙ T)` — the ideal family induced by a symmetric gauge.
+**D2 (`OI-B64`, `OI-B65`).** The ideal family induced by a symmetric gauge has gauge
+`T ↦ Φ∞(n ↦ aₙ(T))`.
 
-**D3** `Φ_p a = (∑ aₙ^p)^(1/p)`, `1 ≤ p` — the `ℓᵖ` symmetric gauge.
+**D3 (`OI-B76`).** For `1≤p<∞`, the `ℓᵖ` symmetric gauge is
+`Φ_p(a)=(∑ aₙ^p)^(1/p)`.
 
-**D4** `gauge T = ‖T‖`, equivalently `⨆ n, aₙ(T)` — the `p = ∞` endpoint.
+**D4 (`OI-B80`, `OI-B82`).** The `p=∞` family has gauge `‖T‖`, equivalently `supₙ aₙ(T)`.
 
-**D5** `(∑_{i < finrank E} σᵢ(T)^p)^(1/p)` — the finite-dimensional Schatten `p`-norm.
+**D5 (`OI-B47`).** The finite-dimensional Schatten `p`-norm is
+`(∑_{i<dim E} σᵢ(T)^p)^(1/p)`.
 
-**D6** `x ↦ ∑' i, ⟪bᵢ, x⟫ • fᵢ` — the operator represented by an `ℓ²` family of columns.
+**D6 (`OI-C02`).** An `ℓ²` column family `(fᵢ)` represents the operator
+`x ↦ ∑' i, ⟪bᵢ,x⟫ fᵢ`.
 
 ## References
 

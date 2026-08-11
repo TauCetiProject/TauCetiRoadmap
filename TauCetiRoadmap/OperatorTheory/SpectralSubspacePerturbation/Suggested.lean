@@ -51,7 +51,9 @@ can satisfy absolute separation while an off-diagonal perturbation produces a qu
 
 A statistics-facing synonym for this predicate is not wanted: the population/sample
 distinction belongs in the names of the theorems that use it, not in a fourth name for the
-same separation. -/
+same separation.
+
+Roadmap: `SSP-S01`. -/
 def InternalGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (δ : ℝ) : Prop :=
   PrincipalAngles.SpectraSeparated A U A Uᗮ δ
 
@@ -62,44 +64,60 @@ end InternalGap
 
 section HaagerupZsido
 
-/-- The hyperbolic weight, chosen so the mass computation collapses exactly. -/
+/-- The hyperbolic weight, chosen so the mass computation collapses exactly.
+
+Roadmap: `SSP-A01`. -/
 noncomputable def weight (y : ℝ) : ℝ :=
   Real.tanh (Real.pi * y / 2)
 
-/-- The Laplace transform of the weight at `|t|`. -/
+/-- The Laplace transform of the weight at `|t|`.
+
+Roadmap: `SSP-A02`. -/
 noncomputable def weightLaplaceTransform (t : ℝ) : ℝ :=
   ∫ y in Set.Ioi (0 : ℝ), weight y * Real.exp (-|t| * y)
 
-/-- The real Haagerup–Zsidó kernel. -/
+/-- The real Haagerup–Zsidó kernel.
+
+Roadmap: `SSP-A03`. -/
 noncomputable def realKernel (t : ℝ) : ℝ :=
   (Real.sin t / 2) * weightLaplaceTransform t
 
 /-- The complex kernel; the rotation by `-i` makes the Fourier identity land
-on `1 / x` rather than `i / x`. -/
+on `1 / x` rather than `i / x`.
+
+Roadmap: `SSP-A04`. -/
 noncomputable def reciprocalKernel (t : ℝ) : ℂ :=
   -Complex.I * (realKernel t : ℂ)
 
 /-- Oddness; the two-sided Fourier identity follows from `1 ≤ x` by
-reflection. -/
+reflection.
+
+Roadmap: `SSP-A12`. -/
 theorem reciprocalKernel_neg (t : ℝ) :
     reciprocalKernel (-t) = -reciprocalKernel t := by
   sorry
 
 /-- Closed-form Laplace transform of `|sin|`, the inner integral of the mass
-computation. -/
+computation.
+
+Roadmap: `SSP-A17`. -/
 theorem integral_abs_sin_mul_exp_neg_abs {y : ℝ} (hy : 0 < y) :
     (∫ t : ℝ, |Real.sin t| * Real.exp (-y * |t|)) =
       2 * ((1 + Real.exp (-Real.pi * y)) /
         ((1 - Real.exp (-Real.pi * y)) * (1 + y ^ 2))) := by
   sorry
 
-/-- **Milestone A1, first half: the exterior Fourier identity.** -/
+/-- **Milestone A1, first half: the exterior Fourier identity.**
+
+Roadmap: `SSP-A23`. -/
 theorem reciprocalKernel_fourier (x : ℝ) (hx : 1 ≤ |x|) :
     (∫ t : ℝ, reciprocalKernel t *
         Complex.exp ((((t * x : ℝ) : ℂ) * Complex.I))) = 1 / (x : ℂ) := by
   sorry
 
-/-- **Milestone A1, second half: the exact mass `π / 2`.** -/
+/-- **Milestone A1, second half: the exact mass `π / 2`.**
+
+Roadmap: `SSP-A24`. -/
 theorem integral_norm_reciprocalKernel :
     (∫ t : ℝ, ‖reciprocalKernel t‖) = Real.pi / 2 := by
   sorry
@@ -116,7 +134,9 @@ variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
 
 /-- **Dimension-free separated Sylvester bound** (integral-free, arbitrary
 Hilbert spaces, both scalar fields): quadratic-form separation of size `g`
-gives `‖X‖ ≤ ‖Y‖ / g`. -/
+gives `‖X‖ ≤ ‖Y‖ / g`.
+
+Roadmap: `SSP-B07`. -/
 theorem opNorm_le_div_of_comp_sub_comp_eq
     {A : E →L[𝕜] E} {B : F →L[𝕜] F} {X Y : F →L[𝕜] E}
     (hA : (A : E →ₗ[𝕜] E).IsSymmetric) (hB : (B : F →ₗ[𝕜] F).IsSymmetric)
@@ -137,7 +157,9 @@ variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
   [FiniteDimensional 𝕜 F]
 
 /-- **Interval/exterior separation, constant one, every rectangular unitarily
-invariant norm.** -/
+invariant norm.**
+
+Roadmap: `SSP-B09`. -/
 theorem uiNorm_sylvester_le_of_intervalGap
     (N : Majorization.RectangularUnitarilyInvariantSeminorm 𝕜 E F)
     {A : F →ₗ[𝕜] F} {B : E →ₗ[𝕜] E} {X C : E →ₗ[𝕜] F}
@@ -150,7 +172,9 @@ theorem uiNorm_sylvester_le_of_intervalGap
 
 /-- Arbitrary pairwise separation, constant π / 2 (the mass of
 the Part A kernel), lifted from the simultaneous Ky Fan prefix estimate by Fan
-dominance. -/
+dominance.
+
+Roadmap: `SSP-B13`. -/
 theorem uiNorm_sylvester_le_of_spectralDistance
     (N : Majorization.RectangularUnitarilyInvariantSeminorm 𝕜 E F)
     {A : F →ₗ[𝕜] F} {B : E →ₗ[𝕜] E} {X C : E →ₗ[𝕜] F}
@@ -173,7 +197,9 @@ variable {F : Type w} [NormedAddCommGroup F] [InnerProductSpace ℂ F]
 /-- **Milestone B2 — Rosenblum's theorem.**  A bounded operator intertwining
 two self-adjoint partial maps with disjoint spectra is zero.  Proved without
 a Borel functional calculus: `1` is a null point for every diagonal spectral
-measure, so damped continuous Cayley symbols separate in the limit. -/
+measure, so damped continuous Cayley symbols separate in the limit.
+
+Roadmap: `SSP-B17`. -/
 theorem eq_zero_of_intertwines_of_disjoint_spectrum
     {A : E →ₗ.[ℂ] E} {B : F →ₗ.[ℂ] F}
     (hA : IsSelfAdjoint A) (hB : IsSelfAdjoint B) {X : F →L[ℂ] E}
@@ -193,7 +219,9 @@ variable {𝕜 : Type u} [RCLike 𝕜]
 variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
 
 /-- **The dimension-free operator-norm `sin Θ` theorem, coercivity form**: on
-an arbitrary Hilbert space, from the dimension-free Sylvester bound alone. -/
+an arbitrary Hilbert space, from the dimension-free Sylvester bound alone.
+
+Roadmap: `SSP-C15`. -/
 theorem sinTheta_directed_coercive
     {A B : E →L[𝕜] E}
     (hA : (A : E →ₗ[𝕜] E).IsSymmetric) (hB : (B : E →ₗ[𝕜] E).IsSymmetric)
@@ -215,7 +243,9 @@ variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
   [FiniteDimensional 𝕜 E]
 
 /-- **Milestone C1 — Davis–Kahan `sin Θ`, perturbation form, every square
-unitarily invariant norm**, under the interval/exterior gap. -/
+unitarily invariant norm**, under the interval/exterior gap.
+
+Roadmap: `SSP-C18`. -/
 theorem sinTheta_perturbation_le
     (N : Majorization.UnitarilyInvariantSeminorm 𝕜 E)
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
@@ -229,7 +259,9 @@ theorem sinTheta_perturbation_le
 
 /-- **Canonical spectral-projector Davis–Kahan theorem** with no eigenbasis
 in the API; the equal-rank hypothesis turns the directed estimate into the
-full projector difference. -/
+full projector difference.
+
+Roadmap: `SSP-C20`. -/
 theorem opNorm_spectralProjection_sub_spectralProjection_le
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {a b δ : ℝ} (hδ : 0 < δ)
@@ -244,7 +276,9 @@ theorem opNorm_spectralProjection_sub_spectralProjection_le
 
 /-- **Milestone C2 — the two-sided `π/2` form**: arbitrary pairwise
 separation of the selected `A`-spectrum from the complementary `B`-spectrum,
-every square unitarily invariant norm. -/
+every square unitarily invariant norm.
+
+Roadmap: `SSP-C23`. -/
 theorem sinTheta_perturbation_le_of_spectralDistance
     (N : Majorization.UnitarilyInvariantSeminorm 𝕜 E)
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
@@ -257,7 +291,9 @@ theorem sinTheta_perturbation_le_of_spectralDistance
 
 /-- **Davis's `sin 2θ` theorem, per-eigenvector product form**: for a unit
 eigenvector `x` of the perturbed operator and `P` the projection onto the
-invariant subspace, `(b - a) · ‖P x‖ · ‖x - P x‖ ≤ ε`. -/
+invariant subspace, `(b - a) · ‖P x‖ · ‖x - P x‖ ≤ ε`.
+
+Roadmap: `SSP-C25`. -/
 theorem sin_two_theta_le
     {T P : E →ₗ[𝕜] E} (hT : T.IsSymmetric) (hP : P.IsSymmetric)
     {U : Submodule 𝕜 E} [U.HasOrthogonalProjection]
@@ -281,7 +317,9 @@ variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
 
 /-- `U` and `V` are eigenblocks of `A` and `B` selected by the same ordered
 eigenvalue indices — the branch selection that excludes arbitrary reducing
-subspaces when `B = A`. -/
+subspaces when `B = A`.
+
+Roadmap: `SSP-D01`. -/
 def CorrespondingEigenblock {A B : E →ₗ[𝕜] E}
     (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     (U V : Submodule 𝕜 E) : Prop :=
@@ -289,14 +327,18 @@ def CorrespondingEigenblock {A B : E →ₗ[𝕜] E}
     U = Submodule.span 𝕜 (⇑(hA.eigenvectorBasis hn) '' (s : Set (Fin n))) ∧
       V = Submodule.span 𝕜 (⇑(hB.eigenvectorBasis hn) '' (s : Set (Fin n)))
 
-/-- Frobenius sine distance in canonical subspace notation. -/
+/-- Frobenius sine distance in canonical subspace notation.
+
+Roadmap: `SSP-D02`. -/
 noncomputable def sinThetaFrobenius (U V : Submodule 𝕜 E)
     [U.HasOrthogonalProjection] [V.HasOrthogonalProjection] : ℝ :=
   Majorization.frobenius (PrincipalAngles.sinThetaMap U V).toLinearMap
 
 /-- **The complement identity**: the Frobenius sine of two equally indexed
 blocks is exactly the square root of the cross-block overlap sum — the bridge
-between the paper's cross-block energies and angles, public by decision. -/
+between the paper's cross-block energies and angles, public by decision.
+
+Roadmap: `SSP-D07`. -/
 theorem sinThetaFrobenius_eq_sqrt_sum_cross {n : ℕ}
     (bT bS : OrthonormalBasis (Fin n) 𝕜 E) (s : Finset (Fin n)) :
     sinThetaFrobenius
@@ -305,7 +347,9 @@ theorem sinThetaFrobenius_eq_sqrt_sum_cross {n : ℕ}
       Real.sqrt (∑ j ∈ s, ∑ k ∈ sᶜ, ‖⟪bT k, bS j⟫_𝕜‖ ^ 2) := by
   sorry
 
-/-- **Milestone D1 — the exact Yu–Wang–Samworth population-gap theorem.** -/
+/-- **Milestone D1 — the exact Yu–Wang–Samworth population-gap theorem.**
+
+Roadmap: `SSP-D16`. -/
 theorem yuWangSamworth_sinTheta_le
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {U V : Submodule 𝕜 E} [U.HasOrthogonalProjection]
@@ -320,7 +364,9 @@ theorem yuWangSamworth_sinTheta_le
 
 /-- **The aligned-basis (Procrustes) surface**: orthonormal bases of the two
 blocks whose pointwise discrepancy is controlled — the usable form when
-eigenbases are determined only up to rotation. -/
+eigenbases are determined only up to rotation.
+
+Roadmap: `SSP-D17`. -/
 theorem yuWangSamworth_alignedBasis_le
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {U V : Submodule 𝕜 E} [U.HasOrthogonalProjection]
@@ -338,7 +384,9 @@ theorem yuWangSamworth_alignedBasis_le
   sorry
 
 /-- **The single-vector bound**: the rank-one, sign-aligned eigenvector
-corollary — the headline statisticians quote. -/
+corollary — the headline statisticians quote.
+
+Roadmap: `SSP-D18`. -/
 theorem yuWangSamworth_eigenvector_le
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {u v : E} (hu : ‖u‖ = 1) (hv : ‖v‖ = 1)
