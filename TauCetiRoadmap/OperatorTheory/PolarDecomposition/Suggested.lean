@@ -7,9 +7,10 @@ import Mathlib
 /-!
 # Polar decomposition, the functional calculus, and singular systems: target signatures
 
-`README.md` is the definitive roadmap. This file records representative Lean signatures for
-labeled obligations. Each declaration cites the roadmap labels it represents. `sorry` marks
-signature placeholders in this human-owned roadmap library.
+**`README.md` is the definitive and exhaustive roadmap specification.** This file gives
+suggested Lean forms for selected labeled obligations. The roadmap is complete when the
+obligations in `README.md` are complete. `sorry` records target signatures in this human-owned
+roadmap library.
 
 Carrier-level declarations use the corresponding Mathlib namespace. `LinearMap.operatorAbs` and
 `ContinuousLinearMap.modulus` therefore support dot notation on their carriers.

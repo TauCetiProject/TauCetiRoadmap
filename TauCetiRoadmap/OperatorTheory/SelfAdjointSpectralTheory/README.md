@@ -122,7 +122,7 @@ labels. `Suggested.lean` cites the labels represented by its sample declarations
 
 ### Part A — one-parameter unitary groups and Stone's theorem
 
-Independently submittable.
+This Part depends only on Mathlib.
 
 **Objects.** A one-parameter unitary group is a strongly continuous homomorphism from
 `(ℝ,+)` to the unitary operators on a complex Hilbert space. Its generator is the partial
@@ -205,7 +205,7 @@ group.
 
 ### Part B — the Borel functional calculus and projection-valued measures
 
-Independently submittable.
+This Part depends only on Mathlib.
 
 **Objects.** Bounded Borel symbols on the spectrum of a normal bounded operator form a
 pointwise star algebra. Their Borel calculus is a star-algebra homomorphism. A
@@ -316,18 +316,25 @@ Compact-infimum measurability and Helly selection provide the measure-theoretic 
 tools used by spectral constructions. These statements serve operator-valued applications
 through their scalar measures.
 
-- **SA-B37 — Measurability of compact infima.** The infimum over a compact parameter set of
-  a Carathéodory function is measurable under the standard compactness and measurability
-  hypotheses.
-- **SA-B38 — Helly selection for Stieltjes measures.** A uniformly bounded sequence of
-  monotone functions admits a pointwise-convergent subsequence at continuity points whose
-  limit determines the corresponding Stieltjes measure with the expected weak convergence.
+- **SA-B37 — Measurability of compact infima.** Let `S` be a nonempty compact subset of a
+  pseudometric space and `F : Y → Ω → ℝ`. If `y ↦ F y ω` is continuous on `S` for every `ω`,
+  and `ω ↦ F y ω` is measurable for every `y ∈ S`, then
+  `ω ↦ inf {F y ω : y ∈ S}` is measurable.
+- **SA-B38 — Helly selection.** Let `Fₙ : ℝ → ℝ` be monotone functions with
+  `0 ≤ Fₙ(x) ≤ M` for every `n,x`, where `M ≥ 0`. There exist a strictly increasing
+  `φ : ℕ → ℕ` and a monotone `G : ℝ → ℝ`, with `0 ≤ G(x) ≤ M`, such that
+  `F_{φ(k)}(q) → G(q)` for every rational `q` and `F_{φ(k)}(x) → G(x)` at every continuity
+  point `x` of `G`.
+- **SA-B39 — Stieltjes measure of a Helly limit.** For monotone `G : ℝ → ℝ`, let `G⁺` be its
+  right-continuous Stieltjes regularization and let `μ_G` be the associated Stieltjes measure.
+  Then `μ_G((a,b]) = ENNReal.ofReal (G⁺(b)-G⁺(a))`; at continuity points `a,b` of `G`, this
+  equals `ENNReal.ofReal (G(b)-G(a))`.
 
 **Milestone B1 — bounded Borel homomorphism.** `SA-B01`–`SA-B13`.
 
 **Milestone B2 — projection-valued measures.** `SA-B14`–`SA-B33`.
 
-**Milestone B3 — uniqueness and bounded spectral theorem.** `SA-B34`–`SA-B38`.
+**Milestone B3 — uniqueness, bounded spectral theorem, and measure compactness.** `SA-B34`–`SA-B39`.
 
 ### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
 
@@ -566,7 +573,7 @@ form inequalities.
 
 ### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
 
-Independently submittable.
+This Part depends only on Mathlib.
 
 **Objects.** The resolvent set and spectrum of a partial operator, the named bounded
 resolvent at a resolvent point, and the Cayley transform of a complex self-adjoint partial
@@ -858,8 +865,8 @@ generated-group compatibility is `SA-E46`; multiplication-operator spectral proj
 
 ## Ordering
 
-**Internal.** Parts A, B and D are mutually independent and each independently submittable.
-Part C is independent of them but consumes
+**Internal.** Parts A, B and D are mutually independent and each depends only on Mathlib.
+Part C is independent of them and consumes
 [`OrthogonalGeometry`](../OrthogonalGeometry/README.md). Part E is the confluence
 and needs exactly A + B + D — the Cayley transform and resolvent bounds from D, the Borel
 calculus and `ProjValMeasure` from B, the unitary-group vocabulary, von Neumann criterion and
@@ -929,10 +936,8 @@ their self-adjoint symmetrization.
 ## Acknowledgements
 
 An Apache-2.0 implementation of all five Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
-(Kitware, Inc.), in namespaces `TauCeti.*` and `LinearPMap.*`. The public API and proof
-structure may change during integration.
+(Kitware, Inc.), in namespaces `TauCeti.*` and `LinearPMap.*`.
 
 Part of the unitary-group material was adapted from the Spectra Formalization Project
-(Apache-2.0, Adam Bornemann), with per-file provenance headers; the construction of the
-spectral measure through the Cayley transform and the Borel calculus was chosen over that
-project's Herglotz/Poisson route.
+(Apache-2.0, Adam Bornemann), with per-file provenance headers. The DKPS spectral-measure
+implementation uses the Cayley transform and the Borel calculus.

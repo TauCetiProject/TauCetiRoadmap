@@ -23,7 +23,8 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
   Projection-gap and complete-space angle-operator statements use their stated Hilbert-space
   hypotheses.
 - **Finite frames.** For a finite family `(vᵢ)`, the *analysis map* sends `x` to
-  `(⟪vᵢ,x⟫)ᵢ`, the *synthesis map* sends coefficients `(aᵢ)` to `∑ᵢ aᵢvᵢ`, the *frame operator*
+  `(⟪vᵢ,x⟫)ᵢ`, the *synthesis map* sends coefficients `(aᵢ)` to `∑ᵢ aᵢvᵢ`, and the
+  *frame operator*
   is synthesis after analysis, and the *Gram operator* is analysis after synthesis.
 - **Subspaces and projections.** `U` and `V` denote subspaces, `U⊥` denotes the orthogonal
   complement, and `P_U` and `P_V` denote their orthogonal projections when available.
@@ -443,4 +444,4 @@ orthonormal families, sorted decreasingly and zero-padded.
 
 An Apache-2.0 implementation of all three Parts exists in the
 [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
-(Kitware, Inc.). The public API and proof structure may change during integration.
+(Kitware, Inc.).

@@ -1,74 +1,48 @@
 # Matrix spectral statistics: rank factorizations, spectral measurability, and concentration
 
-Spectral methods in statistics — principal component analysis, spectral embedding, classical
-multidimensional scaling — all run one pipeline: estimate a Hermitian matrix from samples,
-control the estimation error, push that control through eigenvalue and eigenvector
-perturbation theory, and read off a stable embedding or a stable minimizer.
+## Introduction
 
-Mathlib has the deterministic linear algebra (the Hermitian spectral theorem, `Matrix.rank`,
-`Matrix.PosSemidef`) and the probability spine (`ProbabilityTheory.variance`, independence,
-the Bochner integral), but not the estimation layer that connects them: nothing bounds a
-matrix's Euclidean operator norm by its entries, the sorted eigenvalue indexing
-`Matrix.IsHermitian.eigenvalues₀` carries almost no theory, no spectral function of a random
-matrix is known to be measurable, there is no sample-mean or second-moment API, no matrix
-concentration statement, and no factorization realizing `Matrix.rank` as an inner dimension.
+Spectral statistics passes between three forms of structure: low-rank matrix factorizations,
+deterministic spectral control, and probabilistic error bounds. Positive-semidefinite Gram matrices
+encode finite point configurations. Entrywise control of a Hermitian matrix gives operator-norm and
+sorted-eigenvalue control. Sample moments supply entrywise error bounds, and concentration converts
+those bounds into high-probability spectral conclusions.
 
-This roadmap builds that toolkit as three Parts that meet in the statistics. A positive
-semidefinite matrix of rank at most `d` *is* the Gram matrix of `n` points in `𝕜^d` (Part A —
-the multidimensional-scaling embedding step). Entrywise error on a Hermitian matrix controls
-spectral error, and spectral quantities of a *random* Hermitian matrix are measurable, so
-probability statements about them are well posed (Part B). A sample second moment
-concentrates about the population matrix — entrywise by Chebyshev and a union bound, hence
-spectrally through Part B's bridge (Part C).
+The three Parts follow this pipeline. Part A develops rank and Gram factorizations, including their
+natural uniqueness actions. Part B develops the deterministic bridge from matrix entries to spectra,
+together with measurability of matrix spectral constructions. Part C develops finite-sample moment
+identities and elementary matrix concentration. Combined with
+[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md), Parts B and C turn a
+matrix estimation bound into a statistical spectral-subspace bound.
 
-Composed with
-[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md), this is how a
-perturbation theorem becomes a statistical one: Part C supplies `‖M̂ − M‖ ≤ ε` with
-probability `1 − δ`, Part B makes the spectral quantities of `M̂` measurable, and Part A
-realizes the estimated Gram structure as an explicit embedding.
+Suggested homes: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Analysis/Matrix/`,
+`TauCeti/Probability/Moments/`, and supporting measure-theory files under `TauCeti/MeasureTheory/`.
 
-Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Analysis/Matrix/`,
-`TauCeti/Probability/Moments/`, with two supporting lemmas in `TauCeti/MeasureTheory/`.
+## Notation and terminology
 
-## Standing conventions
-
-- **Matrices, deliberately.** Parts B and C are about concrete matrices with entrywise
-  hypotheses, not abstract operators. This is not a lapse into coordinates: statistical data
-  arrives as a matrix, entrywise, and the bounds a statistician can assume are entrywise
-  bounds. The abstract operator theory lives in
-  [`PolarDecomposition`](../PolarDecomposition/README.md); here we build the bridge from
-  entries to spectra.
-- **Scalar fields, pinned per Part.** Rank factorization (Part A) is over an arbitrary
-  `Field`; the Gram/positive-semidefinite factorization and deterministic spectral bridge
-  (Part B) are over `RCLike`, for Hermitian matrices. The sample-moment and concentration
-  layer (Part C) remains over `ℝ` for its present real-valued statistical model.
-- **Sorted eigenvalues: transport, never re-prove.** The decreasing indexing is Mathlib's
-  `Matrix.IsHermitian.eigenvalues₀`, indexed by `Fin (Fintype.card n)` and antitone by
-  `Matrix.IsHermitian.eigenvalues₀_antitone`. This roadmap defines no second sorted-eigenvalue
-  function. Facts stated upstream for the matrix-indexed `eigenvalues` are *transported* along
-  the defining index equivalence.
-- **Inner dimensions are `Fin r`, not a subtype.** A caller who wants "at most `d` rows" gets
-  `Fin d` directly, with the `≤`-relaxed form stated beside the exact-rank form, so no
-  cardinality-equivalence transport is ever needed at a use site.
-- **No new predicates for one-line bounds.** Entrywise control in Part B is the hypothesis
-  `∀ i j, ‖A i j‖ ≤ ε`; the real Part C specialization may write absolute values. Operator
-  control at `LinearMap` level is `∀ x, ‖T x‖ ≤ C * ‖x‖`,
-  carried directly in the style of Mathlib's `norm_cfc_le` — never wrapped in a named
-  predicate or an ad-hoc sup norm.
-- **Dimension constants are explicit.** The entrywise-to-operator comparison
-  carries the factor `n`, and the union bound carries `n²`. Neither is dimension-free and
-  neither may be silently dropped: the Part C concentration bounds are *wrong*, not merely
-  weak, without them. Where the constant is suboptimal by design (Part C), the statement
-  says so.
-- **Independence is pairwise; means are common.** Sample-moment identities assume pairwise
-  independence and a common mean, never full mutual independence or identical distribution;
-  the i.i.d. forms are corollaries. The scaled-sum identity is stated as `r⁻²` times the sum
-  of individual errors — the independence-free shape — rather than as `r⁻¹` times an average.
-- **Uncentered moments are the primitive.** Chebyshev is stated in raw second-moment form, with
-  no centering and no measurability of the variable itself; the sample second moment is the
-  uncentered empirical second-moment matrix; centering is the scatter operator's job. The mean
-  of the empty family is `0` by Mathlib's total-inverse convention, and the add-one mean
-  identity is deliberately stated to hold *at* `n = 0`.
+- **Matrices and dimensions.** `M`, `A`, `B`, and `Ŝ` denote finite matrices. An inner factorization
+  dimension is represented by `Fin r`.
+- **Scalar fields.** Rank factorization in Part A is over an arbitrary field. Gram factorization and
+  the deterministic Hermitian spectral layer are over `ℝ` or `ℂ`. The statistical model in Part C
+  is real-valued.
+- **Adjoint.** `Aᴴ` denotes the conjugate transpose of a matrix.
+- **Gram matrix.** A matrix of the form `AᴴA` is the Gram matrix of the columns of `A`.
+- **Euclidean operator.** `Matrix.toEuclideanLin A` denotes the linear operator induced by a square
+  matrix on the corresponding Euclidean space.
+- **Sorted eigenvalues.** For Hermitian `A`, `(λ₀(A),…,λ_{n-1}(A))` denotes the nonincreasing
+  eigenvalue list with multiplicity. The Lean interface uses Mathlib's
+  `Matrix.IsHermitian.eigenvalues₀` indexing.
+- **Entrywise control.** An entrywise bound means `‖A i j‖ ≤ ε` for every pair of indices. The
+  associated Euclidean operator bound carries the explicit dimension factor `n`.
+- **Fixed-threshold spectral projector.** For a deterministic threshold `c`, `P_[c,∞)(A)` denotes
+  the orthogonal projector onto the sum of Hermitian eigenspaces with eigenvalue in `[c,∞)`.
+- **Empirical second moment.** `M̂ = r⁻¹∑ᵢ VᵢVᵢᵀ` denotes the uncentered empirical second-moment
+  matrix.
+- **Finite mean and centered scatter.** For a finite family `(zᵢ)`, `z̄` denotes its finite mean and
+  `S(z)=∑ᵢ (zᵢ-z̄)⊗(zᵢ-z̄)` its unnormalized centered scatter operator.
+- **Independence convention.** Sample-mean identities use pairwise independence and a common mean.
+- **Dimension constants.** The elementary concentration route uses the factors `n` in the
+  entrywise-to-operator comparison and `n²` in the union bound.
 
 ## What Mathlib already has (consume)
 
@@ -76,249 +50,235 @@ Suggested home: `TauCeti/LinearAlgebra/Matrix/`, `TauCeti/Analysis/Matrix/`,
   `Matrix.PosSemidef` with `posSemidef_conjTranspose_mul_self` and
   `rank_conjTranspose_mul_self`; `Matrix.IsHermitian.spectral_theorem`, `eigenvalues`,
   `eigenvectorUnitary`; `Matrix.toEuclideanLin` and the `ℓ²` operator-norm API.
-- **Two gaps.** (1) There is **no entrywise-to-operator-norm comparison**:
-  nothing bounds `‖toEuclideanLin A‖` by entrywise control of `A`. (2) The sorted indexing
-  **`Matrix.IsHermitian.eigenvalues₀` carries almost no theory**: it is the primitive from
-  which `eigenvalues` is *defined*, yet upstream it has only `eigenvalues₀_antitone` and the
-  characteristic-polynomial identities, while the rank count and positivity are stated only
-  for `eigenvalues`. Any "top-`k` eigenvalues" statement needs the sorted indexing, so both
-  gaps are prerequisites for the statistics rather than conveniences.
-- **Spectral theory of operators:** `LinearMap.IsSymmetric.eigenvalues` / `eigenvectorBasis`
-  and `Matrix.isSymmetric_toEuclideanLin_iff` — the bridge Part B's sorted eigenvalues sit on.
-- **Probability:** `ProbabilityTheory.variance` with `IndepFun.variance_sum`;
-  `meas_ge_le_variance_div_sq`, the *centered* Chebyshev inequality — the uncentered form is
-  missing; `MemLp`, the Bochner integral, `MeasureTheory.TendstoInMeasure`. The covariance API
-  has no trace identity and no sample-mean lemmas.
-- **Hermitian continuous functional calculus:** Mathlib's generic `cfc` for Hermitian
-  matrices over `RCLike`, including continuity in the operator variable (`continuousOn_cfc`);
-  Part B consumes this calculus directly and proves only the matrix/random-matrix corollaries.
-
-The roadmap builds the missing bridges and statistical corollaries below. Hermitian CFC
-itself and generic continuity in the operator variable are consumed from Mathlib.
+- **Sorted eigenvalues:** `Matrix.IsHermitian.eigenvalues₀` and
+  `Matrix.IsHermitian.eigenvalues₀_antitone`. The rank count, positive-semidefinite
+  nonnegativity, and vanishing-tail statements are built here for this indexing.
+- **Spectral theory of operators:** `LinearMap.IsSymmetric.eigenvalues` / `eigenvectorBasis` and
+  `Matrix.isSymmetric_toEuclideanLin_iff`.
+- **Probability:** `ProbabilityTheory.variance` with `IndepFun.variance_sum`, the Bochner integral,
+  `MemLp`, and `MeasureTheory.TendstoInMeasure`.
+- **Hermitian continuous functional calculus:** Mathlib's generic `cfc` for Hermitian matrices over
+  `RCLike`, including continuity in the operator variable (`continuousOn_cfc`).
 
 ---
 
 ## What is missing (build here)
 
-* Rank factorization through `Fin r` as an iff, the positive-semidefinite Gram factorization
-  behind multidimensional scaling, and their uniqueness statements — up to `GL` for general
-  factors, up to a left unitary for Gram factors.
-* A `MeasurableSpace` instance for `Matrix`, which Mathlib lacks entirely, and the
-  measurability of spectral functions of a random matrix.
-* The entrywise-to-spectral bridge for the sorted eigenvalues of a Hermitian matrix.
-* The elementary matrix concentration that follows: Chebyshev and a union bound over the
-  entries, converted to simultaneous eigenvalue and operator-norm control.
+- Rank factorization through `Fin r`, positive-semidefinite Gram factorization, and their natural
+  uniqueness actions.
+- Entrywise-to-operator and entrywise-to-eigenvalue estimates, basic sorted-eigenvalue theory, and
+  measurable spectral constructions for Hermitian matrices.
+- Finite-sample mean and second-moment identities, centered scatter, and elementary matrix
+  concentration.
 
 ## The build, in layers
 
+The labels in Parts A–C form the complete mathematical obligation set for this roadmap. Each label
+names one definition or theorem. Milestones and acceptance examples cite these labels.
+`Suggested.lean` cites the labels represented by its sample declarations.
+
 ### Part A — rank factorization and positive-semidefinite Gram factorization
 
-The multidimensional-scaling embedding step.
+Rank factorization identifies matrix rank with the least inner dimension of a product. The
+positive-semidefinite specialization identifies low-rank Gram matrices with finite point
+configurations. Their uniqueness groups are respectively changes of basis and left unitaries.
 
-**Objects.** Factorizations `M = L * R` through `Fin r`, and Gram factorizations `B = Aᴴ * A`
-with a prescribed number of rows.
+- **MSS-A01 — Exact-rank factorization.** Every matrix `M : Matrix m n 𝕜` over a field factors as
+  `M=LR` through `Fin (rank M)`.
+- **MSS-A02 — Zero-padded rank factorization.** If `rank M ≤ r`, then `M=LR` for matrices
+  `L : Matrix m (Fin r) 𝕜` and `R : Matrix (Fin r) n 𝕜`.
+- **MSS-A03 — Rank-factorization characterization.** For every `r`,
+  `rank M ≤ r` exactly when `M` factors through `Fin r`.
+- **MSS-A04 — Hermitian spectral expansion.** If `B` is Hermitian with eigenvalues `(λ_k)` and
+  unitary eigenvector matrix `U`, then
+  `B i j = ∑_k λ_k U i k conjugate(U j k)`.
+- **MSS-A05 — Square Gram factorization.** Every positive-semidefinite square matrix `B` admits a
+  square factor `A` with `B=AᴴA`.
+- **MSS-A06 — Rank-controlled Gram factorization.** If `B` is positive semidefinite and
+  `rank B ≤ d`, then `B=AᴴA` for some `A : Matrix (Fin d) (Fin n) 𝕜`.
+- **MSS-A07 — Gram-factorization characterization.** A square matrix `B` is positive semidefinite
+  with `rank B ≤ d` exactly when `B=AᴴA` for some `d`-row matrix `A`.
+- **MSS-A08 — Exact-rank factorization uniqueness.** If `rank M=r` and
+  `M=LR=L'R'` through `Fin r`, then there is an invertible `g` on `Fin r` with
+  `L'=Lg` and `R'=g⁻¹R`.
+- **MSS-A09 — Gram-factorization uniqueness.** If `AᴴA=A'ᴴA'` for two `d`-row Gram factors, then
+  `A'=UA` for a unitary `U` on the row space.
 
-**API to develop.**
+**Milestone A1 — rank factorization.** `MSS-A01`–`MSS-A03`.
 
-- The **exact rank factorization**: every `M : Matrix m n 𝕜` over a field factors with inner
-  dimension exactly `Fin M.rank`, with `L` listing a basis of the column space and `R` the
-  coordinates of each column; and the zero-padded form for any `r ≥ M.rank`.
-- The **entrywise spectral expansion** `B i j = Σ_k λ_k · U i k · conj (U j k)` and from it the
-  **square Gram factorization** `A = √D · Uᴴ`, then the **rank-controlled factor**: compress
-  through the rank factorization and absorb the leftover Gram factor by a second square
-  factorization.
+**Milestone A2 — positive-semidefinite Gram factorization.** `MSS-A04`–`MSS-A07`.
 
-**Milestone A1 — the two characterizations.** Both are iffs, and that is the point: the easy
-converse (`rank (L * R) ≤ r`; `Aᴴ * A` is positive semidefinite of rank `≤ d`) is what makes
-them usable as characterizations rather than constructions.
-
-```lean
-theorem rank_le_iff_exists_eq_mul (M : Matrix m n 𝕜) (r : ℕ) :
-    M.rank ≤ r ↔ ∃ (L : Matrix m (Fin r) 𝕜) (R : Matrix (Fin r) n 𝕜), M = L * R
-
--- over `[RCLike 𝕜]`: a PSD matrix of rank ≤ d is the Gram matrix of n points in 𝕜^d
-theorem posSemidef_and_rank_le_iff_exists_conjTranspose_mul_self
-    {n d : ℕ} (B : Matrix (Fin n) (Fin n) 𝕜) :
-    (B.PosSemidef ∧ B.rank ≤ d) ↔ ∃ A : Matrix (Fin d) (Fin n) 𝕜, B = Aᴴ * A
-```
-
-**Milestone A2 — uniqueness up to the obvious action**, the difference between a
-factorization theorem and an existence lemma. Two statements, whose acting groups differ:
-
-- **rank factorization at the exact rank**: the factors are unique up to a change of basis of
-  the intermediate space, `L' = L g` and `R' = g⁻¹ R` for some `g ∈ GL (Fin r) 𝕜`;
-- **Gram factorization**: unique up to a *left unitary*, at a fixed factor size and with no
-  rank hypothesis.
-
-They are one milestone because they are the two uniqueness statements of the same Part and
-share an idea — the factor is determined by its Gram data up to the symmetry group of the
-intermediate space — but the groups differ, because the second remembers an inner product and
-the first does not; the general-field statement carries no unitary.
-
-**Only the minimal-rank case is claimed.** At `r > M.rank` the factors are *not* unique up to
-`GL (Fin r) 𝕜` — the extra columns are unconstrained — so the statement carries `r = M.rank`
-and not the `≤ r` of Milestone A1.
-
-**The multidimensional-scaling consumer fixes the second statement's shape.** Classical scaling
-recovers points from a Gram matrix, and the recovered configuration is meaningful only up to a
-rigid motion; `A' = U A` is exactly that indeterminacy. A statement quantified the other way —
-a unitary on the `n` side — would be false.
-
-Existence over the group rather than a quotient type; there is no quotient object here.
-Minimal rank only. The Gram statement uses `LinearIsometryEquiv`, the same carrier
-[`OrthogonalGeometry`](../OrthogonalGeometry/README.md) states Gram rigidity against.
+**Milestone A3 — uniqueness actions.** `MSS-A08`–`MSS-A09`.
 
 ### Part B — matrix spectra and spectral measurability
 
-Everything else in this family is about abstract operators; this Part is about matrices, and
-about matrices whose entries are random.
+Part B connects entrywise matrix data to Euclidean operator and spectral data. It also supplies the
+measurability needed to apply deterministic spectral constructions to random Hermitian matrices.
+The fixed-threshold projector is the canonical cluster object used in the presence of eigenvalue
+multiplicity.
 
-**Objects.** Hermitian matrices over `RCLike` as Euclidean operators
-(`Matrix.toEuclideanLin`); the decreasingly sorted spectrum
-`Matrix.IsHermitian.eigenvalues₀`; and the generic Mathlib continuous functional calculus
-`cfc h B` for Hermitian `B`; and, for a deterministic threshold `c`, the canonical
-orthogonal spectral projector `spectralProjectionIci c B` onto the eigenspaces with
-eigenvalue in `[c, ∞)`.
+- **MSS-B01 — Entrywise measurable structure on matrices.** For measurable entry type `α`, the
+  product measurable structure on `m → n → α` induces a measurable structure on `Matrix m n α`.
+- **MSS-B02 — Borel structure on matrices.** For countable index types and a second-countable
+  Borel entry space, the entrywise measurable structure on matrices is the Borel structure.
+- **MSS-B03 — Entrywise-to-operator comparison.** For an `n×n` matrix over `ℝ` or `ℂ`,
+  `‖A i j‖≤ε` for all `i,j` implies
+  `‖A x‖≤n ε ‖x‖` for every Euclidean vector `x`.
+- **MSS-B04 — Entrywise eigenvalue perturbation.** If Hermitian `A` and `Â` satisfy
+  `‖Â i j-A i j‖≤ε` entrywise, then
+  `|λ_k(Â)-λ_k(A)|≤n ε` for every sorted eigenvalue index `k`.
+- **MSS-B05 — A-priori sorted-eigenvalue bound.** If Hermitian `A` satisfies
+  `‖A i j‖≤β` entrywise, then `|λ_k(A)|≤n β` for every `k`.
+- **MSS-B06 — Rank count for sorted eigenvalues.** For Hermitian `A`, `rank A` equals the number
+  of nonzero entries in its sorted eigenvalue list.
+- **MSS-B07 — Positive-semidefinite sorted eigenvalues.** Every sorted eigenvalue of a
+  positive-semidefinite matrix is nonnegative.
+- **MSS-B08 — Positive-semidefinite vanishing tail.** If positive-semidefinite `A` has
+  `rank A≤d`, then every sorted eigenvalue with index at least `d` is zero.
+- **MSS-B09 — Continuity of Hermitian functional calculus.** For continuous `h : ℝ → ℝ`, the map
+  `A ↦ h(A)` is continuous on finite Hermitian matrices.
+- **MSS-B10 — Measurability of Hermitian functional calculus.** If `A(ω)` is a measurable
+  Hermitian random matrix and `h : ℝ → ℝ` is continuous, then `ω ↦ h(A(ω))` is measurable.
+- **MSS-B11 — Fixed-threshold spectral projector.** For Hermitian `A` and deterministic `c`,
+  define the orthogonal projector `P_[c,∞)(A)` onto the sum of eigenspaces with eigenvalue in
+  `[c,∞)`.
+- **MSS-B12 — Measurability of the fixed-threshold projector.** For fixed `c`, the map
+  `A ↦ P_[c,∞)(A)` is Borel measurable on Hermitian matrices.
+- **MSS-B13 — Random-matrix threshold projector.** If `A(ω)` is a measurable Hermitian random
+  matrix, then `ω ↦ P_[c,∞)(A(ω))` is measurable for every fixed `c`.
+- **MSS-B14 — Threshold rank stability.** Let `A` and `Â` be Hermitian, and suppose
+  `|λ_k(A)-c|>δ` for every sorted eigenvalue index `k`. If `‖Â-A‖<δ`, then `A` and `Â` have the
+  same number of eigenvalues in `[c,∞)`, counted with multiplicity.
+- **MSS-B15 — Threshold cluster identification.** Under `MSS-B14`, the range of
+  `P_[c,∞)(Â)` is the perturbed spectral cluster corresponding to the population cluster
+  selected by `P_[c,∞)(A)`.
+- **MSS-B16 — Measurability-free complement bound.** For a probability measure `P` and any set
+  `S`, `1-P(Sᶜ)≤P(S)`.
+- **MSS-B17 — Convergence in measure from `edist` rates.** If `rate_i→0` and
+  `P{rate_i<edist(f_i,g)}→0`, then `f_i→g` in measure.
+- **MSS-B18 — Convergence in measure from distance rates.** If `rate_i→0` and
+  `P{rate_i<dist(f_i,g)}→0`, then `f_i→g` in measure.
+- **MSS-B19 — High-probability convergence in measure.** If `rate_i→0`, the events
+  `{dist(f_i,g)≤rate_i}` are null-measurable, and their probabilities tend to `1`, then
+  `f_i→g` in measure.
 
-**API to develop.**
+**Milestone B1 — measurable matrix structure and deterministic spectral bridge.** `MSS-B01`–`MSS-B08`.
 
-- **Entrywise-to-operator comparison**: for an `RCLike` square matrix,
-  `∀ i j, ‖A i j‖ ≤ ε` gives
-  `∀ x, ‖Matrix.toEuclideanLin A x‖ ≤ n · ε · ‖x‖`.
-- **Entrywise eigenvalue perturbation**: Weyl's inequality, consumed from
-  [`PolarDecomposition`](../PolarDecomposition/README.md),
-  composed with the comparison gives that entrywise `ε`-close Hermitian matrices have
-  sorted eigenvalues within `n · ε`, together with the a-priori bound on the eigenvalues
-  themselves. This composite is the whole reason the pair exists: entrywise control in,
-  spectral conclusions out.
-- **The sorted-indexing theory** (the second gap), stated against Mathlib's
-  `Matrix.IsHermitian.eigenvalues₀` and its antitonicity, transported and not re-proved:
-  the rank
-  count against nonzero sorted eigenvalues, nonnegativity for positive semidefinite matrices,
-  and the **vanishing tail**. Positive semidefiniteness is essential there rather than
-  convenient: a rank-one Hermitian matrix with a negative eigenvalue sorts it *last*.
-- **Fixed-threshold spectral projectors:** for deterministic `c`, construct the orthogonal
-  projector onto the sum of eigenspaces with eigenvalue in `[c, ∞)` and prove its Borel
-  measurability as a function of a Hermitian matrix. No eigenbasis is selected. If `c` lies
-  strictly inside a population eigengap, then on the event that the operator perturbation is
-  smaller than the distance from `c` to the population spectrum, Weyl's inequality preserves
-  the number of eigenvalues above `c`. The sample projector then selects exactly the
-  corresponding spectral cluster. This is the measurable object used by the probability
-  pipeline; no globally defined top-`k` eigenspace is required.
-- **Concentration consumers**: the probability of a complement, needing no measurability, and
-  the family converting "with high probability the error is at most `rate i`" into
-  `TendstoInMeasure`.
+**Milestone B2 — continuous spectral functions.** `MSS-B09`–`MSS-B10`.
 
-**Milestone B1 — continuity and measurability of Hermitian CFC in the matrix.** Mathlib already
-provides the Hermitian continuous functional calculus over `RCLike` and generic continuity
-theorems for `cfc` in the operator variable. This roadmap packages the matrix consequence: for
-fixed continuous `h`, `B ↦ cfc h B` is continuous on Hermitian matrices and therefore measurable
-for measurable Hermitian random matrices, with **no measurable selection of an eigenbasis**.
-Use Mathlib's `continuousOn_cfc` locally on a compact spectral interval, with the interval
-chosen from a local operator-norm bound. Continuous CFC measurability is one deterministic
-spectral bridge; the discontinuous indicator needed for a spectral projector is handled by the
-separate fixed-threshold construction above. The threshold is deterministic and lies inside a
-specified population gap, so ties at the threshold are excluded on the perturbation event rather
-than resolved by a measurable eigenbasis convention.
+**Milestone B3 — fixed-threshold spectral projectors.** `MSS-B11`–`MSS-B15`.
+
+**Milestone B4 — probability-to-convergence bridges.** `MSS-B16`–`MSS-B19`.
 
 ### Part C — sample moments and matrix concentration
 
-The applied end of the toolkit.
+Part C starts from scalar second-moment estimates and pairwise independence. The sample-mean
+identities provide the `1/r` mean-square scale, centered scatter records deterministic finite-sample
+geometry, and the entrywise union bound turns per-entry second moments into operator and eigenvalue
+concentration.
 
-**Objects.** The sample mean of random vectors; the uncentered empirical second-moment matrix
-`sampleSecondMoment V ω = fun k l => n⁻¹ Σ_i V i ω k * V i ω l`, Hermitian — no sample mean is
-subtracted, so it is not a covariance; and the unnormalized centered scatter operator
-`Σ_i (z i − mean z) ⊗ (z i − mean z)` on a general inner-product space.
+- **MSS-C01 — Uncentered Chebyshev inequality.** If `Y²` is integrable,
+  `∫Y² dP≤v`, and `η>0`, then `P{η<Y}≤ENNReal.ofReal(v/η²)`.
+- **MSS-C02 — Scalar sample-mean identity.** For pairwise-independent square-integrable real
+  random variables with common mean `c`,
+  `∫(r⁻¹∑_k Z_k-c)² dP = r⁻²∑_k ∫(Z_k-c)² dP`.
+- **MSS-C03 — Vector sample-mean identity.** For pairwise-independent square-integrable random
+  vectors in a finite-dimensional real Hilbert space with common mean `μ`,
+  `∫‖r⁻¹∑_k X_k-μ‖² dP = r⁻²∑_k ∫‖X_k-μ‖² dP`.
+- **MSS-C04 — Identically distributed sample-mean form.** If the per-sample mean-square errors in
+  `MSS-C03` are equal, then the sample-mean mean-square error is `1/r` times the common value.
+- **MSS-C05 — Uniform sample-mean bound.** If every per-sample mean-square error is at most `γ`,
+  then the sample-mean mean-square error is at most `γ/r`.
+- **MSS-C06 — Finite mean.** Define `z̄ = n⁻¹∑_i z_i` for a finite family in an inner-product
+  space, with the empty mean equal to `0` under the ambient total-inverse convention.
+- **MSS-C07 — Centered sum.** For every finite family, `∑_i (z_i-z̄)=0`.
+- **MSS-C08 — Add-one mean identity.** If `z'` appends `y` to a family of size `n`, then
+  `z̄' = z̄ + (n+1)⁻¹(y-z̄)`, including `n=0`.
+- **MSS-C09 — Centered scatter.** Define
+  `S(z)=∑_i (z_i-z̄)⊗(z_i-z̄)` as a bounded self-map of the ambient Hilbert space.
+- **MSS-C10 — Add-one scatter identity.** Appending `y` gives
+  `S(z') = S(z) + n/(n+1) (y-z̄)⊗(y-z̄)`.
+- **MSS-C11 — Scatter quadratic form.** For every `x`,
+  `Re⟪S(z)x,x⟫ = ∑_i |⟪z_i-z̄,x⟫|²`.
+- **MSS-C12 — Positivity of centered scatter.** The operator `S(z)` is positive.
+- **MSS-C13 — Monotonicity under appending.** `S(z)≤S(z')` in Löwner order after appending one
+  point.
+- **MSS-C14 — Add-one quadratic-form identity.** The quadratic form of `S(z')` equals that of
+  `S(z)` plus `n/(n+1)|⟪y-z̄,x⟫|²`.
+- **MSS-C15 — Empirical second moment.** Define
+  `M̂_{kl}(ω)=r⁻¹∑_i V_i(ω)_k V_i(ω)_l`.
+- **MSS-C16 — Hermitian empirical second moment.** For every sample `ω`, `M̂(ω)` is Hermitian.
+- **MSS-C17 — Per-entry second-moment bound.** Under pairwise independence, a common population
+  second moment, equal per-sample second moments, and a bound `v` on that common error moment,
+  each entry of `M̂-M` has mean square at most `v/r`.
+- **MSS-C18 — Entrywise concentration.** If every entry of `Ŝ-A` has mean square at most `v`, then
+  `P{∃k,l, η<|Ŝ_{kl}-A_{kl}|}≤ENNReal.ofReal(n²v/η²)` for `η>0`.
+- **MSS-C19 — Measurability of the entrywise deviation event.** If every entry of `Ŝ` is
+  measurable, then `{ω | ∃k,l, η<|Ŝ_{kl}(ω)-A_{kl}|}` is measurable.
+- **MSS-C20 — Eigenvalue concentration.** For Hermitian `Ŝ(ω)` and Hermitian `A`, with probability
+  at least `1-ENNReal.ofReal(n²v/η²)`, every sorted eigenvalue differs by at most `nη`.
+- **MSS-C21 — One-sided eigenvalue floor.** Under the hypotheses of `MSS-C20`, with the same
+  probability every sorted eigenvalue of `Ŝ(ω)` is at least the corresponding eigenvalue of `A`
+  minus `nη`.
+- **MSS-C22 — Operator-norm concentration.** Under the entrywise second-moment hypotheses, with
+  probability at least `1-ENNReal.ofReal(n²v/η²)`,
+  `‖(Ŝ(ω)-A)x‖≤nη‖x‖` for every Euclidean vector `x`.
+- **MSS-C23 — Empirical-second-moment eigenvalue floor.** Applying `MSS-C21` to `M̂` gives the
+  corresponding high-probability eigenvalue lower bound for an empirical second-moment matrix;
+  in particular, taking `η=c/(2d)` keeps a population eigenvalue bounded below by `c` above
+  `c/2` on the resulting event.
 
-**API to develop.**
+**Milestone C1 — scalar and vector sample-mean identities.** `MSS-C01`–`MSS-C05`.
 
-- **Uncentered Chebyshev**: from `∫ Y² ≤ v`, `P {η < Y} ≤ v/η²`, with no centering,
-  nonnegativity, or measurability of `Y` beyond integrability of `Y²` — the raw form
-  concentration arguments apply to error norms.
-- **Sample-mean mean-squared error**: the scalar identity and its vector form
-  `∫ ‖r⁻¹ Σ X_k − μ‖² = r⁻² Σ_k ∫ ‖X_k − μ‖²`, under pairwise independence and a common mean
-  only, coordinatewise over an orthonormal basis; with the i.i.d. collapse and the `γ/r` decay.
-- **Centered scatter**: the **exact add-one update**
-  `S(snoc z y) = S(z) + n/(n+1) · rankOne δ δ` with `δ = y − mean z` — an identity, not an
-  estimate, and exact accounting for the mean shift is what makes the scatter incrementally
-  computable — with the mean update, the vanishing of the centered sum, positivity, Löwner
-  growth, and the quadratic-form versions.
-- **Matrix concentration**: the union bound `P {∃ k l, η < |Ŝ_{kl} − A_{kl}|} ≤ n² v/η²`, then
-  through Part B's entrywise-to-operator comparison, eigenvalue concentration and its one-sided
-  floor; specialized to the empirical second moment by the per-entry mean-square bound `v/n`
-  from the scalar sample-mean identity.
+**Milestone C2 — finite means and centered scatter.** `MSS-C06`–`MSS-C14`.
 
-**Milestone C1 — eigenvalue concentration.** Second moments of the entries give, by Chebyshev
-and a union bound, simultaneous control of every sorted eigenvalue with probability
-`1 − n²v/η²`.
+**Milestone C3 — empirical second moments.** `MSS-C15`–`MSS-C17`.
 
-**Milestone C2 — the operator-norm deviation event**, on the *same* hypotheses as C1, so that
-the two are visibly one event read two ways:
-
-```lean
-P {ω | ∀ x, ‖Matrix.toEuclideanLin (Shat ω - A) x‖ ≤ (n : ℝ) * η * ‖x‖}
-  ≥ 1 - ENNReal.ofReal ((n : ℝ) ^ 2 * v / η ^ 2)
-```
-
-This is the event the spectral-subspace perturbation statistics consumes directly.
-**C1 and C2 are sibling consequences of the entrywise event**: eigenvalue closeness does not
-bound an operator-norm difference, since two matrices can have identical spectra and differ by
-a rotation. C1 follows through Weyl's inequality and C2 through Part B's norm comparison.
-
-The entrywise event should be a named lemma with the Chebyshev and union-bound cost paid
-once, and both conclusions read off it, so that the probability `1 − n²v/η²` is the same
-number in both rather than two coincidentally equal bounds.
-
-**C2 is stated without symmetry**: the operator-norm bound applies to `Ŝ ω − A` directly,
-while C1 carries Hermitian hypotheses for the eigenvalues. This keeps C2 available when
-symmetry is established elsewhere.
-
-This roadmap uses Chebyshev's inequality and a union bound, producing factors `n` and `n²`.
+**Milestone C4 — entrywise, eigenvalue, and operator concentration.** `MSS-C18`–`MSS-C23`.
 
 ## Worked examples (acceptance criteria)
 
-### Part A — rank factorization and positive-semidefinite Gram factorization
+### Part A
 
-**Acceptance examples.** The Gram matrix of `n` explicit points in `𝕜^d` has rank `≤ d`; a
-diagonal positive semidefinite matrix factors through its number of nonzero entries; the easy
-direction recovers `rank_mul_le`.
+The rank-factorization characterization is `MSS-A01`–`MSS-A03`; the Gram characterization is
+`MSS-A04`–`MSS-A07`; the two natural uniqueness actions are `MSS-A08`–`MSS-A09`.
 
-### Part B — matrix spectra and spectral measurability
+### Part B
 
-**Acceptance examples.** `cfc id B = B`; a two-cluster Hermitian family with a fixed cutoff
-inside the gap has a measurable `spectralProjectionIci` of constant rank on the corresponding
-operator-norm neighborhood; for a
-diagonal matrix the perturbation bound checked against explicit eigenvalues; a concentration
-bound with rate `1/√n` feeding the `TendstoInMeasure` conversion.
+The deterministic entrywise-to-spectral path is `MSS-B03`–`MSS-B08`. The continuous and
+fixed-threshold measurable spectral constructions are `MSS-B09`–`MSS-B15`. The convergence-in-
+measure consumers are `MSS-B16`–`MSS-B19`.
 
-### Part C — sample moments and matrix concentration
+### Part C
 
-**Acceptance examples.** I.i.d. coordinates with a fourth-moment bound give an explicit `v` and
-the `v/n` entry rate; `η = c/(2d)` keeps a population eigenvalue floored at `c` above `c/2`
-with high probability — the eigengap the Davis–Kahan applications of
-[`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md) need; the add-one
-scatter identity checked against a two-point family.
+The `1/r` sample-mean scale is `MSS-C02`–`MSS-C05`; the exact add-one scatter calculus is
+`MSS-C06`–`MSS-C14`; and the sample-second-moment concentration path is `MSS-C15`–`MSS-C23`.
 
 ## Ordering
 
-**Part A is an independent leaf**: it needs nothing beyond Mathlib and is submittable
-immediately, as a single small contribution.
+Part A depends only on Mathlib. Part B depends on
+[`PolarDecomposition`](../PolarDecomposition/README.md) for the finite-dimensional Weyl bound and
+otherwise on Mathlib's matrix spectral theory and continuous functional calculus. Part C depends on
+Part B's entrywise-to-spectral bridge and on Mathlib probability and integration.
 
-**Parts B and C are a chain.** Part C consumes Part B. Internal order:
-within Part B, norm comparisons → eigenvalue perturbation → sorted-indexing theory → the
-Hermitian-CFC continuity/measurability corollary; within Part C, scalar moments → sample mean → matrix concentration → sample
-second moment, with the centered scatter independent of the rest.
-
-**External.** [`PolarDecomposition`](../PolarDecomposition/README.md), for
-Courant–Fischer and Weyl's inequality behind the entrywise eigenvalue bridge. Hermitian CFC
-and continuity in the operator variable are consumed directly from Mathlib.
+Within Part B, the entrywise operator estimate precedes eigenvalue perturbation and the sorted-index
+lemmas; the measurable continuous and threshold spectral constructions use the resulting spectral
+control. Within Part C, scalar moments feed the sample-mean and empirical-second-moment estimates,
+and the entrywise concentration event feeds both the eigenvalue and operator-norm conclusions.
 
 ## Definitions
 
-**D1** `cfc h B` — Mathlib's Hermitian continuous functional calculus, used directly
-rather than redefined through an eigenbasis sum.
+**D1 (`MSS-B09`–`MSS-B10`).** `h(A)` denotes Mathlib's Hermitian continuous functional calculus
+for a fixed continuous real function `h`.
 
-**D2** `n⁻¹ ∑ᵢ Vᵢ Vᵢᵀ` — the uncentered empirical second-moment matrix.
+**D2 (`MSS-B11`–`MSS-B15`).** `P_[c,∞)(A)` denotes the fixed-threshold orthogonal spectral
+projector of a Hermitian matrix.
+
+**D3 (`MSS-C15`–`MSS-C17`).** `M̂=r⁻¹∑ᵢVᵢVᵢᵀ` is the uncentered empirical
+second-moment matrix.
+
+**D4 (`MSS-C06`–`MSS-C14`).** `S(z)=∑ᵢ(zᵢ-z̄)⊗(zᵢ-z̄)` is the unnormalized centered scatter
+operator.
 
 ## References
 
@@ -326,15 +286,12 @@ rather than redefined through an eigenbasis sum.
   semidefinite Gram factorizations, Weyl's inequality (Theorem 4.3.1).
 - R. Bhatia, *Matrix Analysis* (GTM 169, 1997) — eigenvalue perturbation (Corollary III.2.6).
 - T. F. Cox, M. A. A. Cox, *Multidimensional Scaling*, 2nd ed. (2001), §2.2–2.3 — classical
-  scaling: the positive semidefinite Gram embedding step.
-- R. Vershynin, *High-Dimensional Probability* (2018) — sample second-moment concentration
-  and its uses.
+  scaling and positive-semidefinite Gram embeddings.
+- R. Vershynin, *High-Dimensional Probability* (2018) — sample second-moment concentration and
+  its uses.
 
 ## Acknowledgements
 
-An Apache-2.0 implementation of Part A and of most of Parts B and C exists in the
-[AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware,
-Inc.), in `TauCeti.*` and `TauCeti.Matrix.*` namespaces. The public API and proof structure
-may change during integration.
-
-Milestone A2 is specified above and not implemented there.
+An Apache-2.0 implementation of Part A and most of Parts B and C exists in the
+[AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware, Inc.),
+in `TauCeti.*` and `TauCeti.Matrix.*` namespaces.

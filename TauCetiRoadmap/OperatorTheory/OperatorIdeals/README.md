@@ -260,11 +260,17 @@ rank cutoff, min–max, and approximation behavior of the public API.
 - **OI-A56 — Infinite diagonal convergence example.** If the coefficients in `OI-A55` tend
   to `0`, then `aₙ(T) → 0` and `T` is compact.
 
-**Milestone A1 — Eckart–Young.** `OI-A49`–`OI-A50`.
+**Milestone A1 — approximation-number calculus.** `OI-A01`–`OI-A22`.
 
-**Milestone A2 — Ky Fan triangle inequality.** `OI-A47`–`OI-A48`.
+**Milestone A2 — rank, approximability, and compactness.** `OI-A23`–`OI-A29`.
 
-**Milestone A3 — compactness and approximability on Hilbert targets.** `OI-A28`–`OI-A29`.
+**Milestone A3 — Hilbert-space invariance and lower bounds.** `OI-A30`–`OI-A34`.
+
+**Milestone A4 — min–max formulations.** `OI-A35`–`OI-A40`.
+
+**Milestone A5 — Ky Fan gauges, Eckart–Young, and perturbation.** `OI-A41`–`OI-A50`.
+
+**Milestone A6 — finite and diagonal acceptance models.** `OI-A51`–`OI-A56`.
 
 ### Part B — symmetric operator ideals and Schatten norms
 
@@ -487,13 +493,17 @@ resulting gauge bounds provide the sharp two-block comparison used by downstream
 - **OI-B94 — Block upper bound.** For two blocks,
   `Φ(T₁⊕T₂) ≤ Φ(T₁)+Φ(T₂)`.
 
-**Milestone B1 — symmetric gauges and induced families.** `OI-B56`–`OI-B73`.
+**Milestone B1 — ideal-family interface.** `OI-B01`–`OI-B24`.
 
-**Milestone B2 — Ky Fan dominance.** `OI-B74`–`OI-B75`.
+**Milestone B2 — concrete families and Hilbert–Schmidt energy.** `OI-B25`–`OI-B41`.
 
-**Milestone B3 — Schatten families and reconciliation.** `OI-B76`–`OI-B90`.
+**Milestone B3 — Ky Fan dominance and finite-dimensional Schatten norms.** `OI-B42`–`OI-B55`.
 
-**Milestone B4 — orthogonal block sums.** `OI-B91`–`OI-B94`.
+**Milestone B4 — symmetric gauges and induced families.** `OI-B56`–`OI-B73`.
+
+**Milestone B5 — Ky Fan transfer and Schatten families.** `OI-B74`–`OI-B90`.
+
+**Milestone B6 — orthogonal block sums.** `OI-B91`–`OI-B94`.
 
 ### Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
 
@@ -544,9 +554,11 @@ Hilbert–Schmidt family from Part B.
   give the corresponding double-sum decomposition of Hilbert–Schmidt energy.
 
 
-**Milestone C1 — isometric conjugation.** `OI-C15`–`OI-C17`.
+**Milestone C1 — Hilbert–Schmidt column model.** `OI-C01`–`OI-C14`.
 
-**Milestone C2 — Pythagoras along orthogonal families.** `OI-C18`–`OI-C20`.
+**Milestone C2 — isometric conjugation.** `OI-C15`–`OI-C17`.
+
+**Milestone C3 — Pythagoras along orthogonal families.** `OI-C18`–`OI-C20`.
 
 ## Worked examples (acceptance criteria)
 
@@ -620,10 +632,9 @@ values on the initial truncations.
 An Apache-2.0 implementation of nearly all of the above exists in the AIQ DKPS
 [formalization repository](https://github.com/AIQ-Kitware/aiq-dkps-formalization) under
 `ForTauCeti/` (namespaces `TauCeti.*` and `ContinuousLinearMap.*`), Copyright Kitware, Inc.,
-with per-module provenance headers. The public API and proof structure may change during
-integration.
+with per-module provenance headers.
 
 Part A's elementary layer was adapted in part from Mathlib PR
 [#32126](https://github.com/leanprover-community/mathlib4/pull/32126) and developed further
-for spectral perturbation theory; migration must preserve provenance, authorship and
-licensing while allowing review to improve the public API.
+for spectral perturbation theory. The source provenance, authorship, and licensing notices
+are recorded in the corresponding modules.

@@ -21,9 +21,9 @@ scope and dependencies.
   theory of unbounded self-adjoint operators, with Stone's theorem;
 - spectral-subspace perturbation: Sylvester equations, Rosenblum, and the Davis–Kahan
   `sin Θ` theorems;
-- the matrix spectral statistics that consume the perturbation theory — entrywise-to-
-  spectral comparisons, measurability of spectral functions of a random matrix, and
-  elementary matrix concentration.
+- matrix spectral statistics that feed statistical applications of the perturbation theory —
+  entrywise-to-spectral comparisons, measurability of spectral functions of a random matrix,
+  and elementary matrix concentration.
 
 ## The roadmaps
 
@@ -77,11 +77,11 @@ through Birkhoff's theorem and the permutation-orbit convex hull. `OperatorIdeal
 for the Ky Fan triangle inequality and for the Frobenius seminorm its `S₂` identification is
 stated against.
 
-### Independently submittable material
+### Dependency-minimal material
 
-Independent material inside later roadmaps can be started earlier. The Haagerup–Zsidó
-kernel (perturbation, Part A), and Stone's theorem and the Borel calculus (spectral theory,
-Parts A and B), each depend on nothing in this family.
+The Haagerup–Zsidó kernel in `SpectralSubspacePerturbation` Part A and the unitary-group,
+bounded-Borel-calculus, and self-adjoint resolvent layers in `SelfAdjointSpectralTheory`
+Parts A, B, and D depend only on Mathlib within this family.
 
 ## Ownership boundaries
 
@@ -89,8 +89,7 @@ Between roadmaps in this family:
 
 - **Unitarily invariant norms are defined once**, in `Majorization`, including the
   rectangular Frobenius seminorm that `OperatorIdeals` identifies `S₂` with. The
-  perturbation roadmap states its estimates in that vocabulary and defines no norm of its
-  own.
+  perturbation roadmap states its estimates in that shared vocabulary.
 - **The operator modulus and the polar decomposition** belong to `PolarDecomposition`.
 - **Gram rigidity, the coordinate isometry, projection geometry, orthogonal series and
   reducing subspaces** belong to `OrthogonalGeometry`.
@@ -116,14 +115,13 @@ With roadmaps outside this family:
   generator's resolvent. `SelfAdjointSpectralTheory` owns the bounded Borel functional
   calculus, projection-valued measures, spectral measures, the self-adjoint `LinearPMap`
   theory, the self-adjoint and unitary specialization, and Stone's theorem as the bridge
-  between the two developments. The two must not carry competing generator or resolvent
-  vocabularies. Both model an unbounded operator as a Mathlib `LinearPMap`, so one
-  vocabulary suffices; a self-adjoint operator needs its own resolvent *set*, because
-  Mathlib's `resolvent` is a Banach-algebra notion, and that definition should be shared.
+  between the two developments. Both developments use Mathlib `LinearPMap` for unbounded
+  operators and share one generator and resolvent vocabulary. The self-adjoint specialization
+  adds its resolvent *set* alongside Mathlib's Banach-algebra `resolvent`, with the same
+  definition shared across the two developments.
 
 ## Acknowledgements
 
 An Apache-2.0 implementation of most of this material exists in the
 [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
-(Kitware, Inc.); each child roadmap records the relevant provenance. The public API and
-proof structure may change during integration.
+(Kitware, Inc.); each child roadmap records the relevant provenance.

@@ -106,8 +106,8 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`, with the two scalar squar
 ## The build, in layers
 
 The labels in Parts A–C form the complete mathematical obligation set for this roadmap. Each
-label names one obligation. Milestones group labels into submission units, and `Suggested.lean`
-cites the labels represented by its sample declarations.
+label names one obligation. Milestones group the labels into coherent dependency units, and
+`Suggested.lean` cites the labels represented by its sample declarations.
 
 ### Part A — the functional calculus, the positive square root, and the modulus
 
@@ -267,13 +267,19 @@ The finite-dimensional construction and its lemmas use `operatorAbs` —
 `norm_operatorAbs_apply`, `ker_operatorAbs`. A bare `abs` collides with the lattice absolute
 value that `|·|` denotes in Lean, while `modulus` is the bounded-operator spelling.
 
-**Milestone — continuous functional calculus on real Hilbert spaces.** `PD-A10`.
+**Milestone A1 — supporting Hilbert-space and scalar API.** `PD-A01`–`PD-A09`.
 
-**Milestone — uniqueness, at both layers.** `PD-A19`, `PD-A28`, and `PD-A40`.
+**Milestone A2 — real and finite self-adjoint functional calculi.** `PD-A10`–`PD-A19`.
 
-**Milestone — Courant–Fischer and Weyl.** `PD-A50`–`PD-A53`.
+**Milestone A3 — positive square root.** `PD-A20`–`PD-A28`.
 
-**Milestone — agreement of calculus and modulus constructions.** `PD-A46`–`PD-A49`.
+**Milestone A4 — finite-dimensional modulus.** `PD-A29`–`PD-A35`.
+
+**Milestone A5 — complete-space modulus.** `PD-A36`–`PD-A45`.
+
+**Milestone A6 — agreement of calculus and modulus constructions.** `PD-A46`–`PD-A49`.
+
+**Milestone A7 — Courant–Fischer and Weyl.** `PD-A50`–`PD-A53`.
 
 ### Part B — polar decomposition and partial isometries
 
@@ -507,9 +513,11 @@ A B A = A     B A B = B     (A B)† = A B     (B A)† = B A
 - **PD-C26 — Surjective case.** If `A` is surjective, then `AA⁺ = I`.
 - **PD-C27 — Invertible case.** If `A` is invertible, then `A⁺ = A⁻¹`.
 
-**Milestone — the singular expansion.** `PD-C09`–`PD-C18`.
+**Milestone C1 — Gram spectra and singular values.** `PD-C01`–`PD-C08`.
 
-**Milestone — existence and uniqueness of the Moore–Penrose inverse.** `PD-C19`–`PD-C27`.
+**Milestone C2 — singular expansion.** `PD-C09`–`PD-C18`.
+
+**Milestone C3 — existence and uniqueness of the Moore–Penrose inverse.** `PD-C19`–`PD-C27`.
 
 ## Worked examples (acceptance criteria)
 
@@ -533,9 +541,8 @@ singular-value case in `PD-C12`.
 
 ## Ordering
 
-Part A comes first: Parts B and C each consume it and nothing else — B needs both moduli,
-C needs the Gram operator's eigenbasis and the eigenvalue-counting lemmas. B and C are
-mutually independent and can proceed in parallel once A lands.
+Parts B and C each depend on Part A and are mutually independent. Part B uses both modulus
+constructions. Part C uses the Gram operator's eigenbasis and the eigenvalue-counting lemmas.
 
 This roadmap is independent: it rests only on Mathlib, and it is the foundation the rest of
 the [operator theory](../README.md) family cites.
@@ -560,9 +567,6 @@ by zero on its orthogonal complement.
 ## Acknowledgements
 
 An Apache-2.0 implementation of all three Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
-(Kitware, Inc.), in namespaces `TauCeti.*`, `LinearMap.*` and `ContinuousLinearMap.*`. The
-public API and proof structure may change during integration.
-
-One difference should be expected at integration: the Moore–Penrose conditions are
-currently passed as four anonymous hypotheses rather than through a predicate, which is a
-target of Part C.
+(Kitware, Inc.), in namespaces `TauCeti.*`, `LinearMap.*` and `ContinuousLinearMap.*`.
+The source implementation passes the four Moore–Penrose equations as separate hypotheses;
+Part C specifies the bundled predicate used by this roadmap.

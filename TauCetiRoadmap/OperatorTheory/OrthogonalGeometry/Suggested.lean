@@ -7,11 +7,11 @@ import Mathlib
 /-!
 # Orthogonal geometry: Gram rigidity, coordinate isometries, and orthogonal series
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a Part nor the roadmap. `sorry` is allowed in this human-owned roadmap
-library -- these are goals, not proofs.
+**`README.md` is the definitive and exhaustive roadmap specification.** This file gives
+suggested Lean forms for selected labeled obligations. The roadmap is complete when the
+obligations in `README.md` are complete. `sorry` records target signatures in this human-owned
+roadmap library.
+
 -/
 
 namespace TauCetiRoadmap.OrthogonalGeometry

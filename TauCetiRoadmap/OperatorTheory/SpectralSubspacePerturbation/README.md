@@ -109,6 +109,8 @@ tangent estimates.
   projected subspace `U`, and `δ≥0`, define the internal gap by requiring the restricted point
   spectra of `A|_U` and `A|_{U⊥}` to be separated by at least `δ`.
 
+**Milestone S1 — shared internal-gap vocabulary.** `SSP-S01`.
+
 ### Part A — the Haagerup–Zsidó kernel and its Fourier transform
 
 Part A constructs an integrable kernel `k : ℝ → ℂ` whose Fourier integral is `1/x` on
@@ -163,9 +165,13 @@ The mass identity `SSP-A24` follows by Tonelli: the inner `|sin|` Laplace integr
 `SSP-A17` combines with `w(y)=tanh(πy/2)` so the integrand reduces to `(1+y²)⁻¹`, whose
 integral over `(0,∞)` is `π/2`.
 
-**Milestone A1 — exterior identity and exact mass.** `SSP-A23`–`SSP-A24`.
+**Milestone A1 — kernel construction and elementary calculus.** `SSP-A01`–`SSP-A13`.
 
-**Milestone A2 — Fourier normalization.** `SSP-A25`.
+**Milestone A2 — Fourier, Laplace, and integrability identities.** `SSP-A14`–`SSP-A22`.
+
+**Milestone A3 — exterior identity, exact mass, and normalization.** `SSP-A23`–`SSP-A25`.
+
+**Milestone A4 — kernel-mass convolution test.** `SSP-A26`.
 
 ### Part B — Sylvester equations and the Rosenblum theorem
 
@@ -252,9 +258,13 @@ bounded, and domain-aware Sylvester formulations.
 - **SSP-B21 — Pairwise constant source.** The `π/2` in `SSP-B11`–`SSP-B16` is the exact
   kernel mass `SSP-A24`.
 
-**Milestone B1 — a-priori bounds.** `SSP-B06`–`SSP-B16`.
+**Milestone B1 — finite Sylvester core.** `SSP-B01`–`SSP-B05`.
 
-**Milestone B2 — Rosenblum theorem.** `SSP-B17`.
+**Milestone B2 — dimension-free and unitarily invariant bounds.** `SSP-B06`–`SSP-B16`.
+
+**Milestone B3 — Rosenblum theorem.** `SSP-B17`.
+
+**Milestone B4 — Sylvester acceptance and constant checks.** `SSP-B18`–`SSP-B21`.
 
 ### Part C — the Davis–Kahan `sin Θ` theorems
 
@@ -372,9 +382,13 @@ models in Davis and Kahan's source treatment.
 - **SSP-C37 — Tensor-form cross-check.** On the same model, the tensor formulation agrees
   with the projection and singular-value formulations.
 
-**Milestone C1 — perturbation family.** `SSP-C15`–`SSP-C22`.
+**Milestone C1 — trial maps, residuals, and graph subspaces.** `SSP-C01`–`SSP-C14`.
 
-**Milestone C2 — pairwise `π/2` form.** `SSP-C23`.
+**Milestone C2 — dimension-free and finite spectral `sin Θ` theory.** `SSP-C15`–`SSP-C24`.
+
+**Milestone C3 — double-angle and tangent theory.** `SSP-C25`–`SSP-C31`.
+
+**Milestone C4 — source-facing acceptance theorems.** `SSP-C32`–`SSP-C37`.
 
 ### Part D — the Yu–Wang–Samworth statistical variant
 
@@ -437,7 +451,11 @@ right and left Gram perturbation bounds `PA-B03`–`PA-B06` are consumed from
 - **SSP-D21 — Rectangular acceptance model.** Exhibit a nonsquare matrix pair and verify the
   left and right singular-subspace bounds `SSP-D19`.
 
-**Milestone D1 — population-gap theorem and single-vector form.** `SSP-D16`–`SSP-D18`.
+**Milestone D1 — statistical subspace objects and transfer lemmas.** `SSP-D01`–`SSP-D15`.
+
+**Milestone D2 — population-gap theorems.** `SSP-D16`–`SSP-D19`.
+
+**Milestone D3 — statistical acceptance models.** `SSP-D20`–`SSP-D21`.
 
 ## Worked examples (acceptance criteria)
 
@@ -485,10 +503,7 @@ finite-dimensional matrix perturbation APIs used to form the population/sample e
 ## Acknowledgements
 
 An Apache-2.0 implementation of all four Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware,
-Inc.). The public API and proof structure may change during integration. In particular, the
-existing statements carry paper numbering and paper-flavoured names; a submission states the
-theorems in terms of the objects above, with the source correspondence confined to the
-acceptance layer of Part C.
+Inc.).
 
 Material in the Sylvester and `sin Θ` lineage was adapted from the Spectra Formalization
 Project at upstream revision `8dbaaf6728d1342ae16acf79fd7eef7c59b37e63`, with a recorded

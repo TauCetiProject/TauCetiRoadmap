@@ -170,7 +170,7 @@ equal pullback inner products.
 
 An Apache-2.0 implementation exists in the
 [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
-(Kitware, Inc.). The public API and proof structure may change during integration.
+(Kitware, Inc.).
 
 The Gram-matrix material also appeared in mathlib4 pull request
 [#40567](https://github.com/leanprover-community/mathlib4/pull/40567). Its Tau Ceti API

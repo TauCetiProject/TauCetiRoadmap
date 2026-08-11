@@ -361,15 +361,17 @@ spectrum in the planar case.
   squared singular values have sum `tr(A†A)` and product `det(A†A)`; a nonnegative ordered
   pair is determined by these two values.
 
-**Milestone — rectangular orbit-hull majorization.** `MAJ-B14`–`MAJ-B20`.
+**Milestone B1 — rectangular seminorms and transport.** `MAJ-B01`–`MAJ-B13`.
 
-**Milestone — rectangular Fan dominance.** `MAJ-B21`.
+**Milestone B2 — rectangular orbit-hull majorization.** `MAJ-B14`–`MAJ-B20`.
 
-**Milestone — orthogonal block sums.** `MAJ-B22`–`MAJ-B29`.
+**Milestone B3 — rectangular Fan dominance.** `MAJ-B21`.
 
-**Milestone — concrete rectangular seminorms.** `MAJ-B30`–`MAJ-B39`.
+**Milestone B4 — orthogonal block sums.** `MAJ-B22`–`MAJ-B29`.
 
-**Milestone — planar sharpness models.** `MAJ-B40`–`MAJ-B43`.
+**Milestone B5 — concrete rectangular seminorms.** `MAJ-B30`–`MAJ-B39`.
+
+**Milestone B6 — planar sharpness models.** `MAJ-B40`–`MAJ-B43`.
 
 ## Worked examples (acceptance criteria)
 
@@ -387,8 +389,7 @@ transport is `MAJ-B10`; the square/rectangular bridges are `MAJ-B12`, `MAJ-B13`,
 
 ## Ordering
 
-Part A's convex engine has no prerequisites at all and could be submitted before, or
-independently of, everything else here. The operator half of Part A consumes
+The convex engine in Part A depends only on Mathlib. The operator half of Part A consumes
 `PolarDecomposition` for singular-value/polar structure and `OrthogonalGeometry` for the
 Gram/isometry rigidity used by the rectangular orbit arguments. Part B consumes Part A.
 
@@ -419,7 +420,7 @@ rectangular Frobenius seminorm, independent of the basis.
 ## Acknowledgements
 
 An Apache-2.0 implementation of both Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
-(Kitware, Inc.). The public API and proof structure may change during integration.
+(Kitware, Inc.).
 
 The Schur–Horn proof strategy was read from and is credited to
 [`rjwalters/lean-genius`](https://github.com/rjwalters/lean-genius),
