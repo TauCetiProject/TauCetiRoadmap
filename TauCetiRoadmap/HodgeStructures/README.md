@@ -150,6 +150,30 @@ the pinned Mathlib.
   carry a `@[simp]` suite for moving elements through `rationalToComplexSubmodule` and `Polarization.Q`
   (the `Q_tmul` pure-tensor lemma is the first of these) to keep the L1/L2 proofs tractable.
 
+## Worked instances
+
+The definitions above are the chief deliverable, so at least one explicit nonzero inhabitant is
+blocking: without one, nothing rules out a definition that no object satisfies. The canonical
+tensor instance exercises the base-change plumbing, not the Hodge conditions.
+
+- **Blocking — the Tate structure `ℤ(m)`.** Rank one: `V_ℤ = ℤ` (classically `(2πi)^m ℤ ⊂ ℂ`), pure
+  of **weight `−2m`**, of type `(−m, −m)`, so `F^p = V_ℂ` for `p ≤ −m` and `⊥` above. Opposedness is
+  degenerate but worth checking once: `IsCompl ⊤ (conj ⊥)` for `p ≤ −m`, and `IsCompl ⊥ (conj ⊤)`
+  above.
+  *Targets:* `tate (m : ℤ)` with `weight (tate m) = −2m`; `piece (tate m) p = if p = −m then ⊤ else ⊥`
+  and the Hodge numbers (`h^{−m,−m} = 1`, else `0`); `IsPolarization (tate m) Q` for the rank-one
+  integral form `Q u v = u * v` (weight `−2m` is even so `(−1)^n`-symmetry is symmetry, and
+  positivity reads `Q(v, v̄) > 0` since `p = q = −m`); and the **Tate twist** `V(m) := V ⊗ tate m`
+  with `weight (V(m)) = weight V − 2m`, `F^p (V(m)) = F^{p+m} V`, which is what pins the weights and
+  filtration shifts of the L0 companion line.
+- **Effective weight one** (recommended). A lattice `Λ ≅ ℤ^{2g}` with a complex structure `J` on
+  `Λ_ℝ` and its Riemann form `E`: a polarized effective weight-1 structure. This is the
+  abelian-variety case the generality bar names, and the one instance exercising `IsEffective`, the
+  `J`-eigenspace bridge and `IsPolarization` together.
+- **A pure structure viewed as mixed** (recommended). `W` concentrated in a single degree, so
+  `gr^W_n = V`. Cheap, and it shows `graded_pure` is satisfiable — connecting L0 to L2 rather than
+  leaving them independent.
+
 ## Generality bar (decide up front; do not silently specialize)
 
 - **Weight-general, polarized, integral.** State pure Hodge structures for arbitrary weight `n : ℤ` on
@@ -204,7 +228,9 @@ the pinned Mathlib.
   §1.2.1; if the in-progress Mathlib filtration API (mathlib4#42642) lands, this is the place to
   specialize onto it (see *Prior art*).
   *Companions to build:* morphisms of HS, the `(p,q)` symmetry
-  `conj (piece p) = piece (n−p)`, `ℤ`-Tate twist, `⊗`/`Hom`/dual.
+  `conj (piece p) = piece (n−p)`, `⊗`/`Hom`/dual, and the `ℤ`-Tate twist with its shifts pinned:
+  `V(m) := V ⊗ tate m` has `weight (V(m)) = weight V − 2m` and `F^p (V(m)) = F^{p+m} V`
+  (see *Worked instances*).
   *Effectivity:* `HodgeStructure.IsEffective` (Hodge numbers in `[0,n]`, i.e. `F^0 = ⊤`, `F^{n+1} = ⊥`)
   is the named hypothesis under which the classical weight-1 identifications hold — see the instance
   bridge and *Prior art*.
@@ -222,9 +248,15 @@ the pinned Mathlib.
   *Milestone:* every rational Hodge substructure `W` has an orthogonal rational Hodge-substructure
   complement (`IsCompl` on both `WQ` and `WC`, `Q`-orthogonal) — hence **the category of polarized
   `ℚ`-HS is semisimple.**
-  *Discharge:* the Hodge–Riemann positivity makes `h(u,v) := i^{p−q} Q(u, v̄)` a positive-definite
-  Hermitian form on each piece, so `V_ℂ` carries a definite Hermitian form for which `conj`/`Q` are
-  compatible; the `Q`-orthogonal complement of a sub-HS is again a sub-HS, and (since `Q` is rational
+  *Weil operator:* `i^{p−q} Q(u, v̄)` is not defined until `u` is homogeneous, so the passage from a
+  form on each piece to a form on `V_ℂ` needs a carrier. That carrier is the **Weil operator** `C`,
+  acting by `i^{p−q}` on `H^{p,q}` and extended off the L0 decomposition, with
+  `h(u,v) := Q(C u, v̄)` defined on all of `V_ℂ`. Target it in its own right: its definition from
+  `piece`, its action on pieces, `C² = (−1)^n` (so `C` is a complex structure exactly in odd
+  weight), compatibility with `latticeConj` and with `Q`, and positive-definiteness of `h`.
+  Everything downstream wanting a Hermitian form wants `C`.
+  *Discharge:* the Hodge–Riemann positivity makes `h` positive definite on each piece, and `C`
+  extends it to a definite Hermitian form on `V_ℂ` for which `conj`/`Q` are compatible; the `Q`-orthogonal complement of a sub-HS is again a sub-HS, and (since `Q` is rational
   and nondegenerate) it is defined over `ℚ`. `V = W ⊕ W^⊥`. Consume the `BilinForm.Nondegenerate`
   orthogonal-complement API and the L0 decomposition. Voisin I, §7.1.2; Peters–Steenbrink §2.
 - **L2 — Mixed Hodge structures; strictness (Deligne).**
@@ -243,7 +275,17 @@ the pinned Mathlib.
   — is **strict** for both filtrations: `range fQ ⊓ W'_{ℚ,k} = fQ(W_{ℚ,k})` (and its complexification)
   and `range fC ⊓ F'^p = fC(F^p)`.
   *Discharge:* Deligne's canonical `(p,q)`-bigrading (the Deligne splitting), which every MHS morphism
-  respects; establishing the splitting propositionally (existence of the `I^{p,q}` bigrading) suffices.
+  respects. The bigrading is **defined**, not merely shown to exist: `deligneSplitting`
+  (`I^{p,q}`) is given by Deligne's closed formula in `F`, `conj F` and `W`, with
+  `DirectSum.IsInternal` and its characterizing API — recovery of `F` (`F^p = ⨆_{p'≥p} I^{p',q}`),
+  recovery of `W` (`(W_k)_ℂ = ⨆_{p+q≤k} I^{p,q}`), the conjugation relation
+  `conj (I^{p,q}) ≡ I^{q,p}` **modulo** `⨆_{p'<p, q'<q} I^{p',q'}` (in the mixed case conjugation
+  symmetry holds only up to strictly lower bidegree, unlike L0's pure `piece` — the characteristic
+  subtlety of the theory), and functoriality (a morphism carries `I^{p,q}` into `I^{p,q}`).
+  Propositional existence would close the milestone and leave the object unusable: a consumer could
+  obtain the bigrading only by destructing an existential, would get a different witness each time,
+  and could state no lemma about it. It is the working tool of the mixed theory — strictness itself
+  is proved through it, and the variations successor consumes it.
   A `@[simp]` suite for `gradedConj`/`gradedF` keeps the quotient manipulations tractable. Deligne,
   *Théorie de Hodge II* 1.2.10 & 2.3.5; Peters–Steenbrink Ch. 3. Name `gradedF`/`gradedComplexEquiv` to
   align with Deligne §1.2.1; as for L0, specialize onto the in-progress Mathlib filtration API
