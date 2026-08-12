@@ -13,11 +13,13 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 
 ## Roadmaps
 
+- [A statement of the classification of finite simple groups](TauCetiRoadmap/CFSGStatement/README.md)
 - [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
 - [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
 - [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
 - [Elliptic curves](TauCetiRoadmap/EllipticCurves/README.md)
 - [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
+- [Foundations of adic spaces](TauCetiRoadmap/AdicSpaces/README.md)
 - [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
 - [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
