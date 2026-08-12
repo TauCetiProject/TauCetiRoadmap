@@ -136,6 +136,38 @@ the pinned Mathlib.
   as `.map …toLinearMap`. Abstract statements should take the former route; the concrete
   rational-to-complex path currently takes the latter, and that is the ergonomic cost the interface
   exists to remove.
+- **One pure-Hodge object, parametric in the conjugation — the integral and rational cases are not
+  two definitions.** The weight-`n` axioms (bounded, antitone, `n`-opposed) mention the ambient
+  `ℂ`-space and a conjugation on it, and nothing else: of `HodgeStructure`'s five fields, four
+  mention only `F`, and `opposed` mentions `latticeConj hℂ`, whose type is just
+  `V_ℂ →ₛₗ[starRingEnd ℂ] V_ℂ`. The lattice `V_ℤ`, `ι_ℂ`, `hℂ` and the freeness/finiteness
+  hypotheses are in scope but appear in no field. So state the object once, over a `ℂ`-space with a
+  conjugation:
+  ```lean
+  /-- A conjugation on a ℂ-space: a conjugate-linear involution. -/
+  structure Conjugation (W : Type*) [AddCommGroup W] [Module ℂ W] where
+    toEquiv    : W ≃ₛₗ[starRingEnd ℂ] W
+    involutive : Function.Involutive toEquiv
+
+  structure HodgeStructureOn (W : Type*) [AddCommGroup W] [Module ℂ W]
+      (ω : Conjugation W) (n : ℤ) where
+    F : ℤ → Submodule ℂ W
+    F_antitone : Antitone F
+    F_top : ∃ p, F p = ⊤
+    F_bot : ∃ p, F p = ⊥
+    opposed : ∀ p, IsCompl (F p) ((F (n + 1 - p)).map ω.toEquiv.toLinearMap)
+  ```
+  **Involutivity is part of the datum**, not a lemma alongside it: `n`-opposedness is only meaningful
+  for an involution, and today `latticeConj_involutive` sits outside the structure. `latticeConj` +
+  `latticeConj_involutive` package into one `Conjugation V_ℂ`, and `gradedConj` +
+  `gradedConj_involutive` into another. The integral object is then an **abbreviation, not a copy** —
+  `HodgeStructure hℂ n := HodgeStructureOn V_ℂ (latticeConjugation hℂ) n` — so every existing
+  reference survives and the axioms exist in exactly one place. `IsEffective` and `piece` are stated
+  in terms of `F` alone and move across unchanged; `Polarization` does **not**, and stays on the
+  lattice, since its form `Qint` is integral.
+  *Note on the section variables:* `V_ℂ` is a section variable today, so the general object takes the
+  ambient space as a parameter and lives outside that context (or `omit`s it, as 29 declarations in
+  the file already do for `Module.Free`/`Module.Finite`).
 - **Conjugation is defined, not assumed.** `latticeConj : V_ℂ →ₛₗ[starRingEnd ℂ] V_ℂ` is the
   conjugate-linear map fixing the integral points, `latticeConj (ι_ℂ v) = ι_ℂ v` — determined by the
   base-change universal property, and unique as such (*companion to prove*: an instance author will
@@ -291,7 +323,12 @@ tensor instance exercises the base-change plumbing, not the Hodge conditions.
   (`rationalToComplexSubmodule_mono`/`…_conj`). `graded_pure` is stated **rationally**: the rational
   graded `grᵂ_k = W_{ℚ,k}/W_{ℚ,k−1}` (`weightGradedRat`) carries an induced conjugation `gradedConj`
   (a proved conjugate-linear involution) and induced filtration `gradedF`, and `graded_pure` requires
-  `gradedF` to be bounded, antitone, and `k`-opposed w.r.t. `gradedConj` — the `HodgeStructure` shape.
+  `gradedF` to be bounded, antitone, and `k`-opposed w.r.t. `gradedConj`. With the conjugation-parametric
+  object above this **is** the pure-Hodge predicate rather than a restatement of it:
+  `graded_pure k := Nonempty (HodgeStructureOn (ratComplexify (gr^W_k)) (gradedConjugation WQ k) k)`
+  — "`gr^W_k` carries a Hodge structure of weight `k`", literally, and the rational pure object L1's
+  category needs. `gradedConj` already has the required type and `gradedConj_involutive` is proved,
+  so it packages directly as a `Conjugation`.
   A proved iso `gradedComplexEquiv : WC_k/WC_{k−1} ≃ ℂ ⊗_ℚ grᵂ_k` (complexification commutes with the
   quotient) identifies the two, so an MHS induces a pure *rational* HS on each graded.
   *Milestone:* a morphism of MHS — a single rational map `fQ`, complex action the derived
