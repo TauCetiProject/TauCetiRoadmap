@@ -309,7 +309,7 @@ Roadmap: `PA-C16`. -/
 def PointSpectrumIn (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (Ω : Set ℝ) : Prop :=
   restrictedPointSpectrum A U ⊆ Ω
 
-/-- The canonical spectral subspace selected by a real set.
+/-- The point-spectral eigenspan selected by a real set.
 
 Roadmap: `PA-C17`. -/
 noncomputable def pointSpectralSubspace (A : E →ₗ[𝕜] E) (Ω : Set ℝ) : Submodule 𝕜 E :=
@@ -366,8 +366,8 @@ theorem orderedGap_of_restrictedPointSpectrum_subset {A : E →ₗ[𝕜] E} {U :
 
 end SpectralVocabulary
 
-/-- The spectral subspace selected by `Ω` carries only spectrum in `Ω`. A consumer of the
-`sin Θ` theorems never supplies this as a hypothesis.
+/-- The point-spectral subspace selected by `Ω` carries only point spectrum in `Ω`. A consumer
+of the `sin Θ` theorems never supplies this as a hypothesis.
 
 Roadmap: `PA-C19`. -/
 theorem pointSpectrumIn_pointSpectralSubspace {𝕜 : Type u} [RCLike 𝕜] {E : Type v}

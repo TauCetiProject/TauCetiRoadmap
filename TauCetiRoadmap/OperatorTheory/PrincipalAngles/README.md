@@ -69,8 +69,8 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
 * Angle geometry and the eigenvalue-perturbation results: the von Neumann trace core,
   Hoffman–Wielandt against an arbitrary orthonormal basis, and Davis's eigenvalue-change
   lower bound.
-* The sharp projector-gap identity, spectral subspaces, the restricted point spectrum, and the
-  separation predicates the perturbation roadmap consumes.
+* The sharp projector-gap identity, point-spectral subspaces, the restricted point spectrum, and
+  the separation predicates the perturbation roadmap consumes.
 * `sinThetaMap`, the directed sine cross-projection the Davis–Kahan estimates are stated
   in, and `pointSpectrumIn_pointSpectralSubspace`, which is why no consumer supplies a
   spectral-containment hypothesis for the selected subspace.
@@ -305,7 +305,7 @@ statements and the dimension-free projection-gap identity. The restriction of a 
 operator to an invariant subspace uses `OG-16`–`OG-17`.
 
 **Objects.** Reflections; diagonal and off-diagonal operator blocks relative to `U ⊕ U⊥`;
-symmetric and directed projection gaps; the restricted point spectrum; canonical spectral
+symmetric and directed projection gaps; the restricted point spectrum; point-spectral
 subspaces and projectors; spectral containment; and the pairwise, ordered, and
 interval/exterior separation predicates.
 
@@ -340,11 +340,11 @@ identity.
 - **PA-C12 — Sharp projector-gap identity.** For projected subspaces `U,V`,
   `‖P_U-P_V‖ = max(‖P_{V⊥}P_U‖, ‖P_{U⊥}P_V‖)`.
 
-#### Restricted point spectrum and spectral subspaces
+#### Restricted point spectrum and point-spectral subspaces
 
 Restricted point spectrum gives a basis-independent description of spectral data inside a
-subspace. Canonical spectral subspaces and quadratic-form bounds connect selected eigenvalues to
-the order hypotheses used by perturbation theory.
+subspace. Point-spectral subspaces and quadratic-form bounds connect selected eigenvalues to the
+order hypotheses used by perturbation theory.
 
 - **PA-C13 — Restricted point spectrum.** For an endomorphism `A` and subspace `U`, define
   the real restricted point spectrum as the set of real `λ` admitting a nonzero eigenvector
@@ -355,12 +355,12 @@ the order hypotheses used by perturbation theory.
   places `λ` in the restricted point spectrum on `U`.
 - **PA-C16 — Point-spectrum containment predicate.** Define spectral containment on `U` by
   inclusion of the restricted point spectrum in a specified real set `Ω`.
-- **PA-C17 — Point-spectral subspace.** For a real set `Ω`, define the spectral subspace as the
-  span of eigenvectors with eigenvalues in `Ω`.
-- **PA-C18 — Point-spectral projector.** Define the orthogonal projector onto the spectral
+- **PA-C17 — Point-spectral subspace.** For a real set `Ω`, define the point-spectral subspace as
+  the span of eigenvectors with eigenvalues in `Ω`.
+- **PA-C18 — Point-spectral projector.** Define the orthogonal projector onto the point-spectral
   subspace `PA-C17`.
-- **PA-C19 — Point-spectral-subspace containment.** The spectral subspace selected by `Ω` has
-  restricted point spectrum contained in `Ω`.
+- **PA-C19 — Point-spectral-subspace containment.** The point-spectral subspace selected by `Ω`
+  has restricted point spectrum contained in `Ω`.
 - **PA-C20 — Upper form bound from point spectrum.** If a symmetric operator restricted to
   `U` has restricted point spectrum in `(-∞,a]`, then
   `Re⟪Ax,x⟫ ≤ a‖x‖²` for every `x ∈ U`.
@@ -396,7 +396,7 @@ The named predicates give theorem families a shared point-spectral vocabulary.
 
 **Milestone — projection blocks and the sharp gap identity.** `PA-C01`–`PA-C12`.
 
-**Milestone — spectral subspaces and form bounds.** `PA-C13`–`PA-C23`.
+**Milestone — point-spectral subspaces and form bounds.** `PA-C13`–`PA-C23`.
 
 **Milestone — spectral-separation vocabulary.** `PA-C24`–`PA-C29`.
 
