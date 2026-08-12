@@ -288,7 +288,7 @@ the internal shape of `HasEigenvector` — which orders its conjuncts
 `(mem_eigenspace, ne_zero)` — never becomes part of this definition's interface.
 
 Together with the introduction rule below, this is the intended API of
-`restrictedPointSpectrum`; `SpectrumIn` and the separation predicates are then stated over it.
+`restrictedPointSpectrum`; `PointSpectrumIn` and the separation predicates are then stated over it.
 
 Roadmap: `PA-C14`. -/
 theorem mem_restrictedPointSpectrum_iff {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E} {lam : ℝ} :
@@ -306,13 +306,13 @@ theorem mem_restrictedPointSpectrum {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E
 /-- Every eigenvalue of `A` carried by `U` lies in `Ω`.
 
 Roadmap: `PA-C16`. -/
-def SpectrumIn (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (Ω : Set ℝ) : Prop :=
+def PointSpectrumIn (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (Ω : Set ℝ) : Prop :=
   restrictedPointSpectrum A U ⊆ Ω
 
 /-- The canonical spectral subspace selected by a real set.
 
 Roadmap: `PA-C17`. -/
-noncomputable def spectralSubspace (A : E →ₗ[𝕜] E) (Ω : Set ℝ) : Submodule 𝕜 E :=
+noncomputable def pointSpectralSubspace (A : E →ₗ[𝕜] E) (Ω : Set ℝ) : Submodule 𝕜 E :=
   Submodule.span 𝕜 {x | ∃ lam ∈ Ω, Module.End.HasEigenvector A (lam : 𝕜) x}
 
 /-- **The symmetric separation predicate**: two restricted point spectra are at distance at least
@@ -320,12 +320,12 @@ noncomputable def spectralSubspace (A : E →ₗ[𝕜] E) (Ω : Set ℝ) : Submo
 theorems assume.
 
 Roadmap: `PA-C24`. -/
-def SpectraSeparated (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E)
+def PointSpectraSeparated (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E)
     (B : F →ₗ[𝕜] F) (V : Submodule 𝕜 F) (δ : ℝ) : Prop :=
   ∀ lam μ, lam ∈ restrictedPointSpectrum A U → μ ∈ restrictedPointSpectrum B V → δ ≤ |lam - μ|
 
 /-- **The ordered separation predicate**: one restricted point spectrum lies below the other with
-margin `δ`. Strictly stronger than `SpectraSeparated`, and the hypothesis under which the
+margin `δ`. Strictly stronger than `PointSpectraSeparated`, and the hypothesis under which the
 perturbation constants improve to one.
 
 Roadmap: `PA-C25`. -/
@@ -339,18 +339,18 @@ the selected `A` spectrum lies in `[a,b]`, while the complementary `B` spectrum 
 the selected-spectrum hypothesis.
 
 Roadmap: `PA-C26`. -/
-def IntervalExteriorGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E)
+def PointIntervalExteriorGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E)
     (B : F →ₗ[𝕜] F) (V : Submodule 𝕜 F) (a b δ : ℝ) : Prop :=
-  SpectrumIn A U (Set.Icc a b) ∧
-    SpectrumIn B V {lam | lam ∉ Set.Ioo (a - δ) (b + δ)}
+  PointSpectrumIn A U (Set.Icc a b) ∧
+    PointSpectrumIn B V {lam | lam ∉ Set.Ioo (a - δ) (b + δ)}
 
 /-- The conversion between the two primitives, and the reason both are named: a theorem
 family stated against the weaker hypothesis applies to a caller holding the stronger one.
 
 Roadmap: `PA-C27`. -/
-theorem SpectraSeparated.of_orderedGap {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E}
+theorem PointSpectraSeparated.of_orderedGap {A : E →ₗ[𝕜] E} {U : Submodule 𝕜 E}
     {B : F →ₗ[𝕜] F} {V : Submodule 𝕜 F} {δ : ℝ} (hδ : 0 ≤ δ)
-    (h : OrderedGap A U B V δ) : SpectraSeparated A U B V δ := by
+    (h : OrderedGap A U B V δ) : PointSpectraSeparated A U B V δ := by
   sorry
 
 /-- Spectral inclusion on opposite sides of a cut gives ordered separation: the bridge that
@@ -370,9 +370,9 @@ end SpectralVocabulary
 `sin Θ` theorems never supplies this as a hypothesis.
 
 Roadmap: `PA-C19`. -/
-theorem spectrumIn_spectralSubspace {𝕜 : Type u} [RCLike 𝕜] {E : Type v}
+theorem pointSpectrumIn_pointSpectralSubspace {𝕜 : Type u} [RCLike 𝕜] {E : Type v}
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
-    (A : E →ₗ[𝕜] E) (Ω : Set ℝ) : SpectrumIn A (spectralSubspace A Ω) Ω := by
+    (A : E →ₗ[𝕜] E) (Ω : Set ℝ) : PointSpectrumIn A (pointSpectralSubspace A Ω) Ω := by
   sorry
 
 end TauCetiRoadmap.PrincipalAngles

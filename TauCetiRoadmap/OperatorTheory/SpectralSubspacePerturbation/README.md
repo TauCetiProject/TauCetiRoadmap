@@ -105,7 +105,7 @@ The internal gap measures the separation between a selected spectral block and i
 inside one symmetric operator. It is the common spectral hypothesis for the double-angle and
 tangent estimates.
 
-- **SSP-S01 — Internal spectral gap.** For a symmetric finite-dimensional operator `A`, a
+- **SSP-S01 — Internal point-spectrum gap.** For a symmetric finite-dimensional operator `A`, a
   projected subspace `U`, and `δ≥0`, define the internal gap by requiring the restricted point
   spectra of `A|_U` and `A|_{U⊥}` to be separated by at least `δ`.
 
@@ -328,7 +328,7 @@ norm forms.
   square unitarily invariant seminorm satisfies `δ N(sinΘ)≤N(B-A)`.
 - **SSP-C19 — Canonical spectral-subspace residual form.** `SSP-C17` specializes canonically
   to spectral subspaces selected by real spectral sets.
-- **SSP-C20 — Canonical spectral-projector bound.** Under the interval/exterior hypotheses
+- **SSP-C20 — Canonical eigenspace-projector bound.** Under the interval/exterior hypotheses
   and equal selected ranks, `δ‖P_{spec A}-P_{spec B}‖≤‖B-A‖`.
 - **SSP-C21 — Frobenius `sin Θ` corollary.** The residual and perturbation theorems specialize
   to the Frobenius norm.
@@ -346,8 +346,8 @@ compression/exterior separation gives the tangent estimate together with the pol
 transversality needed to interpret principal tangents, while an off-diagonal perturbation
 sharpens the eigenvector product inequality to the `tan 2θ` form.
 
-- **SSP-C25 — Per-eigenvector `sin 2θ` product bound.** Let bounded symmetric `A,H` act on a
-  Hilbert space, let `U` be `A`-invariant, let `a<b`, and assume
+- **SSP-C25 — Per-eigenvector `sin 2θ` product bound.** Let bounded symmetric `A,H` act on an
+  `RCLike` inner-product space, let `U` be `A`-invariant, let `a<b`, and assume
   `Re⟪Az,z⟫≤a‖z‖²` on `U⊥` and `b‖y‖²≤Re⟪Ay,y⟫` on `U`. If `‖H‖≤ε` and a unit
   vector `x` satisfies `(A+H)x=λx`, then `(b-a)‖P_Ux‖‖P_{U⊥}x‖≤ε`.
 - **SSP-C26 — Per-eigenvector angle form.** Under `SSP-C25`, define

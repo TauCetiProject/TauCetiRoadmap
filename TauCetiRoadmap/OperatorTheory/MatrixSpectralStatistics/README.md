@@ -186,8 +186,8 @@ concentration.
   `MSS-C03` are equal, then the sample-mean mean-square error is `1/r` times the common value.
 - **MSS-C05 — Uniform sample-mean bound.** If every per-sample mean-square error is at most `γ`,
   then the sample-mean mean-square error is at most `γ/r`.
-- **MSS-C06 — Finite mean.** Define `z̄ = n⁻¹∑_i z_i` for a finite family in an inner-product
-  space, with the empty mean equal to `0` under the ambient total-inverse convention.
+- **MSS-C06 — Finite mean.** Define `z̄ = n⁻¹∑_i z_i` for a finite family in a normed
+  `RCLike` module, with the empty mean equal to `0` under the ambient total-inverse convention.
 - **MSS-C07 — Centered sum.** For every finite family, `∑_i (z_i-z̄)=0`.
 - **MSS-C08 — Add-one mean identity.** If `z'` appends `y` to a family of size `n`, then
   `z̄' = z̄ + (n+1)⁻¹(y-z̄)`, including `n=0`.

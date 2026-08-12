@@ -50,6 +50,12 @@ Roadmap: `OI-A01`. -/
 noncomputable def singularValue (T : E →L[𝕜] F) (n : ℕ) : ℝ≥0 :=
   ⨅ R : {R : E →L[𝕜] F // R.rank ≤ (n : Cardinal)}, ‖T - R.1‖₊
 
+/-- The Ky Fan gauge: the sum of the first `k` approximation numbers.
+
+Roadmap: `OI-A06`. -/
+noncomputable def kyFanGauge (T : E →L[𝕜] F) (k : ℕ) : ℝ≥0 :=
+  ∑ n ∈ Finset.range k, T.singularValue n
+
 /- Roadmap: `OI-A12`. -/
 @[simp] theorem singularValue_zero (T : E →L[𝕜] F) :
     T.singularValue 0 = ‖T‖₊ := sorry
@@ -237,19 +243,12 @@ theorem hilbertSchmidtEnergy_indep {ι' : Type y} (T : F →L[𝕜] E)
     (b : HilbertBasis ι 𝕜 F) (c : HilbertBasis ι' 𝕜 F) :
     hilbertSchmidtEnergy T b = hilbertSchmidtEnergy T c := sorry
 
-/-- The Ky Fan gauge: the sum of the first `k` approximation numbers.  It is the gauge every
-dominance statement is phrased against.
-
-Roadmap: `OI-A06`. -/
-noncomputable def kyFanGauge (T : E →L[𝕜] F) (k : ℕ) : ℝ≥0 :=
-  ∑ n ∈ Finset.range k, T.singularValue n
-
 /-- The Ky Fan triangle inequality from the converse min--max localization for this pair.
 
 Roadmap: `OI-A47`. -/
 theorem kyFanGauge_add_le_of_hasMinMaxLowerBound
     (hmm : HasMinMaxLowerBound (𝕜 := 𝕜) E F) (S T : E →L[𝕜] F) (k : ℕ) :
-    kyFanGauge (S + T) k ≤ kyFanGauge S k + kyFanGauge T k := by
+    (S + T).kyFanGauge k ≤ S.kyFanGauge k + T.kyFanGauge k := by
   sorry
 
 /-- **Milestone A2.** Ky Fan subadditivity at the natural public generality.  A proof may
@@ -258,7 +257,7 @@ need the scalar field to be `RCLike`.
 
 Roadmap: `OI-A48`. -/
 theorem kyFanGauge_add_le (S T : E →L[𝕜] F) (k : ℕ) :
-    kyFanGauge (S + T) k ≤ kyFanGauge S k + kyFanGauge T k := by
+    (S + T).kyFanGauge k ≤ S.kyFanGauge k + T.kyFanGauge k := by
   sorry
 
 /-- The nuclear gauge: the series of approximation numbers.  Its triangle inequality is the
@@ -277,7 +276,7 @@ class IsKyFanDominant {𝕜 : Type u} [RCLike 𝕜]
   gauge_le_of_forall_kyFanGauge_le : ∀ {E : Type v} {F : Type w}
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
     [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [CompleteSpace F]
-    (A B : E →L[𝕜] F), (∀ k, kyFanGauge A k ≤ kyFanGauge B k) → Φ.gauge A ≤ Φ.gauge B
+    (A B : E →L[𝕜] F), (∀ k, A.kyFanGauge k ≤ B.kyFanGauge k) → Φ.gauge A ≤ Φ.gauge B
 
 end IdealFamilies
 
@@ -522,7 +521,7 @@ noncomputable def schattenNorm (p : ℝ) (hp : 1 ≤ p)
     {E : Type v} {F : Type w}
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
     [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F] :
-    Majorization.RectangularUnitarilyInvariantSeminorm 𝕜 E F where
+    Majorization.UnitarilyInvariantSeminorm 𝕜 E F where
   toFun T :=
     (∑ i : Fin (finrank 𝕜 E), T.singularValues (i : ℕ) ^ p) ^ (1 / p)
   add_le' := sorry

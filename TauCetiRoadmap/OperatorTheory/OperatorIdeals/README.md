@@ -130,7 +130,8 @@ roadmap.
 - **OI-A03 — Reflexivity.** Every bounded map has the same approximation numbers as itself.
 - **OI-A04 — Symmetry.** Equality of approximation-number sequences is symmetric.
 - **OI-A05 — Transitivity.** Equality of approximation-number sequences is transitive.
-- **OI-A06 — Ky Fan gauge.** Define `Kₖ(T) = ∑_{n<k} aₙ(T)`.
+- **OI-A06 — Ky Fan gauge.** In the same seminormed-space setting as `OI-A01`, define
+  `Kₖ(T) = ∑_{n<k} aₙ(T)`.
 - **OI-A07 — Infimum formula.** The approximation number is the infimum in `OI-A01` over the
   bounded rank-`≤ n` approximants.
 - **OI-A08 — Approximation upper bound.** If `rank R ≤ n`, then `aₙ(T) ≤ ‖T-R‖`.

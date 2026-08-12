@@ -36,7 +36,7 @@ The member of the separation family in which both spectra come from the same ope
 `U` and `Uᗮ`. The remaining separation vocabulary is owned by
 [`PrincipalAngles`](../PrincipalAngles/README.md). -/
 
-section InternalGap
+section PointInternalGap
 
 variable {𝕜 : Type u} [RCLike 𝕜]
 variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
@@ -54,11 +54,11 @@ distinction belongs in the names of the theorems that use it, not in a fourth na
 same separation.
 
 Roadmap: `SSP-S01`. -/
-def InternalGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (δ : ℝ) : Prop :=
-  PrincipalAngles.SpectraSeparated A U A Uᗮ δ
+def PointInternalGap (A : E →ₗ[𝕜] E) (U : Submodule 𝕜 E) (δ : ℝ) : Prop :=
+  PrincipalAngles.PointSpectraSeparated A U A Uᗮ δ
 
 
-end InternalGap
+end PointInternalGap
 
 /-! ## Part A -- the Haagerup–Zsidó kernel and its Fourier transform -/
 
@@ -161,11 +161,11 @@ invariant norm.**
 
 Roadmap: `SSP-B09`. -/
 theorem uiNorm_sylvester_le_of_intervalGap
-    (N : Majorization.RectangularUnitarilyInvariantSeminorm 𝕜 E F)
+    (N : Majorization.UnitarilyInvariantSeminorm 𝕜 E F)
     {A : F →ₗ[𝕜] F} {B : E →ₗ[𝕜] E} {X C : E →ₗ[𝕜] F}
     (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {a b δ : ℝ} (hδ : 0 < δ)
-    (hgap : PrincipalAngles.IntervalExteriorGap B ⊤ A ⊤ a b δ)
+    (hgap : PrincipalAngles.PointIntervalExteriorGap B ⊤ A ⊤ a b δ)
     (hEq : A ∘ₗ X - X ∘ₗ B = C) :
     δ * N X ≤ N C := by
   sorry
@@ -176,10 +176,10 @@ dominance.
 
 Roadmap: `SSP-B13`. -/
 theorem uiNorm_sylvester_le_of_spectralDistance
-    (N : Majorization.RectangularUnitarilyInvariantSeminorm 𝕜 E F)
+    (N : Majorization.UnitarilyInvariantSeminorm 𝕜 E F)
     {A : F →ₗ[𝕜] F} {B : E →ₗ[𝕜] E} {X C : E →ₗ[𝕜] F}
     (hA : A.IsSymmetric) (hB : B.IsSymmetric)
-    {δ : ℝ} (hδ : 0 < δ) (hgap : PrincipalAngles.SpectraSeparated A ⊤ B ⊤ δ)
+    {δ : ℝ} (hδ : 0 < δ) (hgap : PrincipalAngles.PointSpectraSeparated A ⊤ B ⊤ δ)
     (hEq : A ∘ₗ X - X ∘ₗ B = C) :
     δ * N X ≤ (Real.pi / 2) * N C := by
   sorry
@@ -247,30 +247,30 @@ unitarily invariant norm**, under the interval/exterior gap.
 
 Roadmap: `SSP-C18`. -/
 theorem sinTheta_perturbation_le
-    (N : Majorization.UnitarilyInvariantSeminorm 𝕜 E)
+    (N : Majorization.SquareUnitarilyInvariantSeminorm 𝕜 E)
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {U V : Submodule 𝕜 E} [U.HasOrthogonalProjection]
     [V.HasOrthogonalProjection]
     (hU : ∀ x ∈ U, A x ∈ U) (hV : ∀ x ∈ V, B x ∈ V)
     {a b δ : ℝ} (hδ : 0 < δ)
-    (hgap : PrincipalAngles.IntervalExteriorGap A U B Vᗮ a b δ) :
+    (hgap : PrincipalAngles.PointIntervalExteriorGap A U B Vᗮ a b δ) :
     δ * N (PrincipalAngles.sinThetaMap U V).toLinearMap ≤ N (B - A) := by
   sorry
 
-/-- **Canonical spectral-projector Davis–Kahan theorem** with no eigenbasis
+/-- **Canonical eigenspace-projector Davis–Kahan theorem** with no eigenbasis
 in the API; the equal-rank hypothesis turns the directed estimate into the
 full projector difference.
 
 Roadmap: `SSP-C20`. -/
-theorem opNorm_spectralProjection_sub_spectralProjection_le
+theorem opNorm_eigenspaceProjection_sub_eigenspaceProjection_le
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {a b δ : ℝ} (hδ : 0 < δ)
-    (hrank : finrank 𝕜 (PrincipalAngles.spectralSubspace A (Set.Icc a b)) =
-      finrank 𝕜 (PrincipalAngles.spectralSubspace B (Set.Icc a b)))
-    (hBout : PrincipalAngles.SpectrumIn B (PrincipalAngles.spectralSubspace B (Set.Icc a b))ᗮ
+    (hrank : finrank 𝕜 (PrincipalAngles.pointSpectralSubspace A (Set.Icc a b)) =
+      finrank 𝕜 (PrincipalAngles.pointSpectralSubspace B (Set.Icc a b)))
+    (hBout : PrincipalAngles.PointSpectrumIn B (PrincipalAngles.pointSpectralSubspace B (Set.Icc a b))ᗮ
       {lam | lam ∉ Set.Ioo (a - δ) (b + δ)}) :
-    δ * ‖((PrincipalAngles.spectralSubspace A (Set.Icc a b)).starProjection -
-        (PrincipalAngles.spectralSubspace B (Set.Icc a b)).starProjection : E →L[𝕜] E)‖ ≤
+    δ * ‖((PrincipalAngles.pointSpectralSubspace A (Set.Icc a b)).starProjection -
+        (PrincipalAngles.pointSpectralSubspace B (Set.Icc a b)).starProjection : E →L[𝕜] E)‖ ≤
       ‖(B - A).toContinuousLinearMap‖ := by
   sorry
 
@@ -280,14 +280,21 @@ every square unitarily invariant norm.
 
 Roadmap: `SSP-C23`. -/
 theorem sinTheta_perturbation_le_of_spectralDistance
-    (N : Majorization.UnitarilyInvariantSeminorm 𝕜 E)
+    (N : Majorization.SquareUnitarilyInvariantSeminorm 𝕜 E)
     {A B : E →ₗ[𝕜] E} (hA : A.IsSymmetric) (hB : B.IsSymmetric)
     {U V : Submodule 𝕜 E} [U.HasOrthogonalProjection]
     [V.HasOrthogonalProjection]
     (hU : ∀ x ∈ U, A x ∈ U) (hV : ∀ x ∈ V, B x ∈ V)
-    {δ : ℝ} (hδ : 0 < δ) (hgap : PrincipalAngles.SpectraSeparated A U B Vᗮ δ) :
+    {δ : ℝ} (hδ : 0 < δ) (hgap : PrincipalAngles.PointSpectraSeparated A U B Vᗮ δ) :
     δ * N (PrincipalAngles.sinThetaMap U V).toLinearMap ≤ (Real.pi / 2) * N (B - A) := by
   sorry
+
+end FiniteSinTheta
+
+section DimensionFreeDoubleAngle
+
+variable {𝕜 : Type u} [RCLike 𝕜]
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
 
 /-- **Davis's `sin 2θ` theorem, per-eigenvector product form**: for a unit
 eigenvector `x` of the perturbed operator and `P` the projection onto the
@@ -305,7 +312,7 @@ theorem sin_two_theta_le
     (b - a) * (‖U.starProjection x‖ * ‖x - U.starProjection x‖) ≤ ε := by
   sorry
 
-end FiniteSinTheta
+end DimensionFreeDoubleAngle
 
 /-! ## Part D -- the Yu–Wang–Samworth statistical variant -/
 
@@ -356,7 +363,7 @@ theorem yuWangSamworth_sinTheta_le
     [V.HasOrthogonalProjection]
     (hcorr : CorrespondingEigenblock hA hB U V)
     {d : ℕ} (hrank : finrank 𝕜 U = d) {Δ : ℝ} (hΔ : 0 < Δ)
-    (hgap : InternalGap A U Δ) :
+    (hgap : PointInternalGap A U Δ) :
     sinThetaFrobenius U V ≤
       2 * min (Real.sqrt d * ‖(B - A).toContinuousLinearMap‖)
         (Majorization.frobenius (B - A)) / Δ := by
@@ -373,7 +380,7 @@ theorem yuWangSamworth_alignedBasis_le
     [V.HasOrthogonalProjection]
     (hcorr : CorrespondingEigenblock hA hB U V)
     {d : ℕ} (hrankU : finrank 𝕜 U = d) (hrankV : finrank 𝕜 V = d)
-    {Δ : ℝ} (hΔ : 0 < Δ) (hgap : InternalGap A U Δ) :
+    {Δ : ℝ} (hΔ : 0 < Δ) (hgap : PointInternalGap A U Δ) :
     ∃ (u v : Fin d → E), Orthonormal 𝕜 u ∧ Orthonormal 𝕜 v ∧
       Submodule.span 𝕜 (Set.range u) = U ∧
       Submodule.span 𝕜 (Set.range v) = V ∧

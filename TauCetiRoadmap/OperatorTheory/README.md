@@ -96,8 +96,8 @@ Between roadmaps in this family:
   reducing subspaces** belong to `OrthogonalGeometry`.
 - **The projection gap, finite-dimensional point-spectral subspaces/projectors, the restricted point
   spectrum, the separation predicates and `sinThetaMap`** belong to `PrincipalAngles`. PVM spectral
-  projections and their ranges belong to `SelfAdjointSpectralTheory`. `InternalGap`, the member of the separation
-  family with both spectra from one operator, belongs to `SpectralSubspacePerturbation`,
+  projections and their ranges belong to `SelfAdjointSpectralTheory`. `PointInternalGap`, the member
+  of the separation family with both spectra from one operator, belongs to `SpectralSubspacePerturbation`,
   which is where it is consumed.
 - **Approximation numbers and every gauge of them** belong to `OperatorIdeals`.
 - **The domain-aware Sylvester equation** — the transport statement `A X − X B = C` with

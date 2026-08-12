@@ -81,21 +81,21 @@ theorem convexOn_sum_re_inner_orthonormalBasis_self_le {T : E →ₗ[𝕜] E}
 /-- The Ky Fan `k`-sum of singular values.
 
 Roadmap: `MAJ-A26`. -/
-noncomputable def kyFanSum (k : ℕ) (A : E →ₗ[𝕜] E) : ℝ :=
+noncomputable def squareKyFanSum (k : ℕ) (A : E →ₗ[𝕜] E) : ℝ :=
   ∑ i ∈ Finset.range k, A.singularValues i
 
 /-- The Ky Fan triangle inequality: `σ(A+B)` is weakly majorized by `σ(A)+σ(B)`,
 so every Ky Fan norm satisfies the triangle inequality at once.
 
 Roadmap: `MAJ-A31`. -/
-theorem kyFanSum_add_le (k : ℕ) (A B : E →ₗ[𝕜] E) :
-    kyFanSum k (A + B) ≤ kyFanSum k A + kyFanSum k B := sorry
+theorem squareKyFanSum_add_le (k : ℕ) (A B : E →ₗ[𝕜] E) :
+    squareKyFanSum k (A + B) ≤ squareKyFanSum k A + squareKyFanSum k B := sorry
 
 /-- A unitarily invariant seminorm on square operators. Definiteness is deliberately not
 bundled; concrete norm instances may add it separately.
 
 Roadmap: `MAJ-A41`. -/
-structure UnitarilyInvariantSeminorm (𝕜 E : Type*) [RCLike 𝕜] [NormedAddCommGroup E]
+structure SquareUnitarilyInvariantSeminorm (𝕜 E : Type*) [RCLike 𝕜] [NormedAddCommGroup E]
     [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E] where
   toFun : (E →ₗ[𝕜] E) → ℝ
   add_le' : ∀ A B, toFun (A + B) ≤ toFun A + toFun B
@@ -104,22 +104,22 @@ structure UnitarilyInvariantSeminorm (𝕜 E : Type*) [RCLike 𝕜] [NormedAddCo
     toFun ((U : E →ₗ[𝕜] E) ∘ₗ A ∘ₗ (V : E →ₗ[𝕜] E)) = toFun A
 
 -- Roadmap: `MAJ-A41`.
-instance : CoeFun (UnitarilyInvariantSeminorm 𝕜 E) fun _ => (E →ₗ[𝕜] E) → ℝ :=
-  ⟨UnitarilyInvariantSeminorm.toFun⟩
+instance : CoeFun (SquareUnitarilyInvariantSeminorm 𝕜 E) fun _ => (E →ₗ[𝕜] E) → ℝ :=
+  ⟨SquareUnitarilyInvariantSeminorm.toFun⟩
 
 /-- **Fan dominance**: Ky Fan domination implies domination in every unitarily invariant
 seminorm, hence in every norm instance.
 
 Roadmap: `MAJ-A48`. -/
-theorem UnitarilyInvariantSeminorm.apply_le_of_kyFanSum_le
-    (N : UnitarilyInvariantSeminorm 𝕜 E) {A B : E →ₗ[𝕜] E}
-    (h : ∀ k, kyFanSum k A ≤ kyFanSum k B) : N.toFun A ≤ N.toFun B := sorry
+theorem SquareUnitarilyInvariantSeminorm.apply_le_of_squareKyFanSum_le
+    (N : SquareUnitarilyInvariantSeminorm 𝕜 E) {A B : E →ₗ[𝕜] E}
+    (h : ∀ k, squareKyFanSum k A ≤ squareKyFanSum k B) : N.toFun A ≤ N.toFun B := sorry
 
 /-- A unitarily invariant seminorm is determined by the singular-value sequence.
 
 Roadmap: `MAJ-A43`. -/
-theorem UnitarilyInvariantSeminorm.eq_of_same_singularValues
-    (N : UnitarilyInvariantSeminorm 𝕜 E) {A B : E →ₗ[𝕜] E}
+theorem SquareUnitarilyInvariantSeminorm.eq_of_same_singularValues
+    (N : SquareUnitarilyInvariantSeminorm 𝕜 E) {A B : E →ₗ[𝕜] E}
     (h : A.singularValues = B.singularValues) : N.toFun A = N.toFun B := sorry
 
 /-! ## Part B -- rectangular unitarily invariant norms -/
@@ -128,7 +128,7 @@ theorem UnitarilyInvariantSeminorm.eq_of_same_singularValues
 three laws, with two-sided unitary invariance and no definiteness axiom.
 
 Roadmap: `MAJ-B01`. -/
-structure RectangularUnitarilyInvariantSeminorm (𝕜 E F : Type*) [RCLike 𝕜]
+structure UnitarilyInvariantSeminorm (𝕜 E F : Type*) [RCLike 𝕜]
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
     [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F] where
   toFun : (E →ₗ[𝕜] F) → ℝ
@@ -138,26 +138,31 @@ structure RectangularUnitarilyInvariantSeminorm (𝕜 E F : Type*) [RCLike 𝕜]
     toFun ((U : F →ₗ[𝕜] F) ∘ₗ A ∘ₗ (V : E →ₗ[𝕜] E)) = toFun A
 
 -- Roadmap: `MAJ-B01`.
-instance : CoeFun (RectangularUnitarilyInvariantSeminorm 𝕜 E F)
+instance : CoeFun (UnitarilyInvariantSeminorm 𝕜 E F)
     fun _ => (E →ₗ[𝕜] F) → ℝ :=
-  ⟨RectangularUnitarilyInvariantSeminorm.toFun⟩
+  ⟨UnitarilyInvariantSeminorm.toFun⟩
+
+/-- The rectangular Ky Fan `k`-sum of singular values.
+
+Roadmap: `MAJ-B02`. -/
+noncomputable def kyFanSum (k : ℕ) (A : E →ₗ[𝕜] F) : ℝ :=
+  ∑ i ∈ Finset.range k, A.singularValues i
 
 /-- **Rectangular Fan dominance**: Ky Fan domination of the singular values gives
 domination in every rectangular unitarily invariant norm — one estimate yields
 the operator, Frobenius, Ky Fan and nuclear norms at once.
 
 Roadmap: `MAJ-B21`. -/
-theorem RectangularUnitarilyInvariantSeminorm.apply_le_of_kyFanSum_le
-    (N : RectangularUnitarilyInvariantSeminorm 𝕜 E F) {A B : E →ₗ[𝕜] F}
-    (h : ∀ k, ∑ i ∈ Finset.range k, A.singularValues i
-            ≤ ∑ i ∈ Finset.range k, B.singularValues i) :
+theorem UnitarilyInvariantSeminorm.apply_le_of_kyFanSum_le
+    (N : UnitarilyInvariantSeminorm 𝕜 E F) {A B : E →ₗ[𝕜] F}
+    (h : ∀ k, kyFanSum k A ≤ kyFanSum k B) :
     N.toFun A ≤ N.toFun B := sorry
 
 /-- Restriction of a rectangular seminorm to square maps.
 
 Roadmap: `MAJ-B12`. -/
-noncomputable def RectangularUnitarilyInvariantSeminorm.toSquare
-    (N : RectangularUnitarilyInvariantSeminorm 𝕜 E E) : UnitarilyInvariantSeminorm 𝕜 E where
+noncomputable def UnitarilyInvariantSeminorm.toSquare
+    (N : UnitarilyInvariantSeminorm 𝕜 E E) : SquareUnitarilyInvariantSeminorm 𝕜 E where
   toFun := N.toFun
   add_le' := N.add_le'
   smul' := N.smul'
@@ -170,12 +175,12 @@ Hilbert--Schmidt energy are identified against it in
 [`OperatorIdeals`](../OperatorIdeals/README.md).
 
 Roadmap: `MAJ-B31`. -/
-noncomputable def frobenius : RectangularUnitarilyInvariantSeminorm 𝕜 E F := sorry
+noncomputable def frobenius : UnitarilyInvariantSeminorm 𝕜 E F := sorry
 
 /-- The square Frobenius seminorm, as the square restriction of the rectangular one.
 
 Roadmap: `MAJ-B39`. -/
-noncomputable def squareFrobenius : UnitarilyInvariantSeminorm 𝕜 E :=
+noncomputable def squareFrobenius : SquareUnitarilyInvariantSeminorm 𝕜 E :=
   (frobenius (𝕜 := 𝕜) (E := E) (F := E)).toSquare
 
 /-- The Frobenius seminorm through the standard orthonormal basis of the domain.
@@ -220,7 +225,7 @@ theorem orthogonalBlockSum_apply_le_of_kyFanSum_le
     [NormedAddCommGroup E₂] [InnerProductSpace 𝕜 E₂] [FiniteDimensional 𝕜 E₂]
     [NormedAddCommGroup F₁] [InnerProductSpace 𝕜 F₁] [FiniteDimensional 𝕜 F₁]
     [NormedAddCommGroup F₂] [InnerProductSpace 𝕜 F₂] [FiniteDimensional 𝕜 F₂]
-    (NB : RectangularUnitarilyInvariantSeminorm 𝕜
+    (NB : UnitarilyInvariantSeminorm 𝕜
       (WithLp 2 (E₁ × E₂)) (WithLp 2 (F₁ × F₂)))
     {A C : E₁ →ₗ[𝕜] F₁} {B D : E₂ →ₗ[𝕜] F₂}
     (hA : ∀ k, ∑ i ∈ Finset.range k, A.singularValues i

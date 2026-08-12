@@ -304,16 +304,18 @@ end SingularSystem
 
 section NearIsometry
 
-variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+variable {𝕜 : Type u} [RCLike 𝕜]
+variable {E : Type v} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
+  [FiniteDimensional 𝕜 E]
 
 /-- Roadmap: PD-B43.
 
-A real finite-dimensional near-isometry admits an isometry equivalence with sharp pointwise
-error `δ`. -/
+A finite-dimensional near-isometry over an `RCLike` scalar field admits an isometry
+equivalence with sharp pointwise error `δ`. -/
 theorem exists_linearIsometryEquiv_norm_sub_apply_le
-    (M : E →ₗ[ℝ] E) {δ : ℝ} (hδ : δ < 1)
-    (hM : ∀ x : E, |⟪M x, M x⟫_ℝ - ⟪x, x⟫_ℝ| ≤ δ * ‖x‖ ^ 2) :
-    ∃ W : E ≃ₗᵢ[ℝ] E, ∀ x : E, ‖M x - W x‖ ≤ δ * ‖x‖ := by
+    (M : E →ₗ[𝕜] E) {δ : ℝ} (hδ : δ < 1)
+    (hM : ∀ x : E, |‖M x‖ ^ 2 - ‖x‖ ^ 2| ≤ δ * ‖x‖ ^ 2) :
+    ∃ W : E ≃ₗᵢ[𝕜] E, ∀ x : E, ‖M x - W x‖ ≤ δ * ‖x‖ := by
   sorry
 
 end NearIsometry

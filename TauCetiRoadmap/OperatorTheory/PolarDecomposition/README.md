@@ -402,14 +402,14 @@ polar factor.
   then `‖Ux‖ = ‖x‖` for every `x`.
 - **PD-B40 — Bounded-below comparison estimate.** If `|M|` is invertible and `U = M|M|⁻¹`,
   then `‖M − U‖ ≤ ‖|M| − I‖`.
-- **PD-B41 — Near-isometry square-root estimate.** Let `M` be a real finite-dimensional
-  endomorphism and let `δ < 1`. If
-  `|⟪Mx,Mx⟫ - ⟪x,x⟫| ≤ δ‖x‖²` for every `x`, and `S = √(M†M)`, then
+- **PD-B41 — Near-isometry square-root estimate.** Let `M` be a finite-dimensional
+  endomorphism over an `RCLike` scalar field and let `δ < 1`. If
+  `|‖Mx‖² - ‖x‖²| ≤ δ‖x‖²` for every `x`, and `S = √(M†M)`, then
   `‖Sx − x‖ ≤ δ‖x‖` for every `x`.
 - **PD-B42 — Near-isometry factorization.** Under the hypotheses of `PD-B41`, there is a
-  unitary operator `W` such that `M = WS`.
+  linear isometry equivalence `W` such that `M = WS`.
 - **PD-B43 — Sharp near-isometry polar-factor bound.** Under the hypotheses of `PD-B41`, the
-  unitary factor in `PD-B42` can be chosen so that `‖Mx − Wx‖ ≤ δ‖x‖` for every `x`.
+  factor `W` in `PD-B42` can be chosen so that `‖Mx − Wx‖ ≤ δ‖x‖` for every `x`.
 
 **Davis intertwining unitary.**
 

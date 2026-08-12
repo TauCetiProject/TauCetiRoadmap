@@ -280,7 +280,7 @@ Roadmap: `SA-C83`. -/
 theorem isPositive_of_lowerFormBoundOn_top {A : E →L[𝕜] E} (hsym : A.IsSymmetric)
     (h : LowerFormBoundOn A ⊤ 0) : A.IsPositive := sorry
 
-section ComplexScalars
+namespace SpectralOrder.Complex
 
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
 
@@ -303,7 +303,7 @@ theorem upperFormBoundOn_of_restriction_spectrum_subset_Iic
     (hσ : spectrum ℝ (A.restrict hU) ⊆ Set.Iic c) :
     UpperFormBoundOn A U c := sorry
 
-end ComplexScalars
+end SpectralOrder.Complex
 
 end ClosedOperators
 
@@ -313,10 +313,10 @@ Mathlib's `spectrum`/`resolvent` are Banach-algebra notions and do not apply to
 a partial map, so the resolvent set is defined here and bridged to Mathlib's in
 the bounded case. -/
 
-section Resolvents
+section ResolventDefinitions
 
-variable {𝕜 : Type*} [RCLike 𝕜]
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E]
+variable {𝕜 : Type*} [NontriviallyNormedField 𝕜]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E]
 
 /-- The resolvent set of a partial map: the points where `A − z` has a bounded
 two-sided inverse.
@@ -333,6 +333,13 @@ Roadmap: `SA-D02`. -/
 def spectrum (A : E →ₗ.[𝕜] E) : Set 𝕜 :=
   (resolventSet A)ᶜ
 
+end ResolventDefinitions
+
+section Resolvents
+
+variable {𝕜 : Type*} [RCLike 𝕜]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E]
+
 /-- The named resolvent at a point of the resolvent set.
 
 Spec: D4.
@@ -341,6 +348,23 @@ Roadmap: `SA-D03`. -/
 noncomputable def resolvent (A : E →ₗ.[𝕜] E) {z : 𝕜} (hz : z ∈ resolventSet A) :
     E →L[𝕜] E :=
   hz.choose
+
+/-- The first resolvent identity on the common resolvent set.
+
+Tau Ceti already proves this identity for a *semigroup's* resolvent
+(`TauCeti.Analysis.Semigroups.Resolvent.Identity.resolvent_sub_resolvent`), keyed to a
+`StronglyContinuousSemigroup` with growth-bound hypotheses and real `λ`, `μ`. This is the
+`LinearPMap` statement: any `z` in the resolvent set, over `𝕜`. Neither subsumes the other
+as stated, but a semigroup generator *is* a `LinearPMap`, so the two should be related
+rather than proved twice.
+
+Roadmap: `SA-D08`. -/
+theorem resolvent_sub_resolvent {A : E →ₗ.[𝕜] E} {w z : 𝕜}
+    (hw : w ∈ resolventSet A) (hz : z ∈ resolventSet A) (φ : E) :
+    resolvent A hw φ - resolvent A hz φ
+      = (w - z) • resolvent A hw (resolvent A hz φ) := sorry
+
+end Resolvents
 
 section ComplexResolvent
 
@@ -360,23 +384,6 @@ theorem norm_resolvent_le_of_im_ne_zero {A : E →ₗ.[ℂ] E} (hA : IsSelfAdjoi
     ‖resolvent A (mem_resolventSet_of_im_ne_zero hA hz)‖ ≤ |z.im|⁻¹ := sorry
 
 end ComplexResolvent
-
-/-- The first resolvent identity on the common resolvent set.
-
-Tau Ceti already proves this identity for a *semigroup's* resolvent
-(`TauCeti.Analysis.Semigroups.Resolvent.Identity.resolvent_sub_resolvent`), keyed to a
-`StronglyContinuousSemigroup` with growth-bound hypotheses and real `λ`, `μ`. This is the
-`LinearPMap` statement: any `z` in the resolvent set, over `𝕜`. Neither subsumes the other
-as stated, but a semigroup generator *is* a `LinearPMap`, so the two should be related
-rather than proved twice.
-
-Roadmap: `SA-D08`. -/
-theorem resolvent_sub_resolvent {A : E →ₗ.[𝕜] E} {w z : 𝕜}
-    (hw : w ∈ resolventSet A) (hz : z ∈ resolventSet A) (φ : E) :
-    resolvent A hw φ - resolvent A hz φ
-      = (w - z) • resolvent A hw (resolvent A hz φ) := sorry
-
-end Resolvents
 
 /-! ## Part E -- the spectral measure of an unbounded self-adjoint operator -/
 

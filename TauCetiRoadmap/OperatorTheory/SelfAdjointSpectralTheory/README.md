@@ -590,19 +590,20 @@ The resolvent set records shifts `A-z` with bounded two-sided inverses into the 
 resolvent identity, commutation, openness, and spectral mapping form the algebraic layer for the
 self-adjoint estimates.
 
-- **SA-D01 — Resolvent set of a partial operator.** For `A : E →ₗ.[𝕜] E`, define the set of
-  `z : 𝕜` for which `A-z` has a bounded two-sided inverse from `E` into `dom A`.
-- **SA-D02 — Spectrum of a partial operator.** Define the spectrum as the complement of the
-  resolvent set.
-- **SA-D03 — Named resolvent.** At `z` in the resolvent set, choose the unique bounded
-  two-sided inverse `R(z)`.
+- **SA-D01 — Resolvent set of a partial operator.** Over a nontrivially normed field `𝕜` and
+  normed `𝕜`-space `E`, for `A : E →ₗ.[𝕜] E`, define the set of `z : 𝕜` for which `A-z` has a
+  bounded two-sided inverse from `E` into `dom A`.
+- **SA-D02 — Spectrum of a partial operator.** In the setting of `SA-D01`, define the spectrum
+  as the complement of the resolvent set.
+- **SA-D03 — Named resolvent.** Over an `RCLike` scalar field on a normed space, at `z` in the
+  resolvent set choose the unique bounded two-sided inverse `R(z)`.
 - **SA-D04 — Uniqueness of the resolvent.** Two bounded operators satisfying the two-sided
   inverse laws for `A-z` are equal.
 - **SA-D05 — Left inverse law.** For `x ∈ dom A`, `R(z)(A-z)x=x`.
 - **SA-D06 — Range in the domain.** For every ambient vector `y`, `R(z)y ∈ dom A`.
 - **SA-D07 — Right inverse law.** For every ambient vector `y`, `(A-z)R(z)y=y`.
-- **SA-D08 — First resolvent identity.** For common resolvent points `w,z`,
-  `R(w)-R(z)=(w-z)R(w)R(z)`.
+- **SA-D08 — First resolvent identity.** Over an `RCLike` scalar field on a normed space, for
+  common resolvent points `w,z`, `R(w)-R(z)=(w-z)R(w)R(z)`.
 - **SA-D09 — Commutation of resolvents.** For common resolvent points `w,z`,
   `R(w)R(z)=R(z)R(w)`.
 - **SA-D10 — Resolvent spectral mapping in the exclusion direction.** If `μ ≠ 0` and

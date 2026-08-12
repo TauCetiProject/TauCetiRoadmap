@@ -187,8 +187,9 @@ theorem measure_forall_abs_eigenvalues₀_sub_le_ge
 /-- Roadmap: MSS-C06.
 
 The arithmetic mean of a finite family, with the empty mean determined by total inversion. -/
-noncomputable def finiteMean (𝕜 : Type*) [RCLike 𝕜] {E : Type*} [NormedAddCommGroup E]
-    [InnerProductSpace 𝕜 E] {n : ℕ} (z : Fin n → E) : E :=
+noncomputable def finiteMean (𝕜 : Type*) [RCLike 𝕜]
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E]
+    {n : ℕ} (z : Fin n → E) : E :=
   ((n : 𝕜)⁻¹) • ∑ i, z i
 
 /-- Roadmap: MSS-C09.

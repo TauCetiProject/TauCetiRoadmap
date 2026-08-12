@@ -72,7 +72,7 @@ Suggested home: `TauCeti/Analysis/InnerProductSpace/`.
 * The sharp projector-gap identity, spectral subspaces, the restricted point spectrum, and the
   separation predicates the perturbation roadmap consumes.
 * `sinThetaMap`, the directed sine cross-projection the Davis–Kahan estimates are stated
-  in, and `spectrumIn_spectralSubspace`, which is why no consumer supplies a
+  in, and `pointSpectrumIn_pointSpectralSubspace`, which is why no consumer supplies a
   spectral-containment hypothesis for the selected subspace.
 
 ## The build, in layers
@@ -353,13 +353,13 @@ the order hypotheses used by perturbation theory.
   point spectrum on `U` exactly when there is `x ∈ U`, `x ≠ 0`, with `Ax = λx`.
 - **PA-C15 — Membership introduction.** A nonzero vector `x ∈ U` satisfying `Ax = λx`
   places `λ` in the restricted point spectrum on `U`.
-- **PA-C16 — Spectral containment predicate.** Define spectral containment on `U` by
+- **PA-C16 — Point-spectrum containment predicate.** Define spectral containment on `U` by
   inclusion of the restricted point spectrum in a specified real set `Ω`.
-- **PA-C17 — Spectral subspace.** For a real set `Ω`, define the spectral subspace as the
+- **PA-C17 — Point-spectral subspace.** For a real set `Ω`, define the spectral subspace as the
   span of eigenvectors with eigenvalues in `Ω`.
-- **PA-C18 — Spectral projector.** Define the orthogonal projector onto the spectral
+- **PA-C18 — Point-spectral projector.** Define the orthogonal projector onto the spectral
   subspace `PA-C17`.
-- **PA-C19 — Spectral-subspace containment.** The spectral subspace selected by `Ω` has
+- **PA-C19 — Point-spectral-subspace containment.** The spectral subspace selected by `Ω` has
   restricted point spectrum contained in `Ω`.
 - **PA-C20 — Upper form bound from point spectrum.** If a symmetric operator restricted to
   `U` has restricted point spectrum in `(-∞,a]`, then
@@ -378,11 +378,11 @@ the order hypotheses used by perturbation theory.
 
 The named predicates give theorem families a shared point-spectral vocabulary.
 
-- **PA-C24 — Pairwise spectral separation.** Define pairwise separation by requiring
+- **PA-C24 — Pairwise point-spectral separation.** Define pairwise separation by requiring
   `δ ≤ |λ-μ|` for every `λ` in the first restricted point spectrum and `μ` in the second.
 - **PA-C25 — Ordered spectral gap.** Define ordered separation by requiring
   `λ+δ ≤ μ` for every `λ` in the first restricted point spectrum and `μ` in the second.
-- **PA-C26 — Interval/exterior gap.** Define the interval/exterior condition by requiring
+- **PA-C26 — Point-spectrum interval/exterior gap.** Define the interval/exterior condition by requiring
   the selected spectrum of `A` to lie in `[a,b]` and the selected spectrum of `B` to lie
   outside `(a-δ,b+δ)`.
 - **PA-C27 — Ordered gap implies pairwise separation.** If `δ ≥ 0`, ordered separation by
@@ -427,7 +427,7 @@ states its estimates in Part A's angles and needs the permutation-orbit hull of
 of Parts A and B, but consumes `OrthogonalGeometry` for invariant-subspace restriction.
 
 **Downstream.** [`SpectralSubspacePerturbation`](../SpectralSubspacePerturbation/README.md)
-consumes the angles, `sinThetaMap`, the separation predicates and `spectralSubspace`.
+consumes the angles, `sinThetaMap`, the separation predicates and `pointSpectralSubspace`.
 
 ## Definitions
 
