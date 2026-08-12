@@ -139,7 +139,7 @@ the pinned Mathlib.
 - **Conjugation is defined, not assumed.** `latticeConj : V_ℂ →ₛₗ[starRingEnd ℂ] V_ℂ` is the
   conjugate-linear map fixing the integral points, `latticeConj (ι_ℂ v) = ι_ℂ v` — determined by the
   base-change universal property, and unique as such (*companion to prove*: an instance author will
-  want that uniqueness lemma). On the canonical tensor instance it is
+  want that uniqueness lemma, and L2's abstract conjugation-equivariance is proved from it). On the canonical tensor instance it is
   `TensorProduct.map (starRingEnd ℂ) id` (`z ⊗ v ↦ z̄ ⊗ v`), with `map_smul` and
   `latticeConj_involutive` **proved**. The `n`-opposedness `IsCompl (F^p) (conj F^{n+1-p})` and the
   `(p,q)`-piece `F^p ⊓ conj(F^{n-p})` use this canonical map.
@@ -287,7 +287,8 @@ tensor instance exercises the base-change plumbing, not the Hodge conditions.
   A proved iso `gradedComplexEquiv : WC_k/WC_{k−1} ≃ ℂ ⊗_ℚ grᵂ_k` (complexification commutes with the
   quotient) identifies the two, so an MHS induces a pure *rational* HS on each graded.
   *Milestone:* a morphism of MHS — a single rational map `fQ`, complex action the derived
-  `fC := rationalMapToComplex fQ` (conjugation-equivariance and `WC`-compatibility proved, not assumed)
+  `fC := rationalMapToComplex fQ` (`WC`-compatibility proved; conjugation-equivariance is a target,
+  see *Conjugation-equivariance* below)
   — is **strict** for both filtrations: `range fQ ⊓ W'_{ℚ,k} = fQ(W_{ℚ,k})` (and its complexification)
   and `range fC ⊓ F'^p = fC(F^p)`.
   *Discharge:* Deligne's canonical `(p,q)`-bigrading (the Deligne splitting), which every MHS morphism
@@ -306,6 +307,15 @@ tensor instance exercises the base-change plumbing, not the Hodge conditions.
   *Théorie de Hodge II* 1.2.10 & 2.3.5; Peters–Steenbrink Ch. 3. Name `gradedF`/`gradedComplexEquiv` to
   align with Deligne §1.2.1; as for L0, specialize onto the in-progress Mathlib filtration API
   (mathlib4#42642) if it lands (see *Prior art*).
+  *Conjugation-equivariance of the abstract `fC`.* Proved so far only for the canonical instance
+  (`concreteRationalMapToComplex_conj`, by induction on tensors), which does not transfer to an
+  abstract `V_ℂ`. **Target the abstract statement** `fC ∘ₗ latticeConj = latticeConj ∘ₗ fC`. It
+  should follow from the **uniqueness of `latticeConj`** (the L0 companion above): both composites
+  are conjugate-linear maps agreeing on the image of `ι_ℂ`, so the base-change universal property
+  identifies them. This is the step that makes the interface usable by a geometric instance — an
+  induction-on-pure-tensors argument is available only for the concrete model, so without the
+  abstract proof every non-tensor instance would have to supply its own.
+
   *Morphisms:* the milestone is bundling-agnostic (unbundled `fQ`); the implementation bundles it into
   an `MHS.Hom` / category, whose **abelian-category** structure is exactly what strictness provides
   (kernels/cokernels of MHS morphisms are again MHS).
