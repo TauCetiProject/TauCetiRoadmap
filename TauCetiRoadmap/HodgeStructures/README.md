@@ -3,7 +3,7 @@
 The narrative roadmap for **Hodge theory's linear-algebraic core** — pure, mixed, and polarized
 Hodge structures and their period-domain points — at general weight, as a reusable library;
 `Suggested.lean` states the milestones as `sorry`-goals. Its summit in the pure theory is the
-**semisimplicity of polarized Hodge structures** (Hodge–Riemann), and in the mixed theory Deligne's
+**semisimplicity of polarizable Hodge structures** (Hodge–Riemann), and in the mixed theory Deligne's
 **strictness**. Written to the roadmap conventions: build the library not one theorem, ground in
 Mathlib's vocabulary, pin conventions up front, and — because this is a subject Mathlib has *nothing*
 on — get the **definitions** right (the `JacobianChallenge` philosophy: the definitions are the
@@ -260,10 +260,18 @@ tensor instance exercises the base-change plumbing, not the Hodge conditions.
   examples can be produced either way and the two agree.
 - **L1 — Polarization & Hodge–Riemann; semisimplicity (summit of the pure theory).**
   *Definitions:* `IsPolarization hs Qint` (the HR relations as a `Prop` on a given form),
-  `Polarization hs` (integral `Qint` + an `IsPolarization` proof; derived `Q`), `RationalHodgeSubstructure`.
+  `Polarization hs` (integral `Qint` + an `IsPolarization` proof; derived `Q`),
+  `IsPolarizable hs := ∃ Qint, IsPolarization hs Qint`, `RationalHodgeSubstructure`.
   *Milestone:* every rational Hodge substructure `W` has an orthogonal rational Hodge-substructure
-  complement (`IsCompl` on both `WQ` and `WC`, `Q`-orthogonal) — hence **the category of polarized
-  `ℚ`-HS is semisimple.**
+  complement (`IsCompl` on both `WQ` and `WC`, `Q`-orthogonal) — hence **the category of
+  *polarizable* `ℚ`-HS, with ordinary Hodge morphisms, is semisimple.**
+  *Which category.* `IsPolarizable` (a property) rather than `Polarization` (a chosen form), and
+  ordinary morphisms rather than isometries. With a fixed polarization and polarization-preserving
+  maps the category is not even additive — neither the zero map nor a sum of isometries is an
+  isometry — so semisimplicity would not be the usual statement about it. The polarizable category
+  is the one Voisin I §7.1.2 and Peters–Steenbrink §2 state the theorem for, and it is what the
+  milestone above actually proves: the complement is produced from *some* polarizing form, and
+  nothing downstream needs the form to be part of the object.
   *Weil operator:* `i^{p−q} Q(u, v̄)` is not defined until `u` is homogeneous, so the passage from a
   form on each piece to a form on `V_ℂ` needs a carrier. That carrier is the **Weil operator** `C`,
   acting by `i^{p−q}` on `H^{p,q}` and extended off the L0 decomposition, with
