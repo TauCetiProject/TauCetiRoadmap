@@ -53,22 +53,23 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
   - **Filtration / complex-structure API, aligned with Deligne §1.2.1.** L0's opposed filtration
     (`IsCompl (F^p) (conj F^{n+1−p})`) and L2's `gradedF` / `gradedComplexEquiv` follow Deligne,
     *Théorie de Hodge II* §1.2.1 (opposed filtrations §1.2.1–1.2.3; induced filtrations on graded pieces
-    §1.2.1). Mathlib does not carry an abelian-category filtration API of this kind *yet*, but one is
-    in progress, out of Joël Riou's `n`-opposed-filtrations work on the `#mathlib4` *Complexifications
-    with a view towards Hodge theory* thread: the first attempt
-    ([mathlib4#33954](https://github.com/leanprover-community/mathlib4/pull/33954)) was retired on
-    2026-08-11 in favour of
-    [mathlib4#42642](https://github.com/leanprover-community/mathlib4/pull/42642)
-    (`CategoryTheory/Filtration`), which is open. Nothing here is blocked on it — this roadmap is concrete over
-    `Submodule ℂ V_ℂ`, and L0/L2 name their filtration API to align with Deligne §1.2.1 directly —
-    but if #42642 lands, L0's `opposed` and L2's `gradedF` / `gradedComplexEquiv` are the places to
-    specialize onto it.
-    - *Complex structures on real vector spaces* —
-      [mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975), the `J`, `J² = −1`
-      route to the `(p,q)`-decomposition (the `±i`-eigenspace picture). The Deligne opposed-filtration
-      route taken here (L0 `piece`, per Riou's recommendation) and the `J`-eigenspace route yield the
-      **same** decomposition; the L0 *instance bridge* note records how weight-1 / abelian-variety
-      instances carrying a `J` plug in.
+    §1.2.1). Mathlib carries no abelian-category filtration API of this kind, so nothing here depends
+    on one: this roadmap is concrete over `Submodule ℂ V_ℂ`, and L0/L2 name their filtration API to
+    align with Deligne §1.2.1 directly. Work towards such an API is under way in Mathlib, out of Joël
+    Riou's `n`-opposed-filtrations work on the `#mathlib4` *Complexifications with a view towards Hodge
+    theory* thread; should it land, L0's `opposed` and L2's `gradedF` / `gradedComplexEquiv` are the
+    places to specialize onto it.
+    - *Complex structures on real vector spaces* — the `J`, `J² = −1` route to the
+      `(p,q)`-decomposition (the `±i`-eigenspace picture); cf.
+      [mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975). **Prior art only,
+      not a prerequisite this entry consumes:** it is unmerged, and this roadmap does not depend on
+      unmerged Mathlib work. The Deligne opposed-filtration route taken here (L0 `piece`, per Riou's
+      recommendation) and the `J`-eigenspace route agree **only under a hypothesis**: a `J` has just
+      the two eigenvalues `±i`, so it recovers the decomposition exactly when the structure has two
+      conjugate types with `p−q` odd — effective weight one and its Tate twists. Outside that the
+      `±i` eigenspaces group types by `p−q` mod 4. (Relatedly, the Weil operator is a complex
+      structure only in odd weight, since `C² = (−1)^n`.) The L0 *instance bridge* note records how
+      effective weight-1 / abelian-variety instances carrying a `J` plug in.
   - *(For the successor `Variations of Hodge structure` roadmap, not consumed here:*
     `CategoryTheory.FundamentalGroupoid` and `ModuleCat ℤ` for local systems, Mathlib's
     complex-manifold / connection API for Griffiths transversality, and — for monodromy rigidity —
@@ -84,15 +85,17 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
   both directions, axiom-clean — taking the `ℚ`-space as primary where this roadmap takes the
   `ℤ`-lattice; it is a useful cross-check for the L0 signature. The polarization / mixed /
   period-domain superstructure (L1–L3) remains new foundational material, not a port.
-- **The weight-1 instance is concrete and reachable.** Polarized weight-1 Hodge structures **that are
-  effective (of type `{(1,0),(0,1)}`)** are abelian varieties / complex tori `ℂ^g/Λ`; their period
-  domain is the **Siegel upper half space**; their integral symmetry group is `Sp(2g, ℤ)`. The
+- **The weight-1 instance is concrete and reachable.** Effective weight-1 Hodge structures (type
+  `{(1,0),(0,1)}`) are complex tori `ℂ^g/Λ`, and the *polarizable* ones are abelian varieties; their
+  period domain is the **Siegel upper half space**. The intrinsic integral symmetry group is
+  `Aut(V, Qint)`; it is `Sp(2g, ℤ)` only when the elementary divisors of `Qint` agree, i.e. when the
+  form is a scalar multiple of the standard symplectic one — a general nondegenerate integral
+  alternating form gives a paramodular group. The
   effectivity hypothesis is essential: a *general* weight-1 Hodge structure may carry `H^{2,−1}`,
   `H^{−1,2}`, … (the Weil operator's `±i`-eigenspaces then aggregate *all* odd-`(p−q)` classes, not
   just `H^{1,0}`/`H^{0,1}`), so the abelian-variety / Siegel / `J`-eigenspace identifications hold only
   under `HodgeStructure.IsEffective` (Hodge numbers supported in `[0,n]`). That effective case (periods
-  of curves, Jacobians) is a worked realization of the framework's weight-1 interface and is being
-  developed concretely — evidence the abstract definitions are instantiable.
+  of curves, Jacobians) is the natural worked realization of the framework's weight-1 interface.
   *(Torsion caveat: for a geometric instance the lattice `V_ℤ` is `Hⁿ(X;ℤ)/torsion`, or the rational
   structure taken as primary with a chosen lattice — `Module.Free ℤ V` rules out the torsion that
   integral cohomology can carry.)*
@@ -120,17 +123,19 @@ the pinned Mathlib.
   are cohomology; and (ii) the nested-tower pain below is dissolved by transitivity of base change
   (`IsBaseChange.comp`) rather than a hand-threaded `cancelBaseChange`. The integral lattice `V_ℤ`
   stays the primary datum — `IsBaseChange` is a predicate *about* the structure map out of it.
-- **Conjugation is defined, not assumed.** `latticeConj : V_ℂ →ₛₗ[starRingEnd ℂ] V_ℂ` is the unique
+- **Conjugation is defined, not assumed.** `latticeConj : V_ℂ →ₛₗ[starRingEnd ℂ] V_ℂ` is the
   conjugate-linear map fixing the integral points, `latticeConj (ι_ℂ v) = ι_ℂ v` — determined by the
-  base-change universal property. On the canonical tensor instance it is
+  base-change universal property, and unique as such (*companion to prove*: an instance author will
+  want that uniqueness lemma). On the canonical tensor instance it is
   `TensorProduct.map (starRingEnd ℂ) id` (`z ⊗ v ↦ z̄ ⊗ v`), with `map_smul` and
   `latticeConj_involutive` **proved**. The `n`-opposedness `IsCompl (F^p) (conj F^{n+1-p})` and the
   `(p,q)`-piece `F^p ⊓ conj(F^{n-p})` use this canonical map.
 - **Polarization is one integral form, with the Hodge–Riemann relations as a `Prop` mixin.** The
   conditions that a *given* integral form polarizes a structure — `(-1)^n`-symmetry, nondegeneracy,
   orthogonality `Q(F^p, F^{n−p+1}) = 0`, and positivity `i^{p−q} Q(v, v̄) > 0` on `H^{p,q}` — are
-  packaged as a genuine `Prop`, `IsPolarization hs Qint`. `Polarization hs` is then just
-  `{ Qint : LinearMap.BilinForm ℤ V // IsPolarization hs Qint }` (a form plus a proof it polarizes),
+  packaged as a genuine `Prop`, `IsPolarization hs Qint`. `Polarization hs` is then just a
+  form together with a proof that it polarizes (a two-field structure, equivalently the subtype
+  `{ Qint : LinearMap.BilinForm ℤ V // IsPolarization hs Qint }`),
   and its complex form is **derived**, `Q := Qint.baseChange ℂ`, so the integral↔complex link is
   Mathlib's `baseChange_tmul`, not a hand-imposed axiom. Splitting the predicate out lets a **fixed**
   form be required to polarize a structure without carrying the form twice — used by
@@ -264,6 +269,9 @@ the pinned Mathlib.
 
 ## Successor roadmap: Variations of Hodge structure
 
+*This section is a roadmap-for-a-roadmap: it sketches ambition beyond this entry, and contributors
+should not work from it now — take targets from L0–L3 above.*
+
 The **variations** theory is a separate roadmap,
 [*Variations of Hodge structure*](https://github.com/TauCetiProject/TauCetiRoadmap/issues/167), that
 **builds on the objects defined above** — exactly as `JacobianChallenge` builds on its own
@@ -335,6 +343,6 @@ Effectivity is a named predicate `HodgeStructure.IsEffective`; polarization is s
 mixin `IsPolarization hs Qint` and the bundled `Polarization`; `PeriodDomain.Point` predicates the
 *fixed* form via `IsPolarization` (no duplicated form); the symmetry group `Aut(V, Qint)` is exposed as
 `IsLatticeIsometry` for the successor. The MHS `graded_pure` axiom is fully encoded (real induced purity
-on the rational `gr^W_k`). Elaborated green against `TauCetiRoadmap`'s pinned Mathlib
-(leanprover/lean4:v4.31.0-rc1); every definition is complete (no `sorry` in any definition) and
-axiom-clean (only `propext`, `Classical.choice`, `Quot.sound`); the milestone `example`s carry `sorry`.*
+on the rational `gr^W_k`). The signatures elaborate against `TauCetiRoadmap`'s pinned Mathlib
+; every definition is complete (no `sorry` in any definition), and the
+milestone `example`s carry `sorry`.*

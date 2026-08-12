@@ -21,8 +21,8 @@ engines that *produce* Hodge structures (Kähler Hodge
 decomposition, Gauss-Manin, Schmid's asymptotics) supply instances from elsewhere (the weight-1 /
 curve case is the worked model).
 
-NOTE: elaborates green against `TauCetiRoadmap`'s pinned Mathlib (leanprover/lean4:v4.31.0-rc1); the
-milestone `example`s carry `sorry`, and every definition is complete (no `sorry` in any definition).
+NOTE: the signatures elaborate against `TauCetiRoadmap`'s pinned Mathlib; the milestone `example`s
+carry `sorry`, and every definition is complete (no `sorry` in any definition).
 -/
 
 namespace TauCetiRoadmap.HodgeStructures
@@ -795,7 +795,7 @@ noncomputable def gradedPure
           ((gradedF hℚ hℂ WQ hWQ F k (k + 1 - p)).map
             (gradedConj (Vℚ := Vℚ) WQ k).toLinearMap)
 
-/-- **L2 -- mixed Hodge structure (schematic).** The primary lattice is again `V_ℤ`. The weight
+/-- **L2 -- mixed Hodge structure.** The primary lattice is again `V_ℤ`. The weight
 filtration is recorded rationally on `V_ℚ`; its complexification on `V_ℂ` is derived using
 `Submodule.baseChange` and the tower cancellation equivalence. The Hodge filtration is a decreasing
 filtration on `V_ℂ`. -/
