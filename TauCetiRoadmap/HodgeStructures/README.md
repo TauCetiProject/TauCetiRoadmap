@@ -121,8 +121,21 @@ the pinned Mathlib.
   **geometric instances plug in with no transport iso** — a `V_ℂ` arising as `Hⁿ(X;ℂ)` (not literally
   `ℂ ⊗ Hⁿ(X;ℤ)`) satisfies the predicate directly, decisive for the successor's variations whose fibers
   are cohomology; and (ii) the nested-tower pain below is dissolved by transitivity of base change
-  (`IsBaseChange.comp`) rather than a hand-threaded `cancelBaseChange`. The integral lattice `V_ℤ`
-  stays the primary datum — `IsBaseChange` is a predicate *about* the structure map out of it.
+  (`IsBaseChange.comp`). The integral lattice `V_ℤ` stays the primary datum — `IsBaseChange` is a
+  predicate *about* the structure map out of it.
+
+  *Interface and instance are different levels, and both appear.* `IsBaseChange S f` is a **`Prop`**:
+  it says an `S`-module `N` with `f : M →ₗ[R] N` behaves as the base change (Mathlib:
+  "the map `S × M → N, (s, m) ↦ s • f m` is the tensor product"), so `N` need not *be* `S ⊗[R] M` —
+  which is what (i) buys. `AlgebraTensorModule.cancelBaseChange` is by contrast **data**, a specific
+  equivalence `M ⊗[A] (A ⊗[R] N) ≃ₗ[B] M ⊗[R] N` between literal tensor products. They sit at
+  different levels rather than competing: the tower composes *as a property* by `IsBaseChange.comp`,
+  and the canonical tensor instance **discharges** that property — `cancelBaseChange` is what it uses
+  to do so. The practical difference is `Prop` versus data: a proof is passed around and consumed
+  through `IsBaseChange.lift`, whereas an equivalence has to be threaded through every construction
+  as `.map …toLinearMap`. Abstract statements should take the former route; the concrete
+  rational-to-complex path currently takes the latter, and that is the ergonomic cost the interface
+  exists to remove.
 - **Conjugation is defined, not assumed.** `latticeConj : V_ℂ →ₛₗ[starRingEnd ℂ] V_ℂ` is the
   conjugate-linear map fixing the integral points, `latticeConj (ι_ℂ v) = ι_ℂ v` — determined by the
   base-change universal property, and unique as such (*companion to prove*: an instance author will
@@ -146,7 +159,10 @@ the pinned Mathlib.
   the mixed weight filtration.
   *Implementation note:* under the base-change interface the two-step `ℤ→ℚ→ℂ` tower composes by
   `IsBaseChange.comp`, removing most of the ergonomic weight the concrete nested tensor
-  `ℂ ⊗_ℚ (ℚ ⊗_ℤ V)` carried (no hand-threaded `cancelBaseChange`); the implementation should still
+  `ℂ ⊗_ℚ (ℚ ⊗_ℤ V)` carried. **Target:** the composed witness itself,
+  `IsBaseChange ℂ (ι_{ℚℂ} ∘ₗ ι_ℚ)` from the two legs — without it the abstract tower is asserted but
+  not available, and constructions fall back on transporting along `cancelBaseChange` by hand. The
+  implementation should still
   carry a `@[simp]` suite for moving elements through `rationalToComplexSubmodule` and `Polarization.Q`
   (the `Q_tmul` pure-tensor lemma is the first of these) to keep the L1/L2 proofs tractable.
 
