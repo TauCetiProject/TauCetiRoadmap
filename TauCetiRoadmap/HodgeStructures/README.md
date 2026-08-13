@@ -288,13 +288,15 @@ tensor instance exercises the base-change plumbing, not the Hodge conditions.
   is the named hypothesis under which the classical weight-1 identifications hold — see the instance
   bridge and *Prior art*.
   *Instance bridge (weight 1, effective):* an **effective** weight-1 HS carries a complex structure `J`
-  (`J² = −1`) whose `±i`-eigenspaces are exactly the `(1,0)`/`(0,1)` pieces, so `piece` agrees with the
-  `J`-eigenspace decomposition of
-  [mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975). *(Without effectivity a
+  (`J² = −1`) on the real form `V_ℝ`, whose `±i`-eigenspaces are exactly the `(1,0)`/`(0,1)` pieces, so
+  `piece` agrees with the `J`-eigenspace decomposition. *(Without effectivity a
   weight-1 HS may have `H^{2,−1}`, `H^{−1,2}`, … and the `±i`-eigenspaces mix odd-`(p−q)` classes, so
   the agreement fails.)* The roadmap consumes the Deligne opposed-filtration route
-  (`piece = F^p ⊓ conj(F^{n−p})`, per Riou); `#40975` instances supply the `J`, so effective weight-1
-  examples can be produced either way and the two agree.
+  (`piece = F^p ⊓ conj(F^{n−p})`, per Riou). *Companions to build:* `V_ℝ` with its structure map, the
+  construction of `J` from an effective weight-1 structure, and the eigenspace comparison, so that
+  effective weight-1 examples can be produced either way and the two agree. Cf.
+  [mathlib4#40975](https://github.com/leanprover-community/mathlib4/pull/40975) as prior art, not as a
+  dependency (see *Prior art*).
 - **L1 — Polarization & Hodge–Riemann; semisimplicity (summit of the pure theory).**
   *Definitions:* `IsPolarization hs Qint` (the HR relations as a `Prop` on a given form),
   `Polarization hs` (integral `Qint` + an `IsPolarization` proof; derived `Q`),
@@ -464,6 +466,5 @@ Effectivity is a named predicate `HodgeStructure.IsEffective`; polarization is s
 mixin `IsPolarization hs Qint` and the bundled `Polarization`; `PeriodDomain.Point` predicates the
 *fixed* form via `IsPolarization` (no duplicated form); the symmetry group `Aut(V, Qint)` is exposed as
 `IsLatticeIsometry` for the successor. The MHS `graded_pure` axiom is fully encoded (real induced purity
-on the rational `gr^W_k`). The signatures elaborate against `TauCetiRoadmap`'s pinned Mathlib
-; every definition is complete (no `sorry` in any definition), and the
-milestone `example`s carry `sorry`.*
+on the rational `gr^W_k`). The signatures elaborate against `TauCetiRoadmap`'s pinned Mathlib; every
+definition is complete (no `sorry` in any definition), and the milestone `example`s carry `sorry`.*
