@@ -426,7 +426,7 @@ equivalence* of an atomless standard Borel probability space with `(I, volume)`:
 maps both ways that are mutually inverse a.e. (Mathlib has the measurable equivalence; this is the
 m.p. refinement — Janson, Thm A.7. The precise bundled `MeasurePreservingModNullEquiv` is described
 in `README.md`.) -/
-theorem exists_mpModNull_equiv_unitInterval [StandardBorelSpace Ω] [NoAtoms μ] :
+theorem exists_mpModNull_equiv_unitInterval [StandardBorelSpace Ω] [NullSingletonClass μ] :
     ∃ (f : Ω → I) (g : I → Ω),
       MeasurePreserving f μ volume ∧ MeasurePreserving g volume μ ∧
       (∀ᵐ x ∂μ, g (f x) = x) ∧ (∀ᵐ y ∂(volume : Measure I), f (g y) = y) := sorry
@@ -989,7 +989,8 @@ this is the transport of `mixtureExchangeableLaw_diracProba` through
 `mixtureExchangeableLawEquiv_apply` and the extension identification. -/
 theorem graphonMixtureLawEquiv_dirac (W : Graphon I (volume : Measure I)) :
     graphonMixtureLawEquiv
-        ⟨Measure.dirac (Quotient.mk (graphonSetoid (volume : Measure I)) W), inferInstance⟩
+        ⟨Measure.dirac (Quotient.mk (graphonSetoid (volume : Measure I)) W),
+          Measure.dirac.isProbabilityMeasure⟩
       = exchangeableGraphLawEquivInfinite (sampleExchangeableLaw (volume : Measure I) W) := sorry
 
 /-- **Layer 9b (mixture coordinates — every finite marginal pinned).** What a **general** mixing
