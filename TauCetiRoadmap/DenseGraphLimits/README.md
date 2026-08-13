@@ -176,8 +176,8 @@ some prose paths below are abbreviated.)
   `generateFrom_squareCylinders`; `MeasureTheory.AEEqFun` (with `AEEqFun.compMeasurePreserving`),
   `Lp` (`Lp.compMeasurePreserving`); `MeasureTheory.condExp` and martingale convergence;
   `MeasureTheory.MeasurePreserving`; `StandardBorelSpace`, `PolishSpace`
-  (`PolishSpace.Equiv.measurableEquiv`), `NoAtoms` (`MeasureTheory/Measure/Typeclasses/NoAtoms`),
-  `MeasureTheory/Constructions/UnitInterval` (`I` has `IsProbabilityMeasure` + `NoAtoms`).
+  (`PolishSpace.Equiv.measurableEquiv`), `NullSingletonClass` (`MeasureTheory/Measure/Typeclasses/NoAtoms`),
+  `MeasureTheory/Constructions/UnitInterval` (`I` has `IsProbabilityMeasure` + `NullSingletonClass`).
 - **Weak convergence of measures:** `MeasureTheory.ProbabilityMeasure` / `FiniteMeasure`,
   `LevyProkhorovMetric` (`levyProkhorovDist`), `Prokhorov` (tightness ↔ relative compactness),
   `Portmanteau`, `IsTightMeasureSet` — supporting the mixture existence/representation side of
