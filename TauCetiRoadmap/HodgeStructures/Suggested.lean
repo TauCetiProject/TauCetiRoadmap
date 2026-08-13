@@ -119,7 +119,7 @@ theorem concreteLatticeConj_involutive :
   intro x
   change concreteLatticeConjIntLinear (concreteLatticeConjIntLinear x) = x
   refine TensorProduct.induction_on x ?hz ?ht ?ha
-  · simp [concreteLatticeConjIntLinear]
+  · rw [map_zero, map_zero]
   · intro z v
     change (TensorProduct.map (starRingEnd ℂ).toAddMonoidHom.toIntLinearMap
         (LinearMap.id : V →ₗ[ℤ] V))
@@ -421,6 +421,14 @@ noncomputable def rationalToComplexSubmodule (hℚ : IsBaseChange ℚ ιℚ)
   (W.baseChange ℂ).map (rationalToComplexLinearEquiv hℚ hℂ).toLinearMap
 
 omit [Module.Free ℤ V] [Module.Finite ℤ V] in
+/-- `rationalToComplexSubmodule` unfolded, as a rewriting step: `LinearEquiv.ofSubmodules`
+wants this equation as a proof argument, where definitional unfolding is not available. -/
+theorem rationalToComplexSubmodule_eq_map (hℚ : IsBaseChange ℚ ιℚ)
+    (hℂ : IsBaseChange ℂ ιℂ) (W : Submodule ℚ Vℚ) :
+    (W.baseChange ℂ).map (rationalToComplexLinearEquiv hℚ hℂ).toLinearMap =
+      rationalToComplexSubmodule hℚ hℂ W := rfl
+
+omit [Module.Free ℤ V] [Module.Finite ℤ V] in
 theorem rationalToComplexLinearEquiv_one_tmul_fixed (hℚ : IsBaseChange ℚ ιℚ)
     (hℂ : IsBaseChange ℂ ιℂ) (x : Vℚ) :
     latticeConj hℂ (rationalToComplexLinearEquiv hℚ hℂ (1 ⊗ₜ[ℚ] x)) =
@@ -697,7 +705,8 @@ theorem rationalToComplexSubmoduleEquiv_range_lTensor
     · simp [rationalToComplexSubmoduleEquiv]
     · intro z a
       change ((rationalToComplexLinearEquiv hℚ hℂ).ofSubmodules (B.baseChange ℂ)
-          (rationalToComplexSubmodule hℚ hℂ B) rfl
+          (rationalToComplexSubmodule hℚ hℂ B)
+          (rationalToComplexSubmodule_eq_map hℚ hℂ B)
           ((Submodule.toBaseChange.toLinearEquiv ℂ B)
             (z ⊗ₜ[ℚ] (a : B))) : Vℂ) ∈
         rationalToComplexSubmodule hℚ hℂ A
@@ -733,7 +742,8 @@ theorem rationalToComplexSubmoduleEquiv_range_lTensor
       · simp [rationalToComplexSubmoduleEquiv]
       · intro z a'
         change ((rationalToComplexLinearEquiv hℚ hℂ).ofSubmodules (B.baseChange ℂ)
-            (rationalToComplexSubmodule hℚ hℂ B) rfl
+            (rationalToComplexSubmodule hℚ hℂ B)
+          (rationalToComplexSubmodule_eq_map hℚ hℂ B)
             ((Submodule.toBaseChange.toLinearEquiv ℂ B)
               (z ⊗ₜ[ℚ] (⟨(a' : Vℚ), hAB a'.property⟩ : B))) :
             Vℂ) =
