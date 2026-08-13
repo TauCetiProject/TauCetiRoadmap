@@ -166,6 +166,12 @@ reviewers, can act on it without guessing.
   field or a `def _ : Prop := sorry`. Both assert nothing (a `Prop` field is satisfiable by `True`;
   a `sorry` body is `sorryAx Prop`), so omit a condition you cannot state rather than name an empty one.
 
+- **Import existing Tau Ceti APIs.** This repository has Tau Ceti as a Lake dependency, so a
+  `Suggested.lean` file may import individual `TauCeti.*` modules as well as Mathlib. When an earlier
+  roadmap target is already implemented in Tau Ceti, prototype the new interface against that
+  implementation instead of restating it behind a private stand-in. Import individual modules;
+  Tau Ceti's root module intentionally re-exports nothing.
+
 - **Pin conventions.** It's essential that you decide conventions ahead of time, or implementors
   will make bad decisions.
 
