@@ -102,6 +102,9 @@ Suggested home: `TauCeti/Geometry/Hodge/` (`…/Hodge/Structure.lean`, `…/Pola
 
 ## Core definitions (the chief deliverable)
 
+*This section states the intended design. `Suggested.lean` is a non-exhaustive snapshot of it: where
+a name below does not yet appear there, that is an absence and a target, not a claim about the file.*
+
 Getting these right is the point of the entry; each is stated in `Suggested.lean` and elaborates against
 the pinned Mathlib.
 
@@ -142,7 +145,8 @@ the pinned Mathlib.
   mention only `F`, and `opposed` mentions `latticeConj hℂ`, whose type is just
   `V_ℂ →ₛₗ[starRingEnd ℂ] V_ℂ`. The lattice `V_ℤ`, `ι_ℂ`, `hℂ` and the freeness/finiteness
   hypotheses are in scope but appear in no field. So state the object once, over a `ℂ`-space with a
-  conjugation:
+  conjugation. **This is a target, not a description of `Suggested.lean`**, which still carries the
+  lattice-indexed `HodgeStructure`:
   ```lean
   /-- A conjugation on a ℂ-space: a conjugate-linear involution. -/
   structure Conjugation (W : Type*) [AddCommGroup W] [Module ℂ W] where
@@ -160,7 +164,8 @@ the pinned Mathlib.
   **Involutivity is part of the datum**, not a lemma alongside it: `n`-opposedness is only meaningful
   for an involution, and today `latticeConj_involutive` sits outside the structure. `latticeConj` +
   `latticeConj_involutive` package into one `Conjugation V_ℂ`, and `gradedConj` +
-  `gradedConj_involutive` into another. The integral object is then an **abbreviation, not a copy** —
+  `gradedConj_involutive` into another. The integral object would then be an **abbreviation, not a
+  copy** —
   `HodgeStructure hℂ n := HodgeStructureOn V_ℂ (latticeConjugation hℂ) n` — so every existing
   reference survives and the axioms exist in exactly one place. `IsEffective` and `piece` are stated
   in terms of `F` alone and move across unchanged; `Polarization` does **not**, and stays on the
@@ -324,7 +329,7 @@ tensor instance exercises the base-change plumbing, not the Hodge conditions.
   graded `grᵂ_k = W_{ℚ,k}/W_{ℚ,k−1}` (`weightGradedRat`) carries an induced conjugation `gradedConj`
   (a proved conjugate-linear involution) and induced filtration `gradedF`, and `graded_pure` requires
   `gradedF` to be bounded, antitone, and `k`-opposed w.r.t. `gradedConj`. With the conjugation-parametric
-  object above this **is** the pure-Hodge predicate rather than a restatement of it:
+  object above this **becomes** the pure-Hodge predicate rather than a restatement of it:
   `graded_pure k := Nonempty (HodgeStructureOn (ratComplexify (gr^W_k)) (gradedConjugation WQ k) k)`
   — "`gr^W_k` carries a Hodge structure of weight `k`", literally, and the rational pure object L1's
   category needs. `gradedConj` already has the required type and `gradedConj_involutive` is proved,
