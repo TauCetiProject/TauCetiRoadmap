@@ -165,6 +165,12 @@ theorem realize_toInf {ι : Type uι} {α : Type u'} {M : Type w} [L.Structure M
     (toInf (ι := ι) φ).Realize v xs ↔ φ.Realize v xs := by
   sorry
 
+/-- **Layer 0 milestone, the language-size bridge.** For a relational language, Mathlib's single
+cardinal bound coincides with the countability instance carried by the Scott/Karp statements. -/
+theorem card_le_aleph0_iff_countable_relations [L.IsRelational] :
+    L.card ≤ Cardinal.aleph0 ↔ Countable (Σ n, L.Relations n) := by
+  sorry
+
 /-- **Layer 1, potential isomorphism.** There is a **back-and-forth system**: a nonempty set `S`
 of finitely generated partial equivalences, closed under two-sided extension *within `S`*. This is
 the model-theoretic content of "winning strategy in the infinite Ehrenfeucht–Fraïssé game".
@@ -209,8 +215,8 @@ theorem PotentialIso.symm {M N : Type w} [L.Structure M] [L.Structure N]
   sorry
 
 /-- **Layer 1 (basic API).** Potential isomorphism is transitive — compose the two back-and-forth
-systems. (Mathlib has no `PartialEquiv.comp`; implementation will introduce a small composition
-helper.) -/
+systems. Transitivity uses composition of partial equivalences under the required domain/codomain
+compatibility. -/
 theorem PotentialIso.trans {M N P : Type w} [L.Structure M] [L.Structure N] [L.Structure P]
     (hMN : PotentialIso (L := L) M N) (hNP : PotentialIso (L := L) N P) :
     PotentialIso (L := L) M P := by

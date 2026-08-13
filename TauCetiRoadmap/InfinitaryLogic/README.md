@@ -21,8 +21,8 @@ theory, and Lκλ are **out of scope here** — see [Out of scope](#out-of-scope
 
 A Lean formalization exists at
 [`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic) and is a
-migration source, proof-script reference, and API-warning map. This roadmap does not ask reviewers to
-accept that source as a specification; each milestone below is grounded in current Mathlib imports or
+migration source, proof-script reference, and API-warning map. The migration source and design
+evidence are not the specification; each milestone below is grounded in current Mathlib imports or
 in a separately named object built earlier in the roadmap.
 
 Suggested homes:
@@ -33,35 +33,26 @@ TauCeti/ModelTheory/BackAndForth/    -- EF games, potential isomorphism, Karp
 TauCeti/ModelTheory/Scott/           -- coded formulas, Scott rank, canonical formulas, Scott sentences
 ```
 
-## Known WIP, ownership, and boundaries
+## Coordination
 
-This roadmap does not claim the following areas. Where later Tau Ceti work overlaps active Mathlib or
-student-project work, contributors should follow the repository process in the root README — checking
-the relevant Zulip threads, Mathlib PRs, and public project trackers, and asking the named
-contributors before starting parallel work.
+Where this roadmap overlaps active Mathlib or student-project work, contributors should follow the
+repository process in the root README — checking the relevant Zulip threads, Mathlib PRs, and public
+project trackers, and asking the named contributors before starting parallel work.
 
 * **Infinitary syntax.** This roadmap uses the fixed-carrier syntax `BoundedFormulaInf L ι α n`,
   with `BoundedFormulaω` as the definitional `ι := ℕ` specialization and `IndexCoding`/`reindex`
   for carrier transport. The design was suggested on the Zulip discussion
   [ModelTheory: API for infinitary formulas of L_{∞,ω}](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/ModelTheory.3A.20API.20for.20infinitary.20formulas.20of.20L_.7B.E2.88.9E.2C.CF.89.7D)
   and validated against the main downstream consumers in
-  [`infinitary-logic` #43](https://github.com/cameronfreer/infinitary-logic/pull/43). Mathlib
-  review remains pending; implementation should follow the eventual upstream API.
+  [`infinitary-logic` #43](https://github.com/cameronfreer/infinitary-logic/pull/43). Build the
+  fixed-carrier API here; if Mathlib later supplies the corresponding API, replace the local
+  definitions with imports and adapt to Mathlib's names.
 * Cantor–Bendixson / perfect-kernel / ordinal-stabilization infrastructure (the Zulip
   [Cantor-Bendixson analysis](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Cantor-Bendixson.20analysis)
-  thread; not in the pinned Mathlib): this roadmap does not
-  claim the general theory. The Scott-analysis layers state only the Scott-specific refinement-
-  stabilization dependency they need, and implementation should consume or refactor to the Mathlib API
-  if that lands first.
-* Suslin / analytic / Effros infrastructure — the Zulip
-  [Naming Suslin Spaces](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Naming.20Suslin.20Spaces)
-  thread and [mathlib4#32742](https://github.com/leanprover-community/mathlib4/pull/32742): not
-  targeted here. No Tau Ceti invariant-DST layer should proceed until this work is checked for
-  overlap.
-* Many-sorted model theory (the Zulip
-  [Many-sorted model theory](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Many-sorted.20model.20theory)
-  thread): not targeted here. Any future roadmap should first check the ongoing
-  Mathlib effort and avoid duplicating student or contributor-owned work.
+  thread; not in the pinned Mathlib): this roadmap does not claim the general theory. The
+  Scott-analysis layers state only the Scott-specific refinement-stabilization dependency they
+  need; if Mathlib later supplies the general stabilization API, replace the local statement with
+  imports.
 
 ## The end goal (v1)
 
@@ -201,10 +192,10 @@ A Lean formalization of this theory exists at
 checkpoint
 [`06bd522`](https://github.com/cameronfreer/infinitary-logic/tree/06bd522586f97ccf3503b7f47f250943b33a7f99)
 for proof scripts and the declaration map below. Its syntax predates the fixed-carrier design, so
-its Layer 0 type signatures should not be copied; Layer 0 signatures instead follow the evidence in
-[`infinitary-logic` #43](https://github.com/cameronfreer/infinitary-logic/pull/43) and the eventual
-Mathlib API. Neither source is the specification; the map is "where to look", not "what is
-correct".
+its Layer 0 type signatures should not be copied; Layer 0 follows the shapes specified in this
+roadmap (validated in
+[`infinitary-logic` #43](https://github.com/cameronfreer/infinitary-logic/pull/43)). Neither source
+is the specification; the map is "where to look", not "what is correct".
 
 * Layer 0: `InfinitaryLogic/Lomega1omega/` and `InfinitaryLogic/Linf/`.
 * Layer 1: `InfinitaryLogic/Karp/` and `InfinitaryLogic/Scott/BackAndForth.lean`.
@@ -275,14 +266,24 @@ beats, each a coherent reviewable unit:
 
 * **substitution, relabeling, `castLE`, and the free-variable support** as named API (not buried) —
   the support is finite for finitary formulas and countable for ℕ-carried `iSup`/`iInf`, so use a
-  set/`support` formulation, not a `Finset` — plus quantifier rank (valued in the carrier's ordinal
-  universe; transport lemmas along `reindex`);
-* the formula-sensitive size predicates (`IsCountable`, and via `Cardinal` the general
-  formula-size predicate, no bespoke counter) — these bound individual formulas and are NOT the
-  Layer 2 counting route (see Standing hypotheses);
-* the **language-size bridge**: relate `[Countable (Σ n, L.Relations n)]` to Mathlib's `Language.card`
-  where downstream proofs want a single cardinal bound (verify the exact `Language.card` statement —
-  `card` counts all symbols, so state it for relational `L`).
+  set/`support` formulation, not a `Finset`;
+* quantifier rank, valued in the carrier's ordinal universe, with the exact transport milestone
+  `qrank_reindex` along `reindex`, stated with `Ordinal.lift`;
+* **countable-fragment recovery**: countability belongs to formulas, not to their ambient carriers.
+  `indexBound` and `IsCountable` bound the branch families ONE formula actually uses — a formula
+  can be countable even when its ambient carrier is uncountable — with `isCountable_toInf`
+  (finitary embeddings have index bound zero at every carrier), `ofCountable` recoding a countable
+  formula into `BoundedFormulaω`, `realize_ofCountable` (the recoding preserves realization), and
+  `ofCountable_proof_irrel` (encoding choices are proof-irrelevant). These bound individual
+  formulas and are NOT the Layer 2 counting route (see Standing hypotheses). Include
+  `IndexCoding.ofEncodableWith (e : Encodable ι)`, so an explicit encoding does not require a
+  global instance;
+* language-map compatibility: `LHom.onBoundedFormulaInf`, with the naturality law
+  `onBoundedFormulaInf_reindex`;
+* the **language-size bridge**, pinned in `Suggested.lean` as
+  `card_le_aleph0_iff_countable_relations` (for relational `L`,
+  `L.card ≤ ℵ₀ ↔ Countable (Σ n, L.Relations n)`), relating the countability instance carried by
+  the Scott/Karp statements to Mathlib's single cardinal bound.
 
 Key milestones:
 
@@ -292,6 +293,7 @@ BoundedFormulaInf.rec       -- the recursion/induction principle
 BoundedFormulaInf.realize_iSup   -- one statement, generic in the carrier
 BoundedFormulaInf.realize_iInf
 IndexCoding
+IndexCoding.ofEncodableWith
 BoundedFormulaInf.iInfAlong
 BoundedFormulaInf.realize_iInfAlong
 BoundedFormulaInf.reindex
@@ -300,8 +302,18 @@ subst
 relabel
 castLE
 freeVarSupport
+qrank_reindex
+indexBound
+IsCountable
+isCountable_toInf
+ofCountable
+realize_ofCountable
+ofCountable_proof_irrel
+LHom.onBoundedFormulaInf
+onBoundedFormulaInf_reindex
 toInf
 realize_toInf
+card_le_aleph0_iff_countable_relations
 ```
 
 **Acceptance example:** `realize_toInf` for a single finitary `φ` — compiles once Beat 1 exists,
@@ -390,8 +402,8 @@ builds its separating conjunctions indexed by structure elements, which the fixe
 expresses as `iInfAlong` at any carrier `κ` equipped with codings `IndexCoding M κ` and
 `IndexCoding N κ`. Keep `karp_theorem_at` (arbitrary common carrier) as the headline — the choice
 `κ := M ⊕ N` is a canonical instance, not a mathematical requirement — and derive the
-`InfEquivW` packaging as a corollary. There is no "index-universe convention" left to fix: the
-carrier is an explicit argument, and agreement at ONE coded carrier already yields agreement at all.
+`InfEquivW` packaging as a corollary. The carrier is an explicit argument, and agreement at one
+coded carrier already yields agreement at all.
 
 ### Layer 2: the coded-formula proxy and refinement counting
 
@@ -414,8 +426,8 @@ route is the coded proxy. Build:
   coded world captures back-and-forth equivalence;
 * refinement-set countability `refinement_countable`, and the Scott-specific refinement-stabilization
   lemma (the back-and-forth refinement sequence stabilizes at some ordinal `< ω₁`). State only this
-  Scott-specific dependency, not the general Cantor–Bendixson / ordinal-stabilization theory; consume
-  or refactor to the Mathlib API if that lands first (see Known WIP and boundaries).
+  Scott-specific dependency, not the general Cantor–Bendixson / ordinal-stabilization theory (see
+  Coordination).
 
 Key milestones:
 
@@ -433,10 +445,9 @@ refinement-stabilization lemma and the Scott summit.
 
 ⚠ **API warning.** Do not run countability through raw `BoundedFormulaω`: it is uncountable. The coded
 proxy is the route; the bridge from codes to back-and-forth equivalence is a theorem to prove, not an
-assumption to carry. (The source's self-stabilization / game-counting argument is an alternative route,
-recorded as provenance, not the stated target.) Layer 0's per-formula `IsCountable` predicate does
-**not** replace this layer: it bounds one formula's branch families, while Scott needs countably many
-refinement classes — a claim about a SET of formulas that only the coded proxy delivers.
+assumption to carry. Layer 0's per-formula `IsCountable` predicate does **not** replace this layer: it
+bounds one formula's branch families, while Scott needs countably many refinement classes — a claim
+about a SET of formulas that only the coded proxy delivers.
 
 ### Layer 3: Scott rank, canonical formulas, and Scott's theorem (v1 summit)
 
@@ -497,9 +508,7 @@ final theorems.
 
 ## Out of scope for this roadmap
 
-The following topics are not targets of this roadmap. They may become separate roadmap PRs only after
-their live-Mathlib / student-project overlap has been checked and their ground dependency paths are
-written down — not part of this roadmap and not implicitly approved.
+The following topics are not targets of this roadmap; they belong to separate roadmaps.
 
 * Model existence and downward Löwenheim–Skolem for countable Lω₁ω fragments.
 * Admissible sets and Barwise compactness.
