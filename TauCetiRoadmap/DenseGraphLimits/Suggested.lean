@@ -972,8 +972,8 @@ the **graphon quotient** `GraphonSpaceI`. Uniqueness lives on the quotient, neve
 representatives — two kernels at cut distance zero give the same mixture. This is the
 Diaconis–Janson graphon-mixture representation, a graph-level Aldous–Hoover *consequence* —
 deliberately not labeled "Aldous–Hoover": the array-level representation theorem is owned by the
-Exchangeability roadmap and this target does not consume it, while the generic exchangeable-law
-API, once it lands there, is what these graph-law structures refactor onto (see the Layer-9b
+Exchangeability roadmap and this target does not consume it, while the shared generic
+exchangeable-law API is what these graph-law structures refactor onto (see the Layer-9b
 cross-roadmap note in `README.md`). The summit is **assembled, not
 opaque**: the existence/uniqueness content lives in the finite-level empirical-mixing spine above
 (`mixtureExchangeableLawEquiv`), and the infinite form is its transport along the finite↔infinite
@@ -1192,7 +1192,7 @@ theorem paramExchangeableLaw_upperMass (f : GraphParam) (h₁ : IsIsoInvariant f
     (paramExchangeableLaw f h₁ h₂ h₃ h₄).upperMass F = f k F := sorry
 
 /-- **Layer 8b (spine 5 — multiplicativity dissociates `L_f`).** Disjoint label windows are
-independent under `L_f` — now a visible computation through the Layer-9b bridge: by spine 4 the
+independent under `L_f` — a visible computation through the Layer-9b bridge: by spine 4 the
 upper masses of `L_f` are `f`, multiplicativity factors them over disjoint unions, and
 `isDissociated_iff_upperMass_mul` upgrades upper-mass multiplicativity to dissociation. This is
 the hypothesis Layer 9b's extremality theorem consumes. -/
