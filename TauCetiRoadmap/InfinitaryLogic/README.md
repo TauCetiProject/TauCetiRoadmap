@@ -260,7 +260,10 @@ beats, each a coherent reviewable unit:
   semantically neutral padding) and their realization lemmas;
 * whole-formula transport `reindex` with functor laws (`reindex_id`, `reindex_trans`), the
   equivalence round trip (`reindexEquiv`), realization preservation (`realize_reindex`), and
-  `reindex_toInf` naturality.
+  `reindex_toInf` naturality;
+* the uniform companion `toOmega` with `realize_toOmega`: `toOmega` uniformly recodes a formula
+  when the whole carrier is encodable; `ofCountable` (Beat 3) is the proof-directed alternative
+  that also handles countable formulas at uncountable carriers.
 
 **Beat 3 — derived APIs.**
 
@@ -274,7 +277,8 @@ beats, each a coherent reviewable unit:
   can be countable even when its ambient carrier is uncountable — with `isCountable_toInf`
   (finitary embeddings have index bound zero at every carrier), `ofCountable` recoding a countable
   formula into `BoundedFormulaω`, `realize_ofCountable` (the recoding preserves realization), and
-  `ofCountable_proof_irrel` (encoding choices are proof-irrelevant). These bound individual
+  `ofCountable_proof_irrel` (the result is independent of the supplied proof of `IsCountable`).
+  These bound individual
   formulas and are NOT the Layer 2 counting route (see Standing hypotheses). Include
   `IndexCoding.ofEncodableWith (e : Encodable ι)`, so an explicit encoding does not require a
   global instance;
@@ -298,6 +302,8 @@ BoundedFormulaInf.iInfAlong
 BoundedFormulaInf.realize_iInfAlong
 BoundedFormulaInf.reindex
 BoundedFormulaInf.realize_reindex
+toOmega
+realize_toOmega
 subst
 relabel
 castLE
