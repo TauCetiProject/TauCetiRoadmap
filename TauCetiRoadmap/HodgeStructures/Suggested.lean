@@ -200,7 +200,7 @@ noncomputable def HodgeStructure.piece {n : ℤ} (hs : HodgeStructure hℂ n) (p
     Submodule ℂ Vℂ :=
   hs.F p ⊓ (hs.F (n - p)).map (latticeConj hℂ)
 
-/-- A weight-`n` Hodge structure is **effective** (of level `n`) when its Hodge numbers are supported
+/-- A weight-`n` Hodge structure is **effective** when its Hodge numbers are supported
 in `[0, n]`: `F^0 = ⊤` and `F^{n+1} = ⊥`, so every `(p,q)`-piece with `p < 0` or `p > n` vanishes.
 This is the hypothesis under which the weight-1 case is exactly abelian varieties / complex tori and
 the `±i`-eigenspaces of a `J` with `J² = −1` are exactly the `(1,0)`/`(0,1)` pieces — the *general*

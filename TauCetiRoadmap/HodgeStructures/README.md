@@ -346,9 +346,12 @@ tensor instance exercises the base-change plumbing, not the Hodge conditions.
   (`I^{p,q}`) is given by Deligne's closed formula in `F`, `conj F` and `W`, with
   `DirectSum.IsInternal` and its characterizing API — recovery of `F` (`F^p = ⨆_{p'≥p} I^{p',q}`),
   recovery of `W` (`(W_k)_ℂ = ⨆_{p+q≤k} I^{p,q}`), the conjugation relation
-  `conj (I^{p,q}) ≡ I^{q,p}` **modulo** `⨆_{p'<p, q'<q} I^{p',q'}` (in the mixed case conjugation
-  symmetry holds only up to strictly lower bidegree, unlike L0's pure `piece` — the characteristic
-  subtlety of the theory), and functoriality (a morphism carries `I^{p,q}` into `I^{p,q}`).
+  `I^{p,q} ≡ conj (I^{q,p})` **modulo** `⨆_{r<p, s<q} I^{r,s}` — in the standard convention the error
+  term sits below the bidegree of the left-hand side, so writing it with the conjugation on the other
+  side swaps the bounds to `conj (I^{p,q}) ≡ I^{q,p} mod ⨆_{r<q, s<p} I^{r,s}` (Peters–Steenbrink
+  §3.1). In the mixed case conjugation symmetry holds only up to strictly lower bidegree, unlike
+  L0's pure `piece` — the characteristic subtlety of the theory. Finally functoriality (a morphism
+  carries `I^{p,q}` into `I^{p,q}`).
   Propositional existence would close the milestone and leave the object unusable: a consumer could
   obtain the bigrading only by destructing an existential, would get a different witness each time,
   and could state no lemma about it. It is the working tool of the mixed theory — strictness itself
