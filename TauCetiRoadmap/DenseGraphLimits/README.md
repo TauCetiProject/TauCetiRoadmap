@@ -562,9 +562,8 @@ absorbing the collision bias between the finite-sample mean and `t(F,W)`), with
 ordinary hom density is the load-bearing estimator; `injHomDensity` keeps its unbiasedness anchor
 (Layer 9a) but is **not** the concentration engine.
 
-(The `LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet` weak-convergence stack, previously
-cited for these targets, does not by itself supply this specification and is no longer load-bearing
-here.)
+(The `LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet` weak-convergence stack does not
+by itself supply this specification and is not load-bearing here.)
 
 This layer consumes Layer 9a's objects and the Layer-6b convergence equivalence only; it is
 independent of Layer 9b and of the Layer-8b spine, and can land in parallel with both.
