@@ -23,6 +23,7 @@ body:
         - Exchangeability
         - GeometricTopology
         - HeegaardFloer
+        - HodgeStructures
         - JacobianChallenge
         - ModularForms
         - Multiquadratic

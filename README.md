@@ -22,6 +22,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Foundations of adic spaces](TauCetiRoadmap/AdicSpaces/README.md)
 - [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
 - [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
+- [Hodge structures: pure, mixed, and polarized](TauCetiRoadmap/HodgeStructures/README.md)
 - [Infinitary syntax, back-and-forth, and Scott analysis](TauCetiRoadmap/InfinitaryLogic/README.md)
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
 - [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
@@ -165,6 +166,12 @@ reviewers, can act on it without guessing.
   cannot yet even *state* (its Mathlib API doesn't exist) is still a `sorry`, never a `Prop`-typed
   field or a `def _ : Prop := sorry`. Both assert nothing (a `Prop` field is satisfiable by `True`;
   a `sorry` body is `sorryAx Prop`), so omit a condition you cannot state rather than name an empty one.
+
+- **Import existing Tau Ceti APIs.** This repository has Tau Ceti as a Lake dependency, so a
+  `Suggested.lean` file may import individual `TauCeti.*` modules as well as Mathlib. When an earlier
+  roadmap target is already implemented in Tau Ceti, prototype the new interface against that
+  implementation instead of restating it behind a private stand-in. Import individual modules;
+  Tau Ceti's root module intentionally re-exports nothing.
 
 - **Pin conventions.** It's essential that you decide conventions ahead of time, or implementors
   will make bad decisions.

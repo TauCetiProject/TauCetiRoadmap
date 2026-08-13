@@ -39,6 +39,10 @@ namespace TauCetiRoadmap.RepresentationTheory.SpinRepresentations
 open CliffordAlgebra
 open scoped Classical DirectSum Quaternion TensorProduct
 
+-- Mathlib deliberately keeps the commutator Lie structure on associative rings local.
+-- This roadmap uses it throughout for Clifford algebras, endomorphisms, and matrices.
+attribute [local instance 100] LieRing.ofAssociativeRing
+
 universe u v
 
 variable {R : Type u} [CommRing R] {M : Type v} [AddCommGroup M] [Module R M]
