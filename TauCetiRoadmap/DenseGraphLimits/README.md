@@ -113,7 +113,7 @@ rectangles, and unchanged weighted energy — **the convention only, not weak re
 the sharper exponent**.
 
 **Required design-validation milestones.** Each of the following is the definite first
-milestone of its layer; the dependent route is committed only once its milestone is proved:
+milestone of its layer, preceding the dependent route:
 
 - before the arbitrary-carrier triangle inequality (Janson 6.5): finite coupling gluing with
   zero-mass middle atoms explicit, then stability of the reduction under step approximation —
@@ -189,7 +189,7 @@ some prose paths below are abbreviated.)
   (`Probability/Kernel/Composition/*`, `…/Disintegration/StandardBorel`).
 - **Partitions:** `Finpartition` and `Equipartition`; the measurable-partition pattern
   `Finpartition (Subtype MeasurableSet)` used by `MeasureTheory/Measure/PreVariation`. Use these for
-  weak regularity — a thin measurable adapter only if the subtype pattern is too awkward — not a
+  weak regularity — with its thin measurable adapter — not a
   private `Partition`.
 - **Topology of the target:** conditionally-complete-lattice / `iInf` API for the cut-norm and
   cut-distance infima; `Metric` / `PseudoMetric` / `UniformSpace` for `GraphonSpace`.
@@ -205,7 +205,7 @@ in a general `TauCeti/` home once its API is stable):
   (`PolishSpace.measurableEquivOfNotCountable`), not
   these measure-preserving refinements (inputs to Layers 4–5);
 - reusable **conditional-expectation / dyadic-martingale `L¹`-convergence** lemmas (Layer 4);
-- a thin **measurable `Finpartition` adapter**, only if the subtype pattern is too awkward (Layer 2);
+- a thin **measurable `Finpartition` adapter** (Layer 2);
 - **`AEEqFun`** ergonomics exercised by the Layer-3 view.
 
 ## What is missing (build here)
@@ -258,8 +258,7 @@ The **forward counting lemma** `|t(F,U) − t(F,W)| ≤ e(F) · ‖U − W‖□
 is `(F.edgeFinset.card : ℝ)`) and its **coupling / cut-distance form** `counting_lemma_coupling` (the
 cross-carrier engine); the descent of `t(F, ·)` to `GraphonSpace` (`homDensityOnSpace`); the
 **Frieze–Kannan weak regularity lemma** (`weak_regularity_frieze_kannan`, complexity `4^{⌈1/ε²⌉+1}` — the proved migration baseline; the sharper `4^{⌈1/ε²⌉}` is a prospective improvement, not a migration-source result),
-over a measurable `Finpartition` (the `Finpartition (Subtype MeasurableSet)` pattern, a thin adapter
-only if needed). **`equitabilise` / `Finpartition` are reusable infrastructure**, but Mathlib's
+over a measurable `Finpartition` (the `Finpartition (Subtype MeasurableSet)` pattern with its thin measurable adapter). **`equitabilise` / `Finpartition` are reusable infrastructure**, but Mathlib's
 `Finpartition.energy` is the *finite* edge-density energy — a **proof template / alignment point, not
 a consumed theorem**. **Layer 2's public API is block-average based** — `stepGraphonAvg` and finite rectangle averages. So
 **build the `graphonPartitionEnergy`** as the `l2sq` norm² of the block-average step graphon
@@ -386,7 +385,7 @@ identity is the theorem binding the levels; iso-invariance handles relabeling, m
 normalization the added-vertex telescope `f(F ⊔ K₁) = f(F)`, and reflection positivity is
 deliberately not a hypothesis) with its measure packaging `paramGraphLaw` (an explicit weighted
 sum of Dirac masses), `paramGraphLaw_isProbabilityMeasure`, and `paramGraphLaw_map_comap` → the
-random graph law `paramExchangeableLaw` (`L_f`, now a **visible assembly** of these fields rather
+random graph law `paramExchangeableLaw` (`L_f`, a **visible assembly** of these fields rather
 than an opaque constructor — a random object with **no representing graphon in sight yet**) →
 `paramExchangeableLaw_upperMass` (`upperMass L_f F = f F`, Möbius inversion) →
 `isDissociated_paramExchangeableLaw` (visible through the Layer-9b bridge
@@ -495,13 +494,14 @@ two different answers here — *who owns the API* and *what the proof consumes*:
 
 - **API ownership.** The generic exchangeable relational-law infrastructure — consistent finite
   and infinite relational laws, relabeling invariance, dissociation, ergodicity, extremality —
-  belongs to the **Exchangeability roadmap**, whose Layer 8 names exchangeable arrays and
-  Aldous–Hoover. This layer presently uses graph-specialized structures (`ExchangeableGraphLaw`,
-  `InfiniteExchangeableGraphLaw`, `IsDissociated`) and **commits to refactoring them into
-  adapters to that shared API once it lands** — the specialization to the one-sort symmetric
-  irreflexive binary signature, never a parallel reimplementation of the generic law theory. The
-  refactor is an interface obligation on this roadmap, not a build dependency: no target here is
-  gated on unbuilt Exchangeability work.
+  has its home outside this roadmap. The natural owner is the **Exchangeability roadmap**, whose
+  Layer 8 names exchangeable arrays and Aldous–Hoover; this roadmap does not prescribe another
+  roadmap's contents. This layer uses graph-specialized structures (`ExchangeableGraphLaw`,
+  `InfiniteExchangeableGraphLaw`, `IsDissociated`) that are **specializations, not a parallel
+  theory**: the definite target is adapters to a shared generic law API — the specialization to
+  the one-sort symmetric irreflexive binary signature. The adapter refactor is an interface
+  obligation on this roadmap, not a build dependency: no target here is gated on work outside
+  it.
 - **Proof dependency.** The graphon-mixture representation does **not** depend on the array-level
   Aldous–Hoover representation, nor on its hard functional converse. It is proved
   graph-specifically — empirical graphons, the collision estimate, Layer 4's compactness of
@@ -512,16 +512,16 @@ two different answers here — *who owns the API* and *what the proof consumes*:
   **specialization/compatibility result**: its graph case must induce the same infinite graph
   laws and the same quotient-valued graphon mixing measure.
 
-The two developments meet at one **documented future interface** — proposed identifier
+The two developments meet at one **law-level interface** — proposed identifier
 `graphLawArrayLawEquiv`, equating exchangeable graph laws with the laws of symmetric, irreflexive,
-jointly exchangeable Boolean arrays — which becomes a Lean pin once the Exchangeability roadmap's
-array API exists (per the roadmap guide, a condition whose API does not yet exist is described
-here rather than `sorry`-pinned). **The carrier level of that bridge is pinned now**, so the
+jointly exchangeable Boolean arrays. Its target type belongs to the array API outside this
+roadmap, and an identifier whose target type is elsewhere is described rather than
+`sorry`-pinned (per the roadmap guide). **The carrier level of that bridge is pinned now**, so the
 meeting point is a concrete contract rather than prose: `EdgeIndex` (unordered non-diagonal
 pairs of `ℕ`), the coordinate equivalence `graphCoordEquiv : SimpleGraph ℕ ≃ (EdgeIndex → Bool)`
 with measurability in both directions, and the relabeling commuting square `graphCoordEquiv_comap`
-(relabeling the graph = jointly relabeling the coordinates along `edgeIndexMap`). Only the
-law-level adapter waits for its target type; pushforward along the measurable equivalence then
+(relabeling the graph = jointly relabeling the coordinates along `edgeIndexMap`). The
+law-level adapter is the remaining half of the bridge; pushforward along the measurable equivalence then
 identifies graph exchangeability with joint array exchangeability. (The encoding follows the
 prior formalization's `InfiniteGraph.coordEquiv` — edge-set coordinates over `Sym2`, deliberately
 not an `ℕ → ℕ → Bool` subtype carrying a `Symmetric` side condition.)
@@ -644,18 +644,17 @@ extraction `exists_subseq_tendsto_probabilityMeasure`, limit identification, exi
 injectivity, the packaged `mixtureExchangeableLawEquiv` + `_apply`, and
 `isDissociated_mixtureExchangeableLaw_iff`), the dissociation bridge
 `isDissociated_iff_upperMass_mul`, and the representation summit
-`graphonMixtureLawEquiv` — now a **real body** transporting `mixtureExchangeableLawEquiv` along
+`graphonMixtureLawEquiv` — a transport of `mixtureExchangeableLawEquiv` along
 the extension — (+ `_dirac` and the mixture-coordinate law `_upperMass`); and the **Layer-8b
 spine** `graphParamMobius`
 (+ `graphParamMobius_nonneg` / `graphParamMobius_sum_eq_one`), the Möbius consistency calculus
 `graphParamMobius_sum_comap` with its measure packaging `paramGraphLaw`
-(+ `paramGraphLaw_isProbabilityMeasure`, `paramGraphLaw_map_comap`), `paramExchangeableLaw` — now
-a **visible assembly** of those fields —
+(+ `paramGraphLaw_isProbabilityMeasure`, `paramGraphLaw_map_comap`), `paramExchangeableLaw` — assembled from those fields —
 (+ `paramExchangeableLaw_upperMass`, `isDissociated_paramExchangeableLaw`). Described in prose
 rather than pinned (to
 avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape, the exact
 mod-null transport bundle, and the exchangeable-graph-law ↔ Boolean-array **law-level** interface
-`graphLawArrayLawEquiv` (awaiting the Exchangeability roadmap's array API; its carrier level is
+`graphLawArrayLawEquiv` (its target type belongs to the array API outside this roadmap; its carrier level is
 pinned above). An `IsCoupling` *structure/class* is **deliberately not** introduced — a
 coupling of given marginals is not canonical, so typeclass resolution would pick an arbitrary one; the
 `Prop` + `isProbabilityMeasure_of_isCoupling` is the right pattern.
@@ -695,7 +694,7 @@ Layers 4–6 are independent and likely to attract duplicate work, so **register
 `claim` the specific target** before a substantial push (see *Coordinating work* in the repository
 README).
 
-## Provenance (secondary — reviewers judge the mathematics, not this map)
+## Provenance (secondary)
 
 Two independent Lean formalizations of this theory exist; the roadmap draws on both, migrating
 the already-formalized parts and treating the open parts as goals to be discharged in `TauCeti/`.
@@ -711,19 +710,17 @@ the already-formalized parts and treating the open parts as goals to be discharg
   | `cutDist_eq_zero_of_homDensity_eq` | 6 (separation) |
   | `lovasz_szegedy_representability` | 8 (representability) |
 
-- [`cameronfreer/graphon`](https://github.com/cameronfreer/graphon) — **no custom axioms and now
-  `sorry`-free** (CI-enforced; the three sorries previously listed here are closed:
-  `exists_common_extension` (Rokhlin) is proved, and the algebraic-determination campaign —
-  issue #70 — closed 2026-07-02 via the Cai–Govorov descent); blueprint and dependency graph;
+- [`cameronfreer/graphon`](https://github.com/cameronfreer/graphon) — **no custom axioms and
+  `sorry`-free** (CI-enforced); blueprint and dependency graph;
   `AEEqFun` carrier, measure-preserving-map `cutDist`. Declaration-level claims in this roadmap are
   checked at commit
   [`6eccca5`](https://github.com/cameronfreer/graphon/tree/6eccca5bbe5c9df46d7129bf59575b8b9b1d6699)
-  (the pinned migration source; later commits may move things). Supplies proof routes for Layers 3–6
+  (the pinned migration source). Supplies proof routes for Layers 3–6
   on the canonical carrier (compactness in `Compactness.lean`; the inverse counting lemma —
   qualitative and quantitative — in `InverseCounting.lean`), the connection-matrix
   algebra and determination substrate of Layer 8a (`Lovasz.lean`, `MatrixDetermination.lean`,
-  `CaiGovorov.lean`), and — since 2026-07 — the Layer-9 sampling and graph-law stack: the first
-  sampling lemma (proved 2026-07-08, `SamplingLemma.lean`, via the two-stage point-sampling +
+  `CaiGovorov.lean`), and the Layer-9 sampling and graph-law stack: the first
+  sampling lemma (`SamplingLemma.lean`, via the two-stage point-sampling +
   rounding decomposition of `SamplingConcentration.lean`), the explicit one-space infinite sampler
   with its finite-marginal identification (`InfiniteSampler.lean`), the padded-exposure
   concentration engine (`SampleExposure.lean`), almost-sure sampling
@@ -738,28 +735,25 @@ the already-formalized parts and treating the open parts as goals to be discharg
   `isDissociated_iff_exists_sampleExchangeableLaw` (`MixtureExtremality.lean`) — so every proved
   route this roadmap's Layer 9 pins is checkable at the `6eccca5` pin.
 
-  **Since the pin** — checked at the later snapshot
-  [`bbc82c4`](https://github.com/cameronfreer/graphon/tree/bbc82c45b43db1082a93ec0a770b00ba573dd250);
-  a third pinned snapshot [`dfd7ecc`](https://github.com/cameronfreer/graphon/tree/dfd7ecc)
-  records the verification-experiment APIs (`exists_measurePreserving_from_unitInterval` with
-  its atomic battery, the Boolean Möbius inversion laws, the exact copy-count bridge, the
-  measurable-`Finpartition` null-cell adapter) and the corrected converse-side specification
-  (`RankRepresentation` is an interface with **no existence theorem at any rank**; the general
-  functional converse remains open)
-  (2026-08-03; still `sorry`-free in code, no custom axioms), the repository has grown a **generic
-  multi-sorted relational exchangeability framework** (`RelationalSignature.lean`,
-  `RelExchangeableLaw.lean` and the `Rel*` family): the finite/infinite relational law
-  equivalence (`RelLawEquivalence.lean`) and representation-free extremality
-  (`RelExtremality.lean`, `RelErgodicExtreme.lean`) are proved, kernel evaluation and the easy
-  direction of the functional Aldous–Hoover–Kallenberg representation are proved
-  (`RelKernelEvaluator.lean`), and fixing-algebra conditional independence and latent/factor
-  infrastructure have landed (`RelFixingCondIndep.lean`, `RelRankLatents.lean`). The **hard
-  functional converse remains open**: `RelRankRepresentation.lean` is explicitly an interface —
-  "no existence theorem accompanies this definition, at any rank". This is why the cross-roadmap
-  boundary (Layer 9b) assigns the generic law API to the Exchangeability roadmap as a
-  refactor-onto commitment while keeping the graphon-mixture proof independent of the generic
-  converse: the shared-law substrate is real and advancing, and the graph theorem is already
-  proved without it.
+  A second pinned snapshot
+  [`bbc82c4`](https://github.com/cameronfreer/graphon/tree/bbc82c45b43db1082a93ec0a770b00ba573dd250)
+  records a **generic multi-sorted relational exchangeability framework**
+  (`RelationalSignature.lean`, `RelExchangeableLaw.lean` and the `Rel*` family): the
+  finite/infinite relational law equivalence (`RelLawEquivalence.lean`), representation-free
+  extremality (`RelExtremality.lean`, `RelErgodicExtreme.lean`), and kernel evaluation with the
+  easy direction of the functional Aldous–Hoover–Kallenberg representation
+  (`RelKernelEvaluator.lean`). A third pinned snapshot
+  [`dfd7ecc`](https://github.com/cameronfreer/graphon/tree/dfd7ecc) records the
+  validation-gate APIs (`exists_measurePreserving_from_unitInterval` with its atomic battery,
+  the Boolean Möbius inversion laws, the exact copy-count bridge, the
+  measurable-`Finpartition` null-cell adapter), fixing-algebra conditional independence with
+  latent/factor infrastructure (`RelFixingCondIndep.lean`, `RelRankLatents.lean`), and the
+  converse-side specification: `RelRankRepresentation.lean` is an interface — "no existence
+  theorem accompanies this definition, at any rank" — the **hard functional converse is an open
+  target of that development**. This is why the cross-roadmap
+  boundary (Layer 9b) places the generic law API outside this roadmap while keeping the
+  graphon-mixture proof independent of the generic converse: the shared-law substrate exists,
+  and the graph theorem is proved without it.
 
 Already formalized over a fixed standard-Borel carrier, making the canonical specializations
 migration-first: Layers 0–7 and 9a–9c. The **coupling-based cross-carrier generality** of Layers 1, 5,
@@ -861,8 +855,8 @@ The mathematics and proof routes draw on two prior Lean developments,
   the summit `graphonMixtureLawEquiv` a real-body transport of the finite-level equivalence,
   never an opaque `Equiv`?
 - Does the cross-roadmap boundary distinguish **API ownership from proof dependency** — the
-  generic exchangeable-law API owned by the Exchangeability roadmap with a refactor-onto
-  commitment (no build dependency), the graphon-mixture proof independent of the array-level
+  generic exchangeable-law API homed outside this roadmap with a definite adapter target
+  (no build dependency), the graphon-mixture proof independent of the array-level
   Aldous–Hoover converse, and the two joined by the documented `graphLawArrayLawEquiv`
   interface — with its carrier level (`graphCoordEquiv` + the relabeling square) pinned now?
 - Does the Layer-8b spine run through named targets (`graphParamMobius` with positivity and total
