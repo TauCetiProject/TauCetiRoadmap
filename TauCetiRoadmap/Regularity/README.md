@@ -113,8 +113,8 @@ The dense graph limits roadmap covers graphons, the analytic cut norm, cut dista
 Frieze–Kannan, and sampling. This roadmap's Layer 3 develops **finite weak regularity** —
 `steppedCount`, the count-scaled `cutDiscrepancy`, and a directly proved finite Frieze–Kannan
 theorem — as its own layer, with no graphon imports: the finite and analytic theorems are
-**independent formulations, neither derived from the other**, and may later be compared by
-consumer-owned adapters (see *Interfaces exported to other roadmaps*). `Suggested.lean` imports only Mathlib and
+**independent formulations, neither derived from the other**. Consumer roadmaps own any comparison
+adapters they require (see *Interfaces exported to other roadmaps*). `Suggested.lean` imports only Mathlib and
 pins the Layer-3 targets directly.
 
 ## The build, in layers
@@ -134,7 +134,7 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 - **Gate.** `K₂`, a triangle, the complete and empty `r`-uniform hypergraphs; hom densities normalized by powers, injective densities by the falling factorial `(n)_k`.
 
 ### Layer 1 — partitions, block densities, refinement, energy
-- **Consume.** `Finpartition`, `equitabilise`, `edgeDensity`. Mathlib's `SzemerediRegularity.increment` boost machinery is an **alignment point / proof template**, not a consumed theorem: it is stated for Mathlib's unweighted `Finpartition.energy`, and no comparison lemma transporting its boost to `weightedEnergy` is pinned (if one is added later, this becomes a real consume).
+- **Consume.** `Finpartition`, `equitabilise`, `edgeDensity`. Mathlib's `SzemerediRegularity.increment` boost machinery is an **alignment point / proof template**, not a consumed theorem: it is stated for Mathlib's unweighted `Finpartition.energy`, and this layer's `weightedEnergy` is the size-weighted energy, so the boost does not transport. This layer builds its own energy increment.
 - **Build.** `UniformHypergraph.blockDensity`; the **size-weighted** graph energy `weightedEnergy` (the `L²` norm of the block-average step function, casts before division, **including** the diagonal blocks `i = j`) and its refinement-monotonicity `weightedEnergy_mono_of_refines`; the hypergraph-level analogue. **Not** Mathlib's unweighted `Finpartition.energy`, an `offDiag`-based average that is *not* Jensen-monotone under arbitrary refinement (it is monotone only inside the `increment` argument). (Comparison with the dense graph limits roadmap's analytic `graphonPartitionEnergy` is a downstream-owned comparison, not a deliverable here — see *Interfaces exported to other roadmaps*.)
 - **Gate.** `weightedEnergy` agrees with the block-average `L²` on graphs; the diagonal and repeated-part conventions are explicit.
 
@@ -333,9 +333,12 @@ observable is a hypothesis on the badness-closure lemma alone, so orientation co
 forced by the regularization step — it is forced from Layer 6 on, where polyad support reads
 coordinate pairs at both orientations.
 
-The deviations to reconcile are ones of shape, not of arity: a single Boolean observable rather than
-color-indexed relative densities, unordered pair colors, no vertex partition, and a single disc atom
-(`r = 1`) in the summit rather than the bounded unions this roadmap's rank-`r` tests quantify over.
+Genericity stops at the regularization. The deletion cleanup and the approximation summit
+`exists_triadic_regular_approximation` are stated for `UniformHypergraph 3` and use the factor-six
+ordered edit normalization, so they are arity-three. The deviations to reconcile are otherwise ones
+of shape: a single Boolean observable rather than color-indexed relative densities, unordered pair
+colors, no vertex partition, and a single disc atom (`r = 1`) in the summit rather than the bounded
+unions this roadmap's rank-`r` tests quantify over.
 This roadmap uses ordered pair colors, an equitable vertex partition, and a total colored top
 relation; the library's rank-`r` subtriad tests and factor-six edit normalization provide the
 corresponding local models. The proved complexity bound is obtained from an iterated recurrence of
@@ -446,23 +449,23 @@ count in a concrete 3-uniform example.
 ## Ordering
 
 Layers 0–1 (substrate) and the graph-regularity endpoint (Layers 2–4) first — they are honestly pinnable against
-today's Mathlib and give visible checkpoints. The arity-3 tower (5–9) follows: skeleton (5) →
+the pinned Mathlib APIs and give visible checkpoints. The arity-3 tower (5–9) follows: skeleton (5) →
 polyads/densities (6) → top regularity (7) → the strong approximation (8) → induced counting (9).
 Layers 4 and 8 attract duplicate work, so **register an Intention and `claim` the specific target**
 before a substantial push (see *Coordinating work* in the repository README).
 
 ## Interfaces exported to other roadmaps
 
-This roadmap exports finite regularity and counting interfaces that later roadmaps may consume —
+This roadmap exports finite regularity and counting interfaces owned by consumer roadmaps —
 deterministic regularity inputs for exchangeable-array statements and removal-style / arithmetic
-hooks. These are **downstream consumers, not local endpoints**. In particular, once the
-exchangeable-array API exists, the finite sampling lemmas here should provide deterministic
-regularity inputs for random-array statements; this roadmap does not own the representation theorem.
+hooks. These are **downstream consumers, not local endpoints**. The finite sampling lemmas here
+supply deterministic regularity inputs for random-array statements; the exchangeability roadmap owns
+the representation theorem and the API those inputs feed.
 
 **Interoperability adapters (owned downstream; not gating any layer).** This roadmap does not
 specify finite–analytic comparison maps: a consumer roadmap that requires such a map owns it as a
 named milestone there, and no layer or acceptance gate here depends on one. The finite and analytic
-developments may later be compared by adapters, owned by whichever side finds them useful: a `stepGraphonOfFinpartition`
+developments are compared only by adapters a consumer owns: a `stepGraphonOfFinpartition`
 compatibility; identification of the finite `cutDiscrepancy`'s `SimpleGraph` specialization with the
 analytic Frieze–Kannan statement (minding the scaling — `cutDiscrepancy` is count-scaled by `|V|²`,
 the graphon cut norm is normalized); the energy comparison `graphonPartitionEnergy_finiteGraphGraphon`
@@ -483,7 +486,7 @@ dependency or an acceptance gate.
   Frieze–Kannan theorem); finite–analytic comparisons are owned by downstream consumers, not
   deliverables here.
 - It does **not** own exchangeability or representation theorems for exchangeable arrays; it exports
-  deterministic finite regularity inputs those roadmaps may consume.
+  deterministic finite regularity inputs those roadmaps consume.
 - It does **not** culminate in arithmetic applications, and does **not** package a one-off induced
   removal theorem as its endpoint; those belong after the counting layer or in a consumer roadmap.
 
@@ -493,27 +496,21 @@ Two choices bind several layers at once. They are stated here rather than in API
 declarations state contracts and this section states the commitment behind them.
 
 **The pair-regularity predicate and the route divisor are a matched pair.** `IsPairColorRegular` is
-**coordinatewise**: each palette color's density is controlled separately. `routeBudget3` therefore
-carries the route-count divisor, because per-route errors under a coordinatewise predicate are
-uniform in cell volume rather than mass-weighted. The two are adopted together, and Layer 9's
-counting is stated against the pair: a coordinatewise predicate without the divisor does not bound
-the per-route error, and the divisor is dispensable only under a predicate that controls the palette
-in aggregate. One quantitative fact behind the choice is worth recording, because it constrains any
-future aggregate predicate: aggregate regularity gives palette-free control of every *rectangle*
-test of the cherry covariance matrix, while the generic cut-to-entrywise conversion costs exactly
-the palette size `ℓ`.
+**coordinatewise**: each palette color's density is controlled separately, in contrast to an
+aggregate predicate that controls the palette as a whole. `routeBudget3` therefore carries the
+route-count divisor, because per-route errors under a coordinatewise predicate are uniform in cell
+volume rather than mass-weighted. The two are adopted together and Layer 9's counting is stated
+against the pair: a coordinatewise predicate without the divisor does not bound the per-route error,
+and the divisor is dispensable only under an aggregate predicate.
 
-**The calibration is fixed-rank.** `requiredTopCountingRank3_le_inducedCountingRank3` is the target:
-a single rank, fixed in advance, dominating a demand that grows as the route budget shrinks with the
-palette. Write `L` for the **critical palette size** — the least `ℓ` past which the rank required at
-`routeBudget3 C k (ε/12)` exceeds `inducedCountingRank3 q₃ k ε`. A complex whose pair palette reaches
-`L` **falsifies** the calibration. Because Layer 8's complexity is the computed sum
-`#cells + pairColorCount + #polyads`, such an admissible complex exists exactly when
-`1 + L ≤ regularityBound3 …` (take one vertex cell, `L` pair colors, no polyad keys). So the
-calibration **holds precisely when `regularityBound3` stays below `1 + L`**, and establishing that
-inequality for the bound Layer 8 proves is part of this roadmap's work. Note the quantifier: a
-cofinal formulation ("for every `L` an admissible complex with palette `≥ L`") is vacuous and proves
-nothing, since bounded complexity bounds the palette.
+**The calibration is fixed-rank.** `regularityBound3`, `inducedCountingRank3`, and the error
+schedules are chosen jointly so that `requiredTopCountingRank3_le_inducedCountingRank3` holds for
+every complex satisfying the stated complexity bound. The rank is fixed in advance rather than
+evaluated at the complexity, and it must dominate a demand that grows as the route budget shrinks
+with the palette; since Layer 8's complexity is the computed sum
+`#cells + pairColorCount + #polyads`, the palette that demand can reach is itself bounded by
+`regularityBound3`. Choosing these three together so the domination holds is Layer 9's calibration
+work.
 
 
 ## Prior formalization
@@ -527,7 +524,7 @@ declaration-level claims in this section and the per-layer notes were checked at
 [`315ef979f55f31cc43cd791302519d9a34cc2dc0`](https://github.com/cameronfreer/regularity-lemmata/tree/315ef979f55f31cc43cd791302519d9a34cc2dc0),
 which the protected tag
 [`tauceti-roadmap-pin-2`](https://github.com/cameronfreer/regularity-lemmata/tree/tauceti-roadmap-pin-2)
-also names (the full SHA is authoritative; later commits may move things). Much of Layers 1–4, and Boolean
+also names. Much of Layers 1–4, and Boolean
 precursors of Layers 5–8, are proved there; the per-layer *Prior formalization* notes above record the shape
 deviations a TauCeti implementation must reconcile.
 

@@ -178,8 +178,9 @@ theorem frieze_kannan (G : SimpleGraph V) [DecidableRel G.Adj] (ε : ℝ) (hε :
         |((G.interedges A B).card : ℝ) - steppedCount G P A B| ≤
           ε * (Fintype.card V : ℝ) ^ 2 := sorry
 
-/-- **Layer 3.** The supremum form, derived — not a second `sorry`: the cut discrepancy itself is at
-most `ε·|V|²`. Proved counterpart: `RegularityLemmata.frieze_kannan_cutDiscrepancy`. -/
+/-- **Layer 3.** The supremum form: the cut discrepancy itself is at most `ε·|V|²`, obtained from the
+rectangle-quantified statement through `cutDiscrepancy_le_iff`. Proved counterpart:
+`RegularityLemmata.frieze_kannan_cutDiscrepancy`. -/
 theorem frieze_kannan_cutDiscrepancy (G : SimpleGraph V) [DecidableRel G.Adj] (ε : ℝ)
     (hε : 0 < ε) :
     ∃ P : Finpartition (univ : Finset V), P.parts.card ≤ 4 ^ (⌈1 / ε ^ 2⌉₊ + 1) ∧
