@@ -23,10 +23,14 @@ body:
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - ContourIntegration
+        - DGAInfinity
         - EllipticCurves
         - Exchangeability
         - GeometricTopology
+        - GrothendieckEulerForms
         - HeegaardFloer
+        - HodgeStructures
+        - IntegralLattices
         - JacobianChallenge
         - ModularForms
         - Multiquadratic

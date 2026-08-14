@@ -1,10 +1,12 @@
 name = "TauCetiRoadmap"
 defaultTargets = ["TauCetiRoadmap"]
 
+# Roadmap target signatures should consume existing Tau Ceti declarations directly rather than
+# restating a Mathlib-only approximation of the implementation boundary.
 [[require]]
-name = "mathlib"
-git = "https://github.com/leanprover-community/mathlib4"
-rev = "master"
+name = "TauCeti"
+git = "https://github.com/TauCetiProject/TauCeti"
+rev = "main"
 
 # Human-owned roadmaps: markdown plus Lean target signatures. `sorry` is allowed here
 # (these are goals, not proofs), so this library builds without `warningAsError`. Glob all

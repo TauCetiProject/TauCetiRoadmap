@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RepresentationTheory.Quiver.EulerForm
 
 /-!
 # Quiver representations, path algebras, and Gabriel's theorem: target signatures
