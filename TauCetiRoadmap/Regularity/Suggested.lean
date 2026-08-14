@@ -43,13 +43,25 @@ variable {κ₂ κ₃ : Type*} [Fintype κ₂] [DecidableEq κ₂] [Fintype κ�
 
 /-! ### Layer 0 — finite colored graph and 3-uniform vocabulary -/
 
-/-- **Layer 0.** A finite `r`-uniform hypergraph: a finset of `r`-element edges. A deliberately
-finite computational representation: Mathlib master now carries a general set-based `Hypergraph`
-(absent at the current Tau Ceti Mathlib pin), and this layer owes a `toHypergraph` bridge with an
-agreement statement once the pin includes it (see *Layer 0 — migration boundary* in `README.md`). -/
+/-- **Layer 0.** A finite `r`-uniform hypergraph: a finset of `r`-element edges. This is the public
+representation for every layer above, because the densities and counts they state need finiteness
+that Mathlib's set-based `Hypergraph` does not carry; `toHypergraph` relates the two. -/
 structure UniformHypergraph (r : ℕ) (V : Type*) [DecidableEq V] where
   edges : Finset (Finset V)
   edge_card : ∀ e ∈ edges, e.card = r
+
+/-- **Layer 0.** The bridge to Mathlib's set-based carrier: the whole host as the vertex set, and the
+finite edges coerced to sets. -/
+def UniformHypergraph.toHypergraph {r : ℕ} (H : UniformHypergraph r V) : Hypergraph V := sorry
+
+/-- **Layer 0.** The bridge keeps the whole host as its vertex set. -/
+theorem UniformHypergraph.toHypergraph_vertexSet {r : ℕ} (H : UniformHypergraph r V) :
+    H.toHypergraph.vertexSet = (Set.univ : Set V) := sorry
+
+/-- **Layer 0.** The bridge's edges are exactly the coercions of the finite edges — the agreement
+statement that makes the two representations interchangeable as carriers. -/
+theorem UniformHypergraph.toHypergraph_edgeSet {r : ℕ} (H : UniformHypergraph r V) :
+    H.toHypergraph.edgeSet = {e : Set V | ∃ f ∈ H.edges, (f : Set V) = e} := sorry
 
 /-- **Layer 0.** Edge density of an `r`-uniform hypergraph. Convention: the density is `0` when
 `Fintype.card V < r` (`Nat.choose` is then `0`, and `_ / 0 = 0`); substantive lemmas assume
@@ -93,9 +105,8 @@ theorem weightedEnergy_mono_of_refines (G : SimpleGraph V) [DecidableRel G.Adj]
 reintroduced afterwards: uniformity is not hereditary, so post-refinement is invalid, and common
 refinement destroys equitability. Mathlib still supplies the analytic content — its exported
 increment exactly refines its input, keeps equitability, and carries the gain and the bound. Two
-pieces remain project work: an initial equitable partition almost-refining the seed, and seeded
-execution of the energy induction. An upstream seeded induction would remove the second, not the
-first. -/
+pieces are built here over it: an initial equitable partition almost-refining the seed, and seeded
+execution of the energy induction. -/
 
 /-- **Layer 2.** `P` almost-refines `P₀`: each `P₀`-part is covered, up to a `δ`-fraction, by
 `P`-parts contained in it. -/
@@ -103,10 +114,10 @@ def AlmostRefines (P P₀ : Finpartition (univ : Finset V)) (δ : ℝ) : Prop :=
   ∀ A ∈ P₀.parts, ∃ T ⊆ P.parts, (∀ B ∈ T, B ⊆ A) ∧
     ((A \ T.biUnion id).card : ℝ) ≤ δ * A.card
 
-/-- **Layer 2.** The `V`-independent complexity bound for the refining-regularity theorem (explicit
-value is a target — bounding a partition that is simultaneously regular, equitable, and
-almost-refining remains open; the prior formalization's `regularityBound ⌈1/ε⁵⌉ #P₀.parts` bounds
-only its intermediate exact refinement). -/
+/-- **Layer 2.** The `V`-independent complexity bound for the refining-regularity theorem: it bounds
+a partition that is simultaneously regular, equitable, and almost-refining. The prior
+formalization's `regularityBound ⌈1/ε⁵⌉ #P₀.parts` bounds only its intermediate exact refinement, so
+the value here is established at this layer. -/
 def refiningRegularityBound (ε : ℝ) (l : ℕ) : ℕ := sorry
 
 /-- **Layer 2.** A regular equipartition almost-refining `P₀`, with a host-independent complexity

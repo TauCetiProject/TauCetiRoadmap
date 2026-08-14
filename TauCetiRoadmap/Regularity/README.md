@@ -95,7 +95,8 @@ some prose paths below are abbreviated.)
 - **Uniformity / energy:** `SimpleGraph.IsUniform`, `Finpartition.IsUniform`, `Finpartition.nonUniforms`, `SimpleGraph.nonuniformWitness` (`Regularity/Uniform.lean`); `Finpartition.energy` and the `SzemerediRegularity.increment` / `chunk` energy-boost machinery (`Regularity/{Energy,Chunk,Increment}.lean`).
 - **Partitions:** `Finpartition` (`Order/Partition/Finpartition.lean`), `Finpartition.IsEquipartition` (`(parts).EquitableOn card`, `Order/Partition/Equipartition.lean`), and `Finpartition.equitabilise` / `Finpartition.exists_equipartition_card_eq` (both in `Combinatorics/SimpleGraph/Regularity/Equitabilise.lean`). **`P ≤ Q` = `P` refines `Q`.**
 - **Densities and copies:** `SimpleGraph.edgeDensity` (`SimpleGraph/Density.lean`); `SimpleGraph.Copy`, `IsContained` (`⊑`), `Free`, `copyCount`, `labelledCopyCount` (`SimpleGraph/Copy.lean`); triangle counting/removal and `triangleRemovalBound` (`SimpleGraph/Triangle/`).
-- **Building blocks:** `Nat.descFactorial` (falling factorial), `Finset.powersetCard`, `Nat.choose`. **No hypergraph carrier is available at the repository's pinned Mathlib revision** (`9caeba1`). Mathlib master has since gained a general set-based undirected `Hypergraph` API ([`Mathlib/Combinatorics/Hypergraph/Basic.lean`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Combinatorics/Hypergraph/Basic.lean), landed 2026-06) — a bare carrier (vertex set plus set-valued edges) with none of the finite uniform density/counting API this roadmap needs. The hypergraph objects here are therefore built as deliberately finite computational representations, with an explicit migration boundary owed once the pin catches up (see Layer 0).
+- **Building blocks:** `Nat.descFactorial` (falling factorial), `Finset.powersetCard`, `Nat.choose`.
+- **Hypergraphs:** `Hypergraph` ([`Mathlib/Combinatorics/Hypergraph/Basic.lean`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Combinatorics/Hypergraph/Basic.lean)) is a set-based undirected carrier — `vertexSet : Set α` and `edgeSet : Set (Set α)`, with `Adj`, `EAdj`, `map`, `IsIsolated`, `IsLoop`, `IsTrivial`/`trivialOn`, `IsComplete`/`completeOn`, and a bottom element. It carries **no uniformity predicate and no finiteness, density, or counting API**, which is what Layers 5–9 consume throughout. The hypergraph objects here are therefore finite computational representations in their own right, bridged to the Mathlib carrier by `UniformHypergraph.toHypergraph` (Layer 0) rather than replaced by it.
 
 ## Cross-roadmap dependencies
 
@@ -126,9 +127,10 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 - **Build.** `UniformHypergraph r V`, its edge density, the total unordered coloring
   `Colored3Graph κ₃ V`, and the colored and hypergraph copy-counting API. Define plain-graph hom and
   injective densities from `SimpleGraph.Copy` and `Nat.descFactorial`.
-- **Migration boundary.** When Tau Ceti's Mathlib pin includes `Hypergraph`, add
-  `UniformHypergraph.toHypergraph` and prove agreement of the vertex and edge sets. Decide the public
-  representation against the Mathlib API at that point.
+- **Bridge to Mathlib's carrier.** `UniformHypergraph.toHypergraph : UniformHypergraph r V → Hypergraph V`,
+  with `toHypergraph_vertexSet` and `toHypergraph_edgeSet` proving the two carriers agree. The finite
+  representation stays the public one: `Hypergraph` has no uniformity, finiteness, density, or
+  counting API, and every layer above states its densities and counts over the finite form.
 - **Gate.** `K₂`, a triangle, the complete and empty `r`-uniform hypergraphs; hom densities normalized by powers, injective densities by the falling factorial `(n)_k`.
 
 ### Layer 1 — partitions, block densities, refinement, energy
@@ -153,22 +155,22 @@ can specialize it.
   its output to nothing, and the seed cannot be recovered afterwards: uniformity is not hereditary,
   so post-refining a regular partition is invalid, and common refinement with `P₀` loses
   equitability. So this layer builds: an **initial equitable partition almost-refining `P₀`** (where
-  divisibility forces `AlmostRefines`' `δ` and the open `refiningRegularityBound`), and a
+  divisibility forces `AlmostRefines`' `δ` and `refiningRegularityBound`), and a
   **seed-aware run of the energy induction** over the consumed increment. Also `AlmostRefines`,
   including containment of each selected cell in its parent cell, and
   `exists_regular_equipartition_almost_refining`, which starts from an equipartition `P₀`, assumes
   the host is large enough, and returns a regular equipartition almost-refining `P₀` with complexity
   bounded by `refiningRegularityBound`. Exact refinement transports almost-refinement, so the
-  iteration preserves it. An upstream seed-aware induction would remove the second build item, not
-  the first.
+  iteration preserves it. Both build items are constructed here: Mathlib's `increment` supplies the
+  analytic step of each round, and the seed-aware run of the induction over it is Tau Ceti's.
 - **Gate.** Yields "all but ε-mass of pairs regular, boundedly many parts, almost-refining an equipartition `P₀`" — the input strong regularity iterates on.
 
 **Prior formalization.** `regularity-lemmata` proves the *two-partition* intermediate
 `exists_regular_refinement_and_almostRefining_equipartition` (`Graph/Bridge.lean`, with `_of_bound_le`
 and `_ceil` corollaries): a regular **exact** refinement `Q ≤ P₀` with the bound
 `regularityBound ⌈1/ε⁵⌉ #P₀.parts`, plus a *separate* equipartition `E` (roughly `⌈B/ε⌉` parts)
-almost-refining both — with `E` **not itself regular**; the self-regular version, exactly this
-layer's target, is that library's explicitly deferred endpoint. It is proved from the library's **own**
+almost-refining both — with `E` **not itself regular**. The self-regular version is exactly this
+layer's target and is not proved there. The intermediate is proved from the library's **own**
 mass-weighted directed energy-increment theorem (`exists_regular_refinement`); the bridge to Mathlib's
 `szemeredi_regularity` is a *separate* result in the same file. Shape deviations to reconcile: its
 `AlmostRefines` is a **global** normalized exceptional mass (`≤ ε·|s|`, built from the per-parent
@@ -177,7 +179,8 @@ partition regularity is the mass-weighted `IsRegularPartition` (normalized bad *
 Mathlib's `Finpartition.IsUniform` pinned here. That library also exports the seeded weak-regularity
 shape this layer needs at Layer 3 (`frieze_kannan_refining`), and an exact-refining finite-family
 summit (`exists_familyRegular_refinement`). This roadmap's `refiningRegularityBound` — bounding a
-partition that is simultaneously regular, equitable, and almost-refining — remains open.
+partition that is simultaneously regular, equitable, and almost-refining — has no counterpart there;
+its value is established at this layer.
 
 ### Layer 3 — finite weak regularity
 - **Consume.** Layer 1's finite energy and partition machinery.
@@ -321,12 +324,22 @@ floor. The theorem returns equitable vertex cells satisfying that floor.
 
 **Gate.** Compare the two-dimensional shadow of these definitions with Layer 4's graph API.
 
-**Prior formalization (Layers 5–8).** `regularity-lemmata/Hypergraph` proves Boolean arity-3
-precursors `exists_goodColoring` and `exists_triadic_regular_approximation`. They use unordered pair
-colors and no vertex partition; this roadmap uses ordered pair colors, an equitable vertex
-partition, and a total colored top relation. Its rank-`r` subtriad tests and factor-six edit
-normalization provide the corresponding local models. The proved complexity bound is obtained from
-an iterated recurrence of shape `K ↦ K·2^{O(K³)}`.
+**Prior formalization (Layers 5–8).** `regularity-lemmata/Hypergraph` proves Boolean precursors
+`exists_goodColoring` and `exists_triadic_regular_approximation`. The regularization behind them is
+not arity-specific: `exists_goodPolyadColoring` and its seeded form regularize a coloring of
+`j`-sets against an arbitrary decidable observable on ordered `(j+1)`-tuples, normalized by
+`|V|^{j+1}`, and the triadic statements are the `j = 2` instance. Permutation invariance of the
+observable is a hypothesis on the badness-closure lemma alone, so orientation coherence is not
+forced by the regularization step — it is forced from Layer 6 on, where polyad support reads
+coordinate pairs at both orientations.
+
+The deviations to reconcile are ones of shape, not of arity: a single Boolean observable rather than
+color-indexed relative densities, unordered pair colors, no vertex partition, and a single disc atom
+(`r = 1`) in the summit rather than the bounded unions this roadmap's rank-`r` tests quantify over.
+This roadmap uses ordered pair colors, an equitable vertex partition, and a total colored top
+relation; the library's rank-`r` subtriad tests and factor-six edit normalization provide the
+corresponding local models. The proved complexity bound is obtained from an iterated recurrence of
+shape `K ↦ K·2^{O(K^{j+1})}`, which at arity three is `K ↦ K·2^{O(K³)}`.
 
 ### Layer 9 — induced counting
 
@@ -374,8 +387,8 @@ in `H'`; the edit to `H` is performed after global summation.
 
 **Pinned choices.** Pair-regularity input strength and counting output error are separate
 parameters. Sparse routes form a local branch rather than a global error charge. The top rank depends
-on the pattern and error; its calibration against `inducedCountingRank3` is stated for
-complexity-bounded complexes. A complexity-dependent rank schedule is the alternative formulation.
+on the pattern and error, and is **fixed in advance**; its calibration against
+`inducedCountingRank3` is stated for complexity-bounded complexes (see *Two pinned interfaces*).
 
 #### 9C. Globally excluded contributions
 
@@ -474,33 +487,33 @@ dependency or an acceptance gate.
 - It does **not** culminate in arithmetic applications, and does **not** package a one-off induced
   removal theorem as its endpoint; those belong after the counting layer or in a consumer roadmap.
 
-## Open design gates
+## Two pinned interfaces
 
-Two questions are genuinely open. They are recorded here rather than in API docstrings, so that
-declarations state contracts and this section states status.
+Two choices bind several layers at once. They are stated here rather than in API docstrings, so that
+declarations state contracts and this section states the commitment behind them.
 
-**The pair-regularity predicate and the route divisor.** `IsPairColorRegular` is coordinatewise. An
-`L¹`-in-palette variant (`∑ c, |d_c(A',B') - d_c(A,B)| ≤ ε`) would let the route-count divisor be
-dropped from `routeBudget3`, because per-route errors would then be mass-weighted rather than
-uniform in cell volume. Adopting it turns on an open question: whether `L¹` regularity of `(A,B)`
-and `(A,C)` bounds the cherry covariance `∑_{c,c'} |Cov_a(β_a(c), γ_a(c'))|` by a modulus
-independent of the palette size `ℓ`. What is settled: `L¹` regularity gives palette-free control of
-every *rectangle* test of that covariance matrix, while the generic cut-to-entrywise conversion
-costs exactly `ℓ`. Until this closes, the coordinatewise predicate and the divisor stand together;
-taking one without the other would be unsound.
+**The pair-regularity predicate and the route divisor are a matched pair.** `IsPairColorRegular` is
+**coordinatewise**: each palette color's density is controlled separately. `routeBudget3` therefore
+carries the route-count divisor, because per-route errors under a coordinatewise predicate are
+uniform in cell volume rather than mass-weighted. The two are adopted together, and Layer 9's
+counting is stated against the pair: a coordinatewise predicate without the divisor does not bound
+the per-route error, and the divisor is dispensable only under a predicate that controls the palette
+in aggregate. One quantitative fact behind the choice is worth recording, because it constrains any
+future aggregate predicate: aggregate regularity gives palette-free control of every *rectangle*
+test of the cherry covariance matrix, while the generic cut-to-entrywise conversion costs exactly
+the palette size `ℓ`.
 
-**The fixed-rank calibration.** `requiredTopCountingRank3_le_inducedCountingRank3` asks a fixed rank
-to dominate a demand that grows as the route budget shrinks with the palette. Write `L` for the
-**critical palette size**: the least `ℓ` past which the rank required at `routeBudget3 C k (ε/12)`
-exceeds `inducedCountingRank3 q₃ k ε`. A complex whose pair palette reaches `L` **falsifies** the
-calibration. Because Layer 8's complexity is the computed sum `#cells + pairColorCount + #polyads`,
-such an admissible complex exists exactly when `1 + L ≤ regularityBound3 …` (take one vertex cell,
-`L` pair colors, no polyad keys). So the calibration **holds precisely when that bound stays below
-`1 + L`** — when the complexity bound excludes palettes of critical size. Whether it does is a
-question about `regularityBound3`'s eventual value, not about the argument. A cofinal formulation
-("for every `L` an admissible complex with palette `≥ L`") is vacuous and proves nothing, since
-bounded complexity bounds the palette. If no constant-rank fixed point exists, the fallback is the
-rank-*schedule* formulation — a rank function evaluated at the complexity, as Rödl–Schacht permit.
+**The calibration is fixed-rank.** `requiredTopCountingRank3_le_inducedCountingRank3` is the target:
+a single rank, fixed in advance, dominating a demand that grows as the route budget shrinks with the
+palette. Write `L` for the **critical palette size** — the least `ℓ` past which the rank required at
+`routeBudget3 C k (ε/12)` exceeds `inducedCountingRank3 q₃ k ε`. A complex whose pair palette reaches
+`L` **falsifies** the calibration. Because Layer 8's complexity is the computed sum
+`#cells + pairColorCount + #polyads`, such an admissible complex exists exactly when
+`1 + L ≤ regularityBound3 …` (take one vertex cell, `L` pair colors, no polyad keys). So the
+calibration **holds precisely when `regularityBound3` stays below `1 + L`**, and establishing that
+inequality for the bound Layer 8 proves is part of this roadmap's work. Note the quantifier: a
+cofinal formulation ("for every `L` an admissible complex with palette `≥ L`") is vacuous and proves
+nothing, since bounded complexity bounds the palette.
 
 
 ## Prior formalization
@@ -509,41 +522,32 @@ rank-*schedule* formulation — a rank function evaluated at the complexity, as 
 Lean 4 library of finite regularity, counting, and approximation infrastructure — `sorry`-free with
 no custom axioms (CI-enforced by its `scripts/check.sh`). Its partition/graph layers are developed
 for **directed relations on an arbitrary `Finset` host** (subsuming `SimpleGraph`); its hypergraph
-development is Boolean and unordered. The declaration-level claims in this section and the
-per-layer notes were checked at commit
-[`a18f98c96770967bc9f3ab5a81fdf642d9f68b99`](https://github.com/cameronfreer/regularity-lemmata/tree/a18f98c96770967bc9f3ab5a81fdf642d9f68b99),
+development is Boolean and unordered, and its regularization layer is stated at arbitrary arity. The
+declaration-level claims in this section and the per-layer notes were checked at commit
+[`315ef979f55f31cc43cd791302519d9a34cc2dc0`](https://github.com/cameronfreer/regularity-lemmata/tree/315ef979f55f31cc43cd791302519d9a34cc2dc0),
 which the protected tag
-[`tauceti-roadmap-pin-1`](https://github.com/cameronfreer/regularity-lemmata/tree/tauceti-roadmap-pin-1)
+[`tauceti-roadmap-pin-2`](https://github.com/cameronfreer/regularity-lemmata/tree/tauceti-roadmap-pin-2)
 also names (the full SHA is authoritative; later commits may move things). Much of Layers 1–4, and Boolean
 precursors of Layers 5–8, are proved there; the per-layer *Prior formalization* notes above record the shape
 deviations a TauCeti implementation must reconcile.
-
-**Landed upstream after the pin** (not reflected in the pinned commit or the map below; a fresh pin
-and one consolidated inventory update are deferred until the in-flight generic-polyad work lands):
-an exact counterexample showing Mathlib's off-diagonal `Finpartition.energy` is not
-refinement-monotone while the mass-weighted energy is; a seeded Frieze–Kannan summit
-(`frieze_kannan_refining`); a refinement-preserving polyad iteration (`ColoringRefines`,
-`exists_goodColoring_refining`); a generic diagonal-weight bound (`sum_nontransversal_weight_le`),
-which supplies the mathematical core of Layer 9's diagonal gate but not TauCeti's expected-count
-definitions; and exact-refining finite-family regularity (`exists_familyRegular_refinement`).
 
 Summary map, with each row's exact
 relationship to the targets here condensed from the per-layer notes:
 
 | Roadmap layer | Proved there (representative names) | Relationship to the targets here |
 |---|---|---|
-| 1 | `energy`, `energy_mono`, `energy_le_one` (`Partition/Energy.lean`) | more general (mass-weighted, directed, arbitrary `Finset` host); `weightedEnergy` can specialize it |
-| 2 | `AlmostRefinesAt` / `exceptionalMass` / `AlmostRefines`; `IsRegularPartition`; `exists_regular_refinement_and_almostRefining_equipartition` (+ `_of_bound_le`, `_ceil`); the separate Mathlib `szemeredi_regularity` bridge (`Graph/Bridge.lean`) | two-partition intermediate (exact refinement + a separate, non-regular almost-refining equipartition); the self-regular target here is its explicitly deferred endpoint |
-| 3 | `steppedCount`, `cutDiscrepancy`, `cutDiscrepancy_le_iff`, `frieze_kannan`, `frieze_kannan_cutDiscrepancy` (`Graph/{CutNorm,FriezeKannan}.lean`) | same statement shapes for directed relations; the targets here are its `SimpleGraph` specialization |
-| 4 | `ErrorSchedule`, `StrongWitness`, `exists_strongWitness` (`Graph/Strong.lean`); the binary-palette strong-witness counting chain and graph bridges (`Relational/GraphCounting.lean`) as the closest counting analogue | precursor witness (no equipartition or coarse-regularity fields; complexity bound in the conclusion); the counting gate stays open |
-| 5–8 (precursor) | `IsLocalDiscRegular`, `exists_goodColoring`, `exists_triadic_regular_approximation` (`Hypergraph/*.lean`) | Boolean, unordered-pair, no-vertex-partition precursor by a deliberately different route (see the Layers 5–8 note) |
-| 9 (blueprint) | transversal counting plus the diagonal-cell gate and pattern-local union bounds (its binary-palette counting phase) | architectural blueprint (transversal-first + diagonal gate), not a statement-level match |
+| 1 | `energy`, `energy_mono`, `energy_le_one` (`Partition/Energy.lean`); `MathlibEnergyCounterexample` (`Graph/Bridge.lean`) | more general (mass-weighted, directed, arbitrary `Finset` host); `weightedEnergy` can specialize it. The counterexample is a six-vertex instance on which Mathlib's off-diagonal `Finpartition.energy` **drops** under refinement while the mass-weighted energy does not — the concrete reason Layer 1 treats the `increment` boost as an alignment point rather than a consume |
+| 2 | `AlmostRefinesAt` / `exceptionalMass` / `AlmostRefines`; `IsRegularPartition`; `exists_regular_refinement_and_almostRefining_equipartition` (+ `_of_bound_le`, `_ceil`); the separate Mathlib `szemeredi_regularity` bridge (`Graph/Bridge.lean`) | two-partition intermediate (exact refinement + a separate, non-regular almost-refining equipartition); the self-regular target here is not proved there |
+| 3 | `steppedCount`, `cutDiscrepancy`, `cutDiscrepancy_le_iff`, `frieze_kannan`, `frieze_kannan_refining`, `frieze_kannan_cutDiscrepancy` (`Graph/{CutNorm,FriezeKannan}.lean`) | same statement shapes for directed relations; the targets here are its `SimpleGraph` specialization. `frieze_kannan_refining` is the seeded form — from an arbitrary starting partition, an output refining it — which is what a layered construction consumes; `frieze_kannan` is its `⊤`-seed corollary |
+| 4 | `ErrorSchedule`, `StrongWitness`, `exists_strongWitness` (`Graph/Strong.lean`); `exists_familyRegular_refinement` (`Graph/FamilyRefinement.lean`); the binary-palette strong-witness counting chain and graph bridges (`Relational/GraphCounting.lean`) as the closest counting analogue | precursor witness (no equipartition or coarse-regularity fields; complexity bound in the conclusion); its counting chain is binary-palette and does not discharge this layer's counting gate. `exists_familyRegular_refinement` regularizes a finite family simultaneously against an arbitrary seed with **exact** refinement and no equitability — the simultaneous-family primitive Layer 4's lower skeleton needs, without the equipartition |
+| 5–8 (precursor) | `IsLocalDiscRegular`, `ColoringRefines`, `exists_goodPolyadColoring` / `exists_goodPolyadColoring_refining` (`Hypergraph/PolyadIncrement.lean`), `exists_goodColoring` / `exists_goodColoring_refining`, `exists_triadic_regular_approximation` (`Hypergraph/*.lean`) | Boolean, unordered-pair, no-vertex-partition precursor by a deliberately different route (see the Layers 5–8 note). The regularization is stated for a coloring of `j`-sets against an arbitrary decidable observable on ordered `(j+1)`-tuples, and in seeded form preserving a `ColoringRefines` projection; the triadic statements are its `j = 2` instance |
+| 9 (blueprint) | transversal counting plus the diagonal-cell gate and pattern-local union bounds (its binary-palette counting phase); `sum_nontransversal_weight_le` (`Relational/DiagonalGate.lean`) | architectural blueprint (transversal-first + diagonal gate), not a statement-level match. `sum_nontransversal_weight_le` supplies the mathematical core of the diagonal gate — any real weight dominated by the cell-triple volume on nontransversal triples is bounded by `3m|s|²`, one-sided and requiring no nonnegativity — but not this roadmap's expected-count definitions |
 | Convention 5 (validation) | the complete two-way binary palette (`Bool × Bool` per symbol, both directions, loops via vertex profiles) with kernel-`decide` falsification examples — a proved arity-2 validation of "control presence *and* absence" | proved arity-2 validation of the convention, not a migration source |
 
 [`cameronfreer/graphon`](https://github.com/cameronfreer/graphon) is the **parallel analytic
 development** (graphons, analytic cut norm, step approximation) that `regularity-lemmata`'s cut-norm
-file cites as its analytic counterpart, with comparison adapters deferred on both sides — an analytic
-parallel of this roadmap, not a supplier.
+file cites as its analytic counterpart, with comparison adapters owned by consumers on both sides —
+an analytic parallel of this roadmap, not a supplier.
 
 ## References
 
