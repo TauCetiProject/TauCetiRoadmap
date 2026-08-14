@@ -1,4 +1,7 @@
 import Mathlib
+import TauCeti.LinearAlgebra.Matrix.Triangular
+import TauCeti.MeasureTheory.Measure.GiryMonad
+import TauCeti.Probability.Distributions.Gaussian.Pi
 
 /-!
 # Suggested declarations for standard probability distributions
@@ -46,6 +49,9 @@ theorem hasPDF_of_hasLaw_cauchyMeasure {Ω : Type*} [MeasurableSpace Ω] {P : Me
 
 theorem measurable_gammaMeasure :
     Measurable fun p : ℝ × ℝ => gammaMeasure p.1 p.2 := by sorry
+
+theorem measurable_poissonMeasure :
+    Measurable fun r : ℝ≥0 => poissonMeasure r := by sorry
 
 /-! ## Layer 1: Complete the elementary theory of existing distributions -/
 
@@ -98,7 +104,7 @@ def regularizedIncompleteBeta (a b x : ℝ) : ℝ :=
   if a = 0 ∧ 0 < b ∧ 0 ≤ x then 1
   else if 0 < a ∧ 0 < b then
     (∫ t in (0)..min 1 (max x 0), t ^ (a - 1) * (1 - t) ^ (b - 1)) /
-      (Real.Gamma a * Real.Gamma b / Real.Gamma (a + b))
+      ProbabilityTheory.beta a b
   else 0
 
 theorem hasDerivAt_lowerIncompleteGamma {s x : ℝ} (hs : 0 < s) (hx : 0 < x) :
@@ -110,8 +116,7 @@ theorem regularizedIncompleteBeta_zero_left {b x : ℝ} (hb : 0 < b) (hx : 0 ≤
 theorem regularizedIncompleteBeta_add_one_left {a b x : ℝ} (ha : 0 < a) (hb : 0 < b)
     (hx₀ : 0 ≤ x) (hx₁ : x ≤ 1) :
     regularizedIncompleteBeta (a + 1) b x = regularizedIncompleteBeta a b x -
-      Real.rpow x a * Real.rpow (1 - x) b * Real.Gamma (a + b) /
-        (a * Real.Gamma a * Real.Gamma b) := by sorry
+      Real.rpow x a * Real.rpow (1 - x) b / (a * ProbabilityTheory.beta a b) := by sorry
 
 -- These local definitions stand in for the intended Mathlib names `Real.erf` and `Real.erfc`.
 def erf (x : ℝ) : ℝ := 2 / √π * ∫ t in (0)..x, rexp (-t ^ 2)
@@ -147,6 +152,9 @@ def laplaceMeasure (m b : ℝ) : Measure ℝ := volume.withDensity (laplacePDF m
 
 theorem isProbabilityMeasure_laplaceMeasure {b : ℝ} (hb : 0 < b) (m : ℝ) :
     IsProbabilityMeasure (laplaceMeasure m b) := by sorry
+
+theorem integral_id_laplaceMeasure {b : ℝ} (hb : 0 < b) (m : ℝ) :
+    ∫ x, x ∂laplaceMeasure m b = m := by sorry
 
 theorem variance_id_laplaceMeasure {b : ℝ} (hb : 0 < b) (m : ℝ) :
     variance id (laplaceMeasure m b) = 2 * b ^ 2 := by sorry
@@ -213,6 +221,11 @@ def negativeBinomialMeasure (r p : ℝ) : Measure ℕ :=
 theorem map_sq_gaussianReal :
     (gaussianReal 0 1).map (fun x => x ^ 2) = chiSquaredMeasure 1 := by sorry
 
+theorem map_div_add_prod_gammaMeasure {a b r : ℝ} (ha : 0 < a) (hb : 0 < b) (hr : 0 < r) :
+    ((gammaMeasure a r).prod (gammaMeasure b r)).map
+        (fun z => (z.1 / (z.1 + z.2), z.1 + z.2)) =
+      (betaMeasure a b).prod (gammaMeasure (a + b) r) := by sorry
+
 theorem bind_gammaMeasure_poissonMeasure {r p : ℝ} (hr : 0 < r) (hp : p ∈ Set.Ioo (0 : ℝ) 1) :
     (gammaMeasure r (p / (1 - p))).bind (fun lam => poissonMeasure (Real.toNNReal lam)) =
       negativeBinomialMeasure r p := by sorry
@@ -228,6 +241,20 @@ noncomputable def covMatrix {ι : Type*} [Fintype ι] (μ : Measure (EuclideanSp
 theorem covMatrix_multivariateGaussian {ι : Type*} [Fintype ι] [DecidableEq ι]
     (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : S.PosSemidef) :
     covMatrix (multivariateGaussian m S) = S := by sorry
+
+theorem integral_id_multivariateGaussian {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : S.PosSemidef) :
+    ∫ x, x ∂multivariateGaussian m S = m := by sorry
+
+theorem integrableExpSet_inner_multivariateGaussian {ι : Type*} [Fintype ι]
+    [DecidableEq ι] (m θ : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ}
+    (hS : S.PosSemidef) :
+    integrableExpSet (fun x => ⟪θ, x⟫_ℝ) (multivariateGaussian m S) = Set.univ := by sorry
+
+theorem mgf_inner_multivariateGaussian {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m θ : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : S.PosSemidef) (t : ℝ) :
+    mgf (fun x => ⟪θ, x⟫_ℝ) (multivariateGaussian m S) t =
+      rexp (t * ⟪θ, m⟫_ℝ + t ^ 2 / 2 * ⟪θ, S.toEuclideanLin θ⟫_ℝ) := by sorry
 
 -- `covarianceBilin` is zero outside `MemLp id 2 μ`; the entrywise matrix need not be.
 theorem covarianceBilin_eq_covMatrix {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -285,6 +312,22 @@ theorem map_multinomialMeasure {ι κ : Type*} [Fintype ι] [Nonempty ι] [Finty
     (multinomialMeasure n p).map (fun k j => ∑ i with f i = j, k i) =
       multinomialMeasure n (stdSimplex.map f p) := by sorry
 
+def multinomialToEuclidean {ι : Type*} [Fintype ι] (k : ι → ℕ) :
+    EuclideanSpace ℝ ι :=
+  (EuclideanSpace.equiv ι ℝ).symm fun i => (k i : ℝ)
+
+theorem integrableExpSet_inner_multinomialMeasure {ι : Type*} [Fintype ι]
+    [Nonempty ι] [DecidableEq ι] (n : ℕ) (p : stdSimplex ℝ≥0 ι)
+    (θ : EuclideanSpace ℝ ι) :
+    integrableExpSet (fun x => ⟪θ, x⟫_ℝ)
+      ((multinomialMeasure n p).map multinomialToEuclidean) = Set.univ := by sorry
+
+theorem mgf_inner_multinomialMeasure {ι : Type*} [Fintype ι] [Nonempty ι]
+    [DecidableEq ι] (n : ℕ) (p : stdSimplex ℝ≥0 ι)
+    (θ : EuclideanSpace ℝ ι) (t : ℝ) :
+    mgf (fun x => ⟪θ, x⟫_ℝ) ((multinomialMeasure n p).map multinomialToEuclidean) t =
+      (∑ j, (p j : ℝ) * rexp (t * θ j)) ^ n := by sorry
+
 open scoped Classical in
 
 noncomputable def dirichletMeasure {ι : Type*} [Fintype ι] [Nonempty ι] (a : ι → ℝ) :
@@ -302,6 +345,11 @@ theorem dirichletMeasure_marginal_beta {ι : Type*} [Fintype ι] [Nonempty ι] [
     [DecidableEq ι] {a : ι → ℝ} (ha : ∀ i, 0 < a i) (i : ι) :
     (dirichletMeasure a).map (fun x => x i) =
       betaMeasure (a i) (∑ j with j ≠ i, a j) := by sorry
+
+theorem integrableExpSet_inner_dirichletMeasure {ι : Type*} [Fintype ι]
+    [Nonempty ι] [DecidableEq ι] {a : ι → ℝ} (ha : ∀ i, 0 < a i)
+    (θ : EuclideanSpace ℝ ι) :
+    integrableExpSet (fun x => ⟪θ, x⟫_ℝ) (dirichletMeasure a) = Set.univ := by sorry
 
 /-! ### Conditional multivariate Gaussian distributions -/
 
@@ -369,30 +417,50 @@ private abbrev SymmetricMatrix (p : ℕ) : Submodule ℝ (Matrix (Fin p) (Fin p)
 
 abbrev upperTriangle (p : ℕ) := {ij : Fin p × Fin p // ij.1 ≤ ij.2}
 
-noncomputable def symmetricCoordinates (p : ℕ) :
-    SymmetricMatrix p ≃ₗ[ℝ] (upperTriangle p → ℝ) := sorry
+-- Install the `M = 1` Frobenius structure on the ambient matrix space via
+-- `Matrix.toMatrixInnerProductSpace`, then inherit it on the self-adjoint submodule.
+@[instance_reducible]
+private noncomputable def matrixFrobeniusNormedAddCommGroup (p : ℕ) :
+    NormedAddCommGroup (Matrix (Fin p) (Fin p) ℝ) :=
+  Matrix.toMatrixNormedAddCommGroup 1 Matrix.PosDef.one
 
-noncomputable instance symmetricMatrixMeasurableSpace (p : ℕ) :
-    MeasurableSpace (SymmetricMatrix p) :=
-  MeasurableSpace.comap (symmetricCoordinates p) inferInstance
+@[instance_reducible]
+private noncomputable def matrixFrobeniusInnerProductSpace (p : ℕ) :
+    letI := matrixFrobeniusNormedAddCommGroup p
+    InnerProductSpace ℝ (Matrix (Fin p) (Fin p) ℝ) :=
+  Matrix.toMatrixInnerProductSpace 1 Matrix.PosSemidef.one
 
 noncomputable instance symmetricMatrixNormedAddCommGroup (p : ℕ) :
-    NormedAddCommGroup (SymmetricMatrix p) := sorry
+    NormedAddCommGroup (SymmetricMatrix p) := by
+  letI := matrixFrobeniusNormedAddCommGroup p
+  exact Submodule.normedAddCommGroup (SymmetricMatrix p)
 
-noncomputable instance symmetricMatrixContinuousENorm (p : ℕ) :
-    ContinuousENorm (SymmetricMatrix p) := sorry
-
-noncomputable instance symmetricMatrixNormedSpace (p : ℕ) :
-    NormedSpace ℝ (SymmetricMatrix p) := sorry
+noncomputable instance symmetricMatrixTopologicalSpace (p : ℕ) :
+    TopologicalSpace (SymmetricMatrix p) :=
+  @UniformSpace.toTopologicalSpace _
+    (@PseudoMetricSpace.toUniformSpace _
+      (symmetricMatrixNormedAddCommGroup p).toMetricSpace.toPseudoMetricSpace)
 
 noncomputable instance symmetricMatrixInnerProductSpace (p : ℕ) :
-    InnerProductSpace ℝ (SymmetricMatrix p) := sorry
+    InnerProductSpace ℝ (SymmetricMatrix p) := by
+  letI := matrixFrobeniusNormedAddCommGroup p
+  letI := matrixFrobeniusInnerProductSpace p
+  exact Submodule.innerProductSpace (SymmetricMatrix p)
 
 noncomputable instance symmetricMatrixCompleteSpace (p : ℕ) :
     CompleteSpace (SymmetricMatrix p) := sorry
 
+noncomputable instance symmetricMatrixMeasurableSpace (p : ℕ) :
+    MeasurableSpace (SymmetricMatrix p) := borel (SymmetricMatrix p)
+
 noncomputable instance symmetricMatrixBorelSpace (p : ℕ) :
     BorelSpace (SymmetricMatrix p) := sorry
+
+noncomputable def symmetricCoordinates (p : ℕ) :
+    SymmetricMatrix p ≃L[ℝ] (upperTriangle p → ℝ) := sorry
+
+noncomputable def symmetricCoordinatesMeasurableEquiv (p : ℕ) :
+    SymmetricMatrix p ≃ᵐ (upperTriangle p → ℝ) := sorry
 
 theorem finrank_symmetricMatrix (p : ℕ) :
     Module.finrank ℝ (SymmetricMatrix p) = p * (p + 1) / 2 := by sorry
@@ -408,10 +476,22 @@ noncomputable def symmetricLebesgue (p : ℕ) : Measure (SymmetricMatrix p) :=
 theorem measurePreserving_symmetricCoordinates_symm (p : ℕ) :
     MeasurePreserving (symmetricCoordinates p).symm volume (symmetricLebesgue p) := by sorry
 
+noncomputable instance symmetricLebesgueIsAddHaarMeasure (p : ℕ) :
+    MeasureTheory.Measure.IsAddHaarMeasure (symmetricLebesgue p) := by sorry
+
+theorem volume_symmetricMatrix_eq_smul_symmetricLebesgue (p : ℕ) :
+    (volume : Measure (SymmetricMatrix p)) =
+      ENNReal.ofReal (Real.rpow 2 (((p : ℝ) * ((p : ℝ) - 1)) / 4)) •
+        symmetricLebesgue p := by sorry
+
 theorem symmetricLebesgue_zero : symmetricLebesgue 0 = Measure.dirac 0 := by sorry
 
 noncomputable def symmetricCongruence {p : ℕ} (C : Matrix.GeneralLinearGroup (Fin p) ℝ) :
-    SymmetricMatrix p ≃ₗ[ℝ] SymmetricMatrix p := sorry
+    SymmetricMatrix p ≃L[ℝ] SymmetricMatrix p := sorry
+
+theorem det_symmetricCongruence {p : ℕ} (C : Matrix.GeneralLinearGroup (Fin p) ℝ) :
+    LinearMap.det (symmetricCongruence C).toLinearMap =
+      Matrix.det (C : Matrix (Fin p) (Fin p) ℝ) ^ (p + 1) := by sorry
 
 theorem map_symmetricCongruence_symmetricLebesgue {p : ℕ}
     (C : Matrix.GeneralLinearGroup (Fin p) ℝ) :
@@ -428,7 +508,7 @@ theorem measurableSet_posDefMatrix (p : ℕ) :
     MeasurableSet {A : SymmetricMatrix p | (A : Matrix (Fin p) (Fin p) ℝ).PosDef} := by sorry
 
 abbrev PosDiagLowerTriangular (p : ℕ) :=
-  {L : Matrix (Fin p) (Fin p) ℝ // (∀ i j : Fin p, i < j → L i j = 0) ∧ ∀ i, 0 < L i i}
+  {L : Matrix (Fin p) (Fin p) ℝ // L.IsLowerTriangular ∧ ∀ i, 0 < L i i}
 
 abbrev lowerTriangle (p : ℕ) := {ij : Fin p × Fin p // ij.2 ≤ ij.1}
 
@@ -438,9 +518,18 @@ abbrev PosDiagLowerCoordinates (p : ℕ) :=
 def lowerTriangleEntries {p : ℕ} (L : PosDiagLowerTriangular p) : lowerTriangle p → ℝ :=
   fun ij => L.1 ij.1.1 ij.1.2
 
+noncomputable instance posDiagLowerTriangularTopologicalSpace (p : ℕ) :
+    TopologicalSpace (PosDiagLowerTriangular p) :=
+  TopologicalSpace.induced lowerTriangleEntries inferInstance
+
 noncomputable instance posDiagLowerTriangularMeasurableSpace (p : ℕ) :
-    MeasurableSpace (PosDiagLowerTriangular p) :=
-  MeasurableSpace.comap lowerTriangleEntries inferInstance
+    MeasurableSpace (PosDiagLowerTriangular p) := borel (PosDiagLowerTriangular p)
+
+noncomputable instance posDiagLowerTriangularBorelSpace (p : ℕ) :
+    BorelSpace (PosDiagLowerTriangular p) := sorry
+
+noncomputable def lowerTriangleCoordinatesHomeomorph (p : ℕ) :
+    PosDiagLowerTriangular p ≃ₜ PosDiagLowerCoordinates p := sorry
 
 noncomputable def lowerTriangleCoordinates (p : ℕ) :
     PosDiagLowerTriangular p ≃ᵐ PosDiagLowerCoordinates p := sorry
@@ -453,9 +542,18 @@ noncomputable def posDiagLowerTriangularLebesgue (p : ℕ) :
     Measure (PosDiagLowerTriangular p) :=
   (posDiagLowerCoordinatesLebesgue p).map (lowerTriangleCoordinates p).symm
 
--- This local name stands in for the intended Mathlib declaration `Matrix.PosDef.cholesky`.
-noncomputable def cholesky {p : ℕ} (A : PosDefMatrix p) :
-    PosDiagLowerTriangular p := sorry
+theorem isLowerTriangular_ldl_lower {p : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
+    (hS : S.PosDef) : (LDL.lower hS).IsLowerTriangular := by sorry
+
+noncomputable def choleskyEquiv {p : ℕ} :
+    PosDefMatrix p ≃ PosDiagLowerTriangular p := sorry
+
+noncomputable def cholesky {p : ℕ} : PosDefMatrix p → PosDiagLowerTriangular p :=
+  choleskyEquiv
+
+noncomputable def choleskyReconstruction {p : ℕ} :
+    PosDiagLowerTriangular p → PosDefMatrix p :=
+  choleskyEquiv.symm
 
 theorem cholesky_mul_transpose {p : ℕ} (A : PosDefMatrix p) :
     (cholesky A).1 * ((cholesky A).1)ᵀ =
@@ -465,11 +563,23 @@ theorem cholesky_unique {p : ℕ} (A : PosDefMatrix p) (L : PosDiagLowerTriangul
     (hL : L.1 * L.1ᵀ = (A.1 : Matrix (Fin p) (Fin p) ℝ)) :
     L = cholesky A := by sorry
 
-noncomputable def choleskyReconstruction {p : ℕ}
-    (L : PosDiagLowerTriangular p) : PosDefMatrix p := sorry
-
 theorem choleskyReconstruction_coe {p : ℕ} (L : PosDiagLowerTriangular p) :
     ((choleskyReconstruction L).1 : Matrix (Fin p) (Fin p) ℝ) = L.1 * L.1ᵀ := by sorry
+
+theorem choleskyReconstruction_cholesky {p : ℕ} (A : PosDefMatrix p) :
+    choleskyReconstruction (cholesky A) = A := by sorry
+
+theorem cholesky_choleskyReconstruction {p : ℕ} (L : PosDiagLowerTriangular p) :
+    cholesky (choleskyReconstruction L) = L := by sorry
+
+theorem continuous_cholesky {p : ℕ} :
+    Continuous (@cholesky p) := by sorry
+
+theorem continuous_choleskyReconstruction {p : ℕ} :
+    Continuous (@choleskyReconstruction p) := by sorry
+
+noncomputable def choleskyHomeomorph {p : ℕ} :
+    PosDefMatrix p ≃ₜ PosDiagLowerTriangular p := sorry
 
 theorem measurable_cholesky {p : ℕ} :
     Measurable (@cholesky p) := by sorry
@@ -477,8 +587,19 @@ theorem measurable_cholesky {p : ℕ} :
 theorem measurable_choleskyReconstruction {p : ℕ} :
     Measurable (@choleskyReconstruction p) := by sorry
 
+noncomputable def choleskyMeasurableEquiv {p : ℕ} :
+    PosDefMatrix p ≃ᵐ PosDiagLowerTriangular p := sorry
+
 noncomputable def choleskyJacobianDensity {p : ℕ} (L : PosDiagLowerTriangular p) : ℝ≥0∞ :=
   ENNReal.ofReal ((2 : ℝ) ^ p * ∏ i : Fin p, (L.1 i i) ^ (p - i.1))
+
+noncomputable def choleskyReconstructionCoordinates (p : ℕ) :
+    (lowerTriangle p → ℝ) → (lowerTriangle p → ℝ) := sorry
+
+theorem abs_det_fderiv_choleskyReconstruction {p : ℕ} (x : lowerTriangle p → ℝ)
+    (hx : ∀ i : Fin p, 0 < x ⟨(i, i), le_rfl⟩) :
+    |(fderiv ℝ (choleskyReconstructionCoordinates p) x).det| =
+      (2 : ℝ) ^ p * ∏ i : Fin p, x ⟨(i, i), le_rfl⟩ ^ (p - i.1) := by sorry
 
 theorem map_cholesky_symmetricLebesgue (p : ℕ) :
     ((posDiagLowerTriangularLebesgue p).withDensity choleskyJacobianDensity).map
@@ -506,7 +627,7 @@ theorem integral_posDef_multivariateGamma_zero (a : ℝ) :
 
 open scoped Classical in
 
-noncomputable def wishartPDFReal {p : ℕ} (n : ℝ) (S : Matrix (Fin p) (Fin p) ℝ)
+noncomputable def nonsingularWishartPDFReal {p : ℕ} (n : ℝ) (S : Matrix (Fin p) (Fin p) ℝ)
     (A : SymmetricMatrix p) : ℝ :=
   if (A : Matrix (Fin p) (Fin p) ℝ).PosDef then
     Real.rpow (A : Matrix (Fin p) (Fin p) ℝ).det ((n - (p : ℝ) - 1) / 2) *
@@ -516,70 +637,142 @@ noncomputable def wishartPDFReal {p : ℕ} (n : ℝ) (S : Matrix (Fin p) (Fin p)
 
 open scoped Classical in
 
-noncomputable def wishartMeasure {p : ℕ} (n : ℝ) (S : Matrix (Fin p) (Fin p) ℝ) :
+noncomputable def nonsingularWishartMeasure {p : ℕ} (n : ℝ)
+    (S : Matrix (Fin p) (Fin p) ℝ) :
     Measure (SymmetricMatrix p) :=
   if S.PosDef ∧ (p : ℝ) - 1 < n then
-    (symmetricLebesgue p).withDensity fun A => ENNReal.ofReal (wishartPDFReal n S A)
+    (symmetricLebesgue p).withDensity fun A => ENNReal.ofReal (nonsingularWishartPDFReal n S A)
   else 0
 
-theorem isProbabilityMeasure_wishartMeasure {p : ℕ} {n : ℝ} {S : Matrix (Fin p) (Fin p) ℝ}
-    (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) :
-    IsProbabilityMeasure (wishartMeasure n S) := by sorry
+theorem isProbabilityMeasure_nonsingularWishartMeasure {p : ℕ} {n : ℝ}
+    {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) :
+    IsProbabilityMeasure (nonsingularWishartMeasure n S) := by sorry
 
 noncomputable def posDefToSymmetric {p : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
     (hS : S.PosDef) : SymmetricMatrix p :=
   ⟨S, by sorry⟩
 
-theorem integrable_id_wishartMeasure {p : ℕ} {n : ℝ} {S : Matrix (Fin p) (Fin p) ℝ}
+theorem integrable_id_nonsingularWishartMeasure {p : ℕ} {n : ℝ}
+    {S : Matrix (Fin p) (Fin p) ℝ}
     (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) :
-    Integrable id (wishartMeasure n S) := by sorry
+    Integrable id (nonsingularWishartMeasure n S) := by sorry
 
-theorem integral_id_wishartMeasure {p : ℕ} {n : ℝ} {S : Matrix (Fin p) (Fin p) ℝ}
+theorem integral_id_nonsingularWishartMeasure {p : ℕ} {n : ℝ}
+    {S : Matrix (Fin p) (Fin p) ℝ}
     (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) :
-    ∫ A, A ∂wishartMeasure n S = n • posDefToSymmetric hS := by sorry
+    ∫ A, A ∂nonsingularWishartMeasure n S = n • posDefToSymmetric hS := by sorry
 
-theorem integral_apply_wishartMeasure {p : ℕ} {n : ℝ} {S : Matrix (Fin p) (Fin p) ℝ}
+theorem integral_apply_nonsingularWishartMeasure {p : ℕ} {n : ℝ}
+    {S : Matrix (Fin p) (Fin p) ℝ}
     (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) (i j : Fin p) :
-    ∫ A, (A : Matrix (Fin p) (Fin p) ℝ) i j ∂wishartMeasure n S = n * S i j := by sorry
+    ∫ A, (A : Matrix (Fin p) (Fin p) ℝ) i j ∂nonsingularWishartMeasure n S =
+      n * S i j := by sorry
 
 noncomputable def sumVecMulVec {p ν : ℕ} (X : Fin ν → EuclideanSpace ℝ (Fin p)) :
     SymmetricMatrix p :=
   ⟨∑ r, Matrix.vecMulVec (X r) (X r), by sorry⟩
 
+open scoped Classical in
+
+noncomputable def wishartGramMeasure {p : ℕ} (ν : ℕ)
+    (S : Matrix (Fin p) (Fin p) ℝ) : Measure (SymmetricMatrix p) :=
+  if S.PosSemidef then
+    (Measure.pi fun _ : Fin ν => multivariateGaussian 0 S).map sumVecMulVec
+  else 0
+
+theorem isProbabilityMeasure_wishartGramMeasure {p ν : ℕ}
+    {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosSemidef) :
+    IsProbabilityMeasure (wishartGramMeasure ν S) := by sorry
+
+noncomputable def posSemidefToSymmetric {p : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
+    (hS : S.PosSemidef) : SymmetricMatrix p :=
+  ⟨S, by sorry⟩
+
+theorem integral_id_wishartGramMeasure {p ν : ℕ}
+    {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosSemidef) :
+    ∫ A, A ∂wishartGramMeasure ν S = (ν : ℝ) • posSemidefToSymmetric hS := by sorry
+
+theorem cov_apply_wishartGramMeasure {p ν : ℕ}
+    {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosSemidef) (i j k l : Fin p) :
+    cov[fun A : SymmetricMatrix p => (A : Matrix (Fin p) (Fin p) ℝ) i j,
+        fun A => (A : Matrix (Fin p) (Fin p) ℝ) k l; wishartGramMeasure ν S] =
+      (ν : ℝ) * (S i k * S j l + S i l * S j k) := by sorry
+
+theorem ae_posSemidef_wishartGramMeasure {p ν : ℕ}
+    {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosSemidef) :
+    ∀ᵐ (A : SymmetricMatrix p) ∂wishartGramMeasure ν S,
+      (A : Matrix (Fin p) (Fin p) ℝ).PosSemidef := by sorry
+
+theorem ae_rank_le_wishartGramMeasure {p ν : ℕ}
+    {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosSemidef) :
+    ∀ᵐ (A : SymmetricMatrix p) ∂wishartGramMeasure ν S,
+      Matrix.rank (A : Matrix (Fin p) (Fin p) ℝ) ≤ min ν S.rank := by sorry
+
 theorem hasLaw_sum_vecMulVec_gaussian {Ω : Type*} [MeasurableSpace Ω] {p ν : ℕ}
     {P : Measure Ω} [IsProbabilityMeasure P] (X : Fin ν → Ω → EuclideanSpace ℝ (Fin p))
-    {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosDef) (hpν : p ≤ ν)
+    {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosSemidef)
     (hX : ∀ r, HasLaw (X r) (multivariateGaussian 0 S) P) (hIndep : iIndepFun X P) :
-    HasLaw (fun ω => sumVecMulVec (fun r => X r ω)) (wishartMeasure (ν : ℝ) S) P := by sorry
+    HasLaw (fun ω => sumVecMulVec (fun r => X r ω)) (wishartGramMeasure ν S) P := by sorry
 
-theorem cov_apply_wishartMeasure {p : ℕ} {n : ℝ} {S : Matrix (Fin p) (Fin p) ℝ}
+noncomputable def rectangularSymmetricCongruence {p q : ℕ}
+    (M : Matrix (Fin q) (Fin p) ℝ) (A : SymmetricMatrix p) : SymmetricMatrix q :=
+  ⟨M * (A : Matrix (Fin p) (Fin p) ℝ) * Mᵀ, by sorry⟩
+
+theorem map_rectangularCongruence_wishartGramMeasure {p q ν : ℕ}
+    (M : Matrix (Fin q) (Fin p) ℝ) {S : Matrix (Fin p) (Fin p) ℝ}
+    (hS : S.PosSemidef) :
+    (wishartGramMeasure ν S).map (rectangularSymmetricCongruence M) =
+      wishartGramMeasure ν (M * S * Mᵀ) := by sorry
+
+theorem wishartGramMeasure_eq_nonsingularWishartMeasure {p ν : ℕ}
+    {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosDef) (hpν : p ≤ ν) :
+    wishartGramMeasure ν S = nonsingularWishartMeasure (ν : ℝ) S := by sorry
+
+theorem mutuallySingular_wishartGramMeasure_symmetricLebesgue {p ν : ℕ}
+    {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosDef) (hνp : ν < p) :
+    wishartGramMeasure ν S ⟂ₘ symmetricLebesgue p := by sorry
+
+theorem cov_apply_nonsingularWishartMeasure {p : ℕ} {n : ℝ}
+    {S : Matrix (Fin p) (Fin p) ℝ}
     (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) (i j k l : Fin p) :
     cov[fun A : SymmetricMatrix p => (A : Matrix (Fin p) (Fin p) ℝ) i j,
-        fun A => (A : Matrix (Fin p) (Fin p) ℝ) k l; wishartMeasure n S] =
+        fun A => (A : Matrix (Fin p) (Fin p) ℝ) k l; nonsingularWishartMeasure n S] =
       n * (S i k * S j l + S i l * S j k) := by sorry
 
-theorem mem_integrableExpSet_trace_mul_wishartMeasure_iff {p : ℕ} {n t : ℝ}
-    {S Θ : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosDef) (hn : (p : ℝ) - 1 < n)
-    (hΘ : Θ.IsHermitian) :
+theorem mem_integrableExpSet_trace_mul_nonsingularWishartMeasure_iff {p : ℕ} {n t : ℝ}
+    {S : Matrix (Fin p) (Fin p) ℝ} (Θ : SymmetricMatrix p)
+    (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) :
     t ∈ integrableExpSet
-        (fun A : SymmetricMatrix p => Matrix.trace (Θ * (A : Matrix (Fin p) (Fin p) ℝ)))
-        (wishartMeasure n S) ↔
-      (1 - (2 * t) • (CFC.sqrt S * Θ * CFC.sqrt S)).PosDef := by sorry
+        (fun A : SymmetricMatrix p =>
+          Matrix.trace ((Θ : Matrix (Fin p) (Fin p) ℝ) * (A : Matrix (Fin p) (Fin p) ℝ)))
+        (nonsingularWishartMeasure n S) ↔
+      (1 - (2 * t) •
+        (CFC.sqrt S * (Θ : Matrix (Fin p) (Fin p) ℝ) * CFC.sqrt S)).PosDef := by sorry
 
-theorem mgf_trace_mul_wishartMeasure {p : ℕ} {n t : ℝ} {S Θ : Matrix (Fin p) (Fin p) ℝ}
-    (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) (hΘ : Θ.IsHermitian)
-    (ht : (1 - (2 * t) • (CFC.sqrt S * Θ * CFC.sqrt S)).PosDef) :
-    mgf (fun A : SymmetricMatrix p => Matrix.trace (Θ * (A : Matrix (Fin p) (Fin p) ℝ)))
-        (wishartMeasure n S) t =
-      Real.rpow (Matrix.det (1 - (2 * t) • (Θ * S))) (-n / 2) := by sorry
+theorem mgf_trace_mul_nonsingularWishartMeasure {p : ℕ} {n t : ℝ}
+    {S : Matrix (Fin p) (Fin p) ℝ} (Θ : SymmetricMatrix p)
+    (hS : S.PosDef) (hn : (p : ℝ) - 1 < n)
+    (ht : (1 - (2 * t) •
+      (CFC.sqrt S * (Θ : Matrix (Fin p) (Fin p) ℝ) * CFC.sqrt S)).PosDef) :
+    mgf (fun A : SymmetricMatrix p =>
+        Matrix.trace ((Θ : Matrix (Fin p) (Fin p) ℝ) * (A : Matrix (Fin p) (Fin p) ℝ)))
+        (nonsingularWishartMeasure n S) t =
+      Real.rpow
+        (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S))) (-n / 2) := by sorry
+
+theorem isHermitian_wishartSandwich {p : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
+    (hS : S.PosDef) (Θ : SymmetricMatrix p) :
+    (CFC.sqrt S * (Θ : Matrix (Fin p) (Fin p) ℝ) * CFC.sqrt S).IsHermitian := by sorry
 
 -- The exponential of a sum of principal logarithms makes the complex branch choice explicit.
-theorem charFun_wishartMeasure {p : ℕ} {n : ℝ} {S : Matrix (Fin p) (Fin p) ℝ}
-    (Θ : SymmetricMatrix p) (hS : S.PosDef) (hn : (p : ℝ) - 1 < n)
-    (hB : (CFC.sqrt S * (Θ : Matrix (Fin p) (Fin p) ℝ) * CFC.sqrt S).IsHermitian) :
-    charFun (wishartMeasure n S) Θ =
+theorem charFun_nonsingularWishartMeasure {p : ℕ} {n : ℝ}
+    {S : Matrix (Fin p) (Fin p) ℝ} (Θ : SymmetricMatrix p)
+    (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) :
+    charFun (nonsingularWishartMeasure n S) Θ =
       Complex.exp (-(n : ℂ) / 2 *
-        ∑ j : Fin p, Complex.log (1 - 2 * Complex.I * (hB.eigenvalues j : ℂ))) := by sorry
+        ∑ j : Fin p, Complex.log
+          (1 - 2 * Complex.I * ((isHermitian_wishartSandwich hS Θ).eigenvalues j : ℂ))) := by
+  sorry
 
 /-! ### Bartlett decomposition -/
 
@@ -591,13 +784,13 @@ def bartlettEntry {p : ℕ} (T : PosDiagLowerTriangular p) : bartlettIndex p →
   | Sum.inr ij => T.1 ij.1.1 ij.1.2
 
 noncomputable def wishartPosDefMeasure (p ν : ℕ) : Measure (PosDefMatrix p) :=
-  (wishartMeasure (ν : ℝ) (1 : Matrix (Fin p) (Fin p) ℝ)).comap Subtype.val
+  (nonsingularWishartMeasure (ν : ℝ) (1 : Matrix (Fin p) (Fin p) ℝ)).comap Subtype.val
 
 theorem map_wishartPosDefMeasure (p ν : ℕ) (hpν : p ≤ ν) :
     (wishartPosDefMeasure p ν).map (Subtype.val : PosDefMatrix p → SymmetricMatrix p) =
-      wishartMeasure (ν : ℝ) (1 : Matrix (Fin p) (Fin p) ℝ) := by sorry
+      nonsingularWishartMeasure (ν : ℝ) (1 : Matrix (Fin p) (Fin p) ℝ) := by sorry
 
-theorem bartlett_wishartMeasure {p ν : ℕ} (hpν : p ≤ ν) :
+theorem bartlett_nonsingularWishartMeasure {p ν : ℕ} (hpν : p ≤ ν) :
     iIndepFun
         (fun r : bartlettIndex p => fun A : PosDefMatrix p =>
           bartlettEntry (cholesky A) r)
@@ -626,7 +819,7 @@ theorem map_inv_symmetricLebesgue {p : ℕ} :
 
 noncomputable def inverseWishartMeasure {p : ℕ} (n : ℝ) (S : Matrix (Fin p) (Fin p) ℝ) :
     Measure (SymmetricMatrix p) :=
-  (wishartMeasure n S⁻¹).map symmetricInv
+  (nonsingularWishartMeasure n S⁻¹).map symmetricInv
 
 theorem integrable_id_inverseWishartMeasure {p : ℕ} {n : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} (hp : 0 < p) (hS : S.PosDef)

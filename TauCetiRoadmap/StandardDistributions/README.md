@@ -1,11 +1,10 @@
 # Roadmap: standard probability distributions and their elementary theory
 
-Mathlib already defines many standard probability distributions, but their APIs are uneven.
-The real Gaussian has a substantial elementary theory; most other named distributions are missing some combination of densities, moments, cdfs, moment-generating functions, and characteristic functions.
-No named distribution currently has a corresponding `MeasureTheory.HasPDF` theorem, and there is no named uniform probability measure on an interval.
+Mathlib supplies the starting definitions for the real and multivariate Gaussian, Gamma, Beta, exponential, Cauchy, Pareto, Poisson, geometric, binomial, and Bernoulli laws.
+This roadmap completes their elementary distributional APIs and connects the continuous scalar families to `MeasureTheory.HasPDF` and Radon–Nikodym derivatives.
 
-Several other distributions used routinely in probability and statistics are not yet defined: Laplace, log-normal, Weibull, chi-squared, inverse-gamma, Student's t, Fisher's F, negative binomial, hypergeometric, multinomial, Dirichlet, and Wishart.
-The multivariate Gaussian exists, but it lacks a density theorem and conditional-distribution formulas.
+It also asks Tau Ceti to define a uniform probability measure on an interval and the Laplace, log-normal, Weibull, chi-squared, inverse-gamma, Student's t, Fisher's F, negative-binomial, hypergeometric, multinomial, Dirichlet, and nonsingular and Gaussian-Gram Wishart families.
+The multivariate-Gaussian targets include densities and conditional-distribution formulas.
 
 This roadmap fills those gaps.
 It develops each distribution as a measure, proves the elementary theory appropriate to its carrier, and records the standard relationships among the families as pushforward, convolution, independence, or mixture statements.
@@ -43,10 +42,11 @@ Write `fooMeasure p : Measure α` for the measure and `p` for its parameters.
    This is enough for a consumer to construct a `ProbabilityTheory.Kernel`.
 5. **The family-specific identities** listed in the relevant layer below.
 
-The remaining targets depend on the carrier:
+The family entries in Layers 0–6 are exhaustive about which cdfs, moments, transforms, and exponential-integrability results are targets.
+The carrier rules below specify how to state those listed targets; they do not silently require an additional closed form.
 
-- **Real-valued families (`Measure ℝ`)** get a `ProbabilityTheory.cdf`: the named closed form when one is listed below, and otherwise the integral of the pdf.
-  They also get the stated means, variances, raw or central moments, and an exact description of `integrableExpSet id μ`.
+- **Real-valued families (`Measure ℝ`)** use `ProbabilityTheory.cdf`; each family entry says whether the target is a named closed form or the integral of its pdf.
+  They get exactly the means, variances, raw or central moments, and descriptions of `integrableExpSet id μ` stated in their family entries.
   Prove a closed form for `mgf id` or `MeasureTheory.charFun` only when one is named below.
   Heavy-tailed families need both the sharp existence hypotheses and the matching non-integrability results.
   Whenever an mgf formula is requested on its finiteness domain, also give the corresponding `cgf` as the real logarithm of that formula.
@@ -55,15 +55,18 @@ The remaining targets depend on the carrier:
   In particular, this roadmap does not ask for the confluent-hypergeometric Beta transforms, the Bessel-function inverse-gamma transforms, or a log-normal mgf formula.
   The exact exponential-integrability domain is still required.
 - **Discrete families on `ℕ`** stay on their native carrier for masses, support, convolution, and `pgf`.
-  State real means, variances, moments, cdfs, mgfs, cgfs, and characteristic functions for the pushforward `(fooMeasure p).map (Nat.cast : ℕ → ℝ)`, using Mathlib's `Bin(ℝ, n, p)` notation where available.
+  Each family entry lists the required cumulative-mass, moment, mgf, cgf, and characteristic-function formulas.
+  State its listed real-valued results for the pushforward `(fooMeasure p).map (Nat.cast : ℕ → ℝ)`, using Mathlib's `Bin(ℝ, n, p)` notation where available.
+  A finite-sum cdf or transform is a complete target when the family entry says so; no unstated hypergeometric-function closed form is required.
   Never apply real-only operations directly to `Measure ℕ`.
   The pgf–mgf bridge is `pgf X P (exp t) = mgf (fun ω => (X ω : ℝ)) P t`.
-- **Finite multivariate families** get a Bochner mean, `covMatrix`/`covarianceBilin`, coordinate marginals, the affine or aggregation laws named below, and any listed characteristic-function formula.
+- **Finite multivariate families** get the Bochner mean, `covMatrix`/`covarianceBilin`, coordinate marginals, affine or aggregation laws, and transforms listed in their Layer 5 entries.
   They do not get a scalar cdf or `mgf id`.
-  State a directional exponential-moment formula by applying `ProbabilityTheory.mgf` to an explicit real-valued linear functional, and describe its exact domain with `integrableExpSet`.
+  A listed directional mgf applies `ProbabilityTheory.mgf` to an explicit real-valued linear functional and pairs it with an exact `integrableExpSet` theorem.
   A discrete vector law stays on `ι → ℕ` for masses and support, then uses the coordinatewise cast to `EuclideanSpace ℝ ι` for means, covariances, and characteristic functions.
-- **Symmetric-matrix families** get a density relative to the normalized measure defined in Layer 6, a Bochner mean, the covariance data named below, and any listed characteristic-function formula.
-  As in the multivariate case, directional mgfs use an explicit real-valued linear functional; scalar cdfs and `mgf id` are not targets.
+- **Symmetric-matrix families** get exactly the density or singular-support theorem, Bochner mean, covariance data, and transforms listed in Layer 6.
+  Wishart trace mgfs use an explicit real-valued linear functional; scalar cdfs and `mgf id` are not targets.
+  The inverse-Wishart family has no covariance or transform target beyond the mean and non-integrability statements explicitly listed there.
 
 Measure-level theorems are primary.
 Random-variable corollaries use `ProbabilityTheory.HasLaw` on the same carrier.
@@ -109,9 +112,12 @@ For example, a native `X : Ω → ℕ` has mass and pgf corollaries, while its r
 - **Densities, cdfs, and laws.** Use the `StieltjesFunction`-valued `ProbabilityTheory.cdf` together with `measure_cdf` and `Measure.eq_of_cdf`; `MeasureTheory.pdf`/`HasPDF` and `HasPDF.hasLaw`; `Measure.withDensity`; and `HasLaw`/`HasCondDistrib`.
 - **Convolution, mixtures, and independence.** Use `Measure.conv`, `MeasureTheory.Measure.conv_assoc` and its surrounding API, and `Measure.bind` with kernel composition.
   Reuse `iIndepFun`, `IndepFun`, `IdentDistrib`, `variance_sum`, and `IndepFun.variance_sum`.
-- **Special functions.** Use `Real.Gamma`, `Complex.Gamma`, `Complex.betaIntegral`, `Real.Gamma_add_one`, the log-convexity and Bohr–Mollerup results, and `integral_gaussian`.
+- **Special functions.** Use `Real.Gamma`, `Complex.Gamma`, `ProbabilityTheory.beta`, `Complex.betaIntegral`, `Real.Gamma_add_one`, the log-convexity and Bohr–Mollerup results, and `integral_gaussian`.
+- **Change of variables.** Use `Mathlib/MeasureTheory/Function/Jacobian.lean` and `Mathlib/MeasureTheory/Function/JacobianOneDim.lean`.
+  The concrete distribution proofs should use `map_withDensity_abs_det_fderiv_eq_addHaar`, `restrict_map_withDensity_abs_det_fderiv_eq_addHaar`, `lintegral_image_eq_lintegral_abs_det_fderiv_mul`, and `integral_image_eq_integral_abs_det_fderiv_smul` rather than introducing another change-of-variables abstraction.
+  For the log-normal exponential map, scalar inversion, the Gamma–Beta coordinate map, the Dirichlet normalization chart, Cholesky reconstruction, symmetric congruence, and symmetric inversion, name the source and target regions, the injectivity statement, the derivative determinant, and the resulting measure equality used by the distribution theorem.
 - **Matrix and finite-dimensional analysis.** Use `Matrix.PosDef`/`PosSemidef` and their spectral theory, including `Matrix.IsHermitian.spectral_theorem`, `eigenvalues_pos`, and `Matrix.PosDef.det_pos`.
-  Use the continuous functional calculus on Hermitian matrices, especially `CFC.sqrt`; the Schur-complement file `Mathlib/LinearAlgebra/Matrix/SchurComplement.lean`; and `condDistrib` with `condDistrib_ae_eq_of_measure_eq_compProd`.
+  Use the continuous functional calculus on Hermitian matrices, especially `CFC.sqrt`; `Matrix.toMatrixInnerProductSpace` for the Frobenius structure; `Matrix.IsLowerTriangular`; the LDL decomposition in `Mathlib/Analysis/Matrix/LDL.lean`; the Schur-complement file `Mathlib/LinearAlgebra/Matrix/SchurComplement.lean`; and `condDistrib` with `condDistrib_ae_eq_of_measure_eq_compProd`.
 
   For symmetric matrices, use `selfAdjoint.submodule ℝ` and `Matrix.isHermitian_iff_isSelfAdjoint`.
   For simplex-valued parameters, use `stdSimplex` and `stdSimplex.map`.
@@ -123,17 +129,15 @@ Do not introduce a second pdf abstraction, cdf, or convolution.
 
 ## Coordination with existing work
 
-Several Mathlib PRs propose declarations needed here:
+The following Mathlib work fixes API shapes used by this roadmap:
 
 - [mathlib4#40613](https://github.com/leanprover-community/mathlib4/pull/40613) gives the binomial mean;
 - [mathlib4#40916](https://github.com/leanprover-community/mathlib4/pull/40916) gives the binomial variance;
 - [mathlib4#35504](https://github.com/leanprover-community/mathlib4/pull/35504) gives the exponential mgf, moments, and memorylessness; and
 - [mathlib4#34053](https://github.com/leanprover-community/mathlib4/pull/34053) proposes `Real.erf`, `Real.erfc`, `Complex.erf`, and their basic API.
 
-The pinned Mathlib exports none of these declarations.
-Implement the needed results in Tau Ceti now, using the names and theorem shapes from the PRs.
-Mathlib's binomial file contains the proposed mean and variance as `proof_wanted` declarations; these are checked and discarded during elaboration, so matching local theorems do not clash.
-When a later Mathlib pin exports any of these results, delete the local declaration and proof and use Mathlib's version.
+Consume these declarations whenever they are available at Tau Ceti's Mathlib pin.
+Otherwise implement matching declarations in Tau Ceti using the linked names and theorem shapes, and remove the local versions once the corresponding Mathlib imports provide them.
 Layer 2 needs only the real error functions, not `Complex.erf`.
 
 Two other projects are nearby but do not provide code for this roadmap:
@@ -145,8 +149,14 @@ Two other projects are nearby but do not provide code for this roadmap:
   Its decision-rule and asymptotic results lie beyond this roadmap's inference boundary.
   Coordinate on the Lean Zulip if future work approaches that boundary.
 
-Within Tau Ceti, [`TauCeti/Probability/Moments/Determinacy.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Probability/Moments/Determinacy.lean) already proves moment determinacy under an exponential-moment hypothesis.
-It belongs to the [orthogonal-L²-bases roadmap](../OrthogonalL2Bases/README.md); use it for uniqueness from moments.
+Within Tau Ceti, reuse the following existing material directly:
+
+- [`TauCeti/Probability/Distributions/Gaussian/Pi.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Probability/Distributions/Gaussian/Pi.lean), especially `TauCeti.pi_gaussianReal_eq_withDensity`, supplies the isotropic product-density starting point for Layer 5;
+- [`TauCeti/MeasureTheory/Measure/GiryMonad.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/MeasureTheory/Measure/GiryMonad.lean) supplies `Measure.map_bind` and `Measure.bind_map` for the mixture and normalization targets;
+- [`TauCeti/LinearAlgebra/Matrix/Triangular.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/LinearAlgebra/Matrix/Triangular.lean) supplies the triangular-matrix diagonal and inverse lemmas needed by the Cholesky development; and
+- [`TauCeti/Probability/Moments/Determinacy.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Probability/Moments/Determinacy.lean) proves moment determinacy under an exponential-moment hypothesis.
+
+The determinacy theorem belongs to the [orthogonal-L²-bases roadmap](../OrthogonalL2Bases/README.md); use it for uniqueness from moments.
 
 ## Work plan
 
@@ -181,12 +191,14 @@ Targets:
    - Prove that the cdf is `if x ≤ a then 0 else if b ≤ x then 1 else (x - a) / (b - a)`, the mean is `(a+b)/2`, and the variance is `(b-a)²/12`.
    - Prove `integrableExpSet id = Set.univ`.
      The mgf is `1` at `t = 0` and `(exp (b*t) - exp (a*t)) / ((b-a)*t)` for `t ≠ 0`.
+     The cgf is the real logarithm of this positive formula.
    - The characteristic function is `1` at `t = 0` and `(Complex.exp (Complex.I * (b : ℂ) * (t : ℂ)) - Complex.exp (Complex.I * (a : ℂ) * (t : ℂ))) / (Complex.I * ((b - a) : ℂ) * (t : ℂ))` for `t ≠ 0`.
    - Prove the affine identity `(uniformMeasure 0 1).map (fun x => a + (b - a) * x) = uniformMeasure a b` and parameter measurability.
 
    This is the first complete example of the shared API and establishes the pattern for later families.
 4. **Prove parameter measurability for Mathlib's existing families.** The target is `Measurable fun p => fooMeasure p`.
    For `withDensity` families, derive it uniformly from the joint measurability of the pdf in `(p, x)`.
+   Separately prove `Measurable fun r : ℝ≥0 => poissonMeasure r`; Layer 4 uses it after composition with `Real.toNNReal` in the Gamma-mixed Poisson kernel.
 
 Key declarations:
 
@@ -198,6 +210,7 @@ integral_id_uniformMeasure
 variance_id_uniformMeasure
 charFun_uniformMeasure
 measurable_gammaMeasure
+measurable_poissonMeasure
 ```
 
 Completion checks:
@@ -212,26 +225,34 @@ Suggested files: continue the existing per-family names, such as `TauCeti/Probab
 For each family, supply the following missing results:
 
 - **Bernoulli and binomial.** For `Ber((1 : ℝ), 0, p)`, prove the mean `(p : ℝ)`, variance `(p : ℝ) * (1 - p)`, mgf `1 - (p : ℝ) + (p : ℝ) * Real.exp t`, and characteristic function `1 - (p : ℂ) + (p : ℂ) * Complex.exp (I * t)`.
+  Its cgf is the real logarithm of the mgf.
 
   For the cast binomial law `Bin(ℝ, n, p)`, prove the mean `(p : ℝ) * n`, variance `(p : ℝ) * (1 - p) * n`, mgf `(1 - (p : ℝ) + (p : ℝ) * Real.exp t) ^ n`, and characteristic function `(1 - (p : ℂ) + (p : ℂ) * Complex.exp (I * t)) ^ n` for every `t`.
+  Its cgf is the real logarithm of the mgf.
   The last expression is a natural-number power, so there is no branch choice.
   On the native carrier, prove `binomial n p ∗ binomial m p = binomial (n + m) p` and the `HasLaw` version of "a sum of `n` i.i.d. Bernoulli variables is binomial."
   Follow Mathlib's notation and the theorem shapes in the linked mean and variance PRs.
+  Layer 2's binomial-tail identity supplies the cumulative-mass formula, with Bernoulli as the `n = 1` case; no additional general raw-moment formula is a target.
 - **Geometric.** Let `p : I` and `q = 1 - (p : ℝ)`.
   At `p = 0`, Mathlib defines `geometricMeasure 0 = Measure.dirac 0`; prove that its mean and variance are `0` and that its pgf, mgf, and characteristic function are all identically `1`.
 
   For `p ≠ 0`, prove mean `q / (p : ℝ)`, variance `q / (p : ℝ)^2`, and integrability of the mgf integrand exactly when `q * exp t < 1`.
   On that domain the mgf is `(p : ℝ) / (1 - q * exp t)`; outside it the integrand is not integrable.
+  The cgf on the same domain is the real logarithm of the mgf.
   The characteristic function of the cast law is `(p : ℂ) / (1 - q * Complex.exp (Complex.I * t))` for every `t`.
+  On the native carrier, prove `(geometricMeasure p).real {k | k ≤ n} = 1 - q ^ (n + 1)` for `p ≠ 0`; at `p = 0`, use the Dirac cumulative-mass formula.
 
   On the native carrier, prove memorylessness for every `p` in the division-free form `μ {k | n + m ≤ k} * μ Set.univ = μ {k | n ≤ k} * μ {k | m ≤ k}`.
   State the version using `ProbabilityTheory.cond` only when the conditioning event has nonzero measure; this is automatic for `0 < p < 1`.
 - **Poisson.** For `(poissonMeasure r).map (Nat.cast : ℕ → ℝ)`, prove mean `(r : ℝ)`, variance `(r : ℝ)`, `integrableExpSet id = Set.univ`, and mgf `Real.exp ((r : ℝ) * (Real.exp t - 1))` for every `t`.
+  Prove the cgf `(r : ℝ) * (Real.exp t - 1)`; Layer 2's tail identity supplies the native cumulative-mass formula and hence the cast-law cdf.
   Use Mathlib's `charFun_map_cast_poissonMeasure` and native additivity rather than restating them.
 - **Exponential.** For `0 < r`, prove mean `r⁻¹`, variance `r⁻²`, `integrableExpSet id (expMeasure r) = Set.Iio r`, mgf `r / (r - t)` exactly on that domain, characteristic function `(r : ℂ) / (r - I * t)`, and memorylessness via `cond`.
+  On the mgf domain, prove the cgf `Real.log (r / (r - t))`.
   Shape the mgf theorem as in mathlib4#35504.
   If `0 < r`, `0 < s`, and independent variables satisfy `X ~ expMeasure r` and `Y ~ expMeasure s`, prove `min X Y ~ expMeasure (r + s)`.
 - **Gamma.** Under `0 < a` and `0 < r`, prove mean `a / r`, variance `a / r²`, `integrableExpSet id = Set.Iio r`, mgf `(1 - t / r) ^ (-a)` on that domain, and characteristic function `(1 - Complex.I * t / r) ^ (-(a : ℂ))`.
+  On the mgf domain, prove the corresponding cgf as the real logarithm of the displayed real power.
   Use the principal `Complex.cpow`; the base has real part `1`, so it does not cross the branch cut.
 
   Under `0 < a`, `0 < b`, and `0 < r`, prove `gammaMeasure a r ∗ gammaMeasure b r = gammaMeasure (a + b) r`.
@@ -313,8 +334,8 @@ TauCeti/Analysis/SpecialFunctions/Erf.lean
 ```
 
 This layer develops reusable analysis, not distribution-specific infrastructure.
-The pinned Mathlib has the complete Gamma and Beta functions but not their incomplete versions.
-For the real error function, follow the API in [mathlib4#34053](https://github.com/leanprover-community/mathlib4/pull/34053): implement that shape locally on the current pin, and use Mathlib's version on any later pin that provides it.
+Use Mathlib's complete Gamma function and `ProbabilityTheory.beta` as the normalizing constant.
+For incomplete Gamma, incomplete Beta, and the real error function, consume Mathlib declarations whenever the Tau Ceti pin provides them; otherwise implement the shapes specified here, following the error-function API in [mathlib4#34053](https://github.com/leanprover-community/mathlib4/pull/34053).
 
 Targets:
 
@@ -323,12 +344,12 @@ Targets:
   For `0 < s`, prove convergence, continuity and monotonicity for every `x`, the recurrence `γ(s+1, x) = s * γ(s, x) - x^s * exp (-x)` for `0 ≤ x`, and `regularizedGamma s x → 1` as `x → ∞`.
   State differentiability with `deriv = x^(s-1) * exp (-x)` only for `0 < x`.
   When `0 < s < 1`, continuity — not differentiability — is the target at `x = 0`.
-- **Regularized incomplete beta.** For `0 < a` and `0 < b`, define it as the normalized integral from `0` to `min 1 (max x 0)`.
+- **Regularized incomplete beta.** For `0 < a` and `0 < b`, define it as the integral from `0` to `min 1 (max x 0)`, normalized by `ProbabilityTheory.beta a b`.
   Use zero for invalid parameters, with one deliberate exception: `regularizedIncompleteBeta 0 b x = 1` when `0 < b` and `0 ≤ x`.
 
   For positive `a,b`, prove that the function is `0` on `x ≤ 0`, `1` on `1 ≤ x`, continuous and monotone on `ℝ`, and state differentiability only under `0 < x < 1`.
   For `0 ≤ x ≤ 1`, prove the reflection formula `I_x(a,b) = 1 - I_{1-x}(b,a)`.
-  On the same range, prove the unit-step recurrence `I_x(a+1,b) = I_x(a,b) - Real.rpow x a * Real.rpow (1-x) b * Real.Gamma (a+b) / (a * Real.Gamma a * Real.Gamma b)`, in the form of [DLMF 8.17.20](https://dlmf.nist.gov/8.17.E20).
+  On the same range, prove the unit-step recurrence `I_x(a+1,b) = I_x(a,b) - Real.rpow x a * Real.rpow (1-x) b / (a * ProbabilityTheory.beta a b)`, in the form of [DLMF 8.17.20](https://dlmf.nist.gov/8.17.E20).
 
   The `a = 0` convention records the cdf of the weak limit `betaMeasure a b → Measure.dirac 0` as `a → 0⁺`.
   It also makes the `m = 0` binomial-tail formula below hold without a separate case.
@@ -376,7 +397,7 @@ Families not named here, such as logistic, Rayleigh, and von Mises, are outside 
 
 - **Laplace** `laplaceMeasure (μ : ℝ) (b : ℝ)`.
   - When `0 < b`, use density `(2b)⁻¹ * exp (-|x - μ| / b)`.
-    Prove cdf `if x < μ then exp ((x - μ) / b) / 2 else 1 - exp (-(x - μ) / b) / 2`, `integrableExpSet id = Set.Ioo (-b⁻¹) b⁻¹`, mgf `exp (μ * t) / (1 - b ^ 2 * t ^ 2)` on that domain, and characteristic function `exp (I μ t) / (1 + b² t²)`.
+    Prove mean `μ`, variance `2 * b ^ 2`, cdf `if x < μ then exp ((x - μ) / b) / 2 else 1 - exp (-(x - μ) / b) / 2`, `integrableExpSet id = Set.Ioo (-b⁻¹) b⁻¹`, mgf `exp (μ * t) / (1 - b ^ 2 * t ^ 2)` on that domain, its real-log cgf, and characteristic function `exp (I μ t) / (1 + b² t²)`.
   - When `b ≤ 0`, both the pdf and the measure are zero.
 - **Log-normal** `logNormalMeasure (μ : ℝ) (v : ℝ≥0)`.
   - Define it by pushforward: `logNormalMeasure μ v = (gaussianReal μ v).map exp`.
@@ -385,8 +406,9 @@ Families not named here, such as logistic, Rayleigh, and von Mises, are outside 
     Prove `integrableExpSet id = Set.Iic 0` and non-integrability of the mgf integrand for every `t > 0`.
     There is no closed-form mgf target.
   - When `v = 0`, prove `logNormalMeasure μ 0 = Measure.dirac (exp μ)`.
-    At this boundary the cdf is `if exp μ ≤ x then 1 else 0`, the mean is `exp μ`, the variance is `0`, `integrableExpSet id = Set.univ`, the mgf is `exp (t * exp μ)`, and the characteristic function is `Complex.exp (Complex.I * (t : ℂ) * Real.exp μ)`.
+    At this boundary the cdf is `if exp μ ≤ x then 1 else 0`, the mean is `exp μ`, the variance is `0`, `integrableExpSet id = Set.univ`, the mgf is `exp (t * exp μ)`, the cgf is `t * exp μ`, and the characteristic function is `Complex.exp (Complex.I * (t : ℂ) * Real.exp μ)`.
   - For every `n : ℕ`, including `v = 0`, prove the raw moment `exp ((n : ℝ) * μ + (n : ℝ) ^ 2 * (v : ℝ) / 2)`.
+    Record the resulting mean `exp (μ + v / 2)` and variance `(exp v - 1) * exp (2 * μ + v)`.
 - **Weibull** `weibullMeasure (k lam : ℝ)`.
   - The pdf and measure are zero unless `0 < k` and `0 < lam`.
   - Under those hypotheses, prove the density `fun x => if x ≤ 0 then 0 else (k / lam) * Real.rpow (x / lam) (k - 1) * exp (-Real.rpow (x / lam) k)`, the cdf `0` for `x ≤ 0` and `1 - exp (-(x/lam)^k)` for `0 < x`, and moments `lam^n * Gamma (1 + n/k)`.
@@ -395,10 +417,12 @@ Families not named here, such as logistic, Rayleigh, and von Mises, are outside 
     - if `k = 1`, it is integrable exactly for `t < lam⁻¹`, with mgf `(1 - lam * t)⁻¹`; and
     - if `0 < k < 1`, it is integrable exactly for `t ≤ 0` and non-integrable for every `t > 0`.
       No cgf formula is required in this case.
+    In the first two regimes, prove the cgf as the real logarithm of the stated mgf on its domain.
 - **Chi-squared** `chiSquaredMeasure (k : ℝ)`.
   - Define it as `Measure.dirac 0` when `k = 0`, `gammaMeasure (k/2) (1/2)` when `0 < k`, and the zero measure when `k < 0`.
   - For `0 < k`, prove the bridge to `gammaMeasure` and specialize its pdf, cdf, mean `k`, variance `2k`, `integrableExpSet id = Set.Iio (1 / 2)`, and mgf `Real.rpow (1 - 2 * t) (-(k / 2))` on that domain.
-  - At `k = 0`, prove cdf `if 0 ≤ x then 1 else 0`, mean and variance `0`, `integrableExpSet id = Set.univ`, and mgf and characteristic function identically `1`.
+    Prove the cgf as the real logarithm of this formula.
+  - At `k = 0`, prove cdf `if 0 ≤ x then 1 else 0`, mean and variance `0`, `integrableExpSet id = Set.univ`, mgf and characteristic function identically `1`, and cgf identically `0`.
   - Prove additivity for nonnegative degrees of freedom.
 - **Inverse-gamma** `inverseGammaMeasure (a r : ℝ)`.
   - Define it as `(gammaMeasure a r).map (·⁻¹)` when `0 < a` and `0 < r`, and as zero otherwise.
@@ -433,8 +457,10 @@ Families not named here, such as logistic, Rayleigh, and von Mises, are outside 
     On that domain, prove `pgf id (negativeBinomialMeasure r p) t = Real.rpow (p / (1 - (1 - p) * t)) r`; outside it, prove non-integrability.
     At `r = 0`, the pgf is `1` for every `t`.
   - For the cast law with `0 < r` and `0 < p ≤ 1`, prove mean `r * (1 - p) / p`, variance `r * (1 - p) / p ^ 2`, `integrableExpSet id = {t | (1 - p) * Real.exp t < 1}`, mgf `Real.rpow (p / (1 - (1 - p) * Real.exp t)) r` on that set, and characteristic function `(p / (1 - (1 - p) * Complex.exp (I * t))) ^ (r : ℂ)`.
+    On the mgf domain, prove the cgf as the real logarithm of the displayed real power.
     Use principal `Complex.cpow`; the base has positive real part.
-  - At `r = 0`, prove mean and variance `0`, `integrableExpSet id = Set.univ`, and mgf and characteristic function identically `1`.
+  - For `0 < r`, prove the native cumulative-mass formula `(negativeBinomialMeasure r p).real {j | j ≤ k} = regularizedIncompleteBeta r (k + 1) p`; derive the cast-law cdf by taking the floor of its argument.
+  - At `r = 0`, prove the Dirac cumulative-mass formula, mean and variance `0`, `integrableExpSet id = Set.univ`, mgf and characteristic function identically `1`, and cgf identically `0`.
     Do not reuse the positive-`r` exponential-moment domain here; it is false at this boundary when `p < 1`.
 - **Hypergeometric** `hypergeometricMeasure (N K n : ℕ)`.
   - When `K ≤ N` and `n ≤ N`, define the weighted Dirac sum with coefficient `K.choose k * (N - K).choose (n - k) / N.choose n` — an `ℝ≥0∞` ratio of `Nat.choose` values — when `k ≤ n`, and coefficient `0` when `n < k`.
@@ -443,6 +469,9 @@ Families not named here, such as logistic, Rayleigh, and von Mises, are outside 
   - With real casts throughout, prove mean `n * K / N` when `0 < N` and variance `n * (K / N) * (1 - K / N) * ((N - n) / (N - 1))` when `1 < N`.
   - At the only valid parameters with `N = 0`, namely `K = n = 0`, prove mean and variance zero.
     At `N = 1`, retain the mean formula — equal to `1` when `K = n = 1` — and prove only that the variance is zero, avoiding totalized division by `N - 1`.
+  - In the valid range, prove the cumulative-mass formula as the finite sum of the singleton masses over `j ≤ k`.
+    For the cast law, prove `integrableExpSet id = Set.univ`, the mgf and characteristic function as the corresponding finite sums over `j ≤ n`, and the cgf as the real logarithm of the mgf.
+    These finite sums are the requested transform formulas; no Gauss-hypergeometric closed form is a target.
   - Prove `hypergeometricMeasure N K n = hypergeometricMeasure N n K`.
   - For the binomial limit, take `p : I` and `K : ℕ → ℕ`.
     Assume `∀ N, K N ≤ N` and `Tendsto (fun N => (K N : ℝ) / N) atTop (𝓝 (p : ℝ))`.
@@ -487,7 +516,16 @@ Targets:
    - if `0 < ν`, `Z ~ gaussianReal 0 1`, and `V ~ chiSquaredMeasure ν`, then `Z / √(V/ν) ~ studentTMeasure ν`;
    - if `0 < m`, `0 < n`, `U ~ chiSquaredMeasure m`, and `V ~ chiSquaredMeasure n`, then `(U/m) / (V/n) ~ fisherSnedecorMeasure m n`; and
    - if `Z₁` and `Z₂` are standard Gaussian, then `Z₁ / Z₂ ~ cauchyMeasure 0 1`.
-3. **Independent gamma variables.** If `0 < a`, `0 < b`, and `0 < r`, and independent variables satisfy `X ~ gammaMeasure a r` and `Y ~ gammaMeasure b r`, prove `X / (X + Y) ~ betaMeasure a b` and independence from `X + Y`.
+3. **Independent gamma variables.** For `0 < a`, `0 < b`, and `0 < r`, prove the joint product-pushforward theorem
+
+   ```lean
+   ((gammaMeasure a r).prod (gammaMeasure b r)).map
+       (fun z => (z.1 / (z.1 + z.2), z.1 + z.2)) =
+     (betaMeasure a b).prod (gammaMeasure (a + b) r)
+   ```
+
+   Lean's division totalizes the zero-denominator branch; prove that branch null under the source product measure.
+   Deduce the Beta marginal and independence from the sum, together with the corresponding `HasLaw` statement for independent variables.
 4. **Sums and differences.** Prove:
    - for `0 < b`, `X - Y` has law `laplaceMeasure 0 b` when `X` and `Y` are i.i.d. with law `expMeasure b⁻¹`;
    - for `p : I` with `p ≠ 0`, the sum of `n` i.i.d. `geometricMeasure p` variables has law `negativeBinomialMeasure (n : ℝ) (p : ℝ)`, including the empty sum at `n = 0` and the Dirac case `p = 1`; and
@@ -510,7 +548,7 @@ hasLaw_sum_sq_gaussian
 hasLaw_studentT_of_gaussian_chiSquared
 hasLaw_fisherSnedecor_of_chiSquared
 hasLaw_ratio_gaussian_cauchy
-map_div_add_gammaMeasure_betaMeasure
+map_div_add_prod_gammaMeasure
 bind_gammaMeasure_poissonMeasure
 cdf_max_iid
 ```
@@ -531,6 +569,7 @@ Targets:
 
 1. **Covariance matrices.** Define `covMatrix (μ : Measure (EuclideanSpace ℝ ι)) : Matrix ι ι ℝ` by `covMatrix μ i j = cov[fun z => z i, fun z => z j; μ]`.
    For positive-semidefinite `S`, prove `covMatrix (multivariateGaussian m S) = S`.
+   Also prove integrability of `id` and the Bochner mean `∫ x, x ∂multivariateGaussian m S = m`.
 
    Under `[IsFiniteMeasure μ]` and `MemLp id 2 μ`, connect this matrix to Mathlib's bilinear form: `covarianceBilin μ x y = ⟪x, (covMatrix μ).toEuclideanLin y⟫`.
    Keep the `MemLp` hypothesis.
@@ -539,11 +578,17 @@ Targets:
    Prove `HasPDF` with respect to `volume` on `EuclideanSpace ℝ ι`, with density `fun x => Real.rpow (2 * π) (-(d : ℝ) / 2) * Real.rpow S.det (-(1 : ℝ) / 2) * exp (-⟪x - m, (S⁻¹).toEuclideanLin (x - m)⟫ / 2)`.
    The inner product is Euclidean, and the matrix acts through `Matrix.toEuclideanLin`.
    When `S` is not positive-definite, prove singularity with respect to `volume`.
+   Derive the positive-definite case from `TauCeti.pi_gaussianReal_eq_withDensity` by an affine change of variables rather than rebuilding the product-density calculation.
 3. **Affine maps of Gaussian laws.** For `L : Matrix κ ι ℝ`, `[Fintype κ]`, `c : EuclideanSpace ℝ κ`, and `S.PosSemidef`, prove `(multivariateGaussian m S).map (fun x => L.toEuclideanLin x + c) = multivariateGaussian (L.toEuclideanLin m + c) (L * S * Lᵀ)`.
    Allow rectangular `L`, and distinguish the matrix from its induced map using `Matrix.toEuclideanLin`.
 
    Do not state this formula for non-positive-semidefinite `S`.
    Mathlib then totalizes `multivariateGaussian m S` to `Measure.dirac m`, and arbitrary projections do not preserve that totalization.
+
+   For every `θ : EuclideanSpace ℝ ι`, prove
+   `integrableExpSet (fun x => ⟪θ, x⟫_ℝ) (multivariateGaussian m S) = Set.univ` and
+   `mgf (fun x => ⟪θ, x⟫_ℝ) (multivariateGaussian m S) t = exp (t * ⟪θ, m⟫_ℝ + t ^ 2 / 2 * ⟪θ, S.toEuclideanLin θ⟫_ℝ)`.
+   Record the coordinate marginals by reusing `measurePreserving_eval_multivariateGaussian` and the corresponding restriction theorem rather than reproving them.
 4. **Conditional Gaussian laws.** Use joint carrier `EuclideanSpace ℝ (ι ⊕ κ)`.
    Define the covariance blocks by `Sum`-submatrices: `S₁₁ = S.submatrix Sum.inl Sum.inl`, `S₁₂ = S.submatrix Sum.inl Sum.inr`, `S₂₁ = S.submatrix Sum.inr Sum.inl`, and `S₂₂ = S.submatrix Sum.inr Sum.inr`.
    Let `m₁`, `m₂` be the matching coordinate restrictions.
@@ -567,6 +612,9 @@ Targets:
    - covariance with diagonal `(n : ℝ) * p i * (1 - p i)` and off-diagonal `-((n : ℝ) * p i * p j)`; and
    - characteristic function `(∑ j, (p j : ℝ) * Complex.exp (I * t j)) ^ n`.
      This is a natural-number power, so no branch choice is involved.
+
+   Package the entrywise covariance formula as an equality for `covMatrix` and derive the corresponding `covarianceBilin` theorem.
+   For every `θ : EuclideanSpace ℝ ι`, prove that the directional `integrableExpSet` is `Set.univ` and that the directional mgf is `(∑ j, (p j : ℝ) * exp (t * θ j)) ^ n`; its cgf is the real logarithm of this formula.
 6. **Dirichlet distribution.** Assume `[Fintype ι] [Nonempty ι]`.
    Define `dirichletMeasure (a : ι → ℝ)` to be zero unless `∀ i, 0 < a i`.
    In the valid case, start with independent `gammaMeasure (a i) 1` variables, divide each coordinate by their sum, and push the result to `EuclideanSpace ℝ ι`.
@@ -576,7 +624,7 @@ Targets:
    When `ι = Fin 2`, evaluation at `0` must recover `betaMeasure (a 0) (a 1)` through Layer 4.
 
    Under `∀ i, 0 < a i`, write `a₀ = ∑ j, a j` and prove:
-   - mean `a i / a₀`;
+   - Bochner mean `EuclideanSpace.equiv.symm (fun i => a i / a₀)`;
    - variance `a i * (a₀ - a i) / (a₀ ^ 2 * (a₀ + 1))`;
    - covariance `-(a i * a j) / (a₀ ^ 2 * (a₀ + 1))` for `i ≠ j`; and
    - for a surjective `f : ι → κ`, the fibre-sum pushforward is `dirichletMeasure (fun j => ∑ i with f i = j, a i)`.
@@ -591,6 +639,10 @@ Targets:
    Define the `ℝ≥0∞`-valued density with `ENNReal.ofReal`.
    State that `dirichletMeasure a` is the pushforward, along the reconstruction map, of product `volume` on `J → ℝ` with this density.
    Do not claim a density with respect to ambient `d`-dimensional volume.
+
+   Package the variance and covariance formulas as an equality for `covMatrix` and derive the corresponding `covarianceBilin` theorem.
+   Bounded simplex support gives `integrableExpSet (fun x => ⟪θ, x⟫_ℝ) (dirichletMeasure a) = Set.univ` for every `θ`.
+   No closed-form directional mgf or characteristic-function formula is a target; in particular, the chart integral is not to be renamed as a transform formula.
 7. **Parameter measurability.** Prove the shared parameter-measurability target for the multivariate Gaussian, multinomial, and Dirichlet families.
 
 Key declarations:
@@ -629,6 +681,10 @@ Targets:
    Over `ℝ`, `star` is transpose, so this is exactly the subspace of symmetric matrices; `Matrix.isHermitian_iff_isSelfAdjoint` connects it to the spectral API.
    Do not introduce a separate `Matrix.symmetricSubmodule`.
 
+   Select the ambient Frobenius structure using `Matrix.toMatrixInnerProductSpace` at `M = 1`, then inherit the normed additive group and inner-product structure on the self-adjoint submodule.
+   Derive the normed-space and continuous-enorm instances from those choices rather than installing duplicate instances.
+   Use finite dimensionality to provide the coherent complete-space instance, and prove that the measurable structure is the Borel structure of this topology.
+
    On this carrier, provide:
    - dimension `p(p+1)/2`;
    - the Frobenius inner-product topology and Borel σ-algebra;
@@ -636,11 +692,14 @@ Targets:
    - the pairing identity `⟪A, Θ⟫_ℝ = trace ((Θ : Matrix _ _ ℝ) * (A : Matrix _ _ ℝ))` for symmetric `A` and `Θ`.
      This makes `charFun` use the same pairing as the real trace statistic below.
 
-   Define `upperTriangle p = {ij : Fin p × Fin p // ij.1 ≤ ij.2}` and the linear equivalence `symmetricCoordinates : selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) ℝ) ≃ₗ[ℝ] (upperTriangle p → ℝ)` by reading the upper-triangular entries.
+   Define `upperTriangle p = {ij : Fin p × Fin p // ij.1 ≤ ij.2}` and the continuous linear equivalence `symmetricCoordinates : selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) ℝ) ≃L[ℝ] (upperTriangle p → ℝ)` by reading the upper-triangular entries.
+   Record its induced measurable equivalence; equivalently, prove that its coordinate σ-algebra is the Borel σ-algebra just selected.
    Define `symmetricLebesgue p` as the pushforward of product `volume` on `upperTriangle p → ℝ` along `symmetricCoordinates.symm`, and prove that the coordinate equivalence is measure-preserving.
 
    This fixes the normalization.
-   Although `symmetricLebesgue p` is an additive Haar measure, it is neither the arbitrarily normalized `Measure.addHaar` nor the volume from a Frobenius-orthonormal basis, whose off-diagonal coordinates have different scaling.
+   Provide the named instance `MeasureTheory.Measure.IsAddHaarMeasure (symmetricLebesgue p)` needed by Mathlib's Jacobian API.
+   Prove the named comparison `volume_symmetricMatrix_eq_smul_symmetricLebesgue`: Frobenius volume is `Real.rpow 2 (((p : ℝ) * ((p : ℝ) - 1)) / 4)` times `symmetricLebesgue p`, with the positive real factor coerced to `ℝ≥0∞` for measure scalar multiplication.
+   The casts and `Real.rpow` are essential; the exponent is not the natural-number quotient `p * (p - 1) / 4`.
    Prove explicitly that `symmetricLebesgue 0` is the Dirac measure on the unique zero-dimensional symmetric matrix.
 
    For `C : Matrix.GeneralLinearGroup (Fin p) ℝ`, define `symmetricCongruence C` by `A ↦ C * A * Cᵀ`.
@@ -648,10 +707,16 @@ Targets:
    Equivalently, prove `(symmetricLebesgue p).map (symmetricCongruence C) = ((ENNReal.ofReal |Matrix.det (C : Matrix _ _ ℝ)|) ^ (p + 1))⁻¹ • symmetricLebesgue p`.
    This change of variables supplies the general-scale Wishart formulas.
    The next item gives the separate positive-cone change of variables.
-2. **Cholesky decomposition.** Define the Cholesky map on the subtype of positive-definite symmetric matrices, with values in the subtype of lower-triangular matrices with positive diagonal.
-   Prove existence and uniqueness of `A = L * Lᵀ`, and prove that this subtype-valued map is measurable.
+2. **Cholesky decomposition.** Define the target subtype with `Matrix.IsLowerTriangular` and positive diagonal; do not restate lower triangularity entrywise.
+   Build the Cholesky factor from Mathlib's `LDL.lower` and `LDL.diag`.
+   As an explicit prerequisite, prove `Matrix.IsLowerTriangular (LDL.lower hS)` from `LDL.lowerInv_triangular` and `blockTriangular_inv_of_blockTriangular`.
+
+   Package Cholesky and `L ↦ L * Lᵀ` as `choleskyEquiv` between the positive-definite symmetric matrices and the positive-diagonal lower-triangular matrices.
+   Prove both named inverse identities, continuity and measurability in both directions, and expose the resulting homeomorphism and measurable equivalence.
+   The equation `A = L * Lᵀ` and uniqueness are corollaries of this package.
 
    Give the codomain the product coordinates consisting of its diagonal and strict lower triangle.
+   In those coordinates, prove that the absolute determinant of the derivative of `L ↦ L * Lᵀ` is `2 ^ p * ∏ i : Fin p, (L i i) ^ (p - i.1)`.
    Prove that the restriction of `symmetricLebesgue p` to the positive-definite cone is the pushforward, under `L ↦ L * Lᵀ`, of the positive-diagonal coordinate region weighted by `2 ^ p * ∏ i : Fin p, (L i i) ^ (p - i.1)`.
    The multivariate-Gamma integral and Bartlett decomposition must use this Jacobian in these exact coordinates.
    A Cholesky value outside the positive-definite subtype is not part of this API.
@@ -662,55 +727,57 @@ Targets:
    For `0 < p` and `a > ((p : ℝ) - 1) / 2`, prove `∫ A in PosDef, Real.rpow (det A) (a - ((p : ℝ) + 1) / 2) * exp (-trace A) ∂symmetricLebesgue p = multivariateGamma p a`.
    At `p = 0`, prove the same identity for every `a`; both sides are `1`, so no convergence hypothesis is needed.
    The occurrence of `symmetricLebesgue p` in this theorem is essential: its normalization is the one used by the Wishart density, and the Cholesky theorem computes the integral in independent lower-triangular coordinates.
-4. **Wishart distribution.** Define `wishartMeasure (n : ℝ) (S : Matrix (Fin p) (Fin p) ℝ)` on the symmetric-matrix subspace from item 1.
-   When `hS : S.PosDef`, write `Sₛ` for `S` bundled into that subspace using `hS.isHermitian` and `Matrix.isHermitian_iff_isSelfAdjoint`.
-   Expressions such as `det A`, `A⁻¹`, and `trace A` refer to the underlying matrix of a bundled value.
+4. **Wishart distributions.** Use two linked families so that the generic Wishart development does not turn legitimate singular laws into the zero measure.
+   Expressions such as `det A`, `A⁻¹`, and `trace A` refer to the underlying matrix of a bundled symmetric value.
 
+   **Nonsingular real-degree family.** Define `nonsingularWishartMeasure (n : ℝ) (S : Matrix (Fin p) (Fin p) ℝ)` on the symmetric-matrix subspace.
+   When `hS : S.PosDef`, write `Sₛ` for `S` bundled into that subspace using `hS.isHermitian` and `Matrix.isHermitian_iff_isSelfAdjoint`.
    When `S.PosDef` and `(p : ℝ) - 1 < n`, define the law relative to `symmetricLebesgue p`.
    On the positive-definite cone its density is `Real.rpow (det A) ((n - (p : ℝ) - 1) / 2) * exp (-trace (S⁻¹ * A) / 2) / (Real.rpow 2 (n * (p : ℝ) / 2) * Real.rpow (det S) (n / 2) * multivariateGamma p (n / 2))`; outside the cone it is zero.
-   Define the measure to be zero when the parameter hypotheses fail.
+   Define this measure to be zero when either parameter hypothesis fails.
+   This real-degree density family deliberately fixes a positive-definite scale matrix; singular scales belong to the Gaussian-Gram family below.
 
    Do not add a separate definition at `p = 0`.
    The symmetric space is then a singleton, `symmetricLebesgue 0` is Dirac, and the empty determinants, trace, and normalizing constant make the density `1`.
    Thus, for `-1 < n`, the general definition already gives the Dirac law and the theorems below need no dimension-zero exception.
 
-   Prove the following basic results:
-   - `wishartMeasure n S` is a probability measure under exactly the stated hypotheses;
-   - its mean is `n • Sₛ`;
-   - its entrywise covariance is `cov[fun A => (A : Matrix _ _ ℝ) i j, fun A => (A : Matrix _ _ ℝ) k l; wishartMeasure n S] = n * (S i k * S j l + S i l * S j k)`; and
-   - for `ν : ℕ` with `p ≤ ν`, it is the law of `∑ i : Fin ν, vecMulVec (X i) (X i)` for i.i.d. `X i ~ multivariateGaussian 0 S`.
-     The condition `p ≤ ν` is required: otherwise the Gaussian sum is singular.
+   Prove that `nonsingularWishartMeasure n S` is a probability measure under exactly the stated hypotheses, its mean is `n • Sₛ`, and its entrywise covariance is
+   `cov[fun A => (A : Matrix _ _ ℝ) i j, fun A => (A : Matrix _ _ ℝ) k l; nonsingularWishartMeasure n S] = n * (S i k * S j l + S i l * S j k)`.
 
    At fixed `S`, prove convolution when `(p : ℝ) - 1 < n₁`, `(p : ℝ) - 1 < n₂`, and `(p : ℝ) - 1 < n₁ + n₂`.
    The last condition is automatic for `0 < p`, but not for `p = 0`: two inputs greater than `-1` may have sum at most `-1`, where the totalized output law is zero rather than Dirac.
 
-   For `M : Matrix (Fin q) (Fin p) ℝ` with `M.rank = q`, prove that the pushforward under `A ↦ M * A * Mᵀ` is `wishartMeasure n (M * S * Mᵀ)`.
+   For `M : Matrix (Fin q) (Fin p) ℝ` with `M.rank = q`, prove that the pushforward under `A ↦ M * A * Mᵀ` is `nonsingularWishartMeasure n (M * S * Mᵀ)`.
    Full row rank keeps the new scale matrix positive-definite.
    The intended mgf proof uses `det (I + 2 • ((Mᵀ * Θ * M) * S)) = det (I + 2 • (Θ * (M * S * Mᵀ)))`.
-   Record the following special cases:
-   - invertible congruence for `M : Matrix.GeneralLinearGroup (Fin p) ℝ`; and
-   - the principal-submatrix marginal `A ↦ A.submatrix e e`, with scale `S.submatrix e e`, for a coordinate embedding `e : Fin q ↪ Fin p`.
+   Record invertible congruence and principal-submatrix marginals as special cases.
+   Deficient-row-rank congruences are handled by the Gaussian-Gram family rather than this density family.
 
-   Do not include deficient-row-rank congruences in this density-defined family; their images are supported on singular matrices.
+   In every transform theorem, take `Θ : selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) ℝ)` rather than alternating between a raw matrix plus a symmetry proof and a bundled matrix.
+   Prove the exact domain theorem `mem_integrableExpSet_trace_mul_nonsingularWishartMeasure_iff`:
+   `t ∈ integrableExpSet (fun A ↦ trace ((Θ : Matrix _ _ ℝ) * A)) (nonsingularWishartMeasure n S) ↔ (I - (2 * t) • (CFC.sqrt S * Θ * CFC.sqrt S)).PosDef`.
+   On this domain, prove `mgf_trace_mul_nonsingularWishartMeasure` with value `Real.rpow (det (I - (2 * t) • ((Θ : Matrix _ _ ℝ) * S))) (-n / 2)`.
+   This uses Mathlib's scalar mgf on the trace statistic; do not introduce a separate matrix-valued transform.
 
-   Under the valid Wishart hypotheses, let `Θ` be real symmetric.
-   Prove the exact domain theorem `mem_integrableExpSet_trace_mul_wishartMeasure_iff`: `t ∈ integrableExpSet (fun A ↦ trace (Θ * A)) (wishartMeasure n S) ↔ (I - (2 * t) • (CFC.sqrt S * Θ * CFC.sqrt S)).PosDef`.
-   On this domain, prove `mgf_trace_mul_wishartMeasure`: `mgf (fun A ↦ trace (Θ * A)) (wishartMeasure n S) t = Real.rpow (det (I - (2 * t) • (Θ * S))) (-n / 2)`.
-   This uses Mathlib's scalar mgf on the linear statistic `A ↦ trace (Θ * A)`; do not introduce a separate matrix-valued transform.
-
-   For positive-semidefinite `Θ`, record the `t = -1` specialization as `integral_exp_neg_trace_wishartMeasure`: `∫ A, exp (-trace (Θ * A)) ∂wishartMeasure n S = Real.rpow (det (I + 2 • (Θ * S))) (-n / 2)`.
-   This is the usual cone Laplace transform.
-   Do not wrap it in a new `wishartLaplaceTransform` definition.
-
-   For the characteristic function, put `B = CFC.sqrt S * Θ * CFC.sqrt S` and let `hB : B.IsHermitian`.
-   State the spectral formula `charFun (wishartMeasure n S) Θ = Complex.exp (-(n : ℂ) / 2 * ∑ j : Fin p, Complex.log (1 - (2 * Complex.I) * (hB.eigenvalues j : ℂ)))`.
-   Each term uses the principal `Complex.log` of a number with real part `1`.
-   This eigenvalue-by-eigenvalue convention is part of the statement.
+   For positive-semidefinite `Θ`, record the `t = -1` cone-Laplace specialization without wrapping it in a new transform definition.
+   Prove a named lemma that `CFC.sqrt S * (Θ : Matrix _ _ ℝ) * CFC.sqrt S` is Hermitian from `hS` and the bundled symmetry of `Θ`.
+   Use that lemma internally in the spectral characteristic-function statement; callers do not supply an `hB` proof.
+   State the formula as the exponential of `-(n : ℂ) / 2` times the sum of the principal logarithms of `1 - 2 * Complex.I * λ`, one for each eigenvalue `λ` of this Hermitian sandwich.
    Do not replace it by a principal complex power of the determinant: as explained in [Mayerhofer's branch analysis](https://arxiv.org/abs/1901.09347), multiplying the factors before taking `Complex.log` can cross the branch cut.
 
-   Finally, under the canonical `Fin 1` symmetric-coordinate equivalence, prove for `0 < n` and `0 < σ²` that the law is `(chiSquaredMeasure n).map (σ² * ·)`.
+   Under the canonical `Fin 1` symmetric-coordinate equivalence, prove for `0 < n` and `0 < σ²` that `nonsingularWishartMeasure n (σ²)` is `(chiSquaredMeasure n).map (σ² * ·)`.
+
+   **Natural-degree Gaussian-Gram family.** Define `wishartGramMeasure (ν : ℕ) (S : Matrix (Fin p) (Fin p) ℝ)` to be zero unless `S.PosSemidef`.
+   In the positive-semidefinite case, define it as the pushforward of `Measure.pi (fun _ : Fin ν => multivariateGaussian 0 S)` under `X ↦ ∑ r, Matrix.vecMulVec (X r) (X r)`.
+   Prove that it is a probability measure for every natural `ν`, including `ν < p` and `ν = 0`.
+   Prove support in the positive-semidefinite cone and the almost-sure rank bound `rank A ≤ min ν S.rank`.
+   Its mean and entrywise covariance are the same formulas as above with `n = ν`.
+
+   For every matrix `M : Matrix (Fin q) (Fin p) ℝ`, with no rank hypothesis, prove that congruence pushes `wishartGramMeasure ν S` to `wishartGramMeasure ν (M * S * Mᵀ)`.
+   For `S.PosDef` and `p ≤ ν`, prove `wishartGramMeasure ν S = nonsingularWishartMeasure (ν : ℝ) S`.
+   For `S.PosDef` and `ν < p`, prove that `wishartGramMeasure ν S` is singular with respect to `symmetricLebesgue p`.
 5. **Bartlett decomposition.** Let `ν : ℕ` with `p ≤ ν`.
-   Lift `wishartMeasure (ν : ℝ) 1` to the positive-definite subtype using `(wishartMeasure (ν : ℝ) 1).comap Subtype.val`, then apply the Cholesky map.
+   Lift `nonsingularWishartMeasure (ν : ℝ) 1` to the positive-definite subtype using `(nonsingularWishartMeasure (ν : ℝ) 1).comap Subtype.val`, then apply the Cholesky equivalence.
    Prove that mapping the lift back along `Subtype.val` returns the original Wishart law.
    The proof should use `map_comap_subtype_coe` to obtain the restriction to the measurable cone, then remove that restriction because the cone's complement is null under the valid law.
 
@@ -720,7 +787,7 @@ Targets:
    - all these entries are independent.
 
    The zero-based `Fin p` index fixes the degrees of freedom in the diagonal laws.
-6. **Inverse-Wishart distribution.** Define `inverseWishartMeasure n S` by starting with `wishartMeasure n S⁻¹` and mapping it under the symmetric-subspace map induced by `A ↦ A⁻¹`.
+6. **Inverse-Wishart distribution.** Define `inverseWishartMeasure n S` by starting with `nonsingularWishartMeasure n S⁻¹` and mapping it under the symmetric-subspace map induced by `A ↦ A⁻¹`.
    Mathlib's totalized inverse is zero on singular matrices; keep that value.
    The singular set is null for valid source parameters, and the inverse-Wishart measure is zero in the same invalid-parameter cases as Wishart.
 
@@ -738,34 +805,43 @@ Key declarations:
 symmetricCoordinates
 symmetricLebesgue
 symmetricLebesgue_zero
+volume_symmetricMatrix_eq_smul_symmetricLebesgue
 symmetricCongruence
+det_symmetricCongruence
 map_symmetricCongruence_symmetricLebesgue
-Matrix.PosDef.cholesky
+isLowerTriangular_ldl_lower
+choleskyEquiv
+choleskyHomeomorph
+choleskyMeasurableEquiv
+abs_det_fderiv_choleskyReconstruction
 map_cholesky_symmetricLebesgue
 map_inv_symmetricLebesgue
 multivariateGamma
 integral_posDef_multivariateGamma
-wishartMeasure
-isProbabilityMeasure_wishartMeasure
-hasLaw_sum_vecMulVec_gaussian
-integral_id_wishartMeasure
-mem_integrableExpSet_trace_mul_wishartMeasure_iff
-mgf_trace_mul_wishartMeasure
-charFun_wishartMeasure
-bartlett_wishartMeasure
+nonsingularWishartMeasure
+isProbabilityMeasure_nonsingularWishartMeasure
+wishartGramMeasure
+isProbabilityMeasure_wishartGramMeasure
+wishartGramMeasure_eq_nonsingularWishartMeasure
+integral_id_nonsingularWishartMeasure
+mem_integrableExpSet_trace_mul_nonsingularWishartMeasure_iff
+mgf_trace_mul_nonsingularWishartMeasure
+charFun_nonsingularWishartMeasure
+bartlett_nonsingularWishartMeasure
 inverseWishartMeasure
 integral_id_inverseWishartMeasure
 ```
 
 Completion checks:
 
-- Under the stated positive parameters, the `1 × 1` Wishart law agrees with Layer 3's chi-squared law through the explicit coordinate equivalence.
+- Under the stated positive parameters, the `1 × 1` nonsingular Wishart law agrees with Layer 3's chi-squared law through the explicit coordinate equivalence.
+- In every dimension, the natural-degree Gaussian-Gram and nonsingular density families agree when `S.PosDef` and `p ≤ ν`.
 - `multivariateGamma 1 a = Gamma a`.
 
 ## Boundaries with other roadmaps
 
-- The [orthogonal-L²-bases roadmap](../OrthogonalL2Bases/README.md) covers Gaussian Hermite L² theory and moment determinacy under `TauCeti/Probability/Moments/`.
-  This roadmap uses its determinacy theorem but adds nothing in that directory.
+- The [orthogonal-L²-bases roadmap](../OrthogonalL2Bases/README.md) owns moment determinacy and Gaussian Hermite L² theory, represented in `TauCeti/Probability/Moments/` and `TauCeti/Probability/Distributions/Gaussian/`.
+  This roadmap reuses the existing Gaussian `Basic`, `Pi`, and `PolynomialMemLp` material and adds elementary distribution APIs; it does not restate the Hermite-basis or determinacy targets.
 - The [optimal-transport roadmap](../OptimalTransport/README.md) covers multivariate-Gaussian transport: the Brenier matrix formula, the closed `W₂` formula, interpolation, barycenters, and the positive-definite square-root and geometric-mean identities they require.
   This roadmap covers distribution theory — densities, conditional laws, affine formulas — and Cholesky decomposition.
   Neither roadmap restates the other's matrix results.
