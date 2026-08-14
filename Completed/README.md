@@ -13,3 +13,5 @@ built by CI.
 
 - [Effective arithmetic bounds and geometry of numbers](EffectiveBounds/README.md)
   (declared complete 2026-07-02)
+- [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](OrthogonalL2Bases/README.md)
+  (declared complete 2026-08-14)

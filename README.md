@@ -35,7 +35,6 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
 - [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
 - [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
-- [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
 
 ## Completed roadmaps
 
@@ -44,6 +43,7 @@ Roadmaps the maintainers have declared complete (a judgment against the roadmap'
 [`Completed/`](Completed/README.md), outside the active list above.
 
 - [Effective arithmetic bounds and geometry of numbers](Completed/EffectiveBounds/README.md)
+- [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](Completed/OrthogonalL2Bases/README.md)
 
 ## Generated status files
 

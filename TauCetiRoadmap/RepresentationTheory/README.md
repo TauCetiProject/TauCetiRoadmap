@@ -84,7 +84,7 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 
 Roadmaps in this family also cite roadmaps outside it: the classical-groups and compact-groups roadmaps
 border [reductive algebraic groups](../ReductiveGroups/README.md) and
-[weighted orthogonal L² bases](../OrthogonalL2Bases/README.md), the character-theory roadmap shares the
+[weighted orthogonal L² bases](../../Completed/OrthogonalL2Bases/README.md), the character-theory roadmap shares the
 Frobenius-Schur indicator with [pivotal and spherical categories](../PivotalSpherical/README.md), and the
 Schur-Weyl roadmap borders [Temperley-Lieb](../TemperleyLieb/README.md).
 

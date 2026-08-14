@@ -1,5 +1,31 @@
 # Roadmap: weighted orthogonal L² bases — completeness, Hilbert-basis structure, and product bases of orthogonal systems
 
+**Status: declared complete by the maintainers (2026-08-14).** The library this roadmap asked
+for has been built, sorry-free, in
+[TauCeti](https://github.com/TauCetiProject/TauCeti). The family-agnostic spine is there: the
+weight-to-measure isometry (`weightL2Isometry`) with its `HilbertBasis` transport
+(`HilbertBasis.mapₗᵢ`); the completeness toolkit grounded in moment determinacy
+(`ae_eq_zero_of_forall_moment_eq_zero`, and its measure-level form); the orthogonality-relation
+bridge (`hilbertBasisOfWeightedMeasure`, `hilbertBasisOfOrthogonalSystem`,
+`orthogonal_span_range_bareNormalizedLp_eq_bot`); and the product and `pi` bases
+(`prodHilbertBasis`, `piHilbertBasis`). Both instances the roadmap asked the spine to carry
+have landed: Hermite, on the function side (`hermiteHilbertBasis`) and the measure side
+(`gaussianHermiteHilbertBasis`), with the multidimensional bases of Part D
+(`hermiteFunctionPiBasis`, `gaussianHermitePiBasis`); and Chebyshev
+(`chebyshevTHilbertBasis`), together with the cosine transfer its acceptance criterion named.
+The Hermite function object API of A2, meaning the ladder relations, the oscillator
+eigen-equation and the Schwartz-map packaging, is under
+`TauCeti/Analysis/SpecialFunctions/Hermite/Function/`.
+
+The last target landed on 2026-07-30. The sibling `Discharged.lean` records every target of
+`Suggested.lean` closed by the declaration realizing it, so that correspondence is checked by
+the Lean kernel rather than asserted here; it elaborates against Tau Ceti `main` at
+`58d1ae1c`. Completion remains a judgment against *this* README, which is the definitive
+document: `Suggested.lean` is not exhaustive, so `Discharged.lean` evidences only the targets
+that file states.
+
+This roadmap is archived and no longer offered to contributors.
+
 ## Overview
 
 Mathlib has several families of orthogonal polynomials as **algebraic** objects
