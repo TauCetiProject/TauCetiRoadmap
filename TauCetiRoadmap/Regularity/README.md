@@ -33,7 +33,7 @@ here: they belong to the independent `TauCeti/Combinatorics/DenseGraphLimits/` d
 
 ## Conventions (pinned up front)
 
-Decided now so contributors don't oscillate between incompatible designs.
+These conventions bind all layers and their public interfaces.
 
 1. **Graphs use Mathlib's `SimpleGraph`.** Do not introduce a private finite-graph object as the main
    type. A weighted matrix/kernel view, where needed, is an adapter from `SimpleGraph V` with
@@ -325,10 +325,10 @@ floor. The theorem returns equitable vertex cells satisfying that floor.
 **Gate.** Compare the two-dimensional shadow of these definitions with Layer 4's graph API.
 
 **Prior formalization (Layers 5–8).** `regularity-lemmata/Hypergraph` proves Boolean precursors
-`exists_goodColoring` and `exists_triadic_regular_approximation`. The regularization behind them is
-not arity-specific: `exists_goodPolyadColoring` and its seeded form regularize a coloring of
-`j`-sets against an arbitrary decidable observable on ordered `(j+1)`-tuples, normalized by
-`|V|^{j+1}`, and the triadic statements are the `j = 2` instance. Permutation invariance of the
+`exists_goodColoring` and `exists_triadic_regular_approximation`. `exists_goodPolyadColoring` and its
+seeded form are arity-generic: they regularize a coloring of `j`-sets against an arbitrary decidable
+observable on ordered `(j+1)`-tuples, normalized by `|V|^{j+1}`, and the triadic statements are the
+`j = 2` instance. Permutation invariance of the
 observable is a hypothesis on the badness-closure lemma alone, so orientation coherence is not
 forced by the regularization step — it is forced from Layer 6 on, where polyad support reads
 coordinate pairs at both orientations.
@@ -488,7 +488,8 @@ dependency or an acceptance gate.
 - It does **not** own exchangeability or representation theorems for exchangeable arrays; it exports
   deterministic finite regularity inputs those roadmaps consume.
 - It does **not** culminate in arithmetic applications, and does **not** package a one-off induced
-  removal theorem as its endpoint; those belong after the counting layer or in a consumer roadmap.
+  removal theorem as its endpoint. Consumer roadmaps own induced removal and arithmetic
+  applications; this roadmap ends at counting.
 
 ## Two pinned interfaces
 

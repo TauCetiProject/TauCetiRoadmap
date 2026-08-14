@@ -231,10 +231,7 @@ equipartition `P₀` and a requested minimum complexity `l`, coarse/fine equipar
 Layer-2 wrapper guarantees only almost-refinement of the *input* partition; the exact nesting
 provided by `exists_regular_exact_refining_equipartition` holds between the partitions the iteration
 itself constructs) and at least `l` parts —
-the starting-partition/lower-bound parameters counting applications need, mirrored from the prior
-formalization's `exists_strongWitness` (proved there with host-independent bounds on **both**
-partitions via iterated `monoStepBound`, but for its weaker witness shape; this statement remains
-open). -/
+the starting-partition and lower-bound parameters required by counting applications. -/
 theorem exists_strong_regular (G : SimpleGraph V) [DecidableRel G.Adj]
     (P₀ : Finpartition (univ : Finset V)) (hP₀ : P₀.IsEquipartition) (l : ℕ)
     (ε : ℝ) (hε : 0 < ε) (F : ℕ → ℝ) (hF : ∀ n, 0 < F n)
@@ -307,7 +304,8 @@ def pairColorDensity (S : PairColorSystem κ₂ V) (c : κ₂) (s t : Finset V) 
     (((s ×ˢ t).filter (fun p => p.1 ≠ p.2)).card : ℚ)
 
 /-- **Layer 5.** The lower skeleton of a triadic complex: a vertex partition together with a
-pair-color system. Built here — **not** on `TriadicComplex3`, which does not exist until Layer 8. -/
+pair-color system. A standalone Layer-5 structure rather than a projection out of Layer 8's
+`TriadicComplex3`, keeping Layer 5 independent of Layer 8. -/
 structure PairSkeleton3 (κ₂ : Type*) (V : Type*) [Fintype V] [DecidableEq V] where
   vertexPart : Finpartition (univ : Finset V)
   pairColors : PairColorSystem κ₂ V
@@ -1084,7 +1082,7 @@ theorem inducedCopyCount_eq_sum_placed (H' : Colored3Graph κ₃ V) (C : Triadic
 
 /-- **Layer 9 (assembly).** The predicted mirror of the fibration identity: the global prediction
 is the sum of the per-placement predictions — pinning `expectedInducedCount`'s definitional
-docstring as a named identity once the `Fintype` instances exist. -/
+docstring as a named identity, using the preceding `Fintype` instances. -/
 theorem expectedInducedCount_eq_sum (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) :
     expectedInducedCount H' C F₀ =
