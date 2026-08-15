@@ -146,10 +146,10 @@ uniqueness of the witness itself holds on the conditional side
 `ConditionallyIIDWith μ X ν → MixedIIDWith μ X ν` with its existential corollary
 `mixedIID_of_conditionallyIID`; the hard converse is de Finetti's upgrade to the canonical
 tail-measurable directing measure (`conditionallyIID_of_exchangeable`, Layer 6), and the
-summit theorems conclude `ConditionallyIID`, never merely `MixedIID`. Sequencing note:
-TauCeti's landed API currently uses the name `ConditionallyIID` for the *mixture* shape, so
-the code rename (to `MixedIID` / `MixedIIDWith`) must land **before** the conditional
-predicate is implemented under this name.
+summit theorems conclude `ConditionallyIID`, never merely `MixedIID`. The two naming families are
+part of the specification: `MixedIIDWith` / `MixedIID` name the mixture identities, while
+`ConditionallyIIDWith` / `ConditionallyIID` name the joint-law disintegration. Do not overload
+either family with the other meaning.
 
 The standard-Borel hypotheses belong in the directing-measure construction and final
 de Finetti theorem, not in every elementary definition. Similarly, L² assumptions belong
