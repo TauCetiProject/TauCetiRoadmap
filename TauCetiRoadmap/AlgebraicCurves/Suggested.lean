@@ -52,6 +52,15 @@ def IsFunctionField : Prop :=
   ∃ x : F, Transcendental k x ∧
     FiniteDimensional (IntermediateField.adjoin k {x}) F
 
+/-- **Layer 0, finite-generation characterization, with the correct carrier**:
+`Algebra.EssFiniteType` means finite generation as a field extension (equivalently
+`(⊤ : IntermediateField k F).FG`). Do not replace it by `Algebra.FiniteType`, which
+means finite generation as a `k`-algebra and would force a field carrier to be
+algebraic by Zariski's lemma. -/
+example [Algebra.EssFiniteType k F] :
+    IsFunctionField k F ↔ Algebra.trdeg k F = 1 :=
+  sorry
+
 /-- **Layer 0, exactness of the constant field**: every element of `F` algebraic over
 `k` is a constant (Stichtenoth's standing "`k` is the full constant field", in force
 from §1.4 on). Pinned spelling: Mathlib's `IsIntegrallyClosedIn k F` — integral =
