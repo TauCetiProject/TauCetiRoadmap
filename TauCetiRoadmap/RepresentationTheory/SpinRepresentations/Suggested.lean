@@ -314,9 +314,9 @@ theorem cliff_one_one_equiv_matrix :
 /-- **Bott periodicity** `Cliff(p+1, q+1) ≅ Cliff(p, q) ⊗ M₂(ℝ)`, built from
 `CliffordAlgebra.equivEven` and `CliffordAlgebra.prodEquiv`; iterating gives the mod-`8` table, indexed by
 `(q - p) mod 8` in the convention fixed by the base entries above. This algebraic branch consumes Layer 0
-and the real base entries, not the Layer 1 structure theorem or Layer 2 double cover; see
-Lawson–Michelsohn, *Spin Geometry*, Chapter I, §4, Theorems 4.1 and 4.3, and Atiyah–Bott–Shapiro,
-*Clifford Modules*, Part I, §4, Proposition 4.2 and Table 1. -/
+and the real base entries, not the Layer 1 structure theorem or Layer 2 double cover; see Chevalley,
+*The Algebraic Theory of Spinors*, II.2.1, II.2.5, and II.2.9, and Lawson–Michelsohn,
+*Spin Geometry*, Chapter I, §4, Theorems 4.1 and 4.3. -/
 theorem cliff_bott (p q : ℕ) :
     Nonempty (CliffordAlgebra (realCliffordForm (p + 1) (q + 1)) ≃ₐ[ℝ]
       TensorProduct ℝ (CliffordAlgebra (realCliffordForm p q)) (Matrix (Fin 2) (Fin 2) ℝ)) := sorry

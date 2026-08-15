@@ -502,11 +502,11 @@ representation landing in that group; it needs three explicit milestones per cas
   `(q - p) mod 8` **in the convention fixed by the four base entries above** (references that make generators
   square to `+1` index by `(p - q) mod 8` instead; the base-entry tests pin which is meant). This is the real
   refinement of Layer 1's complex structure theorem, where all forms of a rank are equivalent. This is an
-  algebraic branch from Layer 0 and the base entries above: Lawson–Michelsohn, *Spin Geometry*, Chapter I,
-  §4, Theorem 4.1(4.3), constructs `Cliff(r+1,s+1) ≅ Cliff(r,s) ⊗ᵣ Cliff(1,1)` directly from the
-  Clifford universal property, and Theorem 4.3 derives the periodic classification. Atiyah–Bott–Shapiro,
-  *Clifford Modules*, Part I, §4, Proposition 4.2 and Table 1, likewise derives the algebraic recurrence
-  and table before §5 introduces Clifford modules. Thus this branch does not depend on Layer 1's spin-module
+  algebraic branch from Layer 0 and the base entries above. Chevalley, *The Algebraic Theory of Spinors*,
+  II.2.1, II.2.5, and II.2.9, supplies the split-matrix, orthogonal-sum, and signature-reduction mechanisms.
+  Lawson–Michelsohn, *Spin Geometry*, Chapter I, §4, Theorem 4.1(4.3), constructs
+  `Cliff(r+1,s+1) ≅ Cliff(r,s) ⊗ᵣ Cliff(1,1)` directly from the Clifford universal property, and
+  Theorem 4.3 derives the periodic classification. Thus this branch does not depend on Layer 1's spin-module
   proof or Layer 2's double cover.
 - **The real spin groups.** `spinPQ p q := spinGroup (realCliffordForm p q)`, the double cover of
   `SO(p, q)` from Layer 2 applied to the real form; the compact `Spin(n) = spinPQ n 0` and the split and
@@ -701,8 +701,6 @@ the CAR instance is a self-contained claimable unit needing only the abstract re
 - H. B. Lawson, M.-L. Michelsohn, *Spin Geometry*, Princeton (1989), Chapter I - the definitive account of
   Clifford algebras `Cliff(p, q)`, their Bott-periodic classification (the eightfold table), the Pin and Spin
   groups as double covers, and the real and complex spinor representations.
-- M. F. Atiyah, R. Bott, A. Shapiro, *Clifford Modules*, Topology 3, Supplement 1 (1964), 3–38 - the
-  algebraic Clifford recurrence and periodic table precede its treatment of Clifford modules.
 - C. Chevalley, *The Algebraic Theory of Spinors*, Columbia (1954) - the algebraic construction of the spin
   representation from a maximal isotropic subspace, the even/odd decomposition into half-spinors, and the
   intrinsic (basis-free) development of the Clifford algebra used in Layer 4.
