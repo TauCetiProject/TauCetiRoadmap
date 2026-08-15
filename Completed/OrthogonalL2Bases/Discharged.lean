@@ -13,7 +13,7 @@ import TauCeti.Analysis.SpecialFunctions.Hermite.Orthogonality
 import TauCeti.MeasureTheory.Function.WeightL2Isometry
 import TauCeti.Probability.Distributions.Gaussian.Hermite.Basis
 import TauCeti.Probability.Distributions.Gaussian.Hermite.MemLp
-import TauCeti.Probability.Distributions.Gaussian.Hermite.PiBasis
+import TauCeti.Probability.Distributions.Gaussian.Hermite.Pi.Basis
 import TauCeti.Probability.Moments.VanishingMoments
 import TauCeti.RingTheory.Polynomial.Hermite.Derivative
 import TauCeti.RingTheory.Polynomial.Hermite.GeneratingFunction
@@ -27,20 +27,32 @@ that realizes it. Definition targets are checked by type; theorem targets by app
 this file elaborates, each target is discharged *by the kernel*, not by matching names or by
 reading prose.
 
-All 27 targets discharge against Tau Ceti `main` at `58d1ae1c` (2026-08-14); they also
-discharged at `ce9fe563` (2026-08-11). Across those 369 commits exactly one target drifted:
-T8 moved from the `TauCeti` namespace to `Polynomial`, tracking Kim Morrison's upstream
-adaptation in mathlib4#42724. It surfaced as an elaboration failure, which is the reason to
-state a discharge record this way rather than in prose.
+All 27 targets discharge against Tau Ceti `main` at `a7c87175` (2026-08-15); they also
+discharged at `58d1ae1c` (08-14) and `ce9fe563` (08-11). Tau Ceti moved something under this
+file twice in those four days, and both times the file stopped elaborating:
 
-That drift is still visible here. This repository's `lake-manifest.json` pins Tau Ceti at
-`86cc55d9` (2026-08-13), just before the move, so against the pin T8 alone fails while the
-other 26 elaborate. The record is written against `main` rather than the pin, and no
-compatibility shim is added to bridge the two; an ordinary forward bump of the pin resolves it.
+* 08-13: `hermite_generating_function` (T8) moved from the `TauCeti` namespace to `Polynomial`,
+  tracking Kim Morrison's upstream adaptation in mathlib4#42724.
+* 08-15: `Gaussian/Hermite/PiBasis.lean` became `Gaussian/Hermite/Pi/Basis.lean`, changing the
+  import path (T26, T27); the declarations themselves were untouched.
+
+Neither is a regression: the theorems are still there, still proved, still sorry-free, and each
+change was correct. Each repair was one line. That is the reason to state a discharge record
+this way rather than in prose, which would have gone on reporting the roadmap complete while
+naming a declaration and an import path that no longer resolve.
+
+This repository pins Tau Ceti at `86cc55d9` (08-13), between the two events, so the file cannot
+be green against both the pin and `main`; it is written against `main`, and a forward bump of
+the pin reconciles them. No compatibility shim is added to bridge the two.
 
 Being under `Completed/`, this file sits outside the `TauCetiRoadmap.*` glob and so is **not
-built by CI**, as `Completed/README.md` already notes for the archived `Suggested.lean`. It
-records the state at archival rather than acting as a live check.
+built by CI**, as `Completed/README.md` already notes for the archived `Suggested.lean`. It is
+a snapshot pinned to the commit named above, not a live check. Given how fast the two events
+above arrived, treat it as evidence of the state at archival and nothing stronger.
+
+A hazard for anyone re-running it: after changing the pin, confirm the imported modules
+actually *built* at the new revision. A stale `.olean` from the previous pin will let
+`lake env lean` exit 0 on a file that cannot really elaborate.
 
 Nine of the 27 targets reach their Tau Ceti counterpart under a different name, and three need
 the roadmap's hypotheses genuinely weakened rather than merely renamed; both are noted inline
