@@ -188,9 +188,9 @@ roadmap.
 Consume these directly rather than re-proving Mathlib's product-measure,
 conditional-expectation, Hilbert-space, or mean-ergodic infrastructure.
 
-## What is missing (build here)
+## Implementation scope
 
-The missing pieces are:
+This roadmap develops:
 
 * finite-dimensional exchangeability and full exchangeability for sequence laws;
 * contractability and the proof `Exchangeable → Contractable`;
