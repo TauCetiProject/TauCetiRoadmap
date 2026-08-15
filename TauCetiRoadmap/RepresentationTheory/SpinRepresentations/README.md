@@ -320,8 +320,7 @@ module simple.
 - **The seed of periodicity.** Consume `CliffordAlgebra.equivEven`
   (`Cliff(Q) ≅ even(Q ⊕ ⟨-1⟩)`) and `CliffordAlgebra.prodEquiv` (the graded tensor product over a
   direct sum of forms); these are the algebraic inputs the complex structure theorem and the real Bott
-  periodicity of Layer 7 both rest on. The algebraic Bott recurrence consumes these inputs directly; it does
-  not consume the matrix-algebra conclusions of this layer.
+  periodicity of Layer 7 both rest on.
 
 ### Layer 2: the Pin and Spin groups and the double covers
 
@@ -506,8 +505,7 @@ representation landing in that group; it needs three explicit milestones per cas
   II.2.1 and II.2.5, supplies the split-matrix and orthogonal-sum mechanisms; II.2.9 fixes the real
   signature convention. Lawson–Michelsohn, *Spin Geometry*, Chapter I, §4, Theorem 4.1 and equation (4.3),
   constructs `Cliff(r+1,s+1) ≅ Cliff(r,s) ⊗ᵣ Cliff(1,1)` directly from the Clifford universal property,
-  and Theorem 4.3 derives the periodic classification. Thus this branch does not depend on Layer 1's
-  spin-module proof or Layer 2's double cover.
+  and Theorem 4.3 derives the periodic classification.
 - **The real spin groups.** `spinPQ p q := spinGroup (realCliffordForm p q)`, the double cover of
   `SO(p, q)` from Layer 2 applied to the real form; the compact `Spin(n) = spinPQ n 0` and the split and
   Lorentzian forms `Spin(p, q)`. The real double cover of `SO(p, q)` carries the component qualifications of
@@ -669,9 +667,8 @@ fundamental representation of `Bₗ`/`Dₗ`" precise, and completes
 [the classical-groups roadmap](../ClassicalGroups/README.md). Layer 6 (the exceptional isomorphisms) needs
 Layers 4-5 for the low-rank spin modules. Layer 7 has two dependency branches: its algebraic real forms,
 Bott recurrence, and classification table use Layer 0's Clifford-algebra interfaces and the stated real base
-entries, while its real Pin and Spin group theorems use Layer 2's double cover specialized to `ℝ`. The
-algebraic classification is the real analogue of Layer 1's complex structure theorem, not its consumer.
-Layer 8 (triality) needs Layer 5's half-spin identification and
+entries, while its real Pin and Spin group theorems use Layer 2's double cover specialized to `ℝ`. Layer 8
+(triality) needs Layer 5's half-spin identification and
 [the root-systems roadmap](../RootSystems/README.md)'s `D₄` diagram automorphism, and its group-level stage a
 further integration theorem; it is the summit. A contributor can complete Layers 0-3 (the structure theory
 and the double cover) and the `Spin₃` and real-form examples well before the highest-weight identification of
