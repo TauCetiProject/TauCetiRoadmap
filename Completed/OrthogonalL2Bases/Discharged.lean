@@ -27,9 +27,10 @@ that realizes it. Definition targets are checked by type; theorem targets by app
 this file elaborates, each target is discharged *by the kernel*, not by matching names or by
 reading prose.
 
-All 27 targets discharge against Tau Ceti `main` at `a7c87175` (2026-08-15); they also
-discharged at `58d1ae1c` (08-14) and `ce9fe563` (08-11). Tau Ceti moved something under this
-file twice in those four days, and both times the file stopped elaborating:
+All 27 targets discharge against Tau Ceti `main` at `73d0d896` (2026-08-15); they also
+discharged at `a7c87175` (08-15), `58d1ae1c` (08-14) and `ce9fe563` (08-11). Tau Ceti moved
+something under this file twice in those four days, and both times the file stopped
+elaborating:
 
 * 08-13: `hermite_generating_function` (T8) moved from the `TauCeti` namespace to `Polynomial`,
   tracking Kim Morrison's upstream adaptation in mathlib4#42724.
