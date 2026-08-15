@@ -503,11 +503,11 @@ representation landing in that group; it needs three explicit milestones per cas
   square to `+1` index by `(p - q) mod 8` instead; the base-entry tests pin which is meant). This is the real
   refinement of Layer 1's complex structure theorem, where all forms of a rank are equivalent. This is an
   algebraic branch from Layer 0 and the base entries above. Chevalley, *The Algebraic Theory of Spinors*,
-  II.2.1, II.2.5, and II.2.9, supplies the split-matrix, orthogonal-sum, and signature-reduction mechanisms.
-  Lawson–Michelsohn, *Spin Geometry*, Chapter I, §4, Theorem 4.1(4.3), constructs
-  `Cliff(r+1,s+1) ≅ Cliff(r,s) ⊗ᵣ Cliff(1,1)` directly from the Clifford universal property, and
-  Theorem 4.3 derives the periodic classification. Thus this branch does not depend on Layer 1's spin-module
-  proof or Layer 2's double cover.
+  II.2.1 and II.2.5, supplies the split-matrix and orthogonal-sum mechanisms; II.2.9 fixes the real
+  signature convention. Lawson–Michelsohn, *Spin Geometry*, Chapter I, §4, Theorem 4.1 and equation (4.3),
+  constructs `Cliff(r+1,s+1) ≅ Cliff(r,s) ⊗ᵣ Cliff(1,1)` directly from the Clifford universal property,
+  and Theorem 4.3 derives the periodic classification. Thus this branch does not depend on Layer 1's
+  spin-module proof or Layer 2's double cover.
 - **The real spin groups.** `spinPQ p q := spinGroup (realCliffordForm p q)`, the double cover of
   `SO(p, q)` from Layer 2 applied to the real form; the compact `Spin(n) = spinPQ n 0` and the split and
   Lorentzian forms `Spin(p, q)`. The real double cover of `SO(p, q)` carries the component qualifications of
