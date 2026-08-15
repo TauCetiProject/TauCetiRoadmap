@@ -291,11 +291,12 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
 
 ### Layer 3: the Lie functor and Baker-Campbell-Hausdorff
 
-- **The functor on morphisms.** For a smooth (equivalently, by Layer 2, continuous) homomorphism
-  `φ : G →* G'`, `lieMap φ = d(φ)_1 : 𝔤 →ₗ⁅ℝ⁆ 𝔤'` is a **Lie-algebra homomorphism**, natural against the
+- **The functor on morphisms.** For a homomorphism `φ : G →* G'` equipped with an explicit smoothness
+  proof, `lieMap φ = d(φ)_1 : 𝔤 →ₗ⁅ℝ⁆ 𝔤'` is a **Lie-algebra homomorphism**, natural against the
   exponential: `φ (lieExp X) = lieExp (lieMap φ X)`. Functoriality: `lieMap (id) = id`,
   `lieMap (ψ ∘ φ) = lieMap ψ ∘ lieMap φ`. Together with Layer 0 this is the **Lie functor**
-  `G ↦ (𝔤, Lie(G))`, `φ ↦ lieMap φ`, from Lie groups to finite-dimensional real Lie algebras.
+  `G ↦ (𝔤, Lie(G))`, `φ ↦ lieMap φ`, from Lie groups to finite-dimensional real Lie algebras. Layer 2's
+  automatic-smoothness theorem supplies the smoothness proof when `φ` is only assumed continuous.
 - **Injectivity on connected groups.** If `G` is **connected**, `lieMap` determines `φ`: two smooth
   homomorphisms with the same differential at `1` agree (they agree on `lieExp 𝔤`, which generates a
   connected `G`). So the functor is **faithful on connected groups**, and a connected Lie group is
@@ -485,7 +486,11 @@ Layer 0 (the exponential map, one-parameter subgroups) is the foundation and com
 Mathlib's `LeftInvariantDerivation`, `LieGroup`, and the manifold calculus. Layer 1 (`Ad`, `ad = d(Ad)`)
 needs Layer 0's `lieExp` and Mathlib's `LieAlgebra.ad`. Layer 2 (the closed-subgroup theorem) needs
 Layer 0's `lieExp` chart and gives every matrix group its Lie structure, so it precedes all concrete
-examples. Layer 3 (the Lie functor, BCH) needs Layers 0-2 (BCH is proved on matrix groups first). Layer 4
+examples. Within Layer 3, `lieMap` for explicitly smooth homomorphisms, its identity and composition
+laws, and its tangent-coordinate characterization need only the tangent/left-invariant-derivation
+interface; exponential naturality additionally needs Layer 0. None of these needs Layer 2. Layer 2 is
+needed to pass from continuous homomorphisms to smooth ones and to give closed matrix subgroups their
+Lie structures; the matrix-group proof of BCH therefore follows Layer 2. Layer 4
 (Frobenius, Lie's third, the equivalence of categories) needs Layer 3's functor and BCH and the Frobenius
 theorem named within it; Ado's theorem is a named algebraic prerequisite. Within Deliverable B the
 dependency is acyclic: the **universal-cover construction** (the covering space, lifted group law, and
