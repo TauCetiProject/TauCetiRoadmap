@@ -490,7 +490,8 @@ examples. Within Layer 3, `lieMap` for explicitly smooth homomorphisms, its iden
 laws, and its tangent-coordinate characterization need only the tangent/left-invariant-derivation
 interface; exponential naturality additionally needs Layer 0. None of these needs Layer 2. Layer 2 is
 needed to pass from continuous homomorphisms to smooth ones and to give closed matrix subgroups their
-Lie structures; the matrix-group proof of BCH therefore follows Layer 2. Layer 4
+Lie structures. The pinned Banach-algebra and general-linear-group proof of BCH needs only Layer 0;
+specializing it to other closed matrix subgroups uses their Layer 2 Lie structures. Layer 4
 (Frobenius, Lie's third, the equivalence of categories) needs Layer 3's functor and BCH and the Frobenius
 theorem named within it; Ado's theorem is a named algebraic prerequisite. Within Deliverable B the
 dependency is acyclic: the **universal-cover construction** (the covering space, lifted group law, and
