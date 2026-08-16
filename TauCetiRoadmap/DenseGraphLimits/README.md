@@ -1,17 +1,16 @@
 # Roadmap: dense graph limits and graphons
 
-Mathlib already carries a substantial **finite-graph** ecosystem — `SimpleGraph`, `Sym2`, the
+This roadmap consumes Mathlib's substantial **finite-graph** ecosystem — `SimpleGraph`, `Sym2`, the
 graph-homomorphism API (`SimpleGraph.Hom`) and copy-counting, Szemerédi regularity, triangle
 counting/removal, Turán density, measurable
 simple graphs, and the binomial random graph `G(V, p)` — together with the measure-theoretic stack
 (probability measures, `AEEqFun`, product/pi measures, conditional expectation, weak convergence,
-`StandardBorelSpace`). What it lacks is the **dense graph limit** theory tying them together: no
-graphon, no homomorphism density `t(F, W)`, no cut norm or cut distance, no weak regularity, no
-graphon space, no counting/inverse-counting lemmas. We build that theory here, after Part 3 of
-Lovász, *Large Networks and Graph Limits* (LNGL), culminating in the equivalence of cut-distance
-convergence with convergence of all homomorphism densities — and **connecting graphons and cut
-distance to Mathlib's existing finite-graph ecosystem** (regularity, Turán, random graphs) rather
-than rebuilding it.
+`StandardBorelSpace`). It develops the **dense graph limit** theory tying them together: graphons,
+homomorphism densities `t(F, W)`, cut norm and cut distance, weak regularity, graphon space, and
+counting/inverse-counting lemmas. Following Part 3 of Lovász, *Large Networks and Graph Limits*
+(LNGL), the development culminates in the equivalence of cut-distance convergence with convergence
+of all homomorphism densities and connects graphons and cut distance to the finite-graph ecosystem
+instead of rebuilding it.
 
 The spine is `Graphon → homDensity → cutNorm → cutDist → GraphonSpace → counting → regularity →
 compactness → separation → convergence`. The named theorems (weak regularity, the counting
@@ -22,9 +21,9 @@ it; each object gets its complete basic API.
 
 ## Conventions (pinned up front)
 
-Decided now so contributors don't oscillate between incompatible designs. The rationale for the two
-load-bearing choices — coupling-primary `cutDist` (#2) and the strict carrier (#1) — is spelled out
-in *Why these two choices* below.
+The following conventions bind every layer. The rationale for the two load-bearing choices —
+coupling-primary `cutDist` (#2) and the strict carrier (#1) — is spelled out in *Why these two
+choices* below.
 
 1. **Carrier — strict measurable function, quotient on top.** A graphon is an honest
    `W : Ω → Ω → ℝ` on a probability space `(Ω, μ)`, symmetric / measurable / `[0,1]`-valued
@@ -87,7 +86,7 @@ in *Why these two choices* below.
   / martingale arguments of compactness — as the named Layer-3 bridge. So the a.e. picture enters in
   exactly one place instead of pervading the whole development.
 
-**Status bar.** Everything here must land in `TauCeti/` `sorry`-free and with no axioms beyond
+**Acceptance policy.** Everything here must land in `TauCeti/` `sorry`-free and with no axioms beyond
 `propext`, `Classical.choice`, `Quot.sound` (`TauCeti/AGENTS.md`). The roadmap states the goals
 with `sorry`; the code repo discharges them.
 
@@ -140,10 +139,10 @@ milestone of its layer, preceding the dependent route:
   supplied compatibly on *every* coordinate — invariance of a marginal contributes nothing by
   itself. When a transformation crosses a boundary (a carrier split, a quotient, a relabeling
   class), say explicitly which actions lift and which do not: a coupling whose acting family is
-  smaller than its consumers need is a blocked route, and the mismatch belongs in the
+  smaller than its consumers need cannot serve those consumers, and the mismatch belongs in the
   signature, not in a downstream surprise.
 
-## What Mathlib already has (consume)
+## Mathlib dependencies (consume)
 
 Reuse these by name; do not rebuild them. (**Entry points checked** against the pinned toolchain;
 some prose paths below are abbreviated.)
@@ -194,10 +193,10 @@ some prose paths below are abbreviated.)
 - **Topology of the target:** conditionally-complete-lattice / `iInf` API for the cut-norm and
   cut-distance infima; `Metric` / `PseudoMetric` / `UniformSpace` for `GraphonSpace`.
 
-### Reusable infrastructure to build here
+### General-purpose prerequisites
 
-Absent from Mathlib and built as prerequisites (each reusable beyond graphons, so each belongs
-in a general `TauCeti/` home once its API is stable):
+The following prerequisites are independent of graphons and belong in general `TauCeti/` homes;
+the graphon modules consume them:
 
 - the **measure-preserving map from `(I, volume)`** to any standard Borel probability space (a measurable map with the prescribed pushforward — not pointwise surjectivity) —
   atoms allowed (Janson, Thm A.9; input to Layer 5) — and the **measure-preserving mod-null
@@ -208,10 +207,10 @@ in a general `TauCeti/` home once its API is stable):
 - a thin **measurable `Finpartition` adapter** (Layer 2);
 - **`AEEqFun`** ergonomics exercised by the Layer-3 view.
 
-## What is missing (build here)
+## Implementation scope
 
-Everything graphon-specific: the `Graphon` object and its symmetric-kernel algebra,
-`homDensity`, `cutNorm` (seminorm + set form), the coupling `cutDist` and its gluing triangle,
+This roadmap develops the graphon-specific theory: the `Graphon` object and its symmetric-kernel
+algebra, `homDensity`, `cutNorm` (seminorm + set form), the coupling `cutDist` and its gluing triangle,
 `GraphonSpace`, the counting lemma (both directions), step approximation / weak regularity,
 total boundedness / completeness / compactness, inverse counting / separation, and the
 convergence equivalence; the Layer-9a sampling stack (`sampleGraph`, the joint `infiniteSampleLaw`,
@@ -220,15 +219,15 @@ their graphon-mixture representation (`ExchangeableGraphLaw` / `InfiniteExchange
 `graphonMixtureLawEquiv`), and the Layer-8 gluing algebra and representability spine
 (`LabeledGraph` / `connectionMatrix` / `graphParamMobius` / `paramExchangeableLaw` /
 `lovasz_szegedy_representability`) — see the per-layer sections and the *Suggested signatures*
-inventory for the full lists. None of it is upstream.
+inventory for the full lists.
 
 ---
 
 ## The build, in layers
 
-As each layer makes the next layer's *types* expressible, state its milestones (with `sorry`,
-in `Suggested.lean` or embedded here). Each layer is required work; later layers may be built
-later, but none is skippable.
+As each layer makes the next layer's *types* expressible, its milestones are stated with `sorry`
+in `Suggested.lean` or embedded here. Each layer is required; the dependency order determines when
+its targets become expressible.
 
 ### Layer 0 — finite-graph and measure scaffolding
 The elementary lemmas the later layers stand on: `Sym2`-indexed finite products for edge
@@ -499,31 +498,28 @@ two different answers here — *who owns the API* and *what the proof consumes*:
   roadmap's contents. This layer uses graph-specialized structures (`ExchangeableGraphLaw`,
   `InfiniteExchangeableGraphLaw`, `IsDissociated`) that are **specializations, not a parallel
   theory**: the definite target is adapters to a shared generic law API — the specialization to
-  the one-sort symmetric irreflexive binary signature. The adapter refactor is an interface
-  obligation on this roadmap, not a build dependency: no target here is gated on work outside
-  it.
+  the one-sort symmetric irreflexive binary signature. The adapter is an interface obligation on
+  this roadmap, not a build dependency: the graph-specific targets have no dependency on work
+  outside it.
 - **Proof dependency.** The graphon-mixture representation does **not** depend on the array-level
-  Aldous–Hoover representation, nor on its hard functional converse. It is proved
-  graph-specifically — empirical graphons, the collision estimate, Layer 4's compactness of
-  `GraphonSpaceI`, and the point-separating hom-density coordinates (the Layer-9b spine above) —
-  and the prior formalization confirms this route end to end with no array-level input. Gating
-  the completed graphon argument on the generic converse would put a proved theorem behind a
-  substantially harder open development; instead, the later generic representation theorem owes a
-  **specialization/compatibility result**: its graph case must induce the same infinite graph
-  laws and the same quotient-valued graphon mixing measure.
+  Aldous–Hoover representation or its hard functional converse. Its graph-specific proof uses
+  empirical graphons, the collision estimate, Layer 4's compactness of `GraphonSpaceI`, and the
+  point-separating hom-density coordinates from the Layer-9b spine. The generic representation
+  theorem owes a **specialization/compatibility result**: its graph case must induce the same
+  infinite graph laws and the same quotient-valued graphon mixing measure.
 
-The two developments meet at one **law-level interface** — proposed identifier
+The two developments meet at one **law-level interface**,
 `graphLawArrayLawEquiv`, equating exchangeable graph laws with the laws of symmetric, irreflexive,
 jointly exchangeable Boolean arrays. Its target type belongs to the array API outside this
 roadmap, and an identifier whose target type is elsewhere is described rather than
-`sorry`-pinned (per the roadmap guide). **The carrier level of that bridge is pinned now**, so the
-meeting point is a concrete contract rather than prose: `EdgeIndex` (unordered non-diagonal
+`sorry`-pinned (per the roadmap guide). The carrier-level contract consists of `EdgeIndex`
+(unordered non-diagonal
 pairs of `ℕ`), the coordinate equivalence `graphCoordEquiv : SimpleGraph ℕ ≃ (EdgeIndex → Bool)`
 with measurability in both directions, and the relabeling commuting square `graphCoordEquiv_comap`
 (relabeling the graph = jointly relabeling the coordinates along `edgeIndexMap`). The
-law-level adapter is the remaining half of the bridge; pushforward along the measurable equivalence then
+law-level adapter completes the bridge; pushforward along the measurable equivalence then
 identifies graph exchangeability with joint array exchangeability. (The encoding follows the
-prior formalization's `InfiniteGraph.coordEquiv` — edge-set coordinates over `Sym2`, deliberately
+pinned source's `InfiniteGraph.coordEquiv` — edge-set coordinates over `Sym2`, deliberately
 not an `ℕ → ℕ → Bool` subtype carrying a `Symmetric` side condition.)
 
 ### Layer 9c — sampling convergence
@@ -569,9 +565,8 @@ This layer consumes Layer 9a's objects and the Layer-6b convergence equivalence 
 independent of Layer 9b and of the Layer-8b spine, and can land in parallel with both.
 
 ### Reusable beyond graphons — general Tau Ceti homes
-Several prerequisites are independent of graphons, so each belongs in a general home in
-`TauCeti/` rather than under `DenseGraphLimits/`, once its API has stabilized here (stabilizing
-an API before spreading it around is good practice). Inventory:
+The following prerequisites are graphon-independent and belong in general `TauCeti/` homes; the
+graphon modules consume them:
 - the **measure-preserving map from `(I, volume)`** to any standard Borel probability space (a measurable map with the prescribed pushforward — not pointwise surjectivity), and
   the **measure-preserving mod-null equivalence** with `(I, volume)` in the atomless case (Layer 5);
 - reusable **conditional-expectation / dyadic-martingale `L¹`-convergence** lemmas (Layer 4);
@@ -695,8 +690,9 @@ README).
 
 ## Provenance (secondary)
 
-Two independent Lean formalizations of this theory exist; the roadmap draws on both, migrating
-the already-formalized parts and treating the open parts as goals to be discharged in `TauCeti/`.
+Two independent Lean formalizations serve as secondary proof-route and API evidence. The milestones
+above are specified intrinsically; these sources identify proof scripts and gaps but do not
+determine the target API.
 
 - [`math-commons/graphons`](https://github.com/math-commons/graphons) — `sorry`-free, with four
   audited classical axioms; broad packaged theory (`GraphonSpace`, the extremal consequences,
@@ -747,18 +743,15 @@ the already-formalized parts and treating the open parts as goals to be discharg
   the Boolean Möbius inversion laws, the exact copy-count bridge, the
   measurable-`Finpartition` null-cell adapter), fixing-algebra conditional independence with
   latent/factor infrastructure (`RelFixingCondIndep.lean`, `RelRankLatents.lean`), and the
-  converse-side specification: `RelRankRepresentation.lean` is an interface — "no existence
-  theorem accompanies this definition, at any rank" — the **hard functional converse is an open
-  target of that development**. This is why the cross-roadmap
-  boundary (Layer 9b) places the generic law API outside this roadmap while keeping the
-  graphon-mixture proof independent of the generic converse: the shared-law substrate exists,
-  and the graph theorem is proved without it.
+  converse-side specification: `RelRankRepresentation.lean` is an interface with no existence
+  theorem at any rank. The snapshot therefore supplies the shared-law substrate but not the hard
+  functional converse. The cross-roadmap boundary in Layer 9b keeps the generic law API outside
+  this roadmap while keeping the graphon-mixture proof independent of that converse.
 
-Already formalized over a fixed standard-Borel carrier, making the canonical specializations
-migration-first: Layers 0–7 and 9a–9c. The **coupling-based cross-carrier generality** of Layers 1, 5,
-and 6 — the Janson statements over arbitrary probability carriers — is also discharge work. The
-remaining headline discharge target is Layer 8b (representability), whose spine consumes the
-Layer-9b graph-law infrastructure — see *Ordering*.
+The pinned sources supply fixed-standard-Borel proof routes for Layers 0–7 and 9a–9c. The roadmap
+additionally requires the **coupling-based cross-carrier generality** of Layers 1, 5, and 6 — the
+Janson statements over arbitrary probability carriers — and the Layer-8b representability spine,
+which consumes the Layer-9b graph-law infrastructure; see *Ordering*.
 
 An early community pointer in this direction: in the October 2021 Lean Zulip thread on the
 Dillies–Mehta Szemerédi-regularity formalization (see References), Mauricio Collares flagged the
@@ -766,7 +759,7 @@ sequel — "one application of SzRL is to show that the 'space of graphons with 
 compact'", pointing to §5 of Lovász–Szegedy's *Szemerédi's Lemma for the Analyst*
 ([message](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Szemer.C3.A9di.20Regularity.20Lemma/near/258448218);
 [public archive](https://leanprover-community.github.io/archive/stream/113488-general/topic/Szemer.C3.A9di.20Regularity.20Lemma.html#258448218)).
-That regularity development is now Mathlib's `Combinatorics/SimpleGraph/Regularity` (with the
+Mathlib's `Combinatorics/SimpleGraph/Regularity` supplies that regularity development (with the
 triangle counting/removal lemmas), consumed above rather than rebuilt; the compactness it flagged
 is Layer 4's `CompactSpace GraphonSpaceI`.
 
@@ -857,7 +850,7 @@ The mathematics and proof routes draw on two prior Lean developments,
   generic exchangeable-law API homed outside this roadmap with a definite adapter target
   (no build dependency), the graphon-mixture proof independent of the array-level
   Aldous–Hoover converse, and the two joined by the documented `graphLawArrayLawEquiv`
-  interface — with its carrier level (`graphCoordEquiv` + the relabeling square) pinned now?
+  interface, with its carrier level specified by `graphCoordEquiv` and the relabeling square?
 - Does the Layer-8b spine run through named targets (`graphParamMobius` with positivity and total
   mass, the Möbius consistency calculus `graphParamMobius_sum_comap` + `paramGraphLaw` — never a
   `paramExchangeableLaw` constructor absorbing the consistency theorem — upper-mass inversion,
