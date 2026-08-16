@@ -1,14 +1,13 @@
 # Roadmap: graph regularity, finite weak regularity, and arity-3 hypergraph complexes
 
-Mathlib already carries a finite-graph **regularity** ecosystem — `SimpleGraph`, edge densities,
+This roadmap consumes Mathlib's finite-graph **regularity** ecosystem — `SimpleGraph`, edge densities,
 `Finpartition` / `IsEquipartition` / `equitabilise`, the Szemerédi regularity lemma
 (`szemeredi_regularity`), triangle counting/removal, and graph copy-counting (`SimpleGraph.Copy`). The
 **dense graph limits** roadmap (graphons, the analytic cut norm, cut distance, analytic Frieze–Kannan,
-compactness, sampling) is an **independent parallel analytic development**, owned separately. This
-roadmap builds the **finite combinatorial regularity tower** — finite weak (Frieze–Kannan)
-regularity, **strong graph regularity**, and **arity-3 hypergraph-complex regularity and counting** —
-the material Mathlib lacks, with **no analytic prerequisites**: nothing here waits on the graphon
-roadmap, and any finite–analytic comparison is owned by a downstream consumer (see *Interfaces
+compactness, sampling) is a separate analytic development. This roadmap develops the **finite
+combinatorial regularity tower** — finite weak (Frieze–Kannan) regularity, **strong graph
+regularity**, and **arity-3 hypergraph-complex regularity and counting** — with no analytic
+prerequisites. Any finite–analytic comparison is owned by a downstream consumer (see *Interfaces
 exported to other roadmaps*).
 
 The local summit is an **arity-3 strong hypergraph regularity / regular-approximation package**,
@@ -38,7 +37,7 @@ These conventions bind all layers and their public interfaces.
 1. **Graphs use Mathlib's `SimpleGraph`.** Do not introduce a private finite-graph object as the main
    type. A weighted matrix/kernel view, where needed, is an adapter from `SimpleGraph V` with
    `[Fintype V]`, never the public graph API. *Why:* a standard notion said in a private dialect drifts
-   from Mathlib and grows a redundant theory of lemmas Mathlib already proves.
+   from Mathlib and grows a redundant theory of lemmas Mathlib proves.
 2. **Partitions use Mathlib's vocabulary.** `Finpartition (univ : Finset V)`, `IsEquipartition`,
    `equitabilise`, `IsUniform`; **`P ≤ Q` means `P` refines `Q`** (the finer partition is `≤`). *Why:*
    the whole regularity stack is stated in these terms; reusing them lets the roadmap consume
@@ -79,14 +78,14 @@ These conventions bind all layers and their public interfaces.
    one. *Why:* a roadmap that peaks at an application invites unbounded scope and hides the reusable
    library that is the actual deliverable.
 
-**Status bar.** Everything here must land in `TauCeti/` `sorry`-free and axiom-clean
+**Acceptance policy.** Everything here must land in `TauCeti/` `sorry`-free and axiom-clean
 (`TauCeti/AGENTS.md`). The roadmap states the goals with `sorry` (allowed in this human-owned roadmap
 library); the code repo discharges them. Following the roadmap-writing guide, `Suggested.lean` contains
 only definitions whose bodies state a real condition and theorem targets whose propositions are already
 expressible; a condition whose API does not yet exist is described here and added to `Suggested.lean`
 only once it can be stated honestly — **never** as `def _ : Prop := sorry`.
 
-## What Mathlib already has (consume)
+## Mathlib dependencies (consume)
 
 Reuse these by name; do not rebuild them. (**Entry points checked** against the pinned toolchain;
 some prose paths below are abbreviated.)
@@ -448,8 +447,8 @@ count in a concrete 3-uniform example.
 
 ## Ordering
 
-Layers 0–1 (substrate) and the graph-regularity endpoint (Layers 2–4) first — they are honestly pinnable against
-the pinned Mathlib APIs and give visible checkpoints. The arity-3 tower (5–9) follows: skeleton (5) →
+Layers 0–4 depend only on the listed Mathlib APIs and establish the finite graph-regularity
+substrate. The arity-3 tower (5–9) then proceeds: skeleton (5) →
 polyads/densities (6) → top regularity (7) → the strong approximation (8) → induced counting (9).
 Layers 4 and 8 attract duplicate work, so **register an Intention and `claim` the specific target**
 before a substantial push (see *Coordinating work* in the repository README).
