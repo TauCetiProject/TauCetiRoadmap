@@ -70,8 +70,8 @@ Out of scope, with the owner of each subject:
 | generic restricted products, adelic quotients, strong approximation, and Tamagawa measures | [Adelic Algebraic Groups](../AdelicAlgebraicGroups/README.md) |
 | root systems, Weyl groups, `DynkinType`, the ADE classification | [Root Systems](../RepresentationTheory/RootSystems/README.md) |
 | Poisson summation and the real-parameter Gaussian theta transformation | [L-functions](../LFunctions/README.md) |
-| orders, conductors, proper fractional ideals, `Pic`, and `NarrowPic` | [Global Number Fields](../GlobalNumberFields/README.md) |
-| ring class fields and their Artin isomorphisms | [Class Field Theory](../ClassFieldTheory/README.md) |
+| number-field orders, conductors, proper fractional ideals, `Pic`, and `NarrowPic` for the nonsplit binary branch | [Global Number Fields](../GlobalNumberFields/README.md) |
+| ring class fields and their Artin isomorphisms for nonsplit quadratic field orders | [Class Field Theory](../ClassFieldTheory/README.md) |
 | modular forms of integral weight, Hecke theory, newforms | [Modular Forms](../ModularForms/README.md) |
 
 The following subjects have no owner and are not part of this roadmap. They are listed so
@@ -169,11 +169,15 @@ the set `{x | β x x ≤ C}` is infinite, and the theta series diverges. A state
 invariant under `β ⇝ −β`, such as finiteness of the automorphism group, is proved for
 positive definite lattices and then extended by that substitution.
 
-**Twists and sums.** `L(a)` is the module `L` with the form `a • β`, so `E₈(−1)` is
-negative definite. A statement about `L(a)` assumes `a ≠ 0`. A statement that must stay in
-the positive definite theory assumes `a > 0`. The orthogonal direct sum `L ⊕ M` carries the
-sum of the two forms, and its Gram matrix is the block sum. Isometry is
-`LinearMap.BilinForm.Equivalent`. A class is an isometry class over `ℤ`.
+**Form twists, carrier dilations, and sums.** `L.formTwist a`, also written `L(a)`, keeps
+the carrier and replaces the form by `a • β`, so `E₈(−1)` is negative definite. This is
+different from the scalar image `a • L.carrier` inside the rational ambient space. A
+statement about a nondegenerate form twist assumes `a ≠ 0`; positive definiteness and theta
+scaling assume `a > 0`. For nonzero integral `a`, the dual formula is the carrier identity
+`dual_{aB}(L) = (a : ℚ)⁻¹ • dual_B(L)`, not a form twist on the old dual carrier. The
+orthogonal direct sum `L ⊕ M` carries the sum of the two forms, and its Gram matrix is the
+block sum. Isometry is `LinearMap.BilinForm.Equivalent`. A class is an isometry class over
+`ℤ`.
 
 **Rational ambient space and abstract inputs.** The ambient space `V` and its rational
 form `B` are part of `IntegralLattice`; they are not reconstructed independently in each
@@ -202,7 +206,9 @@ carriers used by the Nikulin programme; no `ℚ/2ℤ`-valued duplicate is introd
 
 **Two invariants with different names.** The Gauss-sum invariant `sign q ∈ ℤ/8` of a
 nondegenerate finite quadratic form is defined by
-`∑_{a ∈ A} e^{πi q(a)} = √#A · e^{2πi·sign(q)/8}`. It is a statement about finite quadratic
+`∑_{a ∈ A} e^{2πi q(a)} = √#A · e^{2πi·sign(q)/8}`. The factor `2πi` is forced by the
+half-norm codomain `ℚ/ℤ`; the factor `πi` belongs only to the full-norm `ℚ/2ℤ` convention.
+It is a statement about finite quadratic
 forms, and milestone 1H proves it. Milgram's theorem is the different statement that
 `t₊ − t₋ ≡ sign q_L (mod 8)` for an even lattice, and milestone 1I proves it. The roadmap
 does not use one name for both.
@@ -300,8 +306,8 @@ structure or carrier for it.
 | 0C, 3H | Quadratic Form Invariants | `hasseInvariant`, `hilbertSymbol`, `localHasse`, `exists_of_realization`; Layer 6D classification | field and nonarchimedean local invariants, including the dyadic classification |
 | 3G | Quadratic Form Invariants | `hilbertSymbol_eq_cohomological`, `hilbertSymbol_productFormula` | the norm-equation symbol agrees with CFT's pairing and inherits Hilbert reciprocity |
 | 3H, 4A | Global Quadratic Forms | `atFinitePlace`, `atRealPlace`, `hasseMinkowski_equivalent`, `equivalent_of_locallyEquivalent` | localization and global equivalence of the underlying rational quadratic spaces |
-| B1--B5 | Global Number Fields | `NumberFieldOrder`, `NumberFieldOrder.conductor`, `NumberFieldOrder.properIdeals`, `Pic`, `NumberFieldOrder.mkPic`, `NumberFieldOrder.mkPic_surjective`, `NarrowPic`, `NumberFieldOrder.narrowPrincipal`, `narrowPic_surjective`, `finite_pic`, `finite_narrowPic` | orders and their wide and narrow Picard groups; no order or ideal-class carrier is rebuilt here |
-| B3 | Class Field Theory | Layer 6, ring class fields and `Gal(H_O/K) ≃ Pic O` | the class-field interpretation of the form-class dictionary; CFT consumes the GNF order and Picard carrier |
+| B1--B5, `¬ IsSquare Δ` | Global Number Fields | `NumberFieldOrder`, `NumberFieldOrder.conductor`, `NumberFieldOrder.properIdeals`, `Pic`, `NumberFieldOrder.mkPic`, `NumberFieldOrder.mkPic_surjective`, `NarrowPic`, `NumberFieldOrder.narrowPrincipal`, `narrowPic_surjective`, `finite_pic`, `finite_narrowPic` | field orders and their wide and narrow Picard groups; the square-discriminant split branch is elementary and does not use these carriers |
+| B3, `Δ < 0` | Class Field Theory | Layer 6, ring class fields and `Gal(H_O/K) ≃ Pic O` | the class-field interpretation in the nonsplit field case only; there is no split ring-class-field claim |
 | 3G | Class Field Theory | `hilbertProductFormula` | cohomological Hilbert reciprocity, reached on classical symbols through QFI's comparison |
 | 4B, 7B | Adelic Algebraic Groups | `FiniteAdelicPoints`, `AdelicPoints`, `rationalDiagonal`; Layers 3, 6, and 7 quotient/Tamagawa milestones | generic restricted products, rational diagonals, quotient measures, and Tamagawa normalization |
 | 4B--4F, 7B, 7F, B7 | Orthogonal and Spin Groups | `orthogonalGroup`, `orthogonalBaseChange`, `orthogonalBaseChangeReal`, `spinorNorm`, `spinorNorm_reflection`, `OrthogonalCompactOpens`, `finiteAdelicOrthogonal`, `strongApproximation_finiteAdelicSpin`, `transvection`, `transvectionLiftHom`; Layer 5 orthogonal Tamagawa theorem | orthogonal/spin-specific algebra and approximation; the volume of `SO` feeds the lattice mass formula and never consumes it |
@@ -335,11 +341,20 @@ conventions, with a genuine `[carrier.IsLattice ℚ]` instance. This milestone a
 - the determinant of a direct sum is the product of the determinants, and the determinant
   of `L(a)` is `aⁿ det L`;
 - the rank is additive over direct sums;
-- the restriction of `β` to a submodule is again a lattice form.
+- two restriction constructors: a submodule of full rational span gives an
+  `IntegralLattice` in the same `V`, while an arbitrary finite-free submodule gives one in
+  its own ambient space `ℚ ⊗[ℤ] M`. Prove that the constructions agree up to the canonical
+  isometry when `M` is full. An arbitrary submodule is not silently treated as full.
 
 An isometry is a rational linear equivalence preserving both carrier and form. Every
 invariance theorem requires this structure; a bare additive or module equivalence is an
 explicit rejection test.
+
+For `a : ℤ`, `formTwist a` remains integral, and an even form remains even. Its rank-`n`
+Gram determinant is `aⁿ det L`; the converse parity implication needs the expected unit or
+coprimality hypothesis. Nondegeneracy needs `a ≠ 0`, and positive definiteness and the theta
+scaling law need `a > 0`. Discriminant groups and forms under a nonunit twist are related by
+the induced inclusions and quotients; they are not claimed to be unchanged.
 
 **0B. The even and quadratic dictionary.** An even symmetric `β` is the polar form of a
 unique `Q : QuadraticForm ℤ L`. The polar form of any `Q` is symmetric and even, and
@@ -407,8 +422,10 @@ and transport every Layer-0 invariant. This is a dictionary around the one embed
 carrier, not a second public lattice structure. Integrality is `L ≤ L^⋆`.
 
 **1B. The dual lattice.** `L^⋆ = B.dualSubmodule L`, with `L^{⋆⋆} = L` for symmetric
-nondegenerate `B`. Duality reverses inclusions. For `a ≠ 0`, `(L(a))^⋆ = (L^⋆)(a⁻¹)` inside
-`V`. The Gram matrix of the dual basis is `G⁻¹`, and `det L^⋆ = (det L)⁻¹` in `ℚ`. A
+nondegenerate `B`. Duality reverses inclusions. For nonzero `a : ℤ`, twisting the form gives
+the carrier identity `dual_{aB}(L) = (a : ℚ)⁻¹ • dual_B(L)` inside `V`; the right side is
+scalar dilation of a submodule, not the form twist `L^⋆(a⁻¹)`. The Gram matrix of the dual
+basis is `G⁻¹`, and `det L^⋆ = (det L)⁻¹` in `ℚ`. A
 lattice is unimodular exactly when `L = L^⋆`. Prove the load-bearing statements that the
 dual is a full lattice exactly when `B` is nondegenerate and that
 `dualSubmoduleToDual : L^⋆ ≃ Module.Dual ℤ L` is an equivalence. Establish double duality
@@ -456,12 +473,15 @@ induced form nondegenerate, and then add:
 - orthogonal sums, and the `p`-primary decomposition `q = ⊕_p q_p`;
 - isometries, and the group `O(q)`;
 - the generators `q_θ^{(p)}(p^k)`, `u^{(2)}(2^k)` and `v^{(2)}(2^k)` of Nikulin
-  Proposition 1.8.1, with the theorem that every finite quadratic form is an orthogonal
-  sum of them;
-- the relations among the generators, which are Nikulin Proposition 1.8.2.
+  Proposition 1.8.1, with the theorem that every **nondegenerate** finite quadratic form
+  is an orthogonal sum of them;
+- the relations among the generators for nondegenerate forms, which are Nikulin
+  Proposition 1.8.2.
 
 Without the relations the list of generators is not a classification. Layers 3 and 5 need
-the classification.
+the classification. The broad carrier still permits degenerate restrictions to subgroups;
+nondegeneracy is an explicit hypothesis before the generator classification, its relations,
+the Gauss-sum invariant, or the comparison theorem is invoked.
 
 **1H. The Gauss-sum invariant.** For nondegenerate `(A,q)` in the canonical half-norm
 convention,
@@ -474,8 +494,8 @@ Nikulin Proposition 1.11.2:
 - `sign v^{(2)}(2^k) ≡ 4k (mod 8)`;
 - `sign u^{(2)}(2^k) ≡ 0 (mod 8)`.
 
-Nikulin Theorem 1.11.3 is proved with them: two finite quadratic forms with isometric
-bilinear forms are isometric exactly when their invariants agree mod 8.
+Nikulin Theorem 1.11.3 is proved with them: two **nondegenerate** finite quadratic forms
+with isometric bilinear forms are isometric exactly when their invariants agree mod 8.
 
 **1I. Milgram's theorem.** For an even nondegenerate lattice, `t₊ − t₋ ≡ sign q_L (mod 8)`.
 An even unimodular lattice has `A_L = 0`, so `8 ∣ t₊ − t₋`.
@@ -584,10 +604,32 @@ class-number finiteness, and it is what the enumeration in the LMFDB rests on.
 
 ### Layer 3: localization, Jordan splittings, and the genus
 
-**3A. Lattices over `ℤ_p`.** `L_p = ℤ_p ⊗ L` with `β_p = β.baseChange ℤ_[p]`, which is
-defined for every `p`, including `p = 2`. Free finite `ℤ_p`-modules with symmetric forms,
-their scale and norm ideals, and unimodular `ℤ_p`-lattices. The splitting result 0F holds
-over `ℤ_p`, and it is stronger there: a unimodular summand of maximal scale splits off.
+**3A. The embedded-to-local bridge.** First restrict the accepted rational form to an
+actual integral form
+`L.integralForm : LinearMap.BilinForm ℤ L.carrier`, characterized by
+`((L.integralForm x y : ℤ) : ℚ) = L.form x y`. Then form the integral localization
+
+```text
+L_p = ℤ_p ⊗[ℤ] L.carrier,
+B_{L,p} = L.integralForm.baseChange ℤ_p.
+```
+
+Independently form the completed rational quadratic space
+
+```text
+V_p = ℚ_p ⊗[ℚ] V,
+B_{V,p} = L.form.baseChange ℚ_p.
+```
+
+Construct the canonical `ℤ_p`-linear map `L_p → V_p`, prove it injective and full after
+extension to `ℚ_p`, and prove that `B_{L,p}` is the restriction of `B_{V,p}`. Prove
+compatibility with direct sums, form twists, carrier dilations, duality, and isometries.
+The integral `ℤ_p`-lattice carries scale, norm, Jordan, and integral-duality data; the
+rational `ℚ_p`-space carries dimension, determinant square class, Hasse invariant, and
+Witt data. No statement silently passes between these two objects. The construction works
+at `p = 2` as well: bilinear-form base change needs no inverse of 2. The splitting result
+0F holds over `ℤ_p`, and it is stronger there: a unimodular summand of maximal scale
+splits off.
 
 **3B. Jordan splittings exist.** Every nondegenerate `ℤ_p`-lattice is an orthogonal sum
 `⊕_i p^i L_i` with each `L_i` unimodular.
@@ -625,7 +667,7 @@ rational equivalence together with the integral local data gives membership in o
 
 | Milestone | Direct prerequisites |
 | --- | --- |
-| 3A | M `LinearMap.BilinForm.baseChange`, `ℤ_[p]`; L 0A, 0D, 0F |
+| 3A | M `LinearMap.BilinForm.baseChange`, `TensorProduct`, `ℤ_[p]`, `ℚ_[p]`; L 0A, 1A, 1B |
 | 3B | M `IsOrtho`, `iIsOrtho`; L 3A |
 | 3C | M `PadicInt.unitCoeff`; T `squareClass`; L 3B |
 | 3D | L 3B |
@@ -643,32 +685,44 @@ only; in particular B8 proves the rank-2 passage from the proper mass to the ful
 here, rather than waiting for 7A. Mathlib has `Zsqrtd` and Pell's equation, and it has no
 theory of non-maximal quadratic orders or of binary form classes.
 
-⚠ **The order and its class groups are consumed, not built.** Global Number Fields Layer 11
-owns orders, conductors, proper fractional ideals, `Pic`, and `NarrowPic`. Class Field Theory
-Layer 6 owns ring class fields and their Artin isomorphisms. This layer owns the **binary**
-side: the norm form, content and discriminant, the map from a form to an ideal, composition,
-automorphism groups, and the rank-2 mass. The dictionary lands in the GNF groups, so
-that Gauss composition is multiplication in `Pic O` and not in a copy of it, and so that B3's
-ring-class-field corollary is a statement about one Galois group.
+⚠ **The field-order and class-group branch is consumed, not built.** Global Number Fields
+Layer 11 owns orders in number fields, conductors, proper fractional ideals, `Pic`, and
+`NarrowPic`. Class Field Theory Layer 6 owns ring class fields and their Artin isomorphisms.
+Those interfaces apply only when `Δ` is nonsquare. If `Δ` is square, the quadratic algebra
+splits and this layer uses a separate elementary product-order route; it does not instantiate
+`NumberFieldOrder`, `Pic`, `NarrowPic`, or a ring class field. This layer owns the
+**binary** side in both branches: the norm form, content and discriminant, form classes,
+composition, automorphism groups, and the rank-2 mass.
 
-**B1. The order of a binary lattice**, as a term of the consumed carrier. Let `L` be
+**B1. The order of a binary lattice, with an explicit field/split branch.** Let `L` be
 nondegenerate of rank 2, with Gram matrix
 `!![A, B; B, C]` in a basis. Its norm form is `N_L(x, y) = A x² + 2B x y + C y²`, an integral
 binary quadratic form with even middle coefficient and discriminant
 `disc N_L = 4B² − 4AC = −4 det L`. Write `N_L = c·f` with `c > 0` the content and `f`
 primitive. Then `Δ(L) := disc f` satisfies `Δ ≡ 0` or `1 (mod 4)`, is negative for definite
-`L`, and is positive for indefinite `L`. The quadratic algebra is `K_Δ = ℚ[t]/(t² − Δ)` and
-the order is `𝒪(L) = ℤ[(Δ + √Δ)/2] ⊆ K_Δ`, of discriminant `Δ`. The milestone also fixes an
-orientation of `L` and proves that `c`, `f` and `Δ` do not depend on the chosen basis.
+`L`, and is positive for indefinite `L`. The quadratic étale algebra is
+`A_Δ = ℚ[t]/(t² − Δ)` and the order is `𝒪(L) = ℤ[(Δ + √Δ)/2] ⊆ A_Δ`, of discriminant
+`Δ`. The milestone also fixes an orientation of `L` and proves that `c`, `f` and `Δ` do not
+depend on the chosen basis.
 
-The construction **returns a `NumberFieldOrder K_Δ`**, the supplier's type, and proves that its
-`conductor` is the conductor `f_Δ` of `𝒪_Δ` in the maximal order of `K_Δ`. It defines no order
-type of its own. ⚠ `𝒪_Δ` is nonmaximal whenever `Δ` is not a fundamental discriminant, which is
-the whole reason Global Number Fields' order API exists: Dedekind-generic ray class machinery does
-not apply to it, and neither does `ClassGroup (𝓞 K)`.
+For a full finite-index sublattice `M ≤ L`, restriction gives
+`𝔰(M) ⊆ 𝔰(L)` and `𝔫(M) ⊆ 𝔫(L)`, a basis matrix `P` sends the Gram matrix to
+`Pᵀ G P`, and `det M = [L:M]² det L`. The content of the binary norm form has no formula
+depending only on `[L:M]`: restricting `x²+y²` to
+`M = ⟨2e₁,e₂⟩ ≤ ℤ²` gives `4x²+y²`, still of content 1. By contrast, the separate form
+twist by `a : ℤ` multiplies content by `|a|`.
 
-**B2. Forms and ideal classes.** Fix `Δ ≡ 0` or `1 (mod 4)`, and let `f = (a, b, c)` be a
-primitive form of discriminant `Δ`. Send it to the `𝒪_Δ`-submodule
+If `¬ IsSquare Δ`, then `A_Δ` is the quadratic number field `K_Δ`; the construction returns
+the supplier's actual `NumberFieldOrder K_Δ` and identifies its `conductor` with `f_Δ`.
+If `IsSquare Δ`, then `A_Δ ≃ ℚ × ℚ`; the order is handled as an explicit product order
+inside that algebra, with its unit and ideal arithmetic proved directly. In particular,
+`Δ = 1` gives `𝒪_U ≃ ℤ × ℤ`. No field-order carrier is used in this branch. In the
+nonsquare branch, `𝒪_Δ` is nonmaximal whenever `Δ` is not fundamental, which is why the
+Global Number Fields order API, rather than `ClassGroup (𝓞 K)`, is required.
+
+**B2. Forms and ideal classes.** First suppose `¬ IsSquare Δ`. Fix
+`Δ ≡ 0` or `1 (mod 4)`, and let `f = (a, b, c)` be a primitive form of discriminant `Δ`.
+Send it to the `𝒪_Δ`-submodule
 `𝔞_f = aℤ + ((−b + √Δ)/2)ℤ` of `K_Δ`. This map is a bijection from proper equivalence
 classes of primitive forms of discriminant `Δ` to proper ideal classes of `𝒪_Δ`. The ideal
 `𝔞_f` is exhibited as a member of the consumed `NumberFieldOrder.properIdeals`, and the
@@ -686,9 +740,15 @@ inequivalent properly while representing the same ideal class. A dictionary stat
 for `Δ > 0` is false, and the ownership of the narrow group is the supplier's so that no second
 narrow quotient exists to state it into.
 
+For square `Δ`, define proper classes and composition directly for the split product order.
+Prove the elementary class behavior without mapping into `Pic` or `NarrowPic`; for `U` the
+split proper class is principal. This branch is an explicit case split in every theorem that
+otherwise mentions the supplier's ideal-class carriers.
+
 Cox, *Primes of the form x²+ny²*, Theorem 7.7 and its narrow analogue is the source.
 
-**B3. Compatibility, and the ring class field.** The bijection of B2 carries Gauss composition
+**B3. Compatibility, and the ring class field.** In the nonsquare branch, the bijection of
+B2 carries Gauss composition
 to multiplication **in the consumed group** — in `Pic 𝒪_Δ` for `Δ < 0` and in `NarrowPic 𝒪_Δ`
 for `Δ > 0` — the opposite form to the inverse class, and the principal form to the trivial
 class. It carries the genus of `L`, in the sense of 3F, to a coset of the subgroup of squares.
@@ -701,13 +761,17 @@ available and is a milestone here:
 Gal(H_{𝒪_Δ}/K_Δ) ≃ Pic 𝒪_Δ ≃ proper equivalence classes of primitive forms of discriminant Δ
 ```
 
-for `Δ < 0`, the first isomorphism being Class Field Theory's ring-class-field milestone and
+for `Δ < 0` (hence automatically nonsquare), the first isomorphism being Class Field
+Theory's ring-class-field milestone and
 the second the dictionary of B2. This roadmap proves the composite, and neither half. It is the
 statement that makes the classical `x² + ny²` criteria a fact about binary forms, and it is
 exactly what a copy of the Picard group would not have delivered.
 
-**B4. Automorphisms, ambiguous classes, and the Pell criterion.** For nondegenerate binary
-`L`,
+There is no ring-class-field corollary in the square-discriminant branch. Its composition
+law is the elementary split law from B2.
+
+**B4. Automorphisms, ambiguous classes, and the Pell criterion.** For a nondegenerate
+binary `L` of nonsquare discriminant, the supplier order gives
 
     SO(L) ≅ {u ∈ 𝒪(L)ˣ : N(u) = 1}.
 
@@ -722,7 +786,7 @@ milestone proves
 
 the class being taken in the consumed `Pic 𝒪_Δ` for `Δ < 0` and in the consumed `NarrowPic 𝒪_Δ`
 for `Δ > 0`.
-A class satisfying this is called ambiguous, and an improper automorphism is then obtained
+A nonsquare class satisfying this is called ambiguous, and an improper automorphism is then obtained
 by composing the reflection `σ(x, y) = (x, −y)`, which carries `f` to `f⁻`, with any proper
 equivalence from `f⁻` back to `f`.
 
@@ -734,7 +798,7 @@ rules out the other solution. Hence `O(L) = SO(L) = {±I}` has order 2, while `#
 `2·#𝒪ˣ = 4`. The class of `(2, 1, 3)` has order 3 in `Pic 𝒪_{−23} ≅ ℤ/3`, so it is not
 ambiguous, which is the same statement on the ideal side.
 
-Three cases follow:
+Together with the direct split calculation, three cases follow:
 
 - `Δ < 0`: the norm is positive definite, so every unit has norm 1 and
   `SO(L) ≅ 𝒪(L)ˣ`. The unit group is finite, with `#𝒪(L)ˣ = 6` for `Δ = −3`, `4` for
@@ -742,21 +806,27 @@ Three cases follow:
   `2·#𝒪(L)ˣ` according to whether the class is ambiguous;
 - `Δ > 0` and `Δ` is not a square: the norm-one units are infinite, by Pell's equation, so
   `O(L)` is infinite. This is the branch that 4F consumes;
-- `Δ > 0` and `Δ` is a square: `N_L` is isotropic over `ℚ`, the norm-one units are `{±1}`,
-  and `O(L)` is finite. The hyperbolic plane `U` has content 2, primitive part `xy`, so
-  `Δ = 1` and `𝒪 = ℤ × ℤ`; its class is ambiguous and `|O(U)| = 4 = 2·|SO(U)|`.
+- `Δ > 0` and `Δ` is a square: this is the separate split branch. The product order and its
+  norm are handled directly; its integral norm-one units are `{±1}` and `O(L)` is finite.
+  The hyperbolic plane `U` has content 2, primitive part `xy`, `Δ = 1`, and
+  `𝒪_U = ℤ × ℤ`; its single split proper class is ambiguous and
+  `|O(U)| = 4 = 2·|SO(U)|`.
 
-**B5. Reduction of forms, and the class number.** Finiteness of `Pic 𝒪_Δ` and of
-`NarrowPic 𝒪_Δ` is the consumed `finite_pic` and `finite_narrowPic`, and is not proved again
-here. What this milestone owns is the **form-side** route, which the supplier does not have and
-which is what a class-number computation runs: for `Δ < 0` the reduced forms satisfy
+**B5. Reduction of forms, and the class number.** For nonsquare `Δ`, finiteness of
+`Pic 𝒪_Δ` and of `NarrowPic 𝒪_Δ` is the consumed `finite_pic` and `finite_narrowPic`, and
+is not proved again here. What this milestone owns is the **form-side** route, which the
+supplier does not have and which is what a class-number computation runs: for `Δ < 0` the reduced forms satisfy
 `|b| ≤ a ≤ c`, and for `Δ > 0` the reduced forms fall into finitely many cycles under the
 continued-fraction step. Both give an explicit finite list of classes for each `Δ`, and B2
-transports the count to the consumed group.
+transports the count to the consumed group. For square `Δ`, prove finiteness and the class
+count directly in the split algebra, without citing either supplier finiteness theorem.
 
-**B6. The norm-one torus and its points.** For a binary lattice `L` with algebra `K_Δ`, the
-norm-one group is `T_L(R) = {u ∈ (K_Δ ⊗ R)ˣ : N(u) = 1}` for `R = ℚ`, `ℚ_p`, `ℝ` and `ℤ_p`,
-with `T_L(ℤ_p)` defined through `𝒪(L) ⊗ ℤ_p`. Required: `T_L(ℤ_p)` is compact open in
+**B6. The norm-one torus and its points.** For a binary lattice `L` use its quadratic
+étale algebra `A_Δ`: the norm-one group is
+`T_L(R) = {u ∈ (A_Δ ⊗ R)ˣ : N(u) = 1}` for `R = ℚ`, `ℚ_p`, `ℝ` and `ℤ_p`, with
+`T_L(ℤ_p)` defined through `𝒪(L) ⊗ ℤ_p`. In the nonsquare branch this is the norm-one
+torus of `K_Δ`; in the square branch identify it explicitly with the split torus rather
+than coercing `ℚ × ℚ` to a number field. Required: `T_L(ℤ_p)` is compact open in
 `T_L(ℚ_p)`; the isomorphisms `SO(L_p) ≅ T_L(ℤ_p)` and `SO(V_p) ≅ T_L(ℚ_p)` transported from
 B4; and the diagonal embedding of `T_L(ℚ)`.
 
@@ -795,11 +865,11 @@ proves that these values agree with the Conway–Sloane normalization of 7H in r
 
 | Milestone | Direct prerequisites |
 | --- | --- |
-| B1 | M `Matrix.det`, `Zsqrtd`; L 0A, 0C; R Global Number Fields `NumberFieldOrder`, `NumberFieldOrder.conductor` |
-| B2 | M `Ideal`, `Submodule`; L B1; R Global Number Fields `NumberFieldOrder.properIdeals`, `Pic`, `NumberFieldOrder.mkPic`, `NarrowPic` |
-| B3 | L 3F, B2; R Global Number Fields `Pic`, `NarrowPic`; R Class Field Theory Layer 6 ring class field and Artin isomorphism |
+| B1 | M `Matrix.det`, `Zsqrtd`, product rings; L 0A, 0C; for `¬ IsSquare Δ` only, R Global Number Fields `NumberFieldOrder`, `NumberFieldOrder.conductor` |
+| B2 | M `Ideal`, `Submodule`; L B1; for `¬ IsSquare Δ` only, R Global Number Fields `NumberFieldOrder.properIdeals`, `Pic`, `NumberFieldOrder.mkPic`, `NarrowPic`; split classes are local |
+| B3 | L 3F, B2; for `¬ IsSquare Δ` only, R Global Number Fields `Pic`, `NarrowPic`; for `Δ < 0`, R Class Field Theory Layer 6 ring class field and Artin isomorphism; no split ring class field |
 | B4 | M `Pell.Solution₁`, `Pell.exists_of_not_isSquare`; L 2C, B1, B2, B3 |
-| B5 | L B2; R Global Number Fields `finite_pic`, `finite_narrowPic` |
+| B5 | L B2; for `¬ IsSquare Δ` only, R Global Number Fields `finite_pic`, `finite_narrowPic`; split finiteness is proved directly |
 | B6 | M `ℤ_[p]`, `ℚ_[p]`, `LinearMap.BilinForm.baseChange`; L 3A, B4 |
 | B7 | M `MeasureTheory.Measure.haar`; L B6; R Adelic Algebraic Groups Layers 3, 6, 7; R Orthogonal and Spin Groups Layer 5 |
 | B8 | L 2C, 3F, B2, B3, B4, B5 |
@@ -1410,11 +1480,13 @@ for the eight items listed. The layer that introduces the object owns them.
 ### The lattice form (0A)
 
 - **Constructors.** From a symmetric bilinear form; from a Gram matrix over `ℤ`; from a
-  quadratic form, when the lattice is even; by restriction to a submodule.
+  quadratic form, when the lattice is even; by restriction to a full submodule in the same
+  ambient space; from an arbitrary finite-free submodule in its rational span
+  `ℚ ⊗[ℤ] M`.
 - **Examples.** `⟨a⟩`, `Iₙ`, `U`, the root lattices, `Λ_{K3}` (0G).
 - **Morphisms.** Isometries, isometric embeddings, and primitive embeddings (5F).
-- **Functoriality.** Direct sums, twists, sublattices of finite index, and orthogonal
-  complements.
+- **Functoriality.** Direct sums, twists, full sublattices of finite index, and orthogonal
+  complements; arbitrary finite-free submodules are compared in their rational spans.
 - **Comparison lemmas.** The Gram matrix in a basis; the real form; the rational form; the
   `ℤ_p`-form.
 - **Naturality.** An isometry induces equality of determinant, signature, level, scale and
@@ -1427,8 +1499,9 @@ for the eight items listed. The layer that introduces the object owns them.
 - **Constructors.** `B.dualSubmodule L` in `V = ℚ ⊗ L`; the dual basis of a basis.
 - **Examples.** `L^⋆ = L` for unimodular `L`; `(Aₙ)^⋆/Aₙ ≅ ℤ/(n+1)`.
 - **Morphisms.** An isometry of `L` induces an isometry of `L^⋆`.
-- **Functoriality.** `(L ⊕ M)^⋆ = L^⋆ ⊕ M^⋆`; `(L(a))^⋆ = (L^⋆)(a⁻¹)` for `a ≠ 0`;
-  inclusion reversal.
+- **Functoriality.** `(L ⊕ M)^⋆ = L^⋆ ⊕ M^⋆`;
+  `dual_{aB}(L) = (a : ℚ)⁻¹ • dual_B(L)` for nonzero integral `a`, with scalar
+  dilation on the right; inclusion reversal.
 - **Comparison lemmas.** The Gram matrix of the dual basis is `G⁻¹`;
   `det L^⋆ = (det L)⁻¹`; the analytic dual of the realization is the same submodule (8D).
 - **Naturality.** Biduality `L^{⋆⋆} = L`, and its compatibility with sums and twists.
@@ -1440,7 +1513,8 @@ for the eight items listed. The layer that introduces the object owns them.
 - **Constructors.** `A_L = L^⋆/L`; `b_L` from `B`; `q_L` from `B` when `L` is even.
 - **Examples.** `A_{E₈} = 0`; `A_{A₂} ≅ ℤ/3` with half-norm `q = 1/3`; `A_U = 0`.
 - **Morphisms.** `O(L) → O(q_L)`, whose surjectivity is 5E.
-- **Functoriality.** Sums and twists, as canonical isometries and not equalities (1D).
+- **Functoriality.** Sums and the sign twist `L(−1)`, as canonical isometries and not
+  equalities (1D); nonunit twists instead use the induced inclusion/quotient comparison.
 - **Comparison lemmas.** `#A_L = |det L|`; `l(A_L) ≤ rank L`; the polarization of `q_L` is
   `b_L`; the invariant-factor description.
 - **Naturality.** An isometry of lattices induces an isometry of discriminant forms, and
@@ -1456,21 +1530,27 @@ for the eight items listed. The layer that introduces the object owns them.
 - **Morphisms.** Isometries, and the group `O(q)`.
 - **Functoriality.** Orthogonal sums; the `p`-primary decomposition; restriction to a
   subgroup; the quotient `H^⊥/H` for isotropic `H`.
-- **Comparison lemmas.** The relations among generators (Nikulin 1.8.2); the Gauss-sum
-  invariant of each generator (1H).
+- **Comparison lemmas.** For nondegenerate modules, the relations among generators
+  (Nikulin 1.8.2) and the Gauss-sum invariant of each generator (1H).
 - **Naturality.** `sign` is additive over sums and invariant under isometry.
-- **Edge cases.** The trivial group; degenerate forms, which are excluded by hypothesis.
+- **Edge cases.** The trivial group; degenerate restrictions, which remain objects of the
+  carrier but are excluded explicitly from the generator and Gauss-sum classifications.
 - **Downstream.** 1H, 3E, 5A to 5J.
 
 ### Lattices over `ℤ_p` and their Jordan data (3A, 3B)
 
-- **Constructors.** `L_p = ℤ_p ⊗ L`; a Jordan splitting; a Gram matrix over `ℤ_p`.
+- **Constructors.** `L.integralForm`; `L_p = ℤ_p ⊗[ℤ] L.carrier` with its localized
+  integral form; `V_p = ℚ_p ⊗[ℚ] V` with its completed rational form; the embedding
+  `L_p → V_p`; a Jordan splitting; a Gram matrix over `ℤ_p`.
 - **Examples.** Unimodular `ℤ_p`-lattices at odd `p`; `U` over `ℤ_2`.
 - **Morphisms.** Isometries over `ℤ_p`, and base change from `ℤ`.
 - **Functoriality.** Sums, twists, and scaling by `p^i`.
-- **Comparison lemmas.** The Jordan invariants at odd `p` are unique (3C); at `p = 2` the
-  splitting is not unique and the symbols of 3E replace it.
-- **Naturality.** Localization commutes with sums and twists.
+- **Comparison lemmas.** `L.integralForm` casts to `L.form`; the canonical `L_p → V_p` is
+  injective and full after scalar extension; its integral form is the restriction of the
+  completed rational form. The Jordan invariants at odd `p` are unique (3C); at `p = 2`
+  the splitting is not unique and the symbols of 3E replace it.
+- **Naturality.** Localization commutes with sums, form twists, carrier dilations, duality,
+  and isometries.
 - **Edge cases.** `p = 2`; rank 0; a scale-zero constituent.
 - **Downstream.** 3C to 3H, 4C, 7C, 7D.
 
@@ -1510,12 +1590,15 @@ for the eight items listed. The layer that introduces the object owns them.
 - **Morphisms.** Isometries of binary lattices induce isomorphisms of the associated
   orders, and proper isometries act trivially on `Pic`. An improper isometry acts by the
   conjugation of B4, which is inversion on `Pic`.
-- **Functoriality.** Behavior under a twist `L(a)`, and under passage to a sublattice of
-  finite index, which multiplies the content.
+- **Functoriality.** A basis matrix `P` sends `G` to `PᵀGP`; a finite-index sublattice
+  satisfies `det M = [L:M]² det L`, `𝔰(M) ⊆ 𝔰(L)`, and `𝔫(M) ⊆ 𝔫(L)`. Content
+  has no formula determined solely by the index. The distinct form twist `L(a)` multiplies
+  content by `|a|`.
 - **Comparison lemmas.** `Δ(L) = disc f` with `disc N_L = −4 det L`; forms and proper ideal
   classes (B2); composition and multiplication (B3); `SO(L)` and the norm-one units (B4).
 - **Naturality.** The correspondence of B2 commutes with the maps induced by isometries.
-- **Edge cases.** Imprimitive norm forms, square discriminants where the algebra splits,
+- **Edge cases.** Imprimitive norm forms; square discriminants, which use the separate
+  product-order branch and never `NumberFieldOrder`, `Pic`, `NarrowPic`, or ring class fields;
   the two orders with extra units, `Δ = −3` and `Δ = −4`, and non-ambiguous classes, where
   `O(L) = SO(L)`.
 - **Downstream.** 2C, 4E, 4F, 7G.
@@ -1552,6 +1635,7 @@ for the eight items listed. The layer that introduces the object owns them.
 | Theorem | Source | Hypotheses that carry the proof | A nearby false statement |
 | --- | --- | --- | --- |
 | Unimodular splitting (0F) | O'Meara §82 | the restriction of `β` to `M` is unimodular | "a nondegenerate restriction splits". Take `L = ℤ` with `β(x,y) = xy` and `M = 2ℤ`. Then `β|_M` is nondegenerate, `M^⊥ = 0`, and `M ⊕ M^⊥ ≠ L`. |
+| Content under sublattices (B1) | Gram-matrix change of basis | the full basis matrix is retained, not only its determinant | "a finite-index sublattice multiplies content by its index". Restrict `x²+y²` on `ℤ²` to `⟨2e₁,e₂⟩`: the index is 2 but the form `4x²+y²` still has content 1. Only a form twist has the `|a|` content formula. |
 | Cancellation over `ℤ` (0F) | Milnor–Husemoller II §5; Serre V.2.2 | none: the statement is false | "`L ⊕ N ≅ M ⊕ N` implies `L ≅ M`". Take `N = U`, `L = E₈²`, `M = D₁₆⁺`. Both sums are even unimodular of signature `(17,1)`, hence isometric, while `E₈² ≇ D₁₆⁺`. |
 | Milgram's theorem (1I) | Nikulin Thm 1.3.3; Milnor–Husemoller App. 4 | `L` is even and nondegenerate | "every unimodular lattice has `8 ∣ t₊ − t₋`". The odd lattice `⟨1⟩` is unimodular with `t₊ − t₋ = 1`. |
 | Finiteness of `O(L)` (2C) | O'Meara §102 | `L` is definite | "`O(L)` is finite for every nondegenerate `L`". `O(⟨1,−2⟩)` is infinite, being carried by the unit group of `ℤ[√2]` (B4), and 4F gives infinitude in every indefinite rank at least 3. |
@@ -1584,7 +1668,10 @@ factor of 2, a wrong sign, or a vacuous definition.
 
 - `⟨1⟩ = ℤ`: odd, unimodular, and `Θ_ℤ = jacobiTheta` (0G, 8C).
 - `U`: even, `det = −1`, signature `(1,0,1)`, level 1, `A_U = 0`, and not diagonalizable over
-  `ℤ_2` (0G, 3D).
+  `ℤ_2`; its primitive binary discriminant is `1`, so its algebra/order branch is explicitly
+  `ℚ × ℚ`/`ℤ × ℤ`, with one split proper class and `|O(U)| = 4` (0G, 3D, B1--B5).
+- The index-two sublattice `⟨2e₁,e₂⟩ ≤ ℤ²` restricts `x²+y²` to `4x²+y²`; its content
+  remains 1 although the determinant is multiplied by 4 (0C, B1).
 - `⟨-2⟩` is negative definite of signature `(0,0,1)`; the zero rank-one form is
   degenerate of signature `(0,1,0)` and has zero radical quotient (0G, 1K).
 - Affine `Ã₁` with Gram `!![2,-2;-2,2]` is even and positive-semidefinite of signature
@@ -1631,8 +1718,10 @@ Layer 0 comes first. After it, three groups of milestones are independent of eac
 The rest of the order follows the prerequisite tables:
 
 - milestones 3F to 3H need Layer 1 and the two suppliers named in their table;
-- Layer B needs Layers 0 to 3, the order and Picard carriers of Global Number Fields, and
-  Class Field Theory's ring-class-field milestone; Layers 4 and 7 use it for rank 2;
+- Layer B needs Layers 0 to 3; its nonsquare branch also needs the order and Picard carriers
+  of Global Number Fields and, for negative discriminant, Class Field Theory's
+  ring-class-field milestone. The square branch is elementary. Layers 4 and 7 use both
+  rank-2 branches;
 - Layer 4 needs Layers 2, 3 and B, and the Orthogonal and Spin Groups roadmap;
 - Layer 5 needs Layers 1 and 3;
 - Layer 6 needs Layers 1, 2 and 5, and milestone 6C also needs Root Systems;

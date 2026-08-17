@@ -95,6 +95,32 @@ namespace IntegralLattice
 
 variable {V} (L : IntegralLattice V)
 
+/-- The rational form restricted to the carrier, with values returned in `ℤ` by the
+integrality proof.  This is the form that may be base-changed to `ℤ_[p]`; the rational
+form `L.form` itself cannot be base-changed from `ℚ` to `ℤ_[p]`. -/
+noncomputable def integralForm : LinearMap.BilinForm ℤ L.carrier := sorry
+
+/-- Restricting `integralForm` and then casting back to `ℚ` recovers the embedded
+rational form. -/
+theorem algebraMap_integralForm_apply (x y : L.carrier) :
+    ((L.integralForm x y : ℤ) : ℚ) = L.form x y := sorry
+
+/-- A form twist changes the bilinear form and keeps the embedded carrier fixed. -/
+noncomputable def formTwist (a : ℤ) : IntegralLattice V := sorry
+
+/-- Scalar dilation changes a submodule inside the rational ambient space.  It is a
+different operation from `formTwist`. -/
+noncomputable def scalarDilation (a : ℚ) (M : Submodule ℤ V) : Submodule ℤ V := sorry
+
+/-- Restriction inside the same rational ambient space requires the submodule to remain
+full. -/
+noncomputable def restrictToFullSubmodule (M : Submodule ℤ V) (hM : M ≤ L.carrier)
+    [M.IsLattice ℚ] : IntegralLattice V := sorry
+
+/-- An arbitrary finite-free submodule is instead a lattice in its own rationalization. -/
+noncomputable def restrictToRationalSpan (M : Submodule ℤ L.carrier)
+    [Module.Free ℤ M] [Module.Finite ℤ M] : IntegralLattice (ℚ ⊗[ℤ] M) := sorry
+
 def IsEven : Prop := ∀ x : L.carrier, ∃ n : ℤ, L.form x x = ((2 * n : ℤ) : ℚ)
 
 class IsNondegenerate : Prop where
@@ -136,6 +162,11 @@ theorem signature_radicalQuotient [FiniteDimensional ℚ V] :
 theorem radicalQuotient_isEven (hL : L.IsEven) : L.radicalQuotient.IsEven := sorry
 
 abbrev dual : Submodule ℤ V := L.form.dualSubmodule L.carrier
+
+/-- The dual of a nonzero form twist is the inverse scalar dilation of the old dual
+carrier; it is not a form twist on the unchanged carrier. -/
+theorem dual_formTwist (a : ℤ) (ha : a ≠ 0) :
+    (L.formTwist a).dual = scalarDilation ((a : ℚ)⁻¹) L.dual := sorry
 
 theorem carrier_le_dual : L.carrier ≤ L.dual := by
   intro x hx y hy
@@ -198,6 +229,16 @@ structure IntegralLattice.Isometry
   map_mem_iff : ∀ x : V, toLinearEquiv x ∈ K.carrier ↔ x ∈ L.carrier
   map_form : ∀ x y : V, K.form (toLinearEquiv x) (toLinearEquiv y) = L.form x y
 
+/-- When an abstract submodule is full in the original ambient space, restriction in its
+own rationalization agrees with same-ambient restriction through the canonical isometry. -/
+noncomputable def IntegralLattice.restrictionComparison
+    {W : Type v} [AddCommGroup W] [Module ℚ W] (L : IntegralLattice W)
+    (M : Submodule ℤ L.carrier) [Module.Free ℤ M] [Module.Finite ℤ M]
+    (hM : M.map L.carrier.subtype ≤ L.carrier)
+    [(M.map L.carrier.subtype).IsLattice ℚ] :
+    IntegralLattice.Isometry (L.restrictToRationalSpan M)
+      (L.restrictToFullSubmodule (M.map L.carrier.subtype) hM) := sorry
+
 /-- A finite symmetric bilinear module, using Mathlib's character dual. -/
 structure FiniteBilinearModule where
   A : Type u
@@ -256,6 +297,32 @@ def IsIsotropic (A : FiniteQuadraticModule) (H : AddSubgroup A.A) : Prop :=
 structure Isometry (A B : FiniteQuadraticModule) where
   toAddEquiv : A.A ≃+ B.A
   map_quadratic : ∀ x, B.quadratic (toAddEquiv x) = A.quadratic x
+
+/-- The three families of nondegenerate primary generators in Nikulin's classification. -/
+inductive NikulinGenerator where
+  | cyclic (p k : ℕ) (hp : p.Prime) (θ : ℤ)
+  | evenU (k : ℕ)
+  | evenV (k : ℕ)
+
+/-- The finite quadratic module represented by one named generator. -/
+noncomputable def NikulinGenerator.toFiniteQuadraticModule
+    (g : NikulinGenerator) : FiniteQuadraticModule := sorry
+
+/-- The orthogonal sum represented by a finite list of generators. -/
+noncomputable def orthogonalSumNikulinGenerators
+    (generators : List NikulinGenerator) : FiniteQuadraticModule := sorry
+
+/-- Concrete classification output: a list of generators together with an actual isometry. -/
+structure NikulinDecomposition (A : FiniteQuadraticModule) where
+  generators : List NikulinGenerator
+  isometry : Isometry A (orthogonalSumNikulinGenerators generators)
+
+/-- Nikulin's generator classification applies to nondegenerate finite quadratic modules.
+Restrictions to arbitrary subgroups remain representable by `FiniteQuadraticModule`, but may
+not invoke this theorem without a separate nondegeneracy proof. -/
+theorem exists_isometry_orthogonalSum_generators
+    (A : FiniteQuadraticModule) (hA : A.IsNondegenerate) :
+    Nonempty (NikulinDecomposition A) := sorry
 
 end FiniteQuadraticModule
 
@@ -594,16 +661,61 @@ section Layer3
 
 /-! ## Layer 3: localization and Jordan splittings -/
 
+namespace IntegralLattice
+
+variable {V : Type v} [AddCommGroup V] [Module ℚ V]
+
+/-- The integral localization of the accepted embedded carrier. -/
+abbrev LocalCarrier (L : IntegralLattice V) (p : ℕ) := ℤ_[p] ⊗[ℤ] L.carrier
+
+/-- The integral form on `L` base-changed from `ℤ` to `ℤ_[p]`.  This construction starts
+from `L.integralForm`, not from the rational form `L.form`. -/
+noncomputable def localIntegralForm (L : IntegralLattice V) (p : ℕ) [Fact p.Prime] :
+    LinearMap.BilinForm ℤ_[p] (L.LocalCarrier p) :=
+  LinearMap.BilinForm.baseChange ℤ_[p] L.integralForm
+
+/-- The completed rational ambient space, separately base-changed from `ℚ`. -/
+abbrev CompletedAmbient (L : IntegralLattice V) (p : ℕ) := ℚ_[p] ⊗[ℚ] V
+
+/-- The rational form on the completed ambient space. -/
+noncomputable def completedRationalForm (L : IntegralLattice V) (p : ℕ) [Fact p.Prime] :
+    LinearMap.BilinForm ℚ_[p] (L.CompletedAmbient p) :=
+  LinearMap.BilinForm.baseChange ℚ_[p] L.form
+
+/-- The canonical inclusion of the localized integral lattice into the completed rational
+quadratic space. -/
+noncomputable def localizationToCompletion (L : IntegralLattice V) (p : ℕ)
+    [Fact p.Prime] : L.LocalCarrier p →ₗ[ℤ_[p]] L.CompletedAmbient p := sorry
+
+theorem localizationToCompletion_injective (L : IntegralLattice V) (p : ℕ)
+    [Fact p.Prime] : Function.Injective (L.localizationToCompletion p) := sorry
+
+/-- The embedded local lattice is full after extending scalars from `ℤ_[p]` to `ℚ_[p]`. -/
+theorem span_range_localizationToCompletion (L : IntegralLattice V) (p : ℕ)
+    [Fact p.Prime] :
+    Submodule.span ℚ_[p] (Set.range (L.localizationToCompletion p)) = ⊤ := sorry
+
+/-- Compatibility between the localized integral form and the restriction of the completed
+rational form. -/
+theorem completedRationalForm_localizationToCompletion (L : IntegralLattice V) (p : ℕ)
+    [Fact p.Prime] (x y : L.LocalCarrier p) :
+    L.completedRationalForm p (L.localizationToCompletion p x)
+        (L.localizationToCompletion p y) =
+      algebraMap ℤ_[p] ℚ_[p] (L.localIntegralForm p x y) := sorry
+
+end IntegralLattice
+
 /-- **Layer 3, odd-`p` orthogonal splitting.** Over `ℤ_p` with `p ≠ 2` every symmetric
 bilinear form on a finite free module admits an orthogonal basis; grouping by scale
 gives the Jordan splitting (O'Meara §91C; uniqueness of the invariants is 91:9 and
-the non-dyadic classification 92:2). The localized form of an integral lattice is
-`LinearMap.BilinForm.baseChange ℤ_[p] β` — which, unlike `QuadraticForm.baseChange`,
-needs no `Invertible 2` and hence also works at `p = 2`. -/
-example {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {M : Type u} [AddCommGroup M] [Module ℤ_[p] M]
-    [Module.Free ℤ_[p] M] [Module.Finite ℤ_[p] M]
-    (β : LinearMap.BilinForm ℤ_[p] M) (hs : β.IsSymm) :
-    ∃ (ι : Type) (_ : Fintype ι) (b : Module.Basis ι ℤ_[p] M), β.iIsOrtho b :=
+the non-dyadic classification 92:2).  This target is now constructed from the accepted
+`IntegralLattice` carrier through `integralForm` and `localIntegralForm`; it does not start
+with an unrelated local form. -/
+example {p : ℕ} [Fact p.Prime] (hp : p ≠ 2)
+    {V : Type v} [AddCommGroup V] [Module ℚ V] (L : IntegralLattice V) :
+    ∃ (ι : Type) (_ : Fintype ι)
+      (b : Module.Basis ι ℤ_[p] (L.LocalCarrier p)),
+        (L.localIntegralForm p).iIsOrtho b :=
   sorry
 
 /-- **Layer 3, the dyadic trap, as a theorem.** Over `ℤ_2` orthogonal splitting fails:
@@ -855,13 +967,15 @@ example (c : StoredGenusCertificate) (H : Matrix (Fin c.dim) (Fin c.dim) ℤ)
 
 end Layer9
 
-/-! ## Layer B: consumed order and Picard declarations
+/-! ## Layer B: nonsplit consumed orders and the separate split branch
 
 Layer B builds the binary theory — the norm form, the content and the discriminant, the map from
 a form to an ideal, composition, the automorphism groups, and the rank-2 mass. It does **not**
 build a quadratic order or a class group of one: `GlobalNumberFields` owns the order, conductor,
 proper ideals, `Pic`, and `NarrowPic`. `ClassFieldTheory` owns the ring class field and its Artin
-isomorphism, currently as a README-level milestone.
+isomorphism, currently as a README-level milestone.  Those supplier carriers are used only when
+the discriminant is nonsquare.  A square discriminant gives the split algebra and is handled
+elementarily below; it is never passed to `NumberFieldOrder`.
 
 Layer B has no suggested Lean form here, because its form-side carriers rest on milestones of
 Layers 0 to 3 that are themselves still targets. The checks below apply the exact GNF exports at
@@ -874,6 +988,13 @@ open GlobalNumberFields
 open scoped NumberField nonZeroDivisors
 
 variable {K : Type u} [Field K] [NumberField K]
+
+/-- **B1's nonsplit branch is a genuine supplier order.**  The square root and rank-two
+hypotheses identify the supplied number field with the quadratic field of `Δ`; the explicit
+`¬ IsSquare Δ` hypothesis prevents this declaration from being instantiated by `ℚ × ℚ`. -/
+noncomputable def orderOfNonsquareBinaryDiscriminant (Δ : ℤ) (hΔ : ¬ IsSquare Δ)
+    (sqrtΔ : K) (hsqrtΔ : sqrtΔ ^ 2 = (Δ : K))
+    (hquadratic : Module.finrank ℚ K = 2) : NumberFieldOrder K := sorry
 
 /-- **B1 consumes Global Number Fields Layer 11.** The order attached to a binary lattice is a term of this
 type, and its conductor is this ideal. -/
@@ -899,6 +1020,23 @@ example (O : NumberFieldOrder K) : Finite (Pic O) ∧ Finite (NarrowPic O) :=
   ⟨finite_pic O, finite_narrowPic O⟩
 
 end LayerBContract
+
+section LayerBSplitContract
+
+/-- The order in the split quadratic algebra.  This is deliberately an elementary product
+ring, not a `GlobalNumberFields.NumberFieldOrder`. -/
+abbrev SplitQuadraticOrder := ℤ × ℤ
+
+/-- The split order has four units, independently of the field-only Picard API. -/
+example : Nat.card (Units SplitQuadraticOrder) = 4 := sorry
+
+/-- `U` is the mandatory square-discriminant example: its primitive discriminant is `1`
+and its full integral isometry group has order four. -/
+example : Nat.card {e : (Fin 2 → ℤ) ≃ₗ[ℤ] (Fin 2 → ℤ) //
+    ∀ x y, Matrix.toBilin' (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ) (e x) (e y) =
+      Matrix.toBilin' (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ) x y} = 4 := sorry
+
+end LayerBSplitContract
 
 /-! ## Reviewed foundation acceptance suite
 
