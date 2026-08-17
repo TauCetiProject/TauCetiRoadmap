@@ -346,11 +346,9 @@ the honest inseparability hypotheses; `dim_F Ω[F⁄k] = 1` and the Kähler ↔ 
 with residues and the residue theorem; the genus computations for the model classes
 (rational, elliptic, hyperelliptic, smooth plane quartics and `(d−1)(d−2)/2`); finiteness
 of automorphism groups (`g ≥ 2`) and the `84(g−1)` bound; and the curves ↔ function-fields
-dictionary with the cross-roadmap comparison contracts. None of this is present in the
-Mathlib the repository builds; substantial parts exist in external formalizations and
-open Mathlib pull requests. Dated external search and migration records are maintained
-privately; build here now, shaped so that whatever lands in Mathlib replaces ours by
-deletion plus an import.
+dictionary with the cross-roadmap comparison contracts. Substantial parts exist in the
+external formalizations listed under Coordination. Build the targets here, shaped so that
+corresponding material in Mathlib replaces ours by deletion plus an import.
 
 ---
 
@@ -1038,8 +1036,8 @@ Hartshorne IV as the written sources of record.
 - **Rigidity.** An automorphism fixing `2g + 3` distinct rational places is the
   identity (Ex. 3.17's shape; via the totally-ramified criterion Ex. 3.16) — the
   finiteness engine.
-- **Weierstrass points, made real.** What Layer 5 deferred: over algebraically closed
-  `k`, char 0 first — all but finitely many rational places share the generic gap
+- **Weierstrass points, made real.** Building on Layer 5's gap-sequence API, over algebraically
+  closed `k`, char 0 first — all but finitely many rational places share the generic gap
   sequence `1, …, g`; the exceptions (Weierstrass points), counted by the vanishing of
   the Wronskian of a basis of `L(W)`, have total weight `g³ − g` for `g ≥ 2`, each
   point has weight `≤ g(g−1)/2`, so there are between `2g + 2` and `g³ − g` of them —
@@ -1334,8 +1332,7 @@ The function-field Riemann–Roch chain itself has no sibling-roadmap prerequisi
 
 ## Coordination
 
-Dated external-search and migration records are maintained privately. This section
-contains the normative division of labor needed to implement the roadmap.
+This section contains the normative division of labor needed to implement the roadmap.
 
 - **`vaca22/riemann-roch-function-fields`** (Guanghao Li; Apache-2.0): a complete,
   sorry-free function-field Riemann–Roch by the same Stichtenoth-style route — the
