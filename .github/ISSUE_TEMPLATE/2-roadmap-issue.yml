@@ -20,6 +20,7 @@ body:
         - ConformalMapping
         - ContourIntegration
         - DGAInfinity
+        - DenseGraphLimits
         - EllipticCurves
         - Exchangeability
         - GeometricTopology
@@ -32,11 +33,11 @@ body:
         - Multiquadratic
         - OneParameterSemigroups
         - OptimalTransport
-        - OrthogonalL2Bases
         - PDE
         - ReductiveGroups
         - RepresentationTheory
         - UniversalCovers
+        - ZigzagPreprojective
     validations:
       required: true
   - type: textarea
