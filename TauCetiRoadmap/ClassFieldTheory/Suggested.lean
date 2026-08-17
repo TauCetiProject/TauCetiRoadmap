@@ -1437,6 +1437,18 @@ theorem cyclicHasseNorm [Module.Finite K L] [IsGalois K L]
       principalIdele K x ∈ MonoidHom.range (ideleNormMap K L) :=
   sorry
 
+/-- Coordinate-free spelling of “a norm at every place”. The local-coordinate theorem for
+`ideleNormMap` identifies this predicate with membership in every completed-field norm range. -/
+def IsLocalNormEverywhere [Module.Finite K L] (x : Kˣ) : Prop :=
+  principalIdele K x ∈ MonoidHom.range (ideleNormMap K L)
+
+/-- The cyclic Hasse norm theorem in the local-norm spelling used by quadratic-form consumers. -/
+theorem isGlobalNorm_iff_isLocalNormEverywhere [Module.Finite K L] [IsGalois K L]
+    [IsCyclic (L ≃ₐ[K] L)] (x : Kˣ) :
+    (∃ y : Lˣ, Units.map (Algebra.norm K : L →* K) y = x) ↔
+      IsLocalNormEverywhere K L x :=
+  cyclicHasseNorm K L x
+
 /-- Ring class field attached to the order carrier owned by `GlobalNumberFields`. -/
 noncomputable def ringClassField (O : GlobalNumberFields.NumberFieldOrder K) :
     IntermediateField K (AlgebraicClosure K) :=
