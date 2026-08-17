@@ -70,8 +70,9 @@ whose hypotheses simply assume the conclusion.
 
 ## How to read the milestones
 
-`README.md` is normative. `Suggested.lean` pins representative names and signatures, while
-`PROVENANCE.md` records dated implementation and migration information. Prerequisite labels are:
+`README.md` is normative. `Suggested.lean` pins representative names and signatures, while dated
+implementation and migration information is maintained in a private provenance ledger.
+Prerequisite labels are:
 
 - `M`: a declaration in Mathlib at the repository pin;
 - `PC`: an exact export of `ProfiniteCohomology`;
@@ -397,5 +398,5 @@ The main parallelism is:
 - J.-P. Serre, *Local Fields* and *Galois Cohomology*: local invariants, local duality, and
   normalization conventions.
 
-Implementation sources, licensing notes, and the complete extraction record are in
-[`PROVENANCE.md`](PROVENANCE.md).
+Implementation sources, licensing notes, and the complete extraction record are maintained in a
+private provenance ledger.
