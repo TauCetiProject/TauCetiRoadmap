@@ -7,8 +7,8 @@ This roadmap consumes Mathlib's finite-graph **regularity** ecosystem — `Simpl
 compactness, sampling) is a separate analytic development. This roadmap develops the **finite
 combinatorial regularity tower** — finite weak (Frieze–Kannan) regularity, **strong graph
 regularity**, and **arity-3 hypergraph-complex regularity and counting** — with no analytic
-prerequisites. Any finite–analytic comparison is owned by a downstream consumer (see *Interfaces
-exported to other roadmaps*).
+prerequisites. This roadmap also owns the finite-facing comparison adapters to the dense graph
+limits API as non-gating interfaces (see *Interfaces exported to other roadmaps*).
 
 The local summit is an **arity-3 strong hypergraph regularity / regular-approximation package**,
 tailored for induced counting. It regularizes a *hierarchy*, not only the top triples:
@@ -102,7 +102,7 @@ some prose paths below are abbreviated.)
 | Area | Owner | This roadmap's role |
 |---|---|---|
 | `SimpleGraph`, graph maps/counting, `Finpartition`, Szemerédi regularity | **Mathlib** | consume directly; add thin Tau Ceti-facing wrappers only where they remove friction |
-| Graphons, analytic cut norm / Frieze–Kannan, cut distance, graphon sampling | **Dense graph limits roadmap** | **independent parallel theory**; comparison adapters, where wanted, are owned downstream |
+| Graphons, analytic cut norm / Frieze–Kannan, cut distance, graphon sampling | **Dense graph limits roadmap** | independent parallel theory; consume its public API only in the non-gating finite-facing adapters owned here |
 | Sequence exchangeability, de Finetti, exchangeable arrays / Aldous–Hoover | **Exchangeability roadmap** | background/consumer only; **not** the peak |
 | Finite weak regularity (`steppedCount`, `cutDiscrepancy`, finite Frieze–Kannan) | **this roadmap** | build (Layer 3) |
 | Strong graph regularity | **this roadmap** | build (Layer 4) |
@@ -112,9 +112,9 @@ The dense graph limits roadmap covers graphons, the analytic cut norm, cut dista
 Frieze–Kannan, and sampling. This roadmap's Layer 3 develops **finite weak regularity** —
 `steppedCount`, the count-scaled `cutDiscrepancy`, and a directly proved finite Frieze–Kannan
 theorem — as its own layer, with no graphon imports: the finite and analytic theorems are
-**independent formulations, neither derived from the other**. Consumer roadmaps own any comparison
-adapters they require (see *Interfaces exported to other roadmaps*). `Suggested.lean` imports only Mathlib and
-pins the Layer-3 targets directly.
+**independent formulations, neither derived from the other**. The finite-facing comparison adapters
+owned here are downstream interfaces, not inputs to either proof (see *Interfaces exported to other
+roadmaps*). `Suggested.lean` imports only Mathlib and pins the Layer-3 targets directly.
 
 ## The build, in layers
 
@@ -455,16 +455,16 @@ before a substantial push (see *Coordinating work* in the repository README).
 
 ## Interfaces exported to other roadmaps
 
-This roadmap exports finite regularity and counting interfaces owned by consumer roadmaps —
-deterministic regularity inputs for exchangeable-array statements and removal-style / arithmetic
-hooks. These are **downstream consumers, not local endpoints**. The finite sampling lemmas here
-supply deterministic regularity inputs for random-array statements; the exchangeability roadmap owns
-the representation theorem and the API those inputs feed.
+This roadmap exports finite regularity and counting interfaces to consumer roadmaps — deterministic
+regularity inputs for exchangeable-array statements and removal-style / arithmetic hooks. These are
+**downstream consumers, not local endpoints**. The finite sampling lemmas here supply deterministic
+regularity inputs for random-array statements; the exchangeability roadmap owns the representation
+theorem and the API those inputs feed.
 
-**Interoperability adapters (owned downstream; not gating any layer).** This roadmap does not
-specify finite–analytic comparison maps: a consumer roadmap that requires such a map owns it as a
-named milestone there, and no layer or acceptance gate here depends on one. The finite and analytic
-developments are compared only by adapters a consumer owns: a `stepGraphonOfFinpartition`
+**Interoperability adapters (owned here; not gating any layer).** This roadmap owns the finite-facing
+comparison maps to the public DenseGraphLimits API, but no layer or acceptance gate here depends on
+one. The finite and analytic developments are compared only by these downstream interfaces: a
+`stepGraphonOfFinpartition`
 compatibility; identification of the finite `cutDiscrepancy`'s `SimpleGraph` specialization with the
 analytic Frieze–Kannan statement (minding the scaling — `cutDiscrepancy` is count-scaled by `|V|²`,
 the graphon cut norm is normalized); the energy comparison `graphonPartitionEnergy_finiteGraphGraphon`
@@ -482,8 +482,8 @@ dependency or an acceptance gate.
 - This roadmap does **not** own dense graph limit theory (graphons, the analytic cut norm / cut
   distance, compactness, analytic Frieze–Kannan); those live in the dense graph limits roadmap. It
   **does** own the finite weak-regularity theory (`steppedCount`, `cutDiscrepancy`, the finite
-  Frieze–Kannan theorem); finite–analytic comparisons are owned by downstream consumers, not
-  deliverables here.
+  Frieze–Kannan theorem); finite–analytic comparisons are non-gating interface deliverables here,
+  not inputs to the finite regularity tower.
 - It does **not** own exchangeability or representation theorems for exchangeable arrays; it exports
   deterministic finite regularity inputs those roadmaps consume.
 - It does **not** culminate in arithmetic applications, and does **not** package a one-off induced
@@ -543,8 +543,8 @@ relationship to the targets here condensed from the per-layer notes:
 
 [`cameronfreer/graphon`](https://github.com/cameronfreer/graphon) is the **parallel analytic
 development** (graphons, analytic cut norm, step approximation) that `regularity-lemmata`'s cut-norm
-file cites as its analytic counterpart, with comparison adapters owned by consumers on both sides —
-an analytic parallel of this roadmap, not a supplier.
+file cites as its analytic counterpart. The finite-facing comparison adapters are owned here as
+downstream interfaces; the analytic development is a parallel theory, not a proof supplier.
 
 ## References
 

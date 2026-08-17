@@ -25,7 +25,8 @@ an intrinsic placed-count formula — and transferred back to `H` through the ed
 
 The finite roadmap is **self-contained**: Layer 3 is finite weak regularity (`steppedCount`,
 `cutDiscrepancy`, a direct finite Frieze–Kannan theorem), owned here with no graphon imports —
-analytic comparison adapters are owned downstream (see *Interoperability adapters* in `README.md`). Much
+finite-facing analytic comparison adapters are separate non-gating interfaces owned here (see
+*Interoperability adapters* in `README.md`). Much
 of Layers 1–4, and Boolean precursors of Layers 5–8, is proved in the prior formalization
 [`cameronfreer/regularity-lemmata`](https://github.com/cameronfreer/regularity-lemmata) (see *Prior
 formalization* in `README.md`); docstrings below point at the proved counterparts and record shape
@@ -133,8 +134,9 @@ theorem exists_regular_equipartition_almost_refining (G : SimpleGraph V) [Decida
 
 /-- **Layer 3.** The count predicted by the `P`-stepped graph on the test rectangle `(A, B)`: each
 cell pair contributes its edge density times the trace masses `|A ∩ C|·|B ∩ D|`. Count-scaled
-throughout — this layer is self-contained finite combinatorics, with no graphon imports (analytic
-comparison adapters are out of scope; see `README.md`). Proved counterpart:
+throughout — this layer is self-contained finite combinatorics, with no graphon imports (the
+finite-facing analytic comparison adapters are separate non-gating interfaces; see `README.md`).
+Proved counterpart:
 `RegularityLemmata.steppedCount` (for directed relations). -/
 def steppedCount (G : SimpleGraph V) [DecidableRel G.Adj]
     (P : Finpartition (univ : Finset V)) (A B : Finset V) : ℝ :=
