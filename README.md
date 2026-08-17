@@ -21,6 +21,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Dense graph limits and graphons](TauCetiRoadmap/DenseGraphLimits/README.md)
 - [DG and A-infinity algebras, categories, and modules](TauCetiRoadmap/DGAInfinity/README.md)
 - [Elliptic curves](TauCetiRoadmap/EllipticCurves/README.md)
+- [Finite discrete-time quantum walks](TauCetiRoadmap/DiscreteQuantumWalks/README.md)
 - [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
 - [Foundations of adic spaces](TauCetiRoadmap/AdicSpaces/README.md)
 - [Geodesics, the exponential map, and the Hopf-Rinow theorem](TauCetiRoadmap/HopfRinow/README.md)
