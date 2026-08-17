@@ -27,13 +27,14 @@ universe u
 
 namespace ADS
 export TauCetiRoadmap.ArithmeticDirichletSeries
-  (IdealWeight normCoeff EulerProductData idealVonMangoldt HasCancellation
-    continuedLFunctionOfWeight)
+  (NonzeroIdeal IdealArithmeticFunction IdealWeight normCoeff EulerProductData HasCancellation
+    continuedLFunctionOfWeight regroupByNorm)
 end ADS
 
 namespace GNF
 export TauCetiRoadmap.GlobalNumberFields
-  (Modulus RayClassGroup RayClassCharacter InfinityType HeckeCharacter finite_rayClassGroup)
+  (Modulus RayClassGroup RayClassCharacter InfinityType HeckeCharacter finite_rayClassGroup
+    idealClass)
 namespace Modulus
 export TauCetiRoadmap.GlobalNumberFields.Modulus (one)
 end Modulus
@@ -137,8 +138,10 @@ structure NormalizationTranslation where
   arithmetic : ArithmeticLFunctionData
   analytic : AnalyticLFunctionData
   weight : ℤ
-  coeff_eq : ∀ n : ℕ,
+  coeff_eq : ∀ n : ℕ, n ≠ 0 →
     analytic.coeff n = arithmetic.coeff n / (n : ℂ) ^ ((weight : ℂ) / 2)
+  analytic_coeff_zero : analytic.coeff 0 = 0
+  arithmetic_coeff_zero : arithmetic.coeff 0 = 0
   gammaR_eq : analytic.gammaR = arithmetic.gammaR.map (fun μ => μ + (weight : ℂ) / 2)
   gammaC_eq : analytic.gammaC = arithmetic.gammaC.map (fun ν => ν + (weight : ℂ) / 2)
   completed_eq : ∀ s : ℂ,
@@ -204,7 +207,7 @@ structure FEPairWithLevel (E : Type*) [NormedAddCommGroup E] [NormedSpace ℂ E]
   weight : ℝ
   epsilon : ℂ
   transform : ∀ t : ℝ, 0 < t →
-    f (1 / (level * t)) = (((t ^ weight : ℝ) : ℂ)) • g t
+    f (1 / (level * t)) = epsilon • ((((t ^ weight : ℝ) : ℂ)) • g t)
 
 noncomputable def FEPairWithLevel.completed
     {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
@@ -241,8 +244,16 @@ theorem analyticDual_mixedEmbedding
 
 variable (K : Type u) [Field K] [NumberField K]
 
-noncomputable def rayClassWeight
-    (𝔪 : GNF.Modulus K) (c : GNF.RayClassGroup 𝔪) : ADS.IdealWeight K := sorry
+/-- The indicator of one ray class on nonzero ideals. This is deliberately a general ideal
+arithmetic function: a class indicator is not completely multiplicative. -/
+noncomputable def rayClassCoeff
+    (𝔪 : GNF.Modulus K) (c : GNF.RayClassGroup 𝔪) :
+    ADS.IdealArithmeticFunction K := by
+  classical
+  exact fun I =>
+    if hI : 𝔪.IsCoprimeTo (I : Ideal (𝓞 K)) then
+      if GNF.idealClass 𝔪 (I : Ideal (𝓞 K)) = c then 1 else 0
+    else 0
 
 noncomputable def partialZeta
     (𝔪 : GNF.Modulus K) (c : GNF.RayClassGroup 𝔪) (s : ℂ) : ℂ := sorry
@@ -250,7 +261,17 @@ noncomputable def partialZeta
 theorem partialZeta_eq_lSeries
     (𝔪 : GNF.Modulus K) (c : GNF.RayClassGroup 𝔪) {s : ℂ} (hs : 1 < s.re) :
     partialZeta K 𝔪 c s =
-      LSeries (ADS.normCoeff K (rayClassWeight K 𝔪 c)) s := sorry
+      LSeries (ADS.normCoeff K (rayClassCoeff K 𝔪 c)) s := sorry
+
+/-- The shared regrouping theorem applies to the general ray-class indicator carrier. -/
+theorem rayClassCoeff_regroupByNorm
+    (𝔪 : GNF.Modulus K) (c : GNF.RayClassGroup 𝔪) (s : ℂ)
+    (h : Summable fun I : ADS.NonzeroIdeal K ↦
+      rayClassCoeff K 𝔪 c I / (Ideal.absNorm (I : Ideal (𝓞 K)) : ℂ) ^ s) :
+    LSeriesHasSum (ADS.normCoeff K (rayClassCoeff K 𝔪 c)) s
+      (∑' I : ADS.NonzeroIdeal K,
+        rayClassCoeff K 𝔪 c I / (Ideal.absNorm (I : Ideal (𝓞 K)) : ℂ) ^ s) :=
+  ADS.regroupByNorm K (rayClassCoeff K 𝔪 c) s h
 
 theorem sum_partialZeta (𝔪 : GNF.Modulus K) [Fintype (GNF.RayClassGroup 𝔪)]
     {s : ℂ} (hs : 1 < s.re) :
@@ -418,7 +439,10 @@ noncomputable def imprimitiveEulerCorrection
 
 theorem heckeLFunctionC_eq
     {𝔪 : GNF.Modulus K} (χ : GNF.RayClassCharacter 𝔪) {s : ℂ} (hs : 1 < s.re) :
-    heckeLFunctionC K χ s = LSeries (ADS.normCoeff K (rayClassIdealWeight K 𝔪 χ)) s := sorry
+    heckeLFunctionC K χ s = LSeries
+      (ADS.normCoeff K
+        (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.toArithmeticFunction K
+          (rayClassIdealWeight K 𝔪 χ))) s := sorry
 
 theorem heckeLFunctionC_induced
     {𝔪 𝔫 : GNF.Modulus K} (h : 𝔪 ∣ 𝔫) (χ : GNF.RayClassCharacter 𝔪) (s : ℂ) :
@@ -632,18 +656,22 @@ theorem equidistribution_gaussianPrimes (F : Type*) [Field F] [NumberField F]
 
 /-- Dedekind-zeta specialization of the generic ideal von Mangoldt transform. -/
 theorem dedekindZeta_logDeriv_eq {s : ℂ} (hs : 1 < s.re) :
-    (∑' I : Ideal (𝓞 K),
-      ADS.idealVonMangoldt K (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K) I /
-        (Ideal.absNorm I : ℂ) ^ s) =
+    (∑' I : ADS.NonzeroIdeal K,
+      TauCetiRoadmap.ArithmeticDirichletSeries.IdealArithmeticFunction.vonMangoldt K
+          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.toArithmeticFunction K
+            (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K)) I /
+        (Ideal.absNorm (I : Ideal (𝓞 K)) : ℂ) ^ s) =
       -deriv (dedekindZeta K) s / dedekindZeta K s := sorry
 
 /-- Nonnegativity of the Dedekind-zeta von Mangoldt coefficients. -/
-theorem dedekindZeta_idealVonMangoldt_nonneg (I : Ideal (𝓞 K)) :
+theorem dedekindZeta_idealVonMangoldt_nonneg (I : ADS.NonzeroIdeal K) :
     0 ≤
-        (ADS.idealVonMangoldt K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K) I).re ∧
-      (ADS.idealVonMangoldt K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K) I).im = 0 := sorry
+        (TauCetiRoadmap.ArithmeticDirichletSeries.IdealArithmeticFunction.vonMangoldt K
+          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.toArithmeticFunction K
+            (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K)) I).re ∧
+      (TauCetiRoadmap.ArithmeticDirichletSeries.IdealArithmeticFunction.vonMangoldt K
+          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.toArithmeticFunction K
+            (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K)) I).im = 0 := sorry
 
 end
 

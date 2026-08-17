@@ -189,7 +189,9 @@ value.
 Build `ArithmeticLFunctionData` and `NormalizationTranslation`. If the arithmetic weight is `w`,
 the analytic series is obtained by shifting `s` to `s+w/2`; gamma shifts move by `+w/2`, and the
 completed function carries the forced constant `N^(-w/4)`. Prove existence, uniqueness, degree
-invariance, and equivalence of the two functional equations.
+invariance, and equivalence of the two functional equations. The coefficient translation is
+stated only for `n ≠ 0`; both cards separately normalize their unused coefficient at zero to
+zero, so the formula never divides by `0^(w/2)`.
 
 Mandatory tests:
 
@@ -211,15 +213,19 @@ One complex coordinate has real determinant `-4`, so the absolute determinant is
 absolute determinant is `4^r₂`. The resulting covolume formula must recover the standard
 `2^(-r₂) sqrt(|d_K|) N(I)` normalization and pass the `K = ℚ(i)` test.
 
-Use Poisson summation to prove the Gaussian theta transformation, including the level and constant
-terms. Package the Mellin transform as a functional-equation pair with level. The holomorphic
+Use Poisson summation to prove the Gaussian theta transformation, including the level, epsilon
+scalar, and constant terms. Package the Mellin transform as a functional-equation pair with level;
+the `epsilon` field occurs explicitly in its transformation law. The holomorphic
 upper-half-plane theta function and its modular transformation belong to the Integral Lattices
 roadmap; only the real-parameter Gaussian theta needed by Hecke's method is owned here.
 
 ### Layer 2: partial zeta functions
 
-For a modulus and ray class supplied by Global Number Fields, define the partial zeta series by
-specializing the shared ideal-weight and norm-regrouping API. Establish convergence on
+For a modulus and ray class supplied by Global Number Fields, define its indicator as an
+`ArithmeticDirichletSeries.IdealArithmeticFunction` on nonzero ideals, equal to one exactly on
+prime-to-modulus ideals in that class. It is not an `IdealWeight`: the indicator of a nontrivial
+class is not completely multiplicative. Define the partial zeta series using the shared
+`normCoeff` and `regroupByNorm` API. Establish convergence on
 `Re s > 1`, the sum over ray classes, the common residue, and continuation to a strip by Abel
 summation and the uniform ray-class arithmetic.
 
