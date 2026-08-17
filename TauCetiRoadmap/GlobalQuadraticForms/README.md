@@ -87,7 +87,7 @@ on quadratic forms.
 
 | Consumer here | Exact supplier declaration or milestone | Contract |
 |---|---|---|
-| 4.3, 5.1 | `cyclicHasseNorm`, `isGlobalNorm_iff_isLocalNormEverywhere` | For a finite cyclic extension `L/K` and `a : Kˣ`, the second named theorem states directly that `a` lies in the global norm group exactly when it satisfies `IsLocalNormEverywhere`. The quadratic-extension instance is the ternary Hasse–Minkowski input. |
+| 4.3, 5.1 | `finiteLocalNormMap`, `infiniteLocalNormMap`, `IsFiniteLocalNorm`, `IsInfiniteLocalNorm`, `isGlobalNorm_iff_isLocalNormEverywhere` | For a finite cyclic extension `L/K` and `a : Kˣ`, the final theorem states that `a` lies in the global norm group exactly when it is in the norm range of `K_v ⊗_K L` at every finite completion and of `K_w ⊗_K L` at every archimedean completion. The quadratic-extension instance is the ternary Hasse–Minkowski input. |
 | 3.3, 4.4 | `hilbertProductFormula` (Hilbert reciprocity) | The product over all places of the cohomological Kummer-cup Hilbert pairing is `1`, with the arithmetic invariant-map normalization. |
 
 The public names `cyclicHasseNorm`, `isGlobalNorm_iff_isLocalNormEverywhere`, and
@@ -381,9 +381,11 @@ internal quadratic-form bridge, not a second class-field carrier.
 
 #### 4.3 The quadratic Hasse norm adapter
 
-Specialize `isGlobalNorm_iff_isLocalNormEverywhere` to `K(√d)/K` and prove that its local norm condition agrees with
-representation by `⟨1,-d⟩` at every finite, real, and complex place. Keep inseparable and
-characteristic-two cases out: number fields have characteristic zero.
+Specialize `isGlobalNorm_iff_isLocalNormEverywhere` to `K(√d)/K`. At finite places use
+`finiteLocalNormMap` and `IsFiniteLocalNorm`; at archimedean places use `infiniteLocalNormMap` and
+`IsInfiniteLocalNorm`. Prove that these completion-level norm equations agree with representation
+by `⟨1,-d⟩` at every finite, real, and complex place. Keep inseparable and characteristic-two
+cases out: number fields have characteristic zero.
 
 *Prerequisites:* R Class Field Theory `cyclicHasseNorm`; R Quadratic Form Invariants norm
 equation and binary representation criterion.
@@ -430,8 +432,15 @@ makes it `[-1]` over `K`, and the supplier's binary criterion makes `Q` a hyperb
 
 **Ternary.** After scaling and diagonalization, write
 `Q ≅ ⟨-a⟩ ⊥ ⟨1,-d⟩` with `d` a nonsquare. Local isotropy says that `a` is a local norm from
-`K(√d)` at every place. The quadratic Hasse norm adapter makes it a global norm, so `Q` is
-isotropic.
+`K(√d)` at every completion: first obtain the `IsFiniteLocalNorm` equations from finite local
+isotropy and the `IsInfiniteLocalNorm` equations from archimedean local isotropy, combine them as
+`IsLocalNormEverywhere`, and apply `isGlobalNorm_iff_isLocalNormEverywhere`. The resulting global
+norm supplies the global isotropic vector. Thus the proof follows the explicit chain
+
+```text
+local isotropy → local norm equations → IsLocalNormEverywhere
+  → global norm → global isotropic vector.
+```
 
 **Quaternary.** First suppose `d(Q)=[1]`. Take any regular ternary subspace `U`. Prove the
 field-generic O'Meara 42:12 lemma: a regular ternary subspace of a regular quaternary space of

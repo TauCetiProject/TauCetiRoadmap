@@ -48,6 +48,8 @@ on the same branch. -/
 #check TauCetiRoadmap.GlobalNumberFields.weakApproximation_denseRange
 #check TauCetiRoadmap.NumberFieldArithmetic.isNonarchimedeanLocalField_adicCompletion
 #check TauCetiRoadmap.ClassFieldTheory.cyclicHasseNorm
+#check TauCetiRoadmap.ClassFieldTheory.IsFiniteLocalNorm
+#check TauCetiRoadmap.ClassFieldTheory.IsInfiniteLocalNorm
 #check TauCetiRoadmap.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere
 #check TauCetiRoadmap.ClassFieldTheory.hilbertProductFormula
 
@@ -57,6 +59,21 @@ example {K L : Type} [Field K] [NumberField K] [Field L] [NumberField L]
     (∃ y : Lˣ, Units.map (Algebra.norm K : L →* K) y = x) ↔
       TauCetiRoadmap.ClassFieldTheory.IsLocalNormEverywhere K L x :=
   TauCetiRoadmap.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere K L x
+
+/-- Closed consumer check for the completion-level Hasse norm contract. In particular this starts
+from one norm hypothesis at every finite and infinite completion, not from an idelic range
+hypothesis. -/
+example {K L : Type} [Field K] [NumberField K] [Field L] [NumberField L]
+    [Algebra K L] [Module.Finite K L] [IsGalois K L] [IsCyclic (L ≃ₐ[K] L)]
+    (x : Kˣ)
+    (hfinite : ∀ v : HeightOneSpectrum (𝓞 K),
+      TauCetiRoadmap.ClassFieldTheory.IsFiniteLocalNorm K L v x)
+    (hinfinite : ∀ w : InfinitePlace K,
+      TauCetiRoadmap.ClassFieldTheory.IsInfiniteLocalNorm K L w x) :
+    ∃ y : Lˣ, Units.map (Algebra.norm K : L →* K) y = x := by
+  apply
+    (TauCetiRoadmap.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere K L x).2
+  exact ⟨hfinite, hinfinite⟩
 
 /-! ## Layer 0: canonical localization -/
 
