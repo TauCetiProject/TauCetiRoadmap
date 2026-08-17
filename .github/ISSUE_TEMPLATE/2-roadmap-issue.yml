@@ -17,6 +17,7 @@ body:
         - AdicSpaces
         - AlgebraicCurves
         - CFSGStatement
+        - ClassFieldTheory
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - ContourIntegration
