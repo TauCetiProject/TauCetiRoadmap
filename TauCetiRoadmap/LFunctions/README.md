@@ -181,17 +181,20 @@ Split the basic properties into reusable predicates:
 - functional equation and unit-modulus root number;
 - average coefficient growth.
 
-Define `EqOffZero` to compare cards while ignoring coefficient zero, which Mathlib's `LSeries`
-does not read. This is necessary because the ideal-weight convention gives coefficient zero at
-`n = 0`, whereas an independently defined ideal-counting coefficient may use a different junk
-value.
+Define `EqOffZero` to compare general analytic cards while ignoring coefficient zero, which
+Mathlib's `LSeries` does not read. This remains necessary because independently defined analytic
+presentations may use different junk values there. Do not impose a global zero convention on
+`AnalyticLFunctionData`.
 
-Build `ArithmeticLFunctionData` and `NormalizationTranslation`. If the arithmetic weight is `w`,
-the analytic series is obtained by shifting `s` to `s+w/2`; gamma shifts move by `+w/2`, and the
-completed function carries the forced constant `N^(-w/4)`. Prove existence, uniqueness, degree
-invariance, and equivalence of the two functional equations. The coefficient translation is
-stated only for `n ≠ 0`; both cards separately normalize their unused coefficient at zero to
-zero, so the formula never divides by `0^(w/2)`.
+Build `ArithmeticLFunctionData` with a structural field
+`coeff_zero : toAnalyticLFunctionData.coeff 0 = 0`, and build `NormalizationTranslation` from it.
+If the arithmetic weight is `w`, the analytic series is obtained by shifting `s` to `s+w/2`;
+gamma shifts move by `+w/2`, and the completed function carries the forced constant `N^(-w/4)`.
+Prove existence, uniqueness, degree invariance, and equivalence of the two functional equations.
+The coefficient translation is stated only for `n ≠ 0`; the analytic target stores its own zero
+proof, while the arithmetic source inherits the convention from its card. Consequently
+`existsUnique` cannot be applied to a malformed source with nonzero zeroth coefficient, and the
+weight-zero comparison remains an exact equality of cards rather than merely `EqOffZero`.
 
 Mandatory tests:
 

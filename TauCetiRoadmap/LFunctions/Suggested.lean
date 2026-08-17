@@ -131,7 +131,11 @@ theorem hasFunctionalEquation_eventuallyEq {d : AnalyticLFunctionData}
 
 end AnalyticLFunctionData
 
-structure ArithmeticLFunctionData extends AnalyticLFunctionData
+/-- Arithmetic normalization uses the same completed-function carrier, but fixes the otherwise
+unused zeroth Dirichlet coefficient once and for all. General analytic cards retain arbitrary
+coefficient zero and continue to be compared with `AnalyticLFunctionData.EqOffZero`. -/
+structure ArithmeticLFunctionData extends AnalyticLFunctionData where
+  coeff_zero : toAnalyticLFunctionData.coeff 0 = 0
 
 /-- Translation from arithmetic normalization of weight `w` to analytic normalization. -/
 structure NormalizationTranslation where
@@ -141,7 +145,6 @@ structure NormalizationTranslation where
   coeff_eq : ∀ n : ℕ, n ≠ 0 →
     analytic.coeff n = arithmetic.coeff n / (n : ℂ) ^ ((weight : ℂ) / 2)
   analytic_coeff_zero : analytic.coeff 0 = 0
-  arithmetic_coeff_zero : arithmetic.coeff 0 = 0
   gammaR_eq : analytic.gammaR = arithmetic.gammaR.map (fun μ => μ + (weight : ℂ) / 2)
   gammaC_eq : analytic.gammaC = arithmetic.gammaC.map (fun ν => ν + (weight : ℂ) / 2)
   completed_eq : ∀ s : ℂ,
@@ -156,8 +159,32 @@ structure NormalizationTranslation where
 theorem NormalizationTranslation.degree_eq (T : NormalizationTranslation) :
     T.analytic.degree = T.arithmetic.toAnalyticLFunctionData.degree := sorry
 
+/-- The source-card zero convention is derived from the arithmetic card rather than duplicated
+as data in every translation. -/
+theorem NormalizationTranslation.arithmetic_coeff_zero (T : NormalizationTranslation) :
+    T.arithmetic.coeff 0 = 0 :=
+  T.arithmetic.coeff_zero
+
+/-- Public off-zero coefficient formula for consumers that should not unfold the translation
+record. -/
+theorem NormalizationTranslation.coeff_eq_of_ne_zero (T : NormalizationTranslation)
+    (n : ℕ) (hn : n ≠ 0) :
+    T.analytic.coeff n =
+      T.arithmetic.coeff n / (n : ℂ) ^ ((T.weight : ℂ) / 2) :=
+  T.coeff_eq n hn
+
 theorem NormalizationTranslation.existsUnique (a : ArithmeticLFunctionData) (weight : ℤ) :
     ∃! T : NormalizationTranslation, T.arithmetic = a ∧ T.weight = weight := sorry
+
+/-- The canonical translation selected by the existence-and-uniqueness theorem. -/
+noncomputable def NormalizationTranslation.of
+    (a : ArithmeticLFunctionData) (weight : ℤ) : NormalizationTranslation :=
+  (NormalizationTranslation.existsUnique a weight).exists.choose
+
+theorem NormalizationTranslation.of_spec (a : ArithmeticLFunctionData) (weight : ℤ) :
+    (NormalizationTranslation.of a weight).arithmetic = a ∧
+      (NormalizationTranslation.of a weight).weight = weight :=
+  (NormalizationTranslation.existsUnique a weight).exists.choose_spec
 
 theorem NormalizationTranslation.hasFunctionalEquation_iff (T : NormalizationTranslation) :
     T.analytic.HasFunctionalEquation ↔
@@ -170,6 +197,14 @@ theorem NormalizationTranslation.hasFunctionalEquation_iff (T : NormalizationTra
 
 theorem NormalizationTranslation.eq_of_weight_zero (T : NormalizationTranslation)
     (h : T.weight = 0) : T.analytic = T.arithmetic.toAnalyticLFunctionData := sorry
+
+/-- Exact weight-zero regression: the structural zeroth-coefficient convention makes equality
+of the complete cards sound, not merely equality away from zero. -/
+example (a : ArithmeticLFunctionData) :
+    (NormalizationTranslation.of a 0).analytic = a.toAnalyticLFunctionData := by
+  rw [NormalizationTranslation.eq_of_weight_zero _
+      (NormalizationTranslation.of_spec a 0).2,
+    (NormalizationTranslation.of_spec a 0).1]
 
 theorem NormalizationTranslation.gammaC_delta (T : NormalizationTranslation)
     (hw : T.weight = 11) (hC : T.arithmetic.gammaC = {0})
