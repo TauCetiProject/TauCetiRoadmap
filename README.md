@@ -14,13 +14,16 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 ## Roadmaps
 
 - [A statement of the classification of finite simple groups](TauCetiRoadmap/CFSGStatement/README.md)
+- [Algebraic curves: function fields, divisors, and Riemann–Roch](TauCetiRoadmap/AlgebraicCurves/README.md)
 - [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
 - [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
 - [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
+- [Dense graph limits and graphons](TauCetiRoadmap/DenseGraphLimits/README.md)
 - [DG and A-infinity algebras, categories, and modules](TauCetiRoadmap/DGAInfinity/README.md)
 - [Elliptic curves](TauCetiRoadmap/EllipticCurves/README.md)
 - [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
 - [Foundations of adic spaces](TauCetiRoadmap/AdicSpaces/README.md)
+- [Geodesics, the exponential map, and the Hopf-Rinow theorem](TauCetiRoadmap/HopfRinow/README.md)
 - [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
 - [Grothendieck groups, Cartan maps, and Euler forms](TauCetiRoadmap/GrothendieckEulerForms/README.md)
 - [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
@@ -36,7 +39,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Standard probability distributions and their elementary theory](TauCetiRoadmap/StandardDistributions/README.md)
 - [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
 - [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
-- [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
+- [Zigzag, preprojective, and Ginzburg algebras](TauCetiRoadmap/ZigzagPreprojective/README.md)
 
 ## Completed roadmaps
 
@@ -45,6 +48,7 @@ Roadmaps the maintainers have declared complete (a judgment against the roadmap'
 [`Completed/`](Completed/README.md), outside the active list above.
 
 - [Effective arithmetic bounds and geometry of numbers](Completed/EffectiveBounds/README.md)
+- [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](Completed/OrthogonalL2Bases/README.md)
 
 ## Generated status files
 
