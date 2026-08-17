@@ -757,9 +757,19 @@ image in `G_K^ab` is the range of `artinMap` (`localWeilArtinEquiv_compat`,
 Develop the `S`-idele and unit-lattice Herbrand calculations on the imported idele carriers, as
 already required for Layer 6, and prove the cyclic Hasse norm theorem
 `cyclicHasseNorm`: for cyclic `L/K`, `x : Kˣ` is a global norm exactly when its principal idele is
-an idele norm, equivalently when `x` is a norm at every place. Export that second formulation as
-`isGlobalNorm_iff_isLocalNormEverywhere`, with `IsLocalNormEverywhere` identified by the local
-coordinates of `ideleNormMap`, so consumers need not unpack an idele-range predicate. Its proof is the vanishing of
+an idele norm. Separately define the genuine placewise predicates `IsFiniteLocalNorm` and
+`IsInfiniteLocalNorm` using the canonical local étale algebras
+`K_v ⊗_K L` and `K_w ⊗_K L`, where finite places use `v.adicCompletion K` and infinite places use
+Mathlib's `w.Completion`. Complex infinite places remain quantified and have a named theorem saying
+that their norm condition is automatic. Then define `IsLocalNormEverywhere` as the conjunction of
+the finite and infinite families; it is not an alias for an idelic range predicate.
+
+Prove the named bridge `principalIdele_mem_range_ideleNormMap_iff`. Projection of an idelic norm
+gives all local norm equations. In the converse direction, choose a preimage in every local étale
+algebra, prove that outside a finite set the preimage may be chosen in the local unit subgroup
+(using norm-surjectivity on units for unramified extensions), and assemble those choices in the
+restricted product; treat real and complex factors explicitly. Export the consumer-facing composite
+as `isGlobalNorm_iff_isLocalNormEverywhere`. The global half is the vanishing of
 `Ĥ^{-1}(Γ, C_L)`, itself a consequence of the Layer 6 computation of the Herbrand quotient of the
 idele classes; the cyclic hypothesis is essential. Record the biquadratic counterexample: for
 `ℚ(√13,√17)/ℚ`, `25` is a local norm everywhere but not a global norm.

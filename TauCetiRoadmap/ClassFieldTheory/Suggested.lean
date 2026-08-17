@@ -1438,17 +1438,64 @@ theorem cyclicHasseNorm [Module.Finite K L] [IsGalois K L]
       principalIdele K x ∈ MonoidHom.range (ideleNormMap K L) :=
   sorry
 
-/-- Coordinate-free spelling of “a norm at every place”. The local-coordinate theorem for
-`ideleNormMap` identifies this predicate with membership in every completed-field norm range. -/
+/-- The norm map of the finite étale algebra obtained from `L/K` at a finite place. Using the
+scalar extension, rather than choosing a place of `L` above `v`, retains every local factor. -/
+noncomputable def finiteLocalNormMap [Module.Finite K L]
+    (v : HeightOneSpectrum (RingOfIntegers K)) :
+    (v.adicCompletion K ⊗[K] L)ˣ →* (v.adicCompletion K)ˣ :=
+  sorry
+
+/-- The norm map of the finite étale algebra obtained from `L/K` at an infinite place. The
+canonical carrier `w.Completion` is Mathlib's completion of `K` at `w`; in particular the real
+and complex cases are not encoded by a second roadmap-local notion of infinite place. -/
+noncomputable def infiniteLocalNormMap [Module.Finite K L]
+    (w : NumberField.InfinitePlace K) :
+    (w.Completion ⊗[K] L)ˣ →* w.Completionˣ :=
+  sorry
+
+/-- A principal element is a norm at the finite place `v`, stated on the canonical finite local
+étale algebra `K_v ⊗_K L`. -/
+def IsFiniteLocalNorm [Module.Finite K L]
+    (v : HeightOneSpectrum (RingOfIntegers K)) (x : Kˣ) : Prop :=
+  Units.map (algebraMap K (v.adicCompletion K)).toMonoidHom x ∈
+    MonoidHom.range (finiteLocalNormMap K L v)
+
+/-- A principal element is a norm at the infinite place `w`, stated on Mathlib's canonical
+completion and the full étale algebra `K_w ⊗_K L`. -/
+def IsInfiniteLocalNorm [Module.Finite K L]
+    (w : NumberField.InfinitePlace K) (x : Kˣ) : Prop :=
+  Units.map (algebraMap K w.Completion).toMonoidHom x ∈
+    MonoidHom.range (infiniteLocalNormMap K L w)
+
+/-- At a complex place the local norm condition is automatic. This theorem is recorded rather
+than silently omitting complex places from `IsLocalNormEverywhere`. -/
+theorem isInfiniteLocalNorm_of_isComplex [Module.Finite K L]
+    (w : NumberField.InfinitePlace K) (hw : w.IsComplex) (x : Kˣ) :
+    IsInfiniteLocalNorm K L w x :=
+  sorry
+
+/-- Genuine placewise spelling of “a norm everywhere”: every finite completion and every
+archimedean completion occurs explicitly. -/
 def IsLocalNormEverywhere [Module.Finite K L] (x : Kˣ) : Prop :=
-  principalIdele K x ∈ MonoidHom.range (ideleNormMap K L)
+  (∀ v : HeightOneSpectrum (RingOfIntegers K), IsFiniteLocalNorm K L v x) ∧
+    ∀ w : NumberField.InfinitePlace K, IsInfiniteLocalNorm K L w x
+
+/-- Local-coordinate bridge for the idelic norm. Its proof projects an idele norm to each local
+factor in the forward direction. Conversely it chooses local preimages, uses that an unramified
+extension has surjective norm on local units at all but finitely many finite places, and assembles
+the resulting restricted product; the real and complex archimedean factors are handled separately.
+This is the public theorem consumers use to cross between ideles and placewise norm equations. -/
+theorem principalIdele_mem_range_ideleNormMap_iff [Module.Finite K L] (x : Kˣ) :
+    principalIdele K x ∈ MonoidHom.range (ideleNormMap K L) ↔
+      IsLocalNormEverywhere K L x :=
+  sorry
 
 /-- The cyclic Hasse norm theorem in the local-norm spelling used by quadratic-form consumers. -/
 theorem isGlobalNorm_iff_isLocalNormEverywhere [Module.Finite K L] [IsGalois K L]
     [IsCyclic (L ≃ₐ[K] L)] (x : Kˣ) :
     (∃ y : Lˣ, Units.map (Algebra.norm K : L →* K) y = x) ↔
       IsLocalNormEverywhere K L x :=
-  cyclicHasseNorm K L x
+  (cyclicHasseNorm K L x).trans (principalIdele_mem_range_ideleNormMap_iff K L x)
 
 /-- Ring class field attached to the order carrier owned by `GlobalNumberFields`. -/
 noncomputable def ringClassField (O : GlobalNumberFields.NumberFieldOrder K) :
