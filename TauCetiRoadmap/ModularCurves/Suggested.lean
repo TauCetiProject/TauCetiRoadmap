@@ -10,17 +10,22 @@ signatures; discharging all of them finishes neither a layer nor the roadmap. `s
 this file — these are goals, not results — and nothing here is a `Prop`-typed placeholder standing
 in for an object that does not exist yet.
 
-The first seven declarations are unchanged from the previous branch. The rest seed the carrier and
-variance boundaries which control the proof: relative divisors, finite flat group schemes, elliptic
-curves, the two dual-isogeny constructions, groupoid-valued moduli problems, Chapter 5 regularity,
-and the Chapter 6 cyclicity space. Further structure should be added as each supplier API becomes
-concrete.
+The declarations seed the carrier and variance boundaries which control the proof: finite flat
+group schemes, elliptic curves with group-scheme homomorphisms, the two dual-isogeny constructions,
+the category `Ell/R` with its cartesian arrows, relative representability, Katz–Mazur quotient data
+with the exact conditions Q1 and Q2, the regularity axioms Reg. 1–Reg. 4 with a stated universal
+formal deformation, coarse-moduli data, and the Chapter 6 cyclicity space. Relative effective
+Cartier divisors use the single carrier supplied by the Jacobian Challenge; this file deliberately
+does not introduce a second one.
 -/
 
 namespace TauCetiRoadmap.ModularCurves
 
-open AlgebraicGeometry CategoryTheory
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj
 open scoped Classical
+
+attribute [local instance] CategoryTheory.Over.cartesianMonoidalCategory
+  CategoryTheory.Over.braidedCategory
 
 /-! ## The projective Weierstrass model
 
@@ -69,70 +74,62 @@ noncomputable def projModelPointsEquiv {K : Type u} [Field K] (W : WeierstrassCu
       g ≫ projModelOver W = 𝟙 (Spec (CommRingCat.of K))} ≃ W.toAffine.Point :=
   sorry
 
-/-! ## Relative divisors and finite flat group schemes
+/-- Over a field, the projective model of an elliptic Weierstrass equation is integral. -/
+instance isIntegral_projModel {K : Type u} [Field K] {W : WeierstrassCurve K} [W.IsElliptic] :
+    IsIntegral (projModel W) :=
+  sorry
 
-The definitions below are opaque only because Mathlib does not yet have the final carriers. Their
-arguments and outputs pin the base, variance, and base-change conventions used by the roadmap.
+/-- The scheme function field of the projective model is the equation-level function field of
+`W`; the first statement of the narrow degree bridge of Layer 2A. The equation-level pullback by
+`[N]` and its degree `N²` are supplied by the Elliptic Curves roadmap and are not restated here. -/
+noncomputable def projModelFunctionFieldEquiv {K : Type u} [Field K] (W : WeierstrassCurve K)
+    [W.IsElliptic] :
+    (projModel W).functionField ≃+* W.toAffine.FunctionField :=
+  sorry
+
+/-! ## Finite flat group schemes
+
+The relative effective Cartier-divisor carrier and its pullback are supplied once by the Jacobian
+Challenge. Modular Curves adds its incidence, equality, degree, subgroup, and full-set theorems in
+the shared namespace once that carrier is imported.
 -/
 
-/-- Relative effective Cartier divisors on a fixed relative curve. The definitive definition is
-the Cartier condition together with flatness over the base; finiteness is a theorem. -/
-noncomputable def RelEffCartierDivisor {S X : Scheme.{u}} (f : X ⟶ S) : Type (u + 1) :=
-  sorry
-
-namespace RelEffCartierDivisor
-
-/-- Pullback of a relative effective Cartier divisor. -/
-noncomputable def baseChange {S X T : Scheme.{u}} (f : X ⟶ S) (g : T ⟶ S)
-    (D : RelEffCartierDivisor f) :
-    RelEffCartierDivisor (Limits.pullback.snd f g) :=
-  sorry
-
-/-- The divisor cut out by a section of a smooth relative curve. -/
-noncomputable def ofSection {S X : Scheme.{u}} (f : X ⟶ S) (P : S ⟶ X)
-    [IsSeparated f] (hf : SmoothOfRelativeDimension 1 f) (hP : P ≫ f = 𝟙 S) :
-    RelEffCartierDivisor f :=
-  sorry
-
-/-- The incidence locus over the base representing the condition `D₁ ≤ D₂`. Properness
-of the relative curve ensures that the two divisors are finite locally free over the base. -/
-noncomputable def incidenceLocus {S X : Scheme.{u}} {f : X ⟶ S}
-    (hcurve : SmoothOfRelativeDimension 1 f) (hf : IsProper f)
-    (D₁ D₂ : RelEffCartierDivisor f) : Over S :=
-  sorry
-
-/-- The equality locus over the base representing the condition `D₁ = D₂`. -/
-noncomputable def equalityLocus {S X : Scheme.{u}} {f : X ⟶ S}
-    (hcurve : SmoothOfRelativeDimension 1 f) (hf : IsProper f)
-    (D₁ D₂ : RelEffCartierDivisor f) : Over S :=
-  sorry
-
-end RelEffCartierDivisor
-
-/-- Finite locally free commutative group schemes over `S`. -/
-noncomputable def FiniteFlatCommGroupScheme (S : Scheme.{u}) : Type (u + 1) :=
-  sorry
+/-- Finite locally free commutative group schemes over `S`, expressed in Mathlib's group-object
+vocabulary. -/
+structure FiniteFlatCommGroupScheme (S : Scheme.{u}) where
+  carrier : Scheme.{u}
+  structureMap : carrier ⟶ S
+  grp : GrpObj (Over.mk structureMap)
+  comm : letI := grp; IsCommMonObj (Over.mk structureMap)
+  finite : IsFinite structureMap
+  flat : Flat structureMap
 
 namespace FiniteFlatCommGroupScheme
 
-noncomputable def carrier {S : Scheme.{u}} (G : FiniteFlatCommGroupScheme S) : Scheme.{u} :=
-  sorry
+noncomputable abbrev toOver {S : Scheme.{u}} (G : FiniteFlatCommGroupScheme S) : Over S :=
+  Over.mk G.structureMap
 
-noncomputable def structureMap {S : Scheme.{u}} (G : FiniteFlatCommGroupScheme S) :
-    carrier G ⟶ S :=
-  sorry
+noncomputable instance grpObj {S : Scheme.{u}} (G : FiniteFlatCommGroupScheme S) :
+    GrpObj G.toOver :=
+  G.grp
+
+instance isCommMonObj {S : Scheme.{u}} (G : FiniteFlatCommGroupScheme S) :
+    IsCommMonObj G.toOver :=
+  G.comm
 
 /-- Sections of the structure morphism of a finite flat group scheme. -/
 def Section {S : Scheme.{u}} (G : FiniteFlatCommGroupScheme S) :=
-  {s : S ⟶ carrier G // s ≫ structureMap G = 𝟙 S}
+  {s : S ⟶ G.carrier // s ≫ G.structureMap = 𝟙 S}
 
-noncomputable def Hom {S : Scheme.{u}}
-    (G H : FiniteFlatCommGroupScheme S) : Type (u + 1) :=
-  sorry
+structure Hom {S : Scheme.{u}} (G H : FiniteFlatCommGroupScheme S) where
+  hom : G.toOver ⟶ H.toOver
+  map_group : IsMonHom hom
 
-noncomputable def Iso {S : Scheme.{u}}
-    (G H : FiniteFlatCommGroupScheme S) : Type (u + 1) :=
-  sorry
+structure Iso {S : Scheme.{u}} (G H : FiniteFlatCommGroupScheme S) where
+  hom : Hom G H
+  inv : Hom H G
+  hom_inv_id : hom.hom ≫ inv.hom = 𝟙 G.toOver
+  inv_hom_id : inv.hom ≫ hom.hom = 𝟙 H.toOver
 
 noncomputable def baseChange {S T : Scheme.{u}} (G : FiniteFlatCommGroupScheme S)
     (f : T ⟶ S) : FiniteFlatCommGroupScheme T :=
@@ -157,7 +154,7 @@ noncomputable def cartierDualBaseChangeIso {S T : Scheme.{u}}
 
 /-- A finite locally free commutative group scheme of constant rank `n` is killed by `n`. -/
 theorem mulBy_eq_zero_of_finrank {S : Scheme.{u}} (G : FiniteFlatCommGroupScheme S) (n : ℕ)
-    (hrank : (structureMap G).finrank = fun _ ↦ n) :
+    (hrank : G.structureMap.finrank = fun _ ↦ n) :
     mulBy G n = zero G :=
   sorry
 
@@ -170,24 +167,48 @@ noncomputable def GroupSchemePairing {S : Scheme.{u}}
 
 /-! ## Elliptic curves, torsion, and dual isogenies -/
 
+/-- One pointed Weierstrass chart in a relative curve. -/
+structure PointedWeierstrassChart {S X : Scheme.{u}} (π : X ⟶ S) (zero : S ⟶ X) where
+  base : Scheme.{u}
+  baseMap : base ⟶ S
+  baseMap_open : IsOpenImmersion baseMap
+  ring : CommRingCat.{u}
+  baseIso : base ≅ Spec ring
+  equation : WeierstrassCurve ring
+  equation_elliptic : equation.IsElliptic
+  pullbackCarrier : Scheme.{u}
+  toTotal : pullbackCarrier ⟶ X
+  toBase : pullbackCarrier ⟶ base
+  isPullback : IsPullback toTotal toBase π baseMap
+  modelIso : pullbackCarrier ≅ projModel equation
+  modelIso_over : modelIso.hom ≫ projModelOver equation = toBase ≫ baseIso.hom
+  pulledZero : base ⟶ pullbackCarrier
+  pulledZero_toBase : pulledZero ≫ toBase = 𝟙 base
+  pulledZero_toTotal : pulledZero ≫ toTotal = baseMap ≫ zero
+  modelIso_zero : pulledZero ≫ modelIso.hom = baseIso.hom ≫ projModelZero equation
+
+/-- A jointly surjective family of pointed Weierstrass charts. Equations are witnesses of local
+existence, not selected fields of an elliptic curve. -/
+structure PointedWeierstrassAtlas {S X : Scheme.{u}} (π : X ⟶ S) (zero : S ⟶ X) where
+  index : Type u
+  chart : index → PointedWeierstrassChart π zero
+  covers : ∀ s : S, ∃ i : index, ∃ x : (chart i).base, (chart i).baseMap.base x = s
+
 /-- Smooth proper pointed genus-one curves with the pointed local-Weierstrass condition. -/
-noncomputable def EllipticCurveGeom (S : Scheme.{u}) : Type (u + 1) :=
-  sorry
+structure EllipticCurveGeom (S : Scheme.{u}) where
+  carrier : Scheme.{u}
+  structureMap : carrier ⟶ S
+  zero : S ⟶ carrier
+  zero_comp : zero ≫ structureMap = 𝟙 S
+  smooth : SmoothOfRelativeDimension 1 structureMap
+  proper : IsProper structureMap
+  localModel : Nonempty (PointedWeierstrassAtlas structureMap zero)
 
 namespace EllipticCurveGeom
 
-noncomputable def carrier {S : Scheme.{u}} (E : EllipticCurveGeom S) : Scheme.{u} :=
-  sorry
-
-noncomputable def structureMap {S : Scheme.{u}} (E : EllipticCurveGeom S) : carrier E ⟶ S :=
-  sorry
-
-noncomputable def zero {S : Scheme.{u}} (E : EllipticCurveGeom S) : S ⟶ carrier E :=
-  sorry
-
 theorem zero_comp_structureMap {S : Scheme.{u}} (E : EllipticCurveGeom S) :
-    zero E ≫ structureMap E = 𝟙 S :=
-  sorry
+    E.zero ≫ E.structureMap = 𝟙 S :=
+  E.zero_comp
 
 noncomputable def baseChange {S T : Scheme.{u}} (E : EllipticCurveGeom S) (f : T ⟶ S) :
     EllipticCurveGeom T :=
@@ -196,49 +217,49 @@ noncomputable def baseChange {S T : Scheme.{u}} (E : EllipticCurveGeom S) (f : T
 end EllipticCurveGeom
 
 /-- An elliptic curve with its canonical commutative group structure. -/
-noncomputable def EllipticCurve (S : Scheme.{u}) : Type (u + 1) :=
-  sorry
+structure EllipticCurve (S : Scheme.{u}) extends EllipticCurveGeom S where
+  grp : GrpObj (Over.mk structureMap)
+  comm : letI := grp; IsCommMonObj (Over.mk structureMap)
+  one_eq_zero :
+    letI := grp
+    (η[Over.mk structureMap] : _ ⟶ Over.mk structureMap).left =
+      (𝟙_ (Over S)).hom ≫ zero
 
 namespace EllipticCurve
 
-noncomputable def toGeom {S : Scheme.{u}} (E : EllipticCurve S) : EllipticCurveGeom S :=
-  sorry
-
-noncomputable def carrier {S : Scheme.{u}} (E : EllipticCurve S) : Scheme.{u} :=
-  EllipticCurveGeom.carrier E.toGeom
+noncomputable abbrev toGeom {S : Scheme.{u}} (E : EllipticCurve S) : EllipticCurveGeom S :=
+  E.toEllipticCurveGeom
 
 /-- An elliptic curve as an object over its base. -/
 noncomputable def toOver {S : Scheme.{u}} (E : EllipticCurve S) : Over S :=
-  Over.mk (EllipticCurveGeom.structureMap E.toGeom)
+  Over.mk E.structureMap
+
+noncomputable instance grpObj {S : Scheme.{u}} (E : EllipticCurve S) : GrpObj E.toOver :=
+  E.grp
+
+instance isCommMonObj {S : Scheme.{u}} (E : EllipticCurve S) : IsCommMonObj E.toOver :=
+  E.comm
 
 noncomputable def baseChange {S T : Scheme.{u}} (E : EllipticCurve S) (f : T ⟶ S) :
     EllipticCurve T :=
   sorry
 
-/-- Multiplication by a natural number as a scheme homomorphism. -/
-noncomputable def mulBy {S : Scheme.{u}} (E : EllipticCurve S) (n : ℕ) :
-    carrier E ⟶ carrier E :=
+/-- The projective model of an elliptic Weierstrass equation, with the group law of Layer 1D. -/
+noncomputable def ofWeierstrass {R : Type u} [CommRing R] (W : WeierstrassCurve R)
+    [W.IsElliptic] : EllipticCurve (Spec (CommRingCat.of R)) :=
   sorry
 
-/-- The finite-flat kernel `E[N]`, for nonzero `N`. -/
-noncomputable def torsion {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
-    FiniteFlatCommGroupScheme S :=
-  sorry
-
-theorem torsion_finrank {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
-    (FiniteFlatCommGroupScheme.structureMap (torsion E N)).finrank = fun _ ↦ N ^ 2 :=
-  sorry
-
-/-- Homomorphisms of elliptic curves over a fixed base. The Picard dual is defined on this
-carrier, not only on isogenies. -/
-noncomputable def Hom {S : Scheme.{u}} (E E' : EllipticCurve S) : Type (u + 1) :=
-  sorry
+/-- Homomorphisms of elliptic curves over a fixed base are homomorphisms of commutative group
+schemes; a bare pointed scheme morphism is not coerced to this type. -/
+structure Hom {S : Scheme.{u}} (E E' : EllipticCurve S) where
+  hom : E.toOver ⟶ E'.toOver
+  map_group : IsMonHom hom
 
 namespace Hom
 
 noncomputable def toSchemeHom {S : Scheme.{u}} {E E' : EllipticCurve S} (f : Hom E E') :
-    carrier E ⟶ carrier E' :=
-  sorry
+    E.carrier ⟶ E'.carrier :=
+  f.hom.left
 
 /-- Pullback on `Pic⁰`, transported through elliptic autoduality. -/
 noncomputable def picardDual {S : Scheme.{u}} {E E' : EllipticCurve S} (f : Hom E E') :
@@ -247,21 +268,76 @@ noncomputable def picardDual {S : Scheme.{u}} {E E' : EllipticCurve S} (f : Hom 
 
 end Hom
 
+/-- KM 2.5.1, proved only in Layer 2D from the relative Picard theory: a scheme morphism over `S`
+carrying zero to zero is uniquely a homomorphism of group schemes. It converts into `Hom`; it is
+not used to define `Hom` or the multiplication maps. -/
+theorem isGroupHom_of_mapsZero {S : Scheme.{u}} {E E' : EllipticCurve S}
+    (f : E.carrier ⟶ E'.carrier) (hf_over : f ≫ E'.structureMap = E.structureMap)
+    (hf_zero : E.zero ≫ f = E'.zero) :
+    ∃! F : Hom E E', F.toSchemeHom = f :=
+  sorry
+
+/-- Multiplication by a natural number as a group-scheme homomorphism. -/
+noncomputable def mulBy {S : Scheme.{u}} (E : EllipticCurve S) (n : ℕ) : Hom E E :=
+  sorry
+
+/-- KM 2.3.1, finiteness: `[N]` is finite for `N ≠ 0`. -/
+theorem isFinite_mulBy {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
+    IsFinite (E.mulBy N).toSchemeHom :=
+  sorry
+
+/-- KM 2.3.1, flatness: `[N]` is flat for `N ≠ 0`. -/
+theorem flat_mulBy {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
+    Flat (E.mulBy N).toSchemeHom :=
+  sorry
+
+/-- KM 2.3.1, the rank: `[N]` has locally constant rank `N²`, proved through the narrow
+function-field degree bridge of Layer 2A. -/
+theorem finrank_mulBy {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
+    (E.mulBy N).toSchemeHom.finrank = fun _ ↦ N ^ 2 :=
+  sorry
+
+/-- The finite-flat kernel `E[N]`, for nonzero `N`. -/
+noncomputable def torsion {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
+    FiniteFlatCommGroupScheme S :=
+  sorry
+
+theorem finrank_torsion {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
+    (FiniteFlatCommGroupScheme.structureMap (torsion E N)).finrank = fun _ ↦ N ^ 2 :=
+  sorry
+
+/-- KM 2.3.1, étaleness: `E[N]` is étale over `S` where `N` is invertible. -/
+theorem etale_torsion_of_isUnit {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N]
+    (hN : IsUnit ((N : ℕ) : Γ(S, ⊤))) :
+    Etale (E.torsion N).structureMap :=
+  sorry
+
+/-- The inclusion `E[m] ⊆ E[n]` for `m ∣ n`. -/
+noncomputable def torsionInclusion {S : Scheme.{u}} (E : EllipticCurve S) (m n : ℕ) [NeZero m]
+    [NeZero n] (h : m ∣ n) :
+    FiniteFlatCommGroupScheme.Hom (E.torsion m) (E.torsion n) :=
+  sorry
+
+/-- The `j`-invariant of an elliptic curve as a morphism to the `j`-line `Spec ℤ[j]`, obtained
+from local Weierstrass equations and the variable-change invariance of Layer 1C. -/
+noncomputable def jMap {S : Scheme.{u}} (E : EllipticCurve S) :
+    S ⟶ Spec (CommRingCat.of (Polynomial (ULift.{u} ℤ))) :=
+  sorry
+
 end EllipticCurve
 
 /-- Finite locally free surjective homomorphisms of elliptic curves. -/
-noncomputable def Isogeny {S : Scheme.{u}} (E E' : EllipticCurve S) : Type (u + 1) :=
-  sorry
+structure Isogeny {S : Scheme.{u}} (E E' : EllipticCurve S)
+    extends EllipticCurve.Hom E E' where
+  finite : IsFinite toHom.hom.left
+  flat : Flat toHom.hom.left
+  surjective : Surjective toHom.hom.left
 
 namespace Isogeny
 
-noncomputable def hom {S : Scheme.{u}} {E E' : EllipticCurve S} (f : Isogeny E E') :
-    E.carrier ⟶ E'.carrier :=
-  sorry
-
 noncomputable def toEllipticCurveHom {S : Scheme.{u}} {E E' : EllipticCurve S}
     (f : Isogeny E E') : EllipticCurve.Hom E E' :=
-  sorry
+  f.toHom
 
 noncomputable def kernel {S : Scheme.{u}} {E E' : EllipticCurve S} (f : Isogeny E E') :
     FiniteFlatCommGroupScheme S :=
@@ -330,7 +406,7 @@ noncomputable def weilPairing {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [
     GroupSchemePairing (E.torsion N) (E.torsion N) :=
   sorry
 
-/-! ## Drinfeld structures and the moduli carriers -/
+/-! ## Drinfeld structures -/
 
 /-- Katz–Mazur `A`-structures for a finite abelian group `A`. -/
 noncomputable def AStructure {S : Scheme.{u}} (A : Type u) [Fintype A] [AddCommGroup A]
@@ -362,88 +438,407 @@ noncomputable def GammaZeroStructure {S : Scheme.{u}} (E : EllipticCurve S) (N :
     Type (u + 1) :=
   sorry
 
-/-- The groupoid of elliptic curves over a fixed base. -/
-abbrev EllGroupoid (S : Scheme.{u}) := EllipticCurve S
+/-! ## The category `Ell/R` and moduli problems -/
 
-noncomputable instance ellGroupoid (S : Scheme.{u}) : Groupoid (EllGroupoid S) :=
+/-- The category of group-scheme homomorphisms between elliptic curves over a fixed base. -/
+noncomputable instance ellipticCurveCategory (S : Scheme.{u}) : Category (EllipticCurve S) :=
   sorry
 
-/-- Groupoid-valued moduli problems over `Ell/R`. -/
-noncomputable def ModuliProblem (R : CommRingCat.{u}) : Type (u + 1) :=
+/-- The groupoid of elliptic curves and isomorphisms over a fixed base. -/
+abbrev EllGroupoid (S : Scheme.{u}) := Core (EllipticCurve S)
+
+/-- An object of `Ell/R`: an `R`-scheme together with an elliptic curve over it. -/
+structure EllObj (R : CommRingCat.{u}) where
+  base : Scheme.{u}
+  structureMap : base ⟶ Spec R
+  curve : EllipticCurve base
+
+/-- A cartesian pointed arrow in `Ell/R`: a morphism of `R`-schemes together with a morphism of
+total spaces making the square cartesian and carrying zero to zero. -/
+@[ext]
+structure EllHom {R : CommRingCat.{u}} (X Y : EllObj R) where
+  base : X.base ⟶ Y.base
+  over_base : base ≫ Y.structureMap = X.structureMap
+  total : X.curve.carrier ⟶ Y.curve.carrier
+  cartesian : IsPullback total X.curve.structureMap Y.curve.structureMap base
+  maps_zero : X.curve.zero ≫ total = base ≫ Y.curve.zero
+
+namespace EllHom
+
+/-- The identity arrow. -/
+@[simps]
+def id {R : CommRingCat.{u}} (X : EllObj R) : EllHom X X where
+  base := 𝟙 X.base
+  over_base := by simp
+  total := 𝟙 X.curve.carrier
+  cartesian := IsPullback.of_horiz_isIso ⟨by simp⟩
+  maps_zero := by simp
+
+/-- Composition of cartesian pointed arrows; cartesian squares paste. -/
+@[simps]
+def comp {R : CommRingCat.{u}} {X Y Z : EllObj R} (f : EllHom X Y) (g : EllHom Y Z) :
+    EllHom X Z where
+  base := f.base ≫ g.base
+  over_base := by rw [Category.assoc, g.over_base, f.over_base]
+  total := f.total ≫ g.total
+  cartesian := f.cartesian.paste_horiz g.cartesian
+  maps_zero := by simp [reassoc_of% f.maps_zero, g.maps_zero]
+
+end EllHom
+
+instance ellObjCategory (R : CommRingCat.{u}) : Category.{u} (EllObj R) where
+  Hom := EllHom
+  id := EllHom.id
+  comp := EllHom.comp
+  id_comp f := by ext <;> simp
+  comp_id f := by ext <;> simp
+  assoc f g h := by ext <;> simp
+
+/-- A cartesian isomorphism in `Ell/R`: `hom`, `inv`, and the two composition identities. -/
+abbrev EllIso {R : CommRingCat.{u}} (X Y : EllObj R) := X ≅ Y
+
+/-- A groupoid-valued moduli problem before passage to isomorphism classes. -/
+structure GroupoidValuedModuliProblem (R : CommRingCat.{u}) where
+  functor : (EllObj R)ᵒᵖ ⥤ Grpd.{u + 1, u + 1}
+
+/-- The set-valued problem used after taking isomorphism classes. The larger universe accommodates
+level structures containing scheme and group-scheme data. -/
+abbrev ModuliProblem (R : CommRingCat.{u}) := (EllObj R)ᵒᵖ ⥤ Type (u + 1)
+
+/-- Passage from a groupoid-valued problem to its isomorphism-class functor. -/
+noncomputable def GroupoidValuedModuliProblem.isomClasses {R : CommRingCat.{u}}
+    (P : GroupoidValuedModuliProblem R) : ModuliProblem R :=
   sorry
+
+/-- The trivial problem `[Γ(1)]`. -/
+def ModuliProblem.trivial (R : CommRingCat.{u}) : ModuliProblem R :=
+  (Functor.const _).obj PUnit.{u + 2}
+
+/-- The simultaneous problem `(𝒫, 𝒬)`. -/
+@[simps]
+def ModuliProblem.simul {R : CommRingCat.{u}} (P Q : ModuliProblem R) : ModuliProblem R where
+  obj X := P.obj X × Q.obj X
+  map f := TypeCat.ofHom (Prod.map (P.map f) (Q.map f))
+
+/-- The moduli problem represented by an object `X` of `Ell/R`. -/
+noncomputable def EllObj.yonedaProblem {R : CommRingCat.{u}} (X : EllObj R) :
+    ModuliProblem R :=
+  yoneda.obj X ⋙ uliftFunctor.{u + 1}
+
+/-- Base change of the universal curve of `X` along `T ⟶ X.base`, as a functor
+`Over X.base ⥤ Ell/R`. On objects it is the base change of Layer 1A; the arrows are its cartesian
+squares. -/
+noncomputable def EllObj.baseChangeFunctor {R : CommRingCat.{u}} (X : EllObj R) :
+    Over X.base ⥤ EllObj R where
+  obj T := ⟨T.left, T.hom ≫ X.structureMap, X.curve.baseChange T.hom⟩
+  map _ := sorry
+  map_id := sorry
+  map_comp := sorry
 
 namespace ModuliProblem
 
-/-- The isomorphism-class presheaf associated to a groupoid-valued moduli problem. -/
-noncomputable def isomClasses {R : CommRingCat.{u}} (P : ModuliProblem R)
-    (T : Over (Spec R)) : Type (u + 1) :=
+/-- The functor `T ↦ 𝒫(E_T)` on schemes over the base of `X`. -/
+noncomputable def fibre {R : CommRingCat.{u}} (P : ModuliProblem R) (X : EllObj R) :
+    (Over X.base)ᵒᵖ ⥤ Type (u + 1) :=
+  X.baseChangeFunctor.op ⋙ P
+
+/-- Relative-representability data (KM 4.2): for every `X = (E/S)`, a scheme `𝒫_{E/S}` over `S`
+representing `T ↦ 𝒫(E_T)`. -/
+structure RelRepData {R : CommRingCat.{u}} (P : ModuliProblem R) where
+  rep : ∀ X : EllObj R, Over X.base
+  representableBy : ∀ X : EllObj R, (P.fibre X).RepresentableBy (rep X)
+
+/-- A relatively representable problem is affine, finite, flat, or étale over `Ell/R` when every
+representing morphism has the corresponding property. -/
+def RelRepData.HasProperty {R : CommRingCat.{u}} {P : ModuliProblem R} (D : P.RelRepData)
+    (Q : MorphismProperty Scheme.{u}) : Prop :=
+  ∀ X : EllObj R, Q (D.rep X).hom
+
+/-- KM 4.3: rigidity means that an automorphism of `E/S` fixing a level structure is trivial. -/
+def IsRigid {R : CommRingCat.{u}} (P : ModuliProblem R) : Prop :=
+  ∀ (X : EllObj R) (σ : X ≅ X), σ.hom.base = 𝟙 X.base →
+    ∀ α : P.obj (Opposite.op X), P.map σ.hom.op α = α → σ = Iso.refl X
+
+/-- Representability of `𝒫` by an object of `Ell/R`: KM's `(E_univ / 𝕄(𝒫))`. -/
+structure RepresentedBy {R : CommRingCat.{u}} (P : ModuliProblem R) (X : EllObj R) where
+  univ : P.obj (Opposite.op X)
+  bijective : ∀ Y : EllObj R, Function.Bijective fun f : Y ⟶ X ↦ P.map f.op univ
+
+/-- KM 4.7.0, proved in Layer 4C by the Legendre and level-three rigidifiers and the finite étale
+equivalence-relation quotient of Layer 0C: a relatively representable, affine, rigid moduli
+problem is representable. -/
+theorem exists_representedBy_of_isRigid {R : CommRingCat.{u}} (P : ModuliProblem R)
+    (D : P.RelRepData) (hD : D.HasProperty @IsAffineHom) (hP : P.IsRigid) :
+    ∃ X : EllObj R, Nonempty (P.RepresentedBy X) :=
   sorry
 
-/-- Data exhibiting a quotient in the sense of KM 7.1, including Q1 and the rigidified scheme
-quotient condition Q2. It is not the objectwise orbit presheaf. -/
-noncomputable def QuotientData {R : CommRingCat.{u}} (P : ModuliProblem R)
-    (H : Type u) [Finite H] [Group H] : Type (u + 1) :=
+/-- The morphism of representing schemes induced by a morphism of problems, through Yoneda. -/
+noncomputable def RelRepData.mapRep {R : CommRingCat.{u}} {P P' : ModuliProblem R}
+    (D : P.RelRepData) (D' : P'.RelRepData) (q : P ⟶ P') (X : EllObj R) :
+    D.rep X ⟶ D'.rep X :=
+  ((D'.representableBy X).homEquiv (X := D.rep X)).symm
+    (q.app _ ((D.representableBy X).homEquiv (𝟙 (D.rep X))))
+
+/-- The action of `H` on the representing scheme `𝒫_{E/S}` induced by an action on `𝒫`,
+transported through Yoneda. -/
+noncomputable def RelRepData.schemeAction {R : CommRingCat.{u}} {P : ModuliProblem R}
+    (D : P.RelRepData) {H : Type u} [Group H] (act : H →* Aut P) (X : EllObj R) :
+    H →* Aut (D.rep X) :=
   sorry
 
-noncomputable def QuotientData.quotient {R : CommRingCat.{u}} {P : ModuliProblem R}
-    {H : Type u} [Finite H] [Group H] (Q : QuotientData P H) : ModuliProblem R :=
-  sorry
+/-- KM 4.12, in the corrected reading of the Notes Added in Proof: for every representable étale
+rigidifier the simultaneous scheme is regular and every nonempty open has dimension two. -/
+def RelRepData.IsRegularOfDimTwo {R : CommRingCat.{u}} {P : ModuliProblem R}
+    (D : P.RelRepData) (rigidifiers : Set (EllObj R)) : Prop :=
+  ∀ X ∈ rigidifiers,
+    (∀ x : (D.rep X).left, IsRegularLocalRing ((D.rep X).left.presheaf.stalk x)) ∧
+      ∀ U : (D.rep X).left.Opens, Nonempty U → topologicalKrullDim U = 2
 
 end ModuliProblem
 
-/-! ## Chapter 5 and Chapter 6 interfaces -/
+/-- KM 4.6: a representable rigidifier `δ`, given by its universal object, whose represented
+problem is relatively representable by étale schemes over `Ell/R`. -/
+structure EtaleRigidifier (R : CommRingCat.{u}) where
+  obj : EllObj R
+  relRep : obj.yonedaProblem.RelRepData
+  etale : relRep.HasProperty @Etale
 
-/-- The four Katz–Mazur regularity axioms, bundled with the nonemptiness and prime hypotheses
-required by the Axiomatic Regularity Theorem. -/
-noncomputable def RegularityAxioms (P : ModuliProblem (CommRingCat.of ℤ)) (p : ℕ)
-    [Fact p.Prime] :
-    Type (u + 1) :=
+/-- The universal objects of the representable étale rigidifiers over `R`. -/
+def EtaleRigidifier.objects (R : CommRingCat.{u}) : Set (EllObj R) :=
+  Set.range fun δ : EtaleRigidifier R ↦ δ.obj
+
+/-- `q` is the categorical quotient of `X` by the action `ρ` in the category of schemes; for the
+affine actions of Chapter 7 this is the invariant-ring quotient of Layer 0C. -/
+def IsCategoricalQuotient {S : Scheme.{u}} {X Y : Over S} {H : Type v} [Group H]
+    (ρ : H →* Aut X) (q : X ⟶ Y) : Prop :=
+  (∀ h : H, (ρ h).hom ≫ q = q) ∧
+    ∀ (Z : Scheme.{u}) (g : X.left ⟶ Z), (∀ h : H, (ρ h).hom.left ≫ g = g) →
+      ∃! g' : Y.left ⟶ Z, q.left ≫ g' = g
+
+/-- Data exhibiting `𝒫' = 𝒫/H` in the sense of KM 7.1.2: an `H`-invariant morphism `q`
+(Q1: `H` acts trivially on `𝒫'`) such that, for every representable étale rigidifier `δ`, the
+scheme quotient `𝕄(δ,𝒫)/H` exists and `q` identifies it with `𝕄(δ,𝒫')` (Q2). The categorical
+universal property is a conclusion of KM 7.1.3, not part of the definition. -/
+structure KatzMazurQuotientData {R : CommRingCat.{u}} (P P' : ModuliProblem R) (H : Type u)
+    [Group H] [Finite H] where
+  q : P ⟶ P'
+  act : H →* Aut P
+  relRep : P.RelRepData
+  relRep' : P'.RelRepData
+  q1 : ∀ h : H, (act h).hom ≫ q = q
+  q2 : ∀ δ : EtaleRigidifier R,
+    IsCategoricalQuotient (relRep.schemeAction act δ.obj) (relRep.mapRep relRep' q δ.obj)
+
+namespace KatzMazurQuotientData
+
+variable {R : CommRingCat.{u}} {P P' : ModuliProblem R} {H : Type u} [Group H] [Finite H]
+
+/-- KM 7.1.3, existence: an affine relatively representable problem with a finite group action
+has a Katz–Mazur quotient. -/
+theorem exists_of_hasProperty_affine (D : P.RelRepData) (hD : D.HasProperty @IsAffineHom)
+    (act : H →* Aut P) :
+    ∃ (P' : ModuliProblem R) (Q : KatzMazurQuotientData P P' H), Q.act = act ∧ Q.relRep = D :=
   sorry
 
-/-- The universal deformation of an elliptic curve over an algebraically closed field of
-characteristic `p`. -/
-noncomputable def UniversalEllipticDeformation {k : Type u} [Field k] [IsAlgClosed k]
-    (p : ℕ) [Fact p.Prime] [CharP k p]
-    (E : EllipticCurve (Spec (CommRingCat.of k))) : Type (u + 1) :=
+/-- KM 7.1.3(1): the quotient of an affine problem is affine over `Ell/R`. -/
+theorem hasProperty_affine (Q : KatzMazurQuotientData P P' H)
+    (hP : Q.relRep.HasProperty @IsAffineHom) : Q.relRep'.HasProperty @IsAffineHom :=
   sorry
 
-/-- The Barsotti–Tate group `E[p∞]`. -/
-noncomputable def EllipticCurve.pDivisibleGroup {S : Scheme.{u}} (E : EllipticCurve S) (p : ℕ)
-    [Fact p.Prime] :
-    Type (u + 1) :=
+/-- KM 7.1.3(1), the universal property: an `H`-invariant morphism to a relatively representable
+problem factors uniquely through the quotient. -/
+theorem existsUnique_desc (Q : KatzMazurQuotientData P P' H)
+    (hP : Q.relRep.HasProperty @IsAffineHom) (P'' : ModuliProblem R) (D'' : P''.RelRepData)
+    (g : P ⟶ P'') (hg : ∀ h : H, (Q.act h).hom ≫ g = g) :
+    ∃! g' : P' ⟶ P'', Q.q ≫ g' = g :=
   sorry
 
-/-- The groupoid of marked deformations of `E` over complete local noetherian `W(k)`-algebras. -/
-noncomputable def EllipticDeformationGroupoid {k : Type u} [Field k] [IsAlgClosed k]
-    (p : ℕ) [Fact p.Prime] [CharP k p]
-    (E : EllipticCurve (Spec (CommRingCat.of k))) : Type (u + 1) :=
+/-- KM 7.1.3(3), the invertible-order case: `(𝒫_{E/S})/H ≅ (𝒫/H)_{E/S}` when `|H|` is invertible
+on `S`. The same conclusion holds when `𝒫_{E/S} ⟶ S` is flat or when the action is free. -/
+theorem isCategoricalQuotient_of_isUnit_card (Q : KatzMazurQuotientData P P' H)
+    (hP : Q.relRep.HasProperty @IsAffineHom) (X : EllObj R)
+    (hH : IsUnit ((Nat.card H : ℕ) : Γ(X.base, ⊤))) :
+    IsCategoricalQuotient (Q.relRep.schemeAction Q.act X) (Q.relRep.mapRep Q.relRep' Q.q X) :=
   sorry
 
-noncomputable instance ellipticDeformationGroupoidGroupoid {k : Type u} [Field k] [IsAlgClosed k]
-    (p : ℕ) [Fact p.Prime] [CharP k p]
-    (E : EllipticCurve (Spec (CommRingCat.of k))) :
-    Groupoid (EllipticDeformationGroupoid p E) :=
+/-- KM 7.1.3(4): the projection `𝒫 ⟶ 𝒫/H` is finite. -/
+theorem isFinite_mapRep (Q : KatzMazurQuotientData P P' H)
+    (hP : Q.relRep.HasProperty @IsAffineHom) (X : EllObj R) :
+    IsFinite (Q.relRep.mapRep Q.relRep' Q.q X).left :=
   sorry
 
-/-- The groupoid of marked deformations of the Barsotti–Tate group `E[p∞]`. -/
-noncomputable def PDivisibleDeformationGroupoid {k : Type u} [Field k] [IsAlgClosed k]
-    (p : ℕ) [Fact p.Prime] [CharP k p]
-    (E : EllipticCurve (Spec (CommRingCat.of k))) : Type (u + 1) :=
+/-- KM 7.1.3(6): if `R` is noetherian and `𝒫` is finite over `Ell/R`, so is `𝒫/H`. -/
+theorem hasProperty_finite (Q : KatzMazurQuotientData P P' H) [IsNoetherianRing R]
+    (hP : Q.relRep.HasProperty @IsFinite) : Q.relRep'.HasProperty @IsFinite :=
   sorry
 
-noncomputable instance pDivisibleDeformationGroupoidGroupoid {k : Type u} [Field k]
-    [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [CharP k p]
-    (E : EllipticCurve (Spec (CommRingCat.of k))) :
-    Groupoid (PDivisibleDeformationGroupoid p E) :=
+end KatzMazurQuotientData
+
+/-! ## Chapter 5: the regularity axioms and the Axiomatic Regularity Theorem -/
+
+/-- An isomorphism of `p`-divisible groups `E[p^∞] ≅ E'[p^∞]`: a compatible system of
+isomorphisms `E[pⁿ] ≅ E'[pⁿ]`. -/
+structure PDivisibleGroupIso {S : Scheme.{u}} (E E' : EllipticCurve S) (p : ℕ) [NeZero p] where
+  iso : ∀ n : ℕ, FiniteFlatCommGroupScheme.Iso (E.torsion (p ^ n)) (E'.torsion (p ^ n))
+  compat : ∀ n : ℕ,
+    (iso n).hom.hom ≫ (E'.torsionInclusion (p ^ n) (p ^ (n + 1)) (pow_dvd_pow p n.le_succ)).hom =
+      (E.torsionInclusion (p ^ n) (p ^ (n + 1)) (pow_dvd_pow p n.le_succ)).hom ≫
+        (iso (n + 1)).hom.hom
+
+/-- Supersingularity over a field: `E[p]` is connected. Over an algebraically closed field of
+characteristic `p` this is the usual notion. -/
+def EllipticCurve.IsSupersingular {k : Type u} [Field k] (p : ℕ) [NeZero p]
+    (E : EllipticCurve (Spec (CommRingCat.of k))) : Prop :=
+  ConnectedSpace (E.torsion p).carrier
+
+/-- An Artinian local `W(k)`-algebra with residue field identified with `k`: a test object for the
+formal deformation functor of Layer 7D. -/
+structure ArtinianTestAlgebra (p : ℕ) [Fact p.Prime] (k : Type u) [CommRing k] where
+  A : Type u
+  [commRing : CommRing A]
+  [isLocalRing : IsLocalRing A]
+  [isArtinianRing : IsArtinianRing A]
+  algebraMap : WittVector p k →+* A
+  residue : A →+* k
+  residue_surjective : Function.Surjective residue
+  ker_residue : RingHom.ker residue = IsLocalRing.maximalIdeal A
+  residue_comp_algebraMap : residue.comp algebraMap = WittVector.constantCoeff
+
+attribute [instance] ArtinianTestAlgebra.commRing ArtinianTestAlgebra.isLocalRing
+  ArtinianTestAlgebra.isArtinianRing
+
+section Deformations
+
+variable (p : ℕ) [Fact p.Prime] {k : Type u} [Field k]
+
+/-- `E₀/k` as an object of `Ell/W(k)` over the closed point of `Spec W(k)`. -/
+noncomputable def EllipticCurve.specialObj (E₀ : EllipticCurve (Spec (CommRingCat.of k))) :
+    EllObj (CommRingCat.of (WittVector p k)) :=
+  ⟨Spec (CommRingCat.of k), Spec.map (CommRingCat.ofHom WittVector.constantCoeff), E₀⟩
+
+/-- A deformation of `E₀` over an Artinian test algebra: a curve over `Spec A` together with a
+cartesian identification of its special fibre with `E₀`. -/
+structure Deformation (E₀ : EllipticCurve (Spec (CommRingCat.of k)))
+    (T : ArtinianTestAlgebra p k) where
+  curve : EllipticCurve (Spec (CommRingCat.of T.A))
+  ident : EllHom (E₀.specialObj p)
+    ⟨Spec (CommRingCat.of T.A), Spec.map (CommRingCat.ofHom T.algebraMap), curve⟩
+  ident_base : ident.base = Spec.map (CommRingCat.ofHom T.residue)
+
+/-- The universal object of a deformation over `Spec W(k)[[T]]`. -/
+noncomputable def universalDeformationObj
+    (E : EllipticCurve (Spec (CommRingCat.of (PowerSeries (WittVector p k))))) :
+    EllObj (CommRingCat.of (WittVector p k)) :=
+  ⟨Spec (CommRingCat.of (PowerSeries (WittVector p k))),
+    Spec.map (CommRingCat.ofHom (algebraMap (WittVector p k) (PowerSeries (WittVector p k)))), E⟩
+
+/-- The universal formal deformation of `E₀` over `W(k)[[T]]` (Layer 7D): a family with special
+fibre `E₀` such that every deformation over an Artinian test algebra is pulled back from it along
+a unique local `W(k)`-algebra map, compatibly with the identifications of special fibres. -/
+structure UniversalDeformation (E₀ : EllipticCurve (Spec (CommRingCat.of k))) where
+  family : EllipticCurve (Spec (CommRingCat.of (PowerSeries (WittVector p k))))
+  ident : EllHom (E₀.specialObj p) (universalDeformationObj p family)
+  ident_base : ident.base =
+    Spec.map (CommRingCat.ofHom (WittVector.constantCoeff.comp PowerSeries.constantCoeff))
+  universal : ∀ (T : ArtinianTestAlgebra p k) (D : Deformation p E₀ T),
+    ∃! ψ : PowerSeries (WittVector p k) →+* T.A,
+      ψ.comp (algebraMap (WittVector p k) (PowerSeries (WittVector p k))) = T.algebraMap ∧
+        T.residue.comp ψ = WittVector.constantCoeff.comp PowerSeries.constantCoeff ∧
+          ∃ e : EllHom ⟨Spec (CommRingCat.of T.A), Spec.map (CommRingCat.ofHom T.algebraMap),
+              D.curve⟩ (universalDeformationObj p family),
+            e.base = Spec.map (CommRingCat.ofHom ψ) ∧ D.ident.comp e = ident
+
+end Deformations
+
+/-- The ring `ℤ` at universe `u`, the coefficient ring of `Ell/ℤ`. -/
+abbrev intRing : CommRingCat.{u} := CommRingCat.of (ULift.{u} ℤ)
+
+/-- An elliptic curve over an arbitrary scheme as an object of `Ell/ℤ`. -/
+noncomputable def EllObj.ofCurve {S : Scheme.{u}} (E : EllipticCurve S) :
+    EllObj (intRing.{u}) :=
+  ⟨S, specULiftZIsTerminal.from S, E⟩
+
+/-- KM 5.1.1's axioms Reg. 1–Reg. 4 for a moduli problem over `Ell/ℤ` at a prime `p`, stated on
+chosen relative-representability data. -/
+structure RegularityAxioms {P : ModuliProblem (intRing.{u})} (D : P.RelRepData) (p : ℕ)
+    [Fact p.Prime] [NeZero p] where
+  /-- Reg. 1: `𝒫` is relatively representable and finite over `Ell/ℤ`. -/
+  reg1 : D.HasProperty @IsFinite
+  /-- Reg. 2: `𝒫 ⊗ ℤ[1/p]` is finite étale over `Ell ⊗ ℤ[1/p]`. -/
+  reg2 : ∀ X : EllObj (intRing.{u}), IsUnit ((p : ℕ) : Γ(X.base, ⊤)) → Etale (D.rep X).hom
+  /-- Reg. 3: `𝒫_{E/S}` depends only on `E[p^∞]`, as an existence statement. -/
+  reg3 : ∀ (S : Scheme.{u}) (E E' : EllipticCurve S), PDivisibleGroupIso E E' p →
+    Nonempty (D.rep (EllObj.ofCurve E) ≅ D.rep (EllObj.ofCurve E'))
+  /-- Reg. 4A: over a supersingular curve over an algebraically closed field of characteristic
+  `p`, the set `𝒫(E₀/k)` has exactly one element. -/
+  reg4A : ∀ (k : Type u) [Field k] [IsAlgClosed k] [CharP k p]
+    (E₀ : EllipticCurve (Spec (CommRingCat.of k))), E₀.IsSupersingular p →
+      Nonempty (P.obj (Opposite.op (EllObj.ofCurve E₀))) ∧
+        Subsingleton (P.obj (Opposite.op (EllObj.ofCurve E₀)))
+  /-- Reg. 4B: over the universal formal deformation of such a curve, `𝒫_𝔈` is the spectrum of a
+  two-dimensional regular local ring. -/
+  reg4B : ∀ (k : Type u) [Field k] [IsAlgClosed k] [CharP k p]
+    (E₀ : EllipticCurve (Spec (CommRingCat.of k))), E₀.IsSupersingular p →
+      ∀ 𝔈 : UniversalDeformation p E₀,
+        IsAffine (D.rep (EllObj.ofCurve 𝔈.family)).left ∧
+          IsRegularLocalRing Γ((D.rep (EllObj.ofCurve 𝔈.family)).left, ⊤) ∧
+            ringKrullDim Γ((D.rep (EllObj.ofCurve 𝔈.family)).left, ⊤) = 2
+
+/-- The Axiomatic Regularity Theorem KM 5.1.1, proved in Layer 7H: Reg. 1–Reg. 4 imply that `𝒫`
+is finite flat over `Ell/ℤ` of constant positive rank and regular of dimension two. -/
+theorem axiomaticRegularity {P : ModuliProblem (intRing.{u})} {D : P.RelRepData} {p : ℕ}
+    [Fact p.Prime] [NeZero p] (_Reg : RegularityAxioms D p) :
+    D.HasProperty @Flat ∧
+      (∃ n : ℕ, 0 < n ∧ ∀ X, (D.rep X).hom.finrank = fun _ ↦ n) ∧
+        D.IsRegularOfDimTwo (EtaleRigidifier.objects _) :=
   sorry
 
-/-- The Serre–Tate equivalence for marked deformation groupoids. Structured versions for the
-three elementary level problems are separate declarations. -/
-noncomputable def serreTateEquiv {k : Type u} [Field k] [IsAlgClosed k]
-    (p : ℕ) [Fact p.Prime] [CharP k p]
-    (E : EllipticCurve (Spec (CommRingCat.of k))) :
-    EllipticDeformationGroupoid p E ≌ PDivisibleDeformationGroupoid p E :=
+/-- KM 7.5.1's hypotheses G1–G3 for a Katz–Mazur quotient at the prime `p`, on top of Reg. 1–4
+for the source. -/
+structure QuotientRegularityAxioms {P P' : ModuliProblem (intRing.{u})} {H : Type u}
+    [Group H] [Finite H] (Q : KatzMazurQuotientData P P' H) (p : ℕ) [Fact p.Prime] [NeZero p]
+    where
+  reg : RegularityAxioms Q.relRep p
+  /-- G1: after inverting `p`, the action of `H` on `𝒫` is free. -/
+  g1 : ∀ X : EllObj (intRing.{u}), IsUnit ((p : ℕ) : Γ(X.base, ⊤)) →
+    ∀ (T : Over X.base) (t : T ⟶ Q.relRep.rep X) (h : H),
+      t ≫ (Q.relRep.schemeAction Q.act X h).hom = t → h = 1
+  /-- G2: the Reg. 3 comparisons induced by isomorphisms of `p`-divisible groups can be chosen
+  `H`-equivariant. -/
+  g2 : ∀ (S : Scheme.{u}) (E E' : EllipticCurve S), PDivisibleGroupIso E E' p →
+    ∃ e : Q.relRep.rep (EllObj.ofCurve E) ≅ Q.relRep.rep (EllObj.ofCurve E'),
+      ∀ h : H, (Q.relRep.schemeAction Q.act (EllObj.ofCurve E) h).hom ≫ e.hom =
+        e.hom ≫ (Q.relRep.schemeAction Q.act (EllObj.ofCurve E') h).hom
+  /-- G3: over a supersingular universal deformation, with `𝒫_𝔈 = Spec A`, the algebra `A` is
+  generated by `|H|` elements as a module over its invariant subring `A^H`. -/
+  g3 : ∀ (k : Type u) [Field k] [IsAlgClosed k] [CharP k p]
+    (E₀ : EllipticCurve (Spec (CommRingCat.of k))), E₀.IsSupersingular p →
+      ∀ 𝔈 : UniversalDeformation p E₀,
+        ∃ s : Finset Γ((Q.relRep.rep (EllObj.ofCurve 𝔈.family)).left, ⊤),
+          s.card ≤ Nat.card H ∧
+            ∀ a : Γ((Q.relRep.rep (EllObj.ofCurve 𝔈.family)).left, ⊤),
+              ∃ c : Γ((Q.relRep.rep (EllObj.ofCurve 𝔈.family)).left, ⊤) →
+                  Γ((Q.relRep.rep (EllObj.ofCurve 𝔈.family)).left, ⊤),
+                (∀ x, ∀ h : H,
+                  (Q.relRep.schemeAction Q.act (EllObj.ofCurve 𝔈.family) h).hom.left.appTop
+                    (c x) = c x) ∧
+                  a = ∑ x ∈ s, c x * x
+
+/-- KM 7.5.1, the Axiomatic Regularity Theorem for quotients: under Reg. 1–4 and G1–G3, `𝒫/H` is
+finite flat of constant positive rank and regular of dimension two, and `𝒫 ⟶ 𝒫/H` is finite
+flat of degree `|H|`. -/
+theorem axiomaticRegularityOfQuotients {P P' : ModuliProblem (intRing.{u})} {H : Type u}
+    [Group H] [Finite H] {Q : KatzMazurQuotientData P P' H} {p : ℕ} [Fact p.Prime] [NeZero p]
+    (_QR : QuotientRegularityAxioms Q p) :
+    Q.relRep'.HasProperty @Flat ∧
+      (∃ n : ℕ, 0 < n ∧ ∀ X, (Q.relRep'.rep X).hom.finrank = fun _ ↦ n) ∧
+        Q.relRep'.IsRegularOfDimTwo (EtaleRigidifier.objects _) ∧
+          ∀ X, IsFinite (Q.relRep.mapRep Q.relRep' Q.q X).left ∧
+            Flat (Q.relRep.mapRep Q.relRep' Q.q X).left ∧
+              (Q.relRep.mapRep Q.relRep' Q.q X).left.finrank = fun _ ↦ Nat.card H :=
   sorry
+
+/-! ## Chapter 6: cyclicity, `[N-Isog]`, and `[Γ₀(N)]` -/
 
 /-- The parameter space of all degree-`N` quotient isogenies, before cyclicity is imposed. -/
 noncomputable def NIsog {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
@@ -454,13 +849,41 @@ noncomputable def NIsog {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero
 noncomputable def generatorScheme {S : Scheme.{u}} (G : FiniteFlatCommGroupScheme S) : Over S :=
   sorry
 
+/-- A rank-`N` finite locally free subgroup of `E[N]`, the hypothesis in KM 6.1.1. -/
+structure TorsionSubgroup {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] where
+  group : FiniteFlatCommGroupScheme S
+  inclusion : FiniteFlatCommGroupScheme.Hom group (E.torsion N)
+  inclusion_isClosedImmersion : IsClosedImmersion inclusion.hom.left
+  rank : group.structureMap.finrank = fun _ ↦ N
+
+/-- Katz–Mazur cyclicity: a Drinfeld generator exists after an fppf cover. -/
+def FiniteFlatCommGroupScheme.IsCyclic {S : Scheme.{u}} (G : FiniteFlatCommGroupScheme S)
+    (N : ℕ) [NeZero N] : Prop :=
+  ∃ (T : Scheme.{u}) (f : T ⟶ S),
+    Flat f ∧ Surjective f ∧ LocallyOfFinitePresentation f ∧
+      Nonempty (AGenerator (ULift.{u} (ZMod N)) (G.baseChange f))
+
+/-- KM 6.1.1, scoped to a rank-`N` subgroup of `E[N]`. -/
+theorem cyclic_iff_generatorScheme_finiteFlat_rank {S : Scheme.{u}} (E : EllipticCurve S)
+    (N : ℕ) [NeZero N] (G : TorsionSubgroup E N) :
+    G.group.IsCyclic N ↔
+      IsFinite (generatorScheme G.group).hom ∧ Flat (generatorScheme G.group).hom ∧
+        (generatorScheme G.group).hom.finrank = fun _ ↦ Nat.totient N :=
+  sorry
+
+/-- KM 6.5.1: the elliptic `[N-Isog]` parameter is finite, although the generic subgroup
+Grassmannian need not be. -/
+theorem isFinite_nIsog {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
+    IsFinite (NIsog E N).hom :=
+  sorry
+
 /-- The cyclicity locus as an object over `[N-Isog]`, constructed only after KM Chapters 5–6. -/
 noncomputable def cyclicityLocus {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
     Over (NIsog E N).left :=
   sorry
 
 /-- The cyclicity locus is a closed subscheme of `[N-Isog]`. -/
-theorem cyclicityLocus_isClosedImmersion {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ)
+theorem isClosedImmersion_cyclicityLocus {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ)
     [NeZero N] : IsClosedImmersion (cyclicityLocus E N).hom :=
   sorry
 
@@ -470,32 +893,136 @@ noncomputable def GammaZero {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [Ne
     Over S :=
   sorry
 
+/-- The finite part of the First Main Theorem for `[Γ₀(N)]`. -/
+theorem isFinite_gammaZero {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
+    IsFinite (GammaZero E N).hom :=
+  sorry
+
+/-- The flat part of the First Main Theorem for `[Γ₀(N)]`. -/
+theorem flat_gammaZero {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
+    Flat (GammaZero E N).hom :=
+  sorry
+
+/-- The exact degree `N ∏_{p∣N}(1+1/p)`, written integrally. -/
+def gammaZeroDegree (N : ℕ) : ℕ :=
+  N * N.primeFactors.prod (fun p ↦ p + 1) / N.primeFactors.prod (fun p ↦ p)
+
+/-- The exact-rank part of the First Main Theorem for `[Γ₀(N)]`. -/
+theorem finrank_gammaZero {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
+    (GammaZero E N).hom.finrank = fun _ ↦ gammaZeroDegree N :=
+  sorry
+
+/-- The moduli problem `[Γ₀(N)]` over `Ell/ℤ`, with `GammaZero` as its relative representing
+schemes (KM 6.6.1, Layer 8D). -/
+noncomputable def gammaZeroProblem (N : ℕ) [NeZero N] : ModuliProblem (intRing.{u}) :=
+  sorry
+
+/-- The relative-representability data of `[Γ₀(N)]`. -/
+noncomputable def gammaZeroRelRep (N : ℕ) [NeZero N] : (gammaZeroProblem N).RelRepData :=
+  sorry
+
+theorem gammaZeroRelRep_rep (N : ℕ) [NeZero N] (X : EllObj (intRing.{u})) :
+    (gammaZeroRelRep N).rep X = GammaZero X.curve N :=
+  sorry
+
+/-- The `[Γ₀(N)]` clause of the First Main Theorem, KM 5.1.1 with KM 6.6.1: finite flat of rank
+`N ∏_{p∣N}(1+1/p)`, regular of dimension two, and finite étale after inverting `N`. -/
+theorem firstMainTheorem_gammaZero (N : ℕ) [NeZero N] :
+    (gammaZeroRelRep N).HasProperty @IsFinite ∧ (gammaZeroRelRep N).HasProperty @Flat ∧
+      (∀ X, ((gammaZeroRelRep N).rep X).hom.finrank = fun _ ↦ gammaZeroDegree N) ∧
+        (gammaZeroRelRep N).IsRegularOfDimTwo (EtaleRigidifier.objects _) ∧
+          ∀ X : EllObj (intRing.{u}), IsUnit ((N : ℕ) : Γ(X.base, ⊤)) →
+            Etale ((gammaZeroRelRep N).rep X).hom :=
+  sorry
+
+/-! ## Chapter 8: coarse moduli schemes -/
+
+/-- Coarse-moduli data for a moduli problem (KM 8.1.1–8.1.3.1): a scheme `M(𝒫)` over `R`, natural
+classifying maps `S ⟶ M(𝒫)` for objects of `𝒫`, the universal property among such families of
+maps to schemes, and the bijection on isomorphism classes over algebraically closed fields. -/
+structure CoarseModuliData {R : CommRingCat.{u}} (P : ModuliProblem R) where
+  M : Scheme.{u}
+  structureMap : M ⟶ Spec R
+  classify : ∀ X : EllObj R, P.obj (Opposite.op X) → (X.base ⟶ M)
+  classify_over : ∀ X α, classify X α ≫ structureMap = X.structureMap
+  classify_natural : ∀ {X Y : EllObj R} (f : X ⟶ Y) (α : P.obj (Opposite.op Y)),
+    classify X (P.map f.op α) = f.base ≫ classify Y α
+  universal : ∀ (Z : Scheme.{u}) (g : ∀ X : EllObj R, P.obj (Opposite.op X) → (X.base ⟶ Z)),
+    (∀ {X Y : EllObj R} (f : X ⟶ Y) (α : P.obj (Opposite.op Y)),
+      g X (P.map f.op α) = f.base ≫ g Y α) →
+      ∃! φ : M ⟶ Z, ∀ X α, classify X α ≫ φ = g X α
+  surjective_algClosed : ∀ (k : Type u) [Field k] [IsAlgClosed k]
+    (t : Spec (CommRingCat.of k) ⟶ M),
+    ∃ (s : Spec (CommRingCat.of k) ⟶ Spec R) (E : EllipticCurve (Spec (CommRingCat.of k)))
+      (α : P.obj (Opposite.op ⟨_, s, E⟩)), classify ⟨_, s, E⟩ α = t
+  injective_algClosed : ∀ (k : Type u) [Field k] [IsAlgClosed k]
+    (s : Spec (CommRingCat.of k) ⟶ Spec R) (E E' : EllipticCurve (Spec (CommRingCat.of k)))
+    (α : P.obj (Opposite.op ⟨_, s, E⟩)) (α' : P.obj (Opposite.op ⟨_, s, E'⟩)),
+    classify ⟨_, s, E⟩ α = classify ⟨_, s, E'⟩ α' →
+      ∃ σ : (⟨_, s, E⟩ : EllObj R) ≅ ⟨_, s, E'⟩, σ.hom.base = 𝟙 _ ∧ P.map σ.hom.op α' = α
+
+/-- KM 8.1.1: an affine relatively representable problem has a coarse moduli scheme, constructed
+Zariski-locally on `R` from a representable finite étale Galois rigidifier and glued. -/
+theorem exists_coarseModuliData {R : CommRingCat.{u}} (P : ModuliProblem R) (D : P.RelRepData)
+    (hD : D.HasProperty @IsAffineHom) : Nonempty (CoarseModuliData P) :=
+  sorry
+
+/-- KM 8.1.5: `M(𝒫)/H ≅ M(𝒫/H)`. The action of `H` on `M(𝒫)` is the one induced by the
+universal property, and the comparison is compatible with classifying maps. -/
+theorem coarseModuli_quotient {R : CommRingCat.{u}} {P P' : ModuliProblem R} {H : Type u}
+    [Group H] [Finite H] (Q : KatzMazurQuotientData P P' H)
+    (hP : Q.relRep.HasProperty @IsAffineHom) (M : CoarseModuliData P) (M' : CoarseModuliData P') :
+    ∃ (ρ : H →* Aut (Over.mk M.structureMap)) (q : Over.mk M.structureMap ⟶ Over.mk M'.structureMap),
+      (∀ (h : H) X α, M.classify X α ≫ (ρ h).hom.left = M.classify X ((Q.act h).hom.app _ α)) ∧
+        (∀ X α, M.classify X α ≫ q.left = M'.classify X (Q.q.app _ α)) ∧
+          IsCategoricalQuotient ρ q :=
+  sorry
+
+/-- KM 8.2.1, proved in Layer 9E by the level-three and Legendre computations: the coarse moduli
+scheme of `[Γ(1)]` over `R` is the `j`-line `Spec R[j]`, compatibly with the `j`-invariant. -/
+theorem coarseJLine (R : CommRingCat.{u}) :
+    ∃ (M : CoarseModuliData (ModuliProblem.trivial R))
+      (e : M.M ≅ Spec (CommRingCat.of (Polynomial R))),
+      e.hom ≫ Spec.map (CommRingCat.ofHom Polynomial.C) = M.structureMap ∧
+        ∀ (X : EllObj R) (α : (ModuliProblem.trivial R).obj (Opposite.op X)),
+          M.classify X α ≫ e.hom ≫
+              Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom
+                ((Int.castRingHom R).comp ULift.ringEquiv.toRingHom))) =
+            X.curve.jMap :=
+  sorry
+
 /-!
-## Interfaces still awaiting concrete supplier types
+## Interfaces awaiting their prerequisite carriers
 
-The opaque carriers above must be replaced by their mathematical structures, not retained as a
-parallel public vocabulary. The next signatures to make concrete are:
+The structures above expose the present variance and group-scheme choices. The following
+declarations are intentionally left to the point at which their genuine carriers exist; the exact
+mathematical contracts are in the README and are not represented here by opaque `Type` aliases or
+vacuous proposition fields:
 
-1. the pointed local-Weierstrass atlas inside `EllipticCurveGeom`, the chartwise group law, and the
-   explicit low-degree cohomology and base-change theorems for `𝒪_E(n[0])`;
+1. the chartwise group law and the explicit low-degree and positive-degree cohomology and
+   base-change theorems built on the pointed atlas carrier above;
 2. the universal properties of incidence and equality loci, proper relative divisor implies finite
    locally free, and the subgroup-divisor criterion;
-3. functorial Cartier duality, elliptic quotients, the relative Poincaré line bundle using the
-   shared invertible-sheaf carrier, elliptic autoduality, both dual composition identities, the
-   Cartier–Nishi pairing, alternation, scheme-theoretic perfection, and change of level;
-4. exact order, its implication `[N]P=0`, cyclic subgroups, coprime product theorems for
+3. functorial Cartier duality, the norm-linearised quotient `E/C`, the relative Poincaré line
+   bundle using the shared invertible-sheaf carrier, elliptic autoduality, both dual composition
+   identities, the Cartier–Nishi pairing, alternation, scheme-theoretic perfection, and change of
+   level;
+4. the equation-level pullback by `[N]` on the Weierstrass function field and its degree `N²`,
+   which the Elliptic Curves roadmap supplies and Layer 2A transports through
+   `projModelFunctionFieldEquiv`;
+5. exact order, its implication `[N]P=0`, cyclic subgroups, coprime product theorems for
    `A`-structures, and the balanced quotient-isogeny comparison;
-5. the pseudofunctorial fields of `ModuliProblem` and the Q1/Q2 fields of `QuotientData`, including
-   quantification over every representable étale rigidifier;
-6. `Y₁(N)` with its visible `N≥4` hypothesis, `Y_full(N)` and `Y(ρ)` with their visible `N≥3`
+6. the arrows of `EllObj.baseChangeFunctor`, the Yoneda transport in
+   `RelRepData.schemeAction`, KM 7.1.3(2) and (5), the scalar-extension comparison of
+   Remark 7.1.4, and all seven standard quotient isomorphisms of KM 7.4.2 by normalisation;
+7. `Y₁(N)` with its visible `N≥4` hypothesis, `Y_full(N)` and `Y(ρ)` with their visible `N≥3`
    hypotheses, the determinant map and fixed-pairing fibres, and the frame-torsor construction;
-7. the fields of `RegularityAxioms`, the Axiomatic Regularity Theorem, universal deformations,
-   `p`-divisible groups, Serre–Tate theory, and the three prime-power calculations;
-8. the generator-scheme rank criterion, the Axiomatic Isomorphism Theorem, the cyclicity locus,
-   and only then the representing scheme for `[Γ₀(N)]`;
-9. Katz–Mazur quotient problems, their comparison with fppf sheaf quotients of naive problems after
-   inverting `N`, and the separate coarse-moduli construction through a finite étale Galois
-   rigidifier.
+8. Barsotti–Tate groups beyond the torsion-tower presentation of `PDivisibleGroupIso`, Serre–Tate
+   theory, the three prime-power calculations, and the verification of Reg. 1–Reg. 4 and G1–G3
+   for the standard problems;
+9. the Axiomatic Isomorphism Theorem, the universal property of the cyclicity locus, and the
+   finite-flat rank-`φ(N)` map `[Γ₁(N)]⟶[Γ₀(N)]`;
+10. coarse base change KM 8.1.6, KM 8.2.2, and the displayed Borel-quotient chain for `Y₀(N)`.
 -/
 
 end TauCetiRoadmap.ModularCurves
