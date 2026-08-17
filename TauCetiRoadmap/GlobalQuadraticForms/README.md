@@ -779,7 +779,8 @@ fixed. Layer 7 consumes both the local-global isometry theorem and the invariant
       cohomology is introduced.
 - [ ] The `ℚ(√5)` example exercises more than one real place.
 - [ ] No code, proof organization, or project-specific statement shape is copied from an external
-      formalization without the coordination recorded in `PROVENANCE.md`.
+      formalization without the coordination recorded in the private migration and provenance
+      ledger.
 
 ## References
 
@@ -815,4 +816,5 @@ fixed. Layer 7 consumes both the local-global isometry theorem and the invariant
 - Integral Lattices consumes the rational-form classification and owns integral localizations,
   genera, and spinor genera.
 - Existing external Hasse-principle formalizations are prior art only. Revisions, licences, and
-  contact conditions are recorded in [PROVENANCE.md](PROVENANCE.md), which is non-normative.
+  contact conditions are recorded in the private migration and provenance ledger, not in the
+  normative roadmap.
