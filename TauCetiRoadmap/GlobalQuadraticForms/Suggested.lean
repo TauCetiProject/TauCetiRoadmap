@@ -20,7 +20,8 @@ This consumer uses four frozen supplier names:
 
 * `GlobalNumberFields.weakApproximation_denseRange`;
 * `NumberFieldArithmetic.isNonarchimedeanLocalField_adicCompletion`;
-* `ClassFieldTheory.cyclicHasseNorm`;
+* `ClassFieldTheory.cyclicHasseNorm` and its local-norm spelling
+  `ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere`;
 * `ClassFieldTheory.hilbertProductFormula`.
 
 The supplier roadmaps own the declarations and this file consumes them. The local quadratic-form
@@ -47,7 +48,15 @@ on the same branch. -/
 #check TauCetiRoadmap.GlobalNumberFields.weakApproximation_denseRange
 #check TauCetiRoadmap.NumberFieldArithmetic.isNonarchimedeanLocalField_adicCompletion
 #check TauCetiRoadmap.ClassFieldTheory.cyclicHasseNorm
+#check TauCetiRoadmap.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere
 #check TauCetiRoadmap.ClassFieldTheory.hilbertProductFormula
+
+example {K L : Type} [Field K] [NumberField K] [Field L] [NumberField L]
+    [Algebra K L] [Module.Finite K L] [IsGalois K L] [IsCyclic (L ≃ₐ[K] L)]
+    (x : Kˣ) :
+    (∃ y : Lˣ, Units.map (Algebra.norm K : L →* K) y = x) ↔
+      TauCetiRoadmap.ClassFieldTheory.IsLocalNormEverywhere K L x :=
+  TauCetiRoadmap.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere K L x
 
 /-! ## Layer 0: canonical localization -/
 

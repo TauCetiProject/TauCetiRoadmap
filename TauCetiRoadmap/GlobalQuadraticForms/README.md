@@ -87,10 +87,11 @@ on quadratic forms.
 
 | Consumer here | Exact supplier declaration or milestone | Contract |
 |---|---|---|
-| 4.3, 5.1 | `cyclicHasseNorm` (Layer 5.5) | For a finite cyclic extension `L/K` and `a : Kˣ`, `a` lies in the global norm group exactly when it lies in the norm group at every place. The quadratic-extension instance is the ternary Hasse–Minkowski input. |
+| 4.3, 5.1 | `cyclicHasseNorm`, `isGlobalNorm_iff_isLocalNormEverywhere` | For a finite cyclic extension `L/K` and `a : Kˣ`, the second named theorem states directly that `a` lies in the global norm group exactly when it satisfies `IsLocalNormEverywhere`. The quadratic-extension instance is the ternary Hasse–Minkowski input. |
 | 3.3, 4.4 | `hilbertProductFormula` (Hilbert reciprocity) | The product over all places of the cohomological Kummer-cup Hilbert pairing is `1`, with the arithmetic invariant-map normalization. |
 
-The public names `cyclicHasseNorm` and `hilbertProductFormula` are part of this consumer contract.
+The public names `cyclicHasseNorm`, `isGlobalNorm_iff_isLocalNormEverywhere`, and
+`hilbertProductFormula` are part of this consumer contract.
 `hilbertProductFormula` is cohomological. The equality between that pairing and the
 norm-equation/quaternion symbol is supplied by Quadratic Form Invariants below, so the dependency
 direction remains
@@ -380,7 +381,7 @@ internal quadratic-form bridge, not a second class-field carrier.
 
 #### 4.3 The quadratic Hasse norm adapter
 
-Specialize `cyclicHasseNorm` to `K(√d)/K` and prove that its local norm condition agrees with
+Specialize `isGlobalNorm_iff_isLocalNormEverywhere` to `K(√d)/K` and prove that its local norm condition agrees with
 representation by `⟨1,-d⟩` at every finite, real, and complex place. Keep inseparable and
 characteristic-two cases out: number fields have characteristic zero.
 
