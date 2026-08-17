@@ -237,7 +237,9 @@ PC cohomological-dimension reductions.
   abelianization through local reciprocity; it does not store the equality as input data.
 - Prove the image of `localCyclotomicCharacter p K` is pro-`p` when `μ_p ⊆ K`. Therefore
   `proPKernel p G_K` lies in its kernel and the character descends to the named
-  `cyclotomicOrientation p K : G_K(p) -> ℤ_pˣ`.
+  `cyclotomicOrientation p K hmu : G_K(p) -> ℤ_pˣ`, whose roots-of-unity witness is an explicit
+  argument. No unconditional descent of the full character is exported: for odd `p` and
+  `K = ℚ_p`, its generally nontrivial mod-`p` component is a prime-to-`p` obstruction.
 - Pin the descent pointwise in `cyclotomicOrientation_mk`, prove continuity, and compute its
   closed range through `CFT.artinMap` and `CFT.cyclotomicCharacter_artinMap`.
 - Use `CFT.kummerEquiv_mixed`, the Kummer/cup compatibility and local duality to prove that the
@@ -329,7 +331,8 @@ Euler characteristic.
 - **`K=ℚ₂`.** Prove `localRootOfUnityOrder 2 ℚ_[2] = 2`, rank `3`, and the marked theorem
   `absoluteGaloisGroupProP_two_ratPadic_marked`:
   there is `e : G_{ℚ₂}(2) ≃ D₀` such that
-  `standardD0Orientation ∘ e = cyclotomicOrientation 2 ℚ_[2]`, and this character is
+  `standardD0Orientation ∘ e = cyclotomicOrientation 2 ℚ_[2] ratPadicTwo_hasPrimitiveRoot`,
+  and this character is
   surjective. By the supplier's named value theorems, the pulled-back marked generators have
   values `(-1, 1, (-3)⁻¹)`. The unmarked isomorphism is a corollary of this theorem, not a
   separate classification choice.

@@ -35,6 +35,7 @@ body:
         - HopfRinow
         - IntegralLattices
         - JacobianChallenge
+        - LocalGaloisGroups
         - ModularForms
         - Multiquadratic
         - OneParameterSemigroups

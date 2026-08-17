@@ -198,29 +198,32 @@ theorem demushkinQ_absoluteGaloisGroupProP
       = localRootOfUnityOrder p K :=
   sorry
 
-/-- The cyclotomic character descended to `G_K(p)`. -/
-noncomputable def cyclotomicOrientation :
+/-- The full cyclotomic character descended to `G_K(p)` under the roots-of-unity hypothesis
+that kills its prime-to-`p` mod-`p` component. No unconditional full orientation is exported. -/
+noncomputable def cyclotomicOrientation
+    (_hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
     absoluteGaloisGroupProP p K →* ℤ_[p]ˣ :=
   sorry
 
-theorem cyclotomicOrientation_mk (g : Field.absoluteGaloisGroup K) :
-    cyclotomicOrientation p K (QuotientGroup.mk g) = localCyclotomicCharacter p K g :=
+theorem cyclotomicOrientation_mk (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p)
+    (g : Field.absoluteGaloisGroup K) :
+    cyclotomicOrientation p K hmu (QuotientGroup.mk g) = localCyclotomicCharacter p K g :=
   sorry
 
-theorem cyclotomicOrientation_continuous :
-    Continuous (cyclotomicOrientation p K) :=
+theorem cyclotomicOrientation_continuous (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
+    Continuous (cyclotomicOrientation p K hmu) :=
   sorry
 
 theorem cyclotomicOrientation_hasPrescriptionProperty
-    (_hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
-    ProfiniteProPGroups.HasPrescriptionProperty (cyclotomicOrientation p K) :=
+    (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
+    ProfiniteProPGroups.HasPrescriptionProperty (cyclotomicOrientation p K hmu) :=
   sorry
 
 theorem demushkinCharacter_absoluteGaloisGroupProP
     (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
     ProfiniteProPGroups.demushkinCharacter
         (isDemushkin_absoluteGaloisGroupProP_of_mu p K hmu)
-      = cyclotomicOrientation p K :=
+      = cyclotomicOrientation p K hmu :=
   sorry
 
 end LocalField
@@ -251,12 +254,12 @@ theorem absoluteGaloisGroupProP_marked_of_q_ne_two
           {ProfiniteProPGroups.demushkinWordNeTwo (localRootOfUnityOrder p K)
             (Module.finrank ℚ_[p] K + 2)
             (ProfiniteProPGroups.freeProPGen p (Module.finrank ℚ_[p] K + 2))},
-      ((cyclotomicOrientation p K
+      ((cyclotomicOrientation p K hmu
           (e.symm (ProfiniteProPGroups.presentedProPGen p
             (Module.finrank ℚ_[p] K + 2) _ 1)) : ℤ_[p])
           * (1 - (localRootOfUnityOrder p K : ℤ_[p])) = 1) ∧
         ∀ i : ℕ, i ≠ 1 → i < Module.finrank ℚ_[p] K + 2 →
-          cyclotomicOrientation p K
+          cyclotomicOrientation p K hmu
             (e.symm (ProfiniteProPGroups.presentedProPGen p
               (Module.finrank ℚ_[p] K + 2) _ i)) = 1 :=
   sorry
@@ -274,14 +277,14 @@ theorem absoluteGaloisGroupProP_two_marked_of_degree_odd
         ProfiniteProPGroups.presentedProP p (Fin (Module.finrank ℚ_[p] K + 2))
           {ProfiniteProPGroups.demushkinWordTwoOdd 2 (Module.finrank ℚ_[p] K + 2)
             (ProfiniteProPGroups.freeProPGen p (Module.finrank ℚ_[p] K + 2))},
-      cyclotomicOrientation p K
+      cyclotomicOrientation p K hmu
           (e.symm (ProfiniteProPGroups.presentedProPGen p
             (Module.finrank ℚ_[p] K + 2) _ 0)) = -1 ∧
-        ((cyclotomicOrientation p K
+        ((cyclotomicOrientation p K hmu
             (e.symm (ProfiniteProPGroups.presentedProPGen p
               (Module.finrank ℚ_[p] K + 2) _ 2)) : ℤ_[p]) * (1 - 2 ^ 2) = 1) ∧
         ∀ i : ℕ, i ≠ 0 → i ≠ 2 → i < Module.finrank ℚ_[p] K + 2 →
-          cyclotomicOrientation p K
+          cyclotomicOrientation p K hmu
             (e.symm (ProfiniteProPGroups.presentedProPGen p
               (Module.finrank ℚ_[p] K + 2) _ i)) = 1 :=
   sorry
@@ -319,14 +322,19 @@ theorem localRootOfUnityOrder_two_ratPadic :
     localRootOfUnityOrder 2 ℚ_[2] = 2 :=
   sorry
 
+theorem ratPadicTwo_hasPrimitiveRoot :
+    ∃ ζ : ℚ_[2], IsPrimitiveRoot ζ 2 :=
+  sorry
+
 /-- The marked arithmetic identification. `ProfiniteProPGroups` owns `D₀` and its orientation;
 this roadmap owns the local isomorphism and its compatibility with the cyclotomic character. -/
 theorem absoluteGaloisGroupProP_two_ratPadic_marked :
     ∃ e : absoluteGaloisGroupProP 2 ℚ_[2] ≃ₜ*
         ProfiniteProPGroups.demushkinD0,
       MonoidHom.comp ProfiniteProPGroups.standardD0Orientation e.toMulEquiv.toMonoidHom
-          = cyclotomicOrientation 2 ℚ_[2] ∧
-        Function.Surjective (cyclotomicOrientation 2 ℚ_[2]) :=
+          = cyclotomicOrientation 2 ℚ_[2] ratPadicTwo_hasPrimitiveRoot ∧
+        Function.Surjective
+          (cyclotomicOrientation 2 ℚ_[2] ratPadicTwo_hasPrimitiveRoot) :=
   sorry
 
 theorem absoluteGaloisGroupProP_two_ratPadic :
