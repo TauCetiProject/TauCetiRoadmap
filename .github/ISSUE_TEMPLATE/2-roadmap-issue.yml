@@ -19,20 +19,25 @@ body:
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - ContourIntegration
+        - DGAInfinity
+        - DenseGraphLimits
         - EllipticCurves
         - Exchangeability
         - GeometricTopology
+        - GrothendieckEulerForms
         - HeegaardFloer
+        - HodgeStructures
+        - IntegralLattices
         - JacobianChallenge
         - ModularForms
         - Multiquadratic
         - OneParameterSemigroups
         - OptimalTransport
-        - OrthogonalL2Bases
         - PDE
         - ReductiveGroups
         - RepresentationTheory
         - UniversalCovers
+        - ZigzagPreprojective
     validations:
       required: true
   - type: textarea

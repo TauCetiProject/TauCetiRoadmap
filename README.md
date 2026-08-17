@@ -17,12 +17,17 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
 - [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
 - [Contour integration and the Hungerbühler–Wasem generalized residue theorem](TauCetiRoadmap/ContourIntegration/README.md)
+- [Dense graph limits and graphons](TauCetiRoadmap/DenseGraphLimits/README.md)
+- [DG and A-infinity algebras, categories, and modules](TauCetiRoadmap/DGAInfinity/README.md)
 - [Elliptic curves](TauCetiRoadmap/EllipticCurves/README.md)
 - [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
 - [Foundations of adic spaces](TauCetiRoadmap/AdicSpaces/README.md)
 - [Geodesics, the exponential map, and the Hopf-Rinow theorem](TauCetiRoadmap/HopfRinow/README.md)
 - [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
+- [Grothendieck groups, Cartan maps, and Euler forms](TauCetiRoadmap/GrothendieckEulerForms/README.md)
 - [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
+- [Hodge structures: pure, mixed, and polarized](TauCetiRoadmap/HodgeStructures/README.md)
+- [Integral lattices, discriminant forms, and overlattices](TauCetiRoadmap/IntegralLattices/README.md)
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
 - [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
 - [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
@@ -32,7 +37,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
 - [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
 - [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
-- [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](TauCetiRoadmap/OrthogonalL2Bases/README.md)
+- [Zigzag, preprojective, and Ginzburg algebras](TauCetiRoadmap/ZigzagPreprojective/README.md)
 
 ## Completed roadmaps
 
@@ -41,6 +46,7 @@ Roadmaps the maintainers have declared complete (a judgment against the roadmap'
 [`Completed/`](Completed/README.md), outside the active list above.
 
 - [Effective arithmetic bounds and geometry of numbers](Completed/EffectiveBounds/README.md)
+- [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](Completed/OrthogonalL2Bases/README.md)
 
 ## Generated status files
 
@@ -165,6 +171,12 @@ reviewers, can act on it without guessing.
   cannot yet even *state* (its Mathlib API doesn't exist) is still a `sorry`, never a `Prop`-typed
   field or a `def _ : Prop := sorry`. Both assert nothing (a `Prop` field is satisfiable by `True`;
   a `sorry` body is `sorryAx Prop`), so omit a condition you cannot state rather than name an empty one.
+
+- **Import existing Tau Ceti APIs.** This repository has Tau Ceti as a Lake dependency, so a
+  `Suggested.lean` file may import individual `TauCeti.*` modules as well as Mathlib. When an earlier
+  roadmap target is already implemented in Tau Ceti, prototype the new interface against that
+  implementation instead of restating it behind a private stand-in. Import individual modules;
+  Tau Ceti's root module intentionally re-exports nothing.
 
 - **Pin conventions.** It's essential that you decide conventions ahead of time, or implementors
   will make bad decisions.
