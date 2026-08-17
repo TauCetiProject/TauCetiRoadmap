@@ -665,8 +665,9 @@ The directing-measure theorem should expose a real API, not just an existence pr
 * **a.e.** uniqueness of `ν` **among directing measures**, i.e. among witnesses of
   `ConditionallyIIDWith` (`conditionallyIID_ae_unique`: equality of probability measures a.e.
   under the base law, tested against a determining class — not pointwise). Pin its hypotheses:
-  `[IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]`, measurable `X`, and two
-  explicit `ConditionallyIIDWith μ X ν` / `ConditionallyIIDWith μ X ν'` hypotheses, concluding
+  `[IsProbabilityMeasure μ] [MeasurableSpace.CountablyGenerated α]`, a.e.-measurable coordinates
+  `∀ i, AEMeasurable (X i) μ`, and two explicit `ConditionallyIIDWith μ X ν` /
+  `ConditionallyIIDWith μ X ν'` hypotheses, concluding
   `ν =ᵐ[μ] ν'`. Mere mixing
   representatives (witnesses of `MixedIIDWith`) are **not** a.e. unique when the mixing law is
   nondegenerate — an independent copy of `ν` is one — so no witness-level a.e.-equality
@@ -688,10 +689,45 @@ The directing-measure theorem should expose a real API, not just an existence pr
   the directing measure as a coordinate and is therefore strictly stronger than the integrated
   mixture identity for `pathLaw μ X`. It is a derived public API theorem, **not** a prerequisite
   for the v1 summit, empirical-measure convergence, or the extreme-point theorem;
-* the empirical-measure form: `(1/n) Σ_{i<n} δ_{Xᵢ}(ω) ⇒ ν(ω)` weakly in `P(α)`, tested
-  against bounded continuous functions (a milestone in its own right, bringing in the weak
-  topology on `ProbabilityMeasure α`; not a prerequisite for the base directing-measure
-  theorem);
+* **empirical tests and frequencies, without a topology on `α`:** for every bounded measurable
+  real-valued `f`, the integral of `f` against the empirical measure converges almost surely to
+  its integral against `ν(ω)`. For an indicator `𝟙_B`, this says the empirical frequency of the
+  measurable set `B` converges to `ν(ω)(B)`. More strongly, for any countable family
+  `B : ι → Set α` of measurable sets, use one null set on which the convergence holds for every
+  `j : ι`. Expose the witness-level theorems
+  `ConditionallyIIDWith.tendsto_integral_empiricalMeasure_ae` and
+  `ConditionallyIIDWith.tendsto_empiricalMeasure_apply_ae_forall` and the de Finetti corollary
+  `deFinetti_tendsto_empiricalMeasure_apply`. Do **not** ask for one null set on which convergence
+  holds for every measurable set: this is false for a nonatomic directing measure, since the
+  countable range of a sample path has empirical mass one and directing mass zero;
+* **weak empirical-measure convergence, with a chosen topology on `α`:** assume
+  `[TopologicalSpace α] [PolishSpace α] [BorelSpace α]` (and `[Nonempty α]` for the de Finetti
+  corollary), so `ProbabilityMeasure α` carries its topology of convergence in distribution, and
+  first prove the witness-level statement
+
+  ```lean
+  theorem ConditionallyIIDWith.tendsto_empiricalMeasure_ae
+      [TopologicalSpace α] [PolishSpace α] [BorelSpace α] [IsFiniteMeasure μ]
+      (h : ConditionallyIIDWith μ X ν) (hX : ∀ n, AEMeasurable (X n) μ) :
+      ∀ᵐ ω ∂μ, Tendsto (fun n ↦ empiricalMeasure (fun i ↦ X i ω) n) atTop (𝓝 (ν ω))
+  ```
+
+  and then its de Finetti wrapper
+
+  ```lean
+  theorem deFinetti_empiricalMeasure
+      [TopologicalSpace α] [PolishSpace α] [BorelSpace α] [Nonempty α]
+      [IsFiniteMeasure μ] (hX_meas : ∀ n, Measurable (X n)) (hX : Exchangeable μ X) :
+      ∃ ν : Ω → ProbabilityMeasure α, ConditionallyIIDWith μ X ν ∧
+        ∀ᵐ ω ∂μ, Tendsto (fun n ↦ empiricalMeasure (fun i ↦ X i ω) n) atTop (𝓝 (ν ω))
+  ```
+
+  Equivalently, the integrals of every bounded continuous real-valued function converge. Obtain
+  the single almost-sure set needed for weak convergence through a countable
+  convergence-determining family available on a Polish space. A bare
+  `[StandardBorelSpace α]` does not select a compatible topology and is therefore insufficient
+  for this statement. This remains a milestone in its own right and is not a prerequisite for the
+  base directing-measure theorem;
 * the mixture-of-product-measures form: `pathLaw X = ∫ p^{⊗ℕ} dπ(p)` with `π` the unique law
   of `ν` on `P(α)`;
 * the **zero-one, ergodic, and extreme interfaces** for exchangeable laws. For an exchangeable
@@ -759,6 +795,10 @@ mixedIID_of_contractable
 deFinetti_viaL2
 deFinetti_viaKoopman
 
+ConditionallyIIDWith.tendsto_integral_empiricalMeasure_ae
+ConditionallyIIDWith.tendsto_empiricalMeasure_apply_ae_forall
+deFinetti_tendsto_empiricalMeasure_apply
+ConditionallyIIDWith.tendsto_empiricalMeasure_ae
 deFinetti_empiricalMeasure
 ConditionallyIIDWith.jointPathLaw_eq_iidMixtureLaw
 deFinetti_mixture

@@ -14,6 +14,7 @@ import TauCetiRoadmap.RepresentationTheory.CompactGroups.Suggested
 import TauCetiRoadmap.RepresentationTheory.LieGroups.Suggested
 import TauCetiRoadmap.RepresentationTheory.SpinRepresentations.Suggested
 import TauCetiRoadmap.RepresentationTheory.QuiverRepresentations.Suggested
+import TauCetiRoadmap.GrothendieckEulerForms.Suggested
 import TauCetiRoadmap.Multiquadratic.Suggested
 import TauCetiRoadmap.UniversalCovers.Suggested
 import TauCetiRoadmap.JacobianChallenge.Suggested
@@ -21,12 +22,14 @@ import TauCetiRoadmap.ReductiveGroups.Suggested
 import TauCetiRoadmap.PDE.Suggested
 import TauCetiRoadmap.CombinatorialHeegaardFloer.Suggested
 import TauCetiRoadmap.HeegaardFloer.Suggested
+import TauCetiRoadmap.IntegralLattices.Suggested
 import TauCetiRoadmap.GeometricTopology.Suggested
 import TauCetiRoadmap.Exchangeability.Suggested
 import TauCetiRoadmap.ContourIntegration.Suggested
+import TauCetiRoadmap.DGAInfinity.Suggested
 import TauCetiRoadmap.ConformalMapping.Suggested
-import TauCetiRoadmap.OrthogonalL2Bases.Suggested
 import TauCetiRoadmap.OptimalTransport.Suggested
 import TauCetiRoadmap.CFSGStatement.Suggested
 import TauCetiRoadmap.HodgeStructures.Suggested
 import TauCetiRoadmap.DenseGraphLimits.Suggested
+import TauCetiRoadmap.ZigzagPreprojective.Suggested
