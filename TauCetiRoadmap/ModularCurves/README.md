@@ -248,13 +248,15 @@ and finite étale torsors — carries all three conditions, and `Suggested.lean`
 instances. For an isogeny of elliptic curves, or any `S`-morphism between schemes locally of
 finite presentation over `S`, local finite presentation is a theorem (Mathlib's cancellation
 lemma), registered as an instance. The general Katz–Mazur quotient projection `𝒫 ⟶ 𝒫/H` of
-KM 7.1.3(4) is finite but **not** in general flat or of finite presentation: for
-`R = ℤ ⋉ V` with `V` an infinite-dimensional `𝔽₂`-vector space and `A = R[ε]/(ε²)` with `C₂`
-acting by `ε ↦ -ε`, the invariant ring `A^{C₂} = R ⊕ Vε` is finitely presented over `R` and `A`
-is finite over it, but `A` is not finitely presented as an `A^{C₂}`-algebra. The projection
-carries all three conditions when the action is free (it is then an étale torsor, KM 7.1.3(2)),
-under the hypotheses of the Axiomatic Regularity Theorem for quotients (Layer 9C), or over a
-locally noetherian base.
+KM 7.1.3(4) is finite but need not be flat or locally of finite presentation. For `R = ℤ ⋉ V`,
+with `V` an infinite-dimensional `𝔽₂`-vector space, let `A = R[ε]/(ε²)` with `C₂` acting by
+`ε ↦ -ε`. Then `A` is finitely presented over `R`, its invariant ring is `B = A^{C₂} = R ⊕ Vε`,
+and `A` is finite but not finitely presented as a `B`-algebra. If the target is locally
+noetherian, finiteness does imply local finite presentation, but not flatness: over a field of
+characteristic `≠ 2`, `𝔸² ⟶ 𝔸²/{±1}` is finite and not flat at the image of the origin, whose
+fibre `k[x,y]/(x²,xy,y²)` has length `3` against generic length `2`. The projection is finite
+locally free in the free-action case (it is then an étale torsor, KM 7.1.3(2)) and under the
+hypotheses of the Axiomatic Regularity Theorem for quotients (Layer 9C).
 
 Develop the affine-group-scheme/Hopf-algebra anti-equivalence from `Group/Affine.lean` and the
 category of finite locally free commutative group schemes. Construct scheme-theoretic kernels of arbitrary homomorphisms and

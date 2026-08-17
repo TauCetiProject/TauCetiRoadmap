@@ -799,9 +799,10 @@ theorem isFinite_mapRep (Q : KatzMazurQuotientData P P' H)
 
 /-- KM 7.1.3(2), the free case: if `H` acts freely on every `𝒫(E/S)`, the projection
 `𝒫 ⟶ 𝒫/H` is an étale `H`-torsor, in particular étale and hence locally of finite presentation.
-This is the only general situation in which the projection is locally of finite presentation: for
-`R = ℤ ⋉ V` with `V` an infinite-dimensional `𝔽₂`-vector space, `A = R[ε]/(ε²)` with `ε ↦ -ε`,
-the invariant ring `R ⊕ Vε` is finite under `A` but `A` is not finitely presented over it. -/
+This is the general free-action case; the general projection of KM 7.1.3(4) is finite but need
+not be flat or locally of finite presentation (for `R = ℤ ⋉ V` with `V` an infinite-dimensional
+`𝔽₂`-vector space and `A = R[ε]/(ε²)`, `ε ↦ -ε`, the algebra `A` is finitely presented over `R`
+and finite, but not finitely presented, over its invariant ring `R ⊕ Vε`). -/
 theorem etale_mapRep_of_free (Q : KatzMazurQuotientData P P' H)
     (hP : Q.relRep.HasProperty @IsAffineHom)
     (hfree : ∀ (X : EllObj R) (α : P.obj (Opposite.op X)) (h : H),
