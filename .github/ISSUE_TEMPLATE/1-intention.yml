@@ -19,6 +19,7 @@ body:
       description: Which roadmap does this intention sit in?
       options:
         - AdicSpaces
+        - AlgebraicCurves
         - CFSGStatement
         - CombinatorialHeegaardFloer
         - ConformalMapping
@@ -42,6 +43,7 @@ body:
         - ReductiveGroups
         - Regularity
         - RepresentationTheory
+        - StandardDistributions
         - UniversalCovers
         - ZigzagPreprojective
     validations:

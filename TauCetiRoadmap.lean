@@ -31,7 +31,9 @@ import TauCetiRoadmap.DGAInfinity.Suggested
 import TauCetiRoadmap.ConformalMapping.Suggested
 import TauCetiRoadmap.OptimalTransport.Suggested
 import TauCetiRoadmap.CFSGStatement.Suggested
+import TauCetiRoadmap.StandardDistributions.Suggested
 import TauCetiRoadmap.HodgeStructures.Suggested
+import TauCetiRoadmap.AlgebraicCurves.Suggested
 import TauCetiRoadmap.DenseGraphLimits.Suggested
 import TauCetiRoadmap.Regularity.Suggested
 import TauCetiRoadmap.ZigzagPreprojective.Suggested
