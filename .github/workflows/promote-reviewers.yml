@@ -1,10 +1,11 @@
 name: promote-reviewers
 
-# Accrue reviewing rights to proven contributors automatically: when a roadmap PR merges, promote
-# its author to the `roadmap-reviewers` team once they have at least PROMOTE_THRESHOLD merged PRs in
-# this repo. A team member's approval (CODEOWNERS) plus the `build` check makes a roadmap PR
-# auto-mergeable, so this lets the reviewer pool grow itself from people who have demonstrably
-# landed roadmap work. `workflow_dispatch` runs a full sweep (backfill / catch-up).
+# Accrue reviewing rights to proven contributors automatically: when a roadmap PR merges into
+# protected `main`, promote its author to the `roadmap-reviewers` team once they have at least
+# PROMOTE_THRESHOLD PRs merged into `main`. A team member's approval (CODEOWNERS) plus the `build`
+# check makes a roadmap PR auto-mergeable, so this lets the reviewer pool grow itself from people
+# who have demonstrably landed reviewed roadmap work. `workflow_dispatch` runs a full sweep
+# (backfill / catch-up).
 #
 # Requires the tauceti-review-bot App to have the organization **Members: write** permission; the
 # repo-scoped pull-requests/contents grants are NOT enough to manage team membership. Grant it in
@@ -20,8 +21,12 @@ permissions:
 
 jobs:
   promote:
-    # On a merge event, only when the PR actually merged; always on a manual sweep.
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+    # On a merge event, only when the PR actually merged into protected `main`; always on a manual
+    # sweep. Feature-branch merges have not passed the review and build gates and must not accrue
+    # reviewing rights.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main')
     runs-on: ubuntu-latest
     steps:
       - name: Mint App token (organization Members write)
@@ -40,34 +45,35 @@ jobs:
           TEAM: roadmap-reviewers
           THRESHOLD: "2"
           REPO: ${{ github.repository }}
+          BASE: main
           EVENT: ${{ github.event_name }}
           MERGED_AUTHOR: ${{ github.event.pull_request.user.login }}
         run: |
           set -euo pipefail
 
-          # Promote $1 to the team iff they are not a bot and have >= THRESHOLD merged PRs here.
+          # Promote $1 iff they are not a bot and have >= THRESHOLD PRs merged into protected BASE.
           promote() {
             local user="$1"
             case "$user" in *"[bot]") return 0 ;; esac   # never promote a bot
             local count
-            count=$(gh pr list --repo "$REPO" --state merged --author "$user" \
+            count=$(gh pr list --repo "$REPO" --state merged --base "$BASE" --author "$user" \
               --limit 500 --json number --jq 'length')
             if [ "$count" -ge "$THRESHOLD" ]; then
               if gh api --silent -X PUT \
                   "/orgs/$ORG/teams/$TEAM/memberships/$user" -f role=member; then
-                echo "✓ $user ($count merged) → @$ORG/$TEAM"
+                echo "✓ $user ($count merged into $BASE) → @$ORG/$TEAM"
               else
                 echo "✗ could not add $user — does the App have org Members:write?" >&2
                 return 1
               fi
             else
-              echo "· $user ($count merged) below threshold $THRESHOLD"
+              echo "· $user ($count merged into $BASE) below threshold $THRESHOLD"
             fi
           }
 
           if [ "$EVENT" = "workflow_dispatch" ]; then
-            # Full sweep: every distinct author of a merged PR in this repo.
-            gh pr list --repo "$REPO" --state merged --limit 1000 --json author \
+            # Full sweep: every distinct author of a PR merged into protected BASE.
+            gh pr list --repo "$REPO" --state merged --base "$BASE" --limit 1000 --json author \
               --jq '.[].author.login' | sort -u | while read -r user; do
               [ -n "$user" ] && promote "$user"
             done
