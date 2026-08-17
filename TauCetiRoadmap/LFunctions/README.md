@@ -14,7 +14,7 @@ completions, and functional equations attached to them.
 Suggested home: `TauCeti/NumberTheory/LFunctions/`, divided into `Data/`, `Theta/`,
 `DedekindZeta/`, `Dirichlet/`, `Hecke/`, and `Grossencharacter/`.
 [`Suggested.lean`](Suggested.lean) pins the most important declaration shapes; it is not an
-exhaustive checklist. [`PROVENANCE.md`](PROVENANCE.md) is dated and non-normative.
+exhaustive checklist. Dated provenance records are maintained privately and are non-normative.
 
 ## Scope and ownership
 
