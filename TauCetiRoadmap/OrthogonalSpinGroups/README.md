@@ -154,8 +154,8 @@ Decided once here; every layer states its results against this table.
 
 ## What Mathlib already has (consume)
 
-Capability statements only. The pin, the inspection date, the upstream pull requests tracked and
-the re-check notes are in [`PROVENANCE.md`](PROVENANCE.md).
+Capability statements only. The pin, inspection date, tracked upstream pull requests, and
+re-check notes are maintained in the private migration and provenance ledger.
 
 - **Clifford algebras:** `Mathlib/LinearAlgebra/CliffordAlgebra/` (14 files) has `ι` with
   `ι_sq_scalar`, the universal property, `map` and **`equivOfIsometry`**, the only declaration
