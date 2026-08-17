@@ -3,6 +3,11 @@
 Mathlib has the material a lattice is made of. It does not have the arithmetic of
 lattices. This roadmap builds that arithmetic over `ℤ` and `ℤ_p`.
 
+The foundational carrier, duality, discriminant-form, and gluing layers are the reviewed
+interface already merged in upstream PR #200. This roadmap extends that interface; it does
+not replace it with the broader programme below. In particular there is one lattice carrier,
+one discriminant-form convention, and one overlattice correspondence throughout.
+
 Mathlib supplies:
 
 - quadratic maps over a commutative semiring, with the polar and companion calculus, which
@@ -44,10 +49,6 @@ Suggested homes, which follow Mathlib's directory conventions:
   localizations, Jordan theory, the genus and its symbols, class numbers, spinor genera,
   Nikulin's theory, the unimodular classification, the mass formula, and theta series.
 
-`PROVENANCE.md` records the Mathlib version this roadmap was checked against, the external
-work that overlaps it, and the data model of the LMFDB lattice section. That file is not
-part of the specification, and nothing in it is a prerequisite for a milestone.
-
 ## Scope
 
 In scope: the arithmetic of integral lattices over `ℤ` and `ℤ_p`, as listed in the layers
@@ -55,9 +56,9 @@ below.
 
 The direct roadmap dependencies are exactly `QuadraticFormInvariants`,
 `GlobalQuadraticForms`, `GlobalNumberFields`, `ClassFieldTheory`,
-`AdelicAlgebraicGroups`, `OrthogonalSpinGroups`, and `LFunctions`. Their field-level,
-global-form, order/class-field, adelic, spin, and analytic inputs are consumed; none is
-repackaged as a private lattice-side carrier.
+`AdelicAlgebraicGroups`, `OrthogonalSpinGroups`, `RepresentationTheory/RootSystems`, and
+`LFunctions`. Their field-level, global-form, order/class-field, adelic, spin, ADE, and
+analytic inputs are consumed; none is repackaged as a private lattice-side carrier.
 
 Out of scope, with the owner of each subject:
 
@@ -104,32 +105,38 @@ prerequisites. Every prerequisite has one of four kinds:
   gives the provisional name marked with an asterisk.
 
 No prerequisite has any other kind. A Mathlib pull request, an external repository, a
-branch, and a future Mathlib version are all excluded. `PROVENANCE.md` records such
-information, and no milestone depends on it.
+branch, and a future Mathlib version are all excluded.
 
 ## Conventions
 
 These decisions hold in every layer.
 
-**The lattice.** A lattice is a finite free `ℤ`-module with a symmetric integral bilinear
-form. The module hypotheses stay as typeclasses. The form and its symmetry are bundled:
+**The single lattice carrier.** The canonical object is the reviewed embedded carrier from
+PR #200: a full `ℤ`-submodule of a rational vector space, with a symmetric rational form
+which is integer-valued on the carrier:
 
 ```lean
-structure IntegralLatticeForm (L : Type u) [AddCommGroup L] [Module ℤ L] where
-  form : LinearMap.BilinForm ℤ L
+structure IntegralLattice (V : Type u) [AddCommGroup V] [Module ℚ V] where
+  carrier : Submodule ℤ V
+  [isLattice : carrier.IsLattice ℚ]
+  form : LinearMap.BilinForm ℚ V
   isSymm : form.IsSymm
+  integral : ∀ x ∈ carrier, ∀ y ∈ carrier, form x y ∈ (1 : Submodule ℤ ℚ)
 ```
 
-`IntegralLatticeForm` is a structure and not a class, because one module carries many
-forms. `[Module.Free ℤ L]` and `[Module.Finite ℤ L]` appear on the declarations that need
-them. The prose writes `β` for the form and `L` for the lattice. The rank is
-`Module.finrank ℤ L`. A statement assumes `β.Nondegenerate` only where that hypothesis is
-needed.
+`Submodule.IsLattice ℚ` supplies finite generation, freeness, full rational span, bases, and
+rank. An abstract finite free `ℤ`-module with an integral symmetric form is an input view,
+not a second carrier: rationalization embeds it as an `IntegralLattice`, and restriction of
+an `IntegralLattice` to its carrier recovers the abstract form. Milestone 1A proves these
+constructions inverse up to isometry and transports every invariant. The prose writes `B`
+for the rational form and `L` for the embedded lattice. Nondegeneracy and definiteness are
+predicates, never structure fields.
 
-**The bilinear form is the primary datum.** The norm of `x` is `β x x`. The roadmap never
-halves a norm without saying so. `L` is even when `2 ∣ β x x` for every `x`, and odd
-otherwise. An even symmetric `β` is `Q.polarBilin` for a unique `Q : QuadraticForm ℤ L`
-with `Q x = β x x / 2`. Milestone 0B proves this correspondence in both directions.
+**The bilinear form is the primary datum.** The norm of `x` is `B x x`. The roadmap never
+halves a norm without saying so. `L` is even when `B(x,x) ∈ 2ℤ` for every `x ∈ L`, and
+odd otherwise. Restricting `B` to the carrier gives an integral symmetric bilinear form;
+an even restriction is `Q.polarBilin` for a unique `Q : QuadraticForm ℤ L` with
+`Q x = B(x,x)/2`. Milestones 0B and 1A prove this dictionary and its transport.
 
 **Do not use the associated bilinear form over `ℤ`.** `QuadraticMap.associated` requires
 `[Invertible (2 : Module.End R N)]`, which fails for `R = N = ℤ`.
@@ -144,15 +151,17 @@ determinants are therefore equal, and not merely equal up to squares, so `det L 
 invariant. The word discriminant is reserved for the discriminant group `A_L` and the
 discriminant form `q_L`.
 
-**Signature.** `(t₊, t₋)` is `(sigPos, sigNeg)` of the real form. At the Mathlib version
-recorded in `PROVENANCE.md` these two declarations are in the root namespace, although
-their file documents them as `QuadraticForm.sigPos`. The signature index is
-`τ(L) = t₊ − t₋`.
+**Signature and degeneracy.** The signature is the reviewed triple `(t₊, t₀, t₋)` over
+`ℚ`: `t₊` and `t₋` are Mathlib's `sigPos` and `sigNeg` for `B.toQuadraticMap`, and `t₀`
+is the dimension of `LinearMap.ker B`. They sum to the rank. The abbreviation `(t₊,t₋)`
+is used only after nondegeneracy has supplied `t₀=0`; the signature index is then
+`τ(L)=t₊−t₋`. Positive/negative semidefinite and indefinite are predicates in this same
+vocabulary, so degenerate affine Cartan forms remain objects of the canonical carrier.
 
-**Definiteness.** `PosDef` is `QuadraticMap.PosDef` of
-`LinearMap.BilinMap.toQuadraticMap β`. `NegDef L` means `PosDef (L(−1))`. Definite means
-positive definite or negative definite. Indefinite means `t₊ > 0` and `t₋ > 0` under
-nondegeneracy.
+**Definiteness.** `PosDef` is `QuadraticMap.PosDef` of `B.toQuadraticMap`. `NegDef L`
+means `PosDef (L(−1))`. Definite means positive definite or negative definite.
+Indefinite means `t₊ > 0` and `t₋ > 0`; this condition itself implies nondegeneracy only
+when `t₀=0` is separately known.
 
 **Positive definite, not definite.** Sets of bounded norm, minima, shells, reduction theory
 and theta series are stated for positive definite lattices. For a negative definite form
@@ -166,20 +175,30 @@ the positive definite theory assumes `a > 0`. The orthogonal direct sum `L ⊕ M
 sum of the two forms, and its Gram matrix is the block sum. Isometry is
 `LinearMap.BilinForm.Equivalent`. A class is an isometry class over `ℤ`.
 
-**Rational ambient space and quotient types.** The ambient space is `V = ℚ ⊗ L` with
-`B = β.baseChange ℚ`. The two quotient groups are `ℚ/ℤ = AddCircle (1 : ℚ)` and
-`ℚ/2ℤ = AddCircle (2 : ℚ)`. The halving map `[r] mod 2ℤ ↦ [r/2] mod ℤ` is
-`AddCircle.equivAddCircle (2 : ℚ) (1 : ℚ)`, and `AddCircle.equivAddCircle_apply_mk`
-evaluates it. The halving map is the only place where this factor of 2 appears.
+**Rational ambient space and abstract inputs.** The ambient space `V` and its rational
+form `B` are part of `IntegralLattice`; they are not reconstructed independently in each
+layer. For an abstract integral form the dictionary uses `V = ℚ ⊗ L` and
+`B = β.baseChange ℚ`. The quotient group used by both discriminant pairings and quadratic
+forms is `ℚ/ℤ = AddCircle (1 : ℚ)`.
 
 **Dual lattice.** The dual lattice is `L^⋆ = LinearMap.BilinForm.dualSubmodule B L`.
 Integrality of `β` is the statement `L ≤ L^⋆`. The discriminant group is `A_L = L^⋆/L`.
 
 **Discriminant forms.** The discriminant bilinear form is `b_L : A_L × A_L → ℚ/ℤ`,
-`b_L(x̄, ȳ) = B(x, y) mod ℤ`. For even `L` the discriminant quadratic form is
-`q_L : A_L → ℚ/2ℤ`, `q_L(x̄) = B(x, x) mod 2ℤ`. The target `ℚ/2ℤ` is Nikulin's convention.
-A source that values `q` in `ℚ/ℤ` differs from this one by the halving map. An odd lattice
-carries `b_L` only.
+`b_L(x̄,ȳ)=B(x,y) mod ℤ`. For even `L` the canonical discriminant quadratic form uses the
+reviewed half-norm convention
+`q_L : A_L → ℚ/ℤ`, `q_L(x̄)=B(x,x)/2 mod ℤ`, so its polar is literally `b_L`.
+Nikulin's equivalent full-norm convention has values in `ℚ/2ℤ`; every cited value in that
+convention is divided by two at the boundary. No quadratic discriminant form is attached
+to an odd lattice.
+
+**Finite modules.** A finite bilinear module carries a symmetric biadditive
+`A × A → ℚ/ℤ`; a finite quadratic module extends it with a Mathlib
+`QuadraticMap ℤ A (AddCircle (1 : ℚ))` whose polar is the pairing. Nondegeneracy is a
+predicate asserting that the adjoint `A → CharacterModule A` is an additive equivalence,
+not a structure field. For `H ≤ A`, isotropic means the form vanishes on `H`, while
+Lagrangian means the stronger equality `H=H^⊥`. These reviewed carriers are also the
+carriers used by the Nikulin programme; no `ℚ/2ℤ`-valued duplicate is introduced.
 
 **Two invariants with different names.** The Gauss-sum invariant `sign q ∈ ℤ/8` of a
 nondegenerate finite quadratic form is defined by
@@ -229,8 +248,7 @@ are part of the statement of milestone 7H.
 
 ## What Mathlib supplies
 
-Each row is consumed by the milestones in the last column. `PROVENANCE.md` records the
-Mathlib version and the check.
+Each row is consumed by the milestones in the last column.
 
 | Declarations | File | Consumed by |
 | --- | --- | --- |
@@ -307,16 +325,21 @@ L-functions milestone imports a lattice-side theorem.
 
 ### Layer 0: lattices, the dictionary, and the first invariants
 
-**0A. The lattice and its predicates.** The object is `IntegralLatticeForm`, as fixed in
-the conventions. This milestone asks for:
+**0A. The lattice and its predicates.** The object is `IntegralLattice`, as fixed in the
+conventions, with a genuine `[carrier.IsLattice ℚ]` instance. This milestone asks for:
 
-- the predicates `IsEven`, `Nondegenerate`, `IsUnimodular`, which says `det L = ±1`, and
-  `PosDef`;
+- the predicates `IsEven`, `IsNondegenerate`, `IsUnimodular`, and `PosDef`, with
+  `IsUnimodular` defined by `L = L^⋆`; determinant and quotient-cardinality criteria are
+  equivalence theorems, not alternate definitions;
 - the orthogonal direct sum, the twist `L(a)`, and isometry;
 - the determinant of a direct sum is the product of the determinants, and the determinant
   of `L(a)` is `aⁿ det L`;
 - the rank is additive over direct sums;
 - the restriction of `β` to a submodule is again a lattice form.
+
+An isometry is a rational linear equivalence preserving both carrier and form. Every
+invariance theorem requires this structure; a bare additive or module equivalence is an
+explicit rejection test.
 
 **0B. The even and quadratic dictionary.** An even symmetric `β` is the polar form of a
 unique `Q : QuadraticForm ℤ L`. The polar form of any `Q` is symmetric and even, and
@@ -336,12 +359,15 @@ The comparison with the square-class invariants of the rational form is also pro
 `2𝔰 ⊆ 𝔫 ⊆ 𝔰`, and the characterization of evenness by `𝔫 ⊆ 2ℤ`. The level of a
 nondegenerate integral lattice, and its independence of the chosen basis.
 
-**0E. Definiteness and signature.** `PosDef` over `ℤ` is equivalent to `PosDef` of the real
-form, and to `Matrix.PosDef` of the real Gram matrix. Mathlib proves the real statements
-only over an `RCLike` field, so this transfer is proved here. A definite lattice is
-nondegenerate. The signature `(t₊, t₋)` of the real form satisfies `t₊ + t₋ = rank L` for
-nondegenerate `L`. Every nondegenerate lattice is positive definite, negative definite, or
-indefinite.
+**0E. Radical, definiteness, and signature.** Define the radical as `LinearMap.ker B` and
+the signature triple `(t₊,t₀,t₋)`. Prove it sums to the rank, is invariant under isometry,
+and characterizes positive/negative (semi)definiteness, degeneracy, and indefiniteness.
+Nondegeneracy is equivalent to radical `⊥`, to `t₀=0`, and to nonzero Gram determinant.
+`PosDef` over `ℤ` is equivalent to `PosDef` of the rational and real forms and to
+`Matrix.PosDef` of the real Gram matrix. Construct the carrier image in the quotient by
+the radical, prove it is a full integral nondegenerate lattice, transports evenness, and
+has signature `(t₊,0,t₋)`. This is the only route from a degenerate affine Cartan lattice
+to the later nondegenerate layers.
 
 **0F. Unimodular orthogonal splitting.** If `M ≤ L` and the restriction of `β` to `M` is
 unimodular, then `L = M ⊕ M^⊥`. Over `ℤ` the correct hypothesis is unimodularity, not
@@ -349,12 +375,17 @@ nondegeneracy. A vector of norm `±1` therefore splits off a summand `⟨±1⟩`
 over `ℤ` is false, and the failure is stated with the counterexample given in the table of
 hard theorems.
 
-**0G. The standard examples.** The examples are `⟨a⟩`, `Iₙ`, the hyperbolic plane `U` with
-Gram matrix `!![0,1;1,0]`, and the root lattices `Aₙ`, `Dₙ`, `E₆`, `E₇` and `E₈`. For each
-one the milestone asks for the rank, the determinant, the parity, the signature and the
-level. The Cartan matrices are the Gram matrices of the root lattices. The coordinate
-models `Aₙ = {x ∈ ℤ^{n+1} : ∑ x = 0}` and `Dₙ = {x ∈ ℤⁿ : ∑ x even}` are constructed, and
-the isometries with the Gram matrix models are proved.
+**0G. The standard and degeneracy examples.** The examples are `⟨a⟩`, `Iₙ`, the
+hyperbolic plane `U` with Gram matrix `!![0,1;1,0]`, and the root lattices `Aₙ`, `Dₙ`,
+`E₆`, `E₇` and `E₈`. For each one the milestone asks for rank, signed determinant,
+nonnegative discriminant, parity, signature, and level. The Cartan matrices are the Gram
+matrices of the root lattices. The coordinate models
+`Aₙ={x∈ℤ^{n+1} | ∑x=0}` and `Dₙ={x∈ℤⁿ | ∑x even}` are constructed, and isometries with
+the Gram models are proved. Three reviewed rejection tests are mandatory: `U` is even,
+unimodular, and indefinite of signature `(1,0,1)`; `⟨-2⟩` is negative definite of
+signature `(0,0,1)`; and affine `Ã₁` with Gram `!![2,-2;-2,2]` is even,
+positive-semidefinite, degenerate of signature `(1,1,0)`, with radical quotient isometric
+to `A₁=⟨2⟩`.
 
 | Milestone | Direct prerequisites |
 | --- | --- |
@@ -368,25 +399,34 @@ the isometries with the Gram matrix models are proved.
 
 ### Layer 1: dual lattices, discriminant groups, and finite quadratic forms
 
-**1A. The rational realization.** `V = ℚ ⊗ L` with `B = β.baseChange ℚ`. A lattice is the
-same thing as a full-rank submodule of a rational quadratic space, in both directions, and
-every Layer-0 invariant is transported. Integrality of `β` is `L ≤ L^⋆`.
+**1A. The abstract-form dictionary.** Starting from an abstract finite free `ℤ`-module
+with symmetric integral `β`, construct the canonical `IntegralLattice` in
+`V=ℚ⊗L` with `B=β.baseChange ℚ`. Conversely restrict the rational form of an
+`IntegralLattice` to its carrier. Prove both round trips up to the reviewed isometry type
+and transport every Layer-0 invariant. This is a dictionary around the one embedded
+carrier, not a second public lattice structure. Integrality is `L ≤ L^⋆`.
 
 **1B. The dual lattice.** `L^⋆ = B.dualSubmodule L`, with `L^{⋆⋆} = L` for symmetric
 nondegenerate `B`. Duality reverses inclusions. For `a ≠ 0`, `(L(a))^⋆ = (L^⋆)(a⁻¹)` inside
 `V`. The Gram matrix of the dual basis is `G⁻¹`, and `det L^⋆ = (det L)⁻¹` in `ℚ`. A
-lattice is unimodular exactly when `L = L^⋆`.
+lattice is unimodular exactly when `L = L^⋆`. Prove the load-bearing statements that the
+dual is a full lattice exactly when `B` is nondegenerate and that
+`dualSubmoduleToDual : L^⋆ ≃ Module.Dual ℤ L` is an equivalence. Establish double duality
+first with `B.flip`, then specialize using symmetry.
 
-**1C. The discriminant group.** `A_L = L^⋆/L` is finite of order `|det L|`, and
+**1C. The discriminant group.** `A_L` is the actual quotient of the subtype `L^⋆` by the
+inverse image of `L`, with quotient map, representatives, zero criterion, and isometry
+functoriality. It is finite exactly when `L` is nondegenerate; in that case it has order
+`|det L|`, and
 `l(A_L) ≤ rank L`. Its invariant factors come from `Submodule.quotientEquivPiZMod`. The
 pairing `A_L × A_L → ℚ/ℤ` is perfect. Mathlib states finite abelian duality for
 homomorphisms into `Mˣ`, so the comparison with the `ℚ/ℤ`-valued dual is part of this
 milestone. This discharges the two open requests in
 `Mathlib/LinearAlgebra/BilinearForm/DualLattice.lean`.
 
-**1D. The discriminant forms.** `b_L` for a nondegenerate integral lattice, and `q_L` for
-an even lattice, with values in the types fixed in the conventions. Polarization of `q_L`
-followed by the halving map gives `b_L`. Canonical isometries
+**1D. The discriminant forms.** `b_L` for a nondegenerate integral lattice, and the
+half-norm `q_L : A_L → ℚ/ℤ` for an even lattice. The polar of `q_L` is exactly `b_L`.
+Canonical isometries
 `A_{L⊕M} ≅ A_L ⊕ A_M` carrying `q_{L⊕M}` to `q_L ⊕ q_M`, and `A_{L(−1)} ≅ A_L` carrying
 `q_{L(−1)}` to `−q_L`. These are isometries of finite quadratic forms, and not equalities
 of types.
@@ -395,18 +435,23 @@ of types.
 finite index. Then `M/L ≤ A_L`, and `M` is integral exactly when `b_L` vanishes on `M/L`.
 This gives a bijection between integral overlattices and subgroups `H ≤ A_L` with
 `b_L|_{H×H} = 0`. For such an `H`, `A_M ≅ H^⊥/H` with the induced form, and
-`det M = det L / [M : L]²`.
+`det M = det L / [M : L]²`. Construct this as an order isomorphism between intermediate
+submodules and subgroups, not merely an existence theorem.
 
 **1F. Even overlattices.** Let `L` be even. Then an overlattice `M` of finite index is even
 exactly when `q_L` vanishes on `M/L`. This gives a bijection between even overlattices and
 subgroups `H` with `q_L|_H = 0`, and `A_M ≅ H^⊥/H` carries the induced `q_M`. Isotropy for
 `q_L` implies isotropy for `b_L`, so the even correspondence is a restriction of the
 integral one. The two are different: milestone 1F is the one Layer 5 uses, and the smallest
-lattice where they differ is `A₁ ⊕ A₁`.
+lattice where they differ is `A₁ ⊕ A₁`. Prove that the glued lattice is unimodular exactly
+when `H` is Lagrangian (`H=H^⊥`), and that its discriminant form is the orthogonal quotient
+`H^⊥/H`.
 
-**1G. Finite quadratic forms.** A finite quadratic form is a pair `(A, q)` where `A` is a
-finite abelian group and `q : A → ℚ/2ℤ` satisfies `q(n • a) = n² q(a)` and has biadditive
-polarization. Nondegeneracy is bijectivity of the adjoint `A → (A →+ ℚ/ℤ)`. This milestone asks for:
+**1G. Finite bilinear and quadratic modules.** Use the reviewed `FiniteBilinearModule` and
+`FiniteQuadraticModule` carriers from the conventions. Nondegeneracy is bijectivity of the
+adjoint `A → CharacterModule A`. Define `H^⊥`, isotropic and Lagrangian subgroups, and prove
+`#H·#H^⊥=#A` for a nondegenerate module. Define the orthogonal quotient `H^⊥/H`, prove its
+induced form nondegenerate, and then add:
 
 - orthogonal sums, and the `p`-primary decomposition `q = ⊕_p q_p`;
 - isometries, and the group `O(q)`;
@@ -418,8 +463,9 @@ polarization. Nondegeneracy is bijectivity of the adjoint `A → (A →+ ℚ/ℤ
 Without the relations the list of generators is not a classification. Layers 3 and 5 need
 the classification.
 
-**1H. The Gauss-sum invariant.** For nondegenerate `(A, q)`,
-`∑_{a ∈ A} e^{πi q(a)} = √#A · e^{2πi·sign(q)/8}`, which defines `sign q ∈ ℤ/8`. The
+**1H. The Gauss-sum invariant.** For nondegenerate `(A,q)` in the canonical half-norm
+convention,
+`∑_{a ∈ A} e^{2πi q(a)} = √#A · e^{2πi·sign(q)/8}`, which defines `sign q ∈ ℤ/8`. The
 invariant is additive over orthogonal sums. Its values on the generators are those of
 Nikulin Proposition 1.11.2:
 
@@ -438,6 +484,34 @@ An even unimodular lattice has `A_L = 0`, so `8 ∣ t₊ − t₋`.
 and it agrees with the definition through `N·G⁻¹`. The level divides `2·det L`, with the
 divisibility calculus that follows.
 
+**1K. Reviewed rank-one, ADE, and gluing acceptance suite.** These are calculations in the
+actual dual quotient, not table lookups. For `⟨2m⟩`, `m≠0`, prove
+`L^⋆=(1/(2m))ℤ`, `A_L≃ℤ/(2m)`, `#A_L=|2m|`, and on its generator
+`b(g,g)=1/(2m)`, `q(g)=1/(4m)` in `ℚ/ℤ`; verify the polar identity directly and both signs
+of `m`. The excluded zero form is the degenerate signature `(0,1,0)` example and has no
+finite discriminant group.
+
+Construct the positive ADE lattices from Tau Ceti's Bourbaki-numbered root data and verify
+the full finite quadratic modules below. Representatives, exhaustion of the quotient, all
+pairings needed for isometry, and nondegeneracy are required; group order alone is not.
+
+| lattice | discriminant group | checked half-norm values in `ℚ/ℤ` |
+| --- | --- | --- |
+| `A_n`, `n≥1` | `ℤ/(n+1)` | the first fundamental weight generates, `q=n/(2(n+1))` |
+| `D_n`, odd `n≥5` | `ℤ/4` | a spinor class generates, `q(s)=n/8`; `v=2s`, `q(v)=1/2` |
+| `D_n`, even `n≥4` | `(ℤ/2)²` | vector and spinor classes exhaust; `q(v)=1/2`, `q(s)=q(c)=n/8` |
+| `E₆` | `ℤ/3` | a minuscule-weight class generates, `q=2/3` |
+| `E₇` | `ℤ/2` | the minuscule-weight class generates, `q=3/4` |
+| `E₈` | trivial | self-dual and the quadratic module is trivial |
+
+Finally carry out the reviewed `D₈→E₈` route. With
+`D₈={x∈ℤ⁸ | ∑x_i even}` and `s=(1/2)∑e_i`, the class of `s` generates an order-two
+quadratic-isotropic subgroup `H≤A_{D₈}` because `q(s)=8/8=0`. Identify its preimage as
+`D₈⁺=D₈∪(s+D₈)`, prove `H=H^⊥`, and obtain evenness and unimodularity from the general
+gluing theorem. Construct an explicit basis or rational isometry whose Gram matrix is the
+positive `E₈` Cartan matrix, yielding an actual isometry `D₈⁺≅E₈`; determinant one alone is
+not an acceptable argument. Check `A_{D₈⁺}≅H^⊥/H=0` against the direct `E₈` calculation.
+
 | Milestone | Direct prerequisites |
 | --- | --- |
 | 1A | M `LinearMap.BilinForm.baseChange`, `IsSymm.baseChange`; L 0A, 0C |
@@ -450,6 +524,7 @@ divisibility calculus that follows.
 | 1H | M Gauss sums and quadratic characters; L 1G |
 | 1I | L 0E, 1D, 1H |
 | 1J | L 0D, 1D |
+| 1K | T Root Systems Layer 5 ADE bridge; L 0G, 1B to 1G |
 
 ### Layer 2: positive definite lattices, reduction, and automorphisms
 
@@ -1363,7 +1438,7 @@ for the eight items listed. The layer that introduces the object owns them.
 ### The discriminant group and its forms (1C, 1D)
 
 - **Constructors.** `A_L = L^⋆/L`; `b_L` from `B`; `q_L` from `B` when `L` is even.
-- **Examples.** `A_{E₈} = 0`; `A_{A₂} ≅ ℤ/3` with `q = 2/3`; `A_U = 0`.
+- **Examples.** `A_{E₈} = 0`; `A_{A₂} ≅ ℤ/3` with half-norm `q = 1/3`; `A_U = 0`.
 - **Morphisms.** `O(L) → O(q_L)`, whose surjectivity is 5E.
 - **Functoriality.** Sums and twists, as canonical isometries and not equalities (1D).
 - **Comparison lemmas.** `#A_L = |det L|`; `l(A_L) ≤ rank L`; the polarization of `q_L` is
@@ -1508,9 +1583,14 @@ Each example is discharged with the milestone that owns it. Each one catches a w
 factor of 2, a wrong sign, or a vacuous definition.
 
 - `⟨1⟩ = ℤ`: odd, unimodular, and `Θ_ℤ = jacobiTheta` (0G, 8C).
-- `U`: even, `det = −1`, signature `(1,1)`, level 1, `A_U = 0`, and not diagonalizable over
+- `U`: even, `det = −1`, signature `(1,0,1)`, level 1, `A_U = 0`, and not diagonalizable over
   `ℤ_2` (0G, 3D).
-- `A₂`: even, `det = 3`, level 3, and `A_{A₂} ≅ ℤ/3` with `q = 2/3` in `ℚ/2ℤ`. Its 3-adic
+- `⟨-2⟩` is negative definite of signature `(0,0,1)`; the zero rank-one form is
+  degenerate of signature `(0,1,0)` and has zero radical quotient (0G, 1K).
+- Affine `Ã₁` with Gram `!![2,-2;-2,2]` is even and positive-semidefinite of signature
+  `(1,1,0)`, and its radical quotient is `A₁=⟨2⟩` (0E, 0G).
+- `A₂`: even, `det = 3`, level 3, and `A_{A₂} ≅ ℤ/3` with half-norm
+  `q = 1/3` in `ℚ/ℤ`. Its 3-adic
   Jordan splitting has two rank-one constituents, of scales 1 and 3. Equality holds in
   Hermite's bound, and the class number is 1 (0G, 1D, 2E, 3B, 4A). Its order is `ℤ[ζ₃]`,
   with `Δ = −3` and six units, and its class is ambiguous, so `|SO(A₂)| = 6`,
@@ -1521,6 +1601,10 @@ factor of 2, a wrong sign, or a vacuous definition.
   determinant 11 and `Δ = −44`, is the same phenomenon at the smallest determinant
   (B4, B8).
 - The family `Aₙ`: `det(Aₙ) = n+1` and `A_{Aₙ} ≅ ℤ/(n+1)` (0G, 1C).
+- `D₈⁺`: the preimage of the spinor subgroup in `A_{D₈}` is proved even and unimodular
+  by the general isotropic-subgroup correspondence and Lagrangian criterion, then identified
+  with `E₈` by an explicit isometry; its trivial discriminant group is also computed as
+  `H^⊥/H` (1K).
 - `E₈`: even, unimodular, positive definite, `min = 2`, 240 minimal vectors, signature
   `(8,0)`, `sign q_{E₈} = 0`, unique in rank 8, `|O(E₈)| = 696729600`, and mass
   `1/696729600` (0G, 2B, 2C, 6C, 7H).
