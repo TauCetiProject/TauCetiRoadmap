@@ -500,12 +500,7 @@ representation landing in that group; it needs three explicit milestones per cas
   `Cliff(p, q)` as a matrix algebra over `ℝ`, `ℂ`, or `ℍ` (the eightfold way), stated as a function of
   `(q - p) mod 8` **in the convention fixed by the four base entries above** (references that make generators
   square to `+1` index by `(p - q) mod 8` instead; the base-entry tests pin which is meant). This is the real
-  refinement of Layer 1's complex structure theorem, where all forms of a rank are equivalent. This is an
-  algebraic branch from Layer 0 and the base entries above. Chevalley, *The Algebraic Theory of Spinors*,
-  II.2.1 and II.2.5, supplies the split-matrix and orthogonal-sum mechanisms; II.2.9 fixes the real
-  signature convention. Lawson–Michelsohn, *Spin Geometry*, Chapter I, §4, Theorem 4.1 and equation (4.3),
-  constructs `Cliff(r+1,s+1) ≅ Cliff(r,s) ⊗ᵣ Cliff(1,1)` directly from the Clifford universal property,
-  and Theorem 4.3 derives the periodic classification.
+  refinement of Layer 1's complex structure theorem, where all forms of a rank are equivalent.
 - **The real spin groups.** `spinPQ p q := spinGroup (realCliffordForm p q)`, the double cover of
   `SO(p, q)` from Layer 2 applied to the real form; the compact `Spin(n) = spinPQ n 0` and the split and
   Lorentzian forms `Spin(p, q)`. The real double cover of `SO(p, q)` carries the component qualifications of
@@ -665,9 +660,7 @@ identification) needs Layers 3-4 and the highest-weight theory of
 [the root-systems roadmap](../RootSystems/README.md); it is stated at the Lie-algebra level, makes "the
 fundamental representation of `Bₗ`/`Dₗ`" precise, and completes
 [the classical-groups roadmap](../ClassicalGroups/README.md). Layer 6 (the exceptional isomorphisms) needs
-Layers 4-5 for the low-rank spin modules. Layer 7 has two dependency branches: its algebraic real forms,
-Bott recurrence, and classification table use Layer 0's Clifford-algebra interfaces and the stated real base
-entries, while its real Pin and Spin group theorems use Layer 2's double cover specialized to `ℝ`. Layer 8
+Layers 4-5 for the low-rank spin modules. Layer 7’s real Clifford algebra classification uses the Clifford-algebra constructions from Layer 0 and the real base entries above. The real Pin and Spin group results use the double cover from Layer 2. Layer 8
 (triality) needs Layer 5's half-spin identification and
 [the root-systems roadmap](../RootSystems/README.md)'s `D₄` diagram automorphism, and its group-level stage a
 further integration theorem; it is the summit. A contributor can complete Layers 0-3 (the structure theory
