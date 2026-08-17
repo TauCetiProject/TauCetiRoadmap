@@ -149,6 +149,9 @@ structure FiniteFlatCommGroupScheme (S : Scheme.{u}) where
   `Scheme.Hom.finrank` locally constant. -/
   locallyOfFinitePresentation : LocallyOfFinitePresentation structureMap
 
+attribute [instance] FiniteFlatCommGroupScheme.finite FiniteFlatCommGroupScheme.flat
+  FiniteFlatCommGroupScheme.locallyOfFinitePresentation
+
 namespace FiniteFlatCommGroupScheme
 
 noncomputable abbrev toOver {S : Scheme.{u}} (G : FiniteFlatCommGroupScheme S) : Over S :=
@@ -248,6 +251,8 @@ structure EllipticCurveGeom (S : Scheme.{u}) where
   smooth : SmoothOfRelativeDimension 1 structureMap
   proper : IsProper structureMap
   localModel : Nonempty (PointedWeierstrassAtlas structureMap zero)
+
+attribute [instance] EllipticCurveGeom.smooth EllipticCurveGeom.proper
 
 namespace EllipticCurveGeom
 
@@ -412,6 +417,8 @@ structure Isogeny {S : Scheme.{u}} (E E' : EllipticCurve S)
   finite : IsFinite toHom.hom.left
   flat : Flat toHom.hom.left
   surjective : Surjective toHom.hom.left
+
+attribute [instance] Isogeny.finite Isogeny.flat Isogeny.surjective
 
 namespace Isogeny
 
@@ -702,12 +709,15 @@ noncomputable def RelRepData.schemeAction {R : CommRingCat.{u}} {P : ModuliProbl
   sorry
 
 /-- KM 4.12, in the corrected reading of the Notes Added in Proof: for every representable étale
-rigidifier the simultaneous scheme is regular and every nonempty open has dimension two. -/
+surjective rigidifier the simultaneous scheme is non-empty, regular, and every non-empty open has
+dimension two. Non-emptiness is part of the strong sense of "of dimension two"; without it the
+empty scheme would satisfy the predicate. -/
 def RelRepData.IsRegularOfDimTwo {R : CommRingCat.{u}} {P : ModuliProblem R}
     (D : P.RelRepData) (rigidifiers : Set (EllObj R)) : Prop :=
   ∀ X ∈ rigidifiers,
-    (∀ x : (D.rep X).left, IsRegularLocalRing ((D.rep X).left.presheaf.stalk x)) ∧
-      ∀ U : (D.rep X).left.Opens, Nonempty U → topologicalKrullDim U = 2
+    Nonempty (D.rep X).left ∧
+      (∀ x : (D.rep X).left, IsRegularLocalRing ((D.rep X).left.presheaf.stalk x)) ∧
+        ∀ U : (D.rep X).left.Opens, Nonempty U → topologicalKrullDim U = 2
 
 end ModuliProblem
 
@@ -717,6 +727,11 @@ structure EtaleRigidifier (R : CommRingCat.{u}) where
   obj : EllObj R
   relRep : obj.yonedaProblem.RelRepData
   etale : relRep.HasProperty @Etale
+  /-- The rigidifier covers `Ell/R` (KM p. 110 distinguishes "étale" from "étale and surjective").
+  For KM 7.1.2's Q2 this loses nothing, since a non-surjective étale representable problem may be
+  enlarged by a disjoint union; for KM 4.12 it is what makes the non-emptiness clause of
+  `IsRegularOfDimTwo` meaningful. -/
+  surjective : relRep.HasProperty @Surjective
 
 /-- The universal objects of the representable étale rigidifiers over `R`. -/
 def EtaleRigidifier.objects (R : CommRingCat.{u}) : Set (EllObj R) :=
@@ -782,12 +797,17 @@ theorem isFinite_mapRep (Q : KatzMazurQuotientData P P' H)
     IsFinite (Q.relRep.mapRep Q.relRep' Q.q X).left :=
   sorry
 
-/-- The projection is locally of finite presentation when `𝒫` is, so that its finite flat rank
-is locally constant in the regular case. -/
-theorem locallyOfFinitePresentation_mapRep (Q : KatzMazurQuotientData P P' H)
+/-- KM 7.1.3(2), the free case: if `H` acts freely on every `𝒫(E/S)`, the projection
+`𝒫 ⟶ 𝒫/H` is an étale `H`-torsor, in particular étale and hence locally of finite presentation.
+This is the only general situation in which the projection is locally of finite presentation: for
+`R = ℤ ⋉ V` with `V` an infinite-dimensional `𝔽₂`-vector space, `A = R[ε]/(ε²)` with `ε ↦ -ε`,
+the invariant ring `R ⊕ Vε` is finite under `A` but `A` is not finitely presented over it. -/
+theorem etale_mapRep_of_free (Q : KatzMazurQuotientData P P' H)
     (hP : Q.relRep.HasProperty @IsAffineHom)
-    (hP' : Q.relRep.HasProperty @LocallyOfFinitePresentation) (X : EllObj R) :
-    LocallyOfFinitePresentation (Q.relRep.mapRep Q.relRep' Q.q X).left :=
+    (hfree : ∀ (X : EllObj R) (α : P.obj (Opposite.op X)) (h : H),
+      (Q.act h).hom.app (Opposite.op X) α = α → h = 1)
+    (X : EllObj R) :
+    Etale (Q.relRep.mapRep Q.relRep' Q.q X).left :=
   sorry
 
 /-- KM 7.1.3(6): if `R` is noetherian and `𝒫` is finite over `Ell/R`, so is `𝒫/H`. -/

@@ -237,16 +237,24 @@ the Picard and Poincaré construction used here is specified in Layer 2D rather 
 unnamed black box. KM §1.11 (extensions of an étale group) is used in Layer 3A, in the exact form
 of 1.11.2–1.11.5.
 
-A morphism is **finite locally free** when it is finite, flat, and locally of finite
-presentation. Over a non-noetherian base the last condition is not implied by the first two
-(Stacks, Tag 0416 gives finite flat morphisms which are not of finite presentation), and it is the
-hypothesis under which Mathlib's `Scheme.Hom.isLocallyConstant_finrank` applies. Every "finite
-locally free" carrier of this roadmap — `FiniteFlatCommGroupScheme`, isogenies, the generator
-scheme, the relative representing schemes of the First Main Theorem and of `[Γ₀(N)]`, the map
-`[Γ₁(N)] ⟶ [Γ₀(N)]`, quotient projections and torsors — carries all three conditions. For an
-isogeny of elliptic curves, or any `S`-morphism between schemes locally of finite presentation
-over `S`, local finite presentation is a theorem (Mathlib's cancellation lemma), registered as an
-instance in `Suggested.lean`.
+A morphism is **finite locally free** if and only if it is finite, flat, and locally of finite
+presentation (Stacks, Tag 02KB). Over a non-noetherian base the last condition is not implied by
+the first two — Stacks, Tag 05LB gives an explicit finite flat morphism which is not of finite
+presentation — and it is the hypothesis under which Mathlib's
+`Scheme.Hom.isLocallyConstant_finrank` applies. Every "finite locally free" carrier of this
+roadmap — `FiniteFlatCommGroupScheme`, isogenies, the generator scheme, the relative
+representing schemes of the First Main Theorem and of `[Γ₀(N)]`, the map `[Γ₁(N)] ⟶ [Γ₀(N)]`,
+and finite étale torsors — carries all three conditions, and `Suggested.lean` registers them as
+instances. For an isogeny of elliptic curves, or any `S`-morphism between schemes locally of
+finite presentation over `S`, local finite presentation is a theorem (Mathlib's cancellation
+lemma), registered as an instance. The general Katz–Mazur quotient projection `𝒫 ⟶ 𝒫/H` of
+KM 7.1.3(4) is finite but **not** in general flat or of finite presentation: for
+`R = ℤ ⋉ V` with `V` an infinite-dimensional `𝔽₂`-vector space and `A = R[ε]/(ε²)` with `C₂`
+acting by `ε ↦ -ε`, the invariant ring `A^{C₂} = R ⊕ Vε` is finitely presented over `R` and `A`
+is finite over it, but `A` is not finitely presented as an `A^{C₂}`-algebra. The projection
+carries all three conditions when the action is free (it is then an étale torsor, KM 7.1.3(2)),
+under the hypotheses of the Axiomatic Regularity Theorem for quotients (Layer 9C), or over a
+locally noetherian base.
 
 Develop the affine-group-scheme/Hopf-algebra anti-equivalence from `Group/Affine.lean` and the
 category of finite locally free commutative group schemes. Construct scheme-theoretic kernels of arbitrary homomorphisms and
@@ -1106,6 +1114,11 @@ independence of the rigidifier is built into the definition rather than a theore
 it for the formulation adopted here is this roadmap's own obligation. ⚠ KM's Notes Added in Proof
 (p. 505) correct 4.12: "being of given dimension" is not étale-local, and the intended reading is
 that the representing scheme is non-empty and every non-empty Zariski open is `d`-dimensional.
+The Lean predicate `IsRegularOfDimTwo` therefore states non-emptiness, regularity of every local
+ring, and dimension two of every non-empty open, and it is tested on representable étale
+rigidifiers which are **surjective** over `Ell/R`: KM 4.12 quantifies over all modular families
+and notes that a covering collection suffices, and surjectivity is what prevents an empty
+representable étale problem from falsifying the non-emptiness clause.
 Layer 7 asserts regularity *of dimension two*, so it depends on the corrected reading.
 
 This layer owns the required general scheme-level API:
@@ -1458,7 +1471,9 @@ and let `q:𝒫⟶𝒫'` be equivariant. Define `𝒫'=𝒫/H` by KM 7.1.2's two
 universal property to the definition:
 
 1. **Q1:** `H` acts trivially on `𝒫'`.
-2. **Q2:** for every representable moduli problem `δ` which is étale over `Ell/R`, the scheme
+2. **Q2:** for every representable moduli problem `δ` which is étale and surjective over
+   `Ell/R` (equivalent to KM's quantification over all étale representable `δ`, since a
+   non-surjective one may be enlarged by a disjoint union), the scheme
    quotient `𝕄(δ,𝒫)/H` exists and the morphism induced by `q` is an isomorphism
 
    ```text
@@ -1476,7 +1491,9 @@ and prove all of KM 7.1.3.
 3. For every `E/S`, construct `(𝒫_{E/S})/H⟶(𝒫/H)_{E/S}`. It is bijective on geometric points,
    and is an isomorphism if `𝒫_{E/S}⟶S` is flat, if `|H|` is invertible on `S`, or if the action
    is free.
-4. The projection `𝒫⟶𝒫/H` is finite.
+4. The projection `𝒫⟶𝒫/H` is finite; it is not in general flat or locally of finite
+   presentation (see the counterexample in Layer 0B), so no such assertion is made outside the
+   free case of item 2 and the regularity theorem of 9C.
 5. If `𝒫` is normal, then `𝒫/H` is normal.
 6. If `R` is noetherian and `𝒫` is finite over `Ell/R`, then `𝒫/H` is finite over `Ell/R`.
 
