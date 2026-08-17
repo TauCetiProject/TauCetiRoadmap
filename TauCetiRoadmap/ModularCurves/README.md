@@ -98,8 +98,9 @@ placed in the corresponding general Mathlib-style directories.
    associated to a finite abelian group are different constructions. In particular,
    `D(ℤ/Nℤ) ≅ μ_N`, while `(ℤ/Nℤ)_S` is a disjoint union of copies of `S`.
 
-3. **Degree.** The rank of a finite locally free morphism is locally constant. An isogeny over an
-   arbitrary base therefore has a locally constant degree. `IsogenyOfDegree n` denotes the
+3. **Degree.** Finite locally free means finite, flat, and locally of finite presentation; the
+   rank of such a morphism is locally constant. An isogeny over an arbitrary base therefore has a
+   locally constant degree. `IsogenyOfDegree n` denotes the
    constant-rank case. Statements involving a single integer degree either use this predicate or
    assume a preconnected base. The trace of an endomorphism is treated in the same way: it is a
    locally constant integer-valued function in general, and a single integer only over a
@@ -154,12 +155,10 @@ The roadmap uses the following existing material.
   geometrically integral group scheme **over a field**, so over a general base it applies
   fibrewise only and the passage to a global statement is an argument this roadmap owes (for
   Weierstrass models commutativity is anyway immediate from the symmetric addition formula).
-  ⚠ `Affine.lean`, the correspondence between commutative Hopf algebras and affine group
-  schemes, landed in mathlib4#40500 on 2026-07-21 and is **not present at this repository's
-  Mathlib pin** `9caeba10` (2026-06-03), where the directory holds only `Abelian.lean` and
-  `Smooth.lean`. Layer 0B therefore builds the missing correspondence in a Mathlib-compatible
-  namespace at the present pin; a later pin may replace that local implementation without changing
-  the public contract.
+  `Affine.lean`, the correspondence between commutative Hopf algebras and affine group
+  schemes (`algSpec`, `bialgSpec`, `hopfSpec`, fully faithful), landed in mathlib4#40500 on
+  2026-07-21 and is present at this repository's Mathlib pin `05ae0103` (2026-08-12). Layer 0B
+  consumes it rather than building the correspondence.
 - `Mathlib/AlgebraicGeometry/Morphisms/FlatRank.lean`, which supplies `Scheme.Hom.finrank` and
   `Scheme.Hom.isLocallyConstant_finrank` — the locally constant rank that Convention 3 and
   Layer 2A are stated in terms of.
@@ -235,10 +234,22 @@ pairing of Layer 2E.
 References: KM §1.12, especially 1.12.4 and 1.12.7, and §§2.5, 2.8;
 SGA 3, Exposé VIIA, §3.3 for Cartier duality. KM 2.8.2 cites the Cartier–Nishi theorem to Oda;
 the Picard and Poincaré construction used here is specified in Layer 2D rather than left as an
-unnamed black box. KM §1.11 (extensions of an étale group) is not used.
+unnamed black box. KM §1.11 (extensions of an étale group) is used in Layer 3A, in the exact form
+of 1.11.2–1.11.5.
 
-Develop the affine-group-scheme/Hopf-algebra anti-equivalence and the category of finite locally
-free commutative group schemes. Construct scheme-theoretic kernels of arbitrary homomorphisms and
+A morphism is **finite locally free** when it is finite, flat, and locally of finite
+presentation. Over a non-noetherian base the last condition is not implied by the first two
+(Stacks, Tag 0416 gives finite flat morphisms which are not of finite presentation), and it is the
+hypothesis under which Mathlib's `Scheme.Hom.isLocallyConstant_finrank` applies. Every "finite
+locally free" carrier of this roadmap — `FiniteFlatCommGroupScheme`, isogenies, the generator
+scheme, the relative representing schemes of the First Main Theorem and of `[Γ₀(N)]`, the map
+`[Γ₁(N)] ⟶ [Γ₀(N)]`, quotient projections and torsors — carries all three conditions. For an
+isogeny of elliptic curves, or any `S`-morphism between schemes locally of finite presentation
+over `S`, local finite presentation is a theorem (Mathlib's cancellation lemma), registered as an
+instance in `Suggested.lean`.
+
+Develop the affine-group-scheme/Hopf-algebra anti-equivalence from `Group/Affine.lean` and the
+category of finite locally free commutative group schemes. Construct scheme-theoretic kernels of arbitrary homomorphisms and
 prove their base-change property, but do not assert that such a kernel is always finite locally
 free: its rank can jump. For a closed finite locally free subgroup `C ⊆ G`, construct the fppf
 quotient under the representability hypotheses of Layer 0C and prove that the resulting sequence
@@ -269,8 +280,7 @@ This is the input which turns a Drinfeld point of exact order `N` into an `N`-to
 which makes the factorisation construction of the dual isogeny possible.
 
 **Dependencies.** Mathlib's affine group-scheme and Hopf-algebra APIs, in particular
-`AlgebraicGeometry/Group/Affine.lean`. At the current pin its declarations must be supplied in Tau
-Ceti with the same public shape; the roadmap does not wait for a future Mathlib pin.
+`AlgebraicGeometry/Group/Affine.lean` and `Morphisms/FlatRank.lean`.
 
 ### 0C. Finite quotients and torsors
 
@@ -573,9 +583,20 @@ mulByHom_genericDegree :
 Construct the first equivalence from the affine `Z`-chart. Prove that the smooth projective cubic
 is geometrically integral, and prove the separated-target extensionality theorem saying that two
 morphisms from an integral scheme which agree at the generic point agree everywhere. Use this to
-prove the second equality. For the third, consume the equation-level `mulByInt_degree` theorem from
-the Elliptic Curves supplier, including its division-polynomial and inseparable cases. This layer
-proves only the scheme/function-field comparison needed to transport that theorem. Prove that a
+prove the second equality. For the third, consume the equation-level theorem `deg [N] = N²` from
+the Elliptic Curves roadmap, including its division-polynomial and inseparable cases. This layer
+proves only the scheme/function-field comparison needed to transport that theorem.
+
+The Elliptic Curves roadmap is a Lean dependency: `Suggested.lean` imports
+`TauCetiRoadmap.EllipticCurves.Suggested` and states the bridge against its carriers. That file
+exports the equation-level `Isogeny` with its `degree` and `fieldPullback` and the equation-level
+`weilPairing`, but not yet multiplication by `N` as an isogeny or `deg [N] = N²`; the two are owed
+by that roadmap's Layer 1 and are pinned here as `EllipticCurvesInterface.mulByIsogeny` (with its
+action on points) and `EllipticCurvesInterface.degree_mulByIsogeny`, to be replaced by the
+supplier's declarations when they land. Against them the bridge is stated as
+`mulByFunctionFieldPullback_eq` (the comparison square through `projModelFunctionFieldEquiv`)
+and `finrank_mulBy_ofWeierstrass` (rank of the scheme `[N]` equals the equation-level degree),
+which together with `degree_mulByIsogeny` give `finrank_mulBy` over a field. Prove that a
 nonconstant finite morphism between smooth
 projective integral curves over a field is finite flat and that its constant fibre length equals
 the degree of the induced function-field extension. Apply this on every geometric fibre, then use
@@ -778,7 +799,10 @@ Prove, in order:
    deducing it from skew-symmetry;
 6. scheme-theoretic perfection;
 7. `e_N(aP+bQ,cP+dQ)=e_N(P,Q)^(ad-bc)`;
-8. comparison with the equation-level Weil pairing over fields where `N` is invertible.
+8. comparison with the equation-level Weil pairing over fields where `N` is invertible
+   (`weilPairing_eq_equationLevel`, against `TauCetiRoadmap.EllipticCurves.weilPairing`,
+   evaluated through `GroupSchemePairing.evalSection` on the sections attached to torsion
+   points).
 
 Items 5 and 6 are separate principal milestones. The last item fixes the normalisation and is not
 used to construct the pairing.
@@ -870,8 +894,24 @@ prove:
 
 - arbitrary base change and fppf descent;
 - the subgroup-divisor criterion;
-- compatibility with short exact sequences of finite abelian groups;
-- product decompositions for factors of coprime order;
+- the extension results of KM §1.11, in their exact generality. Let `0 → G₁ → G → G₂ → 0` be
+  a short exact sequence of finite locally free commutative group schemes of ranks `N₁, N, N₂`,
+  and `0 → A₁ → A → A₂ → 0` a short exact sequence of finite abelian groups of the same orders,
+  with compatible homomorphisms `φ₁, φ, φ₂` to the `S`-points.
+  - **KM 1.11.3**, arbitrary base: if `φ₁` is an `A₁`-generator of `G₁` and `φ₂` is an
+    `A₂`-generator of `G₂`, then `φ` is an `A`-generator of `G`. This is transitivity of the
+    norm.
+  - **KM 1.11.2**, the criterion: if `S` is connected and `G₂` is **finite étale**, then for
+    `φ : A → G(S)` with kernel `K` of the composite `A → G₂(S)`, `φ` is an `A`-generator of `G`
+    if and only if `|K|` is the rank of `G₁` and `φ|K` is a `K`-generator of `G₁`, and `|A/K|` is
+    the rank of `G₂` and the induced `A/K → G₂(S)` is an `A/K`-generator of `G₂`.
+  - **KM 1.11.4–1.11.5**, the converse of 1.11.3 is false in general: over an `𝔽_p`-algebra
+    `R`, for `ζ ∈ μ_p(R)`, the map `ℤ/p ⊕ ℤ/p → μ_{p²}`, `(a,b) ↦ ζ^a`, is a generator of
+    `μ_{p²}` while `a ↦ ζ^a` need not be a generator of `μ_p` (take `R = 𝔽_p[X]/(X^p − 1)`,
+    `ζ = X`); the product examples with `α_p × α_p` and `μ_p × μ_p` show that neither
+    end need be a generator when the middle is. Retain the `μ_{p²}` example as a regression
+    test; no unrestricted equivalence is stated.
+- product decompositions for factors of coprime order (KM 1.10.14–1.10.15);
 - factorisation into the prime-primary parts of `A`;
 - the corresponding decomposition of full sets of sections and generator schemes.
 
@@ -1033,9 +1073,13 @@ square, whereas a torsor under a constant group of order `12` with a rational po
 rational points. The Legendre problem is a finite étale cover of
 degree `12` whose automorphism group over `Ell/ℤ[1/2]` is only `{±1}`. The equivalence-relation
 quotient in steps 4–5 is the repair; it does not need any group action on the rigidifier and gives
-KM's own quotient when the rigidifier is Galois. There is no action on the unaugmented level-two
-datum either, and KM Chapter 4 uses no level-four rigidifier; the naive `[Γ(4)]` problem, which is
-Galois, becomes available for coarse moduli in Layer 9D only after KM 4.7.0 has been proved here.
+KM's own quotient when the rigidifier is Galois. The naive full-level-two problem carries the usual
+`GL₂(𝔽₂)` change-of-basis action, but that action does not lift to the normalized Legendre
+rigidifier: the latter is a degree-twelve finite étale cover of `Ell/ℤ[1/2]` with only the sign
+change of the differential as a global deck transformation, and the full-level-two problem itself
+is not rigid because `[-1]` acts trivially on `E[2]`. KM Chapter 4 uses no level-four rigidifier;
+the naive `[Γ(4)]` problem, which is Galois, becomes available for coarse moduli in Layer 9D only
+after KM 4.7.0 has been proved here.
 
 Prove the implication used throughout the roadmap (KM 4.7.0):
 
@@ -1571,8 +1615,10 @@ here by the following route, which uses only material already constructed.
    `A₃ = ℤ[1/3,ζ₃][B, Δ⁻¹]`, a domain, with `Δ = a₃³(a₁³-27a₃)` and
    `c₄ = a₁(a₁³-24a₃)` polynomials in `B` over `ℤ[1/3,ζ₃]`. Prove that `A₃` is finite free
    of rank `12` over `ℤ[1/3,ζ₃][j]`: the relation `c₄³ = jΔ` is a degree-twelve equation for
-   `B` with unit leading coefficient, and `Δ` is a unit in `ℤ[1/3,ζ₃][j][B]/(c₄³-jΔ)` because
-   `c₄` and `Δ` generate the unit ideal of `ℤ[1/3,ζ₃][B]`. Prove
+   `B` with unit leading coefficient, and `Δ` is a unit in `ℤ[1/3,ζ₃][j][B]/(c₄³-jΔ)`: since
+   `c₄` and `Δ` generate the unit ideal of `ℤ[1/3,ζ₃][B]`, so do `c₄³` and `Δ` (cube a relation
+   `uc₄ + vΔ = 1`), and substituting `c₄³ = jΔ` into `u'c₄³ + v'Δ = 1` exhibits an inverse of
+   `Δ`. Prove
    `Frac(A₃)^{GL₂(𝔽₃)} = ℚ(j)`: `-1` acts trivially, `GL₂(𝔽₃)/{±1}` acts faithfully, and
    `[Frac(A₃):ℚ(j)] = 24 = |GL₂(𝔽₃)|/2`. Since `ℤ[1/3][j]` is normal and `A₃^{GL₂(𝔽₃)}` is
    integral over it, conclude `A₃^{GL₂(𝔽₃)} = ℤ[1/3][j]`.
@@ -1580,9 +1626,11 @@ here by the following route, which uses only material already constructed.
    from the Legendre line `Λ=Spec A₂`, `A₂ = ℤ[1/2][λ, 1/λ(λ-1)]`. Let `S₃` act on `Λ` by
    the six Möbius substitutions of `λ`. Prove `A₂^{S₃} = ℤ[1/2][j]` by the same argument:
    `j = 2⁸(λ²-λ+1)³/λ²(λ-1)²` is `S₃`-invariant; `A₂` is finite free of rank `6` over
-   `ℤ[1/2][j]`, because `2⁸(λ²-λ+1)³ = jλ²(λ-1)²` has unit leading coefficient and
-   `(λ²-λ+1) - λ(λ-1) = 1` makes `λ(λ-1)` a unit in `ℤ[1/2][j][λ]/(2⁸(λ²-λ+1)³-jλ²(λ-1)²)`;
-   and `ℚ(λ)^{S₃} = ℚ(j)`. The action does not lift to the Legendre family over `Λ`, but `E_λ`
+   `ℤ[1/2][j]`, because with `d = λ(λ-1)` and `f = λ²-λ+1 = d+1` the relation
+   `2⁸f³ = jd²` has unit leading coefficient in `λ`, and expanding it gives the identity
+   `d(jd - 2⁸(d²+3d+3)) = 2⁸`, which makes `d` a unit in
+   `ℤ[1/2][j][λ]/(2⁸(λ²-λ+1)³-jλ²(λ-1)²)` (that `f - d = 1` alone does not suffice); and
+   `ℚ(λ)^{S₃} = ℚ(j)`. The action does not lift to the Legendre family over `Λ`, but `E_λ`
    and `E_{σ(λ)}` are étale-locally isomorphic over `Λ`, so the classifying map
    `Λ ⟶ M([Γ(1)])` of KM 8.1.3 is `S₃`-invariant and factors through `Spec ℤ[1/2][j]`.
 4. Over `ℤ[1/3]`, step 2 says exactly that `j : M([Γ(1)]) = Spec A₃^{GL₂(𝔽₃)} ⟶ 𝔸¹` is an
@@ -1594,10 +1642,32 @@ here by the following route, which uses only material already constructed.
    two isomorphisms agree over `ℤ[1/6]` because both are inverse to `j`, so `j` is an
    isomorphism `M([Γ(1)]) ≅ Spec ℤ[j]` over `ℤ`.
 5. Conclude the coarse universal property of `Spec ℤ[j]` and its classification of algebraically
-   closed field-valued points from KM 8.1.3.1, and prove KM 8.2.2: if `R` is noetherian and `𝒫` is
-   finite over `Ell/R`, then `M(𝒫) ⟶ Spec R[j]` is finite. Its proof reduces, on an open where an
-   odd prime `ℓ` is invertible, to the finiteness of `𝕄(𝒫,[Γ(ℓ)])` over `𝕄([Γ(ℓ)])` and of the
-   affine finite-type scheme `𝕄([Γ(ℓ)])` over its `GL₂(𝔽_ℓ)`-quotient `Spec R[1/ℓ][j]`.
+   closed field-valued points from KM 8.1.3.1. This is `coarseJLine_int`.
+6. **Arbitrary coefficient rings.** KM 8.2.1 asserts `M([Γ(1)]/R) = Spec R[j]` for every ring
+   `R`, and this is *not* a corollary of the integral statement: coarse formation does not commute
+   with arbitrary base change (KM 8.1.6 needs `6` invertible or `|G|` invertible, and 8.1.7 gives
+   counterexamples for other problems), so the arbitrary-base statement is the extra content of
+   KM 8.2.1, for which KM cite Igusa. It is an independent milestone, `coarseJLine`, with the
+   following route. Work over `D = ℤ[1/N]` with the Galois rigidifier `[Γ(N)]`, `N = 3` on
+   `D(3)` and `N = 4` on `D(2)`, and let `A_N` be the coordinate ring of `Y_full(N)`, flat over
+   `D` with `G = GL₂(ℤ/Nℤ)` acting; `M([Γ(1)]/R) = Spec (A_N ⊗_D R)^G` for every `D`-algebra
+   `R`. The invariant ring is the kernel of `φ : A_N ⟶ ∏_{g∈G} A_N`, `a ↦ (ga - a)_g`, and
+   `ker_baseChange_of_noZeroSMulDivisors_coker` (base change of kernels of maps of flat modules
+   over a principal ideal domain with torsion-free cokernel) says that
+   `A_N^G ⊗_D R ⟶ (A_N ⊗_D R)^G` is an isomorphism for every `R` as soon as it is surjective
+   modulo every prime `p` of `D`, i.e. as soon as `(A_N/p)^G = 𝔽_p[j]` for every `p ≠ N`.
+   Prove those fibre computations: for `N = 3` by the normalisation argument of step 2 over
+   `𝔽_p`, including the split case `p ≡ 1 mod 3` in which `Y_full(3)_{𝔽_p}` has two components
+   interchanged by `det` and the invariants are those of `SL₂(𝔽₃)` on one component; for
+   `N = 4` by the Legendre section argument of steps 3–4 over `𝔽_p`, `p` odd, which needs only
+   that `M([Γ(1)]/𝔽_p)` is reduced. Then glue over `D(6)`. Alternatives are to formalise Igusa's
+   theorem directly, or to redo the invariant computation uniformly over arbitrary rings including
+   the fibres at `2` and `3`; whichever is chosen, `coarseJLine` must not be discharged by an
+   appeal to the general coarse base-change theorem.
+7. Prove KM 8.2.2: if `R` is noetherian and `𝒫` is finite over `Ell/R`, then
+   `M(𝒫) ⟶ Spec R[j]` is finite. Its proof reduces, on an open where an odd prime `ℓ` is
+   invertible, to the finiteness of `𝕄(𝒫,[Γ(ℓ)])` over `𝕄([Γ(ℓ)])` and of the affine
+   finite-type scheme `𝕄([Γ(ℓ)])` over its `GL₂(𝔽_ℓ)`-quotient `Spec R[1/ℓ][j]`.
 
 The automorphism loci are recorded as a worked example, not as an input to the theorem. Away from
 characteristics `2` and `3`, the pointed automorphism group has order `2` off the exceptional
@@ -1729,6 +1799,8 @@ Katz–Mazur scan used for the audit has 526 PDF pages and includes Chapters 6�
 and the Notes Added in Proof. The dependency-sensitive statements were checked directly at the
 following printed pages:
 
+- the `A`-generator extension results 1.11.2–1.11.5 and the coprime factorisation
+  1.10.14–1.10.15, pp. 46–53;
 - the Legendre and naive level-three families, pp. 70–73, and the rigidifier statement 4.6.2
   and the proof of 4.7.0, pp. 111–114, where the `GL₂(ℤ/2ℤ)×{±1}`-torsor claim recorded as an
   erratum in Layer 4C occurs;
@@ -1737,7 +1809,8 @@ following printed pages:
 - the quotient definition, Theorem 7.1.3, and scalar-extension comparison, pp. 186–194;
 - the standard quotient identifications, Axiomatic Regularity Theorem for quotients, its
   invariant-ring lemmas, and the standard applications, pp. 198–207;
-- coarse-moduli quotients, base change, the `j`-line, and its citation of Igusa, pp. 224–231;
+- coarse-moduli quotients, base change, the `j`-line "over any ring `R`" with its citation of
+  Igusa, and 8.2.2, pp. 224–231;
 - the Notes Added in Proof on alternation of the Weil pairing, the dimension convention of 4.12,
   and the descent of regularity along finite flat surjections used in 6.6.1 and 7.5.1,
   pp. 505–510, and the reference list, pp. 512–513.
@@ -1780,6 +1853,10 @@ The durable parts of that development relevant to the proof decomposition are:
   Katz–Mazur quotients, and the beginning of Chapter 5;
 - `ModularCurve/YOne*.lean`, `YFullRoute.lean`, and `YRho.lean` for the three distinct fine-curve
   constructions.
+
+`Suggested.lean` builds at the repository's Mathlib pin `05ae0103` (2026-08-12) with
+`import TauCetiRoadmap.EllipticCurves.Suggested`, so the equation-level boundary of Layers 2A
+and 2E is type-checked against the merged Elliptic Curves roadmap rather than described.
 
 The audit confirms the chart-by-chart group-law decomposition and the need for genuine coherent
 cohomology in the pole-sheaf route. It also confirms that alternation and scheme-theoretic

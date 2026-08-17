@@ -1,4 +1,5 @@
 import Mathlib
+import TauCetiRoadmap.EllipticCurves.Suggested
 
 /-!
 # Modular curves, following Katz–Mazur: representative signatures
@@ -16,7 +17,9 @@ the category `Ell/R` with its cartesian arrows, relative representability, Katz�
 with the exact conditions Q1 and Q2, the regularity axioms Reg. 1–Reg. 4 with a stated universal
 formal deformation, coarse-moduli data, and the Chapter 6 cyclicity space. Relative effective
 Cartier divisors use the single carrier supplied by the Jacobian Challenge; this file deliberately
-does not introduce a second one.
+does not introduce a second one. The equation-level inputs of Layers 2A and 2E are taken from
+`TauCetiRoadmap.EllipticCurves.Suggested`, and the two declarations that roadmap does not yet
+export are pinned in `EllipticCurvesInterface`.
 -/
 
 namespace TauCetiRoadmap.ModularCurves
@@ -81,11 +84,49 @@ instance isIntegral_projModel {K : Type u} [Field K] {W : WeierstrassCurve K} [W
 
 /-- The scheme function field of the projective model is the equation-level function field of
 `W`; the first statement of the narrow degree bridge of Layer 2A. The equation-level pullback by
-`[N]` and its degree `N²` are supplied by the Elliptic Curves roadmap and are not restated here. -/
+`[N]` and its degree `N²` are the Elliptic Curves roadmap's, pinned in `EllipticCurvesInterface`
+below, and the comparison square is `mulByFunctionFieldPullback_eq`. -/
 noncomputable def projModelFunctionFieldEquiv {K : Type u} [Field K] (W : WeierstrassCurve K)
     [W.IsElliptic] :
     (projModel W).functionField ≃+* W.toAffine.FunctionField :=
   sorry
+
+/-! ## Contracts consumed from the Elliptic Curves roadmap
+
+`TauCetiRoadmap.EllipticCurves.Suggested` exports the equation-level `Isogeny` carrier with its
+`degree` and `fieldPullback`, and the equation-level `weilPairing`. Multiplication by `N` as an
+isogeny and the theorem `deg [N] = N²` are milestones of that roadmap's Layer 1 which have no
+declaration there yet. The declarations in this namespace state them in that roadmap's own
+carriers, so that the degree bridge of Layer 2A and the Weil-pairing normalization of Layer 2E
+type-check against the actual composition; they are owed by the Elliptic Curves roadmap and are to
+be replaced by its declarations when those land. -/
+
+namespace EllipticCurvesInterface
+
+open TauCetiRoadmap.EllipticCurves
+
+/-- Multiplication by `N` on an elliptic Weierstrass equation, as an isogeny of the Elliptic
+Curves roadmap. -/
+noncomputable def mulByIsogeny {K : Type u} [Field K] (W : WeierstrassCurve K) [W.IsElliptic]
+    (N : ℕ) [NeZero N] : Isogeny W.toAffine W.toAffine :=
+  sorry
+
+/-- The isogeny acts on points as multiplication by `N`; the integral closedness hypothesis is
+the Elliptic Curves roadmap's `isIntegrallyClosed_coordinateRing`. -/
+theorem mulByIsogeny_toPointHom {K : Type u} [Field K] [DecidableEq K] (W : WeierstrassCurve K)
+    [W.IsElliptic] (N : ℕ) [NeZero N] [IsIntegrallyClosed W.toAffine.CoordinateRing]
+    (P : W.toAffine.Point) :
+    (mulByIsogeny W N).toPointHom P = N • P :=
+  sorry
+
+/-- The equation-level degree theorem `deg [N] = N²`, including the division-polynomial and
+inseparable cases. -/
+theorem degree_mulByIsogeny {K : Type u} [Field K] (W : WeierstrassCurve K) [W.IsElliptic]
+    (N : ℕ) [NeZero N] :
+    (mulByIsogeny W N).degree = N ^ 2 :=
+  sorry
+
+end EllipticCurvesInterface
 
 /-! ## Finite flat group schemes
 
@@ -95,7 +136,7 @@ the shared namespace once that carrier is imported.
 -/
 
 /-- Finite locally free commutative group schemes over `S`, expressed in Mathlib's group-object
-vocabulary. -/
+vocabulary: finite, flat, and locally of finite presentation. -/
 structure FiniteFlatCommGroupScheme (S : Scheme.{u}) where
   carrier : Scheme.{u}
   structureMap : carrier ⟶ S
@@ -103,6 +144,10 @@ structure FiniteFlatCommGroupScheme (S : Scheme.{u}) where
   comm : letI := grp; IsCommMonObj (Over.mk structureMap)
   finite : IsFinite structureMap
   flat : Flat structureMap
+  /-- Finite locally free means finite, flat, and locally of finite presentation; over a
+  non-noetherian base the last condition is not implied by the first two, and it is what makes
+  `Scheme.Hom.finrank` locally constant. -/
+  locallyOfFinitePresentation : LocallyOfFinitePresentation structureMap
 
 namespace FiniteFlatCommGroupScheme
 
@@ -291,10 +336,45 @@ theorem flat_mulBy {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
     Flat (E.mulBy N).toSchemeHom :=
   sorry
 
+/-- `[N]` is locally of finite presentation, because its source and target are locally of finite
+presentation over `S`. Together with `isFinite_mulBy` and `flat_mulBy` this is what makes its
+rank locally constant. -/
+theorem locallyOfFinitePresentation_mulBy {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ)
+    [NeZero N] :
+    LocallyOfFinitePresentation (E.mulBy N).toSchemeHom :=
+  sorry
+
 /-- KM 2.3.1, the rank: `[N]` has locally constant rank `N²`, proved through the narrow
 function-field degree bridge of Layer 2A. -/
 theorem finrank_mulBy {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
     (E.mulBy N).toSchemeHom.finrank = fun _ ↦ N ^ 2 :=
+  sorry
+
+/-- Pullback of rational functions along the scheme-theoretic `[N]` on the projective model of
+`W`, a finite dominant morphism of integral schemes. -/
+noncomputable def mulByFunctionFieldPullback {K : Type u} [Field K] (W : WeierstrassCurve K)
+    [W.IsElliptic] (N : ℕ) [NeZero N] :
+    (projModel W).functionField →+* (projModel W).functionField :=
+  sorry
+
+/-- The comparison square of Layer 2A: through `projModelFunctionFieldEquiv`, pullback along the
+scheme-theoretic `[N]` is the equation-level pullback of the Elliptic Curves roadmap's
+`mulByIsogeny`. -/
+theorem mulByFunctionFieldPullback_eq {K : Type u} [Field K] (W : WeierstrassCurve K)
+    [W.IsElliptic] (N : ℕ) [NeZero N] (f : (projModel W).functionField) :
+    projModelFunctionFieldEquiv W (mulByFunctionFieldPullback W N f) =
+      (EllipticCurvesInterface.mulByIsogeny W N).fieldPullback
+        (projModelFunctionFieldEquiv W f) :=
+  sorry
+
+/-- The rank of the scheme-theoretic `[N]` on the projective model is the equation-level degree
+of `mulByIsogeny`: the fibre length of a finite flat morphism of smooth projective integral
+curves is the degree of the induced function-field extension. With
+`EllipticCurvesInterface.degree_mulByIsogeny` this gives `finrank_mulBy` over a field. -/
+theorem finrank_mulBy_ofWeierstrass {K : Type u} [Field K] (W : WeierstrassCurve K)
+    [W.IsElliptic] (N : ℕ) [NeZero N] :
+    ((ofWeierstrass W).mulBy N).toSchemeHom.finrank =
+      fun _ ↦ (EllipticCurvesInterface.mulByIsogeny W N).degree :=
   sorry
 
 /-- The finite-flat kernel `E[N]`, for nonzero `N`. -/
@@ -338,6 +418,13 @@ namespace Isogeny
 noncomputable def toEllipticCurveHom {S : Scheme.{u}} {E E' : EllipticCurve S}
     (f : Isogeny E E') : EllipticCurve.Hom E E' :=
   f.toHom
+
+/-- An isogeny is locally of finite presentation, because its source and target are locally of
+finite presentation over `S`; hence it is finite locally free, and `Scheme.Hom.finrank` applies to
+it. Registered as an instance. -/
+instance locallyOfFinitePresentation {S : Scheme.{u}} {E E' : EllipticCurve S}
+    (f : Isogeny E E') : LocallyOfFinitePresentation f.toHom.hom.left :=
+  sorry
 
 noncomputable def kernel {S : Scheme.{u}} {E E' : EllipticCurve S} (f : Isogeny E E') :
     FiniteFlatCommGroupScheme S :=
@@ -404,6 +491,34 @@ noncomputable def ellipticCurveIsoPicardZero {S : Scheme.{u}} (E : EllipticCurve
 /-- The Weil pairing on `E[N]`, after identifying the Picard and factorisation duals. -/
 noncomputable def weilPairing {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero N] :
     GroupSchemePairing (E.torsion N) (E.torsion N) :=
+  sorry
+
+/-- Evaluation of a pairing on sections: a pair of sections of `G` and `H` over `S` gives a
+section of `𝔾_m`, i.e. a unit of `Γ(S, 𝒪_S)`. -/
+noncomputable def GroupSchemePairing.evalSection {S : Scheme.{u}}
+    {G H : FiniteFlatCommGroupScheme S} (p : GroupSchemePairing G H)
+    (x : G.Section) (y : H.Section) : (Γ(S, ⊤))ˣ :=
+  sorry
+
+/-- The section of `E[N]` over `Spec K` attached to an `N`-torsion point of the Weierstrass
+equation, through `projModelPointsEquiv`. -/
+noncomputable def torsionSectionOfPoint {K : Type u} [Field K] (W : WeierstrassCurve K)
+    [W.IsElliptic] (N : ℕ) [NeZero N]
+    (P : Submodule.torsionBy ℤ W.toAffine.Point (N : ℤ)) :
+    ((EllipticCurve.ofWeierstrass W).torsion N).Section :=
+  sorry
+
+/-- The normalization comparison of Layer 2E: over a field in which `N` is invertible, the
+scheme-theoretic Weil pairing evaluated on `K`-points is the equation-level Weil pairing of the
+Elliptic Curves roadmap. It fixes the normalization and is not used to construct the pairing. -/
+theorem weilPairing_eq_equationLevel {K : Type u} [Field K] (W : WeierstrassCurve K)
+    [W.IsElliptic] (N : ℕ) [NeZero N] (hN : (N : K) ≠ 0)
+    (P Q : Submodule.torsionBy ℤ W.toAffine.Point (N : ℤ)) :
+    Units.map (Scheme.ΓSpecIso (CommRingCat.of K)).hom.hom.toMonoidHom
+        ((weilPairing (EllipticCurve.ofWeierstrass W) N).evalSection
+          (torsionSectionOfPoint W N P) (torsionSectionOfPoint W N Q)) =
+      ((Additive.toMul (TauCetiRoadmap.EllipticCurves.weilPairing W N P Q) :
+        rootsOfUnity N K) : Kˣ) :=
   sorry
 
 /-! ## Drinfeld structures -/
@@ -667,6 +782,14 @@ theorem isFinite_mapRep (Q : KatzMazurQuotientData P P' H)
     IsFinite (Q.relRep.mapRep Q.relRep' Q.q X).left :=
   sorry
 
+/-- The projection is locally of finite presentation when `𝒫` is, so that its finite flat rank
+is locally constant in the regular case. -/
+theorem locallyOfFinitePresentation_mapRep (Q : KatzMazurQuotientData P P' H)
+    (hP : Q.relRep.HasProperty @IsAffineHom)
+    (hP' : Q.relRep.HasProperty @LocallyOfFinitePresentation) (X : EllObj R) :
+    LocallyOfFinitePresentation (Q.relRep.mapRep Q.relRep' Q.q X).left :=
+  sorry
+
 /-- KM 7.1.3(6): if `R` is noetherian and `𝒫` is finite over `Ell/R`, so is `𝒫/H`. -/
 theorem hasProperty_finite (Q : KatzMazurQuotientData P P' H) [IsNoetherianRing R]
     (hP : Q.relRep.HasProperty @IsFinite) : Q.relRep'.HasProperty @IsFinite :=
@@ -788,7 +911,7 @@ structure RegularityAxioms {P : ModuliProblem (intRing.{u})} (D : P.RelRepData) 
 is finite flat over `Ell/ℤ` of constant positive rank and regular of dimension two. -/
 theorem axiomaticRegularity {P : ModuliProblem (intRing.{u})} {D : P.RelRepData} {p : ℕ}
     [Fact p.Prime] [NeZero p] (_Reg : RegularityAxioms D p) :
-    D.HasProperty @Flat ∧
+    D.HasProperty @Flat ∧ D.HasProperty @LocallyOfFinitePresentation ∧
       (∃ n : ℕ, 0 < n ∧ ∀ X, (D.rep X).hom.finrank = fun _ ↦ n) ∧
         D.IsRegularOfDimTwo (EtaleRigidifier.objects _) :=
   sorry
@@ -830,12 +953,13 @@ flat of degree `|H|`. -/
 theorem axiomaticRegularityOfQuotients {P P' : ModuliProblem (intRing.{u})} {H : Type u}
     [Group H] [Finite H] {Q : KatzMazurQuotientData P P' H} {p : ℕ} [Fact p.Prime] [NeZero p]
     (_QR : QuotientRegularityAxioms Q p) :
-    Q.relRep'.HasProperty @Flat ∧
+    Q.relRep'.HasProperty @Flat ∧ Q.relRep'.HasProperty @LocallyOfFinitePresentation ∧
       (∃ n : ℕ, 0 < n ∧ ∀ X, (Q.relRep'.rep X).hom.finrank = fun _ ↦ n) ∧
         Q.relRep'.IsRegularOfDimTwo (EtaleRigidifier.objects _) ∧
           ∀ X, IsFinite (Q.relRep.mapRep Q.relRep' Q.q X).left ∧
             Flat (Q.relRep.mapRep Q.relRep' Q.q X).left ∧
-              (Q.relRep.mapRep Q.relRep' Q.q X).left.finrank = fun _ ↦ Nat.card H :=
+              LocallyOfFinitePresentation (Q.relRep.mapRep Q.relRep' Q.q X).left ∧
+                (Q.relRep.mapRep Q.relRep' Q.q X).left.finrank = fun _ ↦ Nat.card H :=
   sorry
 
 /-! ## Chapter 6: cyclicity, `[N-Isog]`, and `[Γ₀(N)]` -/
@@ -868,7 +992,8 @@ theorem cyclic_iff_generatorScheme_finiteFlat_rank {S : Scheme.{u}} (E : Ellipti
     (N : ℕ) [NeZero N] (G : TorsionSubgroup E N) :
     G.group.IsCyclic N ↔
       IsFinite (generatorScheme G.group).hom ∧ Flat (generatorScheme G.group).hom ∧
-        (generatorScheme G.group).hom.finrank = fun _ ↦ Nat.totient N :=
+        LocallyOfFinitePresentation (generatorScheme G.group).hom ∧
+          (generatorScheme G.group).hom.finrank = fun _ ↦ Nat.totient N :=
   sorry
 
 /-- KM 6.5.1: the elliptic `[N-Isog]` parameter is finite, although the generic subgroup
@@ -903,6 +1028,13 @@ theorem flat_gammaZero {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ) [NeZero 
     Flat (GammaZero E N).hom :=
   sorry
 
+/-- `[Γ₀(N)]` is locally of finite presentation over `S`, so that with the previous two theorems
+it is finite locally free and its rank is locally constant. -/
+theorem locallyOfFinitePresentation_gammaZero {S : Scheme.{u}} (E : EllipticCurve S) (N : ℕ)
+    [NeZero N] :
+    LocallyOfFinitePresentation (GammaZero E N).hom :=
+  sorry
+
 /-- The exact degree `N ∏_{p∣N}(1+1/p)`, written integrally. -/
 def gammaZeroDegree (N : ℕ) : ℕ :=
   N * N.primeFactors.prod (fun p ↦ p + 1) / N.primeFactors.prod (fun p ↦ p)
@@ -929,6 +1061,7 @@ theorem gammaZeroRelRep_rep (N : ℕ) [NeZero N] (X : EllObj (intRing.{u})) :
 `N ∏_{p∣N}(1+1/p)`, regular of dimension two, and finite étale after inverting `N`. -/
 theorem firstMainTheorem_gammaZero (N : ℕ) [NeZero N] :
     (gammaZeroRelRep N).HasProperty @IsFinite ∧ (gammaZeroRelRep N).HasProperty @Flat ∧
+      (gammaZeroRelRep N).HasProperty @LocallyOfFinitePresentation ∧
       (∀ X, ((gammaZeroRelRep N).rep X).hom.finrank = fun _ ↦ gammaZeroDegree N) ∧
         (gammaZeroRelRep N).IsRegularOfDimTwo (EtaleRigidifier.objects _) ∧
           ∀ X : EllObj (intRing.{u}), IsUnit ((N : ℕ) : Γ(X.base, ⊤)) →
@@ -978,17 +1111,42 @@ theorem coarseModuli_quotient {R : CommRingCat.{u}} {P P' : ModuliProblem R} {H 
           IsCategoricalQuotient ρ q :=
   sorry
 
-/-- KM 8.2.1, proved in Layer 9E by the level-three and Legendre computations: the coarse moduli
-scheme of `[Γ(1)]` over `R` is the `j`-line `Spec R[j]`, compatibly with the `j`-invariant. -/
-theorem coarseJLine (R : CommRingCat.{u}) :
-    ∃ (M : CoarseModuliData (ModuliProblem.trivial R))
-      (e : M.M ≅ Spec (CommRingCat.of (Polynomial R))),
-      e.hom ≫ Spec.map (CommRingCat.ofHom Polynomial.C) = M.structureMap ∧
-        ∀ (X : EllObj R) (α : (ModuliProblem.trivial R).obj (Opposite.op X)),
-          M.classify X α ≫ e.hom ≫
-              Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom
-                ((Int.castRingHom R).comp ULift.ringEquiv.toRingHom))) =
-            X.curve.jMap :=
+/-- The coarse `j`-line statement over a coefficient ring `R`: the coarse moduli scheme of
+`[Γ(1)]` over `R` is `Spec R[j]`, compatibly with the `j`-invariant. -/
+def IsCoarseJLine (R : CommRingCat.{u}) : Prop :=
+  ∃ (M : CoarseModuliData (ModuliProblem.trivial R))
+    (e : M.M ≅ Spec (CommRingCat.of (Polynomial R))),
+    e.hom ≫ Spec.map (CommRingCat.ofHom Polynomial.C) = M.structureMap ∧
+      ∀ (X : EllObj R) (α : (ModuliProblem.trivial R).obj (Opposite.op X)),
+        M.classify X α ≫ e.hom ≫
+            Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom
+              ((Int.castRingHom R).comp ULift.ringEquiv.toRingHom))) =
+          X.curve.jMap
+
+/-- KM 8.2.1 over `ℤ`, proved in Layer 9E steps 1–5 by the level-three invariant computation and
+the Legendre section argument. -/
+theorem coarseJLine_int : IsCoarseJLine intRing.{u} :=
+  sorry
+
+/-- Base change of the kernel of a linear map of flat modules over a principal ideal domain: if
+the cokernel of `f` is torsion-free, then for every `D`-algebra `R` the kernel of `f ⊗ R` is the
+base change of the kernel of `f`. Applied in Layer 9E to `f : A ⟶ ∏_{g∈G} A`, `a ↦ (ga − a)_g`,
+whose kernel is the invariant ring `A^G`, this is the criterion under which formation of the
+invariant ring commutes with every base change: it does so exactly when it commutes with
+reduction modulo every maximal ideal of `D`. -/
+theorem ker_baseChange_of_noZeroSMulDivisors_coker {D : Type u} [CommRing D] [IsDomain D]
+    [IsPrincipalIdealRing D] {M N : Type u} [AddCommGroup M] [Module D M] [AddCommGroup N]
+    [Module D N] [Module.Flat D M] [Module.Flat D N] (f : M →ₗ[D] N)
+    [NoZeroSMulDivisors D (N ⧸ LinearMap.range f)] (R : Type u) [CommRing R] [Algebra D R] :
+    LinearMap.ker (LinearMap.baseChange R f) =
+      LinearMap.range (LinearMap.baseChange R (LinearMap.ker f).subtype) :=
+  sorry
+
+/-- KM 8.2.1 over an arbitrary ring, "well known, cf. Igusa": an independent milestone, **not**
+a corollary of `coarseJLine_int`, because coarse formation does not commute with arbitrary base
+change (KM 8.1.7). Layer 9E step 6 proves it from the fibrewise invariant computations at every
+prime and `ker_baseChange_of_noZeroSMulDivisors_coker` applied over `ℤ[1/3]` and `ℤ[1/2]`. -/
+theorem coarseJLine (R : CommRingCat.{u}) : IsCoarseJLine R :=
   sorry
 
 /-!
@@ -1007,9 +1165,10 @@ vacuous proposition fields:
    bundle using the shared invertible-sheaf carrier, elliptic autoduality, both dual composition
    identities, the Cartier–Nishi pairing, alternation, scheme-theoretic perfection, and change of
    level;
-4. the equation-level pullback by `[N]` on the Weierstrass function field and its degree `N²`,
-   which the Elliptic Curves roadmap supplies and Layer 2A transports through
-   `projModelFunctionFieldEquiv`;
+4. the equation-level `mulByIsogeny` and `degree_mulByIsogeny` in the Elliptic Curves roadmap
+   itself, replacing the mirrored `EllipticCurvesInterface` declarations here, and the
+   arbitrary-base part of KM 8.2.1 (`coarseJLine`), which is an independent milestone from
+   `coarseJLine_int`;
 5. exact order, its implication `[N]P=0`, cyclic subgroups, coprime product theorems for
    `A`-structures, and the balanced quotient-isogeny comparison;
 6. the arrows of `EllObj.baseChangeFunctor`, the Yoneda transport in
