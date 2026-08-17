@@ -169,11 +169,10 @@ provenance under `formalized-sources/DoCarmo/` is concentrated in:
 - `DoCarmoLib/Riemannian/Geodesic/{Completeness,HopfRinow}.lean` for completeness and the
   headline theorem.
 
-Coordination outcome for this roadmap PR: the roadmap author also owns that repository and agrees
-that it may be used as prior art and adapted under Apache-2.0; no source from it is being
-integrated or copied in this PR. Before an implementation ports or adapts it, the implementor must
-record the source revision and Apache-2.0 attribution, use any corresponding declarations already
-present in the working Mathlib pin, and implement every remaining roadmap target in Tau Ceti.
+The author of that repository has agreed that it may be used as prior art and adapted under
+Apache-2.0. An implementation that ports or adapts it must record the source revision and
+attribution, use any corresponding declarations already present in the working Mathlib pin, and
+implement every remaining roadmap target in Tau Ceti.
 
 ---
 
