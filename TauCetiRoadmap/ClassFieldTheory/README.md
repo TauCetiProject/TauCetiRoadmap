@@ -9,7 +9,7 @@ Artin–Tate. The build is organised around the implication
 formation
   -> class-formation axioms
   -> fundamental classes
-  -> Tate–Nakayama
+  -> Tate's theorem
   -> finite-level Artin maps
   -> local and global Artin reciprocity
   -> existence theorems
@@ -26,7 +26,7 @@ in the appropriate Mathlib namespace, rather than introduced as a private class-
 replacement.
 
 The abstract formalism is not decorative. The local and global Artin maps constructed later in
-the roadmap must be obtained from the same degree `-2` to degree `0` Tate–Nakayama isomorphism.
+the roadmap must be obtained from the same degree `-2` to degree `0` Tate isomorphism.
 This fixes the map, its functoriality, and its sign convention before any arithmetic calculation
 is made. Everything downstream — local duality, Hilbert symbols, conductors, the Hasse norm
 theorem, class fields, Hilbert reciprocity — is then stated against that one map.
@@ -36,7 +36,7 @@ Suggested home:
 ```text
 TauCeti/NumberTheory/ClassFieldTheory/
   Formation/
-  TateNakayama/
+  TateTheorem/
   Reciprocity/
   Local/
   Global/
@@ -65,8 +65,8 @@ This roadmap owns the following constructions and theorems.
    their normalization, and their compatibility under restriction, inflation, and conjugation.
 3. The canonical fundamental class of every finite normal layer, characterized by invariant
    `1 / [U : V]`.
-4. The application of the generic Tate–Nakayama theorem to a class formation, giving cup-product
-   isomorphisms in every integer degree.
+4. The application of Tate's theorem to a class formation, giving cup-product isomorphisms in
+   every integer degree (Artin–Tate's Main Theorem).
 5. The finite-level Artin equivalence
 
    ```text
@@ -74,7 +74,7 @@ This roadmap owns the following constructions and theorems.
    ```
 
    and the Artin map on `A^U`. These are definitionally derived from the inverse of the
-   Tate–Nakayama map in degrees `-2` and `0`.
+   Tate isomorphism in degrees `-2` and `0`.
 6. Functoriality of the Artin map in towers, under conjugation, and under passage to a quotient.
 7. The local class formation, local Artin reciprocity, and the arithmetic-Frobenius
    normalization; the absolute local Artin map into the topological abelianization of `G_K`, its
@@ -237,12 +237,14 @@ res(u_{U,V}) = u_{U',V}
 
 for an intermediate ground subgroup `V ≤ U' ≤ U`. For a refinement of the top subgroup, the
 inflation formula is scaled: `inf(u_{U,V}) = [V : V'] · u_{U,V'}`. These statements are needed
-to apply Tate–Nakayama to every subgroup of `Γ`.
+to apply Tate's theorem to every subgroup of `Γ`.
 
-### 2.4 Tate–Nakayama
+### 2.4 Tate's theorem and its Tate–Nakayama generalization
 
-The generic finite-group theorem to be supplied is the following. Let `Γ` be finite, let `C` be
-a `Γ`-module, and let `u ∈ H²(Γ,C)`. Suppose that for every subgroup `H` of `Γ`:
+The generic finite-group theorem to be supplied is Tate's theorem (J. Tate, *The higher
+dimensional cohomology groups of class field theory*, Ann. of Math. 56, 1952). Let `Γ` be
+finite, let `C` be a `Γ`-module, and let `u ∈ H²(Γ,C)`. Suppose that for every subgroup `H` of
+`Γ`:
 
 ```text
 H¹(H,C) = 0,
@@ -256,21 +258,29 @@ Then, for every integer `r`, cup product with `u` gives an isomorphism
 Ĥ^r(Γ,ℤ)  ≃  Ĥ^{r+2}(Γ,C).
 ```
 
-The more general theorem with a coefficient module `M` and the hypothesis `Tor₁^ℤ(M,C) = 0`
-should be proved in the generic Tate-cohomology supplier if it is not already available. The
-class-field-theory application uses `M = ℤ`.
+Artin–Tate prove it from their Preliminaries §2 Theorem A, the cup-product criterion (surjective,
+bijective, injective in three consecutive degrees for every subgroup), and call the
+class-formation specialization the **Main Theorem** (Chapter XIV §4, Theorem 1). The
+generalization to an arbitrary coefficient module `M` with `Tor₁^ℤ(M,C) = 0`,
+
+```text
+Ĥ^r(Γ,M)  ≃  Ĥ^{r+2}(Γ, M ⊗ C),
+```
+
+is Nakayama's (Ann. of Math. 65, 1957) and is what the literature calls the **Tate–Nakayama
+theorem**; it should be proved in the generic Tate-cohomology supplier if it is not already
+available. The class-field-theory application uses `M = ℤ`, i.e. Tate's theorem, and the roadmap
+names it accordingly: `tateIso`. The explicit degree `-2 → 0` map is Artin–Tate's *Nakayama
+map*, after Nakayama's 1935 explicit formula (`nakayamaNegTwo`); it is not to be confused with
+the Tate–Nakayama theorem.
 
 The public isomorphism is not merely an existential equivalence between two groups. Its
 underlying homomorphism is the named cup-product map with the named fundamental class. This
 identity is part of the API.
 
-The roadmap uses the name `tateNakayamaIso`. Its docstring records that Artin–Tate call the
-class-formation specialization their Main Theorem, and that the result is also commonly called
-the Tate–Nakayama theorem.
-
 ### 2.5 The direction of reciprocity
 
-At `r = -2`, Tate–Nakayama gives
+At `r = -2`, Tate's theorem gives
 
 ```text
 Ĥ^{-2}(Γ,ℤ)  →  Ĥ^0(Γ,C).
@@ -304,8 +314,8 @@ artinMap : A^U → Γ^ab,
 obtained by composing the quotient map with `artinEquiv`. Consequently its kernel is exactly the
 norm subgroup. In `Suggested.lean`, `nakayamaNegTwo`, `artinEquiv` and `artinMap` are ordinary
 definitions with bodies: `artinEquiv` is `nakayamaNegTwo.symm` **definitionally**, and
-`artinMap_apply` and `artinEquiv_eq_tateNakayama` are proved by `rfl`. Only the leaves —
-`tateNakayamaIso`, the two low-degree identifications, and the cup-product map — carry `sorry`.
+`artinMap_apply` and `artinEquiv_eq_tateIso` are proved by `rfl`. Only the leaves — `tateIso`,
+the two low-degree identifications, and the cup-product map — carry `sorry`.
 A character formula provides an independent normalization check. An arbitrary equivalence of
 groups does not satisfy the contract.
 
@@ -360,7 +370,7 @@ names may change during implementation, but the mathematical direction of each m
 | invariant map | `ClassFormation.inv` |
 | fundamental class | `ClassFormation.fundamentalClass` |
 | cup with the fundamental class | `ClassFormation.cupFundamentalClass` |
-| Tate–Nakayama equivalence | `ClassFormation.tateNakayamaIso` |
+| Tate's theorem for the class formation | `ClassFormation.tateIso` |
 | degree `-2 → 0` Nakayama direction | `ClassFormation.nakayamaNegTwo` |
 | quotient-form Artin reciprocity | `ClassFormation.artinEquiv` |
 | Artin map on the ground level | `ClassFormation.artinMap` |
@@ -420,7 +430,8 @@ Do not begin by writing a new `tateH` definition.
    - `Ĥ^0(G,M) ≃ M^G / N_G M`;
    - two-periodicity for cyclic groups and the Herbrand quotient, with multiplicativity in short
      exact sequences and invariance under maps with finite kernel and cokernel;
-   - the generic Tate–Nakayama criterion.
+   - the generic cup-product criterion of Tate's theorem (Artin–Tate, Preliminaries §2,
+     Theorem A), and its Tate–Nakayama tensor-product generalization.
 
 5. Give comparison theorems with ordinary cohomology in positive degrees and with the existing
    explicit cyclic Tate theory. Do not expose duplicate public carriers.
@@ -429,7 +440,7 @@ Do not begin by writing a new `tateH` definition.
    exact sequence, and its value on finite and trivial modules; this roadmap does not introduce a
    second numerical invariant with different conventions.
 
-**Exit criterion.** `Suggested.lean` states `tateNakayamaIso`, `nakayamaNegTwo`, and
+**Exit criterion.** `Suggested.lean` states `tateIso`, `nakayamaNegTwo`, and
 `artinEquiv` using imported Tate groups and imported cup products, with no locally defined
 cohomology object.
 
@@ -483,22 +494,22 @@ Define `ClassFormation` with the axioms in §2.2. Prove:
 The invariant is data. The fundamental class is derived. A structure with an unrelated chosen
 class for every subgroup is not an acceptable substitute.
 
-**Exit criterion.** The hypotheses of the generic Tate–Nakayama theorem are available for the
+**Exit criterion.** The hypotheses of Tate's theorem are available for the
 restriction of the fundamental class to every subgroup of `U/V`.
 
-### Layer 3: Tate–Nakayama for a class formation
+### Layer 3: Tate's theorem for a class formation
 
 Apply the generic theorem with `M = ℤ` and use the tensor-unit equivalence to obtain
 
 ```text
-tateNakayamaIso (r : ℤ) :
+tateIso (r : ℤ) :
   Ĥ^r(U/V,ℤ) ≃ Ĥ^{r+2}(U/V,A^V).
 ```
 
 Prove that the forward homomorphism is exactly `cupFundamentalClass`. Establish compatibility
 with:
 
-- restriction to a subgroup (`tateNakayamaIso_res`);
+- restriction to a subgroup (`tateIso_res`);
 - corestriction/transfer;
 - conjugation;
 - the correct scaled inflation formula.
@@ -568,7 +579,7 @@ that `𝒪_L` itself is free over `𝒪_K[Γ]`, which holds only in the tame cas
 Galois group is first proved solvable from its ramification filtration, the cyclic `H²` bound is
 then propagated by induction, and only afterwards are the invariant, fundamental classes, and
 class formation constructed. The proof of `localClassFormation` must not use local reciprocity,
-the norm-index theorem, local existence, or local duality: each is downstream of Tate–Nakayama.
+the norm-index theorem, local existence, or local duality: each is downstream of Tate's theorem.
 
 For a finite Galois extension `L/K` embedded by `iota : L →ₐ[K] Kˢ`, identify the abstract norm
 quotient and Galois quotient with
@@ -945,9 +956,9 @@ It contains:
   `ClassFormation`;
 - the finite-layer norm quotient and the layers of open normal subgroups;
 - `fundamentalClass` and its defining invariant;
-- the cup-product map and `tateNakayamaIso`;
+- the cup-product map and `tateIso`;
 - the transparent definitions of `nakayamaNegTwo`, `artinEquiv`, and `artinMap`, with
-  `artinMap_apply` and `artinEquiv_eq_tateNakayama` proved by `rfl`;
+  `artinMap_apply` and `artinEquiv_eq_tateIso` proved by `rfl`;
 - the character formula, the norm-kernel theorem, and the four functoriality diagrams;
 - transparent adapters showing that the local and global Artin maps are transports of the
   abstract map, `normResidue` as the multiplicative form of `localArtinEquiv`, and the absolute
@@ -967,7 +978,7 @@ It does not contain:
 
 The derived Artin definitions are ordinary definitions with bodies rather than opaque `sorry`
 declarations. This makes the eventual target definitionally equal to the inverse of the
-Tate–Nakayama map while the leaf constructions remain the recorded `sorry` targets. The file
+Tate isomorphism while the leaf constructions remain the recorded `sorry` targets. The file
 imports the four supplier roadmaps; it type-checks against their `Suggested.lean` files at the
 heads recorded in the pull request, and it will build in CI once those roadmaps merge.
 
@@ -985,7 +996,7 @@ ProfiniteCohomology --+-- LocalFieldsRamification
                       v              v
              abstract class formations
                       |
-                Tate–Nakayama
+               Tate's theorem
                       |
              abstract finite Artin map
                       |
@@ -1030,8 +1041,11 @@ global existence and the `GlobalNumberFields` order/`Pic` API.
 - J. Neukirch, A. Schmidt, K. Wingberg, *Cohomology of Number Fields*: finite and profinite
   cohomology, local duality, and global formations.
 - J. Neukirch, *Algebraic Number Theory*, Ch. VI–VII: local and global class field theory.
-- J. S. Milne, *Class Field Theory*: Tate–Nakayama, idelic reciprocity, the Hasse norm theorem,
-  and examples.
+- J. S. Milne, *Class Field Theory*: the Tate–Nakayama theorem, idelic reciprocity, the Hasse
+  norm theorem, and examples.
+- J. Tate, *The higher dimensional cohomology groups of class field theory*, Ann. of Math. 56
+  (1952); T. Nakayama, *Cohomology of class field theory and tensor product modules I*, Ann. of
+  Math. 65 (1957): the two theorems named in §2.4.
 - `leanprover-community/mathlib4`, `Mathlib/RepresentationTheory/Homological/TateCohomology`
   and `Mathlib/RepresentationTheory/Homological/ContCohomology`.
 - `kbuzzard/ClassFieldTheory`, especially `ClassFieldTheory/Cohomology/`.

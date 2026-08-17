@@ -7,7 +7,7 @@ import TauCetiRoadmap.NumberFieldArithmetic.Suggested
 set_option autoImplicit false
 
 /-!
-# Class field theory: class formations, Tate–Nakayama, Artin reciprocity, and their consequences
+# Class field theory: class formations, Tate's theorem, Artin reciprocity, and their consequences
 
 The normative roadmap is `README.md`. This file pins the structures and maps on which the rest of
 the development depends, together with the acceptance tests of `README.md` §5. `sorry` marks a
@@ -22,7 +22,7 @@ to replace them by the exact imported declarations.
 The central design constraint is the definitional chain
 
 ```text
-tateNakayamaIso (-2)  →  nakayamaNegTwo  →  artinEquiv := nakayamaNegTwo.symm  →  artinMap.
+tateIso (-2)  →  nakayamaNegTwo  →  artinEquiv := nakayamaNegTwo.symm  →  artinMap.
 ```
 
 `nakayamaNegTwo`, `artinEquiv` and `artinMap` are ordinary definitions with bodies, so the requested
@@ -171,7 +171,7 @@ def ofOpenNormal (V : OpenNormalSubgroup G) : NormalLayer G where
   normal := Subgroup.normal_comap _
 
 /-- The intermediate normal layer corresponding to a subgroup of the finite Galois group: the
-formation-theoretic Galois correspondence used in the proof of Tate–Nakayama. -/
+formation-theoretic Galois correspondence used in the proof of Tate's theorem. -/
 noncomputable def subgroupLayer (L : NormalLayer G) (H : Subgroup L.Gal) : NormalLayer G :=
   sorry
 
@@ -368,7 +368,7 @@ theorem fundamentalClass_restrict (cf : ClassFormation F)
 
 /-- Under a refinement of the top field, inflation of the old fundamental class is the relative
 degree times the new fundamental class: `inf u_{K/F} = [L:K] u_{L/F}`. This is the scaling in the
-positive-degree inflation formula for Tate–Nakayama. -/
+positive-degree inflation formula for Tate's theorem. -/
 theorem fundamentalClass_infl (cf : ClassFormation F)
     {old new : NormalLayer G} (T : LayerRefinement old new) :
     T.cohomologyInfl F 2 (cf.fundamentalClass old) =
@@ -381,7 +381,7 @@ theorem fundamentalClass_conj (cf : ClassFormation F) (g : G) (L : NormalLayer G
       cf.fundamentalClass (conjugateLayer g L) :=
   sorry
 
-/-! ## Layer 3: Tate–Nakayama -/
+/-! ## Layer 3: Tate's theorem (Artin–Tate's Main Theorem) -/
 
 /-- The fundamental class transported from ordinary `H²` to positive Tate degree `2` through
 Mathlib's canonical comparison. -/
@@ -391,32 +391,33 @@ noncomputable def tateFundamentalClass (cf : ClassFormation F) (L : NormalLayer 
     (cf.fundamentalClass L)
 
 /-- Cup product with the fundamental class, after the tensor-unit identification
-`ℤ ⊗ A^V ≅ A^V`. This is the named homomorphism to which `tateNakayamaIso` must reduce; its
+`ℤ ⊗ A^V ≅ A^V`. This is the named homomorphism to which `tateIso` must reduce; its
 implementation is the generic Tate cup product of the supplier audit. -/
 noncomputable def cupFundamentalClass (cf : ClassFormation F) (L : NormalLayer G) (r : ℤ) :
     L.TrivialTateH r →+ L.TateH F (r + 2) :=
   sorry
 
-/-- Tate–Nakayama for a class formation, in every integer degree. Artin–Tate call the
-class-formation specialization their Main Theorem; the result is also called the Tate–Nakayama
-theorem. -/
-noncomputable def tateNakayamaIso (cf : ClassFormation F) (L : NormalLayer G) (r : ℤ) :
+/-- Tate's theorem for a class formation, in every integer degree: cup product with the
+fundamental class is an isomorphism `Ĥ^r(Γ,ℤ) ≃ Ĥ^{r+2}(Γ,A^V)` (Tate 1952; Artin–Tate's Main
+Theorem, Chapter XIV §4). Its generalization to coefficients `M` with `Tor₁(M,A^V) = 0` is the
+Tate–Nakayama theorem, which belongs to the generic supplier. -/
+noncomputable def tateIso (cf : ClassFormation F) (L : NormalLayer G) (r : ℤ) :
     L.TrivialTateH r ≃+ L.TateH F (r + 2) :=
   sorry
 
 /-- The isomorphism is the cup-product map, not an unrelated equivalence between groups of the
 same cardinality. -/
-theorem tateNakayamaIso_toAddMonoidHom (cf : ClassFormation F)
+theorem tateIso_toAddMonoidHom (cf : ClassFormation F)
     (L : NormalLayer G) (r : ℤ) :
-    (cf.tateNakayamaIso L r).toAddMonoidHom = cf.cupFundamentalClass L r :=
+    (cf.tateIso L r).toAddMonoidHom = cf.cupFundamentalClass L r :=
   sorry
 
-/-- Compatibility of Tate–Nakayama with restriction to an intermediate ground field. -/
-theorem tateNakayamaIso_res (cf : ClassFormation F)
+/-- Compatibility of Tate's theorem with restriction to an intermediate ground field. -/
+theorem tateIso_res (cf : ClassFormation F)
     {small big : NormalLayer G} (T : LayerRestriction small big) (r : ℤ)
     (x : big.TrivialTateH r) :
-    T.tateRes F (r + 2) (cf.tateNakayamaIso big r x) =
-      cf.tateNakayamaIso small r (T.trivialTateRes r x) :=
+    T.tateRes F (r + 2) (cf.tateIso big r x) =
+      cf.tateIso small r (T.trivialTateRes r x) :=
   sorry
 
 /-! ## Layer 4: low Tate degrees and the abstract Artin map -/
@@ -436,7 +437,7 @@ noncomputable def tateHZeroEquivNormQuotient (F : Formation G) (L : NormalLayer 
 noncomputable def nakayamaNegTwo (cf : ClassFormation F) (L : NormalLayer G) :
     Additive (Abelianization L.Gal) ≃+ L.NormQuotient F :=
   (tateHMinusTwoEquivAbelianization L).symm.trans
-    ((cf.tateNakayamaIso L (-2)).trans (tateHZeroEquivNormQuotient F L))
+    ((cf.tateIso L (-2)).trans (tateHZeroEquivNormQuotient F L))
 
 /-- **The Artin reciprocity direction.** Definitionally the inverse of `nakayamaNegTwo`; not a
 new opaque choice. -/
@@ -456,10 +457,10 @@ theorem artinMap_apply (cf : ClassFormation F) (L : NormalLayer G)
   rfl
 
 /-- The defining equality, recorded explicitly for downstream users and regression tests. -/
-theorem artinEquiv_eq_tateNakayama (cf : ClassFormation F) (L : NormalLayer G) :
+theorem artinEquiv_eq_tateIso (cf : ClassFormation F) (L : NormalLayer G) :
     cf.artinEquiv L =
       ((tateHMinusTwoEquivAbelianization L).symm.trans
-        ((cf.tateNakayamaIso L (-2)).trans
+        ((cf.tateIso L (-2)).trans
           (tateHZeroEquivNormQuotient F L))).symm :=
   rfl
 
