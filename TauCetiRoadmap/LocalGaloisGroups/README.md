@@ -126,7 +126,8 @@ that identification makes the statement false.
 ## How to read the build
 
 `README.md` is normative. `Suggested.lean` pins central names and useful target signatures but is
-not exhaustive. `PROVENANCE.md` records the source extraction and is not a prerequisite.
+not exhaustive. Source-extraction records are maintained in the private migration and provenance
+ledger and are not prerequisites.
 
 In the layers below, `M` denotes Mathlib, `PPG` denotes `ProfiniteProPGroups`, `PC` denotes
 `ProfiniteCohomology`, `LFR` denotes `LocalFieldsRamification`, and `CFT` denotes
