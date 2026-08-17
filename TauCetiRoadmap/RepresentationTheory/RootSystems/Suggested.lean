@@ -133,7 +133,7 @@ theorem length_weylCoxeterSystem_eq [Finite ι] [CharZero R] [IsDomain R]
 
 end CoxeterPresentation
 
-/-! ## Layer 3: the missing Coxeter combinatorics (upstreamable, root-system-free) -/
+/-! ## Layer 3: the missing Coxeter combinatorics (root-system-free) -/
 
 section CoxeterCombinatorics
 
@@ -295,6 +295,71 @@ theorem exists_rootPairing_of_dynkinType (t : DynkinType) (ht : t.Valid) :
       (_hrs : P.IsRootSystem) (hcrys : P.IsCrystallographic) (_hred : P.IsReduced)
       (_hirr : P.IsIrreducible),
       @HasCartanType (Fin t.rank) ℚ (Fin t.rank → ℚ) (Fin t.rank → ℚ) _ _ _ _ _ P hcrys b t := sorry
+
+/-! ## Layer 6: the Bourbaki numbering and integral root data
+
+Layer 5 classifies root systems up to isomorphism. Downstream constructions need something stronger:
+a *named* root datum over `ℤ` for each valid type, with its nodes numbered, rather than an existence
+theorem they would have to `Classical.choose` from. The Chevalley--Demazure construction consumed by
+the CFSG statement roadmap ([Add CFSG statement roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/156)) is the immediate consumer. -/
+
+/-- **The Bourbaki node numbering**, pinned once. `DynkinType.cartanMatrix t` is indexed so that
+Bourbaki node `i` sits at `Fin` index `i - 1`, and `cartanMatrix t i j = ⟨α_i, α_j^∨⟩`. Concretely:
+the `A_n` chain runs `0, 1, …, n - 1` in order; `B_n` and `C_n` continue that chain with the double
+edge between `n - 2` and `n - 1`, the short simple root being the last node of `B_n` and the long
+one the last node of `C_n`; `D_n` forks at `n - 3`, with `n - 2` and `n - 1` the two fork nodes;
+`E_n` follows Bourbaki with node `2` (index `1`) the branch node off the `1-3-4-5-6` chain; `F₄` has
+`0, 1` long and `2, 3` short; and `G₂` has `0` short and `1` long, giving `!![2, -1; -3, 2]`.
+
+Anything that permutes simple roots must be stated against this numbering, and zero-based `Fin`
+indices are the trap: a diagram automorphism written as "`1 ↔ 6`" in Bourbaki labels is
+`0 ↔ 5` here. -/
+def DynkinType.IsLongSimpleRoot : (t : DynkinType) → Fin t.rank → Prop
+  | .A _, _ => True
+  | .D _, _ => True
+  | .E6, _ | .E7, _ | .E8, _ => True
+  | .B n, i => (i : ℕ) + 1 < n
+  | .C n, i => (i : ℕ) + 1 = n
+  | .F4, i => (i : ℕ) < 2
+  | .G2, i => (i : ℕ) = 1
+
+/-- The number of roots of each Dynkin type, so that the root index set of the pinned datum below can
+be `Fin t.numRoots` rather than an abstract type. -/
+def DynkinType.numRoots : DynkinType → ℕ
+  | .A n => n * (n + 1)
+  | .B n | .C n => 2 * n ^ 2
+  | .D n => 2 * n * (n - 1)
+  | .E6 => 72 | .E7 => 126 | .E8 => 240 | .F4 => 48 | .G2 => 12
+
+/-- **The pinned simply connected root datum** of a valid Dynkin type. Both lattices are
+`Fin t.rank → ℤ`: the cocharacter lattice has the simple coroots as its standard basis, and the
+character lattice has the fundamental weights as its standard basis, so `⟨ω_i, α_j^∨⟩ = δ_ij` and
+the simple root `α_i` is the `i`-th row of `DynkinType.cartanMatrix t`. Roots are indexed by
+`Fin t.numRoots`, with the first `t.rank` indices the simple roots in Bourbaki order.
+
+This is a definition, not an existence statement, and that is the point: a consumer that needs a
+carrier must be able to unfold to explicit data rather than choose one from
+`exists_rootPairing_of_dynkinType`. -/
+def DynkinType.simplyConnectedRootDatum (t : DynkinType) (_ht : t.Valid) :
+    RootDatum (Fin t.numRoots) (Fin t.rank → ℤ) (Fin t.rank → ℤ) := sorry
+
+/-- The base of the pinned datum, supported on the first `t.rank` root indices in Bourbaki order. -/
+def DynkinType.simplyConnectedBase (t : DynkinType) (ht : t.Valid) :
+    (t.simplyConnectedRootDatum ht).Base := sorry
+
+/-- The pinned datum realizes its own type, against the pinned numbering. Together with
+`DynkinType.simplyConnectedRootDatum` this replaces `exists_rootPairing_of_dynkinType` for consumers
+that need a named carrier. -/
+theorem DynkinType.hasCartanType_simplyConnectedRootDatum (t : DynkinType) (ht : t.Valid) :
+    ∃ _hcrys : (t.simplyConnectedRootDatum ht).IsCrystallographic,
+      HasCartanType (t.simplyConnectedRootDatum ht) (t.simplyConnectedBase ht) t := sorry
+
+/-- The pinned datum is the **simply connected** form: its cocharacter lattice is spanned by the
+coroots. The adjoint form is the dual choice, with the character lattice spanned by the roots; a
+consumer that needs it takes `RootPairing.flip` of the corresponding datum rather than a second
+pinned definition. -/
+theorem DynkinType.span_coroot_simplyConnectedRootDatum (t : DynkinType) (ht : t.Valid) :
+    Submodule.span ℤ (Set.range (t.simplyConnectedRootDatum ht).coroot) = ⊤ := sorry
 
 /-! ## Worked examples (acceptance criteria) -/
 

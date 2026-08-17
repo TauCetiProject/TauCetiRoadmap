@@ -127,3 +127,37 @@ with the differential of a Hopf morphism a Lie morphism. The adjoint action is n
 worked examples caught up with the scheme language: `GLₙ`, `SLₙ` as a closed subgroup of it, `𝔾ₐ`
 as affine one-space, `μ_n` as a closed subgroup of `𝔾ₘ`, and split tori, each with its
 scheme-valued points identified with the expected classical group.
+
+<!--tauceti-progress:v1 {"from_sha":"11ef09d4d6e560655ed762ace27ef2858e9117cd","prs":[1741,1871,1909,1925,1935,1944,1958,2014,2017,2251,2359,2365,2386,2389,2391,2394,2447,2450,2456,2457,2459,2481,2482,2483,2496,2522,2537,2540,2545,2556,2564,2567,2577,2582,2610,2615,2618,2627,2632,2639,2647,2648,2649,2651,2678,2683,2688,2700,2706,2740,2746,2749,2757,2761,2765,2771,2783,2787,2837,2843],"roadmap":"ReductiveGroups","to_sha":"f7aaa6df91011d8623d880c19e6cc3f69e1d46f4"}-->
+## ReductiveGroups: 2026-08-03 to 2026-08-12 (`11ef09d` to `f7aaa6d`)
+
+The embedding theorem landed: every affine group scheme of finite type over a field is a closed
+subgroup of some general linear group
+([`exists_isClosedImmersion_generalLinear`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Embedding.html#TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear),
+TauCeti#2582). It went through the finite-dimensional subcoalgebra theory, as the roadmap asked,
+rather than through bare Noetherianity: a finite-type commutative Hopf algebra over a field is a
+quotient of the coordinate ring of some `GLₙ`
+([`exists_coordinateBialgHom_surjective`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Embedding.html#TauCeti.Comodule.exists_coordinateBialgHom_surjective)).
+With it came faithfulness in the roadmap's sense: a finite free comodule gives a closed immersion
+into `GLₙ` exactly when its matrix coefficients and their antipode images generate the coordinate
+Hopf algebra
+([`isClosedImmersion_coordinateGroupSchemeHom_iff_matrixCoefficientSubalgebra_sup_antipode_eq_top`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Faithful.html#TauCeti.Comodule.isClosedImmersion_coordinateGroupSchemeHom_iff_matrixCoefficientSubalgebra_sup_antipode_eq_top)).
+
+Tannakian reconstruction is begun, not finished. Points act faithfully by tensor automorphisms on
+scalar extension of finite comodules; conversely a tensor automorphism restricts
+to compatible functionals on the finite subcomodules of the regular comodule, and these glue to a
+multiplicative global functional, hence to a point
+([`reconstructedPoint`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Tannaka/Reconstruction.html#TauCeti.Tannaka.reconstructedPoint))
+which recovers the point it came from. The other round trip, that every tensor automorphism is the
+one induced by its reconstructed point, is not stated, so there is no isomorphism yet. That gap
+also holds up Jordan decomposition: the multiplicative Jordan-Chevalley decomposition of a linear
+automorphism was built, and the semisimple and unipotent parts of a point's actions were assembled
+into commuting tensor automorphisms whose product is the point, but nothing turns them into points
+of the group.
+
+Layer 2 arrived nearly whole: the cotangent space at the identity and its dual Lie algebra, the
+adjoint action as a point representation and a comodule, the Lie algebra of a closed subgroup or
+kernel with its conormal exact sequence, and `Lie(GLₙ)` and `Lie(SLₙ)` identified with matrices and
+trace-zero matrices. Elsewhere: normal Hopf ideals and the pointwise quotient presheaf, geometric
+connectedness and its stability under base field extension, faithfully flat descent for points, and
+base change of affine group schemes.

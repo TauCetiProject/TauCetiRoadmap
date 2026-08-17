@@ -3,6 +3,20 @@ Copyright (c) 2026 The Tau Ceti contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
+import TauCeti.Analysis.InnerProductSpace.HilbertBasisMap
+import TauCeti.Analysis.InnerProductSpace.L2.Pi
+import TauCeti.Analysis.InnerProductSpace.L2.Product
+import TauCeti.Analysis.InnerProductSpace.PolynomialCompleteness
+import TauCeti.Analysis.InnerProductSpace.WeightedOrthogonalBasis
+import TauCeti.Analysis.SpecialFunctions.Hermite.Orthogonality
+import TauCeti.MeasureTheory.Function.WeightL2Isometry
+import TauCeti.Probability.Distributions.Gaussian.Hermite.Basis
+import TauCeti.Probability.Distributions.Gaussian.Hermite.MemLp
+import TauCeti.Probability.Distributions.Gaussian.Hermite.Pi.Basis
+import TauCeti.Probability.Moments.VanishingMoments
+import TauCeti.RingTheory.Polynomial.Hermite.Derivative
+import TauCeti.RingTheory.Polynomial.Hermite.GeneratingFunction
+import TauCeti.RingTheory.Polynomial.Hermite.Real
 
 /-!
 # Targets — weighted orthogonal L² bases (`OrthogonalL2Bases`)
@@ -12,8 +26,17 @@ import Mathlib
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
-Representative `sorry`-milestones for the `OrthogonalL2Bases` roadmap (full narrative and the
-complete API in `README.md`). These state the **weight↔measure-isometry enhancement** — the small
+Every milestone below is **discharged**: each target is stated exactly as the roadmap asked for
+it, and closed by the Tau Ceti declaration that realizes it, so the correspondence is checked by
+the Lean kernel rather than asserted in prose. CI builds this file against the repository's current
+Tau Ceti pin, so it continues to check the implementation as the library moves forward.
+
+Nine targets reach their counterpart under a different name and three need the roadmap's
+hypotheses genuinely weakened rather than merely renamed, which is why a name-matching check is
+not a substitute for this one.
+
+Milestones for the `OrthogonalL2Bases` roadmap (full narrative and the complete API in
+`README.md`). These state the **weight↔measure-isometry enhancement** — the small
 addition that gives every family's basis in *both* normalizations — on top of the existing layers:
 the new primitive `weightL2Isometry : L²(w·μ) ≃ₗᵢ L²(μ)` and its `HilbertBasis` transport `mapₗᵢ`
 (Part 0); the orthogonality relation (A1, Gaussian-measure form); the bridge producing the
@@ -22,12 +45,12 @@ Gaussian-Hermite instance (A3); and the product / `pi` bases (B3). The Hermite-f
 (A2), the function-side `hermiteHilbertBasis`, the completeness toolkit (B1), and the Chebyshev
 instance (Part C) are stated in full in `README.md`; this file seeds the representative core.
 
-Conventions folded in from review (a roadmap reviewer + Codex/GPT-5.4): `μ : Measure ℝ` (the bridge
+Conventions: `μ : Measure ℝ` (the bridge
 evaluates `Polynomial.eval`); `weightL2Isometry` needs only `0 < w` a.e. (no finiteness — the
 `ENNReal.ofReal` density is finite); `mapₗᵢ` body `ofRepr (e.symm.trans b.repr)` (Mathlib has no
 `≃ₗᵢ`-transport); ℕ-smul Hermite derivative; `ℤ[X]` Hermite mapped to `ℝ[X]` via `hermiteℝ`; every
-basis ships a `coe_*` / `*_apply` anti-vacuity pin. Elaborates against the pinned toolchain
-(sorry-warnings only).
+basis ships a `coe_*` / `*_apply` anti-vacuity pin. Elaborates cleanly against the repository's
+pinned dependencies.
 -/
 
 namespace TauCetiRoadmap.OrthogonalL2Bases
@@ -43,63 +66,76 @@ variable {𝕜 : Type*} [RCLike 𝕜]
 multiplication by `√w` is a linear isometric equivalence `L²(w·μ) ≃ₗᵢ L²(μ)`
 (`w·μ := μ.withDensity (ofReal ∘ w)`); an *equivalence* precisely because `w > 0` a.e. (`hwpos`
 load-bearing). Purely measure-theoretic, so stated over an arbitrary `MeasurableSpace` (only the
-polynomial bridge below needs `Measure ℝ`); a genuine Mathlib gap and an upstream candidate. The
+polynomial bridge below needs `Measure ℝ`); a genuine Mathlib gap. The
 single primitive converting weight-in-measure ↔ weight-in-function; transports any Hilbert basis
 across (`mapₗᵢ`). -/
 noncomputable def weightL2Isometry {α : Type*} [MeasurableSpace α] (μ : Measure α) (w : α → ℝ)
     (hwpos : ∀ᵐ x ∂μ, 0 < w x) (hwm : AEMeasurable w μ) :
-    Lp 𝕜 2 (μ.withDensity (fun x => ENNReal.ofReal (w x))) ≃ₗᵢ[𝕜] Lp 𝕜 2 μ := sorry
+    Lp 𝕜 2 (μ.withDensity (fun x => ENNReal.ofReal (w x))) ≃ₗᵢ[𝕜] Lp 𝕜 2 μ :=
+  TauCeti.weightL2Isometry μ w hwpos hwm
 
 /-- Element-level characterization (anti-vacuity): the isometry is multiplication by `√w`. -/
 theorem weightL2Isometry_apply {α : Type*} [MeasurableSpace α] (μ : Measure α) (w : α → ℝ)
     (hwpos : ∀ᵐ x ∂μ, 0 < w x) (hwm : AEMeasurable w μ)
     (f : Lp 𝕜 2 (μ.withDensity (fun x => ENNReal.ofReal (w x)))) :
-    weightL2Isometry (𝕜 := 𝕜) μ w hwpos hwm f =ᵐ[μ] fun x => Real.sqrt (w x) • f x := sorry
+    weightL2Isometry (𝕜 := 𝕜) μ w hwpos hwm f =ᵐ[μ] fun x => Real.sqrt (w x) • f x :=
+  TauCeti.weightL2Isometry_apply μ w hwpos hwm f
 
 /-- Inverse direction (multiplication by `(√w)⁻¹`), closing the both-normalizations loop. -/
 theorem weightL2Isometry_symm_apply {α : Type*} [MeasurableSpace α] (μ : Measure α) (w : α → ℝ)
     (hwpos : ∀ᵐ x ∂μ, 0 < w x) (hwm : AEMeasurable w μ) (g : Lp 𝕜 2 μ) :
     (weightL2Isometry (𝕜 := 𝕜) μ w hwpos hwm).symm g
-      =ᵐ[μ] fun x => (Real.sqrt (w x))⁻¹ • g x := sorry
+      =ᵐ[μ] fun x => (Real.sqrt (w x))⁻¹ • g x :=
+  TauCeti.weightL2Isometry_symm_apply μ w hwpos hwm g
 
 /-- Transport a Hilbert basis along a linear isometric equivalence. Mathlib has `ofRepr` but no
-`≃ₗᵢ`-transport, so this is a needed (one-line) target. -/
-noncomputable def _root_.HilbertBasis.mapₗᵢ {ι : Type*} {E F : Type*}
+`≃ₗᵢ`-transport, so this is a needed (one-line) target.
+
+Stated as an `example` rather than a `def`: Tau Ceti realizes this target in `_root_` under the
+same name, so a second declaration here would collide. The statement is unchanged, and it is
+discharged by the declaration that realizes it. -/
+noncomputable example {ι : Type*} {E F : Type*}
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
     [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
     (b : HilbertBasis ι 𝕜 E) (e : E ≃ₗᵢ[𝕜] F) : HilbertBasis ι 𝕜 F :=
-  HilbertBasis.ofRepr (e.symm.trans b.repr)
+  b.mapₗᵢ e
 
-@[simp] theorem _root_.HilbertBasis.mapₗᵢ_apply {ι : Type*} {E F : Type*}
+example {ι : Type*} {E F : Type*}
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
     [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
     (b : HilbertBasis ι 𝕜 E) (e : E ≃ₗᵢ[𝕜] F) (i : ι) :
-    (b.mapₗᵢ e) i = e (b i) := sorry
+    (b.mapₗᵢ e) i = e (b i) :=
+  HilbertBasis.mapₗᵢ_apply b e i
 
 /-! ## Part A1 — Hermite polynomial API (the analytic input; `hermite n : ℤ[X]`) -/
 
 theorem derivative_hermite_succ (n : ℕ) :
-    derivative (hermite (n + 1)) = (n + 1) • hermite n := sorry
+    derivative (hermite (n + 1)) = (n + 1) • hermite n :=
+  Polynomial.derivative_hermite_succ n
 
 theorem integrable_aeval_mul_gaussian (p : ℤ[X]) :
-    Integrable (fun x : ℝ => aeval x p * Real.exp (-(x ^ 2 / 2))) := sorry
+    Integrable (fun x : ℝ => aeval x p * Real.exp (-(x ^ 2 / 2))) :=
+  TauCeti.integrable_aeval_mul_gaussian p
 
 theorem hermite_generating_function (x t : ℝ) :
-    ∑' n : ℕ, aeval x (hermite n) * t ^ n / (n.factorial : ℝ) = Real.exp (x * t - t ^ 2 / 2) := sorry
+    ∑' n : ℕ, aeval x (hermite n) * t ^ n / (n.factorial : ℝ) = Real.exp (x * t - t ^ 2 / 2) :=
+  Polynomial.hermite_generating_function x t
 
 /-- **The orthogonality relation, Gaussian-measure form** — the analytic fact the Gaussian basis
 needs, stated directly against `N(0,1)` (the Lebesgue `∫ Hₘ Hₙ e^{-x²/2} dx = n!√(2π)` form is this
 times `√(2π)`). -/
 theorem integral_hermite_mul_hermite_gaussianReal (m n : ℕ) :
     (∫ x, aeval x (hermite m) * aeval x (hermite n) ∂(gaussianReal 0 1))
-      = if m = n then (n.factorial : ℝ) else 0 := sorry
+      = if m = n then (n.factorial : ℝ) else 0 :=
+  TauCeti.integral_hermite_mul_hermite_gaussianReal m n
 
 /-! ## Part B1 — Completeness toolkit (moment determinacy; supplies `hcomplete`) -/
 
 theorem ae_eq_zero_of_forall_moment_eq_zero (g : ℝ → ℝ)
     (hexp : ∀ a : ℝ, 0 ≤ a → Integrable (fun x : ℝ => Real.exp (a * |x|) * g x) volume)
     (hmom : ∀ n : ℕ, ∫ x : ℝ, x ^ n * g x = 0) :
-    g =ᵐ[volume] 0 := sorry
+    g =ᵐ[volume] 0 :=
+  TauCeti.ae_eq_zero_of_forall_moment_eq_zero g ⟨1, one_pos, hexp 1 zero_le_one⟩ hmom
 
 /-- **B1, measure level** — the determinacy result the *weighted-measure* bridge actually needs
 (`ae_eq_zero_of_forall_moment_eq_zero` above is the `volume`/function instance; `barePolyLp_ortho_eq_bot`
@@ -113,7 +149,8 @@ theorem ae_eq_zero_of_forall_moment_eq_zero_of_finite_expMoments
     (hexp : ∀ a : ℝ, 0 ≤ a → Integrable (fun x : ℝ => Real.exp (a * |x|)) ν)
     {g : ℝ → 𝕜} (hg : MemLp g 2 ν)
     (hmom : ∀ n : ℕ, ∫ x, (algebraMap ℝ 𝕜 x) ^ n * g x ∂ν = 0) :
-    g =ᵐ[ν] 0 := sorry
+    g =ᵐ[ν] 0 :=
+  TauCeti.ae_eq_zero_of_forall_moment_eq_zero_of_finite_expMoments hexp hg hmom
 
 /-! ## Part B2 — orthogonality relation → Hilbert basis (re-keyed: weight in the MEASURE) -/
 
@@ -134,7 +171,9 @@ theorem orthonormal_barePolyLp {μ : Measure ℝ}
     (horth : ∀ m n, (∫ x, (p m).eval x * (p n).eval x * w x ∂μ) = if m = n then c n else 0)
     (hmem : ∀ n, MemLp (fun x => (algebraMap ℝ 𝕜) ((p n).eval x / Real.sqrt (c n))) 2
       (μ.withDensity (fun x => ENNReal.ofReal (w x)))) :
-    Orthonormal 𝕜 (barePolyLp (𝕜 := 𝕜) p w c hmem) := sorry
+    Orthonormal 𝕜 (barePolyLp (𝕜 := 𝕜) p w c hmem) :=
+  TauCeti.orthonormal_bareNormalizedLp (fun n x => (p n).eval x) w c
+    (hwpos.mono fun _ hx => hx.le) hwm hc horth hmem
 
 /-- **Completeness target** — grounded in moment determinacy
 (`ae_eq_zero_of_forall_moment_eq_zero_of_finite_expMoments`, B1 measure level, applied to `ν = w·μ`):
@@ -145,13 +184,15 @@ it grounded. Note `hdeg` uses `degree` (not `natDegree`): `natDegree 0 = 0` woul
 through and kill the basis (e.g. `μ = δ₀`), so we require the genuine degree, forcing `p n ≠ 0`.
 Produces the `ᗮ = ⊥` input the assembler consumes. -/
 theorem barePolyLp_ortho_eq_bot {μ : Measure ℝ}
-    (hwpos : ∀ᵐ x ∂μ, 0 < w x) (hwm : AEMeasurable w μ) (hc : ∀ n, 0 < c n)
+    (_hwpos : ∀ᵐ x ∂μ, 0 < w x) (_hwm : AEMeasurable w μ) (hc : ∀ n, 0 < c n)
     (hdeg : ∀ n, (p n).degree = (n : WithBot ℕ))
     (hexp : ∀ a : ℝ, 0 ≤ a →
       Integrable (fun x : ℝ => Real.exp (a * |x|)) (μ.withDensity (fun x => ENNReal.ofReal (w x))))
     (hmem : ∀ n, MemLp (fun x => (algebraMap ℝ 𝕜) ((p n).eval x / Real.sqrt (c n))) 2
       (μ.withDensity (fun x => ENNReal.ofReal (w x)))) :
-    (Submodule.span 𝕜 (Set.range (barePolyLp (𝕜 := 𝕜) p w c hmem)))ᗮ = ⊥ := sorry
+    (Submodule.span 𝕜 (Set.range (barePolyLp (𝕜 := 𝕜) p w c hmem)))ᗮ = ⊥ :=
+  TauCeti.orthogonal_span_range_bareNormalizedLp_eq_bot p w c hdeg hc
+    ⟨1, one_pos, hexp 1 zero_le_one⟩ hmem
 
 /-- **PRIMITIVE (weight in the measure).** The normalized bare polynomials are a Hilbert basis of the
 weighted measure `L²(w·μ)` — the textbook statement and the consumer's object. (`hdeg` is *not* a
@@ -187,7 +228,8 @@ theorem coe_hilbertBasisOfWeightedMeasure {μ : Measure ℝ}
       (μ.withDensity (fun x => ENNReal.ofReal (w x))))
     (hcomplete : (Submodule.span 𝕜 (Set.range (barePolyLp (𝕜 := 𝕜) p w c hmem)))ᗮ = ⊥) :
     ⇑(hilbertBasisOfWeightedMeasure p w c hwpos hwm hc horth hmem hcomplete)
-      = barePolyLp (𝕜 := 𝕜) p w c hmem := sorry
+      = barePolyLp (𝕜 := 𝕜) p w c hmem :=
+  HilbertBasis.coe_mkOfOrthogonalEqBot _ _
 
 /-- Element-level pin for the derived function-side basis: the `weightL2Isometry` image of the
 weighted-measure basis (from `mapₗᵢ_apply` + `coe_hilbertBasisOfWeightedMeasure`). -/
@@ -198,7 +240,9 @@ theorem coe_hilbertBasisOfOrthogonalSystem {μ : Measure ℝ}
       (μ.withDensity (fun x => ENNReal.ofReal (w x))))
     (hcomplete : (Submodule.span 𝕜 (Set.range (barePolyLp (𝕜 := 𝕜) p w c hmem)))ᗮ = ⊥) (n : ℕ) :
     hilbertBasisOfOrthogonalSystem p w c hwpos hwm hc horth hmem hcomplete n
-      = weightL2Isometry μ w hwpos hwm (barePolyLp (𝕜 := 𝕜) p w c hmem n) := sorry
+      = weightL2Isometry μ w hwpos hwm (barePolyLp (𝕜 := 𝕜) p w c hmem n) := by
+  rw [hilbertBasisOfOrthogonalSystem, HilbertBasis.mapₗᵢ_apply,
+    coe_hilbertBasisOfWeightedMeasure]
 
 end WeightedBridge
 
@@ -213,18 +257,21 @@ instance of `hilbertBasisOfWeightedMeasure` (`μ = volume`, `w = gaussianPDFReal
 `cₙ = n!`), since `gaussianReal 0 1 = volume.withDensity (gaussianPDF 0 1)`
 (`gaussianReal_of_var_ne_zero`). -/
 noncomputable def gaussianHermiteHilbertBasis :
-    HilbertBasis ℕ 𝕜 (Lp 𝕜 2 (gaussianReal 0 1)) := sorry
+    HilbertBasis ℕ 𝕜 (Lp 𝕜 2 (gaussianReal 0 1)) :=
+  TauCeti.gaussianHermiteHilbertBasis 𝕜
 
 /-- The Gaussian Hermite basis is the explicit `Hₙ/√(n!)` family (the anti-vacuity pin downstream
 needs to compute chaos coordinates). -/
 theorem coe_gaussianHermiteHilbertBasis (n : ℕ) :
     ⇑(gaussianHermiteHilbertBasis (𝕜 := 𝕜) n) =ᵐ[gaussianReal 0 1]
-      fun x => (algebraMap ℝ 𝕜) (aeval x (hermite n) / Real.sqrt (n.factorial)) := sorry
+      fun x => (algebraMap ℝ 𝕜) (aeval x (hermite n) / Real.sqrt (n.factorial)) :=
+  TauCeti.coeFn_gaussianHermiteHilbertBasis 𝕜 n
 
 /-- Variance-general `L²` membership (scalar-cast), for the Wick variables `Hₙ(W h)`. -/
 theorem memLp_hermite_gaussianReal (n : ℕ) (v : ℝ≥0) :
     MemLp (fun x => (algebraMap ℝ 𝕜) (aeval x (hermite n) / Real.sqrt (n.factorial))) 2
-      (gaussianReal 0 v) := sorry
+      (gaussianReal 0 v) :=
+  TauCeti.memLp_hermite_gaussianReal n v
 
 /-! ## Part B3 — product / pi bases + the Gaussian multi-d instance -/
 
@@ -236,12 +283,14 @@ variable {α β : Type*} [MeasurableSpace α] [MeasurableSpace β]
 finite-dim `OrthonormalBasis.tensorProduct` only). -/
 noncomputable def prodHilbertBasis {ι₁ ι₂ : Type*}
     (b₁ : HilbertBasis ι₁ 𝕜 (Lp 𝕜 2 μ)) (b₂ : HilbertBasis ι₂ 𝕜 (Lp 𝕜 2 ν)) :
-    HilbertBasis (ι₁ × ι₂) 𝕜 (Lp 𝕜 2 (μ.prod ν)) := sorry
+    HilbertBasis (ι₁ × ι₂) 𝕜 (Lp 𝕜 2 (μ.prod ν)) :=
+  TauCeti.prodHilbertBasis b₁ b₂
 
 /-- **Characterization** (anti-vacuity): the `(i,j)` vector is a.e. the product `b₁ i ⊗ b₂ j`. -/
 theorem prodHilbertBasis_apply {ι₁ ι₂ : Type*}
     (b₁ : HilbertBasis ι₁ 𝕜 (Lp 𝕜 2 μ)) (b₂ : HilbertBasis ι₂ 𝕜 (Lp 𝕜 2 ν)) (i : ι₁) (j : ι₂) :
-    ⇑(prodHilbertBasis b₁ b₂ (i, j)) =ᵐ[μ.prod ν] fun q => (b₁ i) q.1 * (b₂ j) q.2 := sorry
+    ⇑(prodHilbertBasis b₁ b₂ (i, j)) =ᵐ[μ.prod ν] fun q => (b₁ i) q.1 * (b₂ j) q.2 :=
+  TauCeti.coeFn_prodHilbertBasis b₁ b₂ i j
 
 end Product
 
@@ -249,7 +298,8 @@ noncomputable def piHilbertBasis
     {ι : Type*} [Fintype ι] {α : ι → Type*} [∀ i, MeasurableSpace (α i)]
     {μ : ∀ i, Measure (α i)} [∀ i, SigmaFinite (μ i)] {κ : ι → Type*}
     (b : ∀ i, HilbertBasis (κ i) 𝕜 (Lp 𝕜 2 (μ i))) :
-    HilbertBasis (∀ i, κ i) 𝕜 (Lp 𝕜 2 (Measure.pi μ)) := sorry
+    HilbertBasis (∀ i, κ i) 𝕜 (Lp 𝕜 2 (Measure.pi μ)) :=
+  TauCeti.piHilbertBasis b
 
 /-- **Multi-d Gaussian Hermite basis** of `L²(γⁿ)` — `piHilbertBasis` over the 1-D Gaussian basis;
 the multi-index Hermite basis `Ψ_α = ∏ᵢ Hₐᵢ`, the standard basis for multivariate Gaussian L² /
@@ -263,6 +313,6 @@ theorem coe_gaussianHermitePiBasis (ι : Type*) [Fintype ι] (a : ι → ℕ) :
     ⇑(gaussianHermitePiBasis (𝕜 := 𝕜) ι a)
       =ᵐ[Measure.pi (fun _ : ι => gaussianReal 0 1)]
         fun x => ∏ i, (algebraMap ℝ 𝕜) (aeval (x i) (hermite (a i)) / Real.sqrt ((a i).factorial)) :=
-  sorry
+  TauCeti.coeFn_gaussianHermitePiBasis 𝕜 ι a
 
 end TauCetiRoadmap.OrthogonalL2Bases

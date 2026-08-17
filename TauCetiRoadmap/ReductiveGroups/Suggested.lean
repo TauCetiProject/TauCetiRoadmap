@@ -9,7 +9,7 @@ contributors and reviewers converge on names and signatures; discharging all of 
 finishes neither a layer nor the roadmap.
 
 The narrative roadmap (the three synchronized models, the layer-by-layer build plan
-Layers 0–7, the worked examples, and the references) is in `README.md`.
+Layers 0–9, the worked examples, and the references) is in `README.md`.
 
 This file holds the **Layer 0** targets translating between affine group schemes and
 Hopf algebras (Kevin Buzzard). They elaborate against the pinned Mathlib commit and are
@@ -20,7 +20,6 @@ of Hopf algebras.
 -/
 
 open CategoryTheory AlgebraicGeometry CommRingCat Scheme Opposite Spec
-open scoped SpecOfNotation
 
 namespace TauCetiRoadmap.ReductiveGroups
 
@@ -29,11 +28,12 @@ universe u
 variable (R : Type u) [CommRing R]
 
 /-- `Γ(G)` is an `R`-Hopf algebra, for `G` an affine group scheme over `Spec R`. -/
-example (G : Scheme) (φ : G ⟶ Spec(R)) [GrpObj (Over.mk φ)] [IsAffine G] :
+example (G : Scheme) (φ : G ⟶ Spec (CommRingCat.of R)) [GrpObj (Over.mk φ)] [IsAffine G] :
     HopfAlgebra R (Γ.obj (op G)) := sorry
 
 /-- The affine group scheme `Spec A` over `Spec R` associated to a Hopf algebra `A`. -/
 example (A : Type u) [CommRing A] [HopfAlgebra R A] :
-    GrpObj (Over.mk (map (ofHom (algebraMap R A)) : Spec(A) ⟶ Spec(R))) := sorry
+    GrpObj (Over.mk (map (ofHom (algebraMap R A)) :
+      Spec (CommRingCat.of A) ⟶ Spec (CommRingCat.of R))) := sorry
 
 end TauCetiRoadmap.ReductiveGroups

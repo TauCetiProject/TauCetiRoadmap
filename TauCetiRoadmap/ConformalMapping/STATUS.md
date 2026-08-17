@@ -1,122 +1,91 @@
-<!--tauceti-status:v1 {"roadmap":"ConformalMapping","to_sha":"6919462d4134c7850ded5c71cc7a2e8a9054a2d0","ts":"2026-08-01T03:46:02Z"}-->
+<!--tauceti-status:v1 {"roadmap":"ConformalMapping","to_sha":"03fcee5c26082d455072bee2d3044ce5bec908cd","ts":"2026-08-10T15:35:51Z"}-->
 # Status: ConformalMapping
 
-This file documents the status of the ConformalMapping roadmap up until `6919462` (2026-08-01T03:46:02Z). There may have been subsequent updates.
+This file documents the status of the ConformalMapping roadmap up until `03fcee5` (2026-08-10T15:35:51Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-The core layers L0–L4, the ones for which `Suggested.lean` states representative `sorry`-goals,
-are all discharged. L5 is partly done and L6 untouched.
+**At a glance.** The summit and the layers around it are done: the Riemann mapping theorem, the
+normal-families and Schwarz-lemma machinery beneath it, reflection and continuation above it. The
+live layer is L5, the Carathéodory boundary correspondence, where the converse direction and most of
+the length–area machinery are proved but the continuous extension of the Riemann map of a Jordan
+domain is not. L6, Schwarz–Christoffel, has not begun.
 
-**L0 — the local-mapping engine: done.** Rouché in several forms
-(`TauCeti.rouche`, <https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Rouche.html#TauCeti.rouche>),
-Hurwitz as the dichotomy "nowhere zero or identically zero"
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Hurwitz.html#TauCeti.hurwitz_forall_ne_or_forall_eq>)
-together with the eventual-zero and eventual-value forms, Morera as a named theorem
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Morera.html#TauCeti.morera>),
-the open-mapping degree in count, existential and distinct-and-simple forms
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/LocalDegree.html#TauCeti.exists_localDegree>),
-the local injectivity criterion `deriv f z₀ ≠ 0`, and a zero-count API on discs
-(`TauCeti.finsum_analyticOrderNatAt_ball_eq_zero_iff`). The residue/argument-principle inputs are
-consumed from the sibling `ContourIntegration` material, as the roadmap directs.
+### Named results
 
-**L1 — normal families / Montel: done.** `TauCeti.IsLocallyBoundedOn` with its Cauchy-estimate
-and equicontinuity API, Montel's selection theorem
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Montel.html#TauCeti.montel>),
-and Vitali in both the plain and prescribed-pointwise-values forms
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Vitali.html#TauCeti.vitali>).
-Stated for `TendstoLocallyUniformlyOn`, independently of Mathlib's `MontelSpace`, as the roadmap
-requires.
+- **The Riemann mapping theorem** — every nonempty, simply connected, open proper subset of `ℂ` is
+  carried by a holomorphic bijection onto the unit disc
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/RiemannMapping/Existence.html#TauCeti.riemannMapping>),
+  with a normalized form, uniqueness up to a disc automorphism, and conformal equivalence of any two
+  such domains.
+- **The Schwarz reflection principle** — a function holomorphic on a domain symmetric about the real
+  axis and real on the axis continues across it by conjugation
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Reflection/Principle.html#TauCeti.differentiableOn_schwarzReflection_of_symmetric>),
+  and likewise across a line, an analytic arc and a circle.
+- **The monodromy theorem** — a germ continuing along every path of a simply connected domain from a
+  base point is the germ of a single function holomorphic on the whole domain
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/GlobalBranch.html#TauCeti.continuesInside_iff_exists_analyticOnNhd>);
+  the homotopy form, that continuations along homotopic paths agree, is stated in `ℂ`
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Monodromy.html#TauCeti.monodromy_theorem>).
+- **The isometry group of the Poincaré disc** — every isometry of the hyperbolic disc is a disc
+  automorphism or the conjugate of one
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Poincare/Isometry/Classification.html#TauCeti.PoincareDisc.isometry_iff_exists_eq_unitDiscStandardAutomorphismIsometryEquiv_or_comp_star>),
+  the holomorphic ones being exactly the automorphisms; its geodesics are exactly the Euclidean
+  diameters and the arcs of circles orthogonal to the unit circle.
+- **Wolff's lemma and the length–area inequality** — the weighted total of the image lengths of the
+  circles about a point is at most `2π` times the area of the image, so some circle of intermediate
+  radius has short image
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/LengthArea.html#TauCeti.exists_circleImageLength_sq_lt>).
+  It drives the boundary correspondence.
 
-**L2 — Schwarz lemma extensions: done.** The Schwarz–Pick contraction estimate
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/SchwarzPick/Basic.html#TauCeti.pseudoHyperbolicExpr_map_le>),
-its infinitesimal form `‖deriv f z‖ / (1 - ‖f z‖²) ≤ 1 / (1 - ‖z‖²)`, and rigidity in five
-equivalent packagings, ending in "equality at one pair of points forces a standard disc
-automorphism". The hyperbolic metric is a full metric space, `TauCeti.PoincareDisc`
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Poincare/MetricSpace.html#TauCeti.PoincareDisc>),
-proper, homeomorphic to `Complex.UnitDisc`, geodesic and uniquely geodesic, with the geodesic lines
-through the origin classified as exactly the Euclidean diameters. `Aut(𝔻)` is both classified
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/UnitDisc/Automorphism/Classification.html#TauCeti.exists_forall_unitDisc_eq_unitDiscStandardAutomorphismEquiv>)
-and available as a subgroup `TauCeti.unitDiscAut`, acting transitively, with the rotations as the
-stabiliser of the origin.
+### Notable definitions and infrastructure
 
-**L3 — the Riemann mapping theorem: done, and past the stated milestone.** The summit
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/RiemannMapping/Existence.html#TauCeti.riemannMapping>),
-its biholomorphic form with holomorphic inverse, the normalized existence-and-uniqueness statement
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/RiemannMapping/Normalization.html#TauCeti.riemannMapping_normalized>),
-uniqueness up to `Aut(𝔻)`, the packaged `Homeomorph` and `OpenPartialHomeomorph` forms, and
-conformal equivalence of any two simply connected proper domains
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/RiemannMapping/Equivalence.html#TauCeti.exists_bijOn_differentiableOn_invFunOn_of_isSimplyConnected>).
-The route's own pieces are named and reusable: the extremal family
-`TauCeti.IsPointedDiscInjectionOn` and its maximizer, the Koebe expansion step, the disc-injection
-nonemptiness, and holomorphic (not merely continuous) branch-log and `n`-th-root statements
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/BranchLogRoot.html#TauCeti.exists_differentiableOn_pow_eq>)
-upgrading Mathlib's `BranchLogRoot`. All of this is shim material under the roadmap's coordination
-clause.
+- **The image length of a circle**, `TauCeti.circleImageLength`, the derivative-weighted angular
+  integral over the part of a circle inside a set
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/LengthArea.html#TauCeti.circleImageLength>).
+  The crosscut chain — chord bounds, endpoint limits, diameters of cut-off pieces — is stated
+  against it.
+- **Jordan curves**, `TauCeti.IsJordanCurve`, a subset homeomorphic to the circle
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/JordanCurve/Basic.html#TauCeti.IsJordanCurve>),
+  with the arc theory the boundary work needs: two points cut it into two arcs, and two nearby
+  points cut off a small one, joined by an injective path along it.
+- **Continuation predicates**, `TauCeti.ContinuesAlong` and `TauCeti.ContinuesInside`
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Continuation/Basic.html#TauCeti.ContinuesInside>),
+  closed under the ring operations and differentiation and stable under concatenation and
+  reparametrisation, so continuation is usable without unfolding germ families.
 
-**L4 — analytic continuation and reflection: done for the stated targets.** The Schwarz reflection
-principle across the real axis, in explicit-witness and existential form
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Reflection/Principle.html#TauCeti.differentiableOn_schwarzReflection_of_symmetric>),
-then across an arbitrary line, across an analytic arc by transport through biholomorphic charts
-(`TauCeti.chartedSchwarzReflection`), and across a circle by Möbius reduction
-(`TauCeti.circleSchwarzReflection`). Painlevé removability across a segment, an arc and a sphere is
-proved. Analytic continuation along a path is a predicate `TauCeti.IsAnalyticContinuationAlong` with
-germ-level API, and the monodromy theorem
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Monodromy.html#TauCeti.monodromy_theorem>)
-holds for homotopies rel endpoints in `ℂ`, via a uniform-representative and path-stability argument.
-An étale-space construction for presheaves landed alongside but is not yet what monodromy is stated
-against. The reflected map is also shown injective and conformal, which is what a boundary-regularity
-consumer needs.
+### Roadmap coverage
 
-**L5 — Carathéodory boundary correspondence: partly done, and the hard direction is missing.**
-What exists is the converse: a bounded open set carried by a holomorphic map onto a Jordan-bounded
-region, with an injective continuous extension to the closure, is itself a Jordan domain
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/JordanDomain.html#TauCeti.isJordanDomain_of_isJordanCurve_frontier_image>);
-and the "only if" half of the continuity theorem, that such an extension forces the image boundary
-to be locally connected
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/LocallyConnectedBoundary.html#TauCeti.locallyConnectedSpace_frontier_image>).
-Both take the extension as a hypothesis. Around them sits the machinery the forward direction will
-need: `TauCeti.IsJordanDomain`, boundary cluster sets with closedness, compactness, connectedness and
-covering results
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/ClusterSet.html#TauCeti.clusterSetOn>),
-the criterion that a subsingleton cluster set is an honest limit, injectivity on the closure from
-injectivity on the frontier, `TauCeti.IsUniformlyLocallyConnected` and its compact-image theory, and
-the area formula for holomorphic injections with the Dirichlet integral of a Riemann map computed to
-be `π`
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Area.html#TauCeti.volume_image_eq_lintegral_enorm_deriv_sq>).
-
-**L6 — Schwarz–Christoffel: untouched.** No polygon-map vocabulary has been introduced.
+L0–L4 are done, past their stated milestones. L0 has Rouché, Hurwitz, Morera and the
+open-mapping degree, with the argument principle also in winding-number form for null-homologous
+cycles. L1 has Vitali and Montel, the latter as a selection theorem and as an
+equivalence with relative compactness in `C(Ω, E)` for a proper target
+(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Montel/Precompact.html#TauCeti.isCompact_closure_range_iff_isLocallyBoundedOn>).
+L2 goes well beyond Schwarz–Pick: closed forms for the hyperbolic distance, which is the least length
+of a joining path, classified geodesics and isometries, and `Aut(𝔻) ≃ Circle × 𝔻`. L3 is complete
+with normalization and uniqueness. L4 has reflection across line, arc and circle, Painlevé
+removability and monodromy. L5 has the converse direction — a conformal map with an injective
+continuous extension makes its domain a Jordan domain — the local-connectedness half of the
+continuity theorem, and much forward machinery; prime ends stay out of scope by design. L6 is
+untouched.
 
 ## The frontier
 
-- **The Carathéodory continuity theorem, forward direction.** The nearest target: the Riemann map
-  of a Jordan domain extends continuously to the closure. Everything downstream of it is already
-  proved — `TauCeti.bijOn_closure_closure_image` and `TauCeti.closureHomeomorph` turn such an
-  extension into a homeomorphism of closures the moment it exists, and
-  `TauCeti.injOn_closure_of_injOn_frontier` supplies the injectivity. The missing step is the
-  length–area (Koebe–Wolff) estimate that shows the boundary cluster sets are singletons; the
-  integrability and finite-Dirichlet-integral inputs it spends are in `Conformal/Area.lean`, and
-  `TauCeti.exists_continuousOn_closure_eqOn_of_isBounded` is the topological form the estimate
-  should be fed into.
-- **Jordan curve input.** `TauCeti.IsJordanDomain` is used but the strong facts about Jordan curves
-  that the forward direction classically leans on (the Jordan curve theorem, the Schoenflies
-  theorem) are not established here, and the facts file gives no evidence either way about their
-  availability upstream. Whoever attacks L5 should settle that first: it determines whether the
-  Jordan-domain case is reachable now or needs a topological prerequisite of its own.
-- **Schwarz–Christoffel (L6)** is blocked on L5 and has no vocabulary yet; it is the right target
-  only after the boundary correspondence closes.
-- **Prime ends** remain deliberately out of scope, as the roadmap states; the L5 milestone is the
-  Jordan-domain case only.
-- **Shim retirement.** L0–L3 duplicate mathematics that upstream Mathlib is formalizing. The
-  outstanding obligation is to re-back `TauCeti.rouche`, the Hurwitz family, `TauCeti.montel`,
-  `TauCeti.riemannMapping` and the `BranchLogRoot` upgrades onto the Mathlib lemmas once they land,
-  and to refactor the L4/L5 consumers accordingly. Nothing in this window discharged that; it is
-  waiting on upstream, not on work here.
-- **Monodromy against étale spaces.** `TauCeti.TopCat.Presheaf.EtaleSpace` landed with its
-  germ-section API, but `TauCeti.monodromy_theorem` is still stated in the ad hoc germ-family
-  language of `TauCeti.IsAnalyticContinuationAlong`. Restating monodromy as a lifting property of
-  the étale space, and generalising the base from `ℂ` to a simply connected domain, is a well-scoped
-  piece of consolidation.
+- **The Carathéodory continuity theorem, forward direction.** What remains is to show that the
+  boundary piece a small crosscut cuts off is itself small; short image crosscuts now lie on small
+  Jordan curves, and the diameter bound and the criterion turning "cut-off pieces are small" into a
+  continuous extension on the closure are proved
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/CutDiameter.html#TauCeti.exists_continuousOn_closure_eqOn_of_forall_exists_diam_union_le>).
+- **Plane separation for Jordan curves.** The arc theory is developed, but nothing here establishes
+  that a Jordan curve separates the plane, or the Schoenflies theorem, or settles whether they are
+  available upstream. How much of either the forward direction needs should be settled first.
+- **Monodromy in its intended generality.** The homotopy-invariance statement is still for paths in
+  `ℂ` rather than in a domain, and is phrased in germ families rather than against the étale space
+  that landed beside it.
+- **Schwarz–Christoffel (L6)** is blocked on L5 and has no vocabulary yet.
+- **Duplication with Mathlib's RMT work.** L0–L3 duplicate mathematics Mathlib is also formalizing;
+  the roadmap commits to reproving them from Mathlib's lemmas, and deleting `TauCeti.riemannMapping`,
+  once those land. Nothing here shows that they have.

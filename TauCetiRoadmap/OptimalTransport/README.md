@@ -283,8 +283,8 @@ cost, real cost-generic results through `ENNReal.ofReal`, gluing, finite
 linear-programming attainment and approximation, hard Kantorovich--Rubinstein duality,
 map functoriality, and lower semicontinuity of `W₁`.  Its argument order is the convention
 pinned above, while the eventual namespace remains a coordination decision.  This work is
-a migration and upstream-coordination source, not permission to specialize the full
-roadmap to `W₁` or to its application.
+a migration source, not permission to specialize the full roadmap to `W₁` or to its
+application.
 
 Daniel Lyng's Apache-2.0
 [`Econlib/Optimization/OptimalTransport`](https://github.com/danlyng/Econlib/tree/003655ccf010cdf44c4f67d6675167b54ce0e9df/Econlib/Optimization/OptimalTransport)
@@ -310,7 +310,7 @@ topology do not replace the raw-measure and Polish-space foundation here.
 Before porting or adapting these developments, coordinate with Joseph Miller, Daniel
 Lyng, and the VCVio maintainers
 [@quangvdao](https://github.com/quangvdao) and [@dtumad](https://github.com/dtumad).  Decide
-whether reusable PMF/SPMF results should be upstreamed, adapted through bridge lemmas, or
+whether reusable PMF/SPMF results should be ported here, adapted through bridge lemmas, or
 kept as application-specific prior art; agree on attribution and API direction, and
 record the pinned source SHA, license provenance, and chosen boundary in the
 implementation PR.  Even an independent implementation should coordinate to avoid
@@ -334,8 +334,7 @@ thread](https://leanprover-community.github.io/archive/stream/541885-ItaLean-202
 records work coordinated by Till Wehling and Rémy Degenne; its linked repository is no
 longer publicly accessible.  Contact them as well, re-run all searches, and open a Lean
 Zulip design thread before beginning Layer 0.  This subject needs agreement on integrating
-the Vlasov/Econlib work, `ProbabilityMeasure`, `klDiv`, extended costs, and eventual
-Mathlib extraction.
+the Vlasov/Econlib work, `ProbabilityMeasure`, `klDiv`, and extended costs.
 
 ## The build, in dependency layers
 
@@ -671,7 +670,8 @@ tower rather than hiding it inside the final proof.
    conjugate-subgradient reciprocity, and the algebraic Rockafellar theorem for cyclically
    monotone sets.  Under compatible Hausdorff locally convex topologies, prove the
    lower-semicontinuous Fenchel--Moreau theorem.  Consume Mathlib's `SeparatingDual` and
-   `LocallyConvexSpace` vocabulary where applicable and upstream general-purpose additions.
+   `LocallyConvexSpace` vocabulary where applicable, and state the general-purpose additions
+   at the generality that vocabulary supports.
 2. Specialize the dual-pair tower to finite-dimensional real spaces: build epigraphs and
    effective domains; consume Mathlib's `affineSpan` and `intrinsicInterior` API for
    relative interiors, adding only the convex-analysis bridge lemmas it lacks; and prove
@@ -900,24 +900,26 @@ regularity](https://www.numdam.org/item/10.1007/s10240-014-0064-7.pdf).
 
 ### Layer 7: Riemannian Brenier--McCann transport
 
-The [geometric-topology roadmap](../GeometricTopology/README.md), Layer 7, supplies
-Riemannian volume, connection, and curvature.  It does **not** currently supply
-exponential maps, their local inverse logarithms on normal neighborhoods, Hopf--Rinow,
-minimizing geodesics, injectivity radius, or cut-locus measurability/nullity needed here;
-those are owned by this layer before any transport theorem consumes them.  No global
-single-valued logarithm is introduced across the cut locus.
+The [Hopf--Rinow roadmap](../HopfRinow/README.md), Layers 1--4, supplies the Levi-Civita
+connection, interval-aware geodesics, exponential maps and their local inverse logarithms on
+normal neighborhoods, Hopf--Rinow, and minimizing geodesics.  The
+[geometric-topology roadmap](../GeometricTopology/README.md), Layer 7, consumes that connection
+and supplies Riemannian volume and curvature.  This layer consumes both roadmaps and owns the
+remaining transport-facing geometry: injectivity radius, squared-distance semiconcavity,
+cut-locus measurability and volume-nullity, and the measurable/a.e. selections used below.  No
+global single-valued logarithm is introduced across the cut locus.
 
-1. For finite-dimensional boundaryless Riemannian manifolds, build exponential maps,
-   their local inverse logarithms on normal neighborhoods, and the measurable/a.e.
-   minimizing-initial-velocity selections used by transport.  Build geodesic completeness
-   and Hopf--Rinow, existence of minimizing geodesics, injectivity radius,
-   squared-distance semiconcavity, cut-locus measurability and volume-nullity, and the a.e.
-   differentiability facts used by transport.  State connectedness, geodesic completeness,
-   and moment hypotheses separately from compactness.
-2. Specialize Layer 2's `c`-concave/contact API to `c(x,y)=d(x,y)²/2`.  At every
-   differentiability point `x` of the semiconcave potential `φ`, prove that each contact
-   endpoint `y` is joined to `x` by a unique minimizing geodesic, that its initial
-   velocity is `-∇φ(x)`, and hence that `y=exp_x(-∇φ(x))`.  Do not strengthen this to
+1. For finite-dimensional boundaryless Riemannian manifolds, consume the Hopf--Rinow roadmap's
+   exponential map, local logarithm, completeness, and minimizing-geodesic APIs.  Build
+   injectivity radius, squared-distance semiconcavity, cut-locus measurability and volume-nullity,
+   the measurable/a.e. minimizing-initial-velocity selections, and the a.e. differentiability
+   facts used by transport.  State connectedness, geodesic completeness, and moment hypotheses
+   separately from compactness.
+2. Using the Hopf--Rinow roadmap's exponential and minimizing-geodesic APIs, specialize Layer 2's
+   `c`-concave/contact API to `c(x,y)=d(x,y)²/2`.  At every differentiability point `x` of the
+   semiconcave potential `φ`, prove that each contact endpoint `y` is joined to `x` by a unique
+   minimizing geodesic, that its initial velocity is `-∇φ(x)`, and hence that
+   `y=exp_x(-∇φ(x))`.  Do not strengthen this to
    `y ∉ Cut(x)`: differentiability of `d(·,y)²/2` at `x` is equivalent to uniqueness of
    the minimizing geodesic, and a first conjugate point is a cut point that can still be
    joined to `x` by a unique minimizing one, so cut-locus avoidance does not follow.
@@ -925,10 +927,10 @@ single-valued logarithm is introduced across the cut locus.
    of the cut locus and with its own hypotheses.  Deduce the displayed pointwise
    conclusion volume-a.e., and hence `μ`-a.e. only when `μ ≪ volume`; connect the sign
    convention to the Riemannian exponential map.
-3. Prove **McCann's theorem**: for finite-second-moment laws on a finite-dimensional,
-   connected, boundaryless, geodesically complete smooth Riemannian manifold, with source
-   absolutely continuous with respect to Riemannian volume, the unique quadratic optimal
-   plan is induced by
+3. Using those consumed geodesic results and the Geometric Topology roadmap's volume, prove
+   **McCann's theorem**: for finite-second-moment laws on a finite-dimensional, connected,
+   boundaryless, geodesically complete smooth Riemannian manifold, with source absolutely
+   continuous with respect to Riemannian volume, the unique quadratic optimal plan is induced by
    `T(x)=exp_x(-∇φ(x))`.  Give the compact-manifold statement, where moments are
    automatic, as a corollary rather than the root theorem.
 4. Prove the inverse-map result when the target is also absolutely continuous.  Define the
@@ -971,10 +973,12 @@ Theorem 1.1 and its distance-cost specialization.
 
 ### Layer 8: metric curves, dynamic plans, and Benamou--Brenier
 
-Build the maximally general path-space theory first, then the Eulerian specialization.
+Consume metric curve length, length spaces, and constant-speed geodesic spaces from the shared API
+owned by the [Hopf--Rinow roadmap](../HopfRinow/README.md), Layer 4.  Build the remaining maximally
+general path-space theory first, then the Eulerian specialization.
 
-1. Define `ACᵖ([0,T];X)`, metric derivatives, length, `p`-energy/action, constant-speed
-   curves, geodesics, length spaces, and measurable families of curves.  Prove the
+1. Define `ACᵖ([0,T];X)`, metric derivatives, `p`-energy/action, and measurable families of
+   curves, reusing the consumed metric length and geodesic-space notions.  Prove the
    fundamental theorem for absolutely continuous metric-valued curves, reparameterization,
    and lower semicontinuity of action.  Split compactness into its two genuinely different
    theorems rather than one clause.  First, the deterministic Arzelà--Ascoli theorem on
@@ -1847,10 +1851,11 @@ library.
    finite/Dirac/product specializations, and theorem aliases only where Mathlib convention
    calls for them.  Definitions must not expose arbitrary basepoints, normalizations, or
    representatives.
-3. Extract general-purpose additions--gluing, lower-semicontinuous integral lemmas,
+3. Keep the general-purpose additions--gluing, lower-semicontinuous integral lemmas,
    extended convex duality, metric curves, the advanced `klDiv` API, signed Boltzmann
-   entropy, and Fréchet means--to Mathlib in coordinated PRs when maintainers agree.  Tau
-   Ceti consumes the upstream form after merge rather than preserving parallel APIs.
+   entropy, and Fréchet means--separate from the transport-specific material, each stated
+   at its own natural generality, so nothing reusable is trapped behind a Wasserstein
+   hypothesis.
 4. Write module documentation that maps hypotheses to the theorem regimes in this
    roadmap.  Each headline theorem should have a compact canonical corollary and a link to
    the more general form, not a proliferation of unrelated re-statements.
@@ -1953,9 +1958,13 @@ guardrails.
   the PDE/semigroup identification of JKO limits.  Nonlinear Monge--Ampère, continuity
   equations of measure-valued curves, Fokker--Planck semigroup construction, and OT first
   variations remain explicit work here.
-* The [geometric-topology roadmap](../GeometricTopology/README.md), Layer 7, builds
-  Riemannian volume, connection, curvature, and related manifold geometry.  Layers 7 and
-  14 consume it and supply transport/synthetic-curvature bridges in return.
+* The [Hopf--Rinow roadmap](../HopfRinow/README.md) builds the Levi-Civita connection, geodesic
+  flow, exponential and local logarithm maps, completeness and minimizing-geodesic theory, and
+  the shared metric length/geodesic-space API.  Layers 7--9 consume these results; Layer 7 retains
+  ownership of injectivity-radius, cut-locus, squared-distance, and transport-specific bridges.
+* The [geometric-topology roadmap](../GeometricTopology/README.md), Layer 7, consumes the
+  Levi-Civita connection and builds Riemannian volume, curvature, and related manifold geometry.
+  Layers 7 and 14 consume it and supply transport/synthetic-curvature bridges in return.
 * The [one-parameter-semigroups roadmap](../OneParameterSemigroups/README.md) supplies the
   abstract C₀/contraction-semigroup, generator, and resolvent API.  The PDE roadmap supplies
   the concrete heat semigroup.  Layer 11 constructs any remaining concrete linear Markov

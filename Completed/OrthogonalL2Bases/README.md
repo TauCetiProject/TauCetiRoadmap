@@ -1,5 +1,35 @@
 # Roadmap: weighted orthogonal L² bases — completeness, Hilbert-basis structure, and product bases of orthogonal systems
 
+**Status: declared complete by the maintainers (2026-08-16).** The library this roadmap asked
+for has been built, sorry-free, in
+[TauCeti](https://github.com/TauCetiProject/TauCeti). The family-agnostic spine is there: the
+weight-to-measure isometry (`weightL2Isometry`) with its `HilbertBasis` transport
+(`HilbertBasis.mapₗᵢ`); the completeness toolkit grounded in moment determinacy
+(`ae_eq_zero_of_forall_moment_eq_zero`, and its measure-level form); the orthogonality-relation
+bridge (`hilbertBasisOfWeightedMeasure`, `hilbertBasisOfOrthogonalSystem`,
+`orthogonal_span_range_bareNormalizedLp_eq_bot`); and the product and `pi` bases
+(`prodHilbertBasis`, `piHilbertBasis`). Both instances the roadmap asked the spine to carry
+have landed: Hermite, on the function side (`hermiteHilbertBasis`) and the measure side
+(`gaussianHermiteHilbertBasis`), with the multidimensional bases of Part D
+(`hermiteFunctionPiBasis`, `gaussianHermitePiBasis`); and Chebyshev
+(`chebyshevTHilbertBasis`), together with the cosine transfer its acceptance criterion named.
+The Hermite function object API of A2, meaning the ladder relations, the oscillator
+eigen-equation and the Schwartz-map packaging, is under
+`TauCeti/Analysis/SpecialFunctions/Hermite/Function/`.
+
+The last target landed on 2026-07-30. `Suggested.lean` beside this file is now **discharged**:
+every target it states is closed by the Tau Ceti declaration that realizes it, so that
+correspondence is checked by the Lean kernel rather than asserted in this paragraph. CI builds
+the file against the repository's current Tau Ceti pin. If that library's API changes without
+changing the mathematics, the certificate is updated to keep checking the current implementation;
+git history and `lake-manifest.json` retain the dependency revision for every earlier version.
+
+Declaring this complete remains a human judgment against this README, which is the definitive
+document and which `Suggested.lean` does not exhaust. What the discharged file removes is the
+bookkeeping half of that judgment, not the mathematical half.
+
+This roadmap is archived and no longer offered to contributors.
+
 ## Overview
 
 Mathlib has several families of orthogonal polynomials as **algebraic** objects
@@ -269,7 +299,8 @@ genuine Mathlib gaps — make B2's basis available on either side without re-pro
   (`‖√w·f‖²_{L²(μ)} = ∫ w|f|² = ‖f‖²_{L²(w·μ)}`). The isometry is purely measure-theoretic, so stated
   over an **arbitrary** measurable `α` (only the polynomial bridge below needs `Measure ℝ`); it ships
   the element-level `weightL2Isometry_apply` (a.e. `= √w · f`) as its anti-vacuity pin. Both this and
-  `mapₗᵢ` are general-purpose and are flagged as **upstream-Mathlib candidates**.
+  `mapₗᵢ` are **general-purpose**: neither mentions polynomials, so state them at the generality
+  above and put them where the rest of Tau Ceti can reuse them.
 - **`HilbertBasis.mapₗᵢ (b) (e : E ≃ₗᵢ F) : HilbertBasis ι 𝕜 F`** with `@[simp] mapₗᵢ_apply`
   (`ofRepr (e.symm.trans b.repr)`; Mathlib has `ofRepr` but no `≃ₗᵢ`-transport).
 
