@@ -2187,8 +2187,9 @@ subject matter belongs and built where its prerequisites are ready.
 - Other formalizations cover overlapping ground, including a Hasse--Minkowski
   development over `ℚ` and a staging repository for the Brauer group. They are evidence
   and provenance only, not ownership claims. Their revisions, licences, and adaptation
-  conditions are recorded in [PROVENANCE.md](PROVENANCE.md), which is not normative.
+  conditions are recorded in the private migration and provenance ledger, which is not
+  normative roadmap content.
 - Single-purpose formalizations of several of these targets over dyadic bases exist
   outside this repository. They are evidence that the statements are formalizable, and
-  not prescriptions of form. The map is in [PROVENANCE.md](PROVENANCE.md), which is not
-  normative.
+  not prescriptions of form. The source map is maintained in the private migration and
+  provenance ledger, not in the normative roadmap.
