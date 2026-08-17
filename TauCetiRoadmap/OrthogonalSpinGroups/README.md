@@ -260,9 +260,10 @@ The final portfolio dependencies are imports, not local interfaces.
   approximation, invariant measures and Tamagawa measures. Its Lean-level contracts consumed in
   `Suggested.lean` are `integralSubgroup`, `restrictedProductMap`,
   `restrictedProductCongr`, `rationalDiagonal`, `FiniteAdelicPoints`, and
-  `AdelicPoints`. `LocalPointGroup`, `strongApproximation`, and `tamagawaMeasure` remain
-  exact README-level contracts until ReductiveGroups exposes the required point-functor carrier;
-  this roadmap supplies no placeholder replacement.
+  `AdelicPoints`. `LocalPointGroup`, the algebraic `CompatibleCompactOpens`,
+  `strongApproximation`, and `tamagawaMeasure` remain provisional, supplier-blocked milestones
+  until ReductiveGroups exposes the required point-functor carrier. This PR does not currently
+  import those names and supplies no placeholder replacement.
 - **[SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md)** and Mathlib
   supply the Clifford-algebra representation theory and the algebraically closed low-rank
   exceptional isomorphisms. This roadmap owns their general-field orthogonal/spin arithmetic
@@ -425,19 +426,22 @@ product, is `K` in both parities. The proof runs through an orthogonal basis (co
 quadratic form invariants roadmap), the induced basis of the Clifford algebra, and the commutation
 of a basis monomial with each `ι e_i`.
 
-Two objects are defined here rather than left as existential statements inside the algebra, since
-later statements quantify over them: the **scalar-unit homomorphism**
-`scalarUnits : Kˣ →* lipschitzGroup Q`, injective, landing in the centre; and its range as a
-subgroup. Every "the kernel consists of the nonzero scalars" claim below is an equality of
-subgroups against `scalarUnits.range`, never an existential equality between Clifford elements.
+In finite positive dimension, for nondegenerate `Q`, two objects are defined here rather than left
+as existential statements inside the algebra: the **scalar-unit homomorphism**
+`scalarUnits Q hQ hV : Kˣ →* lipschitzGroup Q`, injective and landing in the centre, and its range
+as a subgroup. Both hypotheses remain visible in the declaration and every kernel comparison.
+Dimension zero is an explicit rejection test: `lipschitzGroup Q` is subsingleton there, so no
+injective scalar-unit map from `ℚˣ` exists. Every "the kernel consists of the nonzero scalars"
+claim below is an equality against this range, never an existential equality between Clifford
+elements.
 
 **1C. The vector representation.** Twisted conjugation gives a group homomorphism
 `lipschitzGroup Q →* O(Q)`, using Mathlib's `conjAct_smul_range_ι` and
 `involute_act_ι_mem_range_ι` together with the spin representations roadmap's `ιRangeEquiv`, and
 proving that the resulting linear map is an isometry. An anisotropic `v` acts as `τ_v` exactly,
 with no sign, which is the twisted-conjugation convention paying for itself. For nondegenerate `Q`
-on a finite-dimensional space the homomorphism is **surjective**, by Cartan–Dieudonné; and its
-kernel is exactly `scalarUnits.range`, by 1B. Compatibility with field extension and with
+on a finite-dimensional space the homomorphism is **surjective**, by Cartan–Dieudonné; in
+positive dimension its kernel is exactly `scalarUnits.range`, by 1B. Compatibility with field extension and with
 `QuadraticMap.Equivalent`, the latter through `CliffordAlgebra.equivOfIsometry`, which is the only
 declaration turning an isometry of forms into an isomorphism of Clifford algebras.
 

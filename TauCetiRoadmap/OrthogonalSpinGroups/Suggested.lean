@@ -228,13 +228,16 @@ theorem starNorm_ι (Q : QuadraticForm K V) (v : V) :
       = algebraMap K (CliffordAlgebra Q) (-Q v) := by
   sorry
 
-/-- The scalar units inside the Lipschitz group, Layer 1B. Defined as a homomorphism so that the
-kernel theorem below is an equality of subgroups rather than an existential inside the algebra. -/
-noncomputable def scalarUnits (Q : QuadraticForm K V) : Kˣ →* lipschitzGroup Q :=
+/-- The scalar units inside the Lipschitz group, Layer 1B. Positive dimension excludes the
+zero-dimensional collapse of the target; nondegeneracy is the hypothesis used to identify the
+graded centre with the base-field scalars. -/
+noncomputable def scalarUnits [FiniteDimensional K V] (Q : QuadraticForm K V)
+    (_hQ : Q.Nondegenerate) (_hV : 0 < Module.finrank K V) : Kˣ →* lipschitzGroup Q :=
   sorry
 
-theorem scalarUnits_injective (Q : QuadraticForm K V) :
-    Function.Injective (scalarUnits Q) := by
+theorem scalarUnits_injective [FiniteDimensional K V] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V) :
+    Function.Injective (scalarUnits Q hQ hV) := by
   sorry
 
 /-- **Layer 1C**: the vector representation, by twisted conjugation. -/
@@ -254,8 +257,19 @@ the centre of `CliffordAlgebra Q` over a **general** field, which is `K` in even
 representations roadmap's structure theorem is over an algebraically closed field and does not
 supply this. -/
 theorem ker_vectorRepresentation [FiniteDimensional K V] (Q : QuadraticForm K V)
-    (hQ : Q.Nondegenerate) :
-    (vectorRepresentation Q).ker = (scalarUnits Q).range := by
+    (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V) :
+    (vectorRepresentation Q).ker = (scalarUnits Q hQ hV).range := by
+  sorry
+
+/-- The excluded edge case: in dimension zero the Lipschitz group collapses, so scalar units
+cannot embed. This prevents downstream code from silently dropping the positivity hypothesis. -/
+theorem lipschitzGroup_finZero_subsingleton
+    (Q : QuadraticForm ℚ (Fin 0 → ℚ)) : Subsingleton (lipschitzGroup Q) := by
+  sorry
+
+theorem scalarUnits_injective_finZero_rejected
+    (Q : QuadraticForm ℚ (Fin 0 → ℚ)) :
+    ¬ ∃ f : ℚˣ →* lipschitzGroup Q, Function.Injective f := by
   sorry
 
 /-- **The spinor norm**, Layer 1D. ⚠ Both hypotheses are carried because the construction uses

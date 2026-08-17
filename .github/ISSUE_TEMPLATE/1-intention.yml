@@ -39,6 +39,7 @@ body:
         - Multiquadratic
         - OneParameterSemigroups
         - OptimalTransport
+        - OrthogonalSpinGroups
         - PDE
         - ReductiveGroups
         - RepresentationTheory
