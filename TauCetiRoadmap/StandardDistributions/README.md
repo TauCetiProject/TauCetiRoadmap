@@ -40,7 +40,7 @@ Write `fooMeasure p : Measure α` for the measure and `p` for its parameters.
    - A discrete family gets its singleton masses and a representation as a weighted sum of Dirac measures.
 4. **Parameter measurability** in the form `Measurable fun p => fooMeasure p`, using the Giry measurable structure on `Measure α`.
    This is enough for a consumer to construct a `ProbabilityTheory.Kernel`.
-   Mathlib gives `Matrix` no measurable structure, so a matrix parameter is measured through its coordinates: state the target as `Measurable fun S : ι → ι → ℝ => fooMeasure (Matrix.of S)`, with the remaining parameters paired alongside.
+   State matrix-parameter measurability through the coordinate carrier and `Matrix.of`: use the target `Measurable fun S : ι → ι → ℝ => fooMeasure (Matrix.of S)`, with the remaining parameters paired alongside.
    When the matrix is the scale of a symmetric-matrix family, also record the corollary in which it ranges over the symmetric-matrix carrier of Layer 6 with its Borel σ-algebra; that is the form a kernel with a random scale needs.
 5. **The family-specific identities** listed in the relevant layer below.
 
@@ -98,7 +98,7 @@ For example, a native `X : Ω → ℕ` has mass and pgf corollaries, while its r
   A discrete multivariate law stays on its native product carrier and is cast to `EuclideanSpace ℝ ι` only for analytic results.
 - **Symmetric-matrix laws use Mathlib's self-adjoint subspace.** Index matrices by `Fin p` and use `selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) ℝ)`.
   Over `ℝ`, `star` is transpose, so these are exactly the symmetric matrices.
-  The Frobenius inner product supplies the topology, but not the normalization of Lebesgue measure.
+  The Frobenius norm and inner product are compatible with the retained product and subtype topologies, but do not determine the normalization of Lebesgue measure.
 - **Names follow the Mathlib files being extended:** `fooMeasure`, `fooPDFReal`, `fooPDF`, and `isProbabilityMeasure_fooMeasure`.
   Real laws use `integral_id_fooMeasure`, `variance_id_fooMeasure`, `mgf_id_fooMeasure`, `charFun_fooMeasure`, and `cdf_fooMeasure_eq`.
   For a discrete law, analytic theorem names mention the cast law — or follow Mathlib's existing `…_of_hasLaw_…` style — rather than suggesting that `id : ℕ → ℕ` is real-valued.
@@ -723,7 +723,7 @@ Targets:
    The casts and `Real.rpow` are essential; the exponent is not the natural-number quotient `p * (p - 1) / 4`.
    Prove explicitly that `symmetricLebesgue 0` is the Dirac measure on the unique zero-dimensional symmetric matrix.
    Prove `symmetricLebesgue_setOf_det_eq_zero`: the singular matrices `{A | det A = 0}` are `symmetricLebesgue p`-null.
-   Mathlib has no general null-set theorem for polynomial zero loci; expand the determinant along one diagonal coordinate, on whose fibres it is an affine function with at most one root unless the complementary minor vanishes, and use Fubini in the product coordinates with induction on `p`.
+   Prove this by expanding the determinant along one diagonal coordinate, on whose fibres it is an affine function with at most one root unless the complementary minor vanishes, and use Fubini in the product coordinates with induction on `p`; suitable imported polynomial-zero-locus infrastructure may replace parts of this argument.
    Item 4 uses this for the singularity of the Gaussian-Gram family.
 
    For `C : Matrix.GeneralLinearGroup (Fin p) ℝ`, define `symmetricCongruence C` by `A ↦ C * A * Cᵀ`.

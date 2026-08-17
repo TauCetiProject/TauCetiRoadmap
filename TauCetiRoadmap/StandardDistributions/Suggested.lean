@@ -327,8 +327,7 @@ theorem mgf_inner_toEuclideanLin_multivariateGaussian {ι : Type*} [Fintype ι] 
     mgf (fun x => ⟪x, Θ.toEuclideanLin x⟫_ℝ) (multivariateGaussian 0 S) t =
       Real.rpow (Matrix.det (1 - (2 * t) • (Θ * S))) (-1 / 2) := by sorry
 
--- `Matrix` has no measurable structure in Mathlib, so a matrix parameter is measured through its
--- coordinates.
+-- State matrix-parameter measurability through the coordinate carrier and `Matrix.of`.
 theorem measurable_multivariateGaussian {ι : Type*} [Fintype ι] [DecidableEq ι] :
     Measurable fun q : EuclideanSpace ℝ ι × (ι → ι → ℝ) =>
       multivariateGaussian q.1 (Matrix.of q.2) := by sorry
@@ -480,12 +479,6 @@ noncomputable instance symmetricMatrixNormedAddCommGroup (p : ℕ) :
   letI := matrixFrobeniusNormedAddCommGroup p
   exact Submodule.normedAddCommGroup (SymmetricMatrix p)
 
-noncomputable instance symmetricMatrixNormedSpace (p : ℕ) :
-    NormedSpace ℝ (SymmetricMatrix p) := by
-  letI := matrixFrobeniusNormedAddCommGroup p
-  letI := matrixFrobeniusNormedSpace p
-  exact Submodule.normedSpace (SymmetricMatrix p)
-
 noncomputable instance symmetricMatrixInnerProductSpace (p : ℕ) :
     InnerProductSpace ℝ (SymmetricMatrix p) := by
   letI := matrixFrobeniusNormedAddCommGroup p
@@ -573,8 +566,8 @@ theorem volume_symmetricMatrix_eq_smul_symmetricLebesgue (p : ℕ) :
 
 theorem symmetricLebesgue_zero : symmetricLebesgue 0 = Measure.dirac 0 := by sorry
 
--- Mathlib has no null-set theorem for polynomial zero loci; expand `det` along one diagonal
--- coordinate and use Fubini, inducting on `p`.
+-- Expand `det` along one diagonal coordinate and use Fubini, inducting on `p`; suitable imported
+-- polynomial-zero-locus infrastructure may replace parts of this argument.
 theorem symmetricLebesgue_setOf_det_eq_zero (p : ℕ) :
     symmetricLebesgue p {A : SymmetricMatrix p | (A : Matrix (Fin p) (Fin p) ℝ).det = 0} = 0 := by
   sorry
@@ -1064,8 +1057,7 @@ theorem integral_id_inverseWishartMeasure_zero {n : ℝ} {S : Matrix (Fin 0) (Fi
 
 /-! ### Parameter measurability -/
 
--- Matrix parameters are measured through their coordinates, since `Matrix` carries no measurable
--- structure in Mathlib.
+-- State matrix-parameter measurability through the coordinate carrier and `Matrix.of`.
 theorem measurable_nonsingularWishartMeasure (p : ℕ) :
     Measurable fun q : ℝ × (Fin p → Fin p → ℝ) =>
       nonsingularWishartMeasure q.1 (Matrix.of q.2) := by sorry
