@@ -78,21 +78,26 @@ its evaluation formula.
 
 ## Export contract
 
-| Export | Layer | Mathematical contract |
-|---|---:|---|
-| `LocalPointGroup` | 0 | topological group `G(K_v)` with embedding-independent topology |
-| `CompatibleCompactOpens` | 1 | compact-open family with an integral-model proof away from finitely many places |
-| `FiniteAdelicPoints` | 2 | restricted product over finite places |
-| `AdelicPointsAway` | 2 | restricted product outside a finite `S` containing the archimedean places |
-| `AdelicPoints` | 2 | archimedean product times `FiniteAdelicPoints` |
-| `rationalDiagonal` | 3 | homomorphism `G(K) → G(𝔸)` or `G(𝔸^S)`, characterized coordinatewise |
-| `tamagawaMeasure` | 6 | product of normalized local measures, independent of the form and integral model |
-| `strongApproximation` | 5 | density for connected simply connected semisimple `G` when each `K`-almost-simple factor is noncompact at a place of `S` |
-| `tamagawaNumber` | 7 | covolume of `G(K)` in `G(𝔸_K)`, with finiteness and functoriality |
+The generic restricted-product exports below are available without a group-scheme carrier.
+The scheme-level names are intentionally **provisional and blocked** until Reductive Groups
+publishes its functor-of-points carrier; they are roadmap milestones, not current Lean exports.
 
-`OrthogonalSpinGroups` consumes all nine names. `IntegralLattices` consumes the adelic groups,
-diagonal, quotient measure, and finite-covolume API, but obtains spinor norms and `τ(SO)` from the
-orthogonal roadmap.
+| Export | Layer | Status | Mathematical contract |
+|---|---:|---|---|
+| `LocalPointGroup` | 0 | provisional; supplier-blocked | topological group `G(K_v)` with embedding-independent topology |
+| `CompatibleCompactOpens` | 1 | generic carrier exported; algebraic refinement supplier-blocked | compact-open family; the refinement adds agreement with an integral model away from finitely many places |
+| `FiniteAdelicPoints` | 2 | generic export | restricted product over finite places |
+| `AdelicPointsAway` | 2 | generic export | restricted product outside a finite `S`; the number-field specialization requires all archimedean places in `S` |
+| `AdelicPoints` | 2 | generic export | archimedean product times `FiniteAdelicPoints` |
+| `rationalDiagonal` | 3 | generic export | homomorphism into a restricted product, characterized coordinatewise and compatible with change of family |
+| `tamagawaMeasure` | 6 | provisional; supplier-blocked | product of normalized local measures, independent of the form and integral model |
+| `strongApproximation` | 5 | provisional; supplier-blocked | density for connected simply connected semisimple `G` when each `K`-almost-simple factor is noncompact at a place of `S` |
+| `tamagawaNumber` | 7 | provisional; supplier-blocked | covolume of `G(K)` in `G(𝔸_K)`, with finiteness and functoriality |
+
+`OrthogonalSpinGroups` is a planned downstream consumer of all nine contracts, but it cannot yet
+import the five supplier-blocked scheme-level names. `IntegralLattices` likewise plans to consume
+the adelic groups, diagonal, quotient measure, and finite-covolume API, while obtaining spinor
+norms and `τ(SO)` from the orthogonal roadmap.
 
 ---
 
