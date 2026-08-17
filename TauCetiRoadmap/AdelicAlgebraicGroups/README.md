@@ -284,5 +284,4 @@ generic theorem depends on the other.
 - T. Ono, *On the Tamagawa number of algebraic tori*, for isogeny defects and measure formulas.
 - J. Oesterlé, *Nombres de Tamagawa et groupes unipotents*, for unipotent volume induction.
 
-The extraction history and audited source status are in [`PROVENANCE.md`](PROVENANCE.md), which is
-not normative.
+The extraction history and audited source status are maintained privately and are not normative.
