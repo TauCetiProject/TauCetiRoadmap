@@ -18,7 +18,6 @@ body:
       label: Roadmap area
       description: Which roadmap does this intention sit in?
       options:
-        - AdelicAlgebraicGroups
         - AdicSpaces
         - AlgebraicCurves
         - CFSGStatement
