@@ -14,7 +14,6 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 ## Roadmaps
 
 - [A statement of the classification of finite simple groups](TauCetiRoadmap/CFSGStatement/README.md)
-- [Adelic algebraic groups, approximation, and Tamagawa measures](TauCetiRoadmap/AdelicAlgebraicGroups/README.md)
 - [Algebraic curves: function fields, divisors, and Riemann–Roch](TauCetiRoadmap/AlgebraicCurves/README.md)
 - [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
 - [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
@@ -37,6 +36,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Partial differential equations](TauCetiRoadmap/PDE/README.md)
 - [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
 - [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
+- [Restricted products and rational diagonals for adelic point groups](TauCetiRoadmap/AdelicAlgebraicGroups/README.md)
 - [Standard probability distributions and their elementary theory](TauCetiRoadmap/StandardDistributions/README.md)
 - [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
 - [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)

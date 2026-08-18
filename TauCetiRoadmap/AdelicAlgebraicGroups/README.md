@@ -1,18 +1,19 @@
-# Roadmap: adelic algebraic groups, approximation, and Tamagawa measures
+# Roadmap: restricted products and rational diagonals for adelic point groups
 
-This roadmap develops the reusable local and adelic infrastructure for affine algebraic groups
-over number fields. It topologizes local point groups, forms restricted products relative to
-compatible compact opens, constructs rational diagonal maps, builds Haar and Tamagawa measures,
-proves finite covolume by reduction theory, and establishes strong approximation for connected
-simply connected semisimple groups.
+This roadmap develops the generic topological-group infrastructure needed to assemble local point
+groups into finite, away-`S`, and full adelic point groups. Its inputs are a family of topological
+groups, compact-open subgroups, and coordinate homomorphisms satisfying eventual integrality. It
+does **not** construct the local points of an algebraic group, prove strong approximation, or define
+Tamagawa measures and numbers.
 
-The roadmap is deliberately not about orthogonal groups. `OrthogonalSpinGroups` consumes the
-generic objects here, verifies the strong-approximation hypotheses for `Spin`, and computes the
-orthogonal-specific Tamagawa number. Other reductive groups can use this roadmap without importing
-quadratic forms or Clifford algebras.
+That scope boundary is deliberate. Those scheme-theoretic and measure-theoretic applications need
+substantial reductive-group, Artin-`L`-factor, reduction-theory, and adelic Fourier-analysis
+suppliers which are not yet public. They belong in stacked successor roadmaps after the exact
+supplier declarations exist and can be imported. This roadmap therefore lands the independent
+restricted-product groundwork first.
 
-Suggested home: `TauCeti/NumberTheory/AlgebraicGroup/Adeles/`, with the restricted-product
-equivalence API in `TauCeti/Topology/Algebra/RestrictedProduct/`.
+Suggested home: `TauCeti/Topology/Algebra/RestrictedProduct/`, with arithmetic specializations in
+future files under `TauCeti/NumberTheory/AlgebraicGroup/Adeles/`.
 
 ---
 
@@ -20,39 +21,36 @@ equivalence API in `TauCeti/Topology/Algebra/RestrictedProduct/`.
 
 ### Owned here
 
-- canonical topologies and locally compact group structures on `G(K_v)` for an affine algebraic
-  group of finite type over a local field;
-- compact-open integral models at almost every finite place and independence of the chosen model;
-- finite, away-`S`, and full adelic point groups as restricted products;
-- functoriality, products, kernels, quotients, and change of compact-open family;
-- rational diagonal maps, discreteness in the full adeles, and density statements away from `S`;
-- invariant differential forms and local Haar normalizations;
-- the global Tamagawa product measure and its independence of auxiliary choices;
-- reduction theory, measurable fundamental domains, and finite covolume;
-- general strong approximation for connected simply connected semisimple groups;
-- general Tamagawa-number functoriality and product formulas.
+- compact-open subgroup families of arbitrary topological groups;
+- componentwise maps between restricted products, with exact evaluation and continuity lemmas;
+- canonical change-of-family equivalences for eventually equal compact-open families, including
+  reflexivity, symmetry, composition, and continuity;
+- generic finite, away-`S`, and full adelic-point packaging;
+- diagonal homomorphisms from a group whose coordinates are eventually integral, together with
+  their coordinate formula and change-of-family compatibility;
+- generic local-compactness, open integral-subgroup, product, and reindexing infrastructure that
+  depends only on the corresponding hypotheses for the factors.
 
 ### Consumed
 
-- `GlobalNumberFields` for places, completions, adeles of fields, finite adeles, normalized absolute
-  values, product formula, and compactness of the norm-one idele class group;
-- `LocalFieldsRamification` for nonarchimedean local fields, rings of integers, unit filtrations,
-  normalized valuations, and unramified models;
-- the accepted Reductive Groups roadmap for affine group schemes, functors of points, connected
-  reductive and semisimple groups, simply connected covers, roots, parabolics, and almost-simple
-  factors;
-- Mathlib `RestrictedProduct`, Haar measure, quotient measure, and fundamental-domain machinery.
+- Mathlib `RestrictedProduct`, topological groups, compact-open subgroups, finite products, and
+  locally compact spaces.
+
+The representative `Suggested.lean` file consequently imports only Mathlib. In particular, this
+core does not import unfinished local-field, global-number-field, reductive-group, or `L`-function
+roadmaps.
 
 ### Not owned here
 
-- adeles and ideles of the base field (`GlobalNumberFields`);
-- a classification of reductive groups or construction of their root data (Reductive Groups);
-- orthogonal, special orthogonal, Pin, Spin, spinor norm, or transvections
-  (`OrthogonalSpinGroups`);
-- a proof that a particular `Spin(Q)` satisfies the noncompact-factor hypothesis
-  (`OrthogonalSpinGroups`);
-- the calculation `τ(SO_Q) = 2` and its low-dimensional exceptions (`OrthogonalSpinGroups`);
-- lattice stabilizers, genera, masses, and theta series (`IntegralLattices`).
+- functors of points, affine group schemes, integral models, reductive structure theory,
+  parabolics, character lattices, simply connected covers, and almost-simple factors;
+- local-point topologies or proofs that integral points form compact-open subgroups;
+- arithmetic proofs of eventual integrality for rational points;
+- weak or strong approximation for algebraic groups;
+- invariant differential forms, convergence factors, Tamagawa measures, reduction theory,
+  finite-covolume theorems, central-isogeny volume formulas, and Tamagawa numbers;
+- adelic Schwartz--Bruhat spaces, Fourier transforms, and Poisson summation;
+- orthogonal, Pin, Spin, lattice, genus, mass, or theta-series applications.
 
 ---
 
@@ -60,233 +58,210 @@ equivalence API in `TauCeti/Topology/Algebra/RestrictedProduct/`.
 
 | Subject | Convention |
 |---|---|
-| local points | `G(K_v)` is the functor-of-points group with the topology induced by any closed affine embedding; independence of the embedding is proved. |
-| integral points | A compact open at an unramified finite place comes from a smooth affine integral model. A user-supplied family is allowed only with compactness, openness, and eventual agreement with such models. |
-| finite adeles | `G(𝔸_{K,f})` is a restricted product of `G(K_v)` over finite places, not `G` evaluated on the finite adele ring unless a comparison theorem proves those objects equivalent. |
-| away-`S` adeles | `S` is finite and contains all archimedean places. `G(𝔸_K^S)` is the restricted product over places outside `S`. |
-| full adeles | Archimedean point groups are an explicit finite product with the finite restricted product. |
-| diagonal | `rationalDiagonal` is defined only after proving every rational point is integral at almost every finite place. |
-| density | Strong approximation means density of the rational diagonal in the away-`S` adelic group. It does not mean density in the full adeles, where the diagonal is discrete. |
-| Haar measure | Local measures come from invariant top differential forms and the normalized additive measures on local fields. Arbitrary independent Haar scalars are not Tamagawa data. |
-| Tamagawa number | The quotient covolume is `ℝ≥0∞`-valued first; finiteness and positivity are theorems before conversion to a real number. |
+| factor family | An arbitrary family `G : ι → Type*` with topological-group structures; no private group-scheme carrier is introduced. |
+| compact opens | `CompatibleCompactOpens G` records one compact-open subgroup in each factor. Eventual agreement with an integral model belongs to a later algebraic specialization. |
+| restricted-product map | A family `φ i : G i →* H i` induces a map only after proving `φ i (U i) ⊆ U' i` at every coordinate. |
+| change of family | The equivalence for eventually equal families is coordinatewise the identity and has a pinned evaluation theorem. |
+| finite/away/full points | These are generic packaging names. The number-field specialization must separately identify finite places and require `S` to contain all archimedean places. |
+| diagonal | `rationalDiagonal` accepts eventual-integrality evidence as an argument; this core does not manufacture it from arithmetic geometry. |
 
-The change-of-family equivalence is canonical and coordinatewise the identity. A bare existence of
-an isomorphism is insufficient because every later comparison of measures and diagonal maps needs
-its evaluation formula.
+A bare existence of an equivalence is insufficient: later arithmetic consumers need the
+coordinate formula in order to compare diagonal maps, topologies, and eventually measures.
 
 ---
 
 ## Export contract
 
-The generic restricted-product exports below are available without a group-scheme carrier.
-The scheme-level names are intentionally **provisional and blocked** until Reductive Groups
-publishes its functor-of-points carrier; they are roadmap milestones, not current Lean exports.
+Every export in this table is generic and represented in `Suggested.lean`; there are no
+supplier-blocked scheme-level placeholder names.
 
-| Export | Layer | Status | Mathematical contract |
-|---|---:|---|---|
-| `LocalPointGroup` | 0 | provisional; supplier-blocked | topological group `G(K_v)` with embedding-independent topology |
-| `CompatibleCompactOpens` | 1 | generic carrier exported; algebraic refinement supplier-blocked | compact-open family; the refinement adds agreement with an integral model away from finitely many places |
-| `FiniteAdelicPoints` | 2 | generic export | restricted product over finite places |
-| `AdelicPointsAway` | 2 | generic export | restricted product outside a finite `S`; the number-field specialization requires all archimedean places in `S` |
-| `AdelicPoints` | 2 | generic export | archimedean product times `FiniteAdelicPoints` |
-| `rationalDiagonal` | 3 | generic export | homomorphism into a restricted product, characterized coordinatewise and compatible with change of family |
-| `tamagawaMeasure` | 6 | provisional; supplier-blocked | product of normalized local measures, independent of the form and integral model |
-| `strongApproximation` | 5 | provisional; supplier-blocked | density for connected simply connected semisimple `G` when each `K`-almost-simple factor is noncompact at a place of `S` |
-| `tamagawaNumber` | 7 | provisional; supplier-blocked | covolume of `G(K)` in `G(𝔸_K)`, with finiteness and functoriality |
-
-`OrthogonalSpinGroups` is a planned downstream consumer of all nine contracts, but it cannot yet
-import the five supplier-blocked scheme-level names. `IntegralLattices` likewise plans to consume
-the adelic groups, diagonal, quotient measure, and finite-covolume API, while obtaining spinor
-norms and `τ(SO)` from the orthogonal roadmap.
+| Export | Layer | Mathematical contract |
+|---|---:|---|
+| `integralSubgroup` | 0 | the subgroup of restricted-product elements lying in every chosen compact open |
+| `isOpen_integralSubgroup` | 0 | openness from coordinatewise openness |
+| `isCompact_integralSubgroup` | 0 | compactness from coordinatewise compactness and openness |
+| `CompatibleCompactOpens` | 0 | a generic family of compact-open subgroups |
+| `restrictedProductMap` | 1 | componentwise homomorphism preserving the chosen subgroups |
+| `restrictedProductMap_apply` | 1 | exact coordinate formula |
+| `continuous_restrictedProductMap` | 1 | continuity from coordinatewise continuity |
+| `restrictedProductCongr` | 1 | canonical equivalence for eventually equal families |
+| `restrictedProductCongr_apply` | 1 | the equivalence is coordinatewise the identity |
+| `restrictedProductCongr_refl/symm/trans` | 1 | coherence laws for change of family |
+| `FiniteAdelicPoints` | 2 | generic restricted-product abbreviation |
+| `AdelicPointsAway` | 2 | restricted product over the complement of a finite index set |
+| `AdelicPoints` | 2 | a supplied finite archimedean product times the restricted product |
+| `rationalDiagonal` | 3 | diagonal homomorphism from supplied coordinate maps and eventual-integrality evidence |
+| `rationalDiagonal_apply` | 3 | exact coordinate formula |
+| `rationalDiagonal_change_family` | 3 | compatibility with the canonical change-of-family equivalence |
 
 ---
 
 ## The build, in layers
 
-### Layer 0: local point groups
+### Layer 0: compact-open families
 
-**0.1 Affine topology.** For an affine finite-type `K_v`-group `G`, choose a closed embedding in
-affine space and give `G(K_v)` the subspace topology. Prove that two embeddings induce the same
-topology by comparing their coordinate rings. Package the resulting group as `LocalPointGroup`.
+**0.1 Integral subgroup.** Define the everywhere-integral subgroup inside a restricted product.
+Prove it open when every chosen subgroup is open and compact when every chosen subgroup is compact
+and open.
 
-**0.2 Group operations.** Prove multiplication and inversion continuous, functorial maps of
-algebraic groups continuous, closed immersions give closed embeddings, and open immersions give
-open embeddings on points where appropriate.
+**0.2 Compatible families.** Package a coordinatewise compact-open subgroup family without
+claiming that it comes from an integral model. Constructors involving algebraic models are
+reserved for a later specialization.
 
-**0.3 Local compactness.** If `K_v` is a local field, prove `G(K_v)` locally compact, Hausdorff,
-and second countable. Establish compatibility with products, kernels, base change, and Weil
-restriction.
+### Layer 1: functoriality and change of family
 
-**0.4 Archimedean comparison.** At real and complex places, compare the affine topology with the
-finite-dimensional manifold topology. This is the interface used by invariant differential forms.
+**1.1 Componentwise maps.** Construct the induced homomorphism from coordinate maps that preserve
+the selected subgroups. Prove the evaluation equation, identities, composition, and continuity.
 
-### Layer 1: integral models and compact opens
+**1.2 Eventually equal families.** Construct the canonical coordinatewise-identity equivalence
+for two subgroup families equal outside a finite set. Prove the evaluation equation, continuity in
+both directions, reflexivity, symmetry, composition, and naturality with componentwise maps.
 
-**1.1 Good models.** Spread an affine group of finite type over the ring of integers away from a
-finite set. For a smooth affine model `𝒢`, prove `𝒢(𝒪_v)` is a compact open subgroup of `G(K_v)`.
+**1.3 Topological API.** Add the homeomorphism wrapper, product and reindexing equivalences, and
+local-compactness instances under explicit coordinate hypotheses.
 
-**1.2 Compatible families.** `CompatibleCompactOpens` contains one compact open at each finite
-place and evidence that it agrees with integral points of one global model at almost every place.
-Give constructors from a global model, a faithful representation and lattice, and finite
-modification.
+### Layer 2: adelic packaging
 
-**1.3 Independence.** Two compatible families agree at almost every place. Build the canonical
-coordinatewise identity equivalence of their restricted products, prove it is a homeomorphism,
-and prove cocycle, symmetry, and naturality laws.
+**2.1 Finite points.** Name a restricted product as `FiniteAdelicPoints` relative to a supplied
+compact-open family.
 
-**1.4 Functoriality.** A morphism of group schemes that carries one family into another at almost
-every place induces a continuous adelic homomorphism. Prove identities and composition before
-specializing to isogenies, embeddings, or quotient maps.
+**2.2 Away-`S` points.** Restrict the index family to the complement of a finite set and compare
+nested sets by separating the finitely many removed factors.
 
-### Layer 2: adelic point groups
+**2.3 Full points.** Combine a supplied finite archimedean product with the finite restricted
+product. The later number-field specialization must prove that the archimedean index set is finite.
 
-**2.1 Restricted-product API.** Complete Mathlib's generic API with compact integral subgroups,
-componentwise equivalences, induced homeomorphisms, products, reindexing, and exact evaluation
-lemmas.
+### Layer 3: diagonals
 
-**2.2 Finite points.** Define `FiniteAdelicPoints G U` and prove local compactness, openness and
-compactness of the everywhere-integral subgroup, and independence from finite changes of `U`.
+**3.1 Supplied eventual integrality.** Given `φ i : Γ →* G i` and evidence that each `γ : Γ` lies
+in `U i` for cofinitely many `i`, construct the diagonal into the restricted product.
 
-**2.3 Away-`S` points.** For finite `S` containing every archimedean place, define
-`AdelicPointsAway G S U`. Compare nested sets `S ⊆ T`, including the product decomposition into
-the removed local factors.
+**3.2 Laws.** Prove the coordinate formula, functoriality, and compatibility with change of
+compact-open family. Injectivity is a separate theorem requiring a coordinate-separation
+hypothesis.
 
-**2.4 Full points.** Define `AdelicPoints G U` as the finite product of archimedean point groups
-times `FiniteAdelicPoints`. Prove local compactness and the expected product and base-change laws.
+---
 
-**2.5 Evaluation on adelic rings.** When the functor of points commutes with the required limits,
-construct comparison maps between the restricted-product definition and `G(𝔸_K)`. State the
-hypotheses; do not use evaluation on the adele ring as the definition.
+## Deferred successor roadmaps and acceptance gates
 
-### Layer 3: rational diagonals and quotients
+The topics below are **not milestones of this roadmap**. They record the split forced by the
+missing suppliers and prevent a future PR from reintroducing the same implicit dependencies.
 
-**3.1 Almost-everywhere integrality.** For `g ∈ G(K)`, clear denominators in affine coordinates
-and prove `g` belongs to the chosen compact open at all but finitely many finite places.
+### A. Algebraic-group adelic points and strong approximation
 
-**3.2 The diagonal.** Define `rationalDiagonal` into finite, away-`S`, and full adelic points.
-Prove the coordinate formula, injectivity, functoriality, and compatibility with change of family.
+A successor may specialize this generic API only after an accepted Reductive Groups roadmap
+publishes and the successor directly imports declarations for:
 
-**3.3 Discreteness.** Prove the full adelic diagonal is discrete and closed. Give an identity
-neighborhood meeting it only at `1`; do not infer this from the away-`S` density theorem.
+1. a representable affine finite-type group functor and its `R`-point group, functorial in a
+   commutative `K`-algebra `R`;
+2. smooth connected reductive and semisimple predicates and their preservation under base change;
+3. rational parabolics, Levi factors, maximal split tori, roots and root subgroups;
+4. the character and cocharacter lattices with the absolute Galois action;
+5. central isogenies, centres, simply connected covers, and the factorization into
+   `K`-almost-simple factors;
+6. smooth affine integral models and comparison maps from integral-model points to local points.
 
-**3.4 Adelic quotients.** Construct the quotient topological space/group when the rational image
-is normal, and otherwise the homogeneous quotient used for covolumes. Establish Borel and local
-compactness properties needed by quotient Haar measure.
+No provisional `LocalPointGroup` or `strongApproximation` declaration is exported here. The
+successor must use the suppliers' public names and prove that its restricted-product carrier is an
+instance of this generic contract.
 
-### Layer 4: elementary and unipotent approximation
+### B. Tamagawa measures and convergence factors
 
-**4.1 Additive approximation.** Prove density of `K` in `𝔸_K^S` and simultaneous approximation
-with prescribed integral conditions. Consume `GlobalNumberFields.weakApproximation_denseRange`
-for the finite-place input rather than restating field approximation.
+A general connected reductive group cannot obtain a convergent product measure from a gauge form
+alone. A Tamagawa successor must import both the reductive-group character module and an accepted
+Artin-`L` supplier providing:
 
-**4.2 Vector groups.** Extend the additive result to finite-dimensional vector groups and their
-successive extensions.
+- the finite free character lattice `X*(G_{̅K})` with its continuous absolute-Galois action;
+- inertia invariants and the local Artin factor
+  `L_v(s, X*(G_{̅K}) ⊗ ℂ)` with a pinned geometric-Frobenius convention;
+- the unramified integral-volume identity relating `G(𝒪_v)` to the local factor;
+- convergence and nonvanishing of the normalized product, plus independence from the omitted
+  finite set and the chosen integral model;
+- the matching global Artin `L`-function and the leading-value normalization at the designated
+  point.
 
-**4.3 Split unipotent groups.** Use a central series with vector-group quotients to prove strong
-approximation. Track the chosen rational lift at each induction step.
+Until those declarations are public, the first measure theorem must be restricted to a class for
+which the character module is zero (for example, connected semisimple groups, after proving the
+vanishing) and must still prove convergence of its normalized local volumes. This roadmap exports
+no `tamagawaMeasure` placeholder.
 
-**4.4 Root subgroups.** Identify the root subgroups of a split simply connected semisimple group
-with additive groups and prove density of the subgroup they generate at isotropic local places.
+### C. Reduction theory
 
-### Layer 5: general strong approximation
+Reduction theory must be a separate staged successor, not one milestone saying “construct Siegel
+sets.” Its dependency order is:
 
-**5.1 The hypothesis.** Let `G` be connected, simply connected, and semisimple. Require that each
-`K`-almost-simple factor has noncompact `G(K_v)` for at least one `v ∈ S`. State equivalent
-isotropy/rank formulations only when their equivalence is proved.
+1. rational parabolics, minimal parabolics, Levi decompositions, and maximal `K`-split tori;
+2. local and adelic Iwasawa decompositions with compatible maximal compact subgroups;
+3. rational characters, logarithmic height maps, simple relative roots, and positive chambers;
+4. arithmetic reduction into bounded unipotent and Levi pieces;
+5. construction of Siegel sets and a theorem that finitely many rational translates cover;
+6. measurable fundamental sets, boundary-nullness or an explicit substitute, and compatibility
+   with quotient Haar measure;
+7. convergence of the chamber integral and the resulting finite, nonzero quotient volume.
 
-**5.2 Almost-simple case.** Combine root-subgroup generation at an isotropic place, weak
-approximation on big cells, and the open-subgroup argument to prove density in `G(𝔸_K^S)`.
+The finite-covolume and `tamagawaNumber` definitions may appear only after all seven stages are
+available.
 
-**5.3 Products and restriction of scalars.** Pass from absolutely almost simple factors to
-`K`-almost-simple factors and then to semisimple products. Record central isogeny caveats rather
-than silently treating an isogeny as surjective on every local point group.
+### D. Central-isogeny defect data
 
-**5.4 `strongApproximation`.** Publish the final theorem with exact dependencies and its closure
-form. Prove stability under finite enlargement of `S` and compatibility with field extension.
+For a central isogeny `1 → Z → G̃ → G → 1`, a future volume-comparison theorem must
+name rather than hide the following inputs:
 
-**5.5 Failure tests.** The theorem fails for anisotropic tori and for a simply connected
-almost-simple factor compact at every place in `S`. Include examples so noncompactness is not
-lost from later specializations.
+- the connecting maps `δ_K : G(K) → H¹(K, Z)` and
+  `δ_v : G(K_v) → H¹(K_v, Z)`;
+- the unramified subgroups `H¹_nr(K_v, Z)` at good finite places and the restricted product
+  `∏'v H¹(K_v, Z)` relative to them;
+- the localization map `loc¹ : H¹(K, Z) → ∏'v H¹(K_v, Z)` and its compatibility with
+  the global and adelic connecting maps;
+- `Sha¹(K, Z) := ker(loc¹)` and the precise cokernel or image quotient that occurs in the
+  adelic defect;
+- finiteness of every kernel, image quotient, and cokernel whose cardinality appears in the
+  volume ratio.
 
-### Layer 6: local and global measures
+The exact volume formula must state which of these finite cardinalities occur and how the chosen
+local Haar normalizations enter. “Cohomological defect factor” is not an acceptable substitute.
 
-**6.1 Invariant top forms.** Construct the one-dimensional space of left-invariant top
-differential forms on a smooth connected group and compare left and right invariance through the
-modular character. Prove semisimple and unipotent groups unimodular.
+### E. Adelic Poisson summation
 
-**6.2 Local measure.** A nonzero invariant top form and the normalized absolute value on `K_v`
-give a Haar measure on `G(K_v)`. Prove scaling, change of coordinates, functoriality under
-isomorphism, and the volume of good integral points at almost every finite place.
+Adelic Poisson summation has one owner: a separate generic **Adelic Fourier Analysis** roadmap.
+That roadmap must import the global-adele supplier and the accepted Schwartz--Bruhat/Fourier
+infrastructure, then export a named Poisson-summation theorem with its additive character,
+self-dual measure, Fourier-transform convention, lattice, and convergence hypotheses explicit.
+Neither this core nor a Tamagawa successor should re-prove it; they may only import that theorem.
 
-**6.3 Convergence factors.** Introduce the canonical local convergence factors needed when the
-naive product of volumes does not converge. Prove the normalized local measures give restricted
-product measure data.
+The resulting stack is therefore:
 
-**6.4 `tamagawaMeasure`.** Form the product measure on `G(𝔸_K)` and prove independence from the
-global invariant form, the finite set of bad places, the integral model, and compatible compact
-opens. Establish left and right invariance for unimodular groups.
-
-**6.5 Exact sequences.** For exact sequences with the required cohomological and local
-surjectivity hypotheses, compare quotient measures and record the defect factors. These hypotheses
-are mandatory; an fppf exact sequence need not be exact on local points.
-
-### Layer 7: reduction theory and Tamagawa numbers
-
-**7.1 Reduction data.** For connected reductive groups, construct Siegel sets from minimal
-parabolics, split tori, compact factors, and bounded unipotent pieces. Prove finitely many rational
-translates cover the adelic quotient.
-
-**7.2 Fundamental domains.** Produce measurable finite-volume fundamental data adequate for
-Mathlib's quotient-Haar API. Prove the rational subgroup countable and the quotient measure
-well-defined.
-
-**7.3 Finite covolume.** Show the quotient has finite nonzero Tamagawa measure for connected
-semisimple groups. Keep the `ℝ≥0∞` statement primary.
-
-**7.4 `tamagawaNumber`.** Define the covolume and prove invariance under group isomorphism, field
-isomorphism, direct products, and restriction of scalars. Develop the simply connected and central
-isogeny comparison formulas needed by applications.
-
-**7.5 Poisson and volume induction.** Establish the adelic Poisson-summation input and the generic
-volume induction used in classical Tamagawa-number calculations. Specific evaluation for `SO_Q`
-belongs downstream.
+```text
+this generic restricted-product core
+    ├─→ algebraic-group adelic points and strong approximation
+    │      [after Reductive Groups + local/global arithmetic suppliers]
+    └─→ Tamagawa measures and numbers
+           [after Reductive Groups + Artin-L + reduction theory
+            + Adelic Fourier Analysis]
+```
 
 ---
 
 ## Worked examples and rejection tests
 
-1. `𝔾_a`: finite and away-`S` points recover the additive finite adeles and `𝔸_K^S`; strong
-   approximation is ordinary simultaneous approximation.
-2. `GL_n`: compact opens from `GL_n(𝒪_v)` and the coordinatewise comparison with invertible
-   matrices over the finite adeles.
-3. `SL_n`, `n ≥ 2`: strong approximation outside any nonempty `S`, derived from elementary root
-   subgroups.
-4. A finite change of integral model gives canonically homeomorphic adelic groups and the same
-   Tamagawa measure.
-5. An anisotropic torus supplies the failure test for the simply-connected semisimple theorem.
-6. The full rational diagonal is discrete while the away-`S` diagonal can be dense; no theorem
-   conflates the two topologies.
+1. A finite family: the restricted product is the ordinary product, and the integral subgroup is
+   the product of the selected subgroups.
+2. A finite change of subgroup family gives a canonical coordinatewise-identity homeomorphism.
+3. The additive diagonal from a supplied family of embeddings satisfies the expected coordinate
+   formula.
+4. A coordinate map that fails to preserve a selected subgroup does not induce
+   `restrictedProductMap` without changing the target family.
+5. Eventual integrality is never inferred merely from the existence of coordinate maps.
 
 ## Ordering
 
 ```text
 0 → 1 → 2 → 3
-        │    ├→ 4 → 5
-        └────┴→ 6 → 7
 ```
-
-Layers 4–5 and 6–7 can proceed in parallel after the adelic point groups and rational diagonal
-exist. The final applications consume both strong approximation and measure theory, but neither
-generic theorem depends on the other.
 
 ## References
 
-- A. Borel, *Linear Algebraic Groups*, for local point topologies and structure theory.
-- V. Platonov and A. Rapinchuk, *Algebraic Groups and Number Theory*, Chapters 5 and 7, for strong
-  approximation and adelic quotients.
-- G. Harder, reduction theory for arithmetic groups and finite covolume.
-- A. Weil, *Adeles and Algebraic Groups*, for invariant forms and Tamagawa measures.
-- T. Ono, *On the Tamagawa number of algebraic tori*, for isogeny defects and measure formulas.
-- J. Oesterlé, *Nombres de Tamagawa et groupes unipotents*, for unipotent volume induction.
+- N. Bourbaki, *General Topology*, for restricted-product topology.
+- A. Weil, *Basic Number Theory*, for the classical restricted-product model of adeles.
 
 The extraction history and audited source status are maintained privately and are not normative.

@@ -1,19 +1,13 @@
 import Mathlib
-import TauCetiRoadmap.GlobalNumberFields.Suggested
-import TauCetiRoadmap.LocalFieldsRamification.Suggested
-import TauCetiRoadmap.ReductiveGroups.Suggested
 
 /-!
-# Adelic algebraic groups: target signatures
+# Restricted products and rational diagonals: target signatures
 
 **This file is not the roadmap and is not exhaustive.** `README.md` is the definitive
 specification. The generic restricted-product declarations below elaborate against the repository
-pin. The final supplier namespaces are imported above. Scheme-level targets such as
-`LocalPointGroup`, the algebraic refinement of `CompatibleCompactOpens`,
-`strongApproximation`, `tamagawaMeasure`, and `tamagawaNumber` remain provisional milestone
-names in the README until Reductive Groups publishes the required functor-of-points carrier.
-The exact scheme-level consumer contract is therefore blocked. This file does not replace that
-missing accepted carrier with an arbitrary private group-scheme interface.
+pin and import only Mathlib. Scheme-level local points, strong approximation, convergence factors,
+Tamagawa measures, reduction theory, and Tamagawa numbers have been split into future successor
+roadmaps. This file deliberately introduces no provisional private group-scheme interface.
 -/
 
 namespace TauCetiRoadmap.AdelicAlgebraicGroups
