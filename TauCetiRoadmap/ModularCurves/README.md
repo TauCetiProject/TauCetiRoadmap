@@ -1786,9 +1786,12 @@ KM 8.11 (computation of the cusps via the Tate parameter), KM 10.5, 10.8–10.9 
 structure near infinity); Mazur, *Modular curves and the Eisenstein ideal*, II §1–§2.
 
 This layer exists for a named consumer. Mazur's Eisenstein-ideal paper is the canonical arithmetic
-application of `X₀(N)`, and its Chapter II opens with a list of geometric inputs; this layer builds
-exactly the members of that list which are coarse-curve geometry away from the level, and §The
-Mazur interface below names the owners of every member it does not build. Everything here is
+application of `X₀(N)`, and its Chapter II opens with a list of geometric inputs; this layer
+records the intended constructions for the members of that list which are coarse-curve geometry
+away from the level, and §The Mazur interface below identifies the remaining suppliers. ⚠ **The
+consumer is Mazur Ch. II §§1–2 — the curve geometry — and nothing more.** Mazur's torsion theorem
+and the Eisenstein-ideal arithmetic are *not* targets of this roadmap, and no layer below claims
+an interface to them; see the boundary paragraph of §The Mazur interface. Everything here is
 KM-native: the compactification is by **normalisation of the coarse `j`-line**, so no generalized
 elliptic curves, no stacks, and no boundary moduli interpretation are introduced.
 
@@ -1797,55 +1800,97 @@ the construction itself works for the standard problems of Layer 9 uniformly.
 
 1. **The compactified coarse curve.** For a standard problem with coarse scheme `Y_H/ℤ[1/N]`
    (Layer 9) and its `j`-map to the coarse `j`-line `𝔸¹_j` (KM 8.2.2, Layer 9E), define
-   `X_H` as the normalisation of `ℙ¹_j` over `ℤ[1/N]` in `Y_H`. Milestones: `X_H` is a smooth
-   proper relative curve over `ℤ[1/N]` — with, as everywhere in this roadmap, **no** connectedness
-   or irreducibility assertion (§Scope, and the fixed-pairing warning of Layer 5B stands);
-   `Y_H ⊆ X_H` is the open complement of the finite locus over `j = ∞`; formation commutes with the base changes KM 8.5
-   supplies for the coarse schemes; and `X_H` is uniquely characterised as the normal proper model
-   with that open part, by the uniqueness theorem for normalisation already used in Layer 9E.
-2. **Cusps as sections, via the Tate parameter.** Define the cusps as the (finitely many) points
-   of `X_H` over `j = ∞`. Milestones, for `[Γ₀(N)]` with `N` prime: there are exactly **two**
-   cusps, `0` and `∞`, each a `ℤ[1/N]`-section of `X₀(N)`, disjoint; the `j`-map is unramified
-   along `∞` and ramified along `0`; and the two are interchanged by the Atkin–Lehner involution
-   `w_N` induced by `[N-Isog]`-transposition (Layer 8). The computation is KM 8.11's: the formal
-   completion of `X_H` along the locus over `j = ∞` is computed by `[Γ₀(N)]`-structures on the
-   Tate curve over `ℤ[1/N]((q))`, and the cusp count is the orbit count of KM 10.5's cusp-labels.
-   ⚠ This is the one place the layer touches the Tate curve, and it consumes it as a *supplier*:
-   the Tate curve over `ℤ((q))` with its `[Γ₀(N)]`-structures is exactly the object the FLT
-   project's development already targets (§Provenance), and this roadmap does not rebuild it.
-3. **The ramification table of `X₁(N) → X₀(N)`** (Mazur II §2, Table 1). The covering
-   `Y₁(N) → Y₀(N)` is Galois with group `(ℤ/N)ˣ/±1` (Layer 9 quotients); extend it to
-   `X₁(N) → X₀(N)` by normalisation. Milestones, fibrewise over `ℤ[1/N]`: the covering is
-   unramified at the cusps; in residue characteristic `∉ {2, 3}` the ramification is exactly at
-   the elliptic points — inertia `ℤ/2` at the two points over `j = 1728` when `N ≡ 1 mod 4`,
-   inertia `ℤ/3` at the two points over `j = 0` when `N ≡ 1 mod 3`, and none otherwise — by the
-   `Aut(E, C) ↪ (ℤ/N)ˣ` rigidity for `N ≥ 5`; and in residue characteristics `2` and `3` the
-   collapsed points over `j = 0 = 1728` are wildly ramified **of the first type** (Mazur's
-   Definition 2.2: `G = G₀ = ⋯ = G_ν`, `G_{ν+1} = 0`, with `ν = 1`), pinned by the
-   characteristic-independence of the degree of the different through the Hurwitz formula. The
-   automorphism inputs in characteristics `2` and `3` are Silverman App. A (§References), consumed
-   through the elliptic-curves roadmap's `Aut(E)` interface.
-4. **The Shimura covering** (Mazur II, Cor. 2.3). For prime `N ≥ 5` and `n = num((N−1)/12)`:
-   the covering `X₁(N) → X₀(N)` has a unique intermediate covering `X₂(N) → X₀(N)` which is
-   Galois cyclic of order `n`; it is **étale**, including at the cusps and in residue
-   characteristics `2` and `3`. The étaleness is forced by the table: the inertia subgroups at
-   the ramified points have order `2`, `3`, or the wild first-type structure, and their images in
-   the order-`n` quotient of `(ℤ/N)ˣ/±1` vanish because of exactly the factors of `2` and `3`
-   that the numerator of `(N−1)/12` removes. This covering is the geometric substrate of the
-   Shimura subgroup of `J₀(N)`, which is where this roadmap stops and §The Mazur interface hands
-   over.
+   `X_H` as the normalisation of `ℙ¹_j` over `ℤ[1/N]` in `Y_H`. Milestones: `X_H → ℙ¹_j` is
+   **finite** and `X_H` is normal; `X_H` is a smooth proper relative curve over `ℤ[1/N]` — with,
+   as everywhere in this roadmap, **no** connectedness or irreducibility assertion (§Scope, and
+   the fixed-pairing warning of Layer 5B stands); and `Y_H ⊆ X_H` is the open complement of the
+   fibre over `j = ∞`. ⚠ **The uniqueness statement is the universal property of normalisation,
+   and the finiteness over `ℙ¹_j` is load-bearing in it**: `X_H` is unique among normal schemes
+   *finite over the fixed `ℙ¹_j`* extending the `j`-map on `Y_H`. It is **not** unique as "the
+   normal proper model with that open part" — over the relative base `X_H` is a surface, and
+   blowing up a closed point of the boundary gives a second normal proper model with the same
+   open part. ⚠ **Base change is a theorem with hypotheses, not bookkeeping**: normalisation
+   does not commute with arbitrary base change (normalise `k[t] ⊆ k[x]`, `t = x²`, then set
+   `t = 0`). The milestone is the modular-curve-specific statement: formation of `X_H` commutes
+   with the base changes among those KM 8.5 supplies for which the normalisation comparison
+   holds, proved through the cusp analysis of item 2 — stated with its exact class of base
+   changes, never as a blanket claim.
+2. **The cusp locus as a closed subscheme, and the formal-cusp package.** Define
+   `Cusps_H := X_H ×_{ℙ¹_j} {∞}`, the scheme-theoretic fibre — not "finitely many points".
+   Milestones: `Cusps_H` is finite over `ℤ[1/N]`, and finite étale for the standard problems;
+   for `[Γ₀(N)]` with `N` prime, the splitting `Cusps₀(N) ≅ ℤ[1/N] ⊔ ℤ[1/N]`, giving the two
+   disjoint sections `0` and `∞`, stable under arbitrary base change; the coarse `j`-map has
+   ramification index `1` along `∞` and `N` along `0`, computed from the Tate parameter — ⚠
+   Mazur states the un/ramifiedness for the **stack** morphism `ℳ₀(N) → ℳ(1)`; what this
+   roadmap states and proves is the coarse-index computation, and no stack-to-coarse comparison
+   is claimed; and the extension of the Atkin–Lehner involution `w_N` from `Y₀(N)` (Layer 8's
+   `[N-Isog]`-transposition) to `X₀(N)`, **a separate normalisation-functoriality theorem** —
+   `w_N` does not lie over `ℙ¹_j`, so this is not automatic — after which `w_N` interchanges
+   the two cusp sections. The computational engine is the **formal-cusp package of KM
+   8.7–8.11 and 10.8, built here as its own milestone**: the groups `T[N]` and the Tate curve
+   over `ℤ[1/N]((q))` with its subgroup schemes and `[Γ₀(N)]`-structures, the integral closure
+   of the `q`-adic local ring in the corresponding level cover, and the resulting formal
+   parameters along `Cusps_H`, with the cusp count as the orbit count of KM 10.5's cusp-labels.
+   ⚠ The elliptic-curves roadmap's Tate strand — uniformisation `L^× / q^ℤ ≅ E_q(L)` over a
+   complete rank-one valued field — is a *different, point-level object* and is **not** a
+   supplier for this formal calculation; the two are related, and neither substitutes for the
+   other.
+3. **The ramification table of `X₁(N) → X₀(N)`** (Mazur II §2, Table 1 — all six rows). The
+   covering `Y₁(N) → Y₀(N)` is Galois with group `(ℤ/N)ˣ/±1` (Layer 9 quotients); extending it
+   to `X₁(N) → X₀(N)` along the normalisations is itself a milestone. Fibrewise over `ℤ[1/N]`,
+   for `k` algebraically closed of characteristic `≠ N`: the covering is unramified at every
+   cusp; if `char k ∉ {2, 3}`, the only ramification is at the two points over `j = 1728`
+   (inertia cyclic of order `2`, present iff `N ≡ 1 mod 4`) and the two points over `j = 0`
+   (inertia cyclic of order `3`, present iff `N ≡ 1 mod 3`), by the `Aut(E, C) ↪ (ℤ/N)ˣ`
+   rigidity for `N ≥ 5`. **In characteristic `2`** (`j = 0 = 1728`): the order-`3` pair stays
+   two distinct, *tamely* ramified points, while the order-`2` pair **collapses to one point,
+   wildly ramified of the first type** (Mazur Def. 2.2: `G = G₀ = G₁`, `G₂ = 0`, i.e. `ν = 1`).
+   **In characteristic `3` the roles reverse**: the order-`2` pair stays two tame points, the
+   order-`3` pair collapses to one wild point of the first type. The mechanism is the
+   automorphism normalisers, required as exact supplier contracts from the elliptic-curves
+   roadmap's `Aut(E)` interface (Silverman App. A, §References): in characteristic `2`,
+   `Aut(E)/±1 ≅ A₄`, where an order-`3` subgroup is self-normalising (two points survive) and an
+   order-`2` subgroup has Klein-four normaliser (the pair is interchanged, one point); in
+   characteristic `3`, `Aut(E)/±1 ≅ S₃` with the two behaviours exchanged. The wild break
+   `ν = 1` is proved by comparing the degree of the global different across characteristics:
+   Kähler differentials in the exact sequence of `X₁(N) → X₀(N)`, the global different and the
+   **Riemann–Hurwitz formula**, constancy of the genera in the smooth proper families, and the
+   local formula `v(𝔡) = Σ_{i≥0} (|G_i| − 1)` — a named dependency package, not a footnote.
+4. **The Shimura covering** (Mazur II, Cor. 2.3). Put `G = (ℤ/N)ˣ/±1`, cyclic of order
+   `(N−1)/2`, and `n = (N−1)/gcd(N−1, 12) = num((N−1)/12)`. Let `H ≤ G` be the unique subgroup
+   of order `gcd(N−1, 12)/2`, and define `X₂(N) := X₁(N)/H`. Milestones: `X₂(N) → X₀(N)` is
+   Galois cyclic of degree `n`; and it is **finite étale over `ℤ[1/N]`**, including at the cusps
+   and in residue characteristics `2` and `3`, because *every inertia subgroup in item 3's table
+   is cyclic of order `2` or `3` and hence lies in `H`* — the factors of `2` and `3` that the
+   numerator removes are exactly the inertia orders the quotient kills. This formulation, with
+   `H` named by its order, is the one to formalise. The covering is the geometric substrate of
+   the Shimura subgroup of `J₀(N)`, which is where this roadmap stops and §The Mazur interface
+   hands over.
 
 **Dependencies.** Layer 8 (`[Γ₀(N)]`, `[N-Isog]`-transposition for `w_N`), Layer 9 (quotients,
-coarse schemes, the `j`-line, uniqueness of normalisation), the Tate-curve supplier of item 2, and
-the elliptic-curves roadmap's automorphism interface for item 3. Nothing here uses
-characteristic-`N` geometry, regular differentials, or any Jacobian.
+coarse schemes, the `j`-line), a normalisation carrier for schemes with its universal property
+and finiteness theory, the formal-cusp package of item 2 (built here), the elliptic-curves
+roadmap's automorphism and normaliser interface for item 3, and — for item 3's wild break — a
+**global different and Riemann–Hurwitz package** for curves over a field with the local
+higher-ramification formula, owned by the Algebraic Curves foundations, together with genus
+constancy in smooth proper families from the curve-cohomology supplier. Nothing here uses
+characteristic-`N` geometry, the relative regular-differential and duality package of Mazur
+II §3, or any Jacobian; item 3 *does* use Kähler differentials, the global different,
+Riemann–Hurwitz, and the local different formula.
 
 ## The Mazur interface: what *Modular curves and the Eisenstein ideal* consumes
 
 Mazur's paper (IHÉS 47, 1977) is the acceptance test this roadmap should be measured against on
-the arithmetic side, and its Chapter II is a precise bill of materials. Recording that bill here,
-with one owner per line, is what keeps "supplier-blocked" honest rather than aspirational. The
-split:
+the arithmetic side, and its Chapter II §§1–2 is a precise bill of materials. Recording that bill
+here, with one owner per line, is what keeps "supplier-blocked" honest rather than aspirational.
+⚠ **This is an interface for Mazur Ch. II §§1–2 — the modular-curve geometry — and deliberately
+not for Mazur's theorems.** The torsion theorem in particular is out of scope, and not only for
+Jacobian-side reasons: its Chapter III §5 descent step consumes the **boundary moduli
+interpretation of the cusps** — a section through a curve with rational `N`-torsion specialises
+to `∞` or to `0` according to whether the cyclic subgroup meets the identity component of the
+special fibre — and that is a statement about generalised elliptic curves, which §Scope excludes.
+This roadmap supplies the curves; it makes no claim, conditional or otherwise, about the theorems
+Mazur proves with them. The split:
 
 **Owned by this roadmap.** The affine curves `Y₀(N)`, `Y₁(N)` integrally and over `ℤ[1/N]`
 (Layers 5, 8, 9); `[Γ₀(N)]` with cyclicity (Layer 8); the quotient and coarse theory with the
@@ -1857,9 +1902,12 @@ scope, and its compactification is Layer 10 item 1 applied to that `H`.
 **Named supplier contracts, not built here.** Each line is a blocker for the corresponding
 downstream statement, per the portfolio rule that a prose promise is not a closed dependency:
 
-- **Characteristic-`N` geometry**: the crossing of two `j`-lines at the supersingular points,
+- **Characteristic-`N` geometry**: the two-component semistable special fibre obtained by gluing
+  two copies of the `j`-line along the supersingular points (with Frobenius in the gluing),
   regularity of `M₀(N)/ℤ` away from `j ∈ {0, 1728}`, and the minimal regular resolution
-  `X₀(N)/ℤ` with its `Iₙ`-shaped bad fibre (Mazur II §1; DR IV 6.9; KM Ch. 12–13). Owner: a
+  `X₀(N)/ℤ`, whose bad fibre adds the exceptional chains of `ℙ¹`s over the stacky points
+  `j = 0, 1728` (Mazur II §1 and Diagram 1; the Mazur–Rapoport appendix; DR IV 6.9;
+  KM Ch. 12–13). ⚠ Not a Kodaira fibre, and not to be described as one. Owner: a
   future Deligne–Rapoport/semistable-reduction roadmap — the same place §Scope already sends
   Igusa curves and generalized elliptic curves (Conrad, §References).
 - **Regular differentials and relative duality** for Cohen–Macaulay curve morphisms
@@ -1873,12 +1921,20 @@ downstream statement, per the portfolio rule that a prose promise is not a close
   Eisenstein-ideal roadmap consuming this one, the modular-forms roadmap's Hecke theory, and the
   Jacobian supplier above. Layer 10's Shimura covering is deliberately the last stop on this side
   of that boundary.
-- **Admissible group schemes over `ℤ`** (Mazur Ch. I): finite flat group schemes over `ℤ[1/p]`
-  extended over `ℤ`, extensions of `μ_p` by `ℤ/p`: owner, a finite-flat-group-schemes roadmap;
-  this roadmap's Layer 0B carrier is the `ℤ[1/N]`-side interface it will meet.
+- **Admissible group schemes over `ℤ`** (Mazur Ch. I): quasi-finite separated commutative group
+  schemes of finite presentation over `ℤ`, **finite flat over `ℤ[1/N]`**, whose `p`-primary parts
+  for `p ≠ N` — étale over `ℤ[1/p]` and finite étale over `ℤ[1/pN]` — admit filtrations with
+  successive quotients `ℤ/p` or `μ_p`: owner, a finite-flat-group-schemes roadmap; this roadmap's
+  Layer 0B carrier is the `ℤ[1/N]`-side interface it will meet. (The level prime `N` and the
+  residual prime `p` are different primes, and the category depends on keeping them apart.)
 
-With Layer 10 in place, every input of Mazur Ch. II §§1–2 is either built here or named above with
-an owner; nothing in the list is silently assumed.
+Layer 10 records the intended constructions and identifies the remaining suppliers for Mazur
+Ch. II §§1–2. The contracts **not yet closed**, so no downstream statement may assume them: the
+formal Tate/cusp package (item 2, built here but unstarted); the normalisation carrier with its
+permitted base changes; the global different and Riemann–Hurwitz package; the exact
+characteristic-`2`/`3` automorphism-normaliser computations; and the extension of the Galois
+covering and of `w_N` to the normalisations. Once those have Lean-facing declarations, this
+paragraph can be strengthened — not before.
 
 ## Dependency order and parallel work
 
