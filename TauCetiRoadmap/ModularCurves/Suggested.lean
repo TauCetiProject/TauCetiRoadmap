@@ -1293,7 +1293,13 @@ vacuous proposition fields:
    for the standard problems;
 9. the Axiomatic Isomorphism Theorem, the universal property of the cyclicity locus, and the
    finite-flat rank-`φ(N)` map `[Γ₁(N)]⟶[Γ₀(N)]`;
-10. coarse base change KM 8.1.6, KM 8.2.2, and the displayed Borel-quotient chain for `Y₀(N)`.
+10. coarse base change KM 8.1.6, KM 8.2.2, and the displayed Borel-quotient chain for `Y₀(N)`;
+11. Layer 10's compactified coarse curve `X_H` (the KM 8.6 normalisation of the `j`-line in
+    `Y_H`), its cusp sections computed through the Tate parameter (KM 8.11), the extension of
+    `Y₁(N) → Y₀(N)` to `X₁(N) → X₀(N)` with Mazur's ramification table, and the étale Shimura
+    covering `X₂(N) → X₀(N)` of degree `numerator((N−1)/12)` — these wait on a normalisation
+    carrier for schemes and on Layer 9's coarse `j`-line, and their exact statements are pinned
+    in `README.md` §Layer 10 and §The Mazur interface.
 -/
 
 end TauCetiRoadmap.ModularCurves

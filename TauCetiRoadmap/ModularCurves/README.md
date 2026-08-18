@@ -32,8 +32,9 @@ The roadmap includes:
 - the coarse `j`-line and the coarse modular curve `Y₀(N)`;
 - the deformation theory needed for KM 5.1.1.
 
-The following topics are not included: compactified modular curves, generalized elliptic curves,
-Igusa curves, a general theory of algebraic stacks or algebraic spaces, modular forms and Hecke
+The following topics are not included: generalized elliptic curves, Igusa curves and the
+characteristic-`N` compactified geometry (crossings at supersingular points, minimal regular
+resolutions — §The Mazur interface names their owner), a general theory of algebraic stacks or algebraic spaces, modular forms and Hecke
 operators, Néron models, complex uniformisation, and geometric connectedness or irreducibility of
 the fine curves. **One deliberate exception, and it is conditional**: §Layer 5C owns the *algebraic
 reduction* of geometric irreducibility for the twisted curve `Y(ρ)` — smoothness under base change,
@@ -1298,6 +1299,12 @@ every statement about `Y(ρ)` in this roadmap carries the connectedness hypothes
 than assuming it — an unresolved supplier contract is a blocker on the *unconditional* statement,
 not a licence to assert it.
 
+**Compactified coarse curves over `ℤ[1/N]` are included** (Layer 10): the KM 8.6 normalisation of
+the coarse `j`-line, the cusps via the Tate parameter, the ramification structure of
+`X₁(N) → X₀(N)`, and the étale Shimura covering. This is coarse-curve geometry with no boundary
+moduli interpretation, no stacks, and no generalized elliptic curves; the characteristic-`N`
+fibres of the compactified curves remain excluded as above.
+
 **Dependencies.** Layers 0C–0E, 2E–2F, and 5B. The construction uses no new Cartier-divisor result
 beyond the Weil pairing already supplied by Layer 2E. The pairing normalisation in Layer 2E uses
 the elliptic-curves roadmap.
@@ -1772,6 +1779,107 @@ Do not use the formula for `N=1,2`, and do not assert an integral Borel quotient
 
 **Dependencies.** Layers 0C, 1C, 4B–4C, 5B, 8, and 9A–9D.
 
+## Layer 10: compactified coarse curves over `ℤ[1/N]`, cusps, and the Shimura covering
+
+References: KM 8.6 (cusps by normalisation near infinity; compactified coarse moduli schemes),
+KM 8.11 (computation of the cusps via the Tate parameter), KM 10.5, 10.8–10.9 (cusp-labels and
+structure near infinity); Mazur, *Modular curves and the Eisenstein ideal*, II §1–§2.
+
+This layer exists for a named consumer. Mazur's Eisenstein-ideal paper is the canonical arithmetic
+application of `X₀(N)`, and its Chapter II opens with a list of geometric inputs; this layer builds
+exactly the members of that list which are coarse-curve geometry away from the level, and §The
+Mazur interface below names the owners of every member it does not build. Everything here is
+KM-native: the compactification is by **normalisation of the coarse `j`-line**, so no generalized
+elliptic curves, no stacks, and no boundary moduli interpretation are introduced.
+
+Throughout, `N ≥ 5` is prime where Mazur's normalisation `n = numerator((N−1)/12)` is used;
+the construction itself works for the standard problems of Layer 9 uniformly.
+
+1. **The compactified coarse curve.** For a standard problem with coarse scheme `Y_H/ℤ[1/N]`
+   (Layer 9) and its `j`-map to the coarse `j`-line `𝔸¹_j` (KM 8.2.2, Layer 9E), define
+   `X_H` as the normalisation of `ℙ¹_j` over `ℤ[1/N]` in `Y_H`. Milestones: `X_H` is a smooth
+   proper relative curve over `ℤ[1/N]` — with, as everywhere in this roadmap, **no** connectedness
+   or irreducibility assertion (§Scope, and the fixed-pairing warning of Layer 5B stands);
+   `Y_H ⊆ X_H` is the open complement of the finite locus over `j = ∞`; formation commutes with the base changes KM 8.5
+   supplies for the coarse schemes; and `X_H` is uniquely characterised as the normal proper model
+   with that open part, by the uniqueness theorem for normalisation already used in Layer 9E.
+2. **Cusps as sections, via the Tate parameter.** Define the cusps as the (finitely many) points
+   of `X_H` over `j = ∞`. Milestones, for `[Γ₀(N)]` with `N` prime: there are exactly **two**
+   cusps, `0` and `∞`, each a `ℤ[1/N]`-section of `X₀(N)`, disjoint; the `j`-map is unramified
+   along `∞` and ramified along `0`; and the two are interchanged by the Atkin–Lehner involution
+   `w_N` induced by `[N-Isog]`-transposition (Layer 8). The computation is KM 8.11's: the formal
+   completion of `X_H` along the locus over `j = ∞` is computed by `[Γ₀(N)]`-structures on the
+   Tate curve over `ℤ[1/N]((q))`, and the cusp count is the orbit count of KM 10.5's cusp-labels.
+   ⚠ This is the one place the layer touches the Tate curve, and it consumes it as a *supplier*:
+   the Tate curve over `ℤ((q))` with its `[Γ₀(N)]`-structures is exactly the object the FLT
+   project's development already targets (§Provenance), and this roadmap does not rebuild it.
+3. **The ramification table of `X₁(N) → X₀(N)`** (Mazur II §2, Table 1). The covering
+   `Y₁(N) → Y₀(N)` is Galois with group `(ℤ/N)ˣ/±1` (Layer 9 quotients); extend it to
+   `X₁(N) → X₀(N)` by normalisation. Milestones, fibrewise over `ℤ[1/N]`: the covering is
+   unramified at the cusps; in residue characteristic `∉ {2, 3}` the ramification is exactly at
+   the elliptic points — inertia `ℤ/2` at the two points over `j = 1728` when `N ≡ 1 mod 4`,
+   inertia `ℤ/3` at the two points over `j = 0` when `N ≡ 1 mod 3`, and none otherwise — by the
+   `Aut(E, C) ↪ (ℤ/N)ˣ` rigidity for `N ≥ 5`; and in residue characteristics `2` and `3` the
+   collapsed points over `j = 0 = 1728` are wildly ramified **of the first type** (Mazur's
+   Definition 2.2: `G = G₀ = ⋯ = G_ν`, `G_{ν+1} = 0`, with `ν = 1`), pinned by the
+   characteristic-independence of the degree of the different through the Hurwitz formula. The
+   automorphism inputs in characteristics `2` and `3` are Silverman App. A (§References), consumed
+   through the elliptic-curves roadmap's `Aut(E)` interface.
+4. **The Shimura covering** (Mazur II, Cor. 2.3). For prime `N ≥ 5` and `n = num((N−1)/12)`:
+   the covering `X₁(N) → X₀(N)` has a unique intermediate covering `X₂(N) → X₀(N)` which is
+   Galois cyclic of order `n`; it is **étale**, including at the cusps and in residue
+   characteristics `2` and `3`. The étaleness is forced by the table: the inertia subgroups at
+   the ramified points have order `2`, `3`, or the wild first-type structure, and their images in
+   the order-`n` quotient of `(ℤ/N)ˣ/±1` vanish because of exactly the factors of `2` and `3`
+   that the numerator of `(N−1)/12` removes. This covering is the geometric substrate of the
+   Shimura subgroup of `J₀(N)`, which is where this roadmap stops and §The Mazur interface hands
+   over.
+
+**Dependencies.** Layer 8 (`[Γ₀(N)]`, `[N-Isog]`-transposition for `w_N`), Layer 9 (quotients,
+coarse schemes, the `j`-line, uniqueness of normalisation), the Tate-curve supplier of item 2, and
+the elliptic-curves roadmap's automorphism interface for item 3. Nothing here uses
+characteristic-`N` geometry, regular differentials, or any Jacobian.
+
+## The Mazur interface: what *Modular curves and the Eisenstein ideal* consumes
+
+Mazur's paper (IHÉS 47, 1977) is the acceptance test this roadmap should be measured against on
+the arithmetic side, and its Chapter II is a precise bill of materials. Recording that bill here,
+with one owner per line, is what keeps "supplier-blocked" honest rather than aspirational. The
+split:
+
+**Owned by this roadmap.** The affine curves `Y₀(N)`, `Y₁(N)` integrally and over `ℤ[1/N]`
+(Layers 5, 8, 9); `[Γ₀(N)]` with cyclicity (Layer 8); the quotient and coarse theory with the
+`j`-line (Layer 9); the compactified coarse curves, the two cusps of `X₀(N)`, the ramification
+table of `X₁(N) → X₀(N)`, and the étale Shimura covering (Layer 10). Mazur's
+`X_split(N)` (Ch. III §6) is a `[Γ_H]`-quotient for the normaliser of a split Cartan, in Layer 9's
+scope, and its compactification is Layer 10 item 1 applied to that `H`.
+
+**Named supplier contracts, not built here.** Each line is a blocker for the corresponding
+downstream statement, per the portfolio rule that a prose promise is not a closed dependency:
+
+- **Characteristic-`N` geometry**: the crossing of two `j`-lines at the supersingular points,
+  regularity of `M₀(N)/ℤ` away from `j ∈ {0, 1728}`, and the minimal regular resolution
+  `X₀(N)/ℤ` with its `Iₙ`-shaped bad fibre (Mazur II §1; DR IV 6.9; KM Ch. 12–13). Owner: a
+  future Deligne–Rapoport/semistable-reduction roadmap — the same place §Scope already sends
+  Igusa curves and generalized elliptic curves (Conrad, §References).
+- **Regular differentials and relative duality** for Cohen–Macaulay curve morphisms
+  (Mazur II §3; DR I 2.1.1): owner, the coherent-duality successor to the Jacobian Challenge
+  foundations this roadmap already consumes.
+- **`J₀(N)` and its Néron model**, `Pic⁰` of the regular model, component groups at `N`
+  (Mazur's conventions page and the Mazur–Rapoport appendix): owner, a Néron-model/abelian-varieties
+  roadmap; the elliptic-curves roadmap's §Layer 4 names the same exclusion.
+- **The Hecke algebra `𝕋` acting on `J₀(N)`**, the cuspidal and Shimura subgroups as subgroup
+  schemes, the Eisenstein ideal and quotient (Mazur II §§6–19): owner, a dedicated downstream
+  Eisenstein-ideal roadmap consuming this one, the modular-forms roadmap's Hecke theory, and the
+  Jacobian supplier above. Layer 10's Shimura covering is deliberately the last stop on this side
+  of that boundary.
+- **Admissible group schemes over `ℤ`** (Mazur Ch. I): finite flat group schemes over `ℤ[1/p]`
+  extended over `ℤ`, extensions of `μ_p` by `ℤ/p`: owner, a finite-flat-group-schemes roadmap;
+  this roadmap's Layer 0B carrier is the `ℤ[1/N]`-side interface it will meet.
+
+With Layer 10 in place, every input of Mazur Ch. II §§1–2 is either built here or named above with
+an owner; nothing in the list is silently assumed.
+
 ## Dependency order and parallel work
 
 The main dependency chain is
@@ -1792,6 +1900,7 @@ Jacob. Challenge A–C + 0A + 0E + 1A–1B
   ─► 7 (Chapter 5)
   ─► 8A–8D (finite N-Isog, cyclicity, and Γ₀)
   ─► 9A–9E (quotients, quotient regularity, and coarse spaces)
+  ─► 10 (compactified coarse curves, cusps, and the Shimura covering)
 ```
 
 The diagram records the two principal build lanes. The dependency paragraph of each layer is
@@ -1857,7 +1966,13 @@ The following examples accompany the general theory.
   Amer. J. Math. 81 (1959), 453–476, §2, the source KM 8.2.1 cites for the coarse `j`-line.
 - V. G. Drinfeld, *Elliptic modules*, Mat. Sbornik 94, 1974.
 - B. Conrad, *Arithmetic moduli of generalized elliptic curves*, J. Inst. Math. Jussieu 6,
-  2007, for the compactified theory which is outside this roadmap.
+  2007, for the compactified theory **in characteristics dividing the level**, which is outside
+  this roadmap; the `ℤ[1/N]` coarse compactification of Layer 10 does not use it.
+- B. Mazur, *Modular curves and the Eisenstein ideal*, Publ. Math. IHÉS 47 (1977), 33–186,
+  II §§1–3 and the Mazur–Rapoport appendix, the consumer §The Mazur interface is written against.
+- P. Deligne and M. Rapoport, *Les schémas de modules de courbes elliptiques*, in *Modular
+  Functions of One Variable II*, LNM 349, Springer, 1973 — cited for orientation only (IV 6.9,
+  VII §2); every construction in this roadmap is taken from KM.
 - J. H. Silverman, *The Arithmetic of Elliptic Curves*, 2nd ed., GTM 106, Springer, 2009,
   III.10.1 and Appendix A, for automorphisms in characteristics `2` and `3`.
 - K. Buzzard, *Formalizing Fermat*, Lecture 8, for `Y(ρ)`.
