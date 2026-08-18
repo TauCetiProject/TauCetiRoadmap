@@ -2182,3 +2182,180 @@ problems must use Q1/Q2 rather than objectwise orbits; and that universal ellipt
 Chapter-5 tasks. Volatile file counts, direct `sorry` counts, and branch-status tables are omitted:
 they do not establish whether a theorem is axiom-free and become stale too quickly to guide the
 roadmap.
+
+## Early API and proof hygiene
+
+The layers above say what to prove; this section says what to build first so that proving it
+stays cheap. It is implementation guidance for the AINTLIB development, not a mathematical
+dependency of any layer, and it was extracted from an API audit carried out on 2026-08-18: a
+mechanical sweep of the whole modular-curves tree together with close readings of the
+moduli/descent files, the pole-sheaf and pole-filtration files, and the two `Y(ρ)` files
+(`YRho.lean`, `RhoSections.lean`). The audited revision is
+
+```text
+repository:  https://github.com/CBirkbeck/AINTLIB
+branch:      dev/modular-curves
+revision:    175f528a6d715811404f7a5afac81dcadc829f33 (2026-08-18)
+scope:       projects/ModularCurves — 963 Lean files, ≈417,000 lines
+```
+
+The counts quoted below are one-time audit evidence justifying the priorities, measured at that
+revision only; per the policy above they are not tracking metrics and will not be maintained.
+Declaration names from the audited revision are cited so that the items are findable, with the
+same staleness caveat. Proposed Lean signatures are proposals of name and shape, to be adjusted
+on implementation.
+
+**Diagnosis.** The development rewrites by hand what attributes and a handful of named
+definitions would do for free. At the audited revision: 7,361 mentions of `Category.assoc`
+(959 inside `simp only` lists), 2,535 `pullback.lift`, 2,353 spelled-out
+`Spec.map (CommRingCat.ofHom …)`, 1,337 `eqToHom`, and 396 `erw` (48 of them on a single
+elementwise lemma) — against 749 `@[simp]`, 435 `@[reassoc]`, 19 `@[simps]`, 7 `@[ext]`, and no
+`grind` anywhere. The two `Y(ρ)` files alone (≈16,600 lines) hand-roll 482 `refine Eq.trans`
+reassociation chains and carry six `@[simp]` lemmas between them. Three levers, in leverage
+order: attribute discipline on structural lemmas; names for the composites the proofs keep
+re-spelling; scoped simp sets that close the recurring side-goals in one call.
+
+Priorities: **P1** — before the next tranche of proofs in the affected files; **P2** — when the
+area is next touched; **P3** — opportunistic. The general-purpose subset is type-checked in
+`Suggested.lean` §Early API; everything else attaches to implementation carriers and is
+recorded here only.
+
+### Adopt, do not rebuild (P1)
+
+Checking the audit's proposals against Mathlib turned four of them into adoption notes. All
+four are present at this repository's pin `05ae0103` and at the audited development's newer
+pin; the audited files simply predate them (one is already consumed elsewhere in the same
+tree).
+
+- `CategoryTheory.congr_hom` on a concrete category — the element-application congruence
+  `f = g → f x = g x` that the pole-sheaf files re-derive at 17 sites via
+  `CommRingCat`-specific `have` blocks.
+- `AlgebraicGeometry.IsOpenImmersion.isPullback` — a commuting square of schemes whose
+  vertical legs are open immersions with matching open ranges is a pullback. The descent
+  files re-prove instances by hand from `IsOpenImmersion.lift`.
+- `continuousSMul_iff_stabilizer_isOpen` together with `Subgroup.isOpen_mono` — the seven
+  near-verbatim 20–35-line continuity proofs for discrete Galois actions
+  (`rhoAction_isContinuous`, `frameAction_isContinuous`, `constVecAction_isContinuous`,
+  `frameProdAction_isContinuous`, `rhoFrameProdAction_isContinuous`,
+  `muNRootsAction_isContinuous`, `rhoPairAction_isContinuous`) reduce to "the kernel is open,
+  hence every stabilizer is": two lemma applications each.
+- `CategoryTheory.Limits.pullback.congrHom` — its `congrHom_hom` simp lemmas are exactly the
+  audited `eqToHom_pullback_fst`/`eqToHom_pullback_snd`, which should be deleted in its
+  favour.
+
+### Attribute discipline (P1)
+
+The single highest-leverage change; all three close readings arrived at it independently.
+
+- Retag the "lies over the base" family `@[reassoc (attr := simp)]`: the 26 `…_π` lemmas of
+  the `Y(ρ)` files (`frameEval_π`, `strTaut_π`, `detFrameScheme_π`, `muNRootsPowScheme_π`, …;
+  `torsionMapOfEllHom_π` is the model already done right). This closes the 55 literal
+  `rw [Category.assoc, X_π]; exact h` sites and most `hover`-style side-goals.
+- Upgrade the `@[reassoc]`-only pullback-leg lemmas to `@[reassoc (attr := simp)]`
+  (`strVPt_fst`/`_snd`, `vMapOf_fst`/`_snd`, `strCoverMap_pr`/`_taut`,
+  `frameGraph_fst`/`_snd`, `pullTorsionIso_fst`/`_over`, the shear and coshear legs): with
+  the legs in `simp`, `pullback.hom_ext <;> simp` replaces the 18-line reassociation blocks.
+- Adopt `@[simps]` on constructor-style definitions: the four hand-built `…SpecIso`s
+  (`constVecSpecIso`, `muNRootsSpecIso`, `vRhoPairSpecIso`, `corrSchemeIso`, each currently
+  carrying a ~25-line `hom_inv_id` block), the 58 `ObjectProperty.homMk` wrappers
+  (`frameProdFst`/`Snd`, `frameEvalMor`, the shears), `secCover`/`secLift`/`secValue`, and
+  `GaloisRepData.ofDetCyclo`.
+- Adopt `@[ext]`: `RhoLevelStructure` (one data field, the rest `Prop`s), `GaloisRepData`,
+  tag the existing `EllHom.ext`, and add an ext lemma for maps into an `EllObj.pullbackAlong`
+  (the audited files discharge these by `Subtype.ext (Prod.ext …)` at ~15 sites).
+- `@[simp]` the near-`rfl` projection facts used as `show`-targets
+  (`torsionMapOfEllHom_id`/`_comp`, `RhoLevelStructure.pull_id`/`_comp`,
+  `wFramesRightMul_one`/`_mul`, `corrMor_corrMorInv`, `piAlgHomIndex_spec`, …).
+- One demotion: `chartBasicOpenImage_eq_affineBasicOpen` is not confluent with the other
+  chart-calculus lemmas and should lose its `@[simp]`.
+
+### Composites that deserve names (P1 unless marked)
+
+- `qbarPt`, an abbreviation for the geometric point
+  `Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ)))`, spelled out 62 times;
+  and `qbarRead`, the Grothendieck–Galois "layer cake"
+  `Spec.preimage` → `specPointsEquivAlgHom` → `AlgEquiv.arrowCongr sepClosureQAlgEquiv.symm`
+  → `pointsEquivOfContAction` (70 + 40 call sites, always with the same `hL1`/`hA`/`hB`/`hC`
+  scaffolding), packaged once with a `@[simp]` naturality lemma `qbarRead_comp` and an
+  equivariance lemma `qbarRead_smul`. `frameEval_points` alone drops from 206 lines to ~30.
+- `pullback.mapSnd` — base change along a morphism of second factors, the identity-legged
+  `pullback.map`: 60 call sites discharge the two identity legs by hand with
+  `rw [Category.comp_id, Category.id_comp]`. Type-checked in `Suggested.lean`; subsumes the
+  audited `vMapOf`, `secVSmul`, and `strActX` shapes.
+- `pullbackSection` — the section of `pullback.snd π a` induced by a lift of `a` through `π`;
+  the pole-sheaf files build sections of pullbacks by hand from `pullback.lift` at 55 sites.
+  Type-checked in `Suggested.lean` with its `mapSnd` naturality square.
+- A `Spec`-of-a-finite-étale-algebra functor `CommAlgCat.FiniteEtale ℚ ⥤ CommRingCat` with a
+  `mapIso`, replacing the 198 `.hom.hom.toRingHom` spellings and each hand-built `…SpecIso`;
+  and a `Spec.preimage_comp` simp lemma derived from Mathlib's `Functor.preimage_comp`
+  (11 verbatim `Spec.map_injective`-plus-three-rewrites blocks).
+- (P2) `SchemeAction.QuotientCone` — bundle the six-clause quotient existential of the
+  descent files as a structure, so its clauses stop being re-threaded positionally.
+- (P2) `WeierstrassCurve.Projective.RegularTriple` — 244 call sites thread the same three
+  regularity hypotheses separately.
+- (P2) An `AlgebraicGeometry.WeierstrassChart` structure with a `pushforward` operation and
+  the `IsAffineOpen.SpecMap_appIso_hom_isoSpec_inv` bridge lemma — the chart-calculus
+  backbone shared by the seventeen `AdditionChart*` files.
+- (P2) Abbreviations for the projective grading and chart generator expressions
+  (`projGrading`/`chartGen`), one of which is repeated 286 times.
+- (P2) `EllObj.pullbackAlongCongr` (an isomorphism from equal classifying maps, replacing
+  `eqToHom` transport) plus a functorial `EllObj.base` — removes all 24 `eqToHom`s and all
+  25 `subst`s in the `Y(ρ)` files; the 1,337 `eqToHom`s tree-wide suggest wider reuse.
+
+### Collapsing lemmas (P1 unless marked)
+
+One lemma per repeated multi-step idiom.
+
+- Make the elementwise sheaf-of-modules calculus the simp normal form:
+  `sheafOfModules_comp_app_apply` exists in the audited tree but is `erw`-ed 48 times and
+  open-coded at 29 further sites; add the `hom_inv_id`, `congr_app`, and
+  `over_map_homOfLE` elementwise companions and tag the family `@[simp]`, retiring the
+  `erw`s. The generic composition form is type-checked in `Suggested.lean`.
+- `EllipticCurve.rawKill` — an abbreviation with `@[simp] rawKill_iff` and a pulled-point
+  variant: the transport `(smul_eq_zero_iff_comp_mulByHom …).mp` appears 99 times and
+  `Point.asSection` 179 times, always in the same `hpull` block.
+- A `WalkingPair`-uniform `restrictBase_univTorsionSlot_eq_pushSection`, deleting the
+  byte-identical `Fst`/`Snd` twin proofs (74 lines → ~20).
+- (P2) `IsScalarTransition.map` — collapses the six scalar-transition theorems (≈380 lines)
+  into one parametrised statement.
+- (P2) Promote `range_SpecMap_awayHom` from a local `have` to a lemma; with
+  `IsOpenImmersion.isPullback` (adopted above) this closes the away-chart descent squares.
+- (P3) Small-fact hygiene: an instance for `IsUnit ((N : ℕ) : ℚ)` under `[NeZero N]`
+  (re-derived 7 times), a `@[simp]` 2×2 table for `symplStd` applied to `Pi.single`
+  (12 re-derivations), and hoisting `(1 : ℕ) < N` to a section variable.
+
+### Scoped simp sets (P1 for the first three, P2 for the rest)
+
+Named `simp` attribute sets, scoped to the development, so the recurring 10-line side-goals
+close with one `simp [set, h]` call.
+
+| set | contents (sketch) | closes |
+|---|---|---|
+| `overQ` | `qbarPt`, the reassoc'd `…_π` family, `Spec.map_comp`/`_id` | every "lies over `Spec ℚ`" side-goal |
+| `rhoPullback` | `pullback.lift_fst`/`_snd`, `mapSnd` legs, the leg lemmas above | the `pullback.hom_ext` chains, incl. both 30-line `Fst`/`Snd` blocks |
+| `galoisRead` | `qbarRead_comp`/`_smul`, `Spec.preimage_comp`, points-equiv naturality | `frameEval_points`, `vRhoPointsEquiv_equivariant` |
+| `chartCalculus` (+ projective variant) | chart-transition and `WeierstrassChart` lemmas | `AdditionChart*` plumbing |
+| `awayTower`, `descent` | localization towers; gluing side-conditions | away-chart and descent squares |
+| `poleSections`, `ringApply` | the elementwise family above; trivialization lemmas | pole-sheaf section pushing; element-application chains |
+
+### A `grind` pilot (P2, experimental)
+
+There is no `grind` in the audited tree. The mined pain is mostly `simp`/`reassoc`-shaped —
+category plumbing, where `grind` does not apply — but the coordinate-algebra layer is exactly
+its territory: the `AdditionChart*` ring identities, Weierstrass polynomial relations,
+`RegularTriple` consequences, and `ZMod`/determinant tables. Pilot: tag the chart-transition
+equations and Weierstrass relations `@[grind =]` and the `RegularTriple` facts `@[grind]`,
+and try `grind` as the closer on `AdditionChart*` equational goals; adopt only if it beats
+the `simp [chartCalculus]; ring` baseline on the same goals.
+
+### Duplications to delete (P3 unless the file is being touched anyway)
+
+- `affineOpenTopSection` ≡ `openTopSection`: verbatim duplicate definitions (45 and 18 uses),
+  currently reconciled by `change`; keep one and add the bridging lemma.
+- The `agreePair`/`agreeLocus`/`agreeLocusι` block is a literal specialisation of
+  `genAgreePair`/`genAgreeLocus` at `pi := muNRootsSchemeπ D` with token-identical proofs
+  (85 lines); delete it and keep an `abbrev`.
+- `bareFramedAut` vs `framedAut` and their `_freeAction` twins: ~50 lines each, differing
+  only in `.1` vs `.val.1`; one `GL₂`-action lemma covers both.
+- `eqToHom_pullback_fst`/`_snd`: superseded by Mathlib's `pullback.congrHom` (adopted
+  above).

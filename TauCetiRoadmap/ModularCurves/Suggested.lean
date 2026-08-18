@@ -1261,6 +1261,94 @@ theorem irreducibleSpace_baseChange_algebraicClosure_of_connectedSpace
       (Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ))))) :=
   sorry
 
+/-! ## Early API: the general-purpose subset
+
+`README.md` §Early API and proof hygiene records the implementation-facing API plan extracted from
+the 2026-08-18 audit of the AINTLIB development. Most of its items attach to carriers that live in
+the implementation and are recorded there in prose only. The declarations below are the
+general-purpose remainder, statable against Mathlib alone. Unlike the rest of this file they are
+proved, not `sorry`ed: each is a short specialisation whose entire value is the name, the argument
+order, and the `@[reassoc (attr := simp)]` discipline — the audit's finding is precisely that
+naming these and tagging them retires several hundred hand-rolled reassociation chains. The
+naturality square at the end is proved by `pullback.hom_ext <;> simp` alone, which is the
+demonstration.
+-/
+
+section EarlyAPI
+
+variable {𝒞 : Type*} [Category 𝒞] {Y S T T' T'' : 𝒞}
+
+/-- Base change along a morphism of second factors: `pullback.map` with both non-varying legs the
+identity. The audit found sixty call sites that build this map from raw `pullback.map` and
+discharge the two identity legs by hand with `rw [Category.comp_id, Category.id_comp]`. Intended
+Mathlib home: `CategoryTheory.Limits`. -/
+noncomputable def pullback.mapSnd (π : Y ⟶ S) (a : T ⟶ S) (a' : T' ⟶ S) (k : T' ⟶ T)
+    (hk : k ≫ a = a') [HasPullback π a] [HasPullback π a'] :
+    pullback π a' ⟶ pullback π a :=
+  pullback.map π a' π a (𝟙 Y) k (𝟙 S) (by simp) (by simp [hk])
+
+@[reassoc (attr := simp)]
+theorem pullback.mapSnd_fst (π : Y ⟶ S) (a : T ⟶ S) (a' : T' ⟶ S) (k : T' ⟶ T)
+    (hk : k ≫ a = a') [HasPullback π a] [HasPullback π a'] :
+    pullback.mapSnd π a a' k hk ≫ pullback.fst π a = pullback.fst π a' :=
+  (pullback.lift_fst _ _ _).trans (Category.comp_id _)
+
+@[reassoc (attr := simp)]
+theorem pullback.mapSnd_snd (π : Y ⟶ S) (a : T ⟶ S) (a' : T' ⟶ S) (k : T' ⟶ T)
+    (hk : k ≫ a = a') [HasPullback π a] [HasPullback π a'] :
+    pullback.mapSnd π a a' k hk ≫ pullback.snd π a = pullback.snd π a' ≫ k :=
+  pullback.lift_snd _ _ _
+
+@[simp]
+theorem pullback.mapSnd_id (π : Y ⟶ S) (a : T ⟶ S) [HasPullback π a] :
+    pullback.mapSnd π a a (𝟙 T) (by simp) = 𝟙 (pullback π a) := by
+  apply pullback.hom_ext <;> simp
+
+theorem pullback.mapSnd_comp (π : Y ⟶ S) (a : T ⟶ S) (a' : T' ⟶ S) (a'' : T'' ⟶ S)
+    (k : T' ⟶ T) (hk : k ≫ a = a') (l : T'' ⟶ T') (hl : l ≫ a' = a'')
+    [HasPullback π a] [HasPullback π a'] [HasPullback π a''] :
+    pullback.mapSnd π a' a'' l hl ≫ pullback.mapSnd π a a' k hk =
+      pullback.mapSnd π a a'' (l ≫ k) (by rw [Category.assoc, hk, hl]) := by
+  apply pullback.hom_ext <;> simp
+
+/-- The section of `pullback.snd π a` induced by a lift of `a` through `π`. The pole-sheaf files
+of the audited development build such sections by hand from `pullback.lift` at fifty-five sites;
+the two lemmas after it are the `@[reassoc (attr := simp)]` legs that make the construction
+self-simplifying. -/
+noncomputable def pullbackSection (π : Y ⟶ S) (a : T ⟶ S) (s : T ⟶ Y) (hs : s ≫ π = a)
+    [HasPullback π a] : T ⟶ pullback π a :=
+  pullback.lift s (𝟙 T) (by simp [hs])
+
+@[reassoc (attr := simp)]
+theorem pullbackSection_fst (π : Y ⟶ S) (a : T ⟶ S) (s : T ⟶ Y) (hs : s ≫ π = a)
+    [HasPullback π a] : pullbackSection π a s hs ≫ pullback.fst π a = s :=
+  pullback.lift_fst _ _ _
+
+@[reassoc (attr := simp)]
+theorem pullbackSection_snd (π : Y ⟶ S) (a : T ⟶ S) (s : T ⟶ Y) (hs : s ≫ π = a)
+    [HasPullback π a] : pullbackSection π a s hs ≫ pullback.snd π a = 𝟙 T :=
+  pullback.lift_snd _ _ _
+
+/-- Naturality of `pullbackSection` across `pullback.mapSnd`: the section of the restricted pair,
+pushed through the base change, is the restriction of the section. With the attribute discipline
+above the proof is `pullback.hom_ext <;> simp` — the one-liner the audit is arguing every such
+goal should be. -/
+theorem pullbackSection_comp_mapSnd (π : Y ⟶ S) (a : T ⟶ S) (a' : T' ⟶ S) (k : T' ⟶ T)
+    (hk : k ≫ a = a') (s : T ⟶ Y) (hs : s ≫ π = a) [HasPullback π a] [HasPullback π a'] :
+    pullbackSection π a' (k ≫ s) (by rw [Category.assoc, hs, hk]) ≫
+        pullback.mapSnd π a a' k hk = k ≫ pullbackSection π a s hs := by
+  apply pullback.hom_ext <;> simp
+
+/-- Elementwise composition for morphisms of sheaves of modules, the simp normal form that
+retires the audited development's forty-eight `erw`s on its own `sheafOfModules_comp_app_apply`
+and the twenty-nine sites that open-code the chain by hand. -/
+theorem SheafOfModules.comp_val_app_apply {C : Type*} [Category C] {J : GrothendieckTopology C}
+    {R : Sheaf J RingCat.{u}} {M N P : SheafOfModules.{u} R} (f : M ⟶ N) (g : N ⟶ P) (X : Cᵒᵖ)
+    (m : M.val.obj X) : ((f ≫ g).val.app X) m = (g.val.app X) ((f.val.app X) m) :=
+  rfl
+
+end EarlyAPI
+
 /-!
 ## Interfaces awaiting their prerequisite carriers
 
