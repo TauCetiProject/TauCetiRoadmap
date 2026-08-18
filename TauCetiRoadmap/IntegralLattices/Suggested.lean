@@ -447,8 +447,18 @@ README-level milestones in their owning roadmaps; no local structure stands in f
 #check GlobalQuadraticForms.hasseMinkowski_equivalent
 #check GlobalQuadraticForms.equivalent_of_locallyEquivalent
 #check GlobalNumberFields.NumberFieldOrder
+#check GlobalNumberFields.NumberFieldOrder.IsProperFractionalIdeal
+#check GlobalNumberFields.NumberFieldOrder.properFractionalIdeals
+#check GlobalNumberFields.NumberFieldOrder.invertibleProperFractionalIdeals
+#check GlobalNumberFields.NumberFieldOrder.invertible_isProper
+#check GlobalNumberFields.NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two
+#check GlobalNumberFields.IdealClassMonoid
+#check GlobalNumberFields.NumberFieldOrder.mkIdealClassMonoid
+#check GlobalNumberFields.picEquivUnitsIdealClassMonoid
 #check GlobalNumberFields.Pic
 #check GlobalNumberFields.NarrowPic
+#check GlobalNumberFields.NumberFieldOrder.narrowToPic
+#check GlobalNumberFields.NumberFieldOrder.narrowToPic_surjective
 #check ClassFieldTheory.hilbertProductFormula
 #check AdelicAlgebraicGroups.FiniteAdelicPoints
 #check AdelicAlgebraicGroups.AdelicPoints
@@ -972,7 +982,8 @@ end Layer9
 Layer B builds the binary theory — the norm form, the content and the discriminant, the map from
 a form to an ideal, composition, the automorphism groups, and the rank-2 mass. It does **not**
 build a quadratic order or a class group of one: `GlobalNumberFields` owns the order, conductor,
-proper ideals, `Pic`, and `NarrowPic`. `ClassFieldTheory` owns the ring class field and its Artin
+raw proper fractional ideals, invertible proper fractional ideals, the ideal class monoid,
+`Pic`, and `NarrowPic`. `ClassFieldTheory` owns the ring class field and its Artin
 isomorphism, currently as a README-level milestone.  Those supplier carriers are used only when
 the discriminant is nonsquare.  A square discriminant gives the split algebra and is handled
 elementarily below; it is never passed to `NumberFieldOrder`.
@@ -1000,14 +1011,29 @@ noncomputable def orderOfNonsquareBinaryDiscriminant (Δ : ℤ) (hΔ : ¬ IsSqua
 type, and its conductor is this ideal. -/
 noncomputable example (O : NumberFieldOrder K) : Ideal (𝓞 K) := O.conductor
 
-/-- **B2 consumes Global Number Fields Layer 11.** `𝔞_f` is exhibited as a member of this group, and not of the fractional
-ideals: for a nonmaximal order the two differ, and only the proper ones are invertible. -/
+/-- **B2 consumes Global Number Fields Layer 11.** This is the group-valued carrier used by
+`Pic` and `NarrowPic`. Its members are both invertible and proper. Raw proper fractional
+ideals live in `O.properFractionalIdeals`; for a general order they need not be invertible. -/
 noncomputable example (O : NumberFieldOrder K) :
-    Subgroup (FractionalIdeal (O.toSubalgebra)⁰ K)ˣ :=
-  O.properIdeals
+    CommGroup O.invertibleProperFractionalIdeals := inferInstance
 
-/-- **B2 consumes `GlobalNumberFields.Pic`**, for `Δ < 0`. -/
-noncomputable example (O : NumberFieldOrder K) (I : O.properIdeals) : Pic O := O.mkPic I
+/-- **B2 keeps raw proper ideals out of `Pic`.** They have a class in the supplier's ideal
+class monoid, which is not a group in general. -/
+noncomputable example (O : NumberFieldOrder K) (I : O.properFractionalIdeals) :
+    IdealClassMonoid O := O.mkIdealClassMonoid I
+
+/-- **B2 consumes `GlobalNumberFields.Pic`**, for `Δ < 0`, through the invertible proper
+carrier. -/
+noncomputable example (O : NumberFieldOrder K) (I : O.invertibleProperFractionalIdeals) :
+    Pic O := O.mkPic I
+
+/-- **B2's proper-to-invertible step is quadratic, not general.** The nonsquare binary
+branch supplies a quadratic number field, so this exact supplier theorem converts the raw
+proper ideal attached to a primitive binary form into an invertible ideal. -/
+example (O : NumberFieldOrder K) (hK : Module.finrank ℚ K = 2)
+    (I : FractionalIdeal (O.toSubalgebra)⁰ K) :
+    O.IsProperFractionalIdeal I ↔ IsUnit I :=
+  O.isProper_iff_isUnit_of_finrank_eq_two hK I
 
 /-- **B2 consumes `GlobalNumberFields.NarrowPic`**, for `Δ > 0`. The target is the **narrow**
 group, and it is a different type from `Pic O`. A dictionary stated into `Pic` for `Δ > 0` is

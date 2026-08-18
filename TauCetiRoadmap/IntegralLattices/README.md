@@ -70,7 +70,7 @@ Out of scope, with the owner of each subject:
 | generic restricted products, adelic quotients, strong approximation, and Tamagawa measures | [Adelic Algebraic Groups](../AdelicAlgebraicGroups/README.md) |
 | root systems, Weyl groups, `DynkinType`, the ADE classification | [Root Systems](../RepresentationTheory/RootSystems/README.md) |
 | Poisson summation and the real-parameter Gaussian theta transformation | [L-functions](../LFunctions/README.md) |
-| number-field orders, conductors, proper fractional ideals, `Pic`, and `NarrowPic` for the nonsplit binary branch | [Global Number Fields](../GlobalNumberFields/README.md) |
+| number-field orders, conductors, raw proper fractional ideals, invertible proper fractional ideals, the ideal class monoid, `Pic`, and `NarrowPic` for the nonsplit binary branch | [Global Number Fields](../GlobalNumberFields/README.md) |
 | ring class fields and their Artin isomorphisms for nonsplit quadratic field orders | [Class Field Theory](../ClassFieldTheory/README.md) |
 | modular forms of integral weight, Hecke theory, newforms | [Modular Forms](../ModularForms/README.md) |
 
@@ -306,7 +306,7 @@ structure or carrier for it.
 | 0C, 3H | Quadratic Form Invariants | `hasseInvariant`, `hilbertSymbol`, `localHasse`, `exists_of_realization`; Layer 6D classification | field and nonarchimedean local invariants, including the dyadic classification |
 | 3G | Quadratic Form Invariants | `hilbertSymbol_eq_cohomological`, `hilbertSymbol_productFormula` | the norm-equation symbol agrees with CFT's pairing and inherits Hilbert reciprocity |
 | 3H, 4A | Global Quadratic Forms | `atFinitePlace`, `atRealPlace`, `hasseMinkowski_equivalent`, `equivalent_of_locallyEquivalent` | localization and global equivalence of the underlying rational quadratic spaces |
-| B1--B5, `¬ IsSquare Δ` | Global Number Fields | `NumberFieldOrder`, `NumberFieldOrder.conductor`, `NumberFieldOrder.properIdeals`, `Pic`, `NumberFieldOrder.mkPic`, `NumberFieldOrder.mkPic_surjective`, `NarrowPic`, `NumberFieldOrder.narrowPrincipal`, `narrowPic_surjective`, `finite_pic`, `finite_narrowPic` | field orders and their wide and narrow Picard groups; the square-discriminant split branch is elementary and does not use these carriers |
+| B1--B5, `¬ IsSquare Δ` | Global Number Fields | `NumberFieldOrder`, `NumberFieldOrder.conductor`, `NumberFieldOrder.IsProperFractionalIdeal`, `NumberFieldOrder.properFractionalIdeals`, `NumberFieldOrder.invertibleProperFractionalIdeals`, `NumberFieldOrder.invertible_isProper`, `NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two`, `IdealClassMonoid`, `NumberFieldOrder.mkIdealClassMonoid`, `picEquivUnitsIdealClassMonoid`, `Pic`, `NumberFieldOrder.mkPic`, `NumberFieldOrder.mkPic_surjective`, `NarrowPic`, `NumberFieldOrder.narrowPrincipal`, `NumberFieldOrder.narrowToPic`, `NumberFieldOrder.narrowToPic_surjective`, `finite_pic`, `finite_narrowPic` | field orders and their ideal-class monoids and wide and narrow Picard groups; only the invertible proper carrier enters `Pic` and `NarrowPic`, while raw noninvertible proper ideals remain in `IdealClassMonoid`; the square-discriminant split branch is elementary and does not use these carriers |
 | B3, `Δ < 0` | Class Field Theory | Layer 6, ring class fields and `Gal(H_O/K) ≃ Pic O` | the class-field interpretation in the nonsplit field case only; there is no split ring-class-field claim |
 | 3G | Class Field Theory | `hilbertProductFormula` | cohomological Hilbert reciprocity, reached on classical symbols through QFI's comparison |
 | 4B, 7B | Adelic Algebraic Groups | `FiniteAdelicPoints`, `AdelicPoints`, `rationalDiagonal`; Layers 3, 6, and 7 quotient/Tamagawa milestones | generic restricted products, rational diagonals, quotient measures, and Tamagawa normalization |
@@ -686,8 +686,9 @@ here, rather than waiting for 7A. Mathlib has `Zsqrtd` and Pell's equation, and 
 theory of non-maximal quadratic orders or of binary form classes.
 
 ⚠ **The field-order and class-group branch is consumed, not built.** Global Number Fields
-Layer 11 owns orders in number fields, conductors, proper fractional ideals, `Pic`, and
-`NarrowPic`. Class Field Theory Layer 6 owns ring class fields and their Artin isomorphisms.
+Layer 11 owns orders in number fields, conductors, raw proper fractional ideals, the group of
+invertible proper fractional ideals, the separate ideal class monoid, `Pic`, and `NarrowPic`.
+Class Field Theory Layer 6 owns ring class fields and their Artin isomorphisms.
 Those interfaces apply only when `Δ` is nonsquare. If `Δ` is square, the quadratic algebra
 splits and this layer uses a separate elementary product-order route; it does not instantiate
 `NumberFieldOrder`, `Pic`, `NarrowPic`, or a ring class field. This layer owns the
@@ -724,14 +725,23 @@ Global Number Fields order API, rather than `ClassGroup (𝓞 K)`, is required.
 `Δ ≡ 0` or `1 (mod 4)`, and let `f = (a, b, c)` be a primitive form of discriminant `Δ`.
 Send it to the `𝒪_Δ`-submodule
 `𝔞_f = aℤ + ((−b + √Δ)/2)ℤ` of `K_Δ`. This map is a bijection from proper equivalence
-classes of primitive forms of discriminant `Δ` to proper ideal classes of `𝒪_Δ`. The ideal
-`𝔞_f` is exhibited as a member of the consumed `NumberFieldOrder.properIdeals`, and the
-equivalence is proved **into the consumed group**, not into a target defined here:
+classes of primitive forms of discriminant `Δ` to invertible proper ideal classes of `𝒪_Δ`.
+First exhibit `𝔞_f` in the supplier's raw carrier
+`NumberFieldOrder.properFractionalIdeals`. Then use the quadratic-field hypothesis
+`Module.finrank ℚ K_Δ = 2` and the supplier theorem
+`NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two` to place it in
+`NumberFieldOrder.invertibleProperFractionalIdeals`. The equivalence is proved **into the
+consumed group**, not into a target defined here:
 
 - for `Δ < 0` the source is the set of positive definite classes and the target is
   `Pic 𝒪_Δ`, through the consumed `NumberFieldOrder.mkPic`;
 - for `Δ > 0` the target is the consumed `NarrowPic 𝒪_Δ`, the quotient by the principal ideals
   with a generator of positive norm.
+
+This use of the quadratic-order theorem is load-bearing. For a general number-field order,
+properness is only the multiplier-ring condition and does not imply invertibility. Such raw
+proper ideals map to the supplier's `IdealClassMonoid`; its unit classes correspond to `Pic`
+through `picEquivUnitsIdealClassMonoid`. No noninvertible ideal is assigned a Picard class here.
 
 ⚠ The positive-discriminant target is `NarrowPic` and never `Pic`. The two differ exactly when
 the fundamental unit has norm `+1`, and `Δ = 12` is the smallest witness: `Pic 𝒪_{12}` is
@@ -866,7 +876,7 @@ proves that these values agree with the Conway–Sloane normalization of 7H in r
 | Milestone | Direct prerequisites |
 | --- | --- |
 | B1 | M `Matrix.det`, `Zsqrtd`, product rings; L 0A, 0C; for `¬ IsSquare Δ` only, R Global Number Fields `NumberFieldOrder`, `NumberFieldOrder.conductor` |
-| B2 | M `Ideal`, `Submodule`; L B1; for `¬ IsSquare Δ` only, R Global Number Fields `NumberFieldOrder.properIdeals`, `Pic`, `NumberFieldOrder.mkPic`, `NarrowPic`; split classes are local |
+| B2 | M `Ideal`, `Submodule`; L B1; for `¬ IsSquare Δ` only, R Global Number Fields `NumberFieldOrder.properFractionalIdeals`, `NumberFieldOrder.invertibleProperFractionalIdeals`, `NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two`, `IdealClassMonoid`, `Pic`, `NumberFieldOrder.mkPic`, `NarrowPic`; split classes are local |
 | B3 | L 3F, B2; for `¬ IsSquare Δ` only, R Global Number Fields `Pic`, `NarrowPic`; for `Δ < 0`, R Class Field Theory Layer 6 ring class field and Artin isomorphism; no split ring class field |
 | B4 | M `Pell.Solution₁`, `Pell.exists_of_not_isSquare`; L 2C, B1, B2, B3 |
 | B5 | L B2; for `¬ IsSquare Δ` only, R Global Number Fields `finite_pic`, `finite_narrowPic`; split finiteness is proved directly |
@@ -933,8 +943,9 @@ of the milestone.
 
 **4E. Class numbers of indefinite lattices.** For rank at least 3 the class number is
 finite, and it is bounded by the count of 4C. For rank 2 the theorem is B5, through the
-correspondence B2: the classes in a genus form a subset of the proper ideal classes of
-`𝒪(L)`, and that group is finite. The rank-2 proof does not use strong approximation, and
+correspondence B2: the classes in a genus form a subset of the invertible proper ideal classes
+of `𝒪(L)`, hence of its Picard group, and that group is finite. The rank-2 proof does not
+use strong approximation, and
 the proof for rank at least 3 does not cover rank 2.
 
 **4F. Automorphism groups of indefinite lattices.** For an indefinite nondegenerate lattice
@@ -1594,8 +1605,9 @@ for the eight items listed. The layer that introduces the object owns them.
   satisfies `det M = [L:M]² det L`, `𝔰(M) ⊆ 𝔰(L)`, and `𝔫(M) ⊆ 𝔫(L)`. Content
   has no formula determined solely by the index. The distinct form twist `L(a)` multiplies
   content by `|a|`.
-- **Comparison lemmas.** `Δ(L) = disc f` with `disc N_L = −4 det L`; forms and proper ideal
-  classes (B2); composition and multiplication (B3); `SO(L)` and the norm-one units (B4).
+- **Comparison lemmas.** `Δ(L) = disc f` with `disc N_L = −4 det L`; forms and invertible
+  proper ideal classes (B2); composition and multiplication (B3); `SO(L)` and the norm-one
+  units (B4).
 - **Naturality.** The correspondence of B2 commutes with the maps induced by isometries.
 - **Edge cases.** Imprimitive norm forms; square discriminants, which use the separate
   product-order branch and never `NumberFieldOrder`, `Pic`, `NarrowPic`, or ring class fields;
