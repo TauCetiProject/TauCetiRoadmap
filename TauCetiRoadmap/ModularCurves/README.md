@@ -1810,20 +1810,32 @@ the construction itself works for the standard problems of Layer 9 uniformly.
    over `𝔸¹_j` is identified with `Y_H`; `X_H` is a smooth proper relative curve over `ℤ[1/N]` — with,
    as everywhere in this roadmap, **no** connectedness or irreducibility assertion (§Scope, and
    the fixed-pairing warning of Layer 5B stands); and `Y_H ⊆ X_H` is the open complement of the
-   fibre over `j = ∞`. ⚠ **The uniqueness statement is the universal property of normalisation,
-   and the finiteness over `ℙ¹_j` is load-bearing in it**: `X_H` is unique among normal schemes
-   *finite over the fixed `ℙ¹_j`* extending the `j`-map on `Y_H`. It is **not** unique as "the
+   fibre over `j = ∞`. ⚠ **The uniqueness statement is the literal universal property of
+   normalisation — `normalizationDesc` and `normalization.hom_ext` — and nothing stronger**:
+   every integral factorisation of `Y_H ⟶ ℙ¹_j` receives a unique morphism *from* `X_H`. It is
+   **not** the case that every normal scheme finite over `ℙ¹_j` extending the `j`-map is
+   isomorphic to `X_H` (adjoin a disjoint spare `ℙ¹_j`: still normal, still finite, still
+   factors the `j`-map). If an isomorphism characterisation is wanted, it needs all three of:
+   `T → ℙ¹_j` finite with `T` normal; `Y_H → T` an open immersion with schematically dense
+   image; and every irreducible component of `T` meeting `Y_H`. Nor is `X_H` unique as "the
    normal proper model with that open part" — over the relative base `X_H` is a surface, and
    blowing up a closed point of the boundary gives a second normal proper model with the same
    open part. ⚠ **Base change is two separate statements, not bookkeeping**: normalisation
    does not commute with arbitrary base change (normalise `k[t] ⊆ k[x]`, `t = x²`, then set
    `t = 0`). (i) **Smooth base change is already supplied**: Mathlib's comparison morphism
-   `normalizationPullback` is an isomorphism for smooth `g`, an instance at the pin. (ii) Any
-   stronger statement this roadmap needs — in particular along `Spec R' → Spec R` for the ring
-   maps KM 8.5 treats — is its own milestone, stated with an **explicit hypothesis on
-   `R → R'`** and proved from the formal-cusp calculation of item 2. No blanket claim, and no
-   deferral of the hypothesis to a future writer: when that milestone is attempted, naming the
-   class is the first task.
+   `normalizationPullback` is an isomorphism for smooth `g`, an instance at the pin. (ii) The
+   stronger statement this roadmap needs is exactly one theorem, stated now: **geometric-fibre
+   base change** — for every algebraically closed field `k` with `char k ∤ N`, the canonical
+   comparison `X_H ×_{ℤ[1/N]} k ⟶ Norm_{ℙ¹_k}(Y_H ×_{ℤ[1/N]} k)` is an isomorphism, compatibly
+   with the open immersion of `Y_{H,k}`, with the cusp subscheme of item 2, with the
+   compactified `X₁(N) → X₀(N)` morphism of item 3, and with the group action defining the
+   inertia there. ⚠ Passing to a residue characteristic is not smooth, so (i) does not give
+   this, and item 3's fibrewise table stands on (ii). The proof route once the earlier
+   milestones exist: the base change of `X_H` is finite over `ℙ¹_k`, smooth hence normal, and
+   contains `Y_{H,k}` as a schematically dense open, so the universal property of item 1
+   applies. No base-change statement for more general `R → R'` is promised — KM 8.5's
+   coarse-moduli base change and base change of normalisation are different assertions, and
+   hypotheses sufficient for the first are not automatically sufficient for the second.
 2. **The cusp locus as a closed subscheme, and the formal-cusp package.** Define
    `Cusps_H := X_H ×_{ℙ¹_j} {∞}`, the scheme-theoretic fibre — not "finitely many points".
    Milestones: `Cusps_H` is finite over `ℤ[1/N]`, and finite étale for the standard problems;
@@ -1864,9 +1876,14 @@ the construction itself works for the standard problems of Layer 9 uniformly.
    order-`2` subgroup has Klein-four normaliser (the pair is interchanged, one point); in
    characteristic `3`, `Aut(E)/±1 ≅ S₃` with the two behaviours exchanged. The wild break
    `ν = 1` is proved by comparing the degree of the global different across characteristics:
-   Kähler differentials in the exact sequence of `X₁(N) → X₀(N)`, the global different and the
-   **Riemann–Hurwitz formula**, constancy of the genera in the smooth proper families, and the
-   local formula `v(𝔡) = Σ_{i≥0} (|G_i| − 1)` — a named dependency package, not a footnote.
+   Kähler differentials in the exact sequence of `X₁(N) → X₀(N)`, the global different, the
+   **Riemann–Hurwitz formula in its Euler-characteristic form**
+   `deg 𝔡 = −2·χ(X₁, O) + 2·d·χ(X₀, O)` with `d = (N−1)/2` — ⚠ deliberately *not* the
+   `2g − 2` form: this roadmap asserts no connectedness (§Scope), and the `χ` form is valid
+   componentwise for a disconnected smooth proper curve, whereas `2g − 2` is not even defined
+   for one — constancy of the two **Euler characteristics** across the fibres, from coherent
+   cohomology and base change in the smooth proper families, and the local formula
+   `v(𝔡) = Σ_{i≥0} (|G_i| − 1)` — a named dependency package, not a footnote.
 4. **The Shimura covering** (Mazur II, Cor. 2.3). Put `G = (ℤ/N)ˣ/±1`, cyclic of order
    `(N−1)/2`, and `n = (N−1)/gcd(N−1, 12) = num((N−1)/12)`. Let `H ≤ G` be the unique subgroup
    of order `gcd(N−1, 12)/2`, and define `X₂(N) := X₁(N)/H`. Milestones: `X₂(N) → X₀(N)` is
@@ -1883,9 +1900,10 @@ coarse schemes, the `j`-line), Mathlib's relative-normalisation API (present at 
 finiteness of `fromNormalization` in this situation is a milestone here, not a carrier gap),
 the formal-cusp package of item 2 (built here), the elliptic-curves
 roadmap's automorphism and normaliser interface for item 3, and — for item 3's wild break — a
-**global different and Riemann–Hurwitz package** for curves over a field with the local
-higher-ramification formula, owned by the Algebraic Curves foundations, together with genus
-constancy in smooth proper families from the curve-cohomology supplier. Nothing here uses
+**global different and Riemann–Hurwitz package** (in the Euler-characteristic form, per item 3)
+for curves over a field with the local higher-ramification formula, owned by the Algebraic
+Curves foundations, together with constancy of `χ(·, O)` in smooth proper families from the
+curve-cohomology and base-change supplier. Nothing here uses
 characteristic-`N` geometry, the relative regular-differential and duality package of Mazur
 II §3, or any Jacobian; item 3 *does* use Kähler differentials, the global different,
 Riemann–Hurwitz, and the local different formula.
@@ -1945,7 +1963,8 @@ downstream statement, per the portfolio rule that a prose promise is not a close
   category.)
 
 Layer 10 records the intended constructions and identifies the remaining suppliers for Mazur
-Ch. II §§1–2. The contracts **not yet closed**, so no downstream statement may assume them: the
+Ch. II §§1–2. The following contracts **are not yet closed**, so no downstream statement may
+assume them: the
 formal Tate/cusp package (item 2, built here but unstarted); the finiteness and
 stronger-than-smooth base-change theorems for the normalisation (the carrier itself is
 Mathlib's); the global different and Riemann–Hurwitz package; the exact
