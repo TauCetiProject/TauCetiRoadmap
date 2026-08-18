@@ -1223,6 +1223,44 @@ prime and `ker_baseChange_of_noZeroSMulDivisors_coker` applied over `ℤ[1/3]` a
 theorem coarseJLine (R : CommRingCat.{u}) : IsCoarseJLine R :=
   sorry
 
+/-! ## Geometric irreducibility: the algebraic reduction
+
+Layer 5C states the geometric irreducibility of `Y(ρ)` **conditionally**, on geometric
+connectedness. The two declarations below are the part this roadmap owns; the hypothesis `hconn`
+is discharged by the complex-uniformisation supplier named in §Layer 5C, which is not built here.
+
+Neither declaration mentions `Y(ρ)`: the reduction is a general fact about smooth curves, and
+stating it that way keeps it usable — and checkable — before the twisted curve has a carrier.
+-/
+
+/-- **The tractable leaf.** A nonempty connected scheme, smooth of relative dimension one over an
+algebraically closed field, is irreducible. Smoothness gives normality, and a connected normal
+scheme is irreducible. -/
+theorem irreducibleSpace_of_connectedSpace {K : Type u} [Field K] [IsAlgClosed K]
+    (Y : Scheme.{u}) (sY : Y ⟶ Spec (CommRingCat.of K))
+    [SmoothOfRelativeDimension 1 sY] [Nonempty Y] [ConnectedSpace Y] :
+    IrreducibleSpace Y :=
+  sorry
+
+/-- **Geometric irreducibility of a smooth `ℚ`-curve, given geometric connectedness.** The base
+change of a smooth morphism is smooth, so the leaf above applies over `ℚ̄` once `hconn` is
+supplied.
+
+This is the reduction Layer 5C applies to `Y(ρ)`, in the shape the AINTLIB development states it
+(`yRho_geometricallyIrreducible_of_connected`; §Provenance), so that the two can be compared
+without a carrier for the twisted curve on either side. ⚠ `hconn` is **not** proved here and has
+no algebraic proof to schedule: Katz–Mazur Ch. 10 is the algebraic route, but its own connectedness
+corollary 10.9.2 reduces to the geometric generic fibre and then invokes the transcendental
+description of the complex manifold as `ℍ/Γ̃`. -/
+theorem irreducibleSpace_baseChange_algebraicClosure_of_connectedSpace
+    (Y : Scheme.{0}) (sY : Y ⟶ Spec (CommRingCat.of ℚ))
+    [SmoothOfRelativeDimension 1 sY] [Nonempty Y]
+    (hconn : ConnectedSpace ↥(pullback sY
+      (Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ)))))) :
+    IrreducibleSpace ↥(pullback sY
+      (Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ))))) :=
+  sorry
+
 /-!
 ## Interfaces awaiting their prerequisite carriers
 

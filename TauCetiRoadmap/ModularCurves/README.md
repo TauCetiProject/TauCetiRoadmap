@@ -35,7 +35,12 @@ The roadmap includes:
 The following topics are not included: compactified modular curves, generalized elliptic curves,
 Igusa curves, a general theory of algebraic stacks or algebraic spaces, modular forms and Hecke
 operators, Néron models, complex uniformisation, and geometric connectedness or irreducibility of
-the fine curves. General coherent cohomology, the general Riemann–Roch theorem, and the general
+the fine curves. **One deliberate exception, and it is conditional**: §Layer 5C owns the *algebraic
+reduction* of geometric irreducibility for the twisted curve `Y(ρ)` — smoothness under base change,
+and connected-plus-smooth implies irreducible — because the FLT interface consumes that statement.
+The connectedness input which discharges it is transcendental, is named there as an external
+supplier contract, and is not built here; no unconditional irreducibility theorem is asserted for
+`Y(ρ)` or for any fine curve. General coherent cohomology, the general Riemann–Roch theorem, and the general
 Picard scheme are not reconstructed here. This roadmap consumes the line-bundle,
 curve-cohomology, Riemann–Roch, Serre-duality, and cohomology-and-base-change foundations from the
 [Jacobian Challenge roadmap](../JacobianChallenge/README.md). It then proves the relative
@@ -1262,6 +1267,36 @@ union of determinant fibres. It is the interface used by the FLT `3`–`5` switc
 
 The hypothesis `N ≥ 3` is essential: for `N≤2`, `-1` acts trivially on `E[N]`, so the problem is not
 rigid.
+
+**Geometric irreducibility, conditionally.** Buzzard's statement is that `Y(ρ)` is smooth *and
+geometrically irreducible*, and the second half is not decoration: the FLT `3`–`5` switch needs
+enough rational points on the twisted curve, and that argument runs through irreducibility. Stopping
+at "smooth affine curve" would leave this roadmap one theorem short of the interface it advertises.
+So the reduction is stated here and the transcendental input is imported:
+
+7. prove that `Y(ρ) ⊗ ℚ̄` is nonempty and smooth — the base change of a smooth morphism is smooth —
+   and prove the leaf that a nonempty connected scheme smooth of relative dimension one over an
+   algebraically closed field is irreducible (smooth gives normal; connected normal gives
+   irreducible). Together these reduce geometric irreducibility of `Y(ρ)` to the single hypothesis
+   that `Y(ρ) ⊗ ℚ̄` is **connected**. Both are stated in `Suggested.lean` and are owned here.
+
+⚠ **The connectedness hypothesis is imported, not proved, and there is no algebraic route to
+schedule instead.** Katz–Mazur Chapter 10 is the algebraic treatment, but its own connectedness
+corollary 10.9.2 (p. 303) reduces to the geometric generic fibre and then invokes the
+transcendental description of the underlying complex manifold as a quotient of the upper half plane
+by a subgroup of `SL₂(ℤ)`. The algebraic shell therefore only *reduces* the problem; the core is
+analytic, which is also why Buzzard records irreducibility as proved complex-analytically. The
+supplier contract is three named statements, none built here:
+
+- geometric connectedness is insensitive to the algebraically closed extension `ℚ̄ ↪ ℂ`;
+- the uniformisation `(Y(ρ) ⊗ ℂ)^an ≅ ℍ/Γ̃` as Riemann surfaces;
+- GAGA for connectedness: a `ℂ`-scheme is connected exactly when its analytification is.
+
+Their owner is the complex-uniformisation development of the `LeanModularForms` project, which is
+where the upper-half-plane and Riemann-surface carriers live. Until those exist and are imported,
+every statement about `Y(ρ)` in this roadmap carries the connectedness hypothesis visibly rather
+than assuming it — an unresolved supplier contract is a blocker on the *unconditional* statement,
+not a licence to assert it.
 
 **Dependencies.** Layers 0C–0E, 2E–2F, and 5B. The construction uses no new Cartier-divisor result
 beyond the Weil pairing already supplied by Layer 2E. The pairing normalisation in Layer 2E uses
