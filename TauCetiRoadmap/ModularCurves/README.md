@@ -1824,21 +1824,36 @@ the construction itself works for the standard problems of Layer 9 uniformly.
    does not commute with arbitrary base change (normalise `k[t] ⊆ k[x]`, `t = x²`, then set
    `t = 0`). (i) **Smooth base change is already supplied**: Mathlib's comparison morphism
    `normalizationPullback` is an isomorphism for smooth `g`, an instance at the pin. (ii) The
-   stronger statement this roadmap needs is exactly one theorem, stated now: **geometric-fibre
-   base change** — for every algebraically closed field `k` with `char k ∤ N`, the canonical
-   comparison `X_H ×_{ℤ[1/N]} k ⟶ Norm_{ℙ¹_k}(Y_H ×_{ℤ[1/N]} k)` is an isomorphism, compatibly
-   with the open immersion of `Y_{H,k}`, with the cusp subscheme of item 2, with the
-   compactified `X₁(N) → X₀(N)` morphism of item 3, and with the group action defining the
-   inertia there. ⚠ Passing to a residue characteristic is not smooth, so (i) does not give
-   this, and item 3's fibrewise table stands on (ii). The proof route once the earlier
-   milestones exist: the base change of `X_H` is finite over `ℙ¹_k`, smooth hence normal, and
-   contains `Y_{H,k}` as a schematically dense open, so the universal property of item 1
-   applies. No base-change statement for more general `R → R'` is promised — KM 8.5's
+   stronger statement this roadmap needs is exactly one theorem, stated now and **in Mathlib's
+   direction**: **geometric-fibre base change** — for every algebraically closed field `k` with
+   `char k ∤ N`, the canonical comparison
+   `Norm_{ℙ¹_k}(Y_H ×_{ℤ[1/N]} k) ⟶ X_H ×_{ℤ[1/N]} k` (the arrow `normalizationPullback`
+   produces: normalisation of the base change *to* base change of the normalisation) is an
+   isomorphism, compatibly with the open immersion of `Y_{H,k}`, with the cusp subscheme of
+   item 2, with the compactified `X₁(N) → X₀(N)` morphism of item 3, and with the group action
+   defining the inertia there. The displayed inverse `X_{H,k} ≅ Norm_{ℙ¹_k}(Y_{H,k})` is a
+   corollary, not the canonical map. ⚠ Passing to a residue characteristic is not smooth, so
+   (i) does not give this, and item 3's fibrewise table stands on (ii). ⚠ **Order matters, and
+   this theorem comes last**: its proof consumes item 2's formal-cusp package, so the internal
+   order of Layers 10.1–10.2 is — define `X_H`; prove `fromNormalization` finite and identify
+   the restriction over `𝔸¹_j` with `Y_H`; carry out the formal-cusp calculation; deduce that
+   `Cusps_H` is a relative effective Cartier divisor, that `X_H` is smooth along the boundary,
+   and hence that `Y_{H,k}` stays schematically dense in every geometric fibre; only then prove
+   this comparison, in four explicit steps: the comparison is the identity over the
+   schematically dense open `Y_{H,k}`; it is finite; its target `X_{H,k}` is normal (smooth);
+   and a finite birational morphism to a normal scheme is an isomorphism. "The universal
+   property applies" produces the morphism — these four steps are what make it an isomorphism.
+   No base-change statement for more general `R → R'` is promised — KM 8.5's
    coarse-moduli base change and base change of normalisation are different assertions, and
    hypotheses sufficient for the first are not automatically sufficient for the second.
 2. **The cusp locus as a closed subscheme, and the formal-cusp package.** Define
    `Cusps_H := X_H ×_{ℙ¹_j} {∞}`, the scheme-theoretic fibre — not "finitely many points".
    Milestones: `Cusps_H` is finite over `ℤ[1/N]`, and finite étale for the standard problems;
+   **`Cusps_H` is a relative effective Cartier divisor in `X_H`**, and `X_H` is smooth along it
+   — finite étaleness alone does not record what the formal-completion and schematic-density
+   arguments need, and this is the statement item 1's geometric-fibre comparison stands on
+   (from the formal parameters, equivalently from the cusp sections being codimension-one
+   regular immersions in a smooth relative curve);
    for `[Γ₀(N)]` with `N` prime, the splitting `Cusps₀(N) ≅ ℤ[1/N] ⊔ ℤ[1/N]`, giving the two
    disjoint sections `0` and `∞`, stable under arbitrary base change; the coarse `j`-map has
    ramification index `1` along `∞` and `N` along `0`, computed from the Tate parameter — ⚠
@@ -1870,11 +1885,16 @@ the construction itself works for the standard problems of Layer 9 uniformly.
    `3` the roles reverse**: the order-`2` pair (present iff `N ≡ 1 mod 4`) stays two tame
    points, the order-`3` pair (present iff `N ≡ 1 mod 3`) collapses to one wild point of the
    first type. The mechanism is the
-   automorphism normalisers, required as exact supplier contracts from the elliptic-curves
-   roadmap's `Aut(E)` interface (Silverman App. A, §References): in characteristic `2`,
-   `Aut(E)/±1 ≅ A₄`, where an order-`3` subgroup is self-normalising (two points survive) and an
-   order-`2` subgroup has Klein-four normaliser (the pair is interchanged, one point); in
-   characteristic `3`, `Aut(E)/±1 ≅ S₃` with the two behaviours exchanged. The wild break
+   automorphism normalisers, and **this layer owns them as its own milestone** — the merged
+   elliptic-curves roadmap supplies the `Aut(E)` carrier for its twist theory but not these
+   computations, and what is needed here is more than the group: the classification
+   `Aut(E)/±1 ≅ A₄` (characteristic `2`, `j = 0 = 1728`) and `Aut(E)/±1 ≅ S₃` (characteristic
+   `3`), its action on the cyclic order-`N` subgroup schemes of `E`, and the normaliser and
+   orbit computation on top (Silverman App. A; Mazur II pp. 65–66, §References). The output
+   consumed by the table: in characteristic `2` an order-`3` subgroup of `A₄` is
+   self-normalising (two points survive) while an order-`2` subgroup has Klein-four normaliser
+   whose extra element interchanges the two stabilised subgroups (the pair collapses to one
+   point); in characteristic `3` the two behaviours are exchanged in `S₃`. The wild break
    `ν = 1` is proved by comparing the degree of the global different across characteristics:
    Kähler differentials in the exact sequence of `X₁(N) → X₀(N)`, the global different, the
    **Riemann–Hurwitz formula in its Euler-characteristic form**
@@ -1888,9 +1908,19 @@ the construction itself works for the standard problems of Layer 9 uniformly.
    `(N−1)/2`, and `n = (N−1)/gcd(N−1, 12) = num((N−1)/12)`. Let `H ≤ G` be the unique subgroup
    of order `gcd(N−1, 12)/2`, and define `X₂(N) := X₁(N)/H`. Milestones: `X₂(N) → X₀(N)` is
    Galois cyclic of degree `n`; and it is **finite étale over `ℤ[1/N]`**, including at the cusps
-   and in residue characteristics `2` and `3`, because *every inertia subgroup in item 3's table
-   is cyclic of order `2` or `3` and hence lies in `H`* — the factors of `2` and `3` that the
-   numerator removes are exactly the inertia orders the quotient kills. This formulation, with
+   and in residue characteristics `2` and `3`. ⚠ **That is two proofs, not one.**
+   *Unramifiedness*: every inertia subgroup in item 3's table is cyclic of order `2` or `3` and
+   hence lies in `H` — the factors of `2` and `3` that the numerator removes are exactly the
+   inertia orders the quotient kills — so the residual `G/H`-action has trivial geometric
+   stabilisers. *Flatness*: killing inertia proves nothing about flatness, and in residue
+   characteristics `2` and `3` invertibility of the degree is unavailable as an excuse. This
+   roadmap takes the smooth-curves route: `X₂(N)` and `X₀(N)` are smooth proper relative curves
+   over `ℤ[1/N]` (items 1–2 applied to their level problems), the quotient morphism is finite,
+   **miracle flatness** for a finite morphism between smooth relative curves gives flat, and
+   finite + flat + unramified is finite étale. (The alternative — proving the `G/H`-action free
+   as a *scheme* action and quoting the finite-étale torsor theorem — is not taken, since
+   freeness at the cusp sections is exactly what the smooth-curves route avoids having to
+   argue.) This formulation, with
    `H` named by its order, is the one to formalise. The covering is the geometric substrate of
    the Shimura subgroup of `J₀(N)`, which is where this roadmap stops and §The Mazur interface
    hands over.
@@ -1899,7 +1929,8 @@ the construction itself works for the standard problems of Layer 9 uniformly.
 coarse schemes, the `j`-line), Mathlib's relative-normalisation API (present at the pin; the
 finiteness of `fromNormalization` in this situation is a milestone here, not a carrier gap),
 the formal-cusp package of item 2 (built here), the elliptic-curves
-roadmap's automorphism and normaliser interface for item 3, and — for item 3's wild break — a
+roadmap's `Aut(E)` carrier — the characteristic-`2`/`3` classification and normaliser
+computations on top of it are item 3's own milestone here — and — for item 3's wild break — a
 **global different and Riemann–Hurwitz package** (in the Euler-characteristic form, per item 3)
 for curves over a field with the local higher-ramification formula, owned by the Algebraic
 Curves foundations, together with constancy of `χ(·, O)` in smooth proper families from the
@@ -1966,10 +1997,12 @@ Layer 10 records the intended constructions and identifies the remaining supplie
 Ch. II §§1–2. The following contracts **are not yet closed**, so no downstream statement may
 assume them: the
 formal Tate/cusp package (item 2, built here but unstarted); the finiteness and
-stronger-than-smooth base-change theorems for the normalisation (the carrier itself is
-Mathlib's); the global different and Riemann–Hurwitz package; the exact
-characteristic-`2`/`3` automorphism-normaliser computations; and the extension of the Galois
-covering and of `w_N` to the normalisations. Once those have Lean-facing declarations, this
+geometric-fibre base-change theorems for the normalisation (the carrier itself is Mathlib's),
+in the stated internal order; the Cartier-divisor and boundary-smoothness statements for the
+cusp locus; the global different and Riemann–Hurwitz package; the
+characteristic-`2`/`3` automorphism classification and normaliser computations (owned by
+item 3 here); the miracle-flatness half of the Shimura covering's étaleness; and the extension
+of the Galois covering and of `w_N` to the normalisations. Once those have Lean-facing declarations, this
 paragraph can be strengthened — not before.
 
 ## Dependency order and parallel work
