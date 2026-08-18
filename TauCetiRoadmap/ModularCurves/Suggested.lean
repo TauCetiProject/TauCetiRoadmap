@@ -242,6 +242,53 @@ structure PointedWeierstrassAtlas {S X : Scheme.{u}} (π : X ⟶ S) (zero : S �
   chart : index → PointedWeierstrassChart π zero
   covers : ∀ s : S, ∃ i : index, ∃ x : (chart i).base, (chart i).baseMap.base x = s
 
+/-- **The local-model condition in readable form.** Around every point of the base there is an
+affine open `U`, an elliptic Weierstrass curve `W` over `Γ(S, U)`, and an isomorphism of the curve
+restricted to `U` with the projective model of `W`, compatible with the projection and with the
+zero section.
+
+This is the shape the AINTLIB modular-curves development states the condition in
+(`LocallyWeierstrass`; §Provenance), and it is the form to read when checking the definition
+against KM 2.2.5–2.2.6 or Deligne–Rapoport II.1.1: the quantifiers are the ones the sources use,
+with no pullback square or coefficient ring carried as data. `PointedWeierstrassAtlas` is the same
+condition packaged as a covering family that later layers can name and refine — Layer 1C's
+Weierstrass-presentation theorem produces one — and the two agree by
+`nonempty_pointedWeierstrassAtlas_iff`. ⚠ Note the open-immersion hypothesis on a chart's
+`baseMap`: it is what makes both forms *Zariski*-local. Without it the atlas would ask only for a
+jointly surjective family and would state an a-priori weaker étale- or fpqc-local condition. -/
+def IsLocallyWeierstrass {X S : Scheme.{u}} (π : X ⟶ S) (zero : S ⟶ X)
+    (hzero : zero ≫ π = 𝟙 S) : Prop :=
+  ∀ s : S, ∃ (U : S.affineOpens) (_ : s ∈ U.1) (W : WeierstrassCurve Γ(S, U.1)),
+    W.IsElliptic ∧
+      ∃ e : pullback π U.1.ι ≅ projModel W,
+        e.hom ≫ projModelOver W = pullback.snd π U.1.ι ≫ U.2.isoSpec.hom ∧
+        (U.2.isoSpec.inv ≫ pullback.lift (U.1.ι ≫ zero) (𝟙 _)
+            (by rw [Category.assoc, hzero, Category.comp_id, Category.id_comp])) ≫ e.hom =
+          projModelZero W
+
+/-- **The migration bridge.** An atlas of pointed Weierstrass charts gives the readable local-model
+condition, so a development written against the AINTLIB form consumes this roadmap's definition
+without restating it.
+
+The content is bookkeeping in three steps, none of them deep but none automatic: the range of an
+open immersion out of an affine scheme is an affine open of `S`, which supplies `U`; the chart's
+coefficient `ring` is carried onto `Γ(S, U)` along `baseIso`, transporting `equation` and its
+ellipticity along a ring isomorphism and commuting with `projModel`; and the chart's abstract
+pullback square is compared with Mathlib's chosen `pullback` through `IsPullback.isoPullback`,
+which is what turns `modelIso_over` and `modelIso_zero` into the two conjuncts above. -/
+theorem PointedWeierstrassAtlas.isLocallyWeierstrass {X S : Scheme.{u}} {π : X ⟶ S}
+    {zero : S ⟶ X} (hzero : zero ≫ π = 𝟙 S) (A : PointedWeierstrassAtlas π zero) :
+    IsLocallyWeierstrass π zero hzero :=
+  sorry
+
+/-- The converse: choosing a chart at each point of the base assembles an atlas, so the two
+formulations of the local-model condition agree. Choice is used, which is why the atlas appears
+under `Nonempty` in `EllipticCurveGeom` — neither form selects an equation. -/
+theorem nonempty_pointedWeierstrassAtlas_iff {X S : Scheme.{u}} {π : X ⟶ S} {zero : S ⟶ X}
+    (hzero : zero ≫ π = 𝟙 S) :
+    Nonempty (PointedWeierstrassAtlas π zero) ↔ IsLocallyWeierstrass π zero hzero :=
+  sorry
+
 /-- Smooth proper pointed genus-one curves with the pointed local-Weierstrass condition. -/
 structure EllipticCurveGeom (S : Scheme.{u}) where
   carrier : Scheme.{u}
@@ -259,6 +306,12 @@ namespace EllipticCurveGeom
 theorem zero_comp_structureMap {S : Scheme.{u}} (E : EllipticCurveGeom S) :
     E.zero ≫ E.structureMap = 𝟙 S :=
   E.zero_comp
+
+/-- Every elliptic curve record satisfies the readable local-model condition. This is the
+declaration a migrated proof should consume when it was written against the AINTLIB form. -/
+theorem isLocallyWeierstrass {S : Scheme.{u}} (E : EllipticCurveGeom S) :
+    IsLocallyWeierstrass E.structureMap E.zero E.zero_comp :=
+  E.localModel.elim (PointedWeierstrassAtlas.isLocallyWeierstrass E.zero_comp)
 
 noncomputable def baseChange {S T : Scheme.{u}} (E : EllipticCurveGeom S) (f : T ⟶ S) :
     EllipticCurveGeom T :=

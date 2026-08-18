@@ -93,6 +93,28 @@ placed in the corresponding general Mathlib-style directories.
    `EllipticCurveGeom S` with its canonical commutative group structure. A uniqueness theorem
    shows that two compatible group structures with the same zero section agree.
 
+   **Two spellings of the local condition, proved equivalent.** The record's field is
+   `Nonempty (PointedWeierstrassAtlas π 0)`: a covering family of charts, existence-truncated so
+   that no equation is selected. Layer 1C's Weierstrass-presentation theorem produces such an
+   atlas, and later layers consume it as an object they can name and refine, which is why the
+   atlas is the field rather than a bare quantifier. Beside it, `IsLocallyWeierstrass π 0 h₀` states
+   the same condition in the quantifier form the sources use — for every point an affine open `U`,
+   an elliptic `W/Γ(S, U)`, and a pointed isomorphism over `U`. That is also the shape the AINTLIB
+   development states it in (§Provenance), so it is the interface a migrated proof consumes;
+   `nonempty_pointedWeierstrassAtlas_iff` proves the two agree, and
+   `EllipticCurveGeom.isLocallyWeierstrass` is the direct corollary for the record. Read
+   `IsLocallyWeierstrass` when checking this definition against KM 2.2.5–2.2.6 or
+   Deligne–Rapoport II.1.1.
+
+   ⚠ **The open-immersion field is load-bearing.** A chart's `baseMap` is required to be an open
+   immersion, and the atlas's `covers` field asks only for joint surjectivity. Those two together
+   are what make the condition *Zariski*-local. Drop the open-immersion requirement and the
+   definition still typechecks but states an a-priori weaker étale- or fpqc-local condition; the
+   two happen to define the same class here, since `π_*O(3·0)` is locally free of rank three and
+   trivialises Zariski-locally, but recovering that would be a descent theorem rather than a
+   definition. AINTLIB's spelling quantifies over `S.affineOpens` directly and so cannot express
+   the wrong condition at all.
+
 2. **Group schemes.** Group schemes over `S` are group objects in the cartesian category `Over S`.
    The constant group scheme associated to a finite group and the diagonalizable group scheme
    associated to a finite abelian group are different constructions. In particular,
