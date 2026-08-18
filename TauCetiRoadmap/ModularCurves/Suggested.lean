@@ -1298,13 +1298,15 @@ vacuous proposition fields:
     coarse curve (the KM 8.6 normalisation of the `j`-line in `Y_H`), the scheme-theoretic cusp
     locus `X_H ×_{ℙ¹_j} {∞}` with its `Γ₀(N)` splitting into two sections, the extension of
     `Y₁(N) → Y₀(N)` to the normalisations with Mazur's six-row ramification table (the
-    characteristic-`2` and `-3` rows stated separately, tame pairs and wild collapsed points
-    distinguished), and the étale Shimura covering `X₁(N)/H` for the unique
-    `H ≤ (ℤ/N)ˣ/±1` of order `gcd(N−1,12)/2`. These wait on a normalisation carrier for schemes
-    and on Layer 9's coarse `j`-line; representative declarations, once the carrier exists:
+    rows for characteristics `2` and `3` stated separately, tame pairs and wild collapsed
+    points distinguished), and the étale Shimura covering `X₁(N)/H` for the unique
+    `H ≤ (ℤ/N)ˣ/±1` of order `gcd(N−1,12)/2`. The normalisation carrier itself is Mathlib's
+    `Scheme.Hom.normalization`, already at the pin; these wait on Layer 9's coarse `j`-line and
+    on the finiteness theorem for `fromNormalization`. Representative declarations, once the
+    `j`-map exists:
     `compactifiedCoarseCurve`, `cuspLocus`, `cuspLocus_gammaZero_equiv`,
     `gammaOneToGammaZeroCompactified`, `ramificationIndex_gammaOneToGammaZero` (with the
-    characteristic-`2` and `-3` cases as separate statements), `shimuraCover`,
+    cases of characteristics `2` and `3` as separate statements), `shimuraCover`,
     `isEtale_shimuraCover`. The exact mathematical contracts are in `README.md` §Layer 10 and
     §The Mazur interface.
 -/

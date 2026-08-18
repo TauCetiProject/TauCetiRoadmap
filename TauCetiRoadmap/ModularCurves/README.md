@@ -1782,8 +1782,8 @@ Do not use the formula for `N=1,2`, and do not assert an integral Borel quotient
 ## Layer 10: compactified coarse curves over `ℤ[1/N]`, cusps, and the Shimura covering
 
 References: KM 8.6 (cusps by normalisation near infinity; compactified coarse moduli schemes),
-KM 8.11 (computation of the cusps via the Tate parameter), KM 10.5, 10.8–10.9 (cusp-labels and
-structure near infinity); Mazur, *Modular curves and the Eisenstein ideal*, II §1–§2.
+KM 8.11 (computation of the cusps via the Tate parameter), KM 10.5–10.9 — 10.6 for cusp-labels,
+10.8–10.9 for structure near infinity and the basic moduli problems; Mazur, *Modular curves and the Eisenstein ideal*, II §1–§2.
 
 This layer exists for a named consumer. Mazur's Eisenstein-ideal paper is the canonical arithmetic
 application of `X₀(N)`, and its Chapter II opens with a list of geometric inputs; this layer
@@ -1800,8 +1800,14 @@ the construction itself works for the standard problems of Layer 9 uniformly.
 
 1. **The compactified coarse curve.** For a standard problem with coarse scheme `Y_H/ℤ[1/N]`
    (Layer 9) and its `j`-map to the coarse `j`-line `𝔸¹_j` (KM 8.2.2, Layer 9E), define
-   `X_H` as the normalisation of `ℙ¹_j` over `ℤ[1/N]` in `Y_H`. Milestones: `X_H → ℙ¹_j` is
-   **finite** and `X_H` is normal; `X_H` is a smooth proper relative curve over `ℤ[1/N]` — with,
+   `X_H` as the normalisation of `ℙ¹_j` over `ℤ[1/N]` in `Y_H`, **using Mathlib's existing
+   relative-normalisation carrier**: `Scheme.Hom.normalization` with `toNormalization`,
+   `fromNormalization`, `normalizationDesc` and the universal property
+   `normalization.hom_ext` are already at the pin, in Mathlib's
+   `AlgebraicGeometry/Normalization.lean` — so the generic definition exists the moment the morphism
+   `Y_H ⟶ ℙ¹_j` does. What is genuinely missing is the modular-curve work, and those are the
+   milestones: `fromNormalization` is **finite** in this situation; the restriction of `X_H`
+   over `𝔸¹_j` is identified with `Y_H`; `X_H` is a smooth proper relative curve over `ℤ[1/N]` — with,
    as everywhere in this roadmap, **no** connectedness or irreducibility assertion (§Scope, and
    the fixed-pairing warning of Layer 5B stands); and `Y_H ⊆ X_H` is the open complement of the
    fibre over `j = ∞`. ⚠ **The uniqueness statement is the universal property of normalisation,
@@ -1809,12 +1815,15 @@ the construction itself works for the standard problems of Layer 9 uniformly.
    *finite over the fixed `ℙ¹_j`* extending the `j`-map on `Y_H`. It is **not** unique as "the
    normal proper model with that open part" — over the relative base `X_H` is a surface, and
    blowing up a closed point of the boundary gives a second normal proper model with the same
-   open part. ⚠ **Base change is a theorem with hypotheses, not bookkeeping**: normalisation
+   open part. ⚠ **Base change is two separate statements, not bookkeeping**: normalisation
    does not commute with arbitrary base change (normalise `k[t] ⊆ k[x]`, `t = x²`, then set
-   `t = 0`). The milestone is the modular-curve-specific statement: formation of `X_H` commutes
-   with the base changes among those KM 8.5 supplies for which the normalisation comparison
-   holds, proved through the cusp analysis of item 2 — stated with its exact class of base
-   changes, never as a blanket claim.
+   `t = 0`). (i) **Smooth base change is already supplied**: Mathlib's comparison morphism
+   `normalizationPullback` is an isomorphism for smooth `g`, an instance at the pin. (ii) Any
+   stronger statement this roadmap needs — in particular along `Spec R' → Spec R` for the ring
+   maps KM 8.5 treats — is its own milestone, stated with an **explicit hypothesis on
+   `R → R'`** and proved from the formal-cusp calculation of item 2. No blanket claim, and no
+   deferral of the hypothesis to a future writer: when that milestone is attempted, naming the
+   class is the first task.
 2. **The cusp locus as a closed subscheme, and the formal-cusp package.** Define
    `Cusps_H := X_H ×_{ℙ¹_j} {∞}`, the scheme-theoretic fibre — not "finitely many points".
    Milestones: `Cusps_H` is finite over `ℤ[1/N]`, and finite étale for the standard problems;
@@ -1830,7 +1839,7 @@ the construction itself works for the standard problems of Layer 9 uniformly.
    8.7–8.11 and 10.8, built here as its own milestone**: the groups `T[N]` and the Tate curve
    over `ℤ[1/N]((q))` with its subgroup schemes and `[Γ₀(N)]`-structures, the integral closure
    of the `q`-adic local ring in the corresponding level cover, and the resulting formal
-   parameters along `Cusps_H`, with the cusp count as the orbit count of KM 10.5's cusp-labels.
+   parameters along `Cusps_H`, with the cusp count as the orbit count of KM 10.6's cusp-labels.
    ⚠ The elliptic-curves roadmap's Tate strand — uniformisation `L^× / q^ℤ ≅ E_q(L)` over a
    complete rank-one valued field — is a *different, point-level object* and is **not** a
    supplier for this formal calculation; the two are related, and neither substitutes for the
@@ -1842,11 +1851,13 @@ the construction itself works for the standard problems of Layer 9 uniformly.
    cusp; if `char k ∉ {2, 3}`, the only ramification is at the two points over `j = 1728`
    (inertia cyclic of order `2`, present iff `N ≡ 1 mod 4`) and the two points over `j = 0`
    (inertia cyclic of order `3`, present iff `N ≡ 1 mod 3`), by the `Aut(E, C) ↪ (ℤ/N)ˣ`
-   rigidity for `N ≥ 5`. **In characteristic `2`** (`j = 0 = 1728`): the order-`3` pair stays
-   two distinct, *tamely* ramified points, while the order-`2` pair **collapses to one point,
-   wildly ramified of the first type** (Mazur Def. 2.2: `G = G₀ = G₁`, `G₂ = 0`, i.e. `ν = 1`).
-   **In characteristic `3` the roles reverse**: the order-`2` pair stays two tame points, the
-   order-`3` pair collapses to one wild point of the first type. The mechanism is the
+   rigidity for `N ≥ 5`. **In characteristic `2`** (`j = 0 = 1728`): the order-`3` pair
+   (present iff `N ≡ 1 mod 3`) stays two distinct, *tamely* ramified points, while the
+   order-`2` pair (present iff `N ≡ 1 mod 4`) **collapses to one point, wildly ramified of the
+   first type** (Mazur Def. 2.2: `G = G₀ = G₁`, `G₂ = 0`, i.e. `ν = 1`). **In characteristic
+   `3` the roles reverse**: the order-`2` pair (present iff `N ≡ 1 mod 4`) stays two tame
+   points, the order-`3` pair (present iff `N ≡ 1 mod 3`) collapses to one wild point of the
+   first type. The mechanism is the
    automorphism normalisers, required as exact supplier contracts from the elliptic-curves
    roadmap's `Aut(E)` interface (Silverman App. A, §References): in characteristic `2`,
    `Aut(E)/±1 ≅ A₄`, where an order-`3` subgroup is self-normalising (two points survive) and an
@@ -1868,8 +1879,9 @@ the construction itself works for the standard problems of Layer 9 uniformly.
    hands over.
 
 **Dependencies.** Layer 8 (`[Γ₀(N)]`, `[N-Isog]`-transposition for `w_N`), Layer 9 (quotients,
-coarse schemes, the `j`-line), a normalisation carrier for schemes with its universal property
-and finiteness theory, the formal-cusp package of item 2 (built here), the elliptic-curves
+coarse schemes, the `j`-line), Mathlib's relative-normalisation API (present at the pin; the
+finiteness of `fromNormalization` in this situation is a milestone here, not a carrier gap),
+the formal-cusp package of item 2 (built here), the elliptic-curves
 roadmap's automorphism and normaliser interface for item 3, and — for item 3's wild break — a
 **global different and Riemann–Hurwitz package** for curves over a field with the local
 higher-ramification formula, owned by the Algebraic Curves foundations, together with genus
@@ -1921,17 +1933,22 @@ downstream statement, per the portfolio rule that a prose promise is not a close
   Eisenstein-ideal roadmap consuming this one, the modular-forms roadmap's Hecke theory, and the
   Jacobian supplier above. Layer 10's Shimura covering is deliberately the last stop on this side
   of that boundary.
-- **Admissible group schemes over `ℤ`** (Mazur Ch. I): quasi-finite separated commutative group
-  schemes of finite presentation over `ℤ`, **finite flat over `ℤ[1/N]`**, whose `p`-primary parts
-  for `p ≠ N` — étale over `ℤ[1/p]` and finite étale over `ℤ[1/pN]` — admit filtrations with
-  successive quotients `ℤ/p` or `μ_p`: owner, a finite-flat-group-schemes roadmap; this roadmap's
-  Layer 0B carrier is the `ℤ[1/N]`-side interface it will meet. (The level prime `N` and the
-  residual prime `p` are different primes, and the category depends on keeping them apart.)
+- **Admissible group schemes over `ℤ`** (Mazur Ch. I §1(f), p. 47): for `p ≠ N`, an admissible
+  `p`-group is a commutative, quasi-finite, separated, **flat** group scheme of finite
+  presentation over `ℤ`, **killed by a power of `p`**, whose restriction to `ℤ[1/N]` is finite
+  flat and admits a filtration by finite flat subgroup schemes with successive quotients
+  `(ℤ/p)_{ℤ[1/N]}` or `μ_{p,ℤ[1/N]}`; its restriction to `ℤ[1/p]` is quasi-finite étale and its
+  restriction to `ℤ[1/pN]` is finite étale. Owner: a finite-flat-group-schemes roadmap; this
+  roadmap's Layer 0B carrier is the `ℤ[1/N]`-side interface it will meet. (The level prime `N`
+  and the residual prime `p` are different primes; flatness over `ℤ` and the filtration living
+  on the `ℤ[1/N]`-restriction are both part of the definition, and dropping either changes the
+  category.)
 
 Layer 10 records the intended constructions and identifies the remaining suppliers for Mazur
 Ch. II §§1–2. The contracts **not yet closed**, so no downstream statement may assume them: the
-formal Tate/cusp package (item 2, built here but unstarted); the normalisation carrier with its
-permitted base changes; the global different and Riemann–Hurwitz package; the exact
+formal Tate/cusp package (item 2, built here but unstarted); the finiteness and
+stronger-than-smooth base-change theorems for the normalisation (the carrier itself is
+Mathlib's); the global different and Riemann–Hurwitz package; the exact
 characteristic-`2`/`3` automorphism-normaliser computations; and the extension of the Galois
 covering and of `w_N` to the normalisations. Once those have Lean-facing declarations, this
 paragraph can be strengthened — not before.
