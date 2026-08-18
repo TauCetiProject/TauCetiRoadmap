@@ -1097,16 +1097,40 @@ theorem mem_range_artinMap_iff (y : Field.absoluteGaloisGroupAbelianization K) :
           Field.absoluteGaloisGroupAbelianization K) = y :=
   sorry
 
-/-! ### Local existence -/
+/-! ### Separate arithmetic local existence
+
+These targets are deliberately not methods of `ClassFormation`: reciprocity follows from the
+class-formation axioms, but existence requires additional arithmetic input. Full existence is
+stated only in mixed characteristic; the general local-field target below is prime to the residue
+characteristic.
+-/
 
 /-- The identification of the ground level `A^{G_K}` of the local formation with `Kˣ`. -/
 noncomputable def localGroundEquiv :
     Additive Kˣ ≃+ (localFormation K).level ⊤ :=
   sorry
 
-/-- The local existence theorem: every open finite-index subgroup of `Kˣ` is the norm subgroup of
-a finite normal layer of the local formation. -/
-theorem localExistence (N : Subgroup Kˣ) (hN : IsOpen (N : Set Kˣ)) [N.FiniteIndex] :
+/-- Full local existence in mixed characteristic: for a finite extension of `ℚ_p`, every open
+finite-index subgroup of `Kˣ` is the norm subgroup of a finite normal layer. The `ℚ_p`-algebra
+and finiteness hypotheses are load-bearing; equal-characteristic `p`-primary existence requires
+Artin–Schreier–Witt theory and is outside this roadmap. -/
+theorem localExistence (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
+    (N : Subgroup Kˣ) (hN : IsOpen (N : Set Kˣ)) [N.FiniteIndex] :
+    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      ((NormalLayer.ofOpenNormal V).normSubgroup (localFormation K)).comap
+          (localGroundEquiv K).toAddMonoidHom =
+        Subgroup.toAddSubgroup N :=
+  sorry
+
+/-- Prime-to-residue-characteristic local existence, valid also in equal characteristic: an open
+finite-index subgroup whose index is coprime to the residue characteristic is a norm subgroup.
+The coprimality hypothesis is part of the public signature, so this target cannot be used to claim
+the excluded `p`-primary case. -/
+theorem localExistence_primeToResidueCharacteristic
+    (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p]
+    (N : Subgroup Kˣ) (hN : IsOpen (N : Set Kˣ)) [N.FiniteIndex]
+    (hindex : Nat.Coprime (Nat.card (Kˣ ⧸ N)) p) :
     ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
       ((NormalLayer.ofOpenNormal V).normSubgroup (localFormation K)).comap
           (localGroundEquiv K).toAddMonoidHom =
@@ -1400,7 +1424,11 @@ theorem globalArtinMap_zeta5_restrict_Qsqrt5
     (∀ x : M, σ x = x) ↔ (ℓ % 5 = 1 ∨ ℓ % 5 = 4) :=
   sorry
 
-/-! ### Global existence, ray class fields, and class fields -/
+/-! ### Separate arithmetic global existence, ray class fields, and class fields
+
+As on the local side, `globalExistence` is an arithmetic theorem about the idele-class formation,
+not a formal consequence of an arbitrary `ClassFormation`.
+-/
 
 /-- Reciprocity on the imported ray-class carrier. -/
 noncomputable def rayClassArtinMap [IsAbelianGalois K L]
@@ -1497,9 +1525,31 @@ theorem isGlobalNorm_iff_isLocalNormEverywhere [Module.Finite K L] [IsGalois K L
       IsLocalNormEverywhere K L x :=
   (cyclicHasseNorm K L x).trans (principalIdele_mem_range_ideleNormMap_iff K L x)
 
-/-- Ring class field attached to the order carrier owned by `GlobalNumberFields`. -/
+/-- Ring class field attached to the order carrier owned by `GlobalNumberFields`. Its construction
+uses the congruence subgroup whose quotient is `GlobalNumberFields.Pic O`, hence the group of
+classes of **invertible proper** fractional ideals; raw proper ideals in the ideal class monoid do
+not enter. -/
 noncomputable def ringClassField (O : GlobalNumberFields.NumberFieldOrder K) :
     IntermediateField K (AlgebraicClosure K) :=
+  sorry
+
+/-- The ideal form of reciprocity for a ring class field. Its source is explicitly the supplier's
+group of invertible proper fractional ideals, not the type of all proper fractional ideals. -/
+noncomputable def ringClassArtinMap (O : GlobalNumberFields.NumberFieldOrder K) :
+    O.invertibleProperFractionalIdeals →*
+      (ringClassField K O ≃ₐ[K] ringClassField K O) :=
+  sorry
+
+/-- Ring-class reciprocity kills exactly the principal classes among the invertible proper
+fractional ideals. -/
+theorem ringClassArtinMap_eq_one_iff (O : GlobalNumberFields.NumberFieldOrder K)
+    (I : O.invertibleProperFractionalIdeals) :
+    ringClassArtinMap K O I = 1 ↔ O.mkPic I = 1 :=
+  sorry
+
+/-- The ideal-form ring-class Artin map is surjective. -/
+theorem ringClassArtinMap_surjective (O : GlobalNumberFields.NumberFieldOrder K) :
+    Function.Surjective (ringClassArtinMap K O) :=
   sorry
 
 /-- Reciprocity identifies the ring class field Galois group with the imported Picard group. -/

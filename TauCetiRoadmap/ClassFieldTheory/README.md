@@ -12,7 +12,7 @@ formation
   -> Tate's theorem
   -> finite-level Artin maps
   -> local and global Artin reciprocity
-  -> existence theorems
+  -> separate local and global arithmetic existence theorems
   -> local invariants, duality, conductors, and the Weil group
   -> norm theorems, class fields, and Hilbert reciprocity.
 ```
@@ -81,7 +81,9 @@ This roadmap owns the following constructions and theorems.
    unramified coordinate and cyclotomic-character normalization; local conductors.
 8. The global idele-class formation, global Artin reciprocity, and comparison with the unique
    ideal-theoretic Artin map supplied by `NumberFieldArithmetic`.
-9. The norm-group correspondence and the local and global existence theorems.
+9. The norm-group correspondence and the separate local and global arithmetic existence theorems,
+   with full local existence in mixed characteristic and only the prime-to-residue-characteristic
+   part in equal characteristic.
 10. The local Brauer group on the imported continuous carrier, its invariant map, and the
     cohomological local Hilbert symbol built from Kummer classes, the continuous cup product,
     and the invariant; bilinearity and the Steinberg relation.
@@ -216,6 +218,12 @@ inv_E (res_{F,E} x) = [E : F] · inv_F(x).
 
 The fifth condition is made explicit in Lean even when it is suppressed in classical notation,
 because the notation `inv_F` there comes from a single map on a direct-limit Brauer group.
+
+These axioms stop at Tate's theorem and reciprocity. They do **not** imply an abstract existence
+theorem. This roadmap therefore has no `ClassFormation`-level existence declaration: local and
+global existence are separate arithmetic theorems whose proofs establish the relevant topology,
+divisibility, and norm-limitation inputs in their own settings. In Artin–Tate's organization these
+are the additional hypotheses IIIa–IIId, not consequences of the class-formation axioms.
 
 ### 2.3 Fundamental classes
 
@@ -383,7 +391,7 @@ names may change during implementation, but the mathematical direction of each m
 | unramified normalization | `localArtinMap_uniformizer`, `normResidue_uniformizer` |
 | absolute local Artin map and coordinates | `artinMap`, `unramifiedCoordinate`, `cyclotomicCharacter_artinMap`, `cyclotomicCharacter_artinMap_padic` |
 | local Weil group | `localWeilGroup`, `localWeilArtinEquiv` |
-| local existence | `localExistence` |
+| local existence | `localExistence` (finite extensions of `ℚ_p`), `localExistence_primeToResidueCharacteristic` (index prime to the residue characteristic) |
 | global idele-class formation | `globalClassFormation` |
 | finite global Artin equivalence | `globalArtinEquiv` |
 | global Artin map | `globalArtinMap` |
@@ -396,7 +404,7 @@ names may change during implementation, but the mathematical direction of each m
 | local duality and Euler characteristic | `tateDualityPairing_perfect_mixed`, `finite_H`, `eulerCharacteristic_finrank_fp` |
 | local conductors | `conductorExponent`, `conductorIdeal`, `characterConductorExp` |
 | global norm and Hilbert reciprocity | `cyclicHasseNorm`, `hilbertProductFormula` |
-| class fields | `hilbertClassField`, `ringClassField`, `gal_ringClassField_equiv_pic`, `rayClassArtinMap`, `kroneckerWeber` |
+| class fields | `hilbertClassField`, `ringClassField`, `ringClassArtinMap`, `ringClassArtinMap_eq_one_iff`, `gal_ringClassField_equiv_pic`, `rayClassArtinMap`, `kroneckerWeber` |
 
 `cyclicHasseNorm` and `hilbertProductFormula` are frozen public names. Their statements use the
 global and local carriers above; neither may be replaced with a proposition-valued interface
@@ -667,30 +675,39 @@ it by a theorem, not duplicated.
 **Exit criterion.** The global map is the transported abstract Artin map and its value on an
 unramified prime is the existing Frobenius class.
 
-### Layer 7: the existence theorems
+### Layer 7: the separate arithmetic existence theorems
 
 After reciprocity is established, develop the topology of norm subgroups and prove:
 
 - norm subgroups are open and of finite index;
 - finite abelian extensions give distinct norm subgroups;
 - the norm subgroup reverses inclusions and respects composita and intersections;
-- every open finite-index subgroup of `Kˣ`, respectively of `C_K`, is the norm subgroup of a
-  finite normal layer of the local, respectively global, formation (`localExistence`,
-  `globalExistence`);
+- for `K/ℚ_p` finite, every open finite-index subgroup of `Kˣ` is the norm subgroup of a finite
+  normal layer (`localExistence`);
+- for a general nonarchimedean local field of residue characteristic `p`, every open finite-index
+  subgroup of `Kˣ` whose index is prime to `p` is a norm subgroup
+  (`localExistence_primeToResidueCharacteristic`); no `p`-primary equal-characteristic claim is
+  exported;
+- every open finite-index subgroup of `C_K` is the norm subgroup of a finite normal layer of the
+  global formation (`globalExistence`);
 - the norm-index theorem `[C_K : N C_L] = [L:K]` for finite abelian `L/K`
   (`card_ideleClassNormQuotient`);
-- the local and global class-field correspondences;
+- the full local class-field correspondence for finite extensions of `ℚ_p`, the
+  prime-to-residue-characteristic correspondence for equal-characteristic local fields, and the
+  global class-field correspondence;
 - ray-class factorization of the global Artin map using the imported ray-class groups
   (`rayClassArtinMap`), the ray class field and its splitting law.
 
 Locally, the construction order is normative: norm subgroups first define the normic topology and
-its completion; norm limitation precedes the prime-to-residue existence theorem; Kummer theory
-then gives full existence for finite extensions of `ℚ_p`, after which injectivity and the
-comparison with the profinite completion follow. Equal-characteristic `p`-primary existence is
-not obtained by this route: it requires the excluded Artin–Schreier–Witt theory.
+its completion; norm limitation precedes `localExistence_primeToResidueCharacteristic`; Kummer
+theory then gives `localExistence` for finite extensions of `ℚ_p`, after which injectivity and the
+comparison with the profinite completion follow. Full equal-characteristic `p`-primary existence
+requires the excluded Artin–Schreier–Witt theory and is not asserted here.
 
-The existence theorem must not appear as a hypothesis in a structure used to prove reciprocity.
-The two directions of class field theory are proved in the correct order.
+There is deliberately no abstract existence theorem for `ClassFormation`. The local proof verifies
+its arithmetic and topological inputs in the two stated ranges, while the global proof verifies its
+own idele-theoretic inputs. Existence must not appear as a hypothesis in a structure used to prove
+reciprocity. The two directions of class field theory are proved in the correct order.
 
 ### Layer 8: local invariants, Hilbert symbols, duality, conductors, and the Weil group
 
@@ -785,9 +802,14 @@ the abelian conductor–discriminant formula from the local formula and the char
 and the compatibility of conductors with ramification.
 
 For a `GlobalNumberFields.NumberFieldOrder O`, construct its ring class field from the imported
-conductor, proper ideal group and `Pic O`. Freeze the isomorphism `Gal(H_O/K) ≃ Pic O`
-(`gal_ringClassField_equiv_pic`), its ramification bound, the maximal-order comparison, and the
-splitting criterion. Orders and Picard groups remain owned by `GlobalNumberFields`.
+conductor and the congruence description of the group
+`O.invertibleProperFractionalIdeals`; quotient only by the principal classes encoded by
+`O.mkPic`, obtaining `Pic O`. Raw proper ideals, including noninvertible ideals in
+`IdealClassMonoid O`, never enter this construction. Freeze `ringClassArtinMap` on that invertible
+carrier and its principal-kernel criterion `ringClassArtinMap_eq_one_iff`. Freeze also the
+isomorphism `Gal(H_O/K) ≃ Pic O` (`gal_ringClassField_equiv_pic`), its ramification bound, the
+maximal-order comparison, and the splitting criterion. Orders and Picard groups remain owned by
+`GlobalNumberFields`.
 
 ### Layer 10: the global class formation, local invariants, and Hilbert reciprocity
 
@@ -1039,7 +1061,8 @@ global existence and the `GlobalNumberFields` order/`Pic` API.
 
 - E. Artin and J. Tate, *Class Field Theory*, AMS Chelsea, 2009: Chapter XIV
   (Sections 1–5: formations, field formations and Brauer groups, class formations, the Main
-  Theorem, the reciprocity-law isomorphism, and the abstract existence theorem); Chapters V–VIII
+  Theorem, the reciprocity-law isomorphism, and the abstract existence theorem under the additional
+  axioms IIIa–IIId); Chapters V–VIII
   for the fundamental inequalities, the global reciprocity law and the existence theorem;
   Chapter XI §5 for conductors; Chapter XII for explicit reciprocity laws; Chapter XV for Weil
   groups.
