@@ -1,7 +1,5 @@
 import Mathlib
 import TauCetiRoadmap.AdelicAlgebraicGroups.Suggested
-import TauCetiRoadmap.ClassFieldTheory.Suggested
-import TauCetiRoadmap.GlobalQuadraticForms.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.QuadraticFormInvariants.Suggested
 
@@ -15,11 +13,10 @@ the roadmap.
 
 This roadmap owns the algebraic orthogonal, special-orthogonal, Pin and Spin interfaces over a
 general field, their determinant and spinor-norm exact sequences, the orthogonal transvections,
-and the orthogonal applications of approximation and Tamagawa theory. Generic restricted-product
-maps, adelic-point carriers, rational diagonals, strong approximation, and Tamagawa measures are
-imported from `AdelicAlgebraicGroups`; global Hasse--Minkowski is imported from
-`GlobalQuadraticForms`; local quadratic invariants, Hilbert reciprocity, and local-field power
-classes come from their final supplier namespaces. No supplier carrier is restated below.
+and their local and finite-adelic spinor-norm specializations. Generic restricted-product maps,
+adelic-point carriers, and rational diagonals are imported from `AdelicAlgebraicGroups`; local
+quadratic invariants and local-field power classes come from their final supplier namespaces. No
+supplier carrier is restated below.
 
 The spinor norm uses the canonical multiplicative square-class quotient
 `Kˣ ⧸ Subgroup.square Kˣ` directly. There is no local `SquareClass` alias or generic pushforward
@@ -41,10 +38,11 @@ The orthogonal local topologies are declared as **instances**, fixed to Mathlib'
 specialized compact-open compatibility record below feeds those instances to the imported generic
 adelic constructors.
 
-The general strong-approximation and Tamagawa-measure declarations remain README-level contracts
-in `AdelicAlgebraicGroups` until Reductive Groups exposes the required functor-of-points carrier.
-This file therefore pins only the orthogonal specializations whose types are already expressible;
-it does not replace either generic contract by a `Prop`-valued stand-in.
+Strong approximation, reduction theory, Tamagawa measures, and central-isogeny volume formulas are
+not exported by the reviewed `AdelicAlgebraicGroups` core. They are consequently outside this
+file: the README records them only as future-successor applications gated by named public supplier
+declarations. In particular this file does not replace any missing generic contract by a
+`Prop`-valued stand-in.
 -/
 
 namespace TauCetiRoadmap.OrthogonalSpinGroups
@@ -64,23 +62,10 @@ reintroduced local replacement therefore fail visibly at this consumer. -/
 #check AdelicAlgebraicGroups.rationalDiagonal
 #check AdelicAlgebraicGroups.FiniteAdelicPoints
 #check AdelicAlgebraicGroups.AdelicPoints
-#check ClassFieldTheory.hilbertProductFormula
-#check GlobalQuadraticForms.hasseMinkowski_equivalent
-#check GlobalQuadraticForms.equivalent_of_locallyEquivalent
 #check QuadraticFormInvariants.hilbertSymbol
 #check QuadraticFormInvariants.localHasse
 #check QuadraticFormInvariants.hasseInvariant_eq_localHasse
 #check LocalFieldsRamification.unitFiltration_le_range_powMonoidHom_two
-
-/-- Closed form of the global Hasse-principle contract used in Layer 5H. The translation from
-equivalence of forms to the pointed-set statement for `SO` remains orthogonal-specific work. -/
-example {V W : Type} [AddCommGroup V] [Module ℚ V] [FiniteDimensional ℚ V]
-    [AddCommGroup W] [Module ℚ W] [FiniteDimensional ℚ W]
-    (Q : QuadraticForm ℚ V) (hQ : Q.Nondegenerate)
-    (R : QuadraticForm ℚ W) (hR : R.Nondegenerate)
-    (h : GlobalQuadraticForms.LocallyEquivalent Q R) :
-    Q.Equivalent R :=
-  GlobalQuadraticForms.equivalent_of_locallyEquivalent Q hQ R hR h
 
 /-! ## Layer 0: the orthogonal group, its determinant, and reflections -/
 
@@ -462,9 +447,9 @@ theorem transvectionLift_add (Q : QuadraticForm K V) {u w w' : V} (hu : Q u = 0)
   sorry
 
 /-- **⚠ Layer 2C, the milestone**: the lift bundled as a **homomorphism** out of `u^⊥ / K u`, not
-a family of individually chosen lifts. Layer 4 has no root subgroup to generate with until this
-exists, and `transvection_add_smul` together with `transvectionLift_add` is what makes it well
-defined. -/
+a family of individually chosen lifts. A future strong-approximation successor has no root
+subgroup to generate with until this exists, and `transvection_add_smul` together with
+`transvectionLift_add` is what makes it well defined. -/
 noncomputable def transvectionLiftHom (Q : QuadraticForm K V) {u : V} (hu : Q u = 0) :
     (LinearMap.ker (polarBilin Q u) ⧸
         Submodule.comap (LinearMap.ker (polarBilin Q u)).subtype (K ∙ u)) →+
@@ -487,14 +472,13 @@ only the quadratic-form localization maps, orthogonal compatibility data, the th
 adelic point groups, and the adelic spinor norm.
 -/
 
-/-! ## Layers 3C to 4: the specialized adelic objects
+/-! ## Layers 3C to 3F: the specialized adelic objects
 
-⚠ Everything below is built **from `Q`**, and for **all three groups**. A development that
-constructs only `O(V)(𝔸_f)` has nothing to state Layer 4 in: strong approximation is a theorem
-about `Spin`, and its transported form is a theorem about the adelic spinor kernel inside `SO`. An
-`O`-statement carrying the name of a `Spin` theorem is not that theorem, and over adelic `O` the
-closure statement of 4F is outright false, since a rational reflection of nonsquare spinor norm
-lies in the diagonal image and not in the kernel.
+⚠ Everything below is built **from `Q`**, and for **all three groups**. A future
+strong-approximation successor needs adelic `Spin`, and its transported statement needs the adelic
+spinor kernel inside `SO`; constructing only `O(V)(𝔸_f)` would supply neither. An `O`-statement
+carrying the name of a `Spin` theorem would be false: a rational reflection of nonsquare spinor
+norm lies in the diagonal image and not in the spinor kernel.
 
 Conventions, matching the README's Layer 3D. Finite places are indexed by `Nat.Primes`; the
 archimedean place is carried by a product decomposition rather than by a dependent type of places,
@@ -683,9 +667,9 @@ end OrthogonalCompactOpens
 
 end Adelic
 
-/-! ## Layers 3D to 4F: the three adelic point groups, and strong approximation -/
+/-! ## Layers 3D to 3F: the three adelic point groups and spinor norm -/
 
-section StrongApproximation
+section AdelicSpecialization
 
 open scoped RestrictedProduct TensorProduct
 
@@ -704,11 +688,12 @@ abbrev finiteAdelicOrthogonal (U : OrthogonalCompactOpens Q) : Type _ :=
   AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : Nat.Primes => U.orth p)
 
 /-- **Layer 3D**: the finite adelic special orthogonal group, relative to the derived `U_p^{SO}`.
-This is the group Layer 4F's closure theorem and Layer 5's volumes live in. -/
+This is the group in which a future strong-approximation successor will formulate the
+spinor-kernel consequence. -/
 abbrev finiteAdelicSpecialOrthogonal (U : OrthogonalCompactOpens Q) : Type _ :=
   AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : Nat.Primes => U.soPart p)
 
-/-- **Layer 3D**: the finite adelic spin group, which is where strong approximation is stated. -/
+/-- **Layer 3D**: the finite adelic spin group needed by a future strong-approximation successor. -/
 abbrev finiteAdelicSpin (U : OrthogonalCompactOpens Q) : Type _ :=
   AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : Nat.Primes => U.spin p)
 
@@ -757,7 +742,7 @@ abbrev fullAdelicSpin (U : OrthogonalCompactOpens Q) : Type _ :=
     (fun p : Nat.Primes => U.spin p)
 
 /-- **Layer 3D**: the componentwise `Spin → SO`, from 3B's functoriality and 3C's compatibility.
-⚠ This is the map Layer 4F transports along; without 3C's `spin_maps` it does not exist. -/
+A future density theorem transports along this map; without 3C's `spin_maps` it does not exist. -/
 noncomputable def finiteAdelicSpinToSpecialOrthogonal (U : OrthogonalCompactOpens Q) :
     finiteAdelicSpin Q U →* finiteAdelicSpecialOrthogonal Q U :=
   AdelicAlgebraicGroups.restrictedProductMap (fun p => U.spin p) (fun p => U.soPart p)
@@ -796,8 +781,8 @@ noncomputable def adelicDiagonalSpecialOrthogonal (U : OrthogonalCompactOpens Q)
   AdelicAlgebraicGroups.rationalDiagonal (fun p => specialOrthogonalBaseChange Q p)
     (fun p => U.soPart p) U.eventually_mem_soPart
 
-/-- **⚠ Layer 3E**: the diagonal embedding of the rational **spin** points. This is the map Layer 4
-is about, and it is not obtainable from the orthogonal one. -/
+/-- **⚠ Layer 3E**: the diagonal embedding of the rational **spin** points. This is the map a
+future strong-approximation successor needs, and it is not obtainable from the orthogonal one. -/
 noncomputable def adelicDiagonalSpin (U : OrthogonalCompactOpens Q) :
     spinGroup Q →* finiteAdelicSpin Q U :=
   AdelicAlgebraicGroups.rationalDiagonal (fun p => spinBaseChange Q p)
@@ -808,7 +793,8 @@ theorem adelicDiagonalSpin_apply (U : OrthogonalCompactOpens Q) (g : spinGroup Q
   sorry
 
 /-- **Layer 3E**: the square relating the two routes from rational spin points into adelic `SO`
-commutes, which is what lets 4F speak of "the image of the rational spin points" unambiguously. -/
+commutes, which lets a future successor speak of "the image of the rational spin points"
+unambiguously. -/
 theorem finiteAdelicSpinToSpecialOrthogonal_comp_adelicDiagonalSpin
     (U : OrthogonalCompactOpens Q) :
     (finiteAdelicSpinToSpecialOrthogonal Q U).comp (adelicDiagonalSpin Q U) =
@@ -827,8 +813,7 @@ theorem discreteTopology_fullAdelicDiagonal (U : OrthogonalCompactOpens Q) (hQ :
 
 /-- **⚠ Layer 3E**, the contrast, and the acceptance test for it: the rational points are **not**
 discrete in the finite adelic group, for an isotropic `Q` of dimension at least three. The
-transvections `E_{u,tw}` with `t` highly divisible accumulate at the identity, which is exactly
-consistent with Layer 4, where that same image is dense. -/
+transvections `E_{u,tw}` with `t` highly divisible accumulate at the identity. -/
 theorem not_discreteTopology_finiteAdelicDiagonal (U : OrthogonalCompactOpens Q)
     (hQ : Q.Nondegenerate) (hdim : 3 ≤ Module.finrank ℚ V)
     (hiso : ∃ v : V, v ≠ 0 ∧ Q v = 0) :
@@ -856,53 +841,12 @@ theorem adelicSpinorNorm_apply (hQ : Q.Nondegenerate) (U : OrthogonalCompactOpen
         (specialOrthogonalToOrthogonal (localForm Q p) (x p)) := by
   sorry
 
-/-- **Layer 3F**: the adelic spinor kernel, a subgroup of adelic `SO`, which is what Layer 4F's
-closure theorem is about. -/
+/-- **Layer 3F**: the adelic spinor kernel, a subgroup of adelic `SO` and the target of a future
+transported strong-approximation theorem. -/
 noncomputable def adelicSpinorKernel (hQ : Q.Nondegenerate) (U : OrthogonalCompactOpens Q) :
     Subgroup (finiteAdelicSpecialOrthogonal Q U) :=
   (adelicSpinorNorm Q hQ U).ker
 
-/-! ### Layer 4: strong approximation, in `Spin`, and its transport to `SO` -/
-
-/-- **Layer 4E**, the corollary the integral lattices roadmap consumes:
-`Spin(V)(𝔸_f) = Spin(V)(ℚ) · W` for every compact open `W`, when `V` is indefinite of dimension at
-least three. ⚠ It is a statement about adelic **`Spin`**, with the rational spin diagonal of 3E on
-the right. Indefiniteness is spelled through the signature of the real form; note `sigPos` and
-`sigNeg` live in the **root** namespace, not under `QuadraticForm`.
-
-⚠ The general-`S` form is the imported README-level
-`AdelicAlgebraicGroups.strongApproximation` contract. It is not duplicated here before its affine
-group carrier exists. The application does not pass through a global hyperbolic plane:
-`x² + y² − 3z²` satisfies the hypothesis below and is anisotropic over ℚ. -/
-theorem strongApproximation_finiteAdelicSpin (hQ : Q.Nondegenerate)
-    (hdim : 3 ≤ Module.finrank ℚ V)
-    (hindef : 0 < sigPos (realForm Q) ∧ 0 < sigNeg (realForm Q))
-    (U : OrthogonalCompactOpens Q)
-    (W : Subgroup (finiteAdelicSpin Q U))
-    (hW : IsOpen (W : Set (finiteAdelicSpin Q U)))
-    (hWc : IsCompact (W : Set (finiteAdelicSpin Q U))) :
-    ∀ x : finiteAdelicSpin Q U,
-      ∃ (g : spinGroup Q) (w : W), x = adelicDiagonalSpin Q U g * (w : _) := by
-  sorry
-
-/-- **Layer 4F**: what the theorem gives in `SO`, exactly. The continuous image of a dense set is
-dense in the image, not in the ambient group, so the transported statement is about the adelic
-spinor kernel and about the image of the **rational spin points**.
-
-⚠ Two things make the naive `O`-statement false, and both are why this theorem is stated as it is.
-The closure of the diagonal image of all of `O(V)(ℚ)` is not the spinor kernel: a rational
-reflection of nonsquare spinor norm lies in the left side and not in the right. And a finite adelic
-element of determinant `-1` at one place and `1` elsewhere, with trivial local spinor norms, is not
-a rational isometry times a determinant-one compact open. -/
-theorem closure_rationalSpinImage (hQ : Q.Nondegenerate) (hdim : 3 ≤ Module.finrank ℚ V)
-    (hindef : 0 < sigPos (realForm Q) ∧ 0 < sigNeg (realForm Q))
-    (U : OrthogonalCompactOpens Q) :
-    closure
-        (((finiteAdelicSpinToSpecialOrthogonal Q U).comp (adelicDiagonalSpin Q U)).range :
-          Set (finiteAdelicSpecialOrthogonal Q U))
-      = (adelicSpinorKernel Q hQ U : Set (finiteAdelicSpecialOrthogonal Q U)) := by
-  sorry
-
-end StrongApproximation
+end AdelicSpecialization
 
 end TauCetiRoadmap.OrthogonalSpinGroups
