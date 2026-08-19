@@ -36,11 +36,11 @@ body:
         - OneParameterSemigroups
         - OptimalTransport
         - PDE
+        - ProfiniteCohomology
         - ReductiveGroups
         - RepresentationTheory
         - StandardDistributions
         - UniversalCovers
-        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true
