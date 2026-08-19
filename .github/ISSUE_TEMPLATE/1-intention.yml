@@ -40,7 +40,7 @@ body:
         - OneParameterSemigroups
         - OptimalTransport
         - PDE
-        - QuadraticFormInvariants
+        - ProfiniteCohomology
         - ReductiveGroups
         - RepresentationTheory
         - StandardDistributions
