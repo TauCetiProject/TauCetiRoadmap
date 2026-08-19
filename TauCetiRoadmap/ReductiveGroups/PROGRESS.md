@@ -161,3 +161,39 @@ kernel with its conormal exact sequence, and `Lie(GLₙ)` and `Lie(SLₙ)` ident
 trace-zero matrices. Elsewhere: normal Hopf ideals and the pointwise quotient presheaf, geometric
 connectedness and its stability under base field extension, faithfully flat descent for points, and
 base change of affine group schemes.
+
+<!--tauceti-progress:v1 {"from_sha":"f7aaa6df91011d8623d880c19e6cc3f69e1d46f4","prs":[2763,2766,2770,2829,2832,2864,2865,2868,2872,2882,2884,2891,2894,2897,2912,2919,2920,2932,2940,2943,2964,2977,2997,2998,2999,3001,3002,3004,3005,3007,3011,3012,3014,3015,3016,3020,3021,3022,3023,3027,3050,3061,3065,3087,3088,3090,3091,3097,3110,3114,3117,3118,3177,3193,3195,3206,3208,3211,3213,3220,3222,3227,3233,3234,3238,3239,3249,3256,3264,3280,3286,3290,3293,3294,3296,3303,3307,3308,3311,3325,3336,3338,3356,3360,3363,3367,3376,3380,3384,3386,3389,3399,3410,3413,3415,3416,3421,3434,3436,3441,3449,3450,3456,3463,3471,3472,3475,3476,3478,3486,3489,3490,3494,3496,3500,3502,3503,3504,3505,3512,3513,3515,3518,3519,3522,3523,3524,3527,3529,3530,3531,3533,3534,3535,3536,3537,3539,3540,3541,3542,3543,3553,3555,3558,3559,3576,3581,3582,3584,3587,3591,3592,3593,3595,3601,3605,3607,3608,3609,3613,3622,3626,3630,3633,3642,3643,3649,3652,3667,3673,3678,3679,3682,3683,3684,3686,3688,3689,3690,3692,3704,3708,3714,3717,3718],"roadmap":"ReductiveGroups","to_sha":"c4d7989a116c565aa558fb82c318ad7c651bf2f4"}-->
+## ReductiveGroups: 2026-08-12 to 2026-08-18 (`f7aaa6d` to `c4d7989`)
+
+Tannakian reconstruction is finished. Points of a commutative Hopf algebra over a field
+correspond exactly to tensor automorphisms of scalar extension on its finite-dimensional
+comodules
+([`fgPointTensorIsoEquiv`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Tannaka/Equivalence.html#TauCeti.Tannaka.fgPointTensorIsoEquiv)),
+naturally in the value algebra, so the functor of points and the tensor-automorphism functor
+are isomorphic
+([`pointsFunctorIsoTensorAutFunctor`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Tannaka/GroupFunctor.html#TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor)).
+On top of it sits the multiplicative Jordan decomposition of a point over a perfect extension
+field: commuting semisimple and unipotent factors with product the point, unique among such
+factorizations and compatible with homomorphisms of affine groups
+([`jordanDecomposition`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/JordanDecomposition/Basic.html#TauCeti.HopfAlgebra.Point.jordanDecomposition),
+TauCeti#2964).
+
+Layer 3 got its missing pieces. The identity component is a closed subgroup scheme with
+connected carrier and normal defining Hopf ideal, and over an algebraically closed field the
+component group is finite and agrees with the connected components of the spectrum. Quotients
+became sheaves rather than presheaves: the affine fppf topology is subcanonical, points of an
+affine group form an fppf sheaf, and the quotient by a normal Hopf ideal is a group object in
+fppf sheaves
+([`fppfQuotientSheaf`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Basic.html#TauCeti.CommHopfAlgCat.fppfQuotientSheaf))
+whose projection is locally surjective with the expected torsor kernel pair. Cartier duality
+arrived as an anti-equivalence of finite locally free bicommutative Hopf algebras, and a
+finite-type Hopf algebra over a field is a torus exactly when it is of multiplicative type,
+geometrically connected and geometrically reduced.
+
+Layer 5 opened with the geometric definition of unipotence, verified for `𝔾ₐ` and the
+upper-unitriangular groups and stable under products, quotients and extensions; such a group
+has no nontrivial characters. Reductivity and
+semisimplicity exist only as properties so far: no group has been proved reductive, and there
+is no unipotent radical, no Lie-Kolchin theorem and no Borel theory beyond `GL₂`. Separately,
+the Chevalley lane built the Serre presentation of split semisimple Lie algebras, the rank-one
+Kostant form, and root subgroups of `GLₙ` and `SLₙ` satisfying the type-A commutator relations.
