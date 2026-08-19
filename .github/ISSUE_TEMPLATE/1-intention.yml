@@ -35,12 +35,12 @@ body:
         - HopfRinow
         - IntegralLattices
         - JacobianChallenge
-        - LocalGaloisGroups
         - ModularForms
         - Multiquadratic
         - OneParameterSemigroups
         - OptimalTransport
         - PDE
+        - ProfiniteCohomology
         - ReductiveGroups
         - RepresentationTheory
         - StandardDistributions
