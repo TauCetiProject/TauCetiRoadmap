@@ -39,8 +39,8 @@ body:
         - Multiquadratic
         - OneParameterSemigroups
         - OptimalTransport
-        - OrthogonalSpinGroups
         - PDE
+        - ProfiniteCohomology
         - ReductiveGroups
         - RepresentationTheory
         - StandardDistributions
