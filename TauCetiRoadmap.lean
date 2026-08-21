@@ -27,4 +27,3 @@ import TauCetiRoadmap.ContourIntegration.Suggested
 import TauCetiRoadmap.ConformalMapping.Suggested
 import TauCetiRoadmap.OrthogonalL2Bases.Suggested
 import TauCetiRoadmap.OptimalTransport.Suggested
-import TauCetiRoadmap.RestrictedThreeBody.Suggested

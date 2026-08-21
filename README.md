@@ -22,7 +22,6 @@ Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and th
 - [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
 - [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
 - [Partial differential equations](TauCetiRoadmap/PDE/README.md)
-- [Poincaré's classical nonintegrability theorem for the planar circular restricted three-body problem](TauCetiRoadmap/RestrictedThreeBody/README.md)
 - [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
 - [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
 - [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
