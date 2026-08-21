@@ -577,8 +577,8 @@ graphon modules consume them:
 
 ## Suggested signatures
 
-The compiled `sorry`-signatures live in [`Suggested.lean`](./Suggested.lean) (imported by the root
-`TauCetiRoadmap.lean`, so CI type-checks them). They pin the types — in particular that the cut
+The compiled `sorry`-signatures live in [`Suggested.lean`](./Suggested.lean) (globbed by
+`lakefile.toml`, so CI type-checks them). They pin the types — in particular that the cut
 norm acts on *kernels* (so `U − W` is well-typed), that `cutDist` is coupling-primary and
 cross-carrier, and that the constant-graphon and sampling targets share the `unitInterval` (`p : I`)
 convention with `SimpleGraph.binomialRandom`. Compiled there: `SymmKernel` / `Graphon`, `cutNorm`
