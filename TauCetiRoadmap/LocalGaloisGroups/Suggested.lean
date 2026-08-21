@@ -71,24 +71,46 @@ section SupplierChecks
 
 variable (p : ℕ) [Fact p.Prime] (K : Type u) [Field K]
   [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-  [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
+  [Algebra ℚ_[p] K] [ValuativeExtension ℚ_[p] K] [Module.Finite ℚ_[p] K]
 
-example (n : ℕ) (hn : n ≠ 0) :
+/-- ⚠ The right-hand side is the supplier's own, `#𝓀[K] ^ v_K(n)`, and the nonvanishing proof
+`(n : K) ≠ 0` is an **argument** of the theorem rather than a side condition, because
+`natCastValuation` takes it. Restating the last factor as the cardinality of `𝒪[K]/(n)` would be
+a second expression for the same number and would stop this check from breaking on a supplier
+change, which is the only reason it is here. -/
+example (n : ℕ) (hn : n ≠ 0) (hnK : (n : K) ≠ 0) :
     Nat.card (Kˣ ⧸ (powMonoidHom n : Kˣ →* Kˣ).range)
       = n * Nat.card (rootsOfUnity n K)
-        * Nat.card (↥𝒪[K] ⧸ Ideal.span {(n : ↥𝒪[K])}) :=
-  LocalFieldsRamification.card_powerClasses_mixed K p n hn
-
-noncomputable example (n : ℕ) (hn : n ≠ 0) :
-    Additive (Kˣ ⧸ (powMonoidHom n : Kˣ →* Kˣ).range) ≃+
-      ClassFieldTheory.H n K 1 (ClassFieldTheory.muNRep n K) :=
-  ClassFieldTheory.kummerEquiv_mixed p K n hn
-
-example (n : ℕ) (hn : n ≠ 0) :
-    Nonempty (ClassFieldTheory.H n K 2 (ClassFieldTheory.muNRep n K) ≃+ ZMod n) :=
-  ClassFieldTheory.h2MuEquivZMod_mixed p K n hn
+        * Nat.card 𝓀[K] ^ LocalFieldsRamification.natCastValuation K n hnK :=
+  LocalFieldsRamification.card_powerClasses_mixed K p n hn hnK
 
 end SupplierChecks
+
+/-! ### Closed checks on the class-field supplier contract
+
+⚠ **Universe 0.** Class Field Theory pins every cohomological object to universe `0` on
+purpose — Mathlib's `tateCohomology` needs the group and the coefficient ring `ℤ` in one
+universe — so `ClassFieldTheory.H`, `muNRep`, `kummerEquiv_mixed` and `h2MuEquivZMod_mixed`
+take a `Type`, and these checks bind their own `F : Type` rather than this file's `K : Type u`.
+The restriction is the supplier's, and it is why the arithmetic statements of this roadmap that
+do not touch class field theory stay at `Type u`. -/
+
+section ClassFieldSupplierChecks
+
+variable (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
+  [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F]
+  [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F]
+
+noncomputable example (n : ℕ) (hn : n ≠ 0) :
+    Additive (Fˣ ⧸ (powMonoidHom n : Fˣ →* Fˣ).range) ≃+
+      ClassFieldTheory.H n F 1 (ClassFieldTheory.muNRep n F) :=
+  ClassFieldTheory.kummerEquiv_mixed p F n hn
+
+example (n : ℕ) (hn : n ≠ 0) :
+    Nonempty (ClassFieldTheory.H n F 2 (ClassFieldTheory.muNRep n F) ≃+ ZMod n) :=
+  ClassFieldTheory.h2MuEquivZMod_mixed p F n hn
+
+end ClassFieldSupplierChecks
 
 /-! ## Layers 1 and 2: cohomology and inflation -/
 
