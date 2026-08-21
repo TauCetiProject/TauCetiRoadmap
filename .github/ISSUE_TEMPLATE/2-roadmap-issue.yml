@@ -19,7 +19,6 @@ body:
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - ContourIntegration
-        - DifferentialGeometry
         - EllipticCurves
         - Exchangeability
         - GeometricTopology
