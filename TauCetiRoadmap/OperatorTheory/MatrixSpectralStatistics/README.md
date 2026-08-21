@@ -176,16 +176,17 @@ concentration.
 
 - **MSS-C01 — Uncentered Chebyshev inequality.** If `Y²` is integrable,
   `∫Y² dP≤v`, and `η>0`, then `P{η<Y}≤ENNReal.ofReal(v/η²)`.
-- **MSS-C02 — Scalar sample-mean identity.** For pairwise-independent square-integrable real
-  random variables with common mean `c`,
+- **MSS-C02 — Scalar sample-mean identity.** For `0 < r`, pairwise-independent square-integrable
+  real random variables with common mean `c`,
   `∫(r⁻¹∑_k Z_k-c)² dP = r⁻²∑_k ∫(Z_k-c)² dP`.
-- **MSS-C03 — Vector sample-mean identity.** For pairwise-independent square-integrable random
-  vectors in a finite-dimensional real Hilbert space with common mean `μ`,
+- **MSS-C03 — Vector sample-mean identity.** For `0 < r`, pairwise-independent square-integrable
+  random vectors in a finite-dimensional real Hilbert space with common mean `μ`,
   `∫‖r⁻¹∑_k X_k-μ‖² dP = r⁻²∑_k ∫‖X_k-μ‖² dP`.
-- **MSS-C04 — Identically distributed sample-mean form.** If the per-sample mean-square errors in
-  `MSS-C03` are equal, then the sample-mean mean-square error is `1/r` times the common value.
-- **MSS-C05 — Uniform sample-mean bound.** If every per-sample mean-square error is at most `γ`,
-  then the sample-mean mean-square error is at most `γ/r`.
+- **MSS-C04 — Identically distributed sample-mean form.** For `0 < r`, if the per-sample
+  mean-square errors in `MSS-C03` are equal, then the sample-mean mean-square error is `1/r` times
+  the common value.
+- **MSS-C05 — Uniform sample-mean bound.** For `0 < r`, if every per-sample mean-square error is
+  at most `γ`, then the sample-mean mean-square error is at most `γ/r`.
 - **MSS-C06 — Finite mean.** Define `z̄ = n⁻¹∑_i z_i` for a finite family in a normed
   `RCLike` module, with the empty mean equal to `0` under the ambient total-inverse convention.
 - **MSS-C07 — Centered sum.** For every finite family, `∑_i (z_i-z̄)=0`.
@@ -224,8 +225,8 @@ concentration.
   `‖(Ŝ(ω)-A)x‖≤nη‖x‖` for every Euclidean vector `x`.
 - **MSS-C23 — Empirical-second-moment eigenvalue floor.** Applying `MSS-C21` to `M̂` gives the
   corresponding high-probability eigenvalue lower bound for an empirical second-moment matrix;
-  in particular, taking `η=c/(2d)` keeps a population eigenvalue bounded below by `c` above
-  `c/2` on the resulting event.
+  in particular, for `0 < c` and `0 < d`, taking `η=c/(2d)` keeps a population eigenvalue bounded
+  below by `c` above `c/2` on the resulting event.
 
 **Milestone C1 — scalar and vector sample-mean identities.** `MSS-C01`–`MSS-C05`.
 

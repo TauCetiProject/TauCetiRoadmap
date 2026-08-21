@@ -403,7 +403,7 @@ right and left Gram perturbation bounds `PA-B03`–`PA-B06` are consumed from
 - **SSP-D02 — Frobenius sine distance.** Define `‖sinΘ(U,V)‖_F` as the Frobenius norm of the
   directed sine map.
 - **SSP-D03 — Population residual columns.** For a selected population eigenblock, define
-  the residual columns `(S-λ_j(T))u_j(S)` in a population eigenbasis.
+  the residual columns `R_j = λ_j(T)u_j(S)-T u_j(S)` in a population eigenbasis.
 - **SSP-D04 — Left singular subspace.** Define selected left singular subspaces through the
   spectral subspaces of `AA†`.
 - **SSP-D05 — Right singular subspace.** Define selected right singular subspaces through

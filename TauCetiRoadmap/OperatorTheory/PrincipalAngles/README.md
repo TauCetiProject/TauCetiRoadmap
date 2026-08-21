@@ -252,8 +252,8 @@ unitarily invariant norm identities.
   quarter turn with itself.
 - **PA-B27 — Family/subspace cosine bridge.** The principal cosines of the spans of two
   orthonormal families equal their family-level principal cosines from `PA-A20`.
-- **PA-B28 — One-dimensional cosine formula.** For unit vectors `u,v`, the unique nonzero
-  principal cosine of `span{u}` and `span{v}` is `|⟪u,v⟫|`.
+- **PA-B28 — One-dimensional cosine formula.** For unit vectors `u,v`, the unique principal
+  cosine of `span{u}` and `span{v}` is `|⟪u,v⟫|`.
 - **PA-B29 — Equal-rank operator-norm sine identity.** For equal-dimensional projected
   subspaces, `‖P_U-P_V‖ = ‖P_{V⊥}P_U‖`.
 
