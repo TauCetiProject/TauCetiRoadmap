@@ -35,5 +35,4 @@ import TauCetiRoadmap.StandardDistributions.Suggested
 import TauCetiRoadmap.HodgeStructures.Suggested
 import TauCetiRoadmap.AlgebraicCurves.Suggested
 import TauCetiRoadmap.DenseGraphLimits.Suggested
-import TauCetiRoadmap.Regularity.Suggested
 import TauCetiRoadmap.ZigzagPreprojective.Suggested

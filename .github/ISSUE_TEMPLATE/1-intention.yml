@@ -41,7 +41,6 @@ body:
         - OptimalTransport
         - PDE
         - ReductiveGroups
-        - Regularity
         - RepresentationTheory
         - StandardDistributions
         - UniversalCovers
