@@ -37,7 +37,6 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
 - [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
 - [Standard probability distributions and their elementary theory](TauCetiRoadmap/StandardDistributions/README.md)
-- [Structured block operators and certified fast application](TauCetiRoadmap/StructuredBlockOperators/README.md)
 - [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
 - [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
 - [Zigzag, preprojective, and Ginzburg algebras](TauCetiRoadmap/ZigzagPreprojective/README.md)
