@@ -40,7 +40,6 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Standard probability distributions and their elementary theory](TauCetiRoadmap/StandardDistributions/README.md)
 - [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
 - [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
-- [Zeros of L-functions: growth, zero-free regions, counting, and the explicit formula](TauCetiRoadmap/ZerosOfLFunctions/README.md)
 - [Zigzag, preprojective, and Ginzburg algebras](TauCetiRoadmap/ZigzagPreprojective/README.md)
 
 ## Completed roadmaps
