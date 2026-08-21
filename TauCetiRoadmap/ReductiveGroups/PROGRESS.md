@@ -127,3 +127,73 @@ with the differential of a Hopf morphism a Lie morphism. The adjoint action is n
 worked examples caught up with the scheme language: `GLₙ`, `SLₙ` as a closed subgroup of it, `𝔾ₐ`
 as affine one-space, `μ_n` as a closed subgroup of `𝔾ₘ`, and split tori, each with its
 scheme-valued points identified with the expected classical group.
+
+<!--tauceti-progress:v1 {"from_sha":"11ef09d4d6e560655ed762ace27ef2858e9117cd","prs":[1741,1871,1909,1925,1935,1944,1958,2014,2017,2251,2359,2365,2386,2389,2391,2394,2447,2450,2456,2457,2459,2481,2482,2483,2496,2522,2537,2540,2545,2556,2564,2567,2577,2582,2610,2615,2618,2627,2632,2639,2647,2648,2649,2651,2678,2683,2688,2700,2706,2740,2746,2749,2757,2761,2765,2771,2783,2787,2837,2843],"roadmap":"ReductiveGroups","to_sha":"f7aaa6df91011d8623d880c19e6cc3f69e1d46f4"}-->
+## ReductiveGroups: 2026-08-03 to 2026-08-12 (`11ef09d` to `f7aaa6d`)
+
+The embedding theorem landed: every affine group scheme of finite type over a field is a closed
+subgroup of some general linear group
+([`exists_isClosedImmersion_generalLinear`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Embedding.html#TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear),
+TauCeti#2582). It went through the finite-dimensional subcoalgebra theory, as the roadmap asked,
+rather than through bare Noetherianity: a finite-type commutative Hopf algebra over a field is a
+quotient of the coordinate ring of some `GLₙ`
+([`exists_coordinateBialgHom_surjective`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Embedding.html#TauCeti.Comodule.exists_coordinateBialgHom_surjective)).
+With it came faithfulness in the roadmap's sense: a finite free comodule gives a closed immersion
+into `GLₙ` exactly when its matrix coefficients and their antipode images generate the coordinate
+Hopf algebra
+([`isClosedImmersion_coordinateGroupSchemeHom_iff_matrixCoefficientSubalgebra_sup_antipode_eq_top`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Faithful.html#TauCeti.Comodule.isClosedImmersion_coordinateGroupSchemeHom_iff_matrixCoefficientSubalgebra_sup_antipode_eq_top)).
+
+Tannakian reconstruction is begun, not finished. Points act faithfully by tensor automorphisms on
+scalar extension of finite comodules; conversely a tensor automorphism restricts
+to compatible functionals on the finite subcomodules of the regular comodule, and these glue to a
+multiplicative global functional, hence to a point
+([`reconstructedPoint`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Tannaka/Reconstruction.html#TauCeti.Tannaka.reconstructedPoint))
+which recovers the point it came from. The other round trip, that every tensor automorphism is the
+one induced by its reconstructed point, is not stated, so there is no isomorphism yet. That gap
+also holds up Jordan decomposition: the multiplicative Jordan-Chevalley decomposition of a linear
+automorphism was built, and the semisimple and unipotent parts of a point's actions were assembled
+into commuting tensor automorphisms whose product is the point, but nothing turns them into points
+of the group.
+
+Layer 2 arrived nearly whole: the cotangent space at the identity and its dual Lie algebra, the
+adjoint action as a point representation and a comodule, the Lie algebra of a closed subgroup or
+kernel with its conormal exact sequence, and `Lie(GLₙ)` and `Lie(SLₙ)` identified with matrices and
+trace-zero matrices. Elsewhere: normal Hopf ideals and the pointwise quotient presheaf, geometric
+connectedness and its stability under base field extension, faithfully flat descent for points, and
+base change of affine group schemes.
+
+<!--tauceti-progress:v1 {"from_sha":"f7aaa6df91011d8623d880c19e6cc3f69e1d46f4","prs":[2763,2766,2770,2829,2832,2864,2865,2868,2872,2882,2884,2891,2894,2897,2912,2919,2920,2932,2940,2943,2964,2977,2997,2998,2999,3001,3002,3004,3005,3007,3011,3012,3014,3015,3016,3020,3021,3022,3023,3027,3050,3061,3065,3087,3088,3090,3091,3097,3110,3114,3117,3118,3177,3193,3195,3206,3208,3211,3213,3220,3222,3227,3233,3234,3238,3239,3249,3256,3264,3280,3286,3290,3293,3294,3296,3303,3307,3308,3311,3325,3336,3338,3356,3360,3363,3367,3376,3380,3384,3386,3389,3399,3410,3413,3415,3416,3421,3434,3436,3441,3449,3450,3456,3463,3471,3472,3475,3476,3478,3486,3489,3490,3494,3496,3500,3502,3503,3504,3505,3512,3513,3515,3518,3519,3522,3523,3524,3527,3529,3530,3531,3533,3534,3535,3536,3537,3539,3540,3541,3542,3543,3553,3555,3558,3559,3576,3581,3582,3584,3587,3591,3592,3593,3595,3601,3605,3607,3608,3609,3613,3622,3626,3630,3633,3642,3643,3649,3652,3667,3673,3678,3679,3682,3683,3684,3686,3688,3689,3690,3692,3704,3708,3714,3717,3718],"roadmap":"ReductiveGroups","to_sha":"c4d7989a116c565aa558fb82c318ad7c651bf2f4"}-->
+## ReductiveGroups: 2026-08-12 to 2026-08-18 (`f7aaa6d` to `c4d7989`)
+
+Tannakian reconstruction is finished. Points of a commutative Hopf algebra over a field
+correspond exactly to tensor automorphisms of scalar extension on its finite-dimensional
+comodules
+([`fgPointTensorIsoEquiv`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Tannaka/Equivalence.html#TauCeti.Tannaka.fgPointTensorIsoEquiv)),
+naturally in the value algebra, so the functor of points and the tensor-automorphism functor
+are isomorphic
+([`pointsFunctorIsoTensorAutFunctor`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/Tannaka/GroupFunctor.html#TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor)).
+On top of it sits the multiplicative Jordan decomposition of a point over a perfect extension
+field: commuting semisimple and unipotent factors with product the point, unique among such
+factorizations and compatible with homomorphisms of affine groups
+([`jordanDecomposition`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Representation/JordanDecomposition/Basic.html#TauCeti.HopfAlgebra.Point.jordanDecomposition),
+TauCeti#2964).
+
+Layer 3 got its missing pieces. The identity component is a closed subgroup scheme with
+connected carrier and normal defining Hopf ideal, and over an algebraically closed field the
+component group is finite and agrees with the connected components of the spectrum. Quotients
+became sheaves rather than presheaves: the affine fppf topology is subcanonical, points of an
+affine group form an fppf sheaf, and the quotient by a normal Hopf ideal is a group object in
+fppf sheaves
+([`fppfQuotientSheaf`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Basic.html#TauCeti.CommHopfAlgCat.fppfQuotientSheaf))
+whose projection is locally surjective with the expected torsor kernel pair. Cartier duality
+arrived as an anti-equivalence of finite locally free bicommutative Hopf algebras, and a
+finite-type Hopf algebra over a field is a torus exactly when it is of multiplicative type,
+geometrically connected and geometrically reduced.
+
+Layer 5 opened with the geometric definition of unipotence, verified for `𝔾ₐ` and the
+upper-unitriangular groups and stable under products, quotients and extensions; such a group
+has no nontrivial characters. Reductivity and
+semisimplicity exist only as properties so far: no group has been proved reductive, and there
+is no unipotent radical, no Lie-Kolchin theorem and no Borel theory beyond `GL₂`. Separately,
+the Chevalley lane built the Serre presentation of split semisimple Lie algebras, the rank-one
+Kostant form, and root subgroups of `GLₙ` and `SLₙ` satisfying the type-A commutator relations.
