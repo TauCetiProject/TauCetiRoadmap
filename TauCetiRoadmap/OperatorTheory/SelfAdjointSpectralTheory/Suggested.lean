@@ -19,6 +19,189 @@ The representation decision runs through every signature: an unbounded operator 
 on it rather than fields of a parallel operator type.
 -/
 
+/-! ## Scalar-generic `TauCeti.LinearPMap` resolvent target API
+
+`SA-D01` is an in-place scalar generalization of Tau Ceti's existing real resolvent core.
+These declarations intentionally use their eventual upstream names: an implementation should
+generalize the existing `TauCeti.LinearPMap` declarations, not add a parallel resolvent API.
+Specializing `𝕜 := ℝ` must preserve the existing public API and existing callers.  The
+`lambda • I - A` convention is unchanged.
+-/
+
+namespace TauCeti
+
+variable {𝕜 : Type*} [NontriviallyNormedField 𝕜]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E]
+
+namespace LinearPMap
+
+variable {A : E →ₗ.[𝕜] E} {lambda mu : 𝕜} {R : E →L[𝕜] E}
+
+/-- A bounded two-sided inverse of `lambda • I - A`, with range in `dom A`.
+
+Roadmap: `SA-D01`. -/
+structure IsResolventAt (A : E →ₗ.[𝕜] E) (lambda : 𝕜) (R : E →L[𝕜] E) : Prop where
+  mem_domain (y : E) : R y ∈ A.domain
+  smul_sub_apply (y : E) : lambda • R y - A ⟨R y, mem_domain y⟩ = y
+  apply_smul_sub (x : A.domain) : R (lambda • (x : E) - A x) = (x : E)
+
+/-- Roadmap: `SA-D04`. -/
+theorem IsResolventAt.unique (h : IsResolventAt A lambda R) {R' : E →L[𝕜] E}
+    (h' : IsResolventAt A lambda R') : R = R' := sorry
+
+/-- Roadmap: `SA-D01`. -/
+theorem IsResolventAt.smul_sub_injective (h : IsResolventAt A lambda R) :
+    Function.Injective fun x : A.domain => lambda • (x : E) - A x := sorry
+
+/-- Roadmap: `SA-D01`. -/
+theorem IsResolventAt.smul_sub_surjective (h : IsResolventAt A lambda R) :
+    Function.Surjective fun x : A.domain => lambda • (x : E) - A x := sorry
+
+/-- Roadmap: `SA-D01`. -/
+theorem IsResolventAt.smul_sub_bijective (h : IsResolventAt A lambda R) :
+    Function.Bijective fun x : A.domain => lambda • (x : E) - A x := sorry
+
+/-- The resolvent set of a partial operator.
+
+Roadmap: `SA-D01`. -/
+def resolventSet (A : E →ₗ.[𝕜] E) : Set 𝕜 :=
+  {lambda | ∃ R : E →L[𝕜] E, IsResolventAt A lambda R}
+
+/-- Roadmap: `SA-D01`. -/
+theorem mem_resolventSet_iff :
+    lambda ∈ resolventSet A ↔ ∃ R : E →L[𝕜] E, IsResolventAt A lambda R :=
+  Iff.rfl
+
+/-- Roadmap: `SA-D01`. -/
+theorem IsResolventAt.mem_resolventSet (h : IsResolventAt A lambda R) :
+    lambda ∈ resolventSet A :=
+  ⟨R, h⟩
+
+private theorem exists_isResolventAt_of_mem (A : E →ₗ.[𝕜] E) (lambda : 𝕜) :
+    ∃ R : E →L[𝕜] E, lambda ∈ resolventSet A → IsResolventAt A lambda R := by
+  by_cases h : lambda ∈ resolventSet A
+  · exact ⟨h.choose, fun _ => h.choose_spec⟩
+  · exact ⟨0, fun h' => absurd h' h⟩
+
+/-- The total named resolvent `R(lambda, A) = (lambda • I - A)⁻¹`; its value away from the
+resolvent set is immaterial.
+
+Spec: D4.
+
+Roadmap: `SA-D03`. -/
+noncomputable def resolvent (A : E →ₗ.[𝕜] E) (lambda : 𝕜) : E →L[𝕜] E :=
+  (exists_isResolventAt_of_mem A lambda).choose
+
+/-- Roadmap: `SA-D03`. -/
+theorem isResolventAt_resolvent (h : lambda ∈ resolventSet A) :
+    IsResolventAt A lambda (resolvent A lambda) := sorry
+
+/-- Roadmap: `SA-D04`. -/
+theorem resolvent_eq_of_isResolventAt (h : IsResolventAt A lambda R) :
+    resolvent A lambda = R := sorry
+
+/-- Roadmap: `SA-D06`. -/
+theorem resolvent_mem_domain (h : lambda ∈ resolventSet A) (y : E) :
+    resolvent A lambda y ∈ A.domain := sorry
+
+/-- Roadmap: `SA-D07`. -/
+@[simp] theorem smul_sub_apply_resolvent (h : lambda ∈ resolventSet A) (y : E) :
+    lambda • resolvent A lambda y -
+      A ⟨resolvent A lambda y, resolvent_mem_domain h y⟩ = y := sorry
+
+/-- Roadmap: `SA-D05`. -/
+@[simp] theorem resolvent_smul_sub_apply (h : lambda ∈ resolventSet A) (x : A.domain) :
+    resolvent A lambda (lambda • (x : E) - A x) = (x : E) := sorry
+
+/-- Roadmap: `SA-D07`. -/
+theorem apply_resolvent (h : lambda ∈ resolventSet A) (y : E) :
+    A ⟨resolvent A lambda y, resolvent_mem_domain h y⟩ =
+      lambda • resolvent A lambda y - y := sorry
+
+/-- Roadmap: `SA-D01`. -/
+theorem smul_sub_bijective (h : lambda ∈ resolventSet A) :
+    Function.Bijective fun x : A.domain => lambda • (x : E) - A x := sorry
+
+/-- No proper extension can share a resolvent point.  This existing Tau Ceti maximality result
+is part of the scalar generalization, not a new self-adjoint-only theorem.
+
+Roadmap: `SA-D01`. -/
+theorem eq_of_le_of_mem_resolventSet {A B : E →ₗ.[𝕜] E} (hAB : A ≤ B)
+    (hA : lambda ∈ resolventSet A) (hB : lambda ∈ resolventSet B) : A = B := sorry
+
+/-- Roadmap: `SA-D01`. -/
+theorem resolvent_apply_comm (h : lambda ∈ resolventSet A) (x : A.domain) :
+    resolvent A lambda (A x) =
+      A ⟨resolvent A lambda (x : E), resolvent_mem_domain h (x : E)⟩ := sorry
+
+/-- Pointwise first resolvent identity in the canonical `lambda • I - A` convention.
+
+Roadmap: `SA-D08`. -/
+theorem resolvent_sub_resolvent_apply (hl : lambda ∈ resolventSet A)
+    (hm : mu ∈ resolventSet A) (y : E) :
+    resolvent A lambda y - resolvent A mu y
+      = (mu - lambda) • resolvent A lambda (resolvent A mu y) := sorry
+
+/-- First resolvent identity in the canonical `lambda • I - A` convention.
+
+Roadmap: `SA-D08`. -/
+theorem resolvent_sub_resolvent (hl : lambda ∈ resolventSet A) (hm : mu ∈ resolventSet A) :
+    resolvent A lambda - resolvent A mu
+      = (mu - lambda) • (resolvent A lambda ∘L resolvent A mu) := sorry
+
+/-- Roadmap: `SA-D09`. -/
+theorem resolvent_comm (hl : lambda ∈ resolventSet A) (hm : mu ∈ resolventSet A) :
+    resolvent A lambda ∘L resolvent A mu =
+      resolvent A mu ∘L resolvent A lambda := sorry
+
+section CompleteSpace
+
+variable [CompleteSpace E]
+
+/-- The scalar-generic Neumann perturbation uses the field norm; at `𝕜 := ℝ` this specializes
+back to the existing absolute-value hypothesis via `Real.norm_eq_abs`.
+
+Roadmap: `SA-D11`. -/
+theorem mem_resolventSet_of_norm_mul_lt_one (h : lambda ∈ resolventSet A)
+    (hmu : ‖mu - lambda‖ * ‖resolvent A lambda‖ < 1) :
+    mu ∈ resolventSet A := sorry
+
+/-- Roadmap: `SA-D11`. -/
+theorem isOpen_resolventSet (A : E →ₗ.[𝕜] E) : IsOpen (resolventSet A) := sorry
+
+end CompleteSpace
+
+section Bounded
+
+variable {T : E →L[𝕜] E}
+
+/-- Roadmap: `SA-D37`. -/
+theorem isUnit_of_isResolventAt_toPMap_top
+    (h : IsResolventAt ((T : E →ₗ[𝕜] E).toPMap ⊤) lambda R) :
+    IsUnit (algebraMap 𝕜 (E →L[𝕜] E) lambda - T) := sorry
+
+/-- Roadmap: `SA-D37`. -/
+theorem isResolventAt_toPMap_top_of_isUnit
+    (h : IsUnit (algebraMap 𝕜 (E →L[𝕜] E) lambda - T)) :
+    IsResolventAt ((T : E →ₗ[𝕜] E).toPMap ⊤) lambda
+      ((h.unit⁻¹ : (E →L[𝕜] E)ˣ) : E →L[𝕜] E) := sorry
+
+/-- Roadmap: `SA-D37`. -/
+theorem mem_resolventSet_toPMap_top_iff (T : E →L[𝕜] E) (lambda : 𝕜) :
+    lambda ∈ resolventSet ((T : E →ₗ[𝕜] E).toPMap ⊤) ↔
+      lambda ∈ _root_.resolventSet 𝕜 T := sorry
+
+/-- Roadmap: `SA-D38`. -/
+theorem resolvent_toPMap_top (T : E →L[𝕜] E) {lambda : 𝕜}
+    (h : lambda ∈ _root_.resolventSet 𝕜 T) :
+    resolvent ((T : E →ₗ[𝕜] E).toPMap ⊤) lambda = _root_.resolvent T lambda := sorry
+
+end Bounded
+
+end LinearPMap
+
+end TauCeti
+
 namespace TauCetiRoadmap.SelfAdjointSpectralTheory
 
 open scoped InnerProductSpace ENNReal
@@ -309,62 +492,23 @@ end ClosedOperators
 
 /-! ## Part D -- resolvents of self-adjoint LinearPMap operators
 
-Mathlib's `spectrum`/`resolvent` are Banach-algebra notions and do not apply to
-a partial map, so the resolvent set is defined here and bridged to Mathlib's in
-the bounded case. -/
+The scalar-generic `TauCeti.LinearPMap` target API above retains the landed real API's names
+and `lambda • I - A` convention. The remaining Part D targets extend its algebraic and
+self-adjoint theory. -/
 
 section ResolventDefinitions
 
 variable {𝕜 : Type*} [NontriviallyNormedField 𝕜]
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E]
 
-/-- The resolvent set of a partial map: the points where `A − z` has a bounded
-two-sided inverse.
-
-Roadmap: `SA-D01`. -/
-def resolventSet (A : E →ₗ.[𝕜] E) : Set 𝕜 :=
-  { z | ∃ R : E →L[𝕜] E,
-      (∀ ψ : A.domain, R (A ψ - z • (ψ : E)) = (ψ : E)) ∧
-      (∀ φ : E, ∃ h : R φ ∈ A.domain, A ⟨R φ, h⟩ - z • R φ = φ) }
-
 /-- The spectrum of a partial linear map, defined as the complement of its resolvent set.
 
 Roadmap: `SA-D02`. -/
 def spectrum (A : E →ₗ.[𝕜] E) : Set 𝕜 :=
-  (resolventSet A)ᶜ
+  (TauCeti.LinearPMap.resolventSet A)ᶜ
 
 end ResolventDefinitions
 
-section Resolvents
-
-variable {𝕜 : Type*} [RCLike 𝕜]
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E]
-
-/-- The named resolvent at a point of the resolvent set.
-
-Spec: D4.
-
-Roadmap: `SA-D03`. -/
-noncomputable def resolvent (A : E →ₗ.[𝕜] E) {z : 𝕜} (hz : z ∈ resolventSet A) :
-    E →L[𝕜] E :=
-  hz.choose
-
-/-- The first resolvent identity on the common resolvent set.
-
-Tau Ceti already proves this identity for a *semigroup's* resolvent
-(`TauCeti.Analysis.Semigroups.Resolvent.Identity.resolvent_sub_resolvent`), keyed to a
-`StronglyContinuousSemigroup` with growth-bound hypotheses and real `λ`, `μ`. This is the
-`LinearPMap` statement: any `z` in the resolvent set, over `𝕜`. Neither subsumes the other
-as stated, but a semigroup generator *is* a `LinearPMap`, so the two should be related
-rather than proved twice.
-
-Roadmap: `SA-D08`. -/
-theorem resolvent_sub_resolvent {A : E →ₗ.[𝕜] E} {w z : 𝕜}
-    (hw : w ∈ resolventSet A) (hz : z ∈ resolventSet A) (φ : E) :
-    resolvent A hw φ - resolvent A hz φ
-      = (w - z) • resolvent A hw (resolvent A hz φ) := sorry
-
-end Resolvents
 
 section ComplexResolvent
 
@@ -374,14 +518,14 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteS
 
 Roadmap: `SA-D17`. -/
 theorem mem_resolventSet_of_im_ne_zero {A : E →ₗ.[ℂ] E} (hA : IsSelfAdjoint A)
-    {z : ℂ} (hz : z.im ≠ 0) : z ∈ resolventSet A := sorry
+    {z : ℂ} (hz : z.im ≠ 0) : z ∈ TauCeti.LinearPMap.resolventSet A := sorry
 
 /-- The quantitative resolvent bound `‖R z‖ ≤ |Im z|⁻¹`.
 
 Roadmap: `SA-D19`. -/
 theorem norm_resolvent_le_of_im_ne_zero {A : E →ₗ.[ℂ] E} (hA : IsSelfAdjoint A)
     {z : ℂ} (hz : z.im ≠ 0) :
-    ‖resolvent A (mem_resolventSet_of_im_ne_zero hA hz)‖ ≤ |z.im|⁻¹ := sorry
+    ‖TauCeti.LinearPMap.resolvent A z‖ ≤ |z.im|⁻¹ := sorry
 
 end ComplexResolvent
 
@@ -404,9 +548,9 @@ Cauchy--Stieltjes transforms of the diagonal spectral measures.
 
 Roadmap: `SA-E05`. -/
 theorem spectralPVM_resolvent_formula (hA : IsSelfAdjoint A) {z : ℂ}
-    (hz : z.im ≠ 0) (hzr : z ∈ resolventSet A) (ξ : H) :
-    ⟪ξ, resolvent A hzr ξ⟫_ℂ
-      = ∫ s, ((s : ℂ) - z)⁻¹ ∂((spectralPVM A hA).diagMeasure ξ) := sorry
+    (hz : z.im ≠ 0) (ξ : H) :
+    ⟪ξ, TauCeti.LinearPMap.resolvent A z ξ⟫_ℂ
+      = ∫ s, (z - (s : ℂ))⁻¹ ∂((spectralPVM A hA).diagMeasure ξ) := sorry
 
 /-- The unitary group generated by a self-adjoint operator, `t ↦ e^{itA}`.
 
@@ -432,19 +576,17 @@ exist.
 Spec: D7.
 
 Roadmap: `SA-E14`. -/
-noncomputable def yosidaApproximant (hA : IsSelfAdjoint A) (n : ℕ+) : H →L[ℂ] H :=
-  ((n : ℂ) ^ 2) •
-      resolvent A (mem_resolventSet_of_im_ne_zero hA
-        (z := Complex.I * (n : ℂ)) (by simp [n.ne_zero]))
+noncomputable def yosidaApproximant (_hA : IsSelfAdjoint A) (n : ℕ+) : H →L[ℂ] H :=
+  - (((n : ℂ) ^ 2) • TauCeti.LinearPMap.resolvent A
+      (Complex.I * (n : ℂ)))
     - (Complex.I * (n : ℂ)) • ContinuousLinearMap.id ℂ H
 
 /-- The mirrored approximant, at the shift `-i n`.
 
 Roadmap: `SA-E15`. -/
-noncomputable def yosidaApproximantNeg (hA : IsSelfAdjoint A) (n : ℕ+) : H →L[ℂ] H :=
-  ((n : ℂ) ^ 2) •
-      resolvent A (mem_resolventSet_of_im_ne_zero hA
-        (z := -(Complex.I * (n : ℂ))) (by simp [n.ne_zero]))
+noncomputable def yosidaApproximantNeg (_hA : IsSelfAdjoint A) (n : ℕ+) : H →L[ℂ] H :=
+  - (((n : ℂ) ^ 2) • TauCeti.LinearPMap.resolvent A
+      (-(Complex.I * (n : ℂ))))
     + (Complex.I * (n : ℂ)) • ContinuousLinearMap.id ℂ H
 
 /-- The **symmetrized** Yosida approximant, the average of the two shifts. This is the

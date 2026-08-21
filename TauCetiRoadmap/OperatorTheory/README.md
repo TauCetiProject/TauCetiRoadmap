@@ -80,9 +80,10 @@ stated against.
 
 ### Dependency-minimal material
 
-The Haagerup–Zsidó kernel in `SpectralSubspacePerturbation` Part A and the unitary-group,
-bounded-Borel-calculus, and self-adjoint resolvent layers in `SelfAdjointSpectralTheory`
-Parts A, B, and D depend only on Mathlib within this family.
+The Haagerup–Zsidó kernel in `SpectralSubspacePerturbation` Part A and the unitary-group
+and bounded-Borel-calculus layers in `SelfAdjointSpectralTheory` Parts A and B depend only
+on Mathlib within this family. Part D generalizes Tau Ceti's `LinearPMap` resolvent core to
+the scalar fields used by the self-adjoint theory.
 
 ## Ownership boundaries
 
@@ -101,10 +102,10 @@ Between roadmaps in this family:
   which is where it is consumed.
 - **Approximation numbers and every gauge of them** belong to `OperatorIdeals`.
 - **The domain-aware Sylvester equation** — the transport statement `A X − X B = C` with
-  its domain bookkeeping — belongs to `SelfAdjointSpectralTheory`, which owns
-  `LinearPMap`, together with the self-adjoint resolvent set and the imaginary-shift Yosida
-  approximants. Its solvability and its a-priori estimates belong to
-  `SpectralSubspacePerturbation`.
+  its domain bookkeeping — belongs to `SelfAdjointSpectralTheory`, together with the in-place
+  scalar generalization of Tau Ceti's `LinearPMap` resolvent core, the self-adjoint resolvent
+  estimates, and the imaginary-shift Yosida approximants. Its solvability and its a-priori
+  estimates belong to `SpectralSubspacePerturbation`.
 - **Matrix-level statements with entrywise hypotheses** belong to
   `MatrixSpectralStatistics`.
 
@@ -117,9 +118,9 @@ With roadmaps outside this family:
   calculus, projection-valued measures, spectral measures, the self-adjoint `LinearPMap`
   theory, the self-adjoint and unitary specialization, and Stone's theorem as the bridge
   between the two developments. Both developments use Mathlib `LinearPMap` for unbounded
-  operators and share one generator and resolvent vocabulary. The self-adjoint specialization
-  adds its resolvent *set* alongside Mathlib's Banach-algebra `resolvent`, with the same
-  definition shared across the two developments.
+  operators and share the `TauCeti.LinearPMap` resolvent vocabulary and the `zI-A` convention.
+  The self-adjoint specialization adds the partial-operator spectrum, resolvent estimates,
+  Cayley transform, and spectral theory.
 
 ## Acknowledgements
 

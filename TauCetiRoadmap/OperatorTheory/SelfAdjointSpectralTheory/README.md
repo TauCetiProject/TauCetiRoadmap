@@ -39,9 +39,10 @@ TauCeti/MeasureTheory/
   self-adjoint on its domain. It is *self-adjoint* when its adjoint has the same domain and action,
   equivalently `A† = A` in the bundled partial-operator sense.
 - **Shifted operators.** `A-z` denotes the partial operator `A-zI` on `dom A`. The shifts `A±i`
-  are used in von Neumann's self-adjointness criterion.
+  are used in von Neumann's self-adjointness criterion. Thus `A-z=-(zI-A)`; norm lower bounds may
+  be written using either shift, while the resolvent convention below is always `zI-A`.
 - **Resolvent and spectrum.** `ρ(A)` denotes the resolvent set, `σ(A)` its complement in the scalar
-  field, and `R_A(z)` or `R(z)` the bounded two-sided inverse of `A-z` for `z ∈ ρ(A)`.
+  field, and `R_A(z)` or `R(z)` the bounded two-sided inverse of `zI-A` for `z ∈ ρ(A)`.
 - **One-parameter unitary groups.** `U(t)` denotes a strongly continuous unitary representation of
   `(ℝ,+)`. The generator convention is `U(t)=e^{itA}`, with generator difference quotient
   `(U(t)ψ-ψ)/(it)` at `t=0`.
@@ -62,13 +63,13 @@ TauCeti/MeasureTheory/
 - **Relative boundedness.** A partial map `V` is relatively `A`-bounded with coefficients `(a,b)`
   when `‖Vx‖ ≤ a‖x‖+b‖Ax‖` on `dom A`.
 - **Cayley transform.** For complex self-adjoint `A`,
-  `U_A := 1-2iR_A(-i) = (A-i)(A+i)⁻¹` denotes the Cayley transform. The inverse Cayley coordinate is
+  `U_A := 1+2iR_A(-i) = (A-i)(A+i)⁻¹` denotes the Cayley transform. The inverse Cayley coordinate is
   `w ↦ i(1+w)/(1-w)` away from the point `w=1`.
 - **Spectral measure of an unbounded operator.** `P_A` denotes the real spectral PVM obtained from
   the Cayley spectral measure. The corresponding scalar spectral measure for `ξ` is denoted
   `μ^A_ξ`.
 - **Yosida approximants.** For `n≥1`,
-  `A_n^+ := n²R_A(in)-inI`, `A_n^- := n²R_A(-in)+inI`, and
+  `A_n^+ := -n²R_A(in)-inI`, `A_n^- := -n²R_A(-in)+inI`, and
   `S_n := ½(A_n^+ + A_n^-)`. The bounded self-adjoint operators `S_n` generate the approximating
   unitary groups.
 
@@ -96,7 +97,10 @@ roughly 130 declarations: `StronglyContinuousSemigroup` and `ContractionSemigrou
 This implements Part A of the
 [one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md).
 
-The rest below — the projection-valued and unbounded-spectral layer — is absent upstream.
+Tau Ceti provides the real-scalar `TauCeti.LinearPMap` resolvent core in
+`TauCeti.Analysis.Normed.Operator.Resolvent.Unbounded`. Part D generalizes that API to the
+scalar fields used by the self-adjoint development while preserving its names and `zI-A`
+convention.
 
 ---
 
@@ -110,12 +114,11 @@ The rest below — the projection-valued and unbounded-spectral layer — is abs
 * The closed-operator layer on `LinearPMap`: domain-aware perturbation, the rectangular
   Sylvester equation as a structure, and the quadratic-form bounds with their spectral
   bridges.
-* A resolvent set and spectrum for a `LinearPMap` — Mathlib's `spectrum` is defined for an
-  algebra element, which a partial map is not — with the Cayley transform and the bridge to
-  Mathlib's notion in the bounded case.
+* The `TauCeti.LinearPMap` resolvent core over the scalar fields used by the self-adjoint
+  theory, together with the partial-operator spectrum, self-adjoint resolvent estimates, and
+  the Cayley transform.
 * The spectral measure of an unbounded self-adjoint operator, its spectral projections,
-  Stone uniqueness, and the Yosida approximants. This roadmap owns the self-adjoint
-  `LinearPMap` resolvent *set* and the imaginary-shift Yosida approximants.
+  Stone uniqueness, and the imaginary-shift Yosida approximants.
 
 ## The build, in layers
 
@@ -578,36 +581,43 @@ form inequalities.
 
 ### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
 
-This Part depends only on Mathlib.
+This Part starts from the real-scalar API in
+`TauCeti.Analysis.Normed.Operator.Resolvent.Unbounded` and generalizes it over Mathlib's
+nontrivially normed scalar fields.
 
-**Objects.** The resolvent set and spectrum of a partial operator, the named bounded
-resolvent at a resolvent point, and the Cayley transform of a complex self-adjoint partial
-operator.
+**Objects.** The scalar-generic `TauCeti.LinearPMap` resolvent core, the spectrum of a partial
+operator, and the Cayley transform of a complex self-adjoint partial operator.
 
 #### Resolvent algebra
 
-The resolvent set records shifts `A-z` with bounded two-sided inverses into the domain. The
+The resolvent set records shifts `zI-A` with bounded two-sided inverses into the domain. The
 resolvent identity, commutation, openness, and spectral mapping form the algebraic layer for the
 self-adjoint estimates.
 
-- **SA-D01 — Resolvent set of a partial operator.** Over a nontrivially normed field `𝕜` and
-  normed `𝕜`-space `E`, for `A : E →ₗ.[𝕜] E`, define the set of `z : 𝕜` for which `A-z` has a
-  bounded two-sided inverse from `E` into `dom A`.
+- **SA-D01 — Resolvent core of a partial operator.** Generalize the existing
+  `TauCeti.LinearPMap` resolvent API in place from real scalars to a nontrivially normed scalar
+  field, preserving the declaration names, the `zI-A` convention, and existing real-scalar
+  callers. The generalized surface includes `IsResolventAt` and its bijectivity lemmas,
+  `resolventSet`, the named `resolvent` and inverse/domain laws,
+  `eq_of_le_of_mem_resolventSet`, operator/resolvent commutation, the first resolvent identity
+  and resolvent commutation, Neumann perturbation and openness, and the bounded-operator
+  bridges. At `𝕜 = ℝ` these specialize to the current public API; the scalar-generic Neumann
+  hypothesis uses `‖μ-λ‖`, which is `|μ-λ|` over `ℝ`.
 - **SA-D02 — Spectrum of a partial operator.** In the setting of `SA-D01`, define the spectrum
   as the complement of the resolvent set.
-- **SA-D03 — Named resolvent.** Over an `RCLike` scalar field on a normed space, at `z` in the
-  resolvent set choose the unique bounded two-sided inverse `R(z)`.
+- **SA-D03 — Named resolvent.** Over a nontrivially normed field on a normed space, at `z` in the
+  resolvent set, `TauCeti.LinearPMap.resolvent A z` is the bounded two-sided inverse `R(z)`.
 - **SA-D04 — Uniqueness of the resolvent.** Two bounded operators satisfying the two-sided
-  inverse laws for `A-z` are equal.
-- **SA-D05 — Left inverse law.** For `x ∈ dom A`, `R(z)(A-z)x=x`.
+  inverse laws for `zI-A` are equal.
+- **SA-D05 — Left inverse law.** For `x ∈ dom A`, `R(z)(zI-A)x=x`.
 - **SA-D06 — Range in the domain.** For every ambient vector `y`, `R(z)y ∈ dom A`.
-- **SA-D07 — Right inverse law.** For every ambient vector `y`, `(A-z)R(z)y=y`.
-- **SA-D08 — First resolvent identity.** Over an `RCLike` scalar field on a normed space, for
-  common resolvent points `w,z`, `R(w)-R(z)=(w-z)R(w)R(z)`.
+- **SA-D07 — Right inverse law.** For every ambient vector `y`, `(zI-A)R(z)y=y`.
+- **SA-D08 — First resolvent identity.** Over a nontrivially normed field on a normed space, for
+  common resolvent points `w,z`, `R(w)-R(z)=(z-w)R(w)R(z)`.
 - **SA-D09 — Commutation of resolvents.** For common resolvent points `w,z`,
   `R(w)R(z)=R(z)R(w)`.
 - **SA-D10 — Resolvent spectral mapping in the exclusion direction.** If `μ ≠ 0` and
-  `z+μ⁻¹` lies in the resolvent set of `A`, then `μ` lies outside the Banach-algebra
+  `z-μ⁻¹` lies in the resolvent set of `A`, then `μ` lies outside the Banach-algebra
   spectrum of the bounded operator `R(z)`.
 - **SA-D11 — Openness of the resolvent set.** The resolvent set of a partial operator is
   open.
@@ -651,7 +661,7 @@ C-star interval and gap-inverse statements provide bounded spectral estimates fo
 conversion and for spectral restrictions.
 
 - **SA-D24 — Cayley transform.** For self-adjoint `A`, define
-  `U=1-2iR(-i)`, the bounded form of `(A-i)(A+i)⁻¹`.
+  `U=1+2iR(-i)`, the bounded form of `(A-i)(A+i)⁻¹`.
 - **SA-D25 — Cayley norm preservation.** For every `x`, `‖Ux‖=‖x‖`.
 - **SA-D26 — Cayley surjectivity.** The Cayley transform is surjective.
 - **SA-D27 — Cayley unitarity.** The Cayley transform is unitary.
@@ -685,7 +695,7 @@ Bounded and multiplication-operator bridges connect it to standard Banach-algebr
 examples.
 
 - **SA-D35 — Resolvent characterization.** A point `z` belongs to the resolvent set exactly
-  when `A-z` is injective, has closed dense range, and its inverse on the range extends to a
+  when `zI-A` is injective, has closed dense range, and its inverse on the range extends to a
   bounded operator on the whole space.
 - **SA-D36 — Analyticity of the resolvent.** The operator-valued map `z ↦ R(z)` is analytic
   on the resolvent set.
@@ -725,7 +735,7 @@ projection data into self-adjoint reductions and form bounds.
   `P_A(B)` as the corresponding value of the spectral PVM.
 - **SA-E04 — Spectral subspace.** Define the spectral subspace for `B` as `range P_A(B)`.
 - **SA-E05 — Resolvent formula.** For `Im z ≠ 0`,
-  `⟪ξ,R(z)ξ⟫ = ∫ (s-z)⁻¹ dμξ(s)`.
+  `⟪ξ,R(z)ξ⟫ = ∫ (z-s)⁻¹ dμξ(s)`.
 - **SA-E06 — Spectral projections commute with resolvents.** For Borel `B` and resolvent
   point `z`, `P_A(B)R(z)=R(z)P_A(B)`.
 - **SA-E07 — Spectral projections preserve the domain.** For Borel `B`, `P_A(B)` maps
@@ -751,9 +761,9 @@ them self-adjoint. Their unitary exponentials converge strongly to the generated
 maximality identifies its generator with `A`.
 
 - **SA-E14 — Positive-shift Yosida approximant.** For `n≥1`, define
-  `A_n^+ = n²R(in)-inI`.
+  `A_n^+ = -n²R(in)-inI`.
 - **SA-E15 — Negative-shift Yosida approximant.** Define
-  `A_n^- = n²R(-in)+inI`.
+  `A_n^- = -n²R(-in)+inI`.
 - **SA-E16 — Symmetrized Yosida approximant.** Define
   `S_n = ½(A_n^+ + A_n^-)`.
 - **SA-E17 — Boundedness of the raw approximants.** Each `A_n^+` and `A_n^-` is bounded.
@@ -870,7 +880,9 @@ generated-group compatibility is `SA-E46`; multiplication-operator spectral proj
 
 ## Ordering
 
-**Internal.** Parts B and D depend only on Mathlib. Part A uses Mathlib together with the
+**Internal.** Part B depends only on Mathlib. Part D begins with the in-place scalar
+generalization of Tau Ceti's existing `TauCeti.LinearPMap` resolvent core; its remaining
+obligations use that generalized core. Part A uses Mathlib together with the
 `OneParameterSemigroups` bridge in `SA-A15`–`SA-A16`. Part C is independent of them and consumes
 [`OrthogonalGeometry`](../OrthogonalGeometry/README.md). Part E is the confluence
 and needs exactly A + B + D — the Cayley transform and resolvent bounds from D, the Borel
@@ -885,9 +897,10 @@ over.
 
 The [one-parameter semigroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
 roadmap owns the general dynamical layer: strongly continuous semigroups, their generators,
-the general unbounded resolvent, Hille–Yosida, Lumer–Phillips, and real-shift Yosida
-approximation. This roadmap owns the unitary/self-adjoint specialization and Stone's theorem.
-The bridge is `OneParameterUnitaryGroup.toSemigroup` together with the exact generator relation
+the generator/Laplace-resolvent bridge, Hille–Yosida, Lumer–Phillips, and real-shift Yosida
+approximation. The scalar-generic `TauCeti.LinearPMap` resolvent core is shared infrastructure
+and is generalized in Part D here. This roadmap also owns the unitary/self-adjoint specialization
+and Stone's theorem. The bridge is `OneParameterUnitaryGroup.toSemigroup` together with the exact generator relation
 for the convention `U t = exp (i t A)`: the semigroup generator is `i A`. The two roadmaps share
 that bridge rather than duplicating semigroup or generator theory.
 
@@ -908,7 +921,7 @@ limit — the generator of a one-parameter unitary group.
 **D3 (`SA-C52`).** `(A+V)ψ=Aψ+Vψ` on `dom A` — perturbation by a map defined on the
 domain.
 
-**D4 (`SA-D03`–`SA-D07`).** The bounded two-sided inverse of `A-z` — the resolvent at a
+**D4 (`SA-D03`–`SA-D07`).** The bounded two-sided inverse of `zI-A` — the resolvent at a
 point of the resolvent set.
 
 **D5 (`SA-E01`).** The spectral PVM of the Cayley transform, relabelled along the total
@@ -918,8 +931,8 @@ unbounded self-adjoint operator.
 **D6 (`SA-E26`–`SA-E27`).** `t ↦ e^{itA}`, defined as the strong limit of the Yosida
 unitary groups — the generated unitary group.
 
-**D7 (`SA-E14`–`SA-E16`, `SA-E21`).** `A_n^+=n²R(in)-inI` and
-`A_n^-=n²R(-in)+inI`, with `S_n=½(A_n^++A_n^-)` — the two raw Yosida approximants and
+**D7 (`SA-E14`–`SA-E16`, `SA-E21`).** `A_n^+=-n²R(in)-inI` and
+`A_n^-=-n²R(-in)+inI`, with `S_n=½(A_n^++A_n^-)` — the two raw Yosida approximants and
 their self-adjoint symmetrization.
 
 ## References
