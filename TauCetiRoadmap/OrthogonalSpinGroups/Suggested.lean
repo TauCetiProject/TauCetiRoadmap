@@ -40,8 +40,9 @@ adelic constructors.
 
 Strong approximation, reduction theory, Tamagawa measures, and central-isogeny volume formulas are
 not exported by the reviewed `AdelicAlgebraicGroups` core. They are consequently outside this
-file: the README records them only as future-successor applications gated by named public supplier
-declarations. In particular this file does not replace any missing generic contract by a
+file: the README records them only as applications of the named successor roadmap
+`OrthogonalTamagawaAndLatticeMass`, gated by the named public declarations of #246's own
+successors `AlgebraicGroupStrongApproximation`, `ArithmeticReductionTheory` and `TamagawaMeasures`. In particular this file does not replace any missing generic contract by a
 `Prop`-valued stand-in.
 -/
 
@@ -447,7 +448,7 @@ theorem transvectionLift_add (Q : QuadraticForm K V) {u w w' : V} (hu : Q u = 0)
   sorry
 
 /-- **⚠ Layer 2C, the milestone**: the lift bundled as a **homomorphism** out of `u^⊥ / K u`, not
-a family of individually chosen lifts. A future strong-approximation successor has no root
+a family of individually chosen lifts. `OrthogonalTamagawaAndLatticeMass` has no root
 subgroup to generate with until this exists, and `transvection_add_smul` together with
 `transvectionLift_add` is what makes it well defined. -/
 noncomputable def transvectionLiftHom (Q : QuadraticForm K V) {u : V} (hu : Q u = 0) :
@@ -475,7 +476,7 @@ adelic point groups, and the adelic spinor norm.
 /-! ## Layers 3C to 3F: the specialized adelic objects
 
 ⚠ Everything below is built **from `Q`**, and for **all three groups**. A future
-strong-approximation successor needs adelic `Spin`, and its transported statement needs the adelic
+strong-approximation application needs adelic `Spin`, and its transported statement needs the adelic
 spinor kernel inside `SO`; constructing only `O(V)(𝔸_f)` would supply neither. An `O`-statement
 carrying the name of a `Spin` theorem would be false: a rational reflection of nonsquare spinor
 norm lies in the diagonal image and not in the spinor kernel.
@@ -688,12 +689,12 @@ abbrev finiteAdelicOrthogonal (U : OrthogonalCompactOpens Q) : Type _ :=
   AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : Nat.Primes => U.orth p)
 
 /-- **Layer 3D**: the finite adelic special orthogonal group, relative to the derived `U_p^{SO}`.
-This is the group in which a future strong-approximation successor will formulate the
+This is the group in which `OrthogonalTamagawaAndLatticeMass` will formulate the
 spinor-kernel consequence. -/
 abbrev finiteAdelicSpecialOrthogonal (U : OrthogonalCompactOpens Q) : Type _ :=
   AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : Nat.Primes => U.soPart p)
 
-/-- **Layer 3D**: the finite adelic spin group needed by a future strong-approximation successor. -/
+/-- **Layer 3D**: the finite adelic spin group needed by `OrthogonalTamagawaAndLatticeMass`. -/
 abbrev finiteAdelicSpin (U : OrthogonalCompactOpens Q) : Type _ :=
   AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : Nat.Primes => U.spin p)
 
@@ -782,7 +783,7 @@ noncomputable def adelicDiagonalSpecialOrthogonal (U : OrthogonalCompactOpens Q)
     (fun p => U.soPart p) U.eventually_mem_soPart
 
 /-- **⚠ Layer 3E**: the diagonal embedding of the rational **spin** points. This is the map a
-future strong-approximation successor needs, and it is not obtainable from the orthogonal one. -/
+`OrthogonalTamagawaAndLatticeMass` needs, and it is not obtainable from the orthogonal one. -/
 noncomputable def adelicDiagonalSpin (U : OrthogonalCompactOpens Q) :
     spinGroup Q →* finiteAdelicSpin Q U :=
   AdelicAlgebraicGroups.rationalDiagonal (fun p => spinBaseChange Q p)
@@ -793,7 +794,7 @@ theorem adelicDiagonalSpin_apply (U : OrthogonalCompactOpens Q) (g : spinGroup Q
   sorry
 
 /-- **Layer 3E**: the square relating the two routes from rational spin points into adelic `SO`
-commutes, which lets a future successor speak of "the image of the rational spin points"
+commutes, which lets `OrthogonalTamagawaAndLatticeMass` speak of "the image of the rational spin points"
 unambiguously. -/
 theorem finiteAdelicSpinToSpecialOrthogonal_comp_adelicDiagonalSpin
     (U : OrthogonalCompactOpens Q) :

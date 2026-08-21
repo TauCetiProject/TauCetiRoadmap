@@ -18,14 +18,16 @@ finite-dimensional nondegenerate quadratic space over a field of characteristic 
 spinor norm through reflections, the Clifford comparison and its spinor kernel, orthogonal
 transvections, local spinor norms, and the orthogonal specialization of the reviewed generic
 restricted-product infrastructure. It supplies the algebraic, local, and finite-adelic interfaces
-that later orthogonal strong-approximation and Tamagawa roadmaps will consume.
+that the named successor roadmap `OrthogonalTamagawaAndLatticeMass` will consume.
 
 **Current boundary.** The reviewed AdelicAlgebraicGroups PR #246 deliberately exports no
 strong-approximation theorem, reduction theory, Tamagawa measure, or central-isogeny volume
 formula. Consequently none of those is a milestone or representative theorem here. They require
-separate stacked successors after Reductive Groups exposes exact point-functor declarations and
-after the Artin-factor, reduction-theory, adelic Fourier-analysis, and central-isogeny `H¹` defect
-contracts listed by #246 are public. The future orthogonal applications remain mathematically
+separate stacked successors — `AlgebraicGroupStrongApproximation`, `ArithmeticReductionTheory`,
+`TamagawaMeasures` and `AdelicFourierAnalysis`, the four #246 names, with the orthogonal
+specialization in `OrthogonalTamagawaAndLatticeMass` — after Reductive Groups exposes exact
+point-functor declarations and after the Artin-factor, reduction-theory, adelic Fourier-analysis,
+and central-isogeny `H¹` defect contracts listed by #246 are public. The future orthogonal applications remain mathematically
 important, but recording an unavailable supplier as a prose promise would not close the
 dependency.
 
@@ -41,7 +43,7 @@ classification of forms over number fields** belong to
 [GlobalQuadraticForms](../GlobalQuadraticForms/README.md). **Local ramification and power-class
 facts** belong to [LocalFieldsRamification](../LocalFieldsRamification/README.md), and Hilbert
 reciprocity belongs to [ClassFieldTheory](../ClassFieldTheory/README.md). Those global suppliers
-are inputs only to future successors, not current imports. **Generic compact-open families,
+are inputs only to `OrthogonalTamagawaAndLatticeMass`, not current imports. **Generic compact-open families,
 restricted-product maps, finite/away/full adelic packaging, and rational diagonals** belong to
 [AdelicAlgebraicGroups](../AdelicAlgebraicGroups/README.md). That roadmap explicitly does not own
 strong approximation, reduction theory, Tamagawa measures, central-isogeny volume formulas, or
@@ -49,8 +51,10 @@ Tamagawa numbers. **Affine group schemes,
 representability, root data, and reductive structure theory** belong to
 [ReductiveGroups](../ReductiveGroups/README.md); the orthogonal specializations `O_Q`, `SO_Q` and
 `Spin_Q` stay here. **Lattice stabilizers and their arithmetic**, isometry classes, genera, spinor
-genera, Eichler's theorem for lattice classes, local densities, and the mass formula belong to
-[IntegralLattices](../IntegralLattices/README.md). **Characteristic
+genera, Eichler's theorem for lattice classes, and local densities belong to
+[IntegralLattices](../IntegralLattices/README.md); the **mass formula** and the genus/spinor-genus
+comparison that needs strong approximation belong with the orthogonal Tamagawa computation, in
+`OrthogonalTamagawaAndLatticeMass`, and are milestones of neither this roadmap nor #256. **Characteristic
 two** is excluded: every field here has `2` invertible, and the Dickson invariant is not
 developed. **The connected components of the real orthogonal groups**, their maximal compacts and
 their symmetric spaces are outside. **Automorphic representations, the Weil representation, and the
@@ -269,7 +273,7 @@ Every row names exact Lean declarations in the supplier. There is no README-only
 
 Future strong-approximation and Tamagawa successors are ordered after Reductive Groups, #246,
 #250, #252, and #254, but those future dependencies are not presented as current imports. In
-particular, a future Tamagawa successor must import the exact central-isogeny `H¹` defect formula
+particular, `OrthogonalTamagawaAndLatticeMass` must import the exact central-isogeny `H¹` defect formula
 required by #246's acceptance gate; it may not restate Ono's ratio locally or hide the defect
 groups behind prose.
 
@@ -621,7 +625,7 @@ strong-approximation, or measure contract is treated as a dependency.
 **3A. Future affine group-scheme comparison (not a current milestone).** Strong approximation and
 Tamagawa theory quantify over `ℚ`-almost-simple factors, use simple connectedness of `Spin`, use a
 central isogeny of algebraic groups, and use invariant differential forms. None is available for a
-bare point group, so a future successor must build the comparison only after directly importing
+bare point group, so `OrthogonalTamagawaAndLatticeMass` must build the comparison only after directly importing
 the public Reductive Groups point-functor and structure API. Its targets are:
 
 1. the affine group schemes `O_Q`, `SO_Q` and `Spin_Q` over a field of characteristic not two,
@@ -698,7 +702,7 @@ three flavours of 3D: for `O` and for `Spin` from the two integrality hypotheses
 `SO` from `O`'s, since a rational proper isometry lying in `U_p^O` lies in `U_p^{SO}`. Each comes
 with its evaluation rule and its injectivity, and the square
 `Spin(V)(ℚ) → Spin(V)(𝔸_f) → SO(V)(𝔸_f)` against `Spin(V)(ℚ) → SO(V)(ℚ) → SO(V)(𝔸_f)` commutes,
-which lets a future successor speak of "the image of the rational spin points in adelic `SO`"
+which lets `OrthogonalTamagawaAndLatticeMass` speak of "the image of the rational spin points in adelic `SO`"
 without saying which of the two routes is meant.
 
 Then, and the contrast is the point: `G(ℚ)` is **discrete in `G(𝔸)`**, the full adeles, once the
@@ -751,9 +755,12 @@ imported.
 
 ### Successor A: the Spin application of strong approximation
 
+**Owner: `OrthogonalTamagawaAndLatticeMass`.**
+
 **Gate.** Internal inputs are the transvections and canonical Spin lifts of 2C and the specialized
 adelic points, rational diagonals, and spinor norm of 3D--3F. External inputs must be exact public
-declarations from a successor to #246: an algebraic-group point carrier, the Reductive Groups
+declarations from the #246 successors `AlgebraicGroupStrongApproximation` and
+`ArithmeticReductionTheory`: an algebraic-group point carrier, the Reductive Groups
 almost-simple-factor API, the seven reduction-theory stages listed in #246, and a generic
 strong-approximation theorem. There is no current `AdelicAlgebraicGroups.strongApproximation`
 declaration and no local replacement is permitted.
@@ -787,7 +794,7 @@ satisfies the condition, and
 
     Spin(V)(𝔸_f) = Spin(V)(ℚ) · W
 
-for every compact open `W`. A future orthogonal successor may export
+for every compact open `W`. `OrthogonalTamagawaAndLatticeMass` may export
 `strongApproximation_finiteAdelicSpin` only after the generic theorem exists. Dimension two is
 excluded: `Spin(V)` is a one-dimensional torus and the statement is false.
 
@@ -800,11 +807,13 @@ declared in the current `Suggested.lean`.
 
 ### Successor B: Tamagawa measures and the orthogonal volume theorem
 
+**Owner: `OrthogonalTamagawaAndLatticeMass`**, over the generic `TamagawaMeasures`.
+
 **Gate.** The future supplier stack must expose, by exact imported names: the reductive-group
 character module and Artin convergence factors; all seven reduction-theory stages; a Tamagawa
 measure and finite-covolume theorem; the simply connected semisimple value; and the final
 central-isogeny comparison with the local/global `H¹`, localization, unramified subgroups,
-`Sha¹`, image quotient, and finiteness hypotheses specified by #246. The orthogonal successor
+`Sha¹`, image quotient, and finiteness hypotheses specified by #246. `OrthogonalTamagawaAndLatticeMass`
 also imports `ClassFieldTheory.hilbertProductFormula` and
 `GlobalQuadraticForms.hasseMinkowski_equivalent`. None is a current milestone here.
 
@@ -826,7 +835,7 @@ canonical Haar volumes of stabilizers and needs a form it can quote.
 **B.4. The isogeny computation, by instantiation only.** Import the future supplier's final
 central-isogeny defect formula and instantiate it for `Spin_Q → SO_Q`; do not restate a generic
 Ono ratio in this roadmap. The imported formula must expose the precise finite defect groups and
-normalizations required by #246. The orthogonal successor then computes the specialized terms:
+normalizations required by #246. `OrthogonalTamagawaAndLatticeMass` then computes the specialized terms:
 
 - `Pic(SO_Q) ≅ ℤ/2`, of order **2**, because `Spin_Q → SO_Q` is a central isogeny with kernel `μ₂`
   and `Spin_Q` is simply connected, so the Picard group is the character group of the kernel.
@@ -853,7 +862,7 @@ restriction maps of 2H, and the theorem that the image of `∏_v` on square clas
 `ClassFieldTheory.hilbertProductFormula`, the cohomological Hilbert reciprocity relation, consumed
 by exact name. The
 connecting map `θ` in that sequence is the spinor norm of Layer 1D, which is what ties the
-future successor to this roadmap.
+successor `OrthogonalTamagawaAndLatticeMass`.
 
 **B.5. The theorem, by dimension, with every value stated.** From the future imported general
 Tamagawa theorems and B.4:
