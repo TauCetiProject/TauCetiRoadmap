@@ -37,4 +37,3 @@ import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.AlgebraicCurves.Suggested
 import TauCetiRoadmap.DenseGraphLimits.Suggested
 import TauCetiRoadmap.ZigzagPreprojective.Suggested
-import TauCetiRoadmap.AdelicAlgebraicGroups.Suggested
