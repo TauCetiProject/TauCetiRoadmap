@@ -545,7 +545,7 @@ The general arithmetic of a nonarchimedean local field belongs to the
 building a second copy. The normalized valuation is
 `TauCetiRoadmap.LocalFieldsRamification.normalizedValuation`, the unit filtration is
 `TauCetiRoadmap.LocalFieldsRamification.unitFiltration`, the absolute ramification index
-`e = v_K(2)` is `TauCetiRoadmap.LocalFieldsRamification.absoluteRamificationIndex K 2`, and the identification of the two
+`e = v_K(2)` is `TauCetiRoadmap.LocalFieldsRamification.natCastValuation K 2`, named `dyadicLevel` here, and the identification of the two
 spellings of the square classes is that roadmap's `square_eq_range_powMonoidHom`. All four are
 opened by name below, and no valuation, no filtration and no ramification index is defined here.
 
@@ -558,11 +558,30 @@ Each of the last three carries a remark naming the Local Fields Ramification mil
 section LocalField
 
 open scoped ValuativeRel
-open TauCetiRoadmap.LocalFieldsRamification (normalizedValuation unitFiltration absoluteRamificationIndex
-  square_eq_range_powMonoidHom)
+open TauCetiRoadmap.LocalFieldsRamification (normalizedValuation unitFiltration
+  natCastValuation absoluteRamificationIndex square_eq_range_powMonoidHom)
 
 variable (K)
 variable [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+
+/-- **Layer 6A, the dyadic level** `e = v_K(2)`, the supplier's `natCastValuation` at `2`.
+⚠ It is deliberately **not** `absoluteRamificationIndex K 2`. That name is reserved by the
+supplier for a finite extension of `ℚ_p`, so writing it at `p = 2` forces `[Algebra ℚ_[2] K]`,
+and then `e = 0` — the odd-residue-characteristic case every count below splits on — is
+unsatisfiable rather than merely false. `natCastValuation` is defined for every nonarchimedean
+local field in which `2` is nonzero, and takes the value `0` exactly in odd residue
+characteristic, which is the split the square-class counts need. -/
+noncomputable def dyadicLevel [Invertible (2 : K)] : ℕ :=
+  natCastValuation K 2 (by simpa using (isUnit_of_invertible (2 : K)).ne_zero)
+
+/-- **Layer 6A, the comparison with the supplier's absolute ramification index.** In mixed
+characteristic `2` the two agree, by the supplier's
+`absoluteRamificationIndex_eq_natCastValuation`; this is the only place the reserved name is
+used, and it is what lets a consumer that already has `K/ℚ_2` quote either. -/
+theorem dyadicLevel_eq_absoluteRamificationIndex [Invertible (2 : K)] [Fact (Nat.Prime 2)]
+    [Algebra ℚ_[2] K] [ValuativeExtension ℚ_[2] K] [Module.Finite ℚ_[2] K] :
+    dyadicLevel K = absoluteRamificationIndex K 2 :=
+  sorry
 
 variable {K}
 
@@ -591,16 +610,16 @@ theorem exists_isUniformizer : ∃ π : Kˣ, IsUniformizer (K := K) π :=
 *Deep units are squares, in mixed characteristic*, and carries the dyadic instance
 `1 + 8ℤ_2 ⊆ (ℚ_2ˣ)²` as a worked example; it exports no target signature for the general
 statement, so the form that 6B and 6C consume is stated here, against the supplier's
-`unitFiltration` and `absoluteRamificationIndex`. -/
+`unitFiltration` and `dyadicLevel`. -/
 theorem unitFiltration_le_square [Invertible (2 : K)] :
-    unitFiltration K (2 * absoluteRamificationIndex K 2 + 1) ≤ Subgroup.square Kˣ :=
+    unitFiltration K (2 * dyadicLevel K + 1) ≤ Subgroup.square Kˣ :=
   sorry
 
 /-- **Layer 6A, sharpness of the local square theorem.** The bound `2e+1` cannot be
 lowered. Over `ℚ_2`, where `e = 1`, the unit `5` lies in `U(ℚ_2, 2)` and is not a
 square. -/
 theorem not_unitFiltration_le_square [Invertible (2 : K)] :
-    ¬ (unitFiltration K (2 * absoluteRamificationIndex K 2) ≤ Subgroup.square Kˣ) :=
+    ¬ (unitFiltration K (2 * dyadicLevel K) ≤ Subgroup.square Kˣ) :=
   sorry
 
 /-- **Layer 6A, the square-class group is finite.** A corollary of the Local Fields Ramification Layer 1
@@ -613,7 +632,7 @@ representatives `1, u, π, uπ` for a uniformizer `π` and a unit `u` whose resi
 nonsquare. This is the Local Fields Ramification Layer 1 count
 `#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` at `n = 2` with `e = 0`, in the shape 6D consumes. -/
 theorem card_squareClass_of_odd [Invertible (2 : K)]
-    (hodd : absoluteRamificationIndex K 2 = 0) :
+    (hodd : dyadicLevel K = 0) :
     Nat.card (Kˣ ⧸ Subgroup.square Kˣ) = 4 :=
   sorry
 
@@ -624,9 +643,9 @@ basis `−1, 2, 5`. It is the same Local Fields Ramification count at `n = 2`, w
 `2` is invertible; the Local Fields Ramification roadmap exports the general formula as a milestone and the
 `ℚ_2` instance as a worked example, so the `4·q^e` shape that 6D consumes is stated here. -/
 theorem card_squareClass_of_dyadic [Invertible (2 : K)]
-    (h2 : absoluteRamificationIndex K 2 ≠ 0) :
+    (h2 : dyadicLevel K ≠ 0) :
     Nat.card (Kˣ ⧸ Subgroup.square Kˣ) =
-      4 * Nat.card (IsLocalRing.ResidueField 𝒪[K]) ^ absoluteRamificationIndex K 2 :=
+      4 * Nat.card (IsLocalRing.ResidueField 𝒪[K]) ^ dyadicLevel K :=
   sorry
 
 /-- **Layer 6A, the unramified quadratic extension and its norms.** There is a nonsquare
@@ -656,7 +675,7 @@ section Defect
 
 open scoped ValuativeRel
 open TauCetiRoadmap.LocalFieldsRamification
-  (normalizedValuation unitFiltration absoluteRamificationIndex)
+  (normalizedValuation unitFiltration natCastValuation)
 
 variable [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
 
@@ -716,15 +735,15 @@ theorem defectExponent_of_odd (a : Kˣ)
 square, the exponent is `2e` or an odd number below `2e`. -/
 theorem defectExponent_unit [Invertible (2 : K)] (u : Kˣ)
     (hu : Multiplicative.toAdd (normalizedValuation K u) = 0) (hsq : ¬ IsSquare u) :
-    defectExponent u = ((2 * absoluteRamificationIndex K 2 : ℕ) : ℤ) ∨
-      ∃ k : ℕ, k < absoluteRamificationIndex K 2 ∧ defectExponent u = ((2 * k + 1 : ℕ) : ℤ) :=
+    defectExponent u = ((2 * dyadicLevel K : ℕ) : ℤ) ∨
+      ∃ k : ℕ, k < dyadicLevel K ∧ defectExponent u = ((2 * k + 1 : ℕ) : ℤ) :=
   sorry
 
 /-- **Layer 6B, the ramification dictionary.** A nonsquare of even exponent is, up to
 squares, the unramified class of `exists_unramified_class`. -/
 theorem exists_sq_mul_eq_unramified [Invertible (2 : K)] (a : Kˣ) (ha : ¬ IsSquare a)
     (d : ℤ) (hd : defectExponent a = (d : ℤ)) (hev : Even d) :
-    ∃ c : Kˣ, defectExponent (a * c ^ 2) = ((2 * absoluteRamificationIndex K 2 : ℕ) : ℤ) :=
+    ∃ c : Kˣ, defectExponent (a * c ^ 2) = ((2 * dyadicLevel K : ℕ) : ℤ) :=
   sorry
 
 end Defect
@@ -926,9 +945,14 @@ section Carriers
 variable (K)
 
 /-- `Hⁿ_cont(G_K, 𝔽₂)`, as the Profinite Cohomology roadmap's `trivialF2` object over its
-`AbsoluteGaloisGroup`. This is a carrier abbreviation and not an operation. -/
+`AbsoluteGaloisGroup`. This is a carrier abbreviation and not an operation.
+⚠ It names **Mathlib's** `continuousCohomology`, which is what the supplier's operations are
+typed against: the supplier's own notation adapter is `private`, so a consumer cannot write that
+type, and its packaged `continuousCohomologyFunctor` is a separate `sorry`-bodied definition that
+does not reduce to it. Both alternatives typecheck in isolation and then fail to match
+`coeffMap`, `kummerIso` and `h2KummerToUnits`. -/
 noncomputable abbrev contH (n : ℕ) : TopModuleCat ℤ :=
-  (continuousCohomology ℤ (AbsoluteGaloisGroup K) n).obj (trivialF2 (AbsoluteGaloisGroup K))
+  _root_.continuousCohomology n (trivialF2 (AbsoluteGaloisGroup K))
 
 /-- `H¹(G_K, 𝔽₂)`. -/
 noncomputable abbrev H1 : Type u := (contH K 1 : Type u)
@@ -939,11 +963,26 @@ noncomputable abbrev H2 : Type u := (contH K 2 : Type u)
 /-- `Hⁿ_cont(G_K, Additive Kˢˣ)`, at the supplier's multiplicative coefficient object
 `UnitsCoeff`. This is a carrier abbreviation and not an operation. -/
 noncomputable abbrev contHUnits (n : ℕ) : TopModuleCat ℤ :=
-  (continuousCohomology ℤ (AbsoluteGaloisGroup K) n).obj
-    (ofDiscreteModule (AbsoluteGaloisGroup K) (UnitsCoeff K))
+  _root_.continuousCohomology n (ofDiscreteModule (AbsoluteGaloisGroup K) (UnitsCoeff K))
 
 /-- `H²(G_K, Additive Kˢˣ)`, the cohomological Brauer group. -/
 noncomputable abbrev H2Units : Type u := (contHUnits K 2 : Type u)
+
+variable {K}
+
+/-- **Layer 7A, the mod-2 cup in bidegree `(1, 1)`.** The supplier's `cup` at the canonical
+`𝔽₂` pairing, with its result read in this file's `H2 K`. It defines nothing: the body *is*
+`ProfiniteCohomology.cup`, so the two cannot drift, and every statement below is a statement
+about the supplier's product.
+⚠ The wrapper is forced, not cosmetic. `cup` returns its value in degree `m + n` through the
+supplier's **private** notation adapter, so the type of `cup P 1 1 x y` is one a consumer cannot
+write and that instance search cannot reduce: `x + cup P 1 1 y z` fails to synthesize `HAdd`
+even though the two sides are definitionally equal. Naming the normalized form once is what lets
+Layer 8's orthogonal-sum and transfer identities be stated at all. -/
+noncomputable def cup11 [Invertible (2 : K)] (x y : H1 K) : H2 K :=
+  cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 x y
+
+variable (K)
 
 /-- `2` is a unit in `K`, in the `ℕ`-coerced spelling the supplier's Kummer statements use. -/
 theorem isUnit_natCast_two [Invertible (2 : K)] : IsUnit ((2 : ℕ) : K) := by
@@ -1106,7 +1145,7 @@ theorem brauer2EquivH2_h2MuToUnits [Invertible (2 : K)] (x : ↥(Br2 K)) :
 theorem brauer2EquivH2_quaternionClass [Invertible (2 : K)] (a b : Kˣ)
     (h : quaternionClass a b ∈ Br2 K) :
     brauer2EquivH2 K (Additive.ofMul ⟨quaternionClass a b, h⟩) =
-      cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (kummerClass a) (kummerClass b) :=
+      cup11 (kummerClass a) (kummerClass b) :=
   sorry
 
 end BrauerComparison
@@ -1124,26 +1163,26 @@ exactly when the norm equation `b = x² − a y²` is solvable. This is the fift
 condition of Layer 2's four-fold criterion, and it holds over any field in which `2` is
 invertible (Serre, *Local Fields* XIV §2 Prop. 4-5; Gille-Szamuely 4.7). -/
 theorem cup_kummerClass_eq_zero_iff [Invertible (2 : K)] (a b : Kˣ) :
-    cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (kummerClass a) (kummerClass b) = 0 ↔
+    cup11 (kummerClass a) (kummerClass b) = 0 ↔
       ∃ x y : K, (b : K) = x ^ 2 - (a : K) * y ^ 2 :=
   sorry
 
 /-- **Layer 7C, the cup against the splitting of the quaternion algebra.** The bridge to Layer
 2's four-fold criterion, named so that a consumer can move between the algebra and the class. -/
 theorem cup_kummerClass_eq_zero_iff_split [Invertible (2 : K)] (a b : Kˣ) :
-    cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (kummerClass a) (kummerClass b) = 0 ↔
+    cup11 (kummerClass a) (kummerClass b) = 0 ↔
       Nonempty (ℍ[K, (a : K), (b : K)] ≃ₐ[K] Matrix (Fin 2) (Fin 2) K) :=
   sorry
 
 /-- **Layer 7C, the cup against the quadratic-algebra norm condition.** -/
 theorem cup_kummerClass_eq_zero_iff_norm [Invertible (2 : K)] (a b : Kˣ) :
-    cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (kummerClass a) (kummerClass b) = 0 ↔
+    cup11 (kummerClass a) (kummerClass b) = 0 ↔
       ∃ z : QuadraticAlgebra K (a : K) 0, QuadraticAlgebra.norm z = (b : K) :=
   sorry
 
 /-- **Layer 7C, the cup against isotropy of `⟨1, −a, −b⟩`.** -/
 theorem cup_kummerClass_eq_zero_iff_isotropic [Invertible (2 : K)] (a b : Kˣ) :
-    cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (kummerClass a) (kummerClass b) = 0 ↔
+    cup11 (kummerClass a) (kummerClass b) = 0 ↔
       ¬ (weightedSumSquares K ![(1 : K), -(a : K), -(b : K)]).Anisotropic :=
   sorry
 
@@ -1152,7 +1191,7 @@ field. The norm-equation criterion belongs here; the continuous cup product is i
 Profinite Cohomology. -/
 theorem cup_kummerClass_eq_zero_iff_hilbertSymbol [ValuativeRel K] [TopologicalSpace K]
     [IsNonarchimedeanLocalField K] [Invertible (2 : K)] (a b : Kˣ) :
-    cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (kummerClass a) (kummerClass b) = 0 ↔
+    cup11 (kummerClass a) (kummerClass b) = 0 ↔
       hilbertSymbol a b = 1 :=
   sorry
 
@@ -1161,19 +1200,29 @@ theorem cup_kummerClass_eq_zero_iff_hilbertSymbol [ValuativeRel K] [TopologicalS
 noncomputable def hilbertSign (x : ZMod 2) : ℤˣ :=
   if x = 0 then 1 else -1
 
+/-! ### The two frozen bridges to Class Field Theory
+
+⚠ **Universe 0.** Both statements below bind their own `F : Type` instead of using this file's
+`K : Type u`. Class Field Theory pins every cohomological object to universe `0` on purpose —
+Mathlib's `tateCohomology` needs the group and the coefficient ring `ℤ` in one universe — so
+`ClassFieldTheory.H`, `muNRep`, `kummerClass` and `localSymbol` take a `Type`, and quantifying
+them over `Type u` does not typecheck. The restriction is the supplier's and is not a weakening
+of the quadratic-form side: `hilbertSymbol` itself is available at every universe, and the
+bridges are exactly the statements that mention a CFT object. -/
+
 /-- **Frozen QFI--CFT bridge.** The norm-equation/quaternion Hilbert symbol agrees with Class
 Field Theory's Kummer-cup symbol after translating its additive invariant to a sign. Class Field
 Theory supplies `kummerClass`, `kummerCupPairing`, and `localSymbol`; no theorem in that roadmap
 depends on this comparison. -/
-theorem hilbertSymbol_eq_cohomological [ValuativeRel K] [TopologicalSpace K]
-    [IsNonarchimedeanLocalField K] [Invertible (2 : K)]
-    (ζ : K) (hζ : IsPrimitiveRoot ζ 2)
-    (tr : ClassFieldTheory.H 2 K 2 (ClassFieldTheory.muNRep 2 K) ≃+ ZMod 2)
-    (a b : Kˣ) :
+theorem hilbertSymbol_eq_cohomological (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F] [Invertible (2 : F)]
+    (ζ : F) (hζ : IsPrimitiveRoot ζ 2)
+    (tr : ClassFieldTheory.H 2 F 2 (ClassFieldTheory.muNRep 2 F) ≃+ ZMod 2)
+    (a b : Fˣ) :
     hilbertSymbol a b =
       hilbertSign
         (ClassFieldTheory.localSymbol (ClassFieldTheory.kummerCupPairing ζ hζ) tr
-          (ClassFieldTheory.kummerClass 2 K a) (ClassFieldTheory.kummerClass 2 K b)) :=
+          (ClassFieldTheory.kummerClass 2 F a) (ClassFieldTheory.kummerClass 2 F b)) :=
   sorry
 
 /-- **Frozen global bridge.** This is the multiplicative-sign form of
@@ -1181,17 +1230,17 @@ theorem hilbertSymbol_eq_cohomological [ValuativeRel K] [TopologicalSpace K]
 norm-equation/quaternion symbol by `hilbertSymbol_eq_cohomological`; the infinite factors use
 Class Field Theory's real/complex normalization. Thus this theorem derives reciprocity from CFT
 and does not make CFT depend on quadratic forms. -/
-theorem hilbertSymbol_productFormula [NumberField K] (a b : Kˣ) :
-    (∏ v ∈ ClassFieldTheory.finiteHilbertSupport a b,
-        hilbertSign (ClassFieldTheory.finiteHilbertInvariantAt v a b)) *
-      ∏ w : NumberField.InfinitePlace K,
-        hilbertSign (ClassFieldTheory.infiniteHilbertInvariantAt w a b) = 1 := by
-  have hcoh := ClassFieldTheory.hilbertProductFormula a b
+theorem hilbertSymbol_productFormula (F : Type) [Field F] [NumberField F] (a b : Fˣ) :
+    (∏ v ∈ ClassFieldTheory.finiteHilbertSupport F a b,
+        hilbertSign (ClassFieldTheory.finiteHilbertInvariantAt F v a b)) *
+      ∏ w : NumberField.InfinitePlace F,
+        hilbertSign (ClassFieldTheory.infiniteHilbertInvariantAt F w a b) = 1 := by
+  have hcoh := ClassFieldTheory.hilbertProductFormula F a b
   sorry
 
 /-- **Layer 7C, the Steinberg corollary.** -/
 theorem cup_kummerClass_one_sub [Invertible (2 : K)] (a : Kˣ) (h : (1 : K) - a ≠ 0) :
-    cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (kummerClass a)
+    cup11 (kummerClass a)
       (kummerClass (Units.mk0 ((1 : K) - a) h)) = 0 :=
   sorry
 
@@ -1206,7 +1255,7 @@ noncomputable def sw1 [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) : H1 K 
 `w₂(q) = ∑_{i<j} (aᵢ)(aⱼ)`. -/
 noncomputable def sw2 [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) : H2 K :=
   ∑ ij ∈ Finset.univ.filter fun ij : Fin n × Fin n => ij.1 < ij.2,
-    cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (kummerClass (w ij.1)) (kummerClass (w ij.2))
+    cup11 (kummerClass (w ij.1)) (kummerClass (w ij.2))
 
 /-- **Layer 8, well-definedness of the Stiefel-Whitney classes**, by the Layer 0 descent
 principle. The binary step is the cup identity `(a)(b) = (c)(d)` for `⟨a,b⟩ ≅ ⟨c,d⟩`, which is
@@ -1258,7 +1307,7 @@ no total class. -/
 theorem sw_append [Invertible (2 : K)] {m n : ℕ} (w : Fin m → Kˣ) (w' : Fin n → Kˣ) :
     sw1 (Fin.append w w') = sw1 w + sw1 w' ∧
       sw2 (Fin.append w w') =
-        sw2 w + sw2 w' + cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (sw1 w) (sw1 w') :=
+        sw2 w + sw2 w' + cup11 (sw1 w) (sw1 w') :=
   sorry
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
@@ -1276,16 +1325,16 @@ theorem brauer2EquivH2_cliffordInvariant [Invertible (2 : K)] {n : ℕ} (w : Fin
     (h : cliffordInvariant w ∈ Br2 K) :
     brauer2EquivH2 K (Additive.ofMul ⟨cliffordInvariant w, h⟩) =
       sw2 w + ((n - 1) * (n - 2) / 2 : ℕ) •
-          cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (kummerClass (-1)) (sw1 w) +
+          cup11 (kummerClass (-1)) (sw1 w) +
         ((n + 1) * n * (n - 1) * (n - 2) / 24 : ℕ) •
-          cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (kummerClass (-1)) (kummerClass (-1)) :=
+          cup11 (kummerClass (-1)) (kummerClass (-1)) :=
   sorry
 
 /-- **Layer 8, acceptance examples.** `w₁⟨a⟩ = (a)` and `w₂⟨a⟩ = 0`; and
 `w₂⟨a,b⟩ = (a) ∪ (b)`. -/
 example [Invertible (2 : K)] (a b : Kˣ) :
     sw1 ![a] = kummerClass a ∧ sw2 ![a] = 0 ∧
-      sw2 ![a, b] = cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (kummerClass a)
+      sw2 ![a, b] = cup11 (kummerClass a)
         (kummerClass b) :=
   sorry
 
@@ -1337,6 +1386,21 @@ example [Invertible (2 : K)] (d : Kˣ) :
       (weightedSumSquares K ![(2 : K), 2 * d]) :=
   sorry
 
+/-- **Layer 9, the supplier's corestriction in degree 1, read in this file's carrier.** As with
+`cup11`, the body is the supplier's `galoisCor` and the wrapper exists only because that
+declaration's result type goes through the supplier's private cohomology adapter, which
+instance search cannot reduce against `H1 K`. -/
+noncomputable def galoisCor1 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (x : H1 L) : H1 K :=
+  (galoisCor K L σ 1).hom x
+
+/-- **Layer 9, the supplier's Evens norm of a quadratic extension, read in this file's
+carrier.** Same reason as `galoisCor1`; the body is the supplier's `galoisEvens`. -/
+noncomputable def galoisEvens2 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (x : H1 L) : H2 K :=
+  galoisEvens K L σ hdeg x
+
 /-- **Layer 9, the relative Stiefel-Whitney formula for a quadratic extension**, stated on the
 transferred forms themselves (Kahn, Invent. Math. 78 (1984), Théorème 2 in degrees `≤ 2`;
 Kozlowski, Proc. AMS 91 (1984), Thm 1.1; Evens, Trans. AMS 108 (1963), for the norm).
@@ -1353,11 +1417,10 @@ theorem relativeStiefelWhitney_quadraticExtension {L : Type u} [Field L] [Algebr
     (h1 : (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(1 : L)])).Nondegenerate)
     (ha : (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Nondegenerate) :
     sw1Class K (formClass _ ha) =
-        sw1Class K (formClass _ h1) + (galoisCor K L σ 1).hom (kummerClass a) ∧
+        sw1Class K (formClass _ h1) + galoisCor1 σ (kummerClass a) ∧
       sw2Class K (formClass _ ha) =
-        sw2Class K (formClass _ h1) + galoisEvens K L σ hdeg (kummerClass a) +
-          cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (sw1Class K (formClass _ h1))
-            ((galoisCor K L σ 1).hom (kummerClass a)) :=
+        sw2Class K (formClass _ h1) + galoisEvens2 σ hdeg (kummerClass a) +
+          cup11 (sw1Class K (formClass _ h1)) (galoisCor1 σ (kummerClass a)) :=
   sorry
 
 /-- **Layer 9, the calculational corollary of the formula above**, on chosen diagonal tuples.
@@ -1373,10 +1436,9 @@ theorem relativeStiefelWhitney_quadraticExtension_diagonal {L : Type u} [Field L
       (LinearMap.BilinMap.toQuadraticMap (Algebra.traceForm K L)))
     (hb : (weightedSumSquares K fun i => ((b i : K))).Equivalent
       (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)]))) :
-    sw1 b = sw1 t + (galoisCor K L σ 1).hom (kummerClass a) ∧
-      sw2 b = sw2 t + galoisEvens K L σ hdeg (kummerClass a) +
-        cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (sw1 t)
-          ((galoisCor K L σ 1).hom (kummerClass a)) :=
+    sw1 b = sw1 t + galoisCor1 σ (kummerClass a) ∧
+      sw2 b = sw2 t + galoisEvens2 σ hdeg (kummerClass a) +
+        cup11 (sw1 t) (galoisCor1 σ (kummerClass a)) :=
   sorry
 
 end Cohomology
