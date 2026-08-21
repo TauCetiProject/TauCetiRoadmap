@@ -22,7 +22,7 @@ lattices, the convention table, the worked examples and the references. Mathlib 
 bilinear forms with Gram matrices and base change, `ZLattice` covolumes, Smith normal form
 with the index-equals-determinant theorems, and a dual-submodule construction, but no
 integral-lattice arithmetic: no even/odd theory, no discriminant groups or forms, no
-genus, no mass formula, no Nikulin embedding theory, no lattice theta series. We build that
+genus, no local densities, no Nikulin embedding theory, no lattice theta series. We build that
 in `TauCeti/`.
 
 The first section retains the reviewed carrier merged in upstream PR #200: a full
@@ -32,11 +32,14 @@ finite-free integral forms and Nikulin's full-norm `ℚ/2ℤ` notation are bound
 dictionaries, not competing public carriers.
 
 The second section checks the exact declarations imported from the seven final supplier
-roadmaps. There are no private supplier structures or substitute carriers here: where a
-supplier has a Lean declaration, the targets below use it directly; where its contract is
-README-only (notably generic Tamagawa normalization, ring class fields, and the Gaussian
-theta transformation), the dependency stays a prose milestone rather than an unconstrained
-Lean stand-in.
+roadmaps. Every name there is one the supplier actually exports in its own accepted scope:
+there are no private supplier structures or substitute carriers here, and no `#check` of a
+declaration a supplier has said it will not export. Where a supplier's contract is README-only
+(ring class fields, and the Gaussian theta transformation) the dependency stays a prose
+milestone rather than an unconstrained Lean stand-in. Generic Tamagawa normalization, strong
+approximation for `Spin` and the orthogonal volume theorem are not README milestones of this
+roadmap at all: they belong to the successor `OrthogonalTamagawaAndLatticeMass`, together with
+the mass formula they assemble (`README.md`, §*Scope*).
 
 The remaining sections pin targets for **Layer 0** (the bilinear and quadratic dictionary,
 Gram determinants, the standard examples), **Layer 1** (dual lattices, the
@@ -54,8 +57,7 @@ against, and they are stated with `sorry`, which is allowed in this human-owned 
 library.
 
 The statements whose types do not exist yet stay in `README.md` only. They are the
-Conway–Sloane genus symbols of Layer 3, the adelic double cosets of Layer 4, and the mass
-formula of Layer 7. Nothing here stands in for them, since a `Prop`-valued placeholder
+Conway–Sloane genus symbols of Layer 3 and the adelic double cosets of Layer 4. Nothing here stands in for them, since a `Prop`-valued placeholder
 would assert nothing. Layer 9 is different: genus membership and isometry are congruence of
 Gram matrices over `ℤ_p` and over `ℤ`, which are expressible now, so the certificate is
 written out rather than described.
@@ -437,9 +439,13 @@ end Overlattices
 
 /-! ## Exact supplier checks
 
-These are the Lean-level contracts this file uses directly. Generic adelic quotient and
-Tamagawa normalization, ring class fields, and the Gaussian theta transformation are currently
-README-level milestones in their owning roadmaps; no local structure stands in for them. -/
+These are the Lean-level contracts this file uses directly, and every one of them is a
+declaration its supplier exports. Ring class fields and the Gaussian theta transformation are
+still README-level milestones in their owning roadmaps; no local structure stands in for them.
+Generic adelic quotients, Tamagawa normalization, strong approximation for `Spin` and the
+orthogonal volume theorem are not milestones of this roadmap: they are
+`OrthogonalTamagawaAndLatticeMass`'s, over #246's `TamagawaMeasures`, and nothing here `#check`s
+a name #246 or #255 has declined to export. -/
 
 #check QuadraticFormInvariants.hilbertSymbol
 #check QuadraticFormInvariants.localHasse
@@ -464,7 +470,10 @@ README-level milestones in their owning roadmaps; no local structure stands in f
 #check AdelicAlgebraicGroups.AdelicPoints
 #check OrthogonalSpinGroups.spinorNorm
 #check OrthogonalSpinGroups.spinorNorm_reflection
-#check OrthogonalSpinGroups.strongApproximation_finiteAdelicSpin
+#check OrthogonalSpinGroups.OrthogonalCompactOpens
+#check OrthogonalSpinGroups.finiteAdelicOrthogonal
+#check OrthogonalSpinGroups.transvection
+#check OrthogonalSpinGroups.transvectionLiftHom
 #check LFunctions.FEPairWithLevel
 
 section Layer0
@@ -899,8 +908,8 @@ field.
 
 Genus membership is 3F written out: congruence over every `ℤ_p`, together with the real
 signature, which positive definiteness of both sides supplies. Completeness is the last
-field, and it is the statement that a mass certificate from 7H proves for a given genus; it
-is not part of the definition of the other fields. -/
+field, and it is the statement that a mass certificate — from the successor's 7H — proves for a
+given genus; it is not part of the definition of the other fields. -/
 structure StoredGenusCertificate where
   /-- The label component `dim`, and the size of the stored Gram matrix. -/
   dim : ℕ
@@ -956,7 +965,8 @@ structure StoredGenusCertificate where
   lattices by 2G. -/
   reps_pairwise : reps.Pairwise fun H H' => ¬ GramIsometric H H'
   /-- They are complete: every positive definite lattice in the genus is isometric to a
-  listed one. This is the field a mass certificate from 7H discharges. -/
+  listed one. This is the field a mass certificate discharges, once
+  `OrthogonalTamagawaAndLatticeMass` proves 7H. -/
   reps_complete : ∀ H : Matrix (Fin dim) (Fin dim) ℤ, H.IsSymm →
     (Matrix.toQuadraticForm' H).PosDef →
     (∀ (p : ℕ) [Fact p.Prime], GramIsometricAt p gram H) → ∃ H' ∈ reps, GramIsometric H' H

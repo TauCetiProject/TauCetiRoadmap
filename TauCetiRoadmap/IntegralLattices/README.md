@@ -33,8 +33,18 @@ Mathlib supplies none of the following, and no other Lean library supplies them 
 The principal results of this roadmap are:
 
 1. the classification of even unimodular lattices in low rank;
-2. the Smith–Minkowski–Siegel mass formula in the Conway–Sloane normalization;
+2. the genus, its Conway–Sloane symbols, the class and spinor-genus dictionary, and the local
+   densities that a mass formula is assembled from;
 3. Nikulin's theory of existence, uniqueness and primitive embeddings for even lattices.
+
+⚠ The **Smith–Minkowski–Siegel mass formula itself is not a milestone here**, and neither is
+Eichler's theorem. Both are assembled from an adelic volume comparison for `SO(V)` — strong
+approximation for `Spin` and a Tamagawa normalization — and neither #246 `AdelicAlgebraicGroups`
+nor #255 `OrthogonalSpinGroups` exports those in its accepted scope. Their exact owner is the
+named successor roadmap **`OrthogonalTamagawaAndLatticeMass`**; see §*Scope*. What stays here is
+everything that supplier will need from the lattice side: the class/genus/spinor-genus
+dictionary, the stabilizers, the local densities at odd `p` and at `2`, the archimedean factor,
+and the low-rank values.
 
 Two projects consume the results. The LMFDB lattice section stores positive definite
 integral lattices with their genus representatives. The K3 surface pipeline enumerates
@@ -47,7 +57,7 @@ Suggested homes, which follow Mathlib's directory conventions:
   discriminant groups, finite quadratic forms, reduction theory, and automorphism groups.
 - `TauCeti/NumberTheory/IntegralLattice/` for Layers 3 to 8. These layers hold
   localizations, Jordan theory, the genus and its symbols, class numbers, spinor genera,
-  Nikulin's theory, the unimodular classification, the mass formula, and theta series.
+  Nikulin's theory, the unimodular classification, the local mass ingredients, and theta series.
 
 ## Scope
 
@@ -58,7 +68,33 @@ The direct roadmap dependencies are exactly `QuadraticFormInvariants`,
 `GlobalQuadraticForms`, `GlobalNumberFields`, `ClassFieldTheory`,
 `AdelicAlgebraicGroups`, `OrthogonalSpinGroups`, `RepresentationTheory/RootSystems`, and
 `LFunctions`. Their field-level, global-form, order/class-field, adelic, spin, ADE, and
-analytic inputs are consumed; none is repackaged as a private lattice-side carrier.
+analytic inputs are consumed; none is repackaged as a private lattice-side carrier. Every
+declaration this roadmap names in those suppliers is one they actually export in their accepted
+scope — that is the point of the narrowing recorded next.
+
+### What moved out, and who owns it
+
+The reviewed scopes of #246 and #255 deliberately exclude generic strong approximation,
+reduction theory, Tamagawa measures, and the central-isogeny volume comparison. Anything here
+that rested on them therefore had no supplier at all, and a prose reference to a removed
+milestone is not a closed dependency. Those results move out, to one exact owner:
+
+| Moved out | Was | Exact owner |
+| --- | --- | --- |
+| Eichler's theorem `cls⁺ L = spn⁺ L` for indefinite rank `≥ 3`, and the class-number finiteness that follows from it | 4D, and the rank-`≥ 3` half of 4E | **`OrthogonalTamagawaAndLatticeMass`** |
+| the adelic decomposition of `SO(V)(ℚ) \ SO(V)(𝔸)` into class-indexed pieces | 7B | **`OrthogonalTamagawaAndLatticeMass`** |
+| the identification of a local density with the Haar volume of a stabilizer in the Tamagawa normalization | one bullet of 7C | **`OrthogonalTamagawaAndLatticeMass`** |
+| the volume theorem `vol(SO(V)(ℚ) \ SO(V)(𝔸)) = 2` | 7F | **`OrthogonalTamagawaAndLatticeMass`**, over the generic `TamagawaMeasures` |
+| the Conway–Sloane mass formula and its checks | 7H | **`OrthogonalTamagawaAndLatticeMass`** |
+| the rank-16 completeness statement, that the genus of `E₈²` has exactly two classes | 7I | **`OrthogonalTamagawaAndLatticeMass`** |
+
+`OrthogonalTamagawaAndLatticeMass` is the orthogonal specialization named by #255 and #246; it
+sits on the generic successors `AlgebraicGroupStrongApproximation`, `ArithmeticReductionTheory`
+and `TamagawaMeasures` that #246 names. It consumes this roadmap and is not consumed by it, so
+the dependency stays one-way. Everything it needs from the lattice side — 4A, 4B, 4C, the local
+densities 7C and 7D, the archimedean factor 7E, the mass definitions and the relation `m⁺ = 2m`
+of 7A, and the low-rank values 7G — remains a milestone **here**, so the split does not leave a
+gap between the two roadmaps.
 
 Out of scope, with the owner of each subject:
 
@@ -66,8 +102,10 @@ Out of scope, with the owner of each subject:
 | --- | --- |
 | local quadratic forms, square classes, Witt/Brauer/Hasse/Clifford invariants, the Hilbert symbol, and dyadic classification | [Quadratic Form Invariants](../QuadraticFormInvariants/README.md) |
 | Hasse--Minkowski and global classification, representation, and realization of rational forms | [Global Quadratic Forms](../GlobalQuadraticForms/README.md) |
-| the groups `O(Q)`, `SO(Q)`, and `Spin(Q)`, the spinor norm, local and adelic spin groups, and the orthogonal Tamagawa theorem | [Orthogonal and Spin Groups](../OrthogonalSpinGroups/README.md) |
-| generic restricted products, adelic quotients, strong approximation, and Tamagawa measures | [Adelic Algebraic Groups](../AdelicAlgebraicGroups/README.md) |
+| the groups `O(Q)`, `SO(Q)`, and `Spin(Q)`, the spinor norm, transvections, and local and finite-adelic spin groups | [Orthogonal and Spin Groups](../OrthogonalSpinGroups/README.md) |
+| generic restricted products, compact-open families, and rational diagonals | [Adelic Algebraic Groups](../AdelicAlgebraicGroups/README.md) |
+| generic algebraic-group adelic points, strong approximation, reduction theory, Tamagawa measures, and the central-isogeny volume comparison | `AlgebraicGroupStrongApproximation`, `ArithmeticReductionTheory` and `TamagawaMeasures`, the successors #246 names |
+| the orthogonal specialization: strong approximation for `Spin`, `τ(SO_Q) = 2`, Eichler's theorem, the genus/spinor-genus comparison in rank `≥ 3`, and the Smith–Minkowski–Siegel mass formula | `OrthogonalTamagawaAndLatticeMass`, the successor #255 names |
 | root systems, Weyl groups, `DynkinType`, the ADE classification | [Root Systems](../RepresentationTheory/RootSystems/README.md) |
 | Poisson summation and the real-parameter Gaussian theta transformation | [L-functions](../LFunctions/README.md) |
 | number-field orders, conductors, raw proper fractional ideals, invertible proper fractional ideals, the ideal class monoid, `Pic`, and `NarrowPic` for the nonsplit binary branch | [Global Number Fields](../GlobalNumberFields/README.md) |
@@ -81,7 +119,8 @@ that a reader can see the boundary.
   is a modular form, and half-integral weight is developed nowhere. Layer 8 therefore
   stops after the transformation law.
 - The analytic proof of the mass formula, which uses Siegel Eisenstein series, the Weil
-  representation and Siegel–Weil. Layer 7 uses the adelic volume of `SO(V)` instead.
+  representation and Siegel–Weil. The route to the mass formula is the adelic volume of `SO(V)`,
+  and it is `OrthogonalTamagawaAndLatticeMass`'s, not this roadmap's.
 - Lattices over the ring of integers of a number field. Every statement here is over `ℤ`
   or `ℤ_p`.
 - Lattice reduction algorithms beyond the bounds that finiteness needs.
@@ -250,7 +289,7 @@ in the upper half-plane. The determinant factor is the positive real square root
 `m⁺(G) = ∑_{cls⁺ L ∈ G} 1/|SO(L)|`. The normalization is that of Conway–Sloane, equation
 (1) of their mass formula paper. Their sections 3 and 6 record that the formula, as usually
 stated, is false in dimension at most 1, where a factor 2 becomes 1. The low rank values
-are part of the statement of milestone 7H.
+are part of the statement of milestone 7H, and 7G proves them here independently of it.
 
 ## What Mathlib supplies
 
@@ -309,8 +348,8 @@ structure or carrier for it.
 | B1--B5, `¬ IsSquare Δ` | Global Number Fields | `NumberFieldOrder`, `NumberFieldOrder.conductor`, `NumberFieldOrder.IsProperFractionalIdeal`, `NumberFieldOrder.properFractionalIdeals`, `NumberFieldOrder.invertibleProperFractionalIdeals`, `NumberFieldOrder.invertible_isProper`, `NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two`, `IdealClassMonoid`, `NumberFieldOrder.mkIdealClassMonoid`, `picEquivUnitsIdealClassMonoid`, `Pic`, `NumberFieldOrder.mkPic`, `NumberFieldOrder.mkPic_surjective`, `NarrowPic`, `NumberFieldOrder.narrowPrincipal`, `NumberFieldOrder.narrowToPic`, `NumberFieldOrder.narrowToPic_surjective`, `finite_pic`, `finite_narrowPic` | field orders and their ideal-class monoids and wide and narrow Picard groups; only the invertible proper carrier enters `Pic` and `NarrowPic`, while raw noninvertible proper ideals remain in `IdealClassMonoid`; the square-discriminant split branch is elementary and does not use these carriers |
 | B3, `Δ < 0` | Class Field Theory | Layer 6, ring class fields and `Gal(H_O/K) ≃ Pic O` | the class-field interpretation in the nonsplit field case only; there is no split ring-class-field claim |
 | 3G | Class Field Theory | `hilbertProductFormula` | cohomological Hilbert reciprocity, reached on classical symbols through QFI's comparison |
-| 4B, 7B | Adelic Algebraic Groups | `FiniteAdelicPoints`, `AdelicPoints`, `rationalDiagonal`; Layers 3, 6, and 7 quotient/Tamagawa milestones | generic restricted products, rational diagonals, quotient measures, and Tamagawa normalization |
-| 4B--4F, 7B, 7F, B7 | Orthogonal and Spin Groups | `orthogonalGroup`, `orthogonalBaseChange`, `orthogonalBaseChangeReal`, `spinorNorm`, `spinorNorm_reflection`, `OrthogonalCompactOpens`, `finiteAdelicOrthogonal`, `strongApproximation_finiteAdelicSpin`, `transvection`, `transvectionLiftHom`; Layer 5 orthogonal Tamagawa theorem | orthogonal/spin-specific algebra and approximation; the volume of `SO` feeds the lattice mass formula and never consumes it |
+| 4B | Adelic Algebraic Groups | `FiniteAdelicPoints`, `AdelicPoints`, `rationalDiagonal` | generic restricted products and rational diagonals. ⚠ Quotient measures and Tamagawa normalization are **not** exported by #246 and are not cited here; they belong to `TamagawaMeasures` and reach the lattice mass only through `OrthogonalTamagawaAndLatticeMass` |
+| 4B, 4C, 4F, B7 | Orthogonal and Spin Groups | `orthogonalGroup`, `orthogonalBaseChange`, `orthogonalBaseChangeReal`, `spinorNorm`, `spinorNorm_reflection`, `OrthogonalCompactOpens`, `finiteAdelicOrthogonal`, `transvection`, `transvectionLiftHom` | orthogonal/spin-specific algebra, local spinor norms, and the finite-adelic point groups. ⚠ `strongApproximation_finiteAdelicSpin` and the orthogonal volume theorem are **not** #255 exports and are no longer cited; #255's README states that only `OrthogonalTamagawaAndLatticeMass` may export them |
 | 8D--8E | L-functions | Layer 1 Poisson summation, analytic dual/covolume identities, and Gaussian theta transformation; `FEPairWithLevel` for the resulting real-parameter functional equation | analytic Gaussian transformation only; the arithmetic upper-half-plane theta remains here |
 | 6C, 6G | Root Systems | Layer 5 ADE classification and `Nat.card P.weylGroup` | the rank-eight root system with the `E8` Cartan matrix is of type `E8` |
 
@@ -843,7 +882,7 @@ B4; and the diagonal embedding of `T_L(ℚ)`.
 **B7. Measures in rank 2.** A canonical Haar measure on `T_L(ℚ_p)` and on `T_L(ℝ)`, the
 product measure on the restricted product of the `T_L(ℚ_p)` relative to the `T_L(ℤ_p)`, and
 the finite covolume of the diagonal `T_L(ℚ)`. The normalization is compared with the one the
-sibling roadmap uses for `SO`, so that 7G and 7H speak of one measure.
+sibling roadmap uses for `SO`, so that 7G here and the successor's 7H speak of one measure.
 
 **B8. The mass of a positive definite binary genus.** Let `L` be positive definite of rank 2
 with order `𝒪 = 𝒪(L)`, so `Δ < 0`, and write `w = #𝒪ˣ`. The content and the determinant are
@@ -871,7 +910,8 @@ For `A₂` this gives `Δ = −3`, `w = 6`, `h⁺ = 1` with the principal class 
 class numbers and is a required check: `Δ = −23`, `w = 2`, `h⁺ = 3` and `a = 1`, so `h = 2`,
 the two classes are `!![2, 1; 1, 12]` with `|O| = 4` and `!![4, 1; 1, 6]` with `|O| = 2`,
 and `m = 1/4 + 1/2 = 3/4 = h⁺/(2w)`, whereas `h/(2w)` would give `1/2`. The milestone also
-proves that these values agree with the Conway–Sloane normalization of 7H in rank 2.
+proves that these values agree with the Conway–Sloane normalization that the successor's 7H
+uses in rank 2, so the two documents cannot drift apart on the rank-2 constant.
 
 | Milestone | Direct prerequisites |
 | --- | --- |
@@ -886,10 +926,14 @@ proves that these values agree with the Conway–Sloane normalization of 7H in r
 
 ### Layer 4: classes, spinor genera, Eichler's theorem, and neighbors
 
-Orthogonal and Spin Groups owns the quadratic-space groups, spinor norm, and
-orthogonal-specific approximation theorem. Adelic Algebraic Groups owns the generic
-restricted-product, rational-diagonal, quotient, and measure substrate. This layer owns their
-specialization to integral lattices.
+Orthogonal and Spin Groups owns the quadratic-space groups, the spinor norm and the local
+spinor norms. Adelic Algebraic Groups owns the generic restricted-product and rational-diagonal
+substrate. This layer owns their specialization to integral lattices.
+
+⚠ **4D and the rank-`≥ 3` half of 4E are not milestones of this roadmap.** They rest on strong
+approximation for `Spin`, which neither supplier exports; their exact owner is
+`OrthogonalTamagawaAndLatticeMass` (§*Scope*). They are stated below because this layer supplies
+their lattice-side inputs and the successor must consume 4A–4C by name rather than rebuild them.
 
 **4A. Class sets.** The class `cls L`, the proper class `cls⁺ L`, the genus `gen L`, and
 the proper genus, with the inclusions `cls ⊆ spn ⊆ gen` once 4C defines the middle term.
@@ -936,17 +980,20 @@ The milestone proves three statements:
 - its order is the count in O'Meara 102:7.
 
 
-**4D. Eichler's theorem.** For an indefinite nondegenerate lattice of rank at least 3, a
-proper spinor genus contains exactly one proper class, so `cls⁺ L = spn⁺ L`. The passage
-from proper classes to classes needs the analysis of when `O(L) ≠ SO(L)`, and that is part
-of the milestone.
+**4D. Eichler's theorem.** *Owner:* `OrthogonalTamagawaAndLatticeMass`. For an indefinite
+nondegenerate lattice of rank at least 3, a proper spinor genus contains exactly one proper
+class, so `cls⁺ L = spn⁺ L`. The passage from proper classes to classes needs the analysis of
+when `O(L) ≠ SO(L)`, and that is part of the milestone. The input is strong approximation for
+`Spin` in the noncompact-place form; no roadmap in the current portfolio proves it, which is
+why this statement is recorded here as the successor's obligation and not as one of ours.
 
-**4E. Class numbers of indefinite lattices.** For rank at least 3 the class number is
-finite, and it is bounded by the count of 4C. For rank 2 the theorem is B5, through the
-correspondence B2: the classes in a genus form a subset of the invertible proper ideal classes
-of `𝒪(L)`, hence of its Picard group, and that group is finite. The rank-2 proof does not
-use strong approximation, and
-the proof for rank at least 3 does not cover rank 2.
+**4E. Class numbers of indefinite lattices.** *Rank 2 is owned here; rank at least 3 is owned by*
+`OrthogonalTamagawaAndLatticeMass`. For rank 2 the theorem is B5, through the correspondence B2:
+the classes in a genus form a subset of the invertible proper ideal classes of `𝒪(L)`, hence of
+its Picard group, and that group is finite. The rank-2 proof does not use strong approximation,
+and the proof for rank at least 3 does not cover rank 2 — so the split is not an accident of the
+narrowing. For rank at least 3 the class number is finite and bounded by the count of 4C; that
+argument runs through 4D and moves with it.
 
 **4F. Automorphism groups of indefinite lattices.** For an indefinite nondegenerate lattice
 of rank at least 3, `O(L)` is infinite. The proof splits by whether `V = ℚ ⊗ L` has a nonzero
@@ -1015,8 +1062,9 @@ claimed, and no consumer may infer a complete list of classes from neighbor step
 | 4A | L 2C, 2G, 3F, B2, B5 |
 | 4B | L 3A, 3B, 4A; R Adelic Algebraic Groups Layers 1--3; R Orthogonal and Spin Groups Layers 0, 2 and 3 |
 | 4C | T `squareClass`; L 3C, 3D, 4B; R Orthogonal and Spin Groups Layers 1 and 2 |
-| 4D | L 4B, 4C; R Adelic Algebraic Groups Layer 5; R Orthogonal and Spin Groups Layer 4 |
-| 4E | L 4C, 4D, B2, B5 |
+| 4D | *successor milestone*: L 4B, 4C; strong approximation for `Spin`, from `OrthogonalTamagawaAndLatticeMass` over `AlgebraicGroupStrongApproximation` |
+| 4E, rank 2 | L B2, B5 |
+| 4E, rank ≥ 3 | *successor milestone*: L 4C, 4D |
 | 4F | L 0E, 2C, B4; R Orthogonal and Spin Groups Layer 2 |
 | 4G | M `Submodule.basisOfPid`; L 0C, 3F |
 
@@ -1193,7 +1241,8 @@ which the minimal vectors form a root system of type `E₈`, discharges the same
 **6D. Rank 16, the two classes.** `E₈²` and `D₁₆⁺` are even unimodular of rank 16, they lie
 in one genus, and they are not isometric, because their root systems differ. This milestone
 constructs both lattices and proves those four statements. It claims no completeness: that
-the genus has no third class is 7I, which comes after the mass formula.
+the genus has no third class is 7I, which comes after the mass formula and belongs to
+`OrthogonalTamagawaAndLatticeMass`.
 
 **6E. Rank 24 reference lattices.** The 24 Niemeier lattices are defined by explicit Gram
 data or glue data. For each row the milestone proves evenness, unimodularity, rank 24, and
@@ -1227,13 +1276,24 @@ the Weyl group order abstractly, and it proves no type-specific value.
 | 6F | L 0G, 2B |
 | 6G | M `CartanMatrix.E₈`; L 0G, 2B, 2C; R Root Systems Layer 5 |
 
-### Layer 7: the Smith–Minkowski–Siegel mass formula
+### Layer 7: masses, local densities, and the archimedean factor
 
-Every statement in this layer is about positive definite genera. The proof route is the adelic
-volume formula for `SO(V)`. The Conway–Sloane mass formula paper is the source for the
-normalization. The volume theorem of Orthogonal and Spin Groups Layer 5 differs from the strong
-approximation theorem of its Layer 4. Strong approximation is an indefinite statement, and the
-volume theorem is what a positive definite mass needs. Neither implies the other.
+Every statement in this layer is about positive definite genera, and the Conway–Sloane mass
+formula paper is the source for the normalization.
+
+⚠ **The mass formula itself is not a milestone of this roadmap.** Assembling the local factors
+into `m(f)` runs through the adelic volume of `SO(V)`, which needs a Tamagawa normalization and
+the volume theorem; #246 exports neither, and #255 states explicitly that only
+`OrthogonalTamagawaAndLatticeMass` may export the orthogonal volume theorem. Milestones **7B,
+7F, 7H and 7I are therefore that successor's**, and are stated here only as the boundary it
+must meet. What this roadmap owns is everything the successor consumes from the lattice side:
+the two masses and their comparison (7A), the local densities at odd `p` (7C) and at `2` (7D),
+the archimedean factor (7E), and the low-rank values (7G). Those are lattice arithmetic and use
+no adelic volume.
+
+⚠ Do not conflate the two orthogonal inputs the successor needs. Strong approximation is an
+*indefinite* statement, the volume theorem is what a *positive definite* mass needs, and neither
+implies the other.
 
 **7A. Proper mass and full mass.** The two sums are defined, and both are finite by 2C and
 2G. For `rank L ≥ 1` the relation between them is proved, and not assumed. A class either
@@ -1244,9 +1304,9 @@ gives the values there.
 There is no product formula for the mass of a direct sum, and that non-statement is
 recorded. The mass of a twist `L(a)` is stated for `a > 0` only.
 
-**7B. The adelic decomposition.** The inputs are Adelic Algebraic Groups' quotient and
-Tamagawa-measure substrate, Orthogonal and Spin Groups' volume theorem, and the dictionary
-of 4B. The quotient
+**7B. The adelic decomposition.** *Owner:* `OrthogonalTamagawaAndLatticeMass`. The inputs are
+`TamagawaMeasures`' quotient and Tamagawa-measure substrate, that successor's own orthogonal
+volume theorem, and the dictionary of 4B, which is ours. The quotient
 `SO(V)(ℚ) \ SO(V)(𝔸)` is decomposed into measurable pieces, indexed by the proper classes.
 The piece of the class of `M` has volume
 
@@ -1265,9 +1325,11 @@ This milestone asks for:
   with `r₀` given explicitly in terms of `n` and `v_p(2 det A)`, so the limit exists and is
   a positive rational number;
 - independence of the basis, and dependence only on the isometry class of `L_p`;
-- the volume identity `vol(K_p(L)) = α_p(L)` for the measure attached to the gauge form of
-  the equation `Xᵀ A X = A`, which is the local factor of the Tamagawa measure of 7B, and
-  `[K_p(L) : K_p⁺(L)] = 2` exactly when `K_p(L)` contains an element of determinant `−1`;
+- `[K_p(L) : K_p⁺(L)] = 2` exactly when `K_p(L)` contains an element of determinant `−1`.
+  ⚠ The companion identity `vol(K_p(L)) = α_p(L)`, for the measure attached to the gauge form of
+  the equation `Xᵀ A X = A`, is **not** a milestone here: that measure is the local factor of the
+  Tamagawa measure, which no current supplier defines. It is `OrthogonalTamagawaAndLatticeMass`'s
+  first obligation, and `α_p` as defined above is exactly what it must be shown equal to;
 - the unramified value: for `p ∤ 2 det L`, so that `L_p` is unimodular,
 
       α_p(L) = 2 ∏_{i=1}^{m} (1 − p^{−2i})                      if n = 2m + 1,
@@ -1359,9 +1421,11 @@ that connects it with the mass formula:
 
 It also proves that this real volume is the archimedean factor of the measure used in 7B.
 
-**7F. The volume theorem, consumed.** `vol(SO(V)(ℚ) \ SO(V)(𝔸)) = 2`, with the dimension
-hypotheses and the normalization of the supplier, and with the low-dimensional exceptions
-recorded.
+**7F. The volume theorem.** *Owner:* `OrthogonalTamagawaAndLatticeMass`.
+`vol(SO(V)(ℚ) \ SO(V)(𝔸)) = 2`, with its dimension hypotheses and normalization, and with the
+low-dimensional exceptions recorded. ⚠ This roadmap's low-rank branch 7G states the rank `0`,
+`1` and `2` mass values directly and does not derive them from this theorem, so the two
+documents must agree on the exceptions rather than one deducing them from the other.
 
 **7G. Low rank.** Three cases are proved directly, and none of them is a specialization of
 the general derivation:
@@ -1375,9 +1439,10 @@ the general derivation:
   `|O(M)|` is not constant on the genus.
 
 The derivation of 7B to 7F is stated for rank at least 3, and 7H packages all ranks with
-explicit branches.
+explicit branches. 7G is proved here, without any of them.
 
-**7H. The Conway–Sloane formula and its checks.** The formula
+**7H. The Conway–Sloane formula and its checks.** *Owner:*
+`OrthogonalTamagawaAndLatticeMass`. The formula
 
     m(f) = 2 π^{−n(n+1)/4} ∏_{j=1}^{n} Γ(j/2) ∏_p 2 m_p(f)
 
@@ -1391,7 +1456,9 @@ with the dimension guard, together with the dictionary to Siegel's local density
 
 The third check is the input to 7I.
 
-**7I. The rank-16 genus has two classes.** Both automorphism orders are computed first. `E₈²`
+**7I. The rank-16 genus has two classes.** *Owner:* `OrthogonalTamagawaAndLatticeMass`; the two
+automorphism orders it needs are computed here, in 6D and 6G. Both automorphism orders are
+computed first. `E₈²`
 has two indecomposable summands, both isometric to `E₈`, so `|O(E₈²)| = 2·|O(E₈)|²`, with
 `|O(E₈)|` from 6G. The order `|O(D₁₆⁺)|` is computed from its root system `D₁₆` together
 with the stabilizer of the glue vector. With `m₁₆` from 7H, the
@@ -1401,14 +1468,14 @@ equality `1/|O(E₈²)| + 1/|O(D₁₆⁺)| = m₁₆` and the finiteness of the
 | Milestone | Direct prerequisites |
 | --- | --- |
 | 7A | L 2C, 2G, 4A |
-| 7B | L 4B, 7A; R Adelic Algebraic Groups Layers 3, 6 and 7; R Orthogonal and Spin Groups Layers 3 and 5 |
+| 7B | *successor milestone*: L 4B, 7A; `TamagawaMeasures` quotient and measure substrate; the volume theorem 7F |
 | 7C | L 3B, 3C, 4B |
 | 7D | L 3D, 3E, 4B |
 | 7E | M `Real.Gamma`, sphere volumes; L 2D |
-| 7F | R Adelic Algebraic Groups Layers 6 and 7; R Orthogonal and Spin Groups Layer 5 |
+| 7F | *successor milestone*: `TamagawaMeasures`, and `OrthogonalTamagawaAndLatticeMass`'s own gauge forms |
 | 7G | L 2C, 4A, 7A, B6, B7, B8 |
-| 7H | L 2C, 6C, 6D, 6G, 7B, 7C, 7D, 7E, 7F, 7G |
-| 7I | L 2G, 6D, 6G, 7H |
+| 7H | *successor milestone*: L 2C, 6C, 6D, 6G, 7C, 7D, 7E, 7G; successor 7B, 7F |
+| 7I | *successor milestone*: L 2G, 6D, 6G; successor 7H |
 
 ### Layer 8: theta series
 
@@ -1467,8 +1534,8 @@ representatives, and the numerical columns. The milestone defines one object,
 - the number of listed lattices is the class number of `gen L`, which is the label
   component `class_number`, is the invariant defined in 4A, and is finite by 2G.
 
-The last field is the completeness statement, and a mass certificate from 7H is one way to
-prove it for a given genus, not a prerequisite of the definition. The fifth label component
+The last field is the completeness statement, and a mass certificate from the successor's 7H is
+one way to prove it for a given genus, not a prerequisite of the definition. The fifth label component
 has no mathematical content in this roadmap.
 
 `Suggested.lean` carries the structure, because every condition in it is expressible at the
@@ -1581,15 +1648,17 @@ for the eight items listed. The layer that introduces the object owns them.
 ### Class, genus and spinor genus (4A, 4C)
 
 - **Constructors.** `cls L`, `cls⁺ L`, `gen L`, `spn L`, `spn⁺ L`.
-- **Examples.** Genera of class number 1; the rank-16 genus with two classes (6D).
+- **Examples.** Genera of class number 1; the rank-16 genus with two classes (6D — that they
+  are the *only* two is the successor's 7I).
 - **Morphisms.** The inclusions between the five sets, and the double-coset description
   (4B).
 - **Functoriality.** Behavior under twists, and under orthogonal sums where it is defined.
-- **Comparison lemmas.** The count of proper spinor genera (4C); Eichler's theorem (4D).
+- **Comparison lemmas.** The count of proper spinor genera (4C). Eichler's theorem (4D) is the
+  successor's, and this API is what it consumes.
 - **Naturality.** The double-coset description is compatible with a change of the base
   lattice inside a genus.
 - **Edge cases.** Rank 0, 1 and 2; definite and indefinite.
-- **Downstream.** 4E to 4G, 7A, 7B, 9A.
+- **Downstream.** 4E to 4G, 7A, 9A; and the successor's 7B.
 
 ### The quadratic order of a binary lattice (B1)
 
@@ -1618,13 +1687,14 @@ for the eight items listed. The layer that introduces the object owns them.
 ### The mass (7A)
 
 - **Constructors.** `m(gen L)` and `m⁺(gen L)`.
-- **Examples.** Rank 0 gives 1, rank 1 gives 1/2, and the rank-8 even unimodular genus
-  gives `1/696729600` (7H).
+- **Examples.** Rank 0 gives 1 and rank 1 gives 1/2, both from 7G. The rank-8 even unimodular
+  value `1/696729600` follows from the successor's 7H and is not proved here; what is proved
+  here is `|O(E₈)| = 696729600` (6G), the number that value inverts.
 - **Morphisms.** None: the mass is a rational number attached to a genus.
 - **Functoriality.** Behavior under a positive twist. There is no formula for a direct sum,
   and that non-statement is recorded.
 - **Comparison lemmas.** `m⁺ = 2m` for `rank L ≥ 1`, and `m⁺ = m = 1` in rank 0; the local
-  factors of 7C and 7D; the dictionary to Siegel's `α_p` (7H).
+  factors of 7C and 7D. The dictionary to Siegel's `α_p` is stated with the successor's 7H.
 - **Naturality.** The mass depends only on the genus.
 - **Edge cases.** Ranks 0, 1 and 2 (7G).
 - **Downstream.** 6D, 9A.
@@ -1657,9 +1727,9 @@ for the eight items listed. The layer that introduces the object owns them.
 | Existence of an even lattice (5B) | Nikulin Thm 1.10.1 | conditions 3 and 4 apply exactly when `t₊ + t₋ = l(A_{q_p})` | "conditions 1 and 2 suffice". They suffice only under the strict inequality `t₊ + t₋ > l(A_q)`, which is Corollary 1.10.2. |
 | Uniqueness in a genus (5C) | Nikulin Thm 1.13.2 | `t₊ ≥ 1` and `t₋ ≥ 1`, so `L` is indefinite | "the invariants `(t₊, t₋, q)` determine the isometry class". `E₈²` and `D₁₆⁺` share all three and are not isometric. |
 | Surjectivity of `O(T) → O(q_T)` (5E) | Nikulin Thm 1.14.2 | `T` indefinite, and the two rank conditions | "the map is always surjective". It can fail for definite lattices, where the genus can have several classes. |
-| Eichler's theorem (4D) | O'Meara 104:5 | indefinite, and rank at least 3 | "every indefinite lattice satisfies `cls⁺ = spn⁺`". Rank 2 is excluded, and 4E proves that case by a different argument. |
-| Strong approximation for `Spin` (consumed) | O'Meara 104:4 | dimension at least 3, and a noncompact place | "it also proves the Tamagawa volume theorem". It does not: 7F consumes a separate theorem. |
-| The mass formula (7H) | Conway–Sloane, eq. (2) | rank at least 2, in the stated normalization | "the formula holds in every rank". In rank at most 1 a factor 2 becomes 1, and `m` is 1/2 in rank 1 and 1 in rank 0. |
+| Eichler's theorem (4D, not owned here) | O'Meara 104:5 | indefinite, and rank at least 3 | "every indefinite lattice satisfies `cls⁺ = spn⁺`". Rank 2 is excluded, and the rank-2 half of 4E — which stays here — proves that case by a different argument. |
+| Strong approximation for `Spin` (not owned here) | O'Meara 104:4 | dimension at least 3, and a noncompact place | "it also proves the Tamagawa volume theorem". It does not: 7F is a separate theorem, and both belong to `OrthogonalTamagawaAndLatticeMass`. |
+| The mass formula (7H, not owned here) | Conway–Sloane, eq. (2) | rank at least 2, in the stated normalization | "the formula holds in every rank". In rank at most 1 a factor 2 becomes 1, and `m` is 1/2 in rank 1 and 1 in rank 0 — which 7G proves here, so the successor must not re-derive it from the general formula. |
 | The local density at 2 (7D) | Cho, Compositio 151 (2015) | residue characteristic 2, with the smoothened model | "the Conway–Sloane dyadic table proves it". The table is stated there without proof. |
 | Classification in rank at most 9 (6C) | O'Meara 106:13 | rank at most 9, positive definite | "a positive definite unimodular lattice is determined by its rank and parity". Rank 16 has two even classes (6D). |
 | Automorphisms of an indefinite lattice (4F) | O'Meara §104; Cassels ch. 13 | rank at least 3, and a case split on isotropy over `ℚ` | "an indefinite rational space has an isotropic vector". `x² + y² − 3z²` is indefinite over `ℝ` and anisotropic over `ℚ`, so the transvection proof covers only one case. |
@@ -1670,7 +1740,7 @@ for the eight items listed. The layer that introduces the object owns them.
 | The odd local density type (7C) | Conway–Sloane §12; Gan–Yu Thm 7.3 | `ε` is the type of the reduction, `((−1)^m det | p)` | "`ε = +1` exactly when `det L_p` is a square". The hyperbolic plane over `p = 3` has `det = −1`, a nonsquare, and is split, with `α_3 = 4/3`. |
 | Cho's dyadic formula (7D) | Cho Thm 5.2 with Lemma 5.1 | the exponent `N = N_Q − N_M` and the index `[O : SO]` | "`α_2(L) = 2^{−n(n−1)/2}·#𝒢̃_L(𝔽_2)`". `N` is generally nonzero, and `β_L` carries `[O(V,q) : SO(V,q)]⁻¹`. |
 | Proper against full mass (7A) | Conway–Sloane §2 | `rank L ≥ 1` | "`m⁺ = 2m` always". In rank 0 both masses are 1, because `O(L) = SO(L) = 1`. |
-| Rank-16 completeness (7I) | Witt; Conway–Sloane §9 | the mass formula and both automorphism orders | "the two classes are known to exhaust the genus once they are constructed". 6D proves only that the two exist, lie in one genus, and differ. |
+| Rank-16 completeness (7I, not owned here) | Witt; Conway–Sloane §9 | the mass formula and both automorphism orders | "the two classes are known to exhaust the genus once they are constructed". 6D proves only that the two exist, lie in one genus, and differ; completeness waits for `OrthogonalTamagawaAndLatticeMass`. |
 | Theta convergence (8B) | Poisson summation; `ZLattice` summability | `L` is positive definite | "the theta series of a definite lattice converges". For a negative definite lattice the terms are unbounded. |
 
 ## Worked examples
@@ -1705,12 +1775,12 @@ factor of 2, a wrong sign, or a vacuous definition.
   with `E₈` by an explicit isometry; its trivial discriminant group is also computed as
   `H^⊥/H` (1K).
 - `E₈`: even, unimodular, positive definite, `min = 2`, 240 minimal vectors, signature
-  `(8,0)`, `sign q_{E₈} = 0`, unique in rank 8, `|O(E₈)| = 696729600`, and mass
-  `1/696729600` (0G, 2B, 2C, 6C, 7H).
+  `(8,0)`, `sign q_{E₈} = 0`, unique in rank 8, and `|O(E₈)| = 696729600` (0G, 2B, 2C, 6C, 6G).
+  Its mass `1/696729600` is the successor's 7H.
 - Even unimodular lattices have `8 ∣ t₊ − t₋`, so no even unimodular positive definite
   lattice has rank 1 to 7 (1I, 6B).
-- Rank 16: `E₈²` and `D₁₆⁺` lie in one genus and are not isometric (6D), and they exhaust
-  the genus (7I).
+- Rank 16: `E₈²` and `D₁₆⁺` lie in one genus and are not isometric (6D). That they *exhaust* the
+  genus is 7I, and is the successor's.
 - `Λ_{K3} = U³ ⊕ E₈(−1)²`: even, unimodular, signature `(3,19)`, `det = −1`, and unique
   with that signature. For `d > 0` the lattice `⟨2d⟩` embeds primitively, and uniquely up
   to `O(Λ_{K3})`. Every even lattice of signature `(1, ρ−1)` with `ρ ≤ 10` embeds
@@ -1737,8 +1807,9 @@ The rest of the order follows the prerequisite tables:
 - Layer 4 needs Layers 2, 3 and B, and the Orthogonal and Spin Groups roadmap;
 - Layer 5 needs Layers 1 and 3;
 - Layer 6 needs Layers 1, 2 and 5, and milestone 6C also needs Root Systems;
-- Layer 7 needs Layers 2, 3, 4 and B, the volume theorem, and 6C, 6D and 6G for its
-  checks, and 7I closes rank 16 after 7H;
+- Layer 7's own milestones — 7A, 7C, 7D, 7E and 7G — need Layers 2, 3, 4 and B, and nothing
+  adelic; 7B, 7F, 7H and 7I are `OrthogonalTamagawaAndLatticeMass`'s and are ordered after the
+  generic `TamagawaMeasures`;
 - milestones 8A to 8C need Layers 0 to 2; 8D and 8E consume L-functions Layer 1's
   analytic dual/covolume and Gaussian theta milestones, and L-functions consumes nothing back;
 - Layer 9 comes last.
