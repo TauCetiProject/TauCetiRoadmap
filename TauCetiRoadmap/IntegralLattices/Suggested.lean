@@ -107,8 +107,10 @@ rational form. -/
 theorem algebraMap_integralForm_apply (x y : L.carrier) :
     ((L.integralForm x y : ℤ) : ℚ) = L.form x y := sorry
 
-/-- A form twist changes the bilinear form and keeps the embedded carrier fixed. -/
-noncomputable def formTwist (a : ℤ) : IntegralLattice V := sorry
+/-- A form twist changes the bilinear form and keeps the embedded carrier fixed.
+⚠ `L` is bound explicitly rather than taken from the section: the body is `sorry` and the type
+does not mention `L`, so Lean would drop it and every `L.formTwist a` below would fail. -/
+noncomputable def formTwist (L : IntegralLattice V) (a : ℤ) : IntegralLattice V := sorry
 
 /-- Scalar dilation changes a submodule inside the rational ambient space.  It is a
 different operation from `formTwist`. -/
@@ -336,7 +338,15 @@ variable (L : IntegralLattice V) [L.IsNondegenerate]
 noncomputable def IntegralLattice.discriminantPairing :
     L.DiscriminantGroup →+ CharacterModule L.DiscriminantGroup := sorry
 
-noncomputable def IntegralLattice.discriminantBilinearModule : FiniteBilinearModule := sorry
+/-- ⚠ The carrier is **data**, not a milestone: `A` is `L.DiscriminantGroup` by construction and
+the pairing is `discriminantPairing`. Leaving the whole record a `sorry` makes `A` opaque, and
+then `AddSubgroup L.DiscriminantGroup` no longer matches `AddSubgroup (…).A`, so the isotropic
+and Lagrangian statements of Layer 1 cannot be written at all. Only `symmetric` is a milestone. -/
+noncomputable def IntegralLattice.discriminantBilinearModule : FiniteBilinearModule where
+  A := L.DiscriminantGroup
+  finite := L.discriminantGroup_finite
+  pairing := L.discriminantPairing
+  symmetric := sorry
 
 theorem IntegralLattice.discriminantBilinearModule_isNondegenerate :
     L.discriminantBilinearModule.IsNondegenerate := sorry
@@ -348,8 +358,14 @@ theorem IntegralLattice.discriminantQuadraticForm_mk (hL : L.IsEven) (x : L.dual
     L.discriminantQuadraticForm hL (L.carrierInDual.mkQ x) =
       (↑(L.form x x / (2 : ℚ)) : AddCircle (1 : ℚ)) := sorry
 
+/-- ⚠ Same as `discriminantBilinearModule`: the carrier and the form are data, so that the
+half-norm convention of `discriminantQuadraticForm_mk` is the one every consumer sees, and so that
+`IsIsotropic` accepts a subgroup of `L.DiscriminantGroup`. Only `polar` is a milestone. -/
 noncomputable def IntegralLattice.discriminantQuadraticModule (hL : L.IsEven) :
-    FiniteQuadraticModule := sorry
+    FiniteQuadraticModule where
+  toFiniteBilinearModule := L.discriminantBilinearModule
+  quadratic := L.discriminantQuadraticForm hL
+  polar := sorry
 
 theorem IntegralLattice.discriminantQuadraticModule_isNondegenerate (hL : L.IsEven) :
     (L.discriminantQuadraticModule hL).IsNondegenerate :=
@@ -685,7 +701,7 @@ namespace IntegralLattice
 variable {V : Type v} [AddCommGroup V] [Module ℚ V]
 
 /-- The integral localization of the accepted embedded carrier. -/
-abbrev LocalCarrier (L : IntegralLattice V) (p : ℕ) := ℤ_[p] ⊗[ℤ] L.carrier
+abbrev LocalCarrier (L : IntegralLattice V) (p : ℕ) [Fact p.Prime] := ℤ_[p] ⊗[ℤ] L.carrier
 
 /-- The integral form on `L` base-changed from `ℤ` to `ℤ_[p]`.  This construction starts
 from `L.integralForm`, not from the rational form `L.form`. -/
@@ -694,7 +710,7 @@ noncomputable def localIntegralForm (L : IntegralLattice V) (p : ℕ) [Fact p.Pr
   LinearMap.BilinForm.baseChange ℤ_[p] L.integralForm
 
 /-- The completed rational ambient space, separately base-changed from `ℚ`. -/
-abbrev CompletedAmbient (L : IntegralLattice V) (p : ℕ) := ℚ_[p] ⊗[ℚ] V
+abbrev CompletedAmbient (L : IntegralLattice V) (p : ℕ) [Fact p.Prime] := ℚ_[p] ⊗[ℚ] V
 
 /-- The rational form on the completed ambient space. -/
 noncomputable def completedRationalForm (L : IntegralLattice V) (p : ℕ) [Fact p.Prime] :
@@ -752,13 +768,13 @@ norm-equation/quaternion symbol with CFT's cohomological symbol and exports this
 Hilbert reciprocity. The oddity formula and sign-product conditions specialize this exact
 supplier theorem; there is no local Hilbert-symbol package. -/
 example (a b : ℚˣ) :
-    (∏ v ∈ ClassFieldTheory.finiteHilbertSupport a b,
+    (∏ v ∈ ClassFieldTheory.finiteHilbertSupport ℚ a b,
         QuadraticFormInvariants.hilbertSign
-          (ClassFieldTheory.finiteHilbertInvariantAt v a b)) *
+          (ClassFieldTheory.finiteHilbertInvariantAt ℚ v a b)) *
       ∏ w : InfinitePlace ℚ,
         QuadraticFormInvariants.hilbertSign
-          (ClassFieldTheory.infiniteHilbertInvariantAt w a b) = 1 :=
-  QuadraticFormInvariants.hilbertSymbol_productFormula a b
+          (ClassFieldTheory.infiniteHilbertInvariantAt ℚ w a b) = 1 :=
+  QuadraticFormInvariants.hilbertSymbol_productFormula ℚ a b
 
 end Layer3
 
