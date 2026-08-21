@@ -6,8 +6,11 @@ import Mathlib
 **This file is not the roadmap and is not exhaustive.** `README.md` is the definitive
 specification. The generic restricted-product declarations below elaborate against the repository
 pin and import only Mathlib. Scheme-level local points, strong approximation, convergence factors,
-Tamagawa measures, reduction theory, and Tamagawa numbers have been split into future successor
-roadmaps. This file deliberately introduces no provisional private group-scheme interface.
+Tamagawa measures, reduction theory, and Tamagawa numbers have been split into named future
+successor roadmaps — `AlgebraicGroupStrongApproximation`, `ArithmeticReductionTheory`,
+`TamagawaMeasures` and `AdelicFourierAnalysis` (`README.md`, §*Deferred successor roadmaps and
+acceptance gates*) — so that each removed theorem has exactly one owner. This file deliberately
+introduces no provisional private group-scheme interface.
 -/
 
 namespace TauCetiRoadmap.AdelicAlgebraicGroups

@@ -8,8 +8,9 @@ Tamagawa measures and numbers.
 
 That scope boundary is deliberate. Those scheme-theoretic and measure-theoretic applications need
 substantial reductive-group, Artin-`L`-factor, reduction-theory, and adelic Fourier-analysis
-suppliers which are not yet public. They belong in stacked successor roadmaps after the exact
-supplier declarations exist and can be imported. This roadmap therefore lands the independent
+suppliers which are not yet public. They belong in stacked successor roadmaps — named exactly in
+§*Deferred successor roadmaps and acceptance gates* below — after the exact supplier declarations
+exist and can be imported. This roadmap therefore lands the independent
 restricted-product groundwork first.
 
 Suggested home: `TauCeti/Topology/Algebra/RestrictedProduct/`, with arithmetic specializations in
@@ -145,12 +146,15 @@ hypothesis.
 ## Deferred successor roadmaps and acceptance gates
 
 The topics below are **not milestones of this roadmap**. They record the split forced by the
-missing suppliers and prevent a future PR from reintroducing the same implicit dependencies.
+missing suppliers and prevent a future PR from reintroducing the same implicit dependencies. Each
+one has an exact owner: a named successor roadmap. The names below are the ones
+`OrthogonalSpinGroups` and `IntegralLattices` cite, so that a theorem removed from this roadmap
+has one owner and not two.
 
-### A. Algebraic-group adelic points and strong approximation
+### A. `AlgebraicGroupStrongApproximation` — algebraic-group adelic points and strong approximation
 
-A successor may specialize this generic API only after an accepted Reductive Groups roadmap
-publishes and the successor directly imports declarations for:
+`AlgebraicGroupStrongApproximation` may specialize this generic API only after an accepted
+Reductive Groups roadmap publishes and it directly imports declarations for:
 
 1. a representable affine finite-type group functor and its `R`-point group, functorial in a
    commutative `K`-algebra `R`;
@@ -165,10 +169,10 @@ No provisional `LocalPointGroup` or `strongApproximation` declaration is exporte
 successor must use the suppliers' public names and prove that its restricted-product carrier is an
 instance of this generic contract.
 
-### B. Tamagawa measures and convergence factors
+### B. `TamagawaMeasures` — Tamagawa measures and convergence factors
 
 A general connected reductive group cannot obtain a convergent product measure from a gauge form
-alone. A Tamagawa successor must import both the reductive-group character module and an accepted
+alone. `TamagawaMeasures` must import both the reductive-group character module and an accepted
 Artin-`L` supplier providing:
 
 - the finite free character lattice `X*(G_{̅K})` with its continuous absolute-Galois action;
@@ -185,10 +189,10 @@ which the character module is zero (for example, connected semisimple groups, af
 vanishing) and must still prove convergence of its normalized local volumes. This roadmap exports
 no `tamagawaMeasure` placeholder.
 
-### C. Reduction theory
+### C. `ArithmeticReductionTheory` — reduction theory
 
-Reduction theory must be a separate staged successor, not one milestone saying “construct Siegel
-sets.” Its dependency order is:
+Reduction theory is `ArithmeticReductionTheory`, a separate staged successor rather than one
+milestone saying “construct Siegel sets.” Its dependency order is:
 
 1. rational parabolics, minimal parabolics, Levi decompositions, and maximal `K`-split tori;
 2. local and adelic Iwasawa decompositions with compatible maximal compact subgroups;
@@ -202,7 +206,7 @@ sets.” Its dependency order is:
 The finite-covolume and `tamagawaNumber` definitions may appear only after all seven stages are
 available.
 
-### D. Central-isogeny defect data
+### D. Central-isogeny defect data (owned by `TamagawaMeasures`)
 
 For a central isogeny `1 → Z → G̃ → G → 1`, a future volume-comparison theorem must
 name rather than hide the following inputs:
@@ -221,24 +225,33 @@ name rather than hide the following inputs:
 The exact volume formula must state which of these finite cardinalities occur and how the chosen
 local Haar normalizations enter. “Cohomological defect factor” is not an acceptable substitute.
 
-### E. Adelic Poisson summation
+### E. `AdelicFourierAnalysis` — adelic Poisson summation
 
-Adelic Poisson summation has one owner: a separate generic **Adelic Fourier Analysis** roadmap.
+Adelic Poisson summation has one owner: a separate generic `AdelicFourierAnalysis` roadmap.
 That roadmap must import the global-adele supplier and the accepted Schwartz--Bruhat/Fourier
 infrastructure, then export a named Poisson-summation theorem with its additive character,
 self-dual measure, Fourier-transform convention, lattice, and convergence hypotheses explicit.
-Neither this core nor a Tamagawa successor should re-prove it; they may only import that theorem.
+Neither this core nor `TamagawaMeasures` should re-prove it; they may only import that theorem.
 
 The resulting stack is therefore:
 
 ```text
 this generic restricted-product core
-    ├─→ algebraic-group adelic points and strong approximation
+    ├─→ AlgebraicGroupStrongApproximation
     │      [after Reductive Groups + local/global arithmetic suppliers]
-    └─→ Tamagawa measures and numbers
-           [after Reductive Groups + Artin-L + reduction theory
-            + Adelic Fourier Analysis]
+    ├─→ ArithmeticReductionTheory
+    │      [after Reductive Groups; seven staged milestones]
+    └─→ TamagawaMeasures
+           [after Reductive Groups + Artin-L + ArithmeticReductionTheory
+            + AdelicFourierAnalysis]
+                └─→ OrthogonalTamagawaAndLatticeMass
+                       [the Spin/SO specialization: the orthogonal strong-approximation
+                        application, tau(SO_Q), the genus/spinor-genus comparison, and the
+                        Smith-Minkowski-Siegel mass formula; consumed by IntegralLattices]
 ```
+
+`OrthogonalSpinGroups` (#255) and `IntegralLattices` (#256) name these same five roadmaps as the
+owners of the strong-approximation, Tamagawa and mass-formula results neither of them claims.
 
 ---
 
