@@ -36,7 +36,7 @@ exhaustive checklist. Dated provenance records are maintained privately and are 
 From `ArithmeticDirichletSeries`:
 
 ```text
-IdealWeight
+UnitaryIdealWeight
 normCoeff
 regroupByNorm
 EulerProductData
@@ -92,7 +92,7 @@ belong downstream.
 
 | Declaration | Use here |
 | --- | --- |
-| `ArithmeticDirichletSeries.IdealWeight` | coefficient systems of ray-class and Grossencharacter presentations |
+| `ArithmeticDirichletSeries.UnitaryIdealWeight` | coefficient systems of ray-class and Grossencharacter presentations. ⚠ The accepted supplier has `MultiplicativeIdealWeight` and its unitary refinement, and no `IdealWeight`; everything used here — `HasCancellation`, `sq`, `IsNormTwistOnGood`, `continuedLFunctionOfWeight` — is stated for the unitary one |
 | `ArithmeticDirichletSeries.normCoeff` | conversion of an ideal-indexed L-function into Mathlib's `LSeries` coefficients |
 | `ArithmeticDirichletSeries.regroupByNorm` | equality between the ideal sum and the norm-indexed series |
 | `ArithmeticDirichletSeries.EulerProductData` | local Euler factors and the global Euler-product theorem |
@@ -226,7 +226,7 @@ roadmap; only the real-parameter Gaussian theta needed by Hecke's method is owne
 
 For a modulus and ray class supplied by Global Number Fields, define its indicator as an
 `ArithmeticDirichletSeries.IdealArithmeticFunction` on nonzero ideals, equal to one exactly on
-prime-to-modulus ideals in that class. It is not an `IdealWeight`: the indicator of a nontrivial
+prime-to-modulus ideals in that class. It is not a `UnitaryIdealWeight`: the indicator of a nontrivial
 class is not completely multiplicative. Define the partial zeta series using the shared
 `normCoeff` and `regroupByNorm` API. Establish convergence on
 `Re s > 1`, the sum over ray classes, the common residue, and continuation to a strip by Abel
@@ -282,7 +282,7 @@ Mandatory examples:
 ### Layer 5: finite-order Hecke L-functions
 
 For `χ : GlobalNumberFields.RayClassCharacter 𝔪`, derive an
-`ArithmeticDirichletSeries.IdealWeight` from `idealClass`, using value zero on the zero ideal and
+`ArithmeticDirichletSeries.UnitaryIdealWeight` from `idealClass`, using value zero on the zero ideal and
 at primes dividing the finite part. Define the presented `heckeLFunctionC χ` and prove its
 agreement with the shared norm-regrouped series and Euler product on `Re s > 1`.
 

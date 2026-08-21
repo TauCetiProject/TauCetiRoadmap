@@ -27,8 +27,8 @@ universe u
 
 namespace ADS
 export TauCetiRoadmap.ArithmeticDirichletSeries
-  (NonzeroIdeal IdealArithmeticFunction IdealWeight normCoeff EulerProductData HasCancellation
-    continuedLFunctionOfWeight regroupByNorm)
+  (NonzeroIdeal IdealArithmeticFunction UnitaryIdealWeight normCoeff EulerProductData
+    HasCancellation continuedLFunctionOfWeight regroupByNorm)
 end ADS
 
 namespace GNF
@@ -450,7 +450,7 @@ theorem dedekindZetaC_cyclotomic_four
 /-! ## Layers 5--6: Hecke and Grossencharacter L-functions -/
 
 noncomputable def rayClassIdealWeight
-    (𝔪 : GNF.Modulus K) (χ : GNF.RayClassCharacter 𝔪) : ADS.IdealWeight K := sorry
+    (𝔪 : GNF.Modulus K) (χ : GNF.RayClassCharacter 𝔪) : ADS.UnitaryIdealWeight K := sorry
 
 noncomputable def modulusFour : GNF.Modulus ℚ := sorry
 
@@ -476,7 +476,7 @@ theorem heckeLFunctionC_eq
     {𝔪 : GNF.Modulus K} (χ : GNF.RayClassCharacter 𝔪) {s : ℂ} (hs : 1 < s.re) :
     heckeLFunctionC K χ s = LSeries
       (ADS.normCoeff K
-        (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.toArithmeticFunction K
+        (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
           (rayClassIdealWeight K 𝔪 χ))) s := sorry
 
 theorem heckeLFunctionC_induced
@@ -533,7 +533,7 @@ theorem principalHecke_test (𝔪 : GNF.Modulus K) (h𝔪 : 𝔪 ≠ GNF.Modulus
         dedekindZetaC K s * principalEulerCorrection K 𝔪 s := sorry
 
 noncomputable def grossenFullWeight
-    (weight : ADS.IdealWeight K) (shift : ℝ) (x : Kˣ) : ℂ := sorry
+    (weight : ADS.UnitaryIdealWeight K) (shift : ℝ) (x : Kˣ) : ℂ := sorry
 
 noncomputable def grossenArchimedeanFactor
     (infinityType : GNF.InfinityType K) (shift : ℝ) (x : Kˣ) : ℂ := sorry
@@ -541,43 +541,43 @@ noncomputable def grossenArchimedeanFactor
 /-- The finite-family hypotheses used by the `3-4-1` argument. Cancellation of norm twists is
 required only for nontrivial members; the identity member supplies the zeta pole. -/
 structure CancellingFamily (G : Type*) [CommGroup G] [Fintype G]
-    (w : G → ADS.IdealWeight K) : Prop where
+    (w : G → ADS.UnitaryIdealWeight K) : Prop where
   map_mul : ∀ g h : G, ∀ I : Ideal (𝓞 K),
-    (w (g * h)).toFun I = (w g).toFun I * (w h).toFun I
+    w (g * h) I = w g I * w h I
   map_one : ∀ I : Ideal (𝓞 K),
-    TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.IsGood K (w 1) I →
-      (w 1).toFun I = 1
+    TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.IsGood K (w 1) I →
+      w 1 I = 1
   cancellation : ∀ g : G, g ≠ 1 → ADS.HasCancellation K (w g)
   conj : ∀ g : G, ∃ h : G, ∀ I : Ideal (𝓞 K),
-    (w h).toFun I = starRingEnd ℂ ((w g).toFun I)
+    w h I = starRingEnd ℂ (w g I)
   cancellation_normTwist : ∀ g : G, g ≠ 1 → ∀ t : ℝ,
     ADS.HasCancellation K
-      (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.normTwist K (w g) t)
+      (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.imaginaryNormTwist K (w g) t)
 
 /-- Hypotheses for one possibly infinite-order unitary character. The square of a twist may be a
 pure norm twist or may cancel; requiring cancellation in all cases excludes quadratic examples. -/
-structure UnitaryCancelling (χ : ADS.IdealWeight K) : Prop where
+structure UnitaryCancelling (χ : ADS.UnitaryIdealWeight K) : Prop where
   not_normTwist : ∀ u : ℝ,
-    ¬ TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.IsNormTwistOnGood K χ u
+    ¬ TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.IsNormTwistOnGood K χ u
   cancellation : ADS.HasCancellation K χ
   cancellation_conj : ADS.HasCancellation K
-    (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.conj K χ)
+    (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.conj K χ)
   cancellation_normTwist : ∀ t : ℝ, ADS.HasCancellation K
-    (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.normTwist K χ t)
+    (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.imaginaryNormTwist K χ t)
   square_twist : ∀ t : ℝ,
     (∃ u : ℝ,
-      TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.IsNormTwistOnGood K
-        (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.sq K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.normTwist K χ t)) u) ∨
+      TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.IsNormTwistOnGood K
+        (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.sq K
+          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.imaginaryNormTwist K χ t)) u) ∨
       ADS.HasCancellation K
-        (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.sq K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.normTwist K χ t))
+        (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.sq K
+          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.imaginaryNormTwist K χ t))
 
 /-- Analytic presentation of the imported Hecke-character carrier. -/
 structure Grossencharacter
     (K : Type u) [Field K] [NumberField K] (𝔪 : GNF.Modulus K) where
   toHeckeCharacter : GNF.HeckeCharacter K
-  unitaryWeight : ADS.IdealWeight K
+  unitaryWeight : ADS.UnitaryIdealWeight K
   shift : ℝ
   shift_eq : shift = toHeckeCharacter.shift
   finiteCharacter : GNF.RayClassCharacter 𝔪
@@ -665,7 +665,7 @@ from the ray-class and archimedean inputs rather than assumed by the final theor
 theorem Grossencharacter.unitaryCancelling
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
     (hexc : ∀ u : ℝ,
-      ¬ TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.IsNormTwistOnGood K
+      ¬ TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.IsNormTwistOnGood K
         χ.unitaryWeight u) :
     UnitaryCancelling K χ.unitaryWeight := sorry
 
@@ -693,8 +693,8 @@ theorem equidistribution_gaussianPrimes (F : Type*) [Field F] [NumberField F]
 theorem dedekindZeta_logDeriv_eq {s : ℂ} (hs : 1 < s.re) :
     (∑' I : ADS.NonzeroIdeal K,
       TauCetiRoadmap.ArithmeticDirichletSeries.IdealArithmeticFunction.vonMangoldt K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.toArithmeticFunction K
-            (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K)) I /
+          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
+            (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.one K)) I /
         (Ideal.absNorm (I : Ideal (𝓞 K)) : ℂ) ^ s) =
       -deriv (dedekindZeta K) s / dedekindZeta K s := sorry
 
@@ -702,11 +702,11 @@ theorem dedekindZeta_logDeriv_eq {s : ℂ} (hs : 1 < s.re) :
 theorem dedekindZeta_idealVonMangoldt_nonneg (I : ADS.NonzeroIdeal K) :
     0 ≤
         (TauCetiRoadmap.ArithmeticDirichletSeries.IdealArithmeticFunction.vonMangoldt K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.toArithmeticFunction K
-            (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K)) I).re ∧
+          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
+            (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.one K)) I).re ∧
       (TauCetiRoadmap.ArithmeticDirichletSeries.IdealArithmeticFunction.vonMangoldt K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.toArithmeticFunction K
-            (TauCetiRoadmap.ArithmeticDirichletSeries.IdealWeight.one K)) I).im = 0 := sorry
+          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
+            (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.one K)) I).im = 0 := sorry
 
 end
 
