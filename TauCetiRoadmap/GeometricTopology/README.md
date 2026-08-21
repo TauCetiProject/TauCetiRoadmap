@@ -745,7 +745,7 @@ the disproof needs the genus and the rank side by side.
 **From Mathlib / earlier layers.** Layer 1's handlebodies (a handlebody is a boundary-sum
 of solid tori, built from layer 1's gluing) and boundary-gluing; `FundamentalGroup`
 (`Mathlib/AlgebraicTopology/FundamentalGroupoid/`) and `Group.rank` for the rank side; the
-surface (closed orientable 2-manifold) classification for the splitting surface.
+surface (closed orientable 2-manifold) classification for the splitting surface from [Surface Topology](../SurfaceTopology/README.md).
 
 **What to build.**
 - **Handlebodies** of each genus and the **Heegaard splitting** of a closed 3-manifold as
@@ -845,7 +845,7 @@ groupoid.
 - **Triangulation of a space** in the general sense: `IsTriangulable M := ∃ K, Nonempty (|K| ≃ₜ M)`.
   This is the notion in Manolescu's theorem, and it is *weaker* than asking for a
   combinatorial or PL structure. (Moise, *Geometric Topology in Dimensions 2 and 3*, treats
-  the dimension-3 existence, [extract](references/moise-triangulation-dim3.md).)
+  the dimension-3 existence, [extract](references/moise-triangulation-dim3.md).)  The dimension 2 case, Rado's theorem, is handled by the [Planar Topology](../PlanarGeometry/README.md) roadmap.
 - **Combinatorial manifolds via the link condition** (Kim's point, the simplicial side of
   PL topology). Define, recursively in dimension, a **combinatorial `n`-sphere** and
   **combinatorial `n`-ball** (a complex PL-homeomorphic, after subdivision, to the boundary
@@ -853,7 +853,7 @@ groupoid.
   the combinatorial `0`-sphere (two points) and `0`-ball (one point). Then `K` is a
   **combinatorial `n`-manifold** if the link of every vertex is a combinatorial
   `(n-1)`-sphere (interior point) or `(n-1)`-ball (boundary point). This is the definition
-  that "has the correct links to be a manifold".
+  that "has the correct links to be a manifold". The generalized maps of the [Surface Topology](../SurfaceTopology/README.md) roadmap give a complementary, dart-based encoding of local manifold structure.  In dimension 2 the condition is decidable and recursion is unecessary.
 - **The reconciliation with layer 1.** Prove that the polyhedron of a combinatorial
   `n`-manifold is a PL `n`-manifold in the sense of layer 1's `PLGroupoid`, and conversely
   that every PL manifold admits a combinatorial triangulation (Whitehead). This is the

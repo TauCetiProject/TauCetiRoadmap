@@ -137,6 +137,7 @@ deliberately scoped to the conformal-mapping spine that none of them build:
 
 - **Below — `ContourIntegration` (PR #35).** Provides residues, winding numbers, the
   argument principle, and the global Cauchy theorem (Dixon). **L0 consumes it.**
+- **Beside — `PlanarTopology`** Owns the plane topology of Jordan curves: separation, the crosscut theorem, accessibility, invariance of domain in dimension two, and the Schoenflies theorem. L2 provides that the inside of a Jordan curve is a Jordan domain
 - **Above — `ModularForms` (PR #47).** A 13-layer entry targeting the complex modular curves
   `Y(Γ)(ℂ) ≅ Γ\ℍ` (the complex-analytic versions, not the moduli-space framing). The
   **modular & elliptic uniformization** — including the
