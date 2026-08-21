@@ -16,6 +16,7 @@ body:
       options:
         - AdicSpaces
         - AlgebraicCurves
+        - ArithmeticDirichletSeries
         - CFSGStatement
         - CombinatorialHeegaardFloer
         - ConformalMapping
