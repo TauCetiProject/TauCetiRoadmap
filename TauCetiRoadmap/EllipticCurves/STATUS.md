@@ -1,95 +1,37 @@
-<!--tauceti-status:v1 {"roadmap":"EllipticCurves","to_sha":"0c1efce3abbc827ff6d7534077387f04adf9b66c","ts":"2026-08-11T15:34:55Z"}-->
+<!--tauceti-status:v1 {"roadmap":"EllipticCurves","to_sha":"7fbbcda7a64ac5557281d0c3c47cf7fd8aa36d7a","ts":"2026-08-21T21:59:44+00:00"}-->
 # Status: EllipticCurves
 
-This file documents the status of the EllipticCurves roadmap up until `0c1efce` (2026-08-11T15:34:55Z). There may have been subsequent updates.
+This file documents the status of the EllipticCurves roadmap up until `7fbbcda` (2026-08-21T21:59:44+00:00). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** No layer is finished. Layer 5's quadratic twists are essentially complete at
-equation level; Layer 0 has the function field and its places but no divisor calculus; Layer 1 has
-the isogeny type with nothing computed about it. Layers 2, 4 and 7 have only scattered
-prerequisites, and the Hasse bound and Mordell–Weil have supporting algebra but not themselves.
+**At a glance.** No layer is complete. The opening function-field theory of isogenies and the concrete quadratic-twist theory are now substantial; Layers 0, 0.5, 3, 4, and 6 remain partial, while the central constructions of the Weil-pairing/Tate-module layer and the Selmer/Sha layer have not begun.
 
 ### Named results
 
-- **The coordinate ring of an elliptic curve is a Dedekind domain**
-  ([`isDedekindDomain_coordinateRing`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Affine/CoordinateRing.html#TauCeti.WeierstrassCurve.Affine.isDedekindDomain_coordinateRing)),
-  the normality half
-  ([`isIntegrallyClosed_coordinateRing`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Affine/CoordinateRing.html#TauCeti.WeierstrassCurve.Affine.isIntegrallyClosed_coordinateRing))
-  being what the induced map on points of an isogeny needs; its fraction field is
-  [quadratic](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Affine/FunctionField/Finrank.html#WeierstrassCurve.Affine.finrank_functionField)
-  over `K(x)`.
-- **Classification of the forms split by a quadratic extension** — for `j(E) ∉ {0, 1728}`, a curve
-  becoming isomorphic to `E` over a separable quadratic `L/K` is already `K`-isomorphic to `E` or
-  to its quadratic twist by `L`
-  ([`exists_smul_eq_or_exists_smul_eq_quadraticTwist`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/QuadraticTwist.html#WeierstrassCurve.exists_smul_eq_or_exists_smul_eq_quadraticTwist)),
-  and those two are genuinely different over `K`
-  ([`not_exists_smul_quadraticTwist_eq`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/QuadraticTwist.html#WeierstrassCurve.not_exists_smul_quadraticTwist_eq)):
-  the `H¹` classification for that `j`-range, concretely rather than cohomologically.
-- **`Aut(E) = {±1}` away from `j = 0, 1728`** — the stabiliser of `E` among admissible changes of
-  variables is `{1, [-1]}`
-  ([`autGroupMulEquiv`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Aut.html#WeierstrassCurve.autGroupMulEquiv)):
-  the rational group, not the geometric one Layer 5's classification needs.
-- **The class group and units of the `S`-integers** — `Cl(𝒪_S)` is `Cl(R)` modulo the classes of
-  the primes in `S`
-  ([`integerClassGroupEquiv`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/DedekindDomain/SInteger/ClassGroup.html#IsDedekindDomain.integerClassGroupEquiv)),
-  hence finite when `Cl(R)` is, and the `S`-units are finitely generated once `Rˣ` is and `S` is
-  finite
-  ([`unit_fg_of_units`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/DedekindDomain/SInteger/Unit.html#Set.unit_fg_of_units)):
-  the inputs weak Mordell–Weil needs.
+- **Multiplicativity of isogeny degree** — every isogeny has finite positive degree, and the degree of a composite is the product of the degrees ([`TauCeti.Isogeny.degree_comp`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Degree.html#TauCeti.Isogeny.degree_comp)).
+- **The Frobenius isogenies** — finite-field Frobenius is purely inseparable of degree `q`, while relative Frobenius to the Frobenius twist is purely inseparable of degree `p` ([`degree_frobeniusIsogeny`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Frobenius.html#TauCeti.Isogeny.degree_frobeniusIsogeny), [`degree_relativeFrobeniusIsogeny`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/RelativeFrobenius.html#TauCeti.Isogeny.degree_relativeFrobeniusIsogeny)).
+- **Uniqueness of the place at infinity** — a place of the function field, trivial on the base field, is the infinity place exactly when `x` has a pole there ([`isEquiv_infinityPlace_of_one_lt`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Affine/FunctionField/InfinityPlace/Unique.html#WeierstrassCurve.Affine.isEquiv_infinityPlace_of_one_lt)).
+- **Classification of the forms split by a quadratic extension** — when `j(E) ∉ {0, 1728}`, a form split by a separable quadratic extension is already isomorphic over the base field to `E` or to its quadratic twist ([`exists_smul_eq_or_exists_smul_eq_quadraticTwist`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/QuadraticTwist.html#WeierstrassCurve.exists_smul_eq_or_exists_smul_eq_quadraticTwist)).
+- **Galois anti-equivariance of quadratic twists** — over every field containing the quadratic extension, the point-group equivalence intertwines Galois action with multiplication by the quadratic character ([`quadraticTwistPointEquiv_map_eq_quadraticCharacter_smul_map`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/QuadraticTwist.html#WeierstrassCurve.quadraticTwistPointEquiv_map_eq_quadraticCharacter_smul_map)).
 
 ### Notable definitions and infrastructure
 
-- **The isogeny** ([`Isogeny`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Basic.html#TauCeti.Isogeny)),
-  seeded verbatim: an algebra map out of the target coordinate ring into the source function
-  field, integrality expressing `φ(O₁) = O₂`. It is injective and extends uniquely across the
-  fraction field
-  ([`fieldPullback`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/FunctionField.html#TauCeti.Isogeny.fieldPullback)),
-  so degree and composition can now be defined on it.
-- **The two families of places** — the valuation at infinity
-  ([`infinityPlace`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Affine/FunctionField/InfinityPlace.html#WeierstrassCurve.Affine.infinityPlace)),
-  ramified of index two over the infinite place of `K(x)`, with uniformiser `x / y`; and the
-  maximal ideal of an affine point
-  ([`pointPlace`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Affine/Point/Place.html#TauCeti.WeierstrassCurve.Affine.CoordinateRing.pointPlace)),
-  of degree one, injective, its local ring a discrete valuation ring.
-- **The node polynomial**, of discriminant `-c₄c₆`
-  ([`nodePolynomial`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/NodePolynomial.html#WeierstrassCurve.nodePolynomial)),
-  its roots the tangent slopes at a node, with splitting criteria in residue characteristic two
-  and away from it: the split/nonsplit test.
+- **The isogeny** ([`TauCeti.Isogeny`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Basic.html#TauCeti.Isogeny)) is a coordinate-ring pullback with integrality encoding preservation of infinity; composition, degree, and separability now form a usable first API.
+- **The intermediate ring** ([`TauCeti.Isogeny.intermediateRing`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/IntermediateRing/Basic.html#TauCeti.Isogeny.intermediateRing)) is the integral closure through which both coordinate rings embed, preparing the relative-norm construction of the point map; module-finiteness currently requires a separable isogeny.
+- **The universal pointed curve** ([`WeierstrassCurve.Universal.pointedCurve`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Universal.html#WeierstrassCurve.Universal.pointedCurve)) supports universal division-polynomial calculations, including candidate [`smulX`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/ZSMul.html#WeierstrassCurve.Universal.Affine.smulX) and [`smulY`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/ZSMul.html#WeierstrassCurve.Universal.Affine.smulY) coordinates for `[n]`.
 
 ### Roadmap coverage
 
-Layer 0 has coordinate ring, function field, local rings and both families of places, but no
-divisors, no induced place along a field embedding, no fundamental identity `Σ e·f = deg`, and no
-point–place bijection. Layer 0.5 has base change, the variable-change action on points, and
-Galois descent across a quadratic extension, but no translations. Layer 1 has the isogeny type and
-`Aut(E)`; degree, `[n]`, relative Frobenius, the hom-group and its degree form, the dual, Vélu and
-the formal group are all missing, though two of their inputs exist: the relative ideal norm on
-class groups, and a semilinear map of Kähler differentials. Layer 2 is untouched; Layer 3 has
-finiteness of `E(𝔽_q)` and an abstract binary-quadratic-form core, not the bound; Layer 4 has only
-the node polynomial; Layer 5 lacks only its point-level statements. Layer 6 has the `S`-integer
-arithmetic and the Nagell–Lutz integrality lemmas, no heights and no theorem. Layer 7 is untouched.
+Layers 0 and 0.5 have the coordinate/function-field foundation, the two known families of places, uniqueness of infinity, base-change and quadratic-descent results, but not the divisor calculus, point–place bijection, translations, or general descent. Layer 1 has composition, finite degree and its separability theory, absolute and relative Frobenius, and part of the intermediate-ring construction; the induced point map, `[n]`, iterated Frobenius factorisation, hom-group, degree form, dual, Vélu, invariant differential, and formal group remain. Layer 3 has finite point sets, Frobenius, and supporting quadratic-form algebra, not the Hasse bound. Layer 4 has node-polynomial and minimal-model invariance lemmas, not the reduction filtration, Tate’s algorithm, or Tate curve. Layer 5 has the equation-level twists, the special `j`-range classification, and the point equivalence, but not the split-reduction theorem or general nonabelian classification. Layer 6 has `S`-integer arithmetic, integrality and division-polynomial support, but neither heights nor Mordell–Weil. Layer 2 has generic divisor-class support but none of its torsion, Weil-pairing, or Tate-module milestones; Layer 7’s Selmer and Sha constructions are absent.
 
 ## The frontier
 
-- **Degree and the Frobenius isogeny.** Nothing is computed on the isogeny type yet: `deg φ` as a
-  finrank over the pulled-back function field, finiteness, positivity, composition, `π_q`. That
-  [`[K(W) : K(W)^q] = q`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Affine/FrobeniusTower.html#TauCeti.WeierstrassCurve.Affine.finrank_fieldRange_frobeniusAlgHom)
-  is already proved, so Frobenius is packaging.
-- **Divisors and the class-group anchor.** Layer 0's remainder: the divisor group,
-  `deg (div f) = 0`, surjectivity of `toClass`, and the point–place bijection, of which only
-  injectivity and degree one are proved. The Weil pairing is built from this calculus, so Layer 2
-  waits on it.
-- **The Hasse bound.** Finiteness of `E(𝔽_q)` is in, as is the arithmetic core: a rank-two pencil
-  determinant is forced to be `q r² - t rs + s²`, and a form non-negative on enough of the lattice
-  has non-positive discriminant. The elliptic half — `deg(1 - π_q) = #E(𝔽_q)`, the degree read as
-  a determinant — is missing.
-- **The two remaining twist milestones.** The point isomorphism `E^L(M) ≅ E(M)` with its Galois
-  anti-equivariance, and the theorem that nonsplit multiplicative reduction becomes split after a
-  separable quadratic twist, whose input is the node polynomial.
-- **Weak Mordell–Weil.** The `S`-integer class group and unit group are in place; finiteness of
-  `K(S, n)` and the Kummer map into the square classes of `K[X]/(f)` are not, and no height
-  exists.
+- **The induced point map.** Prove surjectivity of `Point.toClass`, extend module-finiteness of the intermediate ring beyond the separable case, and assemble `pushClass` and `toPointHom` from extension and relative norm.
+- **Integer multiplication and the hom-group.** Identify the universal `smulX` and `smulY` functions with scalar multiplication, package `[n]` as an isogeny for `n ≠ 0`, prove degree `n²`, and construct the additive hom-group and its quadratic degree form.
+- **Divisors and the Weil pairing.** Complete induced places, the fundamental identity, the point–place bijection and principal-divisor calculus; the divisor construction and Weil reciprocity are then the prerequisites for Layer 2.
+- **The Hasse bound.** Frobenius and its degree are available, but `deg(1 − π_q) = #E(𝔽_q)` and the positive quadratic degree form needed for `a_q² ≤ 4q` are not.
+- **Split reduction after quadratic twisting.** Show that a nonsplit multiplicative curve acquires split multiplicative reduction after its separable quadratic twist; the node-polynomial transformation and minimal-model invariance are already available.
