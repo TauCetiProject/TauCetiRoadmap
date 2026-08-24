@@ -20,6 +20,7 @@ body:
       options:
         - AdicSpaces
         - AlgebraicCurves
+        - ArithmeticDirichletSeries
         - CFSGStatement
         - CombinatorialHeegaardFloer
         - ConformalMapping
@@ -35,12 +36,12 @@ body:
         - HopfRinow
         - IntegralLattices
         - JacobianChallenge
-        - ModularCurves
         - ModularForms
         - Multiquadratic
         - OneParameterSemigroups
         - OptimalTransport
         - PDE
+        - ProfiniteCohomology
         - ReductiveGroups
         - RepresentationTheory
         - StandardDistributions
