@@ -49,7 +49,7 @@ noncomputable def wedge {k l : ℕ} (φ : E [⋀^Fin k]→L[ℝ] ℝ) (ψ : E [�
     E [⋀^Fin (k + l)]→L[ℝ] ℝ :=
   sorry
 
-/-- **Layer 0.1, anti-vacuity gate.** On two 1-forms the wedge is the 2×2 determinant.
+/-- **Layer 0.1, normalization gate.** On two 1-forms the wedge is the 2×2 determinant.
 This pins the normalization: under the Alt convention the right-hand side would carry a
 factor `1/2`, and a `wedge := 0` filler fails here. -/
 theorem wedge_apply_one_one (φ ψ : E [⋀^Fin 1]→L[ℝ] ℝ) (v w : E) :
@@ -82,7 +82,7 @@ variable {𝕜 B ι : Type*} {n : WithTop ℕ∞}
   [FiberBundle F₂ E₂] [VectorBundle 𝕜 F₂ E₂]
   [∀ x, IsTopologicalAddGroup (E₂ x)] [∀ x, ContinuousSMul 𝕜 (E₂ x)]
 
-/-- **Layer 0.2, the load-bearing instance.** The bundle of continuous alternating maps
+/-- **Layer 0.2.** The bundle of continuous alternating maps
 between two `C^n` vector bundles over the same base is a `C^n` vector bundle — the
 statement mirrors `ContMDiffVectorBundle.continuousLinearMap` in
 `Mathlib/Geometry/Manifold/VectorBundle/Hom.lean`, over the topological bundle of
@@ -103,8 +103,8 @@ variable {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [NormedAddCommGroup F] [NormedSpace ℝ F]
 
 /-- **Layer 1.3, the new flat lemma.** The exterior derivative of a `C^∞` form is `C^∞`:
-the smoothness-preservation statement the pinned Mathlib lacks, load-bearing for the de
-Rham complex (the finite-regularity refinement `C^n → C^(n−1)` is part of the
+the smoothness-preservation statement the pinned Mathlib lacks, and the one the de Rham
+complex depends on (the finite-regularity refinement `C^n → C^(n−1)` is part of the
 milestone). Stated `Within` so it applies on `Set.range I` of a model with corners. -/
 theorem contDiffOn_extDerivWithin {k : ℕ} {φ : E → E [⋀^Fin k]→L[ℝ] F} {s : Set E}
     (hs : UniqueDiffOn ℝ s) (hφ : ContDiffOn ℝ ∞ φ s) :
