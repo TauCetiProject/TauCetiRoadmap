@@ -248,7 +248,7 @@ restricted to `U` with the projective model of `W`, compatible with the projecti
 zero section.
 
 This is the shape the AINTLIB modular-curves development states the condition in
-(`LocallyWeierstrass`; §Provenance), and it is the form to read when checking the definition
+(`LocallyWeierstrass`; README §Provenance), and it is the form to read when checking the definition
 against KM 2.2.5–2.2.6 or Deligne–Rapoport II.1.1: the quantifiers are the ones the sources use,
 with no pullback square or coefficient ring carried as data. `PointedWeierstrassAtlas` is the same
 condition packaged as a covering family that later layers can name and refine — Layer 1C's
@@ -850,15 +850,26 @@ theorem isFinite_mapRep (Q : KatzMazurQuotientData P P' H)
     IsFinite (Q.relRep.mapRep Q.relRep' Q.q X).left :=
   sorry
 
-/-- KM 7.1.3(2), the free case: if `H` acts freely on every `𝒫(E/S)`, the projection
+/-- KM 7.1.3(2), the free case: if `H` acts freely on `𝒫`, the projection
 `𝒫 ⟶ 𝒫/H` is an étale `H`-torsor, in particular étale and hence locally of finite presentation.
+
+**Freeness is stated over nonempty bases only, and this is load-bearing.** KM's own phrasing
+("`G` operates freely on the set `𝒫(E/S)`") cannot be taken literally here: over the empty
+base the standard problems have `𝒫(E/∅)` a singleton, and its unique element is fixed by all
+of `H`, so the unrestricted set-level hypothesis would force `H = 1` and the theorem would be
+vacuous. Restricted to `X` with nonempty base, the hypothesis is equivalent to scheme-theoretic
+freeness — for every `h ≠ 1` the fixed locus of `σ_h` on each `𝒫_{E/S}` is the empty scheme —
+because a fixed point of the scheme with residue field `κ` is a fixed element of `𝒫(E_κ/κ)`
+over the nonempty base `Spec κ`. The étale-torsor conclusion needs no restriction: over the
+empty base it holds trivially. README 9A(2) fixes this reading for the prose roadmap.
+
 This is the general free-action case; the general projection of KM 7.1.3(4) is finite but need
 not be flat or locally of finite presentation (for `R = ℤ ⋉ V` with `V` an infinite-dimensional
 `𝔽₂`-vector space and `A = R[ε]/(ε²)`, `ε ↦ -ε`, the algebra `A` is finitely presented over `R`
 and finite, but not finitely presented, over its invariant ring `R ⊕ Vε`). -/
 theorem etale_mapRep_of_free (Q : KatzMazurQuotientData P P' H)
     (hP : Q.relRep.HasProperty @IsAffineHom)
-    (hfree : ∀ (X : EllObj R) (α : P.obj (Opposite.op X)) (h : H),
+    (hfree : ∀ X : EllObj R, Nonempty X.base → ∀ (α : P.obj (Opposite.op X)) (h : H),
       (Q.act h).hom.app (Opposite.op X) α = α → h = 1)
     (X : EllObj R) :
     Etale (Q.relRep.mapRep Q.relRep' Q.q X).left :=
@@ -990,16 +1001,42 @@ theorem axiomaticRegularity {P : ModuliProblem (intRing.{u})} {D : P.RelRepData}
         D.IsRegularOfDimTwo (EtaleRigidifier.objects _) :=
   sorry
 
+/-- The ring-theoretic core of the rigidity engine KM 5.3.4 (Layer 7G): for a one-parameter
+commutative formal group law `G` over an arbitrary ring `R`, if `X^{pⁿ} = 0` cuts out a
+subgroup scheme — stated universally, `G(X,Y)^{pⁿ}` lies in the ideal `(X^{pⁿ}, Y^{pⁿ})` of
+`R⟦X,Y⟧` — then `p = 0` in `R`. KM's proof isolates the binomial coefficients: comparing
+total-degree-`pⁿ` terms forces `(X+Y)^{pⁿ} = X^{pⁿ} + Y^{pⁿ}`, so `C(pⁿ, i) = 0` in `R` for
+`0 < i < pⁿ`; `i = 1` gives `pⁿ = 0` and `i = p^{n-1}`, whose binomial coefficient is `p`
+times an integer prime to `p`, gives `p = 0`. The full KM 5.3.4 additionally identifies the
+subgroup with `Ker(Fⁿ)`; the scheme-level engine KM 5.3.3 and the rigidity assertions
+Rigid I–III (KM 5.3.2.1–5.3.2.3) are specified in README 7G. -/
+theorem formalGroup_p_eq_zero_of_pow_mem_span {R : Type u} [CommRing R]
+    (F : FormalGroup R) [F.IsComm] (p : ℕ) [Fact p.Prime] {n : ℕ} (hn : 1 ≤ n)
+    (h : F.toPowerSeries ^ p ^ n ∈
+      Ideal.span {(MvPowerSeries.X 0 : MvPowerSeries (Fin 2) R) ^ p ^ n,
+        MvPowerSeries.X 1 ^ p ^ n}) :
+    (p : R) = 0 :=
+  sorry
+
 /-- KM 7.5.1's hypotheses G1–G3 for a Katz–Mazur quotient at the prime `p`, on top of Reg. 1–4
 for the source. -/
 structure QuotientRegularityAxioms {P P' : ModuliProblem (intRing.{u})} {H : Type u}
     [Group H] [Finite H] (Q : KatzMazurQuotientData P P' H) (p : ℕ) [Fact p.Prime] [NeZero p]
     where
   reg : RegularityAxioms Q.relRep p
-  /-- G1: after inverting `p`, the action of `H` on `𝒫` is free. -/
+  /-- G1: after inverting `p`, the action of `H` on `𝒫` is free, in the scheme-theoretic
+  sense: for every `h ≠ 1` the fixed locus of `σ_h` on `𝒫_{E/S}` is the empty scheme. It is
+  stated on test objects — a fixed `T`-point with `T` nonempty forces `h = 1` — which is
+  equivalent, since a nonempty fixed `T` maps a point into the fixed locus, and a nonempty
+  fixed locus admits a fixed field-valued point. The `Nonempty T.left` hypothesis is what
+  makes this a fixed-locus condition rather than a contradiction: the empty scheme is initial,
+  so its unique morphism to `𝒫_{E/S}` is fixed by every `h`, and without the restriction G1
+  would force `H = 1` and `axiomaticRegularityOfQuotients` would be unsatisfiable in every
+  nontrivial case. README 9C G1 fixes the same reading. -/
   g1 : ∀ X : EllObj (intRing.{u}), IsUnit ((p : ℕ) : Γ(X.base, ⊤)) →
-    ∀ (T : Over X.base) (t : T ⟶ Q.relRep.rep X) (h : H),
-      t ≫ (Q.relRep.schemeAction Q.act X h).hom = t → h = 1
+    ∀ T : Over X.base, Nonempty T.left →
+      ∀ (t : T ⟶ Q.relRep.rep X) (h : H),
+        t ≫ (Q.relRep.schemeAction Q.act X h).hom = t → h = 1
   /-- G2: the Reg. 3 comparisons induced by isomorphisms of `p`-divisible groups can be chosen
   `H`-equivariant. -/
   g2 : ∀ (S : Scheme.{u}) (E E' : EllipticCurve S), PDivisibleGroupIso E E' p →
@@ -1247,7 +1284,7 @@ change of a smooth morphism is smooth, so the leaf above applies over `ℚ̄` on
 supplied.
 
 This is the reduction Layer 5C applies to `Y(ρ)`, in the shape the AINTLIB development states it
-(`yRho_geometricallyIrreducible_of_connected`; §Provenance), so that the two can be compared
+(`yRho_geometricallyIrreducible_of_connected`; README §Provenance), so that the two can be compared
 without a carrier for the twisted curve on either side. ⚠ `hconn` is **not** proved here and has
 no algebraic proof to schedule: Katz–Mazur Ch. 10 is the algebraic route, but its own connectedness
 corollary 10.9.2 reduces to the geometric generic fibre and then invokes the transcendental
@@ -1263,9 +1300,10 @@ theorem irreducibleSpace_baseChange_algebraicClosure_of_connectedSpace
 
 /-! ## Early API: the general-purpose subset
 
-`README.md` §Early API and proof hygiene records the implementation-facing API plan extracted from
-the 2026-08-18 audit of the AINTLIB development. Most of its items attach to carriers that live in
-the implementation and are recorded there in prose only. The declarations below are the
+`README.md` §Early API and proof hygiene states the stable API guidance; the dated audit it was
+distilled from lives with the implementation it describes, in the AINTLIB development repository
+(`projects/ModularCurves/docs/api-audit-2026-08-18.md` on `dev/modular-curves`). Most of the
+audit's items attach to carriers that live in the implementation. The declarations below are the
 general-purpose remainder, statable against Mathlib alone. Unlike the rest of this file they are
 proved, not `sorry`ed: each is a short specialisation whose entire value is the name, the argument
 order, and the `@[reassoc (attr := simp)]` discipline — the audit's finding is precisely that
@@ -1280,8 +1318,9 @@ variable {𝒞 : Type*} [Category 𝒞] {Y S T T' T'' : 𝒞}
 
 /-- Base change along a morphism of second factors: `pullback.map` with both non-varying legs the
 identity. The audit found sixty call sites that build this map from raw `pullback.map` and
-discharge the two identity legs by hand with `rw [Category.comp_id, Category.id_comp]`. Intended
-Mathlib home: `CategoryTheory.Limits`. -/
+discharge the two identity legs by hand with `rw [Category.comp_id, Category.id_comp]`. A
+Tau Ceti-owned helper; if Mathlib later gains the same map, defer to it per the repository's
+Mathlib policy. -/
 noncomputable def pullback.mapSnd (π : Y ⟶ S) (a : T ⟶ S) (a' : T' ⟶ S) (k : T' ⟶ T)
     (hk : k ≫ a = a') [HasPullback π a] [HasPullback π a'] :
     pullback π a' ⟶ pullback π a :=

@@ -30,7 +30,15 @@ The roadmap includes:
 - `Y₁(N)` for `N≥4`, the full ordered-basis scheme `Y_full(N)` for `N≥3`, its fixed-pairing
   fibres, and the twisted curve `Y(ρ)` for `N≥3`;
 - the coarse `j`-line and the coarse modular curve `Y₀(N)`;
+- the compactified coarse curves `X_H` over `ℤ[1/N]` (Layer 10): the KM 8.6 normalisation of the
+  coarse `j`-line in `Y_H`, the cusps via the Tate parameter (KM 8.11), the ramification table of
+  `X₁(N) → X₀(N)` including characteristics `2` and `3`, and the étale Shimura covering;
 - the deformation theory needed for KM 5.1.1.
+
+Compactified coarse curves are included **as coarse-curve geometry only**: the compactification is
+by normalisation of the coarse `j`-line, with no boundary moduli interpretation, no stacks, and no
+generalized elliptic curves; the characteristic-`N` fibres of the compactified curves remain
+excluded, as below.
 
 The following topics are not included: generalized elliptic curves, Igusa curves and the
 characteristic-`N` compactified geometry (crossings at supersingular points, minimal regular
@@ -211,7 +219,7 @@ Two open Mathlib pull requests overlap directly with Layer 1:
 The first concerns the affine scheme associated to the equation, not the complete projective model.
 The Tau Ceti development should be reconciled with both APIs rather than duplicate them. The
 current AINTLIB work and the source audit used to reconcile it with this roadmap are recorded
-in the final section below. Volatile implementation counts are deliberately omitted.
+in §Provenance below. Volatile implementation counts are deliberately omitted.
 
 ## Layer 0: scheme-theoretic prerequisites
 
@@ -1293,17 +1301,19 @@ supplier contract is three named statements, none built here:
 - the uniformisation `(Y(ρ) ⊗ ℂ)^an ≅ ℍ/Γ̃` as Riemann surfaces;
 - GAGA for connectedness: a `ℂ`-scheme is connected exactly when its analytification is.
 
-Their owner is the complex-uniformisation development of the `LeanModularForms` project, which is
-where the upper-half-plane and Riemann-surface carriers live. Until those exist and are imported,
+No roadmap in this repository owns these statements. The in-repository Modular Forms roadmap
+deliberately stops at analytic carriers and takes on no scheme–analytic comparison, and the
+Algebraic Curves roadmap excludes the compact-Riemann-surface comparison from its Layer 12 for
+the same reason: all three statements sit behind a GAGA-style development that no roadmap has
+adopted. They are therefore an **external supplier contract** in the strict sense — three named
+hypotheses, not dependencies on any milestone — and the contract is discharged by whichever
+development eventually proves them, without this roadmap presupposing which one. Accordingly,
 every statement about `Y(ρ)` in this roadmap carries the connectedness hypothesis visibly rather
-than assuming it — an unresolved supplier contract is a blocker on the *unconditional* statement,
+than assuming it — an open supplier contract is a blocker on the *unconditional* statement,
 not a licence to assert it.
 
-**Compactified coarse curves over `ℤ[1/N]` are included** (Layer 10): the KM 8.6 normalisation of
-the coarse `j`-line, the cusps via the Tate parameter, the ramification structure of
-`X₁(N) → X₀(N)`, and the étale Shimura covering. This is coarse-curve geometry with no boundary
-moduli interpretation, no stacks, and no generalized elliptic curves; the characteristic-`N`
-fibres of the compactified curves remain excluded as above.
+Compactified coarse curves over `ℤ[1/N]` are within scope — the include-list entry for Layer 10
+in §Scope states exactly what is and is not taken on.
 
 **Dependencies.** Layers 0C–0E, 2E–2F, and 5B. The construction uses no new Cartier-divisor result
 beyond the Weil pairing already supplied by Layer 2E. The pairing normalisation in Layer 2E uses
@@ -1396,24 +1406,127 @@ moduli scheme.
 
 ### 7E. `p`-divisible groups
 
-Develop Barsotti–Tate groups, connected–étale sequences, `E[p^∞]`, Frobenius and Verschiebung,
-and the ordinary and supersingular classifications. Construct the Oort–Tate group schemes of order
-`p` and prove precisely the classification and deformation statements used in Chapter 5.
+Chapter 5 consumes a short, specific list of `p`-divisible-group statements; they are enumerated
+here as the targets, each with its base, hypotheses, conclusion, and KM point of use. No general
+Dieudonné theory is scheduled. **No Oort–Tate classification is scheduled either** — an earlier
+draft of this layer promised one, and that was scope creep, now deleted: the Chapter 5 argument
+never classifies group schemes of order `p` (rigidity runs through Frobenius kernels, 7G, and
+homogeneity through Serre–Tate, 7F), and no later layer of this roadmap consumes such a
+classification.
+
+1. **PD-1, the tower.** Base: an elliptic curve `E/S` over an arbitrary scheme, `p` prime.
+   Construct `E[p^∞] = (E[pⁿ])_{n≥0}`: each `E[pⁿ]` finite locally free of rank `p^{2n}`
+   (Layer 2A), each `E[pⁿ]` the kernel of `pⁿ` on `E[p^{n+1}]`, multiplication by `p` carrying
+   `E[p^{n+1}]` onto `E[pⁿ]` as an fppf epimorphism, formation commuting with arbitrary base
+   change. This is the carrier quantified over by Reg. 3 (KM pp. 129–130) and by G2 of 9C;
+   `Suggested.lean` renders its isomorphisms as `PDivisibleGroupIso`, compatible systems of
+   isomorphisms of finite levels.
+2. **PD-2, connected–étale.** Base: a henselian local ring. Construct the connected–étale
+   sequence of a finite locally free commutative group scheme, functorial, compatible with local
+   base change of henselian local rings, split over a perfect residue field. Applied to `E₀[pⁿ]`
+   over a field it defines the dichotomy the chapter turns on: `E₀/k` is **ordinary** if
+   `E₀[p]⁰` has rank `p`, **supersingular** if `E₀[p]` is connected (`Suggested.lean`,
+   `EllipticCurve.IsSupersingular`).
+3. **PD-3, Frobenius and Verschiebung.** Over a base of characteristic `p`: relative Frobenius
+   `F : E₀ ⟶ E₀^{(p)}` and Verschiebung `V` with `V∘F = p = F∘V`, for elliptic curves and
+   their finite levels. Input to PD-4 and to every 7G kernel identification.
+4. **PD-4, supersingular Frobenius-kernel uniqueness.** Base: any field `k` of characteristic
+   `p`; hypothesis: `E₀/k` supersingular. Conclusions: each `E₀[pⁿ]` is local, and for every
+   `r` the unique finite closed subgroup scheme of `E₀` of order `p^r` is
+   `Ker(F^r : E₀ ⟶ E₀^{(p^r)})`; in particular `E₀[pⁿ] = Ker(F^{2n})`. This is the whole
+   input to KM 5.3.1 — Reg. 4A for the three problems, `𝒫(E₀/k)` a single element (KM p. 136)
+   — and to Rigid III's kernel identification (KM p. 139).
+5. **PD-5, the two `p`-divisible groups.** Base: `k` algebraically closed of characteristic
+   `p`. If `E₀` is ordinary then `E₀[p^∞] ≅ μ_{p^∞} × ℚ_p/ℤ_p`; if `E₀` is supersingular then
+   `E₀[p^∞]` is connected, equal to the `p`-divisible group of the formal group `Ê₀`, and `Ê₀`
+   is the one-dimensional commutative formal group of height `2` over `k`, unique up to
+   isomorphism (Lazard's classification). This dichotomy is exactly the input KM use at p. 134:
+   up to `W(k)[[T]]`-isomorphism there are only two schemes `𝒫_{E/W(k)[[T]]}`.
 
 ### 7F. Serre–Tate theory with level structure
 
-Prove the equivalence between deformations of an elliptic curve and deformations of its
-`p`-divisible group. Extend it, as separate theorems, to `[Γ(pⁿ)]`, `[Γ₁(pⁿ)]`, and balanced
-`[Γ₁(pⁿ)]` structures. Record compatibility with connected–étale sequences and the
-ordinary/supersingular split.
+Chapter 5 uses Serre–Tate theory through the following statements and no others. Throughout, `k`
+is a perfect field of characteristic `p` (algebraically closed at every point of use), `W(k)` its
+Witt vectors, and the base category is that of artinian local `W(k)`-algebras with residue field
+`k`, as in 7D.
+
+1. **ST-1, the Serre–Tate equivalence.** For `R` artinian local as above and `E₀/k`, the functor
+   `E/R ↦ E[p^∞]` is an equivalence from the groupoid of deformations of `E₀` over `R` to the
+   groupoid of deformations of `E₀[p^∞]` over `R`, functorially in `R` and compatibly with the
+   identifications of special fibres. KM invoke this by name and do not prove it (p. 134); the
+   proof source is Katz, *Serre–Tate local moduli*, Theorem 1.2.1, added to §References.
+2. **ST-2, the universal deformation of the `p`-divisible group.** For `E₀/k` supersingular, `k`
+   algebraically closed, and `E/W(k)[[T]]` the universal formal deformation of 7D: `E[p^∞]` over
+   `W(k)[[T]]` is the universal formal deformation of `E₀[p^∞]` (KM p. 134, via ST-1).
+3. **ST-3, the two local models.** For any `𝒫` satisfying Reg. 3: up to `W(k)[[T]]`-isomorphism
+   the scheme `𝒫_{E/W(k)[[T]]}` depends only on whether `E₀` is ordinary or supersingular
+   (KM p. 134, from ST-1, ST-2, and PD-5). This is the content of the homogeneity properties
+   (H1)/(H2) in the proof of KM 5.2.1 (pp. 132–134): the open regular-and-flat locus contains
+   all supersingular characteristic-`p` points or none of them, and all ordinary ones or none.
+4. **ST-4, pro-representability with level.** For `𝒫 ∈ {[Γ(pⁿ)], [Γ₁(pⁿ)], bal. [Γ₁(pⁿ)]}` and
+   `E₀/k` supersingular, `k` algebraically closed, write `𝒫_{E/W(k)[[T]]} = Spec A`; `A` is
+   local by Reg. 4A. The pullback `(ℰ/A, a)` of the universal deformation with its tautological
+   level structure pro-represents, on artinian local `W(k)`-algebras with residue field `k`, the
+   functor of triples `(E/R, α, i)` — a deformation of `E₀`, a `𝒫`-structure `α` on `E/R`, the
+   identification `i` of the special fibre carrying `α` to the unique element of `𝒫(E₀/k)`
+   (KM 5.3.2, proof, p. 137). This — not a general "Serre–Tate with level structure" — is the
+   form in which level structures enter the chapter, one statement per problem.
+5. **ST-5, the parameter criterion.** In the setting of ST-4: elements `f, g ∈ max(A)` generate
+   `max(A)` if and only if for every artinian local `W(k)`-algebra `R` with residue field `k`
+   and every `W(k)`-homomorphism `φ : A → R` with `φ(f) = φ(g) = 0`, the induced triple over
+   `R` is constant (KM 5.3.2, p. 137). This is the bridge across which the 7G rigidity
+   statements become "`max(A)` is generated by two elements", i.e. Reg. 4B bis (KM 5.2.2,
+   p. 135, which also proves Reg. 4B bis ⇔ Reg. 4B under Reg. 1–3 and 4A).
+
+Record, as separate lemmas, the compatibility of ST-1 with connected–étale sequences and with the
+ordinary/supersingular dichotomy of PD-5.
 
 ### 7G. The three characteristic-`p` calculations
 
-Formalise separately the arguments Rigid I, Rigid II, and Rigid III for the three elementary
-problems. In the `[Γ₁(pⁿ)]` case, prove through the formal group that if the divisor `pⁿ[0]` is a
-subgroup in the universal deformation, then `p=0` in its base ring. Isolate the required
-binomial-coefficient calculation in `A[[X,Y]]` and the passage from that calculation to the
-deformation ring.
+Formalise the rigidity engine and the three rigidity assertions exactly as KM state them
+(5.3.2.1–5.3.2.3). In items 3–5, `k` is an algebraically closed field of characteristic `p` and
+`R` an artinian local `W(k)`-algebra with residue field `k`.
+
+1. **The scheme engine, KM 5.3.3 (p. 140).** Base: an arbitrary ring `R`. Hypotheses: `C/R` a
+   smooth commutative one-dimensional group scheme, `p` prime, `n ≥ 1`, and the zero section a
+   point of exact order `pⁿ` — the Cartier divisor `pⁿ[0]` is a subgroup scheme. Conclusions:
+   `p = 0` in `R`, and `pⁿ[0] = Ker(Fⁿ)`. The passage from the formal engine below: Zariski-
+   locally on `R`, choose a formal parameter along the zero section (7C).
+2. **The formal engine, KM 5.3.4 (pp. 140–141).** Base: an arbitrary ring `R`; `G(X,Y)` a
+   one-parameter commutative formal group law over `R`. Hypothesis: `X^{pⁿ} = 0` defines a
+   subgroup scheme — universally, `G(X,Y)^{pⁿ} ∈ (X^{pⁿ}, Y^{pⁿ})` inside `R[[X,Y]]`.
+   Conclusions: `p = 0` in `R`, and the subgroup is `Ker(Fⁿ)`. The isolated binomial-coefficient
+   calculation: comparing total-degree-`pⁿ` terms gives `(X+Y)^{pⁿ} = X^{pⁿ}·A(0,0) + Y^{pⁿ}·B(0,0)`
+   and comparing the `X^{pⁿ}`, `Y^{pⁿ}` coefficients gives `A(0,0) = B(0,0) = 1`, whence
+   `(X+Y)^{pⁿ} = X^{pⁿ} + Y^{pⁿ}` in `R[[X,Y]]`, i.e. `C(pⁿ,i) = 0` in `R` for `0 < i < pⁿ`;
+   `i = 1` gives `pⁿ = 0`, and `i = p^{n-1}` with `C(pⁿ, p^{n-1}) = p · (an integer prime to p)`
+   gives `p = 0`. The ring-theoretic core is stated on Mathlib's `FormalGroup` carrier in
+   `Suggested.lean` (`formalGroup_p_eq_zero_of_pow_mem_span`).
+3. **Rigid I, KM 5.3.2.1 (p. 138; proof 5.3.6, pp. 142–143).** Hypothesis: `E/R` admits `(0,0)`
+   as a Drinfeld `pⁿ`-basis. Conclusions: `R` is a `k`-algebra and `E/R` is constant. Proof
+   route to formalise: the basis gives `p^{2n}[0] = Ker(pⁿ)` as Cartier divisors; the engine at
+   `p^{2n}` gives `p = 0` in `R` and `Ker(pⁿ) = Ker(F^{2n})`; the two exact sequences then give
+   `E ≅ E^{(p^{2n})}`, iterated to `E ≅ E^{(p^{2nr})}`; and for `r ≫ 0` the curve `E^{(p^r)}`
+   is constant because in the artinian local `k`-algebra `R` the `p^r`-th power map factors
+   through `k` for all `r ≫ 0`.
+4. **Rigid II, KM 5.3.2.2 (pp. 138–139; deduction 5.3.5, p. 141).** Hypothesis: the zero section
+   of `E/R` is a point of exact order `pⁿ`. Conclusion: `R` is a `k`-algebra, i.e. `p = 0` in
+   `R` — the scheme engine applied to `E/R` directly, and nothing more. **Constancy of `E/R` is
+   not part of Rigid II**: for `[Γ₁(pⁿ)]` it is recovered separately from `p = 0` together with
+   the vanishing of the second parameter `T` (KM p. 139), which is why the parameter pair for
+   `[Γ₁(pⁿ)]` in the 5.4 table (p. 143) is `T, X(P)` and not two coordinates.
+5. **Rigid III, KM 5.3.2.3 (p. 139; deduction 5.3.5 and diagram 5.3.5.1, pp. 141–142).**
+   Hypothesis: `E, E'/R` joined by dual `pⁿ`-isogenies `π : E ⟶ E'` and `πᵗ : E' ⟶ E` whose
+   kernels are cyclic and generated by their zero sections. Conclusions: `R` is a `k`-algebra,
+   `E/R` is constant, and `Ker(π) = Ker(Fⁿ)`. Route: the engine gives `p = 0` and the kernel
+   identification; constancy reduces to Rigid I via diagram 5.3.5.1, which exhibits `(0,0)` as
+   a Drinfeld `pⁿ`-basis of `E/R` through KM 1.11.3.
+6. **Assembly into Reg. 4 (KM 5.3.2 and 5.4, pp. 137, 143).** For each problem, the pair of
+   elements of `max(A)` and the rigidity assertion showing they generate: `X(P), X(Q)` for
+   `[Γ(pⁿ)]` by Rigid I; `T, X(P)` for `[Γ₁(pⁿ)]` by Rigid II plus the `T`-invariant; `X(P),
+   X'(P')` for bal. `[Γ₁(pⁿ)]` by Rigid III, where `X, X'` are formal parameters (7C) of `ℰ`
+   and of its cyclic quotient `ℰ' = ℰ/K`. Via ST-5 each pair yields Reg. 4B bis, and with
+   Reg. 4A (KM 5.3.1, from PD-4) this completes Reg. 4 for the three elementary problems.
 
 ### 7H. Axiomatic regularity and assembly
 
@@ -1486,13 +1599,68 @@ the kernel and cokernel of the induced algebra map vanish. The generic isomorphi
 supersingular completed-local isomorphisms put every point in the open vanishing locus; the
 homogeneity argument of Layer 7 supplies the passage between local points.
 
-Construct the rings `A`, `A₁`, and `A₂` attached to the universal supersingular deformation.
-Prove Weierstrass preparation in the required form, injectivity of multiplication by `Q`, equality
-of the relevant quotient rings, the formal-group unit/maximal-ideal calculation, and the Nakayama
-and snake-lemma assembly. Apply the Axiomatic Isomorphism Theorem to prove the primitive-divisor
-equality and the hard implication in the cyclicity theorem of 8B; derive the reverse implication
-from the fppf cover by generators. This use of Chapter 5 is what forbids placing cyclicity before
-Layer 7.
+**The two moduli problems compared (KM 6.1, p. 155).** For `N = pⁿ`, both problems refine
+`[Γ₁(pⁿ)]`-with-subgroup data: `𝒫₁(E/S)` is the set of triples `(P, G, Q)` with `P` a Drinfeld
+generator of a cyclic rank-`N` subgroup `G ⊆ E[N]` and `Q` a section of the **primitive part**
+`D ⊆ G` — the unique finite locally free subscheme of rank `φ(N)` of which the sections `{aP}`,
+`(a,N)=1`, are a full set; `𝒫₂(E/S)` asks instead `Q ∈ Gˣ(S)`, a generator (8B). Since `D ⊆ Gˣ`,
+there is a forgetful morphism `𝒫₁ ⟶ 𝒫₂`, and the cyclicity theorem is the statement `D = Gˣ`,
+i.e. that this morphism is an isomorphism. Verify hypotheses (1) and (2) of the Axiomatic
+Isomorphism Theorem for this pair (KM 6.3.1, pp. 156–157: Reg. 1 through finiteness over
+`[Γ₁(pⁿ)]`, Reg. 3 from the definitions, Reg. 4A from PD-4, the generic isomorphism from the
+étale theory); the work is condition (3), the supersingular local isomorphism, which is the
+following calculation.
+
+**The rings of §6.3, each an explicit target (KM 6.3.2, pp. 157–158).** Fix an algebraically
+closed `k` of characteristic `p`, a supersingular `E₀/k`, the universal formal deformation
+`𝔈/W(k)[[T]]`, and a formal parameter `X` (7C) for the formal group `Ê`; write
+`[a](X) ∈ W(k)[[T]][[X]]` for multiplication by `a` on `Ê`.
+
+1. `A := W(k)[[T,P]]/I`, where `I` is generated by the equations expressing that the rank-`pⁿ`
+   finite free closed subscheme of `Ê` over `W(k)[[T,P]]` cut out by `∏_{1≤a≤pⁿ}(X−[a](P)) = 0`
+   is a subgroup scheme. Prove that `Spec A` is `[Γ₁(pⁿ)]_𝔈`, that `A` is a regular
+   two-dimensional local ring with regular parameter system `(T,P)`, and that `A` is finite flat
+   over `W(k)[[T]]` — inputs: the First Main Theorem and the KM 5.4 parameter table (p. 158).
+2. `A₁ := A[[Q]]/J`, `J` the **principal** ideal generated by `∏_{b mod pⁿ, (b,p)=1}(Q−[b](P))`
+   — this is `(𝒫₁)_𝔈`, the coordinate `Q` running over `D`.
+3. `A₂ := A[[Q]]/K`, `K` the ideal expressing that in `A[[Q]][[X]]` the monic polynomials
+   `∏_{1≤a≤pⁿ}(X−[a](Q))` and `∏_{a mod pⁿ}(X−[a](P))` are equal — this is `(𝒫₂)_𝔈`, the
+   coordinate `Q` running over `Gˣ`.
+4. The comparison map is the `A`-algebra map `A₂ ⟶ A₁` induced by `D ⊆ Gˣ`; it is
+   **surjective** because `D ↪ Gˣ` is a closed immersion, and the target statement of the whole
+   section is `Ker(A₂ ⟶ A₁) = 0`, the isomorphism `A₂ ≅ A₁` (KM pp. 158–159).
+
+**The proof, as separate named lemmas (KM 6.3.3–6.3.6, pp. 159–162).**
+
+5. *Weierstrass preparation, the form used:* the presentation of `A₁` descends from `A[[Q]]` to
+   the polynomial ring — `A₁ = A[Q]/(∏_{(b,p)=1}(Q−[b](P)))` — so `A₁` is a free `A`-module
+   with basis `1, Q, …, Q^{φ(pⁿ)−1}` (proof of KM 6.3.4, p. 159).
+6. *Injectivity of multiplication by `Q` on `A₁`* (KM 6.3.4, pp. 159–160):
+   `det_A(Q·∣A₁) = ± ∏_{(b,p)=1} [b](P)`, and this is nonzero in the domain `A` because the
+   modular `(ℤ/pⁿℤ)ˣ`-action sends `P ↦ [b](P)`, so each factor is an automorphism-transform
+   of the regular parameter `P` and in particular nonzero.
+7. *Nakayama and the snake lemma* (KM 6.3.2–6.3.3, pp. 158–159): `Ker := Ker(A₂ ⟶ A₁)` is a
+   finite `A[[Q]]`-module, so `Ker = 0 ⟺ Ker/Q·Ker = 0`; the snake lemma applied to
+   multiplication by `Q` on `0 → Ker → A₂ → A₁ → 0`, with item 6 supplying injectivity on
+   `A₁`, gives the exact sequence `0 → Ker/QKer → A₂/QA₂ → A₁/QA₁ → 0`.
+8. *The two quotient rings compared* (KM 6.3.5, pp. 160–161): `A₂/QA₂ = A/K̲` with `K̲`
+   generated by the coefficients of `X^{pⁿ} − ∏_{a mod pⁿ}(X−[a](P))`, and `A₁/QA₁ = A/h̲`
+   with `h̲` the principal ideal generated by `∏_{(b,pⁿ)=1}[b](P)`. The inclusion `K̲ ⊆ h̲` is
+   the existence of the map; the reverse inclusion identifies the coefficient of degree
+   `pⁿ−φ(pⁿ)` in `X^{pⁿ} − ∏(X−[a](P))` — a sum of `φ(pⁿ)`-fold products of the `[a](P)` —
+   with `∏_{(b,p)=1}[b](P)` up to a unit of `A`, via item 9.
+9. *The unit/maximal-ideal calculation* (KM 6.3.6, pp. 161–162): from
+   `[a](X) = X·(a + O(X))`, substituting the maximal-ideal element `P`:
+   `[a](P) = P × (unit of A)` when `(a,p) = 1`, and `[a](P) = P × (element of max A)` when
+   `p ∣ a`; hence both quantities of item 8 equal `(unit of A) × P^{φ(pⁿ)}`.
+10. Conclude `K̲ = h̲`, so `Ker/QKer = 0`, so `Ker = 0` and `A₂ ≅ A₁` — condition (3) of the
+    Axiomatic Isomorphism Theorem — and with it KM 6.1.1 (p. 162).
+
+Apply the Axiomatic Isomorphism Theorem so instantiated to prove the primitive-divisor equality
+`Gˣ = ∑_{(a,N)=1}[aP]` and the hard implication in the cyclicity theorem of 8B; derive the
+reverse implication from the fppf cover by generators. This use of Chapter 5 — `A` regular with
+parameters `(T,P)` and the 5.4 table, quoted at items 1 and 6 — is what forbids placing
+cyclicity before Layer 7.
 
 ### 8D. The cyclicity locus and `[Γ₀(N)]`
 
@@ -1552,8 +1720,17 @@ and prove all of KM 7.1.3.
 1. The quotient is relatively representable and affine. The projection is the categorical quotient:
    every equivariant map from `𝒫` to a relatively representable problem on which `H` acts trivially
    factors uniquely through `𝒫/H`.
-2. If `H` acts freely on every `𝒫(E/S)`, then `𝒫⟶𝒫/H` and every fibrewise representing map are
-   étale `H`-torsors, and `(𝒫_{E/S})/H≅(𝒫/H)_{E/S}`.
+2. **Freeness, fixed reading.** Say `H` **acts freely** on `𝒫` if for every `h≠1` the fixed
+   locus of `h` on every representing scheme `𝒫_{E/S}` is the empty scheme — equivalently, every
+   `α∈𝒫(E/S)` with `S` nonempty has trivial stabiliser. KM's set-level phrase ("freely on the
+   set `𝒫(E/S)`", KM 7.1.3(2)) is deliberately not taken literally: over the empty base each
+   standard problem has exactly one level structure, it is fixed by all of `H`, and the literal
+   reading would be unsatisfiable for nontrivial `H`. The scheme-theoretic reading costs nothing
+   at the conclusion, which over an empty base holds trivially. Every later occurrence of "free"
+   in this roadmap — items 3 and 4 below, Remark 7.1.4, and 9C G1 — is this notion, and
+   `Suggested.lean` states it on nonempty test objects, which is equivalent. If `H` acts freely
+   on `𝒫`, then `𝒫⟶𝒫/H` and every fibrewise representing map are étale `H`-torsors, and
+   `(𝒫_{E/S})/H≅(𝒫/H)_{E/S}`.
 3. For every `E/S`, construct `(𝒫_{E/S})/H⟶(𝒫/H)_{E/S}`. It is bijective on geometric points,
    and is an isomorphism if `𝒫_{E/S}⟶S` is flat, if `|H|` is invertible on `S`, or if the action
    is free.
@@ -1617,7 +1794,8 @@ Drinfeld-rigidity theorem.
 Include KM 7.5.1 in the following scope. Fix a prime `p`; let `𝒫` satisfy Reg. 1–Reg. 4, and let a
 finite group `H` act on it. In addition to the regularity axioms, require:
 
-1. **G1:** the action on `𝒫⊗ℤ[1/p]` is free;
+1. **G1:** the action on `𝒫⊗ℤ[1/p]` is free, in the fixed scheme-theoretic reading of 9A(2):
+   empty fixed loci for every `h≠1`, stated in `Suggested.lean` on nonempty test objects;
 2. **G2:** every Reg. 3 comparison induced by an isomorphism of `p`-divisible groups is
    `H`-equivariant;
 3. **G3:** for a supersingular universal deformation with `𝒫_𝔈=Spec A`, the algebra `A` is finite
@@ -1795,11 +1973,23 @@ an interface to them; see the boundary paragraph of §The Mazur interface. Every
 KM-native: the compactification is by **normalisation of the coarse `j`-line**, so no generalized
 elliptic curves, no stacks, and no boundary moduli interpretation are introduced.
 
-Throughout, `N ≥ 5` is prime where Mazur's normalisation `n = numerator((N−1)/12)` is used;
-the construction itself works for the standard problems of Layer 9 uniformly.
+**The class quantified over, fixed once.** In this layer **the standard problems** are the
+diamond-operator quotients of `[Γ₁(N)]` and nothing else: for `N ≥ 5` **prime** and a subgroup
+`H ≤ Δ := (ℤ/Nℤ)ˣ/{±1}`, the coarse scheme `Y_H := Y₁(N)/H` over `ℤ[1/N]` (Layer 9D applied to
+the 9B quotient data), including the two ends `Y₁(N)` (`H = 1`, a fine scheme for `N ≥ 5`) and
+`Y₀(N)` (`H = Δ`), together with the coarse `j`-line `Y(1) = 𝔸¹_j` of Layer 9E. Every
+unqualified `Y_H`, `X_H`, `Cusps_H` in this layer quantifies over exactly this class — not the
+seven identifications of 9B as a list, and not arbitrary finite quotients of Layer 9, for which
+none of the assertions below is made. `N ≥ 5` prime is a standing hypothesis of the whole layer:
+items 3 and 4 use Mazur's normalisation `n = num((N−1)/12)` and his Table 1, which are stated
+for prime level, and no composite-level assertion is made here. Per-item hypotheses beyond
+membership: the smoothness, cusp, Cartier-divisor, and geometric-fibre base-change milestones of
+items 1–2 are asserted for **every** member of the class; item 3 concerns the two ends
+(`X₁(N) → X₀(N)`); item 4 takes `H` the unique subgroup of `Δ` of order `gcd(N−1, 12)/2`.
 
-1. **The compactified coarse curve.** For a standard problem with coarse scheme `Y_H/ℤ[1/N]`
-   (Layer 9) and its `j`-map to the coarse `j`-line `𝔸¹_j` (KM 8.2.2, Layer 9E), define
+1. **The compactified coarse curve.** For a standard problem of this layer — the class fixed
+   above — with coarse scheme `Y_H/ℤ[1/N]` and its `j`-map to the coarse `j`-line `𝔸¹_j`
+   (KM 8.2.2, Layer 9E), define
    `X_H` as the normalisation of `ℙ¹_j` over `ℤ[1/N]` in `Y_H`, **using Mathlib's existing
    relative-normalisation carrier**: `Scheme.Hom.normalization` with `toNormalization`,
    `fromNormalization`, `normalizationDesc` and the universal property
@@ -1848,7 +2038,8 @@ the construction itself works for the standard problems of Layer 9 uniformly.
    hypotheses sufficient for the first are not automatically sufficient for the second.
 2. **The cusp locus as a closed subscheme, and the formal-cusp package.** Define
    `Cusps_H := X_H ×_{ℙ¹_j} {∞}`, the scheme-theoretic fibre — not "finitely many points".
-   Milestones: `Cusps_H` is finite over `ℤ[1/N]`, and finite étale for the standard problems;
+   Milestones: `Cusps_H` is finite over `ℤ[1/N]`, and finite étale for every standard problem
+   of this layer (the class fixed above, `N ≥ 5` prime);
    **`Cusps_H` is a relative effective Cartier divisor in `X_H`**, and `X_H` is smooth along it
    — finite étaleness alone does not record what the formal-completion and schematic-density
    arguments need, and this is the statement item 1's geometric-fibre comparison stands on
@@ -1903,7 +2094,17 @@ the construction itself works for the standard problems of Layer 9 uniformly.
    componentwise for a disconnected smooth proper curve, whereas `2g − 2` is not even defined
    for one — constancy of the two **Euler characteristics** across the fibres, from coherent
    cohomology and base change in the smooth proper families, and the local formula
-   `v(𝔡) = Σ_{i≥0} (|G_i| − 1)` — a named dependency package, not a footnote.
+   `v(𝔡) = Σ_{i≥0} (|G_i| − 1)` — a named dependency package, not a footnote, and one
+   whose supplier now exists: the [Algebraic Curves roadmap](../AlgebraicCurves/README.md)
+   owns the different divisor, Dedekind's different theorem, and the Hurwitz genus formula
+   (its Layer 7), the lower-numbering ramification groups `G_i(P′∣P)` with **Hilbert's
+   different formula** `d(P′∣P) = Σ_{i≥0}(|G_i| − 1)` (its Layer 8, which also pins the
+   scope wall: lower numbering only), and the Kähler-differential comparison (its Layer 9);
+   its Layer 12 dictionary carries those function-field statements to the smooth proper
+   fibres used here, one connected component at a time — which is exactly why the `χ` form,
+   valid componentwise, is the form of record. What remains owned by this layer is the
+   fibrewise constancy of the two Euler characteristics and the assembly across
+   characteristics.
 4. **The Shimura covering** (Mazur II, Cor. 2.3). Put `G = (ℤ/N)ˣ/±1`, cyclic of order
    `(N−1)/2`, and `n = (N−1)/gcd(N−1, 12) = num((N−1)/12)`. Let `H ≤ G` be the unique subgroup
    of order `gcd(N−1, 12)/2`, and define `X₂(N) := X₁(N)/H`. Milestones: `X₂(N) → X₀(N)` is
@@ -1993,17 +2194,31 @@ downstream statement, per the portfolio rule that a prose promise is not a close
   on the `ℤ[1/N]`-restriction are both part of the definition, and dropping either changes the
   category.)
 
-Layer 10 records the intended constructions and identifies the remaining suppliers for Mazur
-Ch. II §§1–2. The following contracts **are not yet closed**, so no downstream statement may
-assume them: the
-formal Tate/cusp package (item 2, built here but unstarted); the finiteness and
-geometric-fibre base-change theorems for the normalisation (the carrier itself is Mathlib's),
-in the stated internal order; the Cartier-divisor and boundary-smoothness statements for the
-cusp locus; the global different and Riemann–Hurwitz package; the
-characteristic-`2`/`3` automorphism classification and normaliser computations (owned by
-item 3 here); the miracle-flatness half of the Shimura covering's étaleness; and the extension
-of the Galois covering and of `w_N` to the normalisations. Once those have Lean-facing declarations, this
-paragraph can be strengthened — not before.
+**Close-out: the Layer 10 target list, in dependency order.** Layer 10 records the
+constructions for Mazur Ch. II §§1–2 and names their suppliers. Its targets, ordered so that
+each stands only on entries before it, with the owner named wherever a target is consumed
+rather than built:
+
+1. the formal Tate/cusp package (item 2) — built in this layer;
+2. finiteness of `fromNormalization`, and the identification of `X_H` over `𝔸¹_j` with `Y_H`
+   (item 1) — this layer, on Mathlib's normalisation carrier;
+3. the Cartier-divisor and boundary-smoothness statements for `Cusps_H` (item 2) — this
+   layer, standing on 1;
+4. the geometric-fibre base-change theorem for the normalisation (item 1, in the four steps
+   stated there) — this layer, standing on 3;
+5. the extension of the Galois covering and of `w_N` to the normalisations (items 2–3) —
+   this layer, standing on 2 and the universal property;
+6. the characteristic-`2`/`3` automorphism classification and normaliser computations
+   (item 3) — this layer, on the elliptic-curves roadmap's `Aut(E)` carrier;
+7. the different and Riemann–Hurwitz package (item 3) — consumed from the
+   [Algebraic Curves roadmap](../AlgebraicCurves/README.md), Layers 7–9 through its Layer 12
+   dictionary, as itemised at item 3; the fibrewise Euler-characteristic constancy is this
+   layer's, standing on 2–4;
+8. the miracle-flatness half of the Shimura covering's étaleness (item 4) — this layer,
+   standing on 2–6.
+
+This list is the dependency contract: no statement of this layer or of §The Mazur interface
+consumes an entry ahead of its position.
 
 ## Dependency order and parallel work
 
@@ -2101,9 +2316,15 @@ The following examples accompany the general theory.
 - J. H. Silverman, *The Arithmetic of Elliptic Curves*, 2nd ed., GTM 106, Springer, 2009,
   III.10.1 and Appendix A, for automorphisms in characteristics `2` and `3`.
 - K. Buzzard, *Formalizing Fermat*, Lecture 8, for `Y(ρ)`.
+- N. M. Katz, *Serre–Tate local moduli*, in *Surfaces Algébriques* (Séminaire de Géométrie
+  Algébrique d'Orsay 1976–78), LNM 868, Springer, 1981, 138–202 — Theorem 1.2.1 is the
+  Serre–Tate equivalence ST-1 of Layer 7F, which KM invoke without proof.
+- M. Lazard, *Sur les groupes de Lie formels à un paramètre*, Bull. Soc. Math. France 83 (1955),
+  251–274, for the classification by height of one-dimensional commutative formal groups over an
+  algebraically closed field of characteristic `p` (PD-5 of Layer 7E).
 - Mathlib work in progress: mathlib4#25983 and mathlib4#35151.
 
-## Existing Lean work and source audit
+## Provenance: existing Lean work and source audit
 
 The current AINTLIB modular-curves development contains substantial implementation and proof
 decomposition for the group law, pole sheaves, Picard constructions, the Weil pairing, fine curves,
@@ -2186,176 +2407,30 @@ roadmap.
 ## Early API and proof hygiene
 
 The layers above say what to prove; this section says what to build first so that proving it
-stays cheap. It is implementation guidance for the AINTLIB development, not a mathematical
-dependency of any layer, and it was extracted from an API audit carried out on 2026-08-18: a
-mechanical sweep of the whole modular-curves tree together with close readings of the
-moduli/descent files, the pole-sheaf and pole-filtration files, and the two `Y(ρ)` files
-(`YRho.lean`, `RhoSections.lean`). The audited revision is
+stays cheap. Three levers, in leverage order, each stable advice independent of any revision of
+the implementation:
 
-```text
-repository:  https://github.com/CBirkbeck/AINTLIB
-branch:      dev/modular-curves
-revision:    175f528a6d715811404f7a5afac81dcadc829f33 (2026-08-18)
-scope:       projects/ModularCurves — 963 Lean files, ≈417,000 lines
-```
+1. **Attribute discipline on structural lemmas.** Lemmas asserting "lies over the base" and
+   pullback-leg identities carry `@[reassoc (attr := simp)]`; constructor-style definitions
+   carry `@[simps]`; one-data-field structures carry `@[ext]`. Reassociation chains and
+   `pullback.hom_ext` blocks are then `simp` calls, not hand-rolled proofs.
+2. **Names for the composites proofs keep re-spelling.** A repeatedly spelled-out composite
+   (a distinguished geometric point, a Galois "read points" chain, an identity-legged base
+   change) is a definition with its `@[simp]` naturality lemmas, not an idiom.
+3. **Scoped simp sets for the recurring side-goal families**, so each family closes with one
+   `simp [set, h]` call.
 
-The counts quoted below are one-time audit evidence justifying the priorities, measured at that
-revision only; per the policy above they are not tracking metrics and will not be maintained.
-Declaration names from the audited revision are cited so that the items are findable, with the
-same staleness caveat. Proposed Lean signatures are proposals of name and shape, to be adjusted
-on implementation.
+**What later layers may cite is exactly the general-purpose subset type-checked in
+`Suggested.lean` §Early API**: `pullback.mapSnd` — base change along a morphism of second
+factors, with its leg, identity, and composition lemmas; `pullbackSection` — the section of
+`pullback.snd π a` induced by a lift of `a` through `π`, with its naturality across `mapSnd`;
+and the elementwise composition normal form for morphisms of sheaves of modules
+(`SheafOfModules.comp_val_app_apply`). Nothing else in this section is a dependency of any
+layer, and no layer's statement changes if the advice above is ignored.
 
-**Diagnosis.** The development rewrites by hand what attributes and a handful of named
-definitions would do for free. At the audited revision: 7,361 mentions of `Category.assoc`
-(959 inside `simp only` lists), 2,535 `pullback.lift`, 2,353 spelled-out
-`Spec.map (CommRingCat.ofHom …)`, 1,337 `eqToHom`, and 396 `erw` (48 of them on a single
-elementwise lemma) — against 749 `@[simp]`, 435 `@[reassoc]`, 19 `@[simps]`, 7 `@[ext]`, and no
-`grind` anywhere. The two `Y(ρ)` files alone (≈16,600 lines) hand-roll 482 `refine Eq.trans`
-reassociation chains and carry six `@[simp]` lemmas between them. Three levers, in leverage
-order: attribute discipline on structural lemmas; names for the composites the proofs keep
-re-spelling; scoped simp sets that close the recurring side-goals in one call.
-
-Priorities: **P1** — before the next tranche of proofs in the affected files; **P2** — when the
-area is next touched; **P3** — opportunistic. The general-purpose subset is type-checked in
-`Suggested.lean` §Early API; everything else attaches to implementation carriers and is
-recorded here only.
-
-### Adopt, do not rebuild (P1)
-
-Checking the audit's proposals against Mathlib turned four of them into adoption notes. All
-four are present at this repository's pin `05ae0103` and at the audited development's newer
-pin; the audited files simply predate them (one is already consumed elsewhere in the same
-tree).
-
-- `CategoryTheory.congr_hom` on a concrete category — the element-application congruence
-  `f = g → f x = g x` that the pole-sheaf files re-derive at 17 sites via
-  `CommRingCat`-specific `have` blocks.
-- `AlgebraicGeometry.IsOpenImmersion.isPullback` — a commuting square of schemes whose
-  vertical legs are open immersions with matching open ranges is a pullback. The descent
-  files re-prove instances by hand from `IsOpenImmersion.lift`.
-- `continuousSMul_iff_stabilizer_isOpen` together with `Subgroup.isOpen_mono` — the seven
-  near-verbatim 20–35-line continuity proofs for discrete Galois actions
-  (`rhoAction_isContinuous`, `frameAction_isContinuous`, `constVecAction_isContinuous`,
-  `frameProdAction_isContinuous`, `rhoFrameProdAction_isContinuous`,
-  `muNRootsAction_isContinuous`, `rhoPairAction_isContinuous`) reduce to "the kernel is open,
-  hence every stabilizer is": two lemma applications each.
-- `CategoryTheory.Limits.pullback.congrHom` — its `congrHom_hom` simp lemmas are exactly the
-  audited `eqToHom_pullback_fst`/`eqToHom_pullback_snd`, which should be deleted in its
-  favour.
-
-### Attribute discipline (P1)
-
-The single highest-leverage change; all three close readings arrived at it independently.
-
-- Retag the "lies over the base" family `@[reassoc (attr := simp)]`: the 26 `…_π` lemmas of
-  the `Y(ρ)` files (`frameEval_π`, `strTaut_π`, `detFrameScheme_π`, `muNRootsPowScheme_π`, …;
-  `torsionMapOfEllHom_π` is the model already done right). This closes the 55 literal
-  `rw [Category.assoc, X_π]; exact h` sites and most `hover`-style side-goals.
-- Upgrade the `@[reassoc]`-only pullback-leg lemmas to `@[reassoc (attr := simp)]`
-  (`strVPt_fst`/`_snd`, `vMapOf_fst`/`_snd`, `strCoverMap_pr`/`_taut`,
-  `frameGraph_fst`/`_snd`, `pullTorsionIso_fst`/`_over`, the shear and coshear legs): with
-  the legs in `simp`, `pullback.hom_ext <;> simp` replaces the 18-line reassociation blocks.
-- Adopt `@[simps]` on constructor-style definitions: the four hand-built `…SpecIso`s
-  (`constVecSpecIso`, `muNRootsSpecIso`, `vRhoPairSpecIso`, `corrSchemeIso`, each currently
-  carrying a ~25-line `hom_inv_id` block), the 58 `ObjectProperty.homMk` wrappers
-  (`frameProdFst`/`Snd`, `frameEvalMor`, the shears), `secCover`/`secLift`/`secValue`, and
-  `GaloisRepData.ofDetCyclo`.
-- Adopt `@[ext]`: `RhoLevelStructure` (one data field, the rest `Prop`s), `GaloisRepData`,
-  tag the existing `EllHom.ext`, and add an ext lemma for maps into an `EllObj.pullbackAlong`
-  (the audited files discharge these by `Subtype.ext (Prod.ext …)` at ~15 sites).
-- `@[simp]` the near-`rfl` projection facts used as `show`-targets
-  (`torsionMapOfEllHom_id`/`_comp`, `RhoLevelStructure.pull_id`/`_comp`,
-  `wFramesRightMul_one`/`_mul`, `corrMor_corrMorInv`, `piAlgHomIndex_spec`, …).
-- One demotion: `chartBasicOpenImage_eq_affineBasicOpen` is not confluent with the other
-  chart-calculus lemmas and should lose its `@[simp]`.
-
-### Composites that deserve names (P1 unless marked)
-
-- `qbarPt`, an abbreviation for the geometric point
-  `Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ)))`, spelled out 62 times;
-  and `qbarRead`, the Grothendieck–Galois "layer cake"
-  `Spec.preimage` → `specPointsEquivAlgHom` → `AlgEquiv.arrowCongr sepClosureQAlgEquiv.symm`
-  → `pointsEquivOfContAction` (70 + 40 call sites, always with the same `hL1`/`hA`/`hB`/`hC`
-  scaffolding), packaged once with a `@[simp]` naturality lemma `qbarRead_comp` and an
-  equivariance lemma `qbarRead_smul`. `frameEval_points` alone drops from 206 lines to ~30.
-- `pullback.mapSnd` — base change along a morphism of second factors, the identity-legged
-  `pullback.map`: 60 call sites discharge the two identity legs by hand with
-  `rw [Category.comp_id, Category.id_comp]`. Type-checked in `Suggested.lean`; subsumes the
-  audited `vMapOf`, `secVSmul`, and `strActX` shapes.
-- `pullbackSection` — the section of `pullback.snd π a` induced by a lift of `a` through `π`;
-  the pole-sheaf files build sections of pullbacks by hand from `pullback.lift` at 55 sites.
-  Type-checked in `Suggested.lean` with its `mapSnd` naturality square.
-- A `Spec`-of-a-finite-étale-algebra functor `CommAlgCat.FiniteEtale ℚ ⥤ CommRingCat` with a
-  `mapIso`, replacing the 198 `.hom.hom.toRingHom` spellings and each hand-built `…SpecIso`;
-  and a `Spec.preimage_comp` simp lemma derived from Mathlib's `Functor.preimage_comp`
-  (11 verbatim `Spec.map_injective`-plus-three-rewrites blocks).
-- (P2) `SchemeAction.QuotientCone` — bundle the six-clause quotient existential of the
-  descent files as a structure, so its clauses stop being re-threaded positionally.
-- (P2) `WeierstrassCurve.Projective.RegularTriple` — 244 call sites thread the same three
-  regularity hypotheses separately.
-- (P2) An `AlgebraicGeometry.WeierstrassChart` structure with a `pushforward` operation and
-  the `IsAffineOpen.SpecMap_appIso_hom_isoSpec_inv` bridge lemma — the chart-calculus
-  backbone shared by the seventeen `AdditionChart*` files.
-- (P2) Abbreviations for the projective grading and chart generator expressions
-  (`projGrading`/`chartGen`), one of which is repeated 286 times.
-- (P2) `EllObj.pullbackAlongCongr` (an isomorphism from equal classifying maps, replacing
-  `eqToHom` transport) plus a functorial `EllObj.base` — removes all 24 `eqToHom`s and all
-  25 `subst`s in the `Y(ρ)` files; the 1,337 `eqToHom`s tree-wide suggest wider reuse.
-
-### Collapsing lemmas (P1 unless marked)
-
-One lemma per repeated multi-step idiom.
-
-- Make the elementwise sheaf-of-modules calculus the simp normal form:
-  `sheafOfModules_comp_app_apply` exists in the audited tree but is `erw`-ed 48 times and
-  open-coded at 29 further sites; add the `hom_inv_id`, `congr_app`, and
-  `over_map_homOfLE` elementwise companions and tag the family `@[simp]`, retiring the
-  `erw`s. The generic composition form is type-checked in `Suggested.lean`.
-- `EllipticCurve.rawKill` — an abbreviation with `@[simp] rawKill_iff` and a pulled-point
-  variant: the transport `(smul_eq_zero_iff_comp_mulByHom …).mp` appears 99 times and
-  `Point.asSection` 179 times, always in the same `hpull` block.
-- A `WalkingPair`-uniform `restrictBase_univTorsionSlot_eq_pushSection`, deleting the
-  byte-identical `Fst`/`Snd` twin proofs (74 lines → ~20).
-- (P2) `IsScalarTransition.map` — collapses the six scalar-transition theorems (≈380 lines)
-  into one parametrised statement.
-- (P2) Promote `range_SpecMap_awayHom` from a local `have` to a lemma; with
-  `IsOpenImmersion.isPullback` (adopted above) this closes the away-chart descent squares.
-- (P3) Small-fact hygiene: an instance for `IsUnit ((N : ℕ) : ℚ)` under `[NeZero N]`
-  (re-derived 7 times), a `@[simp]` 2×2 table for `symplStd` applied to `Pi.single`
-  (12 re-derivations), and hoisting `(1 : ℕ) < N` to a section variable.
-
-### Scoped simp sets (P1 for the first three, P2 for the rest)
-
-Named `simp` attribute sets, scoped to the development, so the recurring 10-line side-goals
-close with one `simp [set, h]` call.
-
-| set | contents (sketch) | closes |
-|---|---|---|
-| `overQ` | `qbarPt`, the reassoc'd `…_π` family, `Spec.map_comp`/`_id` | every "lies over `Spec ℚ`" side-goal |
-| `rhoPullback` | `pullback.lift_fst`/`_snd`, `mapSnd` legs, the leg lemmas above | the `pullback.hom_ext` chains, incl. both 30-line `Fst`/`Snd` blocks |
-| `galoisRead` | `qbarRead_comp`/`_smul`, `Spec.preimage_comp`, points-equiv naturality | `frameEval_points`, `vRhoPointsEquiv_equivariant` |
-| `chartCalculus` (+ projective variant) | chart-transition and `WeierstrassChart` lemmas | `AdditionChart*` plumbing |
-| `awayTower`, `descent` | localization towers; gluing side-conditions | away-chart and descent squares |
-| `poleSections`, `ringApply` | the elementwise family above; trivialization lemmas | pole-sheaf section pushing; element-application chains |
-
-### A `grind` pilot (P2, experimental)
-
-There is no `grind` in the audited tree. The mined pain is mostly `simp`/`reassoc`-shaped —
-category plumbing, where `grind` does not apply — but the coordinate-algebra layer is exactly
-its territory: the `AdditionChart*` ring identities, Weierstrass polynomial relations,
-`RegularTriple` consequences, and `ZMod`/determinant tables. Pilot: tag the chart-transition
-equations and Weierstrass relations `@[grind =]` and the `RegularTriple` facts `@[grind]`,
-and try `grind` as the closer on `AdditionChart*` equational goals; adopt only if it beats
-the `simp [chartCalculus]; ring` baseline on the same goals.
-
-### Duplications to delete (P3 unless the file is being touched anyway)
-
-- `affineOpenTopSection` ≡ `openTopSection`: verbatim duplicate definitions (45 and 18 uses),
-  currently reconciled by `change`; keep one and add the bridging lemma.
-- The `agreePair`/`agreeLocus`/`agreeLocusι` block is a literal specialisation of
-  `genAgreePair`/`genAgreeLocus` at `pi := muNRootsSchemeπ D` with token-identical proofs
-  (85 lines); delete it and keep an `abbrev`.
-- `bareFramedAut` vs `framedAut` and their `_freeAction` twins: ~50 lines each, differing
-  only in `.1` vs `.val.1`; one `GL₂`-action lemma covers both.
-- `eqToHom_pullback_fst`/`_snd`: superseded by Mathlib's `pullback.congrHom` (adopted
-  above).
+The audit this section was distilled from — dated, revision-pinned, with occurrence counts,
+per-file priorities, adoption notes against a Mathlib pin, and a deletion list, none of which
+belongs in a timeless roadmap (§Provenance states the same policy for the source audit) — is
+maintained with the implementation it describes, in the AINTLIB development repository:
+`projects/ModularCurves/docs/api-audit-2026-08-18.md` on branch `dev/modular-curves` of
+`github.com/CBirkbeck/AINTLIB`.
