@@ -20,6 +20,7 @@ body:
       options:
         - AdicSpaces
         - AlgebraicCurves
+        - ArithmeticDirichletSeries
         - CFSGStatement
         - CombinatorialHeegaardFloer
         - ConformalMapping
@@ -40,6 +41,7 @@ body:
         - OneParameterSemigroups
         - OptimalTransport
         - PDE
+        - ProfiniteCohomology
         - ReductiveGroups
         - RepresentationTheory
         - StandardDistributions
