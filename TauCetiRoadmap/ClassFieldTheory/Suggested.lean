@@ -22,16 +22,21 @@ to replace them by the exact imported declarations.
 The central design constraint is the definitional chain
 
 ```text
-tateIso (-2)  →  nakayamaNegTwo  →  artinEquiv := nakayamaNegTwo.symm  →  artinMap.
+tateTheorem  →  tateIso (-2)  →  nakayamaNegTwo  →  artinEquiv := nakayamaNegTwo.symm  →  artinMap.
 ```
 
-`nakayamaNegTwo`, `artinEquiv` and `artinMap` are ordinary definitions with bodies, so the requested
-Artin map is definitionally the inverse of cup product with the fundamental class in Tate degrees
-`-2` and `0` after the canonical low-degree identifications; it is not an arbitrary equivalence of
-two finite groups. The local and global maps are transports of this same abstract map, and the
-material of Layers 8–10 (local invariants and Hilbert symbols, local duality and Euler
-characteristics, conductors, the Hasse norm theorem, class fields, Hilbert reciprocity) consumes
-those transports.
+`tateIso`, `nakayamaNegTwo`, `artinEquiv` and `artinMap` are ordinary definitions with bodies, so
+the requested Artin map is definitionally the inverse of cup product with the fundamental class in
+Tate degrees `-2` and `0` after the canonical low-degree identifications; it is not an arbitrary
+equivalence of two finite groups. Tate's theorem itself is stated generically, with its three
+hypotheses as separate explicit arguments rather than as an opaque bundle of class-formation
+axioms, and `ClassFormation` discharges them one by one.
+
+The layer order is the dependency order and there are no forward references. In particular the
+local Brauer group and its invariant (Layer 5) precede the local class formation (Layer 6) that
+consumes them; local existence (Layer 8) follows the Kummer theory it uses; the local Weil group
+(Layer 9) follows local existence; and the sum-of-local-invariants map (Layer 10) precedes the
+global class formation (Layer 11) whose invariant it *is*.
 
 Everything is stated in universe `0`, because Mathlib's `tateCohomology` requires the group and the
 coefficient ring `ℤ` to live in one universe. All continuous cohomology is Mathlib's carrier as
@@ -248,6 +253,79 @@ noncomputable def inclusionHom (T : LayerRestriction small big) :
     Additive (Abelianization small.Gal) →+ Additive (Abelianization big.Gal) :=
   sorry
 
+/-- Corestriction on ordinary finite-layer cohomology: the transfer `H^n(K/E) → H^n(K/F)`, in the
+direction opposite to `cohomologyRes`. Corestriction is a separate named map, not a derived one:
+the invariant normalizations of restriction and of corestriction differ, and both are used
+downstream on their own. -/
+noncomputable def cohomologyCor (T : LayerRestriction small big) (F : Formation G) (n : ℕ) :
+    small.H F n →+ big.H F n :=
+  sorry
+
+/-- Corestriction on the finite-layer Tate groups, in every integer degree. -/
+noncomputable def tateCor (T : LayerRestriction small big) (F : Formation G) (r : ℤ) :
+    small.TateH F r →+ big.TateH F r :=
+  sorry
+
+/-- Corestriction on the trivial-coefficient Tate groups. -/
+noncomputable def trivialTateCor (T : LayerRestriction small big) (r : ℤ) :
+    small.TrivialTateH r →+ big.TrivialTateH r :=
+  sorry
+
+/-- **Restriction/corestriction normalization, first half:** `cor ∘ res = [E:F]`. -/
+theorem cohomologyCor_cohomologyRes (T : LayerRestriction small big) (F : Formation G) (n : ℕ)
+    (x : big.H F n) :
+    T.cohomologyCor F n (T.cohomologyRes F n x) = T.relativeDegree • x :=
+  sorry
+
+/-- The Tate-degree form of `cor ∘ res = [E:F]`, valid in every integer degree. -/
+theorem tateCor_tateRes (T : LayerRestriction small big) (F : Formation G) (r : ℤ)
+    (x : big.TateH F r) :
+    T.tateCor F r (T.tateRes F r x) = T.relativeDegree • x :=
+  sorry
+
+/-! ### Tower compatibility of restrictions
+
+A tower `F ⊆ E ⊆ E' ⊆ K` of ground fields is a composite of two restrictions. The composite is
+itself a restriction, and every map of this namespace is functorial along it. These are the
+statements downstream tower arguments use; they are stated separately from the class-formation
+axioms because they hold for any formation. -/
+
+/-- Restrictions compose: a tower `F ⊆ E ⊆ E' ⊆ K` of ground fields. -/
+theorem trans {mid : NormalLayer G} (S : LayerRestriction small mid)
+    (T : LayerRestriction mid big) : LayerRestriction small big where
+  same_top := S.same_top.trans T.same_top
+  ground_le := le_trans S.ground_le T.ground_le
+
+/-- The relative degree is multiplicative in a tower: `[E':F] = [E':E] · [E:F]`. -/
+theorem relativeDegree_trans {mid : NormalLayer G} (S : LayerRestriction small mid)
+    (T : LayerRestriction mid big) :
+    (S.trans T).relativeDegree = S.relativeDegree * T.relativeDegree :=
+  sorry
+
+/-- Restriction is functorial in a tower. -/
+theorem cohomologyRes_trans {mid : NormalLayer G} (S : LayerRestriction small mid)
+    (T : LayerRestriction mid big) (F : Formation G) (n : ℕ) (x : big.H F n) :
+    (S.trans T).cohomologyRes F n x = S.cohomologyRes F n (T.cohomologyRes F n x) :=
+  sorry
+
+/-- Corestriction is functorial in a tower. -/
+theorem cohomologyCor_trans {mid : NormalLayer G} (S : LayerRestriction small mid)
+    (T : LayerRestriction mid big) (F : Formation G) (n : ℕ) (x : small.H F n) :
+    (S.trans T).cohomologyCor F n x = T.cohomologyCor F n (S.cohomologyCor F n x) :=
+  sorry
+
+/-- Tate restriction is functorial in a tower, in every integer degree. -/
+theorem tateRes_trans {mid : NormalLayer G} (S : LayerRestriction small mid)
+    (T : LayerRestriction mid big) (F : Formation G) (r : ℤ) (x : big.TateH F r) :
+    (S.trans T).tateRes F r x = S.tateRes F r (T.tateRes F r x) :=
+  sorry
+
+/-- Tate corestriction is functorial in a tower, in every integer degree. -/
+theorem tateCor_trans {mid : NormalLayer G} (S : LayerRestriction small mid)
+    (T : LayerRestriction mid big) (F : Formation G) (r : ℤ) (x : small.TateH F r) :
+    (S.trans T).tateCor F r x = T.tateCor F r (S.tateCor F r x) :=
+  sorry
+
 end LayerRestriction
 
 namespace LayerRefinement
@@ -281,7 +359,49 @@ noncomputable def groundEquiv (T : LayerRefinement old new) (F : Formation G) :
     F.level old.ground ≃+ F.level new.ground :=
   sorry
 
+/-- Refinements compose: a tower `F ⊆ K ⊆ L ⊆ M` of top fields. -/
+theorem trans {newer : NormalLayer G} (S : LayerRefinement old new)
+    (T : LayerRefinement new newer) : LayerRefinement old newer where
+  same_ground := S.same_ground.trans T.same_ground
+  new_top_le := le_trans T.new_top_le S.new_top_le
+
+/-- The relative top degree is multiplicative in a tower. -/
+theorem relativeDegree_trans {newer : NormalLayer G} (S : LayerRefinement old new)
+    (T : LayerRefinement new newer) :
+    (S.trans T).relativeDegree = S.relativeDegree * T.relativeDegree :=
+  sorry
+
+/-- Inflation is functorial in a tower of top fields. -/
+theorem cohomologyInfl_trans {newer : NormalLayer G} (S : LayerRefinement old new)
+    (T : LayerRefinement new newer) (F : Formation G) (n : ℕ) (x : old.H F n) :
+    (S.trans T).cohomologyInfl F n x = T.cohomologyInfl F n (S.cohomologyInfl F n x) :=
+  sorry
+
 end LayerRefinement
+
+namespace NormalLayer
+
+variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  [CompactSpace G] [TotallyDisconnectedSpace G]
+
+/-- **The finite quotient system.** The layer cut out by a subgroup `H ≤ U/V` has the same top
+field and a smaller ground field, so it is a `LayerRestriction` of `L`; this is the datum through
+which the hypotheses of Tate's theorem are checked subgroup by subgroup. -/
+theorem subgroupRestriction (L : NormalLayer G) (H : Subgroup L.Gal) :
+    LayerRestriction (L.subgroupLayer H) L :=
+  sorry
+
+/-- The relative degree of `subgroupRestriction` is the index `[U/V : H]`. -/
+theorem relativeDegree_subgroupRestriction (L : NormalLayer G) (H : Subgroup L.Gal) :
+    (L.subgroupRestriction H).relativeDegree = H.index :=
+  sorry
+
+/-- The degree of the layer cut out by `H` is `#H`. -/
+theorem degree_subgroupLayer (L : NormalLayer G) (H : Subgroup L.Gal) :
+    (L.subgroupLayer H).degree = Nat.card H :=
+  sorry
+
+end NormalLayer
 
 /-- The conjugate normal layer `gUg⁻¹ ⊇ gVg⁻¹`. -/
 noncomputable def conjugateLayer {G : Type} [Group G] [TopologicalSpace G]
@@ -381,7 +501,117 @@ theorem fundamentalClass_conj (cf : ClassFormation F) (g : G) (L : NormalLayer G
       cf.fundamentalClass (conjugateLayer g L) :=
   sorry
 
-/-! ## Layer 3: Tate's theorem (Artin–Tate's Main Theorem) -/
+/-- **Restriction/corestriction normalization, second half:** corestriction preserves invariants,
+where restriction multiplies them by the relative degree. This is a theorem and not a field of
+`ClassFormation`: it follows from `inv_restrict`, `inv_injective` and
+`LayerRestriction.cohomologyCor_cohomologyRes`, and adding it as an axiom would let an
+implementation satisfy it by fiat. -/
+theorem inv_cor (cf : ClassFormation F) {small big : NormalLayer G}
+    (T : LayerRestriction small big) (x : small.H F 2) :
+    cf.inv big (T.cohomologyCor F 2 x) = cf.inv small x :=
+  sorry
+
+/-- Corestriction of a fundamental class: `cor u_{K/E} = [E:F] · u_{K/F}`. The scaling is the
+mirror image of the one in `fundamentalClass_infl`, and it is what makes the corestriction square
+for `tateIso` commute. -/
+theorem fundamentalClass_cor (cf : ClassFormation F) {small big : NormalLayer G}
+    (T : LayerRestriction small big) :
+    T.cohomologyCor F 2 (cf.fundamentalClass small) =
+      T.relativeDegree • cf.fundamentalClass big :=
+  sorry
+
+/-! ### The three hypotheses of Tate's theorem, verified for a class formation
+
+These are the individually named facts that Layer 3 feeds to `tateTheorem`. They are stated one by
+one, rather than being read off the `ClassFormation` structure at the point of use, because each is
+consumed separately downstream: `h1_subgroupLayer` in the Hilbert-90 arguments,
+`card_H2_subgroupLayer` in the norm-index computations, and
+`fundamentalClass_restrict_generates` in the tower comparisons. -/
+
+/-- `H¹` vanishes on every layer cut out by a subgroup of the Galois group. -/
+theorem h1_subgroupLayer (cf : ClassFormation F) (L : NormalLayer G) (H : Subgroup L.Gal) :
+    Subsingleton ((L.subgroupLayer H).H F 1) :=
+  cf.h1_eq_zero _
+
+/-- `H²` of the layer cut out by `H` has exactly `#H` elements. -/
+theorem card_H2_subgroupLayer (cf : ClassFormation F) (L : NormalLayer G) (H : Subgroup L.Gal) :
+    Nat.card ((L.subgroupLayer H).H F 2) = Nat.card H :=
+  sorry
+
+/-- The restriction of the fundamental class to the layer cut out by `H` generates that layer's
+`H²`. This is the third hypothesis of Tate's theorem and the one that is not immediate from the
+axioms: it combines `fundamentalClass_restrict` with `fundamentalClass_generates`. -/
+theorem fundamentalClass_restrict_generates (cf : ClassFormation F) (L : NormalLayer G)
+    (H : Subgroup L.Gal) (x : (L.subgroupLayer H).H F 2) :
+    ∃ m : ℤ, x = m • (L.subgroupRestriction H).cohomologyRes F 2 (cf.fundamentalClass L) :=
+  sorry
+
+end ClassFormation
+
+/-! ## Layer 3: Tate's theorem (Artin–Tate's Main Theorem)
+
+⚠ Tate's theorem is stated **generically**, with each of its hypotheses a separate explicit
+argument about a formation, a finite normal layer, and a chosen two-dimensional class. It is not
+stated against an opaque bundle of "class-formation axioms". The hypotheses are used separately
+downstream — the cyclic-layer Herbrand computations need only `h1`, the norm-index theorems only
+`hcard`, the tower comparisons only `hgen` — and a consumer that has established them for one
+layer applies the theorem directly. Layer 2's `ClassFormation` is one supplier of the three
+hypotheses, through the individually named
+`ClassFormation.h1_subgroupLayer`, `ClassFormation.card_H2_subgroupLayer` and
+`ClassFormation.fundamentalClass_restrict_generates`. -/
+
+section TateTheorem
+
+variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  [CompactSpace G] [TotallyDisconnectedSpace G]
+
+/-- Cup product with a chosen class `u : H²(U/V, A^V)`, after the tensor-unit identification
+`ℤ ⊗ A^V ≅ A^V` and Mathlib's comparison of ordinary `H²` with Tate degree `2`. This is the named
+homomorphism underlying Tate's theorem; its implementation is the generic Tate cup product of the
+Layer 0 supplier audit. -/
+noncomputable def cupClass (F : Formation G) (L : NormalLayer G) (u : L.H F 2) (r : ℤ) :
+    L.TrivialTateH r →+ L.TateH F (r + 2) :=
+  sorry
+
+/-- **Tate's theorem** (J. Tate, *The higher dimensional cohomology groups of class field theory*,
+Ann. of Math. 56 (1952); Artin–Tate, Chapter XIV §4), with its hypotheses stated one by one over
+the finite quotient system `H ↦ L.subgroupLayer H`:
+
+* `_h1` — `H¹(H, A^V) = 0` for every subgroup `H ≤ U/V`;
+* `_hcard` — `H²(H, A^V)` has exactly `#H` elements;
+* `_hgen` — the restriction of `u` to the layer of `H` generates that layer's `H²`.
+
+Then cup product with `u` is an isomorphism `Ĥ^r(U/V,ℤ) ≃ Ĥ^{r+2}(U/V,A^V)` in every integer
+degree. The Tate–Nakayama generalization replaces the trivial coefficients `ℤ` by a module `M`
+with `Tor₁^ℤ(M,A^V) = 0`; it is the same three hypotheses plus that vanishing, and it belongs to
+the generic Tate-cohomology supplier of Layer 0. -/
+noncomputable def tateTheorem (F : Formation G) (L : NormalLayer G) (u : L.H F 2)
+    (_h1 : ∀ H : Subgroup L.Gal, Subsingleton ((L.subgroupLayer H).H F 1))
+    (_hcard : ∀ H : Subgroup L.Gal, Nat.card ((L.subgroupLayer H).H F 2) = Nat.card H)
+    (_hgen : ∀ (H : Subgroup L.Gal) (x : (L.subgroupLayer H).H F 2),
+      ∃ m : ℤ, x = m • (L.subgroupRestriction H).cohomologyRes F 2 u)
+    (r : ℤ) :
+    L.TrivialTateH r ≃+ L.TateH F (r + 2) :=
+  sorry
+
+/-- The isomorphism of Tate's theorem **is** cup product with `u`, not an unrelated equivalence
+between two groups of the same cardinality. -/
+theorem tateTheorem_toAddMonoidHom (F : Formation G) (L : NormalLayer G) (u : L.H F 2)
+    (h1 : ∀ H : Subgroup L.Gal, Subsingleton ((L.subgroupLayer H).H F 1))
+    (hcard : ∀ H : Subgroup L.Gal, Nat.card ((L.subgroupLayer H).H F 2) = Nat.card H)
+    (hgen : ∀ (H : Subgroup L.Gal) (x : (L.subgroupLayer H).H F 2),
+      ∃ m : ℤ, x = m • (L.subgroupRestriction H).cohomologyRes F 2 u)
+    (r : ℤ) :
+    (tateTheorem F L u h1 hcard hgen r).toAddMonoidHom = cupClass F L u r :=
+  sorry
+
+end TateTheorem
+
+namespace ClassFormation
+
+variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  [CompactSpace G] [TotallyDisconnectedSpace G]
+  {F : Formation G}
 
 /-- The fundamental class transported from ordinary `H²` to positive Tate degree `2` through
 Mathlib's canonical comparison. -/
@@ -390,27 +620,27 @@ noncomputable def tateFundamentalClass (cf : ClassFormation F) (L : NormalLayer 
   ((TateCohomology.isoGroupCohomology (R := ℤ) (G := L.Gal) 2).app (L.rep F)).inv
     (cf.fundamentalClass L)
 
-/-- Cup product with the fundamental class, after the tensor-unit identification
-`ℤ ⊗ A^V ≅ A^V`. This is the named homomorphism to which `tateIso` must reduce; its
-implementation is the generic Tate cup product of the supplier audit. -/
+/-- Cup product with the fundamental class: the generic `cupClass` at `u = fundamentalClass`. -/
 noncomputable def cupFundamentalClass (cf : ClassFormation F) (L : NormalLayer G) (r : ℤ) :
     L.TrivialTateH r →+ L.TateH F (r + 2) :=
-  sorry
+  cupClass F L (cf.fundamentalClass L) r
 
-/-- Tate's theorem for a class formation, in every integer degree: cup product with the
-fundamental class is an isomorphism `Ĥ^r(Γ,ℤ) ≃ Ĥ^{r+2}(Γ,A^V)` (Tate 1952; Artin–Tate's Main
-Theorem, Chapter XIV §4). Its generalization to coefficients `M` with `Tor₁(M,A^V) = 0` is the
-Tate–Nakayama theorem, which belongs to the generic supplier. -/
+/-- Tate's theorem for a class formation, in every integer degree: the generic theorem applied to
+the fundamental class, with the three hypotheses discharged by the three individually named
+consequences of the axioms. This is Artin–Tate's Main Theorem (Chapter XIV §4). -/
 noncomputable def tateIso (cf : ClassFormation F) (L : NormalLayer G) (r : ℤ) :
     L.TrivialTateH r ≃+ L.TateH F (r + 2) :=
-  sorry
+  tateTheorem F L (cf.fundamentalClass L) (cf.h1_subgroupLayer L)
+    (cf.card_H2_subgroupLayer L) (cf.fundamentalClass_restrict_generates L) r
 
 /-- The isomorphism is the cup-product map, not an unrelated equivalence between groups of the
-same cardinality. -/
+same cardinality. A closed proof: `tateIso` is definitionally the generic theorem, so this is the
+generic statement, applied. -/
 theorem tateIso_toAddMonoidHom (cf : ClassFormation F)
     (L : NormalLayer G) (r : ℤ) :
     (cf.tateIso L r).toAddMonoidHom = cf.cupFundamentalClass L r :=
-  sorry
+  tateTheorem_toAddMonoidHom F L (cf.fundamentalClass L) (cf.h1_subgroupLayer L)
+    (cf.card_H2_subgroupLayer L) (cf.fundamentalClass_restrict_generates L) r
 
 /-- Compatibility of Tate's theorem with restriction to an intermediate ground field. -/
 theorem tateIso_res (cf : ClassFormation F)
@@ -418,6 +648,27 @@ theorem tateIso_res (cf : ClassFormation F)
     (x : big.TrivialTateH r) :
     T.tateRes F (r + 2) (cf.tateIso big r x) =
       cf.tateIso small r (T.trivialTateRes r x) :=
+  sorry
+
+/-- Compatibility of Tate's theorem with corestriction. ⚠ The corestriction square commutes
+without a scaling factor, where the restriction square of `tateIso_res` also does but the
+*inflation* square of `fundamentalClass_infl` does not. Asserting one shape for all three is the
+standard error here. -/
+theorem tateIso_cor (cf : ClassFormation F)
+    {small big : NormalLayer G} (T : LayerRestriction small big) (r : ℤ)
+    (x : small.TrivialTateH r) :
+    T.tateCor F (r + 2) (cf.tateIso small r x) =
+      cf.tateIso big r (T.trivialTateCor r x) :=
+  sorry
+
+/-- Compatibility of Tate's theorem with a tower of ground fields, `F ⊆ E ⊆ E' ⊆ K`. Together with
+`LayerRestriction.relativeDegree_trans` this is the tower normalization the local and global
+towers of Layers 6 and 11 consume. -/
+theorem tateIso_res_trans (cf : ClassFormation F)
+    {small mid big : NormalLayer G} (S : LayerRestriction small mid)
+    (T : LayerRestriction mid big) (r : ℤ) (x : big.TrivialTateH r) :
+    (S.trans T).tateRes F (r + 2) (cf.tateIso big r x) =
+      cf.tateIso small r ((S.trans T).trivialTateRes r x) :=
   sorry
 
 /-! ## Layer 4: low Tate degrees and the abstract Artin map -/
@@ -577,7 +828,11 @@ theorem artinMap_quadratic_eq_nontrivial_iff_not_norm
 
 end ClassFormation
 
-/-! ## Layer 5: local class formation, local reciprocity, and local invariants -/
+/-! ## Layer 5: local coefficients, the Brauer group, the local invariant, and duality
+
+⚠ The local Brauer group and its invariant map are built **before** the local class formation, not
+after it. `localClassFormation` of Layer 6 consumes `invMap`; nothing in this layer may consume
+`localArtinMap`, `normResidue`, `localExistence`, or the local class formation itself. -/
 
 /-- Coefficients for the absolute Galois group, on the imported continuous carrier. -/
 abbrev GalRep (n : ℕ) (F : Type) [Field F] : Type 1 :=
@@ -789,7 +1044,7 @@ theorem eulerCharacteristic_finrank_fp (p : ℕ) [Fact p.Prime]
         + Module.finrank ℚ_[p] F * Module.finrank (ZMod p) A.V :=
   sorry
 
-/-! ### The local class formation and finite local reciprocity -/
+/-! ## Layer 6: the local class formation and finite local reciprocity -/
 
 /-- The formation of multiplicative groups of finite separable extensions of `K`, written
 additively: its module is `unitsRep K` transported to the separable-closure Galois group. -/
@@ -929,18 +1184,28 @@ theorem localArtinMap_quadratic_eq_nontrivial_iff_not_norm
       a ∉ LocalFieldsRamification.normGroup K L :=
   sorry
 
-/-- The Hilbert-symbol form of the quadratic test, an integration test with `localSymbol`: for
-`L = K(√d)`, the restriction of the Artin symbol of `a` is nontrivial exactly when the quadratic
-symbol `(a,d)_K` is `-1`. -/
+/-- The Hilbert-symbol form of the quadratic test, an integration test with `localSymbol`: for the
+quadratic extension generated by a square root of a nonsquare `d`, the Artin symbol of `a` is the
+nontrivial automorphism exactly when the quadratic symbol `(a,d)_K` is `-1` — additively, when
+`localSymbol` returns `1 : ZMod 2`.
+
+⚠ The extension must be *exactly* `K(√d)`, so the chosen square root `s` is data and generates
+`L` over `K`. A bare hypothesis `∃ s : L, s * s = algebraMap K L d` does **not** pin `L`: it holds
+for every extension of `K` that happens to contain a square root of `d`. The biquadratic field
+`L = K(√d, √e)` satisfies it, has degree four, and has three nontrivial automorphisms, none of
+which is determined by `(a,d)_K`; with only the existential hypothesis the statement is false. -/
 theorem localArtinMap_quadratic_eq_hilbertSymbol
     [Algebra K L] [Module.Finite K L] [IsGalois K L]
     (iota : L →ₐ[K] SeparableClosure K)
-    (hdegree : Module.finrank K L = 2) (d : K) (hd : ∃ s : L, s * s = algebraMap K L d)
-    (τ : L ≃ₐ[K] L) (hτ : τ ≠ 1) (a : Kˣ) (hd0 : d ≠ 0)
+    (d : Kˣ) (hd : ¬ IsSquare d)
+    (s : L) (hs : s * s = algebraMap K L (d : K))
+    (hgen : IntermediateField.adjoin K ({s} : Set L) = ⊤)
+    (hdegree : Module.finrank K L = 2)
+    (τ : L ≃ₐ[K] L) (hτ : τ ≠ 1) (hτs : τ s = -s) (a : Kˣ)
     (P : ProfiniteCohomology.TopPairing (muNRep 2 K) (muNRep 2 K) (muNRep 2 K))
     (tr : H 2 K 2 (muNRep 2 K) ≃+ ZMod 2) :
     localArtinMap K L iota (Additive.ofMul a) = Additive.ofMul (Abelianization.of τ) ↔
-      localSymbol P tr (kummerClass 2 K a) (kummerClass 2 K (Units.mk0 d hd0)) = 1 :=
+      localSymbol P tr (kummerClass 2 K a) (kummerClass 2 K d) = 1 :=
   sorry
 
 /-- The local cyclotomic test: for `p ∤ m`, `ℚ_p(ζ_m)/ℚ_p` is unramified, and the Artin symbol of
@@ -957,7 +1222,7 @@ theorem localArtinMap_cyclotomic_uniformizer [Algebra K L] [ValuativeExtension K
     σ ζ = ζ ^ Nat.card 𝓀[K] :=
   sorry
 
-/-! ### The absolute local Artin map, its normalizations, conductors, and the Weil group -/
+/-! ## Layer 7: the absolute local Artin map, its normalizations, and conductors -/
 
 /-- **Frozen public name.** The local Artin map into the topological abelianization of the absolute
 Galois group, normalized by arithmetic Frobenius. It is the inverse limit of the finite maps
@@ -1071,33 +1336,7 @@ theorem unitFiltration_characterConductorExp_le_ker
       ≤ chi.toMonoidHom.ker :=
   sorry
 
-/-- The local Weil group: the preimage in `G_K` of the powers of arithmetic Frobenius under the
-map to the Galois group of the residue field, i.e. of `ℤ ⊆ ℤ̂` under `G_K → G_𝓀[K] ≅ ℤ̂`. -/
-noncomputable def localWeilGroup : Subgroup (Field.absoluteGaloisGroup K) :=
-  sorry
-
-/-- The Weil-group form of local reciprocity is an isomorphism, unlike `artinMap`:
-`Kˣ ≃ W_K^ab`. -/
-noncomputable def localWeilArtinEquiv : Kˣ ≃* Abelianization (localWeilGroup K) :=
-  sorry
-
-/-- The Weil-group reciprocity map recovers `artinMap` after passing to `G_K^ab`. -/
-theorem localWeilArtinEquiv_compat (x : Kˣ) (w : localWeilGroup K)
-    (hw : Abelianization.of w = localWeilArtinEquiv K x) :
-    (QuotientGroup.mk (w : Field.absoluteGaloisGroup K) :
-      Field.absoluteGaloisGroupAbelianization K) = artinMap K x :=
-  sorry
-
-/-- The image of `Kˣ` under `artinMap` is the image of the Weil group: dense but not all of
-`G_K^ab`. -/
-theorem mem_range_artinMap_iff (y : Field.absoluteGaloisGroupAbelianization K) :
-    y ∈ (artinMap K).range ↔
-      ∃ w : localWeilGroup K,
-        (QuotientGroup.mk (w : Field.absoluteGaloisGroup K) :
-          Field.absoluteGaloisGroupAbelianization K) = y :=
-  sorry
-
-/-! ### Separate arithmetic local existence
+/-! ## Layer 8: separate arithmetic local existence
 
 These targets are deliberately not methods of `ClassFormation`: reciprocity follows from the
 class-formation axioms, but existence requires additional arithmetic input. Full existence is
@@ -1150,9 +1389,211 @@ theorem localArtinMap_Q2_zeta5 [ValuativeRel ℚ_[2]] [IsNonarchimedeanLocalFiel
     σ ζ = ζ ^ 2 :=
   sorry
 
+/-! ## Layer 9: the local Weil group
+
+A layer of its own, and not a corollary of reciprocity: the Weil group has a carrier, a topology
+that is **not** the one induced from `G_K`, functoriality in finite extensions, an exact sequence
+with inertia, and only then the comparison of its topological abelianization with `Kˣ`. It sits
+after local existence because `Kˣ ≃ W_K^ab` needs the injectivity of `artinMap`, i.e. that the
+intersection of the norm groups is trivial, which is a consequence of `localExistence`. -/
+
+/-- **The carrier.** The local Weil group as a subgroup of `G_K`: the preimage of the powers of
+arithmetic Frobenius under `G_K → Gal(K^ur/K) ≅ Ẑ`, that is, the preimage of `ℤ ⊆ Ẑ`. The
+surjection `G_K → Ẑ` and its kernel `LocalFieldsRamification.inertia` are owned by
+`LocalFieldsRamification` — its maximal unramified extension and its exact sequence
+`1 → I_K → G_K → Ẑ → 1` — and everything below is owned here. -/
+noncomputable def localWeilGroup : Subgroup (Field.absoluteGaloisGroup K) :=
+  sorry
+
+/-- Inertia is the degree-zero part of the Weil group, hence contained in it. -/
+theorem inertia_le_localWeilGroup :
+    LocalFieldsRamification.inertia K ≤ localWeilGroup K :=
+  sorry
+
+/-- `W_K` is normal in `G_K`, being the preimage of a subgroup of an abelian quotient. -/
+instance localWeilGroup_normal : (localWeilGroup K).Normal :=
+  sorry
+
+/-- `W_K` is dense in `G_K`, because `ℤ` is dense in `Ẑ`. -/
+theorem dense_localWeilGroup :
+    Dense (localWeilGroup K : Set (Field.absoluteGaloisGroup K)) :=
+  sorry
+
+/-- `W_K` is a proper subgroup: `ℤ ≠ Ẑ`. Together with `dense_localWeilGroup` this is why the
+subspace topology cannot be the right one. -/
+theorem localWeilGroup_ne_top : localWeilGroup K ≠ ⊤ :=
+  sorry
+
+/-- **The carrier with the Weil topology.** ⚠ `WeilGroup K` is a type synonym for the subgroup
+`localWeilGroup K` precisely so that it does **not** inherit the subspace topology. Inertia is open
+in the Weil topology and is *not* open in `G_K` (`not_isOpen_inertia`), so
+`TopologicalAbelianization ↥(localWeilGroup K)` — the subtype with its induced topology — is a
+different, and false, statement of `localWeilArtinEquiv` below. -/
+def WeilGroup : Type := localWeilGroup K
+
+noncomputable instance instGroupWeilGroup : Group (WeilGroup K) :=
+  inferInstanceAs (Group (localWeilGroup K))
+
+/-- **The topology.** The unique group topology on `W_K` in which `I_K`, with the topology it
+carries as a closed subgroup of `G_K`, is an open subgroup. -/
+noncomputable instance instTopologicalSpaceWeilGroup : TopologicalSpace (WeilGroup K) :=
+  sorry
+
+instance instIsTopologicalGroupWeilGroup : IsTopologicalGroup (WeilGroup K) :=
+  sorry
+
+/-- The inclusion `W_K → G_K`. -/
+noncomputable def weilToAbsolute : WeilGroup K →* Field.absoluteGaloisGroup K :=
+  (localWeilGroup K).subtype
+
+omit [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K] in
+theorem injective_weilToAbsolute : Function.Injective (weilToAbsolute K) :=
+  Subtype.val_injective
+
+/-- The inclusion is continuous, because the Weil topology is finer than the induced one. -/
+theorem continuous_weilToAbsolute : Continuous (weilToAbsolute K) :=
+  sorry
+
+/-- Inertia, pulled back to `W_K`, is open. -/
+theorem isOpen_inertia_weil :
+    IsOpen {w : WeilGroup K | weilToAbsolute K w ∈ LocalFieldsRamification.inertia K} :=
+  sorry
+
+/-- ⚠ The same subgroup is **not** open in `G_K`: its image in `Ẑ` is the singleton `{0}`, which
+is not open. This is exactly the difference between the Weil topology and the induced topology,
+and it is why `W_K` is locally compact while `G_K` is compact. -/
+theorem not_isOpen_inertia :
+    ¬ IsOpen (LocalFieldsRamification.inertia K : Set (Field.absoluteGaloisGroup K)) :=
+  sorry
+
+instance instLocallyCompactSpaceWeilGroup : LocallyCompactSpace (WeilGroup K) :=
+  sorry
+
+instance instTotallyDisconnectedSpaceWeilGroup : TotallyDisconnectedSpace (WeilGroup K) :=
+  sorry
+
+/-- ⚠ `W_K` is **not** compact in the Weil topology, although `G_K` is compact and `W_K` is dense
+in it. A proof of `localWeilArtinEquiv` that transports compactness across the inclusion is
+wrong. -/
+theorem not_compactSpace_weilGroup : ¬ CompactSpace (WeilGroup K) :=
+  sorry
+
+/-- **The exact sequence with inertia**, first map: the degree homomorphism `W_K → ℤ`, normalized
+so that an arithmetic Frobenius lift has degree `1`. -/
+noncomputable def weilDegree : WeilGroup K →* Multiplicative ℤ :=
+  sorry
+
+/-- Exactness on the right: every integer is the degree of an element of `W_K`. -/
+theorem surjective_weilDegree : Function.Surjective (weilDegree K) :=
+  sorry
+
+/-- Exactness in the middle: the kernel of the degree is inertia. Together with
+`surjective_weilDegree` and `injective_weilToAbsolute` this is `1 → I_K → W_K → ℤ → 1`. -/
+theorem ker_weilDegree :
+    (weilDegree K).ker =
+      (LocalFieldsRamification.inertia K).comap (weilToAbsolute K) :=
+  sorry
+
+/-- Arithmetic normalization of the degree against the frozen `unramifiedCoordinate`: the
+unramified coordinate of the image of `w` in `G_K^ab` is the image of its degree in `Ẑ`. This is
+what forbids the geometric normalization on the Weil group. -/
+theorem unramifiedCoordinate_weilDegree (w : WeilGroup K) :
+    unramifiedCoordinate K
+        (QuotientGroup.mk (weilToAbsolute K w) : Field.absoluteGaloisGroupAbelianization K) =
+      zhatOfInt (Multiplicative.toAdd (weilDegree K w)) :=
+  sorry
+
+/-- **Functoriality in a finite extension**, the inclusion `W_L ↪ W_K` attached to an embedding of
+`L` in the chosen separable closure. -/
+noncomputable def weilTransfer [Algebra K L] [Module.Finite K L] [Algebra.IsSeparable K L]
+    (_iota : L →ₐ[K] SeparableClosure K) : WeilGroup L →* WeilGroup K :=
+  sorry
+
+theorem injective_weilTransfer [Algebra K L] [Module.Finite K L] [Algebra.IsSeparable K L]
+    (iota : L →ₐ[K] SeparableClosure K) :
+    Function.Injective (weilTransfer K L iota) :=
+  sorry
+
+theorem continuous_weilTransfer [Algebra K L] [Module.Finite K L] [Algebra.IsSeparable K L]
+    (iota : L →ₐ[K] SeparableClosure K) :
+    Continuous (weilTransfer K L iota) :=
+  sorry
+
+/-- The image is open of index `[L:K]`; in particular `W_L` is an open subgroup of `W_K` of finite
+index, which is what makes the Weil group of a finite extension a subobject of the Weil group. -/
+theorem isOpen_range_weilTransfer [Algebra K L] [Module.Finite K L] [Algebra.IsSeparable K L]
+    (iota : L →ₐ[K] SeparableClosure K) :
+    IsOpen ((weilTransfer K L iota).range : Set (WeilGroup K)) :=
+  sorry
+
+theorem index_range_weilTransfer [Algebra K L] [Module.Finite K L] [Algebra.IsSeparable K L]
+    (iota : L →ₐ[K] SeparableClosure K) :
+    (weilTransfer K L iota).range.index = Module.finrank K L :=
+  sorry
+
+/-- ⚠ The degree map is **not** compatible with `weilTransfer` on the nose: it is multiplied by the
+residue degree `f(L/K)`, so it agrees only for `L/K` totally ramified. Writing
+`weilDegree K (weilTransfer K L iota w) = weilDegree L w` normalizes the Weil group of an
+unramified extension incorrectly. -/
+theorem weilDegree_weilTransfer [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
+    [Algebra.IsSeparable K L] (iota : L →ₐ[K] SeparableClosure K) (w : WeilGroup L) :
+    weilDegree K (weilTransfer K L iota w) =
+      weilDegree L w ^ LocalFieldsRamification.inertiaDegree K L :=
+  sorry
+
+/-- Restriction of Weil elements to a finite Galois subextension. -/
+noncomputable def weilRestrict [Algebra K L] [Module.Finite K L] [IsGalois K L]
+    (_iota : L →ₐ[K] SeparableClosure K) : WeilGroup K →* (L ≃ₐ[K] L) :=
+  sorry
+
+/-- `weilRestrict` is the restriction of automorphisms, not another map of the same type. -/
+theorem weilRestrict_apply [Algebra K L] [Module.Finite K L] [IsGalois K L]
+    (iota : L →ₐ[K] SeparableClosure K) (w : WeilGroup K) :
+    weilRestrict K L iota w = restrictAbsolute K L iota (weilToAbsolute K w) :=
+  sorry
+
+/-- `W_K → Gal(L/K)` is surjective — the Weil group is dense in `G_K`, so it already surjects onto
+every finite quotient. -/
+theorem surjective_weilRestrict [Algebra K L] [Module.Finite K L] [IsGalois K L]
+    (iota : L →ₐ[K] SeparableClosure K) :
+    Function.Surjective (weilRestrict K L iota) :=
+  sorry
+
+/-- The kernel of restriction to `L` is the Weil group of `L`: the two functorialities agree. -/
+theorem range_weilTransfer_eq_ker_weilRestrict [Algebra K L] [Module.Finite K L] [IsGalois K L]
+    (iota : L →ₐ[K] SeparableClosure K) :
+    (weilTransfer K L iota).range = (weilRestrict K L iota).ker :=
+  sorry
+
+/-- **Frozen public name.** The Weil-group form of local reciprocity. Unlike `artinMap` it is an
+isomorphism, and a topological one onto the **topological** abelianization
+`W_K / closure ⁅W_K, W_K⁆`.
+⚠ The algebraic `Abelianization (WeilGroup K)` is the wrong target: the commutator subgroup of
+`W_K` need not be closed, and the algebraic quotient is not `Kˣ`. -/
+noncomputable def localWeilArtinEquiv :
+    Kˣ ≃ₜ* TopologicalAbelianization (WeilGroup K) :=
+  sorry
+
+/-- The Weil-group reciprocity map recovers `artinMap` after passing to `G_K^ab`. -/
+theorem localWeilArtinEquiv_compat (x : Kˣ) (w : WeilGroup K)
+    (hw : (QuotientGroup.mk w : TopologicalAbelianization (WeilGroup K)) =
+      localWeilArtinEquiv K x) :
+    (QuotientGroup.mk (weilToAbsolute K w) :
+      Field.absoluteGaloisGroupAbelianization K) = artinMap K x :=
+  sorry
+
+/-- The image of `Kˣ` under `artinMap` is the image of the Weil group: dense but not all of
+`G_K^ab`. -/
+theorem mem_range_artinMap_iff (y : Field.absoluteGaloisGroupAbelianization K) :
+    y ∈ (artinMap K).range ↔
+      ∃ w : WeilGroup K,
+        (QuotientGroup.mk (weilToAbsolute K w) :
+          Field.absoluteGaloisGroupAbelianization K) = y :=
+  sorry
+
 end Local
 
-/-! ## Layer 6: global idele-class formation and global Artin reciprocity -/
+/-! ## Layer 10: global carriers, the Brauer sequence, and the sum of local invariants -/
 
 section Global
 
@@ -1164,9 +1605,210 @@ inside a fixed separable closure. -/
 noncomputable def globalFormation : Formation (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
   sorry
 
-/-- The global invariant theorem makes `globalFormation K` a class formation. -/
+/-- The formation assembled from the idele groups themselves, rather than the idele classes. The
+sum of local invariants is defined on its layers, where `H²` splits as a direct sum of local Brauer
+groups, and only then descends to the idele-class layers. -/
+noncomputable def ideleFormation : Formation (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+  sorry
+
+/-! ### The global Brauer sequence and the sum of local invariants
+
+⚠ This block comes **before** `globalClassFormation`, and is not a corollary of it. The invariant
+map of the global class formation *is* the sum of the local invariants, so the sum map, its finite
+support, and the exactness of
+
+```text
+0 → Br K → ⨁_v Br K_v → ℚ/ℤ → 0
+```
+
+exist before the structure that consumes them. Nothing in this block may use `globalArtinMap`,
+`globalExistence`, or Chebotarev: those are downstream of the abstract Artin map, which is
+downstream of the class formation, which is downstream of this block. The inputs are the local
+invariants of Layer 5, the Herbrand computations on the `S`-idele and `S`-unit modules, the two
+fundamental inequalities, and `H¹`-vanishing for idele classes. -/
+
+/-- Restriction of a global Brauer class to a finite completion. -/
+noncomputable def brFinite (v : HeightOneSpectrum (𝓞 K)) :
+    Br K →+ Br (v.adicCompletion K) :=
+  sorry
+
+/-- Restriction of a global Brauer class to an archimedean completion. -/
+noncomputable def brInfinite (w : NumberField.InfinitePlace K) :
+    Br K →+ Br w.Completion :=
+  sorry
+
+/-- **The archimedean local invariant.** The archimedean half of the Layer 5 local package:
+`Br ℂ` vanishes, and `Br ℝ` is cyclic of order two whose nontrivial class has invariant `1/2`. -/
+noncomputable def infiniteInvMap (w : NumberField.InfinitePlace K) :
+    Br w.Completion →+ RatModInt :=
+  sorry
+
+/-- At a complex place the Brauer group is trivial, so the invariant vanishes. -/
+theorem infiniteInvMap_eq_zero_of_isComplex (w : NumberField.InfinitePlace K)
+    (hw : w.IsComplex) (x : Br w.Completion) :
+    infiniteInvMap K w x = 0 :=
+  sorry
+
+/-- At a real place the invariants are exactly the elements of order dividing two. ⚠ Real places
+are not ignorable: dropping them already breaks the sum formula for `ℚ(i)/ℚ`. -/
+theorem range_infiniteInvMap_of_isReal (w : NumberField.InfinitePlace K) (hw : w.IsReal) :
+    Set.range (infiniteInvMap K w) = (ratModIntTorsion 2 : Set RatModInt) :=
+  sorry
+
+/-- The local invariant of a global Brauer class at a finite place. The instance arguments needed
+to name `invMap` at the completion are carried by `finiteInvAt_eq_invMap` rather than by this
+definition, so that the sum below can range over all places. -/
+noncomputable def finiteInvAt (v : HeightOneSpectrum (𝓞 K)) (x : Br K) : RatModInt :=
+  sorry
+
+/-- `finiteInvAt` is the Layer 5 invariant of the restriction to the completion, not a second
+normalization. -/
+theorem finiteInvAt_eq_invMap (v : HeightOneSpectrum (𝓞 K))
+    [ValuativeRel (v.adicCompletion K)] [IsNonarchimedeanLocalField (v.adicCompletion K)]
+    (x : Br K) :
+    finiteInvAt K v x = invMap (v.adicCompletion K) (brFinite K v x) :=
+  sorry
+
+/-- The local invariant of a global Brauer class at an archimedean place. -/
+noncomputable def infiniteInvAt (w : NumberField.InfinitePlace K) (x : Br K) : RatModInt :=
+  infiniteInvMap K w (brInfinite K w x)
+
+/-- The finite places where a global Brauer class is ramified. -/
+noncomputable def brauerSupport (x : Br K) : Finset (HeightOneSpectrum (𝓞 K)) :=
+  sorry
+
+theorem finiteInvAt_eq_zero_of_not_mem (x : Br K) (v : HeightOneSpectrum (𝓞 K))
+    (hv : v ∉ brauerSupport K x) :
+    finiteInvAt K v x = 0 :=
+  sorry
+
+/-- **The sum of local invariants**, the middle map of the global Brauer sequence. -/
+noncomputable def sumLocalInv (x : Br K) : RatModInt :=
+  (∑ v ∈ brauerSupport K x, finiteInvAt K v x) +
+    ∑ w : NumberField.InfinitePlace K, infiniteInvAt K w x
+
+/-- Exactness at `Br K` (Albert–Brauer–Hasse–Noether): a class trivial at every place is
+trivial. -/
+theorem eq_zero_of_localInv_eq_zero (x : Br K)
+    (hf : ∀ v : HeightOneSpectrum (𝓞 K), finiteInvAt K v x = 0)
+    (hi : ∀ w : NumberField.InfinitePlace K, infiniteInvAt K w x = 0) :
+    x = 0 :=
+  sorry
+
+/-- Exactness in the middle: the local invariants of a global class sum to zero. -/
+theorem sumLocalInv_eq_zero (x : Br K) : sumLocalInv K x = 0 :=
+  sorry
+
+/-- Exactness on the right: a finitely supported family of local invariants, two-torsion at the
+real places and zero at the complex ones, summing to zero, is the family of a global class. -/
+theorem exists_br_of_sum_eq_zero
+    (S : Finset (HeightOneSpectrum (𝓞 K))) (f : HeightOneSpectrum (𝓞 K) → RatModInt)
+    (hS : ∀ v ∉ S, f v = 0)
+    (g : NumberField.InfinitePlace K → RatModInt)
+    (hgr : ∀ w : NumberField.InfinitePlace K, w.IsReal → g w ∈ ratModIntTorsion 2)
+    (hgc : ∀ w : NumberField.InfinitePlace K, w.IsComplex → g w = 0)
+    (hsum : (∑ v ∈ S, f v) + ∑ w : NumberField.InfinitePlace K, g w = 0) :
+    ∃ x : Br K, (∀ v : HeightOneSpectrum (𝓞 K), finiteInvAt K v x = f v) ∧
+      ∀ w : NumberField.InfinitePlace K, infiniteInvAt K w x = g w :=
+  sorry
+
+/-! ### The global invariant of a finite layer
+
+The layer invariant is the sum of local invariants, computed on the idele layer and descended to
+the idele-class layer. It is *defined* here, before `globalClassFormation` consumes it. -/
+
+/-- The comparison `H²(Gal(L/K), I_L) → H²(Gal(L/K), C_L)` induced by `I_L → C_L`. -/
+noncomputable def ideleToClassH2 (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    Lay.H (ideleFormation K) 2 →+ Lay.H (globalFormation K) 2 :=
+  sorry
+
+/-- Every idele-class layer class lifts to the idele layer. This uses `H¹(Gal(L/K), C_L) = 0` and
+the fundamental inequalities, and it is what makes the sum of local invariants descend. -/
+theorem surjective_ideleToClassH2
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    Function.Surjective (ideleToClassH2 K Lay) :=
+  sorry
+
+/-- The local component of an idele-layer class at a finite place, in invariant coordinates. -/
+noncomputable def ideleLocalInvAt (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (v : HeightOneSpectrum (𝓞 K)) : Lay.H (ideleFormation K) 2 →+ RatModInt :=
+  sorry
+
+/-- The local component of an idele-layer class at an archimedean place. -/
+noncomputable def ideleInfiniteInvAt
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (w : NumberField.InfinitePlace K) : Lay.H (ideleFormation K) 2 →+ RatModInt :=
+  sorry
+
+/-- The finite places at which an idele-layer class is ramified. -/
+noncomputable def ideleSupport (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (x : Lay.H (ideleFormation K) 2) : Finset (HeightOneSpectrum (𝓞 K)) :=
+  sorry
+
+theorem ideleLocalInvAt_eq_zero_of_not_mem
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (x : Lay.H (ideleFormation K) 2) (v : HeightOneSpectrum (𝓞 K))
+    (hv : v ∉ ideleSupport K Lay x) :
+    ideleLocalInvAt K Lay v x = 0 :=
+  sorry
+
+/-- **The sum of local invariants on an idele layer.** `H²(Gal(L/K), I_L) = ⨁_v Br(L_w/K_v)`, and
+this is the sum of the local invariants of the components. -/
+noncomputable def ideleSumLocalInv
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (x : Lay.H (ideleFormation K) 2) : RatModInt :=
+  (∑ v ∈ ideleSupport K Lay x, ideleLocalInvAt K Lay v x) +
+    ∑ w : NumberField.InfinitePlace K, ideleInfiniteInvAt K Lay w x
+
+/-- **The global invariant of a finite layer**, the datum `globalClassFormation` is built from. -/
+noncomputable def globalInv (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    Lay.H (globalFormation K) 2 →+ RatModInt :=
+  sorry
+
+/-- **The sum formula, as the definition of the global invariant.** The invariant of an
+idele-class layer class is the sum of the local invariants of any idele-layer lift; this is
+well defined because the sum of local invariants kills the image of `H²(Gal(L/K), Lˣ)`, i.e.
+because of `sumLocalInv_eq_zero`. -/
+theorem globalInv_ideleToClassH2
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (x : Lay.H (ideleFormation K) 2) :
+    globalInv K Lay (ideleToClassH2 K Lay x) = ideleSumLocalInv K Lay x :=
+  sorry
+
+theorem globalInv_injective (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    Function.Injective (globalInv K Lay) :=
+  sorry
+
+theorem globalInv_range (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    Set.range (globalInv K Lay) = (ratModIntTorsion Lay.degree : Set RatModInt) :=
+  sorry
+
+/-! ## Layer 11: the global class formation and global Artin reciprocity -/
+
+/-- The global class formation, built from the sum-of-local-invariants map above. Its axioms are
+`globalInv_injective`, `globalInv_range`, `H¹`-vanishing for idele classes, and the restriction,
+inflation and conjugation formulae for `globalInv`. -/
 noncomputable def globalClassFormation : ClassFormation (globalFormation K) :=
   sorry
+
+/-- The invariant of the global class formation is the named sum-of-local-invariants map, not an
+independently chosen normalization. -/
+theorem globalClassFormation_inv
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (globalClassFormation K).inv Lay = globalInv K Lay :=
+  sorry
+
+/-- Local–global compatibility of the fundamental class. ⚠ This is a *later comparison* theorem,
+stated once the class formation exists; it may not be used in the construction of
+`globalClassFormation`, whose invariant is `globalInv` by definition. The local components of any
+idele-layer lift of the global fundamental class sum to `1/[L:K]`. -/
+theorem ideleSumLocalInv_fundamentalClass
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (x : Lay.H (ideleFormation K) 2)
+    (hx : ideleToClassH2 K Lay x = (globalClassFormation K).fundamentalClass Lay) :
+    ideleSumLocalInv K Lay x = fundamentalInvariant Lay.degree := by
+  rw [← globalInv_ideleToClassH2, hx, ← globalClassFormation_inv,
+    ClassFormation.inv_fundamentalClass]
 
 /-- The normal layer associated to a finite Galois extension `L/K`. -/
 noncomputable def globalLayer [Module.Finite K L] [IsGalois K L]
@@ -1336,8 +1978,10 @@ theorem globalArtinMap_local [Module.Finite K L] [IsGalois K L]
 
 /-! ### Global acceptance tests -/
 
-/-- Quadratic global test: for `L = K(√d)` and an unramified prime, the Artin symbol is trivial
-exactly when the prime splits, i.e. when the quadratic character is `+1`. -/
+/-- Quadratic global test: for a quadratic extension `L/K` and a prime unramified in it, the
+Artin symbol is the nontrivial automorphism exactly when the prime is inert, i.e. when the
+residue degree is `2`; it is trivial exactly when the prime splits. The extension is pinned by
+its degree and the prime by its residue degree, so no square root has to be chosen here. -/
 theorem globalArtinMap_quadratic_prime [Module.Finite K L] [IsAbelianGalois K L]
     (iota : L →ₐ[K] SeparableClosure K) (hdegree : Module.finrank K L = 2)
     (τ : L ≃ₐ[K] L) (hτ : τ ≠ 1)
@@ -1424,7 +2068,7 @@ theorem globalArtinMap_zeta5_restrict_Qsqrt5
     (∀ x : M, σ x = x) ↔ (ℓ % 5 = 1 ∨ ℓ % 5 = 4) :=
   sorry
 
-/-! ### Separate arithmetic global existence, ray class fields, and class fields
+/-! ## Layer 12: separate arithmetic global existence, the norm index, and ray class fields
 
 As on the local side, `globalExistence` is an arithmetic theorem about the idele-class formation,
 not a formal consequence of an arbitrary `ClassFormation`.
@@ -1434,6 +2078,33 @@ not a formal consequence of an arbitrary `ClassFormation`.
 noncomputable def rayClassArtinMap [IsAbelianGalois K L]
     (𝔪 : GlobalNumberFields.Modulus K) :
     GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L) :=
+  sorry
+
+/-- **The splitting law**: on the class of an unramified prime coprime to the modulus, the
+ray-class reciprocity map is the Artin symbol of that prime.
+⚠ Without this, `rayClassArtinMap` is a `def` with no characterising equation and constrains
+nothing — a consumer counting primes by their Frobenius cannot connect the two. `ZerosOfLFunctions`
+Layer 8.8 states its reciprocity dictionary as an explicit hypothesis precisely because this law
+was missing; with it, that hypothesis is discharged here rather than assumed there. -/
+theorem rayClassArtinMap_idealClass [IsAbelianGalois K L]
+    (𝔪 : GlobalNumberFields.Modulus K)
+    (I : GlobalNumberFields.integralIdealsPrimeTo 𝔪)
+    [hI : (I : Ideal (𝓞 K)).IsMaximal]
+    (hur : ∀ (Q : Ideal (𝓞 L)) [Q.IsPrime] [Q.LiesOver (I : Ideal (𝓞 K))],
+      Algebra.IsUnramifiedAt (𝓞 K) Q) :
+    ConjClasses.mk (rayClassArtinMap K L 𝔪 (GlobalNumberFields.idealClass 𝔪 I)) =
+      NumberFieldArithmetic.artinSymbol (K := K) (L := L) (I : Ideal (𝓞 K)) hur :=
+  sorry
+
+/-- **Surjectivity of the ray-class reciprocity map**, for a modulus divisible by the conductor.
+The companion the same consumers need: the splitting law identifies the image of one class, this
+says the classes exhaust the Galois group. -/
+theorem rayClassArtinMap_surjective [IsAbelianGalois K L]
+    (𝔪 : GlobalNumberFields.Modulus K)
+    (h𝔪 : ∀ v : IsDedekindDomain.HeightOneSpectrum (𝓞 K),
+      (∃ (Q : Ideal (𝓞 L)) (_ : Q.IsPrime) (_ : Q.LiesOver v.asIdeal),
+        ¬ Algebra.IsUnramifiedAt (𝓞 K) Q) → v ∈ 𝔪.support) :
+    Function.Surjective (rayClassArtinMap K L 𝔪) :=
   sorry
 
 /-- The identification of the ground level of the global formation with the idele class group. -/
@@ -1457,6 +2128,8 @@ theorem card_ideleClassNormQuotient [Module.Finite K L] [IsAbelianGalois K L] :
     Nat.card (GlobalNumberFields.IdeleClassGroup K ⧸ (ideleClassNorm K L).range) =
       Module.finrank K L :=
   sorry
+
+/-! ## Layer 13: norm theorems and class fields -/
 
 /-- **Frozen public name.** For a cyclic extension, being a global norm is equivalent to the
 principal idele being an idele norm, hence to being a norm at every place. -/
@@ -1525,46 +2198,70 @@ theorem isGlobalNorm_iff_isLocalNormEverywhere [Module.Finite K L] [IsGalois K L
       IsLocalNormEverywhere K L x :=
   (cyclicHasseNorm K L x).trans (principalIdele_mem_range_ideleNormMap_iff K L x)
 
-/-- Ring class field attached to the order carrier owned by `GlobalNumberFields`. Its construction
-uses the congruence subgroup whose quotient is `GlobalNumberFields.Pic O`, hence the group of
-classes of **invertible proper** fractional ideals; raw proper ideals in the ideal class monoid do
-not enter. -/
-noncomputable def ringClassField (O : GlobalNumberFields.NumberFieldOrder K) :
+/-- Ring class field of an order in a **quadratic** field. Its construction uses the congruence
+subgroup `P_{K,ℤ}(𝔣)` of ideals prime to the conductor generated by principal ideals with a
+rational generator modulo `𝔣`, whose quotient is `GlobalNumberFields.Pic O`, the group of classes
+of **invertible proper** fractional ideals; raw proper ideals in the ideal class monoid do not
+enter.
+
+⚠ The hypothesis `hK : Module.finrank ℚ K = 2` is load-bearing, not decoration. The congruence
+description of `Pic O` needs `O = ℤ + 𝔣𝒪_K`, which is exactly what holds for every order in a
+quadratic field and fails in higher degree: in a cubic field `ℤ + f𝒪_K` has index `f²`, so orders
+of index `f` are not of that form, and `Pic O` is then not a ray-class quotient of `K` cut out by
+the conductor alone. This roadmap asserts no general-order ring class field and imports no
+quadratic terminology into higher degrees. Cox, *Primes of the Form x² + ny²*, §7 (Prop. 7.22)
+and §9 (Thm. 9.18). -/
+noncomputable def ringClassField (O : GlobalNumberFields.NumberFieldOrder K)
+    (hK : Module.finrank ℚ K = 2) :
     IntermediateField K (AlgebraicClosure K) :=
   sorry
 
 /-- The ideal form of reciprocity for a ring class field. Its source is explicitly the supplier's
-group of invertible proper fractional ideals, not the type of all proper fractional ideals. -/
-noncomputable def ringClassArtinMap (O : GlobalNumberFields.NumberFieldOrder K) :
+group of invertible proper fractional ideals, not the type of all proper fractional ideals; in the
+quadratic case those are the same by
+`GlobalNumberFields.NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two`. -/
+noncomputable def ringClassArtinMap (O : GlobalNumberFields.NumberFieldOrder K)
+    (hK : Module.finrank ℚ K = 2) :
     O.invertibleProperFractionalIdeals →*
-      (ringClassField K O ≃ₐ[K] ringClassField K O) :=
+      (ringClassField K O hK ≃ₐ[K] ringClassField K O hK) :=
   sorry
 
 /-- Ring-class reciprocity kills exactly the principal classes among the invertible proper
 fractional ideals. -/
 theorem ringClassArtinMap_eq_one_iff (O : GlobalNumberFields.NumberFieldOrder K)
+    (hK : Module.finrank ℚ K = 2)
     (I : O.invertibleProperFractionalIdeals) :
-    ringClassArtinMap K O I = 1 ↔ O.mkPic I = 1 :=
+    ringClassArtinMap K O hK I = 1 ↔ O.mkPic I = 1 :=
   sorry
 
 /-- The ideal-form ring-class Artin map is surjective. -/
-theorem ringClassArtinMap_surjective (O : GlobalNumberFields.NumberFieldOrder K) :
-    Function.Surjective (ringClassArtinMap K O) :=
+theorem ringClassArtinMap_surjective (O : GlobalNumberFields.NumberFieldOrder K)
+    (hK : Module.finrank ℚ K = 2) :
+    Function.Surjective (ringClassArtinMap K O hK) :=
   sorry
 
 /-- Reciprocity identifies the ring class field Galois group with the imported Picard group. -/
-theorem gal_ringClassField_equiv_pic (O : GlobalNumberFields.NumberFieldOrder K) :
-    Nonempty ((ringClassField K O ≃ₐ[K] ringClassField K O) ≃* GlobalNumberFields.Pic O) :=
+theorem gal_ringClassField_equiv_pic (O : GlobalNumberFields.NumberFieldOrder K)
+    (hK : Module.finrank ℚ K = 2) :
+    Nonempty ((ringClassField K O hK ≃ₐ[K] ringClassField K O hK) ≃* GlobalNumberFields.Pic O) :=
   sorry
 
-/-- The Hilbert class field: the class field of the trivial modulus. -/
+/-- The Hilbert class field: the class field of the trivial modulus. Defined for every number
+field, in every degree; only the *ring* class field of a nonmaximal order is restricted to the
+quadratic case. -/
 noncomputable def hilbertClassField : IntermediateField K (AlgebraicClosure K) :=
   sorry
 
-/-- The Hilbert class field is the ring class field of the maximal order, and its Galois group is
-the class group. -/
+/-- The Galois group of the Hilbert class field is the class group. -/
 theorem gal_hilbertClassField_equiv_classGroup :
     Nonempty ((hilbertClassField K ≃ₐ[K] hilbertClassField K) ≃* ClassGroup (𝓞 K)) :=
+  sorry
+
+/-- The maximal-order comparison: in a quadratic field the ring class field of the maximal order
+is the Hilbert class field, so the two constructions agree where both are defined. -/
+theorem ringClassField_maximal (O : GlobalNumberFields.NumberFieldOrder K)
+    (hK : Module.finrank ℚ K = 2) (hO : O.conductor = ⊤) :
+    ringClassField K O hK = hilbertClassField K :=
   sorry
 
 /-- Kronecker–Weber, retained as a class-field-theory consequence. -/
@@ -1573,7 +2270,7 @@ theorem kroneckerWeber (E : Type) [Field E] [NumberField E]
     ∃ n : ℕ, n ≠ 0 ∧ Nonempty (E →ₐ[ℚ] CyclotomicField n ℚ) :=
   sorry
 
-/-! ### Hilbert reciprocity -/
+/-! ## Layer 14: Hilbert reciprocity -/
 
 /-- Finite-place cohomological Hilbert invariant, obtained from `localSymbol` at the
 completion. -/
