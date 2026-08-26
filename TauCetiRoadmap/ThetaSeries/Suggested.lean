@@ -37,15 +37,18 @@ discriminant forms. The Layer-6 identifications are seeded, since their types ar
 
 namespace TauCetiRoadmap.ThetaSeries
 
-open Complex Real MeasureTheory UpperHalfPlane ModularForm CongruenceSubgroup
-open scoped MatrixGroups RealInnerProductSpace SchwartzMap FourierTransform
+open Complex Real MeasureTheory ModularForm CongruenceSubgroup
+open UpperHalfPlane hiding I
+open scoped MatrixGroups RealInnerProductSpace SchwartzMap FourierTransform Manifold
 open scoped ArithmeticFunction.sigma
 
 noncomputable section
 
 variable {E F : Type*}
   [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+  [MeasurableSpace E] [BorelSpace E]
   [NormedAddCommGroup F] [InnerProductSpace ℝ F] [FiniteDimensional ℝ F]
+  [MeasurableSpace F] [BorelSpace F]
 
 /-! ## Layer 0: the real lattice model and its arithmetic invariants -/
 
@@ -55,7 +58,7 @@ variable (L : Submodule ℤ E)
 
 /-- The dual lattice, literally Mathlib's `BilinForm.dualSubmodule` for the inner product.
 There is no second dual-lattice notion in this development. -/
-def dual : Submodule ℤ E := (innerₗ E).dualSubmodule L
+def dual : Submodule ℤ E := LinearMap.BilinForm.dualSubmodule (innerₗ E) L
 
 @[inherit_doc] scoped notation:max L "^∨" => TauCetiRoadmap.ThetaSeries.dual L
 
@@ -335,7 +338,8 @@ componentwise face of vector-valued modularity, and the part the alternative (Sc
 presentation-free) route of `README.md` does *not* deliver. -/
 theorem exists_modularForm_coe_eq_thetaCoset (k : ℕ) (hn : Module.finrank ℝ E = 2 * k)
     (he : IsEven L) {γ : E} (hγ : γ ∈ L^∨) :
-    ∃ F : ModularForm ((Gamma (level L)).map (Matrix.SpecialLinearGroup.mapGL ℝ)) (k : ℤ),
+    ∃ F : ModularForm
+      ((CongruenceSubgroup.Gamma (level L)).map (Matrix.SpecialLinearGroup.mapGL ℝ)) (k : ℤ),
       ⇑F = thetaCoset L γ := sorry
 
 /-- The theta series of an even lattice of even rank, bundled as a modular form on `Γ₁(N)`,
@@ -381,13 +385,13 @@ variable (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
 /-- Every even unimodular lattice of rank `8` has theta series `E₄`. The only input is
 `repNum L 0 = 1`: the Sturm bound at weight `4` is `⌊4/12⌋ = 0`. -/
 theorem thetaForm_eq_E₄ (hn : Module.finrank ℝ E = 8) (he : IsEven L) (hu : IsUnimodular L) :
-    thetaForm L 4 (by omega) he hu = EisensteinSeries.E₄ := sorry
+    thetaForm L 4 (by omega) he hu = ModularForm.E₄ := sorry
 
 /-- Every even unimodular lattice of rank `24` has theta series `E₄ ^ 3 + (r_L(2) - 720) Δ`. The
 Sturm bound at weight `12` is `1`, so the constant term and `r_L(2)` determine the form. -/
 theorem thetaForm_rank_24 (hn : Module.finrank ℝ E = 24) (he : IsEven L) (hu : IsUnimodular L) :
     (thetaForm L 12 (by omega) he hu : ℍ → ℂ) =
-      fun τ => (EisensteinSeries.E₄ τ) ^ 3 +
+      fun τ => (ModularForm.E₄ τ) ^ 3 +
         ((repNum L 2 : ℂ) - 720) * ModularForm.discriminant τ := sorry
 
 /-- `r_L(2m) = 240 σ₃(m)` for every even unimodular lattice of rank `8` — in particular for `E₈`,
@@ -410,7 +414,7 @@ rootless case of `thetaForm_rank_24`. -/
 theorem coe_thetaForm_rank_24_rootless (hn : Module.finrank ℝ E = 24)
     (he : IsEven L) (hu : IsUnimodular L) (hr : repNum L 2 = 0) :
     (thetaForm L 12 (by omega) he hu : ℍ → ℂ) =
-      fun τ => (EisensteinSeries.E₄ τ) ^ 3 - 720 * ModularForm.discriminant τ := sorry
+      fun τ => (ModularForm.E₄ τ) ^ 3 - 720 * ModularForm.discriminant τ := sorry
 
 /-- `r_Λ(2m) = (65520/691) (σ₁₁(m) - τ(m))`, the coefficient form of the equivalent identity
 `Θ_Λ = E₁₂ - (65520/691) Δ`. Mathlib has no named Ramanujan `τ`-function, so `τ(m)` is spelled as
@@ -434,7 +438,7 @@ bound is again `0`, so `repNum L 0 = 1` is the only input. -/
 theorem coe_thetaForm_rank_16 (hn : Module.finrank ℝ E = 16)
     (he : IsEven L) (hu : IsUnimodular L) :
     (thetaForm L 8 (by omega) he hu : ℍ → ℂ) =
-      fun τ => (EisensteinSeries.E₄ τ) ^ 2 := sorry
+      fun τ => (ModularForm.E₄ τ) ^ 2 := sorry
 
 /-- Hence any two even unimodular lattices of rank `16` — `E₈ ⊕ E₈` and `D₁₆⁺` among them — have
 *equal* bundled theta series, even across different ambient spaces. -/
