@@ -32,7 +32,9 @@ This file fixes the design decisions that are most likely to fork two implementa
   Hasse invariant built from it (Layer 6C);
 * the realization constraints of the local classification (Layer 6D);
 * the operations on mod-2 Galois cohomology (Layer 7A);
-* the Scharlau transfer and the degree-2 Evens-Kahn identity (Layer 9).
+* the crossed-product package that the comparison `Br(K) ≃ H²` is built from (Layer 7B);
+* the Scharlau transfer and the degree-2 Evens-Kahn identity, with the conjugation and sign
+  conventions the supplier's Evens norm carries (Layer 9).
 
 **Supplier carriers are canonical.** This roadmap imports the final declarations from
 `ProfiniteCohomology`, `LocalFieldsRamification`, and `ClassFieldTheory`; it does not package
@@ -175,10 +177,32 @@ example :
     ¬ (weightedSumSquares ℚ ![(1 : ℚ), 1]).Equivalent (weightedSumSquares ℚ ![(1 : ℚ), -1]) :=
   sorry
 
+/-- **Layer 0, every form represents the scalar `0`.** The witness is the zero vector, so this
+holds for every `Q`, on every space, with no regularity and no finiteness hypothesis. It is
+recorded as a theorem because it is what makes the full value set useless as an invariant, and
+it is why every classification statement below is about `unitValueSet`. -/
+theorem represents_zero {V : Type v} [AddCommGroup V] [Module K V] (Q : QuadraticForm K V) :
+    ∃ v : V, Q v = 0 :=
+  ⟨0, by simp⟩
+
+/-- **Layer 0, representing `0` is not isotropy.** An anisotropic form still represents the
+scalar `0`, and does so only through the zero vector. The two notions are kept apart
+throughout: `Represents Q 0` is the theorem above, and "isotropic" is `¬ Q.Anisotropic`, which
+demands a **nonzero** vector. ⚠ Never read the first as evidence of the second. -/
+theorem represents_zero_of_anisotropic {V : Type v} [AddCommGroup V] [Module K V]
+    (Q : QuadraticForm K V) (hQ : Q.Anisotropic) :
+    (∃ v : V, Q v = 0) ∧ ∀ v : V, Q v = 0 → v = 0 :=
+  ⟨represents_zero Q, hQ⟩
+
 /-- **Layer 0, the representation criterion** (Lam I.3.5). A regular diagonal form
 represents a unit `a` exactly when `⟨−a⟩ ⊥ q` is isotropic. This turns every value-set
-question into an isotropy question. The criterion is about the unit value set `D(q)`; a
-value set that contains `0` makes the classification corollaries false. -/
+question into an isotropy question. The criterion is about the unit value set `D(q)`, and the
+hypothesis `a : Kˣ` carries its content: the right-hand side asks for a **nonzero** vector on
+which `⟨−a⟩ ⊥ q` vanishes, and only for `a ≠ 0` can its first coordinate be normalized to `1`
+and the isotropic vector turned into a representation of `a` by `q`. ⚠ Read at `a = 0` both
+sides degenerate — the left is `represents_zero`, true for every `q`, and the right is isotropy
+of the degenerate form `⟨0⟩ ⊥ q`, also true for every `q` — so the criterion is stated for units
+and nowhere else. -/
 example [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) (a : Kˣ) :
     (∃ x : Fin n → K, weightedSumSquares K (fun i => ((w i : K))) x = a) ↔
       ¬ (weightedSumSquares K (Fin.cons (-(a : K)) fun i => ((w i : K)))).Anisotropic :=
@@ -486,6 +510,18 @@ noncomputable def fundamentalIdeal (K : Type u) [Field K] [Invertible (2 : K)] :
     Ideal (wittRing K) :=
   RingHom.ker (wittDimMod2 (K := K))
 
+/-- **Layer 4, the class of a form in the Witt-Grothendieck ring.** `(RegularFormClass K, ⊥, ⊗)`
+is a commutative semiring and `Ŵ(K)` is its Grothendieck group, so this is the canonical map into
+it. Without it no statement about which forms generate an ideal of `W(K)` is expressible, and the
+generation milestones below would have no subject. -/
+noncomputable def toWittGrothendieck [Invertible (2 : K)] :
+    RegularFormClass K →+* wittGrothendieckRing K :=
+  sorry
+
+/-- **Layer 4, the Witt class of a form**, the composite of the two maps above. -/
+noncomputable def wittClass [Invertible (2 : K)] : RegularFormClass K →+* wittRing K :=
+  toWittRing.comp toWittGrothendieck
+
 /-- **Layer 4, the signed discriminant on the fundamental ideal**, whose kernel is `I²`.
 That pair of statements is `I/I² ≅ Kˣ/(Kˣ)²`. -/
 noncomputable def signedDiscrHom [Invertible (2 : K)] :
@@ -500,10 +536,31 @@ theorem signedDiscrHom_eq_zero_iff [Invertible (2 : K)] (x : ↥(fundamentalIdea
     signedDiscrHom x = 0 ↔ (x : wittRing K) ∈ fundamentalIdeal K ^ 2 :=
   sorry
 
-/-- **Layer 4, the `n`-fold Pfister form** `⟨⟨a₁,…,aₙ⟩⟩`, as a presentation of rank
-`2^n`. -/
-noncomputable def pfisterForm [Invertible (2 : K)] {n : ℕ} (a : Fin n → Kˣ) :
-    Fin (2 ^ n) → Kˣ :=
+/-- **Layer 4, the `n`-fold Pfister form** `⟨⟨a₁,…,aₙ⟩⟩ = ⟨1,−a₁⟩ ⊗ ⋯ ⊗ ⟨1,−aₙ⟩`, as a
+presentation of rank `2^n`. The tuple is real data and not a `sorry`, because the tuple *is* the
+minus-sign convention of Lam Ch. X and EKM that the README pins: the slot `k` carries
+`∏_{i ∈ S} (−aᵢ)` for the subset `S` read off the binary digits of `k`. So `⟨⟨a⟩⟩ = ⟨1,−a⟩` and
+`⟨⟨a,b⟩⟩ = ⟨1,−a,−b,ab⟩`, and a source using `⟨1,a⟩` factors disagrees with this file. -/
+def pfisterForm {n : ℕ} (a : Fin n → Kˣ) : Fin (2 ^ n) → Kˣ :=
+  fun k => ∏ i ∈ Finset.univ.filter fun i : Fin n => k.val.testBit i.val = true, (-(a i))
+
+/-- `⟨⟨a⟩⟩ = ⟨1, −a⟩`. -/
+theorem pfisterForm_one (a : Kˣ) : pfisterForm ![a] = ![1, -a] :=
+  sorry
+
+/-- `⟨⟨a,b⟩⟩ = ⟨1, −a, −b, ab⟩`, which is Layer 2's quaternion norm form. -/
+theorem pfisterForm_two (a b : Kˣ) : pfisterForm ![a, b] = ![1, -a, -b, a * b] :=
+  sorry
+
+/-- **Layer 4, `Iⁿ` is generated as an additive group by the `n`-fold Pfister forms.** Stated for
+general `n`; Layer 5 consumes `n = 2` for the construction of `c` and `n = 3` for its vanishing,
+and Layer 8 consumes `n = 2`. ⚠ Additive generation, not ideal generation: the weaker ideal
+statement does not let a homomorphism be defined by its values on the generators. -/
+theorem fundamentalIdeal_pow_eq_addClosure [Invertible (2 : K)] (n : ℕ) :
+    ((fundamentalIdeal K ^ n : Ideal (wittRing K)) : Set (wittRing K)) =
+      ↑(AddSubgroup.closure
+        {x : wittRing K | ∃ a : Fin n → Kˣ,
+          x = wittClass (Quotient.mk (regularFormSetoid K) ⟨2 ^ n, pfisterForm a⟩)}) :=
   sorry
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
@@ -523,19 +580,91 @@ theorem cliffordInvariant_eq [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) 
   sorry
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
-/-- **Layer 5, the homomorphism `c : I² → Br(K)[2]`** induced by the Clifford invariant,
-using Layer 4's generation of `I²` by 2-fold Pfister forms. -/
+/-- **Layer 5, step 1 of `c : I² → Br(K)[2]`: additivity of the Clifford invariant on `I²`.**
+`c(q ⊥ r) = c(q) · c(r)` when both summands lie in `I²`, that is when each has even rank and
+trivial signed discriminant. The correction terms of `cliffordInvariant_eq` and of
+`hasseInvariant_append` cancel exactly there, and nowhere else: over a general pair the
+identity is false, so the two hypotheses are part of the statement. This additivity, and not
+"the universal property", is what lets the homomorphism below exist. -/
+theorem cliffordInvariant_append_of_mem_I2 [Invertible (2 : K)] {m n : ℕ}
+    (w : Fin m → Kˣ) (w' : Fin n → Kˣ) (hm : Even m) (hn : Even n)
+    (hdm : IsSquare ((-1 : Kˣ) ^ (m * (m - 1) / 2) * ∏ i, w i))
+    (hdn : IsSquare ((-1 : Kˣ) ^ (n * (n - 1) / 2) * ∏ i, w' i)) :
+    cliffordInvariant (Fin.append w w') = cliffordInvariant w * cliffordInvariant w' :=
+  sorry
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 5, step 2: the value on a 2-fold Pfister generator.** `c(⟨⟨a,b⟩⟩) = [(a,b)]`, from
+`cliffordInvariant_eq` and `hasseInvariant` of `⟨1,−a,−b,ab⟩`. Together with additivity and
+Layer 4's `fundamentalIdeal_pow_eq_addClosure` at `n = 2`, it determines `c` on all of `I²`. -/
+theorem cliffordInvariant_pfisterForm_two [Invertible (2 : K)] (a b : Kˣ) :
+    cliffordInvariant (pfisterForm ![a, b]) = quaternionClass a b :=
+  sorry
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 5, step 3: the value on a 3-fold Pfister generator vanishes** (Lam V.3.4). This is
+the computation that the vanishing on `I³` reduces to, and it is stated on the generator itself
+rather than only on the ideal, because that is what `fundamentalIdeal_pow_eq_addClosure` at
+`n = 3` lets a proof check. -/
+theorem cliffordInvariant_pfisterForm_three [Invertible (2 : K)] (a b c : Kˣ) :
+    cliffordInvariant (pfisterForm ![a, b, c]) = 1 :=
+  sorry
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 5, step 4: the homomorphism `c : I² → Br(K)[2]`** induced by the Clifford invariant.
+It exists by additivity (step 1) together with Layer 4's additive generation of `I²` by the
+2-fold Pfister forms; `cliffordHomI2_pfisterForm` is what ties it to `cliffordInvariant`, and
+without that equation the declaration would assert nothing. -/
 noncomputable def cliffordHomI2 [Invertible (2 : K)] :
     ↥(fundamentalIdeal K ^ 2) →+ Additive (BrauerGroup.{u, u} K) :=
   sorry
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
-/-- **Layer 5, `c` vanishes on `I³`**, checked on 3-fold Pfister generators
-(Lam V.3.4), so it descends to `I²/I³`. No injectivity claim is made: that is
-Merkurjev's theorem, an explicit exclusion of this roadmap. -/
+/-- **Layer 5, `c` computes the Clifford invariant on the generators.** -/
+theorem cliffordHomI2_pfisterForm [Invertible (2 : K)] (a b : Kˣ)
+    (h : wittClass (Quotient.mk (regularFormSetoid K) ⟨2 ^ 2, pfisterForm ![a, b]⟩) ∈
+      fundamentalIdeal K ^ 2) :
+    cliffordHomI2 ⟨_, h⟩ = Additive.ofMul (quaternionClass a b) :=
+  sorry
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 5, `c` lands in the 2-torsion**, said additively, which is the statement
+`c : I² → Br(K)[2]` of the README. -/
+theorem cliffordHomI2_two_torsion [Invertible (2 : K)] (x : ↥(fundamentalIdeal K ^ 2)) :
+    cliffordHomI2 x + cliffordHomI2 x = 0 :=
+  sorry
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 5, step 5: `c` vanishes on `I³`**, checked on the 3-fold Pfister generators
+(Lam V.3.4) through Layer 4's `fundamentalIdeal_pow_eq_addClosure` at `n = 3`. -/
 theorem cliffordHomI2_eq_zero [Invertible (2 : K)] (x : ↥(fundamentalIdeal K ^ 2))
     (hx : (x : wittRing K) ∈ fundamentalIdeal K ^ 3) :
     cliffordHomI2 x = 0 :=
+  sorry
+
+/-- `I³` seen as a submodule of `I²`, which is the subobject the quotient below divides by. -/
+noncomputable abbrev fundamentalI3InI2 (K : Type u) [Field K] [Invertible (2 : K)] :
+    Submodule (wittRing K) ↥(fundamentalIdeal K ^ 2) :=
+  Submodule.comap (fundamentalIdeal K ^ 2).subtype (fundamentalIdeal K ^ 3)
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 5, step 6: the quotient homomorphism `c̄ : I²/I³ → Br(K)[2]`.** It is a named
+declaration together with the equation `cliffordHomI2Bar_mk` that computes it on a
+representative, and not the phrase "by the universal property": an unnamed map out of the
+quotient is not citable, and a named one without that equation asserts nothing.
+
+⚠ No injectivity claim, no surjectivity claim, and no classification claim is made for `c̄`.
+Injectivity is Merkurjev's theorem, which no roadmap in this family proves; it is an explicit
+exclusion and never a promised interface. -/
+noncomputable def cliffordHomI2Bar [Invertible (2 : K)] :
+    (↥(fundamentalIdeal K ^ 2) ⧸ fundamentalI3InI2 K) →+ Additive (BrauerGroup.{u, u} K) :=
+  sorry
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- `c̄` on a representative is `c`, which is the equation that makes the previous declaration
+the descent of `cliffordHomI2` and not an unrelated map of the same type. -/
+theorem cliffordHomI2Bar_mk [Invertible (2 : K)] (x : ↥(fundamentalIdeal K ^ 2)) :
+    cliffordHomI2Bar (Submodule.Quotient.mk x) = cliffordHomI2 x :=
   sorry
 
 /-! ## Layer 6A: consuming the Local Fields Ramification substrate
@@ -559,7 +688,8 @@ section LocalField
 
 open scoped ValuativeRel
 open TauCetiRoadmap.LocalFieldsRamification (normalizedValuation unitFiltration
-  natCastValuation absoluteRamificationIndex square_eq_range_powMonoidHom)
+  natCastValuation absoluteRamificationIndex square_eq_range_powMonoidHom
+  UnitFiltrationGraded)
 
 variable (K)
 variable [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
@@ -648,18 +778,52 @@ theorem card_squareClass_of_dyadic [Invertible (2 : K)]
       4 * Nat.card (IsLocalRing.ResidueField 𝒪[K]) ^ dyadicLevel K :=
   sorry
 
-/-- **Layer 6A, the unramified quadratic extension and its norms.** There is a nonsquare
-unit `Δ` such that `K(√Δ)/K` is the unramified quadratic extension, and an element is a
-norm from it exactly when its valuation is even. The statement is phrased through the
-norm equation, so it needs no extension-building API, and that is the shape 6B's evaluation
-formula and 6C's symbol computation consume. It rests on the Local Fields Ramification Layer 2 milestones
-*Existence and uniqueness* and *Norms*, which own the unramified extension and the equality
-`N_{L/K}(Lˣ) = π^{fℤ} × 𝒪[K]ˣ`; that roadmap exports no target signature phrased through the
-norm equation. -/
+/-- **Layer 6A, the graded piece at depth zero**, `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ` by reduction. The
+carrier is the Local Fields Ramification roadmap's `UnitFiltrationGraded`; the isomorphism is
+that roadmap's Layer 1 milestone *Graded pieces*, which exports no target signature, so the
+shape 6B consumes is frozen here. It is stated as an existence because the isomorphism itself is
+the supplier's and this roadmap builds no second copy of it. -/
+theorem nonempty_unitFiltrationGraded_zero_equiv :
+    Nonempty (UnitFiltrationGraded K 0 ≃* 𝓀[K]ˣ) :=
+  sorry
+
+/-- **Layer 6A, the graded pieces at positive depth**, `U(K,i+1)/U(K,i+2) ≃* 𝓀[K]⁺` through
+`1 + x ↦ x mod 𝓂^{i+2}`. ⚠ The depth-zero piece is multiplicative and the deeper pieces are
+additive, which is why the two statements stay apart. 6B needs the additive form: the
+classification of unit defects improves an approximation `u = 1 + ε` with `v(ε) = d` by writing
+the residue of `ε` as a square, which is possible exactly because the piece is `𝓀[K]⁺` and
+`𝓀[K]` is a perfect field of characteristic `2` in the dyadic case. -/
+theorem nonempty_unitFiltrationGraded_succ_equiv (i : ℕ) :
+    Nonempty (UnitFiltrationGraded K (i + 1) ≃* Multiplicative 𝓀[K]) :=
+  sorry
+
+/-- **Layer 6A, the unramified quadratic extension and its norms, existence.** There is a
+nonsquare `Δ` of even valuation — so a unit up to squares — such that `K(√Δ)/K` is the
+unramified quadratic extension, and an element is a norm from it exactly when its valuation is
+even. The statement is phrased through the norm equation, so it needs no extension-building API,
+and that is the shape 6B's evaluation formula and 6C's symbol computation consume. It rests on
+the Local Fields Ramification Layer 2 milestones *Existence and uniqueness* and *Norms*, which
+own the unramified extension and the equality `N_{L/K}(Lˣ) = π^{fℤ} × 𝒪[K]ˣ`; that roadmap
+exports no target signature phrased through the norm equation. -/
 theorem exists_unramified_class [Invertible (2 : K)] :
     ∃ u : Kˣ, ¬ IsSquare u ∧
+      Multiplicative.toAdd (normalizedValuation K u) = 0 ∧
       ∀ b : Kˣ, (∃ x y : K, (b : K) = x ^ 2 - (u : K) * y ^ 2) ↔
         Even (Multiplicative.toAdd (normalizedValuation K b)) :=
+  sorry
+
+/-- **Layer 6A, the unramified quadratic extension and its norms, uniqueness.** The norm
+criterion pins `Δ` to a single square class, so "the unramified class" is well defined without
+building the extension. This is the uniqueness half of the Local Fields Ramification Layer 2
+milestone *Existence and uniqueness* at degree `2`, read through the norm equation; 6B's
+ramification dictionary needs it, because "exactly one unit square class has defect `4𝒪[K]`" is
+a statement about a class and not about a chosen element. -/
+theorem unramified_class_unique [Invertible (2 : K)] (u u' : Kˣ)
+    (hu : ∀ b : Kˣ, (∃ x y : K, (b : K) = x ^ 2 - (u : K) * y ^ 2) ↔
+      Even (Multiplicative.toAdd (normalizedValuation K b)))
+    (hu' : ∀ b : Kˣ, (∃ x y : K, (b : K) = x ^ 2 - (u' : K) * y ^ 2) ↔
+      Even (Multiplicative.toAdd (normalizedValuation K b))) :
+    IsSquare (u * u') :=
   sorry
 
 end LocalField
@@ -769,6 +933,19 @@ noncomputable def localHasse {n : ℕ} (w : Fin n → Kˣ) : ℤˣ :=
   ∏ ij ∈ Finset.univ.filter fun ij : Fin n × Fin n => ij.1 < ij.2,
     hilbertSymbol (w ij.1) (w ij.2)
 
+/-- **Layer 6C, square-class invariance in each argument.** True over any field, directly from
+the norm equation: `b c² = x² − a y²` iff `b = (x/c)² − a (y/c)²`, and `b = x² − a c² y²` iff
+`b = x² − a (cy)²`. This is what makes the symbol a function of a pair of square classes, and it
+is the hypothesis under which the Gram matrix of `6C` is a well-defined table. -/
+theorem hilbertSymbol_congr_sq (a a' b b' : Kˣ) (ha : IsSquare (a * a')) (hb : IsSquare (b * b')) :
+    hilbertSymbol a b = hilbertSymbol a' b' :=
+  sorry
+
+/-- **Layer 6C, `(a, −a) = +1`.** True over any field, with the witness `−a = 0² − a · 1²`. It is
+the input to `hilbertSymbol_self` below and to the second realization exception of 6D. -/
+theorem hilbertSymbol_neg_self (a : Kˣ) : hilbertSymbol a (-a) = 1 :=
+  sorry
+
 section LocalSymbol
 
 open scoped ValuativeRel
@@ -805,6 +982,66 @@ Thm 2; O'Meara 63:11 to 63:13 by the quadratic-defect route). It follows from th
 index and the indicator lemma. -/
 theorem hilbertSymbol_mul (a b c : Kˣ) :
     hilbertSymbol a (b * c) = hilbertSymbol a b * hilbertSymbol a c :=
+  sorry
+
+/-- **Layer 6C, `(a,a) = (a,−1)`.** From `hilbertSymbol_neg_self` and bimultiplicativity, since
+the values are their own inverses. It is the third of the three evaluation rules that determine
+the symbol on a square-class basis, and it fixes the diagonal. -/
+theorem hilbertSymbol_self (a : Kˣ) : hilbertSymbol a a = hilbertSymbol a (-1) :=
+  sorry
+
+/-- **Layer 6C, the symbol on the square-class basis: unit against unit, odd residue
+characteristic.** With `e = 0` every unit of `𝒪[K]` is a norm from `K(√u')` for every unit `u'`,
+by Hensel's lemma. ⚠ This is the rule that fails in residue characteristic `2`: over `ℚ₂`,
+`(−1,−1) = −1` with both arguments units, which is why 6B carries the dyadic content. -/
+theorem hilbertSymbol_unit_unit_of_odd (hodd : dyadicLevel K = 0) (u u' : Kˣ)
+    (hu : Multiplicative.toAdd (normalizedValuation K u) = 0)
+    (hu' : Multiplicative.toAdd (normalizedValuation K u') = 0) :
+    hilbertSymbol u u' = 1 :=
+  sorry
+
+/-- **Layer 6C, the symbol on the square-class basis: unit against uniformizer, odd residue
+characteristic.** `(u, π)_K = +1` exactly when `u` is a square, which by Hensel is exactly when
+the residue of `u` is a square in `𝓀[K]`; so `(u, π)_K` is the quadratic residue character of
+`𝓀[K]` evaluated at `ū`, and over `ℚ_p` it is the Legendre symbol `(u|p)`. The `IsSquare u`
+spelling is the one that needs no character API; the residue spelling is what a computation
+over `ℚ_p` uses, through `legendreSym` and
+`TauCeti/NumberTheory/LegendreSymbol/SquareClass.lean`. -/
+theorem hilbertSymbol_unit_uniformizer_of_odd (hodd : dyadicLevel K = 0) (u π : Kˣ)
+    (hu : Multiplicative.toAdd (normalizedValuation K u) = 0)
+    (hπ : IsUniformizer (K := K) π) :
+    hilbertSymbol u π = 1 ↔ IsSquare u :=
+  sorry
+
+/-- **Layer 6C, the closed formula in odd residue characteristic.** Writing `a = π^α u` and
+`b = π^β u'` with `u, u'` units, bimultiplicativity reduces the symbol to the three rules above:
+
+```text
+(a,b)_K = (π,−1)^{αβ} · (u,π)^β · (u',π)^α .
+```
+
+`(π,−1)_K = (−1)^{(q−1)/2}` because `−1` is a unit and the rule above evaluates it by whether
+`−1` is a square; `(u,π)` and `(u',π)` are the residue quadratic characters of `ū` and `ū'`. At
+`K = ℚ_p` this is Serre *CiA* III Thm 1, `(a,b) = (−1)^{αβ ε(p)} (u|p)^β (u'|p)^α`. -/
+theorem hilbertSymbol_of_odd (hodd : dyadicLevel K = 0) (π : Kˣ) (hπ : IsUniformizer (K := K) π)
+    (α β : ℕ) (u u' : Kˣ)
+    (hu : Multiplicative.toAdd (normalizedValuation K u) = 0)
+    (hu' : Multiplicative.toAdd (normalizedValuation K u') = 0) :
+    hilbertSymbol (π ^ α * u) (π ^ β * u') =
+      hilbertSymbol π (-1) ^ (α * β) * hilbertSymbol u π ^ β * hilbertSymbol u' π ^ α :=
+  sorry
+
+/-- **Layer 6C, what replaces a closed formula over a finite dyadic `K`.** There is no formula of
+Serre's shape for a general finite extension of `ℚ₂`; what determines the symbol completely is
+that it is a **nondegenerate symmetric `𝔽₂`-bilinear form** on the finite group `Kˣ/(Kˣ)²`,
+whose order 6A computes as `4·q^e = 2^{[K:ℚ₂]+2}`. Symmetry is `hilbertSymbol_comm`, bilinearity
+is `hilbertSymbol_mul`, well-definedness on classes is `hilbertSymbol_congr_sq`, and
+nondegeneracy is the next theorem; together with `hilbertSymbol_unramified` and 6B's defect
+computations these determine every value, and over `ℚ₂` the resulting table is the `8 × 8`
+acceptance suite. This declaration records the nondegeneracy in the square-class form that a
+table computation uses. -/
+theorem exists_hilbertSymbol_eq_neg_one_squareClass (a : Kˣ) (ha : ¬ IsSquare a) :
+    ∃ b : Kˣ, hilbertSymbol a b = -1 ∧ ¬ IsSquare b :=
   sorry
 
 /-- **Layer 6C, nondegeneracy** (Serre *CiA* III Thm 2; O'Meara 63:13). For every
@@ -875,6 +1112,42 @@ theorem hasseInvariant_eq_localHasse :
   sorry
 
 end LocalSymbol
+
+/-! ### Layer 6C: Serre's closed formula over `ℚ₂`
+
+The dyadic base is the one case where a closed formula does exist, and it is the acceptance
+test for every sign convention of Layer 6. Both auxiliary functions are real data and not
+`sorry`, because the formula *is* the convention being pinned. -/
+
+open Classical in
+/-- Serre's `ε(u) = (u − 1)/2 mod 2` for a `2`-adic unit, read off `u mod 8` through
+`PadicInt.toZModPow 3`. On the four odd residues `1, 3, 5, 7` it is `0, 1, 0, 1`. -/
+noncomputable def serreEps (u : ℤ_[2]) : ZMod 2 :=
+  if PadicInt.toZModPow 3 u = 3 ∨ PadicInt.toZModPow 3 u = 7 then 1 else 0
+
+open Classical in
+/-- Serre's `ω(u) = (u² − 1)/8 mod 2` for a `2`-adic unit, read off `u mod 8`. On the four odd
+residues `1, 3, 5, 7` it is `0, 1, 1, 0`. -/
+noncomputable def serreOmega (u : ℤ_[2]) : ZMod 2 :=
+  if PadicInt.toZModPow 3 u = 3 ∨ PadicInt.toZModPow 3 u = 5 then 1 else 0
+
+/-- **Layer 6C, the closed formula over `ℚ₂`** (Serre, *A Course in Arithmetic*, III Thm 1). For
+`a = 2^α u` and `b = 2^β v` with `u, v` units of `ℤ₂`,
+
+```text
+(a,b)_{ℚ₂} = (−1)^{ε(u)ε(v) + α ω(v) + β ω(u)} .
+```
+
+⚠ The exponent is read in `ZMod 2` and only then turned into a sign; writing it in `ℤ` invites
+the off-by-one that the `8 × 8` table below catches. The three worked entries `(2,5) = −1`,
+`(5,5) = +1` and `(−1,−1) = −1` are instances of it. -/
+theorem hilbertSymbol_padicTwo (a b : ℚ_[2]ˣ) (α β : ℕ) (u v : ℤ_[2])
+    (hu : IsUnit u) (hv : IsUnit v)
+    (ha : (a : ℚ_[2]) = 2 ^ α * (u : ℚ_[2])) (hb : (b : ℚ_[2]) = 2 ^ β * (v : ℚ_[2])) :
+    hilbertSymbol a b =
+      (-1 : ℤˣ) ^ (serreEps u * serreEps v + (α : ZMod 2) * serreOmega v
+        + (β : ZMod 2) * serreOmega u).val :=
+  sorry
 
 /-! ### Layer 6 worked examples over `ℚ_2`
 
@@ -981,6 +1254,17 @@ even though the two sides are definitionally equal. Naming the normalized form o
 Layer 8's orthogonal-sum and transfer identities be stated at all. -/
 noncomputable def cup11 [Invertible (2 : K)] (x y : H1 K) : H2 K :=
   cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 x y
+
+/-- **Layer 7A, the sign convention of the mod-2 cup in bidegree `(1,1)`: it is symmetric.** The
+supplier's `cup_gradedComm` gives `x ∪ y = (−1)^{mn} · (y ∪ x)` after `degreeCast`, so in
+bidegree `(1,1)` the sign is `−1`; the coefficients are `𝔽₂`, where `−z = z`, and `f2Pairing` is
+multiplication, which is its own opposite. Both facts are needed, and the statement is pinned
+here because every identity of Layers 8 and 9 that reads a cup in the other order — the
+orthogonal-sum formula for `w₂`, and the cross term of the Evens polarization — depends on it.
+⚠ It is a `𝔽₂` fact and not a general one: in an odd-torsion coefficient module the sign
+survives. -/
+theorem cup11_comm [Invertible (2 : K)] (x y : H1 K) : cup11 x y = cup11 y x :=
+  sorry
 
 variable (K)
 
@@ -1119,6 +1403,260 @@ variable (K)
 /-- The 2-torsion subgroup of the Brauer group. -/
 noncomputable def Br2 : Subgroup (BrauerGroup.{u, u} K) :=
   MonoidHom.ker (powMonoidHom 2 : BrauerGroup.{u, u} K →* BrauerGroup.{u, u} K)
+
+/-! ### Layer 7B, milestone 1: a finite Galois splitting field inside `Kˢ` -/
+
+/-- **Layer 7B, milestone 1(a): a finite separable splitting field.** The mathematics is the
+semisimple-algebras roadmap's Layer 6 milestone *every central simple algebra is split by a
+finite separable extension*; that roadmap states it in prose and exports no target signature, so
+the shape this roadmap consumes is frozen here and the contract row moves to that roadmap's
+declaration when the signature exists. The field is produced **inside** the separable closure,
+because Layer 7A's passage from `L/K` to the open subgroup `G_L ≤ G_K` is indexed by a
+`K`-embedding into `Kˢ`, and a splitting field with no such embedding indexes nothing. -/
+theorem exists_finiteSeparable_splittingField (A : Type u) [Ring A] [Algebra K A]
+    [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A] :
+    ∃ L : IntermediateField K (SeparableClosure K),
+      FiniteDimensional K ↥L ∧ IsSplittingField K A ↥L :=
+  sorry
+
+/-- **Layer 7B, milestone 1(b): a finite Galois splitting field.** The Galois closure of the
+field above still splits `A`, because an extension of a splitting field splits `A`. This is a
+milestone here and not an assumption: the crossed-product construction indexes its cocycle by
+`Gal(L/K)`, and a merely separable splitting field has no such group. -/
+theorem exists_finiteGalois_splittingField (A : Type u) [Ring A] [Algebra K A]
+    [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A] :
+    ∃ L : IntermediateField K (SeparableClosure K),
+      FiniteDimensional K ↥L ∧ IsGalois K ↥L ∧ IsSplittingField K A ↥L :=
+  sorry
+
+/-! ### Layer 7B, milestone 2: the crossed-product package
+
+The comparison `Br(K) ≃ H²(G_K, Kˢˣ)` is the theory of crossed products and not a formality, so
+it is assembled from seven separately citable targets rather than one step. Nothing below is an
+internal step of a single proof: a consumer that needs only "cohomologous cocycles have the same
+class", or only "the cocycle of a splitting presents the algebra", cites that one statement. -/
+
+section CrossedProduct
+
+variable {K}
+
+/-- **Layer 7B, milestone 2(i), the cocycles.** A `2`-cocycle of a finite Galois `L/K` with
+values in `Lˣ`, in the normalization `σ(c τ ρ) · c σ (τρ) = c σ τ · c (στ) ρ`. The convention is
+the inhomogeneous one of Gille-Szamuely 4.4 and Serre *Local Fields* X, and it is pinned here
+because the opposite normalization changes the sign of the comparison in milestone 3.
+Continuity costs nothing: `Gal(L/K)` is finite discrete, and the continuous statement is the
+colimit of these over finite Galois `L/K`, which is milestone 2(v). -/
+structure TwoCocycle (L : Type u) [Field L] [Algebra K L] where
+  /-- The underlying function. -/
+  toFun : (L ≃ₐ[K] L) → (L ≃ₐ[K] L) → Lˣ
+  /-- The cocycle identity. -/
+  isCocycle : ∀ σ τ ρ : L ≃ₐ[K] L,
+    σ ((toFun τ ρ : L)) * (toFun σ (τ * ρ) : L) = (toFun σ τ : L) * (toFun (σ * τ) ρ : L)
+
+/-- **Layer 7B, milestone 2(ii), the equivalence.** Two cocycles are cohomologous when they
+differ by the coboundary of a `b : Gal(L/K) → Lˣ`. -/
+def Cohomologous {L : Type u} [Field L] [Algebra K L] (z w : TwoCocycle (K := K) L) : Prop :=
+  ∃ b : (L ≃ₐ[K] L) → Lˣ, ∀ σ τ : L ≃ₐ[K] L,
+    (w.toFun σ τ : L) =
+      (z.toFun σ τ : L) * σ ((b τ : L)) * ((b (σ * τ) : L))⁻¹ * (b σ : L)
+
+/-- **Layer 7B, milestone 2(i), the algebra.** The crossed product of a cocycle. Its carrier is
+pinned as **data** — the free `L`-module on the symbols `u_σ`, that is functions
+`Gal(L/K) → L` — so that every statement below is typeable before the multiplication is built.
+A construction whose carrier were opaque would leave `basis_mul_basis` and the finrank formula
+unstatable, which is exactly the failure a black-box comparison hides. -/
+structure CrossedProduct (L : Type u) [Field L] [Algebra K L] (_z : TwoCocycle (K := K) L) where
+  /-- The coordinates in the basis `u_σ`. -/
+  coeff : (L ≃ₐ[K] L) → L
+
+variable {L : Type u} [Field L] [Algebra K L]
+
+/-- The ring structure: `u_σ · x = σ(x) · u_σ` and `u_σ · u_τ = c(σ,τ) · u_{στ}`, extended
+`L`-linearly. The two equations that characterize it are `basis_mul_inc` and
+`basis_mul_basis`. -/
+noncomputable instance (z : TwoCocycle (K := K) L) : Ring (CrossedProduct L z) := sorry
+
+/-- The crossed product is a `K`-algebra, `K` sitting inside through `CrossedProduct.inc`. It is
+**not** an `L`-algebra: `L` is not central in it unless `L = K`. -/
+noncomputable instance (z : TwoCocycle (K := K) L) : Algebra K (CrossedProduct L z) := sorry
+
+/-- **Layer 7B, milestone 2(i): the crossed product is central simple of degree `[L:K]`.** This
+is the theorem that makes `crossedProductClass` well formed, and it is proved from the two
+multiplication equations below. -/
+instance crossedProduct_isCentral (z : TwoCocycle (K := K) L) [FiniteDimensional K L]
+    [IsGalois K L] : Algebra.IsCentral K (CrossedProduct L z) := sorry
+
+instance crossedProduct_isSimpleRing (z : TwoCocycle (K := K) L) [FiniteDimensional K L]
+    [IsGalois K L] : IsSimpleRing (CrossedProduct L z) := sorry
+
+instance crossedProduct_finiteDimensional (z : TwoCocycle (K := K) L) [FiniteDimensional K L] :
+    FiniteDimensional K (CrossedProduct L z) := sorry
+
+/-- The copy of `L` inside the crossed product, `x ↦ x · u_1`. -/
+noncomputable def CrossedProduct.inc (z : TwoCocycle (K := K) L) : L →ₐ[K] CrossedProduct L z :=
+  sorry
+
+open Classical in
+/-- The basis symbol `u_σ`, pinned as data: the indicator of `σ`. -/
+noncomputable def CrossedProduct.basis (z : TwoCocycle (K := K) L) (σ : L ≃ₐ[K] L) :
+    CrossedProduct L z :=
+  ⟨fun τ => if τ = σ then 1 else 0⟩
+
+/-- **The semilinearity equation** `u_σ · x = σ(x) · u_σ`. -/
+theorem CrossedProduct.basis_mul_inc (z : TwoCocycle (K := K) L) (σ : L ≃ₐ[K] L) (x : L) :
+    basis z σ * inc z x = inc z (σ x) * basis z σ :=
+  sorry
+
+/-- **The cocycle equation** `u_σ · u_τ = c(σ,τ) · u_{στ}`. Together with `basis_mul_inc` and
+`L`-linearity this determines the multiplication, and it is why the cocycle identity is exactly
+associativity. -/
+theorem CrossedProduct.basis_mul_basis (z : TwoCocycle (K := K) L) (σ τ : L ≃ₐ[K] L) :
+    basis z σ * basis z τ = inc z ((z.toFun σ τ : L)) * basis z (σ * τ) :=
+  sorry
+
+/-- `dim_K (L, G, c) = [L : K]²`, so the crossed product has degree `[L:K]`. -/
+theorem CrossedProduct.finrank (z : TwoCocycle (K := K) L) [FiniteDimensional K L] :
+    Module.finrank K (CrossedProduct L z) = Module.finrank K L ^ 2 :=
+  sorry
+
+/-- The crossed product as a central simple algebra. -/
+noncomputable def crossedProductCSA (z : TwoCocycle (K := K) L) [FiniteDimensional K L]
+    [IsGalois K L] : CSA.{u, u} K :=
+  { toAlgCat := AlgCat.of K (CrossedProduct L z) }
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 7B, milestone 2(i): the Brauer class of a cocycle.** -/
+noncomputable def crossedProductClass (z : TwoCocycle (K := K) L) [FiniteDimensional K L]
+    [IsGalois K L] : BrauerGroup.{u, u} K :=
+  Quotient.mk _ (crossedProductCSA z)
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 7B, milestone 2(ii): cohomologous cocycles give Brauer-equivalent algebras.** The
+crossed products are then isomorphic, not merely equivalent, but the class equality is the form
+the comparison uses. -/
+theorem crossedProductClass_eq_of_cohomologous (z w : TwoCocycle (K := K) L)
+    [FiniteDimensional K L] [IsGalois K L] (h : Cohomologous z w) :
+    crossedProductClass z = crossedProductClass w :=
+  sorry
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 7B, milestone 2(iii): multiplying cocycles is tensoring algebras.** The pointwise
+product of two cocycles presents the product of the two Brauer classes, that is the class of the
+tensor product. This is the milestone that makes the comparison a homomorphism, and it is where
+the normalization of `TwoCocycle` is felt: the opposite convention gives the inverse class. -/
+theorem crossedProductClass_mul (z w v : TwoCocycle (K := K) L) [FiniteDimensional K L]
+    [IsGalois K L] (h : ∀ σ τ : L ≃ₐ[K] L, v.toFun σ τ = z.toFun σ τ * w.toFun σ τ) :
+    crossedProductClass v = crossedProductClass z * crossedProductClass w :=
+  sorry
+
+open scoped TensorProduct in
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 7B, milestone 2(iv): the cocycle of a split algebra with chosen descent data.** The
+descent datum is the chosen `L`-algebra isomorphism `φ : L ⊗_K A ≃ M_n(L)`. Each
+`σ ∈ Gal(L/K)` moves `φ` by a `σ`-semilinear automorphism of `M_n(L)`, Skolem-Noether makes that
+automorphism inner, and the chosen conjugators multiply up to the cocycle. This is the only step
+of the comparison that uses Skolem-Noether, and it is the step that a black-box statement
+hides. -/
+noncomputable def cocycleOfSplitting (A : Type u) [Ring A] [Algebra K A]
+    [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A]
+    [FiniteDimensional K L] [IsGalois K L]
+    (n : ℕ) (φ : L ⊗[K] A ≃ₐ[L] Matrix (Fin n) (Fin n) L) : TwoCocycle (K := K) L :=
+  sorry
+
+open scoped TensorProduct in
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 7B, milestone 2(v), first half: independence of the descent data.** Two choices of
+`φ` over the same `L` give cohomologous cocycles, so the class is a function of `A` and `L`
+alone. The conjugators of milestone 2(iv) are determined only up to `Lˣ`, and this records that
+the ambiguity is exactly a coboundary. -/
+theorem cohomologous_cocycleOfSplitting (A : Type u) [Ring A] [Algebra K A]
+    [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A]
+    [FiniteDimensional K L] [IsGalois K L]
+    (n m : ℕ) (φ : L ⊗[K] A ≃ₐ[L] Matrix (Fin n) (Fin n) L)
+    (ψ : L ⊗[K] A ≃ₐ[L] Matrix (Fin m) (Fin m) L) :
+    Cohomologous (cocycleOfSplitting A n φ) (cocycleOfSplitting A m ψ) :=
+  sorry
+
+/-- **Layer 7B, milestone 2(v), second half: inflation.** A cocycle of `Gal(L/K)` inflated along
+a compatible pair — a homomorphism `π : Gal(M/K) → Gal(L/K)` and an embedding `ι : L → M`
+intertwining it — is a cocycle of `Gal(M/K)`. The pair that matters is
+`AlgEquiv.restrictNormal` together with the inclusion, for `K ⊆ L ⊆ M` with both extensions
+finite Galois. ⚠ The compatibility hypothesis is not decoration: without it the inflated
+function is not a cocycle at all, so it is carried in the type rather than assumed in a
+docstring. -/
+def TwoCocycle.comap {M : Type u} [Field M] [Algebra K M] (π : (M ≃ₐ[K] M) →* (L ≃ₐ[K] L))
+    (ι : L →ₐ[K] M) (hπι : ∀ (σ : M ≃ₐ[K] M) (x : L), σ (ι x) = ι (π σ x))
+    (z : TwoCocycle (K := K) L) : TwoCocycle (K := K) M where
+  toFun σ τ := Units.map ι.toRingHom.toMonoidHom (z.toFun (π σ) (π τ))
+  isCocycle := sorry
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 7B, milestone 2(v): inflation does not change the class**, so the classes computed
+from two splitting fields are comparable and the colimit over finite Galois `L/K` is well
+defined. Without this milestone the comparison is a family of unrelated maps. -/
+theorem crossedProductClass_comap {M : Type u} [Field M] [Algebra K M]
+    [FiniteDimensional K L] [IsGalois K L] [FiniteDimensional K M] [IsGalois K M]
+    (π : (M ≃ₐ[K] M) →* (L ≃ₐ[K] L)) (ι : L →ₐ[K] M)
+    (hπι : ∀ (σ : M ≃ₐ[K] M) (x : L), σ (ι x) = ι (π σ x)) (z : TwoCocycle (K := K) L) :
+    crossedProductClass (z.comap π ι hπι) = crossedProductClass z :=
+  sorry
+
+open scoped TensorProduct in
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 7B, milestone 2(vii), first half: the cocycle of a splitting presents the algebra.**
+One of the two identifications the comparison needs. -/
+theorem crossedProductClass_cocycleOfSplitting (A : Type u) [Ring A] [Algebra K A]
+    [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A]
+    [FiniteDimensional K L] [IsGalois K L]
+    (n : ℕ) (φ : L ⊗[K] A ≃ₐ[L] Matrix (Fin n) (Fin n) L) :
+    crossedProductClass (cocycleOfSplitting A n φ) =
+      Quotient.mk _ ({ toAlgCat := AlgCat.of K A } : CSA.{u, u} K) :=
+  sorry
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 7B, milestone 2(vii), second half: the two maps are mutually inverse.** Equal
+crossed-product classes over the same `L` come from cohomologous cocycles. With the previous
+theorem this identifies the two directions, and it is what makes the comparison of milestone 3
+injective; Hilbert 90 for a finite Galois `L/K` is the input. -/
+theorem cohomologous_of_crossedProductClass_eq (z w : TwoCocycle (K := K) L)
+    [FiniteDimensional K L] [IsGalois K L]
+    (h : crossedProductClass z = crossedProductClass w) :
+    Cohomologous z w :=
+  sorry
+
+variable (K)
+
+/-- A finite Galois subextension of `Kˢ/K` together with a cocycle of its Galois group. Bundling
+the two is what lets milestone 2(vi) quantify over "some splitting field and some cocycle"
+without an existential over instances. -/
+structure GaloisCocycle where
+  /-- The finite Galois extension, taken inside `Kˢ` so that Layer 7A's `galoisSubgroup`
+  applies to it. -/
+  extension : IntermediateField K (SeparableClosure K)
+  [finite : FiniteDimensional K ↥extension]
+  [galois : IsGalois K ↥extension]
+  /-- The cocycle. -/
+  cocycle : TwoCocycle (K := K) ↥extension
+
+attribute [instance] GaloisCocycle.finite GaloisCocycle.galois
+
+variable {K}
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- The Brauer class of a bundled crossed product. -/
+noncomputable def GaloisCocycle.brauerClass (g : GaloisCocycle K) : BrauerGroup.{u, u} K :=
+  crossedProductClass g.cocycle
+
+open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+/-- **Layer 7B, milestone 2(vi): every Brauer class is obtained.** Surjectivity of the
+comparison. It composes milestone 1(b) with milestone 2(iv), and it is stated separately because
+a consumer that needs a crossed-product presentation of a given class cites this and nothing
+else. -/
+theorem exists_galoisCocycle_brauerClass_eq (x : BrauerGroup.{u, u} K) :
+    ∃ g : GaloisCocycle K, g.brauerClass = x :=
+  sorry
+
+end CrossedProduct
 
 /-- **Layer 7B, the crossed-product comparison**, as a named canonical equivalence.
 Multiplication of Brauer classes goes to addition of cohomology classes, which is what
@@ -1394,12 +1932,92 @@ noncomputable def galoisCor1 {L : Type u} [Field L] [Algebra K L] [FiniteDimensi
     [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (x : H1 L) : H1 K :=
   (galoisCor K L σ 1).hom x
 
+/-- **Layer 9, the supplier's restriction in degree 1, read in this file's carrier.** -/
+noncomputable def galoisRes1 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (x : H1 K) : H1 L :=
+  (galoisRes K L σ 1).hom x
+
 /-- **Layer 9, the supplier's Evens norm of a quadratic extension, read in this file's
 carrier.** Same reason as `galoisCor1`; the body is the supplier's `galoisEvens`. -/
 noncomputable def galoisEvens2 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
     [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
     (hdeg : Module.finrank K L = 2) (x : H1 L) : H2 K :=
   galoisEvens K L σ hdeg x
+
+/-- **Layer 9, the supplier's corestriction in degree 2, read in this file's carrier.** Needed
+because the cross term of the Evens polarization is a cup formed over `L` and then
+corestricted. -/
+noncomputable def galoisCor2 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (x : H2 L) : H2 K :=
+  (galoisCor K L σ 2).hom x
+
+/-- **Layer 9, the supplier's restriction in degree 2, read in this file's carrier.** -/
+noncomputable def galoisRes2 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (x : H2 K) : H2 L :=
+  (galoisRes K L σ 2).hom x
+
+/-- **Layer 9, the conjugation convention, read in this file's carrier.** The body is the
+supplier's `galoisConj`, which is `res ∘ cor − id`; by the supplier's `evensConj_eq_conjMapOf`
+that agrees with conjugation by **every** `s ∈ G_K ∖ G_L`, so no element outside `G_L` is chosen
+and the identities below are about `L/K` and not about a choice.
+⚠ This is the `σ·x` of the Evens identities, and it is not `x`: a polarization written with `x`
+in place of the conjugate is a different and false statement. -/
+noncomputable def galoisConj1 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (x : H1 L) : H1 L :=
+  galoisConj K L σ 1 x
+
+/-- **Layer 9, the first Evens identity in this file's carriers**, the transport of the
+supplier's `galoisRes_galoisEvens`: `res (N x) = x ∪ σ·x`. The cup is formed over `L`, so it is
+`cup11` at `L` and not at `K`. -/
+theorem galoisRes2_galoisEvens2 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] [Invertible (2 : L)] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (x : H1 L) :
+    galoisRes2 σ (galoisEvens2 σ hdeg x) = cup11 x (galoisConj1 σ x) :=
+  sorry
+
+/-- **Layer 9, the polarization identity in this file's carriers**, the transport of the
+supplier's `galoisEvens_add`:
+
+```text
+N (x + y) = N x + N y + cor (x ∪ σ·y).
+```
+
+⚠ The Evens norm is **not** additive, and this cross term is exactly the failure. Its cup is
+formed over `L`, with the **conjugate** of the second argument, and only then corestricted to
+`K`; each of those three choices is load-bearing, and Layer 9's degree-2 Kahn formula is where
+they are felt. -/
+theorem galoisEvens2_add {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] [Invertible (2 : L)] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (x y : H1 L) :
+    galoisEvens2 σ hdeg (x + y) =
+      galoisEvens2 σ hdeg x + galoisEvens2 σ hdeg y +
+        galoisCor2 σ (cup11 x (galoisConj1 σ y)) :=
+  sorry
+
+/-- **Layer 9, corestriction is `H¹(G_K,𝔽₂)`-linear**, the transport of the supplier's
+`galoisCor_cup` projection formula: `cor (res x ∪ y) = x ∪ cor y`. It is what turns the
+`w₁(Tr_*⟨1⟩) ∪ cor(x)` term of the Kahn formula into a statement over `K`. -/
+theorem galoisCor2_cup11 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] [Invertible (2 : K)] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (x : H1 K) (y : H1 L) :
+    galoisCor2 σ (cup11 (galoisRes1 σ x) y) = cup11 x (galoisCor1 σ y) :=
+  sorry
+
+/-- **Layer 9, independence of the embedding, in this file's carriers.** The transport of the
+supplier's `galoisCor_embedding_independent`, so that the Kahn formula is about `L/K` and not
+about a chosen `σ : L → Kˢ`. -/
+theorem galoisCor1_embedding_independent {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L]
+    (σ τ : L →ₐ[K] SeparableClosure K) (x : H1 L) :
+    galoisCor1 σ x = galoisCor1 τ x :=
+  sorry
+
+/-- The same for the Evens norm, transporting `galoisEvens_embedding_independent`. -/
+theorem galoisEvens2_embedding_independent {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ τ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (x : H1 L) :
+    galoisEvens2 σ hdeg x = galoisEvens2 τ hdeg x :=
+  sorry
 
 /-- **Layer 9, the relative Stiefel-Whitney formula for a quadratic extension**, stated on the
 transferred forms themselves (Kahn, Invent. Math. 78 (1984), Théorème 2 in degrees `≤ 2`;
