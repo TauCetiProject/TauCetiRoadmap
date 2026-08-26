@@ -25,12 +25,14 @@ indexed by `‖v‖ ^ 2 / 2` and matches `E₄` and `Δ` without a rescaling. Se
 `Complex.cpow` does not occur below, and if a contributor finds themselves reaching for it the
 even-rank hypothesis has been dropped upstream.
 
-⚠ Signature seeding stops at Layer 4. The Weil representation, the Gauss sums and Milgram's
-formula, and the `Γ₀(N)` theorem (Layer 5) quantify over the finite-quadratic-module types that the
-integral-lattices roadmap introduces and Tau Ceti does not yet have; freezing names for them here
-against placeholder structures would not check interface coherence. Layer 5's statements are
-carried in `README.md` until those types land, at which point they are added here. The Layer-6
-identifications *are* seeded, since their types are all Mathlib's.
+⚠ The *route* of Layer 5 — the presentation of `SL(2, ℤ)`, the Weil representation on `ℂ[A_L]`,
+the Gauss sums and Milgram's formula — quantifies over the finite-quadratic-module types that the
+integral-lattices roadmap introduces and Tau Ceti does not yet have; freezing names for those
+intermediates against placeholder structures would not check interface coherence, so they stay in
+`README.md` until the types land. Layer 5's **endpoint statements** are seeded below all the same:
+the Hecke–Schoeneberg theorem mentions only the level, the Kronecker character, Mathlib's
+congruence subgroups, and Tau Ceti's landed `modFormCharSpace`, none of which waits on
+discriminant forms. The Layer-6 identifications are seeded, since their types are all Mathlib's.
 -/
 
 namespace TauCetiRoadmap.ThetaSeries
@@ -125,6 +127,49 @@ discriminant-form facts are quoted across it and never reproved in `E`.
 
 ⚠ Not seeded with a full signature: the target type is the integral-lattices roadmap's
 `IntegralLattice V`, which Tau Ceti does not yet have. The statement is in `README.md`, Layer 0. -/
+
+/-! ### The Kronecker symbol and the nebentypus
+
+Mathlib's `jacobiSym` handles odd denominators only; the Kronecker symbol extends it to all of `ℤ`
+and is a Layer-0 target in its own right, independent of any lattice. -/
+
+/-- The Kronecker symbol `(a / b)`: the completely multiplicative extension of `jacobiSym` to all
+`b : ℤ`, with the standard values at `2`, `-1`, and `0`. -/
+def kroneckerSym (a b : ℤ) : ℤ := sorry
+
+theorem kroneckerSym_eq_jacobiSym (a : ℤ) {b : ℕ} (hb : Odd b) :
+    kroneckerSym a b = jacobiSym a b := sorry
+
+section Nebentypus
+
+variable (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+
+/-- For an even lattice of rank `2k`, the signed determinant `(-1)^k det L` is a discriminant:
+`≡ 0` or `1 mod 4`. This is what makes the Kronecker character below periodic. -/
+theorem neg_one_pow_mul_det_modEq (k : ℕ) (hn : Module.finrank ℝ E = 2 * k)
+    (he : IsEven L) {d : ℕ} (hd : det L = d) :
+    ((-1) ^ k * d : ℤ) ≡ 0 [ZMOD 4] ∨ ((-1) ^ k * d : ℤ) ≡ 1 [ZMOD 4] := sorry
+
+/-- The nebentypus of an even lattice of rank `2 * k`: the Kronecker character
+`d ↦ ((-1)^k * det L / d)` of the signed determinant, as a Dirichlet character modulo the level.
+Junk off `IsEven`. This is a *definition* here and a *theorem* in Layer 5: that it is what the
+transformation law actually produces on `Γ₀(N)` is the content of Hecke–Schoeneberg. -/
+def discChar (k : ℕ) : DirichletCharacter ℂ (level L) := sorry
+
+/-- The defining evaluation: away from the level, `χ_L` is the Kronecker symbol of the signed
+determinant. That this prescription is well defined modulo the level is the content of `discChar`'s
+construction, via `neg_one_pow_mul_det_modEq`. (Its conductor dividing the level is then Mathlib's
+generic `DirichletCharacter.conductor_dvd_level`, not a target.) -/
+theorem discChar_intCast (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (he : IsEven L)
+    {d : ℕ} (hd : det L = d) {a : ℤ} (ha : IsCoprime a (level L : ℤ)) :
+    discChar L k (a : ZMod (level L)) = (kroneckerSym ((-1) ^ k * d) a : ℂ) := sorry
+
+/-- Parity: `χ_L(-1) = (-1)^k`, the compatibility with the weight demanded by the modular-forms
+roadmap's parity lemma `M_k(N, χ) ≠ 0 → χ(-1) = (-1)^k`. -/
+theorem discChar_neg_one (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (he : IsEven L) :
+    discChar L k (-1) = (-1) ^ k := sorry
+
+end Nebentypus
 
 /-! ## Layer 1: Poisson summation for a lattice -/
 
@@ -264,6 +309,56 @@ theorem exists_polynomial_E₄_discriminant (k : ℕ) (hn : Module.finrank ℝ E
     ∃ c : ℕ × ℕ →₀ ℂ, True := sorry -- `Θ_L = ∑ c (a, b) • E₄ ^ a * Δ ^ b`, `4 a + 12 b = k`.
 
 end LevelOne
+
+/-! ## Layer 5: general level — the Hecke–Schoeneberg theorem
+
+Only the **endpoint statements** are seeded. Their types are Mathlib's congruence subgroups and
+slash action, Tau Ceti's landed `modFormCharSpace`, and this file's `level` and `discChar` — none
+of which waits on discriminant-form types. The route of record — the presentation of `SL(2, ℤ)`,
+the Weil representation on `ℂ[A_L]`, the Gauss sums and Milgram's formula — does quantify over the
+finite-quadratic-module types of the integral-lattices roadmap, which Tau Ceti does not yet have;
+those intermediate targets stay in `README.md`, Layer 5, until the types land. -/
+
+section GeneralLevel
+
+variable (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+
+/-- **Hecke–Schoeneberg, classical spelling**: slashing the theta series of an even lattice of even
+rank `2k` by an element of `Γ₀(N)`, `N` the level, multiplies it by the nebentypus at the
+lower-right entry. Layer 4 is the case `N = 1`. -/
+theorem thetaSeries_slash_of_mem_Gamma0 (k : ℕ) (hn : Module.finrank ℝ E = 2 * k)
+    (he : IsEven L) {A : SL(2, ℤ)} (hA : A ∈ Gamma0 (level L)) :
+    thetaSeries L ∣[(k : ℤ)] A = discChar L k (A 1 1 : ZMod (level L)) • thetaSeries L := sorry
+
+/-- The coset theta series are modular forms on the principal congruence subgroup `Γ(N)` — the
+componentwise face of vector-valued modularity, and the part the alternative (Schoeneberg,
+presentation-free) route of `README.md` does *not* deliver. -/
+theorem exists_modularForm_coe_eq_thetaCoset (k : ℕ) (hn : Module.finrank ℝ E = 2 * k)
+    (he : IsEven L) {γ : E} (hγ : γ ∈ L^∨) :
+    ∃ F : ModularForm ((Gamma (level L)).map (Matrix.SpecialLinearGroup.mapGL ℝ)) (k : ℤ),
+      ⇑F = thetaCoset L γ := sorry
+
+/-- The theta series of an even lattice of even rank, bundled as a modular form on `Γ₁(N)`,
+`N` the level. Boundedness at *every* cusp comes from the vector-valued transformation law:
+each slash of `Θ_L` is a combination of coset theta series, whose `q_N`-expansions are supported
+in nonnegative exponents. -/
+def thetaFormOfLevel (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (he : IsEven L) :
+    ModularForm ((Gamma1 (level L)).map (Matrix.SpecialLinearGroup.mapGL ℝ)) (k : ℤ) := sorry
+
+@[simp] theorem coe_thetaFormOfLevel (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (he : IsEven L) :
+    ⇑(thetaFormOfLevel L k hn he) = thetaSeries L := sorry
+
+/-- **Hecke–Schoeneberg, character-space spelling**: `Θ_L` lies in the `χ_L`-eigenspace of the
+diamond operators, Tau Ceti's `modFormCharSpace`, with the character in its unit-homomorphism face
+via `MulChar.equivToUnitHom` (the roadmap keeps both faces, as the modular-forms roadmap does).
+The `NeZero` instance is supplied by `level_pos he`; the equivalence with the classical spelling
+above goes through the landed `mem_modFormCharSpace_iff_nebentypus`. -/
+theorem thetaFormOfLevel_mem_modFormCharSpace (k : ℕ) (hn : Module.finrank ℝ E = 2 * k)
+    (he : IsEven L) [NeZero (level L)] :
+    thetaFormOfLevel L k hn he ∈
+      modFormCharSpace (k : ℤ) (MulChar.equivToUnitHom (discChar L k)) := sorry
+
+end GeneralLevel
 
 /-! ## Layer 6: the classical identifications
 
