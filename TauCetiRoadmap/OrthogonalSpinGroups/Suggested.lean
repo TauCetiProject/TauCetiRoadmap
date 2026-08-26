@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.AdelicAlgebraicGroups.Suggested
+import TauCetiRoadmap.RestrictedProducts.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.QuadraticFormInvariants.Suggested
 
@@ -14,7 +14,7 @@ the roadmap.
 This roadmap owns the algebraic orthogonal, special-orthogonal, Pin and Spin interfaces over a
 general field, their determinant and spinor-norm exact sequences, the orthogonal transvections,
 and their local and finite-adelic spinor-norm specializations. Generic restricted-product maps,
-adelic-point carriers, and rational diagonals are imported from `AdelicAlgebraicGroups`; local
+adelic-point carriers, and rational diagonals are imported from `RestrictedProducts`; local
 quadratic invariants and local-field power classes come from their final supplier namespaces. No
 supplier carrier is restated below.
 
@@ -36,14 +36,28 @@ square-class codomain does **not** absorb, since `[-1]` is generally nontrivial.
 The orthogonal local topologies are declared as **instances**, fixed to Mathlib's
 `moduleTopology`, and never carried as data or as typeclass parameters a caller may choose. The
 specialized compact-open compatibility record below feeds those instances to the imported generic
-adelic constructors.
+restricted-product constructors.
+
+⚠ Two things are stated against **Mathlib's carriers as Mathlib defines them**, and neither may be
+quoted from the classical theory. `lipschitzGroup Q` is a `Subgroup.closure` of the invertible
+vectors, not the "twisted conjugation preserves `V`" Clifford group, which Mathlib does not know to
+be the same object; so `vectorUnit_mem_lipschitzGroup`,
+`product_vectorUnits_mem_lipschitzGroup`, `mem_lipschitzGroup_iff_exists_list`,
+`scalarUnits_mem_lipschitzGroup`, `vectorRepresentation_surjective` and
+`ker_vectorRepresentation_eq_scalarUnits` are theorems about that closure, with their hypotheses in
+the type. And `pinGroup`/`spinGroup` are cut out by the `star`-unitary condition while every norm
+here is the `reverse` norm; `star_mul_self_eq_reverse_mul_self_of_mem_even`,
+`mem_spinGroup_iff_cliffordNorm_eq_one` and `exists_scalarUnits_mul_mem_spinGroup_iff` are the
+three comparisons that make `range_spinToSpecialOrthogonal` a theorem about Mathlib's
+`spinGroup`.
 
 Strong approximation, reduction theory, Tamagawa measures, and central-isogeny volume formulas are
-not exported by the reviewed `AdelicAlgebraicGroups` core. They are consequently outside this
-file: the README records them only as applications of the named successor roadmap
-`OrthogonalTamagawaAndLatticeMass`, gated by the named public declarations of #246's own
-successors `AlgebraicGroupStrongApproximation`, `ArithmeticReductionTheory` and `TamagawaMeasures`. In particular this file does not replace any missing generic contract by a
-`Prop`-valued stand-in.
+outside this file; they belong to `OrthogonalTamagawaAndLatticeMass`, over the generic suppliers
+`AlgebraicGroupStrongApproximation`, `ArithmeticReductionTheory` and `TamagawaMeasures`. The
+reduced norm of a central simple algebra and the group `SU(A, σ)` are likewise outside, and belong
+to `AlgebrasWithInvolution`; what is stated here at dimension six is the strictness of
+`spinGroup ≤ evenUnitaryGroup`, not the identification. In particular this file replaces no missing
+contract by a `Prop`-valued stand-in.
 -/
 
 namespace TauCetiRoadmap.OrthogonalSpinGroups
@@ -57,16 +71,22 @@ universe u v w
 These are deliberately closed references to the imported final namespaces. Supplier renames or a
 reintroduced local replacement therefore fail visibly at this consumer. -/
 
-#check AdelicAlgebraicGroups.integralSubgroup
-#check AdelicAlgebraicGroups.restrictedProductMap
-#check AdelicAlgebraicGroups.restrictedProductCongr
-#check AdelicAlgebraicGroups.rationalDiagonal
-#check AdelicAlgebraicGroups.FiniteAdelicPoints
-#check AdelicAlgebraicGroups.AdelicPoints
+#check RestrictedProducts.integralSubgroup
+#check RestrictedProducts.restrictedProductMap
+#check RestrictedProducts.restrictedProductMapOfForall
+#check RestrictedProducts.restrictedProductMapOfForall_apply
+#check RestrictedProducts.restrictedProductCongr
+#check RestrictedProducts.rationalDiagonal
+#check RestrictedProducts.restrictAway
+#check RestrictedProducts.RestrictedProductGroup
+#check RestrictedProducts.RestrictedProductGroupAway
+#check RestrictedProducts.RestrictedProductGroupWithFactor
 #check QuadraticFormInvariants.hilbertSymbol
 #check QuadraticFormInvariants.localHasse
 #check QuadraticFormInvariants.hasseInvariant_eq_localHasse
 #check LocalFieldsRamification.unitFiltration_le_range_powMonoidHom_two
+#check LocalFieldsRamification.square_eq_range_powMonoidHom
+#check LocalFieldsRamification.isOpen_range_powMonoidHom
 
 /-! ## Layer 0: the orthogonal group, its determinant, and reflections -/
 
@@ -194,15 +214,75 @@ section Layer1
 variable {K : Type u} [Field K] [Invertible (2 : K)]
 variable {V : Type v} [AddCommGroup V] [Module K V]
 
+/-! ### Layer 1A/1B: Mathlib's carrier, and what is actually known to lie in it
+
+⚠ Mathlib defines `lipschitzGroup Q` as `Subgroup.closure ((↑) ⁻¹' Set.range (ι Q))`, the subgroup
+generated by the **invertible vectors**, and its own module docstring records that agreement with
+the usual "twisted conjugation preserves `V`" Clifford group is available in one direction only,
+the converse being an open TODO. So nothing may be quoted here from the classical theory of the
+latter group. Each membership, surjectivity and kernel statement below is against Mathlib's
+closure carrier, with the finite-dimensionality, nondegeneracy and positive-dimensionality
+hypotheses its proof uses visible in the type. -/
+
+/-- An anisotropic vector as a unit of the Clifford algebra, through Mathlib's
+`invertibleιOfInvertible`. These units are exactly the generators of Mathlib's closure. -/
+noncomputable def vectorUnit (Q : QuadraticForm K V) {v : V} (hv : Q v ≠ 0) :
+    (CliffordAlgebra Q)ˣ :=
+  letI : Invertible (Q v) := invertibleOfNonzero hv
+  letI := CliffordAlgebra.invertibleιOfInvertible Q v
+  unitOfInvertible (CliffordAlgebra.ι Q v)
+
+@[simp]
+theorem vectorUnit_val (Q : QuadraticForm K V) {v : V} (hv : Q v ≠ 0) :
+    ((vectorUnit Q hv : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) = CliffordAlgebra.ι Q v :=
+  rfl
+
+/-- **Layer 1B**: an anisotropic vector lies in Mathlib's carrier. This is the one place
+`Subgroup.subset_closure` is used, and everything else about the carrier goes through
+`mem_lipschitzGroup_iff_exists_list`. -/
+theorem vectorUnit_mem_lipschitzGroup (Q : QuadraticForm K V) {v : V} (hv : Q v ≠ 0) :
+    vectorUnit Q hv ∈ lipschitzGroup Q :=
+  Subgroup.subset_closure ⟨v, rfl⟩
+
+/-- The generating set is already closed under inversion, `(ι v)⁻¹ = ι ((Q v)⁻¹ • v)`. This is why
+the closure in Mathlib's definition is the *submonoid* generated by the vector units, and hence
+why `mem_lipschitzGroup_iff_exists_list` may be stated with no inverses. -/
+theorem vectorUnit_inv (Q : QuadraticForm K V) {v : V} (hv : Q v ≠ 0)
+    (hv' : Q ((Q v)⁻¹ • v) ≠ 0) :
+    (vectorUnit Q hv)⁻¹ = vectorUnit Q hv' := by
+  sorry
+
+/-- **Layer 1B**: a product of anisotropic vectors lies in Mathlib's carrier. -/
+theorem product_vectorUnits_mem_lipschitzGroup (Q : QuadraticForm K V)
+    (l : List {v : V // Q v ≠ 0}) :
+    (l.map fun v => vectorUnit Q v.2).prod ∈ lipschitzGroup Q := by
+  sorry
+
+/-- **⚠ Layer 1B, the characterization of Mathlib's carrier.** `lipschitzGroup Q` is exactly the
+set of products of anisotropic vectors, with no inverses needed. Every theorem this roadmap proves
+about the carrier factors through this one; none is inherited from the "twisted conjugation
+preserves `V`" group, which Mathlib does not know to be the same object. -/
+theorem mem_lipschitzGroup_iff_exists_list (Q : QuadraticForm K V) (x : (CliffordAlgebra Q)ˣ) :
+    x ∈ lipschitzGroup Q ↔
+      ∃ l : List {v : V // Q v ≠ 0}, x = (l.map fun v => vectorUnit Q v.2).prod := by
+  sorry
+
 /-- **The Clifford norm**, Layer 1A: the **`reverse`** norm `N g = reverse g * g`. The milestone
 hidden in the signature is that the value is a scalar. -/
 noncomputable def cliffordNorm (Q : QuadraticForm K V) : lipschitzGroup Q →* Kˣ :=
   sorry
 
+/-- **Layer 1A**: the defining equation of `cliffordNorm`, without which the signature above is
+satisfied by the trivial homomorphism. -/
+theorem cliffordNorm_spec (Q : QuadraticForm K V) (g : lipschitzGroup Q) :
+    algebraMap K (CliffordAlgebra Q) (cliffordNorm Q g) =
+      CliffordAlgebra.reverse ((g : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) *
+        ((g : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) := by
+  sorry
+
 /-- **Layer 1A**: an equality, with no sign ambiguity, from `reverse_ι` and `ι_sq_scalar`. -/
-theorem cliffordNorm_ι (Q : QuadraticForm K V) {v : V} (hv : Q v ≠ 0) (g : lipschitzGroup Q)
-    (hg : ((g : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) = CliffordAlgebra.ι Q v) :
-    ((cliffordNorm Q g : Kˣ) : K) = Q v := by
+theorem cliffordNorm_vectorUnit (Q : QuadraticForm K V) {v : V} (hv : Q v ≠ 0) :
+    ((cliffordNorm Q ⟨vectorUnit Q hv, vectorUnit_mem_lipschitzGroup Q hv⟩ : Kˣ) : K) = Q v := by
   sorry
 
 /-- **Layer 1A**: the other anti-involution, kept separate. Mathlib's `star` is
@@ -214,16 +294,77 @@ theorem starNorm_ι (Q : QuadraticForm K V) (v : V) :
       = algebraMap K (CliffordAlgebra Q) (-Q v) := by
   sorry
 
-/-- The scalar units inside the Lipschitz group, Layer 1B. Positive dimension excludes the
-zero-dimensional collapse of the target; nondegeneracy is the hypothesis used to identify the
-graded centre with the base-field scalars. -/
-noncomputable def scalarUnits [FiniteDimensional K V] (Q : QuadraticForm K V)
-    (_hQ : Q.Nondegenerate) (_hV : 0 < Module.finrank K V) : Kˣ →* lipschitzGroup Q :=
+/-! ### ⚠ Layer 1A: reconciling the `reverse` norm with Mathlib's `star`-unitary Pin and Spin
+
+Mathlib cuts `pinGroup Q` and `spinGroup Q` out of the algebra with the **`star`**-unitary
+condition, `star x * x = 1` for `star = reverse ∘ involute`, while every norm in this roadmap is
+the **`reverse`** norm. The two agree on even elements and differ by `(-1)^r` on a product of `r`
+vectors, and the square-class codomain does not absorb that: `[Q v]` and `[-Q v]` differ by `[-1]`,
+nontrivial over ℚ and over `ℚ_p`. The three declarations below are what license the use of
+Mathlib's `spinGroup` in the sequence of 1E; they are explicit statements, not steps inside a
+proof. -/
+
+/-- **Layer 1A, comparison (i)**: on even elements the two anti-involutions agree, so the star
+norm *is* the `reverse` norm there. This is `involute_eq_of_mem_even` together with `star_def`. -/
+theorem star_mul_self_eq_reverse_mul_self_of_mem_even (Q : QuadraticForm K V)
+    {x : CliffordAlgebra Q} (hx : x ∈ CliffordAlgebra.even Q) :
+    star x * x = CliffordAlgebra.reverse x * x := by
   sorry
+
+/-- **⚠ Layer 1A, comparison (i), sharpened**: on a product of `r` vectors the two norms differ by
+`(-1)^r`, so the agreement above is exactly an even-degree phenomenon and not a cosmetic one. -/
+theorem star_mul_self_eq_neg_one_pow_reverse_mul_self (Q : QuadraticForm K V)
+    (l : List {v : V // Q v ≠ 0}) (x : CliffordAlgebra Q)
+    (hx : x = ((l.map fun v => vectorUnit Q v.2).prod : (CliffordAlgebra Q)ˣ)) :
+    star x * x = (-1 : K) ^ l.length • (CliffordAlgebra.reverse x * x) := by
+  sorry
+
+/-- **⚠ Layer 1A, comparison (ii)**: Mathlib's `spinGroup Q` is exactly the even elements of
+Mathlib's Lipschitz carrier whose **`reverse`** norm is one. This is the theorem that lets the
+exact sequence of 1E, whose norms are all `reverse` norms, be stated about `spinGroup`. -/
+theorem mem_spinGroup_iff_cliffordNorm_eq_one (Q : QuadraticForm K V) (g : lipschitzGroup Q) :
+    ((g : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) ∈ spinGroup Q ↔
+      ((g : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) ∈ CliffordAlgebra.even Q ∧
+        cliffordNorm Q g = 1 := by
+  sorry
+
+/-- The scalar units of the Clifford algebra, before the Lipschitz membership theorem. -/
+noncomputable def scalarUnit (Q : QuadraticForm K V) : Kˣ →* (CliffordAlgebra Q)ˣ :=
+  Units.map (algebraMap K (CliffordAlgebra Q)).toMonoidHom
+
+/-- **⚠ Layer 1B**: the scalar units lie in Mathlib's closure carrier, and the proof is why the
+hypotheses are there. A nondegenerate form on a space of positive dimension over a field of
+characteristic not two has an anisotropic `v`, and then `λ = ι (λ • v) · (ι v)⁻¹`, a product of two
+generators. Drop either hypothesis and there need be no anisotropic vector at all, which is what
+`scalarUnits_injective_finZero_rejected` records at dimension zero. -/
+theorem scalarUnits_mem_lipschitzGroup [FiniteDimensional K V] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V) (lam : Kˣ) :
+    scalarUnit Q lam ∈ lipschitzGroup Q := by
+  sorry
+
+/-- The scalar units inside the Lipschitz group, Layer 1B. ⚠ Real data, not a `sorry`-bodied
+definition: the carrier has to be visible, or `ker_vectorRepresentation_eq_scalarUnits` would be
+an equation between two opaque subgroups. -/
+noncomputable def scalarUnits [FiniteDimensional K V] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V) : Kˣ →* lipschitzGroup Q :=
+  (scalarUnit Q).codRestrict (lipschitzGroup Q) (scalarUnits_mem_lipschitzGroup Q hQ hV)
+
+@[simp]
+theorem scalarUnits_apply [FiniteDimensional K V] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V) (lam : Kˣ) :
+    ((scalarUnits Q hQ hV lam : lipschitzGroup Q) : (CliffordAlgebra Q)ˣ) = scalarUnit Q lam :=
+  rfl
 
 theorem scalarUnits_injective [FiniteDimensional K V] (Q : QuadraticForm K V)
     (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V) :
     Function.Injective (scalarUnits Q hQ hV) := by
+  sorry
+
+/-- **Layer 1A**: the scalar rescaling law `N (λ · g) = λ² · N g`, which is what makes the spinor
+norm well defined and what the Spin-lift criterion below runs on. -/
+theorem cliffordNorm_scalarUnits_mul [FiniteDimensional K V] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V) (lam : Kˣ) (g : lipschitzGroup Q) :
+    cliffordNorm Q (scalarUnits Q hQ hV lam * g) = lam ^ 2 * cliffordNorm Q g := by
   sorry
 
 /-- **Layer 1C**: the vector representation, by twisted conjugation. -/
@@ -231,18 +372,26 @@ noncomputable def vectorRepresentation (Q : QuadraticForm K V) :
     lipschitzGroup Q →* orthogonalGroup Q :=
   sorry
 
-/-- **Layer 1C**: surjectivity, which is Cartan–Dieudonné together with the fact that an
-anisotropic vector acts as the reflection in it. -/
+/-- **Layer 1C**: an anisotropic vector acts as the reflection in it, with **no sign**. This is the
+twisted-conjugation convention paying for itself, and it is what makes `vectorRepresentation`
+surjective by Cartan–Dieudonné. -/
+theorem vectorRepresentation_vectorUnit (Q : QuadraticForm K V) {v : V} (hv : Q v ≠ 0) :
+    (vectorRepresentation Q ⟨vectorUnit Q hv, vectorUnit_mem_lipschitzGroup Q hv⟩ :
+        V ≃ₗ[K] V) = reflection Q hv := by
+  sorry
+
+/-- **Layer 1C**: surjectivity onto Mathlib's carrier's image, which is Cartan–Dieudonné together
+with `vectorRepresentation_vectorUnit` and `mem_lipschitzGroup_iff_exists_list`. -/
 theorem vectorRepresentation_surjective [FiniteDimensional K V] (Q : QuadraticForm K V)
     (hQ : Q.Nondegenerate) : Function.Surjective (vectorRepresentation Q) := by
   sorry
 
-/-- **⚠ Layer 1B, the linchpin**, stated as an equality of subgroups. The classical proof computes
-the centre of `CliffordAlgebra Q` over a **general** field, which is `K` in even dimension and
-`K ⊕ K·ω` in odd dimension, while the graded centre is `K` in both parities. The spin
-representations roadmap's structure theorem is over an algebraically closed field and does not
-supply this. -/
-theorem ker_vectorRepresentation [FiniteDimensional K V] (Q : QuadraticForm K V)
+/-- **⚠ Layer 1B, the linchpin**, stated as an equality of subgroups against Mathlib's carrier. The
+classical proof computes the centre of `CliffordAlgebra Q` over a **general** field, which is `K`
+in even dimension and `K ⊕ K·ω` in odd dimension, while the graded centre is `K` in both parities.
+The spin representations roadmap's structure theorem is over an algebraically closed field and does
+not supply this. -/
+theorem ker_vectorRepresentation_eq_scalarUnits [FiniteDimensional K V] (Q : QuadraticForm K V)
     (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V) :
     (vectorRepresentation Q).ker = (scalarUnits Q hQ hV).range := by
   sorry
@@ -272,10 +421,41 @@ theorem spinorNorm_reflection [FiniteDimensional K V] (Q : QuadraticForm K V)
       QuotientGroup.mk' (Subgroup.square Kˣ) u := by
   sorry
 
+/-- **⚠ Layer 1D/1E, the bridge**: the spinor norm of the isometry induced by a Lipschitz element
+is the square class of that element's Clifford norm. This is what the well-definedness argument of
+1D produces, and it is the theorem `range_spinToSpecialOrthogonal` runs on. -/
+theorem spinorNorm_vectorRepresentation [FiniteDimensional K V] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (g : lipschitzGroup Q) :
+    spinorNorm Q hQ (vectorRepresentation Q g) =
+      QuotientGroup.mk' (Subgroup.square Kˣ) (cliffordNorm Q g) := by
+  sorry
+
 /-- The canonical general-field `Spin → SO`. ⚠ No theorem below quantifies over a replacement for
 it: at the trivial homomorphism the range theorem would be false. -/
 noncomputable def spinToSpecialOrthogonal (Q : QuadraticForm K V) :
     spinGroup Q →* specialOrthogonalGroup Q :=
+  sorry
+
+/-- **Layer 1E**: and it is the vector representation read on `spinGroup`, which is what ties the
+comparison theorems above to the sequence below. -/
+theorem spinToSpecialOrthogonal_eq_vectorRepresentation (Q : QuadraticForm K V)
+    (x : spinGroup Q) (g : lipschitzGroup Q)
+    (hg : (g : (CliffordAlgebra Q)ˣ) = spinGroup.toUnits x) :
+    ((spinToSpecialOrthogonal Q x : specialOrthogonalGroup Q) : V ≃ₗ[K] V) =
+      ((vectorRepresentation Q g : orthogonalGroup Q) : V ≃ₗ[K] V) := by
+  sorry
+
+/-- **⚠ Layer 1E, comparison (iii)**: an even Lipschitz element can be rescaled by a scalar into
+Mathlib's `spinGroup` exactly when its Clifford norm is a square, that is exactly when the spinor
+norm of the isometry it induces is trivial. Together with `mem_spinGroup_iff_cliffordNorm_eq_one`
+and `spinorNorm_vectorRepresentation` this is the whole of `im (Spin) = ker θ`; it is stated rather
+than left inside the proof of `range_spinToSpecialOrthogonal`. -/
+theorem exists_scalarUnits_mul_mem_spinGroup_iff [FiniteDimensional K V] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V) (g : lipschitzGroup Q)
+    (hg : ((g : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) ∈ CliffordAlgebra.even Q) :
+    (∃ lam : Kˣ, (((scalarUnits Q hQ hV lam * g : lipschitzGroup Q) :
+          (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) ∈ spinGroup Q) ↔
+      spinorNorm Q hQ (vectorRepresentation Q g) = 1 := by
   sorry
 
 /-- The central `μ₂` inside `Spin`. -/
@@ -296,6 +476,92 @@ theorem range_spinToSpecialOrthogonal [FiniteDimensional K V] (Q : QuadraticForm
     (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V) :
     (spinToSpecialOrthogonal Q).range =
       ((spinorNorm Q hQ).comp (specialOrthogonalToOrthogonal Q)).ker := by
+  sorry
+
+/-! ### Layer 1F: the low-rank identifications, against a named carrier
+
+⚠ `Spin(Q) ≅ Sp(C₀, σ)` names nothing until `Sp(C₀, σ)` is a declaration. The carrier is supplied
+here, as the unitary group of the even Clifford algebra for the canonical involution `σ = reverse`:
+that is `U(C₀, σ)`, and in dimension five, where `σ` is symplectic on a central simple algebra of
+degree four, it *is* `Sp(C₀, σ)`. Dimension six is the one case this roadmap does not own; see
+`exists_spinGroup_ne_evenUnitaryGroup_finrank_six`. -/
+
+/-- **Layer 1F, the carrier**: `U(C₀, σ)`, the group of units of the Clifford algebra that are
+even and satisfy `σ(x) x = 1` for the canonical involution `σ = reverse`. On even elements
+`star = reverse` (`star_mul_self_eq_reverse_mul_self_of_mem_even`), so this is Mathlib's `unitary`
+condition read inside `C₀`, and it is a subgroup of the units of the ambient algebra rather than a
+submonoid of it, which is the type `lipschitzGroup` already uses. -/
+def evenUnitaryGroup (Q : QuadraticForm K V) : Subgroup (CliffordAlgebra Q)ˣ where
+  carrier := {x | ((x : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) ∈ CliffordAlgebra.even Q ∧
+    CliffordAlgebra.reverse ((x : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) *
+      ((x : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) = 1}
+  mul_mem' := by sorry
+  one_mem' := by sorry
+  inv_mem' := by sorry
+
+theorem mem_evenUnitaryGroup_iff (Q : QuadraticForm K V) (x : (CliffordAlgebra Q)ˣ) :
+    x ∈ evenUnitaryGroup Q ↔
+      ((x : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) ∈ CliffordAlgebra.even Q ∧
+        CliffordAlgebra.reverse ((x : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) *
+          ((x : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) = 1 :=
+  Iff.rfl
+
+/-- **Layer 1F**: Mathlib's `spinGroup` is its Lipschitz carrier intersected with `U(C₀, σ)`. This
+is `spinGroup`'s definition read through `star_mul_self_eq_reverse_mul_self_of_mem_even`, and it is
+the statement every low-rank identification is a difference from. -/
+theorem range_spinGroup_toUnits (Q : QuadraticForm K V) :
+    (spinGroup.toUnits (Q := Q)).range = lipschitzGroup Q ⊓ evenUnitaryGroup Q := by
+  sorry
+
+/-- **Layer 1F**: functoriality of the carrier along an isometry of quadratic spaces, through
+`CliffordAlgebra.equivOfIsometry`, the only declaration turning an isometry of forms into an
+isomorphism of Clifford algebras. -/
+theorem map_evenUnitaryGroup_equivOfIsometry {V' : Type v} [AddCommGroup V'] [Module K V']
+    (Q : QuadraticForm K V) (Q' : QuadraticForm K V') (e : Q.IsometryEquiv Q') :
+    (evenUnitaryGroup Q).map
+        (Units.mapEquiv
+          (CliffordAlgebra.equivOfIsometry e).toRingEquiv.toMulEquiv).toMonoidHom =
+      evenUnitaryGroup Q' := by
+  sorry
+
+/-- **⚠ Layer 1F, dimensions at most five**: `U(C₀, σ)` is contained in Mathlib's Lipschitz
+carrier, so `Spin(Q)` is *equal* to `U(C₀, σ)` there. This one statement carries all four low-rank
+identifications over a general field, including the twisted forms:
+
+* dimension three, `C₀` a quaternion algebra with its conjugation, `U(C₀, σ)` its norm-one group;
+* dimension four, `C₀` a quaternion algebra over the discriminant quadratic étale algebra `E`, and
+  `U(C₀, σ)` the restriction of scalars from `E` to `K` of its norm-one group — one
+  `K`-almost-simple group when `E` is a field, two `K`-rank-one factors when `E ≅ K × K`;
+* dimension five, `C₀` central simple of degree four with `σ` symplectic, so `U(C₀, σ)` is
+  `Sp(C₀, σ)`, which is `Sp₄` exactly when `C₀` splits. -/
+theorem evenUnitaryGroup_le_lipschitzGroup [FiniteDimensional K V] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (hV0 : 0 < Module.finrank K V) (hV : Module.finrank K V ≤ 5) :
+    evenUnitaryGroup Q ≤ lipschitzGroup Q := by
+  sorry
+
+/-- **⚠ Layer 1F, the rejection test at dimension zero.** The positive-dimension hypothesis above is
+not decoration. In dimension zero there is no anisotropic vector, so Mathlib's closure carrier is
+trivial (`lipschitzGroup_finZero_subsingleton`), while `evenUnitaryGroup Q` is `μ₂(K)`, which is not
+trivial whenever `-1 ≠ 1`. So `Spin(Q) = U(C₀, σ)` fails there, in the direction one would not
+guess: the unitary group is too big, not too small. -/
+theorem exists_not_evenUnitaryGroup_le_lipschitzGroup_finZero :
+    ∃ Q : QuadraticForm ℚ (Fin 0 → ℚ), ¬ evenUnitaryGroup Q ≤ lipschitzGroup Q := by
+  sorry
+
+/-- **⚠ Layer 1F, the rejection test at dimension six.** The previous theorem is sharp: at
+dimension six `σ = reverse` acts on the centre `E` of `C₀` by `ω ↦ -ω`, so it is an involution of
+the *second* kind, `U(C₀, σ)` is a unitary group of degree four, and `Spin(Q)` is its
+reduced-norm-one subgroup `SU(C₀, σ)` — strictly smaller. A witness is a split rational form of
+dimension six, where `U(C₀, σ) ≅ GL₄(ℚ)` and `Spin(Q) ≅ SL₄(ℚ)`.
+
+⚠ The reduced norm of a degree-four central simple algebra exists in neither Mathlib nor any Tau
+Ceti roadmap, so `SU(C₀, σ)` has no carrier, and the dimension-six identification is **not** a
+milestone here: it belongs to `AlgebrasWithInvolution`, together with the reduced norm, the
+symplectic/unitary classification of involutions, and the groups `Sp(A, σ)` and `SU(A, σ)` of a
+central simple algebra with involution. -/
+theorem exists_spinGroup_ne_evenUnitaryGroup_finrank_six :
+    ∃ Q : QuadraticForm ℚ (Fin 6 → ℚ), Q.Nondegenerate ∧
+      (spinGroup.toUnits (Q := Q)).range ≠ evenUnitaryGroup Q := by
   sorry
 
 end Layer1
@@ -389,6 +655,159 @@ theorem isOpen_ker_spinorNorm [T2Space K] [FiniteDimensional K V] (Q : Quadratic
 
 end Layer2
 
+/-! ## Layers 2F and 2G: the local spinor-norm image, by field, dimension and signature
+
+⚠ The table splits three ways and the split is mathematical, not presentational.
+
+* Over a nonarchimedean local field the image on `SO` is everything from dimension three on, and
+  in dimension two it is the image of the norm group of the discriminant algebra, of index two.
+* Over ℝ an **indefinite** form gives everything and a **definite** one gives the **trivial**
+  subgroup, because every value of a positive definite form is a positive real and hence a square,
+  and every value of a negative definite form lies in the single class `[-1]`, so on `SO`, where
+  reflections come in pairs, the classes cancel.
+* On `O` the two definite cases differ from each other: positive definite gives the trivial image
+  and negative definite gives all of `ℝˣ/(ℝˣ)²`.
+
+A single "dimension at least three implies surjective" statement would therefore be **false** at
+the real place, and a statement that a definite real form has image all square classes is false
+twice over. -/
+
+section LocalSpinorNormTable
+
+variable {K : Type u} [Field K] [Invertible (2 : K)]
+variable {W : Type v} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
+
+/-- **Layer 2F, dimension zero**, over any field: both groups are trivial and the image is
+trivial. Stated because no later statement may silently assume positive dimension. -/
+theorem spinorNorm_range_orthogonal_finrank_zero (Q : QuadraticForm K W) (hQ : Q.Nondegenerate)
+    (hW : Module.finrank K W = 0) : (spinorNorm Q hQ).range = ⊥ := by
+  sorry
+
+/-- **Layer 2F, dimension one**, over any field: `O(Q) = {±1}` and the image is generated by the
+class of the single value `Q v`. ⚠ The scalar has to be carried: at `Q x = x²` the class is trivial
+and the instance tests nothing, while at `Q x = a x²` with `a` a nonsquare it is not. -/
+theorem spinorNorm_range_orthogonal_finrank_one (Q : QuadraticForm K W) (hQ : Q.Nondegenerate)
+    (hW : Module.finrank K W = 1) {v : W} (hv : v ≠ 0) (a : Kˣ) (ha : (a : K) = Q v) :
+    (spinorNorm Q hQ).range =
+      Subgroup.closure {QuotientGroup.mk' (Subgroup.square Kˣ) a} := by
+  sorry
+
+/-- **⚠ Layer 2F, the `O` column from the `SO` column**, over any field. In positive dimension
+`O(Q)` is `SO(Q)` together with any one reflection, so the image of `θ` on `O` is its image on `SO`
+joined with the class of `Q v`. Every `θ(O)` entry of the local table is this lemma applied to the
+corresponding `θ(SO)` entry, which is why the two columns can differ only by a factor of two — and
+why a positive definite and a negative definite real form, which agree on `SO`, disagree on `O`. -/
+theorem spinorNorm_range_orthogonal_eq_sup (Q : QuadraticForm K W) (hQ : Q.Nondegenerate)
+    {v : W} (hv : Q v ≠ 0) (a : Kˣ) (ha : (a : K) = Q v) :
+    (spinorNorm Q hQ).range =
+      ((spinorNorm Q hQ).comp (specialOrthogonalToOrthogonal Q)).range ⊔
+        Subgroup.closure {QuotientGroup.mk' (Subgroup.square Kˣ) a} := by
+  sorry
+
+/-- **Layer 2F, dimension one**, on `SO`: trivial, since `SO(Q)` itself is. -/
+theorem spinorNorm_range_specialOrthogonal_finrank_one (Q : QuadraticForm K W)
+    (hQ : Q.Nondegenerate) (hW : Module.finrank K W = 1) :
+    ((spinorNorm Q hQ).comp (specialOrthogonalToOrthogonal Q)).range = ⊥ := by
+  sorry
+
+end LocalSpinorNormTable
+
+section NonarchimedeanSpinorNorm
+
+variable {p : ℕ} [Fact p.Prime]
+variable {W : Type v} [AddCommGroup W] [Module ℚ_[p] W] [FiniteDimensional ℚ_[p] W]
+
+/-- **Layer 2F, nonarchimedean, dimension at least three**: the spinor norm is onto the square
+classes on `SO`. This is O'Meara 55:6, and it is the statement a spinor-genus computation quotes.
+⚠ It holds at `p = 2` as well as at odd `p`; the dyadic square-class count is larger but the
+surjectivity is not affected. -/
+theorem spinorNorm_range_specialOrthogonal_padic (Q : QuadraticForm ℚ_[p] W)
+    (hQ : Q.Nondegenerate) (hW : 3 ≤ Module.finrank ℚ_[p] W) :
+    ((spinorNorm Q hQ).comp (specialOrthogonalToOrthogonal Q)).range = ⊤ := by
+  sorry
+
+/-- **Layer 2F, nonarchimedean, dimension two, isotropic**: the hyperbolic plane, where `SO(Q)` is
+the diagonal torus and `θ` is the square class of its parameter, so the image is everything. -/
+theorem spinorNorm_range_specialOrthogonal_padic_finrank_two_isotropic
+    (Q : QuadraticForm ℚ_[p] W) (hQ : Q.Nondegenerate) (hW : Module.finrank ℚ_[p] W = 2)
+    (hiso : ∃ v : W, v ≠ 0 ∧ Q v = 0) :
+    ((spinorNorm Q hQ).comp (specialOrthogonalToOrthogonal Q)).range = ⊤ := by
+  sorry
+
+/-- **⚠ Layer 2F, nonarchimedean, dimension two, anisotropic**: the image is the image of the norm
+group of the discriminant quadratic field extension, which has index exactly two in the square
+classes. So `θ` is **not** onto in dimension two, and the dimension hypothesis of
+`spinorNorm_range_specialOrthogonal_padic` is load-bearing rather than decoration. -/
+theorem index_spinorNorm_range_specialOrthogonal_padic_finrank_two_anisotropic
+    (Q : QuadraticForm ℚ_[p] W) (hQ : Q.Nondegenerate) (hW : Module.finrank ℚ_[p] W = 2)
+    (haniso : Q.Anisotropic) :
+    (((spinorNorm Q hQ).comp (specialOrthogonalToOrthogonal Q)).range).index = 2 := by
+  sorry
+
+/-- **⚠ Layer 2F**: and the corresponding image on `O` is **not** all square classes either. It is
+the previous subgroup joined with the class of any value of `Q`, by
+`spinorNorm_range_orthogonal_eq_sup`, and for `Q = N_{E/ℚ_p}` that value is `1`, so the two images
+coincide and both have index two. A table row reading "all square classes" for `O` in dimension two
+would be false. -/
+theorem index_spinorNorm_range_orthogonal_padic_finrank_two_anisotropic_norm
+    (Q : QuadraticForm ℚ_[p] W) (hQ : Q.Nondegenerate) (hW : Module.finrank ℚ_[p] W = 2)
+    (haniso : Q.Anisotropic) (hrep : ∃ v : W, Q v = 1) :
+    ((spinorNorm Q hQ).range).index = 2 := by
+  sorry
+
+/-- **Layer 2F**: the local spinor kernel, the image of `Spin(V_p) → SO(V_p)`, is the kernel of the
+restricted spinor norm in every dimension — this is `range_spinToSpecialOrthogonal` localized — and
+from dimension three on its index is the number of square classes, `4` for odd `p` and `8` at
+`p = 2` by the LocalFieldsRamification counts. -/
+theorem index_range_spinToSpecialOrthogonal_padic (Q : QuadraticForm ℚ_[p] W)
+    (hQ : Q.Nondegenerate) (hW : 3 ≤ Module.finrank ℚ_[p] W) :
+    (spinToSpecialOrthogonal Q).range.index
+      = Nat.card (ℚ_[p]ˣ ⧸ Subgroup.square ℚ_[p]ˣ) := by
+  sorry
+
+end NonarchimedeanSpinorNorm
+
+section RealSpinorNorm
+
+variable {W : Type v} [AddCommGroup W] [Module ℝ W] [FiniteDimensional ℝ W]
+
+/-- **Layer 2G, real, indefinite**: the image on `SO` is all of `ℝˣ/(ℝˣ)²`, from the product of a
+reflection in a vector of positive norm and one in a vector of negative norm. -/
+theorem spinorNorm_range_specialOrthogonal_real_indefinite (Q : QuadraticForm ℝ W)
+    (hQ : Q.Nondegenerate) (hpos : ∃ v : W, 0 < Q v) (hneg : ∃ w : W, Q w < 0) :
+    ((spinorNorm Q hQ).comp (specialOrthogonalToOrthogonal Q)).range = ⊤ := by
+  sorry
+
+/-- **⚠ Layer 2G, real, definite**: the image on `SO` is **trivial**, in either sign. For a
+positive definite form every value is a positive real, hence a square; for a negative definite form
+every value lies in the class `[-1]`, and a proper isometry is a product of an even number of
+reflections, so the classes cancel. -/
+theorem spinorNorm_range_specialOrthogonal_real_posDef (Q : QuadraticForm ℝ W)
+    (hQ : Q.Nondegenerate) (hdef : Q.PosDef) :
+    ((spinorNorm Q hQ).comp (specialOrthogonalToOrthogonal Q)).range = ⊥ := by
+  sorry
+
+theorem spinorNorm_range_specialOrthogonal_real_negDef (Q : QuadraticForm ℝ W)
+    (hQ : Q.Nondegenerate) (hdef : (-Q).PosDef) :
+    ((spinorNorm Q hQ).comp (specialOrthogonalToOrthogonal Q)).range = ⊥ := by
+  sorry
+
+/-- **⚠ Layer 2G, real, positive definite, on `O`**: still **trivial**, not all square classes.
+Every reflection norm is positive and hence a square, so the whole orthogonal group has trivial
+spinor norm. This is the case a "the image is all square classes" statement gets wrong. -/
+theorem spinorNorm_range_orthogonal_real_posDef (Q : QuadraticForm ℝ W) (hQ : Q.Nondegenerate)
+    (hdef : Q.PosDef) : (spinorNorm Q hQ).range = ⊥ := by
+  sorry
+
+/-- **⚠ Layer 2G, real, negative definite, on `O`**: all of `ℝˣ/(ℝˣ)²`, generated by `[-1]`, so the
+two definite cases genuinely differ on `O` while agreeing on `SO`. The positive-dimension
+hypothesis is what supplies a reflection at all. -/
+theorem spinorNorm_range_orthogonal_real_negDef (Q : QuadraticForm ℝ W) (hQ : Q.Nondegenerate)
+    (hdef : (-Q).PosDef) (hW : 0 < Module.finrank ℝ W) : (spinorNorm Q hQ).range = ⊤ := by
+  sorry
+
+end RealSpinorNorm
+
 section Transvections
 
 variable {K : Type u} [Field K] [Invertible (2 : K)]
@@ -468,7 +887,7 @@ end Transvections
 
 /-! ## Layer 3: orthogonal adelic points
 
-The generic restricted-product API is imported from `AdelicAlgebraicGroups`. This roadmap keeps
+The generic restricted-product API is imported from `RestrictedProducts`. This roadmap keeps
 only the quadratic-form localization maps, orthogonal compatibility data, the three specialized
 adelic point groups, and the adelic spinor norm.
 -/
@@ -583,6 +1002,83 @@ noncomputable def spinBaseChangeReal (Q : QuadraticForm ℚ V) :
     spinGroup Q →* spinGroup (realForm Q) :=
   sorry
 
+/-! ### Layer 3E, the standard integral family, as data
+
+⚠ `OrthogonalCompactOpens` carries `eventually_mem_orth` as a hypothesis, which is right for a
+consumer that brings its own lattice stabilizers. But the roadmap's own objects must rest on
+something, so one family is built here and its hypothesis discharged: the isometries whose matrix
+and inverse matrix in a chosen basis have `p`-adically integral entries, which is the stabilizer of
+the `ℤ`-span of that basis, written as data rather than left `sorry`-bodied. -/
+
+/-- The base-changed basis at `p`, against which integrality of a local isometry is measured. -/
+noncomputable def localBasis {n : ℕ} (b : Module.Basis (Fin n) ℚ V) (p : Nat.Primes) :
+    Module.Basis (Fin n) ℚ_[(p : ℕ)] (ℚ_[(p : ℕ)] ⊗[ℚ] V) :=
+  Algebra.TensorProduct.basis _ b
+
+/-- **Layer 3E**: the stabilizer of the `ℤ`-span of `b` at `p`, cut out by integrality of the
+matrix entries of an isometry **and of its inverse**; one condition alone gives a submonoid and not
+a subgroup. -/
+def integralOrthogonalSubgroup {n : ℕ} (Q : QuadraticForm ℚ V) (b : Module.Basis (Fin n) ℚ V)
+    (p : Nat.Primes) : Subgroup (orthogonalGroup (localForm Q p)) where
+  carrier := {g | ∀ i j : Fin n,
+    ‖LinearMap.toMatrix (localBasis b p) (localBasis b p)
+      ((g : (ℚ_[(p : ℕ)] ⊗[ℚ] V) ≃ₗ[ℚ_[(p : ℕ)]] (ℚ_[(p : ℕ)] ⊗[ℚ] V)) :
+        (ℚ_[(p : ℕ)] ⊗[ℚ] V) →ₗ[ℚ_[(p : ℕ)]] (ℚ_[(p : ℕ)] ⊗[ℚ] V)) i j‖ ≤ 1 ∧
+    ‖LinearMap.toMatrix (localBasis b p) (localBasis b p)
+      (((g : (ℚ_[(p : ℕ)] ⊗[ℚ] V) ≃ₗ[ℚ_[(p : ℕ)]] (ℚ_[(p : ℕ)] ⊗[ℚ] V)).symm) :
+        (ℚ_[(p : ℕ)] ⊗[ℚ] V) →ₗ[ℚ_[(p : ℕ)]] (ℚ_[(p : ℕ)] ⊗[ℚ] V)) i j‖ ≤ 1}
+  mul_mem' := by sorry
+  one_mem' := by sorry
+  inv_mem' := by sorry
+
+theorem isOpen_integralOrthogonalSubgroup {n : ℕ} (Q : QuadraticForm ℚ V)
+    (b : Module.Basis (Fin n) ℚ V) (p : Nat.Primes) :
+    IsOpen (integralOrthogonalSubgroup Q b p :
+      Set (orthogonalGroup (localForm Q p))) := by
+  sorry
+
+theorem isCompact_integralOrthogonalSubgroup {n : ℕ} (Q : QuadraticForm ℚ V)
+    (b : Module.Basis (Fin n) ℚ V) (p : Nat.Primes) :
+    IsCompact (integralOrthogonalSubgroup Q b p :
+      Set (orthogonalGroup (localForm Q p))) := by
+  sorry
+
+/-- **⚠ Layer 3E, the absolute integrality theorem**: every rational isometry is integral at almost
+every prime, by clearing denominators in its matrix and in the matrix of its inverse. This is
+`OrthogonalCompactOpens.eventually_mem_orth` **discharged** rather than assumed, and it is what
+makes the diagonal of 3E exist for a family this roadmap builds itself. -/
+theorem eventually_mem_integralOrthogonalSubgroup {n : ℕ} (Q : QuadraticForm ℚ V)
+    (b : Module.Basis (Fin n) ℚ V) (g : orthogonalGroup Q) :
+    ∀ᶠ p in Filter.cofinite,
+      orthogonalBaseChange Q p g ∈ integralOrthogonalSubgroup Q b p := by
+  sorry
+
+/-! ### Layer 3C, the square-class codomain: discreteness, openness, and the unramified value -/
+
+/-- **Layer 2E/3C**: the local square-class group is **discrete**. This is
+`LocalFieldsRamification.isOpen_range_powMonoidHom` at `n = 2`, read on `Subgroup.square` through
+that roadmap's `square_eq_range_powMonoidHom`, and then `QuotientGroup.discreteTopology`. It is
+also what makes the local spinor norm's kernel open in 2E. -/
+theorem discreteTopology_localSquareClasses (p : Nat.Primes) :
+    DiscreteTopology (ℚ_[(p : ℕ)]ˣ ⧸ Subgroup.square ℚ_[(p : ℕ)]ˣ) := by
+  sorry
+
+/-- **Layer 3C**: the **unit square classes** at `p`, the image of `ℤ_pˣ` in `ℚ_pˣ/(ℚ_pˣ)²`. This
+is the subgroup the reference images equal at almost every prime for an integral family, and it is
+named so that the identification below is a statement about a declaration rather than about a
+description. -/
+noncomputable def unitSquareClasses (p : Nat.Primes) :
+    Subgroup (ℚ_[(p : ℕ)]ˣ ⧸ Subgroup.square ℚ_[(p : ℕ)]ˣ) :=
+  ((Units.map (PadicInt.Coe.ringHom (p := (p : ℕ))).toMonoidHom).range).map
+    (QuotientGroup.mk' (Subgroup.square ℚ_[(p : ℕ)]ˣ))
+
+/-- **Layer 3C**: at odd `p` the unit classes are a proper nontrivial subgroup, of index two in a
+group of order four. This is what makes the identification below say something. -/
+theorem unitSquareClasses_index (p : Nat.Primes) (hp : (p : ℕ) ≠ 2) :
+    (unitSquareClasses p).index = 2 := by
+  sorry
+
+
 /-- **⚠ Layer 3C**: the compatible compact-open data. A single family `U p ≤ O(V_p)` does not
 determine the reference subgroups for `SO`, for `Spin`, or for the square-class codomain, so the
 parameter is a tuple carrying its compatibility hypotheses.
@@ -664,9 +1160,49 @@ noncomputable def localSpinorNormImage (hQ : Q.Nondegenerate) (U : OrthogonalCom
     ((spinorNorm (localForm Q p) (nondegenerate_localForm hQ p)).comp
       (specialOrthogonalToOrthogonal (localForm Q p)))
 
+/-- **⚠ Layer 3C**: the reference subgroups of the codomain restricted product are **open**.
+Continuity of the local spinor norm does not give this: the image of a compact open subgroup under
+a continuous homomorphism is compact but need not be open, and no general theorem makes it so. It
+is proved instead from `discreteTopology_localSquareClasses`, in which *every* subgroup is open, so
+the openness input is the openness of `(ℚ_pˣ)²` and nothing about `U`. -/
+theorem isOpen_localSpinorNormImage (hQ : Q.Nondegenerate) (U : OrthogonalCompactOpens Q)
+    (p : Nat.Primes) :
+    IsOpen (U.localSpinorNormImage hQ p :
+      Set (ℚ_[(p : ℕ)]ˣ ⧸ Subgroup.square ℚ_[(p : ℕ)]ˣ)) := by
+  sorry
+
+/-- **⚠ Layer 3C, the reference images at almost every prime**, for the standard integral family of
+a basis and a form of dimension at least three: the reference image is exactly the unit square
+classes off a finite set of primes — those at which the `ℤ`-span of `b` fails to be unimodular,
+together with `2`. This is the computation `IntegralLattices` quotes when it reads `θ_p(K_p⁺(L))`
+off Jordan data.
+
+⚠ The hypothesis `hU` is not removable, and the theorem is **false** for a general compatible
+tuple. In dimension one `SO(V_p)` is trivial, so every reference image is trivial and never the
+unit classes: `exists_localSpinorNormImage_ne_unitSquareClasses` witnesses that. Nor is either
+inclusion automatic in higher dimension, since a compact open subgroup may contain a product of two
+reflections whose norms differ by a uniformizer. -/
+theorem eventually_localSpinorNormImage_eq_unitSquareClasses {n : ℕ} (hQ : Q.Nondegenerate)
+    (b : Module.Basis (Fin n) ℚ V) (U : OrthogonalCompactOpens Q)
+    (hU : ∀ p, U.orth p = integralOrthogonalSubgroup Q b p)
+    (hdim : 3 ≤ Module.finrank ℚ V) :
+    ∀ᶠ p in Filter.cofinite, U.localSpinorNormImage hQ p = unitSquareClasses p := by
+  sorry
+
 end OrthogonalCompactOpens
 
 end Adelic
+
+/-- **⚠ Layer 3C, the rejection test** for
+`OrthogonalCompactOpens.eventually_localSpinorNormImage_eq_unitSquareClasses`: its hypotheses are
+not removable. In dimension one `SO(V_p)` is trivial at every prime, so every compatible tuple has
+trivial reference images, while `unitSquareClasses p` has index two at every odd prime. Openness is
+what holds for an arbitrary tuple; the *value* of the reference image is a theorem about the
+family, and it is the integral family of `integralOrthogonalSubgroup` that supplies it. -/
+theorem exists_localSpinorNormImage_ne_unitSquareClasses :
+    ∃ (Q : QuadraticForm ℚ (Fin 1 → ℚ)) (hQ : Q.Nondegenerate) (U : OrthogonalCompactOpens Q),
+      ∀ p : Nat.Primes, (p : ℕ) ≠ 2 → U.localSpinorNormImage hQ p ≠ unitSquareClasses p := by
+  sorry
 
 /-! ## Layers 3D to 3F: the three adelic point groups and spinor norm -/
 
@@ -677,94 +1213,94 @@ open scoped RestrictedProduct TensorProduct
 variable {V : Type v} [AddCommGroup V] [Module ℚ V] [FiniteDimensional ℚ V]
 variable (Q : QuadraticForm ℚ V)
 
-/-- The finite places outside `S`. Over ℚ, `G(𝔸^S)` for a set of places `S` containing `∞` is the
-restricted product over these; at `S = {∞}` the subtype is everything and the object is the finite
-adelic group. -/
-abbrev PrimesAway (S : Set Nat.Primes) : Type := {p : Nat.Primes // p ∉ S}
-
 /-! ### Layer 3D: finite adelic points -/
 
 /-- **Layer 3D**: the finite adelic orthogonal group. -/
 abbrev finiteAdelicOrthogonal (U : OrthogonalCompactOpens Q) : Type _ :=
-  AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : Nat.Primes => U.orth p)
+  RestrictedProducts.RestrictedProductGroup (fun p : Nat.Primes => U.orth p)
 
 /-- **Layer 3D**: the finite adelic special orthogonal group, relative to the derived `U_p^{SO}`.
 This is the group in which `OrthogonalTamagawaAndLatticeMass` will formulate the
 spinor-kernel consequence. -/
 abbrev finiteAdelicSpecialOrthogonal (U : OrthogonalCompactOpens Q) : Type _ :=
-  AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : Nat.Primes => U.soPart p)
+  RestrictedProducts.RestrictedProductGroup (fun p : Nat.Primes => U.soPart p)
 
 /-- **Layer 3D**: the finite adelic spin group needed by `OrthogonalTamagawaAndLatticeMass`. -/
 abbrev finiteAdelicSpin (U : OrthogonalCompactOpens Q) : Type _ :=
-  AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : Nat.Primes => U.spin p)
+  RestrictedProducts.RestrictedProductGroup (fun p : Nat.Primes => U.spin p)
 
 /-! ### Layer 3D: points away from `S` -/
 
+/-- **Layer 3D**: points away from a set `S` of places containing `∞`, which is the supplier's
+index-generic `RestrictedProductGroupAway` at the finite places outside `S`. At `S = {∞}`, that is
+`S ∩ Nat.Primes = ∅`, this is the finite adelic group up to the supplier's own reindexing and no
+separate carrier is introduced. -/
 abbrev orthogonalAway (U : OrthogonalCompactOpens Q) (S : Set Nat.Primes) : Type _ :=
-  AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : PrimesAway S => U.orth p.1)
+  RestrictedProducts.RestrictedProductGroupAway S (fun p : Nat.Primes => U.orth p)
 
 abbrev specialOrthogonalAway (U : OrthogonalCompactOpens Q) (S : Set Nat.Primes) : Type _ :=
-  AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : PrimesAway S => U.soPart p.1)
+  RestrictedProducts.RestrictedProductGroupAway S (fun p : Nat.Primes => U.soPart p)
 
 abbrev spinAway (U : OrthogonalCompactOpens Q) (S : Set Nat.Primes) : Type _ :=
-  AdelicAlgebraicGroups.FiniteAdelicPoints (fun p : PrimesAway S => U.spin p.1)
+  RestrictedProducts.RestrictedProductGroupAway S (fun p : Nat.Primes => U.spin p)
 
-/-- **Layer 3D**: the restriction map to the places away from `S`, for each of the three groups. -/
+/-- **Layer 3D**: the restriction map to the places away from `S`, for each of the three groups.
+These are the supplier's `restrictAway` and are not rebuilt; they are named here so that a
+consumer can cite the orthogonal instance. -/
 noncomputable def restrictAwayOrthogonal (U : OrthogonalCompactOpens Q) (S : Set Nat.Primes) :
     finiteAdelicOrthogonal Q U →* orthogonalAway Q U S :=
-  sorry
+  RestrictedProducts.restrictAway S (fun p : Nat.Primes => U.orth p)
 
 noncomputable def restrictAwaySpecialOrthogonal (U : OrthogonalCompactOpens Q)
     (S : Set Nat.Primes) :
     finiteAdelicSpecialOrthogonal Q U →* specialOrthogonalAway Q U S :=
-  sorry
+  RestrictedProducts.restrictAway S (fun p : Nat.Primes => U.soPart p)
 
 noncomputable def restrictAwaySpin (U : OrthogonalCompactOpens Q) (S : Set Nat.Primes) :
     finiteAdelicSpin Q U →* spinAway Q U S :=
-  sorry
+  RestrictedProducts.restrictAway S (fun p : Nat.Primes => U.spin p)
 
 theorem restrictAwaySpin_apply (U : OrthogonalCompactOpens Q) (S : Set Nat.Primes)
-    (x : finiteAdelicSpin Q U) (p : PrimesAway S) :
-    restrictAwaySpin Q U S x p = x p.1 := by
-  sorry
+    (x : finiteAdelicSpin Q U) (p : {p : Nat.Primes // p ∉ S}) :
+    restrictAwaySpin Q U S x p = x p.1 := rfl
 
 /-! ### Layer 3D: full adelic points, and the componentwise maps -/
 
 abbrev fullAdelicOrthogonal (U : OrthogonalCompactOpens Q) : Type _ :=
-  AdelicAlgebraicGroups.AdelicPoints (orthogonalGroup (realForm Q))
+  RestrictedProducts.RestrictedProductGroupWithFactor (orthogonalGroup (realForm Q))
     (fun p : Nat.Primes => U.orth p)
 
 abbrev fullAdelicSpecialOrthogonal (U : OrthogonalCompactOpens Q) : Type _ :=
-  AdelicAlgebraicGroups.AdelicPoints (specialOrthogonalGroup (realForm Q))
+  RestrictedProducts.RestrictedProductGroupWithFactor (specialOrthogonalGroup (realForm Q))
     (fun p : Nat.Primes => U.soPart p)
 
 abbrev fullAdelicSpin (U : OrthogonalCompactOpens Q) : Type _ :=
-  AdelicAlgebraicGroups.AdelicPoints (spinGroup (realForm Q))
+  RestrictedProducts.RestrictedProductGroupWithFactor (spinGroup (realForm Q))
     (fun p : Nat.Primes => U.spin p)
 
 /-- **Layer 3D**: the componentwise `Spin → SO`, from 3B's functoriality and 3C's compatibility.
 A future density theorem transports along this map; without 3C's `spin_maps` it does not exist. -/
 noncomputable def finiteAdelicSpinToSpecialOrthogonal (U : OrthogonalCompactOpens Q) :
     finiteAdelicSpin Q U →* finiteAdelicSpecialOrthogonal Q U :=
-  AdelicAlgebraicGroups.restrictedProductMap (fun p => U.spin p) (fun p => U.soPart p)
+  RestrictedProducts.restrictedProductMapOfForall (fun p => U.spin p) (fun p => U.soPart p)
     (fun p => spinToSpecialOrthogonal (localForm Q p)) U.spin_mapsTo_soPart
 
 theorem finiteAdelicSpinToSpecialOrthogonal_apply (U : OrthogonalCompactOpens Q)
     (x : finiteAdelicSpin Q U) (p : Nat.Primes) :
     finiteAdelicSpinToSpecialOrthogonal Q U x p = spinToSpecialOrthogonal (localForm Q p) (x p) :=
-  AdelicAlgebraicGroups.restrictedProductMap_apply _ _ _ _ x p
+  RestrictedProducts.restrictedProductMapOfForall_apply _ _ _ _ x p
 
 /-- **Layer 3D**: the componentwise `SO → O`, whose compact-open compatibility is `mem_soPart`. -/
 noncomputable def finiteAdelicSpecialOrthogonalToOrthogonal (U : OrthogonalCompactOpens Q) :
     finiteAdelicSpecialOrthogonal Q U →* finiteAdelicOrthogonal Q U :=
-  AdelicAlgebraicGroups.restrictedProductMap (fun p => U.soPart p) (fun p => U.orth p)
+  RestrictedProducts.restrictedProductMapOfForall (fun p => U.soPart p) (fun p => U.orth p)
     (fun p => specialOrthogonalToOrthogonal (localForm Q p)) (fun _ _ hg => hg)
 
 theorem finiteAdelicSpecialOrthogonalToOrthogonal_apply (U : OrthogonalCompactOpens Q)
     (x : finiteAdelicSpecialOrthogonal Q U) (p : Nat.Primes) :
     finiteAdelicSpecialOrthogonalToOrthogonal Q U x p =
       specialOrthogonalToOrthogonal (localForm Q p) (x p) :=
-  AdelicAlgebraicGroups.restrictedProductMap_apply _ _ _ _ x p
+  RestrictedProducts.restrictedProductMapOfForall_apply _ _ _ _ x p
 
 /-! ### Layer 3E: the diagonal maps, one for each group -/
 
@@ -772,21 +1308,21 @@ theorem finiteAdelicSpecialOrthogonalToOrthogonal_apply (U : OrthogonalCompactOp
 hypothesis is `OrthogonalCompactOpens.eventually_mem_orth`. -/
 noncomputable def adelicDiagonalOrthogonal (U : OrthogonalCompactOpens Q) :
     orthogonalGroup Q →* finiteAdelicOrthogonal Q U :=
-  AdelicAlgebraicGroups.rationalDiagonal (fun p => orthogonalBaseChange Q p)
+  RestrictedProducts.rationalDiagonal (fun p => orthogonalBaseChange Q p)
     (fun p => U.orth p) U.eventually_mem_orth
 
 /-- **Layer 3E**: the diagonal embedding of the rational **proper** isometries, whose hypothesis is
 derived from the orthogonal one. -/
 noncomputable def adelicDiagonalSpecialOrthogonal (U : OrthogonalCompactOpens Q) :
     specialOrthogonalGroup Q →* finiteAdelicSpecialOrthogonal Q U :=
-  AdelicAlgebraicGroups.rationalDiagonal (fun p => specialOrthogonalBaseChange Q p)
+  RestrictedProducts.rationalDiagonal (fun p => specialOrthogonalBaseChange Q p)
     (fun p => U.soPart p) U.eventually_mem_soPart
 
 /-- **⚠ Layer 3E**: the diagonal embedding of the rational **spin** points. This is the map a
 `OrthogonalTamagawaAndLatticeMass` needs, and it is not obtainable from the orthogonal one. -/
 noncomputable def adelicDiagonalSpin (U : OrthogonalCompactOpens Q) :
     spinGroup Q →* finiteAdelicSpin Q U :=
-  AdelicAlgebraicGroups.rationalDiagonal (fun p => spinBaseChange Q p)
+  RestrictedProducts.rationalDiagonal (fun p => spinBaseChange Q p)
     (fun p => U.spin p) U.eventually_mem_spin
 
 theorem adelicDiagonalSpin_apply (U : OrthogonalCompactOpens Q) (g : spinGroup Q)
@@ -794,8 +1330,8 @@ theorem adelicDiagonalSpin_apply (U : OrthogonalCompactOpens Q) (g : spinGroup Q
   sorry
 
 /-- **Layer 3E**: the square relating the two routes from rational spin points into adelic `SO`
-commutes, which lets `OrthogonalTamagawaAndLatticeMass` speak of "the image of the rational spin points"
-unambiguously. -/
+commutes, which lets `OrthogonalTamagawaAndLatticeMass` speak of "the image of the rational spin
+points" unambiguously. -/
 theorem finiteAdelicSpinToSpecialOrthogonal_comp_adelicDiagonalSpin
     (U : OrthogonalCompactOpens Q) :
     (finiteAdelicSpinToSpecialOrthogonal Q U).comp (adelicDiagonalSpin Q U) =
@@ -828,7 +1364,7 @@ reference subgroups are the images of the `U_p^{SO}`, and an improper element of
 have local spinor norm inside `θ_p(U_p^{SO})`, so a map out of adelic `O` would not land here. -/
 noncomputable def adelicSpinorNorm (hQ : Q.Nondegenerate) (U : OrthogonalCompactOpens Q) :
     finiteAdelicSpecialOrthogonal Q U →*
-      AdelicAlgebraicGroups.FiniteAdelicPoints
+      RestrictedProducts.RestrictedProductGroup
         (fun p : Nat.Primes => U.localSpinorNormImage hQ p) :=
   sorry
 
