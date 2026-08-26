@@ -1,5 +1,6 @@
 import Mathlib
 import TauCetiRoadmap.ArithmeticDirichletSeries.Suggested
+import TauCetiRoadmap.GlobalNumberFields.Suggested
 import TauCetiRoadmap.LFunctions.Suggested
 import TauCetiRoadmap.Chebotarev.Suggested
 import TauCetiRoadmap.ContourIntegration.Suggested
@@ -22,14 +23,23 @@ The file states representative targets from **Layer 0** (order, the entire compl
 vertical-strip growth), **Layer 1** (Stirling, the branch of `log Γ`, and the continued
 uncompleted L-function), **Layer 2** (the three conductors), **Layer 3** (the pole-cleared
 convexity route), **Layer 4** (the two counts through `MeromorphicOn.divisor`), **Layer 6**
-(the zero-free region), **Layer 7** (the rectangle contour and Riemann–von Mangoldt), and
-**Layer 9** (certificates and `GRH`), stated with `sorry` against the pinned suppliers.
-`LFunctions` supplies the analytic cards and completed functions;
+(the zero-free region, with Layer 6.4 decomposed), **Layer 7** (the rectangle contour and
+Riemann–von Mangoldt), **Layer 8** (the effective ray-class count and its abelian Chebotarev
+transport), and **Layer 9** (certificates and `GRH`), stated with `sorry` against the pinned
+suppliers. `LFunctions` supplies the analytic cards and completed functions;
+`GlobalNumberFields` supplies the modulus, the ray class group, and the class of an ideal;
 `ArithmeticDirichletSeries` supplies Abel summation, Perron's formula, and
 Wiener--Ikehara; `Chebotarev` supplies the exact Frobenius prime carriers and qualitative
 counts; and `ContourIntegration` supplies the general residue calculus. The declarations
 below specialize those interfaces to zero analysis and effective estimates. They do not
 redeclare generic summation, prime-counting, or Frobenius infrastructure.
+
+⚠ There is no Artin card here and none is assumed. The two families are Dedekind zeta
+functions and L-functions of finite-order ray-class characters, and every effective estimate
+below is stated for one of them: `rayClassPsi_effective` unconditionally, and the three
+`frobenius*_effective` theorems for an **abelian** extension under a reciprocity hypothesis
+that `ClassFieldTheory` discharges. A nonabelian conjugacy class needs an Artin L-function of
+degree above one, which no supplier constructs, and is out of scope.
 
 ⚠ Four conventions carry most of the weight, and all four are in the README's conventions
 table.
@@ -144,8 +154,12 @@ theorem continuedL_functionalEquation
 and carries no zero or pole of `Γ`, followed by the upgrade from continuity to holomorphy
 (`exp` is a local biholomorphism). ⚠ `Complex.log ∘ Gamma` is **not** a branch: nonvanishing
 of `Γ` does not make the principal logarithm of its image continuous. ⚠ The normalization
-`L 2 = 0` is part of the statement, and is consistent because `Γ 2 = 1`: without it the branch
-is determined only up to `2πi k`, which moves the constant term of Stirling's formula. -/
+`L 2 = 0` is part of the statement, and is consistent because `Γ 2 = 1` **and** `0 < δ < π`
+puts `2` in the sector; without it the branch is determined only up to `2πi k`, which moves
+the constant term of Stirling's formula. ⚠ Both bounds on `δ` are load-bearing, which is why
+`hδ` and `hδ'` are hypotheses rather than side conditions in prose: at `δ ≤ 0` the set is
+`{1 < ‖s‖}` minus at most a ray and is not simply connected, so no branch exists; at `δ ≥ π`
+it is empty, `L` is unconstrained on it, and `L 2 = 0` normalizes nothing. -/
 example (δ : ℝ) (hδ : 0 < δ) (hδ' : δ < Real.pi) :
     ∃ L : ℂ → ℂ,
       DifferentiableOn ℂ L {s : ℂ | |s.arg| < Real.pi - δ ∧ 1 < ‖s‖} ∧
@@ -480,6 +494,74 @@ example :
 example (ρ : ℂ) (hρ : 0 < MeromorphicOn.divisor completedRiemannZeta Set.univ ρ) :
     ρ.re < 1 := sorry
 
+/-! ### Layer 6.4: the Hecke region, decomposed
+
+No source proves 6.4 in the stated generality, so the README decomposes it into six
+milestones and the three that a formalizer is most likely to get wrong are named here. They
+are **named** rather than anonymous because 6.4a and 6.4b are consumed by Layer 8.7 as well.
+-/
+
+section HeckeZeroFree
+
+open NumberField
+
+variable (K : Type*) [Field K] [NumberField K]
+
+/-- **Layer 6.4a, positivity of the `3-4-1` combination**, at a common presentation modulus.
+⚠ All three characters are presented at `𝔣`, so all three Euler products run over the ideals
+prime to `𝔣` and the combination is a single termwise-nonnegative series; presenting each at
+its own conductor breaks that and the statement becomes false as a termwise inequality. The
+trigonometric factor is `LFunctions.three_four_one_nonneg` and the coefficient nonnegativity
+is `LFunctions.dedekindZeta_idealVonMangoldt_nonneg`. ⚠ This is a statement on the half-plane
+of absolute convergence only; it is not an inequality between meromorphic continuations. -/
+theorem three_four_one_hecke (𝔣 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (χ : TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔣) {σ t : ℝ} (hσ : 1 < σ) :
+    0 ≤ 3 * (-logDeriv (TauCetiRoadmap.LFunctions.heckeLFunctionC K
+            (1 : TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔣)) (σ : ℂ)).re
+        + 4 * (-logDeriv (TauCetiRoadmap.LFunctions.heckeLFunctionC K χ)
+            ((σ : ℂ) + (t : ℂ) * I)).re
+        + (-logDeriv (TauCetiRoadmap.LFunctions.heckeLFunctionC K (χ ^ 2))
+            ((σ : ℂ) + 2 * (t : ℂ) * I)).re := sorry
+
+/-- **Layer 6.4b, the imprimitive comparison, zero side.** The deleted Euler factors of
+`LFunctions.eulerCorrection` vanish only on `Re s = 0`, because `‖w‖ = 1` and
+`1 - w * 𝔑𝔭 ^ (-s) = 0` force `𝔑𝔭 ^ (-Re s) = 1`. Hence on the right half-plane a presented
+series and its primitive source have the same zeros, and the region proved for the primitive
+character transfers verbatim. ⚠ Without this, 6.4a's third term — `χ ^ 2`, which is imprimitive
+whenever `χ` is not — is a series about which Layer 6 proves nothing. -/
+theorem eulerCorrection_ne_zero_of_pos_re
+    {𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K}
+    (χ : TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔪)
+    (𝔫 : TauCetiRoadmap.GlobalNumberFields.Modulus K) {s : ℂ} (hs : 0 < s.re) :
+    TauCetiRoadmap.LFunctions.eulerCorrection K χ 𝔫 s ≠ 0 := sorry
+
+/-- **Layer 6.4, the region for a primitive finite-order ray-class character**, as the
+disjunction its proof produces. `c` depends on `[K:ℚ]` alone, which is what 6.4e's
+small-conductor reduction delivers; a version whose constant depends on `K` and `χ` is weaker
+and does not discharge the milestone. ⚠ The two branches are genuinely different statements:
+for a non-real `χ` there is **no** zero in the region, and for a real one the exceptional zero
+is not excluded by any milestone here — only shown to be unique, real, and simple. -/
+theorem heckeZeroFreeRegion :
+    ∃ c : ℝ, 0 < c ∧
+      ∀ (χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K)
+        (hχ : χ.character ≠ 1),
+        (χ.character ^ 2 ≠ 1 →
+            ∀ ρ : ℂ, 0 < MeromorphicOn.divisor
+                (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ ρ →
+              ρ.re < 1 - c / Real.log
+                (analyticConductorAtData (TauCetiRoadmap.LFunctions.heckeData K χ) (ρ.im * I))) ∧
+          (χ.character ^ 2 = 1 →
+            ∃ β : ℝ, ∀ ρ : ℂ, 0 < MeromorphicOn.divisor
+                (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ ρ →
+              ρ.re < 1 - c / Real.log
+                  (analyticConductorAtData (TauCetiRoadmap.LFunctions.heckeData K χ)
+                    (ρ.im * I)) ∨
+                (ρ = (β : ℂ) ∧ MeromorphicOn.divisor
+                  (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ ρ = 1)) :=
+  sorry
+
+end HeckeZeroFree
+
 /-! ## Layer 7: the rectangle contour, against the contour integration roadmap
 
 ⚠ The theorem consumed here is that roadmap's **Layer 4** summit
@@ -658,7 +740,17 @@ example :
         T / (2 * Real.pi) * Real.log (T / (2 * Real.pi * Real.exp 1)))
       =O[atTop] Real.log := sorry
 
-/-- The conductor-and-degree main term in the generic Riemann--von Mangoldt formula. -/
+/-- The conductor-and-degree main term in the generic Riemann--von Mangoldt formula, in the
+**one-sided** normalization that matches `zeroCountUpTo`: `(T/2π) log (N (T/2πe)^d)`.
+
+⚠ The symmetric count `N±` over `|Im ρ| ≤ T` uses the same expression with `T/π` in front:
+`N±(T) = (T/π) log (N (T/2πe)^d) + O(log (N T^d))`, which is Trudgian's Theorem 2 verbatim at
+`N = |d_K|`, `d = [K:ℚ]`. The conversion between the two conventions multiplies the **whole**
+main term by two, and in particular it never moves a square root onto the conductor: a main
+term reading `log (N^(1/2) * (T/2πe)^d)` is a different and false statement. Additivity is the
+cheap check — over a factorization the counts add, the degrees add and the conductors
+multiply, so the coefficient of `Real.log N` is pinned by the degree-one case, where
+Trudgian's Theorem 1 gives `T/π` for the symmetric count. -/
 noncomputable def riemannVonMangoldtMainTerm
     (d : TauCetiRoadmap.LFunctions.AnalyticLFunctionData) (T : ℝ) : ℝ :=
   T / (2 * Real.pi) *
@@ -677,7 +769,7 @@ theorem riemannVonMangoldt_generic
         riemannVonMangoldtMainTerm d T) =O[atTop]
       (fun T : ℝ => Real.log (analyticConductorAtData d (T * I))) := sorry
 
-/-! ## Layer 8: effective prime and Chebotarev estimates
+/-! ## Layer 8: effective prime, ray-class, and abelian Chebotarev estimates
 
 The generic Abel, Perron, and Tauberian theorems are imported from
 `ArithmeticDirichletSeries`. The declarations here begin only after those theorems have been
@@ -685,15 +777,90 @@ specialized to logarithmic derivatives and their contours shifted. Likewise the 
 coefficient and all three Frobenius counting functions below are the exact objects imported
 from `Chebotarev`; this roadmap introduces only the exceptional-zero contribution and the
 effective error estimates.
+
+⚠ The layer's endpoint is stated **on the ray-class side** (8.7), where every carrier exists:
+the modulus, the ray class group and the class of an ideal are `GlobalNumberFields`', the
+orthogonality identity is `LFunctions.partialZeta_eq_sum_heckeLFunctionC`, and the zero-free
+input is Layer 6.4. Layer 8.8 transports 8.7 to an **abelian** extension along a reciprocity
+dictionary carried as a hypothesis and discharged by `ClassFieldTheory.rayClassArtinMap`'s
+splitting law. A **nonabelian** conjugacy class is out of scope: expanding its indicator in
+irreducible characters produces an Artin L-function of degree above one, which no supplier
+constructs and this roadmap owns no instance of.
 -/
 
-section EffectiveChebotarev
+section EffectiveRayClass
+
+open NumberField IsDedekindDomain
+
+variable (K : Type*) [Field K] [NumberField K]
+
+/-- **Layer 8.7, the weighted count of prime ideals in one ray class.** The partial sum, over
+the ideals prime to `𝔪` of norm at most `x` whose ray class is `c`, of the supplier's ideal
+von Mangoldt transform at the trivial weight — the same coefficient
+`LFunctions.dedekindZeta_logDeriv_eq` uses. ⚠ Not a second ideal weight and not a second
+counting carrier: the class is read through `GlobalNumberFields.idealClass`, whose domain is
+the ideals prime to `𝔪`, so an ideal sharing a prime with `𝔪` is omitted from the sum rather
+than assigned a junk class. -/
+noncomputable def rayClassPsi (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) (x : ℝ) : ℝ := sorry
+
+/-- **Layer 8.7**, the contribution of the exceptional zeros at the modulus `𝔪`. ⚠ This is a
+**sum** over the real characters at `𝔪` that have one, not a single term: the uniqueness of
+Layer 6.4f is per character, and the Landau–Page statement that would collapse the sum to one
+term is not a milestone of this roadmap. -/
+noncomputable def exceptionalRayClassTerm (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) (x : ℝ) : ℝ := sorry
+
+/-- The partial-summation transform of `exceptionalRayClassTerm` appearing in the unweighted
+count. -/
+noncomputable def exceptionalRayClassPrimeCountTerm
+    (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) (x : ℝ) : ℝ := sorry
+
+/-- **Layer 8.7, the effective count in a ray class.** The main term is `x / #Cl_𝔪`, from the
+trivial character through Layer 8.5; every nontrivial character contributes through 8.6 and
+Layer 6.4, with Layer 6.4b replacing an imprimitive character at `𝔪` by its primitive source.
+Constants may depend on `K` and on `𝔪`, but not on `x`. ⚠ No uniformity in `𝔪` is claimed:
+absorbing the exceptional term into the error would need a lower bound for `1 - β` that only
+Siegel's theorem gives, and that is out of scope. At `K = ℚ` this is the prime number theorem
+for arithmetic progressions with the classical error term. -/
+theorem rayClassPsi_effective (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) :
+    ∃ c₀ : ℝ, 0 < c₀ ∧
+      (fun x : ℝ => rayClassPsi K 𝔪 c x -
+          x / (Nat.card (TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) : ℝ) +
+          exceptionalRayClassTerm K 𝔪 c x) =O[atTop]
+        (fun x : ℝ => x * Real.exp (-c₀ * Real.sqrt (Real.log x))) := sorry
+
+end EffectiveRayClass
+
+section EffectiveAbelianChebotarev
+
+open NumberField IsDedekindDomain
 
 variable (K L : Type*) [Field K] [NumberField K] [Field L] [NumberField L]
-  [Algebra K L] [IsGalois K L]
+  [Algebra K L] [IsAbelianGalois K L]
 
-/-- **Layer 8.7**, the contribution of the unique possible exceptional real zero. It is zero
-when the relevant Artin/Hecke factors have no exceptional zero. -/
+/-- **Layer 8.8, the reciprocity dictionary**, carried as a hypothesis. `Φ` is a surjection of
+the ray class group at `𝔪` onto the Galois group whose splitting law identifies the Artin
+class of a prime prime to `𝔪` with the image of its ray class.
+
+⚠ This is **not** a compatibility structure invented to paper over a gap. It is an equation
+between two carriers that both exist — `Chebotarev.frobeniusPrimeSet`, defined from
+`NumberFieldArithmetic.artinSymbol`, and `GlobalNumberFields.idealClass` — and the object that
+discharges it is `ClassFieldTheory.rayClassArtinMap`, whose splitting law that roadmap owns.
+This roadmap neither restates nor approximates it, and the unconditional content transported
+along it is `rayClassPsi_effective`, which needs no such hypothesis. -/
+def IsReciprocityDictionary (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (Φ : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L))
+    (C : ConjClasses (L ≃ₐ[K] L)) : Prop :=
+  Function.Surjective Φ ∧
+    ∀ (𝔭 : HeightOneSpectrum (𝓞 K))
+      (h : 𝔭.asIdeal ∈ TauCetiRoadmap.GlobalNumberFields.integralIdealsPrimeTo 𝔪),
+      (𝔭 ∈ TauCetiRoadmap.Chebotarev.frobeniusPrimeSet K L C ↔
+        ConjClasses.mk (Φ (TauCetiRoadmap.GlobalNumberFields.idealClass 𝔪 ⟨𝔭.asIdeal, h⟩)) = C)
+
+/-- **Layer 8.8**, the contribution of the exceptional real zeros. -/
 noncomputable def exceptionalChebotarevTerm
     (C : ConjClasses (L ≃ₐ[K] L)) (x : ℝ) : ℝ := sorry
 
@@ -702,35 +869,64 @@ unweighted Frobenius prime count. -/
 noncomputable def exceptionalChebotarevPrimeCountTerm
     (C : ConjClasses (L ≃ₐ[K] L)) (x : ℝ) : ℝ := sorry
 
-/-- **Layer 8.7, effective Chebotarev for the weighted prime-power count.** Constants may
-depend on the fixed extension `L/K`, but not on `x`; no conductor-uniform or fully numerical
-constant is claimed. -/
-theorem frobeniusPsi_effective (C : ConjClasses (L ≃ₐ[K] L)) :
+/-- **Layer 8.8, what the exceptional term is.** Under any dictionary it is the sum, over the
+fibre of `C`, of the ray-class exceptional terms of 8.7. ⚠ This theorem is not decoration: an
+opaque `exceptionalChebotarevTerm` makes `frobeniusPsi_effective` unfalsifiable, since any
+error can be hidden in it. It is also the statement that the term does not depend on the
+choice of `𝔪` and `Φ`, which is why the definition takes neither. The finsum is over a finite
+set by `GlobalNumberFields.finite_rayClassGroup`, and that finiteness is a hypothesis of the
+proof rather than something the notation supplies. -/
+theorem exceptionalChebotarevTerm_eq (C : ConjClasses (L ≃ₐ[K] L))
+    (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (Φ : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L))
+    (hΦ : IsReciprocityDictionary K L 𝔪 Φ C) (x : ℝ) :
+    exceptionalChebotarevTerm K L C x =
+      ∑ᶠ c ∈ {c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 |
+          ConjClasses.mk (Φ c) = C},
+        exceptionalRayClassTerm K 𝔪 c x := sorry
+
+/-- **Layer 8.8, effective Chebotarev for the weighted prime-power count, abelian only.**
+Constants may depend on the fixed extension `L/K`, but not on `x`; no conductor-uniform or
+fully numerical constant is claimed. ⚠ `IsAbelianGalois K L` is load-bearing, not a
+simplification: for a nonabelian class the character expansion leaves the two families this
+roadmap has instances for, and no milestone covers it. ⚠ The dictionary is a hypothesis and is
+discharged from `ClassFieldTheory`; without it this theorem says nothing about `L/K`, which is
+why `rayClassPsi_effective` and not this is the layer's unconditional content. -/
+theorem frobeniusPsi_effective (C : ConjClasses (L ≃ₐ[K] L))
+    (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (Φ : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L))
+    (hΦ : IsReciprocityDictionary K L 𝔪 Φ C) :
     ∃ c : ℝ, 0 < c ∧
       (fun x : ℝ => TauCetiRoadmap.Chebotarev.frobeniusPsi K L C x -
           ((Nat.card C.carrier : ℝ) / (Nat.card (L ≃ₐ[K] L) : ℝ)) * x +
           exceptionalChebotarevTerm K L C x) =O[atTop]
         (fun x : ℝ => x * Real.exp (-c * Real.sqrt (Real.log x))) := sorry
 
-/-- **Layer 8.7**, removal of prime powers on the supplier-owned Frobenius theta function. -/
-theorem frobeniusTheta_effective (C : ConjClasses (L ≃ₐ[K] L)) :
+/-- **Layer 8.8**, removal of prime powers on the supplier-owned Frobenius theta function. -/
+theorem frobeniusTheta_effective (C : ConjClasses (L ≃ₐ[K] L))
+    (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (Φ : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L))
+    (hΦ : IsReciprocityDictionary K L 𝔪 Φ C) :
     ∃ c : ℝ, 0 < c ∧
       (fun x : ℝ => TauCetiRoadmap.Chebotarev.frobeniusTheta K L C x -
           ((Nat.card C.carrier : ℝ) / (Nat.card (L ≃ₐ[K] L) : ℝ)) * x +
           exceptionalChebotarevTerm K L C x) =O[atTop]
         (fun x : ℝ => x * Real.exp (-c * Real.sqrt (Real.log x))) := sorry
 
-/-- **Layer 8.7**, partial summation on the supplier-owned Frobenius prime count. The
+/-- **Layer 8.8**, partial summation on the supplier-owned Frobenius prime count. The
 qualitative limit remains `Chebotarev.tendsto_frobeniusPrimeCount`; this is its stronger,
 fixed-extension error estimate. -/
-theorem frobeniusPrimeCount_effective (C : ConjClasses (L ≃ₐ[K] L)) :
+theorem frobeniusPrimeCount_effective (C : ConjClasses (L ≃ₐ[K] L))
+    (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (Φ : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L))
+    (hΦ : IsReciprocityDictionary K L 𝔪 Φ C) :
     ∃ c : ℝ, 0 < c ∧
       (fun x : ℝ => (TauCetiRoadmap.Chebotarev.frobeniusPrimeCount K L C x : ℝ) -
           ((Nat.card C.carrier : ℝ) / (Nat.card (L ≃ₐ[K] L) : ℝ)) *
             (x / Real.log x) + exceptionalChebotarevPrimeCountTerm K L C x) =O[atTop]
         (fun x : ℝ => x * Real.exp (-c * Real.sqrt (Real.log x)) / Real.log x) := sorry
 
-end EffectiveChebotarev
+end EffectiveAbelianChebotarev
 
 /-! ## Layer 9: certified zeros -/
 
