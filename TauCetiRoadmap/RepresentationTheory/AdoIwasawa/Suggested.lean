@@ -1,4 +1,5 @@
 import Mathlib
+import TauCetiRoadmap.RepresentationTheory.LieHighestWeight.Suggested
 
 /-!
 # Ado–Iwasawa: target signatures
@@ -62,11 +63,21 @@ theorem mem_nilradical_of_mem_radical_of_isNilpotent_ad [CharZero K]
     [FiniteDimensional K L] {x : L} (hx : x ∈ LieAlgebra.radical K L)
     (hnil : IsNilpotent (LieAlgebra.ad K L x)) : x ∈ nilradical K L := sorry
 
-/-- The internal form of Levi decomposition. The definitive roadmap packages the complement as the
-external `LieAlgebra.SemiDirectSum` equivalence consumed by Layer 4. -/
+/-- The internal form of Levi decomposition. The definitive form is `exists_leviDecomposition`
+below, which is what Layer 4 consumes. -/
 theorem exists_leviComplement [CharZero K] [FiniteDimensional K L] :
     ∃ S : LieSubalgebra K L,
       IsCompl (LieAlgebra.radical K L).toSubmodule S.toSubmodule := sorry
+
+/-- **Levi decomposition**, in the external form Layer 4 consumes: a semisimple complement `S`
+acting on the radical by derivations, exhibiting `L` as the semidirect sum. Layer 3 to Layer 4 is
+where this roadmap is most likely to lose a hypothesis, so the interface is a Lean signature rather
+than a description. -/
+theorem exists_leviDecomposition [CharZero K] [FiniteDimensional K L] :
+    ∃ (S : LieSubalgebra K L)
+      (ψ : S →ₗ⁅K⁆ LieDerivation K (LieAlgebra.radical K L) (LieAlgebra.radical K L)),
+      LieAlgebra.IsSemisimple K S ∧
+        Nonempty (L ≃ₗ⁅K⁆ (LieAlgebra.radical K L) ⋊⁅ψ⁆ S) := sorry
 
 /-- A faithful embedding in a finite-dimensional associative algebra gives a faithful
 finite-dimensional representation by left multiplication. -/
@@ -96,10 +107,10 @@ theorem faithfulRepresentation_iff_finiteEnvelopingTarget :
 
 /-! ## Layers 1–3: PBW consequences, weighted nilpotent quotients, and derivations -/
 
-/-- The canonical Lie map into the enveloping algebra is injective. This is a concrete PBW
-consequence shared with `../LieHighestWeight`. -/
-theorem ι_injective :
-    Function.Injective (UniversalEnvelopingAlgebra.ι K (L := L)) := sorry
+/- Injectivity of `UniversalEnvelopingAlgebra.ι`, and the rest of the concrete PBW development this
+roadmap consumes over an arbitrary field, are supplied by `../LieHighestWeight`; see
+`LieHighestWeight.ι_injective`, `LieHighestWeight.pbwBasis`, and
+`LieHighestWeight.module_finite_of_central_monic_relations` in the module imported above. -/
 
 /-- The underlying linear map of the associative derivation extending a Lie derivation. The definitive
 roadmap also requires packaging this in a reusable noncommutative derivation API; Mathlib's current
@@ -118,21 +129,35 @@ theorem envelopingDerivation_ι (D : LieDerivation K L L) (x : L) :
     envelopingDerivation K L D (UniversalEnvelopingAlgebra.ι K x) =
       UniversalEnvelopingAlgebra.ι K (D x) := sorry
 
+section Solvable
+
+variable (S : Type u) [LieRing S] [LieAlgebra K S]
+
 /-- The packaged output of the stable-cofinite-ideal construction. The roadmap decomposes its proof
 through the nilradical-generated ideal `B`, the power `J = B^m`, range containment for lifted
-derivations, PBW finiteness, and preservation of nilpotence modulo `J`. -/
-theorem exists_derivationStable_cofiniteIdeal [CharZero K] [FiniteDimensional K L]
-    (I : Ideal (UniversalEnvelopingAlgebra K L)) [I.IsTwoSided]
-    (hI : FiniteDimensional K (UniversalEnvelopingAlgebra K L ⧸ I))
-    (hnil : ∀ x : L, x ∈ nilradical K L →
+derivations, PBW finiteness, and preservation of nilpotence modulo `J`.
+
+Stated for a **solvable** `S`, and not for an arbitrary finite-dimensional Lie algebra: the load-
+bearing step of the Layer 3 chain gets `Dᵁ(U(S)) ≤ B` from `D S ≤ nil S`, and what the previous
+milestone proves in characteristic zero is `D (radical K S) ≤ nil S`, which gives `D S ≤ nil S` only
+when `S = radical K S`. It genuinely fails otherwise: for semisimple `S` and `D = ad x` one has
+`nil S = ⊥` and `D S ≠ ⊥`, so `B` need not contain the range of `Dᵁ`. Layer 4 consumes this for a
+solvable ideal `S` sitting inside a larger `L`, which is why the statement has its own variable. -/
+theorem exists_derivationStable_cofiniteIdeal [CharZero K] [FiniteDimensional K S]
+    [LieAlgebra.IsSolvable S]
+    (I : Ideal (UniversalEnvelopingAlgebra K S)) [I.IsTwoSided]
+    (hI : FiniteDimensional K (UniversalEnvelopingAlgebra K S ⧸ I))
+    (hnil : ∀ x : S, x ∈ nilradical K S →
       ∃ n : ℕ, (UniversalEnvelopingAlgebra.ι K x) ^ n ∈ I) :
-    ∃ J : Ideal (UniversalEnvelopingAlgebra K L),
+    ∃ J : Ideal (UniversalEnvelopingAlgebra K S),
       J ≤ I ∧ J.IsTwoSided ∧
-      FiniteDimensional K (UniversalEnvelopingAlgebra K L ⧸ J) ∧
-      (∀ x : L, x ∈ nilradical K L →
+      FiniteDimensional K (UniversalEnvelopingAlgebra K S ⧸ J) ∧
+      (∀ x : S, x ∈ nilradical K S →
         ∃ n : ℕ, (UniversalEnvelopingAlgebra.ι K x) ^ n ∈ J) ∧
-      ∀ (D : LieDerivation K L L) {a : UniversalEnvelopingAlgebra K L},
-        a ∈ J → envelopingDerivation K L D a ∈ J := sorry
+      ∀ (D : LieDerivation K S S) {a : UniversalEnvelopingAlgebra K S},
+        a ∈ J → envelopingDerivation K S D a ∈ J := sorry
+
+end Solvable
 
 /-- The characteristic-free Birkhoff checkpoint, obtained from a lower-central-series-weighted
 PBW truncation: a finite-dimensional nilpotent Lie algebra has a faithful finite-dimensional

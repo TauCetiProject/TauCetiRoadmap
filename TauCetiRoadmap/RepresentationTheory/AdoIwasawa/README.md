@@ -417,13 +417,15 @@ nilpotently on `M`.
 - **The semisimple component acts nilpotently.** Write `L = S ⊕ radical K L` by Levi and `x = s + r`
   accordingly. Prove that `ad x` nilpotent forces `ad_S s` nilpotent, and then that `ad s` is
   nilpotent on `L` and `s` is nilpotent on `M`. Hochschild does this by producing `t : S` with
-  `⁅s, t⁆ = s` and applying Lie's theorem to the solvable subalgebra spanned by `s` and `t`; the
-  `⁅s, t⁆ = s` step is the easy half of the `sl₂`-triple existence statement for a semisimple Lie
-  algebra and should be named as its own target, reusing whatever Mathlib's
-  `LieAlgebra.IsKilling.exists_isSl2Triple_of_weight_isNonZero` and `Sl2.lean` already give. This is
-  the second place the splitting hypothesis on Lie's theorem appears. Prove the statement after scalar
-  extension, then use Layer 3's range-membership descent to obtain `t` over the original field; nilpotence
-  of the resulting endomorphisms also descends.
+  `⁅s, t⁆ = s` and applying Lie's theorem to the solvable subalgebra spanned by `s` and `t`. Name the
+  `⁅s, t⁆ = s` step as its own target, and prove it over the original field, with no algebraic closure
+  and no appeal to `sl₂`-triple existence: for `s : S` with `ad s` nilpotent and any `z ∈ ker (ad s)`,
+  the endomorphism `ad z` commutes with the nilpotent `ad s`, so `ad s ∘ ad z` is nilpotent and the
+  Killing form satisfies `κ(s, z) = 0`. Hence `s ∈ (ker (ad s))ᗮ`, which is `range (ad s)` by
+  invariance of `κ`, its nondegeneracy on a Killing-semisimple `S`, and rank-nullity; any `t` with
+  `⁅s, t⁆ = s` is a preimage of `s`. This keeps Jacobson-Morozov out of the dependency graph and
+  leaves both uses of Layer 3's range-membership descent available elsewhere. This is the second place
+  the splitting hypothesis on Lie's theorem appears.
 - **The radical criterion.** Prove
   `r ∈ R ∧ IsNilpotent (LieAlgebra.ad K L r) → r ∈ N`. Indeed `[L,R] ≤ N` makes `N + K r` an ideal;
   the extension lemma makes its adjoint action nilpotent, so Engel makes it a nilpotent ideal, whence it
