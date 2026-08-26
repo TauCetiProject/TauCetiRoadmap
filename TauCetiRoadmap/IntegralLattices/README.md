@@ -39,12 +39,15 @@ The principal results of this roadmap are:
 
 ⚠ The **Smith–Minkowski–Siegel mass formula itself is not a milestone here**, and neither is
 Eichler's theorem. Both are assembled from an adelic volume comparison for `SO(V)` — strong
-approximation for `Spin` and a Tamagawa normalization — and neither #246 `AdelicAlgebraicGroups`
+approximation for `Spin` and a Tamagawa normalization — and neither #246 `RestrictedProducts`
 nor #255 `OrthogonalSpinGroups` exports those in its accepted scope. Their exact owner is the
-named successor roadmap **`OrthogonalTamagawaAndLatticeMass`**; see §*Scope*. What stays here is
-everything that supplier will need from the lattice side: the class/genus/spinor-genus
-dictionary, the stabilizers, the local densities at odd `p` and at `2`, the archimedean factor,
-and the low-rank values.
+named successor roadmap **`OrthogonalTamagawaAndLatticeMass`**; see §*Scope*. The dyadic local
+density goes with them, for the same reason: it is read off a smooth affine group scheme over
+`ℤ₂`, and smoothening, special fibres, unipotent radicals and reductive quotients of integral
+group schemes have no supplier in the current portfolio. What stays here is everything that
+successor needs from the lattice side: the class/genus/spinor-genus dictionary, the
+stabilizers, the local density at odd `p`, the dyadic Jordan data and density exponents its
+`p = 2` companion consumes, the archimedean factor, and the low-rank values.
 
 Two projects consume the results. The LMFDB lattice section stores positive definite
 integral lattices with their genus representatives. The K3 surface pipeline enumerates
@@ -66,7 +69,7 @@ below.
 
 The direct roadmap dependencies are exactly `QuadraticFormInvariants`,
 `GlobalQuadraticForms`, `GlobalNumberFields`, `ClassFieldTheory`,
-`AdelicAlgebraicGroups`, `OrthogonalSpinGroups`, `RepresentationTheory/RootSystems`, and
+`RestrictedProducts`, `OrthogonalSpinGroups`, `RepresentationTheory/RootSystems`, and
 `LFunctions`. Their field-level, global-form, order/class-field, adelic, spin, ADE, and
 analytic inputs are consumed; none is repackaged as a private lattice-side carrier. Every
 declaration this roadmap names in those suppliers is one they actually export in their accepted
@@ -87,14 +90,29 @@ milestone is not a closed dependency. Those results move out, to one exact owner
 | the volume theorem `vol(SO(V)(ℚ) \ SO(V)(𝔸)) = 2` | 7F | **`OrthogonalTamagawaAndLatticeMass`**, over the generic `TamagawaMeasures` |
 | the Conway–Sloane mass formula and its checks | 7H | **`OrthogonalTamagawaAndLatticeMass`** |
 | the rank-16 completeness statement, that the genus of `E₈²` has exactly two classes | 7I | **`OrthogonalTamagawaAndLatticeMass`** |
+| Cho's smooth affine group scheme `𝒢_L` over `ℤ₂`, its special fibre and unipotent radical, and the closed formula it gives for the dyadic local density | 7D | **`OrthogonalTamagawaAndLatticeMass`** |
+
+The dyadic density is the one addition that is not about adelic volumes, so its reason is worth
+stating separately. Constructing `𝒢_L` means smoothening the orthogonal group scheme of a
+`ℤ₂`-lattice, then computing the special fibre, its unipotent radical and its reductive
+quotient, and finally counting points of each; and the density it produces has to be compared
+with the congruence-count limit. Nothing in the current portfolio supplies smoothening,
+integral models of orthogonal group schemes, or point counts of unipotent radicals: Reductive
+Groups works over a field and its Layer 9 group schemes over `ℤ` are the split
+Chevalley–Demazure ones, which `𝒢_L` is not. Declaring all algebraic-group measure
+infrastructure out of scope and then building the most delicate integral model of the family
+would be incoherent, so the construction sits with the successor that already owns the measure
+comparison. What stays here is the lattice-side input: the dyadic Jordan data, the type and
+bound/free classification, and Cho's exponents `N_M`, `N_Q` and `N`, which are milestone 3I.
 
 `OrthogonalTamagawaAndLatticeMass` is the orthogonal specialization named by #255 and #246; it
 sits on the generic successors `AlgebraicGroupStrongApproximation`, `ArithmeticReductionTheory`
 and `TamagawaMeasures` that #246 names. It consumes this roadmap and is not consumed by it, so
-the dependency stays one-way. Everything it needs from the lattice side — 4A, 4B, 4C, the local
-densities 7C and 7D, the archimedean factor 7E, the mass definitions and the relation `m⁺ = 2m`
-of 7A, and the low-rank values 7G — remains a milestone **here**, so the split does not leave a
-gap between the two roadmaps.
+the dependency stays one-way. Everything it needs from the lattice side — 4A, 4B, 4C, the
+dyadic Jordan data and density exponents 3I, the local density 7C at every `p` (its definition,
+its stabilization, and its values at odd `p`), the archimedean factor 7E, the mass definitions
+and the relation `m⁺ = 2m` of 7A, and the low-rank values 7G — remains a milestone **here**, so
+the split does not leave a gap between the two roadmaps.
 
 Out of scope, with the owner of each subject:
 
@@ -103,9 +121,10 @@ Out of scope, with the owner of each subject:
 | local quadratic forms, square classes, Witt/Brauer/Hasse/Clifford invariants, the Hilbert symbol, and dyadic classification | [Quadratic Form Invariants](../QuadraticFormInvariants/README.md) |
 | Hasse--Minkowski and global classification, representation, and realization of rational forms | [Global Quadratic Forms](../GlobalQuadraticForms/README.md) |
 | the groups `O(Q)`, `SO(Q)`, and `Spin(Q)`, the spinor norm, transvections, and local and finite-adelic spin groups | [Orthogonal and Spin Groups](../OrthogonalSpinGroups/README.md) |
-| generic restricted products, compact-open families, and rational diagonals | [Adelic Algebraic Groups](../AdelicAlgebraicGroups/README.md) |
+| generic restricted products, compact-open families, and rational diagonals | [Restricted Products](../RestrictedProducts/README.md) |
 | generic algebraic-group adelic points, strong approximation, reduction theory, Tamagawa measures, and the central-isogeny volume comparison | `AlgebraicGroupStrongApproximation`, `ArithmeticReductionTheory` and `TamagawaMeasures`, the successors #246 names |
-| the orthogonal specialization: strong approximation for `Spin`, `τ(SO_Q) = 2`, Eichler's theorem, the genus/spinor-genus comparison in rank `≥ 3`, and the Smith–Minkowski–Siegel mass formula | `OrthogonalTamagawaAndLatticeMass`, the successor #255 names |
+| smoothening of an affine group scheme over `ℤ_p`, its special fibre, unipotent radical and reductive quotient, and the point counts of each | `OrthogonalTamagawaAndLatticeMass`, over the generic successors above |
+| the orthogonal specialization: strong approximation for `Spin`, `τ(SO_Q) = 2`, Eichler's theorem, the genus/spinor-genus comparison in rank `≥ 3`, the dyadic local density of 7D, and the Smith–Minkowski–Siegel mass formula | `OrthogonalTamagawaAndLatticeMass`, the successor #255 names |
 | root systems, Weyl groups, `DynkinType`, the ADE classification | [Root Systems](../RepresentationTheory/RootSystems/README.md) |
 | Poisson summation and the real-parameter Gaussian theta transformation | [L-functions](../LFunctions/README.md) |
 | number-field orders, conductors, raw proper fractional ideals, invertible proper fractional ideals, the ideal class monoid, `Pic`, and `NarrowPic` for the nonsplit binary branch | [Global Number Fields](../GlobalNumberFields/README.md) |
@@ -115,9 +134,16 @@ Out of scope, with the owner of each subject:
 The following subjects have no owner and are not part of this roadmap. They are listed so
 that a reader can see the boundary.
 
-- Modularity of theta series. No roadmap proves that the theta series of an even lattice
-  is a modular form, and half-integral weight is developed nowhere. Layer 8 therefore
-  stops after the transformation law.
+- Modularity of theta series. Layer 8's endpoint is a **transformation law** — convergence and
+  holomorphy, the Poisson law under `S`, the translation law under `T`, and the vector-valued
+  law on discriminant cosets — and no milestone here asserts membership in a space of modular
+  forms. Calling that endpoint modularity would need two things this portfolio does not have:
+  a modular-forms carrier of half-integral weight for a congruence subgroup, together with the
+  theorem that a function satisfying these laws is holomorphic at every cusp. Modular Forms
+  owns integral weight and does not export either, and half-integral weight is developed
+  nowhere; the vector-valued setting would additionally need the Weil representation as a
+  carrier. So no declaration of this roadmap is named `isModularForm` or takes values in a
+  space of modular forms, and none may be renamed to one before those imports exist.
 - The analytic proof of the mass formula, which uses Siegel Eisenstein series, the Weil
   representation and Siegel–Weil. The route to the mass formula is the adelic volume of `SO(V)`,
   and it is `OrthogonalTamagawaAndLatticeMass`'s, not this roadmap's.
@@ -346,9 +372,9 @@ structure or carrier for it.
 | 3G | Quadratic Form Invariants | `hilbertSymbol_eq_cohomological`, `hilbertSymbol_productFormula` | the norm-equation symbol agrees with CFT's pairing and inherits Hilbert reciprocity |
 | 3H, 4A | Global Quadratic Forms | `atFinitePlace`, `atRealPlace`, `hasseMinkowski_equivalent`, `equivalent_of_locallyEquivalent` | localization and global equivalence of the underlying rational quadratic spaces |
 | B1--B5, `¬ IsSquare Δ` | Global Number Fields | `NumberFieldOrder`, `NumberFieldOrder.conductor`, `NumberFieldOrder.IsProperFractionalIdeal`, `NumberFieldOrder.properFractionalIdeals`, `NumberFieldOrder.invertibleProperFractionalIdeals`, `NumberFieldOrder.invertible_isProper`, `NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two`, `IdealClassMonoid`, `NumberFieldOrder.mkIdealClassMonoid`, `picEquivUnitsIdealClassMonoid`, `Pic`, `NumberFieldOrder.mkPic`, `NumberFieldOrder.mkPic_surjective`, `NarrowPic`, `NumberFieldOrder.narrowPrincipal`, `NumberFieldOrder.narrowToPic`, `NumberFieldOrder.narrowToPic_surjective`, `finite_pic`, `finite_narrowPic` | field orders and their ideal-class monoids and wide and narrow Picard groups; only the invertible proper carrier enters `Pic` and `NarrowPic`, while raw noninvertible proper ideals remain in `IdealClassMonoid`; the square-discriminant split branch is elementary and does not use these carriers |
-| B3, `Δ < 0` | Class Field Theory | Layer 6, ring class fields and `Gal(H_O/K) ≃ Pic O` | the class-field interpretation in the nonsplit field case only; there is no split ring-class-field claim |
+| B3, `Δ < 0` | Class Field Theory | `ringClassField`, `ringClassArtinMap`, `gal_ringClassField_equiv_pic` | the class-field interpretation in the nonsplit field case only. ⚠ Each of these takes an order in a number **field** together with `Module.finrank ℚ K = 2`, so the split algebra `ℚ × ℚ` cannot be supplied to any of them: it carries no `Field` instance and is the `K` of no `NumberFieldOrder K`. There is no split ring-class-field claim, and no local stand-in that would admit one |
 | 3G | Class Field Theory | `hilbertProductFormula` | cohomological Hilbert reciprocity, reached on classical symbols through QFI's comparison |
-| 4B | Adelic Algebraic Groups | `FiniteAdelicPoints`, `AdelicPoints`, `rationalDiagonal` | generic restricted products and rational diagonals. ⚠ Quotient measures and Tamagawa normalization are **not** exported by #246 and are not cited here; they belong to `TamagawaMeasures` and reach the lattice mass only through `OrthogonalTamagawaAndLatticeMass` |
+| 4B, B7 | Restricted Products | `RestrictedProductGroup`, `RestrictedProductGroupWithFactor`, `CompactOpenSubgroups`, `integralSubgroup`, `isCompact_integralSubgroup`, `rationalDiagonal` | generic restricted products, compact open reference families, and rational diagonals. ⚠ Quotient measures and Tamagawa normalization are **not** exported by #246 and are not cited here; they belong to `TamagawaMeasures` and reach the lattice mass only through `OrthogonalTamagawaAndLatticeMass` |
 | 4B, 4C, 4F, B7 | Orthogonal and Spin Groups | `orthogonalGroup`, `orthogonalBaseChange`, `orthogonalBaseChangeReal`, `spinorNorm`, `spinorNorm_reflection`, `OrthogonalCompactOpens`, `finiteAdelicOrthogonal`, `transvection`, `transvectionLiftHom` | orthogonal/spin-specific algebra, local spinor norms, and the finite-adelic point groups. ⚠ `strongApproximation_finiteAdelicSpin` and the orthogonal volume theorem are **not** #255 exports and are no longer cited; #255's README states that only `OrthogonalTamagawaAndLatticeMass` may export them |
 | 8D--8E | L-functions | Layer 1 Poisson summation, analytic dual/covolume identities, and Gaussian theta transformation; `FEPairWithLevel` for the resulting real-parameter functional equation | analytic Gaussian transformation only; the arithmetic upper-half-plane theta remains here |
 | 6C, 6G | Root Systems | Layer 5 ADE classification and `Nat.card P.weylGroup` | the rank-eight root system with the `E8` Cartan matrix is of type `E8` |
@@ -641,7 +667,7 @@ class-number finiteness, and it is what the enumeration in the LMFDB rests on.
 | 2F | M `exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure`; L 2B, 2E |
 | 2G | T doubling counts; L 2E, 2F |
 
-### Layer 3: localization, Jordan splittings, and the genus
+### Layer 3: localization, Jordan splittings, the genus, and the dyadic density data
 
 **3A. The embedded-to-local bridge.** First restrict the accepted rational form to an
 actual integral form
@@ -704,6 +730,50 @@ resulting conditions on symbols are decidable.
 `ℚ` and over every `ℚ_p`, in the invariants `(rank, d±, s_p, signature)`. Conversely,
 rational equivalence together with the integral local data gives membership in one genus.
 
+**3I. Dyadic type, bound and free constituents, and the density exponents.** This is the
+lattice-side combinatorics that the dyadic local density is read off. It is pure Jordan
+arithmetic over `ℤ_2` and uses no group scheme; the density itself is 7D, which is
+`OrthogonalTamagawaAndLatticeMass`'s.
+
+Let `R` be an unramified finite extension of `ℤ_2`, with residue field of cardinality `f`, and
+let `L` be a nondegenerate `R`-lattice of rank `n` with a Jordan splitting `L = ⊕_i L_i` as in
+3B, where `L_i = 2^i M_i` is the `2^i`-modular constituent, of rank `n_i`. Following Cho,
+Definition 2.1 and §2.3:
+
+- `L_i` is of **type I** when its norm ideal `𝔫(L_i)` is all of `R`, and of **type II**
+  otherwise. This is the odd/even distinction of the 2-adic symbol in 3E.
+- `L_i` is **bound** when `L_{i−1}` or `L_{i+1}` is of type I, and **free** when neither is.
+
+Write `t` for the number of constituents of type I, `b` for the number of pairs of adjacent
+constituents `L_i`, `L_{i+1}` both of type I, which is Conway–Sloane's `n(I, I)`, and `c` for
+the sum of the ranks of the nonempty constituents of type II, which is their `n(II)`. Put
+`d_i = i·n_i(n_i + 1)/2` and
+
+    N_M = ∑_{L_i type I} (2n_i − 1) + ∑_{i<j} (j − i)·n_i·n_j + 2b,
+    N_Q = ∑_{L_i type I} 2n_i + ∑_{i<j} j·n_i·n_j + ∑_i d_i + b + c.
+
+This milestone asks for:
+
+- the definitions above, with the convention in rank 0 and for an empty constituent, and the
+  proof that type is an invariant of the lattice and not of the splitting, which is the
+  invariance of the fundamental invariants (O'Meara 93:28, 93:29); the ranks `n_i` are
+  invariants for the same reason, so `N_M`, `N_Q`, `t`, `b` and `c` are well defined even
+  though the dyadic Jordan splitting itself is not unique;
+- the identity, which is Cho's Lemma 5.1,
+
+      N := N_Q − N_M = t + ∑_{i<j} i·n_i·n_j + ∑_i d_i − b + c;
+
+- the behaviour of `N_M`, `N_Q` and `N` under orthogonal sums whose scales do not interleave,
+  and under the scaling `L ↦ L(2)`, which shifts every index by one;
+- the dictionary to the 2-adic symbol of 3E: `t` is the number of odd constituents, `b` is
+  `n(I, I)` and `c` is `n(II)`, so the three exponents are computable from the symbol;
+- worked values: `N = 0` for a unimodular type II lattice of even rank, and the values for
+  `U`, for `⟨1⟩`, and for `⟨1⟩ ⊕ ⟨2⟩` over `ℤ_2`.
+
+⚠ `N` is generally nonzero. The formula of 7D carries `f^N`, and dropping it changes the
+answer by a power of 2; this is why the exponents are pinned here rather than left inside the
+statement that consumes them.
+
 | Milestone | Direct prerequisites |
 | --- | --- |
 | 3A | M `LinearMap.BilinForm.baseChange`, `TensorProduct`, `ℤ_[p]`, `ℚ_[p]`; L 0A, 1A, 1B |
@@ -714,6 +784,7 @@ rational equivalence together with the integral local data gives membership in o
 | 3F | L 0E, 3C, 3D |
 | 3G | L 3E, 3F; R Class Field Theory `hilbertProductFormula`; R Quadratic Form Invariants `hilbertSymbol_eq_cohomological`, `hilbertSymbol_productFormula` |
 | 3H | L 3F; R Quadratic Form Invariants Layers 1, 3 and 6; R Global Quadratic Forms `hasseMinkowski_equivalent`, `equivalent_of_locallyEquivalent` |
+| 3I | L 0D, 3B, 3D, 3E |
 
 ### Layer B: binary lattices and quadratic orders
 
@@ -727,10 +798,13 @@ theory of non-maximal quadratic orders or of binary form classes.
 ⚠ **The field-order and class-group branch is consumed, not built.** Global Number Fields
 Layer 11 owns orders in number fields, conductors, raw proper fractional ideals, the group of
 invertible proper fractional ideals, the separate ideal class monoid, `Pic`, and `NarrowPic`.
-Class Field Theory Layer 6 owns ring class fields and their Artin isomorphisms.
-Those interfaces apply only when `Δ` is nonsquare. If `Δ` is square, the quadratic algebra
-splits and this layer uses a separate elementary product-order route; it does not instantiate
-`NumberFieldOrder`, `Pic`, `NarrowPic`, or a ring class field. This layer owns the
+Class Field Theory owns ring class fields and their Artin isomorphisms, as
+`ringClassField`, `ringClassArtinMap` and `gal_ringClassField_equiv_pic`.
+Those interfaces apply only when `Δ` is nonsquare, and that is enforced by their types and not
+only by this paragraph: each of them takes a `NumberFieldOrder K` with `[Field K]`, and the
+split algebra `ℚ × ℚ` is not a field. If `Δ` is square, this layer uses a separate elementary
+product-order route; it does not instantiate `NumberFieldOrder`, `Pic`, `NarrowPic`, or a ring
+class field, and it defines no local substitute that would let a consumer ask for one. This layer owns the
 **binary** side in both branches: the norm form, content and discriminant, form classes,
 composition, automorphism groups, and the rank-2 mass.
 
@@ -816,8 +890,17 @@ the second the dictionary of B2. This roadmap proves the composite, and neither 
 statement that makes the classical `x² + ny²` criteria a fact about binary forms, and it is
 exactly what a copy of the Picard group would not have delivered.
 
-There is no ring-class-field corollary in the square-discriminant branch. Its composition
-law is the elementary split law from B2.
+There is no ring-class-field corollary in the square-discriminant branch, and the API is
+arranged so that one cannot be asked for. Class Field Theory's `ringClassField` takes an order
+in a number **field** `K` together with `Module.finrank ℚ K = 2`, so its argument is a
+`NumberFieldOrder K` with `[Field K]`; when `Δ` is a square the quadratic algebra `A_Δ` is
+`ℚ × ℚ`, which is not a field — `(1,0)` is a nonzero nonunit — and is therefore the `K` of no
+`NumberFieldOrder K`. The only route from a binary discriminant to such an order is B1's
+nonsquare constructor, which carries `¬ IsSquare Δ` in its type, so the composite ring class
+field of a binary lattice carries that hypothesis too and cannot be instantiated at a square
+discriminant. This roadmap defines no split ring class field, no split analogue of one, and no
+`Pic`- or `NarrowPic`-valued invariant of the split order; the split composition law is the
+elementary law from B2, and its class set is a type of its own.
 
 **B4. Automorphisms, ambiguous classes, and the Pell criterion.** For a nondegenerate
 binary `L` of nonsquare discriminant, the supplier order gives
@@ -879,10 +962,19 @@ than coercing `ℚ × ℚ` to a number field. Required: `T_L(ℤ_p)` is compact 
 `T_L(ℚ_p)`; the isomorphisms `SO(L_p) ≅ T_L(ℤ_p)` and `SO(V_p) ≅ T_L(ℚ_p)` transported from
 B4; and the diagonal embedding of `T_L(ℚ)`.
 
-**B7. Measures in rank 2.** A canonical Haar measure on `T_L(ℚ_p)` and on `T_L(ℝ)`, the
-product measure on the restricted product of the `T_L(ℚ_p)` relative to the `T_L(ℤ_p)`, and
-the finite covolume of the diagonal `T_L(ℚ)`. The normalization is compared with the one the
-sibling roadmap uses for `SO`, so that 7G here and the successor's 7H speak of one measure.
+**B7. Measures in rank 2.** A canonical Haar measure on `T_L(ℚ_p)` and on `T_L(ℝ)`, normalized
+so that `T_L(ℤ_p)` has volume 1; the product measure on the restricted product of the
+`T_L(ℚ_p)` relative to the `T_L(ℤ_p)`, built on `RestrictedProductGroup` with the compact open
+reference family of `CompactOpenSubgroups` and `isCompact_integralSubgroup`; and the finite
+covolume of the diagonal `T_L(ℚ)`, built on `rationalDiagonal`. Finiteness of that covolume is
+proved from B5 and the unit group of B4, and not from any general reduction theory: the torus
+is one-dimensional, its class set is the finite `NarrowPic 𝒪_Δ`, and its unit group is
+Dirichlet's.
+
+This torus measure is the whole of the adelic measure theory this roadmap owns. The Tamagawa
+measure of `SO(V)` is not built here and no milestone here normalizes one; the normalization
+above is stated so that the successor's rank-2 specialization has to reproduce it, so that 7G
+here and the successor's 7H speak of one measure rather than one deducing the other.
 
 **B8. The mass of a positive definite binary genus.** Let `L` be positive definite of rank 2
 with order `𝒪 = 𝒪(L)`, so `Δ < 0`, and write `w = #𝒪ˣ`. The content and the determinant are
@@ -917,17 +1009,17 @@ uses in rank 2, so the two documents cannot drift apart on the rank-2 constant.
 | --- | --- |
 | B1 | M `Matrix.det`, `Zsqrtd`, product rings; L 0A, 0C; for `¬ IsSquare Δ` only, R Global Number Fields `NumberFieldOrder`, `NumberFieldOrder.conductor` |
 | B2 | M `Ideal`, `Submodule`; L B1; for `¬ IsSquare Δ` only, R Global Number Fields `NumberFieldOrder.properFractionalIdeals`, `NumberFieldOrder.invertibleProperFractionalIdeals`, `NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two`, `IdealClassMonoid`, `Pic`, `NumberFieldOrder.mkPic`, `NarrowPic`; split classes are local |
-| B3 | L 3F, B2; for `¬ IsSquare Δ` only, R Global Number Fields `Pic`, `NarrowPic`; for `Δ < 0`, R Class Field Theory Layer 6 ring class field and Artin isomorphism; no split ring class field |
+| B3 | L 3F, B2; for `¬ IsSquare Δ` only, R Global Number Fields `Pic`, `NarrowPic`; for `Δ < 0`, R Class Field Theory `ringClassField`, `ringClassArtinMap`, `gal_ringClassField_equiv_pic`; no split ring class field, and none is formable |
 | B4 | M `Pell.Solution₁`, `Pell.exists_of_not_isSquare`; L 2C, B1, B2, B3 |
 | B5 | L B2; for `¬ IsSquare Δ` only, R Global Number Fields `finite_pic`, `finite_narrowPic`; split finiteness is proved directly |
 | B6 | M `ℤ_[p]`, `ℚ_[p]`, `LinearMap.BilinForm.baseChange`; L 3A, B4 |
-| B7 | M `MeasureTheory.Measure.haar`; L B6; R Adelic Algebraic Groups Layers 3, 6, 7; R Orthogonal and Spin Groups Layer 5 |
+| B7 | M `MeasureTheory.Measure.haar`; L B4, B5, B6; R Restricted Products `RestrictedProductGroup`, `CompactOpenSubgroups`, `integralSubgroup`, `isCompact_integralSubgroup`, `rationalDiagonal` |
 | B8 | L 2C, 3F, B2, B3, B4, B5 |
 
 ### Layer 4: classes, spinor genera, Eichler's theorem, and neighbors
 
 Orthogonal and Spin Groups owns the quadratic-space groups, the spinor norm and the local
-spinor norms. Adelic Algebraic Groups owns the generic restricted-product and rational-diagonal
+spinor norms. Restricted Products owns the generic restricted-product and rational-diagonal
 substrate. This layer owns their specialization to integral lattices.
 
 ⚠ **4D and the rank-`≥ 3` half of 4E are not milestones of this roadmap.** They rest on strong
@@ -938,8 +1030,22 @@ their lattice-side inputs and the successor must consume 4A–4C by name rather 
 **4A. Class sets.** The class `cls L`, the proper class `cls⁺ L`, the genus `gen L`, and
 the proper genus, with the inclusions `cls ⊆ spn ⊆ gen` once 4C defines the middle term.
 The class number `h(L)` is the number of classes in `gen L`, and the proper class number is
-its analogue. For definite `L` the class number is finite. In rank 0 and rank 1 the class
-sets are computed directly.
+its analogue. In rank 0 and rank 1 the class sets are computed directly.
+
+⚠ **Finiteness of the class number is three separate theorems with three different proofs, and
+this roadmap owns two of them.** There is no theorem here whose statement is "the class number
+of a nondegenerate lattice is finite": such a statement would silently claim the third branch,
+which rests on strong approximation and is the successor's. The branches are:
+
+| Branch | Proof | Owner |
+| --- | --- | --- |
+| positive definite, any rank | reduction: every class has a Minkowski-reduced Gram matrix, and reduced matrices of given rank and determinant have bounded entries | **here**, 2G; the definite case follows by `β ⇝ −β` |
+| indefinite, rank 2 | ideal classes: B2 injects the classes in `gen L` into the invertible proper ideal classes of `𝒪(L)`, which are finite by B5 | **here**, 4E |
+| indefinite, rank at least 3 | Eichler's theorem bounds the class number by the count of proper spinor genera in 4C | `OrthogonalTamagawaAndLatticeMass`, 4D and the rank-`≥ 3` half of 4E |
+
+The first two proofs are unrelated, and neither generalizes to the third: reduction needs
+definiteness, and the ideal-class argument needs the quadratic order of rank 2. Any Lean
+statement of finiteness therefore carries the hypothesis of exactly one branch in its type.
 
 **4B. Stabilizers and the adelic dictionary.** This roadmap is bilinear-first, and the supplier
 states its groups for a quadratic form over a field. The first part of the milestone is the
@@ -1060,7 +1166,7 @@ claimed, and no consumer may infer a complete list of classes from neighbor step
 | Milestone | Direct prerequisites |
 | --- | --- |
 | 4A | L 2C, 2G, 3F, B2, B5 |
-| 4B | L 3A, 3B, 4A; R Adelic Algebraic Groups Layers 1--3; R Orthogonal and Spin Groups Layers 0, 2 and 3 |
+| 4B | L 3A, 3B, 4A; R Restricted Products Layers 1--3; R Orthogonal and Spin Groups Layers 0, 2 and 3 |
 | 4C | T `squareClass`; L 3C, 3D, 4B; R Orthogonal and Spin Groups Layers 1 and 2 |
 | 4D | *successor milestone*: L 4B, 4C; strong approximation for `Spin`, from `OrthogonalTamagawaAndLatticeMass` over `AlgebraicGroupStrongApproximation` |
 | 4E, rank 2 | L B2, B5 |
@@ -1094,6 +1200,26 @@ uses the first.
 This is Theorem 1.10.1. Corollary 1.10.2 is the sufficient form: conditions 1 and 2 with
 the strict inequality `t₊ + t₋ > l(A_q)`. Both are milestones, and the corollary does not
 replace the theorem.
+
+⚠ **The four conditions are a typed object, not a table.** The boundary conditions 3 and 4 are
+the highest-risk part of this roadmap: each applies only at the equality `t₊ + t₋ = l(A_{q_p})`,
+condition 4 additionally switches off when `q₂` has a summand `q_θ^{(2)}(2)`, and the two
+determinant clauses differ — condition 3 carries the sign `(−1)^{t₋}` and condition 4 allows
+either sign. Omitting one clause, or folding all four into a single named hypothesis, produces
+a statement that is not Theorem 1.10.1 and that nothing in the review of an implementation would
+catch. `Suggested.lean` therefore pins the predicate as `NikulinExistenceConditions`, with one
+field per clause and with `l`, the `p`-primary components, the Gauss-sum invariant and the
+square class `discr K(q_p)` all named; a field called `localConditions` is an explicit rejection
+test. The theorem is then stated as an `↔`: the predicate holds exactly when an even lattice
+with those invariants exists.
+
+The square class `discr K(q_p)` is Nikulin's, and 5B owns its construction as well as the
+theorem: `K(q_p)` is a `p`-adic lattice of rank `l(A_{q_p})` whose discriminant form is `q_p`,
+which exists and is unique up to isometry by 3C at odd `p` and by 3D at `p = 2`, and
+`discr K(q_p)` is its determinant square class in `ℚ_p^*/(ℚ_p^*)²`. That the class does not
+depend on the chosen `K(q_p)` is part of the milestone. The ratio in conditions 3 and 4 is a
+`p`-adic unit because `A_{K(q_p)} ≅ q_p` forces `v_p(det K(q_p)) = v_p(|A_q|)`, and that
+observation is what makes the two conditions well posed.
 
 **5C. Uniqueness.** An even lattice with invariants `(t₊, t₋, q)` is unique in its genus if:
 
@@ -1201,6 +1327,18 @@ these invariants determine the isometry class. Such a lattice exists, for `δ_S 
 6. `δ_S = 0` when `a = 2` and `t₊ − t₋ ≡ 4 (mod 8)`;
 7. `t₊ − t₋ ≡ 0 (mod 8)` when `δ_S = 0` and `a = t₊ + t₋`.
 
+⚠ These seven conditions are a typed object for the same reason as 5B's four, and
+`Suggested.lean` pins them as `TwoElementaryAdmissible`, one field per clause, with the
+theorem stated as an `↔`. Conditions 4 to 7 are boundary clauses at `a = 0`, `a = 1`, `a = 2`
+and `a = t₊ + t₋`, and each is independent of the ones before it. Three tuples
+`(δ_S, t₊, t₋, a)` witness that, and the milestone checks them:
+
+- `(0, 4, 0, 0)` passes 1 to 3 and is excluded only by 4. It must be excluded, because
+  `a = 0` means unimodular and 1I gives `8 ∣ t₊ − t₋`;
+- `(1, 3, 0, 1)` passes 1 to 4 and is excluded only by 5;
+- `(1, 4, 0, 2)` passes 1 to 5 and is excluded only by 6;
+- `(0, 4, 0, 4)` passes 1 to 6 and is excluded only by 7.
+
 Theorem 3.6.3: for indefinite even 2-elementary `S`, the map `O(S) → O(q_S)` is surjective.
 Nikulin's paper has no `p`-elementary theorem for odd `p`. For odd `p` the classification
 follows from 5C, and the roadmap states it that way.
@@ -1285,11 +1423,19 @@ formula paper is the source for the normalization.
 into `m(f)` runs through the adelic volume of `SO(V)`, which needs a Tamagawa normalization and
 the volume theorem; #246 exports neither, and #255 states explicitly that only
 `OrthogonalTamagawaAndLatticeMass` may export the orthogonal volume theorem. Milestones **7B,
-7F, 7H and 7I are therefore that successor's**, and are stated here only as the boundary it
+7D, 7F, 7H and 7I are therefore that successor's**, and are stated here only as the boundary it
 must meet. What this roadmap owns is everything the successor consumes from the lattice side:
-the two masses and their comparison (7A), the local densities at odd `p` (7C) and at `2` (7D),
-the archimedean factor (7E), and the low-rank values (7G). Those are lattice arithmetic and use
-no adelic volume.
+the two masses and their comparison (7A), the local density with its stabilization and its
+odd-`p` values (7C), the archimedean factor (7E), and the low-rank values (7G), together with
+the dyadic Jordan data and density exponents of 3I. Those are lattice arithmetic and use no
+adelic volume and no group scheme.
+
+⚠ 7D is the successor's for a different reason from 7B, 7F, 7H and 7I. Those need a Tamagawa
+measure; 7D needs a smooth affine group scheme over `ℤ₂` — its smoothening, its special fibre,
+the unipotent radical of that fibre and the point count of the reductive quotient. No roadmap
+in the portfolio supplies any of the four, and §*Scope* records why building the most delicate
+integral model of the orthogonal group inside a lattice roadmap, while declaring all
+algebraic-group measure infrastructure out of scope, is not a coherent boundary.
 
 ⚠ Do not conflate the two orthogonal inputs the successor needs. Strong approximation is an
 *indefinite* statement, the volume theorem is what a *positive definite* mass needs, and neither
@@ -1314,7 +1460,10 @@ The piece of the class of `M` has volume
 
 Every quotient and stabilizer in that formula is named.
 
-**7C. Local densities at odd primes.** Let `L` be a nondegenerate `ℤ_p`-lattice of rank `n`
+**7C. The local density: definition, stabilization, and the values at odd primes.** The
+definition and the stabilization theorem below are for every prime, `p = 2` included; the
+closed evaluation is proved here at odd `p`, and at `p = 2` it is the successor's 7D. Let `L`
+be a nondegenerate `ℤ_p`-lattice of rank `n`
 with Gram matrix `A` in a basis. The local automorphism density is
 
     α_p(L) = lim_{r→∞} p^{−r·n(n−1)/2} · #{X ∈ Mₙ(ℤ/p^r) : Xᵀ A X ≡ A (mod p^r)}.
@@ -1351,35 +1500,31 @@ This milestone asks for:
   `α_3 = 4/3 = 2(1 − 3^{−1})`. Reading `ε` off the raw determinant would give `8/3`;
 - the reduction of `∏_p α_p(L)⁻¹` to a product of the standard Euler factors of those two
   displays, times the finitely many corrections at `p ∣ 2 det L`, and the convergence of
-  that product;
-- the dictionary to the Conway–Sloane local mass `m_p`, in their section 12, including every
-  factor of 2.
+  that product. The correction at `p = 2` is the number `α_2(L)`, which the stabilization
+  above defines and 7D evaluates; convergence of the product does not wait for that
+  evaluation, since a single finite factor cannot affect it;
+- the dictionary to the Conway–Sloane local mass `m_p` at odd `p`, in their section 12,
+  including every factor of 2.
 
 The values at odd `p` are computed from the Jordan decomposition of 3C.
 
-**7D. The local density at 2.** At `p = 2` the naive count does not stabilize, and the
-density is read off a smooth model. The theorem consumed is Cho, Theorem 5.2, and it is
-stated in the generality he proves and in his normalization, because the exponent below is
-generally nonzero and dropping it changes the answer by a power of 2.
+**7D. The local density at 2, from Cho's smooth model.** *Owner:*
+`OrthogonalTamagawaAndLatticeMass`. The closed evaluation of `α_2(L)` is read off a smooth
+affine group scheme over `ℤ_2`, so it needs smoothening, special fibres, unipotent radicals and
+reductive quotients of integral group schemes, together with point counts of each. That is a
+programme in the algebraic-group theory the successors own, and not a lattice calculation. The
+theorem is Cho, Theorem 5.2, and the successor must state it in the generality Cho proves and
+in his normalization, because the exponent below is generally nonzero and dropping it changes
+the answer by a power of 2. It is set out here as the boundary the successor must meet, and
+because the lattice-side inputs are milestones of this roadmap.
 
 Let `R` be an unramified finite extension of `ℤ_2`, with fraction field `F` and residue
-field `κ` of cardinality `f`; Cho calls this ring `A`, which is the Gram matrix in 7C. Let
+field `κ` of cardinality `f`. Let
 `(L, q)` be a quadratic `R`-lattice of rank `n` with `⟨x, y⟩ = ½(q(x+y) − q(x) − q(y))`
 integral and `V = L ⊗_R F` nondegenerate; in this roadmap's vocabulary `⟨·,·⟩` is `β` and
-`q` is the norm form `N_L`, since `⟨x, x⟩ = q(x)`. Fix a Jordan splitting `L = ⊕_i L_i` as
-in 3B, where `L_i = 2^i M_i` is the `2^i`-modular constituent, of rank `n_i`. Following
-Cho, `L_i` is of **type I** when its norm ideal is all of `R` and of **type II** otherwise,
-which is the odd/even distinction of the 2-adic symbol in 3E; and `L_i` is **bound** when
-`L_{i−1}` or `L_{i+1}` is of type I, and **free** when neither is. Put
-
-    N_M = ∑_{L_i type I} (2n_i − 1) + ∑_{i<j} (j − i)·n_i·n_j + 2b,
-    N_Q = ∑_{L_i type I} 2n_i + ∑_{i<j} j·n_i·n_j + ∑_i d_i + b + c,
-    N   = N_Q − N_M = t + ∑_{i<j} i·n_i·n_j + ∑_i d_i − b + c,
-
-where `d_i = i·n_i(n_i + 1)/2`, `t` is the number of constituents of type I, `b` is the
-number of pairs of adjacent constituents `L_i`, `L_{i+1}` both of type I, which is
-Conway–Sloane's `n(I, I)`, and `c` is the sum of the dimensions of the nonempty
-constituents of type II, which is their `n(II)`. Let `𝒢_L` be the smooth affine group scheme
+`q` is the norm form `N_L`, since `⟨x, x⟩ = q(x)`. Take the Jordan splitting, the type and
+bound/free classification, and the exponents `N_M`, `N_Q` and `N` from 3I, which is ours. Let
+`𝒢_L` be the smooth affine group scheme
 over `R` with generic fiber `O(V, q)` and `𝒢_L(R) = O(L)`, let `𝒢̃_L` be its special fiber
 and `U_L` the unipotent radical of `𝒢̃_L`. Then Cho's local density of `(L, q)`, which he
 writes `β_L` and which is not the bilinear form `β` of Layer 0, is
@@ -1390,20 +1535,22 @@ and `#𝒢̃_L(κ) = #U_L(κ)·#(𝒢̃_L/U_L)(κ)` with `#U_L(κ) = f^{dim U_L}
 `𝒢̃_L/U_L` being `∏_i O(V̄_i, q̄_i)_red` times an elementary abelian 2-group whose rank is
 the `α + β` of Cho's Lemma 4.2, by his Theorem 4.12.
 
-This milestone asks for:
+The successor's milestone is:
 
-- the construction of `𝒢_L` from the Jordan data of 3D, with the type and bound/free
-  classification, and the convention in rank 0;
+- the construction of `𝒢_L` from the Jordan data of 3D and 3I, with the convention in rank 0;
 - the proof that `𝒢_L` is smooth of relative dimension `n(n−1)/2`;
-- the exponents `N_M`, `N_Q` and `N`, and the displayed formula, over a general unramified
-  `R`, with `R = ℤ_2` and `f = 2` specialized only afterwards;
+- the special fibre, its unipotent radical, the reductive quotient, and the point count of
+  each;
+- the displayed formula, over a general unramified `R`, with `R = ℤ_2` and `f = 2`
+  specialized only afterwards, using 3I's exponents unchanged;
 - the factor `[O(V, q) : SO(V, q)]⁻¹`: the index is 2 for `n ≥ 1` in characteristic zero,
   so the factor is `½`, and it is the reason `β_L` is a density for `SO` and not for `O`;
-- the comparison with the limit definition of 7C, which is where the roadmap's `α_2`
-  is fixed. The odd-prime case pins the expected constant: Gan–Yu give
+- the comparison with the limit definition of 7C, which is where `α_2` is fixed. That limit
+  and its stabilization are ours, so what the successor proves is an evaluation of a number
+  this roadmap has already constructed, not a second definition of it. The odd-prime case
+  pins the expected constant: Gan–Yu give
   `β_{L_p} = ½·p^{−n(n−1)/2}·#O(L_p ⊗ 𝔽_p)`, which is half the `α_p` of 7C, so the target
-  is `α_2(L) = 2·β_L = 2^{N − n(n−1)/2}·#𝒢̃_L(𝔽_2)`, and the milestone proves that equality
-  rather than assuming it;
+  is `α_2(L) = 2·β_L = 2^{N − n(n−1)/2}·#𝒢̃_L(𝔽_2)`, and it is proved rather than assumed;
 - the proof that the resulting factor is the Conway–Sloane dyadic factor, oddity and type
   included.
 
@@ -1470,11 +1617,11 @@ equality `1/|O(E₈²)| + 1/|O(D₁₆⁺)| = m₁₆` and the finiteness of the
 | 7A | L 2C, 2G, 4A |
 | 7B | *successor milestone*: L 4B, 7A; `TamagawaMeasures` quotient and measure substrate; the volume theorem 7F |
 | 7C | L 3B, 3C, 4B |
-| 7D | L 3D, 3E, 4B |
+| 7D | *successor milestone*: L 3D, 3E, 3I, 7C; smoothening, special fibres, unipotent radicals and reductive quotients of affine group schemes over `ℤ_p`, from `OrthogonalTamagawaAndLatticeMass` over the successors #246 names |
 | 7E | M `Real.Gamma`, sphere volumes; L 2D |
 | 7F | *successor milestone*: `TamagawaMeasures`, and `OrthogonalTamagawaAndLatticeMass`'s own gauge forms |
 | 7G | L 2C, 4A, 7A, B6, B7, B8 |
-| 7H | *successor milestone*: L 2C, 6C, 6D, 6G, 7C, 7D, 7E, 7G; successor 7B, 7F |
+| 7H | *successor milestone*: L 2C, 3I, 6C, 6D, 6G, 7C, 7E, 7G; successor 7B, 7D, 7F |
 | 7I | *successor milestone*: L 2G, 6D, 6G; successor 7H |
 
 ### Layer 8: theta series
@@ -1498,14 +1645,54 @@ of 2B.
 the image of the dual lattice of 1B, so the two notions agree. For positive definite `L`,
 `covolume(L) = Real.sqrt (det L)`.
 
-**8E. The transformation law.** From the Gaussian theta transformation for real `t > 0`,
-together with 8D and analytic continuation in `τ`,
+**8E. The transformation law under `S`.** From the Gaussian theta transformation for real
+`t > 0`, together with 8D and analytic continuation in `τ`,
 
     Θ_L(−1/τ) = (τ/i)^{n/2} (det L)^{−1/2} Θ_{L^⋆}(τ).
 
 Both sides are holomorphic on the upper half-plane and agree on the positive imaginary
 axis. The branch of `(τ/i)^{n/2}` and the square root are those fixed in the conventions.
 For unimodular `L` this becomes `Θ_L(−1/τ) = (τ/i)^{n/2} Θ_L(τ)`.
+
+**8F. The translation law under `T`.** With the nome `q = e^{πiτ}` fixed in the conventions,
+integrality of `β` gives `Θ_L(τ + 2) = Θ_L(τ)` for every integral positive definite `L`, and
+evenness gives the stronger `Θ_L(τ + 1) = Θ_L(τ)` for even `L`. Both are milestones, and the
+parity hypothesis on the second is not decoration: `Θ_ℤ(τ + 1) ≠ Θ_ℤ(τ)`, because the two
+`q`-expansions differ in every odd exponent, and Mathlib's `jacobiTheta` is periodic with
+period 2 rather than 1 (`jacobiTheta_two_add`). The level of 1J is what controls the smallest
+translation under which all of the coset series of 8G are simultaneously invariant.
+
+**8G. The vector-valued law on discriminant cosets.** Let `L` be even, positive definite and
+nondegenerate. For a class `μ ∈ A_L` the coset theta is
+
+    Θ_μ(τ) = ∑_{x ∈ L^⋆, x̄ = μ} exp(πiτ·β(x,x)),
+
+which converges by the argument of 8B applied to a translate, and satisfies `Θ_0 = Θ_L` and
+`∑_{μ ∈ A_L} Θ_μ = Θ_{L^⋆}`. The two laws are
+
+    Θ_μ(τ + 1) = e^{2πi q_L(μ)} Θ_μ(τ),
+    Θ_μ(−1/τ) = (τ/i)^{n/2} (det L)^{−1/2} ∑_{ν ∈ A_L} e^{−2πi b_L(μ,ν)} Θ_ν(τ),
+
+with `q_L` and `b_L` the half-norm discriminant form and pairing of 1D, and `e^{2πi·}` the
+standard character of `ℚ/ℤ`. This is where the half-norm convention pays: `q_L(μ)` is exactly
+the exponent that appears, with no factor of two to insert. The milestone proves both laws,
+together with `Θ_{−μ} = Θ_μ`, the well-definedness of both characters on `A_L`, and two
+mandatory checks: at `μ = 0` the second law is 8E, because `#A_L = det L`; and for `L = A₁`
+the two coset series are the classical `θ₃(2τ)` and `θ₂(2τ)`.
+
+⚠ The sign in the character `e^{−2πi b_L(μ,ν)}` is immaterial, because `Θ_{−ν} = Θ_ν` lets
+the substitution `ν ↦ −ν` reverse it; a contributor who finds the opposite sign in a source
+has not found a discrepancy. The factor `(det L)^{−1/2}`, the branch of `(τ/i)^{n/2}` and the
+exponent `q_L(μ)` are **not** immaterial, and each is fixed above.
+
+⚠ **Layer 8 ends here, and what it produces is a transformation law.** 8B, 8E, 8F and 8G are
+the whole of the exported statement: convergence and holomorphy, `S`, `T`, and the
+vector-valued version on discriminant cosets. No milestone of this roadmap says that `Θ_L` is a
+modular form, and no declaration is named `isModularForm` or takes values in a space of modular
+forms. Saying so would need a half-integral-weight modular-forms carrier for a congruence
+subgroup together with the theorem that these laws force holomorphy at every cusp, and in the
+vector-valued case a carrier for the Weil representation; §*Scope* records that none of the
+three has an owner.
 
 | Milestone | Direct prerequisites |
 | --- | --- |
@@ -1514,13 +1701,16 @@ For unimodular `L` this becomes `Θ_L(−1/τ) = (τ/i)^{n/2} Θ_L(τ)`.
 | 8C | M `jacobiTheta`; L 0A, 8B |
 | 8D | M `ZLattice.covolume`; L 1B, 2D, 8A; R L-functions Layer 1 analytic dual and covolume milestones |
 | 8E | L 8B, 8D; R L-functions Layer 1 Gaussian theta transformation |
+| 8F | M `jacobiTheta_two_add`; L 0B, 0D, 1J, 8B |
+| 8G | M `AddCircle`, `jacobiTheta`; L 1C, 1D, 8B, 8E, 8F |
 
 ### Layer 9: what the LMFDB lattice columns assert
 
 **9A. The stored columns.** A record of the LMFDB lattice section is a Gram matrix `G`, a
 label `dim.det.level.class_number.index`, a list of Gram matrices called the genus
-representatives, and the numerical columns. The milestone defines one object,
-`StoredGenusCertificate`, whose fields are the statements the record asserts:
+representatives, and the numerical columns. This milestone defines
+`StoredGenusCertificate`, whose fields are the statements the record asserts about the stored
+matrices themselves:
 
 - `G` is integral, symmetric and positive definite, so 0A to 0E apply to the lattice `L` it
   defines;
@@ -1530,23 +1720,55 @@ representatives, and the numerical columns. The milestone defines one object,
   of 2C, and the theta coefficients are those of 8B;
 - every listed Gram matrix defines a lattice in `gen L`, by 3F;
 - the listed lattices are pairwise non-isometric, which is a decidable check for positive
-  definite lattices by 2G;
-- the number of listed lattices is the class number of `gen L`, which is the label
-  component `class_number`, is the invariant defined in 4A, and is finite by 2G.
+  definite lattices by 2G.
 
-The last field is the completeness statement, and a mass certificate from the successor's 7H is
-one way to prove it for a given genus, not a prerequisite of the definition. The fifth label component
-has no mathematical content in this roadmap.
+Every one of these is a **semantic** assertion: it says what a stored column means, and each is
+proved for a given record by a finite computation with the milestones named beside it. The fifth
+label component has no mathematical content in this roadmap.
 
-`Suggested.lean` carries the structure, because every condition in it is expressible at the
+⚠ `StoredGenusCertificate` deliberately has **no completeness field and no `class_number`
+field**. A list of pairwise non-isometric lattices in one genus is not thereby the whole genus,
+and nothing in Layers 0 to 8 proves that it is: 2G gives finiteness of the class set, which is
+not the same as identifying it. Putting `class_number` beside the semantic fields would make
+every certificate assert exhaustiveness, which is the one thing this roadmap cannot prove.
+Completeness is 9B.
+
+**9B. The completeness certificate, and the import it names.** `StoredClassNumberCertificate`
+extends 9A's record with the class number, and it is where exhaustiveness lives. Exactly two
+routes reach it, and both leave this roadmap:
+
+- an exact mass: the mass `m(gen L)` of 7A is defined here as a sum over the classes in the
+  genus, but no milestone here evaluates it. The evaluation is the Conway–Sloane formula, which
+  is `OrthogonalTamagawaAndLatticeMass`'s 7H;
+- a proved neighbour-graph connectivity theorem in the exact regime. 4G defines `p`-neighbours
+  and proves the edge relation, and it explicitly claims nothing about connectivity; the
+  theorem that the neighbour graph of a genus is connected is not a milestone of this roadmap
+  either.
+
+So 9B takes the mass as a **hypothesis field**, named as such: a rational number `mass`, the
+assumption `mass_isGenusMass` that it is the mass of the genus in the sense of 7A, and the check
+`reps_exhaust_mass` that the reciprocal automorphism orders of the listed representatives already
+sum to it. Completeness is then a **theorem** of 9B and not a field of it: the listed lattices
+are distinct classes in the genus, `1/|O(M)|` is an isometry invariant and positive, so a proper
+sublist would sum to strictly less than the mass. The class number is the length of the list,
+and it is only in 9B that it means what the LMFDB column means. A contributor who has the
+connectivity theorem instead builds the analogous record with that theorem in place of
+`mass_isGenusMass`; the shape is the same, and what may not happen is a certificate with neither.
+
+This split is what keeps a certificate honest. A consumer that has not imported an exact mass or
+a connectivity theorem can build a `StoredGenusCertificate` and gets every semantic column from
+it; it cannot build a `StoredClassNumberCertificate` at all, because it has nothing to put in
+the hypothesis field.
+
+`Suggested.lean` carries both structures, because every condition in them is expressible at the
 current Mathlib: isometry is integral congruence of Gram matrices, and genus membership is
-congruence over every `ℤ_p` together with positive definiteness on both sides, which is 3F
-written out. Nothing in the certificate waits for the genus symbols of 3E or the mass
-formula of Layer 7.
+congruence over every `ℤ_p` together with the real signature, which is 3F written out. Nothing
+in either certificate waits for the genus symbols of 3E.
 
 | Milestone | Direct prerequisites |
 | --- | --- |
-| 9A | L 0A, 0C, 0D, 0E, 2B, 2C, 2G, 3F, 4A, 8B |
+| 9A | L 0A, 0C, 0D, 0E, 2B, 2C, 2G, 3F, 8B |
+| 9B | L 2C, 2G, 4A, 7A, 9A; for a discharged instance, either the successor's 7H or a connectivity theorem, neither of which is a milestone here |
 
 ---
 
@@ -1630,7 +1852,7 @@ for the eight items listed. The layer that introduces the object owns them.
 - **Naturality.** Localization commutes with sums, form twists, carrier dilations, duality,
   and isometries.
 - **Edge cases.** `p = 2`; rank 0; a scale-zero constituent.
-- **Downstream.** 3C to 3H, 4C, 7C, 7D.
+- **Downstream.** 3C to 3I, 4C, 7C; and the successor's 7D.
 
 ### Genus symbols (3E, 3G)
 
@@ -1643,7 +1865,7 @@ for the eight items listed. The layer that introduces the object owns them.
   relate them; the symbol determines the genus; the translation to `(t₊, t₋, q)` (5A).
 - **Naturality.** The symbol depends only on the isometry class of `L_p`.
 - **Edge cases.** `p = 2`; determinant `±1`, where the symbol is empty; rank 0.
-- **Downstream.** 3F, 3G, 5A, 7C, 7D, 9A.
+- **Downstream.** 3F, 3G, 3I, 5A, 7C, 9A; and the successor's 7D.
 
 ### Class, genus and spinor genus (4A, 4C)
 
@@ -1658,7 +1880,7 @@ for the eight items listed. The layer that introduces the object owns them.
 - **Naturality.** The double-coset description is compatible with a change of the base
   lattice inside a genus.
 - **Edge cases.** Rank 0, 1 and 2; definite and indefinite.
-- **Downstream.** 4E to 4G, 7A, 9A; and the successor's 7B.
+- **Downstream.** 4E to 4G, 7A, 9A, 9B; and the successor's 7B.
 
 ### The quadratic order of a binary lattice (B1)
 
@@ -1694,10 +1916,11 @@ for the eight items listed. The layer that introduces the object owns them.
 - **Functoriality.** Behavior under a positive twist. There is no formula for a direct sum,
   and that non-statement is recorded.
 - **Comparison lemmas.** `m⁺ = 2m` for `rank L ≥ 1`, and `m⁺ = m = 1` in rank 0; the local
-  factors of 7C and 7D. The dictionary to Siegel's `α_p` is stated with the successor's 7H.
+  factor 7C, whose dyadic evaluation is the successor's 7D. The dictionary to Siegel's `α_p` is
+  stated with the successor's 7H.
 - **Naturality.** The mass depends only on the genus.
 - **Edge cases.** Ranks 0, 1 and 2 (7G).
-- **Downstream.** 6D, 9A.
+- **Downstream.** 6D, 9B, where it is the named hypothesis that discharges completeness.
 
 ### The theta series (8B)
 
@@ -1705,8 +1928,8 @@ for the eight items listed. The layer that introduces the object owns them.
 - **Examples.** `Θ_ℤ = jacobiTheta`; `Θ_{Iₙ}`; `Θ_{E₈}` with `r_{E₈}(2) = 240`.
 - **Morphisms.** None on `Θ_L` itself. An isometry gives equality of theta series.
 - **Functoriality.** `Θ_{L⊕M} = Θ_L·Θ_M`, and `Θ_{L(a)}(τ) = Θ_L(aτ)` for `a > 0`.
-- **Comparison lemmas.** The q-expansion with the shell counts; the transformation law
-  (8E).
+- **Comparison lemmas.** The q-expansion with the shell counts; the transformation laws under
+  `S` (8E), under `T` (8F), and on discriminant cosets (8G). None of them is modularity.
 - **Naturality.** Independence of the chosen realization (8A).
 - **Edge cases.** Rank 0, where `Θ_L = 1`; negative definite and indefinite lattices, which
   are excluded.
@@ -1730,7 +1953,7 @@ for the eight items listed. The layer that introduces the object owns them.
 | Eichler's theorem (4D, not owned here) | O'Meara 104:5 | indefinite, and rank at least 3 | "every indefinite lattice satisfies `cls⁺ = spn⁺`". Rank 2 is excluded, and the rank-2 half of 4E — which stays here — proves that case by a different argument. |
 | Strong approximation for `Spin` (not owned here) | O'Meara 104:4 | dimension at least 3, and a noncompact place | "it also proves the Tamagawa volume theorem". It does not: 7F is a separate theorem, and both belong to `OrthogonalTamagawaAndLatticeMass`. |
 | The mass formula (7H, not owned here) | Conway–Sloane, eq. (2) | rank at least 2, in the stated normalization | "the formula holds in every rank". In rank at most 1 a factor 2 becomes 1, and `m` is 1/2 in rank 1 and 1 in rank 0 — which 7G proves here, so the successor must not re-derive it from the general formula. |
-| The local density at 2 (7D) | Cho, Compositio 151 (2015) | residue characteristic 2, with the smoothened model | "the Conway–Sloane dyadic table proves it". The table is stated there without proof. |
+| The local density at 2 (7D, not owned here) | Cho, Compositio 151 (2015) | residue characteristic 2, with the smoothened model | "the Conway–Sloane dyadic table proves it". The table is stated there without proof, and the smooth model the proof needs has no supplier in this portfolio, which is why 7D is `OrthogonalTamagawaAndLatticeMass`'s. |
 | Classification in rank at most 9 (6C) | O'Meara 106:13 | rank at most 9, positive definite | "a positive definite unimodular lattice is determined by its rank and parity". Rank 16 has two even classes (6D). |
 | Automorphisms of an indefinite lattice (4F) | O'Meara §104; Cassels ch. 13 | rank at least 3, and a case split on isotropy over `ℚ` | "an indefinite rational space has an isotropic vector". `x² + y² − 3z²` is indefinite over `ℝ` and anisotropic over `ℚ`, so the transvection proof covers only one case. |
 | Automorphisms of a binary lattice (B4) | Pell's equation; Cassels ch. 13 | `Δ > 0` and `Δ` not a square | "an indefinite binary lattice has infinite `O(L)`". `U` has `Δ = 1`, a square, and `|O(U)| = 4`. |
@@ -1738,7 +1961,8 @@ for the eight items listed. The layer that introduces the object owns them.
 | The rank-2 mass (B8) | Gauss; Conway–Sloane §2 | the count is of **proper** classes | "`m(gen L) = h(gen L)/(2·#𝒪ˣ)` with `h` the class number". The genus of `!![4,1;1,6]` has `h = 2`, `h⁺ = 3` and `w = 2`, and its mass is `1/4 + 1/2 = 3/4 = h⁺/(2w)`, not `1/2`. |
 | Eichler transvections (4F) | O'Meara §104; Cassels ch. 13 | `w` is taken modulo `ℤu`, and `N_L(w)` is even | "`w ↦ E_{u,w}` is injective on a finite-index subgroup of `u^⊥ ∩ L`". `E_{u,w+au} = E_{u,w}` for every `a`, and every finite-index subgroup contains a nonzero multiple of `u`. |
 | The odd local density type (7C) | Conway–Sloane §12; Gan–Yu Thm 7.3 | `ε` is the type of the reduction, `((−1)^m det | p)` | "`ε = +1` exactly when `det L_p` is a square". The hyperbolic plane over `p = 3` has `det = −1`, a nonsquare, and is split, with `α_3 = 4/3`. |
-| Cho's dyadic formula (7D) | Cho Thm 5.2 with Lemma 5.1 | the exponent `N = N_Q − N_M` and the index `[O : SO]` | "`α_2(L) = 2^{−n(n−1)/2}·#𝒢̃_L(𝔽_2)`". `N` is generally nonzero, and `β_L` carries `[O(V,q) : SO(V,q)]⁻¹`. |
+| Cho's dyadic formula (7D, not owned here; 3I owns its exponents) | Cho Thm 5.2 with Lemma 5.1 | the exponent `N = N_Q − N_M` and the index `[O : SO]` | "`α_2(L) = 2^{−n(n−1)/2}·#𝒢̃_L(𝔽_2)`". `N` is generally nonzero, and `β_L` carries `[O(V,q) : SO(V,q)]⁻¹`. |
+| Well-definedness of the dyadic exponents (3I) | O'Meara 93:28 and 93:29; Cho Lemma 5.1 | the ranks, scales and norms of the Jordan constituents are invariants of the lattice, although the splitting is not | "nothing attached to a dyadic Jordan splitting is an invariant". The signs and oddities are not, which is why 3E needs sign walking and oddity fusion; the ranks, scales and types are, and that is what makes `N_M`, `N_Q` and `N` well defined. |
 | Proper against full mass (7A) | Conway–Sloane §2 | `rank L ≥ 1` | "`m⁺ = 2m` always". In rank 0 both masses are 1, because `O(L) = SO(L) = 1`. |
 | Rank-16 completeness (7I, not owned here) | Witt; Conway–Sloane §9 | the mass formula and both automorphism orders | "the two classes are known to exhaust the genus once they are constructed". 6D proves only that the two exist, lie in one genus, and differ; completeness waits for `OrthogonalTamagawaAndLatticeMass`. |
 | Theta convergence (8B) | Poisson summation; `ZLattice` summability | `L` is positive definite | "the theta series of a definite lattice converges". For a negative definite lattice the terms are unbounded. |
@@ -1786,7 +2010,8 @@ factor of 2, a wrong sign, or a vacuous definition.
   to `O(Λ_{K3})`. Every even lattice of signature `(1, ρ−1)` with `ρ ≤ 10` embeds
   primitively (5G, 5H, 6A).
 - One LMFDB record checked end to end: `A₂`, and one rank-4 lattice with a nontrivial
-  2-adic symbol (9A).
+  2-adic symbol (9A). The `A₂` completeness certificate of 9B is built only from an imported
+  mass, and the roadmap records that it cannot be built here.
 - Mass conventions: rank 0 gives 1, and the genus of `⟨a⟩` gives 1/2 (7G).
 
 ## Ordering and parallelism
@@ -1799,7 +2024,8 @@ Layer 0 comes first. After it, three groups of milestones are independent of eac
 
 The rest of the order follows the prerequisite tables:
 
-- milestones 3F to 3H need Layer 1 and the two suppliers named in their table;
+- milestones 3F to 3H need Layer 1 and the two suppliers named in their table; 3I needs only
+  3B, 3D and 3E, so it can be built in parallel with 3F to 3H;
 - Layer B needs Layers 0 to 3; its nonsquare branch also needs the order and Picard carriers
   of Global Number Fields and, for negative discriminant, Class Field Theory's
   ring-class-field milestone. The square branch is elementary. Layers 4 and 7 use both
@@ -1807,12 +2033,15 @@ The rest of the order follows the prerequisite tables:
 - Layer 4 needs Layers 2, 3 and B, and the Orthogonal and Spin Groups roadmap;
 - Layer 5 needs Layers 1 and 3;
 - Layer 6 needs Layers 1, 2 and 5, and milestone 6C also needs Root Systems;
-- Layer 7's own milestones — 7A, 7C, 7D, 7E and 7G — need Layers 2, 3, 4 and B, and nothing
+- Layer 7's own milestones — 7A, 7C, 7E and 7G — need Layers 2, 3, 4 and B, and nothing
   adelic; 7B, 7F, 7H and 7I are `OrthogonalTamagawaAndLatticeMass`'s and are ordered after the
-  generic `TamagawaMeasures`;
+  generic `TamagawaMeasures`, and its 7D after the group-scheme material of the successors
+  #246 names;
 - milestones 8A to 8C need Layers 0 to 2; 8D and 8E consume L-functions Layer 1's
   analytic dual/covolume and Gaussian theta milestones, and L-functions consumes nothing back;
-- Layer 9 comes last.
+  8F needs only 8B, and 8G needs Layer 1 together with 8E and 8F;
+- Layer 9 comes last. 9A needs nothing outside this roadmap; 9B has no discharged instance
+  until an exact mass or a connectivity theorem is imported from outside it.
 
 The shortest route to the K3 results is `0 → 1 → 5`, together with the comparison 5A. That
 route uses no milestone of Layers 2, 4, 6, 7 or 8.
@@ -1828,14 +2057,15 @@ route uses no milestone of Layers 2, 4, 6, 7 or 8.
   - section 12 for the dictionary to Siegel's densities.
 - S. Cho, *Group schemes and local densities of quadratic lattices in residue characteristic
   2*, Compositio Math. 151 (2015) 793–827. The proof of the dyadic local density formula
-  used in 7D: Definition 2.1 for the parity types; section 2.3 for bound and free
-  constituents; Theorem 4.12 with Remark 4.13 for the maximal reductive quotient of the
-  special fiber; Lemma 5.1 for `N_M` and `N_Q`; Theorem 5.2 for the density; Remark 5.3 for
-  the count `#𝒢̃_L(κ)` through the unipotent radical.
+  used in 7D, which `OrthogonalTamagawaAndLatticeMass` owns. Definition 2.1 for the parity
+  types and section 2.3 for bound and free constituents are cited by **3I**, which is ours,
+  as is Lemma 5.1 for `N_M`, `N_Q` and `N`. Theorem 4.12 with Remark 4.13 for the maximal
+  reductive quotient of the special fiber, Theorem 5.2 for the density, and Remark 5.3 for
+  the count `#𝒢̃_L(κ)` through the unipotent radical are the successor's.
 - W. T. Gan, J.-K. Yu, *Group schemes and local densities*, Duke Math. J. 105 (2000)
   497–524. The smooth-model formulation of the local density that Cho extends to `p = 2`;
-  its Theorem 7.3 is the odd-residue-characteristic value used in 7D to pin the constant
-  between Cho's normalization and the limit definition of 7C.
+  its Theorem 7.3 is the odd-residue-characteristic value that pins the constant between Cho's
+  normalization and the limit definition of 7C, and is cited by 7C for that reason.
 - D. Allcock, I. Gal, A. Mark, *The Conway–Sloane calculus for 2-adic lattices*,
   arXiv:1511.04614. The proof of the symbol calculus and the corrected canonical form, used
   in 3E.
@@ -1883,4 +2113,4 @@ route uses no milestone of Layers 2, 4, 6, 7 or 8.
   Springer (2019). Background for 6E.
 - T. Kirschmer, *Definite quadratic and hermitian forms with small class number*,
   Habilitation, RWTH Aachen (2016). Tables of one-class genera and masses, used to validate
-  9A.
+  9A and 9B.

@@ -1,11 +1,12 @@
 import Mathlib
+import TauCeti.FieldTheory.SquareClassGroup
 import TauCeti.LinearAlgebra.RootSystem.DynkinType
 import TauCeti.LinearAlgebra.RootSystem.NumberOfRoots
 import TauCetiRoadmap.QuadraticFormInvariants.Suggested
 import TauCetiRoadmap.GlobalQuadraticForms.Suggested
 import TauCetiRoadmap.GlobalNumberFields.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
-import TauCetiRoadmap.AdelicAlgebraicGroups.Suggested
+import TauCetiRoadmap.RestrictedProducts.Suggested
 import TauCetiRoadmap.OrthogonalSpinGroups.Suggested
 import TauCetiRoadmap.LFunctions.Suggested
 
@@ -35,11 +36,12 @@ The second section checks the exact declarations imported from the seven final s
 roadmaps. Every name there is one the supplier actually exports in its own accepted scope:
 there are no private supplier structures or substitute carriers here, and no `#check` of a
 declaration a supplier has said it will not export. Where a supplier's contract is README-only
-(ring class fields, and the Gaussian theta transformation) the dependency stays a prose
+(the Gaussian theta transformation) the dependency stays a prose
 milestone rather than an unconstrained Lean stand-in. Generic Tamagawa normalization, strong
-approximation for `Spin` and the orthogonal volume theorem are not README milestones of this
+approximation for `Spin`, the orthogonal volume theorem and Cho's smooth affine group scheme
+over `ℤ₂` are not README milestones of this
 roadmap at all: they belong to the successor `OrthogonalTamagawaAndLatticeMass`, together with
-the mass formula they assemble (`README.md`, §*Scope*).
+the mass formula and the dyadic local density they assemble (`README.md`, §*Scope*).
 
 The remaining sections pin targets for **Layer 0** (the bilinear and quadratic dictionary,
 Gram determinants, the standard examples), **Layer 1** (dual lattices, the
@@ -47,12 +49,16 @@ discriminant-group cardinality, unimodularity, integral against even overlattice
 signature-mod-8 statement), **Layer 2** (finiteness of automorphism groups and of positive
 definite classes, the covolume identity, `|O(E₈)| = 696729600`), **Layer 3** (odd-`p`
 orthogonal splitting, the dyadic counterexample, the constraint from the product formula),
-**Layer 4** (the imported spinor norm of a product of reflections), **Layer 5** (the primitivity
-dictionary, the K3-lattice existence shape), **Layer 6** (indefinite even unimodular
+**Layer 4** (the imported spinor norm of a product of reflections, and the two class-number
+finiteness branches this roadmap owns), **Layer 5** (the primitivity
+dictionary, the K3-lattice existence shape, and Nikulin's existence and `2`-elementary
+predicates written out clause by clause), **Layer 6** (indefinite even unimodular
 uniqueness), **Layer 8** (theta convergence, the restriction of the holomorphic theta to
-the imaginary axis, and the transformation law imported at the README boundary) and
+the imaginary axis, the translation law under `T`, and the vector-valued law on discriminant
+cosets) and
 **Layer 9** (`StoredGenusCertificate`, the object a stored LMFDB lattice
-record asserts). They elaborate against the Mathlib version this repository builds
+record asserts, and the separate `StoredClassNumberCertificate` that carries completeness).
+They elaborate against the Mathlib version this repository builds
 against, and they are stated with `sorry`, which is allowed in this human-owned roadmap
 library.
 
@@ -61,6 +67,14 @@ Conway–Sloane genus symbols of Layer 3 and the adelic double cosets of Layer 4
 would assert nothing. Layer 9 is different: genus membership and isometry are congruence of
 Gram matrices over `ℤ_p` and over `ℤ`, which are expressible now, so the certificate is
 written out rather than described.
+
+Two boundaries are enforced by types rather than by prose, because prose has proved not to be
+enough. Completeness of a stored class list is not a field of `StoredGenusCertificate`: it is
+a theorem of a separate record whose hypothesis field is the imported mass, and there is no
+`class_number` beside the semantic columns. And the ring class field of a binary discriminant is
+reached only through `binaryRingClassField`, whose type carries `¬ IsSquare Δ`; the split
+algebra `ℚ × ℚ` is not a field, so it is the `K` of no `NumberFieldOrder K` and cannot be
+supplied to Class Field Theory's `ringClassField` at all.
 
 Conventions follow `README.md`: the rational bilinear form is primary, its restriction to
 the carrier is integral, and an abstract integral form enters through rationalization.
@@ -243,6 +257,35 @@ noncomputable def IntegralLattice.restrictionComparison
     IntegralLattice.Isometry (L.restrictToRationalSpan M)
       (L.restrictToFullSubmodule (M.map L.carrier.subtype) hM) := sorry
 
+/-! ### Two pieces of vocabulary the discriminant-form layers need by name
+
+`l(A)` and the character `e^{2πi·}` of `ℚ/ℤ` are used by Layer 1's Gauss-sum invariant, by
+Nikulin's boundary conditions in Layer 5, and by the vector-valued theta law of Layer 8. They
+are named once here rather than spelled out at each use. -/
+
+/-- **Nikulin's `l(A)`**: the least number of generators of a finite abelian group. This is
+real data, not a milestone: the formula *is* the convention being pinned. -/
+noncomputable def minGenerators (A : Type*) [AddCommGroup A] : ℕ :=
+  sInf {n : ℕ | ∃ s : Finset A, s.card = n ∧ AddSubgroup.closure (s : Set A) = ⊤}
+
+/-- The standard character `e^{2πi·}` of `ℚ/ℤ`. Mathlib's `AddCircle.toCircle` is stated for
+`AddCircle (T : ℝ)`, and every discriminant form of this roadmap takes values in
+`AddCircle (1 : ℚ)`, so the character is named here on that group. -/
+noncomputable def expCircle (x : AddCircle (1 : ℚ)) : ℂ := sorry
+
+/-- The defining property of `expCircle` on a rational representative. This is where the
+half-norm convention pays: a discriminant-form value `q_L(x) ∈ ℚ/ℤ` enters the exponent with no
+factor of two to insert. -/
+theorem expCircle_coe (r : ℚ) :
+    expCircle (r : AddCircle (1 : ℚ)) = Complex.exp (2 * (π : ℂ) * Complex.I * (r : ℂ)) := sorry
+
+theorem expCircle_add (x y : AddCircle (1 : ℚ)) :
+    expCircle (x + y) = expCircle x * expCircle y := sorry
+
+theorem expCircle_zero : expCircle 0 = 1 := sorry
+
+theorem expCircle_neg (x : AddCircle (1 : ℚ)) : expCircle (-x) = (expCircle x)⁻¹ := sorry
+
 /-- A finite symmetric bilinear module, using Mathlib's character dual. -/
 structure FiniteBilinearModule where
   A : Type u
@@ -327,6 +370,82 @@ not invoke this theorem without a separate nondegeneracy proof. -/
 theorem exists_isometry_orthogonalSum_generators
     (A : FiniteQuadraticModule) (hA : A.IsNondegenerate) :
     Nonempty (NikulinDecomposition A) := sorry
+
+/-! ### The invariants Nikulin's boundary conditions are stated in
+
+`l(A_{q_p})`, the Gauss-sum invariant, the square class `discr K(q_p)`, and the dyadic
+alternative "`q₂` has a summand `q_θ^{(2)}(2)`" are each named, so that the existence and
+uniqueness predicates of Layer 5 can be written clause by clause instead of as a table. -/
+
+/-- The orthogonal sum of two finite quadratic modules. ⚠ The carrier is **data**: leaving the
+whole record a `sorry` would make `A` opaque, and then `HasCyclicTwoSummand` below could not be
+stated. Only the form fields are milestones. -/
+noncomputable def orthogonalSum (A B : FiniteQuadraticModule) : FiniteQuadraticModule where
+  A := A.A × B.A
+  pairing := sorry
+  symmetric := sorry
+  quadratic := sorry
+  polar := sorry
+
+/-- The `p`-primary component of a finite quadratic module, whose carrier is Mathlib's
+`AddCommGroup.primaryComponent`. ⚠ Data again, for the same reason: `minGenerators` and
+`HasCyclicTwoSummand` are applied to this carrier. -/
+noncomputable def primaryComponent (A : FiniteQuadraticModule) (p : ℕ) :
+    FiniteQuadraticModule where
+  A := AddCommGroup.primaryComponent A.A p
+  pairing := sorry
+  symmetric := sorry
+  quadratic := sorry
+  polar := sorry
+
+/-- **Layer 1G**, the `p`-primary decomposition, in the form Nikulin's `l(A_q) = max_p l(A_{q_p})`
+needs: every primary length is at most the total length. -/
+theorem minGenerators_primaryComponent_le (A : FiniteQuadraticModule) (p : ℕ) :
+    minGenerators (A.primaryComponent p).A ≤ minGenerators A.A := sorry
+
+/-- and the maximum is attained at some prime, so `l(A_q) = max_p l(A_{q_p})` on the nose. -/
+theorem exists_minGenerators_primaryComponent_eq (A : FiniteQuadraticModule) :
+    ∃ p : ℕ, p.Prime ∧ minGenerators (A.primaryComponent p).A = minGenerators A.A := sorry
+
+/-- **Layer 1H, the Gauss-sum invariant** `sign q ∈ ℤ/8` of a nondegenerate finite quadratic
+form. It is `sorry`-bodied because it is defined by the Gauss sum below and nothing here
+evaluates it; `gaussSum_eq` is its defining property. -/
+noncomputable def gaussSign (A : FiniteQuadraticModule) : ZMod 8 := sorry
+
+/-- **Layer 1H.** The Gauss sum of a nondegenerate finite quadratic module, in the canonical
+half-norm convention, where the exponential carries `2πi` and not `πi`. This equation *defines*
+`gaussSign`. -/
+theorem gaussSum_eq (A : FiniteQuadraticModule) [Fintype A.A] (hA : A.IsNondegenerate) :
+    ∑ a : A.A, expCircle (A.quadratic a) =
+      (Real.sqrt (Nat.card A.A : ℝ) : ℂ) *
+        Complex.exp (2 * (π : ℂ) * Complex.I * (A.gaussSign.val : ℂ) / 8) := sorry
+
+theorem gaussSign_orthogonalSum (A B : FiniteQuadraticModule) :
+    (A.orthogonalSum B).gaussSign = A.gaussSign + B.gaussSign := sorry
+
+/-- **Nikulin's `discr K(q_p)`.** `K(q_p)` is a `p`-adic lattice of rank `l(A_{q_p})` whose
+discriminant form is the `p`-primary part `q_p`; it exists and is unique up to isometry, by 3C
+at odd `p` and by 3D at `p = 2`, and `padicDiscriminant` is its determinant square class in
+`ℚ_p^*/(ℚ_p^*)²`. Independence of the chosen `K(q_p)` is part of milestone 5B. -/
+noncomputable def padicDiscriminant (A : FiniteQuadraticModule) (p : ℕ) [Fact p.Prime] :
+    TauCeti.SquareClassGroup ℚ_[p] := sorry
+
+/-- The rank-0 value, which pins the normalization: when the `p`-primary part is trivial,
+`K(q_p)` is the rank-0 lattice and its determinant is the empty product. -/
+theorem padicDiscriminant_of_minGenerators_eq_zero (A : FiniteQuadraticModule) (p : ℕ)
+    [Fact p.Prime] (h : minGenerators (A.primaryComponent p).A = 0) :
+    A.padicDiscriminant p = TauCeti.squareClass (1 : ℚ_[p]ˣ) := sorry
+
+/-- **The dyadic alternative of Nikulin's condition (4)**: `q₂ ≅ q_θ^{(2)}(2) ⊕ q'` for some odd
+`θ` and some `q'`. Condition (4) applies exactly when this **fails**, so it has to be a named
+predicate and not an unstated side condition. -/
+def HasCyclicTwoSummand (A : FiniteQuadraticModule.{u}) : Prop :=
+  ∃ (θ : ℤ) (A' : FiniteQuadraticModule.{u}),
+    Nonempty (A.Isometry
+      (orthogonalSum
+        (NikulinGenerator.toFiniteQuadraticModule.{u}
+          (NikulinGenerator.cyclic 2 1 Nat.prime_two θ))
+        A'))
 
 end FiniteQuadraticModule
 
@@ -456,10 +575,11 @@ end Overlattices
 /-! ## Exact supplier checks
 
 These are the Lean-level contracts this file uses directly, and every one of them is a
-declaration its supplier exports. Ring class fields and the Gaussian theta transformation are
-still README-level milestones in their owning roadmaps; no local structure stands in for them.
-Generic adelic quotients, Tamagawa normalization, strong approximation for `Spin` and the
-orthogonal volume theorem are not milestones of this roadmap: they are
+declaration its supplier exports. The Gaussian theta transformation is
+still a README-level milestone in its owning roadmap; no local structure stands in for it.
+Generic adelic quotients, Tamagawa normalization, strong approximation for `Spin`, the
+orthogonal volume theorem and Cho's smooth affine group scheme over `ℤ₂` are not milestones of
+this roadmap: they are
 `OrthogonalTamagawaAndLatticeMass`'s, over #246's `TamagawaMeasures`, and nothing here `#check`s
 a name #246 or #255 has declined to export. -/
 
@@ -482,8 +602,15 @@ a name #246 or #255 has declined to export. -/
 #check GlobalNumberFields.NumberFieldOrder.narrowToPic
 #check GlobalNumberFields.NumberFieldOrder.narrowToPic_surjective
 #check ClassFieldTheory.hilbertProductFormula
-#check AdelicAlgebraicGroups.FiniteAdelicPoints
-#check AdelicAlgebraicGroups.AdelicPoints
+#check ClassFieldTheory.ringClassField
+#check ClassFieldTheory.ringClassArtinMap
+#check ClassFieldTheory.gal_ringClassField_equiv_pic
+#check RestrictedProducts.RestrictedProductGroup
+#check RestrictedProducts.RestrictedProductGroupWithFactor
+#check RestrictedProducts.CompactOpenSubgroups
+#check RestrictedProducts.integralSubgroup
+#check RestrictedProducts.isCompact_integralSubgroup
+#check RestrictedProducts.rationalDiagonal
 #check OrthogonalSpinGroups.spinorNorm
 #check OrthogonalSpinGroups.spinorNorm_reflection
 #check OrthogonalSpinGroups.OrthogonalCompactOpens
@@ -634,6 +761,38 @@ example {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ) (hs : G.IsSymm) (he : ∀ i, 
 
 end Layer1
 
+/-! ## Gram-level vocabulary
+
+Isometry, local isometry and genus membership, written out at the level of Gram matrices. They
+are expressible at the current Mathlib, they are what a class-number statement quantifies over,
+and they are what a stored LMFDB record asserts, so they are named once here and used by
+Layers 2, 4 and 9 alike. -/
+
+/-- **Isometry of lattices, at the level of Gram matrices** (2C): integral congruence by a
+matrix invertible over `ℤ`. Over `ℤ` this is `det P = ±1`, so `IsUnit P.det` is the whole
+condition; positive definiteness is not needed for the definition. -/
+def GramIsometric {n : ℕ} (G H : Matrix (Fin n) (Fin n) ℤ) : Prop :=
+  ∃ P : Matrix (Fin n) (Fin n) ℤ, IsUnit P.det ∧ P.transpose * G * P = H
+
+/-- **Local isometry at `p`** (3A, 3F): congruence over `ℤ_p`. Writing it by base change of
+the Gram matrix is what keeps `p = 2` in scope, exactly as in the convention that localizes
+with `LinearMap.BilinForm.baseChange` rather than `QuadraticForm.baseChange`. -/
+def GramIsometricAt (p : ℕ) [Fact p.Prime] {n : ℕ} (G H : Matrix (Fin n) (Fin n) ℤ) : Prop :=
+  ∃ P : Matrix (Fin n) (Fin n) ℤ_[p], IsUnit P.det ∧
+    P.transpose * G.map (Int.cast : ℤ → ℤ_[p]) * P = H.map (Int.cast : ℤ → ℤ_[p])
+
+/-- **Membership in one genus** (3F), written out: congruence over every `ℤ_p` **together with**
+the real signature. The genus is defined by both halves and this definition carries both, so
+that the indefinite statement of 4E and the positive definite one of 9A are about the same
+notion; in the positive definite case the signature clause is implied by definiteness on both
+sides, and carrying it is then harmless rather than wrong. -/
+def GramSameGenus {n : ℕ} (G H : Matrix (Fin n) (Fin n) ℤ) : Prop :=
+  (∀ (p : ℕ) [Fact p.Prime], GramIsometricAt p G H) ∧
+    sigPos (Matrix.toQuadraticForm' (G.map (Int.cast : ℤ → ℝ)))
+        = sigPos (Matrix.toQuadraticForm' (H.map (Int.cast : ℤ → ℝ))) ∧
+      sigNeg (Matrix.toQuadraticForm' (G.map (Int.cast : ℤ → ℝ)))
+        = sigNeg (Matrix.toQuadraticForm' (H.map (Int.cast : ℤ → ℝ)))
+
 section Layer2
 
 /-! ## Layer 2: positive definite lattices — automorphisms, reduction, covolume -/
@@ -669,15 +828,20 @@ example : Nat.card {e : (Fin 8 → ℤ) ≃ₗ[ℤ] (Fin 8 → ℤ) //
         = Matrix.toBilin' CartanMatrix.E₈ x y} = 696729600 :=
   sorry
 
-/-- **Layer 2, reduction-theory finiteness.** There are finitely many positive
+/-- **Layer 2G, reduction-theory finiteness — the first of the three class-number branches, and
+one of the two this roadmap owns.** There are finitely many positive
 definite integral lattices of given rank and determinant up to isometry: every class
 contains a (Minkowski-)reduced Gram matrix, and reduced Gram matrices of bounded
-determinant have bounded entries. This is the definite half of class-number
-finiteness (O'Meara 103:4 is the general statement). -/
-example (n : ℕ) (d : ℤ) :
+determinant have bounded entries.
+
+⚠ Definiteness is a hypothesis of this theorem and not a convenience. The proof is reduction
+theory, it does not extend to indefinite forms, and O'Meara 103:4 — the statement for every
+nondegenerate lattice — is **not** what this is. See `finite_genusClasses_rank_two`
+for the second branch and the note beside it for the third. -/
+theorem finite_classes_of_posDef (n : ℕ) (d : ℤ) :
     ∃ S : Finset (Matrix (Fin n) (Fin n) ℤ), ∀ G : Matrix (Fin n) (Fin n) ℤ,
       G.IsSymm → (Matrix.toQuadraticForm' G).PosDef → G.det = d →
-        ∃ H ∈ S, (Matrix.toBilin' G).Equivalent (Matrix.toBilin' H) :=
+        ∃ H ∈ S, GramIsometric G H :=
   sorry
 
 /-- **Layer 2, the covolume identity.** For a lattice realized in Euclidean space, the
@@ -800,6 +964,40 @@ example (Q : QuadraticForm K V) (hQ : Q.Nondegenerate)
       QuotientGroup.mk' (Subgroup.square Kˣ) (u * u') :=
   sorry
 
+/-! ### The class-number finiteness branches
+
+There are three, with three unrelated proofs, and this roadmap owns two. Nothing here is a
+`finite_genusClassSet` covering all of them: such a statement would silently claim the third.
+The definite branch is `finite_classes_of_posDef` in Layer 2, proved by reduction. The rank-2
+branch is below, proved through ideal classes.
+
+⚠ **The third branch is not stated in this file and must not be added to it.** For an
+indefinite nondegenerate lattice of rank at least 3 the class number is finite because Eichler's
+theorem identifies proper classes with proper spinor genera and 4C counts the latter; that runs
+through strong approximation for `Spin`, which no supplier in this portfolio exports. It is
+`OrthogonalTamagawaAndLatticeMass`'s 4D together with the rank-`≥ 3` half of 4E
+(`README.md`, §*Scope*). A contributor who wants one theorem covering every rank is being asked
+for the successor's, not for a generalization of either theorem here. -/
+
+/-- **Layer 4E, rank 2 — the second of the three class-number branches, and the other one this
+roadmap owns.** For a nondegenerate binary lattice the classes in a genus inject into the
+invertible proper ideal classes of the quadratic order `𝒪(L)` of B1, by the dictionary of B2,
+and that group is the consumed `Pic 𝒪_Δ` for `Δ < 0` and `NarrowPic 𝒪_Δ` for `Δ > 0`, both
+finite by `GlobalNumberFields.finite_pic` and `finite_narrowPic`. In the square-discriminant
+branch B5 counts the split classes directly.
+
+⚠ Rank 2 is stated separately because the rank-`≥ 3` proof does not cover it and this proof does
+not extend: the argument is the arithmetic of a quadratic order, and it stops as soon as the
+norm form is no longer binary. The name says `rank_two` and not `indefinite_rank_two` because
+indefiniteness is not a hypothesis: the ideal-class proof covers definite binary lattices too,
+where it agrees with `finite_classes_of_posDef`. It is 4E's rank-2 half that this discharges,
+and 4E's rank-`≥ 3` half is the successor's. -/
+theorem finite_genusClasses_rank_two (G : Matrix (Fin 2) (Fin 2) ℤ)
+    (hs : G.IsSymm) (hd : G.det ≠ 0) :
+    ∃ S : Finset (Matrix (Fin 2) (Fin 2) ℤ), ∀ H : Matrix (Fin 2) (Fin 2) ℤ,
+      H.IsSymm → GramSameGenus G H → ∃ H' ∈ S, GramIsometric H' H :=
+  sorry
+
 end Layer4
 
 section Layer5
@@ -829,6 +1027,128 @@ example : ∃ G : Matrix (Fin 22) (Fin 22) ℤ, G.IsSymm ∧ (∀ i, 2 ∣ G i i
   sorry
 
 end Layer5
+
+section Layer5Nikulin
+
+/-! ## Layer 5B and 5J: Nikulin's boundary predicates, clause by clause
+
+These are the highest-risk statements of the roadmap, and they are typed here rather than left
+as tables in `README.md`. Each condition of Nikulin Theorem 1.10.1 and of Theorem 3.6.2 is one
+field, with its own hypothesis visible in its own type, and each existence theorem is stated as
+a literal `↔`.
+
+⚠ A single field named `localConditions`, or any packaging that hides which clause applies at
+which prime and at which boundary, is an explicit **rejection test**. The whole point of the
+source audit behind Layer 5 is that one omitted boundary clause produces a statement that is
+not Nikulin's theorem and that no reviewer of the proof would catch. -/
+
+/-- **Nikulin Theorem 1.10.1, the four conditions.** An even lattice with invariants
+`(t₊, t₋, q)` exists exactly when these hold. Conditions 3 and 4 are the boundary conditions:
+they apply only at the equality `t₊ + t₋ = l(A_{q_p})`, condition 4 additionally switches off
+when `q₂` has a summand `q_θ^{(2)}(2)`, and the two determinant clauses differ — condition 3
+carries the sign `(−1)^{t₋}` while condition 4 allows either sign. -/
+structure NikulinExistenceConditions (tp tm : ℕ) (q : FiniteQuadraticModule) : Prop where
+  /-- (1) The signature is congruent to the Gauss-sum invariant mod 8. -/
+  signature_congr : (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 8) = q.gaussSign
+  /-- (2) The rank is at least `l(A_q)`. Nikulin's `t₊ ≥ 0` and `t₋ ≥ 0` are carried by `ℕ`. -/
+  minGenerators_le : minGenerators q.A ≤ tp + tm
+  /-- (3) At every **odd** prime where the rank meets `l(A_{q_p})` exactly, the determinant
+  square class is pinned, with the sign `(−1)^{t₋}`. The existential says both that the number
+  is a `p`-adic unit — which it is, because `v_p(det K(q_p)) = v_p(|A_q|)` — and that its square
+  class is `discr K(q_p)`. -/
+  odd_boundary : ∀ (p : ℕ) [Fact p.Prime], p ≠ 2 →
+    tp + tm = minGenerators (q.primaryComponent p).A →
+    ∃ u : ℚ_[p]ˣ, (u : ℚ_[p]) = (((-1) ^ tm * (Nat.card q.A : ℤ) : ℤ) : ℚ_[p]) ∧
+      TauCeti.squareClass u = q.padicDiscriminant p
+  /-- (4) The dyadic clause. It applies only when the rank meets `l(A_{q₂})` exactly **and**
+  `q₂` has no summand `q_θ^{(2)}(2)`, and then `|A_q|` matches `discr K(q₂)` up to a sign that
+  is not fixed. -/
+  dyadic_boundary :
+    tp + tm = minGenerators (q.primaryComponent 2).A →
+    ¬ (q.primaryComponent 2).HasCyclicTwoSummand →
+    ∃ (ε : ℤ) (u : ℚ_[2]ˣ), (ε = 1 ∨ ε = -1) ∧
+      (u : ℚ_[2]) = ((ε * (Nat.card q.A : ℤ) : ℤ) : ℚ_[2]) ∧
+        TauCeti.squareClass u = q.padicDiscriminant 2
+
+/-- **The left-hand side of 5B**: an even lattice with invariants `(t₊, t₋, q)` exists. It is
+nondegenerate and even, its signature triple is `(t₊, 0, t₋)`, and its discriminant quadratic
+module — in the half-norm `ℚ/ℤ` convention of `README.md`, not Nikulin's `ℚ/2ℤ` one — is
+isometric to `q`. The ambient space has the right dimension, so no rank hypothesis is
+implicit. -/
+def EvenLatticeWithInvariants (tp tm : ℕ) (q : FiniteQuadraticModule) : Prop :=
+  ∃ (L : IntegralLattice (Fin (tp + tm) → ℚ)) (hnd : L.IsNondegenerate) (hev : L.IsEven),
+    L.signature = (tp, 0, tm) ∧
+      Nonempty ((@IntegralLattice.discriminantQuadraticModule _ _ _ L hnd hev).Isometry q)
+
+/-- **Layer 5B, Nikulin Theorem 1.10.1, as a literal necessary-and-sufficient statement.**
+Nondegeneracy of `q` is a hypothesis: the generator classification, the Gauss-sum invariant and
+`discr K(q_p)` are all stated for nondegenerate finite quadratic forms only. -/
+theorem exists_evenLattice_iff (tp tm : ℕ) (q : FiniteQuadraticModule)
+    (hq : q.IsNondegenerate) :
+    EvenLatticeWithInvariants tp tm q ↔ NikulinExistenceConditions tp tm q :=
+  sorry
+
+/-- **Layer 5B, Nikulin Corollary 1.10.2**, the sufficient form under the *strict* inequality.
+⚠ This is not a restatement of `exists_evenLattice_iff`, and it does not replace it: the strict
+inequality is what makes conditions 3 and 4 vacuous, and at equality they are exactly what
+decides existence. -/
+theorem exists_evenLattice_of_lt (tp tm : ℕ) (q : FiniteQuadraticModule)
+    (hq : q.IsNondegenerate)
+    (hsign : (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 8) = q.gaussSign)
+    (hrank : minGenerators q.A < tp + tm) :
+    EvenLatticeWithInvariants tp tm q :=
+  sorry
+
+/-- **Nikulin Theorem 3.6.2, the seven conditions** for an even `2`-elementary lattice with
+invariants `(δ_S; t₊, t₋, a)`. Conditions 4 to 7 are boundary clauses at `a = 0`, `a = 1`,
+`a = 2` and `a = t₊ + t₋`, and none of them follows from the ones before it; `README.md`
+records a witness tuple for each. -/
+structure TwoElementaryAdmissible (δ : ZMod 2) (tp tm a : ℕ) : Prop where
+  /-- (1) `a ≤ t₊ + t₋`. -/
+  le_rank : a ≤ tp + tm
+  /-- (2) `t₊ + t₋ + a ≡ 0 (mod 2)`. -/
+  parity : ((tp + tm + a : ℕ) : ZMod 2) = 0
+  /-- (3) `t₊ − t₋ ≡ 0 (mod 4)` when `δ_S = 0`. -/
+  four_of_delta_zero : δ = 0 → (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 4) = 0
+  /-- (4) `δ_S = 0` and `t₊ − t₋ ≡ 0 (mod 8)` when `a = 0`, which is 1I for a unimodular
+  lattice. -/
+  unimodular_of_a_zero : a = 0 → δ = 0 ∧ (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 8) = 0
+  /-- (5) `t₊ − t₋ ≡ ±1 (mod 8)` when `a = 1`. -/
+  pm_one_of_a_one : a = 1 →
+    (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 8) = 1 ∨ (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 8) = -1
+  /-- (6) `δ_S = 0` when `a = 2` and `t₊ − t₋ ≡ 4 (mod 8)`. -/
+  delta_zero_of_a_two : a = 2 → (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 8) = 4 → δ = 0
+  /-- (7) `t₊ − t₋ ≡ 0 (mod 8)` when `δ_S = 0` and `a = t₊ + t₋`. -/
+  eight_of_a_eq_rank : δ = 0 → a = tp + tm → (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 8) = 0
+
+/-- **The left-hand side of 5J**: an even `2`-elementary lattice with invariants
+`(δ_S; t₊, t₋, a)` exists. `2`-elementary is `A_S ≅ (ℤ/2)^a` as an actual additive equivalence,
+and `δ_S = 0` is the statement that the half-norm discriminant form takes values in
+`½ℤ/ℤ` — equivalently that `q_S` has no `q_θ^{(2)}(2)` summand, which is where Nikulin's
+full-norm `ℚ/2ℤ` convention would put integrality. Nondegeneracy is asserted by the second
+binder even though the half-norm form of 1D is defined without it. -/
+def TwoElementaryLatticeWithInvariants (δ : ZMod 2) (tp tm a : ℕ) : Prop :=
+  ∃ (L : IntegralLattice (Fin (tp + tm) → ℚ)) (_hnd : L.IsNondegenerate) (hev : L.IsEven),
+    L.signature = (tp, 0, tm) ∧
+      Nonempty (L.DiscriminantGroup ≃+ (Fin a → ZMod 2)) ∧
+        (δ = 0 ↔ ∀ x : L.DiscriminantGroup,
+          L.discriminantQuadraticForm hev x + L.discriminantQuadraticForm hev x = 0)
+
+/-- **Layer 5J, Nikulin Theorem 3.6.2, as a literal necessary-and-sufficient statement.** -/
+theorem exists_twoElementaryLattice_iff (δ : ZMod 2) (tp tm a : ℕ) :
+    TwoElementaryLatticeWithInvariants δ tp tm a ↔ TwoElementaryAdmissible δ tp tm a :=
+  sorry
+
+/-- **Layer 5J, the four independence witnesses.** Each tuple satisfies every condition before
+the named one and fails that one, so no clause of `TwoElementaryAdmissible` is implied by its
+predecessors. These are decidable arithmetic checks, and they are what stops a contributor from
+dropping a clause. -/
+theorem twoElementaryAdmissible_independence :
+    ¬ TwoElementaryAdmissible 0 4 0 0 ∧ ¬ TwoElementaryAdmissible 1 3 0 1 ∧
+      ¬ TwoElementaryAdmissible 1 4 0 2 ∧ ¬ TwoElementaryAdmissible 0 4 0 4 :=
+  sorry
+
+end Layer5Nikulin
 
 section Layer6
 
@@ -892,40 +1212,143 @@ example (β : LinearMap.BilinForm ℤ L) {t : ℝ} (ht : 0 < t) :
 
 /-- **Layer 8B, holomorphy** on the upper half-plane. Together with the previous bridge and
 L-functions' Gaussian transformation, the identity theorem gives Layer 8E. -/
-example (β : LinearMap.BilinForm ℤ L) :
+theorem differentiableOn_theta (β : LinearMap.BilinForm ℤ L) :
     DifferentiableOn ℂ (theta β) {τ : ℂ | 0 < τ.im} :=
+  sorry
+
+/-- **Layer 8F, the translation law under `T`.** With the nome `q = e^{πiτ}` fixed in the
+conventions, integrality of `β` already gives period 2. -/
+theorem theta_add_two (β : LinearMap.BilinForm ℤ L) (τ : ℂ) :
+    theta β (τ + 2) = theta β τ :=
+  sorry
+
+/-- **Layer 8F, the even case**: period 1, because every norm is even. -/
+theorem theta_add_one_of_even (β : LinearMap.BilinForm ℤ L) (he : ∀ x, 2 ∣ β x x) (τ : ℂ) :
+    theta β (τ + 1) = theta β τ :=
+  sorry
+
+/-- **Layer 8F, the rejection test.** The parity hypothesis on `theta_add_one_of_even` is not
+decoration: `Θ_ℤ` is the odd unimodular rank-one series, its `q`-expansion has nonzero
+coefficients in odd degrees, and `jacobiTheta` is periodic with period 2 and not 1. -/
+theorem exists_theta_add_one_ne :
+    ∃ τ : ℂ, 0 < τ.im ∧
+      theta (Matrix.toBilin' (1 : Matrix (Fin 1) (Fin 1) ℤ)) (τ + 1)
+        ≠ theta (Matrix.toBilin' (1 : Matrix (Fin 1) (Fin 1) ℤ)) τ :=
   sorry
 
 end Layer8
 
+section Layer8VectorValued
+
+/-! ## Layer 8E and 8G: the exported transformation law
+
+⚠ **These theorems are a transformation law and nothing more.** No declaration here is called
+`isModularForm`, none takes values in a space of modular forms, and none may be renamed to one
+before a half-integral-weight modular-forms carrier and a cusp-holomorphy theorem are imported.
+`README.md`, §*Scope*, records that neither has an owner. -/
+
+variable {V : Type v} [AddCommGroup V] [Module ℚ V]
+
+namespace IntegralLattice
+
+/-- **Layer 8A**, the theta series of the lattice itself, on the embedded carrier. -/
+noncomputable def latticeTheta (L : IntegralLattice V) (τ : ℂ) : ℂ :=
+  ∑' x : L.carrier, Complex.exp ((π : ℂ) * Complex.I * τ * ((L.form (x : V) (x : V) : ℚ) : ℂ))
+
+/-- **Layer 8A**, the theta series of the dual lattice. Its form is rational-valued, so this is
+an instance of the analytic theta and not of the arithmetic one. -/
+noncomputable def dualTheta (L : IntegralLattice V) (τ : ℂ) : ℂ :=
+  ∑' x : L.dual, Complex.exp ((π : ℂ) * Complex.I * τ * ((L.form (x : V) (x : V) : ℚ) : ℂ))
+
+/-- **Layer 8G**, the theta series of the coset of `L` in `L^⋆` labelled by `μ ∈ A_L`. -/
+noncomputable def cosetTheta (L : IntegralLattice V) (μ : L.DiscriminantGroup) (τ : ℂ) : ℂ :=
+  ∑' x : {x : L.dual // L.carrierInDual.mkQ x = μ},
+    Complex.exp ((π : ℂ) * Complex.I * τ * ((L.form (x.1 : V) (x.1 : V) : ℚ) : ℂ))
+
+theorem cosetTheta_zero (L : IntegralLattice V) (τ : ℂ) :
+    L.cosetTheta 0 τ = L.latticeTheta τ := sorry
+
+theorem sum_cosetTheta (L : IntegralLattice V) [Fintype L.DiscriminantGroup] (τ : ℂ) :
+    ∑ ν : L.DiscriminantGroup, L.cosetTheta ν τ = L.dualTheta τ := sorry
+
+theorem cosetTheta_neg (L : IntegralLattice V) (μ : L.DiscriminantGroup) (τ : ℂ) :
+    L.cosetTheta (-μ) τ = L.cosetTheta μ τ := sorry
+
+/-- **Layer 8E, the exported transformation law under `S`.** For a positive definite lattice,
+
+    Θ_L(−1/τ) = (τ/i)^{n/2} (det L)^{−1/2} Θ_{L^⋆}(τ).
+
+The branch of `(τ/i)^{n/2}` is `Complex.cpow` on the principal branch, which is correct because
+`τ/i` has positive real part on the upper half-plane, and the square root is the positive real
+one, which exists because a positive definite lattice has `det L > 0`. -/
+theorem latticeTheta_neg_inv (L : IntegralLattice V) [L.IsNondegenerate]
+    (hpos : L.IsPositiveDefinite) {ι : Type} [Fintype ι] [DecidableEq ι]
+    (e : Basis ι ℤ L.carrier) {τ : ℂ} (hτ : 0 < τ.im) :
+    L.latticeTheta (-1 / τ) =
+      (τ / Complex.I) ^ ((Fintype.card ι : ℂ) / 2)
+        * ((Real.sqrt (L.gramDet e : ℝ) : ℂ))⁻¹ * L.dualTheta τ :=
+  sorry
+
+/-- **Layer 8G, the translation law on a discriminant coset.** The exponent is exactly the
+half-norm discriminant form of 1D, with no factor of two to insert; that is what the half-norm
+`ℚ/ℤ` convention buys, and Nikulin's `ℚ/2ℤ` convention would need the explicit dictionary. -/
+theorem cosetTheta_add_one (L : IntegralLattice V) [L.IsNondegenerate] (hev : L.IsEven)
+    (μ : L.DiscriminantGroup) (τ : ℂ) :
+    L.cosetTheta μ (τ + 1)
+      = expCircle (L.discriminantQuadraticForm hev μ) * L.cosetTheta μ τ :=
+  sorry
+
+/-- **Layer 8G, the vector-valued law under `S`.**
+
+    Θ_μ(−1/τ) = (τ/i)^{n/2} (det L)^{−1/2} ∑_{ν ∈ A_L} e^{−2πi b_L(μ,ν)} Θ_ν(τ).
+
+⚠ The sign inside the character is immaterial, because `cosetTheta_neg` lets `ν ↦ −ν` reverse
+it; a source with the opposite sign is not in conflict with this. The factor
+`(det L)^{−1/2}`, the branch of `(τ/i)^{n/2}` and the exponent `q_L(μ)` of `cosetTheta_add_one`
+are **not** immaterial. At `μ = 0` this is `latticeTheta_neg_inv`, by `cosetTheta_zero` and
+`sum_cosetTheta`, and that is the mandatory consistency check. -/
+theorem cosetTheta_neg_inv (L : IntegralLattice V) [L.IsNondegenerate]
+    [Fintype L.DiscriminantGroup] (hev : L.IsEven) (hpos : L.IsPositiveDefinite)
+    {ι : Type} [Fintype ι] [DecidableEq ι] (e : Basis ι ℤ L.carrier)
+    (μ : L.DiscriminantGroup) {τ : ℂ} (hτ : 0 < τ.im) :
+    L.cosetTheta μ (-1 / τ) =
+      (τ / Complex.I) ^ ((Fintype.card ι : ℂ) / 2)
+        * ((Real.sqrt (L.gramDet e : ℝ) : ℂ))⁻¹
+        * ∑ ν : L.DiscriminantGroup,
+            expCircle (-(L.discriminantPairing μ ν)) * L.cosetTheta ν τ :=
+  sorry
+
+end IntegralLattice
+
+end Layer8VectorValued
+
 section Layer9
 
-/-! ## Layer 9: what a stored LMFDB lattice record asserts -/
+/-! ## Layer 9: what a stored LMFDB lattice record asserts
 
-/-- **Isometry of lattices, at the level of Gram matrices** (2C): integral congruence by a
-matrix invertible over `ℤ`. Over `ℤ` this is `det P = ±1`, so `IsUnit P.det` is the whole
-condition; positive definiteness is not needed for the definition. -/
-def GramIsometric {n : ℕ} (G H : Matrix (Fin n) (Fin n) ℤ) : Prop :=
-  ∃ P : Matrix (Fin n) (Fin n) ℤ, IsUnit P.det ∧ P.transpose * G * P = H
+The Gram-level vocabulary — `GramIsometric`, `GramIsometricAt`, `GramSameGenus` — is the one
+fixed before Layer 2, so a certificate and a class-number theorem talk about the same notions.
 
-/-- **Local isometry at `p`** (3A, 3F): congruence over `ℤ_p`. Writing it by base change of
-the Gram matrix is what keeps `p = 2` in scope, exactly as in the convention that localizes
-with `LinearMap.BilinForm.baseChange` rather than `QuadraticForm.baseChange`. -/
-def GramIsometricAt (p : ℕ) [Fact p.Prime] {n : ℕ} (G H : Matrix (Fin n) (Fin n) ℤ) : Prop :=
-  ∃ P : Matrix (Fin n) (Fin n) ℤ_[p], IsUnit P.det ∧
-    P.transpose * G.map (Int.cast : ℤ → ℤ_[p]) * P = H.map (Int.cast : ℤ → ℤ_[p])
+⚠ The record splits in two, and the split is the point. `StoredGenusCertificate` carries the
+**semantic** columns, each of which is a finite check about the stored matrices.
+`StoredClassNumberCertificate` carries **completeness**, which no milestone of this roadmap
+proves, and it carries it as a named imported hypothesis rather than as a bare field. -/
 
 /-- **Layer 9A, the stored record as one object.** Each field is a statement an LMFDB
 lattice record asserts, and nothing here is a placeholder: every condition is spelled out
 in terms of the stored matrices, so no unintended model satisfies it. The label
-`dim.det.level.class_number.index` contributes the four fields named after its components;
-its fifth component is an insertion-order serial with no mathematical content and has no
-field.
+`dim.det.level.class_number.index` contributes the three fields named after its first three
+components; its fifth component is an insertion-order serial with no mathematical content and
+has no field, and its `class_number` component belongs to `StoredClassNumberCertificate` below.
 
-Genus membership is 3F written out: congruence over every `ℤ_p`, together with the real
-signature, which positive definiteness of both sides supplies. Completeness is the last
-field, and it is the statement that a mass certificate — from the successor's 7H — proves for a
-given genus; it is not part of the definition of the other fields. -/
+Genus membership is 3F written out, as `GramSameGenus`: congruence over every `ℤ_p` together
+with the real signature.
+
+⚠ There is deliberately **no completeness field and no `class_number` field here**. A list of
+pairwise non-isometric lattices in one genus is not thereby the whole genus; 2G gives finiteness
+of the class set, which is a different statement from identifying it. Putting `class_number`
+beside the semantic columns would make every certificate assert exhaustiveness, which is exactly
+what this roadmap cannot prove. -/
 structure StoredGenusCertificate where
   /-- The label component `dim`, and the size of the stored Gram matrix. -/
   dim : ℕ
@@ -975,29 +1398,71 @@ structure StoredGenusCertificate where
   reps : List (Matrix (Fin dim) (Fin dim) ℤ)
   /-- Each one is the Gram matrix of a positive definite lattice. -/
   reps_posDef : ∀ H ∈ reps, H.IsSymm ∧ (Matrix.toQuadraticForm' H).PosDef
-  /-- Each one lies in `gen L`, by 3F: congruent to `G` over every `ℤ_p`. -/
-  reps_mem_genus : ∀ H ∈ reps, ∀ (p : ℕ) [Fact p.Prime], GramIsometricAt p gram H
+  /-- Each one lies in `gen L`, by 3F. -/
+  reps_mem_genus : ∀ H ∈ reps, GramSameGenus gram H
   /-- They are pairwise non-isometric, which is a decidable check for positive definite
   lattices by 2G. -/
   reps_pairwise : reps.Pairwise fun H H' => ¬ GramIsometric H H'
-  /-- They are complete: every positive definite lattice in the genus is isometric to a
-  listed one. This is the field a mass certificate discharges, once
-  `OrthogonalTamagawaAndLatticeMass` proves 7H. -/
-  reps_complete : ∀ H : Matrix (Fin dim) (Fin dim) ℤ, H.IsSymm →
-    (Matrix.toQuadraticForm' H).PosDef →
-    (∀ (p : ℕ) [Fact p.Prime], GramIsometricAt p gram H) → ∃ H' ∈ reps, GramIsometric H' H
+
+/-- **The mass of a positive definite genus, at the level of Gram matrices** (7A). This says
+that the genus of `G` has a finite complete set of representatives whose reciprocal
+automorphism orders sum to `m`. It is a definition, not a theorem: 7A defines the mass and 2G
+gives finiteness of the class set, but **no milestone of this roadmap evaluates it**. The
+Conway–Sloane evaluation is `OrthogonalTamagawaAndLatticeMass`'s 7H. -/
+def IsGenusMass {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ) (m : ℚ) : Prop :=
+  ∃ S : Finset (Matrix (Fin n) (Fin n) ℤ),
+    (∀ H ∈ S, H.IsSymm ∧ (Matrix.toQuadraticForm' H).PosDef ∧ GramSameGenus G H) ∧
+      ((S : Set (Matrix (Fin n) (Fin n) ℤ)).Pairwise fun H H' => ¬ GramIsometric H H') ∧
+        (∀ H : Matrix (Fin n) (Fin n) ℤ, H.IsSymm → (Matrix.toQuadraticForm' H).PosDef →
+          GramSameGenus G H → ∃ H' ∈ S, GramIsometric H' H) ∧
+          m = ∑ H ∈ S,
+            (1 : ℚ) / (Nat.card {P : Matrix (Fin n) (Fin n) ℤ // P.transpose * H * P = H} : ℚ)
+
+/-- **Layer 9B, the completeness certificate.** This is the record the `class_number` column
+belongs to, and it is separate from 9A on purpose: exhaustiveness of a stored list is not
+provable from anything in Layers 0 to 8.
+
+The import is a **named hypothesis field**. `mass` is a rational number, `mass_isGenusMass`
+assumes that it is the mass of the genus in the sense of 7A, and `reps_exhaust_mass` is the
+finite check that the stored representatives already account for all of it. The only routes to
+`mass_isGenusMass` leave this roadmap: an exact mass, which is the successor's 7H, or a proved
+neighbour-graph connectivity theorem in the exact regime, which 4G explicitly does not claim.
+A consumer that has imported neither cannot build this record at all, which is the intended
+behaviour. -/
+structure StoredClassNumberCertificate extends StoredGenusCertificate where
+  /-- The rational number an imported exact mass theorem supplies for this genus. -/
+  mass : ℚ
+  /-- **The imported hypothesis, not proved here.** -/
+  mass_isGenusMass : IsGenusMass toStoredGenusCertificate.gram mass
+  /-- The finite check: the listed representatives already carry the whole mass. -/
+  reps_exhaust_mass :
+    mass = ∑ H ∈ toStoredGenusCertificate.reps.toFinset,
+      (1 : ℚ) / (Nat.card {P : Matrix (Fin toStoredGenusCertificate.dim)
+        (Fin toStoredGenusCertificate.dim) ℤ //
+          P.transpose * H * P = H} : ℚ)
   /-- The label component `class_number`, the invariant of 4A, finite by 2G. -/
   classNumber : ℕ
   /-- and it is the length of the list. -/
-  classNumber_eq : classNumber = reps.length
+  classNumber_eq : classNumber = toStoredGenusCertificate.reps.length
 
-/-- **Layer 9A, what the certificate buys.** Completeness and pairwise non-isometry say
+/-- **Layer 9B, completeness is a theorem and not a field.** Given the imported mass, the
+listed representatives exhaust the genus: they are distinct classes in it, `1/|O(M)|` is an
+isometry invariant and strictly positive, so a proper sublist would sum to strictly less than
+the mass. -/
+theorem StoredClassNumberCertificate.reps_complete (c : StoredClassNumberCertificate)
+    (H : Matrix (Fin c.dim) (Fin c.dim) ℤ) (hs : H.IsSymm)
+    (hp : (Matrix.toQuadraticForm' H).PosDef) (hgen : GramSameGenus c.gram H) :
+    ∃ H' ∈ c.reps, GramIsometric H' H :=
+  sorry
+
+/-- **Layer 9B, what the certificate buys.** Completeness and pairwise non-isometry say
 together that the stored list is a set of representatives on the nose: every positive
 definite lattice in the genus is isometric to exactly one entry. This is the statement the
-`class_number` column asserts, and it is why the two fields have to be separate. -/
-example (c : StoredGenusCertificate) (H : Matrix (Fin c.dim) (Fin c.dim) ℤ)
+`class_number` column asserts, and it is why it lives on this record and not on 9A's. -/
+theorem StoredClassNumberCertificate.existsUnique_rep (c : StoredClassNumberCertificate)
+    (H : Matrix (Fin c.dim) (Fin c.dim) ℤ)
     (hs : H.IsSymm) (hp : (Matrix.toQuadraticForm' H).PosDef)
-    (hgen : ∀ (p : ℕ) [Fact p.Prime], GramIsometricAt p c.gram H) :
+    (hgen : GramSameGenus c.gram H) :
     ∃! H' : Matrix (Fin c.dim) (Fin c.dim) ℤ, H' ∈ c.reps ∧ GramIsometric H' H :=
   sorry
 
@@ -1009,14 +1474,22 @@ Layer B builds the binary theory — the norm form, the content and the discrimi
 a form to an ideal, composition, the automorphism groups, and the rank-2 mass. It does **not**
 build a quadratic order or a class group of one: `GlobalNumberFields` owns the order, conductor,
 raw proper fractional ideals, invertible proper fractional ideals, the ideal class monoid,
-`Pic`, and `NarrowPic`. `ClassFieldTheory` owns the ring class field and its Artin
-isomorphism, currently as a README-level milestone.  Those supplier carriers are used only when
-the discriminant is nonsquare.  A square discriminant gives the split algebra and is handled
-elementarily below; it is never passed to `NumberFieldOrder`.
+`Pic`, and `NarrowPic`. `ClassFieldTheory` owns the ring class field and its Artin isomorphism,
+as `ringClassField`, `ringClassArtinMap` and `gal_ringClassField_equiv_pic`.  Those supplier
+carriers are used only when the discriminant is nonsquare.  A square discriminant gives the
+split algebra and is handled elementarily below; it is never passed to `NumberFieldOrder`.
 
-Layer B has no suggested Lean form here, because its form-side carriers rest on milestones of
-Layers 0 to 3 that are themselves still targets. The checks below apply the exact GNF exports at
-the shapes B1 to B5 use. There is deliberately no local `ringClassField` stand-in.
+⚠ **The split branch cannot be asked for a ring class field, and that is enforced by types.**
+`binaryRingClassField` below is the only route from a binary discriminant to a ring class field
+in this roadmap, and it carries `¬ IsSquare Δ` in its own type because the only route to the
+order it needs — `orderOfNonsquareBinaryDiscriminant` — carries it. There is no way round:
+`ClassFieldTheory.ringClassField` takes a `NumberFieldOrder K` with `[Field K]`, and the split
+algebra `ℚ × ℚ` is not a field, so it is the `K` of no such order. Nothing here defines a split
+substitute that would reopen the question.
+
+Layer B's form-side carriers rest on milestones of Layers 0 to 3 that are themselves still
+targets, so the class sets of forms are not built here. The checks below apply the exact GNF
+and CFT exports at the shapes B1 to B5 use.
 -/
 
 section LayerBContract
@@ -1024,7 +1497,9 @@ section LayerBContract
 open GlobalNumberFields
 open scoped NumberField nonZeroDivisors
 
-variable {K : Type u} [Field K] [NumberField K]
+-- ⚠ `K : Type` and not `Type u`: `ClassFieldTheory.ringClassField` is stated at `Type`, and
+-- `binaryRingClassField` below composes with it.
+variable {K : Type} [Field K] [NumberField K]
 
 /-- **B1's nonsplit branch is a genuine supplier order.**  The square root and rank-two
 hypotheses identify the supplied number field with the quadratic field of `Δ`; the explicit
@@ -1064,20 +1539,54 @@ example (O : NumberFieldOrder K) (hK : Module.finrank ℚ K = 2)
 /-- **B2 consumes `GlobalNumberFields.NarrowPic`**, for `Δ > 0`. The target is the **narrow**
 group, and it is a different type from `Pic O`. A dictionary stated into `Pic` for `Δ > 0` is
 false; `Δ = 12` is the smallest witness. -/
-example (O : NumberFieldOrder K) : Type u := NarrowPic O
+example (O : NumberFieldOrder K) : Type := NarrowPic O
 
 /-- **B5 consumes GNF's finiteness theorems**, for both groups. Layer B owns the form-side reduction
 route and the explicit list of reduced forms, and not these two theorems. -/
 example (O : NumberFieldOrder K) : Finite (Pic O) ∧ Finite (NarrowPic O) :=
   ⟨finite_pic O, finite_narrowPic O⟩
 
+/-- **B3, the only ring class field this roadmap ever forms.** It is a real definition and not a
+milestone: the ring class field of a binary discriminant *is* Class Field Theory's, applied to
+B1's order. The point of naming it is the type — `¬ IsSquare Δ` is a parameter, so a square
+discriminant cannot reach a ring class field through this roadmap at all. -/
+noncomputable def binaryRingClassField (Δ : ℤ) (hΔ : ¬ IsSquare Δ)
+    (sqrtΔ : K) (hsqrtΔ : sqrtΔ ^ 2 = (Δ : K)) (hquadratic : Module.finrank ℚ K = 2) :
+    IntermediateField K (AlgebraicClosure K) :=
+  ClassFieldTheory.ringClassField K
+    (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic) hquadratic
+
+/-- **B3, the composite this roadmap proves**, at the level of the two consumed theorems: the
+Galois group of the binary ring class field is the supplier's `Pic` of B1's order, which B2
+identifies with the proper classes of primitive forms of discriminant `Δ`. This roadmap proves
+the composite and neither half. -/
+theorem gal_binaryRingClassField_equiv_pic (Δ : ℤ) (hΔ : ¬ IsSquare Δ)
+    (sqrtΔ : K) (hsqrtΔ : sqrtΔ ^ 2 = (Δ : K)) (hquadratic : Module.finrank ℚ K = 2) :
+    Nonempty
+      ((binaryRingClassField Δ hΔ sqrtΔ hsqrtΔ hquadratic
+          ≃ₐ[K] binaryRingClassField Δ hΔ sqrtΔ hsqrtΔ hquadratic)
+        ≃* Pic (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic)) :=
+  ClassFieldTheory.gal_ringClassField_equiv_pic K
+    (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic) hquadratic
+
 end LayerBContract
 
 section LayerBSplitContract
 
+/-- The split quadratic algebra `ℚ[t]/(t² − Δ) ≃ ℚ × ℚ` of a square discriminant. -/
+abbrev SplitQuadraticAlgebra := ℚ × ℚ
+
 /-- The order in the split quadratic algebra.  This is deliberately an elementary product
 ring, not a `GlobalNumberFields.NumberFieldOrder`. -/
 abbrev SplitQuadraticOrder := ℤ × ℤ
+
+/-- **The rejection test that makes the split ring class field unaskable.** `ℚ × ℚ` is not a
+field — `(1, 0)` is a nonzero nonunit — so it carries no `Field` instance, is the `K` of no
+`GlobalNumberFields.NumberFieldOrder K`, and cannot be supplied to
+`ClassFieldTheory.ringClassField` or to `binaryRingClassField`. This is a statement about the
+mathematics and not about the Lean elaborator: there is no ring class field of `ℚ × ℚ` to
+name. -/
+theorem not_isField_splitQuadraticAlgebra : ¬ IsField SplitQuadraticAlgebra := sorry
 
 /-- The split order has four units, independently of the field-only Picard API. -/
 example : Nat.card (Units SplitQuadraticOrder) = 4 := sorry
