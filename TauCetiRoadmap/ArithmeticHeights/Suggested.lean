@@ -379,7 +379,7 @@ theorem finite_setOf_subspaceMulHeight_le {K : Type*} [Field K] [NumberField K] 
 
 end Plucker
 
-/-! ## Layer 4: successive minima and Minkowski's second theorem -/
+/-! ## Layer 4: successive minima, Minkowski's second theorem, extraction, and cube slicing -/
 
 section SuccessiveMinima
 
@@ -422,6 +422,55 @@ theorem prod_successiveMinimum_mul_measure_le (L : Submodule ℤ E) [DiscreteTop
 
 end SuccessiveMinima
 
+section Extraction
+
+variable {F K E V W : Type*}
+variable [Field F] [Field K] [Field E]
+variable [Algebra F K] [Algebra F E] [FiniteDimensional F K]
+variable [AddCommGroup V] [Module F V] [Module K V] [IsScalarTower F K V]
+variable [AddCommGroup W] [Module F W] [Module E W] [IsScalarTower F E W]
+
+/-- **Layer 4.4 — the counting half of the extraction lemma.** A family of vectors of a
+`K`-vector space whose image under an `F`-linear map is linearly independent over a field
+`E ⊇ F` has size at most `[K : F]` times the `K`-dimension of its span. With `F = ℚ`, `E = ℝ`
+and the mixed embedding as the map: `ℝ`-independent lattice vectors of a `K`-subspace span, over
+`K`, a subspace of dimension at least their number divided by the degree. -/
+theorem fintype_card_le_finrank_mul_finrank_span
+    (f : V →ₗ[F] W) {ι : Type*} [Fintype ι] {u : ι → V}
+    (h : LinearIndependent E (f ∘ u)) :
+    Fintype.card ι ≤ finrank F K * finrank K (Submodule.span K (Set.range u)) :=
+  sorry
+
+/-- **Layer 4.4 — the selection half.** From `d · k` vectors with `E`-independent images, a
+`K`-linearly independent subfamily of size `k` whose `j`-th member (zero-indexed) is among the
+first `d · j + 1` — members of the family, never linear combinations, so each keeps the norm
+bound of the successive minimum it realizes. -/
+theorem exists_linearIndependent_comp_finrank_mul
+    (f : V →ₗ[F] W) {k : ℕ} {u : Fin (finrank F K * k) → V}
+    (h : LinearIndependent E (f ∘ u)) :
+    ∃ s : Fin k → Fin (finrank F K * k), LinearIndependent K (u ∘ s) ∧
+      ∀ j : Fin k, (s j).val ≤ finrank F K * j.val :=
+  sorry
+
+end Extraction
+
+section CubeSlicing
+
+/-- **Layer 4.5 — Vaaler's cube-slicing theorem** (Vaaler 1979; Bombieri–Gubler, Appendix C.3).
+Every central slice of the cube `[−1, 1]ᴺ` by a `k`-dimensional subspace has `k`-volume at least
+`2 ^ k`. The volume on the subspace is the canonical one of its inner-product structure
+(Mathlib's `measureSpaceOfInnerProductSpace`), which is what makes `k`-dimensional volume
+well-posed. Coordinate subspaces give equality, so the bound is sharp. The complex places of
+Layer 5 consume it through the inscribed cube of half-side `1 / √2` in the unit polydisc; no
+polydisc-slicing statement is needed. -/
+theorem two_pow_finrank_le_volume_inter_cube {N : ℕ}
+    (V : Submodule ℝ (EuclideanSpace ℝ (Fin N))) :
+    (2 : ENNReal) ^ finrank ℝ V ≤
+      MeasureTheory.volume {x : V | ∀ i, |(x : EuclideanSpace ℝ (Fin N)) i| ≤ 1} :=
+  sorry
+
+end CubeSlicing
+
 /-! ## Layer 5: Siegel's lemma and Bombieri–Vaaler (the summit) -/
 
 section Siegel
@@ -453,9 +502,10 @@ theorem exists_ne_zero_mulVec_eq_zero_norm_le (A : Matrix m n ℤ) (hA : A ≠ 0
           ((Fintype.card n - Fintype.card m : ℝ)⁻¹) :=
   sorry
 
-/-- **Layer 5.2, Bombieri–Vaaler Theorem 2 — a small basis.** The statement Layer 5.3 generalizes to
-a number field, and the one whose derivation from Minkowski's second theorem carries the caveat
-recorded in `README.md` under Layer 4. -/
+/-- **Layer 5.2, Bombieri–Vaaler Theorem 2 — a small basis.** The statement Layer 5.3 generalizes
+to a number field. Over `ℤ` the extraction 4.4 is vacuous — the minima vectors of 4.2 are already
+the basis — and the constant is 3.4's Cauchy–Binet determinant with 4.5's slice bound; the
+adele-free assembly is written out in Aliev–Henk §6. -/
 theorem exists_linearIndependent_mulVec_eq_zero_prod_norm_le (A : Matrix m n ℤ) (hA : A ≠ 0)
     (hrank : A.rank = Fintype.card m) (hmn : Fintype.card m < Fintype.card n) :
     ∃ x : Fin (Fintype.card n - Fintype.card m) → (n → ℤ),

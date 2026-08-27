@@ -47,7 +47,9 @@ Mathlib's height work](#relationship-to-mathlibs-height-work)*.
   that make it an object rather than a definition: the **Cauchy–Binet identity** computing it as a
   determinant, the **duality theorem** `H(V) = H(V^⊥)`, **submodularity** over the subspace lattice,
   and monotonicity in subspaces of a fixed basis.
-- **Successive minima** and **Minkowski's second theorem**.
+- **Successive minima**, **Minkowski's second theorem**, and the two lemmas that turn their
+  real-lattice output into number-field statements: the **extraction lemma** and **Vaaler's
+  cube-slicing theorem**.
 - **Siegel's lemma** in height form, over `ℤ` and over a number field, and the **Bombieri–Vaaler**
   refinement — the summit.
 - The dictionary between heights and the **unit group**: units of height one, and the **S-unit
@@ -173,7 +175,8 @@ anything. **Reuse these by name; do not rebuild them.**
   `basis_repr` and `coe_basis` API.
 - **Geometry of numbers.** `ZLattice`, `ZLattice.covolume`,
   `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure` (Minkowski's
-  convex-body theorem), `NumberField.canonicalEmbedding` and the convex bodies around it, and
+  convex-body theorem), `NumberField.mixedEmbedding` with the convex bodies and
+  `NumberField.mixedEmbedding.volume_fundamentalDomain_latticeBasis` around it, and
   `NumberField.discr`.
 
 ## What is missing (build here)
@@ -182,8 +185,9 @@ Nothing above gives: the Arakelov normalization or its comparison with the sup-n
 absolute height of a *tuple*; invariance under field extension; Northcott's theorem for varying
 degree; Kronecker's theorem for the height (as opposed to for the Mahler measure); the height of a
 polynomial, of a matrix, or of a subspace; Plücker coordinates as an arithmetic object; successive
-minima or Minkowski's second theorem; Siegel's lemma over a number field or in the invariant
-Bombieri–Vaaler form; or S-units. `Suggested.lean` pins the signatures most likely to drift.
+minima, Minkowski's second theorem, the extraction lemma, or the cube-slicing bound; Siegel's
+lemma over a number field or in the invariant Bombieri–Vaaler form; or S-units. `Suggested.lean`
+pins the signatures most likely to drift.
 
 ## The build, in layers
 
@@ -383,10 +387,12 @@ rather than a separate argument.
 `{V : Submodule K (ι → K) | finrank K V = k ∧ mulHeight V ≤ B}` is finite, and the `Northcott`
 instance behind it, immediate from 3.1's injectivity and Layer 1.1.
 
-### Layer 4: successive minima and Minkowski's second theorem
+### Layer 4: successive minima, Minkowski's second theorem, extraction, and cube slicing
 
 Minkowski's convex-body theorem is Mathlib's and the lattice-point engine is the `EffectiveBounds`
-roadmap's; the second theorem is neither's, and Bombieri–Vaaler needs it.
+roadmap's; the second theorem is neither's, and Bombieri–Vaaler needs it, together with two lemmas
+that convert its real-lattice output into number-field statements: the extraction lemma (4.4) and
+the cube-slicing theorem (4.5).
 
 **4.1 Successive minima** (Cassels, Ch. VIII §1). For a `ZLattice L` in a finite-dimensional real
 normed space and a symmetric convex body `B` with nonempty interior, define
@@ -412,36 +418,72 @@ general one). With `n = finrank ℝ E`, `(2ⁿ / n!) · covolume L ≤ (∏ i, �
 body; the second is the substantial half, by the compression argument along a basis realizing the
 minima. Both are milestones; the second is the one Layer 5 consumes.
 
-**4.3 The number-field lattice.** The specialization Layer 5 uses: for a subspace `V ⊆ Kⁿ`, the
-image of `V ∩ (𝓞 K)ⁿ` under `NumberField.canonicalEmbedding` is a `ZLattice`, and its covolume is
-`|discr K|^{k/2}` times the subspace height of `V`. This is the computation that converts a lattice
-statement into a height statement, and it is where the `|D_{K/ℚ}|^{(N−M)/(2d)}` of Theorem 5.3 is
-produced; it is a named milestone so that constant has a single point of truth.
+**4.3 The number-field lattice.** The specialization Layer 5 uses: for a subspace `V ⊆ Kⁿ` of
+dimension `k`, the image of `V ∩ (𝓞 K)ⁿ` under `NumberField.mixedEmbedding` is a `ZLattice` of
+rank `d k` in the `d k`-dimensional real carrier `V ⊗ ℝ`, and — with the measure normalized as
+Mathlib's `volume_fundamentalDomain_latticeBasis` normalizes it, `ℂ ≅ ℝ²`, so that `𝓞 K` itself
+has covolume `2^{−r₂} √|discr K|` — its covolume is
+
+```text
+covol (V ∩ (𝓞 K)ⁿ)  =  2^{−r₂ k} · |discr K|^{k/2} · H_Ar(V)^d,
+```
+
+with `H_Ar` the absolute Arakelov subspace height of Layers 0 and 3, so the last factor is the
+*relative* Arakelov height. The closed form is classical (Fukshansky 2006, attributed there to
+Thunder). Prove it over `ℚ` first, where it says a saturated lattice has covolume the euclidean
+norm of its primitive Plücker vector — Cauchy–Binet (3.4) plus completing a basis of the
+saturation to one of `ℤⁿ`; over `K`, through a pseudo-basis `⊕ 𝔞_l · w_l`, the ideal norms
+`∏ N(𝔞_l)` matching the finite part of the Plücker height exactly because the lattice is
+saturated. This is the computation that converts a lattice statement into a height statement, and
+it is where the `|D_{K/ℚ}|^{(N−M)/(2d)}` of Theorem 5.3 is produced; it is a named milestone so
+that constant has a single point of truth, and the worked examples below pin each of its three
+factors.
+
+**4.4 The extraction lemma.** The bridge from 4.2's real independence to Layer 5's `K`-bases, and
+pure linear algebra. If `u 1, …, u i ∈ Kⁿ` have `ℝ`-linearly independent images under the mixed
+embedding, their `K`-span has dimension at least `i / d`: the embedding is `ℚ`-linear, and a
+`K`-space of dimension `m` is a `ℚ`-space of dimension `d · m`. State it for an arbitrary tower —
+`F ⊆ K` finite of degree `d`, a `K`-vector space, an `F`-linear map into a vector space over a
+third field `E ⊇ F`, images independent over `E` — so the statement carries no number theory.
+Prove with it the greedy selection it exists for: from `d · k` such vectors, `k` of them that are
+`K`-linearly independent, the `j`-th chosen **among the first `d (j − 1) + 1`** — a member of the
+family, never a linear combination, because a chosen lattice vector keeps the norm bound it
+arrived with and a combination does not. Applied to independent vectors realizing the minima
+`λ 1 ≤ ⋯ ≤ λ (d k)` of 4.2, monotonicity gives `λ_{d(j−1)+1} ^ d ≤ ∏_{r=1}^{d} λ_{d(j−1)+r}`, so
+the product of the selected vectors' relative heights is bounded by `∏ i, λ i`, the full product
+4.2 bounds, with no loss. This is the step Bombieri–Vaaler perform adelically: every known proof
+of the second theorem needs, for a lattice and a sublattice, bases in which one is triangular
+over the other, which over `(𝓞_K)^N` requires `𝓞_K` to be a principal ideal domain (their §I.3).
+The lemma replaces the triangularization, and is what entitles the route below to the basis
+statements 5.2 Theorem 2 and 5.3 at their exact constants with no adelic input.
+
+**4.5 Cube slicing** (Vaaler 1979; Bombieri–Gubler, Appendix C.3). For a linear subspace
+`V ⊆ ℝⁿ` of dimension `k`, the central slice of the cube satisfies
+`vol_k (V ∩ [−1, 1]ⁿ) ≥ 2^k`, with equality on coordinate subspaces, so the bound is sharp. This
+is the archimedean volume bound behind the sharp constants of Layer 5 — Bombieri–Vaaler's own
+proof quotes it, so it is a cost of the theorem, not of this route — and the hardest single
+analytic ingredient in the roadmap; Vaaler's proof runs through a peakedness comparison for
+symmetric product measures (Kanter). Record as part of the milestone the reduction that makes the
+real statement the only one needed: at a complex place the unit polydisc of `ℂⁿ` contains the
+cube of half-side `1/√2` in `ℝ^{2n}`, and slicing that inscribed cube by the real
+`2k`-dimensional carrier of a `ℂ`-subspace gives `(2/√2)^{2k} = 2^k` — exactly what the constant
+of 5.3 requires, so no polydisc-slicing statement exists on this roadmap.
 
 **Route.** Bombieri–Gubler prove Siegel's lemma through the *adelic* Minkowski second theorem
-(Theorem 2.9.13, from Appendix C.2.11), over `∏_v K_v` with normalized Haar measures. **This roadmap
-pins the real route instead**: restriction of scalars along `canonicalEmbedding` reduces to a
-`ZLattice` in `ℝ^{dN}`, where 4.2 applies and 4.3 supplies the discriminant. That keeps Layer 4 free
-of adelic Haar measure and stands on the `ZLattice` and canonical-embedding substrate Mathlib and
-`EffectiveBounds` already provide. A contributor who prefers the adelic route must first build
-adelic Haar measure on `NumberField.AdeleRing`, which is a substantially larger undertaking and is
-not what the milestones below are stated against.
-
-⚠ **What the real route costs, stated precisely.** Bombieri–Vaaler §I.3 explain why *they* went
-adelic, and the reason bears on this choice. Every known proof of Minkowski's second theorem needs,
-for a lattice and a sublattice, bases in which one is triangular over the other; over `(𝓞_K)^N` that
-step is available only when `𝓞_K` is a principal ideal domain, so the second theorem cannot be
-proved over `𝓞_K` directly. The route pinned here sidesteps that — restriction of scalars produces
-an honest `ZLattice` in `ℝ^{dN}`, and 4.2 is a theorem about real lattices with no number field in
-it — but the difficulty reappears one step later: Minkowski's second theorem yields `dN` vectors
-independent over `ℝ`, while 5.3 needs `N − M` independent over `K`, and extracting the latter from
-the former with the heights still controlled is exactly the step the triangularization was doing.
-So: 4.1–4.3 and the **one-vector** statements (5.1, 5.2 Theorem 1, and the final clause of 5.4) are
-unaffected and can be built on this route with confidence. The **basis** statements (5.2 Theorem 2
-and 5.3) rest on that extraction, and whoever takes 5.3 should settle it before building on it —
-either by proving the extraction over `𝓞_K` directly, or by falling back to the adelic route for
-that milestone alone. Do not treat this as a reason to defer 5.3; treat it as the one place in the
-roadmap where the pinned route has a named gap that the work itself must close.
+(Theorem 2.9.13, from Appendix C.2.11), over `∏_v K_v` with normalized Haar measures. **This
+roadmap pins the real route instead**: restriction of scalars along `mixedEmbedding` reduces to a
+`ZLattice` in `ℝ^{dN}`, where 4.2 applies, 4.3 supplies the discriminant, 4.4 returns to `K`, and
+4.5 supplies the archimedean volume. The constants close exactly: with `k = N − M`, the `2^{dk}`
+of 4.2, the `2^{−r₂ k}` of 4.3 and the `2^{(r₁+r₂) k}` of 4.5's slice bounds cancel, which is the
+acceptance check that the normalizations agree. Each ingredient is classical and cited at its
+milestone, but the assemblies in the literature are adelic (Bombieri–Vaaler; Bombieri–Gubler
+§2.9) except over `ℚ` (Aliev–Henk §6); the assembly over `ℝ^{dN}`, with 4.4 in place of the
+adelic triangularization, is this roadmap's, so the milestones above — not any single reference —
+are the specification. The route keeps Layer 4 free of adelic Haar measure and stands on the
+`ZLattice` and mixed-embedding substrate Mathlib and `EffectiveBounds` already provide. A
+contributor who prefers the adelic route must first build adelic Haar measure on
+`NumberField.AdeleRing`, a substantially larger undertaking that nothing in this roadmap is
+stated against.
 
 ### Layer 5: Siegel's lemma and Bombieri–Vaaler (the summit)
 
@@ -466,8 +508,12 @@ solutions `x₁, …, x_{N−M}` with `∏_l max n, |x_l n| ≤ D⁻¹ √|det (
 Gram matrix of the rows — not `Aᵀ A`, which is `N × N` and singular whenever `M < N`. The invariance
 over 5.1 — the bound is unchanged by `A ↦ U A` for `U ∈ GL_M(ℤ)`, since `D⁻¹ √|det (A Aᵀ)|` is an
 absolute height on the Grassmannian (Bombieri–Vaaler (2.5)) — is a stated corollary, and is why the
-theorem is worth its cost. `√|det (A Aᵀ)|` is the Cauchy–Binet identity of 3.4, so this is 3.4 plus
-Layer 4 and nothing else.
+theorem is worth its cost. `√|det (A Aᵀ)|` is the Cauchy–Binet identity of 3.4 and the slice
+volume is 4.5, so this is 3.4 plus Layer 4 and nothing else — over `ℤ` the extraction 4.4 is
+vacuous, `d = 1` and the minima vectors are already the basis, while 4.5 already carries
+Theorem 1's constant. This assembly is written out, adele-free, in Aliev–Henk §6 (Theorems
+6.2–6.3, with the `ℚ`-case of 4.3's covolume identity stated there as folklore), which is the
+reference to hold the milestone against.
 
 **5.3 Bombieri–Vaaler over a number field — the summit** (Bombieri–Gubler, Theorem 2.9.4;
 Bombieri–Vaaler 1983). Let `K` have degree `d` and discriminant `D_{K/ℚ}`, and let `A` be an `M × N`
@@ -482,9 +528,17 @@ where `H` is the absolute multiplicative height and `H_Ar(A)` the **Arakelov hei
 space** of `A` — the subspace height of Layer 3 in the Arakelov normalization of Layer 0, not the
 height of the entries. The integrality of the basis carries no extra information (Remark 2.9.5),
 since scaling does not change a height; state it anyway, because it is what applications quote.
-Route: 3.5 identifies `H_Ar(A)` with the height of the solution space, 4.3 places the problem in a
-lattice, 4.2 produces a basis realizing the successive minima, and 3.7 converts the minima into the
-per-vector heights.
+Route: 3.5 identifies `H_Ar(A)` with the height of the solution space `V`, 4.3 places `V ∩ 𝓞_K^N`
+as a `ZLattice` of rank `d (N − M)` in the real carrier of `V`, 4.2 with the slice bounds of 4.5
+(the inscribed cube at complex places) bounds the product of all `d (N − M)` successive minima by
+`|D_{K/ℚ}|^{(N−M)/2}` times the relative Arakelov height, and 4.4 selects from vectors realizing
+the minima a `K`-basis, the `l`-th among the first `d (l − 1) + 1`, whose relative height is at
+most `λ_{d(l−1)+1} ^ d` — integral coordinates make every finite local factor at most one, and
+membership in the dilated body bounds the archimedean ones — so the product over the basis is
+bounded by the product of the minima. Layer 0.4's absolute normalization is applied once, at the
+end. The discriminant power in the bound is not removable (Roy–Thunder 1995), and the best
+possible constant, a generalized Hermite constant (Vaaler 2003), is recorded in the references
+and is not the target.
 
 **5.4 The corollaries applications actually quote.** *Non-maximal rank* (Corollary 2.9.7): for `A`
 of rank `R`, a basis `x₁, …, x_{N−R}` of the kernel with
@@ -569,8 +623,9 @@ roadmap to duplicate. Two open Mathlib pull requests do cover named milestones a
    that PR and stay here.
 3. **Everything else is ours.** The Arakelov normalization, the absolute tuple height, Northcott
    with varying degree, Kronecker for the height, polynomial and matrix heights, the Plücker point
-   and the subspace height with its duality, successive minima and Minkowski's second theorem, and
-   both forms of Siegel's lemma over a number field are absent from Mathlib and from the open PRs.
+   and the subspace height with its duality, successive minima and Minkowski's second theorem with
+   the extraction and cube-slicing lemmas beside them, and both forms of Siegel's lemma over a
+   number field are absent from Mathlib and from the open PRs.
    Where Mathlib records a TODO covering one of them — `Height/Northcott.lean` asks for the
    projectivization instances of Layer 1.1, `Height/Basic.lean` asks for `AdmissibleAbsValues`
    instances on finite extensions, which Layer 0.3 supplies the arithmetic for — build it here and
@@ -604,6 +659,12 @@ files as `example` s.
   `|D_ℚ|^{2/2} · √3 = √3` since `D_ℚ = 1`. A version of 3.5 that produced anything but `√3` on both
   sides here has the minors indexed wrongly, and one that produced `1` has confused the Arakelov
   height with the sup-norm height.
+- The covolume identity (4.3) over `K = ℚ(i)`, `V = span {![1, -1]}` in `K²`: the lattice
+  `ℤ[i] · (1, −1)` inside `ℂ · (1, −1)` has covolume `2`, and
+  `2^{−r₂} · √|discr K| · H_Ar(V)^d = (1/2) · 2 · (√2)² = 2`. A version of 4.3 without the
+  `2^{−r₂ k}` fails this by a factor of `2`, and one with the sup-norm height in place of the
+  Arakelov height fails it by `(√2)^d = 2`; both errors are invisible over `ℚ`, which is why this
+  check is over `ℚ(i)`.
 - `Polynomial.mulHeight ((X - 1) * (X + 1) : ℚ[X]) = 1` while
   `mulHeight (X - 1) * mulHeight (X + 1) = 1`: Gelfond's factor `2^deg` is an upper bound that is
   far from attained, which is the point of recording the sharp Mahler-measure statement in 2.3.
@@ -616,10 +677,13 @@ contribution — 1.1 discharges a Mathlib TODO, and 1.2 through 1.5 need nothing
 Mathlib's Mahler measure. Layers 2 and 3 are independent of each other and both depend only on
 Layers 0–1; Layer 3 is the more valuable and the more delicate, and 3.1 should be settled before
 anything else in it is attempted, because every later statement is about the object it constructs.
-Layer 4 is independent of Layers 1–3 entirely — it is real-analytic geometry of numbers and can be
-built in parallel from the start by someone who prefers that subject. Layer 5 needs 3 and 4
-together; 5.1 and 5.2 need neither and can land early as the acceptance tests for the vocabulary.
-Layer 6 needs only Layers 0 and 1 and is likewise independent of 2–5.
+Layer 4 touches Layers 1–3 only through 4.3, whose statement uses the subspace height of 3.2 and
+whose `ℚ`-case is Cauchy–Binet (3.4); 4.1 and 4.2 are real-analytic geometry of numbers, 4.4 is
+self-contained linear algebra, and 4.5 is self-contained real analysis — the hardest single item
+in the roadmap, claimable on its own — so most of the layer can be built in parallel from the
+start by someone who prefers those subjects. Layer 5 needs 3 and 4 together; 5.1 needs neither
+and can land early as the acceptance test for the vocabulary, and 5.2 needs only 3.4, 4.2, 4.5
+and the `ℚ`-case of 4.3. Layer 6 needs only Layers 0 and 1 and is likewise independent of 2–5.
 
 Register an intention before a substantial push; the layers above are deliberately claimable
 separately.
@@ -645,7 +709,8 @@ and where the next roadmap should start, not as work in scope.
   inequality (Rem 2.8.9), duality (Prop 2.8.10, Cor 2.8.12) and submodularity (Thm 2.8.13); §2.9
   Siegel's lemma (Lemma 2.9.1, Cor 2.9.2), Bombieri–Vaaler (Thm 2.9.4) with its corollaries
   (2.9.7–2.9.9), the adelic Minkowski second theorem (Thm 2.9.13) and the relative version (Thm
-  2.9.19); Appendix C for the geometry of numbers behind Layer 4.
+  2.9.19); Appendix C for the geometry of numbers behind Layer 4 — C.2 is Minkowski's second
+  theorem and C.3 is the cube slicing of 4.5.
 - E. Bombieri and J. Vaaler, "On Siegel's lemma", *Inventiones Mathematicae* **73** (1983), 11–32.
   The original of Layers 5.2 and 5.3: Theorem 1 is the one-vector bound over `ℤ` and Theorem 2 the
   basis bound, both with `D⁻¹√|det (A Aᵀ)|`; Theorem 3 is the adelic Minkowski second theorem the
@@ -654,6 +719,25 @@ and where the next roadmap should start, not as work in scope.
   `|det X Xᵀ|^{1/2}` at archimedean ones, and records that `H(X)` is intrinsic on the Grassmannian
   ((2.5)) and submultiplicative over row blocks ((2.6)). §I.3 is the discussion of why the proof
   goes through the adèles, cited in Layer 4.
+- J. D. Vaaler, "A geometric inequality with applications to linear forms", *Pacific Journal of
+  Mathematics* **83** (1979), 543–553. The cube-slicing theorem of 4.5, quoted by Bombieri–Vaaler
+  for the archimedean local volumes; the peakedness comparison its proof runs through is
+  M. Kanter, "Unimodality and dominance for symmetric random vectors", *Trans. Amer. Math. Soc.*
+  **229** (1977), 65–85.
+- J. D. Vaaler, "The best constant in Siegel's lemma", *Monatshefte für Mathematik* **140**
+  (2003), 71–89. The optimal form of 5.3's constant, a generalized Hermite constant in the sense
+  of Thunder; recorded so that nobody mistakes it for the target — this roadmap asks for the
+  discriminant bound of Theorem 2.9.4.
+- I. Aliev and M. Henk, "Minkowski's successive minima in convex and discrete geometry",
+  *Communications in Mathematics* **31** (2023), no. 2, 35–59. §6 (Theorems 6.2–6.3) is the
+  adele-free assembly of 5.2 over `ℚ` — the covolume identity, cube slicing, and Minkowski's
+  second theorem — and the reference that milestone is held against.
+- L. Fukshansky, "Siegel's lemma with additional conditions", *Journal of Number Theory* **120**
+  (2006), 13–25. Records the closed form of 4.3's covolume identity, attributing it to Thunder;
+  its main argument is adelic and is not this roadmap's route.
+- D. Roy and J. L. Thunder, "A note on Siegel's lemma over number fields", *Monatshefte für
+  Mathematik* **120** (1995), 307–318. Some power of the discriminant must appear in 5.3's bound,
+  so the constant's shape is intrinsic and not an artifact of any route.
 - W. M. Schmidt, "On heights of algebraic subspaces and diophantine problems", *Annals of
   Mathematics* **85** (1967), 430–472. The origin of Layer 3: §1 defines the height of a subspace by
   its Grassmann coordinates and proves the map from `d`-dimensional subspaces to lines in `K^N` is
