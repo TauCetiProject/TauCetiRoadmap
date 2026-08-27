@@ -454,7 +454,10 @@ section DiscriminantModules
 variable {V : Type u} [AddCommGroup V] [Module ℚ V]
 variable (L : IntegralLattice V) [L.IsNondegenerate]
 
-noncomputable def IntegralLattice.discriminantPairing :
+/-- ⚠ The nondegeneracy instance is written inline, not taken from the section: the body is
+`sorry` and the type does not mention it, so Lean would silently drop it and the definition would
+apply to degenerate lattices against the roadmap's convention. -/
+noncomputable def IntegralLattice.discriminantPairing [L.IsNondegenerate] :
     L.DiscriminantGroup →+ CharacterModule L.DiscriminantGroup := sorry
 
 /-- ⚠ The carrier is **data**, not a milestone: `A` is `L.DiscriminantGroup` by construction and
@@ -470,7 +473,8 @@ noncomputable def IntegralLattice.discriminantBilinearModule : FiniteBilinearMod
 theorem IntegralLattice.discriminantBilinearModule_isNondegenerate :
     L.discriminantBilinearModule.IsNondegenerate := sorry
 
-noncomputable def IntegralLattice.discriminantQuadraticForm (hL : L.IsEven) :
+/-- ⚠ Same inline-instance note as `discriminantPairing`. -/
+noncomputable def IntegralLattice.discriminantQuadraticForm [L.IsNondegenerate] (hL : L.IsEven) :
     QuadraticMap ℤ L.DiscriminantGroup (AddCircle (1 : ℚ)) := sorry
 
 theorem IntegralLattice.discriminantQuadraticForm_mk (hL : L.IsEven) (x : L.dual) :
