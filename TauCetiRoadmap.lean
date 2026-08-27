@@ -3,38 +3,10 @@
 -- The per-topic `README.md` files are the definitive roadmaps. The Lean `Suggested.lean`
 -- files suggest declaration forms for particular milestones (with `sorry`, which is
 -- allowed here); they are not exhaustive, and discharging one does not finish its roadmap.
-import TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras.Suggested
-import TauCetiRoadmap.RepresentationTheory.CharacterTheory.Suggested
-import TauCetiRoadmap.RepresentationTheory.InductionRestriction.Suggested
-import TauCetiRoadmap.RepresentationTheory.RootSystems.Suggested
-import TauCetiRoadmap.RepresentationTheory.LieHighestWeight.Suggested
-import TauCetiRoadmap.RepresentationTheory.ClassicalGroups.Suggested
-import TauCetiRoadmap.RepresentationTheory.SchurWeyl.Suggested
-import TauCetiRoadmap.RepresentationTheory.CompactGroups.Suggested
-import TauCetiRoadmap.RepresentationTheory.LieGroups.Suggested
-import TauCetiRoadmap.RepresentationTheory.SpinRepresentations.Suggested
-import TauCetiRoadmap.RepresentationTheory.QuiverRepresentations.Suggested
-import TauCetiRoadmap.GrothendieckEulerForms.Suggested
-import TauCetiRoadmap.Multiquadratic.Suggested
-import TauCetiRoadmap.UniversalCovers.Suggested
-import TauCetiRoadmap.JacobianChallenge.Suggested
-import TauCetiRoadmap.ReductiveGroups.Suggested
-import TauCetiRoadmap.PDE.Suggested
-import TauCetiRoadmap.CombinatorialHeegaardFloer.Suggested
-import TauCetiRoadmap.HeegaardFloer.Suggested
-import TauCetiRoadmap.IntegralLattices.Suggested
-import TauCetiRoadmap.GeometricTopology.Suggested
-import TauCetiRoadmap.HopfRinow.Suggested
-import TauCetiRoadmap.Exchangeability.Suggested
-import TauCetiRoadmap.ContourIntegration.Suggested
-import TauCetiRoadmap.DGAInfinity.Suggested
-import TauCetiRoadmap.ConformalMapping.Suggested
-import TauCetiRoadmap.OptimalTransport.Suggested
-import TauCetiRoadmap.CFSGStatement.Suggested
-import TauCetiRoadmap.StandardDistributions.Suggested
-import TauCetiRoadmap.HodgeStructures.Suggested
-import TauCetiRoadmap.ProfiniteCohomology.Suggested
-import TauCetiRoadmap.AlgebraicCurves.Suggested
-import TauCetiRoadmap.DenseGraphLimits.Suggested
-import TauCetiRoadmap.ZigzagPreprojective.Suggested
-import TauCetiRoadmap.ArithmeticDirichletSeries.Suggested
+--
+-- This file deliberately carries no imports, and a roadmap must not add one. `lakefile.toml`
+-- globs every module under `TauCetiRoadmap/`, so `lake build` compiles each roadmap whether or
+-- not it is named here, and catches an orphaned or broken target either way. The list this file
+-- used to carry was appended to, so every concurrent roadmap pull request edited its last line
+-- and conflicted with every other. It had also silently drifted three roadmaps out of date
+-- without the `build` check noticing, which is what showed the list was not load-bearing.
