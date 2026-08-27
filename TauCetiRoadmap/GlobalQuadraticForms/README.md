@@ -100,7 +100,7 @@ on quadratic forms.
 | 3.3, 4.4 | `hilbertProductFormula` (Hilbert reciprocity) | The product over all places of the cohomological Kummer-cup Hilbert pairing is `1`, with the arithmetic invariant-map normalization. |
 | 4.2, 4.4 | `card_ideleClassNormQuotient` (Layer 12) | The norm-index theorem `[C_K : N_{L/K} C_L] = [L:K]` for a finite abelian extension. Applied to a quadratic `L = K(√d)` this is the single global input of both 4.2 and 4.4. |
 | 4.2, 4.4 | `principalIdele`, `ideleNormMap`, `ideleClassNorm` | The principal-idele map `Kˣ →* I_K`, the idele norm map of a finite extension, and the induced norm on idele classes, whose range is the image of the range of `ideleNormMap`. |
-| 4.2, 4.4 | Layer 13, the placewise description of `ideleNormMap` | Both directions, for an arbitrary idele and not only a principal one: every coordinate of an idele norm is a local norm from `K_v ⊗_K L`, and conversely an idele that is a local norm at every place, and a norm of a local unit at almost every place, is an idele norm. Layer 13 states this reasoning in proving `principalIdele_mem_range_ideleNormMap_iff`; 4.2 and 4.4 need it for ideles that are not principal. |
+| 4.2, 4.4 | `mem_range_ideleNormMap_iff` | The placewise description of `ideleNormMap` for an **arbitrary** idele, both directions, stated against Global Number Fields' coordinate projections `ideleFiniteCoord`/`ideleInfiniteCoord`; the principal case is `principalIdele_mem_range_ideleNormMap_iff`. 4.2 and 4.4 apply it to non-principal ideles in `N(I_E)`. |
 
 The public names `cyclicHasseNorm`, `isGlobalNorm_iff_isLocalNormEverywhere`,
 `hilbertProductFormula` and `card_ideleClassNormQuotient` are part of this consumer contract.
@@ -425,8 +425,8 @@ no idele is required to be trivial on `S`. The identity `I_K = Kˣ · I_K^S` is 
 *Source:* O'Meara 65:15, with 65:21 for the index.
 
 *Prerequisites:* L 4.1, L 4.5; R Class Field Theory `card_ideleClassNormQuotient`,
-`principalIdele`, `ideleNormMap`, `ideleClassNorm`, and Layer 13's placewise description of
-`ideleNormMap`; R Global Number Fields `IdeleGroup`, `IdeleClassGroup`. The theorem belongs here
+`principalIdele`, `ideleNormMap`, `ideleClassNorm`, and `mem_range_ideleNormMap_iff`;
+R Global Number Fields `IdeleGroup`, `IdeleClassGroup`, `ideleFiniteCoord`, `ideleInfiniteCoord`. The theorem belongs here
 because it is an internal quadratic-form bridge, not a second class-field carrier.
 
 #### 4.3 The quadratic Hasse norm adapter
@@ -516,8 +516,8 @@ kernel computed in step 4.
 *Source:* O'Meara 71:19 and 71:19a, with 65:21 for the index.
 
 *Prerequisites:* L 4.1, L 4.5; R Class Field Theory `hilbertProductFormula`,
-`card_ideleClassNormQuotient`, `principalIdele`, `ideleNormMap`, `ideleClassNorm`, and Layer 13's
-placewise description of `ideleNormMap`; R Quadratic Form Invariants `hilbertSymbol`,
+`card_ideleClassNormQuotient`, `principalIdele`, `ideleNormMap`, `ideleClassNorm`, and
+`mem_range_ideleNormMap_iff`; R Quadratic Form Invariants `hilbertSymbol`,
 `hilbertSymbol_mul`, `hilbertSymbol_comm`, `hilbertSymbol_neg_self`, `hilbertSymbol_unramified`,
 `exists_hilbertSymbol_eq_neg_one`, `hilbertSymbol_eq_cohomological`,
 `hilbertSymbol_productFormula`; R Global Number Fields `IdeleGroup`, `IdeleClassGroup`.
