@@ -2181,6 +2181,23 @@ def IsLocalNormEverywhere [Module.Finite K L] (x : Kˣ) : Prop :=
   (∀ v : HeightOneSpectrum (RingOfIntegers K), IsFiniteLocalNorm K L v x) ∧
     ∀ w : NumberField.InfinitePlace K, IsInfiniteLocalNorm K L w x
 
+/-- **The placewise description of the idelic norm, for an arbitrary idele**, stated against
+the supplier's coordinate projections `GlobalNumberFields.ideleFiniteCoord` and
+`ideleInfiniteCoord`. The principal case is the theorem below; Global Quadratic Forms' kernel
+computation for `i ↦ ∏_v (i_v, b_v)_v` needs this one on `N(I_E)`, where the ideles are not
+principal. Both directions are used: forward projects a norm to each coordinate; the converse
+assembles local preimages, using that an unramified extension has surjective norm on local units
+at all but finitely many finite places. -/
+theorem mem_range_ideleNormMap_iff [Module.Finite K L]
+    (i : GlobalNumberFields.IdeleGroup K) :
+    i ∈ MonoidHom.range (ideleNormMap K L) ↔
+      (∀ v : HeightOneSpectrum (RingOfIntegers K),
+          GlobalNumberFields.ideleFiniteCoord v i ∈
+            MonoidHom.range (finiteLocalNormMap K L v)) ∧
+        ∀ w : NumberField.InfinitePlace K,
+          GlobalNumberFields.ideleInfiniteCoord w i ∈
+            MonoidHom.range (infiniteLocalNormMap K L w) := sorry
+
 /-- Local-coordinate bridge for the idelic norm. Its proof projects an idele norm to each local
 factor in the forward direction. Conversely it chooses local preimages, uses that an unramified
 extension has surjective norm on local units at all but finitely many finite places, and assembles
