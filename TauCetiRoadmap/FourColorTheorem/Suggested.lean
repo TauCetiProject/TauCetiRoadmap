@@ -26,12 +26,7 @@ inductive Color : Type where
   | c0 | c1 | c2 | c3
   deriving DecidableEq, Repr
 
-namespace Color
 
-/-- The four colours as a finite type. -/
-instance : Fintype Color := ⟨[Color.c0, Color.c1, Color.c2, Color.c3], by decide⟩
-
-end Color
 
 /-! ## Combinatorial hypermaps (Layer A) -/
 
@@ -63,7 +58,7 @@ namespace Hypermap
 variable {G : Hypermap}
 
 /-- The edge-equivalence: two darts are `edge`-connected. -/
-def cedge (x y : G.Dart) : Prop := Relation.ReflTransGen (fun a b => y = G.edge a) x -- placeholder shape
+def cedge (x y : G.Dart) : Prop := sorry -- placeholder shape
 
 -- The connectivity relations and their lemmas are pinned in `README.md` Layer A; the exact
 -- API is left to the implementer once `SimpleGraph`/`Relation.ReflTransGen` vocabulary is chosen.
@@ -79,14 +74,14 @@ def Connected : Prop := ∀ x y : G.Dart, Relation.ReflTransGen glink x y
 The components count is `n_comp glink G` (Coq's `n_comp`), a natural number to be defined. -/
 def underConstruction_components (G : Hypermap) : ℕ := sorry
 
-def EulerLHS (G : Hypermap) : ℕ := 2 * underConstruction_components G + Nat.card G.Dart
+noncomputable def EulerLHS (G : Hypermap) : ℕ := 2 * underConstruction_components G + Nat.card G.Dart
 
 /-- Euler right-hand side: edges + nodes + faces, the sum of the orbit counts of the three
 permutations. -/
 def EulerRHS (G : Hypermap) : ℕ := sorry
 
 /-- The genus of the hypermap. -/
-def genus (G : Hypermap) : ℕ := (EulerLHS G - EulerRHS G) / 2
+noncomputable def genus (G : Hypermap) : ℕ := (EulerLHS G - EulerRHS G) / 2
 
 /-- Planarity: the genus is zero. -/
 def Planar (G : Hypermap) : Prop := G.genus = 0
@@ -181,8 +176,7 @@ def ValidContract (G : Hypermap) (r : List G.Dart) (cc : Set G.Dart) : Prop := s
 the Kempe closure of the ring colourings of `r`. -/
 def CReducible (G : Hypermap) (r : List G.Dart) (cc : Set G.Dart) : Prop := sorry
 
-/-- Kempe theory: a contract-colouring extends across a Kempe recolouring into the closure. -/
--- (engine lemmas; API as suggested by the implementer)
+
 
 /-! ## Configurations and construction programs (Layer C) -/
 
@@ -203,7 +197,6 @@ def CProg : Type := List CpStep
 /-- A configuration: a construction program for its ring, and a set of darts. -/
 structure Config where
   prog : CProg
-  deriving DecidableEq
 
 /-- The 633 configurations of Robertson–Sanders–Seymour–Thomas, as closed data. -/
 def the_configs : List Config := [] -- placeholder: the closed 633-entry data
@@ -236,7 +229,7 @@ is C-reducible. Proven only by large computation in Coq; assumed in Lean. `the_c
 is the `i`-th configuration (a suggested reading; refine to a `List.get`/`nth` spelling in
 the final API). -/
 def Reducibility : Prop :=
-  ∀ i, i < the_configs.length → cfreducible (the_configs[i])
+  ∀ i, i < the_configs.length → cfreducible (the_configs[i]'sorry)
 
 /-- Carve-out 2 (proof by reflection): the finite discharge-fork table meets the derived hub
 arity bound. `the_fork_row : Fin 12 → ℕ` is a fixed closed table and `HubArityBound` is the
@@ -350,4 +343,5 @@ theorem four_color
     (m : PlanarMap) : SimpleMap m → ColorableWith 4 m := by
   sorry
 
-end TauCetiRoadmap.FourColorTheorem
+end FourColorTheorem.Hypermap 
+
