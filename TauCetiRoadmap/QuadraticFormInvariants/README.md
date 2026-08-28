@@ -366,10 +366,15 @@ improvement through their own review rather than duplicating them.
   `ClassFieldTheory -> QuadraticFormInvariants`, never the reverse.
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology and its operations: the carrier, the cup product, restriction, inflation,
-  corestriction, Kummer theory, and the Evens norm at index two with its four
-  characterizing identities. Layer 7A consumes those declarations and adds only the
-  coefficient identification specific to `μ₂` and the passage from a field extension to
-  the open subgroup by which the supplier's operations are indexed.
+  corestriction, Kummer theory, the Evens norm at index two with its four characterizing
+  identities, the explicit low-degree complex, and the finite-quotient system with its
+  universal cocone. Layer 7A consumes those declarations and adds only the coefficient
+  identification specific to `μ₂` and the passage from a field extension to the open
+  subgroup by which the supplier's operations are indexed; Layer 7B adds only the
+  identification of the supplier's coefficient module `UnitsCoeff K` with the units of
+  `Kˢ` and the packaging of a finite Galois subextension as an open normal subgroup with
+  its finite quotient. Neither builds a continuous-cohomology carrier, an inflation map,
+  or a finite-quotient colimit of its own.
 - The [semisimple-algebras
   roadmap](../RepresentationTheory/SemisimpleAlgebras/README.md) **Layer 4**: the tensor
   product of two central simple `K`-algebras is central simple, with `finrank K (A ⊗ B)
@@ -470,6 +475,20 @@ The two frozen QFI bridge names are `hilbertSymbol_eq_cohomological` and
 `ClassFieldTheory.hilbertProductFormula`. This is the only ownership direction: no CFT file
 imports QFI.
 
+`hilbertSymbol_eq_cohomological` is derived rather than asserted. Its one input is
+`localSymbol_eq_zero_iff_cup`, which says that `ClassFieldTheory.localSymbol` vanishes exactly
+when Layer 7A's `cup11` of the two Kummer classes does; the two cups are the same supplied `cup`,
+taken at the coefficient objects `ClassFieldTheory.muNRep 2 F` and `trivialF2` and over
+`Field.absoluteGaloisGroup F` and `ProfiniteCohomology.AbsoluteGaloisGroup F`, so that comparison
+of coefficients and groups is the entire content. Both halves of the dictionary it composes are
+supplied: `ClassFieldTheory.muNRepCoeffDictionary` with `muNRepCoeffDictionary_continuous` and
+`muNRepCoeffDictionary_equivariant`, and `ClassFieldTheory.absoluteGaloisGroupComparison`, on one
+side, and Layer 7A's `kummerCoeffIsoTrivialF2` on the other. Given it, Layer 7C's
+`cup_kummerClass_eq_zero_iff_hilbertSymbol` and the fact that both symbols take two values force
+the equality of signs. ⚠ This bridge does **not** factor through Layer 7B's comparison: the
+crossed-product comparison has `Kˢˣ` coefficients and says nothing about the `μ₂`-valued cup that
+`localSymbol` is built from.
+
 **From the [profinite-cohomology roadmap](../ProfiniteCohomology/README.md)**, namespace
 `TauCetiRoadmap.ProfiniteCohomology`.
 
@@ -485,6 +504,8 @@ imports QFI.
 | Layer 7A, the transfer along `L/K`; Layers 8 and 9 | 9, with 10 and 13 | `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv`, `galoisF2Iso`, `galoisRes`, `galoisCor`, `galoisEvens`, `galoisConj`, `galoisRes_cup`, `galoisCor_cup`, `galoisRes_galoisCor`, `galoisConj_evensConj`, `galoisRes_galoisEvens`, `galoisEvens_add`, `galoisRes_comp`, `galoisRes_embedding_independent`, `galoisCor_embedding_independent`, `galoisEvens_embedding_independent` | restriction, corestriction and the index-two Evens norm attached to a finite separable `L/K`, with their laws, the conjugation convention `galoisConj = res ∘ cor − id`, and independence of the embedding |
 | Layer 7A, the Evens norm; Layer 9's formula | 13 | `evensNorm`, `evensNormIndexTwo`, `evensConj`, `evensConj_eq_conjMapOf`, `evensNorm_res`, `evensNorm_polarization`, `evensNorm_cor_shapiro`, `evensNorm_identity_infl` | `H¹(U, 𝔽₂) → H²(G, 𝔽₂)` for open `U` of index two, with its four characterizing identities, and the theorem that `evensConj` is conjugation by every `s ∉ U`, which is what makes the conjugation convention choice-free |
 | Layer 7B, the comparison with the explicit model | 8, 12 | `explicitCup11`, `explicitIso_cup` | the agreement of the explicit bidegree-`(1,1)` cup with `cup` |
+| Layer 7B, milestone 2(8), the passage from a finite cocycle to a continuous class | 2, 3 | `Z2`, `B2`, `H2`, `H2pi`, `DiscreteH2`, `discreteH2Equiv`, `explicitH2Obj`, `explicitH2IsoContinuousCohomology` | the explicit inhomogeneous degree-two complex with its class map, and its comparison with the canonical carrier, at `G = G_K` and `M = UnitsCoeff K` |
+| Layer 7B, milestone 2(8), the finite-quotient description of `H²(G_K, Kˢˣ)` | 0, 4 | `Invariants`, `explicitFiniteQuotientSystem2`, `explicitFiniteQuotientComparison2`, `explicitFiniteQuotientCocone2`, `explicitFiniteQuotientColimit2` | the invariant coefficients `M^U`, the degree-two system over the open normal subgroups of `G_K`, its inflation-and-inclusion cocone into `H²(G_K, M)`, and universality of that cocone |
 
 **From the [semisimple-algebras
 roadmap](../RepresentationTheory/SemisimpleAlgebras/README.md).**
@@ -532,10 +553,14 @@ Everything below the linear algebra:
 - the `μ₂` coefficient identification of Layer 7A, and the mod-2 laws read through it:
   the Kummer class of a unit, the square-class isomorphism, and `h2MuToUnits`;
 - the crossed-product package — the algebra of a cocycle, the cohomologous and
-  multiplicative comparisons, the cocycle of a splitting, inflation, surjectivity, and the
-  two inverse identifications — and the comparison of the Brauer group with `H²` built
-  from it, together with the identification of the quaternion class with a Kummer cup
-  product;
+  multiplicative comparisons, the cocycle of a splitting, inflation of a cocycle along a
+  compatible pair, surjectivity, and the two inverse identifications — the inflation of a
+  finite cocycle into `H²_cont(G_K, Kˢˣ)` with its invariance under cohomologous cocycles
+  and under refinement of the splitting field, its identification with the supplied
+  finite-quotient comparison leg, and the finite-quotient exhaustion of `H²_cont`; and the
+  comparison of the Brauer group with `H²` built from all of that, determined by its value
+  on crossed-product classes, together with the identification of the quaternion class
+  with a Kummer cup product;
 - the cup-norm theorem in each of its five descriptions, over any field in which `2` is
   invertible;
 - the Stiefel-Whitney classes `w₁` and `w₂` of forms, defined on isometry classes and not
@@ -1437,8 +1462,10 @@ description with the classical `{±1}`-valued symbol over a nonarchimedean local
 which is this sublayer's. The class-field-theory roadmap owns the local invariant and
 the cohomological Kummer-cup pairing and defines no quadratic form or quaternion algebra.
 The comparison is the frozen declaration `hilbertSymbol_eq_cohomological`; no CFT
-milestone depends on it. The frozen `hilbertSymbol_productFormula` then translates
-`ClassFieldTheory.hilbertProductFormula` into multiplicative signs.
+milestone depends on it, and it rests on the single coefficient comparison
+`localSymbol_eq_zero_iff_cup` together with Layer 7C's
+`cup_kummerClass_eq_zero_iff_hilbertSymbol`. The frozen `hilbertSymbol_productFormula` then
+translates `ClassFieldTheory.hilbertProductFormula` into multiplicative signs.
 
 Prerequisites:
 
@@ -1557,7 +1584,9 @@ Milestones, in this order:
     invariant on `H²(G_K, μ₂)`, and proves the corresponding local duality pairing
     perfect. The milestone `hilbertSymbol_eq_cohomological` says that it agrees with
     `hilbertSymbol` after the dictionary `0 -> +1`, `1 -> -1`. It is stated after Layer
-    7C, because the comparison runs through the Kummer cup--norm theorem.
+    7C, because the comparison runs through the Kummer cup--norm theorem, and its only
+    input is `localSymbol_eq_zero_iff_cup`, the comparison of Class Field Theory's
+    `μ₂`-coefficient cup with Layer 7A's.
 14. **The global product formula is inherited.** Apply the sign dictionary to
     `ClassFieldTheory.hilbertProductFormula`. The resulting frozen declaration
     `hilbertSymbol_productFormula` is an export to `GlobalQuadraticForms`, not a local-
@@ -1695,9 +1724,11 @@ signs and not only as an equivalence of vanishings,
 
 which is the frozen `hilbertSymbol_eq_cohomological`, with `hilbertSign` the dictionary
 `0 ↦ +1`, `1 ↦ −1`. The equality is what is stated: the equivalence
-`localSymbol (a) (b) = 0 ↔ (a,b)_K = +1` determines the sign only once one knows the
-target has two elements, and a consumer that needs the sign should not have to reprove
-that.
+`localSymbol (a) (b) = 0 ↔ (a,b)_K = +1`, which is `localSymbol_eq_zero_iff_cup` composed
+with `cup_kummerClass_eq_zero_iff_hilbertSymbol`, determines the sign only once one knows
+the target has two elements, and a consumer that needs the sign should not have to reprove
+that. So the vanishing statement is the milestone and the sign statement is its
+consequence.
 
 **Compatibility with the cup product** at the same normalization is then one step. By
 Layer 7B's `ι [(a,b)] = (a) ∪ (b)` and Milestone 1's `ε (hasseInvariant q) = localHasse q`,
@@ -1840,7 +1871,14 @@ Prerequisites:
 - **[Layer 5]** the quaternion class and its bilinearity;
 - **[Layer 7A]** the carriers, the Kummer class, and `h2MuToUnits`;
 - **[Profinite Cohomology, Layer 12]** `cup` at `f2Pairing`, which is the cup product
-  every statement below uses.
+  every statement below uses;
+- **[Profinite Cohomology, Layers 0, 2, 3 and 4]** `Invariants`, the explicit
+  inhomogeneous complex `Z2`, `B2`, `H2` with `H2pi` and `DiscreteH2`, the comparison
+  `explicitH2IsoContinuousCohomology` with the canonical carrier, and the degree-two
+  finite-quotient system `explicitFiniteQuotientSystem2` with its cocone
+  `explicitFiniteQuotientCocone2`, legs `explicitFiniteQuotientComparison2` and
+  universality `explicitFiniteQuotientColimit2`. Milestone 2's eighth item is stated
+  entirely against these; nothing here rebuilds them.
 
 Milestones:
 
@@ -1857,7 +1895,7 @@ Milestones:
      indexes its cocycle by `Gal(L/K)`, and a merely separable splitting field has no
      such group.
 2. **The crossed-product package.** The comparison is a piece of mathematics, so it is
-   built from seven separately citable theorems and not from one step. Each is a
+   built from eight separately citable theorems and not from one step. Each is a
    milestone, and each is reusable on its own: a consumer that needs only "cohomologous
    cocycles have the same class" cites that one statement. (Gille-Szamuely 4.4, Serre
    *Local Fields* X.)
@@ -1892,9 +1930,7 @@ Milestones:
       pair that matters being `AlgEquiv.restrictNormal` with the inclusion for
       `K ⊆ L ⊆ M` — and `crossedProductClass_comap` says the class is unchanged. ⚠ The
       intertwining hypothesis is carried in the type of `comap`: without it the inflated
-      function is not a cocycle at all. Then the finite-quotient description of
-      `H²_cont(G_K, Additive Kˢˣ)` as the colimit over finite Galois `L/K`, which is what
-      turns the family of comparisons into one continuous statement.
+      function is not a cocycle at all.
    6. **Every Brauer class is obtained.** `exists_galoisCocycle_brauerClass_eq`:
       surjectivity, composing item 1(b) with item 4. `GaloisCocycle K` bundles a finite
       Galois subextension of `Kˢ/K` with a cocycle of its Galois group, so that the
@@ -1904,6 +1940,63 @@ Milestones:
       `A` presents `A`. `cohomologous_of_crossedProductClass_eq`: equal crossed-product
       classes over the same `L` come from cohomologous cocycles, which is injectivity,
       and Hilbert 90 for a finite Galois `L/K` is its input.
+   8. **Inflation into continuous cohomology.** Items 1 to 7 produce cocycles of the
+      finite groups `Gal(L/K)`, while milestone 3 is a statement about
+      `H²_cont(G_K, Kˢˣ)`. This item is the whole of the passage between them, and it is
+      the only place in the roadmap where they meet.
+
+      `TwoCocycle.inflate` is `TwoCocycle.comap` at the pair
+      `(AlgEquiv.restrictNormalHom L, L ⊆ Kˢ)`, whose intertwining hypothesis is
+      Mathlib's `AlgEquiv.restrictNormal_commutes`; it turns a cocycle of `Gal(L/K)` into
+      one of `G_K`. `unitsCochain` reads that cocycle in the profinite-cohomology
+      roadmap's coefficient module `UnitsCoeff K`, which *is* `Additive Kˢˣ`, so the
+      translation between this roadmap's multiplicative convention and the supplier's
+      additive one is `Additive.ofMul` and nothing else. `unitsCochain_isCocycle₂` says
+      that the normalization pinned in item 1 is exactly Mathlib's
+      `groupCohomology.IsCocycle₂`, which is what makes the comparison sign-correct.
+      `continuous_unitsCochain_inflate` is continuity: the cochain factors through the
+      discrete finite `Gal(L/K)`, so ⚠ finiteness of `L/K` is used here and the same
+      formula over an infinite normal subextension is a cocycle but not a continuous one.
+      `inflateTwoCocycleZ2` is the resulting element of the supplier's `Z2`,
+      `unitsClassOfZ2` its class, taken through the supplier's `H2pi` and
+      `explicitH2IsoContinuousCohomology` and through nothing else, and
+      `inflateTwoCocycleClass` the composite, with `GaloisCocycle.inflateClass` its
+      bundled form.
+
+      Three theorems pin that class. `inflateTwoCocycleClass_eq_of_cohomologous`:
+      cohomologous cocycles inflate to the same class, because the inflation of the
+      coboundary of `b : Gal(L/K) → Lˣ` is the coboundary of the continuous `1`-cochain
+      `g ↦ b(g|_L)`. This is stated independently of milestone 3, so that the right-hand
+      side of the comparison equation is known to be a function of the class of `z`
+      without assuming the comparison exists. `inflateTwoCocycleClass_comap`: refining
+      the splitting field does not change the class — in fact `TwoCocycle.inflate_comap`
+      says it does not change the cocycle, and the reason is
+      `restrictNormalHom_of_comap`, that a compatible pair whose embedding is the
+      inclusion inside `Kˢ` computes the restriction homomorphism. ⚠ That hypothesis on
+      the embedding cannot be dropped: composing it with a nontrivial element of
+      `Gal(M/K)` gives another compatible pair for which the conclusion is false.
+      `inflateTwoCocycleClass_eq_finiteQuotientComparison`: the class is the image of
+      `finiteLevelClass` under the profinite-cohomology roadmap's degree-two comparison
+      leg `explicitFiniteQuotientComparison2`, at the open normal subgroup
+      `galoisOpenNormal K L = Gal(Kˢ/L)` with quotient `galoisQuotientMap K L` onto
+      `Gal(L/K)` and invariant coefficients `Invariants`. Without it, inflation here and
+      the legs of that roadmap's finite-quotient cocone would be two unrelated maps into
+      `H²_cont(G_K, Kˢˣ)`.
+
+      **Exhaustion.** `exists_galoisCocycle_inflateTwoCocycleZ2` says that every
+      continuous `2`-cocycle is, on the nose and with no coboundary subtracted, inflated
+      from a finite Galois subextension. It is the profinite-cohomology roadmap's Layer 4
+      strict descent of a continuous `2`-cocycle — the form with no coboundary subtracted,
+      which is what makes this an equality of cocycles — read at `G = G_K` and
+      `M = UnitsCoeff K` alongside that roadmap's `explicitFiniteQuotientColimit2` at the
+      same data, together with Mathlib's infinite Galois correspondence, which presents
+      the resulting open normal subgroup of `G_K` as `Gal(Kˢ/L)` for the finite Galois
+      `L = (Kˢ)^U`; it is not an independent existential. ⚠ Compactness of `G_K`, and not
+      total disconnectedness alone, is what descends a cocycle in both variables at once.
+      Composing it with `unitsClassOfZ2_surjective`, which is the isomorphism half and
+      needs no descent, gives `exists_galoisCocycle_inflateClass`: every class of
+      `H²_cont(G_K, Kˢˣ)` is `GaloisCocycle.inflateClass` of some bundled cocycle. This
+      is the cohomological twin of item 6.
 3. **The comparison isomorphism**
 
    ```lean
@@ -1912,6 +2005,16 @@ Milestones:
 
    assembled from milestone 2. Multiplication of Brauer classes goes to addition of
    cohomology classes, which is what `≃+` records.
+
+   The equivalence is not the milestone on its own. What determines it is
+   `brauerCohomologyEquiv_crossedProductClass`: on the class of the crossed product of a
+   cocycle `z` of a finite Galois `L ⊆ Kˢ`, its value is `inflateTwoCocycleClass K L z`,
+   with `brauerCohomologyEquiv_galoisCocycle_brauerClass` the bundled form. That equation
+   is consistent because both sides descend to cohomology classes (items 2.2 and 2.8) and
+   both are unchanged by refining `L` (items 2.5 and 2.8); and it is rigid, because
+   `exists_galoisCocycle_brauerClass_eq` reaches every Brauer class by a crossed product,
+   which is what `brauerCohomologyEquiv_unique` proves. A named equivalence carrying no
+   such equation is not this milestone.
 4. **The 2-torsion comparison**
 
    ```lean
@@ -1921,9 +2024,12 @@ Milestones:
 
    obtained from milestone 3 and from `h2MuToUnits`, whose image is the 2-torsion. In
    prose this is `ι : Br(K)[2] ≃ H²(G_K, μ₂)`. Both maps are named definitions, and the
-   square `h2MuToUnits ∘ ι = (the comparison) ∘ (the inclusion of the 2-torsion)` is a
-   theorem. An unnamed equivalence, or the bare existence of an injection, is not this
-   milestone.
+   square `h2MuToUnits ∘ ι = (the comparison) ∘ (the inclusion of the 2-torsion)` is the
+   theorem `brauer2EquivH2_h2MuToUnits`. Since `h2MuToUnits` is injective that square
+   determines `ι`, which is `brauer2EquivH2_unique`; so `ι` carries no normalization of
+   its own, and every statement about it below is derived from that square together with
+   the corresponding statement about the comparison of milestone 3. An unnamed
+   equivalence, or the bare existence of an injection, is not this milestone.
 5. **Base-change naturality.** For `L/K` finite separable, the square that compares
    `ι_K` with `ι_L` along base change of algebras and restriction of cohomology classes
    commutes. Its Lean form needs the base-change homomorphism
@@ -1931,6 +2037,12 @@ Milestones:
    roadmap states in prose.
 6. **The symbol as a cup product.** `ι [(a,b)] = (a) ∪ (b)`, the cup being the supplied
    `cup` at the canonical `𝔽₂` pairing and the classes being Layer 7A's Kummer classes.
+   The computation is made once, on the comparison of milestone 3, as
+   `brauerCohomologyEquiv_quaternionClass`; `brauer2EquivH2_quaternionClass` is then a
+   consequence of it and of the square of milestone 4, by injectivity of `h2MuToUnits`.
+   Its proof is the cyclic computation below, reached through
+   `brauerCohomologyEquiv_crossedProductClass` at the cocycle of `K(√a)/K` whose only
+   nontrivial value is `b`.
 7. **Compatibility of the two structures.** `ι` carries the product `[(a,b)] · [(a,c)]`
    to the sum `(a) ∪ (b) + (a) ∪ (c)`. Layer 5's bilinearity and Layer 8's additivity
    are then the same statement on two sides.
@@ -1943,15 +2055,29 @@ Milestones:
 
 Basic API:
 
-- constructors: `TwoCocycle`, `Cohomologous`, `CrossedProduct` with `inc` and `basis`,
-  `crossedProductCSA`, `crossedProductClass`, `TwoCocycle.comap`, `GaloisCocycle` with
-  `brauerClass`, `cocycleOfSplitting`, `brauerCohomologyEquiv`, and `ι`;
+- constructors: `TwoCocycle` with `TwoCocycle.ext`, `Cohomologous`, `CrossedProduct` with
+  `inc` and `basis`, `crossedProductCSA`, `crossedProductClass`, `TwoCocycle.comap`,
+  `TwoCocycle.inflate`, `unitsCochain`, `inflateTwoCocycleZ2`, `unitsClassOfH2`,
+  `unitsClassOfZ2`, `inflateTwoCocycleClass`, `galoisOpenNormal`, `galoisQuotientMap`,
+  `finiteLevelZ2`, `finiteLevelClass`, `GaloisCocycle` with `brauerClass` and
+  `inflateClass`, `cocycleOfSplitting`, `brauerCohomologyEquiv`, and `ι`;
 - examples: `ι [(a,−a)] = 0`; `ι [(a, 1−a)] = 0`;
 - morphisms: the comparison isomorphism itself, and its restriction to 2-torsion;
 - functoriality: compatibility with base change along a finite separable `L/K`, that is
   `ι_L ∘ (base change) = res ∘ ι_K` on 2-torsion;
-- comparison lemmas: the crossed-product class against the cocycle; `ι` against
-  `h2MuToUnits`;
+- comparison lemmas: the crossed-product class against the cocycle;
+  `brauerCohomologyEquiv_crossedProductClass` and its bundled form
+  `brauerCohomologyEquiv_galoisCocycle_brauerClass`, which determine the comparison; `ι`
+  against `h2MuToUnits`; `inflateTwoCocycleClass_eq_finiteQuotientComparison`, which
+  identifies inflation with the supplier's finite-quotient comparison leg;
+- uniqueness: `brauerCohomologyEquiv_unique` and `brauer2EquivH2_unique`, so that the
+  two comparisons carry one normalization between them;
+- surjectivity: `exists_galoisCocycle_brauerClass_eq` on the Brauer side and
+  `exists_galoisCocycle_inflateClass` on the cohomological side, the latter through
+  `unitsClassOfZ2_surjective` and `exists_galoisCocycle_inflateTwoCocycleZ2`;
+- invariance: `inflateTwoCocycleClass_eq_of_cohomologous` and
+  `inflateTwoCocycleClass_comap`, with `TwoCocycle.inflate_comap` and
+  `restrictNormalHom_of_comap` behind the second;
 - naturality: `ι` carries multiplication to addition, which is milestone 7;
 - edge cases: a split algebra, whose class is `0`; `a` a square, where the cyclic
   computation degenerates;
@@ -2426,7 +2552,12 @@ subject matter belongs and built where its prerequisites are ready.
   identities, and the transfer along a finite separable `L/K` are all that roadmap's.
   This roadmap defines no second cup product, no second Kummer isomorphism, no second
   Evens norm, and no second restriction or corestriction. What 7A adds is the coefficient
-  identification specific to `μ₂` and the mod-2 laws read through it.
+  identification specific to `μ₂` and the mod-2 laws read through it. Sublayer 7B consumes
+  the same roadmap's explicit degree-two complex and degree-two finite-quotient system, at
+  `M = UnitsCoeff K`; it defines no second continuous-cohomology carrier, no second
+  inflation, and no second finite-quotient colimit, and
+  `inflateTwoCocycleClass_eq_finiteQuotientComparison` is what says so in Lean rather than
+  in prose.
 - **This roadmap owns the quadratic-form side of that boundary**: the quadratic defect,
   the Hilbert symbol and both of its identifications, the local classification, the
   Brauer comparison, the Stiefel-Whitney classes, and the Scharlau transfer with the

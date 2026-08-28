@@ -1432,9 +1432,11 @@ theorem exists_finiteGalois_splittingField (A : Type u) [Ring A] [Algebra K A]
 /-! ### Layer 7B, milestone 2: the crossed-product package
 
 The comparison `Br(K) ≃ H²(G_K, Kˢˣ)` is the theory of crossed products and not a formality, so
-it is assembled from seven separately citable targets rather than one step. Nothing below is an
+it is assembled from eight separately citable targets rather than one step. Nothing below is an
 internal step of a single proof: a consumer that needs only "cohomologous cocycles have the same
-class", or only "the cocycle of a splitting presents the algebra", cites that one statement. -/
+class", or only "the cocycle of a splitting presents the algebra", cites that one statement. The
+eighth, the passage from a finite cocycle to a continuous class, is the sublayer that follows
+`end CrossedProduct`. -/
 
 section CrossedProduct
 
@@ -1658,9 +1660,421 @@ theorem exists_galoisCocycle_brauerClass_eq (x : BrauerGroup.{u, u} K) :
 
 end CrossedProduct
 
+/-! ### Layer 7B, milestone 2(v): inflation into continuous cohomology
+
+Milestone 3 compares the Brauer group with `H²(G_K, Kˢˣ)`, whose classes are continuous, while
+the crossed-product package of milestone 2 produces cocycles of the finite groups `Gal(L/K)`.
+This sublayer joins the two, and it is the only place where they meet.
+
+Nothing here builds a second continuous-cohomology object. The explicit complex `Z2`, `H2`,
+`H2pi`, `B2`, the invariant coefficients `Invariants`, the degree-two finite-quotient system with
+its comparison legs `explicitFiniteQuotientComparison2` and its universality
+`explicitFiniteQuotientColimit2`, and the comparison `explicitH2IsoContinuousCohomology` with the
+canonical carrier all belong to the [Profinite Cohomology
+roadmap](../ProfiniteCohomology/README.md). What this roadmap adds is the two things that mention
+its own notions: the identification of the supplier's coefficient module `UnitsCoeff K` with the
+units of `Kˢ`, and the packaging of a finite Galois subextension `L ⊆ Kˢ` as the open normal
+subgroup `Gal(Kˢ/L) ≤ G_K` with its finite quotient `Gal(L/K)`. -/
+
+section Inflation
+
+variable {K}
+
+/-- Two cocycles with the same underlying function are equal; the cocycle identity is a `Prop`
+field. Stated because inflation is compared with `TwoCocycle.comap` through their functions. -/
+theorem TwoCocycle.ext {L : Type u} [Field L] [Algebra K L] {z w : TwoCocycle (K := K) L}
+    (h : z.toFun = w.toFun) : z = w := by
+  cases z; cases w; simp_all
+
+/-- **Layer 7B, milestone 2(v): the inflation of a finite cocycle to `G_K`.** It is
+`TwoCocycle.comap` at the compatible pair that matters, namely `AlgEquiv.restrictNormalHom` for
+`L` together with the inclusion `L ⊆ Kˢ`; the intertwining hypothesis is Mathlib's
+`AlgEquiv.restrictNormal_commutes`, so the body is a real term and no second inflation can drift
+from `comap`. The result is a cocycle of `Gal(Kˢ/K)` with values in `(Kˢ)ˣ`, still without any
+continuity claim: continuity is `continuous_unitsCochain_inflate` below and needs `L/K` finite. -/
+noncomputable def TwoCocycle.inflate {L : IntermediateField K (SeparableClosure K)} [Normal K ↥L]
+    (z : TwoCocycle (K := K) ↥L) : TwoCocycle (K := K) (SeparableClosure K) :=
+  z.comap (AlgEquiv.restrictNormalHom ↥L) (IsScalarTower.toAlgHom K ↥L (SeparableClosure K))
+    fun σ x => (AlgEquiv.restrictNormal_commutes σ ↥L x).symm
+
+/-- **Layer 7B, the coefficient identification.** A cocycle of `Gal(Kˢ/K)` valued in `(Kˢ)ˣ`,
+read as a `2`-cochain with values in the supplier's `UnitsCoeff K`. This is the whole of the
+translation between this roadmap's multiplicative convention and the supplier's additive one:
+`UnitsCoeff K` *is* `Additive (Kˢ)ˣ`, so the body is `Additive.ofMul` and nothing else. -/
+noncomputable def unitsCochain (z : TwoCocycle (K := K) (SeparableClosure K)) :
+    AbsoluteGaloisGroup K × AbsoluteGaloisGroup K → UnitsCoeff K :=
+  fun p => Additive.ofMul (z.toFun p.1 p.2)
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B: the normalization of `TwoCocycle` is the supplier's.** The inhomogeneous
+convention `σ(c(τ,ρ)) · c(σ,τρ) = c(σ,τ) · c(στ,ρ)` pinned in milestone 2(i) is exactly
+Mathlib's `groupCohomology.IsCocycle₂` after `Additive.ofMul`. This theorem is what makes the comparison
+sign-correct, and the opposite convention would fail it rather than merely inverting a sign
+downstream. -/
+theorem unitsCochain_isCocycle₂ (z : TwoCocycle (K := K) (SeparableClosure K)) :
+    groupCohomology.IsCocycle₂ (unitsCochain z) := by
+  intro g h j
+  have h1 := z.isCocycle g h j
+  show Additive.ofMul _ + Additive.ofMul _ = g • Additive.ofMul _ + Additive.ofMul _
+  show Additive.ofMul (z.toFun (g * h) j * z.toFun g h) =
+    Additive.ofMul ((g • z.toFun h j) * z.toFun g (h * j))
+  refine congrArg Additive.ofMul (Units.ext ?_)
+  push_cast
+  rw [mul_comm]
+  simpa [AlgEquiv.smul_def] using h1.symm
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B: an inflated cochain is continuous.** It factors through
+`Gal(L/K) × Gal(L/K)`, which is discrete because `L/K` is finite, and the restriction map
+`G_K → Gal(L/K)` is continuous by Mathlib's `InfiniteGalois.restrictNormalHom_continuous`.
+⚠ Finiteness of `L/K` is where it is used: for an infinite normal subextension the same formula
+is a cocycle but not a continuous one, so no class of `H²_cont` results. -/
+theorem continuous_unitsCochain_inflate {L : IntermediateField K (SeparableClosure K)}
+    [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) :
+    Continuous (unitsCochain z.inflate) := by
+  have hfac : unitsCochain z.inflate =
+      (fun q : (↥L ≃ₐ[K] ↥L) × (↥L ≃ₐ[K] ↥L) => Additive.ofMul (Units.map
+        (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
+          (z.toFun q.1 q.2))) ∘
+      fun p : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K =>
+        (AlgEquiv.restrictNormalHom ↥L p.1, AlgEquiv.restrictNormalHom ↥L p.2) := rfl
+  have hcont := InfiniteGalois.restrictNormalHom_continuous (k := K) (K := SeparableClosure K) L
+  rw [hfac]
+  exact continuous_of_discreteTopology.comp
+    ((hcont.comp continuous_fst).prodMk (hcont.comp continuous_snd))
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B: the inflated cocycle as an element of the supplier's `Z²`.** -/
+noncomputable def inflateTwoCocycleZ2 {L : IntermediateField K (SeparableClosure K)}
+    [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) :
+    Z2 (AbsoluteGaloisGroup K) (UnitsCoeff K) :=
+  ⟨unitsCochain z.inflate, continuous_unitsCochain_inflate z, unitsCochain_isCocycle₂ _⟩
+
+variable (K)
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B: the supplier's explicit `H²` read on the canonical carrier.** The body is the
+supplier's `explicitH2IsoContinuousCohomology`, so this defines nothing; it exists because every
+statement below has to name one side or the other and the two are different objects. -/
+noncomputable def unitsClassOfH2
+    (y : ProfiniteCohomology.H2 (AbsoluteGaloisGroup K) (UnitsCoeff K)) : H2Units K :=
+  (explicitH2IsoContinuousCohomology (AbsoluteGaloisGroup K) (UnitsCoeff K)).hom.hom
+    ((discreteH2Equiv (AbsoluteGaloisGroup K) (UnitsCoeff K)).symm y)
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- It is surjective, being an isomorphism. -/
+theorem unitsClassOfH2_surjective : Function.Surjective (unitsClassOfH2 K) := by
+  intro x
+  refine ⟨(discreteH2Equiv (AbsoluteGaloisGroup K) (UnitsCoeff K))
+    ((explicitH2IsoContinuousCohomology (AbsoluteGaloisGroup K) (UnitsCoeff K)).inv.hom x), ?_⟩
+  exact (explicitH2IsoContinuousCohomology (AbsoluteGaloisGroup K)
+    (UnitsCoeff K)).inv_hom_id_apply x
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B: the class of a continuous `2`-cocycle in `H²(G_K, Kˢˣ)`.** -/
+noncomputable def unitsClassOfZ2 (c : Z2 (AbsoluteGaloisGroup K) (UnitsCoeff K)) : H2Units K :=
+  unitsClassOfH2 K (H2pi (AbsoluteGaloisGroup K) (UnitsCoeff K) c)
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Every class of `H²(G_K, Kˢˣ)` is the class of a continuous cocycle. This is the easy half of
+the exhaustion below: it is the surjectivity of a quotient map composed with an isomorphism, and
+it is separated out so that `exists_galoisCocycle_inflateClass` reduces to the descent of a
+*cocycle* to a finite level and to nothing else. -/
+theorem unitsClassOfZ2_surjective : Function.Surjective (unitsClassOfZ2 K) :=
+  (unitsClassOfH2_surjective K).comp (QuotientAddGroup.mk'_surjective _)
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B, milestone 2(v): the class in `H²(G_K, Kˢˣ)` of a finite cocycle.** This is the
+right-hand side of the equation that determines `brauerCohomologyEquiv`, and it is the only
+passage in this roadmap from a finite Galois level to the continuous group. -/
+noncomputable def inflateTwoCocycleClass (L : IntermediateField K (SeparableClosure K))
+    [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) : H2Units K :=
+  unitsClassOfZ2 K (inflateTwoCocycleZ2 z)
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B, milestone 2(v): inflation is well defined on cohomology classes.** The inflation
+of the coboundary of `b : Gal(L/K) → Lˣ` is the coboundary of the continuous `1`-cochain
+`g ↦ b(g|_L)`, so cohomologous cocycles of `Gal(L/K)` inflate to the same class. This is stated
+independently of milestone 3, because it is what makes the right-hand side of
+`brauerCohomologyEquiv_crossedProductClass` a function of the class of `z` and not of `z`. -/
+theorem inflateTwoCocycleClass_eq_of_cohomologous
+    (L : IntermediateField K (SeparableClosure K)) [FiniteDimensional K ↥L] [Normal K ↥L]
+    (z w : TwoCocycle (K := K) ↥L) (h : Cohomologous z w) :
+    inflateTwoCocycleClass K L z = inflateTwoCocycleClass K L w := by
+  obtain ⟨b, hb⟩ := h
+  refine congrArg (unitsClassOfH2 K) (QuotientAddGroup.eq_iff_sub_mem.mpr ?_)
+  rw [AddSubgroup.mem_addSubgroupOf]
+  refine ⟨fun g => -(Additive.ofMul (Units.map
+      (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
+      (b (AlgEquiv.restrictNormalHom ↥L g)))), ?_, ?_⟩
+  · have hfac : (fun g : AbsoluteGaloisGroup K => -(Additive.ofMul (Units.map
+        (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
+        (b (AlgEquiv.restrictNormalHom ↥L g))))) =
+        (fun s : ↥L ≃ₐ[K] ↥L => -(Additive.ofMul (Units.map
+          (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom (b s)))) ∘
+        (AlgEquiv.restrictNormalHom ↥L) := rfl
+    show Continuous _
+    rw [hfac]
+    exact continuous_of_discreteTopology.comp
+      (InfiniteGalois.restrictNormalHom_continuous (k := K) (K := SeparableClosure K) L)
+  · have hb' : ∀ σ τ : ↥L ≃ₐ[K] ↥L,
+        w.toFun σ τ = z.toFun σ τ * (σ • b τ) * (b (σ * τ))⁻¹ * b σ := fun σ τ =>
+      Units.ext (by simpa [AlgEquiv.smul_def] using hb σ τ)
+    have hsmul : ∀ (g : AbsoluteGaloisGroup K) (u : (↥L)ˣ),
+        Units.map (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
+            ((AlgEquiv.restrictNormalHom ↥L g) • u) =
+          g • Units.map
+            (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom u :=
+      fun g u => Units.ext (AlgEquiv.restrictNormal_commutes g ↥L (u : ↥L))
+    have habs : ∀ U V T Z W : (SeparableClosure K)ˣ,
+        W = Z * U * V⁻¹ * T → U⁻¹ * V * T⁻¹ = Z * W⁻¹ := by
+      intro U V T Z W hw
+      subst hw
+      refine Additive.ofMul.injective ?_
+      simp only [ofMul_mul, ofMul_inv]
+      abel
+    funext p
+    obtain ⟨g1, g2⟩ := p
+    have key :
+        (g1 • (Units.map
+            (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
+            (b (AlgEquiv.restrictNormalHom ↥L g2)))⁻¹) *
+          Units.map (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
+            (b (AlgEquiv.restrictNormalHom ↥L (g1 * g2))) *
+          (Units.map (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
+            (b (AlgEquiv.restrictNormalHom ↥L g1)))⁻¹ =
+        Units.map (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
+            (z.toFun (AlgEquiv.restrictNormalHom ↥L g1) (AlgEquiv.restrictNormalHom ↥L g2)) *
+          (Units.map (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
+            (w.toFun (AlgEquiv.restrictNormalHom ↥L g1)
+              (AlgEquiv.restrictNormalHom ↥L g2)))⁻¹ := by
+      rw [smul_inv']
+      refine habs _ _ _ _ _ ?_
+      rw [hb' (AlgEquiv.restrictNormalHom ↥L g1) (AlgEquiv.restrictNormalHom ↥L g2)]
+      simp only [map_mul, map_inv, hsmul]
+    exact congrArg Additive.ofMul key
+
+variable {K}
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B: a compatible pair over `Kˢ` computes the restriction homomorphism.** For
+`L, M ⊆ Kˢ` normal over `K` and a compatible pair `(π, ι)` whose embedding is the inclusion
+inside `Kˢ`, the composite `π ∘ (·|_M)` is `(·|_L)`. ⚠ The hypothesis `hι` cannot be
+dropped: composing `ι` with a nontrivial element of `Gal(M/K)` still gives a compatible
+pair, and then the conclusion is false. -/
+theorem restrictNormalHom_of_comap {L M : IntermediateField K (SeparableClosure K)}
+    [Normal K ↥L] [Normal K ↥M]
+    (π : (↥M ≃ₐ[K] ↥M) →* (↥L ≃ₐ[K] ↥L)) (ι : ↥L →ₐ[K] ↥M)
+    (hπι : ∀ (σ : ↥M ≃ₐ[K] ↥M) (x : ↥L), σ (ι x) = ι (π σ x))
+    (hι : ∀ x : ↥L, algebraMap (↥M) (SeparableClosure K) (ι x) =
+      algebraMap (↥L) (SeparableClosure K) x)
+    (σ : AbsoluteGaloisGroup K) :
+    π (AlgEquiv.restrictNormalHom ↥M σ) = AlgEquiv.restrictNormalHom ↥L σ := by
+  refine AlgEquiv.ext fun x => Subtype.ext ?_
+  have hM := AlgEquiv.restrictNormal_commutes σ ↥M (ι x)
+  have hL := AlgEquiv.restrictNormal_commutes σ ↥L x
+  have h1 := hπι (AlgEquiv.restrictNormalHom ↥M σ) x
+  have hrM : (AlgEquiv.restrictNormalHom (F := K) ↥M) σ = σ.restrictNormal ↥M := rfl
+  have hrL : (AlgEquiv.restrictNormalHom (F := K) ↥L) σ = σ.restrictNormal ↥L := rfl
+  show algebraMap (↥L) (SeparableClosure K) ((π ((AlgEquiv.restrictNormalHom ↥M) σ)) x)
+    = algebraMap (↥L) (SeparableClosure K) (((AlgEquiv.restrictNormalHom ↥L) σ) x)
+  rw [hrL, hL, ← hι x, ← hM, ← hrM, h1, hι]
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B, milestone 2(v): refinement does not change the inflated cocycle at all.**
+Inflating from the larger field the cocycle `TwoCocycle.comap` produces gives back the cocycle
+inflated from the smaller one, on the nose and not merely up to a coboundary. -/
+theorem TwoCocycle.inflate_comap {L M : IntermediateField K (SeparableClosure K)}
+    [Normal K ↥L] [Normal K ↥M]
+    (π : (↥M ≃ₐ[K] ↥M) →* (↥L ≃ₐ[K] ↥L)) (ι : ↥L →ₐ[K] ↥M)
+    (hπι : ∀ (σ : ↥M ≃ₐ[K] ↥M) (x : ↥L), σ (ι x) = ι (π σ x))
+    (hι : ∀ x : ↥L, algebraMap (↥M) (SeparableClosure K) (ι x) =
+      algebraMap (↥L) (SeparableClosure K) x)
+    (z : TwoCocycle (K := K) ↥L) :
+    (z.comap π ι hπι).inflate = z.inflate := by
+  refine TwoCocycle.ext (funext fun σ => funext fun τ => Units.ext ?_)
+  show algebraMap (↥M) (SeparableClosure K)
+      (ι (z.toFun (π (AlgEquiv.restrictNormalHom ↥M σ))
+        (π (AlgEquiv.restrictNormalHom ↥M τ))))
+    = algebraMap (↥L) (SeparableClosure K)
+      (z.toFun (AlgEquiv.restrictNormalHom ↥L σ) (AlgEquiv.restrictNormalHom ↥L τ))
+  rw [restrictNormalHom_of_comap π ι hπι hι σ,
+    restrictNormalHom_of_comap π ι hπι hι τ, hι]
+
+variable (K)
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B, milestone 2(v): refining the splitting field does not change the continuous
+class.** The cohomological counterpart of `crossedProductClass_comap`, and the reason the
+comparison of milestone 3 is one map rather than a family of unrelated ones. It is stated with
+the same compatible pair as `crossedProductClass_comap` so that the two sides of
+`brauerCohomologyEquiv_crossedProductClass` refine together. -/
+theorem inflateTwoCocycleClass_comap (L M : IntermediateField K (SeparableClosure K))
+    [FiniteDimensional K ↥L] [Normal K ↥L] [FiniteDimensional K ↥M] [Normal K ↥M]
+    (π : (↥M ≃ₐ[K] ↥M) →* (↥L ≃ₐ[K] ↥L)) (ι : ↥L →ₐ[K] ↥M)
+    (hπι : ∀ (σ : ↥M ≃ₐ[K] ↥M) (x : ↥L), σ (ι x) = ι (π σ x))
+    (hι : ∀ x : ↥L, algebraMap (↥M) (SeparableClosure K) (ι x) =
+      algebraMap (↥L) (SeparableClosure K) x)
+    (z : TwoCocycle (K := K) ↥L) :
+    inflateTwoCocycleClass K M (z.comap π ι hπι) = inflateTwoCocycleClass K L z :=
+  congrArg (unitsClassOfZ2 K)
+    (Subtype.ext (congrArg unitsCochain (TwoCocycle.inflate_comap π ι hπι hι z)))
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B: the finite Galois subextension as an open normal subgroup of `G_K`.** `Gal(Kˢ/L)`
+is the kernel of the restriction homomorphism, which is open because that homomorphism is
+continuous into a finite discrete group. This is the index of the supplier's finite-quotient
+system at which the classes of this sublayer live, and it is pinned as data: the carrier is the
+kernel, not an unnamed open normal subgroup with the right fixed field. -/
+noncomputable def galoisOpenNormal (L : IntermediateField K (SeparableClosure K))
+    [FiniteDimensional K ↥L] [Normal K ↥L] : OpenNormalSubgroup (AbsoluteGaloisGroup K) where
+  toSubgroup := (AlgEquiv.restrictNormalHom (F := K) (K₁ := SeparableClosure K) ↥L).ker
+  isOpen' := (InfiniteGalois.restrictNormalHom_continuous
+    (k := K) (K := SeparableClosure K) L).isOpen_preimage {1} (isOpen_discrete _)
+  isNormal' := inferInstance
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B: `G_K ⧸ Gal(Kˢ/L)` maps onto `Gal(L/K)`.** The map is `AlgEquiv.restrictNormalHom`
+factored through the quotient by its kernel, so it is a real term; surjectivity and injectivity
+are Mathlib's infinite Galois correspondence and are not needed to state the finite-level cocycle
+below. -/
+noncomputable def galoisQuotientMap (L : IntermediateField K (SeparableClosure K))
+    [FiniteDimensional K ↥L] [Normal K ↥L] :
+    AbsoluteGaloisGroup K ⧸ (galoisOpenNormal K L).toSubgroup →* (↥L ≃ₐ[K] ↥L) :=
+  QuotientGroup.lift _ (AlgEquiv.restrictNormalHom ↥L) fun _ hg => hg
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B, the coefficient identification at a finite level:**
+`Lˣ ⊆ ((Kˢ)ˣ)^{Gal(Kˢ/L)}`. This is the half of `M^U = Lˣ` that the finite-level cocycle needs; it is what makes
+`finiteLevelZ2` land in the supplier's invariant coefficients. -/
+theorem unitsCoeff_mem_invariants (L : IntermediateField K (SeparableClosure K))
+    [FiniteDimensional K ↥L] [Normal K ↥L] (y : (↥L)ˣ) :
+    (Additive.ofMul (Units.map
+      (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom y) :
+        UnitsCoeff K) ∈ Invariants (galoisOpenNormal K L).toSubgroup (UnitsCoeff K) := by
+  intro u hu
+  show Additive.ofMul (u • _) = _
+  refine congrArg Additive.ofMul (Units.ext ?_)
+  show u (algebraMap (↥L) (SeparableClosure K) (y : ↥L)) =
+    algebraMap (↥L) (SeparableClosure K) (y : ↥L)
+  rw [← AlgEquiv.restrictNormal_commutes u ↥L]
+  have h1 : AlgEquiv.restrictNormalHom (F := K) (K₁ := SeparableClosure K) ↥L u = 1 := hu
+  rw [show u.restrictNormal ↥L = AlgEquiv.restrictNormalHom (F := K) ↥L u from rfl, h1]
+  rfl
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B: the finite cocycle read at the supplier's finite level.** The same function as
+`inflateTwoCocycleZ2`, but on `G_K ⧸ Gal(Kˢ/L)` with values in the invariant coefficients, so
+that it is an element of the object `explicitFiniteQuotientSystem2` takes at
+`galoisOpenNormal K L`. -/
+noncomputable def finiteLevelZ2 (L : IntermediateField K (SeparableClosure K))
+    [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) :
+    Z2 (AbsoluteGaloisGroup K ⧸ (galoisOpenNormal K L).toSubgroup)
+      (Invariants (galoisOpenNormal K L).toSubgroup (UnitsCoeff K)) :=
+  ⟨fun q => ⟨Additive.ofMul (Units.map
+      (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
+      (z.toFun (galoisQuotientMap K L q.1) (galoisQuotientMap K L q.2))),
+    unitsCoeff_mem_invariants K L _⟩,
+   continuous_of_discreteTopology, by
+    intro q1 q2 q3
+    induction q1 using QuotientGroup.induction_on with | _ g1 =>
+    induction q2 using QuotientGroup.induction_on with | _ g2 =>
+    induction q3 using QuotientGroup.induction_on with | _ g3 =>
+    exact Subtype.ext (unitsCochain_isCocycle₂ z.inflate g1 g2 g3)⟩
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B: the finite-level class,** an element of the value of the supplier's degree-two
+finite-quotient system at `galoisOpenNormal K L`. -/
+noncomputable def finiteLevelClass (L : IntermediateField K (SeparableClosure K))
+    [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) :
+    ProfiniteCohomology.H2 (AbsoluteGaloisGroup K ⧸ (galoisOpenNormal K L).toSubgroup)
+      (Invariants (galoisOpenNormal K L).toSubgroup (UnitsCoeff K)) :=
+  H2pi _ _ (finiteLevelZ2 K L z)
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B, milestone 2(v): inflation is the supplier's finite-quotient comparison leg.**
+The class of an inflated cocycle is the image of its finite-level class under
+`explicitFiniteQuotientComparison2` at the open normal subgroup `Gal(Kˢ/L)`. This is what makes
+the exhaustion below the supplier's colimit theorem specialized to `UnitsCoeff K` rather than an
+independent existential: without it, `inflateTwoCocycleClass` and the legs of
+`explicitFiniteQuotientCocone2` would be two unrelated maps into `H²(G_K, Kˢˣ)`. -/
+theorem inflateTwoCocycleClass_eq_finiteQuotientComparison
+    (L : IntermediateField K (SeparableClosure K))
+    [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) :
+    inflateTwoCocycleClass K L z =
+      unitsClassOfH2 K
+        (((explicitFiniteQuotientComparison2 (AbsoluteGaloisGroup K) (UnitsCoeff K)).app
+          (Opposite.op (galoisOpenNormal K L))).hom (finiteLevelClass K L z)) :=
+  sorry
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B, milestone 2(v): every continuous cocycle is inflated from a finite Galois
+subextension**, on the nose and with no coboundary subtracted. The inputs are the supplier's
+Layer 4 strict descent of a continuous `2`-cocycle to a finite level, which is what makes this
+an equality of cocycles rather than of classes, read at `G = G_K` and `M = UnitsCoeff K`
+alongside the degree-two finite-quotient colimit `explicitFiniteQuotientColimit2` at the same
+data; and Mathlib's infinite Galois correspondence, which presents the resulting open normal
+subgroup as `galoisOpenNormal K L` for the finite Galois subextension `L = (Kˢ)^U`. ⚠ Compactness
+of `G_K` is what descends both variables at once; total disconnectedness alone descends
+neither. -/
+theorem exists_galoisCocycle_inflateTwoCocycleZ2
+    (c : Z2 (AbsoluteGaloisGroup K) (UnitsCoeff K)) :
+    ∃ g : GaloisCocycle K, inflateTwoCocycleZ2 g.cocycle = c := by
+  have hcolim := explicitFiniteQuotientColimit2 (AbsoluteGaloisGroup K) (UnitsCoeff K)
+  sorry
+
+variable {K}
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B: the continuous class of a bundled crossed product**, the cohomological
+counterpart of `GaloisCocycle.brauerClass`. -/
+noncomputable def GaloisCocycle.inflateClass (g : GaloisCocycle K) : H2Units K :=
+  inflateTwoCocycleClass K g.extension g.cocycle
+
+variable (K)
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B, milestone 2(v): the finite-quotient exhaustion of `H²(G_K, Kˢˣ)`.** Every
+continuous class is the inflation of a cocycle of some finite Galois subextension. It is the
+cohomological twin of `exists_galoisCocycle_brauerClass_eq`, and together with
+`brauerCohomologyEquiv_galoisCocycle_brauerClass` it is what pins `brauerCohomologyEquiv`
+uniquely. -/
+theorem exists_galoisCocycle_inflateClass (x : H2Units K) :
+    ∃ g : GaloisCocycle K, g.inflateClass = x := by
+  obtain ⟨c, hc⟩ := unitsClassOfZ2_surjective K x
+  obtain ⟨g, hg⟩ := exists_galoisCocycle_inflateTwoCocycleZ2 K c
+  refine ⟨g, ?_⟩
+  show unitsClassOfZ2 K (inflateTwoCocycleZ2 g.cocycle) = x
+  rw [hg, hc]
+
+end Inflation
+
 /-- **Layer 7B, the crossed-product comparison**, as a named canonical equivalence.
 Multiplication of Brauer classes goes to addition of cohomology classes, which is what
-`≃+` records. -/
+`≃+` records. ⚠ The equivalence is not the milestone on its own: what determines it is
+`brauerCohomologyEquiv_crossedProductClass`, which evaluates it on every crossed-product class,
+together with `exists_galoisCocycle_brauerClass_eq`, which says those classes are all of them.
+`brauerCohomologyEquiv_unique` is the resulting rigidity statement. -/
 noncomputable def brauerCohomologyEquiv :
     Additive (BrauerGroup.{u, u} K) ≃+ H2Units K :=
   sorry
@@ -1670,21 +2084,89 @@ noncomputable def brauer2EquivH2 [Invertible (2 : K)] :
     Additive ↥(Br2 K) ≃+ H2 K :=
   sorry
 
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B, milestone 3: the equation that determines the comparison.** On the class of the
+crossed product of a cocycle of a finite Galois `L ⊆ Kˢ`, the comparison is the inflation of that
+cocycle. This is the load-bearing statement of the whole sublayer: `brauerCohomologyEquiv` is a
+bare equivalence without it, and with it the two sides are pinned together by
+`crossedProductClass_eq_of_cohomologous` on the left and
+`inflateTwoCocycleClass_eq_of_cohomologous` on the right, and refine together by
+`crossedProductClass_comap` and `inflateTwoCocycleClass_comap`. -/
+theorem brauerCohomologyEquiv_crossedProductClass
+    (L : IntermediateField K (SeparableClosure K))
+    [FiniteDimensional K ↥L] [IsGalois K ↥L] (z : TwoCocycle (K := K) ↥L) :
+    brauerCohomologyEquiv K (Additive.ofMul (crossedProductClass z)) =
+      inflateTwoCocycleClass K L z :=
+  sorry
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- The same statement on a bundled `GaloisCocycle`, which is the form the two exhaustion
+theorems are quantified over. -/
+theorem brauerCohomologyEquiv_galoisCocycle_brauerClass (g : GaloisCocycle K) :
+    brauerCohomologyEquiv K (Additive.ofMul g.brauerClass) = g.inflateClass :=
+  brauerCohomologyEquiv_crossedProductClass K g.extension g.cocycle
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 7B, milestone 3: there is only one such comparison.** Any additive equivalence that
+sends the class of a crossed product to the inflation of its cocycle is `brauerCohomologyEquiv`.
+This is what "one comparison with one normalization" means, and it is proved rather than
+asserted: `exists_galoisCocycle_brauerClass_eq` reaches every Brauer class by a crossed product,
+and the previous theorem evaluates the canonical comparison there. -/
+theorem brauerCohomologyEquiv_unique (e : Additive (BrauerGroup.{u, u} K) ≃+ H2Units K)
+    (h : ∀ g : GaloisCocycle K, e (Additive.ofMul g.brauerClass) = g.inflateClass) :
+    e = brauerCohomologyEquiv K := by
+  refine AddEquiv.ext fun y => ?_
+  obtain ⟨g, hg⟩ := exists_galoisCocycle_brauerClass_eq (Additive.toMul y)
+  have hy : y = Additive.ofMul g.brauerClass := by rw [hg]; rfl
+  rw [hy, h g, brauerCohomologyEquiv_galoisCocycle_brauerClass]
+
 variable {K}
 
-/-- The two comparisons agree on 2-torsion, through the coefficient map. -/
+/-- **Layer 7B: the normalization of the 2-torsion comparison.** The two comparisons agree on
+2-torsion, through the coefficient map. Because `h2MuToUnits` is injective, this equation
+determines `brauer2EquivH2` from `brauerCohomologyEquiv`, which is what
+`brauer2EquivH2_unique` records; every statement about `ι` below is derived from it and from the
+corresponding statement about `brauerCohomologyEquiv`. -/
 theorem brauer2EquivH2_h2MuToUnits [Invertible (2 : K)] (x : ↥(Br2 K)) :
     (h2MuToUnits K).hom (brauer2EquivH2 K (Additive.ofMul x)) =
       brauerCohomologyEquiv K (Additive.ofMul (x : BrauerGroup.{u, u} K)) :=
   sorry
 
+set_option maxHeartbeats 400000 in
+/-- **Layer 7B: the 2-torsion comparison is determined by that square.** -/
+theorem brauer2EquivH2_unique [Invertible (2 : K)] (e : Additive ↥(Br2 K) ≃+ H2 K)
+    (h : ∀ x : ↥(Br2 K), (h2MuToUnits K).hom (e (Additive.ofMul x)) =
+      brauerCohomologyEquiv K (Additive.ofMul (x : BrauerGroup.{u, u} K))) :
+    e = brauer2EquivH2 K :=
+  AddEquiv.ext fun y => h2MuToUnits_injective K
+    ((h (Additive.toMul y)).trans (brauer2EquivH2_h2MuToUnits (Additive.toMul y)).symm)
+
+set_option maxHeartbeats 400000 in
+/-- **Layer 7B, milestone 6: the symbol as a cup product, on the one comparison.** The quaternion
+algebra `(a, b)_K` is the crossed product of `K(√a)/K` by the cocycle whose only nontrivial value
+is `b`, so `brauerCohomologyEquiv_crossedProductClass` computes its image as the inflation of
+that cocycle, and the cyclic computation `H²(Gal(K(√a)/K), K(√a)ˣ) ≃ Kˣ/N(K(√a)ˣ)`
+identifies that inflation with the image of `(a) ∪ (b)`. Stated on `brauerCohomologyEquiv` rather than on
+`ι` so that the 2-torsion statement is a consequence and not a second normalization. -/
+theorem brauerCohomologyEquiv_quaternionClass [Invertible (2 : K)] (a b : Kˣ) :
+    brauerCohomologyEquiv K (Additive.ofMul (quaternionClass a b)) =
+      (h2MuToUnits K).hom (cup11 (kummerClass a) (kummerClass b)) :=
+  sorry
+
+set_option maxHeartbeats 400000 in
 /-- **Layer 7B, the symbol as a cup product.** The quaternion class is 2-torsion by
-`quaternionClass_sq`, and its image is the cup of the two Kummer classes. -/
+`quaternionClass_sq`, and its image is the cup of the two Kummer classes. It is a consequence of
+the previous theorem and of the normalization square, by injectivity of `h2MuToUnits`. -/
 theorem brauer2EquivH2_quaternionClass [Invertible (2 : K)] (a b : Kˣ)
     (h : quaternionClass a b ∈ Br2 K) :
     brauer2EquivH2 K (Additive.ofMul ⟨quaternionClass a b, h⟩) =
-      cup11 (kummerClass a) (kummerClass b) :=
-  sorry
+      cup11 (kummerClass a) (kummerClass b) := by
+  refine h2MuToUnits_injective K ?_
+  rw [brauer2EquivH2_h2MuToUnits ⟨quaternionClass a b, h⟩]
+  exact brauerCohomologyEquiv_quaternionClass a b
 
 end BrauerComparison
 
@@ -1748,10 +2230,35 @@ them over `Type u` does not typecheck. The restriction is the supplier's and is 
 of the quadratic-form side: `hilbertSymbol` itself is available at every universe, and the
 bridges are exactly the statements that mention a CFT object. -/
 
+/-- **Frozen QFI--CFT bridge, the single comparison of coefficients.** Class Field Theory's
+`localSymbol` at the Kummer cup pairing vanishes exactly when this roadmap's `cup11` of the two
+Kummer classes vanishes. The two cups are the same cup — Class Field Theory's `kummerCupPairing`
+and this file's `f2Pairing` are both the supplier's `cup` — but they are taken at different
+coefficient objects, `muNRep 2 F` against `trivialF2 (G_F)`, and over `Field.absoluteGaloisGroup`
+against `ProfiniteCohomology.AbsoluteGaloisGroup`. That coefficient-and-group comparison is the
+entire content of the bridge, and both halves of the dictionary it composes are supplied:
+`ClassFieldTheory.muNRepCoeffDictionary` with its continuity and equivariance and
+`ClassFieldTheory.absoluteGaloisGroupComparison` on one side, this file's
+`kummerCoeffIsoTrivialF2` on the other. `localSymbol` then adds the invariant `tr`, which is an
+`AddEquiv` and so does not affect vanishing.
+⚠ This is *not* a consequence of `brauerCohomologyEquiv_crossedProductClass`: the crossed-product
+comparison is about `Kˢˣ` coefficients and says nothing about the `μ₂`-valued cup that Class
+Field Theory's symbol is built from. -/
+theorem localSymbol_eq_zero_iff_cup (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F] [Invertible (2 : F)]
+    (ζ : F) (hζ : IsPrimitiveRoot ζ 2)
+    (tr : ClassFieldTheory.H 2 F 2 (ClassFieldTheory.muNRep 2 F) ≃+ ZMod 2) (a b : Fˣ) :
+    ClassFieldTheory.localSymbol (ClassFieldTheory.kummerCupPairing ζ hζ) tr
+        (ClassFieldTheory.kummerClass 2 F a) (ClassFieldTheory.kummerClass 2 F b) = 0 ↔
+      cup11 (kummerClass a) (kummerClass b) = 0 :=
+  sorry
+
 /-- **Frozen QFI--CFT bridge.** The norm-equation/quaternion Hilbert symbol agrees with Class
 Field Theory's Kummer-cup symbol after translating its additive invariant to a sign. Class Field
 Theory supplies `kummerClass`, `kummerCupPairing`, and `localSymbol`; no theorem in that roadmap
-depends on this comparison. -/
+depends on this comparison. It is a consequence of the coefficient comparison above and of Layer
+7C's `cup_kummerClass_eq_zero_iff_hilbertSymbol`: both symbols take two values, and each is
+trivial exactly when the cup vanishes, so no third normalization is possible. -/
 theorem hilbertSymbol_eq_cohomological (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
     [IsNonarchimedeanLocalField F] [Invertible (2 : F)]
     (ζ : F) (hζ : IsPrimitiveRoot ζ 2)
@@ -1760,8 +2267,18 @@ theorem hilbertSymbol_eq_cohomological (F : Type) [Field F] [ValuativeRel F] [To
     hilbertSymbol a b =
       hilbertSign
         (ClassFieldTheory.localSymbol (ClassFieldTheory.kummerCupPairing ζ hζ) tr
-          (ClassFieldTheory.kummerClass 2 F a) (ClassFieldTheory.kummerClass 2 F b)) :=
-  sorry
+          (ClassFieldTheory.kummerClass 2 F a) (ClassFieldTheory.kummerClass 2 F b)) := by
+  have hcup := cup_kummerClass_eq_zero_iff_hilbertSymbol (K := F) a b
+  have hloc := localSymbol_eq_zero_iff_cup F ζ hζ tr a b
+  rcases (show ∀ x : ZMod 2, x = 0 ∨ x = 1 by decide)
+      (ClassFieldTheory.localSymbol (ClassFieldTheory.kummerCupPairing ζ hζ) tr
+        (ClassFieldTheory.kummerClass 2 F a) (ClassFieldTheory.kummerClass 2 F b)) with h0 | h1
+  · rw [h0, show hilbertSign 0 = 1 from by simp [hilbertSign]]
+    exact hcup.mp (hloc.mp h0)
+  · rw [h1, show hilbertSign 1 = -1 from by simp [hilbertSign]]
+    rcases Int.units_eq_one_or (hilbertSymbol a b) with h | h
+    · exact absurd (h1.symm.trans (hloc.mpr (hcup.mpr h))) (by decide)
+    · exact h
 
 /-- **Frozen global bridge.** This is the multiplicative-sign form of
 `ClassFieldTheory.hilbertProductFormula`. At every finite place the factor is the local
