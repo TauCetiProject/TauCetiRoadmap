@@ -17,6 +17,7 @@ body:
         - AdicSpaces
         - AlgebraicCurves
         - ArithmeticDirichletSeries
+        - BelyiMaps
         - CFSGStatement
         - CombinatorialHeegaardFloer
         - ConformalMapping
@@ -26,6 +27,7 @@ body:
         - EllipticCurves
         - Exchangeability
         - GeometricTopology
+        - GlobalNumberFields
         - GrothendieckEulerForms
         - HeegaardFloer
         - HodgeStructures
@@ -35,9 +37,11 @@ body:
         - LocalFieldsRamification
         - ModularForms
         - Multiquadratic
+        - NumberFieldArithmetic
         - OneParameterSemigroups
         - OptimalTransport
         - PDE
+        - PolynomialGaloisGroups
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - ReductiveGroups
