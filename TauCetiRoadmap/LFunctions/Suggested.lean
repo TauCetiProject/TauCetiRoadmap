@@ -38,7 +38,7 @@ export TauCetiRoadmap.GlobalNumberFields
     HeckeCharacter finite_rayClassGroup idealClass integralIdealsPrimeTo classMap
     rayClassIdealMainTerm)
 namespace Modulus
-export TauCetiRoadmap.GlobalNumberFields.Modulus (one support)
+export TauCetiRoadmap.GlobalNumberFields.Modulus (one support mem_support_iff support_one)
 end Modulus
 namespace RayClassCharacter
 export TauCetiRoadmap.GlobalNumberFields.RayClassCharacter (induced)
@@ -338,17 +338,33 @@ noncomputable def rayClassCoeff
     else 0
 
 /-- The finite Euler correction `∏_{𝔭 ∣ 𝔪₀} (1 - N𝔭 ^ (-s))`: exactly the Euler factors that the
-coprimality condition deletes from `ζ_K`. ⚠ It is `1` only when the finite part of the modulus is
-trivial. Assuming it away makes the sum of the partial zeta functions, the common residue, and
-the trivial-character comparison all false. -/
+coprimality condition deletes from `ζ_K`. The product is over `𝔪.support`, read as the primes
+dividing `𝔪₀` through the supplier's `Modulus.mem_support_iff`; there is no second divisor set.
+⚠ It is `1` only when the finite part of the modulus is trivial. Assuming it away makes the sum
+of the partial zeta functions, the common residue, and the trivial-character comparison all
+false. -/
 noncomputable def finiteEulerCorrection (𝔪 : GNF.Modulus K) (s : ℂ) : ℂ :=
   ∏ 𝔭 ∈ 𝔪.support, (1 - (Ideal.absNorm 𝔭.asIdeal : ℂ) ^ (-s))
 
+/-- **Supplier drift check.** A prime contributes a deleted Euler factor exactly when it divides
+the finite part of the modulus: this is the supplier's characterization
+`Modulus.mem_support_iff`, consumed here as a closed proof so a change in the support convention
+breaks this roadmap. -/
+theorem mem_support_iff_euler_factor_present
+    (𝔪 : GNF.Modulus K) (v : HeightOneSpectrum (𝓞 K)) :
+    v.asIdeal ∣ 𝔪.finitePart ↔ v ∈ 𝔪.support :=
+  (GNF.Modulus.mem_support_iff 𝔪 v).symm
+
+/-- The trivial modulus deletes no Euler factor. Closed by the supplier's
+`Modulus.support_one`. -/
 theorem finiteEulerCorrection_one (s : ℂ) :
-    finiteEulerCorrection K (GNF.Modulus.one K) s = 1 := sorry
+    finiteEulerCorrection K (GNF.Modulus.one K) s = 1 := by
+  simp [finiteEulerCorrection, GNF.Modulus.support_one]
 
 /-- ⚠ Regression: the correction is not a harmless constant. As soon as one prime divides the
-finite part of the modulus, the deleted factors are visible on the half-plane of convergence. -/
+finite part of the modulus — equivalently, by the supplier's `Modulus.mem_support_iff`, as soon
+as `𝔪.support` is nonempty — the deleted factors are visible on the half-plane of
+convergence. -/
 theorem finiteEulerCorrection_ne_one {𝔪 : GNF.Modulus K} (h𝔪 : 𝔪.support.Nonempty) :
     ∃ s : ℂ, 1 < s.re ∧ finiteEulerCorrection K 𝔪 s ≠ 1 := sorry
 

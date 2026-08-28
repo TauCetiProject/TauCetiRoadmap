@@ -57,6 +57,8 @@ From `GlobalNumberFields`:
 ```text
 Modulus
 Modulus.support
+Modulus.mem_support_iff
+Modulus.support_one
 RayClassGroup
 integralIdealsPrimeTo
 idealClass
@@ -125,6 +127,7 @@ continuation of `ζ_K`, its simple pole, and its nonvanishing on `Re s = 1`, all
 | Declaration | Use here |
 | --- | --- |
 | `GlobalNumberFields.Modulus`, `Modulus.support` and `Modulus.IsCoprimeTo` | finite and infinite conductor data, the domain of ray-class coefficients, and the primes whose Euler factors a ray-class series deletes |
+| `Modulus.mem_support_iff` and `Modulus.support_one` | the characterization `v ∈ 𝔪.support ↔ v.asIdeal ∣ 𝔪.finitePart`, which reads `finiteEulerCorrection`'s product over `𝔪.support` as the product over the primes dividing `𝔪₀`, and its trivial-modulus case, which closes `finiteEulerCorrection_one` |
 | `GlobalNumberFields.integralIdealsPrimeTo` and `idealClass` | the ray class of an ideal, on the carrier that already contains the coprimality proof. ⚠ There is no total `idealClass` on `Ideal (𝓞 K)`: the class indicator and the ray-class weight are defined through this carrier, never through a junk class at a bad ideal |
 | `GlobalNumberFields.RayClassCharacter` | finite-order Hecke L-functions |
 | `RayClassCharacter.induced` and `.IsPrimitive` | the primitive-character carrier, its universal property, and the imprimitive Euler-factor correction |
@@ -198,7 +201,7 @@ modulus `𝔪 : GlobalNumberFields.Modulus K`; the general carrier is
 | dual | conjugate coefficients and gamma shifts, conjugate root number, reflected completed function, and conjugated polar divisor. |
 | poles | `polarOrder p = n` records an exact pole of order `n`; value equalities are asserted only off poles, while germ equalities cover poles. |
 | global identities | every identity between two continued functions — a factorization, a functional equation, an imprimitive comparison — is stated on a right half-plane, promoted by uniqueness of meromorphic continuation to an equality of germs at every point, and stated pointwise only away from the polar loci. An unrestricted equality of total representatives is never asserted: Mathlib's value at a pole is junk, and `1/(1-s)` at `s = 1` is `0`. |
-| ray-class coefficients | every ray-class coefficient carries coprimality to the finite modulus, so every such series is missing the Euler factors at the primes dividing it. `finiteEulerCorrection 𝔪 s = ∏_{𝔭 ∣ 𝔪₀} (1 - N𝔭^(-s))` is the single name for those factors, and it is `1` only for a trivial finite part. |
+| ray-class coefficients | every ray-class coefficient carries coprimality to the finite modulus, so every such series is missing the Euler factors at the primes dividing it. `finiteEulerCorrection 𝔪 s = ∏_{𝔭 ∣ 𝔪₀} (1 - N𝔭^(-s))` is the single name for those factors — a product over `𝔪.support`, equal to the divisor-indexed product by the supplier's `Modulus.mem_support_iff` — and it is `1` only for a trivial finite part. |
 | primitive scope | a primitive conductor, root number, completion, Gauss sum, or card takes `PrimitiveRayClassCharacter`, which carries the conductor and the primitivity proof together. A presentation level is never stored as an arithmetic conductor, and a character never carries two conductors. |
 | imprimitive series | retain the presented L-series and a finite Euler-factor correction to the canonical primitive series; do not manufacture a second completed card. |
 | Hecke shift | the shift is real, and the full completion is defined by recentering the unitary completion at `s-shift`. |
@@ -310,11 +313,12 @@ the ideals prime to the finite part of the modulus, so
 ∑_{c ∈ Cl_𝔪} ζ(s, c) = ∑_{(𝔞, 𝔪₀) = 1} N𝔞^(-s) = ζ_K(s) ∏_{𝔭 ∣ 𝔪₀} (1 - N𝔭^(-s)).
 ```
 
-Name that product once, as `finiteEulerCorrection`, and use the same name everywhere it recurs:
-in the trivial-character L-function of Layer 5, in the imprimitive comparisons, and in the
-residue. Equality with `ζ_K` holds exactly when the finite part is trivial, which is the separate
-class-group statement below; a modulus with one prime in its support already breaks it, and that
-is a required rejection test.
+Name that product once, as `finiteEulerCorrection` — a product over `𝔪.support`, which is the
+product over `𝔭 ∣ 𝔪₀` by the supplier's `Modulus.mem_support_iff`, never a second divisor set —
+and use the same name everywhere it recurs: in the trivial-character L-function of Layer 5, in
+the imprimitive comparisons, and in the residue. Equality with `ζ_K` holds exactly when the
+finite part is trivial, which is the separate class-group statement below; a modulus with one
+prime in its support already breaks it, and that is a required rejection test.
 
 The common residue follows: every ray class has the same simple pole at `s = 1`, with residue the
 Dedekind-zeta residue times that finite Euler correction, divided by the ray class number. ⚠
