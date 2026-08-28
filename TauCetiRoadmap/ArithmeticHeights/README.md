@@ -197,17 +197,25 @@ The layer that makes every later constant meaningful.
 
 **0.1 The Arakelov height.** For a number field `K` define
 `NumberField.arakelovMulHeight (x : ι → K)` as
-`(∏ v : InfinitePlace K, (∑ i, v (x i) ^ 2) ^ (v.mult / 2 : ℝ)) * ∏ᶠ v : FinitePlace K, ⨆ i, v (x i)`,
-with `arakelovLogHeight` its logarithm and `arakelovMulHeight₁` the one-variable case. Prove the
-same basic API Mathlib proves for `mulHeight`: scaling invariance under `Kˣ`, hence a well-defined
-descent to `Projectivization`; `1 ≤ arakelovMulHeight`; invariance under reindexing.
+`(∏ v : InfinitePlace K, (∑ i, v (x i) ^ 2) ^ (v.mult / 2 : ℝ)) * ∏ᶠ v : FinitePlace K, ⨆ i, v (x i)`
+for `x ≠ 0`, and `1` at `x = 0` — the same junk value as `Height.mulHeight`, so that the displayed
+product (which is `0` at the zero tuple) does not falsify `1 ≤ arakelovMulHeight` or the
+unconditional comparisons of 0.2. State the displayed formula as `arakelovMulHeight_eq`, hypothesis
+`x ≠ 0`. Add `arakelovLogHeight` its logarithm and `arakelovMulHeight₁ x := arakelovMulHeight ![x, 1]`
+the one-variable (affine) case, with its logarithm. Prove the same basic API Mathlib proves for
+`mulHeight`: scaling invariance under `Kˣ`, hence a well-defined descent to `Projectivization`;
+`1 ≤ arakelovMulHeight`; invariance under reindexing.
 
 **0.2 The comparison.** `mulHeight x ≤ arakelovMulHeight x` and
 `arakelovMulHeight x ≤ (Fintype.card ι : ℝ) ^ (totalWeight K / 2 : ℝ) * mulHeight x`, from
 `‖·‖_∞ ≤ ‖·‖_2 ≤ √n ‖·‖_∞` place by place, with `Height.totalWeight_eq_finrank` supplying the
 exponent. This is the lemma that transports every constant in the Siegel-lemma literature into
 Mathlib's normalization, and Layer 5 states its bounds in terms of it. Prove also that the two agree
-when `ι` is a subsingleton, so `arakelovMulHeight₁ = mulHeight₁`.
+when `ι` is a subsingleton, where both are `1`. ⚠ This is *not* the statement
+`arakelovMulHeight₁ = mulHeight₁`, which is **false**: the archimedean local factor of
+`arakelovMulHeight₁` is `((v x) ^ 2 + 1) ^ (v.mult / 2)` and not `max (v x) 1 ^ v.mult`, so already
+`arakelovMulHeight₁ (1 : K) = 2 ^ (totalWeight K / 2 : ℝ)` while `mulHeight₁ (1 : K) = 1`. The two
+one-variable heights are related only by the comparison above, applied to `![x, 1]`.
 
 **0.3 Extension invariance.** For `K ⊆ L` a finite extension of number fields:
 `mulHeight₁_pow_finrank`, `mulHeight₁ x ^ finrank K L = mulHeight₁ (algebraMap K L x)`; the tuple

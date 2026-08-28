@@ -42,15 +42,36 @@ variable {K : Type*} [Field K] [NumberField K] {ι : Type*} [Fintype ι]
 /-- **Layer 0.1.** The Arakelov height: the ℓ² norm at the archimedean places, weighted by
 `InfinitePlace.mult`, and the sup norm at the finite places. This is the normalization in which
 the Bombieri–Vaaler constant of Layer 5.4 is stated; `Height.mulHeight` uses the sup norm
-everywhere. Both live in the library and every bound says which one it is in. -/
+everywhere. Both live in the library and every bound says which one it is in.
+
+The zero tuple takes the junk value `1`, as for `Height.mulHeight`: the displayed product is `0`
+there, which would falsify `1 ≤ arakelovMulHeight` and both comparisons of Layer 0.2 below, which
+are stated without a `x ≠ 0` hypothesis. `arakelovMulHeight_eq` recovers the displayed formula. -/
 def arakelovMulHeight (x : ι → K) : ℝ :=
-  (∏ v : InfinitePlace K, (∑ i, v (x i) ^ 2) ^ (v.mult / 2 : ℝ)) *
-    ∏ᶠ v : FinitePlace K, ⨆ i, v (x i)
+  open Classical in
+  if x = 0 then 1 else
+    (∏ v : InfinitePlace K, (∑ i, v (x i) ^ 2) ^ (v.mult / 2 : ℝ)) *
+      ∏ᶠ v : FinitePlace K, ⨆ i, v (x i)
+
+/-- **Layer 0.1.** The displayed formula, away from the junk value. -/
+theorem arakelovMulHeight_eq {x : ι → K} (hx : x ≠ 0) :
+    arakelovMulHeight x =
+      (∏ v : InfinitePlace K, (∑ i, v (x i) ^ 2) ^ (v.mult / 2 : ℝ)) *
+        ∏ᶠ v : FinitePlace K, ⨆ i, v (x i) :=
+  sorry
 
 /-- **Layer 0.1.** The logarithmic Arakelov height. As everywhere in this development, the
 logarithmic height is *defined* as the logarithm of the multiplicative one and never
 independently. -/
 def arakelovLogHeight (x : ι → K) : ℝ := log (arakelovMulHeight x)
+
+/-- **Layer 0.1.** The one-variable (affine) case: the Arakelov height of the point `(x : 1)` of
+the projective line. Its archimedean local factor is `((v x) ^ 2 + 1) ^ (v.mult / 2)`, so — unlike
+in the sup-norm normalization — this is **not** `Height.mulHeight₁ x`. -/
+def arakelovMulHeight₁ (x : K) : ℝ := arakelovMulHeight ![x, 1]
+
+/-- **Layer 0.1.** Its logarithm. -/
+def arakelovLogHeight₁ (x : K) : ℝ := log (arakelovMulHeight₁ x)
 
 /-- **Layer 0.1.** The Arakelov height is invariant under scaling, by the product formula, so it
 descends to projective space exactly as `Height.mulHeight` does. -/
@@ -71,8 +92,10 @@ theorem arakelovMulHeight_le_mulHeight (x : ι → K) :
       (Fintype.card ι : ℝ) ^ ((Height.totalWeight K : ℝ) / 2) * Height.mulHeight x :=
   sorry
 
-/-- **Layer 0.2.** On a single coordinate the two normalizations agree, so there is no separate
-`arakelovMulHeight₁`. -/
+/-- **Layer 0.2.** On a subsingleton index type the two normalizations agree — both are `1`, by
+the product formula. ⚠ This is *not* `arakelovMulHeight₁ = mulHeight₁`, which is false: already
+`arakelovMulHeight₁ (1 : K) = 2 ^ (Height.totalWeight K / 2 : ℝ)` while `mulHeight₁ (1 : K) = 1`.
+The one-variable heights are related only by the two comparisons above, applied to `![x, 1]`. -/
 theorem arakelovMulHeight_eq_mulHeight_of_subsingleton [Subsingleton ι] (x : ι → K) :
     arakelovMulHeight x = Height.mulHeight x :=
   sorry
