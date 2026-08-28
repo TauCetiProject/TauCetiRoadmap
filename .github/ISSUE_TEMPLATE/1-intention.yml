@@ -45,6 +45,7 @@ body:
         - OneParameterSemigroups
         - OptimalTransport
         - PDE
+        - PolynomialGaloisGroups
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - ReductiveGroups
