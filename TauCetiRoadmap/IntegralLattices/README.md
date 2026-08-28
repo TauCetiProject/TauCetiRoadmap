@@ -114,6 +114,18 @@ its stabilization, and its values at odd `p`), the archimedean factor 7E, the ma
 and the relation `m⁺ = 2m` of 7A, and the low-rank values 7G — remains a milestone **here**, so
 the split does not leave a gap between the two roadmaps.
 
+Two more boundary facts about that successor are recorded here so that neither document drops
+them. First, 6D and 7I are one classification split across the boundary: 6D here constructs
+`E₈²` and `D₁₆⁺`, proves them even unimodular of rank 16, in one genus, and non-isometric, and
+the successor's 7I proves that they exhaust the genus; only the pair classifies rank 16 — the
+statement consumers quote as "there are exactly two even unimodular lattices of rank 16", and,
+in its string-theoretic reading, as there being exactly two ten-dimensional heterotic strings.
+Second, everything `OrthogonalTamagawaAndLatticeMass` proves is positive definite, and its mass
+formula is a Tamagawa volume comparison, not a Siegel–Weil identity; no Siegel–Weil statement,
+definite or indefinite, lands there, and the indefinite Siegel–Weil theorem, with the
+Siegel–Narain theta it evaluates, is `IndefiniteThetaAndSiegelWeil`'s (see the owner table
+below).
+
 Out of scope, with the owner of each subject:
 
 | Subject | Owner |
@@ -130,6 +142,9 @@ Out of scope, with the owner of each subject:
 | number-field orders, conductors, raw proper fractional ideals, invertible proper fractional ideals, the ideal class monoid, `Pic`, and `NarrowPic` for the nonsplit binary branch | [Global Number Fields](../GlobalNumberFields/README.md) |
 | ring class fields and their Artin isomorphisms for nonsplit quadratic field orders | [Class Field Theory](../ClassFieldTheory/README.md) |
 | modular forms of integral weight, Hecke theory, newforms | [Modular Forms](../ModularForms/README.md) |
+| automorphism groups of indefinite lattices — reflection subgroups, the Eichler criteria for `O(L)`-orbits, arithmeticity and fundamental domains, and Borcherds' method | `IndefiniteLatticeAutomorphisms`, a successor this roadmap names; it consumes 4F, B4 and the discriminant-form machinery of Layer 5, and is not consumed here |
+| the Siegel–Narain theta of an indefinite lattice — parametrized by a maximal positive definite subspace of `L ⊗ ℝ`, with convergence, the discriminant-coset refinement, the `S` and `T` laws, and `O(L)`-equivariance in the parameter — together with theta lifts, the indefinite Siegel–Weil theorem, and the genus averages it evaluates | `IndefiniteThetaAndSiegelWeil`, a successor this roadmap names; it consumes Layers 1 and 8 and L-functions' Poisson summation, and is not consumed here |
+| the Witt group of nondegenerate finite quadratic modules — orthogonal sum, metabolic reduction, the Gauss-sign homomorphism to `ℤ/8`, and the equivalence of the trivial Witt class with the existence of a Lagrangian subgroup | `FiniteQuadraticModuleWittTheory`, a successor this roadmap names; it consumes 1G and 1H, whose metabolic predicate and Gauss-sign vanishing are its exact lattice-side inputs, and is not consumed here |
 
 The following subjects have no owner and are not part of this roadmap. They are listed so
 that a reader can see the boundary.
@@ -146,11 +161,20 @@ that a reader can see the boundary.
   space of modular forms, and none may be renamed to one before those imports exist.
 - The analytic proof of the mass formula, which uses Siegel Eisenstein series, the Weil
   representation and Siegel–Weil. The route to the mass formula is the adelic volume of `SO(V)`,
-  and it is `OrthogonalTamagawaAndLatticeMass`'s, not this roadmap's.
+  and it is `OrthogonalTamagawaAndLatticeMass`'s, not this roadmap's. No Siegel–Weil statement
+  lands in that successor either: its genera and masses are positive definite by construction,
+  and its route is the volume comparison, not Eisenstein series. In particular the indefinite
+  Siegel–Weil theorem is two boundaries away from this roadmap, not one — it is
+  `IndefiniteThetaAndSiegelWeil`'s, in the owner table above, together with the Siegel–Narain
+  theta whose averages it evaluates.
+- Alternating integral lattices. The carrier of this roadmap is symmetric-bilinear
+  throughout — `isSymm` is a structure field of `IntegralLattice`, and every milestone reads
+  through it — so integral symplectic lattices, `Sp(2n, ℤ)`, the alternating Dirac pairing of an
+  electric–magnetic charge lattice, and Siegel modular forms are a different subject, not a gap
+  in this one, and are not to be grafted onto this carrier by weakening `isSymm`.
 - Lattices over the ring of integers of a number field. Every statement here is over `ℤ`
   or `ℤ_p`.
 - Lattice reduction algorithms beyond the bounds that finiteness needs.
-- Automorphism groups of indefinite lattices, and Borcherds' method.
 - Sphere packing optimality, and constructions of lattices from codes.
 
 ## How to read a milestone
@@ -265,8 +289,10 @@ to an odd lattice.
 `A × A → ℚ/ℤ`; a finite quadratic module extends it with a Mathlib
 `QuadraticMap ℤ A (AddCircle (1 : ℚ))` whose polar is the pairing. Nondegeneracy is a
 predicate asserting that the adjoint `A → CharacterModule A` is an additive equivalence,
-not a structure field. For `H ≤ A`, isotropic means the form vanishes on `H`, while
-Lagrangian means the stronger equality `H=H^⊥`. These reviewed carriers are also the
+not a structure field. For `H ≤ A`, isotropic means the form vanishes on `H` — for a
+quadratic module the vanishing form is `q` itself, not merely its polar pairing — and
+Lagrangian means isotropic together with the equality `H=H^⊥`; a module with a Lagrangian
+subgroup is metabolic. These reviewed carriers are also the
 carriers used by the Nikulin programme; no `ℚ/2ℤ`-valued duplicate is introduced.
 
 **Two invariants with different names.** The Gauss-sum invariant `sign q ∈ ℤ/8` of a
@@ -537,6 +563,12 @@ induced form nondegenerate, and then add:
 
 - orthogonal sums, and the `p`-primary decomposition `q = ⊕_p q_p`;
 - isometries, and the group `O(q)`;
+- metabolic modules: `(A, q)` is metabolic when it has a Lagrangian subgroup, isotropic for
+  `q` with `H = H^⊥`. By 1F, the discriminant form of an even lattice is metabolic exactly
+  when the lattice has an even unimodular overlattice. ⚠ Isotropy for the polar pairing alone
+  is strictly weaker and is not this notion: the discriminant form of `A₁ ⊕ A₁` has a subgroup
+  equal to its own orthogonal complement on which `b` vanishes while `q = ½` on its generator,
+  and 1H gives that module the invariant `2`, not `0`;
 - the generators `q_θ^{(p)}(p^k)`, `u^{(2)}(2^k)` and `v^{(2)}(2^k)` of Nikulin
   Proposition 1.8.1, with the theorem that every **nondegenerate** finite quadratic form
   is an orthogonal sum of them;
@@ -561,6 +593,18 @@ Nikulin Proposition 1.11.2:
 
 Nikulin Theorem 1.11.3 is proved with them: two **nondegenerate** finite quadratic forms
 with isometric bilinear forms are isometric exactly when their invariants agree mod 8.
+
+A nondegenerate metabolic module has `sign q = 0`: with `H` Lagrangian in the sense of 1G,
+summing the Gauss sum over cosets of `H` collapses it to `#H = √#A`. The converse is false,
+and the witness is in the table of hard theorems: `q_θ^{(5)}(5)` with `(θ|5) = −1` has
+`sign = 0` by the table above, while its order 5 is not a square `#H²`, so no Lagrangian
+subgroup exists. The statement that repairs the converse replaces `sign q = 0` by the
+vanishing of the Witt class, and it is not a milestone here: the Witt group of nondegenerate
+finite quadratic modules, with orthogonal sums, metabolic reduction, `sign` descending to a
+homomorphism to `ℤ/8`, and the equivalence of the trivial Witt class with the existence of a
+Lagrangian subgroup, is `FiniteQuadraticModuleWittTheory`'s (§*Scope*). No Witt-group carrier
+is defined here; the metabolic predicate of 1G and the vanishing statement above are the exact
+contract that successor consumes.
 
 **1I. Milgram's theorem.** For an even nondegenerate lattice, `t₊ − t₋ ≡ sign q_L (mod 8)`.
 An even unimodular lattice has `A_L = 0`, so `8 ∣ t₊ − t₋`.
@@ -597,6 +641,30 @@ gluing theorem. Construct an explicit basis or rational isometry whose Gram matr
 positive `E₈` Cartan matrix, yielding an actual isometry `D₈⁺≅E₈`; determinant one alone is
 not an acceptable argument. Check `A_{D₈⁺}≅H^⊥/H=0` against the direct `E₈` calculation.
 
+**1L. Characteristic vectors and van der Blij's congruence.** A vector `w ∈ L` of an
+integral lattice is **characteristic** when `β(w,x) ≡ β(x,x) (mod 2)` for every `x ∈ L`. The
+predicate is exported: it is stated on the integral restriction of 1A, so the congruence is a
+congruence of integers, and it is the predicate whose counts drive O'Meara's proof of 6C.
+This milestone asks for:
+
+- the definition, with its calculus: `L` is even exactly when `0` is characteristic, and
+  `(w₁, w₂)` is characteristic for `L ⊕ M` exactly when `w₁` and `w₂` are;
+- for unimodular `L`: characteristic vectors exist — mod 2 the norm map `x ↦ β(x,x)` is
+  additive, and unimodularity makes every `ℤ/2`-functional a pairing against some `w` — they
+  form a single coset of `2L`, and `β(w,w) mod 8` does not depend on the choice, by the
+  elementary identity `β(w+2v, w+2v) − β(w,w) = 4(β(w,v) + β(v,v))`, whose right side the
+  characteristic property makes divisible by 8;
+- **van der Blij's theorem**: for a nondegenerate unimodular lattice and any characteristic
+  `w`, `t₊ − t₋ ≡ β(w,w) (mod 8)`. The odd unimodular case is the content — `⟨1⟩` has the odd
+  integers as its characteristic vectors, and `w² ≡ 1 (mod 8)` — and at `w = 0` the even case
+  recovers the corollary of 1I, `8 ∣ t₊ − t₋`, so the two milestones must agree rather than
+  one restating the other.
+
+⚠ Unimodularity is load-bearing, and the statement for a merely nondegenerate integral
+lattice is false; the witness is in the table of hard theorems. For `⟨2⟩` every value of `β`
+is even, so every vector — zero included — is characteristic, while `t₊ − t₋ = 1` is odd and
+every `β(w,w) = 2k²` is even, so the congruence fails for every characteristic vector.
+
 | Milestone | Direct prerequisites |
 | --- | --- |
 | 1A | M `LinearMap.BilinForm.baseChange`, `IsSymm.baseChange`; L 0A, 0C |
@@ -610,6 +678,7 @@ not an acceptable argument. Check `A_{D₈⁺}≅H^⊥/H=0` against the direct `
 | 1I | L 0E, 1D, 1H |
 | 1J | L 0D, 1D |
 | 1K | T Root Systems Layer 5 ADE bridge; L 0G, 1B to 1G |
+| 1L | M Gauss sums and quadratic characters; L 0A, 0C, 0E, 1A, 1B, 1H, 1I |
 
 ### Layer 2: positive definite lattices, reduction, and automorphisms
 
@@ -1372,15 +1441,16 @@ rank `n` exists exactly when `8 ∣ n`.
 
 **6C. Rank at most 9.** A positive definite unimodular lattice of rank at most 9 is `Iₙ`,
 `E₈`, or `E₈ ⊕ I₁`. The proof follows O'Meara: uniqueness of the decomposition into
-indecomposable summands, and a count of characteristic vectors. It follows that `E₈` is the
-unique even unimodular lattice of rank 8. The alternative proof through root systems, in
+indecomposable summands, and a count of the characteristic vectors of 1L. It follows that
+`E₈` is the unique even unimodular lattice of rank 8. The alternative proof through root systems, in
 which the minimal vectors form a root system of type `E₈`, discharges the same milestone.
 
 **6D. Rank 16, the two classes.** `E₈²` and `D₁₆⁺` are even unimodular of rank 16, they lie
 in one genus, and they are not isometric, because their root systems differ. This milestone
 constructs both lattices and proves those four statements. It claims no completeness: that
 the genus has no third class is 7I, which comes after the mass formula and belongs to
-`OrthogonalTamagawaAndLatticeMass`.
+`OrthogonalTamagawaAndLatticeMass`. §*Scope* records 6D and 7I as a pair, and only the pair
+is the rank-16 classification.
 
 **6E. Rank 24 reference lattices.** The 24 Niemeier lattices are defined by explicit Gram
 data or glue data. For each row the milestone proves evenness, unimodularity, rank 24, and
@@ -1408,7 +1478,7 @@ the Weyl group order abstractly, and it proves no type-specific value.
 | --- | --- |
 | 6A | L 1I, 5C, 5D |
 | 6B | L 1I, 0G |
-| 6C | M `CartanMatrix.E₈`; L 0F, 2G; R Root Systems Layer 5 |
+| 6C | M `CartanMatrix.E₈`; L 0F, 1L, 2G; R Root Systems Layer 5 |
 | 6D | L 2C, 3F, 5A, 6B |
 | 6E | L 0C, 1C, 2B |
 | 6F | L 0G, 2B |
@@ -1694,6 +1764,13 @@ subgroup together with the theorem that these laws force holomorphy at every cus
 vector-valued case a carrier for the Weil representation; §*Scope* records that none of the
 three has an owner.
 
+⚠ The positive definiteness hypothesis is a boundary in the same way. For indefinite `L` the
+series diverges, and the object that replaces it — the Siegel–Narain theta, summed against a
+maximal positive definite subspace `v ⊆ L ⊗ ℝ`, with convergence, the discriminant-coset
+refinement, the `S` and `T` laws, and `O(L)`-equivariance in `v` — is not a milestone here in
+any form. Its owner is `IndefiniteThetaAndSiegelWeil` (§*Scope*), and no declaration of this
+layer generalizes to it by weakening `PosDef`.
+
 | Milestone | Direct prerequisites |
 | --- | --- |
 | 8A | M `IsZLattice`, `EuclideanSpace`; L 0E, 2A |
@@ -1831,7 +1908,8 @@ for the eight items listed. The layer that introduces the object owns them.
 - **Functoriality.** Orthogonal sums; the `p`-primary decomposition; restriction to a
   subgroup; the quotient `H^⊥/H` for isotropic `H`.
 - **Comparison lemmas.** For nondegenerate modules, the relations among generators
-  (Nikulin 1.8.2) and the Gauss-sum invariant of each generator (1H).
+  (Nikulin 1.8.2), the Gauss-sum invariant of each generator (1H), and its vanishing on
+  metabolic modules (1H).
 - **Naturality.** `sign` is additive over sums and invariant under isometry.
 - **Edge cases.** The trivial group; degenerate restrictions, which remain objects of the
   carrier but are excluded explicitly from the generator and Gauss-sum classifications.
@@ -1939,10 +2017,12 @@ for the eight items listed. The layer that introduces the object owns them.
 
 | Theorem | Source | Hypotheses that carry the proof | A nearby false statement |
 | --- | --- | --- | --- |
-| Unimodular splitting (0F) | O'Meara §82 | the restriction of `β` to `M` is unimodular | "a nondegenerate restriction splits". Take `L = ℤ` with `β(x,y) = xy` and `M = 2ℤ`. Then `β|_M` is nondegenerate, `M^⊥ = 0`, and `M ⊕ M^⊥ ≠ L`. |
-| Content under sublattices (B1) | Gram-matrix change of basis | the full basis matrix is retained, not only its determinant | "a finite-index sublattice multiplies content by its index". Restrict `x²+y²` on `ℤ²` to `⟨2e₁,e₂⟩`: the index is 2 but the form `4x²+y²` still has content 1. Only a form twist has the `|a|` content formula. |
+| Unimodular splitting (0F) | O'Meara §82 | the restriction of `β` to `M` is unimodular | "a nondegenerate restriction splits". Take `L = ℤ` with `β(x,y) = xy` and `M = 2ℤ`. Then `β\|_M` is nondegenerate, `M^⊥ = 0`, and `M ⊕ M^⊥ ≠ L`. |
+| Content under sublattices (B1) | Gram-matrix change of basis | the full basis matrix is retained, not only its determinant | "a finite-index sublattice multiplies content by its index". Restrict `x²+y²` on `ℤ²` to `⟨2e₁,e₂⟩`: the index is 2 but the form `4x²+y²` still has content 1. Only a form twist has the `\|a\|` content formula. |
 | Cancellation over `ℤ` (0F) | Milnor–Husemoller II §5; Serre V.2.2 | none: the statement is false | "`L ⊕ N ≅ M ⊕ N` implies `L ≅ M`". Take `N = U`, `L = E₈²`, `M = D₁₆⁺`. Both sums are even unimodular of signature `(17,1)`, hence isometric, while `E₈² ≇ D₁₆⁺`. |
 | Milgram's theorem (1I) | Nikulin Thm 1.3.3; Milnor–Husemoller App. 4 | `L` is even and nondegenerate | "every unimodular lattice has `8 ∣ t₊ − t₋`". The odd lattice `⟨1⟩` is unimodular with `t₊ − t₋ = 1`. |
+| Van der Blij's congruence (1L) | van der Blij, Indag. Math. 21 (1959); Milnor–Husemoller App. 4 | `L` is unimodular, and `w` is characteristic: `β(w,x) ≡ β(x,x) (mod 2)` for all `x` | "for nondegenerate integral `L` and characteristic `w`, `t₊ − t₋ ≡ β(w,w) (mod 8)`". For `⟨2⟩` every vector is characteristic, because every value of `β` is even; `t₊ − t₋ = 1` while every `β(w,w) = 2k²` is even, so the congruence fails for every characteristic `w`. |
+| The Gauss sign of a metabolic module (1H) | Wall, Topology 2 (1963); Milnor–Husemoller App. 4 | the Lagrangian subgroup is isotropic for `q`, not merely for its polar `b` | "a subgroup with `H = H^⊥` on which `b` vanishes forces `sign q = 0`". The discriminant form of `A₁ ⊕ A₁` has such an `H` with `q = ½` on its generator and `sign = 2`. The converse "`sign q = 0` makes a nondegenerate module metabolic" is also false: `q_θ^{(5)}(5)` with `(θ\|5) = −1` has `sign = 0` and order 5, which is no `#H²`. |
 | Finiteness of `O(L)` (2C) | O'Meara §102 | `L` is definite | "`O(L)` is finite for every nondegenerate `L`". `O(⟨1,−2⟩)` is infinite, being carried by the unit group of `ℤ[√2]` (B4), and 4F gives infinitude in every indefinite rank at least 3. |
 | Diagonalization over `ℤ_p` (3C) | O'Meara 92:1 | `p` is odd | "every symmetric form over `ℤ_2` has an orthogonal basis". The hyperbolic plane `U` has none. |
 | Two unimodular classes per rank (3C) | O'Meara 92:1a | `p` odd and rank at least 1 | "exactly two for every rank". In rank 0 there is one. |
@@ -1956,11 +2036,11 @@ for the eight items listed. The layer that introduces the object owns them.
 | The local density at 2 (7D, not owned here) | Cho, Compositio 151 (2015) | residue characteristic 2, with the smoothened model | "the Conway–Sloane dyadic table proves it". The table is stated there without proof, and the smooth model the proof needs has no supplier in this portfolio, which is why 7D is `OrthogonalTamagawaAndLatticeMass`'s. |
 | Classification in rank at most 9 (6C) | O'Meara 106:13 | rank at most 9, positive definite | "a positive definite unimodular lattice is determined by its rank and parity". Rank 16 has two even classes (6D). |
 | Automorphisms of an indefinite lattice (4F) | O'Meara §104; Cassels ch. 13 | rank at least 3, and a case split on isotropy over `ℚ` | "an indefinite rational space has an isotropic vector". `x² + y² − 3z²` is indefinite over `ℝ` and anisotropic over `ℚ`, so the transvection proof covers only one case. |
-| Automorphisms of a binary lattice (B4) | Pell's equation; Cassels ch. 13 | `Δ > 0` and `Δ` not a square | "an indefinite binary lattice has infinite `O(L)`". `U` has `Δ = 1`, a square, and `|O(U)| = 4`. |
+| Automorphisms of a binary lattice (B4) | Pell's equation; Cassels ch. 13 | `Δ > 0` and `Δ` not a square | "an indefinite binary lattice has infinite `O(L)`". `U` has `Δ = 1`, a square, and `\|O(U)\| = 4`. |
 | Improper binary automorphisms (B4) | Gauss; Cox §3 | the proper class of the primitive part is fixed by inversion | "`[O(L) : SO(L)] = 2` for every nondegenerate binary `L`". `!![4,1;1,6]` has `Δ = −23` and only `±e₁` of norm 4, so `O(L) = SO(L) = {±I}` has order 2, while `2·#𝒪ˣ = 4`. |
 | The rank-2 mass (B8) | Gauss; Conway–Sloane §2 | the count is of **proper** classes | "`m(gen L) = h(gen L)/(2·#𝒪ˣ)` with `h` the class number". The genus of `!![4,1;1,6]` has `h = 2`, `h⁺ = 3` and `w = 2`, and its mass is `1/4 + 1/2 = 3/4 = h⁺/(2w)`, not `1/2`. |
 | Eichler transvections (4F) | O'Meara §104; Cassels ch. 13 | `w` is taken modulo `ℤu`, and `N_L(w)` is even | "`w ↦ E_{u,w}` is injective on a finite-index subgroup of `u^⊥ ∩ L`". `E_{u,w+au} = E_{u,w}` for every `a`, and every finite-index subgroup contains a nonzero multiple of `u`. |
-| The odd local density type (7C) | Conway–Sloane §12; Gan–Yu Thm 7.3 | `ε` is the type of the reduction, `((−1)^m det | p)` | "`ε = +1` exactly when `det L_p` is a square". The hyperbolic plane over `p = 3` has `det = −1`, a nonsquare, and is split, with `α_3 = 4/3`. |
+| The odd local density type (7C) | Conway–Sloane §12; Gan–Yu Thm 7.3 | `ε` is the type of the reduction, `((−1)^m det \| p)` | "`ε = +1` exactly when `det L_p` is a square". The hyperbolic plane over `p = 3` has `det = −1`, a nonsquare, and is split, with `α_3 = 4/3`. |
 | Cho's dyadic formula (7D, not owned here; 3I owns its exponents) | Cho Thm 5.2 with Lemma 5.1 | the exponent `N = N_Q − N_M` and the index `[O : SO]` | "`α_2(L) = 2^{−n(n−1)/2}·#𝒢̃_L(𝔽_2)`". `N` is generally nonzero, and `β_L` carries `[O(V,q) : SO(V,q)]⁻¹`. |
 | Well-definedness of the dyadic exponents (3I) | O'Meara 93:28 and 93:29; Cho Lemma 5.1 | the ranks, scales and norms of the Jordan constituents are invariants of the lattice, although the splitting is not | "nothing attached to a dyadic Jordan splitting is an invariant". The signs and oddities are not, which is why 3E needs sign walking and oddity fusion; the ranks, scales and types are, and that is what makes `N_M`, `N_Q` and `N` well defined. |
 | Proper against full mass (7A) | Conway–Sloane §2 | `rank L ≥ 1` | "`m⁺ = 2m` always". In rank 0 both masses are 1, because `O(L) = SO(L) = 1`. |
@@ -1980,6 +2060,12 @@ factor of 2, a wrong sign, or a vacuous definition.
   remains 1 although the determinant is multiplied by 4 (0C, B1).
 - `⟨-2⟩` is negative definite of signature `(0,0,1)`; the zero rank-one form is
   degenerate of signature `(0,1,0)` and has zero radical quotient (0G, 1K).
+- `⟨2⟩`: every value of the form is even, so every vector is characteristic, and the
+  congruence of 1L fails at every one of them — the witness that 1L requires
+  unimodularity (1L).
+- The discriminant form of `A₁ ⊕ A₁`: the glue class `h` satisfies `b(h,h) = 0` and
+  `H = H^⊥` while `q(h) = ½` and `sign = 2` — the witness that Lagrangian means isotropic
+  for `q` itself (1F, 1G, 1H).
 - Affine `Ã₁` with Gram `!![2,-2;-2,2]` is even and positive-semidefinite of signature
   `(1,1,0)`, and its radical quotient is `A₁=⟨2⟩` (0E, 0G).
 - `A₂`: even, `det = 3`, level 3, and `A_{A₂} ≅ ℤ/3` with half-norm
@@ -2090,7 +2176,12 @@ route uses no milestone of Layers 2, 4, 6, 7 or 8.
   uniqueness of `E₈` is derived there from a mass formula that the chapter does not prove,
   so 6C uses O'Meara's proof instead.
 - J. Milnor, D. Husemoller, *Symmetric Bilinear Forms*, Ergebnisse 73, Springer (1973).
-  Chapter II for 6A, and Appendix 4 for 1H and 1I.
+  Chapter II for 6A, and Appendix 4 for 1H, 1I and 1L.
+- F. van der Blij, *An invariant of quadratic forms mod 8*, Indag. Math. 21 (1959) 291–293.
+  The signature congruence of 1L; Milnor–Husemoller Appendix 4 gives the Gauss-sum proof.
+- C. T. C. Wall, *Quadratic forms on finite groups, and related topics*, Topology 2 (1963)
+  281–298. The metabolic Gauss-sign vanishing of 1H; the Witt group of finite quadratic
+  modules built there is `FiniteQuadraticModuleWittTheory`'s charter, not a milestone here.
 - J. H. Conway, N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed.,
   Grundlehren 290, Springer (1999):
   - Chapter 2 for theta series, and Chapter 4 for root lattices and the `Dₙ⁺`

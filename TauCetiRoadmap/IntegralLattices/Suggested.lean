@@ -41,12 +41,19 @@ milestone rather than an unconstrained Lean stand-in. Generic Tamagawa normaliza
 approximation for `Spin`, the orthogonal volume theorem and Cho's smooth affine group scheme
 over `ℤ₂` are not README milestones of this
 roadmap at all: they belong to the successor `OrthogonalTamagawaAndLatticeMass`, together with
-the mass formula and the dyadic local density they assemble (`README.md`, §*Scope*).
+the mass formula and the dyadic local density they assemble (`README.md`, §*Scope*). The same
+boundary names `IndefiniteLatticeAutomorphisms` for the automorphism groups of indefinite
+lattices and Borcherds' method, `IndefiniteThetaAndSiegelWeil` for the Siegel–Narain theta and
+the indefinite Siegel–Weil theorem, and `FiniteQuadraticModuleWittTheory` for the Witt group of
+finite quadratic modules; this file imports none of the four successors and defines no stand-in
+for any of them.
 
 The remaining sections pin targets for **Layer 0** (the bilinear and quadratic dictionary,
 Gram determinants, the standard examples), **Layer 1** (dual lattices, the
 discriminant-group cardinality, unimodularity, integral against even overlattices, the
-signature-mod-8 statement), **Layer 2** (finiteness of automorphism groups and of positive
+signature-mod-8 statement, characteristic vectors with van der Blij's congruence, and
+metabolic finite quadratic modules with the Gauss-sign vanishing), **Layer 2** (finiteness
+of automorphism groups and of positive
 definite classes, the covolume identity, `|O(E₈)| = 696729600`), **Layer 3** (odd-`p`
 orthogonal splitting, the dyadic counterexample, the constraint from the product formula),
 **Layer 4** (the imported spinor norm of a product of reflections, and the two class-number
@@ -235,6 +242,37 @@ theorem unimodular_iff_natAbs_gramDet_eq_one [L.IsNondegenerate]
     {ι : Type*} [Fintype ι] [DecidableEq ι]
     (e : Basis ι ℤ L.carrier) : L.IsUnimodular ↔ (L.gramDet e).natAbs = 1 := sorry
 
+/-- **Layer 1L, characteristic vectors.** `w` is characteristic when
+`β(w,x) ≡ β(x,x) (mod 2)` for every `x ∈ L`. The congruence is stated on the integral
+restriction `integralForm`, so it is `Int.ModEq` over `ℤ` and not a statement about `ℚ`.
+For `⟨1⟩` the characteristic vectors are the odd integers; `L` is even exactly when `0` is
+characteristic (`isEven_iff_isCharacteristicVector_zero`). These are the vectors whose count
+drives O'Meara's proof of the rank-`≤ 9` classification (README 6C). -/
+def IsCharacteristicVector (w : L.carrier) : Prop :=
+  ∀ x : L.carrier, Int.ModEq 2 (L.integralForm w x) (L.integralForm x x)
+
+/-- **Layer 1L.** Evenness is the statement that the zero vector is characteristic. -/
+theorem isEven_iff_isCharacteristicVector_zero :
+    L.IsEven ↔ L.IsCharacteristicVector 0 := sorry
+
+/-- **Layer 1L, van der Blij's congruence.** For a **unimodular** lattice and any
+characteristic vector `w`,
+
+    t₊ − t₋ ≡ β(w, w)  (mod 8).
+
+The signature difference is taken in `ℤ`, so no truncated `ℕ` subtraction can silently change
+the statement. At `w = 0` this recovers 1I's corollary `8 ∣ t₊ − t₋` for even unimodular
+lattices, and for `⟨1⟩` it is `w² ≡ 1 (mod 8)` for odd `w`.
+
+⚠ Unimodularity is load-bearing and not a convenience: for a merely nondegenerate integral
+lattice the statement is false, and `⟨2⟩` is the witness — every vector is characteristic
+because every value of the form is even, the signature difference is the odd number `1`, and
+every `β(w,w) = 2k²` is even. `rankOne_one_characteristic_congruence_fails` below pins that
+counterexample. -/
+theorem vanDerBlij [FiniteDimensional ℚ V] [L.IsNondegenerate] (hU : L.IsUnimodular)
+    {w : L.carrier} (hw : L.IsCharacteristicVector w) :
+    Int.ModEq 8 ((L.sigPos : ℤ) - (L.sigNeg : ℤ)) (L.integralForm w w) := sorry
+
 end IntegralLattice
 
 variable {V}
@@ -341,6 +379,25 @@ def IsNondegenerate (A : FiniteQuadraticModule) : Prop :=
 def IsIsotropic (A : FiniteQuadraticModule) (H : AddSubgroup A.A) : Prop :=
   ∀ x ∈ H, A.quadratic x = 0
 
+/-- **Layer 1G, Lagrangian subgroups of a finite quadratic module**: isotropic for the
+**quadratic** form — `q` vanishes on `H` — together with `H = H^⊥` for its polar pairing.
+
+⚠ The bilinear condition `FiniteBilinearModule.IsLagrangian` alone is strictly weaker and does
+not support the Gauss-sign vanishing below: the discriminant form of `A₁ ⊕ A₁` has a subgroup
+equal to its own orthogonal complement on which the pairing vanishes, while `q = ½` on its
+generator and `gaussSign = 2` (`exists_bilinearLagrangian_gaussSign_ne_zero`). This is the same
+1E-against-1F distinction the overlattice correspondences carry. -/
+def IsLagrangian (A : FiniteQuadraticModule) (H : AddSubgroup A.A) : Prop :=
+  A.IsIsotropic H ∧ H = A.toFiniteBilinearModule.orthogonalComplement H
+
+/-- **Layer 1G, metabolic modules**: a Lagrangian subgroup exists. By 1F these are exactly the
+discriminant forms of even lattices that glue to an even unimodular overlattice. The
+equivalence with the trivial Witt class is **not** a milestone of this roadmap: the Witt group
+of finite quadratic modules is the successor `FiniteQuadraticModuleWittTheory`'s (`README.md`,
+§*Scope*), and this predicate is the exact consumer contract exported to it. -/
+def IsMetabolic (A : FiniteQuadraticModule) : Prop :=
+  ∃ H : AddSubgroup A.A, A.IsLagrangian H
+
 structure Isometry (A B : FiniteQuadraticModule) where
   toAddEquiv : A.A ≃+ B.A
   map_quadratic : ∀ x, B.quadratic (toAddEquiv x) = A.quadratic x
@@ -422,6 +479,29 @@ theorem gaussSum_eq (A : FiniteQuadraticModule) [Fintype A.A] (hA : A.IsNondegen
 
 theorem gaussSign_orthogonalSum (A B : FiniteQuadraticModule) :
     (A.orthogonalSum B).gaussSign = A.gaussSign + B.gaussSign := sorry
+
+/-- **Layer 1H, the Gauss sign of a metabolic module vanishes.** With `H` Lagrangian, summing
+the Gauss sum over the cosets of `H` collapses it to `#H = √#A`.
+
+⚠ Necessary, not sufficient: `q_θ^{(5)}(5)` with `(θ|5) = −1` has `gaussSign = 0` by Nikulin
+1.11.2 and order 5, which is not a square `#H²`, so it is not metabolic. The statement that
+repairs the converse — trivial Witt class exactly when a Lagrangian subgroup exists, with the
+Witt group, orthogonal sums, metabolic reduction and `gaussSign` as a homomorphism to `ℤ/8` —
+is the successor `FiniteQuadraticModuleWittTheory`'s (`README.md`, §*Scope*), and no Witt-group
+stand-in is defined here. -/
+theorem gaussSign_eq_zero_of_isMetabolic (A : FiniteQuadraticModule)
+    (hA : A.IsNondegenerate) (h : A.IsMetabolic) : A.gaussSign = 0 := sorry
+
+/-- **Layer 1G/1H, the rejection test for `IsLagrangian`'s quadratic isotropy.** A subgroup
+that is Lagrangian only for the polar pairing does not force the Gauss sign to vanish: the
+discriminant form of `A₁ ⊕ A₁` — the module `(ℤ/2)²` with `q(g₁) = q(g₂) = ¼` and
+`b(g₁, g₂) = 0` — is nondegenerate, its glue class spans a subgroup with `H = H^⊥` and
+`b|_{H×H} = 0`, and its Gauss sum is `2i`, so `gaussSign = 2 ≠ 0`. A definition of
+`IsMetabolic` through `FiniteBilinearModule.IsLagrangian` alone would make
+`gaussSign_eq_zero_of_isMetabolic` false. -/
+theorem exists_bilinearLagrangian_gaussSign_ne_zero :
+    ∃ (A : FiniteQuadraticModule.{u}) (H : AddSubgroup A.A), A.IsNondegenerate ∧
+      A.toFiniteBilinearModule.IsLagrangian H ∧ A.gaussSign ≠ 0 := sorry
 
 /-- **Nikulin's `discr K(q_p)`.** `K(q_p)` is a `p`-adic lattice of rank `l(A_{q_p})` whose
 discriminant form is the `p`-primary part `q_p`; it exists and is unique up to isometry, by 3C
@@ -1249,7 +1329,11 @@ section Layer8VectorValued
 ⚠ **These theorems are a transformation law and nothing more.** No declaration here is called
 `isModularForm`, none takes values in a space of modular forms, and none may be renamed to one
 before a half-integral-weight modular-forms carrier and a cusp-holomorphy theorem are imported.
-`README.md`, §*Scope*, records that neither has an owner. -/
+`README.md`, §*Scope*, records that neither has an owner. Positive definiteness is a boundary
+of the same kind: the indefinite Siegel–Narain theta, which sums against a maximal positive
+definite subspace of `L ⊗ ℝ`, is not a generalization of these declarations to be attempted by
+weakening `PosDef` — it is the successor `IndefiniteThetaAndSiegelWeil`'s (`README.md`,
+§*Scope*). -/
 
 variable {V : Type v} [AddCommGroup V] [Module ℚ V]
 
@@ -1556,7 +1640,7 @@ B1's order. The point of naming it is the type — `¬ IsSquare Δ` is a paramet
 discriminant cannot reach a ring class field through this roadmap at all. -/
 noncomputable def binaryRingClassField (Δ : ℤ) (hΔ : ¬ IsSquare Δ)
     (sqrtΔ : K) (hsqrtΔ : sqrtΔ ^ 2 = (Δ : K)) (hquadratic : Module.finrank ℚ K = 2) :
-    IntermediateField K (AlgebraicClosure K) :=
+    IntermediateField K (SeparableClosure K) :=
   ClassFieldTheory.ringClassField K
     (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic) hquadratic
 
@@ -1655,6 +1739,18 @@ theorem rankOne_polar_generator (m : ℤ) (hm : m ≠ 0) :
     let g := L.carrierInDual.mkQ (rankOneGenerator m hm)
     let q := L.discriminantQuadraticForm (rankOne_isEven m hm)
     q (g + g) - q g - q g = L.discriminantPairing g g := sorry
+
+/-- **Layer 1L, the rejection test for `vanDerBlij`'s unimodularity hypothesis.** For the
+rank-one lattice `⟨2⟩` — `rankOne 1` in this file's `⟨2m⟩` parametrization — every value of the
+form is even, so every vector, the zero vector included, is characteristic; the signature
+difference is `1`; and every characteristic norm `2k²` is even. The congruence of `vanDerBlij`
+therefore fails at every characteristic vector, so the statement with nondegeneracy in place of
+unimodularity is false. -/
+theorem rankOne_one_characteristic_congruence_fails :
+    let L := rankOne 1 one_ne_zero
+    (∀ w : L.carrier, L.IsCharacteristicVector w) ∧
+      ∀ w : L.carrier,
+        ¬ Int.ModEq 8 ((L.sigPos : ℤ) - (L.sigNeg : ℤ)) (L.integralForm w w) := sorry
 
 end RankOneAcceptance
 
