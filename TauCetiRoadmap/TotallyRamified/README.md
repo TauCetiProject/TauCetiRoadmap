@@ -61,10 +61,13 @@ implementor who picks a different model will not be able to state the summit.
   equal characteristic `p` the inseparable Eisenstein polynomials (`X^p − π`) must not be counted,
   and working inside `SeparableClosure K` excludes them by construction rather than by a side
   hypothesis. ⚠ The consumed roadmap states its ramification theory for a finite extension `L/K`
-  as such; the bridge to subextensions of `SeparableClosure K` is this roadmap's Layer 0.
-- **The discriminant exponent is the consumed one.** `d L` is the invariant the local fields and
-  ramification roadmap defines; for a totally ramified extension its different exponent `v_L(𝔡)`
-  and the valuation of its discriminant ideal in `K` agree, since the residue degree is `1`. Do
+  as such; the bridge to subextensions of `SeparableClosure K` is this roadmap's Layer 0, which
+  installs the consumed `finiteIntermediateField*` adapters.
+- **The discriminant exponent is the consumed one.** `d L` is the consumed
+  `discriminantExponent`, totalized over arbitrary subextensions by the wrapper
+  `intermediateFieldDiscriminantExponent`; for a totally ramified extension its different
+  exponent `v_L(𝔡)` and the valuation of its discriminant ideal in `K` agree, since the residue
+  degree is `1` (the consumed `discriminantExponent_eq_inertiaDegree_mul_differentExponent`). Do
   not introduce a second discriminant.
 - **Junk is tolerated, `0 < n` is not optional.** For `L` infinite over `K`, or for `n = 0`, these
   definitions take junk values. Every statement about `σ_K n` therefore carries `0 < n`, and
@@ -85,17 +88,21 @@ implementor who picks a different model will not be able to state the summit.
   product structure is needed only inside proofs, so neither `Measure.pi` nor σ-finiteness appears
   in any statement.
 - **Valuations in an extension are `IsDiscreteValuationRing.addVal`**, `ℕ∞`-valued. No topology on
-  `L` is used anywhere: completeness of the ring of integers of `L` is the algebraic
-  `IsAdicComplete`, and all estimates are `addVal` estimates. This keeps the count free of a
-  second uniform structure.
+  `L` enters any counting statement or estimate: completeness of the ring of integers of `L` is
+  the algebraic `IsAdicComplete`, and all estimates are `addVal` estimates — the spelling the
+  consumed `addVal_sum_eisenstein_powerBasis` exports. The consumed structure adapters put the
+  canonical topology and valuation on a subextension carrier only inside the Layer 0 wrappers;
+  no statement here hypothesizes a second uniform structure.
 
 ## What this roadmap consumes
 
 ### From the local fields and ramification roadmap
 
-Every item below is a target *there*, not here. This roadmap's milestones rest on them and add no
-independent development of the same material; if one of them is restated in `TauCeti/` by this
-roadmap's implementors, that is a duplicate to be deleted rather than a contribution.
+Every item below is specified there and is imported here from that roadmap's `Suggested.lean` by
+exact name; the table at the end of this section is the map. This roadmap's milestones rest on
+them and add no independent development of the same material; if one of them is restated in
+`TauCeti/` by this roadmap's implementors, that is a duplicate to be deleted rather than a
+contribution.
 
 - **Total ramification** as a predicate, with `e · f = [L:K]` and the equivalence with residue
   degree `1`.
@@ -108,6 +115,34 @@ roadmap's implementors, that is a duplicate to be deleted rather than a contribu
 - **The tame criterion** `d = e − 1 ⟺ tamely ramified`, and the wild lower bound `e ≤ d`. Together
   these are exactly what makes `c(L) = d(L) − n + 1` a nonnegative integer, and what makes
   `c(L) = 0` equivalent to `¬ (p ∣ n)`; both are consumed here rather than reproved.
+- **Invariance under `K`-isomorphism** of the different and discriminant exponents, the
+  arithmetic fact beneath this roadmap's family-level invariance of `c`.
+- **Orthogonality of the Eisenstein power basis**, in the `IsDiscreteValuationRing.addVal`
+  spelling; this roadmap owns only its box and cube corollaries (Layer 0).
+- **The structure adapters for a finite intermediate-field carrier**, which put the canonical
+  normed, valuative and topological structure on a subextension without a postulated topology or
+  valuation.
+
+Each consumed item and the declaration (in namespace `TauCetiRoadmap.LocalFieldsRamification`)
+that supplies it:
+
+| Consumed item | Supplier declaration |
+| --- | --- |
+| total ramification, and the residue-degree criterion | `IsTotallyRamified`, `isTotallyRamified_iff_inertiaDegree_eq_one` |
+| `e · f = [L:K]` | `ramificationIndex_mul_inertiaDegree` |
+| totally ramified ⟺ Eisenstein | `isTotallyRamified_iff_exists_eisenstein_generator` |
+| local monogenicity | `exists_integerRing_adjoin_eq_top` |
+| the different and discriminant exponents | `differentExponent`, `discriminantExponent`, with `localDiscriminantIdeal` and `discriminantExponent_eq_inertiaDegree_mul_differentExponent` |
+| the tame criterion and the wild lower bound | `differentExponent_eq_ramificationIndex_sub_one_iff`, `differentExponent_bounds_of_wild` |
+| invariance under `K`-isomorphism | `differentExponent_eq_of_algEquiv`, `discriminantExponent_eq_of_algEquiv` |
+| Eisenstein power-basis orthogonality | `addVal_sum_eisenstein_powerBasis` |
+| structure on a finite intermediate-field carrier | `finiteIntermediateFieldNormedField`, `finiteIntermediateFieldValuativeRel`, `finiteIntermediateFieldTopology`, `finiteIntermediateField_valuativeExtension`, `finiteIntermediateField_isValuativeTopology`, `finiteIntermediateField_isNonarchimedeanLocalField` |
+
+`Suggested.lean` imports these and consumes them by name. Its wrappers
+`intermediateFieldIsTotallyRamified` and `intermediateFieldDiscriminantExponent` — the
+junk-tolerant totalizations that roadmap's consumer contract permits — install the adapters and
+reduce to the canonical invariants through comparison theorems; they define no ramification
+theory of their own.
 
 ### From Mathlib
 
@@ -135,12 +170,13 @@ roadmap's implementors, that is a duplicate to be deleted rather than a contribu
 ## What is missing (build here)
 
 The set `σ_K(n)` and the wild exponent as a counting weight, with its invariance under
-`K`-isomorphism; the orthogonality of a power basis at an Eisenstein generator; quantitative
-Newton lifting over a complete discrete valuation ring and the local constancy of root counts it
-yields; the lattice-index formula and the Haar scaling law over such a ring with finite residue
-field; the measure of the Eisenstein region and the parametrization it carries; and the two mass
-formulas with their finiteness, convergence and orbit-counting companions. None of this is
-upstream, and none of it is claimed by the roadmap this one consumes.
+`K`-isomorphism derived from the consumed exponent invariance; the box and cube descriptions
+that follow from the consumed power-basis orthogonality; quantitative Newton lifting over a
+complete discrete valuation ring and the local constancy of root counts it yields; the
+lattice-index formula and the Haar scaling law over such a ring with finite residue field; the
+measure of the Eisenstein region and the parametrization it carries; and the two mass formulas
+with their finiteness, convergence and orbit-counting companions. None of this is upstream, and
+none of it is claimed by the roadmap this one consumes.
 
 ---
 
@@ -152,26 +188,31 @@ The ordering is the dependency order. As each layer makes the next layer's *type
 ### Layer 0: the counting invariants
 
 - **`σ_K(n)`**, the set of subextensions of `SeparableClosure K` that are totally ramified of
-  degree `n` over `K`, built on the consumed total-ramification predicate. With the bridge lemmas
-  the count needs: `σ_K(1) = {K}`; membership is preserved by the image of any `K`-embedding into
-  `SeparableClosure K`; and every member is `K⟮x⟯` for `x` a root of an Eisenstein polynomial of
-  degree `n`, which is the consumed equivalence transported to this setting.
+  degree `n` over `K`, built on the consumed `IsTotallyRamified` through the wrapper
+  `intermediateFieldIsTotallyRamified`, which installs the consumed `finiteIntermediateField*`
+  adapters and carries the comparison theorem the consumer contract requires. With the bridge
+  lemmas the count needs: `σ_K(1) = {K}`; membership is preserved by the image of any
+  `K`-embedding into `SeparableClosure K`; and every member is `K⟮x⟯` for `x` a root of an
+  Eisenstein polynomial of degree `n`, which is the consumed
+  `isTotallyRamified_iff_exists_eisenstein_generator` transported to this setting.
 - **The wild exponent `c L := d L + 1 − n`** in truncated `ℕ`-subtraction, where `d` is the
-  consumed discriminant exponent. The consumed bounds make the truncation faithful, so `c` is
-  Serre's nonnegative integer and `c L = 0 ⟺ ¬ (ringChar 𝓀[K] ∣ n)`; state both here as the
-  corollaries of the consumed facts that they are, not as fresh developments.
+  consumed `discriminantExponent` through its wrapper `intermediateFieldDiscriminantExponent`.
+  The consumed bounds make the truncation faithful, so `c` is Serre's nonnegative integer and
+  `c L = 0 ⟺ ¬ (ringChar 𝓀[K] ∣ n)`; state both here as the corollaries of the consumed facts
+  that they are, not as fresh developments.
 - **Invariance of `c` under `K`-isomorphism.** A `K`-isomorphism carries integral bases to
   integral bases with the same discriminant, so `d`, hence `c`, is an invariant of the class.
-  ⚠ Not covered by the consumed contract, which states `d` for a fixed extension; Theorem 2 is
-  exactly a regrouping along this invariance, so it is a target here.
-- **Orthogonality of the power basis.** In the ring of integers generated by an Eisenstein
-  generator `ξ` of degree `n`, the terms of `∑_{i<n} c_i ξ^i` have pairwise distinct valuations —
-  the `i`-th is `n · addVal(c_i) + i`, distinct modulo `n` — so no cancellation is possible and
-  the valuation of the sum is the minimum of the terms'. Consequences: a ball of the ring of
-  integers is a box in power-basis coordinates, and at a radius divisible by `n` it is a cube.
-  ⚠ Also not covered by the consumed contract, which gives the monogenic basis but not the
-  valuations of a combination in it. This is the workhorse of Layers 2 and 3 and deserves its own
-  name and API.
+  The arithmetic invariance is the consumed `discriminantExponent_eq_of_algEquiv` (with
+  `differentExponent_eq_of_algEquiv` beside it); the target here is only its transport through
+  the wrapper to `wildExponent`, junk case included, which is the regrouping Theorem 2 runs
+  along.
+- **The box and cube corollaries of the power-basis orthogonality.** The consumed
+  `addVal_sum_eisenstein_powerBasis` gives, at an Eisenstein generator `ξ` of degree `n`, that
+  the terms of `∑_{i<n} c_i ξ^i` have pairwise distinct valuations — the `i`-th is
+  `n · addVal(c_i) + i`, distinct modulo `n` — so no cancellation is possible and the valuation
+  of the sum is the minimum of the terms'. The targets here are its family-level consequences: a
+  ball of the ring of integers is a box in power-basis coordinates, and at a radius divisible by
+  `n` it is a cube. These are the workhorse of Layers 2 and 3.
 
 ### Layer 1: quantitative Newton lifting over a complete discrete valuation ring
 
@@ -328,15 +369,16 @@ File map, relative to that project's `MassFormula/`:
 
 | Layer | Files |
 | --- | --- |
-| 0 | `Defs.lean`, `UniformizerParam.lean` (orthogonality), `Second.lean` (invariance of `c`) |
+| 0 | `Defs.lean`, `UniformizerParam.lean` (the box and cube corollaries), `Second.lean` (invariance of `c`) |
 | 1 | `RootLifting.lean` |
 | 2 | `HaarScaling.lean` |
 | 3 | `First.lean`, `UniformizerParam.lean` (the fibre count) |
 | 4 | `First.lean`, `Second.lean`, `Finiteness.lean`, `Convergence.lean`, `Orbit.lean` |
 
-The source's `EisensteinMonogenic.lean`, `Discriminant.lean` and `Tame.lean` prove material this
-roadmap consumes rather than owns; they are evidence that the consumed contract is provable in
-this setting, and belong with the roadmap that specifies it, not here.
+The source's `EisensteinMonogenic.lean`, `Discriminant.lean` and `Tame.lean`, and the
+orthogonality half of `UniformizerParam.lean`, prove material this roadmap consumes rather than
+owns; they are evidence that the consumed contract is provable in this setting, and belong with
+the roadmap that specifies it, not here.
 
 Where this roadmap departs from the source:
 

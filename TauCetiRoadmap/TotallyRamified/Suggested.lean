@@ -1,4 +1,5 @@
 import Mathlib
+import TauCetiRoadmap.LocalFieldsRamification.Suggested
 
 /-!
 # Totally ramified extensions of a local field: target signatures
@@ -21,11 +22,20 @@ mass formula counting the totally ramified extensions of given degree ([Serre 19
 ⚠ **The ramification-theoretic substrate is consumed, not built here.** Total ramification,
 Eisenstein generators, monogenicity, the different and the discriminant, the exponent `d`, and
 the tame criterion are targets of the *local fields and ramification* roadmap
-(`../LocalFieldsRamification/README.md`). The `def`s below marked *consumed* record the shape this
-roadmap needs them in, so that its own statements are expressible before that roadmap lands; when
-it lands they are deleted here and its definitions are used instead. Do not treat them as targets.
+(`../LocalFieldsRamification/README.md`), imported above and used by exact name:
+`LocalFieldsRamification.IsTotallyRamified` (with `isTotallyRamified_iff_inertiaDegree_eq_one`
+and `isTotallyRamified_iff_exists_eisenstein_generator`), `exists_integerRing_adjoin_eq_top`,
+`differentExponent` and `discriminantExponent` with their invariance theorems
+`differentExponent_eq_of_algEquiv` and `discriminantExponent_eq_of_algEquiv`,
+`addVal_sum_eisenstein_powerBasis`, and the intermediate-field structure adapters
+`finiteIntermediateFieldNormedField` / `finiteIntermediateFieldValuativeRel` /
+`finiteIntermediateFieldTopology` with the three compatibility theorems beside them. The
+junk-tolerant wrappers below install those adapters and reduce to those declarations through
+comparison theorems, as that roadmap's consumer contract prescribes; no ramification-theoretic
+notion is defined independently here.
 
-This file pins the roadmap's load-bearing **definitions** (`residueCard`,
+This file pins the roadmap's load-bearing **definitions** (`residueCard`, the consumed-substrate
+wrappers `intermediateFieldIsTotallyRamified` and `intermediateFieldDiscriminantExponent`,
 `totallyRamifiedOfDegree`, `wildExponent`, `IsRepresentativeSet`, and the coefficient-space
 objects `toPoly`, `eisensteinSet`, `integerBox`) and its **named milestones** as `sorry`-targets
 (`sorry` is allowed in this human-owned roadmap library — these are goals, not proofs).
@@ -52,9 +62,12 @@ variable (K : Type*) [Field K] [ValuativeRel K] [UniformSpace K] [IsUniformAddGr
 
 /-! ## Layer 0: the counting invariants
 
-`maximalIdealAbove`, `ramificationIdx`, `IsTotallyRamified`, `discriminantIdeal` and
-`discExponent` are *consumed* shapes (see the header): the local fields and ramification roadmap
-owns total ramification, the discriminant, and its exponent. `residueCard`,
+The ramification-theoretic substrate is imported (see the header): total ramification and the
+discriminant exponent are `LocalFieldsRamification.IsTotallyRamified` and
+`LocalFieldsRamification.discriminantExponent`. The wrappers
+`intermediateFieldIsTotallyRamified` and `intermediateFieldDiscriminantExponent` totalize them
+over arbitrary subextensions by installing the consumed `finiteIntermediateField*` adapters, and
+each carries the comparison theorem the consumer contract requires. `residueCard`,
 `totallyRamifiedOfDegree`, `wildExponent` and `IsRepresentativeSet` are this roadmap's own. -/
 
 /-- The residue cardinality of a non-archimedean local field — Serre's `q`. -/
@@ -63,49 +76,105 @@ noncomputable def residueCard : ℕ :=
 
 variable {K}
 
-/-- The maximal ideal of the ring of integers of a subextension `L` of `SeparableClosure K` / `K`,
-described instance-freely as the radical of `𝓂[K]` extended along the structure map. For `L / K`
-finite this is the maximal ideal of the local ring `integralClosure ↥𝒪[K] ↥L`; the definition
-itself carries no such obligation, and is junk for `L` infinite over `K`. -/
-noncomputable def maximalIdealAbove (L : IntermediateField K (SeparableClosure K)) :
-    Ideal ↥(integralClosure ↥𝒪[K] ↥L) :=
-  (Ideal.map (algebraMap ↥𝒪[K] ↥(integralClosure ↥𝒪[K] ↥L)) 𝓂[K]).radical
+/-- Total ramification for a subextension `L` of `SeparableClosure K` / `K`: the consumed
+`LocalFieldsRamification.IsTotallyRamified`, totalized over an arbitrary `L` by existentially
+quantifying finiteness and installing the consumed `finiteIntermediateField*` structures. For `L`
+infinite over `K` this is `False` — junk in the direction the count tolerates. No independent
+total-ramification predicate is defined here; the residue-degree and Eisenstein characterizations
+are the consumed `isTotallyRamified_iff_inertiaDegree_eq_one` and
+`isTotallyRamified_iff_exists_eisenstein_generator`. -/
+def intermediateFieldIsTotallyRamified (L : IntermediateField K (SeparableClosure K)) : Prop :=
+  ∃ hfin : Module.Finite K ↥L,
+    haveI := hfin
+    letI : ValuativeRel ↥L :=
+      LocalFieldsRamification.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
+    letI : TopologicalSpace ↥L :=
+      LocalFieldsRamification.finiteIntermediateFieldTopology K (SeparableClosure K) L
+    haveI : IsNonarchimedeanLocalField ↥L :=
+      LocalFieldsRamification.finiteIntermediateField_isNonarchimedeanLocalField K
+        (SeparableClosure K) L
+    haveI : ValuativeExtension K ↥L :=
+      LocalFieldsRamification.finiteIntermediateField_valuativeExtension K (SeparableClosure K) L
+    LocalFieldsRamification.IsTotallyRamified K ↥L
 
-/-- The ramification index of a subextension `L` / `K`, through Mathlib's junk-tolerant
-`Ideal.ramificationIdx'`. -/
-noncomputable def ramificationIdx (L : IntermediateField K (SeparableClosure K)) : ℕ :=
-  Ideal.ramificationIdx' 𝓂[K] (maximalIdealAbove L)
-
-/-- `L / K` is *totally ramified* when its ramification index equals its degree. -/
-def IsTotallyRamified (L : IntermediateField K (SeparableClosure K)) : Prop :=
-  ramificationIdx L = Module.finrank K ↥L
+omit [IsUniformAddGroup K] in
+/-- The comparison theorem the consumer contract requires: on a finite subextension the wrapper
+is exactly the consumed predicate at the consumed adapter structures. A closed proof, so the
+contract is type-checked rather than promised. -/
+theorem intermediateFieldIsTotallyRamified_iff (L : IntermediateField K (SeparableClosure K))
+    [hfin : Module.Finite K ↥L] :
+    intermediateFieldIsTotallyRamified L ↔
+      (letI : ValuativeRel ↥L :=
+        LocalFieldsRamification.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
+      letI : TopologicalSpace ↥L :=
+        LocalFieldsRamification.finiteIntermediateFieldTopology K (SeparableClosure K) L
+      haveI : IsNonarchimedeanLocalField ↥L :=
+        LocalFieldsRamification.finiteIntermediateField_isNonarchimedeanLocalField K
+          (SeparableClosure K) L
+      haveI : ValuativeExtension K ↥L :=
+        LocalFieldsRamification.finiteIntermediateField_valuativeExtension K
+          (SeparableClosure K) L
+      LocalFieldsRamification.IsTotallyRamified K ↥L) :=
+  ⟨fun ⟨_, h⟩ => h, fun h => ⟨hfin, h⟩⟩
 
 variable (K)
 
 /-- Serre's `σ_K(n)`: the subextensions of `SeparableClosure K` that are totally ramified of
 degree `n` over `K`. -/
 def totallyRamifiedOfDegree (n : ℕ) : Set (IntermediateField K (SeparableClosure K)) :=
-  {L | Module.finrank K ↥L = n ∧ IsTotallyRamified L}
+  {L | Module.finrank K ↥L = n ∧ intermediateFieldIsTotallyRamified L}
 
 variable {K}
 
-/-- The discriminant ideal of a subextension: the ideal of `𝒪[K]` generated by the elements whose
-image in `K` is `Algebra.discr K b` for a `K`-basis `b` of `L` with integral entries. In the finite
-separable case this is the classical discriminant ideal; the span form needs neither freeness nor
-Dedekind-domain instances, and is `⊥` — junk — for `L` infinite over `K`. -/
-noncomputable def discriminantIdeal (L : IntermediateField K (SeparableClosure K)) :
-    Ideal ↥𝒪[K] :=
-  Ideal.span {x : ↥𝒪[K] | ∃ b : Module.Basis (Fin (Module.finrank K ↥L)) K ↥L,
-    (∀ i, IsIntegral 𝒪[K] (b i)) ∧ algebraMap 𝒪[K] K x = Algebra.discr K ⇑b}
+open scoped Classical in
+/-- The discriminant exponent `d L` of a subextension: the consumed
+`LocalFieldsRamification.discriminantExponent`, totalized over an arbitrary `L` by installing the
+consumed `finiteIntermediateField*` structures on the finite branch, with junk value `0` for `L`
+infinite over `K`. No independent different, discriminant ideal, or exponent is defined here; the
+consumed `localDiscriminantIdeal`, `differentExponent` and
+`discriminantExponent_eq_inertiaDegree_mul_differentExponent` relate this exponent to the
+different. -/
+noncomputable def intermediateFieldDiscriminantExponent
+    (L : IntermediateField K (SeparableClosure K)) : ℕ :=
+  if hfin : Module.Finite K ↥L then
+    haveI := hfin
+    letI : ValuativeRel ↥L :=
+      LocalFieldsRamification.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
+    letI : TopologicalSpace ↥L :=
+      LocalFieldsRamification.finiteIntermediateFieldTopology K (SeparableClosure K) L
+    haveI : IsNonarchimedeanLocalField ↥L :=
+      LocalFieldsRamification.finiteIntermediateField_isNonarchimedeanLocalField K
+        (SeparableClosure K) L
+    haveI : ValuativeExtension K ↥L :=
+      LocalFieldsRamification.finiteIntermediateField_valuativeExtension K (SeparableClosure K) L
+    LocalFieldsRamification.discriminantExponent K ↥L
+  else 0
 
-/-- The discriminant exponent `d L`: the multiplicity of `𝓂[K]` in `discriminantIdeal L`. -/
-noncomputable def discExponent (L : IntermediateField K (SeparableClosure K)) : ℕ :=
-  multiplicity 𝓂[K] (discriminantIdeal L)
+omit [IsUniformAddGroup K] in
+/-- The comparison theorem the consumer contract requires: on a finite subextension the wrapper
+is exactly the consumed exponent at the consumed adapter structures. A closed proof, so the
+contract is type-checked rather than promised. -/
+theorem intermediateFieldDiscriminantExponent_eq (L : IntermediateField K (SeparableClosure K))
+    [hfin : Module.Finite K ↥L] :
+    intermediateFieldDiscriminantExponent L =
+      (letI : ValuativeRel ↥L :=
+        LocalFieldsRamification.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
+      letI : TopologicalSpace ↥L :=
+        LocalFieldsRamification.finiteIntermediateFieldTopology K (SeparableClosure K) L
+      haveI : IsNonarchimedeanLocalField ↥L :=
+        LocalFieldsRamification.finiteIntermediateField_isNonarchimedeanLocalField K
+          (SeparableClosure K) L
+      haveI : ValuativeExtension K ↥L :=
+        LocalFieldsRamification.finiteIntermediateField_valuativeExtension K
+          (SeparableClosure K) L
+      LocalFieldsRamification.discriminantExponent K ↥L) :=
+  dite_eq_left hfin
 
-/-- The wild exponent `c L = d L − n + 1`, in the truncation-safe form `d L + 1 − n`. The bound
-`n − 1 ≤ d L` that makes the truncated subtraction faithful is `sub_one_le_discExponent`. -/
+/-- The wild exponent `c L = d L − n + 1`, in the truncation-safe form `d L + 1 − n`, over the
+consumed discriminant exponent through its wrapper. The bound `n − 1 ≤ d L` that makes the
+truncated subtraction faithful is `sub_one_le_intermediateFieldDiscriminantExponent`. -/
 noncomputable def wildExponent (L : IntermediateField K (SeparableClosure K)) : ℕ :=
-  discExponent L + 1 - Module.finrank K ↥L
+  intermediateFieldDiscriminantExponent L + 1 - Module.finrank K ↥L
 
 /-- Serre's "set of representatives of the isomorphism classes", as a predicate rather than a
 quotient: `R` consists of members of `totallyRamifiedOfDegree K n`, and every member is
@@ -115,13 +184,14 @@ def IsRepresentativeSet (n : ℕ) (R : Set (IntermediateField K (SeparableClosur
     ∀ L ∈ totallyRamifiedOfDegree K n, ∃! M, M ∈ R ∧ Nonempty (↥L ≃ₐ[K] ↥M)
 
 /- Eisenstein monogenicity ([Serre 1979, Chap. I, §6, Prop. 17]) and the statement that an
-Eisenstein root generates a totally ramified extension are milestones of the *local fields and
-ramification* roadmap, not of this one, and are deliberately not restated here. -/
+Eisenstein root generates a totally ramified extension are the consumed
+`exists_integerRing_adjoin_eq_top` and `isTotallyRamified_iff_exists_eisenstein_generator`, and
+are deliberately not restated here. -/
 
 /-- The **bridge**, and the target that turns a statement about `totallyRamifiedOfDegree K n` into
-a computation: the consumed equivalence "totally ramified ⟺ Eisenstein", transported into
-`IntermediateField K (SeparableClosure K)` and packaged with the degree, which is the form every
-later layer applies. -/
+a computation: the consumed equivalence `isTotallyRamified_iff_exists_eisenstein_generator`,
+transported into `IntermediateField K (SeparableClosure K)` and packaged with the degree, which is
+the form every later layer applies. -/
 theorem exists_eisenstein_generator (n : ℕ) (hn : 0 < n)
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ totallyRamifiedOfDegree K n) :
     ∃ (x : SeparableClosure K) (π : ↥𝒪[K]), Irreducible π ∧ IsIntegral 𝒪[K] x ∧
@@ -133,16 +203,19 @@ variable (K)
 
 /-- `c L` is a nonnegative integer ([Serre 1978, p.1031, footnote 1]): in the `ℕ`-model, the bound
 `n − 1 ≤ d L`, which is what makes the truncated subtraction defining `wildExponent` faithful.
-This is a **corollary of the consumed contract** — the tame equality `d = e − 1` together with the
-wild lower bound `e ≤ d` — restated here in the form the count applies, not a fresh development. -/
-theorem sub_one_le_discExponent (n : ℕ) (hn : 0 < n)
+This is a **corollary of the consumed contract** — the tame equality
+`differentExponent_eq_ramificationIndex_sub_one_iff` together with the wild lower bound of
+`differentExponent_bounds_of_wild` — restated here in the form the count applies, not a fresh
+development. -/
+theorem sub_one_le_intermediateFieldDiscriminantExponent (n : ℕ) (hn : 0 < n)
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ totallyRamifiedOfDegree K n) :
-    n - 1 ≤ discExponent L :=
+    n - 1 ≤ intermediateFieldDiscriminantExponent L :=
   sorry
 
 /-- **The tame criterion, as the count uses it** ([Serre 1978, p.1031]): `c L = 0` exactly when `n`
-is prime to the residue characteristic. Again a corollary of the consumed `d = e − 1 ⟺ tame`,
-rephrased in terms of `c`; the ramification-theoretic content belongs to that roadmap. -/
+is prime to the residue characteristic. Again a corollary of the consumed
+`differentExponent_eq_ramificationIndex_sub_one_iff`, rephrased in terms of `c`; the
+ramification-theoretic content belongs to that roadmap. -/
 theorem wildExponent_eq_zero_iff (n : ℕ) (hn : 0 < n)
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ totallyRamifiedOfDegree K n) :
     wildExponent L = 0 ↔ ¬ ringChar 𝓀[K] ∣ n :=
@@ -151,14 +224,19 @@ theorem wildExponent_eq_zero_iff (n : ℕ) (hn : 0 < n)
 variable {K}
 
 /-- `d`, hence `c`, is an invariant of the `K`-isomorphism class — the fact along which Theorem 1
-is regrouped into Theorem 2. -/
-theorem discExponent_eq_of_algEquiv {L M : IntermediateField K (SeparableClosure K)}
-    (e : ↥L ≃ₐ[K] ↥M) : discExponent L = discExponent M :=
+is regrouped into Theorem 2. The arithmetic invariance is the consumed
+`discriminantExponent_eq_of_algEquiv` (with `differentExponent_eq_of_algEquiv` beside it); the
+target here is only its transport through the wrapper, junk case included. -/
+theorem intermediateFieldDiscriminantExponent_eq_of_algEquiv
+    {L M : IntermediateField K (SeparableClosure K)} (e : ↥L ≃ₐ[K] ↥M) :
+    intermediateFieldDiscriminantExponent L = intermediateFieldDiscriminantExponent M :=
   sorry
 
 /- **The comparison with the different** ([Serre 1979, Chap. III, §3]) — the discriminant ideal is
-the relative norm of Mathlib's `differentIdeal` — belongs to the *local fields and ramification*
-roadmap, which owns the different and the discriminant alike, and is not a target here. -/
+the relative norm of Mathlib's `differentIdeal` — is the consumed `localDiscriminantIdeal` with
+`discriminantExponent_eq_inertiaDegree_mul_differentExponent`, owned by the *local fields and
+ramification* roadmap, which owns the different and the discriminant alike; it is not a target
+here. -/
 
 /-! ## Layer 1: quantitative Newton lifting over a complete discrete valuation ring
 
@@ -267,7 +345,8 @@ theorem lintegral_rootCount (n : ℕ) (hn : 0 < n)
     (μ : MeasureTheory.Measure (Fin n → K)) [μ.IsAddHaarMeasure] (hμ : μ (integerBox K n) = 1)
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ totallyRamifiedOfDegree K n) :
     ∫⁻ a in eisensteinSet K n, (rootCount L a : ℝ≥0∞) ∂μ =
-      (residueCard K : ℝ≥0∞)⁻¹ ^ (discExponent L + 1) * (1 - (residueCard K : ℝ≥0∞)⁻¹) :=
+      (residueCard K : ℝ≥0∞)⁻¹ ^ (intermediateFieldDiscriminantExponent L + 1) *
+        (1 - (residueCard K : ℝ≥0∞)⁻¹) :=
   sorry
 
 /-! ## Layer 4: the mass formulas -/
