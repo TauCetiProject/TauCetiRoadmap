@@ -17,6 +17,7 @@ body:
         - AdicSpaces
         - AlgebraicCurves
         - ArithmeticDirichletSeries
+        - BelyiMaps
         - CFSGStatement
         - CombinatorialHeegaardFloer
         - ConformalMapping
