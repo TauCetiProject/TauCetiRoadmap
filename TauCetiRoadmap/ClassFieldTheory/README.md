@@ -30,9 +30,15 @@ and
 Brauer exact sequence, sum of local invariants
   -> global class formation
   -> global reciprocity
-  -> global existence
+  -> global existence and the class-field correspondence
   -> norm theorems, class fields, Hilbert reciprocity.
 ```
+
+The global strand is for **number fields**: its carriers are the idele and idele-class groups of a
+number field, and global class field theory for one-variable function fields over finite fields is
+outside this roadmap (§1). Both strands end at a *correspondence*, not at an existence statement:
+the class field attached to a norm subgroup is the unique **abelian** layer with that norm
+subgroup, and the existence theorems below are stated so that they cannot return anything else.
 
 The invariant never appears twice: the object a class formation is built from is not also a
 theorem proved after it.
@@ -108,23 +114,31 @@ This roadmap owns the following constructions and theorems.
    reciprocity, and the arithmetic-Frobenius normalization; the absolute local Artin map into the
    topological abelianization of `G_K`, its unramified coordinate and cyclotomic-character
    normalization; local conductors.
-10. Local existence and the local norm-group correspondence, with full existence in mixed
-    characteristic and only the prime-to-residue-characteristic part in equal characteristic.
-11. The local Weil group as a full development: its carrier inside `G_K`, its own locally compact
+10. The abelian-layer condition on an open normal subgroup, the canonical maximal abelian
+    sublayer, and the norm limitation theorem saying that a layer and its maximal abelian sublayer
+    have the same norm subgroup.
+11. Local existence for a finite **abelian** layer, uniqueness of that layer, and the local
+    class-field correspondence with its quotient isomorphism and degree equality — with the full
+    correspondence in mixed characteristic and only the prime-to-residue-characteristic part in
+    equal characteristic.
+12. The local Weil group as a full development: its carrier inside `G_K`, its own locally compact
     topology, functoriality under finite extensions, the exact sequence `1 → I_K → W_K → ℤ → 1`,
     and the topological abelianization isomorphism `Kˣ ≃ W_K^ab`.
-12. The archimedean local invariants, the exact sequence
+13. The archimedean local invariants, the exact sequence
     `0 → Br(K) → ⨁_v Br(K_v) → ℚ/ℤ → 0` in invariant coordinates, and the sum-of-local-invariants
     map on the idele layers.
-13. The global idele-class formation — whose invariant *is* the sum-of-local-invariants map of
-    item 12 — global Artin reciprocity, and comparison with the unique ideal-theoretic Artin map
+14. The global idele-class formation — whose invariant *is* the sum-of-local-invariants map of
+    item 13 — global Artin reciprocity, and comparison with the unique ideal-theoretic Artin map
     supplied by `NumberFieldArithmetic`.
-14. Global existence, the global norm-group correspondence, and the norm-index theorem.
-15. The cyclic Hasse norm theorem; the Hilbert, narrow Hilbert and ray class fields;
+15. Global existence for a finite **abelian** layer over a number field, uniqueness of that
+    layer, the global class-field correspondence with its quotient isomorphism and degree
+    equality, and the norm-index theorem.
+16. The cyclic Hasse norm theorem; the Hilbert, narrow Hilbert and ray class fields, each
+    obtained by applying the correspondence of item 15 to a named norm subgroup;
     Kronecker–Weber; the conductor–discriminant formula; and, for an order in a **quadratic**
     field, its ring class field and the isomorphism `Gal(H_O/K) ≃ Pic O`. No ring class field of a
     general nonmaximal order in a field of degree greater than two is asserted (§4, Layer 13).
-16. Hilbert reciprocity (`hilbertProductFormula`), derived from item 12, with quadratic
+17. Hilbert reciprocity (`hilbertProductFormula`), derived from item 13, with quadratic
     reciprocity as the explicit reciprocity law derived from it.
 
 ### Consumed, not redefined
@@ -190,6 +204,11 @@ formula is proved cohomologically. This fixes the dependency direction
   norm-limitation theorem and the Kummer theory of Layer 5, never from Lubin–Tate formal groups;
   no target of this roadmap names a Lubin–Tate object;
 - Artin–Schreier–Witt theory, hence `p`-primary local existence in equal characteristic `p`;
+- global class field theory for one-variable function fields over finite fields. The global
+  formation, ideles, reciprocity, existence, and class-field correspondence developed here are for
+  **number fields**: every global target carries `NumberField K` and is stated on the number-field
+  idele and idele-class carriers of `GlobalNumberFields`. Nothing here is to be read as covering
+  all global fields;
 - Hasse–Minkowski, the classification of global quadratic forms, and the norm-equation and
   quaternion presentations of Hilbert symbols;
 - pro-`p` group theory and the Demushkin structure of local Galois groups.
@@ -419,6 +438,17 @@ the precomposition of the arithmetic map with inversion, for interoperability.
   abelianization `W_K / closure ⁅W_K, W_K⁆`.
 - A ring class field is asserted only for an order in a quadratic field, and the hypothesis
   `Module.finrank ℚ K = 2` is carried in the type.
+- **Every class field lives inside the separable closure**, as `IntermediateField K
+  (SeparableClosure K)`, because that is the closure whose automorphism group is the formation's
+  `ProfiniteCohomology.AbsoluteGaloisGroup`. A class field is then literally
+  `IntermediateField.fixedField` of the open normal subgroup the correspondence produces, with no
+  intervening transport. For a number field the separable and algebraic closures agree, so nothing
+  is lost.
+- **A norm subgroup determines an abelian layer and only an abelian layer.** By norm limitation a
+  nonabelian layer and its maximal abelian sublayer share a norm subgroup, so the final existence
+  theorems return an abelian layer and are paired with uniqueness. The two order statements run in
+  opposite directions and both are named: inclusion-preserving on subgroups of `G_K`,
+  inclusion-reversing on the fields they cut out.
 - Tate cohomology is Mathlib's, defined for every `r : ℤ`. Inflation is used only in positive
   degrees; Tate degree zero is a quotient by the norm and does not admit the naive inflation
   map.
@@ -460,6 +490,10 @@ names may change during implementation, but the mathematical direction of each m
 | character characterization | `ClassFormation.character_artinMap` |
 | norm kernel | `ClassFormation.ker_artinMap` |
 | four functoriality diagrams | `artinMap_groundInclusion`, `artinMap_groundNorm`, `artinMap_conj`, `artinMap_quotient` |
+| abelian layers | `IsAbelianClassFieldLayer`, `isAbelianClassFieldLayer_iff_isMulCommutative`, `AbelianLayer`, `isMulCommutative_gal_ofOpenNormal`, `abelianizationGalEquiv` |
+| maximal abelian sublayer | `maximalAbelianLayer`, `le_maximalAbelianLayer`, `isAbelianClassFieldLayer_maximalAbelianLayer`, `maximalAbelianLayer_le` |
+| norm limitation | `ClassFormation.normSubgroup_maximalAbelianLayer` |
+| class fields as subfields | `classField`, `classField_le_classField_iff` |
 | local class formation | `localClassFormation` |
 | finite local Artin equivalence | `localArtinEquiv`, with `normResidue` its multiplicative form |
 | finite local Artin map | `localArtinMap` |
@@ -469,7 +503,11 @@ names may change during implementation, but the mathematical direction of each m
 | local Weil group: functoriality | `weilTransfer`, `isOpen_range_weilTransfer`, `index_range_weilTransfer`, `weilDegree_weilTransfer`, `weilRestrict`, `range_weilTransfer_eq_ker_weilRestrict` |
 | local Weil group: inertia sequence | `weilDegree`, `surjective_weilDegree`, `ker_weilDegree`, `unramifiedCoordinate_weilDegree` |
 | local Weil group: reciprocity | `localWeilArtinEquiv` (onto the topological abelianization), `localWeilArtinEquiv_compat`, `mem_range_artinMap_iff` |
-| local existence | `localExistence` (finite extensions of `ℚ_p`), `localExistence_primeToResidueCharacteristic` (index prime to the residue characteristic) |
+| local norm subgroups | `localNormSubgroup`, `isOpen_localNormSubgroup`, `finiteIndex_localNormSubgroup`, `localNormSubgroup_mono`, `localNormSubgroup_maximalAbelianLayer`, `localNormSubgroup_top`, `LocalNormSubgroups` |
+| local existence | `localAbelianExistence` (finite extensions of `ℚ_p`), `localAbelianExistence_primeToResidueCharacteristic` (index prime to the residue characteristic), with `localExistence` and `localExistence_primeToResidueCharacteristic` as their forgetful corollaries |
+| the local class field and its uniqueness | `localClassField`, `localClassField_normSubgroup`, `localClassField_unique` |
+| the local correspondence, two scopes | `localClassFieldCorrespondence`, `localClassField_le_iff`, `localClassField_orderReversing`; `LocalNormSubgroupsPrimeTo`, `AbelianLayerPrimeTo`, `localClassFieldPrimeToResidueCharacteristic`, `localClassFieldCorrespondence_primeToResidueCharacteristic`, `localClassFieldPrimeToResidueCharacteristic_orderReversing` |
+| local quotient and degree | `localAbelianGaloisEquiv`, `localAbelianGaloisEquiv_artinMap`, `index_localNormSubgroup`, `localClassFieldGaloisEquiv`, `localClassField_index` |
 | global Brauer sequence and local invariants | `brFinite`, `brInfinite`, `infiniteInvMap`, `finiteInvAt`, `infiniteInvAt`, `brauerSupport`, `sumLocalInv`, `eq_zero_of_localInv_eq_zero`, `sumLocalInv_eq_zero`, `exists_br_of_sum_eq_zero` |
 | idele carrier and the global invariant | `ideleFormation`, `ideleToClassH2`, `ideleLocalInvAt`, `ideleInfiniteInvAt`, `ideleSumLocalInv`, `globalInv`, `globalInv_ideleToClassH2` |
 | global idele-class formation | `globalClassFormation`, with `globalClassFormation_inv` |
@@ -477,15 +515,29 @@ names may change during implementation, but the mathematical direction of each m
 | global Artin map | `globalArtinMap` |
 | comparison with ideal Artin | `globalArtinMap_ideal`, `abelianArtinHomAway` |
 | local–global compatibility | `globalArtinMap_local`, `localArtinAt` |
-| global existence and norm index | `globalExistence`, `card_ideleClassNormQuotient` |
+| global norm subgroups | `globalNormSubgroup`, `isOpen_globalNormSubgroup`, `finiteIndex_globalNormSubgroup`, `globalNormSubgroup_mono`, `globalNormSubgroup_maximalAbelianLayer`, `globalNormSubgroup_top`, `GlobalNormSubgroups` |
+| global existence and norm index | `globalAbelianExistence`, with `globalExistence` as its forgetful corollary; `card_ideleClassNormQuotient` |
+| the global class field and its uniqueness | `globalClassField`, `globalClassField_normSubgroup`, `globalClassField_unique` |
+| the global correspondence, number fields | `globalClassFieldCorrespondence`, `globalClassField_le_iff`, `globalClassField_orderReversing` |
+| global quotient and degree | `globalAbelianGaloisEquiv`, `globalAbelianGaloisEquiv_artinMap`, `index_globalNormSubgroup`, `globalClassFieldGaloisEquiv`, `globalClassField_index`, `galClassFieldEquiv` |
 | continuous local coefficients | `GalRep`, `H`, `muNRep`, `kummerClass`, `kummerEquiv_mixed` |
 | Kummer transport and local Brauer group | `absoluteGaloisGroupComparison`, `muNRepCoeffDictionary`, `Br`, `invMap`, `brRes`, `brCor` |
 | local invariant and Hilbert pairing | `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `kummerCupPairing`, `localSymbol` |
 | local duality and Euler characteristic | `tateDualityPairing_perfect_mixed`, `finite_H`, `eulerCharacteristic_finrank_fp` |
 | local conductors | `conductorExponent`, `conductorIdeal`, `characterConductorExp` |
 | global norm and Hilbert reciprocity | `cyclicHasseNorm`, `hilbertProductFormula` |
-| class fields | `hilbertClassField`, `rayClassArtinMap`, `kroneckerWeber` |
-| ring class fields, **quadratic orders only** | `ringClassField`, `ringClassArtinMap`, `ringClassArtinMap_eq_one_iff`, `gal_ringClassField_equiv_pic`, `ringClassField_maximal`, each carrying `Module.finrank ℚ K = 2` |
+| class fields, all applications of `globalClassField` | `rayNormSubgroup`, `rayClassField`, `hilbertClassField`, `narrowHilbertClassField`, `gal_rayClassField_equiv_rayClassGroup`, `rayClassArtinMap`, `kroneckerWeber` |
+| ring class fields, **quadratic orders only** | `ringClassIdeleQuotient`, `ringClassNormSubgroup`, `ringClassField`, `ringClassArtinMap`, `ringClassArtinMap_eq_one_iff`, `gal_ringClassField_equiv_pic`, `ringClassField_maximal`, each carrying `Module.finrank ℚ K = 2` |
+
+⚠ **The correspondence runs in one direction on subgroups and the opposite direction on fields.**
+Inclusion of open normal subgroups of `G_K` is *reverse* inclusion of the fields they cut out, so
+`localClassFieldCorrespondence` and `globalClassFieldCorrespondence` are order **isomorphisms**
+onto `AbelianLayer G_K` — `N₁ ≤ N₂ ↔ V₁ ≤ V₂`, recorded as `localClassField_le_iff` and
+`globalClassField_le_iff` — while the classical order-**reversing** statement is on fields,
+`localClassField_orderReversing` and `globalClassField_orderReversing`, obtained from the Galois
+dictionary `classField_le_classField_iff`. Writing the subgroup form with the inclusions reversed
+would be false; `localNormSubgroup_top` and `globalNormSubgroup_top` are the acceptance tests that
+pin the extreme case, `V = ⊤ ↦ K ↦ N = Kˣ`.
 
 `cyclicHasseNorm` and `hilbertProductFormula` are frozen public names. Their statements use the
 global and local carriers above; neither may be replaced with a proposition-valued interface
@@ -572,6 +624,19 @@ Required API:
   representation with the coefficient module of that intermediate layer;
 - the layers `V ◁ ⊤` of open normal subgroups (`NormalLayer.ofOpenNormal`), which are the
   finite Galois extensions of the ground field of the formation;
+- **the abelian layers among them.** `IsAbelianClassFieldLayer V` says that `V` contains the
+  **closed** commutator subgroup `(commutator G).topologicalClosure`, the subgroup Mathlib's
+  `TopologicalAbelianization` and `Field.absoluteGaloisGroupAbelianization` already quotient by;
+  no second closed commutator subgroup is defined here, and the algebraic `commutator G` is the
+  wrong subgroup because it need not be closed. Prove the finite-quotient form
+  `isAbelianClassFieldLayer_iff_isMulCommutative`, the layer form
+  `isMulCommutative_gal_ofOpenNormal`, and the resulting identification
+  `abelianizationGalEquiv : Abelianization L.Gal ≃ L.Gal`, which is what lets the
+  abelianization-valued Artin equivalence of Layer 4 be read as an isomorphism onto `L.Gal`;
+- **the canonical maximal abelian sublayer** `maximalAbelianLayer V = V · [G,G]‾`, with
+  `le_maximalAbelianLayer`, `isAbelianClassFieldLayer_maximalAbelianLayer` and the universal
+  property `maximalAbelianLayer_le`. It is data — a join of two named subgroups — never a choice
+  of "some abelian layer with the same norm subgroup";
 - the norm `A^V → A^U`, the norm subgroup and the norm quotient;
 - restriction (`LayerRestriction`), refinement (`LayerRefinement`), and conjugation adapters
   between layer representations, on ordinary and Tate cohomology, together with the ground-level
@@ -692,13 +757,20 @@ Prove:
 
    for every character `χ : (U/V)^ab → ℚ/ℤ`;
 5. uniqueness: any homomorphism satisfying the character formula is `artinMap`
-   (`eq_artinMap_of_character`).
+   (`eq_artinMap_of_character`);
+6. **the norm limitation theorem** `ClassFormation.normSubgroup_maximalAbelianLayer`: a layer and
+   its maximal abelian sublayer have the same norm subgroup. The inclusion `≤` is functoriality of
+   the norm along `V ≤ V·[G,G]‾`; the reverse follows because `artinEquiv` identifies both norm
+   quotients with `(G/V)^ab = G/(V·[G,G]‾)`, so the two subgroups have the same finite index. It
+   is a consequence of reciprocity and never of existence.
 
 The character formula is the second protection against accidentally using the inverse map or the
-opposite fundamental class.
+opposite fundamental class. Norm limitation is what forces Layers 8 and 12 to state existence with
+an abelian layer: without it `∃ V, N(V) = N` would have two witnesses for every nonabelian `V`.
 
 **Exit criterion.** Downstream files can refer to the Artin map without choosing an arbitrary
-isomorphism or reopening a sign convention.
+isomorphism or reopening a sign convention, and `normSubgroup_maximalAbelianLayer` is available to
+the two existence layers.
 
 ### Layer 5: local coefficients, the Brauer group, the local invariant, and duality
 
@@ -711,6 +783,12 @@ Keep all continuous cohomology on the imported Mathlib carrier:
 GalRep n F = ProfiniteCohomology.TopRep (ZMod n) G_F,
 H n F i A  = continuousCohomology i A.
 ```
+
+The layer also records, once, the Galois dictionary that both arithmetic columns need in order to
+state their class-field correspondence in fields: `classField F V` is the fixed field of an open
+normal subgroup of `G_F` inside the separable closure, and `classField_le_classField_iff` is the
+order-reversing half of the Galois correspondence. It is stated here, before Layer 8 and Layer 12,
+because both use it and neither may restate it.
 
 Build `muNRep n F`, the separable-closure roots of unity as a coefficient object, and transport
 the imported Kummer map to `kummerClass`. For `F/ℚ_p` finite, `kummerEquiv_mixed` is valid for
@@ -828,25 +906,49 @@ insufficient, as the identity `Kˣ → Kˣ` is trivial on no unit-filtration sub
 
 **Exit criterion.** `LocalGaloisGroups` can consume the local-cohomological row of §3 by name.
 
-### Layer 8: separate arithmetic local existence
+### Layer 8: separate arithmetic local existence and the local class-field correspondence
 
 *Prerequisites:* Layers 5, 6, 7. In particular the Kummer theory of Layer 5 (`kummerClass`,
-`kummerEquiv_mixed`, `h2MuEquivZMod_mixed`) and the local duality of Layer 5 are prerequisites of
-this layer, not consequences of it.
+`kummerEquiv_mixed`, `h2MuEquivZMod_mixed`), the local duality of Layer 5 and the Galois dictionary
+`classField` of Layer 5 are prerequisites of this layer, not consequences of it.
+
+The endpoint of the layer is a **correspondence**, not an existence statement. `∃ V, N(V) = N` on
+its own names nothing: by the norm limitation theorem of Layer 4 a layer and its maximal abelian
+sublayer have the same norm subgroup, so a nonabelian `V` and `maximalAbelianLayer V` are two
+witnesses to the same existence statement. Every final target below therefore either constrains `V`
+to be an abelian layer or is explicitly labelled a forgetful corollary.
 
 After reciprocity is established, develop the topology of norm subgroups and prove:
 
-- norm subgroups are open and of finite index;
-- finite abelian extensions give distinct norm subgroups;
-- the norm subgroup reverses inclusions and respects composita and intersections;
+- the norm subgroup `localNormSubgroup V ≤ Kˣ` of an open normal subgroup of `G_K` is open
+  (`isOpen_localNormSubgroup`) and of finite index (`finiteIndex_localNormSubgroup`);
+- it is monotone in `V` (`localNormSubgroup_mono`) — hence inclusion-reversing on fields — and
+  respects composita and intersections; `localNormSubgroup_top` pins the extreme case
+  `V = ⊤ ↦ K ↦ Kˣ`, which is what fixes the direction of the correspondence;
+- the concrete forms of norm limitation, `localNormSubgroup_maximalAbelianLayer`;
 - for `K/ℚ_p` finite, every open finite-index subgroup of `Kˣ` is the norm subgroup of a finite
-  normal layer (`localExistence`);
+  **abelian** layer (`localAbelianExistence`), with `localExistence` retained only as the
+  corollary that forgets abelianity;
 - for a general nonarchimedean local field of residue characteristic `p`, every open finite-index
-  subgroup of `Kˣ` whose index is prime to `p` is a norm subgroup
-  (`localExistence_primeToResidueCharacteristic`); no `p`-primary equal-characteristic claim is
-  exported;
-- the full local class-field correspondence for finite extensions of `ℚ_p`, and the
-  prime-to-residue-characteristic correspondence for equal-characteristic local fields;
+  subgroup of `Kˣ` whose index is prime to `p` is the norm subgroup of a finite abelian layer
+  (`localAbelianExistence_primeToResidueCharacteristic`), again with a forgetful corollary; no
+  `p`-primary equal-characteristic claim is exported;
+- **uniqueness**: distinct finite abelian extensions have distinct norm subgroups
+  (`localClassField_unique`). This is the half that turns existence into *the* class field
+  attached to `N`, and it is false without the abelianity hypotheses;
+- **the class field** `localClassField K p N`, defined from existence and canonical by uniqueness,
+  with its characterizing equation `localClassField_normSubgroup`;
+- **the correspondence** at its two local scopes: `localClassFieldCorrespondence`, the full
+  correspondence for finite extensions of `ℚ_p`, and
+  `localClassFieldCorrespondence_primeToResidueCharacteristic`, whose two carriers
+  `LocalNormSubgroupsPrimeTo` and `AbelianLayerPrimeTo` are cut down by the prime-to-`p` condition
+  so that the excluded equal-characteristic `p`-primary case cannot be read off it. Each scope
+  carries both order statements: `..._le_iff` on subgroups and `..._orderReversing` on fields;
+- **the quotient isomorphism and the degree**: `localAbelianGaloisEquiv` is an isomorphism
+  `Kˣ / N_{L/K}(Lˣ) ≃ Gal(L/K)` onto the Galois group of the layer itself, not onto an
+  abelianization, and `localAbelianGaloisEquiv_artinMap` says it is the abstract Artin map of the
+  layer read through `abelianizationGalEquiv`. `index_localNormSubgroup` and
+  `localClassField_index` are the equality `[Kˣ : N] = [L : K]`;
 - injectivity of the absolute `artinMap` and the comparison with the profinite completion, both of
   which follow from existence;
 - the compatibility of the Layer 7 conductors with existence: the norm subgroup attached to an
@@ -854,20 +956,22 @@ After reciprocity is established, develop the topology of norm subgroups and pro
   filtration, and the extension attached by existence to `U(K,n)·⟨π⟩` has that conductor.
 
 The construction order is normative: norm subgroups first define the normic topology and its
-completion; norm limitation precedes `localExistence_primeToResidueCharacteristic`; the Layer 5
-Kummer theory then gives `localExistence` for finite extensions of `ℚ_p`, after which injectivity
-and the comparison with the profinite completion follow. Local class field theory here is routed
-through the class formation and Kummer theory, never through Lubin–Tate theory, which §1 places
-outside this roadmap. Full equal-characteristic `p`-primary existence requires the excluded
-Artin–Schreier–Witt theory and is not asserted here.
+completion; norm limitation precedes `localAbelianExistence_primeToResidueCharacteristic`; the
+Layer 5 Kummer theory then gives `localAbelianExistence` for finite extensions of `ℚ_p`, after
+which uniqueness, the correspondence, injectivity and the comparison with the profinite completion
+follow. Local class field theory here is routed through the class formation and Kummer theory,
+never through Lubin–Tate theory, which §1 places outside this roadmap. Full equal-characteristic
+`p`-primary existence requires the excluded Artin–Schreier–Witt theory and is not asserted here.
 
 There is deliberately no abstract existence theorem for `ClassFormation`. This layer verifies its
 arithmetic and topological inputs in the two stated ranges. Existence must not appear as a
 hypothesis in a structure used to prove reciprocity. The two directions of local class field
 theory are proved in the correct order.
 
-**Exit criterion.** `localExistence` and `localExistence_primeToResidueCharacteristic` are proved,
-and `artinMap` is injective.
+**Exit criterion.** `localClassFieldCorrespondence` and
+`localClassFieldCorrespondence_primeToResidueCharacteristic` are proved — which subsumes
+`localAbelianExistence`, `localClassField_unique` and both order statements — and `artinMap` is
+injective.
 
 ### Layer 9: the local Weil group
 
@@ -998,28 +1102,44 @@ it by a theorem, not duplicated.
 **Exit criterion.** The global map is the transported abstract Artin map and its value on an
 unramified prime is the existing Frobenius class.
 
-### Layer 12: separate arithmetic global existence, the norm index, and ray class fields
+### Layer 12: separate arithmetic global existence, the norm index, and the global correspondence
 
-*Prerequisites:* Layers 10, 11; `GlobalNumberFields` (moduli and ray classes).
+*Prerequisites:* Layers 10, 11; `GlobalNumberFields` (moduli and ray classes). Every target of this
+layer is for a **number field**; global class field theory for function fields is outside this
+roadmap (§1).
 
 After global reciprocity is established, develop the topology of idele-class norm subgroups —
-they are open, of finite index, distinct for distinct finite abelian extensions, and reverse
-inclusions — and prove:
+they are open, of finite index, distinct for distinct finite abelian extensions, and monotone in
+the layer subgroup, hence inclusion-reversing on fields — and prove:
 
-- every open finite-index subgroup of `C_K` is the norm subgroup of a finite normal layer of the
-  global formation (`globalExistence`);
-- the norm-index theorem `[C_K : N C_L] = [L:K]` for finite abelian `L/K`
-  (`card_ideleClassNormQuotient`);
-- the global class-field correspondence;
+- `isOpen_globalNormSubgroup`, `finiteIndex_globalNormSubgroup`, `globalNormSubgroup_mono`, the
+  concrete norm limitation `globalNormSubgroup_maximalAbelianLayer`, and the direction test
+  `globalNormSubgroup_top`;
+- every open finite-index subgroup of `C_K` is the norm subgroup of a finite **abelian** layer of
+  the global formation (`globalAbelianExistence`), with `globalExistence` retained only as the
+  corollary that forgets abelianity;
+- **uniqueness**, `globalClassField_unique`, and hence the class field `globalClassField K N` with
+  its characterizing equation `globalClassField_normSubgroup`;
+- **the global class-field correspondence** `globalClassFieldCorrespondence`, together with both
+  order statements, `globalClassField_le_iff` on subgroups and `globalClassField_orderReversing`
+  on fields;
+- **the quotient isomorphism and the degree**: `globalAbelianGaloisEquiv` is an isomorphism
+  `C_K / N_{L/K}(C_L) ≃ Gal(L/K)` onto the Galois group itself, characterized as the abstract
+  Artin map by `globalAbelianGaloisEquiv_artinMap`; `index_globalNormSubgroup` and
+  `globalClassField_index` give `[C_K : N] = [L:K]`, and `galClassFieldEquiv` transports the
+  layer's Galois group to `Gal(classField V / K)`;
+- the norm-index theorem `[C_K : N C_L] = [L:K]` for finite abelian `L/K` in the concrete
+  extension carrier (`card_ideleClassNormQuotient`);
 - ray-class factorization of the global Artin map using the imported ray-class groups
-  (`rayClassArtinMap`), the ray class field and its splitting law.
+  (`rayClassArtinMap`) and its splitting law.
 
 As in the local case there is no abstract existence theorem: this layer verifies its own
 idele-theoretic inputs, and existence never appears as a hypothesis in a structure used to prove
 reciprocity.
 
-**Exit criterion.** The global class-field correspondence is a theorem, in the direction
-`norm subgroup ↦ abelian extension`.
+**Exit criterion.** `globalClassFieldCorrespondence` is a theorem — an order isomorphism between
+the open finite-index subgroups of `C_K` and the abelian layers of `G_K`, order-reversing when
+read on fields — together with `globalAbelianGaloisEquiv` and `globalClassField_index`.
 
 ### Layer 13: norm theorems and class fields
 
@@ -1045,25 +1165,37 @@ as `isGlobalNorm_iff_isLocalNormEverywhere`. The global half is the vanishing of
 idele classes; the cyclic hypothesis is essential. Record the biquadratic counterexample: for
 `ℚ(√13,√17)/ℚ`, `25` is a local norm everywhere but not a global norm.
 
-Construct the Hilbert class field as the class field of the trivial modulus and the narrow
-Hilbert class field using `GlobalNumberFields.narrowModulus`. Prove the Galois/class-group
-isomorphisms (`gal_hilbertClassField_equiv_classGroup`), maximal unramified properties,
-splitting criteria, and the principal ideal theorem.
+Every named class field of this layer is an **application** of the Layer 12 correspondence, never a
+substitute for it: each one names its own norm subgroup and is then `classField` of
+`globalClassField` at that subgroup. Prove that the ray subgroup of a modulus is open
+(`isOpen_raySubgroup`) and of finite index (`finiteIndex_raySubgroup`), package it as
+`rayNormSubgroup`, and define `rayClassField 𝔪` as its class field; `hilbertClassField` is
+`rayClassField` at `GlobalNumberFields.Modulus.one` and `narrowHilbertClassField` is
+`rayClassField` at `GlobalNumberFields.narrowModulus`. The Galois/class-group isomorphisms
+(`gal_rayClassField_equiv_rayClassGroup`, `gal_hilbertClassField_equiv_classGroup`) are then the
+composite of `galClassFieldEquiv`, `globalClassFieldGaloisEquiv` and
+`GlobalNumberFields.ker_rayClassQuotient`, not independent computations. Prove also the maximal
+unramified properties, splitting criteria, and the principal ideal theorem.
 
 Derive Kronecker–Weber from global existence (`kroneckerWeber`) and prove that the least
 cyclotomic level equals the abelian conductor, including the `n ≢ 2 mod 4` normalization. Prove
 the abelian conductor–discriminant formula from the local formula and the character dictionary,
 and the compatibility of conductors with ramification.
 
-For an order `O` in a **quadratic** field, construct its ring class field from the imported
-conductor and the congruence description of the group
-`O.invertibleProperFractionalIdeals`; quotient only by the principal classes encoded by
-`O.mkPic`, obtaining `Pic O`. Raw proper ideals, including noninvertible ideals in
-`IdealClassMonoid O`, never enter this construction. Freeze `ringClassArtinMap` on that invertible
-carrier and its principal-kernel criterion `ringClassArtinMap_eq_one_iff`. Freeze also the
-isomorphism `Gal(H_O/K) ≃ Pic O` (`gal_ringClassField_equiv_pic`), its ramification bound, the
-maximal-order comparison `ringClassField_maximal`, and the splitting criterion. Orders and Picard
-groups remain owned by `GlobalNumberFields`.
+For an order `O` in a **quadratic** field, the arithmetic input is the idelic ring-class quotient
+`ringClassIdeleQuotient : C_K → Pic O`, built from the imported conductor and the congruence
+description of the group `O.invertibleProperFractionalIdeals`; quotient only by the principal
+classes encoded by `O.mkPic`, obtaining `Pic O`. Raw proper ideals, including noninvertible ideals
+in `IdealClassMonoid O`, never enter this construction. Its kernel is `ringClassNormSubgroup`, and
+`ringClassField` is the class field of that subgroup — so the ring class field, like the Hilbert
+and ray class fields, is an application of the Layer 12 correspondence, and
+`gal_ringClassField_equiv_pic` follows from it rather than being assumed. Freeze
+`ringClassArtinMap` on that invertible carrier and its principal-kernel criterion
+`ringClassArtinMap_eq_one_iff`. Freeze also the isomorphism `Gal(H_O/K) ≃ Pic O`
+(`gal_ringClassField_equiv_pic`), its ramification bound, the maximal-order comparison
+`ringClassField_maximal` — which by `globalClassField_unique` reduces to identifying the two norm
+subgroups — and the splitting criterion. Orders and Picard groups remain owned by
+`GlobalNumberFields`.
 
 ⚠ The quadratic hypothesis `Module.finrank ℚ K = 2` is carried in the type of `ringClassField` and
 of every theorem about it, and is load-bearing. The congruence description of `Pic O` as a
@@ -1074,8 +1206,10 @@ roadmap therefore asserts no ring class field for a general nonmaximal order and
 quadratic terminology into higher degrees. The Hilbert class field, by contrast, is defined in
 every degree.
 
-**Exit criterion.** `cyclicHasseNorm`, `hilbertClassField`, `ringClassField` for quadratic orders,
-and `kroneckerWeber` are all stated against the imported carriers.
+**Exit criterion.** `cyclicHasseNorm`, `rayClassField`, `hilbertClassField`,
+`narrowHilbertClassField`, `ringClassField` for quadratic orders, and `kroneckerWeber` are all
+stated against the imported carriers, and every class field among them is a value of `classField`
+at a value of `globalClassField`.
 
 ### Layer 14: Hilbert reciprocity and quadratic reciprocity
 
@@ -1113,7 +1247,9 @@ an abstract development:
 
 1. using an arbitrary equivalence instead of cup product with the fundamental class;
 2. using the cup-product direction `Γ^ab → A^U/N(A^V)` as the Artin map instead of its inverse;
-3. normalizing the Artin map by geometric rather than arithmetic Frobenius.
+3. normalizing the Artin map by geometric rather than arithmetic Frobenius;
+4. reversing the class-field correspondence, i.e. attaching the maximal abelian extension to `Kˣ`
+   rather than to the trivial subgroup.
 
 The first versions may be proved for finite-level maps. They should not wait for the
 inverse-limit absolute Artin map.
@@ -1123,6 +1259,13 @@ inverse-limit absolute Artin map.
 For the layer `U/U`, the norm quotient, `(U/U)^ab`, and the Artin map are all trivial
 (`ClassFormation.artinMap_trivialLayer`). This should reduce to the unique map between trivial
 groups, not to a cardinality argument.
+
+The trivial layer is also the direction test for the correspondence: `localNormSubgroup_top` and
+`globalNormSubgroup_top` say that the layer `V = ⊤`, which cuts out the ground field itself, has
+norm subgroup the whole of `Kˣ` resp. `C_K`. This is the extreme case of the fourth error above,
+and it is the reason the subgroup form of the correspondence (`localClassField_le_iff`,
+`globalClassField_le_iff`) preserves inclusions while the field form
+(`localClassField_orderReversing`, `globalClassField_orderReversing`) reverses them.
 
 ### 5.2 Kernel, quotient, and cyclic layers
 
@@ -1232,11 +1375,11 @@ not interchangeable with the quotient map; the statement must use the actual tra
 ### 5.8 Minimal mandatory suite
 
 The following are mandatory before the roadmap is complete: `artinMap_trivialLayer`;
-`localArtinMap_uniformizer` for an arbitrary finite unramified extension;
+`localNormSubgroup_top`; `localArtinMap_uniformizer` for an arbitrary finite unramified extension;
 `localArtinMap_quadratic_eq_nontrivial_iff_not_norm`; `globalArtinMap_Qi_prime`;
 `globalArtinMap_cyclotomic_prime` with the explicit `ℚ(ζ₅)` value at `2`. Together they test
-triviality, the norm kernel, a nontrivial group of order two, arithmetic Frobenius, and a
-non-involutive Artin symbol.
+triviality, the direction of the class-field correspondence, the norm kernel, a nontrivial group
+of order two, arithmetic Frobenius, and a non-involutive Artin symbol.
 
 The arithmetic tests should be added only after the following supplier maps have stable names: a
 chosen primitive root `ζ_m` and its generation theorem; the standard equivalence between the
@@ -1257,7 +1400,8 @@ It contains:
 
 - the structures `Formation`, `NormalLayer`, `LayerRestriction`, `LayerRefinement`, and
   `ClassFormation`;
-- the finite-layer norm quotient and the layers of open normal subgroups;
+- the finite-layer norm quotient, the layers of open normal subgroups, the abelian-layer predicate
+  over Mathlib's closed commutator subgroup, and the canonical `maximalAbelianLayer`;
 - restriction, corestriction, inflation and their tower laws;
 - `fundamentalClass` and its defining invariant, with its restriction, corestriction, inflation
   and conjugation formulae;
@@ -1275,7 +1419,12 @@ It contains:
   Layer 9;
 - the Brauer sequence and sum-of-local-invariants contracts of Layer 10, stated before
   `globalClassFormation` consumes them;
-- the Hasse-norm, class-field and Hilbert-reciprocity contracts of Layers 13 and 14;
+- the class-field correspondences of Layers 8 and 12, each assembled transparently from its
+  existence theorem, its uniqueness theorem and its order statement, with the class field itself
+  *defined* from existence rather than pinned by an unproved equation;
+- the Hasse-norm, class-field and Hilbert-reciprocity contracts of Layers 13 and 14, with
+  `rayClassField`, `hilbertClassField`, `narrowHilbertClassField` and `ringClassField` written as
+  applications of `classField ∘ globalClassField`;
 - the acceptance tests of §5 as named theorem statements.
 
 It does not contain:
@@ -1283,6 +1432,9 @@ It does not contain:
 - a new definition of Tate cohomology;
 - a new continuous-cohomology complex;
 - an arbitrary `Nonempty (X ≃ Y)` where a canonical map is required;
+- an existence statement whose witness is not pinned: both final existence theorems constrain the
+  layer to be abelian, and both are accompanied by the uniqueness theorem that makes the witness
+  canonical;
 - a reciprocity map whose relationship with cup product is only stated in prose;
 - a forward reference: the file's section order is the layer order of §4, and no declaration
   mentions a name introduced below it;
@@ -1337,11 +1489,13 @@ LocalFieldsRamification                          NumberFieldArithmetic
           normalizations, conductors                    Layer 11: global class
         |                                                        formation,
         v                                                        global reciprocity
- Layer 8: local existence                                       |
+ Layer 8: local existence,                                      |
+          the local correspondence                                |
         |                                                        v
         v                                               Layer 12: global existence,
- Layer 9: local Weil group                                       norm index,
-                                                                 ray class fields
+ Layer 9: local Weil group                                       the global
+                                                                 correspondence,
+                                                                 norm index
                                                                 |
                                                                  v
                                                         Layer 13: Hasse norm theorem,
@@ -1354,8 +1508,9 @@ LocalFieldsRamification                          NumberFieldArithmetic
 ```
 
 Layer 5 feeds both the local and the global column: the local column consumes `invMap` on `K`
-itself, the global column consumes it at every completion. Layer 11 additionally consumes the
-absolute local Artin map of Layer 7 through `localArtinAt`.
+itself, the global column consumes it at every completion, and both consume the Galois dictionary
+`classField` recorded there. Layer 4's norm limitation theorem also feeds both existence layers.
+Layer 11 additionally consumes the absolute local Artin map of Layer 7 through `localArtinAt`.
 
 The abstract layers 0–4 can be implemented and reviewed before any arithmetic instance. Within the
 local column, Layer 5's coefficient dictionaries and Kummer transports can begin as soon as

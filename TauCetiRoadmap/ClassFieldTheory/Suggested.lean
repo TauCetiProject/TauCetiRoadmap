@@ -38,6 +38,14 @@ consumes them; local existence (Layer 8) follows the Kummer theory it uses; the 
 (Layer 9) follows local existence; and the sum-of-local-invariants map (Layer 10) precedes the
 global class formation (Layer 11) whose invariant it *is*.
 
+Both arithmetic columns end at a class-field **correspondence**, not at an existence statement.
+`ClassFormation.normSubgroup_maximalAbelianLayer` — the norm limitation theorem — says a layer and
+its maximal abelian sublayer have the same norm subgroup, so `∃ V, normSubgroup V = N` cannot name
+a class field. `localAbelianExistence` and `globalAbelianExistence` therefore return an abelian
+layer, `localClassField_unique` and `globalClassField_unique` make that layer unique, and
+`localClassField`/`globalClassField` are *defined* from existence rather than pinned by an unproved
+equation. The global column is for number fields only.
+
 Everything is stated in universe `0`, because Mathlib's `tateCohomology` requires the group and the
 coefficient ring `ℤ` to live in one universe. All continuous cohomology is Mathlib's carrier as
 exposed by `ProfiniteCohomology`; valuation and ramification objects come from
@@ -188,6 +196,110 @@ noncomputable def subgroupGalEquiv (L : NormalLayer G) (H : Subgroup L.Gal) :
   sorry
 
 end NormalLayer
+
+/-! ### Abelian layers and the maximal abelian sublayer
+
+An open normal subgroup with the right norm subgroup is not yet *the* class field attached to that
+subgroup. A nonabelian layer and its maximal abelian sublayer have the **same** norm subgroup
+(`ClassFormation.normSubgroup_maximalAbelianLayer`), so `∃ V, normSubgroup V = N` alone determines
+nothing; the class-field correspondence is a bijection only after the Galois side is cut down to
+the layers whose finite quotient is abelian.
+
+⚠ The carrier of that condition is the closed commutator subgroup
+`(commutator G).topologicalClosure`, the subgroup Mathlib's `TopologicalAbelianization` and
+`Field.absoluteGaloisGroupAbelianization` already quotient by. No second closed commutator subgroup
+is introduced here. The algebraic `commutator G` is the wrong subgroup for a profinite `G`: it need
+not be closed, so `G ⧸ commutator G` need not be profinite, and Layer 9 records the same warning
+for the Weil group. -/
+
+/-- An open normal subgroup cuts out an **abelian layer** when it contains the closed commutator
+subgroup — equivalently, when its finite quotient is commutative
+(`isAbelianClassFieldLayer_iff_isMulCommutative`). In field language `V` is abelian exactly when
+the finite extension it cuts out is abelian over the ground field. These are the open normal
+subgroups that occur in the class-field correspondence. -/
+def IsAbelianClassFieldLayer {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    (V : OpenNormalSubgroup G) : Prop :=
+  (commutator G).topologicalClosure ≤ V.toSubgroup
+
+/-- The Galois side of the class-field correspondence: open normal subgroups with abelian
+quotient, ordered by inclusion of subgroups, hence by **reverse** inclusion of the fields they cut
+out. -/
+abbrev AbelianLayer (G : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] : Type :=
+  {V : OpenNormalSubgroup G // IsAbelianClassFieldLayer V}
+
+section AbelianLayer
+
+variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+
+/-- The finite-quotient form of the condition. `IsMulCommutative` is Mathlib's
+proposition-valued spelling of commutativity, used here because commutativity of `G ⧸ V` is a
+hypothesis on `V` and so cannot be an instance. -/
+theorem isAbelianClassFieldLayer_iff_isMulCommutative (V : OpenNormalSubgroup G) :
+    IsAbelianClassFieldLayer V ↔ IsMulCommutative (G ⧸ V.toSubgroup) :=
+  sorry
+
+/-- **The maximal abelian sublayer**, canonically: the join `V · [G,G]‾`. In field language it is
+the maximal abelian subextension of the extension cut out by `V`. It is genuine data — a join of
+two named subgroups — and never "some abelian layer with the same norm subgroup". -/
+def maximalAbelianLayer (V : OpenNormalSubgroup G) : OpenNormalSubgroup G :=
+  ⟨⟨V.toSubgroup ⊔ (commutator G).topologicalClosure,
+      Subgroup.isOpen_mono le_sup_left V.toOpenSubgroup.isOpen⟩,
+    Subgroup.sup_normal _ _⟩
+
+@[simp]
+theorem toSubgroup_maximalAbelianLayer (V : OpenNormalSubgroup G) :
+    (maximalAbelianLayer V).toSubgroup = V.toSubgroup ⊔ (commutator G).topologicalClosure :=
+  rfl
+
+theorem le_maximalAbelianLayer (V : OpenNormalSubgroup G) : V ≤ maximalAbelianLayer V :=
+  (le_sup_left : V.toSubgroup ≤ (maximalAbelianLayer V).toSubgroup)
+
+theorem isAbelianClassFieldLayer_maximalAbelianLayer (V : OpenNormalSubgroup G) :
+    IsAbelianClassFieldLayer (maximalAbelianLayer V) :=
+  (le_sup_right : (commutator G).topologicalClosure ≤ (maximalAbelianLayer V).toSubgroup)
+
+/-- Maximality, in subgroup form: `maximalAbelianLayer V` is the smallest abelian layer above `V`,
+so in field language the largest abelian subextension of the extension cut out by `V`. -/
+theorem maximalAbelianLayer_le {V W : OpenNormalSubgroup G} (hVW : V ≤ W)
+    (hW : IsAbelianClassFieldLayer W) : maximalAbelianLayer V ≤ W :=
+  (sup_le (hVW : V.toSubgroup ≤ W.toSubgroup) hW :
+    (maximalAbelianLayer V).toSubgroup ≤ W.toSubgroup)
+
+theorem maximalAbelianLayer_eq_self_iff (V : OpenNormalSubgroup G) :
+    maximalAbelianLayer V = V ↔ IsAbelianClassFieldLayer V :=
+  sorry
+
+variable [CompactSpace G] [TotallyDisconnectedSpace G]
+
+/-- The finite Galois group of the layer of an abelian `V` is commutative. This is what lets the
+Artin equivalence of Layer 4, whose target is `Abelianization L.Gal`, be read as an isomorphism
+onto `L.Gal` itself. -/
+theorem isMulCommutative_gal_ofOpenNormal {V : OpenNormalSubgroup G}
+    (hV : IsAbelianClassFieldLayer V) :
+    IsMulCommutative (NormalLayer.ofOpenNormal V).Gal :=
+  sorry
+
+open scoped IsMulCommutative in
+/-- For an abelian layer the canonical map `L.Gal → Abelianization L.Gal` is an isomorphism. It is
+Mathlib's `Abelianization.equivOfComm` for the commutative group structure supplied by
+`isMulCommutative_gal_ofOpenNormal`, not a new comparison map. This is what turns the
+abelianization-valued `ClassFormation.artinEquiv` into an isomorphism onto the Galois group
+itself. -/
+noncomputable def abelianizationGalEquiv {V : OpenNormalSubgroup G}
+    (hV : IsAbelianClassFieldLayer V) :
+    Abelianization (NormalLayer.ofOpenNormal V).Gal ≃* (NormalLayer.ofOpenNormal V).Gal :=
+  letI := isMulCommutative_gal_ofOpenNormal hV
+  Abelianization.equivOfComm.symm
+
+open scoped IsMulCommutative in
+@[simp]
+theorem abelianizationGalEquiv_of {V : OpenNormalSubgroup G} (hV : IsAbelianClassFieldLayer V)
+    (x : (NormalLayer.ofOpenNormal V).Gal) :
+    abelianizationGalEquiv hV (Abelianization.of x) = x := by
+  have := isMulCommutative_gal_ofOpenNormal hV
+  rfl
+
+end AbelianLayer
 
 /-! The next structures name the actual changes of layer. They prevent later statements from
 replacing restriction or inflation by an arbitrary map of the right type. -/
@@ -795,6 +907,23 @@ theorem artinMap_quotient (cf : ClassFormation F)
     cf.artinMap old a = T.quotientHom (cf.artinMap new (T.groundEquiv F a)) :=
   sorry
 
+/-! ### The norm limitation theorem
+
+The theorem that makes "the class field attached to `N`" meaningful: passing to the maximal
+abelian sublayer does not change the norm subgroup. It is a theorem about a class formation, not
+about an arbitrary formation, and it is proved from reciprocity rather than from existence: the
+inclusion `≤` is functoriality of the norm along `V ≤ V·[G,G]‾`, and the two norm subgroups have
+the same index in the ground level because `artinEquiv` identifies both quotients with
+`(G ⧸ V)^ab = G ⧸ (V·[G,G]‾)`. Consequently the arbitrary-layer existence statement
+`∃ V, normSubgroup V = N` cannot pin down `V`, and Layers 8 and 12 state existence with
+`IsAbelianClassFieldLayer V` in the conclusion. -/
+
+/-- **Norm limitation.** A layer and its maximal abelian sublayer have the same norm subgroup. -/
+theorem normSubgroup_maximalAbelianLayer (cf : ClassFormation F) (V : OpenNormalSubgroup G) :
+    (NormalLayer.ofOpenNormal (maximalAbelianLayer V)).normSubgroup F =
+      (NormalLayer.ofOpenNormal V).normSubgroup F :=
+  sorry
+
 /-! ### Abstract acceptance tests -/
 
 /-- Trivial layer: the Artin map of the layer `U/U` is the zero map between trivial groups. -/
@@ -842,6 +971,34 @@ abbrev GalRep (n : ℕ) (F : Type) [Field F] : Type 1 :=
 noncomputable abbrev H (n : ℕ) (F : Type) [Field F]
     (i : ℕ) (A : GalRep n F) : Type _ :=
   continuousCohomology i A
+
+/-! ### The Galois dictionary between open normal subgroups and finite abelian extensions
+
+Both arithmetic columns state their class-field correspondence on `OpenNormalSubgroup (G_F)`, and
+both need the same translation into fields. It is recorded once, here, because the local column
+(Layer 8) and the global column (Layer 12) each use it.
+
+⚠ **The two orderings run in opposite directions, and only one of them reverses.** Inclusion of
+subgroups of `G_F` is *reverse* inclusion of the fields they cut out, so a class-field
+correspondence written on subgroups is order **preserving**
+(`N₁ ≤ N₂ ↔ V₁ ≤ V₂`) and the same correspondence written on fields is order **reversing**
+(`N₁ ≤ N₂ ↔ L₂ ≤ L₁`). Both forms are stated below at each scope; writing the subgroup form with
+the inclusions reversed would be false. -/
+
+/-- **The finite extension cut out by an open normal subgroup of `G_F`**: its fixed field inside
+the separable closure. -/
+noncomputable def classField (F : Type) [Field F]
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup F)) :
+    IntermediateField F (SeparableClosure F) :=
+  IntermediateField.fixedField V.toSubgroup
+
+/-- The Galois correspondence, in the direction this roadmap uses: bigger subgroup, smaller field.
+This is what converts the order-preserving subgroup form of the class-field correspondence into
+the classical order-reversing form on fields. -/
+theorem classField_le_classField_iff (F : Type) [Field F]
+    (V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup F)) :
+    classField F W ≤ classField F V ↔ V ≤ W :=
+  sorry
 
 section Local
 
@@ -1336,45 +1493,327 @@ theorem unitFiltration_characterConductorExp_le_ker
       ≤ chi.toMonoidHom.ker :=
   sorry
 
-/-! ## Layer 8: separate arithmetic local existence
+/-! ## Layer 8: separate arithmetic local existence and the local class-field correspondence
 
 These targets are deliberately not methods of `ClassFormation`: reciprocity follows from the
 class-formation axioms, but existence requires additional arithmetic input. Full existence is
 stated only in mixed characteristic; the general local-field target below is prime to the residue
 characteristic.
--/
+
+The endpoint of the layer is the **correspondence**, not existence. `∃ V, localNormSubgroup V = N`
+is not "the class field attached to `N`": by `ClassFormation.normSubgroup_maximalAbelianLayer` a
+layer and its maximal abelian sublayer have the same norm subgroup, so the arbitrary-layer
+statements below are corollaries of the abelian ones, kept only for the forgetful direction. What
+pins the class field is the conjunction of `localAbelianExistence`, `localClassField_unique` and
+`localClassField_le_iff`, packaged as `localClassFieldCorrespondence`; read through the Layer 5
+`classField` dictionary that bijection is the classical order-reversing correspondence onto the
+finite abelian extensions of `K` (`localClassField_orderReversing`). -/
 
 /-- The identification of the ground level `A^{G_K}` of the local formation with `Kˣ`. -/
 noncomputable def localGroundEquiv :
     Additive Kˣ ≃+ (localFormation K).level ⊤ :=
   sorry
 
-/-- Full local existence in mixed characteristic: for a finite extension of `ℚ_p`, every open
-finite-index subgroup of `Kˣ` is the norm subgroup of a finite normal layer. The `ℚ_p`-algebra
-and finiteness hypotheses are load-bearing; equal-characteristic `p`-primary existence requires
-Artin–Schreier–Witt theory and is outside this roadmap. -/
+/-- **The norm subgroup of `Kˣ` cut out by an open normal subgroup of `G_K`**: the norm subgroup of
+the layer `V ◁ ⊤`, read through `localGroundEquiv`. Writing the correspondence against this map
+rather than against the raw `comap` keeps the local statements in the multiplicative language of
+`Kˣ` that `LocalFieldsRamification.normGroup` also uses. -/
+noncomputable def localNormSubgroup
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) : Subgroup Kˣ :=
+  AddSubgroup.toSubgroup'
+    (((NormalLayer.ofOpenNormal V).normSubgroup (localFormation K)).comap
+      (localGroundEquiv K).toAddMonoidHom)
+
+/-- Norm subgroups are open. -/
+theorem isOpen_localNormSubgroup
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    IsOpen ((localNormSubgroup K V : Subgroup Kˣ) : Set Kˣ) :=
+  sorry
+
+/-- Norm subgroups have finite index. -/
+theorem finiteIndex_localNormSubgroup
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (localNormSubgroup K V).FiniteIndex :=
+  sorry
+
+/-- The norm subgroup is monotone in the layer subgroup, hence **reverses inclusion of fields**: a
+larger `V` cuts out a smaller field, and a smaller field has a larger norm subgroup. -/
+theorem localNormSubgroup_mono
+    {V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)} (h : V ≤ W) :
+    localNormSubgroup K V ≤ localNormSubgroup K W :=
+  sorry
+
+/-- **Norm limitation in the concrete local language.** The extension cut out by `V` and its
+maximal abelian subextension have the same norm subgroup of `Kˣ`; this is the abstract
+`ClassFormation.normSubgroup_maximalAbelianLayer` transported through `localGroundEquiv`. It is the
+reason the existence theorems below must name the abelian layer. -/
+theorem localNormSubgroup_maximalAbelianLayer
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    localNormSubgroup K (maximalAbelianLayer V) = localNormSubgroup K V := by
+  simp only [localNormSubgroup,
+    ClassFormation.normSubgroup_maximalAbelianLayer (localClassFormation K) V]
+
+/-- **Direction acceptance test.** The trivial layer `V = ⊤` cuts out `K` itself, whose norm
+subgroup is all of `Kˣ`. This is the extreme case that fixes which end of the correspondence is
+which: `⊤` is the *largest* layer subgroup and `Kˣ` the *largest* norm subgroup, so the
+correspondence is monotone on subgroups and reversing on fields. Under the opposite convention `Kˣ`
+would correspond to the maximal abelian extension of `K`. -/
+theorem localNormSubgroup_top : localNormSubgroup K ⟨⊤, Subgroup.normal_top⟩ = ⊤ :=
+  sorry
+
+/-- **The source of the local correspondence:** open subgroups of finite index in `Kˣ`. Both
+conditions are needed — `𝒪ˣ` is open of infinite index in `Kˣ` and is not a norm subgroup. -/
+abbrev LocalNormSubgroups : Type := {N : OpenSubgroup Kˣ // N.toSubgroup.FiniteIndex}
+
+/-- The norm subgroup of a layer as an element of the source carrier. -/
+noncomputable def localNormOpenSubgroup
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    LocalNormSubgroups K :=
+  ⟨⟨localNormSubgroup K V, isOpen_localNormSubgroup K V⟩, finiteIndex_localNormSubgroup K V⟩
+
+/-- **Full local existence in mixed characteristic, in its final abelian form.** For a finite
+extension of `ℚ_p`, every open finite-index subgroup of `Kˣ` is the norm subgroup of a finite
+**abelian** layer. The `ℚ_p`-algebra and finiteness hypotheses are load-bearing;
+equal-characteristic `p`-primary existence requires Artin–Schreier–Witt theory and is outside this
+roadmap. -/
+theorem localAbelianExistence (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
+    (N : Subgroup Kˣ) (hN : IsOpen (N : Set Kˣ)) [N.FiniteIndex] :
+    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      IsAbelianClassFieldLayer V ∧ localNormSubgroup K V = N :=
+  sorry
+
+/-- The forgetful corollary: some open normal subgroup, not necessarily abelian, has the given norm
+subgroup. It is **not** the class-field correspondence — `maximalAbelianLayer` produces a second
+witness with the same norm subgroup — and is kept only because the forgetful direction is
+occasionally what a consumer needs. -/
 theorem localExistence (p : ℕ) [Fact p.Prime]
     [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
     (N : Subgroup Kˣ) (hN : IsOpen (N : Set Kˣ)) [N.FiniteIndex] :
     ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
-      ((NormalLayer.ofOpenNormal V).normSubgroup (localFormation K)).comap
-          (localGroundEquiv K).toAddMonoidHom =
-        Subgroup.toAddSubgroup N :=
+      localNormSubgroup K V = N :=
+  (localAbelianExistence K p N hN).imp fun _ h => h.2
+
+/-- **Prime-to-residue-characteristic local existence in its final abelian form**, valid also in
+equal characteristic: an open finite-index subgroup whose index is coprime to the residue
+characteristic is the norm subgroup of a finite abelian layer. The coprimality hypothesis is part
+of the public signature, so this target cannot be used to claim the excluded `p`-primary case. -/
+theorem localAbelianExistence_primeToResidueCharacteristic
+    (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p]
+    (N : Subgroup Kˣ) (hN : IsOpen (N : Set Kˣ)) [N.FiniteIndex]
+    (hindex : Nat.Coprime (Nat.card (Kˣ ⧸ N)) p) :
+    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      IsAbelianClassFieldLayer V ∧ localNormSubgroup K V = N :=
   sorry
 
-/-- Prime-to-residue-characteristic local existence, valid also in equal characteristic: an open
-finite-index subgroup whose index is coprime to the residue characteristic is a norm subgroup.
-The coprimality hypothesis is part of the public signature, so this target cannot be used to claim
-the excluded `p`-primary case. -/
+/-- The forgetful corollary in the prime-to-`p` range. -/
 theorem localExistence_primeToResidueCharacteristic
     (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p]
     (N : Subgroup Kˣ) (hN : IsOpen (N : Set Kˣ)) [N.FiniteIndex]
     (hindex : Nat.Coprime (Nat.card (Kˣ ⧸ N)) p) :
     ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
-      ((NormalLayer.ofOpenNormal V).normSubgroup (localFormation K)).comap
-          (localGroundEquiv K).toAddMonoidHom =
-        Subgroup.toAddSubgroup N :=
+      localNormSubgroup K V = N :=
+  (localAbelianExistence_primeToResidueCharacteristic K p N hN hindex).imp fun _ h => h.2
+
+/-- **Uniqueness: distinct finite abelian extensions have distinct norm subgroups.** This is the
+half of the correspondence that turns existence into *the* class field attached to `N`. Without the
+abelianity hypotheses it is false: `V` and `maximalAbelianLayer V` are a counterexample whenever
+the layer is nonabelian. -/
+theorem localClassField_unique
+    {V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (hV : IsAbelianClassFieldLayer V) (hW : IsAbelianClassFieldLayer W)
+    (h : localNormSubgroup K V = localNormSubgroup K W) :
+    V = W :=
   sorry
+
+/-- **The canonical quotient identification `Kˣ / N_{L/K}(Lˣ) ≃ Gal(L/K)`** for an abelian layer.
+Its target is the Galois group of the layer itself, not an abelianization that happens to simplify
+later: `abelianizationGalEquiv hV` identifies `Abelianization L.Gal` with `L.Gal`, so the
+abelianization-valued `ClassFormation.artinEquiv` can be read here as reciprocity onto
+`Gal(L/K)`. -/
+noncomputable def localAbelianGaloisEquiv
+    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (hV : IsAbelianClassFieldLayer V) :
+    Kˣ ⧸ localNormSubgroup K V ≃* (NormalLayer.ofOpenNormal V).Gal :=
+  sorry
+
+/-- **The characterizing equation of `localAbelianGaloisEquiv`:** composed with `Abelianization.of`
+it is the abstract Artin map of the layer. Because the layer is abelian, `Abelianization.of` is
+injective, so this pins the isomorphism; it is reciprocity, not an arbitrary isomorphism of two
+finite groups of the same order. -/
+theorem localAbelianGaloisEquiv_artinMap
+    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (hV : IsAbelianClassFieldLayer V) (x : Kˣ) :
+    Additive.ofMul (Abelianization.of (localAbelianGaloisEquiv K hV (QuotientGroup.mk x))) =
+      (localClassFormation K).artinMap (NormalLayer.ofOpenNormal V)
+        (localGroundEquiv K (Additive.ofMul x)) :=
+  sorry
+
+/-- **The index equality `[Kˣ : N_{L/K}(Lˣ)] = [L : K]`.** `NormalLayer.degree` of the layer
+`V ◁ ⊤` is `Nat.card (G_K ⧸ V)`, the degree of the extension over `K`. -/
+theorem index_localNormSubgroup
+    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (hV : IsAbelianClassFieldLayer V) :
+    (localNormSubgroup K V).index = (NormalLayer.ofOpenNormal V).degree :=
+  (Subgroup.index_eq_card _).trans (Nat.card_congr (localAbelianGaloisEquiv K hV).toEquiv)
+
+/-- The existence statement on the bundled carrier, so that the class field can be *defined* from
+it rather than pinned by an unproved equation. -/
+theorem exists_localClassField (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] (N : LocalNormSubgroups K) :
+    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      IsAbelianClassFieldLayer V ∧ localNormSubgroup K V = N.1.toSubgroup :=
+  haveI := N.2
+  localAbelianExistence K p N.1.toSubgroup N.1.isOpen
+
+/-- **The local class field attached to an open finite-index subgroup `N ≤ Kˣ`**, for a finite
+extension of `ℚ_p`. It is the abelian layer produced by `localAbelianExistence`, which
+`localClassField_unique` shows is the only one, so the choice is canonical. Its field-theoretic
+form is `IntermediateField.fixedField` of the underlying subgroup. -/
+noncomputable def localClassField (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] (N : LocalNormSubgroups K) :
+    AbelianLayer (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+  ⟨(exists_localClassField K p N).choose, (exists_localClassField K p N).choose_spec.1⟩
+
+/-- **The characterizing equation of `localClassField`:** its norm subgroup is `N`. -/
+theorem localClassField_normSubgroup (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] (N : LocalNormSubgroups K) :
+    localNormSubgroup K (localClassField K p N).1 = N.1.toSubgroup :=
+  (exists_localClassField K p N).choose_spec.2
+
+/-- **The subgroup form of the correspondence's order.** ⚠ The inclusions run the *same* way here:
+a larger norm subgroup cuts out a smaller field, hence a **larger** subgroup of `G_K`. The
+classical order-reversing statement is `localClassField_orderReversing` below, on fields. -/
+theorem localClassField_le_iff (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] (N₁ N₂ : LocalNormSubgroups K) :
+    N₁ ≤ N₂ ↔ (localClassField K p N₁).1 ≤ (localClassField K p N₂).1 :=
+  sorry
+
+/-- **Order reversal, in fields.** `N₁ ≤ N₂` exactly when the class field of `N₂` is contained in
+the class field of `N₁`. Together with `localClassField_normSubgroup` and
+`localClassField_unique` this is the full local class-field correspondence for finite extensions
+of `ℚ_p`. -/
+theorem localClassField_orderReversing (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] (N₁ N₂ : LocalNormSubgroups K) :
+    N₁ ≤ N₂ ↔
+      classField K (localClassField K p N₂).1 ≤ classField K (localClassField K p N₁).1 :=
+  (localClassField_le_iff K p N₁ N₂).trans
+    (classField_le_classField_iff K (localClassField K p N₁).1 (localClassField K p N₂).1).symm
+
+/-- **The full local class-field correspondence for finite extensions of `ℚ_p`**, as an order
+isomorphism onto the abelian layers. Its two maps are `localClassField` and
+`localNormOpenSubgroup`; nothing here is an opaque choice. Read through `classField` it is the
+classical order-**reversing** bijection onto the finite abelian extensions of `K`
+(`localClassField_orderReversing`). -/
+noncomputable def localClassFieldCorrespondence (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] :
+    LocalNormSubgroups K ≃o AbelianLayer (ProfiniteCohomology.AbsoluteGaloisGroup K) where
+  toFun N := localClassField K p N
+  invFun V := localNormOpenSubgroup K V.1
+  left_inv N := by
+    refine Subtype.ext (OpenSubgroup.toSubgroup_injective ?_)
+    exact localClassField_normSubgroup K p N
+  right_inv V := by
+    refine Subtype.ext (localClassField_unique K ?_ V.2 ?_)
+    · exact (localClassField K p (localNormOpenSubgroup K V.1)).2
+    · exact localClassField_normSubgroup K p (localNormOpenSubgroup K V.1)
+  map_rel_iff' := fun {N₁ N₂} => (localClassField_le_iff K p N₁ N₂).symm
+
+/-- **The source of the equal-characteristic correspondence:** open finite-index subgroups of `Kˣ`
+of index prime to the residue characteristic. Restricting the carrier, rather than the proof, is
+what keeps the excluded `p`-primary equal-characteristic case out of the public interface. -/
+abbrev LocalNormSubgroupsPrimeTo (p : ℕ) : Type :=
+  {N : OpenSubgroup Kˣ // N.toSubgroup.FiniteIndex ∧ Nat.Coprime (Nat.card (Kˣ ⧸ N.toSubgroup)) p}
+
+/-- The matching Galois carrier: abelian layers of degree prime to `p`. -/
+abbrev AbelianLayerPrimeTo (p : ℕ) : Type :=
+  {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K) //
+    IsAbelianClassFieldLayer V ∧
+      Nat.Coprime (NormalLayer.ofOpenNormal V).degree p}
+
+/-- Prime-to-`p` existence on the bundled carrier, with the degree of the layer recorded so that
+the class field lands in `AbelianLayerPrimeTo`. -/
+theorem exists_localClassField_primeToResidueCharacteristic
+    (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p] (N : LocalNormSubgroupsPrimeTo K p) :
+    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      (IsAbelianClassFieldLayer V ∧ Nat.Coprime (NormalLayer.ofOpenNormal V).degree p) ∧
+        localNormSubgroup K V = N.1.toSubgroup := by
+  haveI := N.2.1
+  obtain ⟨V, hV, hN⟩ :=
+    localAbelianExistence_primeToResidueCharacteristic K p N.1.toSubgroup N.1.isOpen N.2.2
+  refine ⟨V, ⟨hV, ?_⟩, hN⟩
+  have hdeg : (NormalLayer.ofOpenNormal V).degree = Nat.card (Kˣ ⧸ N.1.toSubgroup) := by
+    rw [← index_localNormSubgroup K hV, hN, Subgroup.index_eq_card]
+  rw [hdeg]
+  exact N.2.2
+
+/-- **The class field attached to a prime-to-`p` norm subgroup** of an equal-characteristic local
+field. -/
+noncomputable def localClassFieldPrimeToResidueCharacteristic
+    (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p] (N : LocalNormSubgroupsPrimeTo K p) :
+    AbelianLayerPrimeTo K p :=
+  ⟨(exists_localClassField_primeToResidueCharacteristic K p N).choose,
+    (exists_localClassField_primeToResidueCharacteristic K p N).choose_spec.1⟩
+
+theorem localClassFieldPrimeToResidueCharacteristic_normSubgroup
+    (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p] (N : LocalNormSubgroupsPrimeTo K p) :
+    localNormSubgroup K (localClassFieldPrimeToResidueCharacteristic K p N).1 =
+      N.1.toSubgroup :=
+  (exists_localClassField_primeToResidueCharacteristic K p N).choose_spec.2
+
+theorem localClassFieldPrimeToResidueCharacteristic_le_iff
+    (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p] (N₁ N₂ : LocalNormSubgroupsPrimeTo K p) :
+    N₁ ≤ N₂ ↔ (localClassFieldPrimeToResidueCharacteristic K p N₁).1 ≤
+      (localClassFieldPrimeToResidueCharacteristic K p N₂).1 :=
+  sorry
+
+/-- **The prime-to-residue-characteristic local correspondence**, the only local correspondence
+asserted for an equal-characteristic local field. ⚠ There is deliberately no statement here with
+the unrestricted carriers: `p`-primary equal-characteristic existence needs the Artin–Schreier–Witt
+theory that §1 of the roadmap places outside this roadmap, so restricting the two carriers — not
+the proof — is what keeps the excluded case out of the public interface. -/
+noncomputable def localClassFieldCorrespondence_primeToResidueCharacteristic
+    (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p] :
+    LocalNormSubgroupsPrimeTo K p ≃o AbelianLayerPrimeTo K p where
+  toFun N := localClassFieldPrimeToResidueCharacteristic K p N
+  invFun V := ⟨⟨localNormSubgroup K V.1, isOpen_localNormSubgroup K V.1⟩,
+    finiteIndex_localNormSubgroup K V.1, by
+      rw [← Subgroup.index_eq_card, index_localNormSubgroup K V.2.1]; exact V.2.2⟩
+  left_inv N := by
+    refine Subtype.ext (OpenSubgroup.toSubgroup_injective ?_)
+    exact localClassFieldPrimeToResidueCharacteristic_normSubgroup K p N
+  right_inv V := by
+    refine Subtype.ext (localClassField_unique K ?_ V.2.1 ?_)
+    · exact (localClassFieldPrimeToResidueCharacteristic K p _).2.1
+    · exact localClassFieldPrimeToResidueCharacteristic_normSubgroup K p _
+  map_rel_iff' := fun {N₁ N₂} =>
+    (localClassFieldPrimeToResidueCharacteristic_le_iff K p N₁ N₂).symm
+
+/-- **The order-reversing form in the prime-to-`p` range**, on fields. -/
+theorem localClassFieldPrimeToResidueCharacteristic_orderReversing
+    (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p] (N₁ N₂ : LocalNormSubgroupsPrimeTo K p) :
+    N₁ ≤ N₂ ↔
+      classField K (localClassFieldPrimeToResidueCharacteristic K p N₂).1 ≤
+        classField K (localClassFieldPrimeToResidueCharacteristic K p N₁).1 :=
+  (localClassFieldPrimeToResidueCharacteristic_le_iff K p N₁ N₂).trans
+    (classField_le_classField_iff K (localClassFieldPrimeToResidueCharacteristic K p N₁).1
+      (localClassFieldPrimeToResidueCharacteristic K p N₂).1).symm
+
+/-- **The canonical quotient identification `Kˣ / N ≃ Gal(L/K)`** for the class field `L` attached
+to `N`, obtained from `localAbelianGaloisEquiv` and `localClassField_normSubgroup`. -/
+noncomputable def localClassFieldGaloisEquiv (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] (N : LocalNormSubgroups K) :
+    Kˣ ⧸ N.1.toSubgroup ≃*
+      (NormalLayer.ofOpenNormal (localClassField K p N).1).Gal :=
+  (QuotientGroup.quotientMulEquivOfEq (localClassField_normSubgroup K p N).symm).trans
+    (localAbelianGaloisEquiv K (localClassField K p N).2)
+
+/-- **The index equality `[Kˣ : N] = [L : K]`.** -/
+theorem localClassField_index (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] (N : LocalNormSubgroups K) :
+    N.1.toSubgroup.index =
+      (NormalLayer.ofOpenNormal (localClassField K p N).1).degree :=
+  (localClassField_normSubgroup K p N) ▸ index_localNormSubgroup K (localClassField K p N).2
 
 /-- The concrete `ℚ₂(ζ₅)/ℚ₂` test: unramified of degree four, and `2` maps to `ζ₅ ↦ ζ₅²`.
 Replacing arithmetic Frobenius by geometric Frobenius would give the exponent `3`. -/
@@ -2068,10 +2507,19 @@ theorem globalArtinMap_zeta5_restrict_Qsqrt5
     (∀ x : M, σ x = x) ↔ (ℓ % 5 = 1 ∨ ℓ % 5 = 4) :=
   sorry
 
-/-! ## Layer 12: separate arithmetic global existence, the norm index, and ray class fields
+/-! ## Layer 12: separate arithmetic global existence, the norm index, and the global
+class-field correspondence
 
-As on the local side, `globalExistence` is an arithmetic theorem about the idele-class formation,
-not a formal consequence of an arbitrary `ClassFormation`.
+As on the local side, `globalAbelianExistence` is an arithmetic theorem about the idele-class
+formation, not a formal consequence of an arbitrary `ClassFormation`, and the endpoint is the
+correspondence `globalClassFieldCorrespondence` rather than existence: by
+`globalNormSubgroup_maximalAbelianLayer` a layer and its maximal abelian sublayer have the same
+idele-class norm subgroup, so `globalExistence` alone names nothing.
+
+⚠ Everything in this layer is for a **number field**: the carriers are `GlobalNumberFields`'
+number-field idele and idele-class groups, and the section's `NumberField K` hypothesis is
+load-bearing. Global class field theory for one-variable function fields over finite fields is
+outside this roadmap.
 -/
 
 /-- Reciprocity on the imported ray-class carrier. -/
@@ -2112,15 +2560,191 @@ noncomputable def globalGroundEquiv :
     Additive (GlobalNumberFields.IdeleClassGroup K) ≃+ (globalFormation K).level ⊤ :=
   sorry
 
-/-- The global existence theorem: every open finite-index subgroup of the idele class group is
-the norm subgroup of a finite normal layer of the global formation. -/
+/-- **The norm subgroup of `C_K` cut out by an open normal subgroup of `G_K`**: the norm subgroup
+of the layer `V ◁ ⊤`, read through `globalGroundEquiv`. -/
+noncomputable def globalNormSubgroup
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    Subgroup (GlobalNumberFields.IdeleClassGroup K) :=
+  AddSubgroup.toSubgroup'
+    (((NormalLayer.ofOpenNormal V).normSubgroup (globalFormation K)).comap
+      (globalGroundEquiv K).toAddMonoidHom)
+
+/-- Idele-class norm subgroups are open. -/
+theorem isOpen_globalNormSubgroup
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    IsOpen ((globalNormSubgroup K V : Subgroup (GlobalNumberFields.IdeleClassGroup K)) :
+      Set (GlobalNumberFields.IdeleClassGroup K)) :=
+  sorry
+
+/-- Idele-class norm subgroups have finite index. -/
+theorem finiteIndex_globalNormSubgroup
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (globalNormSubgroup K V).FiniteIndex :=
+  sorry
+
+/-- The idele-class norm subgroup is monotone in the layer subgroup, hence reverses inclusion of
+fields. -/
+theorem globalNormSubgroup_mono
+    {V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)} (h : V ≤ W) :
+    globalNormSubgroup K V ≤ globalNormSubgroup K W :=
+  sorry
+
+/-- **Norm limitation in the concrete global language**: the extension cut out by `V` and its
+maximal abelian subextension have the same idele-class norm subgroup. This is the abstract
+`ClassFormation.normSubgroup_maximalAbelianLayer` transported through `globalGroundEquiv`, and it
+is why `globalExistence` alone cannot name a class field. -/
+theorem globalNormSubgroup_maximalAbelianLayer
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    globalNormSubgroup K (maximalAbelianLayer V) = globalNormSubgroup K V := by
+  simp only [globalNormSubgroup,
+    ClassFormation.normSubgroup_maximalAbelianLayer (globalClassFormation K) V]
+  rfl
+
+/-- **Direction acceptance test**, as in the local case: the trivial layer cuts out `K`, whose
+idele-class norm subgroup is all of `C_K`. -/
+theorem globalNormSubgroup_top : globalNormSubgroup K ⟨⊤, Subgroup.normal_top⟩ = ⊤ :=
+  sorry
+
+/-- **The source of the global correspondence:** open subgroups of finite index in `C_K`. -/
+abbrev GlobalNormSubgroups : Type :=
+  {N : OpenSubgroup (GlobalNumberFields.IdeleClassGroup K) // N.toSubgroup.FiniteIndex}
+
+/-- The idele-class norm subgroup of a layer as an element of the source carrier. -/
+noncomputable def globalNormOpenSubgroup
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    GlobalNormSubgroups K :=
+  ⟨⟨globalNormSubgroup K V, isOpen_globalNormSubgroup K V⟩, finiteIndex_globalNormSubgroup K V⟩
+
+/-- **The global existence theorem in its final abelian form**: every open finite-index subgroup of
+the idele class group of a **number field** is the norm subgroup of a finite **abelian** layer of
+the global formation. Global class field theory for one-variable function fields over finite
+fields is outside this roadmap; the `NumberField K` hypothesis in the section variables is
+load-bearing. -/
+theorem globalAbelianExistence
+    (N : Subgroup (GlobalNumberFields.IdeleClassGroup K))
+    (hN : IsOpen (N : Set (GlobalNumberFields.IdeleClassGroup K))) [N.FiniteIndex] :
+    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      IsAbelianClassFieldLayer V ∧ globalNormSubgroup K V = N :=
+  sorry
+
+/-- The forgetful corollary: some open normal subgroup, not necessarily abelian, has the given
+norm subgroup. It is **not** the class-field correspondence, because
+`globalNormSubgroup_maximalAbelianLayer` produces a second witness with the same norm subgroup. -/
 theorem globalExistence
     (N : Subgroup (GlobalNumberFields.IdeleClassGroup K))
     (hN : IsOpen (N : Set (GlobalNumberFields.IdeleClassGroup K))) [N.FiniteIndex] :
     ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
-      ((NormalLayer.ofOpenNormal V).normSubgroup (globalFormation K)).comap
-          (globalGroundEquiv K).toAddMonoidHom =
-        Subgroup.toAddSubgroup N :=
+      globalNormSubgroup K V = N :=
+  (globalAbelianExistence K N hN).imp fun _ h => h.2
+
+/-- **Uniqueness: distinct finite abelian extensions have distinct idele-class norm subgroups.**
+Together with `globalAbelianExistence` this is what makes "the class field attached to `N`" a
+definition rather than a choice. -/
+theorem globalClassField_unique
+    {V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (hV : IsAbelianClassFieldLayer V) (hW : IsAbelianClassFieldLayer W)
+    (h : globalNormSubgroup K V = globalNormSubgroup K W) :
+    V = W :=
+  sorry
+
+/-- Global existence on the bundled carrier. -/
+theorem exists_globalClassField (N : GlobalNormSubgroups K) :
+    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      IsAbelianClassFieldLayer V ∧ globalNormSubgroup K V = N.1.toSubgroup :=
+  haveI := N.2
+  globalAbelianExistence K N.1.toSubgroup N.1.isOpen
+
+/-- **The global class field attached to an open finite-index subgroup `N ≤ C_K`.** It is the
+abelian layer produced by `globalAbelianExistence`, unique by `globalClassField_unique`. The
+Hilbert, narrow Hilbert, ray and quadratic-order ring class fields are all values of `classField`
+at particular norm subgroups, never independent constructions. -/
+noncomputable def globalClassField (N : GlobalNormSubgroups K) :
+    AbelianLayer (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+  ⟨(exists_globalClassField K N).choose, (exists_globalClassField K N).choose_spec.1⟩
+
+/-- **The characterizing equation of `globalClassField`:** its norm subgroup is `N`. -/
+theorem globalClassField_normSubgroup (N : GlobalNormSubgroups K) :
+    globalNormSubgroup K (globalClassField K N).1 = N.1.toSubgroup :=
+  (exists_globalClassField K N).choose_spec.2
+
+/-- **The subgroup form of the correspondence's order.** ⚠ As in the local case the inclusions run
+the same way on subgroups; the classical order-reversing statement is on fields
+(`globalClassField_orderReversing`). -/
+theorem globalClassField_le_iff (N₁ N₂ : GlobalNormSubgroups K) :
+    N₁ ≤ N₂ ↔ (globalClassField K N₁).1 ≤ (globalClassField K N₂).1 :=
+  sorry
+
+/-- **Order reversal, in fields**: `N₁ ≤ N₂` exactly when the class field of `N₂` is contained in
+the class field of `N₁`. -/
+theorem globalClassField_orderReversing (N₁ N₂ : GlobalNormSubgroups K) :
+    N₁ ≤ N₂ ↔
+      classField K (globalClassField K N₂).1 ≤ classField K (globalClassField K N₁).1 :=
+  (globalClassField_le_iff K N₁ N₂).trans
+    (classField_le_classField_iff K (globalClassField K N₁).1 (globalClassField K N₂).1).symm
+
+/-- **The global class-field correspondence for a number field**: an order isomorphism between the
+open finite-index subgroups of `C_K` and the finite abelian extensions of `K`, read through
+`classField` as the classical order-**reversing** bijection onto fields. -/
+noncomputable def globalClassFieldCorrespondence :
+    GlobalNormSubgroups K ≃o AbelianLayer (ProfiniteCohomology.AbsoluteGaloisGroup K) where
+  toFun N := globalClassField K N
+  invFun V := globalNormOpenSubgroup K V.1
+  left_inv N := by
+    refine Subtype.ext (OpenSubgroup.toSubgroup_injective ?_)
+    exact globalClassField_normSubgroup K N
+  right_inv V := by
+    refine Subtype.ext (globalClassField_unique K ?_ V.2 ?_)
+    · exact (globalClassField K (globalNormOpenSubgroup K V.1)).2
+    · exact globalClassField_normSubgroup K (globalNormOpenSubgroup K V.1)
+  map_rel_iff' := fun {N₁ N₂} => (globalClassField_le_iff K N₁ N₂).symm
+
+/-- **The canonical quotient identification `C_K / N_{L/K}(C_L) ≃ Gal(L/K)`** for an abelian layer.
+As in the local case the target is the Galois group of the layer, not an abelianization. -/
+noncomputable def globalAbelianGaloisEquiv
+    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (hV : IsAbelianClassFieldLayer V) :
+    GlobalNumberFields.IdeleClassGroup K ⧸ globalNormSubgroup K V ≃*
+      (NormalLayer.ofOpenNormal V).Gal :=
+  sorry
+
+/-- **The characterizing equation of `globalAbelianGaloisEquiv`:** composed with
+`Abelianization.of` it is the abstract Artin map of the layer, so it is reciprocity and not an
+arbitrary isomorphism of two finite groups of the same order. -/
+theorem globalAbelianGaloisEquiv_artinMap
+    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (hV : IsAbelianClassFieldLayer V) (c : GlobalNumberFields.IdeleClassGroup K) :
+    Additive.ofMul (Abelianization.of (globalAbelianGaloisEquiv K hV (QuotientGroup.mk c))) =
+      (globalClassFormation K).artinMap (NormalLayer.ofOpenNormal V)
+        (globalGroundEquiv K (Additive.ofMul c)) :=
+  sorry
+
+/-- **The index equality `[C_K : N_{L/K}(C_L)] = [L : K]`** for an abelian layer; the layer form of
+`card_ideleClassNormQuotient`. -/
+theorem index_globalNormSubgroup
+    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (hV : IsAbelianClassFieldLayer V) :
+    (globalNormSubgroup K V).index = (NormalLayer.ofOpenNormal V).degree :=
+  (Subgroup.index_eq_card _).trans (Nat.card_congr (globalAbelianGaloisEquiv K hV).toEquiv)
+
+/-- **The canonical quotient identification `C_K / N ≃ Gal(L/K)`** for the class field `L` attached
+to `N`. -/
+noncomputable def globalClassFieldGaloisEquiv (N : GlobalNormSubgroups K) :
+    GlobalNumberFields.IdeleClassGroup K ⧸ N.1.toSubgroup ≃*
+      (NormalLayer.ofOpenNormal (globalClassField K N).1).Gal :=
+  (QuotientGroup.quotientMulEquivOfEq (globalClassField_normSubgroup K N).symm).trans
+    (globalAbelianGaloisEquiv K (globalClassField K N).2)
+
+/-- **The index equality `[C_K : N] = [L : K]`.** -/
+theorem globalClassField_index (N : GlobalNormSubgroups K) :
+    N.1.toSubgroup.index = (NormalLayer.ofOpenNormal (globalClassField K N).1).degree :=
+  (globalClassField_normSubgroup K N) ▸ index_globalNormSubgroup K (globalClassField K N).2
+
+/-- The Galois group of the field cut out by an open normal subgroup is the layer's Galois group.
+Composed with `globalClassFieldGaloisEquiv` this gives `Gal(L/K) ≃ C_K / N` for the class field of
+`N`, and it is how the ray-class, Hilbert and ring-class Galois groups below are computed. -/
+noncomputable def galClassFieldEquiv
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (classField K V ≃ₐ[K] classField K V) ≃* (NormalLayer.ofOpenNormal V).Gal :=
   sorry
 
 /-- The norm-index theorem for finite abelian extensions: `[C_K : N C_L] = [L:K]`. -/
@@ -2215,11 +2839,66 @@ theorem isGlobalNorm_iff_isLocalNormEverywhere [Module.Finite K L] [IsGalois K L
       IsLocalNormEverywhere K L x :=
   (cyclicHasseNorm K L x).trans (principalIdele_mem_range_ideleNormMap_iff K L x)
 
-/-- Ring class field of an order in a **quadratic** field. Its construction uses the congruence
-subgroup `P_{K,ℤ}(𝔣)` of ideals prime to the conductor generated by principal ideals with a
-rational generator modulo `𝔣`, whose quotient is `GlobalNumberFields.Pic O`, the group of classes
-of **invertible proper** fractional ideals; raw proper ideals in the ideal class monoid do not
-enter.
+/-! ### The named class fields
+
+Every class field named below is a value of `classField` at a value of `globalClassField`: none of
+them is an independent construction and none of them substitutes for the correspondence. What each
+one contributes is its own *norm subgroup* — the arithmetic input — after which the field, its
+Galois group and its degree come from Layer 12. -/
+
+/-- The ray subgroup of a modulus is open in `C_K`: it is the image of the open idelic congruence
+subgroup `GlobalNumberFields.IdeleCongruenceSubgroup 𝔪`. -/
+theorem isOpen_raySubgroup (𝔪 : GlobalNumberFields.Modulus K) :
+    IsOpen ((GlobalNumberFields.RaySubgroup 𝔪 : Subgroup (GlobalNumberFields.IdeleClassGroup K)) :
+      Set (GlobalNumberFields.IdeleClassGroup K)) :=
+  sorry
+
+/-- The ray subgroup has finite index: it is the kernel of `GlobalNumberFields.rayClassQuotient`,
+which is surjective onto the finite `RayClassGroup 𝔪`. -/
+theorem finiteIndex_raySubgroup (𝔪 : GlobalNumberFields.Modulus K) :
+    (GlobalNumberFields.RaySubgroup 𝔪).FiniteIndex :=
+  sorry
+
+/-- The ray subgroup as an element of the source carrier of the global correspondence. -/
+noncomputable def rayNormSubgroup (𝔪 : GlobalNumberFields.Modulus K) : GlobalNormSubgroups K :=
+  ⟨⟨GlobalNumberFields.RaySubgroup 𝔪, isOpen_raySubgroup K 𝔪⟩, finiteIndex_raySubgroup K 𝔪⟩
+
+/-- **The ray class field of a modulus**: the class field of the ray subgroup. -/
+noncomputable def rayClassField (𝔪 : GlobalNumberFields.Modulus K) :
+    IntermediateField K (SeparableClosure K) :=
+  classField K (globalClassField K (rayNormSubgroup K 𝔪)).1
+
+/-- **The Hilbert class field**: the ray class field of the trivial modulus. Defined for every
+number field, in every degree; only the *ring* class field of a nonmaximal order is restricted to
+the quadratic case. -/
+noncomputable def hilbertClassField : IntermediateField K (SeparableClosure K) :=
+  rayClassField K (GlobalNumberFields.Modulus.one K)
+
+/-- **The narrow Hilbert class field**: the ray class field of `GlobalNumberFields.narrowModulus`,
+the modulus that is trivial at the finite places and carries every real place. -/
+noncomputable def narrowHilbertClassField : IntermediateField K (SeparableClosure K) :=
+  rayClassField K (GlobalNumberFields.narrowModulus K)
+
+/-- The Galois group of the ray class field of `𝔪` is the ray class group of `𝔪`: the composite of
+`galClassFieldEquiv`, `globalClassFieldGaloisEquiv` and
+`GlobalNumberFields.ker_rayClassQuotient`. -/
+theorem gal_rayClassField_equiv_rayClassGroup (𝔪 : GlobalNumberFields.Modulus K) :
+    Nonempty ((rayClassField K 𝔪 ≃ₐ[K] rayClassField K 𝔪) ≃*
+      GlobalNumberFields.RayClassGroup 𝔪) :=
+  sorry
+
+/-- The Galois group of the Hilbert class field is the class group: the modulus-`1` case of
+`gal_rayClassField_equiv_rayClassGroup`. -/
+theorem gal_hilbertClassField_equiv_classGroup :
+    Nonempty ((hilbertClassField K ≃ₐ[K] hilbertClassField K) ≃* ClassGroup (𝓞 K)) :=
+  sorry
+
+/-- **The idelic ring-class quotient of an order in a quadratic field.** This is the one piece of
+arithmetic the ring class field needs beyond the correspondence: it factors through
+`GlobalNumberFields.rayClassQuotient` at the conductor and divides out the ray classes represented
+by ideals with a rational generator, so that its target is `GlobalNumberFields.Pic O`, the group of
+classes of **invertible proper** fractional ideals; raw proper ideals in the ideal class monoid do
+not enter.
 
 ⚠ The hypothesis `hK : Module.finrank ℚ K = 2` is load-bearing, not decoration. The congruence
 description of `Pic O` needs `O = ℤ + 𝔣𝒪_K`, which is exactly what holds for every order in a
@@ -2228,10 +2907,40 @@ of index `f` are not of that form, and `Pic O` is then not a ray-class quotient 
 the conductor alone. This roadmap asserts no general-order ring class field and imports no
 quadratic terminology into higher degrees. Cox, *Primes of the Form x² + ny²*, §7 (Prop. 7.22)
 and §9 (Thm. 9.18). -/
+noncomputable def ringClassIdeleQuotient (O : GlobalNumberFields.NumberFieldOrder K)
+    (hK : Module.finrank ℚ K = 2) :
+    GlobalNumberFields.IdeleClassGroup K →* GlobalNumberFields.Pic O :=
+  sorry
+
+theorem ringClassIdeleQuotient_surjective (O : GlobalNumberFields.NumberFieldOrder K)
+    (hK : Module.finrank ℚ K = 2) :
+    Function.Surjective (ringClassIdeleQuotient K O hK) :=
+  sorry
+
+theorem isOpen_ker_ringClassIdeleQuotient (O : GlobalNumberFields.NumberFieldOrder K)
+    (hK : Module.finrank ℚ K = 2) :
+    IsOpen (((ringClassIdeleQuotient K O hK).ker :
+      Subgroup (GlobalNumberFields.IdeleClassGroup K)) :
+      Set (GlobalNumberFields.IdeleClassGroup K)) :=
+  sorry
+
+theorem finiteIndex_ker_ringClassIdeleQuotient (O : GlobalNumberFields.NumberFieldOrder K)
+    (hK : Module.finrank ℚ K = 2) :
+    (ringClassIdeleQuotient K O hK).ker.FiniteIndex :=
+  sorry
+
+/-- The ring-class norm subgroup, as an element of the source carrier of the correspondence. -/
+noncomputable def ringClassNormSubgroup (O : GlobalNumberFields.NumberFieldOrder K)
+    (hK : Module.finrank ℚ K = 2) : GlobalNormSubgroups K :=
+  ⟨⟨(ringClassIdeleQuotient K O hK).ker, isOpen_ker_ringClassIdeleQuotient K O hK⟩,
+    finiteIndex_ker_ringClassIdeleQuotient K O hK⟩
+
+/-- **The ring class field of an order in a quadratic field**: the class field of
+`ringClassNormSubgroup`. The quadratic hypothesis travels with it. -/
 noncomputable def ringClassField (O : GlobalNumberFields.NumberFieldOrder K)
     (hK : Module.finrank ℚ K = 2) :
-    IntermediateField K (AlgebraicClosure K) :=
-  sorry
+    IntermediateField K (SeparableClosure K) :=
+  classField K (globalClassField K (ringClassNormSubgroup K O hK)).1
 
 /-- The ideal form of reciprocity for a ring class field. Its source is explicitly the supplier's
 group of invertible proper fractional ideals, not the type of all proper fractional ideals; in the
@@ -2257,25 +2966,17 @@ theorem ringClassArtinMap_surjective (O : GlobalNumberFields.NumberFieldOrder K)
     Function.Surjective (ringClassArtinMap K O hK) :=
   sorry
 
-/-- Reciprocity identifies the ring class field Galois group with the imported Picard group. -/
+/-- Reciprocity identifies the ring class field Galois group with the imported Picard group: the
+composite of `galClassFieldEquiv`, `globalClassFieldGaloisEquiv` and the definition of
+`ringClassNormSubgroup` as the kernel of `ringClassIdeleQuotient`. -/
 theorem gal_ringClassField_equiv_pic (O : GlobalNumberFields.NumberFieldOrder K)
     (hK : Module.finrank ℚ K = 2) :
     Nonempty ((ringClassField K O hK ≃ₐ[K] ringClassField K O hK) ≃* GlobalNumberFields.Pic O) :=
   sorry
 
-/-- The Hilbert class field: the class field of the trivial modulus. Defined for every number
-field, in every degree; only the *ring* class field of a nonmaximal order is restricted to the
-quadratic case. -/
-noncomputable def hilbertClassField : IntermediateField K (AlgebraicClosure K) :=
-  sorry
-
-/-- The Galois group of the Hilbert class field is the class group. -/
-theorem gal_hilbertClassField_equiv_classGroup :
-    Nonempty ((hilbertClassField K ≃ₐ[K] hilbertClassField K) ≃* ClassGroup (𝓞 K)) :=
-  sorry
-
 /-- The maximal-order comparison: in a quadratic field the ring class field of the maximal order
-is the Hilbert class field, so the two constructions agree where both are defined. -/
+is the Hilbert class field, so the two constructions agree where both are defined. By
+`globalClassField_unique` it suffices to identify the two norm subgroups. -/
 theorem ringClassField_maximal (O : GlobalNumberFields.NumberFieldOrder K)
     (hK : Module.finrank ℚ K = 2) (hO : O.conductor = ⊤) :
     ringClassField K O hK = hilbertClassField K :=
