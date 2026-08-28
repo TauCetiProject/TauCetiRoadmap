@@ -13,6 +13,15 @@ Generic ideal weights, Euler products, summation, density, and Tauberian theory 
 `ArithmeticDirichletSeries`. Moduli, ray-class characters, and Hecke characters are imported from
 `GlobalNumberFields`. This file defines none of those carriers and contains no Frobenius or
 Chebotarev predicate.
+
+Poisson summation for a full-rank `ℤ`-lattice in a finite-dimensional real inner product space,
+the dual lattice, and the Fourier transform of a Gaussian on such a space belong to
+`TauCetiRoadmap.ThetaSeries`: `poissonSummation`, `summable_poisson_left`,
+`summable_poisson_right`, `dual`, `dual_dual`, `covolume_dual`, `gaussian`, `gaussian_apply` and
+`fourier_gaussian`. The Layer 1 declarations below are the specialization of those to the mixed
+embedding of a fractional ideal, and each one that has a generic ancestor names it in its
+docstring. They are cited by name rather than by an `import`, so that the number-field targets
+here elaborate against Mathlib alone; nothing generic is restated.
 -/
 
 namespace TauCetiRoadmap.LFunctions
@@ -234,7 +243,12 @@ theorem riemannZetaData_hasContinuation :
 theorem riemannZetaData_hasFunctionalEquation :
     riemannZetaData.HasFunctionalEquation := sorry
 
-/-! ## Layer 1: Poisson summation and theta transformations -/
+/-! ## Layer 1: the mixed-space specialization of Poisson summation, and theta
+
+Nothing generic is developed here. `TauCetiRoadmap.ThetaSeries` owns lattice Poisson summation
+and the Gaussian Fourier transform; this section fixes the Fourier conventions of the mixed space,
+transports the supplier's theorem onto it, and compares the Euclidean dual of an ideal lattice
+with its trace dual. -/
 
 structure FEPairWithLevel (E : Type*) [NormedAddCommGroup E] [NormedSpace ℂ E] where
   f : ℝ → E
@@ -257,6 +271,20 @@ noncomputable def mixedInner (K : Type u) [Field K] [NumberField K]
   ∑ place : {place : InfinitePlace K // place.IsReal}, x.1 place * y.1 place +
     ∑ place : {place : InfinitePlace K // place.IsComplex},
       (x.2 place * starRingEnd ℂ (y.2 place)).re
+
+open scoped Classical in
+/-- **The bridge to the generic Poisson theorem.** `mixedSpace K` carries a product sup norm and
+is not an inner product space, so `TauCetiRoadmap.ThetaSeries.poissonSummation` — which is stated
+for a finite-dimensional real inner product space — does not apply to it directly. Mathlib's
+`NumberField.mixedEmbedding.euclidean.mixedSpace` is an inner product space, and this says that
+Mathlib's equivalence `euclidean.toMixed` carries its inner product to `mixedInner`. Together with
+`NumberField.mixedEmbedding.euclidean.volumePreserving_toMixed`, which carries `volume` to
+`volume`, it is what makes `poissonSummation_idealLattice` below a transported instance of the
+generic theorem rather than a second development of it. -/
+theorem mixedInner_toMixed (K : Type u) [Field K] [NumberField K]
+    (x y : mixedEmbedding.euclidean.mixedSpace K) :
+    mixedInner K (mixedEmbedding.euclidean.toMixed K x)
+        (mixedEmbedding.euclidean.toMixed K y) = inner ℝ x y := sorry
 
 noncomputable def traceToEuclidean
     (K : Type u) [Field K] [NumberField K] :
@@ -294,13 +322,20 @@ noncomputable def mixedFourier (K : Type u) [Field K] [NumberField K]
     (f : mixedEmbedding.mixedSpace K → ℂ) : mixedEmbedding.mixedSpace K → ℂ :=
   VectorFourier.fourierIntegral Real.fourierChar MeasureTheory.volume (mixedInnerBilin K) f
 
-/-- The Gaussian `exp (-π t Q x)` of the Euclidean pairing. -/
+/-- The Gaussian `exp (-π t Q x)` of the Euclidean pairing. It is the generic
+`TauCetiRoadmap.ThetaSeries.gaussian` on the imaginary axis, at `τ = I * t`: Hecke's method uses
+only that ray, and the holomorphic upper-half-plane theta built from the rest of it belongs to
+that roadmap. Its Fourier transform is `ThetaSeries.fourier_gaussian` at the same point; that is
+the first conjunct of `gaussianTheta_mellin_normalization` below. -/
 noncomputable def mixedGaussian (K : Type u) [Field K] [NumberField K] (t : ℝ)
     (x : mixedEmbedding.mixedSpace K) : ℂ :=
   Complex.exp ((-Real.pi * t * mixedInner K x x : ℝ) : ℂ)
 
 /-- The dual lattice of `mixedInner`. By `analyticDual_mixedEmbedding` it is the image of the
-trace dual under `traceToEuclidean`. -/
+trace dual under `traceToEuclidean`. This is `TauCetiRoadmap.ThetaSeries.dual` at the ideal
+lattice, written out elementwise in the mixed space so that the trace-dual comparison can be
+stated against it; it is not a second dual-lattice notion, and biduality and the dual covolume are
+that roadmap's `dual_dual` and `covolume_dual`. -/
 noncomputable def dualIdealLattice (K : Type u) [Field K] [NumberField K]
     (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) : AddSubgroup (mixedEmbedding.mixedSpace K) where
   carrier := {y | ∀ x ∈ mixedEmbedding.idealLattice K I, ∃ n : ℤ, mixedInner K x y = (n : ℝ)}
@@ -309,9 +344,33 @@ noncomputable def dualIdealLattice (K : Type u) [Field K] [NumberField K]
   neg_mem' := sorry
 
 open scoped Classical in
-/-- Poisson summation over an ideal lattice of the mixed space. The covolume is Mathlib's
-`ZLattice.covolume`, evaluated by `NumberField.mixedEmbedding.covolume_idealLattice` as
-`N(I) * 2 ^ (-r₂) * √|d_K|`; this roadmap does not restate that computation. -/
+/-- The ideal lattice read in Mathlib's Euclidean model of the mixed space, where the generic
+Poisson theorem applies. Both instances below are found by `infer_instance`, so this really is a
+full-rank `ℤ`-lattice of an inner product space. -/
+noncomputable def euclideanIdealLattice (K : Type u) [Field K] [NumberField K]
+    (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
+    Submodule ℤ (mixedEmbedding.euclidean.mixedSpace K) :=
+  ZLattice.comap ℝ (mixedEmbedding.idealLattice K I)
+    (mixedEmbedding.euclidean.toMixed K).toLinearMap
+
+open scoped Classical in
+instance (K : Type u) [Field K] [NumberField K] (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
+    DiscreteTopology (euclideanIdealLattice K I) := by
+  unfold euclideanIdealLattice; infer_instance
+
+open scoped Classical in
+instance (K : Type u) [Field K] [NumberField K] (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
+    IsZLattice ℝ (euclideanIdealLattice K I) := by
+  unfold euclideanIdealLattice; infer_instance
+
+open scoped Classical in
+/-- Poisson summation over an ideal lattice of the mixed space. **This is the specialization of
+`TauCetiRoadmap.ThetaSeries.poissonSummation` to `euclideanIdealLattice`, transported along
+`NumberField.mixedEmbedding.euclidean.toMixed` by `mixedInner_toMixed` and Mathlib's
+`euclidean.volumePreserving_toMixed`**; the generic theorem is owned there and is not restated
+here. The covolume is Mathlib's `ZLattice.covolume`, evaluated by
+`NumberField.mixedEmbedding.covolume_idealLattice` as `N(I) * 2 ^ (-r₂) * √|d_K|`; this roadmap
+does not restate that computation either. -/
 theorem poissonSummation_idealLattice (K : Type u) [Field K] [NumberField K]
     (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ)
     (f : SchwartzMap (mixedEmbedding.mixedSpace K) ℂ) :
@@ -535,7 +594,12 @@ Mathlib's `Gammaℂ s = 2 (2π) ^ (-s) Γ s` — and the Mellin convention `∫ 
 one as `exists_mellin_completedHeckeLFunction`. The last conjunct repeats
 `completedDedekindZeta_eq` deliberately, so that the discriminant power and the gamma factors are
 audited beside the Fourier and covolume conventions they come from: scattered convention remarks
-do not prevent a factor-of-two or an inverse-discriminant error. -/
+do not prevent a factor-of-two or an inverse-discriminant error.
+
+The first conjunct is `TauCetiRoadmap.ThetaSeries.fourier_gaussian` at `τ = I * t`, and the second
+is `poissonSummation_idealLattice` applied to it; both are stated again here because the point of
+the theorem is that the four number-field constants — the covolume, the discriminant power and the
+two archimedean factors — are audited against the Fourier conventions in one place. -/
 theorem gaussianTheta_mellin_normalization (K : Type u) [Field K] [NumberField K] :
     (∀ t : ℝ, 0 < t → ∀ y : mixedEmbedding.mixedSpace K,
         mixedFourier K (mixedGaussian K t) y =

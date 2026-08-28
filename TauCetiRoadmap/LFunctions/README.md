@@ -1,15 +1,19 @@
 # Roadmap: L-functions — completions and functional equations
 
 This roadmap develops the analytic theory of the principal L-functions attached to number
-fields. It starts with a normalization-conscious record for completed L-functions, proves the
-Poisson and theta identities used in Hecke's method, constructs the continued Dedekind zeta and
-Hecke L-functions, and packages conductors, root numbers, and Grossencharacters.
+fields. It starts with a normalization-conscious record for completed L-functions, specializes
+lattice Poisson summation to the mixed embedding and proves the theta identities used in Hecke's
+method, constructs the continued Dedekind zeta and Hecke L-functions, and packages conductors,
+root numbers, and Grossencharacters.
 
-Two neighbouring roadmaps deliberately own the reusable substrate. Arithmetic Dirichlet Series
+Three neighbouring roadmaps deliberately own the reusable substrate. Arithmetic Dirichlet Series
 owns ideal weights, norm regrouping, Euler products, density, summation, and Tauberian methods.
 Global Number Fields owns moduli, ray class groups, ray class characters, and the Hecke-character
-carrier. This roadmap consumes those declarations and owns the analytic presentations,
-completions, and functional equations attached to them.
+carrier. Theta Series owns Poisson summation for a full-rank `ℤ`-lattice in a finite-dimensional
+real inner product space, the Fourier transform of a Gaussian on such a space, and the theta
+series of a lattice with its transformation laws and its modularity. This roadmap consumes those
+declarations and owns the analytic presentations, completions, and functional equations attached
+to them; of the theta material it owns the number-field specialization and nothing generic.
 
 Suggested home: `TauCeti/NumberTheory/LFunctions/`, divided into `Data/`, `Theta/`,
 `DedekindZeta/`, `Dirichlet/`, `Hecke/`, and `Grossencharacter/`.
@@ -22,9 +26,12 @@ exhaustive checklist. Dated provenance records are maintained privately and are 
 
 - analytic- and arithmetic-normalized completed L-function records and their duals;
 - conductor, gamma-shift, degree, root-number, polar-divisor, and normalization conventions;
-- Poisson summation and Gaussian theta transformations needed by Hecke's method, together with
-  the single theorem that fixes the additive character, the self-dual measure, the Fourier sign,
-  the discriminant factor and both archimedean factors at once;
+- the number-field specialization of lattice Poisson summation: the Euclidean pairing of the
+  mixed space and its transport to Mathlib's Euclidean model, the comparison of the Euclidean dual
+  of an ideal lattice with its trace dual, and the real-parameter Gaussian theta of an ideal
+  lattice with its Mellin transform, together with the single theorem that fixes the additive
+  character, the self-dual measure, the Fourier sign, the discriminant factor and both archimedean
+  factors at once;
 - partial zeta functions and the continuation, residue, and functional equation of Dedekind zeta;
 - special values and exact quadratic and cyclotomic factorizations;
 - Dirichlet L-function cards extending Mathlib's continued functions;
@@ -77,12 +84,37 @@ rayClassIdealMainTerm
 The character carrier is therefore available without importing Class Field Theory. Reciprocity
 and class fields are not used merely to restate a Hecke character.
 
+From `ThetaSeries`:
+
+```text
+poissonSummation
+summable_poisson_left
+summable_poisson_right
+dual
+dual_dual
+covolume_dual
+gaussian
+gaussian_apply
+fourier_gaussian
+```
+
+Lattice Poisson summation, the dual lattice and the Fourier transform of a Gaussian are that
+roadmap's, stated for a full-rank `ℤ`-lattice in an arbitrary finite-dimensional real inner
+product space. Layer 1 here specializes them to the mixed embedding of a fractional ideal. It
+states no second Poisson theorem, no second dual-lattice notion, and no theta series on the upper
+half plane.
+
 ### Not owned here
 
 - generic ideal-series operations, Euler-product calculus, norm regrouping, logarithmic
   derivatives, density predicates, Abel/Perron summation, Landau, or Wiener--Ikehara
   (`ArithmeticDirichletSeries`);
 - moduli, ray classes, adeles, ideles, and Hecke-character carriers (`GlobalNumberFields`);
+- Poisson summation for a lattice in a real inner product space, the Fourier transform of a
+  Gaussian on such a space, the dual-lattice, covolume, biduality and scaling lemmas that go with
+  them, the theta series of a lattice and of its cosets on the upper half plane, the `T`- and
+  `S`-transformation laws, Gauss sums of a lattice, and every modularity statement
+  (`ThetaSeries`);
 - Frobenius or Artin-symbol carriers (`NumberFieldArithmetic`);
 - Frobenius prime sets, cyclotomic crossing, fixed-field fibres, Chebotarev density, Frobenius von
   Mangoldt weights, or qualitative Chebotarev prime counting (`Chebotarev`);
@@ -140,6 +172,22 @@ continuation of `ζ_K`, its simple pole, and its nonvanishing on `Re s = 1`, all
 
 `rayClassIdealCount` is arithmetic input to Chebotarev, not to this roadmap. Its omission from the
 table is a boundary check.
+
+### Theta Series
+
+| Declaration | Use here |
+| --- | --- |
+| `ThetaSeries.poissonSummation` | the generic identity `∑' ℓ : L, f (v + ℓ) = (covolume L)⁻¹ ∑' m : L^∨, 𝓕 f m * 𝐞 ⟪v, m⟫` for a Schwartz `f`, of which `poissonSummation_idealLattice` is the instance at the ideal lattice. ⚠ It is stated for a real inner product space and `mixedSpace K` is not one: it is applied in Mathlib's `NumberField.mixedEmbedding.euclidean.mixedSpace`, which is, and transported back by `euclidean.toMixed`. `mixedInner_toMixed` says that transport carries the inner product to `mixedInner`, and Mathlib's `euclidean.volumePreserving_toMixed` says it carries `volume` to `volume` |
+| `ThetaSeries.summable_poisson_left` and `summable_poisson_right` | absolute summability of the two sides on their own, rather than only inside the Poisson equality; the Mellin transform of a theta series is computed by exchanging the sum with the integral, which the equality alone does not license |
+| `ThetaSeries.dual` and `ThetaSeries.dual_dual` | the dual lattice and biduality. `dualIdealLattice` is that notion at the ideal lattice of the mixed space, written out elementwise so that `analyticDual_mixedEmbedding` can compare it with the trace dual; it is an instance, not a second definition |
+| `ThetaSeries.covolume_dual` | `covolume L^∨ = (covolume L)⁻¹`, which turns Mathlib's covolume of the ideal lattice into the covolume of its dual without a second determinant computation |
+| `ThetaSeries.gaussian` and `gaussian_apply` | the Gaussian `exp (π i ‖x‖² τ)` for `τ` in the upper half plane, as a Schwartz function. `mixedGaussian K t` is this at `τ = i t`, and being Schwartz — the hypothesis Poisson summation takes — is part of its type rather than a separate lemma |
+| `ThetaSeries.fourier_gaussian` | `𝓕 (gaussian τ) y = (τ / i) ^ (-n/2) * exp (π i ‖y‖² (-1/τ))`. At `τ = i t` this is the first conjunct of `gaussianTheta_mellin_normalization`, the self-duality of the real-parameter Gaussian with factor `t ^ (-[K:ℚ]/2)` |
+
+The rest of that roadmap has no consumer here. The theta series on the upper half plane, the coset
+theta series, the `T`- and `S`-transformation laws, the Gauss sums and the two modularity theorems
+are its own; Hecke's method needs the Gaussian only on the imaginary axis, and this roadmap takes
+its Mellin transform there.
 
 ### Exports to Zeros of L-functions
 
@@ -250,17 +298,29 @@ Mandatory tests:
   and one;
 - a non-real character uses a genuinely distinct dual card.
 
-### Layer 1: Poisson summation and theta transformation
+### Layer 1: the mixed-space specialization of Poisson summation, and theta
 
-For a full `ℤ`-lattice in a finite-dimensional real inner-product space, develop the Fourier
-transform of a Gaussian and prove Poisson summation for Schwartz functions. Include translation,
-scaling, covolume, dual-lattice, biduality, and product formulas needed by number fields.
+Lattice Poisson summation is not developed here. `ThetaSeries` owns it, for a full-rank
+`ℤ`-lattice in a finite-dimensional real inner product space and a Schwartz function, along with
+the Fourier transform of a Gaussian and the dual-lattice, biduality, covolume and summability
+lemmas that go with it; the exact declarations consumed are tabulated above. This layer builds
+what a number field adds to them, and nothing else.
 
 Fix the analytic conventions once, as data rather than as prose. The additive character is
 Mathlib's `Real.fourierChar`, so `𝐞 x = exp(2 π i x)`; the pairing is the Euclidean `mixedInner`,
 not the trace form; the measure is `volume`, which is self-dual for that pairing; and the sign is
 Mathlib's, `𝐞(-⟨x, y⟩)`. `mixedFourier` is the transform built from exactly those four choices,
 and every later normalization is a consequence of them.
+
+Transport the supplier's theorem onto the mixed space. `mixedSpace K` carries Mathlib's product
+sup norm and is not an inner product space, so the theorem does not apply to it as it stands;
+Mathlib's `NumberField.mixedEmbedding.euclidean.mixedSpace` is one, and `euclidean.toMixed` is a
+continuous linear equivalence between the two. Prove `mixedInner_toMixed`: that equivalence
+carries the inner product of the Euclidean model to `mixedInner`. Mathlib's
+`euclidean.volumePreserving_toMixed` carries `volume` to `volume`, and pulling the ideal lattice
+back along the equivalence gives `euclideanIdealLattice`, a full-rank `ℤ`-lattice there. Those
+three facts are what turn `ThetaSeries.poissonSummation` into `poissonSummation_idealLattice`,
+which is therefore a specialization and not a second proof.
 
 For the mixed embedding of a fractional ideal, compare the Euclidean dual with the trace dual.
 The comparison map is the identity on real coordinates and `z ↦ 2 conj z` on complex coordinates.
@@ -270,11 +330,15 @@ absolute determinant is `4^r₂`. The covolume itself is Mathlib's
 roadmap consumes that computation rather than restating it, and checks it at `K = ℚ(i)`, where
 the ring of integers has covolume one.
 
-Use Poisson summation to prove the Gaussian theta transformation, including the level, epsilon
-scalar, and constant terms. Package the Mellin transform as a functional-equation pair with level;
-the `epsilon` field occurs explicitly in its transformation law. The holomorphic
-upper-half-plane theta function and its modular transformation belong to the Integral Lattices
-roadmap; only the real-parameter Gaussian theta needed by Hecke's method is owned here.
+Use the transported Poisson summation to prove the Gaussian theta transformation, including the
+level, epsilon scalar, and constant terms. Package the Mellin transform as a functional-equation
+pair with level; the `epsilon` field occurs explicitly in its transformation law. The
+real-parameter Gaussian is the supplier's `ThetaSeries.gaussian` on the imaginary axis, at
+`τ = i t`, and its self-duality is `ThetaSeries.fourier_gaussian` at that point; what is owned
+here is the theta series of an ideal lattice assembled from them and its Mellin transform. The
+holomorphic upper-half-plane theta function, the coset theta series, the `T`- and
+`S`-transformation laws and every modularity statement belong to `ThetaSeries`; Hecke's method
+needs the Gaussian only on the imaginary axis and never leaves it.
 
 **One normalization theorem.** The functional equation depends on the additive character, the
 self-dual measure, the Fourier sign, the discriminant factor, the factor `2` inside
@@ -565,20 +629,23 @@ Retain two number-field zeta specializations of the shared arithmetic-series inf
 
 ## Ordering and parallelism
 
-Layer 0 can proceed with the completed-function record while Layer 1 develops Poisson summation.
-Layer 2 consumes Global Number Fields and the shared arithmetic-series substrate. Layers 3 and 4
-then settle the zeta and Dirichlet instances. Layers 5 and 6 build the Hecke instances; Layer 7
-uses their continuation, and Layer 8 records exact interoperability cards and examples.
+Layer 0 can proceed with the completed-function record while Layer 1 fixes the mixed-space Fourier
+conventions and specializes the supplier's Poisson theorem. Layer 2 consumes Global Number Fields
+and the shared arithmetic-series substrate. Layers 3 and 4 then settle the zeta and Dirichlet
+instances. Layers 5 and 6 build the Hecke instances; Layer 7 uses their continuation, and Layer 8
+records exact interoperability cards and examples.
 
 The roadmap-level dependency graph is exactly
 
 ```text
 ArithmeticDirichletSeries ─┐
-                           ├──> LFunctions ──> ZerosOfLFunctions
-GlobalNumberFields ────────┘
+GlobalNumberFields ────────┼──> LFunctions ──> ZerosOfLFunctions
+ThetaSeries ───────────────┘
 ```
 
-Chebotarev also consumes the two suppliers but is not a dependency of L-functions.
+Chebotarev also consumes the first two suppliers but is not a dependency of L-functions. The
+`ThetaSeries` arrow is used by Layer 1 alone, and it does not reverse: that roadmap states no
+number-field theta function and consumes nothing from here.
 
 The boundary exports do not reverse an arrow. Arithmetic Dirichlet Series does not import this
 roadmap: it states its prime ideal theorem conditionally on a record it names, and this roadmap
