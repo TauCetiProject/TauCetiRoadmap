@@ -27,6 +27,7 @@ body:
         - EllipticCurves
         - Exchangeability
         - GeometricTopology
+        - GlobalNumberFields
         - GrothendieckEulerForms
         - HeegaardFloer
         - HodgeStructures
@@ -40,6 +41,7 @@ body:
         - OneParameterSemigroups
         - OptimalTransport
         - PDE
+        - PolynomialGaloisGroups
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - ReductiveGroups
