@@ -8,7 +8,6 @@ import TauCetiRoadmap.GlobalNumberFields.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCetiRoadmap.RestrictedProducts.Suggested
 import TauCetiRoadmap.OrthogonalSpinGroups.Suggested
-import TauCetiRoadmap.LFunctions.Suggested
 
 /-!
 # Integral quadratic forms and lattices: target signatures
@@ -23,8 +22,7 @@ lattices, the convention table, the worked examples and the references. Mathlib 
 bilinear forms with Gram matrices and base change, `ZLattice` covolumes, Smith normal form
 with the index-equals-determinant theorems, and a dual-submodule construction, but no
 integral-lattice arithmetic: no even/odd theory, no discriminant groups or forms, no
-genus, no local densities, no Nikulin embedding theory, no lattice theta series. We build that
-in `TauCeti/`.
+genus, no local densities, no Nikulin embedding theory. We build that in `TauCeti/`.
 
 The first section retains the reviewed carrier merged in upstream PR #200: a full
 `Submodule ℤ V` in a rational ambient space, Mathlib's `dualSubmodule`, an actual quotient
@@ -32,21 +30,32 @@ for the discriminant group, and half-norm quadratic forms in `AddCircle (1 : ℚ
 finite-free integral forms and Nikulin's full-norm `ℚ/2ℤ` notation are boundary
 dictionaries, not competing public carriers.
 
-The second section checks the exact declarations imported from the seven final supplier
+The second section checks the exact declarations imported from the six final supplier
 roadmaps. Every name there is one the supplier actually exports in its own accepted scope:
 there are no private supplier structures or substitute carriers here, and no `#check` of a
-declaration a supplier has said it will not export. Where a supplier's contract is README-only
-(the Gaussian theta transformation) the dependency stays a prose
-milestone rather than an unconstrained Lean stand-in. Generic Tamagawa normalization, strong
+declaration a supplier has said it will not export. Generic Tamagawa normalization, strong
 approximation for `Spin`, the orthogonal volume theorem and Cho's smooth affine group scheme
 over `ℤ₂` are not README milestones of this
 roadmap at all: they belong to the successor `OrthogonalTamagawaAndLatticeMass`, together with
 the mass formula and the dyadic local density they assemble (`README.md`, §*Scope*). The same
 boundary names `IndefiniteLatticeAutomorphisms` for the automorphism groups of indefinite
-lattices and Borcherds' method, `IndefiniteThetaAndSiegelWeil` for the Siegel–Narain theta and
-the indefinite Siegel–Weil theorem, and `FiniteQuadraticModuleWittTheory` for the Witt group of
-finite quadratic modules; this file imports none of the four successors and defines no stand-in
-for any of them.
+lattices and Borcherds' method, `IndefiniteThetaAndSiegelWeil` for the Siegel–Narain theta of
+an indefinite lattice and the indefinite Siegel–Weil theorem, and
+`FiniteQuadraticModuleWittTheory` for the Witt group of finite quadratic modules; this file
+imports none of the four successors and defines no stand-in for any of them.
+
+**The theta series of a lattice is not this roadmap's.** `Θ_L`, `θ_γ`, their `T` and `S`
+transformation laws, the vector-valued law on discriminant cosets, lattice Poisson summation
+and every modularity statement belong to the
+[theta-series roadmap](../ThetaSeries/README.md), whose `thetaSeries`, `thetaCoset`,
+`thetaCosetClass`, `thetaSeries_add_one`, `thetaCoset_add_one`, `thetaSeries_neg_inv`,
+`thetaCoset_neg_inv` and `thetaCosetClass_neg_inv` are the declarations of record. This file
+defines no theta series and no transformation law, and `README.md`, §*Scope*, records the same
+boundary from both sides: that roadmap consumes the rational carrier, the dual, the
+discriminant group and forms, the finite quadratic modules, the overlattice correspondence and
+the ADE lattices **from here**, across its own Layer-2 bridge, and this roadmap consumes the
+theta series **from there**. The `import` lands when the theta-series roadmap merges; until
+then the names above are cited and not stood in for.
 
 The remaining sections pin targets for **Layer 0** (the bilinear and quadratic dictionary,
 Gram determinants, the standard examples), **Layer 1** (dual lattices, the
@@ -60,9 +69,7 @@ orthogonal splitting, the dyadic counterexample, the constraint from the product
 finiteness branches this roadmap owns), **Layer 5** (the primitivity
 dictionary, the K3-lattice existence shape, and Nikulin's existence and `2`-elementary
 predicates written out clause by clause), **Layer 6** (indefinite even unimodular
-uniqueness), **Layer 8** (theta convergence, the restriction of the holomorphic theta to
-the imaginary axis, the translation law under `T`, and the vector-valued law on discriminant
-cosets) and
+uniqueness) and
 **Layer 9** (`StoredGenusCertificate`, the object a stored LMFDB lattice
 record asserts, and the separate `StoredClassNumberCertificate` that carries completeness).
 They elaborate against the Mathlib version this repository builds
@@ -87,7 +94,7 @@ Conventions follow `README.md`: the rational bilinear form is primary, its restr
 the carrier is integral, and an abstract integral form enters through rationalization.
 Even lattices correspond to `QuadraticForm ℤ L` through `polarBilin` (never through
 `associated`, which needs `Invertible (2 : ℤ)`). Statements about bounded norms, minima,
-reduction, and theta series are stated for **positive** definite lattices.
+shells and reduction are stated for **positive** definite lattices.
 -/
 
 namespace TauCetiRoadmap.IntegralLattices
@@ -297,9 +304,10 @@ noncomputable def IntegralLattice.restrictionComparison
 
 /-! ### Two pieces of vocabulary the discriminant-form layers need by name
 
-`l(A)` and the character `e^{2πi·}` of `ℚ/ℤ` are used by Layer 1's Gauss-sum invariant, by
-Nikulin's boundary conditions in Layer 5, and by the vector-valued theta law of Layer 8. They
-are named once here rather than spelled out at each use. -/
+`l(A)` and the character `e^{2πi·}` of `ℚ/ℤ` are used by Layer 1's Gauss-sum invariant and
+Milgram's theorem, and by Nikulin's boundary conditions in Layer 5. They are named once here
+rather than spelled out at each use. The theta-series roadmap's `pairingChar` is the same
+character read on representatives in a real inner product space, and is that roadmap's. -/
 
 /-- **Nikulin's `l(A)`**: the least number of generators of a finite abelian group. This is
 real data, not a milestone: the formula *is* the convention being pinned. -/
@@ -659,13 +667,14 @@ end Overlattices
 /-! ## Exact supplier checks
 
 These are the Lean-level contracts this file uses directly, and every one of them is a
-declaration its supplier exports. The Gaussian theta transformation is
-still a README-level milestone in its owning roadmap; no local structure stands in for it.
+declaration its supplier exports.
 Generic adelic quotients, Tamagawa normalization, strong approximation for `Spin`, the
 orthogonal volume theorem and Cho's smooth affine group scheme over `ℤ₂` are not milestones of
 this roadmap: they are
 `OrthogonalTamagawaAndLatticeMass`'s, over #246's `TamagawaMeasures`, and nothing here `#check`s
-a name #246 or #255 has declined to export. -/
+a name #246 or #255 has declined to export. The theta-series roadmap is the one supplier this
+file cites by name without `#check`ing, because it is not yet importable; the block at the end
+of Layer 6 lists exactly which of its declarations are consumed. -/
 
 #check QuadraticFormInvariants.hilbertSymbol
 #check QuadraticFormInvariants.localHasse
@@ -701,7 +710,6 @@ a name #246 or #255 has declined to export. -/
 #check OrthogonalSpinGroups.finiteAdelicOrthogonal
 #check OrthogonalSpinGroups.transvection
 #check OrthogonalSpinGroups.transvectionLiftHom
-#check LFunctions.FEPairWithLevel
 
 section Layer0
 
@@ -759,10 +767,9 @@ example : (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ).det = -1 :=
   sorry
 
 /-- **Layer 0, positive twists stay positive definite.** `L(a)` is the same module with the
-form `a • β`. Positive definiteness is preserved exactly for `a > 0`, which is why the
-theta scaling law and the twist statements about masses in Layer 7 carry that hypothesis:
-for `a < 0` the twist lands in the negative definite category, and for `a = 0` it is
-degenerate. -/
+form `a • β`. Positive definiteness is preserved exactly for `a > 0`, which is why the shell
+and mass statements of Layers 2 and 7 carry that hypothesis: for `a < 0` the twist lands in
+the negative definite category, and for `a = 0` it is degenerate. -/
 example (β : LinearMap.BilinForm ℤ L) (hpos : (LinearMap.BilinMap.toQuadraticMap β).PosDef)
     {a : ℤ} (ha : 0 < a) :
     (LinearMap.BilinMap.toQuadraticMap (a • β)).PosDef :=
@@ -885,7 +892,7 @@ variable {L : Type u} [AddCommGroup L] [Module ℤ L] [Module.Free ℤ L] [Modul
 
 /-- **Layer 2, bounded-norm sets are finite.** For a positive definite lattice, only
 finitely many vectors have norm at most `C`. This is what makes minima, shells, kissing
-numbers and theta coefficients well defined, and it is **false** for negative definite
+numbers and representation numbers well defined, and it is **false** for negative definite
 lattices, where `β x x` is unbounded below; the negative definite statements are obtained
 by applying this one to `−β`. -/
 example (β : LinearMap.BilinForm ℤ L) (hpos : (LinearMap.BilinMap.toQuadraticMap β).PosDef)
@@ -930,8 +937,9 @@ theorem finite_classes_of_posDef (n : ℕ) (d : ℤ) :
 
 /-- **Layer 2, the covolume identity.** For a lattice realized in Euclidean space, the
 square of the `ZLattice` covolume is the Gram determinant of the dot-product form:
-`covolume(L)² = det L`. This reconciles the analytic `ZLattice` covolume (consumed
-for Minkowski-type bounds and by Layer 8) with the algebraic determinant, and is where the
+`covolume(L)² = det L`. This reconciles the analytic `ZLattice` covolume (consumed for
+Minkowski-type bounds here, and by the theta-series roadmap's `S`-transformation through its
+`covolume_eq_sqrt_natCard_discGroup`) with the algebraic determinant, and is where the
 `√det`-versus-`det` bookkeeping is fixed once. -/
 example {ι : Type} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι ℝ (ι → ℝ)) :
     ZLattice.covolume (Submodule.span ℤ (Set.range b)) ^ 2
@@ -1258,157 +1266,58 @@ example {n : ℕ} (G₁ G₂ : Matrix (Fin n) (Fin n) ℤ)
 
 end Layer6
 
-section Layer8
+/-! ## The theta series, consumed from Theta Series
 
-/-! ## Layer 8: the arithmetic theta series
+The theta series of a positive definite lattice, its transformation laws and its modularity
+are the [theta-series roadmap](../ThetaSeries/README.md)'s, and this file states none of them.
+`README.md`, §*Scope* and §*Layer 8*, record the same boundary, and the exchange is mutual:
+that roadmap's Layer-2 bridge builds an `IntegralLattice (ℚ ⊗[ℤ] L)` out of its real carrier
+and transports this roadmap's `dual`, `DiscriminantGroup`, `discriminantPairing`,
+`discriminantQuadraticForm`, `FiniteBilinearModule`, `FiniteQuadraticModule`,
+`evenOverlatticeEquivIsotropicSubgroup`, `ofIsotropicSubgroup` and `adeLattice` across it,
+while this roadmap quotes the analytic statements below and defines no competing copy.
 
-L-functions owns the general real-parameter Gaussian transformation and Poisson summation.
-Its generic lattice-level transformation is currently a README milestone, so this file does not
-invent a carrier or interface for it. The definitions below are the arithmetic objects owned by
-Integral Lattices; the README states the exact imported milestone used to prove their
-transformation law. -/
+The declarations consumed, all in namespace `TauCetiRoadmap.ThetaSeries`, are:
 
-variable {L : Type u} [AddCommGroup L] [Module ℤ L] [Module.Free ℤ L] [Module.Finite ℤ L]
+* `thetaSeries`, `thetaCoset`, `thetaCosetClass` — `Θ_L`, `θ_γ` and the coset series indexed
+  by the discriminant group, on `ℍ`, with `summable_thetaSeries`, `summable_thetaCoset`,
+  `thetaCoset_zero`, `thetaCoset_add_mem`, `thetaCoset_neg`, `thetaSeries_dual_eq_sum`,
+  `mdifferentiable_thetaSeries` and `mdifferentiable_thetaCoset`;
+* `hasSum_thetaSeries`, `qExpansion_thetaSeries_coeff`, `hasSum_thetaCoset` — the
+  `q`-expansions, whose coefficients are the representation numbers of 2B read through the
+  bridge;
+* `thetaSeries_orthSum`, `thetaSeries_scale`, `thetaSeries_int`, `thetaSeries_stdLattice` —
+  the orthogonal-sum and scaling laws and the rank-one identification with `jacobiTheta`;
+* `thetaSeries_add_one`, `thetaCoset_add_one`, `thetaSeries_add_two` — the translation law
+  under `T`, with the same evenness hypothesis and the same `jacobiTheta` rejection test that
+  Layer 8 used to carry;
+* `thetaSeries_neg_inv`, `thetaCoset_neg_inv`, `thetaCosetClass_neg_inv`, `pairingChar`,
+  `covolume_eq_sqrt_natCard_discGroup` — the scalar, general-translate and vector-valued
+  inversion laws under `S`.
 
-/-- **Layer 8A, real-parameter arithmetic theta.** -/
-noncomputable def realTheta (β : LinearMap.BilinForm ℤ L) (t : ℝ) : ℝ :=
-  ∑' x : L, Real.exp (-π * t * ((β x x : ℤ) : ℝ))
+Its `thetaForm`, `thetaFormOfLevel`, `thetaSeries_slash_of_mem_Gamma0`,
+`thetaCoset_slash_of_mem_Gamma`, `discChar` and `kroneckerChar` — level-one and
+Hecke–Schoeneberg modularity, and the nebentypus — are that roadmap's outright, and no
+milestone here consumes or restates them.
 
-/-- **Layer 8A, holomorphic arithmetic theta** on the upper half-plane. -/
-noncomputable def theta (β : LinearMap.BilinForm ℤ L) (τ : ℂ) : ℂ :=
-  ∑' x : L, Complex.exp ((π : ℂ) * Complex.I * τ * (β x x : ℤ))
+⚠ Its `milgram` runs the other way. `gaussSign` and `gaussSum_eq` above, and Milgram's
+theorem `t₊ − t₋ ≡ sign q_L (mod 8)` for an even nondegenerate lattice, are **this** roadmap's
+at every signature, proved arithmetically; that roadmap's `milgram` is the positive-definite
+instance `∑_{γ} e(q_L(γ)) = |A_L|^{1/2} e(n/8)`, proved by theta asymptotics, and its own
+scope section says so. Both are wanted, the bridge identifies them, and neither is derived
+from the other.
 
-/-- **Layer 8B, convergence.** For a positive definite integral
-lattice the theta sum `∑_{x ∈ L} exp(−π t · β(x,x))` converges for every `t > 0` — the
-summability behind `Θ_L(τ) = ∑ exp(πiτ·β(x,x))` on the upper half-plane. Mathlib's
-`jacobiTheta` is exactly `Θ_ℤ` in this normalization (the rank-1 reconciliation is a worked
-example in `README.md`). Positive definiteness is essential. -/
-example (β : LinearMap.BilinForm ℤ L) (hpos : (LinearMap.BilinMap.toQuadraticMap β).PosDef)
-    {t : ℝ} (ht : 0 < t) :
-    Summable fun x : L => Real.exp (-π * t * ((β x x : ℤ) : ℝ)) :=
-  sorry
+⚠ Nothing here weakens the positive-definiteness that roadmap builds into its carrier. The
+indefinite Siegel–Narain theta, summed against a maximal positive definite subspace of
+`L ⊗ ℝ`, is not obtained from any of the names above by dropping a hypothesis; it is the
+successor `IndefiniteThetaAndSiegelWeil`'s (`README.md`, §*Scope*), together with the
+indefinite Siegel–Weil theorem and the genus averages it evaluates.
 
-/-- **Layer 8A, the two arithmetic thetas agree on the imaginary axis.** This is the bridge
-from L-functions' real-parameter Gaussian theorem to the upper-half-plane law owned here. -/
-example (β : LinearMap.BilinForm ℤ L) {t : ℝ} (ht : 0 < t) :
-    theta β (t * Complex.I) = (realTheta β t : ℂ) :=
-  sorry
-
-/-- **Layer 8B, holomorphy** on the upper half-plane. Together with the previous bridge and
-L-functions' Gaussian transformation, the identity theorem gives Layer 8E. -/
-theorem differentiableOn_theta (β : LinearMap.BilinForm ℤ L) :
-    DifferentiableOn ℂ (theta β) {τ : ℂ | 0 < τ.im} :=
-  sorry
-
-/-- **Layer 8F, the translation law under `T`.** With the nome `q = e^{πiτ}` fixed in the
-conventions, integrality of `β` already gives period 2. -/
-theorem theta_add_two (β : LinearMap.BilinForm ℤ L) (τ : ℂ) :
-    theta β (τ + 2) = theta β τ :=
-  sorry
-
-/-- **Layer 8F, the even case**: period 1, because every norm is even. -/
-theorem theta_add_one_of_even (β : LinearMap.BilinForm ℤ L) (he : ∀ x, 2 ∣ β x x) (τ : ℂ) :
-    theta β (τ + 1) = theta β τ :=
-  sorry
-
-/-- **Layer 8F, the rejection test.** The parity hypothesis on `theta_add_one_of_even` is not
-decoration: `Θ_ℤ` is the odd unimodular rank-one series, its `q`-expansion has nonzero
-coefficients in odd degrees, and `jacobiTheta` is periodic with period 2 and not 1. -/
-theorem exists_theta_add_one_ne :
-    ∃ τ : ℂ, 0 < τ.im ∧
-      theta (Matrix.toBilin' (1 : Matrix (Fin 1) (Fin 1) ℤ)) (τ + 1)
-        ≠ theta (Matrix.toBilin' (1 : Matrix (Fin 1) (Fin 1) ℤ)) τ :=
-  sorry
-
-end Layer8
-
-section Layer8VectorValued
-
-/-! ## Layer 8E and 8G: the exported transformation law
-
-⚠ **These theorems are a transformation law and nothing more.** No declaration here is called
-`isModularForm`, none takes values in a space of modular forms, and none may be renamed to one
-before a half-integral-weight modular-forms carrier and a cusp-holomorphy theorem are imported.
-`README.md`, §*Scope*, records that neither has an owner. Positive definiteness is a boundary
-of the same kind: the indefinite Siegel–Narain theta, which sums against a maximal positive
-definite subspace of `L ⊗ ℝ`, is not a generalization of these declarations to be attempted by
-weakening `PosDef` — it is the successor `IndefiniteThetaAndSiegelWeil`'s (`README.md`,
-§*Scope*). -/
-
-variable {V : Type v} [AddCommGroup V] [Module ℚ V]
-
-namespace IntegralLattice
-
-/-- **Layer 8A**, the theta series of the lattice itself, on the embedded carrier. -/
-noncomputable def latticeTheta (L : IntegralLattice V) (τ : ℂ) : ℂ :=
-  ∑' x : L.carrier, Complex.exp ((π : ℂ) * Complex.I * τ * ((L.form (x : V) (x : V) : ℚ) : ℂ))
-
-/-- **Layer 8A**, the theta series of the dual lattice. Its form is rational-valued, so this is
-an instance of the analytic theta and not of the arithmetic one. -/
-noncomputable def dualTheta (L : IntegralLattice V) (τ : ℂ) : ℂ :=
-  ∑' x : L.dual, Complex.exp ((π : ℂ) * Complex.I * τ * ((L.form (x : V) (x : V) : ℚ) : ℂ))
-
-/-- **Layer 8G**, the theta series of the coset of `L` in `L^⋆` labelled by `μ ∈ A_L`. -/
-noncomputable def cosetTheta (L : IntegralLattice V) (μ : L.DiscriminantGroup) (τ : ℂ) : ℂ :=
-  ∑' x : {x : L.dual // L.carrierInDual.mkQ x = μ},
-    Complex.exp ((π : ℂ) * Complex.I * τ * ((L.form (x.1 : V) (x.1 : V) : ℚ) : ℂ))
-
-theorem cosetTheta_zero (L : IntegralLattice V) (τ : ℂ) :
-    L.cosetTheta 0 τ = L.latticeTheta τ := sorry
-
-theorem sum_cosetTheta (L : IntegralLattice V) [Fintype L.DiscriminantGroup] (τ : ℂ) :
-    ∑ ν : L.DiscriminantGroup, L.cosetTheta ν τ = L.dualTheta τ := sorry
-
-theorem cosetTheta_neg (L : IntegralLattice V) (μ : L.DiscriminantGroup) (τ : ℂ) :
-    L.cosetTheta (-μ) τ = L.cosetTheta μ τ := sorry
-
-/-- **Layer 8E, the exported transformation law under `S`.** For a positive definite lattice,
-
-    Θ_L(−1/τ) = (τ/i)^{n/2} (det L)^{−1/2} Θ_{L^⋆}(τ).
-
-The branch of `(τ/i)^{n/2}` is `Complex.cpow` on the principal branch, which is correct because
-`τ/i` has positive real part on the upper half-plane, and the square root is the positive real
-one, which exists because a positive definite lattice has `det L > 0`. -/
-theorem latticeTheta_neg_inv (L : IntegralLattice V) [L.IsNondegenerate]
-    (hpos : L.IsPositiveDefinite) {ι : Type} [Fintype ι] [DecidableEq ι]
-    (e : Basis ι ℤ L.carrier) {τ : ℂ} (hτ : 0 < τ.im) :
-    L.latticeTheta (-1 / τ) =
-      (τ / Complex.I) ^ ((Fintype.card ι : ℂ) / 2)
-        * ((Real.sqrt (L.gramDet e : ℝ) : ℂ))⁻¹ * L.dualTheta τ :=
-  sorry
-
-/-- **Layer 8G, the translation law on a discriminant coset.** The exponent is exactly the
-half-norm discriminant form of 1D, with no factor of two to insert; that is what the half-norm
-`ℚ/ℤ` convention buys, and Nikulin's `ℚ/2ℤ` convention would need the explicit dictionary. -/
-theorem cosetTheta_add_one (L : IntegralLattice V) [L.IsNondegenerate] (hev : L.IsEven)
-    (μ : L.DiscriminantGroup) (τ : ℂ) :
-    L.cosetTheta μ (τ + 1)
-      = expCircle (L.discriminantQuadraticForm hev μ) * L.cosetTheta μ τ :=
-  sorry
-
-/-- **Layer 8G, the vector-valued law under `S`.**
-
-    Θ_μ(−1/τ) = (τ/i)^{n/2} (det L)^{−1/2} ∑_{ν ∈ A_L} e^{−2πi b_L(μ,ν)} Θ_ν(τ).
-
-⚠ The sign inside the character is immaterial, because `cosetTheta_neg` lets `ν ↦ −ν` reverse
-it; a source with the opposite sign is not in conflict with this. The factor
-`(det L)^{−1/2}`, the branch of `(τ/i)^{n/2}` and the exponent `q_L(μ)` of `cosetTheta_add_one`
-are **not** immaterial. At `μ = 0` this is `latticeTheta_neg_inv`, by `cosetTheta_zero` and
-`sum_cosetTheta`, and that is the mandatory consistency check. -/
-theorem cosetTheta_neg_inv (L : IntegralLattice V) [L.IsNondegenerate]
-    [Fintype L.DiscriminantGroup] (hev : L.IsEven) (hpos : L.IsPositiveDefinite)
-    {ι : Type} [Fintype ι] [DecidableEq ι] (e : Basis ι ℤ L.carrier)
-    (μ : L.DiscriminantGroup) {τ : ℂ} (hτ : 0 < τ.im) :
-    L.cosetTheta μ (-1 / τ) =
-      (τ / Complex.I) ^ ((Fintype.card ι : ℂ) / 2)
-        * ((Real.sqrt (L.gramDet e : ℝ) : ℂ))⁻¹
-        * ∑ ν : L.DiscriminantGroup,
-            expCircle (-(L.discriminantPairing μ ν)) * L.cosetTheta ν τ :=
-  sorry
-
-end IntegralLattice
-
-end Layer8VectorValued
+⚠ The half-norm convention is the same on both sides. `discriminantQuadraticForm` is
+`q_L(x̄) = B(x,x)/2 mod ℤ` in `AddCircle (1 : ℚ)`, its exponent enters `thetaCoset_add_one`
+through `expCircle` with no factor of two to insert, and Nikulin's full-norm `ℚ/2ℤ` values are
+halved at the boundary. A contributor who finds `e^{π i q}` in a source has found the
+full-norm convention, not a discrepancy. -/
 
 section Layer9
 
@@ -1447,8 +1356,7 @@ structure StoredGenusCertificate where
   gram : Matrix (Fin dim) (Fin dim) ℤ
   /-- It is symmetric, so it is the Gram matrix of a lattice form (0A, 0C). -/
   gram_isSymm : gram.IsSymm
-  /-- It is positive definite, which is what makes 0A to 0E, 2B, 2C, 2G and 8B apply
-  (0E). -/
+  /-- It is positive definite, which is what makes 0A to 0E, 2B, 2C and 2G apply (0E). -/
   gram_posDef : (Matrix.toQuadraticForm' gram).PosDef
   /-- The label component `det`, the Gram determinant of 0C. -/
   det : ℤ
@@ -1476,12 +1384,14 @@ structure StoredGenusCertificate where
   /-- and it counts the integral congruences of `G` with itself. -/
   autOrder_eq :
     autOrder = Nat.card {P : Matrix (Fin dim) (Fin dim) ℤ // P.transpose * gram * P = gram}
-  /-- The stored theta coefficients, `r_L(k) = #S_k(L)` of 2B, which are the coefficients
-  of `Θ_L` in 8B. -/
-  theta : ℕ → ℕ
+  /-- The stored representation numbers `r_L(k) = #S_k(L)` of 2B, which the record's own
+  column calls the theta series. They are shell **counts** here, and the assertion below is a
+  count and not an identity of analytic functions: that they are the `q`-expansion
+  coefficients of `Θ_L` is the theta-series roadmap's `qExpansion_thetaSeries_coeff`. -/
+  repNum : ℕ → ℕ
   /-- and each one counts its shell. -/
-  theta_eq :
-    ∀ k : ℕ, theta k = Nat.card {x : Fin dim → ℤ // Matrix.toBilin' gram x x = (k : ℤ)}
+  repNum_eq :
+    ∀ k : ℕ, repNum k = Nat.card {x : Fin dim → ℤ // Matrix.toBilin' gram x x = (k : ℤ)}
   /-- The stored genus representatives. -/
   reps : List (Matrix (Fin dim) (Fin dim) ℤ)
   /-- Each one is the Gram matrix of a positive definite lattice. -/
@@ -1508,7 +1418,7 @@ def IsGenusMass {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ) (m : ℚ) : Prop :=
 
 /-- **Layer 9B, the completeness certificate.** This is the record the `class_number` column
 belongs to, and it is separate from 9A on purpose: exhaustiveness of a stored list is not
-provable from anything in Layers 0 to 8.
+provable from anything in Layers 0 to 7.
 
 The import is a **named hypothesis field**. `mass` is a rational number, `mass_isGenusMass`
 assumes that it is the mass of the genus in the sense of 7A, and `reps_exhaust_mass` is the
