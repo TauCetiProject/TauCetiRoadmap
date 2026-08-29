@@ -660,9 +660,10 @@ identification) needs Layers 3-4 and the highest-weight theory of
 [the root-systems roadmap](../RootSystems/README.md); it is stated at the Lie-algebra level, makes "the
 fundamental representation of `Bₗ`/`Dₗ`" precise, and completes
 [the classical-groups roadmap](../ClassicalGroups/README.md). Layer 6 (the exceptional isomorphisms) needs
-Layers 4-5 for the low-rank spin modules. Layer 7 (the real forms and Bott periodicity) needs Layer 1's
-structure theory and Layer 2's double cover, specialized to `ℝ`, and is independent of Layers 4-6. Layer 8
-(triality) needs Layer 5's half-spin identification and
+Layers 4-5 for the low-rank spin modules. Layer 7's real Clifford algebra classification uses the
+Clifford-algebra constructions from Layer 0 and the real base entries above. The real Pin and Spin group results
+use the double cover from Layer 2; both branches are independent of Layers 4-6. Layer 8 (triality) needs
+Layer 5's half-spin identification and
 [the root-systems roadmap](../RootSystems/README.md)'s `D₄` diagram automorphism, and its group-level stage a
 further integration theorem; it is the summit. A contributor can complete Layers 0-3 (the structure theory
 and the double cover) and the `Spin₃` and real-form examples well before the highest-weight identification of
