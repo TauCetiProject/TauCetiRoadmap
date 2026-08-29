@@ -1898,6 +1898,32 @@ theorem isOpen_inertia_weil :
     IsOpen {w : WeilGroup K | weilToAbsolute K w ∈ LocalFieldsRamification.inertia K} :=
   sorry
 
+/-- The inclusion of inertia into `W_K`, with `I_K` carrying the topology it already has as a
+closed subgroup of `G_K`. -/
+noncomputable def inertiaToWeil :
+    ↥(LocalFieldsRamification.inertia K) →* WeilGroup K :=
+  Subgroup.inclusion (inertia_le_localWeilGroup K)
+
+/-- **The characterization of the Weil topology, first half.** `I_K` does not merely sit inside
+`W_K` as an open subgroup: it does so *with its own profinite topology*, so the inclusion is an
+open topological embedding. ⚠ `isOpen_inertia_weil` alone is strictly weaker and does not pin the
+topology down — refining the topology of `I_K` and translating it along the cosets keeps that
+subgroup open while changing the group topology. The local compactness and topological
+abelianization results below use this statement, not the weak one. -/
+theorem isOpenEmbedding_inertiaToWeil :
+    Topology.IsOpenEmbedding (inertiaToWeil K) :=
+  sorry
+
+/-- **The characterization of the Weil topology, second half: uniqueness.** Any group topology on
+`W_K` for which `I_K` — again with its fixed profinite topology — includes as an open embedding is
+the Weil topology. Together with `isOpenEmbedding_inertiaToWeil` this is what "the unique group
+topology in which inertia is open" has to mean. -/
+theorem weilTopology_unique (t : TopologicalSpace (WeilGroup K))
+    (_ht : @IsTopologicalGroup (WeilGroup K) t _)
+    (_hopen : @Topology.IsOpenEmbedding _ _ _ t (inertiaToWeil K)) :
+    t = instTopologicalSpaceWeilGroup K :=
+  sorry
+
 /-- ⚠ The same subgroup is **not** open in `G_K`: its image in `Ẑ` is the singleton `{0}`, which
 is not open. This is exactly the difference between the Weil topology and the induced topology,
 and it is why `W_K` is locally compact while `G_K` is compact. -/

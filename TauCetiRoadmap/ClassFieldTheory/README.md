@@ -296,8 +296,11 @@ res(u_{U,V}) = u_{U',V}
 
 for an intermediate ground subgroup `V ≤ U' ≤ U`. For a refinement of the top subgroup, the
 inflation formula is scaled: `inf(u_{U,V}) = [V : V'] · u_{U,V'}`. Corestriction goes the other
-way and is scaled by the relative degree: `cor(u_{U',V}) = [U' : U] · u_{U,V}`, while it preserves
-invariants (`inv_cor`). These statements are needed to apply Tate's theorem to every subgroup
+way and is scaled by the relative degree: `cor(u_{U',V}) = [U : U'] · u_{U,V}`, while it preserves
+invariants (`inv_cor`). ⚠ The index is `[U : U']`, not `[U' : U]`: `U'` is the *sub*group, so
+`[U : U']` is the relative field degree `[E : F]`, which is what `fundamentalClass_cor` calls
+`T.relativeDegree`. The invariant normalization forces it — `inv(u_{U',V}) = 1/[U' : V] =
+[U : U']/[U : V]`, and corestriction preserves invariants. These statements are needed to apply Tate's theorem to every subgroup
 of `Γ`.
 
 ### 2.4 Tate's theorem and its Tate–Nakayama generalization
@@ -984,9 +987,15 @@ A full layer, not a corollary of reciprocity. Build, in order:
   `G_K → Gal(K^ur/K) ≅ Ẑ`; it contains inertia (`inertia_le_localWeilGroup`), is normal, is dense
   in `G_K` and is a proper subgroup;
 - **the topology.** `WeilGroup K` is a type synonym for that subgroup carrying the **Weil
-  topology**, the unique group topology in which inertia is an open subgroup. ⚠ It is not the
-  subspace topology: inertia is *not* open in `G_K`, because its image in `Ẑ` is the non-open
-  singleton. Prove that `W_K` is a locally compact, totally disconnected topological group, that
+  topology**, the unique group topology in which inertia, *carrying the profinite topology it
+  already has as a closed subgroup of `G_K`*, is an open subgroup — equivalently, the unique group
+  topology making `I_K ↪ W_K` an open topological embedding
+  (`isOpenEmbedding_inertiaToWeil`, `weilTopology_unique`). ⚠ Requiring only that the subgroup be
+  open does **not** determine the topology: one could refine the topology on `I_K` itself and
+  translate it across the cosets, so the fixed profinite topology on `I_K` is part of the
+  characterization, and the later local compactness and topological abelianization results use
+  that stronger form. ⚠ It is also not the subspace topology: inertia is *not* open in `G_K`,
+  because its image in `Ẑ` is the non-open singleton. Prove that `W_K` is a locally compact, totally disconnected topological group, that
   it is not compact, and that the inclusion `W_K → G_K` is a continuous injection with dense
   image;
 - **functoriality under finite extensions.** `weilTransfer` is a continuous injection
