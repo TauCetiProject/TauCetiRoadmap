@@ -69,7 +69,7 @@ theorem hilleYosida_generation {A : X →ₗ.[ℝ] X} {M omega : ℝ} (hM : 1 �
       ‖LinearPMap.resolvent A lambda ^ n‖ ≤ M / (lambda - omega) ^ n)
     (hdense : Dense (A.domain : Set X)) :
     ∃ S : StronglyContinuousSemigroup X, S.generator = A ∧ S.HasGrowthBound omega M :=
-  TauCeti.Semigroups.hilleYosida_generation hM hres hpow hdense
+  TauCeti.Semigroups.hilleYosida_generation hM hdense hres hpow
 
 /-- **Milestone — Lumer–Phillips theorem.** A densely-defined dissipative operator satisfying a
 range condition generates a contraction semigroup. Kept distinct from Hille–Yosida: a different
@@ -108,10 +108,12 @@ variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDim
 inner-product space is continuous with positive-definite subtraction kernel if and only if it is
 the Fourier transform of a unique finite Borel measure.
 
-**Proved**, and in the form the roadmap sketched: `IsPositiveDefiniteSub` is the positive-definite
-predicate on the subtraction kernel, so the hypothesis reads as the README asked. -/
+**Proved.** Stated here against the subtraction kernel, which is the form available at the Tau
+Ceti revision this repository pins. A later revision (#3594) restates it through the
+`IsPositiveDefiniteSub` predicate, reading exactly as the README sketched; switching to that form
+needs a pin bump and is left to a follow-up. -/
 theorem bochner (F : V → ℂ) :
-    (Continuous F ∧ TauCeti.IsPositiveDefiniteSub F) ↔
+    (Continuous F ∧ Matrix.PosSemidef fun a b : V => F (a - b)) ↔
       ∃! μ : Measure V, IsFiniteMeasure μ ∧ ∀ v, F v = ∫ q, TauCeti.fourierAtom v q ∂μ :=
   TauCeti.bochner F
 
