@@ -183,11 +183,6 @@ the named authors before porting anything, and confirm licences before copying.
   accepted shape; for flows, mathlib4#26394 and #26395; for Levi-Civita, mathlib4#36845. In every case
   the repository policy applies: don't wait. Build the material here now, with the names and shapes those
   PRs use, and simply delete ours when the pin catches up.
-- **Jack McCarthy's Lee formalization** (`github.com/pitmonticone/GeometricAnalysis`, with Pietro
-  Monticone; Apache-2.0): statement-complete skeletons for [Lee] chapters 10–16 with human-reviewed
-  statements — a migration source for statements and proof plans, not the specification.
-  `github.com/Deicyde/lean-boundary-smooth-manifold` (sorry-free, axiom-checked): the boundary of a C^k
-  manifold is a C^k manifold, the migration source for 5.1.
 - **The `differential-geometry` library** (`github.com/qinz1yang/differential-geometry`; Ziyang Qin, Jack
   McCarthy, Yuan Liao, with code adapted from Kudryashov and Macbeth): smooth-section module structure,
   the bundle-homomorphism characterization ([Lee, Lemma 10.29]), tensor-bundle equivalences, a wedge with
