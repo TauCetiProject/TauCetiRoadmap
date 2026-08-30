@@ -22,7 +22,6 @@ body:
         - Chebotarev
         - CombinatorialHeegaardFloer
         - ConformalMapping
-        - ContourIntegration
         - DGAInfinity
         - DenseGraphLimits
         - EllipticCurves
