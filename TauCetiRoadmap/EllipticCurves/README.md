@@ -569,15 +569,44 @@ being distributed as bookkeeping. Its milestones:
   capstone genuinely consumes it: `HasseBound/Separability.lean` imports
   `Foundation/InvariantDifferentialPullback`, and `Foundation/EC/MulByIntUnramified.lean` is
   the `e = 1` input, citing AEC III.4.10(c) (§Provenance).
-- **The formal group — four milestones with four different hypothesis sets, not one.**
+- **The formal group — five milestones with five different hypothesis sets, not one.**
   (i) The elliptic formal group *law* `Ê` over the coefficient ring, from expanding the group
   law at `O` (AEC IV.1), as an instance of Mathlib's `RingTheory/FormalGroup`; `[m]` on `Ê`.
   (ii) The formal logarithm and exponential, over a coefficient ring containing `ℚ`
   (characteristic-zero hypotheses only here). (iii) Convergence: over a complete valued
   field, `Ê(𝔪)` as an honest group of points. (iv) The identification `Ê(𝔪) ≅ E₁(K)` with
-  the kernel of reduction for an integral model (IV.6; consumed by Layers 3–4). These cannot
-  share one typeclass bundle, and the existing sorry-free Stoll development (provenance) is
-  the port source — refounded on Mathlib's formal-group-law layer, not rebuilt from nothing.
+  the kernel of reduction for an integral model (IV.6; consumed by Layers 3–4).
+  (v) **Heights in characteristic `p`** (AEC IV.7), whose ambient object is a
+  **homomorphism of one-dimensional commutative formal group laws** `f : F → G` over a
+  commutative ring — the series `f(T)` with `f(0) = 0` and `f(F(X, Y)) = G(f(X), f(Y))`
+  (IV.2). Mathlib's formal-group layer supplies the laws but no homomorphism type, so that
+  type and the API a height argument consumes are part of this milestone rather than a
+  preamble to it: extensionality through `f(T)`, the zero homomorphism, the identity,
+  composition with its associativity and unit laws, and multiplication by `m` as a
+  homomorphism — which is what makes (i)'s `[m]` on `Ê` an arrow and not a bare series.
+  On that footing: **the height** `h(f)`, equal to `⊤` when `f = 0` and otherwise to the
+  `p`-adic valuation of `ord f(T)`, with both cases proved as evaluation lemmas rather than
+  left to unfold; **the `p`-power theorem** — over a commutative ring of characteristic `p`,
+  a nonzero `f` has `ord f(T) = p^h` for a unique `h` (IV.7.2), which is what makes that
+  valuation a height rather than a lossy summary of the order; **the height of a formal
+  group law** `h(F) := h([p])`, through multiplication by `p`; and **additivity under
+  composition**, `h(g ∘ f) = h(f) + h(g)`. The hypotheses genuinely differ across these, and
+  separating them is the point: the definition asks only for a prime `p`; the `p`-power
+  theorem asks for `CharP R p` and no integrality hypothesis; additivity asks for `R`
+  without zero divisors and no characteristic hypothesis at all. The `p`-power theorem's own
+  inputs are targets here too — the **invariant differential of a formal group law** (IV.4)
+  in the form `f^*ω_G = f'(0) · ω_F`, whence `f'(0) = 0` forces `f' = 0` because
+  `∂F/∂X (0, Y)` is a unit; the characteristic-`p` step from `f' = 0` to `f(T) ∈ R[[T^p]]`;
+  and the **Frobenius twist** `F^{(p)}`, the law with `p`-th-power coefficients, with
+  `T ↦ T^p` a homomorphism `F → F^{(p)}`, which is what turns the descent `f = g ∘ Frob^h`
+  into a statement about homomorphisms. Additivity's one prerequisite is the
+  **multiplicativity of the order under substitution** — `ord (g ∘ f) = ord g · ord f` for
+  `f(0) = 0` over a ring without zero divisors; Mathlib bounds that order and does not
+  determine it, so the equality is built here.
+  These five cannot share one typeclass bundle. The existing sorry-free Stoll development
+  (provenance) is the port source for (i)–(iv) — refounded on Mathlib's formal-group-law
+  layer, not rebuilt from nothing — and the HasseWeil formal-group files are the comparison
+  for (v).
 
 ### Layer 2: torsion, the Weil pairing, and the Tate module (AEC III.6–8)
 
@@ -1145,6 +1174,18 @@ only hold for, these revisions:
   `Foundation/EC/MulByIntUnramified.lean` — the `e = 1` unramifiedness input (AEC
   III.4.10(c)) — imported by the capstone's `Separability`/`Infrastructure` files, so the
   separable-⟹-unramified milestone is not speculative: the existing Hasse proof already runs on it.
+- **Formal-group heights (Layer 1).** The same `HasseWeil` project carries the height
+  material at file level: `FormalGroup/Definition.lean` has the homomorphism type,
+  `FormalGroup/Hom.lean` its identity, composition and multiplication-by-`m`, and
+  `FormalGroup/Height.lean` defines `FormalGroupHom.height` and `FormalGroup.height` — the
+  latter as the height of `[p]` — and proves `height_comp`, the additivity of §Layer 1's
+  milestone (v), out of `PowerSeries.order_subst` in `FormalGroup/OrderSubst.lean`. Two
+  things that development does not supply, and which the milestone states as targets: the
+  `p`-power theorem is not formalised there, so its `height` is `padicValNat p (ord f)`
+  taken on trust — correct exactly because the order is a `p`-power — and the Frobenius
+  twist and formal-group invariant differential that theorem runs on are absent. Its
+  `height_comp` assumes `NoZeroDivisors R` and `p` prime and no characteristic hypothesis,
+  which is the hypothesis split the milestone records.
 - **The Tate curve (Layer 4).** Partial AI developments exist in the FLT project
   (`FLT/KnownIn1980s/EllipticCurves/TateCurve*`, `FLT/TateCurve/*`); the merge state there changes
   frequently and is not tracked here.
