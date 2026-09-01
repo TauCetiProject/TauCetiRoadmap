@@ -23,7 +23,9 @@ resting throughout on complex analysis, Fourier analysis, and the arithmetic of 
 The hardest target is the **dimension formulas** for `M_k(Γ)` and `S_k(Γ)` at general level
 (Diamond–Shurman Thms 3.5.1 and 3.6.1), proved by the **classical analytic route**: the valence
 formula and the elliptic-point and cusp counts of the quotient `Γ\ℍ` for the upper bounds, and
-analytic Riemann–Roch on `X(Γ)` — built inside Layer 10, not assumed — for the lower bounds. Mere
+analytic Riemann–Roch on `X(Γ)` — built inside Layer 10, not assumed — for the lower bounds.
+The Fuchsian-orbifolds roadmap supplies the compact quotient and its generic degree and
+Riemann–Hurwitz API; this roadmap supplies the modular and Riemann–Roch inputs. Mere
 *finite-dimensionality* at general level is **not** the hard part — it arrives in Mathlib by the
 elementary Sturm-bound route (see Layer 10) and this roadmap consumes it. What this roadmap adds
 is the **exact dimension formula** of Diamond–Shurman Thm 3.5.1 — `dim M_k(Γ)` and `dim S_k(Γ)`
@@ -31,10 +33,33 @@ in terms of the genus `g` of `X(Γ)`, the numbers `ε₂` and `ε₃` of ellipti
 and `3`, and the number `ε∞` of cusps — which means computing those four invariants for a given
 `Γ`, not just knowing the spaces are finite-dimensional. The modular curve here
 **is** the analytic quotient `Γ\ℍ`, compactified by adjoining the cusps to a compact Riemann
-surface — defined directly, with no functor, no representability, and no algebraic moduli
-problem.
+surface by the Fuchsian-orbifolds roadmap. This roadmap specializes that construction to
+congruence subgroups and adds no competing quotient carrier, functor, representability claim,
+or algebraic moduli problem.
 
 Suggested home: `TauCeti/NumberTheory/ModularForms/`.
+
+The cross-roadmap import graph is a required module split, not merely a proof order:
+
+```text
+TauCeti.Analysis.Complex.ModularForms.LevelOne.JInputs
+    -> TauCeti.Analysis.Complex.Fuchsian.LevelOne
+
+TauCeti.AlgebraicTopology.Cellular.FiniteCW
+    -> TauCeti.Analysis.Complex.RiemannSurface.Degree
+        |-> TauCeti.Analysis.Complex.Fuchsian.LevelOne
+        `-> TauCeti.Analysis.Complex.ModularForms.DimensionFormula
+
+TauCeti.Analysis.Complex.Fuchsian.Compactification
+    -> TauCeti.Analysis.Complex.ModularForms.DimensionFormula
+```
+
+`LevelOne.JInputs` contains only the normalized `j`-function, modular invariance, its
+`q`-expansion, and the exact elliptic orders; it imports no Fuchsian or dimension-formula module.
+The generic `RiemannSurface.Degree` module imports neither ModularForms nor analytic
+Riemann--Roch.  Only the higher `ModularForms.DimensionFormula` module imports the Fuchsian
+compactification and shared degree contracts.  This is the literal import discipline for the
+implementation.
 
 A large body of this theory — `sorry`-free apart from three flagged gaps (see *Provenance*) —
 already exists in the AINTLIB `LeanModularForms`
@@ -211,12 +236,14 @@ signs; the L-function of a modular form with its **Euler product**, **completed 
 **functional equation**, and **analytic continuation**; the **coefficient field** and the proof
 that it is a number field — both **already constructed in AINTLIB**, so this one is a migration
 (§Layer 8, §Provenance); the LMFDB invariants (Satake parameters, Hecke characteristic
-polynomials, Galois orbits, labels, …); the **modular curve** `X(Γ)` as the compactified analytic
-quotient `Γ\ℍ`, with its cusps, elliptic points, and genus; the **dimension formulas** for
-`M_k(Γ)` and `S_k(Γ)` — the valence formula for the upper bounds, the lower bounds by **analytic
-Riemann–Roch on `X(Γ)`, built inside Layer 10** (finiteness of `H¹`, Serre duality,
-Riemann–Hurwitz — see there); and the level-one **Eichler–Selberg trace
-formula** together with the **Hurwitz class numbers** it needs (absent from Mathlib). Apart from
+polynomials, Galois orbits, labels, …); the arithmetic specialization of the Fuchsian roadmap's
+compactified quotient to congruence subgroups, including explicit cusp and elliptic counts; the
+**dimension formulas** for `M_k(Γ)` and `S_k(Γ)` — the valence formula for the upper bounds and
+the lower bounds by **analytic Riemann–Roch on `X(Γ)`, built inside Layer 10** (finiteness of
+`H¹` and Serre duality). The generic quotient, compactification, local multiplicity, degree,
+divisor pullback, degree-one theorem, and Riemann–Hurwitz are consumed from the
+Fuchsian-orbifolds roadmap. This roadmap also owns the level-one **Eichler–Selberg trace
+formula** and the **Hurwitz class numbers** it needs (absent from Mathlib). Apart from
 the abstract Hecke ring and the
 Sturm-bound finiteness now landing in Mathlib (consumed above), none of this is upstream.
 
@@ -230,6 +257,14 @@ expressible in `TauCeti/`, its milestones go into `Suggested.lean` (with `sorry`
 below sketches signatures; it is illustrative, not required to compile.
 
 ### Layer 0: diamond operators and modular forms with character (nebentypus)
+- **Isolate the level-one `j` inputs in their own lower module.**
+  `TauCeti.Analysis.Complex.ModularForms.LevelOne.JInputs` defines the normalized
+  `j = E₄³/Δ`, proves modular invariance and its `q`-expansion, and proves the exact orders at
+  `ρ` and `i`.  It imports Mathlib's level-one modular-form files only.  In particular it imports
+  neither FuchsianOrbifolds, `RiemannSurface.Degree`, analytic Riemann--Roch, nor
+  `ModularForms.DimensionFormula`.  The Fuchsian level-one application is the sole geometric
+  consumer of these declarations; later ModularForms layers consume the resulting geometric
+  contracts in the other direction.
 - **Diamond operators first — from the slash action alone.** `Γ₁(N) ⊴ Γ₀(N)` with
   `Γ₀(N)/Γ₁(N) ≅ (ℤ/N)ˣ` via the lower-right entry, so slashing by (any lift of) `d ∈ (ZMod N)ˣ`
   is a well-defined `ℂ`-linear endomorphism of `M_k(Γ₁(N))` and of `S_k(Γ₁(N))`: the **diamond
@@ -987,9 +1022,19 @@ Each is a named definition with its basic API, mostly short once Layers 8 and 8G
 - **Bad primes** (#54): `badPrimes f = N.primeFactors`.
 
 ### Layer 10: the modular curve `Γ\ℍ` and the dimension formulas
-The modular curve here is the **analytic quotient `Γ\ℍ`**, compactified to a compact Riemann
-surface `X(Γ) = Γ\ℍ*` by adjoining the cusps `Γ\ℙ¹(ℚ)` — defined directly, with **no functor, no
-representability, no moduli problem**.
+The Fuchsian-orbifolds roadmap constructs the **analytic quotient `Γ\ℍ`** and compactifies it to
+a compact Riemann surface by adjoining cusp orbits. This layer specializes that construction to
+congruence subgroups, identifies the cusps with `Γ\ℙ¹(ℚ)`, and builds the modular and
+cohomological inputs for dimension formulas. It introduces no second quotient carrier or moduli
+problem.
+The higher implementation module is
+`TauCeti.Analysis.Complex.ModularForms.DimensionFormula`.  It imports the independent
+`TauCeti.Analysis.Complex.RiemannSurface.Degree` module and the Fuchsian compactification
+application modules, with literal checks for `RiemannSurface.genus`,
+`RiemannSurface.localMultiplicity`, `RiemannSurface.degree`, `RiemannSurface.degree_comp`,
+`RiemannSurface.divisor_pullback`, `RiemannSurface.biholomorph_of_degree_eq_one`, and
+`RiemannSurface.riemannHurwitz`.  It does not import `ModularForms.LevelOne.JInputs` through a
+Fuchsian module: that lower module points only toward `Fuchsian.LevelOne` as displayed above.
 
 - **The Sturm bound and finite-dimensionality — consume level one, build the general case.** A
   nonzero `f ∈ M_k(Γ)` has `q`-order at `∞` at most `k·[SL₂(ℤ):Γ]/12`; consequently `M_k(Γ)`
@@ -1006,39 +1051,26 @@ representability, no moduli problem**.
   the LMFDB layer's equality checks (Layer 9) become finite computations.
 #### 10A — the analytic modular curve
 
-- **The analytic theory of cusps and compactification.** Build `X(Γ) = Γ\ℍ*` as a compact
-  Riemann surface — with the point-set work stated as milestones, not assumed: the effective
-  `PSL₂` action, proper discontinuity (Mathlib's `ProperlyDiscontinuous.lean`), Hausdorffness
-  of the quotient including the separation of cusp neighborhoods, second countability,
-  compactness after adjoining the finitely many cusps, and chart compatibility. The charts: at
-  ordinary points the quotient chart; at an elliptic point, `w ↦ w^{e_P}` in the
-  stabilizer-linearizing coordinate `w = (τ − τ₀)/(τ − τ̄₀)` (not in `τ` itself); at the cusps
-  the `q`-disc chart; the **cusp count** `ε∞ = #Γ\ℙ¹(ℚ)`
-  and the **elliptic-point counts** `ε₂, ε₃` (periods `2, 3`, counted in the `PSL₂(ℤ)`-image where
-  the elliptic stabilizers are cyclic of order `2, 3`); and the **genus** `g` of `X(Γ)` — defined
-  **analytically**, `g := finrank ℂ H¹(X(Γ), 𝒪)` — a definition available only *after* the
-  finiteness theorem below, so the order is `H¹`, finiteness, then `g` (equivalently
-  `dim H⁰(Ω¹)`, by the duality below),
-  and computed by Riemann–Hurwitz over `X(1)` in the Riemann–Roch chain below, replacing
-  Diamond–Shurman's topological Euler-characteristic route (§3.1): no triangulations enter the
-  roadmap. These
-  counts and the genus are the inputs to the dimension formulas; building them is part of this
-  layer, not assumed.
+- **The arithmetic specialization of the analytic curve.** Consume `X(Γ)` and its ordinary,
+  elliptic, and cusp charts from the Fuchsian-orbifolds roadmap. For congruence subgroups, prove
+  cofiniteness, identify its cusp-orbit subtype with `Γ\ℙ¹(ℚ)`, and compute the **cusp count**
+  `ε∞` and **elliptic-point counts** `ε₂, ε₃` (periods `2, 3`, counted in the effective
+  `PSL₂(ℤ)`-image). Define the cohomological genus only after the `H¹`-finiteness theorem
+  below, then identify it with the generic genus used by the shared Riemann–Hurwitz theorem. These
+  arithmetic counts and this comparison, not a second compactification, are built in this layer.
 - **The finite map to level one.** `X(Γ) → X(1)` as a finite holomorphic map of compact
-  Riemann surfaces, with the fiber-counting identities (`Σ e_x = d` over every fiber, the
-  stabilizer indices at elliptic orbits, the cusp-width sum `Σ h_s = d`) as named lemmas —
-  the inputs Riemann–Hurwitz consumes in 10B(vi). ⚠ This construction is **self-contained
-  relative to 10B's compact-surface API**: it consumes no Schwarz reflection, no boundary
-  correspondence, and no universal covers.
+  Riemann surfaces is the finite-index map supplied by the Fuchsian-orbifolds roadmap. Prove the
+  arithmetic identification of its degree with `[PSL₂(ℤ) : Γ̄]`; consume the generic fibre
+  sum, elliptic stabilizer-index formula, cusp-width sum, multiplicativity, and Riemann–Hurwitz
+  there.
+  No Schwarz reflection, boundary correspondence, or universal-cover argument is duplicated.
 
 #### 10B — compact-Riemann-surface cohomology
 
-- **The Riemann–Roch input — built here, not assumed.** The lower bounds need analytic
-  Riemann–Roch on `X(Γ)`, and no compact-Riemann-surfaces roadmap exists to cite; so the
-  minimal chain is part of this layer (in the spirit of the PR #36 review's advice — analytic
-  curve, no GAGA — with Riemann–Roch actually supplied; Forster, *Lectures on Riemann
-  Surfaces*, GTM 81, §§14–17, is the reference for exactly this route). The milestones, in
-  order:
+- **The Riemann–Roch input — built here, not assumed.** The Fuchsian-orbifolds roadmap supplies
+  the compact surface and the generic degree, divisor-pullback, degree-one, and Riemann–Hurwitz
+  APIs, but not cohomology or Riemann–Roch. The minimal cohomological chain remains in this layer
+  (analytic curve, no GAGA; Forster, *Lectures on Riemann Surfaces*, GTM 81, §§14–17). In order:
   (i) the structure sheaf and the sheaves `𝒪_D` of a divisor on a compact Riemann surface,
   Čech `H⁰` and `H¹` (refinement-independent via Forster's degree-one Leray theorem: a cover
   by `𝒪`-acyclic opens computes `H¹`, with acyclicity of discs from the **local `∂̄`-lemma**
@@ -1060,22 +1092,19 @@ representability, no moduli problem**.
   pairing (Forster §17): `H¹(𝒪_D)^* ≅ H⁰(Ω_{−D})`, whence `ℓ(D) − ℓ(K−D) = deg D + 1 − g`,
   `dim H⁰(Ω¹) = g`, `deg K = 2g − 2`, and the vanishing `H¹(𝒪_D) = 0` for `deg D > 2g − 2`
   that the exact formulas below actually use.
-  (v) **Riemann–Hurwitz** for a finite holomorphic map of compact Riemann surfaces, from the
-  local normal form and the canonical-divisor pullback — with the fiber-counting identities as
-  explicit inputs: `Σ_{x ↦ y} e_x = d` for every `y`, the stabilizer-index formula at the
-  elliptic orbits, and the cusp-width sum `Σ_s h_s = d`.
-  (vi) `X(1) ≅ ℙ¹` via the `j`-function, as an explicit lemma chain: `j` descends through the
-  elliptic charts (the orders of `j` and `j − 1728` at `ρ` and `i` are what make the descended
-  map regular there), one simple pole at the cusp and no others, the degree of a map to `ℙ¹`
-  equals the degree of its pole divisor, nonconstant maps from a compact surface are proper,
-  open, and surjective, and degree one forces a biholomorphism **via the local normal form**
-  (a continuous bijection gives only a homeomorphism). Then the **genus of `X(Γ)`** falls out
-  of (v) applied to `X(Γ) → X(1)`, with ramification from the stabilizer indices at the
-  elliptic orbits and the cusp widths:
-  `g = 1 + d/12 − ε₂/4 − ε₃/3 − ε∞/2`, `d = [PSL₂(ℤ) : Γ̄]` — ⚠ the `PSL₂`-index, not
-  `[SL₂(ℤ) : Γ]`. `dim S₂(Γ) = g` is then `S₂(Γ) ≅ H⁰(X(Γ), Ω¹)` plus (iv).
-  A fuller compact-Riemann-surfaces roadmap (Abel–Jacobi, uniformization, …) remains
-  desirable later and would absorb and extend (i)–(v); nothing here waits for it.
+  (v) identify `g := dim H¹(X, 𝒪)` with `RiemannSurface.genus X`; then consume
+  `RiemannSurface.riemannHurwitz` and the Fuchsian finite-index local-multiplicity formulas.
+  (vi) Consume the named `X(1) ≃ ℙ¹` and `RiemannSurface.genus X(1) = 0` theorems from
+  `Fuchsian.LevelOne`.  The normalized `j = E₄³/Δ`, the identity
+  `j − 1728 = E₆²/Δ`, modular invariance, q-expansion, and exact orders at `ρ` and `i` were
+  already supplied by the independent Layer-0 `ModularForms.LevelOne.JInputs` module.  They are
+  not redefined in this higher module.  Fuchsian-orbifolds owns descent through its quotient,
+  extension over its cusp, the local multiplicities, the degree-one calculation, and the final
+  biholomorphism.
+  Applying the shared Riemann–Hurwitz theorem to `X(Γ) → X(1)` with the Fuchsian elliptic and
+  cusp local-multiplicity formulas gives
+  `g = 1 + d/12 − ε₂/4 − ε₃/3 − ε∞/2`, where `d = [PSL₂(ℤ) : Γ̄]`, not
+  `[SL₂(ℤ) : Γ]`; then `S₂(Γ) ≅ H⁰(X(Γ), Ω¹)` and (iv) give `dim S₂(Γ) = g`.
 #### 10C — modular forms as section spaces, and the dimension formulas
 
 - **The automorphy sheaf, constructed and not gestured at.** The weight-`k` transformation
@@ -1084,9 +1113,7 @@ representability, no moduli problem**.
   at an elliptic point the invariant sections in the linearizing coordinate, at a (regular or
   irregular) cusp the sections in the width parameter with the errata order convention — and
   the local transition-function computation at each chart overlap is its own milestone, since
-  the `⌊·⌋`-corrections of the divisor are precisely its output. The `j`-function enters 10C
-  concretely: `j = E₄³/Δ`, `j − 1728 = E₆²/Δ`, with the orders of `j` and `j − 1728` at `ρ`
-  and `i` read off these identities — the inputs 10B(vi) needs.
+  the `⌊·⌋`-corrections of the divisor are precisely its output.
 - **The dimension formulas** (Diamond–Shurman Thm 3.5.1 for even weight, Thm 3.6.1 for odd) —
   honest about their two halves. The
   Layer-1 valence formula with the `ε₂, ε₃, ε∞` counts and the genus `g` above yields the
@@ -1155,8 +1182,8 @@ representability, no moduli problem**.
   `dim S_2(Γ₀(23)) = 2`, `dim S_2(Γ₀(2)) = 0`, `dim M_2(Γ₀(11)) = 2`, and the non-`Γ₀`
   instance `dim S_2(Γ₁(13)) = 2`. The general even-weight
   formula above is the layer's headline target; it is stated here in the README (its inputs are
-  the `ε₂, ε₃, ε∞, g` of `X(Γ)` from this same layer **plus the Riemann–Roch chain above, built in
-  this same layer**; the concrete instances below consume that same general theorem — their
+  the arithmetic counts on the Fuchsian roadmap's `X(Γ)`, the cohomological-genus comparison,
+  and the Riemann–Roch chain built here; the concrete instances consume that theorem — their
   role is acceptance, not independent grounding), and is **not** seeded
   as a
   free-parameter `example` in `Suggested.lean`, since with `g, ε₂, ε₃, ε∞` as free variables it is
@@ -1509,8 +1536,9 @@ table; "three" counts literal source `sorry`s, not every unfinished target of th
 - **Dimensions / curve (L10):** `Modularforms/DimensionFormulas.lean` with
   `Modularforms/DimGenCongLevels/*` (`dim_gen_cong_levels` — general-level
   finite-dimensionality by the norm-map route, the content being upstreamed as the Mathlib Sturm
-  stack #39000; `cuspform_weight_lt_12_zero`); the general-level analytic
-  cusp/compactification theory and the general dimension formula are **new** here.
+  stack #39000; `cuspform_weight_lt_12_zero`). The generic quotient, cusp compactification, and
+  degree theory are supplied by the Fuchsian-orbifolds roadmap; the congruence-subgroup arithmetic,
+  cohomological Riemann–Roch, automorphy sheaves, and general dimension formula are **new** here.
 - **Trace formula (L11):** no AINTLIB source — entirely **new**; route B's substrate is the
   `ModularSymbols` subtree above.
 
