@@ -8,11 +8,14 @@ import Mathlib
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
-Only targets whose types the pinned Mathlib can express are stated here: the flat wedge
-product (layer 0.1), the smoothness of the alternating bundle (layer 0.2), the two new
-flat lemmas of layers 1.3 and 6.2, complete flows on compact manifolds (layer 3.3), the
-manifold inverse function theorem (layer 10.1), and the hairy ball theorem in its
-elementary form (layer 11.1). The other manifold-level layers — `mextDeriv` and its
+Only targets whose types the pinned Mathlib can express are stated here: the paired and
+ℝ-valued wedge products (layer 0.1), the smoothness of the alternating bundle (layer
+0.2), the two new flat lemmas of layers 1.3 and 6.2 — the Poincaré lemma in the
+relative, boundary-chart-ready form — complete flows on compact manifolds (layer 3.3),
+and the hairy ball theorem in its elementary form (layer 11.1). The manifold inverse
+function theorem, formerly a target here, is consumed from Tau Ceti's
+`TauCeti/Geometry/Manifold/LocalDiffeomorph.lean` (on current Tau Ceti main, ahead of
+the pinned rev) with a small extension — see layer 10.1 of `README.md`. The other manifold-level layers — `mextDeriv` and its
 naturality, orientations and the orientation double cover, `∫_M ω` and Stokes, the de
 Rham complex, singular comparison, duality, and the degree proper — need types this
 file's dependencies do not yet provide (forms on manifolds, manifold orientations,
@@ -37,17 +40,31 @@ namespace TauCetiRoadmap.DifferentialGeometry
 
 section Wedge
 
-variable {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+variable {E F₁ F₂ F₃ : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [NormedAddCommGroup F₁] [NormedSpace ℝ F₁] [NormedAddCommGroup F₂] [NormedSpace ℝ F₂]
+  [NormedAddCommGroup F₃] [NormedSpace ℝ F₃]
 
-/-- **Layer 0.1.** The wedge product of continuous alternating maps, in the determinant
-convention: `ω ∧ η = ((k+l)!/(k!·l!)) • Alt (ω ⊗ η)`, so that elementary covectors
-satisfy `ε^I ∧ ε^J = ε^{I++J}` and top-degree wedges of covectors are determinants.
-The normalization is pinned by `wedge_apply_one_one` below; the algebra-valued
-generality (values in `F₁`, `F₂`, `F₃` through a continuous bilinear map) is part of the
-milestone but not of this suggested signature. -/
+/-- **Layer 0.1.** The paired wedge product of continuous alternating maps, in the
+determinant convention, combining values through an explicit continuous bilinear map —
+the `wedge_product` shape of Kudryashov's `DeRhamCohomology`. At this generality the
+theorems are bilinearity, the norm bound, compatibility with `compContinuousLinearMap`,
+the characterization through alternatization,
+and naturality in `μ`; associativity and graded commutativity are **not** theorems here
+(degree zero reduces them to associativity and commutativity of `μ`) and hold only
+under explicit hypotheses on the pairings — see `README.md`, layer 0.1. -/
+noncomputable def wedgeWith {k l : ℕ} (μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃)
+    (φ : E [⋀^Fin k]→L[ℝ] F₁) (ψ : E [⋀^Fin l]→L[ℝ] F₂) :
+    E [⋀^Fin (k + l)]→L[ℝ] F₃ :=
+  sorry
+
+/-- **Layer 0.1.** The ℝ-valued wedge, the multiplication specialization of `wedgeWith`:
+`ω ∧ η = ((k+l)!/(k!·l!)) • Alt (ω ⊗ η)`, so that elementary covectors satisfy
+`ε^I ∧ ε^J = ε^{I++J}` and top-degree wedges of covectors are determinants. This is the
+graded-commutative case, and the normalization is pinned by `wedge_apply_one_one`
+below. -/
 noncomputable def wedge {k l : ℕ} (φ : E [⋀^Fin k]→L[ℝ] ℝ) (ψ : E [⋀^Fin l]→L[ℝ] ℝ) :
     E [⋀^Fin (k + l)]→L[ℝ] ℝ :=
-  sorry
+  wedgeWith (ContinuousLinearMap.mul ℝ ℝ) φ ψ
 
 /-- **Layer 0.1, normalization gate.** On two 1-forms the wedge is the 2×2 determinant.
 This pins the normalization: under the Alt convention the right-hand side would carry a
@@ -113,15 +130,18 @@ theorem contDiffOn_extDerivWithin {k : ℕ} {φ : E → E [⋀^Fin k]→L[ℝ] F
 
 /-! ## Layer 6.2: the Poincaré lemma, flat, in all degrees -/
 
-/-- **Layer 6.2.** The Poincaré lemma in all degrees on an open convex set: closed
-smooth `(k+1)`-forms are exact, by the radial homotopy operator. Mathlib's pinned
-toolchain has the 1-form case (`Mathlib/MeasureTheory/Integral/CurveIntegral/Poincare`);
-this is the all-degrees statement, placed beside `extDerivWithin` so it transfers to
-manifolds chart-locally (the star-shaped generalization, and the C¹ refinement stated in
-`README.md` layer 6.2, are part of the milestone, like the finite-regularity refinement
-of `contDiffOn_extDerivWithin` above). -/
-theorem exists_extDerivWithin_eq_of_convex [CompleteSpace F] {k : ℕ} {s : Set E}
-    (hs : Convex ℝ s) (hso : IsOpen s) {φ : E → E [⋀^Fin (k + 1)]→L[ℝ] F}
+/-- **Layer 6.2.** The Poincaré lemma in all degrees, in the *relative* form the
+manifold theory needs: the domain is star-convex with unique differentiability and
+dense interior, but not assumed open in the ambient space — a boundary-chart image (a
+ball intersected with a half-space, relatively open in `Set.range I`) is the typical
+case, and an ambient-open statement does not reach its boundary points. The ambient-open
+star-shaped case is the specialization. Mathlib's pinned toolchain has the 1-form convex
+case (`Mathlib/MeasureTheory/Integral/CurveIntegral/Poincare`); the C¹ refinement stated
+in `README.md` layer 6.2 is part of the milestone, like the finite-regularity refinement
+of `contDiffOn_extDerivWithin` above. -/
+theorem exists_extDerivWithin_eq_of_starConvex [CompleteSpace F] {k : ℕ} {s : Set E}
+    {a : E} (ha : a ∈ s) (hs : StarConvex ℝ a s) (hsd : UniqueDiffOn ℝ s)
+    (hsc : s ⊆ closure (interior s)) {φ : E → E [⋀^Fin (k + 1)]→L[ℝ] F}
     (hφ : ContDiffOn ℝ ∞ φ s) (hclosed : ∀ x ∈ s, extDerivWithin φ s x = 0) :
     ∃ ψ : E → E [⋀^Fin k]→L[ℝ] F,
       ContDiffOn ℝ ∞ ψ s ∧ ∀ x ∈ s, extDerivWithin ψ s x = φ x :=
@@ -151,32 +171,6 @@ theorem exists_isMIntegralCurve_of_compactSpace
   sorry
 
 end Flows
-
-/-! ## Layer 10: the manifold inverse function theorem -/
-
-section ManifoldIFT
-
-variable {E E' H H' M N : Type*}
-  [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
-  [NormedAddCommGroup E'] [NormedSpace ℝ E']
-  [TopologicalSpace H] [TopologicalSpace H']
-  {I : ModelWithCorners ℝ E H} {J : ModelWithCorners ℝ E' H'}
-  [TopologicalSpace M] [ChartedSpace H M] [TopologicalSpace N] [ChartedSpace H' N]
-  {n : WithTop ℕ∞} [IsManifold I n M] [IsManifold J n N]
-  [BoundarylessManifold I M] [BoundarylessManifold J N]
-
-/-- **Layer 10.1.** The manifold inverse function theorem: a `C^n` map whose `mfderiv`
-at `x` is a continuous linear equivalence is a local `C^n` diffeomorphism at `x` — the
-TODO recorded in `Mathlib/Geometry/Manifold/LocalDiffeomorph.lean`, and the opening
-target of the degree layer. -/
-theorem isLocalDiffeomorphAt_of_mfderiv {f : M → N} {x : M}
-    (hf : ContMDiffAt I J n f x) (hn : 1 ≤ n)
-    (df : TangentSpace I x ≃L[ℝ] TangentSpace J (f x))
-    (hdf : mfderiv I J f x = (df : TangentSpace I x →L[ℝ] TangentSpace J (f x))) :
-    IsLocalDiffeomorphAt I J n f x :=
-  sorry
-
-end ManifoldIFT
 
 /-! ## Layer 11: the hairy ball theorem -/
 
