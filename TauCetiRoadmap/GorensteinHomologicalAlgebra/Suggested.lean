@@ -154,6 +154,50 @@ noncomputable def gorensteinProjectiveDimension (R : Type u) [Ring R] (M : Type 
 theorem gorensteinProjectiveDimension_eq_zero_iff :
     gorensteinProjectiveDimension R M = 0 ↔ IsGorensteinProjective R M := sorry
 
+/-! ## Layer 6: the flat theory
+
+`Module.Flat` is stated over a `CommSemiring`, so these carry `CommRing`. In the literature the
+Gorenstein flat notion is one-sided; see the standing conventions in `README.md` for why the
+commutative specialization is what appears here.
+-/
+
+/-- The general Gorenstein flat class, defined through an exact complex of flat modules that stays
+exact under `− ⊗ I` for every injective `I`. -/
+def IsGorensteinFlat (R : Type u) [CommRing R] (M : Type v) [AddCommGroup M] [Module R M] :
+    Prop := sorry
+
+/-- Projectively coresolved Gorenstein flat: a syzygy of an acyclic complex of *projectives* that
+stays exact under `− ⊗ I` for every injective `I`. Šaroch--Šťovíček introduced this class; it is
+distinct from both `IsGorensteinProjective` and `IsGorensteinFlat`, and Layer 6's general
+statements are what it is for. -/
+def IsProjectivelyCoresolvedGorensteinFlat (R : Type u) [CommRing R] (M : Type v)
+    [AddCommGroup M] [Module R M] : Prop := sorry
+
+/-- Šaroch--Šťovíček Theorem 3.4. The converse is open; see the open-problems section of
+`README.md`. No milestone asserts it. -/
+theorem isGorensteinProjective_of_isProjectivelyCoresolvedGorensteinFlat
+    (R : Type u) [CommRing R] (M : Type v) [AddCommGroup M] [Module R M]
+    (h : IsProjectivelyCoresolvedGorensteinFlat R M) : IsGorensteinProjective R M := sorry
+
+/-- Šaroch--Šťovíček Theorem 3.11, the reason Layer 6 does not need coherence: closure under
+extensions holds over an arbitrary ring. -/
+theorem isGorensteinFlat_of_extension (R : Type u) [CommRing R]
+    (A B C : Type v) [AddCommGroup A] [Module R A] [AddCommGroup B] [Module R B]
+    [AddCommGroup C] [Module R C] (i : A →ₗ[R] B) (p : B →ₗ[R] C)
+    (hi : Function.Injective i) (hp : Function.Surjective p) (hex : Function.Exact i p)
+    (hA : IsGorensteinFlat R A) (hC : IsGorensteinFlat R C) :
+    IsGorensteinFlat R B := sorry
+
+/-- Bennis--Mahdou Theorem 3.5 is stated in ONE direction only: a Gorenstein flat module is a
+summand of a strongly Gorenstein flat one. The converse is available over a coherent ring
+(Mahdou--Tamekkante Proposition 1.3), not in general. Compare
+`isGorensteinProjective_iff_directSummand_isStronglyGorensteinProjective`, which is an `↔`. -/
+theorem exists_isStronglyGorensteinFlat_directSummand (R : Type u) [CommRing R] (M : Type v)
+    [AddCommGroup M] [Module R M] (h : IsGorensteinFlat R M) :
+    ∃ (N : Type v) (_ : AddCommGroup N) (_ : Module R N),
+      IsStronglyGorensteinFlat R N ∧
+        ∃ (i : M →ₗ[R] N) (q : N →ₗ[R] M), q ∘ₗ i = LinearMap.id := sorry
+
 /-! ## Named examples -/
 
 /-- The ideal `(2)` of `ZMod 4`, which as a `ZMod 4`-module is a copy of `ZMod 2`, is strongly

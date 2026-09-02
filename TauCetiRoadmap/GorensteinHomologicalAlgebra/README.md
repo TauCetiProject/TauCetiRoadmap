@@ -26,13 +26,25 @@ does not construct or use:
   as a triangulated category;
 - Tate cohomology constructed through a derived category, or complete cohomology of groups;
 - DG or A-infinity resolutions, which `DGAInfinity` owns;
-- Auslander--Buchweitz approximation theory, cotorsion pairs, or covers and envelopes in greater
-  generality than the Gorenstein flat theory in Layer 6 consumes;
+- Auslander--Buchweitz approximation theory, or covers and envelopes in greater generality than
+  the Gorenstein flat theory in Layer 6 consumes. Cotorsion pairs are *not* excluded: Layer 6
+  needs the completeness of the `PGF` cotorsion pair, so the definition and the completeness
+  statement are in scope, while the general theory of cotorsion pairs, deconstructibility, and
+  the induced abelian model structures is not;
 - Gorenstein categories, Gorenstein rings of finite Gorenstein global dimension as a
   classification target, or Gorenstein homological algebra over schemes.
 
 Commutativity of the base ring is assumed exactly where Mathlib's `Module.Flat` forces it, and
 nowhere else; the projective and injective theories are built over an arbitrary `Ring`.
+
+This has a consequence worth stating rather than discovering. In the literature the Gorenstein
+flat modules are a one-sided notion: a *right* `R`-module is Gorenstein flat when its complex of
+flats stays exact under `− ⊗ I` for every injective *left* `R`-module `I`, and results such as
+character-module duality trade the two sides against each other. `Module.Flat` is stated over a
+`CommSemiring`, so every flat milestone here is the commutative specialization, where the two
+sides coincide and the sidedness is invisible. The roadmap does not ask anyone to generalize
+`Module.Flat`; it asks that flat milestones say `CommRing` in their statements, so that the day
+Mathlib's flatness becomes one-sided the milestones that need revisiting are the ones that say so.
 
 ## Standing conventions
 
@@ -151,12 +163,26 @@ Gorenstein projective.
 
 ### Layer 3: the summand theorem
 
+The projective and injective cases are equivalences; the flat case is not, and the roadmap keeps
+them apart. Bennis--Mahdou state the flat case (their Theorem 3.5) in one direction only, and the
+equivalence is recovered over a coherent ring by a separate argument. A milestone that states the
+flat case as an equivalence over an arbitrary ring is stating something the literature does not
+supply, and is not a target here.
+
 - Prove that a module is Gorenstein projective if and only if it is a direct summand of a strongly
-  Gorenstein projective module, and the injective and flat analogues. This is the theorem that
-  makes the general classes computable from the periodic ones, and every subsequent layer that reduces
-  a statement about Gorenstein modules to the periodic case cites it.
+  Gorenstein projective module, and the same for the injective case (Bennis--Mahdou Theorem 2.7).
+  This is the theorem that makes the general classes computable from the periodic ones, and every
+  subsequent layer that reduces a statement about Gorenstein modules to the periodic case cites it.
 - Deduce that the Gorenstein projective modules are the smallest class containing the strongly
-  Gorenstein projective modules and closed under direct summands.
+  Gorenstein projective modules and closed under direct summands, and the injective analogue.
+- Prove the one direction available over an arbitrary ring in the flat case: a Gorenstein flat
+  module is a direct summand of a strongly Gorenstein flat module (Bennis--Mahdou Theorem 3.5).
+- Prove the converse over a coherent ring, giving the equivalence there (Mahdou--Tamekkante
+  Proposition 1.3, from Bennis--Mahdou Theorem 3.5 together with Holm Theorem 3.7). State the
+  coherence hypothesis in the milestone rather than in a comment.
+- Prove the finitely presented comparison over a coherent ring: a finitely presented module is
+  strongly Gorenstein projective if and only if it is strongly Gorenstein flat (Bennis--Mahdou
+  Corollary 3.7).
 
 ### Layer 4: Ext and Tor characterizations
 
@@ -176,20 +202,62 @@ Gorenstein projective.
   bounded above by the ordinary projective, injective, and flat dimension.
 - Prove the Ext characterization of finite Gorenstein projective dimension, and the dual for
   injective dimension.
-- Prove the three inequalities on a short exact sequence `0 → N → N' → N'' → 0` for each of the
-  three dimensions: the dimension of any one of the three terms is bounded by the maximum of the
-  dimensions of the other two, adjusted by one in the direction the sequence dictates.
+- Prove the three inequalities on a short exact sequence `0 → N → N' → N'' → 0` for Gorenstein
+  projective dimension and for Gorenstein injective dimension: the dimension of any one of the
+  three terms is bounded by the maximum of the dimensions of the other two, adjusted by one in the
+  direction the sequence dictates. Each inequality carries an equality clause, and the milestone
+  is the inequality together with its clause, not the inequality alone: for Gpd, `Gpd N ≤
+  max{Gpd N', Gpd N'' - 1}` with equality when `Gpd N' ≠ Gpd N''`, and similarly for the other two
+  (Bennis--Mahdou Lemmas 1.5 and 1.6, from Holm Theorems 2.20 and 2.24).
+- Prove the same three inequalities for Gorenstein flat dimension **over a coherent ring**
+  (Bennis--Mahdou Lemma 1.7, from Holm Proposition 3.11). The coherence hypothesis is part of the
+  statement; the flat case is not known in the generality of the other two.
 - Prove that over a quasi-Frobenius ring every module has Gorenstein projective dimension zero,
   consuming the self-injective algebras of `ZigzagPreprojective` for concrete instances.
 
-### Layer 6: coherent rings and the flat theory
+### Layer 6: the flat theory, and what coherence is still for
 
-- Prove that over a coherent ring the Gorenstein flat modules are closed under direct limits, and
-  that Gorenstein flat dimension is well behaved under the corresponding change of rings.
+The literature this layer rests on moved after Bennis--Mahdou. Until 2020 the good behaviour of
+the Gorenstein flat modules was known only over coherent rings, and coherence appears throughout
+the 2004--2010 papers for that reason. Šaroch and Šťovíček then proved that over **any** ring the
+Gorenstein flat modules are the left-hand class of a complete cotorsion pair and are closed under
+extensions, so every ring is GF-closed. A roadmap that presented the coherent-ring statements as
+the frontier would send a contributor to prove a special case of a theorem that already holds in
+general, so this layer states the general form and keeps coherence only where it is still doing
+work.
+
+- Prove that the Gorenstein flat modules are closed under extensions over an arbitrary ring, by
+  way of the characterization `M` is Gorenstein flat if and only if `Ext¹(M, C) = 0` for every
+  cotorsion `C ∈ PGF⊥` (Šaroch--Šťovíček Theorem 3.11). Closure under direct limits and under
+  direct summands comes with it.
+- Define the projectively coresolved Gorenstein flat modules, `PGF`: syzygies of an acyclic
+  complex of **projectives** that stays exact under `− ⊗ I` for every injective `I`. This is a
+  different class from both Gorenstein projective and Gorenstein flat, and it is what makes the
+  general statements work.
+- Prove `PGF ⊆ GP`, that every `PGF`-module is Gorenstein projective (Šaroch--Šťovíček
+  Theorem 3.4), and that `PGF` is the left-hand class of a complete hereditary cotorsion pair with
+  thick right-hand class (Theorem 3.9).
+- Prove `PGF = GF` if and only if `R` is right perfect (Šaroch--Šťovíček Theorem 3.9, moreover
+  clause), which is what separates the three classes.
 - Prove the relation between Gorenstein flat and Gorenstein projective dimension over a coherent
-  ring, and give the finitely presented comparison.
+  ring, and the finitely presented comparison, where coherence is genuinely used.
 - Prove the character-module duality relating Gorenstein flat modules to Gorenstein injective
   modules over the opposite ring, within the commutative generality that `Module.Flat` imposes.
+
+## Open problems, which are not targets
+
+These are stated so that no milestone is written against them by accident. A contributor who finds
+a layer's milestone reducing to one of these has found a defect in the roadmap, not a hard exercise.
+
+- **Is every Gorenstein projective module `PGF`?** Equivalently, is `GP ⊆ GF`? Open in general
+  (Šaroch--Šťovíček, remark following Theorem 3.9). Over a right ℵ₀-coherent ring it would follow
+  from every Gorenstein projective module being filtered by countably presented Gorenstein
+  projective modules, itself open. No milestone above asserts `GP ⊆ GF` or `GP ⊆ PGF`.
+- **Is `FL ∩ GP = P₀`?** Whether a flat Gorenstein projective module is projective; open, and it
+  is what stands between the previous item and `GF ∩ GP ⊆ PGF`.
+- **Is the flat summand theorem an equivalence over an arbitrary ring?** Bennis--Mahdou prove one
+  direction (Theorem 3.5) and the equivalence over coherent rings; Layer 3 asks for exactly those
+  two and no more.
 
 ## Named examples and acceptance criteria
 
@@ -232,3 +300,16 @@ instances.
 - E. E. Enochs and O. M. G. Jenda, *Relative Homological Algebra*, de Gruyter, 2000.
 - M. Auslander and M. Bridger, *Stable module theory*, Memoirs of the AMS **94**, 1969.
 - L. W. Christensen, *Gorenstein Dimensions*, Lecture Notes in Mathematics 1747, Springer, 2000.
+- L. W. Christensen, A. Frankild, and H. Holm, *On Gorenstein projective, injective and flat
+  dimensions -- a functorial description with applications*, Journal of Algebra **302** (2006),
+  231--279.
+- N. Mahdou and M. Tamekkante, *Strongly n-Gorenstein projective, injective and flat modules*,
+  which supplies the coherent-ring form of the flat summand theorem (Proposition 1.3) and the
+  short exact sequence inequalities (Lemmas 1.5--1.7) that Layers 3 and 5 cite.
+- J. Šaroch and J. Šťovíček, *Singular compactness and definability for Σ-cotorsion and Gorenstein
+  modules*, Selecta Mathematica **26** (2020), article 23; `arXiv:1804.09080`. Layer 6 rests on
+  this: the Gorenstein flat and Gorenstein injective classes sit in complete cotorsion pairs over
+  an arbitrary ring, and the class `PGF` is introduced there.
+- D. Bravo, J. Gillespie, and M. Hovey, *The stable module category of a general ring*,
+  `arXiv:1405.5768`, for the modified classes that Šaroch--Šťovíček showed were not necessary --
+  context for why the older literature is stated over coherent rings.
