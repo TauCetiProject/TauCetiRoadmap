@@ -1,0 +1,14 @@
+# Progress log: Chebotarev
+
+An append-only record of what landed on the Chebotarev roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"72018511da63363961e873316f5c1fb5a915e00d","prs":[5368,5398,5400],"roadmap":"Chebotarev","to_sha":"8745177e39945cdda39b4203688f5f6bb380a0b9"}-->
+## Chebotarev: 2026-09-01 to 2026-09-01 (`7201851` to `8745177`)
+
+The roadmap's first window laid foundations at its two ends. On the analytic side, the **Frobenius orientation on roots of unity** ([`AlgHom.IsArithFrobAt.apply_eq_pow_absNorm_of_pow_eq_one`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Cyclotomic/Frobenius.html#AlgHom.IsArithFrobAt.apply_eq_pow_absNorm_of_pow_eq_one)) landed: for a prime `𝔭` of a number field `K` not dividing `m`, every arithmetic Frobenius at a prime above `𝔭` sends an `m`-th root of unity in an extension field `F` to its `𝔑𝔭`-th power. This is the orientation fact the roadmap's acceptance tests insist on (Frobenius corresponds to `p mod m`, not its inverse), stated for an arbitrary arithmetic Frobenius element rather than for the Artin class. It came with the instance that the Galois action on `𝓞 F` commutes with the `𝓞 K`-action ([`NumberField.RingOfIntegers.smulCommClass`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/AutomorphismAction.html#NumberField.RingOfIntegers.smulCommClass)).
+
+On the group-theoretic side, **powers of conjugacy classes** ([`ConjClasses.pow`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Group/Conj.html#ConjClasses.pow)) is the `Pow (ConjClasses M) ℕ` operation the roadmap's von Mangoldt fibre will test against, with the membership law `τ ∈ C ^ j ↔ ∃ σ ∈ C, σ ^ j = τ` ([`ConjClasses.mem_pow_iff`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Group/Conj.html#ConjClasses.mem_pow_iff)), the identity and composition laws, and naturality in the monoid ([`ConjClasses.map_pow`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Group/Conj.html#ConjClasses.map_pow)). Finally, the finite set of **primes of `K` ramifying in `L`** ([`NumberField.Chebotarev.ramifiedPrimes`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/Chebotarev/RamifiedPrimes.html#NumberField.Chebotarev.ramifiedPrimes)) exists as a `Finset (HeightOneSpectrum (𝓞 K))`, with its membership characterisation (TauCeti#5400).
+
+Most of the roadmap is still absent. `frobeniusPrimeSet` itself, the transport lemmas along towers, and the split-completely and class-cardinal facts of Layer 1 have not landed; nothing from Layer 3 onward has begun. The root-of-unity theorem is only the first half of Layer 4: abelianity of the cyclotomic Galois group and the character weight `cyclotomicCharacterWeight` are not yet there.
