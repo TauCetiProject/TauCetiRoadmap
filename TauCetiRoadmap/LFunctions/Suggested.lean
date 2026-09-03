@@ -1,6 +1,7 @@
 import Mathlib
 import TauCetiRoadmap.ArithmeticDirichletSeries.Suggested
 import TauCetiRoadmap.GlobalNumberFields.Suggested
+import TauCetiRoadmap.ThetaSeries.Suggested
 
 /-!
 # L-functions: target signatures
@@ -10,25 +11,23 @@ import TauCetiRoadmap.GlobalNumberFields.Suggested
 carriers, and the names consumed by downstream zero analysis.
 
 Generic ideal weights, Euler products, summation, density, and Tauberian theory are imported from
-`ArithmeticDirichletSeries`. Moduli, ray-class characters, and Hecke characters are imported from
-`GlobalNumberFields`. This file defines none of those carriers and contains no Frobenius or
-Chebotarev predicate.
-
-Poisson summation for a full-rank `ℤ`-lattice in a finite-dimensional real inner product space,
-the dual lattice, and the Fourier transform of a Gaussian on such a space belong to
-`TauCetiRoadmap.ThetaSeries`: `poissonSummation`, `summable_poisson_left`,
-`summable_poisson_right`, `dual`, `dual_dual`, `covolume_dual`, `gaussian`, `gaussian_apply` and
-`fourier_gaussian`. The Layer 1 declarations below are the specialization of those to the mixed
-embedding of a fractional ideal, and each one that has a generic ancestor names it in its
-docstring. They are cited by name rather than by an `import`, so that the number-field targets
-here elaborate against Mathlib alone; nothing generic is restated.
+`ArithmeticDirichletSeries`. Moduli, ray-class characters, ideles with their coordinates, and Hecke
+characters are imported from `GlobalNumberFields`. Poisson summation for a full-rank `ℤ`-lattice
+in a finite-dimensional real inner product space, the dual lattice, and the Fourier transform of a
+Gaussian on such a space are imported from `ThetaSeries`: `poissonSummation`,
+`summable_poisson_left`, `summable_poisson_right`, `dual`, `dual_dual`, `covolume_dual`,
+`gaussian`, `gaussian_apply` and `fourier_gaussian`, re-exported below under `TS`. The Layer 1
+declarations are the specialization of those to the mixed embedding of a fractional ideal; each is
+stated against the supplier's declaration, and the closed checks at the end of Layer 1 apply all
+nine, so that a supplier rename breaks the `export` and a supplier retype breaks this file. This
+file defines none of the imported carriers and contains no Frobenius or Chebotarev predicate.
 -/
 
 namespace TauCetiRoadmap.LFunctions
 
 open Complex Filter NumberField NumberField.InfinitePlace Topology Asymptotics
 open IsDedekindDomain (HeightOneSpectrum)
-open scoped nonZeroDivisors
+open scoped nonZeroDivisors SchwartzMap FourierTransform RealInnerProductSpace
 
 noncomputable section
 
@@ -44,7 +43,8 @@ end ADS
 namespace GNF
 export TauCetiRoadmap.GlobalNumberFields
   (Modulus RayClassGroup RayClassCharacter AlgebraicInfinityType FiniteOrderInfinityType
-    HeckeCharacter finite_rayClassGroup idealClass integralIdealsPrimeTo classMap
+    ContinuousInfinityType HeckeCharacter IdeleGroup IdeleCongruenceSubgroup ideleFiniteCoord
+    ideleInfiniteCoord IsCongrOne finite_rayClassGroup idealClass integralIdealsPrimeTo classMap
     rayClassIdealMainTerm)
 namespace Modulus
 export TauCetiRoadmap.GlobalNumberFields.Modulus (one support mem_support_iff support_one)
@@ -52,7 +52,21 @@ end Modulus
 namespace RayClassCharacter
 export TauCetiRoadmap.GlobalNumberFields.RayClassCharacter (induced)
 end RayClassCharacter
+namespace HeckeCharacter
+export TauCetiRoadmap.GlobalNumberFields.HeckeCharacter
+  (ofRayClassCharacter shift unitaryPart infinityType IsFiniteOrder
+    isFiniteOrder_iff_exists_rayClassCharacter shift_ofRayClassCharacter)
+end HeckeCharacter
+namespace ContinuousInfinityType
+export TauCetiRoadmap.GlobalNumberFields.ContinuousInfinityType (EqOnIdentityComponent)
+end ContinuousInfinityType
 end GNF
+
+namespace TS
+export TauCetiRoadmap.ThetaSeries
+  (poissonSummation summable_poisson_left summable_poisson_right dual dual_dual covolume_dual
+    gaussian gaussian_apply fourier_gaussian)
+end TS
 
 /-! ## Layer 0: completed L-function data -/
 
@@ -245,10 +259,12 @@ theorem riemannZetaData_hasFunctionalEquation :
 
 /-! ## Layer 1: the mixed-space specialization of Poisson summation, and theta
 
-Nothing generic is developed here. `TauCetiRoadmap.ThetaSeries` owns lattice Poisson summation
-and the Gaussian Fourier transform; this section fixes the Fourier conventions of the mixed space,
-transports the supplier's theorem onto it, and compares the Euclidean dual of an ideal lattice
-with its trace dual. -/
+Nothing generic is developed here. `TauCetiRoadmap.ThetaSeries` owns lattice Poisson summation,
+the dual lattice and the Gaussian Fourier transform, and is imported. This section fixes the
+Fourier conventions of the mixed space, transports the supplier's theorem onto it along Mathlib's
+`NumberField.mixedEmbedding.euclidean.toMixed`, and compares the Euclidean dual of an ideal
+lattice with its trace dual. Every declaration with a generic ancestor is stated against that
+ancestor, and the closed checks at the end of the layer apply all nine consumed names. -/
 
 structure FEPairWithLevel (E : Type*) [NormedAddCommGroup E] [NormedSpace ℂ E] where
   f : ℝ → E
@@ -322,26 +338,17 @@ noncomputable def mixedFourier (K : Type u) [Field K] [NumberField K]
     (f : mixedEmbedding.mixedSpace K → ℂ) : mixedEmbedding.mixedSpace K → ℂ :=
   VectorFourier.fourierIntegral Real.fourierChar MeasureTheory.volume (mixedInnerBilin K) f
 
-/-- The Gaussian `exp (-π t Q x)` of the Euclidean pairing. It is the generic
-`TauCetiRoadmap.ThetaSeries.gaussian` on the imaginary axis, at `τ = I * t`: Hecke's method uses
-only that ray, and the holomorphic upper-half-plane theta built from the rest of it belongs to
-that roadmap. Its Fourier transform is `ThetaSeries.fourier_gaussian` at the same point; that is
-the first conjunct of `gaussianTheta_mellin_normalization` below. -/
-noncomputable def mixedGaussian (K : Type u) [Field K] [NumberField K] (t : ℝ)
-    (x : mixedEmbedding.mixedSpace K) : ℂ :=
-  Complex.exp ((-Real.pi * t * mixedInner K x x : ℝ) : ℂ)
-
-/-- The dual lattice of `mixedInner`. By `analyticDual_mixedEmbedding` it is the image of the
-trace dual under `traceToEuclidean`. This is `TauCetiRoadmap.ThetaSeries.dual` at the ideal
-lattice, written out elementwise in the mixed space so that the trace-dual comparison can be
-stated against it; it is not a second dual-lattice notion, and biduality and the dual covolume are
-that roadmap's `dual_dual` and `covolume_dual`. -/
-noncomputable def dualIdealLattice (K : Type u) [Field K] [NumberField K]
-    (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) : AddSubgroup (mixedEmbedding.mixedSpace K) where
-  carrier := {y | ∀ x ∈ mixedEmbedding.idealLattice K I, ∃ n : ℤ, mixedInner K x y = (n : ℝ)}
-  add_mem' := sorry
-  zero_mem' := sorry
-  neg_mem' := sorry
+open scoped Classical in
+/-- **The Fourier transform transports along the change of model.** In Mathlib's Euclidean model
+the four choices fixed in `mixedFourier` are those of Mathlib's `𝓕`: `mixedInner_toMixed` carries
+the inner product to `mixedInner`, and Mathlib's `euclidean.volumePreserving_toMixed` carries
+`volume` to `volume`. This is the Fourier half of the transport of the supplier's Poisson
+theorem. -/
+theorem mixedFourier_toMixed (K : Type u) [Field K] [NumberField K]
+    (f : mixedEmbedding.mixedSpace K → ℂ) (y : mixedEmbedding.euclidean.mixedSpace K) :
+    mixedFourier K f (mixedEmbedding.euclidean.toMixed K y) =
+      𝓕 (fun x : mixedEmbedding.euclidean.mixedSpace K ↦
+        f (mixedEmbedding.euclidean.toMixed K x)) y := sorry
 
 open scoped Classical in
 /-- The ideal lattice read in Mathlib's Euclidean model of the mixed space, where the generic
@@ -364,11 +371,126 @@ instance (K : Type u) [Field K] [NumberField K] (I : (FractionalIdeal (𝓞 K)�
   unfold euclideanIdealLattice; infer_instance
 
 open scoped Classical in
-/-- Poisson summation over an ideal lattice of the mixed space. **This is the specialization of
-`TauCetiRoadmap.ThetaSeries.poissonSummation` to `euclideanIdealLattice`, transported along
-`NumberField.mixedEmbedding.euclidean.toMixed` by `mixedInner_toMixed` and Mathlib's
-`euclidean.volumePreserving_toMixed`**; the generic theorem is owned there and is not restated
-here. The covolume is Mathlib's `ZLattice.covolume`, evaluated by
+/-- The change of model preserves the covolume: Mathlib's `ZLattice.covolume_comap` along the
+volume-preserving `euclidean.toMixed`. This is the measure half of the transport. -/
+theorem covolume_euclideanIdealLattice (K : Type u) [Field K] [NumberField K]
+    (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
+    ZLattice.covolume (euclideanIdealLattice K I) =
+      ZLattice.covolume (mixedEmbedding.idealLattice K I) := by
+  have h := ZLattice.covolume_comap (mixedEmbedding.idealLattice K I)
+    (e := mixedEmbedding.euclidean.toMixed K)
+    (he := mixedEmbedding.euclidean.volumePreserving_toMixed K)
+  unfold euclideanIdealLattice
+  exact h
+
+/-- The Gaussian `exp (-π t Q x)` of the Euclidean pairing. It is the supplier's
+`TauCetiRoadmap.ThetaSeries.gaussian` on the imaginary axis, at `τ = t * I`, read in the mixed
+space; `mixedGaussian_toMixed` is that identification, closed by the supplier's `gaussian_apply`.
+Hecke's method uses only that ray, and the holomorphic upper-half-plane theta built from the rest
+of it belongs to that roadmap. -/
+noncomputable def mixedGaussian (K : Type u) [Field K] [NumberField K] (t : ℝ)
+    (x : mixedEmbedding.mixedSpace K) : ℂ :=
+  Complex.exp ((-Real.pi * t * mixedInner K x x : ℝ) : ℂ)
+
+open scoped Classical in
+/-- `mixedGaussian K t` is `ThetaSeries.gaussian` at `τ = t * I`, transported by
+`euclidean.toMixed`. Closed by the supplier's `gaussian_apply` and by `mixedInner_toMixed`. -/
+theorem mixedGaussian_toMixed (K : Type u) [Field K] [NumberField K] {t : ℝ} (ht : 0 < t)
+    (x : mixedEmbedding.euclidean.mixedSpace K) :
+    mixedGaussian K t (mixedEmbedding.euclidean.toMixed K x) =
+      TS.gaussian (UpperHalfPlane.mk ((t : ℂ) * Complex.I) (by simpa using ht)) x := by
+  rw [TS.gaussian_apply, mixedGaussian, mixedInner_toMixed, real_inner_self_eq_norm_sq,
+    UpperHalfPlane.coe_mk]
+  push_cast
+  congr 1
+  linear_combination (-(Real.pi : ℂ) * t * ‖x‖ ^ 2) * Complex.I_sq
+
+open scoped Classical in
+/-- **`ThetaSeries.fourier_gaussian` on the imaginary axis.** At `τ = t * I` the Gaussian is
+self-dual with the factor `t ^ (-[K:ℚ]/2)`: `τ / I = t`, `-1 / τ = t⁻¹ * I`, and
+`finrank ℝ (euclidean.mixedSpace K) = finrank ℚ K` is Mathlib's `euclidean.finrank`. Through
+`mixedGaussian_toMixed` and `mixedFourier_toMixed` this is the first conjunct of
+`gaussianTheta_mellin_normalization`. -/
+theorem fourier_gaussian_imaginaryAxis (K : Type u) [Field K] [NumberField K] {t : ℝ}
+    (ht : 0 < t) (y : mixedEmbedding.euclidean.mixedSpace K) :
+    𝓕 (fun x : mixedEmbedding.euclidean.mixedSpace K ↦
+        (TS.gaussian (UpperHalfPlane.mk ((t : ℂ) * Complex.I) (by simpa using ht)) :
+          mixedEmbedding.euclidean.mixedSpace K → ℂ) x) y =
+      (t : ℂ) ^ (-(Module.finrank ℚ K : ℂ) / 2) *
+        TS.gaussian (UpperHalfPlane.mk (((t⁻¹ : ℝ) : ℂ) * Complex.I) (by simpa using ht)) y :=
+  sorry
+
+open scoped Classical in
+/-- **The dual of the ideal lattice is the supplier's `dual`**, taken in the Euclidean model
+where the inner product lives and pulled back to the mixed space along `euclidean.toMixed`. It is
+not a second dual-lattice notion. `mem_dualIdealLattice_iff` is its elementwise description in the
+mixed space, the form that `analyticDual_mixedEmbedding` compares with the trace dual; its
+biduality and its covolume are the supplier's `dual_dual` and `covolume_dual`, consumed by the
+closed proofs `dual_comap_dualIdealLattice` and `covolume_dualIdealLattice`. -/
+noncomputable def dualIdealLattice (K : Type u) [Field K] [NumberField K]
+    (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) : Submodule ℤ (mixedEmbedding.mixedSpace K) :=
+  ZLattice.comap ℝ (TS.dual (euclideanIdealLattice K I))
+    (mixedEmbedding.euclidean.toMixed K).symm.toLinearMap
+
+open scoped Classical in
+instance (K : Type u) [Field K] [NumberField K] (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
+    DiscreteTopology (dualIdealLattice K I) := by
+  unfold dualIdealLattice; infer_instance
+
+open scoped Classical in
+instance (K : Type u) [Field K] [NumberField K] (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
+    IsZLattice ℝ (dualIdealLattice K I) := by
+  unfold dualIdealLattice; infer_instance
+
+open scoped Classical in
+/-- The elementwise description of the dual ideal lattice in the mixed space, by
+`mixedInner_toMixed` and the definition of the supplier's `dual` as Mathlib's
+`BilinForm.dualSubmodule` of the inner product. -/
+theorem mem_dualIdealLattice_iff (K : Type u) [Field K] [NumberField K]
+    (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) (y : mixedEmbedding.mixedSpace K) :
+    y ∈ dualIdealLattice K I ↔
+      ∀ x ∈ mixedEmbedding.idealLattice K I, ∃ n : ℤ, mixedInner K x y = (n : ℝ) := sorry
+
+open scoped Classical in
+/-- The dual ideal lattice is the trace dual transported by `traceToEuclidean`:
+`analyticDual_mixedEmbedding` read through `mem_dualIdealLattice_iff`. -/
+theorem coe_dualIdealLattice (K : Type u) [Field K] [NumberField K]
+    (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
+    (dualIdealLattice K I : Set (mixedEmbedding.mixedSpace K)) =
+      traceToEuclidean K '' (mixedEmbedding K ''
+        (FractionalIdeal.dual ℤ ℚ (I : FractionalIdeal (𝓞 K)⁰ K) : Set K)) := sorry
+
+open scoped Classical in
+/-- Biduality, consumed from `ThetaSeries.dual_dual`: read back in the Euclidean model,
+`dualIdealLattice` is the supplier's dual of `euclideanIdealLattice`, whose dual is
+`euclideanIdealLattice` again. -/
+theorem dual_comap_dualIdealLattice (K : Type u) [Field K] [NumberField K]
+    (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
+    TS.dual (ZLattice.comap ℝ (dualIdealLattice K I)
+        (mixedEmbedding.euclidean.toMixed K).toLinearMap) = euclideanIdealLattice K I := by
+  have h : (mixedEmbedding.euclidean.toMixed K).symm.toLinearMap ∘ₗ
+      (mixedEmbedding.euclidean.toMixed K).toLinearMap = 1 := by
+    ext x; simp
+  rw [dualIdealLattice, ZLattice.comap_comp, h, ZLattice.comap_refl, TS.dual_dual]
+
+open scoped Classical in
+/-- The covolume of the dual ideal lattice, consumed from `ThetaSeries.covolume_dual` through the
+two changes of model; there is no second determinant computation. -/
+theorem covolume_dualIdealLattice (K : Type u) [Field K] [NumberField K]
+    (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
+    ZLattice.covolume (dualIdealLattice K I) =
+      (ZLattice.covolume (mixedEmbedding.idealLattice K I))⁻¹ := by
+  have h := ZLattice.covolume_comap (TS.dual (euclideanIdealLattice K I))
+    (e := (mixedEmbedding.euclidean.toMixed K).symm)
+    (he := mixedEmbedding.euclidean.volumePreserving_toMixed_symm K)
+  rw [dualIdealLattice, h, TS.covolume_dual, covolume_euclideanIdealLattice]
+
+open scoped Classical in
+/-- Poisson summation over an ideal lattice of the mixed space. **This is
+`ThetaSeries.poissonSummation (euclideanIdealLattice K I) g 0` for `g = f ∘ euclidean.toMixed`,
+transported by `mixedFourier_toMixed`, by `dualIdealLattice` — the supplier's `dual`, pulled back
+— and by `covolume_euclideanIdealLattice`**; the generic theorem is owned there and is not
+restated here. The covolume is Mathlib's `ZLattice.covolume`, evaluated by
 `NumberField.mixedEmbedding.covolume_idealLattice` as `N(I) * 2 ^ (-r₂) * √|d_K|`; this roadmap
 does not restate that computation either. -/
 theorem poissonSummation_idealLattice (K : Type u) [Field K] [NumberField K]
@@ -378,6 +500,78 @@ theorem poissonSummation_idealLattice (K : Type u) [Field K] [NumberField K]
       ((ZLattice.covolume (mixedEmbedding.idealLattice K I) : ℝ) : ℂ)⁻¹ *
         ∑' y : dualIdealLattice K I,
           mixedFourier K (fun z ↦ f z) (y : mixedEmbedding.mixedSpace K) := sorry
+
+/-! ### Closed checks against the Theta Series contract
+
+Each of the nine declarations consumed from `TauCetiRoadmap.ThetaSeries` is applied here at the
+Euclidean model of the mixed space and the ideal lattice, with its statement written out, so that
+a supplier retype breaks this file at the point of use and not only in a docstring. -/
+
+section ThetaSeriesChecks
+
+open scoped Classical
+
+variable (K : Type u) [Field K] [NumberField K] (𝔞 : (FractionalIdeal (𝓞 K)⁰ K)ˣ)
+
+-- `dual`: the dual of the ideal lattice in the Euclidean model.
+example : Submodule ℤ (mixedEmbedding.euclidean.mixedSpace K) :=
+  TS.dual (euclideanIdealLattice K 𝔞)
+
+-- `dual_dual`: biduality at the ideal lattice.
+example : TS.dual (TS.dual (euclideanIdealLattice K 𝔞)) = euclideanIdealLattice K 𝔞 :=
+  TS.dual_dual (euclideanIdealLattice K 𝔞)
+
+-- `covolume_dual`: the covolume of the dual ideal lattice.
+example :
+    ZLattice.covolume (TS.dual (euclideanIdealLattice K 𝔞)) MeasureTheory.volume =
+      (ZLattice.covolume (euclideanIdealLattice K 𝔞) MeasureTheory.volume)⁻¹ :=
+  TS.covolume_dual (euclideanIdealLattice K 𝔞)
+
+-- `poissonSummation`: the generic identity at the ideal lattice, before transport.
+example (f : 𝓢(mixedEmbedding.euclidean.mixedSpace K, ℂ))
+    (v : mixedEmbedding.euclidean.mixedSpace K) :
+    ∑' ℓ : euclideanIdealLattice K 𝔞, f (v + (ℓ : mixedEmbedding.euclidean.mixedSpace K)) =
+      (ZLattice.covolume (euclideanIdealLattice K 𝔞) MeasureTheory.volume)⁻¹ *
+        ∑' m : TS.dual (euclideanIdealLattice K 𝔞),
+          𝓕 (fun x : mixedEmbedding.euclidean.mixedSpace K ↦ f x)
+              (m : mixedEmbedding.euclidean.mixedSpace K) *
+            Complex.exp (2 * Real.pi * Complex.I *
+              ⟪v, (m : mixedEmbedding.euclidean.mixedSpace K)⟫) :=
+  TS.poissonSummation (euclideanIdealLattice K 𝔞) f v
+
+-- `summable_poisson_left` and `summable_poisson_right`: each side on its own.
+example (f : 𝓢(mixedEmbedding.euclidean.mixedSpace K, ℂ))
+    (v : mixedEmbedding.euclidean.mixedSpace K) :
+    Summable fun ℓ : euclideanIdealLattice K 𝔞 ↦
+      f (v + (ℓ : mixedEmbedding.euclidean.mixedSpace K)) :=
+  TS.summable_poisson_left (euclideanIdealLattice K 𝔞) f v
+
+example (f : 𝓢(mixedEmbedding.euclidean.mixedSpace K, ℂ))
+    (v : mixedEmbedding.euclidean.mixedSpace K) :
+    Summable fun m : TS.dual (euclideanIdealLattice K 𝔞) ↦
+      𝓕 (fun x : mixedEmbedding.euclidean.mixedSpace K ↦ f x)
+          (m : mixedEmbedding.euclidean.mixedSpace K) *
+        Complex.exp (2 * Real.pi * Complex.I *
+          ⟪v, (m : mixedEmbedding.euclidean.mixedSpace K)⟫) :=
+  TS.summable_poisson_right (euclideanIdealLattice K 𝔞) f v
+
+-- `gaussian` and `gaussian_apply`: a Schwartz function with the stated values.
+example (τ : UpperHalfPlane) : 𝓢(mixedEmbedding.euclidean.mixedSpace K, ℂ) := TS.gaussian τ
+
+example (τ : UpperHalfPlane) (x : mixedEmbedding.euclidean.mixedSpace K) :
+    TS.gaussian τ x = Complex.exp (Real.pi * Complex.I * (‖x‖ ^ 2 : ℝ) * τ) :=
+  TS.gaussian_apply τ x
+
+-- `fourier_gaussian`: the Fourier transform of the Gaussian at the rank of the mixed space.
+example (τ : UpperHalfPlane) (y : mixedEmbedding.euclidean.mixedSpace K) :
+    𝓕 (fun x : mixedEmbedding.euclidean.mixedSpace K ↦
+        (TS.gaussian τ : mixedEmbedding.euclidean.mixedSpace K → ℂ) x) y =
+      ((τ : ℂ) / Complex.I) ^
+          (-(Module.finrank ℝ (mixedEmbedding.euclidean.mixedSpace K) : ℂ) / 2) *
+        Complex.exp (Real.pi * Complex.I * (‖y‖ ^ 2 : ℝ) * (-1 / (τ : ℂ))) :=
+  TS.fourier_gaussian τ y
+
+end ThetaSeriesChecks
 
 /-! ## Layers 2--3: partial and Dedekind zeta functions -/
 
@@ -935,16 +1129,6 @@ theorem conductorOf_one (𝔪 : GNF.Modulus K) :
     PrimitiveRayClassCharacter.conductorOf K (1 : GNF.RayClassCharacter 𝔪) =
       GNF.Modulus.one K := sorry
 
-noncomputable def grossenFullWeight
-    (weight : ADS.UnitaryIdealWeight K) (shift : ℝ) (x : Kˣ) : ℂ := sorry
-
-/-- ⚠ The carrier is the supplier's `AlgebraicInfinityType`, the integer-exponent subcase
-`x ↦ ∏ σ, σ x ^ (n σ)`. A general continuous Hecke character has complex archimedean exponents,
-which is `ContinuousInfinityType`, and the finite-order characters of Layer 5 have only signs,
-which is `FiniteOrderInfinityType`; the shift is carried separately in either case. -/
-noncomputable def grossenArchimedeanFactor
-    (infinityType : GNF.AlgebraicInfinityType K) (shift : ℝ) (x : Kˣ) : ℂ := sorry
-
 /-- The finite-family hypotheses used by the `3-4-1` argument. Cancellation of norm twists is
 required only for nontrivial members; the identity member supplies the zeta pole. -/
 structure CancellingFamily (G : Type*) [CommGroup G] [Fintype G]
@@ -975,70 +1159,364 @@ structure UnitaryCancelling (χ : ADS.UnitaryIdealWeight K) : Prop where
     (∃ u : ℝ,
       TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.IsNormTwistOnGood K
         (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.sq K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.imaginaryNormTwist K χ t)) u) ∨
+          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.imaginaryNormTwist K χ t))
+        u) ∨
       ADS.HasCancellation K
         (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.sq K
           (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.imaginaryNormTwist K χ t))
 
-/-- Analytic presentation of the imported Hecke-character carrier. -/
+/-- **Analytic presentation of the imported Hecke-character carrier, at a modulus.** The idele
+class character `toHeckeCharacter` is the primary object: every other field is pinned to it by an
+equation, so a presentation is determined by its Hecke character (`Grossencharacter.ext`), and the
+L-function, conductor, root number and completions below describe that one character.
+
+* `unitaryWeight` is the ideal weight induced by `toHeckeCharacter.unitaryPart`. At a prime `v`
+  not dividing the finite part of the modulus it is the value of the unitary part at the class of
+  a prime idele at `v` — an idele whose `v`-coordinate is a uniformizer and whose every other
+  finite and infinite coordinate is `1`, described through the supplier's `ideleFiniteCoord` and
+  `ideleInfiniteCoord` — and it vanishes at the ideals not prime to `𝔪`. Complete
+  multiplicativity then fixes it everywhere.
+* `infinityType` is the archimedean restriction of `toHeckeCharacter`: the supplier's
+  `HeckeCharacter.infinityType`, compared on the identity component by the supplier's own
+  comparison `EqOnIdentityComponent` — the comparison in Weil's type-`A₀` condition — and on the
+  nose at the real places outside `𝔪`, where no sign twist is presented.
+* `𝔪` is a modulus of definition: `toHeckeCharacter` is trivial on the finite part of the
+  supplier's `IdeleCongruenceSubgroup 𝔪`, the ideles of that subgroup whose archimedean
+  coordinates are all `1`. ⚠ Not on the whole subgroup: that would force finite order.
+
+⚠ The archimedean carrier is the supplier's `AlgebraicInfinityType`, so this presents an
+**algebraic** Hecke character (Weil's type `A₀`): `infinityType_eq` is a witness of
+`toHeckeCharacter.IsAlgebraic`. The continuous family is not presented here — `normCharacter K t`
+for `t ≠ 0` is not algebraic (`not_isAlgebraic_normCharacter`) — and the imaginary norm twists of
+Layer 7 enter through `UnitaryIdealWeight.imaginaryNormTwist` on the weight. There is no
+finite-character field: a ray-class character is a presentation only in the finite-order case
+(`exists_rayClassCharacter_of_isFiniteOrder`), and the real shift is not a field either, but the
+supplier's `HeckeCharacter.shift` of the primary object (`Grossencharacter.shift`). -/
 structure Grossencharacter
     (K : Type u) [Field K] [NumberField K] (𝔪 : GNF.Modulus K) where
   toHeckeCharacter : GNF.HeckeCharacter K
   unitaryWeight : ADS.UnitaryIdealWeight K
-  shift : ℝ
-  shift_eq : shift = toHeckeCharacter.shift
-  finiteCharacter : GNF.RayClassCharacter 𝔪
   infinityType : GNF.AlgebraicInfinityType K
-  compatibility : ∀ x : Kˣ, grossenFullWeight K unitaryWeight shift x =
-    grossenArchimedeanFactor K infinityType shift x
+  eq_one_of_mem : ∀ y ∈ GNF.IdeleCongruenceSubgroup 𝔪,
+    (∀ w : InfinitePlace K, GNF.ideleInfiniteCoord w y = 1) →
+      toHeckeCharacter (QuotientGroup.mk y) = 1
+  infinityType_eq : GNF.ContinuousInfinityType.EqOnIdentityComponent
+    infinityType.toContinuous toHeckeCharacter.infinityType
+  realParity_eq : ∀ w : {w : InfinitePlace K // w.IsReal}, w ∉ 𝔪.infinitePart →
+    toHeckeCharacter.infinityType.realParity w = infinityType.toContinuous.realParity w
+  unitaryWeight_eq_zero : ∀ I : Ideal (𝓞 K), ¬ 𝔪.IsCoprimeTo I → unitaryWeight I = 0
+  unitaryWeight_apply : ∀ v : HeightOneSpectrum (𝓞 K), ¬ v.asIdeal ∣ 𝔪.finitePart →
+    ∀ y : GNF.IdeleGroup K,
+      Valued.v ((GNF.ideleFiniteCoord v y : (v.adicCompletion K)ˣ) : v.adicCompletion K) =
+        ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) →
+      (∀ v' : HeightOneSpectrum (𝓞 K), v' ≠ v → GNF.ideleFiniteCoord v' y = 1) →
+      (∀ w : InfinitePlace K, GNF.ideleInfiniteCoord w y = 1) →
+      unitaryWeight v.asIdeal = ((toHeckeCharacter.unitaryPart (QuotientGroup.mk y) : ℂˣ) : ℂ)
 
-noncomputable def Grossencharacter.lFunctionC
-    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℂ → ℂ := sorry
+namespace Grossencharacter
 
-noncomputable def Grossencharacter.primitiveConductor
+variable {K} in
+/-- The real shift is the supplier's, read off the primary object; it is not a second field. -/
+noncomputable def shift {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℝ :=
+  χ.toHeckeCharacter.shift
+
+variable {K} in
+/-- **The Hecke character is primary.** Two presentations of one idele class character at one
+modulus are equal: the weight is forced by `unitaryWeight_apply` and `unitaryWeight_eq_zero`
+through complete multiplicativity, and the infinity type by `infinityType_eq` and the supplier's
+`AlgebraicInfinityType.toContinuous_injective`. -/
+theorem ext {𝔪 : GNF.Modulus K} {χ ψ : Grossencharacter K 𝔪}
+    (h : χ.toHeckeCharacter = ψ.toHeckeCharacter) : χ = ψ := sorry
+
+noncomputable def lFunctionC {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℂ → ℂ := sorry
+
+/-- **The coefficients of the presented L-function.** On its half-plane of convergence it is the
+norm-regrouped series of the presented unitary weight recentered by the shift,
+`∑ χ_u(𝔞) N𝔞^(shift - s)` over the ideals prime to `𝔪`: the convention `χ = χ_u N^shift` of the
+recentering law `completed_recenter`. Its Euler factors are the supplier's `EulerProductData` for
+that weight, evaluated at `s - shift`. -/
+theorem lFunctionC_eq {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) {s : ℂ}
+    (hs : 1 + χ.shift < s.re) :
+    lFunctionC K χ s =
+      LSeries (ADS.normCoeff K
+        (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
+          χ.unitaryWeight)) (s - (χ.shift : ℂ)) := sorry
+
+theorem meromorphic_lFunctionC {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    Meromorphic (lFunctionC K χ) := sorry
+
+noncomputable def primitiveConductor
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : GNF.Modulus K := sorry
 
-noncomputable def Grossencharacter.rootNumber
-    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℂ := sorry
+/-- **The universal property of the conductor.** A modulus presents the underlying Hecke
+character exactly when it is a multiple of the conductor, so the conductor is a function of
+`toHeckeCharacter` and not of the modulus the presentation was written at. -/
+theorem primitiveConductor_dvd_iff {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
+    (𝔫 : GNF.Modulus K) :
+    primitiveConductor K χ ∣ 𝔫 ↔
+      ∃ ψ : Grossencharacter K 𝔫, ψ.toHeckeCharacter = χ.toHeckeCharacter := sorry
 
-noncomputable def Grossencharacter.completed
+theorem primitiveConductor_dvd {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    primitiveConductor K χ ∣ 𝔪 :=
+  (primitiveConductor_dvd_iff K χ 𝔪).mpr ⟨χ, rfl⟩
+
+theorem primitiveConductor_dvd_self {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    primitiveConductor K χ ∣ primitiveConductor K χ :=
+  ⟨dvd_refl _, Finset.Subset.refl _⟩
+
+/-- The primitive presentation of the same Hecke character, at its conductor. -/
+noncomputable def primitive {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    Grossencharacter K (primitiveConductor K χ) :=
+  ((primitiveConductor_dvd_iff K χ _).mp (primitiveConductor_dvd_self K χ)).choose
+
+theorem primitive_toHeckeCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (primitive K χ).toHeckeCharacter = χ.toHeckeCharacter :=
+  ((primitiveConductor_dvd_iff K χ _).mp (primitiveConductor_dvd_self K χ)).choose_spec
+
+theorem primitiveConductor_congr {𝔪 𝔫 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
+    (ψ : Grossencharacter K 𝔫) (h : χ.toHeckeCharacter = ψ.toHeckeCharacter) :
+    primitiveConductor K χ = primitiveConductor K ψ := sorry
+
+open scoped Classical in
+/-- Every presentation is the primitive series times the Euler factors at the primes dividing the
+presentation modulus but not the conductor, `∏ (1 - χ_u(𝔭) N𝔭^(shift - s))` with the primitive
+weight; on the half-plane and as germs, since the trivial weight has a pole. -/
+theorem lFunctionC_eq_primitive {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (∀ s : ℂ, 1 + χ.shift < s.re →
+        lFunctionC K χ s = lFunctionC K (primitive K χ) s *
+          ∏ 𝔭 ∈ 𝔪.support \ (primitiveConductor K χ).support,
+            (1 - (primitive K χ).unitaryWeight 𝔭.asIdeal *
+              (Ideal.absNorm 𝔭.asIdeal : ℂ) ^ ((χ.shift : ℂ) - s))) ∧
+      (∀ s : ℂ, lFunctionC K χ =ᶠ[𝓝[≠] s]
+        fun z ↦ lFunctionC K (primitive K χ) z *
+          ∏ 𝔭 ∈ 𝔪.support \ (primitiveConductor K χ).support,
+            (1 - (primitive K χ).unitaryWeight 𝔭.asIdeal *
+              (Ideal.absNorm 𝔭.asIdeal : ℂ) ^ ((χ.shift : ℂ) - z))) := sorry
+
+noncomputable def rootNumber {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℂ := sorry
+
+theorem norm_rootNumber {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    ‖rootNumber K χ‖ = 1 := sorry
+
+/-- The completed L-function of the unitary part `χ_u = χ N^(-shift)`, at the conductor: the
+completed function of the analytic card `grossencharacterData`. -/
+noncomputable def unitaryCompletion
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℂ → ℂ := sorry
 
-noncomputable def Grossencharacter.unitaryCompletion
+/-- The full completion, defined by recentering: `Λ(χ, s) = Λ(χ_u, s - shift)`. -/
+noncomputable def completed
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℂ → ℂ := sorry
 
-noncomputable def Grossencharacter.inverse
-    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : Grossencharacter K 𝔪 := sorry
-
-noncomputable def Grossencharacter.ofRayClassCharacter
-    {𝔪 : GNF.Modulus K} (χ : GNF.RayClassCharacter 𝔪) : Grossencharacter K 𝔪 := sorry
-
-theorem Grossencharacter.completed_recenter
+theorem completed_recenter
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (s : ℂ) :
-    Grossencharacter.completed K χ s =
-      Grossencharacter.unitaryCompletion K χ (s - (χ.shift : ℂ)) := sorry
+    completed K χ s = unitaryCompletion K χ (s - (χ.shift : ℂ)) := sorry
 
-theorem Grossencharacter.rootNumber_inv
+/-- The completion, like the conductor, is a function of the Hecke character alone: it does not
+see the presentation modulus. `lFunctionC` does, by `lFunctionC_eq_primitive`. -/
+theorem unitaryCompletion_congr {𝔪 𝔫 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
+    (ψ : Grossencharacter K 𝔫) (h : χ.toHeckeCharacter = ψ.toHeckeCharacter) :
+    unitaryCompletion K χ = unitaryCompletion K ψ := sorry
+
+theorem rootNumber_congr {𝔪 𝔫 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
+    (ψ : Grossencharacter K 𝔫) (h : χ.toHeckeCharacter = ψ.toHeckeCharacter) :
+    rootNumber K χ = rootNumber K ψ := sorry
+
+/-- The inverse presentation, at the same modulus, by its fields: the inverse Hecke character,
+the conjugate unitary weight, and the negated infinity type. With `χ = χ_u N^σ` this is
+`conj(χ_u) N^(-σ)`, so its shift is `-σ` (`inverse_shift`); it is not the conjugate presentation
+`conj(χ_u) N^σ`, and the functional equation reflects against it. -/
+noncomputable def inverse
+    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : Grossencharacter K 𝔪 where
+  toHeckeCharacter := χ.toHeckeCharacter⁻¹
+  unitaryWeight :=
+    TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.conj K χ.unitaryWeight
+  infinityType := ⟨fun τ ↦ -χ.infinityType.exponent τ⟩
+  eq_one_of_mem := sorry
+  infinityType_eq := sorry
+  realParity_eq := sorry
+  unitaryWeight_eq_zero := sorry
+  unitaryWeight_apply := sorry
+
+theorem inverse_toHeckeCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (inverse K χ).toHeckeCharacter = χ.toHeckeCharacter⁻¹ := rfl
+
+theorem inverse_shift {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (inverse K χ).shift = -χ.shift := sorry
+
+theorem inverse_inverse {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    inverse K (inverse K χ) = χ := sorry
+
+theorem rootNumber_inv
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
-    Grossencharacter.rootNumber K (Grossencharacter.inverse K χ) =
-      (Grossencharacter.rootNumber K χ)⁻¹ := sorry
+    rootNumber K (inverse K χ) = (rootNumber K χ)⁻¹ := sorry
 
+/-- **The finite-order presentation of a ray-class character**, by its fields: the supplier's
+`HeckeCharacter.ofRayClassCharacter`, the ray-class weight of Layer 5, and the zero infinity
+type. -/
+noncomputable def ofRayClassCharacter
+    {𝔪 : GNF.Modulus K} (η : GNF.RayClassCharacter 𝔪) : Grossencharacter K 𝔪 where
+  toHeckeCharacter := GNF.HeckeCharacter.ofRayClassCharacter η
+  unitaryWeight := rayClassIdealWeight K 𝔪 η
+  infinityType := ⟨fun _ ↦ 0⟩
+  eq_one_of_mem := sorry
+  infinityType_eq := sorry
+  realParity_eq := sorry
+  unitaryWeight_eq_zero := fun _ hI ↦ rayClassIdealWeight_eq_zero K 𝔪 η hI
+  unitaryWeight_apply := sorry
+
+theorem ofRayClassCharacter_toHeckeCharacter
+    {𝔪 : GNF.Modulus K} (η : GNF.RayClassCharacter 𝔪) :
+    (ofRayClassCharacter K η).toHeckeCharacter = GNF.HeckeCharacter.ofRayClassCharacter η := rfl
+
+theorem ofRayClassCharacter_unitaryWeight
+    {𝔪 : GNF.Modulus K} (η : GNF.RayClassCharacter 𝔪) :
+    (ofRayClassCharacter K η).unitaryWeight = rayClassIdealWeight K 𝔪 η := rfl
+
+/-- Closed by the supplier's `HeckeCharacter.shift_ofRayClassCharacter`. -/
+theorem ofRayClassCharacter_shift
+    {𝔪 : GNF.Modulus K} (η : GNF.RayClassCharacter 𝔪) :
+    (ofRayClassCharacter K η).shift = 0 :=
+  GNF.HeckeCharacter.shift_ofRayClassCharacter η
+
+/-- **The finite presentation at the stated modulus.** A presentation of a finite-order Hecke
+character at `𝔪` is the presentation of a ray-class character of `𝔪`: the finite pin makes the
+character trivial on the finite congruence subgroup, and finite order together with
+`realParity_eq` makes it trivial on the archimedean part of `IdeleCongruenceSubgroup 𝔪`, so it
+factors through `rayClassQuotient 𝔪`. ⚠ Only in this case: an infinite-order character has no
+ray-class presentation at any modulus — the angular characters of `ℚ(i)` below are unramified
+and nontrivial, while the only ray-class character of the trivial modulus of `ℚ(i)` is trivial. -/
+theorem exists_rayClassCharacter_of_isFiniteOrder {𝔪 : GNF.Modulus K}
+    (χ : Grossencharacter K 𝔪) (h : χ.toHeckeCharacter.IsFiniteOrder) :
+    ∃ η : GNF.RayClassCharacter 𝔪,
+      GNF.HeckeCharacter.ofRayClassCharacter η = χ.toHeckeCharacter := sorry
+
+/-- The weight of a finite-order presentation is the ray-class weight of the ray-class character
+presenting it: the two pins of `unitaryWeight`, the supplier's `ofRayClassCharacter_apply`, and
+`rayClassIdealWeight_apply`. -/
+theorem unitaryWeight_eq_rayClassIdealWeight {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
+    (η : GNF.RayClassCharacter 𝔪)
+    (h : χ.toHeckeCharacter = GNF.HeckeCharacter.ofRayClassCharacter η) :
+    χ.unitaryWeight = rayClassIdealWeight K 𝔪 η := sorry
+
+/-- A finite-order character has zero exponents and zero angular frequency (the supplier's
+`exists_finiteOrderInfinityType`), so `infinityType_eq` forces the zero infinity type. -/
+theorem infinityType_eq_zero_of_isFiniteOrder {𝔪 : GNF.Modulus K}
+    (χ : Grossencharacter K 𝔪) (h : χ.toHeckeCharacter.IsFiniteOrder) :
+    χ.infinityType = ⟨fun _ ↦ 0⟩ := sorry
+
+/-- Closed by the supplier's `isFiniteOrder_iff_exists_rayClassCharacter` and
+`shift_ofRayClassCharacter`. -/
+theorem shift_eq_zero_of_isFiniteOrder {𝔪 : GNF.Modulus K}
+    (χ : Grossencharacter K 𝔪) (h : χ.toHeckeCharacter.IsFiniteOrder) : χ.shift = 0 := by
+  obtain ⟨𝔫, η, hη⟩ :=
+    (GNF.HeckeCharacter.isFiniteOrder_iff_exists_rayClassCharacter χ.toHeckeCharacter).mp h
+  rw [shift, ← hη]
+  exact GNF.HeckeCharacter.shift_ofRayClassCharacter η
+
+/-- The finite-order presentation has the ray-class L-function of Layer 5, on the half-plane and
+as germs. -/
+theorem lFunctionC_ofRayClassCharacter {𝔪 : GNF.Modulus K} (η : GNF.RayClassCharacter 𝔪) :
+    (∀ s : ℂ, 1 < s.re → lFunctionC K (ofRayClassCharacter K η) s = heckeLFunctionC K η s) ∧
+      ∀ s : ℂ, lFunctionC K (ofRayClassCharacter K η) =ᶠ[𝓝[≠] s] heckeLFunctionC K η := sorry
+
+/-- **Hecke's unit relation**, derived from the primary object rather than taken as a field: on a
+principal ideal generated by `a ≡ 1 mod* 𝔪` — the supplier's `IsCongrOne`, which includes
+positivity at the real places of `𝔪` — the full weight `χ_u((a)) N(a)^shift` is the archimedean
+factor `∏ τ, τ(a)^(n_τ)`. `toHeckeCharacter` is trivial on the principal idele of `a`; the finite
+pin evaluates the finite coordinates and the archimedean pin the infinite ones. ⚠ For `a` not
+congruent to `1` the two sides differ by the finite character of `(𝓞/𝔪)ˣ × {±1}^𝔪∞` that this
+relation determines; quantifying over all `a` would leave only the unramified characters. -/
+theorem compatibility {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (x : Kˣ)
+    (hx : GNF.IsCongrOne 𝔪 x) (a : 𝓞 K) (ha : algebraMap (𝓞 K) K a = x) :
+    χ.unitaryWeight (Ideal.span {a}) *
+        ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.shift : ℂ) =
+      ∏ τ : K →+* ℂ, τ (x : K) ^ χ.infinityType.exponent τ := sorry
+
+end Grossencharacter
+
+/-- **The analytic card of a Grossencharacter** is the card of its unitary part, built from the
+primitive presentation: coefficients the norm-regrouped primitive unitary weight, conductor
+`|d_K| N(𝔣₀)`, real gamma shifts the parities `ε_w` of the archimedean restriction of the unitary
+part, complex gamma shifts `|n_σ - n_σ̄| / 2`, root number `rootNumber`, completed function
+`unitaryCompletion`. It is a function of the Hecke character alone (`grossencharacterData_congr`)
+and its functional equation is centered at `1/2`: the dual card is the conjugate, which is the
+inverse of a unitary character. ⚠ The full completion `completed χ s = unitaryCompletion χ
+(s - shift)` is not the completed function of an analytic card when the shift is nonzero — its
+equation is centered at `1/2 + shift` and reflects against the inverse, whose shift is `-shift`,
+not against the conjugate — so the polar divisor that restricts `completed_one_sub` is read off
+this card at `s - shift`. -/
 noncomputable def grossencharacterData
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : AnalyticLFunctionData := sorry
 
-/-- The card's completed function is the presentation's, so the polar divisor recorded by the card
-is the one that restricts the pointwise functional equation below. -/
 theorem grossencharacterData_completed
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
-    (grossencharacterData K χ).completed = Grossencharacter.completed K χ := sorry
+    (grossencharacterData K χ).completed = Grossencharacter.unitaryCompletion K χ := sorry
 
-/-- ⚠ A norm twist `N ^ (iu)` has poles at `iu` and `1 + iu`, so the values on the two sides are
-junk there; the pointwise equation carries the polar-divisor hypotheses of both cards, and the
-germ equality below carries none. -/
+theorem grossencharacterData_coeff
+    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (n : ℕ) (hn : n ≠ 0) :
+    (grossencharacterData K χ).coeff n =
+      ADS.normCoeff K
+        (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
+          (Grossencharacter.primitive K χ).unitaryWeight) n := sorry
+
+theorem grossencharacterData_conductor
+    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    ((grossencharacterData K χ).conductor : ℕ) =
+      (discr K).natAbs *
+        Ideal.absNorm (Grossencharacter.primitiveConductor K χ).finitePart := sorry
+
+open scoped Classical in
+/-- One real gamma shift per real place: the parity of the unitary part there, which is the
+parity of the archimedean restriction of `toHeckeCharacter` — ⚠ not the parity of the algebraic
+exponent, which the norm powers `N^m` with `m` odd already distinguish. -/
+theorem grossencharacterData_gammaR
+    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (grossencharacterData K χ).gammaR =
+      (Finset.univ : Finset {w : InfinitePlace K // w.IsReal}).val.map
+        fun w ↦ ((χ.toHeckeCharacter.infinityType.realParity w).val : ℂ) := sorry
+
+open scoped Classical in
+/-- One complex gamma shift per complex place: half the absolute angular frequency
+`|n_σ - n_σ̄|` of the infinity type there. -/
+theorem grossencharacterData_gammaC
+    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (grossencharacterData K χ).gammaC =
+      (Finset.univ : Finset {w : InfinitePlace K // w.IsComplex}).val.map
+        fun w ↦ ((|χ.infinityType.toContinuous.complexAngular w| : ℤ) : ℂ) / 2 := sorry
+
+theorem grossencharacterData_rootNumber
+    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (grossencharacterData K χ).rootNumber = Grossencharacter.rootNumber K χ := sorry
+
+theorem grossencharacterData_congr {𝔪 𝔫 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
+    (ψ : Grossencharacter K 𝔫) (h : χ.toHeckeCharacter = ψ.toHeckeCharacter) :
+    grossencharacterData K χ = grossencharacterData K ψ := sorry
+
+theorem degree_grossencharacterData
+    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (grossencharacterData K χ).degree = Module.finrank ℚ K := sorry
+
+theorem grossencharacterData_hasDirichletAgreement
+    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (grossencharacterData K χ).HasDirichletAgreement := sorry
+
+theorem grossencharacterData_hasContinuation
+    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (grossencharacterData K χ).HasMeromorphicContinuation := sorry
+
+theorem grossencharacterData_hasFunctionalEquation
+    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (grossencharacterData K χ).HasFunctionalEquation := sorry
+
+/-- ⚠ The integral norm powers `N^m` show why the hypotheses are needed: `completed (N^m) s` is
+`Λ_K(s - m)`, with poles at `m` and `1 + m`, so the values on the two sides are junk there. The
+pointwise equation carries the polar divisors of the two analytic cards, read at `s - shift`
+because the cards are those of the unitary parts; the germ equality below carries none. -/
 theorem Grossencharacter.completed_one_sub
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (s : ℂ)
-    (hs : (grossencharacterData K χ).polarOrder s = 0)
-    (hs' : (grossencharacterData K (Grossencharacter.inverse K χ)).polarOrder (1 - s) = 0) :
+    (hs : (grossencharacterData K χ).polarOrder (s - (χ.shift : ℂ)) = 0)
+    (hs' : (grossencharacterData K (Grossencharacter.inverse K χ)).polarOrder
+      (1 - (s - (χ.shift : ℂ))) = 0) :
     Grossencharacter.completed K χ s = Grossencharacter.rootNumber K χ *
       Grossencharacter.completed K (Grossencharacter.inverse K χ) (1 - s) := sorry
 
