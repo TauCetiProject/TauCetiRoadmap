@@ -30,6 +30,7 @@ body:
         - Exchangeability
         - GeometricTopology
         - GlobalNumberFields
+        - GlobalQuadraticForms
         - GrothendieckEulerForms
         - HeegaardFloer
         - HodgeStructures
