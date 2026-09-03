@@ -290,7 +290,7 @@ below sketches signatures; it is illustrative, not required to compile.
   "on the Eisenstein part" applies only to forms already known to be Eisenstein.
 
 ### Layer 1: the valence formula (general level)
-- Consumes the [Contour Integration roadmap](../ContourIntegration/README.md). For a nonzero
+- Consumes the [Contour Integration roadmap](../../Completed/ContourIntegration/README.md). For a nonzero
   `f ∈ M_k(SL₂(ℤ))`, the **valence formula** is a sum over the
   `SL₂(ℤ)`-**orbits** of points of `ℍ` — `ord_P(f)` is constant on an orbit, hence well-defined
   on it — with the two **elliptic orbits** `[i]`, `[ρ]` weighted by the reciprocal `1/e_P` of
@@ -1382,7 +1382,7 @@ be reached this way.
 Not a linear order: a graph, with the consumption edges named ("→" means "consumes").
 
 - **Layer 0** (diamonds, nebentypus, Eisenstein series, the cusp–Eisenstein decomposition) → Mathlib only. Trunk root.
-- **Layer 1** (valence formula, the order dictionary, the full-coset norm map) → the [Contour Integration roadmap](../ContourIntegration/README.md). Independent of Layers 0/2; finite support of the divisor is proved *inside* the layer via the norm map — no Layer-10 input.
+- **Layer 1** (valence formula, the order dictionary, the full-coset norm map) → the [Contour Integration roadmap](../../Completed/ContourIntegration/README.md). Independent of Layers 0/2; finite support of the divisor is proved *inside* the layer via the norm map — no Layer-10 input.
 - **Layer 2** (the Hecke ring at `GL_n`; the `n = 2` congruence theory and the action) → Layer 0, Mathlib's abstract Hecke ring (fallback: AINTLIB). The general-`n` block is consumed by the automorphic-representations roadmap (PR #120), not by this trunk.
 - **Layer 3** (Petersson, adjoints, old/new with the exact fixed-`χ` oldspace) → Layers 0, 2. Carries the pinned bad-prime stability route (known source gap).
 - **Layer 4A** (existence of the primitive associate; bad-prime eigenvalues; the Main Lemma) → Layers 2, 3.
@@ -1544,7 +1544,7 @@ catalogue the redundancy to collapse during migration.
   #39000).
 - N. Hungerbühler, M. Wasem, *Non-integer valued winding numbers and a generalized Residue
   Theorem*, arXiv:1808.00997 — the contour-integration result behind the valence formula's
-  elliptic-point weights (see the [Contour Integration roadmap](../ContourIntegration/README.md)).
+  elliptic-point weights (see the [Contour Integration roadmap](../../Completed/ContourIntegration/README.md)).
 - A. Atkin, J. Lehner, *Hecke operators on Γ₀(m)*; A. Atkin, W. Li, *Twists of newforms and
   pseudo-eigenvalues of W-operators*, Invent. Math. **48** (1978) — Layer 6's sign theory at
   general nebentypus; W. Stein, *Modular Forms: A Computational
@@ -1559,4 +1559,4 @@ are already `sorry`-free; thanks to its authors. The target definitions discharg
 "def-wanted" specifications from the [LeanBridge](https://github.com/CBirkbeck/LeanBridge)
 project: issues #13, #18, #19, #30–#35, #37, #38, #42, #54, #55. The contour-integration results the valence
 formula depends on come from the sibling
-[Contour Integration roadmap](../ContourIntegration/README.md).
+[Contour Integration roadmap](../../Completed/ContourIntegration/README.md).

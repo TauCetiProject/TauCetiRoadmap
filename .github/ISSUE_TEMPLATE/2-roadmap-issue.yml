@@ -16,12 +16,13 @@ body:
       options:
         - AdicSpaces
         - AlgebraicCurves
+        - AnalyticToricGeometry
         - ArithmeticDirichletSeries
         - BelyiMaps
         - CFSGStatement
+        - Chebotarev
         - CombinatorialHeegaardFloer
         - ConformalMapping
-        - ContourIntegration
         - DGAInfinity
         - DenseGraphLimits
         - EllipticCurves
@@ -41,6 +42,7 @@ body:
         - OneParameterSemigroups
         - OptimalTransport
         - PDE
+        - PolynomialGaloisGroups
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - ReductiveGroups
