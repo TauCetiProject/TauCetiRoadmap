@@ -73,11 +73,16 @@ repackaged as a private lattice-side carrier. Every declaration this roadmap nam
 suppliers is one they actually export in their accepted scope — that is the point of the
 narrowing recorded next.
 
-[Theta Series](../ThetaSeries/README.md) stands beside them in a different relation: it is a
-consumer of Layers 1, 2 and 6 here **and** the supplier of every theta series this roadmap
-quotes, so the dependency is mutual by design and is set out in §*Theta series* below. No
-analytic input reaches this roadmap from anywhere else; in particular `LFunctions` is not a
-dependency, and `Suggested.lean` neither imports it nor `#check`s any of its declarations.
+[Theta Series](../ThetaSeries/README.md) is not among them, because its relation to this
+roadmap runs the other way: it is a **consumer** of Layers 1, 2 and 6 here and supplies nothing
+to this roadmap. It imports `TauCetiRoadmap.IntegralLattices.Suggested`, builds the theta series
+of a positive definite lattice on its own real carrier, and transports the rational carrier, the
+duality and discriminant-form theory and the reference lattices of this roadmap across its own
+bridge. This roadmap imports nothing from it, states no theta series, and has no milestone whose
+proof passes through one; the dependency is one-way, and §*Theta series* and Layer 8 set out
+exactly what is exported. No analytic input reaches this roadmap from anywhere: `LFunctions` is
+not a dependency either, and `Suggested.lean` imports neither roadmap and `#check`s no
+declaration of either.
 
 ### What moved out, and who owns it
 
@@ -142,8 +147,8 @@ Out of scope, with the owner of each subject:
 | smoothening of an affine group scheme over `ℤ_p`, its special fibre, unipotent radical and reductive quotient, and the point counts of each | `OrthogonalTamagawaAndLatticeMass`, over the generic successors above |
 | the orthogonal specialization: strong approximation for `Spin`, `τ(SO_Q) = 2`, Eichler's theorem, the genus/spinor-genus comparison in rank `≥ 3`, the dyadic local density of 7D, and the Smith–Minkowski–Siegel mass formula | `OrthogonalTamagawaAndLatticeMass`, the successor #255 names |
 | root systems, Weyl groups, `DynkinType`, the ADE classification | [Root Systems](../RepresentationTheory/RootSystems/README.md) |
-| the theta series `Θ_L` and the coset series `θ_γ` of a positive definite lattice, their `q`-expansions, their `T` and `S` transformation laws, the vector-valued law on discriminant cosets, and every modularity statement about them | [Theta Series](../ThetaSeries/README.md); see §*Theta series* below, where the boundary is set out in both directions |
-| Poisson summation for a full-rank `ℤ`-lattice in a real inner product space, and the Gaussian Fourier transform it is applied to | [Theta Series](../ThetaSeries/README.md), whose Layer 1 is the generic theorem |
+| the theta series `Θ_L` and the coset series `θ_γ` of a positive definite lattice, their `q`-expansions, their `T` and `S` transformation laws, the vector-valued law on discriminant cosets, every modularity statement about them, and every conclusion drawn from one — the closed formula `r_L(2m) = 240 σ₃(m)` in even unimodular rank 8, the theta identity of the rank-16 pair, the rank-24 identities with the Leech representation numbers | [Theta Series](../ThetaSeries/README.md), which consumes this roadmap and supplies nothing to it; §*Theta series* below and Layer 8 record what it takes |
+| Poisson summation for a full-rank `ℤ`-lattice in a real inner product space, and the Gaussian Fourier transform it is applied to | [Theta Series](../ThetaSeries/README.md), whose Layer 1 is the generic theorem; no milestone here consumes it |
 | the number-field theta kernel of an ideal lattice in the mixed space, its Mellin transform, and the functional equations of zeta and Hecke `L`-functions | [L-functions](../LFunctions/README.md), which consumes Theta Series' Poisson summation and is not a dependency of this roadmap |
 | number-field orders, conductors, raw proper fractional ideals, invertible proper fractional ideals, the ideal class monoid, `Pic`, and `NarrowPic` for the nonsplit binary branch | [Global Number Fields](../GlobalNumberFields/README.md) |
 | ring class fields and their Artin isomorphisms for nonsplit quadratic field orders | [Class Field Theory](../ClassFieldTheory/README.md) |
@@ -188,37 +193,41 @@ that a reader can see the boundary.
 
 ### Theta series
 
-The theta series of a lattice is owned by [Theta Series](../ThetaSeries/README.md). That
-roadmap and this one record the same boundary, and each depends on the other, in opposite
-directions.
+The theta series of a lattice is owned by [Theta Series](../ThetaSeries/README.md), and the
+dependency between the two roadmaps runs one way: that roadmap imports this one, and this one
+imports nothing from it.
 
-**Owned there, consumed here.** `Θ_L` and the coset series `θ_γ` as holomorphic functions on
-`ℍ`; their convergence, holomorphy and `q`-expansions; Poisson summation for a full-rank
-`ℤ`-lattice in a real inner product space and the Gaussian Fourier transform it applies to;
-the translation law under `T` and the inversion law under `S`, scalar, at a general translate,
-and vector-valued on the discriminant group; the Gauss sums of a lattice with their
+**Owned there, and not consumed here.** `Θ_L` and the coset series `θ_γ` as holomorphic
+functions on `ℍ`; their convergence, holomorphy and `q`-expansions; Poisson summation for a
+full-rank `ℤ`-lattice in a real inner product space and the Gaussian Fourier transform it
+applies to; the translation law under `T` and the inversion law under `S`, scalar, at a general
+translate, and vector-valued on the discriminant group; the Gauss sums of a lattice with their
 reciprocity law; the level-one theorem and the Hecke–Schoeneberg theorem
-`Θ_L ∈ M_k(Γ₀(N), χ_L)`; and every other modularity statement. The Lean declarations of
-record are `thetaSeries`, `thetaCoset`, `thetaCosetClass`, `summable_thetaSeries`,
-`hasSum_thetaSeries`, `qExpansion_thetaSeries_coeff`, `hasSum_thetaCoset`,
-`thetaSeries_orthSum`, `thetaSeries_scale`, `thetaSeries_int`, `thetaSeries_add_one`,
-`thetaSeries_add_two`, `thetaCoset_add_one`, `thetaSeries_neg_inv`, `thetaCoset_neg_inv`,
-`thetaCosetClass_neg_inv`, `pairingChar` and `covolume_eq_sqrt_natCard_discGroup`, all in
-namespace `TauCetiRoadmap.ThetaSeries`. **This roadmap states no theta series of its own**, and
-`Suggested.lean` defines none; it names the declarations above rather than standing in for
-them, and gains the `import` when that roadmap merges.
+`Θ_L ∈ M_k(Γ₀(N), χ_L)`; every other modularity statement; and every conclusion drawn from one
+of these — that the theta series of an even unimodular lattice of rank 8 is `E₄`, hence
+`r_L(2m) = 240 σ₃(m)`; that the theta series of every even unimodular lattice of rank 16 is
+`E₄²`, so that the theta series does not determine the lattice; and the rank-24 identities
+with the Leech representation numbers. **This roadmap states no theta series of its own and
+proves nothing from one.** No milestone of Layers 0 to 7, B or 9 has a theta series, a modular
+form or a `q`-expansion among its inputs; `Suggested.lean` neither imports Theta Series nor
+names any of its declarations, and no such import may be added, because Theta Series imports
+this file and Lean admits no cycle. Where the two roadmaps arrive at the same number, this one
+counts and that one expands: `r_{E₈}(2) = 240` here is the number of roots of `E₈` (2B, 6G),
+and the same value there is the `m = 1` case of a `q`-expansion.
 
 **Owned here, consumed there.** Everything arithmetic about the rational lattice: the carrier
-`IntegralLattice`, the dual `L^⋆` and the discriminant group `A_L` (1B, 1C), the discriminant
-bilinear form `b_L` and the half-norm quadratic form `q_L` (1D), the finite bilinear and
-quadratic modules with their isotropic and Lagrangian subgroups, primary decomposition and
-generator classification (1G), the Gauss-sum invariant `sign q` (1H), Milgram's theorem at
-every signature (1I), the level (1J), the isotropic-subgroup/overlattice correspondence (1E,
-1F) and the ADE lattices with their discriminant forms (1K), Jordan splittings and the genus
+`IntegralLattice` and its predicates (0A), the dual `L^⋆` and the discriminant group `A_L` (1B,
+1C), the discriminant bilinear form `b_L` and the half-norm quadratic form `q_L` (1D), the
+finite bilinear and quadratic modules with their isotropic and Lagrangian subgroups, primary
+decomposition and generator classification (1G), the Gauss-sum invariant `sign q` (1H),
+Milgram's theorem at every signature (1I), the level (1J), the isotropic-subgroup/overlattice
+correspondence (1E, 1F) and the ADE lattices with their discriminant forms (1K), the shells and
+representation numbers (2B) and the covolume identity (2D), Jordan splittings and the genus
 (Layer 3), Nikulin's theory (Layer 5), and the classification of unimodular lattices in low
-rank, including the rank-16 pair `E₈²` and `D₁₆⁺` (6D). Theta Series transports these across
-its own Layer-2 bridge and adds no competing definition of any of them; its `D₁₆⁺` application
-is stated against 6D here.
+rank, including the rank-16 pair `E₈²` and `D₁₆⁺` (6D) and the rank-24 reference lattices (6E).
+Theta Series transports these across its own Layer-2 bridge and adds no competing definition of
+any of them; its `D₁₆⁺` application is stated against 6D here. Layer 8 lists the exported
+declarations row by row.
 
 **The bridge is theirs.** The two carriers are genuinely different objects — this roadmap's is
 a `ℤ`-submodule of a rational vector space with a rational bilinear form, in which
@@ -391,8 +400,8 @@ citation from his paper carries the twist `E₈(−1)`. The K3 lattice is
 
 **The character of `ℚ/ℤ`.** `e^{2πi·}` on `AddCircle (1 : ℚ)` is `expCircle`, and the factor
 `2πi` is forced by the half-norm codomain of `q_L`, exactly as in the Gauss-sum invariant
-above. Theta Series' `pairingChar` is the same character read on representatives in a real
-inner product space; it is that roadmap's, and no second character is defined here.
+above. Theta Series' character on its real model is the same character read on representatives
+in a real inner product space; it is that roadmap's, and no second character is defined here.
 
 **Theta series conventions are Theta Series'.** The exponent `π i ‖v‖² τ`, the nome
 `q = e^{2πiτ}` for an even lattice, the automorphy factor `(-i)^k τ^k` in even rank `n = 2k`,
@@ -466,26 +475,25 @@ structure or carrier for it.
 | 4B, B7 | Restricted Products | `RestrictedProductGroup`, `RestrictedProductGroupWithFactor`, `CompactOpenSubgroups`, `integralSubgroup`, `isCompact_integralSubgroup`, `rationalDiagonal` | generic restricted products, compact open reference families, and rational diagonals. ⚠ Quotient measures and Tamagawa normalization are **not** exported by #246 and are not cited here; they belong to `TamagawaMeasures` and reach the lattice mass only through `OrthogonalTamagawaAndLatticeMass` |
 | 4B, 4C, 4F, B7 | Orthogonal and Spin Groups | `orthogonalGroup`, `orthogonalBaseChange`, `orthogonalBaseChangeReal`, `spinorNorm`, `spinorNorm_reflection`, `OrthogonalCompactOpens`, `finiteAdelicOrthogonal`, `transvection`, `transvectionLiftHom` | orthogonal/spin-specific algebra, local spinor norms, and the finite-adelic point groups. ⚠ `strongApproximation_finiteAdelicSpin` and the orthogonal volume theorem are **not** #255 exports and are no longer cited; #255's README states that only `OrthogonalTamagawaAndLatticeMass` may export them |
 | 6C, 6G | Root Systems | Layer 5 ADE classification and `Nat.card P.weylGroup` | the rank-eight root system with the `E8` Cartan matrix is of type `E8` |
-| Layer 8 | Theta Series | `thetaSeries`, `thetaCoset`, `thetaCosetClass`, `summable_thetaSeries`, `hasSum_thetaSeries`, `qExpansion_thetaSeries_coeff`, `hasSum_thetaCoset`, `thetaSeries_orthSum`, `thetaSeries_scale`, `thetaSeries_int`, `thetaSeries_add_one`, `thetaSeries_add_two`, `thetaCoset_add_one`, `thetaSeries_neg_inv`, `thetaCoset_neg_inv`, `thetaCosetClass_neg_inv`, `pairingChar`, `covolume_eq_sqrt_natCard_discGroup` | the theta series of a positive definite lattice, its coset series, its `q`-expansions and its `T` and `S` transformation laws, together with lattice Poisson summation and all modularity. ⚠ These are named, not imported: `Suggested.lean` states no theta series and no stand-in for one, and gains the `import` when that roadmap merges |
 
-`LFunctions` is **not** a dependency of this roadmap. It owns the number-field theta kernel of
-an ideal lattice in the mixed space, its Mellin transform and the resulting functional
-equations, and it consumes generic lattice Poisson summation from Theta Series; no milestone
-here consumes anything from it, and `Suggested.lean` neither imports it nor `#check`s any of
-its declarations.
-
-The dependency on `ThetaSeries` runs both ways, and the two directions are disjoint:
+`ThetaSeries` and `LFunctions` are **not** dependencies of this roadmap, and neither has a row
+above. Theta Series is a consumer: it imports `TauCetiRoadmap.IntegralLattices.Suggested` and
+takes the rational carrier, the dual, the discriminant group and forms, the finite quadratic
+modules, the overlattice correspondence, the ADE lattices and `D₁₆⁺` across its own bridge, and
+nothing comes back. L-functions owns the number-field theta kernel of an ideal lattice in the
+mixed space, its Mellin transform and the resulting functional equations, and it consumes
+generic lattice Poisson summation from Theta Series. No milestone here consumes anything from
+either roadmap, and `Suggested.lean` imports neither and `#check`s no declaration of either.
+The dependency graph through this roadmap is a chain, not a cycle:
 
 ```text
-IntegralLattices -> ThetaSeries   (the rational carrier, dual, discriminant group and forms,
-                                   finite quadratic modules, the overlattice correspondence,
-                                   the ADE lattices, and D₁₆⁺)
-ThetaSeries -> IntegralLattices   (Θ_L, θ_γ, their transformation laws, and modularity)
+IntegralLattices -> ThetaSeries -> LFunctions
 ```
 
 Nothing is defined twice: the real-model carrier and the bridge between the two models are
 Theta Series', the rational carrier and every discriminant-form invariant are this roadmap's,
-and §*Scope*, §*Theta series* records the split from both sides.
+and §*Scope*, §*Theta series* and Layer 8 record what crosses the boundary and in which
+direction.
 
 ---
 
@@ -777,8 +785,8 @@ settles rank 2, where `O(L)` is infinite exactly when the norm form is anisotrop
 
 **2D. Covolume.** For a positive definite lattice realized in Euclidean space,
 `covolume(L)² = det L`. This is the identity Theta Series' `S`-transformation quotes through
-its bridge — its `covolume_eq_sqrt_natCard_discGroup` is the same statement in the real model
-— and it is where the `√det`-versus-`det` bookkeeping is fixed once.
+its bridge, restated there in the real model, and it is where the `√det`-versus-`det`
+bookkeeping is fixed once.
 
 **2E. Minkowski and Hermite bounds.** Both statements assume `rank L = n ≥ 1`, because `min L`
 is defined only there. Minkowski's bound is `min L ≤ c_n (det L)^{1/n}`, with `c_n` the
@@ -1771,56 +1779,52 @@ equality `1/|O(E₈²)| + 1/|O(D₁₆⁺)| = m₁₆` and the finiteness of the
 | 7H | *successor milestone*: L 2C, 3I, 6C, 6D, 6G, 7C, 7E, 7G; successor 7B, 7D, 7F |
 | 7I | *successor milestone*: L 2G, 6D, 6G; successor 7H |
 
-### Layer 8: the theta series, and what this roadmap supplies for it
+### Layer 8: what this roadmap supplies to Theta Series
 
-Layer 8 is a **contract, not a milestone list**. The theta series of a positive definite
-lattice is [Theta Series](../ThetaSeries/README.md)'s, and this roadmap states none: no
-milestone here defines `Θ_L`, `θ_γ`, a `q`-expansion, a transformation law, or a modularity
-statement, and none may be added. §*Scope*, §*Theta series* records the same boundary, and
-that roadmap's own scope section records it identically from its side. The layer keeps its
-number so that a consumer arriving at a citation of `8B`, `8E` or `8G` lands here and is sent
-to the right owner.
+Layer 8 is a **contract, not a milestone list**, and it runs in one direction. The theta series
+of a positive definite lattice is [Theta Series](../ThetaSeries/README.md)'s, and this roadmap
+states none: no milestone here defines `Θ_L`, `θ_γ`, a `q`-expansion, a transformation law or a
+modularity statement, none draws a conclusion from one, and none may be added. Theta Series
+imports `TauCetiRoadmap.IntegralLattices.Suggested`, so this roadmap imports nothing from it
+and `Suggested.lean` names none of its declarations; a Lean import in this direction would
+close a cycle. §*Scope*, §*Theta series* records the same boundary, and that roadmap's own
+scope section records it from its side.
 
-**8. What is consumed, and from where.** The declarations of record are, in namespace
-`TauCetiRoadmap.ThetaSeries`:
+**8S. What this roadmap supplies to Theta Series.** The traffic is the arithmetic of the
+rational lattice. Theta Series' bridge — its `ratModel`, which builds an
+`IntegralLattice (ℚ ⊗[ℤ] L)` out of its real carrier — reads the following, and each row names
+the declarations of `Suggested.lean`, in namespace `TauCetiRoadmap.IntegralLattices`, that
+carry it:
 
-| Statement | Declaration |
-| --- | --- |
-| `Θ_L` and `θ_γ` on `ℍ`, and the coset series indexed by `A_L` | `thetaSeries`, `thetaCoset`, `thetaCosetClass`, `thetaCoset_zero`, `thetaCoset_add_mem`, `thetaCoset_neg`, `thetaSeries_dual_eq_sum` |
-| convergence and holomorphy | `summable_thetaSeries`, `summable_thetaCoset`, `mdifferentiable_thetaSeries`, `mdifferentiable_thetaCoset` |
-| the `q`- and `q_N`-expansions, whose coefficients are the representation numbers of 2B | `hasSum_thetaSeries`, `qExpansion_thetaSeries_coeff`, `hasSum_thetaCoset` |
-| orthogonal sums, scaling, and the rank-one identification with Mathlib's `jacobiTheta` | `thetaSeries_orthSum`, `thetaSeries_scale`, `thetaSeries_int`, `thetaSeries_stdLattice` |
-| the translation law under `T`, with the evenness hypothesis and its `jacobiTheta` rejection test | `thetaSeries_add_one`, `thetaCoset_add_one`, `thetaSeries_add_two` |
-| the inversion law under `S`: scalar, at a general translate, and vector-valued on `A_L` | `thetaSeries_neg_inv`, `thetaCoset_neg_inv`, `thetaCosetClass_neg_inv`, `pairingChar`, `covolume_eq_sqrt_natCard_discGroup` |
-| Poisson summation for a full-rank `ℤ`-lattice, and the Gaussian Fourier transform | that roadmap's Layer 1 |
-| level one, Hecke–Schoeneberg, the nebentypus, and every other modularity statement | `thetaForm`, `thetaFormOfLevel`, `thetaSeries_slash_of_mem_Gamma0`, `thetaCoset_slash_of_mem_Gamma`, `discChar` |
-
-⚠ **These are cited, not imported.** `Suggested.lean` names them and defines no local
-stand-in, alias or `Prop`-valued placeholder for any of them; the `import` lands when Theta
-Series merges. Nothing on this roadmap waits on it: no milestone of Layers 0 to 7, B or 9 has
-a theta series among its prerequisites, which is exactly why the material could be moved out
-whole.
-
-**8S. What this roadmap supplies to Theta Series.** The traffic in the other direction is the
-arithmetic of the rational lattice, and it is the whole reason the two roadmaps meet:
-
-- the carrier `IntegralLattice` and its predicates (0A), the dual `L^⋆` (1B), the discriminant
-  group `A_L` (1C), and the discriminant forms `b_L` and `q_L` in the half-norm convention
-  (1D);
-- the finite bilinear and quadratic modules with orthogonal sums, primary decomposition,
-  isotropic and Lagrangian subgroups and the generator classification (1G);
-- the integral and even overlattice correspondences and the gluing theorem (1E, 1F), through
-  which Theta Series' `D₁₆⁺` is constructed;
-- the level (1J), the ADE lattices with their discriminant forms and the `D₈⁺ ≅ E₈`
-  calculation (1K), and the rank-16 pair `E₈²` and `D₁₆⁺` with their non-isometry (6D);
-- the covolume identity `covolume(L)² = det L` (2D) and the representation numbers `r_L(k)`
-  (2B), which its `q`-expansion theorem produces as coefficients.
+| Milestone | Supplied | Declarations here |
+| --- | --- | --- |
+| 0A | the carrier `IntegralLattice` and its predicates | `IntegralLattice`, `IntegralLattice.IsEven`, `IntegralLattice.IsNondegenerate`, `IntegralLattice.IsUnimodular`, `IntegralLattice.IsPositiveDefinite` |
+| 1B, 1C | the dual `L^⋆` and the discriminant group `A_L`, with `|A_L| = |det L|` | `IntegralLattice.dual`, `dual_dual`, `DiscriminantGroup`, `discriminantGroup_finite`, `natCard_discriminantGroup_eq_natAbs_gramDet`, `unimodular_iff_natCard_discriminantGroup_eq_one` |
+| 1D | the discriminant forms `b_L` and `q_L` in the half-norm convention, and the character `e^{2πi·}` of `ℚ/ℤ` | `discriminantPairing`, `discriminantQuadraticForm`, `discriminantQuadraticForm_mk`, `discriminantBilinearModule`, `discriminantQuadraticModule`, `expCircle` |
+| 1G | finite bilinear and quadratic modules with orthogonal sums, primary decomposition, isotropic and Lagrangian subgroups, `l(A)` and the generator classification | `FiniteBilinearModule`, `FiniteQuadraticModule`, their `IsIsotropic` and `IsLagrangian`, `FiniteQuadraticModule.orthogonalSum`, `primaryComponent`, `minGenerators`, `NikulinDecomposition` |
+| 1H, 1I | the Gauss-sum invariant `sign q ∈ ℤ/8`, and Milgram's theorem at every signature | `gaussSign`, `gaussSum_eq`, `gaussSign_orthogonalSum`; milestone 1I |
+| 1E, 1F | the integral and even overlattice correspondences and the gluing theorem, through which `D₁₆⁺` is built | `integralOverlatticeEquivIsotropicSubgroup`, `evenOverlatticeEquivIsotropicSubgroup`, `ofIsotropicSubgroup`, `ofIsotropicSubgroup_isEven`, `FiniteQuadraticModule.orthogonalQuotient` |
+| 1J, 1K | the level, and the ADE lattices with their discriminant forms and the `D₈⁺ ≅ E₈` calculation | milestone 1J; `adeLattice`, `gramMatrix_adeLattice` and the ADE acceptance suite |
+| 2B, 2D | the shells `S_k(L)` and representation numbers `r_L(k)` as finite counts, and the covolume identity `covolume(L)² = det L` | milestone 2B; the Layer-2 covolume identity |
+| 6D, 6E | the rank-16 pair `E₈²` and `D₁₆⁺` — even unimodular, in one genus, non-isometric — and the rank-24 reference lattices with their root systems | milestones 6D and 6E |
 
 Theta Series transports these across **its own** Layer-2 bridge from its real carrier
 (`Submodule ℤ E` with `IsZLattice ℝ`) to this roadmap's rational one, and adds no competing
 definition of any of them. That bridge lives there, not here: this roadmap defines no
 real-model carrier, no second dual-lattice notion, and no comparison lemma between the two
-models.
+models. Its `D₁₆⁺` application is stated against 6D; its rank-24 identities are stated in
+lattice-free form — rank, evenness, unimodularity and rootlessness — so 6E is available to it
+on the same terms as 6D and is consumed by none of its current milestones.
+
+⚠ **What is proved from a theta series is Theta Series', and is not restated here.** That
+every even unimodular lattice of rank 8 has theta series `E₄`, hence `r_L(2m) = 240 σ₃(m)`;
+that every even unimodular lattice of rank 16 has theta series `E₄²`, so that the theta series
+does not determine the lattice; and the rank-24 identities with the Leech representation
+numbers — each is a conclusion drawn from a modular form and belongs to that roadmap's Layer 8.
+What this roadmap contributes to those statements is arithmetic: 6D constructs the two rank-16
+witnesses and proves them non-isometric, and 2B counts `r_{E₈}(2) = 240` as the number of
+roots of `E₈` (6G). No statement here is a corollary of a modular form, and none is stated in a
+form that would need one.
 
 ⚠ **Milgram is not duplicated.** Milgram's theorem `t₊ − t₋ ≡ sign q_L (mod 8)` for an even
 nondegenerate lattice of any signature is 1I here, proved from the Gauss-sum invariant of 1H
@@ -1844,8 +1848,7 @@ and neither roadmap consumes it.
 
 | Milestone | Direct prerequisites |
 | --- | --- |
-| 8 | R Theta Series, the declarations tabulated above |
-| 8S | L 0A, 1B to 1G, 1J, 1K, 2B, 2D, 6D — supplied to Theta Series, consumed by no milestone here |
+| 8S | L 0A, 1B to 1K, 2B, 2D, 6D, 6E — supplied to Theta Series, consumed by no milestone here |
 
 ### Layer 9: what the LMFDB lattice columns assert
 
@@ -2078,10 +2081,9 @@ for the eight items listed. The layer that introduces the object owns them.
   isometry invariant.
 - **Functoriality.** `S_k(L ⊕ M)` is the disjoint union over `i + j = k` of
   `S_i(L) × S_j(M)`, and `S_k(L(a)) = S_{k/a}(L)` for `a > 0`, empty unless `a ∣ k`.
-- **Comparison lemmas.** These are the numbers Theta Series' `qExpansion_thetaSeries_coeff`
-  identifies with the `q`-expansion coefficients of `Θ_L` through its bridge. That
-  identification is **its** theorem, and this roadmap states no theta series to compare
-  against.
+- **Comparison lemmas.** These are the numbers Theta Series identifies with the
+  `q`-expansion coefficients of `Θ_L` through its bridge. That identification is **its**
+  theorem, and this roadmap states no theta series to compare against.
 - **Naturality.** `r_L` depends only on the isometry class.
 - **Edge cases.** Rank 0, where `S_0 = {0}` and every other shell is empty; negative definite
   and indefinite lattices, where the shells of nonpositive `k` are infinite and 2A fails.
@@ -2198,9 +2200,10 @@ The rest of the order follows the prerequisite tables:
   adelic; 7B, 7F, 7H and 7I are `OrthogonalTamagawaAndLatticeMass`'s and are ordered after the
   generic `TamagawaMeasures`, and its 7D after the group-scheme material of the successors
   #246 names;
-- Layer 8 is a contract and orders nothing: no milestone of Layers 0 to 7, B or 9 has a theta
-  series among its prerequisites, so nothing here waits on Theta Series. What that roadmap
-  waits on from here is 8S — Layers 0 and 1, together with 2B, 2D and 6D;
+- Layer 8 is a contract and orders nothing here: it imports nothing, no milestone of Layers 0
+  to 7, B or 9 has a theta series among its prerequisites, and nothing here waits on Theta
+  Series. What that roadmap waits on from here is 8S — Layers 0 and 1, together with 2B, 2D,
+  6D and 6E;
 - Layer 9 comes last. 9A needs nothing outside this roadmap; 9B has no discharged instance
   until an exact mass or a connectivity theorem is imported from outside it.
 

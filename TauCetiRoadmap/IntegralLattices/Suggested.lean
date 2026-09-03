@@ -44,18 +44,16 @@ an indefinite lattice and the indefinite Siegel–Weil theorem, and
 `FiniteQuadraticModuleWittTheory` for the Witt group of finite quadratic modules; this file
 imports none of the four successors and defines no stand-in for any of them.
 
-**The theta series of a lattice is not this roadmap's.** `Θ_L`, `θ_γ`, their `T` and `S`
-transformation laws, the vector-valued law on discriminant cosets, lattice Poisson summation
-and every modularity statement belong to the
-[theta-series roadmap](../ThetaSeries/README.md), whose `thetaSeries`, `thetaCoset`,
-`thetaCosetClass`, `thetaSeries_add_one`, `thetaCoset_add_one`, `thetaSeries_neg_inv`,
-`thetaCoset_neg_inv` and `thetaCosetClass_neg_inv` are the declarations of record. This file
-defines no theta series and no transformation law, and `README.md`, §*Scope*, records the same
-boundary from both sides: that roadmap consumes the rational carrier, the dual, the
-discriminant group and forms, the finite quadratic modules, the overlattice correspondence and
-the ADE lattices **from here**, across its own Layer-2 bridge, and this roadmap consumes the
-theta series **from there**. The `import` lands when the theta-series roadmap merges; until
-then the names above are cited and not stood in for.
+**The theta series of a lattice is not this roadmap's, and the dependency runs one way.**
+`Θ_L`, `θ_γ`, their `T` and `S` transformation laws, the vector-valued law on discriminant
+cosets, lattice Poisson summation, every modularity statement and every conclusion drawn from
+one belong to the [theta-series roadmap](../ThetaSeries/README.md). That roadmap imports this
+file and takes the rational carrier, the dual, the discriminant group and forms, the finite
+quadratic modules, the overlattice correspondence and the ADE lattices **from here**, across
+its own Layer-2 bridge; this file imports nothing from it, defines no theta series and no
+transformation law, names none of its declarations as an input, and may not gain an `import`
+of it, because Lean admits no cycle. The block after Layer 6 lists what is exported, and
+`README.md`, §*Scope* and Layer 8, record the same boundary.
 
 The remaining sections pin targets for **Layer 0** (the bilinear and quadratic dictionary,
 Gram determinants, the standard examples), **Layer 1** (dual lattices, the
@@ -306,8 +304,9 @@ noncomputable def IntegralLattice.restrictionComparison
 
 `l(A)` and the character `e^{2πi·}` of `ℚ/ℤ` are used by Layer 1's Gauss-sum invariant and
 Milgram's theorem, and by Nikulin's boundary conditions in Layer 5. They are named once here
-rather than spelled out at each use. The theta-series roadmap's `pairingChar` is the same
-character read on representatives in a real inner product space, and is that roadmap's. -/
+rather than spelled out at each use. The theta-series roadmap's own character on its real
+model is the same character read on representatives in a real inner product space, and is
+that roadmap's. -/
 
 /-- **Nikulin's `l(A)`**: the least number of generators of a finite abelian group. This is
 real data, not a milestone: the formula *is* the convention being pinned. -/
@@ -542,9 +541,12 @@ section DiscriminantModules
 variable {V : Type u} [AddCommGroup V] [Module ℚ V]
 variable (L : IntegralLattice V) [L.IsNondegenerate]
 
+set_option linter.overlappingInstances false in
 /-- ⚠ The nondegeneracy instance is written inline, not taken from the section: the body is
 `sorry` and the type does not mention it, so Lean would silently drop it and the definition would
-apply to degenerate lattices against the roadmap's convention. -/
+apply to degenerate lattices against the roadmap's convention (`include` does not help: a
+`sorry` body references nothing, so nothing is included). The overlapping-instances linter is
+silenced for the same reason — the elaborated signature carries the instance exactly once. -/
 noncomputable def IntegralLattice.discriminantPairing [L.IsNondegenerate] :
     L.DiscriminantGroup →+ CharacterModule L.DiscriminantGroup := sorry
 
@@ -561,6 +563,7 @@ noncomputable def IntegralLattice.discriminantBilinearModule : FiniteBilinearMod
 theorem IntegralLattice.discriminantBilinearModule_isNondegenerate :
     L.discriminantBilinearModule.IsNondegenerate := sorry
 
+set_option linter.overlappingInstances false in
 /-- ⚠ Same inline-instance note as `discriminantPairing`. -/
 noncomputable def IntegralLattice.discriminantQuadraticForm [L.IsNondegenerate] (hL : L.IsEven) :
     QuadraticMap ℤ L.DiscriminantGroup (AddCircle (1 : ℚ)) := sorry
@@ -672,9 +675,9 @@ Generic adelic quotients, Tamagawa normalization, strong approximation for `Spin
 orthogonal volume theorem and Cho's smooth affine group scheme over `ℤ₂` are not milestones of
 this roadmap: they are
 `OrthogonalTamagawaAndLatticeMass`'s, over #246's `TamagawaMeasures`, and nothing here `#check`s
-a name #246 or #255 has declined to export. The theta-series roadmap is the one supplier this
-file cites by name without `#check`ing, because it is not yet importable; the block at the end
-of Layer 6 lists exactly which of its declarations are consumed. -/
+a name #246 or #255 has declined to export. The theta-series roadmap is not a supplier and is
+not imported: it imports this file, and the block after Layer 6 lists which declarations here
+it takes. -/
 
 #check QuadraticFormInvariants.hilbertSymbol
 #check QuadraticFormInvariants.localHasse
@@ -938,9 +941,9 @@ theorem finite_classes_of_posDef (n : ℕ) (d : ℤ) :
 /-- **Layer 2, the covolume identity.** For a lattice realized in Euclidean space, the
 square of the `ZLattice` covolume is the Gram determinant of the dot-product form:
 `covolume(L)² = det L`. This reconciles the analytic `ZLattice` covolume (consumed for
-Minkowski-type bounds here, and by the theta-series roadmap's `S`-transformation through its
-`covolume_eq_sqrt_natCard_discGroup`) with the algebraic determinant, and is where the
-`√det`-versus-`det` bookkeeping is fixed once. -/
+Minkowski-type bounds here, and, in its real model, by the theta-series roadmap's
+`S`-transformation) with the algebraic determinant, and is where the `√det`-versus-`det`
+bookkeeping is fixed once. -/
 example {ι : Type} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι ℝ (ι → ℝ)) :
     ZLattice.covolume (Submodule.span ℤ (Set.range b)) ^ 2
       = |(LinearMap.BilinForm.toMatrix b (Matrix.toBilin' 1)).det| :=
@@ -966,7 +969,7 @@ noncomputable def localIntegralForm (L : IntegralLattice V) (p : ℕ) [Fact p.Pr
   LinearMap.BilinForm.baseChange ℤ_[p] L.integralForm
 
 /-- The completed rational ambient space, separately base-changed from `ℚ`. -/
-abbrev CompletedAmbient (L : IntegralLattice V) (p : ℕ) [Fact p.Prime] := ℚ_[p] ⊗[ℚ] V
+abbrev CompletedAmbient (_L : IntegralLattice V) (p : ℕ) [Fact p.Prime] := ℚ_[p] ⊗[ℚ] V
 
 /-- The rational form on the completed ambient space. -/
 noncomputable def completedRationalForm (L : IntegralLattice V) (p : ℕ) [Fact p.Prime] :
@@ -1266,58 +1269,66 @@ example {n : ℕ} (G₁ G₂ : Matrix (Fin n) (Fin n) ℤ)
 
 end Layer6
 
-/-! ## The theta series, consumed from Theta Series
+/-! ## What this file supplies to the theta-series roadmap
 
-The theta series of a positive definite lattice, its transformation laws and its modularity
-are the [theta-series roadmap](../ThetaSeries/README.md)'s, and this file states none of them.
-`README.md`, §*Scope* and §*Layer 8*, record the same boundary, and the exchange is mutual:
-that roadmap's Layer-2 bridge builds an `IntegralLattice (ℚ ⊗[ℤ] L)` out of its real carrier
-and transports this roadmap's `dual`, `DiscriminantGroup`, `discriminantPairing`,
-`discriminantQuadraticForm`, `FiniteBilinearModule`, `FiniteQuadraticModule`,
-`evenOverlatticeEquivIsotropicSubgroup`, `ofIsotropicSubgroup` and `adeLattice` across it,
-while this roadmap quotes the analytic statements below and defines no competing copy.
+The theta series of a positive definite lattice, its transformation laws, its modularity and
+every conclusion drawn from them are the [theta-series roadmap](../ThetaSeries/README.md)'s,
+and this file states none of them. The dependency runs one way: that roadmap imports this
+file, and its Layer-2 bridge builds an `IntegralLattice (ℚ ⊗[ℤ] L)` out of its real carrier
+and reads the declarations below across it. This file imports nothing from it and names none
+of its declarations as an input (`README.md`, §*Scope* and Layer 8).
 
-The declarations consumed, all in namespace `TauCetiRoadmap.ThetaSeries`, are:
+The declarations supplied, all in namespace `TauCetiRoadmap.IntegralLattices`, are:
 
-* `thetaSeries`, `thetaCoset`, `thetaCosetClass` — `Θ_L`, `θ_γ` and the coset series indexed
-  by the discriminant group, on `ℍ`, with `summable_thetaSeries`, `summable_thetaCoset`,
-  `thetaCoset_zero`, `thetaCoset_add_mem`, `thetaCoset_neg`, `thetaSeries_dual_eq_sum`,
-  `mdifferentiable_thetaSeries` and `mdifferentiable_thetaCoset`;
-* `hasSum_thetaSeries`, `qExpansion_thetaSeries_coeff`, `hasSum_thetaCoset` — the
-  `q`-expansions, whose coefficients are the representation numbers of 2B read through the
-  bridge;
-* `thetaSeries_orthSum`, `thetaSeries_scale`, `thetaSeries_int`, `thetaSeries_stdLattice` —
-  the orthogonal-sum and scaling laws and the rank-one identification with `jacobiTheta`;
-* `thetaSeries_add_one`, `thetaCoset_add_one`, `thetaSeries_add_two` — the translation law
-  under `T`, with the same evenness hypothesis and the same `jacobiTheta` rejection test that
-  Layer 8 used to carry;
-* `thetaSeries_neg_inv`, `thetaCoset_neg_inv`, `thetaCosetClass_neg_inv`, `pairingChar`,
-  `covolume_eq_sqrt_natCard_discGroup` — the scalar, general-translate and vector-valued
-  inversion laws under `S`.
+* `IntegralLattice` with `IsEven`, `IsNondegenerate`, `IsUnimodular` and `IsPositiveDefinite`
+  — the carrier and its predicates (0A);
+* `dual`, `dual_dual`, `DiscriminantGroup`, `discriminantGroup_finite`,
+  `natCard_discriminantGroup_eq_natAbs_gramDet` and
+  `unimodular_iff_natCard_discriminantGroup_eq_one` — the dual lattice and the discriminant
+  group with its cardinality (1B, 1C);
+* `discriminantPairing`, `discriminantQuadraticForm`, `discriminantQuadraticForm_mk`,
+  `discriminantBilinearModule`, `discriminantQuadraticModule` and `expCircle` — the
+  discriminant forms in the half-norm convention and the character of `ℚ/ℤ` (1D);
+* `FiniteBilinearModule` and `FiniteQuadraticModule` with their `IsIsotropic` and
+  `IsLagrangian`, `FiniteQuadraticModule.orthogonalSum`, `primaryComponent`, `minGenerators`
+  and `NikulinDecomposition` — the finite quadratic modules (1G);
+* `gaussSign`, `gaussSum_eq` and `gaussSign_orthogonalSum` — the Gauss-sum invariant (1H),
+  from which Milgram's theorem at every signature (1I) is proved here;
+* `integralOverlatticeEquivIsotropicSubgroup`, `evenOverlatticeEquivIsotropicSubgroup`,
+  `ofIsotropicSubgroup`, `ofIsotropicSubgroup_isEven` and
+  `FiniteQuadraticModule.orthogonalQuotient` — the overlattice correspondences and the gluing
+  theorem, through which `D₁₆⁺` is built (1E, 1F);
+* `adeLattice`, `gramMatrix_adeLattice` and the ADE acceptance suite at the end of this file —
+  the ADE lattices with their discriminant forms and the `D₈⁺ ≅ E₈` calculation (1K);
+* the shells and representation numbers of 2B, the covolume identity of Layer 2, and the
+  rank-16 pair of 6D and the rank-24 reference lattices of 6E, which are README milestones
+  with the Lean shapes above.
 
-Its `thetaForm`, `thetaFormOfLevel`, `thetaSeries_slash_of_mem_Gamma0`,
-`thetaCoset_slash_of_mem_Gamma`, `discChar` and `kroneckerChar` — level-one and
-Hecke–Schoeneberg modularity, and the nebentypus — are that roadmap's outright, and no
-milestone here consumes or restates them.
+⚠ What is proved *from* a theta series lives there and is not restated here: that every even
+unimodular lattice of rank `8` has `r_L(2m) = 240 σ₃(m)`, that every one of rank `16` has the
+same theta series `E₄²` — whose non-isometric witnesses `E₈ ⊕ E₈` and `D₁₆⁺` are 6D's — and
+the rank-`24` identities. Here `r_{E₈}(2) = 240` is a finite count (2B, 6G), not a
+`q`-expansion coefficient, and the identification of shell counts with `q`-expansion
+coefficients is that roadmap's theorem in its real model.
 
-⚠ Its `milgram` runs the other way. `gaussSign` and `gaussSum_eq` above, and Milgram's
-theorem `t₊ − t₋ ≡ sign q_L (mod 8)` for an even nondegenerate lattice, are **this** roadmap's
-at every signature, proved arithmetically; that roadmap's `milgram` is the positive-definite
-instance `∑_{γ} e(q_L(γ)) = |A_L|^{1/2} e(n/8)`, proved by theta asymptotics, and its own
-scope section says so. Both are wanted, the bridge identifies them, and neither is derived
-from the other.
+⚠ Milgram runs one way too. `gaussSign` and `gaussSum_eq` above, and Milgram's theorem
+`t₊ − t₋ ≡ sign q_L (mod 8)` for an even nondegenerate lattice, are **this** roadmap's at every
+signature, proved arithmetically; the theta-series roadmap proves the positive-definite
+instance `∑_{γ} e(q_L(γ)) = |A_L|^{1/2} e(n/8)` by theta asymptotics for its own Gauss-sum
+layer, and its own scope section says so. Both are wanted, its bridge identifies them, and
+neither is derived from the other.
 
 ⚠ Nothing here weakens the positive-definiteness that roadmap builds into its carrier. The
 indefinite Siegel–Narain theta, summed against a maximal positive definite subspace of
-`L ⊗ ℝ`, is not obtained from any of the names above by dropping a hypothesis; it is the
+`L ⊗ ℝ`, is not obtained from anything in either roadmap by dropping a hypothesis; it is the
 successor `IndefiniteThetaAndSiegelWeil`'s (`README.md`, §*Scope*), together with the
 indefinite Siegel–Weil theorem and the genus averages it evaluates.
 
 ⚠ The half-norm convention is the same on both sides. `discriminantQuadraticForm` is
-`q_L(x̄) = B(x,x)/2 mod ℤ` in `AddCircle (1 : ℚ)`, its exponent enters `thetaCoset_add_one`
-through `expCircle` with no factor of two to insert, and Nikulin's full-norm `ℚ/2ℤ` values are
-halved at the boundary. A contributor who finds `e^{π i q}` in a source has found the
-full-norm convention, not a discrepancy. -/
+`q_L(x̄) = B(x,x)/2 mod ℤ` in `AddCircle (1 : ℚ)`, so a discriminant-form value enters an
+exponent through `expCircle` with no factor of two to insert, and Nikulin's full-norm `ℚ/2ℤ`
+values are halved at the boundary. A contributor who finds `e^{π i q}` in a source has found
+the full-norm convention, not a discrepancy. -/
 
 section Layer9
 
@@ -1387,7 +1398,7 @@ structure StoredGenusCertificate where
   /-- The stored representation numbers `r_L(k) = #S_k(L)` of 2B, which the record's own
   column calls the theta series. They are shell **counts** here, and the assertion below is a
   count and not an identity of analytic functions: that they are the `q`-expansion
-  coefficients of `Θ_L` is the theta-series roadmap's `qExpansion_thetaSeries_coeff`. -/
+  coefficients of `Θ_L` is the theta-series roadmap's theorem, in its real model. -/
   repNum : ℕ → ℕ
   /-- and each one counts its shell. -/
   repNum_eq :
