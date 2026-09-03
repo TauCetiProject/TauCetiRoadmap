@@ -16,9 +16,20 @@ roadmaps named in `README.md`, §*Future consumers* — `AlgebraicGroupStrongApp
 
 Mathlib owns the restricted product itself (`RestrictedProduct`), its topology, its algebraic
 instances, `RestrictedProduct.mapAlong`/`mapAlongMonoidHom`, `mapAlong_continuous`,
-`continuous_dom` and `locallyCompactSpace_of_group`. This roadmap owns the layer indexed by a
-reference family on top of those: the integral subgroup, change of reference family, reindexing,
-the away-`S` decomposition, and the diagonal.
+`continuous_dom`, `continuous_dom_prod_left`/`continuous_dom_prod_right` and
+`locallyCompactSpace_of_group`. This roadmap owns the layer indexed by a reference family on top
+of those: the integral subgroup, change of reference family, reindexing, the away-`S`
+decomposition, and the diagonal.
+
+⚠ The restricted-product topology is the final topology over the principal stages
+`Πʳ i, [G i, U i]_[𝓟 S]`, `S` cofinite. A map **out of one** restricted product is continuous as
+soon as its restriction to every stage is (`continuous_dom`), with no hypothesis on the family. A
+map out of a **product** with a restricted-product factor is a different matter: a product of two
+final topologies is not in general the final topology over pairs of stages, and Mathlib's
+product-parameter universal property `continuous_dom_prod_left`/`_right` needs every `U i` open.
+Every continuity theorem below whose domain is such a product carries that hypothesis, and
+`not_continuous_restrictedProductSum_symm` / `not_continuous_awayDecomposition_symm` witness
+that it cannot be dropped.
 
 Where FLT already carries a declaration that Mathlib has not yet absorbed, the signature below is
 FLT's, under FLT's name inside this namespace: `restrictedProductCongrRight` with the eventual
@@ -28,8 +39,9 @@ layer of FLT reaches Mathlib these become one-line aliases rather than duplicate
 §*Relation to FLT*, says which is which and which statements here have no FLT counterpart.
 
 No signature below needs `IsTopologicalGroup` on the factors: a restricted product of topological
-groups is one by Mathlib's `RestrictedProduct.isTopologicalGroup`, and a consumer that needs the
-group topology has that instance at its own site.
+groups with open reference subgroups is one by Mathlib's `RestrictedProduct.isTopologicalGroup`
+(under `Fact (∀ i, IsOpen (U i))`), and a consumer that needs the group topology has that
+instance at its own site.
 -/
 
 namespace TauCetiRoadmap.RestrictedProducts
@@ -544,7 +556,16 @@ factorization again. The two statements below are over the **cofinite** filter a
 over the summands.
 
 A subset of `ι₁ ⊕ ι₂` is finite exactly when both of its preimages are
-(`Set.finite_preimage_inl_and_inr`); that is the whole content.
+(`Set.finite_preimage_inl_and_inr`); that is the whole algebraic content: restrictedness of the
+pair, restrictedness of the inverse, and the four coordinate formulas.
+
+The topology is not part of that. The map is the pair of Mathlib's `mapAlong` along `Sum.inl` and
+`Sum.inr`, continuous for any family (`continuous_restrictedProductSum`). The inverse is a map out
+of a **product of two restricted products**, and the finite-support bijection says nothing about
+its continuity: it is continuous when every `U k` is open
+(`continuous_restrictedProductSum_symm`, Mathlib's `continuous_dom_prod_right` and
+`continuous_dom_prod_left`), and `not_continuous_restrictedProductSum_symm` witnesses that this
+hypothesis cannot be dropped.
 
 ⚠ The summand filters are **not** `Filter.cofinite` by fiat. The statement that generalizes is the
 one with `Filter.comap Sum.inl 𝓕` and `Filter.comap Sum.inr 𝓕` on the right for an arbitrary `𝓕`;
@@ -594,18 +615,86 @@ theorem restrictedProductSum_symm_apply_inr {ι₁ ι₂ : Type*} (G' : ι₁ �
       (Πʳ j : ι₂, [G' (Sum.inr j), (U (Sum.inr j) : Set (G' (Sum.inr j)))])) (j : ι₂) :
     (restrictedProductSum G' U).symm y (Sum.inr j) = y.2 j := rfl
 
+/-- The map is continuous for **any** reference family: each component is Mathlib's `mapAlong`
+along an injection of index types, so `mapAlong_continuous` applies. -/
 theorem continuous_restrictedProductSum {ι₁ ι₂ : Type*} (G' : ι₁ ⊕ ι₂ → Type*)
     [Π k, Group (G' k)] [Π k, TopologicalSpace (G' k)] (U : Π k, Subgroup (G' k)) :
-    Continuous (restrictedProductSum G' U) := sorry
+    Continuous (restrictedProductSum G' U) :=
+  ((RestrictedProduct.mapAlong_continuous (A₁ := fun k => (U k : Set (G' k)))
+      (A₂ := fun i => (U (Sum.inl i) : Set (G' (Sum.inl i)))) G' (fun i => G' (Sum.inl i))
+      Sum.inl Sum.inl_injective.tendsto_cofinite (fun _ => id)
+      (.of_forall fun i => Set.mapsTo_id (U (Sum.inl i) : Set (G' (Sum.inl i))))
+      fun _ => continuous_id).prodMk
+    (RestrictedProduct.mapAlong_continuous (A₁ := fun k => (U k : Set (G' k)))
+      (A₂ := fun j => (U (Sum.inr j) : Set (G' (Sum.inr j)))) G' (fun j => G' (Sum.inr j))
+      Sum.inr Sum.inr_injective.tendsto_cofinite (fun _ => id)
+      (.of_forall fun j => Set.mapsTo_id (U (Sum.inr j) : Set (G' (Sum.inr j))))
+      fun _ => continuous_id)).congr fun _ => rfl
 
+/-- The inverse is continuous when every reference subgroup is **open**. It is a map out of a
+product of two restricted products, so Mathlib's `continuous_dom` does not apply to it; the
+product-parameter universal property `continuous_dom_prod_right` / `continuous_dom_prod_left`
+does, and each of those needs the reference family of its restricted factor open. The stage
+`𝓟 S₁ × 𝓟 S₂` lands in the stage `𝓟 (Sum.elim (· ∈ S₁) (· ∈ S₂))` of the `Sum` product, where the
+map is coordinatewise and `continuous_rng_of_principal` finishes.
+
+⚠ The hypothesis is not an artefact of this proof: `not_continuous_restrictedProductSum_symm`
+shows that the inverse can fail to be continuous when the reference subgroups are not open, even
+though the map is a continuous bijection. -/
 theorem continuous_restrictedProductSum_symm {ι₁ ι₂ : Type*} (G' : ι₁ ⊕ ι₂ → Type*)
-    [Π k, Group (G' k)] [Π k, TopologicalSpace (G' k)] (U : Π k, Subgroup (G' k)) :
-    Continuous (restrictedProductSum G' U).symm := sorry
+    [Π k, Group (G' k)] [Π k, TopologicalSpace (G' k)] (U : Π k, Subgroup (G' k))
+    (hU : ∀ k, IsOpen (U k : Set (G' k))) :
+    Continuous (restrictedProductSum G' U).symm := by
+  refine (RestrictedProduct.continuous_dom_prod_right fun i => hU (Sum.inl i)).2 fun S₁ hS₁ => ?_
+  refine (RestrictedProduct.continuous_dom_prod_left fun j => hU (Sum.inr j)).2 fun S₂ hS₂ => ?_
+  have hT : Filter.cofinite ≤ 𝓟 {k : ι₁ ⊕ ι₂ | Sum.elim (· ∈ S₁) (· ∈ S₂) k} := by
+    rw [Filter.le_principal_iff, Filter.mem_cofinite, ← Set.finite_preimage_inl_and_inr]
+    exact ⟨Filter.mem_cofinite.1 (Filter.le_principal_iff.1 hS₁),
+      Filter.mem_cofinite.1 (Filter.le_principal_iff.1 hS₂)⟩
+  let g : (Πʳ i : ι₁, [G' (Sum.inl i), (U (Sum.inl i) : Set (G' (Sum.inl i)))]_[𝓟 S₁]) ×
+      (Πʳ j : ι₂, [G' (Sum.inr j), (U (Sum.inr j) : Set (G' (Sum.inr j)))]_[𝓟 S₂]) →
+      Πʳ k, [G' k, (U k : Set (G' k))]_[𝓟 {k | Sum.elim (· ∈ S₁) (· ∈ S₂) k}] :=
+    fun p => ⟨Sum.rec (motive := fun k => G' k) (fun i => p.1 i) (fun j => p.2 j), by
+      rw [Filter.eventually_principal]
+      rintro (i | j) hk
+      · exact Filter.eventually_principal.1 p.1.2 i hk
+      · exact Filter.eventually_principal.1 p.2.2 j hk⟩
+  have hg : Continuous g := by
+    refine RestrictedProduct.continuous_rng_of_principal.2 (continuous_pi fun k => ?_)
+    rcases k with i | j
+    · exact (RestrictedProduct.continuous_eval i).comp continuous_fst
+    · exact (RestrictedProduct.continuous_eval j).comp continuous_snd
+  exact ((RestrictedProduct.continuous_inclusion hT).comp hg).congr fun p => by
+    ext k; rcases k with i | j <;> rfl
+
+/-- ⚠ Rejection test for `continuous_restrictedProductSum_symm`: without openness of the reference
+subgroups the inverse of the `Sum` splitting need not be continuous, so the hypothesis cannot be
+dropped. Witness: every factor `Multiplicative ℚ`, with the topology of `ℚ` as a subspace of `ℝ`,
+and every reference subgroup `⊥`, which is not open. Write `X` for
+`Πʳ n : ℕ, [Multiplicative ℚ, ⊥]`, the finitely supported sequences with the final topology over
+the finite-dimensional stages.
+Multiplication on `X` is the composite of the inverse of the splitting `X × X → Πʳ k : ℕ ⊕ ℕ, …`
+with the map `x ↦ (n ↦ x (Sum.inl n) * x (Sum.inr n))` out of the `Sum` product, which is
+continuous by `continuous_dom`. But multiplication on `X` is not continuous: the set
+`{x | ∀ n ≥ 1, |x n| < |x 0 - √2 / (n + 1)|}` (additively) is open in `X` and contains the identity,
+yet for any open neighbourhoods `V`, `V'` of the identity, `V` contains `t · e₀` for all small
+rational `t` and `V'` contains `s · eₙ` for all small rational `s`, and for `n` large and `t`
+rational close to `√2 / (n + 1)` the product `t · e₀ + s · eₙ` escapes the set. Hence the inverse
+of the splitting is not continuous. Mathlib's `RestrictedProduct.isTopologicalGroup` demands
+`Fact (∀ i, IsOpen (B i))` for the same reason. -/
+theorem not_continuous_restrictedProductSum_symm :
+    ¬ Continuous
+      (restrictedProductSum (fun _ : ℕ ⊕ ℕ => Multiplicative ℚ) fun _ => ⊥).symm := sorry
 
 /-- Over a **finite** index type the restricted product is the plain product: the cofinite filter
 is `⊥` and the integrality condition is vacuous. ⚠ Mathlib's `RestrictedProduct.homeoTop` is the
 `⊤`-filter statement and gives `Π i, U i`, the everywhere-integral product; this is the opposite
-end of the filter lattice and gives `Π i, G i`. Neither Mathlib nor FLT has this one. -/
+end of the filter lattice and gives `Π i, G i`. Neither Mathlib nor FLT has this one.
+
+Both directions are continuous for **any** reference family: the `⊥`-filter topology is the
+product topology (`RestrictedProduct.topologicalSpace_eq_of_bot`, `homeoBot`), and the passage
+between the filters `Filter.cofinite` and `⊥`, equal by `Filter.cofinite_eq_bot`, is Mathlib's
+`continuous_inclusion`. No openness enters. -/
 def restrictedProductOfFinite {ι' : Type*} [Finite ι'] (G' : ι' → Type*)
     [Π i, Group (G' i)] (U : Π i, Subgroup (G' i)) :
     (Πʳ i, [G' i, (U i : Set (G' i))]) ≃* (Π i, G' i) where
@@ -629,11 +718,14 @@ theorem restrictedProductOfFinite_symm_apply {ι' : Type*} [Finite ι'] (G' : ι
 
 theorem continuous_restrictedProductOfFinite {ι' : Type*} [Finite ι'] (G' : ι' → Type*)
     [Π i, Group (G' i)] [Π i, TopologicalSpace (G' i)] (U : Π i, Subgroup (G' i)) :
-    Continuous (restrictedProductOfFinite G' U) := sorry
+    Continuous (restrictedProductOfFinite G' U) :=
+  RestrictedProduct.continuous_coe
 
 theorem continuous_restrictedProductOfFinite_symm {ι' : Type*} [Finite ι'] (G' : ι' → Type*)
     [Π i, Group (G' i)] [Π i, TopologicalSpace (G' i)] (U : Π i, Subgroup (G' i)) :
-    Continuous (restrictedProductOfFinite G' U).symm := sorry
+    Continuous (restrictedProductOfFinite G' U).symm :=
+  (RestrictedProduct.continuous_inclusion Filter.cofinite_eq_bot.le).comp
+    RestrictedProduct.homeoBot.continuous
 
 /-- **The away-`S` decomposition.** For a *finite* `S`, a restricted product is the plain product
 over `S` times the restricted product away from `S`; that is, it is a
@@ -643,7 +735,14 @@ for the double-coset and measure calculations downstream.
 
 It is not built from scratch: it is `restrictedProductReindex` along `Equiv.sumCompl (· ∈ S)`
 (FLT's `CongrLeft`, run backwards), then `restrictedProductSum`, then `restrictedProductOfFinite`
-on the `S` factor. Only the middle step is new relative to FLT. -/
+on the `S` factor. Only the middle step is new relative to FLT.
+
+Finiteness of `S` is what makes the `S` factor a plain product; it says nothing about the
+topology. The map is continuous for any family (each step is). The inverse is a map out of
+`(Π i : S, G i) × RestrictedProductGroupAway S U`, and is continuous when `U i` is open for every
+`i ∉ S` (`continuous_awayDecomposition_symm`, by Mathlib's `continuous_dom_prod_left` with the
+finite product as the parameter space); `not_continuous_awayDecomposition_symm` witnesses that
+the hypothesis cannot be dropped. -/
 def awayDecomposition (S : Set ι) (hS : S.Finite) (U : Π i, Subgroup (G i)) :
     RestrictedProductGroup U ≃*
       RestrictedProductGroupWithFactor (Π i : S, G i.1)
@@ -679,12 +778,34 @@ theorem awayDecomposition_symm_apply_of_notMem (S : Set ι) (hS : S.Finite)
     (i : ι) (hi : i ∉ S) :
     (awayDecomposition S hS U).symm y i = y.2 ⟨i, hi⟩ := sorry
 
+/-- Continuity of the decomposition, for **any** reference family: it is a composite of
+`restrictedProductReindex`, `restrictedProductSum` and `restrictedProductOfFinite`, each of them
+continuous with no hypothesis. -/
 theorem continuous_awayDecomposition (S : Set ι) (hS : S.Finite) (U : Π i, Subgroup (G i)) :
     Continuous (awayDecomposition S hS U) := sorry
 
+/-- Continuity of the inverse, when the reference subgroups **away from `S`** are open. The
+domain is `(Π i : S, G i) × RestrictedProductGroupAway S U`, so this is Mathlib's
+`continuous_dom_prod_left` with parameter space `Π i : S, G i`, whose hypothesis is openness of
+the family of the restricted factor, `fun i : {i // i ∉ S} => U i.1`; the finite factor carries
+no reference subgroup, which is why nothing is asked at the indices in `S`. Each stage
+`(Π i : S, G i) × Πʳ_[𝓟 T]` lands in the stage `𝓟 (Subtype.val '' T)` of the full product,
+cofinite because `S` and `Tᶜ` are finite, and `continuous_rng_of_principal` finishes there.
+
+The route through `continuous_restrictedProductSum_symm` proves the same statement under the
+stronger `∀ i, IsOpen (U i)`, since the `Sum` splitting sees both summands. -/
 theorem continuous_awayDecomposition_symm (S : Set ι) (hS : S.Finite)
-    (U : Π i, Subgroup (G i)) :
+    (U : Π i, Subgroup (G i)) (hU : ∀ i ∉ S, IsOpen (U i : Set (G i))) :
     Continuous (awayDecomposition S hS U).symm := sorry
+
+/-- ⚠ Rejection test for `continuous_awayDecomposition_symm`: the witness of
+`not_continuous_restrictedProductSum_symm` with `S = {0}`. The inverse
+`ℚ × Πʳ n : {n // n ∉ {0}}, [Multiplicative ℚ, ⊥] → Πʳ n : ℕ, [Multiplicative ℚ, ⊥]` sends
+`(t, s · eₙ)` to `t · e₀ + s · eₙ` (additively), and the open set of that witness contains no image
+of a product of open neighbourhoods of the identity. -/
+theorem not_continuous_awayDecomposition_symm :
+    ¬ Continuous (awayDecomposition (G := fun _ : ℕ => Multiplicative ℚ) {0}
+      (Set.finite_singleton 0) fun _ => ⊥).symm := sorry
 
 /-! ## Layer 3: the rational diagonal -/
 
@@ -743,8 +864,11 @@ once it factors continuously through `Πʳ i, [G i, U i]_[𝓟 S]` for a cofinit
 that means a *uniform* integrality set — one cofinite `S` serving every `γ` at once, strictly
 stronger than the pointwise `∀ γ, ∀ᶠ i, φ i γ ∈ U i` that builds the map.
 
-Continuity **out of** a restricted product is Mathlib's `RestrictedProduct.continuous_dom`, and
-local compactness is Mathlib's `RestrictedProduct.locallyCompactSpace_of_group`. Neither is
+Continuity **out of** a restricted product is Mathlib's `RestrictedProduct.continuous_dom`, with
+no hypothesis on the family; continuity out of a **product** with a restricted-product factor is
+Mathlib's `continuous_dom_prod_left`/`continuous_dom_prod_right`, and needs the reference family
+of that factor open (see `continuous_restrictedProductSum_symm` and its rejection test). Local
+compactness is Mathlib's `RestrictedProduct.locallyCompactSpace_of_group`. None of these is
 restated here. -/
 
 theorem continuous_rationalDiagonal {Γ : Type w} [Group Γ] [TopologicalSpace Γ]

@@ -34,11 +34,14 @@ Suggested home: `TauCeti/Topology/Algebra/RestrictedProduct/`.
   identity case, with its coherence laws, naturality, and the double-coset caveat below;
 - reindexing along an equivalence of index types, with coordinate formulas both ways;
 - the splitting of a restricted product over a `Sum` index type into the product of the two
-  restricted products, and the collapse of a restricted product over a finite index type to a
-  plain product;
+  restricted products — continuous for every reference family, a homeomorphism when every
+  reference subgroup is open, and provably not one in general — and the collapse of a
+  restricted product over a finite index type to a plain product, a homeomorphism for every
+  family;
 - the away-`S` restriction and, for finite `S`, the decomposition into a product over `S` times
   the away-`S` restricted product — assembled from the previous three items, not built from
-  scratch — with the coordinate formulas of the map and of its inverse;
+  scratch — with the coordinate formulas of the map and of its inverse, continuous for every
+  family and a homeomorphism when the reference subgroups away from `S` are open;
 - diagonal homomorphisms from supplied coordinate maps and supplied eventual-integrality evidence,
   with their coordinate formula, change-of-family compatibility, injectivity criterion, and the
   continuity criterion that a uniform integrality set gives.
@@ -54,7 +57,9 @@ rather than restating it:
 | `RestrictedProduct.mapAlong`, `mapAlongMonoidHom` | the underlying componentwise map, already stated with the eventual `Set.MapsTo` hypothesis |
 | `RestrictedProduct.mapAlong_continuous` | continuity of componentwise maps |
 | `RestrictedProduct.isOpen_forall_mem` | openness of the integral subgroup |
-| `RestrictedProduct.continuous_dom`, `continuous_rng_of_principal` | the two continuity criteria |
+| `RestrictedProduct.continuous_dom`, `continuous_rng_of_principal` | the two continuity criteria: out of one restricted product, and into a principal stage |
+| `RestrictedProduct.continuous_dom_prod_left`, `continuous_dom_prod_right` | continuity out of a product with a restricted-product factor, for an **open** reference family: the inverses of the `Sum` splitting and of the away-`S` decomposition |
+| `RestrictedProduct.homeoBot`, `continuous_inclusion`, `topologicalSpace_eq_of_bot` | both directions of the finite-index collapse, where `Filter.cofinite = ⊥` |
 | `RestrictedProduct.locallyCompactSpace_of_group` | local compactness; this roadmap adds no local-compactness theorem of its own |
 | `RestrictedProduct.isEmbedding_structureMap`, `range_structureMap` | the integral subgroup as the image of `Π i, U i`, which gives its compactness |
 | `DoubleCoset.Quotient` | the double-coset spaces of §*Change of family and double cosets* |
@@ -86,9 +91,9 @@ already proved in FLT and should be lifted rather than reproved.**
 | `integralSubgroupOf`, `mem_integralSubgroupOf`, `integralSubgroup`, `mem_integralSubgroup` | `RestrictedProduct.structureMapMonoidHom` is the map, but the subobject is only `structureSubring` / `mem_structureSubring_iff`, which are `Subring`-valued and need `Ring`/`SubringClass` on the factors | prove: FLT has no `Subgroup`-valued version, and none of these admits a second family |
 | `isOpen_integralSubgroup` | — | Mathlib's `RestrictedProduct.isOpen_forall_mem` directly |
 | `isCompact_integralSubgroup` | — | prove; see caution 2 |
-| `restrictedProductSum` and its four coordinate lemmas | — | prove |
+| `restrictedProductSum`, its four coordinate lemmas, its two continuity theorems and the rejection test `not_continuous_restrictedProductSum_symm` | — | prove |
 | `restrictedProductOfFinite` and its lemmas | — | prove |
-| `awayDecomposition` and its lemmas | — | prove, but as the composition below |
+| `awayDecomposition` and its lemmas, including `not_continuous_awayDecomposition_symm` | — | prove, but as the composition below |
 | `rationalDiagonal` package, `continuous_rationalDiagonal` | — | prove |
 | `doubleCosetCongr`, `exists_map_integralSubgroup_ne`, `not_forall_mapsTo_integralSubgroup` | — | prove |
 
@@ -121,8 +126,12 @@ sake rather than as a port:
   assembled here as `restrictedProductReindex` — FLT's `CongrLeft` run backwards — along
   `Equiv.sumCompl (· ∈ S)`, then `restrictedProductSum`, then `restrictedProductOfFinite` — and
   `restrictedProductSum` is the step FLT does not have, so it is the one this roadmap owns and
-  names. `restrictedProductOfFinite` is new too: Mathlib's `RestrictedProduct.homeoTop` is the
-  `⊤`-filter statement and yields `Π i, U i`, the everywhere-integral product, not `Π i, G i`.
+  names. Its topology is the one place in this roadmap where the reference family's openness is
+  load-bearing: the inverse of the splitting is a map out of a product of two restricted
+  products, continuous for open families by Mathlib's product-parameter universal property and
+  not continuous in general (rejection test 11). `restrictedProductOfFinite` is new too:
+  Mathlib's `RestrictedProduct.homeoTop` is the `⊤`-filter statement and yields `Π i, U i`, the
+  everywhere-integral product, not `Π i, G i`.
 - **The `rationalDiagonal` package with its uniform-integrality continuity criterion.** Neither
   FLT nor Mathlib states the criterion of §*Layer 3*: pointwise eventual integrality builds the
   map, but continuity needs one cofinite `S` serving every `γ` at once.
@@ -156,6 +165,7 @@ sake rather than as a port:
 | change of family | The equivalence for families agreeing outside a finite set is the `φ = id` case of the previous row. It is coordinatewise the identity in both directions and carries a pinned evaluation theorem. It transports the ambient group only; see §*Change of family and double cosets*. |
 | reindexing | Stated in both orientations: FLT's `restrictedProductCongrLeft`, pinned by `… x (e j) = x j`, and its inverse `restrictedProductReindex`, which is what the consumers use. The filter hypothesis `𝓕₁ = 𝓕₂.comap e` is a theorem here, not an argument. |
 | away-`S` | `RestrictedProductGroupAway S U` is the restricted product over `{i // i ∉ S}` and needs no finiteness of `S`. Finiteness is a hypothesis of the decomposition theorem, not of the type. |
+| topology of the equivalences | Continuity of a map **out of** one restricted product is unconditional (Mathlib's `continuous_dom`). Continuity of a map out of a **product** with a restricted-product factor is asserted only for an open reference family, the hypothesis of Mathlib's `continuous_dom_prod_left`/`_right`, and never from finite support alone. |
 | packaging | `RestrictedProductGroup`, `RestrictedProductGroupAway` and `RestrictedProductGroupWithFactor` are index-generic names. A number-field consumer separately identifies the finite places and proves that its distinguished factor is the archimedean one. |
 | diagonal | `rationalDiagonal` takes eventual-integrality evidence as an argument. This roadmap never manufactures that evidence, and does not assume the diagonal is injective or continuous. |
 
@@ -211,14 +221,18 @@ owned by another roadmap.
 | `restrictAway_restrictAway` | 2 | compatibility for nested index sets |
 | `restrictedProductSum` | 2 | ⚠ owned here: a restricted product over `ι₁ ⊕ ι₂` is the product of the two restricted products |
 | `restrictedProductSum_apply_inl`, `_apply_inr`, `_symm_apply_inl`, `_symm_apply_inr` | 2 | its four coordinate formulas |
-| `continuous_restrictedProductSum`, `continuous_restrictedProductSum_symm` | 2 | it is a homeomorphism |
+| `continuous_restrictedProductSum` | 2 | the map is continuous for every reference family |
+| `continuous_restrictedProductSum_symm` | 2 | the inverse is continuous when every `U k` is open; with the previous row, a homeomorphism for open families |
+| `not_continuous_restrictedProductSum_symm` | 2 | ⚠ the openness hypothesis cannot be dropped: `Multiplicative ℚ` with trivial reference subgroups |
 | `restrictedProductOfFinite` | 2 | ⚠ owned here: over a finite index type the restricted product is the plain product |
 | `restrictedProductOfFinite_apply`, `restrictedProductOfFinite_symm_apply` | 2 | its coordinate formulas |
-| `continuous_restrictedProductOfFinite`, `continuous_restrictedProductOfFinite_symm` | 2 | it is a homeomorphism |
+| `continuous_restrictedProductOfFinite`, `continuous_restrictedProductOfFinite_symm` | 2 | it is a homeomorphism, for every reference family |
 | `awayDecomposition` | 2 | for finite `S`: the product over `S` times the away-`S` restricted product |
 | `awayDecomposition_fst`, `awayDecomposition_snd` | 2 | the forward coordinate formulas |
 | `awayDecomposition_symm_apply_of_mem`, `awayDecomposition_symm_apply_of_notMem` | 2 | the inverse coordinate formulas |
-| `continuous_awayDecomposition`, `continuous_awayDecomposition_symm` | 2 | it is a homeomorphism |
+| `continuous_awayDecomposition` | 2 | the map is continuous for every reference family |
+| `continuous_awayDecomposition_symm` | 2 | the inverse is continuous when `U i` is open for every `i ∉ S`; with the previous row, a homeomorphism for such families |
+| `not_continuous_awayDecomposition_symm` | 2 | ⚠ the openness hypothesis cannot be dropped: the same witness with `S = {0}` |
 | `rationalDiagonal` | 3 | the diagonal from supplied coordinate maps and eventual-integrality evidence |
 | `rationalDiagonal_apply` | 3 | its exact coordinate formula |
 | `rationalDiagonal_change_family` | 3 | compatibility with change of reference family |
@@ -295,19 +309,49 @@ restriction away from a larger set factors through a smaller one.
 
 **2.3 Splitting over a `Sum`.** ⚠ Owned here, with no FLT counterpart. Prove that a restricted
 product over `ι₁ ⊕ ι₂` is the product of the restricted products over the two summands, with all
-four coordinate formulas and continuity both ways. The content is that a subset of `ι₁ ⊕ ι₂` is
-finite exactly when both of its preimages are (`Set.finite_preimage_inl_and_inr`). ⚠ The summand
-filters are the comaps along `Sum.inl` and `Sum.inr`, and are `cofinite` here only because those
-maps are injective; see rejection test 10. Prove also that over a finite index type the restricted
-product is the plain product — Mathlib's `homeoTop` is the `⊤`-filter statement and gives the
-everywhere-integral product instead.
+four coordinate formulas. The algebraic content — that the pair is restricted, that the inverse is
+restricted, and the formulas — is that a subset of `ι₁ ⊕ ι₂` is finite exactly when both of its
+preimages are (`Set.finite_preimage_inl_and_inr`). ⚠ The summand filters are the comaps along
+`Sum.inl` and `Sum.inr`, and are `cofinite` here only because those maps are injective; see
+rejection test 10.
+
+The topology is a separate matter, and finiteness of the two exceptional sets proves none of it.
+The map is the pair of Mathlib's `mapAlong` along `Sum.inl` and `Sum.inr`, hence continuous for
+every reference family by `mapAlong_continuous`; more generally any map *out of* one restricted
+product is continuous once its restriction to every principal stage `Πʳ k, [G k, U k]_[𝓟 T]`,
+`T` cofinite, is (`continuous_dom`). The inverse is a map out of the **product** of two restricted
+products, and the restricted-product topology is the final topology over the principal stages: a
+product of two final topologies is not in general the final topology over pairs of stages.
+Mathlib's product-parameter universal property, `continuous_dom_prod_right` and
+`continuous_dom_prod_left`, recovers exactly that when every reference subgroup is **open**,
+because each principal stage then embeds as an open subset. So prove
+`continuous_restrictedProductSum_symm` under `∀ k, IsOpen (U k)`: the stage `𝓟 S₁ × 𝓟 S₂` lands in
+the stage `𝓟 (Sum.elim (· ∈ S₁) (· ∈ S₂))` of the `Sum` product, where the map is coordinatewise
+and `continuous_rng_of_principal` applies. Prove also `not_continuous_restrictedProductSum_symm`,
+rejection test 11: the hypothesis is a fact about the topology, not a limitation of the proof.
+
+Prove that over a finite index type the restricted product is the plain product — Mathlib's
+`homeoTop` is the `⊤`-filter statement and gives the everywhere-integral product instead — and
+that this one is a homeomorphism for every family: on a finite type `Filter.cofinite = ⊥`
+(`Filter.cofinite_eq_bot`), the `⊥`-filter topology is the product topology
+(`topologicalSpace_eq_of_bot`, `homeoBot`), and `continuous_inclusion` moves between the two
+spellings of the filter.
 
 **2.4 Decomposition.** For finite `S`, prove that the restricted product is a
-`RestrictedProductGroupWithFactor` with distinguished factor `Π i : S, G i`, and that the
-equivalence is a homeomorphism. Do not build it from scratch: it is `restrictedProductReindex`
-along `Equiv.sumCompl (· ∈ S)`, then the `Sum` splitting of 2.3, then the finite collapse on the
-`S` factor. The four coordinate formulas of §*The three equivalences* are part of this milestone,
-not conveniences added afterwards.
+`RestrictedProductGroupWithFactor` with distinguished factor `Π i : S, G i`. Do not build it from
+scratch: it is `restrictedProductReindex` along `Equiv.sumCompl (· ∈ S)`, then the `Sum` splitting
+of 2.3, then the finite collapse on the `S` factor. The four coordinate formulas of §*The three
+equivalences* are part of this milestone, not conveniences added afterwards.
+
+Prove that the equivalence is continuous for every reference family (each step is), and that its
+inverse is continuous when `U i` is open for every `i ∉ S`: the inverse is a map out of
+`(Π i : S, G i) × RestrictedProductGroupAway S U`, which is Mathlib's `continuous_dom_prod_left`
+with the finite product as the parameter space, and its hypothesis is openness of the family of
+the restricted factor only — the finite factor carries no reference subgroup. Each stage
+`(Π i : S, G i) × Πʳ_[𝓟 T]` lands in the stage `𝓟 (Subtype.val '' T)` of the full product,
+cofinite because `S` and `Tᶜ` are finite. Composing the inverse-continuity theorems of 2.3 proves
+the same statement under `∀ i, IsOpen (U i)`. Prove `not_continuous_awayDecomposition_symm`, the
+witness of rejection test 11 at `S = {0}`, so that the hypothesis is seen to be necessary.
 
 ### Layer 3: diagonals
 
@@ -335,8 +379,13 @@ formulas.
 | `restrictedProductCongr U U' h`, `U i = U' i` off a finite set | `x ↦ x` coordinatewise | `x ↦ x` coordinatewise |
 | `restrictedProductReindex e U`, `e : ι' ≃ ι` | `x ↦ (j ↦ x (e j))` | `y ↦ (i ↦ y (e.symm i))`, pinned by its values at `i = e j`, where it is `y j` |
 
-Each is a homeomorphism, and each has its continuity proved in both directions; that is what makes
-them usable for transporting Haar measure later.
+`restrictedProductCongr` and `restrictedProductReindex` are homeomorphisms for every reference
+family: both directions are maps out of a single restricted product, where Mathlib's
+`continuous_dom` applies with no hypothesis. `awayDecomposition` is continuous for every family,
+and its inverse is continuous when the reference subgroups away from `S` are open — the case of
+every `CompactOpenSubgroups` family, and the case a consumer transporting Haar measure is in. The
+openness is not decorative: rejection test 11 exhibits a family for which the inverse is a
+discontinuous bijection.
 
 The first of the three is not primitive. It is the composite
 
@@ -350,8 +399,9 @@ The first of the three is not primitive. It is the composite
 (Π i : S, G i) × RestrictedProductGroupAway S U
 ```
 
-and the two middle names carry the same requirement: map, inverse, both coordinate formulas,
-continuity both ways.
+and the two middle names carry the same requirement: map, inverse, both coordinate formulas, and
+continuity — of both directions of `restrictedProductOfFinite` for every family, of the map
+`restrictedProductSum` for every family, and of its inverse for open families.
 
 ### Change of family and double cosets
 
@@ -431,6 +481,25 @@ strong-approximation, Tamagawa and mass-formula results that neither of them cla
     both comaps are cofinite again, because `Sum.inl` and `Sum.inr` are injective. An
     implementation that hard-codes `cofinite` on the summands has proved only the cofinite case
     and should say so.
+11. ⚠ Finite support does not make the inverse of the `Sum` splitting continuous, and neither
+    does it for the away-`S` decomposition; openness of the reference subgroups is what does.
+    Witness: every factor `Multiplicative ℚ` with the topology of `ℚ ⊆ ℝ`, every reference
+    subgroup `⊥`, which is not open. Write `X = Πʳ n : ℕ, [Multiplicative ℚ, ⊥]`, the finitely
+    supported sequences with the final topology over the finite-dimensional stages, and write
+    additively. The set `W = {x | ∀ n ≥ 1, |x n| < |x 0 − √2/(n+1)|}` is open in `X` — on each
+    stage it is finitely many strict inequalities between continuous functions, the right-hand
+    sides never vanishing on `ℚ` — and contains `0`. Any open neighbourhood `V` of `0` contains
+    `t e₀` for all rational `|t| < δ`, and any open `V'` contains `s eₙ` for all rational
+    `|s| < εₙ`; take `n` with `√2/(n+1) < δ`, rational `t` with `|t − √2/(n+1)| < εₙ/2`, and
+    rational `s ∈ (|t − √2/(n+1)|, εₙ)`: then `t e₀ + s eₙ ∈ V + V'` but `∉ W`. So addition on
+    `X` is not continuous. Addition is the inverse of the `Sum` splitting `X × X → Πʳ k : ℕ ⊕ ℕ`
+    followed by `x ↦ (n ↦ x (Sum.inl n) + x (Sum.inr n))`, which is continuous by
+    `continuous_dom`; hence the inverse of the splitting is not continuous, which is
+    `not_continuous_restrictedProductSum_symm`. With `S = {0}` the same `W` defeats the inverse
+    `ℚ × Πʳ n : {n // n ∉ {0}}, [Multiplicative ℚ, ⊥] → X`, `(t, y) ↦ t e₀ + y`, which is
+    `not_continuous_awayDecomposition_symm`. Mathlib's `RestrictedProduct.isTopologicalGroup`
+    asks for `Fact (∀ i, IsOpen (B i))` for exactly this reason. An implementation that proves
+    inverse continuity from finite support alone has proved something false.
 
 ## Ordering
 
