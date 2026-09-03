@@ -38,9 +38,14 @@ The roadmap owns:
 - marked local presentations and the three arithmetic acceptance examples;
 - the completed multiplicative module `A(L) = lim_m Lˣ/(Lˣ)^(p^m)` with its integral
   `ℤ_p[Gal(L/K)]`-module structure, its torsion, and its free quotient;
-- integral cancellation over `ℤ_p[G]` for a finite group `G` — Krull-Schmidt-Azumaya, and the
-  detection of projectives modulo `p` — which is what turns the rational decomposition of `A(L)`
-  into an integral statement, and which no supplier in the dependency list provides;
+- integral cancellation over `ℤ_p[G]` for a finite group `G` — Krull-Schmidt-Azumaya, the
+  detection of projectives by their rationalization and by their reduction modulo `p`, the
+  passage from a stable isomorphism to an isomorphism, and the torsion criterion for stable
+  isomorphism of modules of projective dimension one — which is what turns the rational
+  decomposition of `A(L)` into an integral statement, and which no supplier in the dependency
+  list provides;
+- the Tate module of a finite tame layer, its integral decomposition against the tame-frame
+  module, and the resulting relation-module surjection onto `A(L)`;
 - the exact finite generator rank of the full `G_K`.
 
 It does not rebuild abstract profinite or pro-`p` group theory, continuous-cohomology operations,
@@ -140,6 +145,7 @@ that roadmap even when used in the proof here; in particular Layer 7 uses `tameQ
 | coefficient objects and Kummer theory | `GalRep`, `H`, `muNRep`, `kummerClass`, `kummerEquiv_mixed`, `kummerCupPairing`, `localSymbol` |
 | degree two and local duality | `finite_H`, `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `tateDualityPairing_perfect_mixed`, `eulerCharacteristic_finrank_fp` |
 | reciprocity and orientation | `artinMap`, `artinMap_restrict`, `localArtinMap`, `normResidue`, `unramifiedCoordinate`, `unramifiedCoordinate_artinMap`, `cyclotomicCharacter_artinMap`, `cyclotomicCharacter_artinMap_padic` |
+| class formation and Tate's theorem | `ClassFormation`, `fundamentalClass`, `fundamentalClass_generates`, `tateTheorem` |
 
 The `h2MuEquivZMod_mixed` theorem is the mixed-characteristic result valid at `n = p`; the
 away-from-`p` theorem with `IsUnit (n : 𝒪[K])` cannot replace it. Likewise,
@@ -403,9 +409,10 @@ presentation.
 
 ## Layer 7: exact rank of the full absolute Galois group
 
-This layer proves topological finite generation before computing the exact rank. It does not use
-an unqualified statement `scd(G_K)=2`; conventions for strict cohomological dimension differ, and
-that assertion is not an input to the argument.
+This layer proves topological finite generation before computing the exact rank. Strict
+cohomological dimension enters only once, in the lift of Step 5 in the form of NSW (3.6.4)(iii)
+applied to `G_K` and to the free profinite group of rank `N+2`; conventions for strict
+cohomological dimension differ, and no unqualified statement `scd(G_K)=2` is an input.
 
 ⚠ **A rational identity is not an integral bound.** The reciprocity-side computation of this layer
 produces `A(L) ⊗ ℚ_p ≃ ℚ_p[Gal(L/K)]^N ⊕ ℚ_p`. That equality of `ℚ_p[G]`-modules cannot by itself
@@ -443,44 +450,127 @@ generators is not a rational invariant. The chain below is the integral one, in 
 
 - Prove `torsion_padicCompletionUnits`: the torsion subgroup of `A(L)` is exactly the image of
   `pPowerRootsOfUnity p L`, and `card_torsion_padicCompletionUnits`: it is finite of order `q(L)`.
-- Prove `padicCompletionUnits_quotient_torsion_equiv`: modulo torsion, `A(L)` is `ℤ_p`-free of
-  rank `[L:ℚ_p]+1`, the `[L:ℚ_p]` from the principal units and the `1` from the valuation. It is
-  stated as an explicit isomorphism with `ℤ_p^{[L:ℚ_p]+1}` and not as a `finrank` equation, since
-  `Module.finrank` is `0` on a module that is not finite free and would hide exactly the failure
-  the statement excludes.
+- Prove `mem_torsion_padicCompletionUnits_iff`: Mathlib's `Submodule.torsion ℤ_[p]` of `A(L)` is
+  the additive form of that group torsion. `A(L)` is pro-`p`, so being killed by a nonzero `p`-adic
+  integer is having finite order. This is the submodule the free quotient is taken by.
+- Prove `padicCompletionUnits_quotient_torsion_linearEquiv`: modulo its `ℤ_p`-torsion, `A(L)` is
+  `ℤ_p`-free of rank `[L:ℚ_p]+1`, the `[L:ℚ_p]` from the principal units and the `1` from the
+  valuation. It is stated as a `ℤ_p`-linear isomorphism with `ℤ_p^{[L:ℚ_p]+1}`: an additive
+  isomorphism would not see the `ℤ_p`-structure and would not say the quotient is free, and a
+  `finrank` equation would be `0` on a module that is not finite free and would hide exactly the
+  failure the statement excludes.
+- The decomposition of this layer is algebraic at every finite layer. No topology on `A(L)` or on
+  its free quotient is consumed anywhere in Steps 3-5; the only topological statement about `A(L)`
+  is its reciprocity identification with `G_L^{ab}(p)` in Step 1, and the topology of `G_K` enters
+  only through the compactness argument of Step 5.
 - ⚠ Without this step the phrase "the rank of `A(L)`" has no content: `A(L)` has a finite cyclic
   summand precisely when `μ_p ⊆ L`, and that summand is the one carrying `q`.
   *Needs:* LFR deep units and unit filtration; L0 roots-of-unity theory.
 
-### Step 3: coinvariants, invariants, and integral cancellation
+### Step 3: the Tate module of a tame layer and its integral decomposition
 
-The rational decomposition is the input; these are the theorems that turn it into an integral one.
+This step is the proof of NSW (7.4.1), with each object named. Throughout, `L/K` is a finite
+Galois layer with group `G = Gal(L/K)`, and `N = [K:ℚ_p]`. Rationalization is `M ⊗[ℤ_p] ℚ_p` with
+Mathlib's left-factor `ℤ_p[G]`-structure; a `ℤ_p[G]`-linear isomorphism between `ℚ_p`-vector
+spaces is automatically `ℚ_p[G]`-linear, so no second module structure is installed on the
+rationalization.
 
+- **The group-algebra objects.** Define `augmentationIdeal p G`, the span of the `g - 1`;
+  `relationModule p G g` for a family `g : Fin n → G`, the kernel of `ℤ_p[G]^n → ℤ_p[G]`,
+  `e_i ↦ g_i - 1`, which is `R^ab(p)` for the presentation of `G` on the `g_i` (NSW (5.6.6),
+  Lyndon), with `range_linearCombination_eq_augmentationIdeal` supplying the other half of the
+  exact sequence `0 → R^ab(p) → ℤ_p[G]^n → I_G → 0` when the `g_i` generate; and the
+  **tame-frame module** `tameFrameModule p G σ τ a b`, that is
+  `M₀ = ℤ_p[G]²/ℤ_p[G]·(σ - a, τ - b)`, for two elements `σ, τ` and two exponents `a, b`.
 - **The rational decomposition** `padicCompletionUnits_tensor_ratPadic`:
-  `A(L)⊗ℚ_p ≃ ℚ_p[Gal(L/K)]^N ⊕ ℚ_p`, from the `p`-adic logarithm on the deep units and the normal
-  basis theorem (NSW (7.4.4)(i)). It is stated **equivariantly**, as an isomorphism of
-  `ℚ_p[Gal(L/K)]`-modules against `padicCompletionUnitsRatModule` and the trivial module
-  `trivialRatModule`; a `ℚ_p`-linear statement would be a dimension count and would carry none of
-  the content Step 3 acts on.
+  `A(L)⊗ℚ_p ≃ ℚ_p[G]^N ⊕ ℚ_p`, from the `p`-adic logarithm on the deep units and the normal
+  basis theorem (NSW (7.4.4)(i)), stated as a `ℤ_p[G]`-linear isomorphism against the rationalized
+  `ℤ_p[G]/I_G`. A `ℚ_p`-linear statement would be a dimension count and would carry none of the
+  representation-theoretic content the decomposition acts on.
   *Needs:* LFR deep units and ramification; M normal basis; CFT reciprocity.
+- **The compatibility of the two module structures** `padicCompletionUnits_isScalarTower`: the
+  `ℤ_p`-structure of `A(L)` is the restriction of the `ℤ_p[G]`-structure. Without it the torsion of
+  Step 2 cannot be read inside the group-algebra module and the rationalization carries no
+  `ℤ_p[G]`-structure.
 - **Coinvariants under the finite quotient.** The norm kills the augmentation ideal, so it factors
   through the coinvariants: `padicCompletionUnitsOf_norm_algEquiv` states
   `N_{L/K}(σ x) = N_{L/K}(x)` in `A(K)`. The other half of the step is that the cokernel of the
   norm is exactly the pro-`p` abelianized Galois group, which is the `p`-completion of
   `CFT.normResidue : Kˣ ⧸ N(Lˣ) ≃* Gal(L/K)^ab`; no second norm group is introduced, `LFR.normGroup`
-  is the one used. It is these coinvariants, taken at every layer, that reduce an isomorphism
-  question about the integral module to finite-level data.
+  is the one used.
+- **Sharp exponents** `exists_tameFrame_exponents`: for `σ, τ ∈ G` with `τ` of order prime to
+  `p`, there are natural numbers `a, b` through which `σ, τ` act on `μ_{p^∞}(L)` such that the
+  left ideal `(σ - a, τ - b)` of `ℤ_p[G]` is the annihilator of `μ_{p^∞}(L)^∨`, stated as: the
+  quotient `ℤ_p[G]/(σ - a, τ - b)` has order `q(L)`. This is the exact sequence `(∗)` in the proof
+  of NSW (7.4.1). ⚠ Not every lift works: `a = b = 1` gives an infinite quotient, whose `Nat.card`
+  is `0`, and a tame-frame module with the wrong torsion. The prime-to-`p` order of `τ` is what
+  allows `b` to be adjusted along `τ^{orderOf τ} = 1` until the order condition holds.
+- **The tame-frame module** under the sharpness condition:
+  `tameFrameModule_tensorRat_linearEquiv`, `M₀ ⊗ ℚ_p ≃ ℚ_p[G]`, because `1 ↦ (σ - a, τ - b)` is
+  injective; and `tameFrameModule_torsion_linearEquiv`, the `p`-power torsion of `M₀` is
+  `μ_{p^∞}(L)` as a `ℤ_p[G]`-module, the same module as the torsion of `A(L)`. The second is the
+  arithmetic input of the comparison below: `E¹(M₀) = μ_{p^∞}(L)^∨` with `σ, τ` acting through
+  `a⁻¹, b⁻¹`, which is NSW's `M₀ ≃ D(μ_{p^∞}(L)^∨)`.
+- **The Tate module** `TateModule p L K`: a finitely generated `ℤ_p[G]`-module `Y` of projective
+  dimension at most one, an extension `0 → A(L) → Y → I_G → 0` of the augmentation ideal by
+  `A(L)`. This is NSW's `Y = I_{G_K}/I_{G_L} I_{G_K}` ((5.6.5)); projective dimension at most one
+  is cohomological triviality, which is Tate's theorem for the fundamental class of the layer
+  carried to `A(L)` along the reciprocity identification of Step 1. Prove `nonempty_tateModule`.
+  *Needs:* CFT `ClassFormation`, `fundamentalClass`, `tateTheorem`; NSW (3.1.5); Step 1.
+- **The integral decomposition** `tateModule_linearEquiv`: `Y ≃ M₀ ⊕ ℤ_p[G]^N` as
+  `ℤ_p[G]`-modules, the isomorphism `(∗∗)` in the proof of NSW (7.4.1). This is the theorem the
+  cancellation lemmas are applied to: `exists_projective_prod_linearEquiv_of_torsion` gives
+  `Y ⊕ P ≃ M₀ ⊕ Q` with `P, Q` projective, because both modules have projective dimension at most
+  one and `p`-power torsion `μ_{p^∞}(L)`; the rational decomposition,
+  `tameFrameModule_tensorRat_linearEquiv` and `I_G ⊗ ℚ_p ⊕ ℚ_p ≃ ℚ_p[G]` give
+  `Y ⊗ ℚ_p ≃ (M₀ ⊕ ℤ_p[G]^N) ⊗ ℚ_p`; and `linearEquiv_prod_free_of_stable` concludes. It is an
+  integral statement about `A(L)`: `Y` is generated by `N+2` elements because `M₀` is a quotient
+  of `ℤ_p[G]²`, and no such count is visible rationally.
+- **The relation-module surjection** `exists_relationModule_surjective`: for every generating
+  family `g` of `G` of size `N+2`, `R^ab_{N+2}(p) = relationModule p G g` surjects
+  `G`-equivariantly onto `A(L)` with kernel free of rank one, the integral relation-module
+  decomposition `0 → ℤ_p[G] → R^ab_{N+2}(p) → A(L) → 0` of NSW (7.4.2)(i) at a finite layer. It
+  is derived from `tateModule_linearEquiv`: `ℤ_p[G]^{N+2} = ℤ_p[G]² ⊕ ℤ_p[G]^N` maps onto
+  `Y ≃ M₀ ⊕ ℤ_p[G]^N` over `I_G` with kernel `ℤ_p[G]`, and restricting to the kernels of the two
+  maps to `I_G` gives `β`.
+- **The `H²`-compatibility of `β`.** Prove that `β` induces an isomorphism
+  `H²(G, R^ab_{N+2}(p)) ≃ H²(G, A(L))`, both cyclic of order the `p`-part of `#G`; this is what
+  Step 5a uses to lift `β` to a homomorphism of group extensions. It is a statement about the
+  supplier's cohomology at universe `0` and is stated against `CFT.H` and `PC.infl` there, not
+  against a second cohomology carrier.
+  *Needs:* PC degree-two cohomology; CFT `fundamentalClass_generates`.
+
+The integral cancellation library over `ℤ_p[G]`, for a finite group `G`, is owned here; no
+supplier in the dependency list has integral representation theory over a complete discrete
+valuation ring, and the `RepresentationTheory` roadmap's Krull-Schmidt is for quiver
+representations over a field, which is a different theorem.
+
 - **Krull-Schmidt cancellation** `linearEquiv_of_prod_linearEquiv`: finitely generated
-  `ℤ_p[G]`-modules cancel, for `G` finite (NSW (5.6.10)(i)). ⚠ The corresponding statement over
-  `ℤ[G]` fails in general — Swan's stably free, non-free modules over integral group rings of
-  generalized quaternion groups — so completeness of `ℤ_p` is doing real work and the theorem may
-  not be weakened to a general Dedekind base.
-- **Detection of projectives** `linearEquiv_of_projective_of_reduction`: two finitely generated
-  projective `ℤ_p[G]`-modules with isomorphic reductions modulo `p` are isomorphic
-  (NSW (5.6.10)(iii)).
-- These three are owned here. No supplier in the dependency list has integral representation
-  theory over a complete discrete valuation ring; the `RepresentationTheory` roadmap's
-  Krull-Schmidt is for quiver representations over a field, which is a different theorem.
+  `ℤ_p[G]`-modules cancel (NSW (5.6.10)(i)). ⚠ The corresponding statement over `ℤ[G]` fails in
+  general — Swan's stably free, non-free modules over integral group rings of generalized
+  quaternion groups — so completeness of `ℤ_p` is doing real work and the theorem may not be
+  weakened to a general Dedekind base.
+- **Detection of projectives rationally** `linearEquiv_of_projective_of_tensorRat`: two finitely
+  generated projective `ℤ_p[G]`-modules with isomorphic rationalizations are isomorphic
+  (NSW (5.6.10)(ii), Swan). This is the lemma that upgrades a rational identity to an integral
+  one.
+- **Detection of projectives modulo `p`** `linearEquiv_of_projective_of_reduction`: two finitely
+  generated projective `ℤ_p[G]`-modules with isomorphic reductions modulo `p` are isomorphic
+  (NSW (5.6.10)(iii)), the companion of the rational detection.
+- **From a stable isomorphism to an isomorphism** `linearEquiv_prod_free_of_stable`
+  (NSW (5.6.11), finite-group form): `M ⊕ P ≃ N ⊕ Q` with `P, Q` projective and
+  `M ⊗ ℚ_p ≃ (N ⊕ ℤ_p[G]^m) ⊗ ℚ_p` give `M ≃ N ⊕ ℤ_p[G]^m`, by cancellation rationally, the
+  rational detection to identify `Q ≃ P ⊕ ℤ_p[G]^m`, and cancellation integrally.
+- **The stable class of a module of projective dimension one is its torsion**
+  `exists_projective_prod_linearEquiv_of_torsion` (NSW (5.4.11) with (5.6.9)): for finitely
+  generated `ℤ_p[G]`-modules presented as a free module modulo a projective kernel,
+  `E¹(M) = Ext¹_{ℤ_p[G]}(M, ℤ_p[G])` is the Pontryagin dual of the `p`-power torsion of `M`, and on
+  such modules `E¹` is the transpose `D`, a duality on the homotopy category; so isomorphic
+  `p`-power torsion submodules give `M ⊕ P ≃ N ⊕ Q` with `P, Q` finitely generated projective.
+
+The chain of Step 3 consumes `exists_projective_prod_linearEquiv_of_torsion` and
+`linearEquiv_prod_free_of_stable`; the latter is proved from `linearEquiv_of_prod_linearEquiv`
+and `linearEquiv_of_projective_of_tensorRat`. The mod-`p` detection is part of the same library.
 
 ### Step 4: the tame frame and the relative Frattini reduction
 
@@ -488,8 +578,14 @@ The rational decomposition is the input; these are the theorems that turn it int
   `σ τ σ⁻¹ τ^{-q}` on the free profinite group of rank `2` — to prove
   `isTopologicallyFinitelyGenerated_tameQuotient` and
   `topologicalGeneratorRankNat_tameQuotient_le_two`. This is the `2` of `N+2`.
+- **The frame on a finite tame layer** `exists_tameFrame_quotient`: every finite quotient `G_K/U`
+  through which wild inertia dies is generated by the images `σ, τ` of the frame, and `τ`, the
+  image of the tame inertia generator, has order prime to `p`. These are the `σ, τ` and the
+  hypothesis `¬ p ∣ orderOf τ` that `exists_tameFrame_exponents` consumes at the layer
+  `L = fixed field of P_K U`, under the identification of `Gal(L/K)` with `G_K/(P_K U)` through
+  `IntermediateField.fixedField` and `IntermediateField.restrictNormalHom_ker`.
   *Needs:* LFR `tameQuotientPresentation`, `wildInertia`, `wildInertia_isProP`; PPG free profinite
-  group and rank API.
+  group and rank API; M infinite Galois correspondence.
 - **The relative Frattini reduction** `topologicalClosure_eq_top_of_sup_wildInertiaCommutator`: a
   set that generates `G_K` modulo `⁅P_K, P_K⁆` already generates `G_K`, because wild inertia is
   pro-`p` and `⁅P_K, P_K⁆ ≤ Φ(P_K)` (NSW (3.9.1), the Frattini argument). Its proof consumes
@@ -498,14 +594,39 @@ The rational decomposition is the input; these are the theorems that turn it int
 
 ### Step 5: from finite quotients to the profinite group
 
-- `exists_finset_card_generating_quotient`: every finite continuous quotient of `G_K` through
-  which `⁅P_K, P_K⁆` dies is generated by `N+2` elements. This is where Steps 1-3 are used: two
-  generators come from the tame frame and `N` from the free `ℤ_p[Gal(L/K)]`-summand that
-  cancellation extracts from the rational decomposition, the extra summand being absorbed by the
-  presentation's relation module.
-- `exists_finset_generating_mod_wildInertiaCommutator`: those compatible finite tuples assemble,
-  by compactness over the finite tamely ramified layers, into `N+2` elements of `G_K` generating
-  it modulo `⁅P_K, P_K⁆`. Step 4 then removes the commutator.
+Generation is stated for **tuples** `Fin (N+2) → G`, in which repetitions are allowed, never for
+finsets of cardinality exactly `N+2`. ⚠ The finset form is false: for `U = G_K`, which is open,
+normal and contains `⁅P_K, P_K⁆`, the quotient is trivial and has no finset of size `N+2 ≥ 2`.
+`not_forall_exists_finset_card_generating_quotient` records this witness as a closed proof.
+
+- **The finite level** `exists_generating_tuple_quotient`: every finite continuous quotient
+  `G_K/U` through which `⁅P_K, P_K⁆` dies is generated by an `(N+2)`-tuple. This is where Step 3
+  is used, as in the proof of NSW (7.4.1). With `L` the fixed field of `P_K U`, a finite tamely
+  ramified Galois layer with group `G_K/(P_K U)`: `exists_tameFrame_quotient` supplies `σ, τ`;
+  `exists_tameFrame_exponents` the sharp exponents; `nonempty_tateModule` and
+  `tateModule_linearEquiv` the decomposition `Y ≃ M₀ ⊕ ℤ_p[G]^N`;
+  `exists_relationModule_surjective`, for a generating family of size `N+2` extending `σ, τ`, the
+  surjection `β : R^ab_{N+2}(p) ↠ A(L)` with kernel `ℤ_p[G]`. Because `β` induces an isomorphism on
+  `H²(G, -)` and the classes of the two extensions generate their `H²` — this is where the strict
+  cohomological dimension `2` of `G_K` and of the free profinite group of rank `N+2` enters,
+  through NSW (3.6.4)(iii) — `β` lifts to a surjective homomorphism of group extensions
+  `F_{N+2}/⁅R, R⁆R(p) ↠ G_K/⁅G_L, G_L⁆G_L(p)`; `G_K/U` is a quotient of the
+  target because `G_L/U` is an abelian `p`-group, so the images of the `N+2` free generators
+  generate it.
+- **The tuple sets** `generatingTuples p K U`: for an open normal `U`, the set `X_U` of
+  `(N+2)`-tuples of `G_K` whose images generate `G_K/U`. Prove `isClosed_generatingTuples`
+  (membership depends only on the image in the discrete quotient `(G_K/U)^{N+2}`),
+  `generatingTuples_nonempty` for `U ⊇ ⁅P_K, P_K⁆` (lift the tuple of the finite level), and
+  `generatingTuples_antitone` (`X_{U'} ⊆ X_U` for `U' ≤ U`).
+- **Compactness** `iInter_generatingTuples_nonempty`: the closed sets `X_U`, over the admissible
+  `U`, have the finite intersection property — finitely many admissible `U` are replaced by their
+  intersection, again open, normal and containing `⁅P_K, P_K⁆` — and `G_K^{N+2}` is compact, so
+  their intersection is nonempty. One tuple works in every quotient; no compatibility between
+  independently chosen generating sets is needed.
+- **Passage to the profinite group** `exists_tuple_generating_mod_wildInertiaCommutator`: a tuple
+  in every `X_U` generates `G_K` modulo `⁅P_K, P_K⁆`, since the closed subgroup it generates
+  together with `⁅P_K, P_K⁆` maps onto every finite quotient of `G_K/⁅P_K, P_K⁆`. Step 4 then
+  removes the commutator.
 - `isTopologicallyFinitelyGenerated_absoluteGaloisGroup` follows. It is named separately so the
   natural-valued rank accessor is never applied before its hypothesis is available.
 
@@ -521,8 +642,8 @@ d(G_K) = [K : ℚ_p] + 2.
 Its Lean form says that `N+2` is the least cardinality of a finite subset whose generated subgroup
 is dense, and it is the conjunction of two separately named theorems.
 
-- **Upper bound** `topologicalGeneratorRankNat_absoluteGaloisGroup_le`, from Steps 4 and 5, which
-  is the relation-module count of NSW (7.4.1).
+- **Upper bound** `topologicalGeneratorRankNat_absoluteGaloisGroup_le`, from the tuple of Step 5
+  and the Frattini reduction of Step 4, which is the generator count of NSW (7.4.1).
 - **Lower bound** `le_topologicalGeneratorRankNat_absoluteGaloisGroup`:
   - if `μ_p ⊆ K`, use the continuous surjection `G_K -> G_K(p)` and L3;
   - if `μ_p ⊄ K`, put `L = K(μ_p)` and `m=[L:K]`. Then `m | p-1` and `m ≥ 2`, L3 gives
@@ -568,9 +689,11 @@ then feeds two branches: L4–L6, the maximal pro-`p` classification, and L7, th
 L8 joins those arithmetic computations at the end. Within L6 the `q != 2`, odd dyadic, and even
 dyadic presentation cases can be developed in parallel after L5.
 
-Inside L7, Steps 1–2 (the lattice and its torsion) and Step 3's cancellation theorems are
-independent of Step 4 (the tame frame and the Frattini reduction) and can be developed in
-parallel; Step 5 needs all of them, and Step 6 needs Step 5 together with L3.
+Inside L7, Steps 1–2 (the lattice and its torsion), the integral cancellation library of Step 3
+and Step 4 (the tame frame and the Frattini reduction) are independent of one another and can be
+developed in parallel; the arithmetic part of Step 3 (sharp exponents, the Tate module, its
+decomposition and the relation-module surjection) needs Steps 1–2 and the cancellation library;
+Step 5 needs Steps 3 and 4; and Step 6 needs Step 5 together with L3.
 
 ## Acceptance checklist
 
@@ -585,6 +708,13 @@ parallel; Step 5 needs all of them, and Step 6 needs Step 5 together with L3.
 - `d(G_K)` is `N+2` in both roots-of-unity cases; `N+1` appears only for `G_K(p)`.
 - The upper bound for `d(G_K)` rests on the integral chain of L7 Steps 1–5. No theorem derives a
   generator count from a rational `ℚ_p[G]`-isomorphism alone.
+- The torsion of `A(L)` is a `ℤ_p`-submodule and its free quotient is a `ℤ_p`-linear isomorphism
+  with `ℤ_p^{[L:ℚ_p]+1}`, not an additive one.
+- The integral decomposition `Y ≃ M₀ ⊕ ℤ_p[G]^N` of the Tate module and the relation-module
+  surjection `R^ab_{N+2}(p) ↠ A(L)` are named theorems, and the finite-level generation theorem
+  consumes them.
+- Generation at finite levels and in the limit is stated for tuples `Fin (N+2) → G`; the
+  finset-cardinality form is refuted by a closed proof.
 - The cyclotomic formula contains the field norm for general `K` and an inverse for the
   arithmetic Artin convention.
 - The five branch cases are Lean predicates with a proved disjointness-and-exhaustiveness theorem,
@@ -601,9 +731,15 @@ parallel; Step 5 needs all of them, and Step 6 needs Step 5 together with L3.
   `ℚ₂(√-2)` example.
 - J. Neukirch, A. Schmidt, K. Wingberg, *Cohomology of Number Fields*, 2nd ed., VII
   (7.5.11) for the free/Demushkin dichotomy and (7.5.12) for explicit presentations; VII
-  (7.4.1) for the full generator bound, with (7.4.4)(i) for the rational decomposition of `A(K)`,
-  V (5.6.10) and (5.6.11) for the integral cancellation that upgrades it, and III (3.9.1) for the
-  Frattini argument used along wild inertia.
+  (7.4.1), whose proof is the chain of Layer 7 Steps 3–5 (the tame-frame module, the Tate module
+  `Y`, the isomorphism `Y ≃ M₀ ⊕ ℤ_p[G]^N`, the surjection `β` and its lift to group extensions),
+  (7.4.2)(i) for the relation-module sequence `0 → ℤ_p[G] → R^ab(p) → A(L) → 0`, and (7.4.4)(i)
+  for the rational decomposition of `A(L)`; V (5.6.5) and (5.6.6) for the Tate module and
+  Lyndon's sequence, (5.6.9) for `E¹(Y) = μ_{p^∞}(L)^∨`, (5.4.2) and (5.4.11) for homotopy
+  equivalence and the transpose, (5.6.10)(i)–(iii) and (5.6.11) for the integral cancellation
+  that upgrades the rational decomposition; III (3.1.5) for Tate's theorem behind the
+  cohomological triviality of `Y`, (3.6.4)(iii) for the lift of `β` to group extensions, and
+  (3.9.1) for the Frattini argument used along wild inertia.
 - K. Iwasawa, *On Galois groups of local fields*, Trans. Amer. Math. Soc. 80 (1955), 448–469, for
   the Galois module structure of the principal units, the source of the rational decomposition.
 - I. R. Shafarevich, *On p-extensions*, Mat. Sb. 20 (1947), 351–363; English translation,
