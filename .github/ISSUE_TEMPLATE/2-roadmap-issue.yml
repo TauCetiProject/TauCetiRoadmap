@@ -46,6 +46,7 @@ body:
         - PolynomialGaloisGroups
         - ProfiniteCohomology
         - ProfiniteProPGroups
+        - QuadraticFormInvariants
         - ReductiveGroups
         - RepresentationTheory
         - StandardDistributions
