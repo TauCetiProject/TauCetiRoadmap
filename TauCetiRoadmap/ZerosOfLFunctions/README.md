@@ -20,7 +20,7 @@ sign and multiplicity. What is missing is the growth theory: nothing in Mathlib 
 `Complex.Gamma` on a vertical strip, nothing defines the order of an entire function, and
 there is no Hadamard factorization. The contour theory is missing too — no argument
 principle, no winding number, no residue theorem — but that is the
-[contour integration roadmap](../ContourIntegration/README.md)'s to build, and Layers 7 and 8
+[contour integration roadmap](../../Completed/ContourIntegration/README.md)'s to build, and Layers 7 and 8
 here consume it rather than repeating it.
 
 This roadmap builds the zeros program on top of the completed L-functions produced by the
@@ -65,7 +65,7 @@ their transport to an abelian extension along a reciprocity hypothesis that
   numerical fact about a particular zero, and no acceptance criterion below asks for one.
 - The residue calculus itself: winding numbers, residues, the residue theorem, and the
   homology form of Cauchy's theorem. Those are the
-  [contour integration roadmap](../ContourIntegration/README.md)'s. Layer 7 specializes them
+  [contour integration roadmap](../../Completed/ContourIntegration/README.md)'s. Layer 7 specializes them
   to rectangles and identifies the resulting count with Layer 4's divisor sum; nothing here
   re-derives them.
 - Weierstrass factorization at genus above zero: the elementary factors `E_p` for `p ≥ 2`,
@@ -375,7 +375,7 @@ principle, no winding number, no Rouché, no residue theorem, and no continuous 
 (`Complex.integral_boundary_rect_eq_zero_of_differentiableOn`), the Cauchy integral formula
 for circles, and Jensen's formula, which gives inequalities for a count rather than the exact
 count Layer 7 needs. That material is the
-[contour integration roadmap](../ContourIntegration/README.md)'s, whose Layers 0–3 build the
+[contour integration roadmap](../../Completed/ContourIntegration/README.md)'s, whose Layers 0–3 build the
 winding number of a closed piecewise-`C¹` curve, residues, the homology form of Cauchy's
 theorem, and the argument principle **for a circle**, and whose Layer 4 proves the general
 null-homologous-cycle residue theorem `hungerbuhlerWasem_residueTheorem`. ⚠ It is that Layer-4
@@ -1079,7 +1079,7 @@ von Mangoldt coefficients, and the `3-4-1` inequality, none of which the model c
 ⚠ This is where the count becomes exact, and an exact count is not a Jensen bound: Layer 4
 gives inequalities, and equality needs the argument principle. Mathlib has none of the contour
 machinery, and this roadmap does not build it. The
-[contour integration roadmap](../ContourIntegration/README.md) does, and the theorem consumed
+[contour integration roadmap](../../Completed/ContourIntegration/README.md) does, and the theorem consumed
 here is its Layer 4 summit, not its Layer 2: its pinned `argumentPrinciple` and
 `classicalResidueTheorem_circle` are stated for a **circle**, and the general null-homologous
 cycle is exactly what `hungerbuhlerWasem_residueTheorem` provides. Items 1–3 build the
@@ -1775,5 +1775,5 @@ formalizer should look up.
   zeros these are.
 - The [L-functions roadmap](../LFunctions/README.md), which constructs everything this
   roadmap takes as given, and whose conventions table this one extends rather than restates.
-- The [contour integration roadmap](../ContourIntegration/README.md), which builds the residue
+- The [contour integration roadmap](../../Completed/ContourIntegration/README.md), which builds the residue
   calculus and the argument principle that Layers 7 and 8 consume.
