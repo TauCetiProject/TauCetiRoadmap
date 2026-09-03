@@ -35,8 +35,13 @@ axioms, and `ClassFormation` discharges them one by one.
 The layer order is the dependency order and there are no forward references. In particular the
 local Brauer group and its invariant (Layer 5) precede the local class formation (Layer 6) that
 consumes them; local existence (Layer 8) follows the Kummer theory it uses; the local Weil group
-(Layer 9) follows local existence; and the sum-of-local-invariants map (Layer 10) precedes the
-global class formation (Layer 11) whose invariant it *is*.
+(Layer 9) follows local existence, and its reciprocity isomorphism is stated only for finite
+extensions of `ℚ_p`, where `injective_artinMap` is available; and the sum-of-local-invariants map
+(Layer 10) precedes the global class formation (Layer 11) whose invariant it *is*. That invariant
+is defined on every idele-class layer class by inflating to a refinement where the class lifts to
+the idele layer: the lift does not exist at the given layer in general
+(`surjective_ideleToClassH2_of_isCyclic` is the cyclic case), so the obstruction, the refinement
+that kills it, and the independence of the value from every choice are separate targets.
 
 Both arithmetic columns end at a class-field **correspondence**, not at an existence statement.
 `ClassFormation.normSubgroup_maximalAbelianLayer` — the norm limitation theorem — says a layer and
@@ -487,6 +492,14 @@ theorem relativeDegree_trans {newer : NormalLayer G} (S : LayerRefinement old ne
 theorem cohomologyInfl_trans {newer : NormalLayer G} (S : LayerRefinement old new)
     (T : LayerRefinement new newer) (F : Formation G) (n : ℕ) (x : old.H F n) :
     (S.trans T).cohomologyInfl F n x = T.cohomologyInfl F n (S.cohomologyInfl F n x) :=
+  sorry
+
+/-- Two refinements of a layer have a common refinement: the compositum, whose top subgroup is the
+intersection of the two top subgroups. This is what lets a construction made at "some refinement"
+be compared across refinements. -/
+theorem exists_commonRefinement {new₁ new₂ : NormalLayer G} (_T₁ : LayerRefinement old new₁)
+    (_T₂ : LayerRefinement old new₂) :
+    ∃ newer : NormalLayer G, LayerRefinement new₁ newer ∧ LayerRefinement new₂ newer :=
   sorry
 
 end LayerRefinement
@@ -1350,7 +1363,15 @@ nontrivial automorphism exactly when the quadratic symbol `(a,d)_K` is `-1` — 
 `L` over `K`. A bare hypothesis `∃ s : L, s * s = algebraMap K L d` does **not** pin `L`: it holds
 for every extension of `K` that happens to contain a square root of `d`. The biquadratic field
 `L = K(√d, √e)` satisfies it, has degree four, and has three nontrivial automorphisms, none of
-which is determined by `(a,d)_K`; with only the existential hypothesis the statement is false. -/
+which is determined by `(a,d)_K`; with only the existential hypothesis the statement is false.
+
+⚠ The pairing is the named `kummerCupPairing ζ hζ` at the primitive square root of unity `ζ`,
+which is `-1`, and never a variable `P : TopPairing …`: the zero pairing has that type and makes
+every `localSymbol` vanish, which contradicts the left-hand side for any `a` that is not a norm
+from `L`. At exponent two the coordinate `tr` is harmless, because `ZMod 2` has a unique
+automorphism, but the pairing is data. This is the same discipline as
+`localSymbol_kummerClass_steinberg` and `tateDualityPairing_perfect_mixed`, which are also stated
+for named pairings only. -/
 theorem localArtinMap_quadratic_eq_hilbertSymbol
     [Algebra K L] [Module.Finite K L] [IsGalois K L]
     (iota : L →ₐ[K] SeparableClosure K)
@@ -1359,10 +1380,10 @@ theorem localArtinMap_quadratic_eq_hilbertSymbol
     (hgen : IntermediateField.adjoin K ({s} : Set L) = ⊤)
     (hdegree : Module.finrank K L = 2)
     (τ : L ≃ₐ[K] L) (hτ : τ ≠ 1) (hτs : τ s = -s) (a : Kˣ)
-    (P : ProfiniteCohomology.TopPairing (muNRep 2 K) (muNRep 2 K) (muNRep 2 K))
+    (ζ : K) (hζ : IsPrimitiveRoot ζ 2)
     (tr : H 2 K 2 (muNRep 2 K) ≃+ ZMod 2) :
     localArtinMap K L iota (Additive.ofMul a) = Additive.ofMul (Abelianization.of τ) ↔
-      localSymbol P tr (kummerClass 2 K a) (kummerClass 2 K d) = 1 :=
+      localSymbol (kummerCupPairing ζ hζ) tr (kummerClass 2 K a) (kummerClass 2 K d) = 1 :=
   sorry
 
 /-- The local cyclotomic test: for `p ∤ m`, `ℚ_p(ζ_m)/ℚ_p` is unramified, and the Artin symbol of
@@ -1815,6 +1836,34 @@ theorem localClassField_index (p : ℕ) [Fact p.Prime]
       (NormalLayer.ofOpenNormal (localClassField K p N).1).degree :=
   (localClassField_normSubgroup K p N) ▸ index_localNormSubgroup K (localClassField K p N).2
 
+/-- **The kernel of the absolute local Artin map is the intersection of all norm subgroups.** This
+holds for every nonarchimedean local field: it is the inverse-limit description of `artinMap` read
+through `ClassFormation.ker_artinMap` at every finite layer, and it says nothing about whether
+that intersection is trivial. -/
+theorem ker_artinMap_eq_iInf :
+    (artinMap K).ker =
+      ⨅ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+        localNormSubgroup K V :=
+  sorry
+
+/-- **Injectivity of the absolute local Artin map, for finite extensions of `ℚ_p`.** By
+`ker_artinMap_eq_iInf` it says that the norm subgroups of the finite abelian extensions intersect
+trivially, and it follows from `localAbelianExistence`: every open finite-index subgroup of `Kˣ` is
+a norm subgroup, and the open finite-index subgroups of `Kˣ` intersect trivially.
+
+⚠ The `ℚ_p`-algebra hypothesis is load-bearing, and the statement is **not** made in equal
+characteristic. There the norm subgroups this roadmap constructs are those of the prime-to-`p`
+abelian extensions (`localAbelianExistence_primeToResidueCharacteristic`), and every one of them
+contains the pro-`p` group of principal units `1 + 𝓂[K]`, which is nontrivial: a finite quotient
+of order prime to `p` kills a pro-`p` group. So the intersection of the norm subgroups the included
+theory knows is not trivial, and injectivity for `𝔽_q((t))` needs the Artin–Schreier–Witt theory
+that is outside this roadmap. `localWeilArtinEquiv` consumes this theorem and carries the same
+hypotheses. -/
+theorem injective_artinMap (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] :
+    Function.Injective (artinMap K) :=
+  sorry
+
 /-- The concrete `ℚ₂(ζ₅)/ℚ₂` test: unramified of degree four, and `2` maps to `ζ₅ ↦ ζ₅²`.
 Replacing arithmetic Frobenius by geometric Frobenius would give the exponent `3`. -/
 theorem localArtinMap_Q2_zeta5 [ValuativeRel ℚ_[2]] [IsNonarchimedeanLocalField ℚ_[2]]
@@ -1833,8 +1882,11 @@ theorem localArtinMap_Q2_zeta5 [ValuativeRel ℚ_[2]] [IsNonarchimedeanLocalFiel
 A layer of its own, and not a corollary of reciprocity: the Weil group has a carrier, a topology
 that is **not** the one induced from `G_K`, functoriality in finite extensions, an exact sequence
 with inertia, and only then the comparison of its topological abelianization with `Kˣ`. It sits
-after local existence because `Kˣ ≃ W_K^ab` needs the injectivity of `artinMap`, i.e. that the
-intersection of the norm groups is trivial, which is a consequence of `localExistence`. -/
+after local existence because `Kˣ ≃ W_K^ab` needs `injective_artinMap`, i.e. that the intersection
+of the norm subgroups is trivial, which Layer 8 obtains from `localAbelianExistence` for finite
+extensions of `ℚ_p` only. The carrier, the topology, functoriality and the inertia sequence below
+are stated for every nonarchimedean local field; the reciprocity isomorphism and the two statements
+derived from it carry the mixed-characteristic hypotheses of `injective_artinMap`. -/
 
 /-- **The carrier.** The local Weil group as a subgroup of `G_K`: the preimage of the powers of
 arithmetic Frobenius under `G_K → Gal(K^ur/K) ≅ Ẑ`, that is, the preimage of `ℤ ⊆ Ẑ`. The
@@ -2030,26 +2082,39 @@ theorem range_weilTransfer_eq_ker_weilRestrict [Algebra K L] [Module.Finite K L]
     (weilTransfer K L iota).range = (weilRestrict K L iota).ker :=
   sorry
 
-/-- **Frozen public name.** The Weil-group form of local reciprocity. Unlike `artinMap` it is an
-isomorphism, and a topological one onto the **topological** abelianization
-`W_K / closure ⁅W_K, W_K⁆`.
+/-- **Frozen public name.** The Weil-group form of local reciprocity, for a finite extension of
+`ℚ_p`. Unlike `artinMap` it is an isomorphism, and a topological one onto the **topological**
+abelianization `W_K / closure ⁅W_K, W_K⁆`. Its injectivity is `injective_artinMap` and its
+surjectivity is `localAbelianExistence`, which is why it carries their mixed-characteristic
+hypotheses.
 ⚠ The algebraic `Abelianization (WeilGroup K)` is the wrong target: the commutator subgroup of
-`W_K` need not be closed, and the algebraic quotient is not `Kˣ`. -/
-noncomputable def localWeilArtinEquiv :
+`W_K` need not be closed, and the algebraic quotient is not `Kˣ`.
+⚠ There is no equal-characteristic form. For `𝔽_q((t))` both `Kˣ` and `W_K^ab` exist, but the map
+between them is injective only if the norm subgroups of *all* finite abelian extensions intersect
+trivially, and the prime-to-`p` ones this roadmap constructs all contain the principal units
+(`injective_artinMap`); the `p`-primary extensions come from the excluded Artin–Schreier–Witt
+theory. -/
+noncomputable def localWeilArtinEquiv (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] :
     Kˣ ≃ₜ* TopologicalAbelianization (WeilGroup K) :=
   sorry
 
 /-- The Weil-group reciprocity map recovers `artinMap` after passing to `G_K^ab`. -/
-theorem localWeilArtinEquiv_compat (x : Kˣ) (w : WeilGroup K)
+theorem localWeilArtinEquiv_compat (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] (x : Kˣ) (w : WeilGroup K)
     (hw : (QuotientGroup.mk w : TopologicalAbelianization (WeilGroup K)) =
-      localWeilArtinEquiv K x) :
+      localWeilArtinEquiv K p x) :
     (QuotientGroup.mk (weilToAbsolute K w) :
       Field.absoluteGaloisGroupAbelianization K) = artinMap K x :=
   sorry
 
 /-- The image of `Kˣ` under `artinMap` is the image of the Weil group: dense but not all of
-`G_K^ab`. -/
-theorem mem_range_artinMap_iff (y : Field.absoluteGaloisGroupAbelianization K) :
+`G_K^ab`. The inclusion of the image of `Kˣ` in the image of `W_K` is the compatibility above; the
+reverse inclusion is the surjectivity half of `localWeilArtinEquiv`, so the statement carries the
+same hypotheses. -/
+theorem mem_range_artinMap_iff (p : ℕ) [Fact p.Prime]
+    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
+    (y : Field.absoluteGaloisGroupAbelianization K) :
     y ∈ (artinMap K).range ↔
       ∃ w : WeilGroup K,
         (QuotientGroup.mk (weilToAbsolute K w) :
@@ -2074,6 +2139,14 @@ noncomputable def globalFormation : Formation (ProfiniteCohomology.AbsoluteGaloi
 sum of local invariants is defined on its layers, where `H²` splits as a direct sum of local Brauer
 groups, and only then descends to the idele-class layers. -/
 noncomputable def ideleFormation : Formation (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+  sorry
+
+/-- The formation assembled from the multiplicative groups `Lˣ` of the finite separable extensions
+themselves, the first term of `1 → Lˣ → I_L → C_L → 1`. Its finite-layer `H²` is the relative
+Brauer group `Br(L/K)`, and its `H³` carries the obstruction to lifting an idele-class layer class
+to the idele layer. -/
+noncomputable def multiplicativeFormation :
+    Formation (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
   sorry
 
 /-! ### The global Brauer sequence and the sum of local invariants
@@ -2187,11 +2260,59 @@ noncomputable def ideleToClassH2 (Lay : NormalLayer (ProfiniteCohomology.Absolut
     Lay.H (ideleFormation K) 2 →+ Lay.H (globalFormation K) 2 :=
   sorry
 
-/-- Every idele-class layer class lifts to the idele layer. This uses `H¹(Gal(L/K), C_L) = 0` and
-the fundamental inequalities, and it is what makes the sum of local invariants descend. -/
-theorem surjective_ideleToClassH2
+/-- `H¹` of every idele-class layer vanishes (Milne, *Class Field Theory*, VII, Theorem 5.1(b)).
+It is the input from which inflation `H²(Gal(L/K), C_L) → H²(Gal(M/K), C_M)` is injective and the
+inflation–restriction sequence in degree two is exact, both used below. -/
+theorem subsingleton_h1_globalFormation
     (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    Subsingleton (Lay.H (globalFormation K) 1) :=
+  sorry
+
+/-- **The first fundamental inequality**: for a cyclic layer the norm index is at least the degree
+(Milne VII §4, from the Herbrand quotient of the idele classes). -/
+theorem degree_le_card_normQuotient_of_isCyclic
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) [IsCyclic Lay.Gal] :
+    Lay.degree ≤ Nat.card (Lay.NormQuotient (globalFormation K)) :=
+  sorry
+
+/-- **The second fundamental inequality**, in its `H²` form: the order of `H²(Gal(L/K), C_L)`
+divides `[L:K]` (Milne VII, Theorem 5.1(c)). Together with a class of order `[L:K]` this is what
+identifies the group. -/
+theorem card_H2_globalFormation_dvd_degree
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    Nat.card (Lay.H (globalFormation K) 2) ∣ Lay.degree :=
+  sorry
+
+/-- **The idele-class layer class does not lift in general.** Every class of
+`H²(Gal(L/K), I_L)` maps to `H²(Gal(L/K), C_L)`, but the map is **not** surjective for an
+arbitrary layer: from `1 → Lˣ → I_L → C_L → 1` the obstruction to lifting lies in
+`H³(Gal(L/K), Lˣ)`, and `H¹(Gal(L/K), C_L) = 0` says nothing about it.
+
+⚠ Countermodel: `L = ℚ(√13, √17)`. Every decomposition group of this biquadratic extension has
+order at most two — the decomposition groups at unramified primes are cyclic, `13` splits in
+`ℚ(√17)` and `17` splits in `ℚ(√13)` by quadratic reciprocity, and the field is totally real — so
+`H²(Gal(L/ℚ), I_L) = ⨁_v Br(L_w/ℚ_v)` is killed by `2`, and its image in the cyclic group
+`H²(Gal(L/ℚ), C_L)` of order `4` has order at most `2`. In general the image is the subgroup of
+order `lcm_v [L_w : K_v]`, which is everything only when some decomposition group is all of
+`Gal(L/K)`. The cyclic case is the one where the lift always exists: there
+`H³(Gal(L/K), Lˣ) ≃ H¹(Gal(L/K), Lˣ) = 0` by periodicity and Hilbert 90. -/
+theorem surjective_ideleToClassH2_of_isCyclic
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) [IsCyclic Lay.Gal] :
     Function.Surjective (ideleToClassH2 K Lay) :=
+  sorry
+
+/-- **The obstruction to lifting**: the connecting homomorphism
+`H²(Gal(L/K), C_L) → H³(Gal(L/K), Lˣ)` of `1 → Lˣ → I_L → C_L → 1`. -/
+noncomputable def classToMultiplicativeH3
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    Lay.H (globalFormation K) 2 →+ Lay.H (multiplicativeFormation K) 3 :=
+  sorry
+
+/-- **Exactness at the idele-class layer**: a class lifts to the idele layer exactly when its
+obstruction vanishes. This is the precise form of the failure of surjectivity above. -/
+theorem range_ideleToClassH2
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (ideleToClassH2 K Lay).range = (classToMultiplicativeH3 K Lay).ker :=
   sorry
 
 /-- The local component of an idele-layer class at a finite place, in invariant coordinates. -/
@@ -2225,25 +2346,120 @@ noncomputable def ideleSumLocalInv
   (∑ v ∈ ideleSupport K Lay x, ideleLocalInvAt K Lay v x) +
     ∑ w : NumberField.InfinitePlace K, ideleInfiniteInvAt K Lay w x
 
-/-- **The global invariant of a finite layer**, the datum `globalClassFormation` is built from. -/
+/-- The sum of local invariants is inflation-invariant on idele layers: each local invariant is,
+which is the fifth class-formation axiom at every completion. -/
+theorem ideleSumLocalInv_infl
+    {Lay Lay' : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (T : LayerRefinement Lay Lay') (x : Lay.H (ideleFormation K) 2) :
+    ideleSumLocalInv K Lay' (T.cohomologyInfl (ideleFormation K) 2 x) =
+      ideleSumLocalInv K Lay x :=
+  sorry
+
+/-! ### Refinement: where an idele-class layer class lifts
+
+`ideleToClassH2` is not surjective at a given layer, so `globalInv` cannot be defined by descent
+alone. The classical construction inflates to a larger layer where the obstruction dies, lifts
+there, and checks that the value does not depend on the refinement or on the lift. Each of those
+three steps is a target. -/
+
+/-- **The cyclotomic input**: some refinement of every layer carries an idele-layer class of
+invariant `1/[L:K]`. Adjoin a cyclic cyclotomic extension `K'/K` one of whose local degrees is
+divisible by `[L:K]` (Milne VII, Lemma 7.3) and take a class supported at that place; the
+refinement is the layer of `L·K'/K`. -/
+theorem exists_refinement_ideleSumLocalInv_eq
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    ∃ (Lay' : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+      (_ : LayerRefinement Lay Lay') (y : Lay'.H (ideleFormation K) 2),
+      ideleSumLocalInv K Lay' y = fundamentalInvariant Lay.degree :=
+  sorry
+
+/-- **Killing the obstruction.** Every idele-class layer class lifts to the idele layer after
+inflation to a suitable refinement — one refinement for the whole group. Proof: with `Lay'` and
+`y` from `exists_refinement_ideleSumLocalInv_eq`, the image `ȳ` of `y` in `H²(Gal(M/K), C_M)`
+restricts to zero in `H²(Gal(M/L), C_M)`, because the restricted idele class has invariant
+`[L:K] · 1/[L:K] = 0` and `sumLocalInv_eq_zero`, `exists_br_of_sum_eq_zero` and
+`eq_zero_of_localInv_eq_zero` make the sum of local invariants injective on the image of the idele
+layer; by `subsingleton_h1_globalFormation` the kernel of restriction is the inflation of
+`H²(Gal(L/K), C_L)`, so `ȳ` is inflated from a class of order `[L:K]` there; by
+`card_H2_globalFormation_dvd_degree` that class generates, so the inflation of every class lies in
+the image of the idele layer. The same argument gives `globalInv_injective` and `globalInv_range`
+(Milne VIII §4, Theorem 4.7). -/
+theorem exists_refinement_mem_range_ideleToClassH2
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    ∃ (Lay' : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+      (T : LayerRefinement Lay Lay'), ∀ x : Lay.H (globalFormation K) 2,
+      T.cohomologyInfl (globalFormation K) 2 x ∈ (ideleToClassH2 K Lay').range :=
+  sorry
+
+/-- **Independence of the lift and of the refinement.** Two idele-layer lifts of the inflations of
+one idele-class class, to two refinements, have the same sum of local invariants. Pass to a common
+refinement (`LayerRefinement.exists_commonRefinement`), where the two inflated lifts differ by the
+image of `H²(Gal(M/K), Mˣ)` by `range_ideleToClassH2` and the injectivity of inflation, and that
+image has invariant sum zero (`sumLocalInv_eq_zero`); the sums themselves are unchanged by
+inflation (`ideleSumLocalInv_infl`). -/
+theorem ideleSumLocalInv_eq_of_ideleToClassH2_eq
+    {Lay Lay₁ Lay₂ : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (T₁ : LayerRefinement Lay Lay₁) (T₂ : LayerRefinement Lay Lay₂)
+    (x : Lay.H (globalFormation K) 2)
+    (y₁ : Lay₁.H (ideleFormation K) 2) (y₂ : Lay₂.H (ideleFormation K) 2)
+    (h₁ : ideleToClassH2 K Lay₁ y₁ = T₁.cohomologyInfl (globalFormation K) 2 x)
+    (h₂ : ideleToClassH2 K Lay₂ y₂ = T₂.cohomologyInfl (globalFormation K) 2 x) :
+    ideleSumLocalInv K Lay₁ y₁ = ideleSumLocalInv K Lay₂ y₂ :=
+  sorry
+
+/-- **The global invariant of a finite layer**, the datum `globalClassFormation` is built from. On
+a class that lifts to the idele layer it is the sum of local invariants of a lift; on an arbitrary
+class it is the value at any refinement where the inflated class lifts
+(`exists_refinement_mem_range_ideleToClassH2`), which `ideleSumLocalInv_eq_of_ideleToClassH2_eq`
+makes independent of the refinement and of the lift. It is pinned by the two equations
+`globalInv_ideleToClassH2` and `globalInv_infl`, and `globalInv_unique` says those determine it. -/
 noncomputable def globalInv (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
     Lay.H (globalFormation K) 2 →+ RatModInt :=
   sorry
 
-/-- **The sum formula, as the definition of the global invariant.** The invariant of an
-idele-class layer class is the sum of the local invariants of any idele-layer lift; this is
-well defined because the sum of local invariants kills the image of `H²(Gal(L/K), Lˣ)`, i.e.
-because of `sumLocalInv_eq_zero`. -/
+/-- **The sum formula, the first defining equation of the global invariant.** The invariant of a
+class that lifts to the idele layer is the sum of the local invariants of any lift; this is well
+defined because the sum of local invariants kills the image of `H²(Gal(L/K), Lˣ)`, i.e. because of
+`sumLocalInv_eq_zero`. -/
 theorem globalInv_ideleToClassH2
     (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
     (x : Lay.H (ideleFormation K) 2) :
     globalInv K Lay (ideleToClassH2 K Lay x) = ideleSumLocalInv K Lay x :=
   sorry
 
+/-- **Inflation invariance, the second defining equation.** With `globalInv_ideleToClassH2` and
+`exists_refinement_mem_range_ideleToClassH2` it determines `globalInv` on every class. -/
+theorem globalInv_infl
+    {Lay Lay' : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (T : LayerRefinement Lay Lay') (x : Lay.H (globalFormation K) 2) :
+    globalInv K Lay' (T.cohomologyInfl (globalFormation K) 2 x) = globalInv K Lay x :=
+  sorry
+
+/-- **Uniqueness of the global invariant.** Any family of homomorphisms satisfying the two defining
+equations agrees with `globalInv`: the invariant is pinned by the sum formula and inflation
+invariance, not by the details of a construction. -/
+theorem globalInv_unique
+    (f : ∀ Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      Lay.H (globalFormation K) 2 →+ RatModInt)
+    (hdesc : ∀ (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+      (y : Lay.H (ideleFormation K) 2),
+      f Lay (ideleToClassH2 K Lay y) = ideleSumLocalInv K Lay y)
+    (hinfl : ∀ {Lay Lay' : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+      (T : LayerRefinement Lay Lay') (x : Lay.H (globalFormation K) 2),
+      f Lay' (T.cohomologyInfl (globalFormation K) 2 x) = f Lay x)
+    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (x : Lay.H (globalFormation K) 2) :
+    f Lay x = globalInv K Lay x :=
+  sorry
+
+/-- The class-formation axiom of injectivity, obtained as in
+`exists_refinement_mem_range_ideleToClassH2`: `H²(Gal(L/K), C_L)` is cyclic of order `[L:K]`,
+generated by a class of invariant `1/[L:K]`. -/
 theorem globalInv_injective (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
     Function.Injective (globalInv K Lay) :=
   sorry
 
+/-- The class-formation axiom on the image, from the same argument. -/
 theorem globalInv_range (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
     Set.range (globalInv K Lay) = (ratModIntTorsion Lay.degree : Set RatModInt) :=
   sorry
@@ -2251,8 +2467,8 @@ theorem globalInv_range (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGr
 /-! ## Layer 11: the global class formation and global Artin reciprocity -/
 
 /-- The global class formation, built from the sum-of-local-invariants map above. Its axioms are
-`globalInv_injective`, `globalInv_range`, `H¹`-vanishing for idele classes, and the restriction,
-inflation and conjugation formulae for `globalInv`. -/
+`subsingleton_h1_globalFormation`, `globalInv_injective`, `globalInv_range`, `globalInv_infl`, and
+the restriction and conjugation formulae for `globalInv`. -/
 noncomputable def globalClassFormation : ClassFormation (globalFormation K) :=
   sorry
 
@@ -2548,9 +2764,69 @@ load-bearing. Global class field theory for one-variable function fields over fi
 outside this roadmap.
 -/
 
-/-- Reciprocity on the imported ray-class carrier. -/
-noncomputable def rayClassArtinMap [IsAbelianGalois K L]
+/-! ### Admissible moduli and ray-class reciprocity
+
+A homomorphism `RayClassGroup 𝔪 →* Gal(L/K)` satisfying the splitting law exists only when the
+conductor of `L/K` divides `𝔪`, so the modulus is constrained *before* the map is written down.
+⚠ For `ℚ(i)/ℚ` and the trivial modulus the ray class group of `ℚ` is trivial, while the unramified
+prime `3` has nontrivial Artin symbol, so no such map exists. The support condition — every ramified
+prime divides `𝔪` — is necessary but not sufficient: for the finite modulus `(4)` without the real
+place the ray class group `(ℤ/4)ˣ/{±1}` is again trivial, so the conductor exponents and the real
+places matter, and the conductor of `ℚ(i)/ℚ` is `(4)·∞`. -/
+
+/-- **Admissibility of a modulus for a finite extension**: the ray subgroup of `𝔪` lies in the
+idele-class norm subgroup of `L/K`. Classically this is "the conductor of `L/K` divides `𝔪`";
+through `globalArtinMap` it says that the Artin map kills the ray of `𝔪`, which is exactly what
+lets it descend to `RayClassGroup 𝔪`. -/
+def IsAdmissibleModulus [Module.Finite K L] (𝔪 : GlobalNumberFields.Modulus K) : Prop :=
+  GlobalNumberFields.RaySubgroup 𝔪 ≤ (ideleClassNorm K L).range
+
+/-- An admissible modulus is divisible by every prime ramified in `L`: the support condition is a
+consequence of admissibility, not a substitute for it. -/
+theorem IsAdmissibleModulus.mem_support_of_ramified [Module.Finite K L]
+    {𝔪 : GlobalNumberFields.Modulus K} (h𝔪 : IsAdmissibleModulus K L 𝔪)
+    (v : HeightOneSpectrum (𝓞 K))
+    (hv : ∃ (Q : Ideal (𝓞 L)) (_ : Q.IsPrime) (_ : Q.LiesOver v.asIdeal),
+      ¬ Algebra.IsUnramifiedAt (𝓞 K) Q) :
+    v ∈ 𝔪.support :=
+  sorry
+
+/-- Admissibility is monotone under divisibility of moduli, because the ray subgroup shrinks as
+the modulus grows. -/
+theorem IsAdmissibleModulus.of_dvd [Module.Finite K L]
+    {𝔪 𝔫 : GlobalNumberFields.Modulus K} (h𝔪 : IsAdmissibleModulus K L 𝔪) (h : 𝔪 ∣ 𝔫) :
+    IsAdmissibleModulus K L 𝔫 :=
+  sorry
+
+/-- **The conductor of a finite abelian extension**: the smallest admissible modulus. -/
+noncomputable def abelianConductor [Module.Finite K L] [IsAbelianGalois K L] :
+    GlobalNumberFields.Modulus K :=
+  sorry
+
+theorem isAdmissibleModulus_abelianConductor [Module.Finite K L] [IsAbelianGalois K L] :
+    IsAdmissibleModulus K L (abelianConductor K L) :=
+  sorry
+
+/-- **The characterization of admissibility**: a modulus is admissible exactly when the conductor
+divides it. -/
+theorem isAdmissibleModulus_iff_abelianConductor_dvd [Module.Finite K L] [IsAbelianGalois K L]
     (𝔪 : GlobalNumberFields.Modulus K) :
+    IsAdmissibleModulus K L 𝔪 ↔ abelianConductor K L ∣ 𝔪 :=
+  sorry
+
+/-- The trivial modulus is **not** admissible for `ℚ(i)/ℚ`: the `ℚ(i)`, `ℓ = 3` trap in its final
+form. The conductor is `(4)·∞`, with the infinite part the one real place of `ℚ`. -/
+theorem not_isAdmissibleModulus_one_Qi
+    (E : Type) [Field E] [NumberField E] [Algebra ℚ E] [IsCyclotomicExtension {4} ℚ E]
+    [Module.Finite ℚ E] [IsAbelianGalois ℚ E] :
+    ¬ IsAdmissibleModulus ℚ E (GlobalNumberFields.Modulus.one ℚ) :=
+  sorry
+
+/-- Reciprocity on the imported ray-class carrier, for an admissible modulus. The admissibility
+proof is an argument of the definition, so the map cannot be written down for a modulus at which
+it does not exist. -/
+noncomputable def rayClassArtinMap [Module.Finite K L] [IsAbelianGalois K L]
+    (𝔪 : GlobalNumberFields.Modulus K) (h𝔪 : IsAdmissibleModulus K L 𝔪) :
     GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L) :=
   sorry
 
@@ -2559,26 +2835,25 @@ ray-class reciprocity map is the Artin symbol of that prime.
 ⚠ Without this, `rayClassArtinMap` is a `def` with no characterising equation and constrains
 nothing — a consumer counting primes by their Frobenius cannot connect the two. `ZerosOfLFunctions`
 Layer 8.8 states its reciprocity dictionary as an explicit hypothesis precisely because this law
-was missing; with it, that hypothesis is discharged here rather than assumed there. -/
-theorem rayClassArtinMap_idealClass [IsAbelianGalois K L]
-    (𝔪 : GlobalNumberFields.Modulus K)
+was missing; with it, that hypothesis is discharged here rather than assumed there, for every
+admissible modulus. -/
+theorem rayClassArtinMap_idealClass [Module.Finite K L] [IsAbelianGalois K L]
+    (𝔪 : GlobalNumberFields.Modulus K) (h𝔪 : IsAdmissibleModulus K L 𝔪)
     (I : GlobalNumberFields.integralIdealsPrimeTo 𝔪)
     [hI : (I : Ideal (𝓞 K)).IsMaximal]
     (hur : ∀ (Q : Ideal (𝓞 L)) [Q.IsPrime] [Q.LiesOver (I : Ideal (𝓞 K))],
       Algebra.IsUnramifiedAt (𝓞 K) Q) :
-    ConjClasses.mk (rayClassArtinMap K L 𝔪 (GlobalNumberFields.idealClass 𝔪 I)) =
+    ConjClasses.mk (rayClassArtinMap K L 𝔪 h𝔪 (GlobalNumberFields.idealClass 𝔪 I)) =
       NumberFieldArithmetic.artinSymbol (K := K) (L := L) (I : Ideal (𝓞 K)) hur :=
   sorry
 
-/-- **Surjectivity of the ray-class reciprocity map**, for a modulus divisible by the conductor.
-The companion the same consumers need: the splitting law identifies the image of one class, this
-says the classes exhaust the Galois group. -/
-theorem rayClassArtinMap_surjective [IsAbelianGalois K L]
-    (𝔪 : GlobalNumberFields.Modulus K)
-    (h𝔪 : ∀ v : IsDedekindDomain.HeightOneSpectrum (𝓞 K),
-      (∃ (Q : Ideal (𝓞 L)) (_ : Q.IsPrime) (_ : Q.LiesOver v.asIdeal),
-        ¬ Algebra.IsUnramifiedAt (𝓞 K) Q) → v ∈ 𝔪.support) :
-    Function.Surjective (rayClassArtinMap K L 𝔪) :=
+/-- **Surjectivity of the ray-class reciprocity map.** The companion the same consumers need: the
+splitting law identifies the image of one class, this says the classes exhaust the Galois group.
+The support condition of the earlier form is now a consequence of admissibility
+(`IsAdmissibleModulus.mem_support_of_ramified`). -/
+theorem rayClassArtinMap_surjective [Module.Finite K L] [IsAbelianGalois K L]
+    (𝔪 : GlobalNumberFields.Modulus K) (h𝔪 : IsAdmissibleModulus K L 𝔪) :
+    Function.Surjective (rayClassArtinMap K L 𝔪 h𝔪) :=
   sorry
 
 /-- The identification of the ground level of the global formation with the idele class group. -/
@@ -2641,11 +2916,154 @@ noncomputable def globalNormOpenSubgroup
     GlobalNormSubgroups K :=
   ⟨⟨globalNormSubgroup K V, isOpen_globalNormSubgroup K V⟩, finiteIndex_globalNormSubgroup K V⟩
 
+/-! ### The inputs of global existence
+
+`globalAbelianExistence` is proved by induction on the index, along the route of Milne,
+*Class Field Theory*, VII §9 (Lemmas 9.1–9.4 and Theorem 9.5), which is Artin–Tate's: norm
+subgroups are closed upward (reciprocity); a subgroup whose preimage under the idele-class norm of
+a finite extension is a norm subgroup is itself a norm subgroup (norm limitation); and for
+`K ∋ ζ_p` every open subgroup containing the `p`-th powers is a norm subgroup (Kummer theory of
+the `S`-units, for `S` large). The inductive step adjoins `ζ_p` by the second input, realizes a
+subgroup of index `p` by the third, and passes to the corresponding cyclic extension of degree
+`p`, where the index has dropped. Each input is a named target below. None of them is the
+Grunwald–Wang theorem, which the existence theorem does not use. -/
+
+/-- **Norm subgroups are closed upward** (Milne VII, Lemma 9.1): a subgroup containing the norm
+subgroup of a layer is the norm subgroup of an abelian layer, namely the preimage under the abstract
+Artin map of its image in the abelianized Galois group. -/
+theorem exists_abelianLayer_globalNormSubgroup_eq_of_le
+    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (N : Subgroup (GlobalNumberFields.IdeleClassGroup K)) (hN : globalNormSubgroup K V ≤ N) :
+    ∃ W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      IsAbelianClassFieldLayer W ∧ globalNormSubgroup K W = N :=
+  sorry
+
+/-- **Descent along a finite extension** (Milne VII, Lemma 9.4): if the preimage of `N` under the
+idele-class norm of a finite extension `L/K` is the norm subgroup of an abelian layer of `G_L`, then
+`N` is the norm subgroup of an abelian layer of `G_K`. The proof composes the norms, replaces the
+resulting layer over `K` by its maximal abelian sublayer using
+`globalNormSubgroup_maximalAbelianLayer`, and applies
+`exists_abelianLayer_globalNormSubgroup_eq_of_le`. Applied to `L = K(ζ_p)`, this is the
+roots-of-unity adjunction of the existence proof. -/
+theorem exists_abelianLayer_globalNormSubgroup_eq_of_comap_ideleClassNorm [Module.Finite K L]
+    (N : Subgroup (GlobalNumberFields.IdeleClassGroup K))
+    (h : ∃ W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup L),
+      IsAbelianClassFieldLayer W ∧ globalNormSubgroup L W = N.comap (ideleClassNorm K L)) :
+    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      IsAbelianClassFieldLayer V ∧ globalNormSubgroup K V = N :=
+  sorry
+
+/-- The `S`-units: elements of `Kˣ` that are units at every finite place outside `S`. -/
+def IsSUnit (S : Finset (HeightOneSpectrum (𝓞 K))) (a : Kˣ) : Prop :=
+  ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → v.valuation K (a : K) = 1
+
+/-- The idele subgroup `E_S = ∏_{v ∈ S} (K_vˣ)^p × ∏_{v ∉ S} U_v` of Milne VII, Lemma 9.3, with the
+`p`-th powers also at every infinite place: the finite coordinates at `S` and the infinite
+coordinates are `p`-th powers, and the finite coordinates outside `S` are units. -/
+noncomputable def kummerIdeleSubgroup (S : Finset (HeightOneSpectrum (𝓞 K))) (p : ℕ) :
+    Subgroup (GlobalNumberFields.IdeleGroup K) where
+  carrier := {x |
+    (∀ v ∈ S, ∃ y : (v.adicCompletion K)ˣ, y ^ p = GlobalNumberFields.ideleFiniteCoord v x) ∧
+    (∀ v ∉ S, Valued.v (GlobalNumberFields.ideleFiniteCoord v x : v.adicCompletion K) = 1) ∧
+    ∀ w : NumberField.InfinitePlace K, ∃ y : (w.Completion)ˣ,
+      y ^ p = GlobalNumberFields.ideleInfiniteCoord w x}
+  one_mem' := sorry
+  mul_mem' := sorry
+  inv_mem' := sorry
+
+/-- The image of `E_S` in the idele class group. -/
+noncomputable def kummerNormSubgroup (S : Finset (HeightOneSpectrum (𝓞 K))) (p : ℕ) :
+    Subgroup (GlobalNumberFields.IdeleClassGroup K) :=
+  (kummerIdeleSubgroup K S p).map
+    (QuotientGroup.mk' (Units.map (algebraMap K (AdeleRing (𝓞 K) K)).toMonoidHom).range)
+
+/-- **The Kummer layer of the `S`-units**: the open normal subgroup of `G_K` cutting out
+`K(U(S)^{1/p})`, pinned by `classField_sUnitsKummerLayer`. -/
+noncomputable def sUnitsKummerLayer (S : Finset (HeightOneSpectrum (𝓞 K))) (p : ℕ) :
+    OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+  sorry
+
+/-- The characterizing equation of `sUnitsKummerLayer`: the field it cuts out is generated by the
+`p`-th roots of the `S`-units. -/
+theorem classField_sUnitsKummerLayer (S : Finset (HeightOneSpectrum (𝓞 K))) (p : ℕ) :
+    classField K (sUnitsKummerLayer K S p) =
+      IntermediateField.adjoin K
+        {x : SeparableClosure K | ∃ a : Kˣ, IsSUnit K S a ∧ x ^ p = algebraMap K _ (a : K)} :=
+  sorry
+
+/-- For `K ∋ ζ_p` the Kummer layer is abelian: Kummer theory makes its Galois group the dual of
+`U(S)/U(S)^p`. -/
+theorem isAbelianClassFieldLayer_sUnitsKummerLayer (p : ℕ) [Fact p.Prime]
+    (ζ : K) (_hζ : IsPrimitiveRoot ζ p) (S : Finset (HeightOneSpectrum (𝓞 K))) :
+    IsAbelianClassFieldLayer (sUnitsKummerLayer K S p) :=
+  sorry
+
+/-- Its degree is `p^{|S| + r}`, `r` the number of infinite places: `U(S)` is the product of the
+roots of unity, whose number `p` divides, and a free group of rank `|S| + r - 1` (Dirichlet), so
+`[U(S) : U(S)^p] = p^{|S| + r}`. -/
+theorem degree_sUnitsKummerLayer (p : ℕ) [Fact p.Prime]
+    (ζ : K) (_hζ : IsPrimitiveRoot ζ p) (S : Finset (HeightOneSpectrum (𝓞 K))) :
+    (NormalLayer.ofOpenNormal (sUnitsKummerLayer K S p)).degree =
+      p ^ (S.card + Nat.card (NumberField.InfinitePlace K)) :=
+  sorry
+
+/-- **The index of the image of `E_S`** (Milne VII, Lemma 9.3(b)), for `S` containing the primes
+above `p` and generating the class group: the local index is `[K_vˣ : (K_vˣ)^p] = p²/‖p‖_v` at
+every place, the product over `S` and the infinite places is `p^{2(|S| + r)}` by the product
+formula, and the `S`-units cut this down by `[U(S) : U(S)^p] = p^{|S| + r}` — the intersection
+`U(S) ∩ E_S = U(S)^p` being the statement that an `S`-unit which is a local `p`-th power at `S`
+is a global `p`-th power (Milne VII, Proposition 9.2). -/
+theorem index_kummerNormSubgroup (p : ℕ) [Fact p.Prime]
+    (ζ : K) (_hζ : IsPrimitiveRoot ζ p) (S : Finset (HeightOneSpectrum (𝓞 K)))
+    (_hpS : ∀ v : HeightOneSpectrum (𝓞 K), v.asIdeal ∣ Ideal.span {(p : 𝓞 K)} → v ∈ S)
+    (_hS : ∀ c : ClassGroup (𝓞 K), ∃ I : (Ideal (𝓞 K))⁰,
+      (∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → ¬ v.asIdeal ∣ (I : Ideal (𝓞 K))) ∧
+        ClassGroup.mk0 I = c) :
+    (kummerNormSubgroup K S p).index = p ^ (S.card + Nat.card (NumberField.InfinitePlace K)) :=
+  sorry
+
+/-- **The norm subgroup of the Kummer layer is the image of `E_S`** (Milne VII, Lemma 9.3):
+`E_S ⊆ N(I_L)` because the layer has exponent `p` at the places of `S` and is unramified outside
+`S`, and the two indices agree — `index_kummerNormSubgroup` on one side and
+`index_globalNormSubgroup` with `degree_sUnitsKummerLayer` on the other. -/
+theorem globalNormSubgroup_sUnitsKummerLayer (p : ℕ) [Fact p.Prime]
+    (ζ : K) (_hζ : IsPrimitiveRoot ζ p) (S : Finset (HeightOneSpectrum (𝓞 K)))
+    (_hpS : ∀ v : HeightOneSpectrum (𝓞 K), v.asIdeal ∣ Ideal.span {(p : 𝓞 K)} → v ∈ S)
+    (_hS : ∀ c : ClassGroup (𝓞 K), ∃ I : (Ideal (𝓞 K))⁰,
+      (∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → ¬ v.asIdeal ∣ (I : Ideal (𝓞 K))) ∧
+        ClassGroup.mk0 I = c) :
+    globalNormSubgroup K (sUnitsKummerLayer K S p) = kummerNormSubgroup K S p :=
+  sorry
+
+/-- **The key case of global existence** (Milne VII, Lemma 9.3): for `K ∋ ζ_p`, every open
+subgroup of `C_K` containing the `p`-th powers is the norm subgroup of an abelian layer. An open
+subgroup contains the image of `∏_{v ∈ S} 1 × ∏_{v ∉ S} U_v` for some finite `S`, which may be
+enlarged to contain the primes above `p` and to generate the class group, so it contains
+`kummerNormSubgroup K S p`, and `exists_abelianLayer_globalNormSubgroup_eq_of_le` applies to
+`globalNormSubgroup_sUnitsKummerLayer`. -/
+theorem exists_abelianLayer_globalNormSubgroup_eq_of_pow_mem (p : ℕ) [Fact p.Prime]
+    (ζ : K) (_hζ : IsPrimitiveRoot ζ p)
+    (N : Subgroup (GlobalNumberFields.IdeleClassGroup K))
+    (hN : IsOpen (N : Set (GlobalNumberFields.IdeleClassGroup K)))
+    (hp : ∀ c : GlobalNumberFields.IdeleClassGroup K, c ^ p ∈ N) :
+    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      IsAbelianClassFieldLayer V ∧ globalNormSubgroup K V = N :=
+  sorry
+
 /-- **The global existence theorem in its final abelian form**: every open finite-index subgroup of
 the idele class group of a **number field** is the norm subgroup of a finite **abelian** layer of
 the global formation. Global class field theory for one-variable function fields over finite
 fields is outside this roadmap; the `NumberField K` hypothesis in the section variables is
-load-bearing. -/
+load-bearing.
+
+Proof route (Milne VII, Theorem 9.5), by induction on the index of `N`. Choose a prime `p` dividing
+the index. By `exists_abelianLayer_globalNormSubgroup_eq_of_comap_ideleClassNorm` applied to
+`K(ζ_p)/K` it suffices to treat `K ∋ ζ_p`. Choose `N₁ ⊇ N` of index `p`;
+`exists_abelianLayer_globalNormSubgroup_eq_of_pow_mem` realizes `N₁` as the norm subgroup of a
+cyclic layer of degree `p`, and the preimage of `N` in the idele classes of that layer's field has
+index `[C_K : N]/p`, so it is a norm subgroup by induction; descent along that field finishes.
+The three named inputs are the whole of the arithmetic; nothing here uses the Grunwald–Wang
+theorem. -/
 theorem globalAbelianExistence
     (N : Subgroup (GlobalNumberFields.IdeleClassGroup K))
     (hN : IsOpen (N : Set (GlobalNumberFields.IdeleClassGroup K))) [N.FiniteIndex] :
@@ -2723,6 +3141,29 @@ noncomputable def globalClassFieldCorrespondence :
     · exact (globalClassField K (globalNormOpenSubgroup K V.1)).2
     · exact globalClassField_normSubgroup K (globalNormOpenSubgroup K V.1)
   map_rel_iff' := fun {N₁ N₂} => (globalClassField_le_iff K N₁ N₂).symm
+
+/-- **Composita of abelian layers.** The correspondence is an order isomorphism, so it carries meets
+to meets: the norm subgroup of `V ⊓ W`, which cuts out the compositum of the two class fields, is
+the intersection of the two norm subgroups.
+
+⚠ Abelianity is load-bearing. For two `D₄`-layers with the same biquadratic subfield, `V ⊓ W` cuts
+out a compositum of degree `16` with Galois group `D₄ ×_{C₂²} D₄`, whose commutator subgroup has
+order `2`, so its maximal abelian subextension has degree `8`; but the maximal abelian
+subextensions of the two factors generate only the biquadratic field, of degree `4`. By norm
+limitation the two sides then have indices `8` and `4`, and the formula fails. -/
+theorem globalNormSubgroup_inf_of_isAbelian
+    {V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (hV : IsAbelianClassFieldLayer V) (hW : IsAbelianClassFieldLayer W) :
+    globalNormSubgroup K (V ⊓ W) = globalNormSubgroup K V ⊓ globalNormSubgroup K W :=
+  sorry
+
+/-- **Intersections of fields.** The norm subgroup of `V ⊔ W`, which cuts out the intersection of
+the two fields, is the join of the two norm subgroups; here no abelianity is needed, because the
+maximal abelian sublayer of a join is the join of the maximal abelian sublayers. -/
+theorem globalNormSubgroup_sup
+    (V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    globalNormSubgroup K (V ⊔ W) = globalNormSubgroup K V ⊔ globalNormSubgroup K W :=
+  sorry
 
 /-- **The canonical quotient identification `C_K / N_{L/K}(C_L) ≃ Gal(L/K)`** for an abelian layer.
 As in the local case the target is the Galois group of the layer, not an abelianization. -/
@@ -2893,6 +3334,15 @@ noncomputable def rayNormSubgroup (𝔪 : GlobalNumberFields.Modulus K) : Global
 noncomputable def rayClassField (𝔪 : GlobalNumberFields.Modulus K) :
     IntermediateField K (SeparableClosure K) :=
   classField K (globalClassField K (rayNormSubgroup K 𝔪)).1
+
+/-- **Admissibility in terms of the ray class field**: `𝔪` is admissible for `L/K` exactly when
+`L` embeds in the ray class field of `𝔪`. This is `globalClassField_orderReversing` applied to the
+ray subgroup and to the norm subgroup of `L`; it is also why the ray class field is the largest
+abelian extension of conductor dividing `𝔪`. -/
+theorem isAdmissibleModulus_iff_le_rayClassField [Module.Finite K L] [IsAbelianGalois K L]
+    (iota : L →ₐ[K] SeparableClosure K) (𝔪 : GlobalNumberFields.Modulus K) :
+    IsAdmissibleModulus K L 𝔪 ↔ iota.fieldRange ≤ rayClassField K 𝔪 :=
+  sorry
 
 /-- **The Hilbert class field**: the ray class field of the trivial modulus. Defined for every
 number field, in every degree; only the *ring* class field of a nonmaximal order is restricted to
