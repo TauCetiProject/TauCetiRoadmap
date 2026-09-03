@@ -18,6 +18,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Analytic toric geometry](TauCetiRoadmap/AnalyticToricGeometry/README.md)
 - [Arithmetic Dirichlet series and Tauberian methods](TauCetiRoadmap/ArithmeticDirichletSeries/README.md)
 - [Belyi maps, dessins d'enfants, and three-point covers](TauCetiRoadmap/BelyiMaps/README.md)
+- [Class field theory](TauCetiRoadmap/ClassFieldTheory/README.md)
 - [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
 - [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
 - [Continuous cohomology of profinite groups](TauCetiRoadmap/ProfiniteCohomology/README.md)
