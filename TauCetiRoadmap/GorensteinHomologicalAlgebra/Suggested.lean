@@ -86,7 +86,7 @@ structure StronglyCompleteFlatResolution (R : Type u) [CommRing R] where
   [flat : Module.Flat R F]
   f : F →ₗ[R] F
   exact : Function.Exact f f
-  homExact : ∀ (I : Type v) [AddCommGroup I] [Module R I] [Module.Injective R I],
+  tensorExact : ∀ (I : Type v) [AddCommGroup I] [Module R I] [Module.Injective R I],
     Function.Exact (TensorProduct.map (LinearMap.id (R := R) (M := I)) f)
       (TensorProduct.map (LinearMap.id (R := R) (M := I)) f)
 
