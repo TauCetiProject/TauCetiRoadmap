@@ -395,9 +395,26 @@ Weyl-invariance, so that no later step silently assumes a decomposition that has
   property (`UniversalEnvelopingAlgebra.lift`) but **not** the Poincaré-Birkhoff-Witt basis, and PBW over
   a general field is a major algebra project, not a routine prerequisite. Stage it as its own unit with
   pinned intermediate targets: the tensor-algebra-quotient presentation of `U(L)`; the PBW filtration;
-  the associated-graded map from the symmetric algebra `Sym(L)`; the ordered-monomial basis for a chosen
-  basis of `L`; functoriality for subalgebras and direct sums; and, from the root-space decomposition,
-  the **triangular decomposition** `U(L) ≅ U(n⁻) ⊗ U(H) ⊗ U(n⁺)`.
+  its multiplicativity and the associated-graded equivalence with the symmetric algebra `Sym(L)`; and the
+  ordered-monomial basis for a chosen basis of `L`. For every Lie map, prove compatibility of the induced
+  enveloping-algebra map with the filtration and associated-graded map, and derive the corresponding
+  ordered-monomial-span statements for subalgebras, surjections and quotients, and direct sums. From the
+  root-space decomposition, also prove the **triangular decomposition**
+  `U(L) ≅ U(n⁻) ⊗ U(H) ⊗ U(n⁺)`.
+
+  This roadmap owns the shared concrete PBW development, and that unit is the one place where the
+  standing conventions above do **not** apply: every target in this bullet is stated over an
+  arbitrary field, with no characteristic and no algebraic-closure hypothesis, because
+  [Ado–Iwasawa](../AdoIwasawa/README.md) consumes them over `𝔽₂`. Only the triangular decomposition,
+  which needs the root-space decomposition, keeps the semisimple characteristic-zero setting. Three
+  further general-field consequences belong to this unit and are tracked here rather than by the
+  consumer: **injectivity** of the canonical map `L → U(L)`; that `U(L)` is a **domain**; and that it
+  is left and right **Noetherian** for finite-dimensional `L`, both routed through the associated
+  graded symmetric algebra and filtered-to-graded transfer in reusable ring-theoretic form. Finally,
+  if every member of a finite ordered generating basis satisfies a monic relation over a central
+  commutative subalgebra `R`, prove that bounded ordered PBW monomials span `U(L)` over `R`, and package
+  this as `Module.Finite R (U(L))`. This is the exact central-monic-relation contract consumed by the
+  positive-characteristic Ado–Iwasawa construction.
 - **The Borel and the nilradicals.** Name the subalgebras the base determines, keeping `base` for the
   root-system base alone: `positiveNilradical base = n⁺ = ⨁_{α>0} Lα`, its opposite
   `negativeNilradical base = n⁻`, and `borelSubalgebra base = 𝔟 = H ⊕ n⁺`. The Verma tensor product is
@@ -463,12 +480,16 @@ Weyl-invariance, so that no later step silently assumes a decomposition that has
   **dual Lie module** `M*` and the internal-Hom Lie module `Hom_K(M, N)` (with the tensor-Hom
   adjunction). Build these first; then splitting an extension `0 → N → M → K → 0` becomes the vanishing
   of a suitable invariant, which the Casimir supplies.
-- **Weyl's complete reducibility theorem.** Every finite-dimensional module over a semisimple `L`
-  (char 0) is a direct sum of irreducibles; equivalently every `LieSubmodule N ≤ M` has a complement
-  (`∃ N', IsCompl N N'`). Prove it via the Casimir (the eigenvalue separates the trivial module from
-  nontrivial irreducibles, splitting off invariants and reducing a general extension, through the Hom
-  module above, to an extension by the trivial module), the standard route; the `sl₂` case of Layer 0 is
-  the rank-one instance and a consistency check.
+- **Weyl's complete reducibility theorem.** Every finite-dimensional module over a semisimple `L` over
+  an arbitrary characteristic-zero field is a direct sum of irreducibles; equivalently every
+  `LieSubmodule N ≤ M` has a complement (`∃ N', IsCompl N N'`). Prove the algebraically closed case via
+  the Casimir (the eigenvalue separates the trivial module from nontrivial irreducibles, splitting off
+  invariants and reducing a general extension, through the Hom module above, to an extension by the
+  trivial module). For the general field, prove that semisimplicity is preserved by extension to an
+  algebraic closure, express an invariant complement as a solution of finite linear equations, and
+  descend that solution. State the resulting arbitrary-field theorem as a separate public contract; the
+  Ado–Iwasawa roadmap consumes it in the direct-induction proof of Levi decomposition. The `sl₂` case of
+  Layer 0 is the rank-one instance and a consistency check.
 - **Consequences.** The category of finite-dimensional `L`-modules is semisimple with simple objects
   the `L(λ)` (dominant integral `λ`), so every finite-dimensional module has a well-defined
   multiplicity decomposition `M ≅ ⨁_λ L(λ)^{⊕ mλ}`, the setting in which characters are additive.
