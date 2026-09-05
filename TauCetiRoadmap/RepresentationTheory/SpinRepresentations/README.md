@@ -692,7 +692,11 @@ the CAR instance is a self-contained claimable unit needing only the abstract re
   module, the highest-weight theory, and the fundamental representations of `Bₗ` and `Dₗ`.
 - H. B. Lawson, M.-L. Michelsohn, *Spin Geometry*, Princeton (1989), Chapter I - the definitive account of
   Clifford algebras `Cliff(p, q)`, their Bott-periodic classification (the eightfold table), the Pin and Spin
-  groups as double covers, and the real and complex spinor representations.
+  groups as double covers, and the real and complex spinor representations. By section: §I.2 for Pin and
+  Spin, §I.3 for the algebras themselves, §I.4 for the classification (Theorem 4.1 for the three
+  recurrences, Theorem 4.3 for eight-periodicity, Tables I and II for the tables), §I.5 for the
+  representations, and §I.10 for the `(1,1)`-periodicity theorem. Their `Cl(r,s)` is this roadmap's
+  `Cliff(s, r)`: §I.4 (4.0) records `Cl(1,0) = ℂ` and `Cl(0,1) = ℝ ⊕ ℝ`, the opposite index order.
 - C. Chevalley, *The Algebraic Theory of Spinors*, Columbia (1954) - the algebraic construction of the spin
   representation from a maximal isotropic subspace, the even/odd decomposition into half-spinors, and the
   intrinsic (basis-free) development of the Clifford algebra used in Layer 4.
