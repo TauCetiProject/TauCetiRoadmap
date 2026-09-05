@@ -22,7 +22,7 @@ https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 - [`energyIntegrand`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/PDE/EnergyForm/Basic.html#TauCeti.PDE.energyIntegrand) bundles the weak-form integrand of `L u = -∂ⱼ(aⁱʲ ∂ᵢu) + bⁱ ∂ᵢu + cu` as a continuous bilinear form on value-gradient jets, coefficients kept as separate, explicit data. Symmetry, linearity in the coefficient triple, the operator-norm bound `Λ + β + γ` and `L²`-integrated forms for constant and variable coefficients are in place.
 - [`planarNewtonianKernel`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/PDE/FundamentalSolution/Planar.html#TauCeti.planarNewtonianKernel) is the logarithmic kernel on `ℂ`, harmonic off its pole, with its gradient computed and outward flux `-1` through every circle about the pole. That flux is the normalisation a Green's function and a representation formula will consume.
-- [`IsCoercive.solutionOfFunctional`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/InnerProductSpace/LaxMilgram.html#TauCeti.IsCoercive.solutionOfFunctional) names the Lax-Milgram solution for a continuous linear functional and characterises it by the variational equation, turning Mathlib's equivalence into the existence-and-uniqueness interface Lane D will call.
+- [`IsCoercive.solutionOfFunctional`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/InnerProductSpace/LaxMilgram.html#IsCoercive.solutionOfFunctional) names the Lax-Milgram solution for a continuous linear functional and characterises it by the variational equation, turning Mathlib's equivalence into the existence-and-uniqueness interface Lane D will call.
 
 ### Roadmap coverage
 
