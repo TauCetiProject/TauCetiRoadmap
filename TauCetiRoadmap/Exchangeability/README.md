@@ -768,6 +768,56 @@ The directing-measure theorem should expose a real API, not just an existence pr
   The product parameter is determined by the one-coordinate marginal; bundle that uniqueness
   where the affine representation API consumes it.
 
+#### Coherence of the route witnesses
+
+The default and L² routes use the same tail-conditioned witness,
+`directingProbabilityMeasure`. The Koopman route independently constructs
+`invariantConditionalProbabilityMeasure` by conditioning on the shift-invariant σ-algebra. These
+are two canonical random probability measures, not three route-specific witnesses.
+
+The underlying σ-algebras are not identified: the invariant and tail measurable spaces can differ
+as raw measurable spaces (`invariants_shift_lt_pathTail`). Nevertheless, under a contractable
+probability law the two canonical conditional laws agree almost everywhere.
+
+Suggested home:
+
+```text
+TauCeti/Probability/DeFinetti/WitnessAgreement.lean
+```
+
+Expose the object-level coherence theorem:
+
+```lean
+namespace ContractableLaw
+
+theorem invariantConditionalProbabilityMeasure_ae_eq_directingProbabilityMeasure
+    [StandardBorelSpace α] [Nonempty α]
+    {ρ : Measure (ℕ → α)} [IsProbabilityMeasure ρ]
+    (hρ : ContractableLaw ρ) :
+    invariantConditionalProbabilityMeasure ρ =ᵐ[ρ]
+      directingProbabilityMeasure ρ (fun n (x : ℕ → α) => x n)
+
+end ContractableLaw
+```
+
+The proof applies `conditionallyIID_ae_unique` to the two named-witness theorems:
+
+* `conditionallyIIDWith_of_contractable_pathSpace`;
+* `ContractableLaw.conditionallyIIDWith_invariantConditionalProbabilityMeasure`.
+
+`ContractableLaw.map_prefixProj_of_strictMono` supplies the finite-marginal bridge needed to view
+the coordinate process as `Contractable`.
+
+This is an object-level identification of two independently defined canonical conditional laws.
+General witness uniqueness is the proof mechanism, but not a replacement for the public endpoint:
+using it directly requires first recovering that both constructions witness `ConditionallyIIDWith`
+for the same coordinate process.
+
+This target does not assert equality of the invariant and tail σ-algebras, pointwise equality of
+the witnesses, or equality under a merely finite base measure. It does not introduce measurable-set
+evaluation wrappers, conditional-expectation corollaries, compatibility aliases, or changes to any
+of the three route proofs.
+
 This is the default route for the final public API.
 
 ### Layer 7: public API and examples
@@ -816,11 +866,43 @@ ConditionallyIIDWith.jointPathLaw_eq_iidMixtureLaw
 deFinetti_mixture
 mixedIID_mixingLaw_unique
 conditionallyIID_ae_unique
+ContractableLaw.invariantConditionalProbabilityMeasure_ae_eq_directingProbabilityMeasure
 exchangeable_extreme_iff_iid
 ```
 
 Route-specific theorem names should keep their suffixes. The unsuffixed theorem should be
 the general martingale route.
+
+#### Proof-route import independence
+
+The three proofs may share neutral definitions and genuinely generic common-ending infrastructure,
+but no route may acquire another route's proof-specific closure transitively. In particular:
+
+| Consumer | Required import boundary |
+| --- | --- |
+| Default route | Must not import `ViaL2`, `ViaKoopman`, or `WitnessAgreement`. |
+| L² route | Must not import the default endpoint or its route-specific martingale machinery, `ViaKoopman`, or `WitnessAgreement`. |
+| Koopman route | Must not import the default-route-specific closure, `ViaL2`, or `WitnessAgreement`. |
+| `WitnessAgreement` | May import the default-route closure, including `JointRectangle`, and the `ViaKoopman` closure. It must not be imported by any route. |
+| `TauCeti.Probability.DeFinetti` | May aggregate all three routes and `WitnessAgreement`. |
+| `TauCeti.Probability.Exchangeability` | Must remain below every representation route and coherence module. |
+
+`JointRectangle` belongs to the default-route-specific closure; it is not neutral shared
+infrastructure. The explicit `WitnessAgreement` exception is what permits that downstream module
+to reach it.
+
+Neutral shared infrastructure is excepted from the route-specific prohibitions. In particular, the
+routes may share the representation predicates, path-law bridges, the canonical directing-measure
+definitions, and genuinely generic common endings. The prohibition concerns another route's
+proof-specific machinery.
+
+`TauCeti.Probability.DeFinetti` is the designated aggregation boundary: it may import all three
+route endpoints and `WitnessAgreement`. The comparison module is downstream only and must not be
+imported by any route.
+
+Automating this invariant belongs to Tau Ceti's human-owned module-system governance. This roadmap
+pins the dependency invariant; it does not authorize ordinary mathematical PRs to edit `scripts/`,
+`.github/`, or the lakefile.
 
 ### Layer 8: generalized exchangeability and representation theorems
 
