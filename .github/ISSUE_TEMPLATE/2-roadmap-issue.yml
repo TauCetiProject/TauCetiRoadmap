@@ -31,6 +31,7 @@ body:
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
+        - GorensteinHomologicalAlgebra
         - GrothendieckEulerForms
         - HeegaardFloer
         - HodgeStructures
