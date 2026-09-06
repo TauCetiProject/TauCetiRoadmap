@@ -312,13 +312,16 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
 
 1. In the independent lower module `TauCeti.Analysis.Complex.RiemannSurface.Degree`, consume
    AlgebraicTopology's finite CW model of a compact smooth surface and its homotopy-invariant
-   Euler characteristic. Define topological genus by `chi(X) = 2 - 2 * genus(X)` and prove that it
-   agrees with the usual analytic genus. This module imports neither ModularForms nor analytic
-   Riemann--Roch.
+   Euler characteristic. Define topological genus by `chi(X) = 2 - 2 * genus(X)`. This module
+   imports neither ModularForms nor analytic Riemann--Roch and proves no comparison with a
+   cohomological or analytic genus.  The unique owner of that comparison is ModularForms
+   Layer 10B.
 2. In that same lower module, define finite nonconstant holomorphic maps, local multiplicity from
    the local analytic normal form, and degree as the sum of local multiplicities over a fibre.
    Prove positivity, fibre finiteness, independence of the chosen fibre, multiplicativity under
-   composition, and the degree-one biholomorphism theorem.
+   composition, and the degree-one biholomorphism theorem.  The returned biholomorphism has the
+   given finite holomorphic map as its forward function, exposed by the simp theorem
+   `RiemannSurface.biholomorph_of_degree_eq_one_toFun`.
 3. Define pullback of finite divisors by local multiplicity and construct the ramification
    divisor. Prove first the branched-cover Euler-characteristic formula
    `chi(X) = degree(f) * chi(Y) - ramificationDegree(f)` by excising pairwise-disjoint branch
