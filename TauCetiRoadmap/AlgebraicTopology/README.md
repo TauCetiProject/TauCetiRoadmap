@@ -123,9 +123,9 @@ The development starts from these current APIs.
 - `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, mapping cones and pointed cones,
   category-theoretic colimits, chain homotopies, homology functors, and exact couples.
 
-The following open Mathlib pull requests determine interfaces which are not wholly available at
-the pin.  Import every declaration present at the pin.  Implement the rest in Tau Ceti now with
-the same object and map shapes, then replace local code by imports when Mathlib supplies it.
+The following Mathlib pull requests determine interface shapes.  Import every declaration present
+at the dependency pin.  Implement the rest in Tau Ceti now with the same object and map shapes,
+and replace local code by imports whenever a later pin supplies it.
 
 - [mathlib4#41603](https://github.com/leanprover-community/mathlib4/pull/41603): the
   fundamental groupoid as a cosheaf and van Kampen as a colimit theorem.
