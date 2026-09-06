@@ -211,15 +211,16 @@ The development starts from these current APIs and cited roadmap targets.
 - `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`, Lie groups, topological groups,
   vector bundles, pullbacks, direct sums, quotient spaces, `CompactlyGenerated.{u,w}`,
   categorical filtered colimits, and `AddCommGrpCat`.  Mathlib's compactly generated category
-  already supplies the fully faithful inclusion into `TopCat`; the missing right adjoint
-  (compact-generation coreflector) and Cartesian closed API are targets, not inferred instances.
+  supplies the carrier and its fully faithful inclusion; the compact-generation coreflector (the
+  right adjoint of that inclusion), its adjunction, and the Cartesian closed API are targets here,
+  not inferred instances.
 - Geometric topology's boundary, collar, gluing, tubular-neighbourhood, connected-sum, handle,
   surgery, cobordism, and triangulation outputs, plus Heegaard Floer's orientation, degree,
   Morse, Sard, and transversality outputs.
 
-These open Mathlib pull requests determine target shapes.  Consume declarations already present,
-build the missing interface in Tau Ceti now in the same shape, and replace it by imports when it
-lands.
+These Mathlib pull requests determine target shapes.  Consume every declaration present at the
+dependency pin, build the missing interface in Tau Ceti now in the same shape, and replace it by
+imports whenever a later pin supplies it.
 
 - [mathlib4#35376](https://github.com/leanprover-community/mathlib4/pull/35376) develops
   `Manifold.Orientation`, orientability, orientation lifts, and degree.  Follow its orbit-quotient
