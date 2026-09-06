@@ -2,6 +2,7 @@ import Mathlib.Algebra.Module.Equiv.Basic
 import Mathlib.Algebra.Module.ZLattice.Basic
 import Mathlib.Geometry.Manifold.Instances.Quotient
 import Mathlib.Geometry.Manifold.LocalDiffeomorph
+import Mathlib.RepresentationTheory.Basic
 import Mathlib.Topology.Covering.Quotient
 
 /-!
@@ -69,6 +70,137 @@ theorem torusFamilyProjection_quotientMk (p : Y × E) :
   rfl
 
 end PeriodFamily
+
+/-! ## Affine equivariance for a varying torus family -/
+
+/-- The torus over `y`, written as the additive quotient by the actual period range. -/
+abbrev TorusFibre {Λ Y E : Type*} [AddCommGroup Λ] [AddCommGroup E]
+    (period : Y → (Λ →ₗ[ℤ] E)) (y : Y) :=
+  E ⧸ LinearMap.range (period y)
+
+/-- Transport a torus fibre along equality of base points. -/
+def TorusFibre.cast {Λ Y E : Type*} [AddCommGroup Λ] [AddCommGroup E]
+    (period : Y → (Λ →ₗ[ℤ] E)) {y y' : Y} (h : y = y') :
+    TorusFibre period y ≃+ TorusFibre period y' := by
+  subst h
+  exact AddEquiv.refl _
+
+/-- The fibrewise presentation of the varying torus family.  It is canonically equivalent to the
+single orbit quotient used above. -/
+abbrev FibrewiseTorusFamily {Λ Y E : Type*} [AddCommGroup Λ] [AddCommGroup E]
+    (period : Y → (Λ →ₗ[ℤ] E)) :=
+  Σ y, TorusFibre period y
+
+/-- Genuine affine equivariant data.  The translation is a section of the appropriate target
+fibre, not a lattice element or an assumed vector-space lift. -/
+structure AffineEquivariantPeriodData {Γ Λ Y E : Type*} [Group Γ] [MulAction Γ Y]
+    [AddCommGroup Λ] [AddCommGroup E] (period : Y → (Λ →ₗ[ℤ] E)) where
+  latticeAction : Representation ℤ Γ Λ
+  linearPart : ∀ (_g : Γ) (_y : Y), E ≃ₗ[ℤ] E
+  fibreLinearPart : ∀ (g : Γ) (y : Y),
+    TorusFibre period y ≃+ TorusFibre period (g • y)
+  fibreLinearPart_mk : ∀ (g : Γ) (y : Y) (e : E),
+    fibreLinearPart g y (Submodule.Quotient.mk e) =
+      Submodule.Quotient.mk (linearPart g y e)
+  linearPart_period : ∀ (g : Γ) (y : Y) (lam : Λ),
+    linearPart g y (period y lam) = period (g • y) (latticeAction g lam)
+  linear_one : ∀ (y : Y) (e : E), linearPart 1 y e = e
+  linear_mul : ∀ (g h : Γ) (y : Y) (e : E),
+    linearPart (g * h) y e = linearPart g (h • y) (linearPart h y e)
+  fibreLinear_one : ∀ (y : Y) (x : TorusFibre period y),
+    TorusFibre.cast period (one_smul Γ y) (fibreLinearPart 1 y x) = x
+  fibreLinear_mul : ∀ (g h : Γ) (y : Y) (x : TorusFibre period y),
+    TorusFibre.cast period (mul_smul g h y) (fibreLinearPart (g * h) y x) =
+      fibreLinearPart g (h • y) (fibreLinearPart h y x)
+  translation : ∀ (g : Γ) (y : Y), TorusFibre period (g • y)
+  translation_one : ∀ (y : Y),
+    TorusFibre.cast period (one_smul Γ y) (translation 1 y) = 0
+  translation_mul : ∀ (g h : Γ) (y : Y),
+    TorusFibre.cast period (mul_smul g h y) (translation (g * h) y) =
+      translation g (h • y) + fibreLinearPart g (h • y) (translation h y)
+
+/-- The affine map on one fibre, with linear and translation parts both visible. -/
+noncomputable def AffineEquivariantPeriodData.affineFibreMap
+    {Γ Λ Y E : Type*} [Group Γ] [MulAction Γ Y] [AddCommGroup Λ] [AddCommGroup E]
+    {period : Y → (Λ →ₗ[ℤ] E)}
+    (D : AffineEquivariantPeriodData (Γ := Γ) period) (g : Γ) (y : Y) :
+    TorusFibre period y ≃ TorusFibre period (g • y) := by
+  sorry
+
+@[simp]
+theorem AffineEquivariantPeriodData.affineFibreMap_apply
+    {Γ Λ Y E : Type*} [Group Γ] [MulAction Γ Y] [AddCommGroup Λ] [AddCommGroup E]
+    {period : Y → (Λ →ₗ[ℤ] E)} (D : AffineEquivariantPeriodData (Γ := Γ) period)
+    (g : Γ) (y : Y) (x : TorusFibre period y) :
+    D.affineFibreMap g y x = D.fibreLinearPart g y x + D.translation g y := by
+  sorry
+
+/-- The induced affine equivalence of the total fibrewise family. -/
+noncomputable def AffineEquivariantPeriodData.affineFamilyLift
+    {Γ Λ Y E : Type*} [Group Γ] [MulAction Γ Y] [AddCommGroup Λ] [AddCommGroup E]
+    {period : Y → (Λ →ₗ[ℤ] E)}
+    (D : AffineEquivariantPeriodData (Γ := Γ) period) (g : Γ) :
+    FibrewiseTorusFamily period ≃ FibrewiseTorusFamily period := by
+  sorry
+
+@[simp]
+theorem AffineEquivariantPeriodData.affineFamilyLift_base
+    {Γ Λ Y E : Type*} [Group Γ] [MulAction Γ Y] [AddCommGroup Λ] [AddCommGroup E]
+    {period : Y → (Λ →ₗ[ℤ] E)} (D : AffineEquivariantPeriodData (Γ := Γ) period)
+    (g : Γ) (x : FibrewiseTorusFamily period) :
+    (D.affineFamilyLift g x).1 = g • x.1 := by
+  sorry
+
+/-- The affine lifts obey the group law; `Equiv.trans` is written in application order. -/
+theorem AffineEquivariantPeriodData.affineFamilyLift_mul
+    {Γ Λ Y E : Type*} [Group Γ] [MulAction Γ Y] [AddCommGroup Λ] [AddCommGroup E]
+    {period : Y → (Λ →ₗ[ℤ] E)} (D : AffineEquivariantPeriodData (Γ := Γ) period)
+    (g h : Γ) :
+    D.affineFamilyLift (g * h) = (D.affineFamilyLift h).trans (D.affineFamilyLift g) := by
+  sorry
+
+/-- A nonzero translation has no fixed point.  This is the fibrewise regression behind affine
+descent over a fixed base point; a purely linear action instead fixes zero. -/
+theorem translationEquiv_fixedPointFree {T : Type*} [AddCommGroup T] (b : T) (hb : b ≠ 0) :
+    ∀ x, x + b ≠ x := by
+  intro x hx
+  apply hb
+  have h : x + b = x + 0 := by simpa using hx
+  exact add_left_cancel h
+
+/-! ## Exact base-changed punctured-family contract -/
+
+/-- The literal total space of the pullback of `p` along `β`. -/
+def BaseChangeTotal {B B' X : Type*} (β : B' → B) (p : X → B) :=
+  {q : B' × X // β q.1 = p q.2}
+
+def baseChangeProjection {B B' X : Type*} (β : B' → B) (p : X → B) :
+    BaseChangeTotal β p → B' :=
+  fun q ↦ q.1.1
+
+/-- A map-level biholomorphic identification of a family over `B'` with a specified pullback
+family.  The logarithmic gauge and inverse formula are identified with the two maps of the
+biholomorphism rather than merely asserted to exist. -/
+structure PuncturedBaseChangeIdentification {B B' X X' : Type*}
+    (β : B' → B) (p : X → B) (p' : X' → B')
+    [TopologicalSpace X'] [ChartedSpace ℂ X'] [IsManifold 𝓘(ℂ, ℂ) ∞ X']
+    [TopologicalSpace (BaseChangeTotal β p)] [ChartedSpace ℂ (BaseChangeTotal β p)]
+    [IsManifold 𝓘(ℂ, ℂ) ∞ (BaseChangeTotal β p)] where
+  gauge : X' → BaseChangeTotal β p
+  inverseFormula : BaseChangeTotal β p → X'
+  forward : X' ≃ₘ⟮𝓘(ℂ, ℂ), 𝓘(ℂ, ℂ)⟯ BaseChangeTotal β p
+  forward_eq_gauge : ⇑forward = gauge
+  inverse_eq_formula : ⇑forward.symm = inverseFormula
+  forward_over_base : ∀ x, baseChangeProjection β p (forward x) = p' x
+
+/-- The punctured unit disc used by the logarithmic-transform base change. -/
+abbrev PuncturedUnitDisc := {z : ℂ // ‖z‖ < 1 ∧ z ≠ 0}
+
+/-- The exact base change `z ↦ z^m`; the punctured logarithmic gauge identifies families only
+after pullback along this map. -/
+noncomputable def puncturedPowerMap (m : ℕ) (hm : 0 < m) :
+    PuncturedUnitDisc → PuncturedUnitDisc := by
+  sorry
 
 /-! ## Fixed tori and exact cyclic affine algebra -/
 

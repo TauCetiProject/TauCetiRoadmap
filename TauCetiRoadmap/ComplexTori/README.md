@@ -177,22 +177,37 @@ data, together with the quotient-manifold source spine in the complex-manifolds 
 
 Let a discrete group `Γ` act properly discontinuously by biholomorphisms on `Y`. Let
 `ρ : Representation ℤ Γ Λ` and a holomorphic family of complex linear equivalences
-`R_g(y) : E ≃L[ℂ] E` satisfy the exact cocycle and period-equivariance laws.
+`R_g(y) : E ≃L[ℂ] E` satisfy the exact cocycle and period-equivariance laws.  There are two
+constructors, with different inputs and conclusions.
 
-1. Lift the action to `Y × E` by `(y, v) ↦ (g • y, R_g(y) v)`. Prove the group law from the
-   cocycle and prove that it normalizes the period translation action using
-   `Π (g • y) (ρ g λ) = R_g(y) (Π y λ)`.
-2. Descend the action to the varying torus family, prove it biholomorphic and properly
-   discontinuous under explicit orbit-local-finiteness hypotheses. State freeness for the induced
-   action on the **total torus-family space**, not merely on the base, and prove it directly or
-   deduce it from Milestone 4's torus fixed-point criterion at every base stabilizer. Only then form
-   the standard second quotient. This includes elliptic base points whose stabilizers are removed
+1. The **linear constructor** lifts the action to `Y × E` by
+   `(y, v) ↦ (g • y, R_g(y) v)`. Prove the group law from the cocycle and prove that it normalizes
+   the period translation action using
+   `Π (g • y) (ρ g λ) = R_g(y) (Π y λ)`.  Its descended action preserves the zero section, so it
+   is free only when the base action is free.  This constructor is not used to remove a base
+   stabilizer.
+2. The **affine constructor** additionally takes a holomorphic section
+   `b_g : Y → g^*T` of the pulled-back torus family, so
+   `b_g(y) ∈ T_(g • y)`, satisfying
+   `b_(gh)(y) = b_g(h • y) + R_g(h • y)(b_h(y))` and `b_1 = 0`.  Define
+   `g(y,x) = (g • y, R_g(y)x + b_g(y))` on the fibrewise torus family.  Prove the action law,
+   holomorphy, inverse formula, and compatibility with the period quotient.  Formulating `b` on
+   the torus family is intentional: no unnecessary global vector-space lift is required.
+3. Descend either action, prove it biholomorphic and properly discontinuous under explicit
+   orbit-local-finiteness hypotheses.  For the affine constructor, state freeness for the induced
+   action on the **total torus-family space**, not merely on the base, and prove it from
+   Milestone 4's torus fixed-point criterion at every base stabilizer. Only then form the standard
+   second quotient.  This constructor includes elliptic base points whose stabilizers are removed
    by a fibre translation.
-3. Descend the family projection to `Y/Γ`, prove submersion charts over the free locus, and identify
+4. Descend the family projection to `Y/Γ`, prove submersion charts over the free locus, and identify
    its monodromy with `ρ`. Under the proper-submersion hypotheses, descend the separate smooth local
    trivializations. Derive the action on homology through exterior powers.
-4. Prove naturality under equivariant base change, conjugation of the marking, and reversal of
+5. Prove naturality under equivariant base change, conjugation of the marking, and reversal of
    loop orientation.
+
+As a regression test, take a base fixed point and a nonzero torsion translation on its torus
+fibre.  The affine constructor admits the resulting fixed-point-free fibre action.  The linear
+constructor fixes the fibre origin and therefore cannot prove total-space freeness there.
 
 The universal-covers roadmap supplies deck and monodromy foundations; this milestone owns only
 their application to period-lattice families.
@@ -291,12 +306,29 @@ model. The statements here allow higher-dimensional torus fibres.
 
 ## Milestone 6: logarithmic gauges and regluing
 
-1. Over a punctured disc, construct logarithmic gauges from a chosen branch of logarithm. Prove
+Fix the punctured unit disc `D*`, the degree-`m` cover
+`β_m : D* → D*`, `z ↦ z^m`, the restriction `X* → D*` of the original family, and the punctured
+restriction `Q* → D*` of the cyclic quotient.  Write
+`β_m^*X* = D* ×_(β_m,D*) X*` for the literal pullback family.
+
+1. Over `D*`, construct logarithmic gauges from a chosen branch of logarithm. Prove
    that changing the branch acts by the corresponding lattice translation and therefore gives the
    same descended biholomorphism.
-2. Identify the punctured restriction of the cyclic quotient with the original varying torus
-   family after the prescribed base change. Prove the forward and inverse formulas and their
-   holomorphy.
+2. Construct a named biholomorphism over `D*`
+   `puncturedBaseChangeEquiv : Q* ≃_[D*] β_m^*X*`.  Its forward map is the descended logarithmic
+   gauge; expose that forward map, the equation with both projections to `D*`, the inverse formula,
+   and holomorphy in both directions.  This is an identification only after the displayed base
+   change.  It gives no isomorphism between `Q*` and a constant family over the original punctured
+   base unless the linear monodromy is separately proved trivial.  Any descent used for the final
+   regluing is a further theorem and must retain the identification with the family on the
+   complement.
+
+The regression model is the involution on `D × E₁ × E₂` combining a nonzero fibre translation
+with linear monodromy `-id` around the puncture.  Its quotient over the original `D*` cannot be
+identified with a constant family: that would trivialize the displayed nontrivial monodromy.  The
+double cover `β₂` kills this monodromy and permits the punctured pullback identification above,
+but descending that identification and gluing it across the central fibre remain separate
+theorems.
 3. Construct compatible smooth collars through the geometric-topology roadmap and prove that the
    punctured gauge restricts to the collar map used for regluing. Apply the complex-manifolds
    roadmap's open-gluing theorem to the analytic pieces.
@@ -346,10 +378,16 @@ with the complex-manifolds and geometric-topology gluing APIs.
   order `m`.
 - A varying elliptic family with nonconstant period ratio has submersion charts but is not thereby
   declared holomorphically locally trivial with one fixed elliptic-curve fibre.
+- The linear equivariant-family constructor fixes the zero section and requires a free base action
+  for total-space freeness.  The separate affine constructor carries an actual torus-valued
+  cocycle.  A nonzero torsion translation over a base fixed point is accepted only by the latter.
 - The cyclic quotient retains the varying period lattice and proves the local equation
   `t = a u^m`; it is not replaced by a product with a fixed torus.
 - Branch changes in the punctured logarithmic gauge are proved to be lattice translations, and
-  induced `π₁` and `H₁` maps come from the constructed maps.
+  induced `π₁` and `H₁` maps come from the constructed maps.  The punctured-family equivalence is
+  over the explicit `z ↦ z^m` pullback; nontrivial linear monodromy forbids silently replacing it
+  by an equivalence over the original base.  The `-id` involution regression becomes trivial only
+  after the displayed double cover, and does not make descent or final gluing automatic.
 
 ## References
 
