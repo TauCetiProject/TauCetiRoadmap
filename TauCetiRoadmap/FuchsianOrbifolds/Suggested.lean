@@ -380,6 +380,11 @@ noncomputable def biholomorph_of_degree_eq_one (f : FiniteHolomorphicMap X Y)
     (hf : degree f = 1) : X ≃ₘ⟮𝓘(ℂ, ℂ), 𝓘(ℂ, ℂ)⟯ Y := by
   sorry
 
+@[simp]
+theorem biholomorph_of_degree_eq_one_toFun (f : FiniteHolomorphicMap X Y)
+    (hf : degree f = 1) : ⇑(biholomorph_of_degree_eq_one f hf) = f := by
+  sorry
+
 /-- Divisors are integral finite formal sums of points. -/
 abbrev Divisor (X : Type*) := X →₀ ℤ
 
@@ -402,8 +407,8 @@ noncomputable def genus (X : Type*) [TopologicalSpace X] [ChartedSpace ℂ X] [T
     [CompactSpace X] [ConnectedSpace X] [IsManifold 𝓘(ℂ, ℂ) ∞ X] : ℕ :=
   Int.toNat ((2 - surfaceEulerCharacteristic X) / 2)
 
-/-- The defining Euler-characteristic identity for topological genus. Analytic compatibility is
-then proved independently of the higher ModularForms Riemann--Roch layer. -/
+/-- The defining Euler-characteristic identity for topological genus.  Comparison with analytic
+cohomological genus belongs to the higher ModularForms Riemann--Roch layer. -/
 theorem surfaceEulerCharacteristic_eq_two_sub_two_mul_genus :
     surfaceEulerCharacteristic X = 2 - 2 * (genus X : ℤ) := by
   sorry
