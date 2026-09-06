@@ -85,11 +85,12 @@ endpoint.
   input used in Stage 4B.  This roadmap owns the topological loop-space equivalences, stable
   `SO` table, and bundle-classification consequences; algebraic Clifford periodicity alone does
   not discharge them.
-- Mathlib supplies the carrier `CompactlyGenerated.{u,w}` and its fully faithful functor to
-  `TopCat`.  This roadmap supplies the missing reflector, compactly generated products and
-  mapping spaces, pointed closed structure, and filtered-colimit comparison needed below.  It
-  does not silently use ordinary `TopCat` products or colimits where an exponential law is
-  required.
+- Mathlib supplies the carrier `CompactlyGenerated.{u,w}` and its fully faithful inclusion
+  `i : CompactlyGenerated ⥤ TopCat`.  This roadmap constructs compact generation as the right
+  adjoint `k` in the coreflection `i ⊣ k`, including the counit `i (k X) ⟶ X`, together with
+  compactly generated products and mapping spaces, pointed closed structure, and the
+  limit/colimit comparisons needed below.  It does not silently use ordinary `TopCat` products
+  or limits where compact generation is required for an exponential law.
 
 `Suggested.lean` keeps two supplier-interface mirrors only under
 `TauCetiRoadmap.HomotopySpheres.Internal`: `OrientationSupplierMirror` for the
@@ -210,8 +211,8 @@ The development starts from these current APIs and cited roadmap targets.
 - `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`, Lie groups, topological groups,
   vector bundles, pullbacks, direct sums, quotient spaces, `CompactlyGenerated.{u,w}`,
   categorical filtered colimits, and `AddCommGrpCat`.  Mathlib's compactly generated category
-  does not yet supply the reflector or Cartesian closed API needed here; those are targets, not
-  inferred instances.
+  already supplies the fully faithful inclusion into `TopCat`; the missing right adjoint
+  (compact-generation coreflector) and Cartesian closed API are targets, not inferred instances.
 - Geometric topology's boundary, collar, gluing, tubular-neighbourhood, connected-sum, handle,
   surgery, cobordism, and triangulation outputs, plus Heegaard Floer's orientation, degree,
   Morse, Sard, and transversality outputs.
@@ -304,13 +305,16 @@ orientation conventions, connected-sum operation, and inverse argument.
 
 ### 3A. Pointed constructions and stabilization
 
-1. Complete Mathlib's `CompactlyGenerated.{u,w}` interface: construct the compact-generation
-   reflector from `TopCat`, prove the adjunction and full faithfulness, define compactly
-   generated products and compact-open exponentials, and prove the exponential law.  Develop
-   pointed objects, based internal homs, and the required sequential colimits.  Prove comparison
-   theorems with ordinary `TopCat` for CW complexes and locally compact Hausdorff sources.  All
-   subsequent loop spaces, James constructions, stable classical groups, and classifying spaces use
-   this one carrier.
+1. Complete Mathlib's `CompactlyGenerated.{u,w}` interface without replacing its existing
+   fully faithful inclusion `i : CompactlyGenerated ⥤ TopCat`: construct compact generation as
+   the right adjoint `k : TopCat ⥤ CompactlyGenerated`, prove `i ⊣ k`, and expose the counit
+   `i (k X) ⟶ X`.  Prove that colimits used below are created and preserved by `i`, while limits
+   are computed by applying `k` to the corresponding `TopCat` limit; in particular, define the
+   convenient product as `k` of the ordinary product.  Define compact-open exponentials followed
+   by `k`, prove the exponential law, and develop pointed objects, based internal homs, and the
+   required sequential colimits.  Prove comparison theorems with ordinary `TopCat` for CW
+   complexes and locally compact Hausdorff sources.  All subsequent loop spaces, James
+   constructions, stable classical groups, and classifying spaces use this one carrier.
 2. Build reduced suspension, based loop space, smash product, mapping cone, cofiber sequences,
    and Puppe sequences in the same pointed category as the algebraic-topology roadmap's relative
    homotopy groups.  Prove the suspension--loop adjunction on maps and on pointed homotopy classes.
@@ -487,10 +491,13 @@ statement above is part of the theorem, not quotient-by-choice automation.
    embedded defect disc, and a stable tangent framing of the punctured manifold which is product-
    compatible near the new boundary.  Its source is smoothly diffeomorphic, as a manifold with
    boundary, to the standard closed disc; the ambient map is a smooth proper embedding with an
-   interior and exterior smooth collar and non-surjective image.  A closed set merely homeomorphic
-   to a ball is not enough.  Define bordisms using a properly embedded defect arc, its genuine
-   tubular neighbourhood, and a stable framing off that neighbourhood whose endpoint pullbacks
-   are the two displayed complement framings.
+   interior collar and non-surjective image.  Its exterior collar has target open in the closed
+   complement of the disc interior (or is the exterior half of a two-sided ambient collar); it is
+   not required to have ambient-open image in the original manifold.  A closed set merely
+   homeomorphic to a ball is not enough.  Define bordisms using a properly embedded defect arc,
+   its genuine tubular neighbourhood, named endpoint embeddings identifying that track with the
+   two chosen defect discs and collars, and a stable framing off that neighbourhood whose endpoint
+   pullbacks equal the two displayed complement framings after one common stabilization.
 2. Prove independence of defect discs, collars, representatives, and stabilization.  Prove the
    bordism relation and connected-sum abelian-group laws; call the resulting exported group
    `AlmostFramedBordism n`.
@@ -520,25 +527,42 @@ statement above is part of the theorem, not quotient-by-choice automation.
    compatibility is equality with the ambient trivialization after pullback to that half-open
    source.  A construction allowed to return the ambient framing itself makes this condition
    circular and does not count.
-2. Two cycles are equivalent when a framed cobordism with corners has horizontal boundary the
-   two fillings and vertical boundary an oriented h-cobordism of their homotopy-sphere
-   boundaries.  Prove equivalence and make boundary connected sum into an abelian-group operation.
-3. Prove the relative destabilization theorem used here.  If `W^n` is compact and connected,
-   `n>=6`, has nonempty boundary and a fixed collar, and its stable tangent framing is the product
-   framing on that collar, choose a handle decomposition relative to the collar with no
-   `n`-handles.  Its spine has dimension at most `n-1`; apply the stable-range injectivity of
-   `BSO(n) -> BSO` (equivalently the bundle-cancellation argument of Kervaire--Milnor Lemmas
-   3.4--3.5) relative to the collar.  Obtain an honest tangent trivialization whose stabilization
-   is homotopic through global smooth bundle trivializations to the given framing relative to the
-   collar.  Retain that relative homotopy as data on every historical honest `P_n` representative;
-   an unrelated honest framing does not discharge the comparison.  State the converse by
+2. A filling bordism is a collared, oriented, framed `(n+1)`-manifold with corners whose rounded
+   boundary is decomposed into three named faces: the incoming filling, the outgoing filling, and
+   a vertical collared oriented h-cobordism between their boundary homotopy spheres.  Store all
+   three smooth embeddings, require the horizontal faces to be disjoint, require their union with
+   the vertical face to cover the boundary, and identify the two horizontal--vertical
+   intersections exactly with the two endpoint sphere embeddings.  The incoming endpoint carries
+   the reversed induced boundary orientation and the outgoing endpoint the given orientation.
+   Pull the trace framing back to both horizontal faces after one common stabilization and require
+   equality with the two displayed endpoint framings; its restriction to the vertical face is
+   product-compatible on that face's collar.  Corner rounding must preserve these face maps,
+   orientation identifications, and framing equations.  Construct the product cylinder, including
+   its vertical boundary cylinder and both corners, as the reflexivity witness.  Use these
+   witnesses to prove equivalence and make boundary connected sum into an abelian-group operation.
+3. Separate absolute destabilization from the relative lifting problem.  An absolute handle
+   decomposition of a compact connected `W^n` with nonempty boundary can omit `n`-handles and
+   gives a spine of dimension at most `n-1`; stable-range bundle cancellation can therefore
+   produce some honest tangent trivialization.  A handle decomposition relative to the entire
+   boundary cannot have that claimed form, since `H_n(W, ∂W; ℤ)` contains the relative
+   fundamental class.  For a prescribed product stable framing on a fixed collar, define the
+   obstruction to lifting the corresponding relative map through `BSO(n) ⟶ BSO`, state its
+   obstruction groups and naturality under stabilization and gluing, and prove that its vanishing
+   is equivalent to an honest framing together with a global homotopy of stable
+   trivializations fixed on the collar.  Prove vanishing only under the explicit hypotheses used
+   by the defect-deletion and historical comparison maps; do not assert it for every prescribed
+   relative framing.  Package a successful lift as `RelativelyDestabilizedFillingCycle`, retaining
+   both the honest framing and that global relative homotopy, and state the converse by
    stabilization.
-4. Separately encode Kervaire--Milnor's historical `P_n` cycles: their s-parallelizable compact
-   `n`-manifolds with homotopy-sphere boundary, their stated relative cobordism relation, and their
-   boundary-connected-sum operation.  Give the maps in both directions using the relative
-   destabilization theorem, compare collar and corner conventions, prove both composites, and
-   prove compatibility with addition, orientation reversal, and boundary.  Only then identify the
-   convenient stable-filling quotient with `P_n`.
+4. Separately encode Kervaire--Milnor's historical `P_n` cycles and their stated relative
+   cobordism relation.  Map a historical representative to the relatively destabilized carrier
+   with its chosen honest framing and relative stabilization homotopy.  In the reverse direction,
+   forget only this auxiliary comparison data.  Prove that every stable-filling bordism class
+   needed for the Kervaire--Milnor sequence has such a representative by applying the obstruction
+   criterion from step 3 in its verified range; this is a theorem, not a field or an unconditional
+   relative handle argument.  Compare the collar and three-face corner conventions, prove both
+   composites, and prove compatibility with boundary connected sum, orientation reversal, and
+   boundary.  Only then identify the resulting quotient with `P_n`.
 
 ### 6C. Maps and exactness
 
@@ -753,11 +777,20 @@ occurs in Stage 7 after the obstruction groups and surgery theorem have been con
   relations and quotients, the maps `Theta_n -> A_n -> P_n` and `P_(n+1) -> Theta_n`, exactness at
   the displayed segment, and the resulting `Theta_6 = 0`. None is represented by an arbitrary
   `AddCommGrpCat` with the intended answer hidden in its body.
+- The standard closed disc in the standard sphere instantiates the embedded-disc contract, and
+  its exterior collar is checked in the closed complement of the disc interior rather than as an
+  ambient-open subset of the sphere.
+- Product bordisms instantiate every boundary witness used here: for a closed oriented cycle,
+  `∂(M × [0,1]) = (-M) ⊔ M`; for a filling they have incoming and outgoing horizontal faces,
+  the vertical product on its boundary, the two exact corner intersections, and endpoint framing
+  restrictions after a common stabilization.  Punctured-sphere and defect-track regressions check
+  the endpoint disc/collar equations and exclude a relation that ignores either endpoint frame.
 - `J X ~= Omega Sigma X` is derived for every connected `X` using universal covers or local
   coefficients, and its `X=S^1` fundamental-group case is a regression theorem.  The EHP
   sequence follows from the resulting maps and connectivity theorem.
-- All stable topology is formed in `CompactlyGenerated`, with the reflector, exponential law,
-  and comparison theorems proved before James, loop-space, or Bott arguments use them.
+- All stable topology is formed in `CompactlyGenerated`, reusing Mathlib's fully faithful
+  inclusion and proving its compact-generation right adjoint, counit, exponential law, and
+  limit/colimit comparisons before James, loop-space, or Bott arguments use them.
 - Bott periodicity supplies all eight stable `SO` congruence classes through loop equivalences.
   Its proof includes the broken-geodesic approximations, compact-family comparison, Morse--Bott
   Hessian and negative-bundle attachments, and increasing-connectivity estimate.  A proof of
@@ -771,8 +804,10 @@ occurs in Stage 7 after the obstruction groups and surgery theorem have been con
 - The defect-disc model for `A_n` and the collared filling model for `P_n` are each proved
   isomorphic to the historical Kervaire--Milnor groups by explicit forward and inverse maps
   compatible with addition, boundary, and defect.  Stable and honest parallelizability are
-  connected only by the stated relative destabilization theorem.  `P_n` is then proved
-  isomorphic to the normalized simply connected Wall group, not defined to be it.
+  connected only after the absolute destabilization argument and the separate prescribed-collar
+  obstruction have both been discharged; the global relative framing homotopy is retained as
+  data.  `P_n` is then proved isomorphic to the normalized simply connected Wall group, not
+  defined to be it.
 - Wall's obstruction theorem includes normal-map decomposition, below-middle surgery,
   even-dimensional whole-module quadratic forms, odd-dimensional formations with lawful
   lagrangian submodules, vanishing, realization, and group computation.
