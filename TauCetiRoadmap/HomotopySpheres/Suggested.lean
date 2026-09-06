@@ -1,4 +1,5 @@
 import Mathlib
+import TauCetiRoadmap.AlgebraicTopology.Suggested
 
 /-!
 # High-dimensional differential topology and homotopy spheres: target signatures
@@ -25,6 +26,13 @@ open scoped ContDiff Manifold Topology
 namespace TauCetiRoadmap.HomotopySpheres
 
 universe u v
+
+/-! Literal integration gate for the algebraic-topology supplier. -/
+
+#check TauCetiRoadmap.AlgebraicTopology.relativeHurewicz
+#check TauCetiRoadmap.AlgebraicTopology.homologicalWhitehead
+#check TauCetiRoadmap.AlgebraicTopology.poincareDualityMap_isIso
+#check TauCetiRoadmap.AlgebraicTopology.compactManifoldFiniteCWType
 
 /-! ## Convenient spaces and literal colimits -/
 
@@ -558,12 +566,12 @@ structure StableFramingHomotopy
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSpace H]
     {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
     [IsManifold I ∞ M] {r : ℕ} (f₀ f₁ : StableTangentFraming I M r) where
-  at : unitInterval → StableTangentFraming I M r
-  at_zero : at 0 = f₀
-  at_one : at 1 = f₁
+  framingAt : unitInterval → StableTangentFraming I M r
+  at_zero : framingAt 0 = f₀
+  at_one : framingAt 1 = f₁
   continuous_eval : Continuous fun p : unitInterval ×
       Bundle.TotalSpace (E × ModelSpace r) (StabilizedTangentBundle I M r) ↦
-    (at p.1).trivialization p.2
+    (framingAt p.1).trivialization p.2
 
 structure StableFramedFillingCycle.StabilizesRelBoundary
     {n : ℕ} (W : StableFramedFillingCycle n)
@@ -573,7 +581,7 @@ structure StableFramedFillingCycle.StabilizesRelBoundary
     (honest.stabilize W.framingRank).trivialization
   homotopy : StableFramingHomotopy W.stableFraming stabilized
   fixedOnCollar : ∀ t,
-    (pullbackFramingAlongCollar W.filling (homotopy.at t)).trivialization =
+    (pullbackFramingAlongCollar W.filling (homotopy.framingAt t)).trivialization =
       (pullbackFramingAlongCollar W.filling W.stableFraming).trivialization
 
 /-- A stable filling together with an honest destabilization and the global relative homotopy.
@@ -675,13 +683,16 @@ noncomputable def BoundaryIdentification.outgoingInclusion
 line is the outward normal and is ordered first; incoming restrictions reverse that normal in the
 orientation comparison. -/
 noncomputable def restrictStableFramingAlongCodimOne
-    {n r : ℕ} {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
-    [ChartedSpace (ModelSpace n) M] [IsManifold (SmoothModel n) ∞ M]
-    [ChartedSpace (ModelSpace (n + 1)) N] [IsManifold (SmoothModel (n + 1)) ∞ N]
+    {E F H K M N : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [NormedAddCommGroup F] [NormedSpace ℝ F] [TopologicalSpace H] [TopologicalSpace K]
+    {I : ModelWithCorners ℝ E H} {J : ModelWithCorners ℝ F K}
+    [TopologicalSpace M] [TopologicalSpace N]
+    [ChartedSpace H M] [IsManifold I ∞ M]
+    [ChartedSpace K N] [IsManifold J ∞ N] {r : ℕ}
     (f : C(M, N))
-    (_hf : IsSmoothEmbedding (SmoothModel n) (SmoothModel (n + 1)) ∞ f)
-    (_framing : StableTangentFraming (SmoothModel (n + 1)) N r) :
-    StableTangentFraming (SmoothModel n) M (r + 1) := by
+    (_hf : IsSmoothEmbedding I J ∞ f)
+    (_framing : StableTangentFraming J N r) :
+    StableTangentFraming I M (r + 1) := by
   sorry
 
 /-- A geometric h-cobordism witness. Both displayed boundary inclusions, rather than unrelated
@@ -817,9 +828,9 @@ structure AlmostFramedBordismWitness {n : ℕ} (X Y : AlmostFramedCycle n) where
       defectTrack.embedding (defectTrack.disk.boundaryIdentification (defectOutgoing p))
   incomingComplement : C(X.defect.exterior, defectTrack.exterior)
   outgoingComplement : C(Y.defect.exterior, defectTrack.exterior)
-  incomingComplementSmooth : IsSmoothEmbedding (SmoothModel n) (SmoothModel (n + 1)) ∞
+  incomingComplementSmooth : IsSmoothEmbedding (SmoothModel n) cobordism.model ∞
     incomingComplement
-  outgoingComplementSmooth : IsSmoothEmbedding (SmoothModel n) (SmoothModel (n + 1)) ∞
+  outgoingComplementSmooth : IsSmoothEmbedding (SmoothModel n) cobordism.model ∞
     outgoingComplement
   incomingComplement_commutes : ∀ p,
     ((incomingComplement p : defectTrack.exterior) : cobordism.M) =
@@ -877,9 +888,10 @@ horizontal faces meet the vertical face exactly in their displayed boundary sphe
 vertical face is itself an oriented h-cobordism between those spheres. -/
 structure StableFillingBoundaryFaces {n : ℕ}
     (X Y : StableFramedFillingCycle n) (trace : CollaredOrientedFilling (n + 1)) where
+  [dimensionPositive : NeZero n]
   incoming : C(X.filling.M, trace.B)
   outgoing : C(Y.filling.M, trace.B)
-  vertical : CollaredOrientedFilling n
+  vertical : CollaredOrientedFilling (n - 1 + 1)
   verticalFace : C(vertical.M, trace.B)
   incomingSmooth : IsSmoothEmbedding X.filling.model (SmoothModel ((n + 1) - 1)) ∞ incoming
   outgoingSmooth : IsSmoothEmbedding Y.filling.model (SmoothModel ((n + 1) - 1)) ∞ outgoing
@@ -895,7 +907,8 @@ structure StableFillingBoundaryFaces {n : ℕ}
   verticalAmbient_eq : ∀ x, verticalAmbient x = trace.boundaryIdentification (verticalFace x)
   horizontalDisjoint : Disjoint (Set.range incoming) (Set.range outgoing)
   facesCover : Set.range incoming ∪ Set.range outgoing ∪ Set.range verticalFace = Set.univ
-  verticalBoundary : BoundaryIdentification X.boundaryCycle Y.boundaryCycle vertical
+  verticalBoundary : BoundaryIdentification X.boundaryCycle.toSmoothClosedOrientedCycle
+    Y.boundaryCycle.toSmoothClosedOrientedCycle vertical
   incomingCorner : ∀ p,
     incoming (X.boundaryInclusion p) =
       verticalFace (verticalBoundary.incomingInclusion p)
@@ -919,6 +932,22 @@ noncomputable def StableFillingBoundaryFaces.verticalFraming {n : ℕ}
     StableTangentFraming F.vertical.model F.vertical.M (r + 1) :=
   restrictStableFramingAlongCodimOne F.verticalAmbient F.verticalAmbientSmooth framing
 
+/-- The trace framing restricted to the incoming horizontal face. -/
+noncomputable def StableFillingBoundaryFaces.incomingFraming {n : ℕ}
+    {X Y : StableFramedFillingCycle n} {trace : CollaredOrientedFilling (n + 1)}
+    (F : StableFillingBoundaryFaces X Y trace) {r : ℕ}
+    (framing : StableTangentFraming trace.model trace.M r) :
+    StableTangentFraming X.filling.model X.filling.M (r + 1) :=
+  restrictStableFramingAlongCodimOne F.incomingAmbient F.incomingAmbientSmooth framing
+
+/-- The trace framing restricted to the outgoing horizontal face. -/
+noncomputable def StableFillingBoundaryFaces.outgoingFraming {n : ℕ}
+    {X Y : StableFramedFillingCycle n} {trace : CollaredOrientedFilling (n + 1)}
+    (F : StableFillingBoundaryFaces X Y trace) {r : ℕ}
+    (framing : StableTangentFraming trace.model trace.M r) :
+    StableTangentFraming Y.filling.model Y.filling.M (r + 1) :=
+  restrictStableFramingAlongCodimOne F.outgoingAmbient F.outgoingAmbientSmooth framing
+
 /-- A genuine framed cobordism with corners between relatively destabilized fillings.  Endpoint
 framing equations are stated after one common stabilization, and the vertical face carries the
 restriction of the trace framing, product-compatible on its own collar. -/
@@ -933,12 +962,10 @@ structure StableFillingBordismWitness {n : ℕ}
   incomingRank : X.framingRank ≤ rank + 1
   outgoingRank : Y.framingRank ≤ rank + 1
   incomingFramingAgrees :
-    (restrictStableFramingAlongCodimOne faces.incomingAmbient faces.incomingAmbientSmooth
-      framing).trivialization =
+    (faces.incomingFraming framing).trivialization =
         (X.toStableFramedFillingCycle.stabilizeTo (rank + 1) incomingRank).trivialization
   outgoingFramingAgrees :
-    (restrictStableFramingAlongCodimOne faces.outgoingAmbient faces.outgoingAmbientSmooth
-      framing).trivialization =
+    (faces.outgoingFraming framing).trivialization =
         (Y.toStableFramedFillingCycle.stabilizeTo (rank + 1) outgoingRank).trivialization
   verticalProductOnCollar : (faces.verticalFraming framing).IsProductOnCollar faces.vertical
 
