@@ -1092,8 +1092,19 @@ Fuchsian module: that lower module points only toward `Fuchsian.LevelOne` as dis
   pairing (Forster §17): `H¹(𝒪_D)^* ≅ H⁰(Ω_{−D})`, whence `ℓ(D) − ℓ(K−D) = deg D + 1 − g`,
   `dim H⁰(Ω¹) = g`, `deg K = 2g − 2`, and the vanishing `H¹(𝒪_D) = 0` for `deg D > 2g − 2`
   that the exact formulas below actually use.
-  (v) identify `g := dim H¹(X, 𝒪)` with `RiemannSurface.genus X`; then consume
-  `RiemannSurface.riemannHurwitz` and the Fuchsian finite-index local-multiplicity formulas.
+  (v) Define the analytic genus `g_an(X) := dim_C H¹(X, O_X)` and prove the named comparison
+  theorem
+  `RiemannSurface.analyticGenus_eq_topologicalGenus : g_an(X) = RiemannSurface.genus X` in
+  this higher module.  The dependency chain is explicit: (iii)--(iv) give
+  `deg K_X = 2 * g_an(X) - 2`; choose a finite meromorphic map `f : X -> P^1`, use the
+  canonical-divisor identity `K_X = f^* K_(P^1) + R_f`, and take degrees to obtain the analytic
+  Riemann--Hurwitz equality.  The independent lower theorem
+  `RiemannSurface.riemannHurwitz` gives the same equality for topological genus, so comparison of
+  the two formulas proves the result.  For `X(Gamma)`, the specified finite map to `X(1)` followed
+  by the Fuchsian `X(1) ~= P^1` identification supplies `f`.  The lower
+  `RiemannSurface.Degree` module neither defines analytic genus nor proves this comparison.
+  Dimension formulas consume this named equality together with the Fuchsian finite-index
+  local-multiplicity formulas.
   (vi) Consume the named `X(1) ≃ ℙ¹` and `RiemannSurface.genus X(1) = 0` theorems from
   `Fuchsian.LevelOne`.  The normalized `j = E₄³/Δ`, the identity
   `j − 1728 = E₆²/Δ`, modular invariance, q-expansion, and exact orders at `ρ` and `i` were

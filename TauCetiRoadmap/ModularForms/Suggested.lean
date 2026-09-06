@@ -95,7 +95,15 @@ the checks here rather than alongside the level-one inputs makes the roadmap dep
 #check RiemannSurface.degree_comp
 #check RiemannSurface.divisor_pullback
 #check RiemannSurface.biholomorph_of_degree_eq_one
+#check RiemannSurface.biholomorph_of_degree_eq_one_toFun
 #check RiemannSurface.riemannHurwitz
+
+/-!
+This higher roadmap module owns the target theorem
+`RiemannSurface.analyticGenus_eq_topologicalGenus`; it is constructed only after the
+structure-sheaf `H^1`, canonical-divisor degree, and finite-meromorphic-map interfaces in Layer
+10B exist.  It is intentionally not a declaration in the imported lower degree module.
+-/
 
 /-- **Weight-two cusp forms ↔ genus, level 11** (Diamond–Shurman Thm 3.5.1, `k = 2`):
 `dim_ℂ S_2(Γ₀(11)) = 1`. The genus of `X₀(11)` is `1`, and `S_2(Γ)` is the space of
