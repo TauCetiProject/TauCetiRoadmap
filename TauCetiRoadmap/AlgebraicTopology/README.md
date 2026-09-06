@@ -225,7 +225,11 @@ This stage consumes Stages 2 and 3.
    skeleta.  Prove `d^2=0`, identify its matrix entries with degrees of attaching maps, and prove
    naturality for cellular maps.
 3. Construct the skeletal filtration exact couple and prove the cellular-to-singular comparison
-   as a natural quasi-isomorphism.  Extend it to `RelCWComplex` and subcomplex pairs.
+   as a natural isomorphism on homology and as a natural equivalence in the filtered derived or
+   chain-homotopy category.  A chosen chain representative may be given, but its naturality is
+   only up to a specified chain homotopy; do not claim a strict natural transformation from
+   cellular chains to ordinary singular chains.  Extend the comparison to `RelCWComplex` and
+   subcomplex pairs.
 4. Prove finite-CW Euler--Poincare and finite-generation consequences from the cellular complex.
 5. Prove that relative CW inclusions are closed cofibrations with the homotopy extension
    property.  Construct mapping cylinders, cellular approximation, and skeletal induction.
@@ -278,9 +282,12 @@ This stage consumes Stages 2--4.
    `H_q(F;R)` and identify `E^2_(p,q) = H_p(B;H_q(F;R))`.  The finite skeletal filtration gives
    strong convergence; state the bounded-below and exhaustive-filtration hypotheses in the
    corresponding infinite-CW theorem.  Prove naturality under maps of fibrations.  Give a
-   componentwise version for a disconnected base, recover the product calculation under trivial
-   monodromy, and derive Euler-characteristic multiplicativity when base and fibre have finite CW
-   type.
+   componentwise version for a disconnected base.  Under trivial monodromy, identify the `E^2`
+   page with `H_p(B;R) tensor_R H_q(F;R)` under the stated Kunneth hypotheses, but do not infer
+   collapse or product homology.  Recover the product calculation for an actual product fibration;
+   more generally, obtain it only from a Leray--Hirsch hypothesis or from separately proved
+   vanishing of differentials and resolution of extensions.  Derive Euler-characteristic
+   multiplicativity when base and fibre have finite CW type.
 6. For an ordered finite open cover, construct the double complex
    `directSum_(i_0<...<i_p) C_q(U_(i_0...i_p);R)`.  Define the alternating Cech differential by
    dropping one index and the vertical singular differential with the total-complex sign.
@@ -421,7 +428,9 @@ these arrows by assuming a downstream comparison theorem as input.
 - Mayer--Vietoris is derived from excision and agrees with the map induced by inclusions; it is
   not supplied as an unrelated exact sequence.
 - The cellular differential of a two-cell attachment of degree `m` is multiplication by `m`,
-  and cellular homology compares naturally with singular homology.
+  and cellular homology compares naturally with singular homology.  At chain level the comparison
+  is a filtered/derived equivalence or is natural up to displayed chain homotopy, not a strictly
+  natural choice of singular representatives.
 - The field, PID or hereditary-ring, and general-ring Kunneth and universal-coefficient theorems
   have distinct statements; neither short exact sequence is advertised over an arbitrary ring.
 - Transfer for a constant-degree-`d` finite cover satisfies `p_* transfer = d * id` on chains and
@@ -429,8 +438,13 @@ these arrows by assuming a downstream comparison theorem as input.
   formula and has the stated Cartan--Leray spectral sequence; the torus calculation is natural
   under integer matrices.
 - The Serre spectral sequence starts from an explicit Serre fibration, exposes the monodromy local
-  system, is natural under maps of fibrations, specializes to the product calculation for trivial
-  monodromy, and proves finite-CW bundle Euler multiplicativity.
+  system, is natural under maps of fibrations, and proves finite-CW bundle Euler multiplicativity.
+  Trivial monodromy makes the `E^2` coefficients constant but does not imply collapse: the Hopf
+  fibration and the product `S^1 times S^2 -> S^2` are a required comparison, with identical
+  constant-coefficient `E^2` pages and different abutments.
+- Natural-number-indexed cap product and Poincare duality carry the complementary-degree
+  hypothesis `p <= n`.  In particular no above-dimension cohomology group of a connected closed
+  manifold is identified with `H_0` by truncated subtraction.
 - Poincare--Lefschetz duality uses the boundary orientation from the shared manifold API and
   produces the correct sign in the cap-product boundary formula.
 - Torsion linking has complementary degrees, target `AddCircle (1 : ℚ)`, the displayed symmetry

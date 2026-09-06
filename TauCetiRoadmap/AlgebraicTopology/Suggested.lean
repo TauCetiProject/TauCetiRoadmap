@@ -268,8 +268,11 @@ noncomputable def singularCohomology (R : Type u) [CommRing R]
     (X : TopCat.{u}) (n : ℕ) : ModuleCat.{u} R := by
   sorry
 
-/-- Cap product with the Alexander--Whitney sign convention. -/
-noncomputable def capProduct (R : Type u) [CommRing R] (X : TopCat.{u}) (p q : ℕ) :
+/-- Cap product with the Alexander--Whitney sign convention.  With natural-number grading the
+complementary-degree hypothesis prevents truncated subtraction from pretending that a negative
+target degree is degree zero. -/
+noncomputable def capProduct (R : Type u) [CommRing R] (X : TopCat.{u}) (p q : ℕ)
+    (_hpq : p ≤ q) :
     singularCohomology R X p ⟶
       ModuleCat.of R (SingularHomology R (ModuleCat.of R R) X q →ₗ[R]
         SingularHomology R (ModuleCat.of R R) X (q - p)) := by
@@ -290,7 +293,7 @@ structure FundamentalClassDatum (R : Type u) [CommRing R] (X : TopCat.{u}) (n : 
         (TopPair.j (puncturedPair X x)) fundamentalClass} = ⊤
 
 noncomputable def poincareDualityMap (R : Type u) [CommRing R]
-    (X : TopCat.{u}) (n p : ℕ) (c : FundamentalClassDatum R X n) :
+    (X : TopCat.{u}) (n p : ℕ) (_hp : p ≤ n) (c : FundamentalClassDatum R X n) :
     singularCohomology R X p ⟶ SingularHomology R (ModuleCat.of R R) X (n - p) := by
   sorry
 
@@ -301,8 +304,8 @@ theorem poincareDualityMap_isIso (R : Type u) [CommRing R] (n : ℕ)
     [CompactSpace M] [ConnectedSpace M]
     [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
     [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) ∞ M]
-    (p : ℕ) (c : FundamentalClassDatum R (TopCat.of M) n) :
-    IsIso (poincareDualityMap R (TopCat.of M) n p c) := by
+    (p : ℕ) (hp : p ≤ n) (c : FundamentalClassDatum R (TopCat.of M) n) :
+    IsIso (poincareDualityMap R (TopCat.of M) n p hp c) := by
   sorry
 
 /-! ## Relative Hurewicz -/
