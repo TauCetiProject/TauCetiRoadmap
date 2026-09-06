@@ -311,9 +311,9 @@ sign/indexing convention of the mod-`8` table (`Cliff(1,0) ≅ ℝ × ℝ`, `Cli
 theorem cliff_one_one_equiv_matrix :
     Nonempty (CliffordAlgebra (realCliffordForm 1 1) ≃ₐ[ℝ] Matrix (Fin 2) (Fin 2) ℝ) := sorry
 
-/-- **Bott periodicity** `Cliff(p+1, q+1) ≅ Cliff(p, q) ⊗ M₂(ℝ)`, built from
-`CliffordAlgebra.equivEven` and `CliffordAlgebra.prodEquiv`; iterating gives the mod-`8` table, indexed by
-`(q - p) mod 8` in the convention fixed by the base entries above. -/
+/-- **Bott periodicity** `Cliff(p+1, q+1) ≅ Cliff(p, q) ⊗ M₂(ℝ)`, built from `CliffordAlgebra.equivEven`
+and `CliffordAlgebra.prodEquiv`; together with the recurrences for `Cliff(p,0)` and `Cliff(0,q)`
+and the base entries above, this gives the mod-`8` classification indexed by `(q-p) mod 8`. -/
 theorem cliff_bott (p q : ℕ) :
     Nonempty (CliffordAlgebra (realCliffordForm (p + 1) (q + 1)) ≃ₐ[ℝ]
       TensorProduct ℝ (CliffordAlgebra (realCliffordForm p q)) (Matrix (Fin 2) (Fin 2) ℝ)) := sorry
