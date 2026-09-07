@@ -50,6 +50,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Standard probability distributions and their elementary theory](TauCetiRoadmap/StandardDistributions/README.md)
 - [The Chebotarev density theorem](TauCetiRoadmap/Chebotarev/README.md)
 - [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
+- [Unique lifting, orthogonal factorization systems, and cellular presentations](TauCetiRoadmap/OrthogonalFactorization/README.md)
 - [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
 - [Zigzag, preprojective, and Ginzburg algebras](TauCetiRoadmap/ZigzagPreprojective/README.md)
 
