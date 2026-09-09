@@ -379,14 +379,8 @@ library is strong. Its purpose is that no gap claimed below is a guess.
 
 ## What Tau Ceti supplies
 
-These files were written under the [Multiquadratic](../Multiquadratic/README.md) roadmap and the
-completed [EffectiveBounds](../../Completed/EffectiveBounds/README.md) roadmap. This roadmap uses
-them and generalizes them, so that the quadratic statements become instances of a uniform API.
-
-One change to an existing file is planned, and Layer 1.1 names it: a theorem that is `private` in
-`SplitsCompletely.lean` is published. That is a change of visibility, made with the agreement of
-that file's authors. It is not a fork, and not a duplicate in a second namespace. Nothing else in
-these files is edited.
+These files are present at the pinned Tau Ceti revision. This roadmap imports and consumes them;
+it does not ask agents to recreate their declarations under new names.
 
 - `TauCeti/NumberTheory/NumberField/Frobenius.lean`: `exists_isArithFrobAt` and
   `exists_isArithFrobAt_of_liesOver`, the base-`ℚ` instantiation of Mathlib's
@@ -398,13 +392,24 @@ these files is edited.
   `LegendreSymbol/SquareClass.lean`: square-class invariance of Legendre data.
 - `TauCeti/NumberTheory/NumberField/SplitsCompletely.lean`: splits-completely as a count
   equation, with `ncard_primesOver_eq_finrank_iff` and `…_iff_stabilizer_eq_bot`, over `ℚ`.
-  ⚠ The general-base form exists there but is `private`. Layer 1.1 publishes that shape.
+  `TauCeti/NumberTheory/RamificationInertia/Splitting.lean` already publicly proves, over a
+  general base and without a Galois hypothesis, that maximal prime count forces `e = f = 1`.
+  Layer 1.1 supplies only the reverse implication under the stated hypotheses and the
+  decomposition-group equivalence.
 - `TauCeti/NumberTheory/NumberField/Quadratic/Splitting.lean`:
   `ncard_primesOver_quadratic_iff`, for odd `p` with `p ∤ d`. Layer 3.6 has this as its degree-2
   corollary. The `p = 2` and `d ≡ 1 mod 4` cases it excludes are worked targets here.
 - `TauCeti/NumberTheory/NumberField/IntegralSqrt.lean` and
   `Internal/QuadraticIntegralBasis.lean`: `integralSqrt` and the `{1, x}` quadratic integral
-  basis. Layer 7.2 gives the full `d mod 4` statement.
+  basis. `NumberField/Quadratic/RingOfIntegers.lean` already gives both `d mod 4` integral-ring
+  descriptions and the discriminant formulas. Layer 7.2 consumes those declarations and adds
+  only the missing dyadic splitting acceptance theorem.
+- `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`: an integral basis, or a
+  spanning integral `ℚ`-basis, computes the field discriminant exactly. Layer 3 uses these
+  equalities in the named primitive-element index bridge instead of reproving them.
+- `TauCeti/NumberTheory/NumberField/NarrowClassGroup/{Basic,Finite}.lean`:
+  `NarrowClassGroup`, its surjection `toClassGroup`, the description of its kernel, and finiteness.
+  Global class field theory consumes this carrier; it is not missing infrastructure here.
 - `TauCeti/NumberTheory/RamificationInertia/Galois.lean`:
   `ncard_primesOver_eq_natCard_iff_of_isGaloisGroup`. Layer 1.1 extends this file.
 - `TauCeti/NumberTheory/Multiquadratic/`: the sign-vector Galois theory, `MultiquadraticSplitting`,
@@ -433,8 +438,9 @@ The complete list, in one place.
   element identifications; and place-dependent complex conjugation at a ramified real place.
 - The relative Dedekind–Kummer theorem with matching `e` and `f`, together with the converse of
   `irreducible_map_of_irreducible_minpoly`.
-- The power-basis index, with `disc(minpoly θ) = index² · discr K`, and the comparison of its
-  prime divisors with those of `RingOfIntegers.exponent`.
+- The named power-basis index and its relation
+  `disc(minpoly θ) = index² · discr K`, using the landed integral-basis discriminant equalities,
+  and the comparison of its prime divisors with those of `RingOfIntegers.exponent`.
 - Dedekind's criterion over `ℤ`.
 - Dedekind's theorem, that the factorization type is the Frobenius cycle type, with the
   common-index-divisor theory that bounds its hypotheses.
@@ -479,10 +485,10 @@ of three conditions on a prime `p`:
 - `e = 1` and `f = 1` at every prime over `p`;
 - the decomposition group at every prime over `p` is trivial.
 
-Tau Ceti's `SplitsCompletely.lean` proves this over `ℚ`, and keeps the general-base form
-`private`. This milestone publishes that form. It is a change to the visibility of an existing
-declaration, made with the agreement of that file's authors. Do not restate the theorem in a
-second namespace.
+Tau Ceti's `RamificationInertia/Splitting.lean` already proves the implication from maximal prime
+count to `e = f = 1` over a general base. Consume it. This milestone proves only the reverse
+implication under the required hypotheses and joins the resulting equivalence to the
+decomposition-group condition. Do not restate the landed implication in a second namespace.
 
 The general proof uses orbit–stabilizer for the Galois action together with
 `Ideal.sum_ramification_inertia`. It must not use `Ideal.card_stabilizer_eq`, whose clean
@@ -780,7 +786,9 @@ identification.
 
 *Quadratic.* Let `K = ℚ(√d)`, presented by `θ : 𝓞 K` with `minpoly ℤ θ = X² − C d` and
 `Algebra.adjoin ℚ {(θ : K)} = ⊤`. Let `p` be a rational prime with `p` odd and `p ∤ d`, and let
-`Q` be a prime of `𝓞 K` over `p`. Prove `Frob Q = 1` if and only if `legendreSym p d = 1`.
+`Q` be a prime of `𝓞 K` over `p`. Derive `Frob Q = 1` if and only if
+`legendreSym p d = 1` from Tau Ceti's landed `isArithFrobAt_apply_sqrt_eq_self_iff`; the new work
+is the corollary for this roadmap's chosen Frobenius element, not the square-root computation.
 
 *Hypotheses:* all four hypotheses are part of the statement. `p` odd and `p ∤ d` make `p`
 unramified and make the Legendre symbol available. The two hypotheses on `θ` make it a generator
@@ -886,11 +894,14 @@ milestone.
 #### 3.3 The index formula
 
 Prove `Polynomial.discr (minpoly ℤ θ) = (index θ)² · NumberField.discr K` for
-`θ : IntegralPrimitiveElement K`. This sharpens Tau Ceti's `abs_discr_le_of_basis_isIntegral`
-from an inequality to an equation.
+`θ : IntegralPrimitiveElement K`. Tau Ceti's `Discriminant/OfIntegralBasis.lean` already gives
+the equality between the discriminant of a spanning integral basis and `NumberField.discr K`;
+the new work is the named primitive-element index and the change-of-basis determinant relating
+its power basis to an integral basis.
 
-*Prerequisites:* Layers 3.1 and 3.2; Mathlib `NumberField.discr`, `Algebra.discr_of_matrix_vecMul`;
-Tau Ceti `EffectiveBounds/`.
+*Prerequisites:* Layers 3.1 and 3.2; Mathlib `NumberField.discr`,
+`Algebra.discr_of_matrix_vecMul`; Tau Ceti
+`NumberField/Discriminant/OfIntegralBasis.lean` and `EffectiveBounds/`.
 
 #### 3.4 Index and exponent have the same prime divisors
 
@@ -1223,8 +1234,16 @@ as a prerequisite.
 
 #### 4.4 Discriminants of bases
 
-Prove the `Algebra.discr` tower formula
-`disc_{M/K}(compatible bases) = disc_{L/K}^{[M:L]} · N(disc_{M/L})`.
+For explicit finite bases `b : Basis ι K L` and `c : Basis κ L M` in an algebra tower, prove
+
+```text
+Algebra.discr K (b.smulTower c) =
+  Algebra.discr K b ^ Fintype.card κ * Algebra.norm K (Algebra.discr L c).
+```
+
+The compatible basis is `Basis.smulTower`, indexed in the pin's order `ι × κ`; no unnamed
+compatibility condition is left for an implementer to invent. `Suggested.lean` freezes this
+signature as `discr_smulTower`.
 
 *Prerequisites:* Mathlib `Algebra.discr`, `Algebra.discr_of_matrix_vecMul`, `Algebra.norm`.
 
@@ -1434,12 +1453,14 @@ First prove the two invariant comparisons as separate named contracts:
 
 ```text
 LocalFieldsRamification.ramificationIndex K_v L_w =
-  Ideal.ramificationIdx v.asIdeal w.asIdeal
+  w.asIdeal.ramificationIdx (𝓞 K)
 LocalFieldsRamification.inertiaDegree K_v L_w =
-  Ideal.inertiaDeg v.asIdeal w.asIdeal
+  w.asIdeal.inertiaDeg (𝓞 K)
 ```
 
-Their proofs use the residue-field equivalences and compatibility between valuation inequalities,
+The base prime is supplied by `[w.asIdeal.LiesOver v.asIdeal]` rather than passed as a second
+argument to Mathlib's ideal invariants. Their proofs use the residue-field equivalences and
+compatibility between valuation inequalities,
 integer rings, maximal ideals, and ideal powers. Then derive `[L_w : K_v] = e(w ∣ v)·f(w ∣ v)`
 from #189's local degree theorem. The degree formula is not a substitute for the two comparisons,
 because downstream code consumes the local invariants separately.
@@ -1901,13 +1922,14 @@ Galois closure: no milestone here supplies one, and none is needed.
 
 #### 7.2 Integral bases of quadratic fields
 
-Give `𝓞_{ℚ(√d)}` with the case split on `d mod 4`: `ℤ[√d]` when `d ≡ 2, 3`, and `ℤ[(1+√d)/2]`
-when `d ≡ 1`. Give the discriminant, `4d` and `d` respectively.
-
-The splitting law for `2` by `d mod 8` is the acceptance test for this milestone.
+Consume the existing `NumberField/Quadratic/RingOfIntegers.lean` theorems giving
+`𝓞_{ℚ(√d)}` with the case split on `d mod 4` and the corresponding discriminants `4d` and `d`.
+The new result in this milestone is the splitting law for `2` by `d mod 8`, which is its
+acceptance test. Do not rebuild the integral-ring or discriminant formulas.
 
 *Prerequisites:* Tau Ceti `NumberField/IntegralSqrt.lean`,
-`Internal/QuadraticIntegralBasis.lean`; Layers 3.6 and 3.7.
+`Internal/QuadraticIntegralBasis.lean` and `NumberField/Quadratic/RingOfIntegers.lean`;
+Layers 3.6 and 3.7.
 
 #### 7.3 Monogenicity
 
@@ -2125,7 +2147,7 @@ goes towards the value the page displays, on one of four levels:
 | Galois group `nTj` label | — | none: polynomial Galois groups |
 | class group, as a group | Mathlib, with Tau Ceti `EffectiveBounds/` | carrier only: the class group and its finiteness exist; no milestone computes the group structure for an arbitrary field |
 | class number | Mathlib `classNumber`, with `EffectiveBounds/` | worked only where a cited Mathlib theorem or an explicit Minkowski certificate is named; no value is claimed for Dedekind's `−503` cubic |
-| narrow class group | — | none: global class field theory |
+| narrow class group | Tau Ceti `NumberField/NarrowClassGroup/{Basic,Finite}.lean` | carrier, `toClassGroup`, kernel and finiteness; class-field constructions remain global class field theory |
 | unit rank, torsion order | Mathlib | general |
 | fundamental units | Layer 7.4 | **rank one and prime degree only**. The criterion holds at rank one; the polynomial certificate that discharges it needs prime degree as well, so a rank-one field of degree 4 is not covered. §Explicit scope exclusions puts higher rank and that case out of scope |
 | regulator | Mathlib defines it; Layer 7.4 evaluates it | **rank one and prime degree only**, for the same reason: the evaluation is legitimate only after the certificate |
