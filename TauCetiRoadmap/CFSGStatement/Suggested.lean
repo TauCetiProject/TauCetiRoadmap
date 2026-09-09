@@ -311,10 +311,11 @@ against the identity. -/
 def fixedSubgroup {G : Type*} [Group G] (F : G →* G) : Subgroup G :=
   F.eqLocus (MonoidHom.id G)
 
-/-- The points over an algebraic closure of the explicitly pinned simply connected
-Chevalley--Demazure group attached to the valid index `d`. The implementation must expose and use
-the root datum, pinning, base change, points, and root-subgroup maps specified in `README.md`, not a
-group chosen from an existence or classification theorem. -/
+/-- The ambient group attached to the valid index `d`: the points over an algebraic closure of the
+explicitly pinned simply connected Chevalley--Demazure group, or, under the explicit-carrier rule of
+`README.md`, a concrete carrier with named root subgroups that then owes the `L5` agreement with the
+pinned group. Either way the implementation must expose the root-subgroup maps specified in
+`README.md`, and neither may be a group chosen from an existence or classification theorem. -/
 def ValidLieTypeIndex.AmbientGroup (_d : ValidLieTypeIndex) : Type := sorry
 
 /-- The group structure on the algebraic group's points. -/

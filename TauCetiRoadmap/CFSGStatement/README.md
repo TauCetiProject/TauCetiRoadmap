@@ -27,8 +27,10 @@ does not apply.
 
 Nothing here is proved about the constructed groups, and a consumer needs to know where that theory
 is meant to come from. Finiteness, simplicity, orders, and the identifications between the
-constructions given here and any other realization of the same group are all downstream work, which
-this roadmap enables by giving those groups names and does not itself begin. The one place that gap
+constructions given here and any other realization of the same group are downstream work, which
+this roadmap enables by giving those groups names and does not itself begin. The two exceptions are
+identifications this roadmap claims for itself: `L4`, against Mathlib's `suzukiGroup`, and `L5`,
+between each explicit carrier and the pinned group it stands in for. The one other place that gap
 is partly closed is the cross-check in S1 below, which is a review obligation rather than a Lean
 target.
 
@@ -42,7 +44,8 @@ Each branch of `CFSGIndex.Group` must reduce to explicit mathematical data:
 - the cyclic group of prime order `p` is `Multiplicative (ZMod p)`;
 - the alternating group is Mathlib's `alternatingGroup (Fin n)`;
 - a group of Lie type is built from the fixed points of an explicit Steinberg endomorphism of an
-  explicit pinned algebraic group, then by taking the derived subgroup modulo its center;
+  explicit algebraic group with named root subgroups, pinned or an explicit carrier as L0 allows,
+  then by taking the derived subgroup modulo its center;
 - a sporadic group is Mathlib's `PresentedGroup` for an explicit finite list of relator words.
 
 A definition that selects the desired group by `Classical.choose` from an existence or uniqueness
@@ -208,14 +211,43 @@ depend on neither.
 | Item | Depends on | Concrete result | Completion evidence |
 | --- | --- | --- | --- |
 | I0: indices and numbered conventions | Mathlib, root systems Layer 6 | `PrimePower`, raw and valid Lie indices, the map to `DynkinType`, sporadic names, characteristic and field order, the pinned `Fin` permutations | range and duplicate examples reduce; `dynkinType_valid` is proved; 26-name check passes |
-| L0: pinned ambient groups | I0, reductive groups Layer 9 | root datum, pinning, points, root subgroups | every valid family traces to explicit data |
+| L0: ambient groups with root subgroups | I0; reductive groups Layer 9 for the pinned route | `AmbientGroup`, its `Group` instance, `Closure`, and `simpleRootSubgroup` on every valid branch, on the pinned Chevalley--Demazure points or on an explicit carrier | every valid family traces to explicit data; every explicit carrier is recorded as an L5 obligation |
 | L1: ordinary and graph Steinberg maps | L0 | Frobenius and numbered diagram maps | the simple-root-subgroup equations and the order relations are proved |
 | L2: Suzuki--Ree Steinberg maps | L0 | selection of the upstream special isogeny, and its odd powers | the exponent and length conventions are matched to the upstream isogeny; `steinberg` unfolds on every branch |
 | L3: fixed groups | L1 and L2 | fixed points, derived subgroup, central quotient | every valid branch has a `Group` instance |
 | L4: the Mathlib Suzuki identification | L3, Mathlib's `suzukiGroup` | `²B₂(2^(2m+1)) ≃* suzukiGroup m` for `m ≥ 1` | the isomorphism is proved, and the `suzuki` branch is unchanged by it |
+| L5: agreement of explicit carriers with the pinned groups | L0, reductive groups Layer 9 | for each branch built on an explicit carrier, an isomorphism to the pinned Chevalley--Demazure points that matches `simpleRootSubgroup` and intertwines `steinberg` | the isomorphism is proved for every explicit carrier in use; no branch is left with two unrelated constructions |
 | S0: presentation format and sources | Mathlib only | relator expression type compiling to signed words, the compilation lemmas, and a 26-row source manifest | `Relator.toWord_toFreeGroup` is proved; every source is a full presentation, is locatable, and is proved to define its group |
 | S1: presentation data | S0 | complete relator words for all sporadics | relator counts match the manifest; independent transcription review; the cross-check below is recorded for every name it covers |
 | A0: assembly | I0, L3, S1 | `CFSGIndex.Group`, `ClassificationStatement`, `classificationStatement_of_zero` | named proposition elaborates with no placeholder carriers |
+
+### The names on every branch
+
+Four declarations carry a Lie-type branch from its carrier to its candidate group, and their names
+are fixed:
+
+| Name | Type | Meaning |
+| --- | --- | --- |
+| `AmbientGroup` | `Type`, with a `Group` instance | the carrier, pinned or explicit (L0) |
+| `steinberg` | `AmbientGroup →* AmbientGroup` | the Steinberg endomorphism (L1 or L2) |
+| `FixedPoints` | `Type` | `fixedSubgroup steinberg` (L3) |
+| `Group` | `Type`, with a `Group` instance | `FixedPointCandidate steinberg`, the derived subgroup of `FixedPoints` modulo its centre (L3) |
+
+With `simpleRootSubgroup` on the carrier side, these are the names whether the branch is the uniform
+`ValidLieTypeIndex` one of `Suggested.lean` or a per-family one such as `TypeALieIndex.Group` or
+`SuzukiLieIndex.steinberg`, and whether the carrier is the pinned Chevalley--Demazure points or an
+explicit carrier under the rule in L0. `FixedPoints` may be left unnamed when `Group` is written
+directly as `FixedPointCandidate steinberg`, since that abbreviation already names the fixed
+subgroup; the other three may not.
+
+A name that describes the carrier or the construction instead, such as `minusculeFrobenius` or
+`CarrierFixedPointQuotient`, is not an acceptable substitute. It hides the branch from the by-cases
+assembly of A0, and the caveat it is trying to express belongs in a docstring. The docstring of
+every `Group` says that no finiteness or simplicity assertion is part of the definition, and, on an
+explicit carrier, the module docstring carries the L5 statement described under L0. A construction
+on an explicit carrier with these declarations and that statement **is** L0 to L3 for its family,
+and a review that asks for a different name, or for the pinned scheme before accepting it, is
+asking for something this roadmap does not require.
 
 ### I0: indices and Mathlib glue
 
@@ -256,7 +288,7 @@ sporadic enumeration has cardinality 26, and the shape of `ClassificationStateme
 `Suggested.lean` against the target signatures. The actual definition is accepted only at A0, after
 the target carriers cease to be placeholders.
 
-### L0: explicit pinned Chevalley--Demazure groups
+### L0: ambient groups with root subgroups
 
 For every underlying untwisted Dynkin type, construct the simply connected split reductive group
 scheme over `ℤ` with a pinning, base-change it to the relevant characteristic, and take its points
@@ -289,18 +321,35 @@ The declarations L0 consumes are:
 - root-subgroup maps `x_α` and the equations expressing their compatibility with the pinning
   (Layer 9).
 
-The output is the actual body of `ValidLieTypeIndex.AmbientGroup`, its `Group` instance,
-`ValidLieTypeIndex.Closure`, and `ValidLieTypeIndex.simpleRootSubgroup`. The ambient group is
-generally infinite. A reviewer must be able to follow each carrier through these named
-constructions; a theorem that merely asserts that a suitable pinned group exists is not a
-substitute.
+The output is `AmbientGroup`, its `Group` instance, `Closure`, and `simpleRootSubgroup` on every
+valid branch: the uniform `ValidLieTypeIndex.AmbientGroup` of `Suggested.lean`, or the same names in
+a per-family namespace such as `TypeALieIndex` or `SuzukiLieIndex` when a family lands before the
+uniform definition can be assembled by cases. The ambient group is generally infinite. A reviewer
+must be able to follow each carrier through named constructions; a theorem that merely asserts that
+a suitable pinned group exists is not a substitute.
 
-The uniform pinned route is the construction, for every family including the six classical ones,
-even though matrices could define those earlier. Defining the classical branches as explicit `SL`,
-`SU`, `Sp`, and orthogonal matrix groups is not a fallback held in reserve here: it would take them
-out of the `AmbientGroup`, `steinberg`, `FixedPoints` route that L0 to L3 exist to build, and would
-carry no obligation that the two agree. Deciding otherwise is a decision to make in this roadmap,
-before the work starts, not a contingency to leave open inside L0.
+#### Explicit carriers
+
+The pinned Chevalley--Demazure points are the reference carrier for every family, including the six
+classical ones. They are not the only admissible one. A branch may instead be built on an
+**explicit carrier**: a concrete group such as `SL`, `SU`, `Sp`, a spin or minuscule-representation
+image, or the points of a named Kostant form, provided the carrier comes with named simple root
+subgroups `simpleRootSubgroup`, its `steinberg` is pinned by the L1 or L2 equations on those
+subgroups, and it uses the same numbered conventions as the pinned route. Such a branch is L0 to L3
+for that family, on the same footing as one built on the pinned scheme, and it uses the same four
+names.
+
+What an explicit carrier does not settle is that it is the pinned group. Every explicit carrier
+therefore creates the obligation, milestone `L5` below, to prove that it agrees with the pinned
+Chevalley--Demazure points once Layer 9 provides them. A file introducing an explicit carrier says
+so in its module docstring: that the carrier does not close L0 for its family in the pinned sense,
+that it is not offered as a substitute for the pinned group, and that constructions on it transfer
+to the pinned carrier along the L5 identification and not before. That statement is a docstring,
+not a name: the declarations are still `AmbientGroup`, `steinberg`, `FixedPoints`, and `Group`.
+
+Neither carrier may be a group chosen from an existence or classification theorem, and an explicit
+carrier is not licensed to skip the root-subgroup data: a matrix group with no named
+`simpleRootSubgroup` and no pinning equations for its `steinberg` is a placeholder, not a carrier.
 
 ### L1: ordinary and graph-twisted Steinberg maps
 
@@ -362,7 +411,10 @@ schemes, its action on the long and short root subgroups, and
 
 are Layer 9 targets in the [reductive-groups roadmap](../ReductiveGroups/README.md), which says of
 them that they are statements about group schemes and belong there rather than in any consumer. That
-is right, and this lane consumes them.
+is right, and this lane consumes them. The same division holds on an explicit carrier: the special
+isogeny of a concrete `Sp₄` or `G₂` or `F₄` carrier is built where that carrier's algebraic-group
+structure lives, under the reductive-groups roadmap's homes, and this lane selects it and takes the
+odd power.
 
 What L2 owns is everything between that isogeny and a finite group: selecting `τ_X` for a given
 `SuzukiReeIndex`, checking that the upstream isogeny is the one this roadmap's conventions describe,
@@ -412,13 +464,14 @@ Mathlib has a separate Suzuki construction,
 [feat(GroupTheory/SpecificGroups/Suzuki): define Suzuki groups](https://github.com/leanprover-community/mathlib4/pull/42043):
 `suzukiGroup (n : ℕ) : Subgroup (GL (Fin 4) (GaloisField 2 (2 * n + 1)))`, the closure of explicit
 four-by-four unipotent and Weyl matrices. It is a different object from this lane's, not the fixed
-points of `τ_{B₂} ^ (2m + 1)` in a pinned ambient group, and its `n` is unrestricted, so
-`suzukiGroup 0` is the solvable `Sz(2)`.
+points of `τ_{B₂} ^ (2m + 1)` in an ambient group carrying the special isogeny, and its `n` is
+unrestricted, so `suzukiGroup 0` is the solvable `Sz(2)`.
 
-The pinned construction is the definition here, and the `suzuki` branch stays inside the uniform
-`AmbientGroup`, `steinberg`, `FixedPoints`, derived-subgroup-modulo-centre route that L0 to L3
-exist to build. Moving that one branch onto a matrix group would take it out of that route with no
-stated obligation that the two agree, which is worse than a little duplication.
+The fixed-point construction is the definition here, and the `suzuki` branch stays inside the
+uniform `AmbientGroup`, `steinberg`, `FixedPoints`, `Group` route that L0 to L3 exist to build,
+whether its carrier is the pinned group or an explicit rank-two type-C carrier under the L0 rule.
+Defining that one branch *as* `suzukiGroup m` would take it out of that route with no stated
+obligation that the two agree, which is worse than a little duplication.
 
 That leaves the two constructions unrelated, and relating them is real work, so it is the milestone
 `L4` rather than a promise to add a target later. `L4` depends on material outside this project,
@@ -443,10 +496,29 @@ is the simple group `²F₄(2)'`. Quotienting by the centre then does nothing in
 
 Completion requires every branch of `ValidLieTypeIndex.steinberg` to unfold to the L1 or L2 maps and
 `ValidLieTypeIndex.Group` to carry a `Group` instance. No finiteness or simplicity proof is involved.
+A per-family `Group` on an explicit carrier, such as `TypeALieIndex.Group`, is the L3 deliverable for
+that family; the uniform `ValidLieTypeIndex.Group` is then assembled by cases from the per-family
+definitions, and does not wait for the L5 identifications.
 
 Mathlib's [`(B, N)`-pairs](https://github.com/leanprover-community/mathlib4/pull/40363) are related
 structure theory and not a dependency: this roadmap does not prove Bruhat decomposition, simplicity,
 or recognition.
+
+### L5: agreement of explicit carriers with the pinned groups
+
+For every family whose branch is built on an explicit carrier under the L0 rule, prove that the
+carrier is the pinned group: a `MulEquiv` between `AmbientGroup` and the points of the pinned
+Chevalley--Demazure group from Layer 9, under which `simpleRootSubgroup i` on one side is
+`simpleRootSubgroup i` on the other for every `i : Fin d.rank`, and which intertwines the two
+`steinberg` maps. Transporting along such an equivalence carries `FixedPoints` and `Group` across as
+well, by the transport lemmas of the fixed-point recipe, so nothing about the candidate group needs
+restating.
+
+This is the obligation an explicit carrier creates, and it is what makes the explicit route a route
+to the same object rather than a second construction. It depends on Layer 9 of the reductive-groups
+roadmap, which is why it is separately claimable and last among the Lie-type items, and why the
+per-family `Group` definitions and A0 do not wait for it. A signature cannot be displayed in
+`Suggested.lean` until the pinned points exist to state it against.
 
 ### S0: auditable presentation data and source selection
 
@@ -597,7 +669,7 @@ is the substantive instance is one a downstream development cannot act on.
 Completion requires the universe-polymorphic statement to elaborate with no placeholder carrier, no
 raw invalid Lie index reaching a carrier-valued definition, and no `Finite` or `IsSimpleGroup`
 instance assumed for `i.Group`. Review the four branches by following their definitions to `ZMod`,
-`alternatingGroup`, the pinned fixed-point construction, or the audited presentation data.
+`alternatingGroup`, the fixed-point construction on its carrier, or the audited presentation data.
 
 ## Existing work and provenance
 
