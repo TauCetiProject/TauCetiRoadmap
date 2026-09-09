@@ -475,9 +475,12 @@ private noncomputable def matrixFrobeniusInnerProductSpace (p : ℕ) :
   Matrix.frobeniusInnerProductSpace
 
 noncomputable instance symmetricMatrixNormedAddCommGroup (p : ℕ) :
-    NormedAddCommGroup (SymmetricMatrix p) := by
+    NormedAddCommGroup (SymmetricMatrix p) :=
   letI := matrixFrobeniusNormedAddCommGroup p
-  exact Submodule.normedAddCommGroup (SymmetricMatrix p)
+  letI base : NormedAddCommGroup (SymmetricMatrix p) := Submodule.normedAddCommGroup _
+  -- Force the uniformity field to be the subtype uniformity itself, so that instance search
+  -- unifies the induced topology with the subtype topology syntactically and not only up to `rfl`.
+  { base with toMetricSpace := base.toMetricSpace.replaceUniformity rfl }
 
 noncomputable instance symmetricMatrixInnerProductSpace (p : ℕ) :
     InnerProductSpace ℝ (SymmetricMatrix p) := by
@@ -506,15 +509,11 @@ noncomputable instance symmetricMatrixContinuousENorm (p : ℕ) :
       ((‖(A : Matrix (Fin p) (Fin p) ℝ)‖₊ : NNReal) : ENNReal))
     fun_prop
 
-noncomputable instance symmetricMatrixMeasureSpace (p : ℕ) :
-    MeasureSpace (SymmetricMatrix p) :=
-  @measureSpaceOfInnerProductSpace (SymmetricMatrix p)
-    (symmetricMatrixNormedAddCommGroup p) (symmetricMatrixInnerProductSpace p)
-    inferInstance (borel _)
-    (@BorelSpace.mk (SymmetricMatrix p) inferInstance (borel _) rfl)
-
+/-- The measurable structure is the Borel structure of the subtype topology, the one Mathlib's
+subtype instance supplies, so that `volume` and measures transported along `symmetricCoordinates`
+live on the same measurable space. -/
 noncomputable instance symmetricMatrixBorelSpace (p : ℕ) :
-    BorelSpace (SymmetricMatrix p) := ⟨rfl⟩
+    BorelSpace (SymmetricMatrix p) := Subtype.borelSpace _
 
 example (p : ℕ) :
     (inferInstance : TopologicalSpace (SymmetricMatrix p)) =

@@ -423,8 +423,8 @@ theorem exists_invariantForm_iff_neg_longest_smul_eq
         ∀ (x : L) (v w : irreducibleQuotient base lam), B ⁅x, v⁆ w + B v ⁅x, w⁆ = 0) ↔
       ∃ w ∈ (LieAlgebra.IsKilling.rootSystem H).weylGroup,
         (∀ mu : Module.Dual K H, IsDominantIntegral base mu →
-          IsDominantIntegral base (-(RootPairing.Equiv.weightEquiv _ _ w mu))) ∧
-        -(RootPairing.Equiv.weightEquiv _ _ w lam) = lam := sorry
+          IsDominantIntegral base (-(RootPairing.Equiv.weightEquiv w mu))) ∧
+        -(RootPairing.Equiv.weightEquiv w lam) = lam := sorry
 
 /-- **The real-vs-quaternionic sign criterion** (coverage companion, pinned as an exact formula
 rather than prose): on a self-dual `L(λ)` the invariant form is unique up to scalar, and it is
@@ -589,7 +589,7 @@ def IsMinuscule (base : (LieAlgebra.IsKilling.rootSystem H).Base) (mu : Module.D
   IsDominantIntegral base mu ∧
     ∀ nu : Module.Dual K H, genWeightSpace (irreducibleQuotient base mu) ⇑nu ≠ ⊥ →
       ∃ w ∈ (LieAlgebra.IsKilling.rootSystem H).weylGroup,
-        RootPairing.Equiv.weightEquiv _ _ w mu = nu
+        RootPairing.Equiv.weightEquiv w mu = nu
 
 /-- **The minuscule Pieri rule**: for dominant integral `λ` and minuscule `μ`,
 `L(λ) ⊗ L(μ) ≅ ⨁_{τ weight of L(μ), λ+τ dominant} L(λ+τ)`, multiplicity one. Stated
