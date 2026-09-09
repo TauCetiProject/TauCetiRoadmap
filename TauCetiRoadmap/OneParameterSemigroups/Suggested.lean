@@ -9,8 +9,8 @@ import TauCeti.Analysis.PositiveDefinite.SemigroupGroup.FourierLaplace.Uniquenes
 import TauCeti.Analysis.Semigroups.CauchyProblem
 import TauCeti.Analysis.Semigroups.Dissipative.Basic
 import TauCeti.Analysis.Semigroups.Generation.HilleYosida.Generation
+import TauCeti.Analysis.Semigroups.Generation.LumerPhillips
 import TauCeti.Analysis.Semigroups.Generator.Closed
-import TauCeti.Analysis.Semigroups.Generator.Uniqueness
 import TauCeti.Analysis.Semigroups.GrowthBound
 
 /-!
@@ -21,14 +21,10 @@ The statements here suggest Lean forms for particular milestones, so that contri
 reviewers converge on names and signatures; discharging all of them finishes neither a layer nor
 the roadmap.
 
-This roadmap predates the `Suggested.lean` convention — it landed 2026-06-20, and the first target
-files appeared 2026-07-05 — and was implemented without it. The file is therefore written after the
-fact: each milestone is either **discharged**, closed by the Tau Ceti declaration that realizes it,
-or left with an honest `sorry`.
-
-Nothing here records a status by hand. The remaining `sorry` count is the remaining work, and the
-compiler keeps it honest. Where a milestone is still open, its docstring names what already exists
-and what is missing — the part a reader cannot recover from the signature alone.
+Each milestone below is either closed by the Tau Ceti declaration that realizes it, or left with
+an honest `sorry`. A `sorry` here marks a milestone this file does not close; it is not an
+inventory of what the roadmap still wants, since the file is not exhaustive. Where a milestone is
+open, its docstring names what already exists and what is missing.
 -/
 
 namespace TauCetiRoadmap.OneParameterSemigroups
@@ -54,15 +50,21 @@ example (S : StronglyContinuousSemigroup X) : S.generator.IsClosed :=
 /-- **Dissipativity**, the general Banach notion. -/
 example (A : X →ₗ.[ℝ] X) : Prop := IsDissipative A
 
-/-- **Abstract Cauchy problem**: classical and mild solutions of `u' = A u`, `u 0 = x`. -/
-example (A : X →ₗ.[ℝ] X) (x : X) (u : ℝ → X) : Prop := IsClassicalSolution A x u
-example (A : X →ₗ.[ℝ] X) (x : X) (u : ℝ → X) : Prop := IsMildSolution A x u
+/-- **Milestone — abstract Cauchy problem.** `u t = S t x` solves `u' = A u`, `u 0 = x`:
+classically for `x` in the generator's domain, and mildly for every `x`. -/
+example (S : StronglyContinuousSemigroup X) (x : S.domain) :
+    IsClassicalSolution S.generator (x : X) (fun t => S.realOperator t x) :=
+  S.isClassicalSolution_realOperator x
+
+example (S : StronglyContinuousSemigroup X) (x : X) :
+    IsMildSolution S.generator x (fun t => S.realOperator t x) :=
+  S.isMildSolution_realOperator x
 
 /-- **Milestone — Hille–Yosida generation theorem.** A densely-defined operator whose resolvent
 set contains `(ω,∞)` and whose resolvent powers satisfy `‖R(λ,A)ⁿ‖ ≤ M/(λ−ω)ⁿ` generates a C₀
 semigroup of growth `(ω, M)`.
 
-**Proved.** Engel–Nagel II.3.5–3.8; Pazy Ch. 1. -/
+Engel–Nagel II.3.5–3.8; Pazy Ch. 1. -/
 theorem hilleYosida_generation {A : X →ₗ.[ℝ] X} {M omega : ℝ} (hM : 1 ≤ M)
     (hres : ∀ lambda : ℝ, omega < lambda → lambda ∈ LinearPMap.resolventSet A)
     (hpow : ∀ n : ℕ, 1 ≤ n → ∀ lambda : ℝ, omega < lambda →
@@ -75,14 +77,12 @@ theorem hilleYosida_generation {A : X →ₗ.[ℝ] X} {M omega : ℝ} (hM : 1 �
 range condition generates a contraction semigroup. Kept distinct from Hille–Yosida: a different
 hypothesis set, reached through the same Yosida approximation.
 
-**Open in the generation direction.** The converse is proved: the generator of a contraction
-semigroup is dissipative (`TauCeti.Semigroups.real_inner_generator_nonpos` on a Hilbert space,
-and in general via `smul_sub_generator_surjective`/`_injective`). What is missing is this
-direction, dissipativity plus the range condition producing the semigroup. -/
+The hypothesis pair here is `IsMDissipative` unfolded. -/
 theorem lumerPhillips (A : X →ₗ.[ℝ] X)
-    (_hdense : Dense (A.domain : Set X)) (_hdiss : IsDissipative A)
-    (_hrange : ∃ l : ℝ, 0 < l ∧ Function.Surjective fun x : A.domain => l • (x : X) - A x) :
-    ∃ S : ContractionSemigroup X, S.toStronglyContinuousSemigroup.generator = A := sorry
+    (hdense : Dense (A.domain : Set X)) (hdiss : IsDissipative A)
+    (hrange : ∃ l : ℝ, 0 < l ∧ Function.Surjective fun x : A.domain => l • (x : X) - A x) :
+    ∃ S : ContractionSemigroup X, S.toStronglyContinuousSemigroup.generator = A :=
+  IsMDissipative.exists_contractionSemigroup_generator_eq ⟨hdiss, hrange⟩ hdense
 
 end PartA
 
@@ -90,9 +90,7 @@ end PartA
 
 /-- **Milestone — Bernstein's theorem**, in the Hausdorff–Bernstein–Widder form: a function is
 continuous on `[0,∞)` and completely monotone on `(0,∞)` if and only if it is the Laplace
-transform of a unique finite measure on `ℝ≥0`.
-
-**Proved.** -/
+transform of a unique finite measure on `ℝ≥0`. -/
 theorem bernstein (f : ℝ → ℝ) :
     TauCeti.IsContinuousCompletelyMonotoneOnIoi f ↔
       ∃! μ : Measure ℝ≥0, TauCeti.RepresentsLaplace μ f :=
@@ -108,10 +106,8 @@ variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDim
 inner-product space is continuous with positive-definite subtraction kernel if and only if it is
 the Fourier transform of a unique finite Borel measure.
 
-**Proved.** Stated here against the subtraction kernel, which is the form available at the Tau
-Ceti revision this repository pins. A later revision (#3594) restates it through the
-`IsPositiveDefiniteSub` predicate, reading exactly as the README sketched; switching to that form
-needs a pin bump and is left to a follow-up. -/
+Stated against the subtraction kernel, the form available at the Tau Ceti revision this
+repository pins. -/
 theorem bochner (F : V → ℂ) :
     (Continuous F ∧ Matrix.PosSemidef fun a b : V => F (a - b)) ↔
       ∃! μ : Measure V, IsFiniteMeasure μ ∧ ∀ v, F v = ∫ q, TauCeti.fourierAtom v q ∂μ :=
@@ -122,18 +118,24 @@ continuous positive-definite function on the semigroup `ℝ≥0 × V` is the Lap
 of a unique finite measure. Time lives in `ℝ≥0`, so the representing measure has the right support
 automatically.
 
-**Uniqueness proved, existence open.** Tau Ceti has the predicate
-(`TauCeti.IsSemigroupGroupPD`), the transform (`TauCeti.RepresentsLaplaceFourier`) and the
-uniqueness half (`TauCeti.Measure.ext_of_forall_laplaceFourierTransform_eq`); what remains is the
-extraction of a representing measure.
+Tau Ceti has the predicate (`TauCeti.IsSemigroupGroupPD`), the transform
+(`TauCeti.RepresentsLaplaceFourier`) and the uniqueness half
+(`TauCeti.Measure.ext_of_forall_laplaceFourierTransform_eq`); what remains is the extraction of a
+representing measure.
+
+Boundedness is not decorative. `TauCeti.RepresentsLaplaceFourier.norm_le_mass` forces
+`‖F x‖ ≤ μ.real Set.univ`, so an unbounded positive-definite `F` has no representing measure at
+all: `F (t, v) = (Real.exp t : ℂ)` is continuous, satisfies `IsSemigroupGroupPD` (its kernel is
+the rank-one `exp tₚ * exp t_q`), and would make the conclusion below false.
 
 A proved instance exists outside Tau Ceti, for the special case `V = (Fin d → ℝ)` with time in
 `ℝ` plus a support side-condition, in `mrdouglasny/hille-yosida`
 (`HilleYosida.SemigroupGroupExtension.semigroupGroupBochner`). Porting it is a restatement rather
 than a copy: indexing time by `ℝ≥0` makes the support condition automatic, and `V` here is an
 arbitrary finite-dimensional real inner-product space. -/
-theorem bcr_semigroup_bochner [StarAddMonoid V] (F : ℝ≥0 × V → ℂ)
-    (_hcont : Continuous F) (_hpd : TauCeti.IsSemigroupGroupPD F) :
+theorem bcr_semigroup_bochner (F : ℝ≥0 × V → ℂ)
+    (_hcont : Continuous F) (_hpd : TauCeti.IsSemigroupGroupPD F)
+    (_hbdd : Bornology.IsBounded (Set.range F)) :
     ∃! μ : Measure (ℝ≥0 × V), TauCeti.RepresentsLaplaceFourier μ F := sorry
 
 end PartC
