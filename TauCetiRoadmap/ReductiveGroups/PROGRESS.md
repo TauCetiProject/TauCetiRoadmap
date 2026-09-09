@@ -213,3 +213,40 @@ The pinned rational Lie algebra attached to every valid Dynkin type now has a [n
 Structure theory gained its first scheme-theoretic test cases: [the diagonal torus of `GLₙ` is maximal over every field](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/DiagonalTorus/Maximal.html#TauCeti.GeneralLinear.isMaximalTorus_diagonalTorusDefiningIdeal), while [the upper-triangular subgroup of `GL₂` is a Borel subgroup](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Borel.html#TauCeti.GeneralLinear.Borel.isBorel_definingHopfIdeal). The [unipotent radical of the standard upper-triangular group is the upper-unitriangular subgroup](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/UpperTriangular/UnipotentRadical.html#TauCeti.GeneralLinear.UpperTriangular.unipotentRadicalDefiningIdeal_finiteTypeCoordinateHopfAlgebra), with the [analogous computation for injective-weight parabolics](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Dynamic/Weight/Unipotent/Radical.html#TauCeti.GeneralLinear.unipotentRadicalDefiningIdeal_weightParabolicFiniteTypeCoordinateHopfAlgebra). General conjugacy of maximal tori or Borels, and root data for arbitrary reductive groups, are not established here.
 
 The coordinate language now includes [central isogenies](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Isogeny/Basic.html#TauCeti.CommHopfAlgCat.IsCentralIsogeny) and [simple connectivity for semisimple groups](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/SimplyConnected/Basic.html#TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty), though no simply connected cover is established here. Explicit integral models advanced through [type-B](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/Orthogonal/TypeB/SpinCarrier/Basic.html#TauCeti.TypeBSpinCarrier.groupScheme) and [type-D spin carriers](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/Orthogonal/TypeD/SpinCarrier/Basic.html#TauCeti.TypeDSpinCarrier.groupScheme), together with an [E₇ minuscule carrier](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/E7/Minuscule/Carrier.html#TauCeti.E7Minuscule.groupScheme); these are pieces of, not yet a uniform pinned Chevalley–Demazure construction.
+
+<!--tauceti-progress:v1 {"from_sha":"6777fc49b6a67b3b0849e5d18bc0395b6f1450c3","prs":[4691,4700,4987,5000,5543,5560,5563,5565,5623,5667,5675,5677,5693,5694,5702,5719,5725,5736,5739,5748,5758,5761,5769,5785,5788,5834,5889,5915,5918,5920,5943,5947,5986,5990,5996,6004,6024,6037,6041,6059,6075,6080,6094],"roadmap":"ReductiveGroups","to_sha":"e7f4d8372f5a7ad39a75e61b43864f16d1bb57a0"}-->
+## ReductiveGroups: 2026-09-04 to 2026-09-09 (`6777fc4` to `e7f4d83`)
+
+Layer 7 got its first general theorems. Every finite-type affine group over a field now has a
+maximal torus, and every torus closed subgroup lies in one
+([`exists_isMaximalTorus`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Torus/Existence.html#TauCeti.HopfIdeal.exists_isMaximalTorus)).
+A Borel subgroup is a closed subgroup maximal among those that are smooth,
+geometrically connected and geometrically solvable, and the geometric fibre of every finite-type
+affine group has one
+([`exists_geometricBorel`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Borel/Existence.html#TauCeti.HopfIdeal.exists_geometricBorel),
+TauCeti#5769); over an algebraically closed field every torus sits inside a Borel. The radicals
+followed: the solvable radical is contained in every Borel, a normal Borel is exactly the
+solvable radical, and a smooth geometrically connected group whose geometric Borel is trivial is
+[semisimple](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Borel/Radical.html#TauCeti.semisimpleCommHopfAlgProperty_of_isBorelOverAlgClosed_eq_augmentation).
+Conjugacy of Borels or of maximal tori is not established: existence here comes without the
+uniqueness that root data will need.
+
+Lie-Kolchin arrived in the form the comodule machinery supports: if the derived subgroup of a
+reduced finite-type affine group over an algebraically closed field is geometrically unipotent, then
+every finite-dimensional representation has a basis in which the coefficient matrix is
+[upper triangular with characters on the diagonal](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Solvable/LieKolchin.html#TauCeti.Comodule.exists_basis_coefficientMatrix_isUpperTriangular_of_geometricallyUnipotent_derived).
+The hypothesis is on the derived subgroup, not solvability, and nothing here
+connects the two. It runs on new
+[group-like weight spaces](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Coalgebra/Comodule/Weight/Space.html#GroupLike.weightSpace)
+for comodules. Alongside it, smoothness of a finite-type commutative Hopf algebra over a field was
+shown [equivalent to geometric reducedness](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Smooth/GeometricallyReduced.html#TauCeti.smoothCommHopfAlgProperty_iff_geometricallyReduced).
+
+The symplectic group joined `GLₙ` and `SLₙ` as
+[reductive over every field](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Symplectic/Reductive.html#TauCeti.Symplectic.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra),
+and the exceptional isogeny of `Sp₄` in characteristic two was built from `2 × 2`
+minors, with
+[`τ² = Frobenius`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/SpecialIsogeny.html#TauCeti.specialIsogeny_specialIsogeny)
+and its effect on the long and short simple root subgroups (TauCeti#5920); `B₂`, `F₄` and `G₂` have
+the matching endomorphism on the torus only. The special orthogonal groups lag: the
+standard comodule is faithful and simple in dimension at least three away from characteristic two,
+but reductivity is proved only in ranks zero and one.
