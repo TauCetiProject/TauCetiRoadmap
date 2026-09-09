@@ -108,7 +108,7 @@ variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDim
 inner-product space is continuous with positive-definite subtraction kernel if and only if it is
 the Fourier transform of a unique finite Borel measure.
 
-**Proved.** `TauCeti.IsPositiveDefiniteSub` is the group form of positive definiteness,
+`TauCeti.IsPositiveDefiniteSub` is the group form of positive definiteness,
 `∑ᵢⱼ cᵢ · conj(cⱼ) · F(vᵢ - vⱼ) ≥ 0` over every finite family, which on a real inner-product
 space is the involution form of the README for `a⋆ = -a`. -/
 theorem bochner (F : V → ℂ) :

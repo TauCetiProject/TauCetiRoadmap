@@ -474,6 +474,9 @@ private noncomputable def matrixFrobeniusInnerProductSpace (p : ℕ) :
     InnerProductSpace ℝ (Matrix (Fin p) (Fin p) ℝ) :=
   Matrix.frobeniusInnerProductSpace
 
+/-- The symmetric matrices carry the ambient Frobenius norm, with the subtype uniformity and
+topology they already have: the measurable structure below is then Mathlib's Borel structure of
+that subtype topology, and `volume` its Haar measure. -/
 noncomputable instance symmetricMatrixNormedAddCommGroup (p : ℕ) :
     NormedAddCommGroup (SymmetricMatrix p) :=
   letI := matrixFrobeniusNormedAddCommGroup p
@@ -509,11 +512,6 @@ noncomputable instance symmetricMatrixContinuousENorm (p : ℕ) :
       ((‖(A : Matrix (Fin p) (Fin p) ℝ)‖₊ : NNReal) : ENNReal))
     fun_prop
 
-/-- The measurable structure is the Borel structure of the subtype topology, the one Mathlib's
-subtype instance supplies, so that `volume` and measures transported along `symmetricCoordinates`
-live on the same measurable space. -/
-noncomputable instance symmetricMatrixBorelSpace (p : ℕ) :
-    BorelSpace (SymmetricMatrix p) := Subtype.borelSpace _
 
 example (p : ℕ) :
     (inferInstance : TopologicalSpace (SymmetricMatrix p)) =
