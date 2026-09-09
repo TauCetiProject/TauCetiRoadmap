@@ -347,6 +347,7 @@ Suggested home:
 ```text
 TauCeti/MeasureTheory/Measure/ProductKernel.lean
 TauCeti/Probability/DeFinetti/CommonEnding.lean
+TauCeti/Probability/DeFinetti/ConditionalCommonEnding.lean
 ```
 
 Consume Mathlib's product/cylinder infrastructure — `generateFrom_pi`, `isPiSystem_pi`,
@@ -620,6 +621,8 @@ Finally build the exchangeability-specific bridge:
 pathSpace_contractable_of_contractable
 measure_map_shift_eq_of_contractable
 pathSpace_shift_preserving_of_contractable
+invariantConditionalProbabilityMeasure
+ContractableLaw.conditionallyIIDWith_invariantConditionalProbabilityMeasure
 conditionallyIID_transfer
 conditionallyIID_bind_of_contractable
 deFinetti_viaKoopman
@@ -677,10 +680,14 @@ The directing-measure theorem should expose a real API, not just an existence pr
 * **a.e.** uniqueness of `ν` **among directing measures**, i.e. among witnesses of
   `ConditionallyIIDWith` (`conditionallyIID_ae_unique`: equality of probability measures a.e.
   under the base law, tested against a determining class — not pointwise). Pin its hypotheses:
-  `[IsProbabilityMeasure μ] [MeasurableSpace.CountablyGenerated α]`, a.e.-measurable coordinates
+  `[IsFiniteMeasure μ] [MeasurableSpace.CountablyGenerated α]`, a.e.-measurable coordinates
   `∀ i, AEMeasurable (X i) μ`, and two explicit `ConditionallyIIDWith μ X ν` /
   `ConditionallyIIDWith μ X ν'` hypotheses, concluding
-  `ν =ᵐ[μ] ν'`. Mere mixing
+  `ν =ᵐ[μ] ν'`. For each measurable set, compare both witnesses with the same empirical
+  frequencies using `ConditionallyIIDWith.tendsto_integral_empiricalFrequency_sub_sq`, under
+  `[IsFiniteMeasure μ]`. The L² triangle inequality gives a.e. equality of their evaluations;
+  a countable generating algebra gives a single conull set on which the measures agree. This
+  argument includes the zero measure without normalization. Mere mixing
   representatives (witnesses of `MixedIIDWith`) are **not** a.e. unique when the mixing law is
   nondegenerate — an independent copy of `ν` is one — so no witness-level a.e.-equality
   theorem may conclude `ν = ν'` from `MixedIIDWith` alone; the mixture-side uniqueness is of
@@ -768,16 +775,18 @@ The directing-measure theorem should expose a real API, not just an existence pr
   The product parameter is determined by the one-coordinate marginal; bundle that uniqueness
   where the affine representation API consumes it.
 
+This is the default route for the final public API.
+
 #### Coherence of the route witnesses
 
 The default and L² routes use the same tail-conditioned witness,
 `directingProbabilityMeasure`. The Koopman route independently constructs
 `invariantConditionalProbabilityMeasure` by conditioning on the shift-invariant σ-algebra. These
-are two canonical random probability measures, not three route-specific witnesses.
+are two canonical random probability measures whose agreement lets users pass between the routes.
 
 The underlying σ-algebras are not identified: the invariant and tail measurable spaces can differ
 as raw measurable spaces (`invariants_shift_lt_pathTail`). Nevertheless, under a contractable
-probability law the two canonical conditional laws agree almost everywhere.
+finite measure the two canonical conditional laws agree almost everywhere.
 
 Suggested home:
 
@@ -791,16 +800,17 @@ Expose the object-level coherence theorem:
 namespace ContractableLaw
 
 theorem invariantConditionalProbabilityMeasure_ae_eq_directingProbabilityMeasure
-    [StandardBorelSpace α] [Nonempty α]
-    {ρ : Measure (ℕ → α)} [IsProbabilityMeasure ρ]
+    {α : Type*} [MeasurableSpace α] [StandardBorelSpace α] [Nonempty α]
+    {ρ : Measure (ℕ → α)} [IsFiniteMeasure ρ]
     (hρ : ContractableLaw ρ) :
     invariantConditionalProbabilityMeasure ρ =ᵐ[ρ]
-      directingProbabilityMeasure ρ (fun n (x : ℕ → α) => x n)
+      directingProbabilityMeasure ρ (fun n (x : ℕ → α) ↦ x n)
 
 end ContractableLaw
 ```
 
-The proof applies `conditionallyIID_ae_unique` to the two named-witness theorems:
+Apply the finite-measure uniqueness theorem `conditionallyIID_ae_unique` above to the two
+named-witness theorems:
 
 * `conditionallyIIDWith_of_contractable_pathSpace`;
 * `ContractableLaw.conditionallyIIDWith_invariantConditionalProbabilityMeasure`.
@@ -808,17 +818,10 @@ The proof applies `conditionallyIID_ae_unique` to the two named-witness theorems
 `ContractableLaw.map_prefixProj_of_strictMono` supplies the finite-marginal bridge needed to view
 the coordinate process as `Contractable`.
 
-This is an object-level identification of two independently defined canonical conditional laws.
-General witness uniqueness is the proof mechanism, but not a replacement for the public endpoint:
-using it directly requires first recovering that both constructions witness `ConditionallyIIDWith`
-for the same coordinate process.
+The exchangeable case follows through `ExchangeableLaw.contractableLaw`.
 
-This target does not assert equality of the invariant and tail σ-algebras, pointwise equality of
-the witnesses, or equality under a merely finite base measure. It does not introduce measurable-set
-evaluation wrappers, conditional-expectation corollaries, compatibility aliases, or changes to any
-of the three route proofs.
-
-This is the default route for the final public API.
+This target does not assert equality of the invariant and tail σ-algebras or pointwise equality of
+the witnesses. The comparison belongs downstream of the route proofs.
 
 ### Layer 7: public API and examples
 
@@ -883,13 +886,14 @@ but no route may acquire another route's proof-specific closure transitively. In
 | Default route | Must not import `ViaL2`, `ViaKoopman`, or `WitnessAgreement`. |
 | L² route | Must not import the default endpoint or its route-specific martingale machinery, `ViaKoopman`, or `WitnessAgreement`. |
 | Koopman route | Must not import the default-route-specific closure, `ViaL2`, or `WitnessAgreement`. |
-| `WitnessAgreement` | May import the default-route closure, including `JointRectangle`, and the `ViaKoopman` closure. It must not be imported by any route. |
+| `WitnessAgreement` | May import the default-route closure, including `TauCeti.Probability.DeFinetti.JointRectangle`, and the `ViaKoopman` closure. It must not be imported by any route. |
 | `TauCeti.Probability.DeFinetti` | May aggregate all three routes and `WitnessAgreement`. |
 | `TauCeti.Probability.Exchangeability` | Must remain below every representation route and coherence module. |
 
-`JointRectangle` belongs to the default-route-specific closure; it is not neutral shared
-infrastructure. The explicit `WitnessAgreement` exception is what permits that downstream module
-to reach it.
+`TauCeti.Probability.DeFinetti.JointRectangle` belongs to the default-route-specific closure.
+`TauCeti.Probability.DeFinetti.ConditionalCommonEnding` is the neutral joint-rectangle ending from
+Layer 1, shared by the L², Koopman, and default routes. The comparison module `WitnessAgreement`
+may import both.
 
 Neutral shared infrastructure is excepted from the route-specific prohibitions. In particular, the
 routes may share the representation predicates, path-law bridges, the canonical directing-measure
@@ -899,10 +903,6 @@ proof-specific machinery.
 `TauCeti.Probability.DeFinetti` is the designated aggregation boundary: it may import all three
 route endpoints and `WitnessAgreement`. The comparison module is downstream only and must not be
 imported by any route.
-
-Automating this invariant belongs to Tau Ceti's human-owned module-system governance. This roadmap
-pins the dependency invariant; it does not authorize ordinary mathematical PRs to edit `scripts/`,
-`.github/`, or the lakefile.
 
 ### Layer 8: generalized exchangeability and representation theorems
 
