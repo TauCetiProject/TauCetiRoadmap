@@ -42,6 +42,10 @@ with the named carrier `glIrreducible`, the trace-form Casimir, and the dual-sta
 
 namespace TauCetiRoadmap.RepresentationTheory.LieHighestWeight
 
+-- Mathlib deliberately keeps the commutator Lie structure on associative rings local.
+-- The concrete `gl_n` targets below use it for square matrices.
+attribute [local instance 100] LieRing.ofAssociativeRing
+
 open scoped Classical DirectSum
 open LieModule LieAlgebra Module
 
@@ -419,8 +423,8 @@ theorem exists_invariantForm_iff_neg_longest_smul_eq
         ∀ (x : L) (v w : irreducibleQuotient base lam), B ⁅x, v⁆ w + B v ⁅x, w⁆ = 0) ↔
       ∃ w ∈ (LieAlgebra.IsKilling.rootSystem H).weylGroup,
         (∀ mu : Module.Dual K H, IsDominantIntegral base mu →
-          IsDominantIntegral base (-(RootPairing.Equiv.weightEquiv _ _ w mu))) ∧
-        -(RootPairing.Equiv.weightEquiv _ _ w lam) = lam := sorry
+          IsDominantIntegral base (-(RootPairing.Equiv.weightEquiv w mu))) ∧
+        -(RootPairing.Equiv.weightEquiv w lam) = lam := sorry
 
 /-- **The real-vs-quaternionic sign criterion** (coverage companion, pinned as an exact formula
 rather than prose): on a self-dual `L(λ)` the invariant form is unique up to scalar, and it is
@@ -456,7 +460,8 @@ noncomputable def kostantMultiplicity (base : (LieAlgebra.IsKilling.rootSystem H
 theorem kostant_multiplicity_formula (base : (LieAlgebra.IsKilling.rootSystem H).Base)
     (lam : Module.Dual K H) (hlam : IsDominantIntegral base lam)
     [FiniteDimensional K (irreducibleQuotient base lam)] (mu : Module.Dual K H) :
-    (formalCharacter (M := irreducibleQuotient base lam)) mu = kostantMultiplicity base lam mu := sorry
+    (formalCharacter (M := irreducibleQuotient base lam)).coeff mu =
+      kostantMultiplicity base lam mu := sorry
 
 /-! #### The decomposition toolkit
 
@@ -584,7 +589,7 @@ def IsMinuscule (base : (LieAlgebra.IsKilling.rootSystem H).Base) (mu : Module.D
   IsDominantIntegral base mu ∧
     ∀ nu : Module.Dual K H, genWeightSpace (irreducibleQuotient base mu) ⇑nu ≠ ⊥ →
       ∃ w ∈ (LieAlgebra.IsKilling.rootSystem H).weylGroup,
-        RootPairing.Equiv.weightEquiv _ _ w mu = nu
+        RootPairing.Equiv.weightEquiv w mu = nu
 
 /-- **The minuscule Pieri rule**: for dominant integral `λ` and minuscule `μ`,
 `L(λ) ⊗ L(μ) ≅ ⨁_{τ weight of L(μ), λ+τ dominant} L(λ+τ)`, multiplicity one. Stated
@@ -677,7 +682,7 @@ is anchored here and computes the lower multiplicities. -/
 theorem freudenthal_top_mult (base : (LieAlgebra.IsKilling.rootSystem H).Base)
     (lam : Module.Dual K H) (hlam : IsDominantIntegral base lam)
     [FiniteDimensional K (irreducibleQuotient base lam)] :
-    (formalCharacter (M := irreducibleQuotient base lam)) lam = 1 := sorry
+    (formalCharacter (M := irreducibleQuotient base lam)).coeff lam = 1 := sorry
 
 /-- The Freudenthal double sum `2 Σ_{α>0} Σ_{j≥1} mult_{μ+jα}(L(λ)) · ⟨μ+jα, α⟩`. The inner sum over
 `j ≥ 1` is finite because `μ + j • α` leaves the (finite) weight set for large `j`, so it ranges over a
@@ -696,7 +701,7 @@ theorem freudenthal_multiplicity_formula (base : (LieAlgebra.IsKilling.rootSyste
     [FiniteDimensional K (irreducibleQuotient base lam)] (mu : Module.Dual K H) :
     (invForm (lam + weylVector base) (lam + weylVector base)
         - invForm (mu + weylVector base) (mu + weylVector base))
-      * ((formalCharacter (M := irreducibleQuotient base lam)) mu : K)
+      * (((formalCharacter (M := irreducibleQuotient base lam)).coeff mu : ℤ) : K)
       = 2 * freudenthalRHS base lam mu := sorry
 
 /-- **A Chevalley system.** Before the presentation theorem one must fix, for each simple root `αᵢ`,

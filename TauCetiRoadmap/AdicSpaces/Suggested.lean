@@ -1,0 +1,181 @@
+import Mathlib
+
+/-!
+# Adic spaces: representative target signatures
+
+The mathematical roadmap is `README.md`. This file records definitions and theorem signatures which
+can already be stated against the pinned Mathlib API. It is not an exhaustive list of the results in
+any layer.
+
+The first part makes two design choices explicit. Boundedness is part of the Huber-ring foundation,
+not an assumed Mathlib prerequisite, and the plus ring is explicit data. The second part prototypes
+`Spv A` directly from `ValuativeRel A`. Later signatures should use the Mathlib APIs which emerge
+from mathlib4#38009, #40013, #42312, #42314, and #42315.
+-/
+
+namespace TauCetiRoadmap.AdicSpaces
+
+open Filter Topology Pointwise
+open scoped Classical
+
+namespace Huber
+
+universe u
+
+/-! ## Layer 0: boundedness, Huber rings, and Huber pairs -/
+
+/-- A subset `S` of a topological ring is bounded if every neighbourhood of zero absorbs `S` after
+multiplication by a sufficiently small neighbourhood of zero.
+
+This is the Huber-ring notion of boundedness. Its final home and name should agree with
+mathlib4#40013. -/
+def IsBounded {A : Type u} [CommRing A] [TopologicalSpace A] (S : Set A) : Prop :=
+  ∀ U ∈ 𝓝 (0 : A), ∃ V ∈ 𝓝 (0 : A), V * S ⊆ U
+
+/-- An element is power-bounded if its nonnegative powers form a bounded set. -/
+def IsPowerBounded {A : Type u} [CommRing A] [TopologicalSpace A] (a : A) : Prop :=
+  IsBounded (Set.range fun n : ℕ ↦ a ^ n)
+
+/-- The subring `A°` of power-bounded elements. That this is a subring is Wedhorn Proposition 5.30
+and needs the nonarchimedean topology — a neighbourhood basis of `0` by subgroups, *not* a basis of
+open ideals, which no nonzero Tate ring has. It belongs to Layer 0. -/
+noncomputable def powerBoundedSubring (A : Type u) [CommRing A] [TopologicalSpace A]
+    [NonarchimedeanRing A] : Subring A :=
+  sorry
+
+/-- A pair of definition `(A₀,I)` for a topological ring `A`. The topology on `A₀` is the subtype
+topology inherited from `A`. -/
+structure PairOfDefinition (A : Type u) [CommRing A] [TopologicalSpace A]
+    [IsTopologicalRing A] where
+  ringOfDefinition : Subring A
+  isOpen_ringOfDefinition : IsOpen (ringOfDefinition : Set A)
+  idealOfDefinition : Ideal ringOfDefinition
+  fg_idealOfDefinition : idealOfDefinition.FG
+  isAdic_idealOfDefinition : IsAdic idealOfDefinition
+
+/-- A topological ring is Huber if it admits a pair of definition. -/
+class IsHuberRing (A : Type u) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] :
+    Prop where
+  nonempty_pairOfDefinition : Nonempty (PairOfDefinition A)
+
+/-- A Huber ring is Tate if it contains a topologically nilpotent unit. -/
+class IsTateRing (A : Type u) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] :
+    Prop extends IsHuberRing A where
+  exists_isTopologicallyNilpotent_unit : ∃ u : Aˣ, IsTopologicallyNilpotent (u : A)
+
+/-- A subring of a Huber ring is a ring of integral elements if it is open, integrally closed in
+`A`, and contained in `A°`. -/
+structure IsRingOfIntegralElements {A : Type u} [CommRing A] [TopologicalSpace A]
+    [IsTopologicalRing A] [NonarchimedeanRing A]
+    (Aplus : Subring A) : Prop where
+  isOpen : IsOpen (Aplus : Set A)
+  integrallyClosed : ∀ x : A, IsIntegral Aplus x → x ∈ Aplus
+  le_powerBounded : Aplus ≤ powerBoundedSubring A
+
+/-- A Huber pair over a fixed topological ring. The Huber-ring hypothesis and the topological-ring
+structure are part of the parameters; only the noncanonical plus ring is stored. -/
+structure Pair (A : Type u) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
+    [NonarchimedeanRing A] [IsHuberRing A] where
+  plus : Subring A
+  isRingOfIntegralElements : IsRingOfIntegralElements plus
+
+/-- A discrete commutative ring is Huber. -/
+theorem isHuberRing_of_discreteTopology (A : Type u) [CommRing A] [TopologicalSpace A]
+    [IsTopologicalRing A] [DiscreteTopology A] : IsHuberRing A :=
+  sorry
+
+/-- The `p`-adic field is Tate. -/
+theorem isTateRing_padic (p : ℕ) [Fact p.Prime] : IsTateRing ℚ_[p] :=
+  sorry
+
+/-- The ring of `p`-adic integers is Huber. -/
+theorem isHuberRing_padicInt (p : ℕ) [Fact p.Prime] : IsHuberRing ℤ_[p] :=
+  sorry
+
+/-- The ring of `p`-adic integers is not Tate. -/
+theorem not_isTateRing_padicInt (p : ℕ) [Fact p.Prime] : ¬ IsTateRing ℤ_[p] :=
+  sorry
+
+end Huber
+
+/-! ## Layer 1: the valuation spectrum -/
+
+universe u
+
+/-- The valuation spectrum of a commutative ring: valuations up to equivalence, represented by
+Mathlib's `ValuativeRel`. This is a local prototype of mathlib4#38009. -/
+@[ext]
+structure ValuationSpectrum (A : Type u) [CommRing A] where
+  toValuativeRel : ValuativeRel A
+
+@[inherit_doc] notation "Spv" => ValuationSpectrum
+
+namespace ValuationSpectrum
+
+variable {A : Type u} [CommRing A]
+
+/-- The basic open `Spv(A)(f/s)`. -/
+def basicOpen (f s : A) : Set (Spv A) :=
+  {v | v.toValuativeRel.vle f s ∧ ¬v.toValuativeRel.vle s 0}
+
+/-- The topology generated by the basic opens. -/
+instance : TopologicalSpace (Spv A) :=
+  TopologicalSpace.generateFrom {U | ∃ f s : A, U = basicOpen f s}
+
+/-- The support prime of a point of `Spv A`. -/
+noncomputable def supp (_v : Spv A) : PrimeSpectrum A :=
+  sorry
+
+/-- The continuous support map `Spv A → Spec A`. -/
+noncomputable def supportMap : Spv A → PrimeSpectrum A :=
+  supp
+
+/-- A prime ideal gives the corresponding trivial valuation. -/
+noncomputable def trivialSection (_p : PrimeSpectrum A) : Spv A :=
+  sorry
+
+/-- The trivial-valuation construction is a section of the support map. -/
+theorem supportMap_trivialSection (p : PrimeSpectrum A) :
+    supportMap (trivialSection p) = p :=
+  sorry
+
+/-- The support map is continuous. -/
+theorem continuous_supportMap : Continuous (supportMap : Spv A → PrimeSpectrum A) :=
+  sorry
+
+/-- The valuation spectrum is spectral. The proof is the closed-subspace-of-`{0,1}^{A×A}`
+argument of Wedhorn Proposition 4.7 followed by the criterion of Proposition 3.31.
+
+Deliberately **not** an `instance`: it is a target, and registering a `sorry`-backed instance would
+put it into typeclass search for every later declaration in the file. `SpectralSpace` is
+`Prop`-valued, so it states cleanly as a theorem; promote it to an instance once proved. -/
+theorem spectralSpace_target : SpectralSpace (Spv A) :=
+  sorry
+
+end ValuationSpectrum
+
+/-!
+## Later representative signatures
+
+Once the upstream `Spv`, continuous-valuation, and `Spa` APIs have settled, add signatures for the
+following interfaces. Their hypotheses and conclusions are fixed in `README.md`.
+
+* the constructible topology, pro-constructible subsets, and spectrality of pro-constructible
+  subspaces;
+* `Spv(A,I)`, its retraction from `Spv A`, and the characterisation of `Cont A` inside it;
+* Huber pairs and morphisms with explicit plus rings;
+* rational subsets and the corrected emptiness theorem
+  `Spa(A,A⁺)=∅ ↔ A/closure{0}=0`;
+* weighted restricted series, topological localisation `A(T/S)`, and completed localisation
+  `A⟨T/S⟩` with the power-bounded universal property;
+* the category of complete separated topological commutative rings and its products and
+  equalizers;
+* the structure presheaf, local stalks, and residue-field valuations;
+* `𝒱^pre`, `𝒱`, affinoid pre-adic spaces, and adic spaces;
+* pair-level sheafiness, ring-level sheafiness, stable sheafiness, and stable uniformity;
+* the Laurent-cover Čech complex and the exactness theorem for strongly noetherian Tate rings;
+* quotient-pair closed immersions, locally finite-type morphisms, and gluing;
+* the local affinoid chart isomorphisms on the Fargues–Fontaine curve.
+-/
+
+end TauCetiRoadmap.AdicSpaces

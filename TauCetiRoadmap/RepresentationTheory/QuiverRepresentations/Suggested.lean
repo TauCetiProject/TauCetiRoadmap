@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RepresentationTheory.Quiver.EulerForm
 
 /-!
 # Quiver representations, path algebras, and Gabriel's theorem: target signatures
@@ -350,7 +351,7 @@ theorem exists_almostSplitSequence {k Q : Type*} [Field k] [IsAlgClosed k] [Quiv
       IsAlmostSplit S ∧ Nonempty (S.X₃ ≅ M) := sorry
 
 /-- **Uniqueness of the almost-split sequence** ending at a given indecomposable, up to isomorphism
-of short complexes fixing the end — the companion of existence that the review noted was absent. -/
+of short complexes fixing the end — the companion of existence. -/
 theorem almostSplitSequence_unique {k Q : Type*} [Field k] [IsAlgClosed k] [Quiver Q] [Finite Q]
     [Finite (Σ a b : Q, Quiver.Path a b)]
     (S S' : CategoryTheory.ShortComplex (QuiverRep k Q))
