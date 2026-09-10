@@ -278,14 +278,36 @@ previous layers land.
   closed under composition and whiskering on both sides — the same closure conditions as the
   tensor ideals Layer 6 defines for a general monoidal linear category, so build the two
   together rather than twice.
-- **The presentation theorem for `TLDiagCat` (the universal property):** `TLDiagCat` is the
-  monoidal category presented by one generating object with morphisms `cup : 0 → 2`,
-  `cap : 2 → 0` and exactly the two zigzag relations. Equivalently: monoidal functors
-  `TLDiagCat ⥤ C` correspond to objects `V` with `η : 𝟙 → V ⊗ V`, `ε : V ⊗ V → 𝟙`
-  satisfying the snake equations. This is *the* reason TL is useful, and it resolves the
-  multiple-presentations tension: the presented category has trivial composition and hard
-  normal forms, the matching model the reverse, and this equivalence (via the innermost-cup
-  normal form) lets each side do what it is good at.
+- **The presentation theorem for `TLDiagCat` (the universal property):** the monoidal category
+  freely presented by one generating object with `cup : 0 → 2`, `cap : 2 → 0` and exactly the two
+  zigzag relations is `FreeSelfDualityCat`; `TLDiagCat` is its **quotient** by one further
+  relation, and the universal property has to say so. ⚠ Storing only a circle *count* makes a
+  circle to the left of the identity strand equal, as a morphism `1 → 1`, to a circle to its
+  right. Writing `d = cup ≫ cap : 𝟙 → 𝟙`, that forces the left and right actions of `d` on the
+  generating object to agree, and the two snake equations do **not** imply this in an arbitrary
+  monoidal target: `End (𝟙_C)` is commutative in any monoidal category, but it need not act
+  centrally on the other hom-sets.
+
+  The negative test is `A`-`A`-bimodules over `A = ℚ × ℚ × ℚ` with `⊗_A`. Let `M` have a
+  one-dimensional summand `M_ij` for each directed edge `12, 21, 23, 32` of the three-vertex path,
+  let `ε` send a reverse-edge pair `m_ij ⊗ m_ji` to `e_i` and kill non-closed paths, and let
+  `η : e_i ↦ Σ_{j adjacent to i} m_ij ⊗ m_ji`. Both snakes hold, because in either composite only
+  the matching reverse edge survives. But `d` is multiplication by `(1,2,1)`, so on `M_12` its left
+  action is multiplication by `1` and its right action multiplication by `2`, and no monoidal
+  functor out of the count-only category can exist.
+
+  So: monoidal functors `TLDiagCat ⥤ C` correspond to objects `V` with `η : 𝟙 → V ⊗ V`,
+  `ε : V ⊗ V → 𝟙` satisfying the snake equations **and** `ρ_V ≫ (𝟙_V ⊗ d) ≫ ρ_V⁻¹ = λ_V ≫ (d ⊗ 𝟙_V) ≫ λ_V⁻¹`,
+  where `d = η ≫ ε`; the free category is presented by the snakes alone. Pin both universal
+  properties as Lean signatures and the bimodule example as a negative test for the second.
+
+  This also resolves the multiple-presentations tension: the presented category has trivial
+  composition and hard normal forms, the matching model the reverse, and the equivalence (via the
+  innermost-cup normal form) lets each side do what it is good at.
+- **The `R`-linear universal property.** For the linear category of Layer 3 the useful form is the
+  one that names the loop value: monoidally `R`-linear functors `TL(R, δ) ⥤ C` into an `R`-linear
+  monoidal target correspond to self-dualities with `η ≫ ε = δ • 𝟙_{𝟙}`. State it beside the
+  diagrammatic one, since it is what the evaluation representation of Layer 3 actually consumes.
 - **Through-strand factorization:** every diagram factors as a *surjection* (all top points
   of the intermediate object are through-strands) followed by an *injection* (all bottom
   points through), through `through D`, uniquely once the circles are pinned to the
@@ -307,8 +329,12 @@ previous layers land.
   transported through `diagBasis`, sphericality is a closure computation, and the quantum
   dimension of the object `n` is `δⁿ`.
 - **The reflection involutions:** vertical reflection is a contravariant monoidal involution
-  (on endomorphism algebras this is the `StarRing` structure of Layer 4), horizontal
-  reflection a covariant one; rotation, the two reflections, and the rigidity data satisfy
+  (on endomorphism algebras this is the `StarRing` structure of Layer 4). Horizontal (left–right)
+  reflection is covariant on composition but **reverses juxtaposition**,
+  `reflect (f ⊗ g) = reflect g ⊗ reflect f`, so it is not an ordinary monoidal involution of the
+  category: state it as a monoidal functor into the monoidal opposite, or give the anti-monoidal
+  comparison explicitly. ⚠ The distinction is already visible on the two distinct diagrams
+  `cap ⊗ 𝟙` and `𝟙 ⊗ cap : 3 → 1`. Rotation, the two reflections, and the rigidity data satisfy
   the dihedral compatibility laws, stated once at category level so Layer 4 does not restate
   them per algebra.
 - **Corner-dragging as linear isomorphisms** `Hom(n+1, m) ≃ₗ Hom(n, m+1)` (Frobenius
@@ -320,9 +346,14 @@ previous layers land.
   `BraidedCategory`, the second braiding via `A ↦ A⁻¹`, their inverse relationship, and the
   **ribbon structure** (twist `θ₁ = −A³`), against the balanced/ribbon definitions of the
   [pivotal and spherical categories roadmap](../PivotalSpherical/README.md).
-- **The evaluation representation:** for the same unit `A ∈ R` with `δ = −A² − A⁻²` as the
-  braidings need (there is no cup and cap over `R` alone giving circle value `q + q⁻¹`; the
-  square root is what `A` is for), via the universal property, `V = R²` with the standard
+- **The evaluation representation:** two constructions, kept apart because only one of them needs
+  a square root. For any unit `q ∈ R` there already is a rank-two self-duality with circle value
+  `q + q⁻¹`: take the cap matrix `B = [[0, q], [1, 0]]` on `R²` and the cup coefficient matrix
+  `B⁻¹ = [[0, 1], [q⁻¹, 0]]`; the two snakes are `B B⁻¹ = B⁻¹ B = I` and the closed circle is
+  `Σ_ij (B⁻¹)_ij B_ij = q + q⁻¹`. ⚠ So do not claim that `A` is needed for the cup and cap; what
+  needs the square root is compatibility with the **chosen Kauffman braiding**, and that stronger
+  parameterization is a separate statement. For the `A`-specialized form, with `A ∈ R` a unit and
+  `δ = −A² − A⁻²` as the braidings need, via the universal property, `V = R²` with the standard
   cup and cap (matrix entries `0, ±A^{±1}`, circle value `δ`) gives a monoidal functor
   `TL(R, δ) ⥤ ModuleCat R`, hence algebra maps `TL_n → End((R²)^{⊗n})`. This is quantum
   `sl₂` Schur–Weyl with no quantum group in sight, the first real test of the universal
@@ -387,9 +418,14 @@ previous layers land.
   general proofs are no harder than the TL-specific ones.
 - **The TL cell structure:** the through-strand filtration is a cell structure with cells
   indexed by `k ≡ n (mod 2)`, `0 ≤ k ≤ n`; the cell module `CellModule R δ n k` has the
-  half-diagram basis (`finrank = halfCount n k` over a nontrivial `R`, these are Layer 2's
-  injective morphisms), and the cell form `⟨u, v⟩` is defined by `ū ≫ v = ⟨u,v⟩ · 1_k + (lower
-  through-strand terms)`. The `TLAlg R δ n`-action and the `R`-action on `CellModule R δ n k`
+  half-diagram basis (`finrank = halfCount n k` over a nontrivial `R`). ⚠ Fix the orientation once,
+  and consistently with `halfCount`: a half-diagram is a **string-surjective** diagram `n → k`,
+  Layer 2's *epis*, not an injective `k → n`. With that convention `ū : k → n` is its vertical
+  reflection and the cell form `⟨u, v⟩` is defined by `ū ≫ v = ⟨u,v⟩ · 1_k + (lower
+  through-strand terms)`, an endomorphism of `k` as the displayed right-hand side requires. Under
+  the opposite (injective `k → n`) convention the composable pairing is `u ≫ v̄` instead, and the
+  module action has to be restated to match; either is fine, but `ū ≫ v` with injective
+  half-diagrams is an endomorphism of `n` and does not typecheck against `1_k`. The `TLAlg R δ n`-action and the `R`-action on `CellModule R δ n k`
   are compatible (`IsScalarTower R (TLAlg R δ n) (CellModule R δ n k)`): without that they are
   formally unrelated structures and `cellForm` being `R`-bilinear says less than intended.
 - **The Gram determinant formula, universally:** with `G_{n,k}` the Gram matrix in the
@@ -436,11 +472,19 @@ previous layers land.
   `f_{n+1} = f_n − ([n]/[n+1]) · f_n e_n f_n`, and the **single-clasp (linear) recursion**
   expanding `f_{n+1}` as `f_n` plus a `[·]/[n+1]`-weighted sum of once-capped terms, which
   is the efficient one and the route to coefficients.
-- **The coefficient formula:** the closed formula for the coefficient of any diagram in
-  `f_n` as a product of quantum-integer ratios read off the diagram, following S. Morrison,
-  [*A formula for the Jones–Wenzl projections*
-  (arXiv:1503.00384)](https://arxiv.org/abs/1503.00384). Milestone: a `#eval`-able
-  computation of any single coefficient, checked against `f_2` and `f_3`.
+- **The coefficient formula:** the closed formula for the coefficient of any diagram in `f_n`,
+  following S. Morrison, [*A formula for the Jones–Wenzl projections*
+  (arXiv:1503.00384)](https://arxiv.org/abs/1503.00384), Proposition 5.1. ⚠ That formula is a
+  **sum over the admissible removal sequences** of a product of quantum-integer ratios, divided by
+  a quantum factorial (its precursor is the sum in Proposition 4.1); it is not a single product
+  read off the diagram. The computational target therefore needs the finite set of admissible
+  sequences for a diagram, their reindexing, and the sum — a different product formula would have
+  to be identified and justified separately. ⚠ The paper also takes the loop value to be `−[2]`
+  where this roadmap takes `+[2]`, so its Wenzl recursion carries the opposite displayed sign;
+  record the translation of diagram generators and coefficient signs when importing the algorithm.
+  Milestone: a `#eval`-able computation of any single coefficient, checked against `f_2` and `f_3`,
+  and against a diagram admitting two different admissible removal choices, so that the test
+  detects a missing summation rather than only a wrong constant.
 - **Traces:** `tr̂(f_n) = [n+1]` and the partial trace
   `condExp f_{n+1} = ([n+2]/[n+1]) · f_n`; absorption `f_n · incl(f_{n-1}) = f_n` and its
   tensor variants.

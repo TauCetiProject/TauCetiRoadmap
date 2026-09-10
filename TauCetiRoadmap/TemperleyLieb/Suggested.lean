@@ -208,7 +208,15 @@ morphisms are Temperley–Lieb diagrams with their circle counts as data (discar
 count would silently impose `δ = 1`; the circle must stay a nontrivial endomorphism of the
 unit for the universal property to hold at every `δ`). Composition glues along the middle
 boundary and adds the circle counts, including the newly formed circles; associativity of
-this gluing is the hard theorem of Layer 2. -/
+this gluing is the hard theorem of Layer 2.
+
+⚠ Counting circles without remembering *where* they are is an extra relation, not a bookkeeping
+convenience: a circle left of the identity strand becomes equal to a circle right of it, so with
+`d = cup ≫ cap : 𝟙 → 𝟙` the left and right actions of `d` on the generating object are forced to
+agree. `End (𝟙_C)` is commutative in any monoidal category but need not act centrally on other
+hom-sets, so the two snakes do not imply this. Hence `TLDiagCat` is presented by the snakes
+**together with** `IsCircleCentral` below, and `centrality` is a hypothesis of its universal
+property. -/
 structure TLDiagCat : Type where
   /-- Build an object of the diagram category from its number of boundary points. -/
   of ::
@@ -239,6 +247,20 @@ theorem TLDiagCat.of_tensorObj (n m : ℕ) :
 /-- Every object is self-dual via nested cups and caps; the zigzags are diagram
 computations. -/
 noncomputable instance : RigidCategory TLDiagCat := sorry
+
+/-- The extra relation that a count-only circle imposes on a target: the loop `d = η ≫ ε` acts the
+same way on the left and on the right.
+
+⚠ This is **not** a consequence of the snake equations. In `A`-`A`-bimodules over
+`A = ℚ × ℚ × ℚ` with `⊗_A`, take `M` with a one-dimensional summand for each directed edge of the
+three-vertex path `1 — 2 — 3`, `ε (m_ij ⊗ m_ji) = e_i` (killing non-closed paths) and
+`η (e_i) = Σ_{j adjacent to i} m_ij ⊗ m_ji`. Both snakes hold, but `d` is multiplication by
+`(1,2,1)`, whose left action on the summand `M_12` is by `1` and right action by `2`. So this
+self-duality satisfies the snakes and admits no monoidal functor out of `TLDiagCat`. -/
+def IsCircleCentral {C : Type*} [Category C] [MonoidalCategory C] {V : C}
+    (η : 𝟙_ C ⟶ V ⊗ V) (ε : V ⊗ V ⟶ 𝟙_ C) : Prop :=
+  ∀ X : C, (ρ_ X).inv ≫ (X ◁ (η ≫ ε)) ≫ (ρ_ X).hom
+    = (λ_ X).inv ≫ ((η ≫ ε) ▷ X) ≫ (λ_ X).hom
 
 /-- **Through-strand factorization**, existence: every diagram factors through
 `TLDiagCat.of D.through` as a `StringSurjective` diagram (carrying all the circles) followed
@@ -782,10 +804,17 @@ form waits on that roadmap, and `README.md` is definitive for them. -/
 noncomputable instance (I : MonoidalIdeal S C) [RigidCategory C] :
     RigidCategory (MonoidalQuotient S C I) := sorry
 
-/-- Quotienting can destroy idempotent completeness, so it has to be recovered. -/
-instance (I : MonoidalIdeal S C) [IsIdempotentComplete C] :
-    IsIdempotentComplete (MonoidalQuotient S C I) := sorry
+/-! ⚠ There is deliberately **no** instance `IsIdempotentComplete (MonoidalQuotient S C I)` here,
+because it is false at this generality: quotienting destroys idempotent splittings rather than
+preserving them. Take `C` to be finite-rank free abelian groups — idempotent complete, symmetric
+monoidal, `ℤ`-linear — and `I` the morphisms divisible by `6`. The quotient has the same objects and
+matrices over `ℤ/6` as morphisms, and `3` is an idempotent endomorphism of the rank-one object since
+`3² = 3 mod 6`. It does not split: under `ℤ/6 ≅ 𝔽₂ × 𝔽₃` its image has ranks `(1,0)`, whereas every
+object of the quotient has ranks `(n,n)`.
 
+Layer 7 therefore uses `Karoubi (MonoidalQuotient S C I)` when it needs idempotents to split; the
+generic infrastructure must not assume the property it exists to restore. An idempotent-lifting
+theorem for the particular TL quotient, under explicit hypotheses, is a separate target. -/
 end Envelope
 
 section Karoubi
