@@ -148,14 +148,16 @@ Construct left `H`-modules and their monoidal API over the existing bialgebra st
   `Λ`, by
   `T(M)=M⊗(H/kΛ)` and its inverse by `M⊗ker ε`; prove independence up to natural isomorphism.
   In the graded case, shift the homogeneous integral so that `m ↦ m⊗Λ` has degree zero.
-- Prove `H-StMod` is triangulated monoidal, has the coproducts required later, and tensoring in
+- Prove `H-StMod` is triangulated monoidal (tensoring on either side is a triangle functor), has
+  the arbitrary coproducts used for compact generation in Layer 5, and tensoring in
   either variable is exact.  Prove its finite-dimensional subcategory `H-stmod` is closed under
   tensor, suspension, and duals.  Both are symmetric monoidal when `H` is cocommutative.  For a
   general `H` they are only monoidal; a braiding requires a quasitriangular or braided-Hopf
   hypothesis and is never inferred from finite-dimensionality.
 
 This is the **ordinary stable quotient**: a morphism is zero exactly when it factors through an
-`H`-projective.  Later ideals are compared to it, not identified with it by notation.
+`H`-projective.  The relative null ideal of Layer 4 and the Laugwitz--Qi tensor ideal of Layer 8
+are compared to it, not identified with it by notation.
 
 ## Layer 3: module algebras, comodule algebras, and smash products
 
@@ -254,7 +256,7 @@ The following comparison is mandatory.
 - Ordinary chain homotopy is the formula `f=dh+hd` in the exterior Hopf-superalgebra example.
   The integral ideal above specializes to it only after the super grading and signs are installed.
 - A Verdier quotient localizes a triangulated category at a thick subcategory.  It is introduced
-  in the next layer and is not the additive ideal quotient used to define `C(A,H)`.
+  in Layer 5 and is not the additive ideal quotient used to define `C(A,H)`.
 
 ## Layer 5: derived localization, property (P), and compact objects
 
@@ -308,11 +310,15 @@ drawn:
 - the cofibrant objects are exactly the `B`-module retracts of cellular modules, the retraction
   being an honest split pair of `B`-linear maps and not an isomorphism in `C(A,H)`;
 - cofibrant modules have property (P);
-- every module has a functorial surjective quasi-isomorphism from a cellular bar replacement,
-  which is cofibrant by its filtration, not by an isomorphism in `C(A,H)`;
+- the bar replacement is a functor with a natural transformation to the identity whose
+  components are surjective quasi-isomorphisms; its values are cellular, hence cofibrant by their
+  filtration, not by an isomorphism in `C(A,H)`;
 - morphisms out of a cofibrant object agree in `C(A,H)` and `D(A,H)`;
-- the full subcategories of `C(A,H)` on cellular objects and on cofibrant objects each map by
-  an equivalence onto `D(A,H)`; the cofibrant one is closed under retracts in `C(A,H)`.
+- the literal full subcategories of `C(A,H)` on cellular representatives and on cofibrant
+  representatives each map by an equivalence onto `D(A,H)`.  Their isomorphism closures in
+  `C(A,H)` coincide and are the objects with property (P); the retract distinction lives among
+  strict `B`-modules, where cofibrant modules are closed under `B`-module retracts and cellular
+  modules are not.
 
 The two examples above are acceptance tests: `A/(t)` over `H = k` has property (P) and is not
 cofibrant, and `A/(t)⊗H` for nonsemisimple `H` is relatively projective and not cofibrant.
@@ -375,15 +381,18 @@ Use the Grothendieck/Euler roadmap's construction throughout.
    representation ring by the classes of projectives.
 2. Define the hopfological Grothendieck group to be `K₀(Dᶜ(A,H))`, the triangulated `K₀` of the
    full subcategory of compact objects, not the group of the entire large derived category.
-   Prove it is a right module over the ring `K₀(H-stmod)` through the tensor action.
+   Prove it is a right module over the ring `K₀(H-stmod)` through the tensor action, that is, a
+   module over the opposite ring, since `K₀(H-stmod)` may be noncommutative, with the scalar
+   multiplication of classes the class of the action.
 3. Define `G₀(A,H)` from `Dᵇ(A,H)` and `G₀ᶠ(A,H)` from `Dᶠ(A,H)` under the Noetherian
    hypotheses above.  Construct Qi's derived pairing
    `Dᶜ(A,H) × Dᶠ(A,H) → Dᶠ(k,H)` there, and its sesquilinear Grothendieck-group
    specialization under the Artinian hypotheses used in his smooth-basic section.
-4. If an internal tensor product of compact hopfological `A`-modules is constructed, state all
-   hypotheses making the diagonal action descend through the `A`-balanced tensor product.
-   Under those hypotheses prove that `K₀(A,H)` is a ring.  Commutativity requires a symmetric
-   or adequately braided structure; commutativity of `A` alone does not make `H` cocommutative.
+4. When `A` is commutative and `H` is cocommutative, the diagonal action descends through the
+   `A`-balanced tensor product; construct the internal tensor product of hopfological
+   `A`-modules under exactly those two hypotheses, prove it preserves compact objects, and prove
+   that `K₀(A,H)` is then a ring.  Commutativity of that ring requires a symmetric or adequately
+   braided structure; commutativity of `A` alone does not make `H` cocommutative.
 5. For a smooth basic `A` with trivial `H`-action, prove Qi's comparison
    `K₀(A,H) ≅ K₀(A) ⊗_ℤ K₀(H-stmod)`, and its graded tensor product over
    `ℤ[q,q⁻¹]`.  Preserve every hypothesis from Layer 5.
@@ -658,7 +667,7 @@ The layers are implemented in order, with reusable files rather than one theorem
 
 A layer is not complete when only the displayed headline theorem exists.  Definitions require
 the normal morphism, functoriality, equivalence, grading-shift, op/cop, and simp/ext APIs needed
-by the next layer.  Every quotient comes with its universal property and comparison functor;
+by the following layer.  Every quotient comes with its universal property and comparison functor;
 every equivalence identifies the underlying carrier/action maps; and every finiteness theorem
 states field characteristic, Hopf dimension, antipode, Noetherian/Artinian, flatness,
 finite-projective, property-(P), and compactness assumptions at the point where they are used.
