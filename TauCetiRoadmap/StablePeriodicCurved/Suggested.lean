@@ -81,6 +81,26 @@ structure TriangulatedStructure (T : Type u) [Category.{v} T] where
     letI := pretriangulated
     IsTriangulated T
 
+/-- The smallest isomorphism-closed triangulated subcategory containing `P`: closure under shifts
+and cones, without retracts. Mathlib's `triangEnvelope` is the thick version; the two differ by
+idempotent completion, which is why the triangulated hull below is stated with this one. -/
+def triangClosure {T : Type u} [Category.{v} T] [Limits.HasZeroObject T]
+    [Preadditive T] [HasShift T ℤ] [∀ m : ℤ, (shiftFunctor T m).Additive] [Pretriangulated T]
+    (P : ObjectProperty T) : ObjectProperty T :=
+  ⨅ (Q : ObjectProperty T) (_ : P ≤ Q) (_ : Q.IsTriangulated) (_ : Q.IsClosedUnderIsomorphisms), Q
+
+theorem le_triangClosure {T : Type u} [Category.{v} T] [Limits.HasZeroObject T]
+    [Preadditive T] [HasShift T ℤ] [∀ m : ℤ, (shiftFunctor T m).Additive] [Pretriangulated T]
+    (P : ObjectProperty T) : P ≤ triangClosure P :=
+  le_iInf fun _ ↦ le_iInf fun hPQ ↦ le_iInf fun _ ↦ le_iInf fun _ ↦ hPQ
+
+theorem triangClosure_le_triangEnvelope {T : Type u} [Category.{v} T]
+    [Limits.HasZeroObject T] [Preadditive T] [HasShift T ℤ]
+    [∀ m : ℤ, (shiftFunctor T m).Additive] [Pretriangulated T] [IsTriangulated T]
+    (P : ObjectProperty T) [P.Nonempty] : triangClosure P ≤ P.triangEnvelope :=
+  iInf_le_of_le P.triangEnvelope (iInf_le_of_le P.le_triangEnvelope
+    (iInf_le_of_le inferInstance (iInf_le_of_le inferInstance le_rfl)))
+
 /-! ## Layer 0: Frobenius functionals and the stable additive quotient -/
 
 /-- A Frobenius functional on a finite-dimensional algebra. Finite-dimensionality belongs in
@@ -768,20 +788,60 @@ noncomputable def periodicHomotopyShiftIso :
     periodicHomotopyQuotient C n ⋙ shiftFunctor (PeriodicHomotopyCategory C n) (1 : ℤ) ≅
       PeriodicComplex.cyclicShiftFunctor ⋙ periodicHomotopyQuotient C n := sorry
 
-/-- The cone triangle `X → Y → cone f → X⟦1⟧` is distinguished. -/
-theorem periodicHomotopy_cone_distinguished {X Y : PeriodicComplex C n} (f : X ⟶ Y) :
-    ∃ T : Triangle (PeriodicHomotopyCategory C n),
-      T ∈ distTriang (PeriodicHomotopyCategory C n) ∧
-      T.obj₁ = (periodicHomotopyQuotient C n).obj X ∧
-      T.obj₂ = (periodicHomotopyQuotient C n).obj Y ∧
-      T.obj₃ = (periodicHomotopyQuotient C n).obj (PeriodicComplex.mappingCone f) := sorry
+/-- The cone triangle `X → Y → cone f → X⟦1⟧` of an even map, with third arrow the projection
+onto the cyclic shift followed by the shift comparison. -/
+noncomputable def periodicConeTriangle {X Y : PeriodicComplex C n} (f : X ⟶ Y) :
+    Triangle (PeriodicHomotopyCategory C n) :=
+  Triangle.mk ((periodicHomotopyQuotient C n).map f)
+    ((periodicHomotopyQuotient C n).map (PeriodicComplex.coneInl f))
+    ((periodicHomotopyQuotient C n).map (PeriodicComplex.coneFst f) ≫
+      (periodicHomotopyShiftIso C n).inv.app X)
 
-/-- The Frobenius description: with the componentwise split exact structure, `Kₙ(C)` is the stable
-category of periodic complexes, and the two triangulations agree. -/
-theorem periodicHomotopy_stable_comparison :
-    ∃ (E : ExactStructure (PeriodicComplex C n)) (H : FrobeniusExactData E)
-      (F : FrobeniusComparison.StableCategory E ⥤ PeriodicHomotopyCategory C n),
-      F.IsEquivalence := sorry
+/-- The cone triangle is distinguished. -/
+theorem periodicConeTriangle_distinguished {X Y : PeriodicComplex C n} (f : X ⟶ Y) :
+    periodicConeTriangle C n f ∈ distTriang (PeriodicHomotopyCategory C n) := sorry
+
+/-- The componentwise split exact structure on periodic complexes. -/
+noncomputable def periodicSplitExactStructure : ExactStructure (PeriodicComplex C n) := sorry
+
+/-- Its conflations are the sequences split in every residue class. -/
+theorem periodicSplitExactStructure_conflation_iff {X Y Z : PeriodicComplex C n} (i : X ⟶ Y)
+    (p : Y ⟶ Z) :
+    (periodicSplitExactStructure C n).Conflation i p ↔
+      ∀ k : ZMod n, ∃ (r : Y.X k ⟶ X.X k) (s : Z.X k ⟶ Y.X k),
+        i.f k ≫ r = 𝟙 _ ∧ s ≫ p.f k = 𝟙 _ ∧ r ≫ i.f k + p.f k ≫ s = 𝟙 _ := sorry
+
+/-- The split structure is Frobenius, with projective-injectives the contractible complexes. -/
+theorem periodicSplitExactStructure_frobenius :
+    FrobeniusExactData (periodicSplitExactStructure C n) := sorry
+
+noncomputable instance : (periodicHomotopyQuotient C n).Additive := sorry
+
+/-- The homotopy quotient kills maps through contractible complexes. -/
+theorem periodicHomotopyQuotient_kills :
+    (MorphismIdeal.factorIdeal
+      (FrobeniusComparison.IsRelativeProjective (periodicSplitExactStructure C n))).Kills
+      (periodicHomotopyQuotient C n) := sorry
+
+/-- The comparison from the stable category of the split structure to `Kₙ(C)`, by the universal
+property of the ideal quotient. -/
+noncomputable def periodicStableToHomotopy :
+    FrobeniusComparison.StableCategory (periodicSplitExactStructure C n) ⥤
+      PeriodicHomotopyCategory C n :=
+  MorphismIdeal.lift _ _ (periodicHomotopyQuotient_kills C n)
+
+/-- The Frobenius description: `Kₙ(C)` is the stable category of the split structure, and the
+comparison is a triangle equivalence for Happel's triangulation on the source. -/
+theorem periodicStableToHomotopy_isEquivalence :
+    (periodicStableToHomotopy C n).IsEquivalence := sorry
+
+theorem periodicStableToHomotopy_triangulated :
+    letI := (frobeniusStableTriangulation _ (periodicSplitExactStructure_frobenius C n)).hasZeroObject
+    letI := (frobeniusStableTriangulation _ (periodicSplitExactStructure_frobenius C n)).hasShift
+    letI := (frobeniusStableTriangulation _ (periodicSplitExactStructure_frobenius C n)).shift_additive
+    letI := (frobeniusStableTriangulation _ (periodicSplitExactStructure_frobenius C n)).pretriangulated
+    ∃ _ : (periodicStableToHomotopy C n).CommShift ℤ,
+      (periodicStableToHomotopy C n).IsTriangulated := sorry
 
 end PeriodicHomotopyTriangulation
 
@@ -880,9 +940,11 @@ noncomputable instance : Pretriangulated (PeriodicDerived E n) :=
 noncomputable instance : IsTriangulated (PeriodicDerived E n) :=
   (periodicDerivedTriangulation E n).triangulated
 
-/-- The comparison is a triangle functor. -/
-theorem periodicDerivedComparison_commShift :
-    Nonempty ((periodicDerivedComparison E n).CommShift ℤ) := sorry
+/-- The comparison is a triangle functor: it commutes with shifts and preserves distinguished
+triangles. -/
+theorem periodicDerivedComparison_triangulated :
+    ∃ _ : (periodicDerivedComparison E n).CommShift ℤ,
+      (periodicDerivedComparison E n).IsTriangulated := sorry
 
 end PeriodicDerivedTriangulation
 
@@ -1049,12 +1111,14 @@ theorem descFac_periodicity (G : D ⥤ E) [G.Additive] (φ : shiftFunctor D n �
       (desc G φ).map (periodicityIso X).hom ≫ (descFac G φ).hom.app X := sorry
 
 /-- Uniqueness: any additive functor out of the orbit category restricting to `G` compatibly with
-the periodicity isomorphisms is isomorphic to the descended functor. -/
+the periodicity isomorphisms is isomorphic to the descended functor by a unique isomorphism
+compatible with the two factorizations. -/
 theorem desc_unique (G : D ⥤ E) [G.Additive] (φ : shiftFunctor D n ⋙ G ≅ G)
     (G' : ShiftOrbit D n ⥤ E) [G'.Additive] (e : projection ⋙ G' ≅ G)
     (he : ∀ X : D, e.hom.app (X⟦n⟧) ≫ φ.hom.app X =
       G'.map (periodicityIso X).hom ≫ e.hom.app X) :
-    Nonempty (G' ≅ desc G φ) := sorry
+    ∃! α : G' ≅ desc G φ,
+      ∀ X : D, α.hom.app (projection.obj X) ≫ (descFac G φ).hom.app X = e.hom.app X := sorry
 
 end UniversalProperty
 
@@ -1150,12 +1214,24 @@ abbrev IsStaiGradable : ObjectProperty (PeriodicDerivedFiniteModule k Λ n) :=
   (staiCompression k Λ n).essImage
 
 /-- Stai Theorem 4.3, the generation half: under finite global dimension, the triangulated
-subcategory of `Dₙ(mod-Λ)` generated by the gradable objects (shifts, cones, retracts) is
-everything. Together with full faithfulness this says that `Dₙ(mod-Λ)` is the triangulated hull
-of the orbit category: the orbit category embeds, and the embedding generates. -/
+subcategory of `Dₙ(mod-Λ)` generated by the gradable objects under shifts and cones alone,
+without retracts, is everything. Together with full faithfulness this says that `Dₙ(mod-Λ)` is
+the triangulated hull of the orbit category in Keller's sense, before any idempotent completion:
+the orbit category embeds, and the embedding generates. -/
+theorem staiCompression_essImage_triangClosure_eq_top {d : ℕ}
+    (hΛ : HasFiniteGlobalDimension Λ d) :
+    triangClosure (IsStaiGradable k Λ n) = ⊤ := sorry
+
+/-- The gradable objects are nonempty (the zero object is gradable). -/
+noncomputable instance : (IsStaiGradable k Λ n).Nonempty := sorry
+
+/-- Consequently the thick envelope is also everything. -/
 theorem staiCompression_essImage_triangEnvelope_eq_top {d : ℕ}
     (hΛ : HasFiniteGlobalDimension Λ d) :
-    (IsStaiGradable k Λ n).triangEnvelope = ⊤ := sorry
+    (IsStaiGradable k Λ n).triangEnvelope = ⊤ :=
+  top_le_iff.mp (by
+    rw [← staiCompression_essImage_triangClosure_eq_top k Λ n hΛ]
+    exact triangClosure_le_triangEnvelope (IsStaiGradable k Λ n))
 
 /-- Periodic complexes of finitely generated projectives, as a full subcategory of `Kₙ(mod-Λ)`. -/
 def periodicProjectiveProperty :
@@ -1167,15 +1243,19 @@ def periodicProjectiveProperty :
 /-- `Kₙ(proj-Λ)`. -/
 abbrev PeriodicProjectiveHomotopyCategory := (periodicProjectiveProperty k Λ n).FullSubcategory
 
-/-- The canonical functor `Kₙ(proj-Λ) → Dₙ(mod-Λ)`, restricting the Verdier localization and the
-comparison of the two descriptions of `Dₙ`. -/
-noncomputable def periodicProjectiveToDerived :
-    PeriodicProjectiveHomotopyCategory k Λ n ⥤ PeriodicDerivedFiniteModule k Λ n := sorry
+/-- The canonical functor `Kₙ(proj-Λ) → Kₙ(mod-Λ)/Acₙ`: the full-subcategory inclusion followed
+by the Verdier localization. -/
+noncomputable def periodicProjectiveToVerdierDerived :
+    PeriodicProjectiveHomotopyCategory k Λ n ⥤
+      PeriodicVerdierDerived (finiteDimensionalModuleExactStructure k Λ) n :=
+  ObjectProperty.ι _ ⋙ periodicVerdierQ (finiteDimensionalModuleExactStructure k Λ) n
 
 /-- `Dₙ(mod-Λ) ≃ Kₙ(proj-Λ)` under finite global dimension (Stai Proposition 3.10 and the
-periodic version of the projective-resolution equivalence). -/
-theorem periodicProjectiveToDerived_isEquivalence {d : ℕ} (hΛ : HasFiniteGlobalDimension Λ d) :
-    (periodicProjectiveToDerived k Λ n).IsEquivalence := sorry
+periodic version of the projective-resolution equivalence), in the Verdier description; the
+quasi-isomorphism description follows through `periodicDerivedComparison`. -/
+theorem periodicProjectiveToVerdierDerived_isEquivalence {d : ℕ}
+    (hΛ : HasFiniteGlobalDimension Λ d) :
+    (periodicProjectiveToVerdierDerived k Λ n).IsEquivalence := sorry
 
 end StaiHull
 
@@ -1296,10 +1376,25 @@ structure RightModule (B : RightCurvedDGAlgebra k A) where
       MulOpposite.op a • d m + (((q.negOnePow : ℤ) : k) • (MulOpposite.op (B.d a) • m))
   d_sq : ∀ m, d (d m) = MulOpposite.op B.curvature • m
 
-/-- Under the pinned graded-opposite multiplication, the same differential has right curvature
-`-op(w)`. This definition fixes the sign independently of a later bundled graded-opposite ring. -/
-def oppositeCurvature (B : RightCurvedDGAlgebra k A) : Aᵐᵒᵖ :=
-  -MulOpposite.op B.curvature
+/-- The graded opposite of a curved DG algebra: a ring structure on the opposite carrier with the
+Koszul-twisted multiplication `op a * op b = (-1)^(|a||b|) op (b * a)` on homogeneous elements
+(so it is not `MulOpposite`'s ring structure), the same grading and differential, and right
+curvature `-op w`. The curvature sign is a field to be proved from the twisted multiplication,
+not a definition. -/
+structure GradedOpposite (B : RightCurvedDGAlgebra k A) where
+  Carrier : Type v
+  [ring : Ring Carrier]
+  [algebra : Algebra k Carrier]
+  op : A ≃ₗ[k] Carrier
+  op_mul : ∀ p q a b, B.grading.IsHomogeneous p a → B.grading.IsHomogeneous q b →
+    op a * op b = (((p * q).negOnePow : ℤ) : k) • op (b * a)
+  opposite : RightCurvedDGAlgebra k Carrier
+  grading_piece : ∀ p, opposite.grading.piece p = (B.grading.piece p).map op.toLinearMap
+  d_op : ∀ a, opposite.d (op a) = op (B.d a)
+  curvature_eq : opposite.curvature = -op B.curvature
+
+/-- The graded opposite exists, with the displayed curvature sign. -/
+noncomputable def gradedOpposite (B : RightCurvedDGAlgebra k A) : GradedOpposite B := sorry
 
 /-- The genuine degree-zero subring cut out by the internal grading. The multiplication field
 uses the graded multiplication law rather than assuming that an arbitrary degree predicate is
@@ -1323,8 +1418,9 @@ The second-kind derived categories are *constructed*: the curved homotopy catego
 quotient of a concrete category of bundled curved modules, the three acyclic classes are the
 closures generated inside it by totalizations of short exact sequences, the three derived
 categories are the Verdier quotients by those closures, and the comparison functors are induced
-by the inclusions of the classes. Nothing in this layer takes a category, a localization functor,
-or a set of acyclic objects as a parameter. -/
+by the inclusions of the classes. The generic closure, quotient, and comparison machinery in
+`SecondKind` is parametric in a triangulated category and a generating class; the curved
+instantiation is concrete, and it is the target. -/
 
 namespace RightCurvedDGAlgebra
 
@@ -1440,18 +1536,21 @@ noncomputable instance : Pretriangulated B.HomotopyCategory :=
 noncomputable instance : IsTriangulated B.HomotopyCategory :=
   B.homotopyTriangulation.triangulated
 
-/-- The homotopy category inherits the small coproducts and products of graded modules. -/
+/-- With carriers in `Type (max u v)`, the universe of `k` and `A`, curved modules and their
+homotopy category have the small coproducts and products of graded modules, indexed by types in
+that same universe, which is also the hom universe. Carriers below the universe of the algebra
+would not contain the free modules. -/
 noncomputable instance :
-    CategoryTheory.Limits.HasCoproducts.{max u w} (ModuleObj.{u, v, w} B) := sorry
+    CategoryTheory.Limits.HasCoproducts.{max u v} (ModuleObj.{u, v, max u v} B) := sorry
 
 noncomputable instance :
-    CategoryTheory.Limits.HasProducts.{max u w} (ModuleObj.{u, v, w} B) := sorry
+    CategoryTheory.Limits.HasProducts.{max u v} (ModuleObj.{u, v, max u v} B) := sorry
 
 noncomputable instance :
-    CategoryTheory.Limits.HasCoproducts.{max u w} (HomotopyCategory.{u, v, w} B) := sorry
+    CategoryTheory.Limits.HasCoproducts.{max u v} (HomotopyCategory.{u, v, max u v} B) := sorry
 
 noncomputable instance :
-    CategoryTheory.Limits.HasProducts.{max u w} (HomotopyCategory.{u, v, w} B) := sorry
+    CategoryTheory.Limits.HasProducts.{max u v} (HomotopyCategory.{u, v, max u v} B) := sorry
 
 /-- A short exact sequence of curved modules: closed morphisms whose underlying linear maps form
 a short exact sequence. -/
@@ -1598,12 +1697,16 @@ noncomputable def absoluteToContraderived_fac [CategoryTheory.Limits.HasProducts
     absoluteQ P ⋙ absoluteToContraderived P ≅ contraderivedQ P :=
   Localization.fac _ _ _
 
-/-- The comparison functors are triangle functors. -/
-theorem absoluteToCoderived_commShift [CategoryTheory.Limits.HasCoproducts T] :
-    Nonempty ((absoluteToCoderived P).CommShift ℤ) := sorry
+/-- The comparison functors are triangle functors: they commute with shifts and preserve
+distinguished triangles. -/
+theorem absoluteToCoderived_triangulated [CategoryTheory.Limits.HasCoproducts T]
+    [IsTriangulated T] [P.Nonempty] :
+    ∃ _ : (absoluteToCoderived P).CommShift ℤ, (absoluteToCoderived P).IsTriangulated := sorry
 
-theorem absoluteToContraderived_commShift [CategoryTheory.Limits.HasProducts T] :
-    Nonempty ((absoluteToContraderived P).CommShift ℤ) := sorry
+theorem absoluteToContraderived_triangulated [CategoryTheory.Limits.HasProducts T]
+    [IsTriangulated T] [P.Nonempty] :
+    ∃ _ : (absoluteToContraderived P).CommShift ℤ,
+      (absoluteToContraderived P).IsTriangulated := sorry
 
 end SecondKind
 
@@ -1680,28 +1783,6 @@ def CountableProjectiveCondition
   ∀ P : ℕ → GradedModule, (∀ n, Projective (P n)) →
     ∃ d : ℕ, HasProjectiveDimensionLE (CountableProductTotalization P) d
 
-/-- Theorem 7.9(a)'s sum hypothesis is exposed independently, with the actual coproduct
-totalization in its conclusion. -/
-theorem positselski_7_9a_sum_condition
-    {GradedModule : Type u} [Category.{v} GradedModule] [Abelian GradedModule]
-    [CategoryTheory.Limits.HasCoproductsOfShape ℕ GradedModule]
-    (h : CountableInjectiveCondition (GradedModule := GradedModule))
-    (J : ℕ → GradedModule)
-    (hJ : ∀ n, Injective (J n)) :
-    ∃ d : ℕ, HasInjectiveDimensionLE (CountableCoproductTotalization J) d :=
-  h J hJ
-
-/-- Theorem 7.9(b)'s product hypothesis is exposed independently; it neither assumes nor
-produces a coderived/contraderived comparison. -/
-theorem positselski_7_9b_product_condition
-    {GradedModule : Type u} [Category.{v} GradedModule] [Abelian GradedModule]
-    [CategoryTheory.Limits.HasProductsOfShape ℕ GradedModule]
-    (h : CountableProjectiveCondition (GradedModule := GradedModule))
-    (P : ℕ → GradedModule)
-    (hP : ∀ n, Projective (P n)) :
-    ∃ d : ℕ, HasProjectiveDimensionLE (CountableProductTotalization P) d :=
-  h P hP
-
 namespace RightCurvedDGAlgebra
 
 variable {k : Type u} {A : Type v} [CommRing k] [Ring A] [Algebra k A]
@@ -1728,14 +1809,15 @@ abbrev Coderived := SecondKind.Coderived (totalizationProperty.{u, v, w} B)
 /-- The contraderived category of curved modules over `B`. -/
 abbrev Contraderived := SecondKind.Contraderived (totalizationProperty.{u, v, w} B)
 
-/-- `D_abs → D_co` for curved modules. -/
-noncomputable abbrev absoluteToCoderived : AbsoluteDerived.{u, v, w} B ⥤ Coderived.{u, v, w} B :=
-  SecondKind.absoluteToCoderived (totalizationProperty.{u, v, w} B)
+/-- `D_abs → D_co` for curved modules, with carriers in the universe of the algebra. -/
+noncomputable abbrev absoluteToCoderived :
+    AbsoluteDerived.{u, v, max u v} B ⥤ Coderived.{u, v, max u v} B :=
+  SecondKind.absoluteToCoderived (totalizationProperty.{u, v, max u v} B)
 
-/-- `D_abs → D_ctr` for curved modules. -/
+/-- `D_abs → D_ctr` for curved modules, with carriers in the universe of the algebra. -/
 noncomputable abbrev absoluteToContraderived :
-    AbsoluteDerived.{u, v, w} B ⥤ Contraderived.{u, v, w} B :=
-  SecondKind.absoluteToContraderived (totalizationProperty.{u, v, w} B)
+    AbsoluteDerived.{u, v, max u v} B ⥤ Contraderived.{u, v, max u v} B :=
+  SecondKind.absoluteToContraderived (totalizationProperty.{u, v, max u v} B)
 
 /-- A graded right module over the graded ring underlying `B`, without differential. This is the
 abelian category in which Positselski's homological-dimension hypotheses are stated. -/
@@ -1805,9 +1887,9 @@ def FiniteGradedGlobalDimension (d : ℕ) : Prop :=
 
 /-- Positselski Theorem 7.8(a): under finite graded global dimension the three acyclic classes
 coincide, so the three second-kind derived categories agree. -/
-theorem positselski_7_8a {d : ℕ} (h : FiniteGradedGlobalDimension.{u, v, w} B d) :
-    absoluteAcyclic.{u, v, w} B = coacyclic.{u, v, w} B ∧
-      absoluteAcyclic.{u, v, w} B = contraacyclic.{u, v, w} B := sorry
+theorem positselski_7_8a {d : ℕ} (h : FiniteGradedGlobalDimension.{u, v, max u v} B d) :
+    absoluteAcyclic.{u, v, max u v} B = coacyclic.{u, v, max u v} B ∧
+      absoluteAcyclic.{u, v, max u v} B = contraacyclic.{u, v, max u v} B := sorry
 
 /-- The objects of the homotopy category represented by ordinary acyclic modules. This only has
 its intended meaning at curvature zero, where `d² = 0` and `ker d / im d` exists. -/
@@ -1819,8 +1901,8 @@ def acyclicProperty : ObjectProperty (HomotopyCategory.{u, v, w} B) :=
 finite graded global dimension, ordinary acyclicity agrees with absolute acyclicity, hence with
 all three second-kind classes. -/
 theorem positselski_7_8b (hB : PositselskiBoundednessAlternative B) {d : ℕ}
-    (h : FiniteGradedGlobalDimension.{u, v, w} B d) :
-    acyclicProperty.{u, v, w} B = absoluteAcyclic.{u, v, w} B := sorry
+    (h : FiniteGradedGlobalDimension.{u, v, max u v} B d) :
+    acyclicProperty.{u, v, max u v} B = absoluteAcyclic.{u, v, max u v} B := sorry
 
 /-- The objects of the homotopy category represented by modules whose underlying graded module is
 injective. -/
@@ -1834,26 +1916,29 @@ def gradedProjectiveProperty : ObjectProperty (HomotopyCategory.{u, v, w} B) :=
   fun X ↦ ∃ M : ModuleObj.{u, v, w} B, Projective M.underlyingGraded ∧
     Nonempty (B.homotopyQuotient.obj M ≅ X)
 
-/-- The homotopy category of graded-injective curved modules maps to the coderived category. -/
+/-- The homotopy category of graded-injective curved modules maps to the coderived category by
+the inclusion followed by the Verdier localization. -/
 noncomputable def coderivedInjectiveModel :
-    (gradedInjectiveProperty.{u, v, w} B).FullSubcategory ⥤ Coderived.{u, v, w} B := sorry
+    (gradedInjectiveProperty.{u, v, w} B).FullSubcategory ⥤ Coderived.{u, v, w} B :=
+  ObjectProperty.ι _ ⋙ SecondKind.coderivedQ _
 
 /-- The homotopy category of graded-projective curved modules maps to the contraderived
-category. -/
+category by the inclusion followed by the Verdier localization. -/
 noncomputable def contraderivedProjectiveModel :
-    (gradedProjectiveProperty.{u, v, w} B).FullSubcategory ⥤ Contraderived.{u, v, w} B := sorry
+    (gradedProjectiveProperty.{u, v, w} B).FullSubcategory ⥤ Contraderived.{u, v, w} B :=
+  ObjectProperty.ι _ ⋙ SecondKind.contraderivedQ _
 
 /-- Positselski Theorem 7.9(a): under the countable-coproduct injective condition `(*)`, the
 graded-injective homotopy category is the coderived category. -/
 theorem positselski_7_9a
-    (h : CountableInjectiveCondition (GradedModule := GradedModuleObj.{u, v, w} B)) :
-    (coderivedInjectiveModel.{u, v, w} B).IsEquivalence := sorry
+    (h : CountableInjectiveCondition (GradedModule := GradedModuleObj.{u, v, max u v} B)) :
+    (coderivedInjectiveModel.{u, v, max u v} B).IsEquivalence := sorry
 
 /-- Positselski Theorem 7.9(b): under the countable-product projective condition `(**)`, the
 graded-projective homotopy category is the contraderived category. -/
 theorem positselski_7_9b
-    (h : CountableProjectiveCondition (GradedModule := GradedModuleObj.{u, v, w} B)) :
-    (contraderivedProjectiveModel.{u, v, w} B).IsEquivalence := sorry
+    (h : CountableProjectiveCondition (GradedModule := GradedModuleObj.{u, v, max u v} B)) :
+    (contraderivedProjectiveModel.{u, v, max u v} B).IsEquivalence := sorry
 
 end RightCurvedDGAlgebra
 
