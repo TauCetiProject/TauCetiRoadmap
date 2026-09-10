@@ -215,9 +215,10 @@ For every row, independently prove:
 5. direct finite enumeration reproduces the displayed number of roots from the component formulae
    `#A_n=n(n+1)`, `#D_n=2n(n-1)`, `#E₆=72`, `#E₇=126`, and `#E₈=240`.
 
-The proof objects for these five checks are stored beside the data and are re-evaluated when the
-table changes.  A hand-entered proof that the expected order equals itself, or checking only the
-listed generators rather than their generated subgroup, does not discharge a row.
+Each check is a single theorem quantified over the table index, not a proof field carried by each
+row, so a row is covered by the same statement as every other one and editing the data leaves
+nothing to re-enter by hand.  A hand-entered proof that the expected order equals itself, or
+checking only the listed generators rather than their generated subgroup, does not discharge a row.
 
 ## Layer 3: constructing the 23 rootful lattices
 
