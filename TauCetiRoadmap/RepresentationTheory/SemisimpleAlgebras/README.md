@@ -170,17 +170,18 @@ are the central-simple and Brauer theory over a field, resting on Layers 0-3.
 
 This layer is supporting cleanup, not on the critical path: character theory and the central-simple/Brauer
 development need finite-dimensional semisimple structure, not the full left-right symmetry of semiprimary
-rings. Discharge it as upstream cleanup, or skip to Layer 1 and pull in only the radical facts a later
-theorem explicitly names.
+rings. Build it as general supporting API, or skip to Layer 1 and pull in only the radical facts a
+later theorem explicitly names.
 
 - **The radical as an intersection and its quotient.** Consume `Ring.jacobson`, `jacobson_quotient_jacobson`,
   `IsSemisimpleRing.jacobson_eq_bot`, and `IsArtinianRing.isSemisimpleRing_iff_jacobson`. Build the
   convenience API for finite-dimensional algebras: `Ring.jacobson A` is a nilpotent two-sided ideal
   (from `IsArtinianRing.isNilpotent_jacobson_bot` via `FiniteDimensional → IsArtinianRing`), the quotient
   `A ⧸ Ring.jacobson A` is semisimple, and `A` is semisimple iff its radical is `⊥`.
-- **Left-right symmetry.** Discharge Mathlib's standing `proof_wanted IsSemiprimaryRing.mulOpposite` and
-  `isSemiprimaryRing_mulOpposite_iff`, giving `Ring.jacobson Aᵐᵒᵖ` the expected description and completing
-  the "left Artinian ⇔ right Artinian for these rings" `example` noted in `WedderburnArtin.lean`.
+- **Left-right symmetry.** Prove the two statements Mathlib records as `proof_wanted` in
+  `WedderburnArtin.lean`, `IsSemiprimaryRing.mulOpposite` and `isSemiprimaryRing_mulOpposite_iff`,
+  giving `Ring.jacobson Aᵐᵒᵖ` the expected description and settling the "left Artinian ⇔ right
+  Artinian for these rings" `example` noted there.
 
 ### Layer 1: simple modules, Schur, and isotypic components
 
