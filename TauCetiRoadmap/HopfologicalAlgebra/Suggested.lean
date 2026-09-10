@@ -1465,20 +1465,25 @@ section StableCategories
 open TauCetiRoadmap.StablePeriodicCurved TauCetiRoadmap.GrothendieckEulerForms
 open TauCetiRoadmap.StablePeriodicCurved.FrobeniusComparison
 
-/-- All left `H`-modules with carriers in the universe `x`. The Hopf algebra structure over `k`
-is part of the signature so that every statement about `H-Mod` carries it. The relative theory
-below instantiates `x` with the smash-module carrier universe, so that restriction and induction
-land in the categories being quantified over. -/
-abbrev HMod (k : Type u) (H : Type v) [Field k] [Ring H] [HopfAlgebra k H] := ModuleCat.{x} H
+/-- All left `H`-modules with carriers in the universe `max u v x`, which contains `k` and `H`
+whatever `x` is, so the monoidal unit and the regular module are objects. The Hopf algebra
+structure over `k` is part of the signature so that every statement about `H-Mod` carries it.
+The relative theory below takes `x` to be the smash-module carrier universe, itself chosen to
+dominate the universes of `k`, `H`, and `A`, so that restriction and induction land in the
+categories being quantified over. -/
+abbrev HMod (k : Type u) (H : Type v) [Field k] [Ring H] [HopfAlgebra k H] :=
+  ModuleCat.{max u v x} H
 
-variable (k : Type u) (H : Type v) [Field k] [Ring H] [HopfAlgebra k H] [FiniteDimensional k H]
+variable (k : Type u) (H : Type v) [Field k] [Ring H] [HopfAlgebra k H] [hH : FiniteDimensional k H]
 
 /-- The abelian exact structure on all left `H`-modules. -/
 noncomputable def hModExactStructure : ExactStructure (HMod k H) :=
   ExactStructure.abelian (HMod k H)
 
+include hH in
 /-- Layer 1, item 5: projective and injective left `H`-modules coincide (all modules, not only
-finite-dimensional ones), so the abelian exact structure is Frobenius. -/
+finite-dimensional ones), so the abelian exact structure is Frobenius. Finite-dimensionality of
+`H` is the hypothesis; it fails for `k[x]`. -/
 theorem hModExactStructure_frobenius : FrobeniusExactData (hModExactStructure k H) := sorry
 
 /-- `H-StMod`: all left `H`-modules modulo maps factoring through projectives. This is the
@@ -1536,7 +1541,7 @@ noncomputable def hStModShiftIso (Λ : LeftIntegral k H) (hΛ : (Λ : H) ≠ 0) 
       MonoidalCategory.tensorRight ((hStModQuotient k H).obj (integralCokernel k H Λ)) := sorry
 
 /-- `H-StMod` has arbitrary coproducts, indexed in the module universe. -/
-noncomputable instance : HasCoproducts.{x} (HStMod.{u, v, x} k H) := sorry
+noncomputable instance : HasCoproducts.{max u v x} (HStMod.{u, v, x} k H) := sorry
 
 /-- Tensoring on either side is a triangle functor of `H-StMod`; this is the content of
 "triangulated monoidal" beyond the two separate structures. -/
@@ -1571,12 +1576,16 @@ theorem finite_iff_finiteDimensional (N : HMod.{u, v, x} k H) :
       FiniteDimensional k N := sorry
 
 /-- The finite objects form a triangulated subcategory closed under tensor products, the unit,
-suspension, and duals; `IsMonoidal` is what makes the full subcategory monoidal in Mathlib. -/
-noncomputable instance : (hStmodProperty k H).IsTriangulated := sorry
+suspension, and duals; `IsMonoidal` is what makes the full subcategory monoidal in Mathlib.
+Both need `H` finite-dimensional, stated as an explicit instance argument since the predicate
+itself does not mention it: over `k[ℤ²]` the diagonal tensor square of a cyclic module is not
+finitely generated. -/
+noncomputable instance hStmodProperty_isTriangulated [FiniteDimensional k H] :
+    (hStmodProperty k H).IsTriangulated := sorry
 
-noncomputable instance : (hStmodProperty k H).IsMonoidal := sorry
+noncomputable instance hStmodProperty_isMonoidal [FiniteDimensional k H] :
+    (hStmodProperty k H).IsMonoidal := sorry
 
-omit [FiniteDimensional k H] in
 theorem hStmodProperty_tensor (M N : HStMod.{u, v, x} k H) (hM : hStmodProperty k H M)
     (hN : hStmodProperty k H N) : hStmodProperty k H (MonoidalCategory.tensorObj M N) :=
   ObjectProperty.prop_tensor hM hN
@@ -1585,13 +1594,18 @@ theorem hStmodProperty_tensor (M N : HStMod.{u, v, x} k H) (hM : hStmodProperty 
 Mathlib induces on a full subcategory from `IsMonoidal`. -/
 abbrev Hstmod := (hStmodProperty k H).FullSubcategory
 
-/-- Tensoring on either side of `H-stmod` is a triangle functor. -/
+/-- Tensoring on either side of `H-stmod` is a triangle functor; in the nonbraided case neither
+side follows from the other. -/
 theorem hstmod_tensorLeft_triangulated (X : Hstmod.{u, v, x} k H) :
     ∃ _ : (MonoidalCategory.tensorLeft X).CommShift ℤ,
       (MonoidalCategory.tensorLeft X).IsTriangulated := sorry
 
-noncomputable instance hstmodEssentiallySmall : EssentiallySmall.{v} (Hstmod.{u, v, x} k H) :=
-  sorry
+theorem hstmod_tensorRight_triangulated (X : Hstmod.{u, v, x} k H) :
+    ∃ _ : (MonoidalCategory.tensorRight X).CommShift ℤ,
+      (MonoidalCategory.tensorRight X).IsTriangulated := sorry
+
+noncomputable instance hstmodEssentiallySmall [FiniteDimensional k H] :
+    EssentiallySmall.{v} (Hstmod.{u, v, x} k H) := sorry
 
 /-- `K₀(H-stmod)`, the triangulated Grothendieck group of the Grothendieck/Euler-forms roadmap. -/
 abbrev K0Hstmod :=
@@ -1630,7 +1644,11 @@ theorem k0HstmodRing_comm_of_cocommutative
 
 end StableCategories
 
-/-! ## The relative categories `C(A,H)` and `D(A,H)` -/
+/-! ## The relative categories `C(A,H)` and `D(A,H)`
+
+Smash-module carriers are taken in `Type (max u v w)`, the universe of `k`, `H`, and `A`
+together: large enough for `B` itself, `A ⊗ V`, and `N ⊗ H`, and the same universe for the
+`H`-modules being restricted to or induced from. -/
 
 section RelativeCategories
 
@@ -1645,7 +1663,7 @@ variable {X : LeftModuleAlgebra k H A} (S : X.SmashProduct)
 namespace SmashModule
 
 /-- `B-Mod`: smash modules with `B`-linear maps. -/
-noncomputable instance : Category (SmashModule.{u, v, w, x} k H A X S) where
+noncomputable instance : Category (SmashModule.{u, v, w, max u v w} k H A X S) where
   Hom M N := M.Carrier →ₗ[S.Carrier] N.Carrier
   id _ := LinearMap.id
   comp f g := g.comp f
@@ -1655,21 +1673,21 @@ noncomputable instance : Category (SmashModule.{u, v, w, x} k H A X S) where
 
 variable {S} in
 /-- The underlying `B`-linear map of a morphism. -/
-def toLin {M N : SmashModule.{u, v, w, x} k H A X S} (f : M ⟶ N) :
+def toLin {M N : SmashModule.{u, v, w, max u v w} k H A X S} (f : M ⟶ N) :
     M.Carrier →ₗ[S.Carrier] N.Carrier := f
 
 /-- `B-Mod` is abelian; this supplies the preadditive structure, zero object, and biproducts. -/
-noncomputable instance : Abelian (SmashModule.{u, v, w, x} k H A X S) := sorry
+noncomputable instance : Abelian (SmashModule.{u, v, w, max u v w} k H A X S) := sorry
 
 end SmashModule
 
 /-- The relative exact structure on `B-Mod`: conflations are the short exact sequences that
 split after restriction to `A`. -/
-noncomputable def relativeExactStructure : ExactStructure (SmashModule.{u, v, w, x} k H A X S) :=
+noncomputable def relativeExactStructure : ExactStructure (SmashModule.{u, v, w, max u v w} k H A X S) :=
   sorry
 
 /-- The conflations are exactly the `A`-split short exact sequences. -/
-theorem relativeExactStructure_conflation_iff {M E N : SmashModule.{u, v, w, x} k H A X S}
+theorem relativeExactStructure_conflation_iff {M E N : SmashModule.{u, v, w, max u v w} k H A X S}
     (i : M ⟶ E) (p : E ⟶ N) :
     (relativeExactStructure S).Conflation i p ↔
       ∃ C : ASplitConflation k H A X S M E N,
@@ -1678,55 +1696,55 @@ theorem relativeExactStructure_conflation_iff {M E N : SmashModule.{u, v, w, x} 
 /-- Layer 4: using finite-dimensionality of `H`, bijectivity of its antipode, and the Frobenius
 theorem, the relative exact structure is Frobenius. -/
 theorem relativeExactStructure_frobenius :
-    FrobeniusExactData (relativeExactStructure.{u, v, w, x} S) := sorry
+    FrobeniusExactData (relativeExactStructure.{u, v, w} S) := sorry
 
 /-- `N ⊗ H` with the diagonal `B`-action `(a#h)·(n⊗l) = Σ (h₁ · n) ⊗ h₂ l`. -/
-noncomputable def tensorH (N : SmashModule.{u, v, w, x} k H A X S) :
-    SmashModule.{u, v, w, x} k H A X S := sorry
+noncomputable def tensorH (N : SmashModule.{u, v, w, max u v w} k H A X S) :
+    SmashModule.{u, v, w, max u v w} k H A X S := sorry
 
 /-- The relative projective-injectives are the retracts of the objects `N ⊗ H`. -/
-theorem isRelativeProjective_iff_retract_tensorH (P : SmashModule.{u, v, w, x} k H A X S) :
+theorem isRelativeProjective_iff_retract_tensorH (P : SmashModule.{u, v, w, max u v w} k H A X S) :
     IsRelativeProjective (relativeExactStructure S) P ↔
-      ∃ (N : SmashModule.{u, v, w, x} k H A X S) (s : P ⟶ tensorH S N) (r : tensorH S N ⟶ P),
+      ∃ (N : SmashModule.{u, v, w, max u v w} k H A X S) (s : P ⟶ tensorH S N) (r : tensorH S N ⟶ P),
         s ≫ r = 𝟙 P := sorry
 
 /-- Every ordinary `B`-projective is relatively projective; the converse is not asserted. -/
-theorem isRelativeProjective_of_projective (P : SmashModule.{u, v, w, x} k H A X S)
+theorem isRelativeProjective_of_projective (P : SmashModule.{u, v, w, max u v w} k H A X S)
     (hP : Projective P) : IsRelativeProjective (relativeExactStructure S) P := sorry
 
 /-- `C(A,H)`: the stable category of the relative Frobenius structure, that is, `B-Mod` modulo
 the hopfological null ideal. -/
-abbrev RelativeStable := StableCategory (relativeExactStructure.{u, v, w, x} S)
+abbrev RelativeStable := StableCategory (relativeExactStructure.{u, v, w} S)
 
 /-- The quotient functor `B-Mod → C(A,H)`. -/
 noncomputable abbrev relativeStableQuotient :
-    SmashModule.{u, v, w, x} k H A X S ⥤ RelativeStable S :=
+    SmashModule.{u, v, w, max u v w} k H A X S ⥤ RelativeStable S :=
   (MorphismIdeal.factorIdeal (IsRelativeProjective (relativeExactStructure S))).quotientFunctor
 
 /-- The canonical `H`-action on `Hom_A(M,N)` by Qi's formula, constructed once; the record's
 equations then hold for it. -/
-noncomputable def homActionFormula (M N : SmashModule.{u, v, w, x} k H A X S) :
+noncomputable def homActionFormula (M N : SmashModule.{u, v, w, max u v w} k H A X S) :
     HomActionFormula k H A X S M N := sorry
 
 /-- The `H`-module structure on the literal `Hom_A(M,N)` given by the canonical action. -/
 @[instance_reducible]
-noncomputable def homActionModule (M N : SmashModule.{u, v, w, x} k H A X S) :
+noncomputable def homActionModule (M N : SmashModule.{u, v, w, max u v w} k H A X S) :
     Module H (M.Carrier →ₗ[A] N.Carrier) := sorry
 
-theorem homActionModule_smul (M N : SmashModule.{u, v, w, x} k H A X S) (h : H)
+theorem homActionModule_smul (M N : SmashModule.{u, v, w, max u v w} k H A X S) (h : H)
     (f : M.Carrier →ₗ[A] N.Carrier) :
     (letI := homActionModule S M N; h • f) = (homActionFormula S M N).homAction.act h f := sorry
 
 /-- The null ideal is the integral ideal: `f` is zero in `C(A,H)` exactly when `f = Λ · g` for an
 `A`-linear `g`, for any nonzero left integral `Λ`, with the canonical action. -/
-theorem relativeStable_rel_iff_isIntegralNull {M N : SmashModule.{u, v, w, x} k H A X S}
+theorem relativeStable_rel_iff_isIntegralNull {M N : SmashModule.{u, v, w, max u v w} k H A X S}
     (Λ : LeftIntegral k H) (hΛ : (Λ : H) ≠ 0) (f g : M ⟶ N) :
     (MorphismIdeal.factorIdeal (IsRelativeProjective (relativeExactStructure S))).rel f g ↔
       IsIntegralNull k H A X (homActionFormula S M N) Λ (SmashModule.toLin (f - g)) := sorry
 
 /-- Happel's triangulation of `C(A,H)`. -/
 noncomputable def relativeStableTriangulation :
-    StableTriangulationTarget (relativeExactStructure.{u, v, w, x} S) :=
+    StableTriangulationTarget (relativeExactStructure.{u, v, w} S) :=
   frobeniusStableTriangulation _ (relativeExactStructure_frobenius S)
 
 noncomputable instance : HasZeroObject (RelativeStable S) :=
@@ -1747,54 +1765,54 @@ noncomputable instance : IsTriangulated (RelativeStable S) :=
 coherent right action of the monoidal category `H-Mod` on `B-Mod` (Mathlib's
 `MonoidalRightAction`, with associator, unitor, and their coherence). -/
 noncomputable instance moduleRightAction :
-    MonoidalCategory.MonoidalRightAction (HMod.{u, v, x} k H) (SmashModule.{u, v, w, x} k H A X S) := sorry
+    MonoidalCategory.MonoidalRightAction (HMod.{u, v, w} k H) (SmashModule.{u, v, w, max u v w} k H A X S) := sorry
 
 /-- Tensoring with an arbitrary `H`-module preserves relative conflations. -/
-theorem actionObj_conflation {M E N : SmashModule.{u, v, w, x} k H A X S} (i : M ⟶ E)
-    (p : E ⟶ N) (h : (relativeExactStructure S).Conflation i p) (V : HMod.{u, v, x} k H) :
+theorem actionObj_conflation {M E N : SmashModule.{u, v, w, max u v w} k H A X S} (i : M ⟶ E)
+    (p : E ⟶ N) (h : (relativeExactStructure S).Conflation i p) (V : HMod.{u, v, w} k H) :
     (relativeExactStructure S).Conflation
-      (MonoidalCategory.MonoidalRightActionStruct.actionHomLeft (C := HMod.{u, v, x} k H) i V)
-      (MonoidalCategory.MonoidalRightActionStruct.actionHomLeft (C := HMod.{u, v, x} k H) p V) := sorry
+      (MonoidalCategory.MonoidalRightActionStruct.actionHomLeft (C := HMod.{u, v, w} k H) i V)
+      (MonoidalCategory.MonoidalRightActionStruct.actionHomLeft (C := HMod.{u, v, w} k H) p V) := sorry
 
 /-- The action descends to a coherent right action of `H-StMod` on `C(A,H)`. -/
 noncomputable instance stableRightAction :
-    MonoidalCategory.MonoidalRightAction (HStMod.{u, v, x} k H) (RelativeStable S) := sorry
+    MonoidalCategory.MonoidalRightAction (HStMod.{u, v, w} k H) (RelativeStable S) := sorry
 
 /-- The descended action restricts to the module-level action along the two quotients. -/
-noncomputable def stableRightAction_fac (M : SmashModule.{u, v, w, x} k H A X S)
-    (V : HMod.{u, v, x} k H) :
+noncomputable def stableRightAction_fac (M : SmashModule.{u, v, w, max u v w} k H A X S)
+    (V : HMod.{u, v, w} k H) :
     MonoidalCategory.MonoidalRightActionStruct.actionObj ((relativeStableQuotient S).obj M)
-        ((hStModQuotient k H).obj V) ≅
+        ((hStModQuotient.{u, v, w} k H).obj V) ≅
       (relativeStableQuotient S).obj (MonoidalCategory.MonoidalRightActionStruct.actionObj M V) := sorry
 
 /-- Acting by a fixed stable `H`-module is a triangle functor of `C(A,H)`. -/
-theorem stableRightAction_triangulated (V : HStMod.{u, v, x} k H) :
-    ∃ _ : ((MonoidalCategory.MonoidalRightAction.curriedAction (HStMod.{u, v, x} k H) (RelativeStable S)).obj V
+theorem stableRightAction_triangulated (V : HStMod.{u, v, w} k H) :
+    ∃ _ : ((MonoidalCategory.MonoidalRightAction.curriedAction (HStMod.{u, v, w} k H) (RelativeStable S)).obj V
       ).CommShift ℤ,
-      ((MonoidalCategory.MonoidalRightAction.curriedAction (HStMod.{u, v, x} k H) (RelativeStable S)).obj V
+      ((MonoidalCategory.MonoidalRightAction.curriedAction (HStMod.{u, v, w} k H) (RelativeStable S)).obj V
       ).IsTriangulated := sorry
 
 /-- Restriction along `H ↪ A#H`. -/
-noncomputable def restrictToH : SmashModule.{u, v, w, x} k H A X S ⥤ HMod.{u, v, x} k H := sorry
+noncomputable def restrictToH : SmashModule.{u, v, w, max u v w} k H A X S ⥤ HMod.{u, v, w} k H := sorry
 
 noncomputable instance : (restrictToH S).Additive := sorry
 
 /-- Restriction sends the hopfological null ideal into maps through `H`-projectives. -/
 theorem restrictToH_kills :
     (MorphismIdeal.factorIdeal (IsRelativeProjective (relativeExactStructure S))).Kills
-      (restrictToH S ⋙ hStModQuotient k H) := sorry
+      (restrictToH S ⋙ hStModQuotient.{u, v, w} k H) := sorry
 
 /-- The functor `C(A,H) → H-StMod`, by the universal property of the ideal quotient. -/
-noncomputable def restrictStable : RelativeStable S ⥤ HStMod.{u, v, x} k H :=
+noncomputable def restrictStable : RelativeStable S ⥤ HStMod.{u, v, w} k H :=
   MorphismIdeal.lift _ _ (restrictToH_kills S)
 
 /-- It factors restriction of modules through the two quotients, by construction. -/
 theorem relativeStableQuotient_comp_restrictStable :
-    relativeStableQuotient S ⋙ restrictStable S = restrictToH S ⋙ hStModQuotient k H :=
-  MorphismIdeal.lift_fac _ _ _
+    relativeStableQuotient S ⋙ restrictStable S = restrictToH S ⋙ hStModQuotient.{u, v, w} k H :=
+  MorphismIdeal.lift_fac _ (restrictToH S ⋙ hStModQuotient.{u, v, w} k H) (restrictToH_kills S)
 
 /-- Restriction to `H` carries relative conflations to conflations of the abelian structure. -/
-theorem restrictToH_conflation {M E N : SmashModule.{u, v, w, x} k H A X S} (i : M ⟶ E)
+theorem restrictToH_conflation {M E N : SmashModule.{u, v, w, max u v w} k H A X S} (i : M ⟶ E)
     (p : E ⟶ N) (h : (relativeExactStructure S).Conflation i p) :
     (hModExactStructure k H).Conflation ((restrictToH S).map i) ((restrictToH S).map p) := sorry
 
@@ -1860,13 +1878,19 @@ noncomputable instance : IsTriangulated (RelativeDerived S) :=
   (relativeDerivedTriangulation S).triangulated
 
 /-- The action of `H-StMod` descends further to a coherent right action on `D(A,H)`, with the
-localization functor equivariant. -/
+localization functor equivariant and each action functor a triangle functor. -/
 noncomputable instance derivedRightAction :
-    MonoidalCategory.MonoidalRightAction (HStMod.{u, v, x} k H) (RelativeDerived S) := sorry
+    MonoidalCategory.MonoidalRightAction (HStMod.{u, v, w} k H) (RelativeDerived S) := sorry
 
-noncomputable def derivedRightAction_fac (Y : RelativeStable S) (V : HStMod.{u, v, x} k H) :
+noncomputable def derivedRightAction_fac (Y : RelativeStable S) (V : HStMod.{u, v, w} k H) :
     MonoidalCategory.MonoidalRightActionStruct.actionObj ((relativeDerivedQ S).obj Y) V ≅
       (relativeDerivedQ S).obj (MonoidalCategory.MonoidalRightActionStruct.actionObj Y V) := sorry
+
+theorem derivedRightAction_triangulated (V : HStMod.{u, v, w} k H) :
+    ∃ _ : ((MonoidalCategory.MonoidalRightAction.curriedAction (HStMod.{u, v, w} k H)
+      (RelativeDerived S)).obj V).CommShift ℤ,
+      ((MonoidalCategory.MonoidalRightAction.curriedAction (HStMod.{u, v, w} k H)
+        (RelativeDerived S)).obj V).IsTriangulated := sorry
 
 /-! ### Cofibrant, cellular, and property-(P) modules
 
@@ -1878,82 +1902,82 @@ same as being a `B`-module retract of a cellular module; the homotopy-invariant 
 imply strict cofibrancy, and the negative tests below record why. -/
 
 /-- Strict cofibrancy: every `B`-map to the target of a surjective quasi-isomorphism lifts. -/
-def IsCofibrant (P : SmashModule.{u, v, w, x} k H A X S) : Prop :=
-  ∀ ⦃M N : SmashModule.{u, v, w, x} k H A X S⦄ (f : M ⟶ N),
+def IsCofibrant (P : SmashModule.{u, v, w, max u v w} k H A X S) : Prop :=
+  ∀ ⦃M N : SmashModule.{u, v, w, max u v w} k H A X S⦄ (f : M ⟶ N),
     Function.Surjective (SmashModule.toLin f) →
     relativeQuasiIso S ((relativeStableQuotient S).map f) →
     ∀ g : P ⟶ N, ∃ h : P ⟶ M, h ≫ f = g
 
 /-- Qi's characterization of cofibrancy: `P` is `A`-projective and `Hom_A(P,K)` is `H`-projective
 for every acyclic `K`, for the canonical action on the literal `Hom_A`. -/
-theorem isCofibrant_iff (P : SmashModule.{u, v, w, x} k H A X S) :
+theorem isCofibrant_iff (P : SmashModule.{u, v, w, max u v w} k H A X S) :
     IsCofibrant S P ↔
       Module.Projective A P.Carrier ∧
-        ∀ (K : SmashModule.{u, v, w, x} k H A X S),
+        ∀ (K : SmashModule.{u, v, w, max u v w} k H A X S),
           hAcyclicProperty S ((relativeStableQuotient S).obj K) →
             letI := homActionModule S P K
             Module.Projective H (P.Carrier →ₗ[A] K.Carrier) := sorry
 
 /-- Cellular property (P): a chosen `A`-split cellular filtration exists. -/
-def IsCellular (P : SmashModule.{u, v, w, x} k H A X S) : Prop :=
-  Nonempty (PropertyPData.{u, v, w, x, x} k H A X S P)
+def IsCellular (P : SmashModule.{u, v, w, max u v w} k H A X S) : Prop :=
+  Nonempty (PropertyPData.{u, v, w, max u v w, max u v w} k H A X S P)
 
 /-- Qi's homotopy-invariant property (P): isomorphic in `C(A,H)` to a cellular module. -/
-def HasPropertyP (P : SmashModule.{u, v, w, x} k H A X S) : Prop :=
-  ∃ Q : SmashModule.{u, v, w, x} k H A X S, IsCellular S Q ∧
+def HasPropertyP (P : SmashModule.{u, v, w, max u v w} k H A X S) : Prop :=
+  ∃ Q : SmashModule.{u, v, w, max u v w} k H A X S, IsCellular S Q ∧
     Nonempty ((relativeStableQuotient S).obj Q ≅ (relativeStableQuotient S).obj P)
 
 /-- Cellular modules are cofibrant. -/
-theorem isCofibrant_of_isCellular (P : SmashModule.{u, v, w, x} k H A X S)
+theorem isCofibrant_of_isCellular (P : SmashModule.{u, v, w, max u v w} k H A X S)
     (hP : IsCellular S P) : IsCofibrant S P := sorry
 
 /-- The cofibrant modules are exactly the `B`-module retracts of cellular modules. The retract
 is a genuine split pair of `B`-linear maps, not an isomorphism in `C(A,H)`. -/
-theorem isCofibrant_iff_retract_cellular (P : SmashModule.{u, v, w, x} k H A X S) :
+theorem isCofibrant_iff_retract_cellular (P : SmashModule.{u, v, w, max u v w} k H A X S) :
     IsCofibrant S P ↔
-      ∃ (Q : SmashModule.{u, v, w, x} k H A X S) (_ : IsCellular S Q)
+      ∃ (Q : SmashModule.{u, v, w, max u v w} k H A X S) (_ : IsCellular S Q)
         (s : P ⟶ Q) (r : Q ⟶ P), s ≫ r = 𝟙 P := sorry
 
 /-- Cofibrant modules have property (P); the converse is false, see the negative tests. -/
-theorem hasPropertyP_of_isCofibrant (P : SmashModule.{u, v, w, x} k H A X S)
+theorem hasPropertyP_of_isCofibrant (P : SmashModule.{u, v, w, max u v w} k H A X S)
     (hP : IsCofibrant S P) : HasPropertyP S P := sorry
 
 /-- The bar replacement functor: a cellular module with a natural surjective quasi-isomorphism
 onto the identity. -/
 noncomputable def barReplacementFunctor :
-    SmashModule.{u, v, w, x} k H A X S ⥤ SmashModule.{u, v, w, x} k H A X S := sorry
+    SmashModule.{u, v, w, max u v w} k H A X S ⥤ SmashModule.{u, v, w, max u v w} k H A X S := sorry
 
 /-- The bar replacement of a module. -/
-noncomputable abbrev barReplacement (M : SmashModule.{u, v, w, x} k H A X S) :
-    SmashModule.{u, v, w, x} k H A X S :=
+noncomputable abbrev barReplacement (M : SmashModule.{u, v, w, max u v w} k H A X S) :
+    SmashModule.{u, v, w, max u v w} k H A X S :=
   (barReplacementFunctor S).obj M
 
 /-- The natural map from the bar replacement to the identity. -/
 noncomputable def barReplacementCounit : barReplacementFunctor S ⟶ 𝟭 _ := sorry
 
-theorem barReplacement_isCellular (M : SmashModule.{u, v, w, x} k H A X S) :
+theorem barReplacement_isCellular (M : SmashModule.{u, v, w, max u v w} k H A X S) :
     IsCellular S (barReplacement S M) := sorry
 
 /-- The positive cofibrancy test: the bar replacement is strictly cofibrant, by its actual
 cellular filtration and not by an isomorphism in `C(A,H)`. -/
-theorem barReplacement_isCofibrant (M : SmashModule.{u, v, w, x} k H A X S) :
+theorem barReplacement_isCofibrant (M : SmashModule.{u, v, w, max u v w} k H A X S) :
     IsCofibrant S (barReplacement S M) :=
   isCofibrant_of_isCellular S _ (barReplacement_isCellular S M)
 
 /-- The component of the counit at `M`. -/
-noncomputable abbrev barReplacementMap (M : SmashModule.{u, v, w, x} k H A X S) :
+noncomputable abbrev barReplacementMap (M : SmashModule.{u, v, w, max u v w} k H A X S) :
     barReplacement S M ⟶ M :=
   (barReplacementCounit S).app M
 
-theorem barReplacementMap_surjective (M : SmashModule.{u, v, w, x} k H A X S) :
+theorem barReplacementMap_surjective (M : SmashModule.{u, v, w, max u v w} k H A X S) :
     Function.Surjective (SmashModule.toLin (barReplacementMap S M)) := sorry
 
-theorem barReplacementMap_quasiIso (M : SmashModule.{u, v, w, x} k H A X S) :
+theorem barReplacementMap_quasiIso (M : SmashModule.{u, v, w, max u v w} k H A X S) :
     relativeQuasiIso S ((relativeStableQuotient S).map (barReplacementMap S M)) := sorry
 
 /-- Morphisms out of a cofibrant object agree in `C(A,H)` and `D(A,H)`. -/
 theorem relativeDerivedQ_map_bijective_of_isCofibrant
-    (P M : SmashModule.{u, v, w, x} k H A X S) (hP : IsCofibrant S P) :
+    (P M : SmashModule.{u, v, w, max u v w} k H A X S) (hP : IsCofibrant S P) :
     Function.Bijective
       (fun f : (relativeStableQuotient S).obj P ⟶ (relativeStableQuotient S).obj M ↦
         (relativeDerivedQ S).map f) := sorry
@@ -1988,35 +2012,35 @@ theorem cellularToDerived_isEquivalence :
 
 /-- The idempotent-completion distinction lives among strict `B`-modules: cofibrant modules are
 closed under `B`-module retracts, cellular ones are not. -/
-theorem isCofibrant_of_retract {P Q : SmashModule.{u, v, w, x} k H A X S} (hQ : IsCofibrant S Q)
+theorem isCofibrant_of_retract {P Q : SmashModule.{u, v, w, max u v w} k H A X S} (hQ : IsCofibrant S Q)
     (s : P ⟶ Q) (r : Q ⟶ P) (hsr : s ≫ r = 𝟙 P) : IsCofibrant S P := sorry
 
 /-! ### Compact generation -/
 
-noncomputable instance : HasCoproducts.{x} (RelativeDerived S) := sorry
+noncomputable instance : HasCoproducts.{max u v w} (RelativeDerived S) := sorry
 
 /-- The induced module `A ⊗ V` with the smash action `(a#h)(b⊗v) = Σ a(h₁·b) ⊗ h₂·v`. -/
-noncomputable def inducedCell (V : HMod.{u, v, x} k H) : SmashModule.{u, v, w, x} k H A X S := sorry
+noncomputable def inducedCell (V : HMod.{u, v, w} k H) : SmashModule.{u, v, w, max u v w} k H A X S := sorry
 
 /-- The image of `A ⊗ V` in `D(A,H)`. -/
-noncomputable abbrev inducedCellDerived (V : HMod.{u, v, x} k H) : RelativeDerived S :=
+noncomputable abbrev inducedCellDerived (V : HMod.{u, v, w} k H) : RelativeDerived S :=
   (relativeDerivedQ S).obj ((relativeStableQuotient S).obj (inducedCell S V))
 
 /-- `A ⊗ V` is compact for finite-dimensional `V`. -/
-theorem inducedCellDerived_compact (V : HMod.{u, v, x} k H) [Module.Finite H V] :
-    IsCompactObject.{_, _, x} (RelativeDerived.{u, v, w, x} S) (inducedCellDerived S V) := sorry
+theorem inducedCellDerived_compact (V : HMod.{u, v, w} k H) [Module.Finite H V] :
+    IsCompactObject.{_, _, max u v w} (RelativeDerived.{u, v, w} S) (inducedCellDerived S V) := sorry
 
 /-- A finite set of representatives of the simple `H`-modules. -/
 structure SimpleSkeleton where
   ι : Type
   [fintype : Fintype ι]
-  V : ι → HMod.{u, v, x} k H
+  V : ι → HMod.{u, v, w} k H
   simple : ∀ i, IsSimpleModule H (V i)
   finite : ∀ i, Module.Finite H (V i)
-  complete : ∀ W : HMod.{u, v, x} k H, IsSimpleModule H W → ∃ i, Nonempty (V i ≅ W)
+  complete : ∀ W : HMod.{u, v, w} k H, IsSimpleModule H W → ∃ i, Nonempty (V i ≅ W)
 
 /-- Finite-dimensional `H` has finitely many simple modules up to isomorphism. -/
-theorem simpleSkeleton_nonempty : Nonempty (SimpleSkeleton.{u, v, x} (k := k) (H := H)) := sorry
+theorem simpleSkeleton_nonempty : Nonempty (SimpleSkeleton.{u, v, w} (k := k) (H := H)) := sorry
 
 /-- The generators `A ⊗ V`, `V` running over a finite skeleton of simples. -/
 def compactGeneratorProperty (Sk : SimpleSkeleton (k := k) (H := H)) :
@@ -2031,8 +2055,8 @@ theorem relativeDerived_compactlyGenerated (Sk : SimpleSkeleton (k := k) (H := H
     IsZero Y := sorry
 
 /-- The compact objects of `D(A,H)`. -/
-def compactProperty : ObjectProperty (RelativeDerived.{u, v, w, x} S) :=
-  fun Y ↦ IsCompactObject.{_, _, x} (RelativeDerived.{u, v, w, x} S) Y
+def compactProperty : ObjectProperty (RelativeDerived.{u, v, w} S) :=
+  fun Y ↦ IsCompactObject.{_, _, max u v w} (RelativeDerived.{u, v, w} S) Y
 
 /-- Ravenel–Neeman: the compact objects are the thick closure of the generators, so every
 compact object is a retract of a finite extension of shifts of the `A ⊗ V`. -/
@@ -2044,35 +2068,35 @@ abbrev CompactDerived := (compactProperty S).FullSubcategory
 
 noncomputable instance : (compactProperty S).IsTriangulated := sorry
 
-noncomputable instance compactDerivedEssentiallySmall : EssentiallySmall.{x} (CompactDerived S) :=
+noncomputable instance compactDerivedEssentiallySmall : EssentiallySmall.{max u v w} (CompactDerived S) :=
   sorry
 
 /-- The hopfological Grothendieck group `K₀(A,H) = K₀(Dᶜ(A,H))`. -/
 abbrev K0Hopfological :=
-  @TriangulatedK0 (CompactDerived.{u, v, w, x} S) _ _ _ _ _ _
-    (compactDerivedEssentiallySmall.{u, v, w, x} S)
+  @TriangulatedK0 (CompactDerived.{u, v, w} S) _ _ _ _ _ _
+    (compactDerivedEssentiallySmall.{u, v, w} S)
 
 /-- The action of a finite stable `H`-module preserves compact objects. -/
-theorem compactProperty_actionObj (Y : RelativeDerived.{u, v, w, x} S)
-    (hY : compactProperty S Y) (V : HStMod.{u, v, x} k H) (hV : hStmodProperty k H V) :
+theorem compactProperty_actionObj (Y : RelativeDerived.{u, v, w} S)
+    (hY : compactProperty S Y) (V : HStMod.{u, v, w} k H) (hV : hStmodProperty k H V) :
     compactProperty S (MonoidalCategory.MonoidalRightActionStruct.actionObj Y V) := sorry
 
 /-- The class of a compact object. -/
-noncomputable abbrev k0HopfologicalClass (Y : RelativeDerived.{u, v, w, x} S)
-    (hY : compactProperty S Y) : K0Hopfological.{u, v, w, x} S :=
-  @triangulatedK0Class (CompactDerived.{u, v, w, x} S) _ _ _ _ _ _
-    (compactDerivedEssentiallySmall.{u, v, w, x} S) ⟨Y, hY⟩
+noncomputable abbrev k0HopfologicalClass (Y : RelativeDerived.{u, v, w} S)
+    (hY : compactProperty S Y) : K0Hopfological.{u, v, w} S :=
+  @triangulatedK0Class (CompactDerived.{u, v, w} S) _ _ _ _ _ _
+    (compactDerivedEssentiallySmall.{u, v, w} S) ⟨Y, hY⟩
 
 /-- `K₀(A,H)` is a *right* module over the ring `K₀(H-stmod)` through the tensor action; since
 that ring may be noncommutative, this is a module over the opposite ring. -/
 @[instance_reducible]
 noncomputable def k0HopfologicalModule :
     letI := k0HstmodRing k H
-    Module (K0Hstmod.{u, v, x} k H)ᵐᵒᵖ (K0Hopfological.{u, v, w, x} S) := sorry
+    Module (K0Hstmod.{u, v, x} k H)ᵐᵒᵖ (K0Hopfological.{u, v, w} S) := sorry
 
 /-- Scalar multiplication on classes is the class of the action. -/
-theorem k0HopfologicalModule_smul_class (Y : RelativeDerived.{u, v, w, x} S)
-    (hY : compactProperty S Y) (V : HStMod.{u, v, x} k H) (hV : hStmodProperty k H V) :
+theorem k0HopfologicalModule_smul_class (Y : RelativeDerived.{u, v, w} S)
+    (hY : compactProperty S Y) (V : HStMod.{u, v, w} k H) (hV : hStmodProperty k H V) :
     letI := k0HstmodRing k H
     letI := k0HopfologicalModule S
     MulOpposite.op (k0HstmodClass k H V hV) • k0HopfologicalClass S Y hY =
@@ -2106,11 +2130,17 @@ a Hopf algebra `H`. The carrier and its `A`-module structure are the literal quo
 `B`-action (through the counit) is left to construct. -/
 noncomputable def dualNumbersResidue (H : Type v) [Ring H] [HopfAlgebra k H] [FiniteDimensional k H]
     (S : (trivialModuleAlgebra k H (DualNumbersAlgebra k)).SmashProduct) :
-    SmashModule.{u, v, u, u} k H (DualNumbersAlgebra k) (trivialModuleAlgebra k H _) S where
-  Carrier := DualNumbersAlgebra k ⧸ Ideal.span {truncatedX k 2}
+    SmashModule.{u, v, u, max u v} k H (DualNumbersAlgebra k) (trivialModuleAlgebra k H _) S where
+  Carrier := ULift.{v} (DualNumbersAlgebra k ⧸ Ideal.span {truncatedX k 2})
   instModuleB := sorry
   instScalarTowerKB := sorry
   restrict_smul := sorry
+
+/-- The `H`-action on the residue module is through the counit. -/
+theorem dualNumbersResidue_includeH_smul (H : Type v) [Ring H] [HopfAlgebra k H]
+    [FiniteDimensional k H] (S : (trivialModuleAlgebra k H (DualNumbersAlgebra k)).SmashProduct)
+    (h : H) (m : (dualNumbersResidue k H S).Carrier) :
+    S.includeH h • m = Coalgebra.counit (R := k) h • m := sorry
 
 /-- With `H = k`, every module is isomorphic to zero in `C(A,k)`, so `A/(t)` has the
 homotopy-invariant property (P). -/
@@ -2157,7 +2187,8 @@ open TauCetiRoadmap.StablePeriodicCurved.FrobeniusComparison
 variable {k : Type u} [Field k] {n t : ℕ} {F : CyclotomicFactorization n t}
   {R : CyclotomicRootData k F} (Br : CyclotomicBraidedDatum k F R)
 
-/-- A finite-dimensional graded `H_n`-module: the objects of `H_n-gmod`. -/
+/-- A finite-dimensional graded `H_n`-module: the objects of `H_n-gmod`. The categorical targets
+take carriers in `Type u`, the universe of `k`, which contains the trivial module. -/
 structure HnGradedModule where
   Carrier : Type x
   [instAddCommGroup : AddCommGroup Carrier]
@@ -2175,7 +2206,7 @@ namespace HnGradedModule
 variable {Br}
 
 /-- Degree-zero `H_n`-linear maps. -/
-noncomputable instance : Category (HnGradedModule.{u, x} Br) where
+noncomputable instance : Category (HnGradedModule.{u, u} Br) where
   Hom M N := GradedLinearMap M.grading N.grading
   id M := ⟨LinearMap.id, fun h ↦ h⟩
   comp f g := ⟨g.toLinearMap.comp f.toLinearMap, fun h ↦ g.map_mem_degree (f.map_mem_degree h)⟩
@@ -2184,33 +2215,37 @@ noncomputable instance : Category (HnGradedModule.{u, x} Br) where
   assoc f g h := by cases f; cases g; cases h; rfl
 
 /-- `H_n-gmod` is abelian. -/
-noncomputable instance : Abelian (HnGradedModule.{u, x} Br) := sorry
+noncomputable instance : Abelian (HnGradedModule.{u, u} Br) := sorry
 
-/-- The internal grading shift `M{r}` as an endofunctor. -/
-noncomputable def shiftFunctor (r : ℤ) : HnGradedModule.{u, x} Br ⥤ HnGradedModule.{u, x} Br :=
-  sorry
+/-- The internal grading shift `M{r}` as an endofunctor: same carrier and action, degree `g`
+piece the old degree `g - r` piece. -/
+noncomputable def shiftFunctor (r : ℤ) : HnGradedModule.{u, u} Br ⥤ HnGradedModule.{u, u} Br where
+  obj M := { M with grading := M.grading.shift r }
+  map f := ⟨f.toLinearMap, fun h ↦ f.map_mem_degree h⟩
+  map_id _ := rfl
+  map_comp _ _ := rfl
 
 /-- The braided tensor product of graded modules over the braided Hopf algebra `H_n`. -/
-noncomputable instance : MonoidalCategory (HnGradedModule.{u, x} Br) := sorry
+noncomputable instance : MonoidalCategory (HnGradedModule.{u, u} Br) := sorry
 
 end HnGradedModule
 
 /-- The abelian exact structure on `H_n-gmod`. -/
-noncomputable def hnGradedExactStructure : ExactStructure (HnGradedModule.{u, x} Br) :=
+noncomputable def hnGradedExactStructure : ExactStructure (HnGradedModule.{u, u} Br) :=
   ExactStructure.abelian _
 
 /-- `H_n` is Frobenius, so graded modules form a Frobenius exact category. -/
-theorem hnGradedExactStructure_frobenius : FrobeniusExactData (hnGradedExactStructure.{u, x} Br) :=
+theorem hnGradedExactStructure_frobenius : FrobeniusExactData (hnGradedExactStructure Br) :=
   sorry
 
 /-- The stable category `H_n-gmod` modulo projectives. -/
-abbrev HnGradedStable := StableCategory (hnGradedExactStructure.{u, x} Br)
+abbrev HnGradedStable := StableCategory (hnGradedExactStructure Br)
 
-noncomputable abbrev hnGradedStableQuotient : HnGradedModule.{u, x} Br ⥤ HnGradedStable Br :=
+noncomputable abbrev hnGradedStableQuotient : HnGradedModule.{u, u} Br ⥤ HnGradedStable Br :=
   (MorphismIdeal.factorIdeal (IsRelativeProjective (hnGradedExactStructure Br))).quotientFunctor
 
 noncomputable def hnGradedStableTriangulation :
-    StableTriangulationTarget (hnGradedExactStructure.{u, x} Br) :=
+    StableTriangulationTarget (hnGradedExactStructure Br) :=
   frobeniusStableTriangulation _ (hnGradedExactStructure_frobenius Br)
 
 noncomputable instance : HasZeroObject (HnGradedStable Br) :=
@@ -2230,12 +2265,12 @@ noncomputable instance : IsTriangulated (HnGradedStable Br) :=
 /-- The tensor product descends to the stable category. -/
 noncomputable instance : MonoidalCategory (HnGradedStable Br) := sorry
 
-noncomputable instance hnGradedStableEssentiallySmall : EssentiallySmall.{x} (HnGradedStable Br) :=
+noncomputable instance hnGradedStableEssentiallySmall : EssentiallySmall.{u} (HnGradedStable Br) :=
   sorry
 
 /-- `K₀(H_n-gmod)`, the triangulated Grothendieck group of the stable category. -/
 abbrev K0HnGradedStable :=
-  @TriangulatedK0 (HnGradedStable.{u, x} Br) _ _ _ _ _ _ (hnGradedStableEssentiallySmall.{u, x} Br)
+  @TriangulatedK0 (HnGradedStable Br) _ _ _ _ _ _ (hnGradedStableEssentiallySmall Br)
 
 /-- The quantum integer `[r]_ν = 1 + ν + ⋯ + ν^(r-1)` in `ℤ[ν,ν⁻¹]`. -/
 noncomputable def quantumInteger (r : ℕ) : LaurentPolynomial ℤ :=
@@ -2248,27 +2283,38 @@ noncomputable def cyclotomicFactor (i : Fin t) : LaurentPolynomial ℤ :=
 theorem cyclotomicFactor_mul_quantumInteger (i : Fin t) :
     cyclotomicFactor (F := F) i * quantumInteger (F.nDivPrime i) = quantumInteger n := sorry
 
-/-- The trivial graded module `k` in degree zero. -/
-noncomputable def trivialGradedModule : HnGradedModule.{u, x} Br := sorry
+/-- The trivial graded module: carrier `k`, action through the counit, concentrated in degree
+zero. -/
+noncomputable def trivialGradedModule : HnGradedModule.{u, u} Br where
+  Carrier := k
+  instModuleHn := sorry
+  instScalarTower := sorry
+  grading := sorry
+
+theorem trivialGradedModule_smul (h : Br.Carrier) (z : (trivialGradedModule Br).Carrier) :
+    h • z = Br.counit h • z := sorry
+
+theorem trivialGradedModule_piece (g : ℤ) (z : (trivialGradedModule Br).Carrier) :
+    z ∈ (trivialGradedModule Br).grading.Piece g ↔ g = 0 ∨ z = 0 := sorry
 
 /-- The class of a graded module in the stable `K₀`. -/
-noncomputable abbrev k0HnGradedStableClass (M : HnGradedModule.{u, x} Br) :
-    K0HnGradedStable.{u, x} Br :=
-  @triangulatedK0Class (HnGradedStable.{u, x} Br) _ _ _ _ _ _
-    (hnGradedStableEssentiallySmall.{u, x} Br) ((hnGradedStableQuotient Br).obj M)
+noncomputable abbrev k0HnGradedStableClass (M : HnGradedModule.{u, u} Br) :
+    K0HnGradedStable Br :=
+  @triangulatedK0Class (HnGradedStable Br) _ _ _ _ _ _
+    (hnGradedStableEssentiallySmall Br) ((hnGradedStableQuotient Br).obj M)
 
 /-- The tensor product makes `K₀(H_n-gmod)` a ring extending the group structure. -/
 @[instance_reducible]
-noncomputable def k0HnGradedStableRing : Ring (K0HnGradedStable.{u, x} Br) := sorry
+noncomputable def k0HnGradedStableRing : Ring (K0HnGradedStable Br) := sorry
 
-theorem k0HnGradedStableRing_add (x y : K0HnGradedStable.{u, x} Br) :
+theorem k0HnGradedStableRing_add (x y : K0HnGradedStable Br) :
     (letI := k0HnGradedStableRing Br; x + y) = x + y := sorry
 
 theorem k0HnGradedStableRing_one :
-    (letI := k0HnGradedStableRing Br; (1 : K0HnGradedStable.{u, x} Br)) =
+    (letI := k0HnGradedStableRing Br; (1 : K0HnGradedStable Br)) =
       k0HnGradedStableClass Br (trivialGradedModule Br) := sorry
 
-theorem k0HnGradedStableRing_class_tensor (M N : HnGradedModule.{u, x} Br) :
+theorem k0HnGradedStableRing_class_tensor (M N : HnGradedModule.{u, u} Br) :
     letI := k0HnGradedStableRing Br
     k0HnGradedStableClass Br (MonoidalCategory.tensorObj M N) =
       k0HnGradedStableClass Br M * k0HnGradedStableClass Br N := sorry
@@ -2277,7 +2323,7 @@ theorem k0HnGradedStableRing_class_tensor (M N : HnGradedModule.{u, x} Br) :
 `k{1}` is `ν`: `K₀(H_n-gmod) ≅ ℤ[ν,ν⁻¹]/(∏_k [n]_ν/[n_k]_ν)`. -/
 theorem laugwitzQi_stable_K0 :
     letI := k0HnGradedStableRing Br
-    ∃ e : K0HnGradedStable.{u, x} Br ≃+*
+    ∃ e : K0HnGradedStable Br ≃+*
       (LaurentPolynomial ℤ ⧸ Ideal.span {∏ i : Fin t, cyclotomicFactor (F := F) i}),
       e (k0HnGradedStableClass Br ((HnGradedModule.shiftFunctor 1).obj (trivialGradedModule Br)))
         = Ideal.Quotient.mk _ (LaurentPolynomial.T 1) := sorry
@@ -2287,76 +2333,76 @@ variable (Cells : LQCellFamily k F R Br)
 variable {Br Cells} in
 /-- The graded module underlying a chosen representative of an object of `I`: its carrier is the
 literal direct sum of the pieces, with the direct-sum grading. -/
-noncomputable def LQIdealObject.toGradedModule (I : LQIdealObject.{u, x, y} k Cells) :
-    HnGradedModule.{u, x} Br where
+noncomputable def LQIdealObject.toGradedModule (I : LQIdealObject.{u, u, y} k Cells) :
+    HnGradedModule.{u, u} Br where
   Carrier := I.Carrier
   instScalarTower := sorry
   finiteDimensional := sorry
   grading := sorry
 
 variable {Br Cells} in
-theorem LQIdealObject.toGradedModule_piece (I : LQIdealObject.{u, x, y} k Cells) (g : ℤ)
+theorem LQIdealObject.toGradedModule_piece (I : LQIdealObject.{u, u, y} k Cells) (g : ℤ)
     (z : I.Carrier) :
     z ∈ I.toGradedModule.grading.Piece g ↔ ∀ i, z i ∈ (I.pieceGrading i).Piece g := sorry
 
 /-- The image of `I` in the stable category: objects isomorphic to a finite direct sum of pieces
 from the `I_k`. -/
-def lqIdealProperty : ObjectProperty (HnGradedStable.{u, x} Br) :=
-  fun U ↦ ∃ I : LQIdealObject.{u, x, y} k Cells,
+def lqIdealProperty : ObjectProperty (HnGradedStable Br) :=
+  fun U ↦ ∃ I : LQIdealObject.{u, u, y} k Cells,
     Nonempty ((hnGradedStableQuotient Br).obj I.toGradedModule ≅ U)
 
 /-- The image of `I` is a thick triangulated subcategory; the cross-piece vanishing of
 Proposition 4.16 is the input to closure under cones. -/
-noncomputable instance : (lqIdealProperty.{u, x, y} Br Cells).IsTriangulated := sorry
+noncomputable instance : (lqIdealProperty Br Cells).IsTriangulated := sorry
 
-noncomputable instance : (lqIdealProperty.{u, x, y} Br Cells).IsStableUnderRetracts := sorry
+noncomputable instance : (lqIdealProperty Br Cells).IsStableUnderRetracts := sorry
 
 /-- The image of `I` is a two-sided tensor ideal. -/
-theorem lqIdealProperty_tensor (U V : HnGradedStable.{u, x} Br)
-    (hU : lqIdealProperty.{u, x, y} Br Cells U) :
-    lqIdealProperty.{u, x, y} Br Cells (MonoidalCategory.tensorObj U V) ∧
-      lqIdealProperty.{u, x, y} Br Cells (MonoidalCategory.tensorObj V U) :=
+theorem lqIdealProperty_tensor (U V : HnGradedStable Br)
+    (hU : lqIdealProperty Br Cells U) :
+    lqIdealProperty Br Cells (MonoidalCategory.tensorObj U V) ∧
+      lqIdealProperty Br Cells (MonoidalCategory.tensorObj V U) :=
   sorry
 
 /-- `O_n = (H_n-gmod)/I`, the Verdier quotient. -/
-abbrev LQVerdierQuotient := (lqIdealProperty.{u, x, y} Br Cells).trW.Localization
+abbrev LQVerdierQuotient := (lqIdealProperty Br Cells).trW.Localization
 
 /-- The Verdier localization functor onto `O_n`. -/
-noncomputable abbrev lqVerdierQ : HnGradedStable.{u, x} Br ⥤ LQVerdierQuotient Br Cells :=
-  (lqIdealProperty.{u, x, y} Br Cells).trW.Q
+noncomputable abbrev lqVerdierQ : HnGradedStable Br ⥤ LQVerdierQuotient Br Cells :=
+  (lqIdealProperty Br Cells).trW.Q
 
 /-- `O_n` is tensor-triangulated and the localization is monoidal. -/
-noncomputable instance : MonoidalCategory (LQVerdierQuotient.{u, x, y} Br Cells) := sorry
+noncomputable instance : MonoidalCategory (LQVerdierQuotient Br Cells) := sorry
 
 theorem lqVerdierQ_monoidal : Nonempty (lqVerdierQ.{u, x, y} Br Cells).Monoidal := sorry
 
 noncomputable instance lqVerdierQuotientEssentiallySmall :
-    EssentiallySmall.{x} (LQVerdierQuotient.{u, x, y} Br Cells) := sorry
+    EssentiallySmall.{u} (LQVerdierQuotient Br Cells) := sorry
 
 /-- `K₀(O_n)`. -/
 abbrev K0LQVerdierQuotient :=
-  @TriangulatedK0 (LQVerdierQuotient.{u, x, y} Br Cells) _ _ _ _ _ _
+  @TriangulatedK0 (LQVerdierQuotient Br Cells) _ _ _ _ _ _
     (lqVerdierQuotientEssentiallySmall Br Cells)
 
 /-- The class of a graded module in `K₀(O_n)`. -/
-noncomputable abbrev k0LQClass (M : HnGradedModule.{u, x} Br) :
-    K0LQVerdierQuotient.{u, x, y} Br Cells :=
-  @triangulatedK0Class (LQVerdierQuotient.{u, x, y} Br Cells) _ _ _ _ _ _
+noncomputable abbrev k0LQClass (M : HnGradedModule.{u, u} Br) :
+    K0LQVerdierQuotient Br Cells :=
+  @triangulatedK0Class (LQVerdierQuotient Br Cells) _ _ _ _ _ _
     (lqVerdierQuotientEssentiallySmall Br Cells)
     ((lqVerdierQ Br Cells).obj ((hnGradedStableQuotient Br).obj M))
 
 /-- The tensor product makes `K₀(O_n)` a ring extending the group structure. -/
 @[instance_reducible]
-noncomputable def k0LQVerdierQuotientRing : Ring (K0LQVerdierQuotient.{u, x, y} Br Cells) := sorry
+noncomputable def k0LQVerdierQuotientRing : Ring (K0LQVerdierQuotient Br Cells) := sorry
 
-theorem k0LQVerdierQuotientRing_add (x y : K0LQVerdierQuotient.{u, x, y} Br Cells) :
+theorem k0LQVerdierQuotientRing_add (x y : K0LQVerdierQuotient Br Cells) :
     (letI := k0LQVerdierQuotientRing Br Cells; x + y) = x + y := sorry
 
 theorem k0LQVerdierQuotientRing_one :
-    (letI := k0LQVerdierQuotientRing Br Cells; (1 : K0LQVerdierQuotient.{u, x, y} Br Cells)) =
+    (letI := k0LQVerdierQuotientRing Br Cells; (1 : K0LQVerdierQuotient Br Cells)) =
       k0LQClass Br Cells (trivialGradedModule Br) := sorry
 
-theorem k0LQVerdierQuotientRing_class_tensor (M N : HnGradedModule.{u, x} Br) :
+theorem k0LQVerdierQuotientRing_class_tensor (M N : HnGradedModule.{u, u} Br) :
     letI := k0LQVerdierQuotientRing Br Cells
     k0LQClass Br Cells (MonoidalCategory.tensorObj M N) =
       k0LQClass Br Cells M * k0LQClass Br Cells N := sorry
@@ -2364,8 +2410,8 @@ theorem k0LQVerdierQuotientRing_class_tensor (M N : HnGradedModule.{u, x} Br) :
 /-- Laugwitz–Qi Theorem 5.15: `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(Φ_n(ν))` as rings, normalized so that the class
 of the shifted unit `k{1}` is `ν`. -/
 theorem laugwitzQi_5_15 :
-    letI := k0LQVerdierQuotientRing.{u, x, y} Br Cells
-    ∃ e : K0LQVerdierQuotient.{u, x, y} Br Cells ≃+*
+    letI := k0LQVerdierQuotientRing Br Cells
+    ∃ e : K0LQVerdierQuotient Br Cells ≃+*
       (LaurentPolynomial ℤ ⧸ Ideal.span {Polynomial.toLaurent (Polynomial.cyclotomic n ℤ)}),
       e (k0LQClass Br Cells ((HnGradedModule.shiftFunctor 1).obj (trivialGradedModule Br))) =
         Ideal.Quotient.mk _ (LaurentPolynomial.T 1) := sorry

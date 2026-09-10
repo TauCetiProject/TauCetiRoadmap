@@ -318,7 +318,7 @@ drawn:
   representatives each map by an equivalence onto `D(A,H)`.  Their isomorphism closures in
   `C(A,H)` coincide and are the objects with property (P); the retract distinction lives among
   strict `B`-modules, where cofibrant modules are closed under `B`-module retracts and cellular
-  modules are not.
+  modules need not be.
 
 The two examples above are acceptance tests: `A/(t)` over `H = k` has property (P) and is not
 cofibrant, and `A/(t)⊗H` for nonsemisimple `H` is relatively projective and not cofibrant.
