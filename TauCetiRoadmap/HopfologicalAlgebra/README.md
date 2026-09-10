@@ -81,6 +81,15 @@ There is no competing implementation or settled spelling for Hopf-module monoida
 categories of Hopf modules, or smash products.  New upstream Mathlib work is adopted if it lands,
 following Mathlib's naming and deleting the corresponding Tau Ceti duplicate.
 
+Every stable category in this roadmap is an instance of the stable/periodic/curved roadmap's
+construction, not a second quotient theory: `H-StMod`, `C(A,H)`, and the Laugwitz--Qi stable
+category `H_n-gmod` are each the additive quotient of a module category by the ideal of maps
+factoring through the relative projectives of a named Frobenius exact structure, their
+triangulations are Happel's, their Verdier quotients are Mathlib's `trW` localizations of thick
+subcategories, and their Grothendieck groups are the Grothendieck/Euler-forms roadmap's
+triangulated `K₀`.  Ring, module, and monoidal structures are added on top of those objects.
+`Suggested.lean` states the categorical targets against those imported declarations.
+
 ## Layer 1: finite Hopf algebras are Frobenius
 
 Build a usable theory of integrals before using the word Frobenius.
@@ -258,7 +267,11 @@ localizing class and that the following constructions agree:
 
 Here `M` is `H`-acyclic exactly when its restriction is zero in `H-StMod`, equivalently is
 projective as an `H`-module.  The second expression is a Verdier quotient by the thick
-subcategory of acyclics.  Build cones and prove the localization is triangulated and remains a
+subcategory of acyclics.  The restriction functor `C(A,H) → H-StMod` is induced from restriction
+of modules by the universal property of the ideal quotient, a quasi-isomorphism is a morphism of
+`C(A,H)` whose image is invertible, and the two descriptions are related by a comparison functor
+that is proved to be an equivalence.  Build cones and prove the localization is triangulated,
+with the triangulated structure recorded as Mathlib instances on `D(A,H)`, and that it remains a
 right triangulated module category over `H-StMod`.
 
 ### Cofibrant and property-(P) modules
@@ -274,24 +287,39 @@ Call a module **cellular property-(P)** when it has an exhaustive filtration
 
 such that every inclusion is split as an `A`-module map and `F₀` and each
 `F_{r+1}/F_r` are direct sums of modules `A⊗V`, with `V` an indecomposable `H`-module.
-Equivalently, arbitrary `H`-modules may be used as the cells.  Following Qi's actual
-definition, a module satisfies property (P) when it is isomorphic in `C(A,H)` to a cellular
-property-(P) module.  Keep that homotopy-invariant condition separate from the data of a chosen
-filtration.  Every filtration stage is a `B`-submodule, every inclusion is `B`-linear, and its
+Equivalently, arbitrary `H`-modules may be used as the cells.  Every filtration stage is a `B`-submodule, every inclusion is `B`-linear, and its
 chosen splitting is only `A`-linear.  Each displayed layer is identified by a `B`-linear
 isomorphism with `A⊗V` carrying
-`(a#h)(b⊗v)=Σa(h₁·b)⊗h₂·v`; merely identifying underlying `A`-modules is insufficient.  Prove:
+`(a#h)(b⊗v)=Σa(h₁·b)⊗h₂·v`; merely identifying underlying `A`-modules is insufficient.
 
-- property (P) implies cofibrant;
-- every module has a functorial surjective quasi-isomorphism from a property-(P) bar
-  replacement;
-- the cofibrant objects are exactly the `B`-module direct summands of property-(P) objects;
-- morphisms out of a cofibrant/property-(P) object agree in `C(A,H)` and `D(A,H)`;
-- the homotopy categories of property-(P) and cofibrant objects are each equivalent to
-  `D(A,H)`.
+Following Qi's Definition 6.3, a module has **property (P)** when it is isomorphic in `C(A,H)`
+to a cellular module.  This is a homotopy-invariant condition on the isomorphism class in
+`C(A,H)`, while cofibrancy is a strict lifting condition on the module itself, and the two are
+kept apart because the first does not imply the second.  Cofibrancy is not invariant under
+adding relatively contractible summands: for `H = k`, `A = k[t]/(t²)`, and `M = A/(t)`, the
+category `C(A,k)` is zero, so `M` has property (P), yet every surjection is a quasi-isomorphism,
+so cofibrancy is projectivity over `A`, which `M` lacks.  For any nonsemisimple finite `H` acting
+trivially on the same `A`, the module `M⊗H` is relatively projective, hence zero in `C(A,H)`
+and in particular has property (P), but the surjective quasi-isomorphism `A⊗H → M⊗H` admits no
+lift of the identity.  Prove, with the strict cellular condition wherever a strict conclusion is
+drawn:
 
-Do not rename every cofibrant object “property P”: the idempotent-completion distinction is a
-theorem and is visible in the API.
+- cellular modules are cofibrant;
+- the cofibrant objects are exactly the `B`-module retracts of cellular modules, the retraction
+  being an honest split pair of `B`-linear maps and not an isomorphism in `C(A,H)`;
+- cofibrant modules have property (P);
+- every module has a functorial surjective quasi-isomorphism from a cellular bar replacement,
+  which is cofibrant by its filtration, not by an isomorphism in `C(A,H)`;
+- morphisms out of a cofibrant object agree in `C(A,H)` and `D(A,H)`;
+- the full subcategories of `C(A,H)` on cellular objects and on cofibrant objects each map by
+  an equivalence onto `D(A,H)`; the cofibrant one is closed under retracts in `C(A,H)`.
+
+The two examples above are acceptance tests: `A/(t)` over `H = k` has property (P) and is not
+cofibrant, and `A/(t)⊗H` for nonsemisimple `H` is relatively projective and not cofibrant.
+The positive test is strict cofibrancy of the bar replacement.  Do not rename every cofibrant
+object “property P”, and do not infer strict cofibrancy from an isomorphism in `C(A,H)`: the
+idempotent-completion distinction and the strict/homotopy-invariant distinction are both
+theorems and both visible in the API.
 
 ### Compact generation and finiteness
 
@@ -300,9 +328,11 @@ representable `Hom(P,-) : D(A,H) → AddCommGrp`; equivalently, require preserva
 small discrete colimit, whose comparison is canonically induced by the coproduct injections.
 Do not store an arbitrary object-valued “coproduct” function or comparison bijection.  Prove `D(A,H)`
 is compactly generated by the finite set `{A⊗V}`, where `V` ranges over representatives of the
-simple finite-dimensional `H`-modules.  Then prove the Ravenel--Neeman description used by Qi:
-the compact subcategory `Dᶜ(A,H)` is the thick idempotent closure of these generators, and every
-compact object is a direct summand of a finite extension of shifts `T^n(A⊗V)`.
+simple finite-dimensional `H`-modules: each `A⊗V` is compact, and an object receiving no nonzero
+map from any shift of a generator is zero.  Then prove the Ravenel--Neeman description used by
+Qi: the compact objects are exactly the thick triangulated envelope (Mathlib's
+`ObjectProperty.triangEnvelope`) of the generators, so every compact object is a direct summand
+of a finite extension of shifts `T^n(A⊗V)`.
 
 The following finiteness words have fixed, noninterchangeable meanings.
 
@@ -336,12 +366,16 @@ hopfological objects are infinite nor that a particular root system has a finite
 
 Use the Grothendieck/Euler roadmap's construction throughout.
 
-1. For the essentially small stable category of finite-dimensional (graded) `H`-modules,
-   construct `K₀(H-stmod)`.  Tensor product makes it a ring, possibly noncommutative.  It is
-   commutative when the stable category is symmetric, in particular when `H` is cocommutative.
-   Prove the quotient from the ordinary representation ring by the classes of projectives.
-2. Define the hopfological Grothendieck group to be `K₀(Dᶜ(A,H))`, not the group of the entire
-   large derived category.  Prove it is a right module over `K₀(H-stmod)`.
+1. For the essentially small stable category of finite-dimensional (graded) `H`-modules, the
+   full subcategory of `H-StMod` on objects represented by finitely generated modules,
+   construct `K₀(H-stmod)` as the dependency's triangulated `K₀`.  Tensor product makes it a
+   ring extending that group structure, with the class of a tensor product the product of the
+   classes; it is possibly noncommutative, and commutative when the stable category is
+   symmetric, in particular when `H` is cocommutative.  Prove the quotient from the ordinary
+   representation ring by the classes of projectives.
+2. Define the hopfological Grothendieck group to be `K₀(Dᶜ(A,H))`, the triangulated `K₀` of the
+   full subcategory of compact objects, not the group of the entire large derived category.
+   Prove it is a right module over the ring `K₀(H-stmod)` through the tensor action.
 3. Define `G₀(A,H)` from `Dᵇ(A,H)` and `G₀ᶠ(A,H)` from `Dᶠ(A,H)` under the Noetherian
    hypotheses above.  Construct Qi's derived pairing
    `Dᶜ(A,H) × Dᶠ(A,H) → Dᶠ(k,H)` there, and its sesquilinear Grothendieck-group
@@ -437,7 +471,16 @@ identity for composite `N`.
 First build the reusable ambient theory for `G`-graded vector spaces with braiding on homogeneous
 tensors determined by a multiplicative bicharacter `χ : G×G → kˣ`.  It must cover
 `G=ℤ` and `χ(i,j)=q^{ij}`, which is the ambient used by Laugwitz--Qi.  The super category is the
-specialization `G=ℤ/2`, `χ(i,j)=(-1)^{ij}`.  Model the grading as the canonical internal
+specialization `G=ℤ/2`, `χ(i,j)=(-1)^{ij}`.  The ambient is an actual category: `G`-graded
+`k`-vector spaces with degree-preserving linear maps, a `MonoidalCategory` structure whose
+tensor product is the tensor product of vector spaces graded by total degree, and for each `χ` a
+`BraidedCategory` structure whose braiding sends a pure homogeneous tensor `v⊗w` to
+`χ(|v|,|w|) w⊗v`.  A Hopf algebra object in that ambient is a Hopf monoid object in Mathlib's
+sense (`HopfObj`) in the `χ`-braided category.  The hand-written record of graded pieces,
+bicharacter-twisted tensor multiplication, and Hopf equations used by the examples is the same
+thing as such a Hopf monoid object: prove the bridge in both directions, with the record's
+multiplication, comultiplication, and antipode recovered from the categorical structure maps on
+pure tensors, and the two round trips the identity.  Model the grading as the canonical internal
 decomposition into subspaces, require `1∈A_0` and `A_gA_h⊆A_{g+h}`, require the coproduct to
 land in the sum of bidegrees `(r,s)` with `r+s=g`, and require the counit to vanish off degree
 zero and the antipode to preserve degree.  Graded module actions must send
@@ -447,7 +490,8 @@ Yetter--Drinfeld modules, Nichols algebras in the finite diagonal cases used her
 Radford--Majid bosonization.  Prove the monoidal equivalence between modules internal to the
 braided category and the appropriate rational modules over the bosonization.  The exterior and
 Laugwitz--Qi algebras instantiate this API; they are not isolated structures with copied Hopf
-axioms.
+axioms, and they are not a parallel braided-Hopf foundation disconnected from the categorical
+one.
 
 Let `q` be a primitive `N`th root in a field whose characteristic does not divide `N`.  In the
 braided category of `q`-graded vector spaces, construct the one-dimensional Nichols algebra
@@ -570,12 +614,18 @@ cross-freeness statement for shifts of the concrete induced cells from the stand
 multi-monomial basis and the distinct prime factors, then deduce the filtered/retract case by
 devissage.  No such theorem is asserted for arbitrary algebras or arbitrary cell families.
 This cross-`I_k` vanishing is an explicit input to the proof that the
-image of `I` in the stable category is thick.  Prove in addition that it is a triangulated tensor
-ideal, and form the **Verdier quotient**
+image of `I` in the stable category is thick.  The stable category `H_n-gmod` is the
+dependency's stable category of the abelian Frobenius exact structure on finite-dimensional
+graded `H_n`-modules, with Happel's triangulation and the braided tensor product descended to
+it.  The image of `I` is an object property on that stable category; prove that it is a
+triangulated subcategory closed under retracts and a two-sided tensor ideal, and form the
+**Verdier quotient**
 
-`O_n = (H_n-gmod)/I`.
+`O_n = (H_n-gmod)/I`
 
-Finally prove their Theorem 5.15:
+as the `trW` localization at that subcategory, with the localization functor monoidal.  Finally
+prove their Theorem 5.15 as an isomorphism of rings, where the ring structure on
+`K₀(O_n)` comes from the tensor product:
 
 `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(Φ_n(ν))`.
 
