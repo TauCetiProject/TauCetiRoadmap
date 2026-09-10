@@ -24,10 +24,14 @@ import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
 contributors and reviewers can test the representation, quotients, and normalization. Proving every
 declaration here would not by itself complete a layer or the roadmap.
 
-Every milestone below is **discharged**: each target is stated as the roadmap asked for it, and
+Every declaration below is **discharged**: each target is stated as the roadmap asked for it, and
 closed by the Tau Ceti declaration that realizes it, so the correspondence is checked by the Lean
-kernel rather than asserted in prose. Nothing here records a status by hand -- the remaining
-`sorry` count is the remaining work, and it is zero.
+kernel rather than asserted in prose. A `sorry` count of zero certifies exactly the statements
+retained in this file, and nothing more; the statements were chosen to cover the README's
+completion criterion, namely the general APIs of Layers 1 to 4, every row of the Layer 5 table,
+and the `D₈ ⊂ E₈` isometry. Where an earlier version of this file suggested a target that is not
+carried over, its disposition is recorded next to the section it belonged to, so that a removed
+target is dropped in writing rather than silently.
 
 The primary carrier is Mathlib's algebraic `Submodule.IsLattice ℚ`; the real-topological
 `IsZLattice` API is not used as a replacement. The dual is literally `BilinForm.dualSubmodule`, the
@@ -647,7 +651,8 @@ theorem affineA1_form_apply (x y : Fin 2 → ℚ) :
 
 theorem affineA1_isEven : affineA1.IsEven := isEven_affineA1
 
-theorem affineA1_signature : affineA1.signature = (1, 1, 0) := _root_.TauCeti.IntegralLattice.affineA1_signature
+theorem affineA1_signature : affineA1.signature = (1, 1, 0) :=
+  _root_.TauCeti.IntegralLattice.affineA1_signature
 
 theorem affineA1_isPositiveSemidefinite : affineA1.IsPosSemidef := isPosSemidef_affineA1
 
@@ -668,8 +673,20 @@ end Definiteness
 
 The roadmap admits either a general conversion of Tau Ceti's root data or a direct construction of
 each root lattice.  Tau Ceti took the second route, so each row is stated for the lattice that
-carries it, and the bridge property the roadmap asks of the construction -- that the Gram matrix in
-the simple-root basis is the pinned Cartan matrix -- is recorded row by row. -/
+carries it, and the two properties the roadmap asks of the construction -- that the lattice is
+positive definite, and that the Gram matrix in the simple-root basis is the pinned Cartan matrix --
+are recorded row by row.
+
+One target suggested by the earlier, uniform prototype of this section is dropped rather than
+restated: the count of norm-two vectors, `Nat.card {x // B x x = 2} = t.numRoots`. The README does
+not ask for it. Its Layer 5 asks for the positive root lattices with the Cartan Gram matrices and
+for the discriminant table, and its account of neighbouring roadmaps says that this roadmap "does
+not duplicate roots, Weyl groups, Cartan matrices, or root-data classification". Identifying the
+norm-two vectors of a root lattice with the roots of its root system is exactly such a duplication,
+and it is where a count of them would have to come from; Tau Ceti records the number of roots only
+on the root-system side, as `DynkinType.numRoots`, and proves no norm-two count for any of the
+lattices below. The target is therefore outside this roadmap's scope, and its removal is a scope
+correction, not a discharge. -/
 
 section ADE
 
@@ -681,6 +698,10 @@ theorem gramMatrix_typeARootLattice (n : ℕ) (i j : Fin n) :
 
 theorem typeARootLattice_isEven (n : ℕ) : (typeARootLattice n).IsEven :=
   isEven_typeARootLattice n
+
+/-- `Aₙ` is positive definite, at every rank. -/
+theorem typeARootLattice_isPosDef (n : ℕ) : (typeARootLattice n).IsPosDef :=
+  isPosDef_typeARootLattice n
 
 theorem discriminant_typeARootLattice (n : ℕ) : (typeARootLattice n).discriminant = n + 1 :=
   _root_.TauCeti.IntegralLattice.discriminant_typeARootLattice n
@@ -705,6 +726,10 @@ theorem gramMatrix_checkerboardLattice (n : ℕ) (hn : 4 ≤ n) :
     (checkerboardLattice n).gramMatrix (checkerboardSimpleRootBasis n hn) = CartanMatrix.D n :=
   gramMatrix_checkerboardSimpleRootBasis hn
 
+/-- `Dₙ` is positive definite, at every rank: its form is the dot product of `ℚⁿ`. -/
+theorem checkerboardLattice_isPosDef (n : ℕ) : (checkerboardLattice n).IsPosDef :=
+  isPosDef_checkerboardLattice n
+
 /-- The vector class has `q = 1/2`, and either spinor class has `q = n/8`. -/
 theorem discriminantQuadraticMap_checkerboardVectorClass (n : ℕ) [NeZero n] :
     (checkerboardLattice n).discriminantQuadraticMap (isEven_checkerboardLattice n)
@@ -728,6 +753,14 @@ noncomputable abbrev checkerboardDiscriminantEquivOdd (n : ℕ) [NeZero n] (hn :
     FiniteQuadraticModule.Isometry (checkerboardCyclicQuadraticModule n)
       ((checkerboardLattice n).discriminantQuadraticModule (isEven_checkerboardLattice n)) :=
   checkerboardCyclicQuadraticIsometry n hn
+
+/-- `E₆`, `E₇` and `E₈` are positive definite: their Gram matrices are the positive definite
+Cartan matrices `CartanMatrix.E 6`, `CartanMatrix.E 7` and `CartanMatrix.E 8`. -/
+theorem typeE₆RootLattice_isPosDef : typeE₆RootLattice.IsPosDef := isPosDef_typeE₆RootLattice
+
+theorem typeE₇RootLattice_isPosDef : typeE₇RootLattice.IsPosDef := isPosDef_typeE₇RootLattice
+
+theorem typeE₈RootLattice_isPosDef : typeE₈RootLattice.IsPosDef := isPosDef_typeE₈RootLattice
 
 /-- `E₆` and `E₇` have discriminant modules `ℤ/3` and `ℤ/2` with the table's quadratic values. -/
 noncomputable abbrev typeE₆DiscriminantEquiv :
@@ -771,6 +804,9 @@ theorem mem_d8Plus_carrier_iff (x : Fin 8 → ℚ) :
 
 /-- The subgroup has order two, so the determinant scales from `4` to `1`: `D₈⁺` is unimodular. -/
 theorem d8Plus_isUnimodular : d8PlusLattice.IsUnimodular := isUnimodular_d8PlusLattice
+
+/-- Gluing keeps the ambient form of `D₈`, so `D₈⁺` is positive definite like `D₈`. -/
+theorem d8Plus_isPosDef : d8PlusLattice.IsPosDef := isPosDef_d8PlusLattice
 
 /-- The eight glue roots have the `E₈` Cartan matrix as their Gram matrix. -/
 theorem form_e8GlueRoot (i j : Fin 8) :
