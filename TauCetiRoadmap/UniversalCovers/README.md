@@ -142,7 +142,13 @@ higher-homotopy-group API:
 12. `π₁(S¹) ≅ ℤ`, built from `AddCircle.isCoveringMap_coe` (`ℝ → S¹`) and deck
     transformations. (Mathlib has the covering map but, as far as the pin shows, not the
     `π₁ ≅ ℤ` statement, so this is an application target, not a reconciliation.)
-13. `π_n(Tᵏ)`, `π₁(RPⁿ)`, `K(G, 1)` spaces.
+13. `π_n(Tᵏ)` and `π₁(RPⁿ)`.
+14. **Recognition of `K(G, 1)` spaces.** A path-connected space whose universal cover is
+    weakly contractible is aspherical, and is a `K(G, 1)` for `G ≅ π₁`; asphericity transfers
+    along a covering map to the total space; asphericity and the `K(G, 1)` property are stable
+    under products, indexed products and homeomorphism. Circles and tori are the examples.
+    Constructing a `K(G, 1)` for an arbitrary group is outside this roadmap; it rests on
+    simplicial realization theory.
 
 ## Ordering
 

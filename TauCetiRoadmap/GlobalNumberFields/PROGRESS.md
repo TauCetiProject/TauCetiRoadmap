@@ -1,0 +1,14 @@
+# Progress log: GlobalNumberFields
+
+An append-only record of what landed on the GlobalNumberFields roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"12f181a126dcb79e10bb1d339422b9b7e6e0285e","prs":[5200,5386],"roadmap":"GlobalNumberFields","to_sha":"8745177e39945cdda39b4203688f5f6bb380a0b9"}-->
+## GlobalNumberFields: 2026-08-30 to 2026-09-01 (`12f181a` to `8745177`)
+
+The first result to land in this roadmap is its most heavily consumed one: **Artin–Whaples weak approximation at mixed places** ([`TauCeti.GlobalNumberFields.weakApproximation_denseRange`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Global/Approximation/Weak.html#TauCeti.GlobalNumberFields.weakApproximation_denseRange)). For finite sets of finite places and of infinite places, the diagonal map from a number field into the product of the corresponding adic and archimedean completions has dense range. This is the exact statement the roadmap promises to Global Quadratic Forms, in the mixed form that a finite-place congruence corollary alone would not supply, and it completes the headline target of Layer 1 (TauCeti#5200). The rest of Layer 1 has not been touched: the derived simultaneous-target and real-sign statements for an element of `Kˣ`, the total sign homomorphism to the product of `ℤˣ` over real places, and its surjectivity on `Kˣ` all remain to be done.
+
+The only other work so far is Layer 0 infrastructure at the infinite places (TauCeti#5386). The **normalized absolute value on an infinite completion** ([`TauCeti.GlobalNumberFields.infiniteCompletionNormalizedAbsValue`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Global/Places/Completion.html#TauCeti.GlobalNumberFields.infiniteCompletionNormalizedAbsValue)) is a monoid-with-zero homomorphism on `w.Completion` sending `x` to `‖x‖ ^ w.mult`, so it is the ordinary absolute value at a real place and the squared absolute value at a complex place, as the roadmap's conventions require. It is continuous, vanishes exactly at zero, and on the dense copy of `K` agrees with the normalized infinite-place value ([`TauCeti.GlobalNumberFields.infiniteCompletionNormalizedAbsValue_algebraMap`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Global/Places/Completion.html#TauCeti.GlobalNumberFields.infiniteCompletionNormalizedAbsValue_algebraMap)), with separate real and complex evaluation lemmas.
+
+Nothing has landed on the finite side of Layer 0: no normalized finite-place absolute value, no finiteness of the places where `|x|_v ≠ 1`, no transport of the product formula, and no functoriality under extensions. Layers 2 through 11 have no declarations yet.
