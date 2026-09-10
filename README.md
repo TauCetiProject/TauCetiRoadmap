@@ -47,6 +47,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Quadratic forms and cohomological invariants](TauCetiRoadmap/QuadraticFormInvariants/README.md)
 - [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
 - [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
+- [Stable reduction of curves and stable maps](TauCetiRoadmap/StableReduction/README.md)
 - [Standard probability distributions and their elementary theory](TauCetiRoadmap/StandardDistributions/README.md)
 - [The Chebotarev density theorem](TauCetiRoadmap/Chebotarev/README.md)
 - [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
