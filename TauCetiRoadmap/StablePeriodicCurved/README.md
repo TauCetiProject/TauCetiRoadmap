@@ -85,6 +85,16 @@ categories. Constructions that require small localizations, sets of morphisms, o
 groups take an essentially small full subcategory and use Mathlib's small-model/`Shrink` machinery;
 they do not install a false `SmallCategory` instance on all modules.
 
+Module categories live in the universe of their ring. For `R : Type u`, finitely generated right
+modules, complete resolutions, matrix-factorization components, and global-dimension quantifiers
+all range over `ModuleCat.{u} Rᵐᵒᵖ` (or `ModuleCat.{u} S`), so that the regular module and its
+finite free powers are objects of the category being quantified over. A fixed small module
+universe under an unrestricted ring universe is not an essentially-small replacement; it silently
+tests the wrong category.
+
+"Small" coproducts and products, in the localizing and colocalizing closures of Layer 6, are those
+indexed by types in the hom universe of the category being closed.
+
 Every module theorem says whether it concerns all modules, finitely generated modules, or
 finite-dimensional modules. Bounded derived and singularity categories in the comparison
 theorems use finitely generated right modules. Infinite coproducts in coderived categories and
@@ -118,9 +128,12 @@ category, morphism ideal quotient, Gorenstein-projective or singularity category
 homotopy/derived category, curved DG algebra/module, or matrix-factorization category. Adopt any
 of these that lands upstream, following its naming. `Suggested.lean` therefore
 prototypes an additive morphism ideal on top of Mathlib's quotient; concrete bounded-complex,
-exact-derived, perfect-kernel, orbit/compression, and matrix-factorization homotopy constructions;
-and the square equations for differential modules, duplexes, and curved DG objects. It does not
-clone Mathlib's complex, localization, projective/injective, or triangulated vocabulary.
+exact-derived, perfect-kernel, periodic homotopy/derived, shift-orbit, curved-module homotopy,
+second-kind closure/quotient, and matrix-factorization constructions; and the square equations for
+differential modules, duplexes, and curved DG objects. It does not clone Mathlib's complex,
+localization, projective/injective, or triangulated vocabulary: triangulated structures are
+recorded as Mathlib instances, thick closures are `ObjectProperty.triangEnvelope`, and Verdier
+quotients are `trW` localizations.
 
 ## Objects that must remain distinct
 
@@ -218,9 +231,12 @@ Construct `stmod-A` and its triangulation. Keep it distinct from the quotient of
 all modules, usually written `StMod-A`.
 
 For a left-and-right noetherian ring `R`, define a totally acyclic complex of finitely generated
-projective right modules: the complex is acyclic and `Hom_R(P,R)` is acyclic. Define finitely
-generated Gorenstein-projective right modules as degree-zero cycles in such complexes. Prove that
-this definition is independent of the chosen complete resolution and build:
+projective right modules: every term is finitely generated and projective, the complex is acyclic,
+and `Hom_R(P,R)` is acyclic. Finite generation is a condition on every term of the complex, not a
+consequence of finite generation of one cycle: adding a contractible two-term disk on an infinite
+free module away from degree zero preserves acyclicity, dual acyclicity, and the degree-zero cycle.
+Define finitely generated Gorenstein-projective right modules as degree-zero cycles in such
+complexes. Prove that this definition is independent of the chosen complete resolution and build:
 
 - the exact Frobenius category `Gproj-R`, with the exact structure inherited from finitely
   generated modules;
@@ -263,7 +279,9 @@ Build three related object types.
 2. A **genuine two-periodic complex** is a parity-graded pair
    `M₀ ⇄ M₁` with both consecutive composites zero.
 3. More generally, for `n≥1`, an `n`-periodic complex is a
-   `ZMod n`-indexed family with degree-one differential and consecutive composites zero.
+   `ZMod n`-indexed family with degree-one differential and consecutive composites zero. The
+   period is positive by hypothesis (`NeZero n`): `ZMod 0` is integer indexing, which is an
+   ordinary complex, not a finite cyclic grading.
 
 Do not identify (1) and (2). Forgetting parity sends a two-periodic complex to a differential
 module on `M₀⊕M₁`. A differential module has no canonical inverse construction. A **duplex** in
@@ -272,7 +290,10 @@ exactly (2).
 
 Supply categories, additive/linear structures, evaluation functors, parity and cyclic shifts,
 even closed morphisms, odd and general homogeneous morphisms, homotopies, null-homotopic maps,
-mapping cones, and totalizations. Reuse Mathlib's homological-complex and differential-object APIs
+mapping cones, and totalizations. The mapping cone of `f : X → Y` is
+`cone(f)ⁱ = Xⁱ⁺¹ ⊕ Yⁱ` with differential `[[-d_X, 0], [f, d_Y]]`; the biproducts it needs are
+hypotheses of the cone itself, stated on the ambient additive category, not deferred to a later
+theorem. Reuse Mathlib's homological-complex and differential-object APIs
 where their shapes apply, and prove equivalences rather than maintaining parallel vocabularies.
 In the one-periodic bridge, use a coherent natural identification of the one-step shift with the
 identity and derive Mathlib's shifted-square law from the differential module's stored `d²=0` law;
@@ -283,16 +304,25 @@ modules and periodic complexes. Prove that these are Frobenius exact categories,
 projective-injectives with the contractible objects (equivalently retracts of the elementary
 periodic disks), and identify their stable categories with `K₁(A)` and `K_n(A)`. This supplies
 their triangulations by both the stable-category construction and mapping cones; prove the two
-triangulations agree.
+triangulations agree. The result is recorded as Mathlib structure: `K_n(A)` carries a
+preadditive structure, a zero object, a `ℤ`-shift whose generator is the cyclic shift, additive
+shift functors, and `Pretriangulated` and `IsTriangulated` instances, with the cone triangle
+`X → Y → cone(f) → X[1]` distinguished.
 
-If `A` is abelian, define parity/cyclic homology objects, acyclic periodic complexes, and
-quasi-isomorphisms. Construct
+If `A` is abelian, or more generally carries the exact structure `E` of Layer 2, define
+parity/cyclic homology objects, exact-acyclic periodic complexes (conflations in every residue
+class), and quasi-isomorphisms (maps with exact-acyclic cone). Construct
 
 `D_n(A) = K_n(A) / Ac_n(A)`
 
-as the Verdier localization at quasi-isomorphisms and prove the two universal descriptions agree.
-The abelian hypotheses are required: a merely additive base supports the split-exact homotopy
-category but not kernel/image homology.
+both as the localization of periodic complexes at quasi-isomorphisms and as the Verdier quotient
+of `K_n(A)` by the triangulated subcategory of acyclic objects, and prove that the comparison
+functor between the two descriptions is an equivalence commuting with the two localization
+functors. `D_n(A)` then carries the same package of triangulated instances as `K_n(A)`,
+transported along the Verdier quotient, and the comparison is a triangle functor. Later theorems
+about `D_n` (compression, the orbit embedding, the triangulated hull) are stated against these
+instances. The abelian hypotheses are required for kernel/image homology: a merely additive base
+supports the split-exact homotopy category but not homology objects.
 
 ## Layer 4: compression, periodic resolutions, and relative projectives
 
@@ -304,13 +334,49 @@ The sums are finite because `X` is bounded. Fix the induced differential and Kos
 prove that compression preserves homotopies, cones, and triangles. It descends to
 `K^b(A)→K_n(A)` and, for abelian `A`, to `D^b(A)→D_n(A)`.
 
-The shift-orbit comparison is a theorem, not a definition. In the orbit/compression/hull theorem
-paragraph, assume throughout that `Λ` is a finite-dimensional algebra of finite global dimension
-over a field, exactly as in Stai §§3–4. Construct the functor from the orbit category
-`D^b(mod-Λ)/[n]` to `D_n(mod-Λ)`, prove its full faithfulness as in Lemma 3.12, identify its
-essential image with the gradable periodic objects, and construct its triangulated hull as in
-Theorem 4.3. Do not claim that an orbit category is automatically triangulated or essentially
-surjective.
+### The orbit category and Stai's triangulated hull
+
+The orbit category is constructed, not axiomatized. For a preadditive category `D` with an
+additive `ℤ`-shift and `n ∈ ℤ`, the orbit category `D/[n]` has the objects of `D` and hom groups
+
+`Hom_{D/[n]}(X, Y) = ⨁_{j ∈ ℤ} Hom_D(X, Y[nj]),`
+
+with composition of homogeneous pieces `f : X → Y[ni]` and `g : Y → Z[nj]` given by
+`f`, then `g[ni]`, then the coherence isomorphism `Z[nj][ni] ≅ Z[n(i+j)]` from Mathlib's
+`shiftFunctorAdd'`, extended bilinearly to the direct sums. Prove the category laws, the
+preadditive structure, the projection functor `D → D/[n]` (identity on objects, degree-zero
+inclusion on morphisms), its additivity, and the periodicity isomorphism `π ∘ [n] ≅ π` whose
+components are the identity placed in degrees `1` and `-1`. Prove the universal property in
+Keller's form: an additive functor `G : D → E` to a preadditive category with an isomorphism
+`G ∘ [n] ≅ G` descends to `D/[n] → E`, the descent restricts to `G` along the projection
+compatibly with the two periodicity isomorphisms, and any additive functor with those properties
+is isomorphic to the descent. A record storing an unspecified category with a projection and a
+descent operation is not an orbit category: it is satisfiable by categories with the wrong homs.
+
+In the orbit/compression/hull theorem paragraph, assume throughout that `Λ` is a
+finite-dimensional algebra of finite global dimension over a field, exactly as in Stai §§3–4,
+with finite global dimension stated as a uniform projective-dimension bound on all right modules
+in the ring's universe. Prove that compression `D^b(mod-Λ) → D_n(mod-Λ)` is additive and
+`n`-periodic, so it descends by the universal property to the orbit functor
+`D^b(mod-Λ)/[n] → D_n(mod-Λ)`; this descent is the definition of the orbit functor, and its
+restriction along the projection is compression. Then prove:
+
+- full faithfulness of the orbit functor, as in Lemma 3.12;
+- that its essential image is the class of gradable periodic objects;
+- `D_n(mod-Λ) ≃ K_n(proj-Λ)`, the periodic homotopy category of periodic complexes of
+  finitely generated projectives, through the canonical functor `K_n(proj-Λ) → D_n(mod-Λ)`;
+- Theorem 4.3: the thick triangulated subcategory of `D_n(mod-Λ)` generated by the essential
+  image (Mathlib's `ObjectProperty.triangEnvelope`) is all of `D_n(mod-Λ)`.
+
+"Triangulated hull" means exactly these statements about the triangulated category `D_n(mod-Λ)`
+of Layer 3: the orbit category embeds fully faithfully, and the embedding generates the target
+under shifts, cones, and retracts. Keller's construction of the hull from the DG orbit category
+of an enhancement, using the pretriangulated envelope of the
+[DG and A-infinity roadmap](../DGAInfinity/README.md), is identified with `D_n(mod-Λ)` by this
+generation statement and the universal property above; that identification is a target in the
+DG roadmap's vocabulary, and no other notion of hull is used. Do not claim that an orbit category
+is automatically triangulated or essentially surjective, and do not claim the hull statement
+without the finite-global-dimension hypothesis.
 
 For differential and periodic modules over an algebra, define:
 
@@ -376,28 +442,54 @@ simp lemmas; `d²=0` is never proved from `d²=w` without the hypothesis `w=0`.
 
 ## Layer 6: curved acyclicity and derived categories of the second kind
 
-Let the underlying graded-module category be abelian, with the exact coproducts or products
-required by each construction. For a short exact sequence of curved modules, construct its total
-curved module. Inside the curved homotopy category define:
+Build the category of bundled right curved DG modules over `A` with closed degree-zero
+morphisms, its odd homotopies (right-linear maps of degree `-1`, with no Koszul sign because the
+algebra acts on the other side), the boundary `d_N h + h d_M` of a homotopy, and the curved
+homotopy category as the quotient by boundaries. Prove that the boundary of a homotopy commutes
+with the differentials: this uses that source and target have the same curvature. Install the
+triangulated package of Layer 3 (preadditive, zero object, `ℤ`-shift, cones,
+`Pretriangulated`, `IsTriangulated`) on the curved homotopy category, together with the small
+coproducts and products inherited from graded modules. Separately build the abelian category of
+graded right modules over the underlying graded ring, without differential, with the forgetful
+functor from curved modules; this is where Positselski's homological-dimension hypotheses live.
 
-- **absolutely acyclic** objects: the smallest thick triangulated subcategory containing all such
-  totalizations;
-- **coacyclic** objects: the smallest triangulated subcategory containing them and closed under
-  the specified small coproducts;
-- **contraacyclic** objects: the smallest triangulated subcategory containing them and closed
-  under the specified small products.
+For a short exact sequence of curved modules (closed morphisms whose underlying linear maps are
+short exact), construct its total curved module. Inside the curved homotopy category define, as
+closures generated by the class of totalizations:
 
-Construct `D_abs`, `D_co`, and `D_ctr` as Verdier quotients and prove their universal properties.
-There is no “ordinary derived category of curved modules” defined by homology. Prove the canonical
-inclusions `Ac_abs ⊆ Ac_co` and `Ac_abs ⊆ Ac_ctr`. They induce functors
-`D_abs → D_co` and `D_abs → D_ctr`, respectively. There is no canonical comparison in either
-direction between `D_co` and `D_ctr` without an additional theorem.
+- **absolutely acyclic** objects: the smallest thick triangulated subcategory containing all
+  totalizations, which is Mathlib's `ObjectProperty.triangEnvelope` of that class;
+- **coacyclic** objects: the smallest isomorphism-closed triangulated subcategory containing the
+  totalizations and closed under small coproducts, as the infimum of all such subcategories;
+- **contraacyclic** objects: the smallest isomorphism-closed triangulated subcategory containing
+  the totalizations and closed under small products.
+
+These are definitions of specific object properties on the constructed homotopy category; none
+of them is a parameter. Construct `D_abs`, `D_co`, and `D_ctr` as the Verdier quotients of the
+curved homotopy category by these three subcategories, using Mathlib's `trW` localization, and
+prove their universal properties. There is no “ordinary derived category of curved modules”
+defined by homology. Prove the inclusions `Ac_abs ⊆ Ac_co` and `Ac_abs ⊆ Ac_ctr` (a triangulated
+subcategory closed under countable coproducts or products is thick). They induce the comparison
+functors `D_abs → D_co` and `D_abs → D_ctr` through the universal property of the absolute
+localization, because the larger quotient inverts the smaller class of weak equivalences. Each
+comparison commutes with the two localization functors up to the *natural isomorphism* supplied by
+`Localization.fac`; a localization never supplies a strict equality of functors, and demanding one
+is false already for equivalent presentations of the same localization. Prove that the
+comparisons are triangle functors. There is no canonical comparison in either direction between
+`D_co` and `D_ctr` without an additional theorem.
+
+The generic closure, quotient, and comparison machinery is stated once for an arbitrary
+triangulated category with a generating class of objects and instantiated with the curved
+homotopy category and its totalizations; the abstract version is a tool, and the curved
+instantiation is the target.
 
 Formalize Positselski's comparison results with their actual hypotheses:
 
 - for primary right modules, if the abelian category of graded right modules over the underlying
-  graded ring has finite homological dimension (finite right graded global dimension), absolute,
-  co-, and contraacyclic classes coincide, by applying Theorem 7.8(a) to the graded opposite;
+  graded ring has finite homological dimension (finite right graded global dimension, stated as a
+  uniform projective-dimension bound in the constructed graded-module category), the absolute,
+  co-, and contraacyclic classes coincide as object properties of the curved homotopy category,
+  by applying Theorem 7.8(a) to the graded opposite;
 - in the uncurved DG specialization—literally curvature `w=0`—Theorem 7.8(b) additionally requires
   **either** `A^n=0` for every `n>0`, **or** all three conditions `A^n=0` for every `n<0`, `A⁰`
   classically semisimple, and `A¹=0`. Under the same finite right graded-global-dimension
@@ -405,10 +497,14 @@ Formalize Positselski's comparison results with their actual hypotheses:
   contraacyclic objects coincide;
 - the graded-injective model for the coderived category uses Theorem 7.9(a)'s exact right-module
   translation of condition `(*)`: every countable direct sum of injective graded right modules
-  has finite injective dimension as a graded right module;
+  has finite injective dimension as a graded right module. Under it, the full subcategory of the
+  curved homotopy category on modules whose underlying graded module is injective maps by an
+  equivalence onto `D_co`;
 - the graded-projective model for the contraderived category uses Theorem 7.9(b)'s exact
   right-module translation of condition `(**)`: every countable product of projective graded
-  right modules has finite projective dimension as a graded right module.
+  right modules has finite projective dimension as a graded right module. Under it, the full
+  subcategory on modules whose underlying graded module is projective maps by an equivalence
+  onto `D_ctr`.
 
 Translate every statement to right modules through opposites, recording which noetherian,
 product, coproduct, and finite-dimensional condition changes side.
