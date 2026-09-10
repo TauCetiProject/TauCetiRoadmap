@@ -396,7 +396,13 @@ Weyl-invariance, so that no later step silently assumes a decomposition that has
   a general field is a major algebra project, not a routine prerequisite. Stage it as its own unit with
   pinned intermediate targets: the tensor-algebra-quotient presentation of `U(L)`; the PBW filtration;
   its multiplicativity and the associated-graded equivalence with the symmetric algebra `Sym(L)`; and the
-  ordered-monomial basis for a chosen basis of `L`. For every Lie map, prove compatibility of the induced
+  ordered-monomial basis for a chosen basis of `L`. Both bases must be **identified with the ordered
+  monomials**, not merely indexed by multi-exponents: state the value of the basis at a multi-exponent
+  as the product of the powers `ι(bᵢ)^{mᵢ}` in increasing order, and state the graded basis as the
+  classes of those same monomials (or expose the graded-algebra isomorphism from `Sym(L)` together with
+  its generator equation). Without that equation the statement records graded dimensions only, and a
+  consumer cannot recover the normalization: over `ℚ` with `L` one-dimensional abelian, `U(L) = ℚ[X]`
+  and the vectors `2ᵐXᵐ` satisfy the indexed-basis type just as `Xᵐ` do. For every Lie map, prove compatibility of the induced
   enveloping-algebra map with the filtration and associated-graded map, and derive the corresponding
   ordered-monomial-span statements for subalgebras, surjections and quotients, and direct sums. From the
   root-space decomposition, also prove the **triangular decomposition**

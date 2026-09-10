@@ -142,16 +142,69 @@ abbrev pbwGraded (n : ℕ) : Type u :=
   pbwFiltration K L n ⧸
     Submodule.comap (pbwFiltration K L n).subtype (pbwFiltrationLT K L n)
 
+/-- The **ordered PBW monomial** attached to a multi-exponent: the product of the powers
+`ι (b i) ^ m i`, taken in increasing order of `i`.
+
+⚠ Every statement below has to be about *this* element. A basis merely indexed by `κ →₀ ℕ` says
+nothing: in `U(L) = K[X]` for the one-dimensional abelian `L`, the vectors `2 ^ m * X ^ m` also
+form a basis indexed by `ℕ`, and a consumer cannot recover the intended normalization from the
+type. -/
+noncomputable def pbwMonomial {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (m : κ →₀ ℕ) :
+    UniversalEnvelopingAlgebra K L :=
+  ((m.support.sort (· ≤ ·)).map fun i =>
+    UniversalEnvelopingAlgebra.ι K (b i) ^ m i).prod
+
+@[simp] theorem pbwMonomial_zero {κ : Type u} [LinearOrder κ] (b : Basis κ K L) :
+    pbwMonomial K L b 0 = 1 := sorry
+
+theorem pbwMonomial_single {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (i : κ) (n : ℕ) :
+    pbwMonomial K L b (Finsupp.single i n) = UniversalEnvelopingAlgebra.ι K (b i) ^ n := sorry
+
+/-- A monomial of total degree `n` lies in the `n`-th filtration stage; this is what lets it have
+a class in `grₙ U(L)`. -/
+theorem pbwMonomial_mem_pbwFiltration {κ : Type u} [LinearOrder κ] (b : Basis κ K L)
+    (m : κ →₀ ℕ) {n : ℕ} (hn : (m.sum fun _ k => k) = n) :
+    pbwMonomial K L b m ∈ pbwFiltration K L n := sorry
+
+/-- The class of a degree-`n` ordered monomial in `grₙ U(L)`. -/
+noncomputable def pbwGradedMonomial {κ : Type u} [LinearOrder κ] (b : Basis κ K L) {n : ℕ}
+    (m : {m : κ →₀ ℕ // (m.sum fun _ k => k) = n}) : pbwGraded K L n :=
+  Submodule.Quotient.mk
+    ⟨pbwMonomial K L b m.1, pbwMonomial_mem_pbwFiltration K L b m.1 m.2⟩
+
 /-- **Filtered-to-graded.** The symmetric algebra computes the associated graded of the PBW
-filtration: for a linearly ordered basis of `L`, the degree-`n` monomials index a basis of
-`grₙ U(L)`. Every other target in this section is a consequence of this one. -/
-theorem nonempty_basis_pbwGraded {κ : Type u} [LinearOrder κ] (_b : Basis κ K L) (n : ℕ) :
-    Nonempty (Basis {m : κ →₀ ℕ // (m.sum fun _ k => k) = n} K (pbwGraded K L n)) := sorry
+filtration: for a linearly ordered basis of `L`, the classes of the degree-`n` ordered monomials
+are a `K`-basis of `grₙ U(L)`.
+
+This is stated as a `def` with the value equation `basisPbwGraded_apply` beside it, rather than as
+a `Nonempty` existence statement: the graded vector-space dimensions are a strictly weaker fact
+than the canonical multiplication and the symmetric-algebra comparison, so an existence statement
+would not supply what weighted truncation, monic-relation reduction and functoriality consume. -/
+noncomputable def basisPbwGraded {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (n : ℕ) :
+    Basis {m : κ →₀ ℕ // (m.sum fun _ k => k) = n} K (pbwGraded K L n) := sorry
+
+theorem basisPbwGraded_apply {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (n : ℕ)
+    (m : {m : κ →₀ ℕ // (m.sum fun _ k => k) = n}) :
+    basisPbwGraded K L b n m = pbwGradedMonomial K L b m := sorry
 
 /-- **Poincaré-Birkhoff-Witt.** For a linearly ordered basis of `L`, the ordered monomials form a
 `K`-basis of `U(L)`. -/
-noncomputable def pbwBasis {κ : Type u} [LinearOrder κ] (_b : Basis κ K L) :
+noncomputable def pbwBasis {κ : Type u} [LinearOrder κ] (b : Basis κ K L) :
     Basis (κ →₀ ℕ) K (UniversalEnvelopingAlgebra K L) := sorry
+
+/-- The value equation without which `pbwBasis` is only an abstract indexed basis. -/
+theorem pbwBasis_apply {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (m : κ →₀ ℕ) :
+    pbwBasis K L b m = pbwMonomial K L b m := sorry
+
+/-- Acceptance test: for the one-dimensional abelian Lie algebra, `U(L)` is the polynomial algebra
+on the image of the chosen generator, and the PBW monomials are its ordinary monomials -- not any
+other scaling of them. -/
+theorem exists_polynomialAlgEquiv_of_finrank_one [IsLieAbelian L]
+    (b : Basis PUnit.{u + 1} K L) :
+    ∃ e : Polynomial K ≃ₐ[K] UniversalEnvelopingAlgebra K L,
+      e Polynomial.X = UniversalEnvelopingAlgebra.ι K (b PUnit.unit) ∧
+        ∀ n : ℕ, e (Polynomial.X ^ n) =
+          pbwMonomial K L b (Finsupp.single PUnit.unit n) := sorry
 
 /-- **Injectivity** of the canonical Lie map into the enveloping algebra. Consumed by
 [Ado-Iwasawa](../AdoIwasawa/README.md) over an arbitrary field. -/
