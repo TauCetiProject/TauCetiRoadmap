@@ -26,6 +26,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Integral lattices, discriminant forms, and overlattices](TauCetiRoadmap/IntegralLattices/README.md)
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
 - [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
+- [Niemeier glue data and explicit Leech constructions](TauCetiRoadmap/Rank24LatticeConstructions/README.md)
 - [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
 - [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
 - [Partial differential equations](TauCetiRoadmap/PDE/README.md)
