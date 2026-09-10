@@ -37,7 +37,7 @@ envelopes, the Cartan matrix of an algebra, basic algebras, and Gabriel's presen
 [semisimple algebras](../SemisimpleAlgebras/README.md). Suggested home:
 `TauCeti/RepresentationTheory/Quiver/` (path algebra, representations, Gabriel, AR theory) and
 `TauCeti/RingTheory/KrullSchmidt/` (the Krull-Schmidt theorem, which is a statement about
-finite-length modules and is upstreamable to Mathlib on its own).
+finite-length modules and mentions no quivers).
 
 ## Standing conventions
 
@@ -249,7 +249,7 @@ theorem and Auslander-Reiten theory, are stated over an algebraically closed fie
 ### Layer 2: the Krull-Schmidt theorem
 
 Mathlib has neither `KrullSchmidt` nor the local-endomorphism-ring lemma; both are built here, over a
-finite-dimensional algebra `A`, and are upstreamable.
+finite-dimensional algebra `A`, and neither mentions quivers.
 
 - **Fitting's lemma.** For a module of finite length (`IsFiniteLength`), an endomorphism splits the
   module as `im fⁿ ⊕ ker fⁿ` for large `n`; hence the module is **indecomposable iff its endomorphism
@@ -456,7 +456,7 @@ existence theorem is stated but flagged as the deep sublayer.
 
 Layer 0 (the path algebra) is the foundation and comes first. Layer 1 (representations as `kQ`-modules)
 needs Layer 0's algebra and basis. Layer 2 (Krull-Schmidt) needs only finite-length modules and is a
-parallel, upstreamable lane once `IsFiniteLength` is in hand; Layers 3-6 all consume its uniqueness.
+parallel, quiver-free lane once `IsFiniteLength` is in hand; Layers 3-6 all consume its uniqueness.
 Layer 3 (the finite-dimensional-algebra frame) needs Layer 2 for Jordan-Hölder-well-defined
 multiplicities and consumes [semisimple algebras](../SemisimpleAlgebras/README.md) for Wedderburn; its
 projective covers and Cartan matrix feed Layers 5-6. Layer 4 (Euler form, reflection functors) needs

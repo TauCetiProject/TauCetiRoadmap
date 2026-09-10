@@ -1,0 +1,37 @@
+<!--tauceti-status:v1 {"roadmap":"CombinatorialHeegaardFloer","to_sha":"b53ed554b8fc7cc0d6de54eb265d3b75e48a0d85","ts":"2026-09-08T04:21:52Z"}-->
+# Status: CombinatorialHeegaardFloer
+
+This file documents the status of the CombinatorialHeegaardFloer roadmap up until `b53ed55` (2026-09-08T04:21:52Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** Lane G has the whole chain-level package over `𝔽₂` — diagrams, moves, links, gradings, the bigrading, all three complexes, the grid determinant formula — but not `∂² = 0` in general, not invariance, and not the homology of any nontrivial diagram. Lane L has its first computed lattice homology and a `U`-tower in every negative-definite plumbing, in characteristic two and with no Neumann-move invariance. Lane ALG has the stabilization and filtered-colimit API the roadmap asked for; Lanes K and H have not begun.
+
+### Named results
+
+- **The grid determinant formula and the Euler characteristic** — the alternating Alexander state sum of a grid diagram is a sign times a monomial times [the determinant of its weight matrix](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Determinant.html#TauCeti.GridDiagram.stateSum_eq_smul_T_mul_det_weightMatrix), and on an odd-component diagram that expression is [the graded Euler characteristic of the bigraded chain module](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/EulerCharacteristic.html#TauCeti.OddComponentGridDiagram.gradedEulerChar_eq_smul_T_mul_det_weightMatrix). That is milestone G.4 on the chain side: the determinant is not yet matched to the Alexander polynomial, and with `∂² = 0` open it is not an Euler characteristic of homology.
+- **Links as grids modulo moves** — [`GridLink`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Move.html#TauCeti.GridLink) is grid diagrams of every size modulo commutation and (de)stabilization, with [two diagrams presenting the same link exactly when moves connect them](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Move.html#TauCeti.GridDiagram.toGridLink_eq_iff_movesTo): nothing waits on Cromwell's theorem.
+- **Lattice homology of a one-vertex negative-definite plumbing** — [free of rank one over `𝔽₂[U]`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/OneVertex.html#TauCeti.coefficientEquivOneVertexPlumbingLatticeHomology) in every spin^c structure: one `U`-tower, the first lattice homology this roadmap computes rather than defines.
+- **The `U`-tower in every negative-definite plumbing** — a minimal-weight lattice point is a cycle [no nonzero multiple of which is a boundary](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/Tower.html#TauCeti.PlumbingGraph.exists_injective_latticeHomologyCycleMap), so the homology is nonzero; [`E₈`'s too](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/E8.html#TauCeti.e8Plumbing_not_isZero_latticeHomology) in every spin^c structure, though its rank is unknown.
+- **Both blow-ups split the intersection form** — blowing up at a vertex or [along an edge](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/EdgeBlowUp.html#TauCeti.PlumbingGraph.intersectionForm_blowUpEdgeEquiv) adds an orthogonal `⟨-1⟩`, [preserves and reflects negative-definiteness](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/EdgeBlowUp.html#TauCeti.PlumbingGraph.isNegativeDefinite_blowUpEdge_iff), and fixes the infimum of the characteristic weight: the Neumann moves in usable form, but nothing yet about homology.
+
+### Notable definitions and infrastructure
+
+- [`GridChainMinus`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Unblocked.html#TauCeti.GridChainMinus), the unblocked complex `GC⁻` over `𝔽₂[V₀, …, V_{n-1}]`, the simply blocked theory its [specialization at `V_i = 0`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/SimplyBlocked.html#TauCeti.GridDiagram.simplyBlockedDifferential). Everything from invariance onwards lives here: stabilization needs a mapping cone of `V₁ - V₂` on it, `τ` its `𝔽[U]`-module structure.
+- [`Bigraded.StableSeries`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Bigraded/Stabilization.html#TauCeti.Bigraded.StableSeries): bigraded Poincaré series up to `⊗ W`-stabilization, with [reduction a complete invariant](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Bigraded/Stabilization.html#TauCeti.Bigraded.isStablyEquiv_iff_reducedRep_eq) of a stable class. This answers the roadmap's demand for stabilization as API, but at the level of dimension data only, not modules.
+- The characteristic-weight filtration of the lattice complex, whose sublevels are [finitely generated over `𝔽₂[U]`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/Filtration/Basic.html#TauCeti.PlumbingChain.characteristicWeightDegreePart_fg) on a negative-definite plumbing and have [lattice homology as their filtered colimit](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/Filtration/Homology.html#TauCeti.PlumbingGraph.latticeWeightSublevelHomologyCoconeIsColimit): an infinite lattice reached by finite pieces.
+
+### Roadmap coverage
+
+G.1, G.2 and the chain side of G.4 are done. G.3 is partial: all three complexes exist with their gradings, but `∂² = 0` holds only in size at most two and, in the general argument, on the annular and disjoint branches of the trichotomy. G.5 still has only its combinatorial half, and G.6-G.13 are untouched. Lane ALG has bigraded Poincaré series, their Euler characteristic, the stabilization quotient and filtered colimits of module complexes, but neither the structure theorem for finitely generated bigraded `𝔽[U]`-modules nor filtered chain complexes. Lane L has the lattice complex, both blow-ups, top-degree vanishing, the weight filtration, the `U`-tower and the one-vertex computation, all over `𝔽₂[U]`; Némethi's `ℤ[U]` theory and Neumann invariance are untouched. Lanes K and H have not started.
+
+## The frontier
+
+- **`∂⁻ ∘ ∂⁻ = 0`.** The blocking case is where the two rectangles share exactly one side column: three of its four configurations still need the recut pairing each decomposition with a second one through a different intermediate state.
+- **Grid homology of a nontrivial grid.** Every homology so far lives in size `n ≤ 2`, where the differential vanishes for lack of rectangles. The trefoil's `5 × 5` grid, the roadmap's first acceptance criterion, waits on `∂² = 0` and on rectangle counts that evaluate.
+- **Commutation and stabilization invariance.** No pentagon-counting chain map or hexagon-counting homotopy exists; stabilization additionally wants the mapping-cone identification, which `GC⁻` now makes statable.
+- **Lattice homology of `E₈`, and Neumann invariance.** Nonvanishing is known, the rank is not, and the literature's answer is over `ℤ[U]`. Invariance needs the blow-up results carried from the lattice up to the homology, plus the remaining Neumann moves.
+- **Lane H (stable `HF̂`).** Untouched: pointed Heegaard diagram combinatorics, admissibility and the nice-move calculus are all still to be built, and no other lane feeds it.

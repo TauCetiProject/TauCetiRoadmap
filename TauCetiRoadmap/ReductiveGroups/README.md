@@ -75,7 +75,8 @@ subgroup schemes and quotients; the identity component and component group; Jord
 decomposition; diagonalizable / multiplicative-type groups and tori with character
 lattices; unipotent groups and the unipotent radical; reductive/semisimple groups, central
 isogenies and simply-connected/adjoint forms; Borel and parabolic subgroups, root data of
-a group, Bruhat/BN-pairs; and the classification.
+a group, Bruhat/BN-pairs; the classification; and pinned Chevalley–Demazure group schemes
+over `ℤ` with their root subgroups, base change, and special isogenies.
 
 ---
 
@@ -223,6 +224,50 @@ faithfully-flat descent.
 - **Relative theory over a base** and **pseudo-reductive groups**
   (Conrad–Gabber–Prasad), flagged as far-future generalizations.
 
+### Layer 9: pinned Chevalley–Demazure group schemes over `ℤ`
+
+This lane is the exception to the standing "work over a field `k`" hypothesis: its whole
+point is a group scheme over `ℤ` that is then base-changed. It is far narrower than the
+relative theory of Layer 8, since it only ever needs the split case over `ℤ`, and it is a
+prerequisite rather than a generalization, so it should not wait behind pseudo-reductive
+groups.
+
+It exists because a downstream consumer needs it and nothing else here supplies it: the
+CFSG statement roadmap
+([Add CFSG statement roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/156))
+defines the finite groups of Lie type as fixed points of a Steinberg endomorphism on the
+`𝔽̄_p`-points of a pinned simply connected group. It requires each carrier to be traceable
+to explicit data, so **an existence theorem is not enough**: "Chevalley existence" in Layer
+8 above cannot be `Classical.choose`-d into a carrier without defeating the purpose. The
+root data it starts from are `DynkinType.simplyConnectedRootDatum` in
+[the root-systems roadmap](../RepresentationTheory/RootSystems/README.md).
+
+- **Split reductive group schemes over a base**, at least over `ℤ`: the definition, with the
+  split maximal torus as part of the data rather than an existence statement.
+- **Pinnings.** A pinning `(G, T, B, {X_α})` of a split reductive group scheme: the torus,
+  a Borel containing it, and a choice of root vector for each simple root. This is what
+  makes "the" graph automorphism well defined, so it is data, not a property.
+- **The Chevalley–Demazure construction.** For each root datum, an explicitly constructed
+  split reductive group scheme over `ℤ` realizing it, via a Chevalley basis and the Kostant
+  `ℤ`-form of the enveloping algebra. Constructed, not asserted to exist.
+- **Base change** along `ℤ → k` for any commutative ring `k`, and the compatibility of the
+  pinning with it.
+- **Root subgroup maps.** `x_α : 𝔾_a → G` for each root `α`, the Chevalley commutator
+  relations they satisfy, and the equations pinning them against the pinning. Downstream
+  work states its conventions against these, so they are part of the interface, not an
+  implementation detail.
+- **Points over an algebraically closed field** as a group, functorially in the field, so
+  that a field endomorphism induces a group endomorphism of the points. The `q`-power
+  Frobenius is the case a consumer asks for first.
+- **The isomorphism theorem for pinned groups**: an isomorphism of root data lifts uniquely
+  to an isomorphism of pinned group schemes. This is what makes a diagram automorphism into
+  a named group automorphism, and it is the source of the uniqueness a consumer needs when
+  it pins `γ` by its action on simple root subgroups.
+- **Special isogenies in characteristics two and three.** For `B₂`/`C₂` and `F₄` in
+  characteristic two and `G₂` in characteristic three, the exceptional isogeny `τ` with
+  `τ² = Frob_p`, together with its action on the long and short root subgroups. This is a
+  statement about group schemes and belongs here rather than in any consumer.
+
 ---
 
 ## Worked examples (build alongside, as "checks along the way")
@@ -253,6 +298,12 @@ algebras, Shurui Liu et al.), the Langlands programme, automorphic forms (Kevin
 Buzzard), and FLT. Several of these can start against a **BN-pair** or the dynamic
 parabolic API before the full root-data classification exists: another reason to keep the
 three views in sync.
+
+The **finite groups of Lie type** are the consumer of Layer 9: the CFSG statement roadmap
+([Add CFSG statement roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/156))
+builds every such group as the fixed points of a Steinberg endomorphism on the points of a
+pinned Chevalley–Demazure group. That consumer needs constructions rather than existence
+theorems, which is the sharpest constraint any of these place on this roadmap.
 
 ## References
 

@@ -25,9 +25,9 @@ Later layers add suggested forms here as their types become expressible:
 * Layer 5 (Koopman operators and invariant σ-algebras): the positive/unital Markov-operator
   API, multiplicativity for deterministic Koopman operators, and `deFinetti_viaKoopman`.
 * Layer 6 (directing measures and the de Finetti representation, beyond the summit shapes
-  below): the directing-measure API (a.e. uniqueness, the factorization identity), and the
-  empirical-measure and mixture forms (the latter need the infinite product measure and the
-  weak topology on `ProbabilityMeasure α`).
+  below): the directing-measure API (a.e. uniqueness, the factorization identity), the
+  topology-free empirical-test and frequency forms, weak empirical-measure convergence after
+  choosing a compatible Polish topology, and the mixture form using the infinite product measure.
 * Layer 8 (generalized exchangeability and representation theorems): finite de Finetti bounds,
   other countable index types, ergodic decomposition, Markov exchangeability, and
   Aldous–Hoover.
