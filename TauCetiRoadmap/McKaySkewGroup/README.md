@@ -210,7 +210,13 @@ Develop quadratic algebras relative to the separable semisimple base `S=k[Γ]` u
 carriers, not a package containing an unrelated algebra.  Construct the balanced powers of the
 finite projective `S`-bimodule `W`, the relative tensor algebra `T_S(W)`, and the quotient
 `T_S(W)/(R)`.  Construct the right dual `Wᵛ=Hom_{Sᵐᵖᵖ}(W,S)`, its evaluation pairing, and the
-annihilator `R⊥`.  The Koszul target is an explicit linear projective resolution of the
+annihilator `R⊥`.  ⚠ Every theorem about the right dual carries the separable-semisimple base
+hypothesis; it is not a convenience that can be dropped for an arbitrary `k`-algebra `S`.  With
+`k=ℚ`, `S=ℚ[t]` and `W=S⊗_ℚS` under its outer actions, `W` is free of rank one over `S⊗Sᵐᵖᵖ`, hence
+a finite projective bimodule, but as a right `S`-module it is free on the countably many `tⁿ⊗1`, so
+`Hom_{Sᵐᵖᵖ}(W,S)` is uncountable while `S⊗Sᵐᵖᵖ ≅ ℚ[x,y]` is countable and every finitely generated
+module over it is countable.  So finite projectivity of the dual fails there outright, and a general
+supplier under that name would be false.  The Koszul target is an explicit linear projective resolution of the
 augmentation module `S`, with terms determined by the Koszul syzygies, rather than freely chosen
 types and maps.  Then prove:
 
@@ -413,8 +419,9 @@ The roadmap is complete when:
 3. the representation-ring identities and integral quotient by `ℤδ` identify the finite ADE
    root lattice without a categorical overclaim;
 4. the left skew-product multiplication, equivariant-module equivalence, actual relative tensor
-   quotients, finite-projective hypotheses, right dual and orthogonal relations, graded quadratic
-   duality, and linear projective Koszul resolution are proved;
+   quotients, finite-projective hypotheses (including the separable-semisimple base carried into the
+   right-dual theorems, without which they are false), right dual and orthogonal relations, graded
+   quadratic duality, and linear projective Koszul resolution are proved;
 5. literal full-idempotent corners for the binary groups give the ordinary zigzag and
    preprojective presentations, with Morita equivalence derived from fullness; cyclic `n=2` is
    excluded from this simple-graph criterion;

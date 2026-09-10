@@ -858,11 +858,22 @@ theorem skewDegreeOne_finiteProjective
     letI := skewDegreeOneActionsCommute k Γ V Vρ
     FiniteProjectiveBimodule k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V) := sorry
 
+/-- ⚠ The separable-semisimple base hypothesis is load-bearing, and this statement is **false** for
+an arbitrary `k`-algebra `S`.  Take `k = ℚ`, `S = ℚ[t]` and `W = S ⊗_ℚ S` with its outer bimodule
+actions.  Then `W` is free of rank one over `S ⊗ Sᵐᵒᵖ`, so it is a finite projective bimodule.  But
+as a right `S`-module it is free on the countably many vectors `tⁿ ⊗ 1`, and each of them can
+independently be sent to `0` or `1` by a right-`S`-linear map to `S`, so `Hom_{Sᵐᵒᵖ}(W, S)` is
+uncountable, whereas `S ⊗ Sᵐᵒᵖ ≅ ℚ[x, y]` is countable and every finitely generated module over a
+countable ring is countable.  So the conclusion cannot hold there.
+
+The group-algebra application is unaffected: `groupAlgebra_separableSemisimple` supplies the
+hypothesis for `k[Γ]` whenever `|Γ|` is invertible in `k`. -/
 theorem rightDual_finiteProjective
     (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
     [SMulCommClass S (MulOpposite S) W]
+    (hS : SeparableSemisimpleBase k S)
     (hW : FiniteProjectiveBimodule k S W) :
     letI := rightDualRightModule k S W
     letI := rightDualScalarTowerRight k S W
