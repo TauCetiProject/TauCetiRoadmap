@@ -198,8 +198,9 @@ this reason: the splitting of `2` in quadratic fields by `d mod 8`, and `2` as a
 divisor. Those examples detect an unstated oddness hypothesis.
 
 ⚠ Never write `K = ℚ` into a statement whose proof is uniform in the base. The `ℚ`-versions are
-corollaries. Tau Ceti's `SplitsCompletely.lean` keeps its general-base form `private`, and
-Layer 1 publishes that shape.
+corollaries. Tau Ceti's `RamificationInertia/Splitting.lean` states the splitting implication over
+a general base, and `SplitsCompletely.lean` carries the `ℚ` corollaries on top of it.
+
 ## Pinned conventions
 
 Decide these before implementation. An implementor who has to guess will guess differently in
@@ -217,7 +218,7 @@ two places.
 | Inertia group | `Q.inertia G`, that is `Ideal.inertia`. |
 | Decomposition and inertia fields | Mathlib's `IsDecompositionField` and `IsInertiaField`. State Layer 1.3's degree and index formulas through `Ideal.under`, `ramificationIdx` and `inertiaDeg` of the ideals, not through the intermediate field. |
 | Higher ramification groups | The local family is #189's total `LocalFieldsRamification.lowerRamificationGroup`, indexed by `ℤ` with `G_i = ⊤` for `i ≤ -1`. This roadmap's global ideal-theoretic family is indexed by `ℕ`, so `G 0` is inertia; the decomposition group keeps its own name. Layer 6.2 compares the global group at `i` with the imported local group at `(i : ℤ)`. |
-| `e` and `f` | `Ideal.ramificationIdx p P` and `Ideal.inertiaDeg p P`, which take two ideals at the pin, and the Galois-constant versions `ramificationIdxIn` and `inertiaDegIn`. ⚠ Mathlib is replacing both by their localization and residue-field definitions, under the same unqualified names but with the prime of `B` first and the base **ring** `A` second; the current definitions survive as `ramificationIdx'` and `inertiaDeg'`. State a milestone through a characterization that holds for both definitions, so that only the spelling of the arguments changes. |
+| `e` and `f` | `P.ramificationIdx A` and `P.inertiaDeg A`. At the pin the unqualified `Ideal.ramificationIdx` and `Ideal.inertiaDeg` are the localization and residue-field definitions, taking the prime `P` of `B` first and the base **ring** `A` second; the base prime is `P.under A`, so a `[P.LiesOver p]` instance is what ties them to a named `p` rather than a second explicit argument. ⚠ The older two-ideal definitions survive as `ramificationIdx'` and `inertiaDeg'`, and `Ideal.sum_ramification_inertia` is stated for those; the counterpart for the unprimed definitions is `Ideal.sum_ramification_inertia_eq_finrank`. State milestones against the unprimed definitions. ⚠ The Galois-constant versions `ramificationIdxIn` and `inertiaDegIn` keep the opposite shape, base prime `p` first and upper **ring** `B` second. |
 | Splitting type | The multiset `{(e₁,f₁), …, (e_g,f_g)}`. "Splits completely" is the count equation `(Ideal.primesOver (span {(p:ℤ)}) (𝓞 K)).ncard = finrank ℚ K`, which is Tau Ceti's convention. There is no new predicate. Cycle types use `Equiv.Perm.cycleType`, ⚠ which omits fixed points, so a partition-valued statement adds the `1`s back. |
 | Discriminant, absolute | The signed `NumberField.discr K : ℤ`. Its sign is a theorem, `NumberField.sign_discr`, not a convention. The label uses `\|discr\|`, and the sign is recovered from the signature. |
 | Discriminant, relative | A new ideal `relDiscr A B : Ideal A := Ideal.relNorm A (differentIdeal A B)`, defined in Layer 4.1 without hypotheses. Its theory, in Layer 4.2, carries `[Algebra.IsSeparable (FractionRing A) (FractionRing B)]`, without which the different, and so this ideal, can be `⊥`. It is never conflated with the signed integer. The reconciliation `relDiscr ℤ (𝓞 K) = span {discr K}` is a named lemma. |
@@ -269,10 +270,13 @@ library is strong. Its purpose is that no gap claimed below is a guess.
   `dedekindZeta_residue` (`2^{r₁}(2π)^{r₂}hR/(w√|d|)`), and
   `tendsto_sub_one_mul_dedekindZeta_nhdsGT`. ⚠ There is no Euler product, no continuation, and no
   functional equation. This roadmap uses the residue only as a cross-check on a worked example.
-- **Ramification and inertia.** `Ideal.ramificationIdx` and `Ideal.inertiaDeg`, both taking two
-  ideals at the pin. The Chinese remainder decomposition `S/pS ≅ ⊕ S/Pᵢ^{eᵢ}` and
-  `Ideal.sum_ramification_inertia` (`Σ e·f = n`, for `p` maximal and nonzero, with no
-  separability hypothesis). `MulAction G (primesOver p B)` with transitivity
+- **Ramification and inertia.** `Ideal.ramificationIdx` and `Ideal.inertiaDeg`, both taking the
+  prime of `S` first and the base ring `R` second at the pin. The Chinese remainder decomposition
+  `S/pS ≅ ⊕ S/Pᵢ^{eᵢ}` and the fundamental identity `Σ e·f = n`, which comes in two forms with
+  different hypotheses: `Ideal.sum_ramification_inertia_eq_finrank` for these definitions, for `p`
+  prime with `S` finite and flat over a domain `R`, and `Ideal.sum_ramification_inertia` for the
+  primed ones, for `p` maximal and nonzero, both with no separability hypothesis.
+  `MulAction G (primesOver p B)` with transitivity
   (`exists_smul_eq_of_isGaloisGroup`); `e` and `f` Galois-constant, with `ramificationIdxIn` and
   `inertiaDegIn`; `ncard_primesOver_mul_ramificationIdxIn_mul_inertiaDegIn` (`g·e·f = #G`); tower
   multiplicativity; and the inertia counts `card_inertia_eq_ramificationIdxIn` and
@@ -1786,7 +1790,7 @@ Layers 5.8, 5.9, 6.1, and 6.2.
 #### 6.4 Exact tame and wild exponents
 
 Restrict this milestone to number fields. For `L/K` finite, `P` above `𝔭`, and
-`e = Ideal.ramificationIdx 𝔭 P`, use the canonical completion from Layer 5 and apply #189's local
+`e = P.ramificationIdx (𝓞 K)`, use the canonical completion from Layer 5 and apply #189's local
 different theorems. Transport their exponent through Layer 5.9 to prove:
 
 - `v_P(𝔡) = e − 1` if and only if the completed local extension is tamely ramified;
