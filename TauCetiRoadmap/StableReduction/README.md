@@ -252,12 +252,11 @@ none of the shared files imports `Curves/StableReduction/` or `Curves/StableMaps
 ### Work already in motion
 
 The audit found no Tau Ceti issue, pull request, or public Lean project intention for general
-stable reduction, stable curves, nodal families, or stable maps. Two dormant open Mathlib
-pull requests develop coordinate-level singular Weierstrass cubics
-([#25071](https://github.com/leanprover-community/mathlib4/pull/25071), last updated
-2025-07-05) and rational points on nodal cubics
-([#25069](https://github.com/leanprover-community/mathlib4/pull/25069), last updated
-2025-09-14). If they resume and land, use them for elliptic examples; they are not a general
+stable reduction, stable curves, nodal families, or stable maps. Two dormant Mathlib pull
+requests develop coordinate-level singular Weierstrass cubics
+([#25071](https://github.com/leanprover-community/mathlib4/pull/25071)) and rational points on
+nodal cubics ([#25069](https://github.com/leanprover-community/mathlib4/pull/25069)). If they
+land, use them for elliptic examples; they are not a general
 scheme-theoretic node or family-of-nodal-curves API.
 
 Active Mathlib work is much closer to Layer 2's foundations: pullback of quasi-coherent
@@ -265,9 +264,9 @@ sheaves [#39989](https://github.com/leanprover-community/mathlib4/pull/39989), l
 sheaves on affines [#40831](https://github.com/leanprover-community/mathlib4/pull/40831),
 locally free sheaves on `Spec R`
 [#40194](https://github.com/leanprover-community/mathlib4/pull/40194), and affine-scheme
-vanishing [#36345](https://github.com/leanprover-community/mathlib4/pull/36345). The first three
-remain open, and the fourth remains a draft; coordinate with them and refactor onto any results
-that land rather than duplicate them. The [elliptic-curves roadmap](../EllipticCurves/README.md)
+vanishing [#36345](https://github.com/leanprover-community/mathlib4/pull/36345). Coordinate with
+them and refactor onto any results that land rather than duplicate them. The
+[elliptic-curves roadmap](../EllipticCurves/README.md)
 deliberately leaves the geometric interpretation of its `ReductionSymbol` to this roadmap;
 Layer 5 supplies the missing comparison with minimal regular models and Kodaira fibre geometry.
 Recheck open Mathlib work and Lean Zulip before each major foundation below, especially blowups,
