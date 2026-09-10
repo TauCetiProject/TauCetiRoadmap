@@ -844,69 +844,146 @@ theorem ramificationConjugation_mul [Algebra K L] [ValuativeExtension K L]
       (ramificationConjugation K L i σ).comp (ramificationConjugation K L i τ) :=
   sorry
 
-/-- **Layer 3, the tame character `G₀/G₁ ↪ 𝓀[L]ˣ`.** -/
+/-- **Layer 3, the tame character `G₀/G₁ ↪ 𝓀[L]ˣ`.**
+
+⚠ The coordinate is built from a **chosen uniformizer** `π` of `L`, and the choice is an explicit
+argument: `θ₀(σ) = reduction (σ π / π)`. Without the representative equation
+`tameRamificationCharacter_apply` an arbitrary injective homomorphism satisfying the equivariance
+laws below would satisfy this signature, and the norm formula that consumes the positive-level
+coordinate is normalization-sensitive. Independence of the choice is a theorem here
+(`tameRamificationCharacter_congr`), not a convention. -/
 noncomputable def tameRamificationCharacter [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [IsGalois K L] :
+    [Module.Finite K L] [IsGalois K L] (π : 𝒪[L]) (hπ : Irreducible π) :
     RamificationQuotient K L 0 →* 𝓀[L]ˣ :=
+  sorry
+
+/-- The representative equation for the tame character. -/
+theorem tameRamificationCharacter_apply [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L] (π : 𝒪[L]) (hπ : Irreducible π)
+    (σ : lowerRamificationGroup K L 0) (hπ0 : (π : L) ≠ 0) :
+    ((tameRamificationCharacter K L π hπ (QuotientGroup.mk σ) : 𝓀[L])) =
+      IsLocalRing.residue 𝒪[L]
+        ⟨(σ : L ≃ₐ[K] L) (π : L) / (π : L), by sorry⟩ :=
+  sorry
+
+/-- The tame character does not depend on the chosen uniformizer. -/
+theorem tameRamificationCharacter_congr [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L] (π π' : 𝒪[L]) (hπ : Irreducible π)
+    (hπ' : Irreducible π') :
+    tameRamificationCharacter K L π hπ = tameRamificationCharacter K L π' hπ' :=
   sorry
 
 /-- The tame character is an embedding. -/
 theorem tameRamificationCharacter_injective [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [IsGalois K L] :
-    Function.Injective (tameRamificationCharacter K L) :=
+    [Module.Finite K L] [IsGalois K L] (π : 𝒪[L]) (hπ : Irreducible π) :
+    Function.Injective (tameRamificationCharacter K L π hπ) :=
   sorry
 
-/-- **Layer 3, the positive-level embedding `Gᵢ/Gᵢ₊₁ ↪ 𝓀[L]⁺`.** -/
+/-- **Layer 3, the positive-level embedding `Gᵢ/Gᵢ₊₁ ↪ 𝓀[L]⁺`.**
+
+⚠ Unlike the tame character this one **does** depend on the uniformizer: replacing `π` by `u π`
+multiplies it by `residue u ^ (-i)` (`wildRamificationCharacter_congr`). So `π` is an argument and
+the representative equation `θᵢ(τ) = reduction ((τ π − π) / π^(i+1))` is stated. Multiplying a
+positive-level character by a nonzero residue scalar preserves injectivity and the equivariance law
+below while changing `wildBreakConstant`, hence the norm polynomial: over `k = 𝔽₄`, `K = k((t))` and
+`L = K(π)` with `π² + tπ + t = 0`, the nonidentity automorphism has `σ π = π + t`, break one, and
+`θ₁(σ) = residue (t/π²) = 1` since `π² = t(π+1)`; replacing `θ₁` by `ω·θ₁` for `ω ∈ 𝔽₄ \ 𝔽₂` still
+satisfies every displayed property, but turns the graded norm `y ↦ y² + y`, with kernel `{0,1}`,
+into `y ↦ y² + ω y`, with kernel `{0, ω}`. -/
 noncomputable def wildRamificationCharacter [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [IsGalois K L] (i : ℕ) (_hi : 0 < i) :
+    [Module.Finite K L] [IsGalois K L] (π : 𝒪[L]) (hπ : Irreducible π) (i : ℕ) (_hi : 0 < i) :
     RamificationQuotient K L i →* Multiplicative 𝓀[L] :=
+  sorry
+
+/-- The representative equation for the positive-level coordinate. -/
+theorem wildRamificationCharacter_apply [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L] (π : 𝒪[L]) (hπ : Irreducible π) (i : ℕ) (hi : 0 < i)
+    (τ : lowerRamificationGroup K L (i : ℤ)) (hπ0 : (π : L) ≠ 0) :
+    (wildRamificationCharacter K L π hπ i hi (QuotientGroup.mk τ)).toAdd =
+      IsLocalRing.residue 𝒪[L]
+        ⟨((τ : L ≃ₐ[K] L) (π : L) - (π : L)) / (π : L) ^ (i + 1), by sorry⟩ :=
+  sorry
+
+/-- The change-of-uniformizer rule for the positive-level coordinate: it is **not** independent of
+the choice, and the exponent `-i` is what the break constant is sensitive to. -/
+theorem wildRamificationCharacter_congr [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L] (π : 𝒪[L]) (hπ : Irreducible π) (u : (↥𝒪[L])ˣ)
+    (hu : Irreducible ((u : ↥𝒪[L]) * π)) (i : ℕ) (hi : 0 < i)
+    (τ : RamificationQuotient K L i) :
+    (wildRamificationCharacter K L ((u : ↥𝒪[L]) * π) hu i hi τ).toAdd =
+      ((Units.map (IsLocalRing.residue 𝒪[L]).toMonoidHom u)⁻¹ : (𝓀[L])ˣ) ^ i *
+        (wildRamificationCharacter K L π hπ i hi τ).toAdd :=
   sorry
 
 /-- The positive-level character is an embedding. -/
 theorem wildRamificationCharacter_injective [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [IsGalois K L] (i : ℕ) (hi : 0 < i) :
-    Function.Injective (wildRamificationCharacter K L i hi) :=
+    [Module.Finite K L] [IsGalois K L] (π : 𝒪[L]) (hπ : Irreducible π) (i : ℕ) (hi : 0 < i) :
+    Function.Injective (wildRamificationCharacter K L π hπ i hi) :=
   sorry
 
 /-- **Layer 3, equivariance of the positive-level coordinate.** Both sides are elements of the
 additive residue field; this is the typed form of the classical conjugation formula. -/
 theorem wildRamificationCharacter_conj [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [IsGalois K L] (i : ℕ) (hi : 0 < i)
+    [Module.Finite K L] [IsGalois K L] (π : 𝒪[L]) (hπ : Irreducible π) (i : ℕ) (hi : 0 < i)
     (σ : lowerRamificationGroup K L 0) (τ : RamificationQuotient K L i) :
-    (wildRamificationCharacter K L i hi (ramificationConjugation K L i σ τ)).toAdd =
-      ((tameRamificationCharacter K L (QuotientGroup.mk σ) : 𝓀[L]) ^ i) *
-        (wildRamificationCharacter K L i hi τ).toAdd :=
+    (wildRamificationCharacter K L π hπ i hi (ramificationConjugation K L i σ τ)).toAdd =
+      ((tameRamificationCharacter K L π hπ (QuotientGroup.mk σ) : 𝓀[L]) ^ i) *
+        (wildRamificationCharacter K L π hπ i hi τ).toAdd :=
   sorry
 
 /-- **Layer 3, a nontrivial ramification class has nonzero additive coordinate.** This is the
 injectivity fact needed before that coordinate can be used as a residue-field unit. -/
 theorem wildRamificationCharacter_ne_zero [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [IsGalois K L] (i : ℕ) (hi : 0 < i)
+    [Module.Finite K L] [IsGalois K L] (π : 𝒪[L]) (hπ : Irreducible π) (i : ℕ) (hi : 0 < i)
     (τ : RamificationQuotient K L i) (hτ : τ ≠ 1) :
-    (wildRamificationCharacter K L i hi τ).toAdd ≠ 0 :=
+    (wildRamificationCharacter K L π hπ i hi τ).toAdd ≠ 0 :=
   sorry
 
-/-- **Layer 3, the unit used in the positive-break norm polynomial.** -/
+/-- **Layer 3, the unit used in the positive-break norm polynomial.** It inherits the
+uniformizer dependence of `wildRamificationCharacter`; see `wildRamificationCharacter_congr`. -/
 noncomputable def wildBreakConstant [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [IsGalois K L] (i : ℕ) (hi : 0 < i)
+    [Module.Finite K L] [IsGalois K L] (π : 𝒪[L]) (hπ : Irreducible π) (i : ℕ) (hi : 0 < i)
     (τ : RamificationQuotient K L i) (hτ : τ ≠ 1) : 𝓀[L]ˣ :=
-  Units.mk0 (wildRamificationCharacter K L i hi τ).toAdd
-    (wildRamificationCharacter_ne_zero K L i hi τ hτ)
+  Units.mk0 (wildRamificationCharacter K L π hπ i hi τ).toAdd
+    (wildRamificationCharacter_ne_zero K L π hπ i hi τ hτ)
 
 /-- **Layer 3, total ramification identifies the two residue fields.** This is the named
-transport used by the norm formula at the break. -/
+transport used by the norm formula at the break.
+
+⚠ Naming an equivalence of the right type is not enough: for `𝓀[K] = 𝔽₄`, composing with the
+nontrivial Frobenius gives another ring equivalence `𝓀[K] ≃+* 𝓀[L]`, and applying its inverse
+transports the break constant to a different element. The forward map has to be **identified with
+the canonical one** induced by `residueFieldAlgebra`; see
+`residueFieldEquivOfTotallyRamified_apply` below, from which this equivalence may equivalently be
+defined by proving that map bijective. -/
 noncomputable def residueFieldEquivOfTotallyRamified [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] (htr : IsTotallyRamified K L) :
     𝓀[K] ≃+* 𝓀[L] :=
   sorry
 
+/-- The defining comparison: the forward map is the canonical `𝓀[K]`-algebra map. -/
+theorem residueFieldEquivOfTotallyRamified_apply [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] (htr : IsTotallyRamified K L) (x : 𝓀[K]) :
+    residueFieldEquivOfTotallyRamified K L htr x = algebraMap 𝓀[K] 𝓀[L] x :=
+  sorry
+
 /-- The break constant transported to the base residue field, where the norm graded map lives. -/
 noncomputable def wildBreakConstantBase [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [IsGalois K L] (htr : IsTotallyRamified K L)
-    (i : ℕ) (hi : 0 < i) (τ : RamificationQuotient K L i) (hτ : τ ≠ 1) :
+    [Module.Finite K L] [IsGalois K L] (htr : IsTotallyRamified K L) (π : 𝒪[L])
+    (hπ : Irreducible π) (i : ℕ) (hi : 0 < i) (τ : RamificationQuotient K L i) (hτ : τ ≠ 1) :
     𝓀[K]ˣ :=
   Units.map (residueFieldEquivOfTotallyRamified K L htr).symm.toMonoidHom
-    (wildBreakConstant K L i hi τ hτ)
+    (wildBreakConstant K L π hπ i hi τ hτ)
+
+/-- The transported constant is characterized by the canonical map, not merely by the chosen
+equivalence: this is the equation that makes `wildBreakConstantBase` usable. -/
+theorem algebraMap_wildBreakConstantBase [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L] (htr : IsTotallyRamified K L) (π : 𝒪[L])
+    (hπ : Irreducible π) (i : ℕ) (hi : 0 < i) (τ : RamificationQuotient K L i) (hτ : τ ≠ 1) :
+    algebraMap 𝓀[K] 𝓀[L]
+        ((wildBreakConstantBase K L htr π hπ i hi τ hτ : 𝓀[K]))
+      = (wildBreakConstant K L π hπ i hi τ hτ : 𝓀[L]) :=
+  sorry
 
 /-- **Layer 3, real indexing for Herbrand theory.** The ceiling convention makes the step family
 constant on `(i-1,i]`, hence left-continuous in the usual informal sense. We pin the interval
@@ -1129,6 +1206,42 @@ theorem normGradedMap_at_break [Algebra K L] [ValuativeExtension K L]
       ⟨(t : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg t)⟩) :
     Nat.card (normGradedMap K L t).ker = ℓ ∧
       Nat.card (UnitFiltrationGraded K t ⧸ (normGradedMap K L t).range) = ℓ :=
+  sorry
+
+/-- **Layer 3, the depth-`i` unit-quotient coordinate**, for `i > 0`: `1 + x π^i ↦ reduction x`
+gives `U(K,i)/U(K,i+1) ≅ 𝓀[K]⁺`. Uniformizer-indexed for the same reason as
+`wildRamificationCharacter`, and the norm polynomial below is written in these coordinates. -/
+noncomputable def unitFiltrationGradedCoordinate (π : 𝒪[K]) (hπ : Irreducible π) (i : ℕ)
+    (_hi : 0 < i) : UnitFiltrationGraded K i ≃* Multiplicative 𝓀[K] :=
+  sorry
+
+/-- **Layer 3, the positive-break norm polynomial.** In the coordinates above, the graded norm at a
+positive break `t` is `y ↦ y^ℓ − c^{ℓ−1}·y`, where `c` is the transported break constant at a
+nontrivial class of the break quotient.
+
+⚠ This is the theorem `wildBreakConstant` and `wildBreakConstantBase` exist for. The kernel and
+cokernel counts of `normGradedMap_at_break` do **not** determine the map: multiplying the
+positive-level character by a nonzero residue scalar leaves them unchanged while changing `c`, so
+without this statement the constant is unconstrained. The exponent `ℓ − 1` is also not a slip: `c`
+depends on the chosen class, `c^{ℓ−1}` does not, since `λ^{ℓ−1} = 1` for `λ ∈ 𝔽_ℓˣ`, and a bare `c`
+would make the kernel depend on a choice the norm cannot see. The input on the `L`-side is written
+through the canonical `algebraMap`, which `residueFieldEquivOfTotallyRamified_apply` identifies with
+the transport. -/
+theorem normGradedMap_at_break_apply [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L]
+    (ℓ : ℕ) [Fact ℓ.Prime] (_hdegree : Module.finrank K L = ℓ)
+    (htr : IsTotallyRamified K L) (t : ℕ) (htpos : 0 < t)
+    (_ht : UpperJump K L
+      ⟨(t : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg t)⟩)
+    (πK : 𝒪[K]) (hπK : Irreducible πK) (πL : 𝒪[L]) (hπL : Irreducible πL)
+    (hψ : 0 < psiNat K L t)
+    (τ : RamificationQuotient K L t) (hτ : τ ≠ 1) (y : 𝓀[K]) :
+    (unitFiltrationGradedCoordinate K πK hπK t htpos
+        (normGradedMap K L t
+          ((unitFiltrationGradedCoordinate L πL hπL (psiNat K L t) hψ).symm
+            (Multiplicative.ofAdd (algebraMap 𝓀[K] 𝓀[L] y))))).toAdd
+      = y ^ ℓ
+        - ((wildBreakConstantBase K L htr πL hπL t htpos τ hτ : 𝓀[K])) ^ (ℓ - 1) * y :=
   sorry
 
 /-- The Eisenstein polynomial defining the concrete tame quadratic extension `ℚ₃(√3)`. -/

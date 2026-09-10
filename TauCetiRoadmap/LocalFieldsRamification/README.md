@@ -656,11 +656,25 @@ pro-`p` quotient.
   The upper numbering repairs this failure.
   - *Prerequisites:* `Layer 3: the lower-numbering filtration`.
 - **The quotient embeddings.** One formula covers every level:
-  `θ_i : G_i/G_{i+1} ↪ U(L,i)/U(L,i+1)` by `σ ↦ σ(π_L)/π_L`. Prove injectivity and independence of
-  the uniformizer. Composed with the graded pieces of Layer 1 this reads `θ_0 : G_0/G_1 ↪ 𝓀[L]ˣ`,
-  the tame character, so `G_0/G_1` is cyclic of order prime to `p`; and
-  `θ_i : G_i/G_{i+1} ↪ 𝓀[L]⁺` for `i ≥ 1`, by `σ ↦ (σ(π_L) − π_L)/π_L^{i+1}`, so those quotients
-  are elementary abelian `p`-groups. Prove the consequences: `G_1` is the unique `p`-Sylow
+  `θ_i : G_i/G_{i+1} ↪ U(L,i)/U(L,i+1)` by `σ ↦ σ(π_L)/π_L`. Composed with the graded pieces of
+  Layer 1 this reads `θ_0 : G_0/G_1 ↪ 𝓀[L]ˣ`, the tame character, so `G_0/G_1` is cyclic of order
+  prime to `p`; and `θ_i : G_i/G_{i+1} ↪ 𝓀[L]⁺` for `i ≥ 1`, by
+  `σ ↦ (σ(π_L) − π_L)/π_L^{i+1}`, so those quotients are elementary abelian `p`-groups.
+
+  ⚠ The chosen uniformizer is an **argument** of each character, and the displayed formula on
+  representatives is a stated equation, not a description. Injectivity plus the conjugation law do
+  not determine the coordinate: at level zero the character is independent of the choice and that
+  independence is a theorem, but at level `i > 0` replacing `π_L` by `u π_L` multiplies `θ_i` by
+  `residue(u)^{−i}`, and that transformation rule has to be retained. Multiplying a positive-level
+  character by any nonzero residue scalar preserves injectivity and the equivariance law while
+  changing the break constant, hence the norm polynomial below. Over `k = 𝔽₄`, with `K = k((t))` and
+  `L = K(π)` for `π² + tπ + t = 0` — a separable Eisenstein quadratic, so totally ramified — the
+  nonidentity automorphism has `σ(π) = π + t`, break one, and `θ₁(σ) = residue(t/π²) = 1` since
+  `π² = t(π+1)`. Also `Tr(π) = N(π) = t`, and for `y ∈ k` one computes exactly
+  `N(1 + yπ) = 1 + (y² + y)t`, so the graded norm in these coordinates is `y ↦ y² + y`, with kernel
+  `{0,1}`. Replacing `θ₁` by `ω·θ₁` for `ω ∈ 𝔽₄ \ 𝔽₂` satisfies every displayed condition — inertia
+  here is of order two with trivial tame quotient — but gives constant `ω` and polynomial
+  `y ↦ y² + ωy`, with kernel `{0, ω}`. That is not the actual norm in the fixed coordinates. Prove the consequences: `G_1` is the unique `p`-Sylow
   subgroup of `G_0` and is normal, which is wild inertia at finite level; and `G_0` has the cyclic
   tame quotient `G_0/G_1`. Define the conjugation action of `G_0` on each quotient and prove the
   transported action formula: for `σ ∈ G_0` and `τ ∈ G_i/G_{i+1}`,
@@ -776,7 +790,15 @@ pro-`p` quotient.
        Start with the nonzero value `θ_t(σ mod G_{t+1}) ∈ 𝓀[L]` at a generator `σ` of `G`,
        use the residue-field equivalence supplied by total ramification, and transport it to
        `c ∈ 𝓀[K]ˣ`. The nonzero lemma and both named transports are part of the quotient-embedding
-       API above. The map is
+       API above. ⚠ Two identifications have to be stated, not merely named. The residue-field
+       equivalence must be identified with the canonical `𝓀[K] → 𝓀[L]` induced by the valuative
+       extension, or defined from the proved bijectivity of that map: for a residue field such as
+       `𝔽₄`, composing with the nontrivial Frobenius is another equivalence of exactly the same
+       type, and applying its inverse transports the constant to a different element. And the
+       polynomial itself must be a stated target relating `gr_t N`, in the depth-`t` unit-quotient
+       coordinates, to `y ↦ y^ℓ − c^{ℓ−1}·y` with this actual `c`. Kernel and cokernel orders do not
+       pin it down: they are unchanged by rescaling the positive-level character, which is exactly
+       what changes `c`. The map is
        `𝔽_ℓ`-linear, with kernel the line `𝔽_ℓ·c` and cokernel of order `ℓ`.
 
      ⚠ The exponent on `c` is not a slip. The element `c` changes when the generator `σ` changes,
