@@ -1411,8 +1411,16 @@ of the two even-rank families in the abstract classification.
      `γ` of the `ℤ₂`-factor. The coefficient ring is the group ring of `C₂` over `ℤ₂`, and `C₂`
      is `Multiplicative (ZMod 2)`, a genuine cyclic group. ⚠ It is **not** `ZMod 2` read as a
      multiplicative monoid, whose monoid algebra is a different ring.
+     ⚠ The splitting `Γ ≅ C₂ × ℤ₂` is an **argument** of the coordinate, not a mere existence
+     hypothesis, and the two generator images are pinned against it:
+     `dyadicCoordinate_C_ofAdd_one` sends the coefficient involution to the order-two element of
+     that splitting and `dyadicCoordinate_X` sends `T` to the chosen infinite generator minus one.
+     Otherwise any algebra isomorphism with the same source and target satisfies the signature,
+     and a basis correction could be computed against a splitting unrelated to the orientation
+     normalization it is supposed to use.
      The cofinal levels `dyadicLevel m` retain the `C₂` factor and reduce the `ℤ₂` factor modulo
-     `2^m`. Their kernels and `2`-adic neighbourhoods are
+     `2^m`, and `mem_dyadicLevel_iff` identifies them as the kernel of `Γ → C₂ × ℤ/2^m` rather
+     than leaving them an unnamed family. Their kernels and `2`-adic neighbourhoods are
      `dyadicCoordinate_finiteLevelKernel` and `dyadicCoordinate_neighborhood`, using
      `(1+T)^(2^m)-1` rather than a false `T`-adic kernel.
   2. *By descent.* Restrict to the open procyclic subgroup `U^(f) ≤ Γ` of index 2, apply the
@@ -1484,16 +1492,32 @@ With `E` and `Λ` as above, using either a procyclic coordinate or the split dya
   `r̄ = (1 + a + (1+T)^a) ȳ₁ + (2^g + (1+T)^{ab} − 1) ȳ₃`
   in the dyadic even-rank branch.
 - **The basis correction.** Applying the division criterion `(T − c) ∣ ψ ⟺ ψ(c) = 0` to those
-  coefficients replaces the generators by ones in which the relator image is a single multiple:
-  for the parameters `(α, f)` there is `z₁` with `r̄ = (2 + 2^f + T) z̄₁`
-  in both orientation-image shapes. The targets are
-  `labuteRelatorClass_eq_smul_of_dyadic_split` and
-  `labuteRelatorClass_eq_smul_of_dyadic_procyclic`. The split target uses
-  `dyadicCoordinate`; the procyclic target returns its normalized generator instead of making
-  the formula false for every generator change. Their hypotheses name the actual dyadic word,
-  the continuous orientation and its values on the marked generators; `f : ℕ∞` includes the
-  infinite endpoint. The general coefficientwise algebra step is
-  `labuteRelatorClass_eq_smul_of_coeff_dvd`. The corrections then iterate along the descending
+  coefficients replaces the generators by ones in which the relator image is a single multiple.
+  ⚠ The coefficient of that multiple has to be **computed from the actual orientation and the
+  actual relator**, retaining its dependence on `a` and on which orientation-image shape holds.
+  It is *not* `2 + 2^f + T` read off the formal parameter `f`, and making the topological
+  generator existential does not rescue that formula.
+
+  The counterexample is `n = 4`, `a = 4`, `f = ∞`, with `χ(x₂) = −1/5` and `χ(x₁) = χ(x₃) =
+  χ(x₄) = 1`. Every displayed orientation equation holds — `χ(x₂)(1+a) = (−1/5)·5 = −1` and
+  `χ(x₄)(1−2^∞) = 1`, since `2^∞ = 0` — and `Γ = Im χ` is the infinite procyclic group generated
+  by `−1/5`. The relator is then `x₁⁶ (x₁,x₂)(x₃,x₄)`, and `2 + 2^∞ + T` has coordinate `1 + γ`
+  for *every* topological generator `γ`. Map `F` onto the dihedral group of order sixteen by
+  `x₁ ↦ t`, `x₂ ↦ s`, `x₃, x₄ ↦ 1`: the reflection parity vanishes on `ker χ` because `−1/5` has
+  infinite pro-`2` order, so there is a continuous `ℓ : E → ℤ/8` on which every topological
+  generator acts by `−1`, whence `ℓ((1+γ)z) = 0` for all `z`. But the relator maps to
+  `t⁶(t,s) = t⁴`, so `ℓ(r̄) = 4 ≠ 0`. This case is pinned as
+  `exists_not_labuteRelatorClass_eq_smul_dyadicProcyclic_two_pow_top`; it specifically exercises
+  the newly admitted infinite endpoint.
+
+  The targets are therefore the divisibility producers
+  `exists_labuteRelatorSeries_of_dyadic_procyclic` and
+  `exists_labuteRelatorSeries_of_dyadic_split`, which return the relator series rather than
+  asserting a closed form, together with the general coefficientwise algebra step
+  `labuteRelatorClass_eq_smul_of_coeff_dvd`. The split branch is audited separately: it must not
+  inherit whichever coefficient the procyclic branch turns out to have. Their hypotheses name the
+  actual dyadic word, the continuous orientation and its values on the marked generators;
+  `f : ℕ∞` includes the infinite endpoint. The corrections then iterate along the descending
   `2`-central series, which is where Layer 8's comparison schema takes over. This is the exact
   point at which the Division milestone above is used.
 - **Membership.** For `λ ∈ Λ` corresponding to `T − c` under the coordinate, membership of `r̄`
