@@ -125,6 +125,24 @@ structure MonomialEquiv (κ : Type*) where
 noncomputable def MonomialEquiv.toLinearEquiv {κ : Type*}
     (e : MonomialEquiv (F := F) (ι := ι) κ) : (ι → F) ≃ₗ[F] (κ → F) := sorry
 
+/-- The coordinate formula, which pins the direction of the reindexing: the value at `j` is read
+off the source coordinate `e.reindex.symm j`, then scaled. -/
+theorem MonomialEquiv.toLinearEquiv_apply {κ : Type*}
+    (e : MonomialEquiv (F := F) (ι := ι) κ) (x : ι → F) (j : κ) :
+    e.toLinearEquiv x j = (e.scale j : F) * x (e.reindex.symm j) := sorry
+
+/-- A monomial equivalence is a permutation equivalence exactly when it does not scale. -/
+def MonomialEquiv.IsPermutation {κ : Type*} (e : MonomialEquiv (F := F) (ι := ι) κ) : Prop :=
+  ∀ j, e.scale j = 1
+
+/-- The permutation equivalence attached to a coordinate equivalence. -/
+def permutationEquiv {κ : Type*} (σ : ι ≃ κ) : MonomialEquiv (F := F) (ι := ι) κ where
+  reindex := σ
+  scale _ := 1
+
+theorem permutationEquiv_isPermutation {κ : Type*} (σ : ι ≃ κ) :
+    (permutationEquiv (F := F) σ).IsPermutation := fun _ ↦ rfl
+
 def MonomialEquiv.mapsCode {κ : Type*}
     (e : MonomialEquiv (F := F) (ι := ι) κ)
     (C : LinearCode F ι) (D : LinearCode F κ) : Prop :=
@@ -157,6 +175,34 @@ theorem minimumDistance_eq_sInf_weights (C : LinearCode F ι) :
 
 theorem minimumDistance_eq_minimumWeight (C : LinearCode F ι) (hC : C ≠ ⊥) :
     ∃ c : C, (c : ι → F) ≠ 0 ∧ hammingNorm (c : ι → F) = minimumDistance C := sorry
+
+/-- Shortening cannot decrease the minimum distance, as long as it does not collapse the code.
+The hypothesis is load-bearing under the zero-code convention: see `shorten_repetitionTwo_eq_bot`
+for a code of minimum distance `2` whose shortening has minimum distance `0`. -/
+theorem minimumDistance_le_shorten (C : LinearCode F ι) (s : Set ι) [Fintype s]
+    (hs : shorten C s ≠ ⊥) : minimumDistance C ≤ minimumDistance (shorten C s) := sorry
+
+/-- The minimum formula for a direct sum, which needs both summands nonzero. -/
+theorem minimumDistance_directSum {κ : Type*} [Fintype κ]
+    (C : LinearCode F ι) (D : LinearCode F κ) (hC : C ≠ ⊥) (hD : D ≠ ⊥) :
+    minimumDistance (directSum C D) = min (minimumDistance C) (minimumDistance D) := sorry
+
+/-- A zero summand is absorbed rather than taken into the minimum: `d(C ⊕ 0) = d(C)`, not
+`min (d C) 0`. -/
+theorem minimumDistance_directSum_bot {κ : Type*} [Fintype κ] (C : LinearCode F ι) :
+    minimumDistance (directSum C (⊥ : LinearCode F κ)) = minimumDistance C := sorry
+
+/-- The binary repetition code `{00, 11}`. -/
+noncomputable def repetitionTwo : LinearCode (ZMod 2) (Fin 2) :=
+  Submodule.span (ZMod 2) {![1, 1]}
+
+theorem repetitionTwo_minimumDistance : minimumDistance repetitionTwo = 2 := sorry
+
+/-- Retaining only the first coordinate forces the second to zero, so nothing but the zero word
+survives.  This is the acceptance test that keeps the hypothesis on `minimumDistance_le_shorten`
+and the nonzero hypotheses on `minimumDistance_directSum` honest. -/
+theorem shorten_repetitionTwo_eq_bot :
+    shorten repetitionTwo {(0 : Fin 2)} = ⊥ := sorry
 
 /-- Coefficients are integral and variables `0,1` are respectively `X,Y`. -/
 noncomputable def weightEnumerator (C : LinearCode F ι) : MvPolynomial (Fin 2) ℤ := by
@@ -273,11 +319,11 @@ noncomputable def hexacodeConjugationPermutation : Equiv.Perm (Fin 6) := sorry
 theorem hexacodeConjugationPermutation_values :
     List.ofFn (fun i ↦ (hexacodeConjugationPermutation i).val + 1) = [1, 2, 4, 6, 3, 5] := sorry
 
-/-- Exchanging `ω` and `ω²` produces a genuinely permutation-equivalent code. -/
+/-- Exchanging `ω` and `ω²` produces a genuinely permutation-equivalent code: the displayed
+reordering carries the conjugate back to the hexacode with no coordinate multipliers. -/
 theorem hexacode_conjugate_permutation_equivalent :
-    ∃ e : MonomialEquiv (F := F4) (ι := Fin 6) (Fin 6),
-      e.reindex = hexacodeConjugationPermutation ∧
-        e.mapsCode (frobeniusConjugateF4 hexacode) hexacode := sorry
+    (permutationEquiv (F := F4) hexacodeConjugationPermutation).mapsCode
+      (frobeniusConjugateF4 hexacode) hexacode := sorry
 
 theorem hexacode_frobeniusConjugate_ne : frobeniusConjugateF4 hexacode ≠ hexacode := sorry
 
