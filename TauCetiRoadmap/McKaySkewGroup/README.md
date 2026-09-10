@@ -266,19 +266,37 @@ For a finite oriented quiver `Q` and `λ : Q₀ → k`, define
 
 after translating each product to Tau Ceti's later-factor-first convention.  Pin the CBH source
 algebra as the quotient with relation `[x,y]-z=0` for a central `z∈Z(ℂ[Γ])`, with this sign, and
-pin the vertex weight with no hidden normalization: a central `z` acts on the simple `ρ_i` by a
-scalar, and that scalar is the weight,
+pin the vertex weight with no hidden normalization.  Write `f_i` for the scalar by which a central
+`z` acts on the simple `ρ_i`, and `δ_i = dim_ℂ ρ_i`.  The CBH parameter of the **standard**
+deformed preprojective relation is the trace,
 
 ```text
-λ_i = the scalar by which z acts on ρ_i = Tr_{ρ_i}(z) / dim_ℂ ρ_i.
+λ_i = Tr_{ρ_i}(z) = δ_i · f_i.
 ```
 
-The trace is **not** the weight.  Cutting the relation down to a primitive matrix idempotent `e_i`
-gives `e_i z e_i = λ_i e_i` because `z` is central, so the corner relation carries the scalar; the
-trace differs from it by `dim ρ_i`.  The two agree only when every irreducible is
-one-dimensional, that is only in the cyclic families, and disagree for binary dihedral and for
-`Ẽ₆`, `Ẽ₇`, `Ẽ₈`.  Construct the weight as `Z(ℂ[Γ]) ≃ ℂ^(Irr Γ)` sending `z` to its block
-scalars, and prove that this map is an additive equivalence.
+⚠ The scalar `f_i` is **not** the parameter.  The primitive-corner identity `e_i z e_i = f_i e_i` is
+true, but it does not say that the corner of `∑_a [a, a*]` is the already-normalized preprojective
+relation: the relation comparison contributes the missing factor `δ_i`.  This is explicit in
+Crawley-Boevey, *Preprojective algebras, differential operators and a Conze embedding*, printed
+p. 3, immediately before Theorem 0.9, and in Tikaradze, [arXiv:2204.13647](https://arxiv.org/abs/2204.13647),
+§2, printed p. 4.  The two normalizations agree exactly when every irreducible is one-dimensional,
+so the cyclic families cannot distinguish them and the binary dihedral and `Ẽ₆`, `Ẽ₇`, `Ẽ₈` cases
+can.
+
+The test that separates them uses `Γ = Q₈`, whose affine `D₄` graph has four dimension-one leaves
+and a dimension-two centre.  Give the corresponding blocks of `z` the scalar eigenvalues `1` at one
+leaf and `−1` at the centre.  The standard preprojective algebra with those **scalar** vertex
+weights has a representation of dimension one at each of those two vertices, taking the two
+opposite-arrow maps to be nonzero scalars whose product realizes the two signed vertex relations.
+If a vertex-compatible corner equivalence existed with the scalar weights, its inverse would produce
+a CBH module whose underlying `Γ`-representation is one copy of each irreducible; but then
+`Tr([x,y]) = 0` while `Tr(z) = 1·1 + 2·(−1) = −1`, a contradiction.
+
+Construct `Z(ℂ[Γ]) ≃ ℂ^(Irr Γ)` as the **block-scalar** map, which is the algebra equivalence; the
+trace-coordinate map `z ↦ (Tr_{ρ_i}(z))_i` is only linear once some `δ_i > 1`, so the centre's
+algebra equivalence keeps the scalars while the preprojective comparison uses the trace.  State the
+normalized relation calculation and the images of the vertex idempotents explicitly, so the factor
+`δ_i` is visible rather than absorbed.
 
 Here `x,y` are the displayed defining representation's standard ordered coordinate basis, fixed
 so that its determinant pairing is exactly `1`.  A general change of basis is not silently
@@ -302,7 +320,15 @@ their equations:
 - an `(A,c)`-complex has degree-one `d`, `d²(m)=c*m`, and
   `d(a*m)=(-1)^|a| a*d(m)`; define shifts, null-homotopies and `K(A,c)`;
 - an `(A,c)`-duplex is the parity version; define cones, the homotopy quotient, and the stable
-  quotient by maps factoring through projectives;
+  quotient by maps factoring through the **modules induced from the curved extension algebra**.
+  ⚠ Not by maps factoring through the categorically projective objects of the homotopy category: in
+  a triangulated category every epimorphism splits, since completing `f : X → Y` to a triangle
+  forces the next map to be zero and exactness after `Hom(Y,−)` supplies a right inverse.  So every
+  object is categorically projective there, every identity factors through one, and that quotient is
+  the zero category — a model that satisfies every other statement about the stable category
+  vacuously.  Build the graded/parity module category over the curved extension algebra, quotient by
+  its genuine projective modules, and prove the comparison with the duplex/homotopy model; a nonzero
+  stable object is an acceptance test.  This is the distinction FKS draw in [FKS05, §4];
 - tensoring a curved `(A,A)`-bimodule of square `l(c₀)+r(c₁)` gives the correctly handed functor
   from curvature `-c₁` to curvature `c₀`.
 
@@ -327,7 +353,7 @@ l(s_a(c)) - r(c).
 ```
 
 Tensoring this concrete bimodule duplex gives the curvature-changing functor from `c` to
-`s_a(c)` and descends through the factor-through-projectives ideal.  Prove its stable inverse when
+`s_a(c)` and descends through the factor-through-induced-modules ideal above.  Prove its stable inverse when
 `x_a ≠ 0`, commuting relations for nonadjacent vertices, and braid relations for adjacent
 vertices.  For a base parameter `c`, define its reflection orbit and impose the precise FKS
 genericity condition `x_a(c') ≠ 0` for every vertex `a` and every `c'` in that orbit (equivalently,
@@ -392,10 +418,14 @@ The roadmap is complete when:
 5. literal full-idempotent corners for the binary groups give the ordinary zigzag and
    preprojective presentations, with Morita equivalence derived from fullness; cyclic `n=2` is
    excluded from this simple-graph criterion;
-6. the `[x,y]-z` normalization, `λ_i=Tr_{ρ_i}(z)`, deformed preprojective relations, orientation
-   transport and full-corner comparison are proved in the Tau Ceti path convention;
-7. FKS curved complexes/duplexes and their projective-stable quotients instantiate the sibling
-   stable API, and the algebraic Weyl/braid functors satisfy the cited square, inverse and braid
+6. the `[x,y]-z` normalization, the trace parameter `λ_i = Tr_{ρ_i}(z) = δ_i · f_i` (and its
+   distinction from the block scalar `f_i`, which is what the centre's algebra equivalence uses),
+   deformed preprojective relations, orientation transport and full-corner comparison are proved in
+   the Tau Ceti path convention;
+7. FKS curved complexes/duplexes and their stable quotients — by the induced modules over the
+   curved extension algebra, not by the categorical projectives of a triangulated category, which
+   would collapse them — instantiate the sibling stable API, a nonzero stable object witnesses that
+   they do not, and the algebraic Weyl/braid functors satisfy the cited square, inverse and braid
    equations; and
 8. the cyclic, binary-dihedral and binary-icosahedral integration tests elaborate and compute.
 
