@@ -1,5 +1,5 @@
 name = "TauCetiRoadmap"
-defaultTargets = ["TauCetiRoadmap"]
+defaultTargets = ["TauCetiRoadmap", "Completed"]
 
 # Roadmap target signatures should consume existing Tau Ceti declarations directly rather than
 # restating a Mathlib-only approximation of the implementation boundary.
@@ -14,3 +14,10 @@ rev = "main"
 [[lean_lib]]
 name = "TauCetiRoadmap"
 globs = ["TauCetiRoadmap.*"]
+
+# Completed roadmaps are no longer offered to contributors, but their Lean files remain checked
+# against the current Tau Ceti pin. In particular, discharged targets continue to certify that
+# the library realizes the archived statements.
+[[lean_lib]]
+name = "Completed"
+globs = ["Completed.+"]

@@ -74,6 +74,16 @@ Apply the **`awaiting-review`** label when you open it. If you cannot apply labe
 [Permissions](#permissions) below, and in the meantime say so in the PR description or the
 [Zulip topic][zulip-topic] and someone will apply it.
 
+**A roadmap pull request touches only its own directory under `TauCetiRoadmap/`.** Four files
+list the roadmaps, and all four are derived from the set of directories that contain a
+`README.md`: the "Roadmaps" list in `README.md`, the `area` dropdown in each of the two issue
+templates, and the root `TauCetiRoadmap.lean`. The first three are regenerated and committed by
+the sync bot after your PR merges, and `TauCetiRoadmap.lean` carries no import list at all
+because `lakefile.toml` globs every module under `TauCetiRoadmap/`. Adding your roadmap to any
+of them by hand does nothing except conflict with every other open roadmap PR, so leave them
+alone; if you want to check what the generated list will look like, run
+`python3 .github/scripts/check_roadmap_areas.py --fix` locally and then discard the result.
+
 ## The review workflow: labels
 
 Two labels track whose turn it is. Keeping them accurate is the single most useful thing you
