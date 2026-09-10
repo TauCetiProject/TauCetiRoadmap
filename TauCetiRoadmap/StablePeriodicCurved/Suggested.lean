@@ -82,8 +82,8 @@ structure TriangulatedStructure (T : Type u) [Category.{v} T] where
     IsTriangulated T
 
 /-- The smallest isomorphism-closed triangulated subcategory containing `P`: closure under shifts
-and cones, without retracts. Mathlib's `triangEnvelope` is the thick version; the two differ by
-idempotent completion, which is why the triangulated hull below is stated with this one. -/
+and cones, without retracts. Mathlib's `triangEnvelope` additionally closes under retracts, which
+is why the triangulated hull below is stated with this one. -/
 def triangClosure {T : Type u} [Category.{v} T] [Limits.HasZeroObject T]
     [Preadditive T] [HasShift T ℤ] [∀ m : ℤ, (shiftFunctor T m).Additive] [Pretriangulated T]
     (P : ObjectProperty T) : ObjectProperty T :=
@@ -811,9 +811,18 @@ theorem periodicSplitExactStructure_conflation_iff {X Y Z : PeriodicComplex C n}
       ∀ k : ZMod n, ∃ (r : Y.X k ⟶ X.X k) (s : Z.X k ⟶ Y.X k),
         i.f k ≫ r = 𝟙 _ ∧ s ≫ p.f k = 𝟙 _ ∧ r ≫ i.f k + p.f k ≫ s = 𝟙 _ := sorry
 
-/-- The split structure is Frobenius, with projective-injectives the contractible complexes. -/
+/-- The split structure is Frobenius. -/
 theorem periodicSplitExactStructure_frobenius :
     FrobeniusExactData (periodicSplitExactStructure C n) := sorry
+
+/-- A periodic complex is contractible when its identity is null-homotopic. -/
+def PeriodicComplex.IsContractible (X : PeriodicComplex C n) : Prop :=
+  Nonempty (PeriodicComplex.Homotopy (𝟙 X) 0)
+
+/-- The projective-injectives of the split structure are exactly the contractible complexes. -/
+theorem isRelativeProjective_periodicSplit_iff (X : PeriodicComplex C n) :
+    FrobeniusComparison.IsRelativeProjective (periodicSplitExactStructure C n) X ↔
+      X.IsContractible := sorry
 
 noncomputable instance : (periodicHomotopyQuotient C n).Additive := sorry
 
@@ -1768,20 +1777,23 @@ noncomputable def countableProductTotalizationIsLimit
   CategoryTheory.Limits.productIsProduct P
 
 /-- Right-module translation of Theorem 7.9(a)'s condition `(*)`, in an actual abelian category
-of graded right modules with actual countable coproducts. -/
+of graded right modules with actual countable coproducts: one bound on the injective dimension of
+every countable direct sum of injectives. (A bound for each sum separately gives a uniform one,
+since countably many countable sums combine into one and summands have dimension at most the
+sum's, but the uniform form is the one in the theorem.) -/
 def CountableInjectiveCondition
     {GradedModule : Type u} [Category.{v} GradedModule] [Abelian GradedModule]
     [CategoryTheory.Limits.HasCoproductsOfShape ℕ GradedModule] : Prop :=
-  ∀ J : ℕ → GradedModule, (∀ n, Injective (J n)) →
-    ∃ d : ℕ, HasInjectiveDimensionLE (CountableCoproductTotalization J) d
+  ∃ d : ℕ, ∀ J : ℕ → GradedModule, (∀ n, Injective (J n)) →
+    HasInjectiveDimensionLE (CountableCoproductTotalization J) d
 
-/-- Right-module translation of Theorem 7.9(b)'s condition `(**)`: a countable product of
-projective graded right modules must have finite projective dimension. -/
+/-- Right-module translation of Theorem 7.9(b)'s condition `(**)`: one bound on the projective
+dimension of every countable product of projective graded right modules. -/
 def CountableProjectiveCondition
     {GradedModule : Type u} [Category.{v} GradedModule] [Abelian GradedModule]
     [CategoryTheory.Limits.HasProductsOfShape ℕ GradedModule] : Prop :=
-  ∀ P : ℕ → GradedModule, (∀ n, Projective (P n)) →
-    ∃ d : ℕ, HasProjectiveDimensionLE (CountableProductTotalization P) d
+  ∃ d : ℕ, ∀ P : ℕ → GradedModule, (∀ n, Projective (P n)) →
+    HasProjectiveDimensionLE (CountableProductTotalization P) d
 
 namespace RightCurvedDGAlgebra
 

@@ -500,13 +500,15 @@ Formalize Positselski's comparison results with their actual hypotheses:
   hypothesis, and only under one of those alternatives, ordinary acyclic, absolute, co-, and
   contraacyclic objects coincide;
 - the graded-injective model for the coderived category uses Theorem 7.9(a)'s exact right-module
-  translation of condition `(*)`: every countable direct sum of injective graded right modules
-  has finite injective dimension as a graded right module. Under it, the full subcategory of the
+  translation of condition `(*)`: there is one bound on the injective dimensions, as graded right
+  modules, of all countable direct sums of injective graded right modules. Under it, the full
+  subcategory of the
   curved homotopy category on modules whose underlying graded module is injective maps by an
   equivalence onto `D_co`;
 - the graded-projective model for the contraderived category uses Theorem 7.9(b)'s exact
-  right-module translation of condition `(**)`: every countable product of projective graded
-  right modules has finite projective dimension as a graded right module. Under it, the full
+  right-module translation of condition `(**)`: there is one bound on the projective dimensions,
+  as graded right modules, of all countable products of projective graded right modules. Under
+  it, the full
   subcategory on modules whose underlying graded module is projective maps by an equivalence
   onto `D_ctr`.
 
