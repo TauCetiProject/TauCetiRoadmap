@@ -1,105 +1,88 @@
-<!--tauceti-status:v1 {"roadmap":"UniversalCovers","to_sha":"11ef09d4d6e560655ed762ace27ef2858e9117cd","ts":"2026-08-03T18:31:13Z"}-->
+<!--tauceti-status:v1 {"roadmap":"UniversalCovers","to_sha":"f95cc2fb6429e471556c8677e5c64fe8e4cb7940","ts":"2026-09-07T18:24:19Z"}-->
 # Status: UniversalCovers
 
-This file documents the status of the UniversalCovers roadmap up until `11ef09d` (2026-08-03T18:31:13Z). There may have been subsequent updates.
+This file documents the status of the UniversalCovers roadmap up until `f95cc2f` (2026-09-07T18:24:19Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**Stage 0, port the foundations.** Done, all four items. Discreteness of the homotopy-class
-fibres holds in a semilocally simply connected, locally path-connected space
-(`Path.Homotopic.Quotient.instDiscreteTopology`,
-<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/PathHomotopyDiscreteness.html#Path.Homotopic.Quotient.instDiscreteTopology>),
-with the tube machinery it needs. `BasedPath x₀` carries the compact-open topology with a
-continuous, open endpoint map, and `UniversalCover x₀`
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/Basic.html#TauCeti.UniversalCover>)
-is its quotient by endpoint-preserving homotopy, with the sheet decomposition. `proj` is a
-covering map onto a path-connected base, the total space is path-connected and simply connected,
-and simply connected locally path-connected sources lift uniquely
-(`UniversalCover.existsUnique_continuousMap_lifts`). The `π₁(X, x₀)` action is free, faithful and
-continuous, and `proj` is a quotient covering map for it
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/Action.html#TauCeti.UniversalCover.isQuotientCoveringMap>).
-`Deck p` and its subgroup-transferred structure are in place, together with conjugation of deck
-groups along an isomorphism over the base (`Deck.conjMulEquiv`).
+**At a glance.** Every stage of the roadmap now has its stated targets proved: the universal
+cover is constructed, the correspondence between subgroups of `π₁(X, x₀)` and connected covers is
+a bijection in both the pointed and unpointed forms, covers are classified categorically by
+fundamental-groupoid actions, and the application list (`π₁(S¹)`, `π_n(S¹)`, tori, `K(G, 1)`,
+`RPⁿ`) is complete. What remains lies outside the roadmap's own text: higher homotopy groups
+beyond vanishing statements, and the standing local hypotheses on the base, which no result here
+dispenses with.
 
-**Stage 1, close out the universal cover.** Done, with the convention pinned to the opposite
-group: `UniversalCover.deckFundamentalGroupEquiv`
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/Deck/FundamentalGroup/UniversalCover.html#TauCeti.UniversalCover.deckFundamentalGroupEquiv>)
-identifies the deck group of `proj` with `(π₁(X, x₀))ᵐᵒᵖ`, and `UniversalCover.isRegular_proj`
-records that the deck action is regular. The presentation of `X` as a quotient of the universal
-cover is available through `isQuotientCoveringMap`, and generally a quotient covering map with
-preconnected nonempty total space has its acting group as deck group
-(`Deck.IsQuotientCoveringMap.deckMulEquiv`), with regularity and quotient covering maps
-equivalent for preconnected covers (`Deck.isQuotientCoveringMap_iff_isRegular`).
+### Named results
 
-**Stage 2, lifting criterion and Galois correspondence.** Mostly done; the gap is in the
-existence half. The lifting criterion is consumed and restated in subgroup form
-(`IsCoveringMap.existsUnique_continuousMap_lifts_of_range_le_subgroup`), and the monodromy layer
-is complete: covering maps are injective on `π₁`, monodromy is transitive on fibres of a
-path-connected cover, the stabiliser of a lift is the recovered subgroup, the fibre is its coset
-space (`IsCoveringMap.fiberEquivQuotientRange`), and the number of sheets is its index. Both
-classification theorems are proved: pointed connected covers by the recovered subgroup
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/Classification/Pointed.html#TauCeti.IsCoveringMap.exists_homeomorph_comp_eq_iff_range_eq>),
-unpointed connected covers by its conjugacy class
-(`IsCoveringMap.exists_homeomorph_comp_eq_iff_exists_range_eq_map_conj`), with uniqueness of the
-universal cover as a special case, and regularity is characterised by normality of the recovered
-subgroup (`IsCoveringMap.isRegular_iff_normal_range`). Basepoint change is handled at the level
-of subgroups (`FundamentalGroup.basepointChangeSubgroup`, monotone, normality-preserving) and of
-covers (any two lifts recover conjugate subgroups). What is not assembled: `SubgroupQuotient H`
-is built, is a quotient covering map from the universal cover, and its descended projection
-recovers exactly `H`
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/Classification/RecoveredSubgroup.html#TauCeti.UniversalCover.range_mapOfEq_subgroupQuotientProj>),
-but there is no statement that `subgroupQuotientProj` is itself a covering map, so the
-correspondence is not yet known to be onto. The deck group `N(H)/H` is likewise unproved: the
-group theory it needs is there (the normalizer quotient acts freely on the orbit quotient, and
-transitively when the normalizer acts transitively; the normal case is identified with `G ⧸ H`),
-but it has not been connected to the deck group of the cover attached to `H`. The alternative
-Galois-category or monodromy-functor lens is untouched.
+- **Simple connectivity of spheres** — the unit sphere of a real normed space of dimension
+  greater than two is simply connected, and hence so is `Sⁿ` for `n ≥ 2`
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/Sphere/SimplyConnected.html#TauCeti.simplyConnectedSpace_sphere_euclideanSpace>).
+- **The fundamental group of real projective space** — `π₁(RPⁿ) ≅ ℤ/2` for `n ≥ 2` at any
+  basepoint
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/RealProjective/FundamentalGroup/Basic.html#TauCeti.RealProjectiveSpace.fundamentalGroupMulEquivAt>),
+  with `RP¹` infinite cyclic through a homeomorphism with the circle and `RP⁰` trivial, so the
+  group is known in every dimension.
+- **The Galois correspondence for pointed covers** — every pointed connected cover of `(X, x₀)`
+  is isomorphic over `X` to `UniversalCover x₀ / H` for exactly one subgroup `H`
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/Classification/Bijection.html#TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient>);
+  forgetting basepoints gives a bijection with conjugacy classes, subgroup containment matches
+  covering maps between the associated covers, and the cover is regular exactly when `H` is
+  normal.
+- **The deck group of an intermediate cover** — the deck group of the cover attached to
+  `H ≤ π₁(X, x₀)` is `N(H)/H`
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/Classification/DeckGroup.html#TauCeti.UniversalCover.deckSubgroupQuotientProjEquiv>),
+  and `π₁(X, x₀)/H` for normal `H`.
+- **The monodromy equivalence** — over a locally path-connected, semilocally simply connected
+  base, monodromy is an equivalence from covering spaces to functors from the fundamental
+  groupoid to types
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/Classification/MonodromyEquivalence.html#TauCeti.CoveringSpace.monodromyEquivalence>);
+  over a path-connected base it reads as an equivalence with `π₁(X, x₀)`-sets, cutting down to
+  connected covers and transitive sets, and the finite covers form a Galois category.
 
-**Stage 3, higher homotopy.** Done as stated. The `π_n` API was built here: `GenLoop.map` and
-`HomotopyGroup.mapHom` with identity and composition laws, invariance under relative homotopy and
-under homeomorphism, binary and indexed products (`HomotopyGroup.piMulEquiv`), the constant and
-subsingleton cases, and path-connectedness of cubes and cube boundaries. On top of it, any
-covering map induces an isomorphism `π_N(E, e) ≃* π_N(X, p e)` for `N` with at least two elements
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Homotopy/HomotopyGroup/Covering.html#TauCeti.IsCoveringMap.homotopyGroupMulEquiv>),
-and injectivity holds in every positive dimension.
+### Notable definitions and infrastructure
 
-**Stage 4, applications.** Partly done. `π_n(S¹) = 0` for `n ≥ 2`
-(`AddCircle.subsingleton_homotopyGroup`) and the same for arbitrary indexed products of circles.
-`π₁(S¹) ≅ ℤ` holds both for `AddCircle` and, new here, for the complex unit circle
-(`Circle.fundamentalGroupMulEquiv`), together with the standard corollaries that it is not simply
-connected, not contractible and not homeomorphic to a real topological vector space. The
-fundamental group of a torus is `Π i, Multiplicative ℤ`
-(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/Torus/FundamentalGroup.html#TauCeti.AddCircle.piFundamentalGroupMulEquiv>).
-`K(G, 1)` spaces are defined via asphericity, and circles and tori are shown to be `K(ℤ, 1)` and
-`K(Π i, ℤ, 1)`. `RPⁿ` exists as `Sⁿ` modulo the antipodal action, the projection is a regular
-covering map, and its deck group is the two-element group `ℤˣ`; `π₁(RPⁿ)` itself is not proved.
+- The categories of covering spaces, connected covering spaces and finite covering spaces over
+  `X` (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Covering/Category.html#TauCeti.CoveringSpace>),
+  full subcategories of `TopCat / X`, which let the classification be an equivalence of categories
+  rather than a bijection on isomorphism classes.
+- The balanced product of the universal cover with a `π₁(X, x₀)`-set
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Covering/BalancedProduct.html#TauCeti.BalancedProduct.isCoveringMap_proj>),
+  which realises an arbitrary action as a cover and so supplies essential surjectivity for
+  disconnected covers, where quotients of the universal cover do not suffice.
+- Basepoint change for higher homotopy groups
+  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Homotopy/HomotopyGroup/BasepointChange.html#TauCeti.homotopyGroupMulEquivOfPath>),
+  built from a collar construction that shrinks a generalized loop into a smaller cube and runs
+  the path around the boundary annulus left over.
+
+### Roadmap coverage
+
+Stages 0 and 1 (the construction, the `π₁` action, the deck group, and
+`Deck(proj) ≃* π₁(X, x₀)ᵐᵒᵖ`) were finished earlier and are unchanged. Stage 2 is now complete on
+both routes: the existence half, the outstanding gap, closed once the descended projection on
+`UniversalCover x₀ / H` was shown to be a covering map, and the suggested alternative lens through
+transitive `π₁(X)`-sets and the monodromy functor is built as well. Stage 3 is done, with
+basepoint change for `π_n` added to the earlier functoriality and product API. Stage 4 is done in
+full: `π₁(S¹) ≅ ℤ`, `π_n(S¹) = 0` for `n ≥ 2`, the fundamental group of a torus, `K(G, 1)`
+recognition with circles and tori as examples, and `π₁(RPⁿ)` in every dimension. Beyond the
+roadmap, the classification is extended to bases that are not path-connected.
 
 ## The frontier
 
-The nearest target is the missing link in Stage 2 (7): show that `subgroupQuotientProj`, the
-endpoint projection descended to `UniversalCover x₀ / H`, is a covering map. Everything else about
-that cover — the quotient covering map from the universal cover, the distinguished basepoint,
-surjectivity, and `range_mapOfEq_subgroupQuotientProj` — is already in place, so this single
-statement is what lets the H-quotient be fed to the classification theorems and turns them into a
-genuine correspondence.
-
-Next after that, Stage 2 (8)'s deck-group half: `Deck(UniversalCover x₀ / H) ≃* N(H)/H`, and the
-normal case `π₁(X, x₀)/H`. The group-theoretic side is finished (free and transitive descended
-`N(H)/H` actions on orbit quotients, the normal-case identification, basepoint transport of the
-normalizer quotient); what is missing is the transfer to deck transformations, plausibly via
-`Deck.IsQuotientCoveringMap.deckMulEquiv` once the previous item makes the H-quotient a cover in
-its own right.
-
-`π₁(RPⁿ) ≅ ℤ/2` is blocked only on simple connectivity of `Sⁿ` for `n ≥ 2`, which does not appear
-anywhere in this development; with it, the regular antipodal cover and its two-element deck group
-already recorded would give the result immediately, and `RPⁿ` would join the `K(G, 1)` examples.
-The same gap is the reason the roadmap's `π_n(Tᵏ)` line is complete while its `π₁(RPⁿ)` line is
-not.
-
-Longer-range and untouched: the alternative route through transitive `π₁(X)`-sets, the monodromy
-functor and the Galois-category abstraction, which the roadmap suggests as a second lens on Stage
-2 (8). Also unaddressed is any statement about covers of spaces that are not path-connected, where
-the standing hypotheses of the whole development exclude the case rather than handle it.
+- **Higher homotopy of `RPⁿ` and of spheres.** The covering isomorphism gives
+  `π_k(RPⁿ) ≅ π_k(Sⁿ)` for `k ≥ 2`, but nothing here computes `π_n(Sⁿ)`, so no concrete group
+  results. That needs a degree or Hurewicz argument, and neither appears here.
+- **The fibre functor and its automorphisms.** The finite covers are proved to be a Galois
+  category with the fibre over `x₀` as fibre functor, but the automorphism group of that functor
+  is not identified. Mathlib's `IsFundamentalGroup`/`toAutMulEquiv` interface is the natural
+  target; for infinite `π₁` that automorphism group is not `π₁` itself.
+- **Existence of `K(G, 1)` spaces for an arbitrary group.** What is proved is recognition: a
+  space with weakly contractible universal cover is a `K(G, 1)`, and covers of aspherical spaces
+  are aspherical, with circles and tori as examples. No construction realising a given group as a
+  fundamental group is present.
+- **The standing local hypotheses.** Path-connectedness of the base has been removed from the
+  groupoid-level classification, but local path-connectedness and semilocal simple connectivity
+  are assumed throughout, and nothing here addresses bases failing them.

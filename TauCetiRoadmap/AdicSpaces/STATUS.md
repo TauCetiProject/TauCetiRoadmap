@@ -1,50 +1,47 @@
-<!--tauceti-status:v1 {"roadmap":"AdicSpaces","to_sha":"f88533f839b2b774d5d3cf5390f0b592031b01aa","ts":"2026-09-01T13:41:42Z"}-->
+<!--tauceti-status:v1 {"roadmap":"AdicSpaces","to_sha":"2f71ccdae7c86f2d2bfbb07d1f8d5d3234db93d2","ts":"2026-09-09T16:23:07Z"}-->
 # Status: AdicSpaces
 
-This file documents the status of the AdicSpaces roadmap up until `f88533f` (2026-09-01T13:41:42Z). There may have been subsequent updates.
+This file documents the status of the AdicSpaces roadmap up until `2f71ccd` (2026-09-09T16:23:07Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Layer 1 is complete through the characterization and spectrality of continuous valuations. Layers 0, 2, 3 and 4 are genuinely partial: `Spa` and its rational topology are established, completed rational localization and a candidate structure presheaf exist, and the first flatness results toward Tate acyclicity have landed; pre-adic spaces, adic-space geometry and the Fargues–Fontaine curve have not begun.
+**At a glance.** Layer 1 is complete, and Layer 2 is now close to it: `Spa(A,A⁺)` is spectral, rational subsets form a basis and are stable under intersection, perturbation and passage to a localisation, and the emptiness criterion holds without extra hypotheses. Layer 3 has coordinate rings, restriction maps and a candidate structure presheaf but no stalk theory; Layer 4 has the algebraic chain up to Proposition 8.30 and nothing past it; Layers 5 and 6 have not begun.
 
 ### Named results
 
-- **[Spectrality of the valuation spectrum](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/AdicSpace/PatchPresentation.html#TauCeti.ValuationSpectrum.instSpectralSpace)** — `Spv A` is spectral, via a compact patch presentation whose clopen basic opens generate the valuation-spectrum topology.
+- **Spectrality of the adic spectrum** — `Spa(A,A⁺)` is [a spectral space](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/AdicSpace/Spa/Spectral.html#TauCeti.ValuationSpectrum.instSpectralSpaceElemSpaOfIsHuberRing) for a Huber ring and a ring of integral elements, resting on the characterisation of the continuous locus inside `Spv(A,IA)`.
 
-- **[The continuous-valuation characterization](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/AdicSpace/Cont/OfIdeal.html#TauCeti.ValuationSpectrum.cont_eq_spvOfIdeal_inter_setOfPred_forall_vlt_one)** — for a Huber ring, `Cont A` is exactly the part of `Spv(A,IA)` strictly sub-unit on an ideal of definition; [the resulting continuous locus is spectral](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/AdicSpace/Cont/Spectral.html#TauCeti.ValuationSpectrum.instSpectralSpaceElemContOfIsHuberRing).
+- **The rational-localisation homeomorphism** — the adic spectrum of the topological localisation `A(T/s)`, with plus ring the integral closure of `A⁺[T/s]`, is [homeomorphic to the rational subset `R(T/s)`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/AdicSpace/Spa/Localization/Homeomorph.html#TauCeti.ValuationSpectrum.spaLocalizationHomeomorph); the corresponding statement for the completed ring `A⟨T/s⟩` is still open.
 
-- **[Spectrality of the adic spectrum](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/AdicSpace/Spa/Spectral.html#TauCeti.ValuationSpectrum.instSpectralSpaceElemSpaOfIsHuberRing)** — `Spa(A,A⁺)` is spectral for a Huber ring and a ring of integral elements.
+- **Wedhorn's emptiness criterion (Proposition 7.49(1))** — the adic spectrum of a Huber pair is [empty exactly when `1` lies in the closure of `0`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/AdicSpace/Spa/Emptiness.html#TauCeti.ValuationSpectrum.spa_eq_empty_iff_one_mem_closure_zero), equivalently when the separated quotient is the zero ring.
 
-- **[The rational-basis theorem](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/AdicSpace/Spa/RationalSubset/Basis.html#TauCeti.ValuationSpectrum.isTopologicalBasis_spaRationalFamily)** — rational subsets with open numerator ideal form a basis of quasi-compact opens, closed under finite intersections and admitting finite rational refinements.
+- **The Laurent presentation of a numerator enlargement (Remark 7.55)** — adjoining one numerator presents `A⟨T'/s⟩` as [the Laurent quotient `A⟨T/s⟩⟨X⟩ / (t/s − X)`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Huber/LocalizationTopology/Laurent/Identification.html#TauCeti.Huber.PairOfDefinition.laurentQuotientRingEquiv), an isomorphism of topological rings and the chain Tate acyclicity runs along.
 
-- **[Faithful flatness of restricted power series](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Huber/Restricted/Flat.html#TauCeti.Huber.faithfullyFlat_restrictedMvPowerSeriesSubring)** — `A⟨T₁,…,Tₖ⟩` is faithfully flat over a complete noetherian Tate ring, supplying the first principal algebraic input to Tate acyclicity.
+- **Flatness of rational restriction maps (Proposition 8.30)** — the restriction `A⟨T/s⟩ → A⟨T'/s⟩` of a numerator enlargement is [flat](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Huber/LocalizationTopology/Laurent/Flat.html#TauCeti.Huber.PairOfDefinition.flat_restrictionRingHomOfSubset_of_isStronglyNoetherian_base) when the completed localisation carrying the smaller presentation is strongly noetherian; that hypothesis is assumed, not established.
 
 ### Notable definitions and infrastructure
 
-- **[Completed rational localization](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Huber/LocalizationTopology/Completion.html#TauCeti.Huber.PairOfDefinition.toCompletionLoc)** — the structure map `A → A⟨T/s⟩`, its complete-Hausdorff universal property and the integral-closure plus ring provide coordinate rings for rational domains.
+- **[The completed rational localisation](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Huber/LocalizationTopology/Completion.html#TauCeti.Huber.PairOfDefinition.toCompletionLoc)** — `A → A⟨T/s⟩` with its universal property for complete Hausdorff targets, now equipped with [restriction maps of numerator enlargements](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Huber/LocalizationTopology/Restriction.html#TauCeti.Huber.PairOfDefinition.restrictionRingHomOfSubset) satisfying the identity and composition laws. These are the transition maps the structure presheaf needs.
 
-- **[Complete separated topological rings](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Category/TopCommRingCat/CompleteSeparated/Basic.html#TauCeti.CompleteSeparatedTopCommRingCat)** — this target category now has [all small limits](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Category/TopCommRingCat/CompleteSeparated/Limits.html#TauCeti.CompleteSeparatedTopCommRingCat.instHasLimits), as required for structure-presheaf values.
+- **[Residue-field valuations](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/AdicSpace/ResidueField.html#TauCeti.ValuationSpectrum.residueFieldValuation)** — every point of the valuation spectrum now carries a valuation on `κ(v)`, extending the quotient valuation on `A ⧸ supp v`. This is the datum a pre-adic space attaches to each point, and the target of the eventual stalk statement.
 
-- **[The presentation-limit presheaf](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/Basic.html#TauCeti.ValuationSpectrum.presentationLimitPresheaf)** — limits of completed localizations over presentations refining an open give a candidate presheaf on `Spa(A,A⁺)`; agreement with rational coordinate rings and the stalk theory are not yet established.
+- **Stability of strong noetherianness** — it passes to [`A⟨X₁,…,Xₖ⟩`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Huber/StronglyNoetherian.html#TauCeti.Huber.IsStronglyNoetherian.restrictedMvPowerSeriesCompletion), to [any algebra strictly topologically of finite type](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Huber/TopologicallyFiniteType.html#TauCeti.Huber.IsStrictlyTopologicallyFiniteType.isStronglyNoetherian), and [along numerator enlargements](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Huber/LocalizationTopology/Laurent/StronglyNoetherian.html#TauCeti.Huber.PairOfDefinition.isStronglyNoetherian_completion_of_subset), resting on the topological iteration isomorphism `A⟨X₁,…,X_{k+m}⟩ ≅ A⟨X₁,…,Xₖ⟩⟨Y₁,…,Y_m⟩`.
 
 ### Roadmap coverage
 
-- **Layers 0–1:** Layer 0 has boundedness, Huber/Tate foundations, ring-of-definition calculus, weighted and ordinary restricted-series infrastructure, open mapping and completed `A⟨T/s⟩`; Weierstrass theory and strong noetherianness for complete rank-one fields remain. Layer 1 is done.
-- **Layer 2:** `Spa`, functoriality, spectrality, rational-basis theory, plus-ring recovery, quotient pairs, analytic loci and closed polydiscs are present. Perturbation invariance, rational subsets inside rational subsets, the standard-refinement theorem, and the full emptiness statement without the extra openness hypothesis on `closure {0}` are not established here.
-- **Layers 3–4:** Layer 3 has coordinate rings, presentation-change maps, complete-separated limits and the candidate presheaf, but not the rational-domain homeomorphism, rational agreement, stalk valuations or pre-adic spaces. Layer 4 has the finite-module base-change theorem and the two flatness statements of Lemma 8.31, but not flat rational restrictions, Čech exactness or either sheafiness theorem.
-- **Layers 5–6:** untouched.
+Layer 0 has boundedness, Huber and Tate foundations, completion, restricted series with their universal properties and quotients, open mapping, and Proposition 6.18; Weierstrass theory and strong noetherianness of complete rank-one fields remain. Layer 1 is done, including vertical generization of continuous valuations. Layer 2 covers `Spa`, functoriality, spectrality, the rational basis, intersections, perturbation invariance, rational-in-rational, plus-ring recovery, emptiness, quotient pairs and closed polydiscs; Corollary 7.53, the standard-refinement Lemma 7.54, and most of the analytic-locus theory of Proposition 7.49(2) are not established here. Layer 3 has coordinate rings, presentation-change and enlargement restriction maps, the complete separated target category with all small limits, and a presentation-limit candidate presheaf, but not its identification with `A_U`, nor `𝒪_X⁺`, stalks or pre-adic spaces. Layer 4 has module base change, the Lemma 8.31 flatness statements and Proposition 8.30, but nothing on Čech exactness, sheafiness or stable uniformity. Layers 5 and 6 are untouched.
 
 ## The frontier
 
-- **Rational-localization homeomorphism** — prove that `Spa(A⟨T/s⟩,A_U⁺) → R(T/s)` is injective and a homeomorphism; only continuity and surjectivity onto the rational subset are established.
+- **The completed coordinate ring `A_U = A⟨T/s⟩`** — carry the homeomorphism from the topological localisation `A(T/s)` to the completed one, prove `(A_U, A_U⁺)` is a Huber pair, and identify valuations and rational subsets across it. Everything in Layer 3 downstream waits on this.
 
-- **Rational presentation and refinement** — remove the recorded unit/open-plus qualifications from presentation independence where the roadmap requires this, and prove rational-in-rational and standard-refinement results.
+- **Surjectivity of the rational evaluation map** — `A⟨X₁,…,Xₖ⟩ → A⟨T/s⟩` has dense range when the numerators and `s` generate the unit ideal; only closed range is missing. It would make `A⟨T/s⟩` strictly topologically of finite type, hence strongly noetherian over a strongly noetherian base, discharging the hypothesis Proposition 8.30 currently assumes.
 
-- **Structure-presheaf local geometry** — identify the presentation limit with `A_U` on rational opens, define `𝒪_X⁺`, and prove the stalks are local with residue-field valuations.
+- **Structure-presheaf local geometry** — identify the presentation limit with `A_U` on rational opens, define `𝒪_X⁺`, and prove that stalks are local with the point valuation supported at the maximal ideal. The residue-field valuations exist; nothing at stalk level does.
 
-- **Tate acyclicity** — continue from module base change and Lemma 8.31 to flat rational restriction maps, Laurent-cover exactness, arbitrary finite rational covers and the strongly noetherian sheafiness theorem.
+- **Tate acyclicity** — continue from Proposition 8.30 to Corollary 8.32, the two-piece Laurent cover of Lemma 8.33, and arbitrary finite rational covers. The last step needs Lemma 7.54, the standard rational refinement, which is not established.
 
-- **Pre-adic spaces** — define the category and its affinoid objects once the rational presheaf and stalk package are complete; this is the entry point to Layers 5 and 6.
+- **Pre-adic spaces** — define `𝒱^pre`, its affinoid objects and the sheafiness predicates once the stalk package is in place; this is the entry point to Layers 5 and 6, both of which are empty.
