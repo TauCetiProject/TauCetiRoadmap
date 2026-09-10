@@ -302,9 +302,11 @@ What remains for us:
   pivotal category is rigid even when only right rigidity was assumed (the `def` form of the
   divergence above, useful for transporting structures even though the class takes `RigidCategory`).
 - **Pivotal functors.** A monoidal functor `F : C ⥤ D` between pivotal categories is **pivotal** when
-  `F(φ_X) = δ_{Xᘁ}⁻¹ ≫ (δ_X)ᘁ ≫ φ_{F X}`, where `δ` is the canonical iso `F(Xᘁ) ≅ (F X)ᘁ` that a
-  monoidal functor between rigid categories carries (HPT §2.1). The identity and composite of pivotal
-  functors are pivotal.
+  `F(φ_X) = φ_{F X} ≫ (δ_X)ᘁ ≫ δ_{Xᘁ}⁻¹`, where `δ` is the canonical iso `F(Xᘁ) ≅ (F X)ᘁ` that a
+  monoidal functor between rigid categories carries (HPT §2.1). ⚠ The order is fixed by Lean's
+  left-to-right `≫`: the composable path runs `F X → (F X)ᘁᘁ → F(Xᘁ)ᘁ → F(Xᘁᘁ)`, so writing the
+  source's right-to-left `∘` formula unchanged does not typecheck. The identity and composite of
+  pivotal functors are pivotal, checked against the actual `.hom`/`.inv` maps of that composite.
 - **The torsor of pivotal structures.** The monoidal natural automorphisms of the identity functor
   form an abelian group `Aut_⊗(𝟭_C)`, and it **acts freely and transitively** on the set of pivotal
   structures whenever that set is nonempty (post-compose `φ` with a monoidal automorphism of `𝟭_C`).
@@ -392,7 +394,15 @@ here, and nothing in it is specific to pivotal structures.
   `ℤ`-ring, free on `SimpleClasses C`, with the class map from objects, the multiplication given by
   the fusion coefficients, the unit basis element `[𝟙_ C]`, and the involution `[X] ↦ [Xᘁ]`.
 - **The fusion coefficients** `N_{ij}^l`, with the convention pinned once:
-  `N_{ij}^l = finrank k (X_i ⊗ X_j ⟶ X_l)` for chosen representatives. Prove it equals the
+  `N_{ij}^l = finrank k (X_i ⊗ X_j ⟶ X_l)` for chosen representatives. ⚠ This formula, and the
+  Grothendieck ring built from it, carry `[IsAlgClosed k]` (equivalently an explicit split
+  hypothesis `End S ≅ k` on each simple `S`); the raw `k`-dimension is not the multiplicity over a
+  nonsplit endomorphism algebra. Over `ℝ`, finite-dimensional representations of `C₃` satisfy every
+  other displayed hypothesis, but the irreducible two-dimensional rotation representation `V` has
+  `End V ≅ ℂ` as an `ℝ`-algebra, so `N_{𝟙 V}^V = dim_ℝ Hom(𝟙 ⊗ V, V) = 2` while `V` occurs in
+  `𝟙 ⊗ V` with multiplicity one, and the prescribed multiplication fails the unit law. Keep that
+  real rotation representation as a negative test for applying the split formula. See EGNO §4.16 for
+  the arbitrary-field versus split distinction. Prove it equals the
   multiplicity of `X_l` in `X_i ⊗ X_j`, prove the equivalent formula using `X_l ⟶ X_i ⊗ X_j`, and
   fix the fusion-matrix convention `(N_i)_{jl}` explicitly so that later matrix statements are
   unambiguous.
@@ -496,8 +506,14 @@ isomorphism.
 ### Layer 9: gradings, the universal grading group, and the DGNO classification
 
 - **Grading of a fusion category by a group.** A faithful grading `C = ⊕_{g∈G} C_g` with
-  `C_g ⊗ C_h ⊆ C_{gh}` and `𝟙_C ∈ C_e`; the **adjoint subcategory** `C_ad` (the subcategory generated
-  by `X ⊗ Xᘁ`), which is the trivial component of the universal grading.
+  `C_g ⊗ C_h ⊆ C_{gh}` and `𝟙_C ∈ C_e`; the **adjoint subcategory** `C_ad`, the subcategory generated
+  by the objects `X ⊗ Xᘁ` for **simple** `X`, indexed by `SimpleClasses C` (EGNO Definition 4.14.5),
+  which is the trivial component of the universal grading. ⚠ The simplicity quantifier is
+  load-bearing: in `Vec_{C₂}` with `g` the nontrivial simple object, `X = 𝟙 ⊕ g` gives
+  `X ⊗ Xᘁ ≅ 𝟙 ⊕ 𝟙 ⊕ g ⊕ g`, whose closure under direct summands is all of `Vec_{C₂}`, so allowing
+  arbitrary `X` collapses `C_ad` and destroys the universal-grading claim below. More generally
+  `X = 𝟙 ⊕ Y` would put every simple `Y` in the generated subcategory. Acceptance: check
+  `C_ad(Vec_{C₂}) = Vec` and `U(Vec_{C₂}) = C₂` together.
 - **The universal grading group** `U(C)`: the group carrying the finest faithful grading, through
   which every grading of `C` factors, with trivial component `C_ad` (Gelaki–Nikshych;
   Drinfeld–Gelaki–Nikshych–Ostrik, *On braided fusion categories I*, §2–3).
@@ -533,7 +549,9 @@ State the whole chart — the definitions of the remaining nodes and every arrow
   those instances rather than against an arbitrary structure.
 - **The Drinfel'd-centre arrows.** `Z(-)` sends each row to its braided enrichment:
   `Z(tensor)` is braided, `Z(rigid)` is braided+rigid, `Z(pivotal)` is braided+pivotal, and
-  `Z(spherical)` is **ribbon** (Müger). ⚠ State this by *constructing* the induced twist on `Z(C)`
+  `Z(spherical)` is **ribbon** (Müger) — the last of these at the fusion bar, with the centre's
+  semisimplicity supplied, because the same characteristic-three `FDRep k C₃` example above embeds
+  symmetrically into its own centre and carries the non-ribbon twist along with it. ⚠ State this by *constructing* the induced twist on `Z(C)`
   from the spherical structure and proving that twist ribbon. A statement quantifying over an
   arbitrary balanced structure on `Z(C)` is false: given a ribbon twist `θ` and a monoidal natural
   automorphism `u` of the identity, `θ · u` is again a twist, and it is ribbon only when
@@ -544,7 +562,18 @@ State the whole chart — the definitions of the remaining nodes and every arrow
   iff it is balanced, via the **explicit twist** built from the braiding and the pivotal structure
   (HPT eq (3)): `θ_X = (𝟙_X ⊗ ε_{Xᘁ}) ∘ (β_{Xᘁᘁ, X} ⊗ 𝟙_{Xᘁ}) ∘ (𝟙_{Xᘁᘁ} ⊗ η_X) ∘ φ_X`. There are
   two such equivalences (the two ways of going between the notions); fix the one given by eq (3) and
-  state the round-trips. Ribbon corresponds to the spherical pivotal structures under it.
+  state the round-trips.
+- **Ribbon versus spherical, at the right generality.** Under the equivalence above, a **ribbon**
+  twist always comes from a spherical pivotal structure (HPT Appendix A.2, Proposition A.4). ⚠ The
+  converse is **false** without semisimplicity, and the roadmap states it only at the
+  fusion-category-over-an-algebraically-closed-characteristic-zero bar, as HPT does. The
+  counterexample: let `k` have characteristic three and take `C = FDRep k C₃` with its symmetric
+  braiding, twisting the standard pivotal structure by the central generator `g`. Writing
+  `ρ(g) = I + N` on each representation, `N³ = 0`, and every equivariant `f` commutes with `N`, so
+  `Nf` is nilpotent and `Tr(ρ(g) f) = Tr(f) = Tr(ρ(g⁻¹) f)`. Those are the two pivotal traces, so
+  this structure is spherical in the precise sense of Layer 2. Its twist is `ρ(g)`, which is not
+  ribbon: on the two-dimensional representation with `ρ(g) = [[1,1],[0,1]]` the action on the dual is
+  `ρ(g⁻¹)ᵀ` whereas the dual of the twist is `ρ(g)ᵀ`, and these differ in characteristic three.
 
 ---
 
