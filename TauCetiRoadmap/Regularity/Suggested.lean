@@ -1,4 +1,8 @@
-import Mathlib
+import Mathlib.AlgebraicTopology.SimplicialComplex.Basic
+import Mathlib.Combinatorics.Hypergraph.Basic
+import Mathlib.Combinatorics.SimpleGraph.Regularity.Lemma
+import Mathlib.Data.Nat.Factorial.BigOperators
+import Mathlib.Tactic
 
 /-!
 # Graph regularity, finite weak regularity, and arity-3 hypergraph complexes: suggested signatures
@@ -689,26 +693,29 @@ def ComplexityBounded (C : TriadicComplex3 κ₃ V) (b : ℕ) : Prop :=
   C.complexity ≤ b
 
 /-- **Layer 8.** The host-independent complexity bound, depending on the top palette, error
-hierarchy, NRS rank, and requested vertex-complexity floor. -/
-def regularityBound3 (q₃ : ℕ) (ε : ℝ) (F : ℕ → ℝ) (r t₀ : ℕ) : ℕ := sorry
+hierarchy, rank schedule, and requested vertex-complexity floor. -/
+def regularityBound3 (q₃ : ℕ) (ε : ℝ) (F : ℕ → ℝ) (R : ℕ → ℕ) (t₀ : ℕ) : ℕ := sorry
 
 /-- **Layer 8.** The strong arity-3 regular-approximation predicate, with an **explicit
 approximant**: `H'` is within `ε` edit discrepancy of `H`, `C`'s polyads decompose the injective
-triples, `C`'s lower skeleton is regular, the **approximant `H'`** is `(F C.complexity, r)`-top-
+triples, `C`'s lower skeleton is regular, the **approximant `H'`** is
+`(F C.complexity, R C.complexity)`-top-
 regular over most polyads (exceptional mass `ε`), and `C`'s complexity is bounded (by a bound
-depending on the top palette size, the rank, and the vertex floor `t₀`). Counting happens on `H'`
+depending on the top palette size, the rank schedule, and the vertex floor `t₀`). Counting happens on `H'`
 and transfers to `H` through the edit bound (Layer 9). -/
 def IsStrongRegularApproximation3 (H H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
-    (ε : ℝ) (F : ℕ → ℝ) (r t₀ : ℕ) : Prop :=
+    (ε : ℝ) (F : ℕ → ℝ) (R : ℕ → ℕ) (t₀ : ℕ) : Prop :=
   Approximates3 H H' ε ∧ IsPolyadDecomposition C ∧ LowerSkeletonRegular C.skeleton F ∧
-    TopRegularOverMostPolyads H' C (F C.complexity) ε r ∧
-    ComplexityBounded C (regularityBound3 (Fintype.card κ₃) ε F r t₀)
+    TopRegularOverMostPolyads H' C (F C.complexity) ε (R C.complexity) ∧
+    ComplexityBounded C (regularityBound3 (Fintype.card κ₃) ε F R t₀)
 
-/-- **Layer 8 (endpoint).** Strong arity-3 regular approximation: for every requested NRS rank `r`
+/-- **Layer 8 (endpoint).** Strong arity-3 regular approximation: for every rank schedule `R`
 and vertex-complexity floor `t₀` (with `V` large enough to house it), every colored 3-graph has an
 **explicit approximant** `H'` within `ε` edit discrepancy, together with a bounded-complexity
 complex with **controlled vertex cells** (equitable, at least `t₀` of them — the diagonal-gate
-input Layer 9 consumes) over which `H'` is `(·, r)`-regular. The complex **chooses** its own lower
+input Layer 9 consumes) over which `H'` is `(·, R C.complexity)`-regular. The schedule is chosen
+before the complexity bound, and evaluated only at the returned complex, as in Rödl–Schacht I,
+Theorem 2.3 (using a scalar majorant of its lower-complexity tuple). The complex **chooses** its own lower
 pair palette (`Fin C.pairColorCount`), so the theorem does not assume an arbitrary fixed pair
 palette works. Boolean precursors proved in `regularity-lemmata`: the weak endpoint
 `exists_goodColoring` and the edited endpoint `exists_triadic_regular_approximation`, whose
@@ -716,10 +723,11 @@ deletion-only edited hypergraph is the Boolean specialization precedent for this
 explicit-approximant architecture (the full shapes still differ; see the Layers 5–8 note in
 `README.md`). -/
 theorem exists_strong_regular_approximation3 (H : Colored3Graph κ₃ V)
-    (ε : ℝ) (hε : 0 < ε) (F : ℕ → ℝ) (hF : ∀ n, 0 < F n) (r t₀ : ℕ)
-    (hV : regularityBound3 (Fintype.card κ₃) ε F r t₀ ≤ Fintype.card V) :
+    (ε : ℝ) (hε : 0 < ε) (F : ℕ → ℝ) (hF : ∀ n, 0 < F n) (R : ℕ → ℕ)
+    (hR : ∀ n, 1 ≤ R n) (t₀ : ℕ)
+    (hV : regularityBound3 (Fintype.card κ₃) ε F R t₀ ≤ Fintype.card V) :
     ∃ (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V),
-      VertexCellsControlled C t₀ ∧ IsStrongRegularApproximation3 H H' C ε F r t₀ := sorry
+      VertexCellsControlled C t₀ ∧ IsStrongRegularApproximation3 H H' C ε F R t₀ := sorry
 
 /-! ### Layer 9 — induced counting and embedding -/
 
@@ -802,12 +810,22 @@ def inducedCountingParameter3 (q₃ k : ℕ) (ε : ℝ) : ℝ := sorry
 theorem inducedCountingParameter3_pos (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) :
     0 < inducedCountingParameter3 q₃ k ε := sorry
 
-/-- **Layer 9.** The host-independent NRS rank used for induced counting. -/
-def inducedCountingRank3 (q₃ k : ℕ) (ε : ℝ) : ℕ := sorry
+/-- **Layer 9.** The NRS rank required for a pattern of size `k` at output error `δ`. -/
+def requiredTopCountingRank3 (k : ℕ) (δ : ℝ) : ℕ := sorry
 
-/-- **Layer 9.** The counting rank is at least one. -/
-theorem one_le_inducedCountingRank3 (q₃ k : ℕ) (ε : ℝ) (hε : 0 < ε) :
-    1 ≤ inducedCountingRank3 q₃ k ε := sorry
+/-- **Layer 9.** The required top-counting rank is at least one. -/
+theorem one_le_requiredTopCountingRank3 (k : ℕ) (δ : ℝ) (hδ : 0 < δ) :
+    1 ≤ requiredTopCountingRank3 k δ := sorry
+
+/-- **Layer 9.** The rank schedule is the finite maximum of local demands for all pair-palette
+sizes at most `n`. It is independent of the host and of `regularityBound3`. -/
+def inducedCountingRankSchedule3 (k : ℕ) (ε : ℝ) (n : ℕ) : ℕ :=
+  max 1 ((range (n + 1)).sup fun ℓ ↦
+    requiredTopCountingRank3 k ((ε / 12) / max 1 ((ℓ : ℝ) ^ Nat.choose k 2)))
+
+/-- **Layer 9.** Every value of the rank schedule is at least one. -/
+theorem one_le_inducedCountingRankSchedule3 (k : ℕ) (ε : ℝ) (n : ℕ) :
+    1 ≤ inducedCountingRankSchedule3 k ε n := le_max_left _ _
 
 /-- **Layer 9.** The host-independent local regularity schedule, indexed by complexity. -/
 def inducedCountingSchedule3 (q₃ k : ℕ) (ε : ℝ) : ℕ → ℝ := sorry
@@ -940,22 +958,17 @@ theorem lowerRoute_counting3 {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored
     |((lowerRouteCountAt φ ψ : ℝ)) - expectedLowerRouteCountAt C F₀ φ ψ| ≤
       δ * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
 
-/-- **Layer 9.** The NRS rank required for a pattern of size `k` at output error `δ`. -/
-def requiredTopCountingRank3 (k : ℕ) (δ : ℝ) : ℕ := sorry
-
-/-- **Layer 9.** The required top-counting rank is at least one. -/
-theorem one_le_requiredTopCountingRank3 (k : ℕ) (δ : ℝ) (hδ : 0 < δ) :
-    1 ≤ requiredTopCountingRank3 k δ := sorry
-
-/-- **Layer 9.** On complexity-bounded complexes, the global counting rank supplies the local
-rank required at the route budget. -/
-theorem requiredTopCountingRank3_le_inducedCountingRank3 (q₃ : ℕ) (ε : ℝ) (hε : 0 < ε)
-    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (t₀ : ℕ)
-    (hC : ComplexityBounded C
-      (regularityBound3 q₃ (inducedCountingParameter3 q₃ F₀.k ε)
-        (inducedCountingSchedule3 q₃ F₀.k ε) (inducedCountingRank3 q₃ F₀.k ε) t₀)) :
+/-- **Layer 9.** The schedule supplies the route-local rank at every complex, with no hypothesis
+involving the regularity bound. The palette size is at most the computed complexity. -/
+theorem requiredTopCountingRank3_le_inducedCountingRankSchedule3 (ε : ℝ)
+    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) :
     requiredTopCountingRank3 F₀.k (routeBudget3 C F₀.k (ε / 12)) ≤
-      inducedCountingRank3 q₃ F₀.k ε := sorry
+      inducedCountingRankSchedule3 F₀.k ε C.complexity := by
+  apply le_max_of_le_right
+  apply Finset.le_sup (b := C.pairColorCount) (f := fun ℓ : ℕ ↦ requiredTopCountingRank3 F₀.k
+    ((ε / 12) / max 1 ((ℓ : ℝ) ^ Nat.choose F₀.k 2)))
+  simp only [Finset.mem_range, TriadicComplex3.complexity]
+  omega
 
 /-- **Layer 9.** Dense lower-route control and route-local top regularity give placed counting with
 error `(δ + k³η)` at the placement scale. -/
@@ -999,11 +1012,9 @@ theorem placed_induced_counting3 (H' : Colored3Graph κ₃ V) (C : TriadicComple
     (ψ : PairColorPlacement3 C F₀ φ) (ε : ℝ) (hε : 0 < ε)
     (hlower : LowerSkeletonRegular C.skeleton
       (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε))
-    (hrank : requiredTopCountingRank3 F₀.k (routeBudget3 C F₀.k (ε / 12)) ≤
-      inducedCountingRank3 (Fintype.card κ₃) F₀.k ε)
     (hroute : ψ.IsTopRegularRoute H'
       (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε C.complexity)
-      (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε)) :
+      (inducedCountingRankSchedule3 F₀.k ε C.complexity)) :
     |((placedInducedCopyCount H' φ ψ : ℝ)) - expectedInducedCountAt H' C F₀ φ ψ| ≤
       routeBudget3 C F₀.k (ε / 6) * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
 
@@ -1106,10 +1117,33 @@ theorem induced_counting_from_strong_regular_complex3 (H H' : Colored3Graph κ�
     (hreg : IsStrongRegularApproximation3 H H' C
       (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
       (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε)
-      (inducedCountingRank3 (Fintype.card κ₃) F₀.k ε)
+      (inducedCountingRankSchedule3 F₀.k ε)
       (diagonalControl3 F₀.k ε)) :
     |((H.inducedCopyCount F₀ : ℝ)) - expectedInducedCount H' C F₀| ≤
       ε * (Fintype.card V : ℝ) ^ F₀.k :=
   sorry
+
+/-- **Layer 9 (composition).** A sufficiently large host has a regular approximation and its
+induced-count estimate together. This proof checks the parameter interfaces of Layers 8 and 9. -/
+theorem exists_strong_regular_approximation3_counting (H : Colored3Graph κ₃ V)
+    (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
+    (hV : regularityBound3 (Fintype.card κ₃)
+      (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
+      (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε)
+      (inducedCountingRankSchedule3 F₀.k ε) (diagonalControl3 F₀.k ε) ≤ Fintype.card V) :
+    ∃ (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V),
+      VertexCellsControlled C (diagonalControl3 F₀.k ε) ∧
+      IsStrongRegularApproximation3 H H' C
+        (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
+        (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε)
+        (inducedCountingRankSchedule3 F₀.k ε) (diagonalControl3 F₀.k ε) ∧
+      |(H.inducedCopyCount F₀ : ℝ) - expectedInducedCount H' C F₀| ≤
+        ε * (Fintype.card V : ℝ) ^ F₀.k := by
+  obtain ⟨H', C, hcells, hreg⟩ := exists_strong_regular_approximation3 H _
+    (inducedCountingParameter3_pos _ _ ε hε) _
+    (inducedCountingSchedule3_pos _ _ ε hε) _
+    (one_le_inducedCountingRankSchedule3 F₀.k ε) _ hV
+  exact ⟨H', C, hcells, hreg,
+    induced_counting_from_strong_regular_complex3 H H' C F₀ ε hε hcells hreg⟩
 
 end TauCetiRoadmap.Regularity

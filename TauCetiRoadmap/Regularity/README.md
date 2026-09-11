@@ -71,6 +71,8 @@ These conventions bind all layers and their public interfaces.
    pairs complexity `ℓ`; `TopRegularOverMostPolyads` uses `F C.complexity`). *Why:* strong regularity
    is about a coarse/fine hierarchy where the fine error depends on the coarse complexity; leaving
    that implicit hides the load-bearing choice.
+   The top rank likewise has a schedule `R : ℕ → ℕ`, chosen before regularization and evaluated at
+   `C.complexity`. A constant rank is a special case, not the counting interface.
 7. **Counting is part of the endpoint.** The strong regularity theorem alone is not enough; the
    local goal is regularity **plus** induced counting/embedding for fixed finite colored patterns.
 8. **No downstream application peak.** Induced removal, arithmetic applications, and exchangeable-array
@@ -312,14 +314,19 @@ condition is color-indexed.
 - `IsPolyadDecomposition`, `exceptionalPolyadMass`, and
   `TopRegularOverMostPolyads H' C η ε r`;
 - `VertexCellsControlled C t₀` and `ComplexityBounded C b`;
-- `regularityBound3 q₃ ε F r t₀`;
-- `IsStrongRegularApproximation3 H H' C ε F r t₀` and the existence theorem
+- `regularityBound3 q₃ ε F R t₀`, for a rank schedule `R : ℕ → ℕ` with `1 ≤ R n`;
+- `IsStrongRegularApproximation3 H H' C ε F R t₀` and the existence theorem
   `exists_strong_regular_approximation3`.
 
 **Pinned choices.** The complex chooses the finite pair palette. Its complexity counts vertex cells,
 pair colors, and polyads. The top-regularity parameter `F C.complexity` is separate from the
-exceptional-mass bound. The complexity bound depends on the top palette, rank, and requested vertex
-floor. The theorem returns equitable vertex cells satisfying that floor.
+exceptional-mass bound. Top regularity is at rank `R C.complexity`. The complexity bound depends on
+the top palette, both schedules, and the requested vertex floor. The theorem returns equitable
+vertex cells satisfying that floor. The order is: choose the error and rank schedules; obtain a
+complexity bound; for a host above that bound, obtain a complex and evaluate the schedules there.
+This follows Rödl–Schacht I, Theorem 2.3, where the rank is a function of lower-complexity data.
+The scalar complexity here bounds each component; constructing the corresponding majorant of the
+source's tuple-indexed schedule is part of the Layer 8 proof.
 
 **Gate.** Compare the two-dimensional shadow of these definitions with Layer 4's graph API.
 
@@ -370,7 +377,7 @@ taken in `H'`.
 #### 9B. Local counting
 
 Define the host-independent calibration data `inducedCountingParameter3`,
-`inducedCountingSchedule3`, `exceptionalPredictionSlack3`, `inducedCountingRank3`, and
+`inducedCountingSchedule3`, `exceptionalPredictionSlack3`, `inducedCountingRankSchedule3`, and
 `diagonalControl3`, together with their positivity, charge, and calibration lemmas.
 
 Define `routeBudget3` by dividing the available error by the maximum number of routes over one
@@ -384,13 +391,15 @@ placement. The lower-skeleton contribution is organized through:
 - calibration lemmas relating the global schedule and rank to the local requirements.
 
 The resulting theorem `placed_induced_counting3` applies to a transversal placement and a
-top-regular route. Its other hypotheses are lower-skeleton regularity and rank adequacy. It counts
+top-regular route. Its other hypothesis is lower-skeleton regularity; the schedule provides rank
+adequacy through `requiredTopCountingRank3_le_inducedCountingRankSchedule3`. It counts
 in `H'`; the edit to `H` is performed after global summation.
 
 **Pinned choices.** Pair-regularity input strength and counting output error are separate
-parameters. Sparse routes form a local branch rather than a global error charge. The top rank depends
-on the pattern and error, and is **fixed in advance**; its calibration against
-`inducedCountingRank3` is stated for complexity-bounded complexes (see *Two pinned interfaces*).
+parameters. Sparse routes form a local branch rather than a global error charge. The top rank
+schedule depends on the pattern and error and is evaluated at the complex's complexity. Its
+calibration holds for every complex, without a hypothesis involving `regularityBound3`
+(see *Two pinned interfaces*).
 
 #### 9C. Globally excluded contributions
 
@@ -424,7 +433,10 @@ follows:
 
 The parameter, schedule, slack, rank, and diagonal floor make every row at most
 `(ε / 6) · |V|^k`. The arithmetic combination is `sixCharge_assembly`; the endpoint is
-`induced_counting_from_strong_regular_complex3`.
+`induced_counting_from_strong_regular_complex3`. The composed endpoint
+`exists_strong_regular_approximation3_counting` instantiates Layer 8 with these schedules and returns
+the approximant, controlled cells, regularity, and the counting estimate together. Its large-host
+hypothesis is precisely the resulting `regularityBound3`.
 
 **Gate.** Work out the prediction and counting bound for one fixed colored 3-pattern.
 
@@ -503,14 +515,19 @@ volume rather than mass-weighted. The two are adopted together and Layer 9's cou
 against the pair: a coordinatewise predicate without the divisor does not bound the per-route error,
 and the divisor is dispensable only under an aggregate predicate.
 
-**The calibration is fixed-rank.** `regularityBound3`, `inducedCountingRank3`, and the error
-schedules are chosen jointly so that `requiredTopCountingRank3_le_inducedCountingRank3` holds for
-every complex satisfying the stated complexity bound. The rank is fixed in advance rather than
-evaluated at the complexity, and it must dominate a demand that grows as the route budget shrinks
-with the palette; since Layer 8's complexity is the computed sum
-`#cells + pairColorCount + #polyads`, the palette that demand can reach is itself bounded by
-`regularityBound3`. Choosing these three together so the domination holds is Layer 9's calibration
-work.
+**The rank is a schedule.** For pattern size `k` and accuracy `ε`, define
+
+```text
+R(n) = max(1, max_{0 ≤ ℓ ≤ n}
+  requiredTopCountingRank3 k ((ε/12) / max(1, ℓ^choose(k,2)))).
+```
+
+This is `inducedCountingRankSchedule3 k ε n`. Since `C.pairColorCount ≤ C.complexity`, its value
+at `C.complexity` dominates the local demand at the route budget. This is a finite-maximum argument,
+not a fixed-point argument involving `regularityBound3`. Layer 8 accepts the entire schedule before
+producing its complexity bound. The local counting theorem and its required-rank function remain
+proof targets; the finite-maximum domination and the final composition are separate checks of the
+interfaces. No rank has to dominate a demand evaluated at a bound that depends on that same rank.
 
 
 ## Prior formalization
