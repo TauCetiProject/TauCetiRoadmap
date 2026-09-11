@@ -510,7 +510,7 @@ theorem measure_mul_prod_successiveMinimum_le [MeasureTheory.MeasureSpace E] [Bo
   sorry
 
 /-- **Layer 4.2 — Minkowski's second theorem, the substantial half.** This is the direction Layer
-5 consumes; the proof is the compression argument along a basis realizing the minima. -/
+5 and 6.3 consume; the proof is the compression argument along a basis realizing the minima. -/
 theorem prod_successiveMinimum_mul_measure_le [MeasureTheory.MeasureSpace E] [BorelSpace E]
     [MeasureTheory.Measure.IsAddHaarMeasure (MeasureTheory.volume : MeasureTheory.Measure E)]
     (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L] {B : Set E} (hB₀ : Convex ℝ B)
@@ -518,6 +518,30 @@ theorem prod_successiveMinimum_mul_measure_le [MeasureTheory.MeasureSpace E] [Bo
     (∏ i ∈ Finset.range (Module.finrank ℝ E), successiveMinimum L B i) *
         (MeasureTheory.volume B).toReal ≤
       (2 : ℝ) ^ Module.finrank ℝ E * ZLattice.covolume L :=
+  sorry
+
+/-- **Layer 4.6 — a basis from any independent family**, the form the proof gives. For
+`ℝ`-independent lattice vectors `a 0, …, a (n − 1)` there is a `ℤ`-basis of `L` whose `j`-th member
+has gauge at most `max (gauge B (a j)) (½ ∑_{i ≤ j} gauge B (a i))`: extend a basis of
+`L ∩ span (a 0, …, a (j − 1))` by one vector and reduce its coefficients on the `a i` into
+`[−½, ½]`. No measure enters. -/
+theorem exists_basis_gauge_le (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+    {B : Set E} (hB₀ : Convex ℝ B) (hB₁ : ∀ x ∈ B, -x ∈ B) (hB₂ : (interior B).Nonempty)
+    (a : Fin (Module.finrank ℝ E) → L) (ha : LinearIndependent ℝ (fun i ↦ (a i : E))) :
+    ∃ b : Module.Basis (Fin (Module.finrank ℝ E)) ℤ L, ∀ j,
+      gauge B (b j : E) ≤
+        max (gauge B (a j : E)) ((∑ i ∈ Finset.Iic j, gauge B (a i : E)) / 2) :=
+  sorry
+
+/-- **Layer 4.6 — a basis from the minima** (Cassels, p. 135, Lemma 8, as Bugeaud–Győry cite it).
+The independent vectors realizing the minima need not be a basis of `L`; some basis has its `i`-th
+member (zero-indexed) in `max 1 ((i + 1) / 2) · λ i` times `B`, a total loss of `n! / 2 ^ (n − 1)`
+against 4.2. This is what 6.3 consumes. -/
+theorem exists_basis_mem_smul_successiveMinimum (L : Submodule ℤ E) [DiscreteTopology L]
+    [IsZLattice ℝ L] {B : Set E} (hB₀ : Convex ℝ B) (hB₁ : ∀ x ∈ B, -x ∈ B)
+    (hB₂ : (interior B).Nonempty) (hB₃ : Bornology.IsBounded B) (hB₄ : IsClosed B) :
+    ∃ b : Module.Basis (Fin (Module.finrank ℝ E)) ℤ L, ∀ i : Fin (Module.finrank ℝ E),
+      (b i : E) ∈ (max 1 ((((i : ℕ) : ℝ) + 1) / 2) * successiveMinimum L B i) • B :=
   sorry
 
 end SuccessiveMinima
@@ -793,11 +817,14 @@ theorem regulator_le_prod_absLogHeight₁ :
         ∏ i, NumberField.absLogHeight₁ ((NumberField.Units.fundSystem K i : 𝓞 K) : K) :=
   sorry
 
-/-- **Layer 6.3 — a fundamental system of small height exists** (Bugeaud–Győry 1996, Lemma 1).
-The converse of Hadamard's bound cannot hold for every fundamental system — an unimodular change
-of basis makes the heights arbitrarily large at fixed regulator — but some fundamental system,
-a reduced basis of the unit lattice, has `∏ h(ε i) ≤ c(r, d) · R` with the explicit constant
-`c = (r!)² / (2 ^ (r − 1) d ^ r)`. "Fundamental system" is what Mathlib's
+/-- **Layer 6.3 — a fundamental system of small height exists** (Bugeaud–Győry 1996, Lemma 1,
+the case `S = S_∞`). The converse of Hadamard's bound cannot hold for every fundamental system — a
+unimodular change of basis makes the heights arbitrarily large at fixed regulator — but some
+fundamental system, a reduced basis of the unit lattice, has `∏ h(ε i) ≤ c(r, d) · R` with the
+explicit constant `c = (r!)² / (2 ^ (r − 1) d ^ r)`. Route, theirs: 4.2 for the ℓ¹ unit ball, of
+volume `2 ^ r / r!`, on `unitLattice K`, of covolume `regulator K`, gives `∏ λ i ≤ r! · R`; the
+basis of 4.6 costs `r! / 2 ^ (r − 1)`; and `h(ε) ≤ ‖logEmbedding ε‖₁ / d` by 6.1, which costs
+`d ^ (-r)`. "Fundamental system" is what Mathlib's
 `closure_fundSystem_sup_torsion_eq_top` says of `fundSystem`: `r` units generating the unit
 group modulo torsion. -/
 theorem exists_fundSystem_prod_absLogHeight₁_le :

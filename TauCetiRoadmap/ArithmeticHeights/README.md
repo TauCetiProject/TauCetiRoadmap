@@ -47,9 +47,10 @@ Mathlib's height work](#relationship-to-mathlibs-height-work)*.
   that make it an object rather than a definition: the **Cauchy–Binet identity** computing it as a
   determinant, the **duality theorem** `H(V) = H(V^⊥)`, and **submodularity** over the subspace
   lattice, with the product bounds on `H(V ⊓ W)` and `H(V ⊔ W)` it yields.
-- **Successive minima**, **Minkowski's second theorem**, and the two lemmas that turn their
-  real-lattice output into number-field statements: the **extraction lemma** and **Vaaler's
-  cube-slicing theorem**.
+- **Successive minima**, **Minkowski's second theorem**, the two lemmas that turn their
+  real-lattice output into number-field statements — the **extraction lemma** and **Vaaler's
+  cube-slicing theorem** — and the **basis lemma** that turns the minima into a lattice basis,
+  which the unit group consumes.
 - **Siegel's lemma** in height form, over `ℤ` and over a number field, and the **Bombieri–Vaaler**
   refinement — the summit.
 - The dictionary between heights and the **unit group**: units of height one, the regulator against
@@ -468,7 +469,9 @@ instance behind it, immediate from 3.1's injectivity and Layer 1.1.
 
 Minkowski's convex-body theorem is Mathlib's; the second theorem is not, and Bombieri–Vaaler needs
 it, together with two lemmas that convert its real-lattice output into number-field statements:
-the extraction lemma (4.4) and the cube-slicing theorem (4.5). Everything in this layer is stated
+the extraction lemma (4.4) and the cube-slicing theorem (4.5). The reduced fundamental system of
+6.3 needs it too, together with the lemma that turns the minima into a lattice basis (4.6).
+Everything in this layer is stated
 against Mathlib's `ZLattice`, `ZLattice.covolume` and `mixedEmbedding`, with the ambient measure a
 Haar measure (`[IsAddHaarMeasure (volume : Measure E)]`), which is the hypothesis every covolume
 statement in Mathlib carries.
@@ -496,7 +499,7 @@ statements transfer without re-deriving anything.
 With `n = finrank ℝ E` and `B` as in 4.1, `(2ⁿ / n!) · covolume L ≤ (∏ i < n, λ i) · vol B` and
 `(∏ i < n, λ i) · vol B ≤ 2ⁿ · covolume L`. The first follows from the first theorem applied to a
 scaled body; the second is the substantial half, by the compression argument along a basis
-realizing the minima. Both are milestones; the second is the one Layer 5 consumes. Cassels'
+realizing the minima. Both are milestones; the second is the one Layer 5 and 6.3 consume. Cassels'
 Theorem I of the same chapter is the sphere case, and its Hadamard-inequality argument is the
 skeleton of the general proof — Cassels says as much — so it is the model to read first; it is
 not a separate target, since Theorem II contains it.
@@ -645,6 +648,23 @@ are the specification. The route keeps Layer 4 free of adelic Haar measure and s
 contributor who prefers the adelic route must first build adelic Haar measure on
 `NumberField.AdeleRing`, a substantially larger undertaking that nothing in this roadmap is
 stated against.
+
+**4.6 A basis from the minima** (Cassels, p. 135, Lemma 8, as Bugeaud–Győry cite it). With `L` and
+`B` as in 4.1, `L` has a `ℤ`-basis `b 0, …, b (n − 1)` with
+`b i ∈ (max 1 ((i + 1) / 2) · λ i) • B` for every `i < n`, `λ i = successiveMinimum L B i`. Against
+4.2 this loses exactly `∏ i < n, max 1 ((i + 1) / 2) = n! / 2^{n−1}`, which is the `r! / 2^{r−1}`
+in 6.3's constant. ⚠ The independent vectors that realize the minima (4.1) need not be a basis of
+`L`, and 4.4 does not make them one: it selects vectors independent over a field and says nothing
+about the index of the lattice they span. State the general form the proof gives, and the minima
+form as its corollary: for any `ℝ`-independent `a 0, …, a (n − 1)` in `L` there is a basis with
+`gauge B (b j) ≤ max (gauge B (a j)) (½ ∑_{i ≤ j} gauge B (a i))`. Route, by induction on `j`, with
+`V_j` the real span of `a 0, …, a (j − 1)`: the quotient `(L ∩ V_{j+1}) / (L ∩ V_j)` is torsion-free
+of rank one, so a basis `b 0, …, b (j − 1)` of `L ∩ V_j` extends by one vector `b` to a basis of
+`L ∩ V_{j+1}`, and `a j = c • b + w` with `c` a nonzero integer and `w ∈ L ∩ V_j`. If `|c| = 1`,
+take `b j = a j`. Otherwise write `b = c⁻¹ • a j + ∑_{i<j} t_i • a i` and subtract
+`∑_{i<j} round t_i • a i`, an element of `L ∩ V_j`; what remains still extends the basis, and has
+gauge at most `½ gauge B (a j) + ½ ∑_{i<j} gauge B (a i)`. The corollary follows from monotonicity of
+the minima and the `gauge` correspondence of 4.1. This is lattice algebra with no measure in it.
 
 ### Layer 5: Siegel's lemma and Bombieri–Vaaler (the summit)
 
@@ -806,8 +826,15 @@ fundamental system* `ε₁, …, ε_r`, in particular Mathlib's `fundSystem`:
 of `logEmbedding`s (Mathlib's `regulator` is the covolume of `unitLattice`), each row has ℓ¹ norm at
 most `2 · logHeight₁ ε_i = 2 d · h(ε_i)` by 6.1, and Hadamard's inequality bounds a determinant by
 the product of the ℓ² norms of its rows, which are at most the ℓ¹ norms. *A reduced basis exists*
-(Bugeaud–Győry 1996, Lemma 1): there is a fundamental system with `∏ h(ε_i) ≤ c · regulator K`,
-`c = (r!)² / (2^{r−1} d^r)`. ⚠ The second statement is an existence statement and cannot be made
+(Bugeaud–Győry 1996, Lemma 1, the case `S = S_∞`): there is a fundamental system with
+`∏ h(ε_i) ≤ c · regulator K`, `c = (r!)² / (2^{r−1} d^r)`. Route, which is theirs and produces
+exactly this constant: apply the substantial half of 4.2 to `unitLattice K`, whose covolume is
+`regulator K`, with `B` the closed ℓ¹ unit ball of `{w // w ≠ w₀} → ℝ`, of volume `2^r / r!`
+(Mathlib's `MeasureTheory.volume_sum_rpow_le` at `p = 1`), so that `∏ λ_i ≤ r! · regulator K`; take
+the basis `b` of 4.6, which costs `r! / 2^{r−1}`, and units `ε_i` with `logEmbedding ε_i = b_i`,
+a fundamental system because `logEmbedding` is injective modulo torsion (`logEmbedding_ker`); and
+bound each height by 6.1, `h(ε_i) = logHeight₁ ε_i / d ≤ ‖b_i‖₁ / d`, which contributes `d^{−r}`.
+⚠ The second statement is an existence statement and cannot be made
 for `fundSystem` or for every fundamental system: a unimodular change of basis makes the heights
 arbitrarily large at fixed regulator. Nor is it a statement with unspecified constants: for a fixed
 `K`, `∃ c₁ c₂ > 0, c₁ R ≤ ∏ h(ε_i) ≤ c₂ R` is true of any positive numbers and says nothing. The
@@ -936,8 +963,8 @@ Layers 0–1; Layer 3 is the more valuable and the more delicate, and 3.1 should
 anything else in it is attempted, because every later statement is about the object it constructs.
 Layer 4 touches Layers 1–3 only through 4.3, whose statement uses the subspace height of 3.2 and
 whose `ℚ`-case is Cauchy–Binet (3.4); 4.1 and 4.2 are real-analytic geometry of numbers, 4.4 is
-self-contained linear algebra, and 4.5 is self-contained real analysis — claimable on its own — so
-most of the layer can be built in parallel from the start by someone who prefers those subjects. Layer 5 needs 3 and 4 together; 5.1 needs neither and can land
+self-contained linear algebra, 4.5 is self-contained real analysis — claimable on its own — and
+4.6 is lattice algebra on top of 4.1, so most of the layer can be built in parallel from the start by someone who prefers those subjects. Layer 5 needs 3 and 4 together; 5.1 needs neither and can land
 early as the acceptance test for the vocabulary, and 5.2 needs only 3.4, 4.2, 4.5 and the `ℚ`-case
 of 4.3.
 
@@ -949,7 +976,9 @@ normalization of 5.2 and 5.4 rather than the sharpness of either; a contributor 
 published theorem on its own**: 4.1 → 4.2 → 4.3(`ℚ`) →
 4.5 → 5.2 is Bombieri–Vaaler's Theorem 1 in basis form at the sharp constant, with a written model
 proof at every step (Aliev–Henk §6 for the assembly, Bombieri–Gubler C.3 for 4.5, Cassels VIII for
-4.2), and it needs neither 4.4 nor any number field. Layer 6 needs only Layers 0 and 1 and is likewise independent of 2–5.
+4.2), and it needs neither 4.4 nor any number field. Layer 6 needs Layers 0 and 1 and, for the
+reduced fundamental system of 6.3 alone, Layer 4: 4.1's attainment, the substantial half of 4.2,
+and 4.6. The rest of Layer 6 is independent of Layers 2–5.
 
 Register an intention before a substantial push; the layers above are deliberately claimable
 separately.
@@ -1038,8 +1067,17 @@ credit the source in the ported file.
   discriminant bound of Theorem 2.9.4. Its (1.3) is the Hermitian inequality of 5.3 and its (1.4)
   the max-norm inequality of 5.4, with the remark on cube slicing quoted at 5.4.
 - Y. Bugeaud and K. Győry, "Bounds for the solutions of unit equations", *Acta Arithmetica* **74**
-  (1996), 67–80. Lemma 1 is the reduced-basis statement of 6.3: a fundamental system of units with
-  `∏ h(ε_i) ≤ ((r!)² / (2^{r−1} d^r)) · R`, in the absolute logarithmic height.
+  (1996), 67–80. Lemma 1 (§3, p. 71) is the reduced-basis statement of 6.3, stated for `S`-units:
+  a fundamental system with `∏ log h(ε_i) ≤ c₄ R_S`, `c₄ = ((s−1)!)² / (2^{s−2} d^{s−1})`, where
+  `s = |S|` counts the archimedean places, so that `S = S_∞` (`s − 1 = r`) is 6.3's constant. Their
+  `h` is the *multiplicative* absolute height, so their `log h` is this roadmap's `h`. The proof
+  (pp. 71–72) is the route 6.3 pins: Minkowski's second theorem for the ℓ¹ distance function on the
+  logarithmic lattice (their (9), citing Cassels Ch. VIII), Cassels' p. 135 Lemma 8 for the basis
+  (their (11); 4.6 here), and the two-sided comparison of 6.1 (their (12)). They attribute the
+  lemma to L. Hajdu, "A quantitative version of Dirichlet's S-unit theorem in algebraic number
+  fields", *Publ. Math. Debrecen* **42** (1993), 239–246, which extends B. Brindza, "On the
+  generators of S-unit groups in algebraic number fields", *Bull. Austral. Math. Soc.* **43**
+  (1991), 325–329, and reprove it with a slightly better constant than Hajdu's.
 - I. Aliev and M. Henk, "Minkowski's successive minima in convex and discrete geometry",
   *Communications in Mathematics* **31** (2023), no. 2, 35–59. §6 (Theorems 6.2–6.3) is the
   adele-free assembly of 5.2 over `ℚ` — the covolume identity, cube slicing, and Minkowski's
@@ -1081,7 +1119,8 @@ credit the source in the ported file.
 - J. W. S. Cassels, *An Introduction to the Geometry of Numbers*, Springer, 1959. Ch. VIII §1 for
   the definition of the successive minima and the lemma that they are attained, Theorem I for the
   sphere case and Theorem II for a general distance function — the two halves of Layer 4.2, in the
-  real formulation this roadmap pins.
+  real formulation this roadmap pins. Bugeaud–Győry cite p. 135, Lemma 8 of this edition for the
+  basis of 4.6, `F(b_i) ≤ max(1, i/2) · λ_i` with the minima indexed from `1`.
 - M. Waldschmidt, *Diophantine Approximation on Linear Algebraic Groups*, Grundlehren 326, 2000. Ch.
   3 for heights and Ch. 4 for the auxiliary-polynomial use of Siegel's lemma that Layer 5.7
   packages.
