@@ -32,6 +32,7 @@ private abbrev SingularHomology (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
 example {X : TopCat} (A : Set X) : TopPair :=
   TopPair.ofSubset A
 
+set_option synthInstance.maxHeartbeats 40000 in
 /-- Ordinary singular chains remain the absolute chain functor used by the relative theory. -/
 noncomputable example (R : Type*) [CommRing R] :
     ModuleCat R ⥤ TopCat ⥤ ChainComplex (ModuleCat R) ℕ :=
