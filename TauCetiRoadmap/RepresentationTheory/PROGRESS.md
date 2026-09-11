@@ -130,3 +130,50 @@ The [finite-dimensional highest-weight classification](https://taucetiproject.gi
 The classification of symmetric-group representations now works over `ℂ` as well as `ℚ`: [complex Specht modules are indexed bijectively by partitions](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Complex.html#TauCeti.partitionEquivSimpleFDRepClassesℂ), and their characters are precisely the integer Specht characters read in `ℂ`. Character-table computation acquired an [assembled exact-cyclotomic Dixon-Schneider stage](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/CharacterTable/Dixon/Cyclotomic/Solver.html#TauCeti.ClassData.dixonCyclotomicCharacterTable?) whose successful outputs satisfy the exact and complex specifications; this is still short of the roadmap's general certified solver and worked `#eval` summit.
 
 Auslander-Reiten theory advanced from the transpose to the [translate `τ = D Tr`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Module/AuslanderReiten/Translate.html#TauCeti.AuslanderReitenTranslate), independent up to equivalence of the chosen minimal projective presentation, together with the self-dual notion of an [almost-split sequence](https://taucetiproject.github.io/TauCeti/docs/TauCeti/CategoryTheory/AlmostSplit/Sequence.html#CategoryTheory.ShortComplex.IsAlmostSplit). Existence of such sequences and AR duality remain open. Compact representation theory also gained the [character projector onto an isotypic component](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Compact/Character/IsotypicProjection.html#ContRepresentation.range_isotypicProjector).
+
+<!--tauceti-progress:v1 {"from_sha":"9f8f0e7168e182286a822c184bb165c121fede9b","prs":[5359,5472,5605,5699,5850,5856,5862,5876,5880,5885,5898,6055,6069,6079,6096,6097,6115,6133,6140,6159,6162,6163,6166,6167,6171,6175,6183,6190,6209,6234,6262],"roadmap":"RepresentationTheory","to_sha":"aa9e5f89ab3cee691992ab2274b0da31961faabb"}-->
+## RepresentationTheory: 2026-09-06 to 2026-09-10 (`9f8f0e7` to `aa9e5f8`)
+
+The symmetric group got its character table. Garnir straightening now writes every polytabloid as a
+rational combination of the standard ones, so the polytabloids of the standard tableaux of a shape
+are a
+[basis of the Specht module](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/StandardBasis.html#TauCeti.standardPolytabloidBasis)
+and the
+[dimension of `S^μ`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/StandardBasis.html#TauCeti.finrank_spechtModule)
+is the number `f^μ` of those tableaux (TauCeti#5699). On that basis rests the
+[integer character table of `Sₙ`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Character.html#TauCeti.symmetricCharacterTable),
+the matrix of Specht character values `χ^μ(ν)` on cycle types, with
+[row](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Orthogonality.html#TauCeti.symmetricCharacterTable_row_orthogonality)
+and
+[column orthogonality](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Orthogonality.html#TauCeti.symmetricCharacterTable_column_orthogonality)
+in their classical weighted forms, and with its complex reading identified with the general character
+table of the group (TauCeti#6069). The Murnaghan-Nakayama recursion that would compute the entries is
+not here.
+
+[Clifford's theorem](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Induction/Clifford/Equivalence.html#FDRep.clifford_restrict_iso)
+also landed: the restriction of an irreducible representation to a normal subgroup is `e` copies of
+each conjugate of one simple constituent, the distinct conjugates indexed by the cosets of its inertia
+group. A worked case comes with it, the nontrivial linear characters of the alternating group
+[inducing irreducibly](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Induction/Clifford/Alternating.html#TauCeti.simple_indFDRep_ofLinearCharacter_alternatingGroup)
+to the symmetric group. On the compact side the
+[unitary dual of the circle](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Compact/Circle.html#ContRepresentation.existsUnique_nonempty_equiv_fourierRep)
+is `ℤ`: every finite-dimensional irreducible continuous representation is a Fourier monomial, for
+exactly one index.
+
+The `gl_n` lane assembled much of what Kostant's isotypy corollary asks for. The Clifford module of
+`gl_n` is
+[completely reducible](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/GeneralLinear/CompleteReducibility.html#TauCeti.complementedLattice_lieSubmodule_car),
+the ordered product of the positive matrix-unit generators is a
+[highest-weight vector](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/GeneralLinear/CAR/HighestWeight.html#TauCeti.isGlHighestWeightVector_carHighestWeightVector)
+of staircase weight, and a
+[single-weight criterion](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/GeneralLinear/Isotypic.html#TauCeti.isIsotypic_of_forall_isGlHighestWeightVector)
+makes a module with only that weight isotypic; the corollary itself is still unstated. Alongside, the
+exceptional isomorphism
+[`Spin(3) ≅ SL₂`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Spin/Exceptional/Three/Group.html#TauCeti.exists_spinGroup_mulEquiv_specialLinearGroup_and_spinRep_equiv_stdSLRep_of_finrank_eq_three)
+carrying the spin representation to the standard two-dimensional one, the
+[strong exchange condition](https://taucetiproject.github.io/TauCeti/docs/TauCeti/GroupTheory/Coxeter/StrongExchange.html#CoxeterSystem.strongExchange)
+and the
+[Bruhat order](https://taucetiproject.github.io/TauCeti/docs/TauCeti/GroupTheory/Coxeter/Bruhat.html#CoxeterSystem.bruhatPartialOrder)
+for abstract Coxeter systems, and the
+[intrinsic Wedderburn block data](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Semisimple/Wedderburn/Canonical.html#TauCeti.WedderburnPresentation.exists_equiv_degree_eq_blockMultiplicity)
+of a semisimple ring.
