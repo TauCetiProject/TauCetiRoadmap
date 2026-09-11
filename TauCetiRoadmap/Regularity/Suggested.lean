@@ -19,7 +19,8 @@ The pinned choices, at a glance: finite graphs use Mathlib's `SimpleGraph` and p
 unweighted `Finpartition.energy`; hypergraphs are unordered (`UniformHypergraph`) with ordered
 injective-tuple views for counting; top relations are a **total, unordered** coloring
 `Colored3Graph κ₃ V`, and pair colors use a **separate** palette (`κ₂` for the generic lower-skeleton
-API; the regular-approximation theorem chooses `Fin C.pairColorCount`). A polyad is genuinely built over a lower skeleton
+API; the regular-approximation theorem chooses `Fin C.pairColorCount`). A polyad is built over
+a lower skeleton
 (cells + the three pair colors); a subpolyad selects **arbitrary subgraphs of the parent polyad's
 three pair graphs** (the vertex-subcell restriction is only a constructor), and top regularity is
 the NRS-style rank-`r` test against unions of at most `r` subpolyads. The regular-approximation theorem quantifies an
@@ -27,14 +28,11 @@ the NRS-style rank-`r` test against unions of at most `r` subpolyads. The regula
 is of `H'` relative to the complex's polyad decomposition, and counting is performed on `H'` — via
 an intrinsic placed-count formula — and transferred back to `H` through the edit bound.
 
-The finite roadmap is **self-contained**: Layer 3 is finite weak regularity (`steppedCount`,
-`cutDiscrepancy`, a direct finite Frieze–Kannan theorem), owned here with no graphon imports —
-finite-facing analytic comparison adapters are separate non-gating interfaces owned here (see
-*Interoperability adapters* in `README.md`). Much
-of Layers 1–4, and Boolean precursors of Layers 5–8, is proved in the prior formalization
-[`cameronfreer/regularity-lemmata`](https://github.com/cameronfreer/regularity-lemmata) (see *Prior
-formalization* in `README.md`); docstrings below point at the proved counterparts and record shape
-deviations. This file imports only Mathlib.
+Layer 3 develops finite weak regularity (`steppedCount`, `cutDiscrepancy`, and the finite
+Frieze–Kannan theorem). Comparisons with the analytic theory are separate required results,
+specified in `README.md`, and are not prerequisites for finite regularity. Source-library
+comparisons are collected in the README's secondary *Prior formalization* section.
+This file imports only Mathlib.
 -/
 
 noncomputable section
@@ -96,10 +94,8 @@ def weightedEnergy (G : SimpleGraph V) [DecidableRel G.Adj]
     ((A.card : ℝ) * (B.card : ℝ) / (Fintype.card V : ℝ) ^ 2) * ((G.edgeDensity A B : ℝ)) ^ 2
 
 /-- **Layer 1.** Weighted energy is monotone under refinement (`P ≤ Q` = `P` finer, so more energy) —
-true by `L²`-Pythagoras. This is the reusable input; Mathlib's unweighted `Finpartition.energy` is
-**not** Jensen-monotone under arbitrary refinement (only inside its `increment` argument).
-Proved counterparts in `regularity-lemmata` (`Partition/Energy.lean`): `energy` with `energy_mono`
-and `energy_le_one`, in greater generality (directed relations on an arbitrary `Finset` host). -/
+by `L²`-Pythagoras. Mathlib's unweighted `Finpartition.energy` is not Jensen-monotone under
+arbitrary refinement; its increment estimate applies to its particular refinement construction. -/
 theorem weightedEnergy_mono_of_refines (G : SimpleGraph V) [DecidableRel G.Adj]
     {P Q : Finpartition (univ : Finset V)} (h : P ≤ Q) :
     weightedEnergy G Q ≤ weightedEnergy G P := sorry
@@ -120,9 +116,7 @@ def AlmostRefines (P P₀ : Finpartition (univ : Finset V)) (δ : ℝ) : Prop :=
     ((A \ T.biUnion id).card : ℝ) ≤ δ * A.card
 
 /-- **Layer 2.** The `V`-independent complexity bound for the refining-regularity theorem: it bounds
-a partition that is simultaneously regular, equitable, and almost-refining. The prior
-formalization's `regularityBound ⌈1/ε⁵⌉ #P₀.parts` bounds only its intermediate exact refinement, so
-the value here is established at this layer. -/
+a partition that is simultaneously regular, equitable, and almost-refining. -/
 def refiningRegularityBound (ε : ℝ) (l : ℕ) : ℕ := sorry
 
 /-- **Layer 2.** A regular equipartition almost-refining `P₀`, with a host-independent complexity
@@ -138,20 +132,15 @@ theorem exists_regular_equipartition_almost_refining (G : SimpleGraph V) [Decida
 
 /-- **Layer 3.** The count predicted by the `P`-stepped graph on the test rectangle `(A, B)`: each
 cell pair contributes its edge density times the trace masses `|A ∩ C|·|B ∩ D|`. Count-scaled
-throughout — this layer is self-contained finite combinatorics, with no graphon imports (the
-finite-facing analytic comparison adapters are separate non-gating interfaces; see `README.md`).
-Proved counterpart:
-`RegularityLemmata.steppedCount` (for directed relations). -/
+throughout. -/
 def steppedCount (G : SimpleGraph V) [DecidableRel G.Adj]
     (P : Finpartition (univ : Finset V)) (A B : Finset V) : ℝ :=
   ∑ p ∈ P.parts ×ˢ P.parts,
     (G.edgeDensity p.1 p.2 : ℝ) * ((A ∩ p.1).card : ℝ) * ((B ∩ p.2).card : ℝ)
 
 /-- **Layer 3.** The cut discrepancy of `G` against the `P`-stepped approximation: the maximum
-rectangle deviation between the true interedge count and the stepped prediction. Deliberately
-**count-scaled** (`|V|²`-sized, not normalized) and deliberately *not* called a "cut norm" — the
-analytic cut norm is the graphon roadmap's independent object. Proved counterpart:
-`RegularityLemmata.cutDiscrepancy`. -/
+rectangle deviation between the true interedge count and the stepped prediction, count-scaled
+by `|V|²` rather than normalized. -/
 def cutDiscrepancy (G : SimpleGraph V) [DecidableRel G.Adj]
     (P : Finpartition (univ : Finset V)) : ℝ :=
   ((univ : Finset V).powerset ×ˢ (univ : Finset V).powerset).sup'
@@ -175,9 +164,8 @@ theorem cutDiscrepancy_le_iff {G : SimpleGraph V} [DecidableRel G.Adj]
     exact h A B
 
 /-- **Layer 3 (endpoint).** The finite Frieze–Kannan weak regularity theorem, with the rectangle
-conclusion quantified (the directly usable form) and the explicit single-exponential bound. Proved
-in `regularity-lemmata` (`frieze_kannan`, `Graph/FriezeKannan.lean`) by direct energy increment,
-with **no analytic prerequisites**; the target here is its `SimpleGraph` specialization. -/
+conclusion quantified and the explicit single-exponential bound. The proof uses finite energy
+increment. -/
 theorem frieze_kannan (G : SimpleGraph V) [DecidableRel G.Adj] (ε : ℝ) (hε : 0 < ε) :
     ∃ P : Finpartition (univ : Finset V), P.parts.card ≤ 4 ^ (⌈1 / ε ^ 2⌉₊ + 1) ∧
       ∀ A B : Finset V,
@@ -185,8 +173,7 @@ theorem frieze_kannan (G : SimpleGraph V) [DecidableRel G.Adj] (ε : ℝ) (hε :
           ε * (Fintype.card V : ℝ) ^ 2 := sorry
 
 /-- **Layer 3.** The supremum form: the cut discrepancy itself is at most `ε·|V|²`, obtained from the
-rectangle-quantified statement through `cutDiscrepancy_le_iff`. Proved counterpart:
-`RegularityLemmata.frieze_kannan_cutDiscrepancy`. -/
+rectangle-quantified statement through `cutDiscrepancy_le_iff`. -/
 theorem frieze_kannan_cutDiscrepancy (G : SimpleGraph V) [DecidableRel G.Adj] (ε : ℝ)
     (hε : 0 < ε) :
     ∃ P : Finpartition (univ : Finset V), P.parts.card ≤ 4 ^ (⌈1 / ε ^ 2⌉₊ + 1) ∧
@@ -216,11 +203,7 @@ theorem exists_regular_exact_refining_equipartition (G : SimpleGraph V) [Decidab
 /-- **Layer 4.** A strong-regularity witness: a coarse `P` and fine `Q` (`Q ≤ P`, i.e. `Q` refines
 `P`), both equipartitions, with `P` `ε`-uniform, `Q` `F(#P.parts)`-uniform, a small weighted-energy
 gap, and a complexity bound on `Q` in terms of the starting complexity `l₀`. The `boundedFine`
-field is essential — it prevents `⊥` (discrete) from being the universal large-graph witness. The
-proved counterpart (`RegularityLemmata.StrongWitness`) deviates: it has **no equipartition fields
-and no coarse-partition regularity** (so `regP` has no proved analogue), bundles the error schedule
-with its positivity (`ErrorSchedule`), and keeps the complexity bound in the theorem conclusion
-rather than as a field. -/
+field gives a host-independent upper bound on the number of fine parts. -/
 structure StrongRegular (G : SimpleGraph V) [DecidableRel G.Adj]
     (P Q : Finpartition (univ : Finset V)) (ε : ℝ) (F : ℕ → ℝ) (l₀ : ℕ) : Prop where
   refines : Q ≤ P
@@ -547,9 +530,7 @@ def Polyad3.ofData {S : PairSkeleton3 κ₂ V} (c₀ c₁ c₂ : Finset V)
   color₀₂ := k₀₂
   color₁₂ := k₁₂
 
-/-- **Layer 6.** The adapter key dictionary for `regularity-lemmata`'s `polyadBlock`, which keys a
-face by the coordinate it **omits** while `Polyad3` keys a role pair: the translation is
-index-reversed. -/
+/-- **Layer 6.** Translate role-pair colors to face keys indexed by the omitted coordinate. -/
 def faceKey (k₀₁ k₀₂ k₁₂ : κ₂) : Fin 3 → κ₂ := ![k₁₂, k₀₂, k₀₁]
 
 @[simp] theorem faceKey_zero (k₀₁ k₀₂ k₁₂ : κ₂) : faceKey k₀₁ k₀₂ k₁₂ 0 = k₁₂ := rfl
@@ -743,16 +724,15 @@ def unionSupport {S : PairSkeleton3 κ₂ V} {P : Polyad3 S} {r : ℕ}
 union of at most `r` **subpolyads** (arbitrary subgraphs of the parent pair graphs — the
 Rödl–Schacht/Nagle–Rödl–Schacht test surface) carrying a `δ`-fraction of the parent support, the
 relative density is stable. `r = 1` is the disc-regular form ("disc-regular" is descriptive
-shorthand; NRS write `(δ, r)`-regular, so this is their `(δ, 1)`-regular case); Layer 9 pins the
-rank the counting theorem needs from the pattern size. Prior-formalization correspondence:
-`IsDiscRegularAt` (`r = 1`) and `IsPolyadRegularAt … r`. -/
+shorthand; NRS write `(δ, r)`-regular, so this is their `(δ, 1)`-regular case). Layer 9 specifies
+the required counting rank as a function of the pattern size and error. -/
 def IsTopRegularOverPolyad (H : Colored3Graph κ₃ V) {S : PairSkeleton3 κ₂ V}
     (P : Polyad3 S) (δ : ℝ) (r : ℕ) : Prop :=
   ∀ (c : κ₃) (Q : Fin r → Subpolyad3 P),
     δ * (P.support.card : ℝ) ≤ ((unionSupport Q).card : ℝ) →
       |(relDensityOn H c (unionSupport Q) : ℝ) - (relativeDensity H c P : ℝ)| ≤ δ
 
-/-- **Layer 7.** The honest **weaker** predicate: density stability on vertex-box restrictions only
+/-- **Layer 7.** The weaker predicate: density stability on vertex-box restrictions only
 (shrink the three cells, keep the full pair graphs). Useful as an intermediate target and for the
 `r = 2` shadow gate — but **not** the predicate the induced-counting theorem consumes: vertex-box
 discrepancy alone is generally not counting-ready strength. -/
@@ -777,9 +757,7 @@ structure TriadicComplex3 (V : Type*) [Fintype V] [DecidableEq V] where
   polyads : Finset (Polyad3 skeleton)
 
 /-- **Layer 8.** The complexity of a triadic complex: a **computed** structural measure — vertex
-cells + pair colors + polyads — so `ComplexityBounded` and the local parameter `F C.complexity`
-genuinely control the structure. (A free stored field could be set to `0` and would control
-nothing.) Each component is individually bounded by it. -/
+cells + pair colors + polyads. Each component is bounded by it. -/
 def TriadicComplex3.complexity (C : TriadicComplex3 V) : ℕ :=
   C.skeleton.vertexPart.parts.card + C.pairColorCount + C.polyads.card
 
@@ -887,7 +865,7 @@ approximant**: `H'` is within `ε` edit discrepancy of `H`, `C`'s polyads decomp
 triples, `C`'s lower skeleton is regular, the **approximant `H'`** is
 `(F C.complexity, R C.complexity)`-top-
 regular over most polyads (exceptional mass `ε`), and `C`'s complexity is bounded (by a bound
-depending on the top palette size, the rank schedule, and the vertex floor `t₀`). Counting happens on `H'`
+depending on the top palette size, the rank schedule, and the vertex floor `t₀`). Counting is on `H'`
 and transfers to `H` through the edit bound (Layer 9). -/
 def IsStrongRegularApproximation3 (H H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (ε : ℝ) (F : ℕ → ℝ) (R : ℕ → ℕ) (t₀ : ℕ) : Prop :=
@@ -901,13 +879,8 @@ and vertex-complexity floor `t₀` (with `V` large enough to house it), every co
 complex with **controlled vertex cells** (equitable, at least `t₀` of them — the diagonal-gate
 input Layer 9 consumes) over which `H'` is `(·, R C.complexity)`-regular. The schedule is chosen
 before the complexity bound, and evaluated only at the returned complex, as in Rödl–Schacht I,
-Theorem 2.3 (using a scalar majorant of its lower-complexity tuple). The complex **chooses** its own lower
-pair palette (`Fin C.pairColorCount`), so the theorem does not assume an arbitrary fixed pair
-palette works. Boolean precursors proved in `regularity-lemmata`: the weak endpoint
-`exists_goodColoring` and the edited endpoint `exists_triadic_regular_approximation`, whose
-deletion-only edited hypergraph is the Boolean specialization precedent for this
-explicit-approximant architecture (the full shapes still differ; see the Layers 5–8 note in
-`README.md`). -/
+Theorem 2.3 (using a scalar majorant of its lower-complexity tuple). The complex chooses its lower
+pair palette (`Fin C.pairColorCount`). -/
 theorem exists_strong_regular_approximation3 (H : Colored3Graph κ₃ V)
     (ε : ℝ) (hε : 0 < ε) (F : ℕ → ℝ) (hF : ∀ n, 0 < F n) (R : ℕ → ℕ)
     (hR : ∀ n, 1 ≤ R n) (t₀ : ℕ)
