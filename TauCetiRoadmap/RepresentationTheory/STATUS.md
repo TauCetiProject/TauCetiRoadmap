@@ -1,37 +1,56 @@
-<!--tauceti-status:v1 {"roadmap":"RepresentationTheory","to_sha":"dfa452e279e454d02f2d4f4002047ea1078b8969","ts":"2026-08-19T06:48:22Z"}-->
+<!--tauceti-status:v1 {"roadmap":"RepresentationTheory","to_sha":"aa9e5f89ab3cee691992ab2274b0da31961faabb","ts":"2026-09-10T22:09:52Z"}-->
 # Status: RepresentationTheory
 
-This file documents the status of the RepresentationTheory roadmap up until `dfa452e` (2026-08-19T06:48:22Z). There may have been subsequent updates.
+This file documents the status of the RepresentationTheory roadmap up until `aa9e5f8` (2026-09-10T22:09:52Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Root-system classification through pinned integral data is complete; the character table, Peter–Weyl theorem, rational classification for `Sₙ`, and algebraic Pin/Spin double covers also stand. Highest-weight classification, spin representations, Gabriel’s theorem and the executable character-table solver remain incomplete; because the supplied record truncates some declaration lists, the account below is limited to results explicitly visible there and in the preceding snapshot.
+**At a glance.** The Cartan-Killing classification, the character table of a finite group, the
+character table of the symmetric group, Peter-Weyl, Weyl complete reducibility and the
+finite-dimensional highest-weight classification are all established. Genuinely partial are the
+executable character-table algorithm, the spin representations, Schur-Weyl duality, Gabriel's theorem
+and the Lie-group correspondence; the classical groups as a family, Mackey decomposition, and the
+deeper Lie-group structure theory have not begun in the supplied record.
 
 ### Named results
 
-- **[The Peter–Weyl theorem](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Compact/PeterWeyl.html#TauCeti.stdPeterWeylBasis)** — normalized matrix coefficients of the finite-dimensional irreducible unitary representations of a compact Hausdorff group form a Hilbert basis of `L²(G)`.
-- **[The character table and both orthogonality relations](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/CharacterTable/Table.html#TauCeti.characterTable)** — irreducible characters form a basis of class functions, with rows and columns satisfying their respective orthogonality relations.
-- **[The classification of irreducible rational representations of `Sₙ`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Completeness.html#TauCeti.partitionEquivSimpleModuleClasses)** — partitions classify simple `ℚ[Sₙ]`-modules; the statement is over `ℚ`, not an arbitrary characteristic-zero field.
-- **[The Cartan–Killing classification](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/FiniteType/Classification.html#TauCeti.existsUnique_dynkinType)** — every irreducible reduced crystallographic finite root system has a unique valid Dynkin type.
-- **The [Pin](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Pin/DoubleCover.html#CliffordAlgebra.pinDoubleCover) and [Spin](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/DoubleCover.html#CliffordAlgebra.spinDoubleCover) double covers** — over a separably closed field with `2` invertible, the actions give extensions of `O(Q)` and `SO(Q)` by `ℤ/2`; the general-field Spin image is only the kernel of the spinor norm.
+- **[The Cartan-Killing classification](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/FiniteType/Classification.html#TauCeti.existsUnique_dynkinType)** — every irreducible reduced crystallographic finite root system has a unique valid Dynkin type, and every valid type is realized.
+- **[The finite-dimensional highest-weight classification](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/HighestWeight/FiniteDimensional.html#TauCeti.exists_isDominantIntegral_nonempty_lieModuleEquiv_irreducibleQuotient)** — over an algebraically closed field of characteristic zero, the finite-dimensional irreducibles of a Killing-semisimple Lie algebra are exactly the `L(λ)` for dominant integral weights.
+- **[The Peter-Weyl theorem](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Compact/PeterWeyl.html#TauCeti.stdPeterWeylBasis)** — normalized matrix coefficients of the finite-dimensional irreducible unitary representations of a compact Hausdorff group form a Hilbert basis of `L²(G)`.
+- **[The character table of a finite group](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/CharacterTable/Table.html#TauCeti.characterTable)** — the irreducible characters are a basis of the class functions, with both orthogonality relations in row and column form.
+- **[The character table of the symmetric group](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Character.html#TauCeti.symmetricCharacterTable)** — the integer matrix of Specht character values `χ^μ(ν)` on cycle types, orthogonal in rows and columns, and equal to the general complex character table of `Sₙ` once reindexed.
 
 ### Notable definitions and infrastructure
 
-- **[Pinned simply connected root data](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/Assembly.html#TauCeti.DynkinType.simplyConnectedRootDatum)** — supplies a Bourbaki-numbered integral datum for every valid Dynkin type, ready for constructions that need an explicit carrier.
-- **[The central Casimir element](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/UniversalEnveloping/Casimir.html#TauCeti.casimirElement_mem_center)** — provides the main operator for extending complete reducibility beyond `sl₂`, although its required scalar-action and splitting arguments remain.
-- **[The Bender–Knuth involutions](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Combinatorics/Young/BenderKnuth.html#SemistandardYoungTableau.benderKnuth)** — exchange adjacent contents of semistandard tableaux, supplying combinatorics needed for Schur-function symmetry and RSK.
+- **[The standard polytabloid basis](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/StandardBasis.html#TauCeti.standardPolytabloidBasis)** — Garnir straightening gives `S^μ` a basis indexed by the standard tableaux, which is what makes `dim S^μ = f^μ` and the character table computable rather than merely well defined.
+- **[The Bruhat order](https://taucetiproject.github.io/TauCeti/docs/TauCeti/GroupTheory/Coxeter/Bruhat.html#CoxeterSystem.bruhatPartialOrder)** — a partial order on any Coxeter group with the subword property: everything below `w` is spelled by a sublist of every word for `w`. This is the root-system-free Coxeter layer the Weyl-group theory was missing.
+- **[The single-weight isotypy criterion for `gl_N`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/GeneralLinear/Isotypic.html#TauCeti.isIsotypic_of_forall_isGlHighestWeightVector)** — a finite-dimensional module all of whose highest-weight vectors share one weight is isotypic, reducing Kostant's corollary to locating highest-weight vectors.
 
 ### Roadmap coverage
 
-Compact groups are complete through Layer 5; character theory through Layers 5 and 7; root systems through Layers 1, 2 and 4–6; and semisimple algebras through Layers 3–6, with only the uniqueness part of Layer 2 established. Schur–Weyl reaches Layer 4 over `ℚ`. Spin has Layers 0, 2 and 3, the associated-graded part of Layer 1, and real periodicity from Layer 7, but no spin module. Highest-weight theory has `sl₂`, substantial weight theory, ordered PBW spanning, dominant-highest-weight existence and the Casimir, but neither Verma modules nor `L(λ)`. Lie groups reach the exponential and adjoint layers; quivers have reflection functors and new projective/injective and irreducible-morphism infrastructure, but not Krull–Schmidt uniqueness or Gabriel. Induction–restriction has Frobenius reciprocity but not Mackey theory; classical groups have only the extreme Weyl-construction cases. Compact characters and `SU(2)`, Frobenius groups, and the later spin and Lie-group layers are not established here.
+Root systems are done: Layers 1, 2, 4-6, and now the root-system-free Coxeter combinatorics of Layer 3
+(strong exchange, the deletion condition, inversion sequences, Bruhat). Semisimple algebras now reach
+Layer 6 with no gap, Layer 2 uniqueness having been settled by identifying a Wedderburn
+presentation's degrees with intrinsic block multiplicities. Character theory has Layers 0-5 and 7, part of the
+Layer 6 solver, and only groundwork in Layers 8 and 9. Schur-Weyl now has Layers 0-5 and the character
+half of Layer 6, but not Murnaghan-Nakayama, symmetric functions, RSK or the duality itself.
+Highest-weight theory has Layers 0-5, Freudenthal and self-duality from Layer 7, and a substantial
+Layer 9 `gl_n` interface; the three Layer 6 formulas, Harish-Chandra and Serre remain. Compact groups
+reach Peter-Weyl and now have the circle as a fully classified engine case, but not character
+completeness or `SU(2)`. Induction-restriction has Layers 0-2 and Clifford theory in Layer 5, skipping
+the Mackey decomposition and criterion of Layers 3-4. Spin has Layers 0-2, the quadratic
+realization of `𝔰𝔬(V)` in Layer 3, Layer 7, and the Layer 6 isomorphism `Spin(3) ≅ SL₂`, with only a
+type-B fragment of Layers 4-5. Lie groups have Layer 0 and
+partial Layer 2. Quivers have Layer 4 and the Auslander-Reiten translate, but not Gabriel's bijection.
+Classical groups remain untouched.
 
 ## The frontier
 
-- **The Burnside–Dixon–Schneider solver** — the exact arithmetic, good-prime theory, eigenvector search, lift and checker exist, but their assembly into the certified executable solver and its equality theorem remains.
-- **Verma modules and `L(λ)`** — ordered PBW monomials now span the enveloping algebra and dominant highest weights exist uniquely for finite-dimensional irreducibles; the Verma construction, unique irreducible quotient and dominant-weight classification are still absent.
-- **Weyl complete reducibility** — the invariant form and central Casimir are available; its scalar computation together with the dual/Hom-module splitting argument remains.
-- **The spin and half-spin representations** — the double cover is ready, but the Fock model, Clifford action and irreducibility are still needed; these also unlock the Clifford structure theorem.
-- **Gabriel’s theorem** — reflection functors and surrounding module infrastructure are present, while the Krull–Schmidt exchange argument, Coxeter functor and correspondence with positive roots remain.
+- **The Weyl character, dimension and Kostant formulas** — identify the alternating numerator and derive the three formulas; Weyl invariance, the denominator machinery, finite-dimensional `L(λ)`, the isotypic toolkit and Freudenthal recursion are all available.
+- **The Murnaghan-Nakayama rule** — with the standard basis and the character table in hand, the remaining obstacle is the rim-hook recursion for the entries; RSK and Schur-Weyl duality sit beyond it.
+- **Spin representations and Kostant isotypy** — construct the spin and half-spin modules in general and prove irreducibility. The type B polarization is started and the `gl_n` isotypy machinery is ready, but the corollary has no statement.
+- **The Burnside-Dixon-Schneider solver** — connect the certified exact-cyclotomic stage to the modular search, degree recovery and generic exact output, then establish the executable examples.
+- **Gabriel's theorem and almost-split sequences** — upgrade positive-definite finite representation type to the bijection between indecomposables and positive roots, and prove Auslander-Reiten duality and existence from the translate.
