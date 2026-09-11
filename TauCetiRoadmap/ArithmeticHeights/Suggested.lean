@@ -21,6 +21,11 @@ occupy Mathlib's root namespaces. In `TauCeti/` they take the names `README.md` 
 `subspaceMulHeight` is `Submodule.mulHeight`, `pluckerPoint` is `Submodule.pluckerPoint`, and the
 `absMulHeight`/`arakelovMulHeight` families sit in `NumberField`.
 
+Every height below is Mathlib's **relative** height over the fixed field unless it carries the
+`abs` prefix. A constant transcribed from the literature is an absolute-height constant; in the
+relative height it is raised to `Height.totalWeight K`, exactly as Mathlib's `mulHeight₁_sum_le`
+carries `#s ^ totalWeight K`.
+
 The Layer 0.3 signatures below are those of
 [mathlib4#41606](https://github.com/leanprover-community/mathlib4/pull/41606) and deliberately
 carry its names, so that adopting Mathlib's version is a deletion plus an import. Likewise Layer
@@ -41,8 +46,8 @@ variable {K : Type*} [Field K] [NumberField K] {ι : Type*} [Fintype ι]
 
 /-- **Layer 0.1.** The Arakelov height: the ℓ² norm at the archimedean places, weighted by
 `InfinitePlace.mult`, and the sup norm at the finite places. This is the normalization in which
-the Bombieri–Vaaler constant of Layer 5.4 is stated; `Height.mulHeight` uses the sup norm
-everywhere. Both live in the library and every bound says which one it is in.
+the Bombieri–Vaaler constants of Layers 5.3 and 5.4 are stated; `Height.mulHeight` uses the sup
+norm everywhere. Both live in the library and every bound says which one it is in.
 
 The zero tuple takes the junk value `1`, as for `Height.mulHeight`: the displayed product is `0`
 there, which would falsify `1 ≤ arakelovMulHeight` and both comparisons of Layer 0.2 below, which
@@ -86,8 +91,9 @@ theorem mulHeight_le_arakelovMulHeight (x : ι → K) :
 
 /-- **Layer 0.2, upper comparison — the lemma that transports the literature's constants into
 Mathlib's normalization.** The exponent is `totalWeight K = finrank ℚ K`, the sum of the local
-degrees at the archimedean places. -/
-theorem arakelovMulHeight_le_mulHeight (x : ι → K) :
+degrees at the archimedean places. `ι` must be nonempty: on the empty index type both heights
+take the junk value `1` while the right-hand side is `0`. -/
+theorem arakelovMulHeight_le_mulHeight [Nonempty ι] (x : ι → K) :
     arakelovMulHeight x ≤
       (Fintype.card ι : ℝ) ^ ((Height.totalWeight K : ℝ) / 2) * Height.mulHeight x :=
   sorry
@@ -157,6 +163,16 @@ theorem absMulHeight_eq_absMulHeight₁ {K : Type*} [Field K] [CharZero K] (x : 
     absMulHeight ![x, 1] = NumberField.absMulHeight₁ x :=
   sorry
 
+/-- **Layer 0.4 — scaling invariance, for algebraic scalars.** The algebraicity hypothesis is not
+decorative: for `c` transcendental and `x` a nonzero algebraic tuple, `c • x` has a transcendental
+coordinate and `absMulHeight (c • x)` is the junk value `1`. Consequently the descent to
+`Projectivization K (ι → K)` holds only over a field all of whose elements are algebraic,
+`[Algebra.IsAlgebraic ℚ K]` (a number field, or `AlgebraicClosure ℚ`), and is stated there. -/
+theorem absMulHeight_smul_eq {K : Type*} [Field K] [CharZero K] {ι : Type*} [Fintype ι]
+    (x : ι → K) {c : K} (hc : c ≠ 0) (hc' : IsAlgebraic ℚ c) :
+    absMulHeight (c • x) = absMulHeight x :=
+  sorry
+
 end Absolute
 
 /-! ## Layer 1: Northcott, Kronecker, and the Mahler-measure bridge -/
@@ -168,23 +184,25 @@ variable {K : Type*} [Field K] [NumberField K]
 /-- **Layer 1.1.** The Northcott property on projective space, which
 `Mathlib/NumberTheory/Height/Northcott.lean` records as its own TODO. The instance for
 `Projectivization.logHeight` then follows from Mathlib's `Northcott.comp_of_bddAbove`, exactly as
-it does for `logHeight₁`. -/
+it does for `logHeight₁`. ⚠ There is no such instance for `Height.mulHeight` on `ι → K` itself:
+`mulHeight_smul_eq_mulHeight` puts the whole line `Kˣ • x` at one height, so
+`{x | mulHeight x ≤ B}` is infinite for every `B ≥ 1`. Northcott is a property of the projective
+height only. -/
 instance instNorthcottProjectivizationMulHeight {ι : Type*} [Finite ι] :
     Northcott (Projectivization.mulHeight (K := K) (ι := ι)) :=
   sorry
 
-/-- **Layer 1.1.** The Northcott property for tuples over a fixed number field. -/
-instance instNorthcottMulHeight {ι : Type*} [Finite ι] :
-    Northcott (Height.mulHeight (K := K) (ι := ι)) :=
-  sorry
-
-/-- **Layer 1.2 — the bridge to Mathlib's Mahler measure.** For an algebraic number `x`, the
-absolute height is the `deg`-th root of the Mahler measure of the minimal polynomial. Stated as an
-equality of `deg`-th powers so that no real exponentiation appears. This identity is what makes
-Northcott's theorem and Kronecker's theorem cheap. -/
-theorem absMulHeight₁_pow_natDegree {x : ℂ} (hx : IsIntegral ℤ x) :
-    NumberField.absMulHeight₁ x ^ (minpoly ℤ x).natDegree =
-      ((minpoly ℤ x).map (Int.castRingHom ℂ)).mahlerMeasure :=
+/-- **Layer 1.2 — the bridge to Mathlib's Mahler measure.** For an algebraic number `x` with
+primitive integer minimal polynomial `f`, the absolute height is the `deg f`-th root of the Mahler
+measure of `f`. Stated as an equality of `deg`-th powers so that no real exponentiation appears.
+The polynomial is any primitive irreducible `f : ℤ[X]` vanishing at `x`; by Gauss's lemma that
+determines `f` up to sign, and the Mahler measure ignores the sign. ⚠ It is **not**
+`minpoly ℤ x`, which Mathlib defines as `0` off the algebraic integers, so a statement through
+`minpoly ℤ x` covers only integral `x` and cannot feed Northcott's theorem 1.3. This identity is
+what makes Northcott's theorem and Kronecker's theorem cheap. -/
+theorem absMulHeight₁_pow_natDegree {x : ℂ} {f : Polynomial ℤ} (hf : f.IsPrimitive)
+    (hirr : Irreducible f) (hx : Polynomial.aeval x f = 0) :
+    NumberField.absMulHeight₁ x ^ f.natDegree = (f.map (Int.castRingHom ℂ)).mahlerMeasure :=
   sorry
 
 /-- **Layer 1.3 — Northcott's theorem, in the form with varying degree.** Mathlib's
@@ -226,8 +244,17 @@ def polyMulHeight (p : Polynomial K) : ℝ := Finsupp.mulHeight p.toFinsupp.coef
 /-- **Layer 2.1.** The logarithmic height of a polynomial. -/
 def polyLogHeight (p : Polynomial K) : ℝ := log (polyMulHeight p)
 
-/-- **Layer 2.1.** A constant polynomial has the height of its constant. -/
-theorem polyMulHeight_C (a : K) : polyMulHeight (Polynomial.C a) = Height.mulHeight₁ a :=
+/-- **Layer 2.1.** A constant polynomial has height `1`: its coefficient tuple has one entry, and
+a one-entry tuple has height `1` by the product formula (`mulHeight_eq_one_of_subsingleton`),
+with the zero polynomial at the junk value. ⚠ Not `mulHeight₁ a`, which is the height of the
+*two*-entry tuple `![a, 1]`. -/
+theorem polyMulHeight_C (a : K) : polyMulHeight (Polynomial.C a) = 1 :=
+  sorry
+
+/-- **Layer 2.1.** The compatibility with Mathlib's affine height: the linear polynomial with root
+`a` has the height of `a`. -/
+theorem polyMulHeight_X_sub_C (a : K) :
+    polyMulHeight (Polynomial.X - Polynomial.C a) = Height.mulHeight₁ a :=
   sorry
 
 /-- **Layer 2.2 — Gauss's lemma for heights.** At a nonarchimedean place the local factor is
@@ -238,17 +265,20 @@ theorem iSup_nonarch_coeff_mul {v : AbsoluteValue K ℝ} (hv : IsNonarchimedean 
     (⨆ n : ℕ, v ((p * q).coeff n)) = (⨆ n : ℕ, v (p.coeff n)) * ⨆ n : ℕ, v (q.coeff n) :=
   sorry
 
-/-- **Layer 2.3 — Gelfond's inequality, upper half.** -/
+/-- **Layer 2.3 — Gelfond's inequality, upper half.** The literature's `2 ^ (deg p + deg q)` is
+the absolute-height constant; the relative height picks it up once per archimedean place with
+multiplicity, hence the exponent `totalWeight K`. -/
 theorem polyMulHeight_mul_le (p q : Polynomial K) :
     polyMulHeight (p * q) ≤
-      2 ^ (p.natDegree + q.natDegree) * (polyMulHeight p * polyMulHeight q) :=
+      2 ^ ((p.natDegree + q.natDegree) * Height.totalWeight K) *
+        (polyMulHeight p * polyMulHeight q) :=
   sorry
 
 /-- **Layer 2.3 — Gelfond's inequality, lower half.** Together with the upper half this bounds the
 height of a factor, which is the direction transcendence arguments use. -/
 theorem polyMulHeight_mul_polyMulHeight_le (p q : Polynomial K) :
     polyMulHeight p * polyMulHeight q ≤
-      2 ^ (p.natDegree + q.natDegree) * polyMulHeight (p * q) :=
+      2 ^ ((p.natDegree + q.natDegree) * Height.totalWeight K) * polyMulHeight (p * q) :=
   sorry
 
 end Polynomials
@@ -274,14 +304,56 @@ theorem matrixMulHeight_submatrix_le {m' n' : Type*} [Fintype m'] [Fintype n']
     matrixMulHeight (A.submatrix f g) ≤ matrixMulHeight A :=
   sorry
 
-/-- **Layer 2.5.** The product bound; the cardinality factor is the archimedean loss. -/
-theorem matrixMulHeight_mul_le {p : Type*} [Fintype p] (A : Matrix m n K) (B : Matrix n p K) :
-    matrixMulHeight (A * B) ≤ (Fintype.card n : ℝ) * (matrixMulHeight A * matrixMulHeight B) :=
+/-- **Layer 2.5.** The product bound. The archimedean loss at one place is the inner dimension
+`card n` (the triangle inequality on a sum of `card n` terms), so in the relative height it is
+`card n ^ totalWeight K`; over `ℚ(i)`, `A = ![![1, 1]]` and `B = ![![N, 0], ![N, 1]]` show the
+exponent is needed. `n` must be nonempty: for `n` empty, `A * B = 0` has the junk height `1`
+against a right-hand side of `0`. -/
+theorem matrixMulHeight_mul_le {p : Type*} [Fintype p] [Nonempty n]
+    (A : Matrix m n K) (B : Matrix n p K) :
+    matrixMulHeight (A * B) ≤
+      (Fintype.card n : ℝ) ^ Height.totalWeight K * (matrixMulHeight A * matrixMulHeight B) :=
   sorry
 
 end Matrices
 
 /-! ## Layer 3: Plücker coordinates and the height of a subspace -/
+
+section Minors
+
+variable {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] [LinearOrder ι]
+
+/-- **Layer 3.3.** The maximal minor of `A` on the columns indexed by `s`. The order isomorphism
+`Set.powersetCard.orderIsoOfFin` is the index identification, pinned here once and for all so that
+no later statement has to re-choose it. Stated over a commutative ring so that the Cauchy–Binet
+identity below is the ring-generic one. -/
+def minorDet {m : ℕ} (A : Matrix (Fin m) ι R) (s : Set.powersetCard ι m) : R :=
+  (A.submatrix id fun i ↦ (Set.powersetCard.orderIsoOfFin s i : ι)).det
+
+/-- **Layer 3.4 — the Cauchy–Binet identity** (Schmidt 1967, §2 Lemma 1; Bombieri–Gubler,
+Proposition 2.8.8), in its ring-generic form: the determinant of `A Bᵀ` is the sum over the
+`m`-element column sets of the products of the corresponding maximal minors. The two archimedean
+specializations below are what Layer 5 consumes. -/
+theorem det_mul_transpose_eq_sum_minorDet_mul {m : ℕ} (A B : Matrix (Fin m) ι R) :
+    (A * B.transpose).det = ∑ s : Set.powersetCard ι m, minorDet A s * minorDet B s :=
+  sorry
+
+/-- **Layer 3.4 — Cauchy–Binet at a real place.** The ℓ² local factor of the minor vector is the
+square root of the Gram determinant `det (A Aᵀ)`. This is exactly where the `√(det (A Aᵀ))` of the
+Bombieri–Vaaler bound comes from, so it is a named milestone rather than a step inside a proof. -/
+theorem sum_minorDet_sq_eq_det {m : ℕ} (A : Matrix (Fin m) ι ℝ) :
+    ∑ s : Set.powersetCard ι m, minorDet A s ^ 2 = (A * A.transpose).det :=
+  sorry
+
+/-- **Layer 3.4 — Cauchy–Binet at a complex place.** The same identity with the conjugate
+transpose: `∑ |det A_s|² = det (A A*)`, a real number cast to `ℂ`. Without this form the
+Bombieri–Vaaler constant is only available for totally real fields. -/
+theorem sum_normSq_minorDet_eq_det_mul_conjTranspose {m : ℕ} (A : Matrix (Fin m) ι ℂ) :
+    ∑ s : Set.powersetCard ι m, (Complex.normSq (minorDet A s) : ℂ) =
+      (A * A.conjTranspose).det :=
+  sorry
+
+end Minors
 
 section Plucker
 
@@ -290,15 +362,17 @@ variable {K : Type*} [Field K] {ι : Type*} [Fintype ι] [LinearOrder ι]
 /-- **Layer 3.1 — the Plücker point.** The wedge of a basis of `V`, read in the basis
 `(Pi.basisFun K ι).exteriorPower k` of `⋀[K]^k (ι → K)`, is a nonzero tuple indexed by
 `Set.powersetCard ι k`; a change of basis multiplies it by a determinant, hence a unit, so the
-induced point of projective space depends only on `V`. Build this the way Mathlib builds
-`Projectivization.mulHeight`: a private well-definedness lemma feeding `Projectivization.lift`,
-with the body left unexposed. -/
+induced point of projective space depends only on `V`. The `[LinearOrder ι]` is what
+`Module.Basis.exteriorPower` needs to order each wedge of basis vectors; a different order changes
+the coordinates by signs only, so the height of 3.2 does not depend on it. Build this the way
+Mathlib builds `Projectivization.mulHeight`: a private well-definedness lemma feeding
+`Projectivization.lift`, with the body left unexposed. -/
 def pluckerPoint (k : ℕ) (V : Submodule K (ι → K)) (hV : Module.finrank K V = k) :
     Projectivization K (Set.powersetCard ι k → K) :=
   sorry
 
 /-- **Layer 3.1.** The Plücker map is injective on subspaces of a fixed rank — what entitles it to
-be called an embedding, and the input to Northcott for subspaces (3.6). -/
+be called an embedding, and the input to Northcott for subspaces (3.7). -/
 theorem pluckerPoint_injective (k : ℕ) :
     Function.Injective fun V : {V : Submodule K (ι → K) // Module.finrank K V = k} ↦
       pluckerPoint k V.val V.prop :=
@@ -322,12 +396,6 @@ theorem subspaceMulHeight_span_singleton {x : ι → K} (hx : x ≠ 0)
     subspaceMulHeight 1 (Submodule.span K {x}) hV = Height.mulHeight x :=
   sorry
 
-/-- **Layer 3.3.** The maximal minor of `A` on the columns indexed by `s`. The order isomorphism
-`Set.powersetCard.orderIsoOfFin` is the index identification, pinned here once and for all so that
-no later statement has to re-choose it. -/
-def minorDet {m : ℕ} (A : Matrix (Fin m) ι K) (s : Set.powersetCard ι m) : K :=
-  (A.submatrix id fun i ↦ (Set.powersetCard.orderIsoOfFin s i : ι)).det
-
 /-- **Layer 3.3 — the matrix dictionary (Bombieri–Gubler, Remark 2.8.7).** The Plücker coordinates
 of the row space of a full-rank matrix are its maximal minors. This is what lets Layer 5 pass
 between a subspace and a matrix cutting it out. -/
@@ -349,15 +417,7 @@ theorem subspaceMulHeight_range_vecMulLinear_mul {m : ℕ} (U : Matrix (Fin m) (
       subspaceMulHeight m (LinearMap.range A.vecMulLinear) h₂ :=
   sorry
 
-/-- **Layer 3.3 — the Cauchy–Binet identity (Bombieri–Gubler, Proposition 2.8.8).** At an
-archimedean place the ℓ² local factor of the minor vector is the square root of a determinant.
-This is exactly where the `√(det (Aᵀ A))` of the Bombieri–Vaaler bound comes from, so it is a
-named milestone rather than a step inside a proof. -/
-theorem sum_minorDet_sq_eq_det {m : ℕ} (A : Matrix (Fin m) ι ℝ) :
-    ∑ s : Set.powersetCard ι m, minorDet A s ^ 2 = (A * A.transpose).det :=
-  sorry
-
-/-- **Layer 3.4 — the duality theorem (Bombieri–Gubler, Proposition 2.8.10; W. M. Schmidt).** The
+/-- **Layer 3.5 — the duality theorem (Bombieri–Gubler, Proposition 2.8.10; W. M. Schmidt).** The
 height of a subspace equals the height of its annihilator in the dual, identified with `ι → K`
 through the standard basis. Equivalently (Corollary 2.8.12): the height of a subspace equals the
 height of any matrix cutting it out. The route is that the complementation isomorphism
@@ -373,7 +433,7 @@ theorem subspaceMulHeight_dualAnnihilator (k : ℕ) (V : Submodule K (ι → K))
       subspaceMulHeight k V hV :=
   sorry
 
-/-- **Layer 3.4 — submodularity (Bombieri–Gubler, Theorem 2.8.13; Schmidt, Struppeck–Vaaler).**
+/-- **Layer 3.6 — submodularity (Bombieri–Gubler, Theorem 2.8.13; Schmidt, Struppeck–Vaaler).**
 The height of a subspace is submodular in the subspace lattice. -/
 theorem subspaceMulHeight_sup_add_inf_le (j k l m : ℕ) (V W : Submodule K (ι → K))
     (hV : Module.finrank K V = j) (hW : Module.finrank K W = k)
@@ -382,18 +442,24 @@ theorem subspaceMulHeight_sup_add_inf_le (j k l m : ℕ) (V W : Submodule K (ι 
       subspaceMulHeight j V hV * subspaceMulHeight k W hW :=
   sorry
 
-/-- **Layer 3.5 — monotonicity (the form Layer 5.4 consumes).** The span of part of a basis has
-height at most that of the whole space; in particular every basis vector has height at most
-`H(V)`. -/
-theorem subspaceMulHeight_span_subset_le (k j : ℕ) (V : Submodule K (ι → K))
-    (hV : Module.finrank K V = k) (b : Basis (Fin k) K V) (I : Finset (Fin k))
-    (hW : Module.finrank K (Submodule.span K (Set.image (fun i ↦ (b i : ι → K)) I)) = j)
-    (hj : I.card = j) :
-    subspaceMulHeight j (Submodule.span K (Set.image (fun i ↦ (b i : ι → K)) I)) hW ≤
-      subspaceMulHeight k V hV :=
+/-- **Layer 3.6.** The corollary of submodularity and `1 ≤ H` for the intersection. ⚠ Subspace
+heights are **not** monotone under inclusion: in `ℚ²`, `H(⊤) = 1` while
+`H(span {![1, N]}) = N`. There is no statement bounding `H(W)` by `H(V)` for `W ≤ V`; these two
+product bounds are what submodularity gives. -/
+theorem subspaceMulHeight_inf_le_mul (j k m : ℕ) (V W : Submodule K (ι → K))
+    (hV : Module.finrank K V = j) (hW : Module.finrank K W = k)
+    (hinf : Module.finrank K ↥(V ⊓ W) = m) :
+    subspaceMulHeight m (V ⊓ W) hinf ≤ subspaceMulHeight j V hV * subspaceMulHeight k W hW :=
   sorry
 
-/-- **Layer 3.6.** Northcott for subspaces over a number field, immediate from injectivity of the
+/-- **Layer 3.6.** The same for the sum. -/
+theorem subspaceMulHeight_sup_le_mul (j k l : ℕ) (V W : Submodule K (ι → K))
+    (hV : Module.finrank K V = j) (hW : Module.finrank K W = k)
+    (hsup : Module.finrank K ↥(V ⊔ W) = l) :
+    subspaceMulHeight l (V ⊔ W) hsup ≤ subspaceMulHeight j V hV * subspaceMulHeight k W hW :=
+  sorry
+
+/-- **Layer 3.7.** Northcott for subspaces over a number field, immediate from injectivity of the
 Plücker map (3.1) and Northcott on projective space (1.1). -/
 theorem finite_setOf_subspaceMulHeight_le {K : Type*} [Field K] [NumberField K] (k : ℕ) (B : ℝ) :
     {V : {V : Submodule K (ι → K) // Module.finrank K V = k} |
@@ -409,24 +475,31 @@ section SuccessiveMinima
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   [MeasureTheory.MeasureSpace E] [BorelSpace E]
 
-/-- **Layer 4.1.** The `i`-th successive minimum of a symmetric convex body with respect to a
-lattice: the least dilation of the body containing `i + 1` linearly independent lattice points.
-The `i = 0` case is the quantity in Minkowski's convex-body theorem, which Mathlib has. -/
+/-- **Layer 4.1.** The `i`-th successive minimum of a convex body with respect to a lattice: the
+least dilation of the body containing `i + 1` linearly independent lattice points. The `i = 0`
+case is the quantity in Minkowski's convex-body theorem, which Mathlib has. For
+`i ≥ finrank ℝ E` no such family exists and the value is `sInf ∅ = 0`; every statement about
+the minima carries `i < finrank ℝ E`. -/
 def successiveMinimum (L : Submodule ℤ E) (B : Set E) (i : ℕ) : ℝ :=
   sInf {t : ℝ | 0 < t ∧ ∃ v : Fin (i + 1) → E,
     (∀ j, v j ∈ (t • B) ∩ (L : Set E)) ∧ LinearIndependent ℝ v}
 
-/-- **Layer 4.1.** The successive minima are positive. Monotonicity in `i` and the scaling law in
-`B` belong to the same milestone. -/
+/-- **Layer 4.1.** The successive minima of a symmetric convex body — compact, convex, symmetric,
+with nonempty interior — are positive. Compactness is what makes them positive (a bounded body
+meets the lattice in finitely many points at each dilation) and attained (the body is closed).
+Monotonicity in `i` and the scaling law in `B` belong to the same milestone. -/
 theorem successiveMinimum_pos (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
-    {B : Set E} (hB₀ : Convex ℝ B) (hB₁ : ∀ x ∈ B, -x ∈ B) (hB₂ : (interior B).Nonempty) (i : ℕ) :
+    {B : Set E} (hB₀ : Convex ℝ B) (hB₁ : ∀ x ∈ B, -x ∈ B) (hB₂ : (interior B).Nonempty)
+    (hB₃ : IsCompact B) {i : ℕ} (hi : i < Module.finrank ℝ E) :
     0 < successiveMinimum L B i :=
   sorry
 
-/-- **Layer 4.2 — Minkowski's second theorem, the easy half.** -/
-theorem measure_mul_prod_successiveMinimum_le (L : Submodule ℤ E) [DiscreteTopology L]
-    [IsZLattice ℝ L] {B : Set E} (hB₀ : Convex ℝ B) (hB₁ : ∀ x ∈ B, -x ∈ B)
-    (hB₂ : (interior B).Nonempty) :
+/-- **Layer 4.2 — Minkowski's second theorem, the easy half.** The measure is the Haar measure
+`ZLattice.covolume` is taken against. -/
+theorem measure_mul_prod_successiveMinimum_le
+    [MeasureTheory.Measure.IsAddHaarMeasure (MeasureTheory.volume : MeasureTheory.Measure E)]
+    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L] {B : Set E} (hB₀ : Convex ℝ B)
+    (hB₁ : ∀ x ∈ B, -x ∈ B) (hB₂ : (interior B).Nonempty) (hB₃ : IsCompact B) :
     (2 : ℝ) ^ Module.finrank ℝ E / (Nat.factorial (Module.finrank ℝ E)) *
         ZLattice.covolume L ≤
       (∏ i ∈ Finset.range (Module.finrank ℝ E), successiveMinimum L B i) *
@@ -435,9 +508,10 @@ theorem measure_mul_prod_successiveMinimum_le (L : Submodule ℤ E) [DiscreteTop
 
 /-- **Layer 4.2 — Minkowski's second theorem, the substantial half.** This is the direction Layer
 5 consumes; the proof is the compression argument along a basis realizing the minima. -/
-theorem prod_successiveMinimum_mul_measure_le (L : Submodule ℤ E) [DiscreteTopology L]
-    [IsZLattice ℝ L] {B : Set E} (hB₀ : Convex ℝ B) (hB₁ : ∀ x ∈ B, -x ∈ B)
-    (hB₂ : (interior B).Nonempty) :
+theorem prod_successiveMinimum_mul_measure_le
+    [MeasureTheory.Measure.IsAddHaarMeasure (MeasureTheory.volume : MeasureTheory.Measure E)]
+    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L] {B : Set E} (hB₀ : Convex ℝ B)
+    (hB₁ : ∀ x ∈ B, -x ∈ B) (hB₂ : (interior B).Nonempty) (hB₃ : IsCompact B) :
     (∏ i ∈ Finset.range (Module.finrank ℝ E), successiveMinimum L B i) *
         (MeasureTheory.volume B).toReal ≤
       (2 : ℝ) ^ Module.finrank ℝ E * ZLattice.covolume L :=
@@ -483,9 +557,11 @@ section CubeSlicing
 Every central slice of the cube `[−1, 1]ᴺ` by a `k`-dimensional subspace has `k`-volume at least
 `2 ^ k`. The volume on the subspace is the canonical one of its inner-product structure
 (Mathlib's `measureSpaceOfInnerProductSpace`), which is what makes `k`-dimensional volume
-well-posed. Coordinate subspaces give equality, so the bound is sharp. The complex places of
-Layer 5 consume it through the inscribed cube of half-side `1 / √2` in the unit polydisc; no
-polydisc-slicing statement is needed. -/
+well-posed. Coordinate subspaces give equality, so the bound is sharp. This is the `n_i ≡ 1` case
+of the product-of-balls theorem (Bombieri–Gubler C.3.8) that `README.md` 4.5 pins as the
+milestone; the cube case is what the `ℚ` spine 5.2 consumes, and it gives the constant of 5.4
+through the inscribed cube of half-side `1 / √2` at a complex place. The product-of-balls form
+is what gives 5.4's sharper constant at complex places, and it is specified in `README.md`. -/
 theorem two_pow_finrank_le_volume_inter_cube {N : ℕ}
     (V : Submodule ℝ (EuclideanSpace ℝ (Fin N))) :
     (2 : ENNReal) ^ finrank ℝ V ≤
@@ -494,7 +570,12 @@ theorem two_pow_finrank_le_volume_inter_cube {N : ℕ}
 
 end CubeSlicing
 
-/-! ## Layer 5: Siegel's lemma and Bombieri–Vaaler (the summit) -/
+/-! ## Layer 5: Siegel's lemma and Bombieri–Vaaler (the summit)
+
+Every statement over a number field is in the **absolute** normalization on both sides: absolute
+heights of the solutions on the left, and on the right the absolute Arakelov height of the row
+space, i.e. `arakelovSubspaceMulHeight … ^ (finrank ℚ K)⁻¹`. Over `ℤ` the two normalizations
+coincide. -/
 
 section Siegel
 
@@ -525,10 +606,10 @@ theorem exists_ne_zero_mulVec_eq_zero_norm_le (A : Matrix m n ℤ) (hA : A ≠ 0
           ((Fintype.card n - Fintype.card m : ℝ)⁻¹) :=
   sorry
 
-/-- **Layer 5.2, Bombieri–Vaaler Theorem 2 — a small basis.** The statement Layer 5.3 generalizes
-to a number field. Over `ℤ` the extraction 4.4 is vacuous — the minima vectors of 4.2 are already
-the basis — and the constant is 3.4's Cauchy–Binet determinant with 4.5's slice bound; the
-adele-free assembly is written out in Aliev–Henk §6. -/
+/-- **Layer 5.2, Bombieri–Vaaler Theorem 2 — a small basis.** The statement Layers 5.3 and 5.4
+generalize to a number field. Over `ℤ` the extraction 4.4 is vacuous — the minima vectors of 4.2
+are already the basis — and the constant is 3.4's Cauchy–Binet determinant with 4.5's slice bound;
+the adele-free assembly is written out in Aliev–Henk §6. -/
 theorem exists_linearIndependent_mulVec_eq_zero_prod_norm_le (A : Matrix m n ℤ) (hA : A ≠ 0)
     (hrank : A.rank = Fintype.card m) (hmn : Fintype.card m < Fintype.card n) :
     ∃ x : Fin (Fintype.card n - Fintype.card m) → (n → ℤ),
@@ -540,13 +621,40 @@ theorem exists_linearIndependent_mulVec_eq_zero_prod_norm_le (A : Matrix m n ℤ
 end SiegelInt
 
 /-- **Layer 3.2, Arakelov form** (Bombieri–Gubler, Definition 2.8.5). `H_Ar(W)`: the Arakelov
-height of the Plücker point. This, not the sup-norm subspace height, is the quantity on the
-right-hand side of Bombieri–Vaaler; the two are related by the Layer 0.2 comparison. -/
+height of the Plücker point, **relative** over `K` like everything without the `abs` prefix. This,
+not the sup-norm subspace height, is the quantity on the right-hand side of Bombieri–Vaaler; the
+two are related by the Layer 0.2 comparison. -/
 def arakelovSubspaceMulHeight (k : ℕ) (V : Submodule K (ι → K))
     (hV : Module.finrank K V = k) : ℝ :=
   sorry
 
-/-- **Layer 5.3 — Bombieri–Vaaler over a number field: the summit** (Bombieri–Gubler, Theorem
+/-- The volume `ω_n` of the unit ball of `ℝⁿ`, the archimedean slice volume of 5.3. -/
+def unitBallVolume (n : ℕ) : ℝ :=
+  (MeasureTheory.volume (Metric.ball (0 : EuclideanSpace ℝ (Fin n)) 1)).toReal
+
+/-- **Layer 5.3 — Bombieri–Vaaler over a number field, Hermitian form** (Bombieri–Vaaler 1983;
+the inequality Vaaler 2003 quotes as (1.3)). For `A` an `M × N` matrix of rank `M` over a number
+field `K` of degree `d` with `r₁` real and `r₂` complex places, the solution space of `A x = 0`
+has a basis `x₁, …, x_{N−M}` with, for `k = N − M`,
+
+`∏ l, H_Ar(x l) ≤ [(2^k / ω_k)^{r₁} (2^k / ω_{2k})^{r₂}]^{1/d} · |D_{K/ℚ}| ^ (k / (2 d)) · H_Ar(A)`,
+
+absolute Arakelov heights on both sides, `H_Ar(A)` the Arakelov height of the row space. This
+needs 4.1–4.4 and no cube slicing: the slices of the ℓ² balls are balls. -/
+theorem exists_basis_prod_arakelovMulHeight_le {m : ℕ} (A : Matrix (Fin m) ι K)
+    (hrank : Module.finrank K (LinearMap.range A.vecMulLinear) = m)
+    (k : ℕ) (hk : Module.finrank K (LinearMap.ker A.mulVecLin) = k) :
+    ∃ b : Module.Basis (Fin k) K (LinearMap.ker A.mulVecLin),
+      (∏ l, arakelovMulHeight (fun j ↦ (b l : ι → K) j) ^ (Module.finrank ℚ K : ℝ)⁻¹) ≤
+        ((2 ^ k / unitBallVolume k) ^ NumberField.InfinitePlace.nrRealPlaces K *
+            (2 ^ k / unitBallVolume (2 * k)) ^ NumberField.InfinitePlace.nrComplexPlaces K) ^
+              (Module.finrank ℚ K : ℝ)⁻¹ *
+          |(NumberField.discr K : ℝ)| ^ ((k : ℝ) / (2 * Module.finrank ℚ K)) *
+          arakelovSubspaceMulHeight m (LinearMap.range A.vecMulLinear) hrank ^
+            (Module.finrank ℚ K : ℝ)⁻¹ :=
+  sorry
+
+/-- **Layer 5.4 — Bombieri–Vaaler over a number field: the summit** (Bombieri–Gubler, Theorem
 2.9.4; Bombieri–Vaaler 1983).
 
 For `A` an `M × N` matrix of rank `M` over a number field `K` of degree `d` and discriminant
@@ -554,40 +662,68 @@ For `A` an `M × N` matrix of rank `M` over a number field `K` of degree `d` and
 
 `∏ l, H(x l) ≤ |D_{K/ℚ}| ^ ((N − M) / (2 d)) * H_Ar(A)`,
 
-where `H` is the absolute multiplicative height and `H_Ar(A)` is the Arakelov height of the row
-space — the subspace height of Layer 3, not the height of the entries of `A`. Stated here for the
-kernel of a matrix; the equivalent subspace form follows from the duality theorem 3.4. -/
+where `H` is the absolute multiplicative height and `H_Ar(A)` is the **absolute** Arakelov height
+of the row space — the subspace height of Layer 3, not the height of the entries of `A`. Stated
+here for the kernel of a matrix; the equivalent subspace form follows from the duality theorem
+3.5. -/
 theorem exists_basis_prod_absMulHeight_le {m : ℕ} (A : Matrix (Fin m) ι K)
     (hrank : Module.finrank K (LinearMap.range A.vecMulLinear) = m)
     (k : ℕ) (hk : Module.finrank K (LinearMap.ker A.mulVecLin) = k) :
     ∃ b : Module.Basis (Fin k) K (LinearMap.ker A.mulVecLin),
       (∏ l, absMulHeight (fun j ↦ (b l : ι → K) j)) ≤
         |(NumberField.discr K : ℝ)| ^ ((k : ℝ) / (2 * Module.finrank ℚ K)) *
-          arakelovSubspaceMulHeight m (LinearMap.range A.vecMulLinear) hrank :=
+          arakelovSubspaceMulHeight m (LinearMap.range A.vecMulLinear) hrank ^
+            (Module.finrank ℚ K : ℝ)⁻¹ :=
   sorry
 
-/-- **Layer 5.4 — the entry-height corollary** (Bombieri–Gubler, Corollary 2.9.9). Bounding the
-Arakelov height of the row space by the height of the entries through `H_Ar(Aₘ) ≤ √N · H(A)` gives
-the form applications actually quote, and over `ℚ` it improves the `N` of the classical Siegel
-lemma (5.1) to `√N`. -/
+/-- **Layer 5.4 — the same at Bombieri–Vaaler's own constant.** The product-of-balls form of 4.5
+at the complex places gives the factor `(2 / π) ^ (k r₂ / d)`, which is `≤ 1`, so this implies
+the statement above; it is the constant of Bombieri–Vaaler's Theorem 8 in the max-norm
+normalization. -/
+theorem exists_basis_prod_absMulHeight_le' {m : ℕ} (A : Matrix (Fin m) ι K)
+    (hrank : Module.finrank K (LinearMap.range A.vecMulLinear) = m)
+    (k : ℕ) (hk : Module.finrank K (LinearMap.ker A.mulVecLin) = k) :
+    ∃ b : Module.Basis (Fin k) K (LinearMap.ker A.mulVecLin),
+      (∏ l, absMulHeight (fun j ↦ (b l : ι → K) j)) ≤
+        (2 / Real.pi) ^
+            ((k * NumberField.InfinitePlace.nrComplexPlaces K : ℝ) / Module.finrank ℚ K) *
+          |(NumberField.discr K : ℝ)| ^ ((k : ℝ) / (2 * Module.finrank ℚ K)) *
+          arakelovSubspaceMulHeight m (LinearMap.range A.vecMulLinear) hrank ^
+            (Module.finrank ℚ K : ℝ)⁻¹ :=
+  sorry
+
+/-- **Layer 5.5 — the entry-height corollary** (Bombieri–Gubler, Corollary 2.9.9). Bounding the
+absolute Arakelov height of the row space by the absolute height of the entries through
+`H_Ar(Aₘ) ≤ √N · H(A)` gives the form applications actually quote, and over `ℚ` it improves the
+`N` of the classical Siegel lemma (5.1) to `√N`. -/
 theorem exists_ne_zero_mem_ker_absMulHeight_le {m : ℕ} (A : Matrix (Fin m) ι K)
     (hrank : Module.finrank K (LinearMap.range A.vecMulLinear) = m)
     (hm : m < Fintype.card ι) :
     ∃ x : ι → K, x ≠ 0 ∧ A.mulVec x = 0 ∧
       absMulHeight x ≤
         |(NumberField.discr K : ℝ)| ^ (2 * Module.finrank ℚ K : ℝ)⁻¹ *
-          (Real.sqrt (Fintype.card ι) * matrixMulHeight A) ^
+          (Real.sqrt (Fintype.card ι) * matrixMulHeight A ^ (Module.finrank ℚ K : ℝ)⁻¹) ^
             ((m : ℝ) / (Fintype.card ι - m)) :=
   sorry
 
-/-- **Layer 5.5 — the relative version** (Bombieri–Gubler, Theorem 2.9.19): the entries lie in a
-finite extension `F/K` while the solutions are required to lie in `K`. This is the form
-transcendence arguments use when the auxiliary construction and the field of definition differ. -/
-theorem exists_linearIndependent_mem_ker_of_extension
+/-- **Layer 5.6 — the relative version** (Bombieri–Gubler, Theorem 2.9.19): the entries lie in a
+finite extension `F/K` of degree `r` while the solutions are required to lie in `K`. With
+`M` rows and `r M < N`, there are `N − r M` `K`-linearly independent solutions with
+
+`∏ l, H(x l) ≤ |D_{K/ℚ}| ^ ((N − r M) / (2 d)) · ∏ i, H_Ar(A i) ^ r`,
+
+`H_Ar(A i)` the absolute Arakelov height of the `i`-th row, an element of `F ^ N`. This is the
+form transcendence arguments use when the auxiliary construction and the field of definition
+differ. -/
+theorem exists_linearIndependent_mem_ker_prod_absMulHeight_le
     (F : Type*) [Field F] [NumberField F] [Algebra K F] {m : ℕ} (A : Matrix (Fin m) ι F)
     (hmn : Module.finrank K F * m < Fintype.card ι) :
     ∃ x : Fin (Fintype.card ι - Module.finrank K F * m) → (ι → K),
-      LinearIndependent K x ∧ ∀ l, A.mulVec (fun j ↦ algebraMap K F (x l j)) = 0 :=
+      LinearIndependent K x ∧ (∀ l, A.mulVec (fun j ↦ algebraMap K F (x l j)) = 0) ∧
+      (∏ l, absMulHeight (x l)) ≤
+        |(NumberField.discr K : ℝ)| ^
+            ((Fintype.card ι - Module.finrank K F * m : ℝ) / (2 * Module.finrank ℚ K)) *
+          ∏ i, (arakelovMulHeight (A i) ^ (Module.finrank ℚ F : ℝ)⁻¹) ^ Module.finrank K F :=
   sorry
 
 end Siegel
@@ -595,9 +731,10 @@ end Siegel
 /-! ## Layer 6: heights and the unit group
 
 Mathlib proves Dirichlet's unit theorem in full (`NumberField.Units.logEmbedding`, `unitLattice`,
-`unitLattice_span_eq_top`, `rank`, `fundSystem`, `regulator`). This layer builds the height-side
-dictionary around it and the `S`-adic generalization Mathlib does not have; it re-proves none of
-the unit theorem. -/
+`unitLattice_span_eq_top`, `rank`, `fundSystem`, `regulator`) and has `S`-integers and `S`-units
+(`Set.integer`, `Set.unit` in `Mathlib/RingTheory/DedekindDomain/SInteger.lean`). This layer
+builds the height-side dictionary around them and the `S`-unit theorem Mathlib does not have; it
+re-proves none of the unit theorem and redefines none of the `S`-objects. -/
 
 section Units
 
@@ -609,27 +746,44 @@ theorem absMulHeight₁_eq_one_iff_mem_torsion (u : (𝓞 K)ˣ) :
     NumberField.absMulHeight₁ ((u : 𝓞 K) : K) = 1 ↔ u ∈ NumberField.Units.torsion K :=
   sorry
 
-/-- **Layer 6.3.** The regulator and the heights of a fundamental system bound each other: a unit
-basis of small height and a small regulator are the same statement. -/
-theorem exists_bounds_regulator_prod_absMulHeight₁ :
-    ∃ c₁ c₂ : ℝ, 0 < c₁ ∧ 0 < c₂ ∧
-      c₁ * NumberField.Units.regulator K ≤
-        ∏ i, NumberField.absLogHeight₁ ((NumberField.Units.fundSystem K i : 𝓞 K) : K) ∧
-      ∏ i, NumberField.absLogHeight₁ ((NumberField.Units.fundSystem K i : 𝓞 K) : K) ≤
-        c₂ * NumberField.Units.regulator K :=
+/-- **Layer 6.3 — Hadamard's bound.** The regulator is at most `(2 d) ^ r` times the product of
+the absolute logarithmic heights of Mathlib's fundamental system (and of any `r` independent
+units): the regulator is the determinant of the `r × r` matrix of `logEmbedding`s, each row has
+ℓ¹ norm at most `∑ w, |mult w · log (w ε)| = 2 · logHeight₁ ε = 2 d · h(ε)`, and Hadamard's
+inequality bounds a determinant by the product of the row norms. -/
+theorem regulator_le_prod_absLogHeight₁ :
+    NumberField.Units.regulator K ≤
+      (2 * Module.finrank ℚ K : ℝ) ^ NumberField.Units.rank K *
+        ∏ i, NumberField.absLogHeight₁ ((NumberField.Units.fundSystem K i : 𝓞 K) : K) :=
   sorry
 
-/-- **Layer 6.4.** The height characterization of `S`-units: an element is an `S`-unit exactly when
-its height is supported on `S` together with the infinite places. The carrier
-`Set (HeightOneSpectrum (𝓞 K))` follows `Mathlib/RingTheory/DedekindDomain/SelmerGroup.lean` and
-mathlib4#40791. -/
-def IsSUnit (S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K))) (x : K) : Prop :=
-  x ≠ 0 ∧ ∀ v : IsDedekindDomain.HeightOneSpectrum (𝓞 K), v ∉ S → v.valuation K x = 1
+/-- **Layer 6.3 — a fundamental system of small height exists** (Bugeaud–Győry 1996, Lemma 1).
+The converse of Hadamard's bound cannot hold for every fundamental system — an unimodular change
+of basis makes the heights arbitrarily large at fixed regulator — but some fundamental system,
+a reduced basis of the unit lattice, has `∏ h(ε i) ≤ c(r, d) · R` with the explicit constant
+`c = (r!)² / (2 ^ (r − 1) d ^ r)`. "Fundamental system" is what Mathlib's
+`closure_fundSystem_sup_torsion_eq_top` says of `fundSystem`: `r` units generating the unit
+group modulo torsion. -/
+theorem exists_fundSystem_prod_absLogHeight₁_le :
+    ∃ ε : Fin (NumberField.Units.rank K) → (𝓞 K)ˣ,
+      Subgroup.closure (Set.range ε) ⊔ NumberField.Units.torsion K = ⊤ ∧
+      ∏ i, NumberField.absLogHeight₁ ((ε i : 𝓞 K) : K) ≤
+        ((NumberField.Units.rank K).factorial : ℝ) ^ 2 /
+            (2 ^ (NumberField.Units.rank K - 1) *
+              (Module.finrank ℚ K : ℝ) ^ NumberField.Units.rank K) *
+          NumberField.Units.regulator K :=
+  sorry
 
-/-- **Layer 6.5 — the `S`-unit theorem (mathlib4#40791).** The `S`-units form a finitely generated
-group of rank `r₁ + r₂ - 1 + |S|`; `S = ∅` recovers Mathlib's `NumberField.Units.rank`. -/
-theorem sUnit_rank_eq (S : Finset (IsDedekindDomain.HeightOneSpectrum (𝓞 K))) :
-    ∃ r : ℕ, r = NumberField.Units.rank K + S.card :=
+/-- **Layer 6.5 — the `S`-unit theorem (mathlib4#40791), in the shape of Mathlib's
+`exist_unique_eq_mul_prod`.** For a finite set `S` of finite places, Mathlib's `S`-unit group
+`S.unit K` has a fundamental system of `r₁ + r₂ − 1 + |S|` elements: every `S`-unit is uniquely a
+root of unity times a product of their integer powers. `S = ∅` recovers Dirichlet's theorem, since
+`(∅ : Set _).unit K` is `(𝓞 K)ˣ` through `Set.unitEquivUnitsInteger` and `integer_empty`. -/
+theorem exists_sUnit_fundSystem (S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K)))
+    (hS : S.Finite) :
+    ∃ ε : Fin (NumberField.Units.rank K + S.ncard) → S.unit K,
+      ∀ x : S.unit K, ∃! e : Fin (NumberField.Units.rank K + S.ncard) → ℤ,
+        ∃ ζ ∈ CommGroup.torsion (S.unit K), x = ζ * ∏ i, ε i ^ e i :=
   sorry
 
 end Units
@@ -645,8 +799,8 @@ section Examples
 `4` here has numerator and denominator confused. -/
 example : Height.mulHeight₁ (3 / 4 : ℚ) = 4 := sorry
 
-/-- The two normalizations genuinely differ, so the `n ^ (k / 2)` factor in Layer 5.4 is not
-cosmetic: a proof that silently interchanges them is wrong. -/
+/-- The two normalizations genuinely differ, so the `√N` of 5.5 and the `H_Ar` on the right of
+5.3 and 5.4 are not cosmetic: a proof that silently interchanges them is wrong. -/
 example : arakelovMulHeight ![(1 : ℚ), 1] = Real.sqrt 2 := sorry
 
 /-- …while the sup-norm height of the same tuple is `1`. -/
@@ -656,6 +810,10 @@ example : Height.mulHeight ![(1 : ℚ), 1] = 1 := sorry
 not by Kronecker, so a statement of Kronecker's theorem without an algebraicity hypothesis is
 false. -/
 example : NumberField.absMulHeight₁ (Real.pi : ℂ) = 1 := sorry
+
+/-- **Rejection test for Layer 2.1.** A constant polynomial has height `1`, whatever the constant:
+a statement `polyMulHeight (C a) = mulHeight₁ a` is refuted at `a = 2`. -/
+example : polyMulHeight (Polynomial.C (2 : ℚ)) = 1 := sorry
 
 end Examples
 

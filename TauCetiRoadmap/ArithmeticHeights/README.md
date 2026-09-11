@@ -20,8 +20,8 @@ is about, and it is the object the Bombieri–Vaaler bound is stated in terms of
 Suggested home: `TauCeti/NumberTheory/Height/`, mirroring Mathlib's `Mathlib/NumberTheory/Height/`
 (with `…/Height/Arakelov.lean`, `…/Northcott.lean`, `…/Polynomial.lean`, `…/Matrix.lean`,
 `…/Plucker.lean`, `…/Subspace.lean`, `…/SiegelsLemma.lean`, `…/Units.lean`), and
-`TauCeti/NumberTheory/GeometryOfNumbers/SuccessiveMinima.lean` beside the geometry-of-numbers
-material the `EffectiveBounds` roadmap already built.
+`TauCeti/NumberTheory/GeometryOfNumbers/SuccessiveMinima.lean`, the directory the `EffectiveBounds`
+roadmap created for its lattice-point lemmas; nothing here depends on those.
 
 **Mathlib is developing the same foundation.** `Mathlib/NumberTheory/Height/` (M. Stoll) is the
 active substrate this roadmap consumes, and two of its open pull requests cover ground named below:
@@ -43,29 +43,27 @@ Mathlib's height work](#relationship-to-mathlibs-height-work)*.
   relating the absolute height to the Mahler measure of the minimal polynomial.
 - Heights of **polynomials** (Gauss's lemma and Gelfond's inequality), of **linear forms**, and of
   **matrices**.
-- The **Plücker point** of a subspace and **Schmidt's height of a subspace**, with the four theorems
+- The **Plücker point** of a subspace and **Schmidt's height of a subspace**, with the three theorems
   that make it an object rather than a definition: the **Cauchy–Binet identity** computing it as a
-  determinant, the **duality theorem** `H(V) = H(V^⊥)`, **submodularity** over the subspace lattice,
-  and monotonicity in subspaces of a fixed basis.
+  determinant, the **duality theorem** `H(V) = H(V^⊥)`, and **submodularity** over the subspace
+  lattice, with the product bounds on `H(V ⊓ W)` and `H(V ⊔ W)` it yields.
 - **Successive minima**, **Minkowski's second theorem**, and the two lemmas that turn their
   real-lattice output into number-field statements: the **extraction lemma** and **Vaaler's
   cube-slicing theorem**.
 - **Siegel's lemma** in height form, over `ℤ` and over a number field, and the **Bombieri–Vaaler**
   refinement — the summit.
-- The dictionary between heights and the **unit group**: units of height one, and the **S-unit
-  theorem**.
+- The dictionary between heights and the **unit group**: units of height one, the regulator against
+  the heights of a fundamental system, and the **S-unit theorem** for Mathlib's `S`-units.
 
 ### Consumed
 
 - All of `Mathlib/NumberTheory/Height/` and `Mathlib/Order/Northcott.lean`. Every object below is
   defined in terms of Mathlib's `Height.mulHeight`, and none of it is restated.
-- Mathlib's places, product formula, Dirichlet unit theorem and regulator, Mahler measure, exterior
-  powers, and geometry of numbers; itemised under *[What Mathlib already
-  has](#what-mathlib-already-has-consume)*.
-- `TauCeti/NumberTheory/GeometryOfNumbers/` and `TauCeti/NumberTheory/EffectiveBounds/`, the library
-  the completed [`EffectiveBounds`](../../Completed/EffectiveBounds/README.md) roadmap built — in
-  particular its lattice-point engine, which Layer 4 extends to successive minima, and its explicit
-  discriminant bounds, which make the Bombieri–Vaaler constant computable in examples.
+- Mathlib's places, product formula, Dirichlet unit theorem and regulator, `S`-integers and
+  `S`-units, Mahler measure, exterior powers, and geometry of numbers (`ZLattice`, covolume,
+  Minkowski's convex-body theorem, the mixed embedding); itemised under *[What Mathlib already
+  has](#what-mathlib-already-has-consume)*. Layer 4 is stated against Mathlib's lattice substrate
+  directly and consumes nothing from any other roadmap.
 
 ### Not owned here
 
@@ -76,7 +74,9 @@ Mathlib's height work](#relationship-to-mathlibs-height-work)*.
   Layer 1's Northcott material is stated so that roadmap can consume it.
 - **Effective discriminant, class-number, and regulator bounds**, the explicit ideal count, and
   effective Hermite–Minkowski: the completed
-  [`EffectiveBounds`](../../Completed/EffectiveBounds/README.md) roadmap.
+  [`EffectiveBounds`](../../Completed/EffectiveBounds/README.md) roadmap. Its lattice-point
+  packing and doubling lemmas are not inputs to Layer 4, whose milestones rest on Mathlib's
+  `ZLattice` and `mixedEmbedding` alone.
 - **Function-field heights** and the Riemann–Roch theory behind them:
   [`AlgebraicCurves`](../AlgebraicCurves/README.md). Mathlib's `Height.AdmissibleAbsValues` is
   general enough to carry them, and Layers 0–3 are written against that class wherever the proof
@@ -96,7 +96,11 @@ discriminant appears; Layers 4 and 5 are number-field statements throughout, bec
 theorem is.
 
 Tuples are indexed by an arbitrary `[Finite ι]` (`[Fintype ι]` where a cardinality appears in a
-bound), following Mathlib's `Height.mulHeight (x : ι → K)`, never by `Fin n` alone. Subspaces are
+bound, and `[Nonempty ι]` wherever the empty tuple, whose height is the junk value `1`, would
+falsify a bound whose right-hand side vanishes), following Mathlib's `Height.mulHeight (x : ι → K)`,
+never by `Fin n` alone. Layer 3 additionally fixes a `[LinearOrder ι]`: `Module.Basis.exteriorPower`
+needs it to order each wedge of basis vectors, and the height of 3.2 does not depend on the order
+chosen, since a different order changes the Plücker coordinates by signs only. Subspaces are
 `Submodule K (ι → K)` with a `Module.finrank` hypothesis, never `Module.Grassmannian`: Mathlib's
 `Module.Grassmannian` is the *quotient* convention and records recovering the subspace convention as
 its own TODO, so a roadmap that indexed subspace heights by it would be building on an object that
@@ -113,7 +117,7 @@ with Mathlib's.
 | relative or absolute | **Both, distinguished by name.** Over a fixed `K`, `Height.mulHeight` is the *relative* height, which is the `[K : ℚ]`-th power of the absolute one; the absolute height carries the `abs` prefix, following Mathlib's `NumberField.absMulHeight₁`. Never divide by the degree inside a definition stated over a fixed `K`. |
 | the local factor at a place | `⨆ i, v (x i)`, an `iSup` over the index type, as in Mathlib's `NumberField.mulHeight_eq`; archimedean places carry the weight `InfinitePlace.mult`. Not `Finset.sup'`, not a fold over a list. |
 | a name for the local sup norm | **None.** `⨆ i, v (x i)` is written out. Mathlib has no such predicate and we do not add one; a one-line expression does not get a wrapper that would then need its own theory. |
-| relative or absolute, in the literature | Bombieri–Gubler's `h` and `h_Ar` are **absolute** (their local exponent is `[F_w : ℚ_p] / [F : ℚ]`, 2.8.1–2.8.2). Mathlib's `Height.mulHeight` is **relative**. Every citation below says which, and every theorem transcribed from the book is stated with the `abs`-prefixed height unless it is explicitly renormalized. |
+| relative or absolute, in the literature | Bombieri–Gubler's `h` and `h_Ar` are **absolute** (their local exponent is `[F_w : ℚ_p] / [F : ℚ]`, 2.8.1–2.8.2). Mathlib's `Height.mulHeight` is **relative**. Every citation below says which, and every theorem transcribed from the book is stated with the `abs`-prefixed height unless it is explicitly renormalized. Constants transport the same way: an archimedean constant `c` in an absolute-height bound becomes `c ^ totalWeight K` in the relative height, one factor per archimedean place counted with multiplicity, which is why Mathlib's `mulHeight₁_sum_le` carries `#s ^ totalWeight K` and every Layer 2 bound below does the same. A relative bound with the absolute constant fails over any field of degree `> 1`. |
 | the archimedean norm | Mathlib's height uses the **sup norm at every place**. The literature's Siegel-lemma constants are stated for the **Arakelov height**, which uses the ℓ² norm at archimedean places. Both exist here, `Height.mulHeight` (Mathlib's, primary) and `NumberField.arakelovMulHeight` (Layer 0), related by a named comparison lemma. Every bound says which one it is in. |
 | junk values | `mulHeight 0 = 1` and `logHeight 0 = 0`, as in Mathlib; `absMulHeight₁` is `1` on a transcendental. No `⊥`, no `Option`, no `WithTop`. Every theorem whose content fails at the junk value carries the hypothesis that rules it out (`x ≠ 0`, `IsAlgebraic ℚ x`), rather than a different definition. |
 | declaration names | **Statement-named, as Mathlib names things**: `polyMulHeight_mul_le`, `exists_basis_prod_absMulHeight_le`. The person's name — Siegel, Bombieri–Vaaler, Northcott, Kronecker, Gauss, Gelfond, Schmidt, Minkowski — goes in the docstring, never in the identifier. The exception Mathlib itself makes is a name that *is* the standard name of an object rather than of a theorem, such as `Northcott` the typeclass or `mahlerMeasure`. |
@@ -166,7 +170,13 @@ anything. **Reuse these by name; do not rebuild them.**
   `unitLattice_span_eq_top`, `unitLattice_rank`, `rank`, `finrank_eq`, `basisModTorsion`,
   `fundSystem`, `exist_unique_eq_mul_prod`, `closure_fundSystem_sup_torsion_eq_top`,
   `logEmbedding_ker` (the kernel is the torsion subgroup), and `NumberField.Units.regulator` as the
-  covolume of the unit lattice. **Layer 6 consumes all of this and re-proves none of it.**
+  covolume of the unit lattice. **Layer 6 consumes all of this and re-proves none of it.** Note that
+  `logEmbedding` lands in `{w // w ≠ w₀} → ℝ`: it omits a distinguished place `w₀`, and 6.1 is
+  stated accordingly.
+- **`S`-integers and `S`-units.** `Set.integer` (the subalgebra of `S`-integers) and `Set.unit` (the
+  subgroup of `S`-units of `Kˣ`) in `Mathlib/RingTheory/DedekindDomain/SInteger.lean`, for
+  `S : Set (HeightOneSpectrum R)`, with `Set.unitEquivUnitsInteger` and `integer_empty`. Layer 6
+  uses these carriers and defines no `S`-object of its own; the `S`-unit *theorem* is not there.
 - **Places and the product formula.** `NumberField.InfinitePlace` with `mult`,
   `NumberField.FinitePlace`, `IsInfinitePlace`/`IsFinitePlace`, and `NumberField.prod_abs_eq_one`.
 - **Exterior powers.** `⋀[R]^n M`, `exteriorPower.ιMulti`, `exteriorPower.map`, the pairing with the
@@ -186,8 +196,8 @@ absolute height of a *tuple*; invariance under field extension; Northcott's theo
 degree; Kronecker's theorem for the height (as opposed to for the Mahler measure); the height of a
 polynomial, of a matrix, or of a subspace; Plücker coordinates as an arithmetic object; successive
 minima, Minkowski's second theorem, the extraction lemma, or the cube-slicing bound; Siegel's
-lemma over a number field or in the invariant Bombieri–Vaaler form; or S-units. `Suggested.lean`
-pins the signatures most likely to drift.
+lemma over a number field or in the invariant Bombieri–Vaaler form; or the S-unit theorem.
+`Suggested.lean` pins the signatures most likely to drift.
 
 ## The build, in layers
 
@@ -206,10 +216,12 @@ the one-variable (affine) case, with its logarithm. Prove the same basic API Mat
 `mulHeight`: scaling invariance under `Kˣ`, hence a well-defined descent to `Projectivization`;
 `1 ≤ arakelovMulHeight`; invariance under reindexing.
 
-**0.2 The comparison.** `mulHeight x ≤ arakelovMulHeight x` and
+**0.2 The comparison.** `mulHeight x ≤ arakelovMulHeight x` and, for `ι` nonempty,
 `arakelovMulHeight x ≤ (Fintype.card ι : ℝ) ^ (totalWeight K / 2 : ℝ) * mulHeight x`, from
 `‖·‖_∞ ≤ ‖·‖_2 ≤ √n ‖·‖_∞` place by place, with `Height.totalWeight_eq_finrank` supplying the
-exponent. This is the lemma that transports every constant in the Siegel-lemma literature into
+exponent (on the empty index type both heights are the junk value `1` and the right-hand side is
+`0`, so `[Nonempty ι]` is a hypothesis, not a convenience). This is the lemma that transports every
+constant in the Siegel-lemma literature into
 Mathlib's normalization, and Layer 5 states its bounds in terms of it. Prove also that the two agree
 when `ι` is a subsingleton, where both are `1`. ⚠ This is *not* the statement
 `arakelovMulHeight₁ = mulHeight₁`, which is **false**: the archimedean local factor of
@@ -221,31 +233,50 @@ one-variable heights are related only by the comparison above, applied to `![x, 
 `mulHeight₁_pow_finrank`, `mulHeight₁ x ^ finrank K L = mulHeight₁ (algebraMap K L x)`; the tuple
 form `mulHeight_pow_finrank`; and the logarithmic forms `finrank_nsmul_logHeight₁` and
 `finrank_nsmul_logHeight`. The route is that each place of `K` is the restriction of the places of
-`L` above it, with `∑_{w | v} [L_w : K_v] = [L : K]`;
-`NumberField.InfinitePlace.liesOver_iff_comap_eq` is the bridging lemma. These are the statements of
-mathlib4#41606 and carry its names.
+`L` above it, with `∑_{w | v} [L_w : K_v] = [L : K]`; the bridging lemma
+`NumberField.InfinitePlace.liesOver_iff_comap_eq` is itself part of mathlib4#41606, not of Mathlib,
+so build it here under that name as the first step. These are the statements of mathlib4#41606 and
+carry its names. The special case `K = ℚ`, `H_L(x) = H_ℚ(x)^{[L : ℚ]}`, needs no places above
+places and is the acceptance test for the general statement.
 
 **0.4 The absolute height of a tuple.** `NumberField.absMulHeight (x : ι → K)` for `[CharZero K]`,
 defined as `mulHeight` computed over `IntermediateField.adjoin ℚ (Set.range x)` and normalized by
 the inverse of its degree — the tuple analogue of Mathlib's `absMulHeight₁` and its exact
-generalization (`absMulHeight` of `![x, 1]` is `absMulHeight₁ x`). Prove `absMulHeight₁_eq`, that
-over *any* number field `K` containing the coordinates
-`absMulHeight x = mulHeight x ^ (finrank ℚ K : ℝ)⁻¹` — which, with 0.3, is exactly the classical
-statement that the absolute height is independent of the field of definition. Descend it to
-`Projectivization` and prove the scaling invariance that makes it projectively defined.
+generalization (`absMulHeight` of `![x, 1]` is `absMulHeight₁ x`). Prove `absMulHeight_eq`, the
+tuple analogue of #41606's `absMulHeight₁_eq`: over *any* number field `K` containing the
+coordinates, `absMulHeight x = mulHeight x ^ (finrank ℚ K : ℝ)⁻¹` — which, with 0.3, is exactly the
+classical statement that the absolute height is independent of the field of definition. Prove the
+scaling invariance `absMulHeight (c • x) = absMulHeight x` for `c ≠ 0` **algebraic**, and descend
+to `Projectivization K (ι → K)` over a field with `[Algebra.IsAlgebraic ℚ K]` — a number field, or
+`AlgebraicClosure ℚ`. Neither holds over a general `[CharZero K]`: for `c` transcendental and `x`
+a nonzero algebraic tuple, `c • x` has a transcendental coordinate and its absolute height is the
+junk value `1`, so `absMulHeight` is not constant on the line through `x` and does not descend to
+`Projectivization K (ι → K)`. The definition is made for `[CharZero K]`, as Mathlib's
+`absMulHeight₁` is; the projective theory is stated over algebraic fields.
 
 ### Layer 1: Northcott, Kronecker, and the Mahler-measure bridge
 
 **1.1 Northcott on projective space.** The `Northcott` instances for `Projectivization.mulHeight`
 and `Projectivization.logHeight` over a number field, which
-`Mathlib/NumberTheory/Height/Northcott.lean` records as its own TODO, together with the instance for
-`Height.mulHeight` on `ι → K`. Route: a projective point has a representative with coordinates in
-`𝓞 K` generating an ideal of norm bounded by the height, and
-`NumberField.absNorm_mul_finprod_finitePlace_eq_one` converts that into the finite part.
+`Mathlib/NumberTheory/Height/Northcott.lean` records as its own TODO. Route: a projective point has
+a representative with coordinates in `𝓞 K` generating an ideal of norm bounded by the height, and
+`NumberField.absNorm_mul_finprod_finitePlace_eq_one` converts that into the finite part. ⚠ There is
+no `Northcott` instance for `Height.mulHeight` on `ι → K` itself, and none is to be stated:
+`mulHeight_smul_eq_mulHeight` puts the whole line `Kˣ • x` at one height, so
+`{x : ι → K | mulHeight x ≤ B}` is infinite for every `B ≥ 1` and nonempty `ι`. Finiteness of
+tuples of bounded height needs a normalization — coordinates in `𝓞 K` with a fixed nonzero
+coordinate, say — and that is a lemma inside the proof, not an instance.
 
 **1.2 Height and Mahler measure** (Bombieri–Gubler, Proposition 1.6.6 and Lemma 1.6.7). For `x`
-algebraic over `ℚ` with minimal polynomial `f = minpoly ℤ x` of degree `D`,
-`absMulHeight₁ x ^ D = f.mahlerMeasure`, i.e. `H(x) = M(f)^{1/D}`. Route: Jensen's formula
+algebraic over `ℚ` let `f ∈ ℤ[X]` be its **primitive integer minimal polynomial**: the primitive
+polynomial with `f(x) = 0` that is irreducible in `ℤ[X]`, unique up to sign by Gauss's lemma, and
+a rational multiple of `minpoly ℚ x`. With `D = natDegree f`, `absMulHeight₁ x ^ D = M(f)`, i.e.
+`H(x) = M(f)^{1/D}`; state it with `f` quantified under the hypotheses `f.IsPrimitive`,
+`Irreducible f`, `aeval x f = 0`, so that the sign ambiguity never has to be resolved. ⚠ `f` is
+**not** `minpoly ℤ x`: Mathlib defines `minpoly ℤ x = 0` whenever `x` is not integral over `ℤ`, so
+a statement through `minpoly ℤ x` is false for `x = 1/2` (left side `2`, right side `M(0) = 0`)
+unless it carries `IsIntegral ℤ x`, and with that hypothesis it covers only algebraic integers and
+cannot feed 1.3. Route: Jensen's formula
 (`Polynomial.logMahlerMeasure_eq_log_leadingCoeff_add_sum_log_roots`) computes `M(f)` as the leading
 coefficient times `∏ max(1, |root|)`, and the archimedean part of the height over the splitting
 field is the same product, while the finite part is the leading coefficient by Gauss's lemma. This
@@ -256,9 +287,9 @@ states it projectively and with varying degree, in exactly the form wanted here)
 `D : ℕ`, the set `{x : ℚ̄ | absMulHeight₁ x ≤ B ∧ finrank ℚ ℚ⟮x⟯ ≤ D}` is finite — the statement
 with *varying* degree, which is what "Northcott's theorem" names in the literature and which
 Mathlib's fixed-field `finite_setOfPred_mulHeight₁_le` does not give. Route: 1.2 bounds the Mahler
-measure of the minimal polynomial, hence (through Mathlib's `Polynomial.finite_mahlerMeasure_le`)
-leaves finitely many minimal polynomials, each with finitely many roots. State the projective
-version for `Projectivization ℚ̄ (ι → ℚ̄)` alongside it.
+measure of the primitive integer minimal polynomial, whose degree is at most `D`, hence (through
+Mathlib's `Polynomial.finite_mahlerMeasure_le`) leaves finitely many such polynomials, each with
+finitely many roots. State the projective version for `Projectivization ℚ̄ (ι → ℚ̄)` alongside it.
 
 **1.4 Kronecker's theorem** (Bombieri–Gubler, Theorem 1.5.9; Hindry–Silverman, Corollary B.2.3.1).
 For `x` algebraic over `ℚ`, `absMulHeight₁ x = 1 ↔ x = 0 ∨ ∃ n, 0 < n ∧ x ^ n = 1`, and the strict
@@ -280,9 +311,14 @@ which Diophantine arguments consume this layer.
 **2.1 The height of a polynomial.** `Polynomial.mulHeight p := Finsupp.mulHeight p.toFinsupp.coeff`
 and `MvPolynomial.mulHeight p := Finsupp.mulHeight p.coeff` — both are literally `Finsupp` s over
 `K`, so Mathlib's `Finsupp.mulHeight` is the definition and nothing new is constructed. Prove the
-basic API: invariance under scaling by `Kˣ`, `mulHeight C a = mulHeight₁ a`, the value on monomials,
-behaviour under `Polynomial.map` along a field embedding, and the relation to the tuple height of
-the coefficient vector on `Fin (natDegree p + 1)`.
+basic API: invariance under scaling by `Kˣ`; `mulHeight (C a) = 1` for every `a` (a one-entry
+tuple has height `1` by the product formula, `mulHeight_eq_one_of_subsingleton`, and the zero
+polynomial takes the junk value), so the value on monomials is `1` too; the compatibility with
+Mathlib's affine height, `mulHeight (X - C a) = mulHeight₁ a`, since `![-a, 1]` and `![a, 1]` have
+the same height; behaviour under `Polynomial.map` along a field embedding; and the relation to the
+tuple height of the coefficient vector on `Fin (natDegree p + 1)`. ⚠ `mulHeight (C a) = mulHeight₁ a`
+is false (`a = 2` over `ℚ`: left side `1`, right side `2`); `mulHeight₁ a` is the height of the
+*two*-entry tuple `![a, 1]`.
 
 **2.2 Gauss's lemma for heights** (Bombieri–Gubler, Lemma 1.6.3; Hindry–Silverman §B.7). At every
 nonarchimedean place `v`, the local factor is multiplicative:
@@ -293,35 +329,54 @@ and the only place the ultrametric inequality is used sharply; Mathlib's
 **2.3 Gelfond's inequality** (Bombieri–Gubler, Lemma 1.6.11; Hindry–Silverman, Proposition B.7.3,
 where it is spelled *Gelfand's* inequality — the attribution is to A. O. Gelfond and both spellings
 are in print, so the docstring carries both; the elementary converse is their Proposition B.7.2).
-The archimedean loss is at most a power of two:
-`mulHeight (p * q) ≤ 2 ^ (natDegree p + natDegree q) * mulHeight p * mulHeight q` and the reverse
-`mulHeight p * mulHeight q ≤ 2 ^ (natDegree p + natDegree q) * mulHeight (p * q)`. Prove the
-multivariate form for `MvPolynomial` with the total degree in the exponent. Record the sharp
+The archimedean loss is at most a power of two per archimedean place. In the absolute height the
+constant is `2 ^ (deg p + deg q)`; in Mathlib's relative height, which Layer 2 is stated in, it is
+`2 ^ ((natDegree p + natDegree q) * totalWeight K)`:
+`mulHeight (p * q) ≤ 2 ^ ((natDegree p + natDegree q) * totalWeight K) * mulHeight p * mulHeight q`
+and the reverse
+`mulHeight p * mulHeight q ≤ 2 ^ ((natDegree p + natDegree q) * totalWeight K) * mulHeight (p * q)`.
+The local inequality at one archimedean place is the book's; the relative height raises it to the
+power `mult v` and multiplies over the places, and `totalWeight_eq_sum_mult` collects the exponent.
+Prove the multivariate form for `MvPolynomial` with the total degree in the exponent. Record the sharp
 multiplicative statement `M(pq) = M(p) M(q)` as a consequence of Mathlib's `mahlerMeasure_mul`, and
 the comparison between `mulHeight p` and `mahlerMeasure p` in both directions, which is what makes
 the exponent `2^deg` unavoidable and the Mahler measure the sharper tool.
 
-**2.4 Linear forms and the Segre relation.** Record the exact additivity `h(x ⊗ y) = h(x) + h(y)`
-under the Segre embedding (Bombieri–Gubler 1.5.14) and the sum bound
-`h(P₁ + ⋯ + P_r) ≤ ∑ h(P_i) + log r` (Proposition 1.5.15), which sharpen and complete Mathlib's
-`mulHeight₁_sum_le`. A linear form is a degree-one polynomial and its height is 2.1 applied to it;
-no separate definition. What this milestone owns is the estimates: the height of the value
-`∑ i, a i * x i` against the heights of `a` and `x`, sharpening `Height.mulHeight₁_sum_le` by the
-Cauchy–Schwarz bound available in the Arakelov normalization of Layer 0.
+**2.4 Linear forms and the Segre relation.** Mathlib has the Segre relation
+`h(x ⊗ y) = h(x) + h(y)` (Bombieri–Gubler 1.5.14) as `Height.mulHeight_fun_mul_eq`, and the sum
+bound for field elements `h(P₁ + ⋯ + P_r) ≤ ∑ h(P_i) + log r` (Proposition 1.5.15, absolute) as
+`mulHeight₁_sum_le`, whose relative constant is `#s ^ totalWeight K` — already the sharp one; there
+is nothing to sharpen there. What is missing is the **tuple** form: for a tuple `w : β → K` and an
+index map `f : α → ι → β`, `mulHeight (fun i ↦ ∑ a ∈ s, w (f a i)) ≤ #s ^ totalWeight K * mulHeight w`,
+the statement that sums of coordinates of one projective point cost `#s ^ totalWeight K`. ⚠ The
+naive tuple statement `mulHeight (x + y) ≤ C · mulHeight x · mulHeight y` is **false** for every
+`C`: scale `y` by `c ∈ Kˣ`, which fixes the right-hand side and sends `mulHeight (x + c • y)` to
+infinity; the sum bound for tuples is a statement about one tuple, not two. A linear form is a
+degree-one polynomial and its height is 2.1 applied to it; no separate definition. What this
+milestone owns beyond the tuple sum bound is the estimates for the value `∑ i, a i * x i` against
+the heights of `a` and `x`: in the sup-norm height the constant is `(card ι) ^ totalWeight K`, and
+in the Arakelov normalization of Layer 0 Cauchy–Schwarz at each archimedean place removes the
+cardinality altogether.
 
 **2.5 The height of a matrix** (Bombieri–Gubler's `H(A)`, 2.9.8).
 `Matrix.mulHeight A := Height.mulHeight fun p : ι' × ι ↦ A p.1 p.2`, with `logHeight` alongside.
 Prove: invariance under `Matrix.transpose` and under row and column permutations; scaling by `Kˣ`;
-the submatrix bound `mulHeight (A.submatrix f g) ≤ mulHeight A`; the product bound
-`mulHeight (A * B) ≤ (Fintype.card ι : ℝ) * mulHeight A * mulHeight B` at archimedean places with
-the corresponding sharp nonarchimedean form; and the bound on the height of `A.det` in terms of
-`mulHeight A` and the size, from the Leibniz expansion. Consume
-`Height.mulHeight_linearMap_apply_le` for the action on tuples rather than reproving it.
+the submatrix bound `mulHeight (A.submatrix f g) ≤ mulHeight A`; the product bound, for the inner
+index type `ι` nonempty,
+`mulHeight (A * B) ≤ (Fintype.card ι : ℝ) ^ totalWeight K * mulHeight A * mulHeight B`, whose
+local form is the triangle inequality on a sum of `card ι` terms at each archimedean place and
+exact multiplicativity at the nonarchimedean ones; and the bound on the height of `A.det` in terms
+of `mulHeight A` and the size, from the Leibniz expansion. Consume
+`Height.mulHeight_linearMap_apply_le` for the action on tuples rather than reproving it. Two
+rejection tests for the product bound: over `ℚ(i)`, `A = [1 1]` and `B = [[N, 0], [N, 1]]` give
+`A B = [2N, 1]` with `H(AB) = 4N²`, `H(A) = 1`, `H(B) = N²`, so the absolute constant `card ι = 2`
+fails and the relative one `2 ^ 2 = 4` is sharp; and for `ι` empty, `A B = 0` has the junk height
+`1` against a right-hand side of `0`, which is why `[Nonempty ι]` is a hypothesis.
 
 ### Layer 3: Plücker coordinates and the height of a subspace
 
-The layer this roadmap exists for. Throughout, `V : Submodule K (ι → K)` with `[Finite ι]` and
-`Module.finrank K V = k`.
+The layer this roadmap exists for. Throughout, `V : Submodule K (ι → K)` with `[Fintype ι]`,
+`[LinearOrder ι]` (see *Standing hypotheses*) and `Module.finrank K V = k`.
 
 **3.1 The Plücker point** (Hindry–Silverman, Exercise A.1.11(a)–(b); Bombieri–Gubler 2.8.4). For a
 basis `b : Fin k → V`, the wedge `⋀ i, (b i : ι → K) ∈ ⋀[K]^k (ι → K)` is nonzero, and its
@@ -358,13 +413,19 @@ rather than a property of the matrix), which is the invariance under row operati
 Siegel bound lacks.
 
 **3.4 The Cauchy–Binet identity** (Schmidt 1967, §2 Lemma 1; Bombieri–Gubler, Proposition 2.8.8;
-Bombieri–Vaaler (2.4)(iv)). At an archimedean place the ℓ² local factor of the minor vector is a
-determinant: `∑ s, (det A_s)² = det (A Aᵀ)`, the Gram matrix of the rows. This is a named milestone
-rather than a step inside a proof, because it is precisely where the `√|det (A Aᵀ)|` of the
-Bombieri–Vaaler bound is produced. Prove alongside it the **generalized Hadamard inequality**
+Bombieri–Vaaler (2.4)(iv)). The statement to prove is the ring-generic one: for `A, B` of size
+`m × n` over a commutative ring, `det (A Bᵀ) = ∑_S det A_S · det B_S`, the sum over the
+`m`-element column sets `S`, in the `minorDet` indexing of 3.3. Its two archimedean
+specializations are what the ℓ² local factor of the minor vector needs: at a **real** place
+`B = A` gives `∑ s, (det A_s)² = det (A Aᵀ)`, the Gram determinant of the rows; at a **complex**
+place `B = conj A` gives `∑ s, |det A_s|² = det (A A*)` with the conjugate transpose. State both;
+the real one alone leaves the Bombieri–Vaaler constant available only over totally real fields.
+This is a named milestone rather than a step inside a proof, because it is precisely where the
+`√|det (A Aᵀ)|` of the Bombieri–Vaaler bound is produced. Prove alongside it the **generalized
+Hadamard inequality**
 (Schmidt 1967, §2 Lemma 2; Bombieri–Vaaler (2.6); Bombieri–Gubler's Fischer inequality, Remark
 2.8.9): for a partition of the rows into two blocks, `H_u(A) ≤ H_u(A₁) · H_u(A₂)`. That is what
-turns a row-space bound into a bound in terms of individual rows (5.4).
+turns a row-space bound into a bound in terms of individual rows (5.5).
 
 **3.5 Duality** (Schmidt 1967, §1, equations (2) and (4) — the original; Bombieri–Gubler,
 Proposition 2.8.10; the underlying linear algebra is Hindry–Silverman, Exercise A.1.11(c), which
@@ -384,47 +445,53 @@ orthogonal-complement corollary for the standard bilinear form alongside.
 **3.6 Submodularity** (Bombieri–Gubler, Theorem 2.8.13; Schmidt, and independently
 Struppeck–Vaaler). `h_Ar(V + W) + h_Ar(V ∩ W) ≤ h_Ar(V) + h_Ar(W)`: the height is submodular on the
 subspace lattice. Bombieri–Gubler state it without proof and do not use it; it is nonetheless the
-structural theorem about subspace heights and it is what makes the monotonicity 3.7 a corollary
-rather than a separate argument.
+structural theorem about subspace heights. State with it the two corollaries it has together with
+`1 ≤ H`: `H(V ⊓ W) ≤ H(V) · H(W)` and `H(V ⊔ W) ≤ H(V) · H(W)`. ⚠ Subspace heights are **not
+monotone under inclusion**, and no statement bounding `H(W)` by `H(V)` for `W ≤ V` is to be
+made: in `ℚ²`, `H(⊤) = 1` while the line spanned by `![1, N]` has height `N`. In particular the
+basis vectors of a subspace are not bounded by its height; Layer 5 bounds the vectors it produces
+through the successive minima, never through the height of the space they span.
 
-**3.7 Monotonicity.** If `x₁, …, x_k` is a basis of `V` and `I ⊆ Fin k`, then
-`mulHeight (span K {x i | i ∈ I}) ≤ mulHeight V`, monotonically in `I`; in particular
-`max i, Height.mulHeight (x i) ≤ mulHeight V` for the basis Layer 5 produces.
-
-**3.8 Northcott for subspaces.** Over a number field,
+**3.7 Northcott for subspaces.** Over a number field,
 `{V : Submodule K (ι → K) | finrank K V = k ∧ mulHeight V ≤ B}` is finite, and the `Northcott`
 instance behind it, immediate from 3.1's injectivity and Layer 1.1.
 
 ### Layer 4: successive minima, Minkowski's second theorem, extraction, and cube slicing
 
-Minkowski's convex-body theorem is Mathlib's and the lattice-point engine is the `EffectiveBounds`
-roadmap's; the second theorem is neither's, and Bombieri–Vaaler needs it, together with two lemmas
-that convert its real-lattice output into number-field statements: the extraction lemma (4.4) and
-the cube-slicing theorem (4.5).
+Minkowski's convex-body theorem is Mathlib's; the second theorem is not, and Bombieri–Vaaler needs
+it, together with two lemmas that convert its real-lattice output into number-field statements:
+the extraction lemma (4.4) and the cube-slicing theorem (4.5). Everything in this layer is stated
+against Mathlib's `ZLattice`, `ZLattice.covolume` and `mixedEmbedding`, with the ambient measure a
+Haar measure (`[IsAddHaarMeasure (volume : Measure E)]`), which is the hypothesis every covolume
+statement in Mathlib carries.
 
 **4.1 Successive minima** (Cassels, Ch. VIII §1). For a `ZLattice L` in a finite-dimensional real
-normed space and a symmetric convex body `B` with nonempty interior, define
-`successiveMinimum L B i` as the infimum of `t > 0` such that `t • B` contains `i + 1` linearly
-independent points of `L`. Prove it is attained — Cassels' Lemma 1 of that section, the existence of
-independent lattice vectors realizing the minima, which every later proof consumes — and positive,
-monotone in `i`, and homogeneous of degree `−1` in `B`; and that `successiveMinimum L B 0` is the
-quantity bounded by Minkowski's first theorem, so Mathlib's
+normed space `E` of dimension `n` and a symmetric convex body `B` — **compact**, convex, symmetric,
+with nonempty interior — define `successiveMinimum L B i` as the infimum of `t > 0` such that
+`t • B` contains `i + 1` linearly independent points of `L`. For `i ≥ n` no such family exists and
+the value is `sInf ∅ = 0`, so every statement about the minima carries `i < n`. Prove it is
+attained — Cassels' Lemma 1 of that section, the existence of independent lattice vectors
+realizing the minima, which every later proof consumes; this is where closedness of `B` is used —
+and positive — where boundedness is used: a bounded body meets the discrete lattice in finitely
+many points at each dilation — monotone in `i`, and homogeneous of degree `−1` in `B`; and that
+`successiveMinimum L B 0` is the quantity bounded by Minkowski's first theorem, so Mathlib's
 `exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure` is the `i = 0` case.
 
 ⚠ Cassels indexes the minima by a **distance function** `F`, taking `𝒮 = {x | F x ≤ 1}` and dilating
 that, rather than by a convex body and `t • B`. The two are the same thing and Mathlib's `gauge` is
 the translation, since the gauge of a symmetric convex body with `0` in its interior is exactly such
-an `F`.**The convex-body form above is the pinned one**, because it is what Mathlib's first theorem
-and `EffectiveBounds` ' engine are already stated in; prove the `gauge` correspondence once, as its
-own lemma, so the book's statements transfer without re-deriving anything.
+an `F`. **The convex-body form above is the pinned one**, because it is what Mathlib's first theorem
+is already stated in; prove the `gauge` correspondence once, as its own lemma, so the book's
+statements transfer without re-deriving anything.
 
-**4.2 Minkowski's second theorem** (Cassels, Ch. VIII, Theorem II for a general distance function;
-Theorem I of the same chapter is the sphere case `d(Λ) ≤ λ₁⋯λₙ ≤ d(E₀) d(Λ)`, worth proving first as
-the model — Cassels says as much — since its Hadamard-inequality argument is the skeleton of the
-general one). With `n = finrank ℝ E`, `(2ⁿ / n!) · covolume L ≤ (∏ i, λ i) · vol B` and
-`(∏ i, λ i) · vol B ≤ 2ⁿ · covolume L`. The first follows from the first theorem applied to a scaled
-body; the second is the substantial half, by the compression argument along a basis realizing the
-minima. Both are milestones; the second is the one Layer 5 consumes.
+**4.2 Minkowski's second theorem** (Cassels, Ch. VIII, Theorem II for a general distance function).
+With `n = finrank ℝ E` and `B` as in 4.1, `(2ⁿ / n!) · covolume L ≤ (∏ i < n, λ i) · vol B` and
+`(∏ i < n, λ i) · vol B ≤ 2ⁿ · covolume L`. The first follows from the first theorem applied to a
+scaled body; the second is the substantial half, by the compression argument along a basis
+realizing the minima. Both are milestones; the second is the one Layer 5 consumes. Cassels'
+Theorem I of the same chapter is the sphere case, and its Hadamard-inequality argument is the
+skeleton of the general proof — Cassels says as much — so it is the model to read first; it is
+not a separate target, since Theorem II contains it.
 
 **4.3 The number-field lattice.** The specialization Layer 5 uses: for a subspace `V ⊆ Kⁿ` of
 dimension `k`, the image of `V ∩ (𝓞 K)ⁿ` under `NumberField.mixedEmbedding` is a `ZLattice` of
@@ -451,9 +518,8 @@ beside the worked examples below, since it pins the `2^{−r₂}` and the discri
 
 Prove it over `ℚ` first, where it says a saturated lattice has covolume the euclidean norm of its
 primitive Plücker vector — Cauchy–Binet (3.4) plus completing a basis of the saturation to one of
-`ℤⁿ`. Over `K`, **follow Schmidt's proof rather than a Steinitz pseudo-basis**: earlier drafts of
-this milestone routed through `Λ ≅ ⊕ 𝔞_l · w_l` with `∏ N(𝔞_l)` matching the finite part of the
-Plücker height, but Schmidt never decomposes the module and never meets the class group. Pick *any*
+`ℤⁿ`. Over `K`, **follow Schmidt's proof, which never decomposes the module and never meets the
+class group**; a Steinitz pseudo-basis `Λ ≅ ⊕ 𝔞_l · w_l` is not the route. Pick *any*
 `y₁, …, y_k ∈ V ∩ (𝓞 K)ⁿ` independent over `K` and let `Λ₀` be the lattice of the **free** module
 `𝓞_K y₁ + ⋯ + 𝓞_K y_k`, a finite-index sublattice. Then two lemmas, one per side of the height:
 
@@ -466,15 +532,17 @@ Plücker height, but Schmidt never decomposes the module and never meets the cla
   Lean proof can get this constant wrong.
 - *Finite* (his Lemmas 5–6): `[σ(Λ) : Λ₀] = N(𝔞)`, with `𝔞` the ideal generated by the Plücker
   coordinates, reduced prime by prime to a counting lemma — for `det(R₁, …, R_k) ∈ 𝔭^e ∖ 𝔭^{e+1}`,
-  the number of `B` mod `𝔭^f` with `B · R_j ≡ 0 (mod 𝔭^{g_j})` is `N(𝔭)^{k f − e − ∑ g_j}` — by
-  induction on `e`.
+  the number of `B` mod `𝔭^f` with `B · R_j ≡ 0 (mod 𝔭^{g_j})` is `N(𝔭)^{k f − ∑ g_j + e}`, in the
+  range of exponents Schmidt states it for — by induction on `e`. The sign of `e` is fixed by the
+  case `k = 1`: for `r ∈ 𝔭^e ∖ 𝔭^{e+1}` and `e ≤ g ≤ f`, `B r ∈ 𝔭^g` means `B ∈ 𝔭^{g − e}`, and
+  there are `N(𝔭)^{f − g + e}` such `B` mod `𝔭^f`; a version with `−e` is refuted there.
 
 Since the height is by definition `N(𝔞)^{−1}` times the archimedean product, the two `N(𝔞)` cancel.
 Non-freeness of `V ∩ (𝓞 K)ⁿ` is therefore never confronted, and no ideal-class bookkeeping enters
 this roadmap at any point; the `ℚ(√−5)` example below is a regression test against a Lean proof
 silently assuming freeness, not a hard case. This is the computation that converts a lattice
 statement into a height statement, and
-it is where the `|D_{K/ℚ}|^{(N−M)/(2d)}` of Theorem 5.3 is produced; it is a named milestone so
+it is where the `|D_{K/ℚ}|^{(N−M)/(2d)}` of 5.3 and 5.4 is produced; it is a named milestone so
 that constant has a single point of truth, and the worked examples below pin each of its three
 factors.
 
@@ -494,17 +562,15 @@ the product of the selected vectors' relative heights is bounded by `∏ i, λ i
 of the second theorem needs, for a lattice and a sublattice, bases in which one is triangular
 over the other, which over `(𝓞_K)^N` requires `𝓞_K` to be a principal ideal domain (their §I.3).
 The lemma replaces the triangularization, and is what entitles the route below to the basis
-statements 5.2 Theorem 2 and 5.3 at their exact constants with no adelic input.
-
-**This milestone is done, outside this repository.** The three statements — the counting lemma in
-the arbitrary-tower form above, the greedy selection under arbitrary index bounds, and the packaged
-corollary giving `k` from `d · k` with the `j`-th index at most `d · j` — are proved sorry-free in
-`ForMathlib/LinearAlgebra/LinearIndependentRestrictScalars.lean` of the `lean-code` repository, as
-general linear algebra with no number theory in the file. A contributor taking Layer 4 should port
-rather than reprove it. Its existence is also what settles the shape of the roadmap's route: the
-adelic proofs need triangularization because their successive minima count vectors independent
-**over `K`** (Bombieri–Gubler's Definition C.2.9 is explicit about this), which a real convex body
-cannot see; 4.4 is precisely the price of that difference, and it is a page of linear algebra.
+statements 5.2 Theorem 2, 5.3 and 5.4 at their exact constants with no adelic input. The three
+statements are the counting lemma in the arbitrary-tower form above, the greedy selection under
+arbitrary index bounds, and the packaged corollary giving `k` from `d · k` with the `j`-th index at
+most `d · j`; all three are general linear algebra with no number theory in them, and a sorry-free
+proof of each exists (see *[Provenance](#provenance)*). What settles the shape of the roadmap's
+route is that the adelic proofs need triangularization because their successive minima count
+vectors independent **over `K`** (Bombieri–Gubler's Definition C.2.9 is explicit about this), which
+a real convex body cannot see; 4.4 is precisely the price of that difference, and it is a page of
+linear algebra.
 
 **4.5 Cube slicing** (Vaaler 1979; Bombieri–Gubler, Appendix C.3). For a linear subspace
 `V ⊆ ℝⁿ` of dimension `k`, the central slice of the cube satisfies
@@ -519,10 +585,12 @@ satisfies `vol (Q ∩ V) ≥ 1`. The cube is the case `n_i ≡ 1`; the archimede
 needs are the case `n_i = 1` at real places and `n_i = 2` at complex ones. The generality is free —
 the induction on `r` has a base case (polar decomposition, then a per-ray convexity comparison
 against the volume-1 ball) and a step (log-concavity of the marginal) that never use `n_i = 1` — so
-state 4.5 in this form and the complex places are covered by the same theorem. An inscribed-cube
-reduction is then optional rather than structural: the unit polydisc of `ℂⁿ` contains the cube of
-half-side `1/√2` in `ℝ^{2n}`, giving `(2/√2)^{2k} = 2^k` where the direct bound gives `π^k`. Taking
-the reduction costs exactly `(π / 2)^{k r₂ / d}` in Theorem 5.3's constant; see 5.3.
+state 4.5 in this form and the complex places are covered by the same theorem. The cube case is a
+corollary to state alongside, since it is what 5.2 consumes. The inscribed-cube reduction — the
+unit polydisc of `ℂⁿ` contains the cube of half-side `1/√2` in `ℝ^{2n}`, giving `(2/√2)^{2k} = 2^k`
+where the direct bound gives `π^k` — is not a step of the route; it is the normalization check of
+the *Route* paragraph below, and the factor `(π / 2)^{k r₂ / d}` it costs is exactly the gap between
+the two constants 5.4 states.
 
 **Cost, priced from the source.** Bombieri–Gubler C.3 is a complete proof in five pages —
 log-concave functions (C.3.1–2), the sup-convolution inequality (C.3.3), log-concavity of marginals
@@ -532,15 +600,16 @@ log-concave functions (C.3.1–2), the sup-convolution inequality (C.3.3), log-c
 Prékopa 1973, Theorem 3. That theorem is itself a one-page induction on dimension off the
 one-dimensional case, and Prékopa's own remark reduces the only case needed here (two functions,
 both log-concave) to the `λ = ½` inequality of his 1971 paper by a dyadic argument he calls "very
-easy". So the analytic ladder is four named rungs, not an open-ended development, and the older
-reading of this milestone — Vaaler's peakedness comparison for symmetric product measures (Kanter)
-— is an alternative route, not the only one. What is genuinely absent is Mathlib support: there is
+easy". So the analytic ladder is four named rungs, not an open-ended development. What is genuinely
+absent is Mathlib support: there is
 no `LogConcave` predicate, no Prékopa–Leindler and no Brunn–Minkowski, so the milestone begins with
 the definition. `Mathlib/MeasureTheory/Integral/Marginal.lean` (the `∫⋯∫⁻` API built for
 Gagliardo–Nirenberg–Sobolev) is the right substrate for the induction over coordinates. One
 formalization detail from Prékopa's own erratum: the sup-convolution is only *Lebesgue* measurable,
 so state C.3.3 with a hypothesis `f x ^ λ * g y ^ μ ≤ r (λ • x + μ • y)` for a given measurable `r`
-rather than defining `r` as a supremum.
+rather than defining `r` as a supremum. Vaaler's own proof runs through a peakedness comparison
+for symmetric product measures (Kanter 1977); it proves the same theorem and is admissible, but
+the milestone is priced against Bombieri–Gubler C.3.
 
 **Route.** Bombieri–Gubler prove Siegel's lemma through the *adelic* Minkowski second theorem
 (Theorem 2.9.13, from Appendix C.2.11), over `∏_v K_v` with normalized Haar measures. **This
@@ -549,23 +618,26 @@ roadmap pins the real route instead**: restriction of scalars along `mixedEmbedd
 4.5 supplies the archimedean volume. The constants close exactly: with `k = N − M`, the `2^{dk}`
 of 4.2, the `2^{−r₂ k}` of 4.3 and the `2^{(r₁+r₂) k}` of 4.5's slice bounds — taking the
 inscribed-cube reduction at complex places — cancel, which is the acceptance check that the
-normalizations agree. Taking 4.5's product-of-balls bound directly instead replaces
+normalizations agree, and it is the check to run first, since a spare factor there means a
+normalization is wrong upstream. Taking 4.5's product-of-balls bound directly instead replaces
 `2^{(r₁+r₂) k}` by `2^{r₁ k} π^{r₂ k}` and leaves `(2/π)^{k r₂ / d}`, which is Bombieri–Vaaler's own
-Theorem 8 constant and sharper than the one 5.3 pins; both are correct and the exact cancellation is
-the one to test first, since a spare factor there means a normalization is wrong upstream. Each ingredient is classical and cited at its
+Theorem 8 constant; 5.4 states both. Each ingredient is classical and cited at its
 milestone, but the assemblies in the literature are adelic (Bombieri–Vaaler; Bombieri–Gubler
 §2.9) except over `ℚ` (Aliev–Henk §6); the assembly over `ℝ^{dN}`, with 4.4 in place of the
 adelic triangularization, is this roadmap's, so the milestones above — not any single reference —
 are the specification. The route keeps Layer 4 free of adelic Haar measure and stands on the
-`ZLattice` and mixed-embedding substrate Mathlib and `EffectiveBounds` already provide. A
+`ZLattice` and mixed-embedding substrate Mathlib already provides. A
 contributor who prefers the adelic route must first build adelic Haar measure on
 `NumberField.AdeleRing`, a substantially larger undertaking that nothing in this roadmap is
 stated against.
 
 ### Layer 5: Siegel's lemma and Bombieri–Vaaler (the summit)
 
-Every statement in this layer is in the **absolute** normalization, matching the literature; the
-relative forms follow from Layer 0.4.
+Every statement in this layer over a number field is in the **absolute** normalization on **both**
+sides, matching the literature: absolute heights of the solutions on the left, and on the right the
+absolute Arakelov height of the row space, the relative `H_Ar` of Layer 3 raised to `1/d`. An
+absolute left side against a relative right side is off by the power `d` and is the standard slip;
+the relative forms follow from Layer 0.4 by raising both sides to the `d`-th power.
 
 **5.1 Classical Siegel, in height form** (Bombieri–Gubler, Lemma 2.9.1; Hindry–Silverman, Lemma
 D.4.1 — the statement Mathlib's file is proved against, so its bound is already ours). Restate
@@ -592,56 +664,64 @@ Theorem 1's constant. This assembly is written out, adele-free, in Aliev–Henk 
 6.2–6.3, with the `ℚ`-case of 4.3's covolume identity stated there as folklore), which is the
 reference to hold the milestone against.
 
-**5.3 Bombieri–Vaaler over a number field — the summit** (Bombieri–Gubler, Theorem 2.9.4;
-Bombieri–Vaaler 1983). Let `K` have degree `d` and discriminant `D_{K/ℚ}`, and let `A` be an `M × N`
-matrix of rank `M` over `K`. The solution space of `A x = 0` has a basis `x₁, …, x_{N−M}`, contained
-in `𝓞_K^N`, with
+**5.3 Bombieri–Vaaler over a number field, Hermitian form** (Bombieri–Vaaler 1983; the inequality
+Vaaler 2003 quotes as (1.3) and calls straightforward). Let `K` have degree `d`, `r₁` real and `r₂`
+complex places and discriminant `D_{K/ℚ}`, let `A` be an `M × N` matrix of rank `M` over `K`, write
+`k = N − M`, and let `ω_j` be the volume of the unit ball of `ℝ^j`. The solution space of `A x = 0`
+has a basis `x₁, …, x_k`, contained in `𝓞_K^N`, with
 
 ```text
-∏_{l=1}^{N-M} H(x l)  ≤  |D_{K/ℚ}| ^ ((N - M) / (2 d))  ·  H_Ar(A),
+∏_{l=1}^{k} H_Ar(x l)  ≤  [(2^k / ω_k)^{r₁} (2^k / ω_{2k})^{r₂}]^{1/d} · |D_{K/ℚ}| ^ (k / (2 d)) · H_Ar(A),
 ```
 
-where `H` is the absolute multiplicative height and `H_Ar(A)` the **Arakelov height of the row
-space** of `A` — the subspace height of Layer 3 in the Arakelov normalization of Layer 0, not the
-height of the entries. The integrality of the basis carries no extra information (Remark 2.9.5),
-since scaling does not change a height; state it anyway, because it is what applications quote.
-Route: 3.5 identifies `H_Ar(A)` with the height of the solution space `V`, 4.3 places `V ∩ 𝓞_K^N`
-as a `ZLattice` of rank `d (N − M)` in the real carrier of `V`, 4.2 with the slice bounds of 4.5
-(the inscribed cube at complex places) bounds the product of all `d (N − M)` successive minima by
-`|D_{K/ℚ}|^{(N−M)/2}` times the relative Arakelov height, and 4.4 selects from vectors realizing
-the minima a `K`-basis, the `l`-th among the first `d (l − 1) + 1`, whose relative height is at
-most `λ_{d(l−1)+1} ^ d` — integral coordinates make every finite local factor at most one, and
-membership in the dilated body bounds the archimedean ones — so the product over the basis is
-bounded by the product of the minima. Layer 0.4's absolute normalization is applied once, at the
-end. The discriminant power in the bound is not removable (Roy–Thunder 1995), and the best
-possible constant, a generalized Hermite constant (Vaaler 2003), is recorded in the references
-and is not the target.
+absolute Arakelov heights on both sides, `H_Ar(A)` the **Arakelov height of the row space** of `A`
+— the subspace height of Layer 3 in the Arakelov normalization of Layer 0, taken absolute — not the
+height of the entries. Route: 3.5 identifies `H_Ar(A)` with the height of the solution space `V`,
+4.3 places `V ∩ 𝓞_K^N` as a `ZLattice` of rank `d k` in the real carrier of `V`, and 4.2 with the
+`ℓ²` unit balls at the archimedean places as the convex body bounds the product of all `d k`
+successive minima by `2^{dk} · covol / vol (B ∩ V_ℝ)`. The real carrier is the product over the
+places of `V ⊗_K K_v`, so the slice is the product of the slices at each place, and a central slice
+of a euclidean ball is a ball: `ω_k` at a real place, `ω_{2k}` at a complex one, and no slicing
+theorem is needed. Then 4.4 selects from vectors realizing the minima a `K`-basis, the `l`-th among
+the first `d (l − 1) + 1`, whose relative Arakelov height is at most `λ_{d(l−1)+1} ^ d` — integral
+coordinates make every finite local factor at most one, and membership in the dilated body bounds
+the archimedean ones — so the product over the basis is bounded by the product of the minima. The
+`2^{dk}` of 4.2 and the `2^{−r₂ k}` of 4.3 combine to the `2^{k (r₁ + r₂)}` displayed, and Layer
+0.4's absolute normalization is applied once, at the end. This needs 4.1–4.4 and nothing else, and
+is the first published number-field theorem of the layer. Since `H ≤ H_Ar` (0.2), it bounds the
+sup-norm heights of the basis at the same constant.
 
-Two remarks on the constant, both worth knowing before anyone tries to sharpen this milestone.
+**5.4 Bombieri–Vaaler over a number field, max-norm form — the summit** (Bombieri–Gubler, Theorem
+2.9.4; Bombieri–Vaaler 1983, Theorem 8). With `K`, `A` and `k` as in 5.3, the solution space of
+`A x = 0` has a basis `x₁, …, x_k`, contained in `𝓞_K^N`, with
 
-*The pinned constant is the `r₂`-free weakening of Bombieri–Vaaler's own.* Their Theorem 8 in the
-max-norm normalization has `c_k(1)^k = (2/π)^{k r₂ / d} · |D_{K/ℚ}|^{k / (2 d)}` with `k = N − M`,
-which is smaller whenever `K` has a complex place. The gap is exactly the inscribed-cube reduction
-of 4.5, and since 4.5 is stated in the product-of-balls form that reduction is optional: a
-contributor who wants the sharper constant gets it from the same milestone with no extra analysis.
-The bound above stays the pinned target because it is Bombieri–Gubler's Theorem 2.9.4, the statement
-applications quote; record the sharper one as a corollary rather than restating 5.3.
+```text
+∏_{l=1}^{k} H(x l)  ≤  |D_{K/ℚ}| ^ (k / (2 d))  ·  H_Ar(A),
+```
 
-*Cube slicing prices the normalization, not the sharpness.* Run the same route with the `ℓ²` unit
-balls as the convex body instead of the cubes and the slice volumes become exact computations — a
-central slice of a euclidean ball is a ball, `ω_k` at a real place and `ω_{2k}` at a complex one —
-so **4.5 is not needed at all**. What comes out is
-`∏ H_Ar(x l) ≤ c_k(k)^k · H_Ar(A)` with
-`c_k(k)^k = [(2^k / ω_k)^{r₁} (2^k / ω_{2k})^{r₂}]^{1/d} · |D_{K/ℚ}|^{k/(2d)}`, which is
-Bombieri–Vaaler's Hermitian inequality — the one Vaaler 2003 quotes as (1.3) and calls
-straightforward — with their own constant, and it bounds the Arakelov heights of the basis, hence a
-fortiori the sup-norm heights. Vaaler states the dependency explicitly: (1.3) follows from the
-second theorem, while the max-norm form (1.4) "is more difficult because it requires the
-cube-slicing inequality". So Layer 5 has a genuine intermediate summit reachable from 4.1–4.4 alone,
-without the roadmap's hardest analytic milestone; it is worth carrying as **5.3′** so that a
-contributor is not blocked on 4.5 to land a published theorem at its published constant.
+`H` the absolute multiplicative height and `H_Ar(A)` the absolute Arakelov height of the row space,
+as in 5.3. This is Bombieri–Gubler's Theorem 2.9.4, the statement applications quote. The
+integrality of the basis carries no extra information (Remark 2.9.5), since scaling does not change
+a height; state it anyway, because it is what applications quote. State with it, as the second
+theorem of the same milestone, the bound at Bombieri–Vaaler's own constant,
 
-**5.4 The corollaries applications actually quote.** *Non-maximal rank* (Corollary 2.9.7): for `A`
+```text
+∏_{l=1}^{k} H(x l)  ≤  (2/π)^{k r₂ / d} · |D_{K/ℚ}| ^ (k / (2 d))  ·  H_Ar(A),
+```
+
+which implies the first since `2/π < 1` and is strictly sharper whenever `K` has a complex place.
+Route: as in 5.3 with the sup-norm unit balls as the convex body — cubes at the real places,
+polydiscs at the complex ones — whose central slices 4.5 bounds from below, place by place: the
+product-of-balls form of 4.5 gives `2^k` at a real place and `π^k` at a complex one, hence the
+second bound directly, and the first follows from it, or from the cube case of 4.5 through the
+inscribed cube at each complex place, which is the exact cancellation of the *Route* paragraph.
+Vaaler states the dependency between 5.3 and 5.4 explicitly: (1.3) follows from the second theorem,
+while the max-norm form (1.4) "is more difficult because it requires the cube-slicing inequality".
+The discriminant power in the bound is not removable (Roy–Thunder 1995), and the best possible
+constant, a generalized Hermite constant (Vaaler 2003), is recorded in the references and is not
+the target.
+
+**5.5 The corollaries applications actually quote.** *Non-maximal rank* (Corollary 2.9.7): for `A`
 of rank `R`, a basis `x₁, …, x_{N−R}` of the kernel with
 `∏ H(x l) ≤ |D_{K/ℚ}|^{(N−R)/(2d)} · H_Ar^row(A)`, by restricting to `R` independent rows. *Entry
 heights* (2.9.8 and Corollary 2.9.9): bounding `H_Ar^row(A) ≤ ∏_m H_Ar(A_m)` by 3.4's Fischer
@@ -650,21 +730,26 @@ particular a single nonzero solution with `H(x) ≤ |D_{K/ℚ}|^{1/(2d)} (√N H
 this replaces the `N` of the classical Siegel lemma by `√N`, which is the concrete improvement to
 record as the acceptance test for the whole layer.
 
-**5.5 The relative version** (Bombieri–Gubler, Theorem 2.9.19; the `K = ℚ` case is Hindry–Silverman,
+**5.6 The relative version** (Bombieri–Gubler, Theorem 2.9.19; the `K = ℚ` case is Hindry–Silverman,
 Lemma D.4.2, "Siegel's lemma, second form", which is the shape auxiliary-function constructions
 quote and the one to state first). Entries in a finite extension `F/K` of degree `r`, solutions
 required in `K`: if `r M < N` there are `N − r M` `K`-linearly independent `x_l ∈ 𝓞_K^N` with
-`A x_l = 0` and `∏ H(x l) ≤ |D_{K/ℚ}|^{(N−rM)/(2d)} ∏_{i=1}^{M} H_Ar(A_i)^r`, `A_i` the `i`-th row.
-This is the form transcendence arguments use, where the auxiliary construction and the field of
-definition differ, and it is the interface downstream work imports.
+`A x_l = 0` and `∏ H(x l) ≤ |D_{K/ℚ}|^{(N−rM)/(2d)} ∏_{i=1}^{M} H_Ar(A_i)^r`, `A_i` the `i`-th row
+and `H_Ar(A_i)` its absolute Arakelov height as a vector of `F^N`. This is the form transcendence
+arguments use, where the auxiliary construction and the field of definition differ, and it is the
+interface downstream work imports.
 
-**5.6 The auxiliary-polynomial form.** The packaging transcendence and Diophantine-approximation
-arguments actually import, and the reason 5.5 is stated in the relative form: given `r` variables, a
+**5.7 The auxiliary-polynomial form.** The packaging transcendence and Diophantine-approximation
+arguments actually import, and the reason 5.6 is stated in the relative form: given `r` variables, a
 degree bound `D`, and `N` linear conditions on the coefficients of a polynomial over `K` — typically
 that it vanish to prescribed multiplicity at prescribed algebraic points — with the coefficients of
-those conditions of height at most `H`, produce a nonzero such polynomial satisfying all of them,
-with `absMulHeight` bounded explicitly in `r`, `D`, `N`, `H` and the invariants of `K`. This is 5.4
-and 5.5 applied to the coefficient space of `MvPolynomial (Fin r) K` cut out by the conditions, with
+those conditions of height at most `H`, and **fewer conditions than coefficients**,
+`N < (D + r).choose r`, the number of monomials of degree at most `D` in `r` variables (with the
+conditions' coefficients in an extension `F/K` of degree `s`, as 5.6 allows, `s N < (D + r).choose r`),
+produce a nonzero such polynomial satisfying all of them, with `absMulHeight` bounded explicitly in
+`r`, `D`, `N`, `H` and the invariants of `K`. Without the feasibility hypothesis no nonzero solution
+need exist and the statement is false. This is 5.5
+and 5.6 applied to the coefficient space of `MvPolynomial (Fin r) K` cut out by the conditions, with
 Layer 2.1 supplying the height of the resulting polynomial and Layer 2.5 the height of the condition
 matrix. State it so that the count of conditions and the dimension of the coefficient space appear
 separately, as Hindry–Silverman D.4 does when constructing their auxiliary polynomial: downstream
@@ -675,32 +760,61 @@ users vary those two independently and a bound that has already combined them is
 Mathlib proves Dirichlet's unit theorem; this layer builds the height-side dictionary around it and
 the S-adic generalization it does not have.
 
-**6.1 The logarithmic embedding as a height** (Bombieri–Gubler 1.5.12). Relate
-`NumberField.Units.logEmbedding` to `Height.logHeight₁`: for a unit `u`, `logHeight₁ (u : K)` is the
-sum of the positive parts of the components of the logarithmic embedding, and
-`logHeight₁ u + logHeight₁ u⁻¹ = ‖logEmbedding u‖₁` in the appropriate normalization. Deduce that
-`logEmbedding` has finite fibres of bounded height, so that Mathlib's
-`unitLattice_inter_ball_finite` and Layer 1.1 are two views of one fact.
+**6.1 The logarithmic embedding as a height** (Bombieri–Gubler 1.5.12). For a unit `u` every finite
+local factor is `1`, so
+`logHeight₁ (u : K) = ∑ w : InfinitePlace K, max 0 (mult w * log (w u))`, the sum of the positive
+parts of the **full** vector of weighted logarithms over all infinite places; and since that vector
+sums to `0` by the product formula, `2 * logHeight₁ u = ∑ w, |mult w * log (w u)|`, its ℓ¹ norm.
+Relate this to Mathlib's `NumberField.Units.logEmbedding`, which is that vector **with the
+coordinate at the distinguished place `w₀` dropped** (its codomain is `{w // w ≠ w₀} → ℝ`): the
+missing coordinate is minus the sum of the others, so
+`logHeight₁ u = ∑_{w ≠ w₀} (logEmbedding u w)⁺ + (−∑_{w ≠ w₀} logEmbedding u w)⁺`, and
+`‖logEmbedding u‖₁ / 2 ≤ logHeight₁ u ≤ ‖logEmbedding u‖₁`. ⚠ Neither
+`logHeight₁ u = ∑_w (logEmbedding u w)⁺` nor `2 logHeight₁ u = ‖logEmbedding u‖₁` holds: both
+miss `w₀`, and a unit whose only large conjugate is at `w₀` refutes them. Deduce that `logEmbedding`
+has finite fibres of bounded height, so that Mathlib's `unitLattice_inter_ball_finite` and Layer 1.1
+are two views of one fact.
 
 **6.2 Units of height one.** `absMulHeight₁ (u : K) = 1 ↔ u ∈ NumberField.Units.torsion K` for a
 unit `u`, from Kronecker (1.4) and `logEmbedding_ker`. This is the height-theoretic identification
 of the torsion subgroup, and the statement in which Kronecker's theorem is usually applied.
 
-**6.3 Heights of the fundamental system.** The regulator bounds the heights of a fundamental system:
-explicit two-sided estimates relating `NumberField.Units.regulator K` to
-`∏ i, absMulHeight₁ (fundSystem K i)`, so that a unit basis of small height and a small regulator
-are the same statement. The finiteness input is 1.1 and the lattice input is Mathlib's
-`basisUnitLattice`.
+**6.3 The regulator and the heights of a fundamental system.** Two statements, in the absolute
+logarithmic height `h`, with `r = Units.rank K` and `d = [K : ℚ]`. *Hadamard's bound, for every
+fundamental system* `ε₁, …, ε_r`, in particular Mathlib's `fundSystem`:
+`regulator K ≤ (2 d)^r · ∏ h(ε_i)`. The regulator is the absolute determinant of the `r × r` matrix
+of `logEmbedding`s (Mathlib's `regulator` is the covolume of `unitLattice`), each row has ℓ¹ norm at
+most `2 · logHeight₁ ε_i = 2 d · h(ε_i)` by 6.1, and Hadamard's inequality bounds a determinant by
+the product of the ℓ² norms of its rows, which are at most the ℓ¹ norms. *A reduced basis exists*
+(Bugeaud–Győry 1996, Lemma 1): there is a fundamental system with `∏ h(ε_i) ≤ c · regulator K`,
+`c = (r!)² / (2^{r−1} d^r)`. ⚠ The second statement is an existence statement and cannot be made
+for `fundSystem` or for every fundamental system: a unimodular change of basis makes the heights
+arbitrarily large at fixed regulator. Nor is it a statement with unspecified constants: for a fixed
+`K`, `∃ c₁ c₂ > 0, c₁ R ≤ ∏ h(ε_i) ≤ c₂ R` is true of any positive numbers and says nothing. The
+heights are logarithmic on both sides; a product of multiplicative heights against the regulator is
+not a theorem. "Fundamental system" means what `closure_fundSystem_sup_torsion_eq_top` says of
+`fundSystem`: `r` units generating `(𝓞 K)ˣ` modulo torsion. Hadamard's determinant inequality is
+linear algebra with a sorry-free proof available (see *[Provenance](#provenance)*); the lattice input
+is Mathlib's `basisUnitLattice`.
 
-**6.4 S-integers and S-units** (Bombieri–Gubler 1.5.10). For
-`S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K))` finite, define the ring of `S`-integers and its
-unit group, and characterize `S`-units by their heights: `u` is an `S`-unit iff `v u = 1` for every
-finite place outside `S`, iff the height of `u` is supported on `S ∪ {infinite places}`. Follow the
-carrier and naming of mathlib4#40791 and of `Mathlib/RingTheory/DedekindDomain/SelmerGroup.lean`.
+**6.4 S-integers and S-units** (Bombieri–Gubler 1.5.10). Mathlib has the objects, and this milestone
+defines none: for `S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K))`, `S.integer K` is the
+subalgebra of `S`-integers and `S.unit K` the subgroup of `S`-units of `Kˣ`
+(`Mathlib/RingTheory/DedekindDomain/SInteger.lean`), with `x ∈ S.unit K ↔ ∀ v ∉ S, v.valuation K x = 1`
+by definition, `Set.unitEquivUnitsInteger : S.unit K ≃* (S.integer K)ˣ`, and `integer_empty`, so
+that `S = ∅` recovers `𝓞 K` and its units. What this milestone owns is the height side: for
+`x ∈ S.unit K`, the height of `x` is supported on `S` together with the infinite places,
+`mulHeight₁ x = (∏_{w | ∞} max (w x) 1 ^ mult w) · ∏_{v ∈ S} max (|x|_v) 1` with the finite places
+of `K` identified with `HeightOneSpectrum (𝓞 K)` as Mathlib's `FinitePlace` does; and the
+converse, that an element whose finite absolute values outside `S` are all `1` lies in `S.unit K`.
+Follow the naming of mathlib4#40791.
 
 **6.5 The S-unit theorem** (Bombieri–Gubler, Theorem 1.5.13, where it is stated as rank `|S| − 1` in
-the book's convention that `S` contains the archimedean places). The group of `S`-units is finitely
-generated of rank `r₁ + r₂ − 1 + |S|`, with torsion subgroup the roots of unity of `K`. Route, as in
+the book's convention that `S` contains the archimedean places). For `S` finite, Mathlib's `S.unit K`
+is finitely generated of rank `r₁ + r₂ − 1 + |S|`, with torsion subgroup the roots of unity of `K`:
+state it in the shape of Mathlib's `exist_unique_eq_mul_prod`, a family of `r₁ + r₂ − 1 + |S|`
+`S`-units such that every `S`-unit is uniquely a root of unity times a product of their integer
+powers. Route, as in
 #40791: the short exact sequence `1 → 𝓞ˣ → 𝓞_Sˣ → ⊕_{v ∈ S} ℤ` whose cokernel embeds in the class
 group, with Mathlib's Dirichlet theorem giving the left-hand rank. Prove the `S`-analogue of 6.1,
 that the `S`-logarithmic embedding has image a full lattice, and define the `S`-regulator as its
@@ -746,17 +860,32 @@ files as `example` s.
 - `NumberField.absMulHeight₁ (√2) ^ 2 = 2`, while the relative height of `√2` over `ℚ(√2)` is `2`.
   Together these exercise Layer 0.3 and 0.4: the same number, two fields, one absolute height.
 - `arakelovMulHeight ![1, 1] = √2` over `ℚ`, whereas `Height.mulHeight ![1, 1] = 1`. The two
-  normalizations genuinely differ, so the `√N` in 5.4 and the `H_Ar` on the right of 5.3 are not
-  cosmetic, and a proof that silently interchanges the two heights is wrong.
+  normalizations genuinely differ, so the `√N` in 5.5 and the `H_Ar` on the right of 5.3 and 5.4 are
+  not cosmetic, and a proof that silently interchanges the two heights is wrong.
+- `{x : Fin 2 → ℚ | Height.mulHeight x ≤ 1}` is infinite: it contains `c • ![1, 1]` for every
+  `c ≠ 0`. A `Northcott` instance for `Height.mulHeight` on tuples is refuted here; 1.1's instances
+  are for `Projectivization.mulHeight`.
+- `Polynomial.mulHeight (C 2 : ℚ[X]) = 1`, not `2`, and `Polynomial.mulHeight (X - C 2) = 2`: a
+  constant has height one, and the affine height `mulHeight₁ a` is the height of the linear
+  polynomial with root `a`, not of the constant `a`.
+- Over `ℚ(i)`, `A = ![![1, 1]]` and `B = ![![N, 0], ![N, 1]]` have `Matrix.mulHeight (A * B) = 4N²`
+  against `Matrix.mulHeight A · Matrix.mulHeight B = N²`: the product bound of 2.5 needs the
+  relative constant `2 ^ totalWeight K = 4`, and the absolute constant `2` is refuted. The same
+  test, with `2 ^ (deg p + deg q)` against `2 ^ ((deg p + deg q) · totalWeight K)`, is the one to
+  run on 2.3 over a field of degree `> 1`.
 - `absMulHeight₁ ζ = 1` for `ζ` a primitive fifth root of unity, and `absMulHeight₁ x = 1` for `x`
   transcendental — the second by the junk value, not by Kronecker. A statement of 1.4 without an
   algebraicity hypothesis is refuted by the second example; this is the rejection test for that
   layer.
 - `Submodule.mulHeight (span ℚ {![1, 2, 3]}) = 3`, agreeing with the projective height of
   `[1 : 2 : 3]`, and `Submodule.mulHeight (⊤ : Submodule ℚ (Fin 3 → ℚ)) = 1`.
+- Non-monotonicity: in `Fin 2 → ℚ`, `Submodule.mulHeight ⊤ = 1` while
+  `Submodule.mulHeight (span ℚ {![1, N]}) = N` for every `N ≥ 2`, although `![1, N], ![0, 1]` is a
+  basis of `⊤`. Any statement bounding the height of a subspace, or of a basis vector, by the height
+  of a space containing it is refuted here; 3.6's product bounds are what submodularity gives.
 - Duality on a worked case: for `A = ![![1, 1, 1]]` over `ℚ`, the row space and `V = ker A` satisfy
   `H_Ar(rowSpace A) = √3` (Cauchy–Binet: `det (A Aᵀ) = 3`), so 3.5 forces `H_Ar(V) = √3` too. The
-  basis `![1, -1, 0], ![0, 1, -1]` of `V` has `∏ H = 1`, inside the Theorem 5.3 bound
+  basis `![1, -1, 0], ![0, 1, -1]` of `V` has `∏ H = 1`, inside the 5.4 bound
   `|D_ℚ|^{2/2} · √3 = √3` since `D_ℚ = 1`. A version of 3.5 that produced anything but `√3` on both
   sides here has the minors indexed wrongly, and one that produced `1` has confused the Arakelov
   height with the sup-norm height.
@@ -792,11 +921,11 @@ early as the acceptance test for the vocabulary, and 5.2 needs only 3.4, 4.2, 4.
 of 4.3.
 
 Two consequences of the milestones as now stated are worth having in view when choosing what to
-claim. **4.2 is the item on the critical path, not 4.5.** The intermediate summit 5.3′ — the
-Hermitian normalization of Bombieri–Vaaler, at their own constant — needs 4.1–4.4 and no cube
-slicing at all, so 4.5 buys the *sup-norm* normalization of 5.2 and 5.3 rather than the sharpness
-of either; a contributor who finishes 4.2, 4.3 and 4.4 can land a published theorem before 4.5
-exists. And **the `ℚ` spine is a complete published theorem on its own**: 4.1 → 4.2 → 4.3(`ℚ`) →
+claim. **4.2 is the item on the critical path, not 4.5.** The Hermitian form 5.3 — Bombieri–Vaaler
+at their own constant — needs 4.1–4.4 and no cube slicing at all, so 4.5 buys the *sup-norm*
+normalization of 5.2 and 5.4 rather than the sharpness of either; a contributor who finishes 4.2,
+4.3 and 4.4 can land 5.3, a published theorem, before 4.5 exists. And **the `ℚ` spine is a complete
+published theorem on its own**: 4.1 → 4.2 → 4.3(`ℚ`) →
 4.5 → 5.2 is Bombieri–Vaaler's Theorem 1 in basis form at the sharp constant, with a written model
 proof at every step (Aliev–Henk §6 for the assembly, Bombieri–Gubler C.3 for 4.5, Cassels VIII for
 4.2), and it needs neither 4.4 nor any number field. Layer 6 needs only Layers 0 and 1 and is likewise independent of 2–5.
@@ -809,9 +938,38 @@ separately.
 The theory built here is the entry point to Diophantine approximation on subspaces: the Schmidt
 subspace theorem, Roth's theorem, unit equations and their finiteness, and the Faltings–Wüstholz
 machinery. Each needs the subspace height of Layer 3 and the auxiliary-polynomial construction of
-Layer 5.6 as *inputs*, and each is a roadmap in its own right, several times the size of this one.
+Layer 5.7 as *inputs*, and each is a roadmap in its own right, several times the size of this one.
 **Do not attempt them under this roadmap**; they are recorded here to say what this material is for
 and where the next roadmap should start, not as work in scope.
+
+## Provenance
+
+Secondary to everything above: the milestones are the specification, and the files here are cited
+sources to port from, not prescriptions of shape. All are in
+[`rwst/lean-code`](https://github.com/rwst/lean-code) under `ForMathlib/`, released under CC0,
+sorry-free against a recent Mathlib, and written as general statements with no number theory
+beyond what the milestone needs; a contributor should port and generalize rather than reprove, and
+credit the source in the ported file.
+
+- [`LinearAlgebra/LinearIndependentRestrictScalars.lean`](https://github.com/rwst/lean-code/blob/main/ForMathlib/LinearAlgebra/LinearIndependentRestrictScalars.lean)
+  — 4.4 in full: `LinearIndependent.fintype_card_le_finrank_mul_finrank_span` (the counting half),
+  `exists_linearIndependent_comp_of_lt_finrank_span` (greedy selection under arbitrary index
+  bounds) and `LinearIndependent.exists_linearIndependent_comp_finrank_mul` (the packaged
+  corollary), in the arbitrary-tower form 4.4 states.
+- [`NumberTheory/HeightTuple.lean`](https://github.com/rwst/lean-code/blob/main/ForMathlib/NumberTheory/HeightTuple.lean)
+  — the tuple sum bound of 2.4 (`Height.mulHeight_sum_comp_le`, with the constant
+  `#s ^ totalWeight K`), the matrix product bound of 2.5 (`Matrix.mulHeight_mul_le`, with the
+  `totalWeight` exponent), and the counterexample to the naive two-tuple sum bound
+  (`Height.exists_not_mulHeight_add_le`).
+- [`NumberTheory/HeightExtension.lean`](https://github.com/rwst/lean-code/blob/main/ForMathlib/NumberTheory/HeightExtension.lean)
+  — the `K = ℚ` case of 0.3, `H_K(x) = H_ℚ(x)^{[K : ℚ]}` (`NumberField.mulHeight_ratCast`,
+  `NumberField.mulHeight₁_ratCast`).
+- [`Analysis/InnerProductSpace/Hadamard.lean`](https://github.com/rwst/lean-code/blob/main/ForMathlib/Analysis/InnerProductSpace/Hadamard.lean)
+  — Hadamard's determinant inequality (`Matrix.norm_det_le_prod_col_norm`), the input to 6.3's
+  regulator bound and to the Hadamard step in Cassels' proof of 4.2.
+- [`NumberTheory/FinitePlaceProduct.lean`](https://github.com/rwst/lean-code/blob/main/ForMathlib/NumberTheory/FinitePlaceProduct.lean)
+  — `∏ᶠ w : FinitePlace K, w q = (|q| ^ d)⁻¹` for `q : ℚ`, the finite part of the height of a
+  rational `S`-unit, an acceptance test for 6.4.
 
 ## References
 
@@ -832,9 +990,10 @@ and where the next roadmap should start, not as work in scope.
   Theorem 3. Note also Definition C.2.9: the adelic successive minima count vectors independent over
   `K`, which is why the adelic route needs no analogue of 4.4.
 - E. Bombieri and J. Vaaler, "On Siegel's lemma", *Inventiones Mathematicae* **73** (1983), 11–32.
-  The original of Layers 5.2 and 5.3: Theorem 1 is the one-vector bound over `ℤ` and Theorem 2 the
+  The original of Layers 5.2–5.4: Theorem 1 is the one-vector bound over `ℤ` and Theorem 2 the
   basis bound, both with `D⁻¹√|det (A Aᵀ)|`; Theorem 3 is the adelic Minkowski second theorem the
-  paper exists to prove. §II.1 fixes the absolute normalization `|p|_v = p^{−d_v/d}` this roadmap
+  paper exists to prove; Theorem 8 is the max-norm bound over a number field at the
+  `(2/π)^{k r₂ / d}` constant of 5.4. §II.1 fixes the absolute normalization `|p|_v = p^{−d_v/d}` this roadmap
   follows, defines the local heights `H_v(X)` of a matrix by the sup norm at finite places and
   `|det X Xᵀ|^{1/2}` at archimedean ones, and records that `H(X)` is intrinsic on the Grassmannian
   ((2.5)) and submultiplicative over row blocks ((2.6)). §I.3 is the discussion of why the proof
@@ -853,9 +1012,13 @@ and where the next roadmap should start, not as work in scope.
   is Lebesgue and not Borel measurable, is the reason 4.5 asks for the hypothesis form of the
   statement.
 - J. D. Vaaler, "The best constant in Siegel's lemma", *Monatshefte für Mathematik* **140**
-  (2003), 71–89. The optimal form of 5.3's constant, a generalized Hermite constant in the sense
+  (2003), 71–89. The optimal form of 5.4's constant, a generalized Hermite constant in the sense
   of Thunder; recorded so that nobody mistakes it for the target — this roadmap asks for the
-  discriminant bound of Theorem 2.9.4.
+  discriminant bound of Theorem 2.9.4. Its (1.3) is the Hermitian inequality of 5.3 and its (1.4)
+  the max-norm inequality of 5.4, with the remark on cube slicing quoted at 5.4.
+- Y. Bugeaud and K. Győry, "Bounds for the solutions of unit equations", *Acta Arithmetica* **74**
+  (1996), 67–80. Lemma 1 is the reduced-basis statement of 6.3: a fundamental system of units with
+  `∏ h(ε_i) ≤ ((r!)² / (2^{r−1} d^r)) · R`, in the absolute logarithmic height.
 - I. Aliev and M. Henk, "Minkowski's successive minima in convex and discrete geometry",
   *Communications in Mathematics* **31** (2023), no. 2, 35–59. §6 (Theorems 6.2–6.3) is the
   adele-free assembly of 5.2 over `ℚ` — the covolume identity, cube slicing, and Minkowski's
@@ -871,7 +1034,7 @@ and where the next roadmap should start, not as work in scope.
   conjugate-pairs embedding and a relative height, which is why no `2^{−r₂}` appears there; he
   proves it by citation to Schmidt 1967, "the proofs being entirely similar".
 - D. Roy and J. L. Thunder, "A note on Siegel's lemma over number fields", *Monatshefte für
-  Mathematik* **120** (1995), 307–318. Some power of the discriminant must appear in 5.3's bound,
+  Mathematik* **120** (1995), 307–318. Some power of the discriminant must appear in 5.4's bound,
   so the constant's shape is intrinsic and not an artifact of any route.
 - W. M. Schmidt, "On heights of algebraic subspaces and diophantine approximations", *Annals of
   Mathematics* **85** (1967), 430–472. The origin of Layer 3 **and of 4.3**: §1 defines the height of
@@ -899,10 +1062,10 @@ and where the next roadmap should start, not as work in scope.
   sphere case and Theorem II for a general distance function — the two halves of Layer 4.2, in the
   real formulation this roadmap pins.
 - M. Waldschmidt, *Diophantine Approximation on Linear Algebraic Groups*, Grundlehren 326, 2000. Ch.
-  3 for heights and Ch. 4 for the auxiliary-polynomial use of Siegel's lemma that Layer 5.6
+  3 for heights and Ch. 4 for the auxiliary-polynomial use of Siegel's lemma that Layer 5.7
   packages.
 - D. Roy and J. L. Thunder, "An absolute Siegel's lemma", *J. reine angew. Math.* **476** (1996),
-  1–26. The normalization that removes the discriminant from the Theorem 5.3 bound at the cost of an
+  1–26. The normalization that removes the discriminant from the 5.4 bound at the cost of an
   `ε`; recorded because Bombieri–Gubler (2.9.20) points at it as the sharpening of Thm 2.9.4, and
   because it is what a contributor will find if they look for "the absolute version".
 - S. Lang, *Fundamentals of Diophantine Geometry*, Springer, 1983. Ch. 3 for the classical treatment
