@@ -98,6 +98,10 @@ some prose paths below are abbreviated.)
 - **Densities and copies:** `SimpleGraph.edgeDensity` (`SimpleGraph/Density.lean`); `SimpleGraph.Copy`, `IsContained` (`⊑`), `Free`, `copyCount`, `labelledCopyCount` (`SimpleGraph/Copy.lean`); triangle counting/removal and `triangleRemovalBound` (`SimpleGraph/Triangle/`).
 - **Building blocks:** `Nat.descFactorial` (falling factorial), `Finset.powersetCard`, `Nat.choose`.
 - **Hypergraphs:** `Hypergraph` ([`Mathlib/Combinatorics/Hypergraph/Basic.lean`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Combinatorics/Hypergraph/Basic.lean)) is a set-based undirected carrier — `vertexSet : Set α` and `edgeSet : Set (Set α)`, with `Adj`, `EAdj`, `map`, `IsIsolated`, `IsLoop`, `IsTrivial`/`trivialOn`, `IsComplete`/`completeOn`, and a bottom element. It carries **no uniformity predicate and no finiteness, density, or counting API**, which is what Layers 5–9 consume throughout. The hypergraph objects here are therefore finite computational representations in their own right, bridged to the Mathlib carrier by `UniformHypergraph.toHypergraph` (Layer 0) rather than replaced by it.
+- **Simplicial complexes:** `PreAbstractSimplicialComplex`
+  (`AlgebraicTopology/SimplicialComplex/Basic.lean`) is a downward-closed family of nonempty finite
+  faces. Layer 5 supplies the finite bounded grading and the empty face, with conversions in both
+  directions and membership and round-trip theorems.
 
 ## Cross-roadmap dependencies
 
@@ -271,11 +275,19 @@ required here.
 
 **Build.**
 
-- `HypergraphComplex`, with faces of the prescribed size and downward closure;
+- `HypergraphComplex r V`, with finite levels of faces of cardinality at most `r`, downward
+  closure, and the empty face. The level index is face cardinality, not simplicial dimension:
+  triples have level 3 and dimension 2. Its `toPreAbstractSimplicialComplex` forgets the empty
+  face and grading. The converse takes a Mathlib complex whose face cardinalities are bounded by
+  `r` on a finite host and adjoins the empty face. Membership and both round-trip identities
+  specify the correspondence;
 - `PairColorSystem κ₂ V` on ordered distinct pairs, carrying an **involutive palette reversal**
   `rev` and the coherence law `color_rev`, together with `colorOfPair`, `colorOfPair_swap`, and
   `pairColorDensity`. Routes are then indexed by **canonical orientation** (`i < j`), the reverse
   color being recovered by `rev`;
+- `pairColorDensity_nonneg`, `pairColorDensity_le_one`, `sum_pairColorDensity`, and
+  `pairColorDensity_swap`. The summation law requires a nonempty set of distinct pairs, not
+  merely nonempty cells. The same singleton in both roles is a zero-denominator example;
 - `PairColorSystem.ofRaw`, inducing a coherent coloring on `κ₂ × κ₂` from a raw directed one, at a
   squared palette cardinality;
 - `PairSkeleton3 κ₂ V`, bundling a vertex partition and pair-color system;
@@ -307,7 +319,8 @@ complex.
   `Subpolyad3.ofSubcells` as the vertex-subcell constructor characterized by
   `mem_ofSubcells_support`;
 - `relDensityOn` and the color-indexed `relativeDensity`, read through the underlying unordered
-  triple.
+  triple; nonnegativity, the upper bound one, the sum over all colors on nonempty support, and
+  the empty-support value zero. Export the same laws for `relativeDensity` by specialization.
 
 For distinct cells, a matching unordered triple has one role assignment. Repeated-cell assignments
 are accounted for in Layer 9.
@@ -342,8 +355,12 @@ condition is color-indexed.
 
 **Build.**
 
-- `TriadicComplex3 κ₃ V`, which chooses its pair palette and carries a lower skeleton and polyads;
-- the computed complexity `C.complexity` and the bridge `C.toHypergraphComplex`;
+- `TriadicComplex3 V`, which chooses its pair palette and carries a lower skeleton and polyads;
+- the computed complexity `C.complexity` and the bridge `C.toHypergraphComplex`, with its four
+  characteristic equations: level 0 is `{∅}`, level 1 is all singleton subsets of the host,
+  level 2 is all two-element subsets (the pair coloring is total), and level 3 is the set of
+  underlying unordered triples in the selected polyad supports. No top palette parameter is
+  attached to `TriadicComplex3 V`; it enters only through a coloring or a predicate on one;
 - `editDiscrepancy3 H H'` and `Approximates3 H H' ε` for an explicit approximant `H'`;
 - `IsPolyadDecomposition`, `exceptionalPolyadMass`, and
   `TopRegularOverMostPolyads H' C η ε r`;

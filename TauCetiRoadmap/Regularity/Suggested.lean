@@ -283,13 +283,66 @@ theorem StrongRegular.inducedGraphCount3_estimate
 
 /-! ### Layer 5 — hypergraph complexes; vertex cells and pair-color systems -/
 
-/-- **Layer 5.** A down-closed `r`-dimensional complex: faces at each level `k ≤ r`, each a `k`-set,
-closed under taking subsets. -/
+/-- **Layer 5.** A finite augmented complex with face cardinality at most `r`: faces at level
+`k` are `k`-sets, closed under taking subsets, with the empty face included. Thus the usual
+simplicial dimension is at most `r - 1`, not `r`. -/
 structure HypergraphComplex (r : ℕ) (V : Type*) [DecidableEq V] where
   faces : ∀ k : ℕ, k ≤ r → Finset (Finset V)
   face_card : ∀ k (hk : k ≤ r), ∀ s ∈ faces k hk, s.card = k
   down_closed : ∀ k (hk : k ≤ r), ∀ s ∈ faces k hk, ∀ t ⊆ s,
     ∀ (htk : t.card ≤ r), t ∈ faces t.card htk
+  empty_mem : ∅ ∈ faces 0 (Nat.zero_le r)
+
+/-- **Layer 5.** Forget the empty face and the finite grading, retaining Mathlib's nonempty
+downward-closed face family. -/
+def HypergraphComplex.toPreAbstractSimplicialComplex {r : ℕ} (C : HypergraphComplex r V) :
+    PreAbstractSimplicialComplex V where
+  faces := {s | s.Nonempty ∧ ∃ h : s.card ≤ r, s ∈ C.faces s.card h}
+  isRelLowerSet_faces := by
+    intro s hs
+    refine ⟨hs.1, ?_⟩
+    intro t hts ht
+    obtain ⟨hcard, hface⟩ := hs.2
+    exact ⟨ht, ⟨(Finset.card_le_card hts).trans hcard,
+      C.down_closed _ hcard s hface t hts _⟩⟩
+
+/-- **Layer 5.** The conversion retains precisely the nonempty graded faces. -/
+theorem HypergraphComplex.mem_toPreAbstractSimplicialComplex {r : ℕ}
+    (C : HypergraphComplex r V) (s : Finset V) :
+    s ∈ C.toPreAbstractSimplicialComplex ↔
+      s.Nonempty ∧ ∃ h : s.card ≤ r, s ∈ C.faces s.card h := Iff.rfl
+
+open Classical in
+/-- **Layer 5.** Recover a finite grading from a bounded Mathlib complex on a finite host,
+adjoining the empty face. -/
+def HypergraphComplex.ofPreAbstractSimplicialComplex {r : ℕ}
+    (K : PreAbstractSimplicialComplex V) (hK : ∀ s ∈ K, s.card ≤ r) :
+    HypergraphComplex r V where
+  faces k _ := (univ.powersetCard k).filter fun s ↦ s = ∅ ∨ s ∈ K
+  face_card := by
+    intro k hk s hs
+    exact (Finset.mem_powersetCard.mp (Finset.mem_filter.mp hs).1).2
+  down_closed := by
+    intro k hk s hs t hts ht
+    refine Finset.mem_filter.mpr ⟨Finset.mem_powersetCard.mpr ⟨subset_univ _, rfl⟩, ?_⟩
+    rcases (Finset.mem_filter.mp hs).2 with hs | hs
+    · left
+      simpa [hs] using hts
+    · by_cases ht₀ : t = ∅
+      · exact Or.inl ht₀
+      · exact Or.inr ((K.isRelLowerSet_faces hs).2 hts (Finset.nonempty_iff_ne_empty.mpr ht₀))
+  empty_mem := by simp
+
+/-- **Layer 5.** Forgetting the adjoined empty face recovers the bounded Mathlib complex. -/
+theorem HypergraphComplex.toPreAbstract_ofPreAbstract {r : ℕ}
+    (K : PreAbstractSimplicialComplex V) (hK : ∀ s ∈ K, s.card ≤ r) :
+    (HypergraphComplex.ofPreAbstractSimplicialComplex K hK).toPreAbstractSimplicialComplex = K :=
+  sorry
+
+/-- **Layer 5.** The finite grading is recovered as well; the empty-face convention is essential. -/
+theorem HypergraphComplex.ofPreAbstract_toPreAbstract {r : ℕ} (C : HypergraphComplex r V) :
+    HypergraphComplex.ofPreAbstractSimplicialComplex C.toPreAbstractSimplicialComplex
+      (fun s hs ↦ hs.2.choose) = C := sorry
 
 /-- Reversal of an ordered distinct pair. -/
 def reversePair {V : Type*} (p : {p : V × V // p.1 ≠ p.2}) : {p : V × V // p.1 ≠ p.2} :=
@@ -343,6 +396,33 @@ def PairColorSystem.ofRaw {κ₂ : Type*} {V : Type*} (color : {p : V × V // p.
 def pairColorDensity (S : PairColorSystem κ₂ V) (c : κ₂) (s t : Finset V) : ℚ :=
   (((s ×ˢ t).filter (fun p => S.colorOfPair p.1 p.2 = some c)).card : ℚ) /
     (((s ×ˢ t).filter (fun p => p.1 ≠ p.2)).card : ℚ)
+
+/-- **Layer 5.** Every pair-color density is nonnegative, including on empty support. -/
+theorem pairColorDensity_nonneg (S : PairColorSystem κ₂ V) (c : κ₂) (s t : Finset V) :
+    0 ≤ pairColorDensity S c s t := by unfold pairColorDensity; positivity
+
+/-- **Layer 5.** A color occupies at most all of the distinct-pair support. -/
+theorem pairColorDensity_le_one (S : PairColorSystem κ₂ V) (c : κ₂) (s t : Finset V) :
+    pairColorDensity S c s t ≤ 1 := by
+  apply div_le_one_of_le₀
+  · norm_cast
+    apply Finset.card_le_card
+    intro p hp
+    obtain ⟨hp, hc⟩ := Finset.mem_filter.mp hp
+    refine Finset.mem_filter.mpr ⟨hp, ?_⟩
+    intro heq
+    simp [PairColorSystem.colorOfPair, heq] at hc
+  · positivity
+
+/-- **Layer 5.** The palette densities sum to one on nonempty distinct-pair support. Nonempty
+cells alone do not suffice: the same singleton in both roles has empty support. -/
+theorem sum_pairColorDensity (S : PairColorSystem κ₂ V) (s t : Finset V)
+    (h : ((s ×ˢ t).filter fun p ↦ p.1 ≠ p.2).Nonempty) :
+    ∑ c, pairColorDensity S c s t = 1 := sorry
+
+/-- **Layer 5.** Reversal exchanges the cells and applies the palette involution. -/
+theorem pairColorDensity_swap (S : PairColorSystem κ₂ V) (c : κ₂) (s t : Finset V) :
+    pairColorDensity S (S.rev c) t s = pairColorDensity S c s t := sorry
 
 /-- **Layer 5.** The lower skeleton of a triadic complex: a vertex partition together with a
 pair-color system. A standalone Layer-5 structure rather than a projection out of Layer 8's
@@ -625,6 +705,28 @@ def relDensityOn (H : Colored3Graph κ₃ V) (c : κ₃)
     (supp : Finset {x : Fin 3 → V // Function.Injective x}) : ℚ :=
   ((supp.filter (fun x => H.color (underlyingTriple x) = c)).card : ℚ) / (supp.card : ℚ)
 
+/-- **Layer 6.** Relative densities are nonnegative, including on empty support. -/
+theorem relDensityOn_nonneg (H : Colored3Graph κ₃ V) (c : κ₃)
+    (supp : Finset {x : Fin 3 → V // Function.Injective x}) :
+    0 ≤ relDensityOn H c supp := by unfold relDensityOn; positivity
+
+/-- **Layer 6.** A top color occupies at most the whole support. -/
+theorem relDensityOn_le_one (H : Colored3Graph κ₃ V) (c : κ₃)
+    (supp : Finset {x : Fin 3 → V // Function.Injective x}) :
+    relDensityOn H c supp ≤ 1 := by
+  apply div_le_one_of_le₀
+  · exact_mod_cast Finset.card_filter_le supp (fun x ↦ H.color (underlyingTriple x) = c)
+  · positivity
+
+/-- **Layer 6.** Top-color densities sum to one on nonempty support. -/
+theorem sum_relDensityOn (H : Colored3Graph κ₃ V)
+    (supp : Finset {x : Fin 3 → V // Function.Injective x}) (h : supp.Nonempty) :
+    ∑ c, relDensityOn H c supp = 1 := sorry
+
+/-- **Layer 6.** All relative densities vanish on empty support. -/
+@[simp] theorem relDensityOn_empty (H : Colored3Graph κ₃ V) (c : κ₃) :
+    relDensityOn H c ∅ = 0 := by simp [relDensityOn]
+
 /-- **Layer 6.** The relative density of top color `c` over a polyad — `relDensityOn` on its support. -/
 def relativeDensity (H : Colored3Graph κ₃ V) (c : κ₃) {S : PairSkeleton3 κ₂ V}
     (P : Polyad3 S) : ℚ := relDensityOn H c P.support
@@ -669,7 +771,7 @@ def IsVertexBoxRegularOverPolyad (H : Colored3Graph κ₃ V) {S : PairSkeleton3 
 lower `skeleton` over that palette, and a family of `polyads` **over that skeleton**. Bundling
 `pairColorCount` here lets the regular-approximation theorem's complexity bound control the lower color system rather than
 fixing an arbitrary ambient palette. -/
-structure TriadicComplex3 (κ₃ : Type*) (V : Type*) [Fintype V] [DecidableEq V] where
+structure TriadicComplex3 (V : Type*) [Fintype V] [DecidableEq V] where
   pairColorCount : ℕ
   skeleton : PairSkeleton3 (Fin pairColorCount) V
   polyads : Finset (Polyad3 skeleton)
@@ -678,15 +780,64 @@ structure TriadicComplex3 (κ₃ : Type*) (V : Type*) [Fintype V] [DecidableEq V
 cells + pair colors + polyads — so `ComplexityBounded` and the local parameter `F C.complexity`
 genuinely control the structure. (A free stored field could be set to `0` and would control
 nothing.) Each component is individually bounded by it. -/
-def TriadicComplex3.complexity (C : TriadicComplex3 κ₃ V) : ℕ :=
+def TriadicComplex3.complexity (C : TriadicComplex3 V) : ℕ :=
   C.skeleton.vertexPart.parts.card + C.pairColorCount + C.polyads.card
 
-/-- **Layer 8.** The triadic complex as a generic down-closed complex. -/
-def TriadicComplex3.toHypergraphComplex (C : TriadicComplex3 κ₃ V) : HypergraphComplex 3 V :=
-  sorry
+/-- **Layer 8.** Unordered triples represented by the selected polyad supports. -/
+def TriadicComplex3.topFaces (C : TriadicComplex3 V) : Finset (Finset V) :=
+  C.polyads.biUnion fun P ↦ P.support.image fun x ↦ (underlyingTriple x).val
+
+/-- **Layer 8.** Forget colors and roles. Levels zero, one, and two are complete, since the
+pair coloring is total; level three is the union of the selected supports, forgetting order. -/
+def TriadicComplex3.toHypergraphComplex (C : TriadicComplex3 V) : HypergraphComplex 3 V where
+  faces k _ := (univ.powersetCard k).filter fun s ↦ k ≤ 2 ∨ s ∈ C.topFaces
+  face_card := by
+    intro k hk s hs
+    exact (Finset.mem_powersetCard.mp (Finset.mem_filter.mp hs).1).2
+  down_closed := by
+    intro k hk s hs t hts ht
+    obtain ⟨hs, hface⟩ := Finset.mem_filter.mp hs
+    have hsk := (Finset.mem_powersetCard.mp hs).2
+    refine Finset.mem_filter.mpr ⟨Finset.mem_powersetCard.mpr ⟨subset_univ _, rfl⟩, ?_⟩
+    by_cases ht₂ : t.card ≤ 2
+    · exact Or.inl ht₂
+    · have hcard := Finset.card_le_card hts
+      have heq : t = s := Finset.eq_of_subset_of_card_le hts (by omega)
+      subst t
+      exact Or.inr (hface.resolve_left (by omega))
+  empty_mem := by simp
+
+/-- **Layer 8.** The empty face is retained. -/
+theorem TriadicComplex3.faces_zero (C : TriadicComplex3 V) :
+    C.toHypergraphComplex.faces 0 (by decide) = {∅} := by
+  simp [toHypergraphComplex]
+
+/-- **Layer 8.** Every host vertex is a singleton face. -/
+theorem TriadicComplex3.faces_one (C : TriadicComplex3 V) :
+    C.toHypergraphComplex.faces 1 (by decide) = univ.powersetCard 1 := by
+  simp [toHypergraphComplex]
+
+/-- **Layer 8.** Every distinct unordered pair has a lower color and is a face. -/
+theorem TriadicComplex3.faces_two (C : TriadicComplex3 V) :
+    C.toHypergraphComplex.faces 2 (by decide) = univ.powersetCard 2 := by
+  simp [toHypergraphComplex]
+
+/-- **Layer 8.** The triple faces are exactly the underlying selected support triples. -/
+theorem TriadicComplex3.faces_three (C : TriadicComplex3 V) :
+    C.toHypergraphComplex.faces 3 (by decide) = C.topFaces := by
+  ext s
+  simp only [toHypergraphComplex, Finset.mem_filter, Finset.mem_powersetCard,
+    subset_univ, true_and, show ¬(3 ≤ 2) by decide, false_or]
+  constructor
+  · exact And.right
+  · intro hs
+    refine ⟨?_, hs⟩
+    obtain ⟨P, _, hx⟩ := Finset.mem_biUnion.mp hs
+    obtain ⟨x, _, rfl⟩ := Finset.mem_image.mp hx
+    exact (underlyingTriple x).property
 
 /-- **Layer 8.** The vertex partition is an equipartition with at least `t₀` cells. -/
-def VertexCellsControlled (C : TriadicComplex3 κ₃ V) (t₀ : ℕ) : Prop :=
+def VertexCellsControlled (C : TriadicComplex3 V) (t₀ : ℕ) : Prop :=
   C.skeleton.vertexPart.IsEquipartition ∧ t₀ ≤ C.skeleton.vertexPart.parts.card
 
 /-- **Layer 8.** Six times the fraction of unordered triples on which `H` and `H'` disagree,
@@ -700,7 +851,7 @@ def Approximates3 (H H' : Colored3Graph κ₃ V) (ε : ℝ) : Prop :=
   (editDiscrepancy3 H H' : ℝ) ≤ ε
 
 /-- **Layer 8.** The polyad supports are pairwise disjoint and cover every injective triple. -/
-def IsPolyadDecomposition (C : TriadicComplex3 κ₃ V) : Prop :=
+def IsPolyadDecomposition (C : TriadicComplex3 V) : Prop :=
   (∀ P ∈ C.polyads, ∀ Q ∈ C.polyads, P ≠ Q → Disjoint P.support Q.support) ∧
     (∀ x : {x : Fin 3 → V // Function.Injective x}, ∃ P ∈ C.polyads, x ∈ P.support)
 
@@ -711,7 +862,7 @@ directly). The coloring argument is generic; in the regular-approximation theore
 `H'`, whose fidelity to the original is `Approximates3`. **Convention:** with no polyads or
 all-empty supports the denominator is `0` and the mass is `0` (Lean's `_ / 0 = 0`); substantive
 statements assume positive total support. -/
-def exceptionalPolyadMass (H : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+def exceptionalPolyadMass (H : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (η : ℝ) (r : ℕ) : ℝ :=
   (∑ P ∈ C.polyads, if IsTopRegularOverPolyad H P η r then (0 : ℝ) else (P.support.card : ℝ)) /
     (∑ P ∈ C.polyads, (P.support.card : ℝ))
@@ -719,12 +870,12 @@ def exceptionalPolyadMass (H : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃
 /-- **Layer 8.** `H` is `(η, r)`-top-regular over all but an `ε`-fraction of `C`'s polyads. The
 roles are separate: `η` (a value of `F` at the complexity) is the local top-regularity parameter,
 `r` the NRS rank, and `ε` bounds the allowed exceptional mass. -/
-def TopRegularOverMostPolyads (H : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+def TopRegularOverMostPolyads (H : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (η ε : ℝ) (r : ℕ) : Prop :=
   exceptionalPolyadMass H C η r ≤ ε
 
 /-- **Layer 8.** The complex's complexity is bounded by `b`. -/
-def ComplexityBounded (C : TriadicComplex3 κ₃ V) (b : ℕ) : Prop :=
+def ComplexityBounded (C : TriadicComplex3 V) (b : ℕ) : Prop :=
   C.complexity ≤ b
 
 /-- **Layer 8.** The host-independent complexity bound, depending on the top palette, error
@@ -738,7 +889,7 @@ triples, `C`'s lower skeleton is regular, the **approximant `H'`** is
 regular over most polyads (exceptional mass `ε`), and `C`'s complexity is bounded (by a bound
 depending on the top palette size, the rank schedule, and the vertex floor `t₀`). Counting happens on `H'`
 and transfers to `H` through the edit bound (Layer 9). -/
-def IsStrongRegularApproximation3 (H H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+def IsStrongRegularApproximation3 (H H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (ε : ℝ) (F : ℕ → ℝ) (R : ℕ → ℕ) (t₀ : ℕ) : Prop :=
   Approximates3 H H' ε ∧ IsPolyadDecomposition C ∧ LowerSkeletonRegular C.skeleton F ∧
     TopRegularOverMostPolyads H' C (F C.complexity) ε (R C.complexity) ∧
@@ -761,7 +912,7 @@ theorem exists_strong_regular_approximation3 (H : Colored3Graph κ₃ V)
     (ε : ℝ) (hε : 0 < ε) (F : ℕ → ℝ) (hF : ∀ n, 0 < F n) (R : ℕ → ℕ)
     (hR : ∀ n, 1 ≤ R n) (t₀ : ℕ)
     (hV : regularityBound3 (Fintype.card κ₃) ε F R t₀ ≤ Fintype.card V) :
-    ∃ (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V),
+    ∃ (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V),
       VertexCellsControlled C t₀ ∧ IsStrongRegularApproximation3 H H' C ε F R t₀ := sorry
 
 /-! ### Layer 9 — induced counting and embedding -/
@@ -780,7 +931,7 @@ def Colored3Graph.inducedCopyCount (H : Colored3Graph κ₃ V) (F₀ : FiniteCol
 
 /-- **Layer 9.** A placement of the pattern's vertices into the complex's vertex cells (cells may
 repeat — the diagonal gate controls the repeated-cell mass). -/
-structure PatternPlacement3 (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) where
+structure PatternPlacement3 (C : TriadicComplex3 V) (F₀ : FiniteColored3Pattern κ₃) where
   /-- The vertex cell assigned to each pattern vertex. -/
   vertexCell : Fin F₀.k → Finset V
   /-- Each assigned cell is a cell of the complex's vertex partition. -/
@@ -789,13 +940,13 @@ structure PatternPlacement3 (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3
 /-- **Layer 9.** The placement is transversal: the assigned vertex cells are pairwise distinct.
 The placed counting theorem is stated for transversal placements; the diagonal gate bounds the
 omitted repeated-cell placements. -/
-def PatternPlacement3.Transversal {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+def PatternPlacement3.Transversal {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) : Prop :=
   Function.Injective φ.vertexCell
 
 /-- **Layer 9.** A lower-color route: one pair color for each canonical pair `i < j`, with every
 induced pattern polyad belonging to `C`. -/
-structure PairColorPlacement3 (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃)
+structure PairColorPlacement3 (C : TriadicComplex3 V) (F₀ : FiniteColored3Pattern κ₃)
     (φ : PatternPlacement3 C F₀) where
   /-- The pair color assigned to each canonically oriented (`i < j`) pattern pair. -/
   pairColor : {p : Fin F₀.k × Fin F₀.k // p.1 < p.2} → Fin C.pairColorCount
@@ -807,7 +958,7 @@ structure PairColorPlacement3 (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColore
       ∈ C.polyads
 
 /-- **Layer 9.** The polyad a route induces at a pattern triple `i < j < l`. -/
-def PairColorPlacement3.polyad {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+def PairColorPlacement3.polyad {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
     {φ : PatternPlacement3 C F₀} (ψ : PairColorPlacement3 C F₀ φ)
     (i j l : Fin F₀.k) (hij : i < j) (hjl : j < l) : Polyad3 C.skeleton :=
   Polyad3.ofData (φ.vertexCell i) (φ.vertexCell j) (φ.vertexCell l)
@@ -816,34 +967,34 @@ def PairColorPlacement3.polyad {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColor
     (ψ.pairColor ⟨(j, l), hjl⟩)
 
 /-- **Layer 9.** Every pattern triple's induced polyad is `(η, r)`-top-regular for `H'`. -/
-def PairColorPlacement3.IsTopRegularRoute {C : TriadicComplex3 κ₃ V}
+def PairColorPlacement3.IsTopRegularRoute {C : TriadicComplex3 V}
     {F₀ : FiniteColored3Pattern κ₃} {φ : PatternPlacement3 C F₀}
     (ψ : PairColorPlacement3 C F₀ φ) (H' : Colored3Graph κ₃ V) (η : ℝ) (r : ℕ) : Prop :=
   ∀ (i j l : Fin F₀.k) (hij : i < j) (hjl : j < l),
     IsTopRegularOverPolyad H' (ψ.polyad i j l hij hjl) η r
 
 /-- **Layer 9.** Number of injective maps respecting the assigned cells, before any color tests. -/
-def placementInjectionCount {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+def placementInjectionCount {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) : ℕ :=
   (univ.filter fun g : Fin F₀.k → V ↦ Function.Injective g ∧
     ∀ i, g i ∈ φ.vertexCell i).card
 
 /-- **Layer 9.** Repeated occurrences of one cell require distinct choices inside that cell. -/
 theorem placementInjectionCount_eq_prod_descFactorial
-    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) :
     placementInjectionCount φ = ∏ A ∈ C.skeleton.vertexPart.parts,
       A.card.descFactorial ((univ.filter fun i ↦ φ.vertexCell i = A).card) := sorry
 
 /-- **Layer 9.** For distinct cells the injection correction is just their size product. -/
 theorem placementInjectionCount_eq_prod_of_transversal
-    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal) :
     placementInjectionCount φ = ∏ i, (φ.vertexCell i).card := sorry
 
 /-- **Layer 9.** The injection correction never exceeds the unrestricted size product. -/
 theorem placementInjectionCount_le_prod
-    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) :
     placementInjectionCount φ ≤ ∏ i, (φ.vertexCell i).card := sorry
 
@@ -854,7 +1005,7 @@ def FiniteColored3Pattern.tripleColor (F₀ : FiniteColored3Pattern κ₃)
     simp [ne_of_lt hij, ne_of_lt hjl, ne_of_lt (hij.trans hjl)]⟩
 
 /-- **Layer 9.** The labeled injective copies realizing a fixed placement and lower-color route. -/
-def placedInducedCopyCount (H : Colored3Graph κ₃ V) {C : TriadicComplex3 κ₃ V}
+def placedInducedCopyCount (H : Colored3Graph κ₃ V) {C : TriadicComplex3 V}
     {F₀ : FiniteColored3Pattern κ₃} (φ : PatternPlacement3 C F₀)
     (ψ : PairColorPlacement3 C F₀ φ) : ℕ :=
   (univ.filter fun g : {g : Fin F₀.k → V // Function.Injective g} ↦
@@ -869,7 +1020,7 @@ def placedInducedCopyCount (H : Colored3Graph κ₃ V) {C : TriadicComplex3 κ�
 /-- **Layer 9.** The predicted count for `φ` and `ψ`: the injection-corrected cell-size factor,
 times the pair-color densities over canonical pairs, times the required relative top-color
 densities over induced polyads. -/
-def expectedInducedCountAt (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+def expectedInducedCountAt (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀)
     (ψ : PairColorPlacement3 C F₀ φ) : ℝ :=
   (placementInjectionCount φ : ℝ) *
@@ -882,7 +1033,7 @@ def expectedInducedCountAt (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ�
         (ψ.polyad t.val.1 t.val.2.1 t.val.2.2 t.property.1 t.property.2) : ℝ)
 
 /-- **Layer 9.** The sum of `expectedInducedCountAt` over all placements and routes. -/
-def expectedInducedCount (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+def expectedInducedCount (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (F₀ : FiniteColored3Pattern κ₃) : ℝ := sorry
 
 /-- **Layer 9.** The host-independent edit and exceptional-mass parameter for induced counting. -/
@@ -938,7 +1089,7 @@ theorem exceptionalPredictionSlack3_charge (q₃ k : ℕ) (ε : ℝ) (hε : 0 < 
 def diagonalControl3 (k : ℕ) (ε : ℝ) : ℕ := sorry
 
 /-- **Layer 9.** The per-route error budget, including the route-count divisor. -/
-def routeBudget3 (C : TriadicComplex3 κ₃ V) (k : ℕ) (ε : ℝ) : ℝ :=
+def routeBudget3 (C : TriadicComplex3 V) (k : ℕ) (ε : ℝ) : ℝ :=
   ε / max 1 ((C.pairColorCount : ℝ) ^ Nat.choose k 2)
 
 /-! #### Layer 9 — lower-route counting -/
@@ -946,14 +1097,14 @@ def routeBudget3 (C : TriadicComplex3 κ₃ V) (k : ℕ) (ε : ℝ) : ℝ :=
 open Classical in
 /-- **Layer 9.** The injective maps realizing the cells and pair colors of a route, with no top-color
 constraint. -/
-def lowerRouteCountAt {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+def lowerRouteCountAt {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) : ℕ :=
   (univ.filter fun g : Fin F₀.k → V => Function.Injective g ∧ (∀ i, g i ∈ φ.vertexCell i) ∧
     ∀ p : {p : Fin F₀.k × Fin F₀.k // p.1 < p.2},
       C.skeleton.pairColors.colorOfPair (g p.1.1) (g p.1.2) = some (ψ.pairColor p)).card
 
 /-- **Layer 9.** The cell-size product times the route's pair-color densities. -/
-def expectedLowerRouteCountAt (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃)
+def expectedLowerRouteCountAt (C : TriadicComplex3 V) (F₀ : FiniteColored3Pattern κ₃)
     (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) : ℝ :=
   (∏ i, ((φ.vertexCell i).card : ℝ)) *
     ∏ p : {p : Fin F₀.k × Fin F₀.k // p.1 < p.2},
@@ -961,7 +1112,7 @@ def expectedLowerRouteCountAt (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColore
         (φ.vertexCell p.1.1) (φ.vertexCell p.1.2) : ℝ)
 
 /-- **Layer 9.** A route is sparse at floor `ρ` when one of its pair densities is below `ρ`. -/
-def PairColorPlacement3.IsSparseRoute {C : TriadicComplex3 κ₃ V}
+def PairColorPlacement3.IsSparseRoute {C : TriadicComplex3 V}
     {F₀ : FiniteColored3Pattern κ₃} {φ : PatternPlacement3 C F₀}
     (ψ : PairColorPlacement3 C F₀ φ) (ρ : ℝ) : Prop :=
   ∃ p : {p : Fin F₀.k × Fin F₀.k // p.1 < p.2},
@@ -971,14 +1122,14 @@ def PairColorPlacement3.IsSparseRoute {C : TriadicComplex3 κ₃ V}
 /-- **Layer 9 (lower-route bridge, sparse).** Sparse routes self-bound on the actual side, with
 **no regularity input**: the sparse pair's colored-pair count caps the whole route count at `ρ`
 times the placement scale. -/
-theorem lowerRouteCountAt_le_of_sparseRoute {C : TriadicComplex3 κ₃ V}
+theorem lowerRouteCountAt_le_of_sparseRoute {C : TriadicComplex3 V}
     {F₀ : FiniteColored3Pattern κ₃} {φ : PatternPlacement3 C F₀}
     (ψ : PairColorPlacement3 C F₀ φ) {ρ : ℝ} (hρ : 0 ≤ ρ) (hsparse : ψ.IsSparseRoute ρ) :
     (lowerRouteCountAt φ ψ : ℝ) ≤ ρ * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
 
 /-- **Layer 9 (lower-route bridge, sparse).** Sparse routes self-bound on the predicted side:
 every pair-density factor lies in `[0, 1]`, so the sparse factor caps the product. -/
-theorem expectedLowerRouteCountAt_le_of_sparseRoute {C : TriadicComplex3 κ₃ V}
+theorem expectedLowerRouteCountAt_le_of_sparseRoute {C : TriadicComplex3 V}
     {F₀ : FiniteColored3Pattern κ₃} {φ : PatternPlacement3 C F₀}
     (ψ : PairColorPlacement3 C F₀ φ) {ρ : ℝ} (hρ : 0 ≤ ρ) (hsparse : ψ.IsSparseRoute ρ) :
     expectedLowerRouteCountAt C F₀ φ ψ ≤ ρ * ∏ i, ((φ.vertexCell i).card : ℝ) := sorry
@@ -987,7 +1138,7 @@ theorem expectedLowerRouteCountAt_le_of_sparseRoute {C : TriadicComplex3 κ₃ V
 the top-color constraint only restricts. Pins the relationship between the target
 `placedInducedCopyCount` and the concrete `lowerRouteCountAt`. -/
 theorem placedInducedCopyCount_le_lowerRouteCountAt (H' : Colored3Graph κ₃ V)
-    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) :
     placedInducedCopyCount H' φ ψ ≤ lowerRouteCountAt φ ψ := sorry
 
@@ -995,13 +1146,13 @@ theorem placedInducedCopyCount_le_lowerRouteCountAt (H' : Colored3Graph κ₃ V)
 cell factor is at most the plain product (falling-factorial-corrected) and its top factors lie in
 `[0, 1]`. -/
 theorem expectedInducedCountAt_le_expectedLowerRouteCountAt (H' : Colored3Graph κ₃ V)
-    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃)
+    (C : TriadicComplex3 V) (F₀ : FiniteColored3Pattern κ₃)
     (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) :
     expectedInducedCountAt H' C F₀ φ ψ ≤ expectedLowerRouteCountAt C F₀ φ ψ := sorry
 
 /-- **Layer 9 (lower-route bridge).** The intrinsic prediction is nonnegative — a product of
 counts and densities; needed for the sparse case's two-sided bound. -/
-theorem expectedInducedCountAt_nonneg (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+theorem expectedInducedCountAt_nonneg (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀)
     (ψ : PairColorPlacement3 C F₀ φ) :
     0 ≤ expectedInducedCountAt H' C F₀ φ ψ := sorry
@@ -1009,7 +1160,7 @@ theorem expectedInducedCountAt_nonneg (H' : Colored3Graph κ₃ V) (C : TriadicC
 /-- **Layer 9.** The placed actual and predicted counts on a sparse route differ by at most the
 sparse-route bound. -/
 theorem placed_induced_counting3_of_sparseRoute (H' : Colored3Graph κ₃ V)
-    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) (ψ : PairColorPlacement3 C F₀ φ) {ρ : ℝ} (hρ : 0 ≤ ρ)
     (hsparse : ψ.IsSparseRoute ρ) :
     |((placedInducedCopyCount H' φ ψ : ℝ)) - expectedInducedCountAt H' C F₀ φ ψ| ≤
@@ -1033,7 +1184,7 @@ theorem IsPairColorRegular.mono {S : PairSkeleton3 κ₂ V} {ε ε' : ℝ}
 
 /-- **Layer 9.** Dense lower routes at a transversal placement are counted within `δ` at the
 placement scale. -/
-theorem lowerRoute_counting3 {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+theorem lowerRoute_counting3 {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal) (ψ : PairColorPlacement3 C F₀ φ)
     {ρ δ : ℝ} (hρ : 0 < ρ) (hδ : 0 < δ) (hδρ : δ ≤ ρ) (hdense : ¬ ψ.IsSparseRoute ρ)
     (hreg : IsPairColorRegular C.skeleton (pairRouteRegularityThreshold3 F₀.k ρ δ)) :
@@ -1043,7 +1194,7 @@ theorem lowerRoute_counting3 {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored
 /-- **Layer 9.** The schedule supplies the route-local rank at every complex, with no hypothesis
 involving the regularity bound. The palette size is at most the computed complexity. -/
 theorem requiredTopCountingRank3_le_inducedCountingRankSchedule3 (ε : ℝ)
-    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) :
+    (C : TriadicComplex3 V) (F₀ : FiniteColored3Pattern κ₃) :
     requiredTopCountingRank3 F₀.k (routeBudget3 C F₀.k (ε / 12)) ≤
       inducedCountingRankSchedule3 F₀.k ε C.complexity := by
   apply le_max_of_le_right
@@ -1055,7 +1206,7 @@ theorem requiredTopCountingRank3_le_inducedCountingRankSchedule3 (ε : ℝ)
 /-- **Layer 9.** Dense lower-route control and route-local top regularity give placed counting with
 error `(δ + k³η)` at the placement scale. -/
 theorem placed_induced_counting3_of_denseRoute (H' : Colored3Graph κ₃ V)
-    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
     (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal) (ψ : PairColorPlacement3 C F₀ φ)
     {ρ δ η : ℝ} {r : ℕ} (hρ : 0 < ρ) (hδ : 0 < δ) (hη : 0 < η)
     (hr : requiredTopCountingRank3 F₀.k δ ≤ r)
@@ -1067,7 +1218,7 @@ theorem placed_induced_counting3_of_denseRoute (H' : Colored3Graph κ₃ V)
 
 /-- **Layer 9.** The local schedule supplies the pair-regularity threshold at the route budget. -/
 theorem inducedCountingSchedule3_le_pairRouteRegularityThreshold3 (q₃ : ℕ) (ε : ℝ)
-    (hε : 0 < ε) (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) :
+    (hε : 0 < ε) (C : TriadicComplex3 V) (F₀ : FiniteColored3Pattern κ₃) :
     inducedCountingSchedule3 q₃ F₀.k ε
         (C.skeleton.vertexPart.parts.card + C.pairColorCount) ≤
       pairRouteRegularityThreshold3 F₀.k (routeBudget3 C F₀.k (ε / 6))
@@ -1075,7 +1226,7 @@ theorem inducedCountingSchedule3_le_pairRouteRegularityThreshold3 (q₃ : ℕ) (
 
 /-- **Layer 9.** The top-regularity slack fits half of the placed-counting charge. -/
 theorem inducedCountingSchedule3_top_le_routeBudget3 (q₃ : ℕ) (ε : ℝ) (hε : 0 < ε)
-    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) :
+    (C : TriadicComplex3 V) (F₀ : FiniteColored3Pattern κ₃) :
     (F₀.k : ℝ) ^ 3 * inducedCountingSchedule3 q₃ F₀.k ε C.complexity ≤
       routeBudget3 C F₀.k (ε / 12) := sorry
 
@@ -1089,7 +1240,7 @@ theorem inducedCountingSchedule3_le_exceptionalPredictionThreshold (q₃ k : ℕ
 /-- **Layer 9.** At a transversal placement with a top-regular route, adequate lower regularity,
 and adequate rank, the placed count in `H'` is within the per-route `ε/6` budget of its intrinsic
 prediction. -/
-theorem placed_induced_counting3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+theorem placed_induced_counting3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal)
     (ψ : PairColorPlacement3 C F₀ φ) (ε : ℝ) (hε : 0 < ε)
     (hlower : LowerSkeletonRegular C.skeleton
@@ -1103,7 +1254,7 @@ theorem placed_induced_counting3 (H' : Colored3Graph κ₃ V) (C : TriadicComple
 open Classical in
 /-- **Layer 9.** The actual mass of routes meeting an exceptional polyad is bounded by
 `k³ · exceptionalPolyadMass · |V|^k`. -/
-theorem exceptional_route_mass_le (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+theorem exceptional_route_mass_le (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (F₀ : FiniteColored3Pattern κ₃) (η : ℝ) (r : ℕ) (hdecomp : IsPolyadDecomposition C) :
     ((univ.filter fun g : Fin F₀.k → V => Function.Injective g ∧
         ∃ P ∈ C.polyads, ¬ IsTopRegularOverPolyad H' P η r ∧
@@ -1114,13 +1265,13 @@ theorem exceptional_route_mass_le (H' : Colored3Graph κ₃ V) (C : TriadicCompl
 
 /-- **Layer 9.** The predicted contribution of non-top-regular routes among transversal
 placements. -/
-def exceptionalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+def exceptionalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (F₀ : FiniteColored3Pattern κ₃) (η : ℝ) (r : ℕ) : ℝ := sorry
 
 /-- **Layer 9.** The predicted mass of exceptional transversal routes is controlled by the
 exceptional mass and the route-counted output slack `δ + ρ`. -/
 theorem exceptional_route_prediction_mass_le (H' : Colored3Graph κ₃ V)
-    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (η εmass ρ δ : ℝ) (r : ℕ)
+    (C : TriadicComplex3 V) (F₀ : FiniteColored3Pattern κ₃) (η εmass ρ δ : ℝ) (r : ℕ)
     (hdecomp : IsPolyadDecomposition C) (hρ : 0 < ρ) (hδ : 0 < δ) (hδρ : δ ≤ ρ)
     (hlower : IsPairColorRegular C.skeleton (pairRouteRegularityThreshold3 F₀.k ρ δ))
     (hmost : TopRegularOverMostPolyads H' C η εmass r) :
@@ -1132,13 +1283,13 @@ theorem exceptional_route_prediction_mass_le (H' : Colored3Graph κ₃ V)
 /-- **Layer 9.** The total **predicted** contribution of nontransversal placements: the sum of
 `expectedInducedCountAt` over all placements with a repeated cell and all their routes (explicit
 definition is a target — the companion of `exceptionalPredictedMass3` on the diagonal side). -/
-def nontransversalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+def nontransversalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (F₀ : FiniteColored3Pattern κ₃) : ℝ := sorry
 
 /-- **Layer 9.** Controlled vertex cells bound the combined actual and predicted nontransversal
 mass by the diagonal `ε/6` charge. -/
 theorem nontransversal_actual_and_predicted_mass_le (H' : Colored3Graph κ₃ V)
-    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
+    (C : TriadicComplex3 V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
     (hcells : VertexCellsControlled C (diagonalControl3 F₀.k ε)) :
     ((univ.filter fun g : Fin F₀.k → V => Function.Injective g ∧
         ∃ i j : Fin F₀.k, i ≠ j ∧
@@ -1158,18 +1309,18 @@ theorem inducedCopyCount_edit_transfer (H H' : Colored3Graph κ₃ V)
 /-- **Layer 9 (assembly).** Placements over a complex form a finite type — a subtype of
 `Fin F₀.k → Finset V` (explicit construction is a target; needed to state the fibration and
 predicted-sum identities as sums). -/
-noncomputable instance instFintypePatternPlacement3 (C : TriadicComplex3 κ₃ V)
+noncomputable instance instFintypePatternPlacement3 (C : TriadicComplex3 V)
     (F₀ : FiniteColored3Pattern κ₃) : Fintype (PatternPlacement3 C F₀) := sorry
 
 /-- **Layer 9 (assembly).** Routes over a placement form a finite type (explicit construction is
 a target). -/
-noncomputable instance instFintypePairColorPlacement3 (C : TriadicComplex3 κ₃ V)
+noncomputable instance instFintypePairColorPlacement3 (C : TriadicComplex3 V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) :
     Fintype (PairColorPlacement3 C F₀ φ) := sorry
 
 /-- **Layer 9.** Under a polyad decomposition, the induced-copy count is the sum of the placed
 counts over all placements and routes. -/
-theorem inducedCopyCount_eq_sum_placed (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+theorem inducedCopyCount_eq_sum_placed (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (F₀ : FiniteColored3Pattern κ₃) (hdecomp : IsPolyadDecomposition C) :
     H'.inducedCopyCount F₀ =
       ∑ φ : PatternPlacement3 C F₀, ∑ ψ : PairColorPlacement3 C F₀ φ,
@@ -1178,7 +1329,7 @@ theorem inducedCopyCount_eq_sum_placed (H' : Colored3Graph κ₃ V) (C : Triadic
 /-- **Layer 9 (assembly).** The predicted mirror of the fibration identity: the global prediction
 is the sum of the per-placement predictions — pinning `expectedInducedCount`'s definitional
 docstring as a named identity, using the preceding `Fintype` instances. -/
-theorem expectedInducedCount_eq_sum (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
+theorem expectedInducedCount_eq_sum (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
     (F₀ : FiniteColored3Pattern κ₃) :
     expectedInducedCount H' C F₀ =
       ∑ φ : PatternPlacement3 C F₀, ∑ ψ : PairColorPlacement3 C F₀ φ,
@@ -1194,7 +1345,7 @@ theorem sixCharge_assembly {x y e₁ e₂ e₃ e₄ e₅ e₆ N ε : ℝ}
 /-- **Layer 9 (endpoint).** A strong regular approximation with controlled vertex cells predicts
 the induced copy count in `H` within `ε · |V|^k`. -/
 theorem induced_counting_from_strong_regular_complex3 (H H' : Colored3Graph κ₃ V)
-    (C : TriadicComplex3 κ₃ V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
+    (C : TriadicComplex3 V) (F₀ : FiniteColored3Pattern κ₃) (ε : ℝ) (hε : 0 < ε)
     (hcells : VertexCellsControlled C (diagonalControl3 F₀.k ε))
     (hreg : IsStrongRegularApproximation3 H H' C
       (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
@@ -1213,7 +1364,7 @@ theorem exists_strong_regular_approximation3_counting (H : Colored3Graph κ₃ V
       (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
       (inducedCountingSchedule3 (Fintype.card κ₃) F₀.k ε)
       (inducedCountingRankSchedule3 F₀.k ε) (diagonalControl3 F₀.k ε) ≤ Fintype.card V) :
-    ∃ (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V),
+    ∃ (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V),
       VertexCellsControlled C (diagonalControl3 F₀.k ε) ∧
       IsStrongRegularApproximation3 H H' C
         (inducedCountingParameter3 (Fintype.card κ₃) F₀.k ε)
