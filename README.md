@@ -15,6 +15,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 
 - [A statement of the classification of finite simple groups](TauCetiRoadmap/CFSGStatement/README.md)
 - [Algebraic curves: function fields, divisors, and Riemann–Roch](TauCetiRoadmap/AlgebraicCurves/README.md)
+- [Algebraic topology of spaces and manifolds](TauCetiRoadmap/AlgebraicTopology/README.md)
 - [Analytic toric geometry](TauCetiRoadmap/AnalyticToricGeometry/README.md)
 - [Arithmetic Dirichlet series and Tauberian methods](TauCetiRoadmap/ArithmeticDirichletSeries/README.md)
 - [Belyi maps, dessins d'enfants, and three-point covers](TauCetiRoadmap/BelyiMaps/README.md)
