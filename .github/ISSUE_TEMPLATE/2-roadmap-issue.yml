@@ -28,6 +28,7 @@ body:
         - DenseGraphLimits
         - EllipticCurves
         - Exchangeability
+        - FuchsianOrbifolds
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
