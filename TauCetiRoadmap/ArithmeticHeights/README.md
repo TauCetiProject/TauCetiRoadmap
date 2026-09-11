@@ -64,6 +64,12 @@ Mathlib's height work](#relationship-to-mathlibs-height-work)*.
   Minkowski's convex-body theorem, the mixed embedding); itemised under *[What Mathlib already
   has](#what-mathlib-already-has-consume)*. Layer 4 is stated against Mathlib's lattice substrate
   directly and consumes nothing from any other roadmap.
+- From the completed [`EffectiveBounds`](../../Completed/EffectiveBounds/README.md) roadmap, one
+  thing only: the explicit discriminant bound from a basis of integers
+  (`abs_discr_le_of_basis_isIntegral` under `TauCeti/NumberTheory/EffectiveBounds/`), which is
+  how the `|D_{K/ℚ}|` in the constants of 5.3–5.4 is evaluated in the worked examples. Its
+  `GeometryOfNumbers/` lemmas are a measure-free packing and doubling count upstream of `ZLattice`,
+  and nothing in Layer 4 uses or extends them.
 
 ### Not owned here
 
@@ -124,7 +130,7 @@ with Mathlib's.
 | the height of a subspace | `Submodule.mulHeight V := Projectivization.mulHeight V.pluckerPoint`, the height of the Plücker point, following Schmidt. Plücker coordinates are indexed by `Set.powersetCard ι k`, the type of `k`-element `Finset`s, matching `Module.Basis.exteriorPower`, **not** by strictly monotone `Fin k → ι` and not by a lexicographic list. |
 | the height of a matrix | `Matrix.mulHeight A` is the height of the tuple of **entries**. The height of the row space — `H(A)` in Bombieri–Vaaler, the height of the tuple of maximal **minors** — is `Submodule.mulHeight (rowSpace A)` and never called the height of `A`. The two are different numbers and the classical literature uses one symbol for both; we do not. |
 | duality | `V^⊥` is the **annihilator in the dual**, `Submodule.dualAnnihilator`, transported back to `ι → K` along the standard basis — the carrier of Bombieri–Gubler Proposition 2.8.10 and the one Mathlib's `ExteriorPower/Pairing.lean` substrate is written for. The orthogonal-complement form for `∑ i, x i * y i` is a derived corollary. |
-| `S` for S-units | `S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K))`, **finite places only**, with the infinite places always implicitly present — matching `Mathlib/RingTheory/DedekindDomain/SelmerGroup.lean` and mathlib4#40791, whose rank formula `(r₁ + r₂ - 1) + |S|` fixes this reading. ⚠ Bombieri–Gubler 1.5.10 takes the opposite convention, `S ⊆ M_K` **including** all archimedean places, and so states the rank as `\|S\| - 1` (Theorem 1.5.13). The two agree, since `\|S_BG\| = r₁ + r₂ + \|S\|`; a contributor reading the book must translate, and every statement here says which convention it is in. |
+| `S` for S-units | `S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K))`, **finite places only**, with the infinite places always implicitly present — the carrier of Mathlib's `S.integer K` and `S.unit K` in `Mathlib/RingTheory/DedekindDomain/SInteger.lean`, which Layer 6 consumes and does not redefine, of `Mathlib/RingTheory/DedekindDomain/SelmerGroup.lean`, and of mathlib4#40791, whose rank formula `(r₁ + r₂ - 1) + |S|` fixes this reading. ⚠ Bombieri–Gubler 1.5.10 takes the opposite convention, `S ⊆ M_K` **including** all archimedean places, and so states the rank as `\|S\| - 1` (Theorem 1.5.13). The two agree, since `\|S_BG\| = r₁ + r₂ + \|S\|`; a contributor reading the book must translate, and every statement here says which convention it is in. |
 
 ## What Mathlib already has (consume)
 
@@ -271,8 +277,9 @@ coordinate, say — and that is a lemma inside the proof, not an instance.
 algebraic over `ℚ` let `f ∈ ℤ[X]` be its **primitive integer minimal polynomial**: the primitive
 polynomial with `f(x) = 0` that is irreducible in `ℤ[X]`, unique up to sign by Gauss's lemma, and
 a rational multiple of `minpoly ℚ x`. With `D = natDegree f`, `absMulHeight₁ x ^ D = M(f)`, i.e.
-`H(x) = M(f)^{1/D}`; state it with `f` quantified under the hypotheses `f.IsPrimitive`,
-`Irreducible f`, `aeval x f = 0`, so that the sign ambiguity never has to be resolved. ⚠ `f` is
+`H(x) = M(f)^{1/D}`; state it with `f` quantified under the hypotheses `f.IsPrimitive` and
+`f.map (Int.castRingHom ℚ) = C c * minpoly ℚ x` for some `c ≠ 0`, which pin `f` up to sign
+without resolving the sign, and which force `x` algebraic. ⚠ `f` is
 **not** `minpoly ℤ x`: Mathlib defines `minpoly ℤ x = 0` whenever `x` is not integral over `ℤ`, so
 a statement through `minpoly ℤ x` is false for `x = 1/2` (left side `2`, right side `M(0) = 0`)
 unless it carries `IsIntegral ℤ x`, and with that hypothesis it covers only algebraic integers and
@@ -403,9 +410,10 @@ the projective height of the point it defines.
 row rank, the Plücker point of the row space is the tuple of maximal minors,
 `minorDet A s = (A.submatrix id (Set.powersetCard.orderIsoOfFin s)).det` — the order isomorphism
 being the index identification, pinned here once so that no later statement re-chooses it. Hence
-`subspaceMulHeight (rowSpace A)` is the height of the vector of maximal minors, which is
-`H_Ar^row(A)` in the classical literature (Definition 2.8.11) and, per the conventions above, is
-*not* `matrixMulHeight A`. Bombieri–Gubler use both and distinguish them exactly this way: their
+`subspaceMulHeight (rowSpace A)` is the **sup-norm** height of the vector of maximal minors, and
+its Arakelov variant of 3.2, `arakelovSubspaceMulHeight (rowSpace A)`, is `H_Ar^row(A)` in the
+classical literature (Definition 2.8.11); per the conventions above, neither is
+`matrixMulHeight A`. Bombieri–Gubler use both and distinguish them exactly this way: their
 `H(A)` (2.9.8) is the height of the entries, their `H_Ar(A)` the height of the row space. Prove the
 invariance this buys: `mulHeight (rowSpace (U * A)) = mulHeight (rowSpace A)` for `U` invertible
 (Bombieri–Vaaler (2.5), where it is the statement that the height is *intrinsic on the Grassmannian*
@@ -532,10 +540,14 @@ class group**; a Steinitz pseudo-basis `Λ ≅ ⊕ 𝔞_l · w_l` is not the rou
   Lean proof can get this constant wrong.
 - *Finite* (his Lemmas 5–6): `[σ(Λ) : Λ₀] = N(𝔞)`, with `𝔞` the ideal generated by the Plücker
   coordinates, reduced prime by prime to a counting lemma — for `det(R₁, …, R_k) ∈ 𝔭^e ∖ 𝔭^{e+1}`,
-  the number of `B` mod `𝔭^f` with `B · R_j ≡ 0 (mod 𝔭^{g_j})` is `N(𝔭)^{k f − ∑ g_j + e}`, in the
-  range of exponents Schmidt states it for — by induction on `e`. The sign of `e` is fixed by the
-  case `k = 1`: for `r ∈ 𝔭^e ∖ 𝔭^{e+1}` and `e ≤ g ≤ f`, `B r ∈ 𝔭^g` means `B ∈ 𝔭^{g − e}`, and
-  there are `N(𝔭)^{f − g + e}` such `B` mod `𝔭^f`; a version with `−e` is refuted there.
+  the number of `B` mod `𝔭^f` with `B · R_j ≡ 0 (mod 𝔭^{g_j})` is `N(𝔭)^{k f − ∑ g_j + e}`, for
+  `e ≤ g_j ≤ f` for every `j` — by induction on `e`. The range is where the count is clean: with
+  `M` the matrix of the `R_j`, the solutions in `𝓞_𝔭^k` are `M⁻¹ (∏ 𝔭^{g_j})`, which lies in
+  `𝓞_𝔭^k` since `M⁻¹ = adj M / det M` has entries in `𝔭^{−e}` and every `g_j ≥ e`, and has index
+  `N(𝔭)^{∑ g_j − e}` there; and `g_j ≤ f` puts `𝔭^f 𝓞_𝔭^k` inside the solution lattice, so
+  reducing mod `𝔭^f` divides `N(𝔭)^{k f}` by that index. The sign of `e` is fixed by the case
+  `k = 1`: for `r ∈ 𝔭^e ∖ 𝔭^{e+1}` and `e ≤ g ≤ f`, `B r ∈ 𝔭^g` means `B ∈ 𝔭^{g − e}`, and there
+  are `N(𝔭)^{f − g + e}` such `B` mod `𝔭^f`; a version with `−e` is refuted there.
 
 Since the height is by definition `N(𝔞)^{−1}` times the archimedean product, the two `N(𝔞)` cancel.
 Non-freeness of `V ∩ (𝓞 K)ⁿ` is therefore never confronted, and no ideal-class bookkeeping enters
@@ -585,12 +597,15 @@ satisfies `vol (Q ∩ V) ≥ 1`. The cube is the case `n_i ≡ 1`; the archimede
 needs are the case `n_i = 1` at real places and `n_i = 2` at complex ones. The generality is free —
 the induction on `r` has a base case (polar decomposition, then a per-ray convexity comparison
 against the volume-1 ball) and a step (log-concavity of the marginal) that never use `n_i = 1` — so
-state 4.5 in this form and the complex places are covered by the same theorem. The cube case is a
-corollary to state alongside, since it is what 5.2 consumes. The inscribed-cube reduction — the
-unit polydisc of `ℂⁿ` contains the cube of half-side `1/√2` in `ℝ^{2n}`, giving `(2/√2)^{2k} = 2^k`
-where the direct bound gives `π^k` — is not a step of the route; it is the normalization check of
-the *Route* paragraph below, and the factor `(π / 2)^{k r₂ / d}` it costs is exactly the gap between
-the two constants 5.4 states.
+state 4.5 in this form and the complex places are covered by the same theorem. Two corollaries are
+stated alongside it, both targets: the **cube case**, blocks of size one rescaled to `[−1, 1]ᴺ`,
+slice volume at least `2^k`, which is what 5.2 consumes; and the **inscribed-cube bound at a
+complex place**, that a `k`-dimensional complex subspace meets the unit polydisc of `ℂⁿ` in real
+`2k`-volume at least `2^k`, because the polydisc contains the cube of half-side `1/√2` in
+`ℝ^{2n}` and `(2/√2)^{2k} = 2^k`. The product-of-balls theorem gives `π^k` there instead, and the
+factor `(π / 2)^{k r₂ / d}` between the two is exactly the gap between the two constants 5.4
+states; the exact cancellation in the *Route* paragraph below is the acceptance check for the
+inscribed-cube bound.
 
 **Cost, priced from the source.** Bombieri–Gubler C.3 is a complete proof in five pages —
 log-concave functions (C.3.1–2), the sup-convolution inequality (C.3.3), log-concavity of marginals
@@ -743,12 +758,17 @@ interface downstream work imports.
 arguments actually import, and the reason 5.6 is stated in the relative form: given `r` variables, a
 degree bound `D`, and `N` linear conditions on the coefficients of a polynomial over `K` — typically
 that it vanish to prescribed multiplicity at prescribed algebraic points — with the coefficients of
-those conditions of height at most `H`, and **fewer conditions than coefficients**,
-`N < (D + r).choose r`, the number of monomials of degree at most `D` in `r` variables (with the
-conditions' coefficients in an extension `F/K` of degree `s`, as 5.6 allows, `s N < (D + r).choose r`),
-produce a nonzero such polynomial satisfying all of them, with `absMulHeight` bounded explicitly in
-`r`, `D`, `N`, `H` and the invariants of `K`. Without the feasibility hypothesis no nonzero solution
-need exist and the statement is false. This is 5.5
+those conditions of height at most `H`, and **fewer independent conditions than coefficients**,
+produce a nonzero such polynomial satisfying all of them, with an explicit height bound. Pin the
+pieces: the monomial index set is `{m : Fin r →₀ ℕ | m.degree ≤ D}`, of cardinality
+`M = (D + r).choose r`; the conditions are a matrix `A : Matrix (Fin N) {m // m.degree ≤ D} K`
+acting on the coefficient vector; the feasibility hypothesis is `A.rank < M` (implied by
+`N < M`), and in the relative form of 5.6, coefficients in `F/K` of degree `s`, it is `s · rank < M`;
+and the bound is 5.5's single-solution bound with `M` in place of `N`,
+`absMulHeight (coeff P) ≤ |D_{K/ℚ}|^{1/(2d)} (√M · H(A))^{R/(M − R)}` with `R = A.rank`, and its
+basis form for a family of independent such polynomials. Without the feasibility hypothesis no
+nonzero solution need exist and the statement is false: one variable, `D = 0`, and the single
+condition "the coefficient is zero". This is 5.5
 and 5.6 applied to the coefficient space of `MvPolynomial (Fin r) K` cut out by the conditions, with
 Layer 2.1 supplying the height of the resulting polynomial and Layer 2.5 the height of the condition
 matrix. State it so that the count of conditions and the dimension of the coefficient space appear
@@ -811,8 +831,10 @@ Follow the naming of mathlib4#40791.
 
 **6.5 The S-unit theorem** (Bombieri–Gubler, Theorem 1.5.13, where it is stated as rank `|S| − 1` in
 the book's convention that `S` contains the archimedean places). For `S` finite, Mathlib's `S.unit K`
-is finitely generated of rank `r₁ + r₂ − 1 + |S|`, with torsion subgroup the roots of unity of `K`:
-state it in the shape of Mathlib's `exist_unique_eq_mul_prod`, a family of `r₁ + r₂ − 1 + |S|`
+is finitely generated of rank `r₁ + r₂ − 1 + |S|`, with torsion subgroup the roots of unity of `K`.
+State the rank as #40791 does, `Set.unit_finrank_numberField :
+finrank ℤ (Additive (S.unit K)) = Units.rank K + Nat.card S`, under that name, and beside it the
+usable form in the shape of Mathlib's `exist_unique_eq_mul_prod`: a family of `r₁ + r₂ − 1 + |S|`
 `S`-units such that every `S`-unit is uniquely a root of unity times a product of their integer
 powers. Route, as in
 #40791: the short exact sequence `1 → 𝓞ˣ → 𝓞_Sˣ → ⊕_{v ∈ S} ℤ` whose cokernel embeds in the class
@@ -914,9 +936,8 @@ Layers 0–1; Layer 3 is the more valuable and the more delicate, and 3.1 should
 anything else in it is attempted, because every later statement is about the object it constructs.
 Layer 4 touches Layers 1–3 only through 4.3, whose statement uses the subspace height of 3.2 and
 whose `ℚ`-case is Cauchy–Binet (3.4); 4.1 and 4.2 are real-analytic geometry of numbers, 4.4 is
-self-contained linear algebra and already done elsewhere (port it), and 4.5 is self-contained real
-analysis — claimable on its own — so most of the layer can be built in parallel from the start by
-someone who prefers those subjects. Layer 5 needs 3 and 4 together; 5.1 needs neither and can land
+self-contained linear algebra, and 4.5 is self-contained real analysis — claimable on its own — so
+most of the layer can be built in parallel from the start by someone who prefers those subjects. Layer 5 needs 3 and 4 together; 5.1 needs neither and can land
 early as the acceptance test for the vocabulary, and 5.2 needs only 3.4, 4.2, 4.5 and the `ℚ`-case
 of 4.3.
 

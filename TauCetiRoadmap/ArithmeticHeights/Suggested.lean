@@ -195,13 +195,15 @@ instance instNorthcottProjectivizationMulHeight {ι : Type*} [Finite ι] :
 /-- **Layer 1.2 — the bridge to Mathlib's Mahler measure.** For an algebraic number `x` with
 primitive integer minimal polynomial `f`, the absolute height is the `deg f`-th root of the Mahler
 measure of `f`. Stated as an equality of `deg`-th powers so that no real exponentiation appears.
-The polynomial is any primitive irreducible `f : ℤ[X]` vanishing at `x`; by Gauss's lemma that
-determines `f` up to sign, and the Mahler measure ignores the sign. ⚠ It is **not**
-`minpoly ℤ x`, which Mathlib defines as `0` off the algebraic integers, so a statement through
-`minpoly ℤ x` covers only integral `x` and cannot feed Northcott's theorem 1.3. This identity is
-what makes Northcott's theorem and Kronecker's theorem cheap. -/
-theorem absMulHeight₁_pow_natDegree {x : ℂ} {f : Polynomial ℤ} (hf : f.IsPrimitive)
-    (hirr : Irreducible f) (hx : Polynomial.aeval x f = 0) :
+The polynomial is pinned as the primitive `f : ℤ[X]` that is a nonzero rational multiple of
+`minpoly ℚ x`; that determines `f` up to sign, and the Mahler measure ignores the sign (for
+`x = 1/2`, `f = 2 X - 1`). The hypotheses force `x` algebraic, since `minpoly ℚ x = 0` otherwise
+and `0` is not primitive. ⚠ It is **not** `minpoly ℤ x`, which Mathlib defines as `0` off the
+algebraic integers, so a statement through `minpoly ℤ x` covers only integral `x` and cannot feed
+Northcott's theorem 1.3. This identity is what makes Northcott's theorem and Kronecker's theorem
+cheap. -/
+theorem absMulHeight₁_pow_natDegree {x : ℂ} {f : Polynomial ℤ} (hf : f.IsPrimitive) {c : ℚ}
+    (hc : c ≠ 0) (hfx : f.map (Int.castRingHom ℚ) = Polynomial.C c * minpoly ℚ x) :
     NumberField.absMulHeight₁ x ^ f.natDegree = (f.map (Int.castRingHom ℂ)).mahlerMeasure :=
   sorry
 
@@ -473,33 +475,34 @@ end Plucker
 section SuccessiveMinima
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
-  [MeasureTheory.MeasureSpace E] [BorelSpace E]
 
 /-- **Layer 4.1.** The `i`-th successive minimum of a convex body with respect to a lattice: the
 least dilation of the body containing `i + 1` linearly independent lattice points. The `i = 0`
 case is the quantity in Minkowski's convex-body theorem, which Mathlib has. For
 `i ≥ finrank ℝ E` no such family exists and the value is `sInf ∅ = 0`; every statement about
-the minima carries `i < finrank ℝ E`. -/
+the minima carries `i < finrank ℝ E`. No measure enters the definition or the statements of 4.1;
+the measure-space instances appear only on the two halves of 4.2. -/
 def successiveMinimum (L : Submodule ℤ E) (B : Set E) (i : ℕ) : ℝ :=
   sInf {t : ℝ | 0 < t ∧ ∃ v : Fin (i + 1) → E,
     (∀ j, v j ∈ (t • B) ∩ (L : Set E)) ∧ LinearIndependent ℝ v}
 
-/-- **Layer 4.1.** The successive minima of a symmetric convex body — compact, convex, symmetric,
-with nonempty interior — are positive. Compactness is what makes them positive (a bounded body
-meets the lattice in finitely many points at each dilation) and attained (the body is closed).
-Monotonicity in `i` and the scaling law in `B` belong to the same milestone. -/
+/-- **Layer 4.1.** The successive minima of a bounded symmetric convex set with nonempty interior
+are positive: a bounded body meets the discrete lattice in finitely many points at each dilation.
+Attainment (Cassels' Lemma 1) additionally needs `IsClosed B`, and monotonicity in `i` and the
+scaling law in `B` belong to the same milestone. -/
 theorem successiveMinimum_pos (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
     {B : Set E} (hB₀ : Convex ℝ B) (hB₁ : ∀ x ∈ B, -x ∈ B) (hB₂ : (interior B).Nonempty)
-    (hB₃ : IsCompact B) {i : ℕ} (hi : i < Module.finrank ℝ E) :
+    (hB₃ : Bornology.IsBounded B) {i : ℕ} (hi : i < Module.finrank ℝ E) :
     0 < successiveMinimum L B i :=
   sorry
 
-/-- **Layer 4.2 — Minkowski's second theorem, the easy half.** The measure is the Haar measure
-`ZLattice.covolume` is taken against. -/
-theorem measure_mul_prod_successiveMinimum_le
+/-- **Layer 4.2 — Minkowski's second theorem, the easy half.** The measure is a Haar measure, the
+one `ZLattice.covolume` is taken against, as in Mathlib's
+`exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure`. -/
+theorem measure_mul_prod_successiveMinimum_le [MeasureTheory.MeasureSpace E] [BorelSpace E]
     [MeasureTheory.Measure.IsAddHaarMeasure (MeasureTheory.volume : MeasureTheory.Measure E)]
     (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L] {B : Set E} (hB₀ : Convex ℝ B)
-    (hB₁ : ∀ x ∈ B, -x ∈ B) (hB₂ : (interior B).Nonempty) (hB₃ : IsCompact B) :
+    (hB₁ : ∀ x ∈ B, -x ∈ B) (hB₂ : (interior B).Nonempty) (hB₃ : Bornology.IsBounded B) :
     (2 : ℝ) ^ Module.finrank ℝ E / (Nat.factorial (Module.finrank ℝ E)) *
         ZLattice.covolume L ≤
       (∏ i ∈ Finset.range (Module.finrank ℝ E), successiveMinimum L B i) *
@@ -508,10 +511,10 @@ theorem measure_mul_prod_successiveMinimum_le
 
 /-- **Layer 4.2 — Minkowski's second theorem, the substantial half.** This is the direction Layer
 5 consumes; the proof is the compression argument along a basis realizing the minima. -/
-theorem prod_successiveMinimum_mul_measure_le
+theorem prod_successiveMinimum_mul_measure_le [MeasureTheory.MeasureSpace E] [BorelSpace E]
     [MeasureTheory.Measure.IsAddHaarMeasure (MeasureTheory.volume : MeasureTheory.Measure E)]
     (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L] {B : Set E} (hB₀ : Convex ℝ B)
-    (hB₁ : ∀ x ∈ B, -x ∈ B) (hB₂ : (interior B).Nonempty) (hB₃ : IsCompact B) :
+    (hB₁ : ∀ x ∈ B, -x ∈ B) (hB₂ : (interior B).Nonempty) (hB₃ : Bornology.IsBounded B) :
     (∏ i ∈ Finset.range (Module.finrank ℝ E), successiveMinimum L B i) *
         (MeasureTheory.volume B).toReal ≤
       (2 : ℝ) ^ Module.finrank ℝ E * ZLattice.covolume L :=
@@ -553,19 +556,52 @@ end Extraction
 
 section CubeSlicing
 
-/-- **Layer 4.5 — Vaaler's cube-slicing theorem** (Vaaler 1979; Bombieri–Gubler, Appendix C.3).
-Every central slice of the cube `[−1, 1]ᴺ` by a `k`-dimensional subspace has `k`-volume at least
-`2 ^ k`. The volume on the subspace is the canonical one of its inner-product structure
-(Mathlib's `measureSpaceOfInnerProductSpace`), which is what makes `k`-dimensional volume
-well-posed. Coordinate subspaces give equality, so the bound is sharp. This is the `n_i ≡ 1` case
-of the product-of-balls theorem (Bombieri–Gubler C.3.8) that `README.md` 4.5 pins as the
-milestone; the cube case is what the `ℚ` spine 5.2 consumes, and it gives the constant of 5.4
-through the inscribed cube of half-side `1 / √2` at a complex place. The product-of-balls form
-is what gives 5.4's sharper constant at complex places, and it is specified in `README.md`. -/
+/-- The volume `ω_n` of the unit ball of `ℝⁿ`: the archimedean slice volume of 5.3 and the
+normalizing constant of the product-of-balls body below. -/
+def unitBallVolume (n : ℕ) : ℝ :=
+  (MeasureTheory.volume (Metric.ball (0 : EuclideanSpace ℝ (Fin n)) 1)).toReal
+
+/-- **Layer 4.5 — the product-of-balls theorem** (Bombieri–Gubler, Theorem C.3.8), the form
+`README.md` pins. Partition the `N` coordinates into blocks by `blk : Fin N → Fin r`, and let `Q`
+be the product over the blocks of the euclidean ball **of volume `1`** in the block's
+coordinates, i.e. of radius `ω_m ^ (-1/m)` for a block of size `m`. Then every central slice of
+`Q` by a subspace `V` has volume at least `1`, the volume on `V` being the canonical one of its
+inner-product structure (Mathlib's `measureSpaceOfInnerProductSpace`). The blocks of size `1`
+give the cube case below; blocks of size `2` are the complex places of Layer 5. -/
+theorem one_le_volume_inter_prod_ball {N r : ℕ} (blk : Fin N → Fin r)
+    (V : Submodule ℝ (EuclideanSpace ℝ (Fin N))) :
+    1 ≤ MeasureTheory.volume {x : V | ∀ i : Fin r,
+      ∑ j ∈ Finset.univ.filter (fun j ↦ blk j = i), (x : EuclideanSpace ℝ (Fin N)) j ^ 2 ≤
+        unitBallVolume (Finset.univ.filter (fun j ↦ blk j = i)).card ^
+          (-(2 / ((Finset.univ.filter (fun j ↦ blk j = i)).card : ℝ)))} :=
+  sorry
+
+/-- **Layer 4.5 — Vaaler's cube-slicing theorem** (Vaaler 1979), the case of blocks of size `1`,
+rescaled: every central slice of the cube `[−1, 1]ᴺ` by a `k`-dimensional subspace has
+`k`-volume at least `2 ^ k`. Coordinate subspaces give equality, so the bound is sharp. This is
+what the `ℚ` spine 5.2 consumes. -/
 theorem two_pow_finrank_le_volume_inter_cube {N : ℕ}
     (V : Submodule ℝ (EuclideanSpace ℝ (Fin N))) :
     (2 : ENNReal) ^ finrank ℝ V ≤
       MeasureTheory.volume {x : V | ∀ i, |(x : EuclideanSpace ℝ (Fin N)) i| ≤ 1} :=
+  sorry
+
+/-- **Layer 4.5 — the inscribed-cube bound at a complex place.** A `k`-dimensional complex
+subspace of `ℂⁿ`, viewed as a `2k`-dimensional real subspace of `ℝ^{2n}` with coordinates
+`(Re, Im)`, meets the unit polydisc in volume at least `2 ^ k`: the polydisc contains the cube of
+half-side `1 / √2`, of volume `(2/√2)^{2k} = 2^k` on the slice by the cube case. This is the
+lemma that gives the first bound of 5.4 from the cube case alone; the product-of-balls form
+gives `π ^ k` here and hence 5.4's sharper constant. Stated for a real subspace closed under the
+complex structure `J`, `J (x, y) = (-y, x)`, expressed coordinatewise. -/
+theorem two_pow_le_volume_inter_polydisc {n : ℕ}
+    (V : Submodule ℝ (EuclideanSpace ℝ (Fin n × Fin 2)))
+    (hJ : ∀ x ∈ V, ∃ y ∈ V, ∀ i : Fin n,
+      (y : EuclideanSpace ℝ (Fin n × Fin 2)) (i, 0) = -(x : EuclideanSpace ℝ (Fin n × Fin 2)) (i, 1) ∧
+      (y : EuclideanSpace ℝ (Fin n × Fin 2)) (i, 1) = (x : EuclideanSpace ℝ (Fin n × Fin 2)) (i, 0)) :
+    (2 : ENNReal) ^ (finrank ℝ V / 2) ≤
+      MeasureTheory.volume {x : V | ∀ i : Fin n,
+        (x : EuclideanSpace ℝ (Fin n × Fin 2)) (i, 0) ^ 2 +
+          (x : EuclideanSpace ℝ (Fin n × Fin 2)) (i, 1) ^ 2 ≤ 1} :=
   sorry
 
 end CubeSlicing
@@ -628,14 +664,10 @@ def arakelovSubspaceMulHeight (k : ℕ) (V : Submodule K (ι → K))
     (hV : Module.finrank K V = k) : ℝ :=
   sorry
 
-/-- The volume `ω_n` of the unit ball of `ℝⁿ`, the archimedean slice volume of 5.3. -/
-def unitBallVolume (n : ℕ) : ℝ :=
-  (MeasureTheory.volume (Metric.ball (0 : EuclideanSpace ℝ (Fin n)) 1)).toReal
-
 /-- **Layer 5.3 — Bombieri–Vaaler over a number field, Hermitian form** (Bombieri–Vaaler 1983;
 the inequality Vaaler 2003 quotes as (1.3)). For `A` an `M × N` matrix of rank `M` over a number
 field `K` of degree `d` with `r₁` real and `r₂` complex places, the solution space of `A x = 0`
-has a basis `x₁, …, x_{N−M}` with, for `k = N − M`,
+has a basis `x₁, …, x_{N−M}` with coordinates in `𝓞 K` and, for `k = N − M`,
 
 `∏ l, H_Ar(x l) ≤ [(2^k / ω_k)^{r₁} (2^k / ω_{2k})^{r₂}]^{1/d} · |D_{K/ℚ}| ^ (k / (2 d)) · H_Ar(A)`,
 
@@ -645,6 +677,7 @@ theorem exists_basis_prod_arakelovMulHeight_le {m : ℕ} (A : Matrix (Fin m) ι 
     (hrank : Module.finrank K (LinearMap.range A.vecMulLinear) = m)
     (k : ℕ) (hk : Module.finrank K (LinearMap.ker A.mulVecLin) = k) :
     ∃ b : Module.Basis (Fin k) K (LinearMap.ker A.mulVecLin),
+      (∀ l j, IsIntegral ℤ ((b l : ι → K) j)) ∧
       (∏ l, arakelovMulHeight (fun j ↦ (b l : ι → K) j) ^ (Module.finrank ℚ K : ℝ)⁻¹) ≤
         ((2 ^ k / unitBallVolume k) ^ NumberField.InfinitePlace.nrRealPlaces K *
             (2 ^ k / unitBallVolume (2 * k)) ^ NumberField.InfinitePlace.nrComplexPlaces K) ^
@@ -663,13 +696,14 @@ For `A` an `M × N` matrix of rank `M` over a number field `K` of degree `d` and
 `∏ l, H(x l) ≤ |D_{K/ℚ}| ^ ((N − M) / (2 d)) * H_Ar(A)`,
 
 where `H` is the absolute multiplicative height and `H_Ar(A)` is the **absolute** Arakelov height
-of the row space — the subspace height of Layer 3, not the height of the entries of `A`. Stated
-here for the kernel of a matrix; the equivalent subspace form follows from the duality theorem
-3.5. -/
+of the row space — the subspace height of Layer 3, not the height of the entries of `A`. The
+basis has coordinates in `𝓞 K`, as the README states it. Stated here for the kernel of a matrix;
+the equivalent subspace form follows from the duality theorem 3.5. -/
 theorem exists_basis_prod_absMulHeight_le {m : ℕ} (A : Matrix (Fin m) ι K)
     (hrank : Module.finrank K (LinearMap.range A.vecMulLinear) = m)
     (k : ℕ) (hk : Module.finrank K (LinearMap.ker A.mulVecLin) = k) :
     ∃ b : Module.Basis (Fin k) K (LinearMap.ker A.mulVecLin),
+      (∀ l j, IsIntegral ℤ ((b l : ι → K) j)) ∧
       (∏ l, absMulHeight (fun j ↦ (b l : ι → K) j)) ≤
         |(NumberField.discr K : ℝ)| ^ ((k : ℝ) / (2 * Module.finrank ℚ K)) *
           arakelovSubspaceMulHeight m (LinearMap.range A.vecMulLinear) hrank ^
@@ -684,6 +718,7 @@ theorem exists_basis_prod_absMulHeight_le' {m : ℕ} (A : Matrix (Fin m) ι K)
     (hrank : Module.finrank K (LinearMap.range A.vecMulLinear) = m)
     (k : ℕ) (hk : Module.finrank K (LinearMap.ker A.mulVecLin) = k) :
     ∃ b : Module.Basis (Fin k) K (LinearMap.ker A.mulVecLin),
+      (∀ l j, IsIntegral ℤ ((b l : ι → K) j)) ∧
       (∏ l, absMulHeight (fun j ↦ (b l : ι → K) j)) ≤
         (2 / Real.pi) ^
             ((k * NumberField.InfinitePlace.nrComplexPlaces K : ℝ) / Module.finrank ℚ K) *
@@ -699,7 +734,7 @@ absolute Arakelov height of the row space by the absolute height of the entries 
 theorem exists_ne_zero_mem_ker_absMulHeight_le {m : ℕ} (A : Matrix (Fin m) ι K)
     (hrank : Module.finrank K (LinearMap.range A.vecMulLinear) = m)
     (hm : m < Fintype.card ι) :
-    ∃ x : ι → K, x ≠ 0 ∧ A.mulVec x = 0 ∧
+    ∃ x : ι → K, x ≠ 0 ∧ A.mulVec x = 0 ∧ (∀ j, IsIntegral ℤ (x j)) ∧
       absMulHeight x ≤
         |(NumberField.discr K : ℝ)| ^ (2 * Module.finrank ℚ K : ℝ)⁻¹ *
           (Real.sqrt (Fintype.card ι) * matrixMulHeight A ^ (Module.finrank ℚ K : ℝ)⁻¹) ^
@@ -720,6 +755,7 @@ theorem exists_linearIndependent_mem_ker_prod_absMulHeight_le
     (hmn : Module.finrank K F * m < Fintype.card ι) :
     ∃ x : Fin (Fintype.card ι - Module.finrank K F * m) → (ι → K),
       LinearIndependent K x ∧ (∀ l, A.mulVec (fun j ↦ algebraMap K F (x l j)) = 0) ∧
+      (∀ l j, IsIntegral ℤ (x l j)) ∧
       (∏ l, absMulHeight (x l)) ≤
         |(NumberField.discr K : ℝ)| ^
             ((Fintype.card ι - Module.finrank K F * m : ℝ) / (2 * Module.finrank ℚ K)) *
@@ -774,15 +810,22 @@ theorem exists_fundSystem_prod_absLogHeight₁_le :
           NumberField.Units.regulator K :=
   sorry
 
-/-- **Layer 6.5 — the `S`-unit theorem (mathlib4#40791), in the shape of Mathlib's
-`exist_unique_eq_mul_prod`.** For a finite set `S` of finite places, Mathlib's `S`-unit group
-`S.unit K` has a fundamental system of `r₁ + r₂ − 1 + |S|` elements: every `S`-unit is uniquely a
-root of unity times a product of their integer powers. `S = ∅` recovers Dirichlet's theorem, since
-`(∅ : Set _).unit K` is `(𝓞 K)ˣ` through `Set.unitEquivUnitsInteger` and `integer_empty`. -/
+/-- **Layer 6.5 — the `S`-unit theorem, in the form and under the name of mathlib4#40791.** For a
+finite set `S` of finite places, Mathlib's `S`-unit group `S.unit K` has `ℤ`-rank
+`r₁ + r₂ − 1 + |S|`. `S = ∅` recovers Dirichlet's theorem, since `(∅ : Set _).unit K` is `(𝓞 K)ˣ`
+through `Set.unitEquivUnitsInteger` and `integer_empty`. -/
+theorem _root_.Set.unit_finrank_numberField
+    (S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K))) (hS : S.Finite) :
+    Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + Nat.card S :=
+  sorry
+
+/-- **Layer 6.5 — the `S`-unit theorem, in the shape of Mathlib's `exist_unique_eq_mul_prod`.**
+The rank statement made usable: a fundamental system of `r₁ + r₂ − 1 + |S|` `S`-units such that
+every `S`-unit is uniquely a root of unity times a product of their integer powers. -/
 theorem exists_sUnit_fundSystem (S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K)))
     (hS : S.Finite) :
-    ∃ ε : Fin (NumberField.Units.rank K + S.ncard) → S.unit K,
-      ∀ x : S.unit K, ∃! e : Fin (NumberField.Units.rank K + S.ncard) → ℤ,
+    ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
+      ∀ x : S.unit K, ∃! e : Fin (NumberField.Units.rank K + Nat.card S) → ℤ,
         ∃ ζ ∈ CommGroup.torsion (S.unit K), x = ζ * ∏ i, ε i ^ e i :=
   sorry
 
