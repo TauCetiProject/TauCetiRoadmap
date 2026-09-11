@@ -93,6 +93,39 @@ def weightedEnergy (G : SimpleGraph V) [DecidableRel G.Adj]
   ∑ A ∈ P.parts, ∑ B ∈ P.parts,
     ((A.card : ℝ) * (B.card : ℝ) / (Fintype.card V : ℝ) ^ 2) * ((G.edgeDensity A B : ℝ)) ^ 2
 
+/-- **Layer 1.** The coarse parent of a fine cell. Partition disjointness makes the containing
+coarse cell unique. -/
+def refinementParent {P Q : Finpartition (univ : Finset V)} (h : Q ≤ P)
+    (B : ↥Q.parts) : ↥P.parts :=
+  ⟨(h B.property).choose, (h B.property).choose_spec.1⟩
+
+/-- A fine cell is contained in its coarse parent. -/
+theorem subset_refinementParent {P Q : Finpartition (univ : Finset V)} (h : Q ≤ P)
+    (B : ↥Q.parts) : B.val ⊆ (refinementParent h B).val :=
+  (h B.property).choose_spec.2
+
+/-- **Layer 1.** The exact weighted-square identity for refinement. Densities include diagonal
+blocks and use the denominator `|A| * |B|`, also when `A = B`. No equitability or regularity
+hypothesis is needed; on the empty host both sides vanish. -/
+theorem weightedDensityDeviation_sq (G : SimpleGraph V) [DecidableRel G.Adj]
+    {P Q : Finpartition (univ : Finset V)} (h : Q ≤ P) :
+    (∑ B : ↥Q.parts, ∑ D : ↥Q.parts,
+      ((B.val.card : ℝ) * (D.val.card : ℝ) / (Fintype.card V : ℝ) ^ 2) *
+        ((G.edgeDensity B.val D.val : ℝ) -
+          (G.edgeDensity (refinementParent h B).val (refinementParent h D).val : ℝ)) ^ 2) =
+      weightedEnergy G Q - weightedEnergy G P := sorry
+
+/-- **Layer 1.** Weighted Cauchy–Schwarz transfers an energy-gap bound to an absolute-density
+bound. For a nonempty host the weights sum to one; the empty host has zero deviation. -/
+theorem weightedDensityDeviation_abs_le (G : SimpleGraph V) [DecidableRel G.Adj]
+    {P Q : Finpartition (univ : Finset V)} (h : Q ≤ P) {ε : ℝ} (hε : 0 ≤ ε)
+    (hgap : weightedEnergy G Q - weightedEnergy G P ≤ ε) :
+    (∑ B : ↥Q.parts, ∑ D : ↥Q.parts,
+      ((B.val.card : ℝ) * (D.val.card : ℝ) / (Fintype.card V : ℝ) ^ 2) *
+        |(G.edgeDensity B.val D.val : ℝ) -
+          (G.edgeDensity (refinementParent h B).val (refinementParent h D).val : ℝ)|) ≤
+      Real.sqrt ε := sorry
+
 /-- **Layer 1.** Weighted energy is monotone under refinement (`P ≤ Q` = `P` finer, so more energy) —
 by `L²`-Pythagoras. Mathlib's unweighted `Finpartition.energy` is not Jensen-monotone under
 arbitrary refinement; its increment estimate applies to its particular refinement construction. -/
@@ -250,8 +283,8 @@ def coarseInducedGraphEstimate3 (J : SimpleGraph (Fin 3)) [DecidableRel J.Adj]
 
 /-- **Layer 4 (counting).** Strong regularity predicts every labeled induced three-vertex
 pattern. With `τ = F #P.parts`, the error separates fine regularity (`16τ`), transfer across the
-energy gap (`3η + 3ε/η`), and repeated-cell terms (`6m/n`). The threshold `η` is independent of
-the fine regularity parameter. The proof consumes `refines`, `equitQ`, `regQ`, and `energyClose`;
+energy gap (`3√ε`), and repeated-cell terms (`6m/n`). The energy term follows from Layer 1's
+weighted absolute-deviation bound. The proof consumes `refines`, `equitQ`, `regQ`, and `energyClose`;
 the other witness fields serve the existence theorem, not this estimate. -/
 theorem StrongRegular.inducedGraphCount3_estimate
     (J : SimpleGraph (Fin 3)) [DecidableRel J.Adj]
@@ -259,9 +292,9 @@ theorem StrongRegular.inducedGraphCount3_estimate
     {P Q : Finpartition (univ : Finset V)} {ε : ℝ} {F : ℕ → ℝ} {l₀ : ℕ}
     (h : StrongRegular G P Q ε F l₀) (hε : 0 ≤ ε)
     (hF : 0 < F P.parts.card) (hF₁ : F P.parts.card ≤ 1)
-    (η : ℝ) (hη : 0 < η) (m : ℕ) (hm : ∀ A ∈ P.parts, A.card ≤ m) :
+    (m : ℕ) (hm : ∀ A ∈ P.parts, A.card ≤ m) :
     |(inducedGraphCount3 J G : ℝ) - coarseInducedGraphEstimate3 J G P| ≤
-      (16 * F P.parts.card + 3 * η + 3 * ε / η) * (Fintype.card V : ℝ) ^ 3 +
+      (16 * F P.parts.card + 3 * Real.sqrt ε) * (Fintype.card V : ℝ) ^ 3 +
         6 * m * (Fintype.card V : ℝ) ^ 2 := sorry
 
 /-! ### Layer 5 — hypergraph complexes; vertex cells and pair-color systems -/
@@ -336,11 +369,9 @@ palette `κ₂`, with an involutive reversal `rev` relating the two orientations
 are excluded, matching the injective top supports (no loops in the lower skeleton while the top
 layer forbids them).
 
-Polyad support (Layer 6) reads coordinate pairs at both orientations, while the route budget
-(Layer 9) allots one color per **unordered** pattern pair; the shared involution is what
-reconciles them, since canonical-orientation data determines polyad support only when `rev` is
-common to the systems compared. Symmetric palettes (`rev = id`) and fixed-point-free ones both
-instantiate this. -/
+Polyad supports and routes use canonical pair orientations. The reversal law supplies
+compatibility under exchanging roles and determines the corresponding reverse-orientation
+densities. Symmetric palettes (`rev = id`) and fixed-point-free ones both instantiate this. -/
 structure PairColorSystem (κ₂ : Type*) (V : Type*) where
   color : {p : V × V // p.1 ≠ p.2} → κ₂
   /-- The palette's reversal operation. -/

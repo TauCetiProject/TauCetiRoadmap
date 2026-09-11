@@ -106,10 +106,13 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 
 ### Layer 0 — finite colored graph and 3-uniform vocabulary
 
-- **Consume.** `SimpleGraph`, `SimpleGraph.Copy` / `copyCount`, `Nat.descFactorial`, `Finset.powersetCard`.
+- **Consume.** `SimpleGraph`, graph homomorphisms (`G →g H`), `SimpleGraph.Copy` / `copyCount`,
+  `Nat.descFactorial`, `Finset.powersetCard`.
 - **Build.** `UniformHypergraph r V`, its edge density, the total unordered coloring
-  `Colored3Graph κ₃ V`, and the colored and hypergraph copy-counting API. Define plain-graph hom and
-  injective densities from `SimpleGraph.Copy` and `Nat.descFactorial`.
+  `Colored3Graph κ₃ V`, and the colored and hypergraph copy-counting API. Ordinary homomorphism
+  densities count graph homomorphisms and normalize by powers of the host size. Injective
+  densities count `SimpleGraph.Copy` and normalize by `Nat.descFactorial`; these copies preserve
+  edges but need not be induced. Induced injections require adjacency equivalence, as in Layer 4.
 - **Bridge to Mathlib's carrier.** `UniformHypergraph.toHypergraph : UniformHypergraph r V → Hypergraph V`,
   with `toHypergraph_vertexSet` and `toHypergraph_edgeSet` proving the two carriers agree. The finite
   representation stays the public one: `Hypergraph` has no uniformity, finiteness, density, or
@@ -120,6 +123,25 @@ Each layer lists what it **consumes**, what it **builds**, and its **acceptance 
 - **Consume.** `Finpartition`, `equitabilise`, `edgeDensity`. Mathlib's `SzemerediRegularity.increment` boost machinery is an **alignment point / proof template**, not a consumed theorem: it is stated for Mathlib's unweighted `Finpartition.energy`, and this layer's `weightedEnergy` is the size-weighted energy, so the boost does not transport. This layer builds its own energy increment.
 - **Build.** `UniformHypergraph.blockDensity`; the **size-weighted** graph energy `weightedEnergy` (the `L²` norm of the block-average step function, casts before division, **including** the diagonal blocks `i = j`) and its refinement-monotonicity `weightedEnergy_mono_of_refines`; the hypergraph-level analogue. **Not** Mathlib's unweighted `Finpartition.energy`, an `offDiag`-based average that is *not* Jensen-monotone under arbitrary refinement (it is monotone only inside the `increment` argument). The comparison with the analytic `graphonPartitionEnergy` is specified in the separate interoperability results below.
 - **Gate.** `weightedEnergy` agrees with the block-average `L²` on graphs; the diagonal and repeated-part conventions are explicit.
+
+**Energy transfer.** For `Q ≤ P`, let `π(B) = refinementParent h B` be the coarse parent of a fine
+cell. Put `n = |V|`, `w(B,D) = |B||D|/n²`, and
+`Δ(B,D) = d_G(B,D) - d_G(π(B),π(D))`. The two targets are
+
+```text
+weightedDensityDeviation_sq:
+  ∑ B,D ∈ Q, w(B,D) Δ(B,D)² = weightedEnergy G Q - weightedEnergy G P;
+weightedDensityDeviation_abs_le:
+  weightedEnergy G Q - weightedEnergy G P ≤ ε,  0 ≤ ε
+  ⟹ ∑ B,D ∈ Q, w(B,D) |Δ(B,D)| ≤ √ε.
+```
+
+Neither requires equitability or regularity. For each coarse rectangle, its density is the
+size-weighted average of its fine densities. Expanding the square gives the first identity,
+and nonnegativity gives `weightedEnergy_mono_of_refines`. For a nonempty host the weights sum
+to one, so weighted Cauchy–Schwarz gives the second estimate. On the empty host both sums vanish.
+All sums include ordered diagonal blocks: `edgeDensity A A` uses denominator `|A|²`, not
+`|A|(|A|-1)`.
 
 ### Layer 2 — Szemerédi graph regularity bridge
 - **Consume.** Mathlib's exported `SzemerediRegularity` machinery: `increment` (a `bind` of
@@ -177,11 +199,11 @@ Sum over these distinct-cell assignments only. Thus this estimate predicts all i
 not just triangles or edge-preserving homomorphisms.
 
 Write `n = |V|`, `τ = F #P.parts`, and suppose every coarse cell has size at most `m`.
-For `0 ≤ ε`, `0 < τ ≤ 1`, and any threshold `η > 0`, the counting target is
+For `0 ≤ ε` and `0 < τ ≤ 1`, the counting target is
 
 ```text
 |inducedGraphCount3 J G - coarseInducedGraphEstimate3 J G P|
-  ≤ (16τ + 3η + 3ε/η) n³ + 6m n².
+  ≤ (16τ + 3√ε) n³ + 6m n².
 ```
 
 **Proof dependencies.** Establish the following estimates in this layer. A `τ`-uniform pair has
@@ -190,12 +212,26 @@ in `[0,1]` by finite summation over their level sets. Telescoping the three fact
 bounds the induced count on a triple of regular fine cells by `3τ` times its volume. Mathlib's
 `Finpartition.IsEquipartition.sum_nonUniforms_lt` bounds the bad fine-pair mass by `4τ n²`;
 the three possible pairs contribute at most `12τ n³`. The constant `16` bounds their sum.
-Include all cell assignments temporarily when comparing fine and coarse predictions. Refinement
-and the weighted-energy identity give mean squared density difference at most `ε`, and
-`|x| ≤ η + x²/η` gives mean absolute difference at most `η + ε/η`. Telescoping contributes
-`3(η + ε/η)n³`. Finally, discard repeated-cell assignments on the fine actual side and the
-coarse predicted side, each at cost at most `3mn²`; fine cells have size at most `m` by refinement.
-The empty host is handled directly.
+
+For the energy transfer, define the intermediate prediction on **all** cell assignments by
+
+```text
+T_R(J) = ∑ φ : Fin 3 → R.parts, (∏ i, |φ(i)|) ∏ i<j f_ij(d_G(φ(i),φ(j))),
+f_ij(d) = d if J.Adj i j, and 1-d otherwise.
+```
+
+Refinement expresses both `T_Q(J)` and `T_P(J)` as sums over fine-cell assignments.
+Each factor lies in `[0,1]` and satisfies `|f_ij(d)-f_ij(e)| = |d-e|`. Telescope the three
+factors and apply Layer 1's weighted absolute-deviation bound. Summing over the remaining
+coordinate contributes `n`, giving `|T_Q(J)-T_P(J)| ≤ 3√ε n³`, including when `ε = 0`.
+
+The volume of ordered triples with a repeated cell is at most
+`3n ∑ A ∈ R.parts, |A|² ≤ 3mn²` when every cell has size at most `m`.
+This applies to both `P` and `Q`, since refinement bounds fine cell sizes too.
+The actual and predicted repeated-fine-cell contributions both lie between zero and the
+repeated-cell volume, so their difference costs that volume only once. Passing from `T_P(J)`
+to the transversal coarse prediction costs another `3mn²`. Together with the fine-regularity
+estimate this gives the displayed bound. The empty host is handled directly.
 
 The estimate consumes `refines`, `equitQ`, `regQ`, and `energyClose`. The remaining fields of
 `StrongRegular` are needed for existence and complexity control, not for this counting step.
@@ -203,7 +239,10 @@ This statement and proof route use only this roadmap and Mathlib; no external li
 witness adapter is a prerequisite.
 
 **Gate.** Prove the displayed estimate for every graph on `Fin 3`, and specialize it to the triangle
-and the edgeless pattern. Verify that the latter uses three nonedge-density factors.
+and the edgeless pattern. Verify that the latter uses three nonedge-density factors. For
+three-vertex hosts, the induced counts are zero for the edgeless pattern into the complete
+graph, six for the complete graph into itself, and two for one edge plus an isolated vertex
+into itself. These test both the nonedge conditions and the labeled-count convention.
 
 ### Layer 5 — hypergraph complexes and the lower skeleton
 
