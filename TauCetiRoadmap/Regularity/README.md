@@ -430,6 +430,8 @@ placementInjectionCount φ = ∏ A ∈ C.skeleton.vertexPart.parts, (|A|)_{m_A}.
 
 Here `(a)_b = Nat.descFactorial a b`. It is zero if a cell is too small for its assigned vertices;
 an unused cell contributes one. At a transversal placement it equals `∏ᵢ |φ.vertexCell i|`.
+Check the repeated-cell case explicitly: two labeled vertices assigned to a two-element cell
+have two eligible injections, not four independent choices.
 For every placement, the exact prediction is
 
 ```text
@@ -672,7 +674,8 @@ formalization*.
 - Layer 2 includes an equipartition hypothesis, a large-host hypothesis, a complexity bound, and the
   containment clause in `AlmostRefines`.
 - Layer 4 explicitly connects almost-refinement to exact nesting and bounds complexity in terms of
-  the starting complexity.
+  the starting complexity. Its counting gate is the labeled induced three-vertex estimate, with
+  the coarse prediction and separate fine-regularity, energy-gap, and repeated-cell errors.
 - Pair regularity is relative to cells of `PairSkeleton3`, and its schedule is evaluated at the
   lower complexity including the pair palette.
 - `Polyad3` is determined by cells and pair colors; `Subpolyad3` selects arbitrary subgraphs of the
@@ -681,14 +684,19 @@ formalization*.
   is used only for comparison results.
 - `TriadicComplex3` chooses its pair palette, has computed complexity, and carries a genuine polyad
   decomposition. The approximation theorem returns an explicit approximant and controlled vertex
-  cells.
-- The local prediction is the product of cell-size, pair-density, and top-density factors, with one
-  canonical orientation per pattern pair.
-- Local counting is transversal, takes only its local regularity and rank hypotheses, and is stated
+  cells. Its uncolored face levels and its bridge to Mathlib's nonempty complexes are specified.
+- Density summation uses a positive distinct-pair denominator or nonempty triple support.
+- The local prediction uses the falling-factorial injection count and the pair- and top-density
+  factors, with one canonical orientation per pattern pair and triple. The global and discarded
+  predictions are explicit sums of this formula.
+- Local counting is transversal, takes only its local regularity hypotheses at the scheduled rank,
+  and is stated
   for the approximant `H'` at the per-route budget.
 - Actual exceptional routes, predicted exceptional routes, repeated-cell placements, and the global
   edit transfer are all represented in the six-charge assembly.
 - The final counting error has scale `|V|^k`; the global parameter, local schedule, output slack,
-  required rank, and diagonal floor are explicit and calibrated.
+  rank schedule, and diagonal floor are explicit and calibrated. Rank adequacy follows from a
+  finite maximum, without a regularity-bound hypothesis; existence and counting compose at the
+  displayed large-host threshold.
 - `Suggested.lean` uses `sorry` only for data definitions and theorem proofs, and every layer has a
   concrete acceptance example.

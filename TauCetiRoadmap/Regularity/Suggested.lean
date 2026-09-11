@@ -923,11 +923,14 @@ structure FiniteColored3Pattern (κ₃ : Type*) where
   pattern : {s : Finset (Fin k) // s.card = 3} → κ₃
 
 /-- **Layer 9.** The number of induced copies of a pattern in a colored 3-graph: labeled injective,
-color-matching copies (explicit definition is a target). "Part-respecting" is reserved for the finer
+color-matching copies. "Part-respecting" is reserved for the finer
 local counting statement over placements into the polyads — this global count has no partition or
 placement argument. -/
 def Colored3Graph.inducedCopyCount (H : Colored3Graph κ₃ V) (F₀ : FiniteColored3Pattern κ₃) : ℕ :=
-  sorry
+  (univ.filter fun g : {g : Fin F₀.k → V // Function.Injective g} ↦
+    ∀ s : {s : Finset (Fin F₀.k) // s.card = 3},
+      H.color ⟨s.val.image g.val, by
+        rw [Finset.card_image_of_injective _ g.property, s.property]⟩ = F₀.pattern s).card
 
 /-- **Layer 9.** A placement of the pattern's vertices into the complex's vertex cells (cells may
 repeat — the diagonal gate controls the repeated-cell mass). -/
@@ -956,6 +959,23 @@ structure PairColorPlacement3 (C : TriadicComplex3 V) (F₀ : FiniteColored3Patt
       (φ.vertexCell_mem i) (φ.vertexCell_mem j) (φ.vertexCell_mem l)
       (pairColor ⟨(i, j), hij⟩) (pairColor ⟨(i, l), hij.trans hjl⟩) (pairColor ⟨(j, l), hjl⟩)
       ∈ C.polyads
+
+/-- **Layer 9.** Placements are finite because their cell-assignment data are finite. -/
+noncomputable instance instFintypePatternPlacement3 (C : TriadicComplex3 V)
+    (F₀ : FiniteColored3Pattern κ₃) : Fintype (PatternPlacement3 C F₀) :=
+  Fintype.ofInjective (fun φ ↦ φ.vertexCell) (by
+    rintro ⟨f, hf⟩ ⟨g, hg⟩ h
+    cases h
+    rfl)
+
+/-- **Layer 9.** Routes are finite because their pair-color assignments are finite. -/
+noncomputable instance instFintypePairColorPlacement3 (C : TriadicComplex3 V)
+    (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) :
+    Fintype (PairColorPlacement3 C F₀ φ) :=
+  Fintype.ofInjective (fun ψ ↦ ψ.pairColor) (by
+    rintro ⟨f, hf⟩ ⟨g, hg⟩ h
+    cases h
+    rfl)
 
 /-- **Layer 9.** The polyad a route induces at a pattern triple `i < j < l`. -/
 def PairColorPlacement3.polyad {C : TriadicComplex3 V} {F₀ : FiniteColored3Pattern κ₃}
@@ -1034,7 +1054,9 @@ def expectedInducedCountAt (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
 
 /-- **Layer 9.** The sum of `expectedInducedCountAt` over all placements and routes. -/
 def expectedInducedCount (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
-    (F₀ : FiniteColored3Pattern κ₃) : ℝ := sorry
+    (F₀ : FiniteColored3Pattern κ₃) : ℝ :=
+  ∑ φ : PatternPlacement3 C F₀, ∑ ψ : PairColorPlacement3 C F₀ φ,
+    expectedInducedCountAt H' C F₀ φ ψ
 
 /-- **Layer 9.** The host-independent edit and exceptional-mass parameter for induced counting. -/
 def inducedCountingParameter3 (q₃ k : ℕ) (ε : ℝ) : ℝ := sorry
@@ -1263,10 +1285,15 @@ theorem exceptional_route_mass_le (H' : Colored3Graph κ₃ V) (C : TriadicCompl
               x.1 0 = g i ∧ x.1 1 = g j ∧ x.1 2 = g l).card : ℝ) ≤
       (F₀.k : ℝ) ^ 3 * exceptionalPolyadMass H' C η r * (Fintype.card V : ℝ) ^ F₀.k := sorry
 
+open Classical in
 /-- **Layer 9.** The predicted contribution of non-top-regular routes among transversal
 placements. -/
 def exceptionalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
-    (F₀ : FiniteColored3Pattern κ₃) (η : ℝ) (r : ℕ) : ℝ := sorry
+    (F₀ : FiniteColored3Pattern κ₃) (η : ℝ) (r : ℕ) : ℝ :=
+  ∑ φ : PatternPlacement3 C F₀, if φ.Transversal then
+    ∑ ψ : PairColorPlacement3 C F₀ φ, if ψ.IsTopRegularRoute H' η r then 0
+      else expectedInducedCountAt H' C F₀ φ ψ
+    else 0
 
 /-- **Layer 9.** The predicted mass of exceptional transversal routes is controlled by the
 exceptional mass and the route-counted output slack `δ + ρ`. -/
@@ -1280,11 +1307,13 @@ theorem exceptional_route_prediction_mass_le (H' : Colored3Graph κ₃ V)
         (εmass + (C.pairColorCount : ℝ) ^ Nat.choose F₀.k 2 * (δ + ρ)) *
         (Fintype.card V : ℝ) ^ F₀.k := sorry
 
-/-- **Layer 9.** The total **predicted** contribution of nontransversal placements: the sum of
-`expectedInducedCountAt` over all placements with a repeated cell and all their routes (explicit
-definition is a target — the companion of `exceptionalPredictedMass3` on the diagonal side). -/
+open Classical in
+/-- **Layer 9.** The total predicted contribution of nontransversal placements, complementary
+to the transversal restriction in `exceptionalPredictedMass3`. -/
 def nontransversalPredictedMass3 (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
-    (F₀ : FiniteColored3Pattern κ₃) : ℝ := sorry
+    (F₀ : FiniteColored3Pattern κ₃) : ℝ :=
+  ∑ φ : PatternPlacement3 C F₀, if φ.Transversal then 0
+    else ∑ ψ : PairColorPlacement3 C F₀ φ, expectedInducedCountAt H' C F₀ φ ψ
 
 /-- **Layer 9.** Controlled vertex cells bound the combined actual and predicted nontransversal
 mass by the diagonal `ε/6` charge. -/
@@ -1306,18 +1335,6 @@ theorem inducedCopyCount_edit_transfer (H H' : Colored3Graph κ₃ V)
 
 /-! #### Layer 9 — assembly discipline: the fibration identity and the six-charge arithmetic -/
 
-/-- **Layer 9 (assembly).** Placements over a complex form a finite type — a subtype of
-`Fin F₀.k → Finset V` (explicit construction is a target; needed to state the fibration and
-predicted-sum identities as sums). -/
-noncomputable instance instFintypePatternPlacement3 (C : TriadicComplex3 V)
-    (F₀ : FiniteColored3Pattern κ₃) : Fintype (PatternPlacement3 C F₀) := sorry
-
-/-- **Layer 9 (assembly).** Routes over a placement form a finite type (explicit construction is
-a target). -/
-noncomputable instance instFintypePairColorPlacement3 (C : TriadicComplex3 V)
-    (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀) :
-    Fintype (PairColorPlacement3 C F₀ φ) := sorry
-
 /-- **Layer 9.** Under a polyad decomposition, the induced-copy count is the sum of the placed
 counts over all placements and routes. -/
 theorem inducedCopyCount_eq_sum_placed (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 V)
@@ -1333,7 +1350,7 @@ theorem expectedInducedCount_eq_sum (H' : Colored3Graph κ₃ V) (C : TriadicCom
     (F₀ : FiniteColored3Pattern κ₃) :
     expectedInducedCount H' C F₀ =
       ∑ φ : PatternPlacement3 C F₀, ∑ ψ : PairColorPlacement3 C F₀ φ,
-        expectedInducedCountAt H' C F₀ φ ψ := sorry
+        expectedInducedCountAt H' C F₀ φ ψ := rfl
 
 /-- **Layer 9.** Six error terms bounded by `εN/6` have total at most `εN`. -/
 theorem sixCharge_assembly {x y e₁ e₂ e₃ e₄ e₅ e₆ N ε : ℝ}
