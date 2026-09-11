@@ -220,9 +220,43 @@ complexity, and expose a counting lemma that uses them.
   `#Q.parts ≤ strongGraphRegularityBound ε F l₀`;
 - `exists_strong_regular`, starting from an equipartition `P₀`, with a requested minimum complexity
   and an almost-refinement conclusion;
-- a counting lemma whose hypotheses include `StrongRegular`.
+- `StrongRegular.inducedGraphCount3_estimate`, with the following count, prediction, and bound.
 
-**Gate.** Prove at least one counting result from `StrongRegular`.
+For `J : SimpleGraph (Fin 3)`, count labeled **induced injections** into `G`, without dividing by
+automorphisms. For an injective assignment `φ` of the three vertices to parts of `P`, let
+`dᵢⱼ = edgeDensity G (φ i) (φ j)`. Its contribution to `coarseInducedGraphEstimate3 J G P` is
+`∏ᵢ |φ i|` times the product, over `i < j`, of `dᵢⱼ` when `J.Adj i j` and `1-dᵢⱼ` otherwise.
+Sum over these distinct-cell assignments only. Thus this estimate predicts all induced patterns,
+not just triangles or edge-preserving homomorphisms.
+
+Write `n = |V|`, `τ = F #P.parts`, and suppose every coarse cell has size at most `m`.
+For `0 ≤ ε`, `0 < τ ≤ 1`, and any threshold `η > 0`, the counting target is
+
+```text
+|inducedGraphCount3 J G - coarseInducedGraphEstimate3 J G P|
+  ≤ (16τ + 3η + 3ε/η) n³ + 6m n².
+```
+
+**Proof dependencies.** Establish the following estimates in this layer. A `τ`-uniform pair has
+rectangle count discrepancy at most `τ |A||B|`; the same inequality holds for tests with values
+in `[0,1]` by finite summation over their level sets. Telescoping the three factors therefore
+bounds the induced count on a triple of regular fine cells by `3τ` times its volume. Mathlib's
+`Finpartition.IsEquipartition.sum_nonUniforms_lt` bounds the bad fine-pair mass by `4τ n²`;
+the three possible pairs contribute at most `12τ n³`. The constant `16` bounds their sum.
+Include all cell assignments temporarily when comparing fine and coarse predictions. Refinement
+and the weighted-energy identity give mean squared density difference at most `ε`, and
+`|x| ≤ η + x²/η` gives mean absolute difference at most `η + ε/η`. Telescoping contributes
+`3(η + ε/η)n³`. Finally, discard repeated-cell assignments on the fine actual side and the
+coarse predicted side, each at cost at most `3mn²`; fine cells have size at most `m` by refinement.
+The empty host is handled directly.
+
+The estimate consumes `refines`, `equitQ`, `regQ`, and `energyClose`. The remaining fields of
+`StrongRegular` are needed for existence and complexity control, not for this counting step.
+This statement and proof route use only this roadmap and Mathlib; no external library import or
+witness adapter is a prerequisite.
+
+**Gate.** Prove the displayed estimate for every graph on `Fin 3`, and specialize it to the triangle
+and the edgeless pattern. Verify that the latter uses three nonedge-density factors.
 
 **Prior formalization.** `regularity-lemmata` proves the related directed-relation theorem
 `exists_strongWitness` and a binary-palette counting chain in `Graph/Strong.lean` and
@@ -370,9 +404,29 @@ Build `FiniteColored3Pattern`, `Colored3Graph.inducedCopyCount`, and:
 - `placedInducedCopyCount`;
 - `expectedInducedCountAt` and its sum `expectedInducedCount`.
 
-The local prediction is the product of the cell-size factor, one pair-color density for each
-canonical pair, and one relative top-color density for each pattern triple. The top densities are
-taken in `H'`.
+Define `placementInjectionCount φ` as the number of injective maps respecting the assigned cells.
+If `m_A = #{i : φ.vertexCell i = A}`, prove
+
+```text
+placementInjectionCount φ = ∏ A ∈ C.skeleton.vertexPart.parts, (|A|)_{m_A}.
+```
+
+Here `(a)_b = Nat.descFactorial a b`. It is zero if a cell is too small for its assigned vertices;
+an unused cell contributes one. At a transversal placement it equals `∏ᵢ |φ.vertexCell i|`.
+For every placement, the exact prediction is
+
+```text
+expectedInducedCountAt H' C F₀ φ ψ
+  = placementInjectionCount φ
+    × ∏_{i<j} pairColorDensity C.skeleton.pairColors (ψ.pairColor(i,j)) (φ i) (φ j)
+    × ∏_{i<j<l} relativeDensity H' (F₀.pattern {i,j,l}) (ψ.polyad(i,j,l)).
+```
+
+All factors are cast before multiplication. Each unordered pattern triple occurs once, through
+its increasing ordering. The definitions in `Suggested.lean` implement this formula and the
+placed actual count; the falling-factorial and transversal identities are proof targets. The
+plain size product in `expectedLowerRouteCountAt` is an upper envelope, not an alternative
+definition of the injection factor. The global prediction sums this exact local prediction.
 
 #### 9B. Local counting
 

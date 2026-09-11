@@ -246,6 +246,41 @@ theorem exists_strong_regular (G : SimpleGraph V) [DecidableRel G.Adj]
       StrongRegular G P Q ε F (max l P₀.parts.card) ∧ AlmostRefines P P₀ ε ∧
         l ≤ P.parts.card := sorry
 
+/-- **Layer 4.** The labeled induced count of a graph on `Fin 3`; there is no division by
+automorphisms. Requiring adjacency equivalence includes the nonedge conditions. -/
+def inducedGraphCount3 (J : SimpleGraph (Fin 3)) [DecidableRel J.Adj]
+    (G : SimpleGraph V) [DecidableRel G.Adj] : ℕ :=
+  (univ.filter fun g : Fin 3 → V ↦ Function.Injective g ∧
+    ∀ i j, J.Adj i j ↔ G.Adj (g i) (g j)).card
+
+/-- **Layer 4.** The coarse prediction sums over distinct assigned cells and uses the edge or
+nonedge density of each of the three canonical pairs. Repeated cells are charged separately. -/
+def coarseInducedGraphEstimate3 (J : SimpleGraph (Fin 3)) [DecidableRel J.Adj]
+    (G : SimpleGraph V) [DecidableRel G.Adj] (P : Finpartition (univ : Finset V)) : ℝ :=
+  ∑ φ : Fin 3 → ↥P.parts, if Function.Injective φ then
+    (∏ i, ((φ i).val.card : ℝ)) *
+      ∏ p : {p : Fin 3 × Fin 3 // p.1 < p.2},
+        if J.Adj p.val.1 p.val.2 then
+          (G.edgeDensity (φ p.val.1).val (φ p.val.2).val : ℝ)
+        else 1 - (G.edgeDensity (φ p.val.1).val (φ p.val.2).val : ℝ)
+    else 0
+
+/-- **Layer 4 (counting).** Strong regularity predicts every labeled induced three-vertex
+pattern. With `τ = F #P.parts`, the error separates fine regularity (`16τ`), transfer across the
+energy gap (`3η + 3ε/η`), and repeated-cell terms (`6m/n`). The threshold `η` is independent of
+the fine regularity parameter. The proof consumes `refines`, `equitQ`, `regQ`, and `energyClose`;
+the other witness fields serve the existence theorem, not this estimate. -/
+theorem StrongRegular.inducedGraphCount3_estimate
+    (J : SimpleGraph (Fin 3)) [DecidableRel J.Adj]
+    (G : SimpleGraph V) [DecidableRel G.Adj]
+    {P Q : Finpartition (univ : Finset V)} {ε : ℝ} {F : ℕ → ℝ} {l₀ : ℕ}
+    (h : StrongRegular G P Q ε F l₀) (hε : 0 ≤ ε)
+    (hF : 0 < F P.parts.card) (hF₁ : F P.parts.card ≤ 1)
+    (η : ℝ) (hη : 0 < η) (m : ℕ) (hm : ∀ A ∈ P.parts, A.card ≤ m) :
+    |(inducedGraphCount3 J G : ℝ) - coarseInducedGraphEstimate3 J G P| ≤
+      (16 * F P.parts.card + 3 * η + 3 * ε / η) * (Fintype.card V : ℝ) ^ 3 +
+        6 * m * (Fintype.card V : ℝ) ^ 2 := sorry
+
 /-! ### Layer 5 — hypergraph complexes; vertex cells and pair-color systems -/
 
 /-- **Layer 5.** A down-closed `r`-dimensional complex: faces at each level `k ≤ r`, each a `k`-set,
@@ -787,17 +822,64 @@ def PairColorPlacement3.IsTopRegularRoute {C : TriadicComplex3 κ₃ V}
   ∀ (i j l : Fin F₀.k) (hij : i < j) (hjl : j < l),
     IsTopRegularOverPolyad H' (ψ.polyad i j l hij hjl) η r
 
+/-- **Layer 9.** Number of injective maps respecting the assigned cells, before any color tests. -/
+def placementInjectionCount {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    (φ : PatternPlacement3 C F₀) : ℕ :=
+  (univ.filter fun g : Fin F₀.k → V ↦ Function.Injective g ∧
+    ∀ i, g i ∈ φ.vertexCell i).card
+
+/-- **Layer 9.** Repeated occurrences of one cell require distinct choices inside that cell. -/
+theorem placementInjectionCount_eq_prod_descFactorial
+    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    (φ : PatternPlacement3 C F₀) :
+    placementInjectionCount φ = ∏ A ∈ C.skeleton.vertexPart.parts,
+      A.card.descFactorial ((univ.filter fun i ↦ φ.vertexCell i = A).card) := sorry
+
+/-- **Layer 9.** For distinct cells the injection correction is just their size product. -/
+theorem placementInjectionCount_eq_prod_of_transversal
+    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    (φ : PatternPlacement3 C F₀) (hφ : φ.Transversal) :
+    placementInjectionCount φ = ∏ i, (φ.vertexCell i).card := sorry
+
+/-- **Layer 9.** The injection correction never exceeds the unrestricted size product. -/
+theorem placementInjectionCount_le_prod
+    {C : TriadicComplex3 κ₃ V} {F₀ : FiniteColored3Pattern κ₃}
+    (φ : PatternPlacement3 C F₀) :
+    placementInjectionCount φ ≤ ∏ i, (φ.vertexCell i).card := sorry
+
+/-- **Layer 9.** The pattern color on a canonically ordered triple of distinct vertices. -/
+def FiniteColored3Pattern.tripleColor (F₀ : FiniteColored3Pattern κ₃)
+    (i j l : Fin F₀.k) (hij : i < j) (hjl : j < l) : κ₃ :=
+  F₀.pattern ⟨{i, j, l}, by
+    simp [ne_of_lt hij, ne_of_lt hjl, ne_of_lt (hij.trans hjl)]⟩
+
 /-- **Layer 9.** The labeled injective copies realizing a fixed placement and lower-color route. -/
 def placedInducedCopyCount (H : Colored3Graph κ₃ V) {C : TriadicComplex3 κ₃ V}
     {F₀ : FiniteColored3Pattern κ₃} (φ : PatternPlacement3 C F₀)
-    (ψ : PairColorPlacement3 C F₀ φ) : ℕ := sorry
+    (ψ : PairColorPlacement3 C F₀ φ) : ℕ :=
+  (univ.filter fun g : {g : Fin F₀.k → V // Function.Injective g} ↦
+    (∀ i, g.val i ∈ φ.vertexCell i) ∧
+    (∀ p : {p : Fin F₀.k × Fin F₀.k // p.1 < p.2},
+      C.skeleton.pairColors.colorOfPair (g.val p.val.1) (g.val p.val.2) =
+        some (ψ.pairColor p)) ∧
+    ∀ s : {s : Finset (Fin F₀.k) // s.card = 3},
+      H.color ⟨s.val.image g.val, by
+        rw [Finset.card_image_of_injective _ g.property, s.property]⟩ = F₀.pattern s).card
 
 /-- **Layer 9.** The predicted count for `φ` and `ψ`: the injection-corrected cell-size factor,
 times the pair-color densities over canonical pairs, times the required relative top-color
 densities over induced polyads. -/
 def expectedInducedCountAt (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
     (F₀ : FiniteColored3Pattern κ₃) (φ : PatternPlacement3 C F₀)
-    (ψ : PairColorPlacement3 C F₀ φ) : ℝ := sorry
+    (ψ : PairColorPlacement3 C F₀ φ) : ℝ :=
+  (placementInjectionCount φ : ℝ) *
+    (∏ p : {p : Fin F₀.k × Fin F₀.k // p.1 < p.2},
+      (pairColorDensity C.skeleton.pairColors (ψ.pairColor p)
+        (φ.vertexCell p.val.1) (φ.vertexCell p.val.2) : ℝ)) *
+    ∏ t : {t : Fin F₀.k × Fin F₀.k × Fin F₀.k // t.1 < t.2.1 ∧ t.2.1 < t.2.2},
+      (relativeDensity H'
+        (F₀.tripleColor t.val.1 t.val.2.1 t.val.2.2 t.property.1 t.property.2)
+        (ψ.polyad t.val.1 t.val.2.1 t.val.2.2 t.property.1 t.property.2) : ℝ)
 
 /-- **Layer 9.** The sum of `expectedInducedCountAt` over all placements and routes. -/
 def expectedInducedCount (H' : Colored3Graph κ₃ V) (C : TriadicComplex3 κ₃ V)
