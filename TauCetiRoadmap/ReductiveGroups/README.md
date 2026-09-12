@@ -236,7 +236,9 @@ It exists because a downstream consumer needs it and nothing else here supplies 
 CFSG statement roadmap
 ([Add CFSG statement roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/156))
 defines the finite groups of Lie type as fixed points of a Steinberg endomorphism on the
-`𝔽̄_p`-points of a pinned simply connected group. It requires each carrier to be traceable
+`𝔽̄_p`-points of a pinned simply connected group, or on an explicit carrier that then owes an
+identification with those points (its milestone `L5`), for which Layer 9 is the reference. It
+requires each carrier to be traceable
 to explicit data, so **an existence theorem is not enough**: "Chevalley existence" in Layer
 8 above cannot be `Classical.choose`-d into a carrier without defeating the purpose. The
 root data it starts from are `DynkinType.simplyConnectedRootDatum` in
@@ -302,7 +304,8 @@ three views in sync.
 The **finite groups of Lie type** are the consumer of Layer 9: the CFSG statement roadmap
 ([Add CFSG statement roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/156))
 builds every such group as the fixed points of a Steinberg endomorphism on the points of a
-pinned Chevalley–Demazure group. That consumer needs constructions rather than existence
+pinned Chevalley–Demazure group, or on an explicit carrier that its milestone `L5` identifies
+with those points. That consumer needs constructions rather than existence
 theorems, which is the sharpest constraint any of these place on this roadmap.
 
 ## References
