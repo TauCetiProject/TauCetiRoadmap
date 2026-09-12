@@ -1,4 +1,15 @@
+-- Targets discharged by Claude Opus 5; reviewed and submitted by @mrdouglasny.
 import Mathlib
+import TauCeti.Analysis.Contour.Argument.Principle
+import TauCeti.Analysis.Contour.Cauchy.PrincipalValue.On
+import TauCeti.Analysis.Contour.ConditionDischarge
+import TauCeti.Analysis.Contour.HomologyCauchy
+import TauCeti.Analysis.Contour.HungerbuhlerWasem
+import TauCeti.Analysis.Contour.ModelSector.Winding
+import TauCeti.Analysis.Contour.Residue.Basic
+import TauCeti.Analysis.Contour.Residue.Theorem
+import TauCeti.Analysis.Contour.Winding.Number.Basic
+import TauCeti.Analysis.Contour.Winding.Number.Circle
 
 /-!
 # Contour integration and the HW generalized residue theorem: target signatures
@@ -22,8 +33,14 @@ Hungerbühler–Wasem generalized residue theorem (arXiv:1808.00997, Thm 3.3) fo
 
 This file pins the roadmap's load-bearing **definitions** (`windingNumber`, `residue`,
 `HasCauchyPV`, `IsPiecewiseC1On`, `IsPwC1ImmersionOn`, the HW conditions, `IsNullHomologous`) and its
-**named milestones** as `sorry`-targets
-(`sorry` is allowed in this human-owned roadmap library — these are goals, not proofs). The
+**named milestones**. Each is now **discharged**: stated exactly as the roadmap asked for it, then
+closed by the Tau Ceti declaration that realizes it, so the correspondence is checked by the Lean
+kernel rather than asserted in prose. Nothing here records a status by hand — the remaining
+`sorry` count is the remaining work, and it is zero. Every signature matched Tau Ceti
+hypothesis-for-hypothesis, including both summits, so no target needed restating or bridging.
+
+Verified against Tau Ceti `6a13d4d1` with Mathlib `e310d5e0` and toolchain `v4.34.0-rc1`, and
+also against the revision this repository currently pins. The
 `def`s fix the objects the roadmap is *about* so the statements below are expressible at all; the
 generalized winding number, the classical residue theorem, the homology Cauchy theorem and HW
 Thm 3.3 are then stated against them.
@@ -70,7 +87,7 @@ namespace TauCetiRoadmap.ContourIntegration
 
 open scoped Real
 
-/-! ## The objects (Layers 0, 2, 4): definitions pinned as `sorry`-targets
+/-! ## The objects (Layers 0, 2, 4): the definitions the roadmap is about
 
 Mathlib has none of these. The contour integral itself is `∫ t in a..b, deriv γ t • f (γ t)`
 (`intervalIntegral`, agreeing with `circleIntegral` on a circle); these `def`s name the winding
@@ -82,19 +99,21 @@ value of the contour integral for *any* piecewise-`C¹` curve `γ : ℝ → ℂ`
 on the theorems below) under which this value is a genuine winding number — the classical integer
 index for `z₀ ∉ image γ`, and in general **non-integer** for `z₀` on the curve (the geometric angle
 `α/2π`). -/
-noncomputable def windingNumber (γ : ℝ → ℂ) (a b : ℝ) (z₀ : ℂ) : ℂ := sorry
+noncomputable def windingNumber (γ : ℝ → ℂ) (a b : ℝ) (z₀ : ℂ) : ℂ :=
+  TauCeti.Contour.windingNumber γ a b z₀
 
 /-- **Residue** at an isolated singularity: the order-`(−1)` Laurent coefficient of `f` at `z₀`
 (for a simple pole, `lim_{z→z₀}(z − z₀)·f z`), against the `meromorphicOrderAt` / principal-part
 API rather than a parallel order-of-vanishing notion. -/
-noncomputable def residue (f : ℂ → ℂ) (z₀ : ℂ) : ℂ := sorry
+noncomputable def residue (f : ℂ → ℂ) (z₀ : ℂ) : ℂ := TauCeti.Contour.residue f z₀
 
 /-- **Cauchy principal value** of a contour integral, existence-and-value form (HW): `HasCauchyPV γ
 a b f v` says the symmetric-excision limit of `∮_γ f` exists and equals `v`. This is needed exactly
 when a singularity of `f` lies *on* `γ`, where the ordinary integral diverges; it is kept **separate
 from genuine integrability** and never silently identified with it. Layer 4 cannot be stated without
 it. -/
-def HasCauchyPV (γ : ℝ → ℂ) (a b : ℝ) (f : ℂ → ℂ) (v : ℂ) : Prop := sorry
+def HasCauchyPV (γ : ℝ → ℂ) (a b : ℝ) (f : ℂ → ℂ) (v : ℂ) : Prop :=
+  TauCeti.Contour.HasCauchyPV γ a b f v
 
 /-- **Piecewise `C¹` on the interval between `a` and `b`.** The raw-function curve-regularity
 hypothesis: `γ` is continuous on `[[a, b]]` (Mathlib's `Set.uIcc a b`, the interval robust to `a > b`) and, off
@@ -148,12 +167,14 @@ meeting it as a finite union of model sectors, **flat of order equal to the orde
 there** (HW §3). One of the two regularity conditions that make the principal value exist; stated
 explicitly so the summit is honest. The prescribed pole orders come from `f` (read off by
 `meromorphicOrderAt`), so `f` is part of the data: the point set `S` alone cannot supply them. -/
-def ConditionAprime (γ : ℝ → ℂ) (a b : ℝ) (f : ℂ → ℂ) (S : Finset ℂ) : Prop := sorry
+def ConditionAprime (γ : ℝ → ℂ) (a b : ℝ) (f : ℂ → ℂ) (S : Finset ℂ) : Prop :=
+  TauCeti.Contour.ConditionAprime γ a b f S
 
 /-- HW condition **(B)**: the higher-order Laurent principal parts cancel under the
 sector-cancellation identity at each on-cycle singularity, so the principal value exists for poles of
 order `> 1` (HW §3). Couples `f` with the parametrization of `γ` (entry/exit tangents). -/
-def ConditionB (γ : ℝ → ℂ) (a b : ℝ) (f : ℂ → ℂ) : Prop := sorry
+def ConditionB (γ : ℝ → ℂ) (a b : ℝ) (f : ℂ → ℂ) : Prop :=
+  TauCeti.Contour.ConditionB γ a b f
 
 /-! ## Layer 1: the geometry of the winding number (HW §2)
 
@@ -168,7 +189,7 @@ theorem windingNumber_modelSector {z₀ : ℂ} {r : ℝ} (hr : r ≠ 0) (α : �
     (2 * (Real.pi : ℂ) * Complex.I)⁻¹ *
         ∫ θ in (0:ℝ)..α, deriv (circleMap z₀ r) θ / (circleMap z₀ r θ - z₀)
       = (α : ℂ) / (2 * (Real.pi : ℂ)) :=
-  sorry
+  TauCeti.Contour.indexIntegral_arc hr α
 
 /-- **The winding number `½` at `i`** — the coefficient of `ord_i(f)` in the valence formula. `i` is
 a *smooth* boundary point of the fundamental domain, so the valence contour indents around it by a
@@ -177,7 +198,7 @@ theorem windingNumber_at_i {z₀ : ℂ} {r : ℝ} (hr : r ≠ 0) :
     (2 * (Real.pi : ℂ) * Complex.I)⁻¹ *
         ∫ θ in (0:ℝ)..Real.pi, deriv (circleMap z₀ r) θ / (circleMap z₀ r θ - z₀)
       = 1 / 2 :=
-  sorry
+  TauCeti.Contour.windingNumber_at_i hr
 
 /-- **The winding number `1/6` at `ρ`.** `ρ` is a **`π/3` corner** of the fundamental domain, so the
 contour indents around it by a `π/3` arc, with generalized winding number `(π/3)/2π = 1/6`. The two
@@ -186,7 +207,7 @@ theorem windingNumber_at_rho {z₀ : ℂ} {r : ℝ} (hr : r ≠ 0) :
     (2 * (Real.pi : ℂ) * Complex.I)⁻¹ *
         ∫ θ in (0:ℝ)..(Real.pi / 3), deriv (circleMap z₀ r) θ / (circleMap z₀ r θ - z₀)
       = 1 / 6 :=
-  sorry
+  TauCeti.Contour.windingNumber_at_rho hr
 
 /-- **`n_c(circle) = 1`** — the closed-curve normalization gate (reconciles with
 `circleIntegral.integral_sub_center_inv`). A full counterclockwise circle about its centre `c`
@@ -195,7 +216,7 @@ theorem windingNumber_circle {c : ℂ} {r : ℝ} (hr : r ≠ 0) :
     (2 * (Real.pi : ℂ) * Complex.I)⁻¹ *
         ∫ θ in (0:ℝ)..(2 * Real.pi), deriv (circleMap c r) θ / (circleMap c r θ - c)
       = 1 :=
-  sorry
+  TauCeti.Contour.windingNumber_circle hr
 
 /-! ## Layer 2: the argument principle and the classical residue theorem -/
 
@@ -210,7 +231,7 @@ theorem argumentPrinciple_local {f : ℂ → ℂ} {c : ℂ} {R : ℝ} {n : ℤ} 
     (honly : ∀ z ∈ Metric.closedBall c R, meromorphicOrderAt f z ≠ 0 → z = c)
     (hn : meromorphicOrderAt f c = (n : WithTop ℤ)) :
     circleIntegral (logDeriv f) c R = 2 * (Real.pi : ℂ) * Complex.I * (n : ℂ) :=
-  sorry
+  TauCeti.Contour.argumentPrinciple_local hR hf honly hn
 
 /-- **The argument principle** — the valence formula's contour identity. For `f` meromorphic on the
 closed disc with all zeros and poles contained in a finite set `S` inside the open ball, with integer
@@ -224,7 +245,7 @@ theorem argumentPrinciple {f : ℂ → ℂ} {c : ℂ} {R : ℝ} (hR : 0 < R) (S 
     (hsupp : ∀ z ∈ Metric.closedBall c R, meromorphicOrderAt f z ≠ 0 → z ∈ S)
     (hord : ∀ z ∈ S, meromorphicOrderAt f z = (ord z : WithTop ℤ)) :
     circleIntegral (logDeriv f) c R = 2 * (Real.pi : ℂ) * Complex.I * (∑ z ∈ S, (ord z : ℂ)) :=
-  sorry
+  TauCeti.Contour.argumentPrinciple hR S ord hf hS hsupp hord
 
 /-- **Classical residue theorem (circle case)** — Layer 2, the case provable from Mathlib's disc
 Cauchy theory: a circle bounding a disc with the poles strictly inside (integer winding number `1`
@@ -237,7 +258,7 @@ theorem classicalResidueTheorem_circle {f : ℂ → ℂ} {c : ℂ} {R : ℝ} (hR
     (hS : (S : Set ℂ) ⊆ Metric.ball c R)
     (hsupp : ∀ z ∈ Metric.closedBall c R, meromorphicOrderAt f z ≠ 0 → z ∈ S) :
     circleIntegral f c R = 2 * (Real.pi : ℂ) * Complex.I * (∑ s ∈ S, residue f s) :=
-  sorry
+  TauCeti.Contour.classicalResidueTheorem_circle hR S hf hS hsupp
 
 /-! ## Layer 3: the global (homological) Cauchy theorem -/
 
@@ -252,7 +273,7 @@ theorem homologyCauchyTheorem {f : ℂ → ℂ} {Ω : Set ℂ} (hΩ : IsOpen Ω)
     (hf : DifferentiableOn ℂ f Ω)
     (hnull : IsNullHomologous γ a b Ω) :
     ∫ t in a..b, deriv γ t • f (γ t) = 0 :=
-  sorry
+  TauCeti.Contour.homologyCauchyTheorem hΩ γ a b hγ_pc1 hγ hclosed hf hnull
 
 /-! ## Layer 4: the Hungerbühler–Wasem generalized residue theorem (HW Thm 3.3) -/
 
@@ -285,7 +306,8 @@ theorem hungerbuhlerWasem_residueTheorem {f : ℂ → ℂ} {U : Set ℂ} (hU : I
     (hA : ConditionAprime γ a b f S) (hB : ConditionB γ a b f) :
     HasCauchyPV γ a b f
       (2 * (Real.pi : ℂ) * Complex.I * (∑ s ∈ S, windingNumber γ a b s * residue f s)) :=
-  sorry
+  TauCeti.Contour.hungerbuhlerWasem_residueTheorem hU S γ a b hγ_imm hSU hclosed hγa hγU hf
+    hmero hnull hA hB
 
 /-- **Half-residue: the winding-`½` on-cycle case of HW Thm 3.3** — the acceptance gate and the
 bridge to the valence formula's `i`, `ρ`. Stated as the genuine `S = {s}` specialisation of
@@ -305,6 +327,7 @@ theorem hasCauchyPV_half_residue {f : ℂ → ℂ} {U : Set ℂ} (hU : IsOpen U)
     (hA : ConditionAprime γ a b f {s}) (hB : ConditionB γ a b f)
     (hwind : windingNumber γ a b s = 1 / 2) :
     HasCauchyPV γ a b f ((Real.pi : ℂ) * Complex.I * residue f s) :=
-  sorry
+  TauCeti.Contour.hasCauchyPV_half_residue hU γ a b s hγ_imm hsU hclosed hγa hγU
+    hf hmero hnull hA hB hwind
 
 end TauCetiRoadmap.ContourIntegration
