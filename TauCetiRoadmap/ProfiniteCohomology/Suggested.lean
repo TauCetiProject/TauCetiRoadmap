@@ -425,11 +425,12 @@ structure DiscreteRep where
   [discrete : DiscreteTopology V]
   [distribMulAction : DistribMulAction G V]
   [smulCommClass : SMulCommClass G R V]
+  [continuousSMulRing : ContinuousSMul R V]
   [continuousSMul : ContinuousSMul G V]
 
 attribute [instance] DiscreteRep.addCommGroup DiscreteRep.module DiscreteRep.topologicalSpace
   DiscreteRep.discrete DiscreteRep.distribMulAction DiscreteRep.smulCommClass
-  DiscreteRep.continuousSMul
+  DiscreteRep.continuousSMulRing DiscreteRep.continuousSMul
 
 /-- **Layer 1, the morphisms of the unbundled side:** the continuous equivariant `R`-linear maps,
 which are the maps the explicit theory of Layer 2 is functorial in. -/
@@ -1868,16 +1869,20 @@ noncomputable def topologicalCoindIsoAlgebraic (U : OpenSubgroup G)
     coindTopRep R U.toSubgroup U.isClosed A ≅ algebraicCoindAsSmooth R U A :=
   sorry
 
-/-- **Layer 10, the chain-level Shapiro construction.** The all-degree theorem is induced from
-this isomorphism of Mathlib's actual homogeneous-cochain complexes. -/
-noncomputable def shapiroCochainIso (H : Subgroup G) (hH : IsClosed (H : Set G))
+/-- **Layer 10, the chain-level Shapiro construction.** Classical Shapiro does not give a
+degreewise isomorphism between these two homogeneous-cochain complexes: already in degree zero
+the left term is the coinduced module and the right term is `A`. It gives comparison maps whose
+composites are homotopic to the identities, which is exactly the datum recorded here. -/
+noncomputable def shapiroCochainHomotopyEquiv (H : Subgroup G) (hH : IsClosed (H : Set G))
     (A : SmoothDiscreteTopRep R H) :
-    TopRep.homogeneousCochains ((smoothDiscreteι R G).obj (coindTopRep R H hH A)) ≅
-      TopRep.homogeneousCochains ((smoothDiscreteι R H).obj A) :=
+    HomotopyEquiv
+      (TopRep.homogeneousCochains ((smoothDiscreteι R G).obj (coindTopRep R H hH A)))
+      (TopRep.homogeneousCochains ((smoothDiscreteι R H).obj A)) :=
   sorry
 
 /-- **Layer 10, Shapiro's lemma in every degree,** induced on homology by
-`shapiroCochainIso`. Closedness of `H` is what supplies the inverse chain map. -/
+`shapiroCochainHomotopyEquiv`. Closedness of `H` is what supplies the inverse comparison map and
+the homotopies. -/
 noncomputable def shapiroIso (H : Subgroup G) (hH : IsClosed (H : Set G))
     (A : SmoothDiscreteTopRep R H) (n : ℕ) :
     (continuousCohomology R G n).obj ((smoothDiscreteι R G).obj (coindTopRep R H hH A)) ≅
