@@ -12,12 +12,14 @@ reading the classical representation-number formulas off those identities.
 
 The primary object is a full `ℤ`-lattice `L` in a finite-dimensional **real inner product space**
 `E`, expressed by `Submodule ℤ E` together with Mathlib's `IsZLattice ℝ L`.  This is not the carrier
-of the [integral-lattices roadmap](../IntegralLattices/README.md), which is a `ℤ`-submodule of a
-rational vector space with a rational bilinear form, and the difference is not cosmetic: the theta
-series is a sum of `exp(π i ‖v‖² τ)` over `L`, so it needs a real norm to converge, and Poisson
-summation needs the Haar measure of `E` and the covolume of `L`.  The two models are related by a
-bridge built in Layer 2, and *all* discriminant-group and discriminant-form theory is consumed from
-that roadmap through the bridge rather than redeveloped here.
+`TauCeti.IntegralLattice` of Tau Ceti's integral-lattice library, built to the
+[completed integral-lattices roadmap](../../Completed/IntegralLattices/README.md): that is a
+`ℤ`-submodule of a rational vector space with a rational bilinear form, and the difference is not
+cosmetic: the theta series is a sum of `exp(π i ‖v‖² τ)` over `L`, so it needs a real norm to
+converge, and Poisson summation needs the Haar measure of `E` and the covolume of `L`.  The two
+models are related by a bridge built in Layer 2, and *all* discriminant-group and
+discriminant-form theory is consumed from that library through the bridge rather than redeveloped
+here.
 
 **Rank.**  Layers 1–3 — Poisson summation, the lattice model, and the theta series with their
 convergence, `q`-expansions, functoriality and the rank-one comparison with `jacobiTheta` — are
@@ -36,8 +38,13 @@ lattices.
 
 ## Scope and ownership
 
-Three roadmaps touch theta series of lattices.  The boundary between them is the following, and
-each of the three records the same boundary.
+Two roadmaps border this one: the
+[completed integral-lattices roadmap](../../Completed/IntegralLattices/README.md), whose material
+is Tau Ceti library code under `TauCeti/LinearAlgebra/IntegralLattice/` and
+`TauCeti/LinearAlgebra/FiniteBilinearModule/`, and the
+[modular-forms roadmap](../ModularForms/README.md).  No other roadmap states a theta series or
+Poisson summation on a lattice; whichever later needs them consumes them from here.  The boundary
+is the following.
 
 ### Owned here
 
@@ -47,8 +54,9 @@ each of the three records the same boundary.
   with it (2A, 2C).  This is the generic theorem; anyone who needs Poisson summation on a lattice
   takes it, and those lemmas, from here.
 - The **real lattice model** — dual lattice, determinant, level, shells, representation numbers,
-  scaling and orthogonal sums — and the **bridge** to the rational carrier of the integral-lattices
-  roadmap (Layer 2).
+  scaling and orthogonal sums — and the **bridge** to the rational carrier `TauCeti.IntegralLattice`
+  (Layer 2).  The **level** of an even lattice is defined here (2E) and identified through the
+  bridge with the order of Tau Ceti's discriminant quadratic map.
 - The **Kronecker symbol** and the **discriminant character** `χ_L` (Layers 2 and 6).
 - The **theta series** `Θ_L` and the **coset theta series** `θ_γ`, `γ ∈ L^∨/L`, as holomorphic
   functions on `ℍ`, with convergence, `q`- and `q_N`-expansions, and functoriality (Layer 3).
@@ -57,20 +65,29 @@ each of the three records the same boundary.
   a positive-definite lattice (Layer 6).
 - **Modularity**: `Θ_L ∈ M_k(SL(2,ℤ))` for even unimodular `L`, the Hecke–Schoeneberg theorem
   `Θ_L ∈ M_k(Γ₀(N), χ_L)`, and `θ_γ ∈ M_k(Γ(N))` (Layers 5 and 7).
-- The **applications**: `Θ_{E₈}`, the Leech lattice, the theta identity for the rank-`16` pair,
-  `A₂` and `D₄` (Layer 8).
+- The **applications**: `Θ_{E₈}`, the Leech lattice, the rank-`16` pair `E₈ ⊕ E₈` and `D₁₆⁺` —
+  including the construction of `D₁₆⁺` by gluing and the non-isometry of the pair, which no other
+  roadmap builds — and `A₂` and `D₄` (Layer 8).
 
 ### Consumed, not redefined
 
-- From the [integral-lattices roadmap](../IntegralLattices/README.md), by milestone label: the
-  rational carrier `IntegralLattice` and its predicates (0A), the dual (1B) and the discriminant
-  group `A_L = L^∨/L` (1C), the discriminant bilinear form `b_L` and (for even `L`) the half-norm
-  quadratic form `q_L` (1D), the integral and even overlattice/isotropic-subgroup correspondences
-  (1E, 1F), finite bilinear and quadratic modules with their isotropic and Lagrangian subgroups,
-  primary decomposition and generator classification (1G), the level (1J), the ADE lattices with
-  their discriminant forms and the `D₈⁺ ≅ E₈` calculation (1K), and the rank-`16` pair `E₈ ⊕ E₈`
-  and `D₁₆⁺` with their non-isometry (6D).  This roadmap adds no competing definition of any of
-  these; it transports them across the Layer-2 bridge.
+- From Tau Ceti's integral-lattice library, cited by the layer of the completed roadmap that
+  specified it: the rational carrier `TauCeti.IntegralLattice` with `IsEven`, `IsUnimodular`,
+  `IsPosDef`, `Isometry`, `orthogonalSum`, `determinant` and `discriminant` (its *Layer 1: lattices
+  with forms*); the dual `dualCarrier`, the discriminant group `DiscriminantGroup` and its pairing
+  `discriminantPairing` (*Layer 2: duality and the finite discriminant group*); finite bilinear
+  and quadratic modules `FiniteBilinearModule` and `FiniteQuadraticModule` with their isotropic
+  and Lagrangian subgroups, orthogonal quotients and primary decomposition, and the half-norm
+  discriminant quadratic map `discriminantQuadraticMap` of an even lattice (*Layer 3: finite
+  bilinear and quadratic modules*); the overlattice correspondence
+  `intermediateCarrierOfDiscriminantSubgroup` with `isEven_iff_isIsotropic_discriminantSubgroup`
+  and its index and unimodularity criteria (*Layer 4: overlattices and isotropic subgroups*); and
+  the rank-one and ADE lattices `rankOne`, `typeARootLattice`, `checkerboardLattice` (type `Dₙ` in
+  Conway–Sloane coordinates, with its spinor class), `typeE₈RootLattice` and the glued
+  `d8PlusLattice ≅ E₈`, with their discriminant forms (*Layer 5: rank one and ADE discriminant
+  forms*).  Its `ofIntegralForm`, the rationalization of an integral form on a finite free
+  `ℤ`-module, is the constructor the bridge of 2D uses.  This roadmap adds no competing definition
+  of any of these; it transports them across the Layer-2 bridge.
 - From the [modular-forms roadmap](../ModularForms/README.md): `modFormCharSpace`, the nebentypus
   decomposition, the level-one graded ring, and the general-level dimension formulas.
 - From Mathlib: everything listed under *Existing library material*.
@@ -79,39 +96,40 @@ each of the three records the same boundary.
 
 - **The number-field theta function and its Mellin transform** — the real-parameter Gaussian
   theta of an ideal lattice in the mixed space, its transformation with level and epsilon, and the
-  completed zeta and Hecke L-functions it produces — belong to the L-functions roadmap.  That
-  roadmap owns only what is specific to number fields, and *consumes* from here, by name,
-  `poissonSummation`, `summable_poisson_left`, `summable_poisson_right`, `gaussian`,
+  completed zeta and Hecke L-functions it produces.  These are specific to number fields and are
+  not the lattice theta series of this roadmap.  Whichever roadmap builds them *consumes* from
+  here, by name, `poissonSummation`, `summable_poisson_left`, `summable_poisson_right`, `gaussian`,
   `gaussian_apply` and `fourier_gaussian` of Layer 1, together with `dual` (fixed in the
-  conventions), `dual_dual` (2A) and `covolume_dual` (2C).  ⚠ Layer 1 quantifies over a real inner
-  product space `E`, and a consumer whose own model is not one — the mixed space of a number field
-  carries a product sup norm — applies it after transporting along a linear isometry.  That
-  transport belongs to the consumer, and Layer 1 is not weakened to avoid it.
-- **Discriminant forms and everything arithmetic about the rational lattice** — Jordan
-  splittings, the genus, the Gauss-sum invariant `sign q` of a finite quadratic module (1H) and
-  Milgram's theorem at every signature (1I), Nikulin's theory, the classification of unimodular
-  lattices in low rank — belong to the integral-lattices roadmap.  It *consumes* the theta series,
-  its transformation laws and its modularity from here, and states no theta series of its own.
-  ⚠ Milgram is deliberately not deduplicated.  That roadmap's 1I is every signature, by finite
-  arithmetic from 1H; 6C here is the positive-definite instance, by theta asymptotics, because
-  Layer 6 needs it in that form and because it gives a second route to `8 ∣ n`.  Both are wanted,
-  the bridge of 2D identifies them, and neither is derived from the other; collapsing them would
-  drop the indefinite case, which is out of scope here.
+  conventions), `dual_dual` (2A) and `covolume_dual` (2C); this roadmap owns nothing specific to a
+  number field.  ⚠ Layer 1 quantifies over a real inner product space `E`, and a consumer whose
+  own model is not one — Mathlib's `NumberField.mixedEmbedding.mixedSpace` carries a product sup
+  norm — applies it after transporting along a linear isometry.  That transport belongs to the
+  consumer, and Layer 1 is not weakened to avoid it.
+- **The arithmetic of the rational lattice beyond the library above** — Jordan splittings, the
+  genus, the Gauss-sum signature `sign q ∈ ℤ/8` of a finite quadratic module, Milgram's theorem
+  at indefinite signature, Nikulin's existence and uniqueness theory, the classification of
+  unimodular lattices in low rank.  None of it is needed here: 6C is Milgram's formula for a
+  *positive-definite* lattice, proved by theta asymptotics, which is exactly the form Layer 7
+  consumes.
 - **The Weil representation** of `SL(2, ℤ)` on `ℂ[A_L]`, and the presentation
   `SL(2, ℤ) ≅ ⟨S, T | S⁴ = 1, (ST)³ = S²⟩`.  Neither is needed for any theorem of this roadmap: the
   vector-valued transformation law (Layer 4) and the `Γ(N)`-modularity of the coset series
-  (Layer 7) are proved directly.  A roadmap for the Weil representation would need the
-  finite-quadratic-module signature (the integral-lattices roadmap's 1H) to state
-  the `S`-matrix, and the explicit local formulas of Scheithauer and Strömberg for its values on
-  `Γ₀(N)` and its congruence kernel; it would consume Layer 6 here.
+  (Layer 7) are proved directly.  A roadmap for the Weil representation would need the Gauss-sum
+  signature of a finite quadratic module to state the `S`-matrix, and the explicit local formulas
+  of Scheithauer and Strömberg for its values on `Γ₀(N)` and its congruence kernel; it would
+  consume Layer 6 here.
 - Theta series with spherical coefficients, Siegel and Jacobi theta series, Eisenstein series
   with character, the Siegel–Weil formula, sphere packing, the classification or uniqueness of
   any lattice, and the construction of Niemeier lattices.
 - Half-integral weight, as above.
 
-The `D₁₆⁺` application (Layer 8) is the one target whose *input* is a lattice the
-integral-lattices roadmap constructs by gluing; it is sequenced after that roadmap's 6D and
-stated against it, and everything before it is independent of that construction.
+The completed integral-lattices roadmap records the same boundary from its side: its
+introduction excludes theta series and modular forms from its scope, and the comparison lemmas it
+admits between a positive-definite rational lattice extended to `ℝ` and its algebraic carrier are
+exactly the bridge of Layer 2.  The modular-forms roadmap states no theta series, and this
+roadmap states no Hecke theory, dimension formula or newform theory of its own; Layers 5, 7 and 8
+consume its *Layer 0: diamond operators and modular forms with character (nebentypus)* and its
+*Layer 10: the modular curve `Γ\ℍ` and the dimension formulas* by the declaration names above.
 
 ## Standing conventions
 
@@ -145,11 +163,12 @@ transformation law is unrecoverable.
   discriminant group of the real model is the literal quotient `A_L := L^∨ ⧸ L`, finite of order
   `det L` for integral `L`; for integral `L` the determinant is therefore a positive integer, equal to
   `|det Gram(b)|` for any `ℤ`-basis `b`.  Never call the covolume the determinant.
-- **Discriminant forms come from the integral-lattices roadmap.**  The bilinear form `b_L` on `A_L`
-  valued in `AddCircle (1 : ℚ)` and — for even `L` only — the quadratic form
-  `q_L(x + L) = ‖x‖² / 2 mod ℤ` in the **half-norm** convention are that roadmap's; this roadmap
-  transports them across the Layer-2 bridge and adds no competing definition.  Values quoted from
-  Nikulin's full-norm `ℚ/2ℤ` convention are halved before use, exactly as in that roadmap.  Where a
+- **Discriminant forms are Tau Ceti's.**  The bilinear form `b_L` on `A_L` valued in
+  `AddCircle (1 : ℚ)` is `TauCeti.IntegralLattice.discriminantPairing`, and — for even `L` only —
+  the quadratic form `q_L(x + L) = ‖x‖² / 2 mod ℤ` in the **half-norm** convention is
+  `discriminantQuadraticMap`; this roadmap transports them across the Layer-2 bridge and adds no
+  competing definition.  Values quoted from Nikulin's full-norm `ℚ/2ℤ` convention are halved
+  before use, exactly as in the completed integral-lattices roadmap.  Where a
   statement here needs `e(q_L(γ))` or `e(b_L(γ, δ))` as a complex number, it is
   `Complex.exp (2 π i ‖γ‖² / 2)` or `Complex.exp (2 π i ⟪γ, δ⟫)` computed on representatives in
   `E`, proved independent of the representatives; `e(x)` abbreviates `exp(2 π i x)` throughout this
@@ -283,29 +302,34 @@ theta series is a modular form.
 
 ### Tau Ceti and neighbouring roadmaps
 
-- The [integral-lattices roadmap](../IntegralLattices/README.md) owns the rational carrier, the dual
-  lattice and discriminant group, the discriminant bilinear and quadratic forms, finite bilinear and
-  quadratic modules with their `CharacterModule` adjoints and primary decomposition, the
-  overlattice/isotropic-subgroup correspondence, and the ADE and `D₈⁺ ≅ E₈` calculations.  Its
-  0A, 1B–1G, 1J, 1K and 6D are dependencies of Layers 2, 4 and 8 here, and its 2B and 2D are the
-  rational-model faces of the shells of 2G and the covolume identity of 2C.  This roadmap
-  contributes exactly one thing back to it: the real-model comparison its conventions section
-  anticipates ("add comparison lemmas only where they transport a genuinely useful theorem").
-  Layer 2 below is that comparison, and the theorems it transports are the two modularity
-  theorems.
+- Tau Ceti's integral-lattice library, `TauCeti/LinearAlgebra/IntegralLattice/` and
+  `TauCeti/LinearAlgebra/FiniteBilinearModule/`, realizes the
+  [completed integral-lattices roadmap](../../Completed/IntegralLattices/README.md): the rational
+  carrier `TauCeti.IntegralLattice` (`Basic`, `Even`, `Unimodular`, `Signature`, `Gram`, `Norm`,
+  `Isometry`, `OrthogonalSum`, `Scaling`), the dual lattice and discriminant group (`Dual/*`,
+  `Discriminant/Group`), the discriminant bilinear and quadratic forms (`Discriminant/Bilinear`,
+  `Discriminant/Quadratic`), finite bilinear and quadratic modules with their `CharacterModule`
+  adjoints, orthogonal quotients and primary decomposition (`FiniteBilinearModule/*`), the
+  overlattice/isotropic-subgroup correspondence with its index and discriminant formulas
+  (`Overlattice/*`), the rationalization of an abstract integral form (`Rationalization`), and
+  the rank-one, ADE and `D₈⁺ ≅ E₈` calculations (`RankOne`, `RootLattice/*`).  Layers 2, 4 and 8
+  here depend on it, and its `vectorsOfNorm` and `discriminant` are the rational-model faces of
+  the shells of 2G and the covolume identity of 2C.  The completed roadmap admits comparison
+  lemmas with Mathlib's `IsZLattice` theory only where they transport a genuinely useful theorem
+  between a positive-definite rational lattice extended to `ℝ` and its algebraic carrier; Layer 2
+  below is that comparison, and the theorems it transports are the two modularity theorems.
 - The [modular-forms roadmap](../ModularForms/README.md) owns `modFormCharSpace`, the nebentypus
   decomposition, the valence formula, the level-one graded ring, and the general-level dimension
-  formulas.  Its Layer 0 and its level-one summit have **landed** (`modFormCharSpace`,
+  formulas.  Its *Layer 0: diamond operators and modular forms with character (nebentypus)* and
+  its level-one graded ring have **landed** in Tau Ceti (`modFormCharSpace`,
   `mem_modFormCharSpace_iff_nebentypus`, `isInternal_modFormCharSpace`, `valence_formula`,
-  `mvPolynomialEquivModularForms`), and Layers 5–8 here consume them.  Its **Layer 10** — the exact
-  dimension formulas at general level — is consumed only by the two general-level identifications
-  at the very end of Layer 8, and by nothing before them.  Every headline theorem here is
-  independent of it.
-- The L-functions roadmap consumes the nine declarations named under *Scope and ownership* —
-  Layer 1's Poisson, summability and Gaussian statements, and `dual`, `dual_dual` and
-  `covolume_dual` — and owns nothing this roadmap needs.
-- Tau Ceti's root-system library and the integral-lattices bridge supply the ADE lattices used in
-  the worked examples; do not re-enter Cartan matrices here.
+  `mvPolynomialEquivModularForms`), and Layers 5–8 here consume them.  Its *Layer 10: the modular
+  curve `Γ\ℍ` and the dimension formulas* — the exact dimension formulas at general level — is
+  consumed only by the two general-level identifications at the very end of Layer 8, and by
+  nothing before them.  Every headline theorem here is independent of it.
+- Tau Ceti's root lattices `typeARootLattice`, `checkerboardLattice` and `typeE₈RootLattice`, read
+  through the bridge, supply the ADE lattices used in the worked examples and in Layer 8; do not
+  re-enter Cartan matrices here.
 
 ## What is missing (build here)
 
@@ -317,9 +341,10 @@ dual, with convergence, holomorphy, `q`- and `q_N`-expansions and their support;
 rank divisible by `8`; the theorem that its theta series is a level-one modular form of weight
 `n/2`; the reciprocity law for Gauss sums of an even lattice, their evaluation, Milgram's formula
 for a positive-definite lattice, and the theorem that the conductor of `(D_L / ·)` divides the
-level; the Hecke–Schoeneberg theorem `Θ_L ∈ M_k(Γ₀(N), χ_L)` and `θ_γ ∈ M_k(Γ(N))`; and the
+level; the Hecke–Schoeneberg theorem `Θ_L ∈ M_k(Γ₀(N), χ_L)` and `θ_γ ∈ M_k(Γ(N))`; the
 identification of `Θ_{E₈}` and `Θ_{Leech}` in the level-one graded ring, with the
-representation-number formulas that follow.
+representation-number formulas that follow; and the rank-`16` pair `E₈ ⊕ E₈` and `D₁₆⁺`, summed
+and glued here from Tau Ceti's root lattices, with their non-isometry.
 
 ---
 
@@ -402,19 +427,21 @@ Rank is arbitrary throughout the layer.
   ⚠ This equivalence is what lets a consumer holding the sphere-packing predicate
   `ZLattice.covolume L volume = 1` reach `L = L^∨`; state it in that direction explicitly.
 - **2D. The bridge to the rational model.**  For an integral `L ⊆ E`, the integer-valued form
-  `⟪·,·⟫ : L → L → ℤ` base-changes to a symmetric, integral, positive-definite
-  `LinearMap.BilinForm ℚ (ℚ ⊗[ℤ] L)`, and `L` embeds as a `Submodule.IsLattice ℚ` in
-  `ℚ ⊗[ℤ] L`.  Construct the resulting `IntegralLattice (ℚ ⊗[ℤ] L)` of the integral-lattices
-  roadmap (its 0A, with the dual of 1B, the discriminant group of 1C and the forms of 1D), prove
-  it nondegenerate and even exactly when `L` is, and prove that its dual submodule, discriminant
-  group, discriminant bilinear form and — when `L` is even — its discriminant quadratic form
-  correspond, under the evident map `ℚ ⊗[ℤ] L → E`, to `L^∨`,
-  `L^∨ ⧸ L`, `⟪·,·⟫ mod ℤ` and `‖·‖²/2 mod ℤ` computed in `E`; in particular an additive
-  equivalence `A_L ≃+ (ratModel L).DiscriminantGroup` carrying the pairing and, for even `L`, the
-  quadratic form.  Prove the converse construction for a positive-definite rational lattice (extend
-  scalars to `ℝ`, take the inner product induced by the form) and that the two constructions are
-  mutually inverse up to isometry.  Prove the invariants agree: rank, determinant, signed
-  discriminant, evenness, unimodularity, level.
+  `⟪·,·⟫ : L → L → ℤ` is a symmetric `LinearMap.BilinForm ℤ L`, and Tau Ceti's `ofIntegralForm`
+  rationalizes it to a `TauCeti.IntegralLattice (ℚ ⊗[ℤ] L)` whose carrier is the image of `L`.
+  Take that as `ratModel L`; prove it `IsNondegenerate` and `IsPosDef`, and `IsEven` and
+  `IsUnimodular` exactly when `L` is; and prove that its `dualCarrier`, `DiscriminantGroup`,
+  `discriminantPairing` and — when `L` is even — `discriminantQuadraticMap` correspond, under the
+  evident map `ℚ ⊗[ℤ] L → E`, to `L^∨`, `L^∨ ⧸ L`, `⟪·,·⟫ mod ℤ` and `‖·‖²/2 mod ℤ` computed in
+  `E`; in particular an additive equivalence `A_L ≃+ (ratModel L).DiscriminantGroup` carrying the
+  pairing and, for even `L`, the quadratic form.  Prove the converse construction `realModel M` for
+  an `IsPosDef` rational lattice `M` (extend scalars to `ℝ`, take the inner product induced by the
+  form), that the two constructions are mutually inverse up to isometry, and that a real linear
+  isometry carrying `realModel M` onto `realModel M'` induces a Tau Ceti `Isometry M M'` — so that
+  non-isometry proved on the rational side transfers to the real model (8E).  Prove the invariants
+  agree: rank; `discriminant` and `determinant` with `det` (a positive-definite Gram determinant
+  is positive); evenness; unimodularity; shells with `vectorsOfNorm` (2G); and the level with the
+  order of `discriminantQuadraticMap`.
   ⚠ This is the *only* place the two models are compared.  After it, discriminant-form facts are
   quoted through the bridge and never reproved in `E`.
 - **2E. The level.**  Define `level L` for even `L`; prove `0 < level L` and the three
@@ -442,10 +469,10 @@ Rank is arbitrary throughout the layer.
   `s ≤ t` represented by `L`: `r_{L ⊕ M} t = ∑_{s ∈ norms(L) ∩ [0, t]} r_L s * r_M (t - s)`.  ⚠ Do
   not write a sum over all real `s`; there is no such sum.  ⚠ Define the shell as a `Set` with a
   finiteness theorem, not as a `Finset` behind a decidability instance; the sets are not decidable
-  and the finiteness is the content.  These are the integral-lattices roadmap's shells and
-  representation numbers (its 2B) read in `E` rather than a second notion, and the bridge of 2D
-  identifies them; that they are the `q`-expansion coefficients of `Θ_L` is 3C's theorem and is
-  stated only here.
+  and the finiteness is the content.  For integral `L` the shells are Tau Ceti's `vectorsOfNorm`
+  of `ratModel L` read in `E` rather than a second notion, and the bridge of 2D identifies them
+  (`ncard_vectorsOfNorm_ratModel`); that they are the `q`-expansion coefficients of `Θ_L` is 3C's
+  theorem and is stated only here.
 - **2H. The Kronecker symbol.**  Mathlib has `jacobiSym` for odd denominators only.  Define
   `kroneckerSym : ℤ → ℤ → ℤ` extending it, with the standard values at `2`, `-1` and `0`, and
   prove: complete multiplicativity in the second argument, agreement with `jacobiSym` and
@@ -457,8 +484,9 @@ Rank is arbitrary throughout the layer.
   produces a character modulo the *level*; that needs the conductor theorem of Layer 6, and
   `χ_L` is defined there.
 
-Acceptance at this layer includes: the bridge applied to `⟨2m⟩` and to `A_n`, reproducing the
-integral-lattices rank-one and ADE discriminant values (its 1K) from the real model;
+Acceptance at this layer includes: the bridge applied to `⟨2m⟩` and to `A_n`, reproducing Tau
+Ceti's rank-one and ADE discriminant values (`discriminantQuadraticMap_rankOneClass`,
+`discriminantQuadraticMap_typeAFundamentalWeightClass`) from the real model;
 `level (E₈) = 1`; `level (A₂) = 3`, `det (A₂) = 3`, `D = -3`; `level (D₄) = 2`, `det (D₄) = 4`,
 `D = 4`;
 `level (√2 • ℤ²) = 4`, `det = 4`, `D = -4`; and the Fricke test `level (√2 • E₈) = 2` with
@@ -608,12 +636,11 @@ touches the prime `2` beyond the residue of `D_L` modulo `4` and `8`.  `L` is ev
   ∑_{γ ∈ A_L} e(q_L(γ)) = |A_L|^{1/2} * e(n/8)
   ```
   for `L` even and positive definite of rank `n`.  Deduce `8 ∣ n` for even unimodular `L` in one
-  line (`|A_L| = 1`), reproving 5A.  ⚠ This is the positive-definite instance of the
-  integral-lattices roadmap's Gauss-sum invariant (its 1H) and Milgram theorem (its 1I,
-  `sign q_L ≡ t₊ - t₋` at every signature, proved there by finite arithmetic from 1H).  Both are
-  wanted: that one covers the indefinite case this roadmap does not, this one is the analytic
-  route Layer 7 needs, the bridge of 2D identifies them, and neither is derived from the other.
-  Do not replace this milestone by a citation of that one.
+  line (`|A_L| = 1`), reproving 5A.  ⚠ This is Milgram's formula at positive-definite signature
+  only, and the theta-asymptotic proof is the point: it is the analytic route Layer 7 needs.  The
+  general theorem — the Gauss-sum signature `sign q ∈ ℤ/8` of a finite quadratic module and
+  `sign q_L ≡ n₊ - n₋ (mod 8)` for an even lattice of any signature, by finite arithmetic — is not
+  a target here; nothing in this roadmap needs the indefinite case.
 - **6D. Evaluation at an odd modulus.**  For `a` odd, coprime to `N`, and `N ∣ c`, the sum on the
   right of 6B collapses:
   ```text
@@ -714,10 +741,13 @@ computation.  `L` is even of even rank `n = 2k` and level `N`.
   input to either identity; both follow from `r_L(0) = 1`.
 - **8B. `E₈`.**  `Θ_{E₈} = E₄`, and therefore `r_{E₈}(2m) = 240 * σ₃(m)` for `m ≥ 1`, from the
   `q`-expansion of `E₄` with `bernoulli 4 = -1/30`.  In particular the kissing number
-  `r_{E₈}(2) = 240` is a **corollary**, not a hypothesis.  The lattice is the sphere-packing
-  project's `E8Lattice : Submodule ℤ (EuclideanSpace ℝ (Fin 8))`, whose integrality, evenness and
-  `E8Matrix_unimodular` are already formalized; 2C's `covolume = 1 ↔ L = L^∨` and
-  `ZLattice.covolume_eq_det` connect them to this roadmap's hypotheses.
+  `r_{E₈}(2) = 240` is a **corollary**, not a hypothesis.  The lattice is the real model (2D) of
+  Tau Ceti's `typeE₈RootLattice`, whose `isPosDef_typeE₈RootLattice`, `isEven_typeE₈RootLattice`
+  and `isUnimodular_typeE₈RootLattice` are exactly the hypotheses of 8A after the bridge.  The
+  sphere-packing project's `E8Lattice : Submodule ℤ (EuclideanSpace ℝ (Fin 8))` is a second model
+  of the same lattice (see *Provenance*); 2C's `covolume = 1 ↔ L = L^∨` and
+  `ZLattice.covolume_eq_det` connect its `E8Matrix_unimodular` to this roadmap's hypotheses, so
+  that its facts can be consumed as well.
 - **8C. Even unimodular rank 24, in general.**  `dim M_12(SL(2,ℤ)) = 2` with basis `E₄³, Δ`, and
   the Sturm bound at weight `12` is `1`, so a weight-`12` form is determined by its first **two**
   coefficients.  For every even unimodular `L` of rank `24`,
@@ -738,20 +768,38 @@ computation.  `L` is even of even rank `n = 2k` and level `N`.
   roadmap, not an input: it must not appear as a hypothesis anywhere, and a proof that computes it
   by counting has not discharged this target.
 - **8E. The rank-16 pair.**  `E₈ ⊕ E₈` and `D₁₆⁺` are both even unimodular of rank `16`, so both
-  have theta series `E₄²` by 8A; they are **not** isometric.  Both lattices and their non-isometry
-  are the integral-lattices roadmap's 6D, which builds `D₁₆⁺` by the even-overlattice gluing of
-  its 1F — in `A_{D₁₆} ≅ (ℤ/2)²` the spinor class has `q(s) = 16/8 ≡ 0`, so `⟨s⟩` is
-  quadratic-isotropic of order `2` in a group of order `4`, hence Lagrangian, and its preimage
-  under that roadmap's `ofIsotropicSubgroup` is even unimodular — and which separates the two by
-  their root systems.  They reach this roadmap through the converse direction of the bridge 2D.
-  What is owned here is the theta identity `Θ_{E₈ ⊕ E₈} = Θ_{D₁₆⁺} = E₄²` and the statement that
-  the theta series does not determine the lattice, assembled from 8A and the consumed
-  non-isometry.  ⚠ Keep the two halves apart.  Equality of theta series is 8A's and says nothing
-  about isometry; the non-isometry is 6D's and is not reproved here, whether by a root-sublattice
-  index, by a vector count (both lattices have `480` vectors of norm `2`, so the count separates
-  nothing), or by any other route.  Stating only the first invites the reader to conclude the
-  second.  This is the one item of the roadmap whose input lattice is built by another roadmap's
-  gluing theorem, and it is sequenced after 6D and stated against it.
+  have theta series `E₄²` by 8A; they are **not** isometric, so the theta series does not
+  determine the lattice.  No other roadmap constructs `D₁₆⁺`, so both lattices and their
+  non-isometry are built here, on the rational side from Tau Ceti's root lattices and gluing
+  correspondence, and reach the real model through the converse direction of the bridge 2D.
+  - **`E₈ ⊕ E₈`** is `orthogonalSum typeE₈RootLattice typeE₈RootLattice`: even, unimodular and
+    positive definite by `isEven_orthogonalSum_iff`, `discriminant_orthogonalSum` and the
+    signature of an orthogonal sum.
+  - **`D₁₆⁺`** is glued exactly as Tau Ceti glues `d8PlusLattice` from `checkerboardLattice 8`.
+    In `A_{D₁₆} ≅ (ℤ/2)²` the spinor class `s = checkerboardSpinorClass 16` has `q(s) = 16/8 ≡ 0`
+    (`discriminantQuadraticMap_checkerboardSpinorClass`), so `AddSubgroup.zmultiples s` is
+    quadratic-isotropic of order `2` in a group of order `4`, hence Lagrangian.  Its preimage
+    `intermediateCarrierOfDiscriminantSubgroup` is even by
+    `isEven_iff_isIsotropic_discriminantSubgroup` and has carrier `D₁₆ ∪ (s + D₁₆)`; its
+    `toIntegralLattice` is unimodular by `IsIntegral.isUnimodular_iff_natCard_sq_eq_discriminant`
+    (`2² = 4 = disc D₁₆`) and positive definite because gluing keeps the ambient dot product.
+  - **Non-isometry, route of record: the index of the root sublattice.**  For an integral lattice
+    `M` let `R(M) = span ℤ (vectorsOfNorm M 2)`, the sublattice generated by its norm-`2` vectors.
+    An isometry `M ≅ M'` carries `vectorsOfNorm M 2` onto `vectorsOfNorm M' 2`, hence `R(M)` onto
+    `R(M')`, so the index `[M : R(M)]` is an isometry invariant; state this for arbitrary integral
+    lattices and an arbitrary `Isometry`, then compute.  In `E₈ ⊕ E₈` the norm-`2` vectors are the
+    roots of the two summands (a vector of an even positive-definite sum with both components
+    nonzero has norm `≥ 4`), and `typeE₈RootLattice` is spanned by its simple roots, of norm `2`,
+    so the index is `1`.  In `D₁₆⁺` every vector of `s + D₁₆` has all coordinates in `½ + ℤ` and
+    hence norm `≥ 16/4 = 4`, so the norm-`2` vectors are exactly the `480` roots `±eᵢ ± eⱼ` of
+    `D₁₆`, which span `D₁₆`; thus `R(D₁₆⁺) = D₁₆` and the index is `2`.  Hence no `Isometry`
+    exists, and by the transfer statement of 2D no real linear isometry of ambient spaces carries
+    the real model of one lattice onto that of the other.
+  ⚠ Keep the two halves apart.  Equality of theta series is 8A's and says nothing about
+  isometry; the non-isometry is the index computation and nothing else.  A count of norm-`2`
+  vectors separates nothing — both lattices have `480` — and no root-system classification is to
+  be imported for this: `R(M)` and its index are elementary and are stated for any integral
+  lattice.  This is the one place the roadmap constructs a lattice, and it is sequenced last.
 
 ## Worked examples (acceptance criteria)
 
@@ -782,10 +830,13 @@ nothing.
 ## Ordering — the dependency graph
 
 - **Layer 1** (lattice Poisson summation) → Mathlib only.
-- **Layer 2** (real model, bridge, level, scaling, shells, Kronecker symbol) → Mathlib;
-  integral-lattices 0A, 1B–1D, 1G, 1J, 1K.  Independent of Layer 1 and can proceed beside it.
+- **Layer 2** (real model, bridge, level, scaling, shells, Kronecker symbol) → Mathlib; Tau
+  Ceti's integral-lattice library (`IntegralLattice`, `Dual/*`, `Discriminant/*`,
+  `FiniteBilinearModule/*`, `Rationalization`, `RankOne`, `RootLattice/*`) for the bridge and its
+  acceptance tests.  Independent of Layer 1 and can proceed beside it.
 - **Layer 3** (the theta series) → Layers 1, 2.
-- **Layer 4** (the two laws) → Layers 1, 3; integral-lattices 1D for `q_L` and `b_L`.
+- **Layer 4** (the two laws) → Layers 1, 3; Tau Ceti's `discriminantPairing` and
+  `discriminantQuadraticMap`, through the bridge, for `b_L` and `q_L`.
 - **Layer 5** (level one) → Layer 4, Mathlib's level-one generation lemma and dimension formula,
   Tau Ceti's landed level-one graded ring.
 - **Layer 6** (Gauss sums) → Layer 4 for reciprocity; Mathlib's `gaussSum`, `jacobiSym` and
@@ -793,23 +844,25 @@ nothing.
 - **Layer 7** (general level) → Layers 4, 6; modular-forms Layer 0 (**landed**) for
   `modFormCharSpace`.
 - **Layer 8** (identifications) → Layer 5 only, for `E₈`, Leech and the theta series of the
-  rank-16 pair; integral-lattices 6D, through the gluing of its 1F, for the construction of
-  `D₁₆⁺` and its non-isometry; Layer 7 and modular-forms Layer 10 for the two general-level
+  rank-16 pair; the bridge 2D with Tau Ceti's `typeE₈RootLattice`, `checkerboardLattice`,
+  `orthogonalSum` and `Overlattice/*` for `E₈`, for the construction of `E₈ ⊕ E₈` and `D₁₆⁺`, and
+  for their non-isometry; Layer 7 and modular-forms Layer 10 for the two general-level
   identifications.
-- The sphere-packing lattices are consumed as *inputs* at Layer 8 and nowhere earlier; nothing in
-  Layers 1–7 mentions dimension `8` or `24`.
+- The Leech lattice is consumed as an *input* at Layer 8 and nowhere earlier, and `E₈`, `E₈ ⊕ E₈`
+  and `D₁₆⁺` enter there through the bridge; nothing in Layers 1–7 mentions dimension `8`, `16`
+  or `24`.
 
 | Block | Status |
 |---|---|
 | Layer 1 lattice Poisson summation | **new** in general dimension; a dimension-24 instance exists (see *Provenance*) |
-| Layer 2 real model and bridge | **new**; the bridge is anticipated by the integral-lattices roadmap |
+| Layer 2 real model and bridge | **new**; the bridge is anticipated by the completed integral-lattices roadmap |
 | Layer 2 Kronecker symbol | **new**; Mathlib has `jacobiSym` only |
 | Layer 3 theta series | **new** in general; a dimension-24 instance exists |
 | Layer 4 transformation laws | `S` exists at dimension 24; the general-`v` and vector-valued forms are **new** |
 | Layer 5 level one | **new**; the group-theoretic input is a single Mathlib lemma |
 | Layer 6 Gauss sums, reciprocity, Milgram, conductor | **new**; the hardest single block of the roadmap |
 | Layer 7 Hecke–Schoeneberg and the coset series | **new** |
-| Layer 8 identifications | **new**; the lattices themselves are formalized elsewhere |
+| Layer 8 identifications | **new**; `E₈` and `D₁₆` are Tau Ceti's, `E₈ ⊕ E₈` and `D₁₆⁺` are summed and glued here, the Leech lattice is formalized elsewhere (see *Provenance*) |
 
 ## Provenance
 
@@ -830,7 +883,7 @@ above, with comparison lemmas so the existing `E₈` and Leech facts can be cons
 
 | Existing | Roadmap target |
 |---|---|
-| `SpherePacking/Dim8/E8/Basic.lean`, `.../Packing.lean`: `Submodule.E8`, `E8Lattice`, `E8_integral`, `E8_integral_self`, `E8Matrix_unimodular` | consumed as an input at Layer 8 |
+| `SpherePacking/Dim8/E8/Basic.lean`, `.../Packing.lean`: `Submodule.E8`, `E8Lattice`, `E8_integral`, `E8_integral_self`, `E8Matrix_unimodular` | a second model of the `E₈` of 8B, whose real model is Tau Ceti's `typeE₈RootLattice`; comparison lemmas only |
 | `SpherePacking/Dim24/LeechLattice/*`: `LeechLattice`, `leech_covolume`, `leech_norm_lower_bound`, `IsZLattice` instance | consumed as an input at Layer 8 |
 | `.../Uniqueness/LatticeInvariants.lean`: `EvenNormSq`, `Integral`, `Rootless`, `Unimodular`, `leech_evenNormSq`, `leech_rootless`, `leech_unimodular` | Layer 2 predicates, plus comparison lemmas |
 | `SpherePacking/CohnElkies/PoissonSummation*`: `SchwartzMap.poissonSummation_lattice` | Layer 1, generalized from `ℝ²⁴` to any `E` |
@@ -882,7 +935,8 @@ new formalization ground, and we found no Lean prior art for them (as of August 
 - V. V. Nikulin, "Integral symmetric bilinear forms and some of their applications", *Math.
   USSR-Izv.* **14** (1980), [MathNet](https://www.mathnet.ru/eng/im1677),
   [DOI](https://doi.org/10.1070/IM1980v014n01ABEH001060).  §1.1 and §1.4 — cited here only through
-  the [integral-lattices roadmap](../IntegralLattices/README.md), and in its half-norm translation.
+  the [completed integral-lattices roadmap](../../Completed/IntegralLattices/README.md), and in
+  its half-norm translation.
 - N. R. Scheithauer, "The Weil representation of `SL₂(ℤ)` and some applications", *Int. Math. Res.
   Not.* **2009**, [DOI](https://doi.org/10.1093/imrn/rnn128), and F. Strömberg, "Weil
   representations associated with finite quadratic modules", *Math. Z.* **275** (2013),
@@ -894,8 +948,9 @@ new formalization ground, and we found no Lean prior art for them (as of August 
 
 ## Acknowledgements
 
-The lattices of Layer 8 and a dimension-24 instance of Layers 1, 3 and 4 come from the
+The Leech lattice of Layer 8 and a dimension-24 instance of Layers 1, 3 and 4 come from the
 sphere-packing formalization; see *Provenance* for the coordination requirement.  The
-discriminant-form vocabulary is the [integral-lattices roadmap](../IntegralLattices/README.md)'s,
-and the modular-form vocabulary is the [modular-forms roadmap](../ModularForms/README.md)'s; this
-roadmap adds only the bridge between them.
+discriminant-form vocabulary is Tau Ceti's, built to the
+[completed integral-lattices roadmap](../../Completed/IntegralLattices/README.md), and the
+modular-form vocabulary is the [modular-forms roadmap](../ModularForms/README.md)'s; this roadmap
+adds the bridge between them and the one glue construction of 8E.

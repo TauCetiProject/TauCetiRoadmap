@@ -1,7 +1,12 @@
 import Mathlib
+import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
+import TauCeti.LinearAlgebra.IntegralLattice.OrthogonalSum
+import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.Index
+import TauCeti.LinearAlgebra.IntegralLattice.Rationalization
+import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeD.Basic
+import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE
 import TauCeti.NumberTheory.ModularForms.DiamondOperators
 import TauCeti.NumberTheory.ModularForms.LevelOne.GradedRing
-import TauCetiRoadmap.IntegralLattices.Suggested
 
 /-!
 # Theta series of lattices: target signatures
@@ -14,11 +19,13 @@ roadmap. `sorry` is permitted in this human-owned repository: these are targets,
 implementations.
 
 The carrier is a full `ℤ`-lattice in a finite-dimensional **real inner product space**, expressed
-by `Submodule ℤ E` with Mathlib's `IsZLattice ℝ L` — deliberately *not* the rational carrier of the
-[integral-lattices roadmap](../IntegralLattices/README.md), because the theta series needs a real
-norm to converge and Poisson summation needs the covolume. The bridge between the two models is
-`ratModel` below, stated against that roadmap's `IntegralLattice` (imported from its
-`Suggested.lean`), and all discriminant-form theory is consumed across it.
+by `Submodule ℤ E` with Mathlib's `IsZLattice ℝ L` — deliberately *not* the rational carrier
+`TauCeti.IntegralLattice` of Tau Ceti's integral-lattice library, built to the
+[completed integral-lattices roadmap](../../Completed/IntegralLattices/README.md), because the
+theta series needs a real norm to converge and Poisson summation needs the covolume. The bridge
+between the two models is `ratModel` and `realModel` below, stated against that library's
+`IntegralLattice` (imported from `TauCeti.LinearAlgebra.IntegralLattice.*`), and all
+discriminant-form theory is consumed across it.
 
 Three conventions are visible in every signature and are the point of seeding this file at all.
 First, the exponent is `π * I * ‖v‖ ^ 2 * τ`, so that for an even lattice the `q`-expansion is
@@ -30,15 +37,12 @@ general-level theorem is reached through Schoeneberg's coset splitting and the G
 Layer 6, not through a Weil representation, so no declaration here quantifies over a
 finite-quadratic-module signature or a presentation of `SL(2, ℤ)`.
 
-Some of these names are consumed by other roadmaps and are not free to drift. The L-functions
-roadmap takes `poissonSummation`, `summable_poisson_left`, `summable_poisson_right`, `gaussian`,
-`gaussian_apply`, `fourier_gaussian`, `dual`, `dual_dual` and `covolume_dual`; the
-integral-lattices roadmap takes `thetaSeries`, `thetaCoset`, `thetaCosetClass`,
-`summable_thetaSeries`, `hasSum_thetaSeries`, `qExpansion_thetaSeries_coeff`, `hasSum_thetaCoset`,
-`thetaSeries_orthSum`, `thetaSeries_scale`, `thetaSeries_int`, `thetaSeries_add_one`,
-`thetaSeries_add_two`, `thetaCoset_add_one`, `thetaSeries_neg_inv`, `thetaCoset_neg_inv`,
-`thetaCosetClass_neg_inv`, `pairingChar` and `covolume_eq_sqrt_natCard_discGroup`. Each cites the
-name rather than restating the statement, so renaming one of them edits another specification.
+Layer 1 is stated for an arbitrary finite-dimensional real inner product space and an arbitrary
+full-rank lattice, with no theta-series vocabulary in its hypotheses, so that `poissonSummation`,
+its two summability halves, `gaussian`, `fourier_gaussian`, `dual`, `dual_dual` and
+`covolume_dual` can be consumed unchanged by developments whose lattices are not the ones studied
+here — a number-field ideal lattice, say, transported along a linear isometry into an inner
+product space (`README.md`, *Scope and ownership*).
 -/
 
 namespace TauCetiRoadmap.ThetaSeries
@@ -189,8 +193,8 @@ is `isUnimodular_iff_covolume_eq_one`, a theorem, not an alternative definition.
 def IsUnimodular : Prop := L = L^∨
 
 /-- The discriminant group of the real model, the literal quotient `L^∨ ⧸ L`. Its bilinear and
-quadratic forms are *not* redefined here: they are the integral-lattices roadmap's, transported
-across `ratModel` below. -/
+quadratic forms are *not* redefined here: they are Tau Ceti's `discriminantPairing` and
+`discriminantQuadraticMap`, transported across `ratModel` below. -/
 abbrev discGroup : Type _ := L^∨ ⧸ L.comap (L^∨).subtype
 
 /-- The scaled lattice `c • L`. -/
@@ -350,17 +354,20 @@ theorem repNum_orthSum (hL : IsEven L) (hM : IsEven M) (m : ℕ) :
 
 end OrthSum
 
-/-! ### The bridge to the rational carrier of the integral-lattices roadmap
+/-! ### The bridge to Tau Ceti's rational carrier
 
-The `ℤ`-bilinear integral form on `L` base-changes to `ℚ ⊗[ℤ] L`, giving an `IntegralLattice` in
-the sense of that roadmap (its 0A); the dual (1B), discriminant group (1C) and discriminant forms
-(1D) computed there agree with those computed in `E`, and the level agrees with its 1J. This is
-the *only* place the two models are compared; afterwards, discriminant-form facts are quoted
-across it and never reproved in `E`. -/
+The `ℤ`-bilinear integral form on `L` rationalizes, by Tau Ceti's `ofIntegralForm`, to a
+`TauCeti.IntegralLattice (ℚ ⊗[ℤ] L)`; its `dualCarrier`, `DiscriminantGroup`,
+`discriminantPairing` and `discriminantQuadraticMap` agree with `L^∨`, `A_L`, `⟪·,·⟫ mod ℤ` and
+`‖·‖²/2 mod ℤ` computed in `E`, and `level L` is the order of the discriminant quadratic map. The
+converse `realModel` puts a positive-definite rational lattice into a real inner product space,
+and a real isometry of real models induces a Tau Ceti `Isometry`, which is how the non-isometry
+of Layer 8E reaches the real model. This is the *only* place the two models are compared;
+afterwards, discriminant-form facts are quoted across it and never reproved in `E`. -/
 
 section Bridge
 
-open TauCetiRoadmap.IntegralLattices
+open TauCeti
 
 variable (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
 
@@ -370,16 +377,16 @@ def integralForm (h : IsIntegral L) : LinearMap.BilinForm ℤ L := sorry
 theorem integralForm_apply (h : IsIntegral L) (x y : L) :
     ((integralForm L h x y : ℤ) : ℝ) = ⟪(x : E), (y : E)⟫ := sorry
 
-/-- **2D, the bridge.** The rational model of an integral real lattice: carrier the image of
-`L` in `ℚ ⊗[ℤ] L`, form the base change of `integralForm`. -/
-def ratModel (h : IsIntegral L) : IntegralLattice (ℚ ⊗[ℤ] L) where
-  carrier := LinearMap.range (TensorProduct.mk ℤ ℚ L 1)
-  isLattice := sorry
-  form := (integralForm L h).baseChange ℚ
-  isSymm := sorry
-  integral := sorry
+theorem isSymm_integralForm (h : IsIntegral L) : (integralForm L h).IsSymm := sorry
+
+/-- **2D, the bridge.** The rational model of an integral real lattice: Tau Ceti's rationalization
+of `integralForm`, an integral lattice in `ℚ ⊗[ℤ] L` whose carrier is the image of `L`. -/
+noncomputable def ratModel (h : IsIntegral L) : TauCeti.IntegralLattice (ℚ ⊗[ℤ] L) :=
+  IntegralLattice.ofIntegralForm (integralForm L h) (isSymm_integralForm L h)
 
 instance (h : IsIntegral L) : (ratModel L h).IsNondegenerate := sorry
+
+theorem isPosDef_ratModel (h : IsIntegral L) : (ratModel L h).IsPosDef := sorry
 
 theorem ratModel_isEven_iff (h : IsIntegral L) : (ratModel L h).IsEven ↔ IsEven L := sorry
 
@@ -389,9 +396,9 @@ theorem ratModel_isUnimodular_iff (h : IsIntegral L) :
 /-- The discriminant groups of the two models agree, as an additive equivalence. -/
 def discGroupEquiv (h : IsIntegral L) : discGroup L ≃+ (ratModel L h).DiscriminantGroup := sorry
 
-/-- The equivalence carries the real pairing `⟪γ, δ⟫ mod ℤ` to the rational discriminant pairing:
-on representatives `γ δ ∈ L^∨`, the value `(ratModel L h).discriminantPairing` at their classes is
-the class of the rational number `⟪γ, δ⟫` (which is rational because `γ, δ ∈ L^∨` and `L` spans). -/
+/-- The equivalence carries the real pairing `⟪γ, δ⟫ mod ℤ` to Tau Ceti's discriminant pairing:
+on representatives `γ δ ∈ L^∨`, the value of `discriminantPairing` at their classes is the class
+of the rational number `⟪γ, δ⟫` (rational because `γ, δ ∈ L^∨` and `L` spans). -/
 theorem discGroupEquiv_pairing (h : IsIntegral L) (γ δ : L^∨) {r : ℚ}
     (hr : (r : ℝ) = ⟪(γ : E), (δ : E)⟫) :
     (ratModel L h).discriminantPairing
@@ -399,26 +406,97 @@ theorem discGroupEquiv_pairing (h : IsIntegral L) (γ δ : L^∨) {r : ℚ}
         (discGroupEquiv L h (Submodule.Quotient.mk δ)) =
       (↑r : AddCircle (1 : ℚ)) := sorry
 
-/-- For an even lattice the equivalence carries `‖γ‖² / 2 mod ℤ` to the half-norm discriminant
-quadratic form. -/
+/-- For an even lattice the equivalence carries `‖γ‖² / 2 mod ℤ` to Tau Ceti's half-norm
+discriminant quadratic map. -/
 theorem discGroupEquiv_quadratic (h : IsIntegral L) (he : IsEven L) (γ : L^∨) {r : ℚ}
     (hr : (r : ℝ) = ‖(γ : E)‖ ^ 2 / 2) :
-    (ratModel L h).discriminantQuadraticForm ((ratModel_isEven_iff L h).mpr he)
+    (ratModel L h).discriminantQuadraticMap ((ratModel_isEven_iff L h).mpr he)
         (discGroupEquiv L h (Submodule.Quotient.mk γ)) =
       (↑r : AddCircle (1 : ℚ)) := sorry
 
-/-- The level of the real model is the order of the rational discriminant quadratic form. -/
+/-- The level of the real model is the order of Tau Ceti's discriminant quadratic map. -/
 theorem level_eq_addOrderOf_quadratic (h : IsIntegral L) (he : IsEven L) :
     level L =
-      addOrderOf ((ratModel L h).discriminantQuadraticForm ((ratModel_isEven_iff L h).mpr he)) :=
+      addOrderOf ((ratModel L h).discriminantQuadraticMap ((ratModel_isEven_iff L h).mpr he)) :=
   sorry
+
+/-- **2G through the bridge**: the shells of `L` are Tau Ceti's `vectorsOfNorm` of the rational
+model, so the representation numbers agree. -/
+theorem ncard_vectorsOfNorm_ratModel (h : IsIntegral L) (m : ℕ) :
+    ((ratModel L h).vectorsOfNorm m).ncard = repNum L m := sorry
 
 variable [MeasurableSpace E] [BorelSpace E]
 
 theorem natCard_discriminantGroup_ratModel (h : IsIntegral L) :
     (Nat.card (ratModel L h).DiscriminantGroup : ℝ) = det L := sorry
 
+/-- Tau Ceti's `discriminant`, the absolute Gram determinant, is `det L`. -/
+theorem discriminant_ratModel (h : IsIntegral L) : ((ratModel L h).discriminant : ℝ) = det L :=
+  sorry
+
 end Bridge
+
+/-! ### The converse direction: the real model of a positive-definite rational lattice -/
+
+section RealModel
+
+open TauCeti
+
+variable {V : Type*} [AddCommGroup V] [Module ℚ V] (M : TauCeti.IntegralLattice V)
+
+/-- The real ambient space of a positive-definite rational lattice `M`: a copy of `ℝ ⊗[ℚ] V`
+carrying the inner product induced by `M.form`. A wrapper type, as `WithLp` is, so that the
+instances depend on `M`; positive definiteness enters as a `Fact`, so that the norm is honest. -/
+structure RealSpace (M : TauCeti.IntegralLattice V) where
+  /-- The underlying element of `ℝ ⊗[ℚ] V`. -/
+  toTensor : ℝ ⊗[ℚ] V
+
+noncomputable instance [Fact M.IsPosDef] : NormedAddCommGroup (RealSpace M) := sorry
+
+noncomputable instance [Fact M.IsPosDef] : InnerProductSpace ℝ (RealSpace M) := sorry
+
+instance [Fact M.IsPosDef] : FiniteDimensional ℝ (RealSpace M) := sorry
+
+variable [Fact M.IsPosDef]
+
+/-- The map `v ↦ 1 ⊗ v`, additive; it is `ℚ`-linear and carries `M.form` to the inner product. -/
+def toRealSpace : V →+ RealSpace M := sorry
+
+theorem inner_toRealSpace (x y : V) :
+    ⟪toRealSpace M x, toRealSpace M y⟫ = (M.form x y : ℝ) := sorry
+
+theorem injective_toRealSpace : Function.Injective (toRealSpace M) := sorry
+
+theorem finrank_realSpace : Module.finrank ℝ (RealSpace M) = Module.finrank ℚ V := sorry
+
+/-- **2D, the converse construction**: the image of the carrier in `RealSpace M`. -/
+def realModel : Submodule ℤ (RealSpace M) :=
+  AddSubgroup.toIntSubmodule (M.carrier.toAddSubgroup.map (toRealSpace M))
+
+instance : DiscreteTopology (realModel M) := sorry
+
+instance : IsZLattice ℝ (realModel M) := sorry
+
+theorem isIntegral_realModel : IsIntegral (realModel M) := sorry
+
+theorem isEven_realModel_iff : IsEven (realModel M) ↔ M.IsEven := sorry
+
+theorem isUnimodular_realModel_iff : IsUnimodular (realModel M) ↔ M.IsUnimodular := sorry
+
+/-- The two constructions are mutually inverse up to isometry: the rational model of the real
+model of `M` is isometric to `M`. -/
+noncomputable def ratModelRealModelIsometry :
+    (ratModel (realModel M) (isIntegral_realModel M)).Isometry M := sorry
+
+/-- Non-isometry transfers from the rational side to the real side: a real linear isometry
+carrying one real model onto another induces a Tau Ceti isometry of the rational lattices. -/
+theorem nonempty_isometry_of_realModel {W : Type*} [AddCommGroup W] [Module ℚ W]
+    (N : TauCeti.IntegralLattice W) [Fact N.IsPosDef]
+    (e : RealSpace M ≃ₗᵢ[ℝ] RealSpace N)
+    (he : e '' (realModel M : Set (RealSpace M)) = (realModel N : Set (RealSpace N))) :
+    Nonempty (M.Isometry N) := sorry
+
+end RealModel
 
 /-! ### The Kronecker symbol
 
@@ -760,12 +838,10 @@ def quadChar (γ : discGroup L) : ℂ :=
 /-- **6C, Milgram's formula** for a positive-definite even lattice,
 `∑_{γ ∈ A_L} e(q_L(γ)) = |A_L|^{1/2} e(n/8)`: the case `a = c = 1` of reciprocity.
 
-⚠ This is not a duplicate of the integral-lattices roadmap's Milgram theorem (its 1I,
-`t₊ - t₋ ≡ sign q_L (mod 8)` at every signature, proved there by finite arithmetic from the
-Gauss-sum invariant of its 1H). Both are wanted: that one covers the indefinite case, which is out
-of scope here, and this one is the analytic route Layer 7 and
-`eight_dvd_finrank_of_even_unimodular'` need. The bridge (`discGroupEquiv_quadratic`) identifies
-them, and neither is derived from the other. -/
+⚠ Positive-definite signature only, by theta asymptotics: this is the form Layer 7 and
+`eight_dvd_finrank_of_even_unimodular'` need. The general theorem — a Gauss-sum signature
+`sign q ∈ ℤ/8` of a finite quadratic module with `sign q_L ≡ n₊ - n₋ (mod 8)` at every signature —
+is not a target of this roadmap; nothing here needs the indefinite case. -/
 theorem milgram (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (h : IsEven L) :
     ∑ γ : discGroup L, quadChar L γ =
       ((√(Nat.card (discGroup L) : ℝ) : ℝ) : ℂ) * cexp (2 * π * I * (2 * k) / 8) := sorry
@@ -903,17 +979,18 @@ end GeneralLevel
 
 /-! ## Layer 8: the classical identifications
 
-The general rank-8 and rank-24 statements come first; `E₈` and Leech are their instances, and the
-kissing numbers are corollaries of the instances. ⚠ `240` and `196560` are **outputs**: neither may
-appear as a hypothesis, and a proof that computes either by counting has not discharged its
-target.
+The general rank-8, rank-16 and rank-24 statements come first; `E₈`, the rank-16 pair and Leech
+are their instances, and the kissing numbers are corollaries of the instances. ⚠ `240` and
+`196560` are **outputs**: neither may appear as a hypothesis, and a proof that computes either by
+counting has not discharged its target.
 
-The sphere-packing project's `E8Lattice` and `LeechLattice` are not declarations this repository
-can import (see `README.md`, *Provenance*), so every statement below is seeded in **lattice-free
-form** — rank plus evenness plus unimodularity, plus rootlessness for rank `24` — with the named
-instantiations specified in the README and discharged in Tau Ceti once the lattices land there.
-Nothing is lost: the classification of even unimodular lattices in these ranks is out of scope, so
-the hypotheses are exactly what the proofs consume. -/
+`E₈`, `E₈ ⊕ E₈` and `D₁₆⁺` enter through `realModel` from Tau Ceti's rational root lattices —
+`typeE₈RootLattice` as it stands, the other two summed and glued below. The Leech lattice is not a
+declaration this repository can import (see `README.md`, *Provenance*), so the rank-24 statements
+are seeded in **lattice-free form** — rank plus evenness plus unimodularity plus rootlessness —
+with the Leech instantiation specified in the README. Nothing is lost: the classification of even
+unimodular lattices in these ranks is out of scope, so the hypotheses are exactly what the proofs
+consume. -/
 
 section Identification
 
@@ -945,6 +1022,28 @@ counting argument over the root system. -/
 theorem repNum_two_rank_eight (hn : Module.finrank ℝ E = 8)
     (he : IsEven L) (hu : IsUnimodular L) :
     repNum L 2 = 240 := sorry
+
+section E8
+
+open TauCeti
+
+instance : Fact IntegralLattice.typeE₈RootLattice.IsPosDef :=
+  ⟨IntegralLattice.isPosDef_typeE₈RootLattice⟩
+
+theorem finrank_realSpace_typeE₈RootLattice :
+    Module.finrank ℝ (RealSpace IntegralLattice.typeE₈RootLattice) = 8 := sorry
+
+/-- **8B, instantiated**: the real model of Tau Ceti's `E₈` root lattice has theta series `E₄`;
+its evenness and unimodularity are Tau Ceti's, read through the bridge. -/
+theorem thetaForm_realModel_typeE₈RootLattice_eq_E₄ :
+    thetaForm (realModel IntegralLattice.typeE₈RootLattice) 4
+        (by rw [finrank_realSpace_typeE₈RootLattice])
+        ((isEven_realModel_iff _).mpr IntegralLattice.isEven_typeE₈RootLattice)
+        ((isUnimodular_realModel_iff _).mpr IntegralLattice.isUnimodular_typeE₈RootLattice) =
+      ModularForm.E₄ :=
+  thetaForm_eq_E₄ _ finrank_realSpace_typeE₈RootLattice _ _
+
+end E8
 
 /-- **8D.** `Θ_L = E₄ ^ 3 - 720 Δ` for every **rootless** even unimodular lattice of rank `24` — the
 Leech identity, whose lattice-specific hypothesis is the sphere-packing project's `leech_rootless`.
@@ -985,23 +1084,120 @@ theorem thetaForm_rank_16_eq (M : Submodule ℤ F) [DiscreteTopology M] [IsZLatt
     (heL : IsEven L) (huL : IsUnimodular L) (heM : IsEven M) (huM : IsUnimodular M) :
     thetaForm L 8 (by omega) heL huL = thetaForm M 8 (by omega) heM huM := sorry
 
-/-- **8E, the theta series does not determine the lattice** (Witt's example). The witnesses are
-`E₈ ⊕ E₈` and `D₁₆⁺` (`README.md`, Layer 8E). The two halves have different owners: equality of
-the theta series is `thetaForm_rank_16_eq` here, and the non-isometry is the integral-lattices
-roadmap's 6D, which constructs both lattices and separates them by their root systems. Neither
-that computation nor any substitute for it — in particular not a count of the norm-`2` vectors,
-of which both lattices have `480` — is a target here.
+/-! ### 8E: the rank-16 pair, summed and glued from Tau Ceti's root lattices
 
-Isometry is spelled per the README convention: a real linear isometry of the ambient space
-carrying one lattice onto the other, here as an image of sets to keep `ℤ`-`ℝ` scalar bookkeeping
-out of the statement. -/
-theorem exists_thetaSeries_eq_not_isometric :
-    ∃ L' M' : Submodule ℤ (EuclideanSpace ℝ (Fin 16)),
-      IsEven L' ∧ IsUnimodular L' ∧ IsEven M' ∧ IsUnimodular M' ∧
-      thetaSeries L' = thetaSeries M' ∧
-      ¬ ∃ e : EuclideanSpace ℝ (Fin 16) ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 16),
-          e '' (L' : Set (EuclideanSpace ℝ (Fin 16))) =
-            (M' : Set (EuclideanSpace ℝ (Fin 16))) := sorry
+No other roadmap constructs `D₁₆⁺`, so both lattices of Witt's example and their non-isometry are
+targets here, on the rational side, and reach the real model through `realModel`. -/
+
+section RankSixteen
+
+open TauCeti
+
+/-- `E₈ ⊕ E₈`: Tau Ceti's orthogonal sum of two copies of its `E₈` root lattice. -/
+noncomputable def e8E8Lattice : TauCeti.IntegralLattice ((Fin 8 → ℚ) × (Fin 8 → ℚ)) :=
+  IntegralLattice.orthogonalSum IntegralLattice.typeE₈RootLattice IntegralLattice.typeE₈RootLattice
+
+theorem isEven_e8E8Lattice : e8E8Lattice.IsEven := sorry
+
+theorem isUnimodular_e8E8Lattice : e8E8Lattice.IsUnimodular := sorry
+
+theorem isPosDef_e8E8Lattice : e8E8Lattice.IsPosDef := sorry
+
+instance : Fact e8E8Lattice.IsPosDef := ⟨isPosDef_e8E8Lattice⟩
+
+/-- The glue subgroup of `A_{D₁₆} ≅ (ℤ/2)²` generated by the spinor class, exactly as Tau Ceti's
+`d8SpinorSubgroup` in rank `8`. -/
+noncomputable def d16SpinorSubgroup :
+    AddSubgroup (IntegralLattice.checkerboardLattice 16).DiscriminantGroup :=
+  AddSubgroup.zmultiples (IntegralLattice.checkerboardSpinorClass 16)
+
+theorem natCard_d16SpinorSubgroup : Nat.card d16SpinorSubgroup = 2 := sorry
+
+/-- `q(s) = 16/8 ≡ 0`, so the spinor subgroup is quadratic-isotropic; of order `2` in a group of
+order `4`, it is Lagrangian. -/
+theorem isIsotropic_d16SpinorSubgroup :
+    ((IntegralLattice.checkerboardLattice 16).discriminantQuadraticModule
+      (IntegralLattice.isEven_checkerboardLattice 16)).IsIsotropic d16SpinorSubgroup := sorry
+
+/-- The intermediate carrier `D₁₆ ∪ (s + D₁₆)`, glued along the spinor class. -/
+noncomputable def d16PlusCarrier : (IntegralLattice.checkerboardLattice 16).IntermediateCarrier :=
+  (IntegralLattice.checkerboardLattice 16).intermediateCarrierOfDiscriminantSubgroup
+    d16SpinorSubgroup
+
+theorem mem_d16PlusCarrier_iff (x : Fin 16 → ℚ) :
+    x ∈ d16PlusCarrier.1 ↔
+      x ∈ (IntegralLattice.checkerboardLattice 16).carrier ∨
+        x - IntegralLattice.checkerboardSpinor 16 ∈
+          (IntegralLattice.checkerboardLattice 16).carrier := sorry
+
+theorem isEven_d16PlusCarrier : IntegralLattice.IntermediateCarrier.IsEven d16PlusCarrier := sorry
+
+/-- **`D₁₆⁺`**, the even overlattice of `D₁₆` glued along the spinor class, produced by the
+general gluing operation as Tau Ceti's `d8PlusLattice` is. -/
+noncomputable def d16PlusLattice : TauCeti.IntegralLattice (Fin 16 → ℚ) :=
+  isEven_d16PlusCarrier.isIntegral.toIntegralLattice
+
+theorem isEven_d16PlusLattice : d16PlusLattice.IsEven := sorry
+
+/-- Unimodular: the glue subgroup has order `2` and `2 ^ 2 = 4 = disc D₁₆`. -/
+theorem isUnimodular_d16PlusLattice : d16PlusLattice.IsUnimodular := sorry
+
+/-- Positive definite: gluing keeps the ambient dot product of `D₁₆`. -/
+theorem isPosDef_d16PlusLattice : d16PlusLattice.IsPosDef := sorry
+
+instance : Fact d16PlusLattice.IsPosDef := ⟨isPosDef_d16PlusLattice⟩
+
+/-- The root sublattice of an integral lattice: the `ℤ`-span of its norm-`2` vectors. -/
+def rootSublattice {V : Type*} [AddCommGroup V] [Module ℚ V] (M : TauCeti.IntegralLattice V) :
+    Submodule ℤ V :=
+  Submodule.span ℤ (Subtype.val '' M.vectorsOfNorm 2)
+
+theorem rootSublattice_le {V : Type*} [AddCommGroup V] [Module ℚ V]
+    (M : TauCeti.IntegralLattice V) : rootSublattice M ≤ M.carrier := sorry
+
+/-- The index of the root sublattice in the lattice. -/
+noncomputable def rootIndex {V : Type*} [AddCommGroup V] [Module ℚ V]
+    (M : TauCeti.IntegralLattice V) : ℕ :=
+  Nat.card (M.carrier ⧸ (rootSublattice M).comap M.carrier.subtype)
+
+/-- An isometry carries norm-`2` vectors onto norm-`2` vectors, hence root sublattices onto root
+sublattices: the root index is an isometry invariant. -/
+theorem rootIndex_eq_of_isometry {V W : Type*} [AddCommGroup V] [Module ℚ V]
+    [AddCommGroup W] [Module ℚ W] {M : TauCeti.IntegralLattice V} {N : TauCeti.IntegralLattice W}
+    (e : M.Isometry N) : rootIndex M = rootIndex N := sorry
+
+/-- `E₈` is spanned by its simple roots, of norm `2`, and a vector of an even positive-definite
+orthogonal sum with both components nonzero has norm `≥ 4`; so the roots of `E₈ ⊕ E₈` span it. -/
+theorem rootIndex_e8E8Lattice : rootIndex e8E8Lattice = 1 := sorry
+
+/-- Every vector of `s + D₁₆` has all coordinates in `½ + ℤ`, hence norm `≥ 4`, so the norm-`2`
+vectors of `D₁₆⁺` are the `480` roots `±eᵢ ± eⱼ` of `D₁₆`, which span `D₁₆`: the index is `2`. -/
+theorem rootIndex_d16PlusLattice : rootIndex d16PlusLattice = 2 := sorry
+
+/-- **8E, the non-isometry**, on the rational side, from the two indices. -/
+theorem isEmpty_isometry_e8E8Lattice_d16PlusLattice :
+    IsEmpty (e8E8Lattice.Isometry d16PlusLattice) := sorry
+
+theorem finrank_realSpace_e8E8Lattice : Module.finrank ℝ (RealSpace e8E8Lattice) = 16 := sorry
+
+theorem finrank_realSpace_d16PlusLattice : Module.finrank ℝ (RealSpace d16PlusLattice) = 16 :=
+  sorry
+
+/-- **8E, the theta identity**: the two real models have equal theta series, `E₄ ^ 2`, by
+`thetaForm_rank_16_eq`. -/
+theorem thetaSeries_realModel_e8E8Lattice_eq :
+    thetaSeries (realModel e8E8Lattice) = thetaSeries (realModel d16PlusLattice) := sorry
+
+/-- **8E, the theta series does not determine the lattice** (Witt's example): no real linear
+isometry of ambient spaces carries the real model of `E₈ ⊕ E₈` onto that of `D₁₆⁺`. The proof is
+`nonempty_isometry_of_realModel` followed by `isEmpty_isometry_e8E8Lattice_d16PlusLattice`; a
+count of norm-`2` vectors would separate nothing, since both lattices have `480`. -/
+theorem not_isometric_realModel_e8E8Lattice_d16PlusLattice :
+    ¬ ∃ e : RealSpace e8E8Lattice ≃ₗᵢ[ℝ] RealSpace d16PlusLattice,
+      e '' (realModel e8E8Lattice : Set (RealSpace e8E8Lattice)) =
+        (realModel d16PlusLattice : Set (RealSpace d16PlusLattice)) := sorry
+
+end RankSixteen
 
 end Identification
 
