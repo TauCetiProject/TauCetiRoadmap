@@ -33,9 +33,9 @@ example {X : TopCat} (A : Set X) : TopPair :=
   TopPair.ofSubset A
 
 /-- Ordinary singular chains remain the absolute chain functor used by the relative theory. -/
-noncomputable example (R : Type*) [CommRing R] :
-    ModuleCat R ⥤ TopCat ⥤ ChainComplex (ModuleCat R) ℕ :=
-  AlgebraicTopology.singularChainComplexFunctor (ModuleCat R)
+noncomputable example (R : Type u) [CommRing R] :
+    ModuleCat.{u} R ⥤ TopCat.{u} ⥤ ChainComplex (ModuleCat.{u} R) ℕ :=
+  AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)
 
 /-- Cellular chains are built from Mathlib's actual cells, not from a record of cell counts. -/
 example {X : Type*} [TopologicalSpace X] (C : Set X) [CWComplex C] (n : ℕ) : Type _ :=
