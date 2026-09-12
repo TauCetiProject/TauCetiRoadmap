@@ -109,6 +109,140 @@ theorem sl2_exists_irreducible (htop : t.toLieSubalgebra K = ⊤) (n : ℕ) :
 
 end Sl2
 
+/-! ## The concrete PBW development (arbitrary field)
+
+`README.md` owns the shared concrete PBW development, and it is the one place in this roadmap where
+the standing characteristic-zero and algebraically-closed conventions do **not** apply: every target
+below is stated over an arbitrary field, with no characteristic and no algebraic-closure hypothesis,
+because [Ado-Iwasawa](../AdoIwasawa/README.md) consumes them over `𝔽₂`. They are pinned here, in the
+supplier, so that the two roadmaps agree on a Lean signature rather than on prose. -/
+
+section PBW
+
+variable (K : Type u) [Field K] (L : Type u) [LieRing L] [LieAlgebra K L]
+
+/-- The **PBW filtration** on `U(L)`: `pbwFiltration K L n` is the `K`-submodule spanned by the
+products of at most `n` elements of the image of `L`. -/
+def pbwFiltration (n : ℕ) : Submodule K (UniversalEnvelopingAlgebra K L) := sorry
+
+/-- The stage strictly below `pbwFiltration K L n`, in the shape Mathlib's `IsFiltration` expects. -/
+def pbwFiltrationLT : ℕ → Submodule K (UniversalEnvelopingAlgebra K L)
+  | 0 => ⊥
+  | n + 1 => pbwFiltration K L n
+
+/-- **Multiplicativity.** The PBW filtration makes `U(L)` a filtered algebra. -/
+theorem isRingFiltration_pbwFiltration :
+    IsRingFiltration (pbwFiltration K L) (pbwFiltrationLT K L) := sorry
+
+/-- The PBW filtration is exhaustive. -/
+theorem iSup_pbwFiltration : ⨆ n, pbwFiltration K L n = ⊤ := sorry
+
+/-- The `n`-th associated graded piece of the PBW filtration. -/
+abbrev pbwGraded (n : ℕ) : Type u :=
+  pbwFiltration K L n ⧸
+    Submodule.comap (pbwFiltration K L n).subtype (pbwFiltrationLT K L n)
+
+/-- The **ordered PBW monomial** attached to a multi-exponent: the product of the powers
+`ι (b i) ^ m i`, taken in increasing order of `i`.
+
+⚠ Every statement below has to be about *this* element. A basis merely indexed by `κ →₀ ℕ` says
+nothing: in `U(L) = K[X]` for the one-dimensional abelian `L`, the vectors `2 ^ m * X ^ m` also
+form a basis indexed by `ℕ`, and a consumer cannot recover the intended normalization from the
+type. -/
+noncomputable def pbwMonomial {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (m : κ →₀ ℕ) :
+    UniversalEnvelopingAlgebra K L :=
+  ((m.support.sort (· ≤ ·)).map fun i =>
+    UniversalEnvelopingAlgebra.ι K (b i) ^ m i).prod
+
+@[simp] theorem pbwMonomial_zero {κ : Type u} [LinearOrder κ] (b : Basis κ K L) :
+    pbwMonomial K L b 0 = 1 := sorry
+
+theorem pbwMonomial_single {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (i : κ) (n : ℕ) :
+    pbwMonomial K L b (Finsupp.single i n) = UniversalEnvelopingAlgebra.ι K (b i) ^ n := sorry
+
+/-- A monomial of total degree `n` lies in the `n`-th filtration stage; this is what lets it have
+a class in `grₙ U(L)`. -/
+theorem pbwMonomial_mem_pbwFiltration {κ : Type u} [LinearOrder κ] (b : Basis κ K L)
+    (m : κ →₀ ℕ) {n : ℕ} (hn : (m.sum fun _ k => k) = n) :
+    pbwMonomial K L b m ∈ pbwFiltration K L n := sorry
+
+/-- The class of a degree-`n` ordered monomial in `grₙ U(L)`. -/
+noncomputable def pbwGradedMonomial {κ : Type u} [LinearOrder κ] (b : Basis κ K L) {n : ℕ}
+    (m : {m : κ →₀ ℕ // (m.sum fun _ k => k) = n}) : pbwGraded K L n :=
+  Submodule.Quotient.mk
+    ⟨pbwMonomial K L b m.1, pbwMonomial_mem_pbwFiltration K L b m.1 m.2⟩
+
+/-- **Filtered-to-graded.** The symmetric algebra computes the associated graded of the PBW
+filtration: for a linearly ordered basis of `L`, the classes of the degree-`n` ordered monomials
+are a `K`-basis of `grₙ U(L)`.
+
+This is stated as a `def` with the value equation `basisPbwGraded_apply` beside it, rather than as
+a `Nonempty` existence statement: the graded vector-space dimensions are a strictly weaker fact
+than the canonical multiplication and the symmetric-algebra comparison, so an existence statement
+would not supply what weighted truncation, monic-relation reduction and functoriality consume. -/
+noncomputable def basisPbwGraded {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (n : ℕ) :
+    Basis {m : κ →₀ ℕ // (m.sum fun _ k => k) = n} K (pbwGraded K L n) := sorry
+
+theorem basisPbwGraded_apply {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (n : ℕ)
+    (m : {m : κ →₀ ℕ // (m.sum fun _ k => k) = n}) :
+    basisPbwGraded K L b n m = pbwGradedMonomial K L b m := sorry
+
+/-- **Poincaré-Birkhoff-Witt.** For a linearly ordered basis of `L`, the ordered monomials form a
+`K`-basis of `U(L)`. -/
+noncomputable def pbwBasis {κ : Type u} [LinearOrder κ] (b : Basis κ K L) :
+    Basis (κ →₀ ℕ) K (UniversalEnvelopingAlgebra K L) := sorry
+
+/-- The value equation without which `pbwBasis` is only an abstract indexed basis. -/
+theorem pbwBasis_apply {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (m : κ →₀ ℕ) :
+    pbwBasis K L b m = pbwMonomial K L b m := sorry
+
+/-- Acceptance test: for the one-dimensional abelian Lie algebra, `U(L)` is the polynomial algebra
+on the image of the chosen generator, and the PBW monomials are its ordinary monomials -- not any
+other scaling of them. -/
+theorem exists_polynomialAlgEquiv_of_finrank_one [IsLieAbelian L]
+    (b : Basis PUnit.{u + 1} K L) :
+    ∃ e : Polynomial K ≃ₐ[K] UniversalEnvelopingAlgebra K L,
+      e Polynomial.X = UniversalEnvelopingAlgebra.ι K (b PUnit.unit) ∧
+        ∀ n : ℕ, e (Polynomial.X ^ n) =
+          pbwMonomial K L b (Finsupp.single PUnit.unit n) := sorry
+
+/-- **Injectivity** of the canonical Lie map into the enveloping algebra. Consumed by
+[Ado-Iwasawa](../AdoIwasawa/README.md) over an arbitrary field. -/
+theorem ι_injective : Function.Injective (UniversalEnvelopingAlgebra.ι K (L := L)) := sorry
+
+/-- `U(L)` is a **domain**, by transfer from the associated graded symmetric algebra. -/
+theorem isDomain_universalEnvelopingAlgebra : IsDomain (UniversalEnvelopingAlgebra K L) := sorry
+
+/-- For finite-dimensional `L`, `U(L)` is left and right **Noetherian**, again by filtered-to-graded
+transfer. -/
+theorem isNoetherianRing_universalEnvelopingAlgebra [FiniteDimensional K L] :
+    IsNoetherianRing (UniversalEnvelopingAlgebra K L) := sorry
+
+/-- **Functoriality.** The enveloping-algebra map induced by a Lie map respects the PBW filtration.
+The ordered-monomial-span statements for subalgebras, surjections and quotients, and direct sums are
+derived from this together with `pbwBasis`. -/
+theorem map_pbwFiltration_le {L' : Type u} [LieRing L'] [LieAlgebra K L'] (f : L →ₗ⁅K⁆ L') (n : ℕ) :
+    (pbwFiltration K L n).map
+        (UniversalEnvelopingAlgebra.lift K
+          ((UniversalEnvelopingAlgebra.ι K).comp f)).toLinearMap ≤
+      pbwFiltration K L' n := sorry
+
+/-- **The central monic-relation contract.** If every member of a finite ordered basis of `L`
+satisfies a monic relation over a central subalgebra `R` of `U(L)`, then `U(L)` is a finite
+`R`-module, spanned by the bounded ordered PBW monomials. This is exactly what the
+positive-characteristic [Ado-Iwasawa](../AdoIwasawa/README.md) construction consumes from its
+central `p`-polynomials. -/
+theorem module_finite_of_central_monic_relations {κ : Type u} [Fintype κ] [LinearOrder κ]
+    (b : Basis κ K L) (R : Subalgebra K (UniversalEnvelopingAlgebra K L))
+    (_hR : R ≤ Subalgebra.center K (UniversalEnvelopingAlgebra K L))
+    (_hmonic : ∀ i : κ, ∃ (d : ℕ) (c : Fin d → R), 0 < d ∧
+      (UniversalEnvelopingAlgebra.ι K (b i)) ^ d +
+          ∑ j : Fin d, (c j : UniversalEnvelopingAlgebra K L) *
+            (UniversalEnvelopingAlgebra.ι K (b i)) ^ (j : ℕ) = 0) :
+    Module.Finite R (UniversalEnvelopingAlgebra K L) := sorry
+
+end PBW
+
 /-! ## Layers 1-6: the general theory
 
 Fix a Killing-semisimple `L` over an algebraically closed field of characteristic zero, a Cartan
