@@ -26,7 +26,7 @@ roadmap created for its lattice-point lemmas; nothing here depends on those.
 **Mathlib is developing the same foundation.** `Mathlib/NumberTheory/Height/` (M. Stoll) is the
 active substrate this roadmap consumes, and two of its open pull requests cover ground named below:
 [mathlib4#41606](https://github.com/leanprover-community/mathlib4/pull/41606) is Layer 0's
-extension-invariance material and
+extension-invariance material, and
 [mathlib4#40791](https://github.com/leanprover-community/mathlib4/pull/40791) is Layer 6's S-unit
 theorem. Neither is a reason to wait or to leave a gap: build both here, named and shaped the way
 those PRs do, so that adopting Mathlib's is a deletion plus an import. See *[Relationship to
