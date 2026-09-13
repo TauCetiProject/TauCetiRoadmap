@@ -17,10 +17,13 @@ local-diffeomorphism prerequisites belong under `TauCeti/Geometry/Manifold/`, bu
 is explicitly owned by this roadmap rather than deferred to another roadmap. In particular, this
 roadmap owns the Levi-Civita connection and its regularity, geodesics and their flow, exponential
 maps and their local inverse logarithms, and Hopf--Rinow. The [Geometric Topology
-roadmap](../GeometricTopology/README.md) consumes the connection to build curvature and volume;
-the [Optimal Transport roadmap](../OptimalTransport/README.md) consumes the exponential,
-logarithm, completeness, and minimizing-geodesic APIs and owns the subsequent cut-locus and
-transport-specific theory.
+roadmap](../GeometricTopology/README.md) consumes the connection to build curvature; the
+[differential-geometry roadmap](../DifferentialGeometry/README.md) consumes it to build gradient,
+divergence, Hessian, the Laplace–Beltrami operator and the Riemannian volume form, density and
+measure, and supplies in return the general fundamental theorem of flows of which the geodesic flow
+is a special case; the [Optimal Transport roadmap](../OptimalTransport/README.md) consumes the
+exponential, logarithm, completeness, and minimizing-geodesic APIs and owns the subsequent
+cut-locus and transport-specific theory.
 
 The target is do Carmo, *Riemannian Geometry*, Chapter 7 §2, Theorem 2.8 with Corollary 2.9,
 stated under that chapter's standing assumption that `M` is **connected** (do Carmo carries this
@@ -261,10 +264,14 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
 - **Local existence and uniqueness** of the geodesic from `(p, v)` on an open interval containing
   `0`: apply Mathlib's manifold integral-curve API to `S` and prove uniqueness on the overlap of
   two such intervals.
-- **Smooth dependence and the local geodesic flow:** prove `C^∞` dependence on time and initial
-  data and package the resulting local flow on `TM`. This is a target, not a theorem available in
-  the pinned ODE library. Use mathlib4#26394 and mathlib4#40062 as design references, implement the
-  target in Tau Ceti, and adopt their APIs whenever the working Mathlib dependency supplies them.
+- **Smooth dependence and the local geodesic flow:** package the local flow of `S` on `TM` with its
+  `C^∞` dependence on time and initial data. The general theorem — joint openness of the flow domain
+  and joint smoothness of the maximal flow of a `C^n` field (Lee, *Introduction to Smooth Manifolds*,
+  Thm. 9.12) — is the [differential-geometry roadmap](../DifferentialGeometry/README.md)'s 3.1–3.2
+  (`flowOf`, `isOpen_flowDomain`, `contMDiffOn_flowOf`), consumed here and applied to the spray; the
+  finite-dimensional flat case, `ODE.exists_contDiffAt_localFlow`, is already in Tau Ceti. What is owned
+  here is the spray-specific packaging. Use mathlib4#26394 and mathlib4#40062 as design references and
+  adopt their APIs whenever the working Mathlib dependency supplies them.
 - **Constant speed:** on a preconnected parameter set `s`, the Riemannian norm `‖γ'‖` takes the
   same value at every two points of `s` because the connection is metric; without preconnectedness,
   state the conclusion componentwise. Prove in particular the form for the maximal open intervals
@@ -298,12 +305,13 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   `T_0(T_p M) ≃L[ℝ] T_p M` explicit using `NormedSpace.fromTangentSpace`, and prove that
   `mfderiv exp_p 0` is the identity under this identification. Record the corresponding strict
   derivative statement needed by the inverse-function theorem.
-- **The manifold inverse-function theorem:** add the missing shared theorem to
-  `TauCeti/Geometry/Manifold/LocalDiffeomorph.lean`: for `C¹` boundaryless Banach manifolds, a
-  `C¹` map whose `mfderiv` at a point is a continuous linear equivalence induces a
-  `LocalDiffeomorphAt` there. Mathlib's
-  `Geometry/Manifold/LocalDiffeomorph.lean` lists this implication as a TODO, so this roadmap owns
-  it as a prerequisite rather than consuming it. Apply it to the preceding derivative theorem to
+- **The manifold inverse-function theorem:** the shared theorem of
+  `TauCeti/Geometry/Manifold/LocalDiffeomorph.lean`, owned here: for `C¹` manifolds over boundaryless
+  Banach model spaces, a `C¹` map whose `mfderiv` at a point is a continuous linear equivalence induces
+  a `LocalDiffeomorphAt` there (Mathlib's `Geometry/Manifold/LocalDiffeomorph.lean` lists this
+  implication as a TODO). Its one-hypothesis extension from boundaryless model spaces to boundaryless
+  manifolds over arbitrary models is the [differential-geometry roadmap](../DifferentialGeometry/README.md)'s
+  (its 10.1), placed in the same file. Apply the theorem to the preceding derivative theorem to
   obtain that `exp_p` is a local diffeomorphism at `0`.
 - Milestone **(a) at `p`**, written `(a_p)`, is `expDomain p = univ`. Define pointwise geodesic
   completeness `(d_p)` by `∀ v, J(p,v) = univ`, and prove `(a_p) ↔ (d_p)` via domain-aware

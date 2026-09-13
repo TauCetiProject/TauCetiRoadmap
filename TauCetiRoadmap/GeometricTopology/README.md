@@ -193,14 +193,15 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
 `contDiffGroupoid`, `analyticGroupoid`, and `continuousGroupoid`.
 
 **What to build, gluing track.**
-- **Boundary as a manifold.** `I.boundary M` is currently only a set; promote it to a
-  boundaryless `C^n` manifold one dimension lower, with its inclusion a smooth embedding.
-  This is the prerequisite for every gluing below. ⚠ "One dimension lower" hides a model
-  choice: `ModelWithCorners` does not hand you a canonical boundary model. Pin it by starting
-  with the finite-dimensional real half-space model `modelWithCornersEuclideanHalfSpace n`,
-  whose boundary model is `ℝ^(n-1)` (the coordinate hyperplane), and proving chart transitions
-  restrict to it; generalise to other models (and corners, whose boundary is again a
-  manifold-with-corners) only afterwards.
+- **Boundary as a manifold** — in Tau Ceti for the half-space model
+  (`TauCeti/Geometry/Manifold/Boundary/Charts.lean`: `TauCeti.isManifold_boundary`, with the inclusion a
+  closed smooth embedding), consumed here as the prerequisite for every gluing below. ⚠ "One dimension
+  lower" hid a model choice: `ModelWithCorners` does not hand you a canonical boundary model, and the
+  library pins the finite-dimensional real half-space model `modelWithCornersEuclideanHalfSpace n`, whose
+  boundary model is `ℝ^(n-1)` (the coordinate hyperplane). Corners are different: the boundary of a
+  manifold with corners is not a manifold at a corner, and the face-indexed abstract boundary — the
+  faces along which gluing operates, each a manifold with corners one dimension down — is the
+  [differential-geometry roadmap](../DifferentialGeometry/README.md)'s (its 5.5), consumed here.
 - **Collar neighbourhoods.** A boundary component has a neighbourhood diffeomorphic to
   `∂M × [0, 1)` (the collar theorem; Hirsch, *Differential Topology*, GTM 33, Theorem 6.1,
   [extract](references/hirsch-collar.md); Lee, *Introduction to Smooth Manifolds*, GTM 218,
@@ -230,8 +231,8 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   a connected oriented manifold and inherits well-definedness from that theorem.
 
 ```lean
--- the boundary is a boundaryless manifold one dimension down
--- instance : IsManifold (I.boundaryModel) n (I.boundary M)
+-- the boundary is a boundaryless manifold one dimension down: Tau Ceti's
+-- `TauCeti.isManifold_boundary` (half-space model); faces of corners come from DifferentialGeometry 5.5
 -- gluing along a piece of the boundary (faces A ⊆ ∂M, B ⊆ ∂N); produces corners along ∂A
 -- def glue (M N) (A : Face (I.boundary M)) (B : Face (I.boundary N)) (f : A ≃ₘ⟮…⟯ B) : Manifold …
 -- handle attachment and full-boundary gluing are special cases of `glue`
@@ -628,22 +629,27 @@ disproved smoothly).
 Mathlib's Riemannian library reaches the metric-and-distance level but stops short of
 volume and curvature, which is exactly what the hyperbolic-geometry Kirby problems need. The
 [Hopf--Rinow roadmap](../HopfRinow/README.md), Layer 1, owns the intervening Levi-Civita
-connection; this layer consumes that shared connection rather than constructing a second one. To
-state "the Weeks manifold has the smallest volume" we need a Riemannian volume measure, a notion
-of hyperbolic (complete, constant curvature `−1`) structure, and the resulting volume invariant.
-This is the hardest layer that is still close to existing Mathlib.
+connection, and the [differential-geometry roadmap](../DifferentialGeometry/README.md) owns the
+Riemannian density and measure built over it (its 5.5 and 12.4: `riemannianDensity`,
+`riemannianMeasure`); this layer consumes both rather than constructing a second connection or a
+second volume. What it builds is curvature and the hyperbolic structures. To state "the Weeks
+manifold has the smallest volume" we need that measure, a notion of hyperbolic (complete, constant
+curvature `−1`) structure, and the resulting volume invariant. This is the hardest layer that is
+still close to existing Mathlib.
 
 **From Mathlib / earlier roadmaps and layers.** `RiemannianBundle` and
 `IsRiemannianManifold`, the induced `riemannianEDist`, and `EMetricSpace.ofRiemannianMetric`
 (`Mathlib/Geometry/Manifold/Riemannian/Basic.lean`); path length in
 `Mathlib/Geometry/Manifold/Riemannian/PathELength.lean`; Mathlib's measure theory and the
-`volume` measure on `ℝⁿ`; the Hopf--Rinow roadmap's Levi-Civita connection; layer 1's manifolds;
-`Matrix.orthogonalGroup` for isometry groups.
+`volume` measure on `ℝⁿ`; the Hopf--Rinow roadmap's Levi-Civita connection; the differential-geometry
+roadmap's `riemannianMeasure` and `riemannianDensity`; layer 1's manifolds; `Matrix.orthogonalGroup`
+for isometry groups.
 
 **What to build.**
-- The **Riemannian volume measure** from the metric (the density `√det g` in charts,
-  assembled with a partition of unity), and its invariance under isometries; the total
-  **volume** of a closed Riemannian manifold as a real number.
+- The total **volume** of a closed Riemannian manifold as a real number, `riemannianMeasure univ`,
+  and its invariance under isometries — consuming the differential-geometry roadmap's Riemannian
+  measure (the density `√det g` in charts, assembled with a partition of unity, is built there,
+  not here).
 - **Curvature**: using the Levi-Civita connection supplied by the Hopf--Rinow roadmap, build the
   Riemann curvature tensor and sectional and Ricci curvature, enough to *state* "constant
   sectional curvature `κ`" (Lee,
@@ -665,10 +671,10 @@ This is the hardest layer that is still close to existing Mathlib.
   *virtually* so (a finite cover is).
 
 ```lean
--- noncomputable def riemannianVolume (M) [IsRiemannianManifold I M] : Measure M := …
--- noncomputable def volume (M) [Closed M] [IsRiemannianManifold I M] : ℝ := (riemannianVolume M) univ
+-- the Riemannian measure is DifferentialGeometry's `riemannianMeasure`; the volume is its total mass
+-- noncomputable def volume (M) [Closed M] [IsRiemannianManifold I M] : ℝ := (riemannianMeasure I M univ).toReal
 -- structure HyperbolicMetric (M) where metric : RiemannianMetric M; complete : …; curv : sectionalCurvature metric = -1
--- noncomputable def hypVolumeOfMetric (g : HyperbolicMetric M) : ℝ := riemannianVolume g.metric univ
+-- noncomputable def hypVolumeOfMetric (g : HyperbolicMetric M) : ℝ := (riemannianMeasure I M univ).toReal  -- for the metric g
 -- theorem hypVolume_indep (g g' : HyperbolicMetric M) [Closed M] (h : 3 ≤ dim M) : hypVolumeOfMetric g = hypVolumeOfMetric g'  -- Mostow
 -- noncomputable def hypVolume (M) [Closed M] (h : Nonempty (HyperbolicMetric M)) : ℝ := …  -- via hypVolume_indep
 -- theorem weeks_minimal_volume (M) (h : ClosedOrientableHyperbolic3 M) : hypVolume weeksManifold ≤ hypVolume M
@@ -789,11 +795,13 @@ the Euler class as first-class objects.
 Euler class; vector bundles and their (to-be-built) Euler class; layer 1's manifolds.
 
 **What to build.**
-- A **foliation** of `M` as an integrable subbundle of `TM` (a distribution closed under
-  Lie bracket), equivalently a maximal atlas of flat charts; **leaves** as the maximal
-  integral submanifolds; **taut** foliations (a closed transversal through every leaf).
-  Calegari, *Foliations and the Geometry of 3-Manifolds* (freely available online), is the
-  reference.
+- A **foliation** of `M`: the general objects — distributions, involutivity, integral manifolds,
+  flat charts and the leaves of the global Frobenius theorem (`Distribution`, `IsInvolutive`,
+  `IntegralManifold`, `leafThrough`) — are the
+  [differential-geometry roadmap](../DifferentialGeometry/README.md)'s layer 4, consumed here and
+  specialized to codimension one; built here on top: the codimension-one specifics, and **taut**
+  foliations (a closed transversal through every leaf). Calegari, *Foliations and the Geometry of
+  3-Manifolds* (freely available online), is the reference.
 - The **Euler class** of an oriented plane bundle in degree-2 *cohomology* (a small standalone
   layer on top of Mathlib's bundle theory), specialized to the tangent field of a codimension-one
   foliation. ⚠ Be explicit that this is singular *cohomology* `H²(M; ℤ)`, not homology; the
@@ -805,7 +813,7 @@ Euler class; vector bundles and their (to-be-built) Euler class; layer 1's manif
   Define the surface class and the pairing before the inequality.
 
 ```lean
--- structure Foliation (M) where dist : Subbundle (TangentBundle M); integrable : Involutive dist
+-- a codimension-one foliation is an involutive DifferentialGeometry `Distribution` of corank one, with its leaves
 -- def eulerClass (E : OrientedPlaneBundle M) : SingularCohomology 2 M ℤ := …     -- cohomology, not homology
 -- def evalOnSurface (c : SingularCohomology 2 M ℤ) (S : EmbeddedSurface M) : ℤ := ⟨c, fundamentalClass S⟩
 -- def EulerClassBounded (F : Foliation M) : Prop := ∀ S, |evalOnSurface (eulerClass F.dist) S| ≤ -eulerChar S
@@ -1121,8 +1129,8 @@ Layer 1 is the spine almost everything else waits on, so push it first; layers 2
 genuinely parallel on-ramps. Layer 4 (knot theory) is a substantial subproject that can
 also start immediately and is owned here; layer 5 (Dehn surgery) follows layer 1 and layer
 4's knot types, and layer 6 (concordance) follows layer 4. Layers 7 and 8 share a
-Riemannian substrate and should be planned together, after the layer-7 volume measure
-lands. Layers 9, 10, and 11 are independent of each other and can begin once layer 1's
+Riemannian substrate and should be planned together, after the differential-geometry roadmap's
+Riemannian measure lands. Layers 9, 10, and 11 are independent of each other and can begin once layer 1's
 handlebody and tangent-field API exists. The homological concordance invariants (`τ`, `s`)
 are coordinated with the combinatorial Heegaard Floer roadmap, which consumes layer 4's
 knot types in return.
