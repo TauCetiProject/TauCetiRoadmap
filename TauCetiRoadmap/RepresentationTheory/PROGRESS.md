@@ -177,3 +177,38 @@ and the
 for abstract Coxeter systems, and the
 [intrinsic Wedderburn block data](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Semisimple/Wedderburn/Canonical.html#TauCeti.WedderburnPresentation.exists_equiv_degree_eq_blockMultiplicity)
 of a semisimple ring.
+
+<!--tauceti-progress:v1 {"from_sha":"aa9e5f89ab3cee691992ab2274b0da31961faabb","prs":[5980,5982,5991,6005,6252,6272,6281,6282,6285,6286,6290,6294,6303,6304,6306,6314,6342,6344,6352,6387,6390,6391,6395,6398,6402,6415,6429,6430,6431,6437,6447,6448,6450,6479],"roadmap":"RepresentationTheory","to_sha":"b4da9b93577b676a9d2f149668a92b3d61897dcd"}-->
+## RepresentationTheory: 2026-09-10 to 2026-09-13 (`aa9e5f8` to `b4da9b9`)
+
+Schur-Weyl duality landed. On `(kⁿ)^{⊗d}` over a field in which `d!` is invertible, the image of the
+group algebra `k[S_d]` permuting tensor factors and the image of `k[GLₙ]` acting diagonally are
+[each other's centralizers](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/TensorAction/GeneralLinear.html#TauCeti.centralizer_range_tensorPowerRep_asAlgebraHom_eq_range_permTensorActionAlgHom),
+so an endomorphism is a permutation of the factors exactly when it commutes with every `g^{⊗d}`
+(TauCeti#5980). The route runs through Zariski density, which lets the invertible matrices be traded
+for all endomorphisms of `kⁿ`. What is not here is the other half of that layer, the decomposition of
+`(kⁿ)^{⊗d}` into Schur functors. Alongside it, the
+[hook-length formula](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/HookLength.html#TauCeti.finrank_spechtModule_mul_prod_hookLength):
+the degree of the Specht module `S^μ` times the product of the hook lengths of `μ` is `n!`
+(TauCeti#6398).
+
+The `gl_n` lane reached the isotypy statement it had been assembling. Over an algebraically closed
+field of characteristic zero the left-regular CAR module is
+[isotypic](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/GeneralLinear/CAR/Isotypic.html#TauCeti.isIsotypicOfType_glIrreducible_car),
+every summand the simple module of half-shifted staircase highest weight `(N - 1/2, …, 1/2)`, with
+[multiplicity `2^{N(N+1)/2}`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/GeneralLinear/CAR/WeightMultiplicity.html#TauCeti.finrank_weightSpace_glHalfStaircase_car).
+This is Kostant's corollary in its worked `gl_N` instance; the Killing-semisimple statement remains
+unwritten. The spin side gained topology: the compact real `Spin(n) → SO(n)` is a
+[covering map](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/CliffordAlgebra/Spin/Covering.html#CliffordAlgebra.isCoveringMap_realCliffordSpinDoubleCoverZero_rightHom)
+with two-element fibres and connected total space in dimension at least two, though simple
+connectivity is not claimed, and over a general field the
+[spinor-norm exact sequence](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/SpinorNorm/DoubleCover.html#CliffordAlgebra.spinDoubleCoverSpinorNormKernel)
+now presents `Spin` as an extension by `ℤ/2`.
+
+Quivers gained the
+[BGP reflection functor at a source](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Quiver/Reflection/Source.html#TauCeti.sourceReflectionFunctor)
+and the fact that, for a positive definite Tits form, the
+[positive roots are the reflection images of the simple ones](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Quiver/Reflection/PositiveRoot.html#TauCeti.titsForm_eq_one_iff_exists_vertexPreReflectionList_single)
+(TauCeti#6005). Smaller work: Brauer groups of algebraically closed and finite fields are trivial,
+almost-split sequences are unique at their right-hand end, and the Lie-group lane acquired the
+inverse function theorem for manifolds.
