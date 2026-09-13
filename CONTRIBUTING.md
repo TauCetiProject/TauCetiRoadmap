@@ -18,7 +18,7 @@ There are three ways to contribute, in rough order of how much they ask of you:
 Reviewing someone else's roadmap PR is welcome at any time and does not require permissions.
 Substantive review, especially from a subject-area expert, is the thing we are shortest of.
 
-## Advice on writing a roadmap
+## Getting started
 
 Read these before you start, in this order:
 
