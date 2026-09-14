@@ -18,12 +18,12 @@ There are three ways to contribute, in rough order of how much they ask of you:
 Reviewing someone else's roadmap PR is welcome at any time and does not require permissions.
 Substantive review, especially from a subject-area expert, is the thing we are shortest of.
 
-## Advice on writing a roadmap
+## Getting started
 
 Read these before you start, in this order:
 
 1. **[Writing a roadmap](README.md#writing-a-roadmap)** in the README. This is the standing
-   checklist, written after several rounds of review, and it is what reviewers will hold your
+   checklist, and it is what reviewers will hold your
    PR against. Build the library rather than racing to a headline theorem; ground every
    milestone in material that exists or is itself a target; use Mathlib's vocabulary; pin
    conventions; nothing is "optional".
@@ -37,7 +37,7 @@ Read these before you start, in this order:
 
 [zulip-topic]: https://leanprover.zulipchat.com/#narrow/channel/610393-Tau-Ceti/topic/Getting.20started.3A.20roadmaps/with/614905192
 
-A few points from the Zulip topic that the README checklist does not yet spell out:
+Additional guidance for authors:
 
 - **Roadmaps are not scoped to Mathlib.** Anything that would be good to have in a central,
   coordinated library is in scope. But a roadmap must make contact with material that already
@@ -60,6 +60,69 @@ A few points from the Zulip topic that the README checklist does not yet spell o
   mathematical expertise. If you can name or recruit someone who knows your area, whether or
   not they know Lean, say so on the PR or in the Zulip topic. That is often the difference
   between a roadmap merging and sitting.
+
+## Writing a roadmap
+
+Writing a roadmap can involve a mix of human guidance, AI writing, and human and AI review.
+Writing a roadmap involves several connected activities; contributors may return to earlier
+decisions as the interfaces and review reveal more.
+
+1. **Create source material in a guide repo targeted for partial migration, when relevant.**
+   This varies by the situation and can involve a complicated mix of human guidance with AI
+   writing and review. An existing guide or formalization can supply source material; a separate
+   guide repo is not needed for every roadmap. Follow the README's
+   [porting guidance](README.md#porting-existing-work).
+2. **Select what to include in Tau Ceti.** This heavily relies on human judgement, but that
+   judgement may be expressed through prompting rather than in any single part of the written
+   PR. The resulting scope and boundaries should be clear in the roadmap itself.
+3. **Design the various layers and how they connect to Tau Ceti and Mathlib.** This can be
+   seeded by human suggestions, benefits from an AI survey of what Tau Ceti and Mathlib
+   currently contain, and benefits from human checking afterwards.
+4. **Write `Suggested.lean` based on these decisions.** This can be human- or AI-written,
+   depending on preference, with human review of the intended statements and design, supported
+   by detailed AI checks. The roadmap's `README.md` stays definitive; suggested Lean interfaces
+   help check and communicate the design.
+5. **Revise through repeated detailed review.** Careful AI review can help find mathematical
+   errors, missing prerequisites, unjustified connections, and incorrect hypotheses, as well as
+   checking signatures, references, and consistency across the prose and Lean. Findings can
+   reveal a need to revisit the scope or layers.
+
+## Reviewing a roadmap
+
+Human review is often closest to a journal's "quick opinion": is the mathematics worth
+developing, is the scope appropriate, and is the overall approach sound? AI review can do much
+of the detailed work of looking for gaps, errors, and inconsistencies in the proposed interfaces
+and dependencies.
+
+There are several important aspects of reviewing a roadmap PR. A review may address one or
+several of them, and different reviewers can contribute different expertise.
+A human reviewer can give a useful assessment of the scope and overall approach without
+independently repeating every detailed check; the review should make clear which aspects they
+assessed.
+
+| Aspect | Review question | What to emphasize |
+| --- | --- | --- |
+| **1. What is included** | Is this the mathematics we want in Tau Ceti? | A human subject-matter expert is key here: scope, significance, intended generality, and the needs of consumers. |
+| **2. How it is done** | Do the layers and interfaces express the intended mathematics and connect to the existing libraries? | Human mathematical and Lean/Mathlib expertise helps assess the overall architecture and important design choices. AI review checks the proposed dependencies, assumptions, definitions, and interfaces in detail. |
+| **3. Tau Ceti format** | Does the roadmap meet the project's conventions? | The scaffold reaches the ground, nothing is optional, and nothing is slated for upstreaming to Mathlib. A careful AI can help check these against the [README's standing guidance](README.md#writing-a-roadmap). |
+| **4. Repeated detailed review** | Are there mathematical errors or gaps, and are the prose, signatures, references, and examples consistent? | Careful AI review can help find errors and gaps that earlier passes missed, as well as inconsistencies in the details. Check the evidence for each finding; repeated passes do not by themselves establish that the mathematics or design is sound. |
+
+When reporting a review, say what you checked and what remains outside its scope. For example,
+checking that `Suggested.lean` compiles is useful evidence about the interfaces, but does not
+establish that its admitted targets are true or that the roadmap covers the intended subject.
+Distinguish an author's self-review from a review by another contributor, and identify AI
+assistance as described above. See [Opening a pull request](#opening-a-pull-request) for the
+approval requirements.
+
+For example, a review note might say: "AI-assisted review using [model]: I checked the layer
+dependencies and the proposed interfaces against the pinned Mathlib sources. I have not reviewed
+the choice of mathematical scope." An author might say: "I selected the scope and reviewed the
+resulting roadmap; [model] helped survey the libraries, draft `Suggested.lean`, and check details."
+Use descriptions that reflect the work actually done.
+
+The automated rubrics in [TauCetiReview](https://github.com/TauCetiProject/TauCetiReview) assess
+implementation PRs against existing roadmaps. They offer useful review questions, but roadmap
+changes follow this repository's human-review process.
 
 ## Opening a pull request
 

@@ -9,7 +9,11 @@ in the code repo; review machinery lives in
 
 Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and the [Mathlib Initiative](https://mathlib-initiative.org/) in partnership with academic and industry groups.
 
-If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUTING.md).
+Roadmap writing and review can involve a mix of human guidance and AI assistance. Humans direct
+the mathematical scope and approve roadmap changes; AI can help survey existing libraries, write
+prose and suggested Lean interfaces, and review the details. If you want to write or review a
+roadmap, start with the guidance on [writing](CONTRIBUTING.md#writing-a-roadmap) and
+[reviewing](CONTRIBUTING.md#reviewing-a-roadmap) in `CONTRIBUTING.md`.
 
 ## Roadmaps
 
