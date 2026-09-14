@@ -100,6 +100,13 @@ matrix-group engine), mirroring Mathlib's `Geometry/Manifold/Algebra/`.
   The bracket is the derivation commutator already in Mathlib; do not reintroduce it.
 - **The exponential map is built here; Mathlib's `NormedSpace.exp` is its `GL`-shadow.** The general
   `lieExp : 𝔤 → G` is a **new** object (Layer 0), the time-one flow of the left-invariant vector field.
+  The flow theory it rests on — the maximal flow of a vector field with its jointly open domain, joint
+  smoothness and group law, the fundamental theorem of flows (Lee, *Introduction to Smooth Manifolds*,
+  Thm. 9.12) — is the [differential-geometry roadmap](../../DifferentialGeometry/README.md)'s layer 3,
+  consumed here; that roadmap reconciles its `flowOf` with the invariant integral curves of this one by
+  name. Likewise the **Frobenius theorem** and its immersed leaves (Layer 4 below) are that roadmap's
+  layer 4, built to this roadmap's specification and consumed here, and the smooth structure on the
+  covering spaces of Layer 5 is its 2.3.
   On `G = Rˣ` (units of a Banach algebra, `Lie(Rˣ) = R`) it must coincide with `NormedSpace.exp`, on
   matrix groups with `Matrix.exp`, and on the circle with `Circle.exp`; those coincidences are
   acceptance criteria, not definitions. Reuse Mathlib's `NormedSpace.exp`, `Matrix.exp` lemmas, and
@@ -186,7 +193,8 @@ theorem** that a closed subgroup of a Lie group is an embedded Lie subgroup, wit
 `Hom(G, G') → Hom(𝔤, 𝔤')` on smooth homomorphisms, functorial and natural against `lieExp`; the
 **Baker-Campbell-Hausdorff** series and the local identity `lieExp X · lieExp Y = lieExp (BCH X Y)`; the
 **subalgebra ↔ immersed-subgroup** correspondence via **Frobenius integrability** of the left-invariant
-distribution; **Lie's third theorem**, integrating a finite-dimensional real Lie algebra to a
+distribution (the Frobenius theorem itself being the differential-geometry roadmap's); **Lie's third
+theorem**, integrating a finite-dimensional real Lie algebra to a
 simply-connected Lie group, and the **equivalence of categories** simply-connected Lie groups ≃
 finite-dimensional Lie algebras it yields (the functor of Deliverable A is fully faithful and essentially
 surjective on simply-connected targets); **simply-connected covers** `G̃ → G` of a connected Lie group as
@@ -322,9 +330,13 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
   integrability** it is integrable; the leaf through `1` is a **connected immersed Lie subgroup**
   `integralSubgroup 𝔥` with `Lie(integralSubgroup 𝔥) = 𝔥`. An immersed Lie subgroup is **not** a
   subspace-topology `Subgroup G`: it carries its own (generally finer) manifold and group structure with
-  an injective smooth immersion into `G`, recorded by the predicate `IsImmersedLieSubgroup`. State the
-  Frobenius theorem (`VectorField.mlieBracket`-involutive ⇒ integrable) as the named analytic
-  prerequisite. The map `𝔥 ↦ integralSubgroup 𝔥` is a **bijection** between Lie subalgebras of `𝔤` and
+  an injective smooth immersion into `G`, recorded by the predicate `IsImmersedLieSubgroup`. The
+  Frobenius theorem (`VectorField.mlieBracket`-involutive ⇒ integrable), with distributions, integral
+  manifolds and the leaf through a point as honest immersed manifolds, is the named analytic
+  prerequisite, owned by the [differential-geometry roadmap](../../DifferentialGeometry/README.md) (its
+  layer 4: `Distribution`, `IsInvolutive`, `IntegralManifold`, `leafThrough`) and consumed here;
+  `integralSubgroup 𝔥` is `leafThrough` of the left-invariant distribution. The map
+  `𝔥 ↦ integralSubgroup 𝔥` is a **bijection** between Lie subalgebras of `𝔤` and
   connected immersed subgroups of `G` up to immersed-subgroup equivalence (the closed ones are Layer 2's
   embedded subgroups).
 - **Lie's third theorem.** Every **finite-dimensional real Lie algebra** `L` is `Lie(G)` for some
@@ -346,7 +358,10 @@ groups. As each layer makes the next layer's *types* expressible, its milestones
 
 - **Simply-connected covers.** Every **connected** Lie group `G` has a **universal cover** `G̃` that is a
   simply-connected Lie group with a **covering homomorphism** `p : G̃ →* G` (`IsCoveringMap p`), and
-  `lieMap p : Lie(G̃) ≃ₗ⁅ℝ⁆ Lie(G)` is an **isomorphism** (a covering is a local diffeomorphism). This
+  `lieMap p : Lie(G̃) ≃ₗ⁅ℝ⁆ Lie(G)` is an **isomorphism** (a covering is a local diffeomorphism). The
+  smooth structure on the covering space and the smoothness of lifts are the
+  [differential-geometry roadmap](../../DifferentialGeometry/README.md)'s 2.3
+  (`IsCoveringMap.inducedChartedSpace`), consumed here. This
   construction (the covering space, the lifted group law, and the transported Lie-group structure) is
   **independent of Lie's third theorem** and is exactly the prerequisite Layer 4 draws on; presented here
   it is logically prior. The kernel `ker p` is a discrete central subgroup isomorphic to `π₁(G)`. So
