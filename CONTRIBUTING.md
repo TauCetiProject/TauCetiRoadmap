@@ -79,13 +79,19 @@ decisions as the interfaces and review reveal more.
    seeded by human suggestions, benefits from an AI survey of what Tau Ceti and Mathlib
    currently contain, and benefits from human checking afterwards.
 4. **Write `Suggested.lean` based on these decisions.** This can be human- or AI-written,
-   depending on preference, followed by careful human review. The roadmap's `README.md` stays
-   definitive; suggested Lean interfaces help check and communicate the design.
+   depending on preference, with human review of the intended statements and design, supported
+   by detailed AI checks. The roadmap's `README.md` stays definitive; suggested Lean interfaces
+   help check and communicate the design.
 5. **Repeatedly improve lots of fussy details.** Careful AI review can be useful here, checking
    assumptions, signatures, references, and consistency across the prose and Lean. Findings can
    also reveal a need to revisit the scope or layers.
 
 ## Reviewing a roadmap
+
+Human review is often closest to a journal's "quick opinion": is the mathematics worth
+developing, is the scope appropriate, and is the overall approach sound? AI review can do much
+of the detailed work of looking for gaps, errors, and inconsistencies in the proposed interfaces
+and dependencies.
 
 There are several important aspects of reviewing a roadmap PR. A review may address one or
 several of them, and different reviewers can contribute different expertise.
@@ -93,7 +99,7 @@ several of them, and different reviewers can contribute different expertise.
 | Aspect | Review question | What to emphasize |
 | --- | --- | --- |
 | **1. What is included** | Is this the mathematics we want in Tau Ceti? | A human subject-matter expert is key here: scope, significance, intended generality, and the needs of consumers. |
-| **2. How it is done** | Do the layers and interfaces express the intended mathematics and connect to the existing libraries? | This benefits from human Lean/Mathlib experts, but some aspects can be usefully reviewed by AI: dependencies, assumptions, definitions, and proposed APIs. |
+| **2. How it is done** | Do the layers and interfaces express the intended mathematics and connect to the existing libraries? | Human mathematical and Lean/Mathlib expertise helps assess the overall architecture and important design choices. AI review checks the proposed dependencies, assumptions, definitions, and interfaces in detail. |
 | **3. Tau Ceti format** | Does the roadmap meet the project's conventions? | The scaffold reaches the ground, nothing is optional, and nothing is slated for upstreaming to Mathlib. A careful AI can help check these against the [README's standing guidance](README.md#writing-a-roadmap). |
 | **4. Further repeated improvement of fussy details** | Are the prose, signatures, references, and examples consistent? | Careful AI review can help find details that earlier passes missed. Check the evidence for each finding; repeated passes do not by themselves establish that the mathematics or design is sound. |
 
