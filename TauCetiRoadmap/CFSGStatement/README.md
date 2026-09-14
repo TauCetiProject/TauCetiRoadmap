@@ -398,8 +398,8 @@ Frobenius of the carrier.
 | --- | --- | --- |
 | `A` | `SL_{n+1}`, the standard carrier `TauCeti.SlStd` | none |
 | `twistedA` | the same | the pinned graph automorphism `g ↦ J g^{-T} J^{-1}`, `TauCeti.SlStd.graphAutomorphismPoints`, with `J` the signed antidiagonal |
-| `B` (rank `≥ 3`) | the full-weight type-`B` spin carrier, `TauCeti.TypeBSpinCarrier` | none |
-| `B` (rank `2`), `C` | the standard symplectic carrier `TauCeti.SpStd` | none |
+| `B` | the full-weight type-`B` spin carrier, `TauCeti.TypeBSpinCarrier`, at every rank including two | none |
+| `C` | the standard symplectic carrier `TauCeti.SpStd` | none |
 | `D` | the full-weight type-`D` spin carrier, `TauCeti.TypeDSpinCarrier` | none |
 | `twistedD` | the same spin carrier | its fork-exchange graph automorphism |
 | `trialityD4` | the **tripled** `D₄` carrier: the toral closure of `8ᵥ ⊕ 8ₛ ⊕ 8꜀` inside `GL₂₄` | triality as a numbered symmetry of that carrier |
@@ -464,9 +464,12 @@ by the divided-power lowering operators, of rank `26` with a rank-two zero-weigh
 reduction modulo two is the irreducible `26`-dimensional module. The lattice fixes that summand but
 not a basis of it; the basis is part of the ordered weight basis above.
 
-These carriers coexist with the Geck carrier of the same diagram. Each is an explicit carrier
-owing its own `L5` identification, and nothing requires the two carriers of `G₂` to be identified
-with each other before either branch's `Group` is accepted.
+These carriers coexist with the Geck carrier of the same diagram, and the untwisted `B₂(q)` on
+the spin carrier coexists with the Suzuki family on the rank-two symplectic carrier. Each is an
+explicit carrier owing its own `L5` identification, and nothing requires two carriers of one
+diagram to be identified with each other before either branch's `Group` is accepted. One
+constructor, one carrier: the `B` constructor is served at every rank by the spin carrier, so that
+`ValidLieTypeIndex.Group` needs no case split on the rank inside a constructor.
 
 ### L1: ordinary and graph-twisted Steinberg maps
 
