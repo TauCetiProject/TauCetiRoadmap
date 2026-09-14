@@ -273,9 +273,12 @@ root data it starts from are `DynkinType.simplyConnectedRootDatum` in
   rank-two symplectic carrier (`TauCeti.SpStd.specialIsogeny`, done); `τ` on the short-root
   `G₂` carrier, the toral closure of the seven-dimensional module, in characteristic three; and
   `τ` on the short-root `F₄` carrier, the toral closure of the twenty-six-dimensional module, in
-  characteristic two. Each is an explicit polynomial map on matrices, realizing the carrier's
-  action on the quotient of its Lie algebra by the short-root ideal, with the pinning equations on
-  the simple root subgroups and the square relation proved by computation as for `Sp₄`.
+  characteristic two. The `G₂` and `F₄` maps are explicit polynomial maps on matrices realizing
+  the carrier's action on the quotient of its represented Chevalley Lie algebra by the short-root
+  ideal, read back in the module through a fixed identification; the `Sp₄` map is the analogous
+  action on the subquotient `ker φ ⧸ ⟨ω⟩` of the exterior square. Each comes with the pinning
+  equations on the simple root subgroups and the square relation, proved by computation or
+  structurally; the CFSG roadmap's carrier plan records the construction in detail.
 - **Explicit carriers with numbered symmetries.** The toral-closure carriers the CFSG roadmap
   designates that do not yet exist: the short-root `G₂` and `F₄` carriers above, and the tripled
   `D₄` carrier, the toral closure of `8ᵥ ⊕ 8ₛ ⊕ 8꜀` inside `GL₂₄`, carrying triality as a
