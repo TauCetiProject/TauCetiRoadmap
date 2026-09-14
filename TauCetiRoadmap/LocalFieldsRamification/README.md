@@ -65,6 +65,9 @@ pro-`p` quotient.
     - agreement of `Padic.valuation` with the normalized valuation of the next milestone;
     - `IsNonarchimedeanLocalField ℤ_[p]`-facing corollaries, that is `CompactSpace ℤ_[p]` and
       `IsAdicComplete`;
+    - `padicIntegerRingEquiv : 𝒪[ℚ_[p]] ≃+* ℤ_[p]`, characterized as the identity on underlying
+      elements of `ℚ_p`, and its uniform-space companion, compatible with the maximal ideal, all
+      of its powers, and the residue-field equivalence with `ZMod p`;
     - the same instance for a finite extension of `ℚ_[p]`, through Layer 0.III.
 - **The normalized valuation.** Define `v_K^× : Kˣ →* Multiplicative ℤ` through
   `valueGroupWithZeroIsoInt` and `WithZero.log`, and extend it across zero with `ℤᵐ⁰`. Prove the
@@ -225,6 +228,9 @@ pro-`p` quotient.
       `map_unitFiltration_le K L i : map(K → L)(U(K,i)) ≤ U(L,e(L/K) * i)`;
     - separately, the contravariant norm contract
       `map_norm_unitFiltration_psiNat_le K L i : N(U(L,ψℕ(i))) ≤ U(K,i)` from Layer 3.
+    - for `K = ℚ_p`, `padicUnitEquiv : 𝒪[ℚ_p]ˣ ≃* ℤ_pˣ` and the theorem identifying
+      `U(ℚ_p,i)` membership with divisibility of `u - 1` by `p^i`. This is the Layer 1 bridge
+      used by the concrete `ℤ_pˣ` acceptance examples.
 - **Graded pieces.** Prove `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ` by reduction, and, for `i ≥ 1`,
   `U(K,i)/U(K,i+1) ≃* 𝓀[K]⁺` through `1 + x ↦ x mod 𝓂^{i+1}`. The counts `q − 1` and `q` are
   corollaries. ⚠ The depth-zero piece is multiplicative and the deeper pieces are additive. The
@@ -651,15 +657,35 @@ pro-`p` quotient.
   The upper numbering repairs this failure.
   - *Prerequisites:* `Layer 3: the lower-numbering filtration`.
 - **The quotient embeddings.** One formula covers every level:
-  `θ_i : G_i/G_{i+1} ↪ U(L,i)/U(L,i+1)` by `σ ↦ σ(π_L)/π_L`. Prove injectivity and independence of
-  the uniformizer. Composed with the graded pieces of Layer 1 this reads `θ_0 : G_0/G_1 ↪ 𝓀[L]ˣ`,
-  the tame character, so `G_0/G_1` is cyclic of order prime to `p`; and
-  `θ_i : G_i/G_{i+1} ↪ 𝓀[L]⁺` for `i ≥ 1`, by `σ ↦ (σ(π_L) − π_L)/π_L^{i+1}`, so those quotients
-  are elementary abelian `p`-groups. Prove the consequences: `G_1` is the unique `p`-Sylow
+  `θ_i : G_i/G_{i+1} ↪ U(L,i)/U(L,i+1)` by `σ ↦ σ(π_L)/π_L`. Composed with the graded pieces of
+  Layer 1 this reads `θ_0 : G_0/G_1 ↪ 𝓀[L]ˣ`, the tame character, so `G_0/G_1` is cyclic of order
+  prime to `p`; and `θ_i : G_i/G_{i+1} ↪ 𝓀[L]⁺` for `i ≥ 1`, by
+  `σ ↦ (σ(π_L) − π_L)/π_L^{i+1}`, so those quotients are elementary abelian `p`-groups.
+
+  ⚠ The chosen uniformizer is an **argument** of each character, and the displayed formula on
+  representatives is a stated equation, not a description. Injectivity plus the conjugation law do
+  not determine the coordinate: at level zero the character is independent of the choice and that
+  independence is a theorem, but at level `i > 0` replacing `π_L` by `u π_L` multiplies `θ_i` by
+  `residue(u)^{−i}`, and that transformation rule has to be retained. Multiplying a positive-level
+  character by any nonzero residue scalar preserves injectivity and the equivariance law while
+  changing the break constant, hence the norm polynomial below. Over `k = 𝔽₄`, with `K = k((t))` and
+  `L = K(π)` for `π² + tπ + t = 0` — a separable Eisenstein quadratic, so totally ramified — the
+  nonidentity automorphism has `σ(π) = π + t`, break one, and `θ₁(σ) = residue(t/π²) = 1` since
+  `π² = t(π+1)`. Also `Tr(π) = N(π) = t`, and for `y ∈ k` one computes exactly
+  `N(1 + yπ) = 1 + (y² + y)t`, so the graded norm in these coordinates is `y ↦ y² + y`, with kernel
+  `{0,1}`. Replacing `θ₁` by `ω·θ₁` for `ω ∈ 𝔽₄ \ 𝔽₂` satisfies every displayed condition — inertia
+  here is of order two with trivial tame quotient — but gives constant `ω` and polynomial
+  `y ↦ y² + ωy`, with kernel `{0, ω}`. That is not the actual norm in the fixed coordinates. Prove the consequences: `G_1` is the unique `p`-Sylow
   subgroup of `G_0` and is normal, which is wild inertia at finite level; and `G_0` has the cyclic
-  tame quotient `G_0/G_1`. Prove the action formula: for `σ ∈ G_0` and `τ ∈ G_i/G_{i+1}`,
-  `στσ⁻¹ = θ_0(σ)^i · τ`. This is the finite-level form of the twist in the tame sequence of Layer
-  4, and `θ_t` is the constant in the norm computation below.
+  tame quotient `G_0/G_1`. Define the conjugation action of `G_0` on each quotient and prove the
+  transported action formula: for `σ ∈ G_0` and `τ ∈ G_i/G_{i+1}`,
+  `θ_i(στσ⁻¹) = θ_0(σ mod G_1)^i · θ_i(τ)`. Both sides now lie in the same residue graded piece;
+  no scalar action on the ramification quotient is silently assumed. Pin the convention by a
+  defining equation on quotient representatives and state the identity and multiplication laws,
+  so this is genuinely an action rather than a family of unrelated endomorphisms. For `i > 0`,
+  prove that
+  `θ_i(τ) ≠ 0` when `τ ≠ 1`, and package its resulting coercion to `𝓀[L]ˣ` as the constant used
+  in the norm computation below.
   - *Prerequisites:*
     - `Layer 3: the lower-numbering filtration`;
     - `Layer 1: graded pieces`.
@@ -761,8 +787,19 @@ pro-`p` quotient.
        `ℓ`, by `ℓ ∣ q − 1`;
      - `v = 0 < t`, so `ℓ = p`: `y ↦ y^p` on `𝓀ˣ`, the Frobenius of a finite field, bijective;
      - `0 < v < t`, which again forces `ℓ = p`: `y ↦ y^p` on `𝓀⁺`, Frobenius again, bijective;
-     - `v = t > 0`: the additive map `y ↦ y^ℓ − c^{ℓ−1}·y` on `𝓀⁺`, where `c = θ_t(σ) ∈ 𝓀ˣ` is the
-       value at a generator `σ` of `G` of the level-`t` embedding `θ_t` above. The map is
+     - `v = t > 0`: the additive map `y ↦ y^ℓ − c^{ℓ−1}·y` on the base graded piece `𝓀[K]⁺`.
+       Start with the nonzero value `θ_t(σ mod G_{t+1}) ∈ 𝓀[L]` at a generator `σ` of `G`,
+       use the residue-field equivalence supplied by total ramification, and transport it to
+       `c ∈ 𝓀[K]ˣ`. The nonzero lemma and both named transports are part of the quotient-embedding
+       API above. ⚠ Two identifications have to be stated, not merely named. The residue-field
+       equivalence must be identified with the canonical `𝓀[K] → 𝓀[L]` induced by the valuative
+       extension, or defined from the proved bijectivity of that map: for a residue field such as
+       `𝔽₄`, composing with the nontrivial Frobenius is another equivalence of exactly the same
+       type, and applying its inverse transports the constant to a different element. And the
+       polynomial itself must be a stated target relating `gr_t N`, in the depth-`t` unit-quotient
+       coordinates, to `y ↦ y^ℓ − c^{ℓ−1}·y` with this actual `c`. Kernel and cokernel orders do not
+       pin it down: they are unchanged by rescaling the positive-level character, which is exactly
+       what changes `c`. The map is
        `𝔽_ℓ`-linear, with kernel the line `𝔽_ℓ·c` and cokernel of order `ℓ`.
 
      ⚠ The exponent on `c` is not a slip. The element `c` changes when the generator `σ` changes,
@@ -1044,10 +1081,16 @@ used by no milestone here.
 ## Worked examples
 
 The acceptance suite includes `ℚ_2`, its unramified quadratic extension, the totally ramified
-quadratic extension generated by `√2`, and the dyadic cyclotomic tower generated by `μ_8`.
+quadratic extension generated by `√2`, the dyadic cyclotomic tower generated by `μ_8`, and the
+named Eisenstein extension `Q3Sqrt3 = ℚ_3(√3)`.
 These examples must exercise normalization, norm groups, lower and upper numbering, and the
 tame quotient; they are regression tests for conventions rather than substitutes for the
 generic theorems.
+
+The last field supplies the promised tame norm-filtration rejection test. For `u = 4`, total
+ramification gives `v_L(u - 1) = v_L(3) = 2`, so
+`u ∈ U(L,2)`, while `N_{L/ℚ_3}(u) = 16` and `v_3(16 - 1) = 1`, so the norm is not in
+`U(ℚ_3,2)`. This is the explicit counterexample to the unshifted inclusion cited in Layer 3.
 
 ## Dependency order
 
