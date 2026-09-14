@@ -268,7 +268,21 @@ root data it starts from are `DynkinType.simplyConnectedRootDatum` in
 - **Special isogenies in characteristics two and three.** For `B₂`/`C₂` and `F₄` in
   characteristic two and `G₂` in characteristic three, the exceptional isogeny `τ` with
   `τ² = Frob_p`, together with its action on the long and short root subgroups. This is a
-  statement about group schemes and belongs here rather than in any consumer.
+  statement about group schemes and belongs here rather than in any consumer. On the explicit
+  carriers the CFSG roadmap's carrier plan designates, the three targets are: `τ` on the
+  rank-two symplectic carrier (`TauCeti.SpStd.specialIsogeny`, done); `τ` on the short-root
+  `G₂` carrier, the toral closure of the seven-dimensional module, in characteristic three; and
+  `τ` on the short-root `F₄` carrier, the toral closure of the twenty-six-dimensional module, in
+  characteristic two. Each is an explicit polynomial map on matrices, realizing the carrier's
+  action on the quotient of its Lie algebra by the short-root ideal, with the pinning equations on
+  the simple root subgroups and the square relation proved by computation as for `Sp₄`.
+- **Explicit carriers with numbered symmetries.** The toral-closure carriers the CFSG roadmap
+  designates that do not yet exist: the short-root `G₂` and `F₄` carriers above, and the tripled
+  `D₄` carrier, the toral closure of `8ᵥ ⊕ 8ₛ ⊕ 8꜀` inside `GL₂₄`, carrying triality as a
+  numbered symmetry the way the doubled `E₆` carrier carries its graph automorphism. Each comes
+  with its numbered simple root subgroups, weight torus, pinning equations against
+  `DynkinType.simplyConnectedRootDatum`, Frobenius, and the span statement that its weights
+  generate the full character lattice.
 
 ---
 

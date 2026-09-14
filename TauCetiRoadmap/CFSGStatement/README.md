@@ -379,6 +379,65 @@ Neither carrier may be a group chosen from an existence or classification theore
 carrier is not licensed to skip the root-subgroup data: a matrix group with no named
 `simpleRootSubgroup` and no pinning equations for its `steinberg` is a placeholder, not a carrier.
 
+#### The carrier plan
+
+So that no branch waits on a design decision, the carrier of every constructor is fixed here. Each
+is an explicit carrier under the rule above, built by the Kostant toral-closure construction from
+explicit integral matrices for the Chevalley generators on a stated weight diagram, unless it is a
+classical matrix group. "Ingredients" lists what the branch's `steinberg` needs beyond the
+Frobenius of the carrier.
+
+| Constructor | Carrier | Ingredients for `steinberg` |
+| --- | --- | --- |
+| `A`, `twistedA` | `SL_{n+1}` | the transpose-inverse graph automorphism |
+| `B` (rank `≥ 3`) | the full-weight type-`B` spin carrier, `TauCeti.TypeBSpinCarrier` | none |
+| `B` (rank `2`), `C` | the standard symplectic carrier `TauCeti.SpStd` | none |
+| `D` | the full-weight type-`D` spin carrier, `TauCeti.TypeDSpinCarrier` | none |
+| `twistedD` | the same spin carrier | its fork-exchange graph automorphism |
+| `trialityD4` | the **tripled** `D₄` carrier: the toral closure of `8ᵥ ⊕ 8ₛ ⊕ 8꜀` inside `GL₂₄` | triality as a numbered symmetry of that carrier |
+| `E6` | the `27`-dimensional minuscule carrier | none |
+| `twistedE6` | the doubled minuscule carrier `V(ϖ₁) ⊕ V(ϖ₆)` inside `GL₅₄` | its graph automorphism |
+| `E7` | the `56`-dimensional minuscule carrier | none |
+| `E8`, `F4`, `G2` | the Geck carrier, whose adjoint module is full-weight in exactly these types | none |
+| `suzuki` | `TauCeti.SpStd` at rank two | the special isogeny of `Sp₄` in characteristic two |
+| `reeG2` | the **short-root** `G₂` carrier: the toral closure of the `7`-dimensional module `V(ϖ₁)` | the special isogeny of that carrier in characteristic three |
+| `reeF4`, `tits` | the **short-root** `F₄` carrier: the toral closure of the `26`-dimensional module `V(ϖ₄)` | the special isogeny of that carrier in characteristic two |
+
+Two decisions in this table are deliberate and are not to be reopened inside a pull request.
+
+The spin carrier cannot serve `³D₄(q)`: triality permutes the three eight-dimensional
+representations of `D₄`, so no one of them, and neither the full spin module `8ₛ ⊕ 8꜀`, is stable
+under it. The tripled carrier is the smallest full-weight module that is, and triality acts on it
+by a signed permutation of the weight basis, which is exactly the numbered-symmetry mechanism that
+already produces the graph automorphism of the doubled `E₆` carrier. The Geck carrier of `D₄`
+carries triality too, but its character lattice is the root lattice, index four in the weight
+lattice, so it is not simply connected and `L5` could not be discharged for it.
+
+The Ree and Tits branches do not use the Geck carrier, although it is full-weight for `G₂` and
+`F₄`, because the special isogeny has no usable matrix formula on the adjoint module: the pullback
+of the adjoint representation along `τ` has weights `{long roots} ∪ p·{short roots} ∪ {0}`, which
+is not the weight multiset of any representation of the carrier without a Frobenius twist. On the
+short-root module it does: `τ^*` carries the short roots to the long ones, so `V(ϖ₁) ∘ τ` for `G₂`
+in characteristic three, and `V(ϖ₄) ∘ τ` for `F₄` in characteristic two, is the representation of
+the carrier on the quotient of its Lie algebra by the short-root ideal, the ideal spanned by the
+short root vectors and the short coroots that exists in exactly those characteristics. So `τ` is
+the composite of that quotient action with the identification of the quotient's weight basis with
+the module's own, and it has an explicit polynomial formula in the matrix entries, as
+`Matrix.symplecticSpecialIsogeny` has for `Sp₄`, where the same construction reads as `2 × 2`
+minors on `Λ² R⁴ ⧸ ⟨ω⟩`. That file and `TauCeti.SpStd.specialIsogeny` are the model: determine
+the formula, check the pinning equations and the square relation numerically on the generators
+over `𝔽_p` before formalizing anything, and then prove exactly those equations.
+
+The short-root modules are full-weight because the short roots of `G₂` and of `F₄` generate the
+root lattice, which is the weight lattice in both types. `V(ϖ₄)` of `F₄` has a two-dimensional zero
+weight space; its integral form is the admissible lattice generated from the highest weight vector
+by the divided-power lowering operators, as for the minuscule carriers, and the two zero-weight
+basis vectors are the ones that lattice provides.
+
+These carriers coexist with the Geck carrier of the same diagram. Each is an explicit carrier
+owing its own `L5` identification, and nothing requires the two carriers of `G₂` to be identified
+with each other before either branch's `Group` is accepted.
+
 ### L1: ordinary and graph-twisted Steinberg maps
 
 Let `Frob_q` be the endomorphism induced on points by `x ↦ x ^ d.fieldOrder` on the algebraic
