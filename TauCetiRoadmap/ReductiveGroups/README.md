@@ -271,9 +271,13 @@ root data it starts from are `DynkinType.simplyConnectedRootDatum` in
   statement about group schemes and belongs here rather than in any consumer. On the explicit
   carriers the CFSG roadmap's carrier plan designates, the three targets are: `τ` on the
   rank-two symplectic carrier (`TauCeti.SpStd.specialIsogeny`, done); `τ` on the short-root
-  `G₂` carrier, the toral closure of the seven-dimensional module, in characteristic three; and
-  `τ` on the short-root `F₄` carrier, the toral closure of the twenty-six-dimensional module, in
-  characteristic two. The `G₂` and `F₄` maps are explicit polynomial maps on matrices realizing
+  `G₂` carrier over `𝔽₃`, the closed subgroup scheme of `GL₇` generated over `𝔽₃` by the reduced
+  root subgroups and torus of the toral closure of the seven-dimensional module, in characteristic
+  three; and `τ` on the short-root `F₄` carrier over `𝔽₂`, generated the same way inside `GL₂₆`
+  from the toral closure of the twenty-six-dimensional module, in characteristic two. The prime
+  field is the base because the isogeny exists only there and the restriction argument needs the
+  generated subgroup scheme's defining ideal to be maximal over that base; the CFSG roadmap's
+  carrier plan records the reason. The `G₂` and `F₄` maps are explicit polynomial maps on matrices realizing
   the carrier's action on the quotient of its represented Chevalley Lie algebra by the short-root
   ideal, read back in the module through a fixed identification; the `Sp₄` map is the analogous
   action on the subquotient `ker φ ⧸ ⟨ω⟩` of the exterior square. Each comes with the pinning
