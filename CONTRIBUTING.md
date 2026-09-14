@@ -82,9 +82,10 @@ decisions as the interfaces and review reveal more.
    depending on preference, with human review of the intended statements and design, supported
    by detailed AI checks. The roadmap's `README.md` stays definitive; suggested Lean interfaces
    help check and communicate the design.
-5. **Repeatedly improve lots of fussy details.** Careful AI review can be useful here, checking
-   assumptions, signatures, references, and consistency across the prose and Lean. Findings can
-   also reveal a need to revisit the scope or layers.
+5. **Revise through repeated detailed review.** Careful AI review can help find mathematical
+   errors, missing prerequisites, unjustified connections, and incorrect hypotheses, as well as
+   checking signatures, references, and consistency across the prose and Lean. Findings can
+   reveal a need to revisit the scope or layers.
 
 ## Reviewing a roadmap
 
@@ -95,13 +96,16 @@ and dependencies.
 
 There are several important aspects of reviewing a roadmap PR. A review may address one or
 several of them, and different reviewers can contribute different expertise.
+A human reviewer can give a useful assessment of the scope and overall approach without
+independently repeating every detailed check; the review should make clear which aspects they
+assessed.
 
 | Aspect | Review question | What to emphasize |
 | --- | --- | --- |
 | **1. What is included** | Is this the mathematics we want in Tau Ceti? | A human subject-matter expert is key here: scope, significance, intended generality, and the needs of consumers. |
 | **2. How it is done** | Do the layers and interfaces express the intended mathematics and connect to the existing libraries? | Human mathematical and Lean/Mathlib expertise helps assess the overall architecture and important design choices. AI review checks the proposed dependencies, assumptions, definitions, and interfaces in detail. |
 | **3. Tau Ceti format** | Does the roadmap meet the project's conventions? | The scaffold reaches the ground, nothing is optional, and nothing is slated for upstreaming to Mathlib. A careful AI can help check these against the [README's standing guidance](README.md#writing-a-roadmap). |
-| **4. Further repeated improvement of fussy details** | Are the prose, signatures, references, and examples consistent? | Careful AI review can help find details that earlier passes missed. Check the evidence for each finding; repeated passes do not by themselves establish that the mathematics or design is sound. |
+| **4. Repeated detailed review** | Are there mathematical errors or gaps, and are the prose, signatures, references, and examples consistent? | Careful AI review can help find errors and gaps that earlier passes missed, as well as inconsistencies in the details. Check the evidence for each finding; repeated passes do not by themselves establish that the mathematics or design is sound. |
 
 When reporting a review, say what you checked and what remains outside its scope. For example,
 checking that `Suggested.lean` compiles is useful evidence about the interfaces, but does not
