@@ -249,8 +249,9 @@ A name that describes the carrier or the construction instead, such as `minuscul
 `CarrierFixedPointQuotient`, is not an acceptable substitute. It hides the branch from the by-cases
 assembly of A0, and the caveat it is trying to express belongs in a docstring. The docstring of
 every `Group` says that no finiteness or simplicity assertion is part of the definition, and, on an
-explicit carrier, the module docstring carries the L5 statement described under L0. A construction
-on an explicit carrier with these declarations and that statement **is** L0 to L3 for its family,
+explicit carrier, the module docstring carries the mathematical caveat described under L0. A
+construction on an explicit carrier with these declarations and that caveat **is** L0 to L3 for its
+family,
 and a review that asks for a different name, or for the pinned scheme before accepting it, is
 asking for something this roadmap does not require.
 
@@ -368,12 +369,15 @@ and it uses the same four names.
 
 What an explicit carrier does not settle is that it is the pinned group. Every explicit carrier
 therefore creates the obligation, milestone `L5` below, to prove that it agrees with the pinned
-Chevalley--Demazure points once Layer 9 provides them. A file introducing an explicit carrier says
-so in its module docstring: that the carrier discharges L0 for its family, that its L5 agreement
-with the pinned group remains outstanding, and that constructions on it transfer to the pinned
-carrier along the L5 identification and not before. It does not say that the carrier fails to close
-L0, because under this rule it does not fail. That statement is a docstring, not a name: the
-declarations are still `AmbientGroup`, `steinberg`, `FixedPoints`, and `Group`.
+Chevalley--Demazure points once Layer 9 provides them. A file introducing an explicit carrier
+states the mathematical limitation in its module docstring: that the carrier is not identified with
+the pinned simply connected group scheme of its diagram, and that constructions on it transfer to
+that pinned group only along such an identification, once one is proved. It does not name
+milestones, cite this roadmap, or say the carrier fails to close L0: milestone attribution belongs
+in the pull request description, where the `Roadmap:` line records it, and the documentation rubric
+of TauCetiReview keeps roadmap status out of the source, where nothing would update it. That
+statement is a docstring, not a name: the declarations are still `AmbientGroup`, `steinberg`,
+`FixedPoints`, and `Group`.
 
 Neither carrier may be a group chosen from an existence or classification theorem, and an explicit
 carrier is not licensed to skip the root-subgroup data: a matrix group with no named
