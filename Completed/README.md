@@ -23,3 +23,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-08-16)
 - [Contour integration and the Hungerbühler–Wasem generalized residue theorem](ContourIntegration/README.md)
   (declared complete 2026-08-29)
+- [Integral lattices, discriminant forms, and overlattices](IntegralLattices/README.md)
+  (declared complete 2026-09-09)
