@@ -187,19 +187,26 @@ Deduce that these two sets are independent of the chosen maximum flow.
 Prove the undirected **non-crossing lemma** as a separate target: if `S` is one side of a minimum `s–t` cut and distinct vertices `u, v` both lie in `S`, there exists a minimum `u–v` cut with one side contained in `S`.
 Include the cut identities and uncrossing inequalities needed to choose such a cut without changing its capacity.
 The proof uses only submodularity and the symmetry of the undirected cut function (its posimodularity); it needs no flows, and it fails for directed cut capacities, so do not attempt a directed version.
-This is the interface used by the cut-tree milestone.
-Submodularity, the lattice, and the non-crossing lemma rest on Milestone 1 alone; Milestone 3 enters this milestone only for the residual characterization of the canonical cuts.
+
+Extend it to families with two further targets.
+**Uncrossing preserves laminarity:** if a vertex set `Z` crosses `X` (all four of `Z ∩ X`, `Z ∖ X`, `X ∖ Z`, and the complement of `Z ∪ X` are nonempty), then `Z ∩ X` and `Z ∪ X` are each nested with or disjoint from every set that is nested with or disjoint from both `Z` and `X`.
+**Multi-cut non-crossing lemma:** for a laminar family of cuts, each a minimum cut for a designated pair of vertices, and distinct vertices `s, t` separated by none of them, there is a minimum `s–t` cut crossing none of them.
+Applying the single-cut lemma to one crossed member at a time is not enough on its own, since uncrossing against one cut can create a crossing with another; the laminarity lemma shows the number of crossed members strictly decreases, which is what makes the induction go through.
+Prove also the **ultrametric inequality** for minimum cut capacities, `λ(s,t) ≥ min (λ(s,v), λ(v,t))`, since every `s–t` cut separates `s` from `v` or `v` from `t`.
+These are the interface used by the cut-tree milestone.
+Submodularity, the lattice, and the non-crossing lemmas rest on Milestone 1 alone; Milestone 3 enters this milestone only for the residual characterization of the canonical cuts.
 
 ## 5. Menger's theorem
 
-Prove the following maximum-packing/minimum-separator equalities, with attainment on both sides:
+State every Menger theorem in **witness form**, since this roadmap introduces no numerical maxima or minima: there exist a family of `k` pairwise disjoint paths and a separator of size `k`, for some `k`, and every family of disjoint paths is no larger than every separator.
+The two statements together are the equality of optima with attainment on both sides.
 
-- **Local edge Menger:** for distinct terminals, the maximum number of edge-disjoint paths equals the minimum number of edges whose deletion destroys terminal reachability.
+- **Local edge Menger:** for distinct terminals `s, t`, a family of pairwise edge-disjoint `s–t` paths and a set of edges whose deletion destroys `s–t` reachability, of the same size, together with the inequality between any family and any such edge set.
   Give directed and undirected versions.
-- **Local vertex Menger:** for distinct nonadjacent terminals, the maximum number of internally vertex-disjoint paths equals the minimum size of a terminal-excluding vertex separator.
+- **Local vertex Menger:** for distinct nonadjacent terminals, the same with internally vertex-disjoint paths and terminal-excluding vertex separators.
   Give directed and undirected versions with the adjacency convention above.
-- **Adjacent terminals in a simple graph:** the maximum number of internally vertex-disjoint `s–t` paths is one plus the minimum size of an `s–t` vertex separator after deleting the edge `{s,t}`.
-- **Set-to-set Menger:** give directed and undirected vertex versions with the overlap convention above, and edge versions for disjoint terminal sets.
+- **Adjacent terminals in a simple graph:** `k` internally vertex-disjoint `s–t` paths and a set of `k − 1` vertices separating `s` from `t` after deleting the edge `{s,t}`, for some `k`, together with the inequality.
+- **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the overlap convention above, in directed and undirected versions; and edge versions for disjoint terminal sets.
 
 Use integral max-flow with unit capacities, vertex splitting, and auxiliary terminals, and prove the correspondence in each direction.
 In the undirected edge reduction, cancel flow in opposite directions before extracting paths so that a single undirected edge cannot be used twice.
@@ -293,17 +300,23 @@ The tree need not be a subgraph of the original graph.
 Disconnected graphs and zero capacities are included, with zero-weight tree edges; a singleton has the one-vertex tree.
 
 Develop the weighted-tree API needed for these statements: unique paths, fundamental partitions, minimum weights on nonempty paths, and transport under vertex equivalences.
-The intended proof is the contraction-free one behind **Gusfield's method**: process the vertices in some order, and for each new vertex take a minimum cut separating it from its current tree neighbour, chosen by the non-crossing lemma so that it does not cross the cuts already fixed; the tree is then rewired on that neighbour's side.
-As an existence proof this needs a minimum cut at each step, which finiteness of the vertex type supplies, together with submodularity and the non-crossing lemma from Milestone 4; it uses no flows and no graph contraction.
-State the invariant maintained by the recursion (each fixed tree edge is a minimum cut for its endpoints, and every later cut lies inside one side of every earlier cut) as a named lemma, since it carries the whole correctness argument.
+The intended proof is Gomory and Hu's construction with its contraction step replaced by the multi-cut non-crossing lemma.
+Maintain a laminar family of chosen minimum cuts, whose cells (the nonempty intersections of one side of each chosen cut) are the supernodes, and a tree on the supernodes whose edges correspond to the chosen cuts.
+While some supernode contains two vertices `s, t`, take a minimum `s–t` cut crossing no chosen cut, which the multi-cut lemma supplies, split the supernode by it, and attach each neighbouring subtree to the part on its own side of the new cut.
+The **invariant** is that the family stays laminar and that every tree edge is one of the chosen cuts and a minimum cut for some pair of vertices taken from the two supernodes it joins.
+Preserving the second half needs a witness repair when the split moves the witness vertex away from the part a subtree is attached to; Korte and Vygen's proof of the Gomory–Hu theorem shows the cut is then also a minimum cut for a pair using `s` or `t`, by the ultrametric inequality.
+State the invariant as a named lemma, since it carries the whole correctness argument.
+When every supernode is a singleton, property 2 is the invariant, and property 1 follows from property 2 and the ultrametric inequality.
+As an existence proof this needs a minimum cut at each step, which finiteness of the vertex type supplies, together with submodularity and the non-crossing lemmas of Milestone 4; it uses no flows and no graph contraction.
+Gusfield's paper gives the same construction as an algorithm on the original graph, with the rewiring written out explicitly.
 
 ## 10. Bridge to Mathlib's `Graph`
 
-Mathlib's multigraph type `Graph α β` carries loops and parallel edges, and the surface topology roadmap states its 3-connectivity results on it.
-Using `Graph.toSimpleGraph` and `Graph.ofSimpleGraph`, prove that reachability and the vertex-connectivity predicates transport along the underlying simple graph, including compatibility with vertex deletion and induced subgraphs.
-Since `Graph.toSimpleGraph G` has carrier `V(G)`, these statements include the required subtype equivalences.
-Forgetting loops and parallel edges preserves vertex connectivity; it does not preserve edge connectivity, and the bridge states this limit.
-Nothing in Milestones 1–9 consumes this milestone; it exists so that a consumer working on `Graph` reads `k`-vertex-connectivity as `IsVertexConnected k` of the underlying simple graph and inherits Menger's theorem through the transport lemmas.
+Mathlib's multigraph type `Graph α β` carries loops and parallel edges but has no walks, reachability, or connectivity predicates, and the surface topology roadmap states its 3-connectivity results on it.
+Define reachability, `k`-vertex-reachability, and `k`-vertex-connectivity of a `Graph` as those of `Graph.toSimpleGraph`, whose carrier is `V(G)`; loops and parallel edges never change reachability, so these definitions lose nothing.
+Prove compatibility with vertex deletion and induced subgraphs, with the subtype equivalences this requires, and the round trip with `Graph.ofSimpleGraph`.
+Edge connectivity is not defined on `Graph` here: parallel edges change it, and no consumer needs it.
+Nothing in Milestones 1–9 consumes this milestone; it exists so that a consumer working on `Graph` reads `k`-vertex-connectivity as `IsVertexConnected k` of the underlying simple graph and inherits Menger's theorem through these definitions.
 
 ## Examples and scope boundaries
 
@@ -326,5 +339,6 @@ General matching theory beyond the bipartite consequences above, min-cost and mu
 
 - Reinhard Diestel, *Graph Theory*, Chapter 3, for connectivity, Menger, blocks, fans, and ears; see the [author's book site](https://diestel-graph-theory.com/).
 - Alexander Schrijver, *Combinatorial Optimization: Polyhedra and Efficiency*, Volume A, for flows, cuts, disjoint paths, circulations, and cut trees; see the [author's book page](https://homepages.cwi.nl/~lex/co/).
+- Bernhard Korte and Jens Vygen, *Combinatorial Optimization: Theory and Algorithms*, Section 8.6, for the Gomory–Hu construction and the witness-repair step of its correctness proof.
 - Jørgen Bang-Jensen and Gregory Gutin, *Digraphs: Theory, Algorithms and Applications*, for directed connectivity, directed ears, and network flows; see the [second edition](https://doi.org/10.1007/978-1-84800-998-1).
 - Dan Gusfield, [*Very Simple Methods for All Pairs Network Flow Analysis*](https://doi.org/10.1137/0219009), SIAM Journal on Computing 19 (1990), 143–155, for the contraction-free cut-tree construction.

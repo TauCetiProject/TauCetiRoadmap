@@ -107,10 +107,17 @@ theorem Network.exists_flow_cut_value_eq (hst : s ≠ t) :
     ∃ (f : N.Flow s t) (S : Finset V), s ∈ S ∧ t ∉ S ∧ f.value = N.cutCapacity S := by
   sorry
 
-/-- The optimality certificates: a flow is maximum iff it has no augmenting path iff some cut
-attains its value. -/
-theorem Network.Flow.isMax_iff (f : N.Flow s t) :
+/-- First optimality certificate: a flow is maximum iff it has no augmenting path. The
+hypothesis `s ≠ t` is needed: for `s = t` every flow has value zero, so every flow is maximum,
+while `s` is trivially reachable from itself. -/
+theorem Network.Flow.isMax_iff_not_hasAugmentingPath (hst : s ≠ t) (f : N.Flow s t) :
     (∀ g : N.Flow s t, g.value ≤ f.value) ↔ ¬ f.HasAugmentingPath := by
+  sorry
+
+/-- Second optimality certificate: a flow is maximum iff some cut attains its value. -/
+theorem Network.Flow.isMax_iff_exists_cut (hst : s ≠ t) (f : N.Flow s t) :
+    (∀ g : N.Flow s t, g.value ≤ f.value) ↔
+      ∃ S : Finset V, s ∈ S ∧ t ∉ S ∧ f.value = N.cutCapacity S := by
   sorry
 
 /-- Integrality: natural-number capacities admit a natural-number-valued maximum flow. -/
@@ -121,11 +128,13 @@ theorem Network.exists_integral_max_flow (hst : s ≠ t)
   sorry
 
 open Classical in
-/-- The smallest minimum-cut source side is the set of vertices reachable from `s` along
-residual arrows of positive capacity, for any maximum flow. -/
-theorem Network.Flow.residualReachable_isMinCut (f : N.Flow s t)
+/-- For any maximum flow, the vertices reachable from `s` along residual arrows of positive
+capacity form a minimum-cut source side, and it is contained in every minimum-cut source side. -/
+theorem Network.Flow.residualReachable_isMinCut (hst : s ≠ t) (f : N.Flow s t)
     (hf : ∀ g : N.Flow s t, g.value ≤ f.value) :
-    N.cutCapacity (univ.filter fun v => (N.residual f).positivePart.Reachable s v) = f.value := by
+    N.cutCapacity (univ.filter fun v => (N.residual f).positivePart.Reachable s v) = f.value ∧
+      ∀ S : Finset V, s ∈ S → t ∉ S → (N.cutCapacity S : ℝ) = f.value →
+        (univ.filter fun v => (N.residual f).positivePart.Reachable s v) ⊆ S := by
   sorry
 
 /-- A circulation with lower bounds `lo` and upper bounds `N.cap`, conserved at every vertex. -/
@@ -166,6 +175,15 @@ def InternallyDisjoint {s t : V} (p q : G.Walk s t) : Prop :=
 /-- Two walks are edge-disjoint if no unordered edge lies on both. -/
 def EdgeDisjoint {s t : V} (p q : G.Walk s t) : Prop :=
   ∀ e ∈ p.edges, e ∉ q.edges
+
+/-- Local vertex Menger in witness form: a path family and a separator of the same size. The
+inequality between any family and any separator is a separate, easier target. -/
+theorem exists_paths_separator_card_eq [Finite V] {s t : V} (hst : s ≠ t) (hadj : ¬ G.Adj s t) :
+    ∃ (k : ℕ) (P : Fin k → G.Walk s t) (X : Set V),
+      Function.Injective P ∧ (∀ i, (P i).IsPath) ∧
+        (Pairwise fun i j => InternallyDisjoint G (P i) (P j)) ∧
+      X.ncard = k ∧ ∃ (hs : s ∉ X) (ht : t ∉ X), ¬ (G.induce Xᶜ).Reachable ⟨s, hs⟩ ⟨t, ht⟩ := by
+  sorry
 
 /-- Local vertex Menger, predicate form, for nonadjacent terminals. -/
 theorem isVertexReachable_iff_exists_paths [Finite V] {s t : V} (hst : s ≠ t)
