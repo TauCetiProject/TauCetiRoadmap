@@ -15,15 +15,16 @@ All graphs and networks in the theorem targets are finite.
 
 | Milestone | Main results | Depends on |
 | --- | --- | --- |
-| 1. Shared foundations | Cuts, separators, disjoint path families, orientations, and representation bridges | Existing Mathlib graph APIs |
+| 1. Shared foundations | Cuts, separators, disjoint path families, orientations, and network constructions | Existing Mathlib graph APIs |
 | 2. Blocks | Bridge and articulation criteria; block–cut forest | 1 |
 | 3. Flows | Residual augmentation, flow decomposition, max-flow/min-cut, integrality | 1 |
-| 4. Minimum cuts | Submodularity, minimum-cut lattice, canonical cuts, non-crossing lemma | 3 |
+| 4. Minimum cuts | Submodularity, minimum-cut lattice, non-crossing lemma (1); canonical cuts (3) | 1, 3 |
 | 5. Menger | Directed and undirected path–separator duality | 1, 3 |
-| 6. Connectivity and matching consequences | Whitney inequalities and cycle criteria, fans, Dirac's cycle theorem, Kőnig and Hall | 2, 5 |
+| 6. Connectivity and matching consequences | Whitney inequalities and cycle criteria, preservation lemmas, fans, Dirac's cycle theorem, Kőnig and Hall | 2, 5 |
 | 7. Ears and orientations | Undirected and directed ear decompositions; Robbins' theorem | 2, 6 |
 | 8. Circulations | Hoffman, prescribed supplies and demands, integral feasibility | 3 |
 | 9. Cut trees | Gomory–Hu, including recovery of minimum cuts | 4 |
+| 10. Bridge to `Graph` | Transport of reachability and vertex connectivity to Mathlib's multigraph type | 1, 5 |
 
 Each milestone includes the elementary lemmas needed to use its definitions: constructors, extensionality where appropriate, membership and support lemmas, monotonicity, restriction, and invariance under isomorphism.
 The targets below specify the additional API particular to each object.
@@ -132,9 +133,6 @@ Build and verify the representation changes used throughout the roadmap:
 - **Vertex splitting:** replace each vertex by an entrance and exit joined by a capacity-constrained arrow, with precise lifting and projection of paths, flows, and separators.
 - **Auxiliary terminals:** add a fresh source and sink on a sum type, with path and cut correspondences for terminal sets.
   Use explicit finite capacity bounds for auxiliary arrows rather than an infinite-capacity symbol.
-- **`Graph` and `SimpleGraph`:** use `Graph.toSimpleGraph` and `Graph.ofSimpleGraph`, and prove reachability and vertex-connectivity transport, including compatibility with vertex deletion and induced subgraphs.
-  Since `Graph.toSimpleGraph G` has carrier `V(G)`, these statements include the required subtype equivalences.
-  Forgetting loops and parallel edges preserves vertex connectivity; it does not preserve edge connectivity.
 
 For the deletion predicates, supply threshold monotonicity, graph monotonicity on a fixed carrier, isomorphism invariance, the zero and one cases, and the relationship between local and global statements.
 
@@ -185,7 +183,8 @@ Deduce that these two sets are independent of the chosen maximum flow.
 
 Prove the undirected **non-crossing lemma** as a separate target: if `S` is one side of a minimum `s–t` cut and distinct vertices `u, v` both lie in `S`, there exists a minimum `u–v` cut with one side contained in `S`.
 Include the cut identities and uncrossing inequalities needed to choose such a cut without changing its capacity.
-This is the interface used by the cut-tree construction.
+The proof uses only submodularity and the symmetry of the undirected cut function (its posimodularity); it needs no flows, and it fails for directed cut capacities, so do not attempt a directed version.
+This is the interface used by the cut-tree milestone, which therefore depends on flows only through nothing: submodularity, the lattice, and the non-crossing lemma rest on Milestone 1 alone, and Milestone 3 enters this milestone only for the residual characterization of the canonical cuts.
 
 ## 5. Menger's theorem
 
@@ -212,20 +211,19 @@ Prove these consequences in the existing graph vocabulary:
 - **Whitney inequalities:** `G.IsVertexConnected k` implies `G.IsEdgeConnected k`; for `[Nontrivial V]`, `G.IsEdgeConnected k` implies `k ≤ G.minDegree`.
 - **Common-cycle characterizations:** for a connected simple graph with at least three vertices, each of the following is equivalent to 2-vertex-connectivity: every two distinct vertices lie on a common cycle; every two distinct edges lie on a common cycle.
   Relate the blocks with at least three vertices from Milestone 2 to maximal 2-vertex-connected induced subgraphs.
+- **Preservation lemmas:** deleting `m < k` vertices from a `k`-vertex-connected graph leaves a `(k − m)`-vertex-connected graph; adjoining a new vertex adjacent to at least `k` vertices of a `k`-vertex-connected graph gives a `k`-vertex-connected graph; adding edges preserves `k`-vertex- and `k`-edge-connectivity.
+  The proofs of the fan lemma and Dirac's theorem below use the first two.
 - **Fan lemma:** in a `k`-vertex-connected graph, a vertex `x` outside a set `U` with at least `k` vertices has `k` paths to distinct vertices of `U`, with interiors outside `U` and pairwise intersection exactly `{x}`.
 - **Dirac's prescribed-vertex cycle theorem:** for `k ≥ 2`, every set of `k` vertices in a `k`-vertex-connected graph lies on a cycle.
   No cyclic order of those vertices is prescribed.
 - **Kőnig's theorem:** in a finite bipartite graph, there exist a matching and a vertex cover of equal size, and every maximum matching has the same number of edges as every minimum vertex cover has vertices.
   Use `SimpleGraph.Subgraph.IsMatching`, `SimpleGraph.IsVertexCover`, and the extremality interfaces of Mathlib proposal #33032.
   Build their missing finite API here, including attainment, the matching–cover inequality, and the flow construction that recovers witnesses.
-  For bipartition `L, R`, use unit capacities from the source to `L` and from `R` to the sink, and capacity `|V| + 1` on graph edges directed from `L` to `R`.
+  For bipartition `L, R`, use unit capacities from the source to `L` and from `R` to the sink, and capacity `|L| + 1` on graph edges directed from `L` to `R`, so that no such edge crosses a minimum cut.
   Prove that integral flows encode matchings and that a minimum-cut source side `S` yields the cover `(L ∖ S) ∪ (R ∩ S)`.
-- **Hall from Kőnig:** derive the criterion for a matching saturating one part, and prove its equivalence to Mathlib's finite-family statement: a family `t : ι → Finset α` with finite `ι` admits an injective choice function exactly when `|s| ≤ |⋃ i ∈ s, t i|` for every finite `s ⊆ ι`.
-  Construct the incidence bipartite graph on the index set and the finite union of the family, so the ambient type `α` need not be finite.
-  Prove the conversions between matchings and choice functions; also connect to Mathlib's existing graph form of Hall.
-
-The flow proof of Kőnig and the deduction of Hall must not depend on Hall itself.
-The existing Hall theorems serve as compatibility targets.
+- **Hall from Kőnig:** derive Hall's theorem for bipartite simple graphs in the statement Mathlib already uses, `exists_isMatching_of_forall_ncard_le`: if every subset of one part has at least as many neighbours as elements, a matching saturates that part.
+  The deduction must not depend on Hall itself, and the result is compared with Mathlib's theorem, not used in place of it.
+  Mathlib's finite-family form of Hall is already a theorem, and Mathlib derives the graph form from it, so no incidence-graph construction is needed here.
 
 ## 7. Ear decompositions and strong orientations
 
@@ -291,9 +289,17 @@ The tree need not be a subgraph of the original graph.
 Disconnected graphs and zero capacities are included, with zero-weight tree edges; a singleton has the one-vertex tree.
 
 Develop the weighted-tree API needed for these statements: unique paths, fundamental partitions, minimum weights on nonempty paths, and transport under vertex equivalences.
-The intended construction is **Gusfield's method**, using the non-crossing lemma from Milestone 4 and `|V| − 1` max-flow computations on the original network.
-Build its finite recursion, maintained partition and parent invariants, and correctness proof here.
-The theorem itself is stated intrinsically as above and does not require a general graph-contraction API.
+The intended proof is the contraction-free one behind **Gusfield's method**: process the vertices in some order, and for each new vertex take a minimum cut separating it from its current tree neighbour, chosen by the non-crossing lemma so that it does not cross the cuts already fixed; the tree is then rewired on that neighbour's side.
+As an existence proof this needs a minimum cut at each step, which finiteness of the vertex type supplies, together with submodularity and the non-crossing lemma from Milestone 4; it uses no flows and no graph contraction.
+State the invariant maintained by the recursion (each fixed tree edge is a minimum cut for its endpoints, and every later cut lies inside one side of every earlier cut) as a named lemma, since it carries the whole correctness argument.
+
+## 10. Bridge to Mathlib's `Graph`
+
+Mathlib's multigraph type `Graph α β` carries loops and parallel edges, and the surface topology roadmap states its 3-connectivity results on it.
+Using `Graph.toSimpleGraph` and `Graph.ofSimpleGraph`, prove that reachability and the vertex-connectivity predicates transport along the underlying simple graph, including compatibility with vertex deletion and induced subgraphs.
+Since `Graph.toSimpleGraph G` has carrier `V(G)`, these statements include the required subtype equivalences.
+Forgetting loops and parallel edges preserves vertex connectivity; it does not preserve edge connectivity, and the bridge states this limit.
+Nothing in Milestones 1–9 consumes this milestone; it exists so that a consumer working on `Graph` reads `k`-vertex-connectivity as `IsVertexConnected k` of the underlying simple graph and inherits Menger's theorem through the transport lemmas.
 
 ## Examples and scope boundaries
 
@@ -307,10 +313,8 @@ Provide proved examples alongside the relevant milestones:
 - A bounded-circulation example in which positive flow at its lower bound cannot be cancelled.
 - A disconnected weighted graph whose cut tree contains zero-weight edges.
 
-The [surface and planar topology proposal](https://github.com/TauCetiProject/TauCetiRoadmap/pull/271) uses `Graph` and needs vertex connectivity.
-This roadmap supplies the deletion-compatible bridge and the interpretation of 3-vertex-connectivity as `IsVertexConnected 3` of the underlying simple graph.
-General contractions, contractible-edge and wheel theorems, planar embeddings, and surface topology belong to that development.
-The bridge is a target here regardless of the surface development's progress.
+The [surface topology roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/271) works on `Graph` and consumes vertex connectivity through Milestone 10, reading 3-vertex-connectivity as `IsVertexConnected 3` of the underlying simple graph.
+General contractions, contractible-edge and wheel theorems, planar embeddings, and surface topology belong to that roadmap.
 
 General matching theory beyond the bipartite consequences above, min-cost and multicommodity flows, infinite graphs, treewidth, and algorithmic complexity bounds are outside this roadmap.
 
