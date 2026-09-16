@@ -31,7 +31,7 @@ The targets below specify the additional API particular to each object.
 ## Existing vocabulary and related work
 
 Use Mathlib's `SimpleGraph` APIs for walks and paths, reachability, connected components, subgraphs, induced subgraphs, edge deletion, cycles, trees, degree, bipartite graphs, and matchings.
-In particular, reuse [`SimpleGraph.IsEdgeConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/EdgeConnectivity.html#SimpleGraph.IsEdgeConnected), [`SimpleGraph.minDegree`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Finite.html#SimpleGraph.minDegree), and [`Quiver.IsStronglyConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/ConnectedComponent.html#Quiver.IsStronglyConnected).
+In particular, reuse [`SimpleGraph.IsEdgeConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/EdgeConnectivity.html#SimpleGraph.IsEdgeConnected), [`SimpleGraph.IsBridge`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.html#SimpleGraph.IsBridge) with its cycle characterization `isBridge_iff_forall_cycle_notMem`, [`SimpleGraph.minDegree`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Finite.html#SimpleGraph.minDegree), and [`Quiver.IsStronglyConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/ConnectedComponent.html#Quiver.IsStronglyConnected).
 Mathlib also supplies the [`Graph`–`SimpleGraph` conversions](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Graph/Simple.html), [graph versions of Hall's theorem](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Hall.html), and the [finite-family Hall theorem](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Hall/Finite.html).
 
 The following Mathlib proposals guide the corresponding interfaces:
@@ -98,7 +98,7 @@ For the edge-disjoint set-to-set version, require `A` and `B` to be disjoint; pa
 Use the deletion-based connectivity predicates, with natural-number thresholds coerced where an upstream predicate takes `ℕ∞`.
 Global `k`-vertex-connectivity includes the size condition `k < Fintype.card V`.
 Do not introduce numerical vertex- or edge-connectivity functions for this roadmap.
-Keep the existing edge-connectivity convention on subsingleton types; statements involving minimum degree carry `[Nontrivial V]` when needed.
+On a subsingleton vertex type `IsEdgeConnected k` holds for every `k` and `IsVertexConnected k` fails for every `k ≥ 1`; keep both conventions, and let statements involving minimum degree carry `[Nontrivial V]`.
 
 ### Flows and bounded circulations
 
@@ -140,9 +140,9 @@ For the deletion predicates, supply threshold monotonicity, graph monotonicity o
 
 ## 2. Bridges, articulation vertices, and blocks
 
-Characterize a bridge by the failure of its endpoints to remain connected after deleting the edge, and equivalently by its belonging to no cycle.
-An articulation vertex is one whose deletion increases the number of connected components.
-Prove the corresponding separation criterion using vertices that remain after deletion, including its componentwise formulation for disconnected graphs.
+Bridges are Mathlib's `SimpleGraph.IsBridge`, defined by edge deletion and characterized by `isBridge_iff_forall_cycle_notMem` as the edges lying on no cycle; reuse both rather than restating them.
+An articulation vertex `v` is one that separates two other vertices: some `u, w ≠ v` are reachable in `G` but not in the graph induced on the complement of `{v}`.
+Prove that this is equivalent to deletion of `v` increasing the number of connected components; the count is a lemma rather than the definition, so no statement needs a `Fintype` instance on a deletion subtype.
 
 A block is a maximal nonempty connected induced subgraph with no articulation vertex of its own.
 Thus bridges give two-vertex blocks, and isolated vertices give singleton blocks.
@@ -238,16 +238,18 @@ Provide the API for initial segments, the subgraph built at each step, edge cove
 Prove three characterizations:
 
 1. A finite simple graph with at least three vertices is 2-vertex-connected if and only if it has an open ear decomposition starting from a cycle.
-2. A finite nonempty simple graph is connected and bridgeless if and only if it can be built from one vertex by adding open or closed ears.
+2. A finite nonempty simple graph is 2-edge-connected (`IsEdgeConnected 2`) if and only if it can be built from one vertex by adding open or closed ears.
+   Prove first that `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the form Mathlib's edge-connectivity file names as its intended statement; note that `IsBridge` on a non-edge means its endpoints are unreachable, so the right-hand side already includes connectedness.
 3. A finite nonempty quiver is strongly connected if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
 
 In the directed version, ears respect arrow directions and retain arrow identities.
 Loops are permitted as one-arrow closed ears.
 The initial-vertex convention includes the isolated singleton with no ears; relate it to the cycle-starting formulation for strongly connected quivers with at least two vertices.
 
-Prove **Robbins' theorem**: a finite connected simple graph admits a strongly connected orientation if and only if it has no bridges.
-Construct the orientation from the ear decomposition and prove its strong connectivity through the associated quiver.
-Include the singleton case and the componentwise result that a graph admits an orientation strongly connected on each connected component exactly when it has no bridges.
+Prove **Robbins' theorem** in the form `(∃ o : G.Orientation, Quiver.IsStronglyConnected (G.Oriented o)) ↔ G.IsEdgeConnected 2`.
+This needs no connectedness or size hypothesis: both sides hold on a subsingleton, and for a connected graph it is the classical statement that a strongly connected orientation exists exactly when there is no bridge, which should be derived as a corollary.
+Construct the orientation from the ear decomposition, directing each ear as a directed path or cycle, and prove strong connectivity of `G.Oriented o` through the directed ear characterization.
+Include the componentwise result that a graph admits an orientation strongly connected on each connected component exactly when it has no bridges.
 
 ## 8. Bounded circulations, supplies, and demands
 
