@@ -11,6 +11,9 @@ All graphs and networks in the theorem targets are finite.
 
 **Suggested homes:** `TauCeti/Combinatorics/SimpleGraph/Connectivity/` for undirected connectivity, `TauCeti/Combinatorics/Quiver/Flow/` for directed networks, and adjacent modules for the representation bridges.
 
+[`Suggested.lean`](Suggested.lean) prototypes the pinned structures (networks, flows, the residual network, orientations, the connectivity predicates, ear decompositions, weighted trees) and a few milestone statements.
+It is read as suggested forms, never as an exhaustive checklist; this document is the specification.
+
 ## Milestones at a glance
 
 | Milestone | Main results | Depends on |
@@ -184,7 +187,8 @@ Deduce that these two sets are independent of the chosen maximum flow.
 Prove the undirected **non-crossing lemma** as a separate target: if `S` is one side of a minimum `s–t` cut and distinct vertices `u, v` both lie in `S`, there exists a minimum `u–v` cut with one side contained in `S`.
 Include the cut identities and uncrossing inequalities needed to choose such a cut without changing its capacity.
 The proof uses only submodularity and the symmetry of the undirected cut function (its posimodularity); it needs no flows, and it fails for directed cut capacities, so do not attempt a directed version.
-This is the interface used by the cut-tree milestone, which therefore depends on flows only through nothing: submodularity, the lattice, and the non-crossing lemma rest on Milestone 1 alone, and Milestone 3 enters this milestone only for the residual characterization of the canonical cuts.
+This is the interface used by the cut-tree milestone.
+Submodularity, the lattice, and the non-crossing lemma rest on Milestone 1 alone; Milestone 3 enters this milestone only for the residual characterization of the canonical cuts.
 
 ## 5. Menger's theorem
 
