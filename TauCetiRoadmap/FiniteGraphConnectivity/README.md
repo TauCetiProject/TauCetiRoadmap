@@ -42,12 +42,13 @@ The following Mathlib proposals guide the corresponding interfaces:
 
 - [#33355: vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355): deletion-based `IsVertexReachable`, `IsVertexPreconnected`, and `IsVertexConnected`.
 - [#43017: network flows](https://github.com/leanprover-community/mathlib4/pull/43017): quivers with capacities and flow assignments indexed by arrows.
-- [#34028: weak max-flow/min-cut duality](https://github.com/leanprover-community/mathlib4/pull/34028): the undirected flow–cut inequality and its connection to simple graphs.
+- [#34028: weak max-flow/min-cut duality](https://github.com/leanprover-community/mathlib4/pull/34028): an undirected flow formulation on simple graphs.
+  This roadmap reaches every undirected result through the bidirected network and defines no undirected flow, so it takes only the statement shapes from that proposal.
 - [#33032: Kőnig's theorem](https://github.com/leanprover-community/mathlib4/pull/33032): matchings as subgraphs, vertex covers, and the equality between the sizes of maximum matchings and minimum covers.
 
 Build all missing prerequisites and results in Tau Ceti, following these interfaces and adopting Mathlib's resulting design when available.
 An unmerged proposal is a design reference, not a dependency that contributors must wait for.
-For flows, provide the finite-sum interface specified below and prove its agreement with the upstream interface; this includes the sign conversion between divergence and excess if their conventions differ.
+For flows, the finite-sum interface below shares the arrow-indexed carrier of #43017 and differs from it in the four deliberate ways listed under **Flows and bounded circulations**; no agreement lemma with an unmerged proposal is a target.
 
 The [Lean Zulip discussion of max-flow/min-cut](https://leanprover-community.github.io/archive/stream/252551-graph-theory/topic/max-flow.20min-cut.20help.html) records earlier quiver-based formalization work, including [maxflowmincutlean4](https://gitlab.com/Shreyas941/maxflowmincutlean4).
 Coordinate with authors before integrating existing code, following the repository's porting policy.
@@ -63,7 +64,7 @@ Edges are unordered pairs represented by `Sym2 V` and restricted to the graph's 
 Weighted undirected networks assign a capacity in `ℝ≥0` to each edge; a cut counts each crossing edge once.
 
 **Directed networks** are terms, not typeclass instances.
-A network `N : Network V` is a structure carrying an arrow type `N.Hom v w : Type` for every ordered pair of vertices and a capacity in `ℝ≥0` for every arrow; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
+A network `N : Network V` is a structure carrying an arrow type `N.Hom v w : Type v` for every ordered pair of vertices, in a universe independent of the vertex universe as for `Quiver.{v}`, and a capacity in `ℝ≥0` for every arrow; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
 Mathlib's quiver API (`Quiver.Path`, `Quiver.IsStronglyConnected`, strongly connected components) is reached through a type synonym `N.Vert := V` carrying the `Quiver` instance `⟨N.Hom⟩`, the pattern Mathlib itself uses for `Quiver.Symmetrify`.
 Quivers are typeclasses on the vertex type, so a network, its residual network, and each orientation of a graph would otherwise compete for one instance on `V`; as terms they coexist and can be quantified over.
 The total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
@@ -71,12 +72,19 @@ Parallel arrows, arrows in opposite directions, loops, and zero capacities are a
 Capacities and flow assignments take values in `ℝ≥0`.
 Every network sum is a `Finset.sum`; divergence and flow value take values in `ℝ`, since they can be negative.
 The finite theory must not require reasoning about infinite sums or infinities to state its results.
-Mathlib proposal #43017 takes its quiver as an explicit term with capacities indexed by `G.Hom v w`, so agreement with it is a matter of field names and sum spelling; if that API uses `tsum` or `EReal`, supply finite-sum agreement lemmas rather than a competing public notion of flow.
+Mathlib proposal #43017 shares the arrow-indexed carrier but differs in four ways, each deliberate here.
+It measures excess (incoming minus outgoing) where this roadmap uses divergence (outgoing minus incoming), so that one sign convention is stated once.
+Its value is an `ENNReal` read at the sink, where this roadmap's value is a real number read at the source, so that negative values exist and decompose.
+Its capacity is a parameter separate from the quiver, where this roadmap bundles it into the network, so that a network is one object to quantify over.
+Its sums are `tsum`s in `EReal`, where every sum here is a `Finset.sum`.
 
 **An orientation** `o : G.Orientation` of a simple graph chooses one dart (`SimpleGraph.Dart`) for every edge, with no additional arrows.
 The oriented graph is the type synonym `G.Oriented o := V` with the quiver instance whose arrows from `v` to `w` are the edges whose chosen dart runs from `v` to `w`, so strong connectivity is literally `Quiver.IsStronglyConnected (G.Oriented o)`.
 The separate bidirected construction replaces each undirected edge by two oppositely directed arrows of the same capacity, giving a network in the sense above.
 Milestone 1 supplies the transport lemmas for both constructions.
+
+**Namespaces.** New declarations about simple graphs (orientations, articulation vertices, blocks, disjoint path families, ear decompositions) and the vertex-connectivity predicates under the names of #33355 live in the `SimpleGraph` namespace, so that adopting Mathlib's versions is a deletion.
+`Suggested.lean` keeps the #33355 stand-ins outside that namespace only so that this repository keeps building when Mathlib lands them.
 
 ### Paths, separators, and connectivity
 
@@ -137,7 +145,8 @@ Build and verify the representation changes used throughout the roadmap:
 - **Auxiliary terminals:** add a fresh source and sink on a sum type, with path and cut correspondences for terminal sets.
   Use explicit finite capacity bounds for auxiliary arrows rather than an infinite-capacity symbol.
 
-For the deletion predicates, supply threshold monotonicity, graph monotonicity on a fixed carrier, isomorphism invariance, the zero and one cases, and the relationship between local and global statements.
+For the deletion predicates, supply the lemmas missing from Mathlib and from #33355, following their shapes: threshold monotonicity, graph monotonicity on a fixed carrier, isomorphism invariance, the zero and one cases, and the relationship between local and global statements.
+`IsEdgeReachable.mono` and `isEdgeReachable_one` already exist and are reused.
 
 ## 2. Bridges, articulation vertices, and blocks
 
@@ -157,7 +166,6 @@ Include the path correspondence that recovers separation in the original graph f
 
 Develop the finite divergence calculus: linearity for real arrow assignments, total divergence zero, and the identity equating the sum of divergences over a set with its outgoing flow minus incoming flow.
 Derive weak duality: the value of every feasible flow is at most the capacity of every terminal-separating cut.
-Relate the directed statement to the simple-graph flow–cut interface through the bidirected construction.
 
 The main targets are:
 
@@ -221,7 +229,7 @@ Prove these consequences in the existing graph vocabulary:
 
 - **Whitney inequalities:** `G.IsVertexConnected k` implies `G.IsEdgeConnected k`; for `[Nontrivial V]`, `G.IsEdgeConnected k` implies `k ≤ G.minDegree`.
 - **Common-cycle characterizations:** for a connected simple graph with at least three vertices, each of the following is equivalent to 2-vertex-connectivity: every two distinct vertices lie on a common cycle; every two distinct edges lie on a common cycle.
-  Relate the blocks with at least three vertices from Milestone 2 to maximal 2-vertex-connected induced subgraphs.
+  The blocks with at least three vertices from Milestone 2 are exactly the vertex sets of the maximal 2-vertex-connected induced subgraphs.
 - **Preservation lemmas:** deleting `m < k` vertices from a `k`-vertex-connected graph leaves a `(k − m)`-vertex-connected graph; adjoining a new vertex adjacent to at least `k` vertices of a `k`-vertex-connected graph gives a `k`-vertex-connected graph; adding edges preserves `k`-vertex- and `k`-edge-connectivity.
   The proofs of the fan lemma and Dirac's theorem below use the first two.
 - **Fan lemma:** in a `k`-vertex-connected graph, a vertex `x` outside a set `U` with at least `k` vertices has `k` paths to distinct vertices of `U`, with interiors outside `U` and pairwise intersection exactly `{x}`.
@@ -232,26 +240,28 @@ Prove these consequences in the existing graph vocabulary:
   Build their missing finite API here, including attainment, the matching–cover inequality, and the flow construction that recovers witnesses.
   For bipartition `L, R`, use unit capacities from the source to `L` and from `R` to the sink, and capacity `|L| + 1` on graph edges directed from `L` to `R`, so that no such edge crosses a minimum cut.
   Prove that integral flows encode matchings and that a minimum-cut source side `S` yields the cover `(L ∖ S) ∪ (R ∩ S)`.
-- **Hall from Kőnig:** derive Hall's theorem for bipartite simple graphs in the statement Mathlib already uses, `exists_isMatching_of_forall_ncard_le`: if every subset of one part has at least as many neighbours as elements, a matching saturates that part.
-  The deduction must not depend on Hall itself, and the result is compared with Mathlib's theorem, not used in place of it.
-  Mathlib's finite-family form of Hall is already a theorem, and Mathlib derives the graph form from it, so no incidence-graph construction is needed here.
+- **Deficiency formula (König–Ore) and Hall:** for bipartition `L, R`, the maximum size of a matching is `|L| − max_{S ⊆ L} (|S| − |N(S)|)`, in witness form: there exist a matching `M` and a set `S ⊆ L` with `|M| + |S| = |L| + |N(S)|`, and every matching and every `S ⊆ L` satisfy `|M| + |S| ≤ |L| + |N(S)|`.
+  Derive it from Kőnig by reading a minimum cover `C` as `S = L ∖ C`, so that `(L ∖ S) ∪ N(S)` is again a minimum cover.
+  Hall's theorem for bipartite simple graphs is the case of zero deficiency; Mathlib already proves it as `exists_isMatching_of_forall_ncard_le`, so derive it as a corollary only as a check against Mathlib's statement, which remains the library's Hall.
 
 ## 7. Ear decompositions and strong orientations
 
 An open ear is a positive-length path adding unused edges, with distinct endpoints already present and all internal vertices new.
 A closed ear is a cycle adding unused edges and meeting the existing subgraph at exactly its base vertex.
-Decompositions are finite and cover all vertices and all edges of the graph.
 Single-edge open ears are allowed, so the decomposition can include edges between vertices already present.
-Provide the API for initial segments, the subgraph built at each step, edge coverage, and preservation of the relevant connectivity property.
+An ear decomposition is **data**, not a proposition: a term of an inductive type family indexed by the subgraph built so far, with one constructor for the initial cycle or initial vertex and one for each kind of ear.
+The number of ears, the `k`-th ear, the subgraph after `k` ears, and the induction principle are functions of the term, and the existence statements below are `Nonempty` of the type.
+A decomposition of the whole graph is one whose index is `⊤`, so it covers all vertices and all edges.
+Provide the API for those initial segments, edge coverage, and preservation of the relevant connectivity property along the construction.
 
 Prove three characterizations:
 
 1. A finite simple graph with at least three vertices is 2-vertex-connected if and only if it has an open ear decomposition starting from a cycle.
 2. A finite nonempty simple graph is 2-edge-connected (`IsEdgeConnected 2`) if and only if it can be built from one vertex by adding open or closed ears.
    Prove first that `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the form Mathlib's edge-connectivity file names as its intended statement; note that `IsBridge` on a non-edge means its endpoints are unreachable, so the right-hand side already includes connectedness.
-3. A finite nonempty quiver is strongly connected if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
+3. A network `N` with nonempty finite vertex type is strongly connected (`Quiver.IsStronglyConnected N.Vert`) if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
 
-In the directed version, ears respect arrow directions and retain arrow identities.
+In the directed version, ears are directed paths and cycles in `N.Vert` in the sense of the conventions, they retain arrow identities, and the inductive type mirrors the undirected one with a subnetwork as index.
 Loops are permitted as one-arrow closed ears.
 The initial-vertex convention includes the isolated singleton with no ears; relate it to the cycle-starting formulation for strongly connected quivers with at least two vertices.
 
@@ -330,8 +340,8 @@ Provide proved examples alongside the relevant milestones:
 - A bounded-circulation example in which positive flow at its lower bound cannot be cancelled.
 - A disconnected weighted graph whose cut tree contains zero-weight edges.
 
-The [surface topology roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/271) works on `Graph` and consumes vertex connectivity through Milestone 10, reading 3-vertex-connectivity as `IsVertexConnected 3` of the underlying simple graph.
-General contractions, contractible-edge and wheel theorems, planar embeddings, and surface topology belong to that roadmap.
+General contractions, contractible-edge and wheel theorems, planar embeddings, and surface topology are outside this roadmap.
+The [surface topology roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/271) covers them, works on `Graph`, and consumes vertex connectivity through Milestone 10, reading 3-vertex-connectivity as `IsVertexConnected 3` of the underlying simple graph.
 
 General matching theory beyond the bipartite consequences above, min-cost and multicommodity flows, infinite graphs, treewidth, and algorithmic complexity bounds are outside this roadmap.
 

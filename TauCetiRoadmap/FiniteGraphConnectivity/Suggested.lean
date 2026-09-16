@@ -10,22 +10,25 @@ declaration here finishes neither a milestone nor the roadmap. `sorry` is allowe
 human-owned roadmap library: these are targets, not completed definitions or proofs.
 
 The pinned choices this file exhibits: a directed network is a *term* `N : Network V` whose
-`Quiver` instance lives on the type synonym `N.Vert`; the residual network has the
-flow-independent arrow type `N.Hom v w ⊕ N.Hom w v`, and an augmenting path is a path in its
-positive-capacity part; an orientation of a simple graph is a choice of `Dart` per edge, with its
-quiver instance on the synonym `Oriented G o`; connectivity is predicate-first, following Mathlib's
-`IsEdgeConnected` and the shape of Mathlib proposal #33355 for vertex connectivity; and every sum
-is a `Finset.sum`.
+`Quiver` instance lives on the type synonym `N.Vert`, with arrow types in a universe independent
+of the vertex universe; the residual network has the flow-independent arrow type
+`N.Hom v w ⊕ N.Hom w v`, and an augmenting path is a path in its positive-capacity part; an
+orientation of a simple graph is a choice of `Dart` per edge, with its quiver instance on the
+synonym `G.Oriented o`; ear decompositions are data, terms of an inductive type family indexed by
+the subgraph built so far; connectivity is predicate-first, following Mathlib's `IsEdgeConnected`
+and the shape of Mathlib proposal #33355 for vertex connectivity; Menger is stated in witness
+form; and every sum is a `Finset.sum`.
 
-Declarations that Mathlib proposals will eventually provide (`IsVertexReachable`,
-`IsVertexConnected`) are stand-ins in this roadmap's namespace, not in `SimpleGraph`, so that this
-file keeps compiling when Mathlib lands them.
+Namespaces: in Tau Ceti, new declarations about simple graphs live in `SimpleGraph`, including
+the vertex-connectivity predicates under the names of #33355. Here those two predicates are
+stand-ins in this roadmap's namespace only so that this file keeps compiling when Mathlib lands
+them; everything else about simple graphs is already in `SimpleGraph`.
 -/
 
 open scoped NNReal
 open Finset
 
-universe u
+universe u v
 
 namespace TauCetiRoadmap.FiniteGraphConnectivity
 
@@ -35,34 +38,35 @@ namespace TauCetiRoadmap.FiniteGraphConnectivity
 every arrow. Parallel arrows, antiparallel arrows, loops, and zero capacities are allowed.
 Networks are terms; the quiver instance lives on `Network.Vert`. -/
 structure Network (V : Type u) where
-  Hom : V → V → Type u
+  Hom : V → V → Type v
   cap : ∀ {v w : V}, Hom v w → ℝ≥0
 
 variable {V : Type u}
 
 /-- Type synonym carrying the quiver instance of a network, as `Quiver.Symmetrify` does. -/
-def Network.Vert (_N : Network V) : Type u := V
+def Network.Vert (_N : Network.{u, v} V) : Type u := V
 
-instance (N : Network V) : Quiver N.Vert := ⟨N.Hom⟩
+instance (N : Network.{u, v} V) : Quiver N.Vert := ⟨N.Hom⟩
 
 /-- View a vertex as a vertex of the network's quiver. -/
-def Network.toVert (_N : Network V) (v : V) : _N.Vert := v
+def Network.toVert (_N : Network.{u, v} V) (v : V) : _N.Vert := v
 
 /-- Directed reachability in a network, through Mathlib's `Quiver.Path`. -/
-def Network.Reachable (N : Network V) (v w : V) : Prop :=
+def Network.Reachable (N : Network.{u, v} V) (v w : V) : Prop :=
   Nonempty (Quiver.Path (N.toVert v) (N.toVert w))
 
 /-- The subnetwork of arrows with positive capacity. -/
-def Network.positivePart (N : Network V) : Network V where
+def Network.positivePart (N : Network.{u, v} V) : Network.{u, v} V where
   Hom v w := {e : N.Hom v w // 0 < N.cap e}
   cap e := N.cap e.1
 
 /-- A real-valued assignment on the arrows of a network. -/
-abbrev Network.Assignment (N : Network V) : Type u := ∀ {v w : V}, N.Hom v w → ℝ
+abbrev Network.Assignment (N : Network.{u, v} V) : Type (max u v) :=
+  ∀ {v w : V}, N.Hom v w → ℝ
 
 section Finite
 
-variable (N : Network V) [Fintype V] [DecidableEq V] [∀ v w, Fintype (N.Hom v w)]
+variable (N : Network.{u, v} V) [Fintype V] [DecidableEq V] [∀ v w, Fintype (N.Hom v w)]
 
 /-- Divergence: outgoing minus incoming flow. Real-valued, since it can be negative. -/
 noncomputable def Network.divergence (f : N.Assignment) (v : V) : ℝ :=
@@ -88,7 +92,7 @@ noncomputable def Network.Flow.value (f : N.Flow s t) : ℝ :=
 /-- The residual network. Its arrow type does not depend on `f`: a forward arrow keeps the
 unused capacity `u e − f e`, a reverse arrow carries the cancellable flow `f e`, and arrows of
 zero residual capacity are ordinary arrows. -/
-noncomputable def Network.residual (f : N.Flow s t) : Network V where
+noncomputable def Network.residual (f : N.Flow s t) : Network.{u, v} V where
   Hom v w := N.Hom v w ⊕ N.Hom w v
   cap := Sum.elim (fun e => N.cap e - f.toFun e) (fun e => f.toFun e)
 
@@ -153,7 +157,7 @@ theorem Network.nonempty_boundedCirculation_iff (lo : ∀ {v w : V}, N.Hom v w �
 
 end Finite
 
-/-! ## Undirected connectivity (Conventions; Milestones 1, 2, 5, 6, 7) -/
+/-! ## Stand-ins for Mathlib proposal #33355 (Conventions) -/
 
 variable (G : SimpleGraph V)
 
@@ -168,6 +172,16 @@ def IsVertexReachable (k : ℕ∞) (u v : V) : Prop :=
 def IsVertexConnected (k : ℕ∞) : Prop :=
   k + 1 ≤ ENat.card V ∧ ∀ u v, IsVertexReachable G k u v
 
+end TauCetiRoadmap.FiniteGraphConnectivity
+
+/-! ## Undirected connectivity (Milestones 1, 2, 5, 6, 7) -/
+
+namespace SimpleGraph
+
+open TauCetiRoadmap.FiniteGraphConnectivity
+
+variable {V : Type u} (G : SimpleGraph V)
+
 /-- Two `s–t` walks are internally disjoint if they share only the terminals. -/
 def InternallyDisjoint {s t : V} (p q : G.Walk s t) : Prop :=
   ∀ v ∈ p.support, v ∈ q.support → v = s ∨ v = t
@@ -181,7 +195,7 @@ inequality between any family and any separator is a separate, easier target. -/
 theorem exists_paths_separator_card_eq [Finite V] {s t : V} (hst : s ≠ t) (hadj : ¬ G.Adj s t) :
     ∃ (k : ℕ) (P : Fin k → G.Walk s t) (X : Set V),
       Function.Injective P ∧ (∀ i, (P i).IsPath) ∧
-        (Pairwise fun i j => InternallyDisjoint G (P i) (P j)) ∧
+        (Pairwise fun i j => G.InternallyDisjoint (P i) (P j)) ∧
       X.ncard = k ∧ ∃ (hs : s ∉ X) (ht : t ∉ X), ¬ (G.induce Xᶜ).Reachable ⟨s, hs⟩ ⟨t, ht⟩ := by
   sorry
 
@@ -190,14 +204,14 @@ theorem isVertexReachable_iff_exists_paths [Finite V] {s t : V} (hst : s ≠ t)
     (hadj : ¬ G.Adj s t) (k : ℕ) :
     IsVertexReachable G k s t ↔
       ∃ P : Fin k → G.Walk s t, Function.Injective P ∧ (∀ i, (P i).IsPath) ∧
-        Pairwise fun i j => InternallyDisjoint G (P i) (P j) := by
+        Pairwise fun i j => G.InternallyDisjoint (P i) (P j) := by
   sorry
 
 /-- Local edge Menger, predicate form, against Mathlib's `IsEdgeReachable`. -/
 theorem isEdgeReachable_iff_exists_paths [Finite V] {s t : V} (hst : s ≠ t) (k : ℕ) :
     G.IsEdgeReachable k s t ↔
       ∃ P : Fin k → G.Walk s t, Function.Injective P ∧ (∀ i, (P i).IsPath) ∧
-        Pairwise fun i j => EdgeDisjoint G (P i) (P j) := by
+        Pairwise fun i j => G.EdgeDisjoint (P i) (P j) := by
   sorry
 
 /-- Global vertex Menger: on more than `k` vertices, `k`-vertex-connectivity is `k` internally
@@ -205,11 +219,11 @@ disjoint paths between every pair of distinct vertices, adjacent pairs included.
 theorem isVertexConnected_iff_forall_exists_paths [Fintype V] (k : ℕ) (hk : k < Fintype.card V) :
     IsVertexConnected G k ↔
       ∀ s t, s ≠ t → ∃ P : Fin k → G.Walk s t, Function.Injective P ∧ (∀ i, (P i).IsPath) ∧
-        Pairwise fun i j => InternallyDisjoint G (P i) (P j) := by
+        Pairwise fun i j => G.InternallyDisjoint (P i) (P j) := by
   sorry
 
 /-- Whitney's inequalities in predicate form. -/
-theorem IsVertexConnected.isEdgeConnected [Finite V] {k : ℕ} (h : IsVertexConnected G k) :
+theorem isEdgeConnected_of_isVertexConnected [Finite V] {k : ℕ} (h : IsVertexConnected G k) :
     G.IsEdgeConnected k := by
   sorry
 
@@ -224,21 +238,45 @@ def IsCutVertex (v : V) : Prop :=
 
 /-- A block: a maximal vertex set inducing a connected graph without articulation vertices. -/
 def IsBlock (B : Set V) : Prop :=
-  Maximal (fun B : Set V => (G.induce B).Connected ∧ ∀ v, ¬ IsCutVertex (G.induce B) v) B
+  Maximal (fun B : Set V => (G.induce B).Connected ∧ ∀ v, ¬ (G.induce B).IsCutVertex v) B
 
-/-- Subgraphs of `G` built from a cycle by adding open ears: paths whose distinct endpoints lie
-in the subgraph so far, whose interior vertices are new, and whose edges are new. Single-edge
-ears are allowed. -/
-inductive OpenEarBuilt : G.Subgraph → Prop
-  | cycle {u : V} (c : G.Walk u u) (hc : c.IsCycle) : OpenEarBuilt c.toSubgraph
-  | ear {H : G.Subgraph} (hH : OpenEarBuilt H) {u v : V} (p : G.Walk u v) (hp : p.IsPath)
+/-- Open ear decompositions of subgraphs of `G`, as data: start from a cycle and add open
+ears, paths whose distinct endpoints lie in the subgraph so far, whose interior vertices are new,
+and whose edges are new. Single-edge ears are allowed. -/
+inductive OpenEarDecomposition : G.Subgraph → Type u
+  | cycle {u : V} (c : G.Walk u u) (hc : c.IsCycle) : OpenEarDecomposition c.toSubgraph
+  | ear {H : G.Subgraph} (d : OpenEarDecomposition H) {u v : V} (p : G.Walk u v) (hp : p.IsPath)
       (hu : u ∈ H.verts) (hv : v ∈ H.verts) (huv : u ≠ v)
       (hint : ∀ w ∈ p.support, w ≠ u → w ≠ v → w ∉ H.verts)
-      (hedge : ∀ e ∈ p.edges, e ∉ H.edgeSet) : OpenEarBuilt (H ⊔ p.toSubgraph)
+      (hedge : ∀ e ∈ p.edges, e ∉ H.edgeSet) : OpenEarDecomposition (H ⊔ p.toSubgraph)
+
+/-- The number of ears; one of the functions of the decomposition the API is built on. -/
+def OpenEarDecomposition.length : ∀ {H : G.Subgraph}, G.OpenEarDecomposition H → ℕ
+  | _, .cycle _ _ => 0
+  | _, .ear d _ _ _ _ _ _ _ => d.length + 1
+
+/-- Ear decompositions with closed ears allowed, as data: start from a single vertex and add
+open ears as above or closed ears, cycles meeting the subgraph so far in exactly their base
+vertex. -/
+inductive EarDecomposition : G.Subgraph → Type u
+  | vertex (v : V) : EarDecomposition (G.singletonSubgraph v)
+  | openEar {H : G.Subgraph} (d : EarDecomposition H) {u v : V} (p : G.Walk u v) (hp : p.IsPath)
+      (hu : u ∈ H.verts) (hv : v ∈ H.verts) (huv : u ≠ v)
+      (hint : ∀ w ∈ p.support, w ≠ u → w ≠ v → w ∉ H.verts)
+      (hedge : ∀ e ∈ p.edges, e ∉ H.edgeSet) : EarDecomposition (H ⊔ p.toSubgraph)
+  | closedEar {H : G.Subgraph} (d : EarDecomposition H) {u : V} (c : G.Walk u u) (hc : c.IsCycle)
+      (hu : u ∈ H.verts) (hint : ∀ w ∈ c.support, w ≠ u → w ∉ H.verts) :
+      EarDecomposition (H ⊔ c.toSubgraph)
 
 /-- Whitney's ear characterization of 2-connectivity. -/
-theorem isVertexConnected_two_iff_openEarBuilt [Fintype V] (h3 : 3 ≤ Fintype.card V) :
-    IsVertexConnected G 2 ↔ OpenEarBuilt G ⊤ := by
+theorem isVertexConnected_two_iff_nonempty_openEarDecomposition [Fintype V]
+    (h3 : 3 ≤ Fintype.card V) :
+    IsVertexConnected G 2 ↔ Nonempty (G.OpenEarDecomposition ⊤) := by
+  sorry
+
+/-- The closed-ear characterization of 2-edge-connectivity. -/
+theorem isEdgeConnected_two_iff_nonempty_earDecomposition [Finite V] [Nonempty V] :
+    G.IsEdgeConnected 2 ↔ Nonempty (G.EarDecomposition ⊤) := by
   sorry
 
 /-- The form of 2-edge-connectivity Mathlib's edge-connectivity file names as intended.
@@ -253,14 +291,14 @@ structure Orientation where
   edge_dart : ∀ e, (dart e).edge = (e : Sym2 V)
 
 /-- Type synonym carrying the quiver instance of an oriented graph. -/
-def Oriented (_o : Orientation G) : Type u := V
+def Oriented (_o : G.Orientation) : Type u := V
 
-instance (o : Orientation G) : Quiver (Oriented G o) :=
+instance (o : G.Orientation) : Quiver (G.Oriented o) :=
   ⟨fun v w => {e : G.edgeSet // (o.dart e).fst = v ∧ (o.dart e).snd = w}⟩
 
 /-- Robbins' theorem, with no connectedness or size hypothesis. -/
 theorem exists_orientation_isStronglyConnected_iff [Finite V] :
-    (∃ o : Orientation G, Quiver.IsStronglyConnected (Oriented G o)) ↔ G.IsEdgeConnected 2 := by
+    (∃ o : G.Orientation, Quiver.IsStronglyConnected (G.Oriented o)) ↔ G.IsEdgeConnected 2 := by
   sorry
 
 /-- Kőnig's theorem, with witnesses. -/
@@ -269,11 +307,21 @@ theorem konig [Finite V] (h : G.IsBipartite) :
       M.edgeSet.ncard = C.ncard := by
   sorry
 
+/-- The König–Ore deficiency formula in witness form: a matching `M` and a set `S ⊆ L` with
+`|M| + |S| = |L| + |N(S)|`. The inequality `|M| + |S| ≤ |L| + |N(S)|` for every matching and
+every `S ⊆ L` is a separate target; Hall's theorem is the case `S = ∅` of the equality. -/
+theorem konig_ore [Finite V] {L R : Set V} (h : G.IsBipartiteWith L R) :
+    ∃ (M : G.Subgraph) (S : Set V), M.IsMatching ∧ S ⊆ L ∧
+      M.edgeSet.ncard + S.ncard = L.ncard + (⋃ x ∈ S, G.neighborSet x).ncard := by
+  sorry
+
+end SimpleGraph
+
 /-! ## Cut trees (Milestone 9) -/
 
-section CutTrees
+namespace TauCetiRoadmap.FiniteGraphConnectivity
 
-variable [Fintype V] [DecidableEq V] [DecidableRel G.Adj]
+variable {V : Type u} (G : SimpleGraph V) [Fintype V] [DecidableEq V] [DecidableRel G.Adj]
 
 /-- Capacity of the undirected cut `(S, Sᶜ)`: each crossing edge counted once. -/
 noncomputable def cutCapacity (c : Sym2 V → ℝ≥0) (S : Finset V) : ℝ≥0 :=
@@ -302,7 +350,5 @@ theorem exists_gomoryHu_tree [Nonempty V] (c : Sym2 V → ℝ≥0) :
           cutCapacity G c (univ.filter fun x => (T.tree.deleteEdges {s(u, v)}).Reachable u x) =
             minCutCapacity G c u v := by
   sorry
-
-end CutTrees
 
 end TauCetiRoadmap.FiniteGraphConnectivity
