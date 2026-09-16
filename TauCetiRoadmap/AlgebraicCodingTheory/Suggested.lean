@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.IntegralLattices.Suggested
+import Completed.IntegralLattices.Suggested
 
 /-!
 # Algebraic coding theory and Construction A: target signatures
@@ -394,6 +394,7 @@ theorem extendedTernaryGolay_minimumDistance : minimumDistance extendedTernaryGo
 /-! ## Construction A and the discriminant-subgroup bridge -/
 
 open TauCetiRoadmap.IntegralLattices
+open TauCeti TauCeti.IntegralLattice
 
 section ConstructionA
 
