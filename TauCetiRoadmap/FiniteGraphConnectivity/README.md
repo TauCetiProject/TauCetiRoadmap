@@ -54,20 +54,24 @@ The mathematical targets here do not require importing that implementation.
 ### Graphs, networks, and orientations
 
 **Undirected graphs** use `SimpleGraph V`, with `[Fintype V]` for finite sums and cardinalities.
+Statements carry `[DecidableEq V]` and `[DecidableRel G.Adj]` exactly where the Mathlib definitions they mention require them, as `edgeFinset` and `minDegree` do; proofs may reason classically.
 Edges are unordered pairs represented by `Sym2 V` and restricted to the graph's edge set.
 Weighted undirected networks assign a capacity in `ℝ≥0` to each edge; a cut counts each crossing edge once.
 
-**Directed networks** use a quiver on `V`, with `[Fintype V]` and `[Fintype (v ⟶ w)]` for every pair of vertices.
-The total arrow type is the dependent sum of these arrow types over ordered pairs of vertices.
+**Directed networks** are terms, not typeclass instances.
+A network `N : Network V` is a structure carrying an arrow type `N.Hom v w : Type` for every ordered pair of vertices and a capacity in `ℝ≥0` for every arrow; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
+Mathlib's quiver API (`Quiver.Path`, `Quiver.IsStronglyConnected`, strongly connected components) is reached through a type synonym `N.Vert := V` carrying the `Quiver` instance `⟨N.Hom⟩`, the pattern Mathlib itself uses for `Quiver.Symmetrify`.
+Quivers are typeclasses on the vertex type, so a network, its residual network, and each orientation of a graph would otherwise compete for one instance on `V`; as terms they coexist and can be quantified over.
+The total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
 Parallel arrows, arrows in opposite directions, loops, and zero capacities are allowed.
 Capacities and flow assignments take values in `ℝ≥0`.
 Every network sum is a `Finset.sum`; divergence and flow value take values in `ℝ`, since they can be negative.
 The finite theory must not require reasoning about infinite sums or infinities to state its results.
-If the upstream flow API uses `tsum` or `EReal`, supply finite-sum agreement lemmas rather than a competing public notion of flow.
+Mathlib proposal #43017 takes its quiver as an explicit term with capacities indexed by `G.Hom v w`, so agreement with it is a matter of field names and sum spelling; if that API uses `tsum` or `EReal`, supply finite-sum agreement lemmas rather than a competing public notion of flow.
 
-**An orientation** of a simple graph chooses exactly one direction for every edge, with no additional arrows.
-Give it an associated quiver and express strong connectivity using `Quiver.IsStronglyConnected`.
-The separate bidirected construction replaces each undirected edge by two oppositely directed arrows of the same capacity.
+**An orientation** `o : G.Orientation` of a simple graph chooses one dart (`SimpleGraph.Dart`) for every edge, with no additional arrows.
+The oriented graph is the type synonym `G.Oriented o := V` with the quiver instance whose arrows from `v` to `w` are the edges whose chosen dart runs from `v` to `w`, so strong connectivity is literally `Quiver.IsStronglyConnected (G.Oriented o)`.
+The separate bidirected construction replaces each undirected edge by two oppositely directed arrows of the same capacity, giving a network in the sense above.
 Milestone 1 supplies the transport lemmas for both constructions.
 
 ### Paths, separators, and connectivity
@@ -109,15 +113,11 @@ Bounded circulations have nonnegative lower and upper bounds `ℓ ≤ u`, satisf
 Ordinary flows and bounded circulations share arrow assignments, divergence, and bound calculations, but have separate conservation conditions.
 Milestone 8 supplies named reductions from bounded circulation feasibility to ordinary max-flow, including their integrality properties.
 
-For an ordinary flow, residual arrows from `v` to `w` have the tagged form
-
-```text
-{e : v ⟶ w // f e < u e} ⊕ {e : w ⟶ v // 0 < f e}.
-```
-
-Their capacities are respectively `u e − f e` and `f e`.
-The tags distinguish unused forward capacity from cancellation of an existing flow, including when original arrows exist in both directions.
-For a bounded circulation, the reverse summand instead requires `ℓ e < f e` and has capacity `f e − ℓ e`.
+The residual network of a flow `f` on `N` has the same vertex type, arrow type `N.Hom v w ⊕ N.Hom w v` from `v` to `w`, and residual capacity `u e − f e` on a forward arrow and `f e` on a reverse arrow.
+The arrow type does not depend on `f`: arrows of zero residual capacity are ordinary arrows, and an augmenting path is a residual path all of whose arrows have positive residual capacity.
+A residual type that carried the positivity conditions would change with every augmentation, and the termination and canonical-cut arguments would then transport paths across type equalities at every step.
+The two summands distinguish unused forward capacity from cancellation of an existing flow, including when original arrows exist in both directions.
+For a bounded circulation, the reverse arrow has residual capacity `f e − ℓ e`.
 
 ## 1. Shared foundations
 
@@ -160,13 +160,13 @@ Relate the directed statement to the simple-graph flow–cut interface through t
 
 The main targets are:
 
-1. **Residual augmentation.** Augmenting along a simple residual `s–t` path by its minimum residual capacity preserves feasibility and increases flow value by that positive amount.
+1. **Residual augmentation.** Augmenting along a simple augmenting `s–t` path by its minimum residual capacity preserves feasibility and increases flow value by that positive amount.
    Prove the update formulas on original arrows and the corresponding bounded-circulation cycle augmentation lemma.
 2. **Flow decomposition.** Every feasible flow of nonnegative value is a finite nonnegative sum of simple `s–t` path flows and directed cycle flows, with equality on every original arrow.
    Negative-value flows have the corresponding decomposition with the terminals exchanged.
    Circulations decompose into cycle flows, including loops; integral flows admit integral coefficients.
 3. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
-   Prove the equivalent optimality criteria: maximum flow, no residual `s–t` path, and existence of a cut attaining equality.
+   Prove the equivalent optimality criteria: maximum flow, no augmenting `s–t` path, and existence of a cut attaining equality.
 4. **Integrality.** Natural-number capacities admit a natural-number-valued maximum flow whose value equals the minimum cut capacity, with explicit coercion to the real-valued theorem.
 
 For real capacities, the intended existence proof uses compactness of the nonempty feasible set in the finite-dimensional space of real arrow assignments, followed by residual reachability to obtain a minimum cut.
@@ -179,8 +179,8 @@ Prove submodularity of directed outgoing cut capacity and of undirected cut capa
 For fixed distinct terminals, prove that minimum-cut source sides are closed under union and intersection.
 Develop this family as a finite lattice under inclusion, with unique smallest and largest source sides.
 
-For any maximum flow, characterize the smallest source side as the vertices reachable from the source in its residual network.
-Characterize the largest as the complement of the vertices from which the sink is residual-reachable.
+For any maximum flow, characterize the smallest source side as the vertices reachable from the source along arrows of positive residual capacity.
+Characterize the largest as the complement of the vertices from which the sink is reachable along such arrows.
 Deduce that these two sets are independent of the chosen maximum flow.
 
 Prove the undirected **non-crossing lemma** as a separate target: if `S` is one side of a minimum `s–t` cut and distinct vertices `u, v` both lie in `S`, there exists a minimum `u–v` cut with one side contained in `S`.
