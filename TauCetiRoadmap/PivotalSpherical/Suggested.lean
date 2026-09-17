@@ -257,8 +257,9 @@ noncomputable def quantumDim {C : Type u} [Category.{v} C] [MonoidalCategory C] 
 ⚠ None of this exists in Mathlib. There is no semisimplicity class, no decomposition API, no
 Grothendieck ring for a monoidal category and no Perron–Frobenius theorem, and no other Tau Ceti
 roadmap covers any of it. The fusion hypotheses are carried as ordinary instance arguments rather
-than bundled: that is what the generality bar in `README.md` asks for, and it fixes the coefficient
-field properly, which a `Prop`-valued hypothesis cannot do. -/
+than bundled: that is what the generality bar in `README.md` asks for, and it keeps the coefficient
+field and the structures visible to elaboration and to `simp`. That is an API argument, not a
+logical one; a `Prop`-valued `IsFusion k C` could perfectly well mention `k`. -/
 
 /-- **Finite semisimple category**: every object is a finite biproduct of simple objects.
 
@@ -287,6 +288,26 @@ noncomputable def SimpleClasses.repr {C : Type u} [Category.{v} C] [Limits.HasZe
 
 instance {C : Type u} [Category.{v} C] [Limits.HasZeroMorphisms C] (i : SimpleClasses C) :
     Simple i.repr := i.2
+
+/-- **Layer 3, the multiplicity of a simple object in a decomposition.** Stated with no hypothesis
+on `k`, because Schur's lemma counts multiplicities over the division algebra `End S` rather than
+over `k`. Targets: well-definedness, additivity on biproducts, `multiplicity S S = 1`,
+`multiplicity S X = 0` when `X` is zero, and invariance under an equivalence of categories. -/
+noncomputable def multiplicity {C : Type u} [Category.{v} C] [Abelian C]
+    [IsFiniteSemisimpleCategory C] (S X : C) [Simple S] : ℕ := sorry
+
+/-- **The `k`-dimension formula for the multiplicity**, which is where a split hypothesis is needed.
+
+⚠ This is **not** true without `hsplit`, and the general decomposition theory above deliberately
+does not assume it. In real representations of `C₃` the rotation simple `V` occurs in itself with
+multiplicity one, while `End V ≅ ℂ` and `dim_ℝ (V ⟶ V) = 2`: the raw `k`-dimension over-counts by
+the degree of the division algebra. Algebraic closedness of `k` implies `hsplit`, but it is the
+splitting and not the closedness that the formula uses, so the hypothesis is stated directly; this
+layer is general semisimple-category infrastructure and must not inherit the fusion bar. -/
+theorem multiplicity_eq_finrank (k : Type w) [Field k] {C : Type u} [Category.{v} C] [Abelian C]
+    [Linear k C] [IsFiniteSemisimpleCategory C] [∀ X Y : C, FiniteDimensional k (X ⟶ Y)]
+    (hsplit : ∀ (S : C) (_ : Simple S), Nonempty (End S ≃ₐ[k] k)) (S X : C) [Simple S] :
+    multiplicity S X = Module.finrank k (S ⟶ X) := sorry
 
 /-- **The endomorphisms of a simple unit are the scalars.**
 
@@ -627,5 +648,100 @@ theorem ribbon_center_of_spherical (k : Type w) [Field k] [IsAlgClosed k] [CharZ
     [IsFiniteSemisimpleCategory (Center C)] :
     letI := centerBalancedOfSpherical C
     RibbonCategory (Center C) := sorry
+
+/-! ## Layer 11: the centre of a fusion category is a fusion category
+
+This layer produces the `IsFiniteSemisimpleCategory (Center C)` instance that
+`ribbon_center_of_spherical` assumes, and the remaining fusion hypotheses on `Center C`. It is the
+only place in this roadmap where the centre is studied as a category in its own right rather than
+as a target of an arrow in the synoptic chart. Sources: ENO, *On fusion categories*, §§2 and 8;
+Müger, *From subfactors to categories and topology II*; EGNO Chapter 9.
+-/
+
+/-- **Layer 11, the induction functor** `I X = ⨁_S S ⊗ X ⊗ Sᘁ`, with its canonical half-braiding.
+Defining that half-braiding and proving the hexagon is the content; the underlying object is not.
+Targets: `Center.forget ⋙ centerInduction` computed on objects, exactness, and faithfulness. -/
+noncomputable def centerInduction (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
+    [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
+    [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)]
+    [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
+    [Fintype (SimpleClasses C)] : C ⥤ Center C := sorry
+
+/-- **Layer 11, induction is left adjoint to the forgetful functor.** -/
+noncomputable def centerInductionAdjunctionLeft (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
+    [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
+    [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)]
+    [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
+    [Fintype (SimpleClasses C)] : centerInduction k C ⊣ Center.forget C := sorry
+
+/-- **Layer 11, induction is also right adjoint to the forgetful functor.** Rigidity and finite
+semisimplicity of `C` are what make the adjunction two-sided; this is the side the averaging
+argument below uses. -/
+noncomputable def centerInductionAdjunctionRight (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
+    [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
+    [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)]
+    [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
+    [Fintype (SimpleClasses C)] : Center.forget C ⊣ centerInduction k C := sorry
+
+/-- **Layer 11, the global dimension** `dim C = Σ_S d(S) · d(Sᘁ)`, built from the Layer 2
+dimensions of the Layer 3 simple classes. -/
+noncomputable def globalDim (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
+    [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
+    [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)] [PivotalCategory C]
+    [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
+    [Fintype (SimpleClasses C)] : End (𝟙_ C) := sorry
+
+/-- **Layer 11, nonvanishing of the global dimension**, which over an algebraically closed field of
+characteristic zero follows from Layer 5's Perron–Frobenius positivity. It is stated separately
+because it is the whole content of the separability hypothesis: it is exactly what fails in
+positive characteristic, and it is the only input the averaging argument needs beyond the two-sided
+adjunction. -/
+theorem globalDim_ne_zero (k : Type w) [Field k] [IsAlgClosed k] [CharZero k] (C : Type u)
+    [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
+    [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)] [PivotalCategory C]
+    [SphericalCategory C] [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
+    [Fintype (SimpleClasses C)] : globalDim k C ≠ 0 := sorry
+
+/-- **Layer 11, semisimplicity of the centre.** The producer for the instance
+`ribbon_center_of_spherical` assumes.
+
+⚠ This does **not** follow from semisimplicity of `C`. An object of `Center C` is an object of `C`
+together with a half-braiding, and a short exact sequence of such objects can fail to split in
+`Center C` even though its image under `Center.forget` splits, because the splitting has to be
+compatible with the half-braidings. The splitting is produced by averaging `𝟭` against
+`centerInduction ⋙ Center.forget` using the two-sided adjunction, and dividing by `globalDim`; that
+division is why `globalDim_ne_zero` is a hypothesis and not a remark. -/
+theorem isFiniteSemisimpleCategory_center (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
+    [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
+    [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)] [PivotalCategory C]
+    [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
+    [Fintype (SimpleClasses C)] [Abelian (Center C)]
+    (_hdim : globalDim k C ≠ 0) : IsFiniteSemisimpleCategory (Center C) := sorry
+
+/-- **Layer 11, the remaining fusion hypotheses on the centre**, derived rather than assumed, so
+that `Center C` meets the Layer 4 fusion bar as a package. -/
+theorem fusionHypotheses_center (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
+    [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
+    [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)] [PivotalCategory C]
+    [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
+    [Fintype (SimpleClasses C)] [Abelian (Center C)] [Linear k (Center C)]
+    (_hdim : globalDim k C ≠ 0) :
+    (∀ X Y : Center C, FiniteDimensional k (X ⟶ Y)) ∧ Nonempty (Fintype (SimpleClasses (Center C)))
+      ∧ Simple (𝟙_ (Center C)) := sorry
+
+/-- **Layer 11, the acceptance criterion** `dim (Z C) = (dim C)²`, which is the check that the
+induction functor was built correctly. -/
+theorem globalDim_center (k : Type w) [Field k] [IsAlgClosed k] [CharZero k] (C : Type u)
+    [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
+    [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)] [PivotalCategory C]
+    [SphericalCategory C] [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
+    [Fintype (SimpleClasses C)] [MonoidalCategory (Center C)] [RigidCategory (Center C)]
+    [Abelian (Center C)] [Linear k (Center C)] [MonoidalPreadditive (Center C)]
+    [MonoidalLinear k (Center C)] [Simple (𝟙_ (Center C))] [PivotalCategory (Center C)]
+    [∀ X Y : Center C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory (Center C)]
+    [Fintype (SimpleClasses (Center C))] [FiniteDimensional k (End (𝟙_ C))]
+    [FiniteDimensional k (End (𝟙_ (Center C)))] :
+    endUnitAlgEquiv k (Center C) (globalDim k (Center C))
+      = (endUnitAlgEquiv k C (globalDim k C)) ^ 2 := sorry
 
 end TauCetiRoadmap.PivotalSpherical

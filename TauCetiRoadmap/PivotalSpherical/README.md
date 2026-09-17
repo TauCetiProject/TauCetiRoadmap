@@ -68,9 +68,10 @@ of it has merged**, so none of it is available to us, so all of it is Tau Ceti w
    against Mathlib's. That refactor is itself in scope for this roadmap. It is work we do *after*
    something lands, never work we anticipate by idling.
 4. **Divergences must be deliberate and recorded.** Where this roadmap knowingly differs from an open
-   PR, the difference is stated in the relevant layer with the reason. There is exactly one such
-   divergence today, recorded in Layer 1 (`PivotalCategory` over `RightRigidCategory` versus
-   `RigidCategory`), and it resolves in Mathlib's favour when #42150 lands.
+   PR, the difference is stated in the relevant layer with the reason. There is no such divergence
+   today: the classes are stated over `RigidCategory`, matching #42150, even though
+   `RightRigidCategory` would be the honest minimal bar. Layer 1 records that trade and Layer 7
+   supplies the one instance it costs on `FDRep k G`.
 
 If any wording below still reads as though an open PR supplies something, read it as *"build this
 here now, shaped the way that PR shapes it, and delete it in favour of Mathlib's if and when that PR
@@ -96,9 +97,11 @@ requests as part of discharging it.
   field `k` of characteristic 0**. Spell each hypothesis on the result that needs it, as ordinary
   instance arguments (`[Linear k C]`, `[Abelian C]`, semisimplicity, finiteness of the simples,
   `End (𝟙_ C) ≃ₐ[k] k`), and do **not** bundle them into a monolithic `PivotalFusionCategory` class.
-  Instance arguments also fix `k` properly, which a `Prop`-valued `IsFusion k C` hypothesis cannot
-  do: a proof argument carries no data, so any definition taking one either ignores it or is
-  impossible to write. Layers 3 to 6 build the pieces that do not exist yet.
+  Instance arguments keep `k` and the structures visible to elaboration and to `simp`, which is the
+  reason to prefer them over a bundled `IsFusion k C` predicate; a predicate can perfectly well
+  mention `k`, and data can be extracted from a proved existence statement by choice, so the
+  argument for instance arguments is API clarity and the absence of hidden assumptions, not
+  logical impossibility. Layers 3 to 6 build the pieces that do not exist yet.
 - **Which dual.** Fix the **right dual** `Xᘁ` as primary throughout (matching `rightDualFunctor`,
   `doubleRightDualFunctor`, and `FDRep`'s `rightDual`). In a rigid category left and right duals both
   exist; state the left-handed mirror of each definition and relate the two, but pin right duals so
@@ -361,9 +364,19 @@ here, and nothing in it is specific to pivotal structures.
   separate artinian or Karoubian hypothesis, since finite decompositions give finite length and
   abelian categories are already idempotent complete.
 - **The decomposition API**, which is the point of the layer and not an afterthought: existence of a
-  decomposition, uniqueness of the multiplicities, the multiplicity of a simple `S` in `X` as
-  `finrank k (S ⟶ X)`, behaviour on zero and on biproducts, and transfer along an equivalence of
-  categories.
+  decomposition, uniqueness of the multiplicities, behaviour on zero and on biproducts, and
+  transfer along an equivalence of categories. The decomposition and uniqueness statements are
+  general: multiplicities are counted over the division algebra `End(S)`, which is what Schur's
+  lemma supplies with no hypothesis on `k`.
+
+  ⚠ The formula "the multiplicity of a simple `S` in `X` is `finrank k (S ⟶ X)`" is **not** general
+  and must carry `Hom`-finiteness over `k` together with a split-simple hypothesis
+  (`End(S) ≅ k` for every simple `S`), or else algebraic closedness of `k`. In real representations
+  of `C₃` the rotation simple `V` occurs once in itself while `dim_ℝ End(V) = 2`, so the raw
+  `k`-dimension over-counts by the degree of the division algebra. This layer is explicitly the
+  general semisimple-category infrastructure, so the fusion bar of Layer 4 must not be guessed
+  here: state the split hypothesis on the multiplicity formula itself, and let the general
+  decomposition theorem stay general.
 - **`SimpleClasses C`**, the isomorphism classes of simple objects, as a subtype of Mathlib's
   `Skeleton C` rather than an opaque type: `{X : Skeleton C // Simple X.out}`, with the class of a
   given simple object, the isomorphism between a simple and its representative, equality of classes
@@ -551,7 +564,11 @@ State the whole chart — the definitions of the remaining nodes and every arrow
   `Z(tensor)` is braided, `Z(rigid)` is braided+rigid, `Z(pivotal)` is braided+pivotal, and
   `Z(spherical)` is **ribbon** (Müger) — the last of these at the fusion bar, with the centre's
   semisimplicity supplied, because the same characteristic-three `FDRep k C₃` example above embeds
-  symmetrically into its own centre and carries the non-ribbon twist along with it. ⚠ State this by *constructing* the induced twist on `Z(C)`
+  symmetrically into its own centre and carries the non-ribbon twist along with it. That
+  semisimplicity is a hypothesis of `ribbon_center_of_spherical`, and the producer for it is
+  **Layer 11**, which this roadmap owns; the unconditional statement "the centre of a spherical
+  fusion category is ribbon" is the composite of the two and is not available until Layer 11 lands.
+  ⚠ State this by *constructing* the induced twist on `Z(C)`
   from the spherical structure and proving that twist ribbon. A statement quantifying over an
   arbitrary balanced structure on `Z(C)` is false: given a ribbon twist `θ` and a monoidal natural
   automorphism `u` of the identity, `θ · u` is again a twist, and it is ribbon only when
@@ -574,6 +591,51 @@ State the whole chart — the definitions of the remaining nodes and every arrow
   this structure is spherical in the precise sense of Layer 2. Its twist is `ρ(g)`, which is not
   ribbon: on the two-dimensional representation with `ρ(g) = [[1,1],[0,1]]` the action on the dual is
   `ρ(g⁻¹)ᵀ` whereas the dual of the twist is `ρ(g)ᵀ`, and these differ in characteristic three.
+
+### Layer 11: the centre of a fusion category is a fusion category
+
+**Prerequisites.** This roadmap: Layers 3, 4, 5, 6 and 10. Mathlib: `Center C`,
+`braidedCategoryCenter`, `Center.ofBraided`.
+
+Layer 10 restricts the spherical-to-ribbon converse to the fusion bar and therefore assumes
+`IsFiniteSemisimpleCategory (Center C)`. Nothing supplies that assumption. Semisimplicity of `C`
+does **not** give semisimplicity of `Z(C)` for free: an object of `Z(C)` is an object of `C` with a
+half-braiding, and a short exact sequence of such objects can fail to split *in `Z(C)`* even when
+it splits in `C`, because the splitting has to be chosen compatibly with the half-braidings. The
+splitting is produced by an averaging argument, and that argument has a hypothesis. So this is a
+layer of its own, and it is owned here: no other Tau Ceti roadmap covers fusion categories, and
+Layer 3 already records that this roadmap owns the finite-semisimple and fusion infrastructure.
+
+- **The forgetful functor and its adjoint.** `U : Z(C) ⥤ C` forgetting the half-braiding, and the
+  **induction functor** `I : C ⥤ Z(C)`, `I X = ⨁_{S : SimpleClasses C} S ⊗ X ⊗ Sᘁ` with its
+  canonical half-braiding. Prove `I` is two-sided adjoint to `U` (`U ⊣ I` and `I ⊣ U`), which is
+  where rigidity and finite semisimplicity of `C` enter, and that both are exact and faithful.
+  ⚠ The half-braiding on `I X` is the content: define it and prove the hexagon, rather than
+  naming `⨁ S ⊗ X ⊗ Sᘁ` and asserting it lies in `Z(C)`.
+- **The global dimension and the separability hypothesis.** `dim C = Σ_{S} d(S) · d(Sᘁ)`, built
+  from the Layer 6 dimensions, together with `dim C ≠ 0`. Over an algebraically closed field of
+  characteristic zero this is automatic (the summands are positive reals by Layer 5's
+  Perron–Frobenius), and that is the bar the rest of the roadmap is stated at; state it as a named
+  hypothesis anyway, because it is exactly what fails in positive characteristic and it is the only
+  input the averaging argument needs beyond the adjunction.
+- **The averaging idempotent and semisimplicity.** From the two-sided adjunction and `dim C ≠ 0`,
+  build the natural retraction exhibiting `𝟭_{Z(C)}` as a direct summand of `I ∘ U`, and conclude
+  that a short exact sequence in `Z(C)` splits as soon as its image under `U` splits. Since `C` is
+  semisimple every such image splits, so `IsFiniteSemisimpleCategory (Center C)` follows. This is
+  the declaration Layer 10 consumes.
+- **The remaining fusion hypotheses on `Z(C)`.** `Hom`-finiteness, `Fintype (SimpleClasses (Center
+  C))`, `Simple (𝟙_ (Center C))`, and `[MonoidalPreadditive]`/`[MonoidalLinear k]`, each derived
+  rather than assumed, so that `Z(C)` satisfies the Layer 4 fusion hypotheses as a package and
+  Layer 10's arrow can be stated unconditionally.
+- **The dimension formula** `dim (Center C) = (dim C)²`, which is the standard acceptance criterion
+  for the construction and the sanity check that the induction functor was built correctly.
+
+**Source.** Etingof–Nikshych–Ostrik, *On fusion categories*, §§2 and 8 (the induction functor, the
+two-sided adjunction, and Theorem 2.15); Müger, *From subfactors to categories and topology II*, for
+the original construction; EGNO, *Tensor Categories*, Chapter 9. *False neighbour to avoid:* the
+claim that semisimplicity of `Z(C)` follows from semisimplicity of `C` with no dimension
+hypothesis. In the modular-tensor-category literature the characteristic-zero bar is standing and
+the hypothesis is usually invisible, which is exactly why it must be named here.
 
 ---
 
@@ -606,7 +668,11 @@ Layers 1 and 2 land; Layer 7 needs nothing from Layers 3 to 6, and Layer 8 needs
 fusion-level invariants. Layer 9 (universal grading) generalizes both examples and consumes Layer 4.
 Layer 10 (the synoptic chart) depends on the braided, balanced and ribbon definitions and the
 Drinfel'd centre, and on Layers 1 and 2 for the pivotal and spherical nodes; the central equivalence
-and the centre arrows are its most technical part.
+and the centre arrows are its most technical part. Layer 11 (the centre of a fusion category is
+fusion) comes last, because it consumes both the algebraic strand (Layers 3 to 6, for the
+adjunction and the global dimension) and Layer 10's centre arrows. It is the producer of the
+semisimplicity instance Layer 10's `Z(spherical)` arrow assumes, so the unconditional form of that
+arrow is a Layer 11 statement even though the conditional form is stated in Layer 10.
 
 **Sequencing against the Mathlib series.** The four open PRs change nothing about this ordering.
 Every layer is startable now, and a contributor who wants the Layer 0 or Layer 1 definitions should
