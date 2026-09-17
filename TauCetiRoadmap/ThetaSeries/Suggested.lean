@@ -3,9 +3,11 @@ import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
 import TauCeti.LinearAlgebra.IntegralLattice.OrthogonalSum
 import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.Index
 import TauCeti.LinearAlgebra.IntegralLattice.Rationalization
+import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeD.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE
 import TauCeti.NumberTheory.ModularForms.DiamondOperators
+import TauCeti.NumberTheory.ModularForms.Fricke.Matrix
 import TauCeti.NumberTheory.ModularForms.LevelOne.GradedRing
 
 /-!
@@ -41,8 +43,16 @@ Layer 1 is stated for an arbitrary finite-dimensional real inner product space a
 full-rank lattice, with no theta-series vocabulary in its hypotheses, so that `poissonSummation`,
 its two summability halves, `gaussian`, `fourier_gaussian`, `dual`, `dual_dual` and
 `covolume_dual` can be consumed unchanged by developments whose lattices are not the ones studied
-here — a number-field ideal lattice, say, transported along a linear isometry into an inner
-product space (`README.md`, *Scope and ownership*).
+here — a number-field ideal lattice, say, carried into a Euclidean model by a continuous real
+linear equivalence together with its form, dual pairing, measure and covolume comparison
+(`README.md`, *Scope and ownership*; a sup-norm space admits no linear isometry onto an inner
+product space, so the transport is an equivalence, not an isometry).
+
+Hypotheses that a quotient lift needs are arguments of the lift. The discriminant group is a type
+for every lattice, but its finiteness is gated on `Fact (IsIntegral L)`; the Gauss summands and
+the character `e(q_L)` take the evenness of `L` — and, where a twist enters, the twisting vector
+as an element of `L^∨` — as arguments, because the descent obligations are false without them
+(`README.md`, *Standing conventions*, *Gauss sums of a lattice*).
 -/
 
 namespace TauCetiRoadmap.ThetaSeries
@@ -133,8 +143,10 @@ writing `exp (-2 π i ⟪v, m⟫)` on the right agree after `m ↦ -m`.
 ⚠ The hypotheses are exactly `[InnerProductSpace ℝ E] [FiniteDimensional ℝ E]` plus the Borel
 structure, and they are not weakened for a consumer whose own space is not an inner product space
 — Mathlib's `NumberField.mixedEmbedding.mixedSpace` carries a product sup norm, for instance.
-Such a consumer applies this theorem in a model that is one and transports along a linear isometry;
-the transport is the consumer's target, not this one's. -/
+Such a consumer applies this theorem in a Euclidean model reached by a continuous real linear
+equivalence (not an isometry: a sup norm fails the parallelogram law), carrying the form, the dual
+pairing, the measure normalization and the covolume/Jacobian comparison with it; that transport is
+the consumer's target, not this one's. -/
 theorem poissonSummation (f : 𝓢(E, ℂ)) (v : E) :
     ∑' ℓ : L, f (v + (ℓ : E)) =
       (ZLattice.covolume L volume)⁻¹ *
@@ -192,9 +204,12 @@ theorem isIntegral_of_isEven (h : IsEven L) : IsIntegral L := sorry
 is `isUnimodular_iff_covolume_eq_one`, a theorem, not an alternative definition. -/
 def IsUnimodular : Prop := L = L^∨
 
-/-- The discriminant group of the real model, the literal quotient `L^∨ ⧸ L`. Its bilinear and
-quadratic forms are *not* redefined here: they are Tau Ceti's `discriminantPairing` and
-`discriminantQuadraticMap`, transported across `ratModel` below. -/
+/-- The discriminant group of the real model: the quotient `L^∨ ⧸ (L ∩ L^∨)`, which is the literal
+`L^∨ ⧸ L` when `L` is integral. The *type* exists for every lattice; every statement about it
+carries `IsIntegral L` (or `IsEven L`), and its finiteness is gated on `Fact (IsIntegral L)`,
+because without integrality the quotient is infinite in general: `L = 2^{1/4} ℤ ⊂ ℝ` has
+`L ∩ L^∨ = 0`. Its bilinear and quadratic forms are *not* redefined here: they are Tau Ceti's
+`discriminantPairing` and `discriminantQuadraticMap`, transported across `ratModel` below. -/
 abbrev discGroup : Type _ := L^∨ ⧸ L.comap (L^∨).subtype
 
 /-- The scaled lattice `c • L`. -/
@@ -207,9 +222,10 @@ instance : IsZLattice ℝ (L^∨) := sorry
 
 theorem dual_dual : (L^∨)^∨ = L := sorry
 
-instance : Finite (discGroup L) := sorry
+/-- Finiteness of the discriminant group needs integrality; see `discGroup`. -/
+instance [Fact (IsIntegral L)] : Finite (discGroup L) := sorry
 
-instance : Fintype (discGroup L) := Fintype.ofFinite _
+instance [Fact (IsIntegral L)] : Fintype (discGroup L) := Fintype.ofFinite _
 
 /-! ### Scaling is not an invariance -/
 
@@ -231,14 +247,26 @@ theorem isEven_scale_sqrt_of_isEven (h : IsEven L) (m : ℕ) : IsEven (scale L (
 theorem isEven_scale_sqrt_of_even (h : IsIntegral L) {m : ℕ} (hm : Even m) :
     IsEven (scale L (√(m : ℝ))) := sorry
 
-/-- `√m • L` is never unimodular for `m > 1`: `√2 • E₈` is even and integral and not unimodular. -/
-theorem not_isUnimodular_scale_sqrt (h : IsIntegral L) {m : ℕ} (hm : 1 < m) :
+/-- In positive rank, `√m • L` is never unimodular for `m > 1`: `√2 • E₈` is even and integral and
+not unimodular. ⚠ `Nontrivial E` is needed: in the zero-dimensional space the zero lattice is
+unimodular and fixed by every scaling (`isUnimodular_scale_stdLattice_zero`). -/
+theorem not_isUnimodular_scale_sqrt [Nontrivial E] (h : IsIntegral L) {m : ℕ} (hm : 1 < m) :
     ¬ IsUnimodular (scale L (√(m : ℝ))) := sorry
+
+/-- In positive rank, a unimodular lattice scaled by `0 < c ≠ 1` is not unimodular
+(`det (c • L) = c ^ (2n) ≠ 1`). Scaling *down* an integral lattice can create unimodularity
+(`(1/√2) • (√2 • ℤ) = ℤ`), so this is stated for unimodular `L`, not for integral `L`. -/
+theorem not_isUnimodular_scale_of_isUnimodular [Nontrivial E] (h : IsUnimodular L) {c : ℝ}
+    (hc : 0 < c) (hc1 : c ≠ 1) :
+    haveI : NeZero c := ⟨hc.ne'⟩
+    ¬ IsUnimodular (scale L c) := sorry
 
 /-! ### The level -/
 
 /-- The level of an even lattice: the least `N > 0` with `N * ‖x‖ ^ 2 / 2 ∈ ℤ` for every `x` in the
-dual. Equivalently the order of the discriminant quadratic form. Junk (`0`) off `IsEven`. -/
+dual. Equivalently the order of the discriminant quadratic form. Every statement about it carries
+`IsEven L`; the definition is the unguarded infimum, which has a value on every lattice (`2` on
+the odd lattice `ℤ`), and nothing relies on that value. -/
 def level : ℕ :=
   sInf {N : ℕ | 0 < N ∧ ∀ x ∈ L^∨, ∃ m : ℤ, (N : ℝ) * ‖x‖ ^ 2 / 2 = m}
 
@@ -531,13 +559,21 @@ theorem kroneckerChar_isQuadratic (D : ℤ) (hD : D ≡ 0 [ZMOD 4] ∨ D ≡ 1 [
 theorem kroneckerChar_neg_one (D : ℤ) (hD : D ≡ 0 [ZMOD 4] ∨ D ≡ 1 [ZMOD 4]) (hD₀ : D ≠ 0) :
     kroneckerChar D hD hD₀ (-1) = (SignType.sign D : ℂ) := sorry
 
+/-- Every unit class modulo `M` has an odd positive representative: a unit modulo an even `M` is
+odd, and for odd `M` one of `a`, `a + M` is. This is the unit-group input to the conductor descent
+of 6F. -/
+theorem exists_odd_natCast_eq_units (M : ℕ) [NeZero M] (u : (ZMod M)ˣ) :
+    ∃ a : ℕ, Odd a ∧ (a : ZMod M) = u := sorry
+
 variable (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
 
 /-- The signed discriminant `D_L = (-1)^k * det L` of an even lattice of rank `2 * k`, as an
 integer: `det L` is the order of the discriminant group. -/
 def signedDisc (k : ℕ) : ℤ := (-1) ^ k * (Nat.card (discGroup L) : ℤ)
 
-theorem signedDisc_ne_zero (k : ℕ) : signedDisc L k ≠ 0 := sorry
+/-- `D_L ≠ 0` needs integrality: `Nat.card` of an infinite group is `0`, and `A_L` is infinite for
+`L = 2^{1/4} ℤ`. -/
+theorem signedDisc_ne_zero (h : IsIntegral L) (k : ℕ) : signedDisc L k ≠ 0 := sorry
 
 /-- For an even lattice of rank `2k`, the signed discriminant is `≡ 0` or `1 (mod 4)`. This is
 what makes the Kronecker character exist at modulus `|D_L|`. -/
@@ -584,9 +620,12 @@ omit [FiniteDimensional ℝ E] [DiscreteTopology L] [IsZLattice ℝ L] in
 theorem thetaCosetClass_mk (γ : L^∨) :
     thetaCosetClass L (Submodule.Quotient.mk γ) = thetaCoset L (γ : E) := rfl
 
-/-- `Θ_{L^∨} = ∑_{γ ∈ A_L} θ_{γ+L}`: the theta series of the **dual** is the sum of the coset
-series, a finite sum over the discriminant group. -/
-theorem thetaSeries_dual_eq_sum (τ : ℍ) :
+/-- `Θ_{L^∨} = ∑_{γ ∈ A_L} θ_{γ+L}` for **integral** `L`: the theta series of the dual is the sum
+of the coset series, a finite sum over the discriminant group. ⚠ False without integrality: for
+`L = ½ ℤ`, `L^∨ = 2ℤ ⊂ L`, the quotient `L^∨ ⧸ (L ∩ L^∨)` is trivial, and the identity would read
+`Θ_{2ℤ} = Θ_{½ℤ}`, which fails at `τ = i`. -/
+theorem thetaSeries_dual_eq_sum (h : IsIntegral L) (τ : ℍ) :
+    haveI : Fact (IsIntegral L) := ⟨h⟩
     thetaSeries (L^∨) τ = ∑ γ : discGroup L, thetaCosetClass L γ τ := sorry
 
 theorem mdifferentiable_thetaSeries : MDifferentiable 𝓘(ℂ) 𝓘(ℂ) (thetaSeries L) := sorry
@@ -647,6 +686,31 @@ theorem thetaSeries_stdLattice (n : ℕ) (τ : ℍ) :
 
 end JacobiTheta
 
+/-! ### Boundary checks at rank zero
+
+The zero lattice in the zero-dimensional space is integral, even and self-dual, and every nonzero
+scaling fixes it. These values are the reason the strict scaling statements of Layer 2B carry
+`Nontrivial E`, and they are acceptance tests for the definitions. -/
+
+section RankZero
+
+theorem thetaSeries_stdLattice_zero (τ : ℍ) : thetaSeries (stdLattice 0) τ = 1 := sorry
+
+theorem isEven_stdLattice_zero : IsEven (stdLattice 0) := sorry
+
+theorem isUnimodular_stdLattice_zero : IsUnimodular (stdLattice 0) := sorry
+
+theorem level_stdLattice_zero : level (stdLattice 0) = 1 := sorry
+
+theorem det_stdLattice_zero : det (stdLattice 0) = 1 := sorry
+
+/-- Every scaling fixes the zero lattice, so it stays unimodular: this is why
+`not_isUnimodular_scale_sqrt` and `not_isUnimodular_scale_of_isUnimodular` carry `Nontrivial E`. -/
+theorem isUnimodular_scale_stdLattice_zero (c : ℝ) [NeZero c] :
+    IsUnimodular (scale (stdLattice 0) c) := sorry
+
+end RankZero
+
 /-! ## Layer 4: the two transformation laws
 
 From here on the rank is even, `n = 2 * k`, wherever an automorphy factor appears. -/
@@ -678,6 +742,12 @@ theorem thetaSeries_neg_inv (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (τ : 
     thetaSeries L (⟨-1 / (τ : ℂ), by sorry⟩) =
       (ZLattice.covolume L volume)⁻¹ * (-I) ^ k * (τ : ℂ) ^ k * thetaSeries (L^∨) τ := sorry
 
+/-- **4D, the central element.** `S² = -I` acts on weight `k` by `(-1)^k` (`denom (-I) τ = -1`),
+and applying `thetaSeries_neg_inv` twice, with `covolume_dual` and `dual_dual`, returns the same
+scalar `(-i)^{2k} = (-1)^k`. ⚠ The scalar is not `1`: in weight `1` it is `-1`. -/
+theorem thetaSeries_slash_S_sq (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) :
+    thetaSeries L ∣[(k : ℤ)] (ModularGroup.S ^ 2) = ((-1 : ℂ) ^ k) • thetaSeries L := sorry
+
 /-- **4C, inversion at a general translate.** Poisson summation at the Gaussian translated by
 `v`, for any `v : E`; this is the form the coset splitting of Layer 7 consumes. -/
 theorem thetaCoset_neg_inv (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (v : E) (τ : ℍ) :
@@ -701,6 +771,7 @@ theorem pairingChar_mk (γ δ : L^∨) :
 cosets and the character descends to `A_L`. The coefficient `(covolume L)⁻¹` is `|A_L|^{-1/2}`. -/
 theorem thetaCosetClass_neg_inv (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (h : IsEven L)
     (γ : discGroup L) (τ : ℍ) :
+    haveI : Fact (IsIntegral L) := ⟨isIntegral_of_isEven L h⟩
     thetaCosetClass L γ (⟨-1 / (τ : ℂ), by sorry⟩) =
       (ZLattice.covolume L volume)⁻¹ * (-I) ^ k * (τ : ℂ) ^ k *
         ∑ δ : discGroup L, pairingChar L γ δ * thetaCosetClass L δ τ := sorry
@@ -713,6 +784,11 @@ theorem covolume_eq_sqrt_natCard_discGroup (h : IsIntegral L) :
 theorem thetaSeries_stdLattice_two_neg_inv (τ : ℍ) :
     thetaSeries (stdLattice 2) (⟨-1 / (τ : ℂ), by sorry⟩) =
       (τ : ℂ) / I * thetaSeries (stdLattice 2) τ := sorry
+
+/-- **4D at `ℤ²`**: weight `1`, where `S² = -I` acts by `-1`. -/
+theorem thetaSeries_stdLattice_two_slash_S_sq :
+    thetaSeries (stdLattice 2) ∣[(1 : ℤ)] (ModularGroup.S ^ 2) = -thetaSeries (stdLattice 2) :=
+  sorry
 
 end Transformation
 
@@ -780,101 +856,166 @@ instance (c : ℕ) [NeZero c] : Fintype (L ⧸ cSub L c) := Fintype.ofFinite _
 theorem natCard_quotient_cSub (c : ℕ) [NeZero c] :
     Nat.card (L ⧸ cSub L c) = c ^ Module.finrank ℝ E := sorry
 
-/-- The summand `e(a ‖y‖² / (2c) + ⟪y, m⟫ / c)` of a twisted Gauss sum, well defined on `L / cL`
-because `L` is even and `m ∈ L^∨`. -/
-def gaussTerm (a : ℤ) (c : ℕ) (m : E) (y : L ⧸ cSub L c) : ℂ :=
+/-- The summand `e(a ‖y‖² / (2c) + ⟪y, m⟫ / c)` of a twisted Gauss sum. ⚠ Its descent to `L / cL`
+needs **both** hypotheses, and they are arguments here: `IsEven L`, so that
+`a ‖v + c w‖² / (2c) ≡ a ‖v‖² / (2c) (mod 1)` for `w ∈ L`, and `m ∈ L^∨`, so that
+`⟪c w, m⟫ / c ∈ ℤ`. The obligation is false without either — on `L = ℤ`, `a = c = 1`, `m = 0` the
+representatives `0, 1` of the single class give `1, -1`; on `L = √2 • ℤ`, `a = c = 1`,
+`m = 1/(2√2) ∉ L^∨` the representatives `0, √2` give `1, -1` — so hypotheses on later theorems
+would not repair an unguarded definition. -/
+def gaussTerm (h : IsEven L) (a : ℤ) (c : ℕ) (m : L^∨) (y : L ⧸ cSub L c) : ℂ :=
   Quotient.liftOn' y
-    (fun v : L => cexp (2 * π * I * (a * (‖(v : E)‖ ^ 2 : ℝ) / (2 * c) + ⟪(v : E), m⟫ / c))) sorry
+    (fun v : L => cexp (2 * π * I * (a * (‖(v : E)‖ ^ 2 : ℝ) / (2 * c) + ⟪(v : E), (m : E)⟫ / c)))
+    sorry
 
-/-- **6A, the Gauss sum** `G_L(a, c) = ∑_{y ∈ L/cL} e(a ‖y‖² / (2c))`. -/
-def gaussSum (a : ℤ) (c : ℕ) [NeZero c] : ℂ := ∑ y : L ⧸ cSub L c, gaussTerm L a c 0 y
+/-- **6A, the Gauss sum** `G_L(a, c) = ∑_{y ∈ L/cL} e(a ‖y‖² / (2c))` of an even lattice. -/
+def gaussSum (h : IsEven L) (a : ℤ) (c : ℕ) [NeZero c] : ℂ :=
+  ∑ y : L ⧸ cSub L c, gaussTerm L h a c 0 y
 
-/-- **6A, the twisted Gauss sum** `G_L(a, c; m)`. -/
-def gaussSumTwisted (a : ℤ) (c : ℕ) [NeZero c] (m : E) : ℂ := ∑ y : L ⧸ cSub L c, gaussTerm L a c m y
+/-- **6A, the twisted Gauss sum** `G_L(a, c; m)`, `m ∈ L^∨`. -/
+def gaussSumTwisted (h : IsEven L) (a : ℤ) (c : ℕ) [NeZero c] (m : L^∨) : ℂ :=
+  ∑ y : L ⧸ cSub L c, gaussTerm L h a c m y
 
-theorem gaussSum_one_one : gaussSum L 1 1 = 1 := sorry
+theorem gaussSum_one_one (h : IsEven L) : gaussSum L h 1 1 = 1 := sorry
 
-theorem gaussSum_add_two_mul (a : ℤ) (c : ℕ) [NeZero c] (t : ℤ) :
-    gaussSum L (a + 2 * c * t) c = gaussSum L a c := sorry
+theorem gaussSum_add_two_mul (h : IsEven L) (a : ℤ) (c : ℕ) [NeZero c] (t : ℤ) :
+    gaussSum L h (a + 2 * c * t) c = gaussSum L h a c := sorry
 
 /-- **6A, vanishing**: for `N ∣ c` the twisted sum vanishes unless `m ∈ L`, by the shift
 `y ↦ y + c w`, `w ∈ L^∨`. -/
 theorem gaussSumTwisted_eq_zero (h : IsEven L) (a : ℤ) {c : ℕ} [NeZero c] (hc : level L ∣ c)
-    {m : E} (hm : m ∈ L^∨) (hm' : m ∉ L) : gaussSumTwisted L a c m = 0 := sorry
+    {m : L^∨} (hm' : (m : E) ∉ L) : gaussSumTwisted L h a c m = 0 := sorry
 
 /-- **6A, completing the square**: for `m ∈ L` and `a d ≡ 1 (mod c)`. -/
 theorem gaussSumTwisted_eq_of_mem (h : IsEven L) {a d : ℤ} {c : ℕ} [NeZero c]
-    (had : a * d ≡ 1 [ZMOD c]) {m : E} (hm : m ∈ L) :
-    gaussSumTwisted L a c m = cexp (-(2 * π * I * (a * d ^ 2 * (‖m‖ ^ 2 : ℝ) / (2 * c)))) *
-      gaussSum L a c := sorry
+    (had : a * d ≡ 1 [ZMOD c]) {m : L^∨} (hm : (m : E) ∈ L) :
+    gaussSumTwisted L h a c m =
+      cexp (-(2 * π * I * (a * d ^ 2 * (‖(m : E)‖ ^ 2 : ℝ) / (2 * c)))) * gaussSum L h a c := sorry
 
 /-- The quotient `L^∨ / aL`, the index set of the dual side of the reciprocity law. -/
 def aSubDual (a : ℕ) : Submodule ℤ (L^∨) := (L.map ((a : ℤ) • LinearMap.id)).comap (L^∨).subtype
 
-instance (a : ℕ) [NeZero a] : Finite (L^∨ ⧸ aSubDual L a) := sorry
+/-- Finiteness of `L^∨ / aL` needs integrality, exactly as `discGroup` does: for
+`L = 2^{1/4} ℤ ⊂ ℝ` and `a = 1` the quotient is infinite. -/
+instance (a : ℕ) [NeZero a] [Fact (IsIntegral L)] : Finite (L^∨ ⧸ aSubDual L a) := sorry
 
-instance (a : ℕ) [NeZero a] : Fintype (L^∨ ⧸ aSubDual L a) := Fintype.ofFinite _
+instance (a : ℕ) [NeZero a] [Fact (IsIntegral L)] : Fintype (L^∨ ⧸ aSubDual L a) :=
+  Fintype.ofFinite _
 
-/-- The summand `e(-c ‖y‖² / (2a))` on `L^∨ / aL`, well defined because `L` is even. -/
-def dualGaussTerm (c : ℕ) (a : ℕ) (y : L^∨ ⧸ aSubDual L a) : ℂ :=
-  Quotient.liftOn' y (fun v : L^∨ => cexp (-(2 * π * I * (c * (‖(v : E)‖ ^ 2 : ℝ) / (2 * a))))) sorry
+/-- The summand `e(-c ‖y‖² / (2a))` on `L^∨ / aL`. Its descent needs `IsEven L`: for `v ∈ L^∨` and
+`w ∈ L`, `c ‖v + a w‖² / (2a) = c ‖v‖² / (2a) + c ⟪v, w⟫ + c a ‖w‖² / 2`, and the last term is an
+integer only because `L` is even (on `L = ℤ`, `a = c = 1`, the representatives `0, 1` give
+`1, -1`). So evenness is an argument. -/
+def dualGaussTerm (h : IsEven L) (c : ℕ) (a : ℕ) (y : L^∨ ⧸ aSubDual L a) : ℂ :=
+  Quotient.liftOn' y (fun v : L^∨ => cexp (-(2 * π * I * (c * (‖(v : E)‖ ^ 2 : ℝ) / (2 * a)))))
+    sorry
 
 variable [MeasurableSpace E] [BorelSpace E]
 
+/-- **6B, the intermediate target**: along any path `ε → 0` in `ℍ` on which
+`Im(-1/ε) = Im ε / |ε|² → ∞`, `ε^k θ_v(ε) → i^k (covolume L)⁻¹`. This is `thetaCoset_neg_inv`
+read at `τ = -1/ε`, whose dual sum tends to its `m = 0` term. ⚠ Stated for complex `ε`, not for
+`ε = it`: the paths of the reciprocity proof have varying real part. -/
+theorem tendsto_pow_mul_thetaCoset (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (v : E) :
+    Filter.Tendsto (fun ε : ℍ => (ε : ℂ) ^ k * thetaCoset L v ε)
+      (Filter.comap (fun ε : ℍ => ε.im / Complex.normSq (ε : ℂ)) Filter.atTop)
+      (nhds (I ^ k * ((ZLattice.covolume L volume : ℝ) : ℂ)⁻¹)) := sorry
+
+/-- **6B, the asymptotic at a rational point, additive form**: along the vertical path
+`τ = a/c + it`, `t → 0⁺`, `t^k Θ_L(τ) → G_L(a, c) / (c^{2k} covolume L)`. ⚠ This is the valid
+shape; `G_L(a, c) (…) (1 + o(1))` is not, since `G_L(a, c)` can vanish while `Θ_L` does not
+(`L = √2 • ℤ²`, `a = 1`, `c = 2`: `G_L(1, 2) = 0` and `Θ_L(1/2 + it) > 0`). -/
+theorem tendsto_pow_im_mul_thetaSeries (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (h : IsEven L)
+    {a c : ℕ} [NeZero a] [NeZero c] (hac : Nat.Coprime a c) :
+    Filter.Tendsto (fun τ : ℍ => ((τ.im : ℝ) : ℂ) ^ k * thetaSeries L τ)
+      (Filter.comap (fun τ : ℍ => (τ : ℂ))
+        (nhdsWithin ((a : ℂ) / c) {z : ℂ | z.re = (a : ℝ) / c}))
+      (nhds (gaussSum L h a c /
+        ((c : ℂ) ^ (2 * k) * ((ZLattice.covolume L volume : ℝ) : ℂ)))) := sorry
+
 /-- **6B, reciprocity.** For coprime positive `a, c`,
-`G_L(a, c) = (c/a)^k (det L)^{-1/2} e(n/8) ∑_{y ∈ L^∨/aL} e(-c ‖y‖²/(2a))`. Proved by comparing the
-two evaluations of `Θ_L(a/c + it)` as `t → 0⁺`; the rank-one case is Landsberg–Schaar. -/
+`G_L(a, c) = (c/a)^k (det L)^{-1/2} e(n/8) ∑_{y ∈ L^∨/aL} e(-c ‖y‖²/(2a))`. Proved by evaluating
+the limit of `tendsto_pow_im_mul_thetaSeries` a second time: the `S`-law `thetaSeries_neg_inv`
+sends `a/c + it` to `-1/(a/c + it) → -c/a`, the dual lattice splits modulo `a • L`, and
+`tendsto_pow_mul_thetaCoset` applies along that (non-vertical) path. The case `L = √2 • ℤ²` is
+the square of the Landsberg–Schaar identity; the rank-one identity itself is odd-rank and is not a
+target. -/
 theorem gaussSum_reciprocity (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (h : IsEven L)
     {a c : ℕ} [NeZero a] [NeZero c] (hac : Nat.Coprime a c) :
-    gaussSum L a c =
+    haveI : Fact (IsIntegral L) := ⟨isIntegral_of_isEven L h⟩
+    gaussSum L h a c =
       ((c : ℂ) / a) ^ k * ((√(det L) : ℝ) : ℂ)⁻¹ * cexp (2 * π * I * (2 * k) / 8) *
-        ∑ y : L^∨ ⧸ aSubDual L a, dualGaussTerm L c a y := sorry
+        ∑ y : L^∨ ⧸ aSubDual L a, dualGaussTerm L h c a y := sorry
 
-/-- The character value `e(q_L(γ)) = exp (π i ‖γ‖²)` on the discriminant group of an even
-lattice. -/
-def quadChar (γ : discGroup L) : ℂ :=
+/-- The character value `e(q_L(γ)) = exp (π i ‖γ‖²)` on the discriminant group of an **even**
+lattice. Evenness is an argument: the descent needs `‖v + w‖² ≡ ‖v‖² (mod 2)` for `w ∈ L`, and on
+the odd unimodular `ℤ` the representatives `0, 1` of the single class give `1, -1`. -/
+def quadChar (h : IsEven L) (γ : discGroup L) : ℂ :=
   Quotient.liftOn' γ (fun v : L^∨ => cexp (π * I * (‖(v : E)‖ ^ 2 : ℝ))) sorry
 
-/-- **6C, Milgram's formula** for a positive-definite even lattice,
-`∑_{γ ∈ A_L} e(q_L(γ)) = |A_L|^{1/2} e(n/8)`: the case `a = c = 1` of reciprocity.
+/-- **6C, Milgram's formula** for a positive-definite even lattice of even rank,
+`∑_{γ ∈ A_L} e(q_L(γ)) = |A_L|^{1/2} e(n/8)`: the complex conjugate of the case `a = c = 1` of
+reciprocity (⚠ conjugation, not `y ↦ -y`, which changes nothing since `q_L(-y) = q_L(y)`).
 
 ⚠ Positive-definite signature only, by theta asymptotics: this is the form Layer 7 and
 `eight_dvd_finrank_of_even_unimodular'` need. The general theorem — a Gauss-sum signature
 `sign q ∈ ℤ/8` of a finite quadratic module with `sign q_L ≡ n₊ - n₋ (mod 8)` at every signature —
 is not a target of this roadmap; nothing here needs the indefinite case. -/
 theorem milgram (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (h : IsEven L) :
-    ∑ γ : discGroup L, quadChar L γ =
+    haveI : Fact (IsIntegral L) := ⟨isIntegral_of_isEven L h⟩
+    ∑ γ : discGroup L, quadChar L h γ =
       ((√(Nat.card (discGroup L) : ℝ) : ℝ) : ℂ) * cexp (2 * π * I * (2 * k) / 8) := sorry
 
-/-- `8 ∣ n` again, in one line from Milgram: `|A_L| = 1` forces `e(n/8) = 1`. -/
+/-- `8 ∣ n` again from Milgram: for even `n`, `|A_L| = 1` forces `e(n/8) = 1`; for odd `n` apply
+`milgram` to `L ⊕ L`, even unimodular of rank `2n`, to get `4 ∣ n`, a contradiction. -/
 theorem eight_dvd_finrank_of_even_unimodular' (he : IsEven L) (hu : IsUnimodular L) :
     8 ∣ Module.finrank ℝ E := sorry
 
-/-- **6D, evaluation at an odd modulus.** For `a` odd and coprime to `N`, and `N ∣ c`, the dual
-side of reciprocity is `det L * (D_L / a) * a^k`: the form `-(c/N)(N ‖·‖²/2)` is unimodular
-modulo `a`, and only `g_p² = (-1/p) p` is needed from the rank-one Gauss sums. -/
+/-- **6D, evaluation at an odd modulus.** For `a` odd and **coprime to `c`**, and `N ∣ c` (which
+makes `a` coprime to `N` as well), the dual side of reciprocity is `det L * (D_L / a) * a^k`: the
+form `-(c/N)(N ‖·‖²/2)` is unimodular modulo `a` because `c/N` is a unit modulo `a`, and only
+`g_p² = (-1/p) p` is needed from the rank-one Gauss sums.
+
+⚠ `Nat.Coprime a (level L)` alone is false as a hypothesis: for `L = √2 • ℤ²`, `a = 3`, `c = 12`
+(`N = 4`, `D_L = -4`) every summand is `1`, the left side is `36`, and the right side is `-12`. -/
 theorem sum_dualGaussTerm_eq (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (h : IsEven L)
-    {a c : ℕ} [NeZero a] [NeZero c] (ha : Odd a) (haN : Nat.Coprime a (level L))
-    (hc : level L ∣ c) :
-    ∑ y : L^∨ ⧸ aSubDual L a, dualGaussTerm L c a y =
+    {a c : ℕ} [NeZero a] [NeZero c] (ha : Odd a) (hac : Nat.Coprime a c) (hc : level L ∣ c) :
+    haveI : Fact (IsIntegral L) := ⟨isIntegral_of_isEven L h⟩
+    ∑ y : L^∨ ⧸ aSubDual L a, dualGaussTerm L h c a y =
       (Nat.card (discGroup L) : ℂ) * (jacobiSym (signedDisc L k) a : ℂ) * (a : ℂ) ^ k := sorry
 
 /-- **6E, the closed form**: for odd positive `a` coprime to `c` and `N ∣ c`,
 `G_L(a, c) = c^k (det L)^{1/2} e(n/8) (D_L / a)`. -/
 theorem gaussSum_eq (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (h : IsEven L)
     {a c : ℕ} [NeZero a] [NeZero c] (ha : Odd a) (hac : Nat.Coprime a c) (hc : level L ∣ c) :
-    gaussSum L a c =
+    gaussSum L h a c =
       (c : ℂ) ^ k * ((√(det L) : ℝ) : ℂ) * cexp (2 * π * I * (2 * k) / 8) *
         (jacobiSym (signedDisc L k) a : ℂ) := sorry
 
+/-- **6F, the descent to the level, as a statement about unit groups.** The Kronecker character of
+`D_L`, pulled up to `M = lcm (|D_L|, N)`, factors through the level: it is trivial on the kernel
+of `ZMod.unitsMap : (ZMod M)ˣ → (ZMod N)ˣ`, because every unit class has an odd positive
+representative (`exists_odd_natCast_eq_units`) and `(D_L / a) = 1` for odd positive
+`a ≡ 1 (mod N)` coprime to `N` (`gaussSum_eq` at `c = N` against `gaussSum_add_two_mul`).
+Mathlib's `factorsThrough_iff_ker_unitsMap` turns the kernel statement into `FactorsThrough`.
+⚠ No map `ZMod |D_L| → ZMod N` is used: `N ∣ |D_L|` is not available (Layer 2 gives
+`N ∣ 2 det L`), and the kernel that matters is the multiplicative one. -/
+theorem factorsThrough_changeLevel_kroneckerChar_signedDisc (k : ℕ)
+    (hn : Module.finrank ℝ E = 2 * k) (he : IsEven L) :
+    (DirichletCharacter.changeLevel (Nat.dvd_lcm_left (signedDisc L k).natAbs (level L))
+      (kroneckerChar (signedDisc L k) (signedDisc_modEq L k hn he)
+        (signedDisc_ne_zero L (isIntegral_of_isEven L he) k))).FactorsThrough (level L) := sorry
+
 /-- **6F, the conductor theorem.** The conductor of the Kronecker character of `D_L` divides the
-level: `G_L(a, N) = G_L(1, N)` for `a ≡ 1 (mod N)` forces `(D_L / a) = 1` on such `a`. This is the
-load-bearing lattice theorem behind the nebentypus, *not* Mathlib's generic
+level: `factorsThrough_changeLevel_kroneckerChar_signedDisc` gives `FactorsThrough (level L)` at
+the modulus `lcm (|D_L|, N)`, Mathlib's `mem_conductorSet_iff_conductor_dvd` turns that into
+divisibility of the conductor there, and `conductor_changeLevel` identifies that conductor with
+this one. This is the load-bearing lattice theorem behind the nebentypus, *not* Mathlib's generic
 `conductor_dvd_level`. -/
 theorem conductor_kroneckerChar_signedDisc_dvd_level (k : ℕ) (hn : Module.finrank ℝ E = 2 * k)
     (he : IsEven L) :
     (kroneckerChar (signedDisc L k) (signedDisc_modEq L k hn he)
-      (signedDisc_ne_zero L k)).conductor ∣ level L := sorry
+      (signedDisc_ne_zero L (isIntegral_of_isEven L he) k)).conductor ∣ level L := sorry
 
 open scoped Classical in
 /-- **6F, the nebentypus** `χ_L : DirichletCharacter ℂ (level L)`: the Kronecker character of
@@ -885,7 +1026,7 @@ def discChar (k : ℕ) : DirichletCharacter ℂ (level L) :=
     DirichletCharacter.changeLevel
       (conductor_kroneckerChar_signedDisc_dvd_level L k h.1 h.2)
       (kroneckerChar (signedDisc L k) (signedDisc_modEq L k h.1 h.2)
-        (signedDisc_ne_zero L k)).primitiveCharacter
+        (signedDisc_ne_zero L (isIntegral_of_isEven L h.2) k)).primitiveCharacter
   else 1
 
 /-- The defining evaluation: away from the level, `χ_L` is the Kronecker symbol of the signed
@@ -925,7 +1066,7 @@ theorem thetaSeries_smul_eq_tsum (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (
     haveI : NeZero (A 1 0).toNat := ⟨by omega⟩
     thetaSeries L (A • τ) =
       (ZLattice.covolume L volume)⁻¹ * (((A 1 0 : ℂ) * τ + A 1 1) / (I * A 1 0)) ^ k *
-        ∑' m : L^∨, gaussSumTwisted L (A 0 0) (A 1 0).toNat (m : E) *
+        ∑' m : L^∨, gaussSumTwisted L h (A 0 0) (A 1 0).toNat m *
           cexp (2 * π * I * (A 1 1 * (‖(m : E)‖ ^ 2 : ℝ) / (2 * A 1 0))) *
           cexp (π * I * (‖(m : E)‖ ^ 2 : ℝ) * τ) := sorry
 
@@ -974,6 +1115,34 @@ theorem thetaFormOfLevel_mem_modFormCharSpace (k : ℕ) (hn : Module.finrank ℝ
 theorem qExpansion_thetaFormOfLevel_coeff_zero (k : ℕ) (hn : Module.finrank ℝ E = 2 * k)
     (he : IsEven L) :
     (qExpansion 1 (thetaFormOfLevel L k hn he)).coeff 0 = 1 := sorry
+
+/-- **7F, the Fricke operator, raw normalization.** Slashing by the Fricke matrix
+`W_N = !![0, -1; N, 0]` (Tau Ceti's `frickeGL ℝ N`) through Mathlib's slash, whose
+`slash_apply` carries `|det W_N|^{k-1} = N^{k-1}`, exchanges `Θ_L` and `Θ_{√N • L^∨}`:
+`Θ_L ∣[k] W_N = (-i)^k N^{k-1} (det L)^{-1/2} Θ_{√N • L^∨}`, by `thetaSeries_neg_inv` at `Nτ` and
+`thetaSeries_scale`. This is the map Tau Ceti's `frickeOperator` applies, whose square is
+`frickeScalar N k = (-1)^k N^{k-2}`. -/
+theorem thetaSeries_slash_frickeGL (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (he : IsEven L) :
+    haveI : NeZero ((level L : ℕ) : ℝ) := ⟨Nat.cast_ne_zero.mpr (level_pos L he).ne'⟩
+    haveI : NeZero (√(level L : ℝ)) :=
+      ⟨Real.sqrt_ne_zero'.mpr (Nat.cast_pos.mpr (level_pos L he))⟩
+    thetaSeries L ∣[(k : ℤ)] TauCeti.frickeGL ℝ (level L) =
+      ((-I) ^ k * (level L : ℂ) ^ ((k : ℤ) - 1) * ((√(det L) : ℝ) : ℂ)⁻¹) •
+        thetaSeries (scale (L^∨) (√(level L : ℝ))) := sorry
+
+/-- **7F, the Fricke operator, normalized.** The modular-forms roadmap's `𝒲_N` is
+`(√N)^{2-k} • (· ∣[k] W_N)`; on `Θ_L` it evaluates to
+`(-i)^k N^{k/2} (det L)^{-1/2} Θ_{√N • L^∨}`. ⚠ `𝒲_N² = (-1)^k`, so it is an involution in even
+weight only, and even rank does not give even weight: `A₂` has `k = 1`. -/
+theorem smul_thetaSeries_slash_frickeGL (k : ℕ) (hn : Module.finrank ℝ E = 2 * k)
+    (he : IsEven L) :
+    haveI : NeZero ((level L : ℕ) : ℝ) := ⟨Nat.cast_ne_zero.mpr (level_pos L he).ne'⟩
+    haveI : NeZero (√(level L : ℝ)) :=
+      ⟨Real.sqrt_ne_zero'.mpr (Nat.cast_pos.mpr (level_pos L he))⟩
+    ((√(level L : ℝ) : ℝ) : ℂ) ^ ((2 : ℤ) - k) •
+        (thetaSeries L ∣[(k : ℤ)] TauCeti.frickeGL ℝ (level L)) =
+      ((-I) ^ k * ((√(level L : ℝ) : ℝ) : ℂ) ^ k * ((√(det L) : ℝ) : ℂ)⁻¹) •
+        thetaSeries (scale (L^∨) (√(level L : ℝ))) := sorry
 
 end GeneralLevel
 
@@ -1044,6 +1213,42 @@ theorem thetaForm_realModel_typeE₈RootLattice_eq_E₄ :
   thetaForm_eq_E₄ _ finrank_realSpace_typeE₈RootLattice _ _
 
 end E8
+
+/-! ### The two general-level identifications, as coefficient identities
+
+The comparison forms are the modular-forms roadmap's Eisenstein series with character (its
+Layer 0), which this repository cannot yet import, so the identifications are seeded as the
+representation-number formulas they are equivalent to. Uniqueness in both cases is Tau Ceti's
+finite-index Sturm bound `eq_of_sturm_bound` — the bounds are `⌊2 · 3 / 12⌋ = 0` on `Γ₀(2)` and
+`⌊1 · 8 / 12⌋ = 0` on `Γ₁(3)` — and no dimension formula. -/
+
+section A2D4
+
+open TauCeti
+
+instance : Fact (IntegralLattice.typeARootLattice 2).IsPosDef :=
+  ⟨IntegralLattice.isPosDef_typeARootLattice (n := 2)⟩
+
+instance : Fact (IntegralLattice.checkerboardLattice 4).IsPosDef :=
+  ⟨IntegralLattice.isPosDef_checkerboardLattice (n := 4)⟩
+
+/-- **The `A₂` identification**: `r_{A₂}(2m) = 6 ∑_{d ∣ m} χ₋₃(d)` for `m ≥ 1`, i.e.
+`Θ_{A₂} = 1 + 6 ∑_m (∑_{d ∣ m} χ₋₃(d)) q^m`, the weight-one Eisenstein series with character
+`χ₋₃` at level `3` normalized to constant term `1`. The uniqueness input is the Sturm bound on
+`Γ₁(3)`, not a weight-one dimension formula. `r_{A₂}(2) = 6` is the case `m = 1`. -/
+theorem repNum_realModel_typeARootLattice_two {m : ℕ} (hm : m ≠ 0) :
+    (repNum (realModel (IntegralLattice.typeARootLattice 2)) (2 * m) : ℤ) =
+      6 * ∑ d ∈ m.divisors, kroneckerSym (-3) (d : ℤ) := sorry
+
+/-- **The `D₄` identification**: `r_{D₄}(2m) = 24 ∑_{d ∣ m, d odd} d` for `m ≥ 1`, i.e.
+`Θ_{D₄} = 2E₂(2τ) - E₂(τ)`, the weight-two corrected Eisenstein combination at level `2`
+normalized to constant term `1`. The uniqueness input is the Sturm bound on `Γ₀(2)`.
+`r_{D₄}(2) = 24` is the case `m = 1`. -/
+theorem repNum_realModel_checkerboardLattice_four {m : ℕ} (hm : m ≠ 0) :
+    repNum (realModel (IntegralLattice.checkerboardLattice 4)) (2 * m) =
+      24 * ∑ d ∈ m.divisors with Odd d, d := sorry
+
+end A2D4
 
 /-- **8D.** `Θ_L = E₄ ^ 3 - 720 Δ` for every **rootless** even unimodular lattice of rank `24` — the
 Leech identity, whose lattice-specific hypothesis is the sphere-packing project's `leech_rootless`.

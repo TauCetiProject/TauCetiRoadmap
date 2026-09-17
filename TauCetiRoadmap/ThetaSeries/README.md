@@ -29,7 +29,10 @@ with `k : ℕ`, an honest integer power, and `Complex.cpow` stays out of the mod
 lattice of odd rank has a theta series of half-integral weight, which means the metaplectic group,
 a theta multiplier and a branch of `√τ` tracked through every statement; half-integral weight is
 out of scope, and a contributor should not attempt it here.  The one odd-rank *transformation*
-statement in Mathlib, `jacobiTheta_S_smul`, is consumed only through its square (Layer 4).
+statement in Mathlib, `jacobiTheta_S_smul`, is consumed only through its square (Layer 4), and the
+same applies to the Gauss sums of Layer 6: reciprocity and Milgram's formula are stated at even
+rank, and the rank-one Landsberg–Schaar identity, whose proof is the odd-rank `S`-law, is not a
+target — its square at rank two is.
 
 Suggested home: `TauCeti/NumberTheory/ThetaSeries/`, with separate files for lattice Poisson
 summation, the real lattice model and the bridge, the theta series and its `q`-expansion, the
@@ -88,8 +91,17 @@ is the following.
   forms*).  Its `ofIntegralForm`, the rationalization of an integral form on a finite free
   `ℤ`-module, is the constructor the bridge of 2D uses.  This roadmap adds no competing definition
   of any of these; it transports them across the Layer-2 bridge.
-- From the [modular-forms roadmap](../ModularForms/README.md): `modFormCharSpace`, the nebentypus
-  decomposition, the level-one graded ring, and the general-level dimension formulas.
+- From the [modular-forms roadmap](../ModularForms/README.md): `modFormCharSpace` and the
+  nebentypus decomposition, the parity lemma, the level-one graded ring, and the finite-index
+  Sturm bound `ModularForm.sturm_bound_finiteIndex` with its corollary `eq_of_sturm_bound` (all
+  landed in Tau Ceti); the **Eisenstein series with character** of its *Layer 0* — the
+  normalized weight-`1` series for `χ₋₃` at level `3` and the weight-`2` combination
+  `2E₂(2τ) - E₂(τ)` at level `2`, with their `q`-expansions and boundedness at every cusp — which
+  the two general-level identifications at the end of Layer 8 compare against; and the Fricke
+  matrix `W_N` with its raw slash (`frickeGL`, `frickeOperator`, `frickeScalar`, landed), against
+  which 7F pins the Fricke identity in both normalizations, so that the normalized operator
+  `𝒲_N = (√N)^{2-k} • (· ∣[k] W_N)` of its *Layer 6* evaluates on `Θ_L` by a citation.  No
+  dimension formula is consumed anywhere in this roadmap.
 - From Mathlib: everything listed under *Existing library material*.
 
 ### Not owned here
@@ -103,8 +115,14 @@ is the following.
   conventions), `dual_dual` (2A) and `covolume_dual` (2C); this roadmap owns nothing specific to a
   number field.  ⚠ Layer 1 quantifies over a real inner product space `E`, and a consumer whose
   own model is not one — Mathlib's `NumberField.mixedEmbedding.mixedSpace` carries a product sup
-  norm — applies it after transporting along a linear isometry.  That transport belongs to the
-  consumer, and Layer 1 is not weakened to avoid it.
+  norm — applies it in a Euclidean model (`EuclideanSpace` or a `WithLp 2` space) reached by a
+  **continuous real linear equivalence**, carrying with it the quadratic form, the dual pairing,
+  the normalization of the measure, and the comparison of covolumes by the Jacobian of that
+  equivalence.  It is not a linear isometry: no linear isometry from a sup-norm space onto an
+  inner product space exists in general (in `ℝ²` with the sup norm,
+  `‖e₁ + e₂‖² + ‖e₁ - e₂‖² = 2 ≠ 4 = 2‖e₁‖² + 2‖e₂‖²` fails the parallelogram law), and an
+  isometry is the right tool only once the source carries a compatible inner-product norm.  That
+  transport belongs to the consumer, and Layer 1 is not weakened to avoid it.
 - **The arithmetic of the rational lattice beyond the library above** — Jordan splittings, the
   genus, the Gauss-sum signature `sign q ∈ ℤ/8` of a finite quadratic module, Milgram's theorem
   at indefinite signature, Nikulin's existence and uniqueness theory, the classification of
@@ -128,8 +146,10 @@ introduction excludes theta series and modular forms from its scope, and the com
 admits between a positive-definite rational lattice extended to `ℝ` and its algebraic carrier are
 exactly the bridge of Layer 2.  The modular-forms roadmap states no theta series, and this
 roadmap states no Hecke theory, dimension formula or newform theory of its own; Layers 5, 7 and 8
-consume its *Layer 0: diamond operators and modular forms with character (nebentypus)* and its
-*Layer 10: the modular curve `Γ\ℍ` and the dimension formulas* by the declaration names above.
+consume its *Layer 0: diamond operators and modular forms with character (nebentypus)*, its
+*Layer 6: Atkin–Lehner and Fricke operators*, and the finite-index Sturm bound of its *Layer 10:
+the modular curve `Γ\ℍ` and the dimension formulas*, by the declaration names above; nothing here
+consumes a dimension formula.
 
 ## Standing conventions
 
@@ -160,9 +180,15 @@ transformation law is unrecoverable.
   `ZLattice.covolume L volume = 1` is *equivalent* to it for an integral `L` is a theorem of Layer 2,
   not an alternative definition.
 - **Determinant and discriminant group.**  `det L := (ZLattice.covolume L volume) ^ 2`.  The
-  discriminant group of the real model is the literal quotient `A_L := L^∨ ⧸ L`, finite of order
-  `det L` for integral `L`; for integral `L` the determinant is therefore a positive integer, equal to
-  `|det Gram(b)|` for any `ℤ`-basis `b`.  Never call the covolume the determinant.
+  discriminant group of the real model is the quotient `A_L := L^∨ ⧸ (L ∩ L^∨)`, which is the
+  literal `L^∨ ⧸ L` exactly when `L` is integral.  The *type* is defined for every lattice, but
+  every statement about it — finiteness, `|A_L| = det L`, `D_L ≠ 0`, the sum
+  `Θ_{L^∨} = ∑_γ θ_γ`, the character `e(q_L)` and the Gauss sums indexed by it — carries
+  `IsIntegral L` (or `IsEven L`) as a hypothesis, and the finiteness instance is gated on that
+  hypothesis.  ⚠ Without integrality the quotient is not finite in general: `L = 2^{1/4} ℤ ⊂ ℝ`
+  has `L^∨ = 2^{-1/4} ℤ` and `L ∩ L^∨ = 0` (since `2^{1/2}` is irrational), so `A_L ≅ ℤ`.  For
+  integral `L` the determinant is a positive integer, equal to `|det Gram(b)|` for any `ℤ`-basis
+  `b`.  Never call the covolume the determinant.
 - **Discriminant forms are Tau Ceti's.**  The bilinear form `b_L` on `A_L` valued in
   `AddCircle (1 : ℚ)` is `TauCeti.IntegralLattice.discriminantPairing`, and — for even `L` only —
   the quadratic form `q_L(x + L) = ‖x‖² / 2 mod ℤ` in the **half-norm** convention is
@@ -175,19 +201,25 @@ transformation law is unrecoverable.
   document.
 - **The level.**  `level L` is the least `N : ℕ`, `0 < N`, with `N • q_L = 0`; equivalently the
   least `N` with `N ‖x‖² / 2 ∈ ℤ` for every `x ∈ L^∨`; equivalently the least `N` for which
-  `N · Gram(b)⁻¹` is an even integral matrix, for any `ℤ`-basis `b`.  It is defined for even `L`
-  only.  Prove existence (so the `sInf` is not junk), and prove `level L = 1 ↔ L` is even
-  unimodular.  ⚠ The level is *not* the exponent of the group `A_L`, and it is not `det L`; both
+  `N · Gram(b)⁻¹` is an even integral matrix, for any `ℤ`-basis `b`.  Every statement about it
+  carries `IsEven L`.  The definition itself is the unguarded infimum, so it has a value on every
+  lattice — `2` on the odd lattice `ℤ`, for instance — and nothing anywhere relies on that value;
+  do not document it as `0` or as anything else.  Prove existence (so the `sInf` is not junk for
+  even `L`), and prove `level L = 1 ↔ L` is even unimodular.  ⚠ The level is *not* the exponent of the group `A_L`, and it is not `det L`; both
   agree with it in small examples and neither agrees in general.  The level controls the dual
   inclusion `N • L^∨ ≤ L`, and `det L ∣ N^n` follows.
 - **Scaling is not an invariance.**  For `0 < c`, the lattice `c • L` has dual `c⁻¹ • L^∨`,
   determinant `c^{2n} det L`, and theta series `Θ_{c • L}(τ) = Θ_L(c² τ)`.  None of the predicates
   integral, even, unimodular is preserved by a general positive scaling: `c • L` is integral if and
-  only if `c² ⟪x, y⟫ ∈ ℤ` for all `x, y ∈ L`, and an integral lattice scaled by `c ≠ 1` is never
-  unimodular.  The scalings that occur here are by `√m` for a positive integer `m`, and they are
-  stated as such: `√m • L` is integral when `L` is, even when `L` is even or `m` is even, and has
-  `det (√m • L) = m^n det L`.  `√2 • E₈` is even and integral and is not unimodular.  A negative
-  scalar gives the same lattice, and that is a lemma, not a convention.
+  only if `c² ⟪x, y⟫ ∈ ℤ` for all `x, y ∈ L`, and in positive rank a unimodular lattice scaled by
+  `0 < c ≠ 1` is never unimodular.  The scalings that occur here are by `√m` for a positive integer
+  `m`, and they are stated as such: `√m • L` is integral when `L` is, even when `L` is even or `m`
+  is even, and has `det (√m • L) = m^n det L`.  `√2 • E₈` is even and integral and is not
+  unimodular.  A negative scalar gives the same lattice, and that is a lemma, not a convention.
+  ⚠ Every strict statement here needs positive rank: the zero lattice in the zero-dimensional
+  space is integral, even and self-dual, and every nonzero scaling fixes it.  State those
+  theorems with `Nontrivial E`; do not exclude rank zero from anything else, since `Θ_0 = 1`,
+  `det 0 = 1` and `level 0 = 1` are useful boundary checks.
 - **The theta series and its `q`-parameter.**  For `τ : ℍ`,
   `Θ_L(τ) = ∑' v : L, Complex.exp (π * I * ‖v‖ ^ 2 * τ)`, and for `γ ∈ L^∨` the coset series
   `θ_{γ+L}(τ) = ∑' v : L, Complex.exp (π * I * ‖γ + v‖ ^ 2 * τ)`, depending only on `γ + L ∈ A_L`.
@@ -204,8 +236,11 @@ transformation law is unrecoverable.
   nonzero exponent is `N/2` times the minimal squared norm in the coset `γ + L`, and it is
   determined by that minimum, not by `q_L(γ)`.  The support congruence is what boundedness at every
   cusp is read off from (Layer 7).
-- **The theta series of the dual.**  `Θ_{L^∨} = ∑_{γ ∈ A_L} θ_{γ+L}`, a finite sum over the
-  discriminant group.  The lattice's own series is the single term `θ_{0+L} = Θ_L`.
+- **The theta series of the dual.**  For integral `L`, `Θ_{L^∨} = ∑_{γ ∈ A_L} θ_{γ+L}`, a finite
+  sum over the discriminant group.  The lattice's own series is the single term `θ_{0+L} = Θ_L`.
+  ⚠ Integrality is not decorative: for `L = ½ ℤ`, `L^∨ = 2ℤ ⊂ L`, the quotient
+  `L^∨ ⧸ (L ∩ L^∨)` is trivial, and the unguarded identity would read `Θ_{2ℤ} = Θ_{½ℤ}`, which
+  is false at `τ = i`.
 - **Two names, one object.**  `thetaSeries L : ℍ → ℂ` is the bare function; the bundled
   `ModularForm` produced in Layers 5 and 7 is a separate declaration whose coercion is
   `thetaSeries L`, proved by `rfl` or a `simp` lemma.  State analytic facts about the function and
@@ -222,8 +257,17 @@ transformation law is unrecoverable.
 - **Gauss sums of a lattice.**  For an even lattice `L`, `a : ℤ` and `0 < c : ℕ`,
   `G_L(a, c) = ∑_{y ∈ L/cL} e(a ‖y‖² / (2c))`, a finite sum over the quotient `L ⧸ c • L` of order
   `c^n`, well defined because `L` is even.  The twisted sums `G_L(a, c; m) = ∑_{y ∈ L/cL}
-  e(a ‖y‖²/(2c) + ⟪y, m⟫/c)` for `m ∈ L^∨` are well defined for the same reason.  Every Gauss sum in
-  this roadmap is one of these two.
+  e(a ‖y‖²/(2c) + ⟪y, m⟫/c)` for `m ∈ L^∨` are well defined because `L` is even *and* `m ∈ L^∨`.
+  Every Gauss sum in this roadmap is one of these two.  ⚠ The summands are defined by lifting to
+  the quotient, and the well-definedness obligation is false without both hypotheses, so the
+  hypotheses are **arguments of the summand**: evenness as a proof argument and `m` as an element
+  of the subtype `L^∨`, not of `E`.  For `L = ℤ`, `a = c = 1`, `m = 0`, the representatives `0`
+  and `1` of the single class in `L/L` give `e(0) = 1` and `e(1/2) = -1`; for `L = √2 ℤ`,
+  `a = c = 1` and `m = 1/(2√2) ∉ L^∨`, the representatives `0` and `√2` give `1` and `-1`.  The
+  same applies to `e(q_L(γ))` on `A_L` (even `L` only: on `ℤ` the representatives `0`, `1` of the
+  single class give `1`, `-1`) and to the dual-side summand `e(-c ‖y‖²/(2a))` on `L^∨ ⧸ aL`.  The
+  pairing character `e(b_L(γ, δ))` alone needs no hypothesis, since `L` pairs integrally with
+  `L^∨`.
 - **The nebentypus.**  `D_L = (-1)^k det L` is the **signed discriminant** of an even lattice of
   rank `2k`; it is `≡ 0` or `1 (mod 4)`.  The **Kronecker character** `(D_L / ·)` is a Dirichlet
   character modulo `|D_L|`; the **nebentypus** `χ_L : DirichletCharacter ℂ N`, `N = level L`, is
@@ -290,8 +334,10 @@ transformation law is unrecoverable.
   Gauss sum modulo an odd prime *only through its square*, so Gauss's sign determination is never
   needed.
 - `Mathlib/NumberTheory/DirichletCharacter/Basic.lean` — `DirichletCharacter`, `changeLevel`,
-  `conductor`, `primitiveCharacter`, `conductor_dvd_level`.  The nebentypus is assembled from these
-  in Layer 6.
+  `FactorsThrough`, `factorsThrough_iff_ker_unitsMap`, `conductor`,
+  `mem_conductorSet_iff_conductor_dvd`, `conductor_changeLevel`, `primitiveCharacter`,
+  `conductor_dvd_level`, with `ZMod.unitsMap` from `Mathlib/Data/ZMod/Units.lean`.  The
+  nebentypus and the conductor theorem are assembled from these in Layer 6.
 - `Mathlib/LinearAlgebra/QuadraticForm/Basic.lean`, `.../Complex.lean`, `.../Real.lean` — quadratic
   forms and their diagonalisation over a field of characteristic `≠ 2`, used for the residue-field
   step of Layer 6.
@@ -319,14 +365,22 @@ theta series is a modular form.
   between a positive-definite rational lattice extended to `ℝ` and its algebraic carrier; Layer 2
   below is that comparison, and the theorems it transports are the two modularity theorems.
 - The [modular-forms roadmap](../ModularForms/README.md) owns `modFormCharSpace`, the nebentypus
-  decomposition, the valence formula, the level-one graded ring, and the general-level dimension
-  formulas.  Its *Layer 0: diamond operators and modular forms with character (nebentypus)* and
-  its level-one graded ring have **landed** in Tau Ceti (`modFormCharSpace`,
-  `mem_modFormCharSpace_iff_nebentypus`, `isInternal_modFormCharSpace`, `valence_formula`,
-  `mvPolynomialEquivModularForms`), and Layers 5–8 here consume them.  Its *Layer 10: the modular
-  curve `Γ\ℍ` and the dimension formulas* — the exact dimension formulas at general level — is
-  consumed only by the two general-level identifications at the very end of Layer 8, and by
-  nothing before them.  Every headline theorem here is independent of it.
+  decomposition, the Eisenstein series with character, the valence formula, the level-one graded
+  ring, the Fricke operators, the Sturm bound and the general-level dimension formulas.  Of these,
+  the diamond operators and character spaces of its *Layer 0* (`modFormCharSpace`,
+  `mem_modFormCharSpace_iff_nebentypus`, `isInternal_modFormCharSpace`, the parity lemma
+  `char_neg_one_of_mem_modFormCharSpace`), the level-one graded ring (`valence_formula`,
+  `mvPolynomialEquivModularForms`), the Fricke matrix and raw slash of its *Layer 6* (`frickeGL`,
+  `frickeOperator`, `frickeScalar`) and the finite-index Sturm bound of its *Layer 10*
+  (`ModularForm.sturm_bound_finiteIndex`, `eq_of_sturm_bound`,
+  `finiteDimensional_modularForm_finiteIndex`, with `Gamma0_prime_index` for the indices) have
+  **landed** in Tau Ceti, and Layers 5–8 here consume them.  One target of that roadmap that has
+  not landed is consumed, by the two general-level identifications at the very end of Layer 8 and
+  by nothing else: the *Layer 0* Eisenstein series with character.  7F states the Fricke
+  identities against the landed `frickeGL` in both the raw and the normalized form, the latter
+  as the explicit scalar multiple `(√N)^{2-k} • (· ∣[k] W_N)` that its *Layer 6* names `𝒲_N`.
+  Nothing here consumes its dimension formulas, and every headline theorem here is independent
+  of the unlanded target.
 - Tau Ceti's root lattices `typeARootLattice`, `checkerboardLattice` and `typeE₈RootLattice`, read
   through the bridge, supply the ADE lattices used in the worked examples and in Layer 8; do not
   re-enter Cartan matrices here.
@@ -413,15 +467,19 @@ Rank is arbitrary throughout the layer.
   `covolume (c • L) = c^n covolume L`, `det (c • L) = c^{2n} det L`, and `(-c) • L = c • L`.
   Prove the exact criterion `IsIntegral (c • L) ↔ ∀ x y ∈ L, c² ⟪x, y⟫ ∈ ℤ`, and for a positive
   integer `m`: `√m • L` is integral when `L` is; `√m • L` is even when `L` is even or `m` is even
-  and `L` is integral; `det (√m • L) = m^n det L`.  Prove that for integral `L` and `m > 1` the
-  lattice `√m • L` is never unimodular (its determinant is `m^n det L > 1`), so that in particular
-  `√2 • E₈` is even and integral and not unimodular; and prove that for unimodular `L` and `c ≠ 1`,
-  `c • L` is not unimodular.  ⚠ Do not state or use "invariance under scaling" for any of the three
+  and `L` is integral; `det (√m • L) = m^n det L`.  Prove that in positive rank (`Nontrivial E`),
+  for integral `L` and `m > 1`, the lattice `√m • L` is never unimodular (its determinant is
+  `m^n det L ≥ m^n > 1`), so that in particular `√2 • E₈` is even and integral and not unimodular;
+  and prove that in positive rank, for unimodular `L` and `0 < c ≠ 1`, `c • L` is not unimodular
+  (`det = c^{2n} ≠ 1`).  ⚠ Both need `Nontrivial E`: in the zero-dimensional space the zero
+  lattice is even, unimodular, and fixed by every scaling, with `det = m^0 · 1 = 1`.  ⚠ Do not
+  state or use "invariance under scaling" for any of the three
   predicates; there is none.  Scaling *down* can create unimodularity (`(1/√2) • (√2 • ℤ) = ℤ`),
   which is one more reason the predicates are not scaling invariants.
 - **2C. Covolume, determinant, index.**  Prove `ZLattice.covolume L^∨ = (ZLattice.covolume L)⁻¹`;
-  that `det L = (covolume L)^2` is a positive integer for integral `L`; that `det L = [L^∨ : L]`
-  and `A_L` is finite; and that `det L = |det Gram(b)|` for any `ℤ`-basis, by consuming
+  that `det L = (covolume L)^2` is a positive integer for integral `L`; that for integral `L` the
+  quotient `A_L = L^∨ ⧸ L` is finite of order `det L = [L^∨ : L]` (⚠ both need integrality; see
+  the conventions); and that `det L = |det Gram(b)|` for any `ℤ`-basis, by consuming
   `covolume_eq_det` rather than reproving a determinant/index formula.  Deduce the two forms of
   unimodularity: for integral `L`, `L = L^∨ ↔ covolume L = 1 ↔ det L = 1 ↔ A_L` is trivial.
   ⚠ This equivalence is what lets a consumer holding the sphere-packing predicate
@@ -504,8 +562,10 @@ Rank is arbitrary throughout this layer.
   `MDifferentiable` in the `UpperHalfPlane` charts, since the bundled `ModularForm` needs the
   latter and every analytic argument wants the former.
 - **3B. Well-definedness on `A_L`.**  `thetaCoset L γ` depends only on `γ + L`; package the
-  induced map `A_L → (ℍ → ℂ)`, prove `θ_{0+L} = Θ_L`, `θ_{-γ} = θ_γ`, and
-  `Θ_{L^∨} = ∑_{γ ∈ A_L} θ_{γ+L}` (a finite sum; `A_L` is finite by 2C).  ⚠ Record `θ_{-γ} = θ_γ`
+  induced map `A_L → (ℍ → ℂ)` (this descent needs no hypothesis, since it quotients by elements
+  of `L`), prove `θ_{0+L} = Θ_L`, `θ_{-γ} = θ_γ`, and, **for integral `L`**,
+  `Θ_{L^∨} = ∑_{γ ∈ A_L} θ_{γ+L}` (a finite sum; `A_L` is finite by 2C under that hypothesis, and
+  the identity is false without it — see the conventions).  ⚠ Record `θ_{-γ} = θ_γ`
   prominently: the family `(θ_γ)_{γ ∈ A_L}` is **not** linearly independent, and more relations
   come from every isometry of `L`; no statement about matrices acting on `ℂ[A_L]` can be read off
   identities between theta functions.  This roadmap never does so.
@@ -564,8 +624,11 @@ From here on the rank is even, `n = 2k`, wherever an automorphy factor appears.
   sign remark of Layer 1: `θ_δ = θ_{-δ}` makes `e(b_L(γ,δ))` and `e(-b_L(γ,δ))` interchangeable
   here, and the roadmap's stated form is the one Poisson summation produces.
 - **4D. Consistency checks, proved not assumed.**  `Θ_{L^∨} = ∑_γ θ_γ` recovered from 4C at
-  `γ = 0` summed over `A_L`; the two laws applied twice give `Θ_L(τ) = Θ_L(τ)` through `S² = -I`
-  acting trivially in even weight; and the rank-**two** case `L = ℤ²` gives
+  `γ = 0` summed over `A_L`; the `S`-law applied twice, with `covolume L^∨ = (covolume L)⁻¹` and
+  `(L^∨)^∨ = L`, gives `Θ_L ∣[k] S² = (-i)^{2k} Θ_L = (-1)^k Θ_L`, which is exactly the action
+  of `S² = -I` in weight `k` (`denom (-I) τ = -1`), so the two computations agree — ⚠ the scalar
+  is `(-1)^k`, not `1`: `-I` acts trivially only in even weight, and the rank-two lattice `ℤ²`
+  below has weight `1`, where it acts by `-1`; and the rank-**two** case `L = ℤ²` gives
   `Θ_{ℤ²}(-1/τ) = (τ/i) * Θ_{ℤ²}(τ)`, which by 3D and 3E is the square of `jacobiTheta_S_smul`.
   ⚠ This is the in-scope form of the comparison with Mathlib's `S`-law: the rank-one law itself
   carries `(-iτ)^{1/2}` and is not a target.
@@ -576,7 +639,8 @@ From here on the rank is even, `n = 2k`, wherever an automorphy factor appears.
   record, elementary and self-contained at this layer: replacing `L` by `L ⊕ L` or `L^{⊕4}`
   (again even unimodular, by 2A) reduces to `n ≡ 4 (mod 8)`, where 4B gives
   `Θ ∣[k] S = (-i)^k Θ = -Θ` and 4A gives `Θ ∣[k] T = Θ`, so `Θ ∣[k] (ST)^3 = -Θ`; but
-  `(ST)^3 = S^2 = -I` acts trivially in even weight, whence `Θ = 0`, contradicting `Θ(i) > 0`
+  `(ST)^3 = S^2 = -I` acts by `(-1)^k = 1`, `k = n/2` being even there, whence `Θ = 0`,
+  contradicting `Θ(i) > 0`
   from 3C.  ⚠ The reduction is what keeps this inside even rank: for odd `n`, `4n` is even and
   `≡ 4 (mod 8)`, so no half-integral-weight theta series is ever formed.  Layer 6 reproves this in
   one line from Milgram's formula; both proofs are wanted, and the elementary one is not
@@ -609,7 +673,9 @@ touches the prime `2` beyond the residue of `D_L` modulo `4` and `8`.  `L` is ev
 `n = 2k` throughout.
 
 - **6A. The Gauss sums and their elementary properties.**  Define `G_L(a, c)` and `G_L(a, c; m)`
-  as in the conventions, on the finite quotient `L ⧸ c • L` (`Nat.card = c^n`).  Prove:
+  as in the conventions, on the finite quotient `L ⧸ c • L` (`Nat.card = c^n`), with the evenness
+  of `L` and the membership `m ∈ L^∨` as arguments of the summand, so that its descent to the
+  quotient is a theorem with true hypotheses.  Prove:
   invariance under isometry; multiplicativity under orthogonal sum; `G_L(a + 2c t, c) = G_L(a, c)`;
   `G_L(1, 1) = 1`; and the two facts the coset splitting of Layer 7 needs, for `N ∣ c`,
   `N = level L`:
@@ -624,33 +690,76 @@ touches the prime `2` beyond the residue of `D_L` modulo `4` and `8`.  `L` is ev
   G_L(a, c) = (c/a)^k * (det L)^{-1/2} * e(n/8) * ∑_{y ∈ L^∨ / a L} e(-c ‖y‖² / (2a))
   ```
   where the right-hand sum is over the finite quotient `L^∨ ⧸ a • L` of order `a^n det L`, and is
-  well defined because `L` is even.  Route of record: compare the two evaluations of
-  `Θ_L(a/c + i t)` as `t → 0⁺`.  Directly, splitting `L` into classes modulo `c • L` and applying
-  4C to each class gives `Θ_L(a/c + it) = G_L(a, c) * (covolume L)⁻¹ * (c² t)^{-k} * (1 + o(1))`;
-  applying 4B at the matrix carrying `∞` to `a/c` and then the same splitting to `L^∨` modulo
-  `a • L` gives the other side.  ⚠ This is the same asymptotic argument that proves Milgram's
-  formula, and it is the *only* analytic input to Layers 6 and 7; every other step is finite.  The
-  rank-one case is the Landsberg–Schaar identity, which is a mandatory test.
-- **6C. Milgram's formula.**  The case `a = c = 1` of 6B, after `y ↦ -y`:
+  well defined because `L` is even.  Route of record: compute the limit
+  ```text
+  lim_{t → 0⁺} t^k * Θ_L(a/c + i t) = G_L(a, c) / (c^{2k} * covolume L)
+  ```
+  in two ways.  ⚠ The statement is **additive** — a leading term plus `o(t^{-k})`, equivalently
+  the limit above — and not `G_L(a, c) * (...) * (1 + o(1))`: the Gauss sum can vanish while the
+  theta series does not.  For `L = √2 • ℤ²`, `a = 1`, `c = 2`, `G_L(1, 2) = (1 - 1)² = 0`, yet
+  `Θ_L(1/2 + it) = (∑_r (-1)^r e^{-2π t r²})² > 0`, positive by one-dimensional Poisson
+  summation (`∑_r (-1)^r e^{-2πtr²} = (2t)^{-1/2} ∑_s e^{-π(s - 1/2)²/(2t)}`).  Record that
+  example as a test of the statement's shape.
+  - *The intermediate target.*  For any full-rank `L` of even rank and any `v : E`,
+    `ε^k * θ_v(ε) → i^k * (covolume L)⁻¹` as `ε → 0` in `ℍ` along any path with
+    `Im(-1/ε) = Im ε / |ε|² → ∞`.  This is 4C read at `τ = -1/ε`:
+    `θ_v(ε) = (covolume L)⁻¹ (-i)^k (-1/ε)^k ∑_{m ∈ L^∨} e(⟪v, m⟫) exp(π i ‖m‖² (-1/ε))`, and
+    the sum tends to its `m = 0` term because `Im(-1/ε) → ∞`.  ⚠ The real part of `ε` varies
+    along the paths used below, so this is stated for complex `ε`, not for `ε = it`.
+  - *The direct side.*  Split `L` into its classes `y + c • L`.  Since `L` is even,
+    `exp(π i ‖y + cℓ‖² a/c) = e(a ‖y‖²/(2c))` for `ℓ ∈ L`, so
+    `Θ_L(a/c + it) = ∑_{y ∈ L/cL} e(a ‖y‖²/(2c)) θ^{(cL)}_y(it)`, where `θ^{(cL)}_y` is the coset
+    series of the lattice `c • L`; the intermediate target at `ε = it` gives
+    `t^k θ^{(cL)}_y(it) → (covolume (c • L))⁻¹ = c^{-2k} (covolume L)⁻¹`, whence the limit
+    displayed above.
+  - *The other side.*  Put `z = a/c + it` and apply the scalar `S`-law 4B in the form
+    `Θ_L(z) = (covolume L)⁻¹ (-i)^k (-1/z)^k Θ_{L^∨}(-1/z)`.  As `t → 0⁺`,
+    `-1/z = (-ca + i c² t)/(a² + c² t²) → -c/a`; write `-1/z = -c/a + ε` with
+    `ε = c³t²/(a(a² + c²t²)) + i c²t/(a² + c²t²)`, so `ε → 0` with `Im(-1/ε) ~ a²/(c² t) → ∞`.
+    Split `L^∨` into its classes `y + a • L`: since `L` is even and `⟪y, ℓ⟫ ∈ ℤ`,
+    `exp(π i ‖y + aℓ‖² (-c/a)) = e(-c ‖y‖²/(2a))`, so
+    `Θ_{L^∨}(-c/a + ε) = ∑_{y ∈ L^∨/aL} e(-c ‖y‖²/(2a)) θ^{(aL)}_y(ε)`, and the intermediate
+    target along this path gives `ε^k θ^{(aL)}_y(ε) → i^k a^{-2k} (covolume L)⁻¹`.  Multiplying
+    by `t^k` and passing to the limit, with `(-1/z)^k → (-c/a)^k` and `t^k ε^{-k} → (a²/(i c²))^k`,
+    yields the displayed reciprocity after `(covolume L)⁻¹ = (det L)^{-1/2}` and `i^k = e(n/8)`.
+  ⚠ 4B is the `S`-law and nothing else; there is no "matrix carrying `∞` to `a/c`" available
+  before Layer 7, and none is needed.  This is the same asymptotic argument that proves Milgram's
+  formula, and it is the *only* analytic input to Layers 6 and 7; every other step is finite.
+  The rank-two case `L = √2 • ℤ²` is the **square of the Landsberg–Schaar identity**
+  `∑_{y mod c} e(a y²/c) = √(c/(2a)) e(1/8) ∑_{y mod 2a} e(-c y²/(4a))`, and is a mandatory
+  test.  The rank-one identity itself is the odd-rank case, whose proof passes through the
+  half-integral-weight `S`-law with a branch of `√τ` (see *Rank*), and it is not a target here.
+- **6C. Milgram's formula.**  The case `a = c = 1` of 6B, which reads
+  `1 = (det L)^{-1/2} e(n/8) ∑_{γ ∈ A_L} e(-q_L(γ))`, followed by **complex conjugation** of both
+  sides (⚠ not the substitution `y ↦ -y`, which changes nothing since `q_L(-y) = q_L(y)`):
   ```text
   ∑_{γ ∈ A_L} e(q_L(γ)) = |A_L|^{1/2} * e(n/8)
   ```
-  for `L` even and positive definite of rank `n`.  Deduce `8 ∣ n` for even unimodular `L` in one
-  line (`|A_L| = 1`), reproving 5A.  ⚠ This is Milgram's formula at positive-definite signature
+  for `L` even and positive definite of even rank `n = 2k`, the generality of 6B.  Deduce `8 ∣ n`
+  for even unimodular `L`, reproving 5A: for even `n` directly (`|A_L| = 1` forces `e(n/8) = 1`),
+  and for odd `n` by applying the formula to `L ⊕ L`, even unimodular of rank `2n`, which gives
+  `4 ∣ n` and contradicts oddness.  ⚠ This is Milgram's formula at positive-definite signature
   only, and the theta-asymptotic proof is the point: it is the analytic route Layer 7 needs.  The
   general theorem — the Gauss-sum signature `sign q ∈ ℤ/8` of a finite quadratic module and
   `sign q_L ≡ n₊ - n₋ (mod 8)` for an even lattice of any signature, by finite arithmetic — is not
   a target here; nothing in this roadmap needs the indefinite case.
-- **6D. Evaluation at an odd modulus.**  For `a` odd, coprime to `N`, and `N ∣ c`, the sum on the
-  right of 6B collapses:
+- **6D. Evaluation at an odd modulus.**  For `a` odd and **coprime to `c`**, and `N ∣ c` (so `a`
+  is coprime to `N` as well), the sum on the right of 6B collapses:
   ```text
   ∑_{y ∈ L^∨ / a L} e(-c ‖y‖² / (2a)) = det L * (D_L / a) * a^k
   ```
-  with `(D_L / a)` the Jacobi symbol.  Route: (i) the summand is invariant under `y ↦ y + a w` for
+  with `(D_L / a)` the Jacobi symbol.  ⚠ Coprimality of `a` with `N` alone is **not** enough:
+  for `L = √2 • ℤ²` (`n = 2`, `k = 1`, `N = 4`, `det L = 4`, `D_L = -4`) with `a = 3` and
+  `c = 12`, every summand is `e(-(u² + v²)) = 1` on the `36` classes `y = (u, v)/√2`,
+  `u, v mod 6`, so the left side is `36`, while `4 · (-4/3) · 3 = -12`; the hypothesis that fails
+  is `gcd(a, c) = 1`, and it is what makes `c/N` a unit modulo `a` in step (ii).  Record this as
+  a test.  Route: (i) the summand is invariant under `y ↦ y + a w` for
   `w ∈ L^∨` (this uses `N ∣ c` and `N • L^∨ ≤ L`), so the sum is `det L` times the sum over
   `L^∨ ⧸ a • L^∨`; (ii) on `L^∨ ⧸ a • L^∨ ≅ (ℤ/a)^n` the summand is `e(Q(y)/a)` for the integral
   quadratic form `Q = -(c/N) · (N ‖·‖²/2)` on `L^∨`, whose Gram determinant `(-c/N)^n N^n / det L`
-  is a unit modulo `a` — the form is **unimodular modulo `a`**; (iii) Gauss sums of a quadratic form
+  is a unit modulo `a` because `c/N` is (from `gcd(a, c) = 1`) and `N^n / det L` is (an integer
+  dividing `N^n`, with `gcd(a, N) = 1`) — the form is **unimodular modulo `a`**; (iii) Gauss sums
+  of a quadratic form
   are multiplicative over the prime factorisation of `a` (Chinese remainder theorem, with the
   cofactor units absorbed into the form); (iv) for `p` odd and `Q` unimodular modulo `p^e`, the sum
   over `(ℤ/p^e)^n` reduces to `p^n` times the sum over `(ℤ/p^{e-2})^n` when `e ≥ 2`, so only
@@ -670,10 +779,20 @@ touches the prime `2` beyond the residue of `D_L` modulo `4` and `8`.  `L` is ev
   ```
 - **6F. The conductor theorem and the nebentypus.**  From 6E with `c = N`: `G_L(a, N)` depends on
   `a` only modulo `2N`, and by 6A it is independent of `a` for `a ≡ 1 (mod N)` (`a = 1 + Nt` gives
-  `e(t ‖y‖²/2) = 1`); hence `(D_L / a) = 1` for every odd positive `a ≡ 1 (mod N)`.  Since every
-  class modulo `|D_L|` that is `≡ 1 (mod N)` has an odd positive representative, the Kronecker
-  character `kroneckerChar D_L` is trivial on the kernel of `ZMod |D_L| → ZMod N`; conclude that its
-  **conductor divides `N`**.  Define
+  `e(t ‖y‖²/2) = 1`); hence `(D_L / a) = 1` for every odd positive `a ≡ 1 (mod N)` coprime to
+  `N`.  The descent to the level is a statement about **unit groups**, and it does not assume
+  `N ∣ |D_L|` (Layer 2 gives `N ∣ 2 det L`, not that): put `M = lcm(|D_L|, N)`, pull the
+  Kronecker character up to `χ' = changeLevel (|D_L| ∣ M) (kroneckerChar D_L)`, and prove `χ'`
+  trivial on the kernel of the unit reduction `ZMod.unitsMap : (ZMod M)ˣ → (ZMod N)ˣ`.  Two
+  elementary lemmas do this: every unit class modulo `M` has an **odd positive representative**
+  (a unit modulo an even `M` is odd; for odd `M`, one of `a`, `a + M` is odd), and a unit
+  `≡ 1 (mod N)` therefore has an odd positive representative `a ≡ 1 (mod N)` coprime to `M`, on
+  which `χ'(a) = (D_L / a) = 1`.  Mathlib's `factorsThrough_iff_ker_unitsMap` then gives
+  `χ'.FactorsThrough N`, `mem_conductorSet_iff_conductor_dvd` gives `conductor χ' ∣ N`, and
+  `conductor_changeLevel` identifies `conductor χ'` with `conductor (kroneckerChar D_L)`: the
+  **conductor divides `N`**.  ⚠ A map `ZMod |D_L| → ZMod N` exists only when `N ∣ |D_L|`, which
+  is not available, and the kernel that matters is the multiplicative one; do not argue on the
+  additive ring kernel.  Define
   `χ_L := changeLevel (conductor ∣ N) (primitiveCharacter (kroneckerChar D_L)) : DirichletCharacter ℂ N`,
   and prove: `χ_L a = (D_L / a)` for `a` coprime to `N`; `χ_L` is quadratic; `χ_L (-1) = (-1)^k`
   (the compatibility with the modular-forms roadmap's parity lemma `M_k(N, χ) ≠ 0 → χ(-1) = (-1)^k`);
@@ -726,11 +845,26 @@ computation.  `L` is even of even rank `n = 2k` and level `N`.
   `ModularForm ((Gamma N).map (mapGL ℝ)) k`.  ⚠ This is the statement that the alternative route
   through the Weil representation would deliver as its congruence-kernel theorem; here it is the
   coset version of 7C and costs one more application of the same computation.
-- **7F. Consequences to state here.**  The Fricke involution `W_N` exchanges `Θ_L` and
-  `Θ_{√N • L^∨}` up to the explicit constant `(-i)^k N^{k/2} (det L)^{-1/2}`, by 4B and 3D; the
-  constant term of `Θ_L` at the cusp `∞` is `1`, so `Θ_L` is never a cusp form; and `Θ_L` is an
-  eigenvector of every diamond operator `⟨d⟩` with eigenvalue `χ_L(d)`, which is the content of
-  membership in `modFormCharSpace`.
+- **7F. Consequences to state here.**  The **Fricke operator** exchanges `Θ_L` and
+  `Θ_{√N • L^∨}`, by 4B at `Nτ` and 3D, and the constant depends on the normalization, which is
+  pinned here once.  With `W_N = !![0, -1; N, 0]` — Tau Ceti's `frickeGL ℝ N`, acting through
+  Mathlib's slash, whose `ModularForm.slash_apply` carries the factor `|det A|^{k-1}` — the
+  **raw slash** is
+  ```text
+  Θ_L ∣[k] W_N = (-i)^k * N^{k-1} * (det L)^{-1/2} * Θ_{√N • L^∨} ,
+  ```
+  and the **normalized operator** `𝒲_N = (√N)^{2-k} • (· ∣[k] W_N)` of the modular-forms
+  roadmap's *Layer 6* (built on Tau Ceti's landed `frickeOperator`, whose square is
+  `frickeScalar N k = (-1)^k N^{k-2}`) gives
+  ```text
+  𝒲_N Θ_L = (-i)^k * N^{k/2} * (det L)^{-1/2} * Θ_{√N • L^∨} .
+  ```
+  State both, the first against `frickeGL` directly and the second as the explicit scalar
+  multiple `(√N)^{2-k} • (Θ_L ∣[k] W_N)`, which is what `𝒲_N` evaluates to; do not define a third
+  normalization.  ⚠ `𝒲_N² = (-1)^k`, so "involution" is an even-weight statement, and even rank
+  does not make the weight even: `A₂` has `k = 1`.  Also: the constant term of `Θ_L` at the cusp
+  `∞` is `1`, so `Θ_L` is never a cusp form; and `Θ_L` is an eigenvector of every diamond operator
+  `⟨d⟩` with eigenvalue `χ_L(d)`, which is the content of membership in `modFormCharSpace`.
 
 ## Layer 8: identification of the classical theta series
 
@@ -808,9 +942,9 @@ discharged from the lattice's own construction.  Entering a `q`-expansion by han
 nothing.
 
 - `thetaSeries ℤ = jacobiTheta` and `Θ_{ℤ²}(-1/τ) = (τ/i) Θ_{ℤ²}(τ)` (Layers 3 and 4) — the
-  convention checks.
-- The Landsberg–Schaar identity as the rank-one case of 6B, and `∑_{γ ∈ ℤ/3} e(γ²/3) = i√3` as
-  Milgram's formula for `A₂` (`n = 2`, `|A_L| = 3`).
+  convention checks — together with `Θ_{ℤ²} ∣[1] S² = -Θ_{ℤ²}`, the action of `-I` in weight `1`.
+- The square of the Landsberg–Schaar identity as the case `L = √2 • ℤ²` of 6B, and
+  `∑_{γ ∈ ℤ/3} e(γ²/3) = i√3` as Milgram's formula for `A₂` (`n = 2`, `|A_L| = 3`).
 - `Θ_{E₈} = E₄`; `r_{E₈}(2) = 240`; `r_{E₈}(2m) = 240 σ₃(m)`.
 - `Θ_Λ = E₄³ - 720 Δ = E₁₂ - (65520/691) Δ`; `r_Λ(4) = 196560`;
   `r_Λ(2m) = (65520/691)(σ₁₁(m) - τ(m))`.
@@ -819,13 +953,54 @@ nothing.
   general-level theorem at its two smallest interesting instances, with `level`, `det` and `χ`
   computed from the lattice through Layers 2 and 6 rather than quoted.  Weight `1` at `A₂` is
   admissible here because nothing in this roadmap needs a dimension formula to *state* modularity.
-- ⚠ **Identifying** `Θ_{D₄}` with the weight-`2` Eisenstein series `2E₂(2τ) - E₂(τ)`, and `Θ_{A₂}`
-  with its weight-`1` Eisenstein series, needs `dim M_2(Γ₀(2)) = 1` and `dim M_1(Γ₀(3), χ₋₃) = 1`,
-  which is **Layer 10 of the modular-forms roadmap** — the exact general-level dimension formulas.
-  These two identifications are therefore sequenced last and are the only targets of this roadmap
-  that depend on that layer; they are cited as a dependency on that roadmap, and every other target
-  above is independent of it.  A contributor should not attempt a private dimension count to
-  unblock them.
+- **Identifying** `Θ_{A₂}` and `Θ_{D₄}` with Eisenstein series.  The comparison forms are the
+  modular-forms roadmap's *Layer 0* **Eisenstein series with character** — the construction
+  targets, with their `q`-expansions and boundedness at every cusp, not merely the landed
+  `modFormCharSpace` interface — pinned by their normalizations:
+  ```text
+  Θ_{A₂}(τ) = 1 + 6 ∑_{m ≥ 1} ( ∑_{d ∣ m} χ₋₃(d) ) q^m                      in M_1(Γ₀(3), χ₋₃)
+  Θ_{D₄}(τ) = 2E₂(2τ) - E₂(τ) = 1 + 24 ∑_{m ≥ 1} ( ∑_{d ∣ m, d odd} d ) q^m   in M_2(Γ₀(2))
+  ```
+  the first the weight-`1` series `E_1^{ψ,φ,t}` of that layer with `ψ = 1`, `φ = χ₋₃`, `t = 1`,
+  scaled to constant term `1`; the second the weight-`2` corrected combination `E₂(τ) - t E₂(tτ)`
+  of that layer at `t = 2`, scaled to constant term `1`.  Consequently
+  `r_{A₂}(2m) = 6 ∑_{d ∣ m} χ₋₃(d)` and `r_{D₄}(2m) = 24 · (sum of the odd divisors of m)` for
+  `m ≥ 1`, with `r_{A₂}(2) = 6` and `r_{D₄}(2) = 24` as corollaries.  **Uniqueness is the Sturm
+  bound, not a dimension formula**: Tau Ceti's landed `ModularForm.eq_of_sturm_bound` says that
+  two forms in `M_k(Γ)` agreeing on the coefficients up to `⌊k [SL₂(ℤ):Γ]/12⌋` are equal; with
+  `[SL₂(ℤ):Γ₀(2)] = 3` (Tau Ceti's `Gamma0_prime_index`) and
+  `[SL₂(ℤ):Γ₁(3)] = [SL₂(ℤ):Γ₀(3)] · |(ℤ/3)ˣ| = 4 · 2 = 8`, both bounds are
+  `⌊6/12⌋ = ⌊8/12⌋ = 0`, so each identification is the equality of two constant terms, both `1`.
+  ⚠ Weight `1` is exceptional in the supplier's dimension theory, and no weight-one dimension
+  formula is invoked or needed: the `A₂` argument is the Sturm bound on `Γ₁(3)` as stated.  These
+  two identifications depend on the supplier's Layer-0 Eisenstein construction and on nothing else
+  outside this roadmap, and no target here depends on the supplier's dimension formulas.
+
+### Boundary and off-hypothesis checks
+
+Each of the following records an interface decision by the example that forces it.  Those that
+are theorems about the objects defined here are acceptance tests and are to be proved; the others
+are the reasons a hypothesis is an argument of a definition rather than of a later theorem.
+
+- The zero lattice in the zero-dimensional space (`stdLattice 0`): `Θ_0 = 1`, `det 0 = 1`,
+  `level 0 = 1`, and `c • 0 = 0` is unimodular for every `c ≠ 0` — which is why the strict
+  statements of 2B carry `Nontrivial E`.
+- `L = 2^{1/4} ℤ ⊂ ℝ`: `L ∩ L^∨ = 0`, so `L^∨ ⧸ (L ∩ L^∨)` is infinite — which is why
+  finiteness of `A_L` and of `L^∨ ⧸ aL`, and `D_L ≠ 0`, carry `IsIntegral L`.
+- `L = ½ ℤ`: `L^∨ = 2ℤ ⊂ L` and `Θ_{2ℤ}(i) ≠ Θ_{½ℤ}(i)` — which is why 3B's dual
+  decomposition carries `IsIntegral L`.
+- `L = ℤ`, `a = c = 1`, `m = 0`: the representatives `0, 1` of the single class of `L/L` give
+  summands `1, -1`; `L = √2 ℤ`, `a = c = 1`, `m = 1/(2√2) ∉ L^∨`: the representatives `0, √2`
+  give `1, -1`; `e(q_L)` on `A_ℤ`: the representatives `0, 1` give `1, -1` — which is why
+  evenness and `m ∈ L^∨` are arguments of the Gauss summands and of `e(q_L)`.
+- `L = √2 • ℤ²`, `a = 3`, `c = 12`: the sum of 6D is `36`, not `-12` — which is why 6D carries
+  `gcd(a, c) = 1`.
+- `L = √2 • ℤ²`, `a = 1`, `c = 2`: `G_L(1, 2) = 0` and `Θ_L(1/2 + it) > 0` — which is why the
+  asymptotic of 6B is additive.
+- `L = ℤ²`: `Θ ∣[1] S² = -Θ` — the central element acts by `(-1)^k`, and the double-`S` check
+  of 4D carries that scalar.
+- `√2 • E₈` has level `2` and `√2 • (√2 • E₈)^∨ = E₈` has level `1` — the Fricke partner's level
+  divides `N` and need not equal it (2F).
 
 ## Ordering — the dependency graph
 
@@ -842,12 +1017,15 @@ nothing.
 - **Layer 6** (Gauss sums) → Layer 4 for reciprocity; Mathlib's `gaussSum`, `jacobiSym` and
   `DirichletCharacter` API for the evaluation and the conductor theorem.  Independent of Layer 5.
 - **Layer 7** (general level) → Layers 4, 6; modular-forms Layer 0 (**landed**) for
-  `modFormCharSpace`.
+  `modFormCharSpace`; for 7F, Tau Ceti's landed `frickeGL`, `frickeOperator` and `frickeScalar`,
+  against which both normalizations of the Fricke identity are stated.
 - **Layer 8** (identifications) → Layer 5 only, for `E₈`, Leech and the theta series of the
   rank-16 pair; the bridge 2D with Tau Ceti's `typeE₈RootLattice`, `checkerboardLattice`,
   `orthogonalSum` and `Overlattice/*` for `E₈`, for the construction of `E₈ ⊕ E₈` and `D₁₆⁺`, and
-  for their non-isometry; Layer 7 and modular-forms Layer 10 for the two general-level
-  identifications.
+  for their non-isometry; Layer 7, the landed finite-index Sturm bound (`eq_of_sturm_bound`,
+  `Gamma0_prime_index`) and the modular-forms Layer-0 Eisenstein series with character for the
+  two general-level identifications.  No dimension formula beyond Mathlib's level-one one is
+  consumed.
 - The Leech lattice is consumed as an *input* at Layer 8 and nowhere earlier, and `E₈`, `E₈ ⊕ E₈`
   and `D₁₆⁺` enter there through the bridge; nothing in Layers 1–7 mentions dimension `8`, `16`
   or `24`.
@@ -923,7 +1101,8 @@ new formalization ground, and we found no Lean prior art for them (as of August 
 - V. Turaev, "Reciprocity for Gauss sums on finite abelian groups", *Math. Proc. Cambridge Philos.
   Soc.* **124** (1998), [DOI](https://doi.org/10.1017/S0305004198002655) — the reciprocity law of
   6B for a quadratic function on a finite abelian group, of which the lattice statement is the
-  case `L ⧸ cL` against `L^∨ ⧸ aL`; the rank-one case is the classical Landsberg–Schaar identity.
+  case `L ⧸ cL` against `L^∨ ⧸ aL`; its rank-one case is the classical Landsberg–Schaar identity,
+  tested here through its square at rank two.
 - T. Miyake, *Modular Forms* (Springer, 1989), [DOI](https://doi.org/10.1007/3-540-29593-3), §4.9 —
   theta series with spherical coefficients and their nebentypus; the numbering the modular-forms
   roadmap follows elsewhere.  ⚠ The spherical-coefficient generality is **not** a target here.
