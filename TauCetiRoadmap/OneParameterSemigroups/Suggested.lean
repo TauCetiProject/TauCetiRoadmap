@@ -166,13 +166,19 @@ continuous and positive definite, being a character — the quadratic form is `�
 yet no finite measure represents it, since a representing `μ` forces `‖F‖ ≤ μ univ`. The
 docstring above always said *bounded*; the signature had dropped it.
 
+**No `StarAddMonoid V` either.** The involution `(t, v) ↦ (t, -v)` lives on Tau Ceti's own
+`BCRPoint V` wrapper, precisely so that no global negation instance is installed on every additive
+group -- which, as that module says, "would conflict with Mathlib's ordinary star conventions".
+`TauCeti.IsSemigroupGroupPD` therefore asks only for `AddCommGroup V`, and carrying the instance
+here misstated the hypothesis Tau Ceti actually needs.
+
 A proved instance also exists outside Tau Ceti, for the special case `V = (Fin d → ℝ)` with time
 in `ℝ` plus a support side-condition, in `mrdouglasny/hille-yosida`
 (`HilleYosida.SemigroupGroupExtension.semigroupGroupBochner`), which carries the same boundedness
 hypothesis. Porting it is a restatement rather than a copy: indexing time by `ℝ≥0` makes the
 support condition automatic, and `V` here is an arbitrary finite-dimensional real inner-product
 space. -/
-theorem bcr_semigroup_bochner [StarAddMonoid V] (F : ℝ≥0 × V → ℂ)
+theorem bcr_semigroup_bochner (F : ℝ≥0 × V → ℂ)
     (_hcont : Continuous F) (_hbdd : Bornology.IsBounded (Set.range F))
     (_hpd : TauCeti.IsSemigroupGroupPD F) :
     ∃! μ : Measure (ℝ≥0 × V), TauCeti.RepresentsLaplaceFourier μ F :=
