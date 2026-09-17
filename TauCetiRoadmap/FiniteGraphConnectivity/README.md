@@ -68,7 +68,9 @@ Weighted undirected networks use the same coefficient type as directed networks,
 **Directed networks** are terms, not typeclass instances.
 The finite-capacity theory is parameterized by a linearly ordered additive commutative group with a distinguished positive one `K`, expressed by `[AddCommGroupWithOne K] [LinearOrder K] [IsOrderedAddMonoid K] [ZeroLEOneClass K]`.
 It must not assume multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
-A network `N : Network K V` is a structure carrying an arrow type `N.Hom v w : Type v` for every ordered pair of vertices, in a universe independent of the vertex universe as for `Quiver.{v}`, a capacity in `K` for every arrow, and a proof that every capacity is nonnegative; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
+A network `N : Network C V` is a structure carrying an arrow type `N.Hom v w : Type v` for every ordered pair of vertices, in a universe independent of the vertex universe as for `Quiver.{v}`, a capacity in `C` for every arrow, and a proof that every capacity is nonnegative; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
+The capacity type `C` is `K` for an ordinary network and `WithTop K` for an extended one.
+Arrow assignments, divergence, and cut capacity are defined once, for every capacity type, with the value type of an assignment independent of the capacity type.
 Mathlib's quiver API (`Quiver.Path`, `Quiver.IsStronglyConnected`, strongly connected components) is reached through a type synonym `N.Vert := V` carrying the `Quiver` instance `⟨N.Hom⟩`, the pattern Mathlib itself uses for `Quiver.Symmetrify`.
 Quivers are typeclasses on the vertex type, so a network, its residual network, and each orientation of a graph would otherwise compete for one instance on `V`; as terms they coexist and can be quantified over.
 The total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
@@ -81,15 +83,15 @@ It measures excess (incoming minus outgoing) where this roadmap uses divergence 
 Its value is an `ENNReal` read at the sink, where this roadmap's value lies in the signed coefficient type and is read at the source, so that negative values exist and decompose.
 Its capacity is a parameter separate from the quiver, where this roadmap bundles it into the network, so that a network is one object to quantify over.
 Its sums are `tsum`s in `EReal`, where every sum here is a `Finset.sum`.
-Because capacities are bundled, supply a same-arrows capacity-replacement construction, extensionality in the capacity function, and transport of assignments and feasible flows when the replacement capacities are pointwise larger.
+Because capacities are bundled, supply a same-arrows capacity-replacement construction, extensionality in the capacity function, and transport of assignments and feasible flows when the replacement capacities are pointwise larger; extension to `WithTop K` and truncation of `⊤` are instances of it.
 Milestone 3 specializes to `K = ℝ`, uses a local copy of that proposal's `PseudoFlow` and `Flow` in exactly its shape (explicit quiver term, capacities as a separate `ℝ≥0`-valued parameter, `EReal`-valued excess by `tsum`, `ENNReal` value at the sink, nonnegative value required), and proves three correspondences on a finite network.
 Its `PseudoFlow`, which has no conservation condition, corresponds to the nonnegative capacity-bounded arrow assignments of this roadmap.
 Its `Flow` corresponds to this roadmap's flows of nonnegative value; flows of negative value have no counterpart there.
 Under both, excess equals minus divergence, and the two flow values agree after coercion of the real specialization to `ENNReal`.
 
-**Infinite capacities** belong to a separate extended-capacity API rather than the residual-flow core.
-An extended network on `K` has the same arrow data and nonnegative capacities in `WithTop K`; its flows remain finite `K`-valued assignments, while its cut capacities lie in `WithTop K`.
-An ordinary network coerces to an extended one, and changing an extended network's infinite capacities to a finite bound produces an ordinary network with the same arrows.
+**Infinite capacities** belong to an extended-capacity API around the residual-flow core, not inside it.
+An extended network is a network with capacity type `WithTop K`; its flows remain finite `K`-valued assignments, so only the flow structure is separate, while its cut capacities lie in `WithTop K`.
+An ordinary network extends to one with the same arrows, and replacing an extended network's infinite capacities by a finite bound produces an ordinary network with the same arrows.
 Do not define extended-valued flows or take `WithTop` subtraction as flow cancellation: in particular, `⊤ - ⊤ = 0` is not a valid account of residual capacity.
 Prove that if an `s–t` cut of finite capacity `B` exists, replacing every infinite capacity by `B` preserves the minimum-cut value and yields a finite maximum flow attaining it in the original extended network.
 If no finite `s–t` cut exists, prove instead that finite feasible flow values are unbounded above.
