@@ -147,7 +147,7 @@ variable {X : Type*} [NormedAddCommGroup X] [NormedSpace ℝ X] [CompleteSpace X
 -- theorem hilleYosida_generation (A : DenseLinearOperator X)
 --     (hρ : ∀ l : ℝ, ω < l → l ∈ resolventSet A)          -- (ω,∞) ⊆ ρ(A)
 --     (hbound : ∀ n, 1 ≤ n → ∀ l : ℝ, ω < l → ‖resolvent A l ^ n‖ ≤ M / (l - ω) ^ n) :
---     ∃ S : StronglyContinuousSemigroup X, S.generator = A ∧ S.HasGrowthBound M ω
+--     ∃ S : StronglyContinuousSemigroup X, S.generator = A ∧ S.HasGrowthBound ω M
 -- theorem lumerPhillips (A : DenseLinearOperator X)
 --     (hd : A.IsDissipative)
 --     (hr : ∃ l₀ > 0, Surjective (l₀ • 1 - A))    -- surjectivity of (λ₀·I − A) : D(A) → X
@@ -160,11 +160,16 @@ resolvent identity and `‖R(λ)‖ ≤ 1/λ` hold on these concretely.
 
 ## Part B — Completely monotone (and Bernstein) functions
 
-**Objects.** `IsCompletelyMonotone` — **bundle smoothness** with the sign condition:
-`ContDiffOn ℝ ⊤ f (Set.Ici 0) ∧ ∀ n, ∀ t ≥ 0, 0 ≤ (−1)ⁿ · iteratedDeriv n f t`. ⚠ The
-smoothness clause is essential: `iteratedDeriv` is total and defaults to `0` where `f` is not
-differentiable, so `0 ≤ 0` would let a non-smooth `f` pass *vacuously*. The related
-**Bernstein functions** (nonnegative, with completely monotone derivative).
+**Objects.** `IsContinuousCompletelyMonotoneOnIoi` — continuity on `[0,∞)` together with
+complete monotonicity on the *open* `(0,∞)`:
+`ContinuousOn f (Set.Ici 0) ∧ IsCompletelyMonotoneOnIoi f`. ⚠ A sign condition alone will not do:
+`iteratedDeriv` is total and defaults to `0` where `f` is not differentiable, so `0 ≤ 0` would let
+a non-smooth `f` pass *vacuously*; the smoothness must be part of the predicate. ⚠ But it must be
+smoothness on the open ray, not on `Set.Ici 0`. Demanding `ContDiffOn ℝ ⊤ f (Set.Ici 0)` makes the
+reverse direction of the milestone below false: take the finite measure with mass `∝ 1/n²` at each
+`n`, whose Laplace transform is continuous at `0` but has no finite right derivative there, so it
+is not `ContDiffOn` within `Set.Ici 0`. The related **Bernstein functions** (nonnegative, with
+completely monotone derivative).
 
 **API to develop.**
 - Closure: completely monotone functions are closed under **sums, nonnegative scalar
@@ -180,16 +185,15 @@ differentiable, so `0 ≤ 0` would let a non-smooth `f` pass *vacuously*. The re
 `[0,∞)`. ⚠ Complete monotonicity on the *open* `(0,∞)` alone yields only a general (possibly
 infinite) positive measure — e.g. `1/t = ∫₀^∞ e^{−tx} dx` is completely monotone with the
 infinite Lebesgue representing measure (Hausdorff–Bernstein–Widder). Finiteness is exactly the
-`f(0⁺) < ∞` criterion, which our `Set.Ici 0` definition above builds in. Encode the measure on
+`f(0⁺) < ∞` criterion, which the continuity clause of the definition above builds in. Encode the measure on
 `Measure ℝ≥0` (non-negative support automatic — the same convention as the BCR milestone, not a
 `support ⊆ Ici 0` side-condition). Develop both directions and uniqueness (Laplace-transform
 injectivity); measure extraction via Prokhorov tightness.
 
 ```lean
 -- theorem bernstein (f : ℝ → ℝ) :
---     IsCompletelyMonotone f ↔
---       ∃! μ : Measure ℝ≥0, IsFiniteMeasure μ ∧
---         ∀ t ≥ 0, f t = ∫ x, Real.exp (-t * (x : ℝ)) ∂μ
+--     IsContinuousCompletelyMonotoneOnIoi f ↔
+--       ∃! μ : Measure ℝ≥0, RepresentsLaplace μ f
 ```
 
 **Acceptance examples.** `e^{−t} → δ₁`; `1/(1+t) → e^{−x}dx`; closure used to build new
