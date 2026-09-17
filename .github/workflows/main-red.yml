@@ -8,9 +8,15 @@ name: main-red
 # missing piece is noticing.
 #
 # This runs on `workflow_run` rather than as a job inside CI so that the Zulip credentials never
-# share a job with the build, matching the separation progress-announce.yml keeps. It posts only on
-# the *edge*: the first failure after a green run, and the first success after a red one. A long red
-# patch therefore produces one message, not one per push.
+# share a job with the build, matching the separation progress-announce.yml keeps.
+#
+# It posts only on the *edge*, and it decides what the edge is by reading back the last message it
+# posted rather than by comparing workflow runs. Run history is the wrong source: re-running a
+# failed run REPLACES that run's conclusion, so the failure it is recovering from is no longer in
+# the history at all, and an edge derived from runs would stay silent after a red run is re-run
+# green. Overlapping pushes reorder for the same kind of reason. The topic is the only record of
+# what was actually announced, so it is the thing to compare against, and reading it back makes the
+# notifier self-correcting rather than dependent on the API's ordering.
 #
 # Zulip is the only channel here. Opening an issue as well would need the App token, because the org
 # disables write `GITHUB_TOKEN`, and that would put repository-write credentials in the same job as
@@ -23,82 +29,91 @@ on:
     branches: [main]
 
 permissions:
-  actions: read
   contents: read
+
+# Serialise, so two pushes completing together cannot both read the topic before either writes.
+concurrency:
+  group: main-red
+  cancel-in-progress: false
 
 jobs:
   notify:
     # Only the push-to-main runs. A `pull_request` run that happens to carry a `main` head ref is
-    # not a statement about the branch.
+    # not a statement about the branch, and neither is a `merge_group` run, which describes a
+    # candidate rather than the branch.
     if: ${{ github.event.workflow_run.event == 'push' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Decide whether this is an edge
-        id: edge
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-          RUN_ID: ${{ github.event.workflow_run.id }}
-          CONCLUSION: ${{ github.event.workflow_run.conclusion }}
-        run: |
-          set -euo pipefail
-
-          # `cancelled` and `skipped` say nothing about the branch, so they neither alert nor clear.
-          case "$CONCLUSION" in
-            success|failure|timed_out) ;;
-            *) echo "::notice::conclusion '$CONCLUSION' is not a verdict on main"
-               echo "post=0" >> "$GITHUB_OUTPUT"; exit 0 ;;
-          esac
-
-          # The previous *completed* push run on main, excluding this one. Its conclusion is the
-          # state we are transitioning from.
-          prev=$(gh api "repos/$REPO/actions/workflows/ci.yml/runs?branch=main&event=push&status=completed&per_page=10" \
-            --jq "[.workflow_runs[] | select(.id != ${RUN_ID}) | .conclusion] | map(select(. == \"success\" or . == \"failure\" or . == \"timed_out\")) | first // \"\"")
-          echo "previous conclusion: '${prev:-none}'"
-
-          now_red=0
-          [ "$CONCLUSION" = "success" ] || now_red=1
-          was_red=0
-          case "$prev" in failure|timed_out) was_red=1 ;; esac
-
-          if [ "$now_red" = "$was_red" ]; then
-            echo "::notice::no edge (was_red=$was_red now_red=$now_red); staying quiet"
-            echo "post=0" >> "$GITHUB_OUTPUT"
-          else
-            echo "post=1" >> "$GITHUB_OUTPUT"
-            echo "red=$now_red" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Post to Zulip
-        if: ${{ steps.edge.outputs.post == '1' }}
+      - name: Announce a change of state
         env:
           ZULIP_EMAIL: ${{ secrets.ZULIP_EMAIL }}
           ZULIP_API_KEY: ${{ secrets.ZULIP_API_KEY }}
           ZULIP_SITE: ${{ secrets.ZULIP_SITE }}
-          RED: ${{ steps.edge.outputs.red }}
+          CONCLUSION: ${{ github.event.workflow_run.conclusion }}
           SHA: ${{ github.event.workflow_run.head_sha }}
           URL: ${{ github.event.workflow_run.html_url }}
+          # Through env, never interpolated into the script: a commit message is
+          # attacker-influenced, and interpolation would make it shell source.
           TITLE: ${{ github.event.workflow_run.head_commit.message }}
+          CHANNEL: Tau Ceti
+          TOPIC: main build
         run: |
           set -euo pipefail
+
           if [ -z "${ZULIP_SITE:-}" ]; then
             echo "::warning::Zulip is not configured; skipping"
             exit 0
           fi
+
+          # `cancelled` and `skipped` say nothing about the branch, so they neither alert nor clear.
+          case "$CONCLUSION" in
+            success) now=green ;;
+            failure|timed_out) now=red ;;
+            *) echo "::notice::conclusion '$CONCLUSION' is not a verdict on main"; exit 0 ;;
+          esac
+
+          # The last thing we said in this topic. `apply_markdown=false` returns what was posted
+          # rather than rendered HTML, so the marker below survives the round trip.
+          narrow=$(printf '[["channel","%s"],["topic","%s"]]' "$CHANNEL" "$TOPIC")
+          last=$(curl -sS -G "$ZULIP_SITE/api/v1/messages" \
+            -u "$ZULIP_EMAIL:$ZULIP_API_KEY" \
+            --data-urlencode "anchor=newest" \
+            --data-urlencode "num_before=1" \
+            --data-urlencode "num_after=0" \
+            --data-urlencode "apply_markdown=false" \
+            --data-urlencode "narrow=$narrow" \
+            | jq -r '.messages[-1].content // ""')
+
+          case "$last" in
+            *"<!-- main-build:red -->"*)   was=red ;;
+            *"<!-- main-build:green -->"*) was=green ;;
+            # An empty topic. Announce a red main, but do not announce green out of nowhere.
+            *) was=green ;;
+          esac
+
+          if [ "$now" = "$was" ]; then
+            echo "::notice::main was $was and is $now; staying quiet"
+            exit 0
+          fi
+
           short="${SHA:0:9}"
           subject=$(printf '%s' "$TITLE" | head -1)
-          if [ "$RED" = "1" ]; then
-            content=$(printf '%s\n\n%s' \
+          if [ "$now" = red ]; then
+            content=$(printf '%s\n\n%s\n%s' \
               ":cross_mark: **\`main\` is red.** [\`$short\`]($URL) — $subject" \
-              "Pull requests against \`main\` will show a failing \`build\` check until this is fixed, whatever they change.")
+              "Pull requests against \`main\` will show a failing \`build\` check until this is fixed, whatever they change." \
+              "<!-- main-build:red -->")
           else
-            content=":check: **\`main\` is green again.** [\`$short\`]($URL) — $subject"
+            content=$(printf '%s\n%s' \
+              ":check: **\`main\` is green again.** [\`$short\`]($URL) — $subject" \
+              "<!-- main-build:green -->")
           fi
+
           code=$(curl -sS -o /tmp/zulip.out -w '%{http_code}' -X POST "$ZULIP_SITE/api/v1/messages" \
             -u "$ZULIP_EMAIL:$ZULIP_API_KEY" \
             --data-urlencode "type=stream" \
-            --data-urlencode "to=Tau Ceti" \
-            --data-urlencode "topic=main build" \
+            --data-urlencode "to=$CHANNEL" \
+            --data-urlencode "topic=$TOPIC" \
             --data-urlencode "content=$content")
           cat /tmp/zulip.out
           [ "$code" = "200" ]
