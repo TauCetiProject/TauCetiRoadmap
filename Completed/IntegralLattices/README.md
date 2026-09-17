@@ -148,7 +148,7 @@ Tau Ceti's root-system library already owns standard Cartan matrices and root da
 `TauCeti/LinearAlgebra/RootSystem/FiniteType/Dynkin.lean` realizes the `E₈` Cartan/Gram matrix and its
 `E₆` and `E₇` submatrices, while
 `TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/E8.lean` enumerates the 240 `E₈` roots in
-integral bases.  The [root-systems roadmap](../RepresentationTheory/RootSystems/README.md) owns the
+integral bases.  The [root-systems roadmap](../../TauCetiRoadmap/RepresentationTheory/RootSystems/README.md) owns the
 classification, Bourbaki numbering, and pinned integral root data; its highest-weight neighbor owns
 general root and weight lattices.  This roadmap constructs the conversion of such data into its
 integral-lattice structure, proves that the Gram matrix is the named Cartan matrix, and computes the
