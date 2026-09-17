@@ -24,7 +24,7 @@ namespace TauCetiRoadmap.Rank24LatticeConstructions
 
 open scoped BigOperators
 open TauCeti
-open TauCetiRoadmap.IntegralLattices
+open TauCetiRoadmap.IntegralLattices hiding IntegralLattice FiniteBilinearModule FiniteQuadraticModule
 
 universe u
 
