@@ -48,7 +48,7 @@ The following Mathlib proposals guide the corresponding interfaces:
 
 Build all missing prerequisites and results in Tau Ceti, following these interfaces and adopting Mathlib's resulting design when available.
 An unmerged proposal is a design reference, not a dependency that contributors must wait for.
-For flows, the finite-sum interface below shares the arrow-indexed carrier of #43017 and differs from it in the four deliberate ways listed under **Flows and bounded circulations**.
+For flows, the finite-sum interface below shares the arrow-indexed carrier of #43017 and differs from it in the five deliberate ways listed under **Graphs, networks, and orientations**.
 Compatibility with that proposal is nevertheless a target of Milestone 3, proved in an isolated compatibility module against a local copy of its definitions in its own shape, so that the eventual swap is a deletion plus an import.
 The local copy is only a fixture for the correspondence theorems and must not grow a parallel flow theory.
 
@@ -78,10 +78,11 @@ Parallel arrows, arrows in opposite directions, loops, and zero capacities are a
 Flow assignments take values in `K` and carry proofs of nonnegativity and capacity boundedness.
 Every network sum is a `Finset.sum`; divergence and flow value also take values in `K` and may be negative.
 The finite theory must not require reasoning about infinite sums or infinite capacities to state its results.
-Mathlib proposal #43017 shares the arrow-indexed carrier but differs in four ways, each deliberate here.
+Mathlib proposal #43017 shares the arrow-indexed carrier but differs in five ways, each deliberate here.
 It measures excess (incoming minus outgoing) where this roadmap uses divergence (outgoing minus incoming), so that one sign convention is stated once.
 Its value is an `ENNReal` read at the sink, where this roadmap's value lies in the signed coefficient type and is read at the source, so that negative values exist and decompose.
 Its capacity is a parameter separate from the quiver, where this roadmap bundles it into the network, so that a network is one object to quantify over.
+Its capacities are `ℝ≥0`-valued, where this roadmap's are nonnegative elements of the coefficient type, so that capacities, flows, and divergence share one type.
 Its sums are `tsum`s in `EReal`, where every sum here is a `Finset.sum`.
 Because capacities are bundled, supply a same-arrows capacity-replacement construction, extensionality in the capacity function, and transport of assignments and feasible flows when the replacement capacities are pointwise larger; extension to `WithTop K` and truncation of `⊤` are instances of it.
 Milestone 3 specializes to `K = ℝ`, uses a local copy of that proposal's `PseudoFlow` and `Flow` in exactly its shape (explicit quiver term, capacities as a separate `ℝ≥0`-valued parameter, `EReal`-valued excess by `tsum`, `ENNReal` value at the sink, nonnegative value required), and proves three correspondences on a finite network.
@@ -96,7 +97,7 @@ Do not define extended-valued flows or take `WithTop` subtraction as flow cancel
 Prove that if an `s–t` cut of finite capacity `B` exists, replacing every infinite capacity by `B` preserves the minimum-cut value and yields a finite maximum flow attaining it in the original extended network.
 If no finite `s–t` cut exists, prove instead that finite feasible flow values are unbounded above.
 Together these results are the extended max-flow/min-cut statement: finite cuts give an attained common value, while the absence of a finite cut gives unbounded finite flow values.
-When the coefficient order supplies the relevant suprema, also state this dichotomy as equality between the minimum extended cut capacity and the supremum of finite flow values.
+For `K = ℝ`, also state the dichotomy as an equality in `WithTop ℝ` between `sSup` of the set of finite flow values, which is `⊤` exactly when that set is unbounded, and the minimum extended cut capacity.
 
 **An orientation** `o : G.Orientation` of a simple graph chooses one dart (`SimpleGraph.Dart`) for every edge, with no additional arrows.
 The oriented graph is the type synonym `G.Oriented o := V` with the quiver instance whose arrows from `v` to `w` are the edges whose chosen dart runs from `v` to `w`, so strong connectivity is literally `Quiver.IsStronglyConnected (G.Oriented o)`.
@@ -149,7 +150,7 @@ Ordinary flows and bounded circulations share arrow assignments, divergence, and
 Milestone 8 supplies named reductions from bounded circulation feasibility to ordinary max-flow, including their integrality properties.
 
 The residual network of a flow `f` on `N` has the same vertex type, arrow type `N.Hom v w ⊕ N.Hom w v` from `v` to `w`, and residual capacity `u e − f e` on a forward arrow and `f e` on a reverse arrow.
-The arrow type does not depend on `f`: arrows of zero residual capacity are ordinary arrows, and an augmenting path is a residual path all of whose arrows have positive residual capacity.
+The arrow type does not depend on `f`: arrows of zero residual capacity are ordinary arrows, and an augmenting path is a residual path all of whose arrows have positive residual capacity, equivalently a path in the positive-capacity subnetwork of the residual network, which is how `Suggested.lean` states residual reachability.
 A residual type that carried the positivity conditions would change with every augmentation, and the termination and canonical-cut arguments would then transport paths across type equalities at every step.
 The two summands distinguish unused forward capacity from cancellation of an existing flow, including when original arrows exist in both directions.
 For a bounded circulation, the reverse arrow has residual capacity `f e − ℓ e`.

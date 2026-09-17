@@ -151,8 +151,8 @@ noncomputable def Network.residual (f : N.Flow s t) : Network K V where
     | inl e => exact sub_nonneg.mpr (f.le_cap e)
     | inr e => exact f.nonneg e
 
-/-- An augmenting path exists exactly when `t` is reachable from `s` through residual arrows of
-positive capacity. -/
+/-- An augmenting path is a path in the positive-capacity part of the residual network, that is,
+a residual path all of whose arrows have positive residual capacity. -/
 def Network.Flow.HasAugmentingPath (f : N.Flow s t) : Prop :=
   (N.residual f).positivePart.Reachable s t
 
@@ -277,6 +277,14 @@ theorem Network.finiteFlow_values_unbounded_of_forall_cutCapacity_eq_top (hst : 
   sorry
 
 end Extended
+
+/-- Over the reals, the dichotomy is an equality in `WithTop ℝ`: the supremum of the finite flow
+values, which is `⊤` exactly when they are unbounded, is the minimum extended cut capacity. -/
+theorem Network.sSup_finiteFlow_value_eq_iInf_cutCapacity (E : Network (WithTop ℝ) V) [Fintype V]
+    [DecidableEq V] [∀ v w, Fintype (E.Hom v w)] {s t : V} (hst : s ≠ t) :
+    sSup (Set.range fun f : E.FiniteFlow s t => (f.value : WithTop ℝ)) =
+      ⨅ S : {S : Finset V // s ∈ S ∧ t ∉ S}, E.cutCapacity S := by
+  sorry
 
 /-! ## Stand-ins for Mathlib proposal #33355 (Conventions) -/
 
