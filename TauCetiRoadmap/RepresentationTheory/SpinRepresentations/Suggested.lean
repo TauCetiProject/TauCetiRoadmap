@@ -27,7 +27,7 @@ The design follows the layers of `README.md`: the two gradings and the filtratio
 `ιRangeEquiv`, `pinToOrthogonal`, `spinToSpecialOrthogonal`, and the surjectivity/kernel), the Lie algebra `⋀²V`
 (`soEquivBivector`), the spin modules (`spinAction`, `spinRep`, `spinPlus`), the low-dimensional
 isomorphisms (`spin3_equiv_sl2`, `spin6_equiv_sl4`), the real forms and Bott periodicity
-(`realCliffordForm`, `cliff_bott`, `spinPQ`), triality (`trialityAut`), and **Layer 9**, Lie
+(`realCliffordForm`, `cliff_bott`, `spinPQ`), triality (`trialityAut`), and Lie
 algebras acting through the Clifford algebra and Kostant's isotypy corollary (`cliffordBivector`,
 `soEquivQuadratic`, `cliffordInducedRep`, `adjointSO`, `kostant_isotypic`, `kostant_multiplicity`,
 and the CAR worked instance `traceQuadraticForm`, `glCliffordHom`, `car_isotypic`,
@@ -47,7 +47,7 @@ universe u v
 
 variable {R : Type u} [CommRing R] {M : Type v} [AddCommGroup M] [Module R M]
 
-/-! ### Layer 0: the Clifford algebra, its universal property, and the two gradings
+/-! ### The Clifford algebra, its universal property, and the two gradings
 
 The universal property (`CliffordAlgebra.lift`), the `ℤ/2`-grading (`CliffordAlgebra.evenOdd`,
 `gradedAlgebra`), the even subalgebra, and `involute`/`reverse` are **consumed** from Mathlib. The
@@ -76,7 +76,7 @@ theorem finrank_cliffordAlgebra (Q : QuadraticForm R M) [Invertible (2 : R)]
     [Module.Free R M] [Module.Finite R M] :
     Module.finrank R (CliffordAlgebra Q) = 2 ^ Module.finrank R M := sorry
 
-/-! ### Layer 1: the structure theorem (over an algebraically closed field, here `ℂ`) -/
+/-! ### The structure theorem (over an algebraically closed field, here `ℂ`) -/
 
 /-- **Even dimension**: `Cliff(V, Q) ≅ M_{2^l}(ℂ)` for `Q` nondegenerate on a `2l`-dimensional `V`. -/
 theorem cliffordAlgebra_equiv_matrix_of_even {V : Type v} [AddCommGroup V] [Module ℂ V]
@@ -92,7 +92,7 @@ theorem cliffordAlgebra_equiv_matrix_prod_of_odd {V : Type v} [AddCommGroup V] [
     Nonempty (CliffordAlgebra Q ≃ₐ[ℂ]
       Matrix (Fin (2 ^ l)) (Fin (2 ^ l)) ℂ × Matrix (Fin (2 ^ l)) (Fin (2 ^ l)) ℂ) := sorry
 
-/-! ### Layer 2: the Pin and Spin groups and the double covers
+/-! ### The Pin and Spin groups and the double covers
 
 `pinGroup Q`, `spinGroup Q`, and the action lemma `spinGroup.involute_act_ι_mem_range_ι` are
 **consumed**. The abstract orthogonal group and the double cover are **built here**. -/
@@ -135,7 +135,7 @@ theorem card_ker_spinToSpecialOrthogonal {V : Type v} [AddCommGroup V] [Module �
     (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) :
     Nat.card (MonoidHom.ker (spinToSpecialOrthogonal Q)) = 2 := sorry
 
-/-! ### Layer 3: the Lie algebra `𝔰𝔬(V) ≅ ⋀²V` inside the Clifford algebra -/
+/-! ### The Lie algebra `𝔰𝔬(V) ≅ ⋀²V` inside the Clifford algebra -/
 
 /-- **The bivector Lie ring**: the bracket on `⋀[R]^2 (Fin n → R)` transported from the Clifford
 **commutator** through the **half-normalized** embedding
@@ -158,7 +158,7 @@ noncomputable scoped instance bivectorLieAlgebra (n : ℕ) (R : Type u) [CommRin
 sides) and carry none of the content that bivectors under the Clifford commutator *are* `𝔰𝔬`.
 The normalization is fixed by the action (`soEquivBivector_wedge_mulVec` below), not by a
 hard-coded `½`. Stated for the standard form here; the bracket of a bivector with `ι v` is the
-differential of the Layer-2 conjugation. -/
+differential of the conjugation action that defines the double cover. -/
 noncomputable def soEquivBivector (n : ℕ) (R : Type u) [CommRing R] [Invertible (2 : R)] :
     ⋀[R]^2 (Fin n → R) ≃ₗ⁅R⁆ ↥(LieAlgebra.Orthogonal.so (Fin n) R) := sorry
 
@@ -173,7 +173,7 @@ theorem soEquivBivector_wedge_mulVec (n : ℕ) (R : Type u) [CommRing R] [Invert
     ((soEquivBivector n R (exteriorPower.ιMulti R 2 ![u, v]) : Matrix (Fin n) (Fin n) R)).mulVec x
       = (2 * ∑ i, v i * x i) • u - (2 * ∑ i, u i * x i) • v := sorry
 
-/-! ### Layer 4: the spin and half-spin representations (over `ℂ`) -/
+/-! ### The spin and half-spin representations (over `ℂ`) -/
 
 /-- **A maximal isotropic subspace** `W ⊂ V`, of half the dimension, over `ℂ`. -/
 theorem exists_maximalIsotropic {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
@@ -211,7 +211,7 @@ the implementation).
 The coefficient is pinned to `polar` by the anticommutator identity `c x ∘ c y + c y ∘ c x = polar Q x y • 1`
 (so `c v ∘ c v = Q v • 1` via `polar Q v v = 2 • Q v`), not a prose "twice". In **even** dimension this is an
 isomorphism onto `End S` (`dim S = 2ˡ`), proved forward by generation and a dimension count, which supplies
-the Layer-1 structure theorem. In **odd** dimension it is not injective (`dim Cliff = 2 · (2ˡ)²`): it factors
+the structure theorem. In **odd** dimension it is not injective (`dim Cliff = 2 · (2ˡ)²`): it factors
 through one central-idempotent summand, with the extra vector `e` acting as the parity operator scaled so
 `c e ∘ c e = Q e • 1`. -/
 noncomputable def spinAction {V : Type v} [AddCommGroup V] [Module ℂ V] (Q : QuadraticForm ℂ V)
@@ -254,10 +254,10 @@ theorem spinRep_isIrreducible_of_odd {V : Type v} [AddCommGroup V] [Module ℂ V
     (P : SpinPolarizationData Q) (l : ℕ) (hV : Module.finrank ℂ V = 2 * l + 1) :
     (spinRep Q P).IsIrreducible := sorry
 
-/-! ### Layer 5: the fundamental representations of `Bₗ` and `Dₗ`
+/-! ### The fundamental representations of `Bₗ` and `Dₗ`
 
 The highest-weight identification is a **Lie-algebra** statement (`S` as a `LieModule ℂ 𝔰𝔬(V) S` via the
-bivector realization of Layer 3), stated against [`../LieHighestWeight`](../LieHighestWeight/README.md) and
+bivector realization `soEquivBivector`), stated against [`../LieHighestWeight`](../LieHighestWeight/README.md) and
 [`../RootSystems`](../RootSystems/README.md); those objects are not yet in Mathlib, so only the dimension
 milestones are pinned here. `S` (type `Bₗ`) has highest weight `ωₗ = ½(1,…,1)`; `S⁺, S⁻` (type `Dₗ`) have
 highest weights `ωₗ, ωₗ₋₁`, the two fork-node fundamental weights, in the half-integral coset outside the
@@ -273,7 +273,7 @@ theorem finrank_spinPlus {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDim
     (hW : Module.finrank ℂ P.W = l) :
     Module.finrank ℂ (spinPlus Q P) = 2 ^ (l - 1) := sorry
 
-/-! ### Layer 6: the low-dimensional exceptional isomorphisms -/
+/-! ### The low-dimensional exceptional isomorphisms -/
 
 /-- **`Spin₃ ≅ SL₂`** (type `B₁ = A₁`); the `2`-dimensional spin representation is the standard
 representation of `SL₂`. Over `ℝ` this is `Spin(3) ≅ SU(2)`. The isomorphism needs three steps:
@@ -295,7 +295,7 @@ theorem spin6_equiv_sl4 {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDime
     (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (hV : Module.finrank ℂ V = 6) :
     Nonempty (spinGroup Q ≃* Matrix.SpecialLinearGroup (Fin 4) ℂ) := sorry
 
-/-! ### Layer 7: real Clifford algebras, Bott periodicity, and `Spin(p, q)` -/
+/-! ### Real Clifford algebras, Bott periodicity, and `Spin(p, q)` -/
 
 /-- **The real form `Cliff(p, q)`**: the diagonal form with `p` entries `+1` and `q` entries `-1`. -/
 def realCliffordForm (p q : ℕ) : QuadraticForm ℝ (Fin (p + q) → ℝ) := sorry
@@ -313,16 +313,22 @@ theorem cliff_one_one_equiv_matrix :
 
 /-- **Bott periodicity** `Cliff(p+1, q+1) ≅ Cliff(p, q) ⊗ M₂(ℝ)`, built from `CliffordAlgebra.equivEven`
 and `CliffordAlgebra.prodEquiv`; together with the recurrences for `Cliff(p,0)` and `Cliff(0,q)`
-and the base entries above, this gives the mod-`8` classification indexed by `(q-p) mod 8`. -/
+and the base entries above, this gives the mod-`8` classification indexed by `(q-p) mod 8`.
+
+Lawson-Michelsohn, *Spin Geometry*, Theorem I.4.1: this statement is their (4.3), the two
+recurrences are their (4.1) and (4.2), the eight-step consequence is Theorem I.4.3 (4.11)-(4.12)
+with `Cl(8,0) = Cl(0,8) = M₁₆(ℝ)` at (4.14), and the resulting tables are Tables I and II of §I.4.
+Their `Cl(r,s)` is this file's `Cliff(s, r)`: they set `Cl(1,0) = ℂ` and `Cl(0,1) = ℝ ⊕ ℝ` at (4.0),
+the opposite index order to the base entries above. -/
 theorem cliff_bott (p q : ℕ) :
     Nonempty (CliffordAlgebra (realCliffordForm (p + 1) (q + 1)) ≃ₐ[ℝ]
       TensorProduct ℝ (CliffordAlgebra (realCliffordForm p q)) (Matrix (Fin 2) (Fin 2) ℝ)) := sorry
 
-/-- **The real spin group `Spin(p, q)`**, the Layer-2 double cover of `SO(p, q)`; the compact
+/-- **The real spin group `Spin(p, q)`**, the double cover of `SO(p, q)`; the compact
 `Spin(n) = spinPQ n 0`. -/
 abbrev spinPQ (p q : ℕ) := spinGroup (realCliffordForm p q)
 
-/-! ### Layer 8: triality for `Spin₈` -/
+/-! ### Triality for `Spin₈` -/
 
 /-- **Triality**: an order-three automorphism of `Spin₈` (`V = ℂ⁸`, type `D₄`) whose action on
 representations cyclically permutes the three `8`-dimensional irreducibles `V ≅ S⁰`, `S⁺`, `S⁻`. Stage one
@@ -336,7 +342,7 @@ noncomputable def trialityAut {V : Type v} [AddCommGroup V] [Module ℂ V] [Fini
 
 /-- **Triality has order three** (and is not inner). The nontriviality conjunct is the anti-vacuity
 half: order dividing three alone is satisfied by the identity, so without `≠ refl` the target would
-pin nothing. The full rep-permutation statement (`V ≅ S⁰ ↦ S⁺ ↦ S⁻ ↦ V`) is the Layer-8 companion
+pin nothing. The full rep-permutation statement (`V ≅ S⁰ ↦ S⁺ ↦ S⁻ ↦ V`) is the companion statement
 recorded in the comment below. -/
 theorem trialityAut_order_three {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (hV : Module.finrank ℂ V = 8) :
@@ -345,11 +351,11 @@ theorem trialityAut_order_three {V : Type v} [AddCommGroup V] [Module ℂ V] [Fi
     trialityAut Q hQ hV ≠ MulEquiv.refl (spinGroup Q) := sorry
 
 -- The `Spin₈`-invariant trilinear form `V ⊗ S⁺ ⊗ S⁻ → ℂ` permuted by triality (the octonion
--- multiplication as the triality form) is the concrete outcome; see `README.md` Layer 8.
+-- multiplication as the triality form) is the concrete outcome; see the triality section of `README.md`.
 
-/-! ### Layer 9: Lie algebras acting through the Clifford algebra, and Kostant's isotypy corollary
+/-! ### Lie algebras acting through the Clifford algebra, and Kostant's isotypy corollary
 
-The Layer 3 realization freed from the standard form, the machine it powers (every Clifford module
+The bivector realization freed from the standard form, the machine it powers (every Clifford module
 is a `𝔤`-module along `θ : 𝔤 →ₗ⁅K⁆ 𝔰𝔬(V, Q)`), the adjoint embedding of a Lie algebra with an
 invariant nondegenerate symmetric form, and Kostant's isotypy corollary. **Two different
 `𝔤`-actions on `Cliff(𝔤, B)` live here, and only one is isotypic**: the commutator action
@@ -357,19 +363,18 @@ invariant nondegenerate symmetric form, and Kostant's isotypy corollary. **Two d
 representation and is **not** isotypic (`⋀𝔰𝔩₂ ≅ 1 ⊕ V(2) ⊕ V(2) ⊕ 1`), while the **left-regular**
 action `x • c = q(x) · c` is `L(ρ)`-isotypic; every isotypy and multiplicity statement below is
 about the left-regular module. Isotypicity is stated in Mathlib's `LieModule` vocabulary (the name
-`L(ρ)` lives in `../LieHighestWeight` and is not imported, the Layer 5 device); the highest weight
+`L(ρ)` lives in `../LieHighestWeight` and is not imported, so it is prose here); the highest weight
 itself is pinned only in the `gl_N` worked instance, where the Cartan and Borel are concrete. The
-carrier is the Clifford algebra itself; `CliffordAlgebra.equivExterior` and Layer 0's
+carrier is the Clifford algebra itself; `CliffordAlgebra.equivExterior` and
 `finrank_cliffordAlgebra` identify it with `⋀𝔤` of dimension `2^d`. Kostant's full
 `ρ`-decomposition `C(𝔤) ≅ End(V_ρ) ⊗ C(P)` (with the primitive subspace `P`) is strictly stronger
 than the isotypy pinned here and is named in `README.md` as a strengthening, not pinned.
-Independent of Layers 6-8. -/
+Independent of the exceptional isomorphisms, the real forms, and triality. -/
 
 /-- **The quadratic element of a pair of vectors**: `⅟2 • ⁅ι Q a, ι Q b⁆` in `CliffordAlgebra Q`
 (the commutator bracket is the `LieRing.ofAssociativeRing` instance), the abstract-form counterpart
-of the half-normalized embedding of Layer 3 (`bivectorLieRing`). The defining property is
-`cliffordBivector_lie_ι` below, not the formula; it lies in `even Q` and in `filtration Q 2`
-(Layer 0). -/
+of the half-normalized embedding `bivectorLieRing`. The defining property is
+`cliffordBivector_lie_ι` below, not the formula; it lies in `even Q` and in `filtration Q 2`. -/
 noncomputable def cliffordBivector (Q : QuadraticForm R M) [Invertible (2 : R)] (a b : M) :
     CliffordAlgebra Q := sorry
 
@@ -385,7 +390,7 @@ theorem cliffordBivector_lie_ι (Q : QuadraticForm R M) [Invertible (2 : R)] (a 
 
 /-- **Quadratic elements form a Lie subalgebra** of `CliffordAlgebra Q` under the commutator: the
 span of the `cliffordBivector Q a b`, closed under bracket by the polarization identities,
-contained in `even Q` and in `filtration Q 2`. Unlike Layer 3's `bivectorLieRing` (a transported
+contained in `even Q` and in `filtration Q 2`. Unlike `bivectorLieRing` (a transported
 bracket on `⋀²`), this is a `LieSubalgebra` of the Clifford algebra itself, so no scoped instances
 are needed. -/
 def quadraticLieSubalgebra (Q : QuadraticForm R M) [Invertible (2 : R)] :
@@ -395,7 +400,7 @@ def quadraticLieSubalgebra (Q : QuadraticForm R M) [Invertible (2 : R)] :
 finite-dimensional space over a field with `2` invertible, the skew-adjoint endomorphisms of the
 polar form (Mathlib's `skewAdjointLieSubalgebra`, the abstract `𝔰𝔬(V, Q)`; never a private
 synonym) are Lie-isomorphic to the quadratic elements of the Clifford algebra. The normalization
-is pinned by `soEquivQuadratic_lie_ι` below, matching Layer 3's convention, so over the standard
+is pinned by `soEquivQuadratic_lie_ι` below, matching `soEquivBivector`'s convention, so over the standard
 form this and `soEquivBivector` realize the same formula. -/
 noncomputable def soEquivQuadratic {K : Type u} [Field K] {V : Type v} [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] [Invertible (2 : K)] (Q : QuadraticForm K V)
@@ -417,7 +422,7 @@ theorem soEquivQuadratic_lie_ι {K : Type u} [Field K] {V : Type v} [AddCommGrou
 `θ : 𝔤 →ₗ⁅K⁆ 𝔰𝔬(V, Q)` composed with the quadratic realization and a Clifford action
 `ρ : CliffordAlgebra Q →ₐ[K] Module.End K S` (an `AlgHom`, a Lie homomorphism via
 `AlgHom.toLieHom`) makes `S` a `𝔤`-module. The two instances that matter here: `ρ = spinAction Q P`
-(Layer 4, the spin module) and `ρ = Algebra.lmul K (CliffordAlgebra Q)` (the left-regular module,
+(the spin module) and `ρ = Algebra.lmul K (CliffordAlgebra Q)` (the left-regular module,
 Kostant's setting). Pinned by `cliffordInducedRep_apply`. -/
 noncomputable def cliffordInducedRep {K : Type u} [Field K] {V : Type v} [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] [Invertible (2 : K)] (Q : QuadraticForm K V)
@@ -529,8 +534,8 @@ theorem kostant_lie_def (L : Type u) [LieRing L] [LieAlgebra ℂ L] [FiniteDimen
 `𝔤` over `ℂ`, any two simple submodules of the left-regular `Cliff(𝔤, κ)` are isomorphic.
 Nonvacuous because the carrier is finite-dimensional (`finrank_cliffordAlgebra`), so simple
 submodules exist. In the vocabulary of `../LieHighestWeight` the common simple constituent is
-`L(ρ)`, the irreducible of highest weight the half-sum of positive roots; that name is prose here
-(the Layer 5 device), and this statement carries the content without it. -/
+`L(ρ)`, the irreducible of highest weight the half-sum of positive roots; that name is prose here,
+and this statement carries the content without it. -/
 theorem kostant_isotypic (L : Type u) [LieRing L] [LieAlgebra ℂ L] [FiniteDimensional ℂ L]
     [LieAlgebra.IsKilling ℂ L]
     (S₁ S₂ : LieSubmodule ℂ L (CliffordAlgebra (killingQuadraticForm L)))
@@ -540,7 +545,7 @@ theorem kostant_isotypic (L : Type u) [LieRing L] [LieAlgebra ℂ L] [FiniteDime
 /-- **The multiplicity, as a pinned decomposition equivalence** (the summit of the layer):
 `Cliff(𝔤, κ)` is a direct sum of `2^{(d+l)/2}` copies of one simple of dimension `2^{(d-l)/2}`,
 `d = dim 𝔤`, `l = rank 𝔤`. The divisions are exact by `finrank_eq_rank_add_two_mul_card_isPos`,
-and the bookkeeping check against Layer 0 is `2^{(d-l)/2} · 2^{(d+l)/2} = 2^d =
+and the bookkeeping check against `finrank_cliffordAlgebra` is `2^{(d-l)/2} · 2^{(d+l)/2} = 2^d =
 dim Cliff(𝔤, κ)`. -/
 theorem kostant_multiplicity (L : Type u) [LieRing L] [LieAlgebra ℂ L] [FiniteDimensional ℂ L]
     [LieAlgebra.IsKilling ℂ L] :
@@ -550,7 +555,7 @@ theorem kostant_multiplicity (L : Type u) [LieRing L] [LieAlgebra ℂ L] [Finite
       Nonempty ((CliffordAlgebra (killingQuadraticForm L)) ≃ₗ⁅ℂ,L⁆
         ⨁ _ : Fin (2 ^ ((Module.finrank ℂ L + LieAlgebra.rank ℂ L) / 2)), S) := sorry
 
-/-- **The spin-module variant**: the **full spinor module** `⋀·W` of `Cliff(𝔤, κ)` (Layer 4; in
+/-- **The spin-module variant**: the **full spinor module** `⋀·W` of `Cliff(𝔤, κ)` (the spin module; in
 even dimension this is `S⁺ ⊕ S⁻`, and the half-spin summands separately are smaller by a factor of
 two, noted in `README.md`, not pinned), restricted to `𝔤` along the adjoint quadratic lift. Real
 body: the composite of `adjointCliffordHom` with `spinAction` through `AlgHom.toLieHom`. -/
@@ -579,7 +584,7 @@ theorem kostantSpinRep_multiplicity (L : Type u) [LieRing L] [LieAlgebra ℂ L]
 
 `𝔤 = gl_N = Matrix (Fin N) (Fin N) ℂ` is reductive, not Killing-semisimple, so its invariant form
 is the **trace form** `⟨X, Y⟩ = tr (X * Y)` and its highest weight carries a half-integral central
-component; the reductive highest-weight vocabulary is `../LieHighestWeight` Layer 9 and is cited in
+component; the reductive highest-weight vocabulary lives in `../LieHighestWeight` and is cited in
 prose only. The generators `d_ab = ι (Matrix.single a b 1)` satisfy the CAR relations
 `d_ab d_cd + d_cd d_ab = 2 δ_bc δ_ad` (`polarBilin_traceQuadraticForm`), the normal-ordered
 quadratics `F_ij = ½ Σ_k d_ik d_kj` are a Lie homomorphism (`glCliffordHom`), and the left-regular
@@ -654,7 +659,7 @@ theorem car_lie_def (N : ℕ) (X : Matrix (Fin N) (Fin N) ℂ)
 
 /-- **The CAR module is isotypic**: any two simple submodules of the left-regular `Cliff(M_N)` are
 isomorphic, the `gl_N` case of Kostant's corollary for a reductive Lie algebra with the trace form
-(Panyushev, Prop. 2.4, Ex. 2.5(1)). The name `L(ν)` is prose (`../LieHighestWeight` Layer 9). -/
+(Panyushev, Prop. 2.4, Ex. 2.5(1)). The name `L(ν)` is prose (`../LieHighestWeight`). -/
 theorem car_isotypic (N : ℕ)
     (S₁ S₂ : LieSubmodule ℂ (Matrix (Fin N) (Fin N) ℂ)
       (CliffordAlgebra (traceQuadraticForm N)))
@@ -672,7 +677,7 @@ theorem car_multiplicity (N : ℕ) :
       Nonempty ((CliffordAlgebra (traceQuadraticForm N))
         ≃ₗ⁅ℂ, Matrix (Fin N) (Fin N) ℂ⁆ ⨁ _ : Fin (2 ^ (N * (N + 1) / 2)), S) := sorry
 
-/-- **The highest weight `ν = (N - 1/2, …, 1/2)`, pinned locally** (the Layer 5 device: the
+/-- **The highest weight `ν = (N - 1/2, …, 1/2)`, pinned locally** (the
 Cartan and Borel of `gl_N` are concrete, so the statement uses `Matrix.single` and no
 `../LieHighestWeight` vocabulary): every simple submodule contains a nonzero vector killed by the
 strictly upper-triangular `E_ij` with `E_ii`-eigenvalue `N - i - 1/2` (zero-based `i`). The
