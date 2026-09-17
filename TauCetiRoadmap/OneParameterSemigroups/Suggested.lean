@@ -6,9 +6,11 @@ import Mathlib
 import TauCeti.Analysis.Bochner.BochnerTheorem
 import TauCeti.Analysis.CompletelyMonotone.Bernstein.HausdorffBernsteinWidder
 import TauCeti.Analysis.PositiveDefinite.SemigroupGroup.FourierLaplace.Uniqueness
+import TauCeti.Analysis.Semigroups.BoundedGenerator.Basic
 import TauCeti.Analysis.Semigroups.CauchyProblem
 import TauCeti.Analysis.Semigroups.Dissipative.Basic
 import TauCeti.Analysis.Semigroups.Generation.HilleYosida.Generation
+import TauCeti.Analysis.Semigroups.Generation.LumerPhillips
 import TauCeti.Analysis.Semigroups.Generator.Closed
 import TauCeti.Analysis.Semigroups.Generator.Uniqueness
 import TauCeti.Analysis.Semigroups.GrowthBound
@@ -26,9 +28,11 @@ files appeared 2026-07-05 — and was implemented without it. The file is theref
 fact: each milestone is either **discharged**, closed by the Tau Ceti declaration that realizes it,
 or left with an honest `sorry`.
 
-Nothing here records a status by hand. The remaining `sorry` count is the remaining work, and the
-compiler keeps it honest. Where a milestone is still open, its docstring names what already exists
-and what is missing — the part a reader cannot recover from the signature alone.
+Nothing here records a status by hand: a discharged milestone is checked by the compiler, not
+asserted. A remaining `sorry` carries a comment saying why — unproved mathematics, or a
+realization that postdates the Tau Ceti revision this repository pins. The docstrings carry
+mathematics; status stays in the comment at the `sorry`, where it is visible to anyone editing
+the target and cannot silently rot elsewhere in the prose.
 -/
 
 namespace TauCetiRoadmap.OneParameterSemigroups
@@ -75,14 +79,49 @@ theorem hilleYosida_generation {A : X →ₗ.[ℝ] X} {M omega : ℝ} (hM : 1 �
 range condition generates a contraction semigroup. Kept distinct from Hille–Yosida: a different
 hypothesis set, reached through the same Yosida approximation.
 
-**Open in the generation direction.** The converse is proved: the generator of a contraction
-semigroup is dissipative (`TauCeti.Semigroups.real_inner_generator_nonpos` on a Hilbert space,
-and in general via `smul_sub_generator_surjective`/`_injective`). What is missing is this
-direction, dissipativity plus the range condition producing the semigroup. -/
+**Discharged.** Tau Ceti states it as an equivalence, with the dissipativity and range
+conditions packaged as `IsMDissipative`; that predicate unfolds to exactly the two hypotheses
+below, so the milestone is the `mpr` direction. -/
 theorem lumerPhillips (A : X →ₗ.[ℝ] X)
-    (_hdense : Dense (A.domain : Set X)) (_hdiss : IsDissipative A)
-    (_hrange : ∃ l : ℝ, 0 < l ∧ Function.Surjective fun x : A.domain => l • (x : X) - A x) :
-    ∃ S : ContractionSemigroup X, S.toStronglyContinuousSemigroup.generator = A := sorry
+    (hdense : Dense (A.domain : Set X)) (hdiss : IsDissipative A)
+    (hrange : ∃ l : ℝ, 0 < l ∧ Function.Surjective fun x : A.domain => l • (x : X) - A x) :
+    ∃ S : ContractionSemigroup X, S.toStronglyContinuousSemigroup.generator = A :=
+  (TauCeti.Semigroups.exists_contractionSemigroup_generator_eq_iff A).mpr ⟨hdense, hdiss, hrange⟩
+
+/-- **The generator determines the semigroup uniquely** (Engel–Nagel II.1.4). The README bolds
+this as the first thing the Part A API must supply; it is also what makes the Cauchy-problem
+milestone below a statement about *the* solution.
+
+**Discharged.** -/
+theorem eq_of_generator_eq {S T : StronglyContinuousSemigroup X}
+    (hgen : S.generator = T.generator) : S = T :=
+  StronglyContinuousSemigroup.eq_of_generator_eq hgen
+
+/-- **Acceptance example — `e^{tA}` for a bounded generator.** The README asks for this and the
+multiplication semigroup as the concrete tests that keep Part A honest.
+
+**Discharged.** -/
+noncomputable example (A : X →L[ℝ] X) : StronglyContinuousSemigroup X :=
+  StronglyContinuousSemigroup.ofBounded A
+
+/-- **Milestone — abstract Cauchy problem, classical half.** For `x ∈ D(A)` the orbit
+`u t = S t x` solves `u' = A u`, `u 0 = x` classically.
+
+**Discharged.** The roadmap calls this the motivating payoff and states it as a milestone in its
+own right even though it follows from generator uniqueness. Tau Ceti proves it for the orbit of a
+generator-domain vector; `realOperator` is the `ℝ`-indexed action of the `ℝ≥0`-indexed
+semigroup. -/
+theorem cauchyProblem_classical (S : StronglyContinuousSemigroup X) (x : S.domain) :
+    IsClassicalSolution S.generator (x : X) (fun t => S.realOperator t x) :=
+  S.isClassicalSolution_realOperator x
+
+/-- **Milestone — abstract Cauchy problem, mild half.** For arbitrary `x` the orbit is a mild
+solution, in the integrated form.
+
+**Discharged.** -/
+theorem cauchyProblem_mild (S : StronglyContinuousSemigroup X) (x : X) :
+    IsMildSolution S.generator x (fun t => S.realOperator t x) :=
+  S.isMildSolution_realOperator x
 
 end PartA
 
@@ -121,19 +160,31 @@ continuous positive-definite function on the semigroup `ℝ≥0 × V` is the Lap
 of a unique finite measure. Time lives in `ℝ≥0`, so the representing measure has the right support
 automatically.
 
-**Uniqueness proved, existence open.** Tau Ceti has the predicate
-(`TauCeti.IsSemigroupGroupPD`), the transform (`TauCeti.RepresentsLaplaceFourier`) and the
-uniqueness half (`TauCeti.Measure.ext_of_forall_laplaceFourierTransform_eq`); what remains is the
-extraction of a representing measure.
+**Boundedness is required and was missing here.** `TauCeti.IsSemigroupGroupPD` is the bare
+quadratic-form condition, so without a bound the statement is false: `F (t, v) = exp t` is
+continuous and positive definite, being a character — the quadratic form is `‖∑ cᵢ exp tᵢ‖ ^ 2` —
+yet no finite measure represents it, since a representing `μ` forces `‖F‖ ≤ μ univ`. The
+docstring above always said *bounded*; the signature had dropped it.
 
-A proved instance exists outside Tau Ceti, for the special case `V = (Fin d → ℝ)` with time in
-`ℝ` plus a support side-condition, in `mrdouglasny/hille-yosida`
-(`HilleYosida.SemigroupGroupExtension.semigroupGroupBochner`). Porting it is a restatement rather
-than a copy: indexing time by `ℝ≥0` makes the support condition automatic, and `V` here is an
-arbitrary finite-dimensional real inner-product space. -/
-theorem bcr_semigroup_bochner [StarAddMonoid V] (F : ℝ≥0 × V → ℂ)
-    (_hcont : Continuous F) (_hpd : TauCeti.IsSemigroupGroupPD F) :
-    ∃! μ : Measure (ℝ≥0 × V), TauCeti.RepresentsLaplaceFourier μ F := sorry
+**No `StarAddMonoid V` either.** The involution `(t, v) ↦ (t, -v)` lives on Tau Ceti's own
+`BCRPoint V` wrapper, precisely so that no global negation instance is installed on every additive
+group -- which, as that module says, "would conflict with Mathlib's ordinary star conventions".
+`TauCeti.IsSemigroupGroupPD` therefore asks only for `AddCommGroup V`, and carrying the instance
+here misstated the hypothesis Tau Ceti actually needs.
+
+A proved instance also exists outside Tau Ceti, for the special case `V = (Fin d → ℝ)` with time
+in `ℝ` plus a support side-condition, in `mrdouglasny/hille-yosida`
+(`HilleYosida.SemigroupGroupExtension.semigroupGroupBochner`), which carries the same boundedness
+hypothesis. Porting it is a restatement rather than a copy: indexing time by `ℝ≥0` makes the
+support condition automatic, and `V` here is an arbitrary finite-dimensional real inner-product
+space. -/
+theorem bcr_semigroup_bochner (F : ℝ≥0 × V → ℂ)
+    (_hcont : Continuous F) (_hbdd : Bornology.IsBounded (Set.range F))
+    (_hpd : TauCeti.IsSemigroupGroupPD F) :
+    ∃! μ : Measure (ℝ≥0 × V), TauCeti.RepresentsLaplaceFourier μ F :=
+  -- waiting on the pin: realized by `TauCeti.bcr_semigroup_bochner`, in a module postdating the
+  -- Tau Ceti revision this repository pins. Not unproved mathematics.
+  sorry
 
 end PartC
 
