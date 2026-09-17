@@ -314,13 +314,13 @@ variable {V : Type u} (G : SimpleGraph V)
 open Classical in
 /-- The largest natural threshold at which `G` is vertex-connected, as an extended natural.
 The empty-carrier convention is zero. The predicates remain the primary interface. -/
-noncomputable def vertexConnectivity [Finite V] : ℕ∞ :=
+noncomputable def vertexConnectivity : ℕ∞ :=
   ⨆ k : ℕ, if IsVertexConnected G (k : ℕ∞) then (k : ℕ∞) else 0
 
 open Classical in
 /-- The largest natural threshold at which `G` is edge-connected, as an extended natural.
 This is `⊤` on a subsingleton carrier. The predicates remain the primary interface. -/
-noncomputable def edgeConnectivity [Finite V] : ℕ∞ :=
+noncomputable def edgeConnectivity : ℕ∞ :=
   ⨆ k : ℕ, if G.IsEdgeConnected k then (k : ℕ∞) else 0
 
 /-- On a nonempty finite carrier, numerical vertex connectivity records exactly the valid
@@ -559,11 +559,13 @@ variable {V : Type u} (G : SimpleGraph V) [Fintype V] [DecidableEq V] [Decidable
 noncomputable def cutCapacity (c : Sym2 V → K) (S : Finset V) : K :=
   ∑ e ∈ G.edgeFinset with (∃ x ∈ e, x ∈ S) ∧ (∃ y ∈ e, y ∉ S), c e
 
-/-- The minimum `s–t` cut capacity, obtained as the minimum of a nonempty finite family when
-`s ≠ t`, and defined to be zero when `s = t`. No order completeness is required. -/
-noncomputable def minCutCapacity (c : Sym2 V → K) (s t : V) : K := by
-  let _usesGraph := G
-  sorry
+/-- The minimum `s–t` cut capacity: the minimum of a nonempty finite family when `s ≠ t`, and
+zero when `s = t`. No order completeness is required. -/
+noncomputable def minCutCapacity (c : Sym2 V → K) (s t : V) : K :=
+  if h : s ≠ t then
+    (univ.filter fun S : Finset V => s ∈ S ∧ t ∉ S).inf'
+      ⟨{s}, by simp [Finset.mem_filter, h.symm]⟩ (cutCapacity G c)
+  else 0
 
 /-- A weighted tree on the vertex type. -/
 structure WeightedTree (K : Type w) (V : Type u) [Zero K] [LE K] where
