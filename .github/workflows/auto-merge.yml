@@ -79,13 +79,16 @@ jobs:
               any(.[]; .type == "required_status_checks"
                 and any(.parameters.required_status_checks[]?; .context == "build"))
               and
-              any(.[]; .type == "merge_queue")
+              any(.[]; .type == "merge_queue"
+                and .parameters.merge_method == "SQUASH")
             ' <<<"$rules" >/dev/null; then
-            echo "::error::$PROTECTED_BASE lacks the required code-owner review, build, or merge-queue rule"
+            echo "::error::$PROTECTED_BASE lacks the required code-owner review, the build check, or a squash merge queue"
             exit 1
           fi
 
-          # `--squash` must agree with the merge queue's configured merge method: GitHub rejects
-          # an auto-merge request whose method contradicts the queue. Both are squash, matching
-          # every merge in this repository's history; change them together or not at all.
+          # The queue owns the merge method once it is enabled, and `gh` warns that a supplied
+          # strategy is overridden by the queue before taking the queue path. `--squash` is kept
+          # because it is still required in the window before the rule exists, where `--auto` with
+          # no strategy fails non-interactively. The rule check above asserts the queue is squash
+          # too, so the flag and the queue cannot silently disagree.
           gh pr merge "$PR" --repo "$REPO" --auto --squash

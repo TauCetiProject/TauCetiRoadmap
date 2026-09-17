@@ -66,16 +66,20 @@ jobs:
           fi
 
           # `cancelled` and `skipped` say nothing about the branch, so they neither alert nor clear.
+          # `startup_failure` counts as red: a CI run that cannot start is exactly a case where
+          # `main` has not been validated, and treating it as a non-event leaves the topic green.
+          # `cancelled`, `skipped` and `neutral` really are non-verdicts.
           case "$CONCLUSION" in
             success) now=green ;;
-            failure|timed_out) now=red ;;
+            failure|timed_out|startup_failure) now=red ;;
             *) echo "::notice::conclusion '$CONCLUSION' is not a verdict on main"; exit 0 ;;
           esac
 
           # The last thing we said in this topic. `apply_markdown=false` returns what was posted
           # rather than rendered HTML, so the marker below survives the round trip.
           narrow=$(printf '[["channel","%s"],["topic","%s"]]' "$CHANNEL" "$TOPIC")
-          last=$(curl -sS -G "$ZULIP_SITE/api/v1/messages" \
+          last=$(curl -sS --fail-with-body --retry 3 --retry-all-errors --max-time 30 \
+            -G "$ZULIP_SITE/api/v1/messages" \
             -u "$ZULIP_EMAIL:$ZULIP_API_KEY" \
             --data-urlencode "anchor=newest" \
             --data-urlencode "num_before=1" \
@@ -97,19 +101,26 @@ jobs:
           fi
 
           short="${SHA:0:9}"
-          subject=$(printf '%s' "$TITLE" | head -1)
+          # Rendered as inline code: a squash title is attacker-influenced, and unescaped it could
+          # carry Zulip mentions or misleading markup posted under the bot's identity. Backticks are
+          # stripped so the span cannot be closed early.
+          subject=$(printf '%s' "$TITLE" | head -1 | tr -d '`')
           if [ "$now" = red ]; then
             content=$(printf '%s\n\n%s\n%s' \
-              ":cross_mark: **\`main\` is red.** [\`$short\`]($URL) — $subject" \
-              "Pull requests against \`main\` will show a failing \`build\` check until this is fixed, whatever they change." \
+              ":cross_mark: **\`main\` is red.** [\`$short\`]($URL) — \`$subject\`" \
+              "New merge candidates that do not fix this are expected to fail their \`build\` check." \
               "<!-- main-build:red -->")
           else
             content=$(printf '%s\n%s' \
-              ":check: **\`main\` is green again.** [\`$short\`]($URL) — $subject" \
+              ":check: **\`main\` is green again.** [\`$short\`]($URL) — \`$subject\`" \
               "<!-- main-build:green -->")
           fi
 
-          code=$(curl -sS -o /tmp/zulip.out -w '%{http_code}' -X POST "$ZULIP_SITE/api/v1/messages" \
+          # Retries are safe because the topic read above is the idempotency check: a retry that
+          # duplicates a delivered post is far less likely than a lost alert, and a duplicate is
+          # visible noise rather than silence.
+          code=$(curl -sS --retry 3 --retry-all-errors --max-time 30 \
+            -o /tmp/zulip.out -w '%{http_code}' -X POST "$ZULIP_SITE/api/v1/messages" \
             -u "$ZULIP_EMAIL:$ZULIP_API_KEY" \
             --data-urlencode "type=stream" \
             --data-urlencode "to=$CHANNEL" \
