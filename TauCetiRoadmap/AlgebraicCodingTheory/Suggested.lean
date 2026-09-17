@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.IntegralLattices.Suggested
+import Completed.IntegralLattices.Suggested
 
 /-!
 # Algebraic coding theory and Construction A: target signatures
@@ -12,8 +12,9 @@ permitted in this human-owned roadmap repository: these are targets, not impleme
 
 Linear codes remain Mathlib `Submodule`s and additive codes remain `AddSubgroup`s. Hamming weight
 is Mathlib's `hammingNorm`. Construction A uses the rational form `dotProduct / m`, and its gluing
-comparison consumes the integral-lattices roadmap's actual discriminant quotient and
-`ofIsotropicSubgroup`. The Markdown roadmap remains definitive.
+comparison consumes the integral-lattices roadmap's actual discriminant quotient and, through
+`evenIntermediateCarrierOrderIsoIsotropicSubgroup`, the inverse-image intermediate carrier attached
+to a quadratic-isotropic subgroup. The Markdown roadmap remains definitive.
 -/
 
 namespace TauCetiRoadmap.AlgebraicCodingTheory
@@ -435,7 +436,7 @@ instance (m : ℕ) (hm : 2 ≤ m) (C : AdditiveCode (ZMod m) ι) (hC : C ≤ zmo
 /-- Dual carriers are identified literally in the same rational ambient space. -/
 theorem constructionA_dual (m : ℕ) (hm : 2 ≤ m) (C : AdditiveCode (ZMod m) ι)
     (hC : C ≤ zmodDual m hm C) :
-    (constructionA m hm C hC).dual = constructionACarrier m hm (zmodDual m hm C) := sorry
+    (constructionA m hm C hC).dualCarrier = constructionACarrier m hm (zmodDual m hm C) := sorry
 
 theorem constructionA_unimodular_iff (m : ℕ) (hm : 2 ≤ m)
     (C : AdditiveCode (ZMod m) ι) (hC : C ≤ zmodDual m hm C) :
@@ -502,22 +503,22 @@ noncomputable def coordinateBilinearModule (ι : Type v) [Fintype ι]
   letI : Fintype (ZMod m) := ZMod.fintype m
   letI : Fintype (ι → ZMod m) := Pi.instFintype
   exact
-    { A := ι → ZMod m
+    { carrier := ι → ZMod m
       addCommGroup := inferInstance
       finite := Finite.of_fintype (ι → ZMod m)
       pairing := sorry
-      symmetric := sorry }
+      pairing_comm := sorry }
 
 /-- The coordinate quadratic module with values `Σ lift(cᵢ)²/(2m) mod ℤ`. -/
 noncomputable def coordinateQuadraticModule (ι : Type v) [Fintype ι]
     (m : ℕ) (hm₂ : 2 ≤ m) (_hmeven : Even m) : FiniteQuadraticModule where
       toFiniteBilinearModule := coordinateBilinearModule ι m hm₂
       quadratic := sorry
-      polar := sorry
+      polar_eq_pairing' := sorry
 
 /-- An integer vector is canonically in the dual of the base `mℤ^ι`. -/
 noncomputable def constructionABaseDualOfInt (m : ℕ) (hm₂ : 2 ≤ m) (z : ι → ℤ) :
-    (constructionABase (ι := ι) m hm₂).dual := sorry
+    (constructionABase (ι := ι) m hm₂).dualCarrier := sorry
 
 /-- The discriminant quotient of `mℤ^ι` is coordinatewise reduction modulo `m`. -/
 noncomputable def constructionABaseDiscriminantEquiv (m : ℕ) (hm₂ : 2 ≤ m) :
@@ -542,12 +543,12 @@ theorem constructionABaseDiscriminantEquiv_pairing
 /-- The key normalization check between residues and the actual discriminant quotient. -/
 noncomputable def constructionABaseDiscriminantIsometry
     (m : ℕ) (hm₂ : 2 ≤ m) (hmeven : Even m) :
-    FiniteQuadraticModule.Isometry
+    TauCeti.FiniteQuadraticModule.Isometry
       ((constructionABase (ι := ι) m hm₂).discriminantQuadraticModule
         (constructionABase_isEven (ι := ι) m hm₂ hmeven))
       (coordinateQuadraticModule ι m hm₂ hmeven) where
-  toAddEquiv := constructionABaseDiscriminantEquiv m hm₂
-  map_quadratic := sorry
+  toLinearEquiv := (constructionABaseDiscriminantEquiv m hm₂).toIntLinearEquiv
+  map_app' := sorry
 
 /-- The actual inverse image of `C` under the pinned discriminant-coordinate equivalence. -/
 noncomputable def codeInBaseDiscriminant
@@ -576,12 +577,13 @@ noncomputable def constructionAAsGluing
     (m : ℕ) (hm₂ : 2 ≤ m) (hmeven : Even m)
     (C : AdditiveCode (ZMod m) ι) (hself : C ≤ zmodDual m hm₂ C)
     (hq : ∀ c ∈ C, constructionAQuadraticValue m hm₂ hmeven c = 0) :
-    IntegralLattice.Isometry
+    TauCeti.IntegralLattice.Isometry
       (constructionA m hm₂ C hself)
-      ((constructionABase (ι := ι) m hm₂).ofIsotropicSubgroup
-        (constructionABase_isEven (ι := ι) m hm₂ hmeven)
-        (codeInBaseDiscriminant m hm₂ C)
-        (codeInBaseDiscriminant_isIsotropic m hm₂ hmeven C hq)) := sorry
+      ((((constructionABase (ι := ι) m hm₂).evenIntermediateCarrierOrderIsoIsotropicSubgroup
+              (constructionABase_isEven (ι := ι) m hm₂ hmeven)).symm
+            ⟨codeInBaseDiscriminant m hm₂ C,
+              codeInBaseDiscriminant_isIsotropic m hm₂ hmeven C hq⟩).2.isIntegral
+        |>.toIntegralLattice) := sorry
 
 /-- The literal copy of `C` inside `C^⊥`, used to form the quotient `C^⊥/C`. -/
 noncomputable def codeInZModDual (m : ℕ) (hm₂ : 2 ≤ m) (C : AdditiveCode (ZMod m) ι)
@@ -597,11 +599,11 @@ abbrev CodeOrthogonalQuotient (m : ℕ) (hm₂ : 2 ≤ m)
 noncomputable def codeOrthogonalQuotientBilinearModule
     (m : ℕ) (hm₂ : 2 ≤ m) (C : AdditiveCode (ZMod m) ι)
     (hself : C ≤ zmodDual m hm₂ C) : FiniteBilinearModule where
-  A := CodeOrthogonalQuotient m hm₂ C hself
+  carrier := CodeOrthogonalQuotient m hm₂ C hself
   addCommGroup := inferInstance
   finite := sorry
   pairing := sorry
-  symmetric := sorry
+  pairing_comm := sorry
 
 /-- The quadratic refinement on `C^⊥/C` when `C` is quadratically isotropic. -/
 noncomputable def codeOrthogonalQuotientQuadraticModule
@@ -611,7 +613,7 @@ noncomputable def codeOrthogonalQuotientQuadraticModule
     FiniteQuadraticModule where
   toFiniteBilinearModule := codeOrthogonalQuotientBilinearModule m hm₂ C hself
   quadratic := sorry
-  polar := sorry
+  polar_eq_pairing' := sorry
 
 theorem constructionA_isEven
     (m : ℕ) (hm₂ : 2 ≤ m) (hmeven : Even m)
@@ -636,7 +638,7 @@ noncomputable def constructionADiscriminantQuadraticIsometry
     (m : ℕ) (hm₂ : 2 ≤ m) (hmeven : Even m)
     (C : AdditiveCode (ZMod m) ι) (hself : C ≤ zmodDual m hm₂ C)
     (hq : ∀ c ∈ C, constructionAQuadraticValue m hm₂ hmeven c = 0) :
-    FiniteQuadraticModule.Isometry
+    TauCeti.FiniteQuadraticModule.Isometry
       ((constructionA m hm₂ C hself).discriminantQuadraticModule
         (constructionA_isEven m hm₂ hmeven C hself hq))
       (codeOrthogonalQuotientQuadraticModule m hm₂ hmeven C hself hq) := sorry
@@ -647,13 +649,13 @@ end ConstructionA
 
 /-- The `A₂` discriminant alphabet, with `q(a)=a²/3` and polar form `2ab/3`. -/
 noncomputable def a2DiscriminantAlphabet : FiniteQuadraticModule where
-  A := ZMod 3
+  carrier := ZMod 3
   addCommGroup := inferInstance
   finite := inferInstance
   pairing := sorry
-  symmetric := sorry
+  pairing_comm := sorry
   quadratic := sorry
-  polar := sorry
+  polar_eq_pairing' := sorry
 
 theorem a2DiscriminantAlphabet_quadratic (a : ZMod 3) :
     a2DiscriminantAlphabet.quadratic a =
@@ -672,13 +674,13 @@ theorem traceF4F2_apply (x : F4) :
 
 /-- The `D₄` discriminant alphabet under `1↦vector`, `ω↦spinor`, `ω²↦conjugate spinor`. -/
 noncomputable def d4DiscriminantAlphabet : FiniteQuadraticModule where
-  A := F4
+  carrier := F4
   addCommGroup := inferInstance
   finite := inferInstance
   pairing := sorry
-  symmetric := sorry
+  pairing_comm := sorry
   quadratic := sorry
-  polar := sorry
+  polar_eq_pairing' := sorry
 
 noncomputable def d4VectorClass : F4 := 1
 
@@ -698,13 +700,13 @@ theorem d4DiscriminantAlphabet_pairing (x y : F4) :
 /-- Orthogonal coordinate powers of the `A₂` discriminant alphabet. -/
 noncomputable def a2CoordinateQuadraticModule (ι : Type*) [Fintype ι] :
     FiniteQuadraticModule where
-  A := ι → ZMod 3
+  carrier := ι → ZMod 3
   addCommGroup := inferInstance
   finite := inferInstance
   pairing := sorry
-  symmetric := sorry
+  pairing_comm := sorry
   quadratic := sorry
-  polar := sorry
+  polar_eq_pairing' := sorry
 
 theorem a2CoordinateQuadraticModule_quadratic { ι : Type*} [Fintype ι]
     (x : ι → ZMod 3) :
@@ -714,13 +716,13 @@ theorem a2CoordinateQuadraticModule_quadratic { ι : Type*} [Fintype ι]
 /-- Orthogonal coordinate powers of the `D₄` alphabet. -/
 noncomputable def d4CoordinateQuadraticModule (ι : Type*) [Fintype ι] :
     FiniteQuadraticModule where
-  A := ι → F4
+  carrier := ι → F4
   addCommGroup := inferInstance
   finite := inferInstance
   pairing := sorry
-  symmetric := sorry
+  pairing_comm := sorry
   quadratic := sorry
-  polar := sorry
+  polar_eq_pairing' := sorry
 
 theorem d4CoordinateQuadraticModule_quadratic { ι : Type*} [Fintype ι]
     (x : ι → F4) :
@@ -765,6 +767,6 @@ theorem golayConstructionA_isEven : golayConstructionA.IsEven := sorry
 
 theorem golayConstructionA_isUnimodular : golayConstructionA.IsUnimodular := sorry
 
-theorem golayConstructionA_isPositiveDefinite : golayConstructionA.IsPositiveDefinite := sorry
+theorem golayConstructionA_isPositiveDefinite : golayConstructionA.IsPosDef := sorry
 
 end TauCetiRoadmap.AlgebraicCodingTheory
