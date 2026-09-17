@@ -9,10 +9,14 @@ statements, so that contributors and reviewers converge on names and shapes. Dis
 declaration here finishes neither a milestone nor the roadmap. `sorry` is allowed in this
 human-owned roadmap library: these are targets, not completed definitions or proofs.
 
-The pinned choices this file exhibits: a directed network is a *term* `N : Network V` whose
-`Quiver` instance lives on the type synonym `N.Vert`, with arrow types in a universe independent
-of the vertex universe; the residual network has the flow-independent arrow type
+The pinned choices this file exhibits: finite capacities and flows use a linearly ordered additive
+commutative group `K` with a distinguished positive one; a directed network is a *term*
+`N : Network K V` whose `Quiver` instance
+lives on the type synonym `N.Vert`, with arrow types in a universe independent of the vertex
+universe; the residual network has the flow-independent arrow type
 `N.Hom v w ⊕ N.Hom w v`, and an augmenting path is a path in its positive-capacity part; an
+extended network has `WithTop K` capacities but finite `K`-valued flows, and reaches the finite
+theory by truncation rather than extended subtraction; an
 orientation of a simple graph is a choice of `Dart` per edge, with its quiver instance on the
 synonym `G.Oriented o`; ear decompositions are data, terms of an inductive type family indexed by
 the subgraph built so far; connectivity is predicate-first, following Mathlib's `IsEdgeConnected`
@@ -25,76 +29,84 @@ stand-ins in this roadmap's namespace only so that this file keeps compiling whe
 them; everything else about simple graphs is already in `SimpleGraph`.
 -/
 
-open scoped NNReal
 open Finset
 
-universe u v
+universe u v w
 
 namespace TauCetiRoadmap.FiniteGraphConnectivity
 
 /-! ## Directed networks (Conventions; Milestones 1, 3, 4, 8) -/
 
-/-- A directed network: an arrow type for every ordered pair of vertices and a capacity for
-every arrow. Parallel arrows, antiparallel arrows, loops, and zero capacities are allowed.
-Networks are terms; the quiver instance lives on `Network.Vert`. -/
-structure Network (V : Type u) where
+/-- A directed network over `K`: an arrow type for every ordered pair of vertices, a capacity for
+every arrow, and its nonnegativity. Parallel arrows, antiparallel arrows, loops, and zero
+capacities are allowed. Networks are terms; the quiver instance lives on `Network.Vert`. -/
+structure Network (K : Type w) (V : Type u) [Zero K] [LE K] where
   Hom : V → V → Type v
-  cap : ∀ {v w : V}, Hom v w → ℝ≥0
+  cap : ∀ {v w : V}, Hom v w → K
+  cap_nonneg : ∀ {v w : V} (e : Hom v w), 0 ≤ cap e
 
-variable {V : Type u}
+variable {K : Type w} {V : Type u}
+variable [AddCommGroupWithOne K] [LinearOrder K] [IsOrderedAddMonoid K] [ZeroLEOneClass K]
 
 /-- Type synonym carrying the quiver instance of a network, as `Quiver.Symmetrify` does. -/
-def Network.Vert (_N : Network.{u, v} V) : Type u := V
+def Network.Vert (_N : Network K V) : Type u := V
 
-instance (N : Network.{u, v} V) : Quiver N.Vert := ⟨N.Hom⟩
+instance (N : Network K V) : Quiver N.Vert := ⟨N.Hom⟩
 
 /-- View a vertex as a vertex of the network's quiver. -/
-def Network.toVert (_N : Network.{u, v} V) (v : V) : _N.Vert := v
+def Network.toVert (_N : Network K V) (v : V) : _N.Vert := v
 
 /-- Directed reachability in a network, through Mathlib's `Quiver.Path`. -/
-def Network.Reachable (N : Network.{u, v} V) (v w : V) : Prop :=
+def Network.Reachable (N : Network K V) (v w : V) : Prop :=
   Nonempty (Quiver.Path (N.toVert v) (N.toVert w))
 
 /-- The subnetwork of arrows with positive capacity. -/
-def Network.positivePart (N : Network.{u, v} V) : Network.{u, v} V where
+def Network.positivePart (N : Network K V) : Network K V where
   Hom v w := {e : N.Hom v w // 0 < N.cap e}
   cap e := N.cap e.1
+  cap_nonneg e := (N.cap_nonneg e.1)
 
-/-- A real-valued assignment on the arrows of a network. -/
-abbrev Network.Assignment (N : Network.{u, v} V) : Type (max u v) :=
-  ∀ {v w : V}, N.Hom v w → ℝ
+/-- A `K`-valued assignment on the arrows of a network. -/
+abbrev Network.Assignment (N : Network K V) :=
+  ∀ {v w : V}, N.Hom v w → K
 
 section Finite
 
-variable (N : Network.{u, v} V) [Fintype V] [DecidableEq V] [∀ v w, Fintype (N.Hom v w)]
+variable (N : Network K V) [Fintype V] [DecidableEq V]
+variable [∀ v w, Fintype (N.Hom v w)]
 
-/-- Divergence: outgoing minus incoming flow. Real-valued, since it can be negative. -/
-noncomputable def Network.divergence (f : N.Assignment) (v : V) : ℝ :=
+/-- Divergence: outgoing minus incoming flow in the signed coefficient type. -/
+noncomputable def Network.divergence (f : N.Assignment) (v : V) : K :=
   ∑ w, ∑ e : N.Hom v w, f e - ∑ w, ∑ e : N.Hom w v, f e
 
 /-- Capacity of the cut with source side `S`: the total capacity of arrows leaving `S`. -/
-noncomputable def Network.cutCapacity (S : Finset V) : ℝ≥0 :=
+noncomputable def Network.cutCapacity (S : Finset V) : K :=
   ∑ v ∈ S, ∑ w ∈ Sᶜ, ∑ e : N.Hom v w, N.cap e
 
 /-- An `s–t` flow: nonnegative, capacity-respecting, conserved away from the terminals.
 Arrows into `s` and out of `t` are allowed. -/
 structure Network.Flow (s t : V) where
-  toFun : ∀ {v w : V}, N.Hom v w → ℝ≥0
+  toFun : ∀ {v w : V}, N.Hom v w → K
+  nonneg : ∀ {v w : V} (e : N.Hom v w), 0 ≤ toFun e
   le_cap : ∀ {v w : V} (e : N.Hom v w), toFun e ≤ N.cap e
-  conserve : ∀ v, v ≠ s → v ≠ t → N.divergence (fun e => (toFun e : ℝ)) v = 0
+  conserve : ∀ v, v ≠ s → v ≠ t → N.divergence toFun v = 0
 
 variable {N} {s t : V}
 
 /-- The value of a flow is its divergence at the source. -/
-noncomputable def Network.Flow.value (f : N.Flow s t) : ℝ :=
-  N.divergence (fun e => (f.toFun e : ℝ)) s
+noncomputable def Network.Flow.value (f : N.Flow s t) : K :=
+  N.divergence f.toFun s
 
 /-- The residual network. Its arrow type does not depend on `f`: a forward arrow keeps the
 unused capacity `u e − f e`, a reverse arrow carries the cancellable flow `f e`, and arrows of
 zero residual capacity are ordinary arrows. -/
-noncomputable def Network.residual (f : N.Flow s t) : Network.{u, v} V where
+noncomputable def Network.residual (f : N.Flow s t) : Network K V where
   Hom v w := N.Hom v w ⊕ N.Hom w v
   cap := Sum.elim (fun e => N.cap e - f.toFun e) (fun e => f.toFun e)
+  cap_nonneg e := by
+    cases e with
+    | inl e => exact sub_nonneg.mpr (f.le_cap e)
+    | inr e => exact f.nonneg e
 
 /-- An augmenting path exists exactly when `t` is reachable from `s` through residual arrows of
 positive capacity. -/
@@ -126,8 +138,8 @@ theorem Network.Flow.isMax_iff_exists_cut (hst : s ≠ t) (f : N.Flow s t) :
 
 /-- Integrality: natural-number capacities admit a natural-number-valued maximum flow. -/
 theorem Network.exists_integral_max_flow (hst : s ≠ t)
-    (hcap : ∀ {v w : V} (e : N.Hom v w), ∃ n : ℕ, N.cap e = n) :
-    ∃ f : N.Flow s t, (∀ {v w : V} (e : N.Hom v w), ∃ n : ℕ, f.toFun e = n) ∧
+    (hcap : ∀ {v w : V} (e : N.Hom v w), ∃ n : ℕ, N.cap e = (n : K)) :
+    ∃ f : N.Flow s t, (∀ {v w : V} (e : N.Hom v w), ∃ n : ℕ, f.toFun e = (n : K)) ∧
       ∀ g : N.Flow s t, g.value ≤ f.value := by
   sorry
 
@@ -137,25 +149,94 @@ capacity form a minimum-cut source side, and it is contained in every minimum-cu
 theorem Network.Flow.residualReachable_isMinCut (hst : s ≠ t) (f : N.Flow s t)
     (hf : ∀ g : N.Flow s t, g.value ≤ f.value) :
     N.cutCapacity (univ.filter fun v => (N.residual f).positivePart.Reachable s v) = f.value ∧
-      ∀ S : Finset V, s ∈ S → t ∉ S → (N.cutCapacity S : ℝ) = f.value →
+      ∀ S : Finset V, s ∈ S → t ∉ S → N.cutCapacity S = f.value →
         (univ.filter fun v => (N.residual f).positivePart.Reachable s v) ⊆ S := by
   sorry
 
 /-- A circulation with lower bounds `lo` and upper bounds `N.cap`, conserved at every vertex. -/
-structure Network.BoundedCirculation (lo : ∀ {v w : V}, N.Hom v w → ℝ≥0) where
-  toFun : ∀ {v w : V}, N.Hom v w → ℝ≥0
+structure Network.BoundedCirculation (lo : ∀ {v w : V}, N.Hom v w → K) where
+  toFun : ∀ {v w : V}, N.Hom v w → K
   lo_le : ∀ {v w : V} (e : N.Hom v w), lo e ≤ toFun e
   le_cap : ∀ {v w : V} (e : N.Hom v w), toFun e ≤ N.cap e
-  conserve : ∀ v, N.divergence (fun e => (toFun e : ℝ)) v = 0
+  conserve : ∀ v, N.divergence toFun v = 0
 
 /-- Hoffman's circulation theorem: `ℓ(δ⁻(S)) ≤ u(δ⁺(S))` for every vertex set `S`. -/
-theorem Network.nonempty_boundedCirculation_iff (lo : ∀ {v w : V}, N.Hom v w → ℝ≥0)
+theorem Network.nonempty_boundedCirculation_iff (lo : ∀ {v w : V}, N.Hom v w → K)
+    (hlo0 : ∀ {v w : V} (e : N.Hom v w), 0 ≤ lo e)
     (hlo : ∀ {v w : V} (e : N.Hom v w), lo e ≤ N.cap e) :
     Nonempty (N.BoundedCirculation lo) ↔
       ∀ S : Finset V, ∑ v ∈ Sᶜ, ∑ w ∈ S, ∑ e : N.Hom v w, lo e ≤ N.cutCapacity S := by
   sorry
 
 end Finite
+
+/-! ## Extended capacities (Milestone 3) -/
+
+/-- A network whose nonnegative capacities may be infinite. Its feasible flows remain
+`K`-valued, so divergence and cancellation never use extended subtraction. -/
+structure ExtendedNetwork (K : Type w) (V : Type u) [Zero K] [LE K] where
+  Hom : V → V → Type v
+  cap : ∀ {v w : V}, Hom v w → WithTop K
+  cap_nonneg : ∀ {v w : V} (e : Hom v w), 0 ≤ cap e
+
+abbrev ExtendedNetwork.Assignment (E : ExtendedNetwork K V) :=
+  ∀ {v w : V}, E.Hom v w → K
+
+/-- Regard every finite capacity as an extended capacity. -/
+noncomputable def Network.toExtended (N : Network K V) : ExtendedNetwork K V := by
+  sorry
+
+/-- Replace every infinite capacity by the nonnegative finite bound `B`, leaving finite capacities
+unchanged. -/
+noncomputable def ExtendedNetwork.truncate (E : ExtendedNetwork K V) (B : K) (hB : 0 ≤ B) :
+    Network K V := by
+  sorry
+
+section Extended
+
+variable (E : ExtendedNetwork K V) [Fintype V] [DecidableEq V]
+variable [∀ v w, Fintype (E.Hom v w)]
+
+noncomputable def ExtendedNetwork.divergence (f : E.Assignment) (v : V) : K :=
+  ∑ w, ∑ e : E.Hom v w, f e - ∑ w, ∑ e : E.Hom w v, f e
+
+noncomputable def ExtendedNetwork.cutCapacity (S : Finset V) : WithTop K :=
+  ∑ v ∈ S, ∑ w ∈ Sᶜ, ∑ e : E.Hom v w, E.cap e
+
+/-- A finite flow subject to possibly infinite capacities. -/
+structure ExtendedNetwork.Flow (s t : V) where
+  toFun : ∀ {v w : V}, E.Hom v w → K
+  nonneg : ∀ {v w : V} (e : E.Hom v w), 0 ≤ toFun e
+  le_cap : ∀ {v w : V} (e : E.Hom v w), (toFun e : WithTop K) ≤ E.cap e
+  conserve : ∀ v, v ≠ s → v ≠ t → E.divergence toFun v = 0
+
+variable {E} {s t : V}
+
+noncomputable def ExtendedNetwork.Flow.value (f : E.Flow s t) : K :=
+  E.divergence f.toFun s
+
+/-- Weak duality compares a finite flow value with an extended cut capacity. -/
+theorem ExtendedNetwork.Flow.value_le_cutCapacity (f : E.Flow s t) {S : Finset V}
+    (hs : s ∈ S) (ht : t ∉ S) : (f.value : WithTop K) ≤ E.cutCapacity S := by
+  sorry
+
+/-- If a finite terminal-separating cut exists, a finite maximum flow and an extended minimum cut
+attain the same finite value. The implementation truncates every `⊤` capacity at the capacity of
+the supplied finite cut and invokes finite max-flow/min-cut. -/
+theorem ExtendedNetwork.exists_flow_cut_value_eq_of_exists_finite_cut (hst : s ≠ t)
+    (hfinite : ∃ S : Finset V, s ∈ S ∧ t ∉ S ∧ E.cutCapacity S ≠ ⊤) :
+    ∃ (f : E.Flow s t) (S : Finset V),
+      s ∈ S ∧ t ∉ S ∧ (f.value : WithTop K) = E.cutCapacity S := by
+  sorry
+
+/-- If every terminal-separating cut has infinite capacity, finite feasible flow values are
+unbounded above. -/
+theorem ExtendedNetwork.flowValues_unbounded_of_forall_cutCapacity_eq_top (hst : s ≠ t)
+    (hinfinite : ∀ S : Finset V, s ∈ S → t ∉ S → E.cutCapacity S = ⊤) :
+    ∀ b : K, ∃ f : E.Flow s t, b ≤ f.value := by
+  sorry
+
+end Extended
 
 /-! ## Stand-ins for Mathlib proposal #33355 (Conventions) -/
 
@@ -321,27 +402,32 @@ end SimpleGraph
 
 namespace TauCetiRoadmap.FiniteGraphConnectivity
 
-variable {V : Type u} (G : SimpleGraph V) [Fintype V] [DecidableEq V] [DecidableRel G.Adj]
+variable {K : Type w} {V : Type u}
+variable [AddCommGroupWithOne K] [LinearOrder K] [IsOrderedAddMonoid K] [ZeroLEOneClass K]
+variable (G : SimpleGraph V) [Fintype V] [DecidableEq V] [DecidableRel G.Adj]
 
 /-- Capacity of the undirected cut `(S, Sᶜ)`: each crossing edge counted once. -/
-noncomputable def cutCapacity (c : Sym2 V → ℝ≥0) (S : Finset V) : ℝ≥0 :=
+noncomputable def cutCapacity (c : Sym2 V → K) (S : Finset V) : K :=
   ∑ e ∈ G.edgeFinset with (∃ x ∈ e, x ∈ S) ∧ (∃ y ∈ e, y ∉ S), c e
 
-/-- The minimum `s–t` cut capacity. -/
-noncomputable def minCutCapacity (c : Sym2 V → ℝ≥0) (s t : V) : ℝ≥0 :=
-  ⨅ S : {S : Finset V // s ∈ S ∧ t ∉ S}, cutCapacity G c S
+/-- The minimum `s–t` cut capacity, obtained as the minimum of a nonempty finite family when
+`s ≠ t`, and defined to be zero when `s = t`. No order completeness is required. -/
+noncomputable def minCutCapacity (c : Sym2 V → K) (s t : V) : K := by
+  let _usesGraph := G
+  sorry
 
 /-- A weighted tree on the vertex type. -/
-structure WeightedTree (V : Type u) where
+structure WeightedTree (K : Type w) (V : Type u) [Zero K] [LE K] where
   tree : SimpleGraph V
   isTree : tree.IsTree
-  weight : Sym2 V → ℝ≥0
+  weight : Sym2 V → K
+  weight_nonneg : ∀ e, 0 ≤ weight e
 
 open Classical in
 /-- Gomory–Hu: minimum cut values are read off tree paths, and every tree edge's fundamental
 partition is a minimum cut for its endpoints. -/
-theorem exists_gomoryHu_tree [Nonempty V] (c : Sym2 V → ℝ≥0) :
-    ∃ T : WeightedTree V,
+theorem exists_gomoryHu_tree [Nonempty V] (c : Sym2 V → K) (hc : ∀ e, 0 ≤ c e) :
+    ∃ T : WeightedTree K V,
       (∀ s t, s ≠ t → ∀ p : T.tree.Walk s t, p.IsPath →
         (∀ e ∈ p.edges, minCutCapacity G c s t ≤ T.weight e) ∧
           ∃ e ∈ p.edges, T.weight e = minCutCapacity G c s t) ∧

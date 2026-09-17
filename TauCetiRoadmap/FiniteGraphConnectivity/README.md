@@ -20,7 +20,7 @@ It is read as suggested forms, never as an exhaustive checklist; this document i
 | --- | --- | --- |
 | 1. Shared foundations | Cuts, separators, disjoint path families, orientations, and network constructions | Existing Mathlib graph APIs |
 | 2. Blocks | Bridge and articulation criteria; block–cut forest | 1 |
-| 3. Flows | Residual augmentation, flow decomposition, max-flow/min-cut, integrality | 1 |
+| 3. Flows | Residual augmentation, flow decomposition, max-flow/min-cut, integrality, and extended capacities | 1 |
 | 4. Minimum cuts | Submodularity, minimum-cut lattice, non-crossing lemma (1); canonical cuts (3) | 1, 3 |
 | 5. Menger | Directed and undirected path–separator duality | 1, 3 |
 | 6. Connectivity and matching consequences | Whitney inequalities and cycle criteria, preservation lemmas, fans, Dirac's cycle theorem, Kőnig and Hall | 2, 5 |
@@ -62,30 +62,41 @@ The mathematical targets here do not require importing that implementation.
 **Undirected graphs** use `SimpleGraph V`, with `[Fintype V]` for finite sums and cardinalities.
 Statements carry `[DecidableEq V]` and `[DecidableRel G.Adj]` exactly where the Mathlib definitions they mention require them, as `edgeFinset` and `minDegree` do; proofs may reason classically.
 Edges are unordered pairs represented by `Sym2 V` and restricted to the graph's edge set.
-Weighted undirected networks assign a capacity in `ℝ≥0` to each edge; a cut counts each crossing edge once.
+Weighted undirected networks use the same coefficient type as directed networks, assign a nonnegative capacity to each edge, and count each crossing edge once in a cut.
 
 **Directed networks** are terms, not typeclass instances.
-A network `N : Network V` is a structure carrying an arrow type `N.Hom v w : Type v` for every ordered pair of vertices, in a universe independent of the vertex universe as for `Quiver.{v}`, and a capacity in `ℝ≥0` for every arrow; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
+The finite-capacity theory is parameterized by a linearly ordered additive commutative group with a distinguished positive one `K`, expressed by `[AddCommGroupWithOne K] [LinearOrder K] [IsOrderedAddMonoid K] [ZeroLEOneClass K]`.
+It must not assume multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
+A network `N : Network K V` is a structure carrying an arrow type `N.Hom v w : Type v` for every ordered pair of vertices, in a universe independent of the vertex universe as for `Quiver.{v}`, a capacity in `K` for every arrow, and a proof that every capacity is nonnegative; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
 Mathlib's quiver API (`Quiver.Path`, `Quiver.IsStronglyConnected`, strongly connected components) is reached through a type synonym `N.Vert := V` carrying the `Quiver` instance `⟨N.Hom⟩`, the pattern Mathlib itself uses for `Quiver.Symmetrify`.
 Quivers are typeclasses on the vertex type, so a network, its residual network, and each orientation of a graph would otherwise compete for one instance on `V`; as terms they coexist and can be quantified over.
 The total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
 Parallel arrows, arrows in opposite directions, loops, and zero capacities are allowed.
-Capacities and flow assignments take values in `ℝ≥0`.
-Every network sum is a `Finset.sum`; divergence and flow value take values in `ℝ`, since they can be negative.
-The finite theory must not require reasoning about infinite sums or infinities to state its results.
+Flow assignments take values in `K` and carry proofs of nonnegativity and capacity boundedness.
+Every network sum is a `Finset.sum`; divergence and flow value also take values in `K` and may be negative.
+The finite theory must not require reasoning about infinite sums or infinite capacities to state its results.
 Mathlib proposal #43017 shares the arrow-indexed carrier but differs in four ways, each deliberate here.
 It measures excess (incoming minus outgoing) where this roadmap uses divergence (outgoing minus incoming), so that one sign convention is stated once.
-Its value is an `ENNReal` read at the sink, where this roadmap's value is a real number read at the source, so that negative values exist and decompose.
+Its value is an `ENNReal` read at the sink, where this roadmap's value lies in the signed coefficient type and is read at the source, so that negative values exist and decompose.
 Its capacity is a parameter separate from the quiver, where this roadmap bundles it into the network, so that a network is one object to quantify over.
 Its sums are `tsum`s in `EReal`, where every sum here is a `Finset.sum`.
-Milestone 3 builds a local copy of that proposal's `PseudoFlow` and `Flow` in exactly its shape (explicit quiver term, capacities as a separate `ℝ≥0`-valued parameter, `EReal`-valued excess by `tsum`, `ENNReal` value at the sink, nonnegative value required) and proves three correspondences on a finite network.
+Milestone 3 specializes to `K = ℝ`, builds a local copy of that proposal's `PseudoFlow` and `Flow` in exactly its shape (explicit quiver term, capacities as a separate `ℝ≥0`-valued parameter, `EReal`-valued excess by `tsum`, `ENNReal` value at the sink, nonnegative value required), and proves three correspondences on a finite network.
 Its `PseudoFlow`, which has no conservation condition, corresponds to the nonnegative capacity-bounded arrow assignments of this roadmap.
 Its `Flow` corresponds to this roadmap's flows of nonnegative value; flows of negative value have no counterpart there.
-Under both, excess equals minus divergence, and the two flow values agree after coercion of the real value to `ENNReal`.
+Under both, excess equals minus divergence, and the two flow values agree after coercion of the real specialization to `ENNReal`.
+
+**Infinite capacities** belong to a separate extended-capacity API rather than the residual-flow core.
+An extended network on `K` has the same arrow data and nonnegative capacities in `WithTop K`; its flows remain finite `K`-valued assignments, while its cut capacities lie in `WithTop K`.
+An ordinary network coerces to an extended one, and changing an extended network's infinite capacities to a finite bound produces an ordinary network with the same arrows.
+Do not define extended-valued flows or take `WithTop` subtraction as flow cancellation: in particular, `⊤ - ⊤ = 0` is not a valid account of residual capacity.
+Prove that if an `s–t` cut of finite capacity `B` exists, replacing every infinite capacity by `B` preserves the minimum-cut value and yields a finite maximum flow attaining it in the original extended network.
+If no finite `s–t` cut exists, prove instead that finite feasible flow values are unbounded above.
+Together these results are the extended max-flow/min-cut statement: finite cuts give an attained common value, while the absence of a finite cut gives unbounded finite flow values.
+When the coefficient order supplies the relevant suprema, also state this dichotomy as equality between the minimum extended cut capacity and the supremum of finite flow values.
 
 **An orientation** `o : G.Orientation` of a simple graph chooses one dart (`SimpleGraph.Dart`) for every edge, with no additional arrows.
 The oriented graph is the type synonym `G.Oriented o := V` with the quiver instance whose arrows from `v` to `w` are the edges whose chosen dart runs from `v` to `w`, so strong connectivity is literally `Quiver.IsStronglyConnected (G.Oriented o)`.
-The separate bidirected construction replaces each undirected edge by two oppositely directed arrows of the same capacity, giving a network in the sense above.
+The separate bidirected construction replaces each undirected edge by two oppositely directed arrows of the same coefficient and capacity, giving a network in the sense above.
 Milestone 1 supplies the transport lemmas for both constructions.
 
 **Namespaces.** New declarations about simple graphs (orientations, articulation vertices, blocks, disjoint path families, ear decompositions) and the vertex-connectivity predicates under the names of #33355 live in the `SimpleGraph` namespace, so that adopting Mathlib's versions is a deletion.
@@ -148,7 +159,8 @@ Build and verify the representation changes used throughout the roadmap:
 - **Orientations and bidirected networks:** transport walks, paths, reachability, and cut capacities; identify the underlying undirected graph of an orientation.
 - **Vertex splitting:** replace each vertex by an entrance and exit joined by a capacity-constrained arrow, with precise lifting and projection of paths, flows, and separators.
 - **Auxiliary terminals:** add a fresh source and sink on a sum type, with path and cut correspondences for terminal sets.
-  Use explicit finite capacity bounds for auxiliary arrows rather than an infinite-capacity symbol.
+  Supply both the extended-capacity construction using `⊤` and its ordinary finite truncation, with a proved bound large enough for the reduction.
+- **Change of coefficients:** map networks, assignments, flows, residual capacities, and cuts along order-preserving additive embeddings that preserve zero and one, including the standard embeddings `ℤ → ℚ → ℝ` and their `WithTop` extensions.
 
 For the deletion predicates, supply the lemmas missing from Mathlib and from #33355, following their shapes: threshold monotonicity, graph monotonicity on a fixed carrier, isomorphism invariance, the zero and one cases, and the relationship between local and global statements.
 `IsEdgeReachable.mono` and `isEdgeReachable_one` already exist and are reused.
@@ -169,7 +181,7 @@ Include the path correspondence that recovers separation in the original graph f
 
 ## 3. Flows and max-flow/min-cut
 
-Develop the finite divergence calculus: linearity for real arrow assignments, total divergence zero, and the identity equating the sum of divergences over a set with its outgoing flow minus incoming flow.
+Develop the finite divergence calculus over the coefficient type: additivity, total divergence zero, and the identity equating the sum of divergences over a set with its outgoing flow minus incoming flow.
 Derive weak duality: the value of every feasible flow is at most the capacity of every terminal-separating cut.
 
 The main targets are:
@@ -181,11 +193,16 @@ The main targets are:
    Circulations decompose into cycle flows, including loops; integral flows admit integral coefficients.
 3. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
    Prove the equivalent optimality criteria: maximum flow, no augmenting `s–t` path, and existence of a cut attaining equality.
-4. **Integrality.** Natural-number capacities admit a natural-number-valued maximum flow whose value equals the minimum cut capacity, with explicit coercion to the real-valued theorem.
+4. **Integrality.** Capacities in the image of `ℕ` admit a maximum flow whose arrow values are in the image of `ℕ` and whose value equals the minimum cut capacity.
+   State the result intrinsically over the coefficient type and give the specializations to integer, rational, and real coefficients with explicit coercion lemmas.
 
-For real capacities, the intended existence proof uses compactness of the nonempty feasible set in the finite-dimensional space of real arrow assignments, followed by residual reachability to obtain a minimum cut.
+Prove existence over every permitted coefficient type by a shortest-augmenting-path argument whose termination depends only on the finite residual graph, not on discreteness, Archimedeanness, or completeness of the coefficients.
 For integral capacities, prove termination of augmentation: each step increases the integral value, which is bounded by the total capacity leaving the source.
-Termination of arbitrary augmenting-path choices with irrational capacities is not an assumption of the real theorem.
+Termination of arbitrary augmenting-path choices over dense or non-Archimedean coefficients is not an assumption of the general theorem.
+
+Develop the extended-capacity API from the conventions as a boundary around this finite theorem.
+Prove the ordinary-to-extended embedding and cut-capacity coercion, truncation at a finite bound, preservation of flows under truncation and extension, attainment when a finite terminal-separating cut exists, and unboundedness of finite flow values when none exists.
+State weak duality between finite flow values and extended cut capacities without converting `⊤` to a finite coefficient.
 
 ## 4. The structure of minimum cuts
 
@@ -293,7 +310,7 @@ $$
 Here a bound applied to an arrow set denotes the sum over that set.
 Natural-number bounds admit a natural-number-valued feasible circulation whenever these inequalities hold.
 
-More generally, for a prescribed real divergence `b : V → ℝ`, prove that an assignment satisfying the bounds and `div f = b` exists exactly when
+More generally, for a prescribed divergence `b : V → K`, prove that an assignment satisfying the bounds and `div f = b` exists exactly when
 
 $$
 \sum_{v \in V} b(v)=0
@@ -309,7 +326,7 @@ Include the bridge turning an ordinary flow of prescribed nonnegative value into
 
 ## 9. Gomory–Hu cut trees
 
-For every nonempty finite simple graph with nonnegative real edge capacities, prove the existence of a weighted tree on the same vertex type such that:
+For every permitted coefficient type and every nonempty finite simple graph with nonnegative edge capacities in that type, prove the existence of a weighted tree on the same vertex type such that:
 
 1. For any distinct vertices `s, t`, their minimum cut capacity in the original graph is the minimum edge weight along their unique tree path.
 2. For every tree edge `{u,v}`, deleting that edge gives a partition that is a minimum `u–v` cut in the original graph, with capacity equal to the tree-edge weight.
@@ -345,7 +362,8 @@ Provide proved examples alongside the relevant milestones:
 - Paths and cycles, including their bridges, blocks, and connectivity predicates.
 - Two triangles meeting at one vertex, with its explicit block–cut tree.
 - Empty graphs, isolated vertices, and the two-vertex single-edge graph, exercising the size conventions.
-- Networks with parallel and antiparallel arrows, a loop, and zero capacities, exercising residual tags and finite sums.
+- Networks with parallel and antiparallel arrows, a loop, and zero capacities over integer, rational, and real coefficients, exercising residual tags and finite sums.
+- An extended network with an uncapacitated arrow and a finite terminal-separating cut, together with its finite truncation, and an extended network whose finite flow values are unbounded.
 - A bounded-circulation example in which positive flow at its lower bound cannot be cancelled.
 - A disconnected weighted graph whose cut tree contains zero-weight edges.
 
