@@ -15,7 +15,14 @@ on:
   pull_request_target:
     # `edited` reconsiders a stacked PR when its base is changed to `main`. The job condition below
     # ignores title/body edits. GitHub disables existing auto-merge when a PR's base changes.
-    types: [opened, reopened, ready_for_review, edited]
+    #
+    # `synchronize` re-arms auto-merge after a push. GitHub also drops auto-merge when a pull
+    # request becomes conflicted with `main`, silently and with no event of its own, and resolving
+    # that conflict is a push rather than a reopen. Without this trigger a pull request loses
+    # auto-merge the first time it ever conflicts and never regains it, so the longest-open ones
+    # accumulate approvals and sit unmerged. `gh pr merge --auto` is idempotent, so re-running it
+    # on every push costs nothing.
+    types: [opened, reopened, ready_for_review, edited, synchronize]
     branches: [main]
 
 permissions:
