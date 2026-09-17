@@ -44,21 +44,53 @@ for the Dirichlet problem `L u = f` in `Ω`, `u = g` on `∂Ω`:
 --     ∃! u : Wkp0 1 2 Ω, ∀ v : Wkp0 1 2 Ω, energyForm a b c u v = ∫ x in Ω, f x * v x
 --
 -- De Giorgi–Nash–Moser interior regularity, for the homogeneous principal part
--- `-∂ⱼ(aⁱʲ ∂ᵢ u) = 0`. Three things the statement must carry, none of them optional:
+-- `-∂ⱼ(aⁱʲ ∂ᵢ u) = 0`. Four things the statement must carry, none of them optional:
 -- the estimate is quantitative in `‖u‖` (a constant depending only on `n, λ, Λ, K, Ω` is
 -- false: `u_M = M x₁` is harmonic and scales), the exponent is a `ℝ≥0` with `0 < α ≤ 1`,
--- and the Hölder conclusion holds for a *representative*, since an `H¹` weak solution is
--- an a.e. equivalence class and may be altered on a null set.
--- def holderExponent (n : ℕ) (Λ : ℝ) : ℝ≥0
--- def holderConstant (n : ℕ) (Λ p₀ : ℝ) : ℝ≥0
--- theorem holderExponent_pos … : 0 < holderExponent n Λ
--- theorem holderExponent_le_one … : holderExponent n Λ ≤ 1
+-- the Hölder conclusion holds for a *representative*, since an `H¹` weak solution is
+-- an a.e. equivalence class and may be altered on a null set, and the estimate is stated
+-- **on a ball, with its scaling factor**.
+--
+-- The last point is not presentation. A version over an arbitrary `Ω` and a compact
+-- `K ⊆ interior Ω` whose constant depends only on `n, Λ, p₀` is false, because it has no
+-- radius or distance-to-boundary dependence: take the Laplacian, `Ω = B r`,
+-- `K = closedBall 0 (r/2)` and `u x = x 1`. The Hölder seminorm is of order `r^(1−α)`
+-- while `‖u‖_{L^{p₀}(Ω)}` is of order `r^(1 + n/p₀)`, so no `r`-free constant survives as
+-- `r → 0`. The constant also depends on the normalized ellipticity ratio `Λ/λ`, not on `Λ`
+-- alone, since the equation is invariant under `a ↦ a/λ`.
+--
+-- So the migration source (Armstrong–Kempe `holder_Moser`, stated on the unit ball for
+-- `λ = 1`) is a unit-scale statement, and the rescaling argument that produces the
+-- statement at radius `r` is itself part of the milestone. The compact-subset corollary is
+-- then derived, with its geometric dependence on `dist K (∂Ω)` explicit rather than hidden
+-- in the constant.
+-- def holderExponent (n : ℕ) (ratio : ℝ) : ℝ≥0
+-- def holderConstant (n : ℕ) (ratio p₀ : ℝ) : ℝ≥0
+-- theorem holderExponent_pos … : 0 < holderExponent n ratio
+-- theorem holderExponent_le_one … : holderExponent n ratio ≤ 1
+--
+-- the ball estimate, which is the primitive one:
+-- theorem weakSolution_holderOn_ball (hn : 3 ≤ n) (hp₀ : 1 < p₀) (hr : 0 < r)
+--     (helliptic : UniformlyElliptic λ Λ a) (hλ : 0 < λ)
+--     (hu : IsHomogeneousWeakSolution a u (ball x₀ (2 * r)))
+--     (hInt : IntegrableOn (fun x => |u x| ^ p₀) (ball x₀ (2 * r))) :
+--     ∃ v, v =ᵐ[volume.restrict (ball x₀ (2 * r))] u ∧
+--       HolderOnWith (holderConstant n (Λ / λ) p₀ *
+--           ENNReal.ofReal (r ^ (-(holderExponent n (Λ / λ) : ℝ) - n / p₀)) *
+--           ‖(‖u‖ ^ p₀)‖_{L¹(ball x₀ (2 * r))} ^ (1/p₀))
+--         (holderExponent n (Λ / λ)) v (ball x₀ r)
+--
+-- and the compact-subset corollary, derived from it by a covering argument:
 -- theorem weakSolution_holderOn (hn : 3 ≤ n) (hp₀ : 1 < p₀)
---     (helliptic : UniformlyElliptic λ Λ a) (hu : IsHomogeneousWeakSolution a u Ω)
---     (hInt : IntegrableOn (fun x => |u x| ^ p₀) Ω) (hK : IsCompact K) (hKΩ : K ⊆ interior Ω) :
+--     (helliptic : UniformlyElliptic λ Λ a) (hλ : 0 < λ)
+--     (hu : IsHomogeneousWeakSolution a u Ω) (hΩ : IsOpen Ω)
+--     (hInt : IntegrableOn (fun x => |u x| ^ p₀) Ω) (hK : IsCompact K) (hKΩ : K ⊆ Ω)
+--     (d : ℝ) (hd : 0 < d) (hdist : ∀ x ∈ K, ball x (2 * d) ⊆ Ω) :
 --     ∃ v, v =ᵐ[volume.restrict Ω] u ∧
---       HolderOnWith (holderConstant n Λ p₀ * ‖(‖u‖ ^ p₀)‖_{L¹(Ω)} ^ (1/p₀))
---         (holderExponent n Λ) v K
+--       HolderOnWith (holderConstant n (Λ / λ) p₀ *
+--           ENNReal.ofReal (d ^ (-(holderExponent n (Λ / λ) : ℝ) - n / p₀)) *
+--           ‖(‖u‖ ^ p₀)‖_{L¹(Ω)} ^ (1/p₀))
+--         (holderExponent n (Λ / λ)) v K
 ```
 
 ## Standing hypotheses (spell them out)
@@ -174,6 +206,8 @@ statement time is what keeps the formalized API reusable.
   `Lu = -∂ⱼ(aⁱʲ∂ᵢu) + cu` needs `c ≥ 0` (or `Lu ≤ 0` with the right structure); the strong
   principle additionally needs `Ω` connected and rests on the **Hopf boundary-point
   lemma**; Harnack is for nonnegative solutions. Make each of these a named hypothesis.
+  The Hopf lemma carries a coefficient and boundary contract of its own, stricter than the
+  standing one; see Lane C.13.
 - **Fix the Laplacian sign and Fourier convention once.** Pin the sign of `Δ` (Mathlib's
   convention in `InnerProductSpace/Laplacian.lean`), and note Mathlib's Bessel potential is
   `(1 − (2π)⁻² Δ)^{s/2}`, not `(1 − Δ)^{s/2}`, because of the `2π` in its Fourier
@@ -351,7 +385,22 @@ geometric-measure prerequisites and should be scheduled separately.
     `n=2` complex theory; generalize the mean-value characterization to `ℝⁿ`).
 13. **Maximum principles and ABP.** Prove the weak and strong maximum principles for `Δ`
     and then for general elliptic `L` (sign condition `c ≥ 0`), the **Hopf boundary-point
-    lemma**, and the comparison principle. Separately prove the
+    lemma**, and the comparison principle.
+
+    ⚠ The Hopf lemma does **not** inherit the standing hypotheses of this roadmap. Bounded
+    measurable divergence-form coefficients do not suffice, even on a domain satisfying an
+    interior-ball condition. In the half disk take `a = e_r ⊗ e_r + s² e_θ ⊗ e_θ` with
+    `s > 1` and `u = r^s sin θ`. Then `a` is uniformly elliptic and bounded measurable,
+    `div(a ∇u) = 0`, `u > 0` inside and `u(0) = 0`, and the inward normal derivative at the
+    origin vanishes, since `u` vanishes to order `s > 1`. So the first Hopf milestone is
+    stated with a **classical** coefficient and boundary contract — `a ∈ C^{0,α}` (or
+    Lipschitz) with a `C^{1,1}` interior tangent ball, which is the regime the barrier
+    argument actually needs — and nothing here inherits the bounded-measurable hypotheses
+    that De Giorgi–Nash–Moser is stated under. Any stronger divergence-form boundary-point
+    theorem is a separate milestone, stated with a specific source, not a relaxation of
+    this one.
+
+    Separately prove the
     **Aleksandrov–Bakelman–Pucci estimate** for scalar non-divergence-form strong
     solutions; it is the maximum-principle input to Krylov–Safonov in Lane E.24. This
     consumes the `W^{2,n}_loc` strong-solution language from Lane A.1 and additionally
