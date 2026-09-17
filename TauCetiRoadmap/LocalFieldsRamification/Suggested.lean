@@ -1210,9 +1210,58 @@ theorem normGradedMap_at_break [Algebra K L] [ValuativeExtension K L]
 
 /-- **Layer 3, the depth-`i` unit-quotient coordinate**, for `i > 0`: `1 + x π^i ↦ reduction x`
 gives `U(K,i)/U(K,i+1) ≅ 𝓀[K]⁺`. Uniformizer-indexed for the same reason as
-`wildRamificationCharacter`, and the norm polynomial below is written in these coordinates. -/
+`wildRamificationCharacter`, and the norm polynomial below is written in these coordinates.
+
+⚠ The representative formula is `unitFiltrationGradedCoordinate_apply` and the choice rule is
+`unitFiltrationGradedCoordinate_congr`; both are obligations of this roadmap, not commentary. An
+equivalence of this type with no defining equation is not a coordinate: composing it with
+multiplication by a nonzero residue scalar has the same type, so a norm formula written against an
+unpinned equivalence can be made to look correct by choosing a nonstandard one. This is the same
+normalization failure that `wildRamificationCharacter_apply` rules out on the `L`-side. -/
 noncomputable def unitFiltrationGradedCoordinate (π : 𝒪[K]) (hπ : Irreducible π) (i : ℕ)
     (_hi : 0 < i) : UnitFiltrationGraded K i ≃* Multiplicative 𝓀[K] :=
+  sorry
+
+/-- The representative equation for the depth-`i` unit-quotient coordinate: the class of
+`1 + x π^i` goes to `reduction x`. The unit hypothesis is the integrality datum that makes both
+sides typed, and `hmem` records that `1 + x π^i` lies at depth `i`. -/
+theorem unitFiltrationGradedCoordinate_apply (π : 𝒪[K]) (hπ : Irreducible π) (i : ℕ) (hi : 0 < i)
+    (x : 𝒪[K]) (u : Kˣ) (hu : (u : K) = 1 + (x : K) * (π : K) ^ i)
+    (hmem : u ∈ unitFiltration K i) :
+    (unitFiltrationGradedCoordinate K π hπ i hi (QuotientGroup.mk ⟨u, hmem⟩)).toAdd =
+      IsLocalRing.residue 𝒪[K] x :=
+  sorry
+
+/-- The change-of-uniformizer rule for the depth-`i` unit-quotient coordinate. Replacing `π` by
+`u π` multiplies the coordinate by `residue u ^ (-i)`, exactly as for
+`wildRamificationCharacter_congr`. This is the transformation law the base uniformizer of
+`normGradedMap_at_break_apply` has to be pinned against. -/
+theorem unitFiltrationGradedCoordinate_congr (π : 𝒪[K]) (hπ : Irreducible π) (u : (↥𝒪[K])ˣ)
+    (hu : Irreducible ((u : ↥𝒪[K]) * π)) (i : ℕ) (hi : 0 < i) (z : UnitFiltrationGraded K i) :
+    (unitFiltrationGradedCoordinate K ((u : ↥𝒪[K]) * π) hu i hi z).toAdd =
+      ((Units.map (IsLocalRing.residue 𝒪[K]).toMonoidHom u)⁻¹ : (𝓀[K])ˣ) ^ i *
+        (unitFiltrationGradedCoordinate K π hπ i hi z).toAdd :=
+  sorry
+
+/-- **Layer 3, the norm of a uniformizer is a uniformizer of the base**, for a totally ramified
+extension. This is the compatibility that ties the base coordinate of the norm formula below to
+the uniformizer `πL` the break constant is computed from; `v_K(N_{L/K}(πL)) = f(L/K)·v_L(πL) = 1`
+is the reason, and total ramification is where `f(L/K) = 1` comes from. -/
+noncomputable def normUniformizer [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
+    (_htr : IsTotallyRamified K L) (πL : 𝒪[L]) (_hπL : Irreducible πL) : 𝒪[K] :=
+  sorry
+
+/-- The defining equation of `normUniformizer`: it is the field norm of `πL`. -/
+theorem coe_normUniformizer [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
+    (htr : IsTotallyRamified K L) (πL : 𝒪[L]) (hπL : Irreducible πL) :
+    ((normUniformizer K L htr πL hπL : 𝒪[K]) : K) = Algebra.norm K (πL : L) :=
+  sorry
+
+/-- `normUniformizer` really is a uniformizer, so it is an admissible argument to
+`unitFiltrationGradedCoordinate`. -/
+theorem normUniformizer_irreducible [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
+    (htr : IsTotallyRamified K L) (πL : 𝒪[L]) (hπL : Irreducible πL) :
+    Irreducible (normUniformizer K L htr πL hπL) :=
   sorry
 
 /-- **Layer 3, the positive-break norm polynomial.** In the coordinates above, the graded norm at a
@@ -1226,20 +1275,54 @@ without this statement the constant is unconstrained. The exponent `ℓ − 1` i
 depends on the chosen class, `c^{ℓ−1}` does not, since `λ^{ℓ−1} = 1` for `λ ∈ 𝔽_ℓˣ`, and a bare `c`
 would make the kernel depend on a choice the norm cannot see. The input on the `L`-side is written
 through the canonical `algebraMap`, which `residueFieldEquivOfTotallyRamified_apply` identifies with
-the transport. -/
+the transport.
+
+⚠ The base uniformizer is **not** free here: it is `N_{L/K}(πL)`. The two sides transform
+differently otherwise. Replacing `πK` by `a·πK` multiplies the left side by `residue a ^ (−t)`
+(`unitFiltrationGradedCoordinate_congr`) while the right side, which mentions only `πL`, is
+unchanged. Concretely, over `k = 𝔽₄` with `K = k((s))` and `L = K(π)` for `π² + sπ + s = 0`, the
+break is one, `N(π) = s` and `c = 1`, and `N(1 + yπ) = 1 + (y² + y)s`; with the base uniformizer
+`ωs` for `ω ∈ 𝔽₄ \ 𝔽₂` the depth-one output coordinate is `ω⁻¹(y² + y)`, so at `y = ω` the two
+sides are `ω⁻¹` and `1`. The arbitrary-base-uniformizer form is
+`normGradedMap_at_break_apply_of_uniformizer` below, which carries the correction factor. -/
 theorem normGradedMap_at_break_apply [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L]
     (ℓ : ℕ) [Fact ℓ.Prime] (_hdegree : Module.finrank K L = ℓ)
     (htr : IsTotallyRamified K L) (t : ℕ) (htpos : 0 < t)
     (_ht : UpperJump K L
       ⟨(t : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg t)⟩)
-    (πK : 𝒪[K]) (hπK : Irreducible πK) (πL : 𝒪[L]) (hπL : Irreducible πL)
+    (πL : 𝒪[L]) (hπL : Irreducible πL)
     (hψ : 0 < psiNat K L t)
     (τ : RamificationQuotient K L t) (hτ : τ ≠ 1) (y : 𝓀[K]) :
-    (unitFiltrationGradedCoordinate K πK hπK t htpos
+    (unitFiltrationGradedCoordinate K (normUniformizer K L htr πL hπL)
+        (normUniformizer_irreducible K L htr πL hπL) t htpos
         (normGradedMap K L t
           ((unitFiltrationGradedCoordinate L πL hπL (psiNat K L t) hψ).symm
             (Multiplicative.ofAdd (algebraMap 𝓀[K] 𝓀[L] y))))).toAdd
+      = y ^ ℓ
+        - ((wildBreakConstantBase K L htr πL hπL t htpos τ hτ : 𝓀[K])) ^ (ℓ - 1) * y :=
+  sorry
+
+/-- **Layer 3, the same formula for an arbitrary base uniformizer.** `πK` and `πL` are independent
+choices, so the compatible-coordinate formula above acquires the factor
+`residue (N_{L/K}(πL) / πK) ^ t`, with the quotient represented by the unit `a` relating the two
+uniformizers. Orientation: `a = N(πL)/πK` and the factor multiplies the **left** side, matching
+`unitFiltrationGradedCoordinate_congr` and the `𝔽₄` example in the docstring above. -/
+theorem normGradedMap_at_break_apply_of_uniformizer [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L]
+    (ℓ : ℕ) [Fact ℓ.Prime] (_hdegree : Module.finrank K L = ℓ)
+    (htr : IsTotallyRamified K L) (t : ℕ) (htpos : 0 < t)
+    (_ht : UpperJump K L
+      ⟨(t : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg t)⟩)
+    (πK : 𝒪[K]) (hπK : Irreducible πK) (πL : 𝒪[L]) (hπL : Irreducible πL)
+    (a : (↥𝒪[K])ˣ) (ha : (a : ↥𝒪[K]) * πK = normUniformizer K L htr πL hπL)
+    (hψ : 0 < psiNat K L t)
+    (τ : RamificationQuotient K L t) (hτ : τ ≠ 1) (y : 𝓀[K]) :
+    ((Units.map (IsLocalRing.residue 𝒪[K]).toMonoidHom a : (𝓀[K])ˣ) : 𝓀[K]) ^ t *
+        (unitFiltrationGradedCoordinate K πK hπK t htpos
+          (normGradedMap K L t
+            ((unitFiltrationGradedCoordinate L πL hπL (psiNat K L t) hψ).symm
+              (Multiplicative.ofAdd (algebraMap 𝓀[K] 𝓀[L] y))))).toAdd
       = y ^ ℓ
         - ((wildBreakConstantBase K L htr πL hπL t htpos τ hτ : 𝓀[K])) ^ (ℓ - 1) * y :=
   sorry

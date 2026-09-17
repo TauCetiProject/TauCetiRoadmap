@@ -801,6 +801,29 @@ pro-`p` quotient.
        what changes `c`. The map is
        `𝔽_ℓ`-linear, with kernel the line `𝔽_ℓ·c` and cokernel of order `ℓ`.
 
+       ⚠ The two uniformizers are **not** independent arguments of that target. `c` is computed
+       from `π_L` alone, while the output coordinate is computed from `π_K`, and by the
+       change-of-uniformizer rule replacing `π_K` by `a·π_K` multiplies the output by
+       `residue(a)^{−t}` and leaves the polynomial fixed. So the compatible-coordinate statement
+       takes `π_K = N_{L/K}(π_L)`, and that this is a uniformizer under total ramification (where
+       `v_K(N_{L/K}(π_L)) = f(L/K)·v_L(π_L) = 1`) is itself an obligation, carried as
+       `normUniformizer` with `coe_normUniformizer` and `normUniformizer_irreducible`. The
+       arbitrary-`π_K` version is a separate target carrying the factor
+       `residue(N_{L/K}(π_L)/π_K)^t`. In the `𝔽₄` example above, with base uniformizer `ω·t` for
+       `ω ∈ 𝔽₄ \ 𝔽₂` the depth-one output coordinate of `N(1 + yπ)` is `ω⁻¹(y² + y)`, which at
+       `y = ω` differs from `y² + y`; this is why the free form is false rather than merely
+       unnormalized.
+
+       ⚠ The depth-`i` unit-quotient coordinate itself needs its defining equation, exactly as the
+       positive-level character does. An equivalence `U(K,i)/U(K,i+1) ≅ 𝓀[K]⁺` with no stated
+       representative formula does not determine the norm target: composing it with multiplication
+       by a nonzero residue scalar has the same type, so a false polynomial could be made to look
+       correct by choosing a nonstandard coordinate. State
+       `unitFiltrationGradedCoordinate_apply`, sending the class of `1 + x π^i` to `residue x`
+       with the membership and integrality data that types it, together with the
+       change-of-uniformizer rule `unitFiltrationGradedCoordinate_congr` that the previous
+       paragraph quantifies.
+
      ⚠ The exponent on `c` is not a slip. The element `c` changes when the generator `σ` changes,
      and `c^{ℓ−1}` does not, because `λ^{ℓ−1} = 1` for `λ ∈ 𝔽_ℓˣ`. A version with a bare `c` would
      make the kernel depend on the choice of `σ`, which the norm map cannot see. In summary:
@@ -830,8 +853,12 @@ pro-`p` quotient.
     *False generalization:* the unshifted inclusion in item 2, which the counterexample in the
     examples section refutes.
   - *Lean-facing exports:* `map_norm_unitFiltration_psiNat_le`, `UnitFiltrationGraded`,
-    `normGradedMap`, `normGradedMap_tame_break_zero`, `normGradedMap_zero_before_break`,
-    `normGradedMap_positive_before_break`, and `normGradedMap_at_break`.
+    `unitFiltrationGradedCoordinate`, `unitFiltrationGradedCoordinate_apply`,
+    `unitFiltrationGradedCoordinate_congr`, `normUniformizer`, `coe_normUniformizer`,
+    `normUniformizer_irreducible`, `normGradedMap`, `normGradedMap_tame_break_zero`,
+    `normGradedMap_zero_before_break`, `normGradedMap_positive_before_break`,
+    `normGradedMap_at_break`, `normGradedMap_at_break_apply`, and
+    `normGradedMap_at_break_apply_of_uniformizer`.
 - **Hasse–Arf.** For a finite abelian Galois extension `L/K`, the jumps of the upper-numbering
   filtration are integers. The proof contract includes the induction chain, not merely the phrase
   “reduce to cyclic prime degree”:
