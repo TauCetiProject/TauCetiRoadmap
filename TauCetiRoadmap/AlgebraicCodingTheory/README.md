@@ -4,7 +4,7 @@ Algebraic codes are the finite algebra which turns coordinate data into lattice 
 This roadmap develops finite linear and additive codes far enough to support that use: matrix
 presentations, Hamming data, duality, the MacWilliams identity, the small exceptional codes, and
 Construction A.  Its final layer identifies code coordinates with the discriminant modules from
-the [integral-lattices roadmap](../IntegralLattices/README.md), so the lattice attached to an
+the [integral-lattices roadmap](../../Completed/IntegralLattices/README.md), so the lattice attached to an
 isotropic code is literally the preimage construction from that roadmap and has discriminant
 module `C^⊥/C`.
 
