@@ -66,8 +66,8 @@ Edges are unordered pairs represented by `Sym2 V` and restricted to the graph's 
 Weighted undirected networks use the same coefficient type as directed networks, assign a nonnegative capacity to each edge, and count each crossing edge once in a cut.
 
 **Directed networks** are terms, not typeclass instances.
-The finite-capacity theory is parameterized by a linearly ordered additive commutative group with a distinguished positive one `K`, expressed by `[AddCommGroupWithOne K] [LinearOrder K] [IsOrderedAddMonoid K] [ZeroLEOneClass K]`.
-It must not assume multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
+The finite-capacity theory is parameterized by a linearly ordered additive commutative group `K`, expressed by `[AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]`.
+It must not assume a unit, multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
 A network `N : Network C V` is a structure carrying an arrow type `N.Hom v w : Type v` for every ordered pair of vertices, in a universe independent of the vertex universe as for `Quiver.{v}`, a capacity in `C` for every arrow, and a proof that every capacity is nonnegative; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
 The capacity type `C` is `K` for an ordinary network and `WithTop K` for an extended one.
 Arrow assignments, divergence, and cut capacity are defined once, for every capacity type, with the value type of an assignment independent of the capacity type.
@@ -167,7 +167,7 @@ Build and verify the representation changes used throughout the roadmap:
 - **Vertex splitting:** replace each vertex by an entrance and exit joined by a capacity-constrained arrow, with precise lifting and projection of paths, flows, and separators.
 - **Auxiliary terminals:** add a fresh source and sink on a sum type, with path and cut correspondences for terminal sets.
   Supply both the extended-capacity construction using `⊤` and its ordinary finite truncation, with a proved bound large enough for the reduction.
-- **Change of coefficients:** map networks, assignments, flows, residual capacities, and cuts along order-preserving additive embeddings that preserve zero and one, including the standard embeddings `ℤ → ℚ → ℝ` and their `WithTop` extensions.
+- **Change of coefficients:** map networks, assignments, flows, residual capacities, and cuts along order-preserving additive group homomorphisms, including the standard embeddings `ℤ → ℚ → ℝ` and their `WithTop` extensions.
 
 For the deletion predicates, supply the lemmas missing from Mathlib and from #33355, following their shapes: threshold monotonicity, graph monotonicity on a fixed carrier, isomorphism invariance, the zero and one cases, and the relationship between local and global statements.
 `IsEdgeReachable.mono` and `isEdgeReachable_one` already exist and are reused.
@@ -197,15 +197,16 @@ The main targets are:
    Prove the update formulas on original arrows and the corresponding bounded-circulation cycle augmentation lemma.
 2. **Flow decomposition.** Every feasible flow of nonnegative value is a finite nonnegative sum of simple `s–t` path flows and directed cycle flows, with equality on every original arrow.
    Negative-value flows have the corresponding decomposition with the terminals exchanged.
-   Circulations decompose into cycle flows, including loops; integral flows admit integral coefficients.
+   Circulations decompose into cycle flows, including loops; flows with values in an additive subgroup admit coefficients in that subgroup.
 3. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
    Prove the equivalent optimality criteria: maximum flow, no augmenting `s–t` path, and existence of a cut attaining equality.
-4. **Integrality.** Capacities in the image of `ℕ` admit a maximum flow whose arrow values are in the image of `ℕ` and whose value equals the minimum cut capacity.
-   State the result intrinsically over the coefficient type and give the specializations to integer, rational, and real coefficients with explicit coercion lemmas.
+4. **Integrality.** Capacities in an additive subgroup `H` of `K` admit a maximum flow whose arrow values are in `H` and whose value equals the minimum cut capacity.
+   This is the intrinsic form, and augmentation preserves it since residual capacities are differences of elements of `H`.
+   Natural-number capacities in `ℤ`, `ℚ`, or `ℝ` are the case `H = AddSubgroup.zmultiples 1`; state that case with `ℕ`-casts and give the explicit coercion lemmas between the three coefficient types.
 
 A shortest-augmenting-path argument proves existence over every permitted coefficient type because its termination depends only on the finite residual graph, not on discreteness, Archimedeanness, or completeness of the coefficients.
 This is the suggested proof route rather than part of the public interface; another proof is acceptable if it establishes the same coefficient-generic theorem without stronger assumptions.
-For integral capacities, prove termination of augmentation: each step increases the integral value, which is bounded by the total capacity leaving the source.
+For integer capacities, prove termination of augmentation: each step increases the integer value, which is bounded by the total capacity leaving the source.
 Termination of arbitrary augmenting-path choices over dense or non-Archimedean coefficients is not an assumption of the general theorem.
 
 Develop the extended-capacity API from the conventions as a boundary around this finite theorem.
@@ -250,7 +251,7 @@ The derived numerical connectivity invariants package global threshold informati
   Stating it with `k` paths and `k − 1` separating vertices would admit `k = 0` under natural-number subtraction, with empty witnesses on the single-edge graph.
 - **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the overlap convention above, in directed and undirected versions; and edge versions for disjoint terminal sets.
 
-Build the unit-capacity, vertex-splitting, and auxiliary-terminal reductions to integral max-flow, and prove the correspondence in each direction.
+Build the unit-capacity, vertex-splitting, and auxiliary-terminal reductions to max-flow over `ℤ`, where integrality is the case `H = ⊤`, and prove the correspondence in each direction.
 These reductions are required reusable interfaces; using them to prove Menger is the suggested proof route rather than an additional constraint on the final theorem.
 In the undirected edge reduction, cancel flow in opposite directions before extracting paths so that a single undirected edge cannot be used twice.
 The reductions must recover actual path families and separators, not just equalities of numerical optima.
@@ -320,7 +321,7 @@ $$
 $$
 
 Here a bound applied to an arrow set denotes the sum over that set.
-Natural-number bounds admit a natural-number-valued feasible circulation whenever these inequalities hold.
+Bounds in an additive subgroup `H` of `K` admit a feasible circulation with values in `H` whenever these inequalities hold.
 
 More generally, for a prescribed divergence `b : V → K`, prove that an assignment satisfying the bounds and `div f = b` exists exactly when
 
@@ -332,8 +333,8 @@ $$
 $$
 
 Positive `b` denotes supply and negative `b` demand.
-For integer `b` and natural-number bounds, prove integral feasibility.
-Supply the reduction to ordinary max-flow by adding auxiliary terminals and prove that saturating the required auxiliary arrows is equivalent to feasibility, preserving integrality in both directions.
+For `b` and bounds with values in an additive subgroup `H`, prove feasibility with values in `H`.
+Supply the reduction to ordinary max-flow by adding auxiliary terminals and prove that saturating the required auxiliary arrows is equivalent to feasibility, preserving values in `H` in both directions.
 Include the bridge turning an ordinary flow of prescribed nonnegative value into a circulation by adding a return arrow from sink to source with that value as both bounds.
 
 ## 9. Gomory–Hu cut trees

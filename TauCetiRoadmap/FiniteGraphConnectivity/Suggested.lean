@@ -10,19 +10,19 @@ declaration here finishes neither a milestone nor the roadmap. `sorry` is allowe
 human-owned roadmap library: these are targets, not completed definitions or proofs.
 
 The pinned choices this file exhibits: finite capacities and flows use a linearly ordered additive
-commutative group `K` with a distinguished positive one; a directed network is a *term*
-`N : Network C V` whose `Quiver` instance lives on the type synonym `N.Vert`, with arrow types in
-a universe independent of the vertex universe, and whose capacity type `C` is `K` for an ordinary
-network and `WithTop K` for an extended one, so that assignments, divergence, and cut capacity are
-defined once; the residual network has the flow-independent arrow type `N.Hom v w ⊕ N.Hom w v`,
-and an augmenting path is a path in its positive-capacity part; flows on an extended network are
-finite `K`-valued and reach the finite theory by truncation rather than extended subtraction; an
-orientation of a simple graph is a choice of `Dart` per edge, with its quiver instance on the
-synonym `G.Oriented o`; ear decompositions are data, here terms of one inductive type family
-indexed by the subgraph built so far, while the roadmap pins their observable prefix API rather
-than this representation; connectivity predicates are primary, following Mathlib's
-`IsEdgeConnected` and the shape of Mathlib proposal #33355 for vertex connectivity, with derived
-`ℕ∞`-valued invariants; Menger is stated in witness form; and every sum is a `Finset.sum`.
+commutative group `K`; a directed network is a *term* `N : Network C V` whose `Quiver` instance
+lives on the type synonym `N.Vert`, with arrow types in a universe independent of the vertex
+universe, and whose capacity type `C` is `K` for an ordinary network and `WithTop K` for an
+extended one, so that assignments, divergence, and cut capacity are defined once; the residual
+network has the flow-independent arrow type `N.Hom v w ⊕ N.Hom w v`, and an augmenting path is a
+path in its positive-capacity part; flows on an extended network are finite `K`-valued and reach
+the finite theory by truncation rather than extended subtraction; integrality is stated for an
+additive subgroup of `K`; an orientation of a simple graph is a choice of `Dart` per edge, with its
+quiver instance on the synonym `G.Oriented o`; ear decompositions are data, here terms of one
+inductive type family indexed by the subgraph built so far, while the roadmap pins their observable
+prefix API rather than this representation; connectivity predicates are primary, following
+Mathlib's `IsEdgeConnected` and the shape of Mathlib proposal #33355 for vertex connectivity, with
+derived `ℕ∞`-valued invariants; Menger is stated in witness form; and every sum is a `Finset.sum`.
 
 Namespaces: in Tau Ceti, new declarations about simple graphs live in `SimpleGraph`, including
 the vertex-connectivity predicates under the names of #33355. Here those two predicates are
@@ -110,8 +110,7 @@ end Finite
 
 end AnyCapacity
 
-variable {K : Type w} [AddCommGroupWithOne K] [LinearOrder K] [IsOrderedAddMonoid K]
-  [ZeroLEOneClass K]
+variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
 
 section Finite
 
@@ -180,10 +179,12 @@ theorem Network.Flow.isMax_iff_exists_cut (hst : s ≠ t) (f : N.Flow s t) :
       ∃ S : Finset V, s ∈ S ∧ t ∉ S ∧ f.value = N.cutCapacity S := by
   sorry
 
-/-- Integrality: natural-number capacities admit a natural-number-valued maximum flow. -/
-theorem Network.exists_integral_max_flow (hst : s ≠ t)
-    (hcap : ∀ {v w : V} (e : N.Hom v w), ∃ n : ℕ, N.cap e = (n : K)) :
-    ∃ f : N.Flow s t, (∀ {v w : V} (e : N.Hom v w), ∃ n : ℕ, f.toFun e = (n : K)) ∧
+/-- Integrality in its intrinsic form: capacities in an additive subgroup `H` of `K` admit a
+maximum flow with all arrow values in `H`. Natural-number capacities in `ℤ`, `ℚ`, or `ℝ` are the
+case `H = AddSubgroup.zmultiples 1`, restated with `ℕ`-casts. -/
+theorem Network.exists_max_flow_mem_addSubgroup (hst : s ≠ t) (H : AddSubgroup K)
+    (hcap : ∀ {v w : V} (e : N.Hom v w), N.cap e ∈ H) :
+    ∃ f : N.Flow s t, (∀ {v w : V} (e : N.Hom v w), f.toFun e ∈ H) ∧
       ∀ g : N.Flow s t, g.value ≤ f.value := by
   sorry
 
@@ -543,9 +544,8 @@ end SimpleGraph
 
 namespace TauCetiRoadmap.FiniteGraphConnectivity
 
-variable {K : Type w} {V : Type u}
-variable [AddCommGroupWithOne K] [LinearOrder K] [IsOrderedAddMonoid K] [ZeroLEOneClass K]
-variable (G : SimpleGraph V) [Fintype V] [DecidableEq V] [DecidableRel G.Adj]
+variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
+variable {V : Type u} (G : SimpleGraph V) [Fintype V] [DecidableEq V] [DecidableRel G.Adj]
 
 /-- Capacity of the undirected cut `(S, Sᶜ)`: each crossing edge counted once. -/
 noncomputable def cutCapacity (c : Sym2 V → K) (S : Finset V) : K :=
