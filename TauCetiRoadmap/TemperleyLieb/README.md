@@ -150,8 +150,9 @@ pinned toolchain finds nothing usable for any of these). ⚠ It also has **no** 
 **no** `Linear` structure on `Mat_` or on `Karoubi`: those constructions are supplied as bare
 categories only, which is much less than Layer 7 needs. Monoidal presentations, cellular
 algebras, and the monoidal/linear/rigid structure of the envelope together with quotients by
-tensor ideals are targets here; the pivotal/spherical/ribbon API belongs to the
-[pivotal and spherical categories roadmap](../PivotalSpherical/README.md) and is consumed,
+tensor ideals are targets here; the pivotal/spherical/ribbon API **and the finite-semisimple
+category predicate with its decomposition API** belong to the
+[pivotal and spherical categories roadmap](../PivotalSpherical/README.md) and are consumed,
 not rebuilt; braid groups are out of scope (see Non-goals).
 
 **Boundary with Schur–Weyl.** The
@@ -297,9 +298,21 @@ previous layers land.
   functor out of the count-only category can exist.
 
   So: monoidal functors `TLDiagCat ⥤ C` correspond to objects `V` with `η : 𝟙 → V ⊗ V`,
-  `ε : V ⊗ V → 𝟙` satisfying the snake equations **and** `ρ_V ≫ (𝟙_V ⊗ d) ≫ ρ_V⁻¹ = λ_V ≫ (d ⊗ 𝟙_V) ≫ λ_V⁻¹`,
-  where `d = η ≫ ε`; the free category is presented by the snakes alone. Pin both universal
-  properties as Lean signatures and the bimodule example as a negative test for the second.
+  `ε : V ⊗ V → 𝟙` satisfying the snake equations **and**
+  `ρ_V⁻¹ ≫ (𝟙_V ⊗ d) ≫ ρ_V = λ_V⁻¹ ≫ (d ⊗ 𝟙_V) ≫ λ_V`, where `d = η ≫ ε`; the free category is
+  presented by the snakes alone. Pin both universal properties as Lean signatures and the bimodule
+  example as a negative test for the second.
+
+  ⚠ The condition is at `V`, not at every object of `C`. The image of `TLDiagCat` consists of the
+  tensor powers of `V` and the unit, so centrality at `V` (propagated to tensor powers as part of
+  the presentation proof) is what the interpretation needs, and requiring the same equation at every
+  `X : C` is strictly stronger. In `A`-`A`-bimodules for `A = ℚ × ℚ`, take `V = A e₁` with the
+  coevaluation `A → V ⊗_A V` the projection onto `e₁` and the evaluation the inclusion into `A`:
+  both snakes hold and `d = e₁` acts the same way on both sides of `V`, so the interpretation
+  exists, yet on the bimodule `M₁₂` (supported by `e₁` on the left and `e₂` on the right) `d` acts
+  by `1` on the left and by `0` on the right. An all-objects predicate would wrongly exclude this
+  target. Keep the stronger condition under a separate name as a sufficient hypothesis if it is
+  convenient, but the characterization is the one at `V`.
 
   This also resolves the multiple-presentations tension: the presented category has trivial
   composition and hard normal forms, the matching model the reverse, and the equivalence (via the
@@ -428,6 +441,15 @@ previous layers land.
   half-diagrams is an endomorphism of `n` and does not typecheck against `1_k`. The `TLAlg R δ n`-action and the `R`-action on `CellModule R δ n k`
   are compatible (`IsScalarTower R (TLAlg R δ n) (CellModule R δ n k)`): without that they are
   formally unrelated structures and `cellForm` being `R`-bilinear says less than intended.
+
+  ⚠ Pin the action formula as well as its orientation. With half-diagrams `n → k` and Mathlib's
+  reversed multiplication on `End`, plain precomposition `u ↦ a ≫ u` is the right cell action, but
+  the *left* `Module (TLAlg R δ n) (CellModule R δ n k)` instance then has to be the star-twisted
+  precomposition `a • u := (a*) ≫ u`, where `a*` is the vertical reflection of `a`; the alternative
+  is to declare the module over `(TLAlg R δ n)ᵐᵒᵖ` and keep plain precomposition. State whichever
+  is chosen as a defining equation. Getting this wrong makes the form orientation and the scalar
+  tower disagree with the action, so `cellForm_smul`-shaped compatibilities become unprovable
+  rather than merely awkward.
 - **The Gram determinant formula, universally:** with `G_{n,k}` the Gram matrix in the
   half-diagram basis, `det G_{n,k}` is the evaluation at `δ` of an explicit polynomial
   `gramPoly n k ∈ ℤ[X]`, characterized in `ℤ[X]` (a domain, where every `[j]` is nonzero) by
@@ -525,9 +547,13 @@ previous layers land.
   has general categorical quotients but no monoidal quotient, so this is built here.
 - **The generic classification:** when `[k] ≠ 0` for all `k ≥ 1`: the images of the
   Jones–Wenzl projections are simple, pairwise non-isomorphic, every simple is one of them,
-  and every object is a finite biproduct of them (semisimplicity, stated object-by-object
-  since Mathlib has no semisimple-category API; defining that predicate is part of this
-  layer). **Clebsch–Gordan:** `X_{n+1} ⊗ X_1 ≅ X_n ⊞ X_{n+2}` and the general
+  and every object is a finite biproduct of them (semisimplicity). ⚠ Mathlib has no
+  semisimple-category API, but defining that predicate is **not** part of this layer: the
+  pivotal/spherical roadmap owns `IsFiniteSemisimpleCategory` and its decomposition API, and this
+  layer consumes it. Two general semisimplicity classes in Tau Ceti would be exactly the drift
+  that roadmap's Layer 3 exists to prevent. What this layer owns is the TL-specific content: that
+  the Jones–Wenzl images are the simples, and the decomposition and classification proofs for
+  them. **Clebsch–Gordan:** `X_{n+1} ⊗ X_1 ≅ X_n ⊞ X_{n+2}` and the general
   `X_a ⊗ X_b ≅ ⊞ X_c` (`c = |a−b|, |a−b|+2, …, a+b`); quantum dimensions `[n+1]`; the
   fusion ring is `ℤ[X]` with `X_n ↦ S_n`. This is the semisimple representation theory of
   `U_q(sl₂)` with no quantum group defined.

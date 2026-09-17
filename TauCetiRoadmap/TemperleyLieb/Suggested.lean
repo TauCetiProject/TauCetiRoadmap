@@ -248,6 +248,11 @@ theorem TLDiagCat.of_tensorObj (n m : ℕ) :
 computations. -/
 noncomputable instance : RigidCategory TLDiagCat := sorry
 
+/-- The circle `d` acts the same way on the left and on the right of `X`. -/
+def CirclesCommuteAt {C : Type*} [Category C] [MonoidalCategory C] (d : 𝟙_ C ⟶ 𝟙_ C) (X : C) :
+    Prop :=
+  (ρ_ X).inv ≫ (X ◁ d) ≫ (ρ_ X).hom = (λ_ X).inv ≫ (d ▷ X) ≫ (λ_ X).hom
+
 /-- The extra relation that a count-only circle imposes on a target: the loop `d = η ≫ ε` acts the
 same way on the left and on the right.
 
@@ -259,8 +264,39 @@ three-vertex path `1 — 2 — 3`, `ε (m_ij ⊗ m_ji) = e_i` (killing non-close
 self-duality satisfies the snakes and admits no monoidal functor out of `TLDiagCat`. -/
 def IsCircleCentral {C : Type*} [Category C] [MonoidalCategory C] {V : C}
     (η : 𝟙_ C ⟶ V ⊗ V) (ε : V ⊗ V ⟶ 𝟙_ C) : Prop :=
-  ∀ X : C, (ρ_ X).inv ≫ (X ◁ (η ≫ ε)) ≫ (ρ_ X).hom
-    = (λ_ X).inv ≫ ((η ≫ ε) ▷ X) ≫ (λ_ X).hom
+  CirclesCommuteAt (η ≫ ε) V
+
+/-- The same condition at every object of `C`. It implies `IsCircleCentral` and is sometimes easier
+to check, but it is **strictly stronger** and is not what interpreting `TLDiagCat` in `C` requires:
+the image of `TLDiagCat` consists of the tensor powers of `V` and the unit, and imposes no
+condition on the rest of `C`.
+
+⚠ The separating example. In `A`-`A`-bimodules for `A = ℚ × ℚ`, take `V = A e₁`, coevaluation
+`A → V ⊗_A V` the projection onto `e₁`, and evaluation the inclusion into `A`. Both snakes hold and
+`d = e₁` acts the same way on both sides of `V`, so `IsCircleCentral` holds and the count-only
+diagram interpretation exists. But on the bimodule `M₁₂`, supported by `e₁` on the left and `e₂` on
+the right, `d` acts by `1` on the left and by `0` on the right, so `IsCircleCentralEverywhere`
+fails. A universal-property statement using this predicate would therefore exclude a target that
+genuinely receives the interpretation. -/
+def IsCircleCentralEverywhere {C : Type*} [Category C] [MonoidalCategory C] {V : C}
+    (η : 𝟙_ C ⟶ V ⊗ V) (ε : V ⊗ V ⟶ 𝟙_ C) : Prop :=
+  ∀ X : C, CirclesCommuteAt (η ≫ ε) X
+
+/-- The stronger predicate implies the one the universal property uses. -/
+theorem IsCircleCentral.of_everywhere {C : Type*} [Category C] [MonoidalCategory C] {V : C}
+    {η : 𝟙_ C ⟶ V ⊗ V} {ε : V ⊗ V ⟶ 𝟙_ C} (h : IsCircleCentralEverywhere η ε) :
+    IsCircleCentral η ε := h V
+
+/-- The circle always commutes past the unit. -/
+theorem CirclesCommuteAt.unit {C : Type*} [Category C] [MonoidalCategory C] (d : 𝟙_ C ⟶ 𝟙_ C) :
+    CirclesCommuteAt d (𝟙_ C) := sorry
+
+/-- Objects the circle commutes past are closed under `⊗`. With `CirclesCommuteAt.unit` this
+propagates `IsCircleCentral` from `V` to every tensor power of `V`, which is the whole image of
+`TLDiagCat` and is why the condition at `V` alone suffices in the universal property. -/
+theorem CirclesCommuteAt.tensorObj {C : Type*} [Category C] [MonoidalCategory C]
+    {d : 𝟙_ C ⟶ 𝟙_ C} {X Y : C} (_hX : CirclesCommuteAt d X) (_hY : CirclesCommuteAt d Y) :
+    CirclesCommuteAt d (X ⊗ Y) := sorry
 
 /-- **Through-strand factorization**, existence: every diagram factors through
 `TLDiagCat.of D.through` as a `StringSurjective` diagram (carrying all the circles) followed
