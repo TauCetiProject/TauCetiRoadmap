@@ -169,8 +169,13 @@ nontrivial coordinate reindexing.
   `dist(x,y)=wt(y-x)` with the pinned subtraction orientation.
 - Define minimum distance for linear and additive codes with the zero-code convention above.  For a
   nonzero code, prove attainment by a nonzero word and equality with the least pairwise distance.
-  Prove invariance under Hamming isometries, that shortening cannot decrease minimum distance, the
-  sharp deleted-coordinate bound for puncturing, and the minimum formula for direct sums.
+  Prove invariance under Hamming isometries and the sharp deleted-coordinate bound for puncturing.
+  Shortening cannot decrease minimum distance **provided it does not collapse the code**: the
+  binary repetition code `{00,11}` has minimum distance two, but retaining only its first
+  coordinate leaves the zero code, whose minimum distance is zero under the convention above, so
+  the theorem carries `shorten C s ≠ ⊥`.  For the same reason the direct-sum formula
+  `d(C ⊕ D) = min (d C) (d D)` is stated for two nonzero codes, with `d(C ⊕ 0) = d(C)` as a
+  separate statement.  Both of these are acceptance tests as well as hypotheses.
 - Define the standard bilinear form on `ι → F` using Mathlib's finite dot product, prove symmetry
   and nondegeneracy, and define `C^⊥` with `BilinForm.orthogonal`.  Prove membership, order reversal,
   `C ≤ C^⊥` and `C=C^⊥` characterizations, `(C^⊥)^⊥=C`,

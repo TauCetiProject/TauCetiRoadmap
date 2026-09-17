@@ -19,26 +19,48 @@ body:
       description: Which roadmap does this intention sit in?
       options:
         - AdicSpaces
+        - AlgebraicCodingTheory
+        - AlgebraicCurves
+        - AlgebraicTopology
+        - AnalyticToricGeometry
+        - ArithmeticDirichletSeries
+        - BelyiMaps
         - CFSGStatement
+        - Chebotarev
+        - ClassFieldTheory
         - CombinatorialHeegaardFloer
         - ConformalMapping
-        - ContourIntegration
+        - DGAInfinity
+        - DenseGraphLimits
         - EllipticCurves
         - Exchangeability
+        - FuchsianOrbifolds
         - GeometricTopology
+        - GlobalNumberFields
+        - GlobalQuadraticForms
+        - GrothendieckEulerForms
         - HeegaardFloer
         - HodgeStructures
-        - IntegralLattices
+        - HopfRinow
         - JacobianChallenge
+        - LocalFieldsRamification
         - ModularForms
         - Multiquadratic
+        - NumberFieldArithmetic
         - OneParameterSemigroups
         - OptimalTransport
-        - OrthogonalL2Bases
         - PDE
+        - PolynomialGaloisGroups
+        - ProfiniteCohomology
+        - ProfiniteProPGroups
+        - QuadraticFormInvariants
         - ReductiveGroups
         - RepresentationTheory
+        - StablePeriodicCurved
+        - StableReduction
+        - StandardDistributions
         - UniversalCovers
+        - ZigzagPreprojective
     validations:
       required: true
   - type: textarea

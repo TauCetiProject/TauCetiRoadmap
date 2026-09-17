@@ -1,0 +1,37 @@
+<!--tauceti-status:v1 {"roadmap":"DenseGraphLimits","to_sha":"8745177e39945cdda39b4203688f5f6bb380a0b9","ts":"2026-09-01T22:18:35Z"}-->
+# Status: DenseGraphLimits
+
+This file documents the status of the DenseGraphLimits roadmap up until `8745177` (2026-09-01T22:18:35Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** The strict carrier (Layer 1), the counting and weak-regularity milestones of Layer 2, the AE view (Layer 3), the coupling/map agreement of Layer 5, and the forward half of separation (Layer 6a) are proved, with Goodman and Mantel as Layer 7 checks. What is genuinely partial is the cut metric itself: the arbitrary-carrier triangle inequality `cutDist_triangle` is not there, so `GraphonSpace` and every quotient-level statement wait on it. Compactness (Layer 4), the inverse counting converse, the convergence equivalence, and Layers 8–9 have not begun beyond the finite-graph density estimators.
+
+### Named results
+
+- **Frieze–Kannan weak regularity** — every graphon is within ε in cut norm of a block-averaged step graphon on a measurable partition with at most 4^(⌈1/ε²⌉+1) parts, the baseline exponent ([`TauCeti.DenseGraphLimits.weak_regularity_frieze_kannan`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Combinatorics/DenseGraphLimits/StepGraphon/Regularity.html#TauCeti.DenseGraphLimits.weak_regularity_frieze_kannan)).
+- **The counting lemma** — |t(F,U) − t(F,W)| ≤ e(F)·‖U − W‖□ on one carrier, with a coupling form across carriers ([`TauCeti.DenseGraphLimits.counting_lemma`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Combinatorics/DenseGraphLimits/Counting.html#TauCeti.DenseGraphLimits.counting_lemma)).
+- **Forward separation** — graphons on arbitrary probability carriers at coupling cut distance zero have the same homomorphism density for every graph on `Fin n` ([`TauCeti.DenseGraphLimits.forall_homDensity_eq_of_cutDist_eq_zero`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Combinatorics/DenseGraphLimits/Separation/Forward.html#TauCeti.DenseGraphLimits.forall_homDensity_eq_of_cutDist_eq_zero)).
+- **Coupling and map cut distance agree** — over standard Borel carriers with atoms allowed, the coupling-primary `cutDist` equals the infimum over measure-preserving maps out of the unit interval, using Janson's Theorem A.9 ([`TauCeti.DenseGraphLimits.cutDist_eq_cutDistPullback`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Combinatorics/DenseGraphLimits/CutMetric/Pullback/Basic.html#TauCeti.DenseGraphLimits.cutDist_eq_cutDistPullback)).
+- **Goodman's inequality** — triangle density is at least 2·t(K₂,W)² − t(K₂,W) for every graphon, with Mantel's bound as the triangle-free corollary ([`TauCeti.DenseGraphLimits.mantel_triangle_free`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Combinatorics/DenseGraphLimits/Applications.html#TauCeti.DenseGraphLimits.mantel_triangle_free)) ([`TauCeti.DenseGraphLimits.goodman_triangle_density`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Combinatorics/DenseGraphLimits/Applications.html#TauCeti.DenseGraphLimits.goodman_triangle_density)).
+
+### Notable definitions and infrastructure
+
+- **The coupling-primary cut distance** — `IsCoupling` and the overlaid difference make `cutDist` well defined between graphons on any two probability spaces, with symmetry, the diagonal bound by the same-carrier cut norm, and pullback invariance of the cut norm behind it ([`TauCeti.DenseGraphLimits.cutDist`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Combinatorics/DenseGraphLimits/CutMetric/Distance.html#TauCeti.DenseGraphLimits.cutDist)).
+- **The AE view** — a graphon's class in `AEEqFun` on the product carrier, through which `homDensity`, the cut norm and the cut distance all factor, with a strict representative recovered from any a.e. symmetric `[0,1]`-valued class; this lets Layer 4 argue in the a.e. world ([`TauCeti.DenseGraphLimits.Graphon.toAEEqFun`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Combinatorics/DenseGraphLimits/AEEqFun.html#TauCeti.DenseGraphLimits.Graphon.toAEEqFun)).
+- **Coupling gluing** — finite PMF gluing with explicit zero-mass middle atoms, and gluing of two plans over a countable middle space with no hypothesis on the outer spaces; the ingredients the triangle inequality is meant to be built from ([`TauCeti.MeasureTheory.exists_glue_of_countable_middle`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/MeasureTheory/OptimalTransport/Gluing.html#TauCeti.MeasureTheory.exists_glue_of_countable_middle)).
+
+### Roadmap coverage
+
+Layers 0 and 3 are done. Layer 1 is done except `cutDist_triangle` and the `GraphonSpace` quotient with its metric instance; everything else in Layer 1, including the computed backstops, is in. Layer 2 is partial: both counting lemmas, `stepGraphon`, `stepGraphonAvg`, the partition energy with its Pythagoras increment, and weak regularity are done; `homDensityOnSpace`, density of step graphons, and total boundedness are untouched, gated on the quotient. Layer 5 is partial: `cutDistPullback`, the agreement theorem and Janson A.9 are done; the atomless mod-null equivalence and the Dirac/finite-atomic/mixed regressions are not in evidence. Layer 6a is partial: the cross-carrier forward direction is done, its same-carrier corollary and the converse are untouched; Layer 6b is untouched. Layer 7 is partial: Goodman, Mantel and the K₄/C₅/Erdős–Rényi values are done, Sidorenko-C₄ and the sampling expectation untouched. Layer 9a is partial: `homDensityFin`, `injHomDensity` with the falling-factorial denominator, and the labelled-copy-count bridge are done; `sampleGraph`, `infiniteSampleLaw`, the closeness bound and the unbiasedness anchor are untouched. Layers 4, 8a, 8b, 9b and 9c are untouched.
+
+## The frontier
+
+- **`cutDist_triangle`** — the triangle inequality on arbitrary carriers (Janson, Lemma 6.5). Both validation milestones are in place: finite gluing with explicit null atoms, and step-approximation stability with its transfer lemma for an approximating intermediate graphon. What remains is the assembly: approximate by step graphons, glue the finite couplings, pass to the limit. Nothing quotient-level can start before this.
+- **`GraphonSpace` and the descent** — the quotient by `cutDist = 0`, its `MetricSpace` instance, `GraphonSpaceI` and `homDensityOnSpace`; then density of step graphons in `δ□` (weak regularity already supplies the approximant) and total boundedness. Blocked only on the triangle inequality.
+- **The inverse counting lemma** — `cutDist_eq_zero_of_forall_homDensity_eq_cross`, via the representation of every graphon on the unit interval (`exists_graphon_unitInterval_cutDist_eq_zero`, Janson 7.1). Neither is started.
+- **Compactness of `GraphonSpaceI`** — Layer 4 needs the atomless mod-null equivalence with the unit interval (also Layer 5's remaining item), the realignment of Cauchy sequences, and the conditional-expectation/martingale L¹ lemmas; the AE view is ready to carry the argument, but the statement waits on `GraphonSpace`.
+- **Sampling (Layer 9a)** — `sampleGraph` with the `binomialRandom` compatibility, the closeness bound, the unbiasedness anchor and `infiniteSampleLaw`; independent of the triangle inequality, and it unlocks Layer 7's sampling expectation check.
