@@ -289,19 +289,20 @@ An open ear is a positive-length path adding unused edges, with distinct endpoin
 A closed ear is a cycle adding unused edges and meeting the existing subgraph at exactly its base vertex.
 Single-edge open ears are allowed, so the decomposition can include edges between vertices already present.
 An ear decomposition is **data**, not merely a proposition asserting that suitable ears exist.
+There is one type of undirected ear decompositions, starting from a single vertex or from a cycle and adding open or closed ears; an open ear decomposition is one that starts from a cycle and whose ears are all open, a predicate on the data rather than a second type.
 Its internal representation is not pinned: an inductive type family indexed by the subgraph built so far and a finite sequence with a validity proof are both suitable.
 The public API must expose the initial cycle or vertex, the number and kind of ears, the `k`-th ear, and the subgraph after each prefix.
 It must identify the zeroth and final subgraphs, show that each successor prefix adds exactly its displayed ear, provide prefix decompositions and an induction principle following the construction order, and prove edge coverage and preservation of the relevant connectivity property.
-A decomposition of the whole graph has final subgraph `⊤`, so it covers all vertices and all edges; the existence statements below are `Nonempty` of the corresponding data type.
+A decomposition of the whole graph has final subgraph `⊤`, so it covers all vertices and all edges; the existence statements below are `Nonempty` of the data type, or existence of a term satisfying the open predicate.
 
 Prove three characterizations:
 
-1. A finite simple graph with at least three vertices is 2-vertex-connected if and only if it has an open ear decomposition starting from a cycle.
+1. A finite simple graph with at least three vertices is 2-vertex-connected if and only if it has an open ear decomposition.
 2. A finite nonempty simple graph is 2-edge-connected (`IsEdgeConnected 2`) if and only if it can be built from one vertex by adding open or closed ears.
    Prove first that `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the form Mathlib's edge-connectivity file names as its intended statement; note that `IsBridge` on a non-edge means its endpoints are unreachable, so the right-hand side already includes connectedness.
 3. A network `N` with nonempty finite vertex type is strongly connected (`Quiver.IsStronglyConnected N.Vert`) if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
 
-In the directed version, ears are directed paths and cycles in `N.Vert` in the sense of the conventions, they retain arrow identities, and the decomposition exposes the same prefix API using subnetworks.
+In the directed version, ears are directed paths and cycles in `N.Vert` in the sense of the conventions, they retain arrow identities, and the one directed decomposition type exposes the same prefix API using subnetworks.
 Loops are permitted as one-arrow closed ears.
 The initial-vertex convention includes the isolated singleton with no ears; relate it to the cycle-starting formulation for strongly connected quivers with at least two vertices.
 

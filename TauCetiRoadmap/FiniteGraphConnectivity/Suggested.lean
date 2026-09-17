@@ -409,75 +409,63 @@ def IsCutVertex (v : V) : Prop :=
 def IsBlock (B : Set V) : Prop :=
   Maximal (fun B : Set V => (G.induce B).Connected ∧ ∀ v, ¬ (G.induce B).IsCutVertex v) B
 
-/-- Whether a displayed ear is open or closed. -/
+/-- An ear added to the subgraph `H`: an open ear is a path with distinct endpoints in `H`, new
+interior vertices, and new edges; a closed ear is a cycle meeting `H` in exactly its base vertex.
+Single-edge open ears are allowed. -/
+inductive Ear (H : G.Subgraph) : Type u
+  | open {u v : V} (p : G.Walk u v) (hp : p.IsPath) (hu : u ∈ H.verts) (hv : v ∈ H.verts)
+      (huv : u ≠ v) (hint : ∀ w ∈ p.support, w ≠ u → w ≠ v → w ∉ H.verts)
+      (hedge : ∀ e ∈ p.edges, e ∉ H.edgeSet)
+  | closed {u : V} (c : G.Walk u u) (hc : c.IsCycle) (hu : u ∈ H.verts)
+      (hint : ∀ w ∈ c.support, w ≠ u → w ∉ H.verts)
+
+/-- Whether an ear is open or closed. -/
 inductive EarKind
   | open
   | closed
 
-/-- One possible representation of open ear decompositions as data. The roadmap requires the
-prefix API below, but does not require this inductive representation. It starts from a cycle and
-adds paths whose distinct endpoints lie in the subgraph so far, whose interior vertices are new,
-and whose edges are new. Single-edge ears are allowed. -/
-inductive OpenEarDecomposition : G.Subgraph → Type u
-  | cycle {u : V} (c : G.Walk u u) (hc : c.IsCycle) : OpenEarDecomposition c.toSubgraph
-  | ear {H : G.Subgraph} (d : OpenEarDecomposition H) {u v : V} (p : G.Walk u v) (hp : p.IsPath)
-      (hu : u ∈ H.verts) (hv : v ∈ H.verts) (huv : u ≠ v)
-      (hint : ∀ w ∈ p.support, w ≠ u → w ≠ v → w ∉ H.verts)
-      (hedge : ∀ e ∈ p.edges, e ∉ H.edgeSet) : OpenEarDecomposition (H ⊔ p.toSubgraph)
+def Ear.kind {H : G.Subgraph} : G.Ear H → EarKind
+  | .open .. => .open
+  | .closed .. => .closed
 
-/-- The number of ears; one of the functions of the decomposition the API is built on. -/
-def OpenEarDecomposition.length : ∀ {H : G.Subgraph}, G.OpenEarDecomposition H → ℕ
-  | _, .cycle _ _ => 0
-  | _, .ear d _ _ _ _ _ _ _ => d.length + 1
+/-- The subgraph consisting of an ear's vertices and edges. -/
+def Ear.toSubgraph {H : G.Subgraph} : G.Ear H → G.Subgraph
+  | .open p .. => p.toSubgraph
+  | .closed c .. => c.toSubgraph
 
-/-- The initial cycle, exposed independently of the internal representation. -/
-noncomputable def OpenEarDecomposition.initialCycle {H : G.Subgraph}
-    (_d : G.OpenEarDecomposition H) : Σ u : V, G.Walk u u := by
-  sorry
+/-- The underlying walk of an ear, with its endpoints. -/
+def Ear.toWalk {H : G.Subgraph} : G.Ear H → Σ u v : V, G.Walk u v
+  | .open p .. => ⟨_, _, p⟩
+  | .closed c .. => ⟨_, _, c⟩
 
-/-- The `k`-th ear, including its endpoints and underlying path. -/
-noncomputable def OpenEarDecomposition.earAt {H : G.Subgraph} (d : G.OpenEarDecomposition H)
-    (_k : Fin d.length) : Σ u v : V, G.Walk u v := by
-  sorry
-
-/-- The subgraph built after a prefix of the ears. Index zero is the initial cycle and the last
-index is the final subgraph. -/
-noncomputable def OpenEarDecomposition.subgraphAfter {H : G.Subgraph}
-    (d : G.OpenEarDecomposition H) (_k : Fin (d.length + 1)) : G.Subgraph := by
-  sorry
-
-/-- Every initial segment is itself an ear decomposition of its displayed subgraph. -/
-noncomputable def OpenEarDecomposition.prefix {H : G.Subgraph} (d : G.OpenEarDecomposition H)
-    (k : Fin (d.length + 1)) :
-    G.OpenEarDecomposition (OpenEarDecomposition.subgraphAfter G d k) := by
-  sorry
-
-theorem OpenEarDecomposition.subgraphAfter_last {H : G.Subgraph}
-    (d : G.OpenEarDecomposition H) :
-    OpenEarDecomposition.subgraphAfter G d ⟨d.length, Nat.lt_succ_self _⟩ = H := by
-  sorry
-
-/-- One possible representation of ear decompositions with closed ears allowed. It starts from a
-single vertex and adds open ears as above or closed ears, cycles meeting the subgraph so far in
-exactly their base vertex. The required public interface is the same prefix API as above. -/
+/-- One possible representation of ear decompositions as data. The roadmap requires the prefix
+API below, but does not require this inductive representation. A decomposition starts from a
+single vertex or from a cycle and adds ears to the subgraph built so far. -/
 inductive EarDecomposition : G.Subgraph → Type u
   | vertex (v : V) : EarDecomposition (G.singletonSubgraph v)
-  | openEar {H : G.Subgraph} (d : EarDecomposition H) {u v : V} (p : G.Walk u v) (hp : p.IsPath)
-      (hu : u ∈ H.verts) (hv : v ∈ H.verts) (huv : u ≠ v)
-      (hint : ∀ w ∈ p.support, w ≠ u → w ≠ v → w ∉ H.verts)
-      (hedge : ∀ e ∈ p.edges, e ∉ H.edgeSet) : EarDecomposition (H ⊔ p.toSubgraph)
-  | closedEar {H : G.Subgraph} (d : EarDecomposition H) {u : V} (c : G.Walk u u) (hc : c.IsCycle)
-      (hu : u ∈ H.verts) (hint : ∀ w ∈ c.support, w ≠ u → w ∉ H.verts) :
-      EarDecomposition (H ⊔ c.toSubgraph)
+  | cycle {u : V} (c : G.Walk u u) (hc : c.IsCycle) : EarDecomposition c.toSubgraph
+  | ear {H : G.Subgraph} (d : EarDecomposition H) (e : G.Ear H) :
+      EarDecomposition (H ⊔ e.toSubgraph)
 
-noncomputable def EarDecomposition.length {H : G.Subgraph}
-    (_d : G.EarDecomposition H) : ℕ := by
-  sorry
+/-- An open ear decomposition starts from a cycle and adds only open ears. -/
+def EarDecomposition.IsOpen : ∀ {H : G.Subgraph}, G.EarDecomposition H → Prop
+  | _, .vertex _ => False
+  | _, .cycle _ _ => True
+  | _, .ear d e => d.IsOpen ∧ e.kind = .open
 
-noncomputable def EarDecomposition.initialVertex {H : G.Subgraph}
-    (_d : G.EarDecomposition H) : V := by
-  sorry
+/-- The number of ears; one of the functions of the decomposition the API is built on. -/
+def EarDecomposition.length : ∀ {H : G.Subgraph}, G.EarDecomposition H → ℕ
+  | _, .vertex _ => 0
+  | _, .cycle _ _ => 0
+  | _, .ear d _ => d.length + 1
 
+/-- The initial subgraph: a single vertex or a cycle. -/
+def EarDecomposition.initial : ∀ {H : G.Subgraph}, G.EarDecomposition H → G.Subgraph
+  | _, .vertex v => G.singletonSubgraph v
+  | _, .cycle c _ => c.toSubgraph
+  | _, .ear d _ => d.initial
+
+/-- The `k`-th ear as a walk with its endpoints, exposed independently of the representation. -/
 noncomputable def EarDecomposition.earAt {H : G.Subgraph} (d : G.EarDecomposition H)
     (_k : Fin d.length) : Σ u v : V, G.Walk u v := by
   sorry
@@ -486,13 +474,19 @@ noncomputable def EarDecomposition.kindAt {H : G.Subgraph} (d : G.EarDecompositi
     (_k : Fin d.length) : EarKind := by
   sorry
 
-noncomputable def EarDecomposition.subgraphAfter {H : G.Subgraph}
-    (d : G.EarDecomposition H) (_k : Fin (d.length + 1)) : G.Subgraph := by
+/-- The subgraph built after a prefix of the ears. Index zero is the initial subgraph and the
+last index is the final subgraph. -/
+noncomputable def EarDecomposition.subgraphAfter {H : G.Subgraph} (d : G.EarDecomposition H)
+    (_k : Fin (d.length + 1)) : G.Subgraph := by
   sorry
 
+/-- Every initial segment is itself an ear decomposition of its displayed subgraph. -/
 noncomputable def EarDecomposition.prefix {H : G.Subgraph} (d : G.EarDecomposition H)
-    (k : Fin (d.length + 1)) :
-    G.EarDecomposition (EarDecomposition.subgraphAfter G d k) := by
+    (k : Fin (d.length + 1)) : G.EarDecomposition (EarDecomposition.subgraphAfter G d k) := by
+  sorry
+
+theorem EarDecomposition.subgraphAfter_zero {H : G.Subgraph} (d : G.EarDecomposition H) :
+    EarDecomposition.subgraphAfter G d 0 = d.initial := by
   sorry
 
 theorem EarDecomposition.subgraphAfter_last {H : G.Subgraph} (d : G.EarDecomposition H) :
@@ -500,9 +494,9 @@ theorem EarDecomposition.subgraphAfter_last {H : G.Subgraph} (d : G.EarDecomposi
   sorry
 
 /-- Whitney's ear characterization of 2-connectivity. -/
-theorem isVertexConnected_two_iff_nonempty_openEarDecomposition [Fintype V]
+theorem isVertexConnected_two_iff_exists_isOpen_earDecomposition [Fintype V]
     (h3 : 3 ≤ Fintype.card V) :
-    IsVertexConnected G 2 ↔ Nonempty (G.OpenEarDecomposition ⊤) := by
+    IsVertexConnected G 2 ↔ ∃ d : G.EarDecomposition ⊤, d.IsOpen := by
   sorry
 
 /-- The closed-ear characterization of 2-edge-connectivity. -/
