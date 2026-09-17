@@ -78,8 +78,10 @@ It measures excess (incoming minus outgoing) where this roadmap uses divergence 
 Its value is an `ENNReal` read at the sink, where this roadmap's value is a real number read at the source, so that negative values exist and decompose.
 Its capacity is a parameter separate from the quiver, where this roadmap bundles it into the network, so that a network is one object to quantify over.
 Its sums are `tsum`s in `EReal`, where every sum here is a `Finset.sum`.
-Milestone 3 builds a local copy of that proposal's `PseudoFlow` and `Flow` in exactly its shape (explicit quiver term, capacities as a separate `ℝ≥0`-valued parameter, `EReal`-valued excess by `tsum`, `ENNReal` value at the sink, nonnegative value required) and proves that on a finite network they correspond to the flows of nonnegative value of this roadmap, with excess equal to minus divergence and the two values equal.
-Flows of negative value have no counterpart there, which is why the correspondence is stated for the nonnegative part.
+Milestone 3 builds a local copy of that proposal's `PseudoFlow` and `Flow` in exactly its shape (explicit quiver term, capacities as a separate `ℝ≥0`-valued parameter, `EReal`-valued excess by `tsum`, `ENNReal` value at the sink, nonnegative value required) and proves three correspondences on a finite network.
+Its `PseudoFlow`, which has no conservation condition, corresponds to the nonnegative capacity-bounded arrow assignments of this roadmap.
+Its `Flow` corresponds to this roadmap's flows of nonnegative value; flows of negative value have no counterpart there.
+Under both, excess equals minus divergence, and the two flow values agree after coercion of the real value to `ENNReal`.
 
 **An orientation** `o : G.Orientation` of a simple graph chooses one dart (`SimpleGraph.Dart`) for every edge, with no additional arrows.
 The oriented graph is the type synonym `G.Oriented o := V` with the quiver instance whose arrows from `v` to `w` are the edges whose chosen dart runs from `v` to `w`, so strong connectivity is literally `Quiver.IsStronglyConnected (G.Oriented o)`.
