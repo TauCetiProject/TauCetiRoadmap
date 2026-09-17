@@ -343,17 +343,17 @@ instance (ts : ADEComponentList) : (rootLattice ts).IsNondegenerate := sorry
 theorem rootLattice_isEven (ts : ADEComponentList) : (rootLattice ts).IsEven := sorry
 
 theorem rootLattice_isPositiveDefinite (ts : ADEComponentList) :
-    (rootLattice ts).IsPositiveDefinite := sorry
+    (rootLattice ts).IsPosDef := sorry
 
 /-- The component label formula, including pairings and half-norms. -/
 noncomputable def glueQuadraticModule (ts : ADEComponentList) : FiniteQuadraticModule where
-  A := GlueCoordinates ts
+  carrier := GlueCoordinates ts
   addCommGroup := inferInstance
   finite := inferInstance
   pairing := sorry
-  symmetric := sorry
+  pairing_comm := sorry
   quadratic := sorry
-  polar := sorry
+  polar_eq_pairing' := sorry
 
 /-- The component labels identify the actual discriminant quotient, not merely a group of the same
 order. -/
@@ -506,7 +506,7 @@ noncomputable def glueCosetMinNorm (ts : ADEComponentList) (w : GlueCoordinates 
 /-- The formula is a true minimum in the actual dual-lattice coset. -/
 theorem rootLattice_cosetMinNorm (ts : ADEComponentList) (w : GlueCoordinates ts) :
     IsLeast
-      {q : ℚ | ∃ x : (rootLattice ts).dual,
+      {q : ℚ | ∃ x : (rootLattice ts).dualCarrier,
         (rootLatticeDiscriminantIsometry ts).toAddEquiv
             ((rootLattice ts).carrierInDual.mkQ x) = w ∧
           q = (rootLattice ts).form x x}
@@ -550,7 +550,7 @@ theorem rootfulLattice_isUnimodular (X : RootfulNiemeierType) :
     (rootfulLattice X).IsUnimodular := sorry
 
 theorem rootfulLattice_isPositiveDefinite (X : RootfulNiemeierType) :
-    (rootfulLattice X).IsPositiveDefinite := sorry
+    (rootfulLattice X).IsPosDef := sorry
 
 theorem rootfulLattice_rank (X : RootfulNiemeierType) :
     Module.finrank ℚ (RootCoordinate X.components → ℚ) = 24 := sorry
@@ -594,9 +594,9 @@ noncomputable def a1GlueQuadraticIsometry :
     FiniteQuadraticModule.Isometry
       (glueQuadraticModule RootfulNiemeierType.a1_24.components)
       (coordinateQuadraticModule (Fin 12 ⊕ Fin 12) 2 (by decide) (by decide)) where
-  toAddEquiv := a1CanonicalLabelIsometry.toAddEquiv.trans
-    a1TableToGolayMonomial.toLinearEquiv.toAddEquiv
-  map_quadratic := sorry
+  toLinearEquiv := (a1CanonicalLabelIsometry.toAddEquiv.trans
+    a1TableToGolayMonomial.toLinearEquiv.toAddEquiv).toIntLinearEquiv
+  map_app' := sorry
 
 noncomputable abbrev a1GlueEquivGolay := a1GlueQuadraticIsometry.toAddEquiv
 
@@ -643,9 +643,9 @@ noncomputable def a2GlueQuadraticIsometry :
     FiniteQuadraticModule.Isometry
       (glueQuadraticModule RootfulNiemeierType.a2_12.components)
       (a2CoordinateQuadraticModule (Fin 6 ⊕ Fin 6)) where
-  toAddEquiv := a2CanonicalLabelIsometry.toAddEquiv.trans
-    a2TableToGolayMonomial.toLinearEquiv.toAddEquiv
-  map_quadratic := sorry
+  toLinearEquiv := (a2CanonicalLabelIsometry.toAddEquiv.trans
+    a2TableToGolayMonomial.toLinearEquiv.toAddEquiv).toIntLinearEquiv
+  map_app' := sorry
 
 noncomputable abbrev a2GlueEquivTernaryGolay := a2GlueQuadraticIsometry.toAddEquiv
 
@@ -723,9 +723,9 @@ noncomputable def d4GlueQuadraticIsometry :
     FiniteQuadraticModule.Isometry
       (glueQuadraticModule RootfulNiemeierType.d4_6.components)
       (d4CoordinateQuadraticModule (Fin 6)) where
-  toAddEquiv := d4CanonicalLabelIsometry.toAddEquiv.trans
-    d4TableToHexacodeMonomial.toLinearEquiv.toAddEquiv
-  map_quadratic := sorry
+  toLinearEquiv := (d4CanonicalLabelIsometry.toAddEquiv.trans
+    d4TableToHexacodeMonomial.toLinearEquiv.toAddEquiv).toIntLinearEquiv
+  map_app' := sorry
 
 noncomputable abbrev d4GlueEquivHexacode := d4GlueQuadraticIsometry.toAddEquiv
 
@@ -755,7 +755,7 @@ noncomputable def constructionB : IntegralLattice (LeechCoordinate → ℚ) wher
   isLattice := sorry
   form := golayConstructionA.form
   isSymm := golayConstructionA.isSymm
-  integral := sorry
+  le_dual := sorry
 
 /-- `constructionB` reuses the ambient Construction-A form, so it inherits nondegeneracy. -/
 instance : constructionB.IsNondegenerate := sorry
@@ -779,7 +779,7 @@ noncomputable def leechShift : LeechCoordinate → ℚ := fun i ↦
 
 theorem leechShift_norm : constructionB.form leechShift leechShift = 4 := sorry
 
-noncomputable def leechShiftInDual : constructionB.dual := sorry
+noncomputable def leechShiftInDual : constructionB.dualCarrier := sorry
 
 noncomputable def leechShiftClass : constructionB.DiscriminantGroup :=
   constructionB.carrierInDual.mkQ leechShiftInDual
@@ -823,7 +823,7 @@ theorem leechLattice_isEven : leechLattice.IsEven := sorry
 
 theorem leechLattice_isUnimodular : leechLattice.IsUnimodular := sorry
 
-theorem leechLattice_isPositiveDefinite : leechLattice.IsPositiveDefinite := sorry
+theorem leechLattice_isPositiveDefinite : leechLattice.IsPosDef := sorry
 
 theorem leechLattice_rank : Module.finrank ℚ (LeechCoordinate → ℚ) = 24 := sorry
 
