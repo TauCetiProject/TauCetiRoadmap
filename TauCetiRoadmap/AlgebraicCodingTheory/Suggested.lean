@@ -12,8 +12,9 @@ permitted in this human-owned roadmap repository: these are targets, not impleme
 
 Linear codes remain Mathlib `Submodule`s and additive codes remain `AddSubgroup`s. Hamming weight
 is Mathlib's `hammingNorm`. Construction A uses the rational form `dotProduct / m`, and its gluing
-comparison consumes the integral-lattices roadmap's actual discriminant quotient and
-`ofIsotropicSubgroup`. The Markdown roadmap remains definitive.
+comparison consumes the integral-lattices roadmap's actual discriminant quotient and, through
+`evenIntermediateCarrierOrderIsoIsotropicSubgroup`, the inverse-image intermediate carrier attached
+to a quadratic-isotropic subgroup. The Markdown roadmap remains definitive.
 -/
 
 namespace TauCetiRoadmap.AlgebraicCodingTheory
