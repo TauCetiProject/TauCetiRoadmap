@@ -19,8 +19,10 @@ body:
       description: Which roadmap does this intention sit in?
       options:
         - AdicSpaces
+        - AlgebraicCodingTheory
         - AlgebraicCurves
         - AlgebraicTopology
+        - AlgebraicVectorBundles
         - AnalyticToricGeometry
         - ArithmeticDirichletSeries
         - BelyiMaps
@@ -55,6 +57,7 @@ body:
         - QuadraticFormInvariants
         - ReductiveGroups
         - RepresentationTheory
+        - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
         - UniversalCovers
