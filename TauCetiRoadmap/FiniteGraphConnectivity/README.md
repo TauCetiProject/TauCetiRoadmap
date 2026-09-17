@@ -11,7 +11,7 @@ All graphs and networks in the theorem targets are finite.
 
 **Suggested homes:** `TauCeti/Combinatorics/SimpleGraph/Connectivity/` for undirected connectivity, `TauCeti/Combinatorics/Quiver/Flow/` for directed networks, and adjacent modules for the representation bridges.
 
-[`Suggested.lean`](Suggested.lean) prototypes the pinned structures (networks, flows, the residual network, orientations, the connectivity predicates, ear decompositions, weighted trees) and a few milestone statements.
+[`Suggested.lean`](Suggested.lean) prototypes the pinned structures (networks, flows, the residual network, orientations, the connectivity predicates, weighted trees), one possible representation of ear decompositions, and a few milestone statements.
 It is read as suggested forms, never as an exhaustive checklist; this document is the specification.
 
 ## Milestones at a glance
@@ -49,7 +49,8 @@ The following Mathlib proposals guide the corresponding interfaces:
 Build all missing prerequisites and results in Tau Ceti, following these interfaces and adopting Mathlib's resulting design when available.
 An unmerged proposal is a design reference, not a dependency that contributors must wait for.
 For flows, the finite-sum interface below shares the arrow-indexed carrier of #43017 and differs from it in the four deliberate ways listed under **Flows and bounded circulations**.
-Compatibility with that proposal is nevertheless a target of Milestone 3, proved against a local copy of its definitions in its own shape, so that the eventual swap is a deletion plus an import.
+Compatibility with that proposal is nevertheless a target of Milestone 3, proved in an isolated compatibility module against a local copy of its definitions in its own shape, so that the eventual swap is a deletion plus an import.
+The local copy is only a fixture for the correspondence theorems and must not grow a parallel flow theory.
 
 The [Lean Zulip discussion of max-flow/min-cut](https://leanprover-community.github.io/archive/stream/252551-graph-theory/topic/max-flow.20min-cut.20help.html) records earlier quiver-based formalization work, including [maxflowmincutlean4](https://gitlab.com/Shreyas941/maxflowmincutlean4).
 Coordinate with authors before integrating existing code, following the repository's porting policy.
@@ -80,7 +81,8 @@ It measures excess (incoming minus outgoing) where this roadmap uses divergence 
 Its value is an `ENNReal` read at the sink, where this roadmap's value lies in the signed coefficient type and is read at the source, so that negative values exist and decompose.
 Its capacity is a parameter separate from the quiver, where this roadmap bundles it into the network, so that a network is one object to quantify over.
 Its sums are `tsum`s in `EReal`, where every sum here is a `Finset.sum`.
-Milestone 3 specializes to `K = ℝ`, builds a local copy of that proposal's `PseudoFlow` and `Flow` in exactly its shape (explicit quiver term, capacities as a separate `ℝ≥0`-valued parameter, `EReal`-valued excess by `tsum`, `ENNReal` value at the sink, nonnegative value required), and proves three correspondences on a finite network.
+Because capacities are bundled, supply a same-arrows capacity-replacement construction, extensionality in the capacity function, and transport of assignments and feasible flows when the replacement capacities are pointwise larger.
+Milestone 3 specializes to `K = ℝ`, uses a local copy of that proposal's `PseudoFlow` and `Flow` in exactly its shape (explicit quiver term, capacities as a separate `ℝ≥0`-valued parameter, `EReal`-valued excess by `tsum`, `ENNReal` value at the sink, nonnegative value required), and proves three correspondences on a finite network.
 Its `PseudoFlow`, which has no conservation condition, corresponds to the nonnegative capacity-bounded arrow assignments of this roadmap.
 Its `Flow` corresponds to this roadmap's flows of nonnegative value; flows of negative value have no counterpart there.
 Under both, excess equals minus divergence, and the two flow values agree after coercion of the real specialization to `ENNReal`.
@@ -125,8 +127,11 @@ For the edge-disjoint set-to-set version, require `A` and `B` to be disjoint; pa
 
 Use the deletion-based connectivity predicates, with natural-number thresholds coerced where an upstream predicate takes `ℕ∞`.
 Global `k`-vertex-connectivity includes the size condition `k < Fintype.card V`.
-Do not introduce numerical vertex- or edge-connectivity functions for this roadmap.
+The predicates are the primary interface, but also define derived numerical invariants `vertexConnectivity G` and `edgeConnectivity G` in `ℕ∞` as the suprema of the natural thresholds at which the corresponding predicates hold.
+For every finite nonempty carrier, prove `G.IsVertexConnected k ↔ k ≤ G.vertexConnectivity`; define vertex connectivity to be zero on the empty carrier.
+Prove `G.IsEdgeConnected k ↔ k ≤ G.edgeConnectivity` for every finite carrier.
 On a subsingleton vertex type `IsEdgeConnected k` holds for every `k` and `IsVertexConnected k` fails for every `k ≥ 1`; keep both conventions, and let statements involving minimum degree carry `[Nontrivial V]`.
+Consequently, edge connectivity is `⊤` exactly on finite subsingleton carriers, whereas vertex connectivity is always finite.
 
 ### Flows and bounded circulations
 
@@ -196,7 +201,8 @@ The main targets are:
 4. **Integrality.** Capacities in the image of `ℕ` admit a maximum flow whose arrow values are in the image of `ℕ` and whose value equals the minimum cut capacity.
    State the result intrinsically over the coefficient type and give the specializations to integer, rational, and real coefficients with explicit coercion lemmas.
 
-Prove existence over every permitted coefficient type by a shortest-augmenting-path argument whose termination depends only on the finite residual graph, not on discreteness, Archimedeanness, or completeness of the coefficients.
+A shortest-augmenting-path argument proves existence over every permitted coefficient type because its termination depends only on the finite residual graph, not on discreteness, Archimedeanness, or completeness of the coefficients.
+This is the suggested proof route rather than part of the public interface; another proof is acceptable if it establishes the same coefficient-generic theorem without stronger assumptions.
 For integral capacities, prove termination of augmentation: each step increases the integral value, which is bounded by the total capacity leaving the source.
 Termination of arbitrary augmenting-path choices over dense or non-Archimedean coefficients is not an assumption of the general theorem.
 
@@ -230,8 +236,9 @@ Submodularity, the lattice, and the non-crossing lemmas rest on Milestone 1 alon
 
 ## 5. Menger's theorem
 
-State every Menger theorem in **witness form**, since this roadmap introduces no numerical maxima or minima: there exist a family of `k` pairwise disjoint paths and a separator of size `k`, for some `k`, and every family of disjoint paths is no larger than every separator.
+State every Menger theorem in **witness form**: there exist a family of `k` pairwise disjoint paths and a separator of size `k`, for some `k`, and every family of disjoint paths is no larger than every separator.
 The two statements together are the equality of optima with attainment on both sides.
+The derived numerical connectivity invariants package global threshold information, but do not replace these witnesses or the inequalities that certify their optimality.
 
 - **Local edge Menger:** for distinct terminals `s, t`, a family of pairwise edge-disjoint `s–t` paths and a set of edges whose deletion destroys `s–t` reachability, of the same size, together with the inequality between any family and any such edge set.
   Give directed and undirected versions.
@@ -241,7 +248,8 @@ The two statements together are the equality of optima with attainment on both s
   Stating it with `k` paths and `k − 1` separating vertices would admit `k = 0` under natural-number subtraction, with empty witnesses on the single-edge graph.
 - **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the overlap convention above, in directed and undirected versions; and edge versions for disjoint terminal sets.
 
-Use integral max-flow with unit capacities, vertex splitting, and auxiliary terminals, and prove the correspondence in each direction.
+Build the unit-capacity, vertex-splitting, and auxiliary-terminal reductions to integral max-flow, and prove the correspondence in each direction.
+These reductions are required reusable interfaces; using them to prove Menger is the suggested proof route rather than an additional constraint on the final theorem.
 In the undirected edge reduction, cancel flow in opposite directions before extracting paths so that a single undirected edge cannot be used twice.
 The reductions must recover actual path families and separators, not just equalities of numerical optima.
 
@@ -253,6 +261,7 @@ For finite simple graphs with more than `k` vertices, derive the global characte
 Prove these consequences in the existing graph vocabulary:
 
 - **Whitney inequalities:** `G.IsVertexConnected k` implies `G.IsEdgeConnected k`; for `[Nontrivial V]`, `G.IsEdgeConnected k` implies `k ≤ G.minDegree`.
+  Derive the numerical forms `G.vertexConnectivity ≤ G.edgeConnectivity` and, on a finite nontrivial carrier, `G.edgeConnectivity ≤ G.minDegree` after coercing the degree to `ℕ∞`.
 - **Common-cycle characterizations:** for a connected simple graph with at least three vertices, each of the following is equivalent to 2-vertex-connectivity: every two distinct vertices lie on a common cycle; every two distinct edges lie on a common cycle.
   The blocks with at least three vertices from Milestone 2 are exactly the vertex sets of the maximal 2-vertex-connected induced subgraphs.
 - **Preservation lemmas:** deleting `m < k` vertices from a `k`-vertex-connected graph leaves a `(k − m)`-vertex-connected graph; adjoining a new vertex adjacent to at least `k` vertices of a `k`-vertex-connected graph gives a `k`-vertex-connected graph; adding edges preserves `k`-vertex- and `k`-edge-connectivity.
@@ -274,10 +283,11 @@ Prove these consequences in the existing graph vocabulary:
 An open ear is a positive-length path adding unused edges, with distinct endpoints already present and all internal vertices new.
 A closed ear is a cycle adding unused edges and meeting the existing subgraph at exactly its base vertex.
 Single-edge open ears are allowed, so the decomposition can include edges between vertices already present.
-An ear decomposition is **data**, not a proposition: a term of an inductive type family indexed by the subgraph built so far, with one constructor for the initial cycle or initial vertex and one for each kind of ear.
-The number of ears, the `k`-th ear, the subgraph after `k` ears, and the induction principle are functions of the term, and the existence statements below are `Nonempty` of the type.
-A decomposition of the whole graph is one whose index is `⊤`, so it covers all vertices and all edges.
-Provide the API for those initial segments, edge coverage, and preservation of the relevant connectivity property along the construction.
+An ear decomposition is **data**, not merely a proposition asserting that suitable ears exist.
+Its internal representation is not pinned: an inductive type family indexed by the subgraph built so far and a finite sequence with a validity proof are both suitable.
+The public API must expose the initial cycle or vertex, the number and kind of ears, the `k`-th ear, and the subgraph after each prefix.
+It must identify the zeroth and final subgraphs, show that each successor prefix adds exactly its displayed ear, provide prefix decompositions and an induction principle following the construction order, and prove edge coverage and preservation of the relevant connectivity property.
+A decomposition of the whole graph has final subgraph `⊤`, so it covers all vertices and all edges; the existence statements below are `Nonempty` of the corresponding data type.
 
 Prove three characterizations:
 
@@ -286,7 +296,7 @@ Prove three characterizations:
    Prove first that `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the form Mathlib's edge-connectivity file names as its intended statement; note that `IsBridge` on a non-edge means its endpoints are unreachable, so the right-hand side already includes connectedness.
 3. A network `N` with nonempty finite vertex type is strongly connected (`Quiver.IsStronglyConnected N.Vert`) if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
 
-In the directed version, ears are directed paths and cycles in `N.Vert` in the sense of the conventions, they retain arrow identities, and the inductive type mirrors the undirected one with a subnetwork as index.
+In the directed version, ears are directed paths and cycles in `N.Vert` in the sense of the conventions, they retain arrow identities, and the decomposition exposes the same prefix API using subnetworks.
 Loops are permitted as one-arrow closed ears.
 The initial-vertex convention includes the isolated singleton with no ears; relate it to the cycle-starting formulation for strongly connected quivers with at least two vertices.
 
@@ -336,15 +346,15 @@ The tree need not be a subgraph of the original graph.
 Disconnected graphs and zero capacities are included, with zero-weight tree edges; a singleton has the one-vertex tree.
 
 Develop the weighted-tree API needed for these statements: unique paths, fundamental partitions, minimum weights on nonempty paths, and transport under vertex equivalences.
-The intended proof is Gomory and Hu's construction with its contraction step replaced by the multi-cut non-crossing lemma.
-Maintain a pairwise non-crossing family of chosen minimum cuts, represented by their root-excluding sides under the root convention of Milestone 4 so that it is a laminar family of sets, whose cells (the nonempty intersections of one side of each chosen cut) are the supernodes, and a tree on the supernodes whose edges correspond to the chosen cuts.
-While some supernode contains two vertices `s, t`, take a minimum `s–t` cut crossing no chosen cut, which the multi-cut lemma supplies, split the supernode by it, and attach each neighbouring subtree to the part on its own side of the new cut.
-The **invariant** is that the family stays pairwise non-crossing, hence laminar under the root convention, and that every tree edge is one of the chosen cuts and a minimum cut for some pair of vertices taken from the two supernodes it joins.
-Preserving the second half needs a witness repair when the split moves the witness vertex away from the part a subtree is attached to; Korte and Vygen's proof of the Gomory–Hu theorem shows the cut is then also a minimum cut for a pair using `s` or `t`, by the ultrametric inequality.
-State the invariant as a named lemma, since it carries the whole correctness argument.
-When every supernode is a singleton, property 2 is the invariant, and property 1 follows from property 2 and the ultrametric inequality.
-As an existence proof this needs a minimum cut at each step, which finiteness of the vertex type supplies, together with submodularity and the non-crossing lemmas of Milestone 4; it uses no flows and no graph contraction.
-Gusfield's paper gives the same construction as an algorithm on the original graph, with the rewiring written out explicitly.
+The suggested proof is Gomory and Hu's construction with its contraction step replaced by the multi-cut non-crossing lemma; the public target is the weighted tree and its query API, not this particular construction.
+In this proof, maintain a pairwise non-crossing family of chosen minimum cuts, represented by their root-excluding sides under the root convention of Milestone 4 so that it is a laminar family of sets, whose cells are the supernodes, together with a tree on the supernodes whose edges correspond to the chosen cuts.
+While some supernode contains two vertices `s, t`, take a minimum `s–t` cut crossing no chosen cut, split the supernode by it, and attach each neighbouring subtree to the part on its own side of the new cut.
+The useful invariant is that the family stays pairwise non-crossing and that every tree edge is one of the chosen cuts and a minimum cut for some pair of vertices taken from the two supernodes it joins.
+Preserving the second half needs a witness repair when the split moves the witness vertex away from the part a subtree is attached to; Korte and Vygen's proof shows that the cut is then also minimum for a pair using `s` or `t`, by the ultrametric inequality.
+When every supernode is a singleton, property 2 is this invariant, and property 1 follows from property 2 and the ultrametric inequality.
+This route uses finiteness to choose a minimum cut at each step, together with the submodularity and non-crossing results of Milestone 4; it uses neither flows nor graph contraction.
+An implementation following it should state the invariant as a named lemma.
+Gusfield's paper gives the same route as an algorithm on the original graph, with the rewiring written out explicitly.
 
 ## 10. Bridge to Mathlib's `Graph`
 

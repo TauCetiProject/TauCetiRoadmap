@@ -19,9 +19,11 @@ extended network has `WithTop K` capacities but finite `K`-valued flows, and rea
 theory by truncation rather than extended subtraction; an
 orientation of a simple graph is a choice of `Dart` per edge, with its quiver instance on the
 synonym `G.Oriented o`; ear decompositions are data, terms of an inductive type family indexed by
-the subgraph built so far; connectivity is predicate-first, following Mathlib's `IsEdgeConnected`
-and the shape of Mathlib proposal #33355 for vertex connectivity; Menger is stated in witness
-form; and every sum is a `Finset.sum`.
+the subgraph built so far in the candidate representation below, while the roadmap pins their
+observable prefix API rather than this representation; connectivity predicates are primary,
+following Mathlib's `IsEdgeConnected` and the shape of Mathlib proposal #33355 for vertex
+connectivity, with derived `ℕ∞`-valued invariants; Menger is stated in witness form; and every sum
+is a `Finset.sum`.
 
 Namespaces: in Tau Ceti, new declarations about simple graphs live in `SimpleGraph`, including
 the vertex-connectivity predicates under the names of #33355. Here those two predicates are
@@ -47,6 +49,23 @@ structure Network (K : Type w) (V : Type u) [Zero K] [LE K] where
 
 variable {K : Type w} {V : Type u}
 variable [AddCommGroupWithOne K] [LinearOrder K] [IsOrderedAddMonoid K] [ZeroLEOneClass K]
+
+/-- Replace the capacities while retaining exactly the same arrow types. -/
+abbrev Network.withCapacity (N : Network K V)
+    (cap : ∀ {v w : V}, N.Hom v w → K)
+    (cap_nonneg : ∀ {v w : V} (e : N.Hom v w), 0 ≤ cap e) : Network K V where
+  Hom := N.Hom
+  cap := cap
+  cap_nonneg := cap_nonneg
+
+/-- Capacity replacement is extensional in the new capacity function. -/
+theorem Network.withCapacity_congr (N : Network K V)
+    {cap cap' : ∀ {v w : V}, N.Hom v w → K}
+    (hcap : ∀ {v w : V} (e : N.Hom v w), 0 ≤ cap e)
+    (hcap' : ∀ {v w : V} (e : N.Hom v w), 0 ≤ cap' e)
+    (h : ∀ {v w : V} (e : N.Hom v w), cap e = cap' e) :
+    N.withCapacity cap hcap = N.withCapacity cap' hcap' := by
+  sorry
 
 /-- Type synonym carrying the quiver instance of a network, as `Quiver.Symmetrify` does. -/
 def Network.Vert (_N : Network K V) : Type u := V
@@ -90,6 +109,17 @@ structure Network.Flow (s t : V) where
   nonneg : ∀ {v w : V} (e : N.Hom v w), 0 ≤ toFun e
   le_cap : ∀ {v w : V} (e : N.Hom v w), toFun e ≤ N.cap e
   conserve : ∀ v, v ≠ s → v ≠ t → N.divergence toFun v = 0
+
+/-- A feasible flow remains feasible after pointwise enlargement of the capacities. -/
+noncomputable def Network.Flow.monoCapacity {s t : V} (f : N.Flow s t)
+    {cap : ∀ {v w : V}, N.Hom v w → K}
+    (hcap : ∀ {v w : V} (e : N.Hom v w), 0 ≤ cap e)
+    (h : ∀ {v w : V} (e : N.Hom v w), N.cap e ≤ cap e) :
+    (N.withCapacity cap hcap).Flow s t where
+  toFun := f.toFun
+  nonneg := f.nonneg
+  le_cap e := (f.le_cap e).trans (h e)
+  conserve := f.conserve
 
 variable {N} {s t : V}
 
@@ -263,6 +293,37 @@ open TauCetiRoadmap.FiniteGraphConnectivity
 
 variable {V : Type u} (G : SimpleGraph V)
 
+open Classical in
+/-- The largest natural threshold at which `G` is vertex-connected, as an extended natural.
+The empty-carrier convention is zero. The predicates remain the primary interface. -/
+noncomputable def vertexConnectivity [Finite V] : ℕ∞ :=
+  ⨆ k : ℕ, if IsVertexConnected G (k : ℕ∞) then (k : ℕ∞) else 0
+
+open Classical in
+/-- The largest natural threshold at which `G` is edge-connected, as an extended natural.
+This is `⊤` on a subsingleton carrier. The predicates remain the primary interface. -/
+noncomputable def edgeConnectivity [Finite V] : ℕ∞ :=
+  ⨆ k : ℕ, if G.IsEdgeConnected k then (k : ℕ∞) else 0
+
+/-- On a nonempty finite carrier, numerical vertex connectivity records exactly the valid
+thresholds. -/
+theorem isVertexConnected_iff_le_vertexConnectivity [Finite V] [Nonempty V] (k : ℕ) :
+    IsVertexConnected G k ↔ (k : ℕ∞) ≤ G.vertexConnectivity := by
+  sorry
+
+/-- Numerical edge connectivity records exactly the valid thresholds, including the value `⊤`
+on subsingleton carriers. -/
+theorem isEdgeConnected_iff_le_edgeConnectivity [Finite V] (k : ℕ) :
+    G.IsEdgeConnected k ↔ (k : ℕ∞) ≤ G.edgeConnectivity := by
+  sorry
+
+theorem edgeConnectivity_eq_top_iff [Finite V] :
+    G.edgeConnectivity = ⊤ ↔ Subsingleton V := by
+  sorry
+
+theorem vertexConnectivity_ne_top [Finite V] : G.vertexConnectivity ≠ ⊤ := by
+  sorry
+
 /-- Two `s–t` walks are internally disjoint if they share only the terminals. -/
 def InternallyDisjoint {s t : V} (p q : G.Walk s t) : Prop :=
   ∀ v ∈ p.support, v ∈ q.support → v = s ∨ v = t
@@ -312,6 +373,15 @@ theorem le_minDegree_of_isEdgeConnected [Fintype V] [DecidableRel G.Adj] [Nontri
     (h : G.IsEdgeConnected k) : k ≤ G.minDegree := by
   sorry
 
+/-- Whitney's inequalities for the derived numerical invariants. -/
+theorem vertexConnectivity_le_edgeConnectivity [Finite V] :
+    G.vertexConnectivity ≤ G.edgeConnectivity := by
+  sorry
+
+theorem edgeConnectivity_le_minDegree [Fintype V] [DecidableRel G.Adj] [Nontrivial V] :
+    G.edgeConnectivity ≤ (G.minDegree : ℕ∞) := by
+  sorry
+
 /-- An articulation vertex separates two other vertices. The component-count form is a lemma. -/
 def IsCutVertex (v : V) : Prop :=
   ∃ u w, ∃ (hu : u ≠ v) (hw : w ≠ v),
@@ -321,8 +391,14 @@ def IsCutVertex (v : V) : Prop :=
 def IsBlock (B : Set V) : Prop :=
   Maximal (fun B : Set V => (G.induce B).Connected ∧ ∀ v, ¬ (G.induce B).IsCutVertex v) B
 
-/-- Open ear decompositions of subgraphs of `G`, as data: start from a cycle and add open
-ears, paths whose distinct endpoints lie in the subgraph so far, whose interior vertices are new,
+/-- Whether a displayed ear is open or closed. -/
+inductive EarKind
+  | open
+  | closed
+
+/-- One possible representation of open ear decompositions as data. The roadmap requires the
+prefix API below, but does not require this inductive representation. It starts from a cycle and
+adds paths whose distinct endpoints lie in the subgraph so far, whose interior vertices are new,
 and whose edges are new. Single-edge ears are allowed. -/
 inductive OpenEarDecomposition : G.Subgraph → Type u
   | cycle {u : V} (c : G.Walk u u) (hc : c.IsCycle) : OpenEarDecomposition c.toSubgraph
@@ -336,9 +412,36 @@ def OpenEarDecomposition.length : ∀ {H : G.Subgraph}, G.OpenEarDecomposition H
   | _, .cycle _ _ => 0
   | _, .ear d _ _ _ _ _ _ _ => d.length + 1
 
-/-- Ear decompositions with closed ears allowed, as data: start from a single vertex and add
-open ears as above or closed ears, cycles meeting the subgraph so far in exactly their base
-vertex. -/
+/-- The initial cycle, exposed independently of the internal representation. -/
+noncomputable def OpenEarDecomposition.initialCycle {H : G.Subgraph}
+    (_d : G.OpenEarDecomposition H) : Σ u : V, G.Walk u u := by
+  sorry
+
+/-- The `k`-th ear, including its endpoints and underlying path. -/
+noncomputable def OpenEarDecomposition.earAt {H : G.Subgraph} (d : G.OpenEarDecomposition H)
+    (_k : Fin d.length) : Σ u v : V, G.Walk u v := by
+  sorry
+
+/-- The subgraph built after a prefix of the ears. Index zero is the initial cycle and the last
+index is the final subgraph. -/
+noncomputable def OpenEarDecomposition.subgraphAfter {H : G.Subgraph}
+    (d : G.OpenEarDecomposition H) (_k : Fin (d.length + 1)) : G.Subgraph := by
+  sorry
+
+/-- Every initial segment is itself an ear decomposition of its displayed subgraph. -/
+noncomputable def OpenEarDecomposition.prefix {H : G.Subgraph} (d : G.OpenEarDecomposition H)
+    (k : Fin (d.length + 1)) :
+    G.OpenEarDecomposition (OpenEarDecomposition.subgraphAfter G d k) := by
+  sorry
+
+theorem OpenEarDecomposition.subgraphAfter_last {H : G.Subgraph}
+    (d : G.OpenEarDecomposition H) :
+    OpenEarDecomposition.subgraphAfter G d ⟨d.length, Nat.lt_succ_self _⟩ = H := by
+  sorry
+
+/-- One possible representation of ear decompositions with closed ears allowed. It starts from a
+single vertex and adds open ears as above or closed ears, cycles meeting the subgraph so far in
+exactly their base vertex. The required public interface is the same prefix API as above. -/
 inductive EarDecomposition : G.Subgraph → Type u
   | vertex (v : V) : EarDecomposition (G.singletonSubgraph v)
   | openEar {H : G.Subgraph} (d : EarDecomposition H) {u v : V} (p : G.Walk u v) (hp : p.IsPath)
@@ -348,6 +451,35 @@ inductive EarDecomposition : G.Subgraph → Type u
   | closedEar {H : G.Subgraph} (d : EarDecomposition H) {u : V} (c : G.Walk u u) (hc : c.IsCycle)
       (hu : u ∈ H.verts) (hint : ∀ w ∈ c.support, w ≠ u → w ∉ H.verts) :
       EarDecomposition (H ⊔ c.toSubgraph)
+
+noncomputable def EarDecomposition.length {H : G.Subgraph}
+    (_d : G.EarDecomposition H) : ℕ := by
+  sorry
+
+noncomputable def EarDecomposition.initialVertex {H : G.Subgraph}
+    (_d : G.EarDecomposition H) : V := by
+  sorry
+
+noncomputable def EarDecomposition.earAt {H : G.Subgraph} (d : G.EarDecomposition H)
+    (_k : Fin d.length) : Σ u v : V, G.Walk u v := by
+  sorry
+
+noncomputable def EarDecomposition.kindAt {H : G.Subgraph} (d : G.EarDecomposition H)
+    (_k : Fin d.length) : EarKind := by
+  sorry
+
+noncomputable def EarDecomposition.subgraphAfter {H : G.Subgraph}
+    (d : G.EarDecomposition H) (_k : Fin (d.length + 1)) : G.Subgraph := by
+  sorry
+
+noncomputable def EarDecomposition.prefix {H : G.Subgraph} (d : G.EarDecomposition H)
+    (k : Fin (d.length + 1)) :
+    G.EarDecomposition (EarDecomposition.subgraphAfter G d k) := by
+  sorry
+
+theorem EarDecomposition.subgraphAfter_last {H : G.Subgraph} (d : G.EarDecomposition H) :
+    EarDecomposition.subgraphAfter G d ⟨d.length, Nat.lt_succ_self _⟩ = H := by
+  sorry
 
 /-- Whitney's ear characterization of 2-connectivity. -/
 theorem isVertexConnected_two_iff_nonempty_openEarDecomposition [Fintype V]
