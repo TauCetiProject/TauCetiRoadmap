@@ -548,7 +548,7 @@ theorem konig_ore [Finite V] {L R : Set V} (h : G.IsBipartiteWith L R) :
 
 end SimpleGraph
 
-/-! ## Cut trees (Milestone 9) -/
+/-! ## Cut trees (Milestones 4, 5, 9) -/
 
 namespace TauCetiRoadmap.FiniteGraphConnectivity
 
@@ -566,6 +566,12 @@ noncomputable def minCutCapacity (c : Sym2 V → K) (s t : V) : K :=
     (univ.filter fun S : Finset V => s ∈ S ∧ t ∉ S).inf'
       ⟨{s}, by simp [Finset.mem_filter, h.symm]⟩ (cutCapacity G c)
   else 0
+
+/-- Local edge reachability is the unit-capacity minimum cut: `s` and `t` stay reachable after
+deleting fewer than `k` edges exactly when every `s–t` cut has at least `k` edges. -/
+theorem isEdgeReachable_iff_le_minCutCapacity {s t : V} (hst : s ≠ t) (k : ℕ) :
+    G.IsEdgeReachable k s t ↔ (k : ℤ) ≤ minCutCapacity G (fun _ => (1 : ℤ)) s t := by
+  sorry
 
 /-- A weighted tree on the vertex type. -/
 structure WeightedTree (K : Type w) (V : Type u) [Zero K] [LE K] where

@@ -258,6 +258,7 @@ In the undirected edge reduction, cancel flow in opposite directions before extr
 The reductions must recover actual path families and separators, not just equalities of numerical optima.
 
 Derive the predicate forms: local edge reachability at threshold `k` is equivalent to the existence of `k` edge-disjoint paths; local vertex reachability has the analogous equivalence under the nonadjacency hypothesis.
+Relate local edge reachability to cuts as well: for distinct `s, t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut capacity of Milestone 4 with every edge of capacity `1` over `ℤ`, so that the cut tree of Milestone 9 at unit capacities answers local edge reachability for every pair.
 For finite simple graphs with more than `k` vertices, derive the global characterization of `k`-vertex-connectivity by `k` internally vertex-disjoint paths between every pair of distinct vertices, including adjacent pairs.
 
 ## 6. Connectivity and bipartite matching consequences
