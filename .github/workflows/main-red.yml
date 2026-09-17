@@ -1,0 +1,104 @@
+name: main-red
+
+# Tell the Tau Ceti Zulip when `main` stops building, and when it recovers.
+#
+# `main` went red on 2026-09-14 and stayed red for three days because nothing said so: the failing
+# run was recorded and nobody was watching the Actions tab. Prevention alone cannot close that gap,
+# since a Mathlib or Tau Ceti pin bump can redden `main` with no pull request at fault, so the
+# missing piece is noticing.
+#
+# This runs on `workflow_run` rather than as a job inside CI so that the Zulip credentials never
+# share a job with the build, matching the separation progress-announce.yml keeps. It posts only on
+# the *edge*: the first failure after a green run, and the first success after a red one. A long red
+# patch therefore produces one message, not one per push.
+#
+# Zulip is the only channel here. Opening an issue as well would need the App token, because the org
+# disables write `GITHUB_TOKEN`, and that would put repository-write credentials in the same job as
+# the Zulip secrets — which is the arrangement the comment above exists to avoid.
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  notify:
+    # Only the push-to-main runs. A `pull_request` run that happens to carry a `main` head ref is
+    # not a statement about the branch.
+    if: ${{ github.event.workflow_run.event == 'push' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide whether this is an edge
+        id: edge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: |
+          set -euo pipefail
+
+          # `cancelled` and `skipped` say nothing about the branch, so they neither alert nor clear.
+          case "$CONCLUSION" in
+            success|failure|timed_out) ;;
+            *) echo "::notice::conclusion '$CONCLUSION' is not a verdict on main"
+               echo "post=0" >> "$GITHUB_OUTPUT"; exit 0 ;;
+          esac
+
+          # The previous *completed* push run on main, excluding this one. Its conclusion is the
+          # state we are transitioning from.
+          prev=$(gh api "repos/$REPO/actions/workflows/ci.yml/runs?branch=main&event=push&status=completed&per_page=10" \
+            --jq "[.workflow_runs[] | select(.id != ${RUN_ID}) | .conclusion] | map(select(. == \"success\" or . == \"failure\" or . == \"timed_out\")) | first // \"\"")
+          echo "previous conclusion: '${prev:-none}'"
+
+          now_red=0
+          [ "$CONCLUSION" = "success" ] || now_red=1
+          was_red=0
+          case "$prev" in failure|timed_out) was_red=1 ;; esac
+
+          if [ "$now_red" = "$was_red" ]; then
+            echo "::notice::no edge (was_red=$was_red now_red=$now_red); staying quiet"
+            echo "post=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "post=1" >> "$GITHUB_OUTPUT"
+            echo "red=$now_red" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post to Zulip
+        if: ${{ steps.edge.outputs.post == '1' }}
+        env:
+          ZULIP_EMAIL: ${{ secrets.ZULIP_EMAIL }}
+          ZULIP_API_KEY: ${{ secrets.ZULIP_API_KEY }}
+          ZULIP_SITE: ${{ secrets.ZULIP_SITE }}
+          RED: ${{ steps.edge.outputs.red }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+          URL: ${{ github.event.workflow_run.html_url }}
+          TITLE: ${{ github.event.workflow_run.head_commit.message }}
+        run: |
+          set -euo pipefail
+          if [ -z "${ZULIP_SITE:-}" ]; then
+            echo "::warning::Zulip is not configured; skipping"
+            exit 0
+          fi
+          short="${SHA:0:9}"
+          subject=$(printf '%s' "$TITLE" | head -1)
+          if [ "$RED" = "1" ]; then
+            content=$(printf '%s\n\n%s' \
+              ":cross_mark: **\`main\` is red.** [\`$short\`]($URL) — $subject" \
+              "Pull requests against \`main\` will show a failing \`build\` check until this is fixed, whatever they change.")
+          else
+            content=":check: **\`main\` is green again.** [\`$short\`]($URL) — $subject"
+          fi
+          code=$(curl -sS -o /tmp/zulip.out -w '%{http_code}' -X POST "$ZULIP_SITE/api/v1/messages" \
+            -u "$ZULIP_EMAIL:$ZULIP_API_KEY" \
+            --data-urlencode "type=stream" \
+            --data-urlencode "to=Tau Ceti" \
+            --data-urlencode "topic=main build" \
+            --data-urlencode "content=$content")
+          cat /tmp/zulip.out
+          [ "$code" = "200" ]

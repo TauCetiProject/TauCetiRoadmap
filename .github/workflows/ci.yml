@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   pull_request:
+  # The merge queue builds each candidate against `main` plus everything ahead of it in the queue,
+  # which is the whole point: a `build` that passed against an older `main` can no longer gate a
+  # merge. Without this trigger an enqueued pull request waits forever for a `build` check that
+  # never runs, so this must be in place *before* the queue is enabled on the branch.
+  merge_group:
 
 permissions:
   contents: read
