@@ -48,7 +48,8 @@ The following Mathlib proposals guide the corresponding interfaces:
 
 Build all missing prerequisites and results in Tau Ceti, following these interfaces and adopting Mathlib's resulting design when available.
 An unmerged proposal is a design reference, not a dependency that contributors must wait for.
-For flows, the finite-sum interface below shares the arrow-indexed carrier of #43017 and differs from it in the four deliberate ways listed under **Flows and bounded circulations**; no agreement lemma with an unmerged proposal is a target.
+For flows, the finite-sum interface below shares the arrow-indexed carrier of #43017 and differs from it in the four deliberate ways listed under **Flows and bounded circulations**.
+Compatibility with that proposal is nevertheless a target of Milestone 3, proved against a local copy of its definitions in its own shape, so that the eventual swap is a deletion plus an import.
 
 The [Lean Zulip discussion of max-flow/min-cut](https://leanprover-community.github.io/archive/stream/252551-graph-theory/topic/max-flow.20min-cut.20help.html) records earlier quiver-based formalization work, including [maxflowmincutlean4](https://gitlab.com/Shreyas941/maxflowmincutlean4).
 Coordinate with authors before integrating existing code, following the repository's porting policy.
@@ -77,6 +78,8 @@ It measures excess (incoming minus outgoing) where this roadmap uses divergence 
 Its value is an `ENNReal` read at the sink, where this roadmap's value is a real number read at the source, so that negative values exist and decompose.
 Its capacity is a parameter separate from the quiver, where this roadmap bundles it into the network, so that a network is one object to quantify over.
 Its sums are `tsum`s in `EReal`, where every sum here is a `Finset.sum`.
+Milestone 3 builds a local copy of that proposal's `PseudoFlow` and `Flow` in exactly its shape (explicit quiver term, capacities as a separate `ℝ≥0`-valued parameter, `EReal`-valued excess by `tsum`, `ENNReal` value at the sink, nonnegative value required) and proves that on a finite network they correspond to the flows of nonnegative value of this roadmap, with excess equal to minus divergence and the two values equal.
+Flows of negative value have no counterpart there, which is why the correspondence is stated for the nonnegative part.
 
 **An orientation** `o : G.Orientation` of a simple graph chooses one dart (`SimpleGraph.Dart`) for every edge, with no additional arrows.
 The oriented graph is the type synonym `G.Oriented o := V` with the quiver instance whose arrows from `v` to `w` are the edges whose chosen dart runs from `v` to `w`, so strong connectivity is literally `Quiver.IsStronglyConnected (G.Oriented o)`.
@@ -155,7 +158,7 @@ An articulation vertex `v` is one that separates two other vertices: some `u, w 
 Prove that this is equivalent to deletion of `v` increasing the number of connected components; the count is a lemma rather than the definition, so no statement needs a `Fintype` instance on a deletion subtype.
 
 A block is a maximal nonempty connected induced subgraph with no articulation vertex of its own.
-Thus bridges give two-vertex blocks, and isolated vertices give singleton blocks.
+Thus bridges that are edges give two-vertex blocks, and isolated vertices give singleton blocks.
 Prove that every edge belongs to exactly one block, distinct blocks meet in at most one vertex, and a vertex lies in more than one block exactly when it is an articulation vertex.
 
 Construct the **block–cut incidence graph**, whose two kinds of vertices are blocks and articulation vertices, with adjacency given by membership.
@@ -198,7 +201,9 @@ The proof uses only submodularity and the symmetry of the undirected cut functio
 
 Extend it to families with two further targets.
 **Uncrossing preserves laminarity:** if a vertex set `Z` crosses `X` (all four of `Z ∩ X`, `Z ∖ X`, `X ∖ Z`, and the complement of `Z ∪ X` are nonempty), then `Z ∩ X` and `Z ∪ X` are each nested with or disjoint from every set that is nested with or disjoint from both `Z` and `X`.
-**Multi-cut non-crossing lemma:** for a laminar family of cuts, each a minimum cut for a designated pair of vertices, and distinct vertices `s, t` separated by none of them, there is a minimum `s–t` cut crossing none of them.
+Two cuts, as bipartitions, **cross** when all four intersections of a side of one with a side of the other are nonempty; a family of pairwise non-crossing cuts is not the same as a laminar family of sets, since two sides can be neither nested nor disjoint while covering the vertex set.
+**Root convention:** fix a root vertex and represent every cut by its side not containing the root; prove that a pairwise non-crossing family of cuts then becomes a laminar family of sets (pairwise nested or disjoint), because two root-excluding sides cannot cover the vertex set.
+**Multi-cut non-crossing lemma:** for a pairwise non-crossing family of cuts, each a minimum cut for a designated pair of vertices, and distinct vertices `s, t` separated by none of them, there is a minimum `s–t` cut crossing none of them.
 Applying the single-cut lemma to one crossed member at a time is not enough on its own, since uncrossing against one cut can create a crossing with another; the laminarity lemma shows the number of crossed members strictly decreases, which is what makes the induction go through.
 Prove also the **ultrametric inequality** for minimum cut capacities, `λ(s,t) ≥ min (λ(s,v), λ(v,t))`, since every `s–t` cut separates `s` from `v` or `v` from `t`.
 These are the interface used by the cut-tree milestone.
@@ -213,7 +218,8 @@ The two statements together are the equality of optima with attainment on both s
   Give directed and undirected versions.
 - **Local vertex Menger:** for distinct nonadjacent terminals, the same with internally vertex-disjoint paths and terminal-excluding vertex separators.
   Give directed and undirected versions with the adjacency convention above.
-- **Adjacent terminals in a simple graph:** `k` internally vertex-disjoint `s–t` paths and a set of `k − 1` vertices separating `s` from `t` after deleting the edge `{s,t}`, for some `k`, together with the inequality.
+- **Adjacent terminals in a simple graph:** `k + 1` internally vertex-disjoint `s–t` paths and a set of `k` vertices separating `s` from `t` after deleting the edge `{s,t}`, for some `k`, together with the bound that any family of internally disjoint `s–t` paths has at most one more member than any such separator has vertices.
+  Stating it with `k` paths and `k − 1` separating vertices would admit `k = 0` under natural-number subtraction, with empty witnesses on the single-edge graph.
 - **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the overlap convention above, in directed and undirected versions; and edge versions for disjoint terminal sets.
 
 Use integral max-flow with unit capacities, vertex splitting, and auxiliary terminals, and prove the correspondence in each direction.
@@ -268,7 +274,8 @@ The initial-vertex convention includes the isolated singleton with no ears; rela
 Prove **Robbins' theorem** in the form `(∃ o : G.Orientation, Quiver.IsStronglyConnected (G.Oriented o)) ↔ G.IsEdgeConnected 2`.
 This needs no connectedness or size hypothesis: both sides hold on a subsingleton, and for a connected graph it is the classical statement that a strongly connected orientation exists exactly when there is no bridge, which should be derived as a corollary.
 Construct the orientation from the ear decomposition, directing each ear as a directed path or cycle, and prove strong connectivity of `G.Oriented o` through the directed ear characterization.
-Include the componentwise result that a graph admits an orientation strongly connected on each connected component exactly when it has no bridges.
+Include the componentwise result that a graph admits an orientation strongly connected on each connected component exactly when `∀ e ∈ G.edgeSet, ¬ G.IsBridge e`.
+The restriction to edges matters: `IsBridge` also holds for a pair of vertices in different components, so the unrestricted form would fail for two isolated vertices, whereas in the global characterization above it is exactly what supplies connectedness.
 
 ## 8. Bounded circulations, supplies, and demands
 
@@ -311,9 +318,9 @@ Disconnected graphs and zero capacities are included, with zero-weight tree edge
 
 Develop the weighted-tree API needed for these statements: unique paths, fundamental partitions, minimum weights on nonempty paths, and transport under vertex equivalences.
 The intended proof is Gomory and Hu's construction with its contraction step replaced by the multi-cut non-crossing lemma.
-Maintain a laminar family of chosen minimum cuts, whose cells (the nonempty intersections of one side of each chosen cut) are the supernodes, and a tree on the supernodes whose edges correspond to the chosen cuts.
+Maintain a pairwise non-crossing family of chosen minimum cuts, represented by their root-excluding sides under the root convention of Milestone 4 so that it is a laminar family of sets, whose cells (the nonempty intersections of one side of each chosen cut) are the supernodes, and a tree on the supernodes whose edges correspond to the chosen cuts.
 While some supernode contains two vertices `s, t`, take a minimum `s–t` cut crossing no chosen cut, which the multi-cut lemma supplies, split the supernode by it, and attach each neighbouring subtree to the part on its own side of the new cut.
-The **invariant** is that the family stays laminar and that every tree edge is one of the chosen cuts and a minimum cut for some pair of vertices taken from the two supernodes it joins.
+The **invariant** is that the family stays pairwise non-crossing, hence laminar under the root convention, and that every tree edge is one of the chosen cuts and a minimum cut for some pair of vertices taken from the two supernodes it joins.
 Preserving the second half needs a witness repair when the split moves the witness vertex away from the part a subtree is attached to; Korte and Vygen's proof of the Gomory–Hu theorem shows the cut is then also a minimum cut for a pair using `s` or `t`, by the ultrametric inequality.
 State the invariant as a named lemma, since it carries the whole correctness argument.
 When every supernode is a singleton, property 2 is the invariant, and property 1 follows from property 2 and the ultrametric inequality.
