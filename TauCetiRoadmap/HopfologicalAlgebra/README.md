@@ -353,9 +353,13 @@ The following finiteness words have fixed, noninterchangeable meanings.
 - If `A` is Artinian, a compact object is isomorphic in the derived category to a finite
   projective `A`-module.
 - Qi's “smooth basic” comparison assumes `A` is Artinian (or graded finite-dimensional), basic
-  in its Morita class, smooth in the precise sense that `A` has a finite projective resolution as
-  an `(A,A)`-bimodule, and has **trivial `H`-action**.  Under those hypotheses
-  `Dᶜ(A,H) ≃ Dᶠ(A,H)`.
+  in Qi's **split** sense, smooth in the precise sense that `A` has a finite projective resolution
+  as an `(A,A)`-bimodule, and has **trivial `H`-action**.  Under those hypotheses
+  `Dᶜ(A,H) ≃ Dᶠ(A,H)`.  ⚠ Pin “basic” to Qi's Definition 9.3: every simple `A`-module is
+  one-dimensional over `k`, equivalently `A/J(A) ≅ k^r`.  The ordinary weaker use of “basic” (no
+  repeated simple factors in the Morita class) permits nontrivial division algebras as
+  endomorphism rings and does **not** justify `Hom_A(P_i, S_i) = k`, which the `K₀` calculation of
+  Layer 6 uses; over a non-algebraically-closed field the two readings differ.
 - In the specialized `p`-DG terminology of Qi--Sussan, property (P) has filtration quotients
   which are sums of `p`-DG direct summands of `A`; a finite-cell module has property (P) and is
   finitely generated as an `A`-module.  This is not a synonym for compactness in an arbitrary
@@ -385,9 +389,28 @@ Use the Grothendieck/Euler roadmap's construction throughout.
    module over the opposite ring, since `K₀(H-stmod)` may be noncommutative, with the scalar
    multiplication of classes the class of the action.
 3. Define `G₀(A,H)` from `Dᵇ(A,H)` and `G₀ᶠ(A,H)` from `Dᶠ(A,H)` under the Noetherian
-   hypotheses above.  Construct Qi's derived pairing
-   `Dᶜ(A,H) × Dᶠ(A,H) → Dᶠ(k,H)` there, and its sesquilinear Grothendieck-group
+   hypotheses above.  Construct Qi's derived pairing and its sesquilinear Grothendieck-group
    specialization under the Artinian hypotheses used in his smooth-basic section.
+
+   ⚠ The finite-target form `Dᶜ(A,H) × Dᶠ(A,H) → Dᶠ(k,H)` is **false** under the Noetherian
+   hypotheses alone, because `Dᶠ` is defined by finite length over `A`, not finite dimension over
+   `k`, and Artinian `A` does not repair it.  Take `k = 𝔽₂`, `H = k[d]/(d²)` with `d` primitive,
+   and `A = k(t)` with trivial `H`-action; put `P = M = A` with `d` acting by zero.  Then `A` is a
+   Noetherian Artinian `k`-algebra, `M` has `A`-length one, and `P = A ⊗ k` is the cellular
+   generator, hence cofibrant and compact in `D(A,H)`.  The derived Hom is represented by
+   `Hom_A(A,A) = A` with trivial `H`-action, and `stableHom_H(k, A) = A` because the integral `d`
+   acts by zero and kills no nonzero map.  That is infinite-dimensional over `k`, whereas
+   `stableHom_H(k, N)` is finite-dimensional for every finite-dimensional `N`; so the value does
+   not lie in `Dᶠ(k,H)`.
+
+   State the pairing in one of the two sound forms and keep them apart.  Either take
+   `Dᶜ(A,H) × Dᶠ(A,H) → H\text{-StMod}` into the large stable category under the Noetherian
+   hypotheses, with the finite-target refinement proved separately; or state
+   `Dᶜ(A,H) × Dᶠ(A,H) → Dᶠ(k,H)` with `A` finite-dimensional over `k`, or with the explicit
+   hypothesis that the finite-length `A`-modules in play are finite-dimensional over `k`.  Qi
+   §9.1 prints the broad pairing, and inheriting that literal wording is what introduces the
+   error; `Dᶠ` keeps its finite-length meaning throughout, as the finiteness glossary of Layer 5
+   requires, and is not silently redefined here.
 4. When `A` is commutative and `H` is cocommutative, the diagonal action descends through the
    `A`-balanced tensor product; construct the internal tensor product of hopfological
    `A`-modules under exactly those two hypotheses, prove it preserves compact objects, and prove
@@ -625,8 +648,12 @@ devissage.  No such theorem is asserted for arbitrary algebras or arbitrary cell
 This cross-`I_k` vanishing is an explicit input to the proof that the
 image of `I` in the stable category is thick.  The stable category `H_n-gmod` is the
 dependency's stable category of the abelian Frobenius exact structure on finite-dimensional
-graded `H_n`-modules, with Happel's triangulation and the braided tensor product descended to
-it.  The image of `I` is an object property on that stable category; prove that it is a
+graded `H_n`-modules, with Happel's triangulation and the **monoidal** tensor product descended
+to it — the tensor product defined using the ambient braiding of the `q`-graded category, not a
+braiding on the `H_n`-module category or on its stable category.  Laugwitz--Qi are explicit about
+that distinction (§1.4), and for general `n` they supply no braiding axioms for the module
+category; the targets here need monoidality only, so do not state more.
+The image of `I` is an object property on that stable category; prove that it is a
 triangulated subcategory closed under retracts and a two-sided tensor ideal, and form the
 **Verdier quotient**
 
