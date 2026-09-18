@@ -45,6 +45,8 @@ The following Mathlib proposals guide the corresponding interfaces:
 - [#34028: weak max-flow/min-cut duality](https://github.com/leanprover-community/mathlib4/pull/34028): an undirected flow formulation on simple graphs.
   This roadmap reaches every undirected result through the bidirected network and defines no undirected flow, so it takes only the statement shapes from that proposal.
 - [#33032: Kőnig's theorem](https://github.com/leanprover-community/mathlib4/pull/33032): matchings as subgraphs, vertex covers, and the equality between the sizes of maximum matchings and minimum covers.
+- [#42839: 2-edge-connectivity and bridges](https://github.com/leanprover-community/mathlib4/pull/42839): `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the first target of Milestone 7.
+- [#37861: connected `Graph`s](https://github.com/leanprover-community/mathlib4/pull/37861): connectivity of Mathlib's multigraph type through connected components as subgraphs, with no walks; Milestone 10 proves compatibility with it.
 
 Build all missing prerequisites and results in Tau Ceti, following these interfaces and adopting Mathlib's resulting design when available.
 An unmerged proposal is a design reference, not a dependency that contributors must wait for.
@@ -305,7 +307,7 @@ Prove three characterizations:
 
 1. A finite simple graph with at least three vertices is 2-vertex-connected if and only if it has an open ear decomposition.
 2. A finite nonempty simple graph is 2-edge-connected (`IsEdgeConnected 2`) if and only if it can be built from one vertex by adding open or closed ears.
-   Prove first that `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the form Mathlib's edge-connectivity file names as its intended statement; note that `IsBridge` on a non-edge means its endpoints are unreachable, so the right-hand side already includes connectedness.
+   Prove first that `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the form Mathlib's edge-connectivity file names as its intended statement and #42839 proposes; note that `IsBridge` on a non-edge means its endpoints are unreachable, so the right-hand side already includes connectedness.
 3. A network `N` with nonempty finite vertex type is strongly connected (`N.IsStronglyConnected`) if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
 
 In the directed version, ears are directed paths and cycles of `N` in the sense of the conventions, they retain arrow identities, and the one directed decomposition type exposes the same prefix API using subnetworks.
@@ -370,9 +372,10 @@ Gusfield's paper gives the same route as an algorithm on the original graph, wit
 
 ## 10. Bridge to Mathlib's `Graph`
 
-Mathlib's multigraph type `Graph α β` carries loops and parallel edges but has no walks, reachability, or connectivity predicates, and the surface topology roadmap states its 3-connectivity results on it.
+Mathlib's multigraph type `Graph α β` carries loops and parallel edges but has no walks or reachability; #37861 proposes connectivity through connected components as subgraphs, and the surface topology roadmap states its 3-connectivity results on `Graph`.
 Define reachability, `k`-vertex-reachability, and `k`-vertex-connectivity of a `Graph` as those of `Graph.toSimpleGraph`, whose carrier is `V(G)`; loops and parallel edges never change reachability, so these definitions lose nothing.
 Prove compatibility with vertex deletion and induced subgraphs, with the subtype equivalences this requires, and the round trip with `Graph.ofSimpleGraph`.
+Prove compatibility with the component-based connectivity of #37861, in its shape: a `Graph` with nonempty vertex set is connected in that sense exactly when its underlying simple graph is `Connected`, and its connected components correspond to those of the underlying simple graph.
 Edge connectivity is not defined on `Graph` here: parallel edges change it, and no consumer needs it.
 Nothing in Milestones 1–9 consumes this milestone; it exists so that a consumer working on `Graph` reads `k`-vertex-connectivity as `IsVertexConnected k` of the underlying simple graph and inherits Menger's theorem through these definitions.
 
