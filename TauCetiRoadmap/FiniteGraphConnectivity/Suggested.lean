@@ -573,6 +573,20 @@ theorem konig_ore [Finite V] {L R : Set V} (h : G.IsBipartiteWith L R) :
 
 end SimpleGraph
 
+namespace TauCetiRoadmap.FiniteGraphConnectivity
+
+/-- The deficiency formula in the indexed-family form of Mathlib's Hall theorem, in witness form:
+a choice `f` injective on a set `D` of indices with `f i ∈ t i`, and a set `S` of indices with
+`|D| + |S| = |ι| + |⋃ i ∈ S, t i|`. The inequality for every `D`, `f`, and `S` is a separate
+target. Under Hall's condition the witness has `D = univ`, which is
+`Finset.all_card_le_biUnion_card_iff_exists_injective`. -/
+theorem konig_ore_family {ι α : Type*} [Fintype ι] [DecidableEq α] (t : ι → Finset α) :
+    ∃ (D : Finset ι) (f : ι → α) (S : Finset ι), Set.InjOn f D ∧ (∀ i ∈ D, f i ∈ t i) ∧
+      D.card + S.card = Fintype.card ι + (S.biUnion t).card := by
+  sorry
+
+end TauCetiRoadmap.FiniteGraphConnectivity
+
 /-! ## Cut functions and cut trees (Milestones 4, 5, 9) -/
 
 namespace TauCetiRoadmap.FiniteGraphConnectivity

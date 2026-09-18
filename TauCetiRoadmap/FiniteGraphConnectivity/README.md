@@ -281,12 +281,13 @@ Prove these consequences in the existing graph vocabulary:
   No cyclic order of those vertices is prescribed.
 - **Kőnig's theorem:** in a finite bipartite graph, there exist a matching and a vertex cover of equal size, and every maximum matching has the same number of edges as every minimum vertex cover has vertices.
   Use `SimpleGraph.Subgraph.IsMatching`, `SimpleGraph.IsVertexCover`, and the extremality interfaces of Mathlib proposal #33032.
-  Build their missing finite API here, including attainment, the matching–cover inequality, and the flow construction that recovers witnesses.
-  For bipartition `L, R`, use unit capacities from the source to `L` and from `R` to the sink, and capacity `|L| + 1` on graph edges directed from `L` to `R`, so that no such edge crosses a minimum cut.
-  Prove that integral flows encode matchings and that a minimum-cut source side `S` yields the cover `(L ∖ S) ∪ (R ∩ S)`.
+  Build their missing finite API here, including attainment and the matching–cover inequality.
+  Build the bipartite network as a reusable interface: for bipartition `L, R`, unit capacities from the source to `L` and from `R` to the sink, and capacity `|L| + 1` on graph edges directed from `L` to `R`, so that no such edge crosses a minimum cut, with the lemmas that integral flows encode matchings and that a minimum-cut source side `S` yields the cover `(L ∖ S) ∪ (R ∩ S)`.
+  Proving Kőnig through it is the suggested route, as for Menger, not a constraint on the theorem.
 - **Deficiency formula (König–Ore) and Hall:** for bipartition `L, R`, the maximum size of a matching is `|L| − max_{S ⊆ L} (|S| − |N(S)|)`, in witness form: there exist a matching `M` and a set `S ⊆ L` with `|M| + |S| = |L| + |N(S)|`, and every matching and every `S ⊆ L` satisfy `|M| + |S| ≤ |L| + |N(S)|`.
   Derive it from Kőnig by reading a minimum cover `C` as `S = L ∖ C`, so that `(L ∖ S) ∪ N(S)` is again a minimum cover.
-  Hall's theorem for bipartite simple graphs is the case of zero deficiency; Mathlib already proves it as `exists_isMatching_of_forall_ncard_le`, so derive it as a corollary only as a check against Mathlib's statement, which remains the library's Hall.
+  State it also in the indexed-family form of Mathlib's Hall theorem, for `t : ι → Finset α`, with a choice that is injective on a set of indices in place of a matching, so that consumers of either form can use it.
+  Hall's theorem is the case of zero deficiency: derive Mathlib's `Finset.all_card_le_biUnion_card_iff_exists_injective` and `exists_isMatching_of_forall_ncard_le` from the two forms as compatibility checks; Mathlib's statements remain the library's Hall.
 
 ## 7. Ear decompositions and strong orientations
 
