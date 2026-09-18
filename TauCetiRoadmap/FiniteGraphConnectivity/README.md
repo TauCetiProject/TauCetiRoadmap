@@ -51,8 +51,10 @@ The following Mathlib proposals guide the corresponding interfaces:
 Build all missing prerequisites and results in Tau Ceti, following these interfaces and adopting Mathlib's resulting design when available.
 An unmerged proposal is a design reference, not a dependency that contributors must wait for.
 For flows, the finite-sum interface below shares the arrow-indexed carrier of #43017 and differs from it in the five deliberate ways listed under **Graphs, networks, and orientations**.
-Compatibility with that proposal is nevertheless a target of Milestone 3, proved in an isolated compatibility module against a local copy of its definitions in its own shape, so that the eventual swap is a deletion plus an import.
+Compatibility with that proposal is a target of Milestone 3, proved in an isolated compatibility module against a local copy of its definitions in its own shape.
 The local copy is only a fixture for the correspondence theorems and must not grow a parallel flow theory.
+When Mathlib supplies those definitions, replace the fixture with an import; the correspondence theorems remain the adapter between Mathlib's real-valued interface and the generic finite theory specified here.
+If Mathlib supplies the generic theory as well, adopt its definitions and API and remove the corresponding local definitions and redundant adapters.
 
 The [Lean Zulip discussion of max-flow/min-cut](https://leanprover-community.github.io/archive/stream/252551-graph-theory/topic/max-flow.20min-cut.20help.html) records earlier quiver-based formalization work, including [maxflowmincutlean4](https://gitlab.com/Shreyas941/maxflowmincutlean4).
 Coordinate with authors before integrating existing code, following the repository's porting policy.
@@ -73,8 +75,10 @@ It must not assume a unit, multiplication, division, an Archimedean property, to
 A network `N : Network C V` is a structure carrying an arrow type `N.Hom v w : Type v` for every ordered pair of vertices, in a universe independent of the vertex universe as for `Quiver.{v}`, a capacity in `C` for every arrow, and a proof that every capacity is nonnegative; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
 The capacity type `C` is `K` for an ordinary network and `WithTop K` for an extended one.
 Arrow assignments, divergence, and cut capacity are defined once, for every capacity type, with the value type of an assignment independent of the capacity type.
-Directed walks are an inductive type indexed by the arrow family, as `SimpleGraph.Walk` is indexed by its graph, with support, path and cycle predicates, reachability, and strong connectivity defined on it; networks and orientations share this one type.
-Mathlib's `Quiver` is not used: it is a typeclass on the vertex type, so a network, its residual network, and each orientation of a graph would compete for one instance on `V`, and a type synonym per network would put a cast at every step.
+Directed walks use Mathlib's [`Quiver.Path`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/Path.html#Quiver.Path), with the quiver argument supplied explicitly from the arrow family, as in `@Quiver.Path V ⟨N.Hom⟩ s t`.
+Networks and orientations share this carrier and reuse its length, composition, vertex-list, and transport API; add the missing simple-path and cycle predicates using `Quiver.Path.vertices`.
+Strong connectivity is Mathlib's [`Quiver.IsStronglyConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/ConnectedComponent.html#Quiver.IsStronglyConnected) with the same explicit quiver argument.
+Abbreviations may expose these operations through the network or arrow family, so several quivers coexist on `V` without competing instances or vertex-type synonyms.
 As terms, networks coexist and can be quantified over.
 The total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
 Parallel arrows, arrows in opposite directions, loops, and zero capacities are allowed.
@@ -98,8 +102,9 @@ An extended network is a network with capacity type `WithTop K`; its flows remai
 An ordinary network extends to one with the same arrows, and replacing an extended network's infinite capacities by a finite bound produces an ordinary network with the same arrows.
 Do not define extended-valued flows or take `WithTop` subtraction as flow cancellation: in particular, `⊤ - ⊤ = 0` is not a valid account of residual capacity.
 Prove that if an `s–t` cut of finite capacity `B` exists, replacing every infinite capacity by `B` preserves the minimum-cut value and yields a finite maximum flow attaining it in the original extended network.
-If no finite `s–t` cut exists, prove instead that finite feasible flow values are unbounded above.
-Together these results are the extended max-flow/min-cut statement: finite cuts give an attained common value, while the absence of a finite cut gives unbounded finite flow values.
+If no finite `s–t` cut exists, prove that finite feasible flow values are cofinal in `K`: for every `b : K`, some feasible flow has value at least `b`.
+For nontrivial `K`, deduce unboundedness: for every `b : K`, some feasible flow has value strictly greater than `b`.
+Together these results are the extended max-flow/min-cut statement: finite cuts give an attained common value, while the absence of a finite cut gives cofinal finite flow values, which are unbounded when `K` is nontrivial.
 For `K = ℝ`, also state the dichotomy as an equality in `WithTop ℝ` between `sSup` of the set of finite flow values, which is `⊤` exactly when that set is unbounded, and the minimum extended cut capacity.
 
 **An orientation** `o : G.Orientation` of a simple graph chooses one dart (`SimpleGraph.Dart`) for every edge, with no additional arrows.
@@ -214,7 +219,7 @@ For integer capacities, prove termination of augmentation: each step increases t
 Termination of arbitrary augmenting-path choices over dense or non-Archimedean coefficients is not an assumption of the general theorem.
 
 Develop the extended-capacity API from the conventions as a boundary around this finite theorem.
-Prove the ordinary-to-extended embedding and cut-capacity coercion, truncation at a finite bound, preservation of flows under truncation and extension, attainment when a finite terminal-separating cut exists, and unboundedness of finite flow values when none exists.
+Prove the ordinary-to-extended embedding and cut-capacity coercion, truncation at a finite bound, preservation of flows under truncation and extension, attainment when a finite terminal-separating cut exists, and cofinality of finite flow values when none exists, with unboundedness for nontrivial coefficients.
 State weak duality between finite flow values and extended cut capacities without converting `⊤` to a finite coefficient.
 
 ## 4. The structure of minimum cuts
@@ -241,7 +246,8 @@ Two cuts, as bipartitions, **cross** when all four intersections of a side of on
 **Root convention:** fix a root vertex and represent every cut by its side not containing the root; prove that a pairwise non-crossing family of cuts then becomes a laminar family of sets (pairwise nested or disjoint), because two root-excluding sides cannot cover the vertex set.
 **Multi-cut non-crossing lemma:** for a pairwise non-crossing family of cuts, each a minimum cut of `f` for a designated pair of vertices, and distinct vertices `s, t` separated by none of them, there is a minimum `s–t` cut crossing none of them.
 Applying the single-cut lemma to one crossed member at a time is not enough on its own, since uncrossing against one cut can create a crossing with another; the laminarity lemma shows the number of crossed members strictly decreases, which is what makes the induction go through.
-Prove also the **ultrametric inequality** for the minimum cut values of any `f`, `λ(s,t) ≥ min (λ(s,v), λ(v,t))`, since every `s–t` cut separates `s` from `v` or `v` from `t`.
+Prove also the **ultrametric inequality** for the minimum cut values of any `f` and distinct `s, t`, `λ(s,t) ≥ min (λ(s,v), λ(v,t))`, since every `s–t` cut separates `s` from `v` or `v` from `t`.
+The intermediate vertex `v` is arbitrary; define `λ(s,s) = 0` as the diagonal convention.
 These are the interface used by the cut-tree milestone.
 Submodularity, the lattice, and the non-crossing lemmas rest on Milestone 1 alone; Milestone 3 enters this milestone only for the residual characterization of the canonical cuts.
 
@@ -288,7 +294,8 @@ Prove these consequences in the existing graph vocabulary:
   Proving Kőnig through it is the suggested route, as for Menger, not a constraint on the theorem.
 - **Deficiency formula (König–Ore) and Hall:** for bipartition `L, R`, the maximum size of a matching is `|L| − max_{S ⊆ L} (|S| − |N(S)|)`, in witness form: there exist a matching `M` and a set `S ⊆ L` with `|M| + |S| = |L| + |N(S)|`, and every matching and every `S ⊆ L` satisfy `|M| + |S| ≤ |L| + |N(S)|`.
   Derive it from Kőnig by reading a minimum cover `C` as `S = L ∖ C`, so that `(L ∖ S) ∪ N(S)` is again a minimum cover.
-  State it also in the indexed-family form of Mathlib's Hall theorem, for `t : ι → Finset α`, with a choice that is injective on a set of indices in place of a matching, so that consumers of either form can use it.
+  State it also in the indexed-family form of Mathlib's Hall theorem, for `t : ι → Finset α`, with an injective choice function on the subtype of a chosen finite set of indices in place of a matching, so that consumers of either form can use it.
+  The choice function is defined only on those indices, allowing the empty partial choice even when `α` is empty.
   Hall's theorem is the case of zero deficiency: derive Mathlib's `Finset.all_card_le_biUnion_card_iff_exists_injective` and `exists_isMatching_of_forall_ncard_le` from the two forms as compatibility checks; Mathlib's statements remain the library's Hall.
 
 ## 7. Ear decompositions and strong orientations

@@ -13,9 +13,9 @@ The pinned choices this file exhibits: finite capacities and flows use a linearl
 commutative group `K`; a directed network is a *term* `N : Network C V` with arrow types in a
 universe independent of the vertex universe, and with capacity type `C` equal to `K` for an
 ordinary network and `WithTop K` for an extended one, so that assignments, divergence, and cut
-capacity are defined once; directed walks are an inductive type indexed by the arrow family, as
-`SimpleGraph.Walk` is indexed by its graph, shared by networks and orientations, with no `Quiver`
-instance and no type synonym; the residual network has the flow-independent arrow type
+capacity are defined once; directed walks abbreviate Mathlib's `Quiver.Path` with the quiver
+argument supplied explicitly, so networks and orientations share its API without competing
+instances or vertex-type synonyms; the residual network has the flow-independent arrow type
 `N.Hom v w ⊕ N.Hom w v`, and an augmenting path is a path in its positive-capacity part; flows on
 an extended network are finite `K`-valued and reach the finite theory by truncation rather than
 extended subtraction; integrality is stated for an additive subgroup of `K`; an orientation of a
@@ -50,38 +50,37 @@ structure Network (C : Type w) (V : Type u) [Zero C] [LE C] where
 
 variable {V : Type u}
 
-/-- Directed walks along an arrow family, indexed by the family as `SimpleGraph.Walk` is indexed
-by its graph. Networks and orientations take their walks, paths, reachability, and strong
-connectivity from here, so no `Quiver` instance and no type synonym is involved. -/
-inductive ArrowWalk (Hom : V → V → Type v) : V → V → Type (max u v)
-  | nil {v : V} : ArrowWalk Hom v v
-  | cons {u v w : V} (e : Hom u v) (p : ArrowWalk Hom v w) : ArrowWalk Hom u w
+/-- Mathlib's directed walks with the arrow family supplied explicitly, so several quivers on
+the same vertex type can coexist without installing competing instances. -/
+abbrev ArrowWalk (Hom : V → V → Type v) (s t : V) := @Quiver.Path V ⟨Hom⟩ s t
 
 namespace ArrowWalk
 
 variable {Hom : V → V → Type v}
 
-def length : ∀ {u w : V}, ArrowWalk Hom u w → ℕ
-  | _, _, .nil => 0
-  | _, _, .cons _ p => p.length + 1
+abbrev length {s t : V} (p : ArrowWalk Hom s t) : ℕ :=
+  @Quiver.Path.length V ⟨Hom⟩ s t p
 
-def support : ∀ {u w : V}, ArrowWalk Hom u w → List V
-  | u, _, .nil => [u]
-  | u, _, .cons _ p => u :: p.support
+abbrev vertices {s t : V} (p : ArrowWalk Hom s t) : List V :=
+  @Quiver.Path.vertices V ⟨Hom⟩ s t p
+
+abbrev comp {s t z : V} (p : ArrowWalk Hom s t) (q : ArrowWalk Hom t z) :
+    ArrowWalk Hom s z := @Quiver.Path.comp V ⟨Hom⟩ s t z p q
 
 /-- A directed path: a walk with no repeated vertices. -/
-def IsPath {u w : V} (p : ArrowWalk Hom u w) : Prop := p.support.Nodup
+def IsPath {u w : V} (p : ArrowWalk Hom u w) : Prop := (vertices p).Nodup
 
 /-- A directed cycle: positive length, no repeated vertices apart from the coinciding endpoints. -/
-def IsCycle {u : V} (c : ArrowWalk Hom u u) : Prop := 0 < c.length ∧ c.support.tail.Nodup
+def IsCycle {u : V} (c : ArrowWalk Hom u u) : Prop := 0 < length c ∧ (vertices c).tail.Nodup
 
 end ArrowWalk
 
 /-- Directed reachability along an arrow family. -/
 def ArrowReachable (Hom : V → V → Type v) (v w : V) : Prop := Nonempty (ArrowWalk Hom v w)
 
-/-- Strong connectivity of an arrow family. -/
-def IsStronglyConnected (Hom : V → V → Type v) : Prop := ∀ v w, ArrowReachable Hom v w
+/-- Mathlib's strong connectivity with the quiver argument supplied explicitly. -/
+abbrev IsStronglyConnected (Hom : V → V → Type v) : Prop :=
+  @Quiver.IsStronglyConnected V ⟨Hom⟩
 
 section AnyCapacity
 
@@ -299,11 +298,21 @@ theorem Network.exists_finiteFlow_cut_value_eq_of_exists_finite_cut (hst : s ≠
   sorry
 
 /-- If every terminal-separating cut has infinite capacity, finite feasible flow values are
-unbounded above. -/
-theorem Network.finiteFlow_values_unbounded_of_forall_cutCapacity_eq_top (hst : s ≠ t)
+cofinal in the coefficient type, including when that type is trivial. -/
+theorem Network.finiteFlow_values_cofinal_of_forall_cutCapacity_eq_top (hst : s ≠ t)
     (hinfinite : ∀ S : Finset V, s ∈ S → t ∉ S → E.cutCapacity S = ⊤) :
     ∀ b : K, ∃ f : E.FiniteFlow s t, b ≤ f.value := by
   sorry
+
+/-- Cofinality gives unbounded flow values when the coefficient group is nontrivial. -/
+theorem Network.finiteFlow_values_unbounded_of_forall_cutCapacity_eq_top [Nontrivial K]
+    (hst : s ≠ t)
+    (hinfinite : ∀ S : Finset V, s ∈ S → t ∉ S → E.cutCapacity S = ⊤) :
+    ∀ b : K, ∃ f : E.FiniteFlow s t, b < f.value := by
+  intro b
+  obtain ⟨c, hbc⟩ := exists_gt b
+  obtain ⟨f, hcf⟩ := E.finiteFlow_values_cofinal_of_forall_cutCapacity_eq_top hst hinfinite c
+  exact ⟨f, hbc.trans_le hcf⟩
 
 end Extended
 
@@ -576,12 +585,12 @@ end SimpleGraph
 namespace TauCetiRoadmap.FiniteGraphConnectivity
 
 /-- The deficiency formula in the indexed-family form of Mathlib's Hall theorem, in witness form:
-a choice `f` injective on a set `D` of indices with `f i ∈ t i`, and a set `S` of indices with
+an injective choice `f` on the subtype of indices in `D` with `f i ∈ t i`, and a set `S` with
 `|D| + |S| = |ι| + |⋃ i ∈ S, t i|`. The inequality for every `D`, `f`, and `S` is a separate
 target. Under Hall's condition the witness has `D = univ`, which is
 `Finset.all_card_le_biUnion_card_iff_exists_injective`. -/
 theorem konig_ore_family {ι α : Type*} [Fintype ι] [DecidableEq α] (t : ι → Finset α) :
-    ∃ (D : Finset ι) (f : ι → α) (S : Finset ι), Set.InjOn f D ∧ (∀ i ∈ D, f i ∈ t i) ∧
+    ∃ (D : Finset ι) (f : D → α) (S : Finset ι), Function.Injective f ∧ (∀ i : D, f i ∈ t i.val) ∧
       D.card + S.card = Fintype.card ι + (S.biUnion t).card := by
   sorry
 
@@ -617,7 +626,7 @@ theorem exists_minCut_subset {f : Finset V → K} (hf : IsSymmSubmodular f) {s t
   sorry
 
 /-- The ultrametric inequality: every `s–t` cut separates `s` from `v` or `v` from `t`. -/
-theorem min_minCut_le_minCut (f : Finset V → K) (s v t : V) :
+theorem min_minCut_le_minCut (f : Finset V → K) (s v t : V) (hst : s ≠ t) :
     min (minCut f s v) (minCut f v t) ≤ minCut f s t := by
   sorry
 
