@@ -208,10 +208,10 @@ table is a boundary check.
 The rest of that roadmap has no consumer here. The theta series on the upper half plane, the coset
 theta series, the `T`- and `S`-transformation laws, the Gauss sums and the two modularity theorems
 are its own; Hecke's method needs the Gaussian only on the imaginary axis, and this roadmap takes
-its Mellin transform there. Theta Series itself imports Integral Lattices for its rational-lattice
-bridge, and Integral Lattices imports neither roadmap, so the import chain
-L-functions → Theta Series → Integral Lattices is acyclic; this roadmap consumes nothing from
-Integral Lattices directly.
+its Mellin transform there. Theta Series itself imports no roadmap — its lattice inputs come from
+the Tau Ceti library — so the `ThetaSeries` arrow is a leaf of this roadmap's import graph and
+cannot close a cycle; this roadmap consumes nothing from Integral Lattices, directly or through
+Theta Series.
 
 ### Exports to Zeros of L-functions
 
@@ -739,9 +739,9 @@ ThetaSeries ───────────────┘
 
 Chebotarev also consumes the first two suppliers but is not a dependency of L-functions. The
 `ThetaSeries` arrow is used by Layer 1 alone, and it does not reverse: that roadmap states no
-number-field theta function and consumes nothing from here. Behind it, Theta Series imports
-Integral Lattices and Integral Lattices imports neither, so the chain
-`LFunctions → ThetaSeries → IntegralLattices` is acyclic.
+number-field theta function and consumes nothing from here. Behind it, Theta Series imports no
+roadmap (its lattices are the Tau Ceti library's), so `LFunctions → ThetaSeries` ends there and
+is acyclic.
 
 The boundary exports do not reverse an arrow. Arithmetic Dirichlet Series does not import this
 roadmap: it states its prime ideal theorem conditionally on a record it names, and this roadmap
