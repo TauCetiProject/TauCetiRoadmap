@@ -10,15 +10,16 @@ declaration here finishes neither a milestone nor the roadmap. `sorry` is allowe
 human-owned roadmap library: these are targets, not completed definitions or proofs.
 
 The pinned choices this file exhibits: finite capacities and flows use a linearly ordered additive
-commutative group `K`; a directed network is a *term* `N : Network C V` whose `Quiver` instance
-lives on the type synonym `N.Vert`, with arrow types in a universe independent of the vertex
-universe, and whose capacity type `C` is `K` for an ordinary network and `WithTop K` for an
-extended one, so that assignments, divergence, and cut capacity are defined once; the residual
-network has the flow-independent arrow type `N.Hom v w ⊕ N.Hom w v`, and an augmenting path is a
-path in its positive-capacity part; flows on an extended network are finite `K`-valued and reach
-the finite theory by truncation rather than extended subtraction; integrality is stated for an
-additive subgroup of `K`; an orientation of a simple graph is a choice of `Dart` per edge, with its
-quiver instance on the synonym `G.Oriented o`; ear decompositions are data, here terms of one
+commutative group `K`; a directed network is a *term* `N : Network C V` with arrow types in a
+universe independent of the vertex universe, and with capacity type `C` equal to `K` for an
+ordinary network and `WithTop K` for an extended one, so that assignments, divergence, and cut
+capacity are defined once; directed walks are an inductive type indexed by the arrow family, as
+`SimpleGraph.Walk` is indexed by its graph, shared by networks and orientations, with no `Quiver`
+instance and no type synonym; the residual network has the flow-independent arrow type
+`N.Hom v w ⊕ N.Hom w v`, and an augmenting path is a path in its positive-capacity part; flows on
+an extended network are finite `K`-valued and reach the finite theory by truncation rather than
+extended subtraction; integrality is stated for an additive subgroup of `K`; an orientation of a
+simple graph is a choice of `Dart` per edge; ear decompositions are data, here terms of one
 inductive type family indexed by the subgraph built so far, while the roadmap pins their observable
 prefix API rather than this representation; connectivity predicates are primary, following
 Mathlib's `IsEdgeConnected` and the shape of Mathlib proposal #33355 for vertex connectivity, with
@@ -41,7 +42,7 @@ namespace TauCetiRoadmap.FiniteGraphConnectivity
 /-- A directed network with capacities in `C`: an arrow type for every ordered pair of vertices, a
 capacity for every arrow, and its nonnegativity. `C` is the coefficient type `K` for an ordinary
 network and `WithTop K` for an extended one. Parallel arrows, antiparallel arrows, loops, and zero
-capacities are allowed. Networks are terms; the quiver instance lives on `Network.Vert`. -/
+capacities are allowed. Networks are terms. -/
 structure Network (C : Type w) (V : Type u) [Zero C] [LE C] where
   Hom : V → V → Type v
   cap : ∀ {v w : V}, Hom v w → C
@@ -49,21 +50,49 @@ structure Network (C : Type w) (V : Type u) [Zero C] [LE C] where
 
 variable {V : Type u}
 
+/-- Directed walks along an arrow family, indexed by the family as `SimpleGraph.Walk` is indexed
+by its graph. Networks and orientations take their walks, paths, reachability, and strong
+connectivity from here, so no `Quiver` instance and no type synonym is involved. -/
+inductive ArrowWalk (Hom : V → V → Type v) : V → V → Type (max u v)
+  | nil {v : V} : ArrowWalk Hom v v
+  | cons {u v w : V} (e : Hom u v) (p : ArrowWalk Hom v w) : ArrowWalk Hom u w
+
+namespace ArrowWalk
+
+variable {Hom : V → V → Type v}
+
+def length : ∀ {u w : V}, ArrowWalk Hom u w → ℕ
+  | _, _, .nil => 0
+  | _, _, .cons _ p => p.length + 1
+
+def support : ∀ {u w : V}, ArrowWalk Hom u w → List V
+  | u, _, .nil => [u]
+  | u, _, .cons _ p => u :: p.support
+
+/-- A directed path: a walk with no repeated vertices. -/
+def IsPath {u w : V} (p : ArrowWalk Hom u w) : Prop := p.support.Nodup
+
+/-- A directed cycle: positive length, no repeated vertices apart from the coinciding endpoints. -/
+def IsCycle {u : V} (c : ArrowWalk Hom u u) : Prop := 0 < c.length ∧ c.support.tail.Nodup
+
+end ArrowWalk
+
+/-- Directed reachability along an arrow family. -/
+def ArrowReachable (Hom : V → V → Type v) (v w : V) : Prop := Nonempty (ArrowWalk Hom v w)
+
+/-- Strong connectivity of an arrow family. -/
+def IsStronglyConnected (Hom : V → V → Type v) : Prop := ∀ v w, ArrowReachable Hom v w
+
 section AnyCapacity
 
 variable {C : Type w} [AddCommMonoid C] [PartialOrder C]
 
-/-- Type synonym carrying the quiver instance of a network, as `Quiver.Symmetrify` does. -/
-def Network.Vert (_N : Network C V) : Type u := V
+abbrev Network.Walk (N : Network C V) (v w : V) := ArrowWalk N.Hom v w
 
-instance (N : Network C V) : Quiver N.Vert := ⟨N.Hom⟩
+abbrev Network.Reachable (N : Network C V) (v w : V) : Prop := ArrowReachable N.Hom v w
 
-/-- View a vertex as a vertex of the network's quiver. -/
-def Network.toVert (_N : Network C V) (v : V) : _N.Vert := v
-
-/-- Directed reachability in a network, through Mathlib's `Quiver.Path`. -/
-def Network.Reachable (N : Network C V) (v w : V) : Prop :=
-  Nonempty (Quiver.Path (N.toVert v) (N.toVert w))
+abbrev Network.IsStronglyConnected (N : Network C V) : Prop :=
+  TauCetiRoadmap.FiniteGraphConnectivity.IsStronglyConnected N.Hom
 
 /-- The subnetwork of arrows with positive capacity. -/
 def Network.positivePart (N : Network C V) : Network C V where
@@ -515,15 +544,17 @@ structure Orientation where
   dart : G.edgeSet → G.Dart
   edge_dart : ∀ e, (dart e).edge = (e : Sym2 V)
 
-/-- Type synonym carrying the quiver instance of an oriented graph. -/
-def Oriented (_o : G.Orientation) : Type u := V
+/-- The arrows of an orientation: the edges whose chosen dart runs from `v` to `w`. -/
+def Orientation.Hom (o : G.Orientation) (v w : V) : Type u :=
+  {e : G.edgeSet // (o.dart e).fst = v ∧ (o.dart e).snd = w}
 
-instance (o : G.Orientation) : Quiver (G.Oriented o) :=
-  ⟨fun v w => {e : G.edgeSet // (o.dart e).fst = v ∧ (o.dart e).snd = w}⟩
+/-- Strong connectivity of the oriented graph, through the shared directed walks. -/
+def Orientation.IsStronglyConnected (o : G.Orientation) : Prop :=
+  TauCetiRoadmap.FiniteGraphConnectivity.IsStronglyConnected o.Hom
 
 /-- Robbins' theorem, with no connectedness or size hypothesis. -/
 theorem exists_orientation_isStronglyConnected_iff [Finite V] :
-    (∃ o : G.Orientation, Quiver.IsStronglyConnected (G.Oriented o)) ↔ G.IsEdgeConnected 2 := by
+    (∃ o : G.Orientation, o.IsStronglyConnected) ↔ G.IsEdgeConnected 2 := by
   sorry
 
 /-- Kőnig's theorem, with witnesses. -/

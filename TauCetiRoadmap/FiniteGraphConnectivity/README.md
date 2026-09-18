@@ -9,9 +9,9 @@ The structural development runs through blocks, connectivity consequences, and e
 The quantitative development runs through flows, minimum cuts, and disjoint paths, then supports bipartite matching, bounded circulations, and cut trees.
 All graphs and networks in the theorem targets are finite.
 
-**Suggested homes:** `TauCeti/Combinatorics/SimpleGraph/Connectivity/` for undirected connectivity, `TauCeti/Combinatorics/Quiver/Flow/` for directed networks, and adjacent modules for the representation bridges.
+**Suggested homes:** `TauCeti/Combinatorics/SimpleGraph/Connectivity/` for undirected connectivity, `TauCeti/Combinatorics/Network/` for directed networks and flows, and adjacent modules for the representation bridges.
 
-[`Suggested.lean`](Suggested.lean) prototypes the pinned structures (networks, flows, the residual network, orientations, the connectivity predicates, weighted trees), one possible representation of ear decompositions, and a few milestone statements.
+[`Suggested.lean`](Suggested.lean) prototypes the pinned structures (networks, directed walks, flows, the residual network, orientations, the connectivity predicates, weighted trees), one possible representation of ear decompositions, and a few milestone statements.
 It is read as suggested forms, never as an exhaustive checklist; this document is the specification.
 
 ## Milestones at a glance
@@ -35,7 +35,7 @@ The targets below specify the additional API particular to each object.
 ## Existing vocabulary and related work
 
 Use Mathlib's `SimpleGraph` APIs for walks and paths, reachability, connected components, subgraphs, induced subgraphs, edge deletion, cycles, trees, degree, bipartite graphs, and matchings.
-In particular, reuse [`SimpleGraph.IsEdgeConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/EdgeConnectivity.html#SimpleGraph.IsEdgeConnected), [`SimpleGraph.IsBridge`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.html#SimpleGraph.IsBridge) with its cycle characterization `isBridge_iff_forall_cycle_notMem`, [`SimpleGraph.minDegree`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Finite.html#SimpleGraph.minDegree), and [`Quiver.IsStronglyConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/ConnectedComponent.html#Quiver.IsStronglyConnected).
+In particular, reuse [`SimpleGraph.IsEdgeConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/EdgeConnectivity.html#SimpleGraph.IsEdgeConnected), [`SimpleGraph.IsBridge`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.html#SimpleGraph.IsBridge) with its cycle characterization `isBridge_iff_forall_cycle_notMem`, and [`SimpleGraph.minDegree`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Finite.html#SimpleGraph.minDegree).
 Mathlib also supplies the [`Graph`–`SimpleGraph` conversions](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Graph/Simple.html), [graph versions of Hall's theorem](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Hall.html), and the [finite-family Hall theorem](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Hall/Finite.html).
 
 The following Mathlib proposals guide the corresponding interfaces:
@@ -71,8 +71,9 @@ It must not assume a unit, multiplication, division, an Archimedean property, to
 A network `N : Network C V` is a structure carrying an arrow type `N.Hom v w : Type v` for every ordered pair of vertices, in a universe independent of the vertex universe as for `Quiver.{v}`, a capacity in `C` for every arrow, and a proof that every capacity is nonnegative; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
 The capacity type `C` is `K` for an ordinary network and `WithTop K` for an extended one.
 Arrow assignments, divergence, and cut capacity are defined once, for every capacity type, with the value type of an assignment independent of the capacity type.
-Mathlib's quiver API (`Quiver.Path`, `Quiver.IsStronglyConnected`, strongly connected components) is reached through a type synonym `N.Vert := V` carrying the `Quiver` instance `⟨N.Hom⟩`, the pattern Mathlib itself uses for `Quiver.Symmetrify`.
-Quivers are typeclasses on the vertex type, so a network, its residual network, and each orientation of a graph would otherwise compete for one instance on `V`; as terms they coexist and can be quantified over.
+Directed walks are an inductive type indexed by the arrow family, as `SimpleGraph.Walk` is indexed by its graph, with support, path and cycle predicates, reachability, and strong connectivity defined on it; networks and orientations share this one type.
+Mathlib's `Quiver` is not used: it is a typeclass on the vertex type, so a network, its residual network, and each orientation of a graph would compete for one instance on `V`, and a type synonym per network would put a cast at every step.
+As terms, networks coexist and can be quantified over.
 The total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
 Parallel arrows, arrows in opposite directions, loops, and zero capacities are allowed.
 Flow assignments take values in `K` and carry proofs of nonnegativity and capacity boundedness.
@@ -100,7 +101,7 @@ Together these results are the extended max-flow/min-cut statement: finite cuts 
 For `K = ℝ`, also state the dichotomy as an equality in `WithTop ℝ` between `sSup` of the set of finite flow values, which is `⊤` exactly when that set is unbounded, and the minimum extended cut capacity.
 
 **An orientation** `o : G.Orientation` of a simple graph chooses one dart (`SimpleGraph.Dart`) for every edge, with no additional arrows.
-The oriented graph is the type synonym `G.Oriented o := V` with the quiver instance whose arrows from `v` to `w` are the edges whose chosen dart runs from `v` to `w`, so strong connectivity is literally `Quiver.IsStronglyConnected (G.Oriented o)`.
+Its arrows from `v` to `w` are the edges whose chosen dart runs from `v` to `w`, and its strong connectivity is that of this arrow family under the shared directed walks.
 The separate bidirected construction replaces each undirected edge by two oppositely directed arrows of the same coefficient and capacity, giving a network in the sense above.
 Milestone 1 supplies the transport lemmas for both constructions.
 
@@ -110,10 +111,10 @@ Milestone 1 supplies the transport lemmas for both constructions.
 ### Paths, separators, and connectivity
 
 Undirected paths use Mathlib's simple-path predicate on walks.
-Directed paths use quiver paths with an explicit no-repeated-vertices condition; quiver paths alone can repeat vertices.
+Directed paths are directed walks with no repeated vertices.
 Directed cycles have positive length and no repeated vertices apart from the coinciding endpoints.
 Path families are finite and contain distinct paths.
-Edge-disjointness concerns unordered edges in an undirected graph and actual arrow identities in a quiver.
+Edge-disjointness concerns unordered edges in an undirected graph and actual arrow identities in a network.
 Internally vertex-disjoint paths between distinct terminals may share only those terminals.
 In particular, a family cannot count the same single-edge path repeatedly merely because it has no internal vertices.
 
@@ -300,15 +301,15 @@ Prove three characterizations:
 1. A finite simple graph with at least three vertices is 2-vertex-connected if and only if it has an open ear decomposition.
 2. A finite nonempty simple graph is 2-edge-connected (`IsEdgeConnected 2`) if and only if it can be built from one vertex by adding open or closed ears.
    Prove first that `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the form Mathlib's edge-connectivity file names as its intended statement; note that `IsBridge` on a non-edge means its endpoints are unreachable, so the right-hand side already includes connectedness.
-3. A network `N` with nonempty finite vertex type is strongly connected (`Quiver.IsStronglyConnected N.Vert`) if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
+3. A network `N` with nonempty finite vertex type is strongly connected (`N.IsStronglyConnected`) if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
 
-In the directed version, ears are directed paths and cycles in `N.Vert` in the sense of the conventions, they retain arrow identities, and the one directed decomposition type exposes the same prefix API using subnetworks.
+In the directed version, ears are directed paths and cycles of `N` in the sense of the conventions, they retain arrow identities, and the one directed decomposition type exposes the same prefix API using subnetworks.
 Loops are permitted as one-arrow closed ears.
-The initial-vertex convention includes the isolated singleton with no ears; relate it to the cycle-starting formulation for strongly connected quivers with at least two vertices.
+The initial-vertex convention includes the isolated singleton with no ears; relate it to the cycle-starting formulation for strongly connected networks with at least two vertices.
 
-Prove **Robbins' theorem** in the form `(∃ o : G.Orientation, Quiver.IsStronglyConnected (G.Oriented o)) ↔ G.IsEdgeConnected 2`.
+Prove **Robbins' theorem** in the form `(∃ o : G.Orientation, o.IsStronglyConnected) ↔ G.IsEdgeConnected 2`.
 This needs no connectedness or size hypothesis: both sides hold on a subsingleton, and for a connected graph it is the classical statement that a strongly connected orientation exists exactly when there is no bridge, which should be derived as a corollary.
-Construct the orientation from the ear decomposition, directing each ear as a directed path or cycle, and prove strong connectivity of `G.Oriented o` through the directed ear characterization.
+Construct the orientation from the ear decomposition, directing each ear as a directed path or cycle, and prove its strong connectivity through the directed ear characterization.
 Include the componentwise result that a graph admits an orientation strongly connected on each connected component exactly when `∀ e ∈ G.edgeSet, ¬ G.IsBridge e`.
 The restriction to edges matters: `IsBridge` also holds for a pair of vertices in different components, so the unrestricted form would fail for two isolated vertices, whereas in the global characterization above it is exactly what supplies connectedness.
 
