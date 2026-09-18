@@ -573,50 +573,74 @@ theorem konig_ore [Finite V] {L R : Set V} (h : G.IsBipartiteWith L R) :
 
 end SimpleGraph
 
-/-! ## Cut trees (Milestones 4, 5, 9) -/
+/-! ## Cut functions and cut trees (Milestones 4, 5, 9) -/
 
 namespace TauCetiRoadmap.FiniteGraphConnectivity
 
 variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
-variable {V : Type u} (G : SimpleGraph V) [Fintype V] [DecidableEq V] [DecidableRel G.Adj]
+variable {V : Type u} [Fintype V] [DecidableEq V]
 
-/-- Capacity of the undirected cut `(S, Sᶜ)`: each crossing edge counted once. -/
-noncomputable def cutCapacity (c : Sym2 V → K) (S : Finset V) : K :=
-  ∑ e ∈ G.edgeFinset with (∃ x ∈ e, x ∈ S) ∧ (∃ y ∈ e, y ∉ S), c e
+/-- A symmetric submodular function on vertex sets: the setting of the minimum-cut lattice, the
+non-crossing lemmas, and the cut tree. Undirected cut capacity is the instance the roadmap's
+consumers use. -/
+structure IsSymmSubmodular (f : Finset V → K) : Prop where
+  symm : ∀ S, f Sᶜ = f S
+  submodular : ∀ S T, f (S ∪ T) + f (S ∩ T) ≤ f S + f T
 
-/-- The minimum `s–t` cut capacity: the minimum of a nonempty finite family when `s ≠ t`, and
-zero when `s = t`. No order completeness is required. -/
-noncomputable def minCutCapacity (c : Sym2 V → K) (s t : V) : K :=
+/-- The minimum of `f` over sets containing `s` and not `t`: the minimum of a nonempty finite
+family when `s ≠ t`, and zero when `s = t`. No order completeness is required. -/
+noncomputable def minCut (f : Finset V → K) (s t : V) : K :=
   if h : s ≠ t then
-    (univ.filter fun S : Finset V => s ∈ S ∧ t ∉ S).inf'
-      ⟨{s}, by simp [Finset.mem_filter, h.symm]⟩ (cutCapacity G c)
+    (univ.filter fun S : Finset V => s ∈ S ∧ t ∉ S).inf' ⟨{s}, by simp [Finset.mem_filter, h.symm]⟩ f
   else 0
+
+/-- The non-crossing lemma: if `S` is a minimum `s–t` cut for a symmetric submodular `f` and
+`u, v ∈ S` are distinct, some minimum `u–v` cut has a side contained in `S`. -/
+theorem exists_minCut_subset {f : Finset V → K} (hf : IsSymmSubmodular f) {s t u v : V}
+    (huv : u ≠ v) {S : Finset V} (hs : s ∈ S) (ht : t ∉ S) (hS : f S = minCut f s t)
+    (hu : u ∈ S) (hv : v ∈ S) :
+    ∃ T ⊆ S, ((u ∈ T ∧ v ∉ T) ∨ (v ∈ T ∧ u ∉ T)) ∧ f T = minCut f u v := by
+  sorry
+
+/-- The ultrametric inequality: every `s–t` cut separates `s` from `v` or `v` from `t`. -/
+theorem min_minCut_le_minCut (f : Finset V → K) (s v t : V) :
+    min (minCut f s v) (minCut f v t) ≤ minCut f s t := by
+  sorry
+
+/-- Capacity of the undirected cut `(S, Sᶜ)` of a weighted graph `c`: each crossing pair counted
+once. Loops never cross, and pairs of capacity zero are the non-edges. -/
+noncomputable def cutCapacity (c : Sym2 V → K) (S : Finset V) : K :=
+  ∑ e ∈ univ.filter (fun e : Sym2 V => (∃ x ∈ e, x ∈ S) ∧ (∃ y ∈ e, y ∉ S)), c e
+
+theorem isSymmSubmodular_cutCapacity (c : Sym2 V → K) (hc : ∀ e, 0 ≤ c e) :
+    IsSymmSubmodular (cutCapacity c) := by
+  sorry
 
 /-- Local edge reachability is the unit-capacity minimum cut: `s` and `t` stay reachable after
 deleting fewer than `k` edges exactly when every `s–t` cut has at least `k` edges. -/
-theorem isEdgeReachable_iff_le_minCutCapacity {s t : V} (hst : s ≠ t) (k : ℕ) :
-    G.IsEdgeReachable k s t ↔ (k : ℤ) ≤ minCutCapacity G (fun _ => (1 : ℤ)) s t := by
+theorem isEdgeReachable_iff_le_minCut (G : SimpleGraph V) [DecidableRel G.Adj] {s t : V}
+    (hst : s ≠ t) (k : ℕ) :
+    G.IsEdgeReachable k s t ↔
+      (k : ℤ) ≤ minCut (cutCapacity fun e => if e ∈ G.edgeFinset then (1 : ℤ) else 0) s t := by
   sorry
 
 /-- A weighted tree on the vertex type. -/
-structure WeightedTree (K : Type w) (V : Type u) [Zero K] [LE K] where
+structure WeightedTree (K : Type w) (V : Type u) where
   tree : SimpleGraph V
   isTree : tree.IsTree
   weight : Sym2 V → K
-  weight_nonneg : ∀ e, 0 ≤ weight e
 
 open Classical in
-/-- Gomory–Hu: minimum cut values are read off tree paths, and every tree edge's fundamental
-partition is a minimum cut for its endpoints. -/
-theorem exists_gomoryHu_tree [Nonempty V] (c : Sym2 V → K) (hc : ∀ e, 0 ≤ c e) :
+/-- Gomory–Hu for a symmetric submodular function: minimum cut values are read off tree paths,
+and every tree edge's fundamental partition is a minimum cut for its endpoints. Weighted graphs
+are the instance `f = cutCapacity c`. -/
+theorem exists_gomoryHu_tree [Nonempty V] (f : Finset V → K) (hf : IsSymmSubmodular f) :
     ∃ T : WeightedTree K V,
       (∀ s t, s ≠ t → ∀ p : T.tree.Walk s t, p.IsPath →
-        (∀ e ∈ p.edges, minCutCapacity G c s t ≤ T.weight e) ∧
-          ∃ e ∈ p.edges, T.weight e = minCutCapacity G c s t) ∧
+        (∀ e ∈ p.edges, minCut f s t ≤ T.weight e) ∧ ∃ e ∈ p.edges, T.weight e = minCut f s t) ∧
       ∀ u v, T.tree.Adj u v →
-        T.weight s(u, v) = minCutCapacity G c u v ∧
-          cutCapacity G c (univ.filter fun x => (T.tree.deleteEdges {s(u, v)}).Reachable u x) =
-            minCutCapacity G c u v := by
+        T.weight s(u, v) = minCut f u v ∧
+          f (univ.filter fun x => (T.tree.deleteEdges {s(u, v)}).Reachable u x) = minCut f u v := by
   sorry
 
 end TauCetiRoadmap.FiniteGraphConnectivity

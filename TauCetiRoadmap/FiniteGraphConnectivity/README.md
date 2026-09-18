@@ -63,7 +63,7 @@ The mathematical targets here do not require importing that implementation.
 **Undirected graphs** use `SimpleGraph V`, with `[Fintype V]` for finite sums and cardinalities.
 Statements carry `[DecidableEq V]` and `[DecidableRel G.Adj]` exactly where the Mathlib definitions they mention require them, as `edgeFinset` and `minDegree` do; proofs may reason classically.
 Edges are unordered pairs represented by `Sym2 V` and restricted to the graph's edge set.
-Weighted undirected networks use the same coefficient type as directed networks, assign a nonnegative capacity to each edge, and count each crossing edge once in a cut.
+A weighted undirected network is a nonnegative capacity function on `Sym2 V` over the same coefficient type as directed networks; its graph is the support of the capacity, so no separate graph is carried, and a cut counts each crossing pair once.
 
 **Directed networks** are terms, not typeclass instances.
 The finite-capacity theory is parameterized by a linearly ordered additive commutative group `K`, expressed by `[AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]`.
@@ -217,25 +217,29 @@ State weak duality between finite flow values and extended cut capacities withou
 
 ## 4. The structure of minimum cuts
 
-Prove submodularity of directed outgoing cut capacity and of undirected cut capacity.
-For fixed distinct terminals, prove that minimum-cut source sides are closed under union and intersection.
-Develop this family as a finite lattice under inclusion, with unique smallest and largest source sides.
+State this milestone for set functions, with the cut capacities as instances.
+A function `f : Finset V → K` is **submodular** when `f (S ∪ T) + f (S ∩ T) ≤ f S + f T` for all `S, T`, and **symmetric** when `f Sᶜ = f S` for all `S`.
+A minimum `s–t` cut for `f` is a minimizer of `f` over the sets containing `s` and not `t`; under symmetry the choice of side is immaterial.
+Prove that directed outgoing cut capacity is submodular and that undirected cut capacity is symmetric and submodular.
 
-For any maximum flow, characterize the smallest source side as the vertices reachable from the source along arrows of positive residual capacity.
+For a submodular `f` and fixed distinct terminals, prove that the minimum `s–t` cuts are closed under union and intersection.
+Develop this family as a finite lattice under inclusion, with unique smallest and largest members.
+
+For a network and any maximum flow, characterize the smallest source side as the vertices reachable from the source along arrows of positive residual capacity.
 Characterize the largest as the complement of the vertices from which the sink is reachable along such arrows.
 Deduce that these two sets are independent of the chosen maximum flow.
 
-Prove the undirected **non-crossing lemma** as a separate target: if `S` is one side of a minimum `s–t` cut and distinct vertices `u, v` both lie in `S`, there exists a minimum `u–v` cut with one side contained in `S`.
-Include the cut identities and uncrossing inequalities needed to choose such a cut without changing its capacity.
-The proof uses only submodularity and the symmetry of the undirected cut function (its posimodularity); it needs no flows, and it fails for directed cut capacities, so do not attempt a directed version.
+Prove the **non-crossing lemma** for a symmetric submodular `f` as a separate target: if `S` is a minimum `s–t` cut and distinct vertices `u, v` both lie in `S`, there exists a minimum `u–v` cut with one side contained in `S`.
+Include the identities and uncrossing inequalities needed to choose such a cut without changing its value.
+The proof uses only submodularity and symmetry (posimodularity); it needs no flows, and it fails without symmetry, for directed cut capacity in particular, so do not attempt a directed version.
 
 Extend it to families with two further targets.
 **Uncrossing preserves laminarity:** if a vertex set `Z` crosses `X` (all four of `Z ∩ X`, `Z ∖ X`, `X ∖ Z`, and the complement of `Z ∪ X` are nonempty), then `Z ∩ X` and `Z ∪ X` are each nested with or disjoint from every set that is nested with or disjoint from both `Z` and `X`.
 Two cuts, as bipartitions, **cross** when all four intersections of a side of one with a side of the other are nonempty; a family of pairwise non-crossing cuts is not the same as a laminar family of sets, since two sides can be neither nested nor disjoint while covering the vertex set.
 **Root convention:** fix a root vertex and represent every cut by its side not containing the root; prove that a pairwise non-crossing family of cuts then becomes a laminar family of sets (pairwise nested or disjoint), because two root-excluding sides cannot cover the vertex set.
-**Multi-cut non-crossing lemma:** for a pairwise non-crossing family of cuts, each a minimum cut for a designated pair of vertices, and distinct vertices `s, t` separated by none of them, there is a minimum `s–t` cut crossing none of them.
+**Multi-cut non-crossing lemma:** for a pairwise non-crossing family of cuts, each a minimum cut of `f` for a designated pair of vertices, and distinct vertices `s, t` separated by none of them, there is a minimum `s–t` cut crossing none of them.
 Applying the single-cut lemma to one crossed member at a time is not enough on its own, since uncrossing against one cut can create a crossing with another; the laminarity lemma shows the number of crossed members strictly decreases, which is what makes the induction go through.
-Prove also the **ultrametric inequality** for minimum cut capacities, `λ(s,t) ≥ min (λ(s,v), λ(v,t))`, since every `s–t` cut separates `s` from `v` or `v` from `t`.
+Prove also the **ultrametric inequality** for the minimum cut values of any `f`, `λ(s,t) ≥ min (λ(s,v), λ(v,t))`, since every `s–t` cut separates `s` from `v` or `v` from `t`.
 These are the interface used by the cut-tree milestone.
 Submodularity, the lattice, and the non-crossing lemmas rest on Milestone 1 alone; Milestone 3 enters this milestone only for the residual characterization of the canonical cuts.
 
@@ -259,7 +263,7 @@ In the undirected edge reduction, cancel flow in opposite directions before extr
 The reductions must recover actual path families and separators, not just equalities of numerical optima.
 
 Derive the predicate forms: local edge reachability at threshold `k` is equivalent to the existence of `k` edge-disjoint paths; local vertex reachability has the analogous equivalence under the nonadjacency hypothesis.
-Relate local edge reachability to cuts as well: for distinct `s, t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut capacity of Milestone 4 with every edge of capacity `1` over `ℤ`, so that the cut tree of Milestone 9 at unit capacities answers local edge reachability for every pair.
+Relate local edge reachability to cuts as well: for distinct `s, t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut value of Milestone 4 for the capacity that is `1` on the edges of `G` and `0` elsewhere, over `ℤ`, so that the cut tree of Milestone 9 at unit capacities answers local edge reachability for every pair.
 For finite simple graphs with more than `k` vertices, derive the global characterization of `k`-vertex-connectivity by `k` internally vertex-disjoint paths between every pair of distinct vertices, including adjacent pairs.
 
 ## 6. Connectivity and bipartite matching consequences
@@ -343,13 +347,13 @@ Include the bridge turning an ordinary flow of prescribed nonnegative value into
 
 ## 9. Gomory–Hu cut trees
 
-For every permitted coefficient type and every nonempty finite simple graph with nonnegative edge capacities in that type, prove the existence of a weighted tree on the same vertex type such that:
+For every permitted coefficient type, every nonempty finite vertex type, and every symmetric submodular `f : Finset V → K`, prove the existence of a weighted tree on the same vertex type such that:
 
-1. For any distinct vertices `s, t`, their minimum cut capacity in the original graph is the minimum edge weight along their unique tree path.
-2. For every tree edge `{u,v}`, deleting that edge gives a partition that is a minimum `u–v` cut in the original graph, with capacity equal to the tree-edge weight.
+1. For any distinct vertices `s, t`, their minimum cut value for `f` is the minimum edge weight along their unique tree path.
+2. For every tree edge `{u,v}`, deleting that edge gives a partition that is a minimum `u–v` cut for `f`, with value equal to the tree-edge weight.
 
 Prove the resulting query theorem: any minimum-weight edge on the tree path from `s` to `t` yields an actual minimum `s–t` cut by deleting that edge.
-The tree need not be a subgraph of the original graph.
+State the instance for a weighted undirected network as a corollary, since it is what the roadmap's consumers use; the tree need not be a subgraph of the network's graph.
 Disconnected graphs and zero capacities are included, with zero-weight tree edges; a singleton has the one-vertex tree.
 
 Develop the weighted-tree API needed for these statements: unique paths, fundamental partitions, minimum weights on nonempty paths, and transport under vertex equivalences.
@@ -359,7 +363,7 @@ While some supernode contains two vertices `s, t`, take a minimum `s–t` cut cr
 The useful invariant is that the family stays pairwise non-crossing and that every tree edge is one of the chosen cuts and a minimum cut for some pair of vertices taken from the two supernodes it joins.
 Preserving the second half needs a witness repair when the split moves the witness vertex away from the part a subtree is attached to; Korte and Vygen's proof shows that the cut is then also minimum for a pair using `s` or `t`, by the ultrametric inequality.
 When every supernode is a singleton, property 2 is this invariant, and property 1 follows from property 2 and the ultrametric inequality.
-This route uses finiteness to choose a minimum cut at each step, together with the submodularity and non-crossing results of Milestone 4; it uses neither flows nor graph contraction.
+This route uses finiteness to choose a minimum cut at each step, together with the symmetry, submodularity, and non-crossing results of Milestone 4; it uses neither flows nor graph contraction, which is why it applies to every symmetric submodular function.
 An implementation following it should state the invariant as a named lemma.
 Gusfield's paper gives the same route as an algorithm on the original graph, with the rewiring written out explicitly.
 
