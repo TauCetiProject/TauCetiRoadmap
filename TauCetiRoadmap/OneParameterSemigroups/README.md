@@ -126,7 +126,7 @@ of growth `(M, ω)`.
 densely-defined **dissipative** operator with a **range condition** (`∃ λ₀ > 0` with `λ₀ − A`
 surjective) generates a **contraction** semigroup.
 
-⚠ **Both are genuinely open / build-here**, via the same **Yosida approximation**:
+⚠ **Both were open / build-here, now built**, via the same **Yosida approximation**:
 `Aλ = λ² R(λ,A) − λI` (bounded, by the resolvent API), each generating a uniformly continuous
 contraction semigroup `e^{tAλ}`. `S` does not exist yet, so do not phrase this as convergence
 "to `S(t)x`": prove the `e^{tAλ}x` are **Cauchy uniformly on compact `t`-intervals**, *define*
@@ -228,9 +228,10 @@ corollary.
 
 ⚠ Mathlib's "Bochner" is the *integral*, and its
 positive-definiteness is only for *matrices* / quadratic forms — there is no
-continuous-positive-definite-*function* notion, and no Bochner representation. So this is
-build-here. Two routes: (i) the positive linear functional `f ↦ ∫ f̂ · φ` + Riesz–Markov, or
-(ii) `charFun` + Lévy/Prokhorov tightness. **Stretch:** an LCA group via Pontryagin duality.
+continuous-positive-definite-*function* notion, and no Bochner representation. So this was
+build-here, **now built** by route (ii), `charFun` + Lévy/Prokhorov tightness; route (i), the
+positive linear functional `f ↦ ∫ f̂ · φ` + Riesz–Markov, was the alternative not taken.
+**Stretch:** an LCA group via Pontryagin duality, not begun.
 
 **Milestone 2 — BCR semigroup–Bochner (Berg–Christensen–Ressel 4.1.13).** A bounded
 continuous positive-definite function on the involutive semigroup `[0,∞) × V` is the
@@ -262,10 +263,11 @@ positive-definite, with the expected Gaussian representing measure.
 
 Part A (semigroups) and Part B (completely monotone) are independent and can proceed in
 parallel; the Hille–Yosida resolvent API and the Bernstein representation are good early
-targets. Part A's **generation theorem** (Yosida approximation) is build-here and can follow
-the resolvent API. Part C builds on B for the `V = 0` consistency check; its **Bochner
-theorem on `V`** (Milestone 1) is build-here and **gates** the BCR existence half, while BCR
-uniqueness is independent and portable early.
+targets. Part A's **generation theorem** (Yosida approximation) was build-here, following the
+resolvent API, and is **now built** — both Hille–Yosida and Lumer–Phillips. Part C builds on B
+for the `V = 0` consistency check; its **Bochner theorem on `V`** (Milestone 1) was build-here
+and gated the BCR existence half, and is **now built**, as is BCR uniqueness, which was
+independent and portable early. What remains of Part C is the BCR existence half.
 
 ## References
 
