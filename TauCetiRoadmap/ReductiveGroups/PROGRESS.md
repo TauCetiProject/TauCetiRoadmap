@@ -204,3 +204,94 @@ Kostant form, and root subgroups of `GLₙ` and `SLₙ` satisfying the type-A co
 The [general linear group](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Reductive.html#TauCeti.GeneralLinear.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra) and the [special linear group](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/SpecialLinear/Reductive.html#TauCeti.SpecialLinear.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra) are now reductive over every field. More generally, [a smooth geometrically connected affine group is reductive when its geometric fibre is linearly reductive](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Reductive/LinearlyReductive.html#TauCeti.reductiveCommHopfAlgProperty.of_smooth_of_geometricallyConnected_of_baseChange_linearlyReductive); the complementary example shows that [the additive group is not linearly reductive](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/AdditiveGroup/LinearlyReductive.html#TauCeti.AdditiveGroup.not_isLinearlyReductive). [The solvable radical](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Solvable/Radical/Construction.html#TauCeti.FiniteTypeCommHopfAlgCat.solvableRadicalDefiningIdeal) was also constructed as the greatest connected normal smooth solvable closed subgroup, giving the expected [characterization of semisimplicity by trivial geometric solvable radical](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Solvable/Radical/Semisimple.html#TauCeti.semisimpleCommHopfAlgProperty_iff_solvableRadicalDefiningIdeal_baseChange_eq_augmentation).
 
 Structure theory opened along two concrete routes. A cocharacter now determines dynamic parabolic, Levi and unipotent subgroup functors, with a [functorial Levi decomposition](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Dynamic/LeviDecomposition/Naturality.html#TauCeti.Cocharacter.leviDecompositionNatIso) as a semidirect product; this is a statement about functors of points, not general representability. For `GLₙ`, the diagonal torus now carries [its coordinate root datum](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Root/Datum.html#TauCeti.GeneralLinear.diagonalRootDatum), the consecutive roots give [Cartan type A](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Root/Base.html#TauCeti.GeneralLinear.hasCartanType_diagonalRootDatum), and [the normalizer quotient is its Weyl group](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Root/WeylGroup.html#TauCeti.GeneralLinear.diagonalNormalizerQuotientMulEquivWeylGroup). These remain `GLₙ` results rather than a general root-datum theory.
+
+<!--tauceti-progress:v1 {"from_sha":"5df77c1b0728dd89e420d510ad080a1ec1ce0de0","prs":[4686,4847,5031,5182,5187,5190,5196,5199,5203,5208,5214,5221,5222,5242,5249,5252,5255,5256,5260,5263,5267,5269,5270,5271,5272,5278,5286,5301,5309,5316,5320,5322,5325,5329,5331,5337,5351,5353,5362,5389,5406,5427,5441,5443,5452,5455,5456,5463,5465,5468,5475,5479,5482,5493,5521,5523,5525,5549,5552],"roadmap":"ReductiveGroups","to_sha":"6777fc49b6a67b3b0849e5d18bc0395b6f1450c3"}-->
+## ReductiveGroups: 2026-08-30 to 2026-09-04 (`5df77c1` to `6777fc4`)
+
+The pinned rational Lie algebra attached to every valid Dynkin type now has a [nondegenerate Killing form](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/LieAlgebra/Killing.html#TauCeti.DynkinType.instIsKillingLieAlgebra), as does its [explicit scalar extension to any characteristic-zero field](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/LieAlgebra/Killing.html#TauCeti.DynkinType.instIsKillingLieAlgebraBaseChange). This is Lie-theoretic input for the Chevalley lane, not yet a construction or classification theorem for reductive group schemes.
+
+Structure theory gained its first scheme-theoretic test cases: [the diagonal torus of `GLₙ` is maximal over every field](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/DiagonalTorus/Maximal.html#TauCeti.GeneralLinear.isMaximalTorus_diagonalTorusDefiningIdeal), while [the upper-triangular subgroup of `GL₂` is a Borel subgroup](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Borel.html#TauCeti.GeneralLinear.Borel.isBorel_definingHopfIdeal). The [unipotent radical of the standard upper-triangular group is the upper-unitriangular subgroup](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/UpperTriangular/UnipotentRadical.html#TauCeti.GeneralLinear.UpperTriangular.unipotentRadicalDefiningIdeal_finiteTypeCoordinateHopfAlgebra), with the [analogous computation for injective-weight parabolics](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Dynamic/Weight/Unipotent/Radical.html#TauCeti.GeneralLinear.unipotentRadicalDefiningIdeal_weightParabolicFiniteTypeCoordinateHopfAlgebra). General conjugacy of maximal tori or Borels, and root data for arbitrary reductive groups, are not established here.
+
+The coordinate language now includes [central isogenies](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Isogeny/Basic.html#TauCeti.CommHopfAlgCat.IsCentralIsogeny) and [simple connectivity for semisimple groups](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/SimplyConnected/Basic.html#TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty), though no simply connected cover is established here. Explicit integral models advanced through [type-B](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/Orthogonal/TypeB/SpinCarrier/Basic.html#TauCeti.TypeBSpinCarrier.groupScheme) and [type-D spin carriers](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/Orthogonal/TypeD/SpinCarrier/Basic.html#TauCeti.TypeDSpinCarrier.groupScheme), together with an [E₇ minuscule carrier](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/E7/Minuscule/Carrier.html#TauCeti.E7Minuscule.groupScheme); these are pieces of, not yet a uniform pinned Chevalley–Demazure construction.
+
+<!--tauceti-progress:v1 {"from_sha":"6777fc49b6a67b3b0849e5d18bc0395b6f1450c3","prs":[4691,4700,4987,5000,5543,5560,5563,5565,5623,5667,5675,5677,5693,5694,5702,5719,5725,5736,5739,5748,5758,5761,5769,5785,5788,5834,5889,5915,5918,5920,5943,5947,5986,5990,5996,6004,6024,6037,6041,6059,6075,6080,6094],"roadmap":"ReductiveGroups","to_sha":"e7f4d8372f5a7ad39a75e61b43864f16d1bb57a0"}-->
+## ReductiveGroups: 2026-09-04 to 2026-09-09 (`6777fc4` to `e7f4d83`)
+
+Layer 7 got its first general theorems. Every finite-type affine group over a field now has a
+maximal torus, and every torus closed subgroup lies in one
+([`exists_isMaximalTorus`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Torus/Existence.html#TauCeti.HopfIdeal.exists_isMaximalTorus)).
+A Borel subgroup is a closed subgroup maximal among those that are smooth,
+geometrically connected and geometrically solvable, and the geometric fibre of every finite-type
+affine group has one
+([`exists_geometricBorel`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Borel/Existence.html#TauCeti.HopfIdeal.exists_geometricBorel),
+TauCeti#5769); over an algebraically closed field every torus sits inside a Borel. The radicals
+followed: the solvable radical is contained in every Borel, a normal Borel is exactly the
+solvable radical, and a smooth geometrically connected group whose geometric Borel is trivial is
+[semisimple](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Borel/Radical.html#TauCeti.semisimpleCommHopfAlgProperty_of_isBorelOverAlgClosed_eq_augmentation).
+Conjugacy of Borels or of maximal tori is not established: existence here comes without the
+uniqueness that root data will need.
+
+Lie-Kolchin arrived in the form the comodule machinery supports: if the derived subgroup of a
+reduced finite-type affine group over an algebraically closed field is geometrically unipotent, then
+every finite-dimensional representation has a basis in which the coefficient matrix is
+[upper triangular with characters on the diagonal](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Solvable/LieKolchin.html#TauCeti.Comodule.exists_basis_coefficientMatrix_isUpperTriangular_of_geometricallyUnipotent_derived).
+The hypothesis is on the derived subgroup, not solvability, and nothing here
+connects the two. It runs on new
+[group-like weight spaces](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Coalgebra/Comodule/Weight/Space.html#GroupLike.weightSpace)
+for comodules. Alongside it, smoothness of a finite-type commutative Hopf algebra over a field was
+shown [equivalent to geometric reducedness](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Smooth/GeometricallyReduced.html#TauCeti.smoothCommHopfAlgProperty_iff_geometricallyReduced).
+
+The symplectic group joined `GLₙ` and `SLₙ` as
+[reductive over every field](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Symplectic/Reductive.html#TauCeti.Symplectic.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra),
+and the exceptional isogeny of `Sp₄` in characteristic two was built from `2 × 2`
+minors, with
+[`τ² = Frobenius`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/SpecialIsogeny.html#TauCeti.specialIsogeny_specialIsogeny)
+and its effect on the long and short simple root subgroups (TauCeti#5920); `B₂`, `F₄` and `G₂` have
+the matching endomorphism on the torus only. The special orthogonal groups lag: the
+standard comodule is faithful and simple in dimension at least three away from characteristic two,
+but reductivity is proved only in ranks zero and one.
+
+<!--tauceti-progress:v1 {"from_sha":"e7f4d8372f5a7ad39a75e61b43864f16d1bb57a0","prs":[5382,6045,6048,6070,6104,6112,6119,6132,6134,6136,6141,6150,6157,6160,6169,6186,6187,6192,6204,6225,6227,6283,6307,6317,6337,6341,6356,6364,6375,6385,6408,6420,6424,6443],"roadmap":"ReductiveGroups","to_sha":"890ee2c15e6cc392ab851708562a109a4b010a89"}-->
+## ReductiveGroups: 2026-09-09 to 2026-09-12 (`e7f4d83` to `890ee2c`)
+
+Every standard special orthogonal group is now
+[reductive](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/SpecialOrthogonal/Reductive.html#TauCeti.SpecialOrthogonal.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra)
+over every field of characteristic different from two, in every dimension, completing the classical
+families. Two halves meet. In dimension at least three, reductivity
+[reduces to geometric connectedness](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/SpecialOrthogonal/Reductive.html#TauCeti.SpecialOrthogonal.reductiveCommHopfAlgProperty_iff_geometricallyConnected_of_three_le),
+smoothness and triviality of the geometric unipotent radical being automatic (TauCeti#6119); and
+`SOₙ` is
+[geometrically connected](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/SpecialOrthogonal/Connected.html#TauCeti.SpecialOrthogonal.geometricallyConnectedCommHopfAlgProperty_coordinateHopfAlgebra)
+in every dimension, by Cartan-Dieudonné, that
+[products of two reflections generate it](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/QuadraticForm/CartanDieudonne/SpecialOrthogonal.html#TauCeti.QuadraticMap.closure_reflection_mul_eq_specialOrthogonalGroup),
+together with a
+[one-parameter family over the Laurent polynomials](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/Matrix/SpecialOrthogonalGroup/Reflection.html#TauCeti.exists_laurentPath_reflectionMatrix_mul)
+joining each such product to the identity (TauCeti#6186). Dimension two went separately: `SO₂` is a
+[rank-one torus](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/SpecialOrthogonal/Torus.html#TauCeti.SpecialOrthogonal.torusCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra_two),
+split as soon as the base has a square root of `-1`.
+
+The symplectic diagonal torus became a
+[maximal torus over every field](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Symplectic/DiagonalTorus/Maximal.html#TauCeti.Symplectic.isMaximalTorus_diagonalTorusDefiningIdeal),
+built as a closed subgroup scheme with split-torus quotient, then
+[descended from an algebraic closure](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Torus/Maximal.html#TauCeti.HopfIdeal.isMaximalTorus_of_baseChange).
+The unipotent radical gained recognition criteria rather than a new construction: it is
+[trivial for a reductive group](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Unipotent/Radical/Reductive/Basic.html#TauCeti.reductiveCommHopfAlgProperty.unipotentRadicalDefiningIdeal_eq_augmentation),
+triviality descends along field extensions, and a connected normal smooth unipotent kernel of a
+quotient onto a reductive group
+[is the radical](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/Unipotent/Radical/Reductive/Quotient.html#TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadicalDefiningIdeal_eq_kernelHopfIdeal_of_reductive).
+Two inputs to root data also landed: the
+[character lattice of a smooth geometrically connected group is torsion free](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/CommHopfAlgCat/CharacterLattice/Torsion.html#TauCeti.CommHopfAlgCat.isMulTorsionFree_geometricCharacterGroup_of_smooth),
+and the Galois invariants of a split group algebra
+[carry a Hopf algebra structure](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/AlgebraicGroup/GroupAlgebra/Galois/Hopf.html#TauCeti.GaloisDescent.groupAlgebraInvariantsHopfAlgebra)
+whose scalar extension recovers the split one, the first step towards non-split tori.
+
+In the Chevalley lane the pinned Geck carrier acquired
+[Weyl representatives](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/GeckLattice/Weyl.html#TauCeti.DynkinType.geckSimpleWeylPoint)
+`xᵢ(1) x₋ᵢ(-1) xᵢ(1)`, which normalize the weight torus and
+[act on it by the reflection word they spell](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/GeckLattice/Weyl.html#TauCeti.DynkinType.geckWeylWordPoint_conj_geckWeightTorusPoints);
+the graph automorphism and the
+[twisted Frobenius](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/GeckLattice/TwistedFrobenius.html#TauCeti.DynkinType.geckTwistedFrobenius_geckRootSubgroupMatrix)
+renumber root subgroups by the diagram symmetry and raise the parameter to its `p ^ k`-th power. The
+[Frobenius-fixed points of the type-B spin carrier](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/Orthogonal/TypeB/SpinCarrier/FixedPoints.html#TauCeti.TypeBSpinCarrier.pointsMulEquivFixedSubgroupFrobenius)
+are its points over the fixed subring, and finite. No uniform construction from a root datum, and no
+isomorphism theorem for pinned groups.

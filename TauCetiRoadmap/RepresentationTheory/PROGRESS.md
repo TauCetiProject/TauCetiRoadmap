@@ -121,3 +121,94 @@ Highest-weight theory now shows that every finite-dimensional irreducible module
 For Young diagrams, the [multiplicative hook-length formula](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Combinatorics/Young/HookLength/Formula.html#TauCeti.standardCount_mul_prod_hookLength) now identifies the number of standard tableaux times the hook product with the factorial of the diagram's size. Rim hooks and their beta-number calculus were developed toward Murnaghan–Nakayama, but neither that character rule nor the standard polytabloid basis is established. Formal characters of finite-dimensional Lie modules were shown to be [Weyl-invariant](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/HighestWeight/Character.html#TauCeti.isWeylInvariant_formalCharacter), with the alternating numerator machinery in place but not the Weyl character formula itself.
 
 The Clifford lane built the [odd-dimensional splitting](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/OddSplitting.html#CliffordAlgebra.equivEvenProdOfOddLength) and a faithful [Kostant module](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Quadratic/Lie/LeftRegular.html#CliffordAlgebra.kostantLieRingModule); Kostant isotypy and the spin modules remain absent. Quiver infrastructure reached the [Auslander–Reiten transpose](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Module/AuslanderReitenTranspose.html#TauCeti.AuslanderReitenTranspose), still well short of the translate, almost-split existence, and Gabriel's theorem.
+
+<!--tauceti-progress:v1 {"from_sha":"1870dd9c28549903e13841383798d76df08b659e","prs":[4718,4775,4785,5052,5068,5073,5106,5253,5268,5294,5299,5307,5334,5344,5348,5365,5376,5380,5405,5409,5410,5413,5415,5419,5423,5428,5435,5496,5517,5548,5567,5573,5576,5578,5581,5591,5595,5644,5649,5650],"roadmap":"RepresentationTheory","to_sha":"9f8f0e7168e182286a822c184bb165c121fede9b"}-->
+## RepresentationTheory: 2026-08-31 to 2026-09-06 (`1870dd9` to `9f8f0e7`)
+
+The [finite-dimensional highest-weight classification](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/HighestWeight/FiniteDimensional.html#TauCeti.exists_isDominantIntegral_nonempty_lieModuleEquiv_irreducibleQuotient) is now in place for Killing-semisimple Lie algebras over an algebraically closed field of characteristic zero: every finite-dimensional irreducible is an `L(λ)` for a dominant integral weight, and `L(λ)` is finite-dimensional for such a weight. The same lane gained [Freudenthal's multiplicity formula](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/HighestWeight/Freudenthal.html#TauCeti.freudenthal_multiplicity_formula) and a [direct-sum decomposition by the `L(λ)`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/HighestWeight/Decomposition.html#TauCeti.nonempty_lieModuleEquiv_directSum_irreducibleQuotient). The Weyl character, dimension and Kostant formulas themselves have not landed.
+
+The classification of symmetric-group representations now works over `ℂ` as well as `ℚ`: [complex Specht modules are indexed bijectively by partitions](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Complex.html#TauCeti.partitionEquivSimpleFDRepClassesℂ), and their characters are precisely the integer Specht characters read in `ℂ`. Character-table computation acquired an [assembled exact-cyclotomic Dixon-Schneider stage](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/CharacterTable/Dixon/Cyclotomic/Solver.html#TauCeti.ClassData.dixonCyclotomicCharacterTable?) whose successful outputs satisfy the exact and complex specifications; this is still short of the roadmap's general certified solver and worked `#eval` summit.
+
+Auslander-Reiten theory advanced from the transpose to the [translate `τ = D Tr`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Module/AuslanderReiten/Translate.html#TauCeti.AuslanderReitenTranslate), independent up to equivalence of the chosen minimal projective presentation, together with the self-dual notion of an [almost-split sequence](https://taucetiproject.github.io/TauCeti/docs/TauCeti/CategoryTheory/AlmostSplit/Sequence.html#CategoryTheory.ShortComplex.IsAlmostSplit). Existence of such sequences and AR duality remain open. Compact representation theory also gained the [character projector onto an isotypic component](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Compact/Character/IsotypicProjection.html#ContRepresentation.range_isotypicProjector).
+
+<!--tauceti-progress:v1 {"from_sha":"9f8f0e7168e182286a822c184bb165c121fede9b","prs":[5359,5472,5605,5699,5850,5856,5862,5876,5880,5885,5898,6055,6069,6079,6096,6097,6115,6133,6140,6159,6162,6163,6166,6167,6171,6175,6183,6190,6209,6234,6262],"roadmap":"RepresentationTheory","to_sha":"aa9e5f89ab3cee691992ab2274b0da31961faabb"}-->
+## RepresentationTheory: 2026-09-06 to 2026-09-10 (`9f8f0e7` to `aa9e5f8`)
+
+The symmetric group got its character table. Garnir straightening now writes every polytabloid as a
+rational combination of the standard ones, so the polytabloids of the standard tableaux of a shape
+are a
+[basis of the Specht module](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/StandardBasis.html#TauCeti.standardPolytabloidBasis)
+and the
+[dimension of `S^μ`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/StandardBasis.html#TauCeti.finrank_spechtModule)
+is the number `f^μ` of those tableaux (TauCeti#5699). On that basis rests the
+[integer character table of `Sₙ`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Character.html#TauCeti.symmetricCharacterTable),
+the matrix of Specht character values `χ^μ(ν)` on cycle types, with
+[row](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Orthogonality.html#TauCeti.symmetricCharacterTable_row_orthogonality)
+and
+[column orthogonality](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Orthogonality.html#TauCeti.symmetricCharacterTable_column_orthogonality)
+in their classical weighted forms, and with its complex reading identified with the general character
+table of the group (TauCeti#6069). The Murnaghan-Nakayama recursion that would compute the entries is
+not here.
+
+[Clifford's theorem](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Induction/Clifford/Equivalence.html#FDRep.clifford_restrict_iso)
+also landed: the restriction of an irreducible representation to a normal subgroup is `e` copies of
+each conjugate of one simple constituent, the distinct conjugates indexed by the cosets of its inertia
+group. A worked case comes with it, the nontrivial linear characters of the alternating group
+[inducing irreducibly](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Induction/Clifford/Alternating.html#TauCeti.simple_indFDRep_ofLinearCharacter_alternatingGroup)
+to the symmetric group. On the compact side the
+[unitary dual of the circle](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Compact/Circle.html#ContRepresentation.existsUnique_nonempty_equiv_fourierRep)
+is `ℤ`: every finite-dimensional irreducible continuous representation is a Fourier monomial, for
+exactly one index.
+
+The `gl_n` lane assembled much of what Kostant's isotypy corollary asks for. The Clifford module of
+`gl_n` is
+[completely reducible](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/GeneralLinear/CompleteReducibility.html#TauCeti.complementedLattice_lieSubmodule_car),
+the ordered product of the positive matrix-unit generators is a
+[highest-weight vector](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/GeneralLinear/CAR/HighestWeight.html#TauCeti.isGlHighestWeightVector_carHighestWeightVector)
+of staircase weight, and a
+[single-weight criterion](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/GeneralLinear/Isotypic.html#TauCeti.isIsotypic_of_forall_isGlHighestWeightVector)
+makes a module with only that weight isotypic; the corollary itself is still unstated. Alongside, the
+exceptional isomorphism
+[`Spin(3) ≅ SL₂`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Spin/Exceptional/Three/Group.html#TauCeti.exists_spinGroup_mulEquiv_specialLinearGroup_and_spinRep_equiv_stdSLRep_of_finrank_eq_three)
+carrying the spin representation to the standard two-dimensional one, the
+[strong exchange condition](https://taucetiproject.github.io/TauCeti/docs/TauCeti/GroupTheory/Coxeter/StrongExchange.html#CoxeterSystem.strongExchange)
+and the
+[Bruhat order](https://taucetiproject.github.io/TauCeti/docs/TauCeti/GroupTheory/Coxeter/Bruhat.html#CoxeterSystem.bruhatPartialOrder)
+for abstract Coxeter systems, and the
+[intrinsic Wedderburn block data](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Semisimple/Wedderburn/Canonical.html#TauCeti.WedderburnPresentation.exists_equiv_degree_eq_blockMultiplicity)
+of a semisimple ring.
+
+<!--tauceti-progress:v1 {"from_sha":"aa9e5f89ab3cee691992ab2274b0da31961faabb","prs":[5980,5982,5991,6005,6252,6272,6281,6282,6285,6286,6290,6294,6303,6304,6306,6314,6342,6344,6352,6387,6390,6391,6395,6398,6402,6415,6429,6430,6431,6437,6447,6448,6450,6479],"roadmap":"RepresentationTheory","to_sha":"b4da9b93577b676a9d2f149668a92b3d61897dcd"}-->
+## RepresentationTheory: 2026-09-10 to 2026-09-13 (`aa9e5f8` to `b4da9b9`)
+
+Schur-Weyl duality landed. On `(kⁿ)^{⊗d}` over a field in which `d!` is invertible, the image of the
+group algebra `k[S_d]` permuting tensor factors and the image of `k[GLₙ]` acting diagonally are
+[each other's centralizers](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/TensorAction/GeneralLinear.html#TauCeti.centralizer_range_tensorPowerRep_asAlgebraHom_eq_range_permTensorActionAlgHom),
+so an endomorphism is a permutation of the factors exactly when it commutes with every `g^{⊗d}`
+(TauCeti#5980). The route runs through Zariski density, which lets the invertible matrices be traded
+for all endomorphisms of `kⁿ`. What is not here is the other half of that layer, the decomposition of
+`(kⁿ)^{⊗d}` into Schur functors. Alongside it, the
+[hook-length formula](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/HookLength.html#TauCeti.finrank_spechtModule_mul_prod_hookLength):
+the degree of the Specht module `S^μ` times the product of the hook lengths of `μ` is `n!`
+(TauCeti#6398).
+
+The `gl_n` lane reached the isotypy statement it had been assembling. Over an algebraically closed
+field of characteristic zero the left-regular CAR module is
+[isotypic](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/GeneralLinear/CAR/Isotypic.html#TauCeti.isIsotypicOfType_glIrreducible_car),
+every summand the simple module of half-shifted staircase highest weight `(N - 1/2, …, 1/2)`, with
+[multiplicity `2^{N(N+1)/2}`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/GeneralLinear/CAR/WeightMultiplicity.html#TauCeti.finrank_weightSpace_glHalfStaircase_car).
+This is Kostant's corollary in its worked `gl_N` instance; the Killing-semisimple statement remains
+unwritten. The spin side gained topology: the compact real `Spin(n) → SO(n)` is a
+[covering map](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/CliffordAlgebra/Spin/Covering.html#CliffordAlgebra.isCoveringMap_realCliffordSpinDoubleCoverZero_rightHom)
+with two-element fibres and connected total space in dimension at least two, though simple
+connectivity is not claimed, and over a general field the
+[spinor-norm exact sequence](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/SpinorNorm/DoubleCover.html#CliffordAlgebra.spinDoubleCoverSpinorNormKernel)
+now presents `Spin` as an extension by `ℤ/2`.
+
+Quivers gained the
+[BGP reflection functor at a source](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Quiver/Reflection/Source.html#TauCeti.sourceReflectionFunctor)
+and the fact that, for a positive definite Tits form, the
+[positive roots are the reflection images of the simple ones](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Quiver/Reflection/PositiveRoot.html#TauCeti.titsForm_eq_one_iff_exists_vertexPreReflectionList_single)
+(TauCeti#6005). Smaller work: Brauer groups of algebraically closed and finite fields are trivial,
+almost-split sequences are unique at their right-hand end, and the Lie-group lane acquired the
+inverse function theorem for manifolds.
