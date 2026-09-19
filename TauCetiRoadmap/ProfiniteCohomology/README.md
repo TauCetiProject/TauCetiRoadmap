@@ -105,16 +105,29 @@ continuous cup product remain here.
 
 The canonical object is Mathlib's continuous cohomology, and this roadmap does not build a
 competing one. The pinned Mathlib supplies it:
-`continuousCohomology R G n : Action (TopModuleCat R) G ⥤ TopModuleCat R`, in
-`Mathlib/Algebra/Category/ContinuousCohomology/Basic.lean`, with
-`ContinuousCohomology.homogeneousCochains` for the complex it is the homology of,
-`ContinuousCohomology.invariants`, and
-`continuousCohomologyZeroIso : continuousCohomology R G 0 ≅ invariants R G` for the one degree
-Mathlib computes. The exact repository pin additionally supplies
-`ContinuousCohomology.resolutionMap`, `cochainsMap`, `cocyclesMap`, `map`, `map_id`, and
-`map_comp` in `RepresentationTheory/Homological/ContCohomology/Functoriality.lean`. Layer 1 and
-`Suggested.lean` use those Mathlib declarations directly. Every canonical-facing statement below
-is written against `TopRep R G`, an abbreviation for the pin's `Action (TopModuleCat R) G`.
+`continuousCohomology n X : TopModuleCat R` for `X : TopRep R G`, in
+`Mathlib/RepresentationTheory/Homological/ContCohomology/Basic.lean`, with
+`TopRep.homogeneousCochains` for the complex it is the homology of, `TopRep.invariants` and
+`TopRep.invariantsFunctor` in `Mathlib/RepresentationTheory/Continuous/TopRep.lean`, and
+`ContinuousCohomology.zeroIso : continuousCohomology 0 X ≅ TopModuleCat.of R X.ρ.invariants` in
+`ContCohomology/LowDegree.lean` for the one degree Mathlib computes. The exact repository pin
+additionally supplies `ContinuousCohomology.resolutionMap`, `cochainsMap`, `cocyclesMap`, `map`,
+`map_id`, and `map_comp` in `ContCohomology/Functoriality.lean`. Layer 1 and `Suggested.lean` use
+those Mathlib declarations directly.
+
+Every canonical-facing statement below is written against Mathlib's `TopRep R G`, the **structure**
+of continuous representations of `G` on a topological `R`-module, declared in
+`Mathlib/RepresentationTheory/Continuous/TopRep.lean`. It is not an abbreviation for
+`Action (TopModuleCat R) G` and the two are not definitionally equal: the pin relates them by the
+explicit categorical equivalence
+`TopRepEquivActionTop : TopRep R G ≌ Action (TopModuleCat R) G`. A statement that needs the
+`Action` side transports across that equivalence and says so.
+
+`continuousCohomology` is object-valued at the pin rather than a functor, so `Hⁿ_cont(G, X)` is
+`continuousCohomology n X` and its functoriality is the separate `ContinuousCohomology.map`.
+`Suggested.lean` wraps the two in a private functor adapter purely to keep the `.obj`/`.map`
+notation used throughout that file; the adapter is notation, not a second public cohomology API,
+and nothing outside that file may depend on it.
 
 Any other implementation of continuous cohomology replaces this one only after an explicit
 comparison of the coefficient categories and of the resolutions has been proved. Equivalence of
@@ -160,7 +173,7 @@ colimit theorem" or "the six cup shapes" is not a citable export, and no row con
 
 | Exported object or theorem | Supplier layer | Declaration | Mathematical type |
 |---|---|---|---|
-| the canonical carrier | 1 | `TopRep`, `continuousCohomology` | `TopRep R G ⥤ TopModuleCat R` |
+| the canonical carrier | 1 | `TopRep`, `continuousCohomology` | `(n : ℕ) → TopRep R G → TopModuleCat R`, object-valued at the pin |
 | compatible-pair functoriality | 1 | `map`, `map_id`, `map_comp` | `Hⁿ(G, X) ⟶ Hⁿ(H, Y)` for `φ : H →ₜ* G` |
 | restriction, inflation, coefficient maps | 1 | `res`, `infl`, `coeffMap` | morphisms of `TopModuleCat R` |
 | the coefficient dictionary | 1 | `ofDiscreteModule`, `IsSmoothDiscrete`, `SmoothDiscreteTopRep`, `discreteRepEquivSmoothTopRep` | `DiscreteRep R G ≌ SmoothDiscreteTopRep R G` |
@@ -178,7 +191,7 @@ colimit theorem" or "the six cup shapes" is not a citable export, and no row con
 | all-degree corestriction | 10 | `corestriction`, `corestrictionLe`, `corestriction_naturality`, `corestriction_trans`, `corestriction_comp_res`, `mackeyTerm`, `corestriction_mackey` | `Hⁿ(U, res X) ⟶ Hⁿ(G, X)` for open `U` |
 | agreement of the two corestrictions | 10 | `explicitIso_cor0`, `explicitIso_cor`, `explicitIso_cor2` | commuting squares in degrees 0, 1, 2 |
 | explicit Shapiro and coinduction | 7 | `Coind`, `coindTopRep`, `coindFunctor`, `coindFunctor_map_shortExact`, `explicitShapiro0`, `explicitShapiro1`, `explicitShapiro2`, `algebraicCoindAsSmooth`, `topologicalCoindIsoAlgebraic`, `topologicalCoindIsoAlgebraic_shapiro` | explicit Shapiro in degrees `0,1,2`, and the open-subgroup algebraic comparison |
-| all-degree Shapiro and dimension shifting | 10 | `shapiroCochainIso`, `shapiroIso`, `coindEmbedding`, `dimensionShiftQuotient`, `coindAcyclic`, `dimensionShiftIso` | canonical Shapiro in every degree and the closed dependency chain used by Layer 11 |
+| all-degree Shapiro and dimension shifting | 10 | `shapiroCochainHomotopyEquiv`, `shapiroIso`, `coindEmbedding`, `dimensionShiftQuotient`, `coindAcyclic`, `dimensionShiftIso` | canonical Shapiro in every degree and the closed dependency chain used by Layer 11 |
 | the six low-degree cups | 8 | `explicitCup00`, `explicitCup01`, `explicitCup10`, `explicitCup02`, `explicitCup11`, `explicitCup20` | `H^p(G, M) × H^q(G, N) → H^{p+q}(G, P)`, `p + q ≤ 2` |
 | the graded cup | 12 | `TopPairing`, `resolutionCupPairing`, `resolutionCupPairing_apply_zero`, `resolutionCupPairing_apply_succ`, `cupCochain`, `cupCochain_apply`, `cupCochain_leibniz`, `cupAssocHomotopy`, `cupAssocHomotopy_spec`, `cupCommHomotopy`, `cupCommHomotopy_spec`, `cup`, `cup_add_left`, `cup_add_right`, `cup_one_left`, `cup_one_right`, `cup_assoc`, `cup_gradedComm`, `cup_res`, `cup_infl`, `cup_coeffMap`, `cup_projection` | `Hᵐ × Hⁿ → H^{m+n}` constructed on Mathlib's coinduction resolution |
 | agreement of the two cups | 12 | `ofDiscreteModulePairing`, `explicitIso_cup` | commuting square in bidegree `(1,1)` |
@@ -244,7 +257,7 @@ cited in Layer 7.
   **Profinite** means the additional classes `[CompactSpace G] [TotallyDisconnectedSpace G]`,
   exactly the hypotheses of Mathlib's `exist_openNormalSubgroup_sub_open_nhds_of_one`.
   Profiniteness enters for the canonical comparison (Layer 3), the colimit theorem (Layer 4),
-  continuous sections and the transgression (Layers 0, 5, 7), cohomological dimension (Layer 11)
+  continuous sections and the transgression (Layers 0, 5, 7, 10), cohomological dimension (Layer 11)
   and the Galois interface (Layer 9). Do not take `ProfiniteGrp` (the category) as a hypothesis of
   a theorem: use the unbundled classes, as Mathlib's `ClopenNhdofOne.lean` does, and reserve
   `ProfiniteGrp` for categorical statements.
@@ -259,9 +272,11 @@ cited in Layer 7.
 - **Scalars.** The primary coefficient ring is `ℤ`: the explicit theory is stated for
   `DistribMulAction G M`, and the canonical statements are stated against `TopRep ℤ G`. A
   `TopRep k G` refinement for a ring `k` requires a genuine `Module k M` structure on the
-  coefficients and a restriction-of-scalars compatibility theorem; state that refinement only
-  where the `k`-action exists, and never add a `Module k` hypothesis to a statement about
-  profinite groups that does not need it.
+  coefficients, **including** `[ContinuousSMul k M]`, and a restriction-of-scalars compatibility
+  theorem. Discreteness of `M` does not make scalar multiplication continuous when `k` has a
+  nondiscrete topology: a nonzero discrete real vector space is the basic counterexample. State
+  that refinement only where the continuous `k`-action exists, and never add a `Module k`
+  hypothesis to a statement about profinite groups that does not need it.
 - **Universes.** The group and its coefficient modules live in one universe; the coefficient
   **ring** lives in another, so that a small ring such as `ZMod n` in `Type 0` is usable over a
   Galois group in any universe. The first half is forced by the pin: the canonical resolution is
@@ -536,29 +551,37 @@ unbundled classes of §3.
   specialization: `G ⧸ H → G` continuous with `s 1 = 1` (Ribes-Zalesskii Prop. 2.2.2). Prove the
   companion extension lemma in the form the proofs use: a continuous map from a closed subspace of
   a profinite space to a finite discrete target extends continuously. This is stated once and
-  consumed in exactly three places: Layer 5's transgression, Layer 7's exactness of coinduction,
-  and Layer 7's explicit inverse in Shapiro's lemma. It is not needed anywhere an **open**
-  subgroup is in play, where `Quotient.out` already suffices.
+  consumed in exactly four places: Layer 5's transgression, Layer 7's exactness of coinduction,
+  Layer 7's explicit inverse in Shapiro's lemma, and Layer 10's
+  `shapiroCochainHomotopyEquiv`, whose comparison map back from the coinduced complex and whose
+  homotopies are built from the same section in every degree. It is not needed anywhere an
+  **open** subgroup is in play, where `Quotient.out` already suffices.
 
 ### Layer 1: the canonical carrier and its functoriality
 
-**Prerequisites.** Mathlib: `continuousCohomology`, `ContinuousCohomology.homogeneousCochains`,
-`ContinuousCohomology.invariants`, `continuousCohomologyZeroIso`, and, at the repository pin,
+**Prerequisites.** Mathlib: `TopRep`, `TopRep.res`, `TopRep.resFunctor`, `TopRepEquivActionTop`,
+`TopRep.invariants`, `TopRep.invariantsFunctor` from
+`RepresentationTheory/Continuous/TopRep.lean`; `continuousCohomology` and
+`TopRep.homogeneousCochains` from `ContCohomology/Basic.lean`;
+`ContinuousCohomology.zeroIso` from `ContCohomology/LowDegree.lean`;
 `ContinuousCohomology.{resolutionMap,cochainsMap,cocyclesMap,map,map_id,map_comp}` from
-`ContCohomology/Functoriality.lean`; also `Action`, `Action.res`,
-`TopModuleCat`, `ContinuousMonoidHom`. This roadmap: Layer 0.
+`ContCohomology/Functoriality.lean`; and `TopModuleCat`, `ContinuousMonoidHom`. This roadmap:
+Layer 0.
 
 The pin supplies the carrier and compatible-pair functoriality. This layer consumes those maps and
 supplies only the named restriction, inflation, coefficient, and coefficient-dictionary interface
 that every canonical-facing statement below uses.
 
-- **The carrier, named once.** `TopRep R G` as an abbreviation for `Action (TopModuleCat R) G`,
-  and `Hⁿ_cont(G, X) = (continuousCohomology R G n).obj X` as the canonical object of every
-  all-degree statement below. Record `homogeneousCochains` as the complex it is the homology of,
-  and `continuousCohomologyZeroIso : continuousCohomology R G 0 ≅ invariants R G` as the one
-  degree Mathlib computes. `Suggested.lean` uses Mathlib's `resolutionMap`, `cochainsMap`,
-  `cocyclesMap`, `map`, `map_id`, and `map_comp` directly, then adds `res`,
-  `quotientToInvariants`, `infl`, and `coeffMap`.
+- **The carrier, named once.** Mathlib's `TopRep R G` structure, carrying a continuous
+  representation on a topological module, and `Hⁿ_cont(G, X) = continuousCohomology n X` as the
+  canonical object of every all-degree statement below. Record `TopRep.homogeneousCochains` as the
+  complex it is the homology of, and
+  `ContinuousCohomology.zeroIso : continuousCohomology 0 X ≅ TopModuleCat.of R X.ρ.invariants`
+  as the one degree Mathlib computes. `Suggested.lean` uses the pinned `resolutionMap`,
+  `cochainsMap`, `cocyclesMap`, `map`, `map_id`, and `map_comp` directly, then adds `res`,
+  `quotientToInvariants`, `infl`, and `coeffMap`. `continuousCohomology` is object-valued, so the
+  `.obj` notation in `Suggested.lean` comes from the private adapter described in §1 and is not
+  part of the exported interface.
 - **Smooth discrete objects.** `TopRep R G` is wider than the discrete `G`-modules of §3, and
   deliberately so: an object carries one continuous operator per group element, and nothing there
   forces the action to be continuous in the group variable. An object of `TopRep ℤ G` whose module
@@ -572,7 +595,9 @@ that every canonical-facing statement below uses.
   subobjects and quotients, and under restriction along a continuous homomorphism.
 - **The categorical dictionary, on that subcategory.** In the style of the discrete
   `Rep.ofDistribMulAction`: `ofDiscreteModule` sends a discrete `G`-module in the unbundled
-  classes of §3 to an object of `TopRep ℤ G`, and that object is smooth discrete; a
+  classes of §3 to an object of `TopRep ℤ G`, and that object is smooth discrete. Its
+  `TopRep R G` refinement carries `[Module R M] [ContinuousSMul R M]` explicitly; the continuity
+  of the scalar action must not be inferred from discreteness of `M`. A
   `G`-equivariant continuous homomorphism becomes a morphism, and every morphism between objects
   in the image arises that way; and the two translations are mutually inverse **on the smooth
   discrete subcategory**, which they exhibit as equivalent to the discrete `G`-modules. Nothing is
@@ -584,8 +609,9 @@ that every canonical-facing statement below uses.
   ⚠ Every canonical-facing comparison below quantifies over the image of `ofDiscreteModule`, never
   over an arbitrary `TopRep` object. A statement that forgets this is false, not merely
   unprovable.
-- **Functoriality in compatible pairs (consume current Mathlib).** For a continuous homomorphism `φ : H →ₜ* G` and a
-  morphism `f : Action.res _ φ X ⟶ Y` in `TopRep R H`: the cochain map `cochainsMap φ f`, then
+- **Functoriality in compatible pairs (consume current Mathlib).** For a continuous homomorphism
+  `φ : H →ₜ* G` and a morphism `f : TopRep.res φ X ⟶ Y` in `TopRep R H`: the cochain map
+  `cochainsMap φ f`, then
   `cocyclesMap φ f n`, then `map φ f n : Hⁿ_cont(G, X) ⟶ Hⁿ_cont(H, Y)`, with `map_id` and
   `map_comp`. These are the declarations now provided by
   `Mathlib/RepresentationTheory/Homological/ContCohomology/Functoriality.lean`. The compatibility
@@ -1316,7 +1342,9 @@ hypothesis that is actually used.
 
 ### Layer 10: continuous cohomology in all degrees
 
-**Prerequisites.** Mathlib: `continuousCohomology`. This roadmap: Layers 1, 3, 4, 5, 6 and 7.
+**Prerequisites.** Mathlib: `continuousCohomology`. This roadmap: Layers 0, 1, 3, 4, 5, 6 and 7.
+Layer 0 is a prerequisite because the all-degree Shapiro construction below uses its continuous
+coset section, not only Layer 7's low-degree inverse.
 
 Everything above except Layer 3's comparison is stated in degrees `0, 1, 2`, because that is where
 explicit cochains are usable. Cohomological dimension, dévissage, the general torsion statements
@@ -1348,10 +1376,13 @@ against the canonical object of Layer 1 throughout.
   `explicitDelta1` (`explicitIso_delta0`, `explicitIso_delta1`). This construction is required
   because the pinned continuous-cohomology `Basic.lean` deliberately leaves long exact sequences
   as a TODO; the carrier alone does not supply them.
-- **All-degree Shapiro and dimension shifting.** Construct a chain isomorphism
-  `shapiroCochainIso` between the two canonical homogeneous-cochain complexes and define
-  `shapiroIso` as its induced homology isomorphism. Prove that it agrees in degrees `0, 1, 2` with
-  `explicitShapiro0/1/2`. State exactness of coinduction on short exact sequences by
+- **All-degree Shapiro and dimension shifting.** Construct the two Shapiro comparison maps and
+  the homotopies from their composites to the identity maps, packaged as
+  `shapiroCochainHomotopyEquiv` between the two canonical homogeneous-cochain complexes, and
+  define `shapiroIso` as its induced homology isomorphism. A degreewise chain isomorphism is
+  false: for `G = C₂`, `H = 1` and `A = 𝔽₂`, the degree-zero terms have respectively four and two
+  elements. Prove that `shapiroIso` agrees in degrees `0, 1, 2` with `explicitShapiro0/1/2`.
+  State exactness of coinduction on short exact sequences by
   `coindFunctor_map_shortExact`, construct the embedding into the trivial-subgroup coinduced
   module and its quotient, prove `coindAcyclic` in every positive degree, and derive the named
   `dimensionShiftIso : Hⁱ⁺¹(G, M) ≅ Hⁱ(G, Coind_1^G M ⧸ M)` for `i ≥ 1`.
