@@ -418,9 +418,19 @@ beside it.
   ```
   with `𝓕` Mathlib's Fourier transform (`∫ f x * e(-⟪x, y⟫)`), and both families summable.
   ⚠ **The sign convention is fixed by `𝓕`, not by the literature.**  With Mathlib's `𝓕` the
-  character is `e(+⟪v, m⟫)`.  Sources that write `e(-⟪v, m⟫)` agree with this after `m ↦ -m`, and
-  for the even functions used below the two are literally equal.  State the `+` version as the
-  theorem and record the `-` version as a corollary, so no downstream proof guesses.
+  character is `e(+⟪v, m⟫)`.  Reindexing the dual sum by `m ↦ -m` reflects the transform as well
+  as the character: it gives `∑_m 𝓕f(-m) e(-⟪v, m⟫)`, which is the minus-phase sum
+  `∑_m 𝓕f(m) e(-⟪v, m⟫)` of sources with the opposite convention only when `𝓕f(-m) = 𝓕f(m)`,
+  i.e. for even `f`; for a general Schwartz `f` that minus-phase sum is `covolume L` times the
+  lattice sum at `-v`, not at `v`.  State the `+` version as the theorem and record two
+  corollaries, so no downstream proof guesses:
+  ```text
+  ∑' ℓ : L, f (v + ℓ) = (ZLattice.covolume L)⁻¹ * ∑' m : L^∨, 𝓕 f (-m) * e(-⟪v, m⟫)
+  ∑' ℓ : L, f (v + ℓ) = (ZLattice.covolume L)⁻¹ * ∑' m : L^∨, 𝓕 f m * e(-⟪v, m⟫)
+  ```
+  the first, the reflected form, for every `f`, and the second, the minus-phase form, under the
+  explicit hypothesis `∀ x, f (-x) = f x`.  The Gaussian of 1F is even, so on the uses of 4A–4C
+  all three agree; the distinction matters only for a general `f`.
 - **1B. The standard lattice.**  `ℤ^n ⊆ EuclideanSpace ℝ (Fin n)`: prove 1A for it by `n`
   applications of Mathlib's one-dimensional theorem.  This needs, as separate targets: that fixing
   all but one coordinate of a Schwartz function on `EuclideanSpace ℝ (Fin n)` gives a Schwartz
@@ -598,7 +608,10 @@ From here on the rank is even, `n = 2k`, wherever an automorphy factor appears.
 - **4A. Translation.**  `θ_γ(τ + 1) = e(q_L(γ)) * θ_γ(τ)` for even `L` and `γ ∈ L^∨`, where
   `e(q_L(γ)) = exp (2 π i ‖γ‖²/2)` is well defined on `A_L` precisely because `L` is even.  In
   particular `Θ_L(τ + 1) = Θ_L(τ)`, i.e. `Θ_L ∣[k] T = Θ_L`, for even `L`; for integral `L`,
-  `Θ_L(τ + 2) = Θ_L(τ)`.  ⚠ Evenness is exactly what the period-`1` statement needs and
+  `Θ_L(τ + 2) = Θ_L(τ)`.  Iterating `N = level L` times gives
+  `θ_γ(τ + N) = e(N q_L(γ)) θ_γ(τ) = θ_γ(τ)`, since `N ‖γ‖²/2 ∈ ℤ` for `γ ∈ L^∨` is the definition
+  of the level: every coset series is invariant under `T^N`, which is the translation invariance
+  inside `Γ(N)` that 7E uses.  ⚠ Evenness is exactly what the period-`1` statement needs and
   integrality is not enough (`jacobiTheta` has period `2`); do not weaken the hypothesis.  Rank is
   arbitrary in this item.
 - **4B. Inversion, scalar form.**  For any full-rank `L` of even rank (no integrality needed) and
@@ -738,7 +751,11 @@ touches the prime `2` beyond the residue of `D_L` modulo `4` and `8`.  `L` is ev
   for `L` even and positive definite of even rank `n = 2k`, the generality of 6B.  Deduce `8 ∣ n`
   for even unimodular `L`, reproving 5A: for even `n` directly (`|A_L| = 1` forces `e(n/8) = 1`),
   and for odd `n` by applying the formula to `L ⊕ L`, even unimodular of rank `2n`, which gives
-  `4 ∣ n` and contradicts oddness.  ⚠ This is Milgram's formula at positive-definite signature
+  `4 ∣ n` and contradicts oddness.  Deduce also that **`k` is even whenever `level L ∣ 2`**: then
+  `2 q_L = 0`, every `e(q_L(γ))` is `±1` and the left side is an integer, while the right side
+  `|A_L|^{1/2} i^k` is real only for even `k`.  This is what lets `-I`, which lies in `Γ(N)`
+  exactly when `N ∣ 2`, act trivially on the coset series in 7E (`D₄`: level `2`, weight `2`).
+  ⚠ This is Milgram's formula at positive-definite signature
   only, and the theta-asymptotic proof is the point: it is the analytic route Layer 7 needs.  The
   general theorem — the Gauss-sum signature `sign q ∈ ℤ/8` of a finite quadratic module and
   `sign q_L ≡ n₊ - n₋ (mod 8)` for an even lattice of any signature, by finite arithmetic — is not
@@ -764,12 +781,21 @@ touches the prime `2` beyond the residue of `D_L` modulo `4` and `8`.  `L` is ev
   cofactor units absorbed into the form); (iv) for `p` odd and `Q` unimodular modulo `p^e`, the sum
   over `(ℤ/p^e)^n` reduces to `p^n` times the sum over `(ℤ/p^{e-2})^n` when `e ≥ 2`, so only
   `e ∈ {0, 1}` remains; (v) over `ZMod p` diagonalise `Q` (Mathlib's diagonalisation of quadratic
-  forms over a field of characteristic `≠ 2`) and use `∑_x e(u x²/p) = (u/p) · g_p` with
-  `g_p² = (-1/p) · p` (Mathlib's `gaussSum_sq`); the `n = 2k` rank-one factors pair up into
-  `((-1)^k det Q / p) · p^k`, and no sign of `g_p` is ever needed; (vi) reassemble through Jacobi
-  symbol multiplicativity, using that `(u²/a) = 1` for units and that `((-1)^k det Q / a) =
-  ((-1)^k det L / a) = (D_L / a)` since `det Q` and `det L` differ by a square times `(-1)^k`
-  modulo `a`.  ⚠ Step (iv) is where a non-unimodular form would need Jordan theory; the form here
+  forms over a field of characteristic `≠ 2`) as `∑ u_i x_i²` and use `∑_x e(u x²/p) = (u/p) · g_p`
+  with `g_p² = (-1/p) · p` (Mathlib's `gaussSum_sq`); the `n = 2k` rank-one factors pair up into
+  `((-1)^k det Q / p) · p^k`, where `det Q = ∏ u_i` is, up to a square, the determinant of the
+  coefficient matrix `B_Q / 2` of `Q`, with `B_Q` the Gram matrix of the bilinear form
+  `(y, y') ↦ -c ⟪y, y'⟫` on `L^∨`; no sign of `g_p` is ever needed, and the `(-1)^k` enters here,
+  from `g_p²`, and nowhere else; (vi) reassemble through Jacobi symbol multiplicativity, using
+  that `(u²/a) = 1` for units and that `((-1)^k det Q / a) = ((-1)^k det L / a) = (D_L / a)`
+  because **`det Q` and `det L` differ by a square** modulo `a`: in the dual basis `B_Q = -c · B⁻¹`
+  for `B` the Gram matrix of `L`, so `det B_Q = (-c)^{2k} / det L = c^{2k} / det L` and
+  `det B_Q / det L = (c^k / det L)²`, the division being legitimate modulo `a` since every prime
+  of `det L` divides `N` and `gcd(a, N) = 1`, and the factor `2^{-2k}` between `det (B_Q / 2)` and
+  `det B_Q` is itself a square modulo the odd `a`.  ⚠ There is no `(-1)^k` in this comparison:
+  for `L = √2 • ℤ²`, `a = 3`, `c = 4`, `B = 2I` and `B_Q = -2I` both have determinant `4`, whose
+  ratio `1` is a square modulo `3` while `-1` is not.  ⚠ Step (iv) is where a non-unimodular form
+  would need Jordan theory; the form here
   is unimodular modulo `a` *because* `a` is coprime to the level, and that is the whole reason the
   route restricts to `a` coprime to `N` and moves the modulus from `c` to `a`.
 - **6E. The closed form.**  Combining 6B and 6D: for `a` odd and positive, coprime to `c`, and
@@ -807,11 +833,17 @@ The summit.  The route of record is Schoeneberg's coset splitting; it needs no g
 and no representation, and it delivers the `Γ(N)`-statement for the coset series by the same
 computation.  `L` is even of even rank `n = 2k` and level `N`.
 
-- **7A. Reduction to `c > 0` and `a` odd.**  For `A = !![a, b; c, d] ∈ Γ₀(N)`: if `c = 0` then
-  `A = ±T^b` and the statement is 4A with `Θ_L ∣[k] (-I) = (-1)^k Θ_L = χ_L(-1) Θ_L`.  Otherwise
-  replace `A` by `-A` to make `c > 0` (using `χ_L(-d) = (-1)^k χ_L(d)`), and by `T^j A`, which has
-  the same `c` and `d` and `Θ_L ∣[k] (T^j A) = Θ_L ∣[k] A`, to make `a` odd (possible whenever `c`
-  is odd, and automatic when `c` is even).
+- **7A. Reduction to `c > 0` and `a` odd and positive.**  For `A = !![a, b; c, d] ∈ Γ₀(N)`: if
+  `c = 0` then `a = d = ε ∈ {±1}` and `A = εI · T^{εb}`, a signed power of `T` (⚠ not `±T^b`: for
+  `ε = -1` the exponent is `-b`), and the statement is 4A for `T^{εb}` together with
+  `Θ_L ∣[k] (εI) = ε^k Θ_L = χ_L(ε) Θ_L = χ_L(d) Θ_L`, using `χ_L(-1) = (-1)^k` from 6F.
+  Otherwise replace `A` by `-A` to make `c > 0` (using `χ_L(-d) = (-1)^k χ_L(d)`), and then by
+  `T^j A = !![a + jc, b + jd; c, d]`, which has the same `c` and `d`, lies in `Γ₀(N)`, and
+  satisfies `Θ_L ∣[k] (T^j A) = Θ_L ∣[k] A` by 4A: choose `j ≥ 0` large enough that `a + jc > 0`
+  and of the parity that makes `a + jc` odd — if `c` is odd, `j ≡ a + 1 (mod 2)`; if `c` is even,
+  `a` is odd already because `ad - bc = 1`, and every `j` serves.  ⚠ 6E needs `a` odd **and
+  positive**, with `gcd(a, c) = 1` supplied by `ad - bc = 1`; oddness alone is not enough, and the
+  same `T^j` that fixes the parity fixes the sign.
 - **7B. The coset splitting.**  For `c > 0`, `Aτ = a/c - 1/(c(cτ + d))`.  Splitting `L` into its
   classes `y + c • L` and applying 4C at `v = y/c` and `σ = (cτ + d)/c` to each class gives, for
   every even `L` (no level condition yet),
@@ -835,13 +867,30 @@ computation.  `L` is even of even rank `n = 2k` and level `N`.
   unit-homomorphism face; prove the `Γ₀(N)`-spelling and the character-space spelling equivalent
   through the landed `mem_modFormCharSpace_iff_nebentypus`, and prove that the level-one theorem of
   Layer 5 is the case `N = 1` of this one.
-- **7E. The coset series on `Γ(N)`.**  Apply the splitting of 7B to `θ_{γ+L}` for `γ ∈ L^∨`,
+- **7E. The coset series on `Γ(N)`.**  The reductions of 7A do not transfer: `-I ∉ Γ(N)` for
+  `N > 2`, an unrestricted `T^j` leaves `Γ(N)` and moves the coset series, and `a ≡ 1 (mod N)`
+  gives neither oddness nor positivity (`!![-2, -3; 3, 4] ∈ Γ(3)` has `a = -2`).  Reduce inside
+  `Γ(N)` instead, for `A = !![a, b; c, d] ∈ Γ(N)`.  If `c < 0`, replace `A` by
+  `A⁻¹ = !![d, -b; -c, a] ∈ Γ(N)`, whose lower-left entry `-c` is positive: invariance under
+  `A⁻¹` gives invariance under `A` by the right-action law, `θ ∣[k] A = (θ ∣[k] A⁻¹) ∣[k] A`.  If
+  `c > 0`, left-multiply by `T^{jN} ∈ Γ(N)`, which fixes every `θ_γ` by the period-`N` law of 4A
+  and replaces `a` by `a + jNc`; choose `j` so that this is positive and odd — by the parity of
+  `j` if `Nc` is odd, and automatically if `Nc` is even, since then `c` is even (`N` even and
+  `N ∣ c` force `c` even) and so `a` is odd.  On the example,
+  `T³ · !![-2, -3; 3, 4] = !![7, 9; 3, 4]`, in `Γ(3)` with `a = 7`.  If `c = 0`, then
+  `A = εI · T^{εb}` with `N ∣ b`: `T^{εb}` fixes `θ_γ` by the period-`N` law, and `εI` acts by
+  `ε^k`; `ε = -1` requires `-1 ≡ 1 (mod N)`, i.e. `N ∣ 2`, and for an even lattice of level
+  dividing `2` the weight `k` is even (6C), so `ε^k = 1`.  ⚠ That corollary of Milgram's formula is
+  load-bearing: `-I` acts on weight `k` by `(-1)^k`, so for `N ∣ 2` the claim
+  `θ_γ ∣[k] (-I) = θ_γ` *is* the evenness of `k`, and nothing in the splitting below supplies it.
+  With `c > 0` and `a` odd and positive, apply the splitting of 7B to `θ_{γ+L}` for `γ ∈ L^∨`,
   splitting the coset `γ + L` modulo `c • L`.  The twisted sums are now over `(γ + L) ⧸ c • L`, and
   the shift `y ↦ y + c w`, `w ∈ L^∨`, multiplies them by `e(a b_L(γ, w) + b_L(w, m))`, so they
   vanish unless `m ≡ -a γ` in `A_L`.  For `A ∈ Γ(N)`, `a ≡ 1 (mod N)` and `N γ ∈ L` give
   `m ≡ -γ`, so `θ_γ ∣[k] A` is a scalar multiple of `θ_{-γ} = θ_γ`; complete the square as in 6A
-  and evaluate by 6E to find the scalar equal to `1`.  Hence `θ_γ ∣[k] A = θ_γ` for every
-  `A ∈ Γ(N)`, and with boundedness at every cusp (the same argument as 7D) each `θ_γ` is a
+  and evaluate by 6E — applicable now that `a` is odd and positive, coprime to `c`, with `N ∣ c` —
+  to find the scalar equal to `1`.  Hence `θ_γ ∣[k] A = θ_γ` for every `A ∈ Γ(N)`, and with
+  boundedness at every cusp (the same argument as 7D) each `θ_γ` is a
   `ModularForm ((Gamma N).map (mapGL ℝ)) k`.  ⚠ This is the statement that the alternative route
   through the Weil representation would deliver as its congruence-kernel theorem; here it is the
   coset version of 7C and costs one more application of the same computation.
@@ -999,6 +1048,16 @@ are the reasons a hypothesis is an argument of a definition rather than of a lat
   asymptotic of 6B is additive.
 - `L = ℤ²`: `Θ ∣[1] S² = -Θ` — the central element acts by `(-1)^k`, and the double-`S` check
   of 4D carries that scalar.
+- `L = √2 • ℤ²`, `a = 3`, `c = 4`: the Gram matrix `B = 2I` of `L` and the Gram matrix `B_Q = -2I`
+  of `-c ⟪·,·⟫` on `L^∨` both have determinant `4`, so `det B_Q / det L = 1` is a square modulo
+  `3` while `-1` is not — which is why 6D (vi) compares the two determinants by a square, and the
+  `(-1)^k` of `D_L` comes from `g_p² = (-1/p) p` alone.
+- `!![-2, -3; 3, 4] ∈ Γ(3)` has `a = -2`, negative and even, and `T³` times it is
+  `!![7, 9; 3, 4] ∈ Γ(3)` with `a = 7` — which is why 7A and 7E arrange the sign of `a` as well
+  as its parity before 6E is applied, and why 7E does so by `T^{jN}` inside `Γ(N)` rather than
+  by `T^j` or `-I`.
+- `D₄`: level `2`, so `-I ∈ Γ(2)`, and weight `k = 2`, so `-I` acts trivially — the instance of
+  6C's corollary (`k` is even when the level divides `2`) that the `c = 0` case of 7E rests on.
 - `√2 • E₈` has level `2` and `√2 • (√2 • E₈)^∨ = E₈` has level `1` — the Fricke partner's level
   divides `N` and need not equal it (2F).
 

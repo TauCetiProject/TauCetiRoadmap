@@ -137,8 +137,11 @@ theorem covolume_mapEquiv (A : E ≃L[ℝ] E) :
 this is the general statement, assembled from 1B–1D by a linear change of variables, not by
 induction on the dimension.
 
-⚠ The sign of the character is fixed by Mathlib's `𝓕`, which carries `exp (-2 π i ⟪x, y⟫)`; sources
-writing `exp (-2 π i ⟪v, m⟫)` on the right agree after `m ↦ -m`.
+⚠ The sign of the character is fixed by Mathlib's `𝓕`, which carries `exp (-2 π i ⟪x, y⟫)`.
+Reindexing by `m ↦ -m` reflects the transform as well as the character (`poissonSummation_neg`),
+so the minus-phase identity of sources with the opposite convention,
+`∑' m, 𝓕 f m * exp (-2 π i ⟪v, m⟫)`, holds for even `f` only (`poissonSummation_of_even`); for a
+general `f` that sum is `covolume L` times the lattice sum at `-v`.
 
 ⚠ The hypotheses are exactly `[InnerProductSpace ℝ E] [FiniteDimensional ℝ E]` plus the Borel
 structure, and they are not weakened for a consumer whose own space is not an inner product space
@@ -160,6 +163,22 @@ theorem summable_poisson_left (f : 𝓢(E, ℂ)) (v : E) :
 theorem summable_poisson_right (f : 𝓢(E, ℂ)) (v : E) :
     Summable fun m : L^∨ => 𝓕 (fun x : E => f x) (m : E) * cexp (2 * π * I * ⟪v, (m : E)⟫) :=
   sorry
+
+/-- **1A, the reflected form.** Reindexing the dual sum by `m ↦ -m` reflects the transform as well
+as the character. This is the unconditional corollary, valid for every `f`. -/
+theorem poissonSummation_neg (f : 𝓢(E, ℂ)) (v : E) :
+    ∑' ℓ : L, f (v + (ℓ : E)) =
+      (ZLattice.covolume L volume)⁻¹ *
+        ∑' m : L^∨, 𝓕 (fun x : E => f x) (-(m : E)) * cexp (-(2 * π * I * ⟪v, (m : E)⟫)) := sorry
+
+/-- **1A, the minus-phase form**, for an even `f`: then `𝓕 f (-m) = 𝓕 f m` and the reflected form
+reads as sources with the opposite sign convention write it. ⚠ The hypothesis is not decorative:
+for a general Schwartz `f`, `∑' m, 𝓕 f m * exp (-2 π i ⟪v, m⟫)` is `covolume L` times
+`∑' ℓ, f (-v + ℓ)`, which is `poissonSummation` at `-v`, not at `v`. The Gaussian of 1F is even. -/
+theorem poissonSummation_of_even (f : 𝓢(E, ℂ)) (hf : ∀ x : E, f (-x) = f x) (v : E) :
+    ∑' ℓ : L, f (v + (ℓ : E)) =
+      (ZLattice.covolume L volume)⁻¹ *
+        ∑' m : L^∨, 𝓕 (fun x : E => f x) (m : E) * cexp (-(2 * π * I * ⟪v, (m : E)⟫)) := sorry
 
 /-- **1F**, the Gaussian on `E`, Schwartz for `0 < τ.im`. -/
 def gaussian (τ : ℍ) : 𝓢(E, ℂ) := sorry
@@ -726,6 +745,13 @@ theorem thetaCoset_add_one (h : IsEven L) {γ : E} (hγ : γ ∈ L^∨) (τ : �
     thetaCoset L γ (⟨(τ : ℂ) + 1, by sorry⟩) =
       cexp (π * I * (‖γ‖ ^ 2 : ℝ)) * thetaCoset L γ τ := sorry
 
+/-- **4A, period `N` on a coset.** Iterating `thetaCoset_add_one` `N = level L` times gives
+`θ_γ(τ + N) = e(N q_L(γ)) θ_γ(τ) = θ_γ(τ)`, since `N ‖γ‖²/2 ∈ ℤ` for `γ ∈ L^∨` is the definition
+of the level: every coset series is invariant under `T^N`. This is the translation invariance
+inside `Γ(N)` that the reductions of 7E use. -/
+theorem thetaCoset_add_level (h : IsEven L) {γ : E} (hγ : γ ∈ L^∨) (τ : ℍ) :
+    thetaCoset L γ (⟨(τ : ℂ) + (level L : ℂ), by sorry⟩) = thetaCoset L γ τ := sorry
+
 theorem thetaSeries_add_one (h : IsEven L) (τ : ℍ) :
     thetaSeries L (⟨(τ : ℂ) + 1, by sorry⟩) = thetaSeries L τ := sorry
 
@@ -971,10 +997,21 @@ theorem milgram (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (h : IsEven L) :
 theorem eight_dvd_finrank_of_even_unimodular' (he : IsEven L) (hu : IsUnimodular L) :
     8 ∣ Module.finrank ℝ E := sorry
 
+/-- **6C, the level-`2` corollary.** For an even lattice of level dividing `2`, the weight `k` is
+even: `2 q_L = 0` makes every `e(q_L(γ))` equal to `±1`, so the left side of `milgram` is an
+integer, while its right side `|A_L|^{1/2} i^k` is real only for even `k`. This is what lets `-I`,
+which lies in `Γ(N)` exactly when `N ∣ 2`, act trivially on the coset series in
+`thetaCoset_slash_of_mem_Gamma`; `D₄` (level `2`, weight `2`) is an instance. -/
+theorem even_of_level_dvd_two (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (h : IsEven L)
+    (hN : level L ∣ 2) : Even k := sorry
+
 /-- **6D, evaluation at an odd modulus.** For `a` odd and **coprime to `c`**, and `N ∣ c` (which
 makes `a` coprime to `N` as well), the dual side of reciprocity is `det L * (D_L / a) * a^k`: the
 form `-(c/N)(N ‖·‖²/2)` is unimodular modulo `a` because `c/N` is a unit modulo `a`, and only
-`g_p² = (-1/p) p` is needed from the rank-one Gauss sums.
+`g_p² = (-1/p) p` is needed from the rank-one Gauss sums. The symbol is `(D_L / a)` because the
+Gram determinant `c^{2k} / det L` of that form is `det L` times the square `(c^k / det L)²`
+modulo `a`; the `(-1)^k` of `D_L` comes from `g_p²` alone and not from the determinant comparison
+(`L = √2 • ℤ²`, `a = 3`, `c = 4`: both Gram determinants are `4`).
 
 ⚠ `Nat.Coprime a (level L)` alone is false as a hypothesis: for `L = √2 • ℤ²`, `a = 3`, `c = 12`
 (`N = 4`, `D_L = -4`) every summand is `1`, the left side is `36`, and the right side is `-12`. -/
@@ -1072,12 +1109,21 @@ theorem thetaSeries_smul_eq_tsum (k : ℕ) (hn : Module.finrank ℝ E = 2 * k) (
 
 /-- **7C, Hecke–Schoeneberg, classical spelling**: slashing the theta series of an even lattice of
 even rank `2k` by an element of `Γ₀(N)`, `N` the level, multiplies it by the nebentypus at the
-lower-right entry. Layer 5 is the case `N = 1`. -/
+lower-right entry. Layer 5 is the case `N = 1`. The proof first reduces to `c > 0` and `a` odd
+**and positive** — by `-I`, which acts by `(-1)^k = χ_L(-1)`, and a left factor `T^j`, which acts
+trivially by `thetaSeries_add_one` — because `gaussSum_eq` takes `a : ℕ` with `Odd a`; for `c = 0`
+the matrix is `εI * T^(εb)`, a signed power of `T`. -/
 theorem thetaSeries_slash_of_mem_Gamma0 (k : ℕ) (hn : Module.finrank ℝ E = 2 * k)
     (he : IsEven L) {A : SL(2, ℤ)} (hA : A ∈ Gamma0 (level L)) :
     thetaSeries L ∣[(k : ℤ)] A = discChar L k (A 1 1 : ZMod (level L)) • thetaSeries L := sorry
 
-/-- **7E, the coset series on `Γ(N)`**: the same splitting applied to a coset. -/
+/-- **7E, the coset series on `Γ(N)`**: the same splitting applied to a coset, after a reduction
+carried out inside `Γ(N)` — `A ↦ A⁻¹` for `c < 0`; a left factor `T^(jN)`, which fixes every
+`θ_γ` (`thetaCoset_add_level`), to make `a` odd and positive when `c > 0`; and for `c = 0` the
+period-`N` law together with `-I`, which lies in `Γ(N)` only for `N ∣ 2`, where `k` is even by
+`even_of_level_dvd_two`. ⚠ The reductions of `thetaSeries_slash_of_mem_Gamma0` do not transfer:
+`-I ∉ Γ(N)` for `N > 2`, an unrestricted `T^j` leaves `Γ(N)`, and `a ≡ 1 (mod N)` gives neither
+oddness nor positivity (`!![-2, -3; 3, 4] ∈ Γ(3)`). -/
 theorem thetaCoset_slash_of_mem_Gamma (k : ℕ) (hn : Module.finrank ℝ E = 2 * k)
     (he : IsEven L) {γ : E} (hγ : γ ∈ L^∨) {A : SL(2, ℤ)}
     (hA : A ∈ CongruenceSubgroup.Gamma (level L)) :
