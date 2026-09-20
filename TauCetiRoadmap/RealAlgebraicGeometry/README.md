@@ -65,10 +65,11 @@ as the zero set.
   terms of coefficient differences. It does not count the multiplicities
   inside a disc or supply a bijection between root multisets. Layer 4 extends
   this API; it does not redevelop its existing conclusion.
-* Follow [Mathlib PR #43954](https://github.com/leanprover-community/mathlib4/pull/43954)
-  for `Polynomial.sturmSeq` and
-  [#43783](https://github.com/leanprover-community/mathlib4/pull/43783) for
-  `List.signVariations`. The former is part of the Sturm–Tarski development by
+* Import `List.signVariations` from
+  [Mathlib's rule of signs file](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Algebra/Polynomial/RuleOfSigns.lean);
+  it is already in the pinned Mathlib. Follow
+  [Mathlib PR #43954](https://github.com/leanprover-community/mathlib4/pull/43954)
+  for `Polynomial.sturmSeq`, part of the Sturm–Tarski development by
   Tomaz Mascarenhas, Pedro Saccomani, and Sarah Pereira. Build any missing
   pieces here with those interfaces, and replace them by imports when available.
 * The public [Zulip discussion of semialgebraic sets](https://leanprover.zulipchat.com/#narrow/channel/217875-Is-there-code-for-X.3F/topic/Semialgebraic.20Sets)
@@ -140,8 +141,8 @@ the construction is uniform in `K`.
 Develop the prerequisite ordered extension theory in
 `TauCeti/FieldTheory/RealClosure/`. Use Mathlib's `RingPreordering` with
 `RingPreordering.IsOrdering` to express orderings, and develop restriction
-and transport along field embeddings. Connect these to `RingCone` using
-`RingPreordering.eq_zero_of_mem_of_neg_mem`, then use the existing
+and transport along field embeddings. Connect these to `RingCone`, whose
+`AddGroupConeClass` instance supplies `eq_zero_of_mem_of_neg_mem`, then use the existing
 `LinearOrder.mkOfAddGroupCone` and `IsOrderedRing.mkOfCone` constructors
 to obtain compatible linear orders. Prove the following extension results:
 
