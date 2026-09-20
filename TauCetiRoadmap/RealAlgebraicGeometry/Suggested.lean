@@ -32,7 +32,8 @@ theorem polynomial_rolle (p : R[X]) {a b : R} (hab : a < b)
     (h : p.eval a = p.eval b) : ∃ c ∈ Set.Ioo a b, p.derivative.eval c = 0 := by
   sorry
 
-/-- Tarski queries count distinct roots; `p ≠ 0` is required in their correctness theorems. -/
+/-- Tarski queries count distinct roots; `p ≠ 0` is required in their correctness theorems.
+`tarskiQuery p q` is the conventional `TaQ(q,p)`: query `q` at the roots of `p`. -/
 def tarskiQuery (p q : R[X]) : ℤ :=
   ∑ x ∈ p.roots.toFinset, (SignType.sign (q.eval x) : ℤ)
 
@@ -145,7 +146,8 @@ theorem cylinder_embedding (S : Set (Base n)) : Topology.IsEmbedding (cylinder S
 
 /-- Collins' full projection, retaining harmless zero and constant entries and including
 pairs of all reducta. This finite superset avoids preprocessing assumptions. -/
-def projection (F : Finset (FamilyPoly n)) : Finset (MvPolynomial (Fin n) ℝ) := by
+def projection {A : Type*} [CommRing A]
+    (F : Finset (Polynomial (MvPolynomial (Fin n) A))) : Finset (MvPolynomial (Fin n) A) := by
   classical
   let T := F.biUnion reducta
   let coeffs := T.biUnion fun p => (Finset.range (p.natDegree + 1)).image p.coeff
@@ -156,6 +158,22 @@ def projection (F : Finset (FamilyPoly n)) : Finset (MvPolynomial (Fin n) ℝ) :
     (Finset.range (min p.natDegree q.natDegree + 1)).image
       (psc p q p.natDegree q.natDegree)
   exact coeffs ∪ derivs ∪ pairs
+
+open scoped Classical in
+/-- Injective coefficient maps preserve degrees and hence the entire projection set. -/
+theorem projection_map {A B : Type*} [CommRing A] [CommRing B]
+    (φ : A →+* B) (hφ : Function.Injective φ)
+    (F : Finset (Polynomial (MvPolynomial (Fin n) A))) :
+    projection (F.image (Polynomial.map (MvPolynomial.map φ))) =
+      (projection F).image (MvPolynomial.map φ) := by
+  sorry
+
+/-- Splitting off the distinguished variable commutes with coefficient maps. -/
+theorem finSuccEquiv_map {A B : Type*} [CommRing A] [CommRing B]
+    (φ : A →+* B) (p : MvPolynomial (Fin (n + 1)) A) :
+    MvPolynomial.finSuccEquiv B n (p.map φ) =
+      (MvPolynomial.finSuccEquiv A n p).map (MvPolynomial.map φ) := by
+  sorry
 
 /-- Sections in the cylinder `S × ℝ`, using functions defined only on the base set. -/
 def sectionSet {S : Set (Base n)} {k : ℕ} (θ : Fin k → S → ℝ) (i : Fin k) :
@@ -225,19 +243,36 @@ def integerFamily (P : Finset (MvPolynomial (Fin (n + 1)) ℤ)) : Finset (Family
   classical
   exact P.image fun p => MvPolynomial.finSuccEquiv ℝ n (p.map (Int.castRingHom ℝ))
 
+/-- Collins projection can be formed entirely over the integers. -/
+def integerProjection (P : Finset (MvPolynomial (Fin (n + 1)) ℤ)) :
+    Finset (MvPolynomial (Fin n) ℤ) :=
+  projection (P.image (MvPolynomial.finSuccEquiv ℤ n))
+
+open scoped Classical in
+/-- Transport the integer-computed projection using the injective integer-to-real map. -/
+theorem integer_projection (P : Finset (MvPolynomial (Fin (n + 1)) ℤ)) :
+    projection (integerFamily P) =
+      (integerProjection P).image (MvPolynomial.map (Int.castRingHom ℝ)) := by
+  sorry
+
 /-- The coordinate and coefficient conversions preserve evaluation. -/
 theorem integer_eval (p : MvPolynomial (Fin (n + 1)) ℤ) (x : Base n) (t : ℝ) :
     (fiber (MvPolynomial.finSuccEquiv ℝ n (p.map (Int.castRingHom ℝ))) x).eval t =
       MvPolynomial.eval₂ (Int.castRingHom ℝ) (Fin.cons t x) p := by
   sorry
 
-/-- An elaborated consumer of precisely the same theorem, with integer input. -/
+/-- An elaborated consumer with integer input and integer-computed projection data. -/
 theorem integer_delineability (P : Finset (MvPolynomial (Fin (n + 1)) ℤ))
     (S : Set (Base n)) (hS : IsConnected S)
-    (hproj : ∀ q ∈ projection (integerFamily P),
-      SignInvariant (fun x => MvPolynomial.eval x q) S) :
-    Nonempty (Delineation (integerFamily P) S) :=
-  delineability (integerFamily P) S hS hproj
+    (hproj : ∀ q ∈ integerProjection P,
+      SignInvariant (fun x => MvPolynomial.eval₂ (Int.castRingHom ℝ) x q) S) :
+    Nonempty (Delineation (integerFamily P) S) := by
+  classical
+  apply delineability (integerFamily P) S hS
+  intro q hq
+  rw [integer_projection] at hq
+  obtain ⟨p, hp, rfl⟩ := Finset.mem_image.mp hq
+  simpa only [MvPolynomial.eval_map] using hproj p hp
 end Projection
 
 end TauCetiRoadmap.RealAlgebraicGeometry

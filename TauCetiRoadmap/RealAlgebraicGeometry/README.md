@@ -96,6 +96,9 @@ are integers. The Tarski query of `q` at the zeros of nonzero `p` is
 TaQ(q,p) = #{x : p(x)=0 and q(x)>0} - #{x : p(x)=0 and q(x)<0}.
 ```
 
+The Lean function is `tarskiQuery p q`: its first argument supplies the roots,
+and its second supplies the queried signs.
+
 The development order is:
 
 | Layer | Content | Inputs |
@@ -301,6 +304,8 @@ it is not permissible to assume product subresultants are in the projection.
 
 ## Layer 5: Collins delineability and stacks
 
+Define the projection algebra over a commutative coefficient ring `A`, on
+`Polynomial (MvPolynomial (Fin n) A)`; specialize to `A = ℝ` for delineability.
 For a finite family `F`, let `T` contain all reducta of all members. Define
 `projection F` to contain every coefficient of every member of `T`, every
 principal coefficient for `(r,r')` with `r ∈ T`, and every principal
@@ -342,10 +347,20 @@ bounded sectors of `S × (0,1)`, and unbounded sectors of `S × (0,∞)` or
 and all stack parts are semialgebraic. Semialgebraicity of `S` is not needed
 for the purely topological delineability theorem.
 
-Prove evaluation compatibility for `MvPolynomial.finSuccEquiv` and for
-integer coefficient mapping. `integer_delineability` is a checked application
-of the very same prototype to `MvPolynomial (Fin (n+1)) ℤ`, not a separate
-polynomial representation or a different projection theorem.
+Prove coefficient-map naturality and evaluation compatibility for
+`MvPolynomial.finSuccEquiv`. Prove `projection_map`: for an injective ring
+homomorphism `φ : A →+* B`, mapping the entire projection set equals
+projecting the mapped family. Discharge preservation of degrees, reducta,
+derivatives, and all fixed-bound principal coefficients explicitly. This
+injectivity hypothesis is essential; arbitrary specialization can drop degrees.
+
+Define `integerProjection P` by splitting off the distinguished variable and
+projecting entirely over `ℤ`. Prove that its image under `Int.castRingHom ℝ`
+is exactly `projection (integerFamily P)`. The prototype `integer_delineability`
+applies the same real delineability theorem to `MvPolynomial (Fin (n+1)) ℤ`
+using sign-invariance hypotheses on this integer-computed projection. Its
+closed proof checks the transport through `integer_projection` and evaluation;
+there is no separate polynomial representation or projection theorem.
 
 References: BPR Chapters 5 and 11; Jovanović, Definition 2.5 and Theorem 2.6;
 Vermande, Proposition 3.5, Lemma 3.6, and Proposition 3.8.
@@ -356,8 +371,10 @@ Define a CAD recursively as a finite partition into nonempty semialgebraic
 cells. In dimension zero it is the singleton partition. In dimension `n+1`
 it is obtained from a CAD of `ℝ^n` by choosing a finite ordered continuous
 semialgebraic stack over each base cell and taking all its sections and
-sectors. Prove the equivalent finite-partition characterization, projection
-to each lower level, and cylindricity: two cells have equal or disjoint
+sectors. Prove every cell connected by induction, using Layer 5's
+`stack_connected` and the ambient cylinder embedding. This discharges the
+connectedness hypothesis at each subsequent lifting step. Prove the equivalent
+finite-partition characterization, projection to each lower level, and cylindricity: two cells have equal or disjoint
 projections at every lower level. In particular, every projected cell is
 covered by each cell lying over it, not just met at one sample point.
 
@@ -408,19 +425,71 @@ each input. Use the unique factorization APIs for `MvPolynomial` and
 irreducibility bridges. Separate factors independent of the distinguished
 variable into the content, and handle zero inputs explicitly.
 
-The analytic prerequisites are targets here. Develop the local analytic
-implicit-root theorem and finite holomorphic covering of a polydisc minus a
-coordinate hyperplane by simple roots. Prove that power substitution kills
-the finite permutation monodromy, and that bounded holomorphic roots extend
-across the missing hyperplane. Prove the resulting Puiseux-with-parameters
-theorem: for a monic polynomial in `z` with analytic coefficients in `(x,y)`
-and discriminant `y^a u(x,y)` with `u` nowhere zero, substitution `y=t^N`
-for some positive `N` (one may take `degree!`) splits it into analytic linear
-factors. Prove the corresponding root-difference and conjugation properties,
-and the nonmonic version allowing leading and trailing coefficients to be
-powers of `y` times units. The needed covering lifting, monodromy, and
-removable-singularity lemmas are part of this milestone wherever Mathlib's
-APIs do not already supply them.
+Define a `d`-dimensional analytic submanifold `S ⊆ Fin n → ℝ` as a
+nonempty set with `d ≤ n` and ambient `PartialHomeomorph` charts around each
+point. The chart and its inverse satisfy `AnalyticOnNhd ℝ` on their respective
+open source and target, and the chart sends its source intersected with `S`
+onto its target intersected with `{y | ∀ i, d ≤ i.val → y i = 0}`. Define
+analytic functions on `S` using the first `d` coordinates of these charts:
+locally their coordinate expressions extend to functions satisfying
+`AnalyticOnNhd ℝ` on an open subset of `Fin d → ℝ`. Prove independence of
+charts, composition, restriction to relatively open subsets, and the product
+and graph constructions. Ordinary analytic delineability is a `Delineation`
+whose root functions are analytic in this sense. For Lazard analytic
+delineability, use the ordered root coverage and constant positive
+multiplicities of the Lazard evaluations, together with analyticity of those
+root functions and constancy of the removed base-exponent vector. These are
+separate definitions: ordinary fibers can be zero when Lazard evaluations are not.
+
+The finite-dimensional analytic toolkit below is part of this layer. Use
+`AnalyticAt` and `AnalyticOnNhd` with scalar field `ℝ` or `ℂ`, and products
+of `Fin m → ℂ` with `ℂ`. A polydisc is a product of open balls of positive
+radii; the distinguished disc is centered at zero. Establish these targets:
+
+* **Analytic inversion and implicit roots.** For `𝕜 = ℝ` and `𝕜 = ℂ`, a map
+  analytic at `a` with derivative a continuous linear equivalence has a
+  `PartialHomeomorph` near `a` whose forward and inverse maps are
+  `AnalyticOnNhd 𝕜` on source and target. Derive the local implicit-root
+  theorem for an analytic `f(w,z)` with `∂f/∂z ≠ 0`. Prove local
+  complexification of real analytic functions and chart maps, and the
+  conjugation compatibility of extensions of real-valued germs.
+* **Analytic dependence on parameters.** Prove the iterated Cauchy integral
+  formula on a smaller closed polydisc contained in an open domain and
+  deduce `AnalyticOnNhd ℂ f U` from `DifferentiableOn ℂ f U` for open
+  `U ⊆ Fin m → ℂ`. In particular, if an integrand is jointly analytic on
+  a neighborhood of a parameter point times a fixed circle, its contour
+  integral is analytic in the parameter near that point. Establish the
+  uniform convergence and integration of the resulting power series.
+  Mathlib's one-variable Cauchy theorem is an input to this development,
+  not a several-variable theorem to assume.
+* **Extension across a coordinate hyperplane.** For a polydisc `U` and disc
+  `D`, if `f` is `AnalyticOnNhd ℂ` on `U × (D \ {0})` and locally bounded
+  near every point of `U × {0}`, construct `g` with
+  `AnalyticOnNhd ℂ g (U × D)` agreeing with `f` off that hyperplane. Prove uniqueness. Use
+  the parameter-dependent Cauchy integral to prove joint analyticity of
+  the extension, rather than inferring it from pointwise removability.
+* **Root covering and power substitution.** For a monic polynomial family
+  of degree `d > 0` with analytic coefficients and nowhere-zero discriminant
+  on `U × (D \ {0})`, show that projection from its root space is an
+  `IsCoveringMap` with `d` points in each fiber and analytic local sections.
+  Establish the needed path and homotopy lifting, simple connectedness of
+  a polydisc, and the cyclic fundamental group of its product with a
+  punctured disc using Mathlib's covering and fundamental-group APIs.
+  Prove that the generator acts by a permutation of the roots and that
+  pullback along `(w,t) ↦ (w,t^N)`, with `N = d!` and a suitably resized
+  disc, trivializes this finite covering. Obtain global analytic root
+  sections from the trivialization and their analytic local expressions.
+
+Use these results and the root bounds of Layer 4 to prove the
+Puiseux-with-parameters theorem: for a monic polynomial in `z` with analytic
+coefficients in `(x,y)` and discriminant `y^a u(x,y)` with `u` nowhere zero,
+substitution `y=t^N` for a positive `N` (one may take `degree!`) splits it
+into analytic linear factors on a sufficiently small polydisc. Prove the
+root-difference and conjugation properties. Prove the nonmonic version
+allowing leading and trailing coefficients to be powers of `y` times units:
+the roots on the punctured polydisc have the corresponding Laurent-power
+forms, and multiplication by a sufficiently large power of `t` makes them
+bounded so that the extension theorem applies.
 
 Prove the local discriminant theorem used for McCallum projection: a real
 polynomial of positive constant degree, nowhere nullified on a connected
@@ -436,8 +505,10 @@ conclusion for ordinary root sections applies to the nonnullified members.
 
 Define McCallum's projection with these data and content. Prove recursive
 correctness under an explicit well-orientedness condition: at every positive
-dimensional lifting cell no basis polynomial is nullified. At a nullifying
-zero-dimensional cell, construct a delineating set from the nonzero
+dimensional lifting cell no basis polynomial is nullified. This condition
+includes the final level because the conclusion here is order-invariance
+at every level. At a nullifying zero-dimensional cell, construct a
+delineating set from the nonzero
 specializations of all mixed partial derivatives through the total degree of
 the nullified polynomial. Refine the fiber at their roots and prove, using
 the derivative characterization of order, that the ambient order is constant
@@ -447,9 +518,14 @@ one when `T ≠ 0` and two at `T = 0`. Prove termination of this finite local
 refinement and recursive order-invariance, including content factors.
 Prove that the constructed cells are analytic submanifolds, so the local
 theorem's hypothesis is discharged.
-State the failure condition when nullification occurs on a positive
-dimensional cell. A sign-invariant input to this layer cannot be substituted
-for its order-invariance hypothesis.
+State the failure condition for this construction when nullification occurs
+on a positive dimensional cell. Also prove the usual sign-invariant CAD
+variant: only the lower lifting levels require order-invariance; at the
+final level a nullified member is identically zero on the cylinder and may
+be omitted from root lifting, without a delineating refinement for that
+member. Thus this variant allows top-level nullification. A sign-invariant
+input at an intermediate level cannot be substituted for the order-invariance
+hypothesis needed by subsequent lifting.
 
 References: McCallum, *An improved projection operation for cylindrical
 algebraic decomposition* (1998); Brown on nullifying cells and order-invariance;
