@@ -18,6 +18,21 @@ open scoped BigOperators
 
 namespace TauCetiRoadmap.RealAlgebraicGeometry
 
+universe u
+
+/-- Every ordered field has an algebraic real closed extension preserving its given order.
+The extension stays in the universe of `K`; algebraicity uses exactly the algebra induced by `ι`.
+This is an existence target, with no Archimedean or supplied ambient real closed field hypothesis. -/
+theorem exists_realClosure (K : Type u) [Field K] [LinearOrder K] [IsStrictOrderedRing K] :
+    ∃ (R : Type u) (field : Field R) (order : LinearOrder R),
+      letI : Field R := field
+      letI : LinearOrder R := order
+      IsStrictOrderedRing R ∧ IsRealClosed R ∧
+        ∃ ι : K →+* R, StrictMono ι ∧
+          (letI : Algebra K R := ι.toAlgebra
+           Algebra.IsAlgebraic K R) := by
+  sorry
+
 section Algebra
 variable {R : Type*} [Field R] [LinearOrder R] [IsStrictOrderedRing R] [IsRealClosed R]
 

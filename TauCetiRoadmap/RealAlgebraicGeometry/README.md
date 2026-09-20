@@ -6,13 +6,15 @@ algebraic decomposition (CAD) and quantifier elimination. It also develops the
 order-invariant projection theorem of McCallum and valuation-invariant lifting
 for Lazard's projection. These are successive milestones of one library.
 
-The univariate algebra is over an arbitrary real closed field. The topological
+The foundations construct an algebraic ordered real closure of every ordered
+field, and the univariate algebra is over an arbitrary real closed field. The topological
 and CAD milestones are over `ℝ`, with complex roots in `ℂ`. This is a definite
 scope choice: order-topological connectedness is not the right connectedness
 notion over a general real closed field. No theorem here asserts that intervals
 in every real closed field are topologically connected.
 
-Suggested homes are `TauCeti/Algebra/Polynomial/Sturm/`,
+Suggested homes are `TauCeti/FieldTheory/RealClosure/`,
+`TauCeti/Algebra/Polynomial/Sturm/`,
 `TauCeti/RingTheory/Polynomial/Subresultant/`, and
 `TauCeti/Geometry/RealAlgebraic/`. Every definition needs its basic API:
 extensionality, degenerate cases, restriction and transport laws, and the
@@ -34,6 +36,15 @@ as the zero set.
   supplies squares and odd-degree roots. Deriving polynomial IVT and Rolle
   from this definition is work in Layer 1. Include the `IsRealClosed ℝ`
   instance, proved from Mathlib's real analysis, as a specialization bridge.
+  Layer 1 also constructs algebraic ordered real closures, using
+  `AlgebraicClosure`, `IntermediateField`, `RingOrdering`, and
+  `Algebra.IsAlgebraic`; a supplied real closed field is not an existence theorem.
+  Follow the [Real Closed Fields Project discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Real.20Closed.20Fields.20Project)
+  and [Mathlib PR #41911](https://github.com/leanprover-community/mathlib4/pull/41911)
+  for the real-algebra interfaces. That PR concerns the Artin–Schreier
+  characterization by finite algebraic closure, not ordered real-closure
+  existence. Develop the missing extension theory here and adopt imported
+  results when available.
 * [The resultant API](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/RingTheory/Polynomial/Resultant/Basic.lean)
   takes explicit degree bounds with actual degrees as defaults. Its
   coefficient-map theorem preserves those bounds. Use it directly; do not
@@ -103,7 +114,7 @@ The development order is:
 
 | Layer | Content | Inputs |
 | --- | --- | --- |
-| 1 | Real closed algebra, Sturm–Tarski, Thom encodings | Mathlib algebra |
+| 1 | Ordered real-closure existence, real closed algebra, Sturm–Tarski, Thom encodings | Mathlib algebra |
 | 2 | Subresultants and specialization | Mathlib determinants and polynomial division |
 | 3 | BKR sign determination and semialgebraic syntax | 1, 2 |
 | 4 | Multiplicity-sensitive root continuity and common root matching | 1, 2, Mathlib root approximation and topology |
@@ -113,6 +124,48 @@ The development order is:
 | 8 | Lazard valuations, evaluation, and projection | 2, 5–7 |
 
 ## Layer 1: univariate real algebra
+
+### Ordered real-closure existence
+
+For every `K : Type u` with `[Field K] [LinearOrder K]
+[IsStrictOrderedRing K]`, construct `R : Type u` with field and compatible
+linear order instances, `IsRealClosed R`, and a field embedding
+`ι : K →+* R` satisfying `StrictMono ι`. Require `Algebra.IsAlgebraic K R`
+under the explicit instance `letI : Algebra K R := ι.toAlgebra`.
+The checked target is `exists_realClosure` in `Suggested.lean`.
+No countability, Archimedean, or embedding-into-`ℝ` hypothesis is imposed;
+the same universe suffices for non-Archimedean ordered fields as well.
+
+Develop the prerequisite ordered extension theory in
+`TauCeti/FieldTheory/RealClosure/`. Use Mathlib's `RingOrdering` to express
+positive cones, with restriction and transport along field embeddings and
+conversion to compatible linear orders. Prove existence of compatible orders
+after adjoining a square root of a positive element and after a finite
+extension of odd degree. The latter needs the order to extend the specified
+base order, not just formal reality of the extension. Supply the requisite
+preordering extension and odd-degree preservation results.
+
+Inside `AlgebraicClosure K`, order intermediate fields equipped with an
+extension of the given order by inclusion and agreement of orders. Prove
+that nonempty chains have upper bounds with a well-defined union order,
+and apply Zorn's lemma. Show that a maximal such ordered algebraic extension
+has square roots of nonnegative elements and roots of odd-degree polynomials:
+use the preceding extension results, an odd-degree irreducible factor, and
+the embedding of algebraic extensions into the algebraic closure. Deduce
+`IsRealClosed` via `IsRealClosed.of_linearOrderedField`. Track the algebra
+maps and algebraicity through subextensions and towers, and retain the
+universe of `K` by taking a subtype of `AlgebraicClosure K`.
+
+Provide the embedding API: injectivity, preservation and reflection of
+order and polynomial signs, `algebraMap K R = ι` for the induced algebra,
+and transport under ordered field isomorphisms. This existence construction
+uses only Mathlib field theory, order theory, and the extension lemmas just
+specified; it precedes IVT, Sturm, and quantifier elimination. The univariate
+theorems below still accept any supplied real closed field, independently
+of the choice of real closure. Reference: BPR Chapter 2 and
+[Kuhlmann, real algebraic geometry notes, §1, Theorem 1.2](https://www.math.uni-konstanz.de/algebra/WS0910/Notes08.pdf).
+
+### Polynomial signs over real closed fields
 
 Work over arbitrary ordered `R` with `IsRealClosed R`. Prove the algebraic
 characterizations needed to pass from squares and odd roots to polynomial
