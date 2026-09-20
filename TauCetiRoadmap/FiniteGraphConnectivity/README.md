@@ -8,33 +8,36 @@ These objects must have reusable APIs, including transport between the graph rep
 The structural development runs through blocks, connectivity consequences, and ears.
 The quantitative development runs through flows, minimum cuts, and disjoint paths, then supports bipartite matching, bounded circulations, and cut trees.
 All graphs and networks in the theorem targets are finite.
+The undirected edge theory uses Mathlib's `Graph`, retaining loops and parallel edges, with corollaries in `SimpleGraph`.
+Vertex-connectivity and the vertex-structural consequences reuse the underlying simple graph; the directed network and symmetric-submodular-function theories are independent of this choice.
 
-**Suggested homes:** `TauCeti/Combinatorics/SimpleGraph/Connectivity/` for undirected connectivity, `TauCeti/Combinatorics/Network/` for directed networks and flows, and adjacent modules for the representation bridges.
+**Suggested homes:** `TauCeti/Combinatorics/Graph/Connectivity/` for multigraph connectivity, `TauCeti/Combinatorics/SimpleGraph/Connectivity/` for simple-graph interfaces, `TauCeti/Combinatorics/Network/` for directed networks and flows, and adjacent modules for the representation bridges.
 
-[`Suggested.lean`](Suggested.lean) prototypes the pinned structures (networks, directed walks, flows, the residual network, orientations, the connectivity predicates, weighted trees), one possible representation of ear decompositions, and a few milestone statements.
-It is read as suggested forms, never as an exhaustive checklist; this document is the specification.
+[`Suggested.lean`](Suggested.lean) prototypes networks, flows, the simple-graph interfaces, and weighted trees.
+[`GraphSuggested.lean`](GraphSuggested.lean) prototypes multigraph incidence walks, path lifting, edge connectivity, Menger witnesses, orientations, ear data, and weighted cut aggregation.
+Both are suggested forms, never exhaustive checklists; this document is the specification.
 
 ## Milestones at a glance
 
 | Milestone | Main results | Depends on |
 | --- | --- | --- |
-| 1. Shared foundations | Cuts, separators, disjoint path families, orientations, and network constructions | Existing Mathlib graph APIs |
-| 2. Blocks | Bridge and articulation criteria; block–cut forest | 1 |
+| 1. Shared foundations | Graph walks and connectivity, representation bridges, cuts, separators, path families, orientations, and networks | Existing Mathlib and Tau Ceti APIs |
+| 2. Bridges and blocks | Multigraph bridges; articulation criteria and block–cut forest | 1 |
 | 3. Flows | Residual augmentation, flow decomposition, max-flow/min-cut, integrality, and extended capacities | 1 |
 | 4. Minimum cuts | Submodularity, minimum-cut lattice, non-crossing lemma (1); canonical cuts (3) | 1, 3 |
-| 5. Menger | Directed and undirected path–separator duality | 1, 3 |
+| 5. Menger | Directed and undirected path–separator duality | 1, 3, 4 |
 | 6. Connectivity and matching consequences | Whitney inequalities and cycle criteria, preservation lemmas, fans, Dirac's cycle theorem, Kőnig and Hall | 2, 5 |
 | 7. Ears and orientations | Undirected and directed ear decompositions; Robbins' theorem | 2, 6 |
 | 8. Circulations | Hoffman, prescribed supplies and demands, integral feasibility | 3 |
-| 9. Cut trees | Gomory–Hu, including recovery of minimum cuts | 4 |
-| 10. Bridge to `Graph` | Transport of reachability and vertex connectivity to Mathlib's multigraph type | 1, 5 |
+| 9. Cut trees | Gomory–Hu, including recovery of minimum cuts and edge-connectivity queries | 4, 5 |
 
 Each milestone includes the elementary lemmas needed to use its definitions: constructors, extensionality where appropriate, membership and support lemmas, monotonicity, restriction, and invariance under isomorphism.
 The targets below specify the additional API particular to each object.
 
 ## Existing vocabulary and related work
 
-Use Mathlib's `SimpleGraph` APIs for walks and paths, reachability, connected components, subgraphs, induced subgraphs, edge deletion, cycles, trees, degree, bipartite graphs, and matchings.
+Use Mathlib's `Graph` incidence, subgraph, induced-subgraph, and deletion APIs for multigraphs.
+Reuse `SimpleGraph` APIs for the underlying simple graph and for simple-graph corollaries: walks and paths, reachability, connected components, cycles, trees, degree, bipartite graphs, and matchings.
 In particular, reuse [`SimpleGraph.IsEdgeConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/EdgeConnectivity.html#SimpleGraph.IsEdgeConnected), [`SimpleGraph.IsBridge`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.html#SimpleGraph.IsBridge) with its cycle characterization `isBridge_iff_forall_cycle_notMem`, and [`SimpleGraph.minDegree`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Finite.html#SimpleGraph.minDegree).
 Mathlib also supplies the [`Graph`–`SimpleGraph` conversions](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Graph/Simple.html), [graph versions of Hall's theorem](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Hall.html), and the [finite-family Hall theorem](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Hall/Finite.html).
 Reuse Tau Ceti's [`DoubledQuiver`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RepresentationTheory/Quiver/Zigzag/Basic.lean), [`DoubledQuiver.Orientation` and `OrientedQuiver`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RepresentationTheory/Quiver/Zigzag/Orientation.lean), supplied by [ZigzagPreprojective, Layer 0](../ZigzagPreprojective/README.md#layer-0-affine-simply-laced-diagrams-doubled-graphs-relation-quotients-and-grading-descent).
@@ -49,10 +52,10 @@ The following Mathlib proposals guide the corresponding interfaces:
   Use this direction for the undirected representation bridges and prove compatibility with existing `SimpleGraph.Walk` and the directed quiver paths.
 - [#43017: network flows](https://github.com/leanprover-community/mathlib4/pull/43017): quivers with capacities and flow assignments indexed by arrows.
 - [#34028: weak max-flow/min-cut duality](https://github.com/leanprover-community/mathlib4/pull/34028): an undirected flow formulation on simple graphs.
-  This roadmap reaches every undirected result through the bidirected network and defines no undirected flow, so it takes only the statement shapes from that proposal.
+  Undirected flow applications use the bidirected network, with no separate undirected flow type, so this roadmap takes only the statement shapes from that proposal.
 - [#33032: Kőnig's theorem](https://github.com/leanprover-community/mathlib4/pull/33032): matchings as subgraphs, vertex covers, and the equality between the sizes of maximum matchings and minimum covers.
-- [#42839: 2-edge-connectivity and bridges](https://github.com/leanprover-community/mathlib4/pull/42839): `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the first target of Milestone 7.
-- [#37861: connected `Graph`s](https://github.com/leanprover-community/mathlib4/pull/37861): connectivity of Mathlib's multigraph type through connected components as subgraphs, with no walks; Milestone 10 proves compatibility with it.
+- [#42839: 2-edge-connectivity and bridges](https://github.com/leanprover-community/mathlib4/pull/42839): `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the simple-graph specialization in Milestone 7.
+- [#37861: connected `Graph`s](https://github.com/leanprover-community/mathlib4/pull/37861): connectivity of Mathlib's multigraph type through connected components as subgraphs, defined without walks; Milestone 1 proves agreement with walk reachability.
 
 Build all missing prerequisites and results in Tau Ceti, following these interfaces and adopting Mathlib's resulting design when available.
 An unmerged proposal is a design reference, not a dependency that contributors must wait for.
@@ -70,11 +73,20 @@ The mathematical targets here do not require importing that implementation.
 
 ### Graphs, networks, and orientations
 
-**Undirected graphs** use `SimpleGraph V`, with `[Fintype V]` for finite sums and cardinalities.
-Statements carry `[DecidableEq V]` and `[DecidableRel G.Adj]` exactly where the Mathlib definitions they mention require them, as `edgeFinset` and `minDegree` do; proofs may reason classically.
-Edges are unordered pairs represented by `Sym2 V` and restricted to the graph's edge set.
-A weighted undirected network is a nonnegative capacity function `c` on `Sym2 V` over the same coefficient type as directed networks; its simple support graph has adjacency `v ≠ w ∧ 0 < c(s(v,w))`, so no separate graph is carried, and a cut counts each crossing pair once.
+**Undirected graphs** use `G : Graph α β`, with actual vertices `V(G) ⊆ α` and edges `E(G) ⊆ β`.
+The ambient types need not be finite: theorem hypotheses are `[Finite V(G)]` and `[Finite E(G)]`, or `Fintype` instances on these subtypes when taking finite sums.
+Walk endpoints and separators belong to `V(G)`; deleting edges counts identities in `E(G)`, including separate parallel edges.
+Loops are allowed.
+Use `G.toSimpleGraph : SimpleGraph V(G)` for properties insensitive to loops and parallel edges, and `Graph.ofSimpleGraph` to state and prove the simple-graph corollaries.
+Simple-graph statements carry decidability instances exactly where the Mathlib definitions they mention require them; proofs may reason classically.
+
+A weighted multigraph is `G` together with nonnegative capacities `c : E(G) → K`; zero capacities retain the edge in the graph.
+Its cut capacity sums over actual crossing edges, once per edge, so parallel capacities add and loops contribute zero.
+For the pair-capacity interface, a nonnegative `c : Sym2 V → K` has simple support graph with adjacency `v ≠ w ∧ 0 < c(s(v,w))`.
 Diagonal capacities are allowed and ignored by both the support graph and cuts; prove invariance under changing them.
+Aggregate a weighted multigraph to pair capacities on `Sym2 V(G)` by summing capacities of all edges joining each pair of distinct vertices and setting diagonal values to zero.
+Prove equality of the two cut functions, hence preservation of minimum-cut values and minimizing partitions.
+This aggregation preserves weighted cuts, not individual edge identities or unweighted edge-disjoint paths.
 
 **Directed networks** are terms, not typeclass instances.
 The finite-capacity theory is parameterized by a linearly ordered additive commutative group `K`, expressed by `[AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]`.
@@ -114,29 +126,37 @@ For nontrivial `K`, deduce unboundedness: for every `b : K`, some feasible flow 
 Together these results are the extended max-flow/min-cut statement: finite cuts give an attained common value, while the absence of a finite cut gives cofinal finite flow values, which are unbounded when `K` is nontrivial.
 For `K = ℝ`, also state the dichotomy as an equality in `WithTop ℝ` between `sSup` of the set of finite flow values, which is `⊤` exactly when that set is unbounded, and the minimum extended cut capacity.
 
-**An orientation** of a simple graph uses `TauCeti.DoubledQuiver.Orientation G`, whose carrier contains exactly one dart from each reversed pair.
-Use its existing `OrientedQuiver`, or the same arrow family with an explicit quiver argument, for directed walks and strong connectivity.
-The bidirected network equips the existing `DoubledQuiver G` with capacities, giving both directions of an edge the same capacity.
+**An orientation** of `G : Graph α β` orders the ends of each edge, with one directed arrow per edge identity and no additional arrows.
+A loop gives one directed loop; it has a unique ordered pair of ends.
+Its directed walks use the resulting arrow family on `V(G)`.
+On `Graph.ofSimpleGraph H`, prove equivalence with the existing `TauCeti.DoubledQuiver.Orientation H`, whose carrier contains exactly one dart from each reversed pair, and compatibility with its `OrientedQuiver`.
+Use that existing type for the simple-graph statements, with no parallel orientation structure.
+The bidirected network has one arrow in each direction for every nonloop edge and one loop arrow for every loop, with the original edge's capacity on each arrow.
+On a simple graph, identify this construction with the existing `DoubledQuiver` equipped with capacities.
 Milestone 1 supplies the transport lemmas for both constructions.
 
-**Namespaces.** New declarations about simple graphs (articulation vertices, blocks, disjoint path families, ear decompositions) and the connectivity declarations under the names of #33355 and #42494 live in the `SimpleGraph` namespace, so that adopting Mathlib's versions is a deletion.
-Extend the existing orientation namespace rather than introducing `SimpleGraph.Orientation` as a separate structure.
+**Namespaces.** Undirected multigraph declarations extend `Graph` and the shared walk API in the shapes of the cited proposals.
+Simple-graph declarations extend `SimpleGraph`, following #33355 and #42494 for connectivity; orientation results extend the existing Tau Ceti orientation namespace.
 `Suggested.lean` keeps stand-ins for proposed definitions outside the Mathlib namespaces so that this repository keeps building when Mathlib lands them.
+`GraphSuggested.lean` prototypes the bidirected-network side of multigraph path transport using `Quiver.Path`; the implementation's native undirected walks follow the shared `GraphLike.Walk` design, with the correspondence required in Milestone 1.
 
 ### Paths, separators, and connectivity
 
-Undirected paths use Mathlib's simple-path predicate on walks.
+Undirected walks retain the identity of each traversed edge, following the shared walk proposal; paths have no repeated vertices.
+An undirected cycle is a positive-length closed walk with no repeated vertices apart from its endpoints and no repeated edge identities.
+Thus a loop is a one-edge cycle and two distinct parallel edges form a two-edge cycle; traversing the same edge out and back is not a cycle.
+For simple graphs, prove that these predicates agree with Mathlib's `Walk.IsPath` and `Walk.IsCycle`.
 Directed paths are directed walks with no repeated vertices.
 Directed cycles have positive length and no repeated vertices apart from the coinciding endpoints.
 Path families are finite and contain distinct paths.
-Edge-disjointness concerns unordered edges in an undirected graph and actual arrow identities in a network.
+Edge-disjointness concerns identities in `E(G)` for a multigraph, unordered edges for a simple graph, and actual arrow identities in a network.
 Internally vertex-disjoint paths between distinct terminals may share only those terminals.
 In particular, a family cannot count the same single-edge path repeatedly merely because it has no internal vertices.
 
 A local vertex separator for distinct terminals `s, t` excludes both terminals and destroys reachability after deletion.
 The local vertex form of Menger therefore assumes that `s` and `t` are nonadjacent; in the directed case, there must be no arrow from `s` to `t`.
 Deletion-based local vertex reachability for adjacent terminals can hold for every `k`, so it must not be identified with the number of internally disjoint paths without that qualification.
-Milestone 5 also gives the adjacent-terminal version for simple graphs.
+Milestone 5 also gives the adjacent-terminal version, counting all direct parallel edges, and its simple-graph specialization.
 
 For vertex-disjoint paths between sets `A` and `B`, separators may meet `A ∪ B`.
 Paths have one endpoint in each set, their interiors avoid `A ∪ B`, and the paths are disjoint including endpoints.
@@ -144,14 +164,19 @@ A vertex in `A ∩ B` contributes a permitted zero-length path and must belong t
 There is no prescribed pairing of the endpoints.
 For the edge-disjoint set-to-set version, require `A` and `B` to be disjoint; paths may share endpoints.
 
-Use the deletion-based connectivity predicates, with natural-number thresholds coerced where an upstream predicate takes `ℕ∞`.
-Global `k`-vertex-connectivity includes the size condition `k < Fintype.card V`.
+Define multigraph reachability by walks and prove agreement with `G.toSimpleGraph.Reachable` and the component-based connectivity of #37861.
+Vertex-reachability and vertex-connectivity are those of `G.toSimpleGraph`, following #33355; prove equivalence with native vertex deletion and path witnesses.
+In particular, global `k`-vertex-connectivity includes `k < |V(G)|`.
+Define `G.IsEdgeReachable k s t` by reachability after deleting any set of fewer than `k` actual edges, and `G.IsEdgeConnected k` by that condition for every pair of actual vertices.
+Prove agreement with the existing `SimpleGraph` predicates on `Graph.ofSimpleGraph`; do not define edge connectivity through simplification.
+Use natural-number thresholds, coerced where an upstream predicate takes `ℕ∞`.
 The predicates are the primary interface, but also define derived numerical invariants `vertexConnectivity G`, `edgeConnectivity G`, and `edgeReachability G s t` in `ℕ∞` as the suprema of the natural thresholds at which the corresponding predicates hold, following #42494 for the edge invariants.
-Include the local threshold equivalence for `edgeReachability`, its symmetry, its value `⊤` on the diagonal, and its comparison with global edge connectivity and endpoint degrees.
-For every finite nonempty carrier, prove `G.IsVertexConnected k ↔ k ≤ G.vertexConnectivity`; define vertex connectivity to be zero on the empty carrier.
-Prove `G.IsEdgeConnected k ↔ k ≤ G.edgeConnectivity` for every finite carrier.
-On a subsingleton vertex type `IsEdgeConnected k` holds for every `k` and `IsVertexConnected k` fails for every `k ≥ 1`; keep both conventions, and let statements involving minimum degree carry `[Nontrivial V]`.
-Consequently, edge connectivity is `⊤` exactly on finite subsingleton carriers, whereas vertex connectivity is always finite.
+Include the local threshold equivalence for `edgeReachability`, its symmetry, its value `⊤` on the diagonal, and its comparison with global edge connectivity and the number of incident nonloop edges.
+The numerical vertex invariant agrees with that of the underlying simple graph; the edge invariants specialize through `Graph.ofSimpleGraph`, and agree with unit-capacity multigraph minimum cuts.
+For every finite graph with nonempty actual vertex set, prove `G.IsVertexConnected k ↔ k ≤ G.vertexConnectivity`; define vertex connectivity to be zero on the empty vertex set.
+Prove `G.IsEdgeConnected k ↔ k ≤ G.edgeConnectivity` for every finite graph, including the empty graph.
+On a subsingleton actual vertex set `IsEdgeConnected k` holds for every `k` and `IsVertexConnected k` fails for every `k ≥ 1`; keep both conventions, and let upper bounds using incident-edge counts or minimum degree assume at least two actual vertices.
+Consequently, for finite graphs edge connectivity is `⊤` exactly when the actual vertex set is subsingleton, whereas vertex connectivity is always finite.
 
 ### Flows and bounded circulations
 
@@ -174,14 +199,38 @@ For a bounded circulation, the reverse arrow has residual capacity `f e − ℓ 
 
 ## 1. Shared foundations
 
-Develop cuts and separators with membership lemmas, complements, restriction to induced subgraphs, edge and vertex deletion, and invariance under graph isomorphisms.
+Build the shared undirected walk and path prerequisites in the shapes of #36756 and #39053, including their missing dependencies, and adopt Mathlib's interfaces as they land.
+Supply vertex support, edge occurrences, length, concatenation, reversal, restriction, transport, path extraction, cycles, and the corresponding graph subobjects.
+Supply the graph-isomorphism interface needed for transport: equivalences of the actual vertex and edge sets preserving `IsLink`, with identity, inverse, composition, and their action on walks and subgraphs, reusing Mathlib's graph maps and any available isomorphism API.
+Supply the union of compatible subgraphs of a fixed graph, with vertex-set and edge-set union formulas and the inherited incidence relation, as needed when adding ears; follow [#38337](https://github.com/leanprover-community/mathlib4/pull/38337) for the general union interface.
+Every native walk has a corresponding path of the bidirected quiver with the same vertex sequence and underlying edge sequence, and conversely; prove preservation of length and simple paths.
+For cycles, the directed walk must additionally have distinct underlying undirected edges: a directed two-cycle using opposite arrows of one edge is not an undirected cycle.
+
+Build the following bridges in this milestone, before consumers use them:
+
+- **Simple graphs:** walks in `Graph.ofSimpleGraph H` correspond to `H.Walk`, preserving endpoints, supports, edges, paths, cycles, and both disjointness predicates.
+  Include subgraph, deletion, orientation, and ear-data transport, with the structural transport available here and its ear-decomposition instance proved in Milestone 7.
+- **Simplification:** project multigraph simple paths to `G.toSimpleGraph` and lift simple paths by choosing actual edges, preserving the vertex sequence.
+  Prove that these operations preserve internally vertex-disjoint families and their cardinalities for nonadjacent terminals, and vertex-disjoint set-to-set families.
+  Projection need not preserve distinctness for adjacent terminals, since different direct edges project to the same one-edge path; handle them by the multiplicity formula of Milestone 5.
+  Do not assert preservation of edge-disjointness under simplification.
+- **Connectivity and deletion:** relate native reachability to simplification, and prove compatibility of vertex deletion and induced subgraphs with the necessary subtype equivalences.
+  Prove `toSimpleGraph (Graph.ofSimpleGraph H) ≃ H` using the existing isomorphism, and the reverse round trip up to vertex and edge isomorphism for a graph satisfying `Graph.Simple`.
+  Prove compatibility with the component-based connectivity of #37861, including nonemptiness in `Connected` and the correspondence of components.
+  Vertex-connectivity statements may then use the underlying simple graph while returning native path witnesses through the lifting API.
+
+Develop multigraph cuts and separators with membership lemmas, complements, restriction to induced subgraphs, edge and vertex deletion, and invariance under graph isomorphisms.
+A cut is a subset of the actual vertices; its boundary is the set of actual edges with one endpoint on each side.
+Prove symmetry, absence of loops from the boundary, the cardinality and capacity formulas with parallel edges, and the weighted aggregation theorem from the conventions.
 Relate edge separators to cuts obtained from reachable vertex sets.
 Provide finite path-family APIs for taking subfamilies, reversing undirected paths, concatenating compatible paths, extracting simple paths from walks, and transporting disjointness.
 Include the directed analogues needed for residual reachability and path decomposition, with support and arrow-occurrence lemmas.
 
 Build and verify the representation changes used throughout the roadmap:
 
-- **Orientations and bidirected networks:** transport walks, paths, reachability, and cut capacities; identify the underlying undirected graph of an orientation.
+- **Orientations and bidirected networks:** transport walks and paths, identify the underlying undirected graph of an orientation, and prove reachability and cut-capacity correspondence for the bidirected construction.
+  Match oriented walks with exactly those undirected walks traversing every edge in its chosen direction; arbitrary undirected reachability need not imply directed reachability.
+  Prove the simple-graph equivalences with the existing `DoubledQuiver` and `OrientedQuiver` APIs.
 - **Vertex splitting:** replace each vertex by an entrance and exit joined by a capacity-constrained arrow, with precise lifting and projection of paths, flows, and separators.
 - **Auxiliary terminals:** add a fresh source and sink on a sum type, with path and cut correspondences for terminal sets.
   Supply both the extended-capacity construction using `⊤` and its ordinary finite truncation, with a proved bound large enough for the reduction.
@@ -192,13 +241,21 @@ For the deletion predicates, supply the lemmas missing from Mathlib and from #33
 
 ## 2. Bridges, articulation vertices, and blocks
 
-Bridges are Mathlib's `SimpleGraph.IsBridge`, defined by edge deletion and characterized by `isBridge_iff_forall_cycle_notMem` as the edges lying on no cycle; reuse both rather than restating them.
+For a multigraph, a bridge is an actual edge whose deletion disconnects its endpoints.
+Prove equivalence with increasing the number of connected components and with lying on no undirected cycle.
+Loops are never bridges, and an edge with a distinct parallel edge is not a bridge.
+Prove correspondence on actual edges of `Graph.ofSimpleGraph H` with Mathlib's `SimpleGraph.IsBridge` and its `isBridge_iff_forall_cycle_notMem`; membership matters because the simple-graph predicate can also hold for a non-edge joining different components.
+
+Articulation vertices and the block–cut forest use the underlying simple graph and its existing reachability and induced-subgraph APIs.
 An articulation vertex `v` is one that separates two other vertices: some `u, w ≠ v` are reachable in `G` but not in the graph induced on the complement of `{v}`.
 Prove that this is equivalent to deletion of `v` increasing the number of connected components; the count is a lemma rather than the definition, so no statement needs a `Fintype` instance on a deletion subtype.
 
 A block is a maximal nonempty connected induced subgraph with no articulation vertex of its own.
-Thus bridges that are edges give two-vertex blocks, and isolated vertices give singleton blocks.
-Prove that every edge belongs to exactly one block, distinct blocks meet in at most one vertex, and a vertex lies in more than one block exactly when it is an articulation vertex.
+For simple graphs, bridges that are edges give two-vertex blocks, and isolated vertices give singleton blocks.
+Prove that every simple-graph edge belongs to exactly one block, distinct blocks meet in at most one vertex, and a vertex lies in more than one block exactly when it is an articulation vertex.
+Transport these vertex blocks and articulation criteria to multigraphs through simplification.
+Every nonloop multigraph edge belongs to exactly one vertex block, but a two-vertex block may contain parallel edges and need not consist of a bridge.
+A singleton block may carry loops; a loop at an articulation vertex lies in every induced vertex block containing that vertex, so these vertex blocks do not partition loop edges.
 
 Construct the **block–cut incidence graph**, whose two kinds of vertices are blocks and articulation vertices, with adjacency given by membership.
 Prove that it is a forest, that its components correspond to the components of the original graph, and that it is a tree when the original graph is connected.
@@ -262,30 +319,39 @@ Submodularity, the lattice, and the non-crossing lemmas rest on Milestone 1 alon
 
 ## 5. Menger's theorem
 
-State every Menger theorem in **witness form**: there exist a family of `k` pairwise disjoint paths and a separator of size `k`, for some `k`, and every family of disjoint paths is no larger than every separator.
+State Menger's path–separator equalities in **witness form**: there exist a family of `k` pairwise disjoint paths and a separator of size `k`, for some `k`, and every family of disjoint paths is no larger than every separator.
+For adjacent terminals, use the multiplicity correction specified below in both the witnesses and the inequality.
 The two statements together are the equality of optima with attainment on both sides.
 The derived numerical connectivity invariants package global threshold information, but do not replace these witnesses or the inequalities that certify their optimality.
 
 - **Local edge Menger:** for distinct terminals `s, t`, a family of pairwise edge-disjoint `s–t` paths and a set of edges whose deletion destroys `s–t` reachability, of the same size, together with the inequality between any family and any such edge set.
-  Give directed and undirected versions.
+  Give directed-network and multigraph versions, and derive the `SimpleGraph` statements using Milestone 1.
 - **Local vertex Menger:** for distinct nonadjacent terminals, the same with internally vertex-disjoint paths and terminal-excluding vertex separators.
-  Give directed and undirected versions with the adjacency convention above.
-- **Adjacent terminals in a simple graph:** `k + 1` internally vertex-disjoint `s–t` paths and a set of `k` vertices separating `s` from `t` after deleting the edge `{s,t}`, for some `k`, together with the bound that any family of internally disjoint `s–t` paths has at most one more member than any such separator has vertices.
-  Stating it with `k` paths and `k − 1` separating vertices would admit `k = 0` under natural-number subtraction, with empty witnesses on the single-edge graph.
-- **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the overlap convention above, in directed and undirected versions; and edge versions for disjoint terminal sets.
+  Give directed-network and multigraph versions with the adjacency convention above, returning actual edge-labelled paths, and derive the `SimpleGraph` statements.
+- **Adjacent terminals:** let `D` be the set of all edges joining distinct terminals `s,t`, and let `m = |D|`.
+  After deleting all of `D`, a terminal-excluding vertex separator of size `k` and a family of `k + m` internally vertex-disjoint paths in the original graph attain equality, for some `k`.
+  The family includes the `m` distinct one-edge paths, and every such family has size at most `|X| + m` for every separator `X` in the graph with `D` deleted.
+  The simple-graph corollary has `m = 1` and hence `k + 1` paths, including for the single-edge graph where `k = 0`.
+- **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the overlap convention above, in directed-network and multigraph versions, with simple-graph corollaries; and edge versions for disjoint terminal sets.
 
 Build the unit-capacity, vertex-splitting, and auxiliary-terminal reductions to max-flow over `ℤ`, where integrality is the case `H = ⊤`, and prove the correspondence in each direction.
 These reductions are required reusable interfaces; using them to prove Menger is the suggested proof route rather than an additional constraint on the final theorem.
-In the undirected edge reduction, cancel flow in opposite directions before extracting paths so that a single undirected edge cannot be used twice.
+In the undirected edge reduction, cancel flow in opposite directions separately for each original edge identity before extracting paths, so that one edge cannot be used twice while distinct parallel edges remain distinct.
+Discard loop flows and cycle flows when extracting simple terminal-to-terminal paths.
 The reductions must recover actual path families and separators, not just equalities of numerical optima.
 
 Derive the predicate forms: local edge reachability at threshold `k` is equivalent to the existence of `k` edge-disjoint paths; local vertex reachability has the analogous equivalence under the nonadjacency hypothesis.
-Relate local edge reachability to cuts as well: for distinct `s, t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut value of Milestone 4 for the capacity that is `1` on the edges of `G` and `0` elsewhere, over `ℤ`, so that the cut tree of Milestone 9 at unit capacities answers local edge reachability for every pair.
-For finite simple graphs with more than `k` vertices, derive the global characterization of `k`-vertex-connectivity by `k` internally vertex-disjoint paths between every pair of distinct vertices, including adjacent pairs.
+Relate local edge reachability to cuts as well: for distinct actual vertices `s,t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut value with capacity `1 : ℤ` on each actual edge.
+After aggregation to pair capacities, the capacity of a pair is its edge multiplicity, not merely an adjacency indicator.
+Thus the cut tree of Milestone 9 answers multigraph local edge reachability; for a simple graph this specializes to capacity `1` on edges and `0` elsewhere.
+For finite multigraphs with more than `k` actual vertices, and for simple graphs, derive the global characterization of `k`-vertex-connectivity by `k` internally vertex-disjoint paths between every pair of distinct vertices, including adjacent pairs.
 
 ## 6. Connectivity and bipartite matching consequences
 
-Prove these consequences in the existing graph vocabulary:
+Prove the vertex-structural and matching consequences in the existing `SimpleGraph` vocabulary, including their application to the underlying simple graph of a multigraph.
+Also prove the native multigraph Whitney inequality `vertexConnectivity G ≤ edgeConnectivity G` and the upper bound by the number of nonloop edges incident to each vertex when there are at least two actual vertices.
+This count includes parallel edges separately and needs no separate degree theory; the surface topology roadmap owns degree with loops counted twice.
+The simple-graph specialization gives the minimum-degree bound below.
 
 - **Whitney inequalities:** `G.IsVertexConnected k` implies `G.IsEdgeConnected k`; for `[Nontrivial V]`, `G.IsEdgeConnected k` implies `k ≤ G.minDegree`.
   Derive the numerical forms `G.vertexConnectivity ≤ G.edgeConnectivity` and, on a finite nontrivial carrier, `G.edgeConnectivity ≤ G.minDegree` after coercing the degree to `ℕ∞`.
@@ -309,32 +375,39 @@ Prove these consequences in the existing graph vocabulary:
 
 ## 7. Ear decompositions and strong orientations
 
-An open ear is a positive-length path adding unused edges, with distinct endpoints already present and all internal vertices new.
-A closed ear is a cycle adding unused edges and meeting the existing subgraph at exactly its base vertex.
-Single-edge open ears are allowed, so the decomposition can include edges between vertices already present.
+An open ear in a multigraph is a positive-length path adding unused edge identities, with distinct endpoints already present and all internal vertices new.
+A closed ear is an undirected cycle adding unused edge identities and meeting the existing subgraph at exactly its base vertex.
+Single-edge open ears, one-edge loop ears, and two-edge closed ears using distinct parallel edges are allowed.
+The unused-edge condition is required for both kinds, including loops.
 An ear decomposition is **data**, not merely a proposition asserting that suitable ears exist.
-There is one type of undirected ear decompositions, starting from a single vertex or from a cycle and adding open or closed ears; an open ear decomposition is one that starts from a cycle and whose ears are all open, a predicate on the data rather than a second type.
-Its internal representation is not pinned: an inductive type family indexed by the subgraph built so far and a finite sequence with a validity proof are both suitable.
-The public API must expose the initial cycle or vertex, the number and kind of ears, the `k`-th ear, and the subgraph after each prefix.
-It must identify the zeroth and final subgraphs, show that each successor prefix adds exactly its displayed ear, provide prefix decompositions and an induction principle following the construction order, and prove edge coverage and preservation of the relevant connectivity property.
-A decomposition of the whole graph has final subgraph `⊤`, so it covers all vertices and all edges; the existence statements below are `Nonempty` of the data type, or existence of a term satisfying the open predicate.
+The multigraph decomposition starts from a single vertex or from a cycle and adds open or closed ears, recording a graph after each prefix on the same ambient vertex and edge types.
+Its internal representation is not pinned: an inductive type family indexed by the graph built so far and a finite sequence with a validity proof are both suitable.
+The public API must expose the initial cycle or vertex, the number and kind of ears, the `k`-th ear, and the graph after each prefix.
+It must identify the zeroth and final graphs, show that each successor prefix adds exactly its displayed ear, provide prefix decompositions and an induction principle following the construction order, and prove edge coverage and preservation of the relevant connectivity property.
+A decomposition of `G` has final graph `G`, covering every actual vertex and edge, including loops and all parallel edges.
+Transport decompositions of `Graph.ofSimpleGraph H` to the `H.Subgraph` interface and back, preserving the prefix API; this is the simple-graph interface prototyped in `Suggested.lean`.
+An open ear decomposition of a simple graph starts from a cycle and has only open ears, expressed as a predicate on the transported data.
 
 Prove three characterizations:
 
 1. A finite simple graph with at least three vertices is 2-vertex-connected if and only if it has an open ear decomposition.
-2. A finite nonempty simple graph is 2-edge-connected (`IsEdgeConnected 2`) if and only if it can be built from one vertex by adding open or closed ears.
-   Prove first that `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the form Mathlib's edge-connectivity file names as its intended statement and #42839 proposes; note that `IsBridge` on a non-edge means its endpoints are unreachable, so the right-hand side already includes connectedness.
+   This vertex-connectivity characterization also applies to the underlying simple graph of a multigraph; it does not assert that open ears cover multigraph loops.
+2. A finite multigraph with nonempty actual vertex set is 2-edge-connected if and only if it can be built from one vertex by adding open or closed ears.
+   Prove first that 2-edge-connectivity is equivalent to pairwise reachability of the actual vertices and absence of bridges among the actual edges, including the empty-vertex convention for that equivalence.
+   Derive the simple-graph ear characterization and `H.IsEdgeConnected 2 ↔ ∀ e, ¬ H.IsBridge e` in the shape of #42839.
+   The unrestricted simple-graph bridge predicate includes connectedness through non-edges; the multigraph bridge predicate only concerns actual edges and requires the separate reachability condition.
 3. A network `N` with nonempty finite vertex type is strongly connected (`N.IsStronglyConnected`) if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
 
-In the directed version, ears are directed paths and cycles of `N` in the sense of the conventions, they retain arrow identities, and the one directed decomposition type exposes the same prefix API using subnetworks.
+In the directed version, ears are directed paths and cycles of `N` in the sense of the conventions, they retain arrow identities, and the directed decomposition exposes the same prefix API using subnetworks.
 Loops are permitted as one-arrow closed ears.
 The initial-vertex convention includes the isolated singleton with no ears; relate it to the cycle-starting formulation for strongly connected networks with at least two vertices.
 
-Prove **Robbins' theorem** in the form `(∃ o : G.Orientation, o.IsStronglyConnected) ↔ G.IsEdgeConnected 2`.
-This needs no connectedness or size hypothesis: both sides hold on a subsingleton, and for a connected graph it is the classical statement that a strongly connected orientation exists exactly when there is no bridge, which should be derived as a corollary.
-Construct the orientation from the ear decomposition, directing each ear as a directed path or cycle, and prove its strong connectivity through the directed ear characterization.
-Include the componentwise result that a graph admits an orientation strongly connected on each connected component exactly when `∀ e ∈ G.edgeSet, ¬ G.IsBridge e`.
-The restriction to edges matters: `IsBridge` also holds for a pair of vertices in different components, so the unrestricted form would fail for two isolated vertices, whereas in the global characterization above it is exactly what supplies connectedness.
+Prove **Robbins' theorem** for finite multigraphs: an orientation is strongly connected on `V(G)` if and only if `G.IsEdgeConnected 2`.
+This needs no connectedness or size hypothesis: both sides hold when the actual vertex set is subsingleton, including with loops.
+For nonempty connected multigraphs, derive the classical form that a strongly connected orientation exists exactly when there is no bridge.
+Construct the orientation from the ear decomposition and prove strong connectivity through the directed ear characterization.
+Include the componentwise result: an orientation strongly connected on each connected component exists exactly when no actual edge is a bridge.
+Derive the simple-graph statements through the orientation equivalence of Milestone 1, using `TauCeti.DoubledQuiver.Orientation` in their conclusions.
 
 ## 8. Bounded circulations, supplies, and demands
 
@@ -372,7 +445,9 @@ For every permitted coefficient type, every nonempty finite vertex type, and eve
 2. For every tree edge `{u,v}`, deleting that edge gives a partition that is a minimum `u–v` cut for `f`, with value equal to the tree-edge weight.
 
 Prove the resulting query theorem: any minimum-weight edge on the tree path from `s` to `t` yields an actual minimum `s–t` cut by deleting that edge.
-State the instance for a weighted undirected network as a corollary, since it is what the roadmap's consumers use; the tree need not be a subgraph of the network's graph.
+State the instances for weighted multigraphs and pair-capacity networks as corollaries, using the cut aggregation theorem of Milestone 1.
+The weighted tree is a `SimpleGraph` on the actual vertex type `V(G)` and need not be a subgraph of the original graph.
+For unit capacities, parallel edges contribute their multiplicities; prove that the tree answers the edge-connectivity queries of Milestone 5 and recovers cuts as subsets of the original vertex set.
 Disconnected graphs and zero capacities are included, with zero-weight tree edges; a singleton has the one-vertex tree.
 
 Develop the weighted-tree API needed for these statements: unique paths, fundamental partitions, minimum weights on nonempty paths, and transport under vertex equivalences.
@@ -386,23 +461,19 @@ This route uses finiteness to choose a minimum cut at each step, together with t
 An implementation following it should state the invariant as a named lemma.
 Gusfield's paper gives the same route as an algorithm on the original graph, with the rewiring written out explicitly.
 
-## 10. Bridge to Mathlib's `Graph`
-
-Mathlib's multigraph type `Graph α β` carries loops and parallel edges; #37861 proposes connectivity through connected components as subgraphs, and #36756 supplies the design for shared walks.
-Define reachability, `k`-vertex-reachability, and `k`-vertex-connectivity of a `Graph` as those of `Graph.toSimpleGraph`, whose carrier is `V(G)`; loops and parallel edges never change reachability, so these definitions lose nothing.
-Prove compatibility with vertex deletion and induced subgraphs, with the subtype equivalences this requires, and the round trip with `Graph.ofSimpleGraph`.
-Prove compatibility with the component-based connectivity of #37861, in its shape: a `Graph` with nonempty vertex set is connected in that sense exactly when its underlying simple graph is `Connected`, and its connected components correspond to those of the underlying simple graph.
-Edge connectivity is not defined on `Graph` here: parallel edges change it, and no consumer needs it.
-Nothing in Milestones 1–9 consumes this milestone; it exists so that a consumer working on `Graph` reads `k`-vertex-connectivity as `IsVertexConnected k` of the underlying simple graph and inherits Menger's theorem through these definitions.
-
 ## Examples and scope boundaries
 
 Provide proved examples alongside the relevant milestones:
 
 - Complete graphs, including the distinction between adjacent-terminal deletion connectivity and path counts.
 - Paths and cycles, including their bridges, blocks, and connectivity predicates.
-- Two triangles meeting at one vertex, with its explicit block–cut tree.
+- Two triangles meeting at one vertex, with its explicit block–cut tree, and a loop at the common vertex demonstrating the vertex-block convention.
 - Empty graphs, isolated vertices, and the two-vertex single-edge graph, exercising the size conventions.
+- Two vertices joined by two parallel edges: edge connectivity two, a two-edge cycle and closed ear, and a strongly connected orientation, compared with the single-edge simplification.
+- A loop on one vertex: a one-edge cycle and closed ear, no bridge, and no contribution to cuts.
+- Parallel direct terminal edges together with a path through an internal vertex, verifying the adjacent-terminal multiplicity formula.
+- A finite multigraph on infinite ambient types, verifying that finiteness hypotheses concern only its actual vertices and edges.
+- Weighted multigraph aggregation with parallel edges, loops, and zero-capacity edges, and pair capacities with nonzero diagonal entries, proving the specified cut invariance.
 - Networks with parallel and antiparallel arrows, a loop, and zero capacities over integer, rational, and real coefficients, exercising residual tags and finite sums.
 - An extended network with an uncapacitated arrow and a finite terminal-separating cut, together with its finite truncation, and an extended network whose finite flow values are unbounded.
 - A bounded-circulation example in which positive flow at its lower bound cannot be cancelled.

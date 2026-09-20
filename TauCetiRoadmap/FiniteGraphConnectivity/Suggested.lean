@@ -10,6 +10,9 @@ statements, so that contributors and reviewers converge on names and shapes. Dis
 declaration here finishes neither a milestone nor the roadmap. `sorry` is allowed in this
 human-owned roadmap library: these are targets, not completed definitions or proofs.
 
+The multigraph edge theory and its transport interfaces are prototyped in `GraphSuggested.lean`.
+The simple-graph edge and orientation statements here are required corollaries of that theory.
+
 The pinned choices this file exhibits: finite capacities and flows use a linearly ordered additive
 commutative group `K`; a directed network is a *term* `N : Network C V` with arrow types in a
 universe independent of the vertex universe, and with capacity type `C` equal to `K` for an
