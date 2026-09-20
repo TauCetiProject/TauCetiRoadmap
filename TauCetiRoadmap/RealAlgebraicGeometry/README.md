@@ -38,6 +38,14 @@ as the zero set.
   takes explicit degree bounds with actual degrees as defaults. Its
   coefficient-map theorem preserves those bounds. Use it directly; do not
   confuse specialization of a determinant with recomputation at smaller degrees.
+* [Tau Ceti's discriminant API](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RingTheory/Polynomial/Resultant/Discriminant.lean)
+  already provides `Polynomial.discr_map_of_natDegree_eq`,
+  `Polynomial.Monic.discr_mul`, `Polynomial.Monic.discr_eq_prod_roots_sub_sq`,
+  and `Polynomial.Monic.discr_ne_zero_iff`. Import these results. The prototype
+  `fiber_discr` checks specialization against the existing API. Unlike
+  `Polynomial.resultant`, `Polynomial.discr` has no explicit degree bounds:
+  take it at the formal degree before specialization, and use the
+  degree-preserving map theorem when comparing to the fiber discriminant.
 * [Polynomial root approximation](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Analysis/Normed/Field/Approximation.lean)
   already includes `Polynomial.exists_roots_norm_sub_lt_of_norm_coeff_sub_lt`.
   For monic polynomials of the same degree, with the comparison polynomial
@@ -73,7 +81,11 @@ pass from multivariate polynomials to this carrier. The equivalence singles
 out coordinate `0`; `Fin.cons t x` reconstructs a point of the cylinder.
 Other elimination orders use variable permutations, with evaluation
 compatibility proved once. Integer input is mapped by `Int.castRingHom ℝ`
-before this equivalence.
+before this equivalence. Define `cylinder S : S × ℝ → (Fin (n+1) → ℝ)` by
+`cylinder S (x,t) = Fin.cons t x.val`. Prove its injectivity, continuity,
+and topological embedding property. Ambient stack cells are its images;
+transport connectedness through this map and prove their semialgebraicity
+by the explicit formulas of Layer 3.
 
 A sign is a `SignType`. Sign-invariance means equality of signs at every pair
 of points, including sign zero. Variation deletes zeros before counting sign
@@ -159,9 +171,15 @@ and rows the coefficients of degrees `j,…,m+n-j-1`, in that order. The
 zeroth principal coefficient is exactly `Polynomial.resultant p q m n`.
 For equal bounds the terminal determinant is the empty determinant `1`;
 for unequal bounds it is a power of the leading coefficient of the
-smaller-degree polynomial. Specify the remaining subresultant coefficients
-by the corresponding minors, with the same zeroth normalization. Prove the
-degree bounds, Bézout identities, symmetry with its sign, scaling laws,
+smaller-degree polynomial. For `j < min m n`, define the coefficient of
+`X^k`, `0 ≤ k ≤ j`, in the subresultant polynomial by replacing the first
+row (degree `j`) with the row of degree `k`, keeping the remaining rows
+`j+1,…,m+n-j-1` and the columns unchanged. The determinant above is thus
+its coefficient of `X^j`. At the terminal index the scalars are the stated
+terminal convention; in particular the equal-degree terminal `1` is not
+claimed to be the leading coefficient of a polynomial Bézout combination.
+Prove the degree bounds and Bézout identities for the strict-index
+subresultant polynomials, symmetry with its sign, scaling laws,
 zero/constant/equal-degree cases, and agreement with signed polynomial
 remainder sequences and their degree-gap factors.
 
@@ -174,18 +192,42 @@ formula for common roots using the minimum of their multiplicities.
 Prove coefficient-map compatibility at fixed bounds over any ring. Derive
 compatibility at actual degrees under preservation of the leading
 coefficients, and prove the degree-drop formulas by truncating to the
-specialized degrees. Develop `reductum p k = Σ_{i<k} p.coeff i * X^i`, its
+specialized degrees. Use the existing `PowerSeries.trunc k ↑p` for
+`reductum p k = Σ_{i<k} p.coeff i * X^i`. Develop its
 coefficients, nested truncation, derivative, and specialization laws. The
 finite set of truncations for `k = 0,…,p.natDegree+1` covers every possible
-specialized degree, including the zero polynomial. No use of the gcd
+specialized degree, including the zero polynomial. Prove that this set is
+also the finite orbit of `Polynomial.eraseLead` with zero included. No use of the gcd
 criterion may silently replace formal degree bounds by specialized degrees.
 
-The signed subresultant form of the Cauchy-index theorem is a target too:
-state the permanences-minus-variations rule with its degree-gap signs,
-prove it from the signed remainder sequence, and derive Sturm–Tarski and
-root-count formulas from principal coefficient data. Reference: BPR Chapter 4.
+Pin the signed normalization as well. For `j ≤ min m n`, put
+
+```
+s_j = (-1)^(choose(m+n-2j,2) + choose(n-j,2) + (m-j)(n-j)) * psc_j.
+```
+
+For larger indices, put `s_m = p.coeff m`, `s_n = q.coeff n` when applicable,
+and zero otherwise. The last exponent swaps our column blocks; the other
+two translate to BPR's Sylvester–Habicht normalization, as in Vermande's
+`subresultantE`. This is `signedPsc` in the prototype. Prove this conversion,
+including the terminal and degree-drop cases.
+
+Define permanences minus variations on a coefficient list by ignoring leading
+and trailing zeros and summing over consecutive nonzero entries `a,b` with
+`k` intervening zeros: contribute `(-1)^choose(k,2) * sign(a*b)` if `k` is
+even, and zero if `k` is odd. For nonzero `p,q` of actual degrees `m > n`,
+prove that this sum on `[s_m,…,s_0]` equals the whole-line Cauchy index of
+`q/p`, with the positive-jump convention of Layer 1. Reduce general numerators
+modulo `p`, handling zero remainders separately. Prove the formula from the
+signed remainder sequence, and derive Sturm–Tarski and root-count formulas
+from principal coefficient data. Reference: BPR Chapter 4 and
+[Vermande's signed subresultants](https://github.com/math-comp/cad/blob/master/theories/subresultant.v).
 
 ## Layer 3: sign determination and semialgebraic descriptions
+
+The algebraic sign-determination and uniform coefficient-sign formulas in
+this layer are over arbitrary real closed fields. Their application to the
+semialgebraic predicate below is over `ℝ`.
 
 For nonzero `p` and a finite tuple `q₁,…,qₘ`, define the count `cσ` of distinct
 roots of `p` with sign vector `σ ∈ {-1,0,1}^m`. Prove the BKR matrix identity
@@ -290,7 +332,10 @@ original leading coefficients or a well-orientedness assumption.
 
 Prove the stack API: disjointness, covering, nonemptiness, projection of each
 part onto the whole base, ordering, restriction to a nonempty connected
-subset, and uniqueness of the ordered list. For connected bases, prove
+subset, and uniqueness of the ordered list. Uniqueness concerns the root
+list and multiplicities of nonnullified family members; the prototype's
+unused multiplicity entries outside the family are not canonical.
+For connected bases, prove
 sections and sectors connected: sections are continuous images of `S`,
 bounded sectors of `S × (0,1)`, and unbounded sectors of `S × (0,∞)` or
 `S × (-∞,0)`. When `S` is semialgebraic, use Layer 3 to show the root graphs
@@ -328,8 +373,15 @@ projecting exactly the cells included in the set. Then establish the graph,
 image, and composition APIs that require projection, and Tarski–Seidenberg.
 Give translation between quantifier-free ordered-ring formulas and finite
 Boolean combinations of `MvPolynomial` sign conditions. Connect this to
-Mathlib's `FirstOrder.Language` formula and realization APIs, using the ring
-language extended by the binary order relation. Prove existential elimination
+Mathlib's `FirstOrder.Language` formula and realization APIs, using
+`FirstOrder.Language.ring.sum FirstOrder.Language.order` (whose order symbol
+is `≤`; strict inequalities are expressed by negating the reversed relation).
+Install the compatible ring and order structures using
+`FirstOrder.Ring.compatibleRingOfRing` and
+`FirstOrder.Language.orderStructure`, then the sum-language structure.
+Prove the term-to-polynomial and formula-to-sign-condition realization laws;
+after elimination, identify semialgebraic sets with sets definable with
+parameters in this structure. Prove existential elimination
 by cell projection, universal elimination by complement, and elimination of
 arbitrary nested quantifiers with parameters. State semantic equivalence for
 every assignment, not just equisatisfiability of closed formulas.
@@ -341,12 +393,20 @@ closed field as a consequence of a topological argument over `ℝ`.
 ## Layer 7: analytic preparation and McCallum projection
 
 Build polynomial order of vanishing at a point as the least total degree of
-a nonzero Taylor coefficient, with infinity for zero. Prove its derivative
+a nonzero Taylor coefficient, with infinity for zero. This is ambient Taylor order, not the order of the
+restriction to a base cell. Prove its derivative
 characterization, multiplicativity, restriction behavior, and the distinction
 between constant sign and constant order. Establish primitive parts, content,
 squarefree bases and pairwise coprime bases in a distinguished variable, with
 reconstruction of signs and roots for the original family. Content is always
 included in projection; it must not disappear during preprocessing.
+Also construct the irreducible basis required by Layer 8: finitely many
+pairwise nonassociate irreducible primitive factors of positive degree in
+the distinguished variable, with units, contents, and exponents reconstructing
+each input. Use the unique factorization APIs for `MvPolynomial` and
+`Polynomial` over a UFD; prove the primitive-factor and fraction-field
+irreducibility bridges. Separate factors independent of the distinguished
+variable into the content, and handle zero inputs explicitly.
 
 The analytic prerequisites are targets here. Develop the local analytic
 implicit-root theorem and finite holomorphic covering of a polydisc minus a
@@ -376,15 +436,24 @@ conclusion for ordinary root sections applies to the nonnullified members.
 
 Define McCallum's projection with these data and content. Prove recursive
 correctness under an explicit well-orientedness condition: at every positive
-dimensional lifting cell no basis polynomial is nullified; zero-dimensional
-cells are handled by direct specialization. Prove that the constructed cells
-are analytic submanifolds, so the local theorem's hypothesis is discharged.
+dimensional lifting cell no basis polynomial is nullified. At a nullifying
+zero-dimensional cell, construct a delineating set from the nonzero
+specializations of all mixed partial derivatives through the total degree of
+the nullified polynomial. Refine the fiber at their roots and prove, using
+the derivative characterization of order, that the ambient order is constant
+on each resulting part. Ordinary specialization alone is insufficient: for
+`x*T + z²` above `(x,z)=(0,0)`, the fiber is zero but the ambient order is
+one when `T ≠ 0` and two at `T = 0`. Prove termination of this finite local
+refinement and recursive order-invariance, including content factors.
+Prove that the constructed cells are analytic submanifolds, so the local
+theorem's hypothesis is discharged.
 State the failure condition when nullification occurs on a positive
 dimensional cell. A sign-invariant input to this layer cannot be substituted
 for its order-invariance hypothesis.
 
 References: McCallum, *An improved projection operation for cylindrical
-algebraic decomposition* (1998); the parameterized root theorem and its
+algebraic decomposition* (1998); Brown on nullifying cells and order-invariance;
+the parameterized root theorem and its
 nonmonic version in McCallum–Parusiński–Paunescu, §4.
 
 ## Layer 8: Lazard evaluation and projection
@@ -402,10 +471,15 @@ on a lifted section appends its root multiplicity.
 
 For an irreducible primitive basis, define Lazard projection using leading
 coefficients, trailing coefficients, discriminants, pairwise resultants,
-and content. Prove the analytic lifting theorem on a connected analytic
-submanifold where the nonzero discriminant, leading coefficient, and trailing
-coefficient have constant Lazard valuation. The roots in its conclusion are
-roots of **Lazard evaluations**, not roots of nullified ordinary fibers.
+and content. Prove the analytic lifting theorem for a polynomial of positive
+degree in the distinguished variable on a connected analytic submanifold
+`S` of the base. Its discriminant, leading coefficient, and trailing
+coefficient must be nonzero **formal base polynomials**, each with constant
+Lazard valuation on `S`; they may vanish at points of `S`. The conclusion
+is analytic Lazard delineability: the ordered roots of its Lazard evaluations
+are analytic functions on `S`, with constant multiplicities and a constant
+vector of removed base exponents. The roots are roots of **Lazard
+evaluations**, not roots of nullified ordinary fibers.
 Treat the factor consisting of the distinguished variable separately.
 Prove the family theorem giving disjoint sections and constant valuations on
 all sections and sectors, with the analytic preparation and valuation
@@ -458,6 +532,8 @@ this roadmap requires an independent Mathlib-facing development.
   Collins projection including reducta.
 * S. McCallum, [*An improved projection operation for cylindrical algebraic
   decomposition*](https://doi.org/10.1007/978-3-7091-9459-1_12), 1998.
+* C. W. Brown, [*The McCallum projection, lifting, and order-invariance*](https://www.usna.edu/ComputerScience/cstech/reports/2005-02.pdf),
+  technical report USNA-CS-TR-2005-02, 2005.
 * S. McCallum, A. Parusiński, L. Paunescu,
   [*Validity proof of Lazard's method for CAD construction*](https://arxiv.org/abs/1607.00264),
   Journal of Symbolic Computation 92 (2019), pp. 52–69.

@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RingTheory.Polynomial.Resultant.Discriminant
 
 /-!
 # Real algebraic geometry: suggested target signatures
@@ -32,9 +33,8 @@ theorem polynomial_rolle (p : R[X]) {a b : R} (hab : a < b)
   sorry
 
 /-- Tarski queries count distinct roots; `p ≠ 0` is required in their correctness theorems. -/
-def tarskiQuery (p q : R[X]) : ℤ := by
-  classical
-  exact ∑ x ∈ p.roots.toFinset, (SignType.sign (q.eval x) : ℤ)
+def tarskiQuery (p q : R[X]) : ℤ :=
+  ∑ x ∈ p.roots.toFinset, (SignType.sign (q.eval x) : ℤ)
 
 /-- The full BKR matrix identity, before choosing an adapted invertible submatrix.
 The convention `0 ^ 0 = 1` is the field convention. -/
@@ -62,6 +62,16 @@ def psc (p q : A[X]) (m n j : ℕ) : A :=
       (fun k => if (k : ℕ) ≤ i.val + j ∧ i.val + j ≤ k.val + m
         then p.coeff (i.val + j - k.val) else 0))
 
+/-- BPR's signed normalization, including the coefficients above the smaller degree.
+The last term of the exponent swaps our `q`-first and the `p`-first column blocks. -/
+def signedPsc (p q : A[X]) (m n j : ℕ) : A :=
+  if j ≤ min m n then
+    (-1) ^ ((m + n - 2 * j).choose 2 + (n - j).choose 2 + (m - j) * (n - j)) *
+      psc p q m n j
+  else if j = m then p.coeff m
+  else if j = n then q.coeff n
+  else 0
+
 theorem psc_zero (p q : A[X]) (m n : ℕ) :
     psc p q m n 0 = Polynomial.resultant p q m n := by
   sorry
@@ -81,7 +91,7 @@ theorem gcd_degree {K : Type*} [Field K] [DecidableEq K] (p q : K[X]) (hp : p �
 
 /-- Retain terms of degree strictly below `k`. -/
 def reductum (p : A[X]) (k : ℕ) : A[X] :=
-  ∑ i ∈ Finset.range k, Polynomial.monomial i (p.coeff i)
+  PowerSeries.trunc k (p : PowerSeries A)
 
 /-- All truncations, including the original polynomial and zero. Repetitions disappear. -/
 def reducta (p : A[X]) : Finset A[X] := by
@@ -119,6 +129,19 @@ abbrev FamilyPoly (n : ℕ) := Polynomial (MvPolynomial (Fin n) ℝ)
 /-- Specialize the base coordinates, keeping the distinguished variable. -/
 def fiber (p : FamilyPoly n) (x : Base n) : ℝ[X] :=
   p.map (MvPolynomial.eval₂Hom (RingHom.id ℝ) x)
+
+/-- Existing discriminant base change applies directly when specialization preserves degree. -/
+theorem fiber_discr (p : FamilyPoly n) (x : Base n)
+    (hdeg : (fiber p x).natDegree = p.natDegree) :
+    (fiber p x).discr = MvPolynomial.eval x p.discr :=
+  Polynomial.discr_map_of_natDegree_eq (MvPolynomial.eval₂Hom (RingHom.id ℝ) x) hdeg
+
+/-- The ambient cylinder has distinguished coordinate zero. -/
+def cylinder (S : Set (Base n)) (z : S × ℝ) : Base (n + 1) :=
+  Fin.cons z.2 z.1.val
+
+theorem cylinder_embedding (S : Set (Base n)) : Topology.IsEmbedding (cylinder S) := by
+  sorry
 
 /-- Collins' full projection, retaining harmless zero and constant entries and including
 pairs of all reducta. This finite superset avoids preprocessing assumptions. -/
@@ -180,6 +203,13 @@ theorem roots_semialgebraic (F : Finset (FamilyPoly n)) (S : Set (Base n))
     (hS : IsSemialgebraic S) (D : Delineation F S) (i : Fin D.count) :
     IsSemialgebraic {z : Fin (n + 1) → ℝ |
       ∃ x : S, z = Fin.cons (D.root i x) x.val} := by
+  sorry
+
+/-- Ambient sections and sectors are semialgebraic without assuming projection closure. -/
+theorem stack_semialgebraic (F : Finset (FamilyPoly n)) (S : Set (Base n))
+    (hS : IsSemialgebraic S) (D : Delineation F S) :
+    (∀ i, IsSemialgebraic (cylinder S '' sectionSet D.root i)) ∧
+      (∀ j, IsSemialgebraic (cylinder S '' sectorSet D.root j)) := by
   sorry
 
 /-- Connectedness of every section and sector is a target, not an assumed field. -/
