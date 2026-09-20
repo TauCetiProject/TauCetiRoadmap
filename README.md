@@ -17,6 +17,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Algebraic codes and code-lattice constructions](TauCetiRoadmap/AlgebraicCodingTheory/README.md)
 - [Algebraic curves: function fields, divisors, and Riemann–Roch](TauCetiRoadmap/AlgebraicCurves/README.md)
 - [Algebraic topology of spaces and manifolds](TauCetiRoadmap/AlgebraicTopology/README.md)
+- [Algebraic vector bundles](TauCetiRoadmap/AlgebraicVectorBundles/README.md)
 - [Analytic toric geometry](TauCetiRoadmap/AnalyticToricGeometry/README.md)
 - [Arithmetic Dirichlet series and Tauberian methods](TauCetiRoadmap/ArithmeticDirichletSeries/README.md)
 - [Belyi maps, dessins d'enfants, and three-point covers](TauCetiRoadmap/BelyiMaps/README.md)

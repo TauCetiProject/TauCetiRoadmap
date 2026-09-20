@@ -1,38 +1,41 @@
-<!--tauceti-status:v1 {"roadmap":"NumberFieldArithmetic","to_sha":"8745177e39945cdda39b4203688f5f6bb380a0b9","ts":"2026-09-01T22:18:35Z"}-->
+<!--tauceti-status:v1 {"roadmap":"NumberFieldArithmetic","to_sha":"ecb4a7b62fd4acf11ddc30fb0c6a353882b77ace","ts":"2026-09-18T11:03:03Z"}-->
 # Status: NumberFieldArithmetic
 
-This file documents the status of the NumberFieldArithmetic roadmap up until `8745177` (2026-09-01T22:18:35Z). There may have been subsequent updates.
+This file documents the status of the NumberFieldArithmetic roadmap up until `ecb4a7b` (2026-09-18T11:03:03Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Layers 2.1 and 2.2 are done, Layer 2.3 has its definition and one characterising lemma but none of its comparison API, and Layer 1.1's count criterion is published. Nothing else has begun: Layers 1.2 to 1.5, 2.4 to 2.7, and all of Layers 3 to 8 have no declarations.
+**At a glance.** Layers 1 to 4 are substantially complete: the splitting dictionary, Frobenius elements and the Artin map, Dedekind's theorem with the index theory beneath it, and the relative discriminant ideal. Layer 5 has only its first two milestones, Layer 6 has not begun, and Layers 7 and 8 have monogenicity and the intrinsic label predicate but little else.
 
 ### Named results
 
-- **Existence of relative Frobenius elements** — for a finite Galois extension of number fields and a nonzero prime of the top ring of integers, some Galois element is an arithmetic Frobenius there ([`NumberField.exists_isArithFrobAt_of_isGalois`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Frobenius.html#NumberField.exists_isArithFrobAt_of_isGalois)).
-- **Uniqueness of the Frobenius at an unramified prime** — two arithmetic Frobenius elements at an unramified prime are equal in the Galois group, not merely as algebra homomorphisms ([`NumberField.isArithFrobAt_eq_of_isUnramifiedAt`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Frobenius.html#NumberField.isArithFrobAt_eq_of_isUnramifiedAt)).
-- **Every Frobenius over `𝔭` represents the Artin symbol** — the well-definedness statement that makes the symbol a single conjugacy class ([`NumberField.artinSymbol_eq_mk_of_isArithFrobAt`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/ArtinSymbol.html#NumberField.artinSymbol_eq_mk_of_isArithFrobAt)).
-- **The relative splitting criterion** — over a Galois extension of an arbitrary Dedekind base, the prime count equals the relative degree iff `e = 1` and `f = 1` ([`NumberField.ncard_primesOver_eq_finrank_iff_of_isGalois`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/SplitsCompletely.html#NumberField.ncard_primesOver_eq_finrank_iff_of_isGalois)).
+- **Dedekind's theorem** — the multiset of degrees of the monic irreducible factors of `minpoly ℤ θ` modulo `p` is the cycle type of a Frobenius at a prime above `p` acting on the roots of `minpoly ℚ θ`, with one part `1` restored for each fixed root ([`factorizationType_eq_cycleType_isArithFrobAt`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/DedekindTheorem.html#TauCeti.NumberField.factorizationType_eq_cycleType_isArithFrobAt)).
+- **Dedekind's criterion** — the factorization of `minpoly ℤ θ` modulo `p` decides whether `p` divides the index `[𝓞 K : ℤ[θ]]` ([`not_dvd_index_iff`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Index/DedekindCriterion.html#TauCeti.NumberField.IntegralPrimitiveElement.not_dvd_index_iff)).
+- **The double-coset splitting law** — for `M/K` Galois with group `G` and `E` the fixed field of `H ≤ G`, the primes of `𝓞 E` above `p` are indexed by `H \ G / D` ([`doubleCosetQuotientEquivPrimesOver`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/RamificationInertia/DoubleCoset/Basic.html#Ideal.doubleCosetQuotientEquivPrimesOver)).
+- **Stickelberger's congruence** — the discriminant of a number field is `0` or `1` modulo `4` ([`discr_emod_four_eq_zero_or_one`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Discriminant/Stickelberger.html#TauCeti.NumberField.discr_emod_four_eq_zero_or_one)).
+- **Ramification is the support of the relative discriminant** — a nonzero prime divides it exactly when some prime above it is ramified, with no separability hypothesis on residue fields ([`dvd_relDiscr_iff_exists_not_isUnramifiedAt`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/DedekindDomain/Discriminant/Ramification.html#TauCeti.dvd_relDiscr_iff_exists_not_isUnramifiedAt)).
 
 ### Notable definitions and infrastructure
 
-- **The Artin symbol** ([`NumberField.artinSymbol`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/ArtinSymbol.html#NumberField.artinSymbol)) — the conjugacy-class-valued symbol indexed by a prime ideal of the base, on the carrier the README freezes for Chebotarev and for the Layer 2.5 Artin map.
-- **The subsingleton instance** ([`NumberField.subsingleton_isArithFrobAt`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Frobenius.html#NumberField.subsingleton_isArithFrobAt)) — lets "the Frobenius at `Q`" be used as one element at an unramified `Q`.
-- **Ring-generic group-level uniqueness** ([`IsArithFrobAt.eq_of_isUnramifiedAt`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Frobenius.html#IsArithFrobAt.eq_of_isUnramifiedAt)) — the invariant-ring statement behind the number-field one, under a Noetherian hypothesis and a prime containing all zero-divisors.
+- **The relative discriminant ideal** ([`relDiscr`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/DedekindDomain/Discriminant/Basic.html#TauCeti.relDiscr)) — the relative norm of the different, with transitivity in towers, localization, a coefficientwise valuation formula, and reconciliation with the signed integer discriminant over `ℤ`.
+- **The ideal-theoretic Artin map** ([`artinHomAway`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Ideal/ArtinMap.html#TauCeti.NumberFieldArithmetic.artinHomAway)) — a homomorphism on the fractional ideals prime to a chosen finite set, sending each prime outside it to the Frobenius there; for abelian extensions it is specialised to the complement of the ramified support.
+- **The index of an integral primitive element** ([`index`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Index/Basic.html#TauCeti.NumberField.IntegralPrimitiveElement.index)) — `[𝓞 K : ℤ[θ]]` as a number, which lets monogenicity, Dedekind's criterion and common index divisors be phrased as arithmetic about it.
 
 ### Roadmap coverage
 
-- Layer 1: 1.1 partial. The count-versus-`(e,f)` criterion is published; the decomposition-group form is not among these declarations. 1.2 to 1.5 untouched.
-- Layer 2: 2.1 done; 2.2 done; 2.3 partial, with the definition and the representation lemma only, and no conjugation formula, `orderOf Frob = f`, `zpowers = stabilizer`, residue-Frobenius identification, or `K = ℚ` corollary; 2.4 to 2.7 untouched.
-- Layers 3 to 8 untouched: no index, Dedekind–Kummer, Dedekind's theorem, relative discriminant, local-global dictionary, ramification exponents, subfields, units, or label declarations exist.
+- **Layers 1 and 2: done.** The splitting criterion in all three forms; complete splitting in composita and normal closures; the decomposition and inertia dictionary without residue separability; the double-coset law with its value formula, naturality and index formulas; and for Frobenius, existence, uniqueness, order `f`, generation of the decomposition group, restriction, the tower formula, the Artin symbol and map, and the order-two conjugation at a ramified real place.
+- **Layer 3: done except 3.6 and 3.10.** Index theory, the index formula, Dedekind's criterion, the splitting-field instance, Dedekind's theorem and common index divisors are in. Of the relative Dedekind–Kummer theorem only the irreducibility criterion landed; the correspondence matching `e` and `f` over a general base, and the polynomial-side corollary for arbitrary monic `f`, are absent.
+- **Layer 4: done**, including the ramified support, discriminants of bases in a tower, and Stickelberger.
+- **Layer 5: 5.1 and 5.2 only.** Adic completions are nonarchimedean local fields, with the residue-field identification and residue cardinality, and the canonical map between completions is characterised by continuity. Milestones 5.3 to 5.10 and all of Layer 6 are untouched.
+- **Layers 7 and 8: one milestone each.** Monogenicity is defined and proved for quadratic and cyclotomic fields; the intrinsic label prefix exists and is unique, with the signed discriminant recovered from it. The subfield dictionary, the coverage map and the worked suite are untouched.
 
 ## The frontier
 
-- **Layer 2.4, functoriality of the Frobenius** — restriction along `AlgEquiv.restrictNormal`, then `artinSymbol_map_restrictNormalHom` and the tower formula `exists_isArithFrobAt_pow_inertiaDeg`. Its prerequisites, Layers 2.1 and 2.3, now exist, and both names are the Chebotarev contract.
-- **The rest of Layer 2.3's API** — conjugation covariance `Frob (σ • Q) = σ (Frob Q) σ⁻¹`, `orderOf (Frob Q) = f`, `zpowers = stabilizer` at an unramified `Q`, the image under `stabilizerHom` being the residue Frobenius, and the corollary at `span {p}` over `ℚ`.
-- **Layer 2.5, the ideal-theoretic Artin map** — `idealsAway`, `artinHomAway`, and the five named lemmas; blocked on Layer 2.4.
-- **Layers 1.3 and 1.4** — the decomposition and inertia dictionary and the double-coset law `doubleCosetEquiv`, which Dedekind's theorem in Layer 3.9 needs.
-- **Layers 3.1 to 3.5 and 4.1** — the power-basis index, the index formula, and the `relDiscr` definition; independent of Layer 2 and available now.
+- **Layer 3.10, the polynomial-side corollary** — the statement for arbitrary monic `f : ℤ[X]` that the polynomial Galois groups roadmap consumes by name. Its prerequisites are in place; what remains is the reduction to irreducible factors.
+- **Layer 3.6, the relative Dedekind–Kummer theorem** — the correspondence over a general base between primes above `p` and monic irreducible factors of `minpoly A θ` modulo `p`, the residue degree being the factor degree and the ramification index its multiplicity.
+- **Layer 5.3, the semi-local decomposition** — `K_v ⊗[K] L ≃ ∏_w L_w`, pinned by its value on pure tensors. Milestones 5.4 to 5.10 rest on it, and so does Layer 6, which needs the localization of the different from 5.9.
+- **Layer 6, global ramification consequences** — the lower filtration, the different-exponent formula, and the exact tame and wild exponents. Blocked on Layer 5.
+- **Layer 7.4, certifying a named unit at rank one** — the certificate that a named unit generates the units modulo torsion, and its polynomial form at prime degree. Only finiteness of the bounded units is done.
