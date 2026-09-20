@@ -37,10 +37,16 @@ The targets below specify the additional API particular to each object.
 Use Mathlib's `SimpleGraph` APIs for walks and paths, reachability, connected components, subgraphs, induced subgraphs, edge deletion, cycles, trees, degree, bipartite graphs, and matchings.
 In particular, reuse [`SimpleGraph.IsEdgeConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/EdgeConnectivity.html#SimpleGraph.IsEdgeConnected), [`SimpleGraph.IsBridge`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.html#SimpleGraph.IsBridge) with its cycle characterization `isBridge_iff_forall_cycle_notMem`, and [`SimpleGraph.minDegree`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Finite.html#SimpleGraph.minDegree).
 Mathlib also supplies the [`Graph`–`SimpleGraph` conversions](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Graph/Simple.html), [graph versions of Hall's theorem](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Hall.html), and the [finite-family Hall theorem](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Hall/Finite.html).
+Reuse Tau Ceti's [`DoubledQuiver`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RepresentationTheory/Quiver/Zigzag/Basic.lean), [`DoubledQuiver.Orientation` and `OrientedQuiver`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RepresentationTheory/Quiver/Zigzag/Orientation.lean), supplied by [ZigzagPreprojective, Layer 0](../ZigzagPreprojective/README.md#layer-0-affine-simply-laced-diagrams-doubled-graphs-relation-quotients-and-grading-descent).
+That roadmap owns the doubled-quiver and orientation constructions and their algebraic applications; this roadmap extends their connectivity and network API, importing the existing modules in its prototypes.
+Exposing their arrow families as explicit quiver arguments is an adapter, not a second orientation type.
 
 The following Mathlib proposals guide the corresponding interfaces:
 
 - [#33355: vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355): deletion-based `IsVertexReachable`, `IsVertexPreconnected`, and `IsVertexConnected`.
+- [#42494: numerical edge connectivity](https://github.com/leanprover-community/mathlib4/pull/42494): `edgeReachability`, `edgeConnectivity`, their supremum definitions, and degree bounds.
+- [#36756: shared walks](https://github.com/leanprover-community/mathlib4/pull/36756) and [#39053: the `Graph` instance](https://github.com/leanprover-community/mathlib4/pull/39053): `GraphLike.Walk` with vertex support and darts, following the [HasAdj discussion](https://leanprover.zulipchat.com/#narrow/channel/252551-graph-theory/topic/HasAdj/with/575843445).
+  Use this direction for the undirected representation bridges and prove compatibility with existing `SimpleGraph.Walk` and the directed quiver paths.
 - [#43017: network flows](https://github.com/leanprover-community/mathlib4/pull/43017): quivers with capacities and flow assignments indexed by arrows.
 - [#34028: weak max-flow/min-cut duality](https://github.com/leanprover-community/mathlib4/pull/34028): an undirected flow formulation on simple graphs.
   This roadmap reaches every undirected result through the bidirected network and defines no undirected flow, so it takes only the statement shapes from that proposal.
@@ -67,7 +73,8 @@ The mathematical targets here do not require importing that implementation.
 **Undirected graphs** use `SimpleGraph V`, with `[Fintype V]` for finite sums and cardinalities.
 Statements carry `[DecidableEq V]` and `[DecidableRel G.Adj]` exactly where the Mathlib definitions they mention require them, as `edgeFinset` and `minDegree` do; proofs may reason classically.
 Edges are unordered pairs represented by `Sym2 V` and restricted to the graph's edge set.
-A weighted undirected network is a nonnegative capacity function on `Sym2 V` over the same coefficient type as directed networks; its graph is the support of the capacity, so no separate graph is carried, and a cut counts each crossing pair once.
+A weighted undirected network is a nonnegative capacity function `c` on `Sym2 V` over the same coefficient type as directed networks; its simple support graph has adjacency `v ≠ w ∧ 0 < c(s(v,w))`, so no separate graph is carried, and a cut counts each crossing pair once.
+Diagonal capacities are allowed and ignored by both the support graph and cuts; prove invariance under changing them.
 
 **Directed networks** are terms, not typeclass instances.
 The finite-capacity theory is parameterized by a linearly ordered additive commutative group `K`, expressed by `[AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]`.
@@ -107,13 +114,14 @@ For nontrivial `K`, deduce unboundedness: for every `b : K`, some feasible flow 
 Together these results are the extended max-flow/min-cut statement: finite cuts give an attained common value, while the absence of a finite cut gives cofinal finite flow values, which are unbounded when `K` is nontrivial.
 For `K = ℝ`, also state the dichotomy as an equality in `WithTop ℝ` between `sSup` of the set of finite flow values, which is `⊤` exactly when that set is unbounded, and the minimum extended cut capacity.
 
-**An orientation** `o : G.Orientation` of a simple graph chooses one dart (`SimpleGraph.Dart`) for every edge, with no additional arrows.
-Its arrows from `v` to `w` are the edges whose chosen dart runs from `v` to `w`, and its strong connectivity is that of this arrow family under the shared directed walks.
-The separate bidirected construction replaces each undirected edge by two oppositely directed arrows of the same coefficient and capacity, giving a network in the sense above.
+**An orientation** of a simple graph uses `TauCeti.DoubledQuiver.Orientation G`, whose carrier contains exactly one dart from each reversed pair.
+Use its existing `OrientedQuiver`, or the same arrow family with an explicit quiver argument, for directed walks and strong connectivity.
+The bidirected network equips the existing `DoubledQuiver G` with capacities, giving both directions of an edge the same capacity.
 Milestone 1 supplies the transport lemmas for both constructions.
 
-**Namespaces.** New declarations about simple graphs (orientations, articulation vertices, blocks, disjoint path families, ear decompositions) and the vertex-connectivity predicates under the names of #33355 live in the `SimpleGraph` namespace, so that adopting Mathlib's versions is a deletion.
-`Suggested.lean` keeps the #33355 stand-ins outside that namespace only so that this repository keeps building when Mathlib lands them.
+**Namespaces.** New declarations about simple graphs (articulation vertices, blocks, disjoint path families, ear decompositions) and the connectivity declarations under the names of #33355 and #42494 live in the `SimpleGraph` namespace, so that adopting Mathlib's versions is a deletion.
+Extend the existing orientation namespace rather than introducing `SimpleGraph.Orientation` as a separate structure.
+`Suggested.lean` keeps stand-ins for proposed definitions outside the Mathlib namespaces so that this repository keeps building when Mathlib lands them.
 
 ### Paths, separators, and connectivity
 
@@ -138,7 +146,8 @@ For the edge-disjoint set-to-set version, require `A` and `B` to be disjoint; pa
 
 Use the deletion-based connectivity predicates, with natural-number thresholds coerced where an upstream predicate takes `ℕ∞`.
 Global `k`-vertex-connectivity includes the size condition `k < Fintype.card V`.
-The predicates are the primary interface, but also define derived numerical invariants `vertexConnectivity G` and `edgeConnectivity G` in `ℕ∞` as the suprema of the natural thresholds at which the corresponding predicates hold.
+The predicates are the primary interface, but also define derived numerical invariants `vertexConnectivity G`, `edgeConnectivity G`, and `edgeReachability G s t` in `ℕ∞` as the suprema of the natural thresholds at which the corresponding predicates hold, following #42494 for the edge invariants.
+Include the local threshold equivalence for `edgeReachability`, its symmetry, its value `⊤` on the diagonal, and its comparison with global edge connectivity and endpoint degrees.
 For every finite nonempty carrier, prove `G.IsVertexConnected k ↔ k ≤ G.vertexConnectivity`; define vertex connectivity to be zero on the empty carrier.
 Prove `G.IsEdgeConnected k ↔ k ≤ G.edgeConnectivity` for every finite carrier.
 On a subsingleton vertex type `IsEdgeConnected k` holds for every `k` and `IsVertexConnected k` fails for every `k ≥ 1`; keep both conventions, and let statements involving minimum degree carry `[Nontrivial V]`.
@@ -379,7 +388,7 @@ Gusfield's paper gives the same route as an algorithm on the original graph, wit
 
 ## 10. Bridge to Mathlib's `Graph`
 
-Mathlib's multigraph type `Graph α β` carries loops and parallel edges but has no walks or reachability; #37861 proposes connectivity through connected components as subgraphs, and the surface topology roadmap states its 3-connectivity results on `Graph`.
+Mathlib's multigraph type `Graph α β` carries loops and parallel edges; #37861 proposes connectivity through connected components as subgraphs, and #36756 supplies the design for shared walks.
 Define reachability, `k`-vertex-reachability, and `k`-vertex-connectivity of a `Graph` as those of `Graph.toSimpleGraph`, whose carrier is `V(G)`; loops and parallel edges never change reachability, so these definitions lose nothing.
 Prove compatibility with vertex deletion and induced subgraphs, with the subtype equivalences this requires, and the round trip with `Graph.ofSimpleGraph`.
 Prove compatibility with the component-based connectivity of #37861, in its shape: a `Graph` with nonempty vertex set is connected in that sense exactly when its underlying simple graph is `Connected`, and its connected components correspond to those of the underlying simple graph.
@@ -400,7 +409,10 @@ Provide proved examples alongside the relevant milestones:
 - A disconnected weighted graph whose cut tree contains zero-weight edges.
 
 General contractions, contractible-edge and wheel theorems, planar embeddings, and surface topology are outside this roadmap.
-The [surface topology roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/271) covers them, works on `Graph`, and consumes vertex connectivity through Milestone 10, reading 3-vertex-connectivity as `IsVertexConnected 3` of the underlying simple graph.
+The [surface topology roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/271) owns drawings, embeddings, multigraph degree, contractions, and the contractible-edge and wheel theorems.
+Its 3-connectivity targets use `SimpleGraph`; their `IsThreeConnected` is the specialization `IsVertexConnected 3` of this roadmap's vertex-connectivity API.
+This roadmap owns graph connectivity, components, separators, and their representation bridges; the surface topology development uses that common API for its underlying multigraphs and its simple-graph theorems.
+No second component or 3-connectivity theory is required in the surface topology development.
 
 General matching theory beyond the bipartite consequences above, min-cost and multicommodity flows, infinite graphs, treewidth, and algorithmic complexity bounds are outside this roadmap.
 

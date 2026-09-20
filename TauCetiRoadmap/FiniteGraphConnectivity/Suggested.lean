@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RepresentationTheory.Quiver.Zigzag.Orientation
 
 /-!
 # Finite graph connectivity: suggested signatures
@@ -19,16 +20,16 @@ instances or vertex-type synonyms; the residual network has the flow-independent
 `N.Hom v w ⊕ N.Hom w v`, and an augmenting path is a path in its positive-capacity part; flows on
 an extended network are finite `K`-valued and reach the finite theory by truncation rather than
 extended subtraction; integrality is stated for an additive subgroup of `K`; an orientation of a
-simple graph is a choice of `Dart` per edge; ear decompositions are data, here terms of one
+simple graph reuses `TauCeti.DoubledQuiver.Orientation`; ear decompositions are data, here terms of one
 inductive type family indexed by the subgraph built so far, while the roadmap pins their observable
 prefix API rather than this representation; connectivity predicates are primary, following
 Mathlib's `IsEdgeConnected` and the shape of Mathlib proposal #33355 for vertex connectivity, with
 derived `ℕ∞`-valued invariants; Menger is stated in witness form; and every sum is a `Finset.sum`.
 
 Namespaces: in Tau Ceti, new declarations about simple graphs live in `SimpleGraph`, including
-the vertex-connectivity predicates under the names of #33355. Here those two predicates are
-stand-ins in this roadmap's namespace only so that this file keeps compiling when Mathlib lands
-them; everything else about simple graphs is already in `SimpleGraph`.
+the connectivity declarations under the names of #33355 and #42494. Their prototype definitions
+are stand-ins in this roadmap's namespace so that this file keeps compiling when Mathlib lands
+them. Orientations use the existing Tau Ceti type.
 -/
 
 open Finset
@@ -339,6 +340,14 @@ def IsVertexReachable (k : ℕ∞) (u v : V) : Prop :=
 def IsVertexConnected (k : ℕ∞) : Prop :=
   k + 1 ≤ ENat.card V ∧ ∀ u v, IsVertexReachable G k u v
 
+/-- Stand-in for #42494, with the proposed supremum definition. -/
+noncomputable def edgeReachability (u v : V) : ℕ∞ :=
+  ⨆ (k : ℕ) (_ : G.IsEdgeReachable k u v), (k : ℕ∞)
+
+/-- Stand-in for #42494, including its value `⊤` on subsingleton carriers. -/
+noncomputable def edgeConnectivity : ℕ∞ :=
+  ⨆ (k : ℕ) (_ : G.IsEdgeConnected k), (k : ℕ∞)
+
 end TauCetiRoadmap.FiniteGraphConnectivity
 
 /-! ## Undirected connectivity (Milestones 1, 2, 5, 6, 7) -/
@@ -355,12 +364,6 @@ The empty-carrier convention is zero. The predicates remain the primary interfac
 noncomputable def vertexConnectivity : ℕ∞ :=
   ⨆ k : ℕ, if IsVertexConnected G (k : ℕ∞) then (k : ℕ∞) else 0
 
-open Classical in
-/-- The largest natural threshold at which `G` is edge-connected, as an extended natural.
-This is `⊤` on a subsingleton carrier. The predicates remain the primary interface. -/
-noncomputable def edgeConnectivity : ℕ∞ :=
-  ⨆ k : ℕ, if G.IsEdgeConnected k then (k : ℕ∞) else 0
-
 /-- On a nonempty finite carrier, numerical vertex connectivity records exactly the valid
 thresholds. -/
 theorem isVertexConnected_iff_le_vertexConnectivity [Finite V] [Nonempty V] (k : ℕ) :
@@ -370,11 +373,11 @@ theorem isVertexConnected_iff_le_vertexConnectivity [Finite V] [Nonempty V] (k :
 /-- Numerical edge connectivity records exactly the valid thresholds, including the value `⊤`
 on subsingleton carriers. -/
 theorem isEdgeConnected_iff_le_edgeConnectivity [Finite V] (k : ℕ) :
-    G.IsEdgeConnected k ↔ (k : ℕ∞) ≤ G.edgeConnectivity := by
+    G.IsEdgeConnected k ↔ (k : ℕ∞) ≤ edgeConnectivity G := by
   sorry
 
 theorem edgeConnectivity_eq_top_iff [Finite V] :
-    G.edgeConnectivity = ⊤ ↔ Subsingleton V := by
+    edgeConnectivity G = ⊤ ↔ Subsingleton V := by
   sorry
 
 theorem vertexConnectivity_ne_top [Finite V] : G.vertexConnectivity ≠ ⊤ := by
@@ -431,11 +434,11 @@ theorem le_minDegree_of_isEdgeConnected [Fintype V] [DecidableRel G.Adj] [Nontri
 
 /-- Whitney's inequalities for the derived numerical invariants. -/
 theorem vertexConnectivity_le_edgeConnectivity [Finite V] :
-    G.vertexConnectivity ≤ G.edgeConnectivity := by
+    G.vertexConnectivity ≤ edgeConnectivity G := by
   sorry
 
-theorem edgeConnectivity_le_minDegree [Fintype V] [DecidableRel G.Adj] [Nontrivial V] :
-    G.edgeConnectivity ≤ (G.minDegree : ℕ∞) := by
+theorem edgeConnectivity_le_minDegree_target [Fintype V] [DecidableRel G.Adj] [Nontrivial V] :
+    edgeConnectivity G ≤ (G.minDegree : ℕ∞) := by
   sorry
 
 /-- An articulation vertex separates two other vertices. The component-count form is a lemma. -/
@@ -548,22 +551,11 @@ theorem isEdgeConnected_two_iff_forall_not_isBridge :
     G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e := by
   sorry
 
-/-- An orientation chooses one dart for every edge. -/
-structure Orientation where
-  dart : G.edgeSet → G.Dart
-  edge_dart : ∀ e, (dart e).edge = (e : Sym2 V)
-
-/-- The arrows of an orientation: the edges whose chosen dart runs from `v` to `w`. -/
-def Orientation.Hom (o : G.Orientation) (v w : V) : Type u :=
-  {e : G.edgeSet // (o.dart e).fst = v ∧ (o.dart e).snd = w}
-
-/-- Strong connectivity of the oriented graph, through the shared directed walks. -/
-def Orientation.IsStronglyConnected (o : G.Orientation) : Prop :=
-  TauCetiRoadmap.FiniteGraphConnectivity.IsStronglyConnected o.Hom
-
-/-- Robbins' theorem, with no connectedness or size hypothesis. -/
+/-- Robbins' simple-graph corollary uses the orientation API owned by ZigzagPreprojective. -/
 theorem exists_orientation_isStronglyConnected_iff [Finite V] :
-    (∃ o : G.Orientation, o.IsStronglyConnected) ↔ G.IsEdgeConnected 2 := by
+    (∃ o : TauCeti.DoubledQuiver.Orientation G,
+      @Quiver.IsStronglyConnected (TauCeti.DoubledQuiver.OrientedQuiver G o) inferInstance) ↔
+      G.IsEdgeConnected 2 := by
   sorry
 
 /-- Kőnig's theorem, with witnesses. -/
@@ -634,6 +626,16 @@ theorem min_minCut_le_minCut (f : Finset V → K) (s v t : V) (hst : s ≠ t) :
 once. Loops never cross, and pairs of capacity zero are the non-edges. -/
 noncomputable def cutCapacity (c : Sym2 V → K) (S : Finset V) : K :=
   ∑ e ∈ univ.filter (fun e : Sym2 V => (∃ x ∈ e, x ∈ S) ∧ (∃ y ∈ e, y ∉ S)), c e
+
+/-- The support ignores diagonal capacities, as does the cut function. -/
+def capacitySupport (c : Sym2 V → K) : SimpleGraph V where
+  Adj v w := v ≠ w ∧ 0 < c s(v, w)
+  symm := ⟨fun v w h => ⟨h.1.symm, by simpa only [Sym2.eq_swap] using h.2⟩⟩
+  loopless := ⟨fun v h => h.1 rfl⟩
+
+theorem cutCapacity_eq_of_offDiagonal_eq (c d : Sym2 V → K)
+    (h : ∀ v w, v ≠ w → c s(v, w) = d s(v, w)) : cutCapacity c = cutCapacity d := by
+  sorry
 
 theorem isSymmSubmodular_cutCapacity (c : Sym2 V → K) (hc : ∀ e, 0 ≤ c e) :
     IsSymmSubmodular (cutCapacity c) := by
