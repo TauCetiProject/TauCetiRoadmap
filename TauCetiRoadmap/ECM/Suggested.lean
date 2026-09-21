@@ -10,7 +10,7 @@ import Mathlib.GroupTheory.OrderOfElement
 all of them finishes neither a layer nor the roadmap.
 
 The definitions pin the coefficient and scaled-doubling conventions. The projective
-and executable correspondence interfaces are specified in the README and must be
+and algorithmic correctness interfaces are specified in the README and must be
 built on the existing point API, not replaced by proposition-valued placeholders.
 -/
 

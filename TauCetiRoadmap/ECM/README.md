@@ -1,9 +1,11 @@
 # Elliptic-curve factorization: Montgomery arithmetic and ECM
 
 Develop the algebraic correctness theory of Lenstra's elliptic-curve method (ECM),
-through Montgomery stage 1 and a baby-step/giant-step stage 2, with a correspondence
-proof for the Hex executable. The reusable contribution is arithmetic on the
-Montgomery Kummer line, reduction modulo a divisor, and conditional factor detection.
+through Montgomery stage 1 and a baby-step/giant-step stage 2. The central objects
+are Montgomery curves and their Kummer lines, where scalar multiplication can be
+computed using only projective x-coordinates. Relate these computations over finite
+fields to arithmetic modulo a composite integer, and prove the conditions under
+which they detect a proper factor.
 
 There is no expected-runtime claim. Smooth-number estimates, distributions of curve
 orders, success probabilities, asymptotic complexity, ECPP, and polynomial/FFT stage-2
@@ -27,9 +29,8 @@ conditional statements. No addition to that roadmap is required for ECM.
 
 Suggested homes are `TauCeti/AlgebraicGeometry/EllipticCurve/Montgomery/` for the curve
 and Kummer API, and `TauCeti/NumberTheory/Factorization/ECM/` for modular algorithms.
-The concrete Hex comparison belongs in Hex's Mathlib bridge, where both the executable
-and Tau Ceti can be imported; it is a required downstream deliverable of milestone 12.
-Tau Ceti itself must not acquire a dependency on Hex.
+The finite algorithms and their correctness theorems belong to this development,
+alongside the geometric and arithmetic APIs they use.
 
 ## Conventions
 
@@ -44,7 +45,7 @@ Tau Ceti itself must not acquire a dependency on Hex.
   `(1,0)`. A pair denotes a point of the projective line only when it is nonzero.
   `(0,0)` is invalid, never infinity. Scaling invariance over a field requires a
   nonzero scale; over a ring require a unit when asserting projective equivalence.
-- Use `A24 = (A+2)/4`. The scaled executable carries `N,D` with `N/D = A24`.
+- Use `A24 = (A+2)/4`. Scaled coordinate formulas carry `N,D` with `N/D = A24`.
   Keep this convention fixed; the `(A−2)/4` formulas have a different doubling term.
 - A stage bound means `M(B₁) = lcm(1,…,B₁)`, with empty lcm `1`. Equivalently it is
   the product of the largest prime powers at most `B₁`. “Smooth enough” means
@@ -113,8 +114,8 @@ milestone 4 hold. Define regularity from those concrete intermediate tests, not 
 an opaque proposition asserting the desired answer. Prove an alternative theorem
 that a failed checked trace identifies a precise exceptional step. Establish usable
 sufficient conditions and dedicated infinity/order-two cases, so the regularity
-hypothesis is not left as an unexamined assumption. The raw ladder used by Hex is
-related to this checked ladder on regular traces in milestone 12.
+hypothesis is not left as an unexamined assumption. Relate the raw coordinate
+ladder to this checked ladder on regular traces in milestone 12.
 
 ### 6. Suyama parameterization
 
@@ -198,31 +199,32 @@ that a root gcd of `n` ensures recovery: a singleton zero residue is a counterex
 Prove the detection theorem survives batching and record the exact failure cases.
 This API should also support Pollard `p−1` stage 2 without elliptic-curve assumptions.
 
-### 12. Hex correspondence and acceptance examples
+### 12. Finite ECM algorithms and worked examples
 
-Give Tau Ceti executable reference definitions for the setup, ladder, stage-1 schedule,
-stage-2 schedule, and recovery just specified. In Hex's Mathlib bridge, import those
-definitions and compare them to the actual executable functions, including the natural
-backend, machine-word Montgomery representation, encoding/decoding, reducedness bounds,
-and backend fallback. Prove arithmetic refinement before geometric correctness.
-If an internal executable is private, expose a small stable interface in Hex rather
-than copy it into a theorem and call the copy a correspondence proof.
+Define finite algorithms on natural-number residues for the setup, ladder, stage-1
+schedule, stage-2 schedule, and recovery specified above. Prove that the residue
+operations agree with arithmetic in `ZMod n`, preserve reduced representatives,
+and realize the polynomial coordinate formulas. Relate raw ladder traces to the
+checked ladder on regular traces. Instantiate the geometric theorems only after
+establishing these arithmetic comparisons.
 
-Prove the stage-1 comparison with Hex's effective bound (including its prime-table
-cap), deterministic parameter schedule and all three result constructors. Instantiate
-the conditional geometric theorems at admissible parameters and regular traces;
-preserve the existing unconditional theorem that every returned factor is a proper
-divisor even for singular parameters or exceptional traces. The stage-2 deliverable
-includes the executable Hex continuation and its bridge, consuming milestones 10–11.
-The roadmap therefore does not silently assume that a Hex stage-2 function exists.
+Assemble a bounded factor search for `n > 1`, with an explicit finite sequence of
+curve parameters and stage bounds. Prove termination and account for all three gcd
+outcomes. Every returned factor must be a proper divisor of `n`, including when a
+curve is singular or a coordinate trace is exceptional. Prove the conditional
+stage-1 and stage-2 detection theorems for admissible parameters and regular traces,
+with the proper-gcd hypotheses from milestone 8 and the recovery theorem from
+milestone 11. An inconclusive result must not assert primality or the absence of a
+factor. The definitions and theorems must allow arbitrary finite schedules satisfying
+the coverage requirements, without fixing a particular prime table or numerical bound.
 
 Require kernel-checked worked examples covering: a nonsingular Suyama setup; a
 setup factor; a regular stage-1 annihilation yielding a proper factor; a genuine
 stage-2 extra-prime detection; `gcd=1`; `gcd=n`; recovery of a factor hidden by a
 whole-modulus batch; an unrecoverable zero leaf; a singular parameter with invertible
-setup denominator; and an invalid differential-addition pair. Show both backend
-comparisons on overlapping supported inputs, and the natural route beyond the word
-range. These examples supplement the universal theorems; they do not replace them.
+setup denominator; and an invalid differential-addition pair. Check that the residue
+and curve computations agree in the regular examples. These examples supplement the
+universal theorems; they do not replace them.
 
 ## Dependencies and references
 
@@ -239,8 +241,6 @@ assume that stage 1 found a factor.
   coordinate formulas and their hypotheses.
 - [GMP-ECM](https://gitlab.inria.fr/zimmerma/ecm): Suyama parameterization and practical
   stage-2 conventions; a reference for mathematics and design, not code to copy.
-- [Hex ECM stage 1](https://github.com/kim-em/hex-dev/blob/main/HexIntFactor/Ecm.lean):
-  the downstream executable and existing dynamically checked factor theorem.
 
 ### Mathlib alignment
 
