@@ -392,9 +392,28 @@ disjointness and exhaustiveness are theorems:
   no information beyond the parity.
 - `range_localCyclotomicCharacter_of_degree_even_plusMinus` and
   `range_localCyclotomicCharacter_of_degree_even_principal` compute the image as
-  `PPG.unitsPlusMinus f` and as `PPG.procyclicClosure (-1 + 2^f)` respectively, and
-  `absoluteGaloisGroupProP_two_marked_of_degree_even` reads the supplier's parameters `a` and `f`
-  off that image. The branch is selected from the image, never from `q`.
+  `PPG.unitsPlusMinus f` and as `PPG.procyclicClosure u` with `(u : ℤ₂) = -1 + 2^k`
+  respectively. The branch is selected from the image, never from `q`.
+- The two **marked** even theorems take the image equation as a hypothesis, so that the
+  supplier's parameters are pinned by the arithmetic and not re-chosen, and record the supplier's
+  generator values under the isomorphism, as the odd theorem does:
+  - `absoluteGaloisGroupProP_two_marked_of_degree_even_plusMinus`, under
+    `IsDyadicEvenPlusMinusCase` and `Im χ = {±1} × U^(f)`: the relator is the supplier's even word
+    at `a = 0`, `x₁²(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯`, with `χ(x₂) = -1`, `χ(x₄)(1 - 2^f) = 1` and `χ = 1`
+    on the other generators.
+  - `absoluteGaloisGroupProP_two_marked_of_degree_even_principal`, under
+    `IsDyadicEvenPrincipalCase` and `Im χ = U^[k] = closure⟨-1 + 2^k⟩`: the relator is the
+    supplier's even word at `a = 2^k` and any `f > k`, `x₁^{2+2^k}(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯`, with
+    `χ(x₂)(1 + 2^k) = -1`, `χ(x₄)(1 - 2^f) = 1` and `χ = 1` elsewhere. The equation on `x₂` is
+    solvable in `U^[k]` exactly when `v₂(a) = k`, which is what pins `a`; ⚠ `f` is **not** an
+    invariant in this branch, since `(1 - 2^f)⁻¹ ∈ U^(f) ⊆ U^[k]` for every `f > k`, and the
+    presented groups for the different `f > k` are pairwise isomorphic by Labute's classification,
+    all of them Labute's `x₁^{2+2^k}(x₁,x₂)(x₃,x₄)⋯`, the value `f = ∞` that the supplier's word
+    cannot spell with a natural number.
+- `absoluteGaloisGroupProP_two_of_degree_even`, the unmarked statement — some supplier even word
+  with `f ≥ 2`, `4 ∣ a` presents `G_K(2)` — is a corollary of the two marked theorems and the two
+  image computations, with a closed proof. It carries no orientation data and does not discharge
+  the marked milestone.
 - Prove functoriality of each marked result under an isomorphism of local fields over `ℚ_p` and
   compatibility with finite extensions.
 
@@ -470,7 +489,14 @@ generators is not a rational invariant. The chain below is the integral one, in 
 ### Step 3: the Tate module of a tame layer and its integral decomposition
 
 This step is the proof of NSW (7.4.1), with each object named. Throughout, `L/K` is a finite
-Galois layer with group `G = Gal(L/K)`, and `N = [K:ℚ_p]`. Rationalization is `M ⊗[ℤ_p] ℚ_p` with
+Galois layer with group `G = Gal(L/K)`, and `N = [K:ℚ_p]`. From the rational decomposition
+onwards that is a **Lean hypothesis**, bound once in `section FiniteGaloisLayer` of
+`Suggested.lean` as `[IsScalarTower ℚ_[p] K L] [IsGalois K L] [FiniteDimensional K L]` — the
+tower makes `[L:ℚ_p] = [K:ℚ_p]·[L:K]`, and the Galois hypotheses make `L ≃ₐ[K] L` the group
+`Gal(L/K)` of order `[L:K]` — and not a reading convention. ⚠ Finiteness of `L ≃ₐ[K] L` is not a
+substitute for `L/K` Galois: for the non-Galois cubic `ℚ₅(∛5)/ℚ₅` the automorphism group is
+trivial, and the rational decomposition would assert an isomorphism between `ℚ₅`-vector spaces of
+dimensions `[L:ℚ₅]+1 = 4` and `N·#Aut_K(L)+1 = 2`. Rationalization is `M ⊗[ℤ_p] ℚ_p` with
 Mathlib's left-factor `ℤ_p[G]`-structure; a `ℤ_p[G]`-linear isomorphism between `ℚ_p`-vector
 spaces is automatically `ℚ_p[G]`-linear, so no second module structure is installed on the
 rationalization.
@@ -485,9 +511,22 @@ rationalization.
 - **The rational decomposition** `padicCompletionUnits_tensor_ratPadic`:
   `A(L)⊗ℚ_p ≃ ℚ_p[G]^N ⊕ ℚ_p`, from the `p`-adic logarithm on the deep units and the normal
   basis theorem (NSW (7.4.4)(i)), stated as a `ℤ_p[G]`-linear isomorphism against the rationalized
-  `ℤ_p[G]/I_G`. A `ℚ_p`-linear statement would be a dimension count and would carry none of the
+  `ℤ_p[G]/I_G`, over the finite Galois layer of the section. The normal basis theorem is where
+  `L/K` Galois is consumed and the dimension count `N·[L:K]+1 = [L:ℚ_p]+1` is where the tower is.
+  A `ℚ_p`-linear statement would be a dimension count and would carry none of the
   representation-theoretic content the decomposition acts on.
   *Needs:* LFR deep units and ramification; M normal basis; CFT reciprocity.
+- **Rejection test for the Galois hypothesis** `not_nonempty_tensor_ratPadic_of_card_lt`: over a
+  finite layer of `p`-adic fields with `#Aut_K(L) < [L:K]`, the decomposition is false, by the
+  dimension count `[L:ℚ_p]+1` (Step 2) against `N·#Aut_K(L)+1`. Its instance is the non-Galois
+  cubic: `NonGaloisCubic = AdjoinRoot (X³ - 5)` over `ℚ₅`, with `finrank_nonGaloisCubic` (a closed
+  proof, degree `3`), `nonGaloisCubic_card_algEquiv_lt` (trivial automorphism group),
+  `not_isGalois_nonGaloisCubic`, and `not_nonempty_tensor_ratPadic_nonGaloisCubic`, a closed proof
+  applying the abstract test to the instance. The same hypotheses propagate to
+  `nonempty_tateModule`, `tateModule_linearEquiv` and `exists_relationModule_surjective`, which
+  consume the decomposition; ⚠ on the cubic a `TateModule` exists — `G` is trivial, `I_G = 0` and
+  `A(L)` has projective dimension one over `ℤ₅` — so the decomposition theorem is false there
+  too, not merely vacuous.
 - **The compatibility of the two module structures** `padicCompletionUnits_isScalarTower`: the
   `ℤ_p`-structure of `A(L)` is the restriction of the `ℤ_p[G]`-structure. Without it the torsion of
   Step 2 cannot be read inside the group-algebra module and the rationalization carries no
@@ -498,13 +537,36 @@ rationalization.
   norm is exactly the pro-`p` abelianized Galois group, which is the `p`-completion of
   `CFT.normResidue : Kˣ ⧸ N(Lˣ) ≃* Gal(L/K)^ab`; no second norm group is introduced, `LFR.normGroup`
   is the one used.
-- **Sharp exponents** `exists_tameFrame_exponents`: for `σ, τ ∈ G` with `τ` of order prime to
-  `p`, there are natural numbers `a, b` through which `σ, τ` act on `μ_{p^∞}(L)` such that the
-  left ideal `(σ - a, τ - b)` of `ℤ_p[G]` is the annihilator of `μ_{p^∞}(L)^∨`, stated as: the
-  quotient `ℤ_p[G]/(σ - a, τ - b)` has order `q(L)`. This is the exact sequence `(∗)` in the proof
-  of NSW (7.4.1). ⚠ Not every lift works: `a = b = 1` gives an infinite quotient, whose `Nat.card`
-  is `0`, and a tame-frame module with the wrong torsion. The prime-to-`p` order of `τ` is what
-  allows `b` to be adjusted along `τ^{orderOf τ} = 1` until the order condition holds.
+- **Sharp exponents** `exists_tameFrame_exponents`: for a **generating pair** `σ, τ` of `G`
+  (`Subgroup.closure {σ, τ} = ⊤`) with `τ` of order prime to `p`, there are natural numbers `a, b`
+  through which `σ, τ` act on `μ_{p^∞}(L)` such that the left ideal `J = (σ - a, τ - b)` of
+  `ℤ_p[G]` is the annihilator of `μ_{p^∞}(L)` itself, the kernel of the ring map
+  `ℤ_p[G] → ℤ/q(L) = End(μ_{p^∞}(L))` through which `G` acts. Both halves are pinned in the
+  statement: the quotient `ℤ_p[G]/J` has order `q(L)`, and it is isomorphic as a left
+  `ℤ_p[G]`-module to the `p`-power torsion of `A(L)`, which is `μ_{p^∞}(L)` with its Galois
+  action (Step 2). This is the exact sequence `(∗)` in the proof of NSW (7.4.1).
+  - ⚠ Dual convention: with the contragredient action `(gφ)(ζ) = φ(g⁻¹ζ)` on the Pontryagin dual,
+    the annihilator of `μ_{p^∞}(L)^∨` is `(σ - a⁻¹, τ - b⁻¹)`, not `J`. The dual appears in the
+    torsion statement below, where `E¹(M₀) = μ_{p^∞}(L)^∨` with `σ, τ` acting through
+    `a⁻¹, b⁻¹`, and not here.
+  - ⚠ Generation is load-bearing. When `σ, τ` generate, `ℤ_p[G]/J` is cyclic over `ℤ_p`,
+    equal to `ℤ_p/(χ(r) - 1 : r ∈ R)` for the character `x ↦ a, y ↦ b` of the free group on two
+    letters and `R` the relations of `G`; it maps onto `ℤ/q(L)` because `a, b` lift the action,
+    and moving `b` by a multiple of `q(L)` along `τ^{orderOf τ} = 1` — possible because
+    `p ∤ orderOf τ` — makes `v_p(b^{orderOf τ} - 1)` exactly `v_p(q(L))`. When `σ, τ` generate a
+    proper subgroup `H`, the quotient is `(ℤ_p[H]/J_H)^{[G:H]}`, of order at least
+    `q(L)^{[G:H]} > q(L)` whenever `q(L) > 1`, and no exponents are sharp.
+  - ⚠ Not every lift works: `a = b = 1` gives `ℤ_p[G]/I_G ≅ ℤ_p`, infinite, whose `Nat.card` is
+    `0`, and a tame-frame module with the wrong torsion.
+- **Rejection test for the generating hypothesis** `not_exists_tameFrame_exponents_one_one`: at
+  `p = 2`, on any layer with `q(L) = 2` and a nontrivial automorphism group, the identity pair
+  `σ = τ = 1` — which satisfies `¬ 2 ∣ orderOf τ` — admits no sharp exponents: `-1 ∈ μ_{2^∞}(L)`
+  forces `a, b` odd, so `(1 - a, 1 - b) ⊆ 2ℤ₂[G]` and the quotient maps onto `𝔽₂[G]`, of order
+  `2^{#G} ≥ 4` or infinite. Its instance is the unramified quadratic extension
+  `UnramifiedQuadratic = AdjoinRoot (X² + X + 1)` over `ℚ₂`, with
+  `localRootOfUnityOrder_two_unramifiedQuadratic`, `nontrivial_algEquiv_unramifiedQuadratic`, and
+  `not_exists_tameFrame_exponents_one_one_unramifiedQuadratic`, a closed proof applying the
+  abstract test to the instance.
 - **The tame-frame module** under the sharpness condition:
   `tameFrameModule_tensorRat_linearEquiv`, `M₀ ⊗ ℚ_p ≃ ℚ_p[G]`, because `1 ↦ (σ - a, τ - b)` is
   injective; and `tameFrameModule_torsion_linearEquiv`, the `p`-power torsion of `M₀` is
@@ -602,8 +664,9 @@ normal and contains `⁅P_K, P_K⁆`, the quotient is trivial and has no finset 
 - **The finite level** `exists_generating_tuple_quotient`: every finite continuous quotient
   `G_K/U` through which `⁅P_K, P_K⁆` dies is generated by an `(N+2)`-tuple. This is where Step 3
   is used, as in the proof of NSW (7.4.1). With `L` the fixed field of `P_K U`, a finite tamely
-  ramified Galois layer with group `G_K/(P_K U)`: `exists_tameFrame_quotient` supplies `σ, τ`;
-  `exists_tameFrame_exponents` the sharp exponents; `nonempty_tateModule` and
+  ramified Galois layer with group `G_K/(P_K U)`: `exists_tameFrame_quotient` supplies the
+  generating pair `σ, τ`, which is the hypothesis `exists_tameFrame_exponents` needs for the sharp
+  exponents; `nonempty_tateModule` and
   `tateModule_linearEquiv` the decomposition `Y ≃ M₀ ⊕ ℤ_p[G]^N`;
   `exists_relationModule_surjective`, for a generating family of size `N+2` extending `σ, τ`, the
   surjection `β : R^ab_{N+2}(p) ↠ A(L)` with kernel `ℤ_p[G]`. Because `β` induces an isomorphism on
@@ -671,11 +734,23 @@ Euler characteristic.
   surjective. By the supplier's named value theorems, the pulled-back marked generators have
   values `(-1, 1, (-3)⁻¹)`. The unmarked isomorphism is a corollary of this theorem, not a
   separate classification choice.
-- **`K=ℚ₂(√-2)`.** Prove degree `2`, `q=2`, and cyclotomic image
-  `U^[2]=closure<3>`, of index `2` in `ℤ₂ˣ`; equivalently `IsDyadicEvenPrincipalCase` holds,
-  because the unit norms `a²+2b²` with `a` odd are exactly the classes `1, 3 mod 8` and `-1` is
-  not among them. Select the even-rank marked presentation `⟨x,y,z,w | x⁶(x,y)(z,w)⟩`. This
-  example detects loss of the `U^[f]` family.
+- **`K=ℚ₂(√-2)`**, as `RatPadicSqrtNegTwo = AdjoinRoot (X² + 2)` over `ℚ₂`. Prove
+  `finrank_ratPadicSqrtNegTwo` (degree `2`, a closed proof from the power basis),
+  `localRootOfUnityOrder_two_ratPadicSqrtNegTwo` (`q=2`), and
+  `range_localCyclotomicCharacter_ratPadicSqrtNegTwo`: the cyclotomic image is
+  `U^[2]=closure⟨3⟩ = PPG.procyclicClosure (-negThreeUnit)`, of index `2` in `ℤ₂ˣ`, because the
+  uniformizer `√-2` has norm `2` and contributes `χ = 1`, while the unit norms `a²+2b²` with `a`
+  odd are exactly the classes `1, 3 mod 8` and `-1` is not among them; the generator is `-1 + 2²`
+  by the closed proof `negThreeUnit_neg_coe`, which is what fixes `k = 2`. Hence
+  `isDyadicEvenPrincipalCase_ratPadicSqrtNegTwo`. Then the marked theorem
+  `absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo_marked`: an isomorphism
+  `G_{ℚ₂(√-2)}(2) ≃ ⟨x₁,x₂,x₃,x₄ | x₁⁶(x₁,x₂)x₃⁸(x₃,x₄)⟩`, the supplier's even word at `a = 4`,
+  `f = 3`, under which `χ(x₂)(1+4) = -1`, `χ(x₄)(1-8) = 1` and `χ(x₁) = χ(x₃) = 1`. This is
+  `absoluteGaloisGroupProP_two_marked_of_degree_even_principal` at `N=2`, `k=2`, `u=3`, `f=3`;
+  the relator is Labute-isomorphic to his `x⁶(x,y)(z,w)`, the same group with `f = ∞`. The
+  unmarked `absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo` is a corollary with a closed proof.
+  This example detects loss of the `U^[f]` family, and it detects a marked theorem that forgets
+  its marking: an unmarked isomorphism type cannot tell `k = 2` from any other `k`.
 - **`K=ℚ_p(μ_p)`, `p` odd.** Prove degree `p-1`, `q=p`, rank `p+1`, and the marked normal form
   `x₁^p(x₁,x₂)(x₃,x₄)...(x_p,x_{p+1})`.
 
@@ -719,10 +794,20 @@ Step 5 needs Steps 3 and 4; and Step 6 needs Step 5 together with L3.
   arithmetic Artin convention.
 - The five branch cases are Lean predicates with a proved disjointness-and-exhaustiveness theorem,
   not a prose table.
-- The `q=2` even-rank branch is selected from the orientation image, not from `q` alone.
+- The `q=2` even-rank branch is selected from the orientation image, not from `q` alone, and
+  both even marked theorems take the image equation as a hypothesis and record the supplier's
+  generator values; the unmarked even statement is a closed-proof corollary.
+- The finite-layer module contracts of L7 Step 3 — the rational decomposition, the Tate module,
+  its decomposition and the relation-module surjection — carry `IsScalarTower ℚ_[p] K L`,
+  `IsGalois K L` and `FiniteDimensional K L` as Lean hypotheses, and the non-Galois cubic
+  `ℚ₅(∛5)` is a named rejection test.
+- `exists_tameFrame_exponents` takes a generating pair, pins both the order and the
+  `ℤ_p[G]`-module structure of `ℤ_p[G]/(σ - a, τ - b)`, and the identity pair on `ℚ₂(ζ₃)` is a
+  named rejection test.
 - `D₀` and its standard orientation are imported from PPG; only the marked local isomorphism is
   proved here.
-- The `ℚ₂` theorem preserves the values `(-1,1,(-3)⁻¹)` and surjectivity.
+- The `ℚ₂` theorem preserves the values `(-1,1,(-3)⁻¹)` and surjectivity; the `ℚ₂(√-2)` theorem
+  records `χ(x₂)(1+4) = -1`, `χ(x₄)(1-8) = 1` and the image `closure⟨3⟩` with `3 = -1 + 2²`.
 
 ## References
 

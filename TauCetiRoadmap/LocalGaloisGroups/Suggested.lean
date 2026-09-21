@@ -580,13 +580,89 @@ theorem range_localCyclotomicCharacter_of_degree_even_principal
       (localCyclotomicCharacter 2 K).range = ProfiniteProPGroups.procyclicClosure u :=
   sorry
 
-/-- The even-degree marked normal form, in both branches: the supplier's even relator applies with
-the parameters `a` and `f` read off the orientation image by the two theorems above. The
+/-- **The even-degree marked normal form, `{±1} × U^(f)` branch.** The parameter `f` is pinned by
+the orientation image: it is the `f` of `range_localCyclotomicCharacter_of_degree_even_plusMinus`,
+taken here as the hypothesis `hrange` rather than re-chosen, and the relator is the supplier's even
+word at `a = 0`, that is `x₁²(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯`. The conclusion records the supplier's
+generator values under the isomorphism — `χ(x₂) = -1`, which is the supplier's equation
+`χ(x₂)(1 + a) = -1` at `a = 0`; `χ(x₄)(1 - 2^f) = 1`; and `χ(x_i) = 1` elsewhere — against the
+cyclotomic orientation, exactly as `absoluteGaloisGroupProP_two_marked_of_degree_odd` does.
+
+⚠ An unmarked `Nonempty (_ ≃ₜ* _)` does not discharge this milestone: the two even branches have
+relators of the same shape and the same `q` and rank, and only the values of `χ_cyc` on the marked
+generators, together with the image equation, tie the presentation to the arithmetic of `K`. -/
+theorem absoluteGaloisGroupProP_two_marked_of_degree_even_plusMinus
+    (hmu : ∃ ζ : K, IsPrimitiveRoot ζ 2) (_hcase : IsDyadicEvenPlusMinusCase K)
+    (f : ℕ) (_hf : 2 ≤ f)
+    (_hrange : (localCyclotomicCharacter 2 K).range = ProfiniteProPGroups.unitsPlusMinus f)
+    [TotallyDisconnectedSpace
+      (ProfiniteProPGroups.presentedProP 2 (Fin (Module.finrank ℚ_[2] K + 2))
+        {ProfiniteProPGroups.demushkinWordTwoEven 0 f (Module.finrank ℚ_[2] K + 2)
+          (ProfiniteProPGroups.freeProPGen 2 (Module.finrank ℚ_[2] K + 2))})] :
+    ∃ e : absoluteGaloisGroupProP 2 K ≃ₜ*
+        ProfiniteProPGroups.presentedProP 2 (Fin (Module.finrank ℚ_[2] K + 2))
+          {ProfiniteProPGroups.demushkinWordTwoEven 0 f (Module.finrank ℚ_[2] K + 2)
+            (ProfiniteProPGroups.freeProPGen 2 (Module.finrank ℚ_[2] K + 2))},
+      cyclotomicOrientation 2 K hmu
+          (e.symm (ProfiniteProPGroups.presentedProPGen 2
+            (Module.finrank ℚ_[2] K + 2) _ 1)) = -1 ∧
+        ((cyclotomicOrientation 2 K hmu
+            (e.symm (ProfiniteProPGroups.presentedProPGen 2
+              (Module.finrank ℚ_[2] K + 2) _ 3)) : ℤ_[2]) * (1 - 2 ^ f) = 1) ∧
+        ∀ i : ℕ, i ≠ 1 → i ≠ 3 → i < Module.finrank ℚ_[2] K + 2 →
+          cyclotomicOrientation 2 K hmu
+            (e.symm (ProfiniteProPGroups.presentedProPGen 2
+              (Module.finrank ℚ_[2] K + 2) _ i)) = 1 :=
+  sorry
+
+/-- **The even-degree marked normal form, `U^[k]` branch.** The image is `procyclicClosure u` with
+`(u : ℤ₂) = -1 + 2^k` and `k ≥ 2`, by `range_localCyclotomicCharacter_of_degree_even_principal`;
+`k` and `u` are taken as hypotheses through that equation. The supplier's parameters are then
+`a = 2^k` and any `f > k`, and the conclusion records the supplier's generator values
+`χ(x₂)(1 + 2^k) = -1`, `χ(x₄)(1 - 2^f) = 1` and `χ(x_i) = 1` elsewhere.
+
+Why these parameters. The equation `χ(x₂)(1 + a) = -1` is solvable in `U^[k]` exactly when
+`v₂(a) = k`, because `-(1 + a)⁻¹ ≡ -1 + 2^k (mod 2^{k+1})` says `a ≡ 2^k (mod 2^{k+1})`; so `a` is
+pinned up to the choice of representative, and `2^k` is the representative. ⚠ In this branch `f`
+is **not** an invariant: `(1 - 2^f)⁻¹ ∈ U^(f) ⊆ U^[k]` for every `f > k`, and the presented groups
+`x₁^{2+2^k}(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯` for the different `f > k` are pairwise isomorphic by Labute's
+classification — same rank, same `q = 2`, same image `U^[k]` — all of them isomorphic to Labute's
+normal form `x₁^{2+2^k}(x₁,x₂)(x₃,x₄)⋯`, which is the value `f = ∞` that the supplier's word cannot
+spell with a natural number. The theorem is therefore stated for every `f > k`; the `ℚ₂(√-2)`
+acceptance instance of Layer 8 takes `k = 2`, `f = 3`. -/
+theorem absoluteGaloisGroupProP_two_marked_of_degree_even_principal
+    (hmu : ∃ ζ : K, IsPrimitiveRoot ζ 2) (_hcase : IsDyadicEvenPrincipalCase K)
+    (k : ℕ) (_hk : 2 ≤ k) (u : ℤ_[2]ˣ) (_hu : (u : ℤ_[2]) = -1 + 2 ^ k)
+    (_hrange : (localCyclotomicCharacter 2 K).range = ProfiniteProPGroups.procyclicClosure u)
+    (f : ℕ) (_hkf : k < f)
+    [TotallyDisconnectedSpace
+      (ProfiniteProPGroups.presentedProP 2 (Fin (Module.finrank ℚ_[2] K + 2))
+        {ProfiniteProPGroups.demushkinWordTwoEven (2 ^ k) f (Module.finrank ℚ_[2] K + 2)
+          (ProfiniteProPGroups.freeProPGen 2 (Module.finrank ℚ_[2] K + 2))})] :
+    ∃ e : absoluteGaloisGroupProP 2 K ≃ₜ*
+        ProfiniteProPGroups.presentedProP 2 (Fin (Module.finrank ℚ_[2] K + 2))
+          {ProfiniteProPGroups.demushkinWordTwoEven (2 ^ k) f (Module.finrank ℚ_[2] K + 2)
+            (ProfiniteProPGroups.freeProPGen 2 (Module.finrank ℚ_[2] K + 2))},
+      ((cyclotomicOrientation 2 K hmu
+          (e.symm (ProfiniteProPGroups.presentedProPGen 2
+            (Module.finrank ℚ_[2] K + 2) _ 1)) : ℤ_[2]) * (1 + ((2 ^ k : ℕ) : ℤ_[2])) = -1) ∧
+        ((cyclotomicOrientation 2 K hmu
+            (e.symm (ProfiniteProPGroups.presentedProPGen 2
+              (Module.finrank ℚ_[2] K + 2) _ 3)) : ℤ_[2]) * (1 - 2 ^ f) = 1) ∧
+        ∀ i : ℕ, i ≠ 1 → i ≠ 3 → i < Module.finrank ℚ_[2] K + 2 →
+          cyclotomicOrientation 2 K hmu
+            (e.symm (ProfiniteProPGroups.presentedProPGen 2
+              (Module.finrank ℚ_[2] K + 2) _ i)) = 1 :=
+  sorry
+
+/-- The unmarked even-degree statement, a corollary of the two marked theorems and of the two
+image computations: some supplier even word with `f ≥ 2` and `4 ∣ a` presents `G_K(2)`. The
 `TotallyDisconnectedSpace` hypothesis is bound inside the statement because the relator, and hence
-the presented group, depends on the parameters produced by the existential. -/
-theorem absoluteGaloisGroupProP_two_marked_of_degree_even
-    (_hmu : ∃ ζ : K, IsPrimitiveRoot ζ 2)
-    (_hcase : IsDyadicEvenPlusMinusCase K ∨ IsDyadicEvenPrincipalCase K) :
+the presented group, depends on the parameters produced by the existential. ⚠ This is a
+consequence and not the Layer 6 contract; it carries no orientation data. -/
+theorem absoluteGaloisGroupProP_two_of_degree_even
+    (hmu : ∃ ζ : K, IsPrimitiveRoot ζ 2)
+    (hcase : IsDyadicEvenPlusMinusCase K ∨ IsDyadicEvenPrincipalCase K) :
     ∃ a f : ℕ, 2 ≤ f ∧ 4 ∣ a ∧
       ∀ _ : TotallyDisconnectedSpace
         (ProfiniteProPGroups.presentedProP 2 (Fin (Module.finrank ℚ_[2] K + 2))
@@ -595,8 +671,18 @@ theorem absoluteGaloisGroupProP_two_marked_of_degree_even
         Nonempty (absoluteGaloisGroupProP 2 K ≃ₜ*
           ProfiniteProPGroups.presentedProP 2 (Fin (Module.finrank ℚ_[2] K + 2))
             {ProfiniteProPGroups.demushkinWordTwoEven a f (Module.finrank ℚ_[2] K + 2)
-              (ProfiniteProPGroups.freeProPGen 2 (Module.finrank ℚ_[2] K + 2))}) :=
-  sorry
+              (ProfiniteProPGroups.freeProPGen 2 (Module.finrank ℚ_[2] K + 2))}) := by
+  rcases hcase with h | h
+  · obtain ⟨f, hf, hrange⟩ := range_localCyclotomicCharacter_of_degree_even_plusMinus K h
+    refine ⟨0, f, hf, dvd_zero 4, fun _ => ?_⟩
+    obtain ⟨e, -⟩ :=
+      absoluteGaloisGroupProP_two_marked_of_degree_even_plusMinus K hmu h f hf hrange
+    exact ⟨e⟩
+  · obtain ⟨k, u, hk, hu, hrange⟩ := range_localCyclotomicCharacter_of_degree_even_principal K h
+    refine ⟨2 ^ k, k + 1, by omega, by simpa using Nat.pow_dvd_pow 2 hk, fun _ => ?_⟩
+    obtain ⟨e, -⟩ := absoluteGaloisGroupProP_two_marked_of_degree_even_principal K hmu h k hk u
+      hu hrange (k + 1) (Nat.lt_succ_self k)
+    exact ⟨e⟩
 
 end DyadicMarkedPresentations
 
@@ -611,10 +697,14 @@ relation-module surjection that the decomposition yields, the finite quotients g
 `N + 2` elements, the compactness argument over tuples, and the relative Frattini reduction
 along wild inertia. Each step is a named declaration.
 
-⚠ Everything in this section lives over a **finite Galois layer** `L/K`. The group algebra is
-Mathlib's `MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)`; the supplier's `completedGroupAlgebra` is the
-profinite object and is deliberately not used here, because the cancellation theorems below are
-theorems about a finite group algebra over a complete discrete valuation ring. Rationalization is
+⚠ Everything in this section lives over a **finite Galois layer** `L/K`, and from the rational
+decomposition onwards that is a **Lean hypothesis** — `section FiniteGaloisLayer` below binds
+`[IsScalarTower ℚ_[p] K L] [IsGalois K L] [FiniteDimensional K L]` — not a reading convention;
+see the rejection test `not_nonempty_tensor_ratPadic_of_card_lt` for what goes wrong without it.
+The group algebra is Mathlib's `MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)`; the supplier's
+`completedGroupAlgebra` is the profinite object and is deliberately not used here, because the
+cancellation theorems below are theorems about a finite group algebra over a complete discrete
+valuation ring. Rationalization is
 `M ⊗[ℤ_[p]] ℚ_[p]` with Mathlib's left-factor `ℤ_p[G]`-structure; a `ℤ_p[G]`-linear isomorphism
 between `ℚ_p`-vector spaces is automatically `ℚ_p[G]`-linear, so no second module structure on
 the rationalization is installed. -/
@@ -938,78 +1028,7 @@ theorem padicCompletionUnitsOf_norm_algEquiv (σ : L ≃ₐ[K] L) (x : Lˣ) :
       = padicCompletionUnitsOf p K (Units.map (Algebra.norm K : L →* K) x) :=
   sorry
 
-/-- **The rational decomposition (NSW (7.4.4)(i)).** `A(L) ⊗ ℚ_p ≅ ℚ_p[G]^N ⊕ ℚ_p` as
-`ℚ_p[Gal(L/K)]`-modules, from the `p`-adic logarithm on the deep units and the normal basis
-theorem. The trivial module is `ℤ_p[G]/I_G`, rationalized, so that no second module structure has
-to be installed on `ℚ_[p]` itself; the isomorphism is `ℤ_p[G]`-linear, which is the same as
-`ℚ_p[G]`-linear between `ℚ_p`-vector spaces.
-
-⚠ This theorem is an **input**, not the conclusion of Layer 7. A `ℚ_p[G]`-isomorphism says nothing
-about the minimal number of generators of the integral module: `ℤ_p[G]`-modules with isomorphic
-rationalizations need not be isomorphic — `ℤ_p` and `ℤ_p ⊕ ℤ/p` already differ, and they need
-different numbers of generators — and the point of Step 3 is to supply the missing integral
-information. -/
-theorem padicCompletionUnits_tensor_ratPadic
-    [Algebra ℚ_[p] L] [Module.Finite ℚ_[p] L] [Finite (L ≃ₐ[K] L)]
-    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] :
-    Nonempty ((Additive ↥(padicCompletionUnits p L) ⊗[ℤ_[p]] ℚ_[p])
-      ≃ₗ[MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)]
-      (((Fin (Module.finrank ℚ_[p] K) → MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)) ×
-        (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ augmentationIdeal p (L ≃ₐ[K] L)))
-          ⊗[ℤ_[p]] ℚ_[p])) :=
-  sorry
-
 /-! ### Step 3: the Tate module of a layer and its integral decomposition -/
-
-/-- **Step 3, sharp exponents for the tame frame** (the sequence `(∗)` in the proof of NSW
-(7.4.1)). For two elements `σ, τ` of `Gal(L/K)` with `τ` of order prime to `p`, there are natural
-numbers `a, b` through which `σ` and `τ` act on `μ_{p^∞}(L)` and for which the left ideal
-`(σ - a, τ - b)` of `ℤ_p[Gal(L/K)]` is exactly the annihilator of the Pontryagin dual of
-`μ_{p^∞}(L)`, which is the statement that `ℤ_p[Gal(L/K)]/(σ - a, τ - b)` has order `q(L)`.
-
-⚠ Not every choice of exponents works: with `a = b = 1` the quotient is infinite, so its `Nat.card`
-is `0`, and the tame-frame module built from it has the wrong torsion. The order condition is the
-sharpness that makes `tameFrameModule` the transpose of `μ_{p^∞}(L)^∨`; the prime-to-`p` order of
-`τ` is what lets the exponent `b` be adjusted along `τ^{orderOf τ} = 1` until the condition
-holds. -/
-theorem exists_tameFrame_exponents [Algebra ℚ_[p] L] [Module.Finite ℚ_[p] L]
-    (σ τ : L ≃ₐ[K] L) (_hτ : ¬ p ∣ orderOf τ) :
-    ∃ a b : ℕ,
-      (∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (σ : L →* L) ζ = ζ ^ a) ∧
-      (∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (τ : L →* L) ζ = ζ ^ b) ∧
-      Nat.card (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ Ideal.span
-        {MonoidAlgebra.single σ (1 : ℤ_[p]) - a, MonoidAlgebra.single τ (1 : ℤ_[p]) - b})
-        = localRootOfUnityOrder p L (finite_pPowerRootsOfUnity p L) :=
-  sorry
-
-/-- **Step 3, the tame-frame module is rationally the group algebra.** Under the sharpness
-condition the map `ℤ_p[G] → ℤ_p[G]²`, `1 ↦ (σ - a, τ - b)`, is injective, so `M₀ ⊗ ℚ_p ≅ ℚ_p[G]`.
-The hypotheses are the same as for the sharp exponents, so the two are consumed together. -/
-theorem tameFrameModule_tensorRat_linearEquiv [Algebra ℚ_[p] L] [Module.Finite ℚ_[p] L]
-    (σ τ : L ≃ₐ[K] L) (a b : ℕ)
-    (_hsharp : Nat.card (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ Ideal.span
-        {MonoidAlgebra.single σ (1 : ℤ_[p]) - a, MonoidAlgebra.single τ (1 : ℤ_[p]) - b})
-        = localRootOfUnityOrder p L (finite_pPowerRootsOfUnity p L)) :
-    Nonempty ((tameFrameModule p (L ≃ₐ[K] L) σ τ a b ⊗[ℤ_[p]] ℚ_[p])
-      ≃ₗ[MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)] (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⊗[ℤ_[p]] ℚ_[p])) :=
-  sorry
-
-/-- **Step 3, the torsion of the tame-frame module is the roots of unity.** Under the sharpness
-condition, `E¹(M₀)` is `μ_{p^∞}(L)^∨` with `σ` and `τ` acting through `a⁻¹` and `b⁻¹`, so the
-`p`-power torsion of `M₀` is `μ_{p^∞}(L)` as a `ℤ_p[Gal(L/K)]`-module — the same module as the
-torsion of `A(L)` of Step 2. This is the arithmetic input of the comparison with the Tate module;
-everything else in the comparison is the formal module theory of Step 3. -/
-theorem tameFrameModule_torsion_linearEquiv [Algebra ℚ_[p] L] [Module.Finite ℚ_[p] L]
-    (σ τ : L ≃ₐ[K] L) (a b : ℕ)
-    (_hσ : ∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (σ : L →* L) ζ = ζ ^ a)
-    (_hτ : ∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (τ : L →* L) ζ = ζ ^ b)
-    (_hsharp : Nat.card (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ Ideal.span
-        {MonoidAlgebra.single σ (1 : ℤ_[p]) - a, MonoidAlgebra.single τ (1 : ℤ_[p]) - b})
-        = localRootOfUnityOrder p L (finite_pPowerRootsOfUnity p L)) :
-    Nonempty (↥(pPowerTorsion p (L ≃ₐ[K] L) (tameFrameModule p (L ≃ₐ[K] L) σ τ a b))
-      ≃ₗ[MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)]
-      ↥(pPowerTorsion p (L ≃ₐ[K] L) (Additive ↥(padicCompletionUnits p L)))) :=
-  sorry
 
 /-- **Step 3, the Tate module of the layer** — the module `Y = I_{G_K}/I_{G_L} I_{G_K}` of NSW
 (5.6.5) and the proof of (7.4.1), packaged by the properties the decomposition consumes: a
@@ -1039,14 +1058,141 @@ structure TateModule where
 
 attribute [instance] TateModule.addCommGroup TateModule.module
 
+/-- ⚠ **Rejection test for the Galois hypothesis of the finite layer.** Finiteness of `L ≃ₐ[K] L`
+is not a substitute for `L/K` being Galois. Over a finite layer of `p`-adic fields whose
+automorphism group is smaller than its degree, the rational decomposition below is **false**: the
+left side has `ℚ_p`-dimension `[L : ℚ_p] + 1`, by
+`padicCompletionUnits_quotient_torsion_linearEquiv` and the finiteness of the torsion, while the
+right side has dimension
+`[K : ℚ_p] · #Aut_K(L) + 1 < [K : ℚ_p] · [L : K] + 1 = [L : ℚ_p] + 1`, by the tower formula. The
+named instance is the non-Galois cubic `ℚ₅(∛5)`, `not_nonempty_tensor_ratPadic_nonGaloisCubic`,
+where the two dimensions are `4` and `2`. The hypotheses are those of the Galois-layer section
+below with `IsGalois` removed; `FiniteDimensional K L` follows from the tower by
+`FiniteDimensional.right`. -/
+theorem not_nonempty_tensor_ratPadic_of_card_lt
+    [Algebra ℚ_[p] L] [Module.Finite ℚ_[p] L] [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
+    [IsScalarTower ℚ_[p] K L]
+    (_h : Nat.card (L ≃ₐ[K] L) < Module.finrank K L) :
+    ¬ Nonempty ((Additive ↥(padicCompletionUnits p L) ⊗[ℤ_[p]] ℚ_[p])
+      ≃ₗ[MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)]
+      (((Fin (Module.finrank ℚ_[p] K) → MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)) ×
+        (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ augmentationIdeal p (L ≃ₐ[K] L)))
+          ⊗[ℤ_[p]] ℚ_[p])) :=
+  sorry
+
+/-! #### The finite Galois layer
+
+⚠ From here to the end of Step 3 every statement is over a **finite Galois layer** `L/K` of
+`p`-adic fields, as Lean hypotheses: `[IsScalarTower ℚ_[p] K L]` makes the three algebra
+structures `ℚ_p ⊆ K ⊆ L` one tower, so that `[L : ℚ_p] = [K : ℚ_p] · [L : K]`, and
+`[IsGalois K L]` with `[FiniteDimensional K L]` make `L ≃ₐ[K] L` the Galois group `Gal(L/K)`, of
+order `[L : K]` and finite by `AlgEquiv.fintype`. These are the hypotheses under which Step 5a
+applies the chain, at `L` the fixed field of `P_K U`; a prose reference to "the Galois layer" is
+not a hypothesis Lean retains, and the rejection tests `not_nonempty_tensor_ratPadic_of_card_lt`
+and `not_exists_tameFrame_exponents_one_one` record two statements of this step that are false
+when one of these hypotheses is dropped. `Module.Finite ℚ_[p] K` and `FiniteDimensional K L` are
+consequences of the tower and are bound for convenience. -/
+
+section FiniteGaloisLayer
+
+variable [Algebra ℚ_[p] L] [Module.Finite ℚ_[p] L] [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
+  [IsScalarTower ℚ_[p] K L] [IsGalois K L] [FiniteDimensional K L]
+
+/-- **The rational decomposition (NSW (7.4.4)(i)).** `A(L) ⊗ ℚ_p ≅ ℚ_p[G]^N ⊕ ℚ_p` as
+`ℚ_p[Gal(L/K)]`-modules, from the `p`-adic logarithm on the deep units and the normal basis
+theorem — the normal basis theorem is where `L/K` Galois is consumed, and the `ℚ_p`-dimension
+count `[K : ℚ_p] · [L : K] + 1 = [L : ℚ_p] + 1` is where the tower is. The trivial module is
+`ℤ_p[G]/I_G`, rationalized, so that no second module structure has to be installed on `ℚ_[p]`
+itself; the isomorphism is `ℤ_p[G]`-linear, which is the same as `ℚ_p[G]`-linear between
+`ℚ_p`-vector spaces.
+
+⚠ This theorem is an **input**, not the conclusion of Layer 7. A `ℚ_p[G]`-isomorphism says nothing
+about the minimal number of generators of the integral module: `ℤ_p[G]`-modules with isomorphic
+rationalizations need not be isomorphic — `ℤ_p` and `ℤ_p ⊕ ℤ/p` already differ, and they need
+different numbers of generators — and the point of Step 3 is to supply the missing integral
+information. -/
+theorem padicCompletionUnits_tensor_ratPadic :
+    Nonempty ((Additive ↥(padicCompletionUnits p L) ⊗[ℤ_[p]] ℚ_[p])
+      ≃ₗ[MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)]
+      (((Fin (Module.finrank ℚ_[p] K) → MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)) ×
+        (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ augmentationIdeal p (L ≃ₐ[K] L)))
+          ⊗[ℤ_[p]] ℚ_[p])) :=
+  sorry
+
+/-- **Step 3, sharp exponents for the tame frame** (the sequence `(∗)` in the proof of NSW
+(7.4.1)). For a **generating pair** `σ, τ` of `Gal(L/K)` with `τ` of order prime to `p`, there are
+natural numbers `a, b` through which `σ` and `τ` act on `μ_{p^∞}(L)` for which the left ideal
+`J = (σ - a, τ - b)` of `ℤ_p[Gal(L/K)]` is the annihilator of `μ_{p^∞}(L)` itself — the kernel of
+the ring map `ℤ_p[G] → ℤ/q(L) = End(μ_{p^∞}(L))` through which `G` acts. Both halves of that
+identification are pinned: the quotient `ℤ_p[G]/J` has order `q(L)`, and it is isomorphic as a
+left `ℤ_p[G]`-module to the `p`-power torsion of `A(L)`, which is `μ_{p^∞}(L)` with its Galois
+action (Step 2). The cardinality alone would leave the action unpinned; the action alone would
+leave a proper quotient possible.
+
+⚠ Dual convention. With the contragredient action `(gφ)(ζ) = φ(g⁻¹ζ)` on the Pontryagin dual, the
+annihilator of `μ_{p^∞}(L)^∨` is `(σ - a⁻¹, τ - b⁻¹)`, not `J`. The dual enters in
+`tameFrameModule_torsion_linearEquiv` below — `E¹(M₀) = μ_{p^∞}(L)^∨` with `σ, τ` acting through
+`a⁻¹, b⁻¹`, whose dual is `μ_{p^∞}(L)` again — and not here.
+
+⚠ Generation is load-bearing, not decorative. When `σ, τ` generate, `ℤ_p[G]/J` is a cyclic
+`ℤ_p`-module, `ℤ_p/(χ(r) - 1 : r ∈ R)` for the character `χ` of the free group on two letters with
+`x ↦ a`, `y ↦ b` and `R` the relations of `G`; it maps onto `ℤ/q(L)` because `a, b` lift the
+action, and the prime-to-`p` order of `τ` lets `b` be moved along `τ^{orderOf τ} = 1`, by a
+multiple of `q(L)`, until `v_p(b^{orderOf τ} - 1)` is exactly `v_p(q(L))`. When `σ, τ` generate
+only a proper subgroup `H`, the quotient is `(ℤ_p[H]/J_H)^{[G:H]}` and has order at least
+`q(L)^{[G:H]} > q(L)` whenever `q(L) > 1`: the rejection test
+`not_exists_tameFrame_exponents_one_one` records the identity pair on the unramified quadratic
+extension of `ℚ₂`. Not every lift works either: with `a = b = 1` the quotient is `ℤ_p[G]/I_G ≅ ℤ_p`,
+infinite, so its `Nat.card` is `0`, and the tame-frame module built from it has the wrong torsion.
+The hypothesis `Subgroup.closure {σ, τ} = ⊤` is exactly what `exists_tameFrame_quotient` supplies
+at the layer `L = fixed field of P_K U`. -/
+theorem exists_tameFrame_exponents (σ τ : L ≃ₐ[K] L)
+    (_hgen : Subgroup.closure {σ, τ} = ⊤) (_hτ : ¬ p ∣ orderOf τ) :
+    ∃ a b : ℕ,
+      (∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (σ : L →* L) ζ = ζ ^ a) ∧
+      (∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (τ : L →* L) ζ = ζ ^ b) ∧
+      Nat.card (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ Ideal.span
+        {MonoidAlgebra.single σ (1 : ℤ_[p]) - a, MonoidAlgebra.single τ (1 : ℤ_[p]) - b})
+        = localRootOfUnityOrder p L (finite_pPowerRootsOfUnity p L) ∧
+      Nonempty ((MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ Ideal.span
+          {MonoidAlgebra.single σ (1 : ℤ_[p]) - a, MonoidAlgebra.single τ (1 : ℤ_[p]) - b})
+        ≃ₗ[MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)]
+        ↥(pPowerTorsion p (L ≃ₐ[K] L) (Additive ↥(padicCompletionUnits p L)))) :=
+  sorry
+
+/-- **Step 3, the tame-frame module is rationally the group algebra.** Under the sharpness
+condition the map `ℤ_p[G] → ℤ_p[G]²`, `1 ↦ (σ - a, τ - b)`, is injective, so `M₀ ⊗ ℚ_p ≅ ℚ_p[G]`.
+The hypotheses are the same as for the sharp exponents, so the two are consumed together. -/
+theorem tameFrameModule_tensorRat_linearEquiv (σ τ : L ≃ₐ[K] L) (a b : ℕ)
+    (_hsharp : Nat.card (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ Ideal.span
+        {MonoidAlgebra.single σ (1 : ℤ_[p]) - a, MonoidAlgebra.single τ (1 : ℤ_[p]) - b})
+        = localRootOfUnityOrder p L (finite_pPowerRootsOfUnity p L)) :
+    Nonempty ((tameFrameModule p (L ≃ₐ[K] L) σ τ a b ⊗[ℤ_[p]] ℚ_[p])
+      ≃ₗ[MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)] (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⊗[ℤ_[p]] ℚ_[p])) :=
+  sorry
+
+/-- **Step 3, the torsion of the tame-frame module is the roots of unity.** Under the sharpness
+condition, `E¹(M₀)` is `μ_{p^∞}(L)^∨` with `σ` and `τ` acting through `a⁻¹` and `b⁻¹`, so the
+`p`-power torsion of `M₀` is `μ_{p^∞}(L)` as a `ℤ_p[Gal(L/K)]`-module — the same module as the
+torsion of `A(L)` of Step 2. This is the arithmetic input of the comparison with the Tate module;
+everything else in the comparison is the formal module theory of Step 3. -/
+theorem tameFrameModule_torsion_linearEquiv (σ τ : L ≃ₐ[K] L) (a b : ℕ)
+    (_hσ : ∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (σ : L →* L) ζ = ζ ^ a)
+    (_hτ : ∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (τ : L →* L) ζ = ζ ^ b)
+    (_hsharp : Nat.card (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ Ideal.span
+        {MonoidAlgebra.single σ (1 : ℤ_[p]) - a, MonoidAlgebra.single τ (1 : ℤ_[p]) - b})
+        = localRootOfUnityOrder p L (finite_pPowerRootsOfUnity p L)) :
+    Nonempty (↥(pPowerTorsion p (L ≃ₐ[K] L) (tameFrameModule p (L ≃ₐ[K] L) σ τ a b))
+      ≃ₗ[MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)]
+      ↥(pPowerTorsion p (L ≃ₐ[K] L) (Additive ↥(padicCompletionUnits p L)))) :=
+  sorry
+
 /-- **Step 3, existence of the Tate module** (NSW (5.6.5) for the extension `0 → A(L) → Y → I_G → 0`
 and (3.1.5), Tate's theorem, for the cohomological triviality). Its inputs are the class formation
 of `ClassFieldTheory` — `ClassFormation`, `fundamentalClass` and `tateTheorem` — and the
 reciprocity identification `A(L) ≃ G_L^{ab}(p)` of Step 1, which carries the fundamental class of
 `Lˣ` to `A(L)`. -/
-theorem nonempty_tateModule [Algebra ℚ_[p] L] [Module.Finite ℚ_[p] L] [IsGalois K L]
-    [FiniteDimensional K L] :
-    Nonempty (TateModule p L K) :=
+theorem nonempty_tateModule : Nonempty (TateModule p L K) :=
   sorry
 
 /-- **Step 3, the integral decomposition** `Y ≅ M₀ ⊕ ℤ_p[Gal(L/K)]^N` (the isomorphism `(∗∗)` in
@@ -1057,10 +1203,11 @@ the proof of NSW (7.4.1)). This is the theorem the cancellation lemmas are appli
 `tameFrameModule_tensorRat_linearEquiv` and `I_G ⊗ ℚ_p ⊕ ℚ_p ≅ ℚ_p[G]` gives
 `Y ⊗ ℚ_p ≅ (M₀ ⊕ ℤ_p[G]^N) ⊗ ℚ_p`; and `linearEquiv_prod_free_of_stable` concludes. It is an
 integral statement about `A(L)`: `Y` is generated by `N + 2` elements because `M₀` is a quotient of
-`ℤ_p[G]²`, and no such count is visible rationally. -/
-theorem tateModule_linearEquiv [Algebra ℚ_[p] L] [Module.Finite ℚ_[p] L] [Finite (L ≃ₐ[K] L)]
-    [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
-    (Y : TateModule p L K) (σ τ : L ≃ₐ[K] L) (a b : ℕ)
+`ℤ_p[G]²`, and no such count is visible rationally. ⚠ The Galois-layer hypotheses are consumed
+through the rational decomposition and are not removable: on the non-Galois cubic `ℚ₅(∛5)` a
+`TateModule` exists — `G` is trivial, `I_G = 0`, and `A(L)` itself has projective dimension one
+over `ℤ₅` — while the two sides have `ℚ₅`-dimensions `4` and `2`. -/
+theorem tateModule_linearEquiv (Y : TateModule p L K) (σ τ : L ≃ₐ[K] L) (a b : ℕ)
     (_hσ : ∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (σ : L →* L) ζ = ζ ^ a)
     (_hτ : ∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (τ : L →* L) ζ = ζ ^ b)
     (_hsharp : Nat.card (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ Ideal.span
@@ -1081,8 +1228,7 @@ the augmentation ideal with kernel `ℤ_p[G]`, and restricting to the kernels of
 property that `β` induces an isomorphism on `H²(Gal(L/K), -)`, which is what lifts `β` to a
 homomorphism of group extensions in Step 5a, is a statement about Tate cohomology at universe
 `0` and is recorded in the README with that step. -/
-theorem exists_relationModule_surjective [Algebra ℚ_[p] L] [Module.Finite ℚ_[p] L]
-    [Finite (L ≃ₐ[K] L)] [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
+theorem exists_relationModule_surjective
     (g : Fin (Module.finrank ℚ_[p] K + 2) → (L ≃ₐ[K] L))
     (_hg : Subgroup.closure (Set.range g) = ⊤) :
     ∃ β : ↥(relationModule p (L ≃ₐ[K] L) g) →ₗ[MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)]
@@ -1092,7 +1238,140 @@ theorem exists_relationModule_surjective [Algebra ℚ_[p] L] [Module.Finite ℚ_
           MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)) :=
   sorry
 
+end FiniteGaloisLayer
+
 end RelationModule
+
+/-! ### Rejection tests for the finite-layer contracts
+
+Two overgeneralized forms of Step 3 that a green build with admitted proofs cannot detect: the
+rational decomposition without the Galois hypothesis, and the sharp exponents without the
+generating hypothesis. Each is stated abstractly, with the hypothesis whose failure refutes it, and
+then instantiated on a named field, so that the instance is checked against the abstract statement
+by a closed proof. -/
+
+section FiniteLayerRejectionTests
+
+open Polynomial
+
+/-- ⚠ **Rejection test for the generating hypothesis of `exists_tameFrame_exponents`.** Without
+`Subgroup.closure {σ, τ} = ⊤` the sharp-exponent statement is false already for the identity pair
+`σ = τ = 1` — which satisfies `¬ 2 ∣ orderOf τ`, since `orderOf 1 = 1` — on any layer at `p = 2`
+with `q(L) = 2` and a nontrivial automorphism group. Since `-1 ∈ μ_{2^∞}(L)`, the action
+equations `(-1)^a = -1 = (-1)^b` force `a` and `b` odd, so `1 - a` and `1 - b` lie in `2ℤ₂`, the
+ideal `(1 - a, 1 - b)` is contained in `(2)`, and `ℤ₂[G]/(1 - a, 1 - b)` maps onto `𝔽₂[G]`, which
+has `2^{#G} ≥ 4` elements when `G` is finite and is infinite otherwise. So the quotient is either
+infinite, with `Nat.card` equal to `0`, or of order at least `4`; neither is `q(L) = 2`. The named
+instance is the unramified quadratic extension `ℚ₂(ζ₃)`,
+`not_exists_tameFrame_exponents_one_one_unramifiedQuadratic`. -/
+theorem not_exists_tameFrame_exponents_one_one (L : Type u) [Field L] [Algebra ℚ_[2] L]
+    [Module.Finite ℚ_[2] L] (K : Type u) [Field K] [Algebra K L] [Nontrivial (L ≃ₐ[K] L)]
+    (_hq : localRootOfUnityOrder 2 L (finite_pPowerRootsOfUnity 2 L) = 2) :
+    ¬ ∃ a b : ℕ,
+      (∀ ζ ∈ pPowerRootsOfUnity 2 L, Units.map ((1 : L ≃ₐ[K] L) : L →* L) ζ = ζ ^ a) ∧
+      (∀ ζ ∈ pPowerRootsOfUnity 2 L, Units.map ((1 : L ≃ₐ[K] L) : L →* L) ζ = ζ ^ b) ∧
+      Nat.card (MonoidAlgebra ℤ_[2] (L ≃ₐ[K] L) ⧸ Ideal.span
+        {MonoidAlgebra.single (1 : L ≃ₐ[K] L) (1 : ℤ_[2]) - a,
+          MonoidAlgebra.single (1 : L ≃ₐ[K] L) (1 : ℤ_[2]) - b})
+        = localRootOfUnityOrder 2 L (finite_pPowerRootsOfUnity 2 L) :=
+  sorry
+
+/-- `ℚ₂(ζ₃)`, the unramified quadratic extension of `ℚ₂`, as the root field of `X² + X + 1`.
+Irreducibility over `ℚ₂` is a theorem (the polynomial has no root modulo `2`) and feeds the field
+instance through a `Fact`. -/
+noncomputable abbrev unramifiedQuadraticPoly : ℚ_[2][X] := X ^ 2 + X + 1
+
+theorem unramifiedQuadraticPoly_irreducible : Irreducible unramifiedQuadraticPoly :=
+  sorry
+
+instance : Fact (Irreducible unramifiedQuadraticPoly) := ⟨unramifiedQuadraticPoly_irreducible⟩
+
+/-- The unramified quadratic extension of `ℚ₂`, as a field. -/
+abbrev UnramifiedQuadratic : Type := AdjoinRoot unramifiedQuadraticPoly
+
+noncomputable instance : Module.Finite ℚ_[2] UnramifiedQuadratic :=
+  (AdjoinRoot.powerBasis (Fact.out : Irreducible unramifiedQuadraticPoly).ne_zero).finite
+
+/-- `q(ℚ₂(ζ₃)) = 2`: the extension is unramified, so it does not contain `i`, whose adjunction
+is ramified. -/
+theorem localRootOfUnityOrder_two_unramifiedQuadratic :
+    localRootOfUnityOrder 2 UnramifiedQuadratic (finite_pPowerRootsOfUnity 2 UnramifiedQuadratic)
+      = 2 :=
+  sorry
+
+/-- `ℚ₂(ζ₃)/ℚ₂` is Galois of degree `2`, so its automorphism group is nontrivial. -/
+theorem nontrivial_algEquiv_unramifiedQuadratic :
+    Nontrivial (UnramifiedQuadratic ≃ₐ[ℚ_[2]] UnramifiedQuadratic) :=
+  sorry
+
+/-- The instance of the rejection test, a closed proof from the abstract statement and the two
+arithmetic facts above. -/
+theorem not_exists_tameFrame_exponents_one_one_unramifiedQuadratic :
+    ¬ ∃ a b : ℕ,
+      (∀ ζ ∈ pPowerRootsOfUnity 2 UnramifiedQuadratic,
+        Units.map ((1 : UnramifiedQuadratic ≃ₐ[ℚ_[2]] UnramifiedQuadratic) :
+          UnramifiedQuadratic →* UnramifiedQuadratic) ζ = ζ ^ a) ∧
+      (∀ ζ ∈ pPowerRootsOfUnity 2 UnramifiedQuadratic,
+        Units.map ((1 : UnramifiedQuadratic ≃ₐ[ℚ_[2]] UnramifiedQuadratic) :
+          UnramifiedQuadratic →* UnramifiedQuadratic) ζ = ζ ^ b) ∧
+      Nat.card (MonoidAlgebra ℤ_[2] (UnramifiedQuadratic ≃ₐ[ℚ_[2]] UnramifiedQuadratic) ⧸
+        Ideal.span
+          {MonoidAlgebra.single (1 : UnramifiedQuadratic ≃ₐ[ℚ_[2]] UnramifiedQuadratic)
+              (1 : ℤ_[2]) - a,
+            MonoidAlgebra.single (1 : UnramifiedQuadratic ≃ₐ[ℚ_[2]] UnramifiedQuadratic)
+              (1 : ℤ_[2]) - b})
+        = localRootOfUnityOrder 2 UnramifiedQuadratic
+            (finite_pPowerRootsOfUnity 2 UnramifiedQuadratic) :=
+  haveI := nontrivial_algEquiv_unramifiedQuadratic
+  not_exists_tameFrame_exponents_one_one UnramifiedQuadratic ℚ_[2]
+    localRootOfUnityOrder_two_unramifiedQuadratic
+
+instance factPrimeFive : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+
+/-- `ℚ₅(∛5)`, the root field of the Eisenstein polynomial `X³ - 5`: a totally ramified cubic
+layer over `ℚ₅` that is **not** Galois. A nontrivial `ℚ₅`-automorphism would send `∛5` to
+`ζ₃ ∛5` and put a primitive cube root of unity, of degree `2` over `ℚ₅`, inside a cubic
+extension. -/
+noncomputable abbrev nonGaloisCubicPoly : ℚ_[5][X] := X ^ 3 - C 5
+
+theorem nonGaloisCubicPoly_irreducible : Irreducible nonGaloisCubicPoly :=
+  sorry
+
+instance : Fact (Irreducible nonGaloisCubicPoly) := ⟨nonGaloisCubicPoly_irreducible⟩
+
+/-- The non-Galois cubic `ℚ₅(∛5)`, as a field. -/
+abbrev NonGaloisCubic : Type := AdjoinRoot nonGaloisCubicPoly
+
+noncomputable instance : Module.Finite ℚ_[5] NonGaloisCubic :=
+  (AdjoinRoot.powerBasis (Fact.out : Irreducible nonGaloisCubicPoly).ne_zero).finite
+
+/-- The degree is `3`, a closed proof from the power basis. -/
+theorem finrank_nonGaloisCubic : Module.finrank ℚ_[5] NonGaloisCubic = 3 := by
+  rw [(AdjoinRoot.powerBasis (Fact.out : Irreducible nonGaloisCubicPoly).ne_zero).finrank,
+    AdjoinRoot.powerBasis_dim, natDegree_X_pow_sub_C]
+
+/-- The automorphism group is trivial, so its order `1` is less than the degree `3`. -/
+theorem nonGaloisCubic_card_algEquiv_lt :
+    Nat.card (NonGaloisCubic ≃ₐ[ℚ_[5]] NonGaloisCubic) < Module.finrank ℚ_[5] NonGaloisCubic :=
+  sorry
+
+theorem not_isGalois_nonGaloisCubic : ¬ IsGalois ℚ_[5] NonGaloisCubic :=
+  sorry
+
+/-- The instance of the rejection test for the Galois hypothesis, a closed proof: with `K = ℚ₅`
+the right-hand side of the rational decomposition has dimension `1 · 1 + 1 = 2`, the left-hand
+side `3 + 1 = 4`. -/
+theorem not_nonempty_tensor_ratPadic_nonGaloisCubic :
+    ¬ Nonempty ((Additive ↥(padicCompletionUnits 5 NonGaloisCubic) ⊗[ℤ_[5]] ℚ_[5])
+      ≃ₗ[MonoidAlgebra ℤ_[5] (NonGaloisCubic ≃ₐ[ℚ_[5]] NonGaloisCubic)]
+      (((Fin (Module.finrank ℚ_[5] ℚ_[5]) →
+          MonoidAlgebra ℤ_[5] (NonGaloisCubic ≃ₐ[ℚ_[5]] NonGaloisCubic)) ×
+        (MonoidAlgebra ℤ_[5] (NonGaloisCubic ≃ₐ[ℚ_[5]] NonGaloisCubic) ⧸
+          augmentationIdeal 5 (NonGaloisCubic ≃ₐ[ℚ_[5]] NonGaloisCubic)))
+          ⊗[ℤ_[5]] ℚ_[5])) :=
+  not_nonempty_tensor_ratPadic_of_card_lt 5 NonGaloisCubic ℚ_[5] nonGaloisCubic_card_algEquiv_lt
+
+end FiniteLayerRejectionTests
 
 /-! ### Steps 4–6: the relative Frattini reduction, the limit, and the two bounds -/
 
@@ -1159,8 +1438,9 @@ commutator subgroup of wild inertia dies is generated by `N + 2` elements, given
 which repetitions are allowed. This is where the relation-module chain is used, exactly as in the
 proof of NSW (7.4.1). With `L` the fixed field of `P_K U`, a finite tamely ramified Galois layer
 whose group is `G_K/(P_K U)`:
-`exists_tameFrame_quotient` supplies the frame `σ, τ`; `exists_tameFrame_exponents` the sharp
-exponents; `nonempty_tateModule` and `tateModule_linearEquiv` the decomposition
+`exists_tameFrame_quotient` supplies the generating frame `σ, τ`, which is the hypothesis
+`exists_tameFrame_exponents` needs for the sharp exponents; `nonempty_tateModule` and
+`tateModule_linearEquiv` the decomposition
 `Y ≅ M₀ ⊕ ℤ_p[G]^N`; `exists_relationModule_surjective`, for a generating family of size `N + 2`
 extending `σ, τ`, the surjection `β : R^ab_{N+2}(p) ↠ A(L)` with kernel `ℤ_p[G]`. Since `β`
 induces an isomorphism on `H²(G, -)` and the classes of the two extensions generate their `H²`
@@ -1327,5 +1607,118 @@ theorem absoluteGaloisGroupProP_two_ratPadic :
   exact ⟨e⟩
 
 end MarkedRatPadic
+
+/-! ### `ℚ₂(√-2)`: the even-degree `U^[2]` branch
+
+The example exists to detect the loss of Labute's `U^[f]` family: `q = 2` and the rank `4` are
+the same as in the `{±1} × U^(f)` branch, and only the image of the orientation separates them.
+Every statement below is the corresponding Layer 5–6 theorem at `K = ℚ₂(√-2)`, `N = 2`, `k = 2`,
+`u = 3`, `f = 3`; none is a separate classification. -/
+
+section MarkedRatPadicSqrtNegTwo
+
+open Polynomial
+
+/-- `ℚ₂(√-2)`, as the root field of the Eisenstein polynomial `X² + 2`. -/
+noncomputable abbrev ratPadicSqrtNegTwoPoly : ℚ_[2][X] := X ^ 2 + C 2
+
+theorem ratPadicSqrtNegTwoPoly_irreducible : Irreducible ratPadicSqrtNegTwoPoly :=
+  sorry
+
+instance : Fact (Irreducible ratPadicSqrtNegTwoPoly) := ⟨ratPadicSqrtNegTwoPoly_irreducible⟩
+
+/-- The field `ℚ₂(√-2)`. -/
+abbrev RatPadicSqrtNegTwo : Type := AdjoinRoot ratPadicSqrtNegTwoPoly
+
+noncomputable instance : Module.Finite ℚ_[2] RatPadicSqrtNegTwo :=
+  (AdjoinRoot.powerBasis (Fact.out : Irreducible ratPadicSqrtNegTwoPoly).ne_zero).finite
+
+/-- The degree is `2`, a closed proof from the power basis; so `N + 2 = 4`. -/
+theorem finrank_ratPadicSqrtNegTwo : Module.finrank ℚ_[2] RatPadicSqrtNegTwo = 2 := by
+  rw [(AdjoinRoot.powerBasis (Fact.out : Irreducible ratPadicSqrtNegTwoPoly).ne_zero).finrank,
+    AdjoinRoot.powerBasis_dim, natDegree_X_pow_add_C]
+
+/-- `q(ℚ₂(√-2)) = 2`: `i ∉ ℚ₂(√-2)`, since `-1` and `-2` differ by the non-square `2`. -/
+theorem localRootOfUnityOrder_two_ratPadicSqrtNegTwo :
+    localRootOfUnityOrder 2 RatPadicSqrtNegTwo (finite_pPowerRootsOfUnity 2 RatPadicSqrtNegTwo)
+      = 2 :=
+  sorry
+
+theorem ratPadicSqrtNegTwo_hasPrimitiveRoot :
+    ∃ ζ : RatPadicSqrtNegTwo, IsPrimitiveRoot ζ 2 :=
+  sorry
+
+/-- **The image of the cyclotomic character is `U^[2] = closure⟨3⟩`.** By
+`range_localCyclotomicCharacter` the image is generated by the values on the reciprocity image of
+`Kˣ`: the uniformizer `√-2` has norm `2 = 2^{f}` with `f = 1`, so contributes `χ = 1` by
+`localCyclotomicCharacter_artinMap_uniformizer`, and the unit norms `a² + 2b²` with `a` odd are
+exactly the classes `1, 3 (mod 8)`, whose inverses generate `closure⟨3⟩` by
+`localCyclotomicCharacter_artinMap_unit`. The generator `3 = -1 + 2²` is spelled as
+`-negThreeUnit`, the negative of the supplier's named unit, so that no second `IsUnit` proof is
+introduced. `-1 ∉ closure⟨3⟩`, which is what places `ℚ₂(√-2)` in the principal branch. -/
+theorem range_localCyclotomicCharacter_ratPadicSqrtNegTwo :
+    (localCyclotomicCharacter 2 RatPadicSqrtNegTwo).range
+      = ProfiniteProPGroups.procyclicClosure (-ProfiniteProPGroups.negThreeUnit) :=
+  sorry
+
+/-- The generator of the image is `-1 + 2^2`, a closed proof: this is the equation the
+principal-branch marked theorem takes as its hypothesis `hu`. -/
+theorem negThreeUnit_neg_coe :
+    ((-ProfiniteProPGroups.negThreeUnit : ℤ_[2]ˣ) : ℤ_[2]) = -1 + 2 ^ 2 := by
+  rw [Units.val_neg, ProfiniteProPGroups.negThreeUnit_coe]; norm_num
+
+/-- `ℚ₂(√-2)` lands in the even-degree principal branch: `q = 2`, `N = 2` is even, and `-1` is not
+a value of the orientation. -/
+theorem isDyadicEvenPrincipalCase_ratPadicSqrtNegTwo :
+    IsDyadicEvenPrincipalCase RatPadicSqrtNegTwo :=
+  sorry
+
+/- The local-field and topological instances are needed only by the marked theorem and its
+corollary; the arithmetic statements above are purely algebraic and do not carry them. -/
+variable [ValuativeRel RatPadicSqrtNegTwo] [TopologicalSpace RatPadicSqrtNegTwo]
+  [IsNonarchimedeanLocalField RatPadicSqrtNegTwo]
+  [CompactSpace (Field.absoluteGaloisGroup RatPadicSqrtNegTwo)]
+  [TotallyDisconnectedSpace (Field.absoluteGaloisGroup RatPadicSqrtNegTwo)]
+  [TotallyDisconnectedSpace (absoluteGaloisGroupProP 2 RatPadicSqrtNegTwo)]
+
+/-- **The marked arithmetic identification for `ℚ₂(√-2)`**:
+`absoluteGaloisGroupProP_two_marked_of_degree_even_principal` at `N = 2`, `k = 2`, `u = 3`,
+`f = 3`, with the relator `x₁⁶(x₁,x₂)x₃⁸(x₃,x₄)` written on `Fin 4`. The generator values
+`χ(x₂)(1 + 4) = -1` and `χ(x₄)(1 - 8) = 1` are the marked content; the relator is
+Labute-isomorphic to his `x₁⁶(x₁,x₂)(x₃,x₄)`, which is the same group with `f = ∞`. The value
+`k = 2` is read off `range_localCyclotomicCharacter_ratPadicSqrtNegTwo` through
+`negThreeUnit_neg_coe`, not off `q`. -/
+theorem absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo_marked
+    [TotallyDisconnectedSpace
+      (ProfiniteProPGroups.presentedProP 2 (Fin 4)
+        {ProfiniteProPGroups.demushkinWordTwoEven 4 3 4
+          (ProfiniteProPGroups.freeProPGen 2 4)})] :
+    ∃ e : absoluteGaloisGroupProP 2 RatPadicSqrtNegTwo ≃ₜ*
+        ProfiniteProPGroups.presentedProP 2 (Fin 4)
+          {ProfiniteProPGroups.demushkinWordTwoEven 4 3 4 (ProfiniteProPGroups.freeProPGen 2 4)},
+      ((cyclotomicOrientation 2 RatPadicSqrtNegTwo ratPadicSqrtNegTwo_hasPrimitiveRoot
+          (e.symm (ProfiniteProPGroups.presentedProPGen 2 4 _ 1)) : ℤ_[2]) * (1 + 4) = -1) ∧
+        ((cyclotomicOrientation 2 RatPadicSqrtNegTwo ratPadicSqrtNegTwo_hasPrimitiveRoot
+            (e.symm (ProfiniteProPGroups.presentedProPGen 2 4 _ 3)) : ℤ_[2]) * (1 - 8) = 1) ∧
+        cyclotomicOrientation 2 RatPadicSqrtNegTwo ratPadicSqrtNegTwo_hasPrimitiveRoot
+            (e.symm (ProfiniteProPGroups.presentedProPGen 2 4 _ 0)) = 1 ∧
+        cyclotomicOrientation 2 RatPadicSqrtNegTwo ratPadicSqrtNegTwo_hasPrimitiveRoot
+            (e.symm (ProfiniteProPGroups.presentedProPGen 2 4 _ 2)) = 1 :=
+  sorry
+
+/-- The unmarked isomorphism, a corollary of the marked theorem and not a separate choice. -/
+theorem absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo
+    [TotallyDisconnectedSpace
+      (ProfiniteProPGroups.presentedProP 2 (Fin 4)
+        {ProfiniteProPGroups.demushkinWordTwoEven 4 3 4
+          (ProfiniteProPGroups.freeProPGen 2 4)})] :
+    Nonempty (absoluteGaloisGroupProP 2 RatPadicSqrtNegTwo ≃ₜ*
+      ProfiniteProPGroups.presentedProP 2 (Fin 4)
+        {ProfiniteProPGroups.demushkinWordTwoEven 4 3 4
+          (ProfiniteProPGroups.freeProPGen 2 4)}) := by
+  obtain ⟨e, -⟩ := absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo_marked
+  exact ⟨e⟩
+
+end MarkedRatPadicSqrtNegTwo
 
 end TauCetiRoadmap.LocalGaloisGroups
