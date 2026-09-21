@@ -1,7 +1,8 @@
 import Mathlib
-import TauCeti.FieldTheory.SquareClassGroup
+import TauCeti.FieldTheory.SquareClassGroup.Basic
 import TauCeti.LinearAlgebra.RootSystem.DynkinType
 import TauCeti.LinearAlgebra.RootSystem.NumberOfRoots
+import Completed.IntegralLattices.Suggested
 import TauCetiRoadmap.QuadraticFormInvariants.Suggested
 import TauCetiRoadmap.GlobalQuadraticForms.Suggested
 import TauCetiRoadmap.GlobalNumberFields.Suggested
@@ -24,11 +25,17 @@ with the index-equals-determinant theorems, and a dual-submodule construction, b
 integral-lattice arithmetic: no even/odd theory, no discriminant groups or forms, no
 genus, no local densities, no Nikulin embedding theory. We build that in `TauCeti/`.
 
-The first section retains the reviewed carrier merged in upstream PR #200: a full
-`Submodule ℤ V` in a rational ambient space, Mathlib's `dualSubmodule`, an actual quotient
-for the discriminant group, and half-norm quadratic forms in `AddCircle (1 : ℚ)`. Abstract
-finite-free integral forms and Nikulin's full-norm `ℚ/2ℤ` notation are boundary
-dictionaries, not competing public carriers.
+The carrier is not defined here. The foundation merged as upstream PR #200 — a full
+`Submodule ℤ V` in a rational ambient space, Mathlib's `dualSubmodule`, an actual quotient for
+the discriminant group, half-norm quadratic forms in `AddCircle (1 : ℚ)`, the finite quadratic
+modules, the overlattice correspondences and the ADE lattices — has been discharged in Tau Ceti
+and archived as `Completed/IntegralLattices/Suggested.lean` (#350). This file imports that
+certificate and states everything below against its `IntegralLattice`, `FiniteBilinearModule`
+and `FiniteQuadraticModule`, which are `TauCeti.IntegralLattice`, `TauCeti.FiniteBilinearModule`
+and `TauCeti.FiniteQuadraticModule`; nothing the certificate provides is restated, and the first
+section adds only the vocabulary the expansion needs and Tau Ceti does not yet have. Abstract
+finite-free integral forms and Nikulin's full-norm `ℚ/2ℤ` notation are boundary dictionaries,
+not competing public carriers.
 
 The second section checks the exact declarations imported from the six final supplier
 roadmaps. Every name there is one the supplier actually exports in its own accepted scope:
@@ -99,39 +106,26 @@ namespace TauCetiRoadmap.IntegralLattices
 
 open QuadraticMap MeasureTheory NumberField
 open scoped Real
+open TauCeti TauCeti.IntegralLattice
 
 universe u v
 
-/-! ## The reviewed canonical carriers -/
+/-! ## The foundation, consumed rather than restated
+
+`IntegralLattice V`, `FiniteBilinearModule` and `FiniteQuadraticModule` are the abbreviations of
+`Completed/IntegralLattices/Suggested.lean` for `TauCeti.IntegralLattice V`,
+`TauCeti.FiniteBilinearModule` and `TauCeti.FiniteQuadraticModule`: the reviewed carrier of
+upstream PR #200, discharged in Tau Ceti and archived by #350. The dual carrier, the discriminant
+group and its half-norm forms, the finite-module vocabulary, the overlattice correspondences and
+the ADE lattices are all that certificate's, and nothing it provides is restated here. What
+follows is the vocabulary the expansion needs and Tau Ceti does not yet have. -/
 
 open scoped TensorProduct
 open Module
 
-variable (V : Type u) [AddCommGroup V] [Module ℚ V]
-
-/-- The single lattice carrier: a full integral submodule in a rational quadratic space. -/
-structure IntegralLattice where
-  carrier : Submodule ℤ V
-  [isLattice : carrier.IsLattice ℚ]
-  form : LinearMap.BilinForm ℚ V
-  isSymm : form.IsSymm
-  integral : ∀ x y : carrier, form x y ∈ (1 : Submodule ℤ ℚ)
-
-attribute [instance] IntegralLattice.isLattice
-
 namespace IntegralLattice
 
-variable {V} (L : IntegralLattice V)
-
-/-- The rational form restricted to the carrier, with values returned in `ℤ` by the
-integrality proof.  This is the form that may be base-changed to `ℤ_[p]`; the rational
-form `L.form` itself cannot be base-changed from `ℚ` to `ℤ_[p]`. -/
-noncomputable def integralForm : LinearMap.BilinForm ℤ L.carrier := sorry
-
-/-- Restricting `integralForm` and then casting back to `ℚ` recovers the embedded
-rational form. -/
-theorem algebraMap_integralForm_apply (x y : L.carrier) :
-    ((L.integralForm x y : ℤ) : ℚ) = L.form x y := sorry
+variable {V : Type u} [AddCommGroup V] [Module ℚ V] (L : IntegralLattice V)
 
 /-- A form twist changes the bilinear form and keeps the embedded carrier fixed.
 ⚠ `L` is bound explicitly rather than taken from the section: the body is `sorry` and the type
@@ -151,101 +145,10 @@ noncomputable def restrictToFullSubmodule (M : Submodule ℤ V) (hM : M ≤ L.ca
 noncomputable def restrictToRationalSpan (M : Submodule ℤ L.carrier)
     [Module.Free ℤ M] [Module.Finite ℤ M] : IntegralLattice (ℚ ⊗[ℤ] M) := sorry
 
-def IsEven : Prop := ∀ x : L.carrier, ∃ n : ℤ, L.form x x = ((2 * n : ℤ) : ℚ)
-
-class IsNondegenerate : Prop where
-  nondegenerate : L.form.Nondegenerate
-
-abbrev radical : Submodule ℚ V := LinearMap.ker L.form
-
-theorem isNondegenerate_iff_radical_eq_bot : L.IsNondegenerate ↔ L.radical = ⊥ := sorry
-
-noncomputable abbrev sigPos : ℕ := _root_.sigPos L.form.toQuadraticMap
-noncomputable abbrev sigNeg : ℕ := _root_.sigNeg L.form.toQuadraticMap
-noncomputable abbrev sigNull : ℕ := Module.finrank ℚ L.radical
-noncomputable abbrev signature : ℕ × ℕ × ℕ := (L.sigPos, L.sigNull, L.sigNeg)
-
-theorem sigPos_add_sigNull_add_sigNeg [FiniteDimensional ℚ V] :
-    L.sigPos + L.sigNull + L.sigNeg = Module.finrank ℚ V := sorry
-
-abbrev IsPositiveDefinite : Prop := L.form.toQuadraticMap.PosDef
-def IsPositiveSemidefinite : Prop := ∀ x : V, 0 ≤ L.form x x
-def IsNegativeDefinite : Prop := ∀ x : V, x ≠ 0 → L.form x x < 0
-def IsNegativeSemidefinite : Prop := ∀ x : V, L.form x x ≤ 0
-def IsIndefinite : Prop := (∃ x : V, 0 < L.form x x) ∧ (∃ x : V, L.form x x < 0)
-
-theorem isPositiveDefinite_iff [FiniteDimensional ℚ V] :
-    L.IsPositiveDefinite ↔ L.IsPositiveSemidefinite ∧ L.IsNondegenerate := sorry
-
-theorem isIndefinite_iff :
-    L.IsIndefinite ↔ ¬ L.IsPositiveSemidefinite ∧ ¬ L.IsNegativeSemidefinite := sorry
-
-theorem isPositiveSemidefinite_iff_sigNeg_eq_zero [FiniteDimensional ℚ V] :
-    L.IsPositiveSemidefinite ↔ L.sigNeg = 0 := sorry
-
-noncomputable def radicalQuotient : IntegralLattice (V ⧸ L.radical) := sorry
-instance : L.radicalQuotient.IsNondegenerate := sorry
-
-theorem signature_radicalQuotient [FiniteDimensional ℚ V] :
-    L.radicalQuotient.signature = (L.sigPos, 0, L.sigNeg) := sorry
-
-theorem radicalQuotient_isEven (hL : L.IsEven) : L.radicalQuotient.IsEven := sorry
-
-abbrev dual : Submodule ℤ V := L.form.dualSubmodule L.carrier
-
 /-- The dual of a nonzero form twist is the inverse scalar dilation of the old dual
 carrier; it is not a form twist on the unchanged carrier. -/
 theorem dual_formTwist (a : ℤ) (ha : a ≠ 0) :
-    (L.formTwist a).dual = scalarDilation ((a : ℚ)⁻¹) L.dual := sorry
-
-theorem carrier_le_dual : L.carrier ≤ L.dual := by
-  intro x hx y hy
-  exact L.integral ⟨x, hx⟩ ⟨y, hy⟩
-
-def carrierInDual : Submodule ℤ L.dual := L.carrier.comap L.dual.subtype
-abbrev DiscriminantGroup : Type u := L.dual ⧸ L.carrierInDual
-
-theorem dual_isLattice_iff [FiniteDimensional ℚ V] :
-    L.dual.IsLattice ℚ ↔ L.IsNondegenerate := sorry
-
-theorem dual_isLattice [L.IsNondegenerate] [FiniteDimensional ℚ V] :
-    L.dual.IsLattice ℚ := sorry
-
-noncomputable def dualEquivModuleDual [L.IsNondegenerate] :
-    L.dual ≃ₗ[ℤ] Module.Dual ℤ L.carrier := sorry
-
-theorem dual_dual [L.IsNondegenerate] : L.form.dualSubmodule L.dual = L.carrier := sorry
-
-theorem discriminantGroup_finite [L.IsNondegenerate] : Finite L.DiscriminantGroup := sorry
-
-theorem finite_discriminantGroup_iff [FiniteDimensional ℚ V] :
-    Finite L.DiscriminantGroup ↔ L.IsNondegenerate := sorry
-
-noncomputable def gramMatrix {ι : Type*} [Fintype ι] (e : Basis ι ℤ L.carrier) :
-    Matrix ι ι ℤ := sorry
-
-theorem algebraMap_gramMatrix_apply {ι : Type*} [Fintype ι] (e : Basis ι ℤ L.carrier)
-    (i j : ι) :
-    ((L.gramMatrix e i j : ℤ) : ℚ) = L.form (e i) (e j) := sorry
-
-noncomputable def gramDet {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (e : Basis ι ℤ L.carrier) : ℤ := Matrix.det (L.gramMatrix e)
-
-theorem gramDet_ne_zero_iff {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (e : Basis ι ℤ L.carrier) : L.gramDet e ≠ 0 ↔ L.IsNondegenerate := sorry
-
-theorem natCard_discriminantGroup_eq_natAbs_gramDet [L.IsNondegenerate]
-    {ι : Type*} [Fintype ι] [DecidableEq ι] (e : Basis ι ℤ L.carrier) :
-    Nat.card L.DiscriminantGroup = (L.gramDet e).natAbs := sorry
-
-def IsUnimodular : Prop := L.carrier = L.dual
-
-theorem unimodular_iff_natCard_discriminantGroup_eq_one [L.IsNondegenerate] :
-    L.IsUnimodular ↔ Nat.card L.DiscriminantGroup = 1 := sorry
-
-theorem unimodular_iff_natAbs_gramDet_eq_one [L.IsNondegenerate]
-    {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (e : Basis ι ℤ L.carrier) : L.IsUnimodular ↔ (L.gramDet e).natAbs = 1 := sorry
+    (L.formTwist a).dualCarrier = scalarDilation ((a : ℚ)⁻¹) L.dualCarrier := sorry
 
 /-- **Layer 1L, characteristic vectors.** `w` is characteristic when
 `β(w,x) ≡ β(x,x) (mod 2)` for every `x ∈ L`. The congruence is stated on the integral
@@ -280,16 +183,6 @@ theorem vanDerBlij [FiniteDimensional ℚ V] [L.IsNondegenerate] (hU : L.IsUnimo
 
 end IntegralLattice
 
-variable {V}
-
-/-- An isometry preserves both the embedded carrier and the rational form. -/
-structure IntegralLattice.Isometry
-    {W : Type v} [AddCommGroup W] [Module ℚ W]
-    (L : IntegralLattice V) (K : IntegralLattice W) where
-  toLinearEquiv : V ≃ₗ[ℚ] W
-  map_mem_iff : ∀ x : V, toLinearEquiv x ∈ K.carrier ↔ x ∈ L.carrier
-  map_form : ∀ x y : V, K.form (toLinearEquiv x) (toLinearEquiv y) = L.form x y
-
 /-- When an abstract submodule is full in the original ambient space, restriction in its
 own rationalization agrees with same-ambient restriction through the canonical isometry. -/
 noncomputable def IntegralLattice.restrictionComparison
@@ -297,7 +190,7 @@ noncomputable def IntegralLattice.restrictionComparison
     (M : Submodule ℤ L.carrier) [Module.Free ℤ M] [Module.Finite ℤ M]
     (hM : M.map L.carrier.subtype ≤ L.carrier)
     [(M.map L.carrier.subtype).IsLattice ℚ] :
-    IntegralLattice.Isometry (L.restrictToRationalSpan M)
+    (L.restrictToRationalSpan M).Isometry
       (L.restrictToFullSubmodule (M.map L.carrier.subtype) hM) := sorry
 
 /-! ### Two pieces of vocabulary the discriminant-form layers need by name
@@ -331,71 +224,7 @@ theorem expCircle_zero : expCircle 0 = 1 := sorry
 
 theorem expCircle_neg (x : AddCircle (1 : ℚ)) : expCircle (-x) = (expCircle x)⁻¹ := sorry
 
-/-- A finite symmetric bilinear module, using Mathlib's character dual. -/
-structure FiniteBilinearModule where
-  A : Type u
-  [addCommGroup : AddCommGroup A]
-  [finite : Finite A]
-  pairing : A →+ CharacterModule A
-  symmetric : ∀ x y, pairing x y = pairing y x
-
-attribute [instance] FiniteBilinearModule.addCommGroup FiniteBilinearModule.finite
-
-namespace FiniteBilinearModule
-
-def IsNondegenerate (A : FiniteBilinearModule) : Prop := Function.Bijective A.pairing
-
-noncomputable def adjointEquiv (A : FiniteBilinearModule) (hA : A.IsNondegenerate) :
-    A.A ≃+ CharacterModule A.A := sorry
-
-def orthogonalComplement (A : FiniteBilinearModule) (H : AddSubgroup A.A) : AddSubgroup A.A where
-  carrier := {x | ∀ y ∈ H, A.pairing x y = 0}
-  zero_mem' := sorry
-  add_mem' := sorry
-  neg_mem' := sorry
-
-def IsIsotropic (A : FiniteBilinearModule) (H : AddSubgroup A.A) : Prop :=
-  ∀ x ∈ H, ∀ y ∈ H, A.pairing x y = 0
-
-def IsLagrangian (A : FiniteBilinearModule) (H : AddSubgroup A.A) : Prop :=
-  A.IsIsotropic H ∧ H = A.orthogonalComplement H
-
-theorem natCard_mul_natCard_orthogonalComplement (A : FiniteBilinearModule)
-    (hA : A.IsNondegenerate) (H : AddSubgroup A.A) :
-    Nat.card H * Nat.card (A.orthogonalComplement H) = Nat.card A.A := sorry
-
-def subgroupInOrthogonal (A : FiniteBilinearModule) (H : AddSubgroup A.A)
-    (_hH : A.IsIsotropic H) : Submodule ℤ (A.orthogonalComplement H) := sorry
-
-abbrev OrthogonalQuotient (A : FiniteBilinearModule) (H : AddSubgroup A.A)
-    (hH : A.IsIsotropic H) : Type u :=
-  A.orthogonalComplement H ⧸ A.subgroupInOrthogonal H hH
-
-end FiniteBilinearModule
-
-/-- The canonical half-norm quadratic refinement. -/
-structure FiniteQuadraticModule extends FiniteBilinearModule where
-  quadratic : QuadraticMap ℤ A (AddCircle (1 : ℚ))
-  polar : ∀ x y, quadratic.polarBilin x y = pairing x y
-
 namespace FiniteQuadraticModule
-
-def IsNondegenerate (A : FiniteQuadraticModule) : Prop :=
-  A.toFiniteBilinearModule.IsNondegenerate
-
-def IsIsotropic (A : FiniteQuadraticModule) (H : AddSubgroup A.A) : Prop :=
-  ∀ x ∈ H, A.quadratic x = 0
-
-/-- **Layer 1G, Lagrangian subgroups of a finite quadratic module**: isotropic for the
-**quadratic** form — `q` vanishes on `H` — together with `H = H^⊥` for its polar pairing.
-
-⚠ The bilinear condition `FiniteBilinearModule.IsLagrangian` alone is strictly weaker and does
-not support the Gauss-sign vanishing below: the discriminant form of `A₁ ⊕ A₁` has a subgroup
-equal to its own orthogonal complement on which the pairing vanishes, while `q = ½` on its
-generator and `gaussSign = 2` (`exists_bilinearLagrangian_gaussSign_ne_zero`). This is the same
-1E-against-1F distinction the overlattice correspondences carry. -/
-def IsLagrangian (A : FiniteQuadraticModule) (H : AddSubgroup A.A) : Prop :=
-  A.IsIsotropic H ∧ H = A.toFiniteBilinearModule.orthogonalComplement H
 
 /-- **Layer 1G, metabolic modules**: a Lagrangian subgroup exists. By 1F these are exactly the
 discriminant forms of even lattices that glue to an even unimodular overlattice. The
@@ -403,11 +232,7 @@ equivalence with the trivial Witt class is **not** a milestone of this roadmap: 
 of finite quadratic modules is the successor `FiniteQuadraticModuleWittTheory`'s (`README.md`,
 §*Scope*), and this predicate is the exact consumer contract exported to it. -/
 def IsMetabolic (A : FiniteQuadraticModule) : Prop :=
-  ∃ H : AddSubgroup A.A, A.IsLagrangian H
-
-structure Isometry (A B : FiniteQuadraticModule) where
-  toAddEquiv : A.A ≃+ B.A
-  map_quadratic : ∀ x, B.quadratic (toAddEquiv x) = A.quadratic x
+  ∃ H : AddSubgroup A, A.IsLagrangian H
 
 /-- The three families of nondegenerate primary generators in Nikulin's classification. -/
 inductive NikulinGenerator where
@@ -426,7 +251,7 @@ noncomputable def orthogonalSumNikulinGenerators
 /-- Concrete classification output: a list of generators together with an actual isometry. -/
 structure NikulinDecomposition (A : FiniteQuadraticModule) where
   generators : List NikulinGenerator
-  isometry : Isometry A (orthogonalSumNikulinGenerators generators)
+  isometry : A.Isometry (orthogonalSumNikulinGenerators generators)
 
 /-- Nikulin's generator classification applies to nondegenerate finite quadratic modules.
 Restrictions to arbitrary subgroups remain representable by `FiniteQuadraticModule`, but may
@@ -441,35 +266,26 @@ theorem exists_isometry_orthogonalSum_generators
 alternative "`q₂` has a summand `q_θ^{(2)}(2)`" are each named, so that the existence and
 uniqueness predicates of Layer 5 can be written clause by clause instead of as a table. -/
 
-/-- The orthogonal sum of two finite quadratic modules. ⚠ The carrier is **data**: leaving the
-whole record a `sorry` would make `A` opaque, and then `HasCyclicTwoSummand` below could not be
-stated. Only the form fields are milestones. -/
-noncomputable def orthogonalSum (A B : FiniteQuadraticModule) : FiniteQuadraticModule where
-  A := A.A × B.A
-  pairing := sorry
-  symmetric := sorry
-  quadratic := sorry
-  polar := sorry
+/-- The orthogonal sum of two finite quadratic modules, in the roadmap's name: it is Tau Ceti's
+`prod`, whose carrier is the product, so `HasCyclicTwoSummand` below can be stated on it. -/
+noncomputable abbrev orthogonalSum (A B : FiniteQuadraticModule.{u}) : FiniteQuadraticModule.{u} :=
+  A.prod B
 
-/-- The `p`-primary component of a finite quadratic module, whose carrier is Mathlib's
-`AddCommGroup.primaryComponent`. ⚠ Data again, for the same reason: `minGenerators` and
-`HasCyclicTwoSummand` are applied to this carrier. -/
-noncomputable def primaryComponent (A : FiniteQuadraticModule) (p : ℕ) :
-    FiniteQuadraticModule where
-  A := AddCommGroup.primaryComponent A.A p
-  pairing := sorry
-  symmetric := sorry
-  quadratic := sorry
-  polar := sorry
+/-- The `p`-primary component of a finite quadratic module: Tau Ceti's `restrict` to Mathlib's
+`AddCommGroup.primaryComponent`, so its carrier is that subgroup and `minGenerators` and
+`HasCyclicTwoSummand` apply to it. -/
+noncomputable abbrev primaryComponent (A : FiniteQuadraticModule.{u}) (p : ℕ) :
+    FiniteQuadraticModule.{u} :=
+  A.restrict (AddCommGroup.primaryComponent A p)
 
 /-- **Layer 1G**, the `p`-primary decomposition, in the form Nikulin's `l(A_q) = max_p l(A_{q_p})`
 needs: every primary length is at most the total length. -/
 theorem minGenerators_primaryComponent_le (A : FiniteQuadraticModule) (p : ℕ) :
-    minGenerators (A.primaryComponent p).A ≤ minGenerators A.A := sorry
+    minGenerators (A.primaryComponent p) ≤ minGenerators A := sorry
 
 /-- and the maximum is attained at some prime, so `l(A_q) = max_p l(A_{q_p})` on the nose. -/
 theorem exists_minGenerators_primaryComponent_eq (A : FiniteQuadraticModule) :
-    ∃ p : ℕ, p.Prime ∧ minGenerators (A.primaryComponent p).A = minGenerators A.A := sorry
+    ∃ p : ℕ, p.Prime ∧ minGenerators (A.primaryComponent p) = minGenerators A := sorry
 
 /-- **Layer 1H, the Gauss-sum invariant** `sign q ∈ ℤ/8` of a nondegenerate finite quadratic
 form. It is `sorry`-bodied because it is defined by the Gauss sum below and nothing here
@@ -479,9 +295,9 @@ noncomputable def gaussSign (A : FiniteQuadraticModule) : ZMod 8 := sorry
 /-- **Layer 1H.** The Gauss sum of a nondegenerate finite quadratic module, in the canonical
 half-norm convention, where the exponential carries `2πi` and not `πi`. This equation *defines*
 `gaussSign`. -/
-theorem gaussSum_eq (A : FiniteQuadraticModule) [Fintype A.A] (hA : A.IsNondegenerate) :
-    ∑ a : A.A, expCircle (A.quadratic a) =
-      (Real.sqrt (Nat.card A.A : ℝ) : ℂ) *
+theorem gaussSum_eq (A : FiniteQuadraticModule) [Fintype A] (hA : A.IsNondegenerate) :
+    ∑ a : A, expCircle (A.quadratic a) =
+      (Real.sqrt (Nat.card A : ℝ) : ℂ) *
         Complex.exp (2 * (π : ℂ) * Complex.I * (A.gaussSign.val : ℂ) / 8) := sorry
 
 theorem gaussSign_orthogonalSum (A B : FiniteQuadraticModule) :
@@ -507,7 +323,7 @@ discriminant form of `A₁ ⊕ A₁` — the module `(ℤ/2)²` with `q(g₁) = 
 `IsMetabolic` through `FiniteBilinearModule.IsLagrangian` alone would make
 `gaussSign_eq_zero_of_isMetabolic` false. -/
 theorem exists_bilinearLagrangian_gaussSign_ne_zero :
-    ∃ (A : FiniteQuadraticModule.{u}) (H : AddSubgroup A.A), A.IsNondegenerate ∧
+    ∃ (A : FiniteQuadraticModule.{u}) (H : AddSubgroup A), A.IsNondegenerate ∧
       A.toFiniteBilinearModule.IsLagrangian H ∧ A.gaussSign ≠ 0 := sorry
 
 /-- **Nikulin's `discr K(q_p)`.** `K(q_p)` is a `p`-adic lattice of rank `l(A_{q_p})` whose
@@ -527,7 +343,7 @@ noncomputable def padicDiscriminant (A : FiniteQuadraticModule) (p : ℕ) [Fact 
 /-- The rank-0 value, which pins the normalization: when the `p`-primary part is trivial,
 `K(q_p)` is the rank-0 lattice and its determinant is the empty product. -/
 theorem padicDiscriminant_of_minGenerators_eq_zero (A : FiniteQuadraticModule) (p : ℕ)
-    [Fact p.Prime] (h : minGenerators (A.primaryComponent p).A = 0) :
+    [Fact p.Prime] (h : minGenerators (A.primaryComponent p) = 0) :
     A.padicDiscriminant p = TauCeti.squareClass (1 : ℚ_[p]ˣ) := sorry
 
 /-- **The dyadic alternative of Nikulin's condition (4)**: `q₂ ≅ q_θ^{(2)}(2) ⊕ q'` for some odd
@@ -548,50 +364,6 @@ section DiscriminantModules
 variable {V : Type u} [AddCommGroup V] [Module ℚ V]
 variable (L : IntegralLattice V) [L.IsNondegenerate]
 
-set_option linter.overlappingInstances false in
-/-- ⚠ The nondegeneracy instance is written inline, not taken from the section: the body is
-`sorry` and the type does not mention it, so Lean would silently drop it and the definition would
-apply to degenerate lattices against the roadmap's convention (`include` does not help: a
-`sorry` body references nothing, so nothing is included). The overlapping-instances linter is
-silenced for the same reason — the elaborated signature carries the instance exactly once. -/
-noncomputable def IntegralLattice.discriminantPairing [L.IsNondegenerate] :
-    L.DiscriminantGroup →+ CharacterModule L.DiscriminantGroup := sorry
-
-/-- ⚠ The carrier is **data**, not a milestone: `A` is `L.DiscriminantGroup` by construction and
-the pairing is `discriminantPairing`. Leaving the whole record a `sorry` makes `A` opaque, and
-then `AddSubgroup L.DiscriminantGroup` no longer matches `AddSubgroup (…).A`, so the isotropic
-and Lagrangian statements of Layer 1 cannot be written at all. Only `symmetric` is a milestone. -/
-noncomputable def IntegralLattice.discriminantBilinearModule : FiniteBilinearModule where
-  A := L.DiscriminantGroup
-  finite := L.discriminantGroup_finite
-  pairing := L.discriminantPairing
-  symmetric := sorry
-
-theorem IntegralLattice.discriminantBilinearModule_isNondegenerate :
-    L.discriminantBilinearModule.IsNondegenerate := sorry
-
-set_option linter.overlappingInstances false in
-/-- ⚠ Same inline-instance note as `discriminantPairing`. -/
-noncomputable def IntegralLattice.discriminantQuadraticForm [L.IsNondegenerate] (hL : L.IsEven) :
-    QuadraticMap ℤ L.DiscriminantGroup (AddCircle (1 : ℚ)) := sorry
-
-theorem IntegralLattice.discriminantQuadraticForm_mk (hL : L.IsEven) (x : L.dual) :
-    L.discriminantQuadraticForm hL (L.carrierInDual.mkQ x) =
-      (↑(L.form x x / (2 : ℚ)) : AddCircle (1 : ℚ)) := sorry
-
-/-- ⚠ Same as `discriminantBilinearModule`: the carrier and the form are data, so that the
-half-norm convention of `discriminantQuadraticForm_mk` is the one every consumer sees, and so that
-`IsIsotropic` accepts a subgroup of `L.DiscriminantGroup`. Only `polar` is a milestone. -/
-noncomputable def IntegralLattice.discriminantQuadraticModule (hL : L.IsEven) :
-    FiniteQuadraticModule where
-  toFiniteBilinearModule := L.discriminantBilinearModule
-  quadratic := L.discriminantQuadraticForm hL
-  polar := sorry
-
-theorem IntegralLattice.discriminantQuadraticModule_isNondegenerate (hL : L.IsEven) :
-    (L.discriminantQuadraticModule hL).IsNondegenerate :=
-  L.discriminantBilinearModule_isNondegenerate
-
 /-- **Layer 5B, choice-independence of `discr K(q_p)`, with its exception.** An even
 nondegenerate lattice whose rank is `l(A_{q_p})` and whose discriminant form has `p`-primary
 part isometric to `q_p` localizes at `p` to a minimal realization `K(q_p)`, so the square class
@@ -603,93 +375,14 @@ theorem IntegralLattice.padicDiscriminant_eq_squareClass_gramDet
     (A : FiniteQuadraticModule.{u}) (p : ℕ) [Fact p.Prime]
     (hp : p ≠ 2 ∨ ¬ (A.primaryComponent 2).HasCyclicTwoSummand)
     (hL : L.IsEven) {ι : Type*} [Fintype ι] [DecidableEq ι] (e : Basis ι ℤ L.carrier)
-    (hrank : Fintype.card ι = minGenerators (A.primaryComponent p).A)
+    (hrank : Fintype.card ι = minGenerators (A.primaryComponent p))
     (hq : Nonempty (FiniteQuadraticModule.Isometry
-      ((L.discriminantQuadraticModule hL).primaryComponent p) (A.primaryComponent p))) :
+      (FiniteQuadraticModule.primaryComponent (L.discriminantQuadraticModule hL) p)
+      (A.primaryComponent p))) :
     ∃ u : ℚ_[p]ˣ, (u : ℚ_[p]) = ((L.gramDet e : ℤ) : ℚ_[p]) ∧
       TauCeti.squareClass u = A.padicDiscriminant p := sorry
 
 end DiscriminantModules
-
-section Overlattices
-
-variable {V : Type u} [AddCommGroup V] [Module ℚ V]
-variable (L : IntegralLattice V) [L.IsNondegenerate]
-
-structure Overlattice where
-  carrier : Submodule ℤ V
-  carrier_le : L.carrier ≤ carrier
-  le_dual : carrier ≤ L.dual
-
-instance : PartialOrder (Overlattice L) := PartialOrder.lift Overlattice.carrier (by
-  intro M N h
-  cases M
-  cases N
-  simp_all)
-
-namespace Overlattice
-variable {L} (M : Overlattice L)
-def IsIntegral : Prop := ∀ x y : M.carrier, L.form x y ∈ (1 : Submodule ℤ ℚ)
-def IsEven : Prop := ∀ x : M.carrier, ∃ n : ℤ, L.form x x = ((2 * n : ℤ) : ℚ)
-end Overlattice
-
-noncomputable def Overlattice.subgroup (M : Overlattice L) :
-    AddSubgroup L.DiscriminantGroup := sorry
-
-def IntegralLattice.preimage (H : AddSubgroup L.DiscriminantGroup) : Submodule ℤ V :=
-  (H.toIntSubmodule.comap L.carrierInDual.mkQ).map L.dual.subtype
-
-noncomputable def intermediateOrderIsoSubgroup :
-    Overlattice L ≃o AddSubgroup L.DiscriminantGroup := sorry
-
-noncomputable def integralOverlatticeEquivIsotropicSubgroup :
-    {M : Overlattice L // M.IsIntegral} ≃
-      {H : AddSubgroup L.DiscriminantGroup //
-        L.discriminantBilinearModule.IsIsotropic H} := sorry
-
-noncomputable def evenOverlatticeEquivIsotropicSubgroup (hL : L.IsEven) :
-    {M : Overlattice L // M.IsEven} ≃
-      {H : AddSubgroup L.DiscriminantGroup //
-        (L.discriminantQuadraticModule hL).IsIsotropic H} := sorry
-
-noncomputable def IntegralLattice.ofIsotropicSubgroup (hL : L.IsEven)
-    (H : AddSubgroup L.DiscriminantGroup)
-    (hH : (L.discriminantQuadraticModule hL).IsIsotropic H) : IntegralLattice V := sorry
-
-instance IntegralLattice.ofIsotropicSubgroup_isNondegenerate (hL : L.IsEven)
-    (H : AddSubgroup L.DiscriminantGroup)
-    (hH : (L.discriminantQuadraticModule hL).IsIsotropic H) :
-    (L.ofIsotropicSubgroup hL H hH).IsNondegenerate := sorry
-
-theorem IntegralLattice.ofIsotropicSubgroup_isEven (hL : L.IsEven)
-    (H : AddSubgroup L.DiscriminantGroup)
-    (hH : (L.discriminantQuadraticModule hL).IsIsotropic H) :
-    (L.ofIsotropicSubgroup hL H hH).IsEven := sorry
-
-noncomputable def FiniteQuadraticModule.orthogonalQuotient
-    (A : FiniteQuadraticModule) (H : AddSubgroup A.A) (hH : A.IsIsotropic H) :
-    FiniteQuadraticModule := sorry
-
-theorem FiniteQuadraticModule.orthogonalQuotient_isNondegenerate
-    (A : FiniteQuadraticModule) (hA : A.IsNondegenerate)
-    (H : AddSubgroup A.A) (hH : A.IsIsotropic H) :
-    (A.orthogonalQuotient H hH).IsNondegenerate := sorry
-
-noncomputable def discriminantFormOverlatticeEquiv (hL : L.IsEven)
-    (H : AddSubgroup L.DiscriminantGroup)
-    (hH : (L.discriminantQuadraticModule hL).IsIsotropic H) :
-    FiniteQuadraticModule.Isometry
-      ((L.ofIsotropicSubgroup hL H hH).discriminantQuadraticModule
-        (L.ofIsotropicSubgroup_isEven hL H hH))
-      ((L.discriminantQuadraticModule hL).orthogonalQuotient H hH) := sorry
-
-theorem IntegralLattice.ofIsotropicSubgroup_unimodular_iff (hL : L.IsEven)
-    (H : AddSubgroup L.DiscriminantGroup)
-    (hH : (L.discriminantQuadraticModule hL).IsIsotropic H) :
-    (L.ofIsotropicSubgroup hL H hH).IsUnimodular ↔
-      H = L.discriminantBilinearModule.orthogonalComplement H := sorry
-
-end Overlattices
 
 /-! ## Exact supplier checks
 
@@ -1170,23 +863,23 @@ structure NikulinExistenceConditions (tp tm : ℕ) (q : FiniteQuadraticModule) :
   /-- (1) The signature is congruent to the Gauss-sum invariant mod 8. -/
   signature_congr : (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 8) = q.gaussSign
   /-- (2) The rank is at least `l(A_q)`. Nikulin's `t₊ ≥ 0` and `t₋ ≥ 0` are carried by `ℕ`. -/
-  minGenerators_le : minGenerators q.A ≤ tp + tm
+  minGenerators_le : minGenerators q ≤ tp + tm
   /-- (3) At every **odd** prime where the rank meets `l(A_{q_p})` exactly, the determinant
   square class is pinned, with the sign `(−1)^{t₋}`. The existential says both that the number
   is a `p`-adic unit — which it is, because `v_p(det K(q_p)) = v_p(|A_q|)` — and that its square
   class is `discr K(q_p)`. -/
   odd_boundary : ∀ (p : ℕ) [Fact p.Prime], p ≠ 2 →
-    tp + tm = minGenerators (q.primaryComponent p).A →
-    ∃ u : ℚ_[p]ˣ, (u : ℚ_[p]) = (((-1) ^ tm * (Nat.card q.A : ℤ) : ℤ) : ℚ_[p]) ∧
+    tp + tm = minGenerators (q.primaryComponent p) →
+    ∃ u : ℚ_[p]ˣ, (u : ℚ_[p]) = (((-1) ^ tm * (Nat.card q : ℤ) : ℤ) : ℚ_[p]) ∧
       TauCeti.squareClass u = q.padicDiscriminant p
   /-- (4) The dyadic clause. It applies only when the rank meets `l(A_{q₂})` exactly **and**
   `q₂` has no summand `q_θ^{(2)}(2)`, and then `|A_q|` matches `discr K(q₂)` up to a sign that
   is not fixed. -/
   dyadic_boundary :
-    tp + tm = minGenerators (q.primaryComponent 2).A →
+    tp + tm = minGenerators (q.primaryComponent 2) →
     ¬ (q.primaryComponent 2).HasCyclicTwoSummand →
     ∃ (ε : ℤ) (u : ℚ_[2]ˣ), (ε = 1 ∨ ε = -1) ∧
-      (u : ℚ_[2]) = ((ε * (Nat.card q.A : ℤ) : ℤ) : ℚ_[2]) ∧
+      (u : ℚ_[2]) = ((ε * (Nat.card q : ℤ) : ℤ) : ℚ_[2]) ∧
         TauCeti.squareClass u = q.padicDiscriminant 2
 
 /-- **The left-hand side of 5B**: an even lattice with invariants `(t₊, t₋, q)` exists. It is
@@ -1197,7 +890,7 @@ implicit. -/
 def EvenLatticeWithInvariants (tp tm : ℕ) (q : FiniteQuadraticModule) : Prop :=
   ∃ (L : IntegralLattice (Fin (tp + tm) → ℚ)) (hnd : L.IsNondegenerate) (hev : L.IsEven),
     L.signature = (tp, 0, tm) ∧
-      Nonempty ((@IntegralLattice.discriminantQuadraticModule _ _ _ L hnd hev).Isometry q)
+      Nonempty (letI := hnd; (L.discriminantQuadraticModule hev).Isometry q)
 
 /-- **Layer 5B, Nikulin Theorem 1.10.1, as a literal necessary-and-sufficient statement.**
 Nondegeneracy of `q` is a hypothesis: the generator classification, the Gauss-sum invariant and
@@ -1214,7 +907,7 @@ decides existence. -/
 theorem exists_evenLattice_of_lt (tp tm : ℕ) (q : FiniteQuadraticModule)
     (hq : q.IsNondegenerate)
     (hsign : (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 8) = q.gaussSign)
-    (hrank : minGenerators q.A < tp + tm) :
+    (hrank : minGenerators q < tp + tm) :
     EvenLatticeWithInvariants tp tm q :=
   sorry
 
@@ -1251,7 +944,7 @@ def TwoElementaryLatticeWithInvariants (δ : ZMod 2) (tp tm a : ℕ) : Prop :=
     L.signature = (tp, 0, tm) ∧
       Nonempty (L.DiscriminantGroup ≃+ (Fin a → ZMod 2)) ∧
         (δ = 0 ↔ ∀ x : L.DiscriminantGroup,
-          L.discriminantQuadraticForm hev x + L.discriminantQuadraticForm hev x = 0)
+          L.discriminantQuadraticMap hev x + L.discriminantQuadraticMap hev x = 0)
 
 /-- **Layer 5J, Nikulin Theorem 3.6.2, as a literal necessary-and-sufficient statement.** -/
 theorem exists_twoElementaryLattice_iff (δ : ZMod 2) (tp tm a : ℕ) :
@@ -1304,26 +997,24 @@ of its declarations as an input (`README.md`, §*Scope* and Layer 8).
 
 The declarations supplied, all in namespace `TauCetiRoadmap.IntegralLattices`, are:
 
-* `IntegralLattice` with `IsEven`, `IsNondegenerate`, `IsUnimodular` and `IsPositiveDefinite`
-  — the carrier and its predicates (0A);
-* `dual`, `dual_dual`, `DiscriminantGroup`, `discriminantGroup_finite`,
-  `natCard_discriminantGroup_eq_natAbs_gramDet` and
-  `unimodular_iff_natCard_discriminantGroup_eq_one` — the dual lattice and the discriminant
-  group with its cardinality (1B, 1C);
-* `discriminantPairing`, `discriminantQuadraticForm`, `discriminantQuadraticForm_mk`,
-  `discriminantBilinearModule`, `discriminantQuadraticModule` and `expCircle` — the
-  discriminant forms in the half-norm convention and the character of `ℚ/ℤ` (1D);
-* `FiniteBilinearModule` and `FiniteQuadraticModule` with their `IsIsotropic` and
-  `IsLagrangian`, `FiniteQuadraticModule.orthogonalSum`, `primaryComponent`, `minGenerators`
-  and `NikulinDecomposition` — the finite quadratic modules (1G);
+* the carrier `IntegralLattice` with `IsEven`, `IsNondegenerate`, `IsUnimodular` and `IsPosDef`,
+  the dual carrier and the discriminant group with its cardinality, `discriminantPairing`,
+  `discriminantQuadraticForm`, `discriminantBilinearModule` and `discriminantQuadraticModule`,
+  and `FiniteBilinearModule` and `FiniteQuadraticModule` with `IsIsotropic` and `IsLagrangian`
+  (0A, 1B–1D, 1G) — all Tau Ceti's, certified by `Completed/IntegralLattices/Suggested.lean`,
+  which this file imports and Theta Series reaches through it;
+* `expCircle`, `minGenerators`, `FiniteQuadraticModule.orthogonalSum`, `primaryComponent` and
+  `NikulinDecomposition` — the character of `ℚ/ℤ` and the finite-module vocabulary this file
+  adds (1D, 1G);
 * `gaussSign`, `gaussSum_eq` and `gaussSign_orthogonalSum` — the Gauss-sum invariant (1H),
   from which Milgram's theorem at every signature (1I) is proved here;
 * `integralOverlatticeEquivIsotropicSubgroup`, `evenOverlatticeEquivIsotropicSubgroup`,
-  `ofIsotropicSubgroup`, `ofIsotropicSubgroup_isEven` and
-  `FiniteQuadraticModule.orthogonalQuotient` — the overlattice correspondences and the gluing
-  theorem, through which `D₁₆⁺` is built (1E, 1F);
-* `adeLattice`, `gramMatrix_adeLattice` and the ADE acceptance suite at the end of this file —
-  the ADE lattices with their discriminant forms and the `D₈⁺ ≅ E₈` calculation (1K);
+  `ofIsotropicSubgroup` and `FiniteQuadraticModule.orthogonalQuotient` — the overlattice
+  correspondences and the gluing theorem, through which `D₁₆⁺` is built (1E, 1F), again the
+  certificate's;
+* `typeARootLattice`, `checkerboardLattice`, `typeE₈RootLattice`, `d8PlusLattice` and
+  `e8IsometryD8Plus` — the ADE lattices with their discriminant forms and the `D₈⁺ ≅ E₈`
+  calculation (1K), certified in the archived file's ADE section;
 * the shells and representation numbers of 2B, the covolume identity of Layer 2, and the
   rank-16 pair of 6D and the rank-24 reference lattices of 6E, which are README milestones
   with the Lean shapes above.
@@ -1632,58 +1323,14 @@ example : Nat.card {e : (Fin 2 → ℤ) ≃ₗ[ℤ] (Fin 2 → ℤ) //
 
 end LayerBSplitContract
 
-/-! ## Reviewed foundation acceptance suite
+/-! ## Rejection tests on the foundation's rank-one lattices
 
-These named targets are retained from upstream PR #200. They test the canonical carrier,
-the half-norm convention, degeneracy, and the general gluing route independently of the
-broader local/global programme above.
--/
+The acceptance suite of the foundation — `rankOne`, `hyperbolicPlane`, `affineA1`, the ADE rows
+and the `D₈⁺ ≅ E₈` isometry — is discharged in `Completed/IntegralLattices/Suggested.lean` and is
+not restated. The two tests below use vocabulary of this file (`IsCharacteristicVector`,
+`padicDiscriminant`) on the certified `rankOne m = ⟨2m⟩`. -/
 
-section RankOneAcceptance
-
-noncomputable def rankOne (m : ℤ) (hm : m ≠ 0) : IntegralLattice ℚ := sorry
-
-instance (m : ℤ) (hm : m ≠ 0) : (rankOne m hm).IsNondegenerate := sorry
-
-theorem rankOne_isEven (m : ℤ) (hm : m ≠ 0) : (rankOne m hm).IsEven := sorry
-
-theorem rankOne_signature (m : ℤ) (hm : m ≠ 0) :
-    (rankOne m hm).signature = if 0 < m then (1, 0, 0) else (0, 0, 1) := sorry
-
-noncomputable def rankOneZero : IntegralLattice ℚ := sorry
-
-theorem rankOneZero_signature : rankOneZero.signature = (0, 1, 0) := sorry
-
-noncomputable def rankOneGenerator (m : ℤ) (hm : m ≠ 0) :
-    (rankOne m hm).dual := sorry
-
-theorem mem_rankOne_dual_iff (m : ℤ) (hm : m ≠ 0) (x : ℚ) :
-    x ∈ (rankOne m hm).dual ↔
-      ∃ z : ℤ, x = (z : ℚ) / (2 * (m : ℚ)) := sorry
-
-noncomputable def rankOneDiscriminantEquivZMod (m : ℤ) (hm : m ≠ 0) :
-    (rankOne m hm).DiscriminantGroup ≃+ ZMod (2 * m).natAbs := sorry
-
-theorem natCard_rankOne_discriminantGroup (m : ℤ) (hm : m ≠ 0) :
-    Nat.card (rankOne m hm).DiscriminantGroup = (2 * m).natAbs := sorry
-
-theorem rankOne_bilinear_generator (m : ℤ) (hm : m ≠ 0) :
-    let L := rankOne m hm
-    let g := L.carrierInDual.mkQ (rankOneGenerator m hm)
-    L.discriminantPairing g g =
-      (↑((1 : ℚ) / (2 * (m : ℚ))) : AddCircle (1 : ℚ)) := sorry
-
-theorem rankOne_quadratic_generator (m : ℤ) (hm : m ≠ 0) :
-    let L := rankOne m hm
-    L.discriminantQuadraticForm (rankOne_isEven m hm)
-        (L.carrierInDual.mkQ (rankOneGenerator m hm)) =
-      (↑((1 : ℚ) / (4 * (m : ℚ))) : AddCircle (1 : ℚ)) := sorry
-
-theorem rankOne_polar_generator (m : ℤ) (hm : m ≠ 0) :
-    let L := rankOne m hm
-    let g := L.carrierInDual.mkQ (rankOneGenerator m hm)
-    let q := L.discriminantQuadraticForm (rankOne_isEven m hm)
-    q (g + g) - q g - q g = L.discriminantPairing g g := sorry
+section RankOneRejection
 
 /-- **Layer 1L, the rejection test for `vanDerBlij`'s unimodularity hypothesis.** For the
 rank-one lattice `⟨2⟩` — `rankOne 1` in this file's `⟨2m⟩` parametrization — every value of the
@@ -1692,7 +1339,7 @@ difference is `1`; and every characteristic norm `2k²` is even. The congruence 
 therefore fails at every characteristic vector, so the statement with nondegeneracy in place of
 unimodularity is false. -/
 theorem rankOne_one_characteristic_congruence_fails :
-    let L := rankOne 1 one_ne_zero
+    let L : IntegralLattice ℚ := rankOne 1
     (∀ w : L.carrier, L.IsCharacteristicVector w) ∧
       ∀ w : L.carrier,
         ¬ Int.ModEq 8 ((L.sigPos : ℤ) - (L.sigNeg : ℤ)) (L.integralForm w w) := sorry
@@ -1705,98 +1352,19 @@ square classes in `ℚ₂`, because `5` is not a 2-adic square. So both are mini
 realizations of one `q₂` with different `discr`, and `padicDiscriminant_eq_squareClass_gramDet`
 is false at `p = 2` without its `HasCyclicTwoSummand` hypothesis. -/
 theorem padicDiscriminant_not_determined_by_cyclicTwoSummand :
-    let L₂ := rankOne 1 one_ne_zero
-    let L₁₀ := rankOne 5 (by norm_num)
-    let q₂ := (L₂.discriminantQuadraticModule (rankOne_isEven 1 one_ne_zero)).primaryComponent 2
-    let q₁₀ := (L₁₀.discriminantQuadraticModule (rankOne_isEven 5 (by norm_num))).primaryComponent 2
-    Nonempty (FiniteQuadraticModule.Isometry q₂ q₁₀) ∧
-      minGenerators q₂.A = 1 ∧ minGenerators q₁₀.A = 1 ∧
+    let L₂ : IntegralLattice ℚ := rankOne 1
+    let L₁₀ : IntegralLattice ℚ := rankOne 5
+    let q₂ : FiniteQuadraticModule :=
+      FiniteQuadraticModule.primaryComponent (L₂.discriminantQuadraticModule (rankOne_isEven 1)) 2
+    let q₁₀ : FiniteQuadraticModule :=
+      FiniteQuadraticModule.primaryComponent (L₁₀.discriminantQuadraticModule (rankOne_isEven 5)) 2
+    Nonempty (q₂.Isometry q₁₀) ∧
+      minGenerators q₂ = 1 ∧ minGenerators q₁₀ = 1 ∧
       (∃ e : Basis (Fin 1) ℤ L₂.carrier, L₂.gramDet e = 2) ∧
       (∃ e : Basis (Fin 1) ℤ L₁₀.carrier, L₁₀.gramDet e = 10) ∧
       TauCeti.squareClass (Units.mk0 (2 : ℚ_[2]) two_ne_zero) ≠
         TauCeti.squareClass (Units.mk0 (10 : ℚ_[2]) (by norm_num)) := sorry
 
-end RankOneAcceptance
-
-section DefinitenessAcceptance
-
-noncomputable def hyperbolicPlane : IntegralLattice (Fin 2 → ℚ) := sorry
-instance : hyperbolicPlane.IsNondegenerate := sorry
-theorem hyperbolicPlane_signature : hyperbolicPlane.signature = (1, 0, 1) := sorry
-theorem hyperbolicPlane_isEven : hyperbolicPlane.IsEven := sorry
-theorem hyperbolicPlane_isUnimodular : hyperbolicPlane.IsUnimodular := sorry
-theorem hyperbolicPlane_isIndefinite : hyperbolicPlane.IsIndefinite := sorry
-
-noncomputable def affineA1 : IntegralLattice (Fin 2 → ℚ) := sorry
-theorem affineA1_isEven : affineA1.IsEven := sorry
-theorem affineA1_signature : affineA1.signature = (1, 1, 0) := sorry
-theorem affineA1_isPositiveSemidefinite : affineA1.IsPositiveSemidefinite := sorry
-theorem affineA1_not_isNondegenerate : ¬ affineA1.IsNondegenerate := sorry
-
-noncomputable def affineA1RadicalQuotientIsometry :
-    affineA1.radicalQuotient.Isometry (rankOne 1 one_ne_zero) := sorry
-
-end DefinitenessAcceptance
-
-section ADEAcceptance
-
-open TauCeti
-
-abbrev SimplyLacedType := {t : DynkinType // t.Valid ∧ t.IsSimplyLaced}
-
-variable (t : SimplyLacedType)
-
-noncomputable def adeLattice : IntegralLattice (Fin t.1.rank → ℚ) := sorry
-instance : (adeLattice t).IsNondegenerate := sorry
-noncomputable def adeSimpleBasis : Basis (Fin t.1.rank) ℤ (adeLattice t).carrier := sorry
-
-theorem gramMatrix_adeLattice :
-    (adeLattice t).gramMatrix (adeSimpleBasis t) = t.1.cartanMatrix := sorry
-
-theorem adeLattice_isEven : (adeLattice t).IsEven := sorry
-theorem adeLattice_isPositiveDefinite : (adeLattice t).IsPositiveDefinite := sorry
-
-theorem natCard_adeLattice_roots :
-    Nat.card {x : (adeLattice t).carrier // (adeLattice t).form x x = 2} =
-      t.1.numRoots := sorry
-
-noncomputable def discriminantEquivZMod_A (n : ℕ) (hn : 1 ≤ n) :
-    (adeLattice ⟨.A n, DynkinType.valid_A.mpr hn, DynkinType.isSimplyLaced_A n⟩).DiscriminantGroup
-      ≃+ ZMod (n + 1) := sorry
-
-theorem e8_isUnimodular :
-    (adeLattice ⟨.E8, DynkinType.valid_E8, DynkinType.isSimplyLaced_E8⟩).IsUnimodular := sorry
-
-def d8 : SimplyLacedType := ⟨.D 8, by decide, by decide⟩
-def e8 : SimplyLacedType := ⟨.E8, by decide, by decide⟩
-
-noncomputable def d8SpinorClass : (adeLattice d8).DiscriminantGroup := sorry
-
-noncomputable def d8SpinorSubgroup : AddSubgroup (adeLattice d8).DiscriminantGroup :=
-  AddSubgroup.closure {d8SpinorClass}
-
-theorem natCard_d8SpinorSubgroup : Nat.card d8SpinorSubgroup = 2 := sorry
-
-theorem d8SpinorClass_quadratic_eq_zero :
-    (adeLattice d8).discriminantQuadraticForm (adeLattice_isEven d8) d8SpinorClass = 0 := sorry
-
-theorem d8SpinorSubgroup_isIsotropic :
-    ((adeLattice d8).discriminantQuadraticModule (adeLattice_isEven d8)).IsIsotropic
-      d8SpinorSubgroup := sorry
-
-noncomputable def d8Plus : IntegralLattice (Fin (DynkinType.D 8).rank → ℚ) :=
-  (adeLattice d8).ofIsotropicSubgroup (adeLattice_isEven d8) d8SpinorSubgroup
-    d8SpinorSubgroup_isIsotropic
-
-instance : d8Plus.IsNondegenerate := sorry
-theorem d8Plus_isUnimodular : d8Plus.IsUnimodular := sorry
-
-noncomputable def d8PlusIsometryE8 :
-    IntegralLattice.Isometry d8Plus (adeLattice e8) := sorry
-
-theorem d8Plus_discriminantGroup_subsingleton :
-    Subsingleton d8Plus.DiscriminantGroup := sorry
-
-end ADEAcceptance
+end RankOneRejection
 
 end TauCetiRoadmap.IntegralLattices
