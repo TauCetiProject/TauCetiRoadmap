@@ -478,6 +478,32 @@ theorem range_spinToSpecialOrthogonal [FiniteDimensional K V] (Q : QuadraticForm
       ((spinorNorm Q hQ).comp (specialOrthogonalToOrthogonal Q)).ker := by
   sorry
 
+/-- **⚠ Layer 1E, when the isogeny is onto on points.** The image is the spinor kernel, so when
+every unit of `K` is a square the square-class group is trivial and `Spin(Q)(K) → SO(Q)(K)` is
+surjective. A failure of surjectivity on `K`-points is therefore never a property of `Q` alone: it
+always exhibits a nonsquare unit of `K`. -/
+theorem spinToSpecialOrthogonal_surjective_of_square_eq_top [FiniteDimensional K V]
+    (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V)
+    (hK : Subgroup.square Kˣ = ⊤) : Function.Surjective (spinToSpecialOrthogonal Q) := by
+  sorry
+
+/-- **Layer 1E**: over an algebraically closed field every unit is a square, so the map is onto.
+This is the acceptance case for the hyperbolic plane over such a field, where the map is
+surjective and nothing contradicts it. -/
+theorem spinToSpecialOrthogonal_surjective_of_isAlgClosed [IsAlgClosed K] [FiniteDimensional K V]
+    (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) (hV : 0 < Module.finrank K V) :
+    Function.Surjective (spinToSpecialOrthogonal Q) := by
+  sorry
+
+/-- **⚠ Layer 1E, the rejection test over `ℚ`**: the hyperbolic plane `Q x = x₀ x₁`.
+`SO(H)(ℚ) ≅ ℚˣ` through the diagonal torus, `θ` is the square class of the parameter, and the image
+of `Spin` is `(ℚˣ)²`, so the parameter `2` has no preimage. The same form over an algebraically
+closed field is a case of the previous theorem, so nonsurjectivity here is a fact about `ℚ`, not
+about `H`. -/
+theorem not_surjective_spinToSpecialOrthogonal_hyperbolic_rat (Q : QuadraticForm ℚ (Fin 2 → ℚ))
+    (hQ : ∀ x, Q x = x 0 * x 1) : ¬ Function.Surjective (spinToSpecialOrthogonal Q) := by
+  sorry
+
 /-! ### Layer 1F: the low-rank identifications, against a named carrier
 
 ⚠ `Spin(Q) ≅ Sp(C₀, σ)` names nothing until `Sp(C₀, σ)` is a declaration. The carrier is supplied
@@ -531,7 +557,9 @@ identifications over a general field, including the twisted forms:
 * dimension three, `C₀` a quaternion algebra with its conjugation, `U(C₀, σ)` its norm-one group;
 * dimension four, `C₀` a quaternion algebra over the discriminant quadratic étale algebra `E`, and
   `U(C₀, σ)` the restriction of scalars from `E` to `K` of its norm-one group — one
-  `K`-almost-simple group when `E` is a field, two `K`-rank-one factors when `E ≅ K × K`;
+  `K`-almost-simple group when `E` is a field, and when `E ≅ K × K` two `K`-almost-simple factors
+  of *absolute* rank one, each of `K`-rank one exactly when its quaternion algebra splits (for the
+  sum of four squares over `ℝ`, `E` splits but `Spin(Q)(ℝ) ≅ SU(2) × SU(2)` has real rank zero);
 * dimension five, `C₀` central simple of degree four with `σ` symplectic, so `U(C₀, σ)` is
   `Sp(C₀, σ)`, which is `Sp₄` exactly when `C₀` splits. -/
 theorem evenUnitaryGroup_le_lipschitzGroup [FiniteDimensional K V] (Q : QuadraticForm K V)

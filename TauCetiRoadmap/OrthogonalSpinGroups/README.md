@@ -520,6 +520,12 @@ a short exact sequence and none of it is written as one. Where `θ` is surjectiv
 extends by `→ 1` on the right, and Layer 2 proves exactly which local fields, dimensions and
 signatures those are. The distinction being tested is between a central isogeny of groups, which is
 surjective as a map of algebraic groups, and surjectivity on `K`-points, which is what `θ` measures.
+Read the other way, the image statement says that `Spin(Q)(K) → SO(Q)(K)` is onto whenever every
+unit of `K` is a square, since `θ` then lands in the trivial group:
+`spinToSpecialOrthogonal_surjective_of_square_eq_top`, with the algebraically closed case
+`spinToSpecialOrthogonal_surjective_of_isAlgClosed`. So a failure of surjectivity on `K`-points is
+never a property of `Q` alone; it always exhibits a nonsquare unit of `K`, and the rejection test
+`not_surjective_spinToSpecialOrthogonal_hyperbolic_rat` exhibits `2 ∈ ℚˣ` on the hyperbolic plane.
 
 **1F. Low rank, against a named carrier, with the split and nonsplit cases separated.** The
 exceptional isomorphisms over an algebraically closed field are the spin representations roadmap's
@@ -547,12 +553,20 @@ too big. Read by dimension over a field `K` of characteristic not two:
 - **Dimension 4.** The centre of `C₀` is the **discriminant quadratic étale algebra**
   `E = K[X]/(X² − d)` for `d` the discriminant, `σ` fixes `E` pointwise, and the two cases are
   genuinely different groups:
-  - `E ≅ K × K` split: `C₀` is a product of two quaternion algebras over `K` and `U(C₀, σ)` has
-    two `K`-almost-simple factors, each of `K`-rank one;
+  - `E ≅ K × K` split: `C₀` is a product `B₁ × B₂` of two quaternion algebras over `K`, `σ`
+    restricts to the canonical involution of each, and `U(C₀, σ)` is the product of the two
+    norm-one groups `B₁¹ × B₂¹`, two `K`-almost-simple factors each of **absolute** rank one.
+    ⚠ Absolute rank, not `K`-rank: `Bᵢ¹` has `K`-rank one exactly when `Bᵢ` splits, and `K`-rank
+    zero when `Bᵢ` is a division algebra, and a split discriminant algebra says nothing about
+    whether the `Bᵢ` split. For `x₁² + x₂² + x₃² + x₄²` over `ℝ` the discriminant is a square, so
+    `E ≅ ℝ × ℝ`, yet `C₀ ≅ ℍ × ℍ` and `Spin(Q)(ℝ) ≅ SU(2) × SU(2)` is compact, of real rank zero.
+    The `K`-split-rank-one reading holds for `H ⟂ H`, where `C₀ ≅ M₂(K) × M₂(K)` and
+    `Spin(Q) ≅ SL₂ × SL₂`;
   - `E` a quadratic field: `C₀` is a quaternion algebra over `E`, and `U(C₀, σ)` is the
     restriction of scalars from `E` to `K` of its norm-one group, which is `K`-almost-simple and
     **not** a product of two `K`-factors.
-  Conflating the two is conflating geometric factors with `K`-almost-simple factors.
+  Conflating the two is conflating geometric factors with `K`-almost-simple factors, and
+  conflating a split `E` with split `Bᵢ` is conflating absolute rank with `K`-rank.
 - **Dimension 5.** `C₀` is a central simple `K`-algebra of degree four and `σ` is **symplectic**,
   so `U(C₀, σ)` is the symplectic group `Sp(C₀, σ)`, which is `Sp₄` exactly when `C₀` splits.
   ⚠ Recording only the split identification `Spin₅ ≅ Sp₄` would leave the twisted forms unnamed;
@@ -964,11 +978,15 @@ convention drift.
   acceptance check that the square class detects `-1` and hence that the `reverse` and `star`
   norms of 1A really do differ on `O(Q)` (Layers 0, 1).
 - The hyperbolic plane over any `K`: `SO(H) ≅ Kˣ` through the diagonal torus and `θ` on that torus
-  is the square class of the parameter, so `θ : SO(H)(K) → Kˣ/(Kˣ)²` is **surjective**; the image
-  of `Spin(H)(K) → SO(H)(K)` is the square-parameter subgroup, which is `ker θ`, so
-  `Spin(H)(K) → SO(H)(K)` is **not** surjective. The sequence of 1E extended by `→ 1` is therefore
-  exact here, and what fails is the naive expectation that a central isogeny is onto on `K`-points
-  (Layers 0, 1).
+  is the square class of the parameter, so `θ : SO(H)(K) → Kˣ/(Kˣ)²` is **surjective**, and the
+  image of `Spin(H)(K) → SO(H)(K)` is the square-parameter subgroup `(Kˣ)²`, which is `ker θ`. The
+  sequence of 1E extended by `→ 1` is therefore exact here over every `K`. ⚠ Whether
+  `Spin(H)(K) → SO(H)(K)` is itself onto is a property of `K`, not of `H`: it is surjective exactly
+  when every unit of `K` is a square. Over `ℚ` it is **not**, the parameter `2` having no preimage,
+  which is `not_surjective_spinToSpecialOrthogonal_hyperbolic_rat`, and what fails there is the
+  naive expectation that a central isogeny is onto on `K`-points. Over an algebraically closed
+  field the same form is a case of `spinToSpecialOrthogonal_surjective_of_isAlgClosed`, and the
+  acceptance proof verifies surjectivity rather than contradicting it (Layers 0, 1).
 - The sum of three squares over ℚ: the central map from the norm-one Hamilton quaternions to
   `SO(Q)` is an isogeny of algebraic groups with kernel `±1`, and its image on rational points is
   the spinor kernel, strictly smaller than `SO(Q)(ℚ)`. Stating it as "`SO(Q)(ℚ)` is the quotient of
@@ -989,9 +1007,13 @@ convention drift.
 - Two compatible tuples differing at one prime give a canonical isomorphism of restricted products,
   computed on coordinates, and the induced comparison of double-coset sets is the one 3G names
   rather than a bijection (Layer 3).
-- Dimension four, split against nonsplit: a quaternary form with split discriminant algebra, whose
-  `Spin` has two factors after base change, beside one whose discriminant algebra is a quadratic
-  field, whose `Spin` has one. This tests the distinction 1F draws (Layer 1F).
+- Dimension four, split against nonsplit, in three forms: `H ⟂ H` over `ℚ`, whose discriminant
+  algebra splits and whose `Spin` is `SL₂ × SL₂`, two factors each of `ℚ`-rank one; the sum of
+  four squares over `ℝ`, whose discriminant algebra also splits but whose `Spin(ℝ)` is
+  `SU(2) × SU(2)`, two factors of real rank zero; and `x² + y² + z² + 2w²` over `ℚ`, whose
+  discriminant algebra is the field `ℚ(√2)` and whose `Spin` is one `ℚ`-almost-simple factor. The
+  first two test that the split case of 1F asserts absolute rank one and nothing more, and the
+  third tests the distinction between split and nonsplit that 1F draws (Layer 1F).
 - **Dimension five is symplectic**: for a five-dimensional `Q` the even Clifford algebra has degree
   four, `Spin(Q) = evenUnitaryGroup Q = Sp(C₀, σ)`, and in the split case `Spin₅ ≅ Sp₄`, which is
   not a special linear group of any central simple algebra (Layer 1F).
