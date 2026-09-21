@@ -1016,7 +1016,7 @@ end CompletedAlgebraLaws
 
 These are the three statements Labute's §4 arguments run on: the power-series coordinate, the
 evaluation homomorphism at a point of the maximal ideal, and the division criterion that
-produces the basis corrections of Layer 9. -/
+the basis corrections of Layer 9 are built from. -/
 
 section PowerSeriesCoordinate
 
@@ -1047,9 +1047,43 @@ theorem powerSeriesEval_X_C (c : ℤ_[p]) (hc : (p : ℤ_[p]) ∣ c) (a : ℤ_[p
 /-- **Layer 9, the division criterion** `(T - c) ∣ ψ ↔ ψ(c) = 0`, for `v_p(c) ≥ 1`, in both
 directions and with the quotient given by the explicit series. This is the special case of
 Weierstrass division that Labute uses on p. 122; the general Weierstrass preparation theorem
-is not a target. It is the step that produces the basis correction of Layer 9. -/
+is not a target.
+
+⚠ Division alone is *not* the basis correction of Layer 9. It produces the quotient series;
+what makes the quotient usable as a new generator is the constant-term bookkeeping of
+`constantCoeff_of_eq_sub_C_mul` below. See `not_exists_complement_powerSeries_two_X` for what
+goes wrong if that step is skipped. -/
 theorem powerSeries_sub_C_dvd_iff (ψ : PowerSeries ℤ_[p]) (c : ℤ_[p]) (hc : (p : ℤ_[p]) ∣ c) :
     (PowerSeries.X - PowerSeries.C (R := ℤ_[p]) c) ∣ ψ ↔ powerSeriesEval p ψ c hc = 0 :=
+  sorry
+
+/-- **Layer 9, the constant term of a quotient by `T - c`.** This one equation is what converts
+a division into a statement about the corrected generator: `ψ(0) = -c · φ(0)`, so
+`v_p(φ(0)) = v_p(ψ(0)) - v_p(c)`. In Labute's procyclic correction `c = -(2 + 2^f)` has
+`v₂(c) = 1`, the first coefficient has `ψ₁(0) = 2 + a` with `v₂ = 1`, and the second has
+`ψ₂(0) = 2^g` with `v₂ = g ≥ 2`; hence `φ₁(0)` is a unit and `φ₂(0) ∈ 2ℤ₂`, which is exactly
+the congruence `z₁ ≡ y₁ (mod Φ(F))` that makes the corrected family a basis. -/
+theorem constantCoeff_of_eq_sub_C_mul (ψ φ : PowerSeries ℤ_[p]) (c : ℤ_[p])
+    (h : ψ = (PowerSeries.X - PowerSeries.C (R := ℤ_[p]) c) * φ) :
+    PowerSeries.constantCoeff (R := ℤ_[p]) ψ
+      = -c * PowerSeries.constantCoeff (R := ℤ_[p]) φ :=
+  sorry
+
+/-- **Layer 9, the negative test that stops "divide out the common factor" from being read as a
+basis correction.** In `R = ℤ₂[[T]]` the vector `(2, T) ∈ R²` has no nonunit common divisor, yet
+no `w` completes it to a generating pair: modulo the maximal ideal `(2, T)` the first vector
+becomes zero, so the image of the span is at most one-dimensional over `𝔽₂`.
+
+The moral for Layer 9: `labuteRelatorClass_mem_smul_of_coeff_dvd` returns a `z` with `r̄ = l z`,
+and that `z` need not be usable as a generator. The branch theorems
+`exists_labuteBasisCorrection_of_dyadic_procyclic` and `..._split` are what actually supply the
+change of generators, and they do so from the constant-term computation above, not from
+divisibility. -/
+theorem not_exists_complement_powerSeries_two_X :
+    ¬ ∃ w : Fin 2 → PowerSeries ℤ_[2],
+      Submodule.span (PowerSeries ℤ_[2])
+        ({![(2 : PowerSeries ℤ_[2]), PowerSeries.X], w} :
+          Set (Fin 2 → PowerSeries ℤ_[2])) = ⊤ :=
   sorry
 
 end PowerSeriesCoordinate
@@ -1144,6 +1178,38 @@ section DyadicAlgebra
 /-- `C₂` as a genuine cyclic **group** of order two. ⚠ It is not `ZMod 2` read as a
 multiplicative monoid, whose monoid algebra is a different ring. -/
 abbrev cyclicTwo : Type := Multiplicative (ZMod 2)
+
+/-- The coefficient involution `S ∈ ℤ₂[C₂]`, as a constant power series. Named because every
+split-branch statement is about the free `ℤ₂[[T]]`-module decomposition `1, S`. -/
+noncomputable abbrev splitInvolution : PowerSeries (MonoidAlgebra ℤ_[2] cyclicTwo) :=
+  PowerSeries.C (MonoidAlgebra.single (Multiplicative.ofAdd (1 : ZMod 2)) (1 : ℤ_[2]))
+
+/-- The inclusion of the base `ℤ₂[[T]]` into the split coefficient ring. -/
+noncomputable abbrev splitBase :
+    PowerSeries ℤ_[2] →+* PowerSeries (MonoidAlgebra ℤ_[2] cyclicTwo) :=
+  PowerSeries.map (algebraMap ℤ_[2] (MonoidAlgebra ℤ_[2] cyclicTwo))
+
+/-- **Layer 9, the split coefficient ring is not a domain.** `(1 - S)(1 + S) = 0` with both
+factors nonzero. This is why the procyclic divisibility argument of §4.1 cannot simply be
+rerun in the split branch, and why `exists_labuteBasisCorrection_of_dyadic_split` is a separate
+statement with a separate proof obligation rather than an instance of the procyclic one. -/
+theorem splitInvolution_isZeroDivisor :
+    (1 - splitInvolution) * (1 + splitInvolution) = 0 ∧
+      (1 - splitInvolution) ≠ 0 ∧ (1 + splitInvolution) ≠ 0 :=
+  sorry
+
+/-- **Layer 9, the split branch divides in the base, not in `Λ`.** `ℤ₂[C₂] ⊗ ℤ₂[[T]]` is free of
+rank two over `ℤ₂[[T]]` on `1, S`, and `2^f + T` lies in the base. Divisibility by it is
+therefore coordinatewise divisibility in the **domain** `ℤ₂[[T]]`, where
+`powerSeries_sub_C_dvd_iff` applies. This is the whole of the extra argument the split branch
+needs: Labute's §4.2 obstruction is `S · g(T)` with `g ∈ ℤ₂[[T]]` and `g(-2^f) = 0`, so the
+single division happens in the domain and is transported back along this equivalence. -/
+theorem splitBase_dvd_iff (f : ℕ) (ψ₀ ψ₁ : PowerSeries ℤ_[2]) :
+    (PowerSeries.C (algebraMap ℤ_[2] (MonoidAlgebra ℤ_[2] cyclicTwo) ((2 : ℤ_[2]) ^ f)) +
+        PowerSeries.X) ∣ (splitBase ψ₀ + splitInvolution * splitBase ψ₁) ↔
+      (PowerSeries.C (R := ℤ_[2]) ((2 : ℤ_[2]) ^ f) + PowerSeries.X) ∣ ψ₀ ∧
+        (PowerSeries.C (R := ℤ_[2]) ((2 : ℤ_[2]) ^ f) + PowerSeries.X) ∣ ψ₁ :=
+  sorry
 
 variable (Γ : Type u) [Group Γ] [TopologicalSpace Γ]
 
@@ -1447,8 +1513,15 @@ end RelationModule
 /-! ### The two module criteria that the classification uses
 
 With `E` and `Λ` as above, a chosen topological generator `γ` of `Γ` and `T = γ - 1`, these are
-the statements Labute Thms 5 and 6 run on: the expression of `r̄` in a `Λ`-basis, the basis
-correction that the division criterion produces, and the resulting normal form. -/
+the module statements Labute Thms 5 and 6 run on: the expression of `r̄` over a generating
+family, the scalar-membership consequence of coefficientwise divisibility, and the division
+criterion that characterizes membership.
+
+⚠ None of them is the basis correction. Each is a statement about the *element* `r̄`; the
+correction is a statement about a *family of generators*, and the implication from the first to
+the second is false in general (`not_exists_complement_powerSeries_two_X`). The corrections live
+in `MarkedNormalForms`, one per orientation-image branch, and carry their own generation and
+congruence data. -/
 
 section ModuleCriteria
 
@@ -1469,10 +1542,15 @@ theorem labuteE_exists_generators (hχ : Continuous χ)
   sorry
 
 /-- **Layer 9, the expression of the relator image** (Labute p. 122). In the dyadic even-rank
-branch the class `r̄` is the `Λ`-combination
-`r̄ = (1 + a + (1+T)^a) ȳ₁ + (2^g + (1+T)^{ab} − 1) ȳ₃`
-of the basis classes lying in `X`. The statement here is the shape of that expression: `r̄` is a
-`Λ`-combination of the generators, with the coefficients read off the normal form of `r`. -/
+procyclic branch the class `r̄` is the `Λ`-combination
+`r̄ = (1 + a + (1+T)^α) ȳ₁ + (2^g − 1 + (1+T)^{αb}) ȳ₃`
+of the basis classes lying in `X`, where `α ∈ ℤ₂ˣ` is determined by `(1 + 2^{v₂(a)})^α = 1 + a`
+and `b ∈ 2ℤ₂` by `(1 + a)^b = 1 − 2^g`. ⚠ The exponents are `α` and `αb`, not `a` and `ab`: `α`
+is the exponent that normalizes `1 + a` against the orientation image, and confusing the two is
+how the coefficient acquires a spurious dependence on the word's `f`.
+
+The statement here is the shape of that expression: `r̄` is a `Λ`-combination of the generators,
+with the coefficients read off the normal form of `r`. -/
 theorem labuteRelatorClass_eq_sum (hχ : Continuous χ)
     (n : ℕ) (hF : Nonempty (F ≃ₜ* freeProP p (Fin n)))
     (r : F) (hr : r ∈ orientationKernel p F χ) (m : ℕ) (b : Fin m → labuteE p F χ)
@@ -1484,10 +1562,18 @@ theorem labuteRelatorClass_eq_sum (hχ : Continuous χ)
         = ∑ i : Fin m, labuteSMul p F χ (c i) (b i) :=
   sorry
 
-/-- **Layer 9, coefficientwise divisibility gives a basis correction.** This is the algebraic
-step used after the normal-form computation has shown that every displayed coefficient is
-divisible by `l`; it does not pretend that kernel membership alone supplies that computation. -/
-theorem labuteRelatorClass_eq_smul_of_coeff_dvd
+/-- **Layer 9, coefficientwise divisibility gives scalar membership.** From a representation of
+`r̄` in a generating family whose coefficients are all divisible by `l`, this returns some `z`
+with `r̄ = l · z`.
+
+⚠ This is *not* the basis correction, and the name says so. It returns an arbitrary `z`; it
+does not claim that `z` is a member of a generating family, and no such claim follows. In
+`ℤ₂[[T]]` the vector `(2, T)` has no nonunit common divisor yet lies in no basis
+(`not_exists_complement_powerSeries_two_X`), so factoring out a greatest common divisor does
+not produce a primitive vector in general. The step that Layer 8's marked-generator corrections
+actually consume is `exists_labuteBasisCorrection_of_dyadic_procyclic` or its split companion,
+which produce the corrected family together with its generation and congruence data. -/
+theorem labuteRelatorClass_mem_smul_of_coeff_dvd
     (r : F) (hr : r ∈ orientationKernel p F χ)
     (m : ℕ) (b : Fin m → labuteE p F χ)
     (c : Fin m → completedGroupAlgebra p (orientationQuotient p F χ))
@@ -1502,8 +1588,9 @@ theorem labuteRelatorClass_eq_smul_of_coeff_dvd
 /-- **Layer 9, the membership criterion.** For `λ ∈ Λ` corresponding to `T − c` under a
 power-series coordinate `e`, membership of the relator class in `λE` is the vanishing `ψ_r(c) = 0`
 of the relator series at `c`. This is where the division criterion
-`powerSeries_sub_C_dvd_iff` enters, and it is what produces the basis correction above: the
-correction exists exactly when the membership holds. -/
+`powerSeries_sub_C_dvd_iff` enters. It characterizes membership, and nothing more: the passage
+from membership to a change of generators is the separate branch statement
+`exists_labuteBasisCorrection_of_dyadic_procyclic`. -/
 theorem labuteRelatorClass_mem_smul_iff (r : F) (hr : r ∈ orientationKernel p F χ)
     (ψr : PowerSeries ℤ_[p]) (c : ℤ_[p]) (hc : (p : ℤ_[p]) ∣ c)
     (e : PowerSeries ℤ_[p] ≃ₐ[ℤ_[p]] completedGroupAlgebra p (orientationQuotient p F χ))
@@ -1541,6 +1628,51 @@ noncomputable def freeProPGen (p n : ℕ) (i : ℕ) : freeProP p (Fin n) :=
 noncomputable def presentedProPGen (p n : ℕ) (rels : Set (freeProP p (Fin n))) (i : ℕ) :
     presentedProP p (Fin n) rels :=
   QuotientGroup.mk (freeProPGen p n i)
+
+/-! ### What a basis correction is
+
+Labute's arguments repeatedly replace a basis `y` of `F` by a corrected family `z` and then say
+"hence `z` is a basis". That sentence is a real hypothesis of the next step, not a restatement
+of the divisibility that produced `z`, so it gets its own predicate and its own criteria. -/
+
+/-- **A free basis of `freeProP p (Fin n)`**, as an `ℕ`-indexed family matching `freeProPGen`:
+the family is carried onto the standard generators by a continuous automorphism. Indices `≥ n`
+are pinned to `1` so that the normal-form words, which are also `ℕ`-indexed, need no bound side
+conditions. -/
+def IsFreeProPBasis (p n : ℕ) (z : ℕ → freeProP p (Fin n)) : Prop :=
+  (∃ φ : freeProP p (Fin n) ≃ₜ* freeProP p (Fin n),
+    ∀ i, i < n → φ (freeProPGen p n i) = z i) ∧ ∀ i, n ≤ i → z i = 1
+
+/-- The standard generators are a basis. -/
+theorem isFreeProPBasis_freeProPGen (p n : ℕ) [Fact p.Prime] :
+    IsFreeProPBasis p n (freeProPGen p n) :=
+  sorry
+
+/-- **Layer 9, the generation criterion for a basis correction.** A free pro-`p` group of rank
+`n` is not topologically generated by fewer than `n` elements and is Hopfian, so any `n`-tuple
+that topologically generates it is a basis. This, and not any divisibility statement, is what
+licenses Labute's "hence `z₁, …, zₙ` is a basis of `F`". -/
+theorem isFreeProPBasis_of_generates (p n : ℕ) [Fact p.Prime]
+    [TotallyDisconnectedSpace (freeProP p (Fin n))]
+    (z : ℕ → freeProP p (Fin n))
+    (hgen : (Subgroup.closure {x | ∃ i, i < n ∧ x = z i}).topologicalClosure = ⊤)
+    (htriv : ∀ i, n ≤ i → z i = 1) :
+    IsFreeProPBasis p n z :=
+  sorry
+
+/-- **Layer 9, the Frattini-congruence criterion.** A family congruent to a basis modulo the
+Frattini subgroup `Φ(F) = λ₁(F)` — Labute's `F₂` — is itself a basis, because the two families
+have the same image in `F/Φ(F)` and Burnside's basis theorem lifts generation from there. This
+is the form in which the criterion is applied on p. 122: the corrected `z₁` differs from `y₁` by
+an element of `Φ(F) ∩ X`, because the divided series has unit constant term. -/
+theorem isFreeProPBasis_of_mul_mem_frattini (p n : ℕ) [Fact p.Prime]
+    [TotallyDisconnectedSpace (freeProP p (Fin n))]
+    (y z : ℕ → freeProP p (Fin n)) (hy : IsFreeProPBasis p n y)
+    (hcong : ∀ i, i < n →
+      (y i)⁻¹ * z i ∈ pLowerCentralSeries p (freeProP p (Fin n)) 1)
+    (htriv : ∀ i, n ≤ i → z i = 1) :
+    IsFreeProPBasis p n z :=
+  sorry
 
 /-- The `q ≠ 2` normal-form word `x₁^q(x₁,x₂)(x₃,x₄)⋯(x_{n-1},x_n)`, on an arbitrary tuple. -/
 def demushkinWordNeTwo {H : Type*} [Group H] (q n : ℕ) (x : ℕ → H) : H :=
@@ -1599,6 +1731,23 @@ theorem demushkinWordTwoEven_eq (a : ℤ_[2]) (f : ℕ∞) (n : ℕ) :
                 (freeProPGen 2 n (2 * i + 3))).prod :=
   rfl
 
+/-- The `q = 2`, even-rank normal-form word read in an **arbitrary** family of a free pro-`2`
+group, which is Labute's `r₀(x)`. The corrections of §4.1 and §4.2 conclude that the relator
+takes this shape in a *corrected* basis, so the word has to be readable off a family other than
+`freeProPGen`. -/
+noncomputable def demushkinWordTwoEvenOn (a : ℤ_[2]) (f : ℕ∞) (n : ℕ)
+    (x : ℕ → freeProP 2 (Fin n)) : freeProP 2 (Fin n) :=
+  proPPow 2 _ (freeProP_isProP 2 (Fin n)) (x 0) (2 + a) *
+    labuteComm (x 0) (x 1) *
+      proPPow 2 _ (freeProP_isProP 2 (Fin n)) (x 2) (twoPowENat f) *
+        ((List.range (n / 2 - 1)).map fun i =>
+          labuteComm (x (2 * i + 2)) (x (2 * i + 3))).prod
+
+/-- On the standard generators, `demushkinWordTwoEvenOn` is `demushkinWordTwoEven`. -/
+theorem demushkinWordTwoEvenOn_freeProPGen (a : ℤ_[2]) (f : ℕ∞) (n : ℕ) :
+    demushkinWordTwoEvenOn a f n (freeProPGen 2 n) = demushkinWordTwoEven a f n :=
+  rfl
+
 /-- The original worked relator is the `n = 3, f = 2` odd normal form. -/
 theorem d0Relator_eq_demushkinWordTwoOdd :
     d0Relator = demushkinWordTwoOdd (2 : ℕ∞) 3 :=
@@ -1609,7 +1758,11 @@ branch, the series is an **output**: the coefficient has to be computed from the
 and the actual relator, and cannot be read off the formal parameter `f`. See
 `exists_not_labuteRelatorClass_eq_smul_dyadicProcyclic_two_pow_top` for the counterexample that
 rules out the closed form, and note that the split case needs its own audit rather than inheriting
-whatever coefficient the procyclic case ends up with. -/
+whatever coefficient the procyclic case ends up with.
+
+This is a divisibility characterization and nothing more. The change of generators it feeds is
+`exists_labuteBasisCorrection_of_dyadic_split`, which is a separate statement because
+`ℤ₂[C₂][[T]]` is not a domain. -/
 theorem exists_labuteRelatorSeries_of_dyadic_split
     (n : ℕ) (χ : freeProP 2 (Fin n) →* ℤ_[2]ˣ) (hχ : Continuous χ)
     (a : ℤ_[2]) (ha : ∃ b : ℤ_[2], a = 4 * b)
@@ -1634,7 +1787,10 @@ theorem exists_labuteRelatorSeries_of_dyadic_split
 
 /-- **Layer 9, existence of the relator series in the procyclic dyadic branch.** This is the
 producer for the exact divisibility characterization consumed by
-`labuteRelatorClass_mem_smul_iff`. -/
+`labuteRelatorClass_mem_smul_iff`.
+
+It says which scalars contain `r̄`; it does not adjust generators. That step is
+`exists_labuteBasisCorrection_of_dyadic_procyclic`. -/
 theorem exists_labuteRelatorSeries_of_dyadic_procyclic
     (n : ℕ) (χ : freeProP 2 (Fin n) →* ℤ_[2]ˣ) (hχ : Continuous χ)
     (a : ℤ_[2]) (ha : ∃ b : ℤ_[2], a = 4 * b)
@@ -1660,16 +1816,151 @@ theorem exists_labuteRelatorSeries_of_dyadic_procyclic
           φ ∣ ψr :=
   sorry
 
-/-- **Layer 9, the regression test that keeps the dyadic coefficient honest.** There is **no**
-closed form `2 + 2^f + T` for the basis correction: the coefficient depends on the actual
-orientation and relator, not on the formal parameter `f`, and making the topological generator
-existential does not repair it.
+/-! ### The basis corrections themselves
+
+`exists_labuteRelatorSeries_of_dyadic_*` characterize which scalars contain `r̄`, and
+`labuteRelatorClass_mem_smul_of_coeff_dvd` turns coefficientwise divisibility into membership.
+Neither produces a **change of generators**, which is what Layer 8's marked-generator
+corrections consume. The two theorems below are that step, one per orientation-image branch;
+they are the content of Labute pp. 122–123 (procyclic) and pp. 126–128 (split), and they are
+what make the word "correction" honest.
+
+Each returns the corrected family together with the three things a correction has to carry:
+that it is a basis, what the orientation does to it, and the shape of the relator read in it.
+The coefficient is pinned against the corrected marked generator, not against an arbitrary
+topological generator. -/
+
+/-- **Layer 9, the procyclic basis correction** (Labute §4.1, pp. 122–123). The branch
+hypothesis is the one from the Corollary to Thm 4: the orientation image is the procyclic
+`U₂[v]` exactly when `v = v₂(a)` is *strictly* smaller than the exponent `f` carried by the
+third generator; `f ≤ v₂(a)` is the split branch below, and the two are disjoint.
+
+The correction is legitimate because of a constant-term computation, not because of
+divisibility. Writing `c = -(2 + 2^v)`, the two coefficient series of
+`r̄ = ψ₁ ȳ₁ + ψ₂ ȳ₃` have `ψ₁(0) = 2 + a` with `v₂ = 1` and `ψ₂(0) = 2^f` with `v₂ = f ≥ 2`,
+while `v₂(c) = 1`; so by `constantCoeff_of_eq_sub_C_mul` the quotients satisfy `φ₁(0) ∈ ℤ₂ˣ`
+and `φ₂(0) ∈ 2ℤ₂`, whence `z₁ ≡ y₁ (mod Φ(F))` and `isFreeProPBasis_of_mul_mem_frattini`
+applies. Compare `not_exists_complement_powerSeries_two_X`: without that computation the
+conclusion is false for a general coefficient vector.
+
+⚠ The coefficient is `2 + 2^{v₂(a)} + T`. It is **not** `2 + 2^f + T` read off the exponent
+`f` of the word, which is what
+`exists_not_labuteRelatorClass_eq_smul_dyadicProcyclic_two_pow_top` refutes. -/
+theorem exists_labuteBasisCorrection_of_dyadic_procyclic
+    (n : ℕ) [TotallyDisconnectedSpace (freeProP 2 (Fin n))]
+    (χ : freeProP 2 (Fin n) →* ℤ_[2]ˣ) (hχ : Continuous χ)
+    (a : ℤ_[2]) (ha : ∃ b : ℤ_[2], a = 4 * b)
+    (v : ℕ) (hv : 2 ≤ v)
+    (hav : ((2 : ℤ_[2]) ^ v) ∣ a) (hav' : ¬ ((2 : ℤ_[2]) ^ (v + 1)) ∣ a)
+    (f : ℕ∞) (hvf : (v : ℕ∞) < f)
+    (hr : demushkinWordTwoEven a f n ∈
+      orientationKernel 2 (freeProP 2 (Fin n)) χ)
+    (hfree : Nonempty
+      (orientationQuotient 2 (freeProP 2 (Fin n)) χ ≃ₜ* Multiplicative ℤ_[2]))
+    (hχ1 : (χ (freeProPGen 2 n 1) : ℤ_[2]) * (1 + a) = -1)
+    (hχ3 : (χ (freeProPGen 2 n 3) : ℤ_[2]) * (1 - twoPowENat f) = 1)
+    (hχother : ∀ i : ℕ, i ≠ 1 → i ≠ 3 → i < n → χ (freeProPGen 2 n i) = 1) :
+    ∃ (z : ℕ → freeProP 2 (Fin n)),
+      -- the corrected family really is a basis, and is congruent to the old one mod `Φ(F)`
+      IsFreeProPBasis 2 n z ∧
+      (∀ i, i < n → (freeProPGen 2 n i)⁻¹ * z i ∈
+        pLowerCentralSeries 2 (freeProP 2 (Fin n)) 1) ∧
+      -- the orientation on the corrected marked generators, with parameter `2^v`
+      χ (z 0) = 1 ∧
+      ((χ (z 1) : ℤ_[2]) * (1 + (2 : ℤ_[2]) ^ v) = -1) ∧
+      (∀ i : ℕ, i ≠ 1 → i < n → χ (z i) = 1) ∧
+      -- the relator, read in the corrected basis, is the normal-form word up to `(X,X) ∩ F₃`
+      (∃ e ∈ (⁅orientationKernel 2 (freeProP 2 (Fin n)) χ,
+            orientationKernel 2 (freeProP 2 (Fin n)) χ⁆ :
+          Subgroup (freeProP 2 (Fin n))).topologicalClosure ⊓
+          pLowerCentralSeries 2 (freeProP 2 (Fin n)) 2,
+        demushkinWordTwoEven a f n
+          = demushkinWordTwoEvenOn ((2 : ℤ_[2]) ^ v) ⊤ n z * e) ∧
+      -- and `r̄` is the single multiple `(2 + 2^v + T) z̄₁`, in the coordinate whose topological
+      -- generator is the image of the corrected `z₂`
+      (∃ (hz0 : z 0 ∈ orientationKernel 2 (freeProP 2 (Fin n)) χ)
+          (hγ : (Subgroup.closure ({QuotientGroup.mk (z 1)} : Set
+            (orientationQuotient 2 (freeProP 2 (Fin n)) χ))).topologicalClosure = ⊤),
+        labuteRelatorClass 2 (freeProP 2 (Fin n)) χ (demushkinWordTwoEven a f n) hr
+          = labuteSMul 2 (freeProP 2 (Fin n)) χ
+              (completedGroupAlgebra.powerSeriesCoordinate 2
+                (orientationQuotient 2 (freeProP 2 (Fin n)) χ)
+                (QuotientGroup.mk (z 1)) hγ hfree
+                (PowerSeries.C (2 + (2 : ℤ_[2]) ^ v) + PowerSeries.X))
+              (labuteRelatorClass 2 (freeProP 2 (Fin n)) χ (z 0) hz0)) :=
+  sorry
+
+/-- **Layer 9, the split basis correction** (Labute §4.2, pp. 126–128). The branch hypothesis is
+the complementary one, `f ≤ v₂(a)` with `f` finite, under which the orientation image is
+`{±1} × U₂(f)` and `Γ ≅ C₂ × ℤ₂`.
+
+This branch does **not** inherit the procyclic argument. `Λ = ℤ₂[C₂][[T]]` has zero divisors
+(`splitInvolution_isZeroDivisor`), so "the coefficients have a common factor, divide by it" is
+unavailable. Labute instead normalizes by the **unit** `(1 + a)⁻¹`, observes that the resulting
+obstruction is `S · g(T)` with `g ∈ ℤ₂[[T]]` and `g(-2^f) = 0`, and performs the one division in
+the domain `ℤ₂[[T]]`; `splitBase_dvd_iff` is the transport back. The outcome is a correction by
+a lower-triangular matrix over `Λ` with unit diagonal `(1 + a)`, which is why the corrected
+family is a basis.
+
+The relator class lands on **two** corrected generators here, `r̄ = (1 + S) z̄₁ + (2^f + T) z̄₃`;
+it is not a single multiple, and no statement below should pretend otherwise. -/
+theorem exists_labuteBasisCorrection_of_dyadic_split
+    (n : ℕ) (hn : 4 ≤ n) [TotallyDisconnectedSpace (freeProP 2 (Fin n))]
+    (χ : freeProP 2 (Fin n) →* ℤ_[2]ˣ) (hχ : Continuous χ)
+    (a : ℤ_[2]) (ha : ∃ b : ℤ_[2], a = 4 * b)
+    (f : ℕ) (hf : 2 ≤ f) (hfa : ((2 : ℤ_[2]) ^ f) ∣ a)
+    (hr : demushkinWordTwoEven a (f : ℕ∞) n ∈
+      orientationKernel 2 (freeProP 2 (Fin n)) χ)
+    (e : orientationQuotient 2 (freeProP 2 (Fin n)) χ ≃ₜ*
+      cyclicTwo × Multiplicative ℤ_[2])
+    (hχ1 : (χ (freeProPGen 2 n 1) : ℤ_[2]) * (1 + a) = -1)
+    (hχ3 : (χ (freeProPGen 2 n 3) : ℤ_[2]) * (1 - (2 : ℤ_[2]) ^ f) = 1)
+    (hχother : ∀ i : ℕ, i ≠ 1 → i ≠ 3 → i < n → χ (freeProPGen 2 n i) = 1) :
+    ∃ (z : ℕ → freeProP 2 (Fin n)),
+      IsFreeProPBasis 2 n z ∧
+      -- the orientation on the corrected marked generators: the first parameter is now `0`
+      χ (z 0) = 1 ∧ (χ (z 1) : ℤ_[2]) = -1 ∧ χ (z 2) = 1 ∧
+      ((χ (z 3) : ℤ_[2]) * (1 - (2 : ℤ_[2]) ^ f) = 1) ∧
+      (∀ i : ℕ, i ≠ 1 → i ≠ 3 → i < n → χ (z i) = 1) ∧
+      -- the relator in the corrected basis, with the residual `(z₁,z₃)^{2α}` that Labute's
+      -- final `F₃` adjustment leaves behind
+      (∃ (α : ℤ_[2]) (e' : freeProP 2 (Fin n)),
+        e' ∈ (⁅orientationKernel 2 (freeProP 2 (Fin n)) χ,
+              orientationKernel 2 (freeProP 2 (Fin n)) χ⁆ :
+            Subgroup (freeProP 2 (Fin n))).topologicalClosure ⊓
+            pLowerCentralSeries 2 (freeProP 2 (Fin n)) 2 ∧
+        demushkinWordTwoEven a (f : ℕ∞) n
+          = demushkinWordTwoEvenOn 0 (f : ℕ∞) n z *
+              proPPow 2 _ (freeProP_isProP 2 (Fin n))
+                (labuteComm (z 0) (z 2)) (2 * α) * e') ∧
+      -- and the two-term expression of `r̄` in the split coordinate attached to `e`
+      (∃ (hz0 : z 0 ∈ orientationKernel 2 (freeProP 2 (Fin n)) χ)
+          (hz2 : z 2 ∈ orientationKernel 2 (freeProP 2 (Fin n)) χ),
+        labuteRelatorClass 2 (freeProP 2 (Fin n)) χ
+            (demushkinWordTwoEven a (f : ℕ∞) n) hr
+          = labuteSMul 2 (freeProP 2 (Fin n)) χ
+              (completedGroupAlgebra.dyadicCoordinate
+                (orientationQuotient 2 (freeProP 2 (Fin n)) χ) e (1 + splitInvolution))
+              (labuteRelatorClass 2 (freeProP 2 (Fin n)) χ (z 0) hz0)
+            + labuteSMul 2 (freeProP 2 (Fin n)) χ
+              (completedGroupAlgebra.dyadicCoordinate
+                (orientationQuotient 2 (freeProP 2 (Fin n)) χ) e
+                (PowerSeries.C
+                    (algebraMap ℤ_[2] (MonoidAlgebra ℤ_[2] cyclicTwo) ((2 : ℤ_[2]) ^ f)) +
+                  PowerSeries.X))
+              (labuteRelatorClass 2 (freeProP 2 (Fin n)) χ (z 2) hz2)) :=
+  sorry
+
+/-- **Layer 9, the regression test that fixes which coefficient the correction has.** The
+coefficient is **not** `2 + 2^f + T`, read off the exponent `f` carried by the third generator
+of the word; making the topological generator existential does not rescue that reading. It is
+`2 + 2^{v₂(a)} + T`, as `exists_labuteBasisCorrection_of_dyadic_procyclic` states.
 
 The witness is `n = 4`, `a = 4`, `f = ∞`, `χ x₂ = -1/5` and `χ x₁ = χ x₃ = χ x₄ = 1`. That
 character is continuous by the free pro-`2` universal property, its image is the infinite procyclic
 group generated by `-1/5` (whose square `1/25` is a nontrivial principal unit), and the orientation
 equations hold: `χ(x₂)(1 + a) = (-1/5) · 5 = -1` and `χ(x₄)(1 - 2^∞) = 1` since `2^∞ = 0`. The
-relator is therefore `x₁^6 (x₁,x₂)(x₃,x₄)`, and the coefficient `2 + 2^∞ + T` has
+relator is therefore `x₁^6 (x₁,x₂)(x₃,x₄)`, and the rejected coefficient `2 + 2^∞ + T` has
 `coordinate_γ (2 + T) = 1 + γ` for every topological generator `γ`.
 
 Map `F` onto the dihedral group of order sixteen, `⟨t,s | t^8 = 1, s^2 = 1, s t s⁻¹ = t⁻¹⟩`, by
@@ -1677,7 +1968,13 @@ Map `F` onto the dihedral group of order sixteen, `⟨t,s | t^8 = 1, s^2 = 1, s 
 infinite pro-`2` order, so `X = ker χ` lands in the rotation subgroup and there is a continuous
 `ℓ : E → ℤ/8`. Every topological generator of `Γ ≅ ℤ₂` has odd exponent, hence acts by `-1` on that
 quotient, so `ℓ ((1 + γ) z) = 0` for every `z`. But the relator maps to
-`t^6 (t,s) = t^6 t^{-2} = t^4` and `ℓ (r̄) = 4 ≠ 0`. -/
+`t^6 (t,s) = t^6 t^{-2} = t^4` and `ℓ (r̄) = 4 ≠ 0`.
+
+Note where the same computation *stops* obstructing once the coefficient is right. Here
+`v₂(a) = 2`, so the corrected coefficient is `6 + T`, with `coordinate_γ (6 + T) = 5 + γ` and
+`ℓ((5 + γ) z) = 4 ℓ(z)`; taking `z = x̄₁`, which has `ℓ = 1`, gives `4 = ℓ(r̄)`. The dihedral
+quotient therefore separates the two readings rather than refuting the correction, which is why
+this case is kept as a test of the coefficient and not of the theorem. -/
 theorem exists_not_labuteRelatorClass_eq_smul_dyadicProcyclic_two_pow_top :
     ∃ (χ : freeProP 2 (Fin 4) →* ℤ_[2]ˣ) (_hχ : Continuous χ)
       (hr : demushkinWordTwoEven (4 : ℤ_[2]) (⊤ : ℕ∞) 4 ∈

@@ -1489,51 +1489,88 @@ With `E` and `Λ` as above, using either a procyclic coordinate or the split dya
   is a `Λ`-combination of them (`labuteRelatorClass_eq_sum`). The theorem takes the actual
   generating family and its generation proof; it does not hide freeness or normal-form data in
   an opaque predicate. Labute's separate normal-form computation on p. 122 gives
-  `r̄ = (1 + a + (1+T)^a) ȳ₁ + (2^g + (1+T)^{ab} − 1) ȳ₃`
-  in the dyadic even-rank branch.
-- **The basis correction.** Applying the division criterion `(T − c) ∣ ψ ⟺ ψ(c) = 0` to those
-  coefficients replaces the generators by ones in which the relator image is a single multiple.
-  ⚠ The coefficient of that multiple has to be **computed from the actual orientation and the
-  actual relator**, retaining its dependence on `a` and on which orientation-image shape holds.
-  It is *not* `2 + 2^f + T` read off the formal parameter `f`, and making the topological
-  generator existential does not rescue that formula.
-
-  The counterexample is `n = 4`, `a = 4`, `f = ∞`, with `χ(x₂) = −1/5` and `χ(x₁) = χ(x₃) =
-  χ(x₄) = 1`. Every displayed orientation equation holds — `χ(x₂)(1+a) = (−1/5)·5 = −1` and
-  `χ(x₄)(1−2^∞) = 1`, since `2^∞ = 0` — and `Γ = Im χ` is the infinite procyclic group generated
-  by `−1/5`. The relator is then `x₁⁶ (x₁,x₂)(x₃,x₄)`, and `2 + 2^∞ + T` has coordinate `1 + γ`
-  for *every* topological generator `γ`. Map `F` onto the dihedral group of order sixteen by
-  `x₁ ↦ t`, `x₂ ↦ s`, `x₃, x₄ ↦ 1`: the reflection parity vanishes on `ker χ` because `−1/5` has
-  infinite pro-`2` order, so there is a continuous `ℓ : E → ℤ/8` on which every topological
-  generator acts by `−1`, whence `ℓ((1+γ)z) = 0` for all `z`. But the relator maps to
-  `t⁶(t,s) = t⁴`, so `ℓ(r̄) = 4 ≠ 0`. This case is pinned as
-  `exists_not_labuteRelatorClass_eq_smul_dyadicProcyclic_two_pow_top`; it specifically exercises
-  the newly admitted infinite endpoint.
-
-  The targets are therefore the divisibility producers
+  `r̄ = (1 + a + (1+T)^α) ȳ₁ + (2^g − 1 + (1+T)^{αb}) ȳ₃`
+  in the dyadic even-rank procyclic branch, where `α ∈ ℤ₂ˣ` is determined by
+  `(1 + 2^{v₂(a)})^α = 1 + a` and `b ∈ 2ℤ₂` by `(1 + a)^b = 1 − 2^g`. ⚠ The exponents are `α`
+  and `αb`, not `a` and `ab`.
+- **Membership, and what it is not.** For `λ ∈ Λ` corresponding to `T − c` under the coordinate,
+  membership of `r̄` in `λE` is the vanishing `ψ_r(c) = 0` (`labuteRelatorClass_mem_smul_iff`).
+  The hypothesis on `ψ_r` explicitly says that divisibility of this series characterizes the
+  multiples containing this particular `r̄`; it is not an unrelated free parameter or a claimed
+  annihilator generator. The divisibility producers are
   `exists_labuteRelatorSeries_of_dyadic_procyclic` and
   `exists_labuteRelatorSeries_of_dyadic_split`, which return the relator series rather than
-  asserting a closed form, together with the general coefficientwise algebra step
-  `labuteRelatorClass_eq_smul_of_coeff_dvd`. The split branch is audited separately: it must not
-  inherit whichever coefficient the procyclic branch turns out to have. Their hypotheses name the
-  actual dyadic word, the continuous orientation and its values on the marked generators;
-  `f : ℕ∞` includes the infinite endpoint. The corrections then iterate along the descending
-  `2`-central series, which is where Layer 8's comparison schema takes over. This is the exact
-  point at which the Division milestone above is used.
-- **Membership.** For `λ ∈ Λ` corresponding to `T − c` under the coordinate, membership of `r̄`
-  in `λE` is the vanishing `ψ_r(c) = 0` (`labuteRelatorClass_mem_smul_iff`). Here the
-  hypothesis on `ψ_r` explicitly says that divisibility of this series characterizes the
-  multiples containing this particular `r̄`; it is not an unrelated free parameter or a claimed
-  annihilator generator.
-  `exists_labuteRelatorSeries_of_dyadic_procyclic` supplies this hypothesis in the procyclic
-  normal-form application. The split branch stays in `ℤ₂[C₂][[T]]` and uses its direct basis
-  correction rather than pretending that a one-variable `ℤ₂` series controls it.
+  asserting a closed form, and `labuteRelatorClass_mem_smul_of_coeff_dvd` turns coefficientwise
+  divisibility into membership.
+
+  ⚠ All of these are statements about the *element* `r̄`. None of them is a change of
+  generators, and the implication is false in general: in `R = ℤ₂[[T]]` the vector `(2, T) ∈ R²`
+  has no nonunit common divisor yet lies in no basis, since its coordinate ideal `(2, T)` is
+  proper. That is pinned as `not_exists_complement_powerSeries_two_X`, and
+  `labuteRelatorClass_mem_smul_of_coeff_dvd` is named for what it proves.
+
+#### The basis corrections
+
+The step Layer 8's marked-generator corrections actually consume is a change of generators. It
+is stated once per orientation-image branch, because the two branches are separated by the
+Corollary to Labute Thm 4 and have genuinely different proofs. Each theorem returns the
+corrected family together with the three things a correction has to carry: that it is a basis,
+what the orientation does to it, and the shape of the relator read in it.
+
+- **What makes a corrected family a basis.** `IsFreeProPBasis` is the predicate, with two
+  criteria. `isFreeProPBasis_of_generates`: an `n`-tuple that topologically generates a free
+  pro-`p` group of rank `n` is a basis. `isFreeProPBasis_of_mul_mem_frattini`: a family
+  congruent to a basis modulo `Φ(F) = λ₁(F)`, Labute's `F₂`, is a basis. The second is the one
+  p. 122 applies, and it is supplied by a constant-term computation, not by divisibility:
+  `constantCoeff_of_eq_sub_C_mul` gives `ψ(0) = −c · φ(0)`, so dividing by `T − c` shifts the
+  valuation of the constant term by exactly `v₂(c)`.
+- **The procyclic branch** (`exists_labuteBasisCorrection_of_dyadic_procyclic`, Labute §4.1).
+  Branch hypothesis `v₂(a) < f`. With `c = −(2 + 2^{v₂(a)})`, which has `v₂(c) = 1`, the two
+  coefficients have `ψ₁(0) = 2 + a` of valuation `1` and `ψ₂(0) = 2^g` of valuation `g ≥ 2`, so
+  the quotients satisfy `φ₁(0) ∈ ℤ₂ˣ` and `φ₂(0) ∈ 2ℤ₂` and the corrected `z₁` is congruent to
+  `y₁` modulo `Φ(F)`. The conclusion is `r̄ = (2 + 2^{v₂(a)} + T) z̄₁` in the coordinate whose
+  topological generator is the image of the corrected `z₂` — pinned to that generator, not
+  existential — together with `r = z₁^{2+2^{v₂(a)}}(z₁,z₂)(z₃,z₄)⋯ · e` with `e ∈ (X,X) ∩ F₃`,
+  which is the datum Layer 8 iterates.
+
+  ⚠ The coefficient is `2 + 2^{v₂(a)} + T`. It is *not* `2 + 2^f + T` read off the exponent `f`
+  carried by the word's third generator, and making the topological generator existential does
+  not rescue that reading. The counterexample is `n = 4`, `a = 4`, `f = ∞`, with `χ(x₂) = −1/5`
+  and `χ(x₁) = χ(x₃) = χ(x₄) = 1`. Every displayed orientation equation holds —
+  `χ(x₂)(1+a) = (−1/5)·5 = −1` and `χ(x₄)(1−2^∞) = 1`, since `2^∞ = 0` — and `Γ = Im χ` is the
+  infinite procyclic group generated by `−1/5`. The relator is then `x₁⁶ (x₁,x₂)(x₃,x₄)`, and
+  `2 + 2^∞ + T` has coordinate `1 + γ` for *every* topological generator `γ`. Map `F` onto the
+  dihedral group of order sixteen by `x₁ ↦ t`, `x₂ ↦ s`, `x₃, x₄ ↦ 1`: the reflection parity
+  vanishes on `ker χ` because `−1/5` has infinite pro-`2` order, so there is a continuous
+  `ℓ : E → ℤ/8` on which every topological generator acts by `−1`, whence `ℓ((1+γ)z) = 0` for
+  all `z`. But the relator maps to `t⁶(t,s) = t⁴`, so `ℓ(r̄) = 4 ≠ 0`. This case is pinned as
+  `exists_not_labuteRelatorClass_eq_smul_dyadicProcyclic_two_pow_top`; it exercises the
+  newly admitted infinite endpoint. Note that it separates the two readings rather than
+  refuting the correction: here `v₂(a) = 2`, the corrected coefficient is `6 + T` with
+  coordinate `5 + γ`, and `ℓ((5+γ)z) = 4ℓ(z)`, which is `4` at `z = x̄₁`.
+- **The split branch** (`exists_labuteBasisCorrection_of_dyadic_split`, Labute §4.2). Branch
+  hypothesis `f ≤ v₂(a)` with `f` finite, under which `Im χ = {±1} × U₂(f)` and `Γ ≅ C₂ × ℤ₂`.
+  This branch does **not** inherit the procyclic argument, and not only as a matter of audit:
+  `Λ = ℤ₂[C₂][[T]]` has zero divisors, `(1 − S)(1 + S) = 0`, pinned as
+  `splitInvolution_isZeroDivisor`, so "the coefficients have a common factor, divide by it" is
+  unavailable. Labute normalizes by the **unit** `(1 + a)⁻¹`, observes that the residual
+  obstruction is `S · g(T)` with `g ∈ ℤ₂[[T]]` and `g(−2^f) = 0`, and divides once inside the
+  domain `ℤ₂[[T]]`; `splitBase_dvd_iff` records that `Λ` is free of rank two over `ℤ₂[[T]]` on
+  `1, S` and that divisibility by the base element `2^f + T` is coordinatewise. The correction
+  is then by a lower-triangular matrix over `Λ` with unit diagonal `1 + a`, which is what makes
+  the new family a basis. The relator class lands on **two** corrected generators,
+  `r̄ = (1 + S) z̄₁ + (2^f + T) z̄₃`; it is not a single multiple, and the theorem states it that
+  way.
+
+The corrections then iterate along the descending `2`-central series, which is where Layer 8's
+comparison schema takes over. This is the exact point at which the Division milestone above is
+used.
 
 Every load-bearing condition is written out in the signatures. In particular there is no
 `def SomeCondition : Prop := sorry`: an implementer can see and construct the marking,
 generation, coefficient-divisibility and orientation-value data that each result consumes.
 *Needs:* L9 Labute's relation module, L9 power-series coordinates, L9 evaluation, L9 division.
-*Source:* Labute Thms 5 and 6, and the computation on p. 122.
+*Source:* Labute Thms 5 and 6, the computation on pp. 122–123, and §4.2 on pp. 126–128.
 
 ### Layer 9: the classification of Demushkin groups
 
