@@ -131,6 +131,9 @@ their transport to an abelian extension along a reciprocity hypothesis that
   `DifferentiableOn`-off-a-finite-set hypothesis that the residue theorem actually takes. The
   L-functions roadmap's records satisfy it by their `regular_away` field; a general
   meromorphic function does not.
+- **The offset logarithmic integral** `logarithmicIntegral x = ∫_2^x dt / log t` (Layer 8),
+  with its comparison `Li x − x/log x ∼ x/log² x`. It is generic and is a candidate to move to
+  the Arithmetic Dirichlet Series roadmap, whose prose names it; until then it lives here.
 - **The effective count of prime ideals in a ray class** (Layer 8.7), with its exceptional-zero
   term carried explicitly, together with **its transport to an abelian extension** (Layer 8.8),
   stated against `Chebotarev.frobeniusPrimeSet`, `frobeniusPsi`, `frobeniusTheta`, and
@@ -160,12 +163,12 @@ separately.
 | Consumer layer | Supplier layer | Exact object or theorem | Exact declaration name |
 |---|---|---|---|
 | 0.1–0.5 | LF 0 | the data record, and its derived degree, archimedean factor, conjugate dual, and reflection point | `LFunctions.AnalyticLFunctionData`, with `.coeff`, `.conductor`, `.gammaR`, `.gammaC`, `.rootNumber`, `.completed`, `.polarOrder`; `AnalyticLFunctionData.degree`, `.gammaFactor`, `.dual`, `.dualCompleted`, `.reflectedPoint` |
-| 0.1 | LF 0 | Dirichlet agreement on `Re s > 1` | `AnalyticLFunctionData.HasDirichletAgreement`, field `completes` |
+| 0.1, 7.6 | LF 0 | Dirichlet agreement on `Re s > 1`, with the normalization `coeff 1 = 1` and positive degree that 7.6's generic form needs | `AnalyticLFunctionData.HasDirichletAgreement`, fields `coeff_one`, `degree_pos`, `completes` |
 | 0.2 | LF 0 | exact polar orders, and analyticity of the chosen representative away from them | `AnalyticLFunctionData.HasMeromorphicContinuation`, fields `meromorphic`, `exact_pole_order`, `regular_away` |
-| 0.4 | LF 0 | the functional equation off the polar loci, reflected polar divisor, and `‖ε‖ = 1` | `AnalyticLFunctionData.HasFunctionalEquation`, fields `eq_away`, `polarOrder_reflect`, `norm_rootNumber` |
+| 0.4, 1.6 | LF 0 | the functional equation off the polar loci, reflected polar divisor, and `‖ε‖ = 1`; the germ form; the two polar exclusions of `eq_away` are the ones the pointwise Layer 1.6 statement carries | `AnalyticLFunctionData.HasFunctionalEquation`, fields `eq_away`, `polarOrder_reflect`, `norm_rootNumber`; `hasFunctionalEquation_eventuallyEq` |
 | 0.5 | LF 0 | the average coefficient bound giving the right-edge estimate | `AnalyticLFunctionData.HasAverageCoefficientBound`, field `coeff_avg` |
 | 2.3 | LF 0.4 | the normalization translation, which is what makes "critical line" well defined | `NormalizationTranslation`, fields `gammaR_eq`, `gammaC_eq`, `completed_eq`, `polarOrder_eq`, `conductor_eq`, `rootNumber_eq`; `ArithmeticLFunctionData` |
-| 1.6, 3.4, 7.6 | LF 0, 3 | the named Riemann-zeta card and the continued and completed Dedekind zeta functions, exact pole and residue data, uniqueness, and their card | `riemannZetaData`; `dedekindZetaC`, `dedekindZetaC_eq`, `meromorphic_dedekindZetaC`, `analyticAt_dedekindZetaC`, `analyticOnNhd_dedekindZetaC`, `meromorphicOrderAt_dedekindZetaC_one`, `meromorphicOrderAt_dedekindZetaC_nonneg`, `tendsto_sub_one_mul_dedekindZetaC`; `completedDedekindZeta`, `completedDedekindZeta_eq`, `meromorphic_completedDedekindZeta`, `meromorphicOrderAt_completedDedekindZeta_zero`, `meromorphicOrderAt_completedDedekindZeta_one`, `analyticAt_completedDedekindZeta`, `analyticOnNhd_completedDedekindZeta`, `meromorphicOrderAt_completedDedekindZeta_nonneg`, `tendsto_sub_one_mul_completedDedekindZeta`, `tendsto_mul_completedDedekindZeta_zero`, `completedDedekindZeta_one_sub`; `eq_of_meromorphic_of_eqOn_halfPlane`; `dedekindZetaData` |
+| 1.6, 3.4, 7.6 | LF 0, 3 | the named Riemann-zeta card and the continued and completed Dedekind zeta functions, exact pole and residue data, uniqueness, and their card | `riemannZetaData`; `dedekindZetaC`, `dedekindZetaC_eq`, `meromorphic_dedekindZetaC`, `analyticAt_dedekindZetaC`, `analyticOnNhd_dedekindZetaC`, `meromorphicOrderAt_dedekindZetaC_one`, `meromorphicOrderAt_dedekindZetaC_nonneg`, `tendsto_sub_one_mul_dedekindZetaC`; `completedDedekindZeta`, `completedDedekindZeta_eq`, `meromorphic_completedDedekindZeta`, `meromorphicOrderAt_completedDedekindZeta_zero`, `meromorphicOrderAt_completedDedekindZeta_one`, `analyticAt_completedDedekindZeta`, `analyticOnNhd_completedDedekindZeta`, `meromorphicOrderAt_completedDedekindZeta_nonneg`, `tendsto_sub_one_mul_completedDedekindZeta`, `tendsto_mul_completedDedekindZeta_zero`, `completedDedekindZeta_one_sub`; `eq_of_meromorphic_of_eqOn_halfPlane`; `dedekindZetaData`, `degree_dedekindZetaData`, `dedekindZetaData_hasContinuation`, `dedekindZetaData_hasFunctionalEquation` |
 | 6.2, 7.6 | LF 4 | continued quadratic and cyclotomic factorizations | `dedekindZetaC_quadratic`, `dedekindZetaC_cyclotomic`, `dedekindZetaC_cyclotomic_four` |
 | 4.7, 6 | LF 8 | the Dedekind-zeta logarithmic derivative and its nonnegative von Mangoldt coefficients | `dedekindZeta_logDeriv_eq`, `dedekindZeta_idealVonMangoldt_nonneg` |
 | 3.4, 6.4, 8.6 | LF 5 | primitive finite-order Hecke L-functions, completions, entirety, Mellin presentation, cards, and root numbers | `heckeLFunctionC`, `heckeLFunctionC_eq`, `completedHeckeLFunction`, `differentiable_completedHeckeLFunction`, `exists_mellin_completedHeckeLFunction`, `heckeRootNumber`, `heckeData`, `norm_heckeRootNumber`, `completedHeckeLFunction_one_sub` |
@@ -267,6 +270,7 @@ prime-set counting. This roadmap begins where zero distribution and effective er
 | order and vanishing | Order is `meromorphicOrderAt f z : WithTop ℤ`, and the divisor is `MeromorphicOn.divisor f U`. "`f` has a zero of order `m` at `ρ`" is `meromorphicOrderAt f ρ = (m : WithTop ℤ)` with `0 < m`; "`f` has no zeros on `S`" is `∀ z ∈ S, meromorphicOrderAt f z ≤ 0`; "`f` has no zeros and no poles on `S`" is `∀ z ∈ S, meromorphicOrderAt f z = 0`. ⚠ Never characterize a zero or a pole through the value `f z`. Mathlib's meromorphic functions are total, and at a pole the representative takes a junk value which for `Complex.Gamma` and `Gammaℝ` is `0`; `f z ≠ 0` is therefore neither necessary nor sufficient for regularity. ⚠ `MeromorphicOn.divisor` is likewise total, with junk value `0` where `f` is not meromorphic on `U`, so meromorphy on a stated open set is a hypothesis of every theorem about a count. |
 | order and values, the other direction | ⚠ `meromorphicOrderAt f z = 0` is a statement about the **punctured** germ, and it constrains no value, no derivative, and no continuity at `z`. It does **not** give `AnalyticAt ℂ f z`, does **not** give `f z ≠ 0`, does **not** make `logDeriv f` defined or continuous at `z`, and does **not** make the image curve `f ∘ γ` miss `0`. The countermodel is one line: let `f` be `1` on a neighbourhood of `z` except that `f z = 0`. Then `MeromorphicAt f z` holds, every order is `0`, the divisor is identically `0` — and the image curve of any path through `z` hits `0`. Germ-level order is the right hypothesis for a **count** (Layers 4 and 9), and is exactly the wrong hypothesis for anything evaluated pointwise: the argument lift of 7.3 and the `DifferentiableOn` hypothesis of the residue theorem both need `AnalyticAt ℂ f z` and, where the value is used, `f z ≠ 0`, written out. Where the object is a record of the L-functions roadmap, the missing analyticity is supplied by its `HasMeromorphicContinuation.regular_away`; where it is a general meromorphic function, it is a hypothesis. |
 | the two counts | Two deliberately different notions, and no theorem may substitute one for the other. `divisorCount f U R : ℤ` is `∑ᶠ ρ ∈ R, MeromorphicOn.divisor f U ρ` for `R ⊆ U`, in which poles contribute negatively; it is what the argument principle computes. `zeroCount f U R : ℕ` is `∑ᶠ ρ ∈ R, (MeromorphicOn.divisor f U ρ).toNat`, the multiplicities of the *positive* part of the divisor, and is the count of zeros; it is what `N(T)`, the Riemann–von Mangoldt formula, and every certificate use. They agree exactly when `R` contains no pole, which is a hypothesis, never an inference. |
+| infinite sums | `∑ᶠ` is the finite-support sum and is silently `0` on an infinite support, so it appears only where finiteness is a hypothesis or a proved companion: the two counts over a bounded region. A sum over **all** zeros of an L-function — the zero side of the Weil formula in 8.4 and 8.6, and any Hadamard-type sum — is `∑'` with an explicit `Summable` theorem, never `∑ᶠ`. ⚠ Absolute summability does not rescue a finsum: the support is still infinite, and compact support of a test function does not make its Mellin transform vanish at all but finitely many zeros. `∑'` has the same junk convention in the other direction, `0` on a non-summable family, which is why the `Summable` companion is part of the milestone and not a remark. Likewise `meromorphicOrderAt f z ≠ 0` is not a finite-support condition: the order is `⊤` wherever `f` vanishes near `z`, so the nonzero-order locus of `f = 0` is everything, while `MeromorphicOn.divisor` is `0` there. |
 | rectangles | A closed rectangle is `Set.Icc σ₁ σ₂ ×ℂ Set.Icc t₁ t₂` and a half-open one is `Set.Icc σ₁ σ₂ ×ℂ Set.Ioc t₁ t₂`, written with `Complex.reProdIm`; the half-open direction is the imaginary one. Closed rectangles with regular boundary carry contour integrals and certificates; half-open rectangles carry exact subdivisions in height and `N(T)`. Neither spelling is abbreviated to "box" in a statement. Two predicates, and they are not interchangeable. **`Rect.Valid`** is `σ₁ ≤ σ₂ ∧ t₁ ≤ t₂`, the weak ordering that keeps the *sets and counts* meaningful: `Set.Icc` of a reversed pair is empty, so the definitions stay total and a reversed rectangle simply has count `0`. **`Rect.Nondegenerate`** is `σ₁ < σ₂ ∧ t₁ < t₂`, and it is what every *geometric* statement carries — the boundary curve, its winding numbers, its null-homology, and the argument principle. ⚠ `Valid` is not enough for any of those: a rectangle with a zero-length edge has a constant edge, whose derivative vanishes identically, so its boundary is not an `IsPwC1ImmersionOn` curve, and the supplier's residue theorem does not apply to it. A degenerate rectangle also has empty interior, so "winding number `1` about each interior point" is vacuous rather than informative. |
 | counting convention | `N(T)` is `zeroCount` of the *completed* function `Λ` over the half-open rectangle `Icc 0 1 ×ℂ Ioc 0 T`: zeros with `0 < Im ρ ≤ T` and `0 ≤ Re ρ ≤ 1`, with multiplicity. The real axis is excluded by the half-open convention, and a zero at height exactly `T` is counted. The symmetric count over `\|Im ρ\| ≤ T` is a separate named quantity, and the relation between the two is a theorem with explicit reality hypotheses (Layer 4.9), never an assumption. Trivial zeros do not appear: they are the points where the gamma factor has a pole and `L` a compensating zero, and the completed function is regular and nonvanishing there. |
 | finite order | An entire `f` has order `≤ A`, written `OrderLE f A`, when `f =O[cobounded] fun s ↦ Real.exp (‖s‖ ^ A')` for every `A' > A`. This predicate is the only notion of order in the roadmap: no numeric order and no type is defined, and no milestone needs one. ⚠ Do not introduce a limsup-of-`log log` order, or the Nevanlinna order `limsup log T(r,f)/log r` read off `ValueDistribution.characteristic`, unless a lemma proves it agrees with `OrderLE`. |
@@ -367,7 +371,9 @@ la Vallée Poussin zero-free region for the Dedekind zeta function and for Hecke
 with the exceptional-zero disjunction. The Riemann–von Mangoldt formula, in the
 degree-and-conductor-uniform form. The L-function specialization of the imported Perron formula
 and the contour shift it runs on. The explicit formula relating ideal von Mangoldt sums to zeros.
-Certificate semantics for a verified list of zeros. None of this exists upstream.
+The offset logarithmic integral `Li`, which no supplier declares and which is the only admissible
+main term for an effective unweighted prime count. Certificate semantics for a verified list of
+zeros. None of this exists upstream.
 
 ⚠ Two of the layers here run on contour integration, and Mathlib has none of it: no argument
 principle, no winding number, no Rouché, no residue theorem, and no continuous branch of
@@ -577,6 +583,20 @@ line. ⚠ Item 6 is here and not in Layer 0 because it consumes item 5.
      and this reduces to the familiar reflection; for a non-real finite-order Hecke character
      it does not, and that character is the test that catches a statement written as
      `continuedL d s ↔ continuedL d (1 − s)`;
+   - **its pointwise form carries four hypotheses**, and the supplier's two polar exclusions
+     are among them. `continuedL_functionalEquation` holds at `s` under `d.gammaFactor s ≠ 0`,
+     `d.dual.gammaFactor (1 − s) ≠ 0`, `d.polarOrder s = 0` **and**
+     `d.polarOrder (reflectedPoint s) = 0` — the two conditions of
+     `HasFunctionalEquation.eq_away`, plus gamma regularity at both points. ⚠ Nonvanishing of
+     the gamma factors does not put `s` away from the completed poles, and dividing by a nonzero
+     gamma value does not remove an assigned value there. The countermodel is
+     `shiftedPoleData`: degree `0`, conductor `1`, `F(s) = 1/((s − 2)(s + 1))` off its two
+     poles, with the values `F(2) = 1` and `F(−1) = 0` assigned. Its gamma factor is
+     identically `1`, its removable set is empty, so `continuedL` is the raw product and takes
+     those assigned values, and at `s = 2` the pointwise equation reads `0 = 1`. Its poles are
+     off `{0, 1}` on purpose, so that a check passed at the ζ poles alone does not pass it. The
+     germ form `continuedL_functionalEquation_eventuallyEq` carries none of the four, and is the
+     one later layers consume;
    - **the mandatory ζ test.** `continuedL riemannZetaData = riemannZeta`, and in particular
      `continuedL riemannZetaData 0 = −1/2`. The value at `0` is not a corollary of the others
      and is the one check that the removable extension was taken rather than the quotient;
@@ -983,7 +1003,14 @@ von Mangoldt coefficients, and the `3-4-1` inequality, none of which the model c
    of conductor `𝔣`: if `χ` is not real, `L(χ, ·)` has no zero in the region of 2; if `χ` is
    real, it has at most one, and that one is real and simple. The conductor enters through
    `arithmeticConductor = |d_K| 𝔑(𝔣)` and hence through `analyticConductorAt`, and `c`
-   depends on `[K:ℚ]` alone.
+   depends on `[K:ℚ]` alone. ⚠ That dependence is a quantifier order, and the Lean statement
+   `heckeZeroFreeRegion` has it: `c` is chosen from `n` **before** `K` and `χ`, which range over
+   all fields of degree `n` and all their primitive characters. An `∃ c` stated after fixing `K`
+   permits `c` to depend on `K`; that is the weaker `heckeZeroFreeRegion_of_fixed`, a corollary,
+   and the two are stated separately so that neither is described as the other. The same
+   discipline applies to every "uniform" claim in this roadmap: uniformity in a parameter means
+   the constant is bound before that parameter, and an `=O[atTop]` after fixing a card or a
+   field is a fixed-family statement whose constant and threshold may both depend on it.
 
    No source proves this in that generality (see the source table), so the argument is
    decomposed here into six named milestones. Each is a theorem, and the displayed region is
@@ -1165,13 +1192,26 @@ punctured germ and nothing else. See the two conventions-table rows.
    over a **relatively compact open neighbourhood of the rectangle** and then compare counts.
    The named localization package, each item a theorem:
 
-   - **the neighbourhood.** For `U` open and `R ⊆ U` a compact rectangle, an open `V` with
-     `R ⊆ V`, `closure V` compact, and `closure V ⊆ U`; the standard construction from local
-     compactness of `ℂ` and compactness of `R`;
-   - **local finiteness.** `{z ∈ closure V | meromorphicOrderAt f z ≠ 0}` is finite, from
-     Layer 4.1's local finiteness on a compact subset of the domain of meromorphy, so
-     `S = {z ∈ V | meromorphicOrderAt f z ≠ 0}` is finite and contains every point of `V` of
-     nonzero order — which is item 2's hypothesis **over `V`**, and is what fails over `U`;
+   - **the neighbourhood.** For `U` open and `R ⊆ U` a compact rectangle, a **connected**
+     open `V` with `R ⊆ V`, `closure V` compact, and `closure V ⊆ U`: the `ε`-thickening of
+     `R` for `ε` small, which is connected because `R` is, and lies in `U` by compactness;
+   - **finite order on the neighbourhood.** `meromorphicOrderAt f z ≠ ⊤` for every
+     `z ∈ closure V`. ⚠ This is a hypothesis of the next step and is not free:
+     `meromorphicOrderAt` is `⊤` wherever `f` vanishes on a punctured neighbourhood, so for
+     `f = 0`, or for `f` vanishing identically on one component of a disconnected `U`, the
+     nonzero-order locus is a whole open set. It is discharged from the boundary: `∂R` carries a
+     point of order `0`, `closure V` is connected, and Mathlib's identity theorem
+     `MeromorphicOn.meromorphicOrderAt_ne_top_of_isPreconnected` then gives finite order at every
+     point of `closure V` (`meromorphicOrderAt_ne_top_of_frontier`). A connected `V` is what
+     makes this available; on the ambient `U` it is false;
+   - **local finiteness.** Under that finite-order hypothesis,
+     `{z ∈ closure V | meromorphicOrderAt f z ≠ 0}` is finite
+     (`finite_orderSupport_of_isCompact`), so `S = {z ∈ V | meromorphicOrderAt f z ≠ 0}` is
+     finite and contains every point of `V` of nonzero order — which is item 2's hypothesis
+     **over `V`**, and is what fails over `U`. ⚠ Without the finite-order hypothesis this is
+     false, with `f = 0` as the rejection test (`finite_orderSupport_zero_fails`): the divisor
+     support is locally finite unconditionally, because `MeromorphicOn.divisor` is `0` at a point
+     of order `⊤`, but the nonzero-order locus that item 2 needs is not the divisor support;
    - **analyticity off `S`.** `AnalyticOnNhd ℂ f (V \ S)`, from the canonical-representative
      condition restricted to `V`;
    - **divisor restriction.** `divisor f V z = divisor f U z` for `z ∈ V`, since the order at a
@@ -1263,6 +1303,28 @@ punctured germ and nothing else. See the two conventions-table rows.
    and `log |d_K|` appears only after the functional equation folds the contour onto a half.
    A derivation that reads the conductor term off the boundary variation of
    `arg (|d_K|^{s/2})` alone gets `0` and is looking at the wrong step.
+
+   ⚠ **The generic-card form needs more than continuation, functional equation and growth**,
+   and the displayed statement is per family for a reason. `riemannVonMangoldt_generic` is
+   the fixed-card statement, and its hypotheses are the card's Dirichlet agreement
+   (`coeff 1 = 1` and the half-plane identity), the average coefficient bound, and the
+   **confinement** of the zeros of the entire completion to the closed strip. Two cards in
+   `Suggested.lean` are the reason each is there. `constantOneData` — completed function `1`,
+   `gammaR = {0}`, empty polar divisor — has continuation, functional equation and growth, no
+   zeros, and a degree-one main term of order `T log T`; only Dirichlet agreement rejects it,
+   since `LSeries a s → a 1` while `1/Gammaℝ s → 0` as `Re s → ∞`, so no coefficient sequence
+   makes the constant `1` a completed Dirichlet series. `twistedZetaData` —
+   `ζ(s)(1 + 5·2^{−s} + 2·4^{−s})` with conductor `4` and completed function
+   `Λ_ζ(s)(2^s + 5 + 2^{1−s})`, whose Dirichlet-polynomial factor satisfies its own degree-`0`
+   reflection — has all of those **and** Dirichlet agreement **and** the coefficient bound, yet
+   the polynomial's zeros lie on `Re s ≈ 2.19` and `Re s ≈ −1.19`, outside the strip, so the
+   strip count is `N_ζ(T)` and the main term is off by `(T/2π) log 4`; only confinement rejects
+   it, and continuity, finite order and nonvanishing somewhere do not, since it has all three.
+   The two families have confinement from their Euler products (6.5). ⚠ Uniformity is a
+   quantifier order, not an adjective: `riemannVonMangoldt_dedekind` and
+   `riemannVonMangoldt_hecke` choose `C` and `T₀` from the degree before the field and the
+   character, while `riemannVonMangoldt_generic` at `dedekindZetaData K` is an `=O[atTop]` after
+   fixing `K` and is the weaker fixed-family statement.
 7. **The corollaries, as a finite list of four.** For fixed `K`: `N(T)/(T log T) → n/(2π)` as
    `T → ∞`; `Λ` has infinitely many zeros; the averaged unit-height count
    `T⁻¹ ∫_0^T (N(t + 1) − N(t)) dt / log T → n/(2π)`; and the specialization of 6 to `K = ℚ`
@@ -1326,9 +1388,16 @@ complex places of `K`, so `γ_K(s) = Gammaℝ(s)^{r₁} Gammaℂ(s)^{r₂}` and
    `φ̃(s) = ∫ x in Set.Ioi 0, φ x * x^(s−1)` and dual `φ̌ y = φ (1/y) / y`, whose transform is
    `φ̃(1 − s)`. Then
    ```
-   ∑ᶠ ρ, ((divisor Λ_K univ ρ).toNat : ℂ) * φ̃(ρ)
+   ∑' ρ, ((divisor Λ_K univ ρ).toNat : ℂ) * φ̃(ρ)
      = φ̃(0) + φ̃(1) + (log |d_K|) * φ 1 + A_K(φ) − ∑_𝔞 Λ_K(𝔞) * (φ (𝔑𝔞) + φ̌ (𝔑𝔞))
    ```
+   ⚠ **The zero side is a `tsum`, never a finsum.** `∑ᶠ` is Mathlib's finite-support sum and
+   is `0` whenever the support is infinite; `Λ_K` has infinitely many zeros and `φ̃` vanishes at
+   only finitely many of them, so a zero side written with `∑ᶠ` is the junk value `0` — and
+   absolute summability does not change that definition. The sum is `∑'` over `ℂ`, the family
+   `ρ ↦ ((divisor Λ_K univ ρ).toNat : ℂ) * φ̃ ρ` is proved `Summable`, and that theorem is part
+   of the milestone because `∑'` is likewise `0` on a non-summable family. This convention is
+   the conventions table's, and both the Dedekind and the Hecke formula use it.
    ⚠ **The index set and the multiplicity are part of the statement, and the divisor here is
    the positive part.** `divisor` is the *signed* divisor everywhere else in this roadmap, and
    `Λ_K` has simple poles at `0` and `1`, so `divisor Λ_K univ` is `−1` there. A sum written
@@ -1348,9 +1417,10 @@ complex places of `K`, so `γ_K(s) = Gammaℝ(s)^{r₁} Gammaℂ(s)^{r₂}` and
    once per power); the zero side is **absolutely summable for exactly the carrier displayed**,
    that is the family `ρ ↦ ((divisor Λ_K univ ρ).toNat : ℂ) * φ̃ ρ` indexed by the support of
    the positive part is `Summable`, from Layer 4.8 against that decay — which is what makes the
-   `∑ᶠ` independent of any ordering and is strictly stronger than the symmetric limit over
-   `|Im ρ| < T` that the source states; the terms `φ̃(0)` and `φ̃(1)` come from the simple poles
-   of `Λ_K` at `0` and `1`, where `logDeriv Λ_K` has residue `−1`, so each contributes once and
+   `∑'` the intended value, independent of any ordering, and is strictly stronger than the
+   symmetric limit over `|Im ρ| < T` that the source states; the terms `φ̃(0)` and `φ̃(1)` come
+   from the simple poles of `Λ_K` at `0` and `1`, where `logDeriv Λ_K` has residue `−1`, so
+   each contributes once and
    the zero sum contributes nothing there; and the prime side is the Mellin
    inversion `(2πi)⁻¹ ∫_{(1+δ)} 𝔑𝔞^{-s} φ̃(s) ds = φ (𝔑𝔞)` applied to `−ζ'_K/ζ_K` term by term. The presentation over even
    `C_c^∞(ℝ)` in the coordinate `x = log y` is the same theorem and is proved as a corollary,
@@ -1371,14 +1441,24 @@ complex places of `K`, so `γ_K(s) = Gammaℝ(s)^{r₁} Gammaℂ(s)^{r₂}` and
    constant.
 6. **The Hecke instance**, for `χ` a primitive nontrivial finite-order ray-class character of
    conductor `𝔣`, whose gamma factor is `γ_χ(s) = ∏_{j ≤ r₁} Gammaℝ(s + a_j) * Gammaℂ(s)^{r₂}`
-   with `a_j ∈ {0, 1}` the signature of `χ` at the real places. Items 1 to 4 hold verbatim with
-   the following four substitutions, and this item is what discharges them:
-   - `ψ_K(x, χ) = ∑_{𝔑𝔞 ≤ x} Λ_K(𝔞) * χ(𝔞)` in place of `ψ_K(x)`, and the zeros of
-     `Λ(χ, ·)` in place of those of `Λ_K`;
+   with `a_j ∈ {0, 1}` the signature of `χ` at the real places. Items 1 to 4 hold with the
+   following four substitutions, and this item is what discharges them. ⚠ The substitution is
+   **not** verbatim on the prime side of 4, and the first item says exactly what changes:
+   - `ψ_K(x, χ) = ∑_{𝔑𝔞 ≤ x} Λ_K(𝔞) * χ(𝔞)` in place of `ψ_K(x)`, the zeros of `Λ(χ, ·)` in
+     place of those of `Λ_K`, and the prime side of 4 becomes
+     `− ∑_𝔞 Λ_K(𝔞) * (χ(𝔞) * φ(𝔑𝔞) + conj (χ(𝔞)) * φ̌(𝔑𝔞))`,
+     with `χ` on the `φ` term and `conj χ = χ⁻¹` on the dual term. The `φ` term comes from
+     `−L'/L(χ, s)` on `Re s = 1 + δ`; the `φ̌` term comes from the reflected contour, where
+     the functional equation `Λ(χ, s) = ε Λ(χ⁻¹, 1 − s)` replaces `−L'/L(χ, ·)` by
+     `−L'/L(χ⁻¹, ·)`, and for a finite-order character `χ⁻¹ = conj χ`. ⚠ Multiplying both
+     terms by `χ(𝔞)` is a different statement, and for a nonreal `χ` a false one: the worked
+     examples give the witness. For a real `χ` the two coincide, which is why a test on real
+     characters alone does not catch it;
    - no `x` term: `Λ(χ, ·)` is entire for nontrivial `χ`, so the contour shift crosses no pole
      at `s = 1`, and `φ̃(0) + φ̃(1)` drops out of 4. ⚠ The zero side keeps the same carrier —
-     `∑ᶠ ρ, ((divisor Λ(χ,·) univ ρ).toNat : ℂ) * φ̃ ρ` — even though `Λ(χ, ·)` has no poles and
-     the signed and positive divisors therefore agree. Writing the two families with different
+     `∑' ρ, ((divisor Λ(χ,·) univ ρ).toNat : ℂ) * φ̃ ρ`, a `tsum` with its own `Summable`
+     theorem — even though `Λ(χ, ·)` has no poles and the signed and positive divisors
+     therefore agree. Writing the two families with different
      conventions is how a sign error survives specialization;
    - the order of vanishing of `L(χ, ·)` at `s = 0` is the order of the pole of `γ_χ` there,
      namely `#{j : a_j = 0} + r₂`, replacing `r₁ + r₂ − 1` — with the hypothesis
@@ -1436,9 +1516,20 @@ complex places of `K`, so `γ_K(s) = Gammaℝ(s)^{r₁} Gammaℂ(s)^{r₂}` and
    Track the dependence of the implied constant on `K` and `𝔪`; do not call it absolute, and
    do not claim uniformity in `𝔪`, which would need a lower bound for `1 − β` that only
    Siegel's theorem gives. Remove prime powers and apply
-   `ArithmeticDirichletSeries.abelSummation` for the unweighted count. At `K = ℚ` and
-   `𝔪 = (m)∞` this is the prime number theorem for arithmetic progressions with the classical
-   error term, which is the specialization check.
+   `ArithmeticDirichletSeries.abelSummation` for the unweighted count, whose main term is
+   `Li x / #Cl_𝔪` with `Li x = ∫_2^x dt / log t` (`logarithmicIntegral`, defined here since no
+   supplier declares it) and whose exceptional term is the partial-summation transform of
+   `exceptionalRayClassTerm`: `x^β/β` becomes `Li(x^β)`, since
+   `∫_2^x t^{β−1}/log t dt = Li(x^β) − Li(2^β)`. ⚠ `x / log x` is not an admissible main term
+   for an effective count: `Li x − x/log x ∼ x/log² x`, and `(x/log² x)/(x e^{−c√log x}/log x)
+   = e^{c√log x}/log x → ∞`, so a statement with main term `x/log x` and the displayed error is
+   false already for `π(x)`. ⚠ `x^β/(β log x)` is not the exceptional prime-count term either:
+   it is the first term of `Li(x^β)`, and the difference `≍ x^β/log² x` is not within the error
+   unless `β` is bounded away from `1`, which nothing here gives. Both transforms, the weights
+   `ψ(c)/#Cl_𝔪`, and the finite index set of real characters are one theorem,
+   `exceptionalRayClassTerm_eq`, which is what keeps the two terms from being opaque. At
+   `K = ℚ` and `𝔪 = (m)∞` this is the prime number theorem for arithmetic progressions with the
+   classical error term, which is the specialization check.
 8. **Effective Chebotarev for an abelian extension, on Chebotarev's carriers.** For `L/K`
    finite abelian and `C : ConjClasses (L ≃ₐ[K] L)` — a singleton — use exactly
    `Chebotarev.frobeniusVonMangoldtCoeff C`, `frobeniusPsi C`, `frobeniusTheta C`, and
@@ -1457,9 +1548,21 @@ complex places of `K`, so `γ_K(s) = Gammaℝ(s)^{r₁} Gammaℂ(s)^{r₂}` and
    exceptional term makes the displayed estimate unfalsifiable, since any error at all can be
    hidden inside it, and it is also what proves the term independent of the choice of `𝔪` and
    `Φ`. Then `Chebotarev.frobeniusTheta C` and `frobeniusPrimeCount C` by
-   `ArithmeticDirichletSeries.abelSummation`, and finally
+   `ArithmeticDirichletSeries.abelSummation`, the latter as
+   ```text
+   frobeniusPrimeCount C x = (#C/#G) Li x - exceptionalChebotarevPrimeCountTerm C x
+                             + O(x exp(-c₀ sqrt(log x)) / log x),
+   ```
+   with `exceptionalChebotarevPrimeCountTerm` identified with the fibre sum of the ray-class
+   `Li(x^β)` terms (`exceptionalChebotarevPrimeCountTerm_eq`). ⚠ The main term is `Li x`, not
+   `x/log x`, for the reason recorded in 7; the `x/log x` form survives only as the weaker
+   corollary `frobeniusPrimeCount_div_log`, with error `O(x/log² x)` and no exceptional term,
+   since `Li(x^β) = o(x/log² x)`. The trivial extension `K = L = ℚ`, where the count is `π`
+   and the exceptional term is `0`, is the acceptance test: it reads
+   `π(x) = Li x + O(x e^{−c√log x}/log x)`. Finally
    `Chebotarev.tendsto_frobeniusPrimeCount C` and
-   `Chebotarev.hasNaturalDensity_frobeniusPrimeSet C` recovered by discarding the error term.
+   `Chebotarev.hasNaturalDensity_frobeniusPrimeSet C` are recovered by discarding the error
+   term, through `Li x ∼ x/log x`.
    These last two are consistency theorems, not a second qualitative Chebotarev proof. No
    declaration named `primeTheta`, `primeCount`, `θ_C`, `ψ_C`, or `π_C` is introduced here.
    ⚠ The dictionary is stated as a hypothesis because the object that discharges it is
@@ -1584,7 +1687,54 @@ exactly what a certificate would supply, with no numerical claim proved here.
   terms `φ̃(0) + φ̃(1)` are the two simple poles. ⚠ This is the check that the zero side uses the
   **positive** divisor: with the signed divisor the points `0` and `1` would enter the sum with
   weight `−1` and then be added again on the right, so the identity would fail by exactly
-  `2(φ̃(0) + φ̃(1))`. A formula that is off by that amount is the expected symptom.
+  `2(φ̃(0) + φ̃(1))`. A formula that is off by that amount is the expected symptom. ⚠ And the
+  zero side is `∑'`, not `∑ᶠ`: `ζ` has infinitely many nontrivial zeros, so the finsum is `0`
+  for every test function, and an identity with `0` on the left is refuted by any `φ` for which
+  the right side is nonzero.
+- **The Weil formula for a nonreal character, as a check on the two prime terms.** Take the
+  quartic character `χ` mod `5` over `ℚ`, `χ(2) = i`, and a test function `φ` supported in
+  `(0.4, 0.6)` with `φ(1/2) = 1`. No ideal has norm in that interval, so the `φ` term of the
+  prime side is `0`, and the `φ̌` term is the single ideal `(2)`:
+  `Λ((2)) · conj(χ(2)) · φ̌(2) = (log 2)(−i)(φ(1/2)/2) = −(i log 2)/2`. The formula with `χ` on
+  both prime terms gives `+(i log 2)/2` instead; the two differ by `i log 2`, so at most one
+  of them is a theorem, and the derivation through the functional equation against `χ⁻¹`
+  says which. A real character has `conj χ = χ` and cannot see the difference.
+- **The trivial extension, `K = L = ℚ`.** `Chebotarev.frobeniusPrimeCount ℚ ℚ ⟦1⟧` is `π`,
+  the dictionary at `𝔪 = 1` is the trivial map, and the exceptional term is `0` because the ray
+  class group at `1` is trivial. Layer 8.8 reads `π(x) = Li x + O(x e^{−c√log x}/log x)`, de la
+  Vallée Poussin's theorem. ⚠ With `x/log x` as the main term it would read
+  `π(x) − x/log x = O(x e^{−c√log x}/log x)`, which is false: `Li x − x/log x ∼ x/log² x`, and
+  `(x/log² x)/(x e^{−c√log x}/log x) → ∞`. Catches a main term chosen for its familiarity
+  rather than for its error.
+- **The constant card is rejected by Dirichlet agreement, and by nothing weaker.**
+  `constantOneData` — completed function `1`, conductor `1`, `gammaR = {0}`, empty polar
+  divisor — satisfies continuation, functional equation and vertical-strip growth, has no
+  zeros, and has main term `(T/2π) log(T/2πe)`, of order `T log T`. A Riemann–von Mangoldt
+  statement over those three hypotheses is refuted by it. What rejects it is
+  `HasDirichletAgreement`: no coefficient sequence makes `1 = Gammaℝ s · LSeries a s` on
+  `Re s > 1`. Continuity, finite order and nonvanishing somewhere do not reject it, since it
+  has all three.
+- **The twisted zeta card is rejected by confinement, and by nothing weaker.**
+  `twistedZetaData`, `ζ(s)(1 + 5·2^{−s} + 2·4^{−s})` with conductor `4`, has continuation,
+  functional equation, growth, Dirichlet agreement with `coeff 1 = 1`, and the coefficient
+  bound, and its extra zeros are on `Re s ≈ 2.19` and `Re s ≈ −1.19`. The strip count is
+  `N_ζ(T)` and the main term is `(T/2π) log(4 · T/2πe)`, off by `(T/2π) log 4`. What rejects
+  it is the confinement hypothesis of `riemannVonMangoldt_generic`, which the two families
+  get from their Euler products and a generic card does not have. Catches a "generic"
+  Riemann–von Mangoldt theorem whose hypotheses do not connect the declared conductor to the
+  zeros actually counted.
+- **The shifted-pole card.** `shiftedPoleData` has `F(s) = 1/((s − 2)(s + 1))` off its poles
+  with `F(2) = 1` and `F(−1) = 0` assigned, gamma factor `1`, root number `1`, and satisfies
+  continuation and the functional equation away from the poles. The pointwise functional
+  equation of Layer 1.6 with only the two gamma hypotheses asserts `0 = 1` at `s = 2`. Catches
+  a pointwise statement that drops the supplier's polar exclusions, and it is stated with poles
+  off `{0, 1}` so that the ζ poles are not the only place the check is ever run.
+- **`f = 0` has nonzero order everywhere.** `meromorphicOrderAt (fun _ ↦ 0) z = ⊤` for every
+  `z`, so `{z ∈ closedBall 0 1 | meromorphicOrderAt f z ≠ 0}` is the whole disc and is not
+  finite, while `MeromorphicOn.divisor f univ = 0`. Catches a localization lemma that states
+  finiteness of the nonzero-order locus on a compact set from meromorphy alone; the hypothesis
+  is finite order on the set, discharged in Layer 7.2a from a boundary point of order `0` and
+  connectedness.
 - **The first zero of `ζ`** (type-checking criterion). `HasZerosInRects` for
   `entireCompletion` of the ζ record on `Icc 0 1 ×ℂ Icc 0 15`, with one rectangle around
   `1/2 + 14.134725…i` and multiplicity `1`, together with `AllOnCriticalLine` by the
@@ -1712,7 +1862,7 @@ citations.
 | 7.4, Riemann–von Mangoldt for `ζ`, and 7.5 | Titchmarsh (rev. Heath-Brown), *The Theory of the Riemann Zeta-Function*, **§9.2** for the definition of `N(T)`; **§9.3** for the definition of `S(T)`; **Theorem 9.3**, `N(T) = L(T) + S(T) + O(1/T)` with `L(T) = (T/2π) log T − ((1 + log 2π)/2π) T + 7/8` (equations (9.3.1) and (9.3.2)); **Theorem 9.4**, `S(T) = O(log T)` (9.4.2) and `N(T) = (T/2π) log T − ((1 + log 2π)/2π) T + O(log T)` (9.4.3). | `N(T)` counts zeros with `0 ≤ σ ≤ 1` and `0 < t ≤ T`. `S(T)` is `π⁻¹ arg ζ(1/2 + iT)` by continuous variation along the straight lines joining `2`, `2 + iT`, `1/2 + iT`, **starting with the value `0`**; when `T` is the ordinate of a zero the source sets `S(T) = S(T + 0)`. Theorem 9.3 assumes `T` is not the ordinate of a zero. | The source's counting range is exactly the half-open convention of 4.9, so no conversion is needed. `(T/2π) log(T/2πe)` is (9.4.3)'s main term rearranged. ⚠ Two things are the roadmap's own. The source's "starting with the value `0`" is legitimate because `ζ(2)` is a positive real, and 7.3 proves that rather than asserting it. And the extension of the formula to **every** `T ≥ 2` is milestone 7.5, since Theorem 9.3 excludes the ordinates and the source's `S(T + 0)` convention is a definition, not a theorem about both one-sided limits. |
 | 4.8, the unit-height bound | Titchmarsh **Theorem 9.2**, `N(T + 1) − N(T) = O(log T)`. | As in §9.2. | This is the `K = ℚ` case of 4.8. The conductor-uniform form, with `log q(iT)` in place of `log T`, is the roadmap's own and is proved from Jensen's bound of 4.5 rather than from a contour integral, which is why 4.8 precedes Layer 7. |
 | 7.6, the conductor-uniform form, Dedekind case | Trudgian, *An improved upper bound for the error in the zero-counting formulae for Dirichlet `L`-functions and Dedekind zeta-functions*, **Theorem 2**: for `T ≥ 1`, `\|N_K(T) − (T/π) log(d_K (T/2πe)^{n_K})\| ≤ 0.317(log d_K + n_K log T) + 6.333 n_K + 3.482`. **Theorem 1** is the same statement for a primitive nonprincipal `χ` mod `k`: `\|N(T,χ) − (T/π) log(kT/2πe)\| ≤ 0.317 log kT + 6.401`. | `N_K(T)` and `N(T,χ)` count zeros `ρ = β + iγ` with `0 < β < 1` and `\|γ\| ≤ T`; `n_K = [K:ℚ]` and `d_K` the absolute discriminant. Constants absolute; Theorem 2's depend on nothing but the displayed `n_K`. | The source's counting range is exactly `N±` of 4.9, so no conversion is needed and the displayed main term is the source's verbatim: the conductor appears as `d_K`, **not** `d_K^{1/2}`, and the error is `O(log d_K + n_K log T) = O(log(d_K T^n))` with the constant depending on `n_K` alone, which is the uniformity 7.6 asks for. ⚠ The one-sided form of 4.9 halves the whole main term, giving `(T/2π) log(d_K (T/2πe)^n)`; it does **not** halve the conductor. Theorem 1 is the degree-one instance that pins the conductor coefficient at `T/π`, and it is what the imaginary-quadratic worked example checks against Theorem 2. Davenport **§16** (*The Number `N(T, χ)`*) proves Theorem 1's shape without the explicit constants. |
-| 7.6, the conductor-uniform form, Hecke case | **Derived here, and cited to no source** for a ray-class character over a general `K`; Trudgian **Theorem 1** is the `K = ℚ` case and Trudgian **Theorem 2** the trivial-character case, and both are specialization checks rather than the source. | — | ⚠ This row deliberately cites nothing for the displayed theorem over a general base field, because no accessible copy pinned a source statement of it, and a section-level citation does not establish that a source proves this uniformity. The proof is Titchmarsh's Theorem 9.3 argument run on `entireCompletion d` instead of on `ζ`, and it decomposes entirely into milestones that are internal or separately sourced: the main term is Layer 1.5's gamma asymptotic, which carries `d` and `N` explicitly, integrated along the contour of 7.1; the contour evaluation is 7.2 with the localization of 7.2a; the error is 7.3's argument variation, bounded by Layer 4.5's Jensen argument on discs together with 4.8's unit-height bound, both conductor-uniform by construction; and the passage between the two counting conventions is Layer 4.9. The implied constant depends on the degree only, which is what those two conductor-uniform inputs deliver; a version whose constant may depend on `\|d_K\| 𝔑𝔣` is weaker and does not discharge the milestone. Iwaniec–Kowalski §5.3 proves zero counting for an axiomatic class close to the one this record models and is listed in the references as reading, not as the authority for a milestone. |
+| 7.6, the conductor-uniform form, Hecke case | **Derived here, and cited to no source** for a ray-class character over a general `K`; Trudgian **Theorem 1** is the `K = ℚ` case and Trudgian **Theorem 2** the trivial-character case, and both are specialization checks rather than the source. | — | ⚠ This row deliberately cites nothing for the displayed theorem over a general base field, because no accessible copy pinned a source statement of it, and a section-level citation does not establish that a source proves this uniformity. The proof is Titchmarsh's Theorem 9.3 argument run on `entireCompletion d` instead of on `ζ`, and it decomposes entirely into milestones that are internal or separately sourced: the main term is Layer 1.5's gamma asymptotic, which carries `d` and `N` explicitly, integrated along the contour of 7.1; the contour evaluation is 7.2 with the localization of 7.2a; the error is 7.3's argument variation, bounded by Layer 4.5's Jensen argument on discs together with 4.8's unit-height bound, both conductor-uniform by construction; and the passage between the two counting conventions is Layer 4.9. The implied constant depends on the degree only, which is what those two conductor-uniform inputs deliver; a version whose constant may depend on `\|d_K\| 𝔑𝔣` is weaker and does not discharge the milestone — and in Lean that is a quantifier order, `riemannVonMangoldt_hecke` binding `C` and `T₀` from `n` before `K` and `χ`, not an `=O[atTop]` after fixing them. Iwaniec–Kowalski §5.3 proves zero counting for an axiomatic class close to the one this record models and is listed in the references as reading, not as the authority for a milestone. |
 | ADS `perronFormula`, consumed at 8.1 | Titchmarsh **Lemma 3.12**, equation (3.12.1). Davenport **§17** (*The Explicit Formula for `ψ(x)`*) gives the same kernel in the form the contour shift uses. | `a_n = O(ψ(n))` with `ψ` non-decreasing; `∑ \|a_n\| n^{-u} = O((u − 1)^{-α})` as `u → 1⁺`; `c > 0`; `σ + c > 1`; and **`x` not an integer**, with `N` the nearest integer to `x`. | The generic theorem, including the exact finite-`T` endpoint `π⁻¹ arctan(T/c)`, is owned by Arithmetic Dirichlet Series. This roadmap verifies its hypotheses for the L-function coefficients and performs the subsequent contour shift. |
 | 8.2, the contour shift | Davenport **§17**, for `−ζ'/ζ` over `ℚ`. | `x > 1`, `T` chosen away from the ordinates, the left edge at a half-odd-integer. | The trivial-zero residues are computed here from the gamma-factor pole orders of 1.5 rather than quoted, and at `K = ℚ` the closed form must reproduce the source's. ⚠ The passage to `ζ_K` is the same residue bookkeeping over a different gamma factor and is a milestone, not a citation. |
 | 8.3, the truncated `ψ_K` formula | Davenport **§17** for the `K = ℚ` case that pins the constants; Lang **ch. XVII §§1–2** (*Weierstrass factorization of the L-series*; *An estimate for `ζ'/ζ`*) for the number-field ingredients. | Davenport §17 is over `ℚ`. Lang XVII §2 bounds `ζ'/ζ` on the horizontal edges, which is what the shift needs. | Stated for `2 ≤ T ≤ x` with the implied constant depending on `K` only, and with `x` excluded at a prime-ideal-norm power. ⚠ Uniformity in `K` is not claimed. ⚠ The closed form of the trivial-zero residue sum, `−((r₁ + r₂)/2) log(1 − x^{-2}) + (r₂/2) log((x+1)/(x−1))`, is computed here from the pole orders of `γ_K`; the sources display only the `K = ℚ` case `−½ log(1 − x^{-2})`. |

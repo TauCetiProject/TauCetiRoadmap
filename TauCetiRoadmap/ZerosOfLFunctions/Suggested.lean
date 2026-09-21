@@ -55,6 +55,9 @@ table.
    regions with no poles.
 4. `Rect.Valid` carries the sets and the counts; `Rect.Nondegenerate` carries every geometric
    statement, because the supplier's curve regularity forbids a constant edge.
+5. `∑ᶠ` is reserved for counts over a region on which finiteness is a hypothesis; a sum over
+   **all** zeros of an L-function is `∑'` with a `Summable` companion, because a finsum over an
+   infinite support is the junk value `0` whatever the summability of the family.
 -/
 
 namespace TauCetiRoadmap.ZerosOfLFunctions
@@ -138,9 +141,23 @@ theorem completed_eq_gammaFactor_mul_continuedL
     d.completed s = ((d.conductor : ℕ) : ℂ) ^ (s / 2) * d.gammaFactor s *
       continuedL d hc s := sorry
 
+/-- **Layer 1.6, the pointwise functional equation for the continued L-function.** ⚠ Four
+hypotheses, and none is decoration. The two gamma hypotheses keep the trivial zeros out (the
+`s = 3` witness in the ζ example below). The two **polar** hypotheses are the supplier's own
+conditions in `HasFunctionalEquation.eq_away`, and dropping them makes the statement false:
+nonvanishing of the gamma factors does not put `s` away from the completed poles, and dividing by
+a nonzero gamma value does not remove an assigned value there. Countermodel, `shiftedPoleData`
+below: a degree-`0` card with `F s = 1 / ((s - 2) * (s + 1))` off its two poles and the assigned
+values `F 2 = 1`, `F (-1) = 0`. Its gamma factor is identically `1`, so both gamma hypotheses
+hold everywhere; the removable set of Layer 1.6 is empty, so `continuedL` is the raw product and
+takes the assigned values; and at `s = 2` the left side is `continuedL d.dual (-1) =
+conj (F (-1)) = 0` while the right side is `continuedL d 2 = F 2 = 1`. The germ-level form,
+`continuedL_functionalEquation_eventuallyEq`, needs neither polar hypothesis. -/
 theorem continuedL_functionalEquation
     (d : TauCetiRoadmap.LFunctions.AnalyticLFunctionData)
     (hc : d.HasMeromorphicContinuation) (hfe : d.HasFunctionalEquation) {s : ℂ}
+    (hp : d.polarOrder s = 0)
+    (hp' : d.polarOrder (TauCetiRoadmap.LFunctions.AnalyticLFunctionData.reflectedPoint s) = 0)
     (hs : d.gammaFactor s ≠ 0) (hs' : d.dual.gammaFactor (1 - s) ≠ 0) :
     ((d.dual.conductor : ℕ) : ℂ) ^ ((1 - s) / 2) * d.dual.gammaFactor (1 - s) *
         continuedL d.dual
@@ -148,6 +165,55 @@ theorem continuedL_functionalEquation
           (1 - s) =
       d.rootNumber⁻¹ * (((d.conductor : ℕ) : ℂ) ^ (s / 2) * d.gammaFactor s *
         continuedL d hc s) := sorry
+
+/-- **Layer 1.6, the functional equation as an equality of germs**, the form that carries no
+polar and no gamma hypothesis: the polar support is finite and the gamma poles are discrete, so
+on a punctured neighbourhood of any `s` every factor is regular and the pointwise form applies.
+This is the supplier's `hasFunctionalEquation_eventuallyEq` read through the completion identity,
+and it is the statement Layers 5 and 7 consume. -/
+theorem continuedL_functionalEquation_eventuallyEq
+    (d : TauCetiRoadmap.LFunctions.AnalyticLFunctionData)
+    (hc : d.HasMeromorphicContinuation) (hfe : d.HasFunctionalEquation) (s : ℂ) :
+    (fun z : ℂ => ((d.dual.conductor : ℕ) : ℂ) ^ ((1 - z) / 2) * d.dual.gammaFactor (1 - z) *
+        continuedL d.dual
+          (TauCetiRoadmap.LFunctions.AnalyticLFunctionData.dual_hasMeromorphicContinuation hc)
+          (1 - z)) =ᶠ[𝓝[≠] s]
+      (fun z : ℂ => d.rootNumber⁻¹ * (((d.conductor : ℕ) : ℂ) ^ (z / 2) * d.gammaFactor z *
+        continuedL d hc z)) := sorry
+
+open Classical in
+/-- **The shifted-pole card**, the countermodel for the polar hypotheses of
+`continuedL_functionalEquation`. Degree `0`, conductor `1`, root number `1`, simple poles at
+`2` and `-1 = reflectedPoint 2`, and the *assigned* values `1` at `2` and `0` at `-1`. The poles
+are off `{0, 1}` on purpose: a functional-equation check that passes at the ζ poles alone does
+not pass this one. The coefficients are irrelevant to the test and are set to `0`; the card
+claims no Dirichlet agreement. -/
+noncomputable def shiftedPoleData : TauCetiRoadmap.LFunctions.AnalyticLFunctionData where
+  coeff _ := 0
+  conductor := 1
+  gammaR := 0
+  gammaC := 0
+  rootNumber := 1
+  completed s := if s = 2 then 1 else if s = -1 then 0 else 1 / ((s - 2) * (s + 1))
+  polarOrder := Finsupp.single 2 1 + Finsupp.single (-1) 1
+
+theorem shiftedPoleData_hasContinuation : shiftedPoleData.HasMeromorphicContinuation := sorry
+
+/-- `F (1 - conj s)` conjugated is `F s` off the poles, and `1 - conj` swaps the two poles. -/
+theorem shiftedPoleData_hasFunctionalEquation : shiftedPoleData.HasFunctionalEquation := sorry
+
+/-- **The rejection test for the polar hypotheses.** Both gamma hypotheses of
+`continuedL_functionalEquation` hold at `s = 2`, and its conclusion there is `0 = 1`. -/
+example :
+    shiftedPoleData.gammaFactor 2 ≠ 0 ∧ shiftedPoleData.dual.gammaFactor (1 - 2) ≠ 0 ∧
+      ¬ (((shiftedPoleData.dual.conductor : ℕ) : ℂ) ^ ((1 - 2 : ℂ) / 2) *
+            shiftedPoleData.dual.gammaFactor (1 - 2) *
+            continuedL shiftedPoleData.dual
+              (TauCetiRoadmap.LFunctions.AnalyticLFunctionData.dual_hasMeromorphicContinuation
+                shiftedPoleData_hasContinuation) (1 - 2) =
+          shiftedPoleData.rootNumber⁻¹ * (((shiftedPoleData.conductor : ℕ) : ℂ) ^ ((2 : ℂ) / 2) *
+            shiftedPoleData.gammaFactor 2 *
+            continuedL shiftedPoleData shiftedPoleData_hasContinuation 2)) := sorry
 
 /-- **Layer 1.1, a holomorphic branch of `log Γ` on a sector.** Route:
 `Complex.exists_continuousOn_eqOn_exp_comp` on the sector, which is open and simply connected
@@ -535,30 +601,48 @@ theorem eulerCorrection_ne_zero_of_pos_re
     (𝔫 : TauCetiRoadmap.GlobalNumberFields.Modulus K) {s : ℂ} (hs : 0 < s.re) :
     TauCetiRoadmap.LFunctions.eulerCorrection K χ 𝔫 s ≠ 0 := sorry
 
-/-- **Layer 6.4, the region for a primitive finite-order ray-class character**, as the
-disjunction its proof produces. `c` depends on `[K:ℚ]` alone, which is what 6.4e's
-small-conductor reduction delivers; a version whose constant depends on `K` and `χ` is weaker
-and does not discharge the milestone. ⚠ The two branches are genuinely different statements:
-for a non-real `χ` there is **no** zero in the region, and for a real one the exceptional zero
-is not excluded by any milestone here — only shown to be unique, real, and simple. -/
-theorem heckeZeroFreeRegion :
+/-- **Layer 6.4, the conclusion of the region theorem at one character and one constant**, as
+the disjunction its proof produces. ⚠ The two branches are genuinely different statements: for
+a non-real `χ` there is **no** zero in the region, and for a real one the exceptional zero is
+not excluded by any milestone here — only shown to be unique, real, and simple. The predicate is
+separated from the theorem so that the two quantifier orders below can be stated without
+repeating it. -/
+def HeckeZeroFreeDisjunction (c : ℝ)
+    (χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K) : Prop :=
+  (χ.character ^ 2 ≠ 1 →
+      ∀ ρ : ℂ, 0 < MeromorphicOn.divisor
+          (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ ρ →
+        ρ.re < 1 - c / Real.log
+          (analyticConductorAtData (TauCetiRoadmap.LFunctions.heckeData K χ) (ρ.im * I))) ∧
+    (χ.character ^ 2 = 1 →
+      ∃ β : ℝ, ∀ ρ : ℂ, 0 < MeromorphicOn.divisor
+          (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ ρ →
+        ρ.re < 1 - c / Real.log
+            (analyticConductorAtData (TauCetiRoadmap.LFunctions.heckeData K χ)
+              (ρ.im * I)) ∨
+          (ρ = (β : ℂ) ∧ MeromorphicOn.divisor
+            (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ ρ = 1))
+
+/-- **Layer 6.4, the region for a primitive finite-order ray-class character, uniform in the
+field and the character of a fixed degree.** ⚠ The quantifier order *is* the statement: `c` is
+chosen from the degree `n` before `K` and `χ`, which is what 6.4e's small-conductor reduction
+delivers. A statement that fixes `K` before choosing `c` permits `c` to depend on `K`; that is
+`heckeZeroFreeRegion_of_fixed` below, a corollary, and it does not discharge this milestone.
+The two are stated separately so that neither is described as the other. -/
+theorem heckeZeroFreeRegion (n : ℕ) :
     ∃ c : ℝ, 0 < c ∧
-      ∀ (χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K)
-        (hχ : χ.character ≠ 1),
-        (χ.character ^ 2 ≠ 1 →
-            ∀ ρ : ℂ, 0 < MeromorphicOn.divisor
-                (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ ρ →
-              ρ.re < 1 - c / Real.log
-                (analyticConductorAtData (TauCetiRoadmap.LFunctions.heckeData K χ) (ρ.im * I))) ∧
-          (χ.character ^ 2 = 1 →
-            ∃ β : ℝ, ∀ ρ : ℂ, 0 < MeromorphicOn.divisor
-                (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ ρ →
-              ρ.re < 1 - c / Real.log
-                  (analyticConductorAtData (TauCetiRoadmap.LFunctions.heckeData K χ)
-                    (ρ.im * I)) ∨
-                (ρ = (β : ℂ) ∧ MeromorphicOn.divisor
-                  (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ ρ = 1)) :=
-  sorry
+      ∀ (K : Type) [Field K] [NumberField K], Module.finrank ℚ K = n →
+        ∀ χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K,
+          χ.character ≠ 1 → HeckeZeroFreeDisjunction K c χ := sorry
+
+/-- **Layer 6.4, the fixed-field form**, in which `c` may depend on `K`. This is the weaker
+statement, and it is what an `∃ c` after fixing `K` means; it follows from
+`heckeZeroFreeRegion` at `n = [K:ℚ]` and is stated only so that the two quantifier orders are
+never confused. -/
+theorem heckeZeroFreeRegion_of_fixed :
+    ∃ c : ℝ, 0 < c ∧
+      ∀ χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K,
+        χ.character ≠ 1 → HeckeZeroFreeDisjunction K c χ := sorry
 
 end HeckeZeroFree
 
@@ -650,19 +734,53 @@ theorem intervalIntegral_of_hasCauchyPV {γ : ℝ → ℂ} {a b : ℝ} {g : ℂ 
     (h : HasCauchyPV γ a b g v) :
     ∫ t in a..b, deriv γ t • g (γ t) = v := sorry
 
-/-- **Layer 7.2a, localization, step 1**: a relatively compact open neighbourhood of the
-rectangle inside the ambient set. ⚠ This is what lets the argument principle be applied where
-the singular set is genuinely finite, without assuming it is finite globally. -/
-theorem exists_isOpen_closure_compact_between {U : Set ℂ} {B : Rect}
+/-- **Layer 7.2a, localization, step 1**: a relatively compact, **connected** open
+neighbourhood of the rectangle inside the ambient set — the `ε`-thickening of the rectangle,
+for `ε` small. ⚠ This is what lets the argument principle be applied where the singular set is
+genuinely finite, without assuming it is finite globally; and connectedness is what step 2's
+finite-order hypothesis is discharged from, since a boundary point of order `0` then forces
+finite order on all of `closure V` by Mathlib's
+`MeromorphicOn.meromorphicOrderAt_ne_top_of_isPreconnected`. On a disconnected `U` the components
+on which `f` vanishes identically are exactly what a connected `V` avoids. -/
+theorem exists_isOpen_closure_compact_between {U : Set ℂ} {B : Rect} (hB : B.Valid)
     (hU : IsOpen U) (hBU : B.toSet ⊆ U) :
-    ∃ V : Set ℂ, IsOpen V ∧ B.toSet ⊆ V ∧ IsCompact (closure V) ∧ closure V ⊆ U := sorry
+    ∃ V : Set ℂ, IsOpen V ∧ IsConnected V ∧ B.toSet ⊆ V ∧ IsCompact (closure V) ∧
+      closure V ⊆ U := sorry
 
-/-- **Layer 7.2a, localization, step 2**: on a compact subset of the domain of meromorphy the
-divisor support is finite. This replaces the global finiteness hypothesis, which is **false**
-for every completed L-function: those have infinitely many zeros. -/
+/-- **Layer 7.2a, localization, step 2**: on a compact subset of the domain of meromorphy on
+which the order is finite everywhere, the set of points of nonzero order is finite. This
+replaces the global finiteness hypothesis, which is **false** for every completed L-function:
+those have infinitely many zeros.
+
+⚠ `hne` cannot be dropped, and it is not implied by `MeromorphicOn`: `meromorphicOrderAt f z`
+is `⊤` wherever `f` vanishes on a punctured neighbourhood of `z`, so for `f = 0` every point of
+a compact disc has nonzero order and the displayed set is the whole disc
+(`finite_orderSupport_zero_fails`). This is the one place where the nonzero-order locus and the
+divisor support part company. `MeromorphicOn.divisor` is `0` at a point of order `⊤`, so *its*
+support is locally finite unconditionally (`Function.locallyFinsuppWithin.finiteSupport` on a
+compact `U`), while the locus item 2's third hypothesis needs is not. The two are reconciled by
+`hne`: under it the two sets coincide on `K`. -/
 theorem finite_orderSupport_of_isCompact {f : ℂ → ℂ} {U K : Set ℂ}
-    (hU : IsOpen U) (hf : MeromorphicOn f U) (hK : IsCompact K) (hKU : K ⊆ U) :
+    (hU : IsOpen U) (hf : MeromorphicOn f U) (hK : IsCompact K) (hKU : K ⊆ U)
+    (hne : ∀ z ∈ K, meromorphicOrderAt f z ≠ ⊤) :
     {z ∈ K | meromorphicOrderAt f z ≠ 0}.Finite := sorry
+
+/-- **The rejection test for step 2**: without `hne` the statement is false, with `f = 0` as the
+witness; `meromorphicOrderAt_eq_top_iff` is what puts every point of the disc in the set. -/
+theorem finite_orderSupport_zero_fails :
+    ¬ {z ∈ Metric.closedBall (0 : ℂ) 1 |
+        meromorphicOrderAt (fun _ : ℂ => (0 : ℂ)) z ≠ 0}.Finite := sorry
+
+/-- **Layer 7.2a, localization, step 2′**: the finite-order hypothesis of step 2 comes from the
+boundary. On a connected open `V ⊇ ∂R` a single boundary point of order `0` — which the
+boundary hypothesis of every counting theorem supplies — gives finite order at every point of
+`closure V`, since the closure of a connected set is connected and `f` is meromorphic on it.
+This is Mathlib's identity theorem for meromorphic functions, restated in the shape step 2 takes
+it. -/
+theorem meromorphicOrderAt_ne_top_of_frontier {f : ℂ → ℂ} {U V : Set ℂ} {B : Rect}
+    (hB : B.Nondegenerate) (hf : MeromorphicOn f U) (hV : IsConnected V) (hVU : closure V ⊆ U)
+    (hBV : B.toSet ⊆ V) (hbdry : ∀ z ∈ frontier B.toSet, meromorphicOrderAt f z = 0) :
+    ∀ z ∈ closure V, meromorphicOrderAt f z ≠ ⊤ := sorry
 
 /-- **Layer 7.2a, localization, step 3**: the order at a point is a germ condition, so it does
 not see the ambient set, and the divisor over a smaller open set agrees with the global one
@@ -757,17 +875,136 @@ noncomputable def riemannVonMangoldtMainTerm
     Real.log (((d.conductor : ℕ) : ℝ) *
       (T / (2 * Real.pi * Real.exp 1)) ^ d.degree)
 
-/-- **Layer 7.6, conductor-uniform Riemann--von Mangoldt.** The implied constant depends only
-on the degree and a bound for the archimedean shifts. The explicit bound on shifts is retained
-in the theorem because it is the parameter on which the uniformity depends. -/
+/-- **Layer 7.6, the Riemann--von Mangoldt formula for a fixed card**, with the hypotheses that
+make it true. ⚠ Continuation, functional equation and vertical-strip growth do **not** carry
+it, and neither does adding Dirichlet agreement; the two cards below are the reason each of the
+three extra hypotheses is here.
+
+- `constantOneData` — completed function identically `1`, conductor `1`, `gammaR = {0}`, empty
+  polar divisor — has continuation, functional equation and growth, has no zeros at all, and
+  its degree-one main term `(T/2π) log (T/2πe)` is of order `T log T`. What excludes it is
+  `hda`: no coefficient sequence makes `1` equal to `Gammaℝ s * LSeries a s` on `Re s > 1`,
+  because `LSeries a s → a 1` while `1 / Gammaℝ s → 0` as `Re s → ∞`.
+- `twistedZetaData` — `ζ(s) (1 + 5·2^{-s} + 2·4^{-s})` with conductor `4` and completed
+  function `Λ_ζ(s) (2^s + 5 + 2^{1-s})` — has all of those **and** Dirichlet agreement with
+  `coeff 1 = 1` **and** the average coefficient bound, but the Dirichlet polynomial's zeros lie
+  on `Re s ≈ 2.19` and `Re s ≈ -1.19`, outside the strip, so the strip count is `N_ζ(T)` while
+  the main term carries an extra `(T/2π) log 4`. What excludes it is `hconf`, the confinement
+  of the zeros of the entire completion to the closed strip, which the two families get from
+  their Euler products (Layer 6.5) and which no generic card provides. Continuity, finite order
+  and nonvanishing somewhere do not substitute for it: the twisted card has all three.
+
+The constants are those of a fixed card. The conductor-uniform statements are the two family
+theorems below, whose quantifier order is the uniformity; an `=O[atTop]` after fixing the card
+lets both the constant and the threshold depend on it, and is not a uniform statement. -/
 theorem riemannVonMangoldt_generic
     (d : TauCetiRoadmap.LFunctions.AnalyticLFunctionData)
     (hc : d.HasMeromorphicContinuation) (hfe : d.HasFunctionalEquation)
-    (hgrowth : HasVerticalStripGrowth d.completed) (B : ℝ)
-    (hR : ∀ μ ∈ d.gammaR, ‖μ‖ ≤ B) (hC : ∀ ν ∈ d.gammaC, ‖ν‖ ≤ B) :
+    (hgrowth : HasVerticalStripGrowth d.completed)
+    (hda : d.HasDirichletAgreement) (hcoeff : d.HasAverageCoefficientBound)
+    (hconf : ∀ ρ : ℂ, 0 < MeromorphicOn.divisor (entireCompletion d hc) Set.univ ρ →
+      0 ≤ ρ.re ∧ ρ.re ≤ 1) :
     (fun T : ℝ => (zeroCountUpTo (entireCompletion d hc) Set.univ T : ℝ) -
         riemannVonMangoldtMainTerm d T) =O[atTop]
       (fun T : ℝ => Real.log (analyticConductorAtData d (T * I))) := sorry
+
+/-- **Layer 7.6, conductor-uniform Riemann--von Mangoldt for Dedekind zeta functions.** ⚠ The
+quantifier order is the content: `C` and `T₀` are chosen from the degree `n` alone, before the
+field. Trudgian's Theorem 2 is this statement in the symmetric convention with explicit
+constants; `riemannVonMangoldt_generic` at `dedekindZetaData K` is the fixed-field corollary and
+is not this. The count is of the completed function itself: its poles at `0` and `1` lie on the
+real axis, which the half-open convention excludes. -/
+theorem riemannVonMangoldt_dedekind (n : ℕ) :
+    ∃ C T₀ : ℝ, 0 < C ∧ 2 ≤ T₀ ∧
+      ∀ (K : Type) [Field K] [NumberField K], Module.finrank ℚ K = n →
+        ∀ T : ℝ, T₀ ≤ T →
+          |(zeroCountUpTo (TauCetiRoadmap.LFunctions.completedDedekindZeta K) Set.univ T : ℝ) -
+              riemannVonMangoldtMainTerm (TauCetiRoadmap.LFunctions.dedekindZetaData K) T| ≤
+            C * Real.log
+              (analyticConductorAtData (TauCetiRoadmap.LFunctions.dedekindZetaData K) (T * I)) :=
+  sorry
+
+/-- **Layer 7.6, conductor-uniform Riemann--von Mangoldt for primitive finite-order Hecke
+L-functions**, with the same quantifier order: `C` and `T₀` from the degree, before the field
+and the character. The conductor in the main term is `heckeData`'s, `|d_K| 𝔑𝔣`. -/
+theorem riemannVonMangoldt_hecke (n : ℕ) :
+    ∃ C T₀ : ℝ, 0 < C ∧ 2 ≤ T₀ ∧
+      ∀ (K : Type) [Field K] [NumberField K], Module.finrank ℚ K = n →
+        ∀ χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K, χ.character ≠ 1 →
+          ∀ T : ℝ, T₀ ≤ T →
+            |(zeroCountUpTo (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ T :
+                ℝ) - riemannVonMangoldtMainTerm (TauCetiRoadmap.LFunctions.heckeData K χ) T| ≤
+              C * Real.log
+                (analyticConductorAtData (TauCetiRoadmap.LFunctions.heckeData K χ) (T * I)) :=
+  sorry
+
+/-- **The constant card**: continuation, functional equation and vertical-strip growth, no
+zeros, and a main term of order `T log T`. `coeff 1 = 1` is set on purpose — the normalization
+alone does not reject it; the half-plane identity does. -/
+noncomputable def constantOneData : TauCetiRoadmap.LFunctions.AnalyticLFunctionData where
+  coeff n := if n = 1 then 1 else 0
+  conductor := 1
+  gammaR := {0}
+  gammaC := 0
+  rootNumber := 1
+  completed _ := 1
+  polarOrder := 0
+
+theorem constantOneData_hasContinuation : constantOneData.HasMeromorphicContinuation := sorry
+
+theorem constantOneData_hasFunctionalEquation : constantOneData.HasFunctionalEquation := sorry
+
+theorem hasVerticalStripGrowth_constantOneData :
+    HasVerticalStripGrowth constantOneData.completed := sorry
+
+/-- **The rejection test for `hda`.** The constant card has no zeros, its main term is not
+within a logarithmic error of `0`, and no choice of coefficients gives it Dirichlet agreement —
+so it is `hda`, and only `hda`, that keeps it out of `riemannVonMangoldt_generic`. -/
+example :
+    (∀ T : ℝ, zeroCountUpTo (entireCompletion constantOneData constantOneData_hasContinuation)
+        Set.univ T = 0) ∧
+      ¬ ((fun T : ℝ => (0 : ℝ) - riemannVonMangoldtMainTerm constantOneData T) =O[atTop]
+          fun T : ℝ => Real.log (analyticConductorAtData constantOneData (T * I))) ∧
+      ∀ a : ℕ → ℂ,
+        ¬ ({ constantOneData with coeff := a } :
+            TauCetiRoadmap.LFunctions.AnalyticLFunctionData).HasDirichletAgreement := sorry
+
+/-- **The twisted zeta card**: `ζ(s) (1 + 5·2^{-s} + 2·4^{-s})`, coefficients
+`1 + 5·[2 ∣ n] + 2·[4 ∣ n]`, conductor `4`, and completed function `Λ_ζ(s) P(s)` with
+`P s = 2^s + 5 + 2^{1-s}`, since `4^{s/2} · 2^{-s}·(2^s + 5 + 2·2^{-s}) = P s`. `P` satisfies
+its own degree-`0` reflection `P (1 - s) = P s`, so the card has the functional equation with
+root number `1`, simple poles at `0` and `1` only (`P 0 = P 1 = 8`), vertical-strip growth,
+Dirichlet agreement and the average coefficient bound. Its zeros are those of `Λ_ζ` together
+with the roots of `u² + 5u + 2 = 0` under `u = 2^s`, that is the two vertical lines
+`Re s = log₂ ((5 + √17)/2) ≈ 2.19` and `Re s = 1 - log₂ ((5 + √17)/2) ≈ -1.19`, all outside
+the closed strip. -/
+noncomputable def twistedZetaData : TauCetiRoadmap.LFunctions.AnalyticLFunctionData where
+  coeff n := 1 + (if 2 ∣ n then 5 else 0) + (if 4 ∣ n then 2 else 0)
+  conductor := 4
+  gammaR := {0}
+  gammaC := 0
+  rootNumber := 1
+  completed s := completedRiemannZeta s * ((2 : ℂ) ^ s + 5 + (2 : ℂ) ^ (1 - s))
+  polarOrder := Finsupp.single 0 1 + Finsupp.single 1 1
+
+theorem twistedZetaData_hasContinuation : twistedZetaData.HasMeromorphicContinuation := sorry
+
+theorem twistedZetaData_hasFunctionalEquation : twistedZetaData.HasFunctionalEquation := sorry
+
+/-- **The rejection test for `hconf`.** Every other hypothesis of `riemannVonMangoldt_generic`
+holds for the twisted card, it has a zero of real part above `1`, and the conclusion fails — by
+exactly `(T/2π) log 4`, the conductor's contribution to a main term that the strip count never
+sees. -/
+example :
+    twistedZetaData.HasDirichletAgreement ∧ twistedZetaData.HasAverageCoefficientBound ∧
+      HasVerticalStripGrowth twistedZetaData.completed ∧
+      (∃ ρ : ℂ, 0 < MeromorphicOn.divisor
+          (entireCompletion twistedZetaData twistedZetaData_hasContinuation) Set.univ ρ ∧
+        1 < ρ.re) ∧
+      ¬ ((fun T : ℝ => (zeroCountUpTo
+            (entireCompletion twistedZetaData twistedZetaData_hasContinuation) Set.univ T : ℝ) -
+            riemannVonMangoldtMainTerm twistedZetaData T) =O[atTop]
+          fun T : ℝ => Real.log (analyticConductorAtData twistedZetaData (T * I))) := sorry
 
 /-! ## Layer 8: effective prime, ray-class, and abelian Chebotarev estimates
 
@@ -787,6 +1024,24 @@ splitting law. A **nonabelian** conjugacy class is out of scope: expanding its i
 irreducible characters produces an Artin L-function of degree above one, which no supplier
 constructs and this roadmap owns no instance of.
 -/
+
+/-- **Layer 8, the offset logarithmic integral** `Li x = ∫_2^x dt / log t`, the main term of
+every unweighted prime count in this layer. ⚠ `x / log x` is **not** an admissible main term for
+an effective estimate: `Li x - x / log x ∼ x / log² x`, and
+`(x / log² x) / (x exp(-c √log x) / log x) = exp(c √log x) / log x → ∞`, so a statement with
+main term `x / log x` and error `x exp(-c √log x) / log x` is false already for `π(x)`. The
+lower limit `2` is a convention; any other changes `Li` by a constant, which every error term
+here absorbs. No supplier declares this function — the Arithmetic Dirichlet Series roadmap's
+prose names `Li(x)` in its 6.2 and declares no carrier — so it is defined here and is a
+candidate to move supplier-ward. -/
+noncomputable def logarithmicIntegral (x : ℝ) : ℝ := ∫ t in (2 : ℝ)..x, 1 / Real.log t
+
+/-- **Layer 8, `Li x` against `x / log x`**, two-sided: the difference is of exact order
+`x / log² x`. This is the computation that rules out `x / log x` as a main term, and it is
+also what makes `Chebotarev.tendsto_frobeniusPrimeCount` a corollary of the effective count. -/
+theorem logarithmicIntegral_sub_div_log :
+    (fun x : ℝ => logarithmicIntegral x - x / Real.log x) ~[atTop]
+      fun x : ℝ => x / Real.log x ^ 2 := sorry
 
 section EffectiveRayClass
 
@@ -812,10 +1067,36 @@ noncomputable def exceptionalRayClassTerm (𝔪 : TauCetiRoadmap.GlobalNumberFie
     (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) (x : ℝ) : ℝ := sorry
 
 /-- The partial-summation transform of `exceptionalRayClassTerm` appearing in the unweighted
-count. -/
+count: `x^β / β` becomes `Li (x^β)`, by `exceptionalRayClassTerm_eq`. -/
 noncomputable def exceptionalRayClassPrimeCountTerm
     (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
     (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) (x : ℝ) : ℝ := sorry
+
+/-- **Layer 8.7, what the two exceptional terms are**, as one theorem. The `ψ`-level term is the
+finite sum of `ψ(c) x^β / (β · #Cl_𝔪)` over the real nontrivial characters `ψ` at `𝔪` that
+carry an exceptional zero `β` — a simple real zero in `(1/2, 1)` of the presented series, which
+by 6.4b is a zero of the primitive one — with the weight `ψ(c) / #Cl_𝔪` coming from the
+orthogonality of 8.7 and `ψ(c) = ±1` because `ψ` is real. The prime-count term is its
+partial-summation transform, with `Li (x^β)` in place of `x^β / β`: substituting `u = t^β` in
+`∫_2^x t^{β-1} / log t dt` gives `Li (x^β) - Li (2^β)`, and the constant is absorbed. ⚠ The
+prime-count term is **not** `x^β / (β log x)`: that is only the first term of `Li (x^β)`, and
+the difference is `≍ x^β / log² x`, which is not within the error unless `β` is bounded away
+from `1` — which nothing here gives. ⚠ Without this theorem both terms are opaque receptacles
+in which any error could be hidden, which is what `exceptionalChebotarevTerm_eq` already says
+one layer up. -/
+theorem exceptionalRayClassTerm_eq (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) :
+    ∃ (S : Finset (TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔪))
+      (β : TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔪 → ℝ),
+      (∀ ψ ∈ S, ψ ≠ 1 ∧ ψ ^ 2 = 1 ∧ 1 / 2 < β ψ ∧ β ψ < 1 ∧
+        meromorphicOrderAt (TauCetiRoadmap.LFunctions.heckeLFunctionC K ψ) (β ψ : ℂ) =
+          (1 : WithTop ℤ)) ∧
+      (∀ x : ℝ, exceptionalRayClassTerm K 𝔪 c x =
+        (Nat.card (TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) : ℝ)⁻¹ *
+          ∑ ψ ∈ S, ((ψ c : ℂ)).re * x ^ β ψ / β ψ) ∧
+      (∀ x : ℝ, exceptionalRayClassPrimeCountTerm K 𝔪 c x =
+        (Nat.card (TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) : ℝ)⁻¹ *
+          ∑ ψ ∈ S, ((ψ c : ℂ)).re * logarithmicIntegral (x ^ β ψ)) := sorry
 
 /-- **Layer 8.7, the effective count in a ray class.** The main term is `x / #Cl_𝔪`, from the
 trivial character through Layer 8.5; every nontrivial character contributes through 8.6 and
@@ -865,7 +1146,7 @@ noncomputable def exceptionalChebotarevTerm
     (C : ConjClasses (L ≃ₐ[K] L)) (x : ℝ) : ℝ := sorry
 
 /-- The partial-summation transform of `exceptionalChebotarevTerm` appearing in the
-unweighted Frobenius prime count. -/
+unweighted Frobenius prime count, identified by `exceptionalChebotarevPrimeCountTerm_eq`. -/
 noncomputable def exceptionalChebotarevPrimeCountTerm
     (C : ConjClasses (L ≃ₐ[K] L)) (x : ℝ) : ℝ := sorry
 
@@ -884,6 +1165,18 @@ theorem exceptionalChebotarevTerm_eq (C : ConjClasses (L ≃ₐ[K] L))
       ∑ᶠ c ∈ {c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 |
           ConjClasses.mk (Φ c) = C},
         exceptionalRayClassTerm K 𝔪 c x := sorry
+
+/-- **Layer 8.8, what the prime-count exceptional term is**: the same fibre sum as
+`exceptionalChebotarevTerm_eq`, of the ray-class prime-count terms, so that by
+`exceptionalRayClassTerm_eq` it is a finite sum of weighted `Li (x^β)`. -/
+theorem exceptionalChebotarevPrimeCountTerm_eq (C : ConjClasses (L ≃ₐ[K] L))
+    (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (Φ : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L))
+    (hΦ : IsReciprocityDictionary K L 𝔪 Φ C) (x : ℝ) :
+    exceptionalChebotarevPrimeCountTerm K L C x =
+      ∑ᶠ c ∈ {c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 |
+          ConjClasses.mk (Φ c) = C},
+        exceptionalRayClassPrimeCountTerm K 𝔪 c x := sorry
 
 /-- **Layer 8.8, effective Chebotarev for the weighted prime-power count, abelian only.**
 Constants may depend on the fixed extension `L/K`, but not on `x`; no conductor-uniform or
@@ -913,9 +1206,13 @@ theorem frobeniusTheta_effective (C : ConjClasses (L ≃ₐ[K] L))
           exceptionalChebotarevTerm K L C x) =O[atTop]
         (fun x : ℝ => x * Real.exp (-c * Real.sqrt (Real.log x))) := sorry
 
-/-- **Layer 8.8**, partial summation on the supplier-owned Frobenius prime count. The
-qualitative limit remains `Chebotarev.tendsto_frobeniusPrimeCount`; this is its stronger,
-fixed-extension error estimate. -/
+/-- **Layer 8.8**, partial summation on the supplier-owned Frobenius prime count. The main
+term is `(#C/#G) · Li x`, and the exceptional term is the `Li (x^β)` transform of
+`exceptionalChebotarevPrimeCountTerm_eq`. The qualitative limit remains
+`Chebotarev.tendsto_frobeniusPrimeCount`; this is its stronger, fixed-extension error estimate.
+⚠ `x / log x` cannot stand here: by `logarithmicIntegral_sub_div_log` the two main terms differ
+by `≍ x / log² x`, which exceeds the displayed error, and the trivial extension below is where
+that is visible. -/
 theorem frobeniusPrimeCount_effective (C : ConjClasses (L ≃ₐ[K] L))
     (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
     (Φ : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L))
@@ -923,8 +1220,36 @@ theorem frobeniusPrimeCount_effective (C : ConjClasses (L ≃ₐ[K] L))
     ∃ c : ℝ, 0 < c ∧
       (fun x : ℝ => (TauCetiRoadmap.Chebotarev.frobeniusPrimeCount K L C x : ℝ) -
           ((Nat.card C.carrier : ℝ) / (Nat.card (L ≃ₐ[K] L) : ℝ)) *
-            (x / Real.log x) + exceptionalChebotarevPrimeCountTerm K L C x) =O[atTop]
+            logarithmicIntegral x + exceptionalChebotarevPrimeCountTerm K L C x) =O[atTop]
         (fun x : ℝ => x * Real.exp (-c * Real.sqrt (Real.log x)) / Real.log x) := sorry
+
+/-- **Layer 8.8, the `x / log x` form**, which survives only as a weaker corollary: its error
+is `O(x / log² x)`, the size of `Li x - x / log x`, and the exceptional term disappears into it
+because `Li (x^β) = O(x^β / log x) = o(x / log² x)` for `β < 1`. -/
+theorem frobeniusPrimeCount_div_log (C : ConjClasses (L ≃ₐ[K] L))
+    (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (Φ : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L))
+    (hΦ : IsReciprocityDictionary K L 𝔪 Φ C) :
+    (fun x : ℝ => (TauCetiRoadmap.Chebotarev.frobeniusPrimeCount K L C x : ℝ) -
+        ((Nat.card C.carrier : ℝ) / (Nat.card (L ≃ₐ[K] L) : ℝ)) * (x / Real.log x)) =O[atTop]
+      (fun x : ℝ => x / Real.log x ^ 2) := sorry
+
+/-- **The trivial-extension acceptance test**, `K = L = ℚ`. The Galois group is trivial, its
+one conjugacy class is `⟦1⟧`, every prime is unramified with Frobenius `1`, so
+`Chebotarev.frobeniusPrimeCount ℚ ℚ ⟦1⟧` is `π`; the reciprocity dictionary at `𝔪 = 1` is the
+trivial map, and the exceptional term vanishes because `RayClassGroup 1` of `ℚ` is trivial and
+carries no nontrivial character. `frobeniusPrimeCount_effective` then reads
+`π(x) = Li x + O(x exp(-c √log x) / log x)`, de la Vallée Poussin's prime number theorem. ⚠
+With `x / log x` in place of `Li x` it would read
+`π(x) - x / log x = O(x exp(-c √log x) / log x)`, which `logarithmicIntegral_sub_div_log`
+refutes. -/
+example :
+    (∀ x : ℝ, (TauCetiRoadmap.Chebotarev.frobeniusPrimeCount ℚ ℚ (ConjClasses.mk 1) x : ℝ) =
+        (Nat.primeCounting ⌊x⌋₊ : ℝ)) ∧
+      (∀ x : ℝ, exceptionalChebotarevPrimeCountTerm ℚ ℚ (ConjClasses.mk 1) x = 0) ∧
+      ∃ c : ℝ, 0 < c ∧
+        (fun x : ℝ => (Nat.primeCounting ⌊x⌋₊ : ℝ) - logarithmicIntegral x) =O[atTop]
+          fun x : ℝ => x * Real.exp (-c * Real.sqrt (Real.log x)) / Real.log x := sorry
 
 end EffectiveAbelianChebotarev
 
