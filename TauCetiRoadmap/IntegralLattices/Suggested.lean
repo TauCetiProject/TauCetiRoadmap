@@ -511,9 +511,16 @@ theorem exists_bilinearLagrangian_gaussSign_ne_zero :
       A.toFiniteBilinearModule.IsLagrangian H ∧ A.gaussSign ≠ 0 := sorry
 
 /-- **Nikulin's `discr K(q_p)`.** `K(q_p)` is a `p`-adic lattice of rank `l(A_{q_p})` whose
-discriminant form is the `p`-primary part `q_p`; it exists and is unique up to isometry, by 3C
-at odd `p` and by 3D at `p = 2`, and `padicDiscriminant` is its determinant square class in
-`ℚ_p^*/(ℚ_p^*)²`. Independence of the chosen `K(q_p)` is part of milestone 5B. -/
+discriminant form is the `p`-primary part `q_p`. It exists by 3C at odd `p` and by 3D at `p = 2`,
+and `padicDiscriminant` is the determinant square class in `ℚ_p^*/(ℚ_p^*)²` of a **chosen**
+minimal realization. ⚠ It is a function of `q_p` alone only where the realization is unique up
+to isometry: at odd `p`, and at `p = 2` exactly when `q₂` has no summand `q_θ^{(2)}(2)` (Nikulin
+Theorem 1.9.1). That independence is `padicDiscriminant_eq_squareClass_gramDet`, with the
+exception in its hypothesis, and `padicDiscriminant_not_determined_by_cyclicTwoSummand` is the
+rejection test showing the exception is real: `⟨2⟩` and `⟨10⟩` both realize `q_1^{(2)}(2)` in
+rank 1 with determinants of different 2-adic square classes. Condition 4 of
+`NikulinExistenceConditions` reads this value only under `¬ HasCyclicTwoSummand`, so the
+helper and the theorem agree on where the value means anything. -/
 noncomputable def padicDiscriminant (A : FiniteQuadraticModule) (p : ℕ) [Fact p.Prime] :
     TauCeti.SquareClassGroup ℚ_[p] := sorry
 
@@ -584,6 +591,23 @@ noncomputable def IntegralLattice.discriminantQuadraticModule (hL : L.IsEven) :
 theorem IntegralLattice.discriminantQuadraticModule_isNondegenerate (hL : L.IsEven) :
     (L.discriminantQuadraticModule hL).IsNondegenerate :=
   L.discriminantBilinearModule_isNondegenerate
+
+/-- **Layer 5B, choice-independence of `discr K(q_p)`, with its exception.** An even
+nondegenerate lattice whose rank is `l(A_{q_p})` and whose discriminant form has `p`-primary
+part isometric to `q_p` localizes at `p` to a minimal realization `K(q_p)`, so the square class
+of its Gram determinant is `discr K(q_p)`: at odd `p` unconditionally, and at `p = 2` only when
+`q₂` has no summand `q_θ^{(2)}(2)` (Nikulin Theorem 1.9.1). Stated on the global carrier because
+that is the carrier this file has; without the dyadic exception the statement is false, which
+`padicDiscriminant_not_determined_by_cyclicTwoSummand` records. -/
+theorem IntegralLattice.padicDiscriminant_eq_squareClass_gramDet
+    (A : FiniteQuadraticModule.{u}) (p : ℕ) [Fact p.Prime]
+    (hp : p ≠ 2 ∨ ¬ (A.primaryComponent 2).HasCyclicTwoSummand)
+    (hL : L.IsEven) {ι : Type*} [Fintype ι] [DecidableEq ι] (e : Basis ι ℤ L.carrier)
+    (hrank : Fintype.card ι = minGenerators (A.primaryComponent p).A)
+    (hq : Nonempty (FiniteQuadraticModule.Isometry
+      ((L.discriminantQuadraticModule hL).primaryComponent p) (A.primaryComponent p))) :
+    ∃ u : ℚ_[p]ˣ, (u : ℚ_[p]) = ((L.gramDet e : ℤ) : ℚ_[p]) ∧
+      TauCeti.squareClass u = A.padicDiscriminant p := sorry
 
 end DiscriminantModules
 
@@ -1672,6 +1696,25 @@ theorem rankOne_one_characteristic_congruence_fails :
     (∀ w : L.carrier, L.IsCharacteristicVector w) ∧
       ∀ w : L.carrier,
         ¬ Int.ModEq 8 ((L.sigPos : ℤ) - (L.sigNeg : ℤ)) (L.integralForm w w) := sorry
+
+/-- **Layer 5B, the rejection test for `padicDiscriminant`'s dyadic exception.** `rankOne 1 = ⟨2⟩`
+and `rankOne 5 = ⟨10⟩` are even of rank `1 = l(A_{q₂})`; the 2-primary parts of their
+discriminant forms are isometric — both are `ℤ/2` with half-norm value `1/4 = 5/4` in `ℚ/ℤ`,
+the form `q_1^{(2)}(2) = q_5^{(2)}(2)` — and their Gram determinants `2` and `10` have different
+square classes in `ℚ₂`, because `5` is not a 2-adic square. So both are minimal 2-adic
+realizations of one `q₂` with different `discr`, and `padicDiscriminant_eq_squareClass_gramDet`
+is false at `p = 2` without its `HasCyclicTwoSummand` hypothesis. -/
+theorem padicDiscriminant_not_determined_by_cyclicTwoSummand :
+    let L₂ := rankOne 1 one_ne_zero
+    let L₁₀ := rankOne 5 (by norm_num)
+    let q₂ := (L₂.discriminantQuadraticModule (rankOne_isEven 1 one_ne_zero)).primaryComponent 2
+    let q₁₀ := (L₁₀.discriminantQuadraticModule (rankOne_isEven 5 (by norm_num))).primaryComponent 2
+    Nonempty (FiniteQuadraticModule.Isometry q₂ q₁₀) ∧
+      minGenerators q₂.A = 1 ∧ minGenerators q₁₀.A = 1 ∧
+      (∃ e : Basis (Fin 1) ℤ L₂.carrier, L₂.gramDet e = 2) ∧
+      (∃ e : Basis (Fin 1) ℤ L₁₀.carrier, L₁₀.gramDet e = 10) ∧
+      TauCeti.squareClass (Units.mk0 (2 : ℚ_[2]) two_ne_zero) ≠
+        TauCeti.squareClass (Units.mk0 (10 : ℚ_[2]) (by norm_num)) := sorry
 
 end RankOneAcceptance
 

@@ -391,7 +391,12 @@ Allcock–Gal–Mark, and not the one printed in SPLAG.
 **Nikulin's notation.** `l(A)` is the least number of generators of a finite abelian group
 `A`, and `l(A_q) = max_p l(A_{q_p})`. `K(q_p)` is a `p`-adic lattice of rank `l(A_{q_p})`
 whose discriminant form is `q_p`, and `discr K(q_p)` is its determinant square class in
-`ℤ_p^*/(ℤ_p^*)²`. The generating finite quadratic forms are `q_θ^{(p)}(p^k)` on `ℤ/p^k`,
+`ℤ_p^*/(ℤ_p^*)²`. Such a `K(q_p)` always exists; it is unique up to isometry at odd `p`, and at
+`p = 2` exactly when `q₂` has no summand `q_θ^{(2)}(2)` (Nikulin Theorem 1.9.1). In the
+exceptional case there are two, whose determinants differ by the factor 5, a nonsquare in
+`ℚ₂`, so `discr K(q₂)` is then not a function of `q₂`; condition 4 of 5B is switched off in
+exactly that case, and 5B states the choice-independence with that exception.
+The generating finite quadratic forms are `q_θ^{(p)}(p^k)` on `ℤ/p^k`,
 and `u^{(2)}(2^k)` and `v^{(2)}(2^k)` on `(ℤ/2^k)²`. They are the discriminant forms of the
 `p`-adic lattices with Gram matrices `(θ p^k)`, `2^k·!![0,1;1,0]` and `2^k·!![2,1;1,2]`.
 Nikulin's `E₈` is negative definite, and this roadmap's `E₈` is positive definite, so a
@@ -891,11 +896,19 @@ arithmetic over `ℤ_2` and uses no group scheme; the density itself is 7D, whic
 
 Let `R` be an unramified finite extension of `ℤ_2`, with residue field of cardinality `f`, and
 let `L` be a nondegenerate `R`-lattice of rank `n` with a Jordan splitting `L = ⊕_i L_i` as in
-3B, where `L_i = 2^i M_i` is the `2^i`-modular constituent, of rank `n_i`. Following Cho,
-Definition 2.1 and §2.3:
+3B, where `L_i = 2^i M_i` is the `2^i`-modular constituent, of rank `n_i`, and `M_i = L_i(2^{−i})`
+is its unimodular rescaling. Following Cho, Definition 2.1 and §2.3:
 
-- `L_i` is of **type I** when its norm ideal `𝔫(L_i)` is all of `R`, and of **type II**
-  otherwise. This is the odd/even distinction of the 2-adic symbol in 3E.
+- `L_i` is of **type I** when its unimodular rescaling `M_i` has norm ideal `𝔫(M_i) = R`, and
+  of **type II** otherwise. Equivalently the norm ideal is compared with the constituent's own
+  scale, never with `R`: type I is `𝔫(L_i) = 𝔰(L_i) = 2^i R` and type II is
+  `𝔫(L_i) = 2𝔰(L_i) = 2^{i+1} R`. This is Cho's Definition 2.1(b), which gives a modular lattice
+  the parity type of its unimodular rescaling, and it is the odd/even distinction of the 2-adic
+  symbol in 3E. ⚠ Reading type I off `𝔫(L_i) = R` is correct only at scale `i = 0` and
+  misclassifies every constituent of positive scale: `⟨2⟩` is a type I constituent of scale 2
+  with `𝔫 = 2ℤ₂ ≠ ℤ₂`. Every scale-zero example passes the wrong criterion, so the rank-one
+  constituent `⟨2⟩` at scale 2 is a mandatory test of the definition; the type feeds `t`, `b`,
+  `c` and the bound/free distinction below, so the error would propagate into `N`.
 - `L_i` is **bound** when `L_{i−1}` or `L_{i+1}` is of type I, and **free** when neither is.
 
 Write `t` for the number of constituents of type I, `b` for the number of pairs of adjacent
@@ -921,8 +934,33 @@ This milestone asks for:
   and under the scaling `L ↦ L(2)`, which shifts every index by one;
 - the dictionary to the 2-adic symbol of 3E: `t` is the number of odd constituents, `b` is
   `n(I, I)` and `c` is `n(II)`, so the three exponents are computable from the symbol;
-- worked values: `N = 0` for a unimodular type II lattice of even rank, and the values for
-  `U`, for `⟨1⟩`, and for `⟨1⟩ ⊕ ⟨2⟩` over `ℤ_2`.
+- worked values, each recomputed from the definitions above and checked against 7D's
+  normalization, in which `α_2(L) = 2^{N − n(n−1)/2}·#𝒢̃_L(𝔽_2)` is the count of 7C:
+  - a unimodular type II lattice of rank `n` is a single free constituent at `i = 0` with
+    `t = 0`, `b = 0`, `c = n` and `d_0 = 0`, so **`N = n`**, and not `0`. For `U` this is
+    `N = 2`; its orthogonal group scheme is already smooth, `#O_2^+(𝔽_2) = 2`, and
+    `α_2(U) = 2^{2−1}·2 = 4`, which is the direct count: the solutions of `XᵀAX ≡ A (mod 2^r)`
+    for `A = !![0,1;1,0]` are the matrices `!![a,b;c,d]` with `a, d` units, `d ≡ a⁻¹` and
+    `b, c ∈ {0, 2^{r−1}}`, and those with `b, c` units, `c ≡ b⁻¹` and `a, d ∈ {0, 2^{r−1}}`,
+    `2^{r+1}` of each kind, so `α_2(U) = 2^{−r}·2^{r+2} = 4`. For `E₈ ⊗ ℤ_2 = U⁴`, `N = 8`;
+  - `⟨1⟩`: one type I constituent at `i = 0`, `t = 1`, so `N = 1`, and `α_2 = 2·#𝒢̃(𝔽_2) = 4`,
+    the number of solutions of `x² ≡ 1 (mod 2^r)`;
+  - `⟨2⟩`: one type I constituent at `i = 1`, `t = 1` and `d_1 = 1`, so `N = 2`, and `α_2 = 8`,
+    the number of `x (mod 2^r)` with `2x² ≡ 2 (mod 2^r)`;
+  - `⟨1⟩ ⊕ ⟨2⟩`: two adjacent type I constituents at `i = 0, 1`, so `t = 2`, `b = 1`, `c = 0`,
+    `∑_{i<j} i·n_i·n_j = 0` and `d_1 = 1`, and `N = 2 + 0 + 1 − 1 + 0 = 2`.
+
+  ⚠ The value `N = 0` for a type II unimodular lattice is the exponent of a *different*
+  normalization: counting automorphisms of the quadratic form `q = ½β(x,x)` modulo `2^r`, which
+  takes the diagonal congruence modulo `2^{r+1}`, gives `α_2^q(U) = 1` and, for an even
+  unimodular lattice of rank `2m`, the same closed form `2(1 − ε2^{−m})∏(1 − 2^{−2i})` as the
+  odd-prime display of 7C, because the smooth model is then the orthogonal group scheme of `q`
+  itself. For a type II unimodular lattice that count is `2^{−c}` times 7C's, and the `+c` in
+  `N_Q` is exactly the conversion. In this roadmap `α_2` is the bilinear count of 7C throughout,
+  `N` is Cho's exponent for that count, and the two normalizations are never written under one
+  symbol; the dictionary to the quadratic count, and to Conway–Sloane's `m_2(f)`, whose type
+  factor `2^{n(I,I) − n(II)} = 2^{b − c}` is the same `−b + c` read on the reciprocal, is the
+  successor's 7D and 7H.
 
 ⚠ `N` is generally nonzero. The formula of 7D carries `f^N`, and dropping it changes the
 answer by a power of 2; this is why the exponents are pinned here rather than left inside the
@@ -1119,16 +1157,39 @@ B4; and the diagonal embedding of `T_L(ℚ)`.
 **B7. Measures in rank 2.** A canonical Haar measure on `T_L(ℚ_p)` and on `T_L(ℝ)`, normalized
 so that `T_L(ℤ_p)` has volume 1; the product measure on the restricted product of the
 `T_L(ℚ_p)` relative to the `T_L(ℤ_p)`, built on `RestrictedProductGroup` with the compact open
-reference family of `CompactOpenSubgroups` and `isCompact_integralSubgroup`; and the finite
-covolume of the diagonal `T_L(ℚ)`, built on `rationalDiagonal`. Finiteness of that covolume is
-proved from B5 and the unit group of B4, and not from any general reduction theory: the torus
-is one-dimensional, its class set is the finite `NarrowPic 𝒪_Δ`, and its unit group is
-Dirichlet's.
+reference family of `CompactOpenSubgroups` and `isCompact_integralSubgroup`; the full adelic
+group `T_L(𝔸) = T_L(𝔸_f) × T_L(ℝ)` with the product measure; and the diagonal `T_L(ℚ)`, built on
+`rationalDiagonal`, which is discrete in `T_L(𝔸)`. The quotient statement splits with B1's
+branch, and the two branches are different theorems:
 
-This torus measure is the whole of the adelic measure theory this roadmap owns. The Tamagawa
-measure of `SO(V)` is not built here and no milestone here normalizes one; the normalization
-above is stated so that the successor's rank-2 specialization has to reproduce it, so that 7G
-here and the successor's 7H speak of one measure rather than one deducing the other.
+- *Nonsquare `Δ`.* `T_L` is the norm-one torus of `K_Δ`, anisotropic over `ℚ`, and
+  `T_L(ℚ) \ T_L(𝔸)` is **compact**, so `T_L(ℚ)` has finite covolume. The proof is from B5 and
+  the unit group of B4, and not from any general reduction theory: the quotient fibres over the
+  finite set `T_L(ℚ) \ T_L(𝔸_f) / T_L(ℤ̂)`, which is the subgroup of squares in `NarrowPic 𝒪_Δ`,
+  the principal genus, acting simply transitively on the proper classes in `gen L` by B3, and
+  each fibre is `T_L(ℤ̂) × T_L(ℝ)`
+  modulo the norm-one units `T_L(ℤ) = T_L(ℚ) ∩ T_L(ℤ̂)`. For `Δ < 0` the factor `T_L(ℝ) ≅ S¹` is
+  compact and `T_L(ℤ)` is the finite group of `w` roots of unity; for `Δ > 0` the factor
+  `T_L(ℝ) ≅ ℝˣ` is not compact, and it is the fundamental norm-one unit of B4 that makes
+  `T_L(ℝ)/T_L(ℤ)` compact. Both cases are milestones.
+- *Square `Δ`.* `A_Δ = ℚ × ℚ`, the norm-one group is `T_L = {(t, t⁻¹)} ≅ 𝔾_m`, and
+  `T_L(𝔸)/T_L(ℚ) ≅ 𝔸_ℚˣ/ℚˣ ≅ ℤ̂ˣ × ℝ_{>0}`. ⚠ **This has infinite volume.** The idele modulus
+  `T_L(𝔸) → ℝ_{>0}`, `(t, t⁻¹) ↦ |t|_𝔸`, is surjective and trivial on `T_L(ℚ)`, so the real
+  direction `dt/t` survives the quotient. Norm one in the split algebra is not modulus one, and
+  the finiteness of B5's split class set does not remove the real direction. The statement in
+  this branch is about the modulus kernel `T_L(𝔸)¹ = ker |·|_𝔸`, which contains `T_L(ℚ)`:
+  `T_L(ℚ) \ T_L(𝔸)¹ ≅ ℚˣ \ 𝔸^{×,1}` is compact, fibred as above over the finite split class set
+  of B5 with compact fibres; equivalently `T_L(ℚ) \ T_L(𝔸) / T_L(ℝ)⁰` is compact, where
+  `T_L(ℝ)⁰ ≅ ℝ_{>0}` is the split real direction. The anisotropic covolume statement is never
+  applied to this branch, and `U`, with `Δ = 1`, is its mandatory test.
+
+The rank-2 mass of B8 is proved from B2 to B5 without any measure. What B7 supplies to 7G is the
+normalization the successor's rank-2 specialization must reproduce, and it is stated for
+`Δ < 0`, the only branch in which a positive definite binary genus arises. This torus measure is
+the whole of the adelic measure theory this roadmap owns. The Tamagawa measure of `SO(V)` is not
+built here and no milestone here normalizes one; the normalization above is stated so that the
+successor's rank-2 specialization has to reproduce it, so that 7G here and the successor's 7H
+speak of one measure rather than one deducing the other.
 
 **B8. The mass of a positive definite binary genus.** Let `L` be positive definite of rank 2
 with order `𝒪 = 𝒪(L)`, so `Δ < 0`, and write `w = #𝒪ˣ`. The content and the determinant are
@@ -1222,22 +1283,49 @@ computed from the Jordan data of Layer 3. The spinor genus `spn L` and the prope
 `spn⁺ L`. The definition through local spinor norms agrees with the definition through adelic
 double cosets.
 
-The count of proper spinor genera is a named group. Let `J` be the idele group of `ℚ`, the
-restricted product of the groups `ℚ_pˣ` and `ℝˣ` relative to the subgroups `ℤ_pˣ`. Let `J²`
-be its subgroup of squares, let `ℚˣ` sit in `J` diagonally, and put
+The count of proper spinor genera is a named group, with its image groups made explicit. Let
+`J` be the idele group of `ℚ`, the restricted product of the groups `ℚ_pˣ` and `ℝˣ` relative to
+the subgroups `ℤ_pˣ`, let `J²` be its subgroup of squares, and let `ℚˣ` sit in `J` diagonally.
+The spinor norm takes values in square classes, so each local image is read as the subgroup of
+`ℚ_pˣ` that it lifts to, which contains `(ℚ_pˣ)²`; at the real place `θ_∞(SO(V_∞))` is `ℝ_{>0}`
+when `V` is definite and `ℝˣ` when it is indefinite. Put
 
-    J_L = {j ∈ J : j_p ∈ θ_p(K_p⁺(L)) for every p, and j_∞ ∈ θ_∞(SO(V_∞))}.
+    J_L = {j ∈ J : j_p ∈ θ_p(K_p⁺(L)) for every p, and j_∞ ∈ θ_∞(SO(V_∞))},
 
-Define
+so that `J² ⊆ J_L`, and define
 
-    ProperSpinorGenusClassGroup L = J / (ℚˣ · J² · J_L).
+    ProperSpinorGenusClassGroup L = J / (ℚˣ · J_L).
 
-The milestone proves three statements:
+The milestone proves the following, each with the rank hypothesis that carries it:
 
-- the group is finite, and every element has order at most 2;
-- the map that sends a proper class in `gen L` to its idele class induces a bijection from
-  the proper spinor genera in `gen L` to `ProperSpinorGenusClassGroup L`;
-- its order is the count in O'Meara 102:7.
+- for `rank L ≥ 2` the group is finite, and every element has order at most 2. The input is
+  O'Meara 92:5: for `p ∤ 2 det L` the lattice `L_p` is unimodular of rank at least 2, so
+  `θ_p(K_p⁺(L)) = ℤ_pˣ(ℚ_pˣ)²`, hence `ℚˣ J_L ⊇ ℚˣ · ∏_{p ∤ 2 det L} ℤ_pˣ · ℝ_{>0}` and the group is
+  a quotient of `∏_{p ∣ 2 det L} ℤ_pˣ/(ℤ_pˣ)²`;
+- for `rank L ≥ 3` the map sending a proper class in `gen L` to the spinor norm of an adele
+  carrying `L` to it induces a bijection from the proper spinor genera in `gen L` to
+  `ProperSpinorGenusClassGroup L`, whose order is the count in O'Meara 102:7. The two inputs are
+  `θ_p(SO(V_p)) = ℚ_pˣ` at every finite `p` (91:6, rank at least 3) and
+  `θ(SO(V)) = ℚˣ ∩ ∏_v θ_v(SO(V_v))` (101:8, rank at least 3). Together they give
+  `J = ℚˣ · θ(J_V)` and `ℚˣ ∩ θ(J_V) = D := θ(SO(V))`, which identifies `J/(ℚˣ J_L)` with
+  O'Meara's quotient of the adelic spinor-norm image `θ(J_V)` by `P_D · J_L`;
+- **rank 2 is a different statement**, through the torus of B6. `SO(V) = T_L`, the spinor norm
+  of the rotation by `u = a/ā` is the norm `N(a)`, and its kernel on `T_L(ℚ_p)` is the subgroup
+  of squares. The proper classes in `gen L` are a torsor under the finite group
+  `C_L = T_L(ℚ) \ T_L(𝔸_f) / T_L(ℤ̂)` of B2 and B3, the subgroup of squares in `NarrowPic 𝒪_Δ`
+  whose cosets are the genera, and the proper spinor genera in `gen L` are the cosets of `C_L²`, so their number is
+  `[C_L : C_L²]`. The group `J/(ℚˣ J_L)` is finite in rank 2 but is **not** this count: the
+  local images `θ_p(SO(V_p))` are then the norm groups of `A_Δ ⊗ ℚ_p`, so `J ≠ ℚˣ · θ(J_V)`, and
+  for nonsquare `Δ` the quotient is `[J : ℚˣ N(J_{K_Δ})] · [C_L : C_L²] = 2·[C_L : C_L²]`.
+  Witness `x² + y²`: `Δ = −4`, one class and one proper spinor genus, while `θ_2(SO(L_2))` is
+  the norm group `{1, 2, 5, 10}·(ℚ_2ˣ)²` of `ℚ_2(i)`, so that `J/(ℚˣ J_L) ≅ ℤ_2ˣ/⟨5⟩(ℤ_2ˣ)²` has
+  order 2;
+- **ranks 0 and 1 are computed directly**: `gen L` is one class and `O(L)` contains `−1`, so
+  there is one proper class and one proper spinor genus. The rank-one lattice `⟨1⟩` is a
+  compulsory rejection test of the general formula: `SO(V_v) = 1` at every place, so `J_L = J²`,
+  and `J/(ℚˣ J²)` is infinite, because an idele that is a unit at every prime retains the square
+  class of its unit component at each odd prime independently, and the diagonal `ℚˣ` cancels
+  only finitely many of them at once.
 
 
 **4D. Eichler's theorem.** *Owner:* `OrthogonalTamagawaAndLatticeMass`. For an indefinite
@@ -1369,11 +1457,23 @@ with those invariants exists.
 
 The square class `discr K(q_p)` is Nikulin's, and 5B owns its construction as well as the
 theorem: `K(q_p)` is a `p`-adic lattice of rank `l(A_{q_p})` whose discriminant form is `q_p`,
-which exists and is unique up to isometry by 3C at odd `p` and by 3D at `p = 2`, and
-`discr K(q_p)` is its determinant square class in `ℚ_p^*/(ℚ_p^*)²`. That the class does not
-depend on the chosen `K(q_p)` is part of the milestone. The ratio in conditions 3 and 4 is a
-`p`-adic unit because `A_{K(q_p)} ≅ q_p` forces `v_p(det K(q_p)) = v_p(|A_q|)`, and that
-observation is what makes the two conditions well posed.
+and `discr K(q_p)` is its determinant square class in `ℚ_p^*/(ℚ_p^*)²`. Existence is by 3C at
+odd `p` and by 3D at `p = 2`. Uniqueness up to isometry, hence independence of the class from
+the chosen `K(q_p)`, is a theorem of the milestone at odd `p` and, at `p = 2`, **exactly when
+`q₂` has no summand `q_θ^{(2)}(2)`** (Nikulin Theorem 1.9.1). It is false without that
+exception, and the failure is the reason condition 4 switches off: over `ℤ₂` the rank-one even
+lattices `⟨2⟩` and `⟨10⟩` both have discriminant group of order 2, on whose generator the
+half-norm forms take the values `1/4` and `5/4`, equal in `ℚ/ℤ`, so both are minimal
+realizations of `q_1^{(2)}(2) = q_5^{(2)}(2)`; their determinants differ by 5, which is not a
+square in `ℚ₂`, so the two determinant square classes differ. In the exceptional case the two
+realizations always differ by exactly this factor 5, and `discr K(q₂)` is a choice between two
+classes that condition 4 never reads. `Suggested.lean` states the choice-independence with the
+exception in its hypothesis (`padicDiscriminant_eq_squareClass_gramDet`) and pins `⟨2⟩` against
+`⟨10⟩` as a rejection test (`padicDiscriminant_not_determined_by_cyclicTwoSummand`), so that a
+version of the helper claiming unconditional independence is refuted by a named declaration.
+The ratio in conditions 3 and 4 is a `p`-adic unit because `A_{K(q_p)} ≅ q_p` forces
+`v_p(det K(q_p)) = v_p(|A_q|)`, and that observation is what makes the two conditions well
+posed.
 
 **5C. Uniqueness.** An even lattice with invariants `(t₊, t₋, q)` is unique in its genus if:
 
@@ -1653,11 +1753,38 @@ This milestone asks for:
 - the mandatory test that separates the two conventions: the hyperbolic plane over `p = 3`
   has `m = 1` and `det = −1`, a nonsquare mod 3, yet it is split, `#O_2^+(𝔽_3) = 4`, and
   `α_3 = 4/3 = 2(1 − 3^{−1})`. Reading `ε` off the raw determinant would give `8/3`;
-- the reduction of `∏_p α_p(L)⁻¹` to a product of the standard Euler factors of those two
-  displays, times the finitely many corrections at `p ∣ 2 det L`, and the convergence of
-  that product. The correction at `p = 2` is the number `α_2(L)`, which the stabilization
-  above defines and 7D evaluates; convergence of the product does not wait for that
-  evaluation, since a single finite factor cannot affect it;
+- the normalization dictionary for the product over `p`. ⚠ The raw product `∏_p α_p(L)⁻¹` is
+  **not** a convergent Euler product and is not what any mass formula consumes: the displays
+  give `α_p(L) → 2` as `p → ∞`, so its factors tend to `½` and its partial products tend to
+  `0`, and no finite set of corrections at `p ∣ 2 det L` can repair a factor of two at every
+  good prime. The factor that enters a mass is the **normalized** good-prime density
+  `α_p(L)/2`, and
+
+      ∏_{p ∤ 2 det L} (α_p(L)/2)⁻¹ = ∏_{i=1}^{m} ζ^{(S)}(2i)                       if n = 2m + 1,
+      ∏_{p ∤ 2 det L} (α_p(L)/2)⁻¹ = ∏_{i=1}^{m−1} ζ^{(S)}(2i) · L^{(S)}(m, χ_L)   if n = 2m,
+
+  with `S` the primes dividing `2 det L`, the superscript removing the Euler factors at `S`, and
+  `χ_L(p) = ((−1)^m det L | p)` the character of the signed determinant. This is Conway–Sloane's
+  `std_p(f) = α_p(L)⁻¹` in equation (6) of their paper, and the `2` in front of `m_p(f)` in
+  their formula `∏_p 2 m_p(f)`, which the successor's 7H quotes, is exactly the `2/α_p(L)`
+  above; Gan–Yu's and Cho's `β_{L_p} = α_p(L)/2` is the same normalization, as 7D records. The
+  convergence and nonvanishing statements are proved in the regimes in which they hold and in
+  no others:
+  - `n ≥ 3`: every factor is a `ζ(2i)` with `2i ≥ 2` or an `L(m, χ_L)` with `m ≥ 2`, so the
+    product converges absolutely to a nonzero value. The correction at `p = 2` is the number
+    `α_2(L)` that the stabilization above defines and 7D evaluates, a single finite factor that
+    convergence does not wait for;
+  - `n = 2`: the good-prime product is `∏ (1 − χ_L(p) p⁻¹)⁻¹`. When `−det L` is not a square,
+    which is every positive definite binary lattice and every indefinite one with nonsquare
+    `Δ`, `χ_L` is a nontrivial quadratic character and the product converges conditionally, in
+    the order of increasing `p`, to `L^{(S)}(1, χ_L) ≠ 0`; this is the value that B8's `h⁺/w`
+    meets through the class number formula. When `−det L` is a square, `χ_L = 1` and the
+    product `∏ (1 − p⁻¹)⁻¹` diverges, so there is no nonzero Euler product at all; this is the
+    split branch of B7 seen from the local side, and `U` is its test;
+  - `n = 1`: `m = 0` and `α_p(L) = 2` at every good prime, so the normalized product is empty
+    and equal to `1`;
+  - `n = 0`: `α_p(L) = 1` at every `p` and there is no factor of two to remove, the same rank-0
+    exception that 7A and 7G record for the mass;
 - the dictionary to the Conway–Sloane local mass `m_p` at odd `p`, in their section 12,
   including every factor of 2.
 
@@ -2120,6 +2247,12 @@ for the eight items listed. The layer that introduces the object owns them.
 | Cho's dyadic formula (7D, not owned here; 3I owns its exponents) | Cho Thm 5.2 with Lemma 5.1 | the exponent `N = N_Q − N_M` and the index `[O : SO]` | "`α_2(L) = 2^{−n(n−1)/2}·#𝒢̃_L(𝔽_2)`". `N` is generally nonzero, and `β_L` carries `[O(V,q) : SO(V,q)]⁻¹`. |
 | Well-definedness of the dyadic exponents (3I) | O'Meara 93:28 and 93:29; Cho Lemma 5.1 | the ranks, scales and norms of the Jordan constituents are invariants of the lattice, although the splitting is not | "nothing attached to a dyadic Jordan splitting is an invariant". The signs and oddities are not, which is why 3E needs sign walking and oddity fusion; the ranks, scales and types are, and that is what makes `N_M`, `N_Q` and `N` well defined. |
 | Proper against full mass (7A) | Conway–Sloane §2 | `rank L ≥ 1` | "`m⁺ = 2m` always". In rank 0 both masses are 1, because `O(L) = SO(L) = 1`. |
+| Choice-independence of `discr K(q₂)` (5B) | Nikulin Thm 1.9.1 | `q₂` has no summand `q_θ^{(2)}(2)` | "`K(q_p)` is unique up to isometry for every `p`, so `discr K(q_p)` is a function of `q_p`". `⟨2⟩` and `⟨10⟩` over `ℤ₂` both realize `q_1^{(2)}(2) = q_5^{(2)}(2)` in rank 1, and their determinants differ by 5, a nonsquare in `ℚ₂`. |
+| The dyadic parity type (3I) | Cho Def. 2.1(b); O'Meara §93 | the type is that of the unimodular rescaling `M_i`, i.e. `𝔫(L_i)` is compared with `𝔰(L_i)` | "`L_i` is of type I when `𝔫(L_i) = ℤ₂`". `⟨2⟩` is a type I constituent of scale 2 with `𝔫 = 2ℤ₂`; the wrong criterion makes it type II and changes `t`, `b`, `c` and `N`. |
+| The dyadic exponent of a type II lattice (3I) | Cho Lemma 5.1 | `N` is the exponent for 7C's bilinear count, `α_2 = 2^{N − n(n−1)/2}·#𝒢̃(𝔽₂)` | "`N = 0` for a unimodular type II lattice". `U` has `t = b = 0` and `c = 2`, so `N = 2` and `α_2(U) = 4`; `N = 0` is the exponent of the quadratic-form count, in which `α_2^q(U) = 1`. |
+| Finite covolume of the binary torus (B7) | Dirichlet's unit theorem with B4 and B5 | `Δ` is not a square, so `T_L` is anisotropic | "`T_L(ℚ)` has finite covolume in `T_L(𝔸)` for every binary `L`". For `U`, `T_L ≅ 𝔾_m` and `T_L(𝔸)/T_L(ℚ) ≅ 𝔸ˣ/ℚˣ ≅ ℤ̂ˣ × ℝ_{>0}`, with the infinite `dt/t` direction of the idele modulus. |
+| The proper-spinor-genus class group (4C) | O'Meara 102:7 with 91:6 and 101:8 | rank at least 3 | "`J/(ℚˣ J_L)` counts the proper spinor genera of every lattice". For `⟨1⟩` it is the infinite group `𝔸ˣ/ℚˣ𝔸^{×2}`; for `x² + y²` it has order 2 while the genus has one class. Rank 2 is `[C_L : C_L²]` through the torus. |
+| Convergence of the local-density product (7C) | Conway–Sloane eq. (6); Siegel | the good-prime factors are normalized to `α_p(L)/2`, and `n ≥ 3` for absolute convergence | "`∏_p α_p(L)⁻¹` is a convergent nonzero Euler product". `α_p(L) → 2`, so the raw partial products tend to `0`; and in rank 2 with `−det L` a square even the normalized product diverges. |
 | Rank-16 completeness (7I, not owned here) | Witt; Conway–Sloane §9 | the mass formula and both automorphism orders | "the two classes are known to exhaust the genus once they are constructed". 6D proves only that the two exist, lie in one genus, and differ; completeness waits for `OrthogonalTamagawaAndLatticeMass`. |
 | Finiteness of shells (2A, 2B) | O'Meara §102; `ZLattice` discreteness | `L` is positive definite, not merely nondegenerate | "the shells of a nondegenerate lattice are finite". The hyperbolic plane `U` has `β(x,x) = 2ab` for `x = (a,b)`, so `S_0(U) ⊇ {(a,0) : a ∈ ℤ}` is infinite. This is the same hypothesis that makes representation numbers, minima and kissing numbers well defined, and it is why Theta Series is positive definite by construction. |
 
@@ -2129,17 +2262,32 @@ Each example is discharged with the milestone that owns it. Each one catches a w
 factor of 2, a wrong sign, or a vacuous definition.
 
 - `⟨1⟩ = ℤ`: odd, unimodular, with the odd integers as its characteristic vectors and
-  `w² ≡ 1 (mod 8)`, the odd case of van der Blij (0G, 1L).
+  `w² ≡ 1 (mod 8)`, the odd case of van der Blij (0G, 1L). Its genus is one class and one
+  proper spinor genus, while `J/(ℚˣ J_L) = 𝔸ˣ/ℚˣ𝔸^{×2}` is infinite, the rank-one rejection
+  test of 4C; its good-prime densities are `α_p = 2`, with an empty normalized product (4C, 7C).
 - `U`: even, `det = −1`, signature `(1,0,1)`, level 1, `A_U = 0`, and not diagonalizable over
   `ℤ_2`; its primitive binary discriminant is `1`, so its algebra/order branch is explicitly
-  `ℚ × ℚ`/`ℤ × ℤ`, with one split proper class and `|O(U)| = 4` (0G, 3D, B1--B5).
+  `ℚ × ℚ`/`ℤ × ℤ`, with one split proper class and `|O(U)| = 4` (0G, 3D, B1--B5). Over `ℤ_2`
+  it is a single free type II constituent with `t = b = 0` and `c = 2`, so Cho's exponent is
+  `N = 2` and `α_2(U) = 4` in 7C's count (3I). Its norm-one torus is the split `𝔾_m`, whose
+  adelic quotient `𝔸ˣ/ℚˣ` has infinite volume, and `−det U = 1` is a square, so its good-prime
+  product `∏ (1 − p⁻¹)⁻¹` diverges: it is the test of B7's split branch and of the rank-2
+  exception in 7C (B7, 7C).
 - The index-two sublattice `⟨2e₁,e₂⟩ ≤ ℤ²` restricts `x²+y²` to `4x²+y²`; its content
   remains 1 although the determinant is multiplied by 4 (0C, B1).
 - `⟨-2⟩` is negative definite of signature `(0,0,1)`; the zero rank-one form is
   degenerate of signature `(0,1,0)` and has zero radical quotient (0G, 1K).
 - `⟨2⟩`: every value of the form is even, so every vector is characteristic, and the
   congruence of 1L fails at every one of them — the witness that 1L requires
-  unimodularity (1L).
+  unimodularity (1L). Over `ℤ_2` it is a type I constituent of scale 2 with `𝔫 = 2ℤ_2`, the
+  test that the parity type is read on the unimodular rescaling, and it has `N = 2` and
+  `α_2 = 8` (3I). Together with `⟨10⟩` it is one of the two minimal 2-adic realizations of
+  `q_1^{(2)}(2) = q_5^{(2)}(2)`, of determinants differing by 5, so `discr K(q₂)` is not
+  determined by `q₂` there (5B).
+- `⟨1⟩ ⊕ ⟨1⟩`: `Δ = −4`, `w = 4`, one class and one proper spinor genus, while `J/(ℚˣ J_L)`
+  has order 2 because `θ_2(SO(L_2))` is the norm group of `ℚ_2(i)`; the rank-2 count is
+  `[C_L : C_L²] = 1` through the torus (4C). Its good-prime factors are `α_p/2 = 1 − (−1|p)p⁻¹`,
+  whose product over odd `p` is `L(1, χ_{−4})⁻¹ = 4/π` (7C).
 - The discriminant form of `A₁ ⊕ A₁`: the glue class `h` satisfies `b(h,h) = 0` and
   `H = H^⊥` while `q(h) = ½` and `sign = 2` — the witness that Lagrangian means isotropic
   for `q` itself (1F, 1G, 1H).
