@@ -1,4 +1,9 @@
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
+import TauCeti.NumberTheory.RamificationInertia.Splitting
+import TauCeti.NumberTheory.NumberField.Discriminant.OfIntegralBasis
+import TauCeti.NumberTheory.NumberField.Frobenius
+import TauCeti.NumberTheory.NumberField.NarrowClassGroup.Finite
+import TauCeti.NumberTheory.NumberField.Quadratic.RingOfIntegers
 
 /-!
 # Number fields: ramification, Frobenius, and the LMFDB invariants: target signatures
@@ -685,6 +690,17 @@ example {L M : Type*} [Field L] [NumberField L] [Field M] [NumberField M] [Algeb
         Ideal.relNorm (𝓞 K) (relDiscr (𝓞 L) (𝓞 M)) :=
   sorry
 
+/-- **Layer 4.4, the basis-level discriminant formula in a tower.** The compatible basis is the
+actual product basis `b.smulTower c`, whose index order is `ι × κ`; no unnamed notion of
+"compatible bases" occurs in the contract. -/
+theorem discr_smulTower {L M : Type*} [Field L] [Field M]
+    [Algebra K L] [Algebra L M] [Algebra K M] [IsScalarTower K L M]
+    {ι κ : Type*} [Fintype ι] [DecidableEq ι] [Fintype κ] [DecidableEq κ]
+    (b : Module.Basis ι K L) (c : Module.Basis κ L M) :
+    Algebra.discr K (b.smulTower c) =
+      Algebra.discr K b ^ Fintype.card κ * Algebra.norm K (Algebra.discr L c) :=
+  sorry
+
 /-- **Layer 4.2, the relative discriminant localizes.** ⚠ "`relDiscr A B` localized at `p`" is
 not a statement until both localizations are named. `Aₚ` is the localization of `A` at
 `p.primeCompl`, `Bₚ` is the localization of `B` at the image of `p.primeCompl` under
@@ -924,9 +940,28 @@ example {L : Type*} [Field L] [NumberField L] [Algebra K L]
         algebraMap L (w.1.adicCompletion L) x :=
   sorry
 
-/-- **Layer 5.5, the local degree is `e·f` at a finite place**, with `e` and `f` the *global*
-`Ideal.ramificationIdx` and `Ideal.inertiaDeg`. The equality of the local and the global factor
-pairs is this milestone. -/
+/-- **Layer 5.5, the local ramification index is the ideal-theoretic one.** This is a separate
+contract because downstream code consumes `e` without `f`. -/
+theorem completion_ramificationIndex_eq {L : Type*} [Field L] [NumberField L] [Algebra K L]
+    (v : HeightOneSpectrum (𝓞 K)) (w : HeightOneSpectrum (𝓞 L))
+    [w.asIdeal.LiesOver v.asIdeal] :
+    LocalFieldsRamification.ramificationIndex
+        (v.adicCompletion K) (w.adicCompletion L) =
+      w.asIdeal.ramificationIdx (𝓞 K) :=
+  sorry
+
+/-- **Layer 5.5, the local inertia degree is the ideal-theoretic one.** This is not replaced by
+the product formula. -/
+theorem completion_inertiaDegree_eq {L : Type*} [Field L] [NumberField L] [Algebra K L]
+    (v : HeightOneSpectrum (𝓞 K)) (w : HeightOneSpectrum (𝓞 L))
+    [w.asIdeal.LiesOver v.asIdeal] :
+    LocalFieldsRamification.inertiaDegree
+        (v.adicCompletion K) (w.adicCompletion L) =
+      w.asIdeal.inertiaDeg (𝓞 K) :=
+  sorry
+
+/-- **Layer 5.5, the local degree is `e·f` at a finite place**, derived from the two separate
+comparison theorems above and #189's local degree theorem. -/
 example {L : Type*} [Field L] [NumberField L] [Algebra K L]
     (v : HeightOneSpectrum (𝓞 K)) (w : HeightOneSpectrum (𝓞 L))
     [w.asIdeal.LiesOver v.asIdeal] :

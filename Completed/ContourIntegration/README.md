@@ -1,5 +1,25 @@
 # Roadmap: contour integration and the Hungerbühler–Wasem generalized residue theorem
 
+**Status: declared complete by the maintainers (2026-08-29).** The library this roadmap asked for
+has been built, sorry-free, in [TauCeti](https://github.com/TauCetiProject/TauCeti) under
+`TauCeti/Analysis/Contour/`. All four layers are there: the generalized winding number and its
+model-sector geometry (L0–L1), residues with the argument principle and the classical residue
+theorem (L2), the homology Cauchy theorem by Dixon's argument (L3), and the summit — the
+Hungerbühler–Wasem generalized residue theorem for singularities lying *on* the cycle, with
+non-integer winding-number weights (L4).
+
+Every target of the sibling `Suggested.lean` is discharged in place: each is stated exactly as this
+roadmap asked for it, then closed by the declaration that realizes it, so the correspondence is
+checked by the Lean kernel rather than asserted here. Every signature matched
+hypothesis-for-hypothesis, so no target needed restating or bridging. The five acceptance criteria
+in *Worked examples* below are met too, including the Dirichlet integral
+(`∫₀^R sin x / x → π/2`), the improper-integral application that motivates HW Thm 3.3.
+
+Declaring this complete remains a human judgment against this README, which is the definitive
+document. What the discharged file removes is the bookkeeping half of that judgment, not the
+mathematical half.
+
+This roadmap is archived and no longer offered to contributors.
 Mathlib has the Cauchy integral formula and the Cauchy–Goursat theory
 (`Mathlib/Analysis/Complex/CauchyIntegral.lean`), circle integrals
 (`Mathlib/MeasureTheory/Integral/CircleIntegral.lean`), and the local theory of
