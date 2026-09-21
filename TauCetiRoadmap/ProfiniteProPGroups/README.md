@@ -1542,6 +1542,16 @@ Layer 8.
   `χ(x₂) = (1-q)^{-1}`, so that no unit has to be constructed in order to state them. The
   unmarked isomorphism statements are corollaries, obtained by forgetting the character
   clause. The marked form supplies the normalization consumed by `LocalGaloisGroups`.
+  ⚠ In the two `q = 2` statements the normal-form parameters are pinned to `G` by the **image
+  equation** of the table above — `Im χ = {±1} × U^(f)` for `n` odd, and for `n` even either
+  `2^f ∣ α` with `Im χ = {±1} × U^(f)` or `v₂(α) < f` with `Im χ = U^[v₂(α)]` — taken as a
+  hypothesis, which is why they are stated at the literal prime `2`. The weaker condition that
+  the character value the conclusion prescribes is attained does not pin `f`: it is monotone in
+  `f`, since `(1 - 2^f)^{-1} ∈ U^(f) ⊆ U^(f₀)` for `f ≥ f₀`, so a statement resting on it would
+  assert marked isomorphisms onto presented groups of every level `f ≥ f₀`, which have pairwise
+  distinct orientation images, and would be false for every level but the true one. In the
+  even case with `v₂(α) < f` the parameter `f` is genuinely free above `v₂(α)`: those presented
+  groups are all Labute's `x₁^{2+α}(x₁,x₂)(x₃,x₄)⋯`, the value `f = ∞`.
   *Needs:* L9 normal forms and character values; L9 Labute Thm 2 in marked form; L5
   presentations.
   *Source:* Labute Thms 1, 2 and 4.
