@@ -231,10 +231,17 @@ structure Hypermap (D : Type u) [Fintype D] [DecidableEq D] where
   alpha : Equiv.Perm D
   comp : sigma * phi * alpha = 1
 
-/-- Conversion from a hypermap to the generalized-map hub. -/
-noncomputable def Hypermap.toGMap2 {D : Type u} [Fintype D] [DecidableEq D]
-    (H : Hypermap D) : GMap2 (D × Bool) :=
+/-- The Walsh bipartite map of a hypermap: darts `D × Bool`, the two rotations on the two ends,
+the edge involution swapping ends. Doubling the darts of the hypermap itself does not work: the
+identity triple on one dart would need a closed surface map on two darts, and there is none. -/
+noncomputable def Hypermap.toWalshMap {D : Type u} [Fintype D] [DecidableEq D]
+    (H : Hypermap D) : CombinatorialMap (D × Bool) :=
   sorry
+
+/-- Conversion from a hypermap to the generalized-map hub, through the Walsh map. -/
+noncomputable def Hypermap.toGMap2 {D : Type u} [Fintype D] [DecidableEq D]
+    (H : Hypermap D) : GMap2 ((D × Bool) × Bool) :=
+  H.toWalshMap.toGMap2
 
 /-- BelyiMaps' finite objects are the orientable boundaryless case: a permutation triple is a
 hypermap on `Fin n` in the convention `σinf * σ1 * σ0 = 1`. -/
@@ -298,7 +305,7 @@ APIs. Representative forms:
   --    barycentric subdivision (layer 3).
   theorem realization_homeomorph_flagComplex ...
   -- 3. Oriented maps round-trip through the hub, with a chosen orientation.
-  theorem toGMap2_toCombinatorialMap ...
+  theorem toGMap2_toCombinatorialMap ...        -- closed surface maps only
   -- 4. Duality is an involution.
   theorem dual_dual ...
   -- 5. Schemas and surface maps round-trip up to relabelling.
@@ -384,6 +391,9 @@ and `boundaryComponentCount` exist, add the decisive milestones:
   -- original dart as its face-vertex.
   theorem GMap2.flagComplex_isSimplicial_of_subdivided (G) :
       Function.Injective G.barycentricSubdivision.flagTriple
+  -- with the subdivision itself declared: darts `D × Equiv.Perm (Fin 3)`, Euler characteristic
+  -- unchanged.
+  def GMap2.barycentricSubdivision (G : GMap2 D) : GMap2 (D × Equiv.Perm (Fin 3))
   theorem GMap2.realization_homeomorph_flagComplex (G) :
       G.realization ≃ₜ Realization G.barycentricSubdivision.flagComplex
 
@@ -556,6 +566,9 @@ isomorphism closure are concrete, compile the elementary moves and the headline 
   -- each; `relabel` renames or inverts a label. Boundary labels are never cancelled, cut
   -- through, or pasted along.
   inductive ElementarySchemaMove : PolygonalSchema → PolygonalSchema → Prop
+    -- cancel, relabel, cut, paste, subdivide, merge; the last two are Gallier--Xu's (P1), without
+    -- which the number of once-occurring labels is invariant and the boundary normal form is
+    -- unreachable.
   def SchemaMove := isoClosure ElementarySchemaMove
   def IsNormalForm (N : PolygonalSchema) : Prop
 
@@ -752,15 +765,17 @@ then the groups and the comparisons:
 /-! ## Layer 10: planarity -/
 
 /-!
-Planarity is combinatorial: a plane map is a rotation system of Euler characteristic two, and
-the drawing characterization is layer 5's correspondence. Simple-graph theorems are stated for
+Planarity is combinatorial: a plane map is a rotation system that is spherical on each component,
+so of Euler characteristic twice the component count, and the drawing characterization is layer
+5's correspondence. Simple-graph theorems are stated for
 `G : SimpleGraph V` with `V` finite and planarity of `Graph.ofSimpleGraph G`; minors,
 topological minors, and 3-connectivity are shaped after the open Mathlib definitions. Use
 descriptive Lean names and keep the historical names in docstrings:
 
-  def PlaneMap (Γ : Graph α β) : Type* := {R : RotationSystem Γ // eulerChar R = 2}
+  def PlaneMap (Γ : Graph α β) : Type* :=
+      {R : RotationSystem Γ // R.eulerChar = 2 * Γ.componentCount}   -- componentwise sphericity
   def Graph.IsPlanar (Γ : Graph α β) : Prop := Nonempty (PlaneMap Γ)
-  theorem isPlanar_iff_exists_drawing_sphere (hΓ : Γ.IsConnected) :
+  theorem isPlanar_iff_exists_drawing_sphere :
       Γ.IsPlanar ↔ ∃ D : Drawing Γ Sphere2, D.IsNoncrossing
   def SimpleGraph.IsPlanar (G : SimpleGraph V) : Prop := (Graph.ofSimpleGraph G).IsPlanar
 

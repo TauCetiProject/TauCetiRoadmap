@@ -298,15 +298,28 @@ structure CombinatorialMap (D : Type*) [Fintype D] [DecidableEq D] where
   α_involutive : Function.Involutive α
   α_free : ∀ d, α d ≠ d
 def CombinatorialMap.toGMap2 : GMap2 (D × Bool)
-/-- A surface map with a chosen orientation is an oriented map. -/
-def GMap2.toCombinatorialMap (G : GMap2 D) (h : IsSurfaceGMap G) (o : G.Orientation) :
+/-- A closed surface map with a chosen orientation is an oriented map. Closedness is not
+    cosmetic. The triangular disc has six darts, `α₀ = (01)(23)(45)`, `α₁ = (12)(34)(50)` and
+    `α₂ = id`; it is an `IsSurfaceGMap` whose orientation side has three darts, while the `α` of a
+    `CombinatorialMap` is a fixed-point-free involution, which no odd type carries. Rotation
+    systems present the closed orientable case, and an orientation does not remove a boundary. -/
+def GMap2.toCombinatorialMap (G : GMap2 D) (h : IsClosedSurfaceGMap G) (o : G.Orientation) :
     CombinatorialMap o.side
 
 /-- Hypermap. -/
 structure Hypermap (D : Type*) [Fintype D] [DecidableEq D] where
   σ φ α : Equiv.Perm D
   comp : σ * φ * α = 1
-def Hypermap.toGMap2 : GMap2 (D × Bool)
+/-- The Walsh bipartite map of a hypermap: the darts are `D × Bool`, the rotations at the black
+    and white vertices are `σ` and `φ` on the two ends, and the edge involution swaps the ends.
+    Doubling the darts of a hypermap directly does not work: the identity triple on one dart is
+    connected with Euler characteristic two, and a closed surface map on two darts does not exist,
+    since `α₀`, `α₁` and `α₂` would all have to be the swap. -/
+def Hypermap.toWalshMap (H : Hypermap D) : CombinatorialMap (D × Bool)
+/-- The generalized map of a hypermap is then the doubling of its Walsh map, on darts
+    `(D × Bool) × Bool`, and it is a closed orientable surface map. -/
+def Hypermap.toGMap2 (H : Hypermap D) : GMap2 ((D × Bool) × Bool) := H.toWalshMap.toGMap2
+theorem Hypermap.isClosedSurfaceGMap_toGMap2 (H : Hypermap D) : IsClosedSurfaceGMap H.toGMap2
 
 /-- BelyiMaps' finite objects are the orientable boundaryless case: a permutation triple is a
     hypermap on `Fin n` in the convention `σinf * σ1 * σ0 = 1`, and a bipartite ribbon graph is an
@@ -344,12 +357,12 @@ def GMap2.toSchema (G : GMap2 D) (h : IsSurfaceGMap G) (o : ∀ e : G.Cell 1, G.
 
 1. `K.toGMap2.flagComplex ≃ K.barycentricSubdivision` for a combinatorial surface `K`. ⚠ This is the master test. If it holds, the generalized map is not lying about the surface. No subdivision is needed on the left, since a dart of `K.toGMap2` is a chain `v < e < t`. It is stated here and proved in layer 3, where realization exists.
 2. `|G.barycentricSubdivision.flagComplex| ≃ₜ G.realization`. The two realizations agree. Proved in layer 3.
-3. `(G.toCombinatorialMap h o).toGMap2 ≅ G` for a surface map with an orientation, and `M.toGMap2.toCombinatorialMap ≅ M` after choosing the induced orientation. Tests the orientation encoding.
+3. `(G.toCombinatorialMap h o).toGMap2 ≅ G` for a closed surface map with an orientation, and `M.toGMap2.toCombinatorialMap ≅ M` after choosing the induced orientation. Tests the orientation encoding. Both directions need closedness: the round trip is between closed maps and rotation systems.
 4. `G.dual.dual ≅ G` for closed surface maps, with canonically homeomorphic realizations.
 5. `(G.toSchema h o).toGMap2 ≅ G` for a surface map, and `S.toGMap2.toSchema ≅ S` up to relabelling: the schema forgets nothing but the names, and its once-labels are exactly the boundary edges.
 6. The BelyiMaps comparisons: hypermaps and permutation triples correspond along `D ≃ Fin n`, oriented maps and bipartite ribbon graphs with white degrees two correspond, and both correspondences preserve Euler characteristic and connectedness.
 
-**Examples and mathematical checks.** ⚠ **Exhibit two non-isomorphic surface maps with the same incidence poset of cells.** This answers the question "why darts and not a poset?": the poset forgets which of a face's several incidences to an edge is which. Source: Damiand–Lienhardt, Fig. 2.29. Each conversion is worked out on the layer 1 example table, and the BelyiMaps conversions on the dessins of degree at most four in that roadmap's layer 2.7. Degenerate examples show why the hypotheses of the comparison theorems are necessary.
+**Examples and mathematical checks.** ⚠ **Exhibit two non-isomorphic surface maps with the same incidence poset of cells.** This answers the question "why darts and not a poset?": the poset forgets which of a face's several incidences to an edge is which. Source: Damiand–Lienhardt, Fig. 2.29. Each conversion is worked out on the layer 1 example table, and the BelyiMaps conversions on the dessins of degree at most four in that roadmap's layer 2.7. Degenerate examples show why the hypotheses of the comparison theorems are necessary. The smallest useful test of the hypermap conversion is the one-edge bipartite sphere: one dart of the Walsh map on each side, four generalized-map darts, Euler characteristic two.
 
 **Natural intermediate results.** (i) oriented maps and the conversion both ways; (ii) hypermaps and the conversion; (iii) polygonal schemas, `toSchema`, and the round trips; (iv) the BelyiMaps conversions and their comparison theorems; (v) comparison theorems 3 and 4; (vi) the poset counter-example.
 
@@ -390,6 +403,14 @@ theorem IsSurfaceGMap.isOrientable_iff (h : IsSurfaceGMap G) :
     Surface.IsOrientable G.realization ↔ G.IsOrientable
 theorem IsSurfaceGMap.orientationEquiv (h : IsSurfaceGMap G) (hc : G.IsConnected) :
     Surface.Orientation G.realization ≃ G.Orientation
+
+/-- The barycentric subdivision of a generalized map: six darts for each dart of `G`, indexed by
+    the orderings of its vertex, edge, and face. Two of the three involutions permute the ordering
+    inside a dart and the third crosses to a neighbouring dart of `G`, which one depending on the
+    ordering; the exact packaging is schematic, the dart type is not. -/
+def GMap2.barycentricSubdivision (G : GMap2 D) : GMap2 (D × Equiv.Perm (Fin 3))
+theorem GMap2.eulerChar_barycentricSubdivision (G : GMap2 D) :
+    G.barycentricSubdivision.eulerChar = G.eulerChar
 
 /-- The simplicial bridge: a theorem about one subdivision, not a definition. -/
 theorem GMap2.flagComplex_isSimplicial_of_subdivided (G : GMap2 D) :
@@ -500,13 +521,20 @@ noncomputable def Graph.degree (Γ : Graph α β) (v : α) : ℕ     -- a loop c
 
 def GMap2.underlyingGraph (G : GMap2 D) : Graph (G.Cell 0) (G.Cell 1)
 
+/-- The range of a path injective except that its two endpoints may coincide, in the shape of
+    Mathlib's draft `IsPrimitiveLink` (mathlib4 #43687). -/
+def IsPrimitiveLink (A : Set M) (x y : M) : Prop
+
 /-- A drawing of a multigraph in a surface, in the shape of Mathlib's `Drawing`: an injective
-    placement of the vertices and, for each edge, an arc between the placements of its ends, with
-    vertices lying only on their own edges. -/
+    placement of the vertices and, for each edge, a path between the placements of its ends that is
+    injective except that its two endpoints may coincide, with vertices lying only on their own
+    edges. The loop case is not optional: the one-vertex torus `aba⁻¹b⁻¹` and the projective plane
+    `aa` are drawings whose every edge is a loop. -/
 structure Drawing (Γ : Graph α β) (M : Type*) [TopologicalSpace M] where
   vertex : V(Γ) ↪ M
   edgeRange : E(Γ) → Set M
-  edge_isArc : ∀ e u v, Γ.IsLink e u v → edgeRange e is an arc from vertex u to vertex v
+  edge_isPrimitiveLink : ∀ e u v, Γ.IsLink e u v →
+    IsPrimitiveLink (edgeRange e) (vertex u) (vertex v)
   inc_of_vertex_mem : ∀ e v, vertex v ∈ edgeRange e → Γ.Inc e v
 /-- Noncrossing: distinct edge interiors are disjoint. -/
 def Drawing.IsNoncrossing (D : Drawing Γ M) : Prop
@@ -520,7 +548,9 @@ def Drawing.IsCellular (D : Drawing Γ M) : Prop
 def Drawing.Equiv (D D' : Drawing Γ M) : Prop
 
 /-- Every noncrossing drawing in the interior is ambient-isotopic to a PL one:
-    `PlanarTopology` layer 7's tameness of finite families of arcs. -/
+    `PlanarTopology` layer 7's tameness of finite families of arcs, which is stated for arcs and so
+    is applied after splitting each loop at an interior point into two arcs meeting only at their
+    endpoints. -/
 theorem Drawing.exists_isotopic_isPL (D : Drawing Γ M) (hD : D.IsNoncrossing)
     (hint : D.support ⊆ (𝓡∂ 2).interior M) :
     ∃ D' : Drawing Γ M, D'.IsPL ∧ AmbientIsotopic D D'
@@ -589,13 +619,19 @@ The normal-form theorem is stated once, for connected surface schemas with or wi
 ```lean
 /-- The elementary moves. `cancel` removes an adjacent pair `a a⁻¹` from a face of more than two
     letters; `cut` splits a face along a new label; `paste` glues two faces along a label occurring
-    once in each; `relabel` renames a label or inverts it. Boundary labels are never cancelled,
-    cut through, or pasted along, since they occur once. -/
+    once in each; `subdivide` replaces a label by two new labels at each of its occurrences, and
+    `merge` is its inverse, admissible when the vertex between the two labels meets no other side;
+    `relabel` renames a label or inverts it. Boundary labels are never cancelled, cut through, or
+    pasted along, since they occur once, but they are subdivided and merged like any other: that is
+    how a boundary circle of several edges becomes one. `subdivide` and `merge` are Gallier–Xu's
+    (P1), `cut` their (P2). -/
 inductive ElementarySchemaMove : PolygonalSchema → PolygonalSchema → Prop
-  | cancel   : ...
-  | relabel  : ...
-  | cut      : ...
-  | paste    : ...
+  | cancel    : ...
+  | relabel   : ...
+  | cut       : ...
+  | paste     : ...
+  | subdivide : ...
+  | merge     : ...
 
 def SchemaMove := isoClosure ElementarySchemaMove
 
@@ -619,11 +655,12 @@ theorem SchemaMove.boundaryComponentCount_eq (h : SchemaMove S T) :
 **Proof strategy and formalization notes.**
 
 - ⚠ Every move changes the label type. The isomorphism closure from layer 0 is what makes `ReflTransGen` usable. Do not fix an alphabet.
-- The reduction is Gallier–Xu's, chapter 6: paste to one face, cancel adjacent inverse pairs, reduce to a single class of interior vertices, group the crosscaps, group the handles, convert a handle beside a crosscap into three crosscaps (Dyck's theorem), and bring each boundary component to a hole block `c h c⁻¹`. A boundary circle made of several edges is merged into one by the same cut-and-paste that reduces vertex classes, applied at its boundary vertices. Each step needs its realization theorem from `SchemaMove.realization_homeomorph`, not a separate argument.
+- The reduction is Gallier–Xu's, chapter 6: paste to one face, cancel adjacent inverse pairs, reduce to a single class of interior vertices, group the crosscaps, group the handles, convert a handle beside a crosscap into three crosscaps (Dyck's theorem), and bring each boundary component to a hole block `c h c⁻¹`. A boundary circle made of several edges is brought to one edge by `merge`, once the vertex reduction has left no other side at the vertices between them. Each step needs its realization theorem from `SchemaMove.realization_homeomorph`, not a separate argument.
 - Connectedness is a hypothesis, not a field: a schema with two faces sharing no label is a disjoint union and reduces to no single normal form.
 - `cancel` on a face that is exactly `a a⁻¹` is excluded, since it would produce the empty word; that face is already the sphere's normal form.
+- ⚠ `cancel`, `cut`, `paste`, and `relabel` all preserve the number of labels occurring once, since each of them creates or destroys only labels occurring twice. Without `subdivide` and `merge` the theorem is therefore false: the triangular disc `abc` has three once-occurring labels and its normal form `c h c⁻¹` has one, so no sequence of the other four moves connects them. This is why Gallier–Xu's system has (P1) as well as (P2).
 
-**Examples and mathematical checks.** The reduction is run on `abab⁻¹` (the Klein bottle), `aabb` (the same surface, reaching the same normal form), `abca⁻¹b⁻¹c⁻¹` (a nontrivial six-edge schema), and `abac` (a Möbius band, reaching `a a c h c⁻¹` with one hole). A label occurring once is accepted as a boundary edge; a label occurring three times, or a pairing with an invalid local incidence, must fail `IsSurface`.
+**Examples and mathematical checks.** The reduction is run on `abab⁻¹` (the Klein bottle), `aabb` (the same surface, reaching the same normal form), `abca⁻¹b⁻¹c⁻¹` (a nontrivial six-edge schema), and `abac` (a Möbius band, whose two boundary labels are merged into one after the vertex reduction, reaching `a a c h c⁻¹` with one hole). A label occurring once is accepted as a boundary edge; a label occurring three times, or a pairing with an invalid local incidence, must fail `IsSurface`.
 
 **Natural intermediate results.** (i) schemas and the surface condition; (ii) the moves and isomorphism closure; (iii) realization invariance of each move; (iv) pasting to one face and reduction to a single interior vertex class; (v) handle and crosscap grouping; (vi) Dyck's theorem; (vii) the hole blocks; (viii) the normal forms.
 
@@ -667,7 +704,8 @@ theorem GMap2.edgePathGroup_presentation (T : spanning tree of G.underlyingGraph
 theorem GMap2.abelianization_edgePathGroup :
     Abelianization (G.edgePathGroup h c) ≃* G.homology h c ℤ 1
 theorem Graph.edgePathGroup_free (Γ : Graph α β) [Finite V(Γ)] [Finite E(Γ)] (hΓ : Γ.IsConnected) :
-    IsFreeGroup Γ.edgePathGroup ∧ Nat.card (FreeGroup.basis Γ.edgePathGroup) = 1 - Γ.eulerChar
+    IsFreeGroup Γ.edgePathGroup ∧
+      (Nat.card (FreeGroup.basis Γ.edgePathGroup) : ℤ) = 1 - Γ.eulerChar
 
 /-- Invariance under the moves, hence under homeomorphism by Pachner. -/
 theorem GMap2.homology_subdivideEdge : (G.subdivideEdge e).homology ≅ G.homology h c R i
@@ -794,7 +832,7 @@ theorem model_nonorientable_homeomorph_sdiff_discs (k : ℕ) (hk : 0 < k) (b : �
 
 The conventions the theorem statements use: for oriented surfaces, Dehn twists and Lickorish's theorem concern orientation-preserving mapping classes, with orientations the data of `PlanarTopology` layer 6; for surfaces with boundary, homeomorphisms and isotopies fix the boundary pointwise. The full mapping class group is stated separately. Everything is stated topologically and proved in the piecewise-linear category, which `PlanarTopology` layer 8 says is the same thing.
 
-**From PlanarTopology.** Schoenflies, tameness of arcs and simple closed curves, and the collar of a two-sided curve (layer 7); `Surface.Orientation` and the boundary convention (layer 6); isotopy to a PL homeomorphism, Epstein's theorem, and the smoothing theorems (layer 8).
+**From PlanarTopology.** `IsArc` and `endpoints` (layer 0); Schoenflies, tameness of arcs and simple closed curves, and the collar of a two-sided curve (layer 7); `Surface.Orientation` and the boundary convention (layer 6); isotopy to a PL homeomorphism, Epstein's theorem, and the smoothing theorems (layer 8).
 **From layers 4, 7, and 8.** Cutting on maps, the action on `H₁`, the named models.
 
 **Representative formal statements.**
@@ -805,6 +843,9 @@ variable {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M
 
 /-- Simple closed curves are embeddings of the circle into the interior. -/
 def SimpleClosedCurve (M : Type*) [TopologicalSpace M] : Type*
+/-- Arcs are embeddings of the interval, with the endpoints allowed on the boundary. The carrier
+    satisfies `PlanarTopology` layer 0's `IsArc` and its ends are that layer's `endpoints`. -/
+def Arc (M : Type*) [TopologicalSpace M] : Type*
 def IsEssential (c : SimpleClosedCurve M) : Prop
 def IsSeparating (c : SimpleClosedCurve M) : Prop
 def IsTwoSided (c : SimpleClosedCurve M) : Prop
@@ -899,7 +940,7 @@ The intended scope is **Mohar and Thomassen, *Graphs on Surfaces*, chapter 2**, 
 
 **Out of scope:** planarity-testing algorithms such as Hopcroft–Tarjan and LR-planarity (the theorems are the target, not the algorithms); Steinitz's theorem (a convexity theorem needing polytope machinery not built here); embeddings in general surfaces, face-width, edge-width, embedding extension, and Robertson–Seymour (a separate subject and a separate roadmap); Grötzsch's theorem (named as a known gap rather than silently omitted); the four colour theorem and the Heawood/Ringel–Youngs map colour theorem (see the roadmap-for-a-roadmap below).
 
-**Vocabulary.** Planarity is a property of a finite multigraph: `Γ.IsPlanar` says `Γ` has a rotation system of Euler characteristic two, a *plane map*, so it is decidable, and by layer 5 it says equally that `Γ` has a noncrossing drawing in the sphere. Theorems whose hypotheses say *simple graph* are stated for `G : SimpleGraph V` with `V` finite, with planarity applied to `Graph.ofSimpleGraph G`, so that `completeGraph`, `completeBipartiteGraph (Fin 3) (Fin 3)`, and `Colorable` are Mathlib's. Minors, topological minors, contraction, and 3-connectivity are targets here, shaped after the open Mathlib pull requests that define contraction and minors for `SimpleGraph`. Every theorem carries finiteness, and the two Whitney theorems carry the hypotheses their proofs need: 3-connectivity for uniqueness of embeddings, and no isolated vertices for 2-isomorphism, since the cycle matroid cannot see them.
+**Vocabulary.** Planarity is a property of a finite multigraph: `Γ.IsPlanar` says `Γ` has a rotation system that is spherical on each component, a *plane map*, so it is decidable, and by layer 5 it says equally that `Γ` has a noncrossing drawing in the sphere. Sphericity is read off the Euler characteristic componentwise, not globally: a toroidal `K₅` beside a spherical triangle has Euler characteristic two and is not planar. Theorems whose hypotheses say *simple graph* are stated for `G : SimpleGraph V` with `V` finite, with planarity applied to `Graph.ofSimpleGraph G`, so that `completeGraph`, `completeBipartiteGraph (Fin 3) (Fin 3)`, and `Colorable` are Mathlib's. Minors, topological minors, contraction, and 3-connectivity are targets here, shaped after the open Mathlib pull requests that define contraction and minors for `SimpleGraph`. Every theorem carries finiteness, and the two Whitney theorems carry the hypotheses their proofs need: 3-connectivity for uniqueness of embeddings, and no isolated vertices for 2-isomorphism, since the cycle matroid cannot see them.
 
 **Representative formal statements.**
 
@@ -907,10 +948,22 @@ The intended scope is **Mohar and Thomassen, *Graphs on Surfaces*, chapter 2**, 
 variable {α β V : Type*} {Γ : Graph α β} [Finite V(Γ)] [Finite E(Γ)]
   {G : SimpleGraph V} [Fintype V] [DecidableEq V]
 
-/-- A plane map is a rotation system of Euler characteristic two; planarity is its existence. -/
-def PlaneMap (Γ : Graph α β) : Type* := {R : RotationSystem Γ // eulerChar R = 2}
+/-- The number of connected components; used here and in the cycle-space rank, and not part of
+    Mathlib's `Graph` API yet. -/
+noncomputable def Graph.componentCount (Γ : Graph α β) : ℕ
+/-- The Euler characteristic of a rotation system: vertices minus edges plus the number of orbits
+    of its face permutation. -/
+def RotationSystem.eulerChar (R : RotationSystem Γ) : ℤ
+/-- A plane map is a rotation system that is spherical on every component, so its Euler
+    characteristic is twice the component count; planarity is its existence. Asking for two
+    outright is wrong once `Γ` is disconnected: two disjoint triangles cap to two spheres and give
+    four. Since a connected rotation system has Euler characteristic at most two, with equality
+    exactly in the spherical case, the condition below is componentwise planarity, and an isolated
+    vertex contributes its own `1 - 0 + 1`. -/
+def PlaneMap (Γ : Graph α β) : Type* :=
+  {R : RotationSystem Γ // R.eulerChar = 2 * Γ.componentCount}
 def Graph.IsPlanar (Γ : Graph α β) : Prop := Nonempty (PlaneMap Γ)
-theorem isPlanar_iff_exists_drawing_sphere (hΓ : Γ.IsConnected) :
+theorem isPlanar_iff_exists_drawing_sphere :
     Γ.IsPlanar ↔ ∃ D : Drawing Γ Sphere2, D.IsNoncrossing
 def SimpleGraph.IsPlanar (G : SimpleGraph V) : Prop := (Graph.ofSimpleGraph G).IsPlanar
 
@@ -963,8 +1016,10 @@ theorem cycleMatroid_iso_iff_twoIsomorphic {Δ : Graph α' β'} [Finite V(Δ)] [
 /-- Cycle space, cut space, duality, Mac Lane. -/
 def Graph.cycleSpace (Γ : Graph α β) : Submodule (ZMod 2) (E(Γ) → ZMod 2)
 def Graph.cutSpace   (Γ : Graph α β) : Submodule (ZMod 2) (E(Γ) → ZMod 2)
+/-- The subtraction is `ℕ`'s, so the component count is added before the vertices are taken away;
+    a two-vertex tree would otherwise read `1 - 2 + 1 = 1` where the cycle space is trivial. -/
 theorem cycleSpace_finrank :
-    Module.finrank (ZMod 2) Γ.cycleSpace = Nat.card E(Γ) - Nat.card V(Γ) + Γ.componentCount
+    Module.finrank (ZMod 2) Γ.cycleSpace = Nat.card E(Γ) + Γ.componentCount - Nat.card V(Γ)
 theorem cycleSpace_orthogonal_cutSpace : Γ.cycleSpaceᗮ = Γ.cutSpace
 theorem dual_cycleSpace_eq_cutSpace (P : PlaneMap Γ) : P.dual.cycleSpace = Γ.cutSpace   -- edges identified
 

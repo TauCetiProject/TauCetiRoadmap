@@ -37,7 +37,7 @@ Each layer below is organized around a theorem, its mathematical dependencies, a
 |---|---|---|
 | `ConformalMapping` layer 5 | the inside of every Jordan curve is a Jordan domain, `IsJordanDomain hJ.inside`, and is simply connected, `IsSimplyConnected hJ.inside`; together these are the hypotheses of Carathéodory's theorem, so it applies to every Jordan curve | layers 2 and 7 |
 | `GeometricTopology` layer 11 | triangulability is unconditional in dimension two; the two-dimensional Hauptvermutung and Pachner's theorem; the compatibility of `IsCombinatorialSurface` with `IsCombinatorialManifold K 2` | layers 3 and 5 |
-| `GeometricTopology` layer 2 | `IsLocallyFlat` is automatic for arcs, simple closed curves, and finite graphs in a surface | layer 7 |
+| `GeometricTopology` layer 2 | local flatness is automatic for simple closed curves and finite graphs in a surface, and its slice form for arcs | layer 7 |
 | `GeometricTopology` layer 1 | invariance of domain in dimension two, hence chart-independence of the manifold boundary in the topological case `k = 0` that `isBoundaryPoint_iff_mem_frontier_range` excludes | layer 2 |
 | `SurfaceTopology` | Radó, the Hauptvermutung, Pachner, the Euler characteristic, orientability and orientations, the boundary count, Schoenflies, tameness, Epstein's theorem, and the comparison of the topological, PL, and smooth categories | layers 2, 5, 6, 7, and 8 |
 
@@ -142,7 +142,7 @@ L1 polygonal engine
  |\
  | \__ Track I  (approximation and separation)
  |    L2 separation, crosscuts, Brouwer, invariance of domain
- |    L7 topological Schoenflies and tameness
+ |    L7 topological Schoenflies and tameness  (graph tameness also uses L3 and L5)
  |
  \____ Track II (piecewise-linear)
       L3 simplicial and PL toolkit in dimension two
@@ -191,6 +191,16 @@ theorem boundary_closedDisc :
 
 /-- Isotopy relative to a subset; intended for the shared isotopy API. -/
 def IsotopicRel (A : Set X) (f g : C(X, Y)) : Prop
+
+/-- Arcs, in the shape of Tau Ceti's `IsJordanCurve`: a subset homeomorphic to the interval. The
+    endpoints are the two points whose removal leaves it connected, so naming them needs no choice
+    of parametrization. `SurfaceTopology` layer 9's `Arc M` is the bundled form of the same
+    notion. -/
+def IsArc (A : Set X) : Prop := Nonempty (A ≃ₜ unitInterval)
+def endpoints (A : Set X) : Set X := {x ∈ A | IsPreconnected (A \ {x})}
+theorem card_endpoints (hA : IsArc A) : Nat.card (endpoints A) = 2
+theorem endpoints_eq_image (hA : IsArc A) (e : A ≃ₜ unitInterval) :
+    endpoints A = Subtype.val '' (e ⁻¹' {0, 1})
 
 
 /-- Alexander's trick, extension form. A homeomorphism of the boundary sphere cones radially to a homeomorphism of the closed ball. Stated dimension-generally; the disc is
@@ -392,7 +402,7 @@ theorem boundaryComponentCount_congr (e : M ≃ₜ N) :
 
 - The order of development follows Thomassen. Approximate the paths that would have to cross the curve, not the curve itself, because Osgood gives an obstruction to curve approximation.  A curve can have positive measure (layer 0) whereas the crossing paths are compact arcs in an open set and are cheap to control. A hypothetical failure of separation, or a third complementary component, would result in a polygonal drawing of `K₃,₃`.
 - Arc non-separation is proved by the chain-of-small-squares argument using the small-arc diameter bounds in `TauCeti/Topology/JordanCurve/SmallArc.lean`.
-- ⚠ `invarianceOfDomain₂` is key. Without it neither `∂M` nor the boundary count is known to be a topological invariant of a surface. Its route needs nothing from the Jordan curve theorem: layer 1's integer winding number and its homotopy invariance show that the circle is not a retract of the disc, that gives Brouwer's fixed-point theorem by the usual construction of a retraction from a fixed-point-free map, and invariance of domain follows from Brouwer by the standard derivation. Mathlib has neither Brouwer nor invariance of domain nor degree theory for $C^0$ manifolds, and Brouwer is a reusable theorem in its own right.
+- ⚠ `invarianceOfDomain₂` is key. Without it neither `∂M` nor the boundary count is known to be a topological invariant of a surface. Its route needs nothing from the Jordan curve theorem: layer 1's integer winding number and its homotopy invariance show that the circle is not a retract of the disc, that gives Brouwer's fixed-point theorem by the usual construction of a retraction from a fixed-point-free map, and invariance of domain follows from Brouwer by Kulpa's argument: extend the inverse of the embedding off the embedded closed ball by Tietze, and use Brouwer to force the points near an image point into the image. Neither step needs a regularity hypothesis on the paths: Tau Ceti's `windingNumber_eq_of_pathHomotopy` (`Analysis/Contour/Winding/Number/Homotopy.lean`) is invariance under continuous fixed-endpoint homotopies of piecewise-`C¹` paths, and a retraction `r` of the disc onto its circle contracts the standard loop `p` through `H s t = r ((1 - s) * p t + s)`, which is valued in the circle and fixes both endpoints since the disc is convex and `r 1 = 1`. Mathlib has neither Brouwer nor invariance of domain nor degree theory for $C^0$ manifolds, and Brouwer is a reusable theorem in its own right.
 
 **Examples and mathematical checks.** `subset_closure_inside` is stated in the same form as `TauCeti/Topology/FilledHull.lean`. `isJordanDomain_inside` is checked against the constructors of `IsJordanDomain` from a ball and from a convex set, which it subsumes. `crosscut` is checked on a worked example where the two pieces are visibly different (an off-centre chord of a disc). Brouwer is exercised on a rotation of the disc, whose only fixed point is the centre, and `boundaryComponentCount` is computed for the closed disc, one, and the transported sphere, zero.
 
@@ -685,6 +695,7 @@ theorem isOrientable_sphere : Surface.IsOrientable (Metric.sphere (0 : Euclidean
 Schoenflies is one of the pinnacles of this roadmap.  It's why `GeometricTopology` layer 2's local flatness hypothesis is always true in dimension two.
 
 **From layers 0 and 2.** Alexander's trick, `IsotopicRel`, the crosscut theorem, accessibility, `isJordanDomain_inside`.
+**From layers 3 and 5.** `IsCombinatorialSurface`, `Subdivides`, and Radó: the tameness of finite graphs concludes with a triangulation of the surface, so it is downstream of both.
 
 **Representative formal statements.**
 
@@ -706,14 +717,18 @@ theorem isSimplyConnected_inside {J : Set ℂ} (hJ : IsJordanCurve J) : IsSimply
 variable {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M]
 
 /-- Tameness. The discharge of `GeometricTopology` layer 2's hypothesis, stated on the embedding with
-    its model factors: charts of `M` valued in `F × F'` carry the image onto `F × {0}`. For a simple
-    closed curve `F` is the line; for an arc it is the half-line, so that the endpoints are covered. -/
+    its model slice: ambient charts of `M` carry the image onto the slice. For a simple closed curve
+    the slice is the coordinate line of the model `EuclideanSpace ℝ (Fin 1) × ℝ`, which is local
+    flatness. An arc is not locally flat in the half-plane: the ambient model stays the full plane
+    and the slice becomes the half-line `Ici 0 ×ˢ {0}`, whose endpoint accounts for an endpoint of
+    the arc and whose interior for an interior point. Making the ambient model a half-plane instead
+    would contradict invariance of boundary at an interior point of the arc. -/
 theorem isLocallyFlat_of_isEmbedding_circle (f : Circle → M) (hf : IsEmbedding f)
     (hint : Set.range f ⊆ (𝓡∂ 2).interior M) :
     IsLocallyFlat (EuclideanSpace ℝ (Fin 1)) ℝ f
-theorem isLocallyFlat_of_isEmbedding_unitInterval (f : unitInterval → M) (hf : IsEmbedding f)
+theorem isSliceEmbedding_of_isEmbedding_unitInterval (f : unitInterval → M) (hf : IsEmbedding f)
     (hint : Set.range f ⊆ (𝓡∂ 2).interior M) :
-    IsLocallyFlat (EuclideanHalfSpace 1) ℝ f
+    IsSliceEmbedding (Set.Ici (0 : ℝ) ×ˢ ({0} : Set ℝ)) f
 
 /-- A two-sided simple closed curve in the interior has an annular collar. The homeomorphism carries
     the zero section to `J`; the exact subtype packaging is schematic. -/
@@ -732,7 +747,7 @@ theorem jordanCurve_neighborhood_dichotomy {J : Set M} (hJ : IsJordanCurve J)
 /-- Tameness of finite graphs, in the vocabulary of arcs: finitely many arcs in the interior of a
     surface, meeting pairwise only in common endpoints, are carried by an ambient isotopy onto
     piecewise-linear arcs of one triangulation. -/
-theorem exists_ambientIsotopy_pl_of_arcs (A : Fin n → Set M) (hA : ∀ i, IsArc (A i))
+theorem exists_ambientIsotopy_pl_of_arcs [CompactSpace M] (A : Fin n → Set M) (hA : ∀ i, IsArc (A i))
     (hmeet : ∀ i j, i ≠ j → A i ∩ A j ⊆ endpoints (A i) ∩ endpoints (A j))
     (hint : ∀ i, A i ⊆ (𝓡∂ 2).interior M) :
     ∃ e : M ≃ₜ M, Isotopic e (Homeomorph.refl M) ∧
@@ -746,7 +761,7 @@ theorem exists_ambientIsotopy_pl_of_arcs (A : Fin n → Set M) (hA : ∀ i, IsAr
 - Tameness of a finite family of arcs is proved arc by arc and then at the joints: each arc extends to a simple closed curve away from the others, by layer 2's accessibility, and Schoenflies straightens it; at a common endpoint the finitely many arcs are straightened together by a second application of Schoenflies inside a small disc around the point. The second step is where a finite star needs more than the tameness of each of its arcs.
 - An analytic derivation exists in principle: `ConformalMapping`'s Carathéodory theorem gives `closure hJ.inside ≃ₜ closedBall 0 1`, and gluing the inside and outside discs along `J` with Alexander's trick would give `schoenflies`. It is not taken, because Carathéodory takes the homotopy hypothesis `IsSimplyConnected hJ.inside`, which is available here only after Schoenflies; once `schoenflies_closure` is proved, `isSimplyConnected_inside` is immediate.
 
-**Examples and mathematical checks.** `schoenflies_closure` is instantiated on a curve that is not rectifiable. The tameness statements are stated against Tau Ceti's `IsLocallyFlat F F' f` with its model factors, not against a set-valued restatement, and `isSimplyConnected_inside` against Mathlib's `IsSimplyConnected`. The tameness of a star of three arcs at a point is exhibited, since it is not a consequence of the tameness of each arc. The core circle of a Möbius band is the essential counterexample to an unconditional product collar: it is tame and locally flat but one-sided. A note also records that automatic tameness fails in dimension three, where wild embeddings occur.
+**Examples and mathematical checks.** `schoenflies_closure` is instantiated on a curve that is not rectifiable. The tameness statements are stated against Tau Ceti's `IsSliceEmbedding`, with local flatness the case of the standard slice, not against a set-valued restatement, and `isSimplyConnected_inside` against Mathlib's `IsSimplyConnected`. The tameness of a star of three arcs at a point is exhibited, since it is not a consequence of the tameness of each arc. The core circle of a Möbius band is the essential counterexample to an unconditional product collar: it is tame and locally flat but one-sided. A note also records that automatic tameness fails in dimension three, where wild embeddings occur.
 
 **Natural intermediate results.** (i) `IsCrosscut` and finite cellulations of a Jordan domain; (ii) matching and refinement transfer; (iii) alternation and the small-cell estimate; (iv) the nested-star limit and `schoenflies_closure`; (v) the ambient and spherical forms; (vi) tameness of arcs; (vii) tameness of simple closed curves; (viii) the annulus/Möbius regular-neighbourhood dichotomy and the two-sided collar corollary; (ix) the inside is simply connected; (x) tameness of finite families of arcs.
 
@@ -768,15 +783,17 @@ variable {M N : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2)
   [CompactSpace M] [TopologicalSpace N] [ChartedSpace (EuclideanHalfSpace 2) N] [T2Space N]
   [CompactSpace N]
 
-/-- A PL structure on a compact surface is a triangulation. Two are equivalent when the identity of
-    `M`, read through them, is PL; any two are equivalent, which is the Hauptvermutung. -/
+/-- A PL structure on a compact surface is a triangulation. The comparison map of two of them need
+    not be PL: precomposing one realization with a non-PL self-homeomorphism of the square leaves a
+    PL structure whose comparison with the original is that map. The Hauptvermutung, layer 5's
+    `hauptvermutung₂_isPL`, gives a PL homeomorphism of the two polyhedra, not that the comparison
+    map is one; the sharp form on a single surface is the identity case of
+    `exists_isotopic_plHomeomorph` below. -/
 structure PLStructure (M : Type*) [TopologicalSpace M] where
   ι : Type
   K : AbstractSimplicialComplex ι
   hK : IsCombinatorialSurface K
   e : Realization K ≃ₜ M
-def PLStructure.Equiv (s t : PLStructure M) : Prop := IsPLMap (t.e.symm ∘ s.e)
-theorem PLStructure.equiv (s t : PLStructure M) : s.Equiv t
 
 /-- Every homeomorphism of compact surfaces is isotopic to a PL homeomorphism, and rel a subcomplex
     on which it is already PL. -/
@@ -786,9 +803,15 @@ theorem exists_isotopicRel_plHomeomorph (s : PLStructure M) (t : PLStructure N) 
     {A : Set M} (hA : A is the carrier of a subcomplex of s) (hf : IsPLMap on A) :
     ∃ g : M ≃ₜ N, IsPLMap (t.e.symm ∘ g ∘ s.e) ∧ IsotopicRel A f g
 
-/-- Epstein: homotopic homeomorphisms of a compact surface are isotopic, and homotopic PL
-    homeomorphisms are PL isotopic. Hence PL isotopy classes inject into topological ones. -/
-theorem isotopic_of_homotopic (f g : M ≃ₜ N) (h : ContinuousMap.Homotopic f g) : Isotopic f g
+/-- Epstein. Homotopic homeomorphisms of a closed surface are isotopic; with boundary the statement
+    is relative, since on the disc the identity and conjugation are homotopic through continuous
+    maps but not isotopic through homeomorphisms, having opposite local orientation. Homotopic PL
+    homeomorphisms are PL isotopic, so PL isotopy classes inject into topological ones. -/
+theorem isotopic_of_homotopic [BoundarylessManifold (𝓡∂ 2) M] (f g : M ≃ₜ N)
+    (h : ContinuousMap.Homotopic f g) : Isotopic f g
+theorem isotopicRel_of_homotopicRel (f g : M ≃ₜ N)
+    (h : ContinuousMap.HomotopicRel f g ((𝓡∂ 2).boundary M)) :
+    IsotopicRel ((𝓡∂ 2).boundary M) f g
 theorem plIsotopic_of_isotopic (s : PLStructure M) (t : PLStructure N) (f g : M ≃ₜ N)
     (hf : IsPLMap (t.e.symm ∘ f ∘ s.e)) (hg : IsPLMap (t.e.symm ∘ g ∘ s.e)) (h : Isotopic f g) :
     PLIsotopic s t f g
@@ -805,14 +828,19 @@ theorem hasGroupoid_plGroupoid (s : PLStructure M) :
     @HasGroupoid _ _ _ _ (chartedSpace induced by s) (PLGroupoid (𝓡∂ 2))
 
 /-- Smoothing: every PL structure is compatible with a smooth structure, unique up to a
-    diffeomorphism isotopic to the identity. -/
+    diffeomorphism isotopic to the identity. Compatibility is Whitehead's and Kuiper's, that each
+    closed simplex of the triangulation embeds smoothly with injective differential; it is not that
+    the smooth charts are PL, since a chart that is both is locally affine, and an affine atlas on
+    the sphere would develop into a local diffeomorphism to `ℝ²` with open compact image. -/
 def PLStructure.smoothing (s : PLStructure M) : ChartedSpace (EuclideanHalfSpace 2) M
 theorem PLStructure.smoothing_isManifold (s : PLStructure M) :
     @IsManifold _ _ _ _ _ _ _ (𝓡∂ 2) ∞ M _ s.smoothing
-theorem PLStructure.smoothing_isPL (s : PLStructure M) :
-    every chart of s.smoothing is PL for s   -- schematic
+def PLStructure.IsCompatible (s : PLStructure M) (σ : ChartedSpace (EuclideanHalfSpace 2) M) : Prop
+    -- each closed simplex of `s.K`, read through `s.e`, is smooth and nondegenerate for `σ`
+theorem PLStructure.smoothing_isCompatible (s : PLStructure M) : s.IsCompatible s.smoothing
 theorem PLStructure.smoothing_unique (s : PLStructure M)
-    (σ τ : ChartedSpace (EuclideanHalfSpace 2) M) (hσ : smooth and PL for s) (hτ : smooth and PL for s) :
+    (σ τ : ChartedSpace (EuclideanHalfSpace 2) M)
+    (hσ : σ is smooth and s.IsCompatible σ) (hτ : τ is smooth and s.IsCompatible τ) :
     ∃ φ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ M, Isotopic φ.toHomeomorph (Homeomorph.refl M)   -- σ on the left, τ on the right
 
 /-- Isotopic diffeomorphisms of compact surfaces are smoothly isotopic. -/
@@ -822,10 +850,10 @@ theorem smoothIsotopic_of_isotopic (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N
 
 **Mathematical route and formalization notes.**
 
-- A PL structure is a triangulation, and the Hauptvermutung is exactly the statement that any two are equivalent, so uniqueness is a restatement; what the layer adds is the treatment of maps. The PL homeomorphism type `≃ₚₗ` bundles a homeomorphism with `IsPLMap` in both directions.
+- A PL structure is a triangulation, and the Hauptvermutung of layer 5 compares any two of them by some PL homeomorphism, not by their own comparison map, which need not be PL. What this layer adds is the treatment of maps: the sharp uniqueness statement on a single surface is the identity case of `exists_isotopic_plHomeomorph`. The PL homeomorphism type `≃ₚₗ` bundles a homeomorphism with `IsPLMap` in both directions.
 - Isotopy to a PL homeomorphism is layer 4's relative approximation theorem followed by Alexander's trick: a fine enough PL approximation of `f` differs from `f` by a map that is small on each triangle, and coning fills each triangle with an isotopy. The rel form keeps a subcomplex fixed throughout, which is what surfaces with boundary and layer 9 of `SurfaceTopology` need.
-- Epstein's theorem is the injectivity that the mapping class group comparisons of `SurfaceTopology` layer 9 need. Its route: homotopic simple closed curves are isotopic, in Epstein's piecewise-linear form, then the Alexander method cuts the surface along a filling system of curves and reduces to the disc, where Alexander's trick finishes.
-- Smoothing follows Whitehead and Munkres: a triangulated surface is made `C¹` triangle by triangle, the corners along edges and at vertices are rounded with a partition of unity on the star of each simplex, and the result is a smooth atlas whose transition maps are PL for the given structure. Uniqueness uses layer 4's relative approximation to make a diffeomorphism between two smoothings PL, then Epstein to make it isotopic to the identity; smooth isotopy of isotopic diffeomorphisms is Munkres' smoothing of the isotopy.
+- Epstein's theorem is the injectivity that the mapping class group comparisons of `SurfaceTopology` layer 9 need. Its route: homotopic simple closed curves are isotopic, in Epstein's piecewise-linear form, then the Alexander method cuts the surface along a filling system of curves and reduces to the disc, where Alexander's trick finishes. Epstein states the closed and the boundary-relative cases separately, and so do we: the absolute statement is false with boundary, and cutting along curves produces surfaces with boundary, so the relative form is the one the induction runs on.
+- Smoothing follows Whitehead and Munkres: a triangulated surface is made `C¹` triangle by triangle, the corners along edges and at vertices are rounded with a partition of unity on the star of each simplex, and the result is a smooth atlas for which the given triangulation is smooth and nondegenerate on each simplex. Its transition maps are not PL, and cannot be: a map that is both smooth and PL is locally affine. Uniqueness uses layer 4's relative approximation to make a diffeomorphism between two smoothings PL, then Epstein to make it isotopic to the identity; smooth isotopy of isotopic diffeomorphisms is Munkres' smoothing of the isotopy.
 - `GeometricTopology` owns the chart-based `PLGroupoid`. The bridge theorem is stated here because it is what a consumer of both roadmaps needs, and its proof is the reconciliation that `GeometricTopology` layer 11 targets.
 
 **Examples and mathematical checks.** Two genuinely different triangulations of the torus are shown PL-equivalent, with the PL homeomorphism produced. A homeomorphism of the torus that is not PL is shown isotopic to a PL one. A note records that uniqueness of smooth structure fails in dimension four, so the smoothing theorem is visibly dimension-specific.

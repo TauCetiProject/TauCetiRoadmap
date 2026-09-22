@@ -428,10 +428,11 @@ example (f : Circle → M) (hf : IsEmbedding f) (hint : Set.range f ⊆ (𝓡∂
     TauCeti.IsLocallyFlat (EuclideanSpace ℝ (Fin 1)) ℝ f := by
   sorry
 
-/-- Tameness of arcs; the model is the half-line so that the endpoints are covered. -/
+/-- Tameness of arcs. The ambient model stays the plane; it is the slice that becomes the
+half-line, so that one statement covers the endpoints and the interior points. -/
 example (f : unitInterval → M) (hf : IsEmbedding f)
     (hint : Set.range f ⊆ (𝓡∂ 2).interior M) :
-    TauCeti.IsLocallyFlat (EuclideanHalfSpace 1) ℝ f := by
+    TauCeti.IsSliceEmbedding (Set.Ici (0 : ℝ) ×ˢ ({0} : Set ℝ)) f := by
   sorry
 
 end Tameness
@@ -463,8 +464,6 @@ groupoid is Tau Ceti's `TauCeti.PLGroupoid` (`Geometry/Manifold/PLGroupoid.lean`
     K : AbstractSimplicialComplex ι
     hK : IsCombinatorialSurface K
     e : Realization K ≃ₜ M
-  def PLStructure.Equiv (s t : PLStructure M) : Prop := IsPLMap (t.e.symm ∘ s.e)
-  theorem PLStructure.equiv (s t : PLStructure M) : s.Equiv t        -- the Hauptvermutung
 
   -- Every homeomorphism is isotopic to a PL one, and rel a subcomplex on which it is PL.
   theorem exists_isotopic_plHomeomorph (s : PLStructure M) (t : PLStructure N) (f : M ≃ₜ N) :
@@ -474,7 +473,11 @@ groupoid is Tau Ceti's `TauCeti.PLGroupoid` (`Geometry/Manifold/PLGroupoid.lean`
   -- Epstein: homotopic homeomorphisms of a compact surface are isotopic; homotopic PL
   -- homeomorphisms are PL isotopic. The two together make the PL and smooth mapping class
   -- groups of `SurfaceTopology` layer 9 isomorphic to the topological one.
-  theorem isotopic_of_homotopic (f g : M ≃ₜ N) (h : ContinuousMap.Homotopic f g) : Isotopic f g
+  theorem isotopic_of_homotopic [BoundarylessManifold (𝓡∂ 2) M] (f g : M ≃ₜ N)
+      (h : ContinuousMap.Homotopic f g) : Isotopic f g               -- closed case
+  theorem isotopicRel_of_homotopicRel (f g : M ≃ₜ N)
+      (h : ContinuousMap.HomotopicRel f g ((𝓡∂ 2).boundary M)) :
+      IsotopicRel ((𝓡∂ 2).boundary M) f g                            -- the case with boundary
   theorem plIsotopic_of_isotopic ...
 
   theorem homeomorph_iff_plHomeomorph ...
