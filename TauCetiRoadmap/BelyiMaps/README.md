@@ -68,7 +68,7 @@ declaration or a completion claim of this PR**. Every excluded summit has exactl
 | Excluded material | Layers | Exact owner | Activated once |
 | --- | --- | --- | --- |
 | passports, cycle partitions, and the reference transitive-group results | 1, 3 | **this roadmap**, in a follow-up PR | #243 `PolynomialGaloisGroups` lands its exact `fullCycleType` and transitive-group API |
-| the two-open Seifert–van Kampen theorem | 5.5 | roadmap **`UniversalCovers`** | — it is general algebraic topology, owned there and only consumed here |
+| the two-open Seifert–van Kampen theorem | 5.5 | roadmap **`AlgebraicTopology`**, Stage 1 | — it is general algebraic topology, owned there and only consumed here |
 | associated covers, and the subgroup half of the covering classification | 6.2, and the subgroup statement inside 6.3 | **this roadmap** for 6.2, in a follow-up PR; `UniversalCovers` milestone 8 for the subgroup statement | UniversalCovers publishes compiled semilocal-connectivity, universal-cover, deck-action and classification carriers |
 | compactification, compact Riemann surfaces, ramification, analytic cohomology, and analytic Riemann existence | 7, 8 | successor roadmap **`BelyiAnalyticCovers`** | a compact-surface owner (ModularForms Layer 10B) publishes one checked carrier and the Riemann–Roch/Riemann–Hurwitz API |
 | algebraic Belyi pairs, the analytic–algebraic comparison, Belyi's theorem, fields of moduli and of definition, and Weil descent | 9, 10, 11 | successor roadmap **`BelyiAlgebraicAndDescent`** | AlgebraicCurves publishes its curve/function-field anti-equivalence and extension-ramification carriers, and `BelyiAnalyticCovers` lands |
@@ -487,8 +487,8 @@ the three portfolio suppliers have no local stand-ins here.
 | 3.2 | CharacterTheory Layer 1 | class sums and structure constants | `classSum`, `structureConstant`, `classSum_mul` |
 | 3.2 | CharacterTheory Layer 3 | the character table and column orthogonality | `characterTable`, `char_column_orthogonality` |
 | 3.2 | CharacterTheory Layer 4 | central characters, and the conversion to class sizes | `centralCharacter`, `centralCharacter_coordinate`, and the conversion of `ω_χ` on a class sum into class size times character value over degree, for which that roadmap pins **no Lean name**; local interface: `centralCharacter_eq_card_mul_div (χ) (j) : centralCharacter χ (classSum j) = (Nat.card (carrier j) : ℂ) * χ (rep j) / χ 1` |
-| 5.1, 6.2 | UniversalCovers Stage 0.2 | semilocal simple connectivity | **unresolved supplier contract**: no Mathlib class exists and UniversalCovers has not published a compiled target; no local stand-in is exported |
-| 5.6 | UniversalCovers, the two-open van Kampen milestone | Seifert–van Kampen for two open sets with simply connected intersection | **unresolved supplier contract**: the required declarations are `vanKampenLift`, `vanKampenLift_bijective`, `vanKampenEquiv` and `vanKampenEquiv_toMonoidHom`, with the signatures and hypotheses pinned verbatim in Layer 5.5 below. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
+| 5.1, 6.2 | UniversalCovers Stage 0.2 | semilocal simple connectivity | `SemilocallySimplyConnectedSpace`, carried explicitly on the compiled targets of that roadmap's archived `Suggested.lean`; no local stand-in is exported |
+| 5.6 | AlgebraicTopology Stage 1 | Seifert–van Kampen for two open sets with simply connected intersection | **unresolved supplier contract**: the required declarations are `vanKampenLift`, `vanKampenLift_bijective`, `vanKampenEquiv` and `vanKampenEquiv_toMonoidHom`, with the signatures and hypotheses pinned verbatim in Layer 5.5 below. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
 | 6.2 | UniversalCovers Stage 0.2, 0.3 | the universal cover, its covering map, and the free proper `π₁`-action | `UniversalCover x₀`, `proj`, `IsCoveringMap proj`, `SimplyConnectedSpace (UniversalCover x₀)`, `UniversalCover.isQuotientCoveringMap` |
 | 6.4 | UniversalCovers Stage 0.4, 1 | deck groups and `Deck ≅ (π₁)ᵐᵒᵖ` | `Deck`, `deckFundamentalGroupEquiv : Deck proj ≃* (FundamentalGroup X x₀)ᵐᵒᵖ` |
 | 6.3 | UniversalCovers Stage 2 | basepoint change, and the pointed/unpointed correspondence | `basepointChangeSubgroup` is named upstream; milestone 8's equivalences are **unresolved prose-only supplier contracts** and are not exported locally. Their required carriers and exact connectedness/orbit semantics are pinned in Layer 6.3 below. |
@@ -1812,7 +1812,7 @@ strip, so the hypothesis must be present in the supplier's statement.
 with simply connected intersection, where the amalgamating subgroup is trivial and the
 pushout is the free product.
 
-*Prerequisites:* Roadmap UniversalCovers, its two-open van Kampen milestone. Nothing in this
+*Prerequisites:* Roadmap AlgebraicTopology, its Stage 1 van Kampen milestone. Nothing in this
 layer is discharged by a Belyi-local proof of it.
 
 #### 5.6 The fundamental group of the thrice-punctured sphere
@@ -1837,7 +1837,7 @@ satisfy the one relation of 5.2, and any two of them freely generate while all t
 not. Statements about "the three generators" always mean the ordered triple with its
 relation, never a free basis of rank three.
 
-*Prerequisites:* Layers 5.1, 5.2, 5.4; Roadmap UniversalCovers, its two-open van Kampen
+*Prerequisites:* Layers 5.1, 5.2, 5.4; Roadmap AlgebraicTopology, its Stage 1 van Kampen
 milestone (Layer 5.5 above); Mathlib `FreeGroup`, `Monoid.Coprod`, `FreeGroup.lift`.
 
 #### 5.7 Basepoint change
