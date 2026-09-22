@@ -1008,8 +1008,11 @@ binary quadratic form with even middle coefficient and discriminant
 primitive. Then `Δ(L) := disc f` satisfies `Δ ≡ 0` or `1 (mod 4)`, is negative for definite
 `L`, and is positive for indefinite `L`. The quadratic étale algebra is
 `A_Δ = ℚ[t]/(t² − Δ)` and the order is `𝒪(L) = ℤ[(Δ + √Δ)/2] ⊆ A_Δ`, of discriminant
-`Δ`. The milestone also fixes an orientation of `L` and proves that `c`, `f` and `Δ` do not
-depend on the chosen basis.
+`Δ`. The milestone also fixes an orientation of `L` and proves that `c` and `Δ` do not depend
+on the chosen basis, and that the **proper equivalence class** of `f` does not depend on the
+chosen oriented basis. The polynomial `f` itself does: an oriented change of basis replaces it
+by a properly equivalent form, and a change of orientation by an improperly equivalent one, so
+the invariant attached to `L` is the proper class of `f`, not `f`.
 
 For a full finite-index sublattice `M ≤ L`, restriction gives
 `𝔰(M) ⊆ 𝔰(L)` and `𝔫(M) ⊆ 𝔫(L)`, a basis matrix `P` sends the Gram matrix to
@@ -1028,9 +1031,30 @@ Global Number Fields order API, rather than `ClassGroup (𝓞 K)`, is required.
 
 **B2. Forms and ideal classes.** First suppose `¬ IsSquare Δ`. Fix
 `Δ ≡ 0` or `1 (mod 4)`, and let `f = (a, b, c)` be a primitive form of discriminant `Δ`.
-Send it to the `𝒪_Δ`-submodule
-`𝔞_f = aℤ + ((−b + √Δ)/2)ℤ` of `K_Δ`. This map is a bijection from proper equivalence
-classes of primitive forms of discriminant `Δ` to invertible proper ideal classes of `𝒪_Δ`.
+Put `𝔞_f = aℤ + ((−b + √Δ)/2)ℤ`, an `𝒪_Δ`-submodule of `K_Δ` of norm `|a|`, and send `f` to
+
+    𝔞_f            if a > 0,
+    √Δ · 𝔞_f       if a < 0.
+
+This map induces a bijection from proper equivalence classes of primitive forms of
+discriminant `Δ` to the consumed ideal-class group named below. ⚠ **The sign clause is not
+optional for `Δ > 0`.** The unoriented ideal `𝔞_f` alone forgets the sign of `a`, and the
+narrow class of `𝔞_f` is not a function of the proper class of `f`: for `Δ = 12` the forms
+`f = x² − 3y²` and `f' = −x² + 3y²` have `𝔞_f = ℤ + √3ℤ = 𝒪_{12}` and
+`𝔞_{f'} = −ℤ + √3ℤ = 𝒪_{12}`, the same ideal, hence the identity of `NarrowPic 𝒪_{12}` as well
+as of `Pic 𝒪_{12}`, while `f` and `f'` are not properly equivalent — not equivalent under any
+unimodular integral change at all, since an equivalence would make `x² − 3y²` represent `−1`,
+which is impossible modulo 3. Rotating `f'` by the orientation-preserving `(x, y) ↦ (y, −x)`
+gives `3x² − y²`, whose ideal `(3, √3) = √3·𝒪_{12}` is the nontrivial narrow class, and that
+is exactly the class the sign clause assigns to `f'`. Equivalently, the milestone may first
+normalize: every proper class of an indefinite primitive form contains a form with `a > 0`
+(an indefinite form represents some positive integer primitively, and a primitively
+represented value can be moved to the leading coefficient by an oriented change of basis),
+and two such representatives have narrowly equivalent `𝔞_f`; either the oriented construction
+or the `a > 0` normalization is proved, together with the comparison between them, before the
+ideal formula is applied. For `Δ < 0` the source is the positive definite forms, `a > 0`
+holds throughout, and the clause is vacuous.
+
 First exhibit `𝔞_f` in the supplier's raw carrier
 `NumberFieldOrder.properFractionalIdeals`. Then use the quadratic-field hypothesis
 `Module.finrank ℚ K_Δ = 2` and the supplier theorem
@@ -1041,19 +1065,23 @@ consumed group**, not into a target defined here:
 - for `Δ < 0` the source is the set of positive definite classes and the target is
   `Pic 𝒪_Δ`, through the consumed `NumberFieldOrder.mkPic`;
 - for `Δ > 0` the target is the consumed `NarrowPic 𝒪_Δ`, the quotient by the principal ideals
-  with a generator of positive norm.
+  with a generator of positive norm, and the map is the **oriented** one above: `𝔞_f` for
+  `a > 0` and `√Δ·𝔞_f` for `a < 0`, `√Δ` being an element of negative norm. `Δ = 12` with
+  `x² − 3y²` and `−x² + 3y²` landing in the two distinct narrow classes is a required test.
 
 This use of the quadratic-order theorem is load-bearing. For a general number-field order,
 properness is only the multiplier-ring condition and does not imply invertibility. Such raw
 proper ideals map to the supplier's `IdealClassMonoid`; its unit classes correspond to `Pic`
 through `picEquivUnitsIdealClassMonoid`. No noninvertible ideal is assigned a Picard class here.
 
-⚠ The positive-discriminant target is `NarrowPic` and never `Pic`. The two differ exactly when
-the fundamental unit has norm `+1`, and `Δ = 12` is the smallest witness: `Pic 𝒪_{12}` is
-trivial while `NarrowPic 𝒪_{12}` has order 2, and the forms `x² − 3y²` and `−x² + 3y²` are
-inequivalent properly while representing the same ideal class. A dictionary stated into `Pic`
-for `Δ > 0` is false, and the ownership of the narrow group is the supplier's so that no second
-narrow quotient exists to state it into.
+⚠ The positive-discriminant target is `NarrowPic` and never `Pic`, and the map into it is the
+oriented one. The two groups differ exactly when the fundamental unit has norm `+1`, and
+`Δ = 12` is the smallest witness: `Pic 𝒪_{12}` is trivial while `NarrowPic 𝒪_{12}` has order 2,
+and the two properly inequivalent forms `x² − 3y²` and `−x² + 3y²` are told apart only by the
+sign clause, never by the unoriented ideal. A dictionary stated into `Pic` for `Δ > 0` is
+false, a dictionary stated into `NarrowPic` through the unoriented `𝔞_f` is false too, and the
+ownership of the narrow group is the supplier's so that no second narrow quotient exists to
+state either into.
 
 For square `Δ`, define proper classes and composition directly for the split product order.
 Prove the elementary class behavior without mapping into `Pic` or `NarrowPic`; for `U` the
@@ -1063,7 +1091,7 @@ otherwise mentions the supplier's ideal-class carriers.
 Cox, *Primes of the form x²+ny²*, Theorem 7.7 and its narrow analogue is the source.
 
 **B3. Compatibility, and the ring class field.** In the nonsquare branch, the bijection of
-B2 carries Gauss composition
+B2 — the oriented map, with its sign clause, for `Δ > 0` — carries Gauss composition
 to multiplication **in the consumed group** — in `Pic 𝒪_Δ` for `Δ < 0` and in `NarrowPic 𝒪_Δ`
 for `Δ > 0` — the opposite form to the inverse class, and the principal form to the trivial
 class. It carries the genus of `L`, in the sense of 3F, to a coset of the subgroup of squares.
@@ -1848,7 +1876,10 @@ that connects it with the mass formula:
 
     2 π^{−n(n+1)/4} ∏_{j=1}^{n} Γ(j/2) = 2^{n+1} / vol(O(n)).
 
-It also proves that this real volume is the archimedean factor of the measure used in 7B.
+That this real volume is the archimedean factor of the Tamagawa measure of 7B is **not**
+proved here: that measure is `OrthogonalTamagawaAndLatticeMass`'s, and the comparison is its
+obligation, stated on its side against the Euclidean volume computed here. Nothing in this
+milestone names that measure, so the dependency stays one-way.
 
 **7F. The volume theorem.** *Owner:* `OrthogonalTamagawaAndLatticeMass`.
 `vol(SO(V)(ℚ) \ SO(V)(𝔸)) = 2`, with its dimension hypotheses and normalization, and with the
@@ -2241,6 +2272,7 @@ for the eight items listed. The layer that introduces the object owns them.
 | Automorphisms of an indefinite lattice (4F) | O'Meara §104; Cassels ch. 13 | rank at least 3, and a case split on isotropy over `ℚ` | "an indefinite rational space has an isotropic vector". `x² + y² − 3z²` is indefinite over `ℝ` and anisotropic over `ℚ`, so the transvection proof covers only one case. |
 | Automorphisms of a binary lattice (B4) | Pell's equation; Cassels ch. 13 | `Δ > 0` and `Δ` not a square | "an indefinite binary lattice has infinite `O(L)`". `U` has `Δ = 1`, a square, and `\|O(U)\| = 4`. |
 | Improper binary automorphisms (B4) | Gauss; Cox §3 | the proper class of the primitive part is fixed by inversion | "`[O(L) : SO(L)] = 2` for every nondegenerate binary `L`". `!![4,1;1,6]` has `Δ = −23` and only `±e₁` of norm 4, so `O(L) = SO(L) = {±I}` has order 2, while `2·#𝒪ˣ = 4`. |
+| Forms to ideals for `Δ > 0` (B2) | Cox Thm 7.7 and its narrow analogue; Cohen, *Computational ANT*, §5.2 | the image of `f = (a,b,c)` is `𝔞_f` for `a > 0` and `√Δ·𝔞_f` for `a < 0` | "`f ↦ [𝔞_f] ∈ NarrowPic 𝒪_Δ` is well defined on proper classes". For `Δ = 12`, `x² − 3y²` and `−x² + 3y²` give the same ideal `𝒪_{12}`, hence the same narrow class, yet are not properly equivalent, since `x² − 3y²` does not represent `−1` modulo 3; the oriented map sends the second to `√3·𝒪_{12}`, the other narrow class. |
 | The rank-2 mass (B8) | Gauss; Conway–Sloane §2 | the count is of **proper** classes | "`m(gen L) = h(gen L)/(2·#𝒪ˣ)` with `h` the class number". The genus of `!![4,1;1,6]` has `h = 2`, `h⁺ = 3` and `w = 2`, and its mass is `1/4 + 1/2 = 3/4 = h⁺/(2w)`, not `1/2`. |
 | Eichler transvections (4F) | O'Meara §104; Cassels ch. 13 | `w` is taken modulo `ℤu`, and `N_L(w)` is even | "`w ↦ E_{u,w}` is injective on a finite-index subgroup of `u^⊥ ∩ L`". `E_{u,w+au} = E_{u,w}` for every `a`, and every finite-index subgroup contains a nonzero multiple of `u`. |
 | The odd local density type (7C) | Conway–Sloane §12; Gan–Yu Thm 7.3 | `ε` is the type of the reduction, `((−1)^m det \| p)` | "`ε = +1` exactly when `det L_p` is a square". The hyperbolic plane over `p = 3` has `det = −1`, a nonsquare, and is split, with `α_3 = 4/3`. |
@@ -2284,6 +2316,10 @@ factor of 2, a wrong sign, or a vacuous definition.
   `α_2 = 8` (3I). Together with `⟨10⟩` it is one of the two minimal 2-adic realizations of
   `q_1^{(2)}(2) = q_5^{(2)}(2)`, of determinants differing by 5, so `discr K(q₂)` is not
   determined by `q₂` there (5B).
+- `⟨1, −3⟩`, the form `x² − 3y²`: `Δ = 12`, `𝒪_{12} = ℤ[√3]`, fundamental unit `2 + √3` of norm
+  `+1`, so `Pic` is trivial and `NarrowPic` has order 2. The forms `x² − 3y²` and `−x² + 3y²`
+  are not properly equivalent, share the unoriented ideal `𝒪_{12}`, and are separated only by
+  the sign clause of B2, which sends the second to the class of `√3·𝒪_{12}` (B2, B3).
 - `⟨1⟩ ⊕ ⟨1⟩`: `Δ = −4`, `w = 4`, one class and one proper spinor genus, while `J/(ℚˣ J_L)`
   has order 2 because `θ_2(SO(L_2))` is the norm group of `ℚ_2(i)`; the rank-2 count is
   `[C_L : C_L²] = 1` through the torus (4C). Its good-prime factors are `α_p/2 = 1 − (−1|p)p⁻¹`,
