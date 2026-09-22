@@ -28,7 +28,9 @@ stated coefficient generality.
    additivity axioms.
 3. Mathlib's `CWComplex` and `RelCWComplex` structures have cellular chain complexes whose
    homology is naturally isomorphic to singular homology.  Cofibration, mapping-cylinder,
-   cellular-approximation, and skeletal-induction APIs make those comparisons usable.
+   cellular-approximation, and skeletal-induction APIs make those comparisons usable, and
+   Mathlib's categorical and classical CW structures are proved equivalent, so that a complex
+   built by attaching cells is one the rest of the theory applies to.
 4. Mapping tori, finite covers, finite open covers, and fibre bundles have reusable chain-level
    tools: Wang and transfer sequences, coefficient-sensitive Kunneth theorems, Cartan--Leray and
    Serre spectral sequences, torus calculations, and a finite-open-cover Čech double complex.
@@ -234,7 +236,17 @@ This stage consumes Stages 2 and 3.
 5. Prove that relative CW inclusions are closed cofibrations with the homotopy extension
    property.  Construct mapping cylinders, cellular approximation, and skeletal induction.
    Prove that a cofibration which is a homotopy equivalence is a strong deformation retract.
-6. Calculate projective spaces in their cellular ranges and a two-cell complex whose attaching
+6. Compare Mathlib's two CW structures.  `Mathlib/Topology/CWComplex/Abstract/Basic.lean` builds a
+   complex as the colimit of an expanding sequence of skeleta, each obtained from the last by
+   attaching disks, and `Mathlib/Topology/CWComplex/Classical/Basic.lean` recognizes a CW
+   structure on a subspace through explicit cells and characteristic maps.  Mathlib records the
+   equivalence of the two as a `TODO` and does not prove it.  Prove it here, in both directions:
+   a `RelativeCWComplex` carries a classical `RelCWComplex` structure on its colimit, and a
+   classical structure exhibits its space as such a colimit, naturally in cellular maps.  Without
+   this, a complex *built* by attaching cells cannot use any theorem of this stage, and no
+   construction that produces a space cell by cell -- a mapping cone, a presentation complex, a
+   space with prescribed homotopy groups -- can be fed to the rest of the library.
+7. Calculate projective spaces in their cellular ranges and a two-cell complex whose attaching
    map has degree `m`; its cellular differential must be multiplication by `m`.
 
 Hatcher, Sections 0.4 and 2.2, supplies CW pairs, cellular approximation, and cellular homology.
