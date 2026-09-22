@@ -623,17 +623,24 @@ def HeckeZeroFreeDisjunction (c : ℝ)
           (ρ = (β : ℂ) ∧ MeromorphicOn.divisor
             (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ ρ = 1))
 
-/-- **Layer 6.4, the region for a primitive finite-order ray-class character, uniform in the
-field and the character of a fixed degree.** ⚠ The quantifier order *is* the statement: `c` is
-chosen from the degree `n` before `K` and `χ`, which is what 6.4e's small-conductor reduction
-delivers. A statement that fixes `K` before choosing `c` permits `c` to depend on `K`; that is
-`heckeZeroFreeRegion_of_fixed` below, a corollary, and it does not discharge this milestone.
-The two are stated separately so that neither is described as the other. -/
+universe u
+
+/-- **Layers 6.2 and 6.4, the region for every primitive finite-order ray-class character,
+uniform in the field and the character of a fixed degree.** ⚠ The quantifier order *is* the
+statement: `c` is chosen from the degree `n` before `K` and `χ`, which is what 6.4e's
+small-conductor reduction delivers. A statement that fixes `K` before choosing `c` permits `c`
+to depend on `K`; that is `heckeZeroFreeRegion_of_fixed` below, a corollary, and it does not
+discharge this milestone. The two are stated separately so that neither is described as the
+other. ⚠ The trivial primitive character is **not** excluded: its completed function is
+`completedDedekindZeta` (the supplier's `completedHeckeLFunction_one_sub_eventuallyEq` records
+that it is in the theory), `χ² = 1` puts it in the real branch, and that instance is Layer 6.2 —
+the de la Vallée Poussin region for `ζ_K` with its exceptional zero. One theorem, one
+constant, so that 8.5's exceptional zero of `ζ_K` and 8.6's are read against the same region. -/
 theorem heckeZeroFreeRegion (n : ℕ) :
     ∃ c : ℝ, 0 < c ∧
-      ∀ (K : Type) [Field K] [NumberField K], Module.finrank ℚ K = n →
+      ∀ (K : Type u) [Field K] [NumberField K], Module.finrank ℚ K = n →
         ∀ χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K,
-          χ.character ≠ 1 → HeckeZeroFreeDisjunction K c χ := sorry
+          HeckeZeroFreeDisjunction K c χ := sorry
 
 /-- **Layer 6.4, the fixed-field form**, in which `c` may depend on `K`. This is the weaker
 statement, and it is what an `∃ c` after fixing `K` means; it follows from
@@ -642,7 +649,102 @@ never confused. -/
 theorem heckeZeroFreeRegion_of_fixed :
     ∃ c : ℝ, 0 < c ∧
       ∀ χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K,
-        χ.character ≠ 1 → HeckeZeroFreeDisjunction K c χ := sorry
+        HeckeZeroFreeDisjunction K c χ := sorry
+
+/-- **Layer 6.4, the zero-free constant, fixed once per degree.** Everything downstream that
+says "the region" — the exceptional-zero predicate of 6.3, the exceptional terms of 8.5–8.8 —
+reads this constant by name, so that there is one region per degree and not one per theorem.
+⚠ Without a fixed constant an "exceptional zero" is not a predicate on `(χ, β)` at all: it is
+relative to a `c` that every consumer would choose afresh, and a finite set of exceptional
+characters chosen after the ray class `c` is exactly the contract 8.8's fibre identification
+cannot use. -/
+noncomputable def heckeZeroFreeConstant (n : ℕ) : ℝ :=
+  Classical.choose (heckeZeroFreeRegion.{0} n)
+
+theorem heckeZeroFreeConstant_pos (n : ℕ) : 0 < heckeZeroFreeConstant n :=
+  (Classical.choose_spec (heckeZeroFreeRegion.{0} n)).1
+
+/-- The fixed constant works for every field of degree `n`, in every universe. At `u = 0` this
+is `Classical.choose_spec`; in a higher universe it is the transfer along an equivalence with a
+number field in `Type` (a number field is countable), under which every clause of the
+disjunction is invariant. -/
+theorem heckeZeroFreeConstant_spec (n : ℕ) :
+    ∀ (K : Type u) [Field K] [NumberField K], Module.finrank ℚ K = n →
+      ∀ χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K,
+        HeckeZeroFreeDisjunction K (heckeZeroFreeConstant n) χ := sorry
+
+/-- **Layer 6.3, the exceptional zero of a primitive character**, relative to the fixed
+constant: a real zero of the completed function, in `[1 − c/log q(χ, 0), 1)`, i.e. on the real
+axis and **not** in the region of `heckeZeroFreeRegion` (whose bound at a real point reads
+`q(χ, 0 · I)`). The predicate is stated for every primitive `χ`, the trivial one included, so
+that `ζ_K`'s exceptional zero and a real character's are one notion. ⚠ Everything else about it
+is a theorem, not part of the definition: there is at most one `β` (`IsExceptionalZero.unique`),
+its multiplicity is `1` (`IsExceptionalZero.divisor_eq_one`), and only a real character has one
+(`IsExceptionalZero.sq_eq_one`), all from `heckeZeroFreeConstant_spec`. ⚠ No total
+`exceptionalZero : ℝ` is defined; a total function would export junk when no exceptional zero
+exists. The junk-free spelling used by Layer 8 is a finsum over `{β | IsExceptionalZero K χ β}`,
+which is a subsingleton. -/
+def IsExceptionalZero (χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K) (β : ℝ) :
+    Prop :=
+  1 - heckeZeroFreeConstant (Module.finrank ℚ K) /
+      Real.log (analyticConductorAtData (TauCetiRoadmap.LFunctions.heckeData K χ) 0) ≤ β ∧
+    β < 1 ∧
+    0 < MeromorphicOn.divisor (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ
+      (β : ℂ)
+
+theorem IsExceptionalZero.unique {χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K}
+    {β β' : ℝ} (h : IsExceptionalZero K χ β) (h' : IsExceptionalZero K χ β') : β = β' := sorry
+
+theorem IsExceptionalZero.divisor_eq_one
+    {χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K} {β : ℝ}
+    (h : IsExceptionalZero K χ β) :
+    MeromorphicOn.divisor (TauCetiRoadmap.LFunctions.completedHeckeLFunction K χ) Set.univ
+      (β : ℂ) = 1 := sorry
+
+theorem IsExceptionalZero.sq_eq_one
+    {χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K} {β : ℝ}
+    (h : IsExceptionalZero K χ β) : χ.character ^ 2 = 1 := sorry
+
+theorem setOf_isExceptionalZero_subsingleton
+    (χ : TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter K) :
+    {β : ℝ | IsExceptionalZero K χ β}.Subsingleton := sorry
+
+/-- **Layer 6.3, membership through the primitive source, both directions.** A character `ψ`
+presented at `𝔪` has an exceptional zero exactly when its primitive source
+`PrimitiveRayClassCharacter.of K ψ` does, and the zero can be read on the *presented* series:
+by 6.4b the deleted Euler factors vanish only on `Re s = 0`, so on `Re s > 0` the presented and
+the primitive series have the same zeros with the same multiplicities. The region bound is the
+source's, because that is where the conductor `q(ψ)` lives; the presentation modulus never
+enters it. ⚠ At `ψ = 1` the source is the trivial primitive character, whose completed function
+is `completedDedekindZeta K`, so this iff is also the statement that the trivial character's
+contribution in 8.7 is `ζ_K`'s exceptional zero. -/
+theorem isExceptionalZero_of_iff {𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K}
+    (ψ : TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔪) (β : ℝ) :
+    IsExceptionalZero K (TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter.of K ψ) β ↔
+      (1 - heckeZeroFreeConstant (Module.finrank ℚ K) /
+          Real.log (analyticConductorAtData (TauCetiRoadmap.LFunctions.heckeData K
+            (TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter.of K ψ)) 0) ≤ β ∧
+        β < 1 ∧
+        0 < meromorphicOrderAt (TauCetiRoadmap.LFunctions.heckeLFunctionC K ψ) (β : ℂ)) := sorry
+
+/-- The trivial character at any modulus reads `ζ_K`: its primitive source's completed function
+is `completedDedekindZeta`, per the supplier. -/
+theorem isExceptionalZero_of_one_iff (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K) (β : ℝ) :
+    IsExceptionalZero K (TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter.of K
+        (1 : TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔪)) β ↔
+      (1 - heckeZeroFreeConstant (Module.finrank ℚ K) /
+          Real.log (analyticConductorAtData (TauCetiRoadmap.LFunctions.dedekindZetaData K) 0)
+          ≤ β ∧
+        β < 1 ∧
+        0 < MeromorphicOn.divisor (TauCetiRoadmap.LFunctions.completedDedekindZeta K) Set.univ
+          (β : ℂ)) := sorry
+
+/-- The characters at a modulus form a finite type, since the ray class group is finite
+(`GlobalNumberFields.finite_rayClassGroup`) and a homomorphism to `ℂˣ` from a finite group is
+determined by finitely many values in a finite set of roots of unity. This is what makes the
+outer finsum of Layer 8.7's exceptional term an honest sum. -/
+theorem finite_rayClassCharacter (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K) :
+    Finite (TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔪) := sorry
 
 end HeckeZeroFree
 
@@ -1059,52 +1161,68 @@ than assigned a junk class. -/
 noncomputable def rayClassPsi (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
     (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) (x : ℝ) : ℝ := sorry
 
-/-- **Layer 8.7**, the contribution of the exceptional zeros at the modulus `𝔪`. ⚠ This is a
-**sum** over the real characters at `𝔪` that have one, not a single term: the uniqueness of
-Layer 6.4f is per character, and the Landau–Page statement that would collapse the sum to one
-term is not a milestone of this roadmap. -/
+/-- **Layer 8.7, the contribution of the exceptional zeros at the modulus `𝔪`**, as a
+definition and not an axiom: `(#Cl_𝔪)⁻¹ ∑_ψ ∑_{β} Re ψ(c) · x^β / β`, the outer sum over
+**all** characters `ψ` at `𝔪` — the trivial one included — and the inner over
+`{β | IsExceptionalZero K (of K ψ) β}`, each character read through its primitive source. Both
+finsums are honest: the outer index type is finite (`finite_rayClassCharacter`) and the inner set
+is a subsingleton (`setOf_isExceptionalZero_subsingleton`). The weight `ψ(c) / #Cl_𝔪` is the
+orthogonality coefficient of 8.7, real because only a real `ψ` has a term
+(`IsExceptionalZero.sq_eq_one`); the family is indexed by characters and does not depend on
+the ray class `c` except through that weight, which is what the fibre identification of 8.8
+needs. ⚠ The trivial character's term is `ζ_K`'s exceptional zero
+(`isExceptionalZero_of_one_iff`), present exactly when 8.5's exceptional branch is the one that
+holds; deleting `ψ = 1` would delete that branch. ⚠ This is a **sum**, not a single term: the
+uniqueness of Layer 6.4f is per character, and the Landau–Page statement that would collapse
+the sum is not a milestone of this roadmap. -/
 noncomputable def exceptionalRayClassTerm (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
-    (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) (x : ℝ) : ℝ := sorry
+    (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) (x : ℝ) : ℝ :=
+  (Nat.card (TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) : ℝ)⁻¹ *
+    ∑ᶠ ψ : TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔪,
+      ∑ᶠ β ∈ {β : ℝ |
+          IsExceptionalZero K (TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter.of K ψ) β},
+        ((ψ c : ℂˣ) : ℂ).re * x ^ β / β
 
-/-- The partial-summation transform of `exceptionalRayClassTerm` appearing in the unweighted
-count: `x^β / β` becomes `Li (x^β)`, by `exceptionalRayClassTerm_eq`. -/
+/-- **Layer 8.7, the same family under partial summation**: `x^β / β` becomes `Li (x^β)`,
+because substituting `u = t^β` in `∫_2^x t^{β-1} / log t dt` gives `Li (x^β) − Li (2^β)` and the
+constant is absorbed. The two terms are built from the **same** character-indexed data, so
+nothing has to be re-identified between them. ⚠ For a fixed `K` and `𝔪` the whole term is
+`o` of the error of `rayClassPsi_effective`: for fixed `β < 1`,
+`x^β / (x exp (-c₀ √log x)) = exp (-(1 - β) log x + c₀ √log x) → 0`, so neither `Li (x^β)` nor
+its first term `x^β / (β log x)` is distinguishable from `0` by that `=O[atTop]`. The term is
+displayed for its semantics — it is 6.3 evaluated, and it is what a statement with an explicit
+threshold, or one uniform in the conductor, keeps — and the shape `Li (x^β)` rather than
+`x^β / (β log x)` matters only there. -/
 noncomputable def exceptionalRayClassPrimeCountTerm
     (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
-    (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) (x : ℝ) : ℝ := sorry
+    (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) (x : ℝ) : ℝ :=
+  (Nat.card (TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) : ℝ)⁻¹ *
+    ∑ᶠ ψ : TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔪,
+      ∑ᶠ β ∈ {β : ℝ |
+          IsExceptionalZero K (TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter.of K ψ) β},
+        ((ψ c : ℂˣ) : ℂ).re * logarithmicIntegral (x ^ β)
 
-/-- **Layer 8.7, what the two exceptional terms are**, as one theorem. The `ψ`-level term is the
-finite sum of `ψ(c) x^β / (β · #Cl_𝔪)` over the real nontrivial characters `ψ` at `𝔪` that
-carry an exceptional zero `β` — a simple real zero in `(1/2, 1)` of the presented series, which
-by 6.4b is a zero of the primitive one — with the weight `ψ(c) / #Cl_𝔪` coming from the
-orthogonality of 8.7 and `ψ(c) = ±1` because `ψ` is real. The prime-count term is its
-partial-summation transform, with `Li (x^β)` in place of `x^β / β`: substituting `u = t^β` in
-`∫_2^x t^{β-1} / log t dt` gives `Li (x^β) - Li (2^β)`, and the constant is absorbed. ⚠ The
-prime-count term is **not** `x^β / (β log x)`: that is only the first term of `Li (x^β)`, and
-the difference is `≍ x^β / log² x`, which is not within the error unless `β` is bounded away
-from `1` — which nothing here gives. ⚠ Without this theorem both terms are opaque receptacles
-in which any error could be hidden, which is what `exceptionalChebotarevTerm_eq` already says
-one layer up. -/
-theorem exceptionalRayClassTerm_eq (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
-    (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) :
-    ∃ (S : Finset (TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔪))
-      (β : TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔪 → ℝ),
-      (∀ ψ ∈ S, ψ ≠ 1 ∧ ψ ^ 2 = 1 ∧ 1 / 2 < β ψ ∧ β ψ < 1 ∧
-        meromorphicOrderAt (TauCetiRoadmap.LFunctions.heckeLFunctionC K ψ) (β ψ : ℂ) =
-          (1 : WithTop ℤ)) ∧
-      (∀ x : ℝ, exceptionalRayClassTerm K 𝔪 c x =
-        (Nat.card (TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) : ℝ)⁻¹ *
-          ∑ ψ ∈ S, ((ψ c : ℂ)).re * x ^ β ψ / β ψ) ∧
-      (∀ x : ℝ, exceptionalRayClassPrimeCountTerm K 𝔪 c x =
-        (Nat.card (TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) : ℝ)⁻¹ *
-          ∑ ψ ∈ S, ((ψ c : ℂ)).re * logarithmicIntegral (x ^ β ψ)) := sorry
+/-- **Layer 8.7, the exceptional term vanishes when no character at `𝔪` has an exceptional
+zero**, and in particular at `𝔪 = 1` over `ℚ`, where the only character is trivial and `ζ` has
+no real zero in `(0, 1)`. This is the clause the trivial-extension acceptance test uses. -/
+theorem exceptionalRayClassTerm_eq_zero (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
+    (h : ∀ (ψ : TauCetiRoadmap.GlobalNumberFields.RayClassCharacter 𝔪) (β : ℝ),
+      ¬ IsExceptionalZero K (TauCetiRoadmap.LFunctions.PrimitiveRayClassCharacter.of K ψ) β)
+    (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) (x : ℝ) :
+    exceptionalRayClassTerm K 𝔪 c x = 0 ∧ exceptionalRayClassPrimeCountTerm K 𝔪 c x = 0 :=
+  sorry
 
 /-- **Layer 8.7, the effective count in a ray class.** The main term is `x / #Cl_𝔪`, from the
-trivial character through Layer 8.5; every nontrivial character contributes through 8.6 and
-Layer 6.4, with Layer 6.4b replacing an imprimitive character at `𝔪` by its primitive source.
-Constants may depend on `K` and on `𝔪`, but not on `x`. ⚠ No uniformity in `𝔪` is claimed:
-absorbing the exceptional term into the error would need a lower bound for `1 - β` that only
-Siegel's theorem gives, and that is out of scope. At `K = ℚ` this is the prime number theorem
-for arithmetic progressions with the classical error term. -/
+trivial character through Layer 8.5; every character contributes its exceptional zero through
+8.5 or 8.6 and Layer 6.4, with Layer 6.4b replacing an imprimitive character at `𝔪` by its
+primitive source. Constants may depend on `K` and on `𝔪`, but not on `x`. ⚠ For fixed `K` and
+`𝔪` the exceptional term is `o` of the error — `x^β = o(x exp (-c₀ √log x))` for every fixed
+`β < 1` and `c₀ > 0` — so this `=O[atTop]` statement holds with or without it, with a threshold
+that may depend on `β`. The term is written out because its meaning comes from the definition
+(6.3 evaluated at every character at `𝔪`), not from this estimate, and because it is what a
+threshold-explicit or conductor-uniform statement keeps. What Siegel's theorem would be needed
+for is a **conductor-uniform** absorption, and no uniformity in `𝔪` is claimed here. At `K = ℚ`
+this is the prime number theorem for arithmetic progressions with the classical error term. -/
 theorem rayClassPsi_effective (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
     (c : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪) :
     ∃ c₀ : ℝ, 0 < c₀ ∧
@@ -1146,7 +1264,8 @@ noncomputable def exceptionalChebotarevTerm
     (C : ConjClasses (L ≃ₐ[K] L)) (x : ℝ) : ℝ := sorry
 
 /-- The partial-summation transform of `exceptionalChebotarevTerm` appearing in the
-unweighted Frobenius prime count, identified by `exceptionalChebotarevPrimeCountTerm_eq`. -/
+unweighted Frobenius prime count, identified by `exceptionalChebotarevPrimeCountTerm_eq` with
+the fibre sum of the definitional `exceptionalRayClassPrimeCountTerm`. -/
 noncomputable def exceptionalChebotarevPrimeCountTerm
     (C : ConjClasses (L ≃ₐ[K] L)) (x : ℝ) : ℝ := sorry
 
@@ -1156,7 +1275,10 @@ opaque `exceptionalChebotarevTerm` makes `frobeniusPsi_effective` unfalsifiable,
 error can be hidden in it. It is also the statement that the term does not depend on the
 choice of `𝔪` and `Φ`, which is why the definition takes neither. The finsum is over a finite
 set by `GlobalNumberFields.finite_rayClassGroup`, and that finiteness is a hypothesis of the
-proof rather than something the notation supplies. -/
+proof rather than something the notation supplies. ⚠ The identification is proved from
+character orthogonality on the definitional `exceptionalRayClassTerm`, whose character-indexed
+family does not depend on the ray class; it is **not** read off `frobeniusPsi_effective`, which
+for a fixed extension cannot see the exceptional term at all (`x^β = o` of its error). -/
 theorem exceptionalChebotarevTerm_eq (C : ConjClasses (L ≃ₐ[K] L))
     (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
     (Φ : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L))
@@ -1167,8 +1289,8 @@ theorem exceptionalChebotarevTerm_eq (C : ConjClasses (L ≃ₐ[K] L))
         exceptionalRayClassTerm K 𝔪 c x := sorry
 
 /-- **Layer 8.8, what the prime-count exceptional term is**: the same fibre sum as
-`exceptionalChebotarevTerm_eq`, of the ray-class prime-count terms, so that by
-`exceptionalRayClassTerm_eq` it is a finite sum of weighted `Li (x^β)`. -/
+`exceptionalChebotarevTerm_eq`, of the ray-class prime-count terms, so that by the definition
+of `exceptionalRayClassPrimeCountTerm` it is a finite sum of weighted `Li (x^β)`. -/
 theorem exceptionalChebotarevPrimeCountTerm_eq (C : ConjClasses (L ≃ₐ[K] L))
     (𝔪 : TauCetiRoadmap.GlobalNumberFields.Modulus K)
     (Φ : TauCetiRoadmap.GlobalNumberFields.RayClassGroup 𝔪 →* (L ≃ₐ[K] L))
@@ -1237,8 +1359,9 @@ theorem frobeniusPrimeCount_div_log (C : ConjClasses (L ≃ₐ[K] L))
 /-- **The trivial-extension acceptance test**, `K = L = ℚ`. The Galois group is trivial, its
 one conjugacy class is `⟦1⟧`, every prime is unramified with Frobenius `1`, so
 `Chebotarev.frobeniusPrimeCount ℚ ℚ ⟦1⟧` is `π`; the reciprocity dictionary at `𝔪 = 1` is the
-trivial map, and the exceptional term vanishes because `RayClassGroup 1` of `ℚ` is trivial and
-carries no nontrivial character. `frobeniusPrimeCount_effective` then reads
+trivial map, and the exceptional term vanishes by `exceptionalRayClassTerm_eq_zero`: the only
+character at `𝔪 = 1` is trivial, its source is `ζ`, and `ζ` has no real zero in `(0, 1)`.
+`frobeniusPrimeCount_effective` then reads
 `π(x) = Li x + O(x exp(-c √log x) / log x)`, de la Vallée Poussin's prime number theorem. ⚠
 With `x / log x` in place of `Li x` it would read
 `π(x) - x / log x = O(x exp(-c √log x) / log x)`, which `logarithmicIntegral_sub_div_log`

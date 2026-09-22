@@ -89,8 +89,11 @@ their transport to an abelian extension along a reciprocity hypothesis that
   [`ClassFieldTheory`](../ClassFieldTheory/README.md)'s; 8.8 consumes the splitting law as a
   hypothesis and never restates or approximates it.
 - Siegel's theorem and any lower bound for `1 − β` that is uniform in the conductor.
-  Consequently no effective estimate here is uniform in the modulus or in the character: the
-  exceptional term is carried explicitly instead of being absorbed.
+  Consequently no effective estimate here is uniform in the modulus or in the character. ⚠ The
+  exceptional term is carried explicitly for its **semantics** — it is Layer 6.3's predicate
+  evaluated — and not because the fixed-field estimates need it: for fixed `β < 1` the term
+  `x^β` is `o(x e^{−c√log x})`, so a fixed-field `=O[atTop]` holds with or without it. Siegel's
+  theorem is what a conductor-**uniform** absorption would need.
 - The Selberg class, converse theorems, and degree classification.
 
 ### Interfaces supplied to other roadmaps
@@ -990,15 +993,31 @@ von Mangoldt coefficients, and the `3-4-1` inequality, none of which the model c
    degree `[K:ℚ]`, such that `ζ_K` has at most one zero `ρ` with
    `Re ρ ≥ 1 − c/log (analyticConductorAt d (i * Im ρ))`, and if such a `ρ` exists then it is
    real and simple. ⚠ Pin the constant's dependence as displayed: `c` is not absolute and is
-   not allowed to depend on the individual field beyond its degree.
-3. **The exceptional zero.** `IsExceptionalZero d β`, the predicate saying that `β` is real,
-   lies in the region of 2, and is a zero of the completed function; together with the
-   uniqueness theorem "at most one `β` satisfies it, and its order is `1`". ⚠ Do not define an
-   unconditional `exceptionalZero : ℝ`; a total definition would export an arbitrary real when
-   no exceptional zero exists. Either take the argument `(h : ∃ β, IsExceptionalZero d β)` or
-   return `Option ℝ` with both cases specified. No milestone claims the exceptional zero does
-   not exist, and none identifies it with the zero of a quadratic character's L-function:
-   that is a Stark-type theorem and is out of scope.
+   not allowed to depend on the individual field beyond its degree. In Lean this is
+   `heckeZeroFreeRegion` at the **trivial primitive character**, whose completed function is
+   `completedDedekindZeta` (the supplier's `completedHeckeLFunction_one_sub_eventuallyEq`
+   records that the trivial character is in the theory), and whose `χ² = 1` puts it in the
+   real branch of `HeckeZeroFreeDisjunction`; 4 below is the same theorem at the other
+   characters. The constant is then **fixed once per degree**, as
+   `heckeZeroFreeConstant n := Classical.choose (heckeZeroFreeRegion n)`, and every later
+   layer reads it by that name, so that "the region" is one region and not one per theorem.
+3. **The exceptional zero.** `IsExceptionalZero χ β`, for `χ` a primitive character (the
+   trivial one included, which is the `ζ_K` case) and `β : ℝ`, is the conjunction
+   `1 − c/log q(χ, 0) ≤ β`, `β < 1`, and `0 < divisor Λ(χ, ·) univ β`, with
+   `c = heckeZeroFreeConstant [K:ℚ]`: a real zero of the completed function that is **not** in
+   the fixed region. Everything else is a theorem, from `heckeZeroFreeConstant_spec`: at most
+   one `β` (`IsExceptionalZero.unique`), multiplicity `1` (`IsExceptionalZero.divisor_eq_one`),
+   and only a real character has one (`IsExceptionalZero.sq_eq_one`). **Membership is
+   characterized in both directions through the primitive source**: for `ψ` presented at any
+   `𝔪`, `IsExceptionalZero (of ψ) β` holds iff `β` is in the source's range and is a zero of the
+   *presented* series `heckeLFunctionC ψ` (`isExceptionalZero_of_iff`, by 4b: the deleted Euler
+   factors vanish only on `Re s = 0`), and at `ψ = 1` this reads against `completedDedekindZeta`
+   (`isExceptionalZero_of_one_iff`). ⚠ Do not define an unconditional `exceptionalZero : ℝ`; a
+   total definition would export an arbitrary real when no exceptional zero exists. The
+   junk-free spelling Layer 8 uses is a finsum over `{β | IsExceptionalZero χ β}`, which is a
+   subsingleton (`setOf_isExceptionalZero_subsingleton`). No milestone claims the exceptional
+   zero does not exist, and none identifies it with the zero of a quadratic character's
+   L-function: that is a Stark-type theorem and is out of scope.
 4. **The region for Hecke L-functions.** For `χ` a primitive finite-order ray-class character
    of conductor `𝔣`: if `χ` is not real, `L(χ, ·)` has no zero in the region of 2; if `χ` is
    real, it has at most one, and that one is real and simple. The conductor enters through
@@ -1061,18 +1080,48 @@ von Mangoldt coefficients, and the `3-4-1` inequality, none of which the model c
    **(4d) Conductor dependence, through the Hadamard expansion.** For `1 < σ ≤ 2`,
    `−Re (logDeriv L_χ)(σ + it) ≤ ½ Real.log (analyticConductorAt d (it)) + O(1)
    − ∑_ρ Re (1/(σ + it − ρ))`, the sum over the zeros of the completed function with divisor
-   multiplicity, every summand positive by 5.7; and `−(logDeriv ζ_K)(σ) ≤ 1/(σ − 1) + O(1)`
-   from the simple pole. The implied constants depend on `[K:ℚ]` alone. The `½ log q` is the
-   conductor power `N^{s/2}` of the completed function, and it is the same `N` as in 7.6.
+   multiplicity, every summand positive by 5.7; and, for the trivial character,
+   `−(logDeriv ζ_K)(σ) ≤ 1/(σ − 1) + ½ Real.log |d_K| + O(1)`
+   from the simple pole **and the conductor power**. The implied constants depend on `[K:ℚ]`
+   alone. The `½ log q` is the conductor power `N^{s/2}` of the completed function, and it is
+   the same `N` as in 7.6; for `ζ_K` that power is `|d_K|^{s/2}`, and its `½ log |d_K|` is the
+   same term, not a second one. The identity behind both bounds is Kadiri's §2.1.2, the
+   display before her (2.7): the logarithmic derivative of `Λ_K` written as `½ log d_K`, the
+   gamma derivative, the two pole terms `1/s + 1/(s − 1)`, and the sum over zeros.
+   ⚠ **The discriminant term in the `ζ_K` bound is not optional**, and
+   `−(logDeriv ζ_K)(σ) ≤ 1/(σ − 1) + O_n(1)` is false already in degree two. Fix `σ > 1`,
+   take `B` with `∑_{p ≤ B} log p/(p^σ − 1) ≥ −ζ'/ζ(σ) − 1`, and a prime
+   `D ≡ 1 (mod 8 ∏_{p ≤ B} p)`. In `K = ℚ(√D)` every `p ≤ B` splits, so by positivity of the
+   remaining Euler terms `−ζ'_K/ζ_K(σ) ≥ 2 ∑_{p ≤ B} log p/(p^σ − 1) ≥ 2/(σ − 1) − O(1)`, and
+   letting `σ → 1⁺` with `K` chosen at each stage defeats any degree-two constant. What grows
+   is the residue `κ_K`, and `½ log |d_K|` is what carries it. **Propagation.** In 4a the first
+   term is the trivial character presented at `𝔣`, so by 4b its bound is
+   `3/(σ − 1) + (3/2) log |d_K| + O(log 𝔑𝔣) + O_n(1)`; with `log |d_K| ≤ log q` and
+   `log q(2it) ≤ 2 log q(it) + O_n(1)` the `3-4-1` assembly reads
+   `4/(σ − β) ≤ 3/(σ − 1) + 4 log q(it) + O_n(1)`, which still gives `β < 1 − c/log q` with `c`
+   depending on `n` alone — the numerical constant changes, the endpoint does not — and 4f's
+   count changes the same way.
    ⚠ This is where a non-real `χ` needs work that the `ζ_K` case does not. The step uses
-   `Re b = −∑_ρ Re (1/ρ)`, which 5.7 proves **only** under a reality hypothesis and which is
-   false for a general entire function of order one. For a primitive `χ` it is nonetheless
-   true, and proving it is part of this milestone: it follows from the functional equation
-   against `PrimitiveRayClassCharacter.inv K χ`
-   (`LFunctions.completedHeckeLFunction_one_sub`, with `LFunctions.norm_heckeRootNumber`),
-   which sends the zeros of `Λ(χ, ·)` to the zeros of `Λ(χ⁻¹, ·)` under `ρ ↦ 1 − conj ρ` and
-   `b(χ)` to `conj (b(χ⁻¹))`. A proof that quotes 5.7's reality hypothesis for a non-real `χ`
-   is quoting a theorem that does not apply.
+   `Re b(χ) = −∑_ρ Re (1/ρ)`, which 5.7 proves **only** under a reality hypothesis and which
+   is false for a general entire function of order one. For a primitive `χ` it is nonetheless
+   true, and proving it is part of this milestone. Keep the two symmetries separate, because
+   the non-real case is exactly where they differ:
+   - **the functional equation** `Λ(χ, s) = ε Λ(χ⁻¹, 1 − s)` against
+     `PrimitiveRayClassCharacter.inv K χ` (`LFunctions.completedHeckeLFunction_one_sub`, with
+     `LFunctions.norm_heckeRootNumber`) sends a zero `ρ` of `Λ(χ, ·)` to the zero `1 − ρ` of
+     `Λ(χ⁻¹, ·)`, and gives `Λ'/Λ(χ, s) = −Λ'/Λ(χ⁻¹, 1 − s)`;
+   - **conjugation** `Λ(χ⁻¹, s) = conj (Λ(χ, conj s))`, which holds because `χ⁻¹ = conj χ` for
+     a finite-order character and the gamma factor and conductor power are real on the real
+     axis, sends `ρ` to the zero `conj ρ` of `Λ(χ⁻¹, ·)` and gives `b(χ⁻¹) = conj (b(χ))`;
+   - their **composite** `ρ ↦ 1 − conj ρ` is a symmetry of the zero set of `Λ(χ, ·)` **itself**.
+     It is not a map to `Λ(χ⁻¹, ·)`, and writing it as one is the error the non-real case
+     exposes.
+   Then, with the Hadamard expansion `Λ'/Λ(χ, s) = b(χ) + ∑_ρ (1/(s − ρ) + 1/ρ)` and the zeros
+   of `Λ(χ⁻¹, ·)` indexed as `1 − ρ`, the functional equation gives
+   `b(χ) + b(χ⁻¹) = −∑_ρ (1/ρ + 1/(1 − ρ))`, the `1/(s − ρ)` terms cancelling; conjugation
+   makes the left side `2 Re b(χ)`, and since `1 − conj ρ` runs over the same zeros as `ρ`, the
+   right side is `−2 ∑_ρ Re (1/ρ)`. A proof that quotes 5.7's reality hypothesis for a
+   non-real `χ` is quoting a theorem that does not apply.
    **(4e) The small-conductor reduction.** 4a–4d give the region only once `log q` dominates
    the absolute constants, exactly as in 6.2, and the residual range is compact: for
    `q(it) ≍ |d_K| 𝔑𝔣 (|t| + 3)^n` bounded, `|t|` is bounded too. The reduction is that for a
@@ -1089,8 +1138,9 @@ von Mangoldt coefficients, and the `3-4-1` inequality, none of which the model c
    multiplicity, so a double zero and two distinct zeros are refuted by the same inequality.
    Run 4d at `σ = 1 + c'/Real.log q` against the nonnegativity of `Λ_K(𝔞)(1 + χ(𝔞))`, which
    gives `−(logDeriv L₁)(σ) − Re (logDeriv L_χ)(σ) ≥ 0` by 4a's method with the `3-4-1` weights
-   replaced by `(1, 1)`; two units of `1/(σ − β)` against one `1/(σ − 1)` and one `½ log q`
-   is the contradiction, for `c` small enough. ⚠ This proves uniqueness **for a fixed `χ`**.
+   replaced by `(1, 1)`; two units of `1/(σ − β)` against `1/(σ − 1) + ½ log |d_K| + ½ log q`,
+   at most `1/(σ − 1) + log q`, is the contradiction, for `c` small enough. ⚠ This proves
+   uniqueness **for a fixed `χ`**.
    The Landau–Page statement, that among all real characters of conductor norm at most `X` at
    most one has such a zero, is a different theorem about a family and is not a milestone
    here; 6.3's uniqueness is likewise per-character.
@@ -1436,9 +1486,13 @@ complex places of `K`, so `γ_K(s) = Gammaℝ(s)^{r₁} Gammaℂ(s)^{r₂}` and
      `ψ_K(x) = x + O(x * Real.exp (−c * Real.sqrt (Real.log x)))`.
    The exceptional zero appears as an explicit term rather than being assumed away, and
    together the two cover every `K`, strengthening the L-functions roadmap's asymptotic
-   statement. ⚠ Siegel's theorem, which would bound `1 − β` from below ineffectively, is out
-   of scope, so no milestone absorbs the exceptional term into the error with an effective
-   constant.
+   statement. ⚠ For fixed `K` the two branches are the **same** `=O[atTop]` statement: with
+   `β < 1` fixed, `x^β/(x e^{−c√log x}) = e^{−(1−β) log x + c√log x} → 0`, so the exceptional
+   term is `o` of the error and a threshold depending on `β` absorbs it. The term is displayed
+   because its meaning is 6.3's predicate evaluated at `ζ_K`, and because it is what a
+   threshold-explicit or conductor-uniform statement keeps; it is not displayed because
+   absorption would need Siegel's theorem, which is what only a conductor-**uniform**
+   absorption needs and which is out of scope.
 6. **The Hecke instance**, for `χ` a primitive nontrivial finite-order ray-class character of
    conductor `𝔣`, whose gamma factor is `γ_χ(s) = ∏_{j ≤ r₁} Gammaℝ(s + a_j) * Gammaℂ(s)^{r₂}`
    with `a_j ∈ {0, 1}` the signature of `χ` at the real places. Items 1 to 4 hold with the
@@ -1475,10 +1529,11 @@ complex places of `K`, so `γ_K(s) = Gammaℝ(s)^{r₁} Gammaℂ(s)^{r₂}` and
    - under `¬∃ β, IsExceptionalZero χ β`,
      `ψ_K(x, χ) = O(x * Real.exp (−c * Real.sqrt (Real.log x)))`.
    There is no `x` main term in either, since `L(χ, ·)` is entire. ⚠ Both constants depend on
-   `K` and on `χ`, and neither statement is uniform in the conductor: an exceptional zero may
-   sit arbitrarily close to `1`, and absorbing `x^β/β` into the error would need a lower bound
-   for `1 − β` that only Siegel's theorem gives, which is out of scope. Nothing here may be
-   read as the conductor-uniform disjunction.
+   `K` and on `χ`, and neither statement is uniform in the conductor; as in 5, the fixed-`χ`
+   estimate absorbs `x^β/β` on its own, and the term is carried for its semantics. Uniformity
+   in the conductor is where absorption would need a lower bound for `1 − β`, which only
+   Siegel's theorem gives and which is out of scope. Nothing here may be read as the
+   conductor-uniform disjunction.
 7. **Effective counting in a ray class.** This is the character-orthogonality endpoint of the
    layer, and it is stated on the ray-class side, where every carrier exists. For a modulus
    `𝔪` of `K` and `c : GlobalNumberFields.RayClassGroup 𝔪`, define
@@ -1503,10 +1558,19 @@ complex places of `K`, so `γ_K(s) = Gammaℝ(s)^{r₁} Gammaℂ(s)^{r₂}` and
      zero-free region transfers verbatim, and the deleted Euler factors move the logarithmic
      derivative by `O(log 𝔑𝔪)`, which the contour shift of 2 absorbs;
    - `exceptionalRayClassTerm 𝔪 c x` is the resulting contribution of the exceptional zeros,
-     and the milestone is that it is a sum of at most `#Cl_𝔪` explicitly weighted `x^β/β`
-     terms, one for each real character with an exceptional zero. ⚠ It is not a single term:
-     uniqueness in 6.4f is per character, and no milestone here proves the Landau–Page
-     statement that would collapse the sum.
+     and it is a **definition**, not an axiom to be identified later:
+     `(#Cl_𝔪)⁻¹ ∑_ψ ∑_{β ∈ {β | IsExceptionalZero (of ψ) β}} Re ψ(c) · x^β/β`, the outer sum
+     over **all** characters `ψ` at `𝔪` — the trivial one included — each read through its
+     primitive source `PrimitiveRayClassCharacter.of`. Both finsums are honest: the character
+     type is finite (`finite_rayClassCharacter`) and the inner set is a subsingleton. Nonreal
+     `ψ` contribute `0` by 6.3's reality theorem, so the sum has at most `#Cl_𝔪` nonzero terms
+     with real weights `±1/#Cl_𝔪`. The character-indexed family does not depend on `c` except
+     through the weight `ψ(c)`, which is what 8.8's fibre identification needs, and the
+     prime-count term below is the same family with `Li(x^β)`. ⚠ The trivial character's term
+     is `ζ_K`'s exceptional zero (`isExceptionalZero_of_one_iff`), present exactly when 5's
+     exceptional branch holds; a definition over nontrivial characters only would delete that
+     branch. ⚠ It is not a single term: uniqueness in 6.4f is per character, and no milestone
+     here proves the Landau–Page statement that would collapse the sum.
 
    For fixed `K` and `𝔪` there is `c₀ > 0` with
    ```text
@@ -1514,8 +1578,11 @@ complex places of `K`, so `γ_K(s) = Gammaℝ(s)^{r₁} Gammaℂ(s)^{r₂}` and
                         + O(x exp(-c₀ sqrt(log x))).
    ```
    Track the dependence of the implied constant on `K` and `𝔪`; do not call it absolute, and
-   do not claim uniformity in `𝔪`, which would need a lower bound for `1 − β` that only
-   Siegel's theorem gives. Remove prime powers and apply
+   do not claim uniformity in `𝔪`. ⚠ For fixed `K` and `𝔪` this statement holds with or
+   without the exceptional term, since `x^β = o(x e^{−c₀√log x})` for every fixed `β < 1`; the
+   term's meaning comes from its definition, never from this estimate, and only a
+   conductor-uniform version would need Siegel's lower bound for `1 − β`. Remove prime powers
+   and apply
    `ArithmeticDirichletSeries.abelSummation` for the unweighted count, whose main term is
    `Li x / #Cl_𝔪` with `Li x = ∫_2^x dt / log t` (`logarithmicIntegral`, defined here since no
    supplier declares it) and whose exceptional term is the partial-summation transform of
@@ -1523,11 +1590,14 @@ complex places of `K`, so `γ_K(s) = Gammaℝ(s)^{r₁} Gammaℂ(s)^{r₂}` and
    `∫_2^x t^{β−1}/log t dt = Li(x^β) − Li(2^β)`. ⚠ `x / log x` is not an admissible main term
    for an effective count: `Li x − x/log x ∼ x/log² x`, and `(x/log² x)/(x e^{−c√log x}/log x)
    = e^{c√log x}/log x → ∞`, so a statement with main term `x/log x` and the displayed error is
-   false already for `π(x)`. ⚠ `x^β/(β log x)` is not the exceptional prime-count term either:
-   it is the first term of `Li(x^β)`, and the difference `≍ x^β/log² x` is not within the error
-   unless `β` is bounded away from `1`, which nothing here gives. Both transforms, the weights
-   `ψ(c)/#Cl_𝔪`, and the finite index set of real characters are one theorem,
-   `exceptionalRayClassTerm_eq`, which is what keeps the two terms from being opaque. At
+   false already for `π(x)`. The exceptional prime-count term is `Li(x^β)` rather than its
+   first term `x^β/(β log x)` because that is what partial summation produces; ⚠ for fixed `K`
+   and `𝔪` the whole term is `o` of the error, so the two shapes are distinguishable only in a
+   threshold-explicit or conductor-uniform statement, and the definition is what fixes the
+   shape. Both transforms are built from the **same** character-indexed data
+   (`exceptionalRayClassTerm`, `exceptionalRayClassPrimeCountTerm`), so nothing is
+   re-identified between them, and `exceptionalRayClassTerm_eq_zero` records that both vanish
+   when no character at `𝔪` has an exceptional zero. At
    `K = ℚ` and `𝔪 = (m)∞` this is the prime number theorem for arithmetic progressions with the
    classical error term, which is the specialization check.
 8. **Effective Chebotarev for an abelian extension, on Chebotarev's carriers.** For `L/K`
@@ -1700,9 +1770,11 @@ exactly what a certificate would supply, with no numerical claim proved here.
   of them is a theorem, and the derivation through the functional equation against `χ⁻¹`
   says which. A real character has `conj χ = χ` and cannot see the difference.
 - **The trivial extension, `K = L = ℚ`.** `Chebotarev.frobeniusPrimeCount ℚ ℚ ⟦1⟧` is `π`,
-  the dictionary at `𝔪 = 1` is the trivial map, and the exceptional term is `0` because the ray
-  class group at `1` is trivial. Layer 8.8 reads `π(x) = Li x + O(x e^{−c√log x}/log x)`, de la
-  Vallée Poussin's theorem. ⚠ With `x/log x` as the main term it would read
+  the dictionary at `𝔪 = 1` is the trivial map, and the exceptional term is `0` by
+  `exceptionalRayClassTerm_eq_zero`: the only character at `𝔪 = 1` is trivial, its source is
+  `ζ`, and `ζ` has no real zero in `(0, 1)`. Layer 8.8 reads
+  `π(x) = Li x + O(x e^{−c√log x}/log x)`, de la Vallée Poussin's theorem. ⚠ With `x/log x`
+  as the main term it would read
   `π(x) − x/log x = O(x e^{−c√log x}/log x)`, which is false: `Li x − x/log x ∼ x/log² x`, and
   `(x/log² x)/(x e^{−c√log x}/log x) → ∞`. Catches a main term chosen for its familiarity
   rather than for its error.
@@ -1858,7 +1930,7 @@ citations.
 |---|---|---|---|
 | 6.2, the region for `ζ_K` | Kadiri, *Explicit zero-free regions for Dedekind zeta functions*, **Theorem 1.1**, which is two statements: **(1.7)** `ζ_K` has **no** zero with `Re s ≥ 1 − 1/(12.55 log d_K + 9.69 n_K log \|Im s\| + 3.03 n_K + 58.63)` and `\|Im s\| ≥ 1`; **(1.8)** `ζ_K` has **at most one** zero with `Re s ≥ 1 − 1/(12.74 log d_K)` and `\|Im s\| ≤ 1`, and that zero is real and simple. **Corollary 1.2** sharpens the small-ordinate range. | `d_K` sufficiently large. `n_K = [K:ℚ]`, `d_K` the absolute value of the discriminant. The four numerical constants are absolute. | ⚠ The two ranges are **not** one statement, and the roadmap's single displayed region is the conjunction: "no zeros for `\|t\| ≥ 1`, at most one for `\|t\| ≤ 1`". The numerics are dropped and `c` is existential. Since `\|d_K\|` and `\|t\|` enter Kadiri's denominator exactly as `log q(it) ≍ log d_K + n_K log(\|t\| + 3)` does, the region is rewritten through `analyticConductorAt` by 2.2, and `3.03 n_K + 58.63` is absorbed using `n_K = O(log d_K)` from Minkowski. ⚠ Two steps are **not** in the source and are milestones: removing "sufficiently large `d_K`" for a fixed degree, by Hermite–Minkowski finiteness of the fields of bounded degree and bounded discriminant, which is what makes `c` depend on `[K:ℚ]` alone; and the passage from the classical to the analytic normalization. |
 | 6.3, the exceptional zero | Kadiri **Theorem 1.1 (1.8)** for existence-at-most-one and for "real and simple"; Davenport, *Multiplicative Number Theory*, 3rd ed., **§14** (*Zero-Free Regions for `L(s,χ)`*) for the `K = ℚ` Landau–Page structure of the argument. | As above; Davenport's §14 is for Dirichlet characters to a modulus `q`. | Stated as a predicate plus uniqueness, never as a total function. ⚠ Identifying `β` with the zero of a quadratic character's L-function is a Stark-type theorem that neither source proves in this generality, and it is out of scope. |
-| 6.4, the region for Hecke L-functions | ⚠ **No cited source proves this in the stated generality.** The exact components are: Lang, *Algebraic Number Theory*, 2nd ed., **ch. XV §4** (*Non-vanishing of the L-series*), which proves the **qualitative** statement only; Davenport **§14** (*Zero-Free Regions for `L(s,χ)`*) for the `3-4-1` route, the real-versus-non-real split, and the Landau argument for uniqueness and simplicity, all over `ℚ`; Davenport **§12** (*The Infinite Products for `ξ(s)` and `ξ(s,χ)`*) for `Re B(χ) = −∑_ρ Re(1/ρ)`, again over `ℚ`; Kadiri Theorem 1.1 for the shape of the region in the `ζ_K` case. | Lang XV §4 is a nonvanishing statement on `Re s = 1`, with no region and no constant. Davenport §§12, 14 are over `ℚ`, for Dirichlet characters to a modulus `q`, where every character is primitive-or-induced from a Dirichlet character and the base field contributes nothing. | ⚠ "Carried from the cited source" is a proof route, not a citation, so 6.4 is **decomposed into six milestones (4a)–(4f)** and each is judged separately. What is genuinely absent from every source, and what those six exist for: 4a's positivity has to be stated at a common presentation modulus over `K`, since the three characters `1, χ, χ²` have different conductors; 4b, the imprimitive comparison, is invisible over `ℚ` in the sources' formulation and is where `LFunctions.eulerCorrection` enters; 4c's split is Davenport's, transported; 4d's partial-fraction bound needs `Re b = −∑_ρ Re(1/ρ)` for a possibly non-real ray-class character, which 5.7 does **not** give and which is proved here from the functional equation against `χ⁻¹`; 4e's removal of "conductor large enough" is the Hecke analogue of the Hermite–Minkowski step in the 6.2 row, now over pairs `(K, χ)`, and is what makes `c` depend on `[K:ℚ]` alone; and 4f is Landau's argument with the multiplicity kept, so that simplicity and uniqueness are one theorem. The Landau–Page statement across a family of characters is not claimed. |
+| 6.4, the region for Hecke L-functions | ⚠ **No cited source proves this in the stated generality.** The exact components are: Lang, *Algebraic Number Theory*, 2nd ed., **ch. XV §4** (*Non-vanishing of the L-series*), which proves the **qualitative** statement only; Davenport **§14** (*Zero-Free Regions for `L(s,χ)`*) for the `3-4-1` route, the real-versus-non-real split, and the Landau argument for uniqueness and simplicity, all over `ℚ`; Davenport **§12** (*The Infinite Products for `ξ(s)` and `ξ(s,χ)`*) for `Re B(χ) = −∑_ρ Re(1/ρ)`, again over `ℚ`; Kadiri Theorem 1.1 for the shape of the region in the `ζ_K` case. | Lang XV §4 is a nonvanishing statement on `Re s = 1`, with no region and no constant. Davenport §§12, 14 are over `ℚ`, for Dirichlet characters to a modulus `q`, where every character is primitive-or-induced from a Dirichlet character and the base field contributes nothing. | ⚠ "Carried from the cited source" is a proof route, not a citation, so 6.4 is **decomposed into six milestones (4a)–(4f)** and each is judged separately. What is genuinely absent from every source, and what those six exist for: 4a's positivity has to be stated at a common presentation modulus over `K`, since the three characters `1, χ, χ²` have different conductors; 4b, the imprimitive comparison, is invisible over `ℚ` in the sources' formulation and is where `LFunctions.eulerCorrection` enters; 4c's split is Davenport's, transported; 4d's partial-fraction bound needs `Re b = −∑_ρ Re(1/ρ)` for a possibly non-real ray-class character, which 5.7 does **not** give and which is proved here from the functional equation against `χ⁻¹` and conjugation kept as two separate maps, and its `ζ_K` input keeps the `½ log d_K` of Kadiri's §2.1.2 identity (the display before her (2.7)), which no degree-only `O(1)` replaces — the split-primes family `ℚ(√D)`, `D ≡ 1 (mod 8∏_{p≤B} p)`, refutes the bound without it; 4e's removal of "conductor large enough" is the Hecke analogue of the Hermite–Minkowski step in the 6.2 row, now over pairs `(K, χ)`, and is what makes `c` depend on `[K:ℚ]` alone; and 4f is Landau's argument with the multiplicity kept, so that simplicity and uniqueness are one theorem. The Landau–Page statement across a family of characters is not claimed. |
 | 7.4, Riemann–von Mangoldt for `ζ`, and 7.5 | Titchmarsh (rev. Heath-Brown), *The Theory of the Riemann Zeta-Function*, **§9.2** for the definition of `N(T)`; **§9.3** for the definition of `S(T)`; **Theorem 9.3**, `N(T) = L(T) + S(T) + O(1/T)` with `L(T) = (T/2π) log T − ((1 + log 2π)/2π) T + 7/8` (equations (9.3.1) and (9.3.2)); **Theorem 9.4**, `S(T) = O(log T)` (9.4.2) and `N(T) = (T/2π) log T − ((1 + log 2π)/2π) T + O(log T)` (9.4.3). | `N(T)` counts zeros with `0 ≤ σ ≤ 1` and `0 < t ≤ T`. `S(T)` is `π⁻¹ arg ζ(1/2 + iT)` by continuous variation along the straight lines joining `2`, `2 + iT`, `1/2 + iT`, **starting with the value `0`**; when `T` is the ordinate of a zero the source sets `S(T) = S(T + 0)`. Theorem 9.3 assumes `T` is not the ordinate of a zero. | The source's counting range is exactly the half-open convention of 4.9, so no conversion is needed. `(T/2π) log(T/2πe)` is (9.4.3)'s main term rearranged. ⚠ Two things are the roadmap's own. The source's "starting with the value `0`" is legitimate because `ζ(2)` is a positive real, and 7.3 proves that rather than asserting it. And the extension of the formula to **every** `T ≥ 2` is milestone 7.5, since Theorem 9.3 excludes the ordinates and the source's `S(T + 0)` convention is a definition, not a theorem about both one-sided limits. |
 | 4.8, the unit-height bound | Titchmarsh **Theorem 9.2**, `N(T + 1) − N(T) = O(log T)`. | As in §9.2. | This is the `K = ℚ` case of 4.8. The conductor-uniform form, with `log q(iT)` in place of `log T`, is the roadmap's own and is proved from Jensen's bound of 4.5 rather than from a contour integral, which is why 4.8 precedes Layer 7. |
 | 7.6, the conductor-uniform form, Dedekind case | Trudgian, *An improved upper bound for the error in the zero-counting formulae for Dirichlet `L`-functions and Dedekind zeta-functions*, **Theorem 2**: for `T ≥ 1`, `\|N_K(T) − (T/π) log(d_K (T/2πe)^{n_K})\| ≤ 0.317(log d_K + n_K log T) + 6.333 n_K + 3.482`. **Theorem 1** is the same statement for a primitive nonprincipal `χ` mod `k`: `\|N(T,χ) − (T/π) log(kT/2πe)\| ≤ 0.317 log kT + 6.401`. | `N_K(T)` and `N(T,χ)` count zeros `ρ = β + iγ` with `0 < β < 1` and `\|γ\| ≤ T`; `n_K = [K:ℚ]` and `d_K` the absolute discriminant. Constants absolute; Theorem 2's depend on nothing but the displayed `n_K`. | The source's counting range is exactly `N±` of 4.9, so no conversion is needed and the displayed main term is the source's verbatim: the conductor appears as `d_K`, **not** `d_K^{1/2}`, and the error is `O(log d_K + n_K log T) = O(log(d_K T^n))` with the constant depending on `n_K` alone, which is the uniformity 7.6 asks for. ⚠ The one-sided form of 4.9 halves the whole main term, giving `(T/2π) log(d_K (T/2πe)^n)`; it does **not** halve the conductor. Theorem 1 is the degree-one instance that pins the conductor coefficient at `T/π`, and it is what the imaginary-quadratic worked example checks against Theorem 2. Davenport **§16** (*The Number `N(T, χ)`*) proves Theorem 1's shape without the explicit constants. |
