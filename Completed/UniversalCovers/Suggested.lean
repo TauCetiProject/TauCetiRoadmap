@@ -54,8 +54,16 @@ section Stage0
 
 variable {X : Type u} [TopologicalSpace X]
 
-/-- **Milestone 1 — discreteness of the homotopy-class fibres.** The fibres of the endpoint
-projection are discrete; the total space is not. -/
+/-- **Milestone 1 — discreteness of the homotopy-class fibres.** Based paths from `x₀` modulo
+endpoint-preserving homotopy, over a fixed endpoint, form a discrete space. Path-connectedness of
+`X` is not needed, and the total space is not discrete: only these fibres are. -/
+theorem discreteTopology_pathHomotopicQuotient [LocallyPathConnectedSpace X]
+    [SemilocallySimplyConnectedSpace X] (x₀ x : X) :
+    DiscreteTopology (Path.Homotopic.Quotient x₀ x) :=
+  Path.Homotopic.Quotient.instDiscreteTopology
+
+/-- Once the endpoint projection is a covering map, its fibres are discrete too; that step is
+where path-connectedness enters, since it is what makes the projection surjective. -/
 theorem discreteTopology_fiber [LocallyPathConnectedSpace X] [PathConnectedSpace X]
     [SemilocallySimplyConnectedSpace X] (x₀ x : X) :
     DiscreteTopology (UniversalCover.proj (x₀ := x₀) ⁻¹' {x}) :=
