@@ -105,7 +105,7 @@ profinite exponent ring, or outer-automorphism carrier.
 
 ## Boundaries
 
-Seven roadmaps supply material to this one. The boundaries are stated once here.
+Eight roadmaps supply material to this one. The boundaries are stated once here.
 
 There is no dependency on `LocalGaloisGroups`, `ClassFieldTheory`, or a proposed
 `PeripheralActions` roadmap. The future branch-cycle and pro-`ℓ` peripheral-power applications
@@ -157,6 +157,16 @@ route to the fundamental group of the thrice-punctured sphere is UniversalCovers
 Kampen theorem, applied to the cover of Layer 5.1, and no retraction onto a figure eight
 occurs anywhere in it.
 
+**Maps on surfaces.** The general theory of maps on surfaces belongs to
+[SurfaceTopology](../SurfaceTopology/README.md): two-dimensional generalized maps with boundary
+and non-orientability, hypermaps and oriented maps on arbitrary finite dart types, their
+realization as compact surfaces, Euler characteristic as a topological invariant, and the
+classification of compact surfaces. This roadmap's permutation triples (Layer 0) and bipartite
+ribbon graphs (Layer 2) are the orientable, boundaryless, dessin case of those objects; the
+conversions between the two vocabularies and the agreement of their Euler characteristics and
+connectedness are targets of SurfaceTopology layer 2, not of this roadmap. The compact-surface
+carriers that the analytic comparison waits for are SurfaceTopology's realization.
+
 **Modular forms.** The compact-Riemann-surface cohomology chain — structure sheaf, sheaves of
 a divisor, finiteness of `H¹`, analytic Riemann–Roch, Serre duality by residues,
 Riemann–Hurwitz for finite holomorphic maps, and the existence of nonzero meromorphic sections
@@ -205,7 +215,8 @@ What this roadmap supplies to other subjects:
 
 - the Frobenius product-one formula and generating-triple counts (Layer 3), usable by any
   subject that counts covers or factorizations in finite groups;
-- finite bipartite ribbon graphs (Layer 2), reusable for maps and hypermaps on surfaces;
+- finite bipartite ribbon graphs (Layer 2), the dessin case of the oriented maps of
+  [SurfaceTopology](../SurfaceTopology/README.md), which owns the general theory;
 - triangle groups (Layer 4);
 - in `BelyiAlgebraicAndDescent`, the Belyi-specific analytic/algebraic comparison, after the
   compact-surface and AlgebraicCurves carriers land;
