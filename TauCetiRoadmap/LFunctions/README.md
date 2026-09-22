@@ -637,10 +637,22 @@ the number of odd real places — and `completedHeckeLFunction` is that kernel's
 `(s + Tr p / n)/2` (`completedHeckeLFunction_eq_mellin`); `exists_mellin_completedHeckeLFunction`
 is its existential shadow, kept because the zeros roadmap consumes it by name. Define the Gauss sum
 `τ_𝔪(χ_f, y) = ∑_{x mod 𝔪₀} χ_f(x) e^(2πi Tr(xy))` (`gaussSum`, Neukirch VII (6.3)) as a finite
-sum over the residue units, with (6.4): `τ_𝔪(χ_f, a y) = χ_f(a) τ_𝔪(χ_f, y)` and
-`|τ_𝔪(χ_f, y)| = √N(𝔪₀)` when `(y 𝔪 𝔡, 𝔪) = 1`; the root number is pinned by the transformation
-law of the kernel (Layer 6), of which Neukirch's `W(χ) = [i^(Tr p) N((md/|md|)^p)]⁻¹ τ(χ_f)/√N(𝔪)`
-is the evaluation. Define the conductor, gamma factors, completion, and root number.
+sum over the residue units of `𝓞/𝔪₀`, for `y ∈ 𝔪₀⁻¹𝔡⁻¹` — the domain on which `Tr(xy) mod ℤ`
+depends only on `x mod 𝔪₀` — with `χ_f` the residue character `Grossencharacter.finiteCharacter`
+of the finite-order presentation, which factors through `(𝓞/𝔪₀)ˣ` (`finiteCharacter_residue`) so
+that any representatives may be used (`gaussSum_eq_sum`). Prove (6.4) with its hypotheses in the
+types: for `y ∈ 𝔪₀⁻¹𝔡⁻¹` and a primitive character, `τ_𝔪(χ_f, a y) = conj(χ_f(a)) τ_𝔪(χ_f, y)`
+(`gaussSum_mul`) — the reindexing `x ↦ x a⁻¹` produces the **inverse** value, Mathlib's
+`gaussSum_mulShift_eq` convention, and the equation covers the vanishing case `(a, 𝔪₀) ≠ 1` because
+`χ_f` already vanishes there — and `|τ_𝔪(χ_f, y)| = √N(𝔪₀)` when moreover the integral ideal
+`y 𝔪₀ 𝔡` is prime to `𝔪₀` (`norm_gaussSum`). ⚠ Quadratic characters cannot see the conjugate: an
+even primitive character of order `3` modulo `7` with `χ_f(3) = ω` has `τ(χ, 3/7) = ω⁻¹ τ(χ, 1/7)`.
+⚠ Without the domain hypothesis the vanishing case is false: over `ℚ` with the even character mod
+`5`, `a = 5` and `y = 1/25 ∉ (1/5)ℤ` would force `τ(χ, 1/5) = 0`, against `|τ(χ, 1/5)| = √5`. The
+root number is pinned by the transformation law of the kernel (Layer 6), of which Neukirch's
+`W(χ) = [i^(Tr p) N((md/|md|)^p)]⁻¹ τ(χ_f)/√N(𝔪)` (his `τ(χ_f)` being the Gauss sum of (7.4), in
+ideal-number normalization) is the evaluation. Define the conductor, gamma factors, completion,
+and root number.
 Prove entirety for a nontrivial primitive character and the meromorphic two-pole statement for the
 trivial primitive character.
 
@@ -740,12 +752,24 @@ only the unramified characters. Keep unitary and full weights separate: a law mi
 ideal factor with a nonunitary archimedean factor is false when the shift is nonzero.
 
 **The theta kernel (Neukirch VII (6.1)–(6.4), (7.4)–(7.8), (8.2)–(8.5)).** Derive Hecke's finite
-character from the primary object instead of storing it: `χ_f(a) := χ_u((a)) N(a)^shift
-∏_τ τ(a)^(n_τ)` (`finiteCharacter`), which is `1` on `a ≡ 1 mod* 𝔪` by the unit relation,
-multiplicative, zero exactly off the elements prime to `𝔪₀`, and a function of the class of `a` in
-`(𝓞/𝔪₀)ˣ × {±1}^𝔪∞` — Neukirch's `χ_f = χ((a)) χ_∞(a)⁻¹` of (6.1), and the finite character of the
-unitary part; extend it multiplicatively to the fractions prime to `𝔪₀` (`finiteCharacterK`, on
-the supplier's `primeToSubgroup`). Read the harmonic polynomial `N(a^p)` off the infinity type of
+character from the primary object instead of storing it: `χ_f(a) := χ_u((a)) N(a)^shift · χ_∞(a)`
+(`finiteCharacter`), where `χ_∞` is the **full archimedean value** `archimedeanValue` — the
+algebraic `∏_τ τ(a)^(n_τ)` times, at each real place, the sign `sgn(τ_w a)^(ε_w - n_w)` by which
+the actual parity of the archimedean restriction differs from the parity of the algebraic
+exponent, trivial outside `𝔪∞` by `realParity_eq`. ⚠ The algebraic exponents alone miss the sign:
+the odd character mod `4∞` of `ℚ` has exponent `0` and parity `1`, so its finite character must be
+`-1` at `-1`, matching the harmonic polynomial `x^1` there; built without the sign it would be even,
+the unit compensation would read `-1 = 1`, and the odd theta series would vanish by pairing `a`
+with `-a` (`oddCharacter_mod_four_sign_test`, which also states the kernel as Riemann's odd theta
+function `2 ∑ χ₄(n) n e^{-π y n²}`). The algebraic infinity-type convention is kept: finite-order
+odd characters keep exponent `0`. So defined, `χ_f` is `1` on `a ≡ 1 mod* 𝔪` by the unit relation,
+multiplicative, zero exactly off the elements prime to `𝔪₀`, and — because the signs are exactly
+what `archimedeanValue` strips — a character of the residue units `(𝓞/𝔪₀)ˣ` alone
+(`finiteCharacter_residue`), which is what the Gauss sum evaluates at arbitrary representatives.
+This is Neukirch's `χ_f = χ((a)) χ_∞(a)⁻¹` of (6.1), whose modulus is a finite ideal and whose `χ_∞`
+is the whole archimedean character, and it is the finite character of the unitary part; extend it
+multiplicatively to the fractions prime to `𝔪₀` (`finiteCharacterK`, on the supplier's
+`primeToSubgroup`). Read the harmonic polynomial `N(a^p)` off the infinity type of
 the unitary part with the sign of the unit relation: `x^(ε_w)` at a real place, `ε_w` the parity
 of the archimedean restriction, and at a complex place of angular frequency `k_w = n_τ - n_τ̄` the
 monomial `conj(z)^(k_w)` for `k_w ≥ 0` and `z^(-k_w)` for `k_w < 0` (`harmonicFactor`), with
@@ -759,7 +783,8 @@ unit (`finiteCharacter_mul_harmonicFactor_unit`). Define the Mellin kernel (8.3)
 made explicit (`heckeMellinKernel`): `(2^r₂/w) · 2^(-∑_{complex} P_w/2) · λ_𝔞^(-Tr p / 2n)
 ∫_D N(x^(p/2)) θ_χ(𝔞, x (u/λ_𝔞)^(1/n)) d*x` with `λ_𝔞 = V_𝔞² N(𝔣₀)`, which come from the gamma
 integral of the weighted Gaussian at a complex place,
-`2^(2s + P/2 - 1) Γ_ℂ(2s + P/2) |z|^(-4s - P)`, whose `|z|^(-P)` cancels the `|a_w|^(P_w)` of `χ_f(a) N(a^p) = χ_u((a)) ∏_w |a_w|^(P_w)` — that
+`2^(2s + P/2 - 1) Γ_ℂ(2s + P/2) |z|^(-4s - P)`, whose `|z|^(-P)` cancels the `|a_w|^(P_w)` of
+`χ_f(a) N(a^p) = χ_u((a)) ∏_w |a_w|^(P_w)` — that
 cancellation is why the gamma shifts of the card are `ε_w` and `|k_w|/2`. Prove the per-class
 Mellin identity `Λ(𝔎, χ_u, s) = χ_u(𝔞)⁻¹ ∫ (f_D(χ, 𝔞, u) - ε(χ) a₀) u^((s + Tr p/n)/2) du/u`
 (`unitaryPartialCompletion_eq_mellin`), sum it over a system of representatives prime to the
@@ -838,7 +863,11 @@ Required regression examples:
   that a finite character family cannot supply;
 - the nonreal sign test: at `a = 2 + i` the finite value `((3+4i)/5)^(2k)` of the angular character
   is not real and is the inverse, not the equal, of the archimedean value
-  (`angularGrossencharacter_compatibility_test`).
+  (`angularGrossencharacter_compatibility_test`);
+- the real sign test: for the odd character mod `4∞` at the unit `-1`, `χ_f(-1) = -1`, the harmonic
+  polynomial is `-1`, their product is `1`, and the theta kernel over `ℤ` is Riemann's odd theta
+  function (`oddCharacter_mod_four_sign_test`); a finite character built from the algebraic
+  exponents alone fails it.
 
 ### Layer 7: intrinsic nonvanishing
 

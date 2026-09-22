@@ -47,7 +47,8 @@ export TauCetiRoadmap.GlobalNumberFields
     ideleInfiniteCoord IsCongrOne finite_rayClassGroup idealClass integralIdealsPrimeTo classMap
     rayClassIdealMainTerm primeToSubgroup)
 namespace Modulus
-export TauCetiRoadmap.GlobalNumberFields.Modulus (one support mem_support_iff support_one)
+export TauCetiRoadmap.GlobalNumberFields.Modulus
+  (one support mem_support_iff support_one exponent)
 end Modulus
 namespace RayClassCharacter
 export TauCetiRoadmap.GlobalNumberFields.RayClassCharacter (induced)
@@ -2257,25 +2258,50 @@ namespace Grossencharacter
 
 open scoped Classical
 
+/-- **The full archimedean value** of the primary object at `x ∈ K`: the algebraic part
+`∏_τ τ(x)^(n_τ)` times, at each real place, the sign `sgn(τ_w x)^(ε_w - n_w)` by which the actual
+parity `ε_w` of the archimedean restriction differs from the parity of the algebraic exponent. By
+`realParity_eq` that correction is trivial outside `𝔪∞`; at the real places of `𝔪` it is the
+presented sign twist. ⚠ The algebraic infinity type alone misses it: the odd character mod `4∞`
+of `ℚ` has exponent `0` and parity `1`, so its archimedean value at `-1` is `-1`, not `1`
+(`oddCharacter_mod_four_sign_test`). -/
+noncomputable def archimedeanValue {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (x : K) : ℂ :=
+  letI : Fintype {w : InfinitePlace K // w.IsReal} := Fintype.ofFinite _
+  (∏ τ : K →+* ℂ, τ x ^ χ.infinityType.exponent τ) *
+    ∏ w : {w : InfinitePlace K // w.IsReal},
+      ((Real.sign (InfinitePlace.embedding_of_isReal w.2 x) : ℝ) : ℂ) ^
+        (χ.toHeckeCharacter.infinityType.realParity w -
+          (χ.infinityType.exponent w.1.embedding : ZMod 2)).val
+
+/-- On `a ≡ 1 mod* 𝔪` the full archimedean value is the algebraic one: `a > 0` at the real places
+of `𝔪`, and the parities agree outside them. -/
+theorem archimedeanValue_eq_of_isCongrOne {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
+    (x : Kˣ) (hx : GNF.IsCongrOne 𝔪 x) :
+    archimedeanValue K χ x = ∏ τ : K →+* ℂ, τ (x : K) ^ χ.infinityType.exponent τ := sorry
+
 /-- **Hecke's finite character, derived from the primary object** rather than stored: for
-`a ∈ 𝓞_K`, `χ_f(a) := χ_u((a)) N(a)^shift ∏_τ τ(a)^(n_τ)`. By `compatibility` it is `1` on
-`a ≡ 1 mod* 𝔪` (`finiteCharacter_eq_one_of_isCongrOne`); it is multiplicative, it vanishes
-exactly off the elements prime to `𝔪₀`, and it depends only on the class of `a` in
-`(𝓞/𝔪₀)ˣ × {±1}^{𝔪∞}` (`finiteCharacter_eq_of_congr`). This is Neukirch's
-`χ_f(a) = χ((a)) χ_∞(a)⁻¹` of VII (6.1), for the classical `χ_∞ = ∏_τ τ^(-n_τ)` — the inverse of
-the idelic archimedean component — and it is the finite character of the unitary part, since
-`χ_u((a)) N(a)^shift ∏_τ τ(a)^(n_τ) = χ_u((a)) · ∏_τ (τ(a)/|τ(a)|)^(n_τ)`. -/
+`a ∈ 𝓞_K`, `χ_f(a) := χ_u((a)) N(a)^shift · χ_∞(a)` with `χ_∞` the **full** archimedean value —
+signs at the real places included. It is `1` on `a ≡ 1 mod* 𝔪` by `compatibility`
+(`finiteCharacter_eq_one_of_isCongrOne`); it is multiplicative, it vanishes exactly off the
+elements prime to `𝔪₀`, and it factors through the residue units `(𝓞/𝔪₀)ˣ`
+(`finiteCharacter_residue`) — no sign data survives, because the signs are exactly what
+`archimedeanValue` strips off. This is Neukirch's `χ_f = χ((a)) χ_∞(a)⁻¹` of VII (6.1), whose
+modulus is a finite ideal and whose `χ_∞` is the whole archimedean character; it is the residue
+character that the Gauss sum `gaussSum` and the twisted theta series evaluate, and it is the
+finite character of the unitary part. ⚠ Built from the algebraic exponents alone it would be even
+at `-1` for every finite-order character, and the theta series of an odd character would vanish
+by pairing `a` with `-a`. -/
 noncomputable def finiteCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a : 𝓞 K) :
     ℂ :=
   χ.unitaryWeight (Ideal.span {a}) * ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.shift : ℂ) *
-    ∏ τ : K →+* ℂ, τ (algebraMap (𝓞 K) K a) ^ χ.infinityType.exponent τ
+    archimedeanValue K χ (algebraMap (𝓞 K) K a)
 
 /-- `compatibility`, restated: the finite character is trivial on `a ≡ 1 mod* 𝔪`. -/
 theorem finiteCharacter_eq_one_of_isCongrOne {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
     (x : Kˣ) (hx : GNF.IsCongrOne 𝔪 x) (a : 𝓞 K) (ha : algebraMap (𝓞 K) K a = x) :
     finiteCharacter K χ a = 1 := by
   unfold finiteCharacter
-  rw [ha]
+  rw [ha, archimedeanValue_eq_of_isCongrOne K χ x hx]
   exact compatibility K χ x hx a ha
 
 theorem finiteCharacter_mul {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a b : 𝓞 K) :
@@ -2284,18 +2310,22 @@ theorem finiteCharacter_mul {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪
 theorem finiteCharacter_eq_zero_iff {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a : 𝓞 K) :
     finiteCharacter K χ a = 0 ↔ ¬ 𝔪.IsCoprimeTo (Ideal.span {a}) := sorry
 
-/-- The finite character factors through `(𝓞/𝔪₀)ˣ × {±1}^{𝔪∞}`: two integers whose quotient is
-`≡ 1 mod* 𝔪` have the same value. -/
-theorem finiteCharacter_eq_of_congr {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a b : 𝓞 K)
-    (x : Kˣ) (hx : GNF.IsCongrOne 𝔪 x)
-    (h : algebraMap (𝓞 K) K a = (x : K) * algebraMap (𝓞 K) K b) :
+/-- **The finite character is a character of the residue units `(𝓞/𝔪₀)ˣ`**: two integers
+congruent modulo the finite part of the modulus — no condition on signs — have the same value.
+The signs at `𝔪∞` are removed by `archimedeanValue`: two integers `a`, `b` with `a = x b`,
+`x ≡ 1 mod 𝔪₀` at the finite places only, differ at the finite idele coordinates by a principal
+unit at each `v ∣ 𝔪₀`, on which the presented character is trivial, so the finite values
+`χ(a_f)`, `χ(b_f)` agree; and `χ(a_f) = χ_f(a)⁻¹` by the principal-idele relation. This is what
+lets `gaussSum` evaluate `χ_f` at any representative of a residue class. -/
+theorem finiteCharacter_residue {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a b : 𝓞 K)
+    (h : Ideal.Quotient.mk 𝔪.finitePart a = Ideal.Quotient.mk 𝔪.finitePart b) :
     finiteCharacter K χ a = finiteCharacter K χ b := sorry
 
-/-- On a unit the finite character is the archimedean value `∏_τ τ(u)^(n_τ)`, since `(u) = 𝓞_K`
-and `N(u) = 1`: Neukirch's `χ_f(ε) χ_∞(ε) = 1`, the input of (8.2). -/
+/-- On a unit the finite character is the full archimedean value, since `(u) = 𝓞_K` and
+`N(u) = 1`: Neukirch's `χ_f(ε) χ_∞(ε) = 1`, the input of (8.2). ⚠ With signs: at `u = -1` for the
+odd character mod `4∞` this is `-1`. -/
 theorem finiteCharacter_unit {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (u : (𝓞 K)ˣ) :
-    finiteCharacter K χ u =
-      ∏ τ : K →+* ℂ, τ (algebraMap (𝓞 K) K u) ^ χ.infinityType.exponent τ := sorry
+    finiteCharacter K χ u = archimedeanValue K χ (algebraMap (𝓞 K) K u) := sorry
 
 /-- The finite character extends uniquely and multiplicatively from the integers prime to `𝔪₀`
 to the fractions prime to `𝔪₀` — Neukirch's `K^(𝔪)` (VII §6, p. 471), the supplier's
@@ -2359,7 +2389,10 @@ noncomputable def harmonicFactor {𝔪 : GNF.Modulus K} (χ : Grossencharacter K
       else x.2 w ^ (-χ.infinityType.toContinuous.complexAngular w).toNat
 
 /-- The polynomial is homogeneous under the unit action, and the finite character compensates:
-`χ_f(u) N(u^p) = ∏_w |u_w|^(P_w)` for a unit `u`, by `finiteCharacter_unit`. -/
+`χ_f(u) N(u^p) = ∏_w |u_w|^(P_w)` for a unit `u`, by `finiteCharacter_unit`: the sign of
+`u_w^(ε_w)` at a real place is cancelled by the sign in `archimedeanValue`. ⚠ At `u = -1` for the
+odd character mod `4∞` both factors are `-1` (`oddCharacter_mod_four_sign_test`); with a finite
+character built from the algebraic exponents alone this theorem would read `-1 = 1`. -/
 theorem finiteCharacter_mul_harmonicFactor_unit {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
     (u : (𝓞 K)ˣ) :
     finiteCharacter K χ u * harmonicFactor K χ (mixedEmbedding K (algebraMap (𝓞 K) K u)) =
@@ -2613,10 +2646,12 @@ theorem completedHeckeLFunction_eq_mellin {D : Set (ArchParam K)}
 
 open scoped Classical in
 /-- **Neukirch VII (6.3), the Gauss sum** of the finite character of a primitive ray-class
-character at `y ∈ 𝔪⁻¹𝔡⁻¹`: `τ_𝔪(χ_f, y) = ∑_{x mod 𝔪₀, (x, 𝔪₀) = 1} χ_f(x) e^(2πi Tr(xy))`, a
+character at `y ∈ 𝔪₀⁻¹𝔡⁻¹`: `τ_𝔪(χ_f, y) = ∑_{x mod 𝔪₀, (x, 𝔪₀) = 1} χ_f(x) e^(2πi Tr(xy))`, a
 finite sum over the residue units of `𝓞/𝔪₀` (the quotient by a nonzero ideal is finite), well
-defined because `Tr(xy) mod ℤ` depends only on `x mod 𝔪₀`. The finite character is
-`Grossencharacter.finiteCharacter` of the finite-order presentation. -/
+defined because `Tr(xy) mod ℤ` depends only on `x mod 𝔪₀` for such `y` and `χ_f` factors through
+`(𝓞/𝔪₀)ˣ` (`Grossencharacter.finiteCharacter_residue`), so any representative `Quotient.out`
+may be evaluated. The finite character is `Grossencharacter.finiteCharacter` of the finite-order
+presentation — the residue character, with the real signs stripped by `archimedeanValue`. -/
 noncomputable def gaussSum (ψ : PrimitiveRayClassCharacter K) (y : K) : ℂ :=
   letI : Finite (𝓞 K ⧸ ψ.conductor.finitePart) :=
     Ideal.finiteQuotientOfFreeOfNeBot _ ψ.conductor.finitePart_ne_bot
@@ -2628,22 +2663,47 @@ noncomputable def gaussSum (ψ : PrimitiveRayClassCharacter K) (y : K) : ℂ :=
         ((Algebra.trace ℚ K (algebraMap (𝓞 K) K (Quotient.out
           (x : 𝓞 K ⧸ ψ.conductor.finitePart)) * y) : ℚ) : ℂ))
 
-/-- Neukirch (6.4), first half: `τ_𝔪(χ_f, a y) = χ_f(a) τ_𝔪(χ_f, y)`, and `0` when `(a, 𝔪₀) ≠ 1`
-— the value `0` being what `finiteCharacter` already returns there. Primitivity is used. -/
-theorem gaussSum_mul (ψ : PrimitiveRayClassCharacter K) (y : K) (a : 𝓞 K) :
-    gaussSum K ψ (algebraMap (𝓞 K) K a * y) =
-      Grossencharacter.finiteCharacter K (Grossencharacter.ofRayClassCharacter K ψ.character) a *
-        gaussSum K ψ y := sorry
+/-- The Gauss sum does not depend on the representatives, for `y ∈ 𝔪₀⁻¹𝔡⁻¹`: changing `x` by an
+element of `𝔪₀` changes `Tr(xy)` by an element of `Tr(𝔡⁻¹) = ℤ`. -/
+theorem gaussSum_eq_sum {K : Type u} [Field K] [NumberField K] (ψ : PrimitiveRayClassCharacter K)
+    (y : K) (hy : y ∈ FractionalIdeal.dual ℤ ℚ (ψ.conductor.finitePart : FractionalIdeal (𝓞 K)⁰ K))
+    (rep : (𝓞 K ⧸ ψ.conductor.finitePart)ˣ → 𝓞 K)
+    (hrep : ∀ x, Ideal.Quotient.mk ψ.conductor.finitePart (rep x) =
+      (x : 𝓞 K ⧸ ψ.conductor.finitePart)) :
+    letI : Finite (𝓞 K ⧸ ψ.conductor.finitePart) :=
+      Ideal.finiteQuotientOfFreeOfNeBot _ ψ.conductor.finitePart_ne_bot
+    letI : Fintype (𝓞 K ⧸ ψ.conductor.finitePart)ˣ := Fintype.ofFinite _
+    gaussSum K ψ y = ∑ x : (𝓞 K ⧸ ψ.conductor.finitePart)ˣ,
+      Grossencharacter.finiteCharacter K (Grossencharacter.ofRayClassCharacter K ψ.character)
+          (rep x) *
+        Complex.exp (2 * Real.pi * Complex.I *
+          ((Algebra.trace ℚ K (algebraMap (𝓞 K) K (rep x) * y) : ℚ) : ℂ)) := sorry
 
-/-- Neukirch (6.4), second half: `|τ_𝔪(χ_f, y)| = √N(𝔪₀)` when `(y 𝔪 𝔡, 𝔪) = 1`. -/
+/-- **Neukirch (6.4), first half**, for `y ∈ 𝔪₀⁻¹𝔡⁻¹` and a primitive character:
+`τ_𝔪(χ_f, a y) = conj(χ_f(a)) τ_𝔪(χ_f, y)`. Reindexing the sum by `x ↦ x a⁻¹` produces the
+**inverse** value `χ_f(a)⁻¹`, which is `conj(χ_f(a))` for a unit-modulus character — Mathlib's
+`gaussSum_mulShift_eq` states exactly this convention — and for `(a, 𝔪₀) ≠ 1` both sides are `0`
+(primitivity; `finiteCharacter` already vanishes there), so one equation covers (6.4)'s two cases.
+⚠ Quadratic characters cannot detect the inverse; an even primitive character of order `3`
+modulo `7` with `χ_f(3) = ω` gives `τ(χ, 3/7) = ω⁻¹ τ(χ, 1/7)`. ⚠ The domain hypothesis is needed
+for the vanishing case: over `ℚ` with the even character mod `5`, `a = 5` and `y = 1/25` (not in
+`(1/5)ℤ`) would give `τ(χ, 1/5) = 0`, against `norm_gaussSum`. -/
+theorem gaussSum_mul (ψ : PrimitiveRayClassCharacter K) (y : K)
+    (hy : y ∈ FractionalIdeal.dual ℤ ℚ (ψ.conductor.finitePart : FractionalIdeal (𝓞 K)⁰ K))
+    (a : 𝓞 K) :
+    gaussSum K ψ (algebraMap (𝓞 K) K a * y) =
+      starRingEnd ℂ (Grossencharacter.finiteCharacter K
+        (Grossencharacter.ofRayClassCharacter K ψ.character) a) * gaussSum K ψ y := sorry
+
+/-- Neukirch (6.4), second half: `|τ_𝔪(χ_f, y)| = √N(𝔪₀)` when `y ∈ 𝔪₀⁻¹𝔡⁻¹` and the integral
+ideal `y 𝔪₀ 𝔡` is prime to `𝔪₀`. Consistency check with `gaussSum_mul`: over `ℚ` with the even
+character mod `5`, `y = 1/5` gives `y 𝔪₀ 𝔡 = ℤ`, so `|τ(χ, 1/5)| = √5`. -/
 theorem norm_gaussSum (ψ : PrimitiveRayClassCharacter K) (y : K)
-    (hy : FractionalIdeal.spanSingleton (𝓞 K)⁰ y *
-        (ψ.conductor.finitePart : FractionalIdeal (𝓞 K)⁰ K) *
-        (differentIdeal ℤ (𝓞 K) : FractionalIdeal (𝓞 K)⁰ K) = 1 ∨
-      ∃ 𝔟 : Ideal (𝓞 K), ψ.conductor.IsCoprimeTo 𝔟 ∧
-        FractionalIdeal.spanSingleton (𝓞 K)⁰ y *
-            (ψ.conductor.finitePart : FractionalIdeal (𝓞 K)⁰ K) *
-            (differentIdeal ℤ (𝓞 K) : FractionalIdeal (𝓞 K)⁰ K) = 𝔟) :
+    (hy : y ∈ FractionalIdeal.dual ℤ ℚ (ψ.conductor.finitePart : FractionalIdeal (𝓞 K)⁰ K))
+    (hcop : ∃ 𝔟 : Ideal (𝓞 K), ψ.conductor.IsCoprimeTo 𝔟 ∧
+      FractionalIdeal.spanSingleton (𝓞 K)⁰ y *
+          (ψ.conductor.finitePart : FractionalIdeal (𝓞 K)⁰ K) *
+          (differentIdeal ℤ (𝓞 K) : FractionalIdeal (𝓞 K)⁰ K) = 𝔟) :
     ‖gaussSum K ψ y‖ = Real.sqrt (Ideal.absNorm ψ.conductor.finitePart) := sorry
 
 theorem grossencharacterData_ofRayClassCharacter (χ : PrimitiveRayClassCharacter K) :
@@ -2658,6 +2718,26 @@ theorem oddCharacter_mod_four_test :
       (grossencharacterData ℚ
         (Grossencharacter.ofRayClassCharacter ℚ oddPrimitiveModFour.character)).EqOffZero
           (heckeData ℚ oddPrimitiveModFour) := sorry
+
+/-- ⚠ **The real sign in the finite character**, at the unit `-1` of the odd character mod `4∞`.
+Its algebraic infinity type is `0` and its shift is `0`, so a finite character built from the
+algebraic exponents alone would be `1` at `-1`, while the harmonic polynomial `x^ε` with `ε = 1`
+is `-1` there, and the twisted theta series would vanish by pairing `a` with `-a` — although
+`Λ(s, χ₄)` is not zero. With the full archimedean value `χ_f(-1) = -1`, the unit compensation
+`finiteCharacter_mul_harmonicFactor_unit` reads `(-1)·(-1) = 1`, the terms at `a` and `-a` are
+equal, and the theta series over `ℤ` is Riemann's odd theta function
+`2 ∑_{n ≥ 1} χ₄(n) n e^{-π y n²}`. The card test `oddCharacter_mod_four_test` does not see this:
+it reads the parity off the card, not off the kernel. -/
+theorem oddCharacter_mod_four_sign_test (y : ℝ) (hy : 0 < y) :
+    let χ := Grossencharacter.ofRayClassCharacter ℚ oddPrimitiveModFour.character
+    Grossencharacter.finiteCharacter ℚ χ (-1) = -1 ∧
+      Grossencharacter.harmonicFactor ℚ χ (mixedEmbedding ℚ (-1 : ℚ)) = -1 ∧
+      Grossencharacter.harmonicDegree ℚ χ = 1 ∧
+      Grossencharacter.finiteCharacter ℚ χ (-1) *
+        Grossencharacter.harmonicFactor ℚ χ (mixedEmbedding ℚ (-1 : ℚ)) = 1 ∧
+      Grossencharacter.heckeTheta ℚ χ 1 (fun _ ↦ y) =
+        2 * ∑' n : ℕ, χ₄C ((n + 1 : ℕ) : ZMod 4) * ((n + 1 : ℕ) : ℂ) *
+          Complex.exp (((-Real.pi * y * ((n + 1 : ℕ) : ℝ) ^ 2 : ℝ)) : ℂ) := sorry
 
 /-- Unconditional even-parity regression: no real place divides the modulus and the real gamma
 shift is zero. -/
