@@ -218,8 +218,9 @@ variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
 /-- Capacities decorate the incidence arrow family; they do not determine which edges exist. -/
 abbrev bidirectedNetwork (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e) : Network K G.vertexSet where
   Hom := Hom G
-  cap e := c e.val
-  cap_nonneg e := hc e.val
+  lower _ := 0
+  upper e := c e.val
+  lower_le_upper e := hc e.val
 
 variable [Fintype G.vertexSet] [Fintype G.edgeSet]
 
