@@ -59,7 +59,8 @@ The following Mathlib proposals guide the corresponding interfaces:
 
 Build all missing prerequisites and results in Tau Ceti, following these interfaces and adopting Mathlib's resulting design when available.
 An unmerged proposal is a design reference, not a dependency that contributors must wait for.
-For flows, the finite-sum interface below shares the arrow-indexed carrier of #43017 and differs from it in the five deliberate ways listed under **Graphs, networks, and orientations**.
+For flows, follow [#43017](https://github.com/leanprover-community/mathlib4/pull/43017) for the explicit quiver and separate capacity parameters, `PseudoFlow` and `Flow`, incoming-minus-outgoing excess, and nonnegative value at the sink.
+The finite theory generalizes the coefficient type and uses finite sums; the network bundle exposes this interface through abbreviations, with no separate bundled flow theory.
 Compatibility with that proposal is a target of Milestone 3, proved in an isolated compatibility module against a local copy of its definitions in its own shape.
 The local copy is only a fixture for the correspondence theorems and must not grow a parallel flow theory.
 When Mathlib supplies those definitions, replace the fixture with an import; the correspondence theorems remain the adapter between Mathlib's real-valued interface and the generic finite theory specified here.
@@ -93,7 +94,8 @@ The finite-capacity theory is parameterized by a linearly ordered additive commu
 It must not assume a unit, multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
 A network `N : Network C V` is a structure carrying an arrow type `N.Hom v w : Type v` for every ordered pair of vertices, in a universe independent of the vertex universe as for `Quiver.{v}`, a capacity in `C` for every arrow, and a proof that every capacity is nonnegative; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
 The capacity type `C` is `K` for an ordinary network and `WithTop K` for an extended one.
-Arrow assignments, divergence, and cut capacity are defined once, for every capacity type, with the value type of an assignment independent of the capacity type.
+Define arrow assignments, excess, and cut capacity against an explicit quiver, with capacities a separate parameter where needed and the value type of an assignment independent of the capacity type.
+The network bundle exposes these definitions and the flow types through abbreviations, so bundled and unbundled networks share the same objects and theorems.
 Directed walks use Mathlib's [`Quiver.Path`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/Path.html#Quiver.Path), with the quiver argument supplied explicitly from the arrow family, as in `@Quiver.Path V ⟨N.Hom⟩ s t`.
 Networks and orientations share this carrier and reuse its length, composition, vertex-list, and transport API; add the missing simple-path and cycle predicates using `Quiver.Path.vertices`.
 Strong connectivity is Mathlib's [`Quiver.IsStronglyConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/ConnectedComponent.html#Quiver.IsStronglyConnected) with the same explicit quiver argument.
@@ -101,20 +103,16 @@ Abbreviations may expose these operations through the network or arrow family, s
 As terms, networks coexist and can be quantified over.
 The total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
 Parallel arrows, arrows in opposite directions, loops, and zero capacities are allowed.
-Flow assignments take values in `K` and carry proofs of nonnegativity and capacity boundedness.
-Every network sum is a `Finset.sum`; divergence and flow value also take values in `K` and may be negative.
+A `PseudoFlow` is a `K`-valued arrow assignment with proofs of nonnegativity and capacity boundedness, without a conservation condition.
+A `Flow s t` adds conservation away from the terminals and nonnegative excess at the sink.
+Every network sum is a `Finset.sum`; excess and flow value take values in `K`, with excess allowed to be negative and flow value required to be nonnegative.
 The finite theory must not require reasoning about infinite sums or infinite capacities to state its results.
-Mathlib proposal #43017 shares the arrow-indexed carrier but differs in five ways, each deliberate here.
-It measures excess (incoming minus outgoing) where this roadmap uses divergence (outgoing minus incoming), so that one sign convention is stated once.
-Its value is an `ENNReal` read at the sink, where this roadmap's value lies in the signed coefficient type and is read at the source, so that negative values exist and decompose.
-Its capacity is a parameter separate from the quiver, where this roadmap bundles it into the network, so that a network is one object to quantify over.
-Its capacities are `ℝ≥0`-valued, where this roadmap's are nonnegative elements of the coefficient type, so that capacities, flows, and divergence share one type.
-Its sums are `tsum`s in `EReal`, where every sum here is a `Finset.sum`.
+Follow [#43017](https://github.com/leanprover-community/mathlib4/pull/43017)'s incoming-minus-outgoing `excessAt` and sink-value `Flow.val` conventions.
+The coefficient-generic finite theory uses nonnegative capacities and arrow flows in `K`, with finite sums in `K`, in place of the proposal's `ℝ≥0` capacities and arrow flows, `EReal` excess by `tsum`, and `ENNReal` value.
+The network bundle is a convenience around this explicit-quiver interface, not a second definition of flow.
 Because capacities are bundled, supply a same-arrows capacity-replacement construction, extensionality in the capacity function, and transport of assignments and feasible flows when the replacement capacities are pointwise larger; extension to `WithTop K` and truncation of `⊤` are instances of it.
-Milestone 3 specializes to `K = ℝ`, uses a local copy of that proposal's `PseudoFlow` and `Flow` in exactly its shape (explicit quiver term, capacities as a separate `ℝ≥0`-valued parameter, `EReal`-valued excess by `tsum`, `ENNReal` value at the sink, nonnegative value required), and proves three correspondences on a finite network.
-Its `PseudoFlow`, which has no conservation condition, corresponds to the nonnegative capacity-bounded arrow assignments of this roadmap.
-Its `Flow` corresponds to this roadmap's flows of nonnegative value; flows of negative value have no counterpart there.
-Under both, excess equals minus divergence, and the two flow values agree after coercion of the real specialization to `ENNReal`.
+Milestone 3 specializes to `K = ℝ`, uses a local copy of that proposal's `PseudoFlow` and `Flow` in exactly its shape, and proves the finite-real correspondences for pseudoflows, flows, excess, and value.
+The correspondence preserves arrow assignments after coercing between nonnegative reals and real values with nonnegativity proofs; excess agrees after coercion to `EReal`, and the nonnegative sink value agrees after coercion to `ENNReal`.
 
 **Infinite capacities** belong to an extended-capacity API around the residual-flow core, not inside it.
 An extended network is a network with capacity type `WithTop K`; its flows remain finite `K`-valued assignments, so only the flow structure is separate, while its cut capacities lie in `WithTop K`.
@@ -136,7 +134,7 @@ On a simple graph, identify this construction with the existing `DoubledQuiver` 
 Milestone 1 supplies the transport lemmas for both constructions.
 
 **Namespaces.** Undirected multigraph declarations extend `Graph` and the shared walk API in the shapes of the cited proposals.
-Simple-graph declarations extend `SimpleGraph`, following #33355 and #42494 for connectivity; orientation results extend the existing Tau Ceti orientation namespace.
+Simple-graph declarations extend `SimpleGraph`, following [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) and [#42494](https://github.com/leanprover-community/mathlib4/pull/42494) for connectivity; orientation results extend the existing Tau Ceti orientation namespace.
 `Suggested.lean` keeps stand-ins for proposed definitions outside the Mathlib namespaces so that this repository keeps building when Mathlib lands them.
 `GraphSuggested.lean` prototypes the bidirected-network side of multigraph path transport using `Quiver.Path`; the implementation's native undirected walks follow the shared `GraphLike.Walk` design, with the correspondence required in Milestone 1.
 
@@ -164,13 +162,13 @@ A vertex in `A ∩ B` contributes a permitted zero-length path and must belong t
 There is no prescribed pairing of the endpoints.
 For the edge-disjoint set-to-set version, require `A` and `B` to be disjoint; paths may share endpoints.
 
-Define multigraph reachability by walks and prove agreement with `G.toSimpleGraph.Reachable` and the component-based connectivity of #37861.
-Vertex-reachability and vertex-connectivity are those of `G.toSimpleGraph`, following #33355; prove equivalence with native vertex deletion and path witnesses.
+Define multigraph reachability by walks and prove agreement with `G.toSimpleGraph.Reachable` and the component-based connectivity of [#37861](https://github.com/leanprover-community/mathlib4/pull/37861).
+Vertex-reachability and vertex-connectivity are those of `G.toSimpleGraph`, following [#33355](https://github.com/leanprover-community/mathlib4/pull/33355); prove equivalence with native vertex deletion and path witnesses.
 In particular, global `k`-vertex-connectivity includes `k < |V(G)|`.
 Define `G.IsEdgeReachable k s t` by reachability after deleting any set of fewer than `k` actual edges, and `G.IsEdgeConnected k` by that condition for every pair of actual vertices.
 Prove agreement with the existing `SimpleGraph` predicates on `Graph.ofSimpleGraph`; do not define edge connectivity through simplification.
 Use natural-number thresholds, coerced where an upstream predicate takes `ℕ∞`.
-The predicates are the primary interface, but also define derived numerical invariants `vertexConnectivity G`, `edgeConnectivity G`, and `edgeReachability G s t` in `ℕ∞` as the suprema of the natural thresholds at which the corresponding predicates hold, following #42494 for the edge invariants.
+The predicates are the primary interface, but also define derived numerical invariants `vertexConnectivity G`, `edgeConnectivity G`, and `edgeReachability G s t` in `ℕ∞` as the suprema of the natural thresholds at which the corresponding predicates hold, following [#42494](https://github.com/leanprover-community/mathlib4/pull/42494) for the edge invariants.
 Include the local threshold equivalence for `edgeReachability`, its symmetry, its value `⊤` on the diagonal, and its comparison with global edge connectivity and the number of incident nonloop edges.
 The numerical vertex invariant agrees with that of the underlying simple graph; the edge invariants specialize through `Graph.ofSimpleGraph`, and agree with unit-capacity multigraph minimum cuts.
 For every finite graph with nonempty actual vertex set, prove `G.IsVertexConnected k ↔ k ≤ G.vertexConnectivity`; define vertex connectivity to be zero on the empty vertex set.
@@ -181,14 +179,17 @@ Consequently, for finite graphs edge connectivity is `⊤` exactly when the actu
 ### Flows and bounded circulations
 
 Write `δ⁺(S)` for arrows leaving a vertex set and `δ⁻(S)` for arrows entering it.
-For an arrow assignment `f`, divergence is outgoing flow minus incoming flow.
-An ordinary `s–t` flow satisfies `0 ≤ f ≤ u` and has zero divergence away from distinct terminals `s` and `t`.
-Its value is the divergence at `s`, equivalently minus the divergence at `t`.
+For an arrow assignment `f`, excess is incoming flow minus outgoing flow.
+An ordinary `s–t` flow satisfies `0 ≤ f ≤ u`, has zero excess away from distinct terminals `s` and `t`, and has nonnegative excess at `t`.
+Its value is the excess at `t`, equivalently minus the excess at `s`.
+Define excess and its algebraic API on arbitrary arrow assignments, and state conservation independently of the flow structure.
+Prove that a pseudoflow conserved away from `s,t` with nonpositive excess at `t` gives a `Flow t s` with the same arrow assignment; its value is the negation of the original excess at `t`.
+No second flow type for negative terminal values is required.
 A cut is a source side `S` with `s ∈ S` and `t ∉ S`, of capacity `u(δ⁺(S))`.
 Arrows entering the source or leaving the sink are allowed.
 
-Bounded circulations have nonnegative lower and upper bounds `ℓ ≤ u`, satisfy `ℓ ≤ f ≤ u`, and have zero divergence at every vertex.
-Ordinary flows and bounded circulations share arrow assignments, divergence, and bound calculations, but have separate conservation conditions.
+Bounded circulations have nonnegative lower and upper bounds `ℓ ≤ u`, satisfy `ℓ ≤ f ≤ u`, and have zero excess at every vertex.
+Ordinary flows and bounded circulations share arrow assignments, excess, and bound calculations, but have separate conservation conditions.
 Milestone 8 supplies named reductions from bounded circulation feasibility to ordinary max-flow, including their integrality properties.
 
 The residual network of a flow `f` on `N` has the same vertex type, arrow type `N.Hom v w ⊕ N.Hom w v` from `v` to `w`, and residual capacity `u e − f e` on a forward arrow and `f e` on a reverse arrow.
@@ -199,7 +200,7 @@ For a bounded circulation, the reverse arrow has residual capacity `f e − ℓ 
 
 ## 1. Shared foundations
 
-Build the shared undirected walk and path prerequisites in the shapes of #36756 and #39053, including their missing dependencies, and adopt Mathlib's interfaces as they land.
+Build the shared undirected walk and path prerequisites in the shapes of [#36756](https://github.com/leanprover-community/mathlib4/pull/36756) and [#39053](https://github.com/leanprover-community/mathlib4/pull/39053), including their missing dependencies, and adopt Mathlib's interfaces as they land.
 Supply vertex support, edge occurrences, length, concatenation, reversal, restriction, transport, path extraction, cycles, and the corresponding graph subobjects.
 Supply the graph-isomorphism interface needed for transport: equivalences of the actual vertex and edge sets preserving `IsLink`, with identity, inverse, composition, and their action on walks and subgraphs, reusing Mathlib's graph maps and any available isomorphism API.
 Supply the union of compatible subgraphs of a fixed graph, with vertex-set and edge-set union formulas and the inherited incidence relation, as needed when adding ears; follow [#38337](https://github.com/leanprover-community/mathlib4/pull/38337) for the general union interface.
@@ -216,7 +217,7 @@ Build the following bridges in this milestone, before consumers use them:
   Do not assert preservation of edge-disjointness under simplification.
 - **Connectivity and deletion:** relate native reachability to simplification, and prove compatibility of vertex deletion and induced subgraphs with the necessary subtype equivalences.
   Prove `toSimpleGraph (Graph.ofSimpleGraph H) ≃ H` using the existing isomorphism, and the reverse round trip up to vertex and edge isomorphism for a graph satisfying `Graph.Simple`.
-  Prove compatibility with the component-based connectivity of #37861, including nonemptiness in `Connected` and the correspondence of components.
+  Prove compatibility with the component-based connectivity of [#37861](https://github.com/leanprover-community/mathlib4/pull/37861), including nonemptiness in `Connected` and the correspondence of components.
   Vertex-connectivity statements may then use the underlying simple graph while returning native path witnesses through the lifting API.
 
 Develop multigraph cuts and separators with membership lemmas, complements, restriction to induced subgraphs, edge and vertex deletion, and invariance under graph isomorphisms.
@@ -236,7 +237,7 @@ Build and verify the representation changes used throughout the roadmap:
   Supply both the extended-capacity construction using `⊤` and its ordinary finite truncation, with a proved bound large enough for the reduction.
 - **Change of coefficients:** map networks, assignments, flows, residual capacities, and cuts along order-preserving additive group homomorphisms, including the standard embeddings `ℤ → ℚ → ℝ` and their `WithTop` extensions.
 
-For the deletion predicates, supply the lemmas missing from Mathlib and from #33355, following their shapes: threshold monotonicity, graph monotonicity on a fixed carrier, isomorphism invariance, the zero and one cases, and the relationship between local and global statements.
+For the deletion predicates, supply the lemmas missing from Mathlib and from [#33355](https://github.com/leanprover-community/mathlib4/pull/33355), following their shapes: threshold monotonicity, graph monotonicity on a fixed carrier, isomorphism invariance, the zero and one cases, and the relationship between local and global statements.
 `IsEdgeReachable.mono` and `isEdgeReachable_one` already exist and are reused.
 
 ## 2. Bridges, articulation vertices, and blocks
@@ -263,15 +264,15 @@ Include the path correspondence that recovers separation in the original graph f
 
 ## 3. Flows and max-flow/min-cut
 
-Develop the finite divergence calculus over the coefficient type: additivity, total divergence zero, and the identity equating the sum of divergences over a set with its outgoing flow minus incoming flow.
+Develop the finite excess calculus over the coefficient type: additivity, total excess zero, and the identity equating the sum of excesses over a set with its incoming flow minus outgoing flow.
 Derive weak duality: the value of every feasible flow is at most the capacity of every terminal-separating cut.
 
 The main targets are:
 
 1. **Residual augmentation.** Augmenting along a simple augmenting `s–t` path by its minimum residual capacity preserves feasibility and increases flow value by that positive amount.
    Prove the update formulas on original arrows and the corresponding bounded-circulation cycle augmentation lemma.
-2. **Flow decomposition.** Every feasible flow of nonnegative value is a finite nonnegative sum of simple `s–t` path flows and directed cycle flows, with equality on every original arrow.
-   Negative-value flows have the corresponding decomposition with the terminals exchanged.
+2. **Flow decomposition.** Every flow is a finite nonnegative sum of simple `s–t` path flows and directed cycle flows, with equality on every original arrow.
+   For a pseudoflow conserved away from the terminals with negative excess at the designated sink, apply the terminal-exchange construction to obtain the corresponding decomposition into paths in the opposite direction and cycles.
    Circulations decompose into cycle flows, including loops; flows with values in an additive subgroup admit coefficients in that subgroup.
 3. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
    Prove the equivalent optimality criteria: maximum flow, no augmenting `s–t` path, and existence of a cut attaining equality.
@@ -363,7 +364,7 @@ The simple-graph specialization gives the minimum-degree bound below.
 - **Dirac's prescribed-vertex cycle theorem:** for `k ≥ 2`, every set of `k` vertices in a `k`-vertex-connected graph lies on a cycle.
   No cyclic order of those vertices is prescribed.
 - **Kőnig's theorem:** in a finite bipartite graph, there exist a matching and a vertex cover of equal size, and every maximum matching has the same number of edges as every minimum vertex cover has vertices.
-  Use `SimpleGraph.Subgraph.IsMatching`, `SimpleGraph.IsVertexCover`, and the extremality interfaces of Mathlib proposal #33032.
+  Use `SimpleGraph.Subgraph.IsMatching`, `SimpleGraph.IsVertexCover`, and the extremality interfaces of Mathlib proposal [#33032](https://github.com/leanprover-community/mathlib4/pull/33032).
   Build their missing finite API here, including attainment and the matching–cover inequality.
   Build the bipartite network as a reusable interface: for bipartition `L, R`, unit capacities from the source to `L` and from `R` to the sink, and capacity `|L| + 1` on graph edges directed from `L` to `R`, so that no such edge crosses a minimum cut, with the lemmas that integral flows encode matchings and that a minimum-cut source side `S` yields the cover `(L ∖ S) ∪ (R ∩ S)`.
   Proving Kőnig through it is the suggested route, as for Menger, not a constraint on the theorem.
@@ -394,7 +395,7 @@ Prove three characterizations:
    This vertex-connectivity characterization also applies to the underlying simple graph of a multigraph; it does not assert that open ears cover multigraph loops.
 2. A finite multigraph with nonempty actual vertex set is 2-edge-connected if and only if it can be built from one vertex by adding open or closed ears.
    Prove first that 2-edge-connectivity is equivalent to pairwise reachability of the actual vertices and absence of bridges among the actual edges, including the empty-vertex convention for that equivalence.
-   Derive the simple-graph ear characterization and `H.IsEdgeConnected 2 ↔ ∀ e, ¬ H.IsBridge e` in the shape of #42839.
+   Derive the simple-graph ear characterization and `H.IsEdgeConnected 2 ↔ ∀ e, ¬ H.IsBridge e` in the shape of [#42839](https://github.com/leanprover-community/mathlib4/pull/42839).
    The unrestricted simple-graph bridge predicate includes connectedness through non-edges; the multigraph bridge predicate only concerns actual edges and requires the separate reachability condition.
 3. A network `N` with nonempty finite vertex type is strongly connected (`N.IsStronglyConnected`) if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
 
@@ -411,7 +412,7 @@ Derive the simple-graph statements through the orientation equivalence of Milest
 
 ## 8. Bounded circulations, supplies, and demands
 
-Develop bounded circulations using the shared divergence calculus and the lower-bound residual convention.
+Develop bounded circulations using the shared excess calculus and the lower-bound residual convention.
 Include subtraction of lower bounds, the resulting imbalance at each vertex, and transport between the reduced problem and the original arrow assignment.
 
 Prove **Hoffman's circulation theorem**: for finite bounds `0 ≤ ℓ ≤ u`, a feasible circulation exists if and only if, for every vertex set `S`,
@@ -423,16 +424,16 @@ $$
 Here a bound applied to an arrow set denotes the sum over that set.
 Bounds in an additive subgroup `H` of `K` admit a feasible circulation with values in `H` whenever these inequalities hold.
 
-More generally, for a prescribed divergence `b : V → K`, prove that an assignment satisfying the bounds and `div f = b` exists exactly when
+More generally, for a prescribed excess `b : V → K`, prove that an assignment satisfying the bounds and `excess f = b` exists exactly when
 
 $$
 \sum_{v \in V} b(v)=0
 \quad\text{and}\quad
-\sum_{v \in S} b(v)+\ell(\delta^-(S))\le u(\delta^+(S))
+\sum_{v \in S} b(v)+\ell(\delta^+(S))\le u(\delta^-(S))
 \quad\text{for every }S.
 $$
 
-Positive `b` denotes supply and negative `b` demand.
+Positive `b` denotes demand and negative `b` supply.
 For `b` and bounds with values in an additive subgroup `H`, prove feasibility with values in `H`.
 Supply the reduction to ordinary max-flow by adding auxiliary terminals and prove that saturating the required auxiliary arrows is equivalent to feasibility, preserving values in `H` in both directions.
 Include the bridge turning an ordinary flow of prescribed nonnegative value into a circulation by adding a return arrow from sink to source with that value as both bounds.
@@ -475,6 +476,7 @@ Provide proved examples alongside the relevant milestones:
 - A finite multigraph on infinite ambient types, verifying that finiteness hypotheses concern only its actual vertices and edges.
 - Weighted multigraph aggregation with parallel edges, loops, and zero-capacity edges, and pair capacities with nonzero diagonal entries, proving the specified cut invariance.
 - Networks with parallel and antiparallel arrows, a loop, and zero capacities over integer, rational, and real coefficients, exercising residual tags and finite sums.
+- A capacity-feasible assignment with negative excess at the designated sink, verifying terminal exchange, and a prescribed-excess example verifying the supply and demand signs.
 - An extended network with an uncapacitated arrow and a finite terminal-separating cut, together with its finite truncation, and an extended network whose finite flow values are unbounded.
 - A bounded-circulation example in which positive flow at its lower bound cannot be cancelled.
 - A disconnected weighted graph whose cut tree contains zero-weight edges.
