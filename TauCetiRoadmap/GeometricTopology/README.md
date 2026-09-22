@@ -842,6 +842,21 @@ groupoid.
   polyhedron `|K|`), with the basic API (faces, the star and **link** of a simplex,
   subdivision), reusing the simplicial-set realization where the indexing allows and the
   geometric `SimplicialComplex.space` otherwise.
+- **Maps, restrictions and compactness for `|K|`.** The continuous map `|f| : |K| → |L|` induced
+  by a simplicial map, with its barycentric-coordinate formula and the identity and composition
+  laws; the restriction of a complex to a subset of its vertices, with the realization of a
+  restriction an embedding (`AbstractSimplicialComplex ι` contains every singleton of `ι`, so a
+  restriction changes the vertex type rather than shrinking the complex over the same one, and
+  `PreAbstractSimplicialComplex` is the singleton-free version if that is awkward); `|K|` is
+  Hausdorff and is the quotient of the disjoint union of its closed simplices; and **every
+  compact subset of `|K|` lies in the realization of a restriction to finitely many vertices**,
+  so that a continuous map out of a compact space factors continuously through such a
+  restriction. The last of these is what makes the weak topology usable, and it is the form
+  every consumer needs: the classifying-space roadmap's contractibility argument, and the
+  finiteness arguments of this layer's own collapse results.
+- **Realized cones and contiguity.** The affine homotopy attached to a pair of contiguous
+  simplicial maps, jointly continuous in the point and the parameter; in particular the
+  realization of the combinatorial cone contracts onto its apex, fixing the apex throughout.
 - **Triangulation of a space** in the general sense: `IsTriangulable M := ∃ K, Nonempty (|K| ≃ₜ M)`.
   This is the notion in Manolescu's theorem, and it is *weaker* than asking for a
   combinatorial or PL structure. (Moise, *Geometric Topology in Dimensions 2 and 3*, treats
