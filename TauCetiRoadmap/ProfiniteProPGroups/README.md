@@ -1485,10 +1485,14 @@ abelian pro-`p` structure theory.
 With `E` and `Λ` as above, using either a procyclic coordinate or the split dyadic coordinate:
 
 - **The expression of the relator image.** `E` is topologically generated over `Λ` by finitely
-  many classes `ȳ_i` of the basis elements lying in `X` (`labuteE_exists_generators`), and `r̄`
+  many classes of elements of `X` (`labuteE_exists_generators`), and `r̄`
   is a `Λ`-combination of them (`labuteRelatorClass_eq_sum`). The theorem takes the actual
   generating family and its generation proof; it does not hide freeness or normal-form data in
-  an opaque predicate. Labute's separate normal-form computation on p. 122 gives
+  an opaque predicate. This generating family need not consist of marked basis elements of `F`:
+  in the split branch the kernel also contains the square of the order-two generator's lift and
+  the commutator of the two quotient generators' lifts. The two basis classes in the relator
+  formula below are not asserted to generate all of `E`.
+  Labute's separate normal-form computation on p. 122 gives
   `r̄ = (1 + a + (1+T)^α) ȳ₁ + (2^g − 1 + (1+T)^{αb}) ȳ₃`
   in the dyadic even-rank procyclic branch, where `α ∈ ℤ₂ˣ` is determined by
   `(1 + 2^{v₂(a)})^α = 1 + a` and `b ∈ 2ℤ₂` by `(1 + a)^b = 1 − 2^g`. ⚠ The exponents are `α`
@@ -1525,9 +1529,15 @@ what the orientation does to it, and the shape of the relator read in it.
   `constantCoeff_of_eq_sub_C_mul` gives `ψ(0) = −c · φ(0)`, so dividing by `T − c` shifts the
   valuation of the constant term by exactly `v₂(c)`.
 - **The procyclic branch** (`exists_labuteBasisCorrection_of_dyadic_procyclic`, Labute §4.1).
-  Branch hypothesis `v₂(a) < f`. With `c = −(2 + 2^{v₂(a)})`, which has `v₂(c) = 1`, the two
-  coefficients have `ψ₁(0) = 2 + a` of valuation `1` and `ψ₂(0) = 2^g` of valuation `g ≥ 2`, so
-  the quotients satisfy `φ₁(0) ∈ ℤ₂ˣ` and `φ₂(0) ∈ 2ℤ₂` and the corrected `z₁` is congruent to
+  The rank is even and at least two; the branch hypothesis is `v₂(a) < f`.
+  The parameter `f : ℕ∞` includes `∞`, with `2^∞ = 0`. At rank two the third-generator term
+  is absent, represented by `f = ∞`; the orientation equation on the out-of-range fourth
+  generator forces this value. For finite rank at least four the same statement covers both
+  finite `f` and `f = ∞`. With `c = −(2 + 2^{v₂(a)})`, which has `v₂(c) = 1`, the two
+  coefficients have `ψ₁(0) = 2 + a` of valuation `1` and `ψ₂(0) = 2^f` of valuation `f ≥ 2`
+  when `f` is finite, so
+  the quotients satisfy `φ₁(0) ∈ ℤ₂ˣ` and `φ₂(0) ∈ 2ℤ₂` (the second coefficient is zero at
+  the infinite endpoint) and the corrected `z₁` is congruent to
   `y₁` modulo `Φ(F)`. The conclusion is `r̄ = (2 + 2^{v₂(a)} + T) z̄₁` in the coordinate whose
   topological generator is the image of the corrected `z₂` — pinned to that generator, not
   existential — together with `r = z₁^{2+2^{v₂(a)}}(z₁,z₂)(z₃,z₄)⋯ · e` with `e ∈ (X,X) ∩ F₃`,
@@ -1549,7 +1559,8 @@ what the orientation does to it, and the shape of the relator read in it.
   refuting the correction: here `v₂(a) = 2`, the corrected coefficient is `6 + T` with
   coordinate `5 + γ`, and `ℓ((5+γ)z) = 4ℓ(z)`, which is `4` at `z = x̄₁`.
 - **The split branch** (`exists_labuteBasisCorrection_of_dyadic_split`, Labute §4.2). Branch
-  hypothesis `f ≤ v₂(a)` with `f` finite, under which `Im χ = {±1} × U₂(f)` and `Γ ≅ C₂ × ℤ₂`.
+  hypothesis `f ≤ v₂(a)` with `f` finite and even rank at least four, under which
+  `Im χ = {±1} × U₂(f)` and `Γ ≅ C₂ × ℤ₂`.
   This branch does **not** inherit the procyclic argument, and not only as a matter of audit:
   `Λ = ℤ₂[C₂][[T]]` has zero divisors, `(1 − S)(1 + S) = 0`, pinned as
   `splitInvolution_isZeroDivisor`, so "the coefficients have a common factor, divide by it" is
@@ -1559,8 +1570,19 @@ what the orientation does to it, and the shape of the relator read in it.
   `1, S` and that divisibility by the base element `2^f + T` is coordinatewise. The correction
   is then by a lower-triangular matrix over `Λ` with unit diagonal `1 + a`, which is what makes
   the new family a basis. The relator class lands on **two** corrected generators,
-  `r̄ = (1 + S) z̄₁ + (2^f + T) z̄₃`; it is not a single multiple, and the theorem states it that
-  way.
+  `r̄ = (1 + S) z̄₁ + (2^f + T) z̄₃`. The theorem returns the splitting together with the basis,
+  requiring `e(q(z₂)) = (s, 0)` and `e(q(z₄)) = (1, 1)` in `C₂ × ℤ₂`, where `q : F → Γ` is the
+  quotient map, `s` is the nonidentity element of `C₂`, and the second factor is written
+  additively. Thus `S` represents the class of
+  `z₂` and `1 + T` the class of `z₄`. An independently chosen splitting cannot be used in this
+  formula without transporting its coefficients.
+  The relator word has residual `(z₁,z₃)^{2α} e`, with `e ∈ (X,X) ∩ F₃`. Since `z₁,z₃ ∈ X`
+  and a square of a commutator lies in `F₃`, the whole residual lies in `(X,X) ∩ F₃`, giving
+  the starting error term for the subsequent correction iteration; `α` is not an additional
+  invariant. The split correction uses the generating-basis criterion above. Coordinatewise
+  congruence to the original basis modulo `Φ(F)` cannot hold in general: when `f = v₂(a)`, the
+  normalization of `χ(z₂)` requires an odd power of the original fourth generator, changing
+  the second generator's Frattini class.
 
 The corrections then iterate along the descending `2`-central series, which is where Layer 8's
 comparison schema takes over. This is the exact point at which the Division milestone above is
