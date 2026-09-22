@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.AlgebraicTopology.EilenbergMacLane.Covering
+import TauCeti.AlgebraicTopology.EilenbergMacLane.HomotopyEquiv
 import TauCeti.AlgebraicTopology.UniversalCover.Circle.EilenbergMacLane
 import TauCeti.AlgebraicTopology.UniversalCover.Circle.FundamentalGroup
 import TauCeti.AlgebraicTopology.UniversalCover.Circle.HigherHomotopy
@@ -16,6 +17,7 @@ import TauCeti.AlgebraicTopology.UniversalCover.Torus.FundamentalGroup
 import TauCeti.AlgebraicTopology.UniversalCover.Torus.HigherHomotopy
 import TauCeti.Topology.Homotopy.HomotopyGroup.BasepointChange
 import TauCeti.Topology.Homotopy.HomotopyGroup.Covering
+import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 
 /-!
 # Universal covers: target signatures
@@ -44,7 +46,7 @@ them, never baked into a structure.
 namespace TauCetiRoadmap.UniversalCovers
 
 open TauCeti CategoryTheory
-open scoped Topology Topology.Homotopy unitInterval
+open scoped Topology Topology.Homotopy unitInterval ContinuousMap
 
 universe u v
 
@@ -216,6 +218,14 @@ noncomputable def deckSubgroupQuotientProjEquiv (H : Subgroup (FundamentalGroup 
       ≃* Deck (UniversalCover.subgroupQuotientProj x₀ H) :=
   UniversalCover.deckSubgroupQuotientProjEquiv x₀ H
 
+omit [LocallyPathConnectedSpace X] [SemilocallySimplyConnectedSpace X] in
+/-- Before the regular-cover theorem: a connected covering is regular exactly when its deck
+group acts transitively on a fibre. -/
+theorem isRegular_iff_fiber_isPretransitive {E : Type u} [TopologicalSpace E]
+    [PreconnectedSpace E] {p : E → X} (hp : IsCoveringMap p) {x : X} (e : p ⁻¹' {x}) :
+    Deck.IsRegular p ↔ MulAction.IsPretransitive (Deck p) (p ⁻¹' {x}) :=
+  Deck.isRegular_iff_fiber_isPretransitive hp e
+
 /-- **Regularity is normality**, and then the deck group is `π₁(X, x₀)/H`. -/
 theorem isRegular_iff_normal (H : Subgroup (FundamentalGroup X x₀)) :
     Deck.IsRegular (UniversalCover.subgroupQuotientProj x₀ H) ↔ H.Normal :=
@@ -263,6 +273,19 @@ theorem homotopyGroupMap_comp {Y Z : Type u} [TopologicalSpace Y] [TopologicalSp
     homotopyGroupMap g hg (homotopyGroupMap f hf a) =
       homotopyGroupMap (g.comp f) (by simp [hf, hg]) a :=
   HomotopyGroup.map_comp_apply g hg f hf a
+
+omit [Fintype N] in
+/-- The boundary-relative API on `Ω^N`: a generalized loop is constant on the cube boundary, and
+postcomposition with a pointed map respects homotopy relative to that boundary. -/
+theorem genLoop_boundary {x : X} (p : Ω^ N X x) {t : I^N} (ht : t ∈ Cube.boundary N) :
+    p.1 t = x :=
+  GenLoop.boundary p t ht
+
+omit [Fintype N] in
+theorem genLoop_map_homotopic {Y : Type u} [TopologicalSpace Y] {x : X} {y : Y}
+    {f g : Ω^ N X x} (h : GenLoop.Homotopic f g) (F : C(X, Y)) (hF : F x = y) :
+    GenLoop.Homotopic (GenLoop.map F hF f) (GenLoop.map F hF g) :=
+  GenLoop.map_homotopic h F hF
 
 omit [Fintype N] in
 /-- Cubes are path-connected, and so are their boundaries in dimension at least two: this is the
@@ -364,6 +387,22 @@ theorem isEilenbergMacLaneSpaceOne_pi {ι : Type v} {G : ι → Type v} [∀ i, 
     (h : ∀ i, IsEilenbergMacLaneSpaceOne (G i) (Z i) (z i)) :
     IsEilenbergMacLaneSpaceOne (∀ i, G i) (∀ i, Z i) z :=
   IsEilenbergMacLaneSpaceOne.pi h
+
+/-- Asphericity and the `K(G, 1)` property are homotopy invariants, so in particular they are
+stable under homeomorphism. -/
+theorem isAspherical_of_homotopyEquiv {Y : Type u} [TopologicalSpace Y] {x : X}
+    (h : IsAspherical X x) (e : X ≃ₕ Y) (y : Y) : IsAspherical Y y :=
+  h.of_homotopyEquiv e y
+
+theorem isEilenbergMacLaneSpaceOne_of_homotopyEquiv {Y : Type u} [TopologicalSpace Y] {x : X}
+    {G : Type v} [Group G] (h : IsEilenbergMacLaneSpaceOne G X x) (e : X ≃ₕ Y) (y : Y) :
+    IsEilenbergMacLaneSpaceOne G Y y :=
+  h.of_homotopyEquiv e y
+
+theorem isEilenbergMacLaneSpaceOne_of_homeomorph {Y : Type u} [TopologicalSpace Y] {x : X}
+    {G : Type v} [Group G] (h : IsEilenbergMacLaneSpaceOne G X x) (e : X ≃ₜ Y) (y : Y) :
+    IsEilenbergMacLaneSpaceOne G Y y :=
+  h.of_homotopyEquiv e.toHomotopyEquiv y
 
 /-- Circles and tori are the examples. -/
 theorem circle_isEilenbergMacLaneSpaceOne (p : ℝ) (hp : p ≠ 0) (x : AddCircle p) :
