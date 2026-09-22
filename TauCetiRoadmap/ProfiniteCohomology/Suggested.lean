@@ -267,16 +267,17 @@ private noncomputable def continuousCohomology
   obj X := _root_.continuousCohomology n X
   map f := ContinuousCohomology.map (ContinuousMonoidHom.id G) f n
 
-/-- **Layer 10, the canonical carrier packaged as an actual functor.** Its object and map fields
+/-- **Layer 1, the canonical carrier packaged as an actual functor.** Its object and map fields
 are Mathlib's `continuousCohomology` and `ContinuousCohomology.map`; the functor laws are
-Mathlib's `map_id` and `map_comp`. This packaging is what the filtered-colimit theorem names. -/
+Mathlib's `map_id` and `map_comp`. Restriction and inflation are natural transformations between
+these functors; Layer 10's filtered-colimit theorem uses the same packaging. -/
 noncomputable def continuousCohomologyFunctor
     (R : Type v) [CommRing R] [TopologicalSpace R]
     (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] (n : ℕ) :
     TopRep R G ⥤ TopModuleCat.{u} R :=
   sorry
 
-/-- **Layer 10, Mathlib's homogeneous cochains packaged as a functor.** This is the functor to
+/-- **Layer 1, Mathlib's homogeneous cochains packaged as a functor.** This is the functor to
 which the short exact coefficient complex is mapped before applying the homology-sequence API. -/
 noncomputable def continuousCochainsFunctor
     (R : Type v) [CommRing R] [TopologicalSpace R]
@@ -338,8 +339,8 @@ noncomputable def infl (N : Subgroup G) [N.Normal] (X : TopRep R G) (n : ℕ) :
       (continuousCohomology R G n).obj X :=
   sorry
 
-/-- **Layer 1, coefficient maps,** the third named instance, at `φ = id`. This one the pin
-already gives, since the carrier is a functor. -/
+/-- **Layer 1, coefficient maps,** the third named instance, at `φ = id`. This is Mathlib's
+`ContinuousCohomology.map` specialized to the identity group homomorphism. -/
 noncomputable def coeffMap {X Y : TopRep R G} (f : X ⟶ Y) (n : ℕ) :
     (continuousCohomology R G n).obj X ⟶ (continuousCohomology R G n).obj Y :=
   (continuousCohomology R G n).map f

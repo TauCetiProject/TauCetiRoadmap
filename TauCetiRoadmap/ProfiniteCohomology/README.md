@@ -3,7 +3,7 @@
 Continuous cochain cohomology of a profinite group acting on discrete modules is the language of
 Galois cohomology. Local and global class field theory, the duality theorems, Demushkin groups,
 and the cohomological invariants of quadratic forms are all written in it. Mathlib supplies a deep
-theory of discrete group cohomology and a continuous cohomology functor; §4 records that
+theory of discrete group cohomology and continuous cohomology with functorial maps; §4 records that
 inventory. This roadmap builds what one computes with: explicit inhomogeneous `H⁰, H¹, H²` with
 their cocycle identities, the comparison isomorphisms between models, the description as a colimit
 over finite quotients, long exact sequences, corestriction, Shapiro's lemma for closed subgroups,
@@ -125,7 +125,7 @@ explicit categorical equivalence
 
 `continuousCohomology` is object-valued at the pin rather than a functor, so `Hⁿ_cont(G, X)` is
 `continuousCohomology n X` and its functoriality is the separate `ContinuousCohomology.map`.
-`Suggested.lean` wraps the two in a private functor adapter purely to keep the `.obj`/`.map`
+`Suggested.lean` wraps the two in a private notation adapter purely to keep the `.obj`/`.map`
 notation used throughout that file; the adapter is notation, not a second public cohomology API,
 and nothing outside that file may depend on it.
 
@@ -168,13 +168,14 @@ those are the only two acceptable states.
 
 What is exported is exactly this, named. Every entry in the declaration column is a Lean
 identifier: either one this roadmap builds, carried with its signature in `Suggested.lean`, or one
-Mathlib already supplies, which here is only `continuousCohomology`. A description such as "the
-colimit theorem" or "the six cup shapes" is not a citable export, and no row contains one.
+Mathlib already supplies, including `TopRep`, `continuousCohomology`, and the compatible-pair
+maps and their laws. A description such as "the colimit theorem" or "the six cup shapes" is not
+a citable export, and no row contains one.
 
 | Exported object or theorem | Supplier layer | Declaration | Mathematical type |
 |---|---|---|---|
 | the canonical carrier | 1 | `TopRep`, `continuousCohomology` | `(n : ℕ) → TopRep R G → TopModuleCat R`, object-valued at the pin |
-| compatible-pair functoriality | 1 | `map`, `map_id`, `map_comp` | `Hⁿ(G, X) ⟶ Hⁿ(H, Y)` for `φ : H →ₜ* G` |
+| compatible-pair functoriality | 1 | `map`, `map_id`, `map_comp`, `continuousCohomologyFunctor`, `continuousCochainsFunctor` | `Hⁿ(G, X) ⟶ Hⁿ(H, Y)` for `φ : H →ₜ* G`, with coefficient functor packaging |
 | restriction, inflation, coefficient maps | 1 | `res`, `infl`, `coeffMap` | morphisms of `TopModuleCat R` |
 | the coefficient dictionary | 1 | `ofDiscreteModule`, `IsSmoothDiscrete`, `SmoothDiscreteTopRep`, `discreteRepEquivSmoothTopRep` | `DiscreteRep R G ≌ SmoothDiscreteTopRep R G` |
 | explicit `H⁰`, `H¹`, `H²` | 2 | `H0`, `H1`, `H2`, `H1pi`, `H2pi`, `DiscreteH1`, `DiscreteH2` | `M^G`, and quotients of additive subgroups of the cochain spaces |
@@ -186,7 +187,7 @@ colimit theorem" or "the six cup shapes" is not a citable export, and no row con
 | the finite-quotient colimit | 4 | `explicitFiniteQuotientTransition1`, `explicitFiniteQuotientSystem0`, `explicitFiniteQuotientSystem1`, `explicitFiniteQuotientSystem2`, `explicitFiniteQuotientSystem0_map`, `explicitFiniteQuotientSystem1_map`, `explicitFiniteQuotientSystem2_map`, `explicitFiniteQuotientComparison0`, `explicitFiniteQuotientComparison1`, `explicitFiniteQuotientComparison2`, `explicitFiniteQuotientCocone0`, `explicitFiniteQuotientCocone1`, `explicitFiniteQuotientCocone2`, `explicitFiniteQuotientColimit0`, `explicitFiniteQuotientColimit1`, `explicitFiniteQuotientColimit2` | the universe-polymorphic explicit `Hⁱ(G, M) ≅ colim_U Hⁱ(G ⧸ U, M^U)` for `i = 0,1,2` |
 | the long exact sequence in low degrees | 5 | `DiscreteShortExact`, `DiscreteShortExact.restrict`, `explicitDelta0`, `explicitDelta0_apply`, `explicitDelta1`, `explicitDelta1_apply`, `explicitLongExact_H0A`, `explicitLongExact_H0B`, `explicitLongExact_H0C`, `explicitLongExact_H1A`, `explicitLongExact_H1B`, `explicitLongExact_H1C`, `explicitLongExact_H2A`, `explicitLongExact_H2B`, `explicitDelta0_res`, `explicitDelta1_res` | connecting maps and exactness at eight nodes |
 | the five-term sequence | 5 | `H1ConjInvariants`, `explicitInfl1_injective`, `explicitInfRes_exact`, `explicitRes1_mem_conjInvariants`, `explicitResConj1`, `transgressionLift`, `transgressionCochain`, `transgressionCochain_apply`, `transgressionCochain_isCocycle`, `transgression_changeSection`, `transgression`, `transgression_apply`, `fiveTerm_exact_H1N`, `fiveTerm_exact_H2Q`, `transgression_comp_res`, `explicitInfl2_transgression` | `0 → H¹(G⧸N, M^N) → H¹(G, M) → H¹(N, M)^{G⧸N} → H²(G⧸N, M^N) → H²(G, M)` |
-| the all-degree colimit and exact sequence | 10 | `continuousCohomologyFunctor`, `continuousFiniteQuotientSystem`, `continuousFiniteQuotientCocone`, `continuousFiniteQuotientColimit`, `continuousCohomology_preservesFilteredColimits`, `continuousCochainsShortExact`, `continuousCochainsShortExact_shortExact`, `delta`, `longExact_exact`, `delta_naturality`, `delta_res`, `delta_infl`, `delta_corestriction`, `explicitIso_delta0`, `explicitIso_delta1` | the canonical colimit, filtered-colimit preservation, and `Hⁿ(G, C) ⟶ Hⁿ⁺¹(G, A)` with all exactness and naturality data |
+| the all-degree colimit and exact sequence | 10 | `continuousFiniteQuotientSystem`, `continuousFiniteQuotientCocone`, `continuousFiniteQuotientColimit`, `continuousCohomology_preservesFilteredColimits`, `continuousCochainsShortExact`, `continuousCochainsShortExact_shortExact`, `delta`, `longExact_exact`, `delta_naturality`, `delta_res`, `delta_infl`, `delta_corestriction`, `explicitIso_delta0`, `explicitIso_delta1` | the canonical colimit, filtered-colimit preservation, and `Hⁿ(G, C) ⟶ Hⁿ⁺¹(G, A)` with all exactness and naturality data |
 | low-degree corestriction | 6 | `lWord`, `lWord_mem`, `explicitCor0Transversal`, `explicitCor1Transversal`, `explicitCor2Transversal`, `explicitCor0_changeTransversal`, `explicitCor1_changeTransversal`, `explicitCor2_changeTransversal`, `explicitCor0`, `explicitCor1`, `explicitCor2`, `explicitCor_delta0`, `explicitCor_delta1` | finite-index additive maps on cochains, descending to classes |
 | all-degree corestriction | 10 | `corestriction`, `corestrictionLe`, `corestriction_naturality`, `corestriction_trans`, `corestriction_comp_res`, `mackeyTerm`, `corestriction_mackey` | `Hⁿ(U, res X) ⟶ Hⁿ(G, X)` for open `U` |
 | agreement of the two corestrictions | 10 | `explicitIso_cor0`, `explicitIso_cor`, `explicitIso_cor2` | commuting squares in degrees 0, 1, 2 |
@@ -581,7 +582,12 @@ that every canonical-facing statement below uses.
   `cochainsMap`, `cocyclesMap`, `map`, `map_id`, and `map_comp` directly, then adds `res`,
   `quotientToInvariants`, `infl`, and `coeffMap`. `continuousCohomology` is object-valued, so the
   `.obj` notation in `Suggested.lean` comes from the private adapter described in §1 and is not
-  part of the exported interface.
+  part of the exported interface. Package the canonical objects and the maps at `φ = id` as
+  `continuousCohomologyFunctor R G n : TopRep R G ⥤ TopModuleCat R`, using Mathlib's `map_id`
+  and `map_comp` for the functor laws. Likewise package `TopRep.homogeneousCochains` and
+  `ContinuousCohomology.cochainsMap` at `φ = id` as `continuousCochainsFunctor R G`. These
+  functors reuse the canonical objects and maps; they are the packaging used by the natural
+  transformations below and the categorical constructions in Layer 10.
 - **Smooth discrete objects.** `TopRep R G` is wider than the discrete `G`-modules of §3, and
   deliberately so: an object carries one continuous operator per group element, and nothing there
   forces the action to be continuous in the group variable. An object of `TopRep ℤ G` whose module
@@ -614,19 +620,33 @@ that every canonical-facing statement below uses.
   `cochainsMap φ f`, then
   `cocyclesMap φ f n`, then `map φ f n : Hⁿ_cont(G, X) ⟶ Hⁿ_cont(H, Y)`, with `map_id` and
   `map_comp`. These are the declarations now provided by
-  `Mathlib/RepresentationTheory/Homological/ContCohomology/Functoriality.lean`. The compatibility
-  prototypes at the older repository pin must be deleted when the pin is updated; downstream code
-  uses Mathlib's names and types rather than a parallel implementation.
+  `Mathlib/RepresentationTheory/Homological/ContCohomology/Functoriality.lean`; downstream code
+  uses those names and types.
 - **The three named instances.** Restriction along the inclusion of a subgroup, inflation along a
-  quotient map with invariant coefficients, and coefficient maps at `φ = id`, each as a natural
-  transformation of functors on `TopRep R G`, and each with its composition law. Name the first
-  two `resNatTrans` and `inflNatTrans`, again matching Mathlib.
-- **Degree 0.** `map φ f 0` commutes with `continuousCohomologyZeroIso` and the induced map on
+  quotient map with invariant coefficients, and coefficient maps at `φ = id`, each with its
+  composition law. For fixed `n`, write `F_G = continuousCohomologyFunctor R G n`.
+  For `S ≤ G`, package restriction as
+  `resNatTrans : F_G ⟶ TopRep.resFunctor S.subtype ⋙ F_S`.
+  For normal `N ≤ G`, package `X ↦ quotientToInvariants R N X` and the restriction of coefficient
+  morphisms to `N`-invariants as `quotientToInvariantsFunctor R N`; then package inflation as
+  `infNatTrans : quotientToInvariantsFunctor R N ⋙ F_(G ⧸ N) ⟶ F_G`, following Mathlib's
+  discrete `groupCohomology.infNatTrans` name.
+  Coefficient maps are the arrows
+  `F_G.map f = ContinuousCohomology.map (ContinuousMonoidHom.id G) f n`, rather than a third
+  natural transformation. The naturality squares for `resNatTrans` and
+  `infNatTrans` state their compatibility with these coefficient maps.
+- **Degree 0.** `map φ f 0` commutes with `ContinuousCohomology.zeroIso` and the induced map on
   invariants, which is what makes the low-degree comparisons of Layer 3 checkable at `n = 0`
   before any of the harder degrees exist.
-- **Additivity and linearity.** `continuousCohomology R G n` is additive and `R`-linear, and
-  `map` is additive in `f`. The pin proves the corresponding facts for `invariants` and for the
-  cochain functors; these are the same statements one level up.
+- **Additivity and linearity.** For fixed `φ : H →ₜ* G` and `f, g : TopRep.res φ X ⟶ Y`, prove
+  `map φ (f + g) n = map φ f n + map φ g n` and `map φ 0 n = 0`; for a commutative coefficient
+  ring also prove `map φ (r • f) n = r • map φ f n`. Prove the corresponding equations for
+  `resolutionMap` and `cochainsMap`, and use the `φ = id` cases to equip
+  `continuousCochainsFunctor` and `continuousCohomologyFunctor` with additive and `R`-linear
+  functor instances. For general `φ`, prove the equations using the pointwise formulas for
+  `ContRepresentation.coind₁ResMap` and `TopRep.invariantsResMap`; the `φ = id` constructions
+  consume the pin's additive and linear instances for `TopRep.invariantsFunctor` and
+  `TopRep.coind₁Functor`.
 
 **API** for the carrier. Constructors: `TopRep.of` from an unbundled continuous representation,
 and `ofDiscreteModule` for the discrete case. Worked example: the trivial representation, `ℤ` and
@@ -1346,8 +1366,8 @@ hypothesis that is actually used.
 Layer 0 is a prerequisite because the all-degree Shapiro construction below uses its continuous
 coset section, not only Layer 7's low-degree inverse.
 
-Everything above except Layer 3's comparison is stated in degrees `0, 1, 2`, because that is where
-explicit cochains are usable. Cohomological dimension, dévissage, the general torsion statements
+The explicit computations above are stated in degrees `0, 1, 2`, where their cochain formulas are
+usable. Cohomological dimension, dévissage, the general torsion statements
 and the Evens norm are all-degree statements, and they all rest on this layer. It is stated
 against the canonical object of Layer 1 throughout.
 
@@ -1362,8 +1382,8 @@ against the canonical object of Layer 1 throughout.
   `continuousFiniteQuotientColimit n` over `(OpenNormalSubgroup G)ᵒᵖ`. Pin its object and arrow
   formulas and prove naturality in coefficients. The resulting theorem
   `Hⁿ(G, M) ≅ colim_U Hⁿ(G ⧸ U, M^U)` agrees with every Layer 4 system in degrees `0, 1, 2`.
-- **Filtered coefficient colimits.** Package the canonical carrier as
-  `continuousCohomologyFunctor n` on smooth discrete coefficients and prove
+- **Filtered coefficient colimits.** Restrict Layer 1's `continuousCohomologyFunctor R G n`
+  along `smoothDiscreteι R G` to smooth discrete coefficients and prove
   `continuousCohomology_preservesFilteredColimits`. Layer 11 cites this theorem, not an unnamed
   compactness argument.
 - **The long exact sequence in every degree.** Convert a `DiscreteShortExact` sequence into the
@@ -1421,7 +1441,7 @@ visible. Morphisms: restriction, inflation, coefficient maps, conjugation and co
 every degree. Functoriality: the composition laws for each, and the long exact sequence.
 Comparison: agreement in degrees `0, 1, 2` with Layers 2, 4, 6 and 7, one lemma per operation.
 Naturality: of the connecting maps and of the colimit isomorphism. Edge cases: `n = 0`, which is
-Layer 1's `continuousCohomologyZeroIso`; the trivial group; and `M` a `ℚ`-vector space, where
+Layer 1's `ContinuousCohomology.zeroIso`; the trivial group; and `M` a `ℚ`-vector space, where
 every positive degree vanishes. Consumers: Layer 11 in full, and Layer 12 for the graded product.
 
 **Source** for the all-degree corestriction. Brown, *Cohomology of Groups*, III §9 gives five
