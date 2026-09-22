@@ -668,11 +668,11 @@ pro-`p` quotient.
   independence is a theorem, but at level `i > 0` replacing `π_L` by `u π_L` multiplies `θ_i` by
   `residue(u)^{−i}`, and that transformation rule has to be retained. Multiplying a positive-level
   character by any nonzero residue scalar preserves injectivity and the equivariance law while
-  changing the break constant, hence the norm polynomial below. Over `k = 𝔽₄`, with `K = k((t))` and
-  `L = K(π)` for `π² + tπ + t = 0` — a separable Eisenstein quadratic, so totally ramified — the
-  nonidentity automorphism has `σ(π) = π + t`, break one, and `θ₁(σ) = residue(t/π²) = 1` since
-  `π² = t(π+1)`. Also `Tr(π) = N(π) = t`, and for `y ∈ k` one computes exactly
-  `N(1 + yπ) = 1 + (y² + y)t`, so the graded norm in these coordinates is `y ↦ y² + y`, with kernel
+  changing the break constant, hence the norm polynomial below. Over `k = 𝔽₄`, with `K = k((s))` and
+  `L = K(π)` for `π² + sπ + s = 0` — a separable Eisenstein quadratic, so totally ramified — the
+  nonidentity automorphism has `σ(π) = π + s`, break one, and `θ₁(σ) = residue(s/π²) = 1` since
+  `π² = s(π+1)`. Also `Tr(π) = N(π) = s`, and for `y ∈ k` one computes exactly
+  `N(1 + yπ) = 1 + (y² + y)s`, so the graded norm in these coordinates is `y ↦ y² + y`, with kernel
   `{0,1}`. Replacing `θ₁` by `ω·θ₁` for `ω ∈ 𝔽₄ \ 𝔽₂` satisfies every displayed condition — inertia
   here is of order two with trivial tame quotient — but gives constant `ω` and polynomial
   `y ↦ y² + ωy`, with kernel `{0, ω}`. That is not the actual norm in the fixed coordinates. Prove the consequences: `G_1` is the unique `p`-Sylow
@@ -809,11 +809,14 @@ pro-`p` quotient.
        takes `π_K = N_{L/K}(π_L)`, and that this is a uniformizer under total ramification (where
        `v_K(N_{L/K}(π_L)) = f(L/K)·v_L(π_L) = 1`) is itself an obligation, carried as
        `normUniformizer` with `coe_normUniformizer` and `normUniformizer_irreducible`. The
-       arbitrary-`π_K` version is a separate target carrying the factor
-       `residue(N_{L/K}(π_L)/π_K)^t`. In the `𝔽₄` example above, with base uniformizer `ω·t` for
-       `ω ∈ 𝔽₄ \ 𝔽₂` the depth-one output coordinate of `N(1 + yπ)` is `ω⁻¹(y² + y)`, which at
-       `y = ω` differs from `y² + y`; this is why the free form is false rather than merely
-       unnormalized.
+       arbitrary-`π_K` version is a separate target with output coordinate
+       `residue(N_{L/K}(π_L)/π_K)^t · (y^ℓ − c^{ℓ−1}·y)`. To derive it, write
+       `N_{L/K}(π_L) = a·π_K`; the coordinate-change rule gives
+       `coordinate_{N(π_L)} = residue(a)^{−t} · coordinate_{π_K}`, so solving for
+       `coordinate_{π_K}` puts `residue(a)^t` on the polynomial. In the `𝔽₄` example above,
+       with base uniformizer `ω·s` for `ω ∈ 𝔽₄ \ 𝔽₂`, the depth-one output coordinate of
+       `N(1 + yπ)` is `ω⁻¹(y² + y)`, which at `y = ω` differs from `y² + y`; this is why the
+       free form is false rather than merely unnormalized.
 
        ⚠ The depth-`i` unit-quotient coordinate itself needs its defining equation, exactly as the
        positive-level character does. An equivalence `U(K,i)/U(K,i+1) ≅ 𝓀[K]⁺` with no stated

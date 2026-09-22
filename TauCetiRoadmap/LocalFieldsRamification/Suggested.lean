@@ -1306,8 +1306,11 @@ theorem normGradedMap_at_break_apply [Algebra K L] [ValuativeExtension K L]
 /-- **Layer 3, the same formula for an arbitrary base uniformizer.** `πK` and `πL` are independent
 choices, so the compatible-coordinate formula above acquires the factor
 `residue (N_{L/K}(πL) / πK) ^ t`, with the quotient represented by the unit `a` relating the two
-uniformizers. Orientation: `a = N(πL)/πK` and the factor multiplies the **left** side, matching
-`unitFiltrationGradedCoordinate_congr` and the `𝔽₄` example in the docstring above. -/
+uniformizers. Since `N(πL) = a πK`, the change-of-uniformizer rule gives
+`coordinate_{N(πL)} = residue(a)^(−t) · coordinate_{πK}`. Thus the factor multiplies the
+polynomial on the right: `coordinate_{πK} = residue(a)^t · (y^ℓ − c^{ℓ−1} y)`.
+Derive this statement from `normGradedMap_at_break_apply` and
+`unitFiltrationGradedCoordinate_congr`. -/
 theorem normGradedMap_at_break_apply_of_uniformizer [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L]
     (ℓ : ℕ) [Fact ℓ.Prime] (_hdegree : Module.finrank K L = ℓ)
@@ -1318,13 +1321,13 @@ theorem normGradedMap_at_break_apply_of_uniformizer [Algebra K L] [ValuativeExte
     (a : (↥𝒪[K])ˣ) (ha : (a : ↥𝒪[K]) * πK = normUniformizer K L htr πL hπL)
     (hψ : 0 < psiNat K L t)
     (τ : RamificationQuotient K L t) (hτ : τ ≠ 1) (y : 𝓀[K]) :
-    ((Units.map (IsLocalRing.residue 𝒪[K]).toMonoidHom a : (𝓀[K])ˣ) : 𝓀[K]) ^ t *
-        (unitFiltrationGradedCoordinate K πK hπK t htpos
-          (normGradedMap K L t
-            ((unitFiltrationGradedCoordinate L πL hπL (psiNat K L t) hψ).symm
-              (Multiplicative.ofAdd (algebraMap 𝓀[K] 𝓀[L] y))))).toAdd
-      = y ^ ℓ
-        - ((wildBreakConstantBase K L htr πL hπL t htpos τ hτ : 𝓀[K])) ^ (ℓ - 1) * y :=
+    (unitFiltrationGradedCoordinate K πK hπK t htpos
+        (normGradedMap K L t
+          ((unitFiltrationGradedCoordinate L πL hπL (psiNat K L t) hψ).symm
+            (Multiplicative.ofAdd (algebraMap 𝓀[K] 𝓀[L] y))))).toAdd
+      = ((Units.map (IsLocalRing.residue 𝒪[K]).toMonoidHom a : (𝓀[K])ˣ) : 𝓀[K]) ^ t *
+        (y ^ ℓ
+          - ((wildBreakConstantBase K L htr πL hπL t htpos τ hτ : 𝓀[K])) ^ (ℓ - 1) * y) :=
   sorry
 
 /-- The Eisenstein polynomial defining the concrete tame quadratic extension `ℚ₃(√3)`. -/
