@@ -696,6 +696,68 @@ theorem SetFlow.auxEquiv_original (hAB : Disjoint A B) (f : SetFlow Q cap A B)
 
 end TerminalSets
 
+/-! ## Directed connectivity (Milestones 6 and 7) -/
+
+section DirectedConnectivity
+
+variable (Q : V → V → Type v) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q v w)]
+
+/-- `s` and `t` stay reachable after deleting fewer than `k` arrows. -/
+def IsArcReachable (k : ℕ) (s t : V) : Prop :=
+  ∀ F : Finset (Σ v w, Q v w), F.card < k → ReachableWithout Q F s t
+
+def IsArcStrong (k : ℕ) : Prop := ∀ s t, IsArcReachable Q k s t
+
+/-- More than `k` vertices, and the rest stays strongly connected after deleting fewer than `k`
+of them. -/
+def IsVertexStrong (k : ℕ) : Prop :=
+  k < Fintype.card V ∧ ∀ X : Finset V, X.card < k → ∀ s t, s ∉ X → t ∉ X → ReachableAvoiding Q X s t
+
+noncomputable def arcConnectivity : ℕ∞ := ⨆ (k : ℕ) (_ : IsArcStrong Q k), (k : ℕ∞)
+
+open Classical in
+noncomputable def vertexStrongConnectivity : ℕ∞ :=
+  ⨆ k : ℕ, if IsVertexStrong Q k then (k : ℕ∞) else 0
+
+theorem isArcStrong_iff_le_arcConnectivity (k : ℕ) :
+    IsArcStrong Q k ↔ (k : ℕ∞) ≤ arcConnectivity Q := by
+  sorry
+
+theorem isVertexStrong_iff_le_vertexStrongConnectivity [Nonempty V] (k : ℕ) :
+    IsVertexStrong Q k ↔ (k : ℕ∞) ≤ vertexStrongConnectivity Q := by
+  sorry
+
+/-- Directed local edge Menger in predicate form. -/
+theorem isArcReachable_iff_exists_paths {s t : V} (hst : s ≠ t) (k : ℕ) :
+    IsArcReachable Q k s t ↔
+      ∃ P : Fin k → ArrowWalk Q s t, Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
+        Pairwise fun i j => (ArrowWalk.arrows (P i)).Disjoint (ArrowWalk.arrows (P j)) := by
+  sorry
+
+/-- Directed Whitney inequalities. -/
+theorem vertexStrongConnectivity_le_arcConnectivity :
+    vertexStrongConnectivity Q ≤ arcConnectivity Q := by
+  sorry
+
+theorem arcConnectivity_le_card_out [Nontrivial V] (v : V) :
+    arcConnectivity Q ≤ (Fintype.card (Σ w, Q v w) : ℕ∞) := by
+  sorry
+
+theorem arcConnectivity_le_card_in [Nontrivial V] (v : V) :
+    arcConnectivity Q ≤ (Fintype.card (Σ w, Q w v) : ℕ∞) := by
+  sorry
+
+/-- Weak connectivity: every two vertices are joined by a path of the symmetrized family. -/
+def IsWeaklyConnected : Prop := ∀ v w, ArrowReachable (fun a b => Q a b ⊕ Q b a) v w
+
+/-- The directed analogue of the bridge criterion. -/
+theorem isStronglyConnected_iff_forall_mem_cycle [Nonempty V] (hw : IsWeaklyConnected Q) :
+    IsStronglyConnected Q ↔ ∀ {v w} (e : Q v w),
+      ∃ c : ArrowWalk Q v v, ArrowWalk.IsCycle c ∧ ⟨v, w, e⟩ ∈ ArrowWalk.arrows c := by
+  sorry
+
+end DirectedConnectivity
+
 /-! ## Stand-ins for Mathlib proposal [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) (Conventions) -/
 
 variable (G : SimpleGraph V)
@@ -949,6 +1011,20 @@ every `S ⊆ L` is a separate target; Hall's theorem is the case `S = ∅` of th
 theorem konig_ore [Finite V] {L R : Set V} (h : G.IsBipartiteWith L R) :
     ∃ (M : G.Subgraph) (S : Set V), M.IsMatching ∧ S ⊆ L ∧
       M.edgeSet.ncard + S.ncard = L.ncard + (⋃ x ∈ S, G.neighborSet x).ncard := by
+  sorry
+
+/-- A regular bipartite graph of positive degree has a perfect matching. -/
+theorem exists_isPerfectMatching_of_isRegularOfDegree [Fintype V] [DecidableRel G.Adj]
+    (h : G.IsBipartite) {k : ℕ} (hk : 0 < k) (hreg : G.IsRegularOfDegree k) :
+    ∃ M : G.Subgraph, M.IsPerfectMatching := by
+  sorry
+
+/-- Its edge set is the disjoint union of `k` perfect matchings. -/
+theorem exists_perfectMatching_decomposition_of_isRegularOfDegree [Fintype V]
+    [DecidableRel G.Adj] (h : G.IsBipartite) {k : ℕ} (hreg : G.IsRegularOfDegree k) :
+    ∃ M : Fin k → G.Subgraph, (∀ i, (M i).IsPerfectMatching) ∧
+      (Pairwise fun i j => Disjoint (M i).edgeSet (M j).edgeSet) ∧
+      ⋃ i, (M i).edgeSet = G.edgeSet := by
   sorry
 
 end SimpleGraph
@@ -1397,6 +1473,12 @@ def IsEdgeConnected (k : ℕ) : Prop := ∀ s t : G.vertexSet, IsEdgeReachable G
 
 noncomputable def edgeConnectivity : ℕ∞ :=
   ⨆ (k : ℕ) (_ : IsEdgeConnected G k), (k : ℕ∞)
+
+open Classical in
+/-- The bidirected network's arc connectivity is the multigraph's edge connectivity. -/
+theorem arcConnectivity_bidirected [Fintype G.vertexSet] [Fintype G.edgeSet] :
+    arcConnectivity (Hom G) = edgeConnectivity G := by
+  sorry
 
 /-- A bridge is an actual edge; unlike `SimpleGraph.IsBridge`, this is false on non-edges. -/
 def IsBridge (e : β) : Prop :=

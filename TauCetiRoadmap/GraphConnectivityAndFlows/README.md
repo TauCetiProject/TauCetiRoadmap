@@ -315,13 +315,13 @@ Consequently, for finite graphs edge connectivity is `⊤` exactly when the actu
 ## 2. Bridges, articulation vertices, and blocks
 
 For a multigraph, a bridge is an actual edge whose deletion disconnects its endpoints.
-Prove equivalence with increasing the number of connected components and with lying on no undirected cycle.
+Prove equivalence with increasing the number of connected components by exactly one and with lying on no undirected cycle.
 Loops are never bridges, and an edge with a distinct parallel edge is not a bridge.
 Prove correspondence on actual edges of `Graph.ofSimpleGraph H` with Mathlib's `SimpleGraph.IsBridge` and its `isBridge_iff_forall_cycle_notMem`; membership matters because the simple-graph predicate can also hold for a non-edge joining different components.
 
 Articulation vertices and the block–cut forest use the underlying simple graph and its existing reachability and induced-subgraph APIs.
 An articulation vertex `v` is one that separates two other vertices: some `u, w ≠ v` are reachable in `G` but not in the graph induced on the complement of `{v}`.
-Prove that this is equivalent to deletion of `v` increasing the number of connected components; the count is a lemma rather than the definition, so no statement needs a `Fintype` instance on a deletion subtype.
+Prove that this is equivalent to deletion of `v` increasing the number of connected components, by one or more; the count is a lemma rather than the definition, so no statement needs a `Fintype` instance on a deletion subtype.
 
 A block is a maximal nonempty connected induced subgraph with no articulation vertex of its own.
 For simple graphs, bridges that are edges give two-vertex blocks, and isolated vertices give singleton blocks.
@@ -549,7 +549,12 @@ The simple-graph specialization gives the minimum-degree bound below.
 
 - **Whitney inequalities:** `G.IsVertexConnected k` implies `G.IsEdgeConnected k`; for `[Nontrivial V]`, `G.IsEdgeConnected k` implies `k ≤ G.minDegree`.
   Derive the numerical forms `G.vertexConnectivity ≤ G.edgeConnectivity` and, on a finite nontrivial carrier, `G.edgeConnectivity ≤ G.minDegree` after coercing the degree to `ℕ∞`.
-- **Common-cycle characterizations:** for a connected simple graph with at least three vertices, each of the following is equivalent to 2-vertex-connectivity: every two distinct vertices lie on a common cycle; every two distinct edges lie on a common cycle.
+- **Directed connectivity:** for an arrow family `Q` with finite vertex and arrow types, define `IsArcReachable k s t` by reachability after deleting fewer than `k` arrows, `IsArcStrong k` by that condition for every ordered pair, and `IsVertexStrong k` by more than `k` vertices together with reachability between every two remaining vertices after deleting fewer than `k` vertices.
+  Define the invariants `arcConnectivity` and `vertexStrongConnectivity` in `ℕ∞` as the suprema of the thresholds, with the same subsingleton conventions as the undirected invariants.
+  Supply threshold equivalences, monotonicity in the threshold and the arrow family, deletion lemmas, and the predicate forms through directed Menger.
+  Prove `vertexStrongConnectivity ≤ arcConnectivity`, and the bound of arc connectivity by every out-degree and in-degree when there are at least two vertices.
+  Prove that the arc connectivity of the bidirected network of a multigraph is its edge connectivity and that its vertex strong connectivity is the multigraph's vertex connectivity.
+- **Common-cycle characterizations:** for a connected simple graph with at least three vertices, each of the following is equivalent to 2-vertex-connectivity: every two distinct vertices lie on a common cycle; every two distinct edges lie on a common cycle; every vertex and every edge lie on a common cycle.
   The blocks with at least three vertices from Milestone 2 are exactly the vertex sets of the maximal 2-vertex-connected induced subgraphs.
 - **Preservation lemmas:** deleting `m < k` vertices from a `k`-vertex-connected graph leaves a `(k − m)`-vertex-connected graph; adjoining a new vertex adjacent to at least `k` vertices of a `k`-vertex-connected graph gives a `k`-vertex-connected graph; adding edges preserves `k`-vertex- and `k`-edge-connectivity.
   The proofs of the fan lemma and Dirac's theorem below use the first two.
@@ -566,6 +571,8 @@ The simple-graph specialization gives the minimum-degree bound below.
   State it also in the indexed-family form of Mathlib's Hall theorem, for `t : ι → Finset α`, with an injective choice function on the subtype of a chosen finite set of indices in place of a matching, so that consumers of either form can use it.
   The choice function is defined only on those indices, allowing the empty partial choice even when `α` is empty.
   Hall's theorem is the case of zero deficiency: derive Mathlib's `Finset.all_card_le_biUnion_card_iff_exists_injective` and `exists_isMatching_of_forall_ncard_le` from the two forms as compatibility checks; Mathlib's statements remain the library's Hall.
+- **Regular bipartite graphs:** for `k ≥ 1`, a `k`-regular bipartite graph has a perfect matching, so its two sides have equal size, and its edge set is the disjoint union of `k` perfect matchings.
+  Derive both from Hall, using `SimpleGraph.IsRegularOfDegree` and `Subgraph.IsPerfectMatching`.
 
 ## 7. Ear decompositions and strong orientations
 
@@ -595,6 +602,7 @@ Prove three characterizations:
 In the directed version, ears are directed paths and cycles of `N` in the sense of the conventions, they retain arrow identities, and the directed decomposition exposes the same prefix API using subnetworks.
 Loops are permitted as one-arrow closed ears.
 The initial-vertex convention includes the isolated singleton with no ears; relate it to the cycle-starting formulation for strongly connected networks with at least two vertices.
+Derive the directed analogue of the bridge criterion: a network with nonempty vertex type that is weakly connected, meaning every two vertices are joined by a path of the symmetrized arrow family, is strongly connected if and only if every arrow lies on a directed cycle.
 
 Prove **Robbins' theorem** for finite multigraphs: a strongly connected orientation on `V(G)` exists if and only if `G.IsEdgeConnected 2`.
 This needs no connectedness or size hypothesis: both sides hold when the actual vertex set is subsingleton, including with loops.
