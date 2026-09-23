@@ -67,7 +67,7 @@ Build all missing prerequisites and results in Tau Ceti, following these interfa
 An unmerged proposal is a design reference, not a dependency that contributors must wait for.
 For flows, follow [#43017](https://github.com/leanprover-community/mathlib4/pull/43017) for the explicit quiver and separate capacity parameters, `PseudoFlow` and `Flow`, incoming-minus-outgoing excess, and nonnegative value at the sink.
 The finite theory generalizes the coefficient type and uses finite sums; network interfaces reuse the unbundled definitions, with no separate bundled flow theory.
-The precise compatibility target is [3.3](#33-mathlib-flow-compatibility).
+The real-valued corollaries that align with it are [Target 3.4](#34-real-valued-corollaries).
 
 The [Lean Zulip discussion of max-flow/min-cut](https://leanprover-community.github.io/archive/stream/252551-graph-theory/topic/max-flow.20min-cut.20help.html) records earlier quiver-based formalization work, including [maxflowmincutlean4](https://gitlab.com/Shreyas941/maxflowmincutlean4).
 Coordinate with authors before integrating existing code, following the repository's porting policy.
@@ -95,35 +95,28 @@ Aggregate a weighted multigraph to pair capacities on `Sym2 V(G)` by summing cap
 This aggregation preserves weighted cuts, not individual edge identities or unweighted edge-disjoint paths.
 
 **Directed networks** are terms, not typeclass instances.
-The finite-bound theory is parameterized by a linearly ordered additive commutative group `K`, expressed by `[AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]`.
-The cut-function theory of Targets 4.1 and 4.3 and Milestone 9 never subtracts and is stated over a linearly ordered cancellative additive commutative monoid, `[AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]`, so that `ℕ` and `ℝ≥0` are instances alongside these groups; Target 4.2 uses the group.
-It must not assume a unit, multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
-A network `N : Network K V` carries an arrow type `N.Hom v w` for every ordered pair of vertices.
-Its arrow universe is independent of the vertex universe, as for `Quiver.{v}`.
-Each arrow has lower and upper bounds `ℓ, u` in `K`, with a proof of `ℓ ≤ u`.
-Finiteness is expressed by `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
-Bounds may be negative.
-An ordinary network is the specialization `ℓ = 0` of this same structure, constructed from nonnegative upper capacities; provide a constructor and simplification lemmas, not a second network type.
-Neither the representation nor its bound-order invariant requires a finite graph; the theorem targets here impose the specified finiteness assumptions.
-Define arrow assignments, excess, and cut capacity against an explicit arrow family `Hom : V → V → Type`, with bounds as separate parameters where needed; a `Quiver` term is never a parameter, because instance search for `Fintype (Hom v w)` does not see through `Quiver.mk`.
-The network bundle exposes these definitions and bounded-assignment types through abbreviations, so bundled and unbundled networks share the same objects and theorems.
-The ordinary `PseudoFlow` and `Flow` interfaces use the zero-lower-bound specialization and follow the cited Mathlib proposal.
-Directed walks use Mathlib's [`Quiver.Path`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/Path.html#Quiver.Path), with the quiver argument supplied explicitly from the arrow family, as in `@Quiver.Path V ⟨N.Hom⟩ s t`.
-Networks and orientations share this carrier and reuse its length, composition, vertex-list, and transport API; add the missing simple-path and cycle predicates using `Quiver.Path.vertices`.
-Strong connectivity is Mathlib's [`Quiver.IsStronglyConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/ConnectedComponent.html#Quiver.IsStronglyConnected) with the same explicit quiver argument.
-Abbreviations may expose these operations through the network or arrow family, so several quivers coexist on `V` without competing instances or vertex-type synonyms.
-The total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
-Parallel arrows, arrows in opposite directions, loops, and zero capacities are allowed.
-A bounded assignment is an arrow assignment `f` with `ℓ ≤ f ≤ u` on every arrow; neither conservation nor nonnegative arrow values are part of bounded feasibility.
-All bounds are finite.
-An arrow that must never be cut receives a capacity exceeding a known cut, and [Target 3.2](#32-large-capacities) shows that capping capacities at such a bound changes no minimum cut.
-An ordinary `PseudoFlow` is a `K`-valued arrow assignment with proofs of nonnegativity and capacity boundedness, without a conservation condition.
-A `Flow s t` adds conservation away from the terminals and nonnegative excess at the sink.
-Every network sum is a `Finset.sum`; excess and flow value take values in `K`, with excess allowed to be negative and ordinary flow value required to be nonnegative.
-General bounded terminal assignments have no sign restriction on their terminal value; the ordinary `Flow` type remains its nonnegative-value, zero-lower-bound specialization.
-The finite theory must not require reasoning about infinite sums or infinite capacities to state its results.
-Follow [#43017](https://github.com/leanprover-community/mathlib4/pull/43017)'s incoming-minus-outgoing `excessAt` and sink-value `Flow.val` conventions.
-Its coefficient-generic ordinary specialization uses nonnegative capacities and arrow flows in `K`, with finite sums in `K`, in place of the proposal's `ℝ≥0` capacities and arrow flows, `EReal` excess by `tsum`, and `ENNReal` value.
+
+- **Coefficients.** The finite-bound theory is parameterized by a linearly ordered additive commutative group `K`, expressed by `[AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]`.
+  It must not assume a unit, multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
+  The cut-function theory of Targets 4.1 and 4.3 and Milestone 9 never subtracts and is stated over a linearly ordered cancellative additive commutative monoid, `[AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]`, so that `ℕ` and `ℝ≥0` are instances alongside these groups; Target 4.2 uses the group.
+- **Carrier.** A network `N : Network K V` carries an arrow type `N.Hom v w` for every ordered pair of vertices, in a universe independent of the vertex universe, as for `Quiver.{v}`.
+  Each arrow has lower and upper bounds `ℓ, u` in `K`, with a proof of `ℓ ≤ u`; bounds may be negative, and all bounds are finite.
+  Parallel arrows, arrows in opposite directions, loops, and zero capacities are allowed; the total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
+  Finiteness is expressed by `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`; neither the representation nor its bound-order invariant requires it, and the theorem targets impose the specified finiteness assumptions.
+  An ordinary network is the specialization `ℓ = 0` of this same structure, constructed from nonnegative upper capacities; provide a constructor and simplification lemmas, not a second network type.
+  Define arrow assignments, excess, and cut capacity against an explicit arrow family `Hom : V → V → Type`, with bounds as separate parameters where needed; the network bundle exposes these definitions and the bounded-assignment types through abbreviations, so bundled and unbundled networks share the same objects and theorems.
+  A `Quiver` term is never a parameter, because instance search for `Fintype (Hom v w)` does not see through `Quiver.mk`.
+- **Bounded assignments and flows.** A bounded assignment is an arrow assignment `f` with `ℓ ≤ f ≤ u` on every arrow; neither conservation nor nonnegative arrow values are part of bounded feasibility.
+  An arrow that must never be cut receives a capacity exceeding a known cut, and [Target 3.2](#32-large-capacities) shows that capping capacities at such a bound changes no minimum cut.
+  An ordinary `PseudoFlow` is a `K`-valued arrow assignment with proofs of nonnegativity and capacity boundedness, without a conservation condition; a `Flow s t` adds conservation away from the terminals and nonnegative excess at the sink.
+  General bounded terminal assignments have no sign restriction on their terminal value; the ordinary `Flow` type remains their nonnegative-value, zero-lower-bound specialization.
+  Follow [#43017](https://github.com/leanprover-community/mathlib4/pull/43017)'s incoming-minus-outgoing `excessAt` and sink-value `Flow.val` conventions, with nonnegative capacities and arrow flows in `K` and finite sums in `K` in place of the proposal's `ℝ≥0` capacities and arrow flows, `EReal` excess by `tsum`, and `ENNReal` value.
+- **Sums.** Every network sum is a `Finset.sum`; excess and flow value take values in `K`, with excess allowed to be negative and ordinary flow value required to be nonnegative.
+  The finite theory must not require reasoning about infinite sums or infinite capacities to state its results.
+- **Directed walks.** Use Mathlib's [`Quiver.Path`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/Path.html#Quiver.Path), with the quiver argument supplied explicitly from the arrow family, as in `@Quiver.Path V ⟨N.Hom⟩ s t`.
+  Networks and orientations share this carrier and reuse its length, composition, vertex-list, and transport API; add the missing simple-path and cycle predicates using `Quiver.Path.vertices`.
+  Strong connectivity is Mathlib's [`Quiver.IsStronglyConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/ConnectedComponent.html#Quiver.IsStronglyConnected) with the same explicit quiver argument.
+  Abbreviations may expose these operations through the network or arrow family, so several quivers coexist on `V` without competing instances or vertex-type synonyms.
 
 **An orientation** of `G : Graph α β` orders the ends of each edge, with one directed arrow per edge identity and no additional arrows.
 A loop gives one directed loop; it has a unique ordered pair of ends.
@@ -132,7 +125,7 @@ Simple-graph orientations use the existing `TauCeti.DoubledQuiver.Orientation H`
 The bidirected network has zero lower bounds and one arrow in each direction for every nonloop edge and one loop arrow for every loop, with the original edge's capacity on each arrow.
 Milestone 1 identifies both constructions with the existing simple-graph interfaces and supplies their transport lemmas.
 
-**Namespaces.** Undirected multigraph declarations extend `Graph` and the shared walk API in the shapes of the cited proposals.
+**Namespaces.** Undirected multigraph declarations extend `Graph`.
 Simple-graph declarations extend `SimpleGraph`, following [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) and [#42494](https://github.com/leanprover-community/mathlib4/pull/42494) for connectivity; orientation results extend the existing Tau Ceti orientation namespace.
 `Suggested.lean` keeps stand-ins for proposed definitions outside the Mathlib namespaces so that this repository keeps building when Mathlib lands them.
 `Suggested.lean` prototypes `Graph.Walk` and its equivalence with the bidirected quiver paths under the names the implementation uses.
