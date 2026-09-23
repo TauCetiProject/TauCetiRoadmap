@@ -183,6 +183,11 @@ abbrev Network.BoundedFlow {K : Type w} [AddCommGroup K] [LE K] (N : Network K V
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (s t : V) :=
   TauCetiRoadmap.GraphConnectivityAndFlows.BoundedFlow N.Hom N.lower N.upper s t
 
+/-- Ordinary flows of a zero-lower-bound network. -/
+abbrev Network.Flow {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
+    [Fintype V] [∀ v w, Fintype (N.Hom v w)] (s t : V) :=
+  TauCetiRoadmap.GraphConnectivityAndFlows.Flow N.Hom N.upper s t
+
 abbrev Realizes {K : Type w} [AddCommGroup K] [LE K]
     (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
     (lo hi : Assignment Q K) (b : V → K) :=
@@ -403,6 +408,51 @@ theorem Flow.residualReachable_isMinCut (hst : s ≠ t) (f : Flow Q cap s t)
 
 end Ordinary
 
+section Termination
+
+variable (Q : V → V → Type v) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q v w)]
+variable (cap : Assignment Q ℤ) {s t : V}
+
+theorem Flow.val_le_sum_source (f : Flow Q cap s t) : f.val ≤ ∑ w, ∑ e : Q s w, cap e := by
+  sorry
+
+/-- Integer flow values are bounded, so every sequence of strictly value-increasing flows, in
+particular every sequence of augmentations, is finite. -/
+theorem Flow.wellFounded_val_lt : WellFounded (fun g f : Flow Q cap s t => f.val < g.val) := by
+  sorry
+
+end Termination
+
+/-! ## Real-valued corollaries (Target 3.4) -/
+
+section Real
+
+open NNReal
+
+variable (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
+variable (cap : Assignment Q ℝ≥0) {s t : V}
+
+/-- Flows for `ℝ≥0` capacities are the real flows for their coercion. -/
+abbrev NNRealFlow (s t : V) := Flow Q (fun {_ _} e => (cap e : ℝ)) s t
+
+/-- The arrow values of such a flow, as nonnegative reals. -/
+def NNRealFlow.nnFlow (f : NNRealFlow Q cap s t) : Assignment Q ℝ≥0 :=
+  fun {_ _} e => ⟨f.toFun e, f.lower_le e⟩
+
+/-- The finite-sum excess agrees with the `tsum` expression of #43017 on a finite quiver. -/
+theorem NNRealFlow.excessAt_eq_tsum (f : NNRealFlow Q cap s t) (v : V) :
+    ((excessAt Q f.toFun v : ℝ) : EReal) =
+      ∑' w, ∑' e : Q w v, ((NNRealFlow.nnFlow Q cap f e : ℝ) : EReal) -
+        ∑' w, ∑' e : Q v w, ((NNRealFlow.nnFlow Q cap f e : ℝ) : EReal) := by
+  sorry
+
+/-- The value agrees with #43017's `ENNReal`-valued `Flow.val`. -/
+theorem NNRealFlow.val_eq_toENNReal (f : NNRealFlow Q cap s t) :
+    ENNReal.ofReal f.val = ((excessAt Q f.toFun t : ℝ) : EReal).toENNReal := by
+  sorry
+
+end Real
+
 /-! ## Large capacities (Target 3.2) -/
 
 section LargeCapacities
@@ -464,7 +514,7 @@ def ReachableWithout (F : Set (Σ v w, Q v w)) (s t : V) : Prop :=
 /-- Vertex splitting uses `(v, false)` as the entrance `v⁻` and `(v, true)` as the exit `v⁺`.
 An original arrow `v → w` becomes an arrow `v⁺ → w⁻` with the same identity. -/
 def OriginalHom (x y : V × Bool) : Type v :=
-  {e : Q x.1 y.1 // x.2 = true ∧ y.2 = false}
+  {_e : Q x.1 y.1 // x.2 = true ∧ y.2 = false}
 
 /-- The split arrow `v⁻ → v⁺`, one for every vertex. -/
 def SplitArrow (x y : V × Bool) : Type v :=
@@ -540,24 +590,25 @@ def AuxHom (A B : Finset V) : V ⊕ Bool → V ⊕ Bool → Type v
 instance (A B : Finset V) (x y : V ⊕ Bool) : Fintype (AuxHom Q A B x y) := by
   rcases x with v | (_ | _) <;> rcases y with w | (_ | _) <;> dsimp [AuxHom] <;> infer_instance
 
-/-- The auxiliary-terminal network with capacity `cap` on original arrows and `M` on the new
-arrows. -/
+/-- The auxiliary-terminal network with capacity `cap` on original arrows, `cσ a` on `σ → a`,
+and `cτ b` on `b → τ`. -/
 noncomputable abbrev auxNetwork (A B : Finset V) (cap : Assignment Q K)
-    (hcap : ∀ {v w} (e : Q v w), 0 ≤ cap e) (M : K) (hM : 0 ≤ M) :
+    (hcap : ∀ {v w} (e : Q v w), 0 ≤ cap e) (cσ cτ : V → K)
+    (hσ : ∀ v, 0 ≤ cσ v) (hτ : ∀ v, 0 ≤ cτ v) :
     Network K (V ⊕ Bool) where
   Hom := AuxHom Q A B
   lower _ := 0
   upper {x y} := match x, y with
     | .inl _, .inl _ => cap
-    | .inr false, .inl _ => fun _ => M
-    | .inl _, .inr true => fun _ => M
+    | .inr false, .inl a => fun _ => cσ a
+    | .inl b, .inr true => fun _ => cτ b
     | .inl _, .inr false => fun e => nomatch e
     | .inr true, _ => fun e => nomatch e
     | .inr false, .inr _ => fun e => nomatch e
   lower_le_upper {x y} := match x, y with
     | .inl _, .inl _ => hcap
-    | .inr false, .inl _ => fun _ => hM
-    | .inl _, .inr true => fun _ => hM
+    | .inr false, .inl a => fun _ => hσ a
+    | .inl b, .inr true => fun _ => hτ b
     | .inl _, .inr false => fun e => nomatch e
     | .inr true, _ => fun e => nomatch e
     | .inr false, .inr _ => fun e => nomatch e
@@ -566,7 +617,8 @@ noncomputable abbrev auxNetwork (A B : Finset V) (cap : Assignment Q K)
 `M = |E| + 1` on the auxiliary arrows, where `E` is the total arrow type. -/
 noncomputable abbrev edgeMengerNetwork (A B : Finset V) : Network ℤ (V ⊕ Bool) :=
   auxNetwork Q A B (K := ℤ) (fun _ => 1) (fun _ => zero_le_one)
-    (Fintype.card (Σ v w, Q v w) + 1) (by positivity)
+    (fun _ => Fintype.card (Σ v w, Q v w) + 1) (fun _ => Fintype.card (Σ v w, Q v w) + 1)
+    (fun _ => by positivity) (fun _ => by positivity)
 
 /-- A `σ–τ` cut of capacity below `M` crosses only original arrows, which form an `A–B` arrow
 separator of exactly that capacity. -/
@@ -584,6 +636,63 @@ theorem edgeMengerNetwork_separator_cut (A B : Finset V) (hAB : Disjoint A B)
   sorry
 
 end Bridges
+
+/-! ## Terminal sets (Target 3.3) -/
+
+section TerminalSets
+
+variable (Q : V → V → Type v) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q v w)]
+variable (cap : Assignment Q K) (hcap : ∀ {v w} (e : Q v w), 0 ≤ cap e) (A B : Finset V)
+
+/-- An `A–B` flow: conserved outside `A ∪ B`, with supply on `A` and demand on `B`. -/
+structure SetFlow extends PseudoFlow Q cap where
+  conserve : ∀ v, v ∉ A → v ∉ B → excessAt Q toFun v = 0
+  excess_nonpos : ∀ a ∈ A, excessAt Q toFun a ≤ 0
+  excess_nonneg : ∀ b ∈ B, 0 ≤ excessAt Q toFun b
+
+noncomputable def SetFlow.val (f : SetFlow Q cap A B) : K := ∑ b ∈ B, excessAt Q f.toFun b
+
+theorem SetFlow.val_le_cutCapacity (f : SetFlow Q cap A B) {S : Finset V} (hA : A ⊆ S)
+    (hB : Disjoint S B) : f.val ≤ arrowCutCapacity Q cap S := by
+  sorry
+
+include hcap in
+theorem exists_setFlow_cut_value_eq (hAB : Disjoint A B) :
+    ∃ (f : SetFlow Q cap A B) (S : Finset V),
+      A ⊆ S ∧ Disjoint S B ∧ f.val = arrowCutCapacity Q cap S := by
+  sorry
+
+include hcap in
+theorem exists_max_setFlow_mem_addSubgroup (hAB : Disjoint A B) (H : AddSubgroup K)
+    (hcapH : ∀ {v w} (e : Q v w), cap e ∈ H) :
+    ∃ f : SetFlow Q cap A B, (∀ {v w} (e : Q v w), f.toFun e ∈ H) ∧
+      ∀ g : SetFlow Q cap A B, g.val ≤ f.val := by
+  sorry
+
+/-- The auxiliary network whose `σ–τ` flows are exactly the `A–B` flows: `σ → a` carries the
+total capacity leaving `a`, and `b → τ` the total capacity entering `b`. -/
+noncomputable abbrev setFlowNetwork : Network K (V ⊕ Bool) :=
+  auxNetwork Q A B cap hcap (fun a => ∑ w, ∑ e : Q a w, cap e)
+    (fun b => ∑ w, ∑ e : Q w b, cap e)
+    (fun _ => Finset.sum_nonneg fun _ _ => Finset.sum_nonneg fun _ _ => hcap _)
+    (fun _ => Finset.sum_nonneg fun _ _ => Finset.sum_nonneg fun _ _ => hcap _)
+
+noncomputable def SetFlow.auxEquiv (hAB : Disjoint A B) :
+    SetFlow Q cap A B ≃ (setFlowNetwork Q cap hcap A B).Flow (Sum.inr false) (Sum.inr true) := by
+  sorry
+
+theorem SetFlow.auxEquiv_val (hAB : Disjoint A B) (f : SetFlow Q cap A B) :
+    (SetFlow.auxEquiv (Q := Q) (cap := cap) (hcap := hcap) (A := A) (B := B) hAB f).val =
+      f.val := by
+  sorry
+
+theorem SetFlow.auxEquiv_original (hAB : Disjoint A B) (f : SetFlow Q cap A B)
+    {v w : V} (e : Q v w) :
+    (SetFlow.auxEquiv (Q := Q) (cap := cap) (hcap := hcap) (A := A) (B := B) hAB f).toFun
+        (v := Sum.inl v) (w := Sum.inl w) e = f.toFun e := by
+  sorry
+
+end TerminalSets
 
 /-! ## Stand-ins for Mathlib proposal [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) (Conventions) -/
 
@@ -1499,6 +1608,18 @@ open Classical in
 theorem bidirected_edgeCutCapacity (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e)
     (S : Finset G.vertexSet) :
     (bidirectedNetwork G c hc).upperCutCapacity S = edgeCutCapacity G c S := by
+  sorry
+
+open Classical in
+/-- Undirected max-flow/min-cut: a flow of the bidirected network using no loop arrow and at
+most one direction of each edge, and a cut of equal capacity. -/
+theorem exists_bidirected_flow_edgeCutCapacity_eq (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e)
+    {s t : G.vertexSet} (hst : s ≠ t) :
+    ∃ (f : (bidirectedNetwork G c hc).Flow s t) (S : Finset G.vertexSet),
+      s ∈ S ∧ t ∉ S ∧ f.val = edgeCutCapacity G c S ∧
+      (∀ (v : G.vertexSet) (e : Hom G v v), f.toFun e = 0) ∧
+      ∀ (v w : G.vertexSet) (e : Hom G v w) (e' : Hom G w v), e.val = e'.val →
+        f.toFun e = 0 ∨ f.toFun e' = 0 := by
   sorry
 
 open Classical in

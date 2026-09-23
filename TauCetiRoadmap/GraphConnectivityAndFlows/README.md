@@ -21,7 +21,7 @@ These are suggested forms, never an exhaustive checklist; this document is the s
 | --- | --- | --- |
 | 1. Shared foundations | Walks and representation bridges (1.1), cuts and path families (1.2), excess calculus and residual updates (1.3), splitting and auxiliary terminals (1.4), deletion predicates and invariants (1.5) | Existing Mathlib and Tau Ceti APIs |
 | 2. Bridges and blocks | Multigraph bridges; articulation criteria and block–cut forest | 1 |
-| 3. Flows | Assignment decomposition, augmentation, max-flow/min-cut, integrality, large capacities, and Mathlib compatibility | 1 |
+| 3. Flows | Decomposition, augmentation, max-flow/min-cut, integrality, and termination (3.1), large capacities (3.2), terminal sets and undirected networks (3.3), real-valued corollaries (3.4) | 1 |
 | 4. Minimum cuts | Terminal-set cut lattices (4.1), canonical cuts (4.2), and non-crossing lemmas (4.3) | 1 for 4.1 and 4.3; 1, 3 for 4.2 |
 | 5. Menger | Path–separator duality (5.1) and the reductions to max-flow (5.2) | 1, 3, 4 |
 | 6. Connectivity and matching consequences | Whitney inequalities and cycle criteria, preservation lemmas, fans, Dirac's cycle theorem, Kőnig and Hall | 2, 5 |
@@ -358,16 +358,19 @@ The main targets are:
    Derive the ordinary `s–t` flow decomposition and the cycle-only decomposition of nonnegative zero-excess assignments as corollaries.
    For a pseudoflow conserved away from the terminals with negative excess at the designated sink, use terminal exchange to obtain paths in the opposite direction.
    These statements require nonnegative arrow values; general signed circulations use the nonnegative residual difference of [Target 8.4](#84-residual-adjustments) for cycle adjustments.
-3. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
+3. **Acyclic flows.** Every ordinary flow yields, by removing the cycle components of its decomposition, a flow of the same value whose assignment is arrowwise no larger and whose support contains no directed cycle; in particular it uses no loop and at most one of any two opposite arrows, and every arrow value is at most the flow value.
+   Preserve values in an additive subgroup.
+4. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
    Prove the equivalent optimality criteria: maximum flow, no augmenting `s–t` path, and existence of a cut attaining equality.
-4. **Integrality.** Capacities in an additive subgroup `H` of `K` admit a maximum flow whose arrow values are in `H` and whose value equals the minimum cut capacity.
+5. **Integrality.** Capacities in an additive subgroup `H` of `K` admit a maximum flow whose arrow values are in `H` and whose value equals the minimum cut capacity.
    This is the intrinsic form, and augmentation preserves it since residual capacities are differences of elements of `H`.
    Natural-number capacities in `ℤ`, `ℚ`, or `ℝ` are the case `H = AddSubgroup.zmultiples 1`; state that case with `ℕ`-casts and give the explicit coercion lemmas between the three coefficient types.
+6. **Termination over `ℤ`.** For integer capacities, every flow value is at most the total capacity leaving the source, and augmentation strictly increases the value, so the relation "`g` has larger value than `f`" is well-founded on integer flows.
+   Hence every sequence of augmentations terminates, whatever the choice of augmenting paths.
+   No such assertion is made for dense or non-Archimedean coefficients.
 
 A shortest-augmenting-path argument proves existence over every permitted coefficient type because its termination depends only on the finite residual graph, not on discreteness, Archimedeanness, or completeness of the coefficients.
 This is the suggested proof route rather than part of the public interface; another proof is acceptable if it establishes the same coefficient-generic theorem without stronger assumptions.
-For integer capacities, prove termination of augmentation: each step increases the integer value, which is bounded by the total capacity leaving the source.
-Termination of arbitrary augmenting-path choices over dense or non-Archimedean coefficients is not an assumption of the general theorem.
 
 **Required examples:**
 
@@ -388,14 +391,29 @@ This is the only sense in which this roadmap uses uncapacitated arrows: the redu
 
 - An arrow of capacity above a terminal-separating cut, with a flow whose cycle component carries more than the cut bound, showing that capping preserves the flow value after cycle removal but need not preserve the original assignment.
 
-### 3.3. Mathlib flow compatibility
+### 3.3. Terminal sets and undirected networks
 
-Prove compatibility with [#43017](https://github.com/leanprover-community/mathlib4/pull/43017) in an isolated compatibility module against a local copy of its definitions in its own shape.
-The local copy is only a fixture for the correspondence theorems and must not grow a parallel flow theory.
-When Mathlib supplies those definitions, replace the fixture with an import; the correspondence theorems remain the adapter between Mathlib's real-valued interface and the generic finite theory specified here.
-If Mathlib supplies the generic theory as well, adopt its definitions and API and remove the corresponding local definitions and redundant adapters.
-Specialize to `K = ℝ`, keep the proposal's `PseudoFlow` and `Flow` in exactly their shape, and prove the finite-real correspondences for pseudoflows, flows, excess, and value.
-The correspondence preserves arrow assignments after coercing between nonnegative reals and real values with nonnegativity proofs; excess agrees after coercion to `EReal`, and the nonnegative sink value agrees after coercion to `ENNReal`.
+**Terminal sets.** For disjoint finite vertex sets `A, B`, an `A–B` flow is a pseudoflow conserved outside `A ∪ B` with nonpositive excess on `A` and nonnegative excess on `B`; its value is the total excess on `B`, equivalently minus the total excess on `A`.
+An `A–B` cut is a vertex set `S` with `A ⊆ S ⊆ Bᶜ`, of capacity `u(δ⁺(S))`; these are the admissible sets of [Target 4.1](#41-submodularity-and-terminal-set-cut-lattices).
+Prove weak duality, the existence of an `A–B` flow and an `A–B` cut of equal value and capacity, the optimality criteria, and integrality in an additive subgroup, for all disjoint `A, B` including empty ones, where the maximum value is zero.
+The suggested route is the auxiliary-terminal construction of [Target 1.4](#14-vertex-splitting-auxiliary-terminals-and-change-of-coefficients) with the capacity of `σ → a` equal to the total capacity leaving `a` and that of `b → τ` equal to the total capacity entering `b`: prove that `A–B` flows correspond exactly to `σ–τ` flows with the same original assignment and value, and that minimum `σ–τ` cuts restrict to minimum `A–B` cuts.
+The reductions of [Target 5.2](#52-reductions-to-max-flow) use the same construction with other capacities.
+
+**Undirected networks.** A flow of a weighted multigraph is a flow of its bidirected network.
+Prove that every such flow has an acyclic flow of the same value ([Target 3.1](#31-finite-flows-and-assignment-decomposition)) that uses no loop arrow and at most one of the two opposite arrows of each nonloop edge.
+Prove the undirected max-flow/min-cut theorem: for distinct actual vertices `s, t` there are such a flow and a set `S` containing `s` but not `t` whose value and multigraph cut capacity ([Target 1.2](#12-cuts-separators-and-path-families)) agree, every flow value is at most every cut capacity, and integrality holds in an additive subgroup.
+Derive the `SimpleGraph` statement for `Sym2`-indexed capacities through `Graph.ofSimpleGraph`, in the shape of [#34028](https://github.com/leanprover-community/mathlib4/pull/34028).
+
+**Required examples:**
+
+- Terminal sets with several vertices on each side, one of them empty, verifying the value formula and the auxiliary-terminal correspondence.
+- A weighted multigraph with parallel edges and a loop, with a bidirected flow using both directions of one edge and its normalization.
+
+### 3.4. Real-valued corollaries
+
+For `K = ℝ`, restate the ordinary flow interface for `ℝ≥0`-valued capacities: flows for a capacity function with values in `ℝ≥0` are the `ℝ`-valued flows for its coercion, their arrow values are `ℝ≥0`-valued by nonnegativity, the finite-sum excess cast to `EReal` equals the `tsum` expression of [#43017](https://github.com/leanprover-community/mathlib4/pull/43017) on a finite quiver, and the value cast to `ENNReal` equals that proposal's `Flow.val`.
+State max-flow/min-cut and integrality for `ℝ≥0` capacities in these terms.
+These are ordinary API over `ℝ`; when Mathlib lands its network flows, they are the adapter between its definitions and the coefficient-generic theory, and Tau Ceti adopts Mathlib's definitions wherever they coincide.
 
 ## 4. The structure of minimum cuts
 
@@ -494,7 +512,7 @@ Derive the simple-graph specialization with the same size hypothesis.
 Instantiate the vertex-splitting and auxiliary-terminal constructions of [Target 1.4](#14-vertex-splitting-auxiliary-terminals-and-change-of-coefficients) over `ℤ`, where integrality is the case `H = ⊤`, with the capacities below, and prove the correspondence in each direction.
 For multigraph vertex targets with no edge-finiteness assumption, apply these finite-network reductions to the simplification and use its path-lifting and separator correspondences.
 These reductions are required reusable interfaces; using them to prove Menger is the suggested proof route rather than an additional constraint on the final theorem.
-In the undirected edge reduction, cancel flow in opposite directions separately for each original edge identity before extracting paths, so that one edge cannot be used twice while distinct parallel edges remain distinct.
+In the undirected edge reduction, extract paths from the normalized flow of [Target 3.3](#33-terminal-sets-and-undirected-networks), so that one edge cannot be used twice while distinct parallel edges remain distinct.
 Discard loop flows and cycle flows when extracting simple terminal-to-terminal paths.
 The reductions must recover actual path families and separators, not just equalities of numerical optima.
 
