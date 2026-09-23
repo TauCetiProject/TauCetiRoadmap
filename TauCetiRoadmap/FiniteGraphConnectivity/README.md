@@ -7,7 +7,9 @@ These objects must have reusable APIs, including transport between the graph rep
 
 The structural development runs through blocks, connectivity consequences, and ears.
 The quantitative development runs through flows, minimum cuts, and disjoint paths, then supports bipartite matching, bounded circulations, and cut trees.
-All graphs and networks in the theorem targets are finite.
+The theorem targets have finite actual vertex sets.
+Edge-counting, weighted-cut, flow, and ear-coverage targets also have finite edge or arrow sets.
+Vertex-connectivity, articulation vertices, vertex blocks, nonadjacent vertex Menger, vertex-disjoint set-to-set Menger, and the vertex-structural consequences for multigraphs require only finitely many actual vertices; parallel-edge sets may be infinite.
 The undirected edge theory uses Mathlib's `Graph`, retaining loops and parallel edges, with corollaries in `SimpleGraph`.
 Vertex-connectivity and the vertex-structural consequences reuse the underlying simple graph; the directed network and symmetric-submodular-function theories are independent of this choice.
 
@@ -74,7 +76,9 @@ The mathematical targets here do not require importing that implementation.
 ### Graphs, networks, and orientations
 
 **Undirected graphs** use `G : Graph α β`, with actual vertices `V(G) ⊆ α` and edges `E(G) ⊆ β`.
-The ambient types need not be finite: theorem hypotheses are `[Finite V(G)]` and `[Finite E(G)]`, or `Fintype` instances on these subtypes when taking finite sums.
+The ambient types need not be finite: finiteness hypotheses concern the subtypes `V(G)` and, for the edge-sensitive targets listed above, `E(G)`, with `Fintype` instances on these subtypes when taking finite sums.
+The vertex-only multigraph statements use `[Finite V(G)]` without `[Finite E(G)]`; they pass through simplification and lift finite path families by choosing actual edge witnesses.
+Directed flow and Menger reductions use finite vertex and arrow types.
 Walk endpoints and separators belong to `V(G)`; deleting edges counts identities in `E(G)`, including separate parallel edges.
 Loops are allowed.
 Use `G.toSimpleGraph : SimpleGraph V(G)` for properties insensitive to loops and parallel edges, and `Graph.ofSimpleGraph` to state and prove the simple-graph corollaries.
@@ -332,9 +336,15 @@ The main targets are:
 
 1. **Residual augmentation.** Augmenting along a simple augmenting `s–t` path by its minimum residual capacity preserves feasibility and increases flow value by that positive amount.
    Use the common residual update of Milestone 1 and derive the corresponding bounded-circulation cycle augmentation lemma.
-2. **Flow decomposition.** Every flow is a finite nonnegative sum of simple `s–t` path flows and directed cycle flows, with equality on every original arrow.
-   For a pseudoflow conserved away from the terminals with negative excess at the designated sink, apply the terminal-exchange construction to obtain the corresponding decomposition into paths in the opposite direction and cycles.
-   Nonnegative zero-excess assignments decompose into cycle flows, including loops; flows with values in an additive subgroup admit coefficients in that subgroup.
+2. **Nonnegative assignment decomposition.** Every nonnegative arrow assignment on a finite quiver, without any conservation hypothesis or capacity data, is a finite sum of positively weighted simple directed paths and directed cycles, with equality on every original arrow.
+   Each path starts at a vertex with negative excess in the original assignment and ends at a vertex with positive excess in that assignment; its internal vertices have no additional excess restriction.
+   A walk of weight `q` contributes its number of occurrences of an arrow times `q`, using natural-number scalar multiplication in the additive group, so no multiplicative unit is needed.
+   State the supply and demand identities: the total weight of paths starting at a supply vertex is minus its original excess, and the total weight ending at a demand vertex is its original excess.
+   Permit empty path and cycle families, include loops as cycles, and prove that every component assignment is bounded arrowwise by the original assignment.
+   If the original assignment takes values in an additive subgroup `H`, choose every coefficient in `H`.
+   Derive the ordinary `s–t` flow decomposition and the cycle-only decomposition of nonnegative zero-excess assignments as corollaries.
+   For a pseudoflow conserved away from the terminals with negative excess at the designated sink, use terminal exchange to obtain paths in the opposite direction.
+   These statements require nonnegative arrow values; general signed circulations use the nonnegative residual difference of Milestone 8 for cycle adjustments.
 3. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
    Prove the equivalent optimality criteria: maximum flow, no augmenting `s–t` path, and existence of a cut attaining equality.
 4. **Integrality.** Capacities in an additive subgroup `H` of `K` admit a maximum flow whose arrow values are in `H` and whose value equals the minimum cut capacity.
@@ -358,7 +368,9 @@ State weak duality between finite flow values and extended cut capacities withou
 
 State this milestone for set functions, with the cut capacities as instances.
 A function `f : Finset V → K` is **submodular** when `f (S ∪ T) + f (S ∩ T) ≤ f S + f T` for all `S, T`, and **symmetric** when `f Sᶜ = f S` for all `S`.
-A minimum `s–t` cut for `f` is a minimizer of `f` over the sets containing `s` and not `t`; under symmetry the choice of side is immaterial.
+A minimum `A–B` cut for disjoint terminal sets `A,B` is a minimizer of `f` over `A ⊆ S ⊆ Bᶜ`.
+Either terminal set may be empty; disjointness guarantees at least one admissible set, and finiteness gives an attained minimum.
+Singleton terminal sets recover minimum `s–t` cuts for distinct `s,t`; under symmetry the choice of side is immaterial after exchanging the terminal sets.
 Prove that nonnegative directed outgoing cut capacity is submodular and that nonnegative undirected cut capacity is symmetric and submodular.
 For finite signed bounds `ℓ ≤ u`, also prove submodularity of the upper cut bound `U` using
 
@@ -369,8 +381,10 @@ $$
 The first term is a cut function with nonnegative capacities; the vertex sum is modular, meaning it satisfies the submodular identity with equality.
 These identities use the common excess calculus and do not depend on the circulation feasibility results.
 
-For a submodular `f` and fixed distinct terminals, prove that the minimum `s–t` cuts are closed under union and intersection.
-Develop this family as a finite lattice under inclusion, with unique smallest and largest members.
+For a submodular `f` and disjoint terminal sets `A,B`, prove that the minimum `A–B` cuts are closed under union and intersection.
+Develop this family as a finite distributive lattice under inclusion, with unique smallest and largest members, characterized by containment in or containment of every minimizing side.
+Supply attainment, the minimum-value characterization of a minimizing side, invariance under vertex equivalences, and the singleton-terminal specialization.
+Define submodularity independently of symmetry; none of these lattice results assumes symmetry.
 
 Apply this lattice theory to `U` for finite signed bounds, including networks whose feasible terminal values are all negative.
 For any feasible bounded `s–t` assignment and source-side cut `S`, prove the gap identity
@@ -412,14 +426,17 @@ The derived numerical connectivity invariants package global threshold informati
   Give directed-network and multigraph versions, and derive the `SimpleGraph` statements using Milestone 1.
 - **Local vertex Menger:** for distinct nonadjacent terminals, the same with internally vertex-disjoint paths and terminal-excluding vertex separators.
   Give directed-network and multigraph versions with the adjacency convention above, returning actual edge-labelled paths, and derive the `SimpleGraph` statements.
+  The multigraph statement requires only finitely many actual vertices: apply the simple-graph theorem to the simplification and lift its finite path family.
 - **Adjacent terminals:** let `D` be the set of all edges joining distinct terminals `s,t`, and let `m = |D|`.
   Give both multigraph and directed versions; in the directed version, `D` consists exactly of the arrows `s → t`, and arrows `t → s` are retained and do not contribute to `m`.
   After deleting all of `D`, a terminal-excluding vertex separator of size `k` and a family of `k + m` internally vertex-disjoint paths in the original graph attain equality, for some `k`.
   The family includes the `m` distinct one-edge paths, and every such family has size at most `|X| + m` for every separator `X` in the graph with `D` deleted.
   The simple-graph corollary has `m = 1` and hence `k + 1` paths, including for the single-edge graph where `k = 0`.
 - **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the overlap convention above, in directed-network and multigraph versions, with simple-graph corollaries; and edge versions for disjoint terminal sets.
+  The multigraph vertex version likewise requires no finiteness of the actual edge set; the edge version retains that hypothesis.
 
 Build the unit-capacity, vertex-splitting, and auxiliary-terminal reductions to max-flow over `ℤ`, where integrality is the case `H = ⊤`, and prove the correspondence in each direction.
+For multigraph vertex targets with no edge-finiteness assumption, apply these finite-network reductions to the simplification and use its path-lifting and separator correspondences.
 These reductions are required reusable interfaces; using them to prove Menger is the suggested proof route rather than an additional constraint on the final theorem.
 In the undirected edge reduction, cancel flow in opposite directions separately for each original edge identity before extracting paths, so that one edge cannot be used twice while distinct parallel edges remain distinct.
 Discard loop flows and cycle flows when extracting simple terminal-to-terminal paths.
@@ -429,7 +446,8 @@ Derive the predicate forms: local edge reachability at threshold `k` is equivale
 Relate local edge reachability to cuts as well: for distinct actual vertices `s,t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut value with capacity `1 : ℤ` on each actual edge.
 After aggregation to pair capacities, the capacity of a pair is its edge multiplicity, not merely an adjacency indicator.
 Thus the cut tree of Milestone 9 answers multigraph local edge reachability; for a simple graph this specializes to capacity `1` on edges and `0` elsewhere.
-For finite multigraphs with more than `k` actual vertices, and for simple graphs, derive the global characterization of `k`-vertex-connectivity by `k` internally vertex-disjoint paths between every pair of distinct vertices, including adjacent pairs.
+For multigraphs with finitely many actual vertices and more than `k` of them, derive the global characterization of `k`-vertex-connectivity by `k` internally vertex-disjoint paths between every pair of distinct vertices, including adjacent pairs, without assuming a finite edge set.
+Derive the simple-graph specialization with the same size hypothesis.
 
 ## 6. Connectivity and bipartite matching consequences
 
@@ -580,9 +598,12 @@ Give the reductions from a feasible starting assignment to the ordinary max-flow
 If both bounds lie in an additive subgroup `H`, extrema can be attained with all arrow values in `H`; every `q ∈ H` in the feasible interval also has an `H`-valued witness.
 Recover the ordinary maximum-flow theorem as the zero-lower-bound, nonnegative-value specialization.
 
-**Rounding.** For a real arrow assignment with integer excess at every vertex, prove existence of an integer assignment with the same excess and each arrow value between the floor and ceiling of its original value.
+**Rounding.** Let `R` be a linearly ordered ring with Mathlib's [`FloorRing`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Order/Floor/Defs.html#FloorRing) structure.
+For an `R`-valued arrow assignment whose excess at every vertex is the cast of an integer, prove existence of an integer assignment with that same integer excess and each arrow value between the floor and ceiling of its original value.
 Deduce preservation of any integer lower and upper bounds respected by the original assignment, and specialize to circulations and flows of integer prescribed value.
-Derive this from integral bounded feasibility by using the floor and ceiling as bounds; no rounding assertion is made for noninteger prescribed excess.
+Derive this from additive-subgroup integrality for the image of `ℤ → R`, using the floor and ceiling as bounds and the injectivity of integer casts to recover an integer assignment.
+State rational and real specializations; the ring and floor structure are assumptions of this rounding target, not of the general flow theory.
+No rounding assertion is made for noninteger prescribed excess.
 
 ## 9. Gomory–Hu cut trees
 
@@ -644,7 +665,7 @@ Its 3-connectivity targets use `SimpleGraph`; their `IsThreeConnected` is the sp
 This roadmap owns graph connectivity, components, separators, and their representation bridges; the surface topology development uses that common API for its underlying multigraphs and its simple-graph theorems.
 No second component or 3-connectivity theory is required in the surface topology development.
 
-General matching theory beyond the bipartite consequences above, minimum-cost flows and circulations, multicommodity flows, infinite graphs, treewidth, and algorithmic complexity bounds are outside this roadmap.
+General matching theory beyond the bipartite consequences above, minimum-cost flows and circulations, multicommodity flows, graphs with infinitely many actual vertices, edge-counting and flow theories with infinite edge sets, treewidth, and algorithmic complexity bounds are outside this roadmap.
 
 ## Mathematical references
 

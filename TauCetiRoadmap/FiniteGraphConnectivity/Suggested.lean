@@ -216,6 +216,12 @@ abbrev vertices {s t : V} (p : ArrowWalk Hom s t) : List V :=
 abbrev comp {s t z : V} (p : ArrowWalk Hom s t) (q : ArrowWalk Hom t z) :
     ArrowWalk Hom s z := @Quiver.Path.comp V ⟨Hom⟩ s t z p q
 
+def arrows {s t : V} (p : ArrowWalk Hom s t) : List (Σ v w, Hom v w) := by
+  letI : Quiver V := ⟨Hom⟩
+  induction p with
+  | nil => exact []
+  | cons p e ih => exact ih ++ [⟨_, _, e⟩]
+
 /-- A directed path: a walk with no repeated vertices. -/
 def IsPath {u w : V} (p : ArrowWalk Hom u w) : Prop := (vertices p).Nodup
 
@@ -259,6 +265,47 @@ noncomputable abbrev Network.upperCutCapacity [DecidableEq V] (S : Finset V) : C
 end AnyBounds
 
 variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
+
+open Classical in
+/-- Each occurrence contributes the weight; this needs no multiplication on the coefficient type. -/
+noncomputable def walkAssignment (Q : Quiver V) {s t : V}
+    (p : @Quiver.Path V Q s t) (q : K) : Assignment Q K :=
+  fun {_ _} e => (ArrowWalk.arrows p).count ⟨_, _, e⟩ • q
+
+/-- Decomposition data for a nonnegative assignment, with supply and demand determined by it. -/
+structure NonnegativeDecomposition (Q : Quiver V) [Fintype V]
+    [∀ v w, Fintype (Q.Hom v w)] (f : Assignment Q K) where
+  pathCount : ℕ
+  cycleCount : ℕ
+  source : Fin pathCount → V
+  sink : Fin pathCount → V
+  path : (i : Fin pathCount) → @Quiver.Path V Q (source i) (sink i)
+  path_isPath : ∀ i, ArrowWalk.IsPath (path i)
+  pathWeight : Fin pathCount → K
+  pathWeight_pos : ∀ i, 0 < pathWeight i
+  source_supply : ∀ i, excessAt Q f (source i) < 0
+  sink_demand : ∀ i, 0 < excessAt Q f (sink i)
+  base : Fin cycleCount → V
+  cycle : (i : Fin cycleCount) → @Quiver.Path V Q (base i) (base i)
+  cycle_isCycle : ∀ i, ArrowWalk.IsCycle (cycle i)
+  cycleWeight : Fin cycleCount → K
+  cycleWeight_pos : ∀ i, 0 < cycleWeight i
+  arrow_eq : ∀ {v w} (e : Q.Hom v w), f e =
+    (∑ i, walkAssignment Q (path i) (pathWeight i) e) +
+      ∑ i, walkAssignment Q (cycle i) (cycleWeight i) e
+
+theorem exists_nonnegativeDecomposition (Q : Quiver V) [Fintype V]
+    [∀ v w, Fintype (Q.Hom v w)] (f : Assignment Q K)
+    (hf : ∀ {v w} (e : Q.Hom v w), 0 ≤ f e) : Nonempty (NonnegativeDecomposition Q f) := by
+  sorry
+
+theorem exists_nonnegativeDecomposition_mem_addSubgroup (Q : Quiver V) [Fintype V]
+    [∀ v w, Fintype (Q.Hom v w)] (f : Assignment Q K)
+    (hf : ∀ {v w} (e : Q.Hom v w), 0 ≤ f e) (H : AddSubgroup K)
+    (hH : ∀ {v w} (e : Q.Hom v w), f e ∈ H) :
+    ∃ d : NonnegativeDecomposition Q f,
+      (∀ i, d.pathWeight i ∈ H) ∧ ∀ i, d.cycleWeight i ∈ H := by
+  sorry
 
 /-- Residual arrows have zero lower bounds, regardless of the original bounds. -/
 noncomputable abbrev residual (Q : Quiver V) (lo hi : Assignment Q K)
@@ -710,12 +757,39 @@ namespace TauCetiRoadmap.FiniteGraphConnectivity
 variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
 variable {V : Type u} [Fintype V] [DecidableEq V]
 
-/-- A symmetric submodular function on vertex sets: the setting of the minimum-cut lattice, the
-non-crossing lemmas, and the cut tree. Undirected cut capacity is the instance the roadmap's
-consumers use. -/
+/-- Submodularity alone suffices for the minimum-cut lattice, including directed cut capacities. -/
+def IsSubmodular (f : Finset V → K) : Prop :=
+  ∀ S T, f (S ∪ T) + f (S ∩ T) ≤ f S + f T
+
+/-- Symmetry is the additional hypothesis for non-crossing lemmas and cut trees. -/
 structure IsSymmSubmodular (f : Finset V → K) : Prop where
   symm : ∀ S, f Sᶜ = f S
-  submodular : ∀ S T, f (S ∪ T) + f (S ∩ T) ≤ f S + f T
+  submodular : IsSubmodular f
+
+def IsMinCutBetween (f : Finset V → K) (A B S : Finset V) : Prop :=
+  A ⊆ S ∧ Disjoint S B ∧ ∀ T, A ⊆ T → Disjoint T B → f S ≤ f T
+
+noncomputable def minCutBetween (f : Finset V → K) (A B : Finset V)
+    (hAB : Disjoint A B) : K :=
+  (univ.filter fun S : Finset V => A ⊆ S ∧ Disjoint S B).inf'
+    ⟨A, by simp [hAB]⟩ f
+
+theorem isMinCutBetween_iff_value_eq (f : Finset V → K) (A B : Finset V)
+    (hAB : Disjoint A B) (S : Finset V) :
+    IsMinCutBetween f A B S ↔ A ⊆ S ∧ Disjoint S B ∧ f S = minCutBetween f A B hAB := by
+  sorry
+
+theorem IsSubmodular.isMinCutBetween_union_inter {f : Finset V → K}
+    (hf : IsSubmodular f) {A B S T : Finset V}
+    (hS : IsMinCutBetween f A B S) (hT : IsMinCutBetween f A B T) :
+    IsMinCutBetween f A B (S ∪ T) ∧ IsMinCutBetween f A B (S ∩ T) := by
+  sorry
+
+theorem IsSubmodular.exists_extremal_minCuts {f : Finset V → K}
+    (hf : IsSubmodular f) (A B : Finset V) (hAB : Disjoint A B) :
+    ∃ Smin Smax, IsMinCutBetween f A B Smin ∧ IsMinCutBetween f A B Smax ∧
+      ∀ S, IsMinCutBetween f A B S → Smin ⊆ S ∧ S ⊆ Smax := by
+  sorry
 
 /-- The minimum of `f` over sets containing `s` and not `t`: the minimum of a nonempty finite
 family when `s ≠ t`, and zero when `s = t`. No order completeness is required. -/
@@ -723,6 +797,10 @@ noncomputable def minCut (f : Finset V → K) (s t : V) : K :=
   if h : s ≠ t then
     (univ.filter fun S : Finset V => s ∈ S ∧ t ∉ S).inf' ⟨{s}, by simp [Finset.mem_filter, h.symm]⟩ f
   else 0
+
+theorem minCutBetween_singleton (f : Finset V → K) (s t : V) (hst : s ≠ t) :
+    minCutBetween f {s} {t} (by simpa using hst) = minCut f s t := by
+  sorry
 
 /-- The non-crossing lemma: if `S` is a minimum `s–t` cut for a symmetric submodular `f` and
 `u, v ∈ S` are distinct, some minimum `u–v` cut has a side contained in `S`. -/
@@ -1067,11 +1145,24 @@ section Rounding
 
 variable (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
 
-theorem exists_integer_rounding (f : Assignment Q ℝ) (b : V → ℤ)
-    (hb : ∀ v, excessAt Q f v = (b v : ℝ)) :
+theorem exists_integer_rounding {R : Type*} [Ring R] [LinearOrder R]
+    [IsStrictOrderedRing R] [FloorRing R] (f : Assignment Q R) (b : V → ℤ)
+    (hb : ∀ v, excessAt Q f v = (b v : R)) :
     ∃ g : Assignment Q ℤ, (∀ v, excessAt Q g v = b v) ∧
       ∀ {v w} (e : Q.Hom v w), ⌊f e⌋ ≤ g e ∧ g e ≤ ⌈f e⌉ := by
   sorry
+
+theorem exists_integer_rounding_rat (f : Assignment Q ℚ) (b : V → ℤ)
+    (hb : ∀ v, excessAt Q f v = (b v : ℚ)) :
+    ∃ g : Assignment Q ℤ, (∀ v, excessAt Q g v = b v) ∧
+      ∀ {v w} (e : Q.Hom v w), ⌊f e⌋ ≤ g e ∧ g e ≤ ⌈f e⌉ :=
+  exists_integer_rounding Q f b hb
+
+theorem exists_integer_rounding_real (f : Assignment Q ℝ) (b : V → ℤ)
+    (hb : ∀ v, excessAt Q f v = (b v : ℝ)) :
+    ∃ g : Assignment Q ℤ, (∀ v, excessAt Q g v = b v) ∧
+      ∀ {v w} (e : Q.Hom v w), ⌊f e⌋ ≤ g e ∧ g e ≤ ⌈f e⌉ :=
+  exists_integer_rounding Q f b hb
 
 end Rounding
 
@@ -1158,7 +1249,7 @@ theorem isEdgeReachable_iff_exists_paths [Finite G.vertexSet] [Finite G.edgeSet]
   sorry
 
 /-- Vertex Menger returns paths with original edge identities. -/
-theorem exists_paths_vertexSeparator_card_eq [Finite G.vertexSet] [Finite G.edgeSet]
+theorem exists_paths_vertexSeparator_card_eq [Finite G.vertexSet]
     {s t : G.vertexSet} (hst : s ≠ t) (hadj : ¬ G.Adj s.val t.val) :
     ∃ (k : ℕ) (P : Fin k → Walk G s t) (X : Set α),
       Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
