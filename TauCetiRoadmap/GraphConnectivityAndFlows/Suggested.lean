@@ -589,26 +589,6 @@ theorem vertexMengerNetwork_separator_cut (c : V → ℕ) {s t : V} (hst : s ≠
       (vertexMengerNetwork Q c s t).upperCutCapacity S ≤ ∑ v ∈ X, (c v : ℤ) := by
   sorry
 
-/-- A packing of `s–t` paths respecting vertex capacities `c`: repetitions are allowed, and every
-vertex other than the terminals lies on at most `c v` members counted with repetition. With
-`c = 1` the members are distinct and internally vertex-disjoint. -/
-structure VertexPacking (c : V → ℕ) (s t : V) where
-  size : ℕ
-  path : Fin size → ArrowWalk Q s t
-  path_isPath : ∀ i, ArrowWalk.IsPath (path i)
-  usage_le : ∀ v, v ≠ s → v ≠ t →
-    (univ.filter fun i => v ∈ ArrowWalk.vertices (path i)).card ≤ c v
-
-/-- Vertex-capacitated Menger in witness form: a packing and a terminal-excluding separator of
-equal size and weight, and weak duality between every packing and every separator. -/
-theorem exists_vertexPacking_separator_eq (c : V → ℕ) {s t : V} (hst : s ≠ t)
-    (hadj : IsEmpty (Q s t)) :
-    (∃ (P : VertexPacking Q c s t) (X : Finset V), s ∉ X ∧ t ∉ X ∧ ¬ ReachableAvoiding Q X s t ∧
-        P.size = ∑ v ∈ X, c v) ∧
-      ∀ (P : VertexPacking Q c s t) (X : Finset V), s ∉ X → t ∉ X → ¬ ReachableAvoiding Q X s t →
-        P.size ≤ ∑ v ∈ X, c v := by
-  sorry
-
 /-- Auxiliary terminals on a sum type: `inl v` is an original vertex, `inr false` the fresh
 source `σ`, and `inr true` the fresh sink `τ`. Original arrows keep their identities; `σ → a`
 exists for `a ∈ A` and `b → τ` for `b ∈ B`. -/
@@ -812,6 +792,28 @@ theorem arcConnectivity_le_card_out [∀ v w, Fintype (Q v w)] [Nontrivial V] (v
 
 theorem arcConnectivity_le_card_in [∀ v w, Fintype (Q v w)] [Nontrivial V] (v : V) :
     arcConnectivity Q ≤ (Fintype.card (Σ w, Q w v) : ℕ∞) := by
+  sorry
+
+/-- A packing of `s–t` paths respecting vertex capacities `c`: repetitions are allowed, and every
+vertex other than the terminals lies on at most `c v` members counted with repetition. For distinct
+terminals with no arrow `s → t` and `c = 1`, the members are distinct and internally
+vertex-disjoint; without that hypothesis a direct arrow could be repeated. No finite arrow types
+are needed. -/
+structure VertexPacking (c : V → ℕ) (s t : V) where
+  size : ℕ
+  path : Fin size → ArrowWalk Q s t
+  path_isPath : ∀ i, ArrowWalk.IsPath (path i)
+  usage_le : ∀ v, v ≠ s → v ≠ t →
+    (univ.filter fun i => v ∈ ArrowWalk.vertices (path i)).card ≤ c v
+
+/-- Vertex-capacitated Menger in witness form: a packing and a terminal-excluding separator of
+equal size and weight, and weak duality between every packing and every separator. -/
+theorem exists_vertexPacking_separator_eq (c : V → ℕ) {s t : V} (hst : s ≠ t)
+    (hadj : IsEmpty (Q s t)) :
+    (∃ (P : VertexPacking Q c s t) (X : Finset V), s ∉ X ∧ t ∉ X ∧ ¬ ReachableAvoiding Q X s t ∧
+        P.size = ∑ v ∈ X, c v) ∧
+      ∀ (P : VertexPacking Q c s t) (X : Finset V), s ∉ X → t ∉ X → ¬ ReachableAvoiding Q X s t →
+        P.size ≤ ∑ v ∈ X, c v := by
   sorry
 
 /-- Weak connectivity: every two vertices are joined by a path of the symmetrized family. -/

@@ -83,11 +83,11 @@ The table summarizes the hypotheses of the milestones; the targets are the norma
 
 | Targets | Vertices | Edges or arrows | Coefficients | Terminals |
 | --- | --- | --- | --- | --- |
-| Walks, isomorphisms, bridges, cuts, separators, path families, deletion predicates, blocks (1.1, 1.2, 1.5, 2) | none | none | none | none |
-| Multigraph vertex-only targets: vertex connectivity, nonadjacent local vertex Menger, set-to-set vertex Menger, vertex consequences of Milestone 6, component counts of Milestone 2 | finite `V(G)` | none | none | distinct terminals, nonadjacent for local vertex Menger; `A, B` may overlap |
+| Walks, isomorphisms, bridges, cuts, separators, path families, deletion predicates, blocks (1.1, structural part of 1.2, 1.5, 2) | none | none | none | none |
+| Multigraph vertex-only targets: vertex connectivity, nonadjacent local vertex Menger, vertex-capacitated Menger, set-to-set vertex Menger, vertex consequences of Milestone 6, component counts of Milestone 2 | finite `V(G)` | none | none | distinct terminals, nonadjacent for local vertex Menger; `A, B` may overlap |
 | Multigraph edge targets: edge connectivity, edge Menger, weighted cuts, ears, Robbins (1.2, 1.5, 5, 7) | finite `V(G)` | finite `E(G)` | cancellative monoid for weights | distinct terminals; disjoint `A, B` for edge versions |
-| Directed vertex-only targets: vertex strong connectivity, directed vertex Menger (5, 6) | `[Fintype V]` | none | none | no arrow `s → t` for local vertex Menger |
-| Directed flows, arc connectivity, Menger reductions, bipartite network (3, 5.2, 6, 7) | `[Fintype V]` | `[∀ v w, Fintype (N.Hom v w)]` | linearly ordered additive group; `ℤ` for the reductions | distinct `s, t`; disjoint `A, B`, possibly empty |
+| Directed vertex-only targets: vertex strong connectivity, directed local, vertex-capacitated, and set-to-set vertex Menger (5, 6) | `[Fintype V]` | none | none | no arrow `s → t` for local vertex Menger |
+| Directed flows, arc connectivity, Menger reductions, bipartite network (3, 5.2, 6, 7) | `[Fintype V]` | `[∀ v w, Fintype (N.Hom v w)]` | linearly ordered additive group; `ℤ` for the reductions | distinct `s, t`; `A, B` possibly empty, disjoint for edge versions and terminal-set flows, overlapping allowed for vertex versions |
 | Cut functions and cut trees (4.1, 4.3, 9) | `[Fintype V]`, nonempty for cut trees | none | linearly ordered cancellative additive monoid | disjoint `A, B`, possibly empty; distinct `s, t` |
 | Residual canonical cuts, bounded circulations, rounding (4.2, 8) | `[Fintype V]` | finite arrow types | linearly ordered additive group with finite signed bounds; `FloorRing` for Target 8.7 | distinct `s, t` |
 
@@ -96,12 +96,12 @@ The table summarizes the hypotheses of the milestones; the targets are the norma
 **Undirected graphs** use `G : Graph α β`, with actual vertices `V(G) ⊆ α` and edges `E(G) ⊆ β`.
 The ambient types need not be finite: finiteness hypotheses concern the subtypes `V(G)` and `E(G)`, with `Fintype` instances on these subtypes when taking finite sums.
 A **finite graph** has finite `V(G)` and finite `E(G)`.
-The foundations assume no finiteness of either set: the walk, isomorphism, and bridge API of Target 1.1, the cuts, separators, and path families of Target 1.2, the deletion predicates and invariants of Target 1.5, and the bridges, cut vertices, and blocks of Milestone 2, except for the statements that count components, which assume finite `V(G)`.
+The foundations assume no finiteness of either set: the walk, isomorphism, and bridge API of Target 1.1, the cut, separator, and path-family results of Target 1.2 but not its cardinality, capacity, and aggregation formulas, the deletion predicates and invariants of Target 1.5, and the bridges, cut vertices, and blocks of Milestone 2, except for the statements that count components, which assume finite `V(G)`.
 **Why:** these statements concern walks, deletion, and membership, and Mathlib's `SimpleGraph.Walk` and `IsBridge` carry no finiteness either; a finite hypothesis on them would be inherited by every consumer.
 Every other multigraph target assumes a finite graph except the vertex-only targets, which assume only `[Finite V(G)]`.
-The vertex-only targets are vertex connectivity and its invariant, nonadjacent local vertex Menger, vertex-disjoint set-to-set Menger, and the vertex-structural consequences of Milestone 6; their parallel-edge sets may be infinite, and their proofs pass through simplification and lift finite path families by choosing actual edge witnesses.
+The vertex-only targets are vertex connectivity and its invariant, nonadjacent local vertex Menger, vertex-capacitated Menger, vertex-disjoint set-to-set Menger, and the vertex-structural consequences of Milestone 6; their parallel-edge sets may be infinite, and their proofs pass through simplification and lift finite path families by choosing actual edge witnesses.
 Directed flows, arrow-counting connectivity, and the Menger reductions use finite vertex and arrow types.
-The directed vertex-only targets, namely vertex strong connectivity, its invariant, and directed local and set-to-set vertex Menger, use a finite vertex type and arbitrary arrow types; their proofs pass through the arrow family with one arrow for each inhabited `Q v w` and lift finite path families by choosing arrows, as the multigraph proofs do through simplification.
+The directed vertex-only targets, namely vertex strong connectivity, its invariant, and directed local, vertex-capacitated, and set-to-set vertex Menger, use a finite vertex type and arbitrary arrow types; their proofs pass through the arrow family with one arrow for each inhabited `Q v w` and lift finite path families by choosing arrows, as the multigraph proofs do through simplification.
 Walk endpoints and separators belong to `V(G)`; deleting edges counts identities in `E(G)`, including separate parallel edges.
 Loops are allowed.
 Use `G.toSimpleGraph : SimpleGraph V(G)` for properties insensitive to loops and parallel edges, and `Graph.ofSimpleGraph` to state and prove the simple-graph corollaries.
@@ -259,6 +259,7 @@ Identify the bidirected construction on a simple graph with its existing `Double
 Develop multigraph cuts and separators with membership lemmas, complements, restriction to induced subgraphs, edge and vertex deletion, and invariance under graph isomorphisms.
 A cut is a subset of the actual vertices; its boundary is the set of actual edges with one endpoint on each side.
 Prove symmetry, absence of loops from the boundary, and the cardinality and capacity formulas with parallel edges.
+The cut, separator, boundary, and path-family results assume no finiteness; the cardinality, capacity, and aggregation formulas assume a finite graph.
 For the weighted aggregation defined in the conventions, prove equality of the multigraph and pair-capacity cut functions, hence preservation of minimum-cut values and minimizing partitions.
 Prove invariance of pair-capacity cuts and support graphs under changing diagonal capacities.
 Relate edge separators to cuts obtained from reachable vertex sets.
@@ -305,7 +306,8 @@ Build the following network constructions generically in their capacities; [Targ
 - **Auxiliary terminals:** add a fresh source `σ` and sink `τ` on a sum type, retaining all original arrows with their identities, with one arrow `σ → a` for each `a ∈ A` and one arrow `b → τ` for each `b ∈ B`.
   The terminal sets `A, B` are arbitrary, including empty, and the capacities of the new arrows are parameters.
   Prove that a simple `σ–τ` path consists of a `σ`-arrow, an original path from a vertex of `A` to a vertex of `B`, and a `τ`-arrow; this projected path may pass through further vertices of `A ∪ B`.
-  Trimming it to the segment from its last vertex in `A` to the following vertex in `B` gives an `A–B` path in the sense of the [conventions](#paths-separators-and-connectivity), whose interior avoids `A ∪ B`; trimming preserves vertex-disjointness and arrow-disjointness of families but does not invert lifting, so state lifting, projection, and trimming as three operations.
+  Trimming it to the segment from its last vertex in `A` to the first vertex in `B` at or after it gives an `A–B` path in the sense of the [conventions](#paths-separators-and-connectivity), whose interior avoids `A ∪ B`; the two positions coincide when that vertex lies in `A ∩ B`, giving the permitted zero-length path.
+  Trimming preserves vertex-disjointness and arrow-disjointness of families but does not invert lifting, so state lifting, projection, and trimming as three operations.
   Prove that the capacity of a `σ–τ` cut is the capacity of the new arrows it crosses plus the original cut capacity of its restriction to `V`.
   Prove the **normalization lemma**: for disjoint `A, B`, when every arrow `σ → a` has capacity at least the total capacity leaving `a` and every arrow `b → τ` at least the total capacity entering `b`, the set `R = ((S ∩ V) ∪ A) ∖ B` obtained from a `σ–τ` cut `S` satisfies `A ⊆ R ⊆ Bᶜ` and its original cut capacity is at most the `σ–τ` cut capacity of `S`.
   **Why:** a minimum `σ–τ` cut need not contain every vertex of `A`, so its restriction to `V` need not satisfy `A ⊆ R`; normalization repairs this without increasing the capacity.
@@ -534,6 +536,7 @@ The two statements together are the equality of optima with attainment on both s
 - **Vertex-capacitated Menger:** for distinct terminals `s, t` with no arrow `s → t` and vertex capacities `c : V → ℕ`, a **packing** is a finite indexed family of `s–t` paths, repetitions allowed, in which every vertex other than the terminals lies on at most `c v` members counted with repetition; a terminal-excluding vertex separator `X` has weight `∑ v ∈ X, c v`.
   Prove, in directed-network and multigraph versions with simple-graph corollaries, that some packing and some separator have equal size and weight, and that every packing is no larger than the weight of every separator.
   The local vertex Menger statements are the case `c = 1`: a packing is then a family of distinct internally vertex-disjoint paths, since two members sharing an internal vertex would exceed its capacity and the adjacency hypothesis excludes members without internal vertices.
+  This is a vertex-only target: the multigraph and directed versions assume no finiteness of edge or arrow types, since passing to one arrow per inhabited pair preserves vertex usage and repeated members are already permitted.
   **Why:** the vertex-splitting reduction of [Target 5.2](#52-reductions-to-max-flow) proves this generality with the same construction, and the unit case does not recover it.
 - **Adjacent terminals:** let `D` be the set of all edges joining distinct terminals `s,t`, and let `m = |D|`.
   Give both multigraph and directed versions; in the directed version, `D` consists exactly of the arrows `s → t`, and arrows `t → s` are retained and do not contribute to `m`.
@@ -565,7 +568,7 @@ The reductions must recover actual path families and separators, not just equali
   Prove that a separating cut of capacity below `M` crosses only internal split arrows, which give a terminal-excluding vertex separator of exactly that weight.
   Conversely, deleting the split arrows indexed by a vertex separator destroys terminal reachability, and the reachable source side has cut capacity at most the separator's weight.
   Deleting all internal split arrows gives a cut of capacity at most `M − 1`, so these correspondences apply to minimum cuts.
-  An integral flow decomposes into unit paths with repetition, and the split-arrow bound at `v` is the number of members through `v`; with `c = 1` the members are distinct and internally vertex-disjoint.
+  After discarding cycle components, an integral flow decomposes into unit paths with repetition, and the number of members through a nonterminal vertex `v` equals the flow on its split arrow, which is at most `c v`; with `c = 1` the members are distinct and internally vertex-disjoint.
 - **Set-to-set Menger:** for vertex-disjoint `A–B` paths, split every vertex with capacity `1`, give original arrows capacity `M = |V| + 1`, and add capacity-`M` arrows `σ → a⁻` for `a ∈ A` and `b⁺ → τ` for `b ∈ B`.
   Every cut of capacity below `M` crosses only split arrows and yields a vertex separator of that capacity, now allowed to meet `A ∪ B`; deleting all split arrows bounds the minimum cut by `|V|`.
   Prove the reverse separator-to-cut bound and both path-family correspondences, shortening projected paths so that their interiors avoid `A ∪ B`.
@@ -833,7 +836,7 @@ For every linearly ordered cancellative additive commutative monoid `K`, every n
 2. For every tree edge `{u,v}`, deleting that edge gives a partition that is a minimum `u–v` cut for `f`, with value equal to the tree-edge weight.
 
 Prove the resulting query theorem: any minimum-weight edge on the tree path from `s` to `t` yields an actual minimum `s–t` cut by deleting that edge.
-Prove the **threshold partition**: for every `k : K`, distinct vertices `s, t` are joined in the forest obtained by deleting the tree edges of weight below `k` exactly when `λ(s,t) ≥ k`, so the components of that forest are the classes of the relation `λ(s,t) ≥ k` and, for unit capacities, the classes of local `k`-edge reachability of Milestone 5.
+Prove the **threshold partition**: for every `k : K`, distinct vertices `s, t` are joined in the forest obtained by deleting the tree edges of weight below `k` exactly when `λ(s,t) ≥ k`, so the components of that forest are the classes of the equivalence relation `s = t ∨ λ(s,t) ≥ k`, which needs the disjunct because `λ(s,s) = 0`, and, for unit capacities, the classes of local `k`-edge reachability of Milestone 5.
 State the instances for weighted multigraphs and pair-capacity networks as corollaries, using the cut aggregation theorem of Milestone 1.
 The weighted tree is a `SimpleGraph` on the actual vertex type `V(G)` and need not be a subgraph of the original graph.
 For unit capacities, parallel edges contribute their multiplicities; prove that the tree answers the edge-connectivity queries of Milestone 5 and recovers cuts as subsets of the original vertex set.
@@ -863,7 +866,7 @@ This roadmap owns graph connectivity, components, separators, cuts, flows, and t
 Roadmaps that need `k`-vertex-connectivity for a fixed `k`, such as 3-connectivity in topological graph theory, use `IsVertexConnected k` from here rather than a second connectivity or component theory.
 This roadmap defines no multigraph degree, contraction, drawing, or embedding; general contractions, contractible-edge and wheel theorems, planar embeddings, and surface topology are outside it.
 
-Also outside this roadmap: general matching theory beyond the bipartite consequences above, networks with infinite capacities, minimum-cost flows and circulations, multicommodity flows, graphs with infinitely many actual vertices, edge-counting and flow theories with infinite edge sets, treewidth, algorithmic complexity bounds, Nash-Williams' orientation theorem for `2k`-edge-connected graphs, Edmonds' disjoint arborescences, the Nash-Williams–Tutte disjoint spanning tree theorems, and the condensation of a digraph into its strong components.
+Also outside this roadmap: general matching theory beyond the bipartite consequences above, networks with infinite capacities, minimum-cost flows and circulations, multicommodity flows, the extremal, flow, and ear-decomposition theory of graphs with infinitely many actual vertices, beyond the finiteness-free foundations of Milestones 1 and 2, edge-counting and flow theories with infinite edge sets, treewidth, algorithmic complexity bounds, Nash-Williams' orientation theorem for `2k`-edge-connected graphs, Edmonds' disjoint arborescences, the Nash-Williams–Tutte disjoint spanning tree theorems, and the condensation of a digraph into its strong components.
 
 ## Mathematical references
 
