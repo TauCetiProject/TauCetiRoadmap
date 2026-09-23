@@ -15,7 +15,7 @@ Vertex-connectivity and the vertex-structural consequences reuse the underlying 
 
 [`Suggested.lean`](Suggested.lean) prototypes networks, flows, the simple-graph interfaces, and weighted trees.
 [`GraphSuggested.lean`](GraphSuggested.lean) prototypes multigraph incidence walks, path lifting, edge connectivity, Menger witnesses, orientations, ear data, and weighted cut aggregation.
-[`CirculationSuggested.lean`](CirculationSuggested.lean) prototypes signed bounds, lower-bound subtraction, residual adjustments, flow–circulation equivalences, extremal terminal values, and rounding.
+[`CirculationSuggested.lean`](CirculationSuggested.lean) prototypes assignment shifts, residual adjustments, signed-bound cuts, exact and interval excess, flow–circulation equivalences, extremal terminal values, and rounding.
 These are suggested forms, never exhaustive checklists; this document is the specification.
 
 ## Milestones at a glance
@@ -29,7 +29,7 @@ These are suggested forms, never exhaustive checklists; this document is the spe
 | 5. Menger | Directed and undirected path–separator duality | 1, 3, 4 |
 | 6. Connectivity and matching consequences | Whitney inequalities and cycle criteria, preservation lemmas, fans, Dirac's cycle theorem, Kőnig and Hall | 2, 5 |
 | 7. Ears and orientations | Undirected and directed ear decompositions; Robbins' theorem | 2, 6 |
-| 8. Circulations and bounded flows | Hoffman and infeasibility certificates, prescribed excess, residual adjustments, extremal terminal values, integrality, and rounding | 3 |
+| 8. Circulations and bounded flows | Hoffman and infeasibility certificates, exact and interval excess, assignment shifts, residual adjustments, extremal terminal values, integrality, and rounding | 3, 4 |
 | 9. Cut trees | Gomory–Hu, including recovery of minimum cuts and edge-connectivity queries | 4, 5 |
 
 Each milestone includes the elementary lemmas needed to use its definitions: constructors, extensionality where appropriate, membership and support lemmas, monotonicity, restriction, and invariance under isomorphism.
@@ -94,7 +94,7 @@ This aggregation preserves weighted cuts, not individual edge identities or unwe
 The finite-bound theory is parameterized by a linearly ordered additive commutative group `K`, expressed by `[AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]`.
 It must not assume a unit, multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
 A network `N : Network C V` is a structure carrying an arrow type `N.Hom v w : Type v` for every ordered pair of vertices, in a universe independent of the vertex universe as for `Quiver.{v}`, lower and upper bounds `ℓ, u` in the same type `C` for every arrow, and a proof of `ℓ ≤ u` on each arrow; finiteness is the pair of instance arguments `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
-The bound type `C` is `K` for finite bounds and `WithTop K` for extended bounds.
+The principal bound types `C` are `K` for finite bounds and `WithTop K` for extended bounds.
 Bounds in `K` may be negative.
 An ordinary network is the specialization `ℓ = 0` of this same structure, constructed from nonnegative upper capacities; provide a constructor and simplification lemmas, not a second network type.
 Neither the representation nor its bound-order invariant requires a finite graph; the theorem targets here impose the specified finiteness assumptions.
@@ -108,7 +108,13 @@ Abbreviations may expose these operations through the network or arrow family, s
 As terms, networks coexist and can be quantified over.
 The total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
 Parallel arrows, arrows in opposite directions, loops, and zero capacities are allowed.
-A feasible bounded assignment satisfies `ℓ ≤ f ≤ u`; this condition does not impose conservation or nonnegative arrow values.
+Use one bounded-assignment definition with an explicit order embedding `ι : K ↪o C`, requiring `ℓ e ≤ ι (f e) ≤ u e` on every arrow.
+Finite bounds specialize to the identity embedding, and finite assignments under extended bounds specialize to Mathlib's [`WithTop.coeOrderHom`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/Hom/WithTopBot.html#WithTop.coeOrderHom); despite its name, that declaration is an order embedding.
+Expose these specializations through abbreviations sharing the same assignment structure, extensionality, bound-relaxation, and conservation API.
+Neither conservation nor nonnegative arrow values are part of bounded feasibility.
+For the identity embedding, write feasibility simply as `ℓ ≤ f ≤ u`.
+Excess and conservation use only arithmetic in the assignment type `K`; comparison with bounds uses `ι`, with no additive assumption on `ι` needed for feasibility itself.
+Keep the embedding parameter out of ordinary user-facing flow statements through the specialization abbreviations.
 An ordinary `PseudoFlow` is a `K`-valued arrow assignment with proofs of nonnegativity and capacity boundedness, without a conservation condition.
 A `Flow s t` adds conservation away from the terminals and nonnegative excess at the sink.
 Every network sum is a `Finset.sum`; excess and flow value take values in `K`, with excess allowed to be negative and ordinary flow value required to be nonnegative.
@@ -199,12 +205,14 @@ An ordinary `s–t` flow satisfies `0 ≤ f ≤ u`, has zero excess away from di
 Its value is the excess at `t`, equivalently minus the excess at `s`.
 Define excess and its algebraic API on arbitrary arrow assignments, and state conservation independently of the flow structure.
 Prove that a pseudoflow conserved away from `s,t` with nonpositive excess at `t` gives a `Flow t s` with the same arrow assignment; its value is the negation of the original excess at `t`.
-No second flow type for negative terminal values is required.
+Terminal exchange uses the ordinary `Flow` interface; general signed bounds use the bounded terminal assignments below.
 A cut is a source side `S` with `s ∈ S` and `t ∉ S`, of capacity `u(δ⁺(S))`.
 Arrows entering the source or leaving the sink are allowed.
 
 Bounded circulations have finite signed lower and upper bounds `ℓ ≤ u`, satisfy `ℓ ≤ f ≤ u`, and have zero excess at every vertex.
 More generally, bounded assignments with prescribed excess `b` satisfy `excess f = b`; a circulation is the specialization `b = 0`.
+Keep this equality-based interface, and also express interval excess by `a v ≤ excess f v ≤ b v` on the same bounded assignments.
+Vertex constraints are separate parameters, not fields of `Network`; supply an assignment-preserving equivalence between equal-endpoint intervals and exact prescribed excess.
 A bounded `s–t` assignment has zero excess away from distinct terminals, with value `excess f t` of either sign.
 Ordinary flows and bounded circulations share arrow assignments, excess, and bound calculations, but have separate conservation conditions.
 Milestone 8 supplies named reductions from bounded circulation feasibility to ordinary max-flow, including their integrality properties.
@@ -245,6 +253,12 @@ Prove symmetry, absence of loops from the boundary, the cardinality and capacity
 Relate edge separators to cuts obtained from reachable vertex sets.
 Provide finite path-family APIs for taking subfamilies, reversing undirected paths, concatenating compatible paths, extracting simple paths from walks, and transporting disjointness.
 Include the directed analogues needed for residual reachability and path decomposition, with support and arrow-occurrence lemmas.
+
+Build the shared residual-update operation for arbitrary feasible assignments with finite bounds here.
+For any feasible residual assignment `r`, define `f'(e) = f(e) + r(e⁺) − r(e⁻)` and prove feasibility and `excess f' = excess f + excess r`, with no conservation assumption on `r`.
+A residual circulation preserves excess; a residual terminal flow changes only terminal excess, with value increasing by its residual value in the same direction and decreasing by that value in the opposite direction.
+Supply zero-update and arrowwise formulas and preservation of values in an additive subgroup.
+Path and cycle augmentation specialize this operation, including for general signed original bounds; Milestone 3 uses the zero-lower-bound specialization.
 
 Build and verify the representation changes used throughout the roadmap:
 
@@ -290,7 +304,7 @@ Derive weak duality: the value of every feasible flow is at most the capacity of
 The main targets are:
 
 1. **Residual augmentation.** Augmenting along a simple augmenting `s–t` path by its minimum residual capacity preserves feasibility and increases flow value by that positive amount.
-   Prove the update formulas on original arrows and the corresponding bounded-circulation cycle augmentation lemma.
+   Use the common residual update of Milestone 1 and derive the corresponding bounded-circulation cycle augmentation lemma.
 2. **Flow decomposition.** Every flow is a finite nonnegative sum of simple `s–t` path flows and directed cycle flows, with equality on every original arrow.
    For a pseudoflow conserved away from the terminals with negative excess at the designated sink, apply the terminal-exchange construction to obtain the corresponding decomposition into paths in the opposite direction and cycles.
    Circulations decompose into cycle flows, including loops; flows with values in an additive subgroup admit coefficients in that subgroup.
@@ -315,14 +329,32 @@ State weak duality between finite flow values and extended cut capacities withou
 State this milestone for set functions, with the cut capacities as instances.
 A function `f : Finset V → K` is **submodular** when `f (S ∪ T) + f (S ∩ T) ≤ f S + f T` for all `S, T`, and **symmetric** when `f Sᶜ = f S` for all `S`.
 A minimum `s–t` cut for `f` is a minimizer of `f` over the sets containing `s` and not `t`; under symmetry the choice of side is immaterial.
-Prove that directed outgoing cut capacity is submodular and that undirected cut capacity is symmetric and submodular.
+Prove that nonnegative directed outgoing cut capacity is submodular and that nonnegative undirected cut capacity is symmetric and submodular.
+For finite signed bounds `ℓ ≤ u`, also prove submodularity of the upper cut bound `U` using
+
+$$
+U(S)=(u-\ell)(\delta^+(S))-\sum_{v\in S}\operatorname{excess}(\ell)(v).
+$$
+
+The first term is a cut function with nonnegative capacities; the vertex sum is modular, meaning it satisfies the submodular identity with equality.
+These identities use the common excess calculus and do not depend on the circulation feasibility results.
 
 For a submodular `f` and fixed distinct terminals, prove that the minimum `s–t` cuts are closed under union and intersection.
 Develop this family as a finite lattice under inclusion, with unique smallest and largest members.
 
-For a network and any maximum flow, characterize the smallest source side as the vertices reachable from the source along arrows of positive residual capacity.
-Characterize the largest as the complement of the vertices from which the sink is reachable along such arrows.
-Deduce that these two sets are independent of the chosen maximum flow.
+Apply this lattice theory to `U` for finite signed bounds, including networks whose feasible terminal values are all negative.
+For any feasible bounded `s–t` assignment and source-side cut `S`, prove the gap identity
+
+$$
+U(S)-\operatorname{val}(f)=(u-f)(\delta^+(S))+(f-\ell)(\delta^-(S)).
+$$
+
+The right-hand side is the outgoing capacity of `S` in the residual network.
+For any maximum bounded terminal assignment, characterize its minimum cuts as exactly the source-side sets with no positive-capacity residual arrow leaving them.
+Characterize the smallest source side as the vertices reachable from the source along positive-capacity residual arrows, and the largest as the complement of the vertices from which the sink is reachable along such arrows.
+Prove that both sets are independent of the chosen maximum assignment, and recover the ordinary-flow statements by specialization.
+These results assume a maximum assignment is given; Milestone 8 supplies its existence for every feasible finite-bound network.
+The symmetric results below retain their symmetry hypothesis, which signed directed cut bounds need not satisfy.
 
 Prove the **non-crossing lemma** for a symmetric submodular `f` as a separate target: if `S` is a minimum `s–t` cut and distinct vertices `u, v` both lie in `S`, there exists a minimum `u–v` cut with one side contained in `S`.
 Include the identities and uncrossing inequalities needed to choose such a cut without changing its value.
@@ -438,11 +470,14 @@ Develop bounded assignments with prescribed excess, their circulation specializa
 Supply extensionality, restriction to connected components, behavior under disjoint unions, bound relaxation, arrow reversal, and transport under network isomorphisms and coefficient embeddings.
 For componentwise feasibility, explicitly recover that the sum of prescribed excess on each underlying undirected component must be zero.
 
-**Signed circulation algebra and lower-bound subtraction.** On a fixed finite quiver, signed assignments with zero excess form an additive subgroup of all arrow assignments.
+**Signed circulation algebra and assignment shifts.** On a fixed finite quiver, signed assignments with zero excess form an additive subgroup of all arrow assignments.
 Prove that two assignments have the same excess exactly when their difference is a signed circulation, and that adding a signed circulation preserves excess; bounded feasible circulations themselves need not be closed under addition.
-Construct the equivalence taking `f` to `g = f − ℓ`, with zero lower bounds, upper capacities `u − ℓ`, and prescribed excess `b − excess ℓ`.
-Its inverse adds `ℓ`; prove the arrowwise identities, preservation of bounds and excess, and preservation of values in an additive subgroup containing the lower bounds.
-For circulations, the shifted problem generally has prescribed excess `−excess ℓ`, not zero.
+For any reference assignment `h`, construct the equivalence taking `f` to `g = f − h`, replacing the bounds by `ℓ − h, u − h` and prescribed excess by `b − excess h`; no feasibility assumption on `h` is required.
+Its inverse adds `h`; prove the arrowwise identities, the excess formula, both round trips, the identity shift, and composition of shifts by adding their reference assignments.
+Restrict the equivalence to exact excess and to interval excess, shifting both vertex endpoints by `−excess h` in the latter case.
+Preserve values in an additive subgroup whenever the reference assignment takes values in it.
+Lower-bound subtraction is the specialization `h = ℓ`, identified with the ordinary network having zero lower bounds and upper capacities `u − ℓ`.
+For circulations this shifted problem generally has prescribed excess `−excess ℓ`, not zero; taking a known feasible assignment as the reference instead gives zero prescribed excess for assignments with that same excess.
 
 **Feasibility and certificates.** Prove **Hoffman's circulation theorem**: a feasible circulation exists if and only if, for every vertex set `S`,
 
@@ -468,11 +503,29 @@ Supply the reduction to ordinary max-flow by adding auxiliary terminals and prov
 After lower-bound subtraction, write `b' = b − excess ℓ`; add an arrow from the auxiliary source to each vertex of capacity `max (−b'(v)) 0`, and from each vertex to the auxiliary sink of capacity `max b'(v) 0`.
 For balanced `b'`, prove the required flow value is `∑ v, max b'(v) 0`, and that it is attained exactly when all these auxiliary arrows are saturated.
 
-**Residual adjustments.** Given a feasible assignment `f`, a feasible nonnegative circulation `r` in its zero-lower-bound residual network updates each original arrow by `f'(e) = f(e) + r(e⁺) − r(e⁻)`.
-Prove that this preserves the original bounds and excess.
-Conversely, for any feasible `g` with the same excess, construct such an `r` with `r(e⁺) = max (g(e) − f(e)) 0` and `r(e⁻) = max (f(e) − g(e)) 0`.
+**Interval excess.** For finite vertex bounds `a ≤ b`, develop assignments with `a v ≤ excess f v ≤ b v` on the same bounded-assignment carrier as exact excess.
+Supply extensionality, vertex-bound relaxation, component restriction and disjoint unions, network-isomorphism transport, assignment shifts, and the equal-endpoint equivalence with exact excess, preserving every arrow value.
+Construct a network on the original vertices together with one fresh vertex `r`, retaining all original arrows and adding one arrow `v → r` with bounds `[a(v), b(v)]` for each original vertex.
+Prove an equivalence with circulations on this network: the auxiliary arrow at `v` carries exactly the original excess at `v`, and conservation at `r` follows from total excess zero.
+Prove both round trips and the original-arrow and auxiliary-arrow formulas, including for empty vertex types and loops.
+Derive the following feasibility criterion from Hoffman, where `a(S)` and `b(S)` denote vertex sums:
+
+$$
+a(S)\le U(S^c)\quad\text{and}\quad -U(S)\le b(S)
+\qquad\text{for every }S.
+$$
+
+Include the whole-vertex-set case `a(V) ≤ 0 ≤ b(V)` and its componentwise versions; these are necessary balance conditions, not sufficient substitutes for all cut inequalities.
+Give the witness alternative of a feasible assignment or a set strictly violating one of these inequalities, and recover the exact prescribed-excess criterion when `a = b`.
+When edge bounds and both vertex bounds take values in an additive subgroup `H`, derive a feasible assignment with all arrow values in `H` whenever the criterion holds, using the same circulation reduction.
+These vertex bounds constrain net supply and demand; limits on total traffic through a vertex use the vertex-splitting construction instead.
+
+**Residual adjustments.** Use the common update of Milestone 1 for arbitrary feasible residual assignments.
+For any two feasible assignments `f, g`, construct the residual assignment with `r(e⁺) = max (g(e) − f(e)) 0` and `r(e⁻) = max (f(e) − g(e)) 0`.
+Prove that updating `f` by `r` gives `g`, and that `excess r = excess g − excess f`.
+Thus equal-excess assignments give a residual circulation as a corollary, with no second difference construction.
 This canonical representative never uses both residual copies of an original arrow positively; arbitrary residual representatives need not be unique.
-Decompose residual adjustments into finitely many nonnegative directed cycle flows and prove that the corresponding sequence of updates stays feasible, has the same excess at every stage, and ends at `g`.
+For equal-excess assignments, decompose this residual circulation into finitely many nonnegative directed cycle flows and prove that the corresponding sequence of updates stays feasible, has the same excess at every stage, and ends at `g`.
 Preserve additive-subgroup values throughout.
 
 **Flows and circulations.** Add a fresh tagged arrow `t → s`, distinct from every existing arrow even if the endpoints already support arrows.
@@ -492,7 +545,7 @@ $$
 
 Use the cut bounds `L` and `U` from the conventions, prove their inequalities for every feasible assignment, and characterize feasible prescribed values by `m ≤ q ≤ M`.
 Prove that maximum value is equivalent to absence of a positive-capacity residual `s–t` path, and minimum value to absence of such a `t–s` path.
-Give the reductions from a feasible starting assignment to the ordinary max-flow problems in the two residual directions, including update and value formulas.
+Give the reductions from a feasible starting assignment to the ordinary max-flow problems in the two residual directions, using the shared update and value formulas; apply the signed-bound cut lattice and canonical-cut results of Milestone 4.
 If both bounds lie in an additive subgroup `H`, extrema can be attained with all arrow values in `H`; every `q ∈ H` in the feasible interval also has an `H`-valued witness.
 Recover the ordinary maximum-flow theorem as the zero-lower-bound, nonnegative-value specialization.
 
@@ -544,7 +597,12 @@ Provide proved examples alongside the relevant milestones:
 - An extended arrow with both bounds `⊤`, verifying that ordered bounds need not admit a finite assignment.
 - A bounded-circulation example in which flow at its lower bound cannot be cancelled, and lower-bound subtraction produces nonzero prescribed excess.
 - A feasible bounded assignment and a strict violating-cut certificate for an infeasible one.
-- Two assignments with the same excess connected by residual cycle adjustments.
+- An arbitrary reference assignment outside the original bounds, exercising the shift equivalence, and a feasible reference reducing prescribed excess to zero.
+- Two assignments with the same excess connected by residual cycle adjustments, and a residual update with nonzero excess verifying the general excess-change formula.
+- Exact excess recovered from equal interval endpoints, a feasible flexible supply-and-demand problem, and an interval-excess problem with a strict cut obstruction despite its total interval containing zero.
+- Empty-vertex and loop examples for the interval-excess circulation reduction.
+- Finite and extended bounded assignments using the same API, and integer assignments compared with real bounds through an order embedding.
+- A signed-bound network exercising submodularity, the residual cut-gap identity, and the smallest and largest minimum cuts.
 - A return-arrow correspondence on a graph already containing an arrow from sink to source, and a bounded terminal problem whose minimum and maximum values are both negative.
 - A fractional circulation and its integer rounding, with explicit floor and ceiling bounds.
 - A disconnected weighted graph whose cut tree contains zero-weight edges.

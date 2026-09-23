@@ -19,8 +19,9 @@ commutative group `K`; a directed network is a *term* `N : Network C V` with arr
 universe independent of the vertex universe, and lower and upper bounds in a common type `C`,
 equal to `K` for finite bounds and `WithTop K` for extended bounds; ordinary networks set the
 lower bound to zero in the same structure; assignments, excess, cut capacity, and flows
-use an explicit quiver and separate capacities, with network abbreviations for the same objects;
-excess is incoming minus outgoing and flow value is nonnegative excess at the sink;
+use an explicit quiver and separate bounds, with network abbreviations for the same objects;
+bounded assignments compare values with bounds through an order embedding; excess is incoming
+minus outgoing and ordinary flow value is nonnegative excess at the sink;
 directed walks abbreviate Mathlib's `Quiver.Path` with the quiver
 argument supplied explicitly, so networks and orientations share its API without competing
 instances or vertex-type synonyms; the residual network has the flow-independent arrow type
@@ -41,7 +42,7 @@ them. Orientations use the existing Tau Ceti type.
 
 open Finset
 
-universe u v w
+universe u v w z
 
 namespace TauCetiRoadmap.FiniteGraphConnectivity
 
@@ -93,14 +94,30 @@ noncomputable def arrowCutCapacity (Q : Quiver V) [Fintype V] [DecidableEq V]
     (cap : Assignment Q C) (S : Finset V) : C :=
   ∑ v ∈ S, ∑ w ∈ Sᶜ, ∑ e : Q.Hom v w, cap e
 
-structure BoundedAssignment {K : Type w} [LE K] (Q : Quiver V)
-    (lo hi : Assignment Q K) where
+structure BoundedAssignment {K : Type w} {C : Type z} [LE K] [LE C]
+    (Q : Quiver V) (ι : K ↪o C) (lo hi : Assignment Q C) where
   toFun : Assignment Q K
-  lower_le : ∀ {v w} (e : Q.Hom v w), lo e ≤ toFun e
-  le_upper : ∀ {v w} (e : Q.Hom v w), toFun e ≤ hi e
+  lower_le : ∀ {v w} (e : Q.Hom v w), lo e ≤ ι (toFun e)
+  le_upper : ∀ {v w} (e : Q.Hom v w), ι (toFun e) ≤ hi e
+
+@[ext] theorem BoundedAssignment.ext {K : Type w} {C : Type z} [LE K] [LE C]
+    {Q : Quiver V} {ι : K ↪o C} {lo hi : Assignment Q C}
+    {f g : BoundedAssignment Q ι lo hi}
+    (h : ∀ {v w} (e : Q.Hom v w), f.toFun e = g.toFun e) : f = g := by
+  sorry
+
+def BoundedAssignment.monoBounds {K : Type w} {C : Type z} [LE K] [Preorder C]
+    {Q : Quiver V} {ι : K ↪o C} {lo hi lo' hi' : Assignment Q C}
+    (f : BoundedAssignment Q ι lo hi)
+    (hlo : ∀ {v w} (e : Q.Hom v w), lo' e ≤ lo e)
+    (hhi : ∀ {v w} (e : Q.Hom v w), hi e ≤ hi' e) :
+    BoundedAssignment Q ι lo' hi' where
+  toFun := f.toFun
+  lower_le e := (hlo e).trans (f.lower_le e)
+  le_upper e := (f.le_upper e).trans (hhi e)
 
 abbrev PseudoFlow {K : Type w} [Zero K] [LE K] (Q : Quiver V) (cap : Assignment Q K) :=
-  BoundedAssignment Q (fun _ => 0) cap
+  BoundedAssignment Q (OrderEmbedding.id K) (fun _ => 0) cap
 
 structure Flow {K : Type w} [AddCommGroup K] [LE K]
     (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
@@ -116,7 +133,7 @@ noncomputable def Flow.val {K : Type w} [AddCommGroup K] [LE K]
 /-- General terminal assignments have signed values and may have signed arrow values. -/
 structure BoundedFlow {K : Type w} [AddCommGroup K] [LE K]
     (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
-    (lo hi : Assignment Q K) (s t : V) extends BoundedAssignment Q lo hi where
+    (lo hi : Assignment Q K) (s t : V) extends BoundedAssignment Q (OrderEmbedding.id K) lo hi where
   conserve : ∀ v, v ≠ s → v ≠ t → excessAt Q toFun v = 0
 
 noncomputable def BoundedFlow.val {K : Type w} [AddCommGroup K] [LE K]
@@ -125,19 +142,41 @@ noncomputable def BoundedFlow.val {K : Type w} [AddCommGroup K] [LE K]
   excessAt Q f.toFun t
 
 abbrev Network.Feasible {K : Type w} [LE K] (N : Network K V) :=
-  BoundedAssignment ⟨N.Hom⟩ N.lower N.upper
+  BoundedAssignment ⟨N.Hom⟩ (OrderEmbedding.id K) N.lower N.upper
 
 abbrev Network.BoundedFlow {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (s t : V) :=
   TauCetiRoadmap.FiniteGraphConnectivity.BoundedFlow ⟨N.Hom⟩ N.lower N.upper s t
 
-abbrev Realizes {K : Type w} [AddCommGroup K] [LE K] (Q : Quiver V)
-    [Fintype V] [∀ v w, Fintype (Q.Hom v w)] (lo hi : Assignment Q K) (b : V → K) :=
-  {f : BoundedAssignment Q lo hi // ∀ v, excessAt Q f.toFun v = b v}
+abbrev Realizes {K : Type w} {C : Type z} [AddCommGroup K] [LE K] [LE C]
+    (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+    (ι : K ↪o C) (lo hi : Assignment Q C) (b : V → K) :=
+  {f : BoundedAssignment Q ι lo hi // ∀ v, excessAt Q f.toFun v = b v}
+
+abbrev RealizesWithin {K : Type w} {C : Type z} [AddCommGroup K] [LE K] [LE C]
+    (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+    (ι : K ↪o C) (lo hi : Assignment Q C) (a b : V → K) :=
+  {f : BoundedAssignment Q ι lo hi //
+    ∀ v, a v ≤ excessAt Q f.toFun v ∧ excessAt Q f.toFun v ≤ b v}
+
+noncomputable def realizesWithin_self_equiv {K : Type w} {C : Type z}
+    [AddCommGroup K] [PartialOrder K] [LE C]
+    (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+    (ι : K ↪o C) (lo hi : Assignment Q C) (b : V → K) :
+    RealizesWithin Q ι lo hi b b ≃ Realizes Q ι lo hi b where
+  toFun f := ⟨f.val, fun v => le_antisymm (f.property v).2 (f.property v).1⟩
+  invFun f := ⟨f.val, fun v => ⟨(f.property v).ge, (f.property v).le⟩⟩
+  left_inv _ := rfl
+  right_inv _ := rfl
 
 abbrev Network.Realizes {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (b : V → K) :=
-  TauCetiRoadmap.FiniteGraphConnectivity.Realizes ⟨N.Hom⟩ N.lower N.upper b
+  TauCetiRoadmap.FiniteGraphConnectivity.Realizes ⟨N.Hom⟩ (OrderEmbedding.id K) N.lower N.upper b
+
+abbrev Network.RealizesWithin {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
+    [Fintype V] [∀ v w, Fintype (N.Hom v w)] (a b : V → K) :=
+  TauCetiRoadmap.FiniteGraphConnectivity.RealizesWithin ⟨N.Hom⟩
+    (OrderEmbedding.id K) N.lower N.upper a b
 
 abbrev Network.Circulation {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] := N.Realizes (fun _ => 0)
@@ -205,7 +244,7 @@ variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
 
 /-- Residual arrows have zero lower bounds, regardless of the original bounds. -/
 noncomputable abbrev residual (Q : Quiver V) (lo hi : Assignment Q K)
-    (f : BoundedAssignment Q lo hi) : Network K V where
+    (f : BoundedAssignment Q (OrderEmbedding.id K) lo hi) : Network K V where
   Hom v w := Q.Hom v w ⊕ Q.Hom w v
   lower _ := 0
   upper := Sum.elim (fun e => hi e - f.toFun e) (fun e => f.toFun e - lo e)
@@ -285,11 +324,8 @@ end Ordinary
 
 /-! ## Extended bounds (Conventions; Milestone 3) -/
 
-/-- Both bounds are extended, but the assignment remains finite-valued. -/
-structure FiniteBoundedAssignment (Q : Quiver V) (lo hi : Assignment Q (WithTop K)) where
-  toFun : Assignment Q K
-  lower_le : ∀ {v w} (e : Q.Hom v w), lo e ≤ (toFun e : WithTop K)
-  le_upper : ∀ {v w} (e : Q.Hom v w), (toFun e : WithTop K) ≤ hi e
+abbrev FiniteBoundedAssignment (Q : Quiver V) (lo hi : Assignment Q (WithTop K)) :=
+  BoundedAssignment Q WithTop.coeOrderHom lo hi
 
 abbrev Network.FiniteFeasible (N : Network (WithTop K) V) :=
   FiniteBoundedAssignment ⟨N.Hom⟩ N.lower N.upper
