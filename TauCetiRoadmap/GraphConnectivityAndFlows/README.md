@@ -450,6 +450,7 @@ For a submodular `f` on a lattice and a predicate closed under `⊔` and `⊓`, 
 For a submodular `f : Finset V → K` and disjoint terminal sets `A,B`, derive that the minimum `A–B` cuts are closed under union and intersection, the instance for the predicate `A ⊆ S ⊆ Bᶜ`.
 Develop this family as a finite distributive lattice under inclusion, with unique smallest and largest members, characterized by containment in or containment of every minimizing side.
 Supply attainment, the minimum-value characterization of a minimizing side, invariance under vertex equivalences, and the singleton-terminal specialization.
+Derive the membership corollaries: the minimum `A–B` cut is unique exactly when the smallest and largest members coincide; a vertex of the smallest member lies on the source side of every minimum cut, and a vertex outside the largest member lies on the source side of none.
 Define submodularity independently of symmetry; none of these lattice results assumes symmetry.
 
 **Required example:** disjoint terminal sets with more than one terminal and multiple minimizing sides, verifying the smallest and largest cuts, and cases where one or both terminal sets are empty.
@@ -466,6 +467,7 @@ The right-hand side is the outgoing capacity of `S` in the residual network.
 For any maximum bounded terminal assignment, characterize its minimum cuts as exactly the source-side sets with no positive-capacity residual arrow leaving them.
 Characterize the smallest source side as the vertices reachable from the source along positive-capacity residual arrows, and the largest as the complement of the vertices from which the sink is reachable along such arrows.
 Prove that both sets are independent of the chosen maximum assignment, and recover the ordinary-flow statements by specialization.
+Derive the residual forms of the membership corollaries of Target 4.1: a vertex lies on the source side of every minimum cut exactly when it is reachable from the source along positive-capacity residual arrows, on the source side of none exactly when the sink is reachable from it along such arrows, and the minimum cut is unique exactly when every vertex satisfies one of the two.
 These results apply the lattice theory of Target 4.1 to `U`, including for networks whose feasible terminal values are all negative; they assume a maximum assignment is given, and Target 8.6 supplies its existence for every feasible finite-bound network.
 The symmetric results below retain their symmetry hypothesis, which signed directed cut bounds need not satisfy.
 
@@ -507,6 +509,10 @@ The two statements together are the equality of optima with attainment on both s
   Give directed-network and multigraph versions with the [adjacency convention](#paths-separators-and-connectivity), returning actual edge-labelled paths, and derive the `SimpleGraph` statements.
   The multigraph statement requires only finitely many actual vertices: apply the simple-graph theorem to the simplification and lift its finite path family.
   The directed statement likewise requires only a finite vertex type: apply the finite-network theorem to the arrow family with one arrow per inhabited `Q v w` and lift its path family by choosing arrows.
+- **Vertex-capacitated Menger:** for distinct terminals `s, t` with no arrow `s → t` and vertex capacities `c : V → ℕ`, a **packing** is a finite indexed family of `s–t` paths, repetitions allowed, in which every vertex other than the terminals lies on at most `c v` members counted with repetition; a terminal-excluding vertex separator `X` has weight `∑ v ∈ X, c v`.
+  Prove, in directed-network and multigraph versions with simple-graph corollaries, that some packing and some separator have equal size and weight, and that every packing is no larger than the weight of every separator.
+  The local vertex Menger statements are the case `c = 1`: a packing is then a family of distinct internally vertex-disjoint paths, since two members sharing an internal vertex would exceed its capacity and the adjacency hypothesis excludes members without internal vertices.
+  **Why:** the vertex-splitting reduction of [Target 5.2](#52-reductions-to-max-flow) proves this generality with the same construction, and the unit case does not recover it.
 - **Adjacent terminals:** let `D` be the set of all edges joining distinct terminals `s,t`, and let `m = |D|`.
   Give both multigraph and directed versions; in the directed version, `D` consists exactly of the arrows `s → t`, and arrows `t → s` are retained and do not contribute to `m`.
   After deleting all of `D`, a terminal-excluding vertex separator of size `k` and a family of `k + m` internally vertex-disjoint paths in the original graph attain equality, for some `k`.
@@ -532,11 +538,12 @@ In the undirected edge reduction, extract paths from the normalized flow of [Tar
 Discard loop flows and cycle flows when extracting simple terminal-to-terminal paths.
 The reductions must recover actual path families and separators, not just equalities of numerical optima.
 
-- **Local vertex Menger:** assume distinct terminals and no original arrow `s → t`.
-  Over `ℤ`, put `M = |V| + 1`, capacity `M` on original arrows and on the split arrows of `s,t`, and capacity `1` on every other split arrow; use terminals `s⁺, t⁻`.
-  Prove that a separating cut of capacity below `M` crosses only internal split arrows, which give a terminal-excluding vertex separator of exactly that capacity.
-  Conversely, deleting the split arrows indexed by a vertex separator destroys terminal reachability, and the reachable source side has cut capacity at most the separator's size.
-  Deleting all internal split arrows gives a cut of capacity at most `|V| − 2 < M`, so these correspondences apply to minimum cuts.
+- **Local and vertex-capacitated vertex Menger:** assume distinct terminals, no original arrow `s → t`, and vertex capacities `c : V → ℕ`; the unit case `c = 1` gives local vertex Menger.
+  Over `ℤ`, put `M = ∑ v, c v + 1`, capacity `M` on original arrows and on the split arrows of `s,t`, and capacity `c v` on the split arrow of every other vertex `v`; use terminals `s⁺, t⁻`.
+  Prove that a separating cut of capacity below `M` crosses only internal split arrows, which give a terminal-excluding vertex separator of exactly that weight.
+  Conversely, deleting the split arrows indexed by a vertex separator destroys terminal reachability, and the reachable source side has cut capacity at most the separator's weight.
+  Deleting all internal split arrows gives a cut of capacity at most `M − 1`, so these correspondences apply to minimum cuts.
+  An integral flow decomposes into unit paths with repetition, and the split-arrow bound at `v` is the number of members through `v`; with `c = 1` the members are distinct and internally vertex-disjoint.
 - **Set-to-set Menger:** for vertex-disjoint `A–B` paths, split every vertex with capacity `1`, give original arrows capacity `M = |V| + 1`, and add capacity-`M` arrows `σ → a⁻` for `a ∈ A` and `b⁺ → τ` for `b ∈ B`.
   Every cut of capacity below `M` crosses only split arrows and yields a vertex separator of that capacity, now allowed to meet `A ∪ B`; deleting all split arrows bounds the minimum cut by `|V|`.
   Prove the reverse separator-to-cut bound and both path-family correspondences, shortening projected paths so that their interiors avoid `A ∪ B`.
@@ -553,6 +560,7 @@ The reductions must recover actual path families and separators, not just equali
 - Directed parallel arrows `s → t` together with arrows `t → s`, verifying that only the forward arrows contribute to the adjacent-terminal correction.
 - A three-vertex path with infinitely many parallel edges on each link, verifying vertex connectivity and nonadjacent vertex Menger without a finite-edge instance.
 - Overlapping terminal sets whose common vertex contributes a zero-length path, exercising the split-network projection and separator correspondence.
+- A vertex of capacity two through which every `s–t` path passes, verifying that the vertex-capacitated packing repeats a path and that the separator weight is two.
 
 ## 6. Connectivity and bipartite matching consequences
 
@@ -771,6 +779,7 @@ For every linearly ordered cancellative additive commutative monoid `K`, every n
 2. For every tree edge `{u,v}`, deleting that edge gives a partition that is a minimum `u–v` cut for `f`, with value equal to the tree-edge weight.
 
 Prove the resulting query theorem: any minimum-weight edge on the tree path from `s` to `t` yields an actual minimum `s–t` cut by deleting that edge.
+Prove the **threshold partition**: for every `k : K`, distinct vertices `s, t` are joined in the forest obtained by deleting the tree edges of weight below `k` exactly when `λ(s,t) ≥ k`, so the components of that forest are the classes of the relation `λ(s,t) ≥ k` and, for unit capacities, the classes of local `k`-edge reachability of Milestone 5.
 State the instances for weighted multigraphs and pair-capacity networks as corollaries, using the cut aggregation theorem of Milestone 1.
 The weighted tree is a `SimpleGraph` on the actual vertex type `V(G)` and need not be a subgraph of the original graph.
 For unit capacities, parallel edges contribute their multiplicities; prove that the tree answers the edge-connectivity queries of Milestone 5 and recovers cuts as subsets of the original vertex set.

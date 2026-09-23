@@ -564,27 +564,49 @@ noncomputable def projectSplitPath {s t : V} (q : ArrowWalk (SplitHom Q) (s, fal
       2 * ArrowWalk.length p + 1 = ArrowWalk.length q} := by
   sorry
 
-/-- The local vertex-Menger reduction over `ℤ`: `M = |V| + 1` on original arrows and on the
-split arrows of the terminals, `1` on every other split arrow. -/
-noncomputable abbrev vertexMengerNetwork (s t : V) : Network ℤ (V × Bool) :=
-  splitNetwork Q (K := ℤ) (fun _ => Fintype.card V + 1) (fun _ => by positivity)
-    (fun v => if v = s ∨ v = t then Fintype.card V + 1 else 1) (fun v => by split <;> positivity)
+/-- The vertex-capacitated Menger reduction over `ℤ`, with `M = ∑ v, c v + 1` on original arrows
+and on the split arrows of the terminals and `c v` on every other split arrow; local vertex
+Menger is the unit case `c = 1`. -/
+noncomputable abbrev vertexMengerNetwork (c : V → ℕ) (s t : V) : Network ℤ (V × Bool) :=
+  splitNetwork Q (K := ℤ) (fun _ => ∑ v, (c v : ℤ) + 1) (fun _ => by positivity)
+    (fun v => if v = s ∨ v = t then ∑ v, (c v : ℤ) + 1 else c v) (fun v => by split <;> positivity)
 
 /-- A cut of capacity below `M` crosses only internal split arrows, which index a
-terminal-excluding vertex separator of exactly that capacity. -/
-theorem vertexMengerNetwork_cut_separator {s t : V} (hst : s ≠ t) (hadj : IsEmpty (Q s t))
-    (S : Finset (V × Bool)) (hs : (s, true) ∈ S) (ht : (t, false) ∉ S)
-    (hS : (vertexMengerNetwork Q s t).upperCutCapacity S < Fintype.card V + 1) :
-    ∃ X : Finset V, s ∉ X ∧ t ∉ X ∧ (X.card : ℤ) = (vertexMengerNetwork Q s t).upperCutCapacity S ∧
+terminal-excluding vertex separator of exactly that weight. -/
+theorem vertexMengerNetwork_cut_separator (c : V → ℕ) {s t : V} (hst : s ≠ t)
+    (hadj : IsEmpty (Q s t)) (S : Finset (V × Bool)) (hs : (s, true) ∈ S) (ht : (t, false) ∉ S)
+    (hS : (vertexMengerNetwork Q c s t).upperCutCapacity S < ∑ v, (c v : ℤ) + 1) :
+    ∃ X : Finset V, s ∉ X ∧ t ∉ X ∧
+      ∑ v ∈ X, (c v : ℤ) = (vertexMengerNetwork Q c s t).upperCutCapacity S ∧
       ¬ ReachableAvoiding Q X s t := by
   sorry
 
 /-- Conversely, deleting the split arrows of a vertex separator destroys terminal reachability,
-and the source side reachable in the remaining network has cut capacity at most its size. -/
-theorem vertexMengerNetwork_separator_cut {s t : V} (hst : s ≠ t) (X : Finset V)
+and the source side reachable in the remaining network has cut capacity at most its weight. -/
+theorem vertexMengerNetwork_separator_cut (c : V → ℕ) {s t : V} (hst : s ≠ t) (X : Finset V)
     (hsX : s ∉ X) (htX : t ∉ X) (hX : ¬ ReachableAvoiding Q X s t) :
     ∃ S : Finset (V × Bool), (s, true) ∈ S ∧ (t, false) ∉ S ∧
-      (vertexMengerNetwork Q s t).upperCutCapacity S ≤ X.card := by
+      (vertexMengerNetwork Q c s t).upperCutCapacity S ≤ ∑ v ∈ X, (c v : ℤ) := by
+  sorry
+
+/-- A packing of `s–t` paths respecting vertex capacities `c`: repetitions are allowed, and every
+vertex other than the terminals lies on at most `c v` members counted with repetition. With
+`c = 1` the members are distinct and internally vertex-disjoint. -/
+structure VertexPacking (c : V → ℕ) (s t : V) where
+  size : ℕ
+  path : Fin size → ArrowWalk Q s t
+  path_isPath : ∀ i, ArrowWalk.IsPath (path i)
+  usage_le : ∀ v, v ≠ s → v ≠ t →
+    (univ.filter fun i => v ∈ ArrowWalk.vertices (path i)).card ≤ c v
+
+/-- Vertex-capacitated Menger in witness form: a packing and a terminal-excluding separator of
+equal size and weight, and weak duality between every packing and every separator. -/
+theorem exists_vertexPacking_separator_eq (c : V → ℕ) {s t : V} (hst : s ≠ t)
+    (hadj : IsEmpty (Q s t)) :
+    (∃ (P : VertexPacking Q c s t) (X : Finset V), s ∉ X ∧ t ∉ X ∧ ¬ ReachableAvoiding Q X s t ∧
+        P.size = ∑ v ∈ X, c v) ∧
+      ∀ (P : VertexPacking Q c s t) (X : Finset V), s ∉ X → t ∉ X → ¬ ReachableAvoiding Q X s t →
+        P.size ≤ ∑ v ∈ X, c v := by
   sorry
 
 /-- Auxiliary terminals on a sum type: `inl v` is an original vertex, `inr false` the fresh
@@ -1139,6 +1161,15 @@ theorem IsSubmodular.exists_extremal_minCuts {f : Finset V → K}
       ∀ S, IsMinCutBetween f A B S → Smin ⊆ S ∧ S ⊆ Smax := by
   sorry
 
+/-- The minimum cut is unique exactly when the smallest and largest minimum cuts coincide;
+membership in the smallest forces membership in every minimum cut, and non-membership in the
+largest forces non-membership in every minimum cut. -/
+theorem isMinCutBetween_unique_iff {f : Finset V → K} {A B Smin Smax : Finset V}
+    (hmin : IsMinCutBetween f A B Smin) (hmax : IsMinCutBetween f A B Smax)
+    (h : ∀ S, IsMinCutBetween f A B S → Smin ⊆ S ∧ S ⊆ Smax) :
+    (∀ S T, IsMinCutBetween f A B S → IsMinCutBetween f A B T → S = T) ↔ Smin = Smax := by
+  sorry
+
 /-- The minimum of `f` over sets containing `s` and not `t`: the minimum of a nonempty finite
 family when `s ≠ t`, and zero when `s = t`. No order completeness is required. -/
 noncomputable def minCut (f : Finset V → K) (s t : V) : K :=
@@ -1207,6 +1238,16 @@ theorem exists_gomoryHu_tree [Nonempty V] (f : Finset V → K) (hf : IsSymmSubmo
       ∀ u v, T.tree.Adj u v →
         T.weight s(u, v) = minCut f u v ∧
           f (univ.filter fun x => (T.tree.deleteEdges {s(u, v)}).Reachable u x) = minCut f u v := by
+  sorry
+
+/-- The threshold partition: after deleting the tree edges of weight below `k`, distinct vertices
+stay joined exactly when their minimum cut value is at least `k`. Only the path-minimum property
+of the tree is used. -/
+theorem WeightedTree.reachable_deleteEdges_iff (f : Finset V → K) (T : WeightedTree K V)
+    (hT : ∀ s t, s ≠ t → ∀ p : T.tree.Walk s t, p.IsPath →
+      (∀ e ∈ p.edges, minCut f s t ≤ T.weight e) ∧ ∃ e ∈ p.edges, T.weight e = minCut f s t)
+    (k : K) {s t : V} (hst : s ≠ t) :
+    (T.tree.deleteEdges {e | T.weight e < k}).Reachable s t ↔ k ≤ minCut f s t := by
   sorry
 
 /-- Every minimum cut value is a tree-edge weight, so there are at most `|V| - 1` of them. -/
