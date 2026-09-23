@@ -284,7 +284,11 @@ Build the following network constructions generically in their capacities; [Targ
   Specify the corresponding terminal excess formulas and prove that a split-arrow capacity bounds total traffic through that vertex.
 - **Auxiliary terminals:** add a fresh source `σ` and sink `τ` on a sum type, retaining all original arrows with their identities, with one arrow `σ → a` for each `a ∈ A` and one arrow `b → τ` for each `b ∈ B`.
   The terminal sets `A, B` are arbitrary, including empty, and the capacities of the new arrows are parameters.
-  Prove that a `σ–τ` path consists of a `σ`-arrow, an `A–B` path, and a `τ`-arrow, and that the capacity of a `σ–τ` cut is the capacity of the new arrows it crosses plus the original cut capacity of its restriction to `V`.
+  Prove that a simple `σ–τ` path consists of a `σ`-arrow, an original path from a vertex of `A` to a vertex of `B`, and a `τ`-arrow; this projected path may pass through further vertices of `A ∪ B`.
+  Trimming it to the segment from its last vertex in `A` to the following vertex in `B` gives an `A–B` path in the sense of the [conventions](#paths-separators-and-connectivity), whose interior avoids `A ∪ B`; trimming preserves vertex-disjointness and arrow-disjointness of families but does not invert lifting, so state lifting, projection, and trimming as three operations.
+  Prove that the capacity of a `σ–τ` cut is the capacity of the new arrows it crosses plus the original cut capacity of its restriction to `V`.
+  Prove the **normalization lemma**: for disjoint `A, B`, when every arrow `σ → a` has capacity at least the total capacity leaving `a` and every arrow `b → τ` at least the total capacity entering `b`, the set `R = ((S ∩ V) ∪ A) ∖ B` obtained from a `σ–τ` cut `S` satisfies `A ⊆ R ⊆ Bᶜ` and its original cut capacity is at most the `σ–τ` cut capacity of `S`.
+  **Why:** a minimum `σ–τ` cut need not contain every vertex of `A`, so its restriction to `V` need not satisfy `A ⊆ R`; normalization repairs this without increasing the capacity.
   Combine with vertex splitting for the vertex-disjoint versions, where the new arrows are `σ → a⁻` and `b⁺ → τ`.
 - **Change of coefficients:** map networks, assignments, flows, residual capacities, and cuts along order-preserving additive group homomorphisms, including the standard embeddings `ℤ → ℚ → ℝ`.
 
@@ -396,7 +400,7 @@ Prove that every flow of the capped network is a flow of the original network wi
 **Terminal sets.** For disjoint finite vertex sets `A, B`, an `A–B` flow is a pseudoflow conserved outside `A ∪ B` with nonpositive excess on `A` and nonnegative excess on `B`; its value is the total excess on `B`, equivalently minus the total excess on `A`.
 An `A–B` cut is a vertex set `S` with `A ⊆ S ⊆ Bᶜ`, of capacity `u(δ⁺(S))`; these are the admissible sets of [Target 4.1](#41-submodularity-and-terminal-set-cut-lattices).
 Prove weak duality, the existence of an `A–B` flow and an `A–B` cut of equal value and capacity, the optimality criteria, and integrality in an additive subgroup, for all disjoint `A, B` including empty ones, where the maximum value is zero.
-The suggested route is the auxiliary-terminal construction of [Target 1.4](#14-vertex-splitting-auxiliary-terminals-and-change-of-coefficients) with the capacity of `σ → a` equal to the total capacity leaving `a` and that of `b → τ` equal to the total capacity entering `b`: prove that `A–B` flows correspond exactly to `σ–τ` flows with the same original assignment and value, and that minimum `σ–τ` cuts restrict to minimum `A–B` cuts.
+The suggested route is the auxiliary-terminal construction of [Target 1.4](#14-vertex-splitting-auxiliary-terminals-and-change-of-coefficients) with the capacity of `σ → a` equal to the total capacity leaving `a` and that of `b → τ` equal to the total capacity entering `b`: prove that `A–B` flows correspond exactly to `σ–τ` flows with the same original assignment and value, that every `A–B` cut `R` gives the `σ–τ` cut `R ∪ {σ}` of the same capacity, and that normalizing a minimum `σ–τ` cut by the normalization lemma of Target 1.4 gives a minimum `A–B` cut of the same capacity.
 The reductions of [Target 5.2](#52-reductions-to-max-flow) use the same construction with other capacities.
 
 **Undirected networks.** A flow of a weighted multigraph is a flow of its bidirected network.

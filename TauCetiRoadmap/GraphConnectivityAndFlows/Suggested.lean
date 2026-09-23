@@ -615,6 +615,28 @@ noncomputable abbrev auxNetwork (A B : Finset V) (cap : Assignment Q K)
     | .inr true, _ => fun e => nomatch e
     | .inr false, .inr _ => fun e => nomatch e
 
+/-- The admissible `A–B` cut obtained from an auxiliary source side `S`: its original vertices
+with `A` added and `B` removed. -/
+def normalizeAuxCut (A B : Finset V) (S : Finset (V ⊕ Bool)) : Finset V :=
+  ((univ.filter fun v => Sum.inl v ∈ S) ∪ A) \ B
+
+theorem normalizeAuxCut_admissible (A B : Finset V) (hAB : Disjoint A B)
+    (S : Finset (V ⊕ Bool)) :
+    A ⊆ normalizeAuxCut A B S ∧ Disjoint (normalizeAuxCut A B S) B := by
+  sorry
+
+/-- Normalization does not increase the cut capacity when each `σ → a` dominates the capacity
+leaving `a` and each `b → τ` dominates the capacity entering `b`; a minimum `σ–τ` cut need not
+contain every vertex of `A`, so its restriction to `V` alone is not admissible. -/
+theorem arrowCutCapacity_normalizeAuxCut_le (A B : Finset V) (hAB : Disjoint A B)
+    (cap : Assignment Q K) (hcap : ∀ {v w} (e : Q v w), 0 ≤ cap e) (cσ cτ : V → K)
+    (hσ : ∀ v, 0 ≤ cσ v) (hτ : ∀ v, 0 ≤ cτ v)
+    (hσ' : ∀ a, ∑ w, ∑ e : Q a w, cap e ≤ cσ a) (hτ' : ∀ b, ∑ w, ∑ e : Q w b, cap e ≤ cτ b)
+    (S : Finset (V ⊕ Bool)) (hS : Sum.inr false ∈ S) (hT : Sum.inr true ∉ S) :
+    arrowCutCapacity Q cap (normalizeAuxCut A B S) ≤
+      (auxNetwork Q A B cap hcap cσ cτ hσ hτ).upperCutCapacity S := by
+  sorry
+
 /-- The edge-disjoint set-to-set reduction over `ℤ`: unit original capacities and
 `M = |E| + 1` on the auxiliary arrows, where `E` is the total arrow type. -/
 noncomputable abbrev edgeMengerNetwork (A B : Finset V) : Network ℤ (V ⊕ Bool) :=
@@ -681,6 +703,19 @@ noncomputable abbrev setFlowNetwork : Network K (V ⊕ Bool) :=
 
 noncomputable def SetFlow.auxEquiv (hAB : Disjoint A B) :
     SetFlow Q cap A B ≃ (setFlowNetwork Q cap hcap A B).Flow (Sum.inr false) (Sum.inr true) := by
+  sorry
+
+/-- Normalizing a minimum `σ–τ` cut of the auxiliary network gives a minimum `A–B` cut of the
+same capacity. -/
+theorem isMinCut_normalizeAuxCut (hAB : Disjoint A B) (S : Finset (V ⊕ Bool))
+    (hS : Sum.inr false ∈ S) (hT : Sum.inr true ∉ S)
+    (hmin : ∀ T : Finset (V ⊕ Bool), Sum.inr false ∈ T → Sum.inr true ∉ T →
+      (setFlowNetwork Q cap hcap A B).upperCutCapacity S ≤
+        (setFlowNetwork Q cap hcap A B).upperCutCapacity T) :
+    arrowCutCapacity Q cap (normalizeAuxCut A B S) =
+        (setFlowNetwork Q cap hcap A B).upperCutCapacity S ∧
+      ∀ R : Finset V, A ⊆ R → Disjoint R B →
+        arrowCutCapacity Q cap (normalizeAuxCut A B S) ≤ arrowCutCapacity Q cap R := by
   sorry
 
 theorem SetFlow.auxEquiv_val (hAB : Disjoint A B) (f : SetFlow Q cap A B) :
