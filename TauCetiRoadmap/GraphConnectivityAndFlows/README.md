@@ -363,8 +363,10 @@ The main targets are:
    Derive the ordinary `s–t` flow decomposition and the cycle-only decomposition of nonnegative zero-excess assignments as corollaries.
    For a pseudoflow conserved away from the terminals with negative excess at the designated sink, use terminal exchange to obtain paths in the opposite direction.
    These statements require nonnegative arrow values; general signed circulations use the nonnegative residual difference of [Target 8.4](#84-residual-adjustments) for cycle adjustments.
-3. **Acyclic flows.** Every ordinary flow yields, by removing the cycle components of its decomposition, a flow of the same value whose assignment is arrowwise no larger and whose support contains no directed cycle; in particular it uses no loop and at most one of any two opposite arrows, and every arrow value is at most the flow value.
+3. **Acyclic flows.** Every ordinary flow has an acyclic flow of the same value: a flow whose assignment is arrowwise no larger and whose support contains no directed cycle; in particular it uses no loop and at most one of any two opposite arrows, and every arrow value is at most the flow value.
    Preserve values in an additive subgroup.
+   Removing the cycle components of a decomposition from item 2 does not suffice: the sum of unit flows along `s → a → b → t` and `s → b → a → t` has a decomposition without cycle components, yet its support contains the cycle `a → b → a`.
+   **Suggested proof:** while the support contains a directed cycle, subtract the minimum arrow value along that cycle from each of its arrows, which preserves the value and the bounds and strictly shrinks the support; the decomposition of an acyclic flow has no cycle components, so every arrow value is at most the total path weight, which is the value.
 4. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
    Prove the equivalent optimality criteria: maximum flow, no augmenting `s–t` path, and existence of a cut attaining equality.
 5. **Integrality.** Capacities in an additive subgroup `H` of `K` admit a maximum flow whose arrow values are in `H` and whose value equals the minimum cut capacity.
@@ -383,11 +385,12 @@ Another proof is acceptable if it establishes the same coefficient-generic theor
 - A capacity-feasible assignment with negative excess at the designated sink, verifying terminal exchange, and a prescribed-excess example verifying the supply and demand signs.
 - A nonnegative assignment with two supply vertices, two demand vertices, and a cycle, verifying arrowwise reconstruction and the supply and demand weight identities.
 - Zero and nonnegative zero-excess assignments, exercising empty decomposition families and loop cycles.
+- The two-path flow of item 3, whose decomposition has no cycle component while its support contains a directed cycle, together with its acyclic flow.
 
 ### 3.2. Large capacities
 
 Prove that capping capacities at `B : K`, meaning replacing every `cap e` by `min (cap e) B`, changes neither the minimum `s–t` cut value nor the set of minimum `s–t` cuts whenever some `s–t` cut has capacity strictly below `B`.
-Prove that every flow of the capped network is a flow of the original network with the same assignment, and that every flow of the original network yields, after removing its cycle components as in [Target 3.1](#31-finite-flows-and-assignment-decomposition), a flow of the capped network with the same value and an arrowwise no larger assignment.
+Prove that every flow of the capped network is a flow of the original network with the same assignment, and that every flow of the original network yields, after removing the cycle components of a decomposition from [Target 3.1](#31-finite-flows-and-assignment-decomposition), a flow of the capped network with the same value and an arrowwise no larger assignment.
 **Suggested proof:** a cut crossing an arrow of capacity at least `B` is not minimum for either capacity function.
 **Why:** this is the only sense in which this roadmap uses uncapacitated arrows; the reductions of [Target 5.2](#52-reductions-to-max-flow) and the bipartite network of Milestone 6 give their auxiliary arrows a capacity exceeding a known cut, and this target reads their minimum cuts off the original capacities.
 

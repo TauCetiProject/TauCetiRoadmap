@@ -465,8 +465,11 @@ variable (cap : Assignment Q K) {s t : V}
 /-- Capacities capped at `B`. -/
 abbrev capCapacity (B : K) : Assignment Q K := fun e => min (cap e) B
 
-/-- Below a cut of capacity less than `B`, capping does not change which cuts are minimum. -/
-theorem isMinCut_capCapacity_iff {B : K} {S₀ : Finset V} (hs₀ : s ∈ S₀) (ht₀ : t ∉ S₀)
+/-- Below a cut of capacity less than `B`, capping does not change which cuts are minimum.
+Nonnegativity is needed: with arrows `s → a`, `a → t`, `s → t` of capacities `2`, `1`, `-1`,
+capping at `1` makes `{s}` minimum alongside `{s, a}`. -/
+theorem isMinCut_capCapacity_iff (hcap : ∀ {v w} (e : Q v w), 0 ≤ cap e)
+    {B : K} {S₀ : Finset V} (hs₀ : s ∈ S₀) (ht₀ : t ∉ S₀)
     (hB : arrowCutCapacity Q cap S₀ < B) (S : Finset V) (hs : s ∈ S) (ht : t ∉ S) :
     (∀ T, s ∈ T → t ∉ T →
         arrowCutCapacity Q (capCapacity Q cap B) S ≤ arrowCutCapacity Q (capCapacity Q cap B) T) ↔
