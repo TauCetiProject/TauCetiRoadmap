@@ -332,7 +332,7 @@ noncomputable abbrev residual (Q : Quiver V) (lo hi : Assignment Q K)
 noncomputable abbrev Network.residual (N : Network K V) (f : N.Feasible) :=
   TauCetiRoadmap.FiniteGraphConnectivity.residual ⟨N.Hom⟩ N.lower N.upper f
 
-noncomputable def Network.cutCapacity (N : Network K V) [Fintype V] [DecidableEq V]
+noncomputable def Network.cutBound (N : Network K V) [Fintype V] [DecidableEq V]
     [∀ v w, Fintype (N.Hom v w)] (S : Finset V) : K :=
   N.upperCutCapacity S - arrowCutCapacity ⟨N.Hom⟩ N.lower Sᶜ
 
@@ -828,7 +828,7 @@ theorem min_minCut_le_minCut (f : Finset V → K) (s v t : V) (hst : s ≠ t) :
 
 /-- Capacity of the undirected cut `(S, Sᶜ)` of a weighted graph `c`: each crossing pair counted
 once. Loops never cross, and pairs of capacity zero are the non-edges. -/
-noncomputable def cutCapacity (c : Sym2 V → K) (S : Finset V) : K :=
+noncomputable def pairCutCapacity (c : Sym2 V → K) (S : Finset V) : K :=
   ∑ e ∈ univ.filter (fun e : Sym2 V => (∃ x ∈ e, x ∈ S) ∧ (∃ y ∈ e, y ∉ S)), c e
 
 /-- The support ignores diagonal capacities, as does the cut function. -/
@@ -837,12 +837,12 @@ def capacitySupport (c : Sym2 V → K) : SimpleGraph V where
   symm := ⟨fun v w h => ⟨h.1.symm, by simpa only [Sym2.eq_swap] using h.2⟩⟩
   loopless := ⟨fun v h => h.1 rfl⟩
 
-theorem cutCapacity_eq_of_offDiagonal_eq (c d : Sym2 V → K)
-    (h : ∀ v w, v ≠ w → c s(v, w) = d s(v, w)) : cutCapacity c = cutCapacity d := by
+theorem pairCutCapacity_eq_of_offDiagonal_eq (c d : Sym2 V → K)
+    (h : ∀ v w, v ≠ w → c s(v, w) = d s(v, w)) : pairCutCapacity c = pairCutCapacity d := by
   sorry
 
-theorem isSymmSubmodular_cutCapacity (c : Sym2 V → K) (hc : ∀ e, 0 ≤ c e) :
-    IsSymmSubmodular (cutCapacity c) := by
+theorem isSymmSubmodular_pairCutCapacity (c : Sym2 V → K) (hc : ∀ e, 0 ≤ c e) :
+    IsSymmSubmodular (pairCutCapacity c) := by
   sorry
 
 /-- Local edge reachability is the unit-capacity minimum cut: `s` and `t` stay reachable after
@@ -850,7 +850,7 @@ deleting fewer than `k` edges exactly when every `s–t` cut has at least `k` ed
 theorem isEdgeReachable_iff_le_minCut (G : SimpleGraph V) [DecidableRel G.Adj] {s t : V}
     (hst : s ≠ t) (k : ℕ) :
     G.IsEdgeReachable k s t ↔
-      (k : ℤ) ≤ minCut (cutCapacity fun e => if e ∈ G.edgeFinset then (1 : ℤ) else 0) s t := by
+      (k : ℤ) ≤ minCut (pairCutCapacity fun e => if e ∈ G.edgeFinset then (1 : ℤ) else 0) s t := by
   sorry
 
 /-- A weighted tree on the vertex type. -/
@@ -862,7 +862,7 @@ structure WeightedTree (K : Type w) (V : Type u) where
 open Classical in
 /-- Gomory–Hu for a symmetric submodular function: minimum cut values are read off tree paths,
 and every tree edge's fundamental partition is a minimum cut for its endpoints. Weighted graphs
-are the instance `f = cutCapacity c`. -/
+are the instance `f = pairCutCapacity c`. -/
 theorem exists_gomoryHu_tree [Nonempty V] (f : Finset V → K) (hf : IsSymmSubmodular f) :
     ∃ T : WeightedTree K V,
       (∀ s t, s ≠ t → ∀ p : T.tree.Walk s t, p.IsPath →
@@ -1037,17 +1037,17 @@ theorem Network.returnEquiv_return {s t : V} (hst : s ≠ t) (q : K)
     (N.returnEquiv hst q f).val.toFun (Sum.inr ⟨rfl, rfl⟩) = q := by
   sorry
 
-theorem Network.cutCapacity_eq_shiftLower (S : Finset V) :
-    N.cutCapacity S = N.shiftLower.upperCutCapacity S - ∑ v ∈ S, N.excessAt N.lower v := by
+theorem Network.cutBound_eq_shiftLower (S : Finset V) :
+    N.cutBound S = N.shiftLower.upperCutCapacity S - ∑ v ∈ S, N.excessAt N.lower v := by
   sorry
 
-theorem Network.cutCapacity_submodular (S T : Finset V) :
-    N.cutCapacity (S ∪ T) + N.cutCapacity (S ∩ T) ≤ N.cutCapacity S + N.cutCapacity T := by
+theorem Network.cutBound_submodular (S T : Finset V) :
+    N.cutBound (S ∪ T) + N.cutBound (S ∩ T) ≤ N.cutBound S + N.cutBound T := by
   sorry
 
 theorem Network.boundedFlow_cut_gap {s t : V} (f : N.BoundedFlow s t)
     {S : Finset V} (hs : s ∈ S) (ht : t ∉ S) :
-    N.cutCapacity S - f.val = (N.residual f.toBoundedAssignment).upperCutCapacity S := by
+    N.cutBound S - f.val = (N.residual f.toBoundedAssignment).upperCutCapacity S := by
   sorry
 
 open Classical in
@@ -1057,28 +1057,28 @@ theorem Network.boundedFlow_canonicalCuts {s t : V} (hst : s ≠ t)
     let Smin := univ.filter fun v => R.Reachable s v
     let Smax := univ.filter fun v => ¬ R.Reachable v t
     s ∈ Smin ∧ t ∉ Smin ∧ s ∈ Smax ∧ t ∉ Smax ∧
-      N.cutCapacity Smin = f.val ∧ N.cutCapacity Smax = f.val ∧
-      ∀ S : Finset V, s ∈ S → t ∉ S → N.cutCapacity S = f.val →
+      N.cutBound Smin = f.val ∧ N.cutBound Smax = f.val ∧
+      ∀ S : Finset V, s ∈ S → t ∉ S → N.cutBound S = f.val →
         Smin ⊆ S ∧ S ⊆ Smax := by
   sorry
 
 theorem Network.boundedFlow_cut_bounds {s t : V} (f : N.BoundedFlow s t)
     {S : Finset V} (hs : s ∈ S) (ht : t ∉ S) :
-    -N.cutCapacity Sᶜ ≤ f.val ∧ f.val ≤ N.cutCapacity S := by
+    -N.cutBound Sᶜ ≤ f.val ∧ f.val ≤ N.cutBound S := by
   sorry
 
 theorem Network.exists_boundedFlow_extrema {s t : V} (hst : s ≠ t)
     (hf : Nonempty (N.BoundedFlow s t)) :
     ∃ (fmin fmax : N.BoundedFlow s t) (Smin Smax : Finset V),
       s ∈ Smin ∧ t ∉ Smin ∧ s ∈ Smax ∧ t ∉ Smax ∧
-      fmin.val = -N.cutCapacity Sminᶜ ∧ fmax.val = N.cutCapacity Smax ∧
+      fmin.val = -N.cutBound Sminᶜ ∧ fmax.val = N.cutBound Smax ∧
       ∀ f : N.BoundedFlow s t, fmin.val ≤ f.val ∧ f.val ≤ fmax.val := by
   sorry
 
 theorem Network.exists_boundedFlow_val_iff {s t : V} (hst : s ≠ t)
     (hf : Nonempty (N.BoundedFlow s t)) (q : K) :
     (∃ f : N.BoundedFlow s t, f.val = q) ↔ ∀ S : Finset V,
-      s ∈ S → t ∉ S → -N.cutCapacity Sᶜ ≤ q ∧ q ≤ N.cutCapacity S := by
+      s ∈ S → t ∉ S → -N.cutBound Sᶜ ≤ q ∧ q ≤ N.cutBound S := by
   sorry
 
 theorem Network.boundedFlow_isMax_iff {s t : V} (hst : s ≠ t) (f : N.BoundedFlow s t) :
@@ -1133,12 +1133,12 @@ theorem Network.excessIntervalEquiv_auxiliary (a b : V → K) (hab : ∀ v, a v 
 
 theorem Network.nonempty_realizesWithin_iff (a b : V → K) (hab : ∀ v, a v ≤ b v) :
     Nonempty (N.RealizesWithin a b) ↔ ∀ S : Finset V,
-      (∑ v ∈ S, a v) ≤ N.cutCapacity Sᶜ ∧ -N.cutCapacity S ≤ ∑ v ∈ S, b v := by
+      (∑ v ∈ S, a v) ≤ N.cutBound Sᶜ ∧ -N.cutBound S ≤ ∑ v ∈ S, b v := by
   sorry
 
 theorem Network.realizesWithin_or_obstruction (a b : V → K) (hab : ∀ v, a v ≤ b v) :
     Nonempty (N.RealizesWithin a b) ∨ ∃ S : Finset V,
-      N.cutCapacity Sᶜ < (∑ v ∈ S, a v) ∨ (∑ v ∈ S, b v) < -N.cutCapacity S := by
+      N.cutBound Sᶜ < (∑ v ∈ S, a v) ∨ (∑ v ∈ S, b v) < -N.cutBound S := by
   sorry
 
 theorem Network.exists_realizesWithin_mem_addSubgroup (a b : V → K)
@@ -1468,13 +1468,13 @@ abbrev bidirectedNetwork (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e) : Network
 variable [Fintype G.vertexSet] [Fintype G.edgeSet]
 
 open Classical in
-noncomputable def cutCapacity (c : G.edgeSet → K) (S : Finset G.vertexSet) : K :=
+noncomputable def edgeCutCapacity (c : G.edgeSet → K) (S : Finset G.vertexSet) : K :=
   ∑ e : G.edgeSet, if ∃ s ∈ S, ∃ t ∉ S, G.IsLink e.val s.val t.val then c e else 0
 
 open Classical in
-theorem bidirected_cutCapacity (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e)
+theorem bidirected_edgeCutCapacity (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e)
     (S : Finset G.vertexSet) :
-    (bidirectedNetwork G c hc).cutCapacity S = cutCapacity G c S := by
+    (bidirectedNetwork G c hc).upperCutCapacity S = edgeCutCapacity G c S := by
   sorry
 
 open Classical in
@@ -1484,19 +1484,19 @@ noncomputable def pairCapacity (c : G.edgeSet → K) (p : Sym2 G.vertexSet) : K 
     if ∃ s t : G.vertexSet, s ≠ t ∧ p = s(s, t) ∧ G.IsLink e.val s.val t.val then c e else 0
 
 open Classical in
-theorem cutCapacity_pairCapacity (c : G.edgeSet → K) (S : Finset G.vertexSet) :
-    TauCetiRoadmap.FiniteGraphConnectivity.cutCapacity (pairCapacity G c) S =
-      cutCapacity G c S := by
+theorem pairCutCapacity_pairCapacity (c : G.edgeSet → K) (S : Finset G.vertexSet) :
+    pairCutCapacity (pairCapacity G c) S =
+      edgeCutCapacity G c S := by
   sorry
 
 open Classical in
-theorem isSymmSubmodular_cutCapacity (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e) :
-    IsSymmSubmodular (cutCapacity G c) := by
+theorem isSymmSubmodular_edgeCutCapacity (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e) :
+    IsSymmSubmodular (edgeCutCapacity G c) := by
   sorry
 
 open Classical in
 theorem isEdgeReachable_iff_le_minCut {s t : G.vertexSet} (hst : s ≠ t) (k : ℕ) :
-    IsEdgeReachable G k s t ↔ (k : ℤ) ≤ minCut (cutCapacity G (fun _ => (1 : ℤ))) s t := by
+    IsEdgeReachable G k s t ↔ (k : ℤ) ≤ minCut (edgeCutCapacity G (fun _ => (1 : ℤ))) s t := by
   sorry
 
 end Capacities
