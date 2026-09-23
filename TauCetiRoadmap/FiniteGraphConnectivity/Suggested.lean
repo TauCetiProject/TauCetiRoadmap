@@ -26,6 +26,8 @@ The pinned choices illustrated here are:
   General bounded terminal assignments allow signed values.
   Nonnegative assignments decompose into supply-to-demand paths and cycles.
 - Directed walks use `Quiver.Path` with an explicit quiver argument.
+  Native undirected walks follow the shared-walk proposal, with the bidirected correspondence
+  stated as a target.
   Subnetworks record actual vertices as well as arrow subsets.
   Residual arrows are `N.Hom v w ⊕ N.Hom w v`, independently of the assignment.
   Augmenting paths use the positive-capacity part of that fixed arrow family.
@@ -1180,45 +1182,119 @@ end TauCetiRoadmap.FiniteGraphConnectivity
 /-!
 ## Multigraph connectivity and transport
 
-The path prototypes use the bidirected-network side of the required correspondence with the shared `GraphLike.Walk` proposal.
-They retain edge identities and state the transport obligations without introducing a competing native undirected walk type.
-The implementation follows the upstream shared-walk interfaces and proves the correspondence specified in Milestone 1.
-All definitions here live in a prototype namespace; the implementation extends `Graph` and the shared walk API.
+Native undirected walks follow the shape of the shared-walk proposal
+[#36756](https://github.com/leanprover-community/mathlib4/pull/36756) with the `Graph` darts of
+[#39053](https://github.com/leanprover-community/mathlib4/pull/39053): a walk is a sequence of
+steps, each a dart of the graph with the matching ends, and it retains edge identities. The
+bidirected arrow family is the proof-side device on which the flow reductions run; Milestone 1
+requires the correspondence stated below. All definitions here are stand-ins in a prototype
+namespace; the implementation extends `Graph` and the shared walk API.
 -/
 
 namespace TauCetiRoadmap.FiniteGraphConnectivity.Multigraph
 
 variable {α : Type u} {β : Type v} (G : Graph α β)
 
+/-- Stand-in for the darts of [#39053](https://github.com/leanprover-community/mathlib4/pull/39053):
+an edge with an ordered pair of ends. A loop has a forward and a backward dart. -/
+inductive Dart (α : Type u) (β : Type v) : Type (max u v)
+  | dir (e : β) (u v : α) (h : u ≠ v)
+  | fwd (e : β) (u : α)
+  | bwd (e : β) (u : α)
+
+namespace Dart
+
+def src : Dart α β → α
+  | dir _ u _ _ => u
+  | fwd _ u => u
+  | bwd _ u => u
+
+def tgt : Dart α β → α
+  | dir _ _ v _ => v
+  | fwd _ u => u
+  | bwd _ u => u
+
+def edge : Dart α β → β
+  | dir e _ _ _ => e
+  | fwd e _ => e
+  | bwd e _ => e
+
+end Dart
+
+/-- The darts of `G`: those whose edge links their ends in `G`. -/
+def darts : Set (Dart α β) := {d | G.IsLink d.edge d.src d.tgt}
+
+/-- A step from `u` to `v`: a dart of `G` with those ends. -/
+def Step (u v : α) := {d : Dart α β // d ∈ darts G ∧ d.src = u ∧ d.tgt = v}
+
+/-- Native walks in the shape of `GraphLike.Walk`. A zero-length walk exists at every ambient
+vertex, so reachability adds the membership condition. -/
+inductive Walk : α → α → Type (max u v)
+  | nil {u : α} : Walk u u
+  | cons {u v w : α} (s : Step G u v) (p : Walk v w) : Walk u w
+
+namespace Walk
+
+variable {G}
+
+def length : ∀ {u v : α}, Walk G u v → ℕ
+  | _, _, .nil => 0
+  | _, _, .cons _ p => p.length + 1
+
+def support : ∀ {u v : α}, Walk G u v → List α
+  | u, _, .nil => [u]
+  | u, _, .cons _ p => u :: p.support
+
+/-- The traversed edge identities in order; both darts of a loop give the same edge. -/
+def edges : ∀ {u v : α}, Walk G u v → List β
+  | _, _, .nil => []
+  | _, _, .cons s p => s.val.edge :: p.edges
+
+def IsPath {u v : α} (p : Walk G u v) : Prop := p.support.Nodup
+
+/-- Positive length, no repeated vertices apart from the endpoints, and no repeated edge
+identity: a loop is a one-edge cycle, two parallel edges form a two-edge cycle, and traversing
+one edge out and back is not a cycle. -/
+def IsCycle {u : α} (p : Walk G u u) : Prop :=
+  0 < p.length ∧ p.support.tail.Nodup ∧ p.edges.Nodup
+
+def EdgeDisjoint {u v : α} (p q : Walk G u v) : Prop := p.edges.Disjoint q.edges
+
+def InternallyDisjoint {u v : α} (p q : Walk G u v) : Prop :=
+  ∀ x ∈ p.support, x ∈ q.support → x = u ∨ x = v
+
+end Walk
+
+/-- Reachability between actual vertices. The membership condition excludes the zero-length walk
+at an ambient non-vertex; a positive-length walk has actual endpoints automatically. -/
+def Reachable (s t : α) : Prop := s ∈ G.vertexSet ∧ Nonempty (Walk G s t)
+
 /-- The bidirected arrow family has one arrow per incident edge and ordered pair of ends.
 A loop gives one loop arrow; a nonloop edge gives two opposite arrows. -/
 abbrev Hom (s t : G.vertexSet) := {e : G.edgeSet // G.IsLink e.val s.val t.val}
 
-abbrev Walk (s t : G.vertexSet) := ArrowWalk (Hom G) s t
+/-- The correspondence required in Milestone 1: a native walk between actual vertices gives a
+path of the bidirected quiver with the same vertex and edge sequences, and conversely. The two
+darts of a loop both map to its one loop arrow, so this is not a bijection on walks. -/
+noncomputable def Walk.toBidirected {s t : G.vertexSet} (p : Walk G s t) :
+    ArrowWalk (Hom G) s t := by
+  sorry
 
-/-- Both directions of an edge retain the same underlying identity. -/
-def edgeList {s t : G.vertexSet} (p : Walk G s t) : List β := by
-  letI : Quiver G.vertexSet := ⟨Hom G⟩
-  induction p with
-  | nil => exact []
-  | cons p e es => exact es ++ [e.val.val]
+theorem Walk.vertices_toBidirected {s t : G.vertexSet} (p : Walk G s t) :
+    (ArrowWalk.vertices p.toBidirected).map Subtype.val = p.support := by
+  sorry
 
-def IsCycle {s : G.vertexSet} (p : Walk G s s) : Prop :=
-  0 < ArrowWalk.length p ∧ (ArrowWalk.vertices p).tail.Nodup ∧ (edgeList G p).Nodup
+theorem Walk.isPath_toBidirected {s t : G.vertexSet} (p : Walk G s t) :
+    ArrowWalk.IsPath p.toBidirected ↔ p.IsPath := by
+  sorry
 
-def EdgeDisjoint {s t : G.vertexSet} (p q : Walk G s t) : Prop :=
-  (edgeList G p).Disjoint (edgeList G q)
-
-def InternallyDisjoint {s t : G.vertexSet} (p q : Walk G s t) : Prop :=
-  ∀ x ∈ ArrowWalk.vertices p, x ∈ ArrowWalk.vertices q → x = s ∨ x = t
-
-/-- Ambient endpoints must be actual vertices, including for a zero-length walk. -/
-def Reachable (s t : α) : Prop :=
-  ∃ (hs : s ∈ G.vertexSet) (ht : t ∈ G.vertexSet),
-    Nonempty (Walk G ⟨s, hs⟩ ⟨t, ht⟩)
+noncomputable def Walk.ofBidirected {s t : G.vertexSet} (q : ArrowWalk (Hom G) s t) :
+    {p : Walk G s t // p.support = (ArrowWalk.vertices q).map Subtype.val ∧
+      p.edges = (ArrowWalk.arrows q).map fun a => a.2.2.val.val} := by
+  sorry
 
 theorem reachable_iff_toSimpleGraph (s t : G.vertexSet) :
-    Reachable G s.val t.val ↔ G.toSimpleGraph.Reachable s t := by
+    Reachable G s t ↔ G.toSimpleGraph.Reachable s t := by
   sorry
 
 /-- Vertex connectivity reuses the underlying simple graph. -/
@@ -1226,7 +1302,7 @@ abbrev IsVertexConnected (k : ℕ∞) : Prop :=
   TauCetiRoadmap.FiniteGraphConnectivity.IsVertexConnected G.toSimpleGraph k
 
 def IsEdgeReachable (k : ℕ) (s t : G.vertexSet) : Prop :=
-  ∀ F : Set β, F ⊆ G.edgeSet → F.encard < k → Reachable (G.deleteEdges F) s.val t.val
+  ∀ F : Set β, F ⊆ G.edgeSet → F.encard < k → Reachable (G.deleteEdges F) s t
 
 def IsEdgeConnected (k : ℕ) : Prop := ∀ s t : G.vertexSet, IsEdgeReachable G k s t
 
@@ -1238,33 +1314,33 @@ def IsBridge (e : β) : Prop :=
   ∃ s t, G.IsLink e s t ∧ ¬ Reachable (G.deleteEdges {e}) s t
 
 theorem isBridge_iff_not_mem_cycle (e : G.edgeSet) :
-    IsBridge G e.val ↔ ∀ s (p : Walk G s s), IsCycle G p → e.val ∉ edgeList G p := by
+    IsBridge G e.val ↔ ∀ (s : α) (p : Walk G s s), p.IsCycle → e.val ∉ p.edges := by
   sorry
 
 /-- Edge deletion retains multiplicity; only actual vertices and edges need be finite. -/
 theorem exists_paths_edgeSeparator_card_eq [Finite G.vertexSet] [Finite G.edgeSet]
     {s t : G.vertexSet} (hst : s ≠ t) :
     ∃ (k : ℕ) (P : Fin k → Walk G s t) (F : Set β),
-      Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
-      (Pairwise fun i j => EdgeDisjoint G (P i) (P j)) ∧
-      F ⊆ G.edgeSet ∧ F.ncard = k ∧ ¬ Reachable (G.deleteEdges F) s.val t.val := by
+      Function.Injective P ∧ (∀ i, (P i).IsPath) ∧
+      (Pairwise fun i j => (P i).EdgeDisjoint (P j)) ∧
+      F ⊆ G.edgeSet ∧ F.ncard = k ∧ ¬ Reachable (G.deleteEdges F) s t := by
   sorry
 
 theorem isEdgeReachable_iff_exists_paths [Finite G.vertexSet] [Finite G.edgeSet]
     {s t : G.vertexSet} (hst : s ≠ t) (k : ℕ) :
     IsEdgeReachable G k s t ↔
-      ∃ P : Fin k → Walk G s t, Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
-        Pairwise fun i j => EdgeDisjoint G (P i) (P j) := by
+      ∃ P : Fin k → Walk G s t, Function.Injective P ∧ (∀ i, (P i).IsPath) ∧
+        Pairwise fun i j => (P i).EdgeDisjoint (P j) := by
   sorry
 
 /-- Vertex Menger returns paths with original edge identities. -/
 theorem exists_paths_vertexSeparator_card_eq [Finite G.vertexSet]
     {s t : G.vertexSet} (hst : s ≠ t) (hadj : ¬ G.Adj s.val t.val) :
     ∃ (k : ℕ) (P : Fin k → Walk G s t) (X : Set α),
-      Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
-      (Pairwise fun i j => InternallyDisjoint G (P i) (P j)) ∧
+      Function.Injective P ∧ (∀ i, (P i).IsPath) ∧
+      (Pairwise fun i j => (P i).InternallyDisjoint (P j)) ∧
       X ⊆ G.vertexSet ∧ X.ncard = k ∧ s.val ∉ X ∧ t.val ∉ X ∧
-      ¬ Reachable (G.deleteVerts X) s.val t.val := by
+      ¬ Reachable (G.deleteVerts X) s t := by
   sorry
 
 /-- All direct terminal edges contribute distinct one-edge paths. -/
@@ -1272,25 +1348,25 @@ theorem exists_paths_separator_card_eq_add_multiplicity
     [Finite G.vertexSet] [Finite G.edgeSet] {s t : G.vertexSet} (hst : s ≠ t) :
     let D : Set β := {e | G.IsLink e s.val t.val}
     ∃ (k : ℕ) (P : Fin (k + D.ncard) → Walk G s t) (X : Set α),
-      Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
-      (Pairwise fun i j => InternallyDisjoint G (P i) (P j)) ∧
+      Function.Injective P ∧ (∀ i, (P i).IsPath) ∧
+      (Pairwise fun i j => (P i).InternallyDisjoint (P j)) ∧
       X ⊆ G.vertexSet ∧ X.ncard = k ∧ s.val ∉ X ∧ t.val ∉ X ∧
-      ¬ Reachable ((G.deleteEdges D).deleteVerts X) s.val t.val := by
+      ¬ Reachable ((G.deleteEdges D).deleteVerts X) s t := by
   sorry
 
 /-- A simple path projects without forgetting any vertex. Distinct parallel one-edge paths
 can still have the same projection. -/
-noncomputable def projectPath {s t : G.vertexSet} (p : Walk G s t) (hp : ArrowWalk.IsPath p) :
-    {q : G.toSimpleGraph.Walk s t // q.IsPath ∧ q.support = ArrowWalk.vertices p} := by
+noncomputable def projectPath {s t : G.vertexSet} (p : Walk G s t) (hp : p.IsPath) :
+    {q : G.toSimpleGraph.Walk s t // q.IsPath ∧ q.support.map Subtype.val = p.support} := by
   sorry
 
 noncomputable def liftPath {s t : G.vertexSet} (p : G.toSimpleGraph.Walk s t) (hp : p.IsPath) :
-    {q : Walk G s t // ArrowWalk.IsPath q ∧ ArrowWalk.vertices q = p.support} := by
+    {q : Walk G s t // q.IsPath ∧ q.support = p.support.map Subtype.val} := by
   sorry
 
 /-- On simple graphs the correspondence is an equivalence even for arbitrary walks. -/
 noncomputable def ofSimpleGraphWalkEquiv {V : Type*} (H : SimpleGraph V) (s t : V) :
-    H.Walk s t ≃ Walk (Graph.ofSimpleGraph H) ⟨s, by simp⟩ ⟨t, by simp⟩ := by
+    H.Walk s t ≃ Walk (Graph.ofSimpleGraph H) s t := by
   sorry
 
 theorem isEdgeConnected_ofSimpleGraph {V : Type*} (H : SimpleGraph V) (k : ℕ) :
@@ -1327,25 +1403,23 @@ theorem exists_orientation_isStronglyConnected_iff [Finite G.vertexSet] [Finite 
 /-- Pairwise reachability is vacuous on the empty vertex set, as is edge connectivity. -/
 theorem isEdgeConnected_two_iff [Finite G.vertexSet] [Finite G.edgeSet] :
     IsEdgeConnected G 2 ↔
-      (∀ s t : G.vertexSet, Reachable G s.val t.val) ∧ ∀ e ∈ G.edgeSet, ¬ IsBridge G e := by
+      (∀ s t : G.vertexSet, Reachable G s t) ∧ ∀ e ∈ G.edgeSet, ¬ IsBridge G e := by
   sorry
 
 /-- The graph traced by a walk, with the original ambient vertex and edge types. -/
-def walkGraph {s t : G.vertexSet} (p : Walk G s t) : Graph α β :=
-  (G.induce {x | ∃ v ∈ ArrowWalk.vertices p, v.val = x}).deleteEdges
-    {e | e ∉ edgeList G p}
+def walkGraph {s t : α} (p : Walk G s t) : Graph α β :=
+  (G.induce {x | x ∈ p.support}).deleteEdges {e | e ∉ p.edges}
 
 inductive Ear (H : Graph α β) : Type max u v
-  | open {s t : G.vertexSet} (p : Walk G s t) (hp : ArrowWalk.IsPath p)
-      (hs : s.val ∈ H.vertexSet) (ht : t.val ∈ H.vertexSet) (hst : s ≠ t)
-      (hint : ∀ x ∈ ArrowWalk.vertices p, x ≠ s → x ≠ t → x.val ∉ H.vertexSet)
-      (hedge : ∀ e ∈ edgeList G p, e ∉ H.edgeSet)
-  | closed {s : G.vertexSet} (p : Walk G s s) (hp : IsCycle G p)
-      (hs : s.val ∈ H.vertexSet)
-      (hint : ∀ x ∈ ArrowWalk.vertices p, x ≠ s → x.val ∉ H.vertexSet)
-      (hedge : ∀ e ∈ edgeList G p, e ∉ H.edgeSet)
+  | open {s t : α} (p : Walk G s t) (hp : p.IsPath)
+      (hs : s ∈ H.vertexSet) (ht : t ∈ H.vertexSet) (hst : s ≠ t)
+      (hint : ∀ x ∈ p.support, x ≠ s → x ≠ t → x ∉ H.vertexSet)
+      (hedge : ∀ e ∈ p.edges, e ∉ H.edgeSet)
+  | closed {s : α} (p : Walk G s s) (hp : p.IsCycle) (hs : s ∈ H.vertexSet)
+      (hint : ∀ x ∈ p.support, x ≠ s → x ∉ H.vertexSet)
+      (hedge : ∀ e ∈ p.edges, e ∉ H.edgeSet)
 
-def Ear.toWalk {H : Graph α β} : Ear G H → Σ s t, Walk G s t
+def Ear.toWalk {H : Graph α β} : Ear G H → Σ s t : α, Walk G s t
   | .open p .. => ⟨_, _, p⟩
   | .closed p .. => ⟨_, _, p⟩
 
@@ -1358,8 +1432,8 @@ structure EarDecomposition where
   length : ℕ
   graphAfter : Fin (length + 1) → Graph α β
   subgraph : ∀ i, graphAfter i ≤ G
-  initial : {v : G.vertexSet // graphAfter 0 = Graph.noEdge {v.val} β} ⊕
-    (Σ s : G.vertexSet, {p : Walk G s s // IsCycle G p ∧ graphAfter 0 = walkGraph G p})
+  initial : {v : α // v ∈ G.vertexSet ∧ graphAfter 0 = Graph.noEdge {v} β} ⊕
+    (Σ s : α, {p : Walk G s s // p.IsCycle ∧ graphAfter 0 = walkGraph G p})
   earAt : (i : Fin length) → Ear G (graphAfter i.castSucc)
   vertices_step : ∀ i, (graphAfter i.succ).vertexSet =
     (graphAfter i.castSucc).vertexSet ∪ (Ear.toGraph G (earAt i)).vertexSet

@@ -15,7 +15,7 @@ Vertex-connectivity and the vertex-structural consequences reuse the underlying 
 
 **Suggested homes:** `TauCeti/Combinatorics/Graph/Connectivity/` for multigraph connectivity, `TauCeti/Combinatorics/SimpleGraph/Connectivity/` for simple-graph interfaces, `TauCeti/Combinatorics/Network/` for directed networks and flows, and adjacent modules for the representation bridges.
 
-[`Suggested.lean`](Suggested.lean) prototypes networks, flows, circulations, multigraph connectivity and its simple-graph interfaces, and weighted cut trees.
+[`Suggested.lean`](Suggested.lean) prototypes networks, flows, circulations, multigraph walks and connectivity with their simple-graph interfaces, and weighted cut trees.
 These are suggested forms, never an exhaustive checklist; this document is the specification.
 
 ## Milestones at a glance
@@ -147,7 +147,7 @@ Milestone 1 identifies both constructions with the existing simple-graph interfa
 **Namespaces.** Undirected multigraph declarations extend `Graph` and the shared walk API in the shapes of the cited proposals.
 Simple-graph declarations extend `SimpleGraph`, following [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) and [#42494](https://github.com/leanprover-community/mathlib4/pull/42494) for connectivity; orientation results extend the existing Tau Ceti orientation namespace.
 `Suggested.lean` keeps stand-ins for proposed definitions outside the Mathlib namespaces so that this repository keeps building when Mathlib lands them.
-`Suggested.lean` prototypes the bidirected-network side of multigraph path transport using `Quiver.Path`; the implementation's native undirected walks follow the shared `GraphLike.Walk` design, with the correspondence required in Milestone 1.
+`Suggested.lean` prototypes native undirected walks in the shape of `GraphLike.Walk` with the `Graph` darts of [#39053](https://github.com/leanprover-community/mathlib4/pull/39053), and states the correspondence with paths of the bidirected quiver that Milestone 1 requires.
 
 ### Paths, separators, and connectivity
 
