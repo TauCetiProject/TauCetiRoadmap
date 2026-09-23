@@ -252,6 +252,18 @@ Relate edge separators to cuts obtained from reachable vertex sets.
 Provide finite path-family APIs for taking subfamilies, reversing undirected paths, concatenating compatible paths, extracting simple paths from walks, and transporting disjointness.
 Include the directed analogues needed for residual reachability and path decomposition, with support and arrow-occurrence lemmas.
 
+Develop the finite excess calculus on arbitrary signed arrow assignments: additivity, negation, total excess zero, and the identity equating the sum of excesses over a set with its incoming flow minus outgoing flow.
+The algebraic identities require only an additive commutative group of values.
+For assignments conserved away from two terminals, derive the opposite-terminal-excess identity and the terminal-exchange construction from the conventions.
+
+**Subnetworks and network isomorphisms.** A subnetwork of `N` specifies an actual vertex set `W ⊆ V` and a subset of the original arrows whose endpoints lie in `W`, with inherited bounds.
+Its vertex type is `W`; deleting arrows alone while retaining all of `V` gives only the special case of a spanning subnetwork.
+Supply inclusion maps, induced subnetworks, vertex and arrow deletion, singleton subnetworks with no arrows, unions inside a fixed network, and restriction and transport of walks.
+Unions have the unions of the actual vertex and arrow sets, including when vertices are isolated.
+Prove the membership and prefix-inclusion lemmas needed to add ears, and evaluate strong connectivity on the subnetwork's actual vertices.
+A network isomorphism consists of a vertex equivalence and arrow equivalences over corresponding endpoints, preserving both bounds.
+Supply identity, inverse, composition, and transport of subnetworks, assignments, excess, feasibility, and walks; excess transport assumes finite vertex and arrow types.
+
 Build the shared residual-update operation for arbitrary feasible assignments with finite bounds here.
 For any feasible residual assignment `r`, define `f'(e) = f(e) + r(e⁺) − r(e⁻)` and prove feasibility and `excess f' = excess f + excess r`, with no conservation assumption on `r`.
 A residual circulation preserves excess; a residual terminal flow changes only terminal excess, with value increasing by its residual value in the same direction and decreasing by that value in the opposite direction.
@@ -263,9 +275,27 @@ Build and verify the representation changes used throughout the roadmap:
 - **Orientations and bidirected networks:** transport walks and paths, identify the underlying undirected graph of an orientation, and prove reachability and cut-capacity correspondence for the bidirected construction.
   Match oriented walks with exactly those undirected walks traversing every edge in its chosen direction; arbitrary undirected reachability need not imply directed reachability.
   Prove the simple-graph equivalences with the existing `DoubledQuiver` and `OrientedQuiver` APIs.
-- **Vertex splitting:** replace each vertex by an entrance and exit joined by a capacity-constrained arrow, with precise lifting and projection of paths, flows, and separators.
-- **Auxiliary terminals:** add a fresh source and sink on a sum type, with path and cut correspondences for terminal sets.
-  Supply both the extended-capacity construction using `⊤` and its ordinary finite truncation, with a proved bound large enough for the reduction.
+- **Vertex splitting:** for an explicit finite quiver, use vertices `V × Bool`, writing `v⁻` for the entrance and `v⁺` for the exit.
+  Retain each original arrow `v → w` as a distinct tagged arrow `v⁺ → w⁻`, and add one tagged split arrow `v⁻ → v⁺` for every vertex, including isolated vertices and vertices with loops.
+  All lower bounds are zero; the construction accepts separate nonnegative capacities on the original and split arrows.
+  Lift an original path from `s` to `t` to a split path from `s⁻` to `t⁺`, including the split arrows at its endpoints; project by removing split arrows and retaining original arrow identities.
+  Prove the round trips on paths, allowing the endpoint split-arrow segments to be removed when the chosen split terminals are `s⁺, t⁻`.
+  For a nonnegative assignment, conservation at both copies of a nonterminal vertex is equivalent to original conservation and to the split-arrow value equalling both total incoming and total outgoing flow there.
+  Specify the corresponding terminal excess formulas and prove that a split-arrow capacity bounds total traffic through that vertex.
+- **Local vertex-Menger reduction:** assume distinct terminals and no original arrow `s → t`.
+  Over `ℤ`, put `M = |V| + 1`, capacity `M` on original arrows and on the split arrows of `s,t`, and capacity `1` on every other split arrow; use terminals `s⁺, t⁻`.
+  Prove that a separating cut of capacity below `M` crosses only internal split arrows, which give a terminal-excluding vertex separator of exactly that capacity.
+  Conversely, deleting the split arrows indexed by a vertex separator destroys terminal reachability, and the reachable source side has cut capacity at most the separator's size.
+  Deleting all internal split arrows gives a cut of capacity at most `|V| − 2 < M`, so these correspondences apply to minimum cuts.
+- **Auxiliary terminals and set-to-set reductions:** add a fresh source `σ` and sink `τ` on a sum type, retaining all original arrows with their identities.
+  For vertex-disjoint `A–B` paths, split every vertex with capacity `1`, give original arrows capacity `M = |V| + 1`, and add capacity-`M` arrows `σ → a⁻` for `a ∈ A` and `b⁺ → τ` for `b ∈ B`.
+  Every cut of capacity below `M` crosses only split arrows and yields a vertex separator of that capacity, now allowed to meet `A ∪ B`; deleting all split arrows bounds the minimum cut by `|V|`.
+  Prove the reverse separator-to-cut bound and both path-family correspondences, shortening projected paths so that their interiors avoid `A ∪ B`.
+  The route `σ → v⁻ → v⁺ → τ` for `v ∈ A ∩ B` projects to the permitted zero-length path.
+  For edge-disjoint paths with disjoint `A,B`, use the unsplit quiver, unit original capacities, and capacity `M = |E| + 1` on `σ → a` and `b → τ`, where `E` is the total original arrow type.
+  Cuts of capacity below `M` cross only original arrows; deleting all original arrows bounds the minimum cut by `|E|`.
+  Supply separator-to-cut and path-family correspondences in this case as well, allowing shared path endpoints.
+  Include empty terminal sets and construct the extended variants by replacing the capacity-`M` arrows by `⊤`; prove that finite truncation to the displayed `M` gives the stated correspondences.
 - **Change of coefficients:** map networks, assignments, flows, residual capacities, and cuts along order-preserving additive group homomorphisms, including the standard embeddings `ℤ → ℚ → ℝ` and their `WithTop` extensions.
 
 For the deletion predicates, supply the lemmas missing from Mathlib and from [#33355](https://github.com/leanprover-community/mathlib4/pull/33355), following their shapes: threshold monotonicity, graph monotonicity on a fixed carrier, isomorphism invariance, the zero and one cases, and the relationship between local and global statements.
@@ -296,8 +326,7 @@ Include the path correspondence that recovers separation in the original graph f
 ## 3. Flows and max-flow/min-cut
 
 The source–sink max-flow targets in this milestone use zero lower bounds and ordinary nonnegative-value flows.
-Develop the finite excess calculus on arbitrary signed arrow assignments over the coefficient type: additivity, total excess zero, and the identity equating the sum of excesses over a set with its incoming flow minus outgoing flow.
-Derive weak duality: the value of every feasible flow is at most the capacity of every terminal-separating cut.
+Use the excess calculus of Milestone 1 to derive weak duality: the value of every feasible flow is at most the capacity of every terminal-separating cut.
 
 The main targets are:
 
@@ -305,7 +334,7 @@ The main targets are:
    Use the common residual update of Milestone 1 and derive the corresponding bounded-circulation cycle augmentation lemma.
 2. **Flow decomposition.** Every flow is a finite nonnegative sum of simple `s–t` path flows and directed cycle flows, with equality on every original arrow.
    For a pseudoflow conserved away from the terminals with negative excess at the designated sink, apply the terminal-exchange construction to obtain the corresponding decomposition into paths in the opposite direction and cycles.
-   Circulations decompose into cycle flows, including loops; flows with values in an additive subgroup admit coefficients in that subgroup.
+   Nonnegative zero-excess assignments decompose into cycle flows, including loops; flows with values in an additive subgroup admit coefficients in that subgroup.
 3. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
    Prove the equivalent optimality criteria: maximum flow, no augmenting `s–t` path, and existence of a cut attaining equality.
 4. **Integrality.** Capacities in an additive subgroup `H` of `K` admit a maximum flow whose arrow values are in `H` and whose value equals the minimum cut capacity.
@@ -319,7 +348,10 @@ Termination of arbitrary augmenting-path choices over dense or non-Archimedean c
 
 Develop the extended-capacity API from the conventions as a boundary around this finite theorem.
 Prove the extended-bound local feasibility criterion and finite-bound transport from the conventions.
-For zero lower bounds, prove the ordinary-to-extended embedding and cut-capacity coercion, truncation at a finite bound, preservation of flows under truncation and extension, attainment when a finite terminal-separating cut exists, and cofinality of finite flow values when none exists, with unboundedness for nontrivial coefficients.
+For zero lower bounds, prove the ordinary-to-extended embedding and cut-capacity coercion, truncation at a finite bound, attainment when a finite terminal-separating cut exists, and cofinality of finite flow values when none exists, with unboundedness for nontrivial coefficients.
+Flows in the truncated network extend with their assignments unchanged.
+Given an original flow and a finite terminal-separating cut of capacity `B`, remove its cycle components to obtain a flow of the same value with every arrow value at most that value, hence at most `B`.
+This assignment satisfies the truncation to `B`; the original assignment need not, since an infinite-capacity cycle can carry more than `B`.
 State weak duality between finite flow values and extended cut capacities without converting `⊤` to a finite coefficient.
 
 ## 4. The structure of minimum cuts
@@ -381,6 +413,7 @@ The derived numerical connectivity invariants package global threshold informati
 - **Local vertex Menger:** for distinct nonadjacent terminals, the same with internally vertex-disjoint paths and terminal-excluding vertex separators.
   Give directed-network and multigraph versions with the adjacency convention above, returning actual edge-labelled paths, and derive the `SimpleGraph` statements.
 - **Adjacent terminals:** let `D` be the set of all edges joining distinct terminals `s,t`, and let `m = |D|`.
+  Give both multigraph and directed versions; in the directed version, `D` consists exactly of the arrows `s → t`, and arrows `t → s` are retained and do not contribute to `m`.
   After deleting all of `D`, a terminal-excluding vertex separator of size `k` and a family of `k + m` internally vertex-disjoint paths in the original graph attain equality, for some `k`.
   The family includes the `m` distinct one-edge paths, and every such family has size at most `|X| + m` for every separator `X` in the graph with `D` deleted.
   The simple-graph corollary has `m = 1` and hence `k + 1` paths, including for the single-edge graph where `k = 0`.
@@ -454,7 +487,7 @@ In the directed version, ears are directed paths and cycles of `N` in the sense 
 Loops are permitted as one-arrow closed ears.
 The initial-vertex convention includes the isolated singleton with no ears; relate it to the cycle-starting formulation for strongly connected networks with at least two vertices.
 
-Prove **Robbins' theorem** for finite multigraphs: an orientation is strongly connected on `V(G)` if and only if `G.IsEdgeConnected 2`.
+Prove **Robbins' theorem** for finite multigraphs: a strongly connected orientation on `V(G)` exists if and only if `G.IsEdgeConnected 2`.
 This needs no connectedness or size hypothesis: both sides hold when the actual vertex set is subsingleton, including with loops.
 For nonempty connected multigraphs, derive the classical form that a strongly connected orientation exists exactly when there is no bridge.
 Construct the orientation from the ear decomposition and prove strong connectivity through the directed ear characterization.

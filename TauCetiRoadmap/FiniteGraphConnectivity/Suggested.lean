@@ -76,6 +76,25 @@ abbrev Network.withBounds {C D : Type w} [LE C] [LE D] (N : Network C V)
   upper := hi
   lower_le_upper := h
 
+/-- A subnetwork records its actual vertices as well as its original arrow identities. -/
+structure Network.Subnetwork {C : Type w} [LE C] (N : Network C V) where
+  verts : Set V
+  arrows : ∀ v w, Set (N.Hom v w)
+  endpoints : ∀ {v w} (e : N.Hom v w), e ∈ arrows v w → v ∈ verts ∧ w ∈ verts
+
+abbrev Network.Subnetwork.toNetwork {C : Type w} [LE C] {N : Network C V}
+    (H : N.Subnetwork) : Network C H.verts where
+  Hom v w := {e : N.Hom v.val w.val // e ∈ H.arrows v.val w.val}
+  lower e := N.lower e.val
+  upper e := N.upper e.val
+  lower_le_upper e := N.lower_le_upper e.val
+
+def Network.Subnetwork.singleton {C : Type w} [LE C] (N : Network C V)
+    (v : V) : N.Subnetwork where
+  verts := {v}
+  arrows _ _ := ∅
+  endpoints _ h := False.elim h
+
 noncomputable def excessAt (Q : Quiver V) [Fintype V]
     [∀ v w, Fintype (Q.Hom v w)] {K : Type w} [AddCommGroup K]
     (f : Assignment Q K) (v : V) : K :=
@@ -388,6 +407,14 @@ theorem exists_finiteFlow_cut_value_eq_of_exists_finite_cut (hst : s ≠ t)
     (hfinite : ∃ S : Finset V, s ∈ S ∧ t ∉ S ∧ arrowCutCapacity Q cap S ≠ ⊤) :
     ∃ (f : FiniteFlow Q cap s t) (S : Finset V),
       s ∈ S ∧ t ∉ S ∧ (f.val : WithTop K) = arrowCutCapacity Q cap S := by
+  sorry
+
+/-- Cycle removal preserves terminal value, but need not preserve the original assignment. -/
+theorem exists_truncatedFlow_same_value (hst : s ≠ t) (B : K) (hB : 0 ≤ B)
+    {S : Finset V} (hs : s ∈ S) (ht : t ∉ S)
+    (hS : arrowCutCapacity Q cap S = (B : WithTop K)) (f : FiniteFlow Q cap s t) :
+    ∃ g : Flow Q (truncateCapacity Q cap hcap B hB).upper s t,
+      g.val = f.val ∧ ∀ {v w} (e : Q.Hom v w), g.toFun e ≤ f.toFun e := by
   sorry
 
 include hcap in
