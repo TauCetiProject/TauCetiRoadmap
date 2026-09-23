@@ -32,7 +32,8 @@ These are suggested forms, never an exhaustive checklist; this document is the s
 Each milestone includes the elementary lemmas needed to use its definitions: constructors, extensionality where appropriate, membership and support lemmas, monotonicity, restriction, and invariance under isomorphism.
 The targets below specify the additional API particular to each object.
 The examples attached to each milestone or numbered target are required proved examples.
-Sentences beginning **Why:** record the reason for a design choice, and paragraphs beginning **Suggested proof:** describe one route to a target; neither is a requirement.
+A sentence beginning **Why:** records the reason for a design choice, and a passage beginning **Suggested proof:** describes one route to a target; a suggested proof longer than one sentence is set as a block quote.
+Neither is a requirement.
 
 ## Existing vocabulary and related work
 
@@ -75,6 +76,20 @@ Coordinate with authors before integrating existing code, following the reposito
 The mathematical targets here do not require importing that implementation.
 
 ## Conventions
+
+### Assumptions at a glance
+
+The table summarizes the hypotheses of the milestones; the targets are the normative statements, and the conventions below give the details.
+
+| Targets | Vertices | Edges or arrows | Coefficients | Terminals |
+| --- | --- | --- | --- | --- |
+| Walks, isomorphisms, bridges, cuts, separators, path families, deletion predicates, blocks (1.1, 1.2, 1.5, 2) | none | none | none | none |
+| Multigraph vertex-only targets: vertex connectivity, nonadjacent local vertex Menger, set-to-set vertex Menger, vertex consequences of Milestone 6, component counts of Milestone 2 | finite `V(G)` | none | none | distinct terminals, nonadjacent for local vertex Menger; `A, B` may overlap |
+| Multigraph edge targets: edge connectivity, edge Menger, weighted cuts, ears, Robbins (1.2, 1.5, 5, 7) | finite `V(G)` | finite `E(G)` | cancellative monoid for weights | distinct terminals; disjoint `A, B` for edge versions |
+| Directed vertex-only targets: vertex strong connectivity, directed vertex Menger (5, 6) | `[Fintype V]` | none | none | no arrow `s → t` for local vertex Menger |
+| Directed flows, arc connectivity, Menger reductions, bipartite network (3, 5.2, 6, 7) | `[Fintype V]` | `[∀ v w, Fintype (N.Hom v w)]` | linearly ordered additive group; `ℤ` for the reductions | distinct `s, t`; disjoint `A, B`, possibly empty |
+| Cut functions and cut trees (4.1, 4.3, 9) | `[Fintype V]`, nonempty for cut trees | none | linearly ordered cancellative additive monoid | disjoint `A, B`, possibly empty; distinct `s, t` |
+| Residual canonical cuts, bounded circulations, rounding (4.2, 8) | `[Fintype V]` | finite arrow types | linearly ordered additive group with finite signed bounds; `FloorRing` for Target 8.7 | distinct `s, t` |
 
 ### Graphs, networks, and orientations
 
@@ -210,7 +225,7 @@ Ordinary directed cut capacity is the case `ℓ = 0` of `U`; undirected weighted
 ## 1. Shared foundations
 
 This milestone builds the objects every later milestone uses.
-Its subsections are independent of one another except where stated, so they can be claimed separately.
+Targets 1.1 and 1.3 are independent of one another; Targets 1.2 and 1.5 build on the walks of Target 1.1, and Target 1.4 builds on the excess calculus of Target 1.3, so the subsections can be claimed separately in that order.
 
 ### 1.1. Undirected walks, isomorphisms, and representation bridges
 
@@ -308,8 +323,7 @@ Prove agreement of the numerical vertex invariant with that of the underlying si
 Milestone 5 identifies the local edge invariant with unit-capacity multigraph minimum cuts for distinct terminals.
 For every graph with finite nonempty actual vertex set, prove `G.IsVertexConnected k ↔ k ≤ G.vertexConnectivity`.
 Prove `G.IsEdgeConnected k ↔ k ≤ G.edgeConnectivity` for every finite graph, in the sense of the conventions, including the empty graph.
-On a subsingleton actual vertex set `IsEdgeConnected k` holds for every `k` and `IsVertexConnected k` fails for every `k ≥ 1`; keep both conventions, and let upper bounds using incident-edge counts or minimum degree assume at least two actual vertices.
-Consequently, for finite graphs edge connectivity is `⊤` exactly when the actual vertex set is subsingleton, whereas vertex connectivity is always finite.
+Prove the subsingleton conventions of the [path conventions](#paths-separators-and-connectivity) as lemmas: for finite graphs, edge connectivity is `⊤` exactly when the actual vertex set is subsingleton, whereas vertex connectivity is always finite.
 
 **Required examples:**
 
@@ -321,22 +335,30 @@ Consequently, for finite graphs edge connectivity is `⊤` exactly when the actu
 
 ## 2. Bridges, cut vertices, and blocks
 
+### 2.1. Bridges
+
 For a multigraph, a bridge is an actual edge whose deletion disconnects its endpoints.
 Prove equivalence with lying on no undirected cycle and with splitting the component of its endpoints into two components, and, for finite `V(G)`, with increasing the number of connected components by exactly one.
 Loops are never bridges, and an edge with a distinct parallel edge is not a bridge.
 Prove correspondence on actual edges of `Graph.ofSimpleGraph H` with Mathlib's `SimpleGraph.IsBridge` and its `isBridge_iff_forall_cycle_notMem`; membership matters because the simple-graph predicate can also hold for a non-edge joining different components.
 
-Articulation vertices and the block–cut forest use the underlying simple graph and its existing reachability and induced-subgraph APIs.
-An cut vertex `v` is one that separates two other vertices: some `u, w ≠ v` are reachable in `G` but not in the graph induced on the complement of `{v}`.
+### 2.2. Cut vertices
+
+Cut vertices and the block–cut forest use the underlying simple graph and its existing reachability and induced-subgraph APIs.
+A cut vertex `v` is one that separates two other vertices: some `u, w ≠ v` are reachable in `G` but not in the graph induced on the complement of `{v}`.
 Prove that this is equivalent to deletion of `v` increasing the number of connected components, by one or more, for finite `V(G)`.
 **Why:** the count is a lemma rather than the definition, so no statement needs a `Fintype` instance on a deletion subtype, and the definition and the block theory below assume no finiteness.
 
+### 2.3. Blocks
+
 A block is a maximal nonempty connected induced subgraph with no cut vertex of its own.
 For simple graphs, bridges that are edges give two-vertex blocks, and isolated vertices give singleton blocks.
-Prove that every simple-graph edge belongs to exactly one block, distinct blocks meet in at most one vertex, and a vertex lies in more than one block exactly when it is an cut vertex.
+Prove that every simple-graph edge belongs to exactly one block, distinct blocks meet in at most one vertex, and a vertex lies in more than one block exactly when it is a cut vertex.
 Transport these vertex blocks and cut-vertex criteria to multigraphs through simplification.
 Every nonloop multigraph edge belongs to exactly one vertex block, but a two-vertex block may contain parallel edges and need not consist of a bridge.
-A singleton block may carry loops; a loop at an cut vertex lies in every induced vertex block containing that vertex, so these vertex blocks do not partition loop edges.
+A singleton block may carry loops; a loop at a cut vertex lies in every induced vertex block containing that vertex, so these vertex blocks do not partition loop edges.
+
+### 2.4. The block–cut forest
 
 Construct the **block–cut incidence graph**, whose two kinds of vertices are blocks and cut vertices, with adjacency given by membership.
 Prove that it is a forest, that its components correspond to the components of the original graph, and that it is a tree when the original graph is connected.
@@ -569,35 +591,63 @@ Also prove the native multigraph Whitney inequality `vertexConnectivity G ≤ ed
 This count includes parallel edges separately and excludes loops; this roadmap defines no multigraph degree.
 The simple-graph specialization gives the minimum-degree bound below.
 
-- **Whitney inequalities:** `G.IsVertexConnected k` implies `G.IsEdgeConnected k`; for `[Nontrivial V]`, `G.IsEdgeConnected k` implies `k ≤ G.minDegree`.
-  Derive the numerical forms `G.vertexConnectivity ≤ G.edgeConnectivity` and, on a finite nontrivial carrier, `G.edgeConnectivity ≤ G.minDegree` after coercing the degree to `ℕ∞`.
-- **Directed connectivity:** for an arrow family `Q` on a finite vertex type, define `IsArcReachable k s t` by reachability after deleting fewer than `k` arrows, `IsArcStrong k` by that condition for every ordered pair, and `IsVertexStrong k` by more than `k` vertices together with reachability between every two remaining vertices after deleting fewer than `k` vertices.
-  The vertex statements assume nothing about the arrow types; the arrow-counting characterizations through directed edge Menger and the degree bounds assume finite arrow types.
-  Define the invariants `arcConnectivity` and `vertexStrongConnectivity` in `ℕ∞` as the suprema of the thresholds, with the same subsingleton conventions as the undirected invariants.
-  Supply threshold equivalences, monotonicity in the threshold and the arrow family, deletion lemmas, and the predicate forms through directed Menger.
-  Prove `vertexStrongConnectivity ≤ arcConnectivity`, and the bound of arc connectivity by every out-degree and in-degree when there are at least two vertices.
-  Prove that the arc connectivity of the bidirected network of a multigraph is its edge connectivity and that its vertex strong connectivity is the multigraph's vertex connectivity.
-- **Common-cycle characterizations:** for a connected simple graph with at least three vertices, each of the following is equivalent to 2-vertex-connectivity: every two distinct vertices lie on a common cycle; every two distinct edges lie on a common cycle; every vertex and every edge lie on a common cycle.
-  The blocks with at least three vertices from Milestone 2 are exactly the vertex sets of the maximal 2-vertex-connected induced subgraphs.
-- **Preservation lemmas:** deleting `m < k` vertices from a `k`-vertex-connected graph leaves a `(k − m)`-vertex-connected graph; adjoining a new vertex adjacent to at least `k` vertices of a `k`-vertex-connected graph gives a `k`-vertex-connected graph; adding edges preserves `k`-vertex- and `k`-edge-connectivity.
-  **Why:** the fan lemma and Dirac's theorem below use the first two.
-- **Fan lemma:** in a `k`-vertex-connected graph, a vertex `x` outside a set `U` with at least `k` vertices has `k` paths to distinct vertices of `U`, with interiors outside `U` and pairwise intersection exactly `{x}`.
-- **Dirac's prescribed-vertex cycle theorem:** for `k ≥ 2`, every set of `k` vertices in a `k`-vertex-connected graph lies on a cycle.
-  No cyclic order of those vertices is prescribed.
-- **Kőnig's theorem:** in a finite bipartite graph, there exist a matching and a vertex cover of equal size, and every maximum matching has the same number of edges as every minimum vertex cover has vertices.
-  Use `SimpleGraph.Subgraph.IsMatching`, `SimpleGraph.IsVertexCover`, and the extremality interfaces of Mathlib proposal [#33032](https://github.com/leanprover-community/mathlib4/pull/33032).
-  Build their missing finite API here, including attainment and the matching–cover inequality.
-  Build the bipartite network as a reusable interface: for bipartition `L, R`, unit capacities from the source to `L` and from `R` to the sink, and capacity `|L| + 1` on graph edges directed from `L` to `R`, so that no such edge crosses a minimum cut, with the lemmas that integral flows encode matchings and that a minimum-cut source side `S` yields the cover `(L ∖ S) ∪ (R ∩ S)`.
-  **Suggested proof:** Kőnig through this network, as for Menger.
-- **Deficiency formula (König–Ore) and Hall:** for bipartition `L, R`, the maximum size of a matching is `|L| − max_{S ⊆ L} (|S| − |N(S)|)`, where `N(S)` is the set of neighbours of `S`, in witness form: there exist a matching `M` and a set `S ⊆ L` with `|M| + |S| = |L| + |N(S)|`, and every matching and every `S ⊆ L` satisfy `|M| + |S| ≤ |L| + |N(S)|`.
-  Derive it from Kőnig by reading a minimum cover `C` as `S = L ∖ C`, so that `(L ∖ S) ∪ N(S)` is again a minimum cover.
-  State it also in the indexed-family form of Mathlib's Hall theorem, for `t : ι → Finset α`, with an injective choice function on the subtype of a chosen finite set of indices in place of a matching, so that consumers of either form can use it.
-  The choice function is defined only on those indices, allowing the empty partial choice even when `α` is empty.
-  Hall's theorem is the case of zero deficiency: derive Mathlib's `Finset.all_card_le_biUnion_card_iff_exists_injective` and `exists_isMatching_of_forall_ncard_le` from the two forms as compatibility checks; Mathlib's statements remain the library's Hall.
-- **Regular bipartite graphs:** for `k ≥ 1`, a `k`-regular bipartite graph has a perfect matching, so its two sides have equal size, and its edge set is the disjoint union of `k` perfect matchings.
-  Derive both from Hall, using `SimpleGraph.IsRegularOfDegree` and `Subgraph.IsPerfectMatching`.
+### 6.1. Whitney inequalities
+
+`G.IsVertexConnected k` implies `G.IsEdgeConnected k`; for `[Nontrivial V]`, `G.IsEdgeConnected k` implies `k ≤ G.minDegree`.
+Derive the numerical forms `G.vertexConnectivity ≤ G.edgeConnectivity` and, on a finite nontrivial carrier, `G.edgeConnectivity ≤ G.minDegree` after coercing the degree to `ℕ∞`.
+
+### 6.2. Directed connectivity
+
+For an arrow family `Q` on a finite vertex type, define `IsArcReachable k s t` by reachability after deleting fewer than `k` arrows, `IsArcStrong k` by that condition for every ordered pair, and `IsVertexStrong k` by more than `k` vertices together with reachability between every two remaining vertices after deleting fewer than `k` vertices.
+The vertex statements assume nothing about the arrow types; the arrow-counting characterizations through directed edge Menger and the degree bounds assume finite arrow types.
+Define the invariants `arcConnectivity` and `vertexStrongConnectivity` in `ℕ∞` as the suprema of the thresholds, with the same subsingleton conventions as the undirected invariants.
+Supply threshold equivalences, monotonicity in the threshold and the arrow family, deletion lemmas, and the predicate forms through directed Menger.
+Prove `vertexStrongConnectivity ≤ arcConnectivity`, and the bound of arc connectivity by every out-degree and in-degree when there are at least two vertices.
+Prove that the arc connectivity of the bidirected network of a multigraph is its edge connectivity and that its vertex strong connectivity is the multigraph's vertex connectivity.
+
+### 6.3. Common-cycle characterizations
+
+For a connected simple graph with at least three vertices, each of the following is equivalent to 2-vertex-connectivity: every two distinct vertices lie on a common cycle; every two distinct edges lie on a common cycle; every vertex and every edge lie on a common cycle.
+The blocks with at least three vertices from Milestone 2 are exactly the vertex sets of the maximal 2-vertex-connected induced subgraphs.
+
+### 6.4. Preservation lemmas
+
+Deleting `m < k` vertices from a `k`-vertex-connected graph leaves a `(k − m)`-vertex-connected graph; adjoining a new vertex adjacent to at least `k` vertices of a `k`-vertex-connected graph gives a `k`-vertex-connected graph; adding edges preserves `k`-vertex- and `k`-edge-connectivity.
+**Why:** the fan lemma and Dirac's theorem below use the first two.
+
+### 6.5. The fan lemma
+
+In a `k`-vertex-connected graph, a vertex `x` outside a set `U` with at least `k` vertices has `k` paths to distinct vertices of `U`, with interiors outside `U` and pairwise intersection exactly `{x}`.
+
+### 6.6. Dirac's prescribed-vertex cycle theorem
+
+For `k ≥ 2`, every set of `k` vertices in a `k`-vertex-connected graph lies on a cycle.
+No cyclic order of those vertices is prescribed.
+
+### 6.7. Kőnig's theorem
+
+In a finite bipartite graph, there exist a matching and a vertex cover of equal size, and every maximum matching has the same number of edges as every minimum vertex cover has vertices.
+Use `SimpleGraph.Subgraph.IsMatching`, `SimpleGraph.IsVertexCover`, and the extremality interfaces of Mathlib proposal [#33032](https://github.com/leanprover-community/mathlib4/pull/33032).
+Build their missing finite API here, including attainment and the matching–cover inequality.
+Build the bipartite network as a reusable interface: for bipartition `L, R`, unit capacities from the source to `L` and from `R` to the sink, and capacity `|L| + 1` on graph edges directed from `L` to `R`, so that no such edge crosses a minimum cut, with the lemmas that integral flows encode matchings and that a minimum-cut source side `S` yields the cover `(L ∖ S) ∪ (R ∩ S)`.
+**Suggested proof:** Kőnig through this network, as for Menger.
+
+### 6.8. The deficiency formula and Hall's theorem
+
+The König–Ore formula: for bipartition `L, R`, the maximum size of a matching is `|L| − max_{S ⊆ L} (|S| − |N(S)|)`, where `N(S)` is the set of neighbours of `S`, in witness form: there exist a matching `M` and a set `S ⊆ L` with `|M| + |S| = |L| + |N(S)|`, and every matching and every `S ⊆ L` satisfy `|M| + |S| ≤ |L| + |N(S)|`.
+Derive it from Kőnig by reading a minimum cover `C` as `S = L ∖ C`, so that `(L ∖ S) ∪ N(S)` is again a minimum cover.
+State it also in the indexed-family form of Mathlib's Hall theorem, for `t : ι → Finset α`, with an injective choice function on the subtype of a chosen finite set of indices in place of a matching, so that consumers of either form can use it.
+The choice function is defined only on those indices, allowing the empty partial choice even when `α` is empty.
+Hall's theorem is the case of zero deficiency: derive Mathlib's `Finset.all_card_le_biUnion_card_iff_exists_injective` and `exists_isMatching_of_forall_ncard_le` from the two forms as compatibility checks; Mathlib's statements remain the library's Hall.
+
+### 6.9. Regular bipartite graphs
+
+For `k ≥ 1`, a `k`-regular bipartite graph has a perfect matching, so its two sides have equal size, and its edge set is the disjoint union of `k` perfect matchings.
+Derive both from Hall, using `SimpleGraph.IsRegularOfDegree` and `Subgraph.IsPerfectMatching`.
 
 ## 7. Ear decompositions and strong orientations
+
+### 7.1. Ear decompositions as data
 
 An open ear in a multigraph is a positive-length path adding unused edge identities, with distinct endpoints already present and all internal vertices new.
 A closed ear is an undirected cycle adding unused edge identities and meeting the existing subgraph at exactly its base vertex.
@@ -611,6 +661,8 @@ It must identify the zeroth and final graphs, show that each successor prefix ad
 A decomposition of `G` has final graph `G`, covering every actual vertex and edge, including loops and all parallel edges.
 Transport decompositions of `Graph.ofSimpleGraph H` to the `H.Subgraph` interface and back, preserving the prefix API; this is the simple-graph interface prototyped in `Suggested.lean`.
 An open ear decomposition of a simple graph starts from a cycle and has only open ears, expressed as a predicate on the transported data.
+
+### 7.2. Ear characterizations
 
 Prove three characterizations:
 
@@ -626,6 +678,8 @@ In the directed version, ears are directed paths and cycles of `N` in the sense 
 Loops are permitted as one-arrow closed ears.
 The initial-vertex convention includes the isolated singleton with no ears; relate it to the cycle-starting formulation for strongly connected networks with at least two vertices.
 Derive the directed analogue of the bridge criterion: a network with nonempty vertex type that is weakly connected, meaning every two vertices are joined by a path of the symmetrized arrow family, is strongly connected if and only if every arrow lies on a directed cycle.
+
+### 7.3. Robbins' theorem
 
 Prove **Robbins' theorem** for finite multigraphs: a strongly connected orientation on `V(G)` exists if and only if `G.IsEdgeConnected 2`.
 This needs no connectedness or size hypothesis: both sides hold when the actual vertex set is subsingleton, including with loops.
@@ -788,15 +842,16 @@ Disconnected graphs and zero capacities are included, with zero-weight tree edge
 The general cut-tree theorem and minimum-cut recovery use Targets 4.1 and 4.3; Milestone 5 is needed only to interpret the unit-capacity queries as edge connectivity.
 
 Develop the weighted-tree API needed for these statements: unique paths, fundamental partitions, minimum weights on nonempty paths, and transport under vertex equivalences.
-**Suggested proof:** Gomory and Hu's construction with its contraction step replaced by the multi-cut non-crossing lemma; the public target is the weighted tree and its query API, not this particular construction.
-Maintain a pairwise non-crossing family of chosen minimum cuts, represented by their root-excluding sides under the root convention of Milestone 4 so that it is a laminar family of sets, whose cells are the supernodes, together with a tree on the supernodes whose edges correspond to the chosen cuts.
-While some supernode contains two vertices `s, t`, take a minimum `s–t` cut crossing no chosen cut, split the supernode by it, and attach each neighbouring subtree to the part on its own side of the new cut.
-The useful invariant is that the family stays pairwise non-crossing and that every tree edge is one of the chosen cuts and a minimum cut for some pair of vertices taken from the two supernodes it joins.
-Preserving the second half needs a witness repair when the split moves the witness vertex away from the part a subtree is attached to; Korte and Vygen's proof shows that the cut is then also minimum for a pair using `s` or `t`, by the ultrametric inequality.
-When every supernode is a singleton, property 2 is this invariant, and property 1 follows from property 2 and the ultrametric inequality.
-This route uses finiteness to choose a minimum cut at each step, together with the symmetry, submodularity, and non-crossing results of Milestone 4; it uses neither flows nor graph contraction, which is why it applies to every symmetric submodular function.
-An implementation following it should state the invariant as a named lemma.
-Gusfield's paper gives the same route as an algorithm on the original graph, with the rewiring written out explicitly.
+
+> **Suggested proof:** Gomory and Hu's construction with its contraction step replaced by the multi-cut non-crossing lemma; the public target is the weighted tree and its query API, not this particular construction.
+> Maintain a pairwise non-crossing family of chosen minimum cuts, represented by their root-excluding sides under the root convention of Milestone 4 so that it is a laminar family of sets, whose cells are the supernodes, together with a tree on the supernodes whose edges correspond to the chosen cuts.
+> While some supernode contains two vertices `s, t`, take a minimum `s–t` cut crossing no chosen cut, split the supernode by it, and attach each neighbouring subtree to the part on its own side of the new cut.
+> The useful invariant is that the family stays pairwise non-crossing and that every tree edge is one of the chosen cuts and a minimum cut for some pair of vertices taken from the two supernodes it joins.
+> Preserving the second half needs a witness repair when the split moves the witness vertex away from the part a subtree is attached to; Korte and Vygen's proof shows that the cut is then also minimum for a pair using `s` or `t`, by the ultrametric inequality.
+> When every supernode is a singleton, property 2 is this invariant, and property 1 follows from property 2 and the ultrametric inequality.
+> This route uses finiteness to choose a minimum cut at each step, together with the symmetry, submodularity, and non-crossing results of Milestone 4; it uses neither flows nor graph contraction, which is why it applies to every symmetric submodular function.
+> An implementation following it should state the invariant as a named lemma.
+> Gusfield's paper gives the same route as an algorithm on the original graph, with the rewiring written out explicitly.
 
 **Required examples:**
 
