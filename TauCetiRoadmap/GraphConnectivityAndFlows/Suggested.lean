@@ -504,7 +504,7 @@ theorem sSup_finiteFlow_value_eq_iInf_cutCapacity (Q : Quiver V) [Fintype V]
   sorry
 
 
-/-! ## Representation bridges (Milestone 1): vertex splitting and auxiliary terminals -/
+/-! ## Vertex splitting and auxiliary terminals (Target 1.4) and the Menger reductions (Target 5.2) -/
 
 section Bridges
 

@@ -7,11 +7,8 @@ These objects must have reusable APIs, including transport between the graph rep
 
 The structural development runs through blocks, connectivity consequences, and ears.
 The quantitative development runs through flows, minimum cuts, and disjoint paths, then supports bipartite matching, bounded circulations, and cut trees.
-The main existence targets have finite actual vertex sets.
-Edge-counting, weighted-cut, flow, and ear-coverage targets also have finite edge or arrow sets.
-Vertex-connectivity, articulation vertices, vertex blocks, nonadjacent vertex Menger, vertex-disjoint set-to-set Menger, and the vertex-structural consequences for multigraphs require only finitely many actual vertices; parallel-edge sets may be infinite.
-The undirected edge theory uses Mathlib's `Graph`, retaining loops and parallel edges, with corollaries in `SimpleGraph`.
-Vertex-connectivity and the vertex-structural consequences reuse the underlying simple graph; the directed network and symmetric-submodular-function theories are independent of this choice.
+The undirected theory uses Mathlib's `Graph`, retaining loops and parallel edges, with corollaries in `SimpleGraph`; vertex connectivity is that of the underlying simple graph, and the directed-network and cut-function theories are independent of this choice.
+All multigraph targets have finitely many actual vertices, and the [conventions](#graphs-networks-and-orientations) say which also need finitely many actual edges.
 
 **Suggested homes:** `TauCeti/Combinatorics/Graph/Connectivity/` for multigraph connectivity, `TauCeti/Combinatorics/SimpleGraph/Connectivity/` for simple-graph interfaces, `TauCeti/Combinatorics/Network/` for directed networks and flows, and adjacent modules for the representation bridges.
 
@@ -22,11 +19,11 @@ These are suggested forms, never an exhaustive checklist; this document is the s
 
 | Milestone | Main results | Depends on |
 | --- | --- | --- |
-| 1. Shared foundations | Walks, representation bridges, cuts, separators, networks, excess calculus, and residual updates | Existing Mathlib and Tau Ceti APIs |
+| 1. Shared foundations | Walks and representation bridges (1.1), cuts and path families (1.2), excess calculus and residual updates (1.3), splitting and auxiliary terminals (1.4), deletion predicates and invariants (1.5) | Existing Mathlib and Tau Ceti APIs |
 | 2. Bridges and blocks | Multigraph bridges; articulation criteria and block–cut forest | 1 |
 | 3. Flows | Assignment decomposition, augmentation, max-flow/min-cut, integrality, extended capacities, and Mathlib compatibility | 1 |
 | 4. Minimum cuts | Terminal-set cut lattices (4.1), canonical cuts (4.2), and non-crossing lemmas (4.3) | 1 for 4.1 and 4.3; 1, 3 for 4.2 |
-| 5. Menger | Directed and undirected path–separator duality | 1, 3, 4 |
+| 5. Menger | Path–separator duality (5.1) and the reductions to max-flow (5.2) | 1, 3, 4 |
 | 6. Connectivity and matching consequences | Whitney inequalities and cycle criteria, preservation lemmas, fans, Dirac's cycle theorem, Kőnig and Hall | 2, 5 |
 | 7. Ears and orientations | Undirected and directed ear decompositions; Robbins' theorem | 2, 6 |
 | 8. Circulations and bounded flows | Hoffman and infeasibility certificates, exact and interval excess, assignment shifts, residual adjustments, extremal terminal values, integrality, and rounding | 3, 4 |
@@ -64,6 +61,7 @@ The following Mathlib proposals guide the corresponding interfaces:
 - [#33032: Kőnig's theorem](https://github.com/leanprover-community/mathlib4/pull/33032): matchings as subgraphs, vertex covers, and the equality between the sizes of maximum matchings and minimum covers.
 - [#42839: 2-edge-connectivity and bridges](https://github.com/leanprover-community/mathlib4/pull/42839): `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the simple-graph specialization in Milestone 7.
 - [#37861: connected `Graph`s](https://github.com/leanprover-community/mathlib4/pull/37861): connectivity of Mathlib's multigraph type through connected components as subgraphs, defined without walks; Milestone 1 proves agreement with walk reachability.
+- [#38337: unions of `Graph`s](https://github.com/leanprover-community/mathlib4/pull/38337): the union of compatible subgraphs, used when adding ears.
 
 Build all missing prerequisites and results in Tau Ceti, following these interfaces and adopting Mathlib's resulting design when available.
 An unmerged proposal is a design reference, not a dependency that contributors must wait for.
@@ -80,8 +78,9 @@ The mathematical targets here do not require importing that implementation.
 ### Graphs, networks, and orientations
 
 **Undirected graphs** use `G : Graph α β`, with actual vertices `V(G) ⊆ α` and edges `E(G) ⊆ β`.
-The ambient types need not be finite: finiteness hypotheses concern the subtypes `V(G)` and, for the edge-sensitive targets listed above, `E(G)`, with `Fintype` instances on these subtypes when taking finite sums.
-The vertex-only multigraph statements use `[Finite V(G)]` without `[Finite E(G)]`; they pass through simplification and lift finite path families by choosing actual edge witnesses.
+The ambient types need not be finite: finiteness hypotheses concern the subtypes `V(G)` and `E(G)`, with `Fintype` instances on these subtypes when taking finite sums.
+A **finite graph** has finite `V(G)` and finite `E(G)`; every multigraph target assumes a finite graph except the vertex-only targets, which assume only `[Finite V(G)]`.
+The vertex-only targets are vertex connectivity and its invariant, articulation vertices and vertex blocks, nonadjacent local vertex Menger, vertex-disjoint set-to-set Menger, and the vertex-structural consequences of Milestone 6; their parallel-edge sets may be infinite, and their proofs pass through simplification and lift finite path families by choosing actual edge witnesses.
 Directed flow and Menger reductions use finite vertex and arrow types.
 Walk endpoints and separators belong to `V(G)`; deleting edges counts identities in `E(G)`, including separate parallel edges.
 Loops are allowed.
@@ -189,6 +188,7 @@ Vertex connectivity is zero on the empty vertex set.
 On a subsingleton actual vertex set, edge connectivity is `⊤` and vertex connectivity is zero.
 Bounds by incident-edge counts or minimum degree assume at least two actual vertices.
 Milestone 1 supplies the threshold equivalences and representation compatibility for these invariants.
+
 ### Flows and bounded circulations
 
 Write `δ⁺(S)` for arrows leaving a vertex set and `δ⁻(S)` for arrows entering it.
@@ -218,6 +218,11 @@ Ordinary directed cut capacity is the case `ℓ = 0` of `U`; undirected weighted
 
 ## 1. Shared foundations
 
+This milestone builds the objects every later milestone uses.
+Its subsections are independent of one another except where stated, so they can be claimed separately.
+
+### 1.1. Undirected walks, isomorphisms, and representation bridges
+
 Build `Graph.Walk` as pinned in the conventions, with the API of `SimpleGraph.Walk`, and adopt Mathlib's shared walk type when it lands.
 Supply vertex support, edge occurrences, length, concatenation, reversal, restriction, transport, path extraction, cycles, and the corresponding graph subobjects.
 Supply the graph-isomorphism interface needed for transport: equivalences of the actual vertex and edge sets preserving `IsLink`, with identity, inverse, composition, and their action on walks and subgraphs, reusing Mathlib's graph maps and any available isomorphism API.
@@ -238,6 +243,13 @@ Build the following bridges in this milestone, before consumers use them:
   Prove compatibility with the component-based connectivity of [#37861](https://github.com/leanprover-community/mathlib4/pull/37861), including nonemptiness in `Connected` and the correspondence of components.
   Vertex-connectivity statements may then use the underlying simple graph while returning native path witnesses through the lifting API.
 
+**Orientations and bidirected networks.** Transport walks and paths, identify the underlying undirected graph of an orientation, and prove reachability and cut-capacity correspondence for the bidirected construction.
+Match oriented walks with exactly those undirected walks traversing every edge in its chosen direction; arbitrary undirected reachability need not imply directed reachability.
+Prove the equivalence between orientations of `Graph.ofSimpleGraph H` and `TauCeti.DoubledQuiver.Orientation H`, preserving directed walks and strong connectivity through `OrientedQuiver`.
+Identify the bidirected construction on a simple graph with its existing `DoubledQuiver` equipped with capacities.
+
+### 1.2. Cuts, separators, and path families
+
 Develop multigraph cuts and separators with membership lemmas, complements, restriction to induced subgraphs, edge and vertex deletion, and invariance under graph isomorphisms.
 A cut is a subset of the actual vertices; its boundary is the set of actual edges with one endpoint on each side.
 Prove symmetry, absence of loops from the boundary, and the cardinality and capacity formulas with parallel edges.
@@ -246,6 +258,8 @@ Prove invariance of pair-capacity cuts and support graphs under changing diagona
 Relate edge separators to cuts obtained from reachable vertex sets.
 Provide finite path-family APIs for taking subfamilies, reversing undirected paths, concatenating compatible paths, extracting simple paths from walks, and transporting disjointness.
 Include the directed analogues needed for residual reachability and path decomposition, with support and arrow-occurrence lemmas.
+
+### 1.3. Excess calculus, subnetworks, bounds, and residual updates
 
 Develop the finite excess calculus on arbitrary signed arrow assignments: additivity, negation, total excess zero, and the identity equating the sum of excesses over a set with its incoming flow minus outgoing flow.
 The algebraic identities require only an additive commutative group of values.
@@ -270,12 +284,10 @@ A residual circulation preserves excess; a residual terminal flow changes only t
 Supply zero-update and arrowwise formulas and preservation of values in an additive subgroup.
 Path and cycle augmentation specialize this operation, including for general signed original bounds; Milestone 3 uses the zero-lower-bound specialization.
 
-Build and verify the representation changes used throughout the roadmap:
+### 1.4. Vertex splitting, auxiliary terminals, and change of coefficients
 
-- **Orientations and bidirected networks:** transport walks and paths, identify the underlying undirected graph of an orientation, and prove reachability and cut-capacity correspondence for the bidirected construction.
-  Match oriented walks with exactly those undirected walks traversing every edge in its chosen direction; arbitrary undirected reachability need not imply directed reachability.
-  Prove the equivalence between orientations of `Graph.ofSimpleGraph H` and `TauCeti.DoubledQuiver.Orientation H`, preserving directed walks and strong connectivity through `OrientedQuiver`.
-  Identify the bidirected construction on a simple graph with its existing `DoubledQuiver` equipped with capacities.
+Build the following network constructions generically in their capacities; [Target 5.2](#52-reductions-to-max-flow) instantiates them with the capacities that make cuts correspond to separators.
+
 - **Vertex splitting:** for an explicit finite quiver, use vertices `V × Bool`, writing `v⁻` for the entrance and `v⁺` for the exit.
   Retain each original arrow `v → w` as a distinct tagged arrow `v⁺ → w⁻`, and add one tagged split arrow `v⁻ → v⁺` for every vertex, including isolated vertices and vertices with loops.
   All lower bounds are zero; the construction accepts separate nonnegative capacities on the original and split arrows.
@@ -283,21 +295,13 @@ Build and verify the representation changes used throughout the roadmap:
   Prove the round trips on paths, allowing the endpoint split-arrow segments to be removed when the chosen split terminals are `s⁺, t⁻`.
   For a nonnegative assignment, conservation at both copies of a nonterminal vertex is equivalent to original conservation and to the split-arrow value equalling both total incoming and total outgoing flow there.
   Specify the corresponding terminal excess formulas and prove that a split-arrow capacity bounds total traffic through that vertex.
-- **Local vertex-Menger reduction:** assume distinct terminals and no original arrow `s → t`.
-  Over `ℤ`, put `M = |V| + 1`, capacity `M` on original arrows and on the split arrows of `s,t`, and capacity `1` on every other split arrow; use terminals `s⁺, t⁻`.
-  Prove that a separating cut of capacity below `M` crosses only internal split arrows, which give a terminal-excluding vertex separator of exactly that capacity.
-  Conversely, deleting the split arrows indexed by a vertex separator destroys terminal reachability, and the reachable source side has cut capacity at most the separator's size.
-  Deleting all internal split arrows gives a cut of capacity at most `|V| − 2 < M`, so these correspondences apply to minimum cuts.
-- **Auxiliary terminals and set-to-set reductions:** add a fresh source `σ` and sink `τ` on a sum type, retaining all original arrows with their identities.
-  For vertex-disjoint `A–B` paths, split every vertex with capacity `1`, give original arrows capacity `M = |V| + 1`, and add capacity-`M` arrows `σ → a⁻` for `a ∈ A` and `b⁺ → τ` for `b ∈ B`.
-  Every cut of capacity below `M` crosses only split arrows and yields a vertex separator of that capacity, now allowed to meet `A ∪ B`; deleting all split arrows bounds the minimum cut by `|V|`.
-  Prove the reverse separator-to-cut bound and both path-family correspondences, shortening projected paths so that their interiors avoid `A ∪ B`.
-  The route `σ → v⁻ → v⁺ → τ` for `v ∈ A ∩ B` projects to the permitted zero-length path.
-  For edge-disjoint paths with disjoint `A,B`, use the unsplit quiver, unit original capacities, and capacity `M = |E| + 1` on `σ → a` and `b → τ`, where `E` is the total original arrow type.
-  Cuts of capacity below `M` cross only original arrows; deleting all original arrows bounds the minimum cut by `|E|`.
-  Supply separator-to-cut and path-family correspondences in this case as well, allowing shared path endpoints.
-  Include empty terminal sets and construct the extended variants by replacing the capacity-`M` arrows by `⊤`; prove that finite truncation to the displayed `M` gives the stated correspondences.
+- **Auxiliary terminals:** add a fresh source `σ` and sink `τ` on a sum type, retaining all original arrows with their identities, with one arrow `σ → a` for each `a ∈ A` and one arrow `b → τ` for each `b ∈ B`.
+  The terminal sets `A, B` are arbitrary, including empty, and the capacities of the new arrows are parameters.
+  Prove that a `σ–τ` path consists of a `σ`-arrow, an `A–B` path, and a `τ`-arrow, and that the capacity of a `σ–τ` cut is the capacity of the new arrows it crosses plus the original cut capacity of its restriction to `V`.
+  Combine with vertex splitting for the vertex-disjoint versions, where the new arrows are `σ → a⁻` and `b⁺ → τ`.
 - **Change of coefficients:** map networks, assignments, flows, residual capacities, and cuts along order-preserving additive group homomorphisms, including the standard embeddings `ℤ → ℚ → ℝ` and their `WithTop` extensions.
+
+### 1.5. Deletion predicates and numerical invariants
 
 For the deletion predicates, supply the lemmas missing from Mathlib and from [#33355](https://github.com/leanprover-community/mathlib4/pull/33355), following their shapes: threshold monotonicity, graph monotonicity on a fixed carrier, isomorphism invariance, the zero and one cases, and the relationship between local and global statements.
 `IsEdgeReachable.mono` and `isEdgeReachable_one` already exist and are reused.
@@ -307,7 +311,7 @@ Include the local threshold equivalence for `edgeReachability`, its symmetry, it
 Prove agreement of the numerical vertex invariant with that of the underlying simple graph and of the edge invariants with those on `Graph.ofSimpleGraph`.
 Milestone 5 identifies the local edge invariant with unit-capacity multigraph minimum cuts for distinct terminals.
 For every graph with finite nonempty actual vertex set, prove `G.IsVertexConnected k ↔ k ≤ G.vertexConnectivity`.
-Prove `G.IsEdgeConnected k ↔ k ≤ G.edgeConnectivity` for every finite graph, including the empty graph.
+Prove `G.IsEdgeConnected k ↔ k ≤ G.edgeConnectivity` for every finite graph, in the sense of the conventions, including the empty graph.
 On a subsingleton actual vertex set `IsEdgeConnected k` holds for every `k` and `IsVertexConnected k` fails for every `k ≥ 1`; keep both conventions, and let upper bounds using incident-edge counts or minimum degree assume at least two actual vertices.
 Consequently, for finite graphs edge connectivity is `⊤` exactly when the actual vertex set is subsingleton, whereas vertex connectivity is always finite.
 
@@ -481,30 +485,25 @@ Submodularity, the lattice, and the non-crossing lemmas rest on Milestone 1 alon
 
 ## 5. Menger's theorem
 
+### 5.1. Path–separator duality
+
 State Menger's path–separator equalities in **witness form**: there exist a family of `k` pairwise disjoint paths and a separator of size `k`, for some `k`, and every family of disjoint paths is no larger than every separator.
-For adjacent terminals, use the multiplicity correction specified below in both the witnesses and the inequality.
+For adjacent terminals, use the multiplicity correction specified under **Adjacent terminals** below in both the witnesses and the inequality.
 The two statements together are the equality of optima with attainment on both sides.
 The derived numerical connectivity invariants package global threshold information, but do not replace these witnesses or the inequalities that certify their optimality.
 
 - **Local edge Menger:** for distinct terminals `s, t`, a family of pairwise edge-disjoint `s–t` paths and a set of edges whose deletion destroys `s–t` reachability, of the same size, together with the inequality between any family and any such edge set.
   Give directed-network and multigraph versions, and derive the `SimpleGraph` statements using Milestone 1.
 - **Local vertex Menger:** for distinct nonadjacent terminals, the same with internally vertex-disjoint paths and terminal-excluding vertex separators.
-  Give directed-network and multigraph versions with the adjacency convention above, returning actual edge-labelled paths, and derive the `SimpleGraph` statements.
+  Give directed-network and multigraph versions with the [adjacency convention](#paths-separators-and-connectivity), returning actual edge-labelled paths, and derive the `SimpleGraph` statements.
   The multigraph statement requires only finitely many actual vertices: apply the simple-graph theorem to the simplification and lift its finite path family.
 - **Adjacent terminals:** let `D` be the set of all edges joining distinct terminals `s,t`, and let `m = |D|`.
   Give both multigraph and directed versions; in the directed version, `D` consists exactly of the arrows `s → t`, and arrows `t → s` are retained and do not contribute to `m`.
   After deleting all of `D`, a terminal-excluding vertex separator of size `k` and a family of `k + m` internally vertex-disjoint paths in the original graph attain equality, for some `k`.
   The family includes the `m` distinct one-edge paths, and every such family has size at most `|X| + m` for every separator `X` in the graph with `D` deleted.
   The simple-graph corollary has `m = 1` and hence `k + 1` paths, including for the single-edge graph where `k = 0`.
-- **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the overlap convention above, in directed-network and multigraph versions, with simple-graph corollaries; and edge versions for disjoint terminal sets.
+- **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the [overlap convention](#paths-separators-and-connectivity), in directed-network and multigraph versions, with simple-graph corollaries; and edge versions for disjoint terminal sets.
   The multigraph vertex version likewise requires no finiteness of the actual edge set; the edge version retains that hypothesis.
-
-Build the unit-capacity, vertex-splitting, and auxiliary-terminal reductions to max-flow over `ℤ`, where integrality is the case `H = ⊤`, and prove the correspondence in each direction.
-For multigraph vertex targets with no edge-finiteness assumption, apply these finite-network reductions to the simplification and use its path-lifting and separator correspondences.
-These reductions are required reusable interfaces; using them to prove Menger is the suggested proof route rather than an additional constraint on the final theorem.
-In the undirected edge reduction, cancel flow in opposite directions separately for each original edge identity before extracting paths, so that one edge cannot be used twice while distinct parallel edges remain distinct.
-Discard loop flows and cycle flows when extracting simple terminal-to-terminal paths.
-The reductions must recover actual path families and separators, not just equalities of numerical optima.
 
 Derive the predicate forms: local edge reachability at threshold `k` is equivalent to the existence of `k` edge-disjoint paths; local vertex reachability has the analogous equivalence under the nonadjacency hypothesis.
 Relate local edge reachability to cuts as well: for distinct actual vertices `s,t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut value with capacity `1 : ℤ` on each actual edge.
@@ -512,6 +511,29 @@ After aggregation to pair capacities, the capacity of a pair is its edge multipl
 Thus the cut tree of Milestone 9 answers multigraph local edge reachability; for a simple graph this specializes to capacity `1` on edges and `0` elsewhere.
 For multigraphs with finitely many actual vertices and more than `k` of them, derive the global characterization of `k`-vertex-connectivity by `k` internally vertex-disjoint paths between every pair of distinct vertices, including adjacent pairs, without assuming a finite edge set.
 Derive the simple-graph specialization with the same size hypothesis.
+
+### 5.2. Reductions to max-flow
+
+Instantiate the vertex-splitting and auxiliary-terminal constructions of [Target 1.4](#14-vertex-splitting-auxiliary-terminals-and-change-of-coefficients) over `ℤ`, where integrality is the case `H = ⊤`, with the capacities below, and prove the correspondence in each direction.
+For multigraph vertex targets with no edge-finiteness assumption, apply these finite-network reductions to the simplification and use its path-lifting and separator correspondences.
+These reductions are required reusable interfaces; using them to prove Menger is the suggested proof route rather than an additional constraint on the final theorem.
+In the undirected edge reduction, cancel flow in opposite directions separately for each original edge identity before extracting paths, so that one edge cannot be used twice while distinct parallel edges remain distinct.
+Discard loop flows and cycle flows when extracting simple terminal-to-terminal paths.
+The reductions must recover actual path families and separators, not just equalities of numerical optima.
+
+- **Local vertex Menger:** assume distinct terminals and no original arrow `s → t`.
+  Over `ℤ`, put `M = |V| + 1`, capacity `M` on original arrows and on the split arrows of `s,t`, and capacity `1` on every other split arrow; use terminals `s⁺, t⁻`.
+  Prove that a separating cut of capacity below `M` crosses only internal split arrows, which give a terminal-excluding vertex separator of exactly that capacity.
+  Conversely, deleting the split arrows indexed by a vertex separator destroys terminal reachability, and the reachable source side has cut capacity at most the separator's size.
+  Deleting all internal split arrows gives a cut of capacity at most `|V| − 2 < M`, so these correspondences apply to minimum cuts.
+- **Set-to-set Menger:** for vertex-disjoint `A–B` paths, split every vertex with capacity `1`, give original arrows capacity `M = |V| + 1`, and add capacity-`M` arrows `σ → a⁻` for `a ∈ A` and `b⁺ → τ` for `b ∈ B`.
+  Every cut of capacity below `M` crosses only split arrows and yields a vertex separator of that capacity, now allowed to meet `A ∪ B`; deleting all split arrows bounds the minimum cut by `|V|`.
+  Prove the reverse separator-to-cut bound and both path-family correspondences, shortening projected paths so that their interiors avoid `A ∪ B`.
+  The route `σ → v⁻ → v⁺ → τ` for `v ∈ A ∩ B` projects to the permitted zero-length path.
+  For edge-disjoint paths with disjoint `A,B`, use the unsplit quiver, unit original capacities, and capacity `M = |E| + 1` on `σ → a` and `b → τ`, where `E` is the total original arrow type.
+  Cuts of capacity below `M` cross only original arrows; deleting all original arrows bounds the minimum cut by `|E|`.
+  Supply separator-to-cut and path-family correspondences in this case as well, allowing shared path endpoints.
+  Include empty terminal sets and construct the extended variants by replacing the capacity-`M` arrows by `⊤`; prove that finite truncation to the displayed `M` gives the stated correspondences.
 
 **Required examples:**
 
@@ -542,7 +564,7 @@ The simple-graph specialization gives the minimum-degree bound below.
   Build their missing finite API here, including attainment and the matching–cover inequality.
   Build the bipartite network as a reusable interface: for bipartition `L, R`, unit capacities from the source to `L` and from `R` to the sink, and capacity `|L| + 1` on graph edges directed from `L` to `R`, so that no such edge crosses a minimum cut, with the lemmas that integral flows encode matchings and that a minimum-cut source side `S` yields the cover `(L ∖ S) ∪ (R ∩ S)`.
   Proving Kőnig through it is the suggested route, as for Menger, not a constraint on the theorem.
-- **Deficiency formula (König–Ore) and Hall:** for bipartition `L, R`, the maximum size of a matching is `|L| − max_{S ⊆ L} (|S| − |N(S)|)`, in witness form: there exist a matching `M` and a set `S ⊆ L` with `|M| + |S| = |L| + |N(S)|`, and every matching and every `S ⊆ L` satisfy `|M| + |S| ≤ |L| + |N(S)|`.
+- **Deficiency formula (König–Ore) and Hall:** for bipartition `L, R`, the maximum size of a matching is `|L| − max_{S ⊆ L} (|S| − |N(S)|)`, where `N(S)` is the set of neighbours of `S`, in witness form: there exist a matching `M` and a set `S ⊆ L` with `|M| + |S| = |L| + |N(S)|`, and every matching and every `S ⊆ L` satisfy `|M| + |S| ≤ |L| + |N(S)|`.
   Derive it from Kőnig by reading a minimum cover `C` as `S = L ∖ C`, so that `(L ∖ S) ∪ N(S)` is again a minimum cover.
   State it also in the indexed-family form of Mathlib's Hall theorem, for `t : ι → Finset α`, with an injective choice function on the subtype of a chosen finite set of indices in place of a matching, so that consumers of either form can use it.
   The choice function is defined only on those indices, allowing the empty partial choice even when `α` is empty.
