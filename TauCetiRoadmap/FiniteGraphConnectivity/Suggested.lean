@@ -37,6 +37,8 @@ The pinned choices illustrated here are:
   It need not preserve an original assignment.
 - The vertex-splitting and auxiliary-terminal reductions are prototyped with their cut and
   separator correspondences over `ℤ`.
+- Simple-graph edge statements are corollaries of the multigraph ones through the walk,
+  bridge, orientation, and ear-decomposition transport lemmas.
 - Simple-graph orientations reuse `TauCeti.DoubledQuiver.Orientation`.
   Ear decompositions are data with a prefix API.
   These prototypes illustrate an inductive family for simple graphs and a prefix structure for
@@ -723,7 +725,9 @@ theorem isVertexReachable_iff_exists_paths [Finite V] {s t : V} (hst : s ≠ t)
         Pairwise fun i j => G.InternallyDisjoint (P i) (P j) := by
   sorry
 
-/-- Local edge Menger, predicate form, against Mathlib's `IsEdgeReachable`. -/
+/-- Local edge Menger, predicate form, against Mathlib's `IsEdgeReachable`. A corollary of
+`Multigraph.isEdgeReachable_iff_exists_paths` on `Graph.ofSimpleGraph G` through
+`Multigraph.ofSimpleGraphWalkEquiv` and its transport lemmas. -/
 theorem isEdgeReachable_iff_exists_paths [Finite V] {s t : V} (hst : s ≠ t) (k : ℕ) :
     G.IsEdgeReachable k s t ↔
       ∃ P : Fin k → G.Walk s t, Function.Injective P ∧ (∀ i, (P i).IsPath) ∧
@@ -855,18 +859,24 @@ theorem isVertexConnected_two_iff_exists_isOpen_earDecomposition [Fintype V]
     IsVertexConnected G 2 ↔ ∃ d : G.EarDecomposition ⊤, d.IsOpen := by
   sorry
 
-/-- The closed-ear characterization of 2-edge-connectivity. -/
+/-- The closed-ear characterization of 2-edge-connectivity: a corollary of
+`Multigraph.isEdgeConnected_two_iff_nonempty_earDecomposition` through
+`Multigraph.EarDecomposition.toSimpleGraph` and `ofSimpleGraph`. -/
 theorem isEdgeConnected_two_iff_nonempty_earDecomposition [Finite V] [Nonempty V] :
     G.IsEdgeConnected 2 ↔ Nonempty (G.EarDecomposition ⊤) := by
   sorry
 
 /-- The form of 2-edge-connectivity Mathlib's edge-connectivity file names as intended.
-`IsBridge` on a non-edge means its endpoints are unreachable, so this includes connectedness. -/
+`IsBridge` on a non-edge means its endpoints are unreachable, so this includes connectedness.
+A corollary of `Multigraph.isEdgeConnected_two_iff` through `Multigraph.isBridge_ofSimpleGraph`
+and `Multigraph.reachable_ofSimpleGraph`. -/
 theorem isEdgeConnected_two_iff_forall_not_isBridge :
     G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e := by
   sorry
 
-/-- Robbins' simple-graph corollary uses the orientation API owned by ZigzagPreprojective. -/
+/-- Robbins' theorem for simple graphs, in the orientation API owned by ZigzagPreprojective: a
+corollary of `Multigraph.exists_orientation_isStronglyConnected_iff` through
+`Multigraph.orientationOfSimpleGraphEquiv`. -/
 theorem exists_orientation_isStronglyConnected_iff [Finite V] :
     (∃ o : TauCeti.DoubledQuiver.Orientation G,
       @Quiver.IsStronglyConnected (TauCeti.DoubledQuiver.OrientedQuiver G o) inferInstance) ↔
@@ -1411,6 +1421,46 @@ noncomputable def ofSimpleGraphWalkEquiv {V : Type*} (H : SimpleGraph V) (s t : 
     H.Walk s t ≃ Walk (Graph.ofSimpleGraph H) s t := by
   sorry
 
+theorem ofSimpleGraphWalkEquiv_support {V : Type*} (H : SimpleGraph V) {s t : V}
+    (p : H.Walk s t) : (ofSimpleGraphWalkEquiv H s t p).support = p.support := by
+  sorry
+
+theorem ofSimpleGraphWalkEquiv_edges {V : Type*} (H : SimpleGraph V) {s t : V}
+    (p : H.Walk s t) : (ofSimpleGraphWalkEquiv H s t p).edges = p.edges := by
+  sorry
+
+/-- Simple paths, cycles, and both disjointness predicates transport along the walk
+equivalence; the simple-graph edge statements are its corollaries. -/
+theorem ofSimpleGraphWalkEquiv_isPath {V : Type*} (H : SimpleGraph V) {s t : V}
+    (p : H.Walk s t) : (ofSimpleGraphWalkEquiv H s t p).IsPath ↔ p.IsPath := by
+  sorry
+
+theorem ofSimpleGraphWalkEquiv_isCycle {V : Type*} (H : SimpleGraph V) {s : V}
+    (p : H.Walk s s) : (ofSimpleGraphWalkEquiv H s s p).IsCycle ↔ p.IsCycle := by
+  sorry
+
+theorem ofSimpleGraphWalkEquiv_edgeDisjoint {V : Type*} (H : SimpleGraph V) {s t : V}
+    (p q : H.Walk s t) :
+    (ofSimpleGraphWalkEquiv H s t p).EdgeDisjoint (ofSimpleGraphWalkEquiv H s t q) ↔
+      H.EdgeDisjoint p q := by
+  sorry
+
+theorem ofSimpleGraphWalkEquiv_internallyDisjoint {V : Type*} (H : SimpleGraph V) {s t : V}
+    (p q : H.Walk s t) :
+    (ofSimpleGraphWalkEquiv H s t p).InternallyDisjoint (ofSimpleGraphWalkEquiv H s t q) ↔
+      H.InternallyDisjoint p q := by
+  sorry
+
+theorem reachable_ofSimpleGraph {V : Type*} (H : SimpleGraph V) (s t : V) :
+    Reachable (Graph.ofSimpleGraph H) s t ↔ H.Reachable s t := by
+  sorry
+
+/-- The multigraph bridge predicate agrees with Mathlib's on actual edges; on a non-edge,
+Mathlib's predicate can hold while this one is false. -/
+theorem isBridge_ofSimpleGraph {V : Type*} (H : SimpleGraph V) (e : Sym2 V) :
+    IsBridge (Graph.ofSimpleGraph H) e ↔ e ∈ H.edgeSet ∧ H.IsBridge e := by
+  sorry
+
 theorem isEdgeConnected_ofSimpleGraph {V : Type*} (H : SimpleGraph V) (k : ℕ) :
     IsEdgeConnected (Graph.ofSimpleGraph H) k ↔ H.IsEdgeConnected k := by
   sorry
@@ -1494,6 +1544,18 @@ theorem EarDecomposition.prefix_length (d : EarDecomposition G) (i : Fin (d.leng
 theorem isEdgeConnected_two_iff_nonempty_earDecomposition
     [Finite G.vertexSet] [Finite G.edgeSet] [Nonempty G.vertexSet] :
     IsEdgeConnected G 2 ↔ Nonempty (EarDecomposition G) := by
+  sorry
+
+/-- Transport to the `H.Subgraph` interface of `SimpleGraph.EarDecomposition` and back,
+preserving the number of ears; the simple-graph ear characterization is a corollary. -/
+noncomputable def EarDecomposition.toSimpleGraph {V : Type*} (H : SimpleGraph V)
+    (d : EarDecomposition (Graph.ofSimpleGraph H)) :
+    {d' : H.EarDecomposition ⊤ // d'.length = d.length} := by
+  sorry
+
+noncomputable def EarDecomposition.ofSimpleGraph {V : Type*} (H : SimpleGraph V)
+    (d : H.EarDecomposition ⊤) :
+    {d' : EarDecomposition (Graph.ofSimpleGraph H) // d'.length = d.length} := by
   sorry
 
 section Capacities
