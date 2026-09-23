@@ -21,7 +21,7 @@ These are suggested forms, never an exhaustive checklist; this document is the s
 | --- | --- | --- |
 | 1. Shared foundations | Walks and representation bridges (1.1), cuts and path families (1.2), excess calculus and residual updates (1.3), splitting and auxiliary terminals (1.4), deletion predicates and invariants (1.5) | Existing Mathlib and Tau Ceti APIs |
 | 2. Bridges and blocks | Multigraph bridges; articulation criteria and block–cut forest | 1 |
-| 3. Flows | Assignment decomposition, augmentation, max-flow/min-cut, integrality, extended capacities, and Mathlib compatibility | 1 |
+| 3. Flows | Assignment decomposition, augmentation, max-flow/min-cut, integrality, large capacities, and Mathlib compatibility | 1 |
 | 4. Minimum cuts | Terminal-set cut lattices (4.1), canonical cuts (4.2), and non-crossing lemmas (4.3) | 1 for 4.1 and 4.3; 1, 3 for 4.2 |
 | 5. Menger | Path–separator duality (5.1) and the reductions to max-flow (5.2) | 1, 3, 4 |
 | 6. Connectivity and matching consequences | Whitney inequalities and cycle criteria, preservation lemmas, fans, Dirac's cycle theorem, Kőnig and Hall | 2, 5 |
@@ -97,15 +97,14 @@ This aggregation preserves weighted cuts, not individual edge identities or unwe
 **Directed networks** are terms, not typeclass instances.
 The finite-bound theory is parameterized by a linearly ordered additive commutative group `K`, expressed by `[AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]`.
 It must not assume a unit, multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
-A network `N : Network C V` carries an arrow type `N.Hom v w` for every ordered pair of vertices.
+A network `N : Network K V` carries an arrow type `N.Hom v w` for every ordered pair of vertices.
 Its arrow universe is independent of the vertex universe, as for `Quiver.{v}`.
-Each arrow has lower and upper bounds `ℓ, u` in the same type `C`, with a proof of `ℓ ≤ u`.
+Each arrow has lower and upper bounds `ℓ, u` in `K`, with a proof of `ℓ ≤ u`.
 Finiteness is expressed by `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
-The principal bound types `C` are `K` for finite bounds and `WithTop K` for extended bounds.
-Bounds in `K` may be negative.
+Bounds may be negative.
 An ordinary network is the specialization `ℓ = 0` of this same structure, constructed from nonnegative upper capacities; provide a constructor and simplification lemmas, not a second network type.
 Neither the representation nor its bound-order invariant requires a finite graph; the theorem targets here impose the specified finiteness assumptions.
-Define arrow assignments, excess, and cut capacity against an explicit quiver, with bounds as separate parameters where needed and the value type of an assignment independent of the bound type.
+Define arrow assignments, excess, and cut capacity against an explicit quiver, with bounds as separate parameters where needed.
 The network bundle exposes these definitions and bounded-assignment types through abbreviations, so bundled and unbundled networks share the same objects and theorems.
 The ordinary `PseudoFlow` and `Flow` interfaces use the zero-lower-bound specialization and follow the cited Mathlib proposal.
 Directed walks use Mathlib's [`Quiver.Path`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/Path.html#Quiver.Path), with the quiver argument supplied explicitly from the arrow family, as in `@Quiver.Path V ⟨N.Hom⟩ s t`.
@@ -114,13 +113,9 @@ Strong connectivity is Mathlib's [`Quiver.IsStronglyConnected`](https://leanprov
 Abbreviations may expose these operations through the network or arrow family, so several quivers coexist on `V` without competing instances or vertex-type synonyms.
 The total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
 Parallel arrows, arrows in opposite directions, loops, and zero capacities are allowed.
-Use one bounded-assignment definition with an explicit order embedding `ι : K ↪o C`, requiring `ℓ e ≤ ι (f e) ≤ u e` on every arrow.
-Finite bounds specialize to the identity embedding, and finite assignments under extended bounds specialize to Mathlib's [`WithTop.coeOrderHom`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/Hom/WithTopBot.html#WithTop.coeOrderHom); despite its name, that declaration is an order embedding.
-Expose these specializations through abbreviations sharing the same assignment structure, extensionality, bound-relaxation, and conservation API.
-Neither conservation nor nonnegative arrow values are part of bounded feasibility.
-For the identity embedding, write feasibility simply as `ℓ ≤ f ≤ u`.
-Excess and conservation use only arithmetic in the assignment type `K`; comparison with bounds uses `ι`, with no additive assumption on `ι` needed for feasibility itself.
-Keep the embedding parameter out of ordinary user-facing flow statements through the specialization abbreviations.
+A bounded assignment is an arrow assignment `f` with `ℓ ≤ f ≤ u` on every arrow; neither conservation nor nonnegative arrow values are part of bounded feasibility.
+All bounds are finite.
+An arrow that must never be cut receives a capacity exceeding a known cut, and [Target 3.2](#32-large-capacities) shows that capping capacities at such a bound changes no minimum cut.
 An ordinary `PseudoFlow` is a `K`-valued arrow assignment with proofs of nonnegativity and capacity boundedness, without a conservation condition.
 A `Flow s t` adds conservation away from the terminals and nonnegative excess at the sink.
 Every network sum is a `Finset.sum`; excess and flow value take values in `K`, with excess allowed to be negative and ordinary flow value required to be nonnegative.
@@ -128,13 +123,6 @@ General bounded terminal assignments have no sign restriction on their terminal 
 The finite theory must not require reasoning about infinite sums or infinite capacities to state its results.
 Follow [#43017](https://github.com/leanprover-community/mathlib4/pull/43017)'s incoming-minus-outgoing `excessAt` and sink-value `Flow.val` conventions.
 Its coefficient-generic ordinary specialization uses nonnegative capacities and arrow flows in `K`, with finite sums in `K`, in place of the proposal's `ℝ≥0` capacities and arrow flows, `EReal` excess by `tsum`, and `ENNReal` value.
-
-**Extended bounds** use `Network (WithTop K) V`, with both bounds in the same type and assignments still finite `K`-valued.
-Feasibility means `ℓ e ≤ (f e : WithTop K) ≤ u e` on every arrow.
-Do not define extended-valued flows or take `WithTop` subtraction as flow cancellation: in particular, `⊤ - ⊤ = 0` is not a valid account of residual capacity.
-The extended max-flow theory concerns ordinary networks with zero lower bounds.
-Their cut capacities are sums of upper capacities in `WithTop K`, with no subtraction of infinite quantities.
-Target 3.2 specifies local feasibility, finite-bound transport, and extended max-flow/min-cut; the signed-bound circulation and extremal-value targets in Milestone 8 use finite bounds.
 
 **An orientation** of `G : Graph α β` orders the ends of each edge, with one directed arrow per edge identity and no additional arrows.
 A loop gives one directed loop; it has a unique ordered pair of ends.
@@ -275,7 +263,7 @@ A network isomorphism consists of a vertex equivalence and arrow equivalences ov
 Supply identity, inverse, composition, and transport of subnetworks, assignments, excess, feasibility, and walks; excess transport assumes finite vertex and arrow types.
 
 Supply same-arrows bound replacement, extensionality in both bound functions, and transport of feasible assignments when lower bounds decrease and upper bounds increase.
-Include replacement of only the upper bounds for ordinary networks; Target 3.2 supplies extension to `WithTop K` and truncation.
+Include replacement of only the upper bounds for ordinary networks; capping at a bound is the case [Target 3.2](#32-large-capacities) uses.
 For finite bounds, reversing an arrow and negating its assigned value replaces its bounds by `−u, −ℓ`; prove preservation of feasibility and vertex excess, including for loops and parallel arrows.
 
 Build the shared residual-update operation for arbitrary feasible assignments with finite bounds here.
@@ -299,7 +287,7 @@ Build the following network constructions generically in their capacities; [Targ
   The terminal sets `A, B` are arbitrary, including empty, and the capacities of the new arrows are parameters.
   Prove that a `σ–τ` path consists of a `σ`-arrow, an `A–B` path, and a `τ`-arrow, and that the capacity of a `σ–τ` cut is the capacity of the new arrows it crosses plus the original cut capacity of its restriction to `V`.
   Combine with vertex splitting for the vertex-disjoint versions, where the new arrows are `σ → a⁻` and `b⁺ → τ`.
-- **Change of coefficients:** map networks, assignments, flows, residual capacities, and cuts along order-preserving additive group homomorphisms, including the standard embeddings `ℤ → ℚ → ℝ` and their `WithTop` extensions.
+- **Change of coefficients:** map networks, assignments, flows, residual capacities, and cuts along order-preserving additive group homomorphisms, including the standard embeddings `ℤ → ℚ → ℝ`.
 
 ### 1.5. Deletion predicates and numerical invariants
 
@@ -320,7 +308,7 @@ Consequently, for finite graphs edge connectivity is `⊤` exactly when the actu
 - Empty graphs, isolated vertices, and the two-vertex single-edge graph, exercising the size conventions.
 - A finite multigraph on infinite ambient types, verifying that finiteness hypotheses concern only its actual vertices and edges.
 - Weighted multigraph aggregation with parallel edges, loops, and zero-capacity edges, and pair capacities with nonzero diagonal entries, proving the specified cut invariance.
-- Finite and extended bounded assignments using the same API, and integer assignments compared with real bounds through an order embedding.
+- Bounded assignments with negative bounds, and integer assignments carried to real bounds by change of coefficients.
 - A singleton subnetwork inside a network with several vertices, verifying that its own vertex type is a singleton and its connectivity does not quantify over omitted vertices.
 
 ## 2. Bridges, articulation vertices, and blocks
@@ -388,28 +376,17 @@ Termination of arbitrary augmenting-path choices over dense or non-Archimedean c
 - A nonnegative assignment with two supply vertices, two demand vertices, and a cycle, verifying arrowwise reconstruction and the supply and demand weight identities.
 - Zero and nonnegative zero-excess assignments, exercising empty decomposition families and loop cycles.
 
-### 3.2. Extended bounds and capacities
+### 3.2. Large capacities
 
-The representation admits infinite lower bounds, including `ℓ e = u e = ⊤`; prove that any such lower bound makes finite feasibility impossible.
-For a finite network with all lower bounds finite, prove that there exists an assignment satisfying the bounds alone, without a conservation requirement; thus infinite lower bounds exactly characterize this local obstruction.
-Provide transport to and from finite-bound networks when every bound is finite.
-For zero lower bounds, prove the ordinary-to-extended embedding, cut-capacity coercion, and truncation at a nonnegative finite bound.
-An ordinary finite-bound network extends to one with the same arrows and zero lower bounds, and replacing an extended network's infinite upper capacities by a nonnegative finite bound produces an ordinary finite-bound network.
-Prove that if an `s–t` cut of finite capacity `B` exists, replacing every infinite upper capacity by `B` preserves the minimum-cut value and yields a finite maximum flow attaining it in the original extended network.
-If no finite `s–t` cut exists, prove that finite feasible flow values are cofinal in `K`: for every `b : K`, some feasible flow has value at least `b`.
-For nontrivial `K`, deduce unboundedness: for every `b : K`, some feasible flow has value strictly greater than `b`.
-Together these results are the extended max-flow/min-cut statement: finite cuts give an attained common value, while the absence of a finite cut gives cofinal finite flow values, which are unbounded when `K` is nontrivial.
-For `K = ℝ`, also state the dichotomy as an equality in `WithTop ℝ` between `sSup` of the set of finite flow values, which is `⊤` exactly when that set is unbounded, and the minimum extended cut capacity.
-Flows in the truncated network extend with their assignments unchanged.
-Given an original flow and a finite terminal-separating cut of capacity `B`, remove its cycle components to obtain a flow of the same value with every arrow value at most that value, hence at most `B`.
-This assignment satisfies the truncation to `B`; the original assignment need not, since an infinite-capacity cycle can carry more than `B`.
-State weak duality between finite flow values and extended cut capacities without converting `⊤` to a finite coefficient.
+Define the capping of capacities at `B : K` as `min (cap e) B` on every arrow.
+Suppose some `s–t` cut has capacity strictly below `B`.
+Prove that capping changes neither the minimum `s–t` cut value nor the set of minimum `s–t` cuts, because a cut crossing an arrow of capacity at least `B` is not minimum for either capacity function.
+Prove that every flow of the capped network is a flow of the original network with the same assignment, and that every flow of the original network yields, after removing its cycle components as in [Target 3.1](#31-finite-flows-and-assignment-decomposition), a flow of the capped network with the same value and an arrowwise no larger assignment.
+This is the only sense in which this roadmap uses uncapacitated arrows: the reductions of [Target 5.2](#52-reductions-to-max-flow) and the bipartite network of Milestone 6 give their auxiliary arrows a capacity exceeding a known cut, and this target reads their minimum cuts off the original capacities.
 
 **Required examples:**
 
-- An extended network with an uncapacitated arrow and a finite terminal-separating cut, together with its finite truncation, and an extended network whose finite flow values are unbounded.
-- An infinite-capacity loop carrying more than a finite terminal-cut bound, showing why truncation preserves the flow value after cycle removal but need not preserve the original assignment.
-- An extended arrow with both bounds `⊤`, verifying that ordered bounds need not admit a finite assignment.
+- An arrow of capacity above a terminal-separating cut, with a flow whose cycle component carries more than the cut bound, showing that capping preserves the flow value after cycle removal but need not preserve the original assignment.
 
 ### 3.3. Mathlib flow compatibility
 
@@ -533,7 +510,7 @@ The reductions must recover actual path families and separators, not just equali
   For edge-disjoint paths with disjoint `A,B`, use the unsplit quiver, unit original capacities, and capacity `M = |E| + 1` on `σ → a` and `b → τ`, where `E` is the total original arrow type.
   Cuts of capacity below `M` cross only original arrows; deleting all original arrows bounds the minimum cut by `|E|`.
   Supply separator-to-cut and path-family correspondences in this case as well, allowing shared path endpoints.
-  Include empty terminal sets and construct the extended variants by replacing the capacity-`M` arrows by `⊤`; prove that finite truncation to the displayed `M` gives the stated correspondences.
+  Include empty terminal sets.
 
 **Required examples:**
 
@@ -613,7 +590,7 @@ Derive the simple-graph statements through the orientation equivalence of Milest
 
 ## 8. Bounded circulations, prescribed excess, and bounded flows
 
-All bounds in this milestone are finite elements of `K`, with only `ℓ ≤ u` required; both bounds and arrow values may be negative.
+Only `ℓ ≤ u` is required in this milestone; both bounds and arrow values may be negative.
 Develop bounded assignments with prescribed excess, their circulation specialization, and bounded terminal assignments using the common network representation and residual construction.
 Supply extensionality, restriction to connected components, behavior under disjoint unions, bound relaxation, arrow reversal, and transport under network isomorphisms and coefficient embeddings.
 For componentwise feasibility, explicitly recover that the sum of prescribed excess on each underlying undirected component must be zero.
@@ -784,7 +761,7 @@ Its 3-connectivity targets use `SimpleGraph`; their `IsThreeConnected` is the sp
 This roadmap owns graph connectivity, components, separators, and their representation bridges; the surface topology development uses that common API for its underlying multigraphs and its simple-graph theorems.
 No second component or 3-connectivity theory is required in the surface topology development.
 
-General matching theory beyond the bipartite consequences above, minimum-cost flows and circulations, multicommodity flows, graphs with infinitely many actual vertices, edge-counting and flow theories with infinite edge sets, treewidth, and algorithmic complexity bounds are outside this roadmap.
+General matching theory beyond the bipartite consequences above, networks with infinite capacities, minimum-cost flows and circulations, multicommodity flows, graphs with infinitely many actual vertices, edge-counting and flow theories with infinite edge sets, treewidth, and algorithmic complexity bounds are outside this roadmap.
 
 ## Mathematical references
 

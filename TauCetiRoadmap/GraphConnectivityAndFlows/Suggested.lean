@@ -22,7 +22,7 @@ The pinned choices illustrated here are:
 - A network is a term `N : Network C V`, with arrow types in a universe independent of `V`.
   Both bounds lie in `C`; ordinary networks set the lower bound to zero.
   Assignments and flows use an explicit quiver and separate bounds, with network abbreviations.
-  Bounded assignments compare their values with bounds through an order embedding.
+  Bounded assignments satisfy `ℓ ≤ f ≤ u` arrowwise.
 - Excess is incoming minus outgoing; ordinary flow value is nonnegative excess at the sink.
   General bounded terminal assignments allow signed values.
   Nonnegative assignments decompose into supply-to-demand paths and cycles.
@@ -33,9 +33,8 @@ The pinned choices illustrated here are:
   Subnetworks record actual vertices as well as arrow subsets.
   Residual arrows are `N.Hom v w ⊕ N.Hom w v`, independently of the assignment.
   Augmenting paths use the positive-capacity part of that fixed arrow family.
-- Extended networks use `WithTop K` bounds and finite `K`-valued assignments.
-  Truncation at a finite terminal-cut bound preserves optimal values.
-  It need not preserve an original assignment.
+- All bounds are finite. An arrow that must not be cut gets a capacity above a known cut, and
+  capping capacities at such a bound changes no minimum cut.
 - The vertex-splitting and auxiliary-terminal reductions are prototyped with their cut and
   separator correspondences over `ℤ`.
 - Simple-graph edge statements are corollaries of the multigraph ones through the walk,
@@ -129,30 +128,29 @@ noncomputable def arrowCutCapacity (Q : Quiver V) [Fintype V] [DecidableEq V]
     (cap : Assignment Q C) (S : Finset V) : C :=
   ∑ v ∈ S, ∑ w ∈ Sᶜ, ∑ e : Q.Hom v w, cap e
 
-structure BoundedAssignment {K : Type w} {C : Type z} [LE K] [LE C]
-    (Q : Quiver V) (ι : K ↪o C) (lo hi : Assignment Q C) where
+structure BoundedAssignment {K : Type w} [LE K] (Q : Quiver V) (lo hi : Assignment Q K) where
   toFun : Assignment Q K
-  lower_le : ∀ {v w} (e : Q.Hom v w), lo e ≤ ι (toFun e)
-  le_upper : ∀ {v w} (e : Q.Hom v w), ι (toFun e) ≤ hi e
+  lower_le : ∀ {v w} (e : Q.Hom v w), lo e ≤ toFun e
+  le_upper : ∀ {v w} (e : Q.Hom v w), toFun e ≤ hi e
 
-@[ext] theorem BoundedAssignment.ext {K : Type w} {C : Type z} [LE K] [LE C]
-    {Q : Quiver V} {ι : K ↪o C} {lo hi : Assignment Q C}
-    {f g : BoundedAssignment Q ι lo hi}
+@[ext] theorem BoundedAssignment.ext {K : Type w} [LE K]
+    {Q : Quiver V} {lo hi : Assignment Q K}
+    {f g : BoundedAssignment Q lo hi}
     (h : ∀ {v w} (e : Q.Hom v w), f.toFun e = g.toFun e) : f = g := by
   sorry
 
-def BoundedAssignment.monoBounds {K : Type w} {C : Type z} [LE K] [Preorder C]
-    {Q : Quiver V} {ι : K ↪o C} {lo hi lo' hi' : Assignment Q C}
-    (f : BoundedAssignment Q ι lo hi)
+def BoundedAssignment.monoBounds {K : Type w} [Preorder K]
+    {Q : Quiver V} {lo hi lo' hi' : Assignment Q K}
+    (f : BoundedAssignment Q lo hi)
     (hlo : ∀ {v w} (e : Q.Hom v w), lo' e ≤ lo e)
     (hhi : ∀ {v w} (e : Q.Hom v w), hi e ≤ hi' e) :
-    BoundedAssignment Q ι lo' hi' where
+    BoundedAssignment Q lo' hi' where
   toFun := f.toFun
   lower_le e := (hlo e).trans (f.lower_le e)
   le_upper e := (f.le_upper e).trans (hhi e)
 
 abbrev PseudoFlow {K : Type w} [Zero K] [LE K] (Q : Quiver V) (cap : Assignment Q K) :=
-  BoundedAssignment Q (OrderEmbedding.id K) (fun _ => 0) cap
+  BoundedAssignment Q (fun _ => 0) cap
 
 structure Flow {K : Type w} [AddCommGroup K] [LE K]
     (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
@@ -168,7 +166,7 @@ noncomputable def Flow.val {K : Type w} [AddCommGroup K] [LE K]
 /-- General terminal assignments have signed values and may have signed arrow values. -/
 structure BoundedFlow {K : Type w} [AddCommGroup K] [LE K]
     (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
-    (lo hi : Assignment Q K) (s t : V) extends BoundedAssignment Q (OrderEmbedding.id K) lo hi where
+    (lo hi : Assignment Q K) (s t : V) extends BoundedAssignment Q lo hi where
   conserve : ∀ v, v ≠ s → v ≠ t → excessAt Q toFun v = 0
 
 noncomputable def BoundedFlow.val {K : Type w} [AddCommGroup K] [LE K]
@@ -177,28 +175,28 @@ noncomputable def BoundedFlow.val {K : Type w} [AddCommGroup K] [LE K]
   excessAt Q f.toFun t
 
 abbrev Network.Feasible {K : Type w} [LE K] (N : Network K V) :=
-  BoundedAssignment ⟨N.Hom⟩ (OrderEmbedding.id K) N.lower N.upper
+  BoundedAssignment ⟨N.Hom⟩ N.lower N.upper
 
 abbrev Network.BoundedFlow {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (s t : V) :=
   TauCetiRoadmap.GraphConnectivityAndFlows.BoundedFlow ⟨N.Hom⟩ N.lower N.upper s t
 
-abbrev Realizes {K : Type w} {C : Type z} [AddCommGroup K] [LE K] [LE C]
+abbrev Realizes {K : Type w} [AddCommGroup K] [LE K]
     (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
-    (ι : K ↪o C) (lo hi : Assignment Q C) (b : V → K) :=
-  {f : BoundedAssignment Q ι lo hi // ∀ v, excessAt Q f.toFun v = b v}
+    (lo hi : Assignment Q K) (b : V → K) :=
+  {f : BoundedAssignment Q lo hi // ∀ v, excessAt Q f.toFun v = b v}
 
-abbrev RealizesWithin {K : Type w} {C : Type z} [AddCommGroup K] [LE K] [LE C]
+abbrev RealizesWithin {K : Type w} [AddCommGroup K] [LE K]
     (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
-    (ι : K ↪o C) (lo hi : Assignment Q C) (a b : V → K) :=
-  {f : BoundedAssignment Q ι lo hi //
+    (lo hi : Assignment Q K) (a b : V → K) :=
+  {f : BoundedAssignment Q lo hi //
     ∀ v, a v ≤ excessAt Q f.toFun v ∧ excessAt Q f.toFun v ≤ b v}
 
-noncomputable def realizesWithin_self_equiv {K : Type w} {C : Type z}
-    [AddCommGroup K] [PartialOrder K] [LE C]
+noncomputable def realizesWithin_self_equiv {K : Type w}
+    [AddCommGroup K] [PartialOrder K]
     (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
-    (ι : K ↪o C) (lo hi : Assignment Q C) (b : V → K) :
-    RealizesWithin Q ι lo hi b b ≃ Realizes Q ι lo hi b where
+    (lo hi : Assignment Q K) (b : V → K) :
+    RealizesWithin Q lo hi b b ≃ Realizes Q lo hi b where
   toFun f := ⟨f.val, fun v => le_antisymm (f.property v).2 (f.property v).1⟩
   invFun f := ⟨f.val, fun v => ⟨(f.property v).ge, (f.property v).le⟩⟩
   left_inv _ := rfl
@@ -206,12 +204,11 @@ noncomputable def realizesWithin_self_equiv {K : Type w} {C : Type z}
 
 abbrev Network.Realizes {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (b : V → K) :=
-  TauCetiRoadmap.GraphConnectivityAndFlows.Realizes ⟨N.Hom⟩ (OrderEmbedding.id K) N.lower N.upper b
+  TauCetiRoadmap.GraphConnectivityAndFlows.Realizes ⟨N.Hom⟩ N.lower N.upper b
 
 abbrev Network.RealizesWithin {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (a b : V → K) :=
-  TauCetiRoadmap.GraphConnectivityAndFlows.RealizesWithin ⟨N.Hom⟩
-    (OrderEmbedding.id K) N.lower N.upper a b
+  TauCetiRoadmap.GraphConnectivityAndFlows.RealizesWithin ⟨N.Hom⟩ N.lower N.upper a b
 
 abbrev Network.Circulation {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] := N.Realizes (fun _ => 0)
@@ -326,7 +323,7 @@ theorem exists_nonnegativeDecomposition_mem_addSubgroup (Q : Quiver V) [Fintype 
 
 /-- Residual arrows have zero lower bounds, regardless of the original bounds. -/
 noncomputable abbrev residual (Q : Quiver V) (lo hi : Assignment Q K)
-    (f : BoundedAssignment Q (OrderEmbedding.id K) lo hi) : Network K V where
+    (f : BoundedAssignment Q lo hi) : Network K V where
   Hom v w := Q.Hom v w ⊕ Q.Hom w v
   lower _ := 0
   upper := Sum.elim (fun e => hi e - f.toFun e) (fun e => f.toFun e - lo e)
@@ -404,105 +401,48 @@ theorem Flow.residualReachable_isMinCut (hst : s ≠ t) (f : Flow Q cap s t)
 
 end Ordinary
 
-/-! ## Extended bounds (Conventions; Milestone 3) -/
+/-! ## Large capacities (Target 3.2) -/
 
-abbrev FiniteBoundedAssignment (Q : Quiver V) (lo hi : Assignment Q (WithTop K)) :=
-  BoundedAssignment Q WithTop.coeOrderHom lo hi
-
-abbrev Network.FiniteFeasible (N : Network (WithTop K) V) :=
-  FiniteBoundedAssignment ⟨N.Hom⟩ N.lower N.upper
-
-theorem Network.not_finiteFeasible_of_lower_eq_top (N : Network (WithTop K) V)
-    {v w : V} (e : N.Hom v w) (he : N.lower e = ⊤) : ¬ Nonempty N.FiniteFeasible := by
-  sorry
-
-theorem Network.nonempty_finiteFeasible_iff (N : Network (WithTop K) V) :
-    Nonempty N.FiniteFeasible ↔ ∀ {v w} (e : N.Hom v w), N.lower e ≠ ⊤ := by
-  sorry
-
-abbrev Network.toExtended (N : Network K V) : Network (WithTop K) V :=
-  N.withBounds (fun e => (N.lower e : WithTop K)) (fun e => (N.upper e : WithTop K))
-    (fun e => WithTop.coe_le_coe.mpr (N.lower_le_upper e))
-
-noncomputable def Network.finiteBounds (N : Network (WithTop K) V)
-    (hlo : ∀ {v w} (e : N.Hom v w), N.lower e ≠ ⊤)
-    (hhi : ∀ {v w} (e : N.Hom v w), N.upper e ≠ ⊤) : Network K V where
-  Hom := N.Hom
-  lower e := (N.lower e).untop (hlo e)
-  upper e := (N.upper e).untop (hhi e)
-  lower_le_upper := by sorry
-
-noncomputable def Network.finiteBoundsEquiv (N : Network (WithTop K) V)
-    (hlo : ∀ {v w} (e : N.Hom v w), N.lower e ≠ ⊤)
-    (hhi : ∀ {v w} (e : N.Hom v w), N.upper e ≠ ⊤) :
-    N.FiniteFeasible ≃ (N.finiteBounds hlo hhi).Feasible := by
-  sorry
-
-/-- Truncation of infinite upper bounds is used only in the ordinary zero-lower-bound theory. -/
-noncomputable def truncateCapacity (Q : Quiver V) (cap : Assignment Q (WithTop K))
-    (hcap : ∀ {v w} (e : Q.Hom v w), 0 ≤ cap e) (B : K) (hB : 0 ≤ B) : Network K V where
-  Hom := Q.Hom
-  lower _ := 0
-  upper e := (cap e).untopD B
-  lower_le_upper := by sorry
-
-structure FiniteFlow (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
-    (cap : Assignment Q (WithTop K)) (s t : V)
-    extends FiniteBoundedAssignment Q (fun _ => 0) cap where
-  conserve : ∀ v, v ≠ s → v ≠ t → excessAt Q toFun v = 0
-  val_nonneg : 0 ≤ excessAt Q toFun t
-
-noncomputable def FiniteFlow.val {Q : Quiver V} [Fintype V]
-    [∀ v w, Fintype (Q.Hom v w)] {cap : Assignment Q (WithTop K)} {s t : V}
-    (f : FiniteFlow Q cap s t) : K := excessAt Q f.toFun t
-
-section ExtendedOrdinary
+section LargeCapacities
 
 variable (Q : Quiver V) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q.Hom v w)]
-variable (cap : Assignment Q (WithTop K))
-variable (hcap : ∀ {v w} (e : Q.Hom v w), 0 ≤ cap e) {s t : V}
+variable (cap : Assignment Q K) {s t : V}
 
-theorem FiniteFlow.val_le_cutCapacity (f : FiniteFlow Q cap s t) {S : Finset V}
-    (hs : s ∈ S) (ht : t ∉ S) : (f.val : WithTop K) ≤ arrowCutCapacity Q cap S := by
+/-- Capacities capped at `B`. -/
+abbrev capCapacity (B : K) : Assignment Q K := fun e => min (cap e) B
+
+/-- Below a cut of capacity less than `B`, capping does not change which cuts are minimum. -/
+theorem isMinCut_capCapacity_iff {B : K} {S₀ : Finset V} (hs₀ : s ∈ S₀) (ht₀ : t ∉ S₀)
+    (hB : arrowCutCapacity Q cap S₀ < B) (S : Finset V) (hs : s ∈ S) (ht : t ∉ S) :
+    (∀ T, s ∈ T → t ∉ T →
+        arrowCutCapacity Q (capCapacity Q cap B) S ≤ arrowCutCapacity Q (capCapacity Q cap B) T) ↔
+      ∀ T, s ∈ T → t ∉ T → arrowCutCapacity Q cap S ≤ arrowCutCapacity Q cap T := by
   sorry
 
-include hcap in
-theorem exists_finiteFlow_cut_value_eq_of_exists_finite_cut (hst : s ≠ t)
-    (hfinite : ∃ S : Finset V, s ∈ S ∧ t ∉ S ∧ arrowCutCapacity Q cap S ≠ ⊤) :
-    ∃ (f : FiniteFlow Q cap s t) (S : Finset V),
-      s ∈ S ∧ t ∉ S ∧ (f.val : WithTop K) = arrowCutCapacity Q cap S := by
+theorem arrowCutCapacity_capCapacity_of_isMinCut (hcap : ∀ {v w} (e : Q.Hom v w), 0 ≤ cap e)
+    {B : K} {S₀ : Finset V} (hs₀ : s ∈ S₀) (ht₀ : t ∉ S₀) (hB : arrowCutCapacity Q cap S₀ < B)
+    (S : Finset V) (hs : s ∈ S) (ht : t ∉ S)
+    (hmin : ∀ T, s ∈ T → t ∉ T → arrowCutCapacity Q cap S ≤ arrowCutCapacity Q cap T) :
+    arrowCutCapacity Q (capCapacity Q cap B) S = arrowCutCapacity Q cap S := by
   sorry
 
-/-- Cycle removal preserves terminal value, but need not preserve the original assignment. -/
-theorem exists_truncatedFlow_same_value (hst : s ≠ t) (B : K) (hB : 0 ≤ B)
-    {S : Finset V} (hs : s ∈ S) (ht : t ∉ S)
-    (hS : arrowCutCapacity Q cap S = (B : WithTop K)) (f : FiniteFlow Q cap s t) :
-    ∃ g : Flow Q (truncateCapacity Q cap hcap B hB).upper s t,
+/-- A flow of the capped network is a flow of the original network with the same assignment. -/
+def Flow.ofCapCapacity {B : K} (f : Flow Q (capCapacity Q cap B) s t) : Flow Q cap s t where
+  toFun := f.toFun
+  lower_le := f.lower_le
+  le_upper e := (f.le_upper e).trans (min_le_left _ _)
+  conserve := f.conserve
+  val_nonneg := f.val_nonneg
+
+/-- Cycle removal gives a flow of the capped network with the same value; the original
+assignment need not satisfy the cap. -/
+theorem exists_flow_capCapacity_val_eq {B : K} {S₀ : Finset V} (hs₀ : s ∈ S₀) (ht₀ : t ∉ S₀)
+    (hB : arrowCutCapacity Q cap S₀ < B) (f : Flow Q cap s t) :
+    ∃ g : Flow Q (capCapacity Q cap B) s t,
       g.val = f.val ∧ ∀ {v w} (e : Q.Hom v w), g.toFun e ≤ f.toFun e := by
   sorry
 
-include hcap in
-theorem finiteFlow_values_cofinal_of_forall_cutCapacity_eq_top (hst : s ≠ t)
-    (hinfinite : ∀ S : Finset V, s ∈ S → t ∉ S → arrowCutCapacity Q cap S = ⊤) :
-    ∀ b : K, ∃ f : FiniteFlow Q cap s t, b ≤ f.val := by
-  sorry
-
-include hcap in
-theorem finiteFlow_values_unbounded_of_forall_cutCapacity_eq_top [Nontrivial K]
-    (hst : s ≠ t)
-    (hinfinite : ∀ S : Finset V, s ∈ S → t ∉ S → arrowCutCapacity Q cap S = ⊤) :
-    ∀ b : K, ∃ f : FiniteFlow Q cap s t, b < f.val := by
-  sorry
-
-end ExtendedOrdinary
-
-theorem sSup_finiteFlow_value_eq_iInf_cutCapacity (Q : Quiver V) [Fintype V]
-    [DecidableEq V] [∀ v w, Fintype (Q.Hom v w)] (cap : Assignment Q (WithTop ℝ))
-    (hcap : ∀ {v w} (e : Q.Hom v w), 0 ≤ cap e) {s t : V} (hst : s ≠ t) :
-    sSup (Set.range fun f : FiniteFlow Q cap s t => (f.val : WithTop ℝ)) =
-      ⨅ S : {S : Finset V // s ∈ S ∧ t ∉ S}, arrowCutCapacity Q cap S := by
-  sorry
-
+end LargeCapacities
 
 /-! ## Vertex splitting and auxiliary terminals (Target 1.4) and the Menger reductions (Target 5.2) -/
 
