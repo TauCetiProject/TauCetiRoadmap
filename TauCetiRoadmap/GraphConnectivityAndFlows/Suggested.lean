@@ -185,8 +185,10 @@ abbrev Network.BoundedFlow {K : Type w} [AddCommGroup K] [LE K] (N : Network K V
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (s t : V) :=
   TauCetiRoadmap.GraphConnectivityAndFlows.BoundedFlow N.Hom N.lower N.upper s t
 
-/-- Ordinary flows of a zero-lower-bound network. -/
-abbrev Network.Flow {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
+/-- Flows against the upper bounds of `N` alone. The lower bounds are ignored, so this is the
+ordinary flow type only for networks built with zero lower bounds; `N.BoundedFlow` respects
+both bounds. -/
+abbrev Network.UpperFlow {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (s t : V) :=
   TauCetiRoadmap.GraphConnectivityAndFlows.Flow N.Hom N.upper s t
 
@@ -705,7 +707,8 @@ noncomputable abbrev setFlowNetwork : Network K (V ⊕ Bool) :=
     (fun _ => Finset.sum_nonneg fun _ _ => Finset.sum_nonneg fun _ _ => hcap _)
 
 noncomputable def SetFlow.auxEquiv (hAB : Disjoint A B) :
-    SetFlow Q cap A B ≃ (setFlowNetwork Q cap hcap A B).Flow (Sum.inr false) (Sum.inr true) := by
+    SetFlow Q cap A B ≃
+      (setFlowNetwork Q cap hcap A B).UpperFlow (Sum.inr false) (Sum.inr true) := by
   sorry
 
 /-- Normalizing a minimum `σ–τ` cut of the auxiliary network gives a minimum `A–B` cut of the
@@ -1774,7 +1777,7 @@ open Classical in
 most one direction of each edge, and a cut of equal capacity. -/
 theorem exists_bidirected_flow_edgeCutCapacity_eq (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e)
     {s t : G.vertexSet} (hst : s ≠ t) :
-    ∃ (f : (bidirectedNetwork G c hc).Flow s t) (S : Finset G.vertexSet),
+    ∃ (f : (bidirectedNetwork G c hc).UpperFlow s t) (S : Finset G.vertexSet),
       s ∈ S ∧ t ∉ S ∧ f.val = edgeCutCapacity G c S ∧
       (∀ (v : G.vertexSet) (e : Hom G v v), f.toFun e = 0) ∧
       ∀ (v w : G.vertexSet) (e : Hom G v w) (e' : Hom G w v), e.val = e'.val →

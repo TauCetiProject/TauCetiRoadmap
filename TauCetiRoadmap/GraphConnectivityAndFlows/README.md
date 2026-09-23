@@ -106,6 +106,7 @@ This aggregation preserves weighted cuts, not individual edge identities or unwe
   Finiteness is expressed by `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`; neither the representation nor its bound-order invariant requires it, and the theorem targets impose the specified finiteness assumptions.
   An ordinary network is the specialization `ℓ = 0` of this same structure, constructed from nonnegative upper capacities; provide a constructor and simplification lemmas, not a second network type.
   Define arrow assignments, excess, and cut capacity against an explicit arrow family `Hom : V → V → Type`, with bounds as separate parameters where needed; the network bundle exposes these definitions and the bounded-assignment types through abbreviations, so bundled and unbundled networks share the same objects and theorems.
+  An abbreviation that uses only the upper bounds of a network, such as the ordinary flow type read off a bounded network, says so in its name, since nothing else records that the lower bounds are ignored.
   A `Quiver` term is never a parameter.
   **Why:** instance search for `Fintype (Hom v w)` does not see through `Quiver.mk`.
 - **Bounded assignments and flows.** A bounded assignment is an arrow assignment `f` with `ℓ ≤ f ≤ u` on every arrow; neither conservation nor nonnegative arrow values are part of bounded feasibility.
