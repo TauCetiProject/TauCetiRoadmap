@@ -21,7 +21,9 @@ The pinned choices illustrated here are:
   Only the rounding target adds an ordered ring and `FloorRing` structure.
 - A network is a term `N : Network C V`, with arrow types in a universe independent of `V`.
   Both bounds lie in `C`; ordinary networks set the lower bound to zero.
-  Assignments and flows use an explicit quiver and separate bounds, with network abbreviations.
+  Assignments and flows use an explicit arrow family `Q : V → V → Type v` and separate bounds,
+  with network abbreviations; a `Quiver` term is never a parameter, since instance search for
+  `Fintype (Q v w)` does not see through `Quiver.mk`.
   Bounded assignments satisfy `ℓ ≤ f ≤ u` arrowwise.
 - Excess is incoming minus outgoing; ordinary flow value is nonnegative excess at the sink.
   General bounded terminal assignments allow signed values.
@@ -72,15 +74,15 @@ structure Network (C : Type w) (V : Type u) [LE C] where
 
 variable {V : Type u}
 
-abbrev Assignment (Q : Quiver V) (K : Type w) := ∀ {v w : V}, Q.Hom v w → K
+abbrev Assignment (Q : V → V → Type v) (K : Type w) := ∀ {v w : V}, Q v w → K
 
 abbrev Network.Assignment {C : Type w} [LE C] (N : Network C V) (K : Type w) :=
-  TauCetiRoadmap.GraphConnectivityAndFlows.Assignment ⟨N.Hom⟩ K
+  TauCetiRoadmap.GraphConnectivityAndFlows.Assignment N.Hom K
 
-abbrev Network.ofCapacity {C : Type w} [Zero C] [LE C] (Q : Quiver V)
+abbrev Network.ofCapacity {C : Type w} [Zero C] [LE C] (Q : V → V → Type v)
     (cap : TauCetiRoadmap.GraphConnectivityAndFlows.Assignment Q C)
-    (hcap : ∀ {v w} (e : Q.Hom v w), 0 ≤ cap e) : Network C V where
-  Hom := Q.Hom
+    (hcap : ∀ {v w} (e : Q v w), 0 ≤ cap e) : Network C V where
+  Hom := Q
   lower _ := 0
   upper := cap
   lower_le_upper := hcap
@@ -111,90 +113,90 @@ def Network.Subnetwork.singleton {C : Type w} [LE C] (N : Network C V)
   arrows _ _ := ∅
   endpoints _ h := False.elim h
 
-noncomputable def excessAt (Q : Quiver V) [Fintype V]
-    [∀ v w, Fintype (Q.Hom v w)] {K : Type w} [AddCommGroup K]
+noncomputable def excessAt (Q : V → V → Type v) [Fintype V]
+    [∀ v w, Fintype (Q v w)] {K : Type w} [AddCommGroup K]
     (f : Assignment Q K) (v : V) : K :=
-  ∑ w, ∑ e : Q.Hom w v, f e - ∑ w, ∑ e : Q.Hom v w, f e
+  ∑ w, ∑ e : Q w v, f e - ∑ w, ∑ e : Q v w, f e
 
-theorem excessAt_source_eq_neg_sink (Q : Quiver V) [Fintype V]
-    [∀ v w, Fintype (Q.Hom v w)] {K : Type w} [AddCommGroup K]
+theorem excessAt_source_eq_neg_sink (Q : V → V → Type v) [Fintype V]
+    [∀ v w, Fintype (Q v w)] {K : Type w} [AddCommGroup K]
     (f : Assignment Q K) {s t : V}
     (hconserve : ∀ v, v ≠ s → v ≠ t → excessAt Q f v = 0) :
     excessAt Q f s = -excessAt Q f t := by
   sorry
 
-noncomputable def arrowCutCapacity (Q : Quiver V) [Fintype V] [DecidableEq V]
-    [∀ v w, Fintype (Q.Hom v w)] {C : Type w} [AddCommMonoid C]
+noncomputable def arrowCutCapacity (Q : V → V → Type v) [Fintype V] [DecidableEq V]
+    [∀ v w, Fintype (Q v w)] {C : Type w} [AddCommMonoid C]
     (cap : Assignment Q C) (S : Finset V) : C :=
-  ∑ v ∈ S, ∑ w ∈ Sᶜ, ∑ e : Q.Hom v w, cap e
+  ∑ v ∈ S, ∑ w ∈ Sᶜ, ∑ e : Q v w, cap e
 
-structure BoundedAssignment {K : Type w} [LE K] (Q : Quiver V) (lo hi : Assignment Q K) where
+structure BoundedAssignment {K : Type w} [LE K] (Q : V → V → Type v) (lo hi : Assignment Q K) where
   toFun : Assignment Q K
-  lower_le : ∀ {v w} (e : Q.Hom v w), lo e ≤ toFun e
-  le_upper : ∀ {v w} (e : Q.Hom v w), toFun e ≤ hi e
+  lower_le : ∀ {v w} (e : Q v w), lo e ≤ toFun e
+  le_upper : ∀ {v w} (e : Q v w), toFun e ≤ hi e
 
 @[ext] theorem BoundedAssignment.ext {K : Type w} [LE K]
-    {Q : Quiver V} {lo hi : Assignment Q K}
+    {Q : V → V → Type v} {lo hi : Assignment Q K}
     {f g : BoundedAssignment Q lo hi}
-    (h : ∀ {v w} (e : Q.Hom v w), f.toFun e = g.toFun e) : f = g := by
+    (h : ∀ {v w} (e : Q v w), f.toFun e = g.toFun e) : f = g := by
   sorry
 
 def BoundedAssignment.monoBounds {K : Type w} [Preorder K]
-    {Q : Quiver V} {lo hi lo' hi' : Assignment Q K}
+    {Q : V → V → Type v} {lo hi lo' hi' : Assignment Q K}
     (f : BoundedAssignment Q lo hi)
-    (hlo : ∀ {v w} (e : Q.Hom v w), lo' e ≤ lo e)
-    (hhi : ∀ {v w} (e : Q.Hom v w), hi e ≤ hi' e) :
+    (hlo : ∀ {v w} (e : Q v w), lo' e ≤ lo e)
+    (hhi : ∀ {v w} (e : Q v w), hi e ≤ hi' e) :
     BoundedAssignment Q lo' hi' where
   toFun := f.toFun
   lower_le e := (hlo e).trans (f.lower_le e)
   le_upper e := (f.le_upper e).trans (hhi e)
 
-abbrev PseudoFlow {K : Type w} [Zero K] [LE K] (Q : Quiver V) (cap : Assignment Q K) :=
+abbrev PseudoFlow {K : Type w} [Zero K] [LE K] (Q : V → V → Type v) (cap : Assignment Q K) :=
   BoundedAssignment Q (fun _ => 0) cap
 
 structure Flow {K : Type w} [AddCommGroup K] [LE K]
-    (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+    (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
     (cap : Assignment Q K) (s t : V) extends PseudoFlow Q cap where
   conserve : ∀ v, v ≠ s → v ≠ t → excessAt Q toFun v = 0
   val_nonneg : 0 ≤ excessAt Q toFun t
 
 noncomputable def Flow.val {K : Type w} [AddCommGroup K] [LE K]
-    {Q : Quiver V} [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+    {Q : V → V → Type v} [Fintype V] [∀ v w, Fintype (Q v w)]
     {cap : Assignment Q K} {s t : V} (f : Flow Q cap s t) : K :=
   excessAt Q f.toFun t
 
 /-- General terminal assignments have signed values and may have signed arrow values. -/
 structure BoundedFlow {K : Type w} [AddCommGroup K] [LE K]
-    (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+    (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
     (lo hi : Assignment Q K) (s t : V) extends BoundedAssignment Q lo hi where
   conserve : ∀ v, v ≠ s → v ≠ t → excessAt Q toFun v = 0
 
 noncomputable def BoundedFlow.val {K : Type w} [AddCommGroup K] [LE K]
-    {Q : Quiver V} [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+    {Q : V → V → Type v} [Fintype V] [∀ v w, Fintype (Q v w)]
     {lo hi : Assignment Q K} {s t : V} (f : BoundedFlow Q lo hi s t) : K :=
   excessAt Q f.toFun t
 
 abbrev Network.Feasible {K : Type w} [LE K] (N : Network K V) :=
-  BoundedAssignment ⟨N.Hom⟩ N.lower N.upper
+  BoundedAssignment N.Hom N.lower N.upper
 
 abbrev Network.BoundedFlow {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (s t : V) :=
-  TauCetiRoadmap.GraphConnectivityAndFlows.BoundedFlow ⟨N.Hom⟩ N.lower N.upper s t
+  TauCetiRoadmap.GraphConnectivityAndFlows.BoundedFlow N.Hom N.lower N.upper s t
 
 abbrev Realizes {K : Type w} [AddCommGroup K] [LE K]
-    (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+    (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
     (lo hi : Assignment Q K) (b : V → K) :=
   {f : BoundedAssignment Q lo hi // ∀ v, excessAt Q f.toFun v = b v}
 
 abbrev RealizesWithin {K : Type w} [AddCommGroup K] [LE K]
-    (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+    (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
     (lo hi : Assignment Q K) (a b : V → K) :=
   {f : BoundedAssignment Q lo hi //
     ∀ v, a v ≤ excessAt Q f.toFun v ∧ excessAt Q f.toFun v ≤ b v}
 
 noncomputable def realizesWithin_self_equiv {K : Type w}
     [AddCommGroup K] [PartialOrder K]
-    (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+    (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
     (lo hi : Assignment Q K) (b : V → K) :
     RealizesWithin Q lo hi b b ≃ Realizes Q lo hi b where
   toFun f := ⟨f.val, fun v => le_antisymm (f.property v).2 (f.property v).1⟩
@@ -204,11 +206,11 @@ noncomputable def realizesWithin_self_equiv {K : Type w}
 
 abbrev Network.Realizes {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (b : V → K) :=
-  TauCetiRoadmap.GraphConnectivityAndFlows.Realizes ⟨N.Hom⟩ N.lower N.upper b
+  TauCetiRoadmap.GraphConnectivityAndFlows.Realizes N.Hom N.lower N.upper b
 
 abbrev Network.RealizesWithin {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (a b : V → K) :=
-  TauCetiRoadmap.GraphConnectivityAndFlows.RealizesWithin ⟨N.Hom⟩ N.lower N.upper a b
+  TauCetiRoadmap.GraphConnectivityAndFlows.RealizesWithin N.Hom N.lower N.upper a b
 
 abbrev Network.Circulation {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] := N.Realizes (fun _ => 0)
@@ -271,10 +273,10 @@ variable (N : Network C V) [Fintype V] [∀ v w, Fintype (N.Hom v w)]
 
 noncomputable abbrev Network.excessAt {K : Type w} [AddCommGroup K]
     (f : N.Assignment K) (v : V) : K :=
-  TauCetiRoadmap.GraphConnectivityAndFlows.excessAt ⟨N.Hom⟩ f v
+  TauCetiRoadmap.GraphConnectivityAndFlows.excessAt N.Hom f v
 
 noncomputable abbrev Network.upperCutCapacity [DecidableEq V] (S : Finset V) : C :=
-  arrowCutCapacity ⟨N.Hom⟩ N.upper S
+  arrowCutCapacity N.Hom N.upper S
 
 end AnyBounds
 
@@ -282,49 +284,49 @@ variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
 
 open Classical in
 /-- Each occurrence contributes the weight; this needs no multiplication on the coefficient type. -/
-noncomputable def walkAssignment (Q : Quiver V) {s t : V}
-    (p : @Quiver.Path V Q s t) (q : K) : Assignment Q K :=
+noncomputable def walkAssignment (Q : V → V → Type v) {s t : V}
+    (p : ArrowWalk Q s t) (q : K) : Assignment Q K :=
   fun {_ _} e => (ArrowWalk.arrows p).count ⟨_, _, e⟩ • q
 
 /-- Decomposition data for a nonnegative assignment, with supply and demand determined by it. -/
-structure NonnegativeDecomposition (Q : Quiver V) [Fintype V]
-    [∀ v w, Fintype (Q.Hom v w)] (f : Assignment Q K) where
+structure NonnegativeDecomposition (Q : V → V → Type v) [Fintype V]
+    [∀ v w, Fintype (Q v w)] (f : Assignment Q K) where
   pathCount : ℕ
   cycleCount : ℕ
   source : Fin pathCount → V
   sink : Fin pathCount → V
-  path : (i : Fin pathCount) → @Quiver.Path V Q (source i) (sink i)
+  path : (i : Fin pathCount) → ArrowWalk Q (source i) (sink i)
   path_isPath : ∀ i, ArrowWalk.IsPath (path i)
   pathWeight : Fin pathCount → K
   pathWeight_pos : ∀ i, 0 < pathWeight i
   source_supply : ∀ i, excessAt Q f (source i) < 0
   sink_demand : ∀ i, 0 < excessAt Q f (sink i)
   base : Fin cycleCount → V
-  cycle : (i : Fin cycleCount) → @Quiver.Path V Q (base i) (base i)
+  cycle : (i : Fin cycleCount) → ArrowWalk Q (base i) (base i)
   cycle_isCycle : ∀ i, ArrowWalk.IsCycle (cycle i)
   cycleWeight : Fin cycleCount → K
   cycleWeight_pos : ∀ i, 0 < cycleWeight i
-  arrow_eq : ∀ {v w} (e : Q.Hom v w), f e =
+  arrow_eq : ∀ {v w} (e : Q v w), f e =
     (∑ i, walkAssignment Q (path i) (pathWeight i) e) +
       ∑ i, walkAssignment Q (cycle i) (cycleWeight i) e
 
-theorem exists_nonnegativeDecomposition (Q : Quiver V) [Fintype V]
-    [∀ v w, Fintype (Q.Hom v w)] (f : Assignment Q K)
-    (hf : ∀ {v w} (e : Q.Hom v w), 0 ≤ f e) : Nonempty (NonnegativeDecomposition Q f) := by
+theorem exists_nonnegativeDecomposition (Q : V → V → Type v) [Fintype V]
+    [∀ v w, Fintype (Q v w)] (f : Assignment Q K)
+    (hf : ∀ {v w} (e : Q v w), 0 ≤ f e) : Nonempty (NonnegativeDecomposition Q f) := by
   sorry
 
-theorem exists_nonnegativeDecomposition_mem_addSubgroup (Q : Quiver V) [Fintype V]
-    [∀ v w, Fintype (Q.Hom v w)] (f : Assignment Q K)
-    (hf : ∀ {v w} (e : Q.Hom v w), 0 ≤ f e) (H : AddSubgroup K)
-    (hH : ∀ {v w} (e : Q.Hom v w), f e ∈ H) :
+theorem exists_nonnegativeDecomposition_mem_addSubgroup (Q : V → V → Type v) [Fintype V]
+    [∀ v w, Fintype (Q v w)] (f : Assignment Q K)
+    (hf : ∀ {v w} (e : Q v w), 0 ≤ f e) (H : AddSubgroup K)
+    (hH : ∀ {v w} (e : Q v w), f e ∈ H) :
     ∃ d : NonnegativeDecomposition Q f,
       (∀ i, d.pathWeight i ∈ H) ∧ ∀ i, d.cycleWeight i ∈ H := by
   sorry
 
 /-- Residual arrows have zero lower bounds, regardless of the original bounds. -/
-noncomputable abbrev residual (Q : Quiver V) (lo hi : Assignment Q K)
+noncomputable abbrev residual (Q : V → V → Type v) (lo hi : Assignment Q K)
     (f : BoundedAssignment Q lo hi) : Network K V where
-  Hom v w := Q.Hom v w ⊕ Q.Hom w v
+  Hom v w := Q v w ⊕ Q w v
   lower _ := 0
   upper := Sum.elim (fun e => hi e - f.toFun e) (fun e => f.toFun e - lo e)
   lower_le_upper e := by
@@ -333,16 +335,16 @@ noncomputable abbrev residual (Q : Quiver V) (lo hi : Assignment Q K)
     | inr e => exact sub_nonneg.mpr (f.lower_le e)
 
 noncomputable abbrev Network.residual (N : Network K V) (f : N.Feasible) :=
-  TauCetiRoadmap.GraphConnectivityAndFlows.residual ⟨N.Hom⟩ N.lower N.upper f
+  TauCetiRoadmap.GraphConnectivityAndFlows.residual N.Hom N.lower N.upper f
 
 noncomputable def Network.cutBound (N : Network K V) [Fintype V] [DecidableEq V]
     [∀ v w, Fintype (N.Hom v w)] (S : Finset V) : K :=
-  N.upperCutCapacity S - arrowCutCapacity ⟨N.Hom⟩ N.lower Sᶜ
+  N.upperCutCapacity S - arrowCutCapacity N.Hom N.lower Sᶜ
 
 section Ordinary
 
-variable (Q : Quiver V) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q.Hom v w)]
-variable (cap : Assignment Q K) (hcap : ∀ {v w} (e : Q.Hom v w), 0 ≤ cap e)
+variable (Q : V → V → Type v) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q v w)]
+variable (cap : Assignment Q K) (hcap : ∀ {v w} (e : Q v w), 0 ≤ cap e)
 variable {s t : V}
 
 /-- Ordinary flows use the same assignments as zero-lower-bound networks. -/
@@ -386,8 +388,8 @@ theorem Flow.isMax_iff_exists_cut (hst : s ≠ t) (f : Flow Q cap s t) :
 
 include hcap in
 theorem exists_max_flow_mem_addSubgroup (hst : s ≠ t) (H : AddSubgroup K)
-    (hcapH : ∀ {v w} (e : Q.Hom v w), cap e ∈ H) :
-    ∃ f : Flow Q cap s t, (∀ {v w} (e : Q.Hom v w), f.toFun e ∈ H) ∧
+    (hcapH : ∀ {v w} (e : Q v w), cap e ∈ H) :
+    ∃ f : Flow Q cap s t, (∀ {v w} (e : Q v w), f.toFun e ∈ H) ∧
       ∀ g : Flow Q cap s t, g.val ≤ f.val := by
   sorry
 
@@ -405,7 +407,7 @@ end Ordinary
 
 section LargeCapacities
 
-variable (Q : Quiver V) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q.Hom v w)]
+variable (Q : V → V → Type v) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q v w)]
 variable (cap : Assignment Q K) {s t : V}
 
 /-- Capacities capped at `B`. -/
@@ -419,7 +421,7 @@ theorem isMinCut_capCapacity_iff {B : K} {S₀ : Finset V} (hs₀ : s ∈ S₀) 
       ∀ T, s ∈ T → t ∉ T → arrowCutCapacity Q cap S ≤ arrowCutCapacity Q cap T := by
   sorry
 
-theorem arrowCutCapacity_capCapacity_of_isMinCut (hcap : ∀ {v w} (e : Q.Hom v w), 0 ≤ cap e)
+theorem arrowCutCapacity_capCapacity_of_isMinCut (hcap : ∀ {v w} (e : Q v w), 0 ≤ cap e)
     {B : K} {S₀ : Finset V} (hs₀ : s ∈ S₀) (ht₀ : t ∉ S₀) (hB : arrowCutCapacity Q cap S₀ < B)
     (S : Finset V) (hs : s ∈ S) (ht : t ∉ S)
     (hmin : ∀ T, s ∈ T → t ∉ T → arrowCutCapacity Q cap S ≤ arrowCutCapacity Q cap T) :
@@ -439,7 +441,7 @@ assignment need not satisfy the cap. -/
 theorem exists_flow_capCapacity_val_eq {B : K} {S₀ : Finset V} (hs₀ : s ∈ S₀) (ht₀ : t ∉ S₀)
     (hB : arrowCutCapacity Q cap S₀ < B) (f : Flow Q cap s t) :
     ∃ g : Flow Q (capCapacity Q cap B) s t,
-      g.val = f.val ∧ ∀ {v w} (e : Q.Hom v w), g.toFun e ≤ f.toFun e := by
+      g.val = f.val ∧ ∀ {v w} (e : Q v w), g.toFun e ≤ f.toFun e := by
   sorry
 
 end LargeCapacities
@@ -448,21 +450,21 @@ end LargeCapacities
 
 section Bridges
 
-variable (Q : Quiver.{v} V) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q.Hom v w)]
+variable (Q : V → V → Type v) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q v w)]
 
 /-- Reachability after deleting the vertices of `X`: paths in the quiver induced on the rest. -/
 def ReachableAvoiding (X : Finset V) (s t : V) : Prop :=
   ∃ (hs : s ∉ X) (ht : t ∉ X),
-    ArrowReachable (fun a b : {v // v ∉ X} => Q.Hom a.val b.val) ⟨s, hs⟩ ⟨t, ht⟩
+    ArrowReachable (fun a b : {v // v ∉ X} => Q a.val b.val) ⟨s, hs⟩ ⟨t, ht⟩
 
 /-- Reachability after deleting a set of arrows, identified in the total arrow type. -/
-def ReachableWithout (F : Set (Σ v w, Q.Hom v w)) (s t : V) : Prop :=
-  ArrowReachable (fun v w => {e : Q.Hom v w // ⟨v, w, e⟩ ∉ F}) s t
+def ReachableWithout (F : Set (Σ v w, Q v w)) (s t : V) : Prop :=
+  ArrowReachable (fun v w => {e : Q v w // ⟨v, w, e⟩ ∉ F}) s t
 
 /-- Vertex splitting uses `(v, false)` as the entrance `v⁻` and `(v, true)` as the exit `v⁺`.
 An original arrow `v → w` becomes an arrow `v⁺ → w⁻` with the same identity. -/
 def OriginalHom (x y : V × Bool) : Type v :=
-  {e : Q.Hom x.1 y.1 // x.2 = true ∧ y.2 = false}
+  {e : Q x.1 y.1 // x.2 = true ∧ y.2 = false}
 
 /-- The split arrow `v⁻ → v⁺`, one for every vertex. -/
 def SplitArrow (x y : V × Bool) : Type v :=
@@ -479,7 +481,7 @@ instance (x y : V × Bool) : Fintype (SplitArrow x y) := by
 /-- The split network, with separate nonnegative capacities on original and split arrows and
 zero lower bounds. -/
 noncomputable abbrev splitNetwork (cOrig : Assignment Q K)
-    (hOrig : ∀ {v w} (e : Q.Hom v w), 0 ≤ cOrig e) (cSplit : V → K) (hSplit : ∀ v, 0 ≤ cSplit v) :
+    (hOrig : ∀ {v w} (e : Q v w), 0 ≤ cOrig e) (cSplit : V → K) (hSplit : ∀ v, 0 ≤ cSplit v) :
     Network K (V × Bool) where
   Hom := SplitHom Q
   lower _ := 0
@@ -491,7 +493,7 @@ noncomputable abbrev splitNetwork (cOrig : Assignment Q K)
 
 /-- Lifting a simple path from `s` to `t` to the split network, from `s⁻` to `t⁺`, including
 the split arrows at both ends; the lift has `2k + 1` arrows for `k` original arrows. -/
-noncomputable def liftSplitPath {s t : V} (p : @Quiver.Path V Q s t) (hp : ArrowWalk.IsPath p) :
+noncomputable def liftSplitPath {s t : V} (p : ArrowWalk Q s t) (hp : ArrowWalk.IsPath p) :
     {q : ArrowWalk (SplitHom Q) (s, false) (t, true) //
       ArrowWalk.IsPath q ∧ ArrowWalk.length q = 2 * ArrowWalk.length p + 1} := by
   sorry
@@ -499,7 +501,7 @@ noncomputable def liftSplitPath {s t : V} (p : @Quiver.Path V Q s t) (hp : Arrow
 /-- Projection removes split arrows and retains original arrow identities. -/
 noncomputable def projectSplitPath {s t : V} (q : ArrowWalk (SplitHom Q) (s, false) (t, true))
     (hq : ArrowWalk.IsPath q) :
-    {p : @Quiver.Path V Q s t // ArrowWalk.IsPath p ∧
+    {p : ArrowWalk Q s t // ArrowWalk.IsPath p ∧
       2 * ArrowWalk.length p + 1 = ArrowWalk.length q} := by
   sorry
 
@@ -511,7 +513,7 @@ noncomputable abbrev vertexMengerNetwork (s t : V) : Network ℤ (V × Bool) :=
 
 /-- A cut of capacity below `M` crosses only internal split arrows, which index a
 terminal-excluding vertex separator of exactly that capacity. -/
-theorem vertexMengerNetwork_cut_separator {s t : V} (hst : s ≠ t) (hadj : IsEmpty (Q.Hom s t))
+theorem vertexMengerNetwork_cut_separator {s t : V} (hst : s ≠ t) (hadj : IsEmpty (Q s t))
     (S : Finset (V × Bool)) (hs : (s, true) ∈ S) (ht : (t, false) ∉ S)
     (hS : (vertexMengerNetwork Q s t).upperCutCapacity S < Fintype.card V + 1) :
     ∃ X : Finset V, s ∉ X ∧ t ∉ X ∧ (X.card : ℤ) = (vertexMengerNetwork Q s t).upperCutCapacity S ∧
@@ -530,7 +532,7 @@ theorem vertexMengerNetwork_separator_cut {s t : V} (hst : s ≠ t) (X : Finset 
 source `σ`, and `inr true` the fresh sink `τ`. Original arrows keep their identities; `σ → a`
 exists for `a ∈ A` and `b → τ` for `b ∈ B`. -/
 def AuxHom (A B : Finset V) : V ⊕ Bool → V ⊕ Bool → Type v
-  | .inl v, .inl w => Q.Hom v w
+  | .inl v, .inl w => Q v w
   | .inr false, .inl a => {_u : PUnit.{v + 1} // a ∈ A}
   | .inl b, .inr true => {_u : PUnit.{v + 1} // b ∈ B}
   | _, _ => PEmpty
@@ -541,7 +543,7 @@ instance (A B : Finset V) (x y : V ⊕ Bool) : Fintype (AuxHom Q A B x y) := by
 /-- The auxiliary-terminal network with capacity `cap` on original arrows and `M` on the new
 arrows. -/
 noncomputable abbrev auxNetwork (A B : Finset V) (cap : Assignment Q K)
-    (hcap : ∀ {v w} (e : Q.Hom v w), 0 ≤ cap e) (M : K) (hM : 0 ≤ M) :
+    (hcap : ∀ {v w} (e : Q v w), 0 ≤ cap e) (M : K) (hM : 0 ≤ M) :
     Network K (V ⊕ Bool) where
   Hom := AuxHom Q A B
   lower _ := 0
@@ -564,19 +566,19 @@ noncomputable abbrev auxNetwork (A B : Finset V) (cap : Assignment Q K)
 `M = |E| + 1` on the auxiliary arrows, where `E` is the total arrow type. -/
 noncomputable abbrev edgeMengerNetwork (A B : Finset V) : Network ℤ (V ⊕ Bool) :=
   auxNetwork Q A B (K := ℤ) (fun _ => 1) (fun _ => zero_le_one)
-    (Fintype.card (Σ v w, Q.Hom v w) + 1) (by positivity)
+    (Fintype.card (Σ v w, Q v w) + 1) (by positivity)
 
 /-- A `σ–τ` cut of capacity below `M` crosses only original arrows, which form an `A–B` arrow
 separator of exactly that capacity. -/
 theorem edgeMengerNetwork_cut_separator (A B : Finset V) (hAB : Disjoint A B)
     (S : Finset (V ⊕ Bool)) (hσ : Sum.inr false ∈ S) (hτ : Sum.inr true ∉ S)
-    (hS : (edgeMengerNetwork Q A B).upperCutCapacity S < Fintype.card (Σ v w, Q.Hom v w) + 1) :
-    ∃ F : Finset (Σ v w, Q.Hom v w), (F.card : ℤ) = (edgeMengerNetwork Q A B).upperCutCapacity S ∧
+    (hS : (edgeMengerNetwork Q A B).upperCutCapacity S < Fintype.card (Σ v w, Q v w) + 1) :
+    ∃ F : Finset (Σ v w, Q v w), (F.card : ℤ) = (edgeMengerNetwork Q A B).upperCutCapacity S ∧
       ∀ a ∈ A, ∀ b ∈ B, ¬ ReachableWithout Q F a b := by
   sorry
 
 theorem edgeMengerNetwork_separator_cut (A B : Finset V) (hAB : Disjoint A B)
-    (F : Finset (Σ v w, Q.Hom v w)) (hF : ∀ a ∈ A, ∀ b ∈ B, ¬ ReachableWithout Q F a b) :
+    (F : Finset (Σ v w, Q v w)) (hF : ∀ a ∈ A, ∀ b ∈ B, ¬ ReachableWithout Q F a b) :
     ∃ S : Finset (V ⊕ Bool), Sum.inr false ∈ S ∧ Sum.inr true ∉ S ∧
       (edgeMengerNetwork Q A B).upperCutCapacity S ≤ F.card := by
   sorry
@@ -976,7 +978,7 @@ variable [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
 
 section Algebra
 
-variable (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+variable (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
 
 /-- No capacity constraints: the signed circulation group is the kernel of excess. -/
 noncomputable def signedCirculations : AddSubgroup (Assignment Q K) where
@@ -1009,7 +1011,7 @@ noncomputable def Network.shiftRealizesEquiv (h : N.Assignment K) (b : V → K) 
   sorry
 
 abbrev Network.shiftLower : Network K V :=
-  Network.ofCapacity ⟨N.Hom⟩ (fun e => N.upper e - N.lower e)
+  Network.ofCapacity N.Hom (fun e => N.upper e - N.lower e)
     (fun e => sub_nonneg.mpr (N.lower_le_upper e))
 
 noncomputable def Network.shiftLowerEquiv (b : V → K) :
@@ -1019,12 +1021,12 @@ noncomputable def Network.shiftLowerEquiv (b : V → K) :
 /-- The same criterion applies when either or both bounds are negative. -/
 theorem Network.nonempty_circulation_iff :
     Nonempty N.Circulation ↔ ∀ S : Finset V,
-      arrowCutCapacity ⟨N.Hom⟩ N.lower Sᶜ ≤ N.upperCutCapacity S := by
+      arrowCutCapacity N.Hom N.lower Sᶜ ≤ N.upperCutCapacity S := by
   sorry
 
 theorem Network.nonempty_realizes_iff (b : V → K) :
     Nonempty (N.Realizes b) ↔ (∑ v, b v) = 0 ∧ ∀ S : Finset V,
-      (∑ v ∈ S, b v) + arrowCutCapacity ⟨N.Hom⟩ N.lower S ≤ N.upperCutCapacity Sᶜ := by
+      (∑ v ∈ S, b v) + arrowCutCapacity N.Hom N.lower S ≤ N.upperCutCapacity Sᶜ := by
   sorry
 
 theorem Network.exists_realizes_mem_addSubgroup (b : V → K) (H : AddSubgroup K)
@@ -1159,13 +1161,13 @@ end FiniteBounds
 
 section Rounding
 
-variable (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+variable (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
 
 theorem exists_integer_rounding {R : Type*} [Ring R] [LinearOrder R]
     [IsStrictOrderedRing R] [FloorRing R] (f : Assignment Q R) (b : V → ℤ)
     (hb : ∀ v, excessAt Q f v = (b v : R)) :
     ∃ g : Assignment Q ℤ, (∀ v, excessAt Q g v = b v) ∧
-      ∀ {v w} (e : Q.Hom v w), ⌊f e⌋ ≤ g e ∧ g e ≤ ⌈f e⌉ := by
+      ∀ {v w} (e : Q v w), ⌊f e⌋ ≤ g e ∧ g e ≤ ⌈f e⌉ := by
   sorry
 
 end Rounding

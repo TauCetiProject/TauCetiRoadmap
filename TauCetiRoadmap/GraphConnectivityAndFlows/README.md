@@ -104,7 +104,7 @@ Finiteness is expressed by `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`.
 Bounds may be negative.
 An ordinary network is the specialization `ℓ = 0` of this same structure, constructed from nonnegative upper capacities; provide a constructor and simplification lemmas, not a second network type.
 Neither the representation nor its bound-order invariant requires a finite graph; the theorem targets here impose the specified finiteness assumptions.
-Define arrow assignments, excess, and cut capacity against an explicit quiver, with bounds as separate parameters where needed.
+Define arrow assignments, excess, and cut capacity against an explicit arrow family `Hom : V → V → Type`, with bounds as separate parameters where needed; a `Quiver` term is never a parameter, because instance search for `Fintype (Hom v w)` does not see through `Quiver.mk`.
 The network bundle exposes these definitions and bounded-assignment types through abbreviations, so bundled and unbundled networks share the same objects and theorems.
 The ordinary `PseudoFlow` and `Flow` interfaces use the zero-lower-bound specialization and follow the cited Mathlib proposal.
 Directed walks use Mathlib's [`Quiver.Path`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/Path.html#Quiver.Path), with the quiver argument supplied explicitly from the arrow family, as in `@Quiver.Path V ⟨N.Hom⟩ s t`.
