@@ -26,9 +26,10 @@ The pinned choices illustrated here are:
 - Excess is incoming minus outgoing; ordinary flow value is nonnegative excess at the sink.
   General bounded terminal assignments allow signed values.
   Nonnegative assignments decompose into supply-to-demand paths and cycles.
+- Undirected walks are `Graph.Walk`, an inductive walk whose steps are edges with `IsLink`
+  proofs, with the API of `SimpleGraph.Walk`; the bidirected quiver and its `Quiver.Path`s are
+  an equivalent bridge, not a second walk type.
 - Directed walks use `Quiver.Path` with an explicit quiver argument.
-  Native undirected walks follow the shared-walk proposal, with the bidirected correspondence
-  stated as a target.
   Subnetworks record actual vertices as well as arrow subsets.
   Residual arrows are `N.Hom v w ⊕ N.Hom w v`, independently of the assignment.
   Augmenting paths use the positive-capacity part of that fixed arrow family.
@@ -1232,58 +1233,25 @@ end Rounding
 end TauCetiRoadmap.GraphConnectivityAndFlows
 
 /-!
-## Multigraph connectivity and transport
+## Multigraph walks, connectivity, and transport
 
-Native undirected walks follow the shape of the shared-walk proposal
-[#36756](https://github.com/leanprover-community/mathlib4/pull/36756) with the `Graph` darts of
-[#39053](https://github.com/leanprover-community/mathlib4/pull/39053): a walk is a sequence of
-steps, each a dart of the graph with the matching ends, and it retains edge identities. The
-bidirected arrow family is the proof-side device on which the flow reductions run; Milestone 1
-requires the correspondence stated below. All definitions here are stand-ins in a prototype
-namespace; the implementation extends `Graph` and the shared walk API.
+`Walk` is the roadmap's undirected walk type: an inductive walk in the shape of the shared-walk
+proposal [#36756](https://github.com/leanprover-community/mathlib4/pull/36756), specialized to
+`Graph` without the `GraphLike` class, whose steps are edges with `IsLink` proofs and whose API
+follows `SimpleGraph.Walk`. The bidirected arrow family is the device on which the flow
+reductions run; `Walk.bidirectedEquiv` is the bridge Milestone 1 requires. All definitions here
+are stand-ins in a prototype namespace; the implementation extends `Graph`.
 -/
 
 namespace TauCetiRoadmap.GraphConnectivityAndFlows.Multigraph
 
 variable {α : Type u} {β : Type v} (G : Graph α β)
 
-/-- Stand-in for the darts of [#39053](https://github.com/leanprover-community/mathlib4/pull/39053):
-an edge with an ordered pair of ends. A loop has a forward and a backward dart. -/
-inductive Dart (α : Type u) (β : Type v) : Type (max u v)
-  | dir (e : β) (u v : α) (h : u ≠ v)
-  | fwd (e : β) (u : α)
-  | bwd (e : β) (u : α)
-
-namespace Dart
-
-def src : Dart α β → α
-  | dir _ u _ _ => u
-  | fwd _ u => u
-  | bwd _ u => u
-
-def tgt : Dart α β → α
-  | dir _ _ v _ => v
-  | fwd _ u => u
-  | bwd _ u => u
-
-def edge : Dart α β → β
-  | dir e _ _ _ => e
-  | fwd e _ => e
-  | bwd e _ => e
-
-end Dart
-
-/-- The darts of `G`: those whose edge links their ends in `G`. -/
-def darts : Set (Dart α β) := {d | G.IsLink d.edge d.src d.tgt}
-
-/-- A step from `u` to `v`: a dart of `G` with those ends. -/
-def Step (u v : α) := {d : Dart α β // d ∈ darts G ∧ d.src = u ∧ d.tgt = v}
-
-/-- Native walks in the shape of `GraphLike.Walk`. A zero-length walk exists at every ambient
-vertex, so reachability adds the membership condition. -/
+/-- An undirected walk retaining the identity of each traversed edge. A zero-length walk exists
+at every ambient point, so reachability adds the membership condition. -/
 inductive Walk : α → α → Type (max u v)
   | nil {u : α} : Walk u u
-  | cons {u v w : α} (s : Step G u v) (p : Walk v w) : Walk u w
+  | cons {u v w : α} (e : β) (h : G.IsLink e u v) (p : Walk v w) : Walk u w
 
 namespace Walk
 
@@ -1291,16 +1259,24 @@ variable {G}
 
 def length : ∀ {u v : α}, Walk G u v → ℕ
   | _, _, .nil => 0
-  | _, _, .cons _ p => p.length + 1
+  | _, _, .cons _ _ p => p.length + 1
 
 def support : ∀ {u v : α}, Walk G u v → List α
   | u, _, .nil => [u]
-  | u, _, .cons _ p => u :: p.support
+  | u, _, .cons _ _ p => u :: p.support
 
-/-- The traversed edge identities in order; both darts of a loop give the same edge. -/
+/-- The traversed edge identities in order. -/
 def edges : ∀ {u v : α}, Walk G u v → List β
   | _, _, .nil => []
-  | _, _, .cons s p => s.val.edge :: p.edges
+  | _, _, .cons e _ p => e :: p.edges
+
+def append : ∀ {u v w : α}, Walk G u v → Walk G v w → Walk G u w
+  | _, _, _, .nil, q => q
+  | _, _, _, .cons e h p, q => .cons e h (p.append q)
+
+def reverse : ∀ {u v : α}, Walk G u v → Walk G v u
+  | _, _, .nil => .nil
+  | _, _, .cons e h p => p.reverse.append (.cons e h.symm .nil)
 
 def IsPath {u v : α} (p : Walk G u v) : Prop := p.support.Nodup
 
@@ -1315,6 +1291,10 @@ def EdgeDisjoint {u v : α} (p q : Walk G u v) : Prop := p.edges.Disjoint q.edge
 def InternallyDisjoint {u v : α} (p q : Walk G u v) : Prop :=
   ∀ x ∈ p.support, x ∈ q.support → x = u ∨ x = v
 
+theorem mem_vertexSet_of_mem_support {u v : α} (p : Walk G u v) (hp : 0 < p.length) :
+    ∀ x ∈ p.support, x ∈ G.vertexSet := by
+  sorry
+
 end Walk
 
 /-- Reachability between actual vertices. The membership condition excludes the zero-length walk
@@ -1325,24 +1305,22 @@ def Reachable (s t : α) : Prop := s ∈ G.vertexSet ∧ Nonempty (Walk G s t)
 A loop gives one loop arrow; a nonloop edge gives two opposite arrows. -/
 abbrev Hom (s t : G.vertexSet) := {e : G.edgeSet // G.IsLink e.val s.val t.val}
 
-/-- The correspondence required in Milestone 1: a native walk between actual vertices gives a
-path of the bidirected quiver with the same vertex and edge sequences, and conversely. The two
-darts of a loop both map to its one loop arrow, so this is not a bijection on walks. -/
-noncomputable def Walk.toBidirected {s t : G.vertexSet} (p : Walk G s t) :
-    ArrowWalk (Hom G) s t := by
+/-- The bridge required in Milestone 1: walks between actual vertices are the paths of the
+bidirected quiver, with the same vertex and edge sequences. -/
+noncomputable def Walk.bidirectedEquiv (s t : G.vertexSet) :
+    Walk G s t ≃ ArrowWalk (Hom G) s t := by
   sorry
 
-theorem Walk.vertices_toBidirected {s t : G.vertexSet} (p : Walk G s t) :
-    (ArrowWalk.vertices p.toBidirected).map Subtype.val = p.support := by
+theorem Walk.vertices_bidirectedEquiv {s t : G.vertexSet} (p : Walk G s t) :
+    (ArrowWalk.vertices (Walk.bidirectedEquiv G s t p)).map Subtype.val = p.support := by
   sorry
 
-theorem Walk.isPath_toBidirected {s t : G.vertexSet} (p : Walk G s t) :
-    ArrowWalk.IsPath p.toBidirected ↔ p.IsPath := by
+theorem Walk.edges_bidirectedEquiv {s t : G.vertexSet} (p : Walk G s t) :
+    (ArrowWalk.arrows (Walk.bidirectedEquiv G s t p)).map (fun a => a.2.2.val.val) = p.edges := by
   sorry
 
-noncomputable def Walk.ofBidirected {s t : G.vertexSet} (q : ArrowWalk (Hom G) s t) :
-    {p : Walk G s t // p.support = (ArrowWalk.vertices q).map Subtype.val ∧
-      p.edges = (ArrowWalk.arrows q).map fun a => a.2.2.val.val} := by
+theorem Walk.isPath_bidirectedEquiv {s t : G.vertexSet} (p : Walk G s t) :
+    ArrowWalk.IsPath (Walk.bidirectedEquiv G s t p) ↔ p.IsPath := by
   sorry
 
 theorem reachable_iff_toSimpleGraph (s t : G.vertexSet) :

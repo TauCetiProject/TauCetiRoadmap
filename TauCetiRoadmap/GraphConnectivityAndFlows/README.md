@@ -57,7 +57,7 @@ The following Mathlib proposals guide the corresponding interfaces:
 - [#33355: vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355): deletion-based `IsVertexReachable`, `IsVertexPreconnected`, and `IsVertexConnected`.
 - [#42494: numerical edge connectivity](https://github.com/leanprover-community/mathlib4/pull/42494): `edgeReachability`, `edgeConnectivity`, their supremum definitions, and degree bounds.
 - [#36756: shared walks](https://github.com/leanprover-community/mathlib4/pull/36756) and [#39053: the `Graph` instance](https://github.com/leanprover-community/mathlib4/pull/39053): `GraphLike.Walk` with vertex support and darts, following the [HasAdj discussion](https://leanprover.zulipchat.com/#narrow/channel/252551-graph-theory/topic/HasAdj/with/575843445).
-  Use this direction for the undirected representation bridges and prove compatibility with existing `SimpleGraph.Walk` and the directed quiver paths.
+  This roadmap's `Graph.Walk` has the shape of their walk type, specialized to `Graph` without the `GraphLike` class and with the API of `SimpleGraph.Walk`; Milestone 1 proves its compatibility with `SimpleGraph.Walk` and with the directed quiver paths.
 - [#43017: network flows](https://github.com/leanprover-community/mathlib4/pull/43017): quivers with capacities and flow assignments indexed by arrows.
 - [#34028: weak max-flow/min-cut duality](https://github.com/leanprover-community/mathlib4/pull/34028): an undirected flow formulation on simple graphs.
   Undirected flow applications use the bidirected network, with no separate undirected flow type, so this roadmap takes only the statement shapes from that proposal.
@@ -147,11 +147,16 @@ Milestone 1 identifies both constructions with the existing simple-graph interfa
 **Namespaces.** Undirected multigraph declarations extend `Graph` and the shared walk API in the shapes of the cited proposals.
 Simple-graph declarations extend `SimpleGraph`, following [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) and [#42494](https://github.com/leanprover-community/mathlib4/pull/42494) for connectivity; orientation results extend the existing Tau Ceti orientation namespace.
 `Suggested.lean` keeps stand-ins for proposed definitions outside the Mathlib namespaces so that this repository keeps building when Mathlib lands them.
-`Suggested.lean` prototypes native undirected walks in the shape of `GraphLike.Walk` with the `Graph` darts of [#39053](https://github.com/leanprover-community/mathlib4/pull/39053), and states the correspondence with paths of the bidirected quiver that Milestone 1 requires.
+`Suggested.lean` prototypes `Graph.Walk` and its equivalence with the bidirected quiver paths under the names the implementation uses.
 
 ### Paths, separators, and connectivity
 
-Undirected walks retain the identity of each traversed edge, following the shared walk proposal; paths have no repeated vertices.
+**Undirected walks** are `G.Walk u v`, an inductive type indexed by the ambient vertex type, with constructors `nil` at any point and `cons e h p` for `h : G.IsLink e u v`; a walk therefore retains the identity of each traversed edge, and a loop is traversed in only one way.
+Its API follows `SimpleGraph.Walk`: `support`, `edges`, `length`, `append`, `reverse`, `IsPath`, `IsCycle`, splitting at a vertex, the traced subgraph, and transport along `≤` and graph isomorphisms.
+Every vertex on a walk of positive length is an actual vertex; reachability requires actual vertices as endpoints, so a zero-length walk at a point outside `V(G)` witnesses nothing.
+The bidirected quiver of `G` has one arrow `s → t` for each edge `e` with `G.IsLink e s t`, so a nonloop edge gives two opposite arrows and a loop gives one.
+Walks between actual vertices are equivalent to its `Quiver.Path`s, preserving length, vertex sequence, and edge sequence; the flow reductions of Milestone 5 return undirected paths through this equivalence.
+Paths have no repeated vertices.
 An undirected cycle is a positive-length closed walk with no repeated vertices apart from its endpoints and no repeated edge identities.
 Thus a loop is a one-edge cycle and two distinct parallel edges form a two-edge cycle; traversing the same edge out and back is not a cycle.
 Directed paths are directed walks with no repeated vertices.
@@ -213,11 +218,11 @@ Ordinary directed cut capacity is the case `ℓ = 0` of `U`; undirected weighted
 
 ## 1. Shared foundations
 
-Build the shared undirected walk and path prerequisites in the shapes of [#36756](https://github.com/leanprover-community/mathlib4/pull/36756) and [#39053](https://github.com/leanprover-community/mathlib4/pull/39053), including their missing dependencies, and adopt Mathlib's interfaces as they land.
+Build `Graph.Walk` as pinned in the conventions, with the API of `SimpleGraph.Walk`, and adopt Mathlib's shared walk type when it lands.
 Supply vertex support, edge occurrences, length, concatenation, reversal, restriction, transport, path extraction, cycles, and the corresponding graph subobjects.
 Supply the graph-isomorphism interface needed for transport: equivalences of the actual vertex and edge sets preserving `IsLink`, with identity, inverse, composition, and their action on walks and subgraphs, reusing Mathlib's graph maps and any available isomorphism API.
 Supply the union of compatible subgraphs of a fixed graph, with vertex-set and edge-set union formulas and the inherited incidence relation, as needed when adding ears; follow [#38337](https://github.com/leanprover-community/mathlib4/pull/38337) for the general union interface.
-Every native walk has a corresponding path of the bidirected quiver with the same vertex sequence and underlying edge sequence, and conversely; prove preservation of length and simple paths.
+Build the bidirected quiver and the equivalence between walks and its paths, preserving length, vertex sequence, edge sequence, and simple paths.
 For cycles, the directed walk must additionally have distinct underlying undirected edges: a directed two-cycle using opposite arrows of one edge is not an undirected cycle.
 
 Build the following bridges in this milestone, before consumers use them:
