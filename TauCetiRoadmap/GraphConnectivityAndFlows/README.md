@@ -1,6 +1,6 @@
-# Finite graph connectivity: Menger, flows, and cuts
+# Finite graph connectivity and network flows
 
-This roadmap develops finite graph connectivity through two complementary theories: the structure of connected graphs, and the duality between disjoint paths and separating cuts.
+This roadmap develops finite graph connectivity and network flows through two complementary theories: the structure of connected graphs, and the duality between disjoint paths and separating cuts.
 The main results are Menger's theorem, the block–cut forest, ear decompositions, Robbins' strong orientation theorem, max-flow/min-cut with integrality, Hoffman's circulation theorem, and Gomory–Hu cut trees.
 The supporting library includes separators, path families, orientations, residual networks, flow decomposition, and minimum-cut structure.
 These objects must have reusable APIs, including transport between the graph representations used by their consumers.

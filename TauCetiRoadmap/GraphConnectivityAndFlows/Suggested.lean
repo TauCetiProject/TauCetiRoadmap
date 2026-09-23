@@ -2,7 +2,7 @@ import Mathlib
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Orientation
 
 /-!
-# Finite graph connectivity: suggested signatures
+# Finite graph connectivity and network flows: suggested signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 The declarations below suggest Lean forms for the load-bearing structures and a few milestone
@@ -59,7 +59,7 @@ open Finset
 
 universe u v w z
 
-namespace TauCetiRoadmap.FiniteGraphConnectivity
+namespace TauCetiRoadmap.GraphConnectivityAndFlows
 
 /-! ## Directed networks (Conventions; Milestones 1, 3, 4, 8) -/
 
@@ -75,10 +75,10 @@ variable {V : Type u}
 abbrev Assignment (Q : Quiver V) (K : Type w) := ∀ {v w : V}, Q.Hom v w → K
 
 abbrev Network.Assignment {C : Type w} [LE C] (N : Network C V) (K : Type w) :=
-  TauCetiRoadmap.FiniteGraphConnectivity.Assignment ⟨N.Hom⟩ K
+  TauCetiRoadmap.GraphConnectivityAndFlows.Assignment ⟨N.Hom⟩ K
 
 abbrev Network.ofCapacity {C : Type w} [Zero C] [LE C] (Q : Quiver V)
-    (cap : TauCetiRoadmap.FiniteGraphConnectivity.Assignment Q C)
+    (cap : TauCetiRoadmap.GraphConnectivityAndFlows.Assignment Q C)
     (hcap : ∀ {v w} (e : Q.Hom v w), 0 ≤ cap e) : Network C V where
   Hom := Q.Hom
   lower _ := 0
@@ -180,7 +180,7 @@ abbrev Network.Feasible {K : Type w} [LE K] (N : Network K V) :=
 
 abbrev Network.BoundedFlow {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (s t : V) :=
-  TauCetiRoadmap.FiniteGraphConnectivity.BoundedFlow ⟨N.Hom⟩ N.lower N.upper s t
+  TauCetiRoadmap.GraphConnectivityAndFlows.BoundedFlow ⟨N.Hom⟩ N.lower N.upper s t
 
 abbrev Realizes {K : Type w} {C : Type z} [AddCommGroup K] [LE K] [LE C]
     (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
@@ -205,11 +205,11 @@ noncomputable def realizesWithin_self_equiv {K : Type w} {C : Type z}
 
 abbrev Network.Realizes {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (b : V → K) :=
-  TauCetiRoadmap.FiniteGraphConnectivity.Realizes ⟨N.Hom⟩ (OrderEmbedding.id K) N.lower N.upper b
+  TauCetiRoadmap.GraphConnectivityAndFlows.Realizes ⟨N.Hom⟩ (OrderEmbedding.id K) N.lower N.upper b
 
 abbrev Network.RealizesWithin {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
     [Fintype V] [∀ v w, Fintype (N.Hom v w)] (a b : V → K) :=
-  TauCetiRoadmap.FiniteGraphConnectivity.RealizesWithin ⟨N.Hom⟩
+  TauCetiRoadmap.GraphConnectivityAndFlows.RealizesWithin ⟨N.Hom⟩
     (OrderEmbedding.id K) N.lower N.upper a b
 
 abbrev Network.Circulation {K : Type w} [AddCommGroup K] [LE K] (N : Network K V)
@@ -260,7 +260,7 @@ variable {C : Type w} [AddCommMonoid C] [PartialOrder C]
 abbrev Network.Walk (N : Network C V) (v w : V) := ArrowWalk N.Hom v w
 abbrev Network.Reachable (N : Network C V) (v w : V) : Prop := ArrowReachable N.Hom v w
 abbrev Network.IsStronglyConnected (N : Network C V) : Prop :=
-  TauCetiRoadmap.FiniteGraphConnectivity.IsStronglyConnected N.Hom
+  TauCetiRoadmap.GraphConnectivityAndFlows.IsStronglyConnected N.Hom
 
 /-- Used on zero-lower-bound residual networks. -/
 def Network.positivePart (N : Network C V) : Network C V where
@@ -273,7 +273,7 @@ variable (N : Network C V) [Fintype V] [∀ v w, Fintype (N.Hom v w)]
 
 noncomputable abbrev Network.excessAt {K : Type w} [AddCommGroup K]
     (f : N.Assignment K) (v : V) : K :=
-  TauCetiRoadmap.FiniteGraphConnectivity.excessAt ⟨N.Hom⟩ f v
+  TauCetiRoadmap.GraphConnectivityAndFlows.excessAt ⟨N.Hom⟩ f v
 
 noncomputable abbrev Network.upperCutCapacity [DecidableEq V] (S : Finset V) : C :=
   arrowCutCapacity ⟨N.Hom⟩ N.upper S
@@ -335,7 +335,7 @@ noncomputable abbrev residual (Q : Quiver V) (lo hi : Assignment Q K)
     | inr e => exact sub_nonneg.mpr (f.lower_le e)
 
 noncomputable abbrev Network.residual (N : Network K V) (f : N.Feasible) :=
-  TauCetiRoadmap.FiniteGraphConnectivity.residual ⟨N.Hom⟩ N.lower N.upper f
+  TauCetiRoadmap.GraphConnectivityAndFlows.residual ⟨N.Hom⟩ N.lower N.upper f
 
 noncomputable def Network.cutBound (N : Network K V) [Fintype V] [DecidableEq V]
     [∀ v w, Fintype (N.Hom v w)] (S : Finset V) : K :=
@@ -362,7 +362,7 @@ noncomputable def PseudoFlow.toFlowSwap (f : PseudoFlow Q cap)
     exact neg_nonneg.mpr hval
 
 noncomputable abbrev Flow.residual (f : Flow Q cap s t) : Network K V :=
-  TauCetiRoadmap.FiniteGraphConnectivity.residual Q (fun _ => 0) cap f.toBoundedAssignment
+  TauCetiRoadmap.GraphConnectivityAndFlows.residual Q (fun _ => 0) cap f.toBoundedAssignment
 
 def Flow.HasAugmentingPath (f : Flow Q cap s t) : Prop :=
   (Flow.residual Q cap f).positivePart.Reachable s t
@@ -665,13 +665,13 @@ noncomputable def edgeReachability (u v : V) : ℕ∞ :=
 noncomputable def edgeConnectivity : ℕ∞ :=
   ⨆ (k : ℕ) (_ : G.IsEdgeConnected k), (k : ℕ∞)
 
-end TauCetiRoadmap.FiniteGraphConnectivity
+end TauCetiRoadmap.GraphConnectivityAndFlows
 
 /-! ## Undirected connectivity (Milestones 1, 2, 5, 6, 7) -/
 
 namespace SimpleGraph
 
-open TauCetiRoadmap.FiniteGraphConnectivity
+open TauCetiRoadmap.GraphConnectivityAndFlows
 
 variable {V : Type u} (G : SimpleGraph V)
 
@@ -899,7 +899,7 @@ theorem konig_ore [Finite V] {L R : Set V} (h : G.IsBipartiteWith L R) :
 
 end SimpleGraph
 
-namespace TauCetiRoadmap.FiniteGraphConnectivity
+namespace TauCetiRoadmap.GraphConnectivityAndFlows
 
 /-- The deficiency formula in the indexed-family form of Mathlib's Hall theorem, in witness form:
 an injective choice `f` on the subtype of indices in `D` with `f i ∈ t i`, and a set `S` with
@@ -911,11 +911,11 @@ theorem konig_ore_family {ι α : Type*} [Fintype ι] [DecidableEq α] (t : ι �
       D.card + S.card = Fintype.card ι + (S.biUnion t).card := by
   sorry
 
-end TauCetiRoadmap.FiniteGraphConnectivity
+end TauCetiRoadmap.GraphConnectivityAndFlows
 
 /-! ## Cut functions and cut trees (Milestones 4, 5, 9) -/
 
-namespace TauCetiRoadmap.FiniteGraphConnectivity
+namespace TauCetiRoadmap.GraphConnectivityAndFlows
 
 variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
 variable {V : Type u} [Fintype V] [DecidableEq V]
@@ -1024,11 +1024,11 @@ theorem exists_gomoryHu_tree [Nonempty V] (f : Finset V → K) (hf : IsSymmSubmo
           f (univ.filter fun x => (T.tree.deleteEdges {s(u, v)}).Reachable u x) = minCut f u v := by
   sorry
 
-end TauCetiRoadmap.FiniteGraphConnectivity
+end TauCetiRoadmap.GraphConnectivityAndFlows
 
 /-! ## Circulations and bounded flows (Milestones 1, 4, 8) -/
 
-namespace TauCetiRoadmap.FiniteGraphConnectivity
+namespace TauCetiRoadmap.GraphConnectivityAndFlows
 
 variable {V : Type u} {K : Type w}
 variable [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
@@ -1229,7 +1229,7 @@ theorem exists_integer_rounding {R : Type*} [Ring R] [LinearOrder R]
 
 end Rounding
 
-end TauCetiRoadmap.FiniteGraphConnectivity
+end TauCetiRoadmap.GraphConnectivityAndFlows
 
 /-!
 ## Multigraph connectivity and transport
@@ -1243,7 +1243,7 @@ requires the correspondence stated below. All definitions here are stand-ins in 
 namespace; the implementation extends `Graph` and the shared walk API.
 -/
 
-namespace TauCetiRoadmap.FiniteGraphConnectivity.Multigraph
+namespace TauCetiRoadmap.GraphConnectivityAndFlows.Multigraph
 
 variable {α : Type u} {β : Type v} (G : Graph α β)
 
@@ -1351,7 +1351,7 @@ theorem reachable_iff_toSimpleGraph (s t : G.vertexSet) :
 
 /-- Vertex connectivity reuses the underlying simple graph. -/
 abbrev IsVertexConnected (k : ℕ∞) : Prop :=
-  TauCetiRoadmap.FiniteGraphConnectivity.IsVertexConnected G.toSimpleGraph k
+  TauCetiRoadmap.GraphConnectivityAndFlows.IsVertexConnected G.toSimpleGraph k
 
 def IsEdgeReachable (k : ℕ) (s t : G.vertexSet) : Prop :=
   ∀ F : Set β, F ⊆ G.edgeSet → F.encard < k → Reachable (G.deleteEdges F) s t
@@ -1474,7 +1474,7 @@ def Orientation.Hom (o : Orientation G) (s t : G.vertexSet) :=
   {e : G.edgeSet // o.ends e = (s, t)}
 
 def Orientation.IsStronglyConnected (o : Orientation G) : Prop :=
-  TauCetiRoadmap.FiniteGraphConnectivity.IsStronglyConnected o.Hom
+  TauCetiRoadmap.GraphConnectivityAndFlows.IsStronglyConnected o.Hom
 
 noncomputable def orientationOfSimpleGraphEquiv {V : Type*} (H : SimpleGraph V) :
     Orientation (Graph.ofSimpleGraph H) ≃ TauCeti.DoubledQuiver.Orientation H := by
@@ -1605,4 +1605,4 @@ theorem isEdgeReachable_iff_le_minCut {s t : G.vertexSet} (hst : s ≠ t) (k : �
 
 end Capacities
 
-end TauCetiRoadmap.FiniteGraphConnectivity.Multigraph
+end TauCetiRoadmap.GraphConnectivityAndFlows.Multigraph
