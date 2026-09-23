@@ -47,6 +47,9 @@ The pinned choices illustrated here are:
   Ear decompositions are data with a prefix API.
   These prototypes illustrate an inductive family for simple graphs and a prefix structure for
   multigraphs; neither representation is required by the roadmap.
+- Capacitated bipartite matchings allow natural multiplicities on each edge.
+  Edge-colour classes are ordinary matchings; their degrees count parallel edges separately.
+  Prescribed indegrees count each loop once and require total indegree equal to the edge count.
 - Connectivity predicates are primary, with derived `ℕ∞`-valued invariants.
   Menger uses path and separator witnesses.
   Walks, isomorphisms, bridges, and blocks assume no finiteness; multigraph vertex-only
@@ -762,7 +765,7 @@ noncomputable def arcConnectivity : ℕ∞ := ⨆ (k : ℕ) (_ : IsArcStrong Q k
 
 open Classical in
 noncomputable def vertexStrongConnectivity : ℕ∞ :=
-  ⨆ k : ℕ, if IsVertexStrong Q k then (k : ℕ∞) else 0
+  ⨆ (k : ℕ) (_ : IsVertexStrong Q k), (k : ℕ∞)
 
 theorem isArcStrong_iff_le_arcConnectivity (k : ℕ) :
     IsArcStrong Q k ↔ (k : ℕ∞) ≤ arcConnectivity Q := by
@@ -898,7 +901,7 @@ open Classical in
 /-- The largest natural threshold at which `G` is vertex-connected, as an extended natural.
 The empty-carrier convention is zero. The predicates remain the primary interface. -/
 noncomputable def vertexConnectivity : ℕ∞ :=
-  ⨆ k : ℕ, if IsVertexConnected G (k : ℕ∞) then (k : ℕ∞) else 0
+  ⨆ (k : ℕ) (_ : IsVertexConnected G (k : ℕ∞)), (k : ℕ∞)
 
 /-- On a nonempty finite carrier, numerical vertex connectivity records exactly the valid
 thresholds. -/
@@ -1617,6 +1620,11 @@ abbrev IsVertexConnected (k : ℕ∞) : Prop :=
 def IsEdgeReachable (k : ℕ) (s t : G.vertexSet) : Prop :=
   ∀ F : Set β, F ⊆ G.edgeSet → F.encard < k → Reachable (G.deleteEdges F) s t
 
+theorem IsEdgeReachable.trans {k : ℕ} {s t u : G.vertexSet}
+    (hst : IsEdgeReachable G k s t) (htu : IsEdgeReachable G k t u) :
+    IsEdgeReachable G k s u := by
+  sorry
+
 def IsEdgeConnected (k : ℕ) : Prop := ∀ s t : G.vertexSet, IsEdgeReachable G k s t
 
 noncomputable def edgeConnectivity : ℕ∞ :=
@@ -1634,6 +1642,12 @@ def IsBridge (e : β) : Prop :=
 
 theorem isBridge_iff_not_mem_cycle (e : G.edgeSet) :
     IsBridge G e.val ↔ ∀ (s : α) (p : Walk G s s), p.IsCycle → e.val ∉ p.edges := by
+  sorry
+
+def IsForest : Prop := ∀ (v : α) (p : Walk G v v), ¬ p.IsCycle
+
+theorem isForest_iff_forall_edge_isBridge :
+    IsForest G ↔ ∀ e ∈ G.edgeSet, IsBridge G e := by
   sorry
 
 /-- Edge deletion retains multiplicity; only actual vertices and edges need be finite. -/
@@ -1894,3 +1908,218 @@ theorem exists_bidirected_flow_edgeCutCapacity_eq (c : G.edgeSet → K) (hc : �
 end Capacities
 
 end TauCetiRoadmap.GraphConnectivityAndFlows.Multigraph
+
+/-! ## Incidence, capacitated matching, edge-colouring, and indegree orientations -/
+
+namespace TauCetiRoadmap.GraphConnectivityAndFlows.Multigraph
+
+open Classical
+
+variable {α : Type u} {β : Type v} (G : Graph α β)
+
+noncomputable def nonloopIncidenceCount (v : G.vertexSet) : ℕ :=
+  (G.incidenceSet v.val \ G.loopSet v.val).ncard
+
+noncomputable def incidenceCount (v : G.vertexSet) : ℕ := (G.incidenceSet v.val).ncard
+
+/-- Native edge identities, including parallel edges, are vertices of the line graph. -/
+def lineGraph : SimpleGraph G.edgeSet where
+  Adj e f := e ≠ f ∧ ∃ v : G.vertexSet, G.Inc e.val v.val ∧ G.Inc f.val v.val
+  symm := ⟨by
+    rintro e f ⟨hne, v, he, hf⟩
+    exact ⟨hne.symm, v, hf, he⟩⟩
+  loopless := ⟨by intro e h; exact h.1 rfl⟩
+
+abbrev EdgeColoring (C : Type*) := (lineGraph G).Coloring C
+
+section FiniteIncidence
+
+variable [Fintype G.vertexSet] [Fintype G.edgeSet]
+
+def IsBipartition (L R : Finset G.vertexSet) : Prop :=
+  Disjoint L R ∧ L ∪ R = univ ∧
+    ∀ (e : G.edgeSet) (u v : G.vertexSet), G.IsLink e.val u.val v.val →
+      (u ∈ L ∧ v ∈ R) ∨ (u ∈ R ∧ v ∈ L)
+
+noncomputable def edgeUsage (x : G.edgeSet → ℕ) (v : G.vertexSet) : ℕ :=
+  ∑ e, if G.Inc e.val v.val then x e else 0
+
+structure CapacitatedMatching (b : G.vertexSet → ℕ) where
+  multiplicity : G.edgeSet → ℕ
+  usage_le : ∀ v, edgeUsage G multiplicity v ≤ b v
+
+noncomputable def CapacitatedMatching.size {b : G.vertexSet → ℕ}
+    (x : CapacitatedMatching G b) : ℕ := ∑ e, x.multiplicity e
+
+def IsVertexCover (C : Finset G.vertexSet) : Prop :=
+  ∀ e : G.edgeSet, ∃ v ∈ C, G.Inc e.val v.val
+
+noncomputable def neighbors (S : Finset G.vertexSet) : Finset G.vertexSet :=
+  univ.filter fun v => ∃ u ∈ S, G.Adj u.val v.val
+
+theorem capacitatedMatching_le_cover (b : G.vertexSet → ℕ)
+    (L R : Finset G.vertexSet) (hLR : IsBipartition G L R)
+    (x : CapacitatedMatching G b) (C : Finset G.vertexSet) (hC : IsVertexCover G C) :
+    x.size ≤ ∑ v ∈ C, b v := by
+  sorry
+
+theorem exists_capacitatedMatching_cover_eq (b : G.vertexSet → ℕ)
+    (L R : Finset G.vertexSet) (hLR : IsBipartition G L R) :
+    ∃ (x : CapacitatedMatching G b) (C : Finset G.vertexSet),
+      IsVertexCover G C ∧ x.size = ∑ v ∈ C, b v := by
+  sorry
+
+theorem capacitatedMatching_deficiency (b : G.vertexSet → ℕ)
+    (L R : Finset G.vertexSet) (hLR : IsBipartition G L R) :
+    (∃ (x : CapacitatedMatching G b) (S : Finset G.vertexSet), S ⊆ L ∧
+      x.size = (∑ v ∈ L \ S, b v) + ∑ v ∈ neighbors G S, b v) ∧
+    ∀ (x : CapacitatedMatching G b) (S : Finset G.vertexSet), S ⊆ L →
+      x.size ≤ (∑ v ∈ L \ S, b v) + ∑ v ∈ neighbors G S, b v := by
+  sorry
+
+theorem exists_capacitatedMatching_saturating_left_iff (b : G.vertexSet → ℕ)
+    (L R : Finset G.vertexSet) (hLR : IsBipartition G L R) :
+    (∃ x : CapacitatedMatching G b, ∀ v ∈ L, edgeUsage G x.multiplicity v = b v) ↔
+      ∀ S ⊆ L, (∑ v ∈ S, b v) ≤ ∑ v ∈ neighbors G S, b v := by
+  sorry
+
+theorem exists_capacitatedMatching_saturating_all_iff (b : G.vertexSet → ℕ)
+    (L R : Finset G.vertexSet) (hLR : IsBipartition G L R) :
+    (∃ x : CapacitatedMatching G b, ∀ v, edgeUsage G x.multiplicity v = b v) ↔
+      (∑ v ∈ L, b v) = (∑ v ∈ R, b v) ∧
+        ∀ S ⊆ L, (∑ v ∈ S, b v) ≤ ∑ v ∈ neighbors G S, b v := by
+  sorry
+
+def IsMatchingEdges (M : Finset G.edgeSet) : Prop :=
+  (∀ e ∈ M, ∀ v : G.vertexSet, ¬ G.IsLink e.val v.val v.val) ∧
+    ∀ v : G.vertexSet, (M.filter fun e => G.Inc e.val v.val).card ≤ 1
+
+def IsPerfectMatchingEdges (M : Finset G.edgeSet) : Prop :=
+  IsMatchingEdges G M ∧ ∀ v : G.vertexSet, (M.filter fun e => G.Inc e.val v.val).card = 1
+
+theorem exists_perfectMatching_decomposition (L R : Finset G.vertexSet)
+    (hLR : IsBipartition G L R) {k : ℕ} (hk : 0 < k)
+    (hreg : ∀ v, incidenceCount G v = k) :
+    ∃ M : Fin k → Finset G.edgeSet,
+      (∀ i, IsPerfectMatchingEdges G (M i)) ∧
+      (Pairwise fun i j => Disjoint (M i) (M j)) ∧ (univ.biUnion M) = univ := by
+  sorry
+
+theorem edgeColoring_iff_partition [G.Loopless] (k : ℕ) :
+    Nonempty (EdgeColoring G (Fin k)) ↔
+      ∃ M : Fin k → Finset G.edgeSet,
+        (∀ i, IsMatchingEdges G (M i)) ∧
+        (Pairwise fun i j => Disjoint (M i) (M j)) ∧ (univ.biUnion M) = univ := by
+  sorry
+
+theorem exists_edgeColoring_iff (L R : Finset G.vertexSet)
+    (hLR : IsBipartition G L R) (k : ℕ) :
+    Nonempty (EdgeColoring G (Fin k)) ↔ ∀ v, incidenceCount G v ≤ k := by
+  sorry
+
+noncomputable def internalEdges (S : Finset G.vertexSet) : Finset G.edgeSet :=
+  univ.filter fun e => ∃ u ∈ S, ∃ v ∈ S, G.IsLink e.val u.val v.val
+
+noncomputable def incidentEdges (S : Finset G.vertexSet) : Finset G.edgeSet :=
+  univ.filter fun e => ∃ v ∈ S, G.Inc e.val v.val
+
+variable {G} in
+noncomputable def Orientation.indegree (o : Orientation G) (v : G.vertexSet) : ℕ :=
+  (univ.filter fun e => (o.ends e).2 = v).card
+
+theorem Orientation.sum_indegree (o : Orientation G) :
+    (∑ v, o.indegree v) = Fintype.card G.edgeSet := by
+  sorry
+
+theorem exists_orientation_indegree_eq_iff (d : G.vertexSet → ℕ) :
+    (∃ o : Orientation G, ∀ v, o.indegree v = d v) ↔
+      (∑ v, d v) = Fintype.card G.edgeSet ∧
+        ∀ S : Finset G.vertexSet, (internalEdges G S).card ≤ ∑ v ∈ S, d v := by
+  sorry
+
+theorem exists_orientation_indegree_mem_Icc_iff (a b : G.vertexSet → ℕ)
+    (hab : ∀ v, a v ≤ b v) :
+    (∃ o : Orientation G, ∀ v, a v ≤ o.indegree v ∧ o.indegree v ≤ b v) ↔
+      ∀ S : Finset G.vertexSet,
+        (internalEdges G S).card ≤ (∑ v ∈ S, b v) ∧
+          (∑ v ∈ S, a v) ≤ (incidentEdges G S).card := by
+  sorry
+
+theorem exists_orientation_indegree_le_iff (b : G.vertexSet → ℕ) :
+    (∃ o : Orientation G, ∀ v, o.indegree v ≤ b v) ↔
+      ∀ S : Finset G.vertexSet, (internalEdges G S).card ≤ ∑ v ∈ S, b v := by
+  sorry
+
+theorem exists_orientation_indegree_ge_iff (a : G.vertexSet → ℕ) :
+    (∃ o : Orientation G, ∀ v, a v ≤ o.indegree v) ↔
+      ∀ S : Finset G.vertexSet, (∑ v ∈ S, a v) ≤ (incidentEdges G S).card := by
+  sorry
+
+/-- Each edge node can send its unit only to one of its endpoints.
+For a loop there is only one endpoint arrow. -/
+def EndpointHom : G.edgeSet ⊕ G.vertexSet → G.edgeSet ⊕ G.vertexSet → Type
+  | .inl e, .inr v => PLift (G.Inc e.val v.val)
+  | _, _ => PEmpty
+
+noncomputable instance (x y : G.edgeSet ⊕ G.vertexSet) : Fintype (EndpointHom G x y) := by
+  cases x <;> cases y <;> dsimp [EndpointHom] <;> infer_instance
+
+/-- Integer interval-excess assignments choose the head of each edge. -/
+noncomputable def orientationEndpointEquiv (a b : G.vertexSet → ℕ) :
+    {o : Orientation G // ∀ v, a v ≤ o.indegree v ∧ o.indegree v ≤ b v} ≃
+      RealizesWithin (EndpointHom G) (K := ℤ) (fun _ => 0) (fun _ => 1)
+        (Sum.elim (fun _ => -1) (fun v => (a v : ℤ)))
+        (Sum.elim (fun _ => -1) (fun v => (b v : ℤ))) := by
+  sorry
+
+end FiniteIncidence
+
+end TauCetiRoadmap.GraphConnectivityAndFlows.Multigraph
+
+namespace TauCetiRoadmap.GraphConnectivityAndFlows
+
+abbrev digraphHom {V : Type u} (D : Digraph V) (v w : V) := PLift (D.Adj v w)
+
+@[simp] theorem nonempty_digraphHom {V : Type u} (D : Digraph V) (v w : V) :
+    Nonempty (digraphHom D v w) ↔ D.Adj v w := by simp [digraphHom]
+
+section MixedCapacities
+
+variable {V : Type u} (Q : V → V → Type v)
+
+/-- The surviving arrows have both endpoints outside `X` and identities outside `F`. -/
+def IsMixedSeparator [DecidableEq V] (X : Finset V) (F : Finset (Σ v w, Q v w))
+    (s t : V) : Prop :=
+  s ∉ X ∧ t ∉ X ∧
+    ¬ ArrowReachable (fun v w => {e : Q v w // v ∉ X ∧ w ∉ X ∧ ⟨v, w, e⟩ ∉ F}) s t
+
+variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
+variable [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q v w)]
+variable (u : Assignment Q K) (hu : ∀ {v w} (e : Q v w), 0 ≤ u e)
+variable (c : V → K) (hc : ∀ v, 0 ≤ c v) {s t : V}
+
+theorem flow_le_mixedSeparator (hst : s ≠ t) (f : Flow Q u s t)
+    (hf : ∀ v, v ≠ s → v ≠ t → (∑ a, ∑ e : Q a v, f.toFun e) ≤ c v)
+    (X : Finset V) (F : Finset (Σ v w, Q v w)) (hXF : IsMixedSeparator Q X F s t) :
+    f.val ≤ (∑ v ∈ X, c v) + ∑ e ∈ F, u e.2.2 := by
+  sorry
+
+include hu hc in
+theorem exists_flow_mixedSeparator_eq (hst : s ≠ t) :
+    ∃ (f : Flow Q u s t) (X : Finset V) (F : Finset (Σ v w, Q v w)),
+      (∀ v, v ≠ s → v ≠ t → (∑ a, ∑ e : Q a v, f.toFun e) ≤ c v) ∧
+      IsMixedSeparator Q X F s t ∧ f.val = (∑ v ∈ X, c v) + ∑ e ∈ F, u e.2.2 := by
+  sorry
+
+include hu hc in
+theorem exists_flow_mixedSeparator_eq_in_subgroup (hst : s ≠ t) (H : AddSubgroup K)
+    (huH : ∀ {v w} (e : Q v w), u e ∈ H) (hcH : ∀ v, c v ∈ H) :
+    ∃ (f : Flow Q u s t) (X : Finset V) (F : Finset (Σ v w, Q v w)),
+      (∀ v, v ≠ s → v ≠ t → (∑ a, ∑ e : Q a v, f.toFun e) ≤ c v) ∧
+      (∀ {v w} (e : Q v w), f.toFun e ∈ H) ∧
+      IsMixedSeparator Q X F s t ∧ f.val = (∑ v ∈ X, c v) + ∑ e ∈ F, u e.2.2 := by
+  sorry
+
+end MixedCapacities
+
+end TauCetiRoadmap.GraphConnectivityAndFlows
