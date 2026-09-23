@@ -32,6 +32,7 @@ These are suggested forms, never an exhaustive checklist; this document is the s
 Each milestone includes the elementary lemmas needed to use its definitions: constructors, extensionality where appropriate, membership and support lemmas, monotonicity, restriction, and invariance under isomorphism.
 The targets below specify the additional API particular to each object.
 The examples attached to each milestone or numbered target are required proved examples.
+Sentences beginning **Why:** record the reason for a design choice, and paragraphs beginning **Suggested proof:** describe one route to a target; neither is a requirement.
 
 ## Existing vocabulary and related work
 
@@ -105,7 +106,8 @@ This aggregation preserves weighted cuts, not individual edge identities or unwe
   Finiteness is expressed by `[Fintype V]` and `[∀ v w, Fintype (N.Hom v w)]`; neither the representation nor its bound-order invariant requires it, and the theorem targets impose the specified finiteness assumptions.
   An ordinary network is the specialization `ℓ = 0` of this same structure, constructed from nonnegative upper capacities; provide a constructor and simplification lemmas, not a second network type.
   Define arrow assignments, excess, and cut capacity against an explicit arrow family `Hom : V → V → Type`, with bounds as separate parameters where needed; the network bundle exposes these definitions and the bounded-assignment types through abbreviations, so bundled and unbundled networks share the same objects and theorems.
-  A `Quiver` term is never a parameter, because instance search for `Fintype (Hom v w)` does not see through `Quiver.mk`.
+  A `Quiver` term is never a parameter.
+  **Why:** instance search for `Fintype (Hom v w)` does not see through `Quiver.mk`.
 - **Bounded assignments and flows.** A bounded assignment is an arrow assignment `f` with `ℓ ≤ f ≤ u` on every arrow; neither conservation nor nonnegative arrow values are part of bounded feasibility.
   An arrow that must never be cut receives a capacity exceeding a known cut, and [Target 3.2](#32-large-capacities) shows that capping capacities at such a bound changes no minimum cut.
   An ordinary `PseudoFlow` is a `K`-valued arrow assignment with proofs of nonnegativity and capacity boundedness, without a conservation condition; a `Flow s t` adds conservation away from the terminals and nonnegative excess at the sink.
@@ -116,7 +118,8 @@ This aggregation preserves weighted cuts, not individual edge identities or unwe
 - **Directed walks.** Use Mathlib's [`Quiver.Path`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/Path.html#Quiver.Path), with the quiver argument supplied explicitly from the arrow family, as in `@Quiver.Path V ⟨N.Hom⟩ s t`.
   Networks and orientations share this carrier and reuse its length, composition, vertex-list, and transport API; add the missing simple-path and cycle predicates using `Quiver.Path.vertices`.
   Strong connectivity is Mathlib's [`Quiver.IsStronglyConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/ConnectedComponent.html#Quiver.IsStronglyConnected) with the same explicit quiver argument.
-  Abbreviations may expose these operations through the network or arrow family, so several quivers coexist on `V` without competing instances or vertex-type synonyms.
+  Abbreviations may expose these operations through the network or arrow family.
+  **Why:** several quivers then coexist on `V` without competing instances or vertex-type synonyms.
 
 **An orientation** of `G : Graph α β` orders the ends of each edge, with one directed arrow per edge identity and no additional arrows.
 A loop gives one directed loop; it has a unique ordered pair of ends.
@@ -127,7 +130,8 @@ Milestone 1 identifies both constructions with the existing simple-graph interfa
 
 **Namespaces.** Undirected multigraph declarations extend `Graph`.
 Simple-graph declarations extend `SimpleGraph`, following [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) and [#42494](https://github.com/leanprover-community/mathlib4/pull/42494) for connectivity; orientation results extend the existing Tau Ceti orientation namespace.
-`Suggested.lean` keeps stand-ins for proposed definitions outside the Mathlib namespaces so that this repository keeps building when Mathlib lands them.
+`Suggested.lean` keeps stand-ins for proposed definitions outside the Mathlib namespaces.
+**Why:** this repository must keep building when Mathlib lands them.
 `Suggested.lean` prototypes `Graph.Walk` and its equivalence with the bidirected quiver paths under the names the implementation uses.
 
 ### Paths, separators, and connectivity
@@ -149,7 +153,7 @@ In particular, a family cannot count the same single-edge path repeatedly merely
 
 A local vertex separator for distinct terminals `s, t` excludes both terminals and destroys reachability after deletion.
 The local vertex form of Menger therefore assumes that `s` and `t` are nonadjacent; in the directed case, there must be no arrow from `s` to `t`.
-Deletion-based local vertex reachability for adjacent terminals can hold for every `k`, so it must not be identified with the number of internally disjoint paths without that qualification.
+**Why:** deletion-based local vertex reachability for adjacent terminals can hold for every `k`, so it cannot be identified with the number of internally disjoint paths without that qualification.
 Milestone 5 also gives the adjacent-terminal version, counting all direct parallel edges, and its simple-graph specialization.
 
 For vertex-disjoint paths between sets `A` and `B`, separators may meet `A ∪ B`.
@@ -192,8 +196,8 @@ Milestone 8 supplies named reductions from bounded circulation feasibility to or
 
 For every feasible assignment `f` with finite bounds on `N`, its residual network has the same vertex type, arrow type `N.Hom v w ⊕ N.Hom w v` from `v` to `w`, zero lower bounds, and upper capacity `u e − f e` on a forward arrow and `f e − ℓ e` on a reverse arrow.
 The arrow type does not depend on `f`: arrows of zero residual capacity are ordinary arrows, and an augmenting path is a residual path all of whose arrows have positive residual capacity, equivalently a path in the positive-capacity subnetwork of the residual network, which is how `Suggested.lean` states residual reachability.
-A residual type that carried the positivity conditions would change with every augmentation, and the termination and canonical-cut arguments would then transport paths across type equalities at every step.
-The two summands distinguish unused forward capacity from cancellation of an existing flow, including when original arrows exist in both directions.
+**Why:** a residual type that carried the positivity conditions would change with every augmentation, and the termination and canonical-cut arguments would then transport paths across type equalities at every step.
+**Why:** the two summands distinguish unused forward capacity from cancellation of an existing flow, including when original arrows exist in both directions.
 For ordinary flows `ℓ = 0`, so reverse residual capacity is `f e`.
 For finite bounds, the source-side cut bound is `U(S) = u(δ⁺(S)) − ℓ(δ⁻(S))`; its corresponding lower bound on terminal value is `L(S) = ℓ(δ⁺(S)) − u(δ⁻(S)) = −U(Sᶜ)`.
 Ordinary directed cut capacity is the case `ℓ = 0` of `U`; undirected weighted cuts retain their existing nonnegative-capacity conventions.
@@ -249,7 +253,8 @@ For assignments conserved away from two terminals, derive the opposite-terminal-
 Prove that a pseudoflow conserved away from `s,t` with nonpositive excess at `t` gives a `Flow t s` with the same arrow assignment and value equal to minus the original excess at `t`.
 
 **Subnetworks and network isomorphisms.** A subnetwork of `N` specifies an actual vertex set `W ⊆ V` and a subset of the original arrows whose endpoints lie in `W`, with inherited bounds.
-Its vertex type is `W`; deleting arrows alone while retaining all of `V` gives only the special case of a spanning subnetwork.
+Its vertex type is `W`.
+**Why:** deleting arrows alone while retaining all of `V` gives only the special case of a spanning subnetwork.
 Supply inclusion maps, induced subnetworks, vertex and arrow deletion, singleton subnetworks with no arrows, unions inside a fixed network, and restriction and transport of walks.
 Unions have the unions of the actual vertex and arrow sets, including when vertices are isolated.
 Prove the membership and prefix-inclusion lemmas needed to add ears, and evaluate strong connectivity on the subnetwork's actual vertices.
@@ -314,7 +319,8 @@ Prove correspondence on actual edges of `Graph.ofSimpleGraph H` with Mathlib's `
 
 Articulation vertices and the block–cut forest use the underlying simple graph and its existing reachability and induced-subgraph APIs.
 An cut vertex `v` is one that separates two other vertices: some `u, w ≠ v` are reachable in `G` but not in the graph induced on the complement of `{v}`.
-Prove that this is equivalent to deletion of `v` increasing the number of connected components, by one or more; the count is a lemma rather than the definition, so no statement needs a `Fintype` instance on a deletion subtype.
+Prove that this is equivalent to deletion of `v` increasing the number of connected components, by one or more.
+**Why:** the count is a lemma rather than the definition, so no statement needs a `Fintype` instance on a deletion subtype.
 
 A block is a maximal nonempty connected induced subgraph with no cut vertex of its own.
 For simple graphs, bridges that are edges give two-vertex blocks, and isolated vertices give singleton blocks.
@@ -336,8 +342,8 @@ Include the path correspondence that recovers separation in the original graph f
 
 ### 3.1. Finite flows and assignment decomposition
 
-The source–sink max-flow targets in this milestone use zero lower bounds and ordinary nonnegative-value flows.
-Use the excess calculus of Milestone 1 to derive weak duality: the value of every feasible flow is at most the capacity of every terminal-separating cut.
+Derive weak duality from the excess calculus of [Target 1.3](#13-excess-calculus-subnetworks-bounds-and-residual-updates): the value of every feasible flow is at most the capacity of every terminal-separating cut.
+Every target in this section concerns ordinary flows, with zero lower bounds and nonnegative value.
 
 The main targets are:
 
@@ -345,7 +351,8 @@ The main targets are:
    Use the common residual update of Milestone 1 and derive the corresponding bounded-circulation cycle augmentation lemma.
 2. **Nonnegative assignment decomposition.** Every nonnegative arrow assignment on a finite quiver, without any conservation hypothesis or capacity data, is a finite sum of positively weighted simple directed paths and directed cycles, with equality on every original arrow.
    Each path starts at a vertex with negative excess in the original assignment and ends at a vertex with positive excess in that assignment; its internal vertices have no additional excess restriction.
-   A walk of weight `q` contributes its number of occurrences of an arrow times `q`, using natural-number scalar multiplication in the additive group, so no multiplicative unit is needed.
+   A walk of weight `q` contributes its number of occurrences of an arrow times `q`, using natural-number scalar multiplication in the additive group.
+   **Why:** no multiplicative unit is then needed.
    State the supply and demand identities: the total weight of paths starting at a supply vertex is minus its original excess, and the total weight ending at a demand vertex is its original excess.
    Permit empty path and cycle families, include loops as cycles, and prove that every component assignment is bounded arrowwise by the original assignment.
    If the original assignment takes values in an additive subgroup `H`, choose every coefficient in `H`.
@@ -357,14 +364,14 @@ The main targets are:
 4. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
    Prove the equivalent optimality criteria: maximum flow, no augmenting `s–t` path, and existence of a cut attaining equality.
 5. **Integrality.** Capacities in an additive subgroup `H` of `K` admit a maximum flow whose arrow values are in `H` and whose value equals the minimum cut capacity.
-   This is the intrinsic form, and augmentation preserves it since residual capacities are differences of elements of `H`.
+   **Why:** this is the intrinsic form, and augmentation preserves it since residual capacities are differences of elements of `H`.
    Natural-number capacities in `ℤ`, `ℚ`, or `ℝ` are the case `H = AddSubgroup.zmultiples 1`; state that case with `ℕ`-casts and give the explicit coercion lemmas between the three coefficient types.
 6. **Termination over `ℤ`.** For integer capacities, every flow value is at most the total capacity leaving the source, and augmentation strictly increases the value, so the relation "`g` has larger value than `f`" is well-founded on integer flows.
    Hence every sequence of augmentations terminates, whatever the choice of augmenting paths.
    No such assertion is made for dense or non-Archimedean coefficients.
 
-A shortest-augmenting-path argument proves existence over every permitted coefficient type because its termination depends only on the finite residual graph, not on discreteness, Archimedeanness, or completeness of the coefficients.
-This is the suggested proof route rather than part of the public interface; another proof is acceptable if it establishes the same coefficient-generic theorem without stronger assumptions.
+**Suggested proof:** a shortest-augmenting-path argument proves existence over every permitted coefficient type because its termination depends only on the finite residual graph, not on discreteness, Archimedeanness, or completeness of the coefficients.
+Another proof is acceptable if it establishes the same coefficient-generic theorem without stronger assumptions.
 
 **Required examples:**
 
@@ -375,11 +382,10 @@ This is the suggested proof route rather than part of the public interface; anot
 
 ### 3.2. Large capacities
 
-Define the capping of capacities at `B : K` as `min (cap e) B` on every arrow.
-Suppose some `s–t` cut has capacity strictly below `B`.
-Prove that capping changes neither the minimum `s–t` cut value nor the set of minimum `s–t` cuts, because a cut crossing an arrow of capacity at least `B` is not minimum for either capacity function.
+Prove that capping capacities at `B : K`, meaning replacing every `cap e` by `min (cap e) B`, changes neither the minimum `s–t` cut value nor the set of minimum `s–t` cuts whenever some `s–t` cut has capacity strictly below `B`.
 Prove that every flow of the capped network is a flow of the original network with the same assignment, and that every flow of the original network yields, after removing its cycle components as in [Target 3.1](#31-finite-flows-and-assignment-decomposition), a flow of the capped network with the same value and an arrowwise no larger assignment.
-This is the only sense in which this roadmap uses uncapacitated arrows: the reductions of [Target 5.2](#52-reductions-to-max-flow) and the bipartite network of Milestone 6 give their auxiliary arrows a capacity exceeding a known cut, and this target reads their minimum cuts off the original capacities.
+**Suggested proof:** a cut crossing an arrow of capacity at least `B` is not minimum for either capacity function.
+**Why:** this is the only sense in which this roadmap uses uncapacitated arrows; the reductions of [Target 5.2](#52-reductions-to-max-flow) and the bipartite network of Milestone 6 give their auxiliary arrows a capacity exceeding a known cut, and this target reads their minimum cuts off the original capacities.
 
 **Required examples:**
 
@@ -407,18 +413,17 @@ Derive the `SimpleGraph` statement for `Sym2`-indexed capacities through `Graph.
 
 For `K = ℝ`, restate the ordinary flow interface for `ℝ≥0`-valued capacities: flows for a capacity function with values in `ℝ≥0` are the `ℝ`-valued flows for its coercion, their arrow values are `ℝ≥0`-valued by nonnegativity, the finite-sum excess cast to `EReal` equals the `tsum` expression of [#43017](https://github.com/leanprover-community/mathlib4/pull/43017) on a finite quiver, and the value cast to `ENNReal` equals that proposal's `Flow.val`.
 State max-flow/min-cut and integrality for `ℝ≥0` capacities in these terms.
-These are ordinary API over `ℝ`; when Mathlib lands its network flows, they are the adapter between its definitions and the coefficient-generic theory, and Tau Ceti adopts Mathlib's definitions wherever they coincide.
+**Why:** these are ordinary API over `ℝ`; when Mathlib lands its network flows, they are the adapter between its definitions and the coefficient-generic theory, and Tau Ceti adopts Mathlib's definitions wherever they coincide.
 
 ## 4. The structure of minimum cuts
 
 ### 4.1. Submodularity and terminal-set cut lattices
 
-State this milestone for set functions, with the cut capacities as instances.
-Targets 4.1 and 4.3 are stated over the linearly ordered cancellative additive commutative monoid of the conventions; only Target 4.2 needs the group.
 A function `f : Finset V → K` is **submodular** when `f (S ∪ T) + f (S ∩ T) ≤ f S + f T` for all `S, T`, and **symmetric** when `f Sᶜ = f S` for all `S`.
 A minimum `A–B` cut for disjoint terminal sets `A,B` is a minimizer of `f` over `A ⊆ S ⊆ Bᶜ`.
 Either terminal set may be empty; disjointness guarantees at least one admissible set, and finiteness gives an attained minimum.
 Singleton terminal sets recover minimum `s–t` cuts for distinct `s,t`; under symmetry the choice of side is immaterial after exchanging the terminal sets.
+State this milestone for such set functions, with the cut capacities as instances; Targets 4.1 and 4.3 are stated over the linearly ordered cancellative additive commutative monoid of the conventions, and only Target 4.2 needs the group.
 Prove that nonnegative directed outgoing cut capacity is submodular and that nonnegative undirected cut capacity is symmetric and submodular.
 For finite signed bounds `ℓ ≤ u`, also prove submodularity of the upper cut bound `U` using
 
@@ -426,8 +431,7 @@ $$
 U(S)=(u-\ell)(\delta^+(S))-\sum_{v\in S}\operatorname{excess}(\ell)(v).
 $$
 
-The first term is a cut function with nonnegative capacities; the vertex sum is modular, meaning it satisfies the submodular identity with equality.
-These identities use the common excess calculus and do not depend on the circulation feasibility results.
+**Suggested proof:** the first term is a cut function with nonnegative capacities, and the vertex sum is modular, meaning it satisfies the submodular identity with equality; these identities use the common excess calculus and do not depend on the circulation feasibility results.
 
 For a submodular `f` and disjoint terminal sets `A,B`, prove that the minimum `A–B` cuts are closed under union and intersection.
 Develop this family as a finite distributive lattice under inclusion, with unique smallest and largest members, characterized by containment in or containment of every minimizing side.
@@ -438,8 +442,7 @@ Define submodularity independently of symmetry; none of these lattice results as
 
 ### 4.2. Residual characterizations and canonical cuts
 
-Apply this lattice theory to `U` for finite signed bounds, including networks whose feasible terminal values are all negative.
-For any feasible bounded `s–t` assignment and source-side cut `S`, prove the gap identity
+For any feasible bounded `s–t` assignment with finite signed bounds and any source-side cut `S`, prove the gap identity
 
 $$
 U(S)-\operatorname{val}(f)=(u-f)(\delta^+(S))+(f-\ell)(\delta^-(S)).
@@ -449,7 +452,7 @@ The right-hand side is the outgoing capacity of `S` in the residual network.
 For any maximum bounded terminal assignment, characterize its minimum cuts as exactly the source-side sets with no positive-capacity residual arrow leaving them.
 Characterize the smallest source side as the vertices reachable from the source along positive-capacity residual arrows, and the largest as the complement of the vertices from which the sink is reachable along such arrows.
 Prove that both sets are independent of the chosen maximum assignment, and recover the ordinary-flow statements by specialization.
-These results assume a maximum assignment is given; Target 8.6 supplies its existence for every feasible finite-bound network.
+These results apply the lattice theory of Target 4.1 to `U`, including for networks whose feasible terminal values are all negative; they assume a maximum assignment is given, and Target 8.6 supplies its existence for every feasible finite-bound network.
 The symmetric results below retain their symmetry hypothesis, which signed directed cut bounds need not satisfy.
 
 **Required examples:**
@@ -460,14 +463,16 @@ The symmetric results below retain their symmetry hypothesis, which signed direc
 
 Prove the **non-crossing lemma** for a symmetric submodular `f`: if `S` is a minimum `s–t` cut and distinct vertices `u, v` both lie in `S`, there exists a minimum `u–v` cut with one side contained in `S`.
 Include the identities and uncrossing inequalities needed to choose such a cut without changing its value.
-The proof uses only submodularity and symmetry (posimodularity); it needs no flows, and it fails without symmetry, for directed cut capacity in particular, so do not attempt a directed version.
+There is no directed version: the lemma fails without symmetry, for directed cut capacity in particular.
+**Suggested proof:** only submodularity and symmetry (posimodularity) are used; no flows are needed.
 
 Extend it to families with two further targets.
 **Uncrossing preserves laminarity:** if a vertex set `Z` crosses `X` (all four of `Z ∩ X`, `Z ∖ X`, `X ∖ Z`, and the complement of `Z ∪ X` are nonempty), then `Z ∩ X` and `Z ∪ X` are each nested with or disjoint from every set that is nested with or disjoint from both `Z` and `X`.
-Two cuts, as bipartitions, **cross** when all four intersections of a side of one with a side of the other are nonempty; a family of pairwise non-crossing cuts is not the same as a laminar family of sets, since two sides can be neither nested nor disjoint while covering the vertex set.
+Two cuts, as bipartitions, **cross** when all four intersections of a side of one with a side of the other are nonempty.
 **Root convention:** fix a root vertex and represent every cut by its side not containing the root; prove that a pairwise non-crossing family of cuts then becomes a laminar family of sets (pairwise nested or disjoint), because two root-excluding sides cannot cover the vertex set.
+**Why:** a family of pairwise non-crossing cuts is not the same as a laminar family of sets, since two sides can be neither nested nor disjoint while covering the vertex set.
 **Multi-cut non-crossing lemma:** for a pairwise non-crossing family of cuts, each a minimum cut of `f` for a designated pair of vertices, and distinct vertices `s, t` separated by none of them, there is a minimum `s–t` cut crossing none of them.
-Applying the single-cut lemma to one crossed member at a time is not enough on its own, since uncrossing against one cut can create a crossing with another; the laminarity lemma shows the number of crossed members strictly decreases, which is what makes the induction go through.
+**Why:** applying the single-cut lemma to one crossed member at a time is not enough on its own, since uncrossing against one cut can create a crossing with another; the laminarity lemma shows that the number of crossed members strictly decreases, which is what makes the induction go through.
 Prove also the **ultrametric inequality** for the minimum cut values of any `f` and distinct `s, t`, `λ(s,t) ≥ min (λ(s,v), λ(v,t))`, since every `s–t` cut separates `s` from `v` or `v` from `t`.
 The intermediate vertex `v` is arbitrary; define `λ(s,s) = 0` as the diagonal convention.
 These are the interface used by the cut-tree milestone.
@@ -480,7 +485,7 @@ Submodularity, the lattice, and the non-crossing lemmas rest on Milestone 1 alon
 State Menger's path–separator equalities in **witness form**: there exist a family of `k` pairwise disjoint paths and a separator of size `k`, for some `k`, and every family of disjoint paths is no larger than every separator.
 For adjacent terminals, use the multiplicity correction specified under **Adjacent terminals** below in both the witnesses and the inequality.
 The two statements together are the equality of optima with attainment on both sides.
-The derived numerical connectivity invariants package global threshold information, but do not replace these witnesses or the inequalities that certify their optimality.
+**Why:** the derived numerical connectivity invariants package global threshold information, but do not replace these witnesses or the inequalities that certify their optimality.
 
 - **Local edge Menger:** for distinct terminals `s, t`, a family of pairwise edge-disjoint `s–t` paths and a set of edges whose deletion destroys `s–t` reachability, of the same size, together with the inequality between any family and any such edge set.
   Give directed-network and multigraph versions, and derive the `SimpleGraph` statements using Milestone 1.
@@ -506,7 +511,8 @@ Derive the simple-graph specialization with the same size hypothesis.
 
 Instantiate the vertex-splitting and auxiliary-terminal constructions of [Target 1.4](#14-vertex-splitting-auxiliary-terminals-and-change-of-coefficients) over `ℤ`, where integrality is the case `H = ⊤`, with the capacities below, and prove the correspondence in each direction.
 For multigraph vertex targets with no edge-finiteness assumption, apply these finite-network reductions to the simplification and use its path-lifting and separator correspondences.
-These reductions are required reusable interfaces; using them to prove Menger is the suggested proof route rather than an additional constraint on the final theorem.
+These reductions are required reusable interfaces.
+**Suggested proof:** derive Menger from them; another proof of the same theorems is acceptable.
 In the undirected edge reduction, extract paths from the normalized flow of [Target 3.3](#33-terminal-sets-and-undirected-networks), so that one edge cannot be used twice while distinct parallel edges remain distinct.
 Discard loop flows and cycle flows when extracting simple terminal-to-terminal paths.
 The reductions must recover actual path families and separators, not just equalities of numerical optima.
@@ -550,7 +556,7 @@ The simple-graph specialization gives the minimum-degree bound below.
 - **Common-cycle characterizations:** for a connected simple graph with at least three vertices, each of the following is equivalent to 2-vertex-connectivity: every two distinct vertices lie on a common cycle; every two distinct edges lie on a common cycle; every vertex and every edge lie on a common cycle.
   The blocks with at least three vertices from Milestone 2 are exactly the vertex sets of the maximal 2-vertex-connected induced subgraphs.
 - **Preservation lemmas:** deleting `m < k` vertices from a `k`-vertex-connected graph leaves a `(k − m)`-vertex-connected graph; adjoining a new vertex adjacent to at least `k` vertices of a `k`-vertex-connected graph gives a `k`-vertex-connected graph; adding edges preserves `k`-vertex- and `k`-edge-connectivity.
-  The proofs of the fan lemma and Dirac's theorem below use the first two.
+  **Why:** the fan lemma and Dirac's theorem below use the first two.
 - **Fan lemma:** in a `k`-vertex-connected graph, a vertex `x` outside a set `U` with at least `k` vertices has `k` paths to distinct vertices of `U`, with interiors outside `U` and pairwise intersection exactly `{x}`.
 - **Dirac's prescribed-vertex cycle theorem:** for `k ≥ 2`, every set of `k` vertices in a `k`-vertex-connected graph lies on a cycle.
   No cyclic order of those vertices is prescribed.
@@ -558,7 +564,7 @@ The simple-graph specialization gives the minimum-degree bound below.
   Use `SimpleGraph.Subgraph.IsMatching`, `SimpleGraph.IsVertexCover`, and the extremality interfaces of Mathlib proposal [#33032](https://github.com/leanprover-community/mathlib4/pull/33032).
   Build their missing finite API here, including attainment and the matching–cover inequality.
   Build the bipartite network as a reusable interface: for bipartition `L, R`, unit capacities from the source to `L` and from `R` to the sink, and capacity `|L| + 1` on graph edges directed from `L` to `R`, so that no such edge crosses a minimum cut, with the lemmas that integral flows encode matchings and that a minimum-cut source side `S` yields the cover `(L ∖ S) ∪ (R ∩ S)`.
-  Proving Kőnig through it is the suggested route, as for Menger, not a constraint on the theorem.
+  **Suggested proof:** Kőnig through this network, as for Menger.
 - **Deficiency formula (König–Ore) and Hall:** for bipartition `L, R`, the maximum size of a matching is `|L| − max_{S ⊆ L} (|S| − |N(S)|)`, where `N(S)` is the set of neighbours of `S`, in witness form: there exist a matching `M` and a set `S ⊆ L` with `|M| + |S| = |L| + |N(S)|`, and every matching and every `S ⊆ L` satisfy `|M| + |S| ≤ |L| + |N(S)|`.
   Derive it from Kőnig by reading a minimum cover `C` as `S = L ∖ C`, so that `(L ∖ S) ∪ N(S)` is again a minimum cover.
   State it also in the indexed-family form of Mathlib's Hall theorem, for `t : ι → Finset α`, with an injective choice function on the subtype of a chosen finite set of indices in place of a matching, so that consumers of either form can use it.
@@ -589,7 +595,7 @@ Prove three characterizations:
 2. A finite multigraph with nonempty actual vertex set is 2-edge-connected if and only if it can be built from one vertex by adding open or closed ears.
    Prove first that 2-edge-connectivity is equivalent to pairwise reachability of the actual vertices and absence of bridges among the actual edges, including the empty-vertex convention for that equivalence.
    Derive the simple-graph ear characterization and `H.IsEdgeConnected 2 ↔ ∀ e, ¬ H.IsBridge e` in the shape of [#42839](https://github.com/leanprover-community/mathlib4/pull/42839).
-   The unrestricted simple-graph bridge predicate includes connectedness through non-edges; the multigraph bridge predicate only concerns actual edges and requires the separate reachability condition.
+   **Why:** the unrestricted simple-graph bridge predicate includes connectedness through non-edges; the multigraph bridge predicate only concerns actual edges and requires the separate reachability condition.
 3. A network `N` with nonempty finite vertex type and finite arrow types is strongly connected (`N.IsStronglyConnected`) if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
 
 In the directed version, ears are directed paths and cycles of `N` in the sense of the conventions, they retain arrow identities, and the directed decomposition exposes the same prefix API using subnetworks.
@@ -600,7 +606,7 @@ Derive the directed analogue of the bridge criterion: a network with nonempty ve
 Prove **Robbins' theorem** for finite multigraphs: a strongly connected orientation on `V(G)` exists if and only if `G.IsEdgeConnected 2`.
 This needs no connectedness or size hypothesis: both sides hold when the actual vertex set is subsingleton, including with loops.
 For nonempty connected multigraphs, derive the classical form that a strongly connected orientation exists exactly when there is no bridge.
-Construct the orientation from the ear decomposition and prove strong connectivity through the directed ear characterization.
+**Suggested proof:** construct the orientation from the ear decomposition and prove strong connectivity through the directed ear characterization.
 Include the componentwise result: an orientation strongly connected on each connected component exists exactly when no actual edge is a bridge.
 Derive the simple-graph statements through the orientation equivalence of Milestone 1, using `TauCeti.DoubledQuiver.Orientation` in their conclusions.
 
@@ -689,9 +695,8 @@ These vertex bounds constrain net supply and demand; limits on total traffic thr
 
 ### 8.4. Residual adjustments
 
-Use the common update of Milestone 1 for arbitrary feasible residual assignments.
 For any two feasible assignments `f, g`, construct the residual assignment with `r(e⁺) = max (g(e) − f(e)) 0` and `r(e⁻) = max (f(e) − g(e)) 0`.
-Prove that updating `f` by `r` gives `g`, and that `excess r = excess g − excess f`.
+Prove that updating `f` by `r`, with the common update of [Target 1.3](#13-excess-calculus-subnetworks-bounds-and-residual-updates), gives `g`, and that `excess r = excess g − excess f`.
 Thus equal-excess assignments give a residual circulation as a corollary, with no second difference construction.
 This canonical representative never uses both residual copies of an original arrow positively; arbitrary residual representatives need not be unique.
 For equal-excess assignments, decompose this residual circulation into finitely many nonnegative directed cycle flows and prove that the corresponding sequence of updates stays feasible, has the same excess at every stage, and ends at `g`.
@@ -703,16 +708,15 @@ Preserve additive-subgroup values throughout.
 
 ### 8.5. Flows and circulations
 
-Add a fresh tagged arrow `t → s`, distinct from every existing arrow even if the endpoints already support arrows.
-For any `q : K` and distinct `s,t`, put lower and upper bound `q` on that arrow and construct an equivalence between bounded `s–t` assignments of value `q` and circulations on the augmented network.
+For any `q : K` and distinct `s,t`, construct an equivalence between bounded `s–t` assignments of value `q` and circulations on the network augmented by a fresh tagged arrow `t → s` with lower and upper bound `q`.
+The new arrow is distinct from every existing arrow, even if the endpoints already support arrows.
 Prove both round-trip identities, preservation of every original arrow value, and recovery of `q` on the return arrow.
 For zero original lower bounds and `q ≥ 0`, specialize to the ordinary `Flow` interface.
 Generalize the return-arrow bounds to an interval `[a,b]`, with `a ≤ b`, to characterize feasibility with terminal value in that interval.
 
 ### 8.6. Extremal terminal values
 
-For distinct terminals `s,t`, assume the original finite-bound network admits a bounded `s–t` assignment; do not assume zero is feasible or that the terminal value is nonnegative.
-Prove attainment of a minimum value `m` and a maximum value `M`, together with source-side cuts witnessing
+For distinct terminals `s,t` and a finite-bound network admitting some bounded `s–t` assignment, prove attainment of a minimum value `m` and a maximum value `M`, together with source-side cuts witnessing
 
 $$
 m=\max_{s\in S,\ t\notin S} L(S),
@@ -720,6 +724,7 @@ m=\max_{s\in S,\ t\notin S} L(S),
 M=\min_{s\in S,\ t\notin S} U(S).
 $$
 
+Do not assume that zero is feasible or that the terminal value is nonnegative.
 Use the cut bounds `L` and `U` from the conventions, prove their inequalities for every feasible assignment, and characterize feasible prescribed values by `m ≤ q ≤ M`.
 Prove that maximum value is equivalent to absence of a positive-capacity residual `s–t` path, and minimum value to absence of such a `t–s` path.
 Give the reductions from a feasible starting assignment to the ordinary max-flow problems in the two residual directions, using the shared update and value formulas; apply the signed-bound cut lattice and canonical-cut results of Milestone 4.
@@ -732,10 +737,9 @@ Recover the ordinary maximum-flow theorem as the zero-lower-bound, nonnegative-v
 
 ### 8.7. Rounding
 
-Let `R` be a linearly ordered ring with Mathlib's [`FloorRing`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Order/Floor/Defs.html#FloorRing) structure.
-For an `R`-valued arrow assignment whose excess at every vertex is the cast of an integer, prove existence of an integer assignment with that same integer excess and each arrow value between the floor and ceiling of its original value.
+For a linearly ordered ring `R` with Mathlib's [`FloorRing`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Order/Floor/Defs.html#FloorRing) structure and an `R`-valued arrow assignment whose excess at every vertex is the cast of an integer, prove existence of an integer assignment with that same integer excess and each arrow value between the floor and ceiling of its original value.
 Deduce preservation of any integer lower and upper bounds respected by the original assignment, and specialize to circulations and flows of integer prescribed value.
-Derive this from additive-subgroup integrality for the image of `ℤ → R`, using the floor and ceiling as bounds and the injectivity of integer casts to recover an integer assignment.
+**Suggested proof:** additive-subgroup integrality for the image of `ℤ → R`, using the floor and ceiling as bounds and the injectivity of integer casts to recover an integer assignment.
 State rational and real specializations; the ring and floor structure are assumptions of this rounding target, not of the general flow theory.
 No rounding assertion is made for noninteger prescribed excess.
 
@@ -744,9 +748,6 @@ No rounding assertion is made for noninteger prescribed excess.
 - Rational and real fractional circulations and their integer roundings, with explicit floor and ceiling bounds.
 
 ## 9. Gomory–Hu cut trees
-
-The general cut-tree theorem and minimum-cut recovery use Targets 4.1 and 4.3.
-Milestone 5 is needed only to interpret the unit-capacity queries as edge connectivity.
 
 For every linearly ordered cancellative additive commutative monoid `K`, every nonempty finite vertex type, and every symmetric submodular `f : Finset V → K`, prove the existence of a weighted tree on the same vertex type such that:
 
@@ -759,10 +760,11 @@ The weighted tree is a `SimpleGraph` on the actual vertex type `V(G)` and need n
 For unit capacities, parallel edges contribute their multiplicities; prove that the tree answers the edge-connectivity queries of Milestone 5 and recovers cuts as subsets of the original vertex set.
 Derive the global corollaries: for a finite graph with at least two actual vertices, `edgeConnectivity G` is the minimum tree-edge weight, and for any symmetric submodular `f` the minimum cut values `λ(s,t)` over `s ≠ t` take at most `|V| − 1` distinct values, since each is a tree-edge weight.
 Disconnected graphs and zero capacities are included, with zero-weight tree edges; a singleton has the one-vertex tree.
+The general cut-tree theorem and minimum-cut recovery use Targets 4.1 and 4.3; Milestone 5 is needed only to interpret the unit-capacity queries as edge connectivity.
 
 Develop the weighted-tree API needed for these statements: unique paths, fundamental partitions, minimum weights on nonempty paths, and transport under vertex equivalences.
-The suggested proof is Gomory and Hu's construction with its contraction step replaced by the multi-cut non-crossing lemma; the public target is the weighted tree and its query API, not this particular construction.
-In this proof, maintain a pairwise non-crossing family of chosen minimum cuts, represented by their root-excluding sides under the root convention of Milestone 4 so that it is a laminar family of sets, whose cells are the supernodes, together with a tree on the supernodes whose edges correspond to the chosen cuts.
+**Suggested proof:** Gomory and Hu's construction with its contraction step replaced by the multi-cut non-crossing lemma; the public target is the weighted tree and its query API, not this particular construction.
+Maintain a pairwise non-crossing family of chosen minimum cuts, represented by their root-excluding sides under the root convention of Milestone 4 so that it is a laminar family of sets, whose cells are the supernodes, together with a tree on the supernodes whose edges correspond to the chosen cuts.
 While some supernode contains two vertices `s, t`, take a minimum `s–t` cut crossing no chosen cut, split the supernode by it, and attach each neighbouring subtree to the part on its own side of the new cut.
 The useful invariant is that the family stays pairwise non-crossing and that every tree edge is one of the chosen cuts and a minimum cut for some pair of vertices taken from the two supernodes it joins.
 Preserving the second half needs a witness repair when the split moves the witness vertex away from the part a subtree is attached to; Korte and Vygen's proof shows that the cut is then also minimum for a pair using `s` or `t`, by the ultrametric inequality.
