@@ -431,7 +431,8 @@ State max-flow/min-cut and integrality for `ℝ≥0` capacities in these terms.
 
 ### 4.1. Submodularity and terminal-set cut lattices
 
-A function `f : Finset V → K` is **submodular** when `f (S ∪ T) + f (S ∩ T) ≤ f S + f T` for all `S, T`, and **symmetric** when `f Sᶜ = f S` for all `S`.
+A function `f : L → K` on a lattice `L` is **submodular** when `f (a ⊔ b) + f (a ⊓ b) ≤ f a + f b` for all `a, b`; for `f : Finset V → K` this reads `f (S ∪ T) + f (S ∩ T) ≤ f S + f T`, and such an `f` is **symmetric** when `f Sᶜ = f S` for all `S`.
+Define submodularity on lattices and state the closure of minimizers there; symmetry and everything after it concern `Finset V`.
 A minimum `A–B` cut for disjoint terminal sets `A,B` is a minimizer of `f` over `A ⊆ S ⊆ Bᶜ`.
 Either terminal set may be empty; disjointness guarantees at least one admissible set, and finiteness gives an attained minimum.
 Singleton terminal sets recover minimum `s–t` cuts for distinct `s,t`; under symmetry the choice of side is immaterial after exchanging the terminal sets.
@@ -445,7 +446,8 @@ $$
 
 **Suggested proof:** the first term is a cut function with nonnegative capacities, and the vertex sum is modular, meaning it satisfies the submodular identity with equality; these identities use the common excess calculus and do not depend on the circulation feasibility results.
 
-For a submodular `f` and disjoint terminal sets `A,B`, prove that the minimum `A–B` cuts are closed under union and intersection.
+For a submodular `f` on a lattice and a predicate closed under `⊔` and `⊓`, prove that the minimizers of `f` among the elements satisfying the predicate are closed under `⊔` and `⊓`.
+For a submodular `f : Finset V → K` and disjoint terminal sets `A,B`, derive that the minimum `A–B` cuts are closed under union and intersection, the instance for the predicate `A ⊆ S ⊆ Bᶜ`.
 Develop this family as a finite distributive lattice under inclusion, with unique smallest and largest members, characterized by containment in or containment of every minimizing side.
 Supply attainment, the minimum-value characterization of a minimizing side, invariance under vertex equivalences, and the singleton-terminal specialization.
 Define submodularity independently of symmetry; none of these lattice results assumes symmetry.

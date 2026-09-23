@@ -1096,9 +1096,18 @@ namespace TauCetiRoadmap.GraphConnectivityAndFlows
 variable {K : Type w} [AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]
 variable {V : Type u} [Fintype V] [DecidableEq V]
 
-/-- Submodularity alone suffices for the minimum-cut lattice, including directed cut capacities. -/
-def IsSubmodular (f : Finset V → K) : Prop :=
-  ∀ S T, f (S ∪ T) + f (S ∩ T) ≤ f S + f T
+/-- Submodularity on a lattice; for `Finset V` this is `f (S ∪ T) + f (S ∩ T) ≤ f S + f T`.
+Submodularity alone suffices for the minimum-cut lattice, including directed cut capacities. -/
+def IsSubmodular {L : Type*} [Lattice L] (f : L → K) : Prop :=
+  ∀ a b, f (a ⊔ b) + f (a ⊓ b) ≤ f a + f b
+
+/-- Minimizers of a submodular function among the elements satisfying a predicate closed under
+`⊔` and `⊓` are themselves closed under `⊔` and `⊓`. -/
+theorem IsSubmodular.sup_inf_of_isMin {L : Type*} [Lattice L] {f : L → K} (hf : IsSubmodular f)
+    {P : L → Prop} (hP : ∀ a b, P a → P b → P (a ⊔ b) ∧ P (a ⊓ b)) {a b : L} (ha : P a) (hb : P b)
+    (hamin : ∀ c, P c → f a ≤ f c) (hbmin : ∀ c, P c → f b ≤ f c) :
+    (∀ c, P c → f (a ⊔ b) ≤ f c) ∧ ∀ c, P c → f (a ⊓ b) ≤ f c := by
+  sorry
 
 /-- Symmetry is the additional hypothesis for non-crossing lemmas and cut trees. -/
 structure IsSymmSubmodular (f : Finset V → K) : Prop where
