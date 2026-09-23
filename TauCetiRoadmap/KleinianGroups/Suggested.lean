@@ -7,6 +7,8 @@ import Mathlib.MeasureTheory.Group.FundamentalDomain
 import Mathlib.NumberTheory.NumberField.DedekindZeta
 import Mathlib.NumberTheory.Zsqrtd.GaussianInt
 import Mathlib.Topology.Algebra.ConstMulAction
+import Mathlib.Topology.Algebra.Group.Matrix
+import Mathlib.Topology.Algebra.Group.Quotient
 
 /-!
 # Kleinian groups and arithmetic volume: target signatures
@@ -103,9 +105,10 @@ noncomputable instance : MulAction PSL(2, ℂ) H3 := by
 theorem isometry_smul (g : PSL(2, ℂ)) (p q : H3) : dist (g • p) (g • q) = dist p q := by
   sorry
 
-/-- The topology on `PSL(2, ℂ)`, the quotient topology from `SL(2, ℂ)`. Discreteness of a
-subgroup is stated against it, as in `FuchsianOrbifolds`. -/
-instance : TopologicalSpace PSL(2, ℂ) := by
+/-- `PSL(2, ℂ)` is Hausdorff, the analogue of Tau Ceti's `T2Space PSL(2, ℝ)`. The topology
+itself is the quotient topology Mathlib already supplies; nothing here declares a competing
+one. Discreteness of a subgroup is stated against it, as in `FuchsianOrbifolds`. -/
+instance : T2Space PSL(2, ℂ) := by
   sorry
 
 /-- Invariance of the volume, the analogue of the `SMulInvariantMeasure (GL (Fin 2) ℝ) ℍ`
@@ -157,10 +160,10 @@ def bianchiGamma (F : Type) [Field F] [NumberField F] (I : Ideal (RingOfIntegers
 
 /-! ## Layer 4: Humbert's formula and the two special values -/
 
-/-- Catalan's constant. Mathlib has no name for it, so this roadmap introduces one;
-identifying it with `DirichletCharacter.LFunction` at the character mod `4` and `s = 2` is a
-target of layer 4. -/
-noncomputable def catalan : ℝ := ∑' n : ℕ, (-1) ^ n / ((2 * n + 1 : ℝ) ^ 2)
+/-- Catalan's constant. Mathlib has no name for it — its `catalan` is the Catalan *numbers*
+`ℕ → ℕ` — so this roadmap introduces `catalanConstant`; identifying it with
+`DirichletCharacter.LFunction` at the character mod `4` and `s = 2` is a target of layer 4. -/
+noncomputable def catalanConstant : ℝ := ∑' n : ℕ, (-1) ^ n / ((2 * n + 1 : ℝ) ^ 2)
 
 /-- `L(2, χ₋₃)`, written out for the same reason. -/
 noncomputable def lchi3 : ℝ := ∑' n : ℕ, (1 / ((3 * n + 1 : ℝ) ^ 2) - 1 / ((3 * n + 2 : ℝ) ^ 2))
@@ -182,7 +185,7 @@ def bianchiEisenstein : Subgroup PSL(2, ℂ) := by
 
 /-- Milestone 4a for `ℚ(i)`: the covolume is Catalan's constant over three. -/
 theorem covolume_bianchiGaussian :
-    (covolume bianchiGaussian H3 volume).toReal = catalan / 3 := by
+    (covolume bianchiGaussian H3 volume).toReal = catalanConstant / 3 := by
   sorry
 
 /-- Milestone 4a for `ℚ(ω)`: the covolume is `√3 · L(2, χ₋₃) / 8`. -/
@@ -214,6 +217,6 @@ def ThurstonQuestion23 : Prop :=
 /-- The finite approximation of layer 5, for a denominator bound `N`: what *is* provable
 about the ratio of the two arithmetic volumes. -/
 def NoSmallRationalRatio (N : ℕ) : Prop :=
-  ∀ q : ℚ, q.den < N → catalan / 3 ≠ (q : ℝ) * (Real.sqrt 3 * lchi3 / 8)
+  ∀ q : ℚ, q.den < N → catalanConstant / 3 ≠ (q : ℝ) * (Real.sqrt 3 * lchi3 / 8)
 
 end TauCetiRoadmap.KleinianGroups
