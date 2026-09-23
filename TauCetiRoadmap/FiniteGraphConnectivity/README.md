@@ -15,7 +15,7 @@ Vertex-connectivity and the vertex-structural consequences reuse the underlying 
 
 **Suggested homes:** `TauCeti/Combinatorics/Graph/Connectivity/` for multigraph connectivity, `TauCeti/Combinatorics/SimpleGraph/Connectivity/` for simple-graph interfaces, `TauCeti/Combinatorics/Network/` for directed networks and flows, and adjacent modules for the representation bridges.
 
-[`Suggested.lean`](Suggested.lean) prototypes networks, flows, circulations, multigraph walks and connectivity with their simple-graph interfaces, and weighted cut trees.
+[`Suggested.lean`](Suggested.lean) prototypes networks, flows, circulations, the vertex-splitting and auxiliary-terminal reductions, multigraph walks and connectivity with their simple-graph interfaces, and weighted cut trees.
 These are suggested forms, never an exhaustive checklist; this document is the specification.
 
 ## Milestones at a glance

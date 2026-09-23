@@ -11,7 +11,8 @@ declaration here finishes neither a milestone nor the roadmap. `sorry` is allowe
 human-owned roadmap library: these are targets, not completed definitions or proofs.
 
 The simple-graph edge and orientation statements are required corollaries of the multigraph theory.
-The circulation prototypes cover signed bounds, exact and interval excess, and extremal values.
+The circulation prototypes state the load-bearing signatures for signed bounds, exact and
+interval excess, and extremal values.
 
 The pinned choices illustrated here are:
 
@@ -34,6 +35,8 @@ The pinned choices illustrated here are:
 - Extended networks use `WithTop K` bounds and finite `K`-valued assignments.
   Truncation at a finite terminal-cut bound preserves optimal values.
   It need not preserve an original assignment.
+- The vertex-splitting and auxiliary-terminal reductions are prototyped with their cut and
+  separator correspondences over `ℤ`.
 - Simple-graph orientations reuse `TauCeti.DoubledQuiver.Orientation`.
   Ear decompositions are data with a prefix API.
   These prototypes illustrate an inductive family for simple graphs and a prefix structure for
@@ -498,6 +501,145 @@ theorem sSup_finiteFlow_value_eq_iInf_cutCapacity (Q : Quiver V) [Fintype V]
   sorry
 
 
+/-! ## Representation bridges (Milestone 1): vertex splitting and auxiliary terminals -/
+
+section Bridges
+
+variable (Q : Quiver.{v} V) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q.Hom v w)]
+
+/-- Reachability after deleting the vertices of `X`: paths in the quiver induced on the rest. -/
+def ReachableAvoiding (X : Finset V) (s t : V) : Prop :=
+  ∃ (hs : s ∉ X) (ht : t ∉ X),
+    ArrowReachable (fun a b : {v // v ∉ X} => Q.Hom a.val b.val) ⟨s, hs⟩ ⟨t, ht⟩
+
+/-- Reachability after deleting a set of arrows, identified in the total arrow type. -/
+def ReachableWithout (F : Set (Σ v w, Q.Hom v w)) (s t : V) : Prop :=
+  ArrowReachable (fun v w => {e : Q.Hom v w // ⟨v, w, e⟩ ∉ F}) s t
+
+/-- Vertex splitting uses `(v, false)` as the entrance `v⁻` and `(v, true)` as the exit `v⁺`.
+An original arrow `v → w` becomes an arrow `v⁺ → w⁻` with the same identity. -/
+def OriginalHom (x y : V × Bool) : Type v :=
+  {e : Q.Hom x.1 y.1 // x.2 = true ∧ y.2 = false}
+
+/-- The split arrow `v⁻ → v⁺`, one for every vertex. -/
+def SplitArrow (x y : V × Bool) : Type v :=
+  {_u : PUnit.{v + 1} // x.1 = y.1 ∧ x.2 = false ∧ y.2 = true}
+
+abbrev SplitHom (x y : V × Bool) : Type v := OriginalHom Q x y ⊕ SplitArrow x y
+
+instance (x y : V × Bool) : Fintype (OriginalHom Q x y) := by
+  unfold OriginalHom; infer_instance
+
+instance (x y : V × Bool) : Fintype (SplitArrow x y) := by
+  unfold SplitArrow; infer_instance
+
+/-- The split network, with separate nonnegative capacities on original and split arrows and
+zero lower bounds. -/
+noncomputable abbrev splitNetwork (cOrig : Assignment Q K)
+    (hOrig : ∀ {v w} (e : Q.Hom v w), 0 ≤ cOrig e) (cSplit : V → K) (hSplit : ∀ v, 0 ≤ cSplit v) :
+    Network K (V × Bool) where
+  Hom := SplitHom Q
+  lower _ := 0
+  upper := fun {x _} (e : SplitHom Q x _) => Sum.elim (fun e => cOrig e.val) (fun _ => cSplit x.1) e
+  lower_le_upper := fun {x _} (e : SplitHom Q x _) => by
+    cases e with
+    | inl e => exact hOrig e.val
+    | inr _ => exact hSplit x.1
+
+/-- Lifting a simple path from `s` to `t` to the split network, from `s⁻` to `t⁺`, including
+the split arrows at both ends; the lift has `2k + 1` arrows for `k` original arrows. -/
+noncomputable def liftSplitPath {s t : V} (p : @Quiver.Path V Q s t) (hp : ArrowWalk.IsPath p) :
+    {q : ArrowWalk (SplitHom Q) (s, false) (t, true) //
+      ArrowWalk.IsPath q ∧ ArrowWalk.length q = 2 * ArrowWalk.length p + 1} := by
+  sorry
+
+/-- Projection removes split arrows and retains original arrow identities. -/
+noncomputable def projectSplitPath {s t : V} (q : ArrowWalk (SplitHom Q) (s, false) (t, true))
+    (hq : ArrowWalk.IsPath q) :
+    {p : @Quiver.Path V Q s t // ArrowWalk.IsPath p ∧
+      2 * ArrowWalk.length p + 1 = ArrowWalk.length q} := by
+  sorry
+
+/-- The local vertex-Menger reduction over `ℤ`: `M = |V| + 1` on original arrows and on the
+split arrows of the terminals, `1` on every other split arrow. -/
+noncomputable abbrev vertexMengerNetwork (s t : V) : Network ℤ (V × Bool) :=
+  splitNetwork Q (K := ℤ) (fun _ => Fintype.card V + 1) (fun _ => by positivity)
+    (fun v => if v = s ∨ v = t then Fintype.card V + 1 else 1) (fun v => by split <;> positivity)
+
+/-- A cut of capacity below `M` crosses only internal split arrows, which index a
+terminal-excluding vertex separator of exactly that capacity. -/
+theorem vertexMengerNetwork_cut_separator {s t : V} (hst : s ≠ t) (hadj : IsEmpty (Q.Hom s t))
+    (S : Finset (V × Bool)) (hs : (s, true) ∈ S) (ht : (t, false) ∉ S)
+    (hS : (vertexMengerNetwork Q s t).upperCutCapacity S < Fintype.card V + 1) :
+    ∃ X : Finset V, s ∉ X ∧ t ∉ X ∧ (X.card : ℤ) = (vertexMengerNetwork Q s t).upperCutCapacity S ∧
+      ¬ ReachableAvoiding Q X s t := by
+  sorry
+
+/-- Conversely, deleting the split arrows of a vertex separator destroys terminal reachability,
+and the source side reachable in the remaining network has cut capacity at most its size. -/
+theorem vertexMengerNetwork_separator_cut {s t : V} (hst : s ≠ t) (X : Finset V)
+    (hsX : s ∉ X) (htX : t ∉ X) (hX : ¬ ReachableAvoiding Q X s t) :
+    ∃ S : Finset (V × Bool), (s, true) ∈ S ∧ (t, false) ∉ S ∧
+      (vertexMengerNetwork Q s t).upperCutCapacity S ≤ X.card := by
+  sorry
+
+/-- Auxiliary terminals on a sum type: `inl v` is an original vertex, `inr false` the fresh
+source `σ`, and `inr true` the fresh sink `τ`. Original arrows keep their identities; `σ → a`
+exists for `a ∈ A` and `b → τ` for `b ∈ B`. -/
+def AuxHom (A B : Finset V) : V ⊕ Bool → V ⊕ Bool → Type v
+  | .inl v, .inl w => Q.Hom v w
+  | .inr false, .inl a => {_u : PUnit.{v + 1} // a ∈ A}
+  | .inl b, .inr true => {_u : PUnit.{v + 1} // b ∈ B}
+  | _, _ => PEmpty
+
+instance (A B : Finset V) (x y : V ⊕ Bool) : Fintype (AuxHom Q A B x y) := by
+  rcases x with v | (_ | _) <;> rcases y with w | (_ | _) <;> dsimp [AuxHom] <;> infer_instance
+
+/-- The auxiliary-terminal network with capacity `cap` on original arrows and `M` on the new
+arrows. -/
+noncomputable abbrev auxNetwork (A B : Finset V) (cap : Assignment Q K)
+    (hcap : ∀ {v w} (e : Q.Hom v w), 0 ≤ cap e) (M : K) (hM : 0 ≤ M) :
+    Network K (V ⊕ Bool) where
+  Hom := AuxHom Q A B
+  lower _ := 0
+  upper {x y} := match x, y with
+    | .inl _, .inl _ => cap
+    | .inr false, .inl _ => fun _ => M
+    | .inl _, .inr true => fun _ => M
+    | .inl _, .inr false => fun e => nomatch e
+    | .inr true, _ => fun e => nomatch e
+    | .inr false, .inr _ => fun e => nomatch e
+  lower_le_upper {x y} := match x, y with
+    | .inl _, .inl _ => hcap
+    | .inr false, .inl _ => fun _ => hM
+    | .inl _, .inr true => fun _ => hM
+    | .inl _, .inr false => fun e => nomatch e
+    | .inr true, _ => fun e => nomatch e
+    | .inr false, .inr _ => fun e => nomatch e
+
+/-- The edge-disjoint set-to-set reduction over `ℤ`: unit original capacities and
+`M = |E| + 1` on the auxiliary arrows, where `E` is the total arrow type. -/
+noncomputable abbrev edgeMengerNetwork (A B : Finset V) : Network ℤ (V ⊕ Bool) :=
+  auxNetwork Q A B (K := ℤ) (fun _ => 1) (fun _ => zero_le_one)
+    (Fintype.card (Σ v w, Q.Hom v w) + 1) (by positivity)
+
+/-- A `σ–τ` cut of capacity below `M` crosses only original arrows, which form an `A–B` arrow
+separator of exactly that capacity. -/
+theorem edgeMengerNetwork_cut_separator (A B : Finset V) (hAB : Disjoint A B)
+    (S : Finset (V ⊕ Bool)) (hσ : Sum.inr false ∈ S) (hτ : Sum.inr true ∉ S)
+    (hS : (edgeMengerNetwork Q A B).upperCutCapacity S < Fintype.card (Σ v w, Q.Hom v w) + 1) :
+    ∃ F : Finset (Σ v w, Q.Hom v w), (F.card : ℤ) = (edgeMengerNetwork Q A B).upperCutCapacity S ∧
+      ∀ a ∈ A, ∀ b ∈ B, ¬ ReachableWithout Q F a b := by
+  sorry
+
+theorem edgeMengerNetwork_separator_cut (A B : Finset V) (hAB : Disjoint A B)
+    (F : Finset (Σ v w, Q.Hom v w)) (hF : ∀ a ∈ A, ∀ b ∈ B, ¬ ReachableWithout Q F a b) :
+    ∃ S : Finset (V ⊕ Bool), Sum.inr false ∈ S ∧ Sum.inr true ∉ S ∧
+      (edgeMengerNetwork Q A B).upperCutCapacity S ≤ F.card := by
+  sorry
+
+end Bridges
+
 /-! ## Stand-ins for Mathlib proposal [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) (Conventions) -/
 
 variable (G : SimpleGraph V)
@@ -911,34 +1053,16 @@ noncomputable def Network.shiftEquiv (h : N.Assignment K) :
     N.Feasible ≃ (N.shift h).Feasible := by
   sorry
 
-theorem Network.shiftEquiv_apply (h : N.Assignment K) (f : N.Feasible)
-    {v w : V} (e : N.Hom v w) :
-    (N.shiftEquiv h f).toFun e = f.toFun e - h e := by
-  sorry
-
 noncomputable def Network.shiftRealizesEquiv (h : N.Assignment K) (b : V → K) :
     N.Realizes b ≃ (N.shift h).Realizes (fun v => b v - N.excessAt h v) := by
-  sorry
-
-noncomputable def Network.shiftRealizesWithinEquiv (h : N.Assignment K) (a b : V → K) :
-    N.RealizesWithin a b ≃ (N.shift h).RealizesWithin
-      (fun v => a v - N.excessAt h v) (fun v => b v - N.excessAt h v) := by
   sorry
 
 abbrev Network.shiftLower : Network K V :=
   Network.ofCapacity ⟨N.Hom⟩ (fun e => N.upper e - N.lower e)
     (fun e => sub_nonneg.mpr (N.lower_le_upper e))
 
-theorem Network.shift_lower : N.shift N.lower = N.shiftLower := by
-  sorry
-
 noncomputable def Network.shiftLowerEquiv (b : V → K) :
     N.Realizes b ≃ N.shiftLower.Realizes (fun v => b v - N.excessAt N.lower v) := by
-  sorry
-
-theorem Network.shiftLowerEquiv_apply (b : V → K) (f : N.Realizes b)
-    {v w : V} (e : N.Hom v w) :
-    (N.shiftLowerEquiv b f).val.toFun e = f.val.toFun e - N.lower e := by
   sorry
 
 /-- The same criterion applies when either or both bounds are negative. -/
@@ -950,11 +1074,6 @@ theorem Network.nonempty_circulation_iff :
 theorem Network.nonempty_realizes_iff (b : V → K) :
     Nonempty (N.Realizes b) ↔ (∑ v, b v) = 0 ∧ ∀ S : Finset V,
       (∑ v ∈ S, b v) + arrowCutCapacity ⟨N.Hom⟩ N.lower S ≤ N.upperCutCapacity Sᶜ := by
-  sorry
-
-theorem Network.feasible_or_obstruction (b : V → K) :
-    Nonempty (N.Realizes b) ∨ (∑ v, b v) ≠ 0 ∨ ∃ S : Finset V,
-      N.upperCutCapacity Sᶜ < (∑ v ∈ S, b v) + arrowCutCapacity ⟨N.Hom⟩ N.lower S := by
   sorry
 
 theorem Network.exists_realizes_mem_addSubgroup (b : V → K) (H : AddSubgroup K)
@@ -976,12 +1095,6 @@ theorem Network.excessAt_residualUpdate (f : N.Feasible)
       N.excessAt f.toFun v + (N.residual f).excessAt r.toFun v := by
   sorry
 
-theorem Network.excessAt_residualUpdate_circulation (f : N.Feasible)
-    (r : (N.residual f).Circulation) (v : V) :
-    N.excessAt (N.residualUpdate f r.val).toFun v = N.excessAt f.toFun v := by
-  exact (N.excessAt_residualUpdate f r.val v).trans
-    ((congrArg (fun x => N.excessAt f.toFun v + x) (r.property v)).trans (add_zero _))
-
 noncomputable def Network.residualDifference (f g : N.Feasible) :
     (N.residual f).Feasible where
   toFun := Sum.elim (fun e => max (g.toFun e - f.toFun e) 0)
@@ -993,14 +1106,6 @@ theorem Network.excessAt_residualDifference (f g : N.Feasible) (v : V) :
     (N.residual f).excessAt (N.residualDifference f g).toFun v =
       N.excessAt g.toFun v - N.excessAt f.toFun v := by
   sorry
-
-noncomputable def Network.residualDifferenceCirculation (f g : N.Feasible)
-    (h : ∀ v, N.excessAt g.toFun v = N.excessAt f.toFun v) :
-    (N.residual f).Circulation :=
-  ⟨N.residualDifference f g, by
-    intro v
-    change (N.residual f).excessAt (N.residualDifference f g).toFun v = 0
-    rw [N.excessAt_residualDifference, h v, sub_self]⟩
 
 theorem Network.residualUpdate_difference (f g : N.Feasible) :
     N.residualUpdate f (N.residualDifference f g) = g := by
@@ -1020,21 +1125,6 @@ noncomputable def Network.returnIntervalEquiv {s t : V} (hst : s ≠ t)
     (a b : K) (hab : a ≤ b) :
     {f : N.BoundedFlow s t // a ≤ f.val ∧ f.val ≤ b} ≃
       (N.withReturnBounds s t a b hab).Circulation := by
-  sorry
-
-noncomputable def Network.returnEquiv {s t : V} (hst : s ≠ t) (q : K) :
-    {f : N.BoundedFlow s t // f.val = q} ≃
-      (N.withReturnBounds s t q q le_rfl).Circulation := by
-  sorry
-
-theorem Network.returnEquiv_original {s t : V} (hst : s ≠ t) (q : K)
-    (f : {f : N.BoundedFlow s t // f.val = q}) {v w : V} (e : N.Hom v w) :
-    (N.returnEquiv hst q f).val.toFun (Sum.inl e) = f.val.toFun e := by
-  sorry
-
-theorem Network.returnEquiv_return {s t : V} (hst : s ≠ t) (q : K)
-    (f : {f : N.BoundedFlow s t // f.val = q}) :
-    (N.returnEquiv hst q f).val.toFun (Sum.inr ⟨rfl, rfl⟩) = q := by
   sorry
 
 theorem Network.cutBound_eq_shiftLower (S : Finset V) :
@@ -1062,11 +1152,6 @@ theorem Network.boundedFlow_canonicalCuts {s t : V} (hst : s ≠ t)
         Smin ⊆ S ∧ S ⊆ Smax := by
   sorry
 
-theorem Network.boundedFlow_cut_bounds {s t : V} (f : N.BoundedFlow s t)
-    {S : Finset V} (hs : s ∈ S) (ht : t ∉ S) :
-    -N.cutBound Sᶜ ≤ f.val ∧ f.val ≤ N.cutBound S := by
-  sorry
-
 theorem Network.exists_boundedFlow_extrema {s t : V} (hst : s ≠ t)
     (hf : Nonempty (N.BoundedFlow s t)) :
     ∃ (fmin fmax : N.BoundedFlow s t) (Smin Smax : Finset V),
@@ -1084,11 +1169,6 @@ theorem Network.exists_boundedFlow_val_iff {s t : V} (hst : s ≠ t)
 theorem Network.boundedFlow_isMax_iff {s t : V} (hst : s ≠ t) (f : N.BoundedFlow s t) :
     (∀ g : N.BoundedFlow s t, g.val ≤ f.val) ↔
       ¬ (N.residual f.toBoundedAssignment).positivePart.Reachable s t := by
-  sorry
-
-theorem Network.boundedFlow_isMin_iff {s t : V} (hst : s ≠ t) (f : N.BoundedFlow s t) :
-    (∀ g : N.BoundedFlow s t, f.val ≤ g.val) ↔
-      ¬ (N.residual f.toBoundedAssignment).positivePart.Reachable t s := by
   sorry
 
 /-- Original vertices are `some v`; `none` is a fresh balancing vertex. -/
@@ -1119,35 +1199,9 @@ noncomputable def Network.excessIntervalEquiv (a b : V → K) (hab : ∀ v, a v 
     N.RealizesWithin a b ≃ (N.withExcessBounds a b hab).Circulation := by
   sorry
 
-theorem Network.excessIntervalEquiv_original (a b : V → K) (hab : ∀ v, a v ≤ b v)
-    (f : N.RealizesWithin a b) {v w : V} (e : N.Hom v w) :
-    (N.excessIntervalEquiv a b hab f).val.toFun (v := some v) (w := some w) e =
-      f.val.toFun e := by
-  sorry
-
-theorem Network.excessIntervalEquiv_auxiliary (a b : V → K) (hab : ∀ v, a v ≤ b v)
-    (f : N.RealizesWithin a b) (v : V) :
-    (N.excessIntervalEquiv a b hab f).val.toFun (v := some v) (w := none) PUnit.unit =
-      N.excessAt f.val.toFun v := by
-  sorry
-
 theorem Network.nonempty_realizesWithin_iff (a b : V → K) (hab : ∀ v, a v ≤ b v) :
     Nonempty (N.RealizesWithin a b) ↔ ∀ S : Finset V,
       (∑ v ∈ S, a v) ≤ N.cutBound Sᶜ ∧ -N.cutBound S ≤ ∑ v ∈ S, b v := by
-  sorry
-
-theorem Network.realizesWithin_or_obstruction (a b : V → K) (hab : ∀ v, a v ≤ b v) :
-    Nonempty (N.RealizesWithin a b) ∨ ∃ S : Finset V,
-      N.cutBound Sᶜ < (∑ v ∈ S, a v) ∨ (∑ v ∈ S, b v) < -N.cutBound S := by
-  sorry
-
-theorem Network.exists_realizesWithin_mem_addSubgroup (a b : V → K)
-    (H : AddSubgroup K)
-    (hlo : ∀ {v w} (e : N.Hom v w), N.lower e ∈ H)
-    (hhi : ∀ {v w} (e : N.Hom v w), N.upper e ∈ H)
-    (ha : ∀ v, a v ∈ H) (hb : ∀ v, b v ∈ H)
-    (hf : Nonempty (N.RealizesWithin a b)) :
-    ∃ f : N.RealizesWithin a b, ∀ {v w} (e : N.Hom v w), f.val.toFun e ∈ H := by
   sorry
 
 end FiniteBounds
@@ -1162,18 +1216,6 @@ theorem exists_integer_rounding {R : Type*} [Ring R] [LinearOrder R]
     ∃ g : Assignment Q ℤ, (∀ v, excessAt Q g v = b v) ∧
       ∀ {v w} (e : Q.Hom v w), ⌊f e⌋ ≤ g e ∧ g e ≤ ⌈f e⌉ := by
   sorry
-
-theorem exists_integer_rounding_rat (f : Assignment Q ℚ) (b : V → ℤ)
-    (hb : ∀ v, excessAt Q f v = (b v : ℚ)) :
-    ∃ g : Assignment Q ℤ, (∀ v, excessAt Q g v = b v) ∧
-      ∀ {v w} (e : Q.Hom v w), ⌊f e⌋ ≤ g e ∧ g e ≤ ⌈f e⌉ :=
-  exists_integer_rounding Q f b hb
-
-theorem exists_integer_rounding_real (f : Assignment Q ℝ) (b : V → ℤ)
-    (hb : ∀ v, excessAt Q f v = (b v : ℝ)) :
-    ∃ g : Assignment Q ℤ, (∀ v, excessAt Q g v = b v) ∧
-      ∀ {v w} (e : Q.Hom v w), ⌊f e⌋ ≤ g e ∧ g e ≤ ⌈f e⌉ :=
-  exists_integer_rounding Q f b hb
 
 end Rounding
 
