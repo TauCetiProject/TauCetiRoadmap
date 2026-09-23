@@ -17,6 +17,8 @@ interval excess, and extremal values.
 The pinned choices illustrated here are:
 
 - Finite bounds and flows use a linearly ordered additive commutative group `K`.
+  Cut functions and cut trees use only a linearly ordered cancellative additive commutative
+  monoid, so `ℕ` weights need no cast.
   Integrality concerns values in an additive subgroup; every sum is a `Finset.sum`.
   Only the rounding target adds an ordered ring and `FloorRing` structure.
 - A network is a term `N : Network C V`, with arrow types in a universe independent of `V`.
@@ -969,7 +971,7 @@ end TauCetiRoadmap.GraphConnectivityAndFlows
 
 namespace TauCetiRoadmap.GraphConnectivityAndFlows
 
-variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
+variable {K : Type w} [AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]
 variable {V : Type u} [Fintype V] [DecidableEq V]
 
 /-- Submodularity alone suffices for the minimum-cut lattice, including directed cut capacities. -/
@@ -1054,7 +1056,7 @@ deleting fewer than `k` edges exactly when every `s–t` cut has at least `k` ed
 theorem isEdgeReachable_iff_le_minCut (G : SimpleGraph V) [DecidableRel G.Adj] {s t : V}
     (hst : s ≠ t) (k : ℕ) :
     G.IsEdgeReachable k s t ↔
-      (k : ℤ) ≤ minCut (pairCutCapacity fun e => if e ∈ G.edgeFinset then (1 : ℤ) else 0) s t := by
+      k ≤ minCut (pairCutCapacity fun e => if e ∈ G.edgeFinset then (1 : ℕ) else 0) s t := by
   sorry
 
 /-- A weighted tree on the vertex type. -/
@@ -1074,6 +1076,12 @@ theorem exists_gomoryHu_tree [Nonempty V] (f : Finset V → K) (hf : IsSymmSubmo
       ∀ u v, T.tree.Adj u v →
         T.weight s(u, v) = minCut f u v ∧
           f (univ.filter fun x => (T.tree.deleteEdges {s(u, v)}).Reachable u x) = minCut f u v := by
+  sorry
+
+/-- Every minimum cut value is a tree-edge weight, so there are at most `|V| - 1` of them. -/
+theorem card_image_minCut_le [Nonempty V] (f : Finset V → K) (hf : IsSymmSubmodular f) :
+    ((univ.filter fun p : V × V => p.1 ≠ p.2).image fun p => minCut f p.1 p.2).card ≤
+      Fintype.card V - 1 := by
   sorry
 
 end TauCetiRoadmap.GraphConnectivityAndFlows
@@ -1589,38 +1597,14 @@ noncomputable def EarDecomposition.ofSimpleGraph {V : Type*} (H : SimpleGraph V)
 
 section Capacities
 
-variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
+section CutFunctions
 
-/-- Capacities decorate the incidence arrow family; they do not determine which edges exist. -/
-abbrev bidirectedNetwork (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e) : Network K G.vertexSet where
-  Hom := Hom G
-  lower _ := 0
-  upper e := c e.val
-  lower_le_upper e := hc e.val
-
+variable {K : Type w} [AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]
 variable [Fintype G.vertexSet] [Fintype G.edgeSet]
 
 open Classical in
 noncomputable def edgeCutCapacity (c : G.edgeSet → K) (S : Finset G.vertexSet) : K :=
   ∑ e : G.edgeSet, if ∃ s ∈ S, ∃ t ∉ S, G.IsLink e.val s.val t.val then c e else 0
-
-open Classical in
-theorem bidirected_edgeCutCapacity (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e)
-    (S : Finset G.vertexSet) :
-    (bidirectedNetwork G c hc).upperCutCapacity S = edgeCutCapacity G c S := by
-  sorry
-
-open Classical in
-/-- Undirected max-flow/min-cut: a flow of the bidirected network using no loop arrow and at
-most one direction of each edge, and a cut of equal capacity. -/
-theorem exists_bidirected_flow_edgeCutCapacity_eq (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e)
-    {s t : G.vertexSet} (hst : s ≠ t) :
-    ∃ (f : (bidirectedNetwork G c hc).Flow s t) (S : Finset G.vertexSet),
-      s ∈ S ∧ t ∉ S ∧ f.val = edgeCutCapacity G c S ∧
-      (∀ (v : G.vertexSet) (e : Hom G v v), f.toFun e = 0) ∧
-      ∀ (v w : G.vertexSet) (e : Hom G v w) (e' : Hom G w v), e.val = e'.val →
-        f.toFun e = 0 ∨ f.toFun e' = 0 := by
-  sorry
 
 open Classical in
 /-- The aggregated pair capacity counts all parallel edges and discards loops. -/
@@ -1641,7 +1625,39 @@ theorem isSymmSubmodular_edgeCutCapacity (c : G.edgeSet → K) (hc : ∀ e, 0 �
 
 open Classical in
 theorem isEdgeReachable_iff_le_minCut {s t : G.vertexSet} (hst : s ≠ t) (k : ℕ) :
-    IsEdgeReachable G k s t ↔ (k : ℤ) ≤ minCut (edgeCutCapacity G (fun _ => (1 : ℤ))) s t := by
+    IsEdgeReachable G k s t ↔ k ≤ minCut (edgeCutCapacity G (fun _ => (1 : ℕ))) s t := by
+  sorry
+
+
+end CutFunctions
+
+variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
+
+/-- Capacities decorate the incidence arrow family; they do not determine which edges exist. -/
+abbrev bidirectedNetwork (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e) : Network K G.vertexSet where
+  Hom := Hom G
+  lower _ := 0
+  upper e := c e.val
+  lower_le_upper e := hc e.val
+
+variable [Fintype G.vertexSet] [Fintype G.edgeSet]
+
+open Classical in
+theorem bidirected_edgeCutCapacity (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e)
+    (S : Finset G.vertexSet) :
+    (bidirectedNetwork G c hc).upperCutCapacity S = edgeCutCapacity G c S := by
+  sorry
+
+open Classical in
+/-- Undirected max-flow/min-cut: a flow of the bidirected network using no loop arrow and at
+most one direction of each edge, and a cut of equal capacity. -/
+theorem exists_bidirected_flow_edgeCutCapacity_eq (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e)
+    {s t : G.vertexSet} (hst : s ≠ t) :
+    ∃ (f : (bidirectedNetwork G c hc).Flow s t) (S : Finset G.vertexSet),
+      s ∈ S ∧ t ∉ S ∧ f.val = edgeCutCapacity G c S ∧
+      (∀ (v : G.vertexSet) (e : Hom G v v), f.toFun e = 0) ∧
+      ∀ (v w : G.vertexSet) (e : Hom G v w) (e' : Hom G w v), e.val = e'.val →
+        f.toFun e = 0 ∨ f.toFun e' = 0 := by
   sorry
 
 end Capacities

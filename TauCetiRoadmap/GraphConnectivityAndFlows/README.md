@@ -96,6 +96,7 @@ This aggregation preserves weighted cuts, not individual edge identities or unwe
 
 **Directed networks** are terms, not typeclass instances.
 The finite-bound theory is parameterized by a linearly ordered additive commutative group `K`, expressed by `[AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]`.
+The cut-function theory of Targets 4.1 and 4.3 and Milestone 9 never subtracts and is stated over a linearly ordered cancellative additive commutative monoid, `[AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]`, so that `ℕ` and `ℝ≥0` are instances alongside these groups; Target 4.2 uses the group.
 It must not assume a unit, multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
 A network `N : Network K V` carries an arrow type `N.Hom v w` for every ordered pair of vertices.
 Its arrow universe is independent of the vertex universe, as for `Quiver.{v}`.
@@ -420,6 +421,7 @@ These are ordinary API over `ℝ`; when Mathlib lands its network flows, they ar
 ### 4.1. Submodularity and terminal-set cut lattices
 
 State this milestone for set functions, with the cut capacities as instances.
+Targets 4.1 and 4.3 are stated over the linearly ordered cancellative additive commutative monoid of the conventions; only Target 4.2 needs the group.
 A function `f : Finset V → K` is **submodular** when `f (S ∪ T) + f (S ∩ T) ≤ f S + f T` for all `S, T`, and **symmetric** when `f Sᶜ = f S` for all `S`.
 A minimum `A–B` cut for disjoint terminal sets `A,B` is a minimizer of `f` over `A ⊆ S ⊆ Bᶜ`.
 Either terminal set may be empty; disjointness guarantees at least one admissible set, and finiteness gives an attained minimum.
@@ -501,7 +503,7 @@ The derived numerical connectivity invariants package global threshold informati
   The multigraph vertex version likewise requires no finiteness of the actual edge set; the edge version retains that hypothesis.
 
 Derive the predicate forms: local edge reachability at threshold `k` is equivalent to the existence of `k` edge-disjoint paths; local vertex reachability has the analogous equivalence under the nonadjacency hypothesis.
-Relate local edge reachability to cuts as well: for distinct actual vertices `s,t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut value with capacity `1 : ℤ` on each actual edge.
+Relate local edge reachability to cuts as well: for distinct actual vertices `s,t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut value, in `ℕ`, with capacity `1` on each actual edge.
 After aggregation to pair capacities, the capacity of a pair is its edge multiplicity, not merely an adjacency indicator.
 Thus the cut tree of Milestone 9 answers multigraph local edge reachability; for a simple graph this specializes to capacity `1` on edges and `0` elsewhere.
 For multigraphs with finitely many actual vertices and more than `k` of them, derive the global characterization of `k`-vertex-connectivity by `k` internally vertex-disjoint paths between every pair of distinct vertices, including adjacent pairs, without assuming a finite edge set.
@@ -745,7 +747,7 @@ No rounding assertion is made for noninteger prescribed excess.
 The general cut-tree theorem and minimum-cut recovery use Targets 4.1 and 4.3.
 Milestone 5 is needed only to interpret the unit-capacity queries as edge connectivity.
 
-For every permitted coefficient type, every nonempty finite vertex type, and every symmetric submodular `f : Finset V → K`, prove the existence of a weighted tree on the same vertex type such that:
+For every linearly ordered cancellative additive commutative monoid `K`, every nonempty finite vertex type, and every symmetric submodular `f : Finset V → K`, prove the existence of a weighted tree on the same vertex type such that:
 
 1. For any distinct vertices `s, t`, their minimum cut value for `f` is the minimum edge weight along their unique tree path.
 2. For every tree edge `{u,v}`, deleting that edge gives a partition that is a minimum `u–v` cut for `f`, with value equal to the tree-edge weight.
@@ -754,6 +756,7 @@ Prove the resulting query theorem: any minimum-weight edge on the tree path from
 State the instances for weighted multigraphs and pair-capacity networks as corollaries, using the cut aggregation theorem of Milestone 1.
 The weighted tree is a `SimpleGraph` on the actual vertex type `V(G)` and need not be a subgraph of the original graph.
 For unit capacities, parallel edges contribute their multiplicities; prove that the tree answers the edge-connectivity queries of Milestone 5 and recovers cuts as subsets of the original vertex set.
+Derive the global corollaries: for a finite graph with at least two actual vertices, `edgeConnectivity G` is the minimum tree-edge weight, and for any symmetric submodular `f` the minimum cut values `λ(s,t)` over `s ≠ t` take at most `|V| − 1` distinct values, since each is a tree-edge weight.
 Disconnected graphs and zero capacities are included, with zero-weight tree edges; a singleton has the one-vertex tree.
 
 Develop the weighted-tree API needed for these statements: unique paths, fundamental partitions, minimum weights on nonempty paths, and transport under vertex equivalences.
