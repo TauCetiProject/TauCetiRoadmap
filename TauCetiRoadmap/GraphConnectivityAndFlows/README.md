@@ -20,7 +20,7 @@ These are suggested forms, never an exhaustive checklist; this document is the s
 | Milestone | Main results | Depends on |
 | --- | --- | --- |
 | 1. Shared foundations | Walks and representation bridges (1.1), cuts and path families (1.2), excess calculus and residual updates (1.3), splitting and auxiliary terminals (1.4), deletion predicates and invariants (1.5) | Existing Mathlib and Tau Ceti APIs |
-| 2. Bridges and blocks | Multigraph bridges; articulation criteria and block–cut forest | 1 |
+| 2. Bridges and blocks | Multigraph bridges; cut-vertex criteria and block–cut forest | 1 |
 | 3. Flows | Decomposition, augmentation, max-flow/min-cut, integrality, and termination (3.1), large capacities (3.2), terminal sets and undirected networks (3.3), real-valued corollaries (3.4) | 1 |
 | 4. Minimum cuts | Terminal-set cut lattices (4.1), canonical cuts (4.2), and non-crossing lemmas (4.3) | 1 for 4.1 and 4.3; 1, 3 for 4.2 |
 | 5. Menger | Path–separator duality (5.1) and the reductions to max-flow (5.2) | 1, 3, 4 |
@@ -80,7 +80,7 @@ The mathematical targets here do not require importing that implementation.
 **Undirected graphs** use `G : Graph α β`, with actual vertices `V(G) ⊆ α` and edges `E(G) ⊆ β`.
 The ambient types need not be finite: finiteness hypotheses concern the subtypes `V(G)` and `E(G)`, with `Fintype` instances on these subtypes when taking finite sums.
 A **finite graph** has finite `V(G)` and finite `E(G)`; every multigraph target assumes a finite graph except the vertex-only targets, which assume only `[Finite V(G)]`.
-The vertex-only targets are vertex connectivity and its invariant, articulation vertices and vertex blocks, nonadjacent local vertex Menger, vertex-disjoint set-to-set Menger, and the vertex-structural consequences of Milestone 6; their parallel-edge sets may be infinite, and their proofs pass through simplification and lift finite path families by choosing actual edge witnesses.
+The vertex-only targets are vertex connectivity and its invariant, cut vertices and vertex blocks, nonadjacent local vertex Menger, vertex-disjoint set-to-set Menger, and the vertex-structural consequences of Milestone 6; their parallel-edge sets may be infinite, and their proofs pass through simplification and lift finite path families by choosing actual edge witnesses.
 Directed flow and Menger reductions use finite vertex and arrow types.
 Walk endpoints and separators belong to `V(G)`; deleting edges counts identities in `E(G)`, including separate parallel edges.
 Loops are allowed.
@@ -312,7 +312,7 @@ Consequently, for finite graphs edge connectivity is `⊤` exactly when the actu
 - Bounded assignments with negative bounds, and integer assignments carried to real bounds by change of coefficients.
 - A singleton subnetwork inside a network with several vertices, verifying that its own vertex type is a singleton and its connectivity does not quantify over omitted vertices.
 
-## 2. Bridges, articulation vertices, and blocks
+## 2. Bridges, cut vertices, and blocks
 
 For a multigraph, a bridge is an actual edge whose deletion disconnects its endpoints.
 Prove equivalence with increasing the number of connected components by exactly one and with lying on no undirected cycle.
@@ -320,17 +320,17 @@ Loops are never bridges, and an edge with a distinct parallel edge is not a brid
 Prove correspondence on actual edges of `Graph.ofSimpleGraph H` with Mathlib's `SimpleGraph.IsBridge` and its `isBridge_iff_forall_cycle_notMem`; membership matters because the simple-graph predicate can also hold for a non-edge joining different components.
 
 Articulation vertices and the block–cut forest use the underlying simple graph and its existing reachability and induced-subgraph APIs.
-An articulation vertex `v` is one that separates two other vertices: some `u, w ≠ v` are reachable in `G` but not in the graph induced on the complement of `{v}`.
+An cut vertex `v` is one that separates two other vertices: some `u, w ≠ v` are reachable in `G` but not in the graph induced on the complement of `{v}`.
 Prove that this is equivalent to deletion of `v` increasing the number of connected components, by one or more; the count is a lemma rather than the definition, so no statement needs a `Fintype` instance on a deletion subtype.
 
-A block is a maximal nonempty connected induced subgraph with no articulation vertex of its own.
+A block is a maximal nonempty connected induced subgraph with no cut vertex of its own.
 For simple graphs, bridges that are edges give two-vertex blocks, and isolated vertices give singleton blocks.
-Prove that every simple-graph edge belongs to exactly one block, distinct blocks meet in at most one vertex, and a vertex lies in more than one block exactly when it is an articulation vertex.
-Transport these vertex blocks and articulation criteria to multigraphs through simplification.
+Prove that every simple-graph edge belongs to exactly one block, distinct blocks meet in at most one vertex, and a vertex lies in more than one block exactly when it is an cut vertex.
+Transport these vertex blocks and cut-vertex criteria to multigraphs through simplification.
 Every nonloop multigraph edge belongs to exactly one vertex block, but a two-vertex block may contain parallel edges and need not consist of a bridge.
-A singleton block may carry loops; a loop at an articulation vertex lies in every induced vertex block containing that vertex, so these vertex blocks do not partition loop edges.
+A singleton block may carry loops; a loop at an cut vertex lies in every induced vertex block containing that vertex, so these vertex blocks do not partition loop edges.
 
-Construct the **block–cut incidence graph**, whose two kinds of vertices are blocks and articulation vertices, with adjacency given by membership.
+Construct the **block–cut incidence graph**, whose two kinds of vertices are blocks and cut vertices, with adjacency given by membership.
 Prove that it is a forest, that its components correspond to the components of the original graph, and that it is a tree when the original graph is connected.
 Include the path correspondence that recovers separation in the original graph from the unique paths in this forest.
 
@@ -544,7 +544,7 @@ The reductions must recover actual path families and separators, not just equali
 
 Prove the vertex-structural and matching consequences in the existing `SimpleGraph` vocabulary, including their application to the underlying simple graph of a multigraph.
 Also prove the native multigraph Whitney inequality `vertexConnectivity G ≤ edgeConnectivity G` and the upper bound by the number of nonloop edges incident to each vertex when there are at least two actual vertices.
-This count includes parallel edges separately and needs no separate degree theory; the surface topology roadmap owns degree with loops counted twice.
+This count includes parallel edges separately and excludes loops; this roadmap defines no multigraph degree.
 The simple-graph specialization gives the minimum-degree bound below.
 
 - **Whitney inequalities:** `G.IsVertexConnected k` implies `G.IsEdgeConnected k`; for `[Nontrivial V]`, `G.IsEdgeConnected k` implies `k ≤ G.minDegree`.
@@ -784,13 +784,11 @@ Gusfield's paper gives the same route as an algorithm on the original graph, wit
 
 ## Scope boundaries
 
-General contractions, contractible-edge and wheel theorems, planar embeddings, and surface topology are outside this roadmap.
-The [surface topology roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/271) owns drawings, embeddings, multigraph degree, contractions, and the contractible-edge and wheel theorems.
-Its 3-connectivity targets use `SimpleGraph`; their `IsThreeConnected` is the specialization `IsVertexConnected 3` of this roadmap's vertex-connectivity API.
-This roadmap owns graph connectivity, components, separators, and their representation bridges; the surface topology development uses that common API for its underlying multigraphs and its simple-graph theorems.
-No second component or 3-connectivity theory is required in the surface topology development.
+This roadmap owns graph connectivity, components, separators, cuts, flows, and the representation bridges between `Graph`, `SimpleGraph`, orientations, and networks.
+Roadmaps that need `k`-vertex-connectivity for a fixed `k`, such as 3-connectivity in topological graph theory, use `IsVertexConnected k` from here rather than a second connectivity or component theory.
+This roadmap defines no multigraph degree, contraction, drawing, or embedding; general contractions, contractible-edge and wheel theorems, planar embeddings, and surface topology are outside it.
 
-General matching theory beyond the bipartite consequences above, networks with infinite capacities, minimum-cost flows and circulations, multicommodity flows, graphs with infinitely many actual vertices, edge-counting and flow theories with infinite edge sets, treewidth, and algorithmic complexity bounds are outside this roadmap.
+Also outside this roadmap: general matching theory beyond the bipartite consequences above, networks with infinite capacities, minimum-cost flows and circulations, multicommodity flows, graphs with infinitely many actual vertices, edge-counting and flow theories with infinite edge sets, treewidth, algorithmic complexity bounds, Nash-Williams' orientation theorem for `2k`-edge-connected graphs, Edmonds' disjoint arborescences, the Nash-Williams–Tutte disjoint spanning tree theorems, and the condensation of a digraph into its strong components.
 
 ## Mathematical references
 

@@ -872,16 +872,16 @@ theorem vertexConnectivity_le_edgeConnectivity [Finite V] :
     G.vertexConnectivity ≤ edgeConnectivity G := by
   sorry
 
-theorem edgeConnectivity_le_minDegree_target [Fintype V] [DecidableRel G.Adj] [Nontrivial V] :
+theorem edgeConnectivity_le_minDegree [Fintype V] [DecidableRel G.Adj] [Nontrivial V] :
     edgeConnectivity G ≤ (G.minDegree : ℕ∞) := by
   sorry
 
-/-- An articulation vertex separates two other vertices. The component-count form is a lemma. -/
+/-- A cut vertex separates two other vertices. The component-count form is a lemma. -/
 def IsCutVertex (v : V) : Prop :=
   ∃ u w, ∃ (hu : u ≠ v) (hw : w ≠ v),
     G.Reachable u w ∧ ¬ (G.induce {v}ᶜ).Reachable ⟨u, hu⟩ ⟨w, hw⟩
 
-/-- A block: a maximal vertex set inducing a connected graph without articulation vertices. -/
+/-- A block: a maximal vertex set inducing a connected graph without cut vertices. -/
 def IsBlock (B : Set V) : Prop :=
   Maximal (fun B : Set V => (G.induce B).Connected ∧ ∀ v, ¬ (G.induce B).IsCutVertex v) B
 
@@ -1007,7 +1007,8 @@ theorem konig [Finite V] (h : G.IsBipartite) :
 
 /-- The König–Ore deficiency formula in witness form: a matching `M` and a set `S ⊆ L` with
 `|M| + |S| = |L| + |N(S)|`. The inequality `|M| + |S| ≤ |L| + |N(S)|` for every matching and
-every `S ⊆ L` is a separate target; Hall's theorem is the case `S = ∅` of the equality. -/
+every `S ⊆ L` is a separate target. Under Hall's condition the witness `S` has `|S| ≤ |N(S)|`, so
+`|M| = |L|`: that is Hall's theorem. -/
 theorem konig_ore [Finite V] {L R : Set V} (h : G.IsBipartiteWith L R) :
     ∃ (M : G.Subgraph) (S : Set V), M.IsMatching ∧ S ⊆ L ∧
       M.edgeSet.ncard + S.ncard = L.ncard + (⋃ x ∈ S, G.neighborSet x).ncard := by
