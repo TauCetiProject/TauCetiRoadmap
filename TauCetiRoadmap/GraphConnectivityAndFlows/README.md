@@ -87,8 +87,10 @@ The table summarizes the hypotheses of the milestones; the targets are the norma
 | Multigraph vertex-only targets: vertex connectivity, nonadjacent local vertex Menger, vertex-capacitated Menger, set-to-set vertex Menger, vertex consequences of Milestone 6, component counts of Milestone 2 | finite `V(G)` | none | none | distinct terminals, nonadjacent for local vertex Menger; `A, B` may overlap |
 | Multigraph edge targets: edge connectivity, edge Menger, weighted cuts, ears, Robbins (1.2, 1.5, 5, 7) | finite `V(G)` | finite `E(G)` | cancellative monoid for weights | distinct terminals; disjoint `A, B` for edge versions |
 | Directed vertex-only targets: vertex strong connectivity, directed local, vertex-capacitated, and set-to-set vertex Menger (5, 6) | `[Fintype V]` | none | none | no arrow `s → t` for local vertex Menger |
+| Adjacent-terminal vertex Menger (5.1) | finite actual vertices | only the direct terminal edges or arrows must be finite | none | distinct `s, t`; only arrows `s → t` counted in the directed case |
 | Directed flows, arc connectivity, Menger reductions, bipartite network (3, 5.2, 6, 7) | `[Fintype V]` | `[∀ v w, Fintype (N.Hom v w)]` | linearly ordered additive group; `ℤ` for the reductions | distinct `s, t`; `A, B` possibly empty, disjoint for edge versions and terminal-set flows, overlapping allowed for vertex versions |
-| Cut functions and cut trees (4.1, 4.3, 9) | `[Fintype V]`, nonempty for cut trees | none | linearly ordered cancellative additive monoid | disjoint `A, B`, possibly empty; distinct `s, t` |
+| Submodularity and its closure lemmas (4.1) | none | none | addition and order for the definition; stronger assumptions per lemma | none |
+| Minimum cuts and cut trees (4.1, 4.3, 9) | `[Fintype V]`, nonempty for cut trees | none | linearly ordered cancellative additive monoid | disjoint `A, B`, possibly empty; distinct `s, t` |
 | Residual canonical cuts, bounded circulations, rounding (4.2, 8) | `[Fintype V]` | finite arrow types | linearly ordered additive group with finite signed bounds; `FloorRing` for Target 8.7 | distinct `s, t` |
 
 ### Graphs, networks, and orientations
@@ -98,10 +100,11 @@ The ambient types need not be finite: finiteness hypotheses concern the subtypes
 A **finite graph** has finite `V(G)` and finite `E(G)`.
 The foundations assume no finiteness of either set: the walk, isomorphism, and bridge API of Target 1.1, the cut, separator, and path-family results of Target 1.2 but not its cardinality, capacity, and aggregation formulas, the deletion predicates and invariants of Target 1.5, and the bridges, cut vertices, and blocks of Milestone 2, except for the statements that count components, which assume finite `V(G)`.
 **Why:** these statements concern walks, deletion, and membership, and Mathlib's `SimpleGraph.Walk` and `IsBridge` carry no finiteness either; a finite hypothesis on them would be inherited by every consumer.
-Every other multigraph target assumes a finite graph except the vertex-only targets, which assume only `[Finite V(G)]`.
-The vertex-only targets are vertex connectivity and its invariant, nonadjacent local vertex Menger, vertex-capacitated Menger, vertex-disjoint set-to-set Menger, and the vertex-structural consequences of Milestone 6; their parallel-edge sets may be infinite, and their proofs pass through simplification and lift finite path families by choosing actual edge witnesses.
+Every other multigraph target assumes a finite graph except the vertex-only targets, which assume only `[Finite V(G)]`, and adjacent-terminal vertex Menger, which additionally assumes only finitely many direct terminal edges.
+The vertex-only targets are vertex connectivity and its invariant, nonadjacent local vertex Menger, local and set-to-set vertex-capacitated Menger, vertex-disjoint set-to-set Menger, and the vertex-structural consequences of Milestone 6; their parallel-edge sets may be infinite, and their proofs pass through simplification and lift finite path families by choosing actual edge witnesses.
 Directed flows, arrow-counting connectivity, and the Menger reductions use finite vertex and arrow types.
 The directed vertex-only targets, namely vertex strong connectivity, its invariant, and directed local, vertex-capacitated, and set-to-set vertex Menger, use a finite vertex type and arbitrary arrow types; their proofs pass through the arrow family with one arrow for each inhabited `Q v w` and lift finite path families by choosing arrows, as the multigraph proofs do through simplification.
+Directed adjacent-terminal vertex Menger additionally assumes only that the arrow type `Q s t` is finite.
 Walk endpoints and separators belong to `V(G)`; deleting edges counts identities in `E(G)`, including separate parallel edges.
 Loops are allowed.
 Use `G.toSimpleGraph : SimpleGraph V(G)` for properties insensitive to loops and parallel edges, and `Graph.ofSimpleGraph` to state and prove the simple-graph corollaries.
@@ -118,7 +121,8 @@ This aggregation preserves weighted cuts, not individual edge identities or unwe
 
 - **Coefficients.** The finite-bound theory is parameterized by a linearly ordered additive commutative group `K`, expressed by `[AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]`.
   It must not assume a unit, multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
-  The cut-function theory of Targets 4.1 and 4.3 and Milestone 9 never subtracts and is stated over a linearly ordered cancellative additive commutative monoid, `[AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]`, so that `ℕ` and `ℝ≥0` are instances alongside these groups; Target 4.2 uses the group.
+  The minimum-cut theory of Targets 4.1 and 4.3 and Milestone 9 never subtracts and is stated over a linearly ordered cancellative additive commutative monoid, `[AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]`, so that `ℕ` and `ℝ≥0` are instances alongside these groups; Target 4.2 uses the group.
+  The definition and elementary closure lemmas for submodularity use the weaker assumptions specified in Target 4.1.
 - **Carrier.** A network `N : Network K V` carries an arrow type `N.Hom v w` for every ordered pair of vertices, in a universe independent of the vertex universe, as for `Quiver.{v}`.
   Each arrow has lower and upper bounds `ℓ, u` in `K`, with a proof of `ℓ ≤ u`; bounds may be negative, and all bounds are finite.
   Parallel arrows, arrows in opposite directions, loops, and zero capacities are allowed; the total arrow type is the dependent sum of the arrow types over ordered pairs of vertices.
@@ -432,7 +436,14 @@ Prove that every flow of the capped network is a flow of the original network wi
 **Terminal sets.** For disjoint finite vertex sets `A, B`, an `A–B` flow is a pseudoflow conserved outside `A ∪ B` with nonpositive excess on `A` and nonnegative excess on `B`; its value is the total excess on `B`, equivalently minus the total excess on `A`.
 An `A–B` cut is a vertex set `S` with `A ⊆ S ⊆ Bᶜ`, of capacity `u(δ⁺(S))`; these are the admissible sets of [Target 4.1](#41-submodularity-and-terminal-set-cut-lattices).
 Prove weak duality, the existence of an `A–B` flow and an `A–B` cut of equal value and capacity, the optimality criteria, and integrality in an additive subgroup, for all disjoint `A, B` including empty ones, where the maximum value is zero.
-The suggested route is the auxiliary-terminal construction of [Target 1.4](#14-vertex-splitting-auxiliary-terminals-and-change-of-coefficients) with the capacity of `σ → a` equal to the total capacity leaving `a` and that of `b → τ` equal to the total capacity entering `b`: prove that `A–B` flows correspond exactly to `σ–τ` flows with the same original assignment and value, that every `A–B` cut `R` gives the `σ–τ` cut `R ∪ {σ}` of the same capacity, and that normalizing a minimum `σ–τ` cut by the normalization lemma of Target 1.4 gives a minimum `A–B` cut of the same capacity.
+In the auxiliary-terminal construction of [Target 1.4](#14-vertex-splitting-auxiliary-terminals-and-change-of-coefficients), give `σ → a` capacity equal to the total capacity leaving `a` and `b → τ` capacity equal to the total capacity entering `b`.
+Prove the following reusable correspondences:
+
+1. `A–B` flows correspond exactly to `σ–τ` flows with the same original assignment and value.
+2. Every `A–B` cut `R` gives the `σ–τ` cut `R ∪ {σ}` of the same capacity.
+3. Normalizing a minimum `σ–τ` cut by the normalization lemma of Target 1.4 gives a minimum `A–B` cut of the same capacity.
+
+**Suggested proof:** derive terminal-set max-flow/min-cut from these correspondences and the ordinary theorem.
 The reductions of [Target 5.2](#52-reductions-to-max-flow) use the same construction with other capacities.
 
 **Undirected networks.** A flow of a weighted multigraph is a flow of its bidirected network.
@@ -456,11 +467,14 @@ State max-flow/min-cut and integrality for `ℝ≥0` capacities in these terms.
 ### 4.1. Submodularity and terminal-set cut lattices
 
 A function `f : L → K` on a lattice `L` is **submodular** when `f (a ⊔ b) + f (a ⊓ b) ≤ f a + f b` for all `a, b`; for `f : Finset V → K` this reads `f (S ∪ T) + f (S ∩ T) ≤ f S + f T`, and such an `f` is **symmetric** when `f Sᶜ = f S` for all `S`.
-Define submodularity on lattices and state the closure of minimizers there; symmetry and everything after it concern `Finset V`.
+Define submodularity and prove its elementary closure lemmas and closure of minimizers on lattices; symmetry and the minimum-cut results concern `Finset V`.
+The definition requires only `[Add K] [LE K]`.
+Prove that constant functions are submodular when the order is reflexive, that sums of submodular functions are submodular in an ordered additive commutative monoid, and that precomposition with a lattice homomorphism preserves submodularity under the definition's assumptions.
+The closure of minimizers requires only a partially ordered cancellative additive commutative monoid; the finite minimum-cut theory below uses a linear order to obtain attained minima.
 A minimum `A–B` cut for disjoint terminal sets `A,B` is a minimizer of `f` over `A ⊆ S ⊆ Bᶜ`.
 Either terminal set may be empty; disjointness guarantees at least one admissible set, and finiteness gives an attained minimum.
 Singleton terminal sets recover minimum `s–t` cuts for distinct `s,t`; under symmetry the choice of side is immaterial after exchanging the terminal sets.
-State this milestone for such set functions, with the cut capacities as instances; Targets 4.1 and 4.3 are stated over the linearly ordered cancellative additive commutative monoid of the conventions, and only Target 4.2 needs the group.
+State the minimum-cut results for such set functions, with the cut capacities as instances, over the linearly ordered cancellative additive commutative monoid of the conventions; only Target 4.2 needs the group.
 Prove that nonnegative directed outgoing cut capacity is submodular and that nonnegative undirected cut capacity is symmetric and submodular.
 For finite signed bounds `ℓ ≤ u`, also prove submodularity of the upper cut bound `U` using
 
@@ -540,11 +554,19 @@ The two statements together are the equality of optima with attainment on both s
   **Why:** the vertex-splitting reduction of [Target 5.2](#52-reductions-to-max-flow) proves this generality with the same construction, and the unit case does not recover it.
 - **Adjacent terminals:** let `D` be the set of all edges joining distinct terminals `s,t`, and let `m = |D|`.
   Give both multigraph and directed versions; in the directed version, `D` consists exactly of the arrows `s → t`, and arrows `t → s` are retained and do not contribute to `m`.
+  Assume finitely many actual vertices and only that `D` is finite; all other edge or arrow types may be infinite.
   After deleting all of `D`, a terminal-excluding vertex separator of size `k` and a family of `k + m` internally vertex-disjoint paths in the original graph attain equality, for some `k`.
   The family includes the `m` distinct one-edge paths, and every such family has size at most `|X| + m` for every separator `X` in the graph with `D` deleted.
   The simple-graph corollary has `m = 1` and hence `k + 1` paths, including for the single-edge graph where `k = 0`.
+  **Suggested proof:** apply nonadjacent local vertex Menger after deleting `D`, then restore the distinct one-edge paths.
 - **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the [overlap convention](#paths-separators-and-connectivity), in directed-network and multigraph versions, with simple-graph corollaries; and edge versions for disjoint terminal sets.
   The multigraph and directed vertex versions likewise require no finiteness of the edge or arrow types; the edge versions retain that hypothesis.
+- **Vertex-capacitated set-to-set Menger:** for arbitrary terminal sets `A, B` and capacities `c : V → ℕ`, a packing is a finite indexed family of `A–B` paths with repetition, whose interiors avoid `A ∪ B`, such that each vertex `v`, including endpoints, belongs to at most `c v` members counted with repetition.
+  A separator may meet the terminal sets and has weight `∑ v ∈ X, c v`.
+  Prove attainment by a packing and separator of equal size and weight, and the inequality between every packing and every separator, in directed and multigraph versions with simple-graph corollaries.
+  These are vertex-only targets, requiring finite actual vertices but no finite edge or arrow types.
+  Recover vertex-disjoint set-to-set Menger at `c = 1`; for `v ∈ A ∩ B`, a zero-length path may be repeated up to `c v` times, and every separator contains `v` even when `c v = 0`.
+  Include empty terminal sets and zero capacities.
 
 Derive the predicate forms: local edge reachability at threshold `k` is equivalent to the existence of `k` edge-disjoint paths; local vertex reachability has the analogous equivalence under the nonadjacency hypothesis.
 Relate local edge reachability to cuts as well: for distinct actual vertices `s,t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut value, in `ℕ`, with capacity `1` on each actual edge.
@@ -564,15 +586,17 @@ Discard loop flows and cycle flows when extracting simple terminal-to-terminal p
 The reductions must recover actual path families and separators, not just equalities of numerical optima.
 
 - **Local and vertex-capacitated vertex Menger:** assume distinct terminals, no original arrow `s → t`, and vertex capacities `c : V → ℕ`; the unit case `c = 1` gives local vertex Menger.
-  Over `ℤ`, put `M = ∑ v, c v + 1`, capacity `M` on original arrows and on the split arrows of `s,t`, and capacity `c v` on the split arrow of every other vertex `v`; use terminals `s⁺, t⁻`.
+  Over `ℤ`, put `M = (∑ v, c v) + 1`, capacity `M` on original arrows and on the split arrows of `s,t`, and capacity `c v` on the split arrow of every other vertex `v`; use terminals `s⁺, t⁻`.
   Prove that a separating cut of capacity below `M` crosses only internal split arrows, which give a terminal-excluding vertex separator of exactly that weight.
   Conversely, deleting the split arrows indexed by a vertex separator destroys terminal reachability, and the reachable source side has cut capacity at most the separator's weight.
   Deleting all internal split arrows gives a cut of capacity at most `M − 1`, so these correspondences apply to minimum cuts.
   After discarding cycle components, an integral flow decomposes into unit paths with repetition, and the number of members through a nonterminal vertex `v` equals the flow on its split arrow, which is at most `c v`; with `c = 1` the members are distinct and internally vertex-disjoint.
-- **Set-to-set Menger:** for vertex-disjoint `A–B` paths, split every vertex with capacity `1`, give original arrows capacity `M = |V| + 1`, and add capacity-`M` arrows `σ → a⁻` for `a ∈ A` and `b⁺ → τ` for `b ∈ B`.
-  Every cut of capacity below `M` crosses only split arrows and yields a vertex separator of that capacity, now allowed to meet `A ∪ B`; deleting all split arrows bounds the minimum cut by `|V|`.
-  Prove the reverse separator-to-cut bound and both path-family correspondences, shortening projected paths so that their interiors avoid `A ∪ B`.
-  The route `σ → v⁻ → v⁺ → τ` for `v ∈ A ∩ B` projects to the permitted zero-length path.
+- **Set-to-set Menger:** for vertex capacities `c : V → ℕ`, split every vertex `v` with capacity `c v`, give original arrows capacity `M = (∑ v, c v) + 1`, and add capacity-`M` arrows `σ → a⁻` for `a ∈ A` and `b⁺ → τ` for `b ∈ B`.
+  Every cut of capacity below `M` crosses only split arrows and yields a vertex separator of that weight, now allowed to meet `A ∪ B`; deleting all split arrows bounds the minimum cut by `∑ v, c v`.
+  Prove the reverse separator-to-cut bound and both packing-to-flow and flow-to-packing correspondences, preserving size and value.
+  Shortening projected paths so that their interiors avoid `A ∪ B` does not increase vertex usage and retains each indexed member, even when several become the same path.
+  The route `σ → v⁻ → v⁺ → τ` for `v ∈ A ∩ B` projects to the permitted zero-length path, with its repetitions bounded by `c v`.
+  Specialize to `c = 1` to recover vertex-disjoint families and `M = |V| + 1`.
   For edge-disjoint paths with disjoint `A,B`, use the unsplit quiver, unit original capacities, and capacity `M = |E| + 1` on `σ → a` and `b → τ`, where `E` is the total original arrow type.
   Cuts of capacity below `M` cross only original arrows; deleting all original arrows bounds the minimum cut by `|E|`.
   Supply separator-to-cut and path-family correspondences in this case as well, allowing shared path endpoints.
@@ -584,8 +608,10 @@ The reductions must recover actual path families and separators, not just equali
 - Parallel direct terminal edges together with a path through an internal vertex, verifying the adjacent-terminal multiplicity formula.
 - Directed parallel arrows `s → t` together with arrows `t → s`, verifying that only the forward arrows contribute to the adjacent-terminal correction.
 - A three-vertex path with infinitely many parallel edges on each link, verifying vertex connectivity and nonadjacent vertex Menger without a finite-edge instance.
+- That three-vertex graph with one additional direct terminal edge, verifying the adjacent-terminal formula with finite `D` and an infinite total edge set.
 - Overlapping terminal sets whose common vertex contributes a zero-length path, exercising the split-network projection and separator correspondence.
 - A vertex of capacity two through which every `s–t` path passes, verifying that the vertex-capacitated packing repeats a path and that the separator weight is two.
+- Vertex-capacitated terminal sets with an endpoint of capacity two and an overlapping vertex of capacity zero or two, verifying endpoint usage, repeated zero-length paths, and the weighted separator equality.
 
 ## 6. Connectivity and bipartite matching consequences
 

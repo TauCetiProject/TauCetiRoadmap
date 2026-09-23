@@ -564,18 +564,18 @@ noncomputable def projectSplitPath {s t : V} (q : ArrowWalk (SplitHom Q) (s, fal
       2 * ArrowWalk.length p + 1 = ArrowWalk.length q} := by
   sorry
 
-/-- The vertex-capacitated Menger reduction over `ℤ`, with `M = ∑ v, c v + 1` on original arrows
+/-- The vertex-capacitated Menger reduction over `ℤ`, with `M = (∑ v, c v) + 1` on original arrows
 and on the split arrows of the terminals and `c v` on every other split arrow; local vertex
 Menger is the unit case `c = 1`. -/
 noncomputable abbrev vertexMengerNetwork (c : V → ℕ) (s t : V) : Network ℤ (V × Bool) :=
-  splitNetwork Q (K := ℤ) (fun _ => ∑ v, (c v : ℤ) + 1) (fun _ => by positivity)
-    (fun v => if v = s ∨ v = t then ∑ v, (c v : ℤ) + 1 else c v) (fun v => by split <;> positivity)
+  splitNetwork Q (K := ℤ) (fun _ => (∑ v, (c v : ℤ)) + 1) (fun _ => by positivity)
+    (fun v => if v = s ∨ v = t then (∑ v, (c v : ℤ)) + 1 else c v) (fun v => by split <;> positivity)
 
 /-- A cut of capacity below `M` crosses only internal split arrows, which index a
 terminal-excluding vertex separator of exactly that weight. -/
 theorem vertexMengerNetwork_cut_separator (c : V → ℕ) {s t : V} (hst : s ≠ t)
     (hadj : IsEmpty (Q s t)) (S : Finset (V × Bool)) (hs : (s, true) ∈ S) (ht : (t, false) ∉ S)
-    (hS : (vertexMengerNetwork Q c s t).upperCutCapacity S < ∑ v, (c v : ℤ) + 1) :
+    (hS : (vertexMengerNetwork Q c s t).upperCutCapacity S < (∑ v, (c v : ℤ)) + 1) :
     ∃ X : Finset V, s ∉ X ∧ t ∉ X ∧
       ∑ v ∈ X, (c v : ℤ) = (vertexMengerNetwork Q c s t).upperCutCapacity S ∧
       ¬ ReachableAvoiding Q X s t := by
@@ -814,6 +814,40 @@ theorem exists_vertexPacking_separator_eq (c : V → ℕ) {s t : V} (hst : s ≠
         P.size = ∑ v ∈ X, c v) ∧
       ∀ (P : VertexPacking Q c s t) (X : Finset V), s ∉ X → t ∉ X → ¬ ReachableAvoiding Q X s t →
         P.size ≤ ∑ v ∈ X, c v := by
+  sorry
+
+/-- Capacities constrain every vertex, including endpoints; indexed members may coincide. -/
+structure SetVertexPacking (c : V → ℕ) (A B : Finset V) where
+  size : ℕ
+  source : Fin size → V
+  sink : Fin size → V
+  source_mem : ∀ i, source i ∈ A
+  sink_mem : ∀ i, sink i ∈ B
+  path : (i : Fin size) → ArrowWalk Q (source i) (sink i)
+  path_isPath : ∀ i, ArrowWalk.IsPath (path i)
+  interior_avoids : ∀ i v, v ∈ ArrowWalk.vertices (path i) →
+    v ≠ source i → v ≠ sink i → v ∉ A ∧ v ∉ B
+  usage_le : ∀ v, (univ.filter fun i => v ∈ ArrowWalk.vertices (path i)).card ≤ c v
+
+/-- Separators may contain terminals; overlap forces the common vertices into every separator,
+even when their capacities are zero. No finite arrow types are needed. -/
+theorem exists_setVertexPacking_separator_eq (c : V → ℕ) (A B : Finset V) :
+    (∃ (P : SetVertexPacking Q c A B) (X : Finset V),
+        (∀ a ∈ A, ∀ b ∈ B, ¬ ReachableAvoiding Q X a b) ∧ P.size = ∑ v ∈ X, c v) ∧
+      ∀ (P : SetVertexPacking Q c A B) (X : Finset V),
+        (∀ a ∈ A, ∀ b ∈ B, ¬ ReachableAvoiding Q X a b) → P.size ≤ ∑ v ∈ X, c v := by
+  sorry
+
+/-- Only the direct arrows must be finite: delete them, apply vertex Menger, and restore their
+distinct one-arrow paths. Arrows in the reverse direction are retained. -/
+theorem exists_directed_paths_separator_card_eq_add_multiplicity {s t : V} (hst : s ≠ t)
+    [Finite (Q s t)] :
+    ∃ (k : ℕ) (P : Fin (k + Nat.card (Q s t)) → ArrowWalk Q s t) (X : Finset V),
+      Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
+      (Pairwise fun i j => ∀ v ∈ ArrowWalk.vertices (P i),
+        v ∈ ArrowWalk.vertices (P j) → v = s ∨ v = t) ∧
+      X.card = k ∧ s ∉ X ∧ t ∉ X ∧
+      ¬ ReachableAvoiding (fun v w => {_e : Q v w // ¬ (v = s ∧ w = t)}) X s t := by
   sorry
 
 /-- Weak connectivity: every two vertices are joined by a path of the symmetrized family. -/
@@ -1117,21 +1151,37 @@ end TauCetiRoadmap.GraphConnectivityAndFlows
 
 namespace TauCetiRoadmap.GraphConnectivityAndFlows
 
-variable {K : Type w} [AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]
-variable {V : Type u} [Fintype V] [DecidableEq V]
-
 /-- Submodularity on a lattice; for `Finset V` this is `f (S ∪ T) + f (S ∩ T) ≤ f S + f T`.
 Submodularity alone suffices for the minimum-cut lattice, including directed cut capacities. -/
-def IsSubmodular {L : Type*} [Lattice L] (f : L → K) : Prop :=
+def IsSubmodular {K : Type*} [Add K] [LE K] {L : Type*} [Lattice L] (f : L → K) : Prop :=
   ∀ a b, f (a ⊔ b) + f (a ⊓ b) ≤ f a + f b
+
+theorem isSubmodular_const {K : Type*} [Add K] [Preorder K] {L : Type*} [Lattice L]
+    (c : K) : IsSubmodular (fun _ : L => c) := by
+  intro a b
+  exact le_rfl
+
+theorem IsSubmodular.add {K : Type*} [AddCommMonoid K] [PartialOrder K]
+    [IsOrderedAddMonoid K] {L : Type*} [Lattice L] {f g : L → K}
+    (hf : IsSubmodular f) (hg : IsSubmodular g) : IsSubmodular (fun a => f a + g a) := by
+  sorry
+
+theorem IsSubmodular.comp_latticeHom {K : Type*} [Add K] [LE K]
+    {L M : Type*} [Lattice L] [Lattice M] {f : L → K} (hf : IsSubmodular f)
+    (g : LatticeHom M L) : IsSubmodular (f ∘ g) := by
+  sorry
 
 /-- Minimizers of a submodular function among the elements satisfying a predicate closed under
 `⊔` and `⊓` are themselves closed under `⊔` and `⊓`. -/
-theorem IsSubmodular.sup_inf_of_isMin {L : Type*} [Lattice L] {f : L → K} (hf : IsSubmodular f)
+theorem IsSubmodular.sup_inf_of_isMin {K : Type*} [AddCommMonoid K] [PartialOrder K]
+    [IsOrderedCancelAddMonoid K] {L : Type*} [Lattice L] {f : L → K} (hf : IsSubmodular f)
     {P : L → Prop} (hP : ∀ a b, P a → P b → P (a ⊔ b) ∧ P (a ⊓ b)) {a b : L} (ha : P a) (hb : P b)
     (hamin : ∀ c, P c → f a ≤ f c) (hbmin : ∀ c, P c → f b ≤ f c) :
     (∀ c, P c → f (a ⊔ b) ≤ f c) ∧ ∀ c, P c → f (a ⊓ b) ≤ f c := by
   sorry
+
+variable {K : Type w} [AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]
+variable {V : Type u} [Fintype V] [DecidableEq V]
 
 /-- Symmetry is the additional hypothesis for non-crossing lemmas and cut trees. -/
 structure IsSymmSubmodular (f : Finset V → K) : Prop where
@@ -1614,7 +1664,8 @@ theorem exists_paths_vertexSeparator_card_eq [Finite G.vertexSet]
 
 /-- All direct terminal edges contribute distinct one-edge paths. -/
 theorem exists_paths_separator_card_eq_add_multiplicity
-    [Finite G.vertexSet] [Finite G.edgeSet] {s t : G.vertexSet} (hst : s ≠ t) :
+    [Finite G.vertexSet] {s t : G.vertexSet} (hst : s ≠ t)
+    (hD : {e | G.IsLink e s.val t.val}.Finite) :
     let D : Set β := {e | G.IsLink e s.val t.val}
     ∃ (k : ℕ) (P : Fin (k + D.ncard) → Walk G s t) (X : Set α),
       Function.Injective P ∧ (∀ i, (P i).IsPath) ∧
