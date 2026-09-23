@@ -10,9 +10,8 @@ statements, so that contributors and reviewers converge on names and shapes. Dis
 declaration here finishes neither a milestone nor the roadmap. `sorry` is allowed in this
 human-owned roadmap library: these are targets, not completed definitions or proofs.
 
-The multigraph edge theory and its transport interfaces are prototyped in `GraphSuggested.lean`.
-The simple-graph edge and orientation statements here are required corollaries of that theory.
-`CirculationSuggested.lean` prototypes signed bounds, circulation correspondences, and extremal values.
+The simple-graph edge and orientation statements are required corollaries of the multigraph theory.
+The circulation prototypes cover signed bounds, exact and interval excess, and extremal values.
 
 The pinned choices this file exhibits: finite bounds and flows use a linearly ordered additive
 commutative group `K`; a directed network is a *term* `N : Network C V` with arrow types in a
@@ -758,3 +757,547 @@ theorem exists_gomoryHu_tree [Nonempty V] (f : Finset V → K) (hf : IsSymmSubmo
   sorry
 
 end TauCetiRoadmap.FiniteGraphConnectivity
+
+/-! ## Circulations and bounded flows (Milestones 1, 4, 8) -/
+
+namespace TauCetiRoadmap.FiniteGraphConnectivity
+
+variable {V : Type u} {K : Type w}
+variable [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
+
+section Algebra
+
+variable (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+
+/-- No capacity constraints: the signed circulation group is the kernel of excess. -/
+noncomputable def signedCirculations : AddSubgroup (Assignment Q K) where
+  carrier := {f | ∀ v, excessAt Q f v = 0}
+  zero_mem' := by sorry
+  add_mem' := by sorry
+  neg_mem' := by sorry
+
+theorem sub_mem_signedCirculations_iff (f g : Assignment Q K) :
+    (signedCirculations (K := K) Q).carrier (fun {_ _} e => g e - f e) ↔
+      ∀ v, excessAt Q g v = excessAt Q f v := by
+  sorry
+
+end Algebra
+
+section FiniteBounds
+
+variable (N : Network K V) [Fintype V] [DecidableEq V] [∀ v w, Fintype (N.Hom v w)]
+
+abbrev Network.shift (h : N.Assignment K) : Network K V :=
+  N.withBounds (fun e => N.lower e - h e) (fun e => N.upper e - h e)
+    (fun e => sub_le_sub_right (N.lower_le_upper e) (h e))
+
+noncomputable def Network.shiftEquiv (h : N.Assignment K) :
+    N.Feasible ≃ (N.shift h).Feasible := by
+  sorry
+
+theorem Network.shiftEquiv_apply (h : N.Assignment K) (f : N.Feasible)
+    {v w : V} (e : N.Hom v w) :
+    (N.shiftEquiv h f).toFun e = f.toFun e - h e := by
+  sorry
+
+noncomputable def Network.shiftRealizesEquiv (h : N.Assignment K) (b : V → K) :
+    N.Realizes b ≃ (N.shift h).Realizes (fun v => b v - N.excessAt h v) := by
+  sorry
+
+noncomputable def Network.shiftRealizesWithinEquiv (h : N.Assignment K) (a b : V → K) :
+    N.RealizesWithin a b ≃ (N.shift h).RealizesWithin
+      (fun v => a v - N.excessAt h v) (fun v => b v - N.excessAt h v) := by
+  sorry
+
+abbrev Network.shiftLower : Network K V :=
+  Network.ofCapacity ⟨N.Hom⟩ (fun e => N.upper e - N.lower e)
+    (fun e => sub_nonneg.mpr (N.lower_le_upper e))
+
+theorem Network.shift_lower : N.shift N.lower = N.shiftLower := by
+  sorry
+
+noncomputable def Network.shiftLowerEquiv (b : V → K) :
+    N.Realizes b ≃ N.shiftLower.Realizes (fun v => b v - N.excessAt N.lower v) := by
+  sorry
+
+theorem Network.shiftLowerEquiv_apply (b : V → K) (f : N.Realizes b)
+    {v w : V} (e : N.Hom v w) :
+    (N.shiftLowerEquiv b f).val.toFun e = f.val.toFun e - N.lower e := by
+  sorry
+
+/-- The same criterion applies when either or both bounds are negative. -/
+theorem Network.nonempty_circulation_iff :
+    Nonempty N.Circulation ↔ ∀ S : Finset V,
+      arrowCutCapacity ⟨N.Hom⟩ N.lower Sᶜ ≤ N.upperCutCapacity S := by
+  sorry
+
+theorem Network.nonempty_realizes_iff (b : V → K) :
+    Nonempty (N.Realizes b) ↔ (∑ v, b v) = 0 ∧ ∀ S : Finset V,
+      (∑ v ∈ S, b v) + arrowCutCapacity ⟨N.Hom⟩ N.lower S ≤ N.upperCutCapacity Sᶜ := by
+  sorry
+
+theorem Network.feasible_or_obstruction (b : V → K) :
+    Nonempty (N.Realizes b) ∨ (∑ v, b v) ≠ 0 ∨ ∃ S : Finset V,
+      N.upperCutCapacity Sᶜ < (∑ v ∈ S, b v) + arrowCutCapacity ⟨N.Hom⟩ N.lower S := by
+  sorry
+
+theorem Network.exists_realizes_mem_addSubgroup (b : V → K) (H : AddSubgroup K)
+    (hlo : ∀ {v w} (e : N.Hom v w), N.lower e ∈ H)
+    (hhi : ∀ {v w} (e : N.Hom v w), N.upper e ∈ H) (hb : ∀ v, b v ∈ H)
+    (hf : Nonempty (N.Realizes b)) :
+    ∃ f : N.Realizes b, ∀ {v w} (e : N.Hom v w), f.val.toFun e ∈ H := by
+  sorry
+
+noncomputable def Network.residualUpdate (f : N.Feasible)
+    (r : (N.residual f).Feasible) : N.Feasible where
+  toFun e := f.toFun e + r.toFun (Sum.inl e) - r.toFun (Sum.inr e)
+  lower_le := by sorry
+  le_upper := by sorry
+
+theorem Network.excessAt_residualUpdate (f : N.Feasible)
+    (r : (N.residual f).Feasible) (v : V) :
+    N.excessAt (N.residualUpdate f r).toFun v =
+      N.excessAt f.toFun v + (N.residual f).excessAt r.toFun v := by
+  sorry
+
+theorem Network.excessAt_residualUpdate_circulation (f : N.Feasible)
+    (r : (N.residual f).Circulation) (v : V) :
+    N.excessAt (N.residualUpdate f r.val).toFun v = N.excessAt f.toFun v := by
+  exact (N.excessAt_residualUpdate f r.val v).trans
+    ((congrArg (fun x => N.excessAt f.toFun v + x) (r.property v)).trans (add_zero _))
+
+noncomputable def Network.residualDifference (f g : N.Feasible) :
+    (N.residual f).Feasible where
+  toFun := Sum.elim (fun e => max (g.toFun e - f.toFun e) 0)
+    (fun e => max (f.toFun e - g.toFun e) 0)
+  lower_le := by sorry
+  le_upper := by sorry
+
+theorem Network.excessAt_residualDifference (f g : N.Feasible) (v : V) :
+    (N.residual f).excessAt (N.residualDifference f g).toFun v =
+      N.excessAt g.toFun v - N.excessAt f.toFun v := by
+  sorry
+
+noncomputable def Network.residualDifferenceCirculation (f g : N.Feasible)
+    (h : ∀ v, N.excessAt g.toFun v = N.excessAt f.toFun v) :
+    (N.residual f).Circulation :=
+  ⟨N.residualDifference f g, by
+    intro v
+    change (N.residual f).excessAt (N.residualDifference f g).toFun v = 0
+    rw [N.excessAt_residualDifference, h v, sub_self]⟩
+
+theorem Network.residualUpdate_difference (f g : N.Feasible) :
+    N.residualUpdate f (N.residualDifference f g) = g := by
+  sorry
+
+/-- The new arrow is tagged, so existing arrows from `t` to `s` remain distinct. -/
+abbrev Network.withReturnBounds (s t : V) (a b : K) (hab : a ≤ b) : Network K V where
+  Hom v w := N.Hom v w ⊕ PLift (v = t ∧ w = s)
+  lower := Sum.elim N.lower (fun _ => a)
+  upper := Sum.elim N.upper (fun _ => b)
+  lower_le_upper e := by
+    cases e with
+    | inl e => exact N.lower_le_upper e
+    | inr _ => exact hab
+
+noncomputable def Network.returnIntervalEquiv {s t : V} (hst : s ≠ t)
+    (a b : K) (hab : a ≤ b) :
+    {f : N.BoundedFlow s t // a ≤ f.val ∧ f.val ≤ b} ≃
+      (N.withReturnBounds s t a b hab).Circulation := by
+  sorry
+
+noncomputable def Network.returnEquiv {s t : V} (hst : s ≠ t) (q : K) :
+    {f : N.BoundedFlow s t // f.val = q} ≃
+      (N.withReturnBounds s t q q le_rfl).Circulation := by
+  sorry
+
+theorem Network.returnEquiv_original {s t : V} (hst : s ≠ t) (q : K)
+    (f : {f : N.BoundedFlow s t // f.val = q}) {v w : V} (e : N.Hom v w) :
+    (N.returnEquiv hst q f).val.toFun (Sum.inl e) = f.val.toFun e := by
+  sorry
+
+theorem Network.returnEquiv_return {s t : V} (hst : s ≠ t) (q : K)
+    (f : {f : N.BoundedFlow s t // f.val = q}) :
+    (N.returnEquiv hst q f).val.toFun (Sum.inr ⟨rfl, rfl⟩) = q := by
+  sorry
+
+theorem Network.cutCapacity_eq_shiftLower (S : Finset V) :
+    N.cutCapacity S = N.shiftLower.upperCutCapacity S - ∑ v ∈ S, N.excessAt N.lower v := by
+  sorry
+
+theorem Network.cutCapacity_submodular (S T : Finset V) :
+    N.cutCapacity (S ∪ T) + N.cutCapacity (S ∩ T) ≤ N.cutCapacity S + N.cutCapacity T := by
+  sorry
+
+theorem Network.boundedFlow_cut_gap {s t : V} (f : N.BoundedFlow s t)
+    {S : Finset V} (hs : s ∈ S) (ht : t ∉ S) :
+    N.cutCapacity S - f.val = (N.residual f.toBoundedAssignment).upperCutCapacity S := by
+  sorry
+
+open Classical in
+theorem Network.boundedFlow_canonicalCuts {s t : V} (hst : s ≠ t)
+    (f : N.BoundedFlow s t) (hf : ∀ g : N.BoundedFlow s t, g.val ≤ f.val) :
+    let R := (N.residual f.toBoundedAssignment).positivePart
+    let Smin := univ.filter fun v => R.Reachable s v
+    let Smax := univ.filter fun v => ¬ R.Reachable v t
+    s ∈ Smin ∧ t ∉ Smin ∧ s ∈ Smax ∧ t ∉ Smax ∧
+      N.cutCapacity Smin = f.val ∧ N.cutCapacity Smax = f.val ∧
+      ∀ S : Finset V, s ∈ S → t ∉ S → N.cutCapacity S = f.val →
+        Smin ⊆ S ∧ S ⊆ Smax := by
+  sorry
+
+theorem Network.boundedFlow_cut_bounds {s t : V} (f : N.BoundedFlow s t)
+    {S : Finset V} (hs : s ∈ S) (ht : t ∉ S) :
+    -N.cutCapacity Sᶜ ≤ f.val ∧ f.val ≤ N.cutCapacity S := by
+  sorry
+
+theorem Network.exists_boundedFlow_extrema {s t : V} (hst : s ≠ t)
+    (hf : Nonempty (N.BoundedFlow s t)) :
+    ∃ (fmin fmax : N.BoundedFlow s t) (Smin Smax : Finset V),
+      s ∈ Smin ∧ t ∉ Smin ∧ s ∈ Smax ∧ t ∉ Smax ∧
+      fmin.val = -N.cutCapacity Sminᶜ ∧ fmax.val = N.cutCapacity Smax ∧
+      ∀ f : N.BoundedFlow s t, fmin.val ≤ f.val ∧ f.val ≤ fmax.val := by
+  sorry
+
+theorem Network.exists_boundedFlow_val_iff {s t : V} (hst : s ≠ t)
+    (hf : Nonempty (N.BoundedFlow s t)) (q : K) :
+    (∃ f : N.BoundedFlow s t, f.val = q) ↔ ∀ S : Finset V,
+      s ∈ S → t ∉ S → -N.cutCapacity Sᶜ ≤ q ∧ q ≤ N.cutCapacity S := by
+  sorry
+
+theorem Network.boundedFlow_isMax_iff {s t : V} (hst : s ≠ t) (f : N.BoundedFlow s t) :
+    (∀ g : N.BoundedFlow s t, g.val ≤ f.val) ↔
+      ¬ (N.residual f.toBoundedAssignment).positivePart.Reachable s t := by
+  sorry
+
+theorem Network.boundedFlow_isMin_iff {s t : V} (hst : s ≠ t) (f : N.BoundedFlow s t) :
+    (∀ g : N.BoundedFlow s t, f.val ≤ g.val) ↔
+      ¬ (N.residual f.toBoundedAssignment).positivePart.Reachable t s := by
+  sorry
+
+/-- Original vertices are `some v`; `none` is a fresh balancing vertex. -/
+abbrev Network.withExcessBounds (a b : V → K) (hab : ∀ v, a v ≤ b v) :
+    Network K (Option V) where
+  Hom v w := match v, w with
+    | some v, some w => N.Hom v w
+    | some _, none => PUnit
+    | none, _ => PEmpty
+  lower {v w} := match v, w with
+    | some _, some _ => N.lower
+    | some v, none => fun _ => a v
+    | none, _ => fun e => nomatch e
+  upper {v w} := match v, w with
+    | some _, some _ => N.upper
+    | some v, none => fun _ => b v
+    | none, _ => fun e => nomatch e
+  lower_le_upper {v w} := match v, w with
+    | some _, some _ => N.lower_le_upper
+    | some v, none => fun _ => hab v
+    | none, _ => fun e => nomatch e
+
+instance Network.withExcessBounds_fintype (a b : V → K) (hab : ∀ v, a v ≤ b v)
+    (v w : Option V) : Fintype ((N.withExcessBounds a b hab).Hom v w) := by
+  cases v <;> cases w <;> dsimp [Network.withExcessBounds] <;> infer_instance
+
+noncomputable def Network.excessIntervalEquiv (a b : V → K) (hab : ∀ v, a v ≤ b v) :
+    N.RealizesWithin a b ≃ (N.withExcessBounds a b hab).Circulation := by
+  sorry
+
+theorem Network.excessIntervalEquiv_original (a b : V → K) (hab : ∀ v, a v ≤ b v)
+    (f : N.RealizesWithin a b) {v w : V} (e : N.Hom v w) :
+    (N.excessIntervalEquiv a b hab f).val.toFun (v := some v) (w := some w) e =
+      f.val.toFun e := by
+  sorry
+
+theorem Network.excessIntervalEquiv_auxiliary (a b : V → K) (hab : ∀ v, a v ≤ b v)
+    (f : N.RealizesWithin a b) (v : V) :
+    (N.excessIntervalEquiv a b hab f).val.toFun (v := some v) (w := none) PUnit.unit =
+      N.excessAt f.val.toFun v := by
+  sorry
+
+theorem Network.nonempty_realizesWithin_iff (a b : V → K) (hab : ∀ v, a v ≤ b v) :
+    Nonempty (N.RealizesWithin a b) ↔ ∀ S : Finset V,
+      (∑ v ∈ S, a v) ≤ N.cutCapacity Sᶜ ∧ -N.cutCapacity S ≤ ∑ v ∈ S, b v := by
+  sorry
+
+theorem Network.realizesWithin_or_obstruction (a b : V → K) (hab : ∀ v, a v ≤ b v) :
+    Nonempty (N.RealizesWithin a b) ∨ ∃ S : Finset V,
+      N.cutCapacity Sᶜ < (∑ v ∈ S, a v) ∨ (∑ v ∈ S, b v) < -N.cutCapacity S := by
+  sorry
+
+theorem Network.exists_realizesWithin_mem_addSubgroup (a b : V → K)
+    (H : AddSubgroup K)
+    (hlo : ∀ {v w} (e : N.Hom v w), N.lower e ∈ H)
+    (hhi : ∀ {v w} (e : N.Hom v w), N.upper e ∈ H)
+    (ha : ∀ v, a v ∈ H) (hb : ∀ v, b v ∈ H)
+    (hf : Nonempty (N.RealizesWithin a b)) :
+    ∃ f : N.RealizesWithin a b, ∀ {v w} (e : N.Hom v w), f.val.toFun e ∈ H := by
+  sorry
+
+end FiniteBounds
+
+section Rounding
+
+variable (Q : Quiver V) [Fintype V] [∀ v w, Fintype (Q.Hom v w)]
+
+theorem exists_integer_rounding (f : Assignment Q ℝ) (b : V → ℤ)
+    (hb : ∀ v, excessAt Q f v = (b v : ℝ)) :
+    ∃ g : Assignment Q ℤ, (∀ v, excessAt Q g v = b v) ∧
+      ∀ {v w} (e : Q.Hom v w), ⌊f e⌋ ≤ g e ∧ g e ≤ ⌈f e⌉ := by
+  sorry
+
+end Rounding
+
+end TauCetiRoadmap.FiniteGraphConnectivity
+
+/-!
+## Multigraph connectivity and transport
+
+The path prototypes use the bidirected-network side of the required correspondence with the shared `GraphLike.Walk` proposal.
+They retain edge identities and state the transport obligations without introducing a competing native undirected walk type.
+The implementation follows the upstream shared-walk interfaces and proves the correspondence specified in Milestone 1.
+All definitions here live in a prototype namespace; the implementation extends `Graph` and the shared walk API.
+-/
+
+namespace TauCetiRoadmap.FiniteGraphConnectivity.Multigraph
+
+variable {α : Type u} {β : Type v} (G : Graph α β)
+
+/-- The bidirected arrow family has one arrow per incident edge and ordered pair of ends.
+A loop gives one loop arrow; a nonloop edge gives two opposite arrows. -/
+abbrev Hom (s t : G.vertexSet) := {e : G.edgeSet // G.IsLink e.val s.val t.val}
+
+abbrev Walk (s t : G.vertexSet) := ArrowWalk (Hom G) s t
+
+/-- Both directions of an edge retain the same underlying identity. -/
+def edgeList {s t : G.vertexSet} (p : Walk G s t) : List β := by
+  letI : Quiver G.vertexSet := ⟨Hom G⟩
+  induction p with
+  | nil => exact []
+  | cons p e es => exact es ++ [e.val.val]
+
+def IsCycle {s : G.vertexSet} (p : Walk G s s) : Prop :=
+  0 < ArrowWalk.length p ∧ (ArrowWalk.vertices p).tail.Nodup ∧ (edgeList G p).Nodup
+
+def EdgeDisjoint {s t : G.vertexSet} (p q : Walk G s t) : Prop :=
+  (edgeList G p).Disjoint (edgeList G q)
+
+def InternallyDisjoint {s t : G.vertexSet} (p q : Walk G s t) : Prop :=
+  ∀ x ∈ ArrowWalk.vertices p, x ∈ ArrowWalk.vertices q → x = s ∨ x = t
+
+/-- Ambient endpoints must be actual vertices, including for a zero-length walk. -/
+def Reachable (s t : α) : Prop :=
+  ∃ (hs : s ∈ G.vertexSet) (ht : t ∈ G.vertexSet),
+    Nonempty (Walk G ⟨s, hs⟩ ⟨t, ht⟩)
+
+theorem reachable_iff_toSimpleGraph (s t : G.vertexSet) :
+    Reachable G s.val t.val ↔ G.toSimpleGraph.Reachable s t := by
+  sorry
+
+/-- Vertex connectivity reuses the underlying simple graph. -/
+abbrev IsVertexConnected (k : ℕ∞) : Prop :=
+  TauCetiRoadmap.FiniteGraphConnectivity.IsVertexConnected G.toSimpleGraph k
+
+def IsEdgeReachable (k : ℕ) (s t : G.vertexSet) : Prop :=
+  ∀ F : Set β, F ⊆ G.edgeSet → F.encard < k → Reachable (G.deleteEdges F) s.val t.val
+
+def IsEdgeConnected (k : ℕ) : Prop := ∀ s t : G.vertexSet, IsEdgeReachable G k s t
+
+noncomputable def edgeConnectivity : ℕ∞ :=
+  ⨆ (k : ℕ) (_ : IsEdgeConnected G k), (k : ℕ∞)
+
+/-- A bridge is an actual edge; unlike `SimpleGraph.IsBridge`, this is false on non-edges. -/
+def IsBridge (e : β) : Prop :=
+  ∃ s t, G.IsLink e s t ∧ ¬ Reachable (G.deleteEdges {e}) s t
+
+theorem isBridge_iff_not_mem_cycle (e : G.edgeSet) :
+    IsBridge G e.val ↔ ∀ s (p : Walk G s s), IsCycle G p → e.val ∉ edgeList G p := by
+  sorry
+
+/-- Edge deletion retains multiplicity; only actual vertices and edges need be finite. -/
+theorem exists_paths_edgeSeparator_card_eq [Finite G.vertexSet] [Finite G.edgeSet]
+    {s t : G.vertexSet} (hst : s ≠ t) :
+    ∃ (k : ℕ) (P : Fin k → Walk G s t) (F : Set β),
+      Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
+      (Pairwise fun i j => EdgeDisjoint G (P i) (P j)) ∧
+      F ⊆ G.edgeSet ∧ F.ncard = k ∧ ¬ Reachable (G.deleteEdges F) s.val t.val := by
+  sorry
+
+theorem isEdgeReachable_iff_exists_paths [Finite G.vertexSet] [Finite G.edgeSet]
+    {s t : G.vertexSet} (hst : s ≠ t) (k : ℕ) :
+    IsEdgeReachable G k s t ↔
+      ∃ P : Fin k → Walk G s t, Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
+        Pairwise fun i j => EdgeDisjoint G (P i) (P j) := by
+  sorry
+
+/-- Vertex Menger returns paths with original edge identities. -/
+theorem exists_paths_vertexSeparator_card_eq [Finite G.vertexSet] [Finite G.edgeSet]
+    {s t : G.vertexSet} (hst : s ≠ t) (hadj : ¬ G.Adj s.val t.val) :
+    ∃ (k : ℕ) (P : Fin k → Walk G s t) (X : Set α),
+      Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
+      (Pairwise fun i j => InternallyDisjoint G (P i) (P j)) ∧
+      X ⊆ G.vertexSet ∧ X.ncard = k ∧ s.val ∉ X ∧ t.val ∉ X ∧
+      ¬ Reachable (G.deleteVerts X) s.val t.val := by
+  sorry
+
+/-- All direct terminal edges contribute distinct one-edge paths. -/
+theorem exists_paths_separator_card_eq_add_multiplicity
+    [Finite G.vertexSet] [Finite G.edgeSet] {s t : G.vertexSet} (hst : s ≠ t) :
+    let D : Set β := {e | G.IsLink e s.val t.val}
+    ∃ (k : ℕ) (P : Fin (k + D.ncard) → Walk G s t) (X : Set α),
+      Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
+      (Pairwise fun i j => InternallyDisjoint G (P i) (P j)) ∧
+      X ⊆ G.vertexSet ∧ X.ncard = k ∧ s.val ∉ X ∧ t.val ∉ X ∧
+      ¬ Reachable ((G.deleteEdges D).deleteVerts X) s.val t.val := by
+  sorry
+
+/-- A simple path projects without forgetting any vertex. Distinct parallel one-edge paths
+can still have the same projection. -/
+noncomputable def projectPath {s t : G.vertexSet} (p : Walk G s t) (hp : ArrowWalk.IsPath p) :
+    {q : G.toSimpleGraph.Walk s t // q.IsPath ∧ q.support = ArrowWalk.vertices p} := by
+  sorry
+
+noncomputable def liftPath {s t : G.vertexSet} (p : G.toSimpleGraph.Walk s t) (hp : p.IsPath) :
+    {q : Walk G s t // ArrowWalk.IsPath q ∧ ArrowWalk.vertices q = p.support} := by
+  sorry
+
+/-- On simple graphs the correspondence is an equivalence even for arbitrary walks. -/
+noncomputable def ofSimpleGraphWalkEquiv {V : Type*} (H : SimpleGraph V) (s t : V) :
+    H.Walk s t ≃ Walk (Graph.ofSimpleGraph H) ⟨s, by simp⟩ ⟨t, by simp⟩ := by
+  sorry
+
+theorem isEdgeConnected_ofSimpleGraph {V : Type*} (H : SimpleGraph V) (k : ℕ) :
+    IsEdgeConnected (Graph.ofSimpleGraph H) k ↔ H.IsEdgeConnected k := by
+  sorry
+
+/-- Ordering the ends retains one arrow for each edge, including each loop. -/
+structure Orientation where
+  ends : G.edgeSet → G.vertexSet × G.vertexSet
+  isLink : ∀ e, G.IsLink e.val (ends e).1.val (ends e).2.val
+
+def Orientation.Hom (o : Orientation G) (s t : G.vertexSet) :=
+  {e : G.edgeSet // o.ends e = (s, t)}
+
+def Orientation.IsStronglyConnected (o : Orientation G) : Prop :=
+  TauCetiRoadmap.FiniteGraphConnectivity.IsStronglyConnected o.Hom
+
+noncomputable def orientationOfSimpleGraphEquiv {V : Type*} (H : SimpleGraph V) :
+    Orientation (Graph.ofSimpleGraph H) ≃ TauCeti.DoubledQuiver.Orientation H := by
+  sorry
+
+theorem orientationOfSimpleGraphEquiv_stronglyConnected {V : Type*} (H : SimpleGraph V)
+    (o : Orientation (Graph.ofSimpleGraph H)) :
+    o.IsStronglyConnected ↔
+      @Quiver.IsStronglyConnected
+        (TauCeti.DoubledQuiver.OrientedQuiver H (orientationOfSimpleGraphEquiv H o))
+        inferInstance := by
+  sorry
+
+theorem exists_orientation_isStronglyConnected_iff [Finite G.vertexSet] [Finite G.edgeSet] :
+    (∃ o : Orientation G, o.IsStronglyConnected) ↔ IsEdgeConnected G 2 := by
+  sorry
+
+/-- Pairwise reachability is vacuous on the empty vertex set, as is edge connectivity. -/
+theorem isEdgeConnected_two_iff [Finite G.vertexSet] [Finite G.edgeSet] :
+    IsEdgeConnected G 2 ↔
+      (∀ s t : G.vertexSet, Reachable G s.val t.val) ∧ ∀ e ∈ G.edgeSet, ¬ IsBridge G e := by
+  sorry
+
+/-- The graph traced by a walk, with the original ambient vertex and edge types. -/
+def walkGraph {s t : G.vertexSet} (p : Walk G s t) : Graph α β :=
+  (G.induce {x | ∃ v ∈ ArrowWalk.vertices p, v.val = x}).deleteEdges
+    {e | e ∉ edgeList G p}
+
+inductive Ear (H : Graph α β) : Type max u v
+  | open {s t : G.vertexSet} (p : Walk G s t) (hp : ArrowWalk.IsPath p)
+      (hs : s.val ∈ H.vertexSet) (ht : t.val ∈ H.vertexSet) (hst : s ≠ t)
+      (hint : ∀ x ∈ ArrowWalk.vertices p, x ≠ s → x ≠ t → x.val ∉ H.vertexSet)
+      (hedge : ∀ e ∈ edgeList G p, e ∉ H.edgeSet)
+  | closed {s : G.vertexSet} (p : Walk G s s) (hp : IsCycle G p)
+      (hs : s.val ∈ H.vertexSet)
+      (hint : ∀ x ∈ ArrowWalk.vertices p, x ≠ s → x.val ∉ H.vertexSet)
+      (hedge : ∀ e ∈ edgeList G p, e ∉ H.edgeSet)
+
+def Ear.toWalk {H : Graph α β} : Ear G H → Σ s t, Walk G s t
+  | .open p .. => ⟨_, _, p⟩
+  | .closed p .. => ⟨_, _, p⟩
+
+def Ear.toGraph {H : Graph α β} (e : Ear G H) : Graph α β :=
+  walkGraph G e.toWalk.2.2
+
+/-- Prefix graphs specify the addition of each ear without assuming a total union operation
+on arbitrary, potentially incompatible graphs. -/
+structure EarDecomposition where
+  length : ℕ
+  graphAfter : Fin (length + 1) → Graph α β
+  subgraph : ∀ i, graphAfter i ≤ G
+  initial : {v : G.vertexSet // graphAfter 0 = Graph.noEdge {v.val} β} ⊕
+    (Σ s : G.vertexSet, {p : Walk G s s // IsCycle G p ∧ graphAfter 0 = walkGraph G p})
+  earAt : (i : Fin length) → Ear G (graphAfter i.castSucc)
+  vertices_step : ∀ i, (graphAfter i.succ).vertexSet =
+    (graphAfter i.castSucc).vertexSet ∪ (Ear.toGraph G (earAt i)).vertexSet
+  edges_step : ∀ i, (graphAfter i.succ).edgeSet =
+    (graphAfter i.castSucc).edgeSet ∪ (Ear.toGraph G (earAt i)).edgeSet
+  final : graphAfter (Fin.last length) = G
+
+noncomputable def EarDecomposition.prefix (d : EarDecomposition G) (i : Fin (d.length + 1)) :
+    EarDecomposition (d.graphAfter i) := by
+  sorry
+
+theorem EarDecomposition.prefix_length (d : EarDecomposition G) (i : Fin (d.length + 1)) :
+    (EarDecomposition.prefix G d i).length = i.val := by
+  sorry
+
+theorem isEdgeConnected_two_iff_nonempty_earDecomposition
+    [Finite G.vertexSet] [Finite G.edgeSet] [Nonempty G.vertexSet] :
+    IsEdgeConnected G 2 ↔ Nonempty (EarDecomposition G) := by
+  sorry
+
+section Capacities
+
+variable {K : Type w} [AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]
+
+/-- Capacities decorate the incidence arrow family; they do not determine which edges exist. -/
+abbrev bidirectedNetwork (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e) : Network K G.vertexSet where
+  Hom := Hom G
+  lower _ := 0
+  upper e := c e.val
+  lower_le_upper e := hc e.val
+
+variable [Fintype G.vertexSet] [Fintype G.edgeSet]
+
+open Classical in
+noncomputable def cutCapacity (c : G.edgeSet → K) (S : Finset G.vertexSet) : K :=
+  ∑ e : G.edgeSet, if ∃ s ∈ S, ∃ t ∉ S, G.IsLink e.val s.val t.val then c e else 0
+
+open Classical in
+theorem bidirected_cutCapacity (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e)
+    (S : Finset G.vertexSet) :
+    (bidirectedNetwork G c hc).cutCapacity S = cutCapacity G c S := by
+  sorry
+
+open Classical in
+/-- The aggregated pair capacity counts all parallel edges and discards loops. -/
+noncomputable def pairCapacity (c : G.edgeSet → K) (p : Sym2 G.vertexSet) : K :=
+  ∑ e : G.edgeSet,
+    if ∃ s t : G.vertexSet, s ≠ t ∧ p = s(s, t) ∧ G.IsLink e.val s.val t.val then c e else 0
+
+open Classical in
+theorem cutCapacity_pairCapacity (c : G.edgeSet → K) (S : Finset G.vertexSet) :
+    TauCetiRoadmap.FiniteGraphConnectivity.cutCapacity (pairCapacity G c) S =
+      cutCapacity G c S := by
+  sorry
+
+open Classical in
+theorem isSymmSubmodular_cutCapacity (c : G.edgeSet → K) (hc : ∀ e, 0 ≤ c e) :
+    IsSymmSubmodular (cutCapacity G c) := by
+  sorry
+
+open Classical in
+theorem isEdgeReachable_iff_le_minCut {s t : G.vertexSet} (hst : s ≠ t) (k : ℕ) :
+    IsEdgeReachable G k s t ↔ (k : ℤ) ≤ minCut (cutCapacity G (fun _ => (1 : ℤ))) s t := by
+  sorry
+
+end Capacities
+
+end TauCetiRoadmap.FiniteGraphConnectivity.Multigraph
