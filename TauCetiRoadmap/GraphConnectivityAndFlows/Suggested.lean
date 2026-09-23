@@ -49,7 +49,9 @@ The pinned choices illustrated here are:
   multigraphs; neither representation is required by the roadmap.
 - Connectivity predicates are primary, with derived `ℕ∞`-valued invariants.
   Menger uses path and separator witnesses.
-  Multigraph vertex-only targets require finite actual vertices, without finite actual edges.
+  Walks, isomorphisms, bridges, and blocks assume no finiteness; multigraph vertex-only
+  targets require finite actual vertices without finite actual edges, and directed vertex-only
+  targets a finite vertex type without finite arrow types.
 - Minimum-cut lattices use submodular functions and disjoint terminal sets.
   Symmetry is an additional hypothesis for non-crossing lemmas and Gomory–Hu trees.
 
@@ -741,7 +743,7 @@ end TerminalSets
 
 section DirectedConnectivity
 
-variable (Q : V → V → Type v) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q v w)]
+variable (Q : V → V → Type v) [Fintype V] [DecidableEq V]
 
 /-- `s` and `t` stay reachable after deleting fewer than `k` arrows. -/
 def IsArcReachable (k : ℕ) (s t : V) : Prop :=
@@ -768,8 +770,10 @@ theorem isVertexStrong_iff_le_vertexStrongConnectivity [Nonempty V] (k : ℕ) :
     IsVertexStrong Q k ↔ (k : ℕ∞) ≤ vertexStrongConnectivity Q := by
   sorry
 
-/-- Directed local edge Menger in predicate form. -/
-theorem isArcReachable_iff_exists_paths {s t : V} (hst : s ≠ t) (k : ℕ) :
+/-- Directed local edge Menger in predicate form; the vertex statements above need no finite
+arrow types. -/
+theorem isArcReachable_iff_exists_paths [∀ v w, Fintype (Q v w)] {s t : V} (hst : s ≠ t)
+    (k : ℕ) :
     IsArcReachable Q k s t ↔
       ∃ P : Fin k → ArrowWalk Q s t, Function.Injective P ∧ (∀ i, ArrowWalk.IsPath (P i)) ∧
         Pairwise fun i j => (ArrowWalk.arrows (P i)).Disjoint (ArrowWalk.arrows (P j)) := by
@@ -780,11 +784,11 @@ theorem vertexStrongConnectivity_le_arcConnectivity :
     vertexStrongConnectivity Q ≤ arcConnectivity Q := by
   sorry
 
-theorem arcConnectivity_le_card_out [Nontrivial V] (v : V) :
+theorem arcConnectivity_le_card_out [∀ v w, Fintype (Q v w)] [Nontrivial V] (v : V) :
     arcConnectivity Q ≤ (Fintype.card (Σ w, Q v w) : ℕ∞) := by
   sorry
 
-theorem arcConnectivity_le_card_in [Nontrivial V] (v : V) :
+theorem arcConnectivity_le_card_in [∀ v w, Fintype (Q v w)] [Nontrivial V] (v : V) :
     arcConnectivity Q ≤ (Fintype.card (Σ w, Q w v) : ℕ∞) := by
   sorry
 

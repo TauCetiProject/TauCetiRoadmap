@@ -8,7 +8,7 @@ These objects must have reusable APIs, including transport between the graph rep
 The structural development runs through blocks, connectivity consequences, and ears.
 The quantitative development runs through flows, minimum cuts, and disjoint paths, then supports bipartite matching, bounded circulations, and cut trees.
 The undirected theory uses Mathlib's `Graph`, retaining loops and parallel edges, with corollaries in `SimpleGraph`; vertex connectivity is that of the underlying simple graph, and the directed-network and cut-function theories are independent of this choice.
-All multigraph targets have finitely many actual vertices, and the [conventions](#graphs-networks-and-orientations) say which also need finitely many actual edges.
+The walk, isomorphism, deletion, bridge, and block foundations assume no finiteness; the extremal and decomposition targets on multigraphs have finitely many actual vertices, and the [conventions](#graphs-networks-and-orientations) say which also need finitely many actual edges.
 
 **Suggested homes:** `TauCeti/Combinatorics/Graph/Connectivity/` for multigraph connectivity, `TauCeti/Combinatorics/SimpleGraph/Connectivity/` for simple-graph interfaces, `TauCeti/Combinatorics/Network/` for directed networks and flows, and adjacent modules for the representation bridges.
 
@@ -80,9 +80,13 @@ The mathematical targets here do not require importing that implementation.
 
 **Undirected graphs** use `G : Graph α β`, with actual vertices `V(G) ⊆ α` and edges `E(G) ⊆ β`.
 The ambient types need not be finite: finiteness hypotheses concern the subtypes `V(G)` and `E(G)`, with `Fintype` instances on these subtypes when taking finite sums.
-A **finite graph** has finite `V(G)` and finite `E(G)`; every multigraph target assumes a finite graph except the vertex-only targets, which assume only `[Finite V(G)]`.
-The vertex-only targets are vertex connectivity and its invariant, cut vertices and vertex blocks, nonadjacent local vertex Menger, vertex-disjoint set-to-set Menger, and the vertex-structural consequences of Milestone 6; their parallel-edge sets may be infinite, and their proofs pass through simplification and lift finite path families by choosing actual edge witnesses.
-Directed flow and Menger reductions use finite vertex and arrow types.
+A **finite graph** has finite `V(G)` and finite `E(G)`.
+The foundations assume no finiteness of either set: the walk, isomorphism, and bridge API of Target 1.1, the cuts, separators, and path families of Target 1.2, the deletion predicates and invariants of Target 1.5, and the bridges, cut vertices, and blocks of Milestone 2, except for the statements that count components, which assume finite `V(G)`.
+**Why:** these statements concern walks, deletion, and membership, and Mathlib's `SimpleGraph.Walk` and `IsBridge` carry no finiteness either; a finite hypothesis on them would be inherited by every consumer.
+Every other multigraph target assumes a finite graph except the vertex-only targets, which assume only `[Finite V(G)]`.
+The vertex-only targets are vertex connectivity and its invariant, nonadjacent local vertex Menger, vertex-disjoint set-to-set Menger, and the vertex-structural consequences of Milestone 6; their parallel-edge sets may be infinite, and their proofs pass through simplification and lift finite path families by choosing actual edge witnesses.
+Directed flows, arrow-counting connectivity, and the Menger reductions use finite vertex and arrow types.
+The directed vertex-only targets, namely vertex strong connectivity, its invariant, and directed local and set-to-set vertex Menger, use a finite vertex type and arbitrary arrow types; their proofs pass through the arrow family with one arrow for each inhabited `Q v w` and lift finite path families by choosing arrows, as the multigraph proofs do through simplification.
 Walk endpoints and separators belong to `V(G)`; deleting edges counts identities in `E(G)`, including separate parallel edges.
 Loops are allowed.
 Use `G.toSimpleGraph : SimpleGraph V(G)` for properties insensitive to loops and parallel edges, and `Graph.ofSimpleGraph` to state and prove the simple-graph corollaries.
@@ -318,14 +322,14 @@ Consequently, for finite graphs edge connectivity is `⊤` exactly when the actu
 ## 2. Bridges, cut vertices, and blocks
 
 For a multigraph, a bridge is an actual edge whose deletion disconnects its endpoints.
-Prove equivalence with increasing the number of connected components by exactly one and with lying on no undirected cycle.
+Prove equivalence with lying on no undirected cycle and with splitting the component of its endpoints into two components, and, for finite `V(G)`, with increasing the number of connected components by exactly one.
 Loops are never bridges, and an edge with a distinct parallel edge is not a bridge.
 Prove correspondence on actual edges of `Graph.ofSimpleGraph H` with Mathlib's `SimpleGraph.IsBridge` and its `isBridge_iff_forall_cycle_notMem`; membership matters because the simple-graph predicate can also hold for a non-edge joining different components.
 
 Articulation vertices and the block–cut forest use the underlying simple graph and its existing reachability and induced-subgraph APIs.
 An cut vertex `v` is one that separates two other vertices: some `u, w ≠ v` are reachable in `G` but not in the graph induced on the complement of `{v}`.
-Prove that this is equivalent to deletion of `v` increasing the number of connected components, by one or more.
-**Why:** the count is a lemma rather than the definition, so no statement needs a `Fintype` instance on a deletion subtype.
+Prove that this is equivalent to deletion of `v` increasing the number of connected components, by one or more, for finite `V(G)`.
+**Why:** the count is a lemma rather than the definition, so no statement needs a `Fintype` instance on a deletion subtype, and the definition and the block theory below assume no finiteness.
 
 A block is a maximal nonempty connected induced subgraph with no cut vertex of its own.
 For simple graphs, bridges that are edges give two-vertex blocks, and isolated vertices give singleton blocks.
@@ -500,13 +504,14 @@ The two statements together are the equality of optima with attainment on both s
 - **Local vertex Menger:** for distinct nonadjacent terminals, the same with internally vertex-disjoint paths and terminal-excluding vertex separators.
   Give directed-network and multigraph versions with the [adjacency convention](#paths-separators-and-connectivity), returning actual edge-labelled paths, and derive the `SimpleGraph` statements.
   The multigraph statement requires only finitely many actual vertices: apply the simple-graph theorem to the simplification and lift its finite path family.
+  The directed statement likewise requires only a finite vertex type: apply the finite-network theorem to the arrow family with one arrow per inhabited `Q v w` and lift its path family by choosing arrows.
 - **Adjacent terminals:** let `D` be the set of all edges joining distinct terminals `s,t`, and let `m = |D|`.
   Give both multigraph and directed versions; in the directed version, `D` consists exactly of the arrows `s → t`, and arrows `t → s` are retained and do not contribute to `m`.
   After deleting all of `D`, a terminal-excluding vertex separator of size `k` and a family of `k + m` internally vertex-disjoint paths in the original graph attain equality, for some `k`.
   The family includes the `m` distinct one-edge paths, and every such family has size at most `|X| + m` for every separator `X` in the graph with `D` deleted.
   The simple-graph corollary has `m = 1` and hence `k + 1` paths, including for the single-edge graph where `k = 0`.
 - **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the [overlap convention](#paths-separators-and-connectivity), in directed-network and multigraph versions, with simple-graph corollaries; and edge versions for disjoint terminal sets.
-  The multigraph vertex version likewise requires no finiteness of the actual edge set; the edge version retains that hypothesis.
+  The multigraph and directed vertex versions likewise require no finiteness of the edge or arrow types; the edge versions retain that hypothesis.
 
 Derive the predicate forms: local edge reachability at threshold `k` is equivalent to the existence of `k` edge-disjoint paths; local vertex reachability has the analogous equivalence under the nonadjacency hypothesis.
 Relate local edge reachability to cuts as well: for distinct actual vertices `s,t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut value, in `ℕ`, with capacity `1` on each actual edge.
@@ -518,7 +523,7 @@ Derive the simple-graph specialization with the same size hypothesis.
 ### 5.2. Reductions to max-flow
 
 Instantiate the vertex-splitting and auxiliary-terminal constructions of [Target 1.4](#14-vertex-splitting-auxiliary-terminals-and-change-of-coefficients) over `ℤ`, where integrality is the case `H = ⊤`, with the capacities below, and prove the correspondence in each direction.
-For multigraph vertex targets with no edge-finiteness assumption, apply these finite-network reductions to the simplification and use its path-lifting and separator correspondences.
+For vertex targets with no edge- or arrow-finiteness assumption, apply these finite-network reductions to the simplification, or in the directed case to the arrow family with one arrow per inhabited `Q v w`, and use its path-lifting and separator correspondences.
 These reductions are required reusable interfaces.
 **Suggested proof:** derive Menger from them; another proof of the same theorems is acceptable.
 In the undirected edge reduction, extract paths from the normalized flow of [Target 3.3](#33-terminal-sets-and-undirected-networks), so that one edge cannot be used twice while distinct parallel edges remain distinct.
@@ -556,7 +561,8 @@ The simple-graph specialization gives the minimum-degree bound below.
 
 - **Whitney inequalities:** `G.IsVertexConnected k` implies `G.IsEdgeConnected k`; for `[Nontrivial V]`, `G.IsEdgeConnected k` implies `k ≤ G.minDegree`.
   Derive the numerical forms `G.vertexConnectivity ≤ G.edgeConnectivity` and, on a finite nontrivial carrier, `G.edgeConnectivity ≤ G.minDegree` after coercing the degree to `ℕ∞`.
-- **Directed connectivity:** for an arrow family `Q` with finite vertex and arrow types, define `IsArcReachable k s t` by reachability after deleting fewer than `k` arrows, `IsArcStrong k` by that condition for every ordered pair, and `IsVertexStrong k` by more than `k` vertices together with reachability between every two remaining vertices after deleting fewer than `k` vertices.
+- **Directed connectivity:** for an arrow family `Q` on a finite vertex type, define `IsArcReachable k s t` by reachability after deleting fewer than `k` arrows, `IsArcStrong k` by that condition for every ordered pair, and `IsVertexStrong k` by more than `k` vertices together with reachability between every two remaining vertices after deleting fewer than `k` vertices.
+  The vertex statements assume nothing about the arrow types; the arrow-counting characterizations through directed edge Menger and the degree bounds assume finite arrow types.
   Define the invariants `arcConnectivity` and `vertexStrongConnectivity` in `ℕ∞` as the suprema of the thresholds, with the same subsingleton conventions as the undirected invariants.
   Supply threshold equivalences, monotonicity in the threshold and the arrow family, deletion lemmas, and the predicate forms through directed Menger.
   Prove `vertexStrongConnectivity ≤ arcConnectivity`, and the bound of arc connectivity by every out-degree and in-degree when there are at least two vertices.
