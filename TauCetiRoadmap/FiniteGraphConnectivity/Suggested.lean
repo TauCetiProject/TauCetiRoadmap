@@ -13,25 +13,34 @@ human-owned roadmap library: these are targets, not completed definitions or pro
 The simple-graph edge and orientation statements are required corollaries of the multigraph theory.
 The circulation prototypes cover signed bounds, exact and interval excess, and extremal values.
 
-The pinned choices this file exhibits: finite bounds and flows use a linearly ordered additive
-commutative group `K`; a directed network is a *term* `N : Network C V` with arrow types in a
-universe independent of the vertex universe, and lower and upper bounds in a common type `C`,
-equal to `K` for finite bounds and `WithTop K` for extended bounds; ordinary networks set the
-lower bound to zero in the same structure; assignments, excess, cut capacity, and flows
-use an explicit quiver and separate bounds, with network abbreviations for the same objects;
-bounded assignments compare values with bounds through an order embedding; excess is incoming
-minus outgoing and ordinary flow value is nonnegative excess at the sink;
-directed walks abbreviate Mathlib's `Quiver.Path` with the quiver
-argument supplied explicitly, so networks and orientations share its API without competing
-instances or vertex-type synonyms; the residual network has the flow-independent arrow type
-`N.Hom v w ⊕ N.Hom w v`, and an augmenting path is a path in its positive-capacity part; flows on
-an extended network are finite `K`-valued and reach the finite theory by truncation rather than
-extended subtraction; integrality is stated for an additive subgroup of `K`; an orientation of a
-simple graph reuses `TauCeti.DoubledQuiver.Orientation`; ear decompositions are data, here terms of one
-inductive type family indexed by the subgraph built so far, while the roadmap pins their observable
-prefix API rather than this representation; connectivity predicates are primary, following
-Mathlib's `IsEdgeConnected` and the shape of Mathlib proposal [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) for vertex connectivity, with
-derived `ℕ∞`-valued invariants; Menger is stated in witness form; and every sum is a `Finset.sum`.
+The pinned choices illustrated here are:
+
+- Finite bounds and flows use a linearly ordered additive commutative group `K`.
+  Integrality concerns values in an additive subgroup; every sum is a `Finset.sum`.
+  Only the rounding target adds an ordered ring and `FloorRing` structure.
+- A network is a term `N : Network C V`, with arrow types in a universe independent of `V`.
+  Both bounds lie in `C`; ordinary networks set the lower bound to zero.
+  Assignments and flows use an explicit quiver and separate bounds, with network abbreviations.
+  Bounded assignments compare their values with bounds through an order embedding.
+- Excess is incoming minus outgoing; ordinary flow value is nonnegative excess at the sink.
+  General bounded terminal assignments allow signed values.
+  Nonnegative assignments decompose into supply-to-demand paths and cycles.
+- Directed walks use `Quiver.Path` with an explicit quiver argument.
+  Subnetworks record actual vertices as well as arrow subsets.
+  Residual arrows are `N.Hom v w ⊕ N.Hom w v`, independently of the assignment.
+  Augmenting paths use the positive-capacity part of that fixed arrow family.
+- Extended networks use `WithTop K` bounds and finite `K`-valued assignments.
+  Truncation at a finite terminal-cut bound preserves optimal values.
+  It need not preserve an original assignment.
+- Simple-graph orientations reuse `TauCeti.DoubledQuiver.Orientation`.
+  Ear decompositions are data with a prefix API.
+  These prototypes illustrate an inductive family for simple graphs and a prefix structure for
+  multigraphs; neither representation is required by the roadmap.
+- Connectivity predicates are primary, with derived `ℕ∞`-valued invariants.
+  Menger uses path and separator witnesses.
+  Multigraph vertex-only targets require finite actual vertices, without finite actual edges.
+- Minimum-cut lattices use submodular functions and disjoint terminal sets.
+  Symmetry is an additional hypothesis for non-crossing lemmas and Gomory–Hu trees.
 
 Namespaces: in Tau Ceti, new declarations about simple graphs live in `SimpleGraph`, including
 the connectivity declarations under the names of [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) and [#42494](https://github.com/leanprover-community/mathlib4/pull/42494). Their prototype definitions
