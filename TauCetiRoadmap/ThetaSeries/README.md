@@ -542,10 +542,16 @@ Rank is arbitrary throughout the layer.
   (`ncard_vectorsOfNorm_ratModel`); that they are the `q`-expansion coefficients of `Θ_L` is 3C's
   theorem and is stated only here.
 - **2H. The Kronecker symbol.**  Mathlib has `jacobiSym` for odd denominators only.  Define
-  `kroneckerSym : ℤ → ℤ → ℤ` extending it, with the standard values at `2`, `-1` and `0`, and
-  prove: complete multiplicativity in the second argument, agreement with `jacobiSym` and
-  `legendreSym` where those are defined, and, for `D ≡ 0, 1 (mod 4)`, `D ≠ 0`, that
-  `kroneckerSym D` is periodic modulo `|D|` and multiplicative in `D` — so that it defines
+  `kroneckerSym : ℤ → ℤ → ℤ` extending it, with the standard values at `2`, `-1` and `0`:
+  `(a / 2)` is `0` for even `a`, `1` for `a ≡ ±1 (mod 8)` and `-1` for `a ≡ ±3 (mod 8)`;
+  `(a / -1)` is `-1` for `a < 0` and `1` otherwise; `(a / 0)` is `1` for `a = ±1` and `0`
+  otherwise.  ⚠ The last is not `jacobiSym a 0 = 1`; the two symbols agree on odd denominators
+  only.  Prove: multiplicativity in the second argument over nonzero factors, as in Mathlib's
+  `jacobiSym.mul_right'`, and without any restriction on the factors when the numerator is not
+  `-1` — the value at `0` rules out the unconditional statement, since `(-1 / 0) = 1` while
+  `(-1 / 0) * (-1 / 3) = -1`; agreement with `jacobiSym` and `legendreSym` where those are
+  defined; and, for `D ≡ 0, 1 (mod 4)`, `D ≠ 0`, that `kroneckerSym D` is periodic modulo `|D|`
+  and multiplicative without restriction (such `D` is never `-1`) — so that it defines
   `kroneckerChar D : DirichletCharacter ℂ |D|`, a quadratic character with
   `kroneckerChar D (-1) = sign D`.  Prove that for an even lattice of even rank `n = 2k`,
   `D_L = (-1)^k * det L` satisfies `D_L ≡ 0 (mod 4) ∨ D_L ≡ 1 (mod 4)`.  ⚠ Nothing in this layer

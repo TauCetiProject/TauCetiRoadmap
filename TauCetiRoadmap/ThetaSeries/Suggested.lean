@@ -554,14 +554,41 @@ level is the conductor theorem of Layer 6. -/
 
 section Kronecker
 
-/-- The Kronecker symbol `(a / b)`: the completely multiplicative extension of `jacobiSym` to all
-`b : ℤ`, with the standard values at `2`, `-1`, and `0`. -/
+/-- The Kronecker symbol `(a / b)`: the extension of `jacobiSym` to all `b : ℤ`, multiplicative in
+`b` over nonzero denominators (`kroneckerSym_mul_right`) and taking the standard values at `2`,
+`-1` and `0` (`kroneckerSym_two_right`, `kroneckerSym_neg_one_right`, `kroneckerSym_zero_right`).
+⚠ `(a / 0)` is `1` for `a = ±1` and `0` otherwise; it is not `jacobiSym a 0 = 1`, and the two
+symbols agree on odd denominators only. -/
 def kroneckerSym (a b : ℤ) : ℤ := sorry
 
 theorem kroneckerSym_eq_jacobiSym (a : ℤ) {b : ℕ} (hb : Odd b) :
     kroneckerSym a b = jacobiSym a b := sorry
 
-theorem kroneckerSym_mul_right (a b c : ℤ) :
+/-- `(a / 2)`: `0` for even `a`, `1` for `a ≡ ±1 (mod 8)`, `-1` for `a ≡ ±3 (mod 8)`. -/
+theorem kroneckerSym_two_right (a : ℤ) :
+    kroneckerSym a 2 =
+      if Even a then 0 else if a ≡ 1 [ZMOD 8] ∨ a ≡ -1 [ZMOD 8] then 1 else -1 := sorry
+
+/-- `(a / -1)`: `-1` for negative `a`, `1` otherwise. -/
+theorem kroneckerSym_neg_one_right (a : ℤ) :
+    kroneckerSym a (-1) = if a < 0 then -1 else 1 := sorry
+
+/-- `(a / 0)`: `1` for `a = ±1`, `0` otherwise. This value is what stops multiplicativity in the
+denominator from holding unconditionally: `(-1 / 0) = 1` while `(-1 / 0) * (-1 / 3) = -1`. -/
+theorem kroneckerSym_zero_right (a : ℤ) :
+    kroneckerSym a 0 = if a = 1 ∨ a = -1 then 1 else 0 := sorry
+
+/-- Multiplicativity in the denominator over nonzero factors, as in Mathlib's
+`jacobiSym.mul_right'`. The hypotheses cannot be dropped: `a = -1`, `b = 0`, `c = 3` gives `1` on
+the left and `-1` on the right (`kroneckerSym_zero_right`). -/
+theorem kroneckerSym_mul_right (a : ℤ) {b c : ℤ} (hb : b ≠ 0) (hc : c ≠ 0) :
+    kroneckerSym a (b * c) = kroneckerSym a b * kroneckerSym a c := sorry
+
+/-- For a numerator other than `-1`, multiplicativity in the denominator holds with no restriction
+on the factors: `(a / 0)` is `1` when `a = 1`, where every value is `1`, and `0` otherwise, where
+it absorbs the product. Every discriminant `D ≡ 0, 1 (mod 4)` qualifies, and this is the form the
+construction of `kroneckerChar` uses. -/
+theorem kroneckerSym_mul_right_of_ne_neg_one {a : ℤ} (ha : a ≠ -1) (b c : ℤ) :
     kroneckerSym a (b * c) = kroneckerSym a b * kroneckerSym a c := sorry
 
 /-- For a discriminant `D ≡ 0, 1 (mod 4)`, `D ≠ 0`, the Kronecker symbol `(D / ·)` is periodic
