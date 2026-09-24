@@ -157,7 +157,7 @@ For example, a native `X : Ω → ℕ` has mass and pgf corollaries, while its r
   Use the continuous functional calculus on Hermitian matrices, especially `CFC.sqrt`; `Matrix.frobeniusNormedAddCommGroup` and `Matrix.frobeniusNormedSpace` for the Frobenius norm; `Matrix.IsLowerTriangular`; the LDL decomposition in `Mathlib/Analysis/Matrix/LDL.lean`; the Schur-complement file `Mathlib/LinearAlgebra/Matrix/SchurComplement.lean`; and `condDistrib` with `condDistrib_ae_eq_of_measure_eq_compProd`.
 
   For symmetric matrices, use `selfAdjoint.submodule ℝ` and `Matrix.isHermitian_iff_isSelfAdjoint`.
-  For simplex-valued parameters, use `stdSimplex` and `stdSimplex.map`.
+  For simplex-valued parameters, use `Convexity.StdSimplex` and `Convexity.StdSimplex.map`, with coordinates `p.weights i`.
   Product Lebesgue measure and the finite-dimensional additive-Haar infrastructure (`MeasureTheory.Measure.addHaar`) supply the starting point for Layer 6, but an arbitrary Haar normalization does not give the classical Wishart constants.
 
 Use these directly.
@@ -203,8 +203,8 @@ Within Tau Ceti, reuse the following existing material directly:
 - [`TauCeti/LinearAlgebra/Matrix/Triangular.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/LinearAlgebra/Matrix/Triangular.lean) supplies the triangular-matrix diagonal and inverse lemmas needed by the Cholesky development; and
 - [`TauCeti/Probability/Moments/Determinacy.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Probability/Moments/Determinacy.lean) proves moment determinacy under an exponential-moment hypothesis.
 
-The real-degree Bartlett decomposition is already available in [`TauCeti/Probability/Distributions/Wishart/Bartlett.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Probability/Distributions/Wishart/Bartlett.lean).
-Reuse its joint Cholesky-coordinate theorem for all real `n>p-1`, including the product-law formulation, in the inverse-Wishart marginal development.
+For the Cholesky-coordinate API used by the inverse-Wishart marginal development, use [`TauCeti/Probability/Distributions/Wishart/Bartlett.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Probability/Distributions/Wishart/Bartlett.lean).
+Layer 6 states the required real-degree joint law and its marginal consequences.
 
 The determinacy theorem belongs to the [orthogonal-L²-bases roadmap](../OrthogonalL2Bases/README.md); use it for uniqueness from moments.
 
@@ -541,8 +541,8 @@ Every family and named specialization is subject to the shared requirements and 
     Assume `∀ N, K N ≤ N` and `Tendsto (fun N => (K N : ℝ) / N) atTop (𝓝 (p : ℝ))`.
     For every fixed `k`, prove `Tendsto (fun N => ENNReal.toReal ((hypergeometricMeasure N (K N) n) {k})) atTop (𝓝 (ENNReal.toReal ((binomial n p) {k})))`.
 
-The scalar moment targets also include the following real-power specializations for valid parameters: lognormal `E[X^q]=exp(q*m+q²*v/2)` for every real `q`; Weibull `E[X^q]=s^q*Gamma(1+q/k)` exactly for `q>-k`; and inverse gamma `E[X^q]=r^q*Gamma(a-q)/Gamma(a)` exactly for `q<a`.
-Prove the corresponding non-integrability statements at and beyond each finite threshold; lognormal includes zero log-variance.
+The scalar moment targets also include the following real-power specializations for valid parameters: lognormal `E[X^q]=exp(q*m+q²*v/2)` for every real `q`, including zero log-variance; Weibull `E[X^q]=s^q*Gamma(1+q/k)` exactly for `q>-k`; and inverse gamma `E[X^q]=r^q*Gamma(a-q)/Gamma(a)` exactly for `q<a`.
+Prove the corresponding non-integrability statements at and beyond each finite threshold.
 
 Key declarations:
 
@@ -603,7 +603,7 @@ Targets:
    Layer 0 supplies the parameter-measurability theorem needed by `Measure.bind`.
 6. **Finite extrema and elementary order statistics.** Let `[Fintype ι] [Nonempty ι]`, let `P` be a probability measure, and suppose `iIndepFun X P` and `∀ i, HasLaw (X i) (μ i) P`.
    Prove cdfs `∏ i, cdf (μ i) x` for the maximum and `1-∏ i,(1-cdf (μ i) x)` for the minimum.
-   Derive the iid formulas and the minimum-of-exponentials law by specialization.
+   Retain `cdf_max_iid` as the iid corollary, derive the iid minimum formula, and recover the minimum-of-exponentials law by specialization.
    Define extrema using `Finset.univ` and its nonemptiness proof, with no empty-family default.
    For `n≥1` and `1≤k≤n`, define the kth order statistic of `Fin n → ℝ` by sorting with multiplicities, and prove measurability and its characterization by having at least `k` coordinates at most `x`.
    For iid law `μ`, prove cdf `∑ j=k..n, choose(n,j)*(cdf μ x)^j*(1-cdf μ x)^(n-j)`, including laws with atoms.
@@ -621,6 +621,7 @@ hasLaw_ratio_gaussian_cauchy
 map_div_add_prod_gammaMeasure
 bind_gammaMeasure_poissonMeasure
 cdf_max_indep
+cdf_max_iid
 cdf_orderStatistic_iid
 ```
 
@@ -678,28 +679,28 @@ Targets:
    Allow a singular Schur complement, including Dirac conditional laws, and prove that block independence is equivalent to `S₁₂ = 0` for every positive-semidefinite `S`.
    Conditioning on a singular `S₂₂` through a generalized inverse is outside scope.
 5. **Multinomial distribution.** Assume `[Fintype ι] [Nonempty ι]`.
-   Define `multinomialMeasure (n : ℕ) (p : stdSimplex ℝ≥0 ι)` as a weighted Dirac sum on `ι → ℕ`.
-   On the support `∑ i, k i = n`, its real singleton mass is `(multinomialMeasure n p).real {k} = (n.factorial : ℝ) / ∏ i, ((k i).factorial : ℝ) * ∏ i, (p i : ℝ) ^ k i`; off that support the mass is zero.
-   Using `stdSimplex` as the parameter type removes any invalid branch and supplies `p i ≤ 1` for each coordinate marginal.
+   Define `multinomialMeasure (n : ℕ) (p : Convexity.StdSimplex ℝ≥0 ι)` as a weighted Dirac sum on `ι → ℕ`.
+   On the support `∑ i, k i = n`, its real singleton mass is `(multinomialMeasure n p).real {k} = (n.factorial : ℝ) / ∏ i, ((k i).factorial : ℝ) * ∏ i, (p.weights i : ℝ) ^ k i`; off that support the mass is zero.
+   Using `Convexity.StdSimplex` as the parameter type removes any invalid branch and supplies `p.weights i ≤ 1` for each coordinate marginal.
 
    Prove the mass and support formulas, native binomial coordinate marginals, and aggregation along any map `f : ι → κ` between nonempty finite index types.
-   The pushforward under `fun k j => ∑ i with f i = j, k i` must be `multinomialMeasure n (stdSimplex.map f p)`.
+   The pushforward under `fun k j => ∑ i with f i = j, k i` must be `multinomialMeasure n (Convexity.StdSimplex.map f p)`.
 
    Define `multinomialToEuclidean k = EuclideanSpace.equiv.symm (fun i => (k i : ℝ))`.
    For `(multinomialMeasure n p).map multinomialToEuclidean`, not for the native law, prove:
-   - mean `EuclideanSpace.equiv.symm (fun i => (n : ℝ) * (p i : ℝ))`;
-   - covariance with diagonal `(n : ℝ) * p i * (1 - p i)` and off-diagonal `-((n : ℝ) * p i * p j)`; and
-   - characteristic function `(∑ j, (p j : ℝ) * Complex.exp (I * t j)) ^ n`.
+   - mean `EuclideanSpace.equiv.symm (fun i => (n : ℝ) * (p.weights i : ℝ))`;
+   - covariance with diagonal `(n : ℝ) * p.weights i * (1 - p.weights i)` and off-diagonal `-((n : ℝ) * p.weights i * p.weights j)`; and
+   - characteristic function `(∑ j, (p.weights j : ℝ) * Complex.exp (I * t j)) ^ n`.
      This is a natural-number power, so no branch choice is involved.
 
    Package the entrywise covariance formula as an equality for `covMatrix` and derive the corresponding `covarianceBilin` theorem.
-   For every `θ : EuclideanSpace ℝ ι`, prove that the directional `integrableExpSet` is `Set.univ` and that the directional mgf is `(∑ j, (p j : ℝ) * exp (t * θ j)) ^ n`; its cgf is the real logarithm of this formula.
+   For every `θ : EuclideanSpace ℝ ι`, prove that the directional `integrableExpSet` is `Set.univ` and that the directional mgf is `(∑ j, (p.weights j : ℝ) * exp (t * θ j)) ^ n`; its cgf is the real logarithm of this formula.
 6. **Dirichlet distribution.** Assume `[Fintype ι] [Nonempty ι]`.
    Define `dirichletMeasure (a : ι → ℝ)` to be zero unless `∀ i, 0 < a i`.
    In the valid case, start with independent `gammaMeasure (a i) 1` variables, divide each coordinate by their sum, and push the result to `EuclideanSpace ℝ ι`.
    Define the normalization map to return the zero vector when the sum vanishes, and prove that this branch is null under the valid source law.
 
-   Prove that the support lies in the pullback of `stdSimplex ℝ ι` along `EuclideanSpace.equiv`.
+   Prove that the support lies in the pullback of `Set.range (fun p : Convexity.StdSimplex ℝ ι => (p.weights : ι → ℝ))` along `EuclideanSpace.equiv`.
    When `ι = Fin 2`, evaluation at `0` must recover `betaMeasure (a 0) (a 1)` through Layer 4.
 
    Under `∀ i, 0 < a i`, write `a₀ = ∑ j, a j` and prove:
@@ -897,7 +898,8 @@ Targets:
    For `S.PosSemidef` with `min ν S.rank < p`, prove that `wishartGramMeasure ν S` is singular with respect to `symmetricLebesgue p`, using the rank bound and `symmetricLebesgue_setOf_det_eq_zero` from item 1.
 5. **Bartlett decomposition.** Let `n : ℝ` with `(p : ℝ)-1<n`.
    Lift `nonsingularWishartMeasure n 1` to the positive-definite subtype using `(nonsingularWishartMeasure n 1).comap Subtype.val`, then apply the Cholesky equivalence.
-   Reuse the existing real-degree theorem and its product-measure formulation; the natural-degree Gaussian-Gram construction retains its natural parameter.
+   Give the joint law both as an equality to the product of the coordinate measures and as the independence statement below.
+   The Gaussian-Gram construction retains its natural degree parameter.
    Prove that mapping the lift back along `Subtype.val` returns the original Wishart law.
    The proof should use `map_comap_subtype_coe` to obtain the restriction to the measurable cone, then remove that restriction because the cone's complement is null under the valid law.
 
@@ -1030,7 +1032,7 @@ In the formulas below, `F(x) = cdf μ x` and `F(x-) = μ.real (Set.Iio x)`.
    | Log-normal `(m,v)` | Log-location `m+log b`. |
    | Chi `(k,s)` and noncentral chi `(k,δ,s)` | Scale `b*s`; this includes half-normal, Rayleigh, and Maxwell. |
    | Rice `(ν,s)`; folded normal `(m,s)` | `(b*ν,b*s)`; `(b*m,b*s)`, respectively. |
-   | Generalized gamma `(α,c,s)`; half-Student t `(ν,s)` | Scale `b*s`. |
+   | Generalized gamma `(a,c,s)`; half-Student t `(ν,s)` | Scale `b*s`. |
    | Log-uniform `(l,r)` | Endpoints `(b*l,b*r)`. |
    | Nakagami `(m,Ω)` | Spread `b²*Ω`. |
    | GPD `(s,ξ)`; log-logistic of scale `s`, shape `k` | Scale `b*s`. |
@@ -1133,7 +1135,7 @@ In the formulas below, `F(x) = cdf μ x` and `F(x-) = μ.real (Set.Iio x)`.
    The real definitions retain ordinary division and logarithm totalization elsewhere; no hazard identity is asserted there.
    On intervals with continuous density and positive survival prove `H'=h`, and for nonnegative atomless laws integrate from zero to obtain `S(x)=exp(-∫ t in 0..x,h(t))` before the support endpoint.
    Under these hypotheses prove that independent minima add hazards and cumulative hazards on the common positive-survival interval.
-   Instantiate the formulas for exponential, Weibull, gamma, lognormal, Gompertz, log-logistic, and generalized Pareto laws, using their declared densities and cdfs.
+   Instantiate the formulas for exponential, Weibull, gamma, and lognormal laws, using their declared densities and cdfs.
    These are distribution identities, without lifetime-data or inference targets.
 
 10. **Quantile construction of order statistics.** Using Layer 4, prove that applying `Qμ` to the kth uniform order statistic gives the kth order statistic of iid law `μ`, including atoms.
@@ -1166,7 +1168,7 @@ Completion checks:
 - The quantile transform reconstructs every probability law on `ℝ`, including discrete and mixed laws.
 - No new PMF, cdf, convolution, conditioning, or probability-kernel abstraction is introduced.
 - Mixture variance includes both within-component and between-component terms, and zero mixture weights do not restrict mgf domains.
-- Folding a centered Gaussian agrees with its half-normal law; clipping displays its endpoint atoms, unlike truncation.
+- Clipping a nondegenerate Gaussian displays its endpoint atoms; interval conditioning remains atomless.
 - The order-statistic law recovers the minimum and maximum at `k=1,n`, including atomic source laws.
 
 ### Layer 8: special functions for the expanded families
@@ -1236,7 +1238,7 @@ These are complete targets even when no named special-function transform or quan
 1. **Finite uniform and categorical.** On a nonempty finite type with its discrete σ-algebra, reuse `uniformOn Set.univ`; on a nonempty finite subset use `uniformOn` of that subset.
    Prove agreement with `(PMF.uniformOfFintype ι).toMeasure` and `(PMF.uniformOfFinset s hs).toMeasure`, respectively, uniform masses, pushforward under bijections, and finite-sum integration.
    For `p : Convexity.StdSimplex ℝ≥0 ι`, define the categorical measure by `∑ i, (p.weights i : ℝ≥0∞) • Measure.dirac i`, using the measurable structure induced by its finite weight coordinates.
-   Prove aggregation along arbitrary maps of finite types and that its one-hot pushforward is multinomial with one trial and the same weights, supplying the measurable bridge to the multinomial simplex parameter carrier.
+   Prove aggregation along arbitrary maps of finite types and that its one-hot pushforward is multinomial with one trial and the same `Convexity.StdSimplex` parameter.
    Numeric means and quantiles concern a specified real observable on `ι`, not an intrinsic ordering of category names.
    Include the Rademacher specialization with equal masses at `-1,1`, mean zero, variance one, mgf `cosh t`, and characteristic function `cos t`.
    For integer endpoints `a ≤ b`, put `N=b-a+1` and use uniform mass `1/N` on the inclusive interval `[a,b]` in `ℤ`; use the zero measure for `b<a`.
@@ -1399,6 +1401,7 @@ Natural moments listed below include the zeroth moment; sharp moment thresholds 
    Prove the density, quantile `s*((1-u)^(-ξ)-1)/ξ` with branch `-s*log(1-u)`, mean `s/(1-ξ)` for `ξ<1`, and variance `s²/((1-ξ)²*(1-2*ξ))` for `ξ<1/2`.
    Its `n`th raw moment is `s^n*n!/∏ j=1..n,(1-j*ξ)`, exactly when `n*ξ<1` for `n≥1`.
    Prove mgf domains `(-∞,0]`, `(-∞,1/s)`, and `ℝ` for positive, zero, and negative shape respectively.
+   Using Layer 7, prove hazard `1/(s+ξ*x)` and cumulative hazard `log(1+ξ*x/s)/ξ` for `x>0` in the positive-survival region, with the zero-shape cumulative-hazard branch `x/s` and cumulative hazard zero at `x=0`.
    Prove threshold stability: conditional excess over `v≥0` in the support has shape `ξ` and scale `s+ξ*v`.
    At `ξ=0`, identify `expMeasure (1/s)`; at `ξ=-1`, identify `uniformMeasure 0 s`.
    For `ξ>0`, identify the Lomax scale `s/ξ` and shape `1/ξ`, and prove `(generalizedParetoMeasure s ξ).map (fun x => x+s/ξ) = paretoMeasure (s/ξ) (1/ξ)`.
@@ -1491,12 +1494,14 @@ Natural moments listed below include the zeroth moment; sharp moment thresholds 
 
 11. **Gompertz and log-logistic.** For Gompertz use shape `η>0` and rate `b>0`, with survival `exp(-η*(exp(b*x)-1))` on `x≥0`.
     Define it as `log(1+E/η)/b` for rate-one exponential `E`, and derive density `η*b*exp(b*x)*exp(-η*(exp(b*x)-1))`, cdf, and quantile `log(1-log(1-u)/η)/b`.
+    Using Layer 7, prove hazard `η*b*exp(b*x)` and cumulative hazard `η*(exp(b*x)-1)` for `x>0`, with cumulative hazard zero at `x=0`.
     All natural moments and exponential moments exist.
     Require the explicit convergent integral `b^(-n)*∫ y in (0,∞), log(1+y/η)^n*exp(-y)` for each raw moment, mean and variance expressed through the first two such integrals, and mgf `∫ y in (0,∞), (1+y/η)^(t/b)*exp(-y)`.
     Obtain these representations by the shared pushforward integral theorem; no additional special function or independent moment-integration development is required.
 
     For log-logistic use scale `a>0`, shape `b>0`, and cdf `1/(1+(x/a)^(-b))` on `x>0`.
     Define it by exponentiating logistic with location `log a` and scale `1/b`, and derive its density and quantile `a*(u/(1-u))^(1/b)`.
+    Using Layer 7, prove hazard `(b/a)*(x/a)^(b-1)/(1+(x/a)^b)` and cumulative hazard `log(1+(x/a)^b)` for `x>0`.
     For real `r` with `|r|<b`, prove moment `a^r*Gamma(1+r/b)*Gamma(1-r/b)` and non-integrability of `X^r` outside this interval.
     Derive mean and variance under `b>1` and `b>2`, respectively, and prove mgf domain `(-∞,0]`.
 
@@ -1590,6 +1595,7 @@ Completion checks:
 - Generalized gamma recovers both positive-power and negative-power families with the correct reversed quantile level in the latter case.
 - Nakagami below `m=1/2` remains normalized, and its negative-moment threshold is `-2*m`.
 - Generalized normal at powers one and two recovers Laplace and Gaussian, and equal asymmetric-Laplace rates recover Laplace.
+- Folding a nondegenerate centered Gaussian agrees with its half-normal law, and conditioning it to the nonnegative half-line gives the same law.
 - Half-Cauchy agrees with folded centered Cauchy, and logit-normal at zero variance is Dirac at the sigmoid of its location.
 
 ### Layer 11: multivariate t and Gaussian matrix and complex laws
@@ -1669,7 +1675,7 @@ Completion checks:
 
 2. **Von Mises–Fisher.** On the unit sphere in dimension `d≥2`, take a unit direction `m` and concentration `κ≥0`.
    Write `σ_d` for the uniform sphere probability measure and define the natural-parameter law for any ambient vector `η` as `σ_d.tilted (fun x => ⟪η,x⟫)`.
-   The direction/concentration form is this law at `η=κ*m`; prove its equivalence to the normalized density with `f(x)=exp(κ*⟪m,x⟫)` and `Z=∫ x, f(x) ∂σ_d`.
+   For `κ≥0`, the direction/concentration form is this law at `η=κ*m`; prove its equivalence to the normalized density with `f(x)=exp(κ*⟪m,x⟫)` and `Z=∫ x, f(x) ∂σ_d`.
    Prove parameter measurability in `η` using the shared tilting API.
    Prove integrability of `f` and positivity of `Z`; branch to zero for `κ<0`, and use zero measure in ambient dimensions below two if the definition accepts all natural dimensions.
    For `κ>0`, prove that the normalizing integral relative to unnormalized surface area is `(2π)^(d/2)*κ^(1-d/2)*I_(d/2-1)(κ)`.
@@ -1816,7 +1822,7 @@ This layer develops the LKJ distribution as a measure on the symmetric-matrix ca
 Its reference measure lives on the affine space of unit-diagonal symmetric matrices, not the full symmetric space.
 
 1. **Correlation coordinates and reference measure.** For `p : ℕ`, let `J_p={ij : Fin p × Fin p // ij.2<ij.1}` and reconstruct `R(x)` from `x : J_p → ℝ` by filling the strict lower triangle, reflecting it above the diagonal, and putting ones on the diagonal.
-   Prove that this is a measurable affine homeomorphism onto the unit-diagonal symmetric subtype, and define `correlationLebesgue p` as the pushforward of product Lebesgue measure in these coordinates to `SymmetricMatrix p`.
+   Prove that this is a measurable affine homeomorphism onto the unit-diagonal symmetric subtype, and define `correlationLebesgue p` as the pushforward of product Lebesgue measure in these coordinates to `selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) ℝ)`, the carrier fixed in Layer 6.
    Prove that `{x | R(x).PosDef}` is open, bounded, and measurable, with positive finite volume; its closure is the positive-semidefinite correlation region and its determinant-zero boundary has measure zero.
    Prove invariance of this reference measure under simultaneous row/column permutations and diagonal sign conjugations.
    Dimensions zero and one have no free coordinates: their reference measures are Dirac at the identity matrix.
@@ -1857,6 +1863,7 @@ correlationLebesgue
 lkjNormalizer
 lkjMeasure
 isProbabilityMeasure_lkjMeasure
+lkjMeasure_entry_beta
 map_partialCorrelations_lkjMeasure
 map_principalSubmatrix_lkjMeasure
 quantile_entry_lkjMeasure

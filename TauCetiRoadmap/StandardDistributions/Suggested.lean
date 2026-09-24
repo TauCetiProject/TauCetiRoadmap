@@ -342,37 +342,37 @@ theorem measurable_multivariateGaussian {ι : Type*} [Fintype ι] [DecidableEq �
 /-! ### Multinomial and Dirichlet distributions -/
 
 noncomputable def multinomialMeasure {ι : Type*} [Fintype ι] [Nonempty ι] (n : ℕ)
-    (p : stdSimplex ℝ≥0 ι) : Measure (ι → ℕ) :=
+    (p : Convexity.StdSimplex ℝ≥0 ι) : Measure (ι → ℕ) :=
   Measure.sum fun k : ι → ℕ =>
     (if ∑ i, k i = n then
       ENNReal.ofReal ((n.factorial : ℝ) / (∏ i, ((k i).factorial : ℝ)) *
-        (∏ i, ((p : ι → ℝ≥0) i : ℝ) ^ k i))
+        (∏ i, (p.weights i : ℝ) ^ k i))
     else 0) • Measure.dirac k
 
 theorem isProbabilityMeasure_multinomialMeasure {ι : Type*} [Fintype ι] [Nonempty ι]
-    (n : ℕ) (p : stdSimplex ℝ≥0 ι) :
+    (n : ℕ) (p : Convexity.StdSimplex ℝ≥0 ι) :
     IsProbabilityMeasure (multinomialMeasure n p) := by sorry
 
 theorem map_multinomialMeasure {ι κ : Type*} [Fintype ι] [Nonempty ι] [Fintype κ]
-    [Nonempty κ] [DecidableEq κ] (n : ℕ) (p : stdSimplex ℝ≥0 ι) (f : ι → κ) :
+    [Nonempty κ] [DecidableEq κ] (n : ℕ) (p : Convexity.StdSimplex ℝ≥0 ι) (f : ι → κ) :
     (multinomialMeasure n p).map (fun k j => ∑ i with f i = j, k i) =
-      multinomialMeasure n (stdSimplex.map f p) := by sorry
+      multinomialMeasure n (Convexity.StdSimplex.map f p) := by sorry
 
 def multinomialToEuclidean {ι : Type*} [Fintype ι] (k : ι → ℕ) :
     EuclideanSpace ℝ ι :=
   (EuclideanSpace.equiv ι ℝ).symm fun i => (k i : ℝ)
 
 theorem integrableExpSet_inner_multinomialMeasure {ι : Type*} [Fintype ι]
-    [Nonempty ι] [DecidableEq ι] (n : ℕ) (p : stdSimplex ℝ≥0 ι)
+    [Nonempty ι] [DecidableEq ι] (n : ℕ) (p : Convexity.StdSimplex ℝ≥0 ι)
     (θ : EuclideanSpace ℝ ι) :
     integrableExpSet (fun x => ⟪θ, x⟫_ℝ)
       ((multinomialMeasure n p).map multinomialToEuclidean) = Set.univ := by sorry
 
 theorem mgf_inner_multinomialMeasure {ι : Type*} [Fintype ι] [Nonempty ι]
-    [DecidableEq ι] (n : ℕ) (p : stdSimplex ℝ≥0 ι)
+    [DecidableEq ι] (n : ℕ) (p : Convexity.StdSimplex ℝ≥0 ι)
     (θ : EuclideanSpace ℝ ι) (t : ℝ) :
     mgf (fun x => ⟪θ, x⟫_ℝ) ((multinomialMeasure n p).map multinomialToEuclidean) t =
-      (∑ j, (p j : ℝ) * rexp (t * θ j)) ^ n := by sorry
+      (∑ j, (p.weights j : ℝ) * rexp (t * θ j)) ^ n := by sorry
 
 open scoped Classical in
 
