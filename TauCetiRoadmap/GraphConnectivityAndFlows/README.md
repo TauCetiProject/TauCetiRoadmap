@@ -47,13 +47,18 @@ Also reuse the following Tau Ceti modules:
 - [`Combinatorics.Quiver.Reorient`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/Quiver/Reorient.lean) for reversing selected arrows while retaining their identities.
   Expose its arrow families through the explicit-quiver interface and extend it with bound and assignment transport.
 
-The following Mathlib proposals guide the corresponding interfaces:
+The following Mathlib proposals and their review discussions are references for interface design and coordination.
+Each entry identifies the part relevant to this roadmap; the conventions and targets below specify the required interfaces and their mathematical scope.
 
 - [#33355: vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355): deletion-based `IsVertexReachable`, `IsVertexPreconnected`, and `IsVertexConnected`.
 - [#42494: numerical edge connectivity](https://github.com/leanprover-community/mathlib4/pull/42494): `edgeReachability`, `edgeConnectivity`, their supremum definitions, and degree bounds.
 - [#36756: shared walks](https://github.com/leanprover-community/mathlib4/pull/36756) and [#39053: the `Graph` instance](https://github.com/leanprover-community/mathlib4/pull/39053): `GraphLike.Walk` with vertex support and darts, following the [HasAdj discussion](https://leanprover.zulipchat.com/#narrow/channel/252551-graph-theory/topic/HasAdj/with/575843445).
-  This roadmap's `Graph.Walk` has the shape of their walk type, specialized to `Graph` without the `GraphLike` class and with the API of `SimpleGraph.Walk`; Milestone 1 proves its compatibility with `SimpleGraph.Walk` and with the directed quiver paths.
+  This roadmap uses edge-labelled inductive walks with the API of `SimpleGraph.Walk` and the representation bridges of Target 1.1.
+  The [dart construction in #39053](https://github.com/leanprover-community/mathlib4/blob/455aa1d6e5c7215f1270da70e328056af9607545/Mathlib/Combinatorics/Graph/GraphLike.lean#L22) distinguishes two directions of a loop, whereas this roadmap records a single traversal.
+  A map forgetting those directions identifies distinct walks: a graph with one vertex and one loop has two length-one walks in that construction and one here.
+  The general `GraphLike` hierarchy is outside this roadmap's scope.
 - [#43017: network flows](https://github.com/leanprover-community/mathlib4/pull/43017): quivers with capacities and flow assignments indexed by arrows.
+  Arrow indexing retains parallel edges; this roadmap develops finite sums over general coefficients, with the real-valued specialization in Target 3.4.
 - [#34028: weak max-flow/min-cut duality](https://github.com/leanprover-community/mathlib4/pull/34028): an undirected flow formulation on simple graphs.
   Undirected flow applications use the bidirected network, with no separate undirected flow type, so this roadmap takes only the statement shapes from that proposal.
 - [#33032: Kőnig's theorem](https://github.com/leanprover-community/mathlib4/pull/33032): matchings as subgraphs, vertex covers, and the equality between the sizes of maximum matchings and minimum covers.
@@ -62,11 +67,13 @@ The following Mathlib proposals guide the corresponding interfaces:
   The [edge-colouring discussion](https://leanprover-community.github.io/archive/stream/252551-graph-theory/topic/edge.20coloring.html) also records earlier work; follow the porting policy before reusing it.
 - [#42839: 2-edge-connectivity and bridges](https://github.com/leanprover-community/mathlib4/pull/42839): `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the simple-graph specialization in Milestone 7.
 - [#37861: connected `Graph`s](https://github.com/leanprover-community/mathlib4/pull/37861): connectivity of Mathlib's multigraph type through connected components as subgraphs, defined without walks; Milestone 1 proves agreement with walk reachability.
-- [#38337: unions of `Graph`s](https://github.com/leanprover-community/mathlib4/pull/38337): the union of compatible subgraphs, used when adding ears.
+- [#38337: unions of `Graph`s](https://github.com/leanprover-community/mathlib4/pull/38337): compatible unions, used when adding ears.
+  Target 1.1 requires the least-upper-bound interface for compatible graphs; the proposal's choice of incidence for conflicting edge identities is outside scope.
 
-Build all missing prerequisites and results in Tau Ceti, following these interfaces and adopting Mathlib's resulting design when available.
-An unmerged proposal is a design reference, not a dependency that contributors must wait for.
-The flow conventions below adapt [#43017](https://github.com/leanprover-community/mathlib4/pull/43017) to general coefficients and finite sums; [Target 3.4](#34-real-valued-corollaries) supplies its real-valued interface.
+Build all missing prerequisites and results in Tau Ceti, using Mathlib's existing vocabulary and the interfaces specified here.
+Read proposals together with their design discussions; a citation alone does not make every declaration or representation choice in a branch a requirement.
+Adopt Mathlib's resulting APIs and refactor the affected interfaces and proofs when they land, preserving the mathematical statements of the targets.
+An unmerged proposal is not a dependency that contributors must wait for.
 
 The [Lean Zulip discussion of max-flow/min-cut](https://leanprover-community.github.io/archive/stream/252551-graph-theory/topic/max-flow.20min-cut.20help.html) records earlier quiver-based formalization work, including [maxflowmincutlean4](https://gitlab.com/Shreyas941/maxflowmincutlean4).
 This implementation is a reference, not a dependency.
@@ -141,12 +148,13 @@ Milestone 1 identifies both constructions with the existing simple-graph interfa
 **Namespaces.** Undirected multigraph declarations extend `Graph`.
 Simple-graph declarations extend `SimpleGraph`, following [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) and [#42494](https://github.com/leanprover-community/mathlib4/pull/42494) for connectivity; orientation results extend the existing Tau Ceti orientation namespace.
 `Suggested.lean` keeps stand-ins for proposed definitions outside the Mathlib namespaces.
-**Why:** this repository must keep building when Mathlib lands them.
+**Why:** the prototype namespace avoids name conflicts with additions to Mathlib.
 
 ### Paths, separators, and connectivity
 
 **Undirected walks** are `G.Walk u v`, an inductive type indexed by the ambient vertex type, with constructors `nil` at any point and `cons e h p` for `h : G.IsLink e u v`; a walk therefore retains the identity of each traversed edge, and a loop is traversed in only one way.
 Every vertex on a walk of positive length is an actual vertex; reachability requires actual vertices as endpoints, so a zero-length walk at a point outside `V(G)` witnesses nothing.
+**Why:** edge identities and the vertex sequence suffice for the connectivity and flow targets, including loops; they do not record a separate direction of traversal around a loop.
 The bidirected quiver has one arrow `s → t` per edge `e` with `G.IsLink e s t`; Target 1.1 identifies its paths with walks between actual vertices for use in the flow reductions.
 Undirected and directed paths have no repeated vertices.
 An undirected cycle is a positive-length closed walk with no repeated vertices apart from its endpoints and no repeated edge identities.
@@ -183,8 +191,9 @@ Milestone 1 supplies the threshold equivalences and representation compatibility
 
 Write `δ⁺(S)` for arrows leaving a vertex set and `δ⁻(S)` for arrows entering it.
 An ordinary `PseudoFlow` is an arrow assignment with proofs of `0 ≤ f ≤ u`; a `Flow s t` adds zero excess away from distinct terminals and nonnegative excess at `t`.
-Follow [#43017](https://github.com/leanprover-community/mathlib4/pull/43017)'s incoming-minus-outgoing `excessAt` and sink-value `Flow.val` conventions, but use `K` for capacities, assignments, excess, and value, with finite sums instead of `tsum`.
-Flow value is `excess f t`, equivalently `−excess f s`; Target 3.4 relates these quantities to the proposal's `ℝ≥0`, `EReal`, and `ENNReal` types.
+Use incoming-minus-outgoing `excessAt`, with capacities, assignments, excess, and value in `K` and all sums finite.
+Flow value is `excess f t`, equivalently `−excess f s`.
+**Why:** demand has positive excess, supply has negative excess, and the same additive calculus serves ordinary flows and signed bounded assignments.
 Define excess on arbitrary assignments and conservation independently of `Flow`.
 A cut is a source side `S` with `s ∈ S` and `t ∉ S`, of capacity `u(δ⁺(S))`.
 Arrows entering the source or leaving the sink are allowed.
@@ -212,10 +221,12 @@ Targets 1.1 and 1.3 are independent; Targets 1.2 and 1.5 use 1.1, and Target 1.4
 
 These structural constructions and their transport lemmas assume no finiteness.
 
-Build `Graph.Walk` as pinned in the conventions, with the API of `SimpleGraph.Walk`, and adopt Mathlib's shared walk interface when available.
+Build `Graph.Walk` as pinned in the conventions, with the API of `SimpleGraph.Walk`.
 Supply `support`, `edges`, `length`, `append`, `reverse`, `IsPath`, `IsCycle`, splitting at a vertex, path extraction, traced subgraphs, restriction, and transport along `≤` and graph isomorphisms.
 Supply the graph-isomorphism interface needed for transport: equivalences of the actual vertex and edge sets preserving `IsLink`, with identity, inverse, composition, and their action on walks and subgraphs, reusing Mathlib's graph maps and any available isomorphism API.
-Supply the union of compatible subgraphs of a fixed graph, with vertex-set and edge-set union formulas and the inherited incidence relation, as needed when adding ears; follow [#38337](https://github.com/leanprover-community/mathlib4/pull/38337) for the general union interface.
+For `G.Compatible H`, supply a union `U` with `V(U) = V(G) ∪ V(H)`, `E(U) = E(G) ∪ E(H)`, and `U.IsLink e x y ↔ G.IsLink e x y ∨ H.IsLink e x y`.
+Prove `G ≤ U`, `H ≤ U`, and `U ≤ K ↔ G ≤ K ∧ H ≤ K`, together with commutativity and associativity for pairwise compatible graphs.
+Specialize to subgraphs of a fixed graph, which are automatically compatible, and prove that their union remains a subgraph of it; these are the unions used when adding ears.
 Build the bidirected quiver and the equivalence between walks and its paths, preserving length, vertex sequence, edge sequence, and simple paths.
 For cycles, the directed walk must additionally have distinct underlying undirected edges: a directed two-cycle using opposite arrows of one edge is not an undirected cycle.
 
@@ -229,7 +240,7 @@ Build the following bridges in this milestone, before consumers use them:
   Do not assert preservation of edge-disjointness under simplification.
 - **Connectivity and deletion:** relate native reachability to simplification, and prove compatibility of vertex deletion and induced subgraphs with the necessary subtype equivalences.
   Prove `toSimpleGraph (Graph.ofSimpleGraph H) ≃ H` using the existing isomorphism, and the reverse round trip up to vertex and edge isomorphism for a graph satisfying `Graph.Simple`.
-  Prove compatibility with the component-based connectivity of [#37861](https://github.com/leanprover-community/mathlib4/pull/37861), including nonemptiness in `Connected` and the correspondence of components.
+  Characterize the subgraphs induced by reachability classes as the minimal nonempty closed subgraphs, and prove that `Connected` is equivalent to nonempty walk preconnectivity and to being a component of itself, agreeing with [#37861](https://github.com/leanprover-community/mathlib4/pull/37861).
   Vertex-connectivity statements may then use the underlying simple graph while returning native path witnesses through the lifting API.
 
 **Orientations and bidirected networks.** Transport walks and paths, identify the underlying undirected graph of an orientation, and prove reachability and cut-capacity correspondence for the bidirected construction.
@@ -448,9 +459,9 @@ Derive the `SimpleGraph` statement for `Sym2`-indexed capacities through `Graph.
 ### 3.4. Real-valued corollaries
 
 For `K = ℝ`, expose flows with `ℝ≥0`-valued capacities as ordinary flows for their coercion to `ℝ`, with arrow values in `ℝ≥0` by nonnegativity.
-Prove that finite-sum excess cast to `EReal` equals [#43017](https://github.com/leanprover-community/mathlib4/pull/43017)'s `tsum` expression on a finite quiver, and flow value cast to `ENNReal` equals its `Flow.val`.
-State max-flow/min-cut and integrality for `ℝ≥0` capacities in these terms.
-**Why:** these corollaries connect the coefficient-generic theory to Mathlib's flow interface.
+Supply coercion lemmas recovering the real arrow assignment, its capacity bounds, and the equality between real cut capacity and the coercion of the cut capacity computed in `ℝ≥0`.
+Keep excess and flow value in `ℝ`, and state max-flow/min-cut and additive-subgroup integrality for these capacities using the generic theory.
+**Why:** nonnegative capacities can use their natural subtype while excess retains the additive-group operations needed for conservation and residual updates.
 
 ### 3.5. Mixed vertex and arrow capacities
 
@@ -718,7 +729,7 @@ Derive the simple-graph results using `SimpleGraph.IsRegularOfDegree` and `Subgr
 
 A proper edge-colouring with colour type `C` assigns a colour to every actual edge, with distinct incident edges receiving different colours.
 Build the simple line graph whose vertices are actual edge identities and whose adjacency means distinct edges sharing an endpoint, with adjacency lemmas and compatibility with `SimpleGraph.lineGraph`.
-Express edge-colourings as colourings of this line graph, following the upstream interface.
+Express edge-colourings as colourings of this line graph, reusing `SimpleGraph.Coloring` and its relabelling and transport operations.
 Use Mathlib's `Graph.Loopless` hypothesis for the common basic API, injective relabelling of colours, restriction to edge-deleted subgraphs, and the equivalence between colourings and partitions into matchings.
 For every `k : ℕ`, prove **Kőnig's edge-colouring theorem** in the form: a finite bipartite multigraph admits a proper edge-colouring by `Fin k` if and only if every vertex has degree at most `k`.
 Equivalently, its edges can be partitioned into `k` matchings, with empty colour classes allowed; for `k = 0` this is exactly the edgeless case.

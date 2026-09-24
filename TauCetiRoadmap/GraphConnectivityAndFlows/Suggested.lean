@@ -31,8 +31,8 @@ The pinned choices illustrated here are:
   General bounded terminal assignments allow signed values.
   Nonnegative assignments decompose into supply-to-demand paths and cycles.
 - Undirected walks are `Graph.Walk`, an inductive walk whose steps are edges with `IsLink`
-  proofs, with the API of `SimpleGraph.Walk`; the bidirected quiver and its `Quiver.Path`s are
-  an equivalent bridge, not a second walk type.
+  proofs, with the API of `SimpleGraph.Walk`; loops have a single traversal.
+  The bidirected quiver and its `Quiver.Path`s give an equivalent bridge between actual vertices.
 - Directed walks use `Quiver.Path` with an explicit quiver argument.
   Subnetworks record actual vertices as well as arrow subsets.
   Residual arrows are `N.Hom v w ⊕ N.Hom w v`, independently of the assignment.
@@ -60,8 +60,8 @@ The pinned choices illustrated here are:
 
 Namespaces: in Tau Ceti, new declarations about simple graphs live in `SimpleGraph`, including
 the connectivity declarations under the names of [#33355](https://github.com/leanprover-community/mathlib4/pull/33355) and [#42494](https://github.com/leanprover-community/mathlib4/pull/42494). Their prototype definitions
-are stand-ins in this roadmap's namespace so that this file keeps compiling when Mathlib lands
-them. Orientations use the existing Tau Ceti type.
+are stand-ins in this roadmap's namespace to avoid name conflicts with additions to Mathlib.
+Orientations use the existing Tau Ceti type.
 -/
 
 open Finset
@@ -448,17 +448,24 @@ abbrev NNRealFlow (s t : V) := Flow Q (fun {_ _} e => (cap e : ℝ)) s t
 def NNRealFlow.nnFlow (f : NNRealFlow Q cap s t) : Assignment Q ℝ≥0 :=
   fun {_ _} e => ⟨f.toFun e, f.lower_le e⟩
 
-/-- The finite-sum excess agrees with the `tsum` expression of #43017 on a finite quiver. -/
-theorem NNRealFlow.excessAt_eq_tsum (f : NNRealFlow Q cap s t) (v : V) :
-    ((excessAt Q f.toFun v : ℝ) : EReal) =
-      ∑' w, ∑' e : Q w v, ((NNRealFlow.nnFlow Q cap f e : ℝ) : EReal) -
-        ∑' w, ∑' e : Q v w, ((NNRealFlow.nnFlow Q cap f e : ℝ) : EReal) := by
-  sorry
+@[simp] theorem NNRealFlow.coe_nnFlow (f : NNRealFlow Q cap s t)
+    {v w : V} (e : Q v w) : (NNRealFlow.nnFlow Q cap f e : ℝ) = f.toFun e := rfl
 
-/-- The value agrees with #43017's `ENNReal`-valued `Flow.val`. -/
-theorem NNRealFlow.val_eq_toENNReal (f : NNRealFlow Q cap s t) :
-    ENNReal.ofReal f.val = ((excessAt Q f.toFun t : ℝ) : EReal).toENNReal := by
-  sorry
+theorem NNRealFlow.nnFlow_le_cap (f : NNRealFlow Q cap s t)
+    {v w : V} (e : Q v w) : NNRealFlow.nnFlow Q cap f e ≤ cap e :=
+  f.le_upper e
+
+@[simp] theorem coe_nnreal_arrowCutCapacity [DecidableEq V] (S : Finset V) :
+    ((arrowCutCapacity Q cap S : ℝ≥0) : ℝ) =
+      arrowCutCapacity Q (fun {_ _} e => (cap e : ℝ)) S := by
+  simp [arrowCutCapacity]
+
+theorem exists_nnreal_flow_cut_value_eq [DecidableEq V] (hst : s ≠ t) :
+    ∃ (f : NNRealFlow Q cap s t) (S : Finset V),
+      s ∈ S ∧ t ∉ S ∧ f.val = ((arrowCutCapacity Q cap S : ℝ≥0) : ℝ) := by
+  simpa only [coe_nnreal_arrowCutCapacity] using
+    exists_flow_cut_value_eq Q (fun {_ _} e => (cap e : ℝ))
+      (fun {_ _} e => (cap e).coe_nonneg) hst
 
 end Real
 
@@ -1521,12 +1528,12 @@ end TauCetiRoadmap.GraphConnectivityAndFlows
 /-!
 ## Multigraph walks, connectivity, and transport
 
-`Walk` is the roadmap's undirected walk type: an inductive walk in the shape of the shared-walk
-proposal [#36756](https://github.com/leanprover-community/mathlib4/pull/36756), specialized to
-`Graph` without the `GraphLike` class, whose steps are edges with `IsLink` proofs and whose API
-follows `SimpleGraph.Walk`. The bidirected arrow family is the device on which the flow
-reductions run; `Walk.bidirectedEquiv` is the bridge Milestone 1 requires. All definitions here
-are stand-ins in a prototype namespace; the implementation extends `Graph`.
+`Walk` is an inductive walk whose steps are edges with `IsLink` proofs and whose API follows
+`SimpleGraph.Walk`. A loop has one traversal; forgetting the direction in a representation with
+two loop darts identifies distinct walks.
+The bidirected arrow family is the device on which the flow reductions run;
+`Walk.bidirectedEquiv` is the bridge Milestone 1 requires. All definitions here are stand-ins
+in a prototype namespace; the implementation extends `Graph`.
 -/
 
 namespace TauCetiRoadmap.GraphConnectivityAndFlows.Multigraph
