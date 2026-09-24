@@ -1913,8 +1913,6 @@ end TauCetiRoadmap.GraphConnectivityAndFlows.Multigraph
 
 namespace TauCetiRoadmap.GraphConnectivityAndFlows.Multigraph
 
-open Classical
-
 variable {α : Type u} {β : Type v} (G : Graph α β)
 
 noncomputable def nonloopIncidenceCount (v : G.vertexSet) : ℕ :=
@@ -1936,11 +1934,18 @@ section FiniteIncidence
 
 variable [Fintype G.vertexSet] [Fintype G.edgeSet]
 
+open Classical in
 def IsBipartition (L R : Finset G.vertexSet) : Prop :=
   Disjoint L R ∧ L ∪ R = univ ∧
     ∀ (e : G.edgeSet) (u v : G.vertexSet), G.IsLink e.val u.val v.val →
       (u ∈ L ∧ v ∈ R) ∨ (u ∈ R ∧ v ∈ L)
 
+open Classical in
+theorem isBipartition_iff_toSimpleGraph [G.Loopless] (L R : Finset G.vertexSet) :
+    IsBipartition G L R ↔ G.toSimpleGraph.IsBipartiteWith (↑L) (↑R) ∧ L ∪ R = univ := by
+  sorry
+
+open Classical in
 noncomputable def edgeUsage (x : G.edgeSet → ℕ) (v : G.vertexSet) : ℕ :=
   ∑ e, if G.Inc e.val v.val then x e else 0
 
@@ -1954,6 +1959,7 @@ noncomputable def CapacitatedMatching.size {b : G.vertexSet → ℕ}
 def IsVertexCover (C : Finset G.vertexSet) : Prop :=
   ∀ e : G.edgeSet, ∃ v ∈ C, G.Inc e.val v.val
 
+open Classical in
 noncomputable def neighbors (S : Finset G.vertexSet) : Finset G.vertexSet :=
   univ.filter fun v => ∃ u ∈ S, G.Adj u.val v.val
 
@@ -1969,6 +1975,7 @@ theorem exists_capacitatedMatching_cover_eq (b : G.vertexSet → ℕ)
       IsVertexCover G C ∧ x.size = ∑ v ∈ C, b v := by
   sorry
 
+open Classical in
 theorem capacitatedMatching_deficiency (b : G.vertexSet → ℕ)
     (L R : Finset G.vertexSet) (hLR : IsBipartition G L R) :
     (∃ (x : CapacitatedMatching G b) (S : Finset G.vertexSet), S ⊆ L ∧
@@ -1990,21 +1997,25 @@ theorem exists_capacitatedMatching_saturating_all_iff (b : G.vertexSet → ℕ)
         ∀ S ⊆ L, (∑ v ∈ S, b v) ≤ ∑ v ∈ neighbors G S, b v := by
   sorry
 
+open Classical in
 def IsMatchingEdges (M : Finset G.edgeSet) : Prop :=
   (∀ e ∈ M, ∀ v : G.vertexSet, ¬ G.IsLink e.val v.val v.val) ∧
     ∀ v : G.vertexSet, (M.filter fun e => G.Inc e.val v.val).card ≤ 1
 
+open Classical in
 def IsPerfectMatchingEdges (M : Finset G.edgeSet) : Prop :=
   IsMatchingEdges G M ∧ ∀ v : G.vertexSet, (M.filter fun e => G.Inc e.val v.val).card = 1
 
+open Classical in
 theorem exists_perfectMatching_decomposition (L R : Finset G.vertexSet)
-    (hLR : IsBipartition G L R) {k : ℕ} (hk : 0 < k)
+    (hLR : IsBipartition G L R) {k : ℕ}
     (hreg : ∀ v, incidenceCount G v = k) :
     ∃ M : Fin k → Finset G.edgeSet,
       (∀ i, IsPerfectMatchingEdges G (M i)) ∧
       (Pairwise fun i j => Disjoint (M i) (M j)) ∧ (univ.biUnion M) = univ := by
   sorry
 
+open Classical in
 theorem edgeColoring_iff_partition [G.Loopless] (k : ℕ) :
     Nonempty (EdgeColoring G (Fin k)) ↔
       ∃ M : Fin k → Finset G.edgeSet,
@@ -2017,13 +2028,16 @@ theorem exists_edgeColoring_iff (L R : Finset G.vertexSet)
     Nonempty (EdgeColoring G (Fin k)) ↔ ∀ v, incidenceCount G v ≤ k := by
   sorry
 
+open Classical in
 noncomputable def internalEdges (S : Finset G.vertexSet) : Finset G.edgeSet :=
   univ.filter fun e => ∃ u ∈ S, ∃ v ∈ S, G.IsLink e.val u.val v.val
 
+open Classical in
 noncomputable def incidentEdges (S : Finset G.vertexSet) : Finset G.edgeSet :=
   univ.filter fun e => ∃ v ∈ S, G.Inc e.val v.val
 
 variable {G} in
+open Classical in
 noncomputable def Orientation.indegree (o : Orientation G) (v : G.vertexSet) : ℕ :=
   (univ.filter fun e => (o.ends e).2 = v).card
 
@@ -2062,6 +2076,7 @@ def EndpointHom : G.edgeSet ⊕ G.vertexSet → G.edgeSet ⊕ G.vertexSet → Ty
   | _, _ => PEmpty
 
 noncomputable instance (x y : G.edgeSet ⊕ G.vertexSet) : Fintype (EndpointHom G x y) := by
+  classical
   cases x <;> cases y <;> dsimp [EndpointHom] <;> infer_instance
 
 /-- Integer interval-excess assignments choose the head of each edge. -/

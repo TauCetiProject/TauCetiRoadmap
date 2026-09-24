@@ -500,7 +500,8 @@ Use the splitting interface of Target 1.4, retaining capacity `u(e)` on each ori
 Give the terminal split arrows capacity `∑ e, u(e)`, which bounds their traffic and requires no distinguished positive unit.
 Prove the flow correspondence preserving value and the internal traffic formulas.
 Map any split cut to the mixed separator formed by its crossing nonterminal split arrows and crossing original arrows, with equal weight, and map any mixed separator to a cut of no greater capacity.
-No cut can cross a terminal split arrow in the outgoing direction with these terminals.
+No cut can cross a terminal split arrow in the outgoing direction with these terminals, so the cut–separator correspondences hold for any nonnegative terminal split capacities.
+Only the correspondence with all original flows uses the bound `∑ e, u(e)`.
 Recover ordinary max-flow/min-cut by taking every vertex capacity to be `∑ e, u(e)`.
 
 **Required examples:**
@@ -583,6 +584,7 @@ Submodularity, the lattice, and the non-crossing lemmas rest on Milestone 1 alon
 
 All versions assume finitely many actual vertices.
 Edge-disjoint versions also assume finitely many actual edges or arrows; the vertex versions have only the additional finiteness hypotheses explicitly stated below.
+Include the `Digraph` corollaries of the directed versions through the adapter of [Target 1.1](#11-undirected-walks-isomorphisms-and-representation-bridges).
 
 State Menger's path–separator equalities in **witness form**: there exist a family of `k` pairwise disjoint paths and a separator of size `k`, for some `k`, and every family of disjoint paths is no larger than every separator.
 For adjacent terminals, use the multiplicity correction specified under **Adjacent terminals** below in both the witnesses and the inequality.
@@ -635,9 +637,9 @@ The reductions must recover actual path families and separators, not just equali
 
 - **Local and vertex-capacitated vertex Menger:** assume distinct terminals, no original arrow `s → t`, and vertex capacities `c : V → ℕ`; the unit case `c = 1` gives local vertex Menger.
   Over `ℤ`, put `M = (∑ v, c v) + 1`, capacity `M` on original arrows and on the split arrows of `s,t`, and capacity `c v` on the split arrow of every other vertex `v`; use terminals `s⁺, t⁻`.
-  Prove that a separating cut of capacity below `M` crosses only internal split arrows, which give a terminal-excluding vertex separator of exactly that weight.
-  Conversely, deleting the split arrows indexed by a vertex separator destroys terminal reachability, and the reachable source side has cut capacity at most the separator's weight.
-  Deleting all internal split arrows gives a cut of capacity at most `M − 1`, so these correspondences apply to minimum cuts.
+  Obtain the cut–separator correspondences by specializing [Target 3.5](#35-mixed-vertex-and-arrow-capacities) to `K = ℤ` and `u = M`; these maps are independent of the terminal split capacities.
+  Nonadjacency makes deletion of all internal vertices a separator of weight at most `M − 1`, and a mixed separator of weight below `M` contains no original arrows.
+  Deduce the pure vertex-separator statements as corollaries: a cut below `M` gives a separator of exactly that weight, and a vertex separator gives a cut of no greater capacity; in particular, these apply to minimum cuts.
   After discarding cycle components, an integral flow decomposes into unit paths with repetition, and the number of members through a nonterminal vertex `v` equals the flow on its split arrow, which is at most `c v`; with `c = 1` the members are distinct and internally vertex-disjoint.
 - **Set-to-set Menger:** for vertex capacities `c : V → ℕ`, split every vertex `v` with capacity `c v`, give original arrows capacity `M = (∑ v, c v) + 1`, and add capacity-`M` arrows `σ → a⁻` for `a ∈ A` and `b⁺ → τ` for `b ∈ B`.
   Every cut of capacity below `M` crosses only split arrows and yields a vertex separator of that weight, now allowed to meet `A ∪ B`; deleting all split arrows bounds the minimum cut by `∑ v, c v`.
@@ -683,6 +685,7 @@ Define the invariants `arcConnectivity` and `vertexStrongConnectivity` in `ℕ�
 Supply threshold equivalences, monotonicity in the threshold and the arrow family, deletion lemmas, and the predicate forms through directed Menger.
 Prove `vertexStrongConnectivity ≤ arcConnectivity`, and the bound of arc connectivity by every out-degree and in-degree when there are at least two vertices.
 Prove that the arc connectivity of the bidirected network of a multigraph is its edge connectivity and that its vertex strong connectivity is the multigraph's vertex connectivity.
+Give the `Digraph` corollaries through the adapter of [Target 1.1](#11-undirected-walks-isomorphisms-and-representation-bridges).
 
 ### 6.3. Common-cycle characterizations
 
@@ -705,14 +708,20 @@ No cyclic order of those vertices is prescribed.
 
 ### 6.7. Multiset capacitated Kőnig's theorem
 
+**Theorem.**
+
 Let `G` be a finite bipartite multigraph with a specified partition `V(G) = L ⊔ R`, so every edge joins the two sides and there are no loops.
-Supply this bipartition interface, its agreement with Mathlib's simple-graph bipartition predicates, its restriction under edge deletion, and its transport under graph isomorphisms.
 For capacities `b : V(G) → ℕ`, a **multiset capacitated matching** assigns a multiplicity `x(e) : ℕ` to every actual edge, with `usage(x,v) = ∑ e incident to v, x(e) ≤ b(v)` at every vertex; its size is `∑ e, x(e)`.
 An edge may be used repeatedly, independently of whether the graph has parallel edges.
 A vertex cover `C ⊆ V(G)` meets every edge and has weight `b(C) = ∑ v ∈ C, b(v)`.
 Prove that there exist a feasible multiset matching and a vertex cover of equal size and weight, and that every feasible multiset matching has size at most the weight of every cover.
 Include zero capacities, isolated vertices, empty sides, and the empty graph.
 
+**API and correspondences.**
+
+Supply the bipartition interface, its restriction under edge deletion, and its transport under graph isomorphisms.
+On `Graph.ofSimpleGraph H`, identify a covering bipartition with `H.IsBipartiteWith L R` together with `L ∪ R = Set.univ`, using the vertex correspondence of Target 1.1.
+Mathlib's `IsBipartiteWith` alone permits isolated vertices outside both sides.
 Build the reusable API: zero matching, extensionality, restriction to selected edges, monotonicity in vertex capacities, addition under added capacities, usage and size formulas, saturation of a vertex or side, and transport under graph isomorphisms.
 Prove that the total usage on either bipartition side equals the matching size.
 At `b = 1`, identify these objects with ordinary edge matchings, with no repeated edges, and transport the result to `SimpleGraph.Subgraph.IsMatching`, `SimpleGraph.IsVertexCover`, and the extremality interfaces of [#33032](https://github.com/leanprover-community/mathlib4/pull/33032).
@@ -724,9 +733,7 @@ Supply the matching-to-packing and cover-to-separator correspondences for vertex
 Such trimmed paths have length one because `L ∪ R` contains every vertex, so repeated paths encode precisely the edge multiplicities.
 Also expose the bipartite network: source-to-`L` and `R`-to-sink capacities are `b(v)`, and each actual edge directed from `L` to `R` has capacity `b(L) + 1`.
 Prove value-preserving correspondences between integral flows and multiset matchings, between covers and cuts of the same weight, and between cuts of capacity below `b(L) + 1` and covers of the same weight via `(L ∖ S) ∪ (R ∩ S)`.
-For comparison with the set-to-set reduction, use the quiver with one arrow from `L` to `R` for each actual edge.
-Relate this network to the set-to-set splitting reduction of Target 5.2 by collapsing the forced entrance and exit chains and removing unused terminal connections, proving the assignment and cut formulas.
-Capacity `b(L) + 1` suffices because cutting all source arrows has capacity `b(L)`; the generic reduction's larger bound gives the same correspondence.
+Capacity `b(L) + 1` suffices because cutting all source arrows has capacity `b(L)`.
 **Suggested proof:** apply vertex-capacitated set-to-set Menger through these correspondences.
 
 ### 6.8. Capacitated Hall and deficiency
@@ -748,8 +755,9 @@ Mathlib's statements remain the library's Hall interfaces.
 ### 6.9. Regular bipartite multigraphs and edge-colouring
 
 For a finite bipartite multigraph, use the number of incident edge identities from Target 1.5 as its degree; there are no loops, and parallel edges count separately.
-For `k ≥ 1`, a `k`-regular bipartite multigraph has a perfect matching, its two sides have equal size, and its edge set is the disjoint union of `k` perfect matchings.
-The empty graph is included, with empty perfect matchings; positivity of `k` is required for the perfect-matching existence and equality of side sizes.
+For `k ≥ 1`, a `k`-regular bipartite multigraph has a perfect matching and its two sides have equal size.
+For every `k : ℕ`, its edge set is the disjoint union of `k` perfect matchings; when `k = 0`, the graph is edgeless and the family is empty, without requiring a perfect matching to exist.
+The empty graph is included, with empty perfect matchings.
 Prove that deleting a perfect matching from a `k`-regular bipartite multigraph gives a `(k − 1)`-regular bipartite multigraph on the same actual vertices, with the incidence and edge-partition formulas needed to iterate.
 Derive the simple-graph results using `SimpleGraph.IsRegularOfDegree` and `Subgraph.IsPerfectMatching`.
 **Suggested proof:** Hall and double-counting incidence, followed by repeated perfect-matching deletion.
@@ -763,8 +771,12 @@ Equivalently, its edges can be partitioned into `k` matchings, with empty colour
 Deduce that the least number of colours is the maximum degree, defining that maximum to be zero for an empty vertex set.
 Supply simple-graph corollaries and the edge-colouring transport to the interface of [#33313](https://github.com/leanprover-community/mathlib4/pull/33313).
 
-Build a finite regular-completion interface: every finite bipartite multigraph of maximum degree at most `k` embeds, injectively on vertices and edge identities and preserving its specified sides, into a finite `k`-regular bipartite multigraph.
-Additional vertices and parallel edges are allowed; supply the inclusion, restriction, and incidence formulas needed to transfer a colouring back.
+Build a finite regular-completion interface for `G : Graph α β` with a specified bipartition and every degree at most `k`.
+Construct a finite `k`-regular bipartite `G' : Graph (α ⊕ ℕ) (β ⊕ ℕ)`, using `Sum.inl` to retain original vertex and edge identities and `Sum.inr` for additional ones.
+Require `Sum.inl x ∈ V(G') ↔ x ∈ V(G)`, `Sum.inl e ∈ E(G') ↔ e ∈ E(G)`, and `G'.IsLink (Sum.inl e) (Sum.inl x) (Sum.inl y) ↔ G.IsLink e x y`.
+The specified sides of `G'` must restrict along `Sum.inl` to the specified sides of `G`.
+Prove that restricting to the original vertex and edge images recovers `G` through the isomorphism interface of Target 1.1; this restriction deletes added edges even when both endpoints are original vertices.
+Supply the incidence inclusion and colour-restriction lemmas, so a proper colouring of `G'` pulls back to one of `G`.
 **Suggested proof:** pad the smaller side with isolated vertices, pair degree deficits by adding edges, decompose the resulting regular graph into perfect matchings, and restrict the colouring.
 
 **Required examples:**
@@ -773,6 +785,7 @@ Additional vertices and parallel edges are allowed; supply the inclusion, restri
 - Zero vertex capacities and isolated vertices, and a capacitated Hall obstruction witnessed by an explicit subset of one side.
 - Two vertices joined by `k` parallel edges, with `k` perfect matchings and a proper edge-colouring requiring `k` colours.
 - An irregular bipartite graph, its regular completion, and the restricted colouring; also the empty and edgeless cases with zero colours.
+- An isolated vertex: no perfect matching, but an empty perfect-matching decomposition and a proper colouring by `Fin 0`.
 
 ## 7. Ear decompositions and strong orientations
 
@@ -808,6 +821,7 @@ In the directed version, ears are directed paths and cycles of `N` in the sense 
 Loops are permitted as one-arrow closed ears.
 The initial-vertex convention includes the isolated singleton with no ears; relate it to the cycle-starting formulation for strongly connected networks with at least two vertices.
 Derive the directed analogue of the bridge criterion: a network with nonempty vertex type that is weakly connected, meaning every two vertices are joined by a path of the symmetrized arrow family, is strongly connected if and only if every arrow lies on a directed cycle.
+Give the `Digraph` ear and directed-cycle characterizations through the adapter of [Target 1.1](#11-undirected-walks-isomorphisms-and-representation-bridges).
 
 ### 7.3. Robbins' theorem
 
