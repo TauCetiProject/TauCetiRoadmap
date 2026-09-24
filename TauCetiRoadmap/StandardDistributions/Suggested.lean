@@ -2,6 +2,11 @@ import Mathlib
 import TauCeti.LinearAlgebra.Matrix.Triangular
 import TauCeti.MeasureTheory.Measure.GiryMonad
 import TauCeti.Probability.Distributions.Gaussian.Pi
+import TauCeti.Probability.Distributions.Uniform
+import TauCeti.Probability.Quantile
+import TauCeti.Probability.Distributions.ChiSquared
+import TauCeti.Probability.Distributions.InverseGamma
+import TauCeti.Probability.Distributions.StudentT.Basic
 
 /-!
 # Suggested declarations for standard probability distributions
@@ -1071,5 +1076,267 @@ theorem measurable_inverseWishartMeasure (p : ℕ) :
 theorem measurable_nonsingularWishartMeasure_symmetric (p : ℕ) :
     Measurable fun q : ℝ × SymmetricMatrix p =>
       nonsingularWishartMeasure q.1 (q.2 : Matrix (Fin p) (Fin p) ℝ) := by sorry
+
+/-! ## Layers 7–13: constructions, extended families, and quantiles
+
+These prototypes use the public Tau Ceti distributions already available at the pin.
+The README supplies the complete family list and formula requirements.
+-/
+
+namespace Expansion
+
+open scoped ComplexOrder
+
+def upperQuantile (μ : Measure ℝ) (u : ℝ) : ℝ := sInf {x | u < cdf μ x}
+
+theorem cdf_quantile_eq (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    (hF : Continuous (cdf μ : ℝ → ℝ)) {u : ℝ} (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    cdf μ (μ.quantile u) = u := by sorry
+
+theorem measurable_quantile_cdf_family {α : Type*} [MeasurableSpace α]
+    (μ : α → Measure ℝ) (hμ : Measurable μ) (hprob : ∀ a, IsProbabilityMeasure (μ a)) :
+    Measurable fun q : α × Set.Ioo (0 : ℝ) 1 => (μ q.1).quantile q.2 := by sorry
+
+theorem map_uniform_quantile (μ : Measure ℝ) [IsProbabilityMeasure μ] :
+    (TauCeti.Probability.uniformMeasure 0 1).map (μ.quantile) = μ := by sorry
+
+theorem quantile_map_affine_pos (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    (a : ℝ) {b u : ℝ} (hb : 0 < b) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (μ.map (fun x => a + b * x)).quantile u =
+      a + b * μ.quantile u := by sorry
+
+theorem quantile_map_affine_neg (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    (a : ℝ) {b u : ℝ} (hb : b < 0) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (μ.map (fun x => a + b * x)).quantile u =
+      a + b * upperQuantile μ (1 - u) := by sorry
+
+theorem cdf_map_affine_neg (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    (a : ℝ) {b : ℝ} (hb : b < 0) (x : ℝ) :
+    cdf (μ.map (fun y => a + b * y)) x = 1 - μ.real (Set.Iio ((x - a) / b)) := by sorry
+
+theorem integrableExpSet_map_affine (μ : Measure ℝ) [IsProbabilityMeasure μ] (a b : ℝ) :
+    integrableExpSet id (μ.map (fun x => a + b * x)) =
+      {t | b * t ∈ integrableExpSet id μ} := by sorry
+
+theorem quantile_cond_Ioc (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    {l r u : ℝ} (hmass : 0 < μ (Set.Ioc l r)) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (ProbabilityTheory.cond μ (Set.Ioc l r)).quantile u =
+      μ.quantile (cdf μ l + u * (cdf μ r - cdf μ l)) := by sorry
+
+def atomMixture (μ : Measure ℝ) (c : ℝ) (w : I) : Measure ℝ :=
+  ENNReal.ofReal (w : ℝ) • Measure.dirac c + ENNReal.ofReal (1 - (w : ℝ)) • μ
+
+theorem atomMixture_withDensity (f : ℝ → ℝ≥0∞) (c : ℝ) (w : I) :
+    atomMixture (volume.withDensity f) c w =
+      ENNReal.ofReal (w : ℝ) • Measure.dirac c +
+        volume.withDensity (fun x => ENNReal.ofReal (1 - (w : ℝ)) * f x) := by sorry
+
+def convolutionPower (μ : Measure ℝ) : ℕ → Measure ℝ
+  | 0 => Measure.dirac 0
+  | n + 1 => convolutionPower μ n ∗ μ
+
+def compoundPoissonMeasure (lam : ℝ≥0) (μ : Measure ℝ) : Measure ℝ :=
+  (poissonMeasure lam).bind (convolutionPower μ)
+
+theorem charFun_compoundPoissonMeasure (lam : ℝ≥0) (μ : Measure ℝ)
+    [IsProbabilityMeasure μ] (t : ℝ) :
+    charFun (compoundPoissonMeasure lam μ) t =
+      Complex.exp ((lam : ℝ) * (charFun μ t - 1)) := by sorry
+
+/-! ### Special-function and elementary quantiles -/
+
+def inverseRegularizedGamma (a u : ℝ) : ℝ :=
+  if 0 < a ∧ u ∈ Set.Ioo (0 : ℝ) 1 then
+    sInf {x : ℝ | 0 ≤ x ∧ u ≤ TauCeti.regularizedGamma a x}
+  else 0
+
+theorem regularizedGamma_inverse {a u : ℝ} (ha : 0 < a)
+    (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    TauCeti.regularizedGamma a (inverseRegularizedGamma a u) = u := by sorry
+
+theorem quantile_gammaMeasure {a r u : ℝ} (ha : 0 < a) (hr : 0 < r)
+    (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (gammaMeasure a r).quantile u = inverseRegularizedGamma a u / r := by sorry
+
+theorem quantile_inverseGammaMeasure {a r u : ℝ} (ha : 0 < a) (hr : 0 < r)
+    (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (TauCeti.Probability.inverseGammaMeasure a r).quantile u =
+      r / inverseRegularizedGamma a (1 - u) := by sorry
+
+def logisticMeasure (m s : ℝ) : Measure ℝ :=
+  if 0 < s then
+    (TauCeti.Probability.uniformMeasure 0 1).map (fun u => m + s * Real.log (u / (1 - u)))
+  else 0
+
+theorem quantile_logisticMeasure (m : ℝ) {s u : ℝ} (hs : 0 < s)
+    (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (logisticMeasure m s).quantile u = m + s * Real.log (u / (1 - u)) := by sorry
+
+def generalizedExtremeValueMeasure (m s ξ : ℝ) : Measure ℝ :=
+  if 0 < s then
+    (expMeasure 1).map (fun y =>
+      if ξ = 0 then m - s * Real.log y else m + s * (Real.rpow y (-ξ) - 1) / ξ)
+  else 0
+
+theorem quantile_generalizedExtremeValueMeasure (m ξ : ℝ) {s u : ℝ}
+    (hs : 0 < s) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (generalizedExtremeValueMeasure m s ξ).quantile u =
+      if ξ = 0 then m - s * Real.log (-Real.log u)
+      else m + s * (Real.rpow (-Real.log u) (-ξ) - 1) / ξ := by sorry
+
+def generalizedParetoMeasure (s ξ : ℝ) : Measure ℝ :=
+  if 0 < s then
+    (expMeasure 1).map (fun y => if ξ = 0 then s * y else s * (Real.exp (ξ * y) - 1) / ξ)
+  else 0
+
+theorem quantile_generalizedParetoMeasure (ξ : ℝ) {s u : ℝ}
+    (hs : 0 < s) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (generalizedParetoMeasure s ξ).quantile u =
+      if ξ = 0 then -s * Real.log (1 - u)
+      else s * (Real.rpow (1 - u) (-ξ) - 1) / ξ := by sorry
+
+/-! ### Mixtures and noncentral boundaries -/
+
+def noncentralChiSquaredMeasure (k : ℝ) (lam : ℝ≥0) : Measure ℝ :=
+  if 0 ≤ k then
+    (poissonMeasure (lam / 2)).bind (fun j => TauCeti.Probability.chiSquaredMeasure (k + 2 * j))
+  else 0
+
+theorem isProbabilityMeasure_noncentralChiSquaredMeasure {k : ℝ} (hk : 0 ≤ k) (lam : ℝ≥0) :
+    IsProbabilityMeasure (noncentralChiSquaredMeasure k lam) := by sorry
+
+theorem noncentralChiSquaredMeasure_zero_degree_mass (lam : ℝ≥0) :
+    (noncentralChiSquaredMeasure 0 lam).real {0} = Real.exp (-(lam : ℝ) / 2) := by sorry
+
+theorem noncentralChiSquaredMeasure_zero_noncentrality {k : ℝ} (hk : 0 ≤ k) :
+    noncentralChiSquaredMeasure k 0 = TauCeti.Probability.chiSquaredMeasure k := by sorry
+
+theorem quantile_noncentralChiSquaredMeasure_zero_degree (lam : ℝ≥0)
+    {u : ℝ} (hu : u ∈ Set.Ioo (0 : ℝ) 1) (h : u ≤ Real.exp (-(lam : ℝ) / 2)) :
+    (noncentralChiSquaredMeasure 0 lam).quantile u = 0 := by sorry
+
+theorem measurable_noncentralChiSquaredMeasure :
+    Measurable fun p : ℝ × ℝ≥0 => noncentralChiSquaredMeasure p.1 p.2 := by sorry
+
+def noncentralTMeasure (ν δ : ℝ) : Measure ℝ :=
+  if 0 < ν then
+    ((gaussianReal 0 1).prod (TauCeti.Probability.chiSquaredMeasure ν)).map
+      (fun z => (z.1 + δ) / Real.sqrt (z.2 / ν))
+  else 0
+
+theorem noncentralTMeasure_zero {ν : ℝ} (hν : 0 < ν) :
+    noncentralTMeasure ν 0 = TauCeti.Probability.studentTMeasure ν := by sorry
+
+def categoricalMeasure {ι : Type*} [Fintype ι] [MeasurableSpace ι]
+    (p : Convexity.StdSimplex ℝ≥0 ι) : Measure ι :=
+  ∑ i, (p.weights i : ℝ≥0∞) • Measure.dirac i
+
+theorem categoricalMeasure_singleton {ι : Type*} [Fintype ι] [MeasurableSpace ι]
+    [MeasurableSingletonClass ι] (p : Convexity.StdSimplex ℝ≥0 ι) (i : ι) :
+    categoricalMeasure p {i} = (p.weights i : ℝ≥0∞) := by sorry
+
+def gaussianLatticeSum (c s : ℝ) : ℝ :=
+  ∑' k : ℤ, Real.exp (-((k : ℝ) - c) ^ 2 / (2 * s ^ 2))
+
+def discreteGaussianMeasure (c s : ℝ) : Measure ℤ :=
+  if 0 < s then
+    Measure.sum (fun k : ℤ =>
+      ENNReal.ofReal (Real.exp (-((k : ℝ) - c) ^ 2 / (2 * s ^ 2)) / gaussianLatticeSum c s) •
+        Measure.dirac k)
+  else 0
+
+theorem mgf_discreteGaussianMeasure (c t : ℝ) {s : ℝ} (hs : 0 < s) :
+    mgf (fun k : ℤ => (k : ℝ)) (discreteGaussianMeasure c s) t =
+      Real.exp (c * t + s ^ 2 * t ^ 2 / 2) *
+        gaussianLatticeSum (c + s ^ 2 * t) s / gaussianLatticeSum c s := by sorry
+
+/-! ### Vector, complex, and circular carriers -/
+
+def multivariateTMeasure {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) (ν : ℝ) : Measure (EuclideanSpace ℝ ι) := by
+  classical
+  exact if 0 < ν ∧ S.PosSemidef then
+    ((multivariateGaussian 0 S).prod (TauCeti.Probability.chiSquaredMeasure ν)).map
+      (fun z => m + Real.sqrt (ν / z.2) • z.1)
+    else 0
+
+theorem multivariateTMeasure_zero_scale {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m : EuclideanSpace ℝ ι) {ν : ℝ} (hν : 0 < ν) :
+    multivariateTMeasure m 0 ν = Measure.dirac m := by sorry
+
+theorem quantile_multivariateTMeasure_projection {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m θ : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : S.PosSemidef)
+    {ν u : ℝ} (hν : 0 < ν) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    ((multivariateTMeasure m S ν).map (fun x => ⟪θ, x⟫_ℝ)).quantile u =
+      ⟪θ, m⟫_ℝ + Real.sqrt (⟪θ, S.toEuclideanLin θ⟫_ℝ) *
+        (TauCeti.Probability.studentTMeasure ν).quantile u := by sorry
+
+def complexGaussianRealCovariance {ι : Type*} (C : Matrix ι ι ℂ) :
+    Matrix (ι ⊕ ι) (ι ⊕ ι) ℝ :=
+  Matrix.fromBlocks (fun i j => (C i j).re / 2) (fun i j => -(C i j).im / 2)
+    (fun i j => (C i j).im / 2) (fun i j => (C i j).re / 2)
+
+def properComplexGaussianMeasure {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m : ι → ℂ) (C : Matrix ι ι ℂ) : Measure (ι → ℂ) := by
+  classical
+  exact if C.PosSemidef then
+    (multivariateGaussian
+      (WithLp.toLp 2 (Sum.elim (fun i => (m i).re) (fun i => (m i).im)))
+      (complexGaussianRealCovariance C)).map
+        (fun (x : EuclideanSpace ℝ (ι ⊕ ι)) i => (x (Sum.inl i) : ℂ) + Complex.I * (x (Sum.inr i) : ℂ))
+  else Measure.dirac m
+
+theorem properComplexGaussianMeasure_centered_rotation {ι : Type*} [Fintype ι] [DecidableEq ι]
+    {C : Matrix ι ι ℂ} (hC : C.PosSemidef) (θ : ℝ) :
+    (properComplexGaussianMeasure (0 : ι → ℂ) C).map
+      (fun z i => Complex.exp (Complex.I * θ) * z i) =
+        properComplexGaussianMeasure 0 C := by sorry
+
+def wrappedNormalMeasure (m : AddCircle (2 * Real.pi)) (v : ℝ≥0) :
+    Measure (AddCircle (2 * Real.pi)) :=
+  (gaussianReal 0 v).map (fun x : ℝ => m + (x : AddCircle (2 * Real.pi)))
+
+theorem wrappedNormalMeasure_zero (m : AddCircle (2 * Real.pi)) :
+    wrappedNormalMeasure m 0 = Measure.dirac m := by sorry
+
+theorem wrappedNormalMeasure_conv (m₁ m₂ : AddCircle (2 * Real.pi)) (v₁ v₂ : ℝ≥0) :
+    wrappedNormalMeasure m₁ v₁ ∗ wrappedNormalMeasure m₂ v₂ =
+      wrappedNormalMeasure (m₁ + m₂) (v₁ + v₂) := by sorry
+
+theorem measurable_wrappedNormalMeasure :
+    Measurable fun p : AddCircle (2 * Real.pi) × ℝ≥0 => wrappedNormalMeasure p.1 p.2 := by sorry
+
+/-! ### Spherical reference measure and special functions -/
+
+abbrev UnitSphere (d : ℕ) := Metric.sphere (0 : EuclideanSpace ℝ (Fin (d + 1))) 1
+
+def uniformSphereMeasure (d : ℕ) : Measure (UnitSphere d) :=
+  let surfaceMeasure := (volume : Measure (EuclideanSpace ℝ (Fin (d + 1)))).toSphere
+  (surfaceMeasure Set.univ)⁻¹ • surfaceMeasure
+
+theorem isProbabilityMeasure_uniformSphereMeasure (d : ℕ) :
+    IsProbabilityMeasure (uniformSphereMeasure d) := by sorry
+
+def vonMisesFisherMeasure (d : ℕ) (m : UnitSphere (d + 1)) (κ : ℝ) : Measure (UnitSphere (d + 1)) :=
+  if 0 ≤ κ then
+    let f := fun x : UnitSphere (d + 1) => Real.exp (κ * ⟪m.val, x.val⟫_ℝ)
+    (uniformSphereMeasure (d + 1)).withDensity
+      (fun x => ENNReal.ofReal (f x / ∫ y, f y ∂uniformSphereMeasure (d + 1)))
+  else 0
+
+theorem vonMisesFisherMeasure_zero (d : ℕ) (m : UnitSphere (d + 1)) :
+    vonMisesFisherMeasure d m 0 = uniformSphereMeasure (d + 1) := by sorry
+
+theorem measurable_vonMisesFisherMeasure (d : ℕ) :
+    Measurable fun p : UnitSphere (d + 1) × ℝ => vonMisesFisherMeasure d p.1 p.2 := by sorry
+
+def owensT (h a : ℝ) : ℝ :=
+  (2 * Real.pi)⁻¹ * ∫ t in (0 : ℝ)..a, Real.exp (-h ^ 2 * (1 + t ^ 2) / 2) / (1 + t ^ 2)
+
+theorem hasDerivAt_owensT_right (h a : ℝ) :
+    HasDerivAt (owensT h) (Real.exp (-h ^ 2 * (1 + a ^ 2) / 2) /
+      (2 * Real.pi * (1 + a ^ 2))) a := by sorry
+
+end Expansion
 
 end TauCetiRoadmap.StandardDistributions
