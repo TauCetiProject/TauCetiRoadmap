@@ -3,7 +3,7 @@
 Mathlib supplies the starting definitions for the real and multivariate Gaussian, Gamma, Beta, exponential, Cauchy, Pareto, Poisson, geometric, binomial, and Bernoulli laws.
 This roadmap completes their elementary distributional APIs and connects the continuous scalar families to `MeasureTheory.HasPDF` and Radon–Nikodym derivatives.
 
-It also develops interval and finite uniform, categorical, Laplace, log-normal, Weibull, chi, inverse-gamma, Student's t, Fisher's F, logistic, extreme-value, generalized Pareto, inverse-Gaussian, skew-normal, and bounded elementary families, together with their named transformations and noncentral extensions.
+It also develops interval and finite uniform, categorical, Laplace, log-normal, Weibull, chi-squared, chi, inverse-gamma, Student's t, Fisher's F, logistic, extreme-value, generalized Pareto, inverse-Gaussian, skew-normal, triangular, Kumaraswamy, Irwin–Hall, and Bates families, together with their named transformations and noncentral extensions.
 The discrete families include negative binomial, hypergeometric, beta-binomial, Poisson-binomial, Skellam, Zipf, Yule–Simon, logarithmic series, and integer Laplace and Gaussian laws.
 The multivariate families include Gaussian and Student's t, multinomial, Dirichlet, Dirichlet-multinomial, multivariate hypergeometric, matrix normal, proper complex Gaussian, and nonsingular, Gaussian-Gram, and inverse-Wishart laws.
 Uniform sphere and ball, von Mises–Fisher, von Mises, and wrapped normal supply the spherical and circular families.
@@ -89,7 +89,7 @@ The carrier rules below specify how to state those listed targets; they do not s
   Diagonal scalar cdfs and quantiles are supplied by the marginal laws in Layer 13.
   Whenever a trace mgf formula is requested on its finiteness domain, also give the corresponding `cgf` as the real logarithm of that formula.
   The inverse-Wishart family has no covariance or transform target beyond the mean and non-integrability statements explicitly listed in Layer 6.
-  Layer 13 additionally requires its diagonal inverse-gamma marginals and quantiles.
+  Layer 6 supplies its diagonal inverse-gamma marginals, and Layer 13 their quantiles.
 - **Rectangular matrix and complex Gaussian laws** use the explicit real-coordinate identifications in Layer 11 for Lebesgue measure and scalar observables.
   Complex covariance and pseudocovariance are stated separately.
 - **Spherical and circular laws** use the carriers and normalized reference measures in Layer 12.
@@ -180,8 +180,8 @@ Two other projects are nearby but do not provide code for this roadmap:
   Coordinate on the Lean Zulip if future work approaches that boundary.
 
 Additional design references are [mathlib4#42461](https://github.com/leanprover-community/mathlib4/pull/42461) for a lower quantile, [mathlib4#43070](https://github.com/leanprover-community/mathlib4/pull/43070) and its [Bessel discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Bessel.20functions/with/611260325), and [mathlib4#42909](https://github.com/leanprover-community/mathlib4/pull/42909) for measure-level finite uniform laws.
-The measure-first direction is also explained in [mathlib4#42821](https://github.com/leanprover-community/mathlib4/pull/42821), which cites discussion among reviewers.
-An open proposal alone does not settle an API: assess its mathematics, generality, and maintainer discussion, and adopt the design accepted by Mathlib when it becomes available.
+The measure-first API uses `Measure` for distribution laws; [mathlib4#42821](https://github.com/leanprover-community/mathlib4/pull/42821) discusses the corresponding role of PMFs.
+These proposals are design references rather than required interfaces; use accepted Mathlib declarations when available and the mathematical conventions specified here otherwise.
 The lower-quantile infimum construction agrees with the existing `MeasureTheory.Measure.quantile` in `TauCeti/Probability/Quantile.lean`; reuse that measure-level API rather than introducing the proposal’s functional spelling as a competing definition.
 Layer 7 supplies the upper quantile and reflection rules needed for atoms, with interior-level hypotheses that exclude empty or unbounded-below defining sets.
 The Bessel target uses the positive-argument series and the regularized hypergeometric representation, with explicit singular-endpoint treatment for negative orders.
@@ -381,12 +381,14 @@ Targets:
 - **Lower incomplete gamma.** Define `lowerIncompleteGamma s x = if 0 < s then ∫ t in 0..max x 0, t ^ (s-1) * exp (-t) else 0` and `regularizedGamma s x = if 0 < s then lowerIncompleteGamma s x / Gamma s else 0`.
 
   For `0 < s`, prove convergence, continuity and monotonicity for every `x`, the recurrence `γ(s+1, x) = s * γ(s, x) - x^s * exp (-x)` for `0 ≤ x`, and `regularizedGamma s x → 1` as `x → ∞`.
+  Prove strict monotonicity of both lower incomplete gamma and regularized gamma on `[0,∞)` for `s>0`.
   State differentiability with `deriv = x^(s-1) * exp (-x)` only for `0 < x`.
   When `0 < s < 1`, continuity — not differentiability — is the target at `x = 0`.
 - **Regularized incomplete beta.** For `0 < a` and `0 < b`, define it as the integral from `0` to `min 1 (max x 0)`, normalized by `ProbabilityTheory.beta a b`.
   Use zero for invalid parameters, with one deliberate exception: `regularizedIncompleteBeta 0 b x = 1` when `0 < b` and `0 ≤ x`.
 
   For positive `a,b`, prove that the function is `0` on `x ≤ 0`, `1` on `1 ≤ x`, continuous and monotone on `ℝ`, and state differentiability only under `0 < x < 1`.
+  Prove strict monotonicity on `[0,1]` for positive shapes.
   For `0 ≤ x ≤ 1`, prove the reflection formula `I_x(a,b) = 1 - I_{1-x}(b,a)`.
   On the same range, prove the unit-step recurrence `I_x(a+1,b) = I_x(a,b) - Real.rpow x a * Real.rpow (1-x) b / (a * ProbabilityTheory.beta a b)`, in the form of [DLMF 8.17.20](https://dlmf.nist.gov/8.17.E20).
 
@@ -396,7 +398,7 @@ Targets:
   The other possible weak-limit convention would record the cdf of `Measure.dirac 1`.
   Do not state a reflection theorem on either boundary edge: the positive-parameter identity cannot include both atomic limit laws at their discontinuities.
 - **Error function.** Using the names from mathlib4#34053, define `Real.erf x = (2 / √π) * ∫ t in 0..x, exp (-t^2)` and `Real.erfc x = 1 - Real.erf x`.
-  Prove oddness, monotonicity, the limits at both infinities, the derivative, and `Real.erf x = regularizedGamma (1/2) (x^2)` for `0 ≤ x`.
+  Prove oddness, strict monotonicity on `ℝ`, the limits at both infinities, the derivative, and `Real.erf x = regularizedGamma (1/2) (x^2)` for `0 ≤ x`.
 - **Closed-form cdfs and tails.** Prove:
   - for `v ≠ 0` and every `x`, `cdf (gaussianReal m v) x = (1 + Real.erf ((x - m) / √(2*v))) / 2`;
   - at the singular boundary, `cdf (gaussianReal m 0) x = if m ≤ x then 1 else 0`;
@@ -874,6 +876,12 @@ Targets:
    At `p = 0`, every valid inverse-Wishart law is Dirac at the unique zero matrix; prove that the identity is integrable with mean zero for every `-1 < n`.
 7. **Parameter measurability.** Prove the shared target for `nonsingularWishartMeasure`, `wishartGramMeasure`, and `inverseWishartMeasure` with the scale in coordinates, for example `Measurable fun q : ℝ × (Fin p → Fin p → ℝ) => nonsingularWishartMeasure q.1 (Matrix.of q.2)`, with `ℕ` in place of `ℝ` for the natural degree.
    Record the corollary in which the scale ranges over `selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) ℝ)` with the Borel σ-algebra of item 1; a Wishart kernel with a random scale is built from that form.
+8. **Real-degree Schur complements and inverse-Wishart diagonal marginals.** For `p>0`, `S.PosDef`, and real degree `n>p-1`, let `W~nonsingularWishartMeasure n S⁻¹`.
+   For each coordinate `i`, prove that `((W⁻¹) i i)⁻¹` has law `(chiSquaredMeasure (n-p+1)).map ((S i i)⁻¹ * ·)`.
+   Identify this reciprocal with the scalar Schur complement after separating coordinate `i` from its complementary principal block.
+   Prove the block determinant and inverse identities, the change-of-variables Jacobian in the fixed symmetric coordinates, and the gamma integrals that give this marginal for real degrees; the natural-degree Bartlett theorem alone is insufficient.
+   Deduce that coordinate `A ↦ A i i` of `inverseWishartMeasure n S` has law `inverseGammaMeasure ((n-p+1)/2) (S i i/2)`.
+   For `p=1`, the complementary block is empty and the result reduces to the scalar chi-squared/inverse-gamma identities.
 
 Key declarations:
 
@@ -920,6 +928,8 @@ inverseWishartMeasure
 integral_id_inverseWishartMeasure
 measurable_nonsingularWishartMeasure
 measurable_wishartGramMeasure
+hasLaw_reciprocal_inv_diagonal_nonsingularWishartMeasure
+map_diagonal_inverseWishartMeasure
 ```
 
 Completion checks:
@@ -944,8 +954,46 @@ In the formulas below, `F(x) = cdf μ x` and `F(x-) = μ.real (Set.Iio x)`.
    Prove transport of integrability, mean, variance, and every natural raw and central moment under the corresponding absolute-moment hypotheses.
    Prove `mgf id (μ.map (a + b * ·)) t = exp (a*t) * mgf id μ (b*t)`, the analogous characteristic-function identity, and the exact exponential-integrability preimage `{t | b*t ∈ integrableExpSet id μ}`.
    Give the cgf formula on this domain.
-   Specialize these results to all scalar families: identify transformed parameters whenever the family is closed under the affine map, and otherwise retain the explicit pushforward.
-   For integer-valued laws, arbitrary affine transformations concern their real cast; native integer laws get integer translations and reflection, not arbitrary real scaling.
+   Specialize the generic transport results to every scalar family.
+   The named parameter identities required in addition to that transport are listed below; all other affine images retain the explicit pushforward rather than acquiring a new distribution definition.
+   In the tables, `Y=a+b*X`; parameters not mentioned stay fixed, and every identity assumes valid input parameters.
+
+   | Family | Required affine parameter identity |
+   | --- | --- |
+   | Gaussian `(m,v)` | `(a+b*m,b²*v)` for every `b`. |
+   | Cauchy `(m,γ)` | `(a+b*m,abs(b)*γ)` for every `b`, including its zero-scale convention. |
+   | Laplace and logistic `(m,s)` | `(a+b*m,abs(b)*s)` for `b≠0`. |
+   | Uniform on `(l,r]` | Endpoints `a+b*l,a+b*r` for `b>0`, reversed for `b<0`; endpoint conventions agree as measures. |
+   | Triangular `(l,r,c)` | Endpoints transformed and sorted, mode `a+b*c`, for `b≠0`. |
+   | Gumbel `(m,s)` and GEV `(m,s,ξ)` | Location `a+b*m`, scale `b*s`, for `b>0`. |
+   | Lévy `(m,c)` | `(a+b*m,b*c)` for `b>0`. |
+   | Skew-normal `(m,s,α)` | `(a+b*m,abs(b)*s,sign(b)*α)` for `b≠0`. |
+   | Truncated Gaussian | Transform its Gaussian parameters and truncation interval, reversing endpoints and their inclusion flags when `b<0`. |
+
+   For negative `b`, maximum-Gumbel, GEV, and Lévy images are the reflected laws specified in Layer 10, not members of the same named family in general.
+   At `b=0`, every valid probability law maps to Dirac at `a`; do not extend families that have no zero-scale convention merely to name this image.
+
+   | Family | Required positive-scaling identity, `a=0`, `b>0` |
+   | --- | --- |
+   | Exponential of rate `r`; Gamma of shape `k`, rate `r` | Rate `r/b`. |
+   | Inverse-gamma `(k,r)` | Second parameter `b*r`. |
+   | Weibull of shape `k`, scale `s`; Pareto of threshold `t`, shape `r` | Scale `b*s`; threshold `b*t`, respectively. |
+   | Log-normal `(m,v)` | Log-location `m+log b`. |
+   | Chi `(k,s)` and noncentral chi `(k,δ,s)` | Scale `b*s`; this includes half-normal, Rayleigh, and Maxwell. |
+   | Rice `(ν,s)`; folded normal `(m,s)` | `(b*ν,b*s)`; `(b*m,b*s)`, respectively. |
+   | Nakagami `(m,Ω)` | Spread `b²*Ω`. |
+   | GPD `(s,ξ)`; log-logistic of scale `s`, shape `k` | Scale `b*s`. |
+   | Inverse Gaussian `(μ,λ)` | `(b*μ,b*λ)`. |
+   | Gompertz of shape `η`, rate `r` | Rate `r/b`. |
+
+   Also prove Beta reflection `1-X~Beta(β,α)` for `X~Beta(α,β)` and Student-t reflection `-X~StudentT(ν)`; the noncentral-t reflection changes `δ` to `-δ`.
+   For atom mixtures, truncations, and independent sums, prove that affine pushforward commutes with the defining mixture, event transformation when `b≠0`, or sum with its accumulated translation; for compound Poisson the jump-law identity concerns linear scaling, while translations remain an outer pushforward.
+   Arbitrary real affine transformations of discrete laws concern their real cast.
+   On `ℤ`, prove integer-translation and reflection transport.
+   Translation by `h : ℤ` adds `h` to the endpoints of integer-interval uniform and to the center of discrete Laplace or discrete Gaussian; reflection negates and reverses the interval endpoints or negates the center, leaving the other parameters fixed.
+   Skellam reflection exchanges its two rates.
+   On `ℕ`, use natural-number translations; reflection is stated only after casting to `ℤ` or `ℝ`.
+   Include the finite-support identities `n-X~Binomial(n,1-p)` and `n-X~BetaBinomial(n,β,α)`, with support bounds justifying natural subtraction, and the analogous hypergeometric complement `n-X~Hypergeometric(N,N-K,n)`.
 
 2. **Lower and upper quantiles.** Reuse `MeasureTheory.Measure.quantile` from `TauCeti/Probability/Quantile.lean`, with `μ.quantile u = sInf {x : ℝ | u ≤ cdf μ x}`.
    Add the upper counterpart `sInf {x : ℝ | u < cdf μ x}` on the same measure carrier.
@@ -996,6 +1044,19 @@ In the formulas below, `F(x) = cdf μ x` and `F(x-) = μ.real (Set.Iio x)`.
    For real jumps, prove the Poisson-weighted cdf series, including the `n = 0` atom, and its quantile adjunction; do not assert that a general compound Poisson law has a density.
    For native `ℕ` and `ℤ` jumps give the mass-series and cast bridges.
 
+Key declarations:
+
+```lean
+upperQuantile
+atomMixture
+convolutionPower
+compoundPoissonMeasure
+quantile_map_affine_pos
+quantile_map_affine_neg
+quantile_cond_Ioc
+charFun_compoundPoissonMeasure
+```
+
 Completion checks:
 
 - A two-atom law verifies the negative-scale formula using the upper quantile; replacing it by the lower quantile must not be used as a general identity.
@@ -1038,6 +1099,27 @@ The distribution entries specify which formulas are required; introducing a spec
    Reuse existing inverse-function declarations when available; otherwise construct precisely these inverses from the continuity, strict monotonicity, and endpoint limits in Layer 2.
    No numerical approximation or root-finding algorithm is required.
 
+Key declarations:
+
+```lean
+Complex.besselI
+owensT
+gaussianLatticeSum
+inverseRegularizedGamma
+inverseRegularizedIncompleteBeta
+hasDerivAt_owensT_right
+gaussianLatticeSum_eq_jacobiTheta₂
+regularizedGamma_inverse
+regularizedIncompleteBeta_inverse
+```
+
+Completion checks:
+
+- The Bessel circle-integral identity at concentration zero agrees with `I_0(0)=1` and the vanishing of the positive integer orders.
+- Owen's T has the stated values at `h=0` and `a=0`; the skew-normal cdf expression at shape zero reduces to the Gaussian cdf.
+- The Gaussian lattice sum and its theta representation have the same normalization and integer-translation symmetry, and the periodized Gaussian density and Fourier series have equal integrals over one period.
+- Composing each inverse special function with its defining function returns every interior level, with the stated support bounds and endpoint limits; inverse definitions retain their specified totalization outside the valid range.
+
 ### Layer 9: finite, mixed, and integer-valued discrete families
 
 Every new family in this layer has the shared measure, normalization, singleton-mass, support, parameter-measurability, and `HasLaw` targets.
@@ -1047,7 +1129,7 @@ For infinite support the individual entries specify additional moment and transf
 These are complete targets even when no named special-function transform or quantile exists.
 
 1. **Finite uniform and categorical.** On a nonempty finite type with its discrete σ-algebra, reuse `uniformOn Set.univ`; on a nonempty finite subset use `uniformOn` of that subset.
-   Prove agreement with existing PMF-to-measure constructions, uniform masses, pushforward under bijections, and finite-sum integration.
+   Prove agreement with `(PMF.uniformOfFintype ι).toMeasure` and `(PMF.uniformOfFinset s hs).toMeasure`, respectively, uniform masses, pushforward under bijections, and finite-sum integration.
    For `p : Convexity.StdSimplex ℝ≥0 ι`, define the categorical measure by `∑ i, (p.weights i : ℝ≥0∞) • Measure.dirac i`, using the measurable structure induced by its finite weight coordinates.
    Prove aggregation along arbitrary maps of finite types and that its one-hot pushforward is multinomial with one trial and the same weights, supplying the measurable bridge to the multinomial simplex parameter carrier.
    Numeric means and quantiles concern a specified real observable on `ι`, not an intrinsic ordering of category names.
@@ -1115,6 +1197,28 @@ These are complete targets even when no named special-function transform or quan
    When `2*c` is an integer, reflection gives mean `c`.
    Require the convergent mass-series cdf and characteristic function, and the quantile least-crossing theorem.
 
+Key declarations:
+
+```lean
+uniformOn
+categoricalMeasure
+betaBinomialMeasure
+dirichletMultinomialMeasure
+multivariateHypergeometricMeasure
+negativeHypergeometricMeasure
+poissonBinomialMeasure
+skellamMeasure
+zipfMeasure
+finiteZipfMeasure
+yuleSimonMeasure
+logarithmicSeriesMeasure
+discreteLaplaceMeasure
+discreteGaussianMeasure
+map_coordinate_dirichletMultinomialMeasure
+pgf_poissonBinomialMeasure
+mgf_discreteGaussianMeasure
+```
+
 Completion checks:
 
 - Finite Zipf at exponent zero is discrete uniform on `{1,…,N}`.
@@ -1132,11 +1236,12 @@ Every quantile formula below has `0<u<1` and valid distribution parameters as hy
 For a continuous law without an explicit quantile expression, require the unique solution of its stated cdf equation on the support interior, with existence, uniqueness, continuity in `u`, and endpoint limits proved.
 Natural moments listed below include the zeroth moment; sharp moment thresholds include matching non-integrability.
 
-1. **Logistic.** For location `m : ℝ` and scale `s>0`, use cdf `1/(1+exp(-(x-m)/s))` and density `exp(-z)/(s*(1+exp(-z))²)`, where `z=(x-m)/s`.
+1. **Logistic.** For location `m : ℝ` and scale `s>0`, define the logit pushforward of `uniformMeasure 0 1` under `u ↦ m+s*log(u/(1-u))`.
+   Prove cdf `1/(1+exp(-(x-m)/s))` and density `exp(-z)/(s*(1+exp(-z))²)`, where `z=(x-m)/s`.
    Prove quantile `m+s*log(u/(1-u))`, mean `m`, variance `π²*s²/3`, and exact mgf domain `|t|<1/s`.
    On this domain the mgf is `exp(m*t)*Gamma(1-s*t)*Gamma(1+s*t)`.
    Prove characteristic function `exp(I*m*t)*(π*s*t)/sinh(π*s*t)`, with the value `1` at `t=0` stated separately.
-   Prove its construction by applying the logit to a uniform variable and as the difference of independent Gumbels of equal scale, allowing unequal locations.
+   Give the corresponding uniform-variable `HasLaw` theorem and prove its construction as the difference of independent Gumbels of equal scale, allowing unequal locations.
 
 2. **Gumbel and generalized extreme value.** Use the maximum convention: Gumbel has cdf `exp(-exp(-(x-m)/s))` for `s>0`.
    Define it as the image of a rate-one exponential under `y ↦ m-s*log y` and derive its density.
@@ -1145,7 +1250,7 @@ Natural moments listed below include the zeroth moment; sharp moment thresholds 
 
    For real shape `ξ` and `s>0`, generalized extreme value (GEV) has cdf `exp(-(1+ξ*(x-m)/s)^(-1/ξ))` wherever `1+ξ*(x-m)/s>0`, and the Gumbel cdf at `ξ=0`.
    At and beyond the finite support boundary use cdf zero when `ξ>0` and one when `ξ<0`.
-   Its positive shape convention is the opposite of SciPy's `genextreme` parameter.
+   Use Coles's maximum-law shape convention; its sign is opposite to SciPy's `genextreme` parameter.
    Define it from rate-one exponential `E` by `m+s*(E^(-ξ)-1)/ξ` for `ξ≠0`, with the logarithmic branch at zero, and derive the density.
    Prove quantile `m+s*((-log u)^(-ξ)-1)/ξ`, with the Gumbel branch at zero, and weak continuity as `ξ→0`.
    For `ξ≠0` and `ξ<1`, prove mean `m+s*(Gamma(1-ξ)-1)/ξ`; for `ξ≠0` and `ξ<1/2`, prove variance `s²*(Gamma(1-2*ξ)-Gamma(1-ξ)²)/ξ²`.
@@ -1162,7 +1267,9 @@ Natural moments listed below include the zeroth moment; sharp moment thresholds 
    Its `n`th raw moment is `s^n*n!/∏ j=1..n,(1-j*ξ)`, exactly when `n*ξ<1` for `n≥1`.
    Prove mgf domains `(-∞,0]`, `(-∞,1/s)`, and `ℝ` for positive, zero, and negative shape respectively.
    Prove threshold stability: conditional excess over `v≥0` in the support has shape `ξ` and scale `s+ξ*v`.
-   Identify exponential, uniform at `ξ=-1`, and the Lomax/Pareto connections with their exact shifts and scales.
+   At `ξ=0`, identify `expMeasure (1/s)`; at `ξ=-1`, identify `uniformMeasure 0 s`.
+   For `ξ>0`, identify the Lomax scale `s/ξ` and shape `1/ξ`, and prove `(generalizedParetoMeasure s ξ).map (fun x => x+s/ξ) = paretoMeasure (s/ξ) (1/ξ)`.
+   Conversely, `X-t` for `X~paretoMeasure t r` has GPD scale `t/r` and shape `1/r`.
 
 4. **Chi and Nakagami.** For `k≥0` and `s>0`, define chi as `(chiSquaredMeasure k).map (fun x => s*sqrt x)`; for `k=0` this is Dirac at zero.
    For `k>0`, derive density `2^(1-k/2)*x^(k-1)*exp(-x²/(2*s²))/(Gamma(k/2)*s^k)` on `x>0`, cdf `regularizedGamma (k/2) (x²/(2*s²))`, and quantile `s*sqrt(2*G_(k/2)⁻¹(u))`.
@@ -1220,11 +1327,11 @@ Natural moments listed below include the zeroth moment; sharp moment thresholds 
    Include positive scaling `a*X ~ IG(a*μ,a*λ)` and the standard Wald specialization `μ=1`.
    A Brownian first-passage construction is not a target.
 
-9. **Truncated and skew normal.** Truncated normal is the Layer 7 conditioning construction applied to `gaussianReal m v`, with `v>0` and bounds `l<r` in the extended reals.
-   With `s=sqrt v`, `α=(l-m)/s`, `β=(r-m)/s`, and `D=Φ(β)-Φ(α)>0`, prove density `φ((x-m)/s)/(s*D)` on the interval, the clipped cdf, and quantile `m+s*z(Φ(α)+u*D)`.
+9. **Truncated and skew normal.** Truncated normal is the Layer 7 conditioning construction applied to `gaussianReal m v`, with variance `v : ℝ≥0` and bounds `l<r` in the extended reals.
+   For `v>0`, with `s=sqrt v`, `α=(l-m)/s`, `β=(r-m)/s`, and `D=Φ(β)-Φ(α)>0`, prove density `φ((x-m)/s)/(s*D)` on the interval, the clipped cdf, and quantile `m+s*z(Φ(α)+u*D)`.
    Prove mean `m+s*(φ(α)-φ(β))/D` and variance `v*(1+(α*φ(α)-β*φ(β))/D-((φ(α)-φ(β))/D)²)`.
    Infinite-bound products such as `α*φ(α)` mean their zero limits; define these extensions explicitly.
-   Prove mgf `exp(m*t+v*t²/2)*(Φ(β-s*t)-Φ(α-s*t))/D` on all of `ℝ`.
+   Under the same `v>0` hypothesis, prove mgf `exp(m*t+v*t²/2)*(Φ(β-s*t)-Φ(α-s*t))/D` on all of `ℝ`.
    At zero Gaussian variance, conditioning returns Dirac at `m` if `m` belongs to the chosen interval and zero otherwise; record the exact endpoint convention.
    Identify half-normal as the centered one-sided case.
 
@@ -1260,6 +1367,35 @@ Natural moments listed below include the zeroth moment; sharp moment thresholds 
     For real `r` with `|r|<b`, prove moment `a^r*Gamma(1+r/b)*Gamma(1-r/b)` and non-integrability of `X^r` outside this interval.
     Derive mean and variance under `b>1` and `b>2`, respectively, and prove mgf domain `(-∞,0]`.
 
+Key declarations:
+
+```lean
+logisticMeasure
+gumbelMeasure
+generalizedExtremeValueMeasure
+generalizedParetoMeasure
+chiMeasure
+nakagamiMeasure
+noncentralChiSquaredMeasure
+noncentralChiMeasure
+noncentralTMeasure
+noncentralFMeasure
+betaPrimeMeasure
+levyMeasure
+inverseGaussianMeasure
+truncatedNormalMeasure
+skewNormalMeasure
+irwinHallMeasure
+batesMeasure
+triangularMeasure
+kumaraswamyMeasure
+gompertzMeasure
+logLogisticMeasure
+noncentralChiSquaredMeasure_zero_degree_mass
+noncentralTMeasure_zero
+quantile_generalizedExtremeValueMeasure
+```
+
 Completion checks:
 
 - Each density integrates to one on its stated continuous range, including all named shape specializations.
@@ -1284,7 +1420,9 @@ Layer 13 specifies the scalar marginal and radial quantiles.
    For a positive-definite block scale on `ι ⊕ κ`, prove the conditional distribution given the second block: degree `ν+card κ`, location `m₁+S₁₂*S₂₂⁻¹*(x₂-m₂)`, and scale `(ν+q)/(ν+card κ) • (S₁₁-S₁₂*S₂₂⁻¹*S₂₁)`, where `q=⟪x₂-m₂,S₂₂⁻¹*(x₂-m₂)⟫`.
    State this through `condDistrib` and an explicitly measurable kernel as in Layer 5.
 
-2. **Matrix normal.** For finite row and column types, location `M`, positive-semidefinite row covariance `U`, and positive-semidefinite column covariance `V`, define the law by transporting the existing multivariate Gaussian on the product index type to matrices.
+2. **Matrix normal.** The carrier is `Matrix ι κ ℝ` with its existing product Borel structure, for finite row and column types `ι,κ`.
+   For location `M`, positive-semidefinite row covariance `U`, and positive-semidefinite column covariance `V`, define the law by transporting the existing multivariate Gaussian on `EuclideanSpace ℝ (ι × κ)` under `x ↦ Matrix.of (fun i j => x (i,j))`.
+   Package this coordinate map and the inverse `A ↦ WithLp.toLp 2 (fun ij => A ij.1 ij.2)` as a measurable equivalence and prove the comparison with product Lebesgue measure.
    The covariance entry at `((i,j),(k,l))` is `U i k * V j l`; this fixes vectorization order without an ambiguous Kronecker convention.
    For invalid covariances use Dirac at `M`, matching the Gaussian totalization by an explicit branch.
    For valid covariances prove mean `M`, the stated entrywise covariance, support in the appropriate affine image, row and column Gaussian marginals, and `A*X*B+C` closure with parameters `A*M*B+C`, `A*U*Aᵀ`, `Bᵀ*V*B`.
@@ -1292,7 +1430,7 @@ Layer 13 specifies the scalar marginal and radial quantiles.
    Require the directional mgf and characteristic function obtained by vectorization.
    Handle empty row or column types as the unique-matrix Dirac law and describe singular support when the product covariance is singular.
 
-3. **Proper complex Gaussian.** On finite complex coordinate space, use arbitrary mean `m` and Hermitian positive-semidefinite covariance `C`.
+3. **Proper complex Gaussian.** On `ι → ℂ` for finite `ι`, with its product Borel structure, use arbitrary mean `m` and Hermitian positive-semidefinite covariance `C`.
    Define it by realification: `(Re Z, Im Z)` has real Gaussian mean `(Re m, Im m)` and block covariance `(1/2) * [[Re C,-Im C],[Im C,Re C]]`.
    Prove that this real matrix is positive semidefinite exactly when the Hermitian `C` is, and use Dirac at `m` for invalid `C`.
    Complex covariance means `E[(Z-m)*(Z-m)ᴴ]=C`, and pseudocovariance means `E[(Z-m)*(Z-m)ᵀ]=0`; prove both.
@@ -1303,6 +1441,18 @@ Layer 13 specifies the scalar marginal and radial quantiles.
    A standard complex coordinate has real and imaginary variances `1/2` and expected squared modulus one.
    Prove that its modulus is Rayleigh with scale `1/sqrt 2`, its squared modulus is rate-one exponential, and the nonzero-mean scalar modulus is Rice with the corresponding parameters.
    General improper complex Gaussians with nonzero pseudocovariance are outside this roadmap.
+
+Key declarations:
+
+```lean
+multivariateTMeasure
+matrixCoordinateEquiv
+matrixNormalMeasure
+complexGaussianRealCovariance
+properComplexGaussianMeasure
+covariance_matrixNormalMeasure
+properComplexGaussianMeasure_centered_rotation
+```
 
 Completion checks:
 
@@ -1329,7 +1479,8 @@ Completion checks:
    These equalities supply the coordinate cdfs and quantiles; arbitrary projections follow by rotation and scaling.
 
 2. **Von Mises–Fisher.** On the unit sphere in dimension `d≥2`, take a unit direction `m` and concentration `κ≥0`.
-   Define the measure by density proportional to `exp(κ*⟪m,x⟫)` with respect to the uniform sphere probability measure, branching to zero for `κ<0`.
+   Write `σ_d` for the uniform sphere probability measure, put `f(x)=exp(κ*⟪m,x⟫)` and `Z=∫ x, f(x) ∂σ_d`, and define `σ_d.withDensity (fun x => ENNReal.ofReal (f(x)/Z))`.
+   Prove integrability of `f` and positivity of `Z`; branch to zero for `κ<0`, and use zero measure in ambient dimensions below two if the definition accepts all natural dimensions.
    For `κ>0`, prove that the normalizing integral relative to unnormalized surface area is `(2π)^(d/2)*κ^(1-d/2)*I_(d/2-1)(κ)`.
    Include `κ=0` as the uniform law, without evaluating a `0/0` normalizer.
    Put `A_d(κ)=I_(d/2)(κ)/I_(d/2-1)(κ)` for `κ>0`.
@@ -1339,7 +1490,8 @@ Completion checks:
    The exponential-integrability domain of each real projection is `ℝ`.
    Prove the one-dimensional density of `⟪m,X⟫` proportional to `exp(κ*y)*(1-y²)^((d-3)/2)` on `(-1,1)`, including its normalization constant from the sphere integral, cdf integral, and unique-root quantile.
 
-3. **Circle carrier and von Mises.** Use `AddCircle (2*π)` with its Borel structure and normalized Haar probability measure, and connect it by the usual sine/cosine map to the unit circle in `EuclideanSpace ℝ (Fin 2)`.
+3. **Circle carrier and von Mises.** Use `AddCircle (2*π)` with its Borel structure and the normalized Haar probability measure `ProbabilityTheory.cond (volume : Measure (AddCircle (2*π))) Set.univ`.
+   Prove its equality to `(ENNReal.ofReal (2*π))⁻¹ • volume`, and connect it by the usual sine/cosine map to the unit circle in `EuclideanSpace ℝ (Fin 2)`.
    Prove that this map transports Haar probability to the uniform sphere law and that integration in the angle chart corresponds to `dθ/(2π)` on `[-π,π)`.
    Define von Mises at location `m` in this circle and `κ≥0` by Haar density `exp(κ*cos(θ-m))/I_0(κ)`; invalid negative concentration gives zero.
    Prove the two-dimensional von Mises–Fisher identification, rotational equivariance, and integer Fourier moments `E[exp(I*n*θ)] = exp(I*n*m)*I_|n|(κ)/I_0(κ)`.
@@ -1357,6 +1509,20 @@ Completion checks:
    Prove weak convergence to Dirac as `v↓0` and to uniform Haar probability as `v→∞`.
    In the same `[-π,π)` chart as von Mises, prove the cdf by integrating the periodized density, equivalently summing Gaussian interval probabilities, and the unique-root quantile for `v>0`.
    At zero variance, the chart law and quantile are Dirac at the chosen representative of `m`.
+
+Key declarations:
+
+```lean
+uniformSphereMeasure
+uniformBallMeasure
+vonMisesFisherMeasure
+circleHaarProbability
+vonMisesMeasure
+wrappedNormalMeasure
+map_direction_multivariateGaussian
+vonMisesFisherMeasure_zero
+wrappedNormalMeasure_conv
+```
 
 Completion checks:
 
@@ -1380,7 +1546,7 @@ Every finite formula has valid parameter hypotheses, and every scalar family get
 | Beta, shapes `a,b>0` | `B_(a,b)⁻¹(u)`. |
 | Exponential, rate `r>0` | `-log(1-u)/r`. |
 | Cauchy, location `m`, scale `γ≥0` | `m+γ*tan(π*(u-1/2))`, also at `γ=0`. |
-| Pareto, minimum `a>0`, shape `b>0` | `a*(1-u)^(-1/b)`. |
+| Pareto, threshold `t>0`, shape `r>0` | `t*(1-u)^(-1/r)`. |
 | Interval uniform, `a<b` | `a+(b-a)*u`. |
 | Laplace, location `m`, scale `b>0` | `m+b*log(2*u)` for `u≤1/2`, otherwise `m-b*log(2*(1-u))`. |
 | Log-normal, location `m`, log-variance `v≥0` | `exp(m+sqrt(v)*z(u))`, also at `v=0`. |
@@ -1393,7 +1559,7 @@ Every finite formula has valid parameter hypotheses, and every scalar family get
 For the existing discrete families, require these cast-law results:
 
 - Bernoulli on `{0,1}`: zero if `u≤1-p`, one otherwise, including `p=0,1`.
-- Geometric counting failures, `0<p<1`: `ceil(log(1-u)/log(1-p))-1`; at `p=1`, zero.
+- Geometric counting failures, `0<p<1`: `ceil(log(1-u)/log(1-p))-1`; at both `p=0` and `p=1`, zero under Mathlib's Dirac conventions.
 - Poisson: the least `k : ℕ` for which the explicit Poisson cumulative sum is at least `u`, and the equivalent regularized-gamma characterization from Layer 2; at rate zero, zero.
 - Binomial, negative binomial, and hypergeometric: the least supported integer for which the cumulative formulas in Layers 1–3 reach `u`, with their incomplete-beta versions where specified there.
   Prove these least-crossing formulas using the closed cdf or finite sum, not merely a restatement of the real `sInf` definition.
@@ -1412,12 +1578,22 @@ For multivariate and constrained families, require the following scalar quantile
 - Von Mises–Fisher: the mean-direction projection quantile of Layer 12; von Mises and wrapped normal: the fixed angle-chart quantiles there.
 - Wishart: diagonal quantiles through `S_ii * chiSquared(n)` for the nonsingular family and `S_ii * chiSquared(ν)` for the Gaussian-Gram family, including zero scales and degrees where valid.
   Prove the diagonal marginal equalities from the existing congruence and Gaussian-square results.
-- Inverse-Wishart in positive dimension: prove diagonal law `inverseGammaMeasure ((n-p+1)/2) (S_ii/2)` for valid `S,n`, using inversion and the Wishart Schur-complement law.
-  Prove the needed Schur-complement marginal for real Wishart degree `n>p-1`: the reciprocal of the `i`th diagonal of the inverse of `W~Wishart(n,S⁻¹)` has law `(S_ii)⁻¹ * chiSquared(n-p+1)`.
-  Establish it for real degrees by the block change of variables in the Wishart density, with the block determinant, Jacobian, and gamma normalization as explicit supporting targets; the natural-degree Bartlett theorem alone is insufficient.
-  Its reciprocal gives the stated inverse-gamma law and quantile, and at `p=1` agrees with the scalar inverse-gamma specialization.
+- Inverse-Wishart in positive dimension: use the diagonal inverse-gamma law of Layer 6 item 8 to prove quantile `(S_ii/2)/G_((n-p+1)/2)⁻¹(1-u)` for valid `S,n`.
+  At `p=1`, this agrees with the scalar inverse-gamma specialization.
 
 No joint multivariate quantile, numerical quantile algorithm, statistical estimator, or order-statistic theory is required.
+
+Key declarations:
+
+```lean
+quantile_gammaMeasure
+quantile_inverseGammaMeasure
+quantile_studentTMeasure
+quantile_fisherSnedecorMeasure
+quantile_map_cast_geometricMeasure
+quantile_multivariateTMeasure_projection
+quantile_diagonal_inverseWishartMeasure
+```
 
 Completion checks:
 
@@ -1463,7 +1639,7 @@ After that:
 - Layer 11 uses the Gaussian and chi-squared laws, Layer 7, and the scalar Student law; conditional multivariate t requires Layer 5's conditional Gaussian infrastructure.
 - Layer 12's uniform sphere and ball require the Gaussian and chi laws and the existing polar-measure infrastructure; von Mises–Fisher and circular laws then use the relevant Layer 8 functions.
 - Layer 13 specializes quantiles as soon as each cdf and marginal law is available.
-  The inverse-Wishart diagonal entry also builds its stated real-degree block-integration bridge on Layer 6.
+  The inverse-Wishart diagonal entry uses Layer 6 item 8's real-degree Schur-complement law.
 
 A good claim is one numbered construction, one distribution family with its specializations, or one inverse-function development.
 A family's claim includes its listed quantile targets and affine identifications.

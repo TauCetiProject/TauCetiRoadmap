@@ -1131,15 +1131,18 @@ theorem atomMixture_withDensity (f : ℝ → ℝ≥0∞) (c : ℝ) (w : I) :
       ENNReal.ofReal (w : ℝ) • Measure.dirac c +
         volume.withDensity (fun x => ENNReal.ofReal (1 - (w : ℝ)) * f x) := by sorry
 
-def convolutionPower (μ : Measure ℝ) : ℕ → Measure ℝ
+def convolutionPower {E : Type*} [AddMonoid E] [MeasurableSpace E]
+    (μ : Measure E) : ℕ → Measure E
   | 0 => Measure.dirac 0
   | n + 1 => convolutionPower μ n ∗ μ
 
-def compoundPoissonMeasure (lam : ℝ≥0) (μ : Measure ℝ) : Measure ℝ :=
+def compoundPoissonMeasure {E : Type*} [AddMonoid E] [MeasurableSpace E]
+    (lam : ℝ≥0) (μ : Measure E) : Measure E :=
   (poissonMeasure lam).bind (convolutionPower μ)
 
-theorem charFun_compoundPoissonMeasure (lam : ℝ≥0) (μ : Measure ℝ)
-    [IsProbabilityMeasure μ] (t : ℝ) :
+theorem charFun_compoundPoissonMeasure {E : Type*} [NormedAddCommGroup E]
+    [InnerProductSpace ℝ E] [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
+    (lam : ℝ≥0) (μ : Measure E) [IsProbabilityMeasure μ] (t : E) :
     charFun (compoundPoissonMeasure lam μ) t =
       Complex.exp ((lam : ℝ) * (charFun μ t - 1)) := by sorry
 
@@ -1271,6 +1274,35 @@ theorem quantile_multivariateTMeasure_projection {ι : Type*} [Fintype ι] [Deci
       ⟪θ, m⟫_ℝ + Real.sqrt (⟪θ, S.toEuclideanLin θ⟫_ℝ) *
         (TauCeti.Probability.studentTMeasure ν).quantile u := by sorry
 
+def matrixCoordinateEquiv {ι κ : Type*} [Fintype ι] [Fintype κ] :
+    EuclideanSpace ℝ (ι × κ) ≃ᵐ Matrix ι κ ℝ where
+  toFun x := Matrix.of (fun i j => x (i, j))
+  invFun A := WithLp.toLp 2 (fun ij => A ij.1 ij.2)
+  left_inv := by intro x; ext ij; rfl
+  right_inv := by intro A; rfl
+  measurable_toFun := by
+    change Measurable (fun x : EuclideanSpace ℝ (ι × κ) => Matrix.of (fun i j => x (i, j)))
+    fun_prop
+  measurable_invFun := by
+    change Measurable (fun A : Matrix ι κ ℝ => WithLp.toLp 2 (fun ij : ι × κ => A ij.1 ij.2))
+    fun_prop
+
+def matrixNormalMeasure {ι κ : Type*} [Fintype ι] [Fintype κ]
+    [DecidableEq ι] [DecidableEq κ]
+    (M : Matrix ι κ ℝ) (U : Matrix ι ι ℝ) (V : Matrix κ κ ℝ) : Measure (Matrix ι κ ℝ) := by
+  classical
+  exact if U.PosSemidef ∧ V.PosSemidef then
+    (multivariateGaussian (matrixCoordinateEquiv.symm M)
+      (fun ij kl => U ij.1 kl.1 * V ij.2 kl.2)).map matrixCoordinateEquiv
+  else Measure.dirac M
+
+theorem covariance_matrixNormalMeasure {ι κ : Type*} [Fintype ι] [Fintype κ]
+    [DecidableEq ι] [DecidableEq κ]
+    (M : Matrix ι κ ℝ) {U : Matrix ι ι ℝ} {V : Matrix κ κ ℝ}
+    (hU : U.PosSemidef) (hV : V.PosSemidef) (i k : ι) (j l : κ) :
+    covariance (fun A => A i j) (fun A => A k l) (matrixNormalMeasure M U V) =
+      U i k * V j l := by sorry
+
 def complexGaussianRealCovariance {ι : Type*} (C : Matrix ι ι ℂ) :
     Matrix (ι ⊕ ι) (ι ⊕ ι) ℝ :=
   Matrix.fromBlocks (fun i j => (C i j).re / 2) (fun i j => -(C i j).im / 2)
@@ -1308,27 +1340,38 @@ theorem measurable_wrappedNormalMeasure :
 
 /-! ### Spherical reference measure and special functions -/
 
-abbrev UnitSphere (d : ℕ) := Metric.sphere (0 : EuclideanSpace ℝ (Fin (d + 1))) 1
+abbrev UnitSphere (d : ℕ) := Metric.sphere (0 : EuclideanSpace ℝ (Fin d)) 1
 
 def uniformSphereMeasure (d : ℕ) : Measure (UnitSphere d) :=
-  let surfaceMeasure := (volume : Measure (EuclideanSpace ℝ (Fin (d + 1)))).toSphere
+  let surfaceMeasure := (volume : Measure (EuclideanSpace ℝ (Fin d))).toSphere
   (surfaceMeasure Set.univ)⁻¹ • surfaceMeasure
 
-theorem isProbabilityMeasure_uniformSphereMeasure (d : ℕ) :
+theorem isProbabilityMeasure_uniformSphereMeasure {d : ℕ} (hd : 0 < d) :
     IsProbabilityMeasure (uniformSphereMeasure d) := by sorry
 
-def vonMisesFisherMeasure (d : ℕ) (m : UnitSphere (d + 1)) (κ : ℝ) : Measure (UnitSphere (d + 1)) :=
-  if 0 ≤ κ then
-    let f := fun x : UnitSphere (d + 1) => Real.exp (κ * ⟪m.val, x.val⟫_ℝ)
-    (uniformSphereMeasure (d + 1)).withDensity
-      (fun x => ENNReal.ofReal (f x / ∫ y, f y ∂uniformSphereMeasure (d + 1)))
+def vonMisesFisherMeasure (d : ℕ) (m : UnitSphere d) (κ : ℝ) : Measure (UnitSphere d) :=
+  if 2 ≤ d ∧ 0 ≤ κ then
+    let f := fun x : UnitSphere d => Real.exp (κ * ⟪m.val, x.val⟫_ℝ)
+    (uniformSphereMeasure d).withDensity
+      (fun x => ENNReal.ofReal (f x / ∫ y, f y ∂uniformSphereMeasure d))
   else 0
 
-theorem vonMisesFisherMeasure_zero (d : ℕ) (m : UnitSphere (d + 1)) :
-    vonMisesFisherMeasure d m 0 = uniformSphereMeasure (d + 1) := by sorry
+theorem vonMisesFisherMeasure_zero {d : ℕ} (hd : 2 ≤ d) (m : UnitSphere d) :
+    vonMisesFisherMeasure d m 0 = uniformSphereMeasure d := by sorry
 
 theorem measurable_vonMisesFisherMeasure (d : ℕ) :
-    Measurable fun p : UnitSphere (d + 1) × ℝ => vonMisesFisherMeasure d p.1 p.2 := by sorry
+    Measurable fun p : UnitSphere d × ℝ => vonMisesFisherMeasure d p.1 p.2 := by sorry
+
+local instance : Fact (0 < (2 * Real.pi : ℝ)) := ⟨by positivity⟩
+
+def circleHaarProbability : Measure (AddCircle (2 * Real.pi)) :=
+  ProbabilityTheory.cond (volume : Measure (AddCircle (2 * Real.pi))) Set.univ
+
+theorem circleHaarProbability_eq_smul_volume :
+    circleHaarProbability = (ENNReal.ofReal (2 * Real.pi))⁻¹ • volume := by sorry
+
+theorem isProbabilityMeasure_circleHaarProbability :
+    IsProbabilityMeasure circleHaarProbability := by sorry
 
 def owensT (h a : ℝ) : ℝ :=
   (2 * Real.pi)⁻¹ * ∫ t in (0 : ℝ)..a, Real.exp (-h ^ 2 * (1 + t ^ 2) / 2) / (1 + t ^ 2)
