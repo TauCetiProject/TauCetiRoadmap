@@ -26,7 +26,7 @@ Walk, isomorphism, deletion, bridge, and block foundations assume no finiteness;
 | 8. Circulations and bounded flows | Hoffman and infeasibility certificates, exact and interval excess, assignment shifts, residual adjustments, extremal terminal values, integrality, rounding, and prescribed and bounded indegree orientations (8.8) | 3, 4 |
 | 9. Cut trees | Gomory–Hu and recovery of minimum cuts; edge-connectivity queries | 4.1, 4.3 for cut trees; 5 for edge-connectivity queries |
 
-Each milestone includes the elementary lemmas needed to use its definitions: constructors, extensionality where appropriate, membership and support lemmas, monotonicity, restriction, and invariance under isomorphism.
+Each milestone supplies the **common basic API** needed to use its definitions: constructors, extensionality where appropriate, membership and support lemmas, monotonicity, restriction, and invariance under isomorphism.
 The targets specify additional API and required proved examples.
 **Why:** explains a design choice; **Suggested proof:** gives nonbinding proof guidance, set as a block quote when longer than one sentence.
 Neither adds requirements.
@@ -243,7 +243,7 @@ Transport the directed connectivity and Menger statements of Milestones 5 and 6 
 
 ### 1.2. Cuts, separators, and path families
 
-Develop multigraph cuts and separators with membership lemmas, complements, restriction to induced subgraphs, edge and vertex deletion, and invariance under graph isomorphisms.
+Develop multigraph cuts and separators with complements, restriction to induced subgraphs, and edge and vertex deletion.
 A cut is a subset of the actual vertices; its boundary is the set of actual edges with one endpoint on each side.
 Prove symmetry, absence of loops from the boundary, and the cardinality and capacity formulas with parallel edges.
 The cut, separator, boundary, and path-family results assume no finiteness; the cardinality, capacity, and aggregation formulas assume a finite graph.
@@ -305,7 +305,7 @@ Build the following network constructions generically in their capacities; [Targ
 
 The definitions and structural predicate lemmas assume no finiteness; the statements about finite numerical invariants and incidence counts carry the hypotheses specified below.
 
-For the deletion predicates, supply the lemmas missing from Mathlib and from [#33355](https://github.com/leanprover-community/mathlib4/pull/33355), following their shapes: threshold monotonicity, graph monotonicity on a fixed carrier, isomorphism invariance, the zero and one cases, and the relationship between local and global statements.
+For the deletion predicates, supply the lemmas missing from Mathlib and from [#33355](https://github.com/leanprover-community/mathlib4/pull/33355), following their shapes: threshold monotonicity, graph monotonicity on a fixed carrier, the zero and one cases, and the relationship between local and global statements.
 `SimpleGraph.IsEdgeReachable.mono`, `isEdgeReachable_one`, and `IsEdgeReachable.trans` already exist and are reused.
 For native multigraph local edge reachability, prove reflexivity, symmetry, and transitivity without finiteness assumptions, so that each threshold defines an equivalence relation.
 Global graph monotonicity for multigraphs requires the same actual vertex set, not merely the same ambient vertex type.
@@ -321,7 +321,7 @@ Prove the subsingleton conventions of the [path conventions](#paths-separators-a
 For finite actual edge sets, develop incidence counts using Mathlib's `G.incidenceSet v` and `G.loopSet v`.
 The nonloop incident-edge count is `(G.incidenceSet v ∖ G.loopSet v).ncard`; parallel edges count separately.
 Also supply the count of all incident edges, counting a loop once, and the counts of edges internal to or incident with a vertex set, again counting each edge identity once.
-Prove membership, edge-deletion and disjoint-union formulas, isomorphism invariance, and compatibility with simple-graph degree on `Graph.ofSimpleGraph`.
+Prove edge-deletion and disjoint-union formulas and compatibility with simple-graph degree on `Graph.ofSimpleGraph`.
 On loopless graphs the two vertex counts agree; Target 6.9 uses this count as degree, while Target 8.8 counts a loop once toward indegree.
 
 **Required examples:**
@@ -548,37 +548,32 @@ Submodularity, the lattice, and the non-crossing lemmas rest on Milestone 1 alon
 ### 5.1. Path–separator duality
 
 All versions assume finitely many actual vertices.
-Edge-disjoint versions also assume finitely many actual edges or arrows; the vertex versions have only the additional finiteness hypotheses explicitly stated below.
-Include the `Digraph` corollaries of the directed versions through the adapter of [Target 1.1](#11-undirected-walks-isomorphisms-and-representation-bridges).
+Edge-disjoint versions also require finite edge or arrow sets; vertex versions do not, except that adjacent-terminal Menger requires finite direct terminal edges or arrows.
+Give every version for multigraphs and directed networks, with `SimpleGraph` and `Digraph` corollaries through [Target 1.1](#11-undirected-walks-isomorphisms-and-representation-bridges), retaining actual edge or arrow identities in path witnesses.
 
-State Menger's path–separator equalities in **witness form**: there exist a family of `k` pairwise disjoint paths and a separator of size `k`, for some `k`, and every family of disjoint paths is no larger than every separator.
-For adjacent terminals, use the multiplicity correction specified under **Adjacent terminals** below in both the witnesses and the inequality.
+For every version, prove **attainment and weak duality**: some admissible path family or packing has size equal to a separator's cardinality or specified weight, and every admissible family or packing has size at most every separator's cardinality or weight.
+For adjacent terminals, add the correction `m` below to the separator size in both statements.
 **Why:** numerical connectivity invariants alone supply neither attaining witnesses nor their optimality certificates.
 
-- **Local edge Menger:** for distinct terminals `s, t`, a family of pairwise edge-disjoint `s–t` paths and a set of edges whose deletion destroys `s–t` reachability, of the same size, together with the inequality between any family and any such edge set.
-  Give directed-network and multigraph versions, and derive the `SimpleGraph` statements using Milestone 1.
-- **Local vertex Menger:** for distinct nonadjacent terminals, the same with internally vertex-disjoint paths and terminal-excluding vertex separators.
-  Give directed-network and multigraph versions with the [adjacency convention](#paths-separators-and-connectivity), returning actual edge-labelled paths, and derive the `SimpleGraph` statements.
-  The multigraph statement requires only finitely many actual vertices: apply the simple-graph theorem to the simplification and lift its finite path family.
-  The directed statement likewise requires only a finite vertex type: apply the finite-network theorem to the arrow family with one arrow per inhabited `Q v w` and lift its path family by choosing arrows.
-- **Vertex-capacitated Menger:** for distinct terminals `s, t`, nonadjacent in the multigraph case and with no arrow `s → t` in the directed case, and vertex capacities `c : V → ℕ`, a **packing** is a finite indexed family of `s–t` paths, repetitions allowed, in which every vertex other than the terminals lies on at most `c v` members counted with repetition; a terminal-excluding vertex separator `X` has weight `∑ v ∈ X, c v`.
-  Prove, in directed-network and multigraph versions with simple-graph corollaries, that some packing and some separator have equal size and weight, and that every packing is no larger than the weight of every separator.
+- **Local edge Menger:** for distinct terminals `s, t`, use pairwise edge-disjoint `s–t` paths and sets of edge or arrow identities whose deletion destroys `s–t` reachability.
+- **Local vertex Menger:** for distinct nonadjacent terminals, use internally vertex-disjoint paths and terminal-excluding vertex separators, following the [directed adjacency convention](#paths-separators-and-connectivity).
+- **Vertex-capacitated Menger:** under the same terminal assumptions and with capacities `c : V → ℕ`, a **packing** is a finite indexed family of `s–t` paths, repetitions allowed, in which each nonterminal vertex `v` occurs in at most `c v` members counted with repetition.
+  A terminal-excluding vertex separator `X` has weight `∑ v ∈ X, c v`.
   The local vertex Menger statements are the case `c = 1`: a packing is then a family of distinct internally vertex-disjoint paths, since two members sharing an internal vertex would exceed its capacity and the adjacency hypothesis excludes members without internal vertices.
-  This is a vertex-only target: the multigraph and directed versions assume no finiteness of edge or arrow types, since passing to one arrow per inhabited pair preserves vertex usage and repeated members are already permitted.
 - **Adjacent terminals:** let `D` be the set of all edges joining distinct terminals `s,t`, and let `m = |D|`.
-  Give both multigraph and directed versions; in the directed version, `D` consists exactly of the arrows `s → t`, and arrows `t → s` are retained and do not contribute to `m`.
-  Assume finitely many actual vertices and only that `D` is finite; all other edge or arrow types may be infinite.
+  In the directed version, `D` consists exactly of arrows `s → t`; arrows `t → s` are retained and do not contribute to `m`.
   After deleting all of `D`, a terminal-excluding vertex separator of size `k` and a family of `k + m` internally vertex-disjoint paths in the original graph attain equality, for some `k`.
-  The family includes the `m` distinct one-edge paths, and every such family has size at most `|X| + m` for every separator `X` in the graph with `D` deleted.
+  The attaining family includes all `m` distinct one-edge paths; weak duality bounds every internally vertex-disjoint family by `|X| + m` for every separator `X` after deleting `D`.
   The simple-graph corollary has `m = 1` and hence `k + 1` paths, including for the single-edge graph where `k = 0`.
-- **Set-to-set Menger:** the same for vertex-disjoint `A`–`B` paths against vertex sets meeting every `A`–`B` path, with the [overlap convention](#paths-separators-and-connectivity), in directed-network and multigraph versions, with simple-graph corollaries; and edge versions for disjoint terminal sets.
-  The multigraph and directed vertex versions likewise require no finiteness of the edge or arrow types; the edge versions retain that hypothesis.
+- **Set-to-set Menger:** use vertex-disjoint `A`–`B` paths and vertex sets meeting every such path, with the [overlap convention](#paths-separators-and-connectivity).
+  Also give the edge-disjoint version for disjoint terminal sets, with edge or arrow separators and shared endpoints allowed.
 - **Vertex-capacitated set-to-set Menger:** for arbitrary terminal sets `A, B` and capacities `c : V → ℕ`, a packing is a finite indexed family of `A–B` paths with repetition, whose interiors avoid `A ∪ B`, such that each vertex `v`, including endpoints, belongs to at most `c v` members counted with repetition.
   A separator may meet the terminal sets and has weight `∑ v ∈ X, c v`.
-  Prove attainment by a packing and separator of equal size and weight, and the inequality between every packing and every separator, in directed and multigraph versions with simple-graph corollaries.
-  These are vertex-only targets, requiring finite actual vertices but no finite edge or arrow types.
   Recover vertex-disjoint set-to-set Menger at `c = 1`; for `v ∈ A ∩ B`, a zero-length path may be repeated up to `c v` times, and every separator contains `v` even when `c v = 0`.
   Include empty terminal sets and zero capacities.
+
+To obtain vertex versions without finite edge or arrow sets, use simplification or one arrow per inhabited `Q v w`, then lift paths by choosing actual edges or arrows.
+Prove preservation of vertex usage and separators, allowing repeated paths in capacitated packings; handle direct edges separately in the adjacent-terminal case.
 
 Derive the predicate forms for distinct terminals: local edge reachability at threshold `k` is equivalent to the existence of `k` edge-disjoint paths; local vertex reachability has the analogous equivalence under the nonadjacency hypothesis.
 Relate local edge reachability to cuts as well: for distinct actual vertices `s,t`, `G.IsEdgeReachable k s t` holds exactly when `k` is at most the minimum `s–t` cut value, in `ℕ`, with capacity `1` on each actual edge.
@@ -679,15 +674,15 @@ Include zero capacities, isolated vertices, empty sides, and the empty graph.
 
 **API and correspondences.**
 
-Supply the bipartition interface, its restriction under edge deletion, and its transport under graph isomorphisms.
+Supply the bipartition interface with restriction under edge deletion and the common basic API.
 On `Graph.ofSimpleGraph H`, identify a covering bipartition with `H.IsBipartiteWith L R` together with `L ∪ R = Set.univ`, using the vertex correspondence of Target 1.1.
 Mathlib's `IsBipartiteWith` alone permits isolated vertices outside both sides.
-Build the reusable API: zero matching, extensionality, restriction to selected edges, monotonicity in vertex capacities, addition under added capacities, usage and size formulas, saturation of a vertex or side, and transport under graph isomorphisms.
+For matchings, supplement the common basic API with zero matching, restriction to selected edges, monotonicity in vertex capacities, addition under added capacities, usage and size formulas, and saturation of a vertex or side.
 Prove that the total usage on either bipartition side equals the matching size.
 At `b = 1`, identify these objects with ordinary edge matchings, with no repeated edges, and transport the result to `SimpleGraph.Subgraph.IsMatching`, `SimpleGraph.IsVertexCover`, and the extremality interfaces of [#33032](https://github.com/leanprover-community/mathlib4/pull/33032).
 Represent an ordinary multigraph matching by selected actual edges with pairwise disjoint endpoint sets and no loops; its associated subgraph has exactly their endpoints as vertices, without isolated vertices.
 Supply the edge-set/subgraph correspondence and perfect-matching predicate, where every actual vertex is incident to exactly one selected edge.
-Build the missing finite matching and cover API here, including attainment and the matching–cover inequality.
+Build the missing finite matching and cover API here.
 
 Supply the matching-to-packing and cover-to-separator correspondences for vertex-capacitated set-to-set Menger with `A = L`, `B = R`, and `c = b`.
 Such trimmed paths have length one because `L ∪ R` contains every vertex, so repeated paths encode precisely the edge multiplicities.
@@ -724,7 +719,7 @@ Derive the simple-graph results using `SimpleGraph.IsRegularOfDegree` and `Subgr
 A proper edge-colouring with colour type `C` assigns a colour to every actual edge, with distinct incident edges receiving different colours.
 Build the simple line graph whose vertices are actual edge identities and whose adjacency means distinct edges sharing an endpoint, with adjacency lemmas and compatibility with `SimpleGraph.lineGraph`.
 Express edge-colourings as colourings of this line graph, following the upstream interface.
-Use Mathlib's `Graph.Loopless` hypothesis for the following API: extensionality, injective relabelling of colours, restriction to edge-deleted subgraphs, transport under graph isomorphisms, and the equivalence between colourings and partitions into matchings.
+Use Mathlib's `Graph.Loopless` hypothesis for the common basic API, injective relabelling of colours, restriction to edge-deleted subgraphs, and the equivalence between colourings and partitions into matchings.
 For every `k : ℕ`, prove **Kőnig's edge-colouring theorem** in the form: a finite bipartite multigraph admits a proper edge-colouring by `Fin k` if and only if every vertex has degree at most `k`.
 Equivalently, its edges can be partitioned into `k` matchings, with empty colour classes allowed; for `k = 0` this is exactly the edgeless case.
 Deduce that the least number of colours is the maximum degree, defining that maximum to be zero for an empty vertex set.
@@ -800,8 +795,9 @@ Derive the simple-graph statements through the orientation equivalence of Milest
 
 Targets 8.1–8.7 concern finite vertex and arrow types.
 Only `ℓ ≤ u` is required for their bounds; both bounds and arrow values may be negative.
-Develop bounded assignments with prescribed excess, their circulation specialization, and bounded terminal assignments using the common network representation and residual construction.
-Supply extensionality, restriction to connected components, behavior under disjoint unions, bound relaxation, arrow reversal, and transport under network isomorphisms and coefficient embeddings.
+Develop exact-excess assignments, their circulation specialization, and bounded terminal assignments using the common network and residual constructions.
+Supply extensionality, component restriction, disjoint unions, bound relaxation, arrow reversal, and transport under network isomorphisms and coefficient embeddings.
+The extensionality, component, disjoint-union, and network-isomorphism API also applies to interval excess.
 For componentwise feasibility, explicitly recover that the sum of prescribed excess on each underlying undirected component must be zero.
 
 ### 8.1. Signed circulation algebra and assignment shifts
@@ -854,7 +850,7 @@ For balanced `b'`, prove the required flow value is `∑ v, max b'(v) 0`, and th
 ### 8.3. Interval excess
 
 For finite vertex bounds `a ≤ b`, develop assignments with `a v ≤ excess f v ≤ b v` on the same bounded-assignment carrier as exact excess.
-Supply extensionality, vertex-bound relaxation, component restriction and disjoint unions, network-isomorphism transport, assignment shifts, and the equal-endpoint equivalence with exact excess, preserving every arrow value.
+In addition to the common API and shifts of Target 8.1, supply vertex-bound relaxation and the equal-endpoint equivalence with exact excess, preserving every arrow value.
 Construct a network on the original vertices together with one fresh vertex `r`, retaining all original arrows and adding one arrow `v → r` with bounds `[a(v), b(v)]` for each original vertex.
 Prove an equivalence with circulations on this network: the auxiliary arrow at `v` carries exactly the original excess at `v`, and conservation at `r` follows from total excess zero.
 Prove both round trips and the original-arrow and auxiliary-arrow formulas, including for empty vertex types and loops.
@@ -935,7 +931,7 @@ Let `G` be a finite multigraph, allowing loops and parallel edges, and let `o` b
 Define `indegree(o,v)` to count actual edges whose chosen head is `v`; a loop contributes one.
 Use the incidence API of Target 1.5: `E(S)` is the set of actual edges with both endpoints in `S`, and `I(S)` is the set of actual edges with at least one endpoint in `S`, each edge counted once.
 For a natural-valued vertex function `d`, write `d(S) = ∑ v ∈ S, d(v)`.
-Supply the indegree and outdegree sum identities, restriction under edge deletion, reversal exchanging indegree and outdegree, disjoint-union formulas, and transport under graph isomorphisms and the simple-graph orientation equivalence.
+Supply the indegree and outdegree sum identities, restriction under edge deletion, reversal exchanging indegree and outdegree, disjoint-union formulas, and transport through the simple-graph orientation equivalence.
 In particular, `∑ v, indegree(o,v) = |E(G)|`, including loops.
 
 Prove **Hakimi's prescribed-indegree theorem**: an orientation with `indegree(o,v) = d(v)` for every vertex exists if and only if
