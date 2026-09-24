@@ -432,42 +432,84 @@ theorem Flow.wellFounded_val_lt : WellFounded (fun g f : Flow Q cap s t => f.val
 
 end Termination
 
-/-! ## Real-valued corollaries (Target 3.4) -/
+/-! ## Nonnegative coefficient interfaces (Target 3.4) -/
 
-section Real
-
-open NNReal
+section NonnegativeCoefficients
 
 variable (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
-variable (cap : Assignment Q ℝ≥0) {s t : V}
+variable (cap : Assignment Q (Nonneg K)) {s t : V}
 
-/-- Flows for `ℝ≥0` capacities are the real flows for their coercion. -/
-abbrev NNRealFlow (s t : V) := Flow Q (fun {_ _} e => (cap e : ℝ)) s t
+/-- Nonnegative capacities use the ordinary flow type over the ambient coefficient group. -/
+abbrev NonnegFlow (s t : V) := Flow Q (fun {_ _} e => (cap e : K)) s t
 
-/-- The arrow values of such a flow, as nonnegative reals. -/
-def NNRealFlow.nnFlow (f : NNRealFlow Q cap s t) : Assignment Q ℝ≥0 :=
+def NonnegFlow.nonnegAssignment (f : NonnegFlow Q cap s t) : Assignment Q (Nonneg K) :=
   fun {_ _} e => ⟨f.toFun e, f.lower_le e⟩
 
-@[simp] theorem NNRealFlow.coe_nnFlow (f : NNRealFlow Q cap s t)
-    {v w : V} (e : Q v w) : (NNRealFlow.nnFlow Q cap f e : ℝ) = f.toFun e := rfl
+omit [IsOrderedAddMonoid K] in
+@[simp] theorem NonnegFlow.coe_nonnegAssignment (f : NonnegFlow Q cap s t)
+    {v w : V} (e : Q v w) :
+    (NonnegFlow.nonnegAssignment Q cap f e : K) = f.toFun e := rfl
 
-theorem NNRealFlow.nnFlow_le_cap (f : NNRealFlow Q cap s t)
-    {v w : V} (e : Q v w) : NNRealFlow.nnFlow Q cap f e ≤ cap e :=
+omit [IsOrderedAddMonoid K] in
+theorem NonnegFlow.nonnegAssignment_le_cap (f : NonnegFlow Q cap s t)
+    {v w : V} (e : Q v w) : NonnegFlow.nonnegAssignment Q cap f e ≤ cap e :=
   f.le_upper e
 
-@[simp] theorem coe_nnreal_arrowCutCapacity [DecidableEq V] (S : Finset V) :
-    ((arrowCutCapacity Q cap S : ℝ≥0) : ℝ) =
-      arrowCutCapacity Q (fun {_ _} e => (cap e : ℝ)) S := by
+@[simp] theorem coe_nonneg_arrowCutCapacity [DecidableEq V] (S : Finset V) :
+    ((arrowCutCapacity Q cap S : Nonneg K) : K) =
+      arrowCutCapacity Q (fun {_ _} e => (cap e : K)) S := by
+  simp only [arrowCutCapacity, ← Nonneg.coeAddMonoidHom_apply, map_sum]
+
+theorem exists_nonneg_flow_cut_value_eq [DecidableEq V] (hst : s ≠ t) :
+    ∃ (f : NonnegFlow Q cap s t) (S : Finset V),
+      s ∈ S ∧ t ∉ S ∧ f.val = ((arrowCutCapacity Q cap S : Nonneg K) : K) := by
+  simpa only [coe_nonneg_arrowCutCapacity] using
+    exists_flow_cut_value_eq Q (fun {_ _} e => (cap e : K))
+      (fun {_ _} e => (cap e).property) hst
+
+theorem exists_max_nonneg_flow_mem_addSubgroup (hst : s ≠ t)
+    (H : AddSubgroup K) (hcapH : ∀ {v w} (e : Q v w), (cap e : K) ∈ H) :
+    ∃ f : NonnegFlow Q cap s t, (∀ {v w} (e : Q v w), f.toFun e ∈ H) ∧
+      ∀ g : NonnegFlow Q cap s t, g.val ≤ f.val := by
+  classical
+  exact exists_max_flow_mem_addSubgroup Q (fun {_ _} e => (cap e : K))
+    (fun {_ _} e => (cap e).property) hst H hcapH
+
+end NonnegativeCoefficients
+
+section NaturalCoefficients
+
+variable (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
+variable (cap : Assignment Q ℕ) {s t : V}
+
+abbrev NatFlow (s t : V) := Flow Q (fun {_ _} e => (cap e : ℤ)) s t
+
+def NatFlow.natAssignment (f : NatFlow Q cap s t) : Assignment Q ℕ :=
+  fun {_ _} e => (f.toFun e).toNat
+
+@[simp] theorem NatFlow.coe_natAssignment (f : NatFlow Q cap s t)
+    {v w : V} (e : Q v w) :
+    (NatFlow.natAssignment Q cap f e : ℤ) = f.toFun e :=
+  Int.toNat_of_nonneg (f.lower_le e)
+
+theorem NatFlow.natAssignment_le_cap (f : NatFlow Q cap s t)
+    {v w : V} (e : Q v w) : NatFlow.natAssignment Q cap f e ≤ cap e := by
+  apply Int.ofNat_le.mp
+  simpa only [NatFlow.coe_natAssignment] using f.le_upper e
+
+@[simp] theorem coe_nat_arrowCutCapacity [DecidableEq V] (S : Finset V) :
+    ((arrowCutCapacity Q cap S : ℕ) : ℤ) =
+      arrowCutCapacity Q (fun {_ _} e => (cap e : ℤ)) S := by
   simp [arrowCutCapacity]
 
-theorem exists_nnreal_flow_cut_value_eq [DecidableEq V] (hst : s ≠ t) :
-    ∃ (f : NNRealFlow Q cap s t) (S : Finset V),
-      s ∈ S ∧ t ∉ S ∧ f.val = ((arrowCutCapacity Q cap S : ℝ≥0) : ℝ) := by
-  simpa only [coe_nnreal_arrowCutCapacity] using
-    exists_flow_cut_value_eq Q (fun {_ _} e => (cap e : ℝ))
-      (fun {_ _} e => (cap e).coe_nonneg) hst
+theorem exists_nat_flow_cut_value_eq [DecidableEq V] (hst : s ≠ t) :
+    ∃ (f : NatFlow Q cap s t) (S : Finset V),
+      s ∈ S ∧ t ∉ S ∧ f.val = ((arrowCutCapacity Q cap S : ℕ) : ℤ) := by
+  simpa only [coe_nat_arrowCutCapacity, coe_nonneg_arrowCutCapacity] using
+    exists_nonneg_flow_cut_value_eq Q
+      (fun {_ _} e => (⟨(cap e : ℤ), Int.natCast_nonneg _⟩ : Nonneg ℤ)) hst
 
-end Real
+end NaturalCoefficients
 
 /-! ## Large capacities (Target 3.2) -/
 

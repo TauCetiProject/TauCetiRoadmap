@@ -18,7 +18,7 @@ Walk, isomorphism, deletion, bridge, and block foundations assume no finiteness;
 | --- | --- | --- |
 | 1. Shared foundations | Walks and representation bridges (1.1), cuts and path families (1.2), excess calculus and residual updates (1.3), splitting and auxiliary terminals (1.4), deletion predicates and invariants (1.5) | Existing Mathlib and Tau Ceti APIs |
 | 2. Bridges and blocks | Multigraph bridges; cut-vertex criteria and block–cut forest | 1 |
-| 3. Flows | Decomposition, augmentation, max-flow/min-cut, integrality, and termination (3.1), large capacities (3.2), terminal sets and undirected networks (3.3), real-valued corollaries (3.4), mixed vertex and arrow capacities (3.5) | 1 |
+| 3. Flows | Decomposition, augmentation, max-flow/min-cut, integrality, and termination (3.1), large capacities (3.2), terminal sets and undirected networks (3.3), nonnegative coefficient interfaces (3.4), mixed vertex and arrow capacities (3.5) | 1 |
 | 4. Minimum cuts | Terminal-set cut lattices (4.1), canonical cuts (4.2), and non-crossing lemmas (4.3) | 1 for 4.1 and 4.3; 1, 3 for 4.2 |
 | 5. Menger | Path–separator duality (5.1) and the reductions to max-flow (5.2) | 1, 3, 4 |
 | 6. Connectivity and matching consequences | Whitney inequalities and cycle criteria, preservation lemmas, fans, Dirac's cycle theorem, multiset capacitated Kőnig and Hall, regular bipartite decomposition and edge-colouring | 2, 5 |
@@ -58,7 +58,7 @@ Each entry identifies the part relevant to this roadmap; the conventions and tar
   A map forgetting those directions identifies distinct walks: a graph with one vertex and one loop has two length-one walks in that construction and one here.
   The general `GraphLike` hierarchy is outside this roadmap's scope.
 - [#43017: network flows](https://github.com/leanprover-community/mathlib4/pull/43017): quivers with capacities and flow assignments indexed by arrows.
-  Arrow indexing retains parallel edges; this roadmap develops finite sums over general coefficients, with the real-valued specialization in Target 3.4.
+  Arrow indexing retains parallel edges; this roadmap develops finite sums over general coefficients, with nonnegative coefficient interfaces in Target 3.4.
 - [#34028: weak max-flow/min-cut duality](https://github.com/leanprover-community/mathlib4/pull/34028): an undirected flow formulation on simple graphs.
   Undirected flow applications use the bidirected network, with no separate undirected flow type, so this roadmap takes only the statement shapes from that proposal.
 - [#33032: Kőnig's theorem](https://github.com/leanprover-community/mathlib4/pull/33032): matchings as subgraphs, vertex covers, and the equality between the sizes of maximum matchings and minimum covers.
@@ -456,12 +456,17 @@ Derive the `SimpleGraph` statement for `Sym2`-indexed capacities through `Graph.
 - Terminal sets with several vertices on each side, one of them empty, verifying the value formula and the auxiliary-terminal correspondence.
 - A weighted multigraph with parallel edges and a loop, with a bidirected flow using both directions of one edge and its normalization.
 
-### 3.4. Real-valued corollaries
+### 3.4. Nonnegative coefficient interfaces
 
-For `K = ℝ`, expose flows with `ℝ≥0`-valued capacities as ordinary flows for their coercion to `ℝ`, with arrow values in `ℝ≥0` by nonnegativity.
-Supply coercion lemmas recovering the real arrow assignment, its capacity bounds, and the equality between real cut capacity and the coercion of the cut capacity computed in `ℝ≥0`.
-Keep excess and flow value in `ℝ`, and state max-flow/min-cut and additive-subgroup integrality for these capacities using the generic theory.
+For the coefficient group `K`, use Mathlib's [`Nonneg K`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Order/Nonneg/Basic.html#Nonneg), the subtype `{k : K // 0 ≤ k}`, for nonnegative capacities and arrow values.
+Expose flows for these capacities as ordinary flows over `K` for the coerced capacities, with their arrow values bundled into `Nonneg K` using nonnegativity.
+Supply coercion lemmas recovering the `K`-valued assignment, its capacity bounds, and the equality between cut capacity in `K` and the coercion of cut capacity computed in `Nonneg K`, reusing `Nonneg.coeAddMonoidHom` for finite sums.
+Keep excess and flow value in `K`, and derive max-flow/min-cut and additive-subgroup integrality for these capacities from the generic theory, with no additional algebraic assumptions.
+Supply the `ℚ≥0` and `ℝ≥0` interfaces by specialization, and the `ℕ` interface by identifying `Nonneg ℤ` with `ℕ` through integer coercion and `Int.toNat`.
+For natural capacities, recover natural arrow values and prove the round-trip, bound, and cut-sum formulas; excess remains integer-valued.
 **Why:** nonnegative capacities can use their natural subtype while excess retains the additive-group operations needed for conservation and residual updates.
+
+**Required examples:** a network with natural capacities returning natural arrow values, and networks with fractional rational and real capacities, verifying the coercion and cut-value formulas.
 
 ### 3.5. Mixed vertex and arrow capacities
 
