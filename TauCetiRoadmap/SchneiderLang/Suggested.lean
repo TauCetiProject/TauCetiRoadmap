@@ -436,9 +436,16 @@ theorem transcendental_of_isAlgebraic_exp {x : ℂ} (hx : x ≠ 0)
     (h : IsAlgebraic ℚ (Complex.exp x)) : Transcendental ℚ x :=
   sorry
 
-/-- **Layer 6.3, Hermite–Lindemann**, for the exponential of an algebraic number. -/
-theorem transcendental_exp_of_isAlgebraic {β : ℂ} (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0) :
-    Transcendental ℚ (Complex.exp β) :=
+/-- **Layer 6.3, Hermite–Lindemann**, for the exponential of an algebraic number, with the name
+and statement of Mathlib PR #28013. -/
+theorem transcendental_exp {a : ℂ} (a0 : a ≠ 0) (ha : IsAlgebraic ℤ a) :
+    Transcendental ℤ (Complex.exp a) :=
+  sorry
+
+/-- **Layer 6.3, Hermite–Lindemann**, for the principal logarithm of an algebraic number, with
+the name and statement of Mathlib PR #28013. -/
+theorem transcendental_log {u : ℂ} (hu0 : Complex.log u ≠ 0) (hu : IsAlgebraic ℤ u) :
+    Transcendental ℤ (Complex.log u) :=
   sorry
 
 /-- **Layer 6.4, Gelfond–Schneider**, branch-free. -/
@@ -518,9 +525,11 @@ end Layer7
 
 /-! ## Worked examples -/
 
-theorem transcendental_exp_one : Transcendental ℚ (Real.exp 1) := sorry
+/-- `e`, with the name and statement of Mathlib PR #28013. -/
+theorem transcendental_e : Transcendental ℤ (Complex.exp 1) := sorry
 
-theorem transcendental_pi : Transcendental ℚ Real.pi := sorry
+/-- `π`, with the name and statement of Mathlib PR #28013. -/
+theorem transcendental_pi : Transcendental ℤ Real.pi := sorry
 
 theorem transcendental_exp_pi : Transcendental ℚ (Real.exp Real.pi) := sorry
 
