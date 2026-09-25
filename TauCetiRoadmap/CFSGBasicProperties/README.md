@@ -28,10 +28,11 @@ recompute their proofs by unfolding the four-way index.
 ## Starting points and ownership
 
 - CFSGStatement owns `CFSGIndex`, its validity ranges, its seventeen Lie-type constructors,
-  `ValidLieTypeIndex.Group`, `SporadicName.presentation`, `SporadicName.Group`, and the carrier
-  identifications L4 and L5. This roadmap consumes those definitions. In particular, L5 matches
-  explicit Lie carriers to pinned Chevalley–Demazure points and intertwines their Steinberg maps;
-  the present roadmap builds the *finite fixed-point* and *simplicity* theory of those points.
+  `ValidLieTypeIndex.Group`, `SporadicName.presentation`, and `SporadicName.Group`. This roadmap
+  proves properties directly for the explicit Lie carriers in those definitions. CFSGStatement
+  separately owns L4 and L5, which identify them with pinned Chevalley–Demazure points and
+  intertwine their Steinberg maps. Those identifications can transport reusable results, but
+  they are not prerequisites for the basic-property theorems.
 - The [ReductiveGroups roadmap](../ReductiveGroups/README.md) owns general Borel, root-datum,
   Bruhat, and pinned group-scheme theory (Layers 7–9). The present roadmap owns the finite-field
   descent of a Steinberg map, the BN-pair and root-group calculus on its **finite fixed points**,
@@ -58,12 +59,12 @@ the source calls it a finite group, does not discharge an item.
 | F0: finite fixed-point criterion | Mathlib finite fields and matrices | a reusable theorem bounding Steinberg fixed points by finite matrix coordinates |
 | F1: all Lie-type groups finite | F0, CFSGStatement L1–L3 | `Finite d.FixedPoints` and `Finite d.Group` for each of the seventeen constructors |
 | T0: abstract simplicity machinery | `TauCeti.TitsSystem`, Mathlib group actions | a normal-subgroup/simplicity criterion for a split BN-pair with root groups |
-| T1: fixed-point root calculus | T0, ReductiveGroups Layers 7–9, CFSGStatement L5 | BN-pairs, root groups, and their local relations for the ordinary and graph-twisted families |
+| T1: fixed-point root calculus | T0, ReductiveGroups Layers 7–9, CFSGStatement L1–L3 | ambient generation, Steinberg descent, BN-pairs, and root relations for the ordinary and graph-twisted families |
 | T2: ordinary and graph-twisted simplicity | T1, F1 | `IsSimpleGroup d.Group` on those thirteen constructors, including valid small fields |
-| T3: Suzuki, Ree, and Tits simplicity | T0, F1, CFSGStatement L2–L5 | `IsSimpleGroup d.Group` on all four half-Frobenius constructors |
-| P0: presentation certificate tools | Mathlib presentations, CFSGStatement S0 | sound finite-index, normal-form, and finite-action certificate checkers |
+| P0: presentation and action certificate tools | Mathlib presentations, CFSGStatement S0 | sound finite-index, normal-form, finite-action, and normal-closure certificate checkers |
+| T3: Suzuki, Ree, and Tits simplicity | T0, F1, P0, CFSGStatement L2–L3 | `IsSimpleGroup d.Group` on all four half-Frobenius constructors |
 | P1: externally constructed sporadics | P0, CFSGStatement S1 | proved recognition and basic properties for the fourteen names with existing Lean permutation models |
-| P2: remaining sporadics | P0, P1, CFSGStatement S1 | certified finiteness and simplicity for the other twelve presented groups |
+| P2: remaining sporadics | P0, P1, CFSGStatement S1, AlgebraicCodingTheory Golay code | explicit finite models, recognition, and simplicity for the other twelve presented groups |
 | A0: assembly | E0, F1, T2, T3, P1, P2 | the two uniform `CFSGIndex` theorems above |
 
 The rows are mathematical dependencies, not a requirement for one PR per row. The finite-field,
@@ -104,9 +105,10 @@ for use by the simplicity proofs without unfolding the entire dispatcher.
 ## T0: a reusable simplicity criterion
 
 Extend `TauCeti.TitsSystem` with distinct Bruhat cells, its Coxeter graph, standard parabolics,
-and the split structure `B = U ⋊ (B ∩ N)`. Prove the Tits normal-subgroup criterion in the
-following form. Put `Z = ⋂_{h : H} hBh⁻¹` and let `H⁺` be the normal closure in `H` of `U`.
-If `U` is solvable, the Coxeter graph is connected and nonempty, `Z ∩ U = 1`, and `H⁺` is
+and a split structure: a solvable normal subgroup `U` of `B`, with `B = U · (B ∩ N)`.
+Prove the Tits normal-subgroup criterion in the following form. Put
+`Z = ⋂_{h : H} hBh⁻¹` and let `H⁺` be the normal closure in `H` of `U`.
+If the Coxeter graph is connected and nonempty, `Z ∩ U = 1`, and `H⁺` is
 perfect, then `Z ∩ H⁺` is its centre and `H⁺ / (Z ∩ H⁺)` is simple whenever nontrivial.
 Prove the normal-subgroup theorem behind this criterion, not merely its final typeclass
 instance. Supply transport across an isomorphism and a bridge from this quotient to
@@ -125,14 +127,19 @@ Neither criterion should require a separate order formula for the whole group.
 
 ## T1–T2: ordinary and graph-twisted groups
 
-Build the **full** root-group calculus for the pinned group and its Steinberg fixed points.
-Positive simple root subgroups already named by CFSGStatement are only the entry point: supply
-negative simple and all real-root subgroups, their finite-field parameter groups, Weyl
+Build the **full** root-group calculus on CFSGStatement's explicit ambient carriers and their
+Steinberg fixed points. Positive simple root subgroups already named there are only the entry
+point: supply negative simple and all real-root subgroups, their finite-field parameter groups, Weyl
 representatives, torus normalization, Chevalley commutator relations, and the rank-one and
-rank-two relations needed for Bruhat decomposition. Transport this structure from the pinned
-points to each explicit carrier through CFSGStatement L5, including compatibility with
-`steinberg`; an equivalence of bare groups does not establish compatibility with the fixed-point
-construction.
+rank-two relations needed for Bruhat decomposition. Prove that these root groups and the torus
+generate the **whole explicit ambient carrier**, with a Bruhat decomposition and distinct cells;
+relations checked only on a named subgroup do not suffice. Show that the Steinberg map permutes
+the ambient root data and preserves this decomposition. Prove fixed-point Bruhat descent,
+including the factorization of invariant cells and the generation of the finite fixed-point
+group by the resulting twisted root groups and torus. Establish the needed fixed-point
+factorization either by a Lang–Steinberg theorem with its hypotheses checked on the explicit
+carrier or by direct matrix-coordinate arguments. The L5 identification may shorten a proof
+only after its Steinberg compatibility has been established.
 
 For an ordinary group, take the finite-field root groups fixed by Frobenius. For a graph-twisted
 group, fold root orbits under the diagram–field map and prove the corresponding twisted root
@@ -162,12 +169,21 @@ perfectness, and discharge T0 or Mathlib's Iwasawa criterion for `suzuki m`, `re
 `reeF4 m` for **every** `m ≥ 1`. For a T0 proof, establish the same `H⁺`-to-`[H,H]`
 bridge as in T2.
 
-Treat `.tits` at field order two as its own proof case. Construct the split BN-pair on the full
-Ree `F₄` fixed-point group, identify the normal closure of its twisted positive root group
-with its derived subgroup, and apply T0 to the latter's nontrivial central quotient. The
-Tits group itself need not carry the BN-pair used in this argument. A general theorem requiring
-larger field order does not cover this entry. Conclude the four constructor-specific theorems
-and then `ValidLieTypeIndex.isSimpleGroup` by cases.
+Treat `.tits` at field order two as its own proof case. The split BN-pair on the full
+`²F₄(2)` fixed-point group does **not** give the required T0 bridge: its root-generated
+subgroup is the full group, whereas the candidate is the derived central quotient. Construct
+a concrete finite model of the latter using the
+[ATLAS 1600-point representation](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/TF42G1-p1600B0)
+of `²F₄(2)'`. First prove that the ambient root relations give a complete presentation and
+that the commutator subgroup has index two. Derive its presentation by
+Reidemeister–Schreier rewriting, identify its central quotient, and prove a Tietze equivalence with the
+[ATLAS Tits presentation](https://brauer.maths.qmul.ac.uk/Atlas/v3/exc/TF42/).
+Use P0's finite-index and action certificates to compare the presentation's upper bound with
+the order of the generated permutation group, giving a `MulEquiv` from the **exact**
+`DerivedCentralQuotient`. Certify that model's order and simplicity by a normal-closure or
+primitive-action certificate. A general theorem requiring larger field order does not cover
+this entry. Conclude the four
+constructor-specific theorems and then `ValidLieTypeIndex.isSimpleGroup` by cases.
 
 ## P0: proof-producing tools for presented groups
 
@@ -192,9 +208,13 @@ reusable, kernel-checked interfaces for:
    database label.
 4. **Simplicity certificates.** Reuse Mathlib's Iwasawa criterion when a faithful primitive
    action and abelian local subgroups exist. Supply verified stabilizer chains, transitivity,
-   primitivity/maximality, perfectness, and normal-closure lemmas needed for that criterion; for
-   other groups, verify a normal-subgroup criterion directly. Executing Magma, GAP, or a script
-   is a way to *produce* a certificate, not a proof of its soundness or of its contents.
+   primitivity/maximality, perfectness, and normal-closure lemmas needed for that criterion.
+   Also prove a reusable finite-group criterion: if certified conjugacy-class representatives
+   cover every element of prime order and each representative normally generates the group,
+   then the group is simple, once nontriviality is known. The proof uses Cauchy's theorem on
+   any nontrivial normal subgroup. Group-specific certificates must verify both coverage and
+   normal generation. Executing Magma, GAP, or a script is a way to *produce* a certificate,
+   not a proof of its soundness or of its contents.
 
 The verifier library should prove round-trip and transport lemmas for presentations, relator
 maps, quotient maps, and actions. Avoid a private “sporadic certificate” axiom or a tactic whose
@@ -224,19 +244,39 @@ theorem or importing an unlicensed copy is not a substitute for a Tau Ceti proof
 P2 covers the other twelve names, with the same `Finite`, `Nat.card`, and `IsSimpleGroup`
 deliverables: `J3`, `J4`, `Ru`, `ONan`, `Co1`, `Fi23`, `Fi24Prime`, `HN`, `Ly`, `Th`, `B`, and `M`.
 
-For each name, construct a finite realization or a finite subgroup/normal-form tower from its
-recorded presentation, check the exact presentation-to-realization map, and prove simplicity
-through a certified action or normal-subgroup argument. Use P0's compressed certificate
-interfaces for large groups. For `J4`, certify the involution-centralizer and coset-index
-data cited in its Tau Ceti presentation file: both the coset table and subgroup order must be
-checked in Lean. The `Fi24Prime` proof must certify the index-two
-Reidemeister–Schreier passage used by its presentation. The `B` and `M` proofs must connect their
-`Y₄₃₃` and `Y₄₄₃` Coxeter-plus-relator presentations to finite groups through proved
-upper-bound arguments; the Coxeter shape alone does not prove finiteness. For these two, build
-the subgroup and transitive-extension machinery needed to replay the cited Ivanov-style
-presentation proofs, rather than enumerate every group element. Group-specific constructions
-and certificates live in these twelve cases, while their soundness theorems and group-action
-criteria live in P0.
+For each name, construct a concrete realization independently of its presentation, prove that
+realization finite, check the exact presentation-to-realization map, certify a finite upper
+bound for its presented group, and prove simplicity of the realization by an action or
+normal-closure argument. A finite upper
+bound on a presentation alone does not supply a nontrivial simple target. Use P0's compressed
+certificate interfaces for large groups. For `J4`, certify the involution-centralizer order
+and its index `3,980,549,947` cited in the Tau Ceti presentation file through a compressed
+double-coset or subgroup-tower certificate; an explicit table with one row per coset is not
+the intended Lean artifact. The `Fi24Prime` proof must certify the index-two
+Reidemeister–Schreier passage used by its presentation.
+
+For `Co1`, construct the Leech lattice from the Golay-code input of
+[AlgebraicCodingTheory](../AlgebraicCodingTheory/README.md), prove its lattice and automorphism
+properties needed to obtain the concrete quotient of its automorphism group by `{±1}`.
+Prove finiteness through its faithful action on the finite set of minimal vectors, and
+identify that quotient with the `Co1` presentation. This is an upstream dependency of the
+next construction. For `M`, construct the Griess algebra and the group generated by the
+`2^{1+24}_+.Co1` action and
+triality automorphism. Formalize a finite, kernel-checked axis-orbit and stabilizer
+certificate that proves its order, following
+[Höhn–Seysen](https://arxiv.org/abs/2508.01037); the mere fact that it acts on a
+finite-dimensional algebra does not prove the group is finite. Prove Monster simplicity by
+formalizing the local normal-subgroup argument of Höhn–Seysen, which uses its visible
+`2^{1+24}_+.Co1` subgroup and triality. Construct `B` as the quotient of the centralizer of a
+`2A` involution by the involution it generates, certify its order by the corresponding
+baby-axis calculation, and give an independent simplicity proof for that quotient using P0's
+normal-closure or action criterion. Finally verify the `Y₄₄₃` and `Y₄₃₃` relators on the
+constructed generators and certify
+upper bounds for the two **presented** groups by compressed subgroup and transitive-extension
+arguments. Comparing those bounds with the concrete model orders gives the required
+`MulEquiv`s. The Coxeter shapes and the relator maps alone prove neither finiteness nor
+recognition. Group-specific constructions and certificates live in these twelve cases, while
+their soundness theorems and group-action criteria live in P0.
 
 ## A0: assemble the list properties
 
@@ -257,6 +297,9 @@ the uniform proofs. Audit the endpoint's axioms and confirm that no case uses
   for the group-theoretic interface.
 - [ATLAS of Finite Group Representations](https://brauer.maths.qmul.ac.uk/Atlas/v3/)
   for named sporadic groups, presentations, finite representations, and orders.
+- [Höhn–Seysen, *The Order of the Monster Finite Simple Group*](https://arxiv.org/abs/2508.01037)
+  for the Griess-algebra construction, Monster and Baby Monster order arguments, and
+  accompanying axis-orbit certificate data.
 - [FiniteSimpleGroups](https://github.com/KitaKen1/finite-simple-groups-lean) for independent
   formal permutation models of the fourteen P1 groups; its results require a proved
   presentation equivalence before they apply to Tau Ceti's carriers.
