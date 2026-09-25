@@ -300,8 +300,8 @@ d.simpleRootSubgroup i = rootSubgroup (DynkinType.simpleIndex _ _ i).
 There is one carrier per diagram. The graph-twisted families `²Aₙ`, `²Dₙ`, `²E₆`, `³D₄` share their
 ambient group with the untwisted family of the same diagram, and the Suzuki, Ree, and Tits
 families share theirs with `B₂`, `G₂`, and `F₄`: a twisted group is the fixed points of a different
-endomorphism of the same group, which is the textbook construction (Carter, *Simple Groups of Lie
-Type*, Chapters 13 and 14; Steinberg, *Lectures on Chevalley Groups*, §11). The ambient group is
+endomorphism of the same group, which is the textbook construction (Steinberg, *Lectures on
+Chevalley Groups*, Chapter 11, which covers the Suzuki and Ree groups too). The ambient group is
 generally infinite.
 
 Consume, rather than duplicate:
@@ -557,7 +557,7 @@ of:
 These are the maps `GraphTwistedIndex.datumSteinberg` and `SuzukiReeIndex.datumSteinberg` of L1 and
 L2, at raw parameters. The proof is Steinberg's classification of the endomorphisms of an
 irreducible root datum some power of which is a scaling (*Endomorphisms of linear algebraic
-groups*, §11): conjugate `φ` to preserve the positive system of the pinned base, after which it
+groups*, 11.2 to 11.6): conjugate `φ` to preserve the positive system of the pinned base, after which it
 permutes the simple roots up to powers of `p`, and the Cartan matrix leaves only the listed shapes.
 
 **On the group.** Let `k` be an algebraically closed field of characteristic `p` and `F` a standard
@@ -577,7 +577,8 @@ the duplicate representatives of I0, together with type `C` in characteristic tw
 carries as type `B`. The isomorphisms behind the duplicate table and the `B`/`C` coincidence are
 not targets of this roadmap. The hypothesis that `F` is standard is part of the statement: that
 every endomorphism some power of which is a Frobenius is conjugate to a standard one uses the
-conjugacy of maximal tori and Borel subgroups, which this roadmap does not prove.
+conjugacy of maximal tori and Borel subgroups (Steinberg, *Endomorphisms of linear algebraic
+groups*, 7.2 and 10.10), which this roadmap does not prove.
 
 ### S0: auditable presentation data and source selection
 
