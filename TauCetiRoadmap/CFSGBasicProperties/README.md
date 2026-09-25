@@ -28,16 +28,22 @@ recompute their proofs by unfolding the four-way index.
 ## Starting points and ownership
 
 - CFSGStatement owns `CFSGIndex`, its validity ranges, its seventeen Lie-type constructors,
-  `ValidLieTypeIndex.Group`, `SporadicName.presentation`, and `SporadicName.Group`. This roadmap
-  proves properties directly for the explicit Lie carriers in those definitions. CFSGStatement
-  separately owns L4 and L5, which identify them with pinned Chevalley–Demazure points and
-  intertwine their Steinberg maps. Those identifications can transport reusable results, but
-  they are not prerequisites for the basic-property theorems.
-- The [ReductiveGroups roadmap](../ReductiveGroups/README.md) owns general Borel, root-datum,
-  Bruhat, and pinned group-scheme theory (Layers 7–9). The present roadmap owns the finite-field
-  descent of a Steinberg map, the BN-pair and root-group calculus on its **finite fixed points**,
-  and the resulting simplicity theorem. Existing `TauCeti.TitsSystem` and its Bruhat-cell API are
-  the starting interface; extend them for the general group-theoretic theorems below. The
+  `ValidLieTypeIndex.Group`, `SporadicName.presentation`, and `SporadicName.Group`. Every
+  Lie-type branch there is the derived central quotient of the fixed points of a Steinberg map on
+  one ambient group, the simply connected Chevalley group `ChevalleyGroup d.dynkinType _ d.Closure`
+  of its Dynkin type; there is no family-specific carrier to prove anything on. CFSGStatement
+  separately owns L4, which identifies the Suzuki branch with Mathlib's `suzukiGroup`; it can
+  transport results, but it is not a prerequisite for the basic-property theorems.
+- The [Chevalley groups roadmap](../ChevalleyGroups/README.md) owns the theory of the ambient
+  group: root subgroups for every root, the commutator formula, the Bruhat decomposition and Tits
+  system of the group over a field, its centre, Steinberg's presentation, generation of the points
+  over an algebraically closed field by root subgroups, and the Frobenius, graph, and exceptional
+  endomorphisms with their action on root subgroups (C2 to C5 there). The
+  [ReductiveGroups roadmap](../ReductiveGroups/README.md) owns abstract Borel, root-datum, and
+  Bruhat theory. The present roadmap owns everything about **finite fixed points**: the
+  finite-field descent of a Steinberg map, the twisted root groups, the BN-pair of the fixed-point
+  group, and the resulting simplicity theorem. Existing `TauCeti.TitsSystem` and its Bruhat-cell
+  API are the starting interface; extend them for the general group-theoretic theorems below. The
   [Mathlib BN-pair work](https://github.com/leanprover-community/mathlib4/pull/40363) informs
   names and structure, while Tau Ceti supplies what the endpoint needs regardless of its timing.
 - Mathlib supplies the prime-order cyclic group theory, the simplicity of alternating groups of
@@ -57,12 +63,12 @@ the source calls it a finite group, does not discharge an item.
 | --- | --- | --- |
 | E0: elementary branches | CFSGStatement, Mathlib | `Finite` and `IsSimpleGroup` for every cyclic and alternating index |
 | F0: finite fixed-point criterion | Mathlib finite fields and matrices | a reusable theorem bounding Steinberg fixed points by finite matrix coordinates |
-| F1: all Lie-type groups finite | F0, CFSGStatement L1–L3 | `Finite d.FixedPoints` and `Finite d.Group` for each of the seventeen constructors |
+| F1: all Lie-type groups finite | F0, Chevalley groups C4, CFSGStatement L1–L3 | `Finite d.FixedPoints` and `Finite d.Group` for each of the seventeen constructors |
 | T0: abstract simplicity machinery | `TauCeti.TitsSystem`, Mathlib group actions | a normal-subgroup/simplicity criterion for a split BN-pair with root groups |
-| T1: fixed-point root calculus | T0, ReductiveGroups Layers 7–9, CFSGStatement L1–L3 | ambient generation, Steinberg descent, BN-pairs, and root relations for the ordinary and graph-twisted families |
+| T1: fixed-point root calculus | T0, Chevalley groups C2–C5, CFSGStatement L1–L3 | Steinberg descent, twisted root groups, BN-pairs, and root relations on the fixed points of the ordinary and graph-twisted families |
 | T2: ordinary and graph-twisted simplicity | T1, F1 | `IsSimpleGroup d.Group` on those thirteen constructors, including valid small fields |
 | P0: presentation and action certificate tools | Mathlib presentations, CFSGStatement S0 | sound finite-index, normal-form, finite-action, and normal-closure certificate checkers |
-| T3: Suzuki, Ree, and Tits simplicity | T0, F1, P0, CFSGStatement L2–L3 | `IsSimpleGroup d.Group` on all four half-Frobenius constructors |
+| T3: Suzuki, Ree, and Tits simplicity | T0, F1, P0, Chevalley groups C2–C5, CFSGStatement L2–L3 | `IsSimpleGroup d.Group` on all four half-Frobenius constructors |
 | P1: externally constructed sporadics | P0, CFSGStatement S1 | proved recognition and basic properties for the fourteen names with existing Lean permutation models |
 | P2: remaining sporadics | P0, P1, CFSGStatement S1, AlgebraicCodingTheory Golay code | explicit finite models, recognition, and simplicity for the other twelve presented groups |
 | A0: assembly | E0, F1, T2, T3, P1, P2 | the two uniform `CFSGIndex` theorems above |
@@ -95,7 +101,8 @@ part commutes with Frobenius and that a positive iterate has the coordinate form
 `suzuki`, `reeG2`, `reeF4`, and `tits`, use the proved square of the half-Frobenius Steinberg
 map, then verify the coordinate formula for the corresponding field Frobenius. Proving the
 formula merely on the named simple root subgroups is insufficient: it must hold on the whole
-faithfully represented carrier or follow from a proved generation theorem.
+faithfully represented carrier or follow from a proved generation theorem, such as generation by
+root subgroups over an algebraically closed field (C4 of the Chevalley groups roadmap).
 
 Apply F0 to each branch to obtain `Finite d.FixedPoints` and `Finite d.Group`, and assemble
 `ValidLieTypeIndex.finite` by cases. This includes the Tits group and every small parameter
@@ -127,19 +134,17 @@ Neither criterion should require a separate order formula for the whole group.
 
 ## T1–T2: ordinary and graph-twisted groups
 
-Build the **full** root-group calculus on CFSGStatement's explicit ambient carriers and their
-Steinberg fixed points. Positive simple root subgroups already named there are only the entry
-point: supply negative simple and all real-root subgroups, their finite-field parameter groups, Weyl
-representatives, torus normalization, Chevalley commutator relations, and the rank-one and
-rank-two relations needed for Bruhat decomposition. Prove that these root groups and the torus
-generate the **whole explicit ambient carrier**, with a Bruhat decomposition and distinct cells;
-relations checked only on a named subgroup do not suffice. Show that the Steinberg map permutes
-the ambient root data and preserves this decomposition. Prove fixed-point Bruhat descent,
-including the factorization of invariant cells and the generation of the finite fixed-point
-group by the resulting twisted root groups and torus. Establish the needed fixed-point
-factorization either by a Lang–Steinberg theorem with its hypotheses checked on the explicit
-carrier or by direct matrix-coordinate arguments. The L5 identification may shorten a proof
-only after its Steinberg compatibility has been established.
+The ambient root-group calculus is consumed, not rebuilt: the root subgroups for every root, Weyl
+representatives, the torus, the commutator formula, the Bruhat decomposition with distinct cells,
+the Tits system, and generation of the ambient group by root subgroups are C2 to C4 of the
+Chevalley groups roadmap, and the action of the Frobenius and graph automorphisms on every root
+subgroup, with its signs, is C5 there. Build on them the calculus of the **Steinberg fixed
+points**: the finite-field root groups, the fact that the Steinberg map permutes the ambient root
+subgroups and preserves the Bruhat decomposition, fixed-point Bruhat descent including the
+factorization of invariant cells, and the generation of the finite fixed-point group by the
+resulting twisted root groups and torus. Establish the needed fixed-point factorization by direct
+root-subgroup arguments on the Chevalley group (Carter, *Simple Groups of Lie Type*, Chapters 13
+and 14; Steinberg, *Lectures on Chevalley Groups*, §11), which need no Lang–Steinberg theorem.
 
 For an ordinary group, take the finite-field root groups fixed by Frobenius. For a graph-twisted
 group, fold root orbits under the diagram–field map and prove the corresponding twisted root
