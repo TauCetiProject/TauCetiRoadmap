@@ -330,7 +330,7 @@ theorem ramificationIndex_mul_inertiaDegree [Algebra K L] [ValuativeExtension K 
   sorry
 
 /-- **Layer 0, residue-degree characterization of total ramification.** This is the stable
-one-extension bridge consumed by `TotallyRamified`; a family-level intermediate-field wrapper
+one-extension bridge consumed by `MassFormula`; a family-level intermediate-field wrapper
 must compare to this theorem rather than define a second ramification predicate. No dependency on
 the consumer roadmap is introduced here. -/
 theorem isTotallyRamified_iff_inertiaDegree_eq_one [Algebra K L] [ValuativeExtension K L]
@@ -980,7 +980,7 @@ theorem exists_integerRing_adjoin_eq_top [Algebra K L] [ValuativeExtension K L]
 
 /-- **Layer 3, total ramification is equivalent to an Eisenstein generator.** The generator is
 integral, is a root after mapping coefficients to `𝒪[L]`, and generates the entire integer ring.
-This is arithmetic of one extension; `TotallyRamified` may install the intermediate-field
+This is arithmetic of one extension; `MassFormula` may install the intermediate-field
 adapters and consume this theorem when constructing a family. -/
 theorem isTotallyRamified_iff_exists_eisenstein_generator
     [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] :
@@ -994,7 +994,7 @@ theorem isTotallyRamified_iff_exists_eisenstein_generator
 /-- **Layer 3, orthogonality of an Eisenstein power basis.** For an Eisenstein generator, the
 values of the nonzero terms are distinct modulo the ramification index, so the valuation of the
 sum is their minimum. In the totally ramified situation supplied by the Eisenstein hypotheses,
-the ramification index is `f.natDegree`. This export is consumed by `TotallyRamified`, which owns
+the ramification index is `f.natDegree`. This export is consumed by `MassFormula`, which owns
 the coordinate-box and measure consequences. No dependency on that roadmap is introduced here. -/
 theorem addVal_sum_eisenstein_powerBasis [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [Algebra.IsSeparable K L]
@@ -1043,7 +1043,7 @@ theorem differentExponent_eq_of_algEquiv
   sorry
 
 /-- **Layer 3, invariance of the local discriminant exponent under a `K`-isomorphism.** This
-export is consumed by `TotallyRamified`, which derives invariance of its mass-formula weight from
+export is consumed by `MassFormula`, which derives invariance of its mass-formula weight from
 it. No dependency on that roadmap is introduced here. -/
 theorem discriminantExponent_eq_of_algEquiv
     (M : Type v) [Field M] [ValuativeRel M] [TopologicalSpace M]

@@ -859,7 +859,7 @@ nonarchimedean local field, while [Counting Totally Ramified Extensions
 of families of such extensions. The dependency is one-way:
 
 ```text
-LocalFieldsRamification (this roadmap) → TotallyRamified (#226)
+LocalFieldsRamification (this roadmap) → MassFormula (#226)
 ```
 
 This roadmap owns the canonical induced local-field structure, `e` and `f`, total/tame/wild
