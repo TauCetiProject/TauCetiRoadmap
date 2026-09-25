@@ -1,4 +1,4 @@
-# Roadmap: the Schneider–Lang criterion and Baker's theorem
+# Roadmap: the Schneider–Lang criterion for `ℂ^{d₀} × (ℂˣ)^{d₁}`, and Baker's theorem over `ℂ` and `ℂ_p`
 
 Mathlib has Liouville numbers, the house of an algebraic number with Siegel's lemma over number
 fields, and the analytic part of Hermite's method for Lindemann–Weierstrass. It does not prove
@@ -20,8 +20,18 @@ cases Corollaries 4.3 and 4.4, Theorem 4.5, and Theorem 1.6 (Baker's theorem). T
 for definiteness; the specification is the statements below, which depart from it where they say
 so. The analytic tools are a Schwarz lemma for Cartesian products (Proposition 4.7) and an
 auxiliary function built by the Thue–Siegel method (Proposition 4.10); both rest on a theory of
-power series in several variables, which this roadmap also builds. It depends only on Mathlib; the
-related Tau Ceti declarations are listed below.
+power series in several variables, which this roadmap also builds.
+
+Layer 8 proves the `p`-adic analogue, **Brumer's theorem**: if `ℓ₁, …, ℓₙ ∈ ℂ_[p]` lie in the disc
+`‖z‖ < p ^ (-1 / (p - 1))` on which the exponential converges, have algebraic exponentials, and are
+linearly independent over `ℚ`, then `1, ℓ₁, …, ℓₙ` are linearly independent over the algebraic
+numbers. It is proved by Baker's own method (Baker and Masser, *Transcendental Number Theory*,
+Chapter 2), carried over to `ℂ_[p]`, and not through the criterion: the criterion needs functions
+analytic on all of `ℂⁿ` with growth bounds, while the `p`-adic exponential converges only on that
+disc. Baker's method works with series in one variable along a diagonal and needs no multiplicity
+estimate. Layer 8 shares Layer 3 with the complex part and is otherwise independent of it.
+
+The roadmap depends only on Mathlib; the related Tau Ceti declarations are listed below.
 
 Suggested homes:
 - `TauCeti/Analysis/Analytic/MultiIndex/`: multi-index power series and Taylor coefficients
@@ -31,7 +41,9 @@ Suggested homes:
 - `TauCeti/NumberTheory/NumberField/House/`: Liouville's inequality and sizes of algebraic numbers
   (Layer 3);
 - `TauCeti/NumberTheory/Transcendental/`: the Thue–Siegel lemma, the auxiliary function, the
-  criterion, its consequences and Baker's theorem (Layers 3–7).
+  criterion, its consequences and Baker's theorem (Layers 3–7);
+- `TauCeti/NumberTheory/Transcendental/Padic/`: the exponential on its disc in `ℂ_[p]`, the
+  ultrametric estimates and Brumer's theorem (Layer 8).
 
 ## Scope
 
@@ -46,7 +58,11 @@ In scope:
 - the auxiliary function of Proposition 4.10 (Layer 4);
 - the Schneider–Lang criterion for `ℂ^{d₀} × (ℂˣ)^{d₁}` (Corollary 4.2), with each step of its
   proof as a milestone (Layer 5); its consequences Corollaries 4.3 and 4.4, Hermite–Lindemann and
-  Gelfond–Schneider (Layer 6); and Baker's theorem with Baker's corollaries (Layer 7).
+  Gelfond–Schneider (Layer 6); and Baker's theorem with Baker's corollaries (Layer 7);
+- over `ℂ_[p]`: the exponential on its disc of convergence, Liouville's inequality at an
+  ultrametric place, bounds for power series with many zeros at the integers, Hermite
+  interpolation with ultrametric bounds, Baker's auxiliary function on the diagonal, and Brumer's
+  theorem (Layer 8).
 
 Not in this roadmap, and not owned by any other roadmap unless stated:
 - the Schneider–Lang criterion for meromorphic functions of finite order satisfying algebraic
@@ -64,7 +80,14 @@ Not in this roadmap, and not owned by any other roadmap unless stated:
   proves the theorem; see *Coordination with Mathlib*;
 - algebraic independence (Schanuel's conjecture, Nesterenko's theorem) and the six exponentials
   theorem;
-- `p`-adic and elliptic analogues.
+- the `p`-adic Schneider–Lang criterion, and elliptic analogues;
+- a `p`-adic logarithm function: Layer 8 is stated through the exponential, and the
+  [Local fields and ramification](../LocalFieldsRamification/README.md) roadmap owns the
+  logarithm and exponential on the deep units of a finite extension of `ℚ_p` (its "Deep units in
+  mixed characteristic"); `ℂ_[p]` is not such a field;
+- Weierstrass division and preparation over a complete nonarchimedean field, which the
+  [Foundations of adic spaces](../AdicSpaces/README.md) roadmap owns (its §0.5); the many-zeros
+  bound 8.3 is proved directly from the truncations of the series.
 
 ## Conventions
 
@@ -116,6 +139,17 @@ These are fixed for every target below.
 - **Exponential polynomials** are written out,
   `fun z => (∏ v, z v ^ τ v) * Complex.exp (∑ v, w v * z v)`, with no named definition; the
   pairing `w · z` is `∑ v, w v * z v`.
+- **`p`-adic numbers.** `ℂ_[p]` is Mathlib's `PadicComplex p`, with its norm
+  (`‖(p : ℂ_[p])‖ = p⁻¹`), which is ultrametric, and `PadicComplex.isAlgClosed`. The radius of
+  the exponential is the real power `(p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)`, never a quotient of natural
+  numbers. The exponential is Mathlib's `NormedSpace.exp`. "`ℓ` is a `p`-adic logarithm of an
+  algebraic number" is `‖ℓ‖ < p ^ (-1 / (p - 1))` together with
+  `IsAlgebraic ℚ (NormedSpace.exp ℓ)`. ⚠ The norm
+  condition cannot be dropped: `NormedSpace.exp` is the sum of a series and takes the value `0`
+  where the series diverges, so off the disc `IsAlgebraic ℚ (NormedSpace.exp ℓ)` holds for every
+  `ℓ` (`PadicBaker.exp_one_eq_zero`). Series in one variable are coefficient sequences
+  `c : ℕ → K`, with value `seqEval c x = ∑' k, c k * x ^ k` and formal derivative `seqDeriv`, as
+  Mathlib's `FormalMultilinearSeries.sum` is a `tsum`. Number fields embed as `K →+* ℂ_[p]`.
 - **Sizes of algebraic numbers** are the pair of hypotheses `IsIntegral ℤ ((δ : K) ^ a * α)` and
   `house ((δ : K) ^ a * α) ≤ H` for a denominator `δ : ℕ`, an exponent `a` and a bound `H`, carried
   explicitly; there is no predicate bundling them. Mathlib's absolute heights (`Height.logHeight₁`,
@@ -164,6 +198,16 @@ All references are to the Mathlib commit pinned by Tau Ceti.
   and its number-field form `NumberField.house.exists_ne_zero_int_vec_house_le`. These solve
   linear *equations*; the transcendence argument needs small values of linear *forms* (3.4),
   which they do not give.
+- **`p`-adic numbers:** `ℂ_[p]` (`PadicComplex`, `NumberTheory/Padics/Complex.lean`) with
+  `PadicComplex.isAlgClosed`; the exponential series (`NormedSpace.expSeries`,
+  `NormedSpace.expSeries_div_hasSum_exp_of_mem_ball`); Legendre's formula for the valuation of
+  `n!` (`sub_one_mul_padicValNat_factorial`); ultrametric sums
+  (`IsUltrametricDist.norm_tsum_le_of_forall_le_of_nonneg`,
+  `NonarchimedeanAddGroup.summable_of_tendsto_cofinite_zero`); the field norm as a product over
+  embeddings (`Algebra.norm_eq_prod_embeddings`, for 8.2); formal power series
+  (`PowerSeries.exp`, `PowerSeries.rescale`, `PowerSeries.derivative`); and Hasse derivatives and
+  polynomials of bounded degree (`Polynomial.factorial_smul_hasseDeriv`,
+  `Polynomial.degreeLTEquiv`), for 8.5.
 - **Orders of zeros in one variable:** `analyticOrderAt`, with `natCast_le_analyticOrderAt` (a
   zero of order at least `n` is a factor `(z - z₀) ^ n`) and
   `natCast_le_analyticOrderAt_iff_iteratedDeriv_eq_zero` (`Analysis/Analytic/Order.lean`).
@@ -483,6 +527,103 @@ of them. Write `A = ∑ᵢ ∑ᵥ ‖xᵢ v‖` and `A_y = ∑ⱼ ∑ᵥ ‖yⱼ
   the `βᵢ` (`transcendental_prod_cpow`). ⚠ Irrationality of each `βᵢ` is not enough:
   `2 ^ √2 · 2 ^ (-√2) = 1`. *Prerequisites:* 7.2.
 
+### Layer 8: Baker's theorem over `ℂ_[p]` (Brumer)
+
+Over `ℂ_[p]` for a prime `p`, with `ρ = p ^ (-1 / (p - 1))`. Baker and Masser's Chapter 2 is the
+route: Lemmas 1–7 and §5, with the maximum modulus principle replaced by the ultrametric
+inequality and Liouville's inequality taken at the embedding into `ℂ_[p]`. The declarations are in
+the namespace `PadicBaker` unless named otherwise.
+
+- **8.1 The exponential on its disc.** `‖(n! : ℂ_[p])‖ = p ^ (-v_p (n!))`
+  (`PadicComplex.norm_natCast_factorial`, from `sub_one_mul_padicValNat_factorial`), so the radius
+  of `expSeries` is at least `ρ` (`PadicComplex.le_radius_expSeries`). For `‖x‖, ‖y‖ < ρ`:
+  `exp (x + y) = exp x · exp y` (`PadicComplex.exp_add`), `‖exp x - 1‖ = ‖x‖`
+  (`PadicComplex.norm_exp_sub_one`), hence `‖exp x‖ = 1`, and `exp` is injective on the disc
+  (`PadicComplex.exp_injOn`); `exp (n • x) = exp x ^ n`, and `exp` of a finite sum in the disc is
+  the product. ⚠ At `p = 2` the point `2` has `‖2‖ = ρ` and the series diverges there.
+  *Prerequisites:* Mathlib only.
+- **8.2 Liouville's inequality at an ultrametric place.** An element integral over `ℤ` has norm at
+  most `1` in an ultrametric normed field (`IsUltrametricDist.norm_le_one_of_isIntegral`); a
+  nonzero integer has `1 ≤ |n| ‖n‖` in `ℂ_[p]` (`PadicComplex.one_le_abs_mul_norm_intCast`). In
+  an ultrametric, algebraically closed field `L` of characteristic `0` with that property, if
+  `δ ^ a * x` is a nonzero algebraic integer of house at most `H`, then
+  `1 ≤ H ^ [K : ℚ] ‖σ x‖` at every embedding `σ : K →+* L`
+  (`NumberField.one_le_pow_mul_norm_embedding`): the field norm of `δ ^ a * x` is a nonzero integer
+  of absolute value at most `H ^ [K : ℚ]` (`Algebra.norm_eq_prod_embeddings`), and all its
+  conjugates in `L` have norm at most `1`. The ultrametric form of Schwarz's lemma: if `f` has the
+  power series `q` about `0`, the terms of degree `< T` vanish and `‖q n‖ r ^ n ≤ M`, then
+  `‖f z‖ ≤ M (‖z‖ / r) ^ T` for `‖z‖ ≤ r` in the ball of convergence
+  (`HasFPowerSeriesOnBall.norm_le_mul_div_pow_of_isUltrametricDist`). ⚠ The exponent is
+  `[K : ℚ]`, not `[K : ℚ] - 1` as at an archimedean place (3.1): `x = p` in `ℚ` has
+  `‖p‖ = 1 / p`. *Prerequisites:* Mathlib only.
+- **8.3 Many zeros at the integers force small coefficients** (`seqEval`, `seqDeriv`,
+  `norm_le_of_iterate_seqDeriv_eq_zero`). Over a complete ultrametric field of characteristic
+  `0`: if `‖c k‖ r ^ k ≤ M` for all `k` with `r > 1`, and the series `c` vanishes to order `S`
+  (its formal derivatives of order `< S` vanish) at every natural number in a finite set `A`, then
+  `‖c k‖ ≤ M r ^ (-(card A · S))` for every `k`; and the same bound holds for the value
+  `seqEval c x` at every `x` with `‖x‖ ≤ 1`. This is Baker and Masser's extrapolation (Lemmas 4
+  and 5); the natural numbers all have norm at most `1`, so the zeros cost a factor `r` each.
+  *Prerequisites:* Mathlib only.
+- **8.4 Exponential polynomials as coefficient sequences** (`derivAdd`, `expPolySeq`,
+  `hasSum_expPolySeq`). `expPolySeq Q ψ` is the coefficient sequence of `Q (z) exp (ψ z)`; its
+  formal derivative is `expPolySeq (Q' + ψ Q) ψ`, so its `m`-th derivative is
+  `expPolySeq (derivAdd ψ m Q) ψ`; `‖expPolySeq Q ψ k‖ r ^ k` is bounded when `‖ψ‖ r ≤ ρ`; and the
+  series sums to `Q (x) exp (ψ x)` when `‖ψ x‖ < ρ`. *Prerequisites:* 8.1.
+- **8.5 Hermite interpolation with ultrametric bounds** (Baker and Masser, Lemma 7;
+  `exists_hermite`). For points `σ i` of norm at most `1` with `‖σ i - σ j‖ ≥ ϱ` for `i ≠ j`,
+  `0 < ϱ ≤ 1`, and `s < S`, there is a polynomial `W` whose derivatives of order `< S` at the
+  points vanish except the `s`-th at `σ r`, which is `1`, with every coefficient at most
+  `‖1 / s!‖ ϱ ^ (-(card ι · S))`. ⚠ `‖1 / s!‖ = p ^ (v_p (s!))` is at least `1`, unlike at an
+  archimedean place. *Prerequisites:* Mathlib only.
+- **8.6 Baker's auxiliary function on the diagonal** (`psi`, `gam`, `cc`, `Qpoly`, `aux`,
+  `seqDeriv_aux`). Suppose, to be refuted, `ℓ none = β₀ + ∑ r, β r ℓ (some r)` for
+  `ℓ : Option (Fin k) → ℂ_[p]`. For `P` indexed by `d ≤ L` and `e : Option (Fin k) → Fin (L + 1)`,
+  the derivative `f_m` of order `m` of Baker's function
+  `∑ P (d, e) z₀ ^ d exp (e_none β₀ z₀) ∏_r exp ((e_r + e_none β_r) ℓ_r z_r)`, restricted to the
+  diagonal, is the coefficient sequence `aux ℓ β₀ β L P m`, a sum of `expPolySeq` at the
+  frequencies `ψ_e = ∑_o e_o ℓ_o`. The relation gives `D f_m = ∑_o f_{m + e_o}`
+  (`seqDeriv_aux`), and at a natural number `l`, `f_m (l)` is `∏_r ℓ_r ^ {m_r}` times a
+  polynomial in `P`, the `β`'s, `l` and `α_o ^ l` with `α_o = exp ℓ_o`. *Prerequisites:* 8.1,
+  8.4.
+- **8.7 The arithmetic** (Baker and Masser, Lemmas 2, 3 and 6). In the number field `K` of the
+  data (3.3), with embedding `ι₀ : K →+* ℂ_[p]`, `ι₀ (αK o) = exp ℓ_o`, and `δ` times each of
+  `αK o`, `βK r`, `βK₀` an algebraic integer of house at most `G`:
+  (a) the polynomial of 8.6 at `l` is `ι₀` of an element of `K` whose size in the sense of 3.2 is
+  explicit (Lemma 3);
+  (b) **Lemma 2:** Siegel's lemma over `K`, in the form with a constant `C` depending only on `K`
+  (from `NumberField.house.exists_ne_zero_int_vec_house_le`), gives algebraic integers `P`, not
+  all zero, of house at most `C (L + 1) ^ (k + 2) entryBound k L h G` (`entryBound`), with
+  `f_m (l) = 0` for all `m o ≤ h ^ 2` and `1 ≤ l ≤ h`, provided
+  `2 ((h ^ 2 + 1) ^ (k + 1) h) ≤ (L + 1) ^ (k + 2)`;
+  (c) **Lemma 6:** distinct frequencies are far apart:
+  `((2 G ^ ((k + 1) L)) ^ [K : ℚ])⁻¹ ≤ ‖ψ_e - ψ_e'‖` for `e ≠ e'` with entries at most `L`
+  (`inv_pow_le_norm_psi_sub`), by 8.1 and 8.2 applied to `∏ α_o ^ {e_o} - ∏ α_o ^ {e'_o}`.
+  *Prerequisites:* 3.2, 3.3, 8.1, 8.2, 8.6.
+- **8.8 The argument, with the parameters as hypotheses** (Baker and Masser, §5;
+  `false_of_parameters`). The numerical conditions `hcount`, `hext` and `hfin` of the Lean form
+  are incompatible with the relation of 8.6. The steps: Lemma 2 gives `P`; by induction on
+  `J ≤ Kmax`, `f_m (l) = 0` for `∑ m ≤ S J` and `1 ≤ l ≤ R J` (for `J + 1`: by `D f_m` in 8.6 the
+  series `f_m` with `∑ m ≤ S (J + 1)` vanish to order `S (J + 1)` at `1, …, R J`, so 8.3 makes
+  `f_m (l)` small for `l ≤ R (J + 1)`, and 8.2 with (a) and `hext` makes it zero); at the end
+  `f_0` has all coefficients at most `r₀ ^ L r₀ ^ (-(R Kmax · S Kmax))` (8.3), and 8.5 at the
+  points `ψ_e`, separated by Lemma 6, writes some `P t ≠ 0` as a combination of these
+  coefficients, which contradicts 8.2 by `hfin`. *Prerequisites:* 8.2, 8.3, 8.5, 8.7.
+- **8.9 The choice of parameters** (`exists_parameters`). For `k + 1` logarithms put
+  `Kmax = (2k + 3)(3k + 7)` and, for an integer `t`, `X = 2 ^ t`, `h = X ^ (3k + 7)`,
+  `L = X ^ (6k + 11)`, `R J = X ^ (3k + 7 + J)` and `S J = 2 ^ (Kmax - J) X ^ (6k + 13)`. For all
+  large `t` these satisfy every condition of 8.8: each constant is at most a power of `r₀`, and
+  each inequality compares `r₀ ^ (c Y)` with `r₀ ^ (X Y)` for a `c` independent of `t`.
+  *Prerequisites:* the definition `entryBound` of 8.7.
+- **8.10 Brumer's theorem** (`eq_zero_of_add_sum_mul_eq_zero`). If `ℓ i ∈ ℂ_[p]` have
+  `‖ℓ i‖ < ρ`, algebraic `exp (ℓ i)`, and are linearly independent over `ℚ`, and
+  `β₀ + ∑ β i ℓ i = 0` with algebraic `β₀, β i`, then `β₀ = 0` and every `β i = 0`. Hence a nonzero
+  linear form in such `ℓ i` with algebraic coefficients is transcendental
+  (`transcendental_add_sum_mul`). The proof divides the relation by a nonzero coefficient inside
+  the number field of the data (3.3), takes `r₀ = ρ / max ‖ℓ i‖`, `B` a bound for the
+  coefficients, `lmin = min ‖ℓ i‖` and `C` from Siegel's lemma, and applies 8.8 with 8.9. ⚠ The
+  norm condition is needed (`exp_one_eq_zero`: with `ℓ = 1`, `-1 + 1 · 1 = 0`).
+  *Prerequisites:* 3.3, 8.8, 8.9.
+
 ## Worked examples (acceptance criteria, keeping the theory honest)
 
 - `Complex.exp 1` and `Real.pi` are transcendental over `ℤ` (6.3; `transcendental_e`,
@@ -496,6 +637,9 @@ of them. Write `A = ∑ᵢ ∑ᵥ ‖xᵢ v‖` and `A_y = ∑ⱼ ∑ᵥ ‖yⱼ
 - `Real.pi + Real.log 2` is transcendental (7.3; `transcendental_pi_add_log_two`): it is
   `(-I) · (π I) + 1 · log 2`, a nonzero linear form in the logarithms `π I` of `-1` and `log 2`
   of `2`.
+- `exp p` is transcendental in `ℂ_[p]` for odd `p` (8.10 with `ℓ = p`, since `‖p‖ = 1 / p < ρ`;
+  `PadicBaker.transcendental_exp_natCast`). For `p = 2` the point `2` lies on the boundary of the
+  disc (8.1).
 
 Normalisation checks, which catch a wrong factorial or a wrong placeholder value early:
 - the Taylor coefficient of `z ^ 2` at `0` is `1` (`mvTaylorCoeff_sq`), while its second
@@ -506,7 +650,8 @@ Normalisation checks, which catch a wrong factorial or a wrong placeholder value
   every target assumes analyticity, so none holds only through this value.
 
 Rejection tests, each showing that a hypothesis cannot be dropped: `4 ^ (1 / 2) = 2` for 6.4,
-`log 4 / log 2 = 2` for the quotient in 6.4, and `2 log 2 - log 4 = 0` for 7.2.
+`log 4 / log 2 = 2` for the quotient in 6.4, `2 log 2 - log 4 = 0` for 7.2, and
+`NormedSpace.exp (1 : ℂ_[p]) = 0` for the norm condition of Layer 8 (`PadicBaker.exp_one_eq_zero`).
 
 ## Ordering
 
@@ -516,20 +661,27 @@ Layer 0 ──┬── Layer 1 ──┬── Layer 4 ──┐
           └── Layer 2 ──┼─────────────┼── Layer 5 ── Layer 6 ── Layer 7
                         │             │
 Layer 3 ────────────────┴─────────────┘
+   │
+   └── Layer 8
 ```
 
 Layer 0 first; within it 0.1–0.3 before 0.4, and 0.5 last. Layers 1 and 2 need only Layer 0 and
 can proceed in parallel; within Layer 1, 1.4 before 1.5, and 1.1–1.3 before 1.6. Layer 3 is
 independent of Layers 0–2. Layer 4 needs 1.4, 1.5 and 3.4. Within Layer 5, 5.1–5.4 can proceed in
 parallel once their prerequisites are in; 5.5 needs them and 4.1, and 5.7 needs 5.5 and 5.6.
-Layer 6 needs 5.7, and Layer 7 needs Layer 6.
+Layer 6 needs 5.7, and Layer 7 needs Layer 6. Layer 8 needs only 3.2 and 3.3 and can proceed
+in parallel with Layers 0–7; within it, 8.1–8.5 are independent of one another, then 8.6, 8.7,
+8.8 and 8.9, and 8.10 last.
 
 ## References
 
 - M. Waldschmidt, *Diophantine Approximation on Linear Algebraic Groups*, Grundlehren 326,
-  Springer, 2000: Chapter 1 (statements), Chapter 4 (the proof followed here), Lemma 3.14
+  Springer, 2000: Chapter 1 (statements), Chapter 4 (the proof followed here), Chapter 3
   (Liouville's inequality).
 - A. Baker, *Transcendental Number Theory*, Cambridge University Press, 1975, Chapter 2.
+- A. Baker and D. Masser, *Transcendental Number Theory*, Cambridge Mathematical Library,
+  Cambridge University Press, 2022, Chapter 2 (the proof followed in Layer 8).
+- A. Brumer, *On the units of algebraic number fields*, Mathematika 14 (1967), 121–124.
 - S. Lang, *Introduction to Transcendental Numbers*, Addison-Wesley, 1966 (the criterion).
 - E. Bombieri and W. Gubler, *Heights in Diophantine Geometry*, Cambridge University Press, 2006
   (Siegel's lemma).
@@ -568,3 +720,22 @@ with the main declarations of each file:
 | `SchneiderLang.lean` | 5.7, 6.1, 6.2 | `schneiderLang`, `schneiderLang_zero`, `schneiderLang_one` |
 | `Reduction.lean` | 7.1 | `theorem45`, `baker_of_theorem45` |
 | `Basic.lean` | 6.3, 6.4, 7.2, 7.3 | `transcendental_pi`, `gelfond_schneider`, `baker`, `baker_linearIndepOn`, `baker_add_sum_ne_zero` |
+
+Layer 8 exists in the same way on the `baker-padic` branch of the same repository, at commit
+[`65cdef5722`](https://github.com/mkaratarakis/mathlib4/tree/65cdef5722194f07709ab40ff46eede531f52f5d/Mathlib/NumberTheory/Transcendental/Baker/Padic),
+under `Mathlib/NumberTheory/Transcendental/Baker/Padic/`, with the same licence and author. Of
+Layer 8 it lacks the worked example and the rejection test, and it bundles the size hypotheses
+with `AlgSize` as the complex part does. File map:
+
+| file | targets | declarations |
+|---|---|---|
+| `Exp.lean` | 8.1 | `PadicComplex.norm_natCast_factorial`, `le_radius_expSeries`, `exp_add`, `norm_exp_sub_one`, `exp_injOn` |
+| `Liouville.lean` | 8.2 | `IsUltrametricDist.norm_le_one_of_isIntegral`, `NumberField.one_le_pow_mul_norm_embedding` |
+| `Series.lean` | 8.3 | `seqEval`, `seqDeriv`, `norm_le_of_iterate_seqDeriv_eq_zero` |
+| `ExpSeries.lean` | 8.4 | `derivAdd`, `expPolySeq`, `hasSum_expPolySeq` |
+| `Hermite.lean` | 8.5 | `exists_hermite` |
+| `Auxiliary.lean` | 8.6 | `aux`, `seqDeriv_aux`, `seqEval_aux_natCast` |
+| `Arithmetic.lean` | 8.7 | `algSize_Aval`, `exists_aux_vanishing`, `inv_pow_le_norm_psi_sub` |
+| `Core.lean` | 8.8 | `core` |
+| `Parameters.lean` | 8.9 | `exists_parameters` |
+| `Main.lean` | 8.10 | `eq_zero_of_add_sum_mul_eq_zero`, `transcendental_add_sum_mul` |

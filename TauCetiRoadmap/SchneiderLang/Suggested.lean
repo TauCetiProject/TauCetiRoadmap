@@ -1,7 +1,7 @@
 import Mathlib
 
 /-!
-# The Schneider–Lang criterion and Baker's theorem: target signatures
+# The Schneider–Lang criterion and Baker's theorem, complex and `p`-adic: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. The statements here suggest Lean forms for particular milestones, so that
@@ -19,7 +19,9 @@ on `ι → 𝕜`, named so as not to collide with Mathlib's one-variable `Formal
 `mvTaylorCoeff` is the Taylor coefficient of a function at a point, `0` where the function is not
 analytic. `auxFun` is the auxiliary function of Layer 5, and `denomExp`, `houseBound`,
 `liouvilleFactor` and `growthBound` are the quantities in which its size and the parameter
-conditions of Layer 5 are stated. Every declaration name that `README.md` uses is declared here.
+conditions of Layer 5 are stated. Layer 8, over `ℂ_[p]`, defines the coefficient sequences `seqEval`,
+`seqDeriv` and `expPolySeq`, Baker's auxiliary function `aux` with its ingredients, and
+`entryBound`, in the namespace `PadicBaker`. Every declaration name that `README.md` uses is declared here.
 The targets elaborate against the pinned Mathlib and are stated with `sorry` (allowed in this
 human-owned roadmap library); the checks `mvTaylorCoeff_of_not_analyticAt`,
 `two_mul_log_two_sub_log_four` and `log_four_div_log_two` are proved.
@@ -522,6 +524,255 @@ theorem transcendental_prod_cpow {ι : Type*} [Fintype ι] [Nonempty ι] {α β 
   sorry
 
 end Layer7
+
+/-! ## Layer 8: Baker's theorem over `ℂ_[p]` (Brumer) -/
+
+section Layer8
+
+open Polynomial NumberField
+
+variable {p : ℕ} [hp : Fact p.Prime]
+
+/-- **Layer 8.1, the norm of `n!`** in `ℂ_[p]`. -/
+theorem PadicComplex.norm_natCast_factorial (n : ℕ) :
+    ‖((n.factorial : ℕ) : ℂ_[p])‖ = (p : ℝ) ^ (-(padicValNat p n.factorial : ℤ)) :=
+  sorry
+
+/-- **Layer 8.1, the radius of the exponential series** is at least `p ^ (-1 / (p - 1))`. -/
+theorem PadicComplex.le_radius_expSeries :
+    ENNReal.ofReal ((p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) ≤
+      (NormedSpace.expSeries ℂ_[p] ℂ_[p]).radius :=
+  sorry
+
+/-- **Layer 8.1, the functional equation** on the disc of convergence. -/
+theorem PadicComplex.exp_add {x y : ℂ_[p]} (hx : ‖x‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹))
+    (hy : ‖y‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) :
+    NormedSpace.exp (x + y) = NormedSpace.exp x * NormedSpace.exp y :=
+  sorry
+
+/-- **Layer 8.1**: `‖exp x - 1‖ = ‖x‖` on the disc of convergence. -/
+theorem PadicComplex.norm_exp_sub_one {x : ℂ_[p]} (hx : ‖x‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) :
+    ‖NormedSpace.exp x - 1‖ = ‖x‖ :=
+  sorry
+
+/-- **Layer 8.1, the exponential is injective** on the disc of convergence. -/
+theorem PadicComplex.exp_injOn :
+    Set.InjOn (NormedSpace.exp : ℂ_[p] → ℂ_[p]) {x | ‖x‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)} :=
+  sorry
+
+/-- **Layer 8.2, integral elements have norm at most `1`** in an ultrametric normed field. -/
+theorem IsUltrametricDist.norm_le_one_of_isIntegral {L : Type*} [NormedField L]
+    [IsUltrametricDist L] {x : L} (hx : IsIntegral ℤ x) : ‖x‖ ≤ 1 :=
+  sorry
+
+/-- **Layer 8.2**: a nonzero integer `n` has `p`-adic norm at least `1 / |n|`. -/
+theorem PadicComplex.one_le_abs_mul_norm_intCast {n : ℤ} (hn : n ≠ 0) :
+    1 ≤ |(n : ℝ)| * ‖(n : ℂ_[p])‖ :=
+  sorry
+
+/-- **Layer 8.2, Liouville's inequality at an ultrametric place**, for a number of known size. -/
+theorem NumberField.one_le_pow_mul_norm_embedding {L : Type*} [NormedField L]
+    [IsUltrametricDist L] [IsAlgClosed L] [CharZero L] {K : Type*} [Field K] [NumberField K]
+    (hL : ∀ n : ℤ, n ≠ 0 → 1 ≤ |(n : ℝ)| * ‖(n : L)‖) {δ a : ℕ} {x : K} {H : ℝ}
+    (hint : IsIntegral ℤ ((δ : K) ^ a * x)) (hH : house ((δ : K) ^ a * x) ≤ H)
+    (hδ : δ ≠ 0) (hx0 : x ≠ 0) (σ : K →+* L) : 1 ≤ H ^ Module.finrank ℚ K * ‖σ x‖ :=
+  sorry
+
+/-- **Layer 8.2, Schwarz's lemma in an ultrametric space**: the maximum modulus principle is
+replaced by the ultrametric inequality on the coefficients. -/
+theorem HasFPowerSeriesOnBall.norm_le_mul_div_pow_of_isUltrametricDist {𝕜 : Type*}
+    [NontriviallyNormedField 𝕜] {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E]
+    {F : Type*} [NormedAddCommGroup F] [NormedSpace 𝕜 F] [IsUltrametricDist F] {f : E → F}
+    {q : FormalMultilinearSeries 𝕜 E F} {R : ENNReal} (hf : HasFPowerSeriesOnBall f q 0 R)
+    {T : ℕ} (hT : ∀ n < T, q n = 0) {r M : ℝ} (hr : 0 < r) (hM : ∀ n, ‖q n‖ * r ^ n ≤ M)
+    {z : E} (hzr : ‖z‖ ≤ r) (hzR : z ∈ Metric.eball (0 : E) R) :
+    ‖f z‖ ≤ M * (‖z‖ / r) ^ T :=
+  sorry
+
+namespace PadicBaker
+
+section Series
+
+variable {K : Type*} [NontriviallyNormedField K]
+
+/-- **Layer 8.3**, the value `∑' k, c k * x ^ k` of the power series with coefficients `c`. -/
+noncomputable def seqEval (c : ℕ → K) (x : K) : K := ∑' k, c k * x ^ k
+
+/-- **Layer 8.3**, the formal derivative `k ↦ (k + 1) c (k + 1)` of a coefficient sequence. -/
+def seqDeriv (c : ℕ → K) : ℕ → K := fun k => ((k + 1 : ℕ) : K) * c (k + 1)
+
+/-- **Layer 8.3, many zeros at integers force small coefficients.** If `‖c k‖ r ^ k ≤ M` with
+`r > 1` and the series vanishes to order `S` at each natural number of `A`, then every
+coefficient is at most `M r ^ (-(card A · S))`. -/
+theorem norm_le_of_iterate_seqDeriv_eq_zero [IsUltrametricDist K] [CharZero K] [CompleteSpace K]
+    {c : ℕ → K} {r M : ℝ} (hr : 1 < r) (hM : ∀ k, ‖c k‖ * r ^ k ≤ M) (A : Finset ℕ) (S : ℕ)
+    (hvan : ∀ a ∈ A, ∀ j < S, seqEval (seqDeriv^[j] c) (a : K) = 0) (k : ℕ) :
+    ‖c k‖ ≤ M * (r ^ (A.card * S))⁻¹ :=
+  sorry
+
+end Series
+
+/-- **Layer 8.4**, the polynomial `(Q ↦ Q' + c Q)^[m] P`: the `m`-th derivative of
+`P (z) exp (c z)` is `derivAdd c m P (z) exp (c z)`. -/
+noncomputable def derivAdd {R : Type*} [CommRing R] (c : R) (m : ℕ) (P : R[X]) : R[X] :=
+  (fun Q => derivative Q + C c * Q)^[m] P
+
+/-- **Layer 8.4**, the coefficients of `Q (z) exp (ψ z)`. -/
+noncomputable def expPolySeq {K : Type*} [Field K] [CharZero K] (Q : K[X]) (ψ : K) : ℕ → K :=
+  fun k => PowerSeries.coeff k ((Q : PowerSeries K) * PowerSeries.rescale ψ (PowerSeries.exp K))
+
+/-- **Layer 8.4, the value of an exponential polynomial** inside the disc of convergence. -/
+theorem hasSum_expPolySeq (Q : ℂ_[p][X]) {ψ x : ℂ_[p]}
+    (h : ‖ψ * x‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) :
+    HasSum (fun k => expPolySeq Q ψ k * x ^ k) (Q.eval x * NormedSpace.exp (ψ * x)) :=
+  sorry
+
+/-- **Layer 8.5, Hermite interpolation with ultrametric bounds** (Baker–Masser, Chapter 2,
+Lemma 7). -/
+theorem exists_hermite {K : Type*} [NontriviallyNormedField K] [IsUltrametricDist K]
+    [CharZero K] {ι : Type*} [Fintype ι] [DecidableEq ι] (σ : ι → K) (hσ : ∀ i, ‖σ i‖ ≤ 1)
+    {ϱ : ℝ} (hϱ0 : 0 < ϱ) (hϱ1 : ϱ ≤ 1) (hsep : ∀ i j, i ≠ j → ϱ ≤ ‖σ i - σ j‖) (S : ℕ) (r : ι)
+    {s : ℕ} (hs : s < S) :
+    ∃ W : K[X], (∀ i, ∀ j < S, (derivative^[j] W).eval (σ i) = if i = r ∧ j = s then 1 else 0) ∧
+      ∀ n, ‖W.coeff n‖ ≤ ‖((s.factorial : ℕ) : K)⁻¹‖ * (ϱ ^ (Fintype.card ι * S))⁻¹ :=
+  sorry
+
+variable {k : ℕ}
+
+/-- **Layer 8.6**, the frequency `ψ_e = ∑_o e_o ℓ_o`. -/
+noncomputable def psi (ℓ : Option (Fin k) → ℂ_[p]) (e : Option (Fin k) → ℕ) : ℂ_[p] :=
+  ∑ o, (e o : ℂ_[p]) * ℓ o
+
+/-- **Layer 8.6**, `γ_r = e_r + e_none β_r`. -/
+noncomputable def gam (β : Fin k → ℂ_[p]) (e : Option (Fin k) → ℕ) (r : Fin k) : ℂ_[p] :=
+  (e (some r) : ℂ_[p]) + (e none : ℂ_[p]) * β r
+
+/-- **Layer 8.6**, `c = e_none β₀`. -/
+noncomputable def cc (β₀ : ℂ_[p]) (e : Option (Fin k) → ℕ) : ℂ_[p] := (e none : ℂ_[p]) * β₀
+
+/-- **Layer 8.6**, Baker's polynomial `(∏_r (γ_r ℓ_r) ^ {m_r}) • (D + c) ^ {m₀} X ^ d`. -/
+noncomputable def Qpoly (ℓ : Option (Fin k) → ℂ_[p]) (β₀ : ℂ_[p]) (β : Fin k → ℂ_[p])
+    (m : Option (Fin k) → ℕ) (d : ℕ) (e : Option (Fin k) → ℕ) : ℂ_[p][X] :=
+  (∏ r, (gam β e r * ℓ (some r)) ^ m (some r)) • derivAdd (cc β₀ e) (m none) (X ^ d)
+
+/-- **Layer 8.6**, the derivative `f_m` of Baker's auxiliary function on the diagonal, as a
+coefficient sequence; the index `(d, e)` runs over `d ≤ L` and `e o ≤ L`. -/
+noncomputable def aux (ℓ : Option (Fin k) → ℂ_[p]) (β₀ : ℂ_[p]) (β : Fin k → ℂ_[p]) (L : ℕ)
+    (P : Fin (L + 1) × (Option (Fin k) → Fin (L + 1)) → ℂ_[p]) (m : Option (Fin k) → ℕ) :
+    ℕ → ℂ_[p] :=
+  ∑ x, P x • expPolySeq (Qpoly ℓ β₀ β m x.1 fun o => x.2 o) (psi ℓ fun o => x.2 o)
+
+/-- **Layer 8.6, `D f_m = ∑_o f_{m + e_o}`**, under the relation to be refuted. -/
+theorem seqDeriv_aux {ℓ : Option (Fin k) → ℂ_[p]} {β₀ : ℂ_[p]} {β : Fin k → ℂ_[p]}
+    (hrel : ℓ none = β₀ + ∑ r, β r * ℓ (some r)) (L : ℕ)
+    (P : Fin (L + 1) × (Option (Fin k) → Fin (L + 1)) → ℂ_[p]) (m : Option (Fin k) → ℕ) :
+    seqDeriv (aux ℓ β₀ β L P m) =
+      ∑ o, aux ℓ β₀ β L P (m + (Pi.single o 1 : Option (Fin k) → ℕ)) :=
+  sorry
+
+/-- **Layer 8.7, Baker's Lemma 6**: distinct frequencies `ψ_e` are far apart. -/
+theorem inv_pow_le_norm_psi_sub {K : Type*} [Field K] [NumberField K] (ι : K →+* ℂ_[p])
+    {ℓ : Option (Fin k) → ℂ_[p]} (hli : LinearIndependent ℚ ℓ)
+    (hsmall : ∀ o, ‖ℓ o‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) {αK : Option (Fin k) → K}
+    (hα : ∀ o, ι (αK o) = NormedSpace.exp (ℓ o)) {δ : ℕ} {G : ℝ} (hδ : 1 ≤ δ)
+    (hG : (δ : ℝ) ≤ G) (hαs : ∀ o, IsIntegral ℤ ((δ : K) * αK o) ∧ house ((δ : K) * αK o) ≤ G)
+    {L : ℕ} {e e' : Option (Fin k) → ℕ} (he : ∀ o, e o ≤ L) (he' : ∀ o, e' o ≤ L)
+    (hne : e ≠ e') :
+    ((2 * G ^ ((k + 1) * L)) ^ Module.finrank ℚ K)⁻¹ ≤ ‖psi ℓ e - psi ℓ e'‖ :=
+  sorry
+
+/-- The bound for the entries of Baker's linear system in 8.7, after clearing denominators. -/
+noncomputable def entryBound (k L h : ℕ) (G : ℝ) : ℝ :=
+  G ^ ((k + 1) * h ^ 2 + (k + 1) * L * h) *
+    ((L + 1) * (h : ℝ) ^ L * (2 * L * G) ^ ((k + 1) * h ^ 2) * G ^ ((k + 1) * L * h))
+
+/-- **Layer 8.8, the argument, with the parameters as hypotheses** (Baker–Masser, Chapter 2,
+Lemmas 2 to 7 and §5, over `ℂ_[p]`): the numerical conditions `hcount`, `hext` and `hfin` are
+incompatible with a relation `ℓ none = β₀ + ∑ β r ℓ (some r)` between `ℚ`-linearly independent
+`p`-adic logarithms of algebraic numbers. `hsiegel` is Siegel's lemma over `K` with its
+constant `C`. -/
+theorem false_of_parameters {ℓ : Option (Fin k) → ℂ_[p]} {β₀ : ℂ_[p]} {β : Fin k → ℂ_[p]}
+    (hrel : ℓ none = β₀ + ∑ r, β r * ℓ (some r))
+    (hsmall : ∀ o, ‖ℓ o‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) (hli : LinearIndependent ℚ ℓ)
+    {K : Type*} [Field K] [NumberField K] (ι : K →+* ℂ_[p])
+    {αK : Option (Fin k) → K} {βK₀ : K} {βK : Fin k → K}
+    (hα : ∀ o, ι (αK o) = NormedSpace.exp (ℓ o)) (hβ : ∀ r, ι (βK r) = β r) (hβ₀ : ι βK₀ = β₀)
+    {δ : ℕ} {G : ℝ} (hδ : 1 ≤ δ) (hG : (δ : ℝ) ≤ G) (hG1 : 1 ≤ G)
+    (hαs : ∀ o, IsIntegral ℤ ((δ : K) * αK o) ∧ house ((δ : K) * αK o) ≤ G)
+    (hβs : ∀ r, IsIntegral ℤ ((δ : K) * βK r) ∧ house ((δ : K) * βK r) ≤ G)
+    (hβ₀s : IsIntegral ℤ ((δ : K) * βK₀) ∧ house ((δ : K) * βK₀) ≤ G) {C : ℝ} (hC : 1 ≤ C)
+    (hsiegel : ∀ (α β : Type) [Fintype α] [Fintype β] (a : Matrix α β (𝓞 K)) (A : ℝ),
+      1 ≤ A → 0 < Fintype.card α → 2 * Fintype.card α ≤ Fintype.card β →
+      (∀ i j, house (a i j : K) ≤ A) →
+      ∃ ξ : β → 𝓞 K, ξ ≠ 0 ∧ a.mulVec ξ = 0 ∧ ∀ l, house (ξ l : K) ≤ C * (Fintype.card β * A))
+    {r₀ B lmin : ℝ} (hr₀ : 1 < r₀) (hℓr : ∀ o, ‖ℓ o‖ * r₀ ≤ (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹))
+    (hB : 1 ≤ B) (hβB : ∀ r, ‖β r‖ ≤ B) (hβ₀B : ‖β₀‖ ≤ B)
+    (hlmin0 : 0 < lmin) (hlmin1 : lmin ≤ 1) (hlmin : ∀ o, lmin ≤ ‖ℓ o‖)
+    {L h Kmax : ℕ} {S R : ℕ → ℕ} (hL : 1 ≤ L) (hh : 1 ≤ h)
+    (hcount : 2 * ((h ^ 2 + 1) ^ (k + 1) * h) ≤ (L + 1) ^ (k + 2))
+    (hS0 : S 0 ≤ h ^ 2) (hR0 : R 0 ≤ h) (hSstep : ∀ J < Kmax, 2 * S (J + 1) ≤ S J)
+    (hext : ∀ J < Kmax, B ^ S (J + 1) * r₀ ^ L *
+        ((L + 1) ^ (k + 2) * (C * ((L + 1) ^ (k + 2) * entryBound k L h G) *
+          ((L + 1) * (R (J + 1) : ℝ) ^ L * (2 * L * G) ^ S (J + 1) *
+            G ^ ((k + 1) * L * R (J + 1))))) ^ Module.finrank ℚ K <
+      lmin ^ S (J + 1) * r₀ ^ (R J * S (J + 1)))
+    (hfin : (C * ((L + 1) ^ (k + 2) * entryBound k L h G)) ^ Module.finrank ℚ K *
+        (p : ℝ) ^ L *
+        ((2 * G ^ ((k + 1) * L)) ^ Module.finrank ℚ K) ^ ((L + 1) ^ (k + 1) * (L + 1)) *
+        r₀ ^ L < r₀ ^ (R Kmax * S Kmax)) :
+    False :=
+  sorry
+
+/-- **Layer 8.9, the choice of parameters**: powers of `X = 2 ^ t` for large `t` meet every
+condition of 8.8. -/
+theorem exists_parameters (k D p : ℕ) {r₀ B G C lmin : ℝ} (hr₀ : 1 < r₀) (hB : 0 ≤ B)
+    (hG : 0 ≤ G) (hC : 0 ≤ C) (hlmin0 : 0 < lmin) :
+    ∃ (L h Kmax : ℕ) (S R : ℕ → ℕ), 1 ≤ L ∧ 1 ≤ h ∧
+      2 * ((h ^ 2 + 1) ^ (k + 1) * h) ≤ (L + 1) ^ (k + 2) ∧
+      S 0 ≤ h ^ 2 ∧ R 0 ≤ h ∧ (∀ J < Kmax, 2 * S (J + 1) ≤ S J) ∧
+      (∀ J < Kmax, B ^ S (J + 1) * r₀ ^ L *
+        ((L + 1) ^ (k + 2) * (C * ((L + 1) ^ (k + 2) * entryBound k L h G) *
+          ((L + 1) * (R (J + 1) : ℝ) ^ L * (2 * L * G) ^ S (J + 1) *
+            G ^ ((k + 1) * L * R (J + 1))))) ^ D <
+        lmin ^ S (J + 1) * r₀ ^ (R J * S (J + 1))) ∧
+      (C * ((L + 1) ^ (k + 2) * entryBound k L h G)) ^ D * (p : ℝ) ^ L *
+        ((2 * G ^ ((k + 1) * L)) ^ D) ^ ((L + 1) ^ (k + 1) * (L + 1)) * r₀ ^ L <
+        r₀ ^ (R Kmax * S Kmax) :=
+  sorry
+
+/-- **Layer 8.10, Brumer's theorem**, the `p`-adic Baker theorem: `1` and `ℚ`-linearly
+independent `p`-adic logarithms of algebraic numbers are linearly independent over the algebraic
+numbers. -/
+theorem eq_zero_of_add_sum_mul_eq_zero {ι : Type*} [Fintype ι] {ℓ : ι → ℂ_[p]}
+    (hsmall : ∀ i, ‖ℓ i‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹))
+    (halg : ∀ i, IsAlgebraic ℚ (NormedSpace.exp (ℓ i))) (hli : LinearIndependent ℚ ℓ)
+    {β₀ : ℂ_[p]} {β : ι → ℂ_[p]} (hβ₀ : IsAlgebraic ℚ β₀) (hβ : ∀ i, IsAlgebraic ℚ (β i))
+    (hrel : β₀ + ∑ i, β i * ℓ i = 0) : β₀ = 0 ∧ ∀ i, β i = 0 :=
+  sorry
+
+/-- **Layer 8.10**: a linear form in `ℚ`-linearly independent `p`-adic logarithms of algebraic
+numbers, with algebraic coefficients not all zero, is transcendental. -/
+theorem transcendental_add_sum_mul {ι : Type*} [Fintype ι] {ℓ : ι → ℂ_[p]}
+    (hsmall : ∀ i, ‖ℓ i‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹))
+    (halg : ∀ i, IsAlgebraic ℚ (NormedSpace.exp (ℓ i))) (hli : LinearIndependent ℚ ℓ)
+    {β₀ : ℂ_[p]} {β : ι → ℂ_[p]} (hβ₀ : IsAlgebraic ℚ β₀) (hβ : ∀ i, IsAlgebraic ℚ (β i))
+    (hne : ∃ i, β i ≠ 0) : Transcendental ℚ (β₀ + ∑ i, β i * ℓ i) :=
+  sorry
+
+/-- A worked example: `exp p` is transcendental in `ℂ_[p]` for odd `p` (8.10 with `ℓ = p`). -/
+theorem transcendental_exp_natCast (hp2 : p ≠ 2) :
+    Transcendental ℚ (NormedSpace.exp (p : ℂ_[p])) :=
+  sorry
+
+/-- A rejection test: off the disc the exponential series diverges and `NormedSpace.exp` takes
+the value `0`, which is algebraic; so every target of Layer 8 assumes `‖ℓ‖ < p ^ (-1 / (p - 1))`
+(with `ℓ = 1`, 8.10 without it would give `-1 + 1 · 1 = 0` with nonzero coefficients). -/
+theorem exp_one_eq_zero : NormedSpace.exp (1 : ℂ_[p]) = 0 :=
+  sorry
+
+end PadicBaker
+
+end Layer8
 
 /-! ## Worked examples -/
 
