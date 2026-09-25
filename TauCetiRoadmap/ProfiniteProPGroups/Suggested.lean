@@ -1391,6 +1391,17 @@ noncomputable def presentedProPGen (p n : ℕ) (rels : Set (freeProP p (Fin n)))
     presentedProP p (Fin n) rels :=
   QuotientGroup.mk (freeProPGen p n i)
 
+/-- Out-of-range generators are `1` in `F`. This is the convention that lets a normal-form word
+be read at every rank, and it is also why a marking clause on the `i`-th generator says nothing
+about `G` when `i ≥ n`: see `not_marked_fourth_generator_of_rank_two`. -/
+theorem freeProPGen_of_le (p n i : ℕ) (h : n ≤ i) : freeProPGen p n i = 1 := by
+  simp [freeProPGen, not_lt.mpr h]
+
+/-- Out-of-range generators are `1` in every presented quotient. -/
+theorem presentedProPGen_of_le (p n : ℕ) (rels : Set (freeProP p (Fin n))) (i : ℕ)
+    (h : n ≤ i) : presentedProPGen p n rels i = 1 := by
+  rw [presentedProPGen, freeProPGen_of_le p n i h, QuotientGroup.mk_one]
+
 /-- The `q ≠ 2` normal-form word `x₁^q(x₁,x₂)(x₃,x₄)⋯(x_{n-1},x_n)`, on an arbitrary tuple. -/
 def demushkinWordNeTwo {H : Type*} [Group H] (q n : ℕ) (x : ℕ → H) : H :=
   x 0 ^ q * ((List.range (n / 2)).map fun i => labuteComm (x (2 * i)) (x (2 * i + 1))).prod
@@ -1410,6 +1421,20 @@ def demushkinWordTwoEven {H : Type*} [Group H] (a f n : ℕ) (x : ℕ → H) : H
   x 0 ^ (2 + a) * labuteComm (x 0) (x 1) * x 2 ^ (2 ^ f) *
     ((List.range (n / 2 - 1)).map fun i =>
       labuteComm (x (2 * i + 2)) (x (2 * i + 3))).prod
+
+/-- The `q = 2`, `n = 2` normal-form word `x₁^{2+α}(x₁,x₂)`, on an arbitrary tuple: the rank-two
+member of the even family, which has no `x₃^{2^f}` factor and hence no level `f`. It is what
+`demushkinWordTwoEven` reads as at rank `2` (`demushkinWordTwoEven_two`), and it is named
+separately because the marked classification at rank two prescribes character values on two
+generators only. -/
+def demushkinWordTwoRankTwo {H : Type*} [Group H] (a : ℕ) (x : ℕ → H) : H :=
+  x 0 ^ (2 + a) * labuteComm (x 0) (x 1)
+
+/-- At rank `2` the even word is the rank-two word: the `x₃^{2^f}` factor is `1` because the
+third generator is out of range, and the commutator product beyond `(x₁,x₂)` is empty. -/
+theorem demushkinWordTwoEven_two {H : Type*} [Group H] (a f : ℕ) (x : ℕ → H) (hx : x 2 = 1) :
+    demushkinWordTwoEven a f 2 x = demushkinWordTwoRankTwo a x := by
+  simp [demushkinWordTwoEven, demushkinWordTwoRankTwo, hx]
 
 variable (p : ℕ) [Fact p.Prime] (G : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [CompactSpace G] [TotallyDisconnectedSpace G]
@@ -1436,48 +1461,130 @@ theorem isDemushkin_marked_of_q_ne_two (hG : IsDemushkin p G) (hq : demushkinQ h
 /-- **Layer 9, the marked classification at `q = 2` with `n` odd.** Here `p = 2`, the relator is
 `x₁²x₂^{2^f}(x₂,x₃)⋯`, and the character values are `χ(x₁) = -1`, `χ(x₃)(1 - 2^f) = 1`, and `1`
 elsewhere. The standard abstract group `D₀` is the case `n = 3`, `f = 2`.
-⚠ `f` is an **invariant of `G`**, not a free parameter, and `hfG` is what says so: it asserts
-that the character value the conclusion pins is attained. Without it the statement reads "for
-every `f ≥ 2` there is a marked isomorphism onto the presented group with that `f`", and those
-presented groups are pairwise non-isomorphic, so all but one instance is false. The same trap
-applies to the even case below, and to any later theorem that lets a normal-form parameter float
-free of the group it classifies. -/
-theorem isDemushkin_marked_of_q_two_odd (hp : p = 2) (hG : IsDemushkin p G)
-    (hq : demushkinQ hG = 2) (hodd : Odd (demushkinRank hG)) (f : ℕ) (hf : 2 ≤ f)
-    (hfG : ∃ x : G, (demushkinCharacter hG x : ℤ_[p]) * (1 - 2 ^ f) = 1)
-    [TotallyDisconnectedSpace (presentedProP p (Fin (demushkinRank hG))
-      {demushkinWordTwoOdd f (demushkinRank hG) (freeProPGen p (demushkinRank hG))})] :
-    ∃ e : G ≃ₜ* presentedProP p (Fin (demushkinRank hG))
-        {demushkinWordTwoOdd f (demushkinRank hG) (freeProPGen p (demushkinRank hG))},
-      demushkinCharacter hG (e.symm (presentedProPGen p (demushkinRank hG) _ 0)) = -1 ∧
-        ((demushkinCharacter hG (e.symm (presentedProPGen p (demushkinRank hG) _ 2)) : ℤ_[p])
+⚠ `f` is an **invariant of `G`**, not a free parameter, and `hrange` is what says so: `f` is the
+level of the orientation image, `Im χ = {±1} × U^(f)`, well defined by
+`closedSubgroup_units_two_level_unique`. Only the image equation pins it. The weaker condition
+that the value `(1 - 2^f)⁻¹` is attained does **not**: it is monotone in `f`, because
+`(1 - 2^f)⁻¹ ∈ U^(f) ⊆ U^(f₀)` for every `f ≥ f₀`, so under it the statement would assert marked
+isomorphisms onto the presented groups of every level `f ≥ f₀`, whose orientation images
+`{±1} × U^(f)` are pairwise distinct isomorphism invariants (`demushkinCharacter_range_congr`),
+and every instance but `f = f₀` would be false. The same trap applies to the even case below, and
+to any later theorem that lets a normal-form parameter float free of the group it classifies.
+The theorem is stated at the literal prime `2`, because the image equation lives in
+`Subgroup ℤ_[2]ˣ`; the value `f = ∞`, image `{±1}`, is not covered by this word.
+⚠ The marking prescribes a value at the third generator, so the rank must be at least `3`:
+`freeProPGen` is `1` out of range (`presentedProPGen_of_le`), and at rank `1` the clause
+`χ(x₃)(1 - 2^f) = 1` would read `1 - 2^f = 1`, which is false. Rank `1` is `ℤ/2` with image
+`{±1}`, which `hrange` already excludes for finite `f`; `hn` makes the exclusion explicit rather
+than leaving it to a computation with the image. Compare `hn` on the even theorem, where the
+corresponding rank-two family is a genuine case with its own statement. -/
+theorem isDemushkin_marked_of_q_two_odd (hG : IsDemushkin 2 G)
+    (hq : demushkinQ hG = 2) (hodd : Odd (demushkinRank hG)) (hn : 3 ≤ demushkinRank hG)
+    (f : ℕ) (hf : 2 ≤ f)
+    (hrange : (demushkinCharacter hG).range = unitsPlusMinus f)
+    [TotallyDisconnectedSpace (presentedProP 2 (Fin (demushkinRank hG))
+      {demushkinWordTwoOdd f (demushkinRank hG) (freeProPGen 2 (demushkinRank hG))})] :
+    ∃ e : G ≃ₜ* presentedProP 2 (Fin (demushkinRank hG))
+        {demushkinWordTwoOdd f (demushkinRank hG) (freeProPGen 2 (demushkinRank hG))},
+      demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ 0)) = -1 ∧
+        ((demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ 2)) : ℤ_[2])
           * (1 - 2 ^ f) = 1) ∧
         ∀ i : ℕ, i ≠ 0 → i ≠ 2 → i < demushkinRank hG →
-          demushkinCharacter hG (e.symm (presentedProPGen p (demushkinRank hG) _ i)) = 1 :=
+          demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ i)) = 1 :=
   sorry
 
-/-- **Layer 9, the marked classification at `q = 2` with `n` even.** The relator is
+/-- **Layer 9, the marked classification at `q = 2` with `n` even and `n ≥ 4`.** The relator is
 `x₁^{2+α}(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯`, and the character values are `χ(x₂)(1 + α) = -1`,
 `χ(x₄)(1 - 2^f) = 1`, and `1` elsewhere. The image is `{±1} × U^(f)` when `v₂(α) ≥ f`, and
-`U^[v₂(α)]` otherwise, which is the table of Layer 7.
-⚠ As in the odd case, `a` and `f` are invariants of `G` and `haG`/`hfG` are what pin them; with
-both parameters free the statement is false for every pair but one. -/
-theorem isDemushkin_marked_of_q_two_even (hp : p = 2) (hG : IsDemushkin p G)
-    (hq : demushkinQ hG = 2) (heven : Even (demushkinRank hG)) (a f : ℕ) (hf : 2 ≤ f)
-    (ha : 4 ∣ a)
-    (haG : ∃ x : G, (demushkinCharacter hG x : ℤ_[p]) * (1 + (a : ℤ_[p])) = -1)
-    (hfG : ∃ x : G, (demushkinCharacter hG x : ℤ_[p]) * (1 - 2 ^ f) = 1)
-    [TotallyDisconnectedSpace (presentedProP p (Fin (demushkinRank hG))
-      {demushkinWordTwoEven a f (demushkinRank hG) (freeProPGen p (demushkinRank hG))})] :
-    ∃ e : G ≃ₜ* presentedProP p (Fin (demushkinRank hG))
-        {demushkinWordTwoEven a f (demushkinRank hG) (freeProPGen p (demushkinRank hG))},
-      ((demushkinCharacter hG (e.symm (presentedProPGen p (demushkinRank hG) _ 1)) : ℤ_[p])
-          * (1 + (a : ℤ_[p])) = -1) ∧
-        ((demushkinCharacter hG (e.symm (presentedProPGen p (demushkinRank hG) _ 3)) : ℤ_[p])
+`U^[v₂(α)]` otherwise, which is the table of Layer 7; `hrange` is that table read as a
+hypothesis, and it is what pins the parameters to `G`:
+- in the branch `2^f ∣ a` with `Im χ = {±1} × U^(f)`, the level `f` is pinned by the image and
+  `a` is free above it: the presented groups for the different `a` with `v₂(a) ≥ f` all have
+  image `{±1} × U^(f)` and are isomorphic by Labute's classification;
+- in the branch `k = v₂(a) < f` with `Im χ = U^[k] = procyclicClosure u`, `(u : ℤ₂) = -1 + 2^k`,
+  the valuation `k` is pinned by the image and `f > k` is free: `(1 - 2^f)⁻¹ ∈ U^(f) ⊆ U^[k]` for
+  every `f > k`, and the presented groups for the different `f > k` are all Labute's
+  `x₁^{2+2^k}(x₁,x₂)(x₃,x₄)⋯`, the value `f = ∞`.
+⚠ The pair of attainment conditions `∃ x, χ(x)(1 + a) = -1` and `∃ x, χ(x)(1 - 2^f) = 1` does
+**not** pin the parameters: the second is monotone in `f`, so in the `{±1} × U^(f₀)` branch it
+holds for every `f ≥ f₀` while the presented groups for `f > f₀` have the different orientation
+image `{±1} × U^(f)`, and the statement under those conditions is false for every such `f`. The
+theorem is stated at the literal prime `2`, because the image equation lives in
+`Subgroup ℤ_[2]ˣ`.
+⚠ The rank hypothesis `hn` is not decoration. The marking prescribes a value at the fourth
+generator, and at rank `2` that generator is `1` (`presentedProPGen_of_le`), so the clause
+`χ(x₄)(1 - 2^f) = 1` would read `1 - 2^f = 1`, which is false in `ℤ₂`; the hypotheses are
+otherwise satisfiable at rank `2`, by `⟨x₁, x₂ | x₁⁶(x₁,x₂)⟩` with `a = 4`, `f = 3` and image
+`U^[2]`. That is `not_marked_fourth_generator_of_rank_two`, with a closed proof. The rank-two
+family is `isDemushkin_marked_of_q_two_rank_two`; it is Labute's `N ≥ 1` against the `N ≥ 2` of
+the `x₃^{2^f}` form, as `README.md` records under the `q = 2` even-rank case. -/
+theorem isDemushkin_marked_of_q_two_even (hG : IsDemushkin 2 G)
+    (hq : demushkinQ hG = 2) (heven : Even (demushkinRank hG)) (hn : 4 ≤ demushkinRank hG)
+    (a f : ℕ) (hf : 2 ≤ f) (ha : 4 ∣ a)
+    (hrange : (2 ^ f ∣ a ∧ (demushkinCharacter hG).range = unitsPlusMinus f) ∨
+      (padicValNat 2 a < f ∧ ∃ u : ℤ_[2]ˣ, (u : ℤ_[2]) = -1 + 2 ^ padicValNat 2 a ∧
+        (demushkinCharacter hG).range = procyclicClosure u))
+    [TotallyDisconnectedSpace (presentedProP 2 (Fin (demushkinRank hG))
+      {demushkinWordTwoEven a f (demushkinRank hG) (freeProPGen 2 (demushkinRank hG))})] :
+    ∃ e : G ≃ₜ* presentedProP 2 (Fin (demushkinRank hG))
+        {demushkinWordTwoEven a f (demushkinRank hG) (freeProPGen 2 (demushkinRank hG))},
+      ((demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ 1)) : ℤ_[2])
+          * (1 + (a : ℤ_[2])) = -1) ∧
+        ((demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ 3)) : ℤ_[2])
           * (1 - 2 ^ f) = 1) ∧
         ∀ i : ℕ, i ≠ 1 → i ≠ 3 → i < demushkinRank hG →
-          demushkinCharacter hG (e.symm (presentedProPGen p (demushkinRank hG) _ i)) = 1 :=
+          demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ i)) = 1 :=
   sorry
+
+/-- **Layer 9, the marked classification at `q = 2` with `n = 2`.** The rank-two member of the
+even family: the relator is `x₁^{2+α}(x₁,x₂)`, with no `x₃^{2^f}` factor and hence no level `f`,
+and the character values are `χ(x₁) = 1` and `χ(x₂)(1 + α) = -1`. The image is `U^[v₂(α)]`,
+which pins `v₂(α)` to `G` and leaves `α` free within its valuation, exactly as in the `U^[k]`
+branch of the rank `≥ 4` theorem. The other branch of that theorem does not occur here: a
+rank-two image is topologically generated by `χ(x₂)`, and `{±1} × U^(f)` with `f < ∞` is not
+procyclic (Layer 7), so at rank two the even family with finite parameters is this word alone,
+Labute's `N ≥ 1` against `N ≥ 2`. The image `{±1}`, the word `x₁²(x₁,x₂)` with `α = 0`, is the
+value `f = ∞` and is not covered here, as in the odd case; at `a = 0` the hypothesis `hrange`
+demands the unit `-1 + 2^0 = 0` and is unsatisfiable, not junk-valued. -/
+theorem isDemushkin_marked_of_q_two_rank_two (hG : IsDemushkin 2 G)
+    (hq : demushkinQ hG = 2) (hrank : demushkinRank hG = 2) (a : ℕ) (ha : 4 ∣ a)
+    (hrange : ∃ u : ℤ_[2]ˣ, (u : ℤ_[2]) = -1 + 2 ^ padicValNat 2 a ∧
+      (demushkinCharacter hG).range = procyclicClosure u)
+    [TotallyDisconnectedSpace (presentedProP 2 (Fin (demushkinRank hG))
+      {demushkinWordTwoRankTwo a (freeProPGen 2 (demushkinRank hG))})] :
+    ∃ e : G ≃ₜ* presentedProP 2 (Fin (demushkinRank hG))
+        {demushkinWordTwoRankTwo a (freeProPGen 2 (demushkinRank hG))},
+      demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ 0)) = 1 ∧
+        ((demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ 1)) : ℤ_[2])
+          * (1 + (a : ℤ_[2])) = -1) :=
+  sorry
+
+/-- **Layer 9, rejection test: the four-generator marking is unsatisfiable at rank two.** At
+rank `2` the fourth generator `presentedProPGen 2 _ _ 3` is `1`, and every isomorphism and every
+character sends `1` to `1`, so the clause `χ(x₄)(1 - 2^f) = 1` of the even marked classification
+reads `1 - 2^f = 1`, which is false in `ℤ₂`, for every `f`, every relator set and every
+isomorphism `e`. An earlier form of `isDemushkin_marked_of_q_two_even` asserted that clause
+without the hypothesis `hn`; its other hypotheses are met at rank `2` by `⟨x₁, x₂ | x₁⁶(x₁,x₂)⟩`
+with `a = 4`, `f = 3` and image `U^[2]`, so it was false there. The proof is closed, so the
+marking cannot be widened back to rank `2` without breaking the build. -/
+theorem not_marked_fourth_generator_of_rank_two (hG : IsDemushkin 2 G)
+    (hrank : demushkinRank hG = 2) (f : ℕ) (rels : Set (freeProP 2 (Fin (demushkinRank hG))))
+    (e : G ≃ₜ* presentedProP 2 (Fin (demushkinRank hG)) rels) :
+    ¬ ((demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) rels 3)) : ℤ_[2])
+        * (1 - 2 ^ f) = 1) := by
+  rw [presentedProPGen_of_le _ _ _ _ (by omega), map_one, map_one, Units.val_one, one_mul,
+    sub_eq_self]
+  exact pow_ne_zero _ two_ne_zero
+
+/-- The reviewer's witness, read against the relator the earlier statement would have produced:
+`⟨x₁, x₂ | x₁⁶(x₁,x₂)⟩` is `demushkinWordTwoEven 4 3` at rank `2`, and no isomorphism onto it
+satisfies the fourth-generator clause with `f = 3`. -/
+example (hG : IsDemushkin 2 G) (hrank : demushkinRank hG = 2)
+    (e : G ≃ₜ* presentedProP 2 (Fin (demushkinRank hG))
+      {demushkinWordTwoEven 4 3 (demushkinRank hG) (freeProPGen 2 (demushkinRank hG))}) :
+    ¬ ((demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ 3)) : ℤ_[2])
+        * (1 - 2 ^ 3) = 1) :=
+  not_marked_fourth_generator_of_rank_two G hG hrank 3 _ e
 
 /-- **Layer 9, Labute Thm 2: relators with the same invariants are equivalent under an
 automorphism of `F`.** This is the statement the marked instances above rest on: it is what
