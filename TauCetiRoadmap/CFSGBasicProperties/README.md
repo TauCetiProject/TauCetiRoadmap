@@ -143,8 +143,9 @@ points**: the finite-field root groups, the fact that the Steinberg map permutes
 subgroups and preserves the Bruhat decomposition, fixed-point Bruhat descent including the
 factorization of invariant cells, and the generation of the finite fixed-point group by the
 resulting twisted root groups and torus. Establish the needed fixed-point factorization by direct
-root-subgroup arguments on the Chevalley group (Carter, *Simple Groups of Lie Type*, Chapters 13
-and 14; Steinberg, *Lectures on Chevalley Groups*, §11), which need no Lang–Steinberg theorem.
+root-subgroup arguments on the Chevalley group, which need no Lang–Steinberg theorem: Steinberg,
+*Lectures on Chevalley Groups*, Chapter 11, Theorem 33, derives the Bruhat decomposition of the
+fixed points from the uniqueness in the ambient one.
 
 For an ordinary group, take the finite-field root groups fixed by Frobenius. For a graph-twisted
 group, fold root orbits under the diagram–field map and prove the corresponding twisted root
