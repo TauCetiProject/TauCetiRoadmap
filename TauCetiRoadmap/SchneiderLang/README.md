@@ -1,37 +1,38 @@
 # Roadmap: the Schneider–Lang criterion for `ℂ^{d₀} × (ℂˣ)^{d₁}`, and Baker's theorem over `ℂ` and `ℂ_p`
 
-Mathlib has Liouville numbers, the house of an algebraic number with Siegel's lemma over number
-fields, and the analytic part of Hermite's method for Lindemann–Weierstrass. It does not prove
-that `e` or `π` is transcendental (Mathlib PR
-[#28013](https://github.com/leanprover-community/mathlib4/pull/28013) proves the
-Lindemann–Weierstrass theorem, and both with it), it has no Gelfond–Schneider theorem (Mathlib PR
+This roadmap is about the transcendence of values of the exponential function. Its main results
+are Baker's theorem on linear forms in logarithms, over `ℂ` and over `ℂ_p`, and the classical
+theorems that come before it.
+
+Over `ℂ`, **Baker's theorem** says: if `α₁, …, αₙ` are nonzero algebraic numbers whose logarithms
+are linearly independent over `ℚ`, then `1, log α₁, …, log αₙ` are linearly independent over the
+algebraic numbers. We prove it as Waldschmidt does in Chapter 4 of *Diophantine Approximation on
+Linear Algebraic Groups*, through the Schneider–Lang criterion for `ℂ^{d₀} × (ℂˣ)^{d₁}` (his
+Corollary 4.2, with the direct proof of §4.6). Hermite–Lindemann and Gelfond–Schneider come out of
+the same criterion on the way. The two analytic ingredients are a Schwarz lemma for Cartesian
+products (Proposition 4.7) and an auxiliary function built by the Thue–Siegel method
+(Proposition 4.10). Both need power series in several variables at the level of multi-indices,
+which Mathlib does not have, so we build that too. The book is cited so that it is clear which
+proof is meant; where a target below differs from it, the target says so.
+
+Over `ℂ_p` the corresponding statement is **Brumer's theorem** (Layer 8): if `ℓ₁, …, ℓₙ ∈ ℂ_[p]`
+lie in the disc `‖z‖ < p ^ (-1 / (p - 1))` where the exponential converges, have algebraic
+exponentials, and are linearly independent over `ℚ`, then `1, ℓ₁, …, ℓₙ` are linearly independent
+over the algebraic numbers. The criterion is of no use here, since it needs functions defined on
+all of `ℂⁿ` and the `p`-adic exponential only converges on that disc. We follow Baker's own
+argument instead, as in Chapter 2 of Baker and Masser's *Transcendental Number Theory*: it works
+with series in one variable along a diagonal and needs no multiplicity estimate. Layer 8 uses the
+arithmetic of Layer 3 and nothing else from the complex part.
+
+Mathlib has Liouville numbers, the house of an algebraic number, Siegel's lemma over number fields,
+and the analytic half of Hermite's method for Lindemann–Weierstrass. It does not prove that `e` or
+`π` is transcendental, and it has no Gelfond–Schneider theorem. Two Mathlib pull requests cover
+part of this: [#28013](https://github.com/leanprover-community/mathlib4/pull/28013) proves
+Lindemann–Weierstrass, and `e` and `π` with it, and
 [#42911](https://github.com/leanprover-community/mathlib4/pull/42911), by the author of this
-roadmap, proves it by the one-variable method), and it has no analysis of holomorphic functions of
-several variables beyond what holds on an arbitrary normed space. This roadmap builds the
-transcendence theory of the exponential function through the criterion of Schneider–Lang for
-`ℂ^{d₀} × (ℂˣ)^{d₁}`, and derives from it Hermite–Lindemann, Gelfond–Schneider and **Baker's
-theorem on linear forms in logarithms**: if `α₁, …, αₙ` are nonzero algebraic numbers whose
-logarithms are linearly independent over `ℚ`, then `1, log α₁, …, log αₙ` are linearly independent
-over the field of algebraic numbers.
-
-The route is Waldschmidt, *Diophantine Approximation on Linear Algebraic Groups*, Chapter 4:
-Corollary 4.2 (Schneider–Lang for `ℂ^{d₀} × (ℂˣ)^{d₁}`) with its direct proof in §4.6, its special
-cases Corollaries 4.3 and 4.4, Theorem 4.5, and Theorem 1.6 (Baker's theorem). The book is cited
-for definiteness; the specification is the statements below, which depart from it where they say
-so. The analytic tools are a Schwarz lemma for Cartesian products (Proposition 4.7) and an
-auxiliary function built by the Thue–Siegel method (Proposition 4.10); both rest on a theory of
-power series in several variables, which this roadmap also builds.
-
-Layer 8 proves the `p`-adic analogue, **Brumer's theorem**: if `ℓ₁, …, ℓₙ ∈ ℂ_[p]` lie in the disc
-`‖z‖ < p ^ (-1 / (p - 1))` on which the exponential converges, have algebraic exponentials, and are
-linearly independent over `ℚ`, then `1, ℓ₁, …, ℓₙ` are linearly independent over the algebraic
-numbers. It is proved by Baker's own method (Baker and Masser, *Transcendental Number Theory*,
-Chapter 2), carried over to `ℂ_[p]`, and not through the criterion: the criterion needs functions
-analytic on all of `ℂⁿ` with growth bounds, while the `p`-adic exponential converges only on that
-disc. Baker's method works with series in one variable along a diagonal and needs no multiplicity
-estimate. Layer 8 shares Layer 3 with the complex part and is otherwise independent of it.
-
-The roadmap depends only on Mathlib; the related Tau Ceti declarations are listed below.
+roadmap, proves Gelfond–Schneider by the one-variable method. *Coordination with Mathlib* below
+says how the roadmap treats them. The roadmap depends only on Mathlib; the Tau Ceti declarations
+that touch it are listed below.
 
 Suggested homes:
 - `TauCeti/Analysis/Analytic/MultiIndex/`: multi-index power series and Taylor coefficients
