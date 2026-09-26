@@ -146,10 +146,10 @@ uniqueness of the witness itself holds on the conditional side
 `ConditionallyIIDWith μ X ν → MixedIIDWith μ X ν` with its existential corollary
 `mixedIID_of_conditionallyIID`; the hard converse is de Finetti's upgrade to the canonical
 tail-measurable directing measure (`conditionallyIID_of_exchangeable`, Layer 6), and the
-summit theorems conclude `ConditionallyIID`, never merely `MixedIID`. Sequencing note:
-TauCeti's landed API currently uses the name `ConditionallyIID` for the *mixture* shape, so
-the code rename (to `MixedIID` / `MixedIIDWith`) must land **before** the conditional
-predicate is implemented under this name.
+summit theorems conclude `ConditionallyIID`, never merely `MixedIID`. The two naming families are
+part of the specification: `MixedIIDWith` / `MixedIID` name the mixture identities, while
+`ConditionallyIIDWith` / `ConditionallyIID` name the joint-law disintegration. Do not overload
+either family with the other meaning.
 
 The standard-Borel hypotheses belong in the directing-measure construction and final
 de Finetti theorem, not in every elementary definition. Similarly, L² assumptions belong
@@ -188,9 +188,9 @@ roadmap.
 Consume these directly rather than re-proving Mathlib's product-measure,
 conditional-expectation, Hilbert-space, or mean-ergodic infrastructure.
 
-## What is missing (build here)
+## Implementation scope
 
-The missing pieces are:
+This roadmap develops:
 
 * finite-dimensional exchangeability and full exchangeability for sequence laws;
 * contractability and the proof `Exchangeable → Contractable`;
@@ -445,14 +445,14 @@ hewittSavage_trivial_of_iIndep
 Suggested home:
 
 ```text
-TauCeti/Probability/Exchangeability/L2/Covariance.lean
-TauCeti/Probability/Exchangeability/L2/BlockAverages.lean
-TauCeti/Probability/DeFinetti/ViaL2.lean
+TauCeti/Probability/Exchangeability/L2/
+TauCeti/Probability/DeFinetti/ViaL2/
 ```
 
-This is the first proof route to port after the shared layers. Its analytic core is
-real-valued and second-moment, but the Layer 3 milestone is the standard-Borel de Finetti
-statement, not a relabeled real-valued theorem.
+This route consumes the shared layers and reaches the standard-Borel de Finetti theorem
+independently of reverse-martingale convergence. Its analytic core is real-valued and
+second-moment, but the Layer 3 milestone is the standard-Borel theorem, not a relabeled
+real-valued result.
 
 Build:
 
@@ -461,32 +461,44 @@ Build:
 * the uniform covariance structure of a contractable L² sequence;
 * two-window L² bounds for block averages;
 * long-average versus tail-average bounds;
-* L¹ convergence of weighted block averages;
-* extension from bounded measurable real observables to a countable determining class on the
-  standard Borel state space;
-* the directing-measure bridge;
-* the calls to the common endings — `mixedIID_of_mixingRepresentative` and the joint-rectangle
-  `conditionallyIID_of_jointRectangles` for the conditional summit.
+* L¹ convergence of bounded-observable block averages along moving selections that are eventually
+  injective, to a common limit independent of the selections;
+* tail measurability of that limit and its identification with
+  `μ[f ∘ X 0 | tailProcess X]`;
+* for indicator observables, identification of the same limit with the evaluation
+  `ω ↦ (directingMeasure μ X ω).real B` of the canonical tail conditional law;
+* simultaneous L¹ convergence of finite products along disjoint windows;
+* tail-conditioned invariance of finite blocks under strictly monotone selections;
+* finite-block conditional factorization, followed by the joint-rectangle common ending with
+  `directingProbabilityMeasure μ X` as the named witness.
 
 Key milestones:
 
 ```lean
 contractable_covariance_structure
-l2_bound_two_windows_uniform
-l2_bound_long_vs_tail
+integral_sq_blockAverage_sub_of_disjoint
+tendsto_integral_sq_prefixAverage_sub_followingAverage
 weighted_sums_converge_L1
-realObservables_determine_directing_measure
-directing_measure_satisfies_requirements
+tendsto_integral_abs_blockAverage_sub_condExp
+tendsto_integral_abs_blockAverage_indicator_sub_directingMeasure
+tendsto_integral_abs_prod_blockAverage_indicator_disjointWindow_sub_prod_directingMeasure
+condExp_blockIndicatorProd_strictMono_tailProcess_ae_eq_prod_directingMeasure
+conditionallyIIDWith_directingProbabilityMeasure
 conditionallyIID_of_contractable_viaL2
 deFinetti_viaL2
 deFinetti_RyllNardzewski_equivalence_viaL2
 ```
 
-Real-valued L² convergence is the intermediate analytic step. Through the common ending and a
-determining class of bounded measurable real observables on the standard Borel state space,
-the route reaches the standard-Borel de Finetti statement; the roadmap target is this
-library-level theorem, stronger than the bare real-valued conclusion the source currently
-carries.
+Real-valued L² convergence is the intermediate analytic step, not a reconstruction procedure for
+the directing measure. Use the canonical `directingMeasure`, defined as the conditional law of
+`X 0` given `tailProcess X`, and identify indicator limits with its evaluations through the
+conditional-expectation characterization. Reconstructing a second measure from a countable
+determining class would duplicate that object and is not part of this route. The finite-product
+limit and tail-conditioned selection invariance then give the conditional block factorization
+consumed by the common ending, yielding the standard-Borel de Finetti theorem rather than only a
+real-valued convergence result. The directing-measure construction and common ending are shared
+neutral API; the Layer 3 factorization and endpoint must not depend on reverse-martingale
+convergence or the unsuffixed summit theorem.
 
 ### Layer 4: reverse martingales and conditional-expectation limits
 
@@ -665,8 +677,9 @@ The directing-measure theorem should expose a real API, not just an existence pr
 * **a.e.** uniqueness of `ν` **among directing measures**, i.e. among witnesses of
   `ConditionallyIIDWith` (`conditionallyIID_ae_unique`: equality of probability measures a.e.
   under the base law, tested against a determining class — not pointwise). Pin its hypotheses:
-  `[IsProbabilityMeasure μ] [StandardBorelSpace α] [Nonempty α]`, measurable `X`, and two
-  explicit `ConditionallyIIDWith μ X ν` / `ConditionallyIIDWith μ X ν'` hypotheses, concluding
+  `[IsProbabilityMeasure μ] [MeasurableSpace.CountablyGenerated α]`, a.e.-measurable coordinates
+  `∀ i, AEMeasurable (X i) μ`, and two explicit `ConditionallyIIDWith μ X ν` /
+  `ConditionallyIIDWith μ X ν'` hypotheses, concluding
   `ν =ᵐ[μ] ν'`. Mere mixing
   representatives (witnesses of `MixedIIDWith`) are **not** a.e. unique when the mixing law is
   nondegenerate — an independent copy of `ν` is one — so no witness-level a.e.-equality
@@ -688,10 +701,45 @@ The directing-measure theorem should expose a real API, not just an existence pr
   the directing measure as a coordinate and is therefore strictly stronger than the integrated
   mixture identity for `pathLaw μ X`. It is a derived public API theorem, **not** a prerequisite
   for the v1 summit, empirical-measure convergence, or the extreme-point theorem;
-* the empirical-measure form: `(1/n) Σ_{i<n} δ_{Xᵢ}(ω) ⇒ ν(ω)` weakly in `P(α)`, tested
-  against bounded continuous functions (a milestone in its own right, bringing in the weak
-  topology on `ProbabilityMeasure α`; not a prerequisite for the base directing-measure
-  theorem);
+* **empirical tests and frequencies, without a topology on `α`:** for every bounded measurable
+  real-valued `f`, the integral of `f` against the empirical measure converges almost surely to
+  its integral against `ν(ω)`. For an indicator `𝟙_B`, this says the empirical frequency of the
+  measurable set `B` converges to `ν(ω)(B)`. More strongly, for any countable family
+  `B : ι → Set α` of measurable sets, use one null set on which the convergence holds for every
+  `j : ι`. Expose the witness-level theorems
+  `ConditionallyIIDWith.tendsto_integral_empiricalMeasure_ae` and
+  `ConditionallyIIDWith.tendsto_empiricalMeasure_apply_ae_forall` and the de Finetti corollary
+  `deFinetti_tendsto_empiricalMeasure_apply`. Do **not** ask for one null set on which convergence
+  holds for every measurable set: this is false for a nonatomic directing measure, since the
+  countable range of a sample path has empirical mass one and directing mass zero;
+* **weak empirical-measure convergence, with a chosen topology on `α`:** assume
+  `[TopologicalSpace α] [PolishSpace α] [BorelSpace α]` (and `[Nonempty α]` for the de Finetti
+  corollary), so `ProbabilityMeasure α` carries its topology of convergence in distribution, and
+  first prove the witness-level statement
+
+  ```lean
+  theorem ConditionallyIIDWith.tendsto_empiricalMeasure_ae
+      [TopologicalSpace α] [PolishSpace α] [BorelSpace α] [IsFiniteMeasure μ]
+      (h : ConditionallyIIDWith μ X ν) (hX : ∀ n, AEMeasurable (X n) μ) :
+      ∀ᵐ ω ∂μ, Tendsto (fun n ↦ empiricalMeasure (fun i ↦ X i ω) n) atTop (𝓝 (ν ω))
+  ```
+
+  and then its de Finetti wrapper
+
+  ```lean
+  theorem deFinetti_empiricalMeasure
+      [TopologicalSpace α] [PolishSpace α] [BorelSpace α] [Nonempty α]
+      [IsFiniteMeasure μ] (hX_meas : ∀ n, Measurable (X n)) (hX : Exchangeable μ X) :
+      ∃ ν : Ω → ProbabilityMeasure α, ConditionallyIIDWith μ X ν ∧
+        ∀ᵐ ω ∂μ, Tendsto (fun n ↦ empiricalMeasure (fun i ↦ X i ω) n) atTop (𝓝 (ν ω))
+  ```
+
+  Equivalently, the integrals of every bounded continuous real-valued function converge. Obtain
+  the single almost-sure set needed for weak convergence through a countable
+  convergence-determining family available on a Polish space. A bare
+  `[StandardBorelSpace α]` does not select a compatible topology and is therefore insufficient
+  for this statement. This remains a milestone in its own right and is not a prerequisite for the
+  base directing-measure theorem;
 * the mixture-of-product-measures form: `pathLaw X = ∫ p^{⊗ℕ} dπ(p)` with `π` the unique law
   of `ν` on `P(α)`;
 * the **zero-one, ergodic, and extreme interfaces** for exchangeable laws. For an exchangeable
@@ -759,6 +807,10 @@ mixedIID_of_contractable
 deFinetti_viaL2
 deFinetti_viaKoopman
 
+ConditionallyIIDWith.tendsto_integral_empiricalMeasure_ae
+ConditionallyIIDWith.tendsto_empiricalMeasure_apply_ae_forall
+deFinetti_tendsto_empiricalMeasure_apply
+ConditionallyIIDWith.tendsto_empiricalMeasure_ae
 deFinetti_empiricalMeasure
 ConditionallyIIDWith.jointPathLaw_eq_iidMixtureLaw
 deFinetti_mixture
@@ -778,7 +830,54 @@ and approximation results.
 
 Build:
 
-* finite de Finetti bounds, including quantitative approximation by mixtures of products;
+* **finite de Finetti bounds.** Build the finite-population sampling API rather than only its
+  final inequality:
+
+  - for a nonempty finite index type `κ`, define `empiricalMeasureOfFintype x`, the empirical
+    probability measure of a population `x : κ → α`, with evaluation, integration, and
+    measurability lemmas. Require the sequence-specific `empiricalMeasure x n` to be its
+    `Fin (n + 1)` specialization, so both APIs share one finite-sum construction;
+  - alongside `sampleWithoutReplacement`, define `sampleWithReplacement` for a random finite
+    population law `ρ : Measure (κ → α)` and a finite sample index `ι`. Sampling with and without
+    replacement use one shared random-population reindexing construction and differ only in
+    whether the sampled index map is unrestricted or conditioned to be injective;
+  - identify `sampleWithReplacement ρ` with the mixture obtained by first drawing `x ∼ ρ` and
+    then taking the `ι`-fold product of the empirical probability measure of `x`;
+  - use the exact representation of an exchangeable marginal as sampling without replacement:
+    `ExchangeableAt.sampleWithoutReplacement_eq_prefixLaw`.
+
+  For `[IsProbabilityMeasure μ]`, `h : ExchangeableAt μ X n`, `0 < n`, `m ≤ n`, and
+  `hX : ∀ i : Fin n, AEMeasurable (X i.val) μ`, compare `prefixLaw μ X m` with
+  `sampleWithReplacement (ι := Fin m) (prefixLaw μ X n)`. For every measurable
+  `A : Set (Fin m → α)`, prove both inequalities
+
+  ```text
+  prefixLaw μ X m A
+    ≤ sampleWithReplacement (ι := Fin m) (prefixLaw μ X n) A
+        + (m.choose 2 : ℝ≥0∞) / n,
+
+  sampleWithReplacement (ι := Fin m) (prefixLaw μ X n) A
+    ≤ prefixLaw μ X m A + (m.choose 2 : ℝ≥0∞) / n.
+  ```
+
+  These eventwise inequalities pin the normalization without depending on a particular
+  total-variation API. Under the probability convention
+  `dTV(P,Q) = sup_{A measurable} |P(A) - Q(A)|`, they say
+  `dTV(P,Q) ≤ (m.choose 2)/n`. Under the signed-measure norm convention
+  `‖P - Q‖TV = 2 * dTV(P,Q)`, the corresponding bound is
+  `‖P - Q‖TV ≤ 2 * (m.choose 2)/n`. Any total-variation corollary must state which convention it
+  uses; an unqualified “total variation at most `(m.choose 2)/n`” is not an acceptable target.
+
+  Key milestones:
+
+  ```lean
+  empiricalMeasureOfFintype
+  sampleWithoutReplacement
+  sampleWithReplacement
+  sampleWithReplacement_eq_bind_pi_empiricalMeasureOfFintype
+  ExchangeableAt.sampleWithoutReplacement_eq_prefixLaw
+  ExchangeableAt.finiteDeFinetti
+  ```
 * de Finetti for other countable index types;
 * the affine and ergodic decomposition of exchangeable laws: package `p ↦ p^{⊗ℕ}` and the de
   Finetti barycenter as an affine correspondence between mixing laws and exchangeable path laws.
@@ -841,6 +940,8 @@ representation theorems) sequences after the v1 theorem.
 * Czesław Ryll-Nardzewski, "On stationary sequences of random variables and the de
   Finetti's equivalence", 1957.
 * Edwin Hewitt and Leonard Savage, "Symmetric measures on Cartesian products", 1955.
+* Persi Diaconis and David Freedman, "Finite exchangeable sequences", *Annals of Probability*
+  8 (1980), 745–764.
 * Cameron Freer, *Three Roads to de Finetti's Theorem in Lean* (short paper),
   [ITP 2026](https://itp-conference-2026.github.io/program.html).
 * `cameronfreer/exchangeability`, Lean 4 formalization of exchangeability and de Finetti.

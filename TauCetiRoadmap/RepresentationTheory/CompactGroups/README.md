@@ -37,7 +37,7 @@ corollaries, with `SU(2)` and the torus as the foundational worked engine. Sugge
 **Two neighbouring roadmaps, cited rather than rebuilt.** The Hilbert-space completeness machinery
 this roadmap consumes - turning an orthonormal system into a complete `HilbertBasis`, Parseval,
 product bases - is exactly the subject of [the weighted orthogonal L² bases
-roadmap](../../OrthogonalL2Bases/README.md); Peter-Weyl's final assembly step is that roadmap's
+roadmap](../../../Completed/OrthogonalL2Bases/README.md); Peter-Weyl's final assembly step is that roadmap's
 "orthonormal system + completeness ⇒ `HilbertBasis`" pattern, instantiated with `G`-matrix
 coefficients in place of orthogonal polynomials, and this roadmap cites its `HilbertBasis`-assembly
 lemmas rather than reproving them. In the opposite direction, specializing every theorem here to a
@@ -92,7 +92,7 @@ separate development.
   continuous functions is `ContinuousMap.toLp_denseRange`. The circle instance
   (`fourierBasis`, `coe_fourierBasis`, `haarAddCircle`) is the template every general statement must
   specialize back to. The completeness-to-`HilbertBasis` assembly is
-  [../OrthogonalL2Bases](../../OrthogonalL2Bases/README.md)'s subject, cited there.
+  [Completed/OrthogonalL2Bases](../../../Completed/OrthogonalL2Bases/README.md)'s subject, cited there.
 - **`SU(2)` and the maximal torus are the engine, not an afterthought.** `SU(2)` is
   `Matrix.specialUnitaryGroup (Fin 2) ℂ` (`LinearAlgebra/UnitaryGroup.lean`, with its `Group`
   instance), its maximal torus the diagonal circle. The general theory is stated for abstract compact
@@ -354,7 +354,7 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
     (the analogue of `coe_peterWeylBasis`) must live **inside** `IsPeterWeylBasis models b`, which
     asserts `b ⟨i, j, k⟩ = √(models i).dim • matrixCoeffLp (models i).rep e_j e_k` for the chosen
     bases - otherwise the bundled `HilbertBasis` is near-vacuous, in exactly the sense
-    [../OrthogonalL2Bases](../../OrthogonalL2Bases/README.md) warns against. Parseval is
+    [Completed/OrthogonalL2Bases](../../../Completed/OrthogonalL2Bases/README.md) warns against. Parseval is
     `HilbertBasis.tsum_inner_mul_inner`.
 - **The isotypic decomposition.** As unitary `G×G`-representations (left and right translation),
   `L²(G) ≅ ⨁̂_π (V_π ⊗ V_π*)`, i.e. `⨁̂_π End(V_π)`, the closure of the algebraic direct sum over
@@ -463,7 +463,7 @@ needs Layer 1 (unitarity bounds them) and Layer 0 (the `L²` embedding). Layer 4
 needs Layers 1-3 and is the load-bearing computation. Layer 5 (Peter-Weyl) needs Layer 4's orthonormal
 system and its own hard analytic prerequisite, the compact-operator spectral theorem for the
 convolution operator, which is named as a target within it; the `HilbertBasis` assembly cites
-[../OrthogonalL2Bases](../../OrthogonalL2Bases/README.md). Layer 6 (characters) is a corollary of Layers
+[Completed/OrthogonalL2Bases](../../../Completed/OrthogonalL2Bases/README.md). Layer 6 (characters) is a corollary of Layers
 4-5. The `SU(2)`/torus engine is built alongside Layers 3-6 and is where the character and Weyl
 integration formulas are proved concretely; the circle and finite-group specializations are the
 acceptance criteria that keep the abstract normalizations honest. A contributor can complete Layers

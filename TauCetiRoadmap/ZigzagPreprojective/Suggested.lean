@@ -1,6 +1,6 @@
 import Mathlib
 import TauCeti.LinearAlgebra.RootSystem.DynkinType
-import TauCeti.RepresentationTheory.Quiver.PathAlgebra
+import TauCeti.RepresentationTheory.Quiver.PathAlgebra.Basic
 
 /-!
 # Zigzag, preprojective, and Ginzburg algebras: target signatures

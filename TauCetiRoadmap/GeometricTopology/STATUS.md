@@ -1,0 +1,37 @@
+<!--tauceti-status:v1 {"roadmap":"GeometricTopology","to_sha":"d834065379fd7ceac1e705134b110ee5861d7dee","ts":"2026-09-19T10:39:05Z"}-->
+# Status: GeometricTopology
+
+This file documents the status of the GeometricTopology roadmap up until `d834065` (2026-09-19T10:39:05Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** No Kirby-list problem is proved, but three are now stated against real definitions, and knot theory has crossed from algebra into diagrams, with a braid invariant strong enough to tell the trefoil from the unknot. Layers 4 and 11 are the developed ones; layers 1, 2, 3 and 5 have definitions but no geometric construction; layers 6 and 8 to 10 have not begun.
+
+### Named results
+
+- **The Burau-Alexander polynomial is a Markov invariant** — the corner minor of `burau b - 1` changes only by a unit under either Markov move ([`TauCeti.MarkovEquiv.associated_burauAlexander`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Burau/Alexander.html#TauCeti.MarkovEquiv.associated_burauAlexander)), enough to prove the closure of `σ₀³` is not the unknot ([`TauCeti.not_markovEquiv_sigma_pow_three_one`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Burau/Alexander.html#TauCeti.not_markovEquiv_sigma_pow_three_one)). The first proof here that two knots differ.
+- **The Kauffman bracket of a diagram** — the state sum over the smoothings of a PD code ([`TauCeti.PDCode.kauffmanBracket`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/PDCode/Kauffman.html#TauCeti.PDCode.kauffmanBracket)), whose writhe-normalised form survives the oriented first Reidemeister move ([`TauCeti.OrientedPDCode.normalizedKauffmanBracket_reidemeisterOne`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/PDCode/OrientedReidemeisterOne.html#TauCeti.OrientedPDCode.normalizedKauffmanBracket_reidemeisterOne)) and algebraic clasp insertion. Moves II and III are absent, so it is not yet a link invariant.
+- **The Tristram-Levine signature of a Seifert matrix** — the signature of `(1 - ω)V + (1 - conj ω)Vᵀ` ([`TauCeti.KnotTheory.tristramLevineSignature`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/TristramLevine.html#TauCeti.KnotTheory.tristramLevineSignature)): congruence-invariant, additive under connected sum, negated by mirroring, and at `ω = -1` the classical signature, which already separates the trefoil (`-2`) from the figure eight (`0`) ([`TauCeti.KnotTheory.signature_trefoilSeifertMatrix`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Signature.html#TauCeti.KnotTheory.signature_trefoilSeifertMatrix)).
+- **The boundary of a manifold with boundary is a manifold** — one dimension down, for the Euclidean half-space model ([`TauCeti.isManifold_boundary`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Manifold/Boundary/Charts.html#TauCeti.isManifold_boundary)). The gluing track waits on this and on a collar.
+- **Codimension-one local flatness is local bicollaring** — in one-dimensional codimension these are the same condition, the local half of Brown's theorem ([`TauCeti.isLocallyFlat_iff_isEmbedding_and_isLocallyBicollared`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Manifold/LocallyFlat/Bicollar.html#TauCeti.isLocallyFlat_iff_isEmbedding_and_isLocallyBicollared)); a bicollared image is also two-sided.
+
+### Notable definitions and infrastructure
+
+- **Knot diagrams, in two presentations** ([`TauCeti.BasedOrientedGaussCode`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/GaussCode/Basic.html#TauCeti.BasedOrientedGaussCode), [`TauCeti.PDCode`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/PDCode/Basic.html#TauCeti.PDCode)) — based and unbased, oriented, unoriented and framed, with forgetful maps, a conversion from Gauss to PD, writhe, crossing signs and a component count.
+- **Global collars** ([`TauCeti.IsCollar`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Manifold/Boundary/Collar/Global.html#TauCeti.IsCollar)) — an open embedding of `∂M × [0,1)` whose zero slice is the boundary, closed under restriction, rescaling and reparametrisation. Nothing yet produces one.
+- **The weak Whitney topology in charts** ([`ContMDiffMap.chartWeakWhitneyTopology`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Manifold/ContMDiffMap/Chart/Jet.html#ContMDiffMap.chartWeakWhitneyTopology)) — the initial topology for every chart derivative in the compact-open topology, Hausdorff, with jointly smooth two-variable maps currying to continuous families. Vector-valued targets only.
+
+### Roadmap coverage
+
+Selectively. **Layer 4** is the most active: braid groups, Burau, Temperley-Lieb, the Alexander polynomial by two routes that agree on the trefoil, signatures, smooth links up to ambient isotopy, diagrams, the Kauffman bracket. Absent: Reidemeister II and III, any map from a diagram to an embedded circle, Seifert surfaces of knots, the Jones polynomial, sliceness. **Layer 11** has realization, subdivision, links, combinatorial manifolds, collapse and triangulability ([`TauCeti.IsCombinatoriallyTriangulable`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/CombinatoriallyTriangulable.html#TauCeti.IsCombinatoriallyTriangulable)); Zeeman's conjecture is stated, Manolescu's theorem and the reconciliation with layer 1's PL groupoid untouched. **Layers 1, 2, 3 and 5 are partial in the same way**, definitions without the construction each exists for: layer 1 has the boundary manifold, collars and the PL groupoid, but no collar existence, gluing, handles, tubular neighbourhoods or connected sum; layer 2 has the local-flatness API and the annulus conjecture as a statement, with Brown's theorem only as a hypothesis one may assume; layer 3 has the group and `O(n+1) → Diff(Sⁿ)` but no topology on it; layer 5 has only slopes. **Layer 7** has a curvature operator with its tensoriality ([`CovariantDerivative.curvatureOperator`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature.html#CovariantDerivative.curvatureOperator)) and nothing else. **Layers 6, 8, 9 and 10 are untouched**; the smoothing comparison is still just `PLGroupoid ≤ continuousGroupoid`.
+
+## The frontier
+
+- **Reidemeister II and III on PD codes** — the bracket, the writhe correction and move I are done; the other two moves turn the normalised bracket into a link invariant and give the Jones polynomial.
+- **The collar theorem** — `IsCollar` has an API and no producer. Existence on a smooth compact boundary is the missing input for gluing, hence for handles, connected sum and Dehn filling.
+- **A knot behind the diagrams** — the Alexander polynomial and the signatures are invariants of Seifert matrices and braids, not of knots. A Seifert matrix built from a knot, or a realization map from diagrams to smooth circle embeddings, would connect them.
+- **A topology on `Diff(M)`** — the chart weak Whitney topology handles maps into a normed space; extending it to manifold targets and restricting to the subgroup makes the Smale conjecture stateable.
+- **Combinatorial manifold implies PL manifold** — both notions exist, but the realization carries only the weak topology and no charts; a PL atlas on the polyhedron comes first.
