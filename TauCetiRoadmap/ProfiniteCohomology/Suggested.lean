@@ -3205,6 +3205,14 @@ open CategoryTheory
 variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [CompactSpace G] [TotallyDisconnectedSpace G]
 
+-- Instance diamond: `AddCommGroup (ZMod 2)` is also derivable from
+-- `[IsSimpleAddGroup G] [AddGroup.IsNilpotent G]`, which instance search reaches first for a
+-- prime-order `ZMod p`. That structure is equal to `Ring.toAddCommGroup` but not syntactically, and
+-- the `SMul ℤ` it carries is not the one `AddGroup.continuousSMul_int` supplies, so
+-- `ContinuousSMul ℤ (ULift (ZMod 2))` fails to synthesize. Raising the priority of the ring path
+-- locally restores it.
+attribute [local instance 2000] Ring.toAddCommGroup
+
 /-- **Layer 13, the coefficient object.** `𝔽₂` with trivial action, as an object of the category
 the all-degree carrier eats. The general norm is stated against this, not against Layer 2's
 low-degree abbreviations, because its degree is not bounded by 2.

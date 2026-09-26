@@ -6,7 +6,7 @@ defaultTargets = ["TauCetiRoadmap", "Completed"]
 [[require]]
 name = "TauCeti"
 git = "https://github.com/TauCetiProject/TauCeti"
-rev = "main"
+rev = "a36b2790e836cb56f25133e6f56517c695796e74"
 
 # Human-owned roadmaps: markdown plus Lean target signatures. `sorry` is allowed here
 # (these are goals, not proofs), so this library builds without `warningAsError`. Glob all

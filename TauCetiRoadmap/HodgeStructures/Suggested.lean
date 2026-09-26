@@ -74,8 +74,7 @@ def concreteLatticeConj : Complexification V →ₛₗ[starRingEnd ℂ] Complexi
   map_smul' c x := by
     change concreteLatticeConjIntLinear (c • x) =
       (starRingEnd ℂ) c • concreteLatticeConjIntLinear x
-    refine TensorProduct.induction_on x ?hz ?ht ?ha
-    · simp
+    refine TensorProduct.inductionOn x ?ht ?ha
     · intro z v
       change (TensorProduct.map (starRingEnd ℂ).toAddMonoidHom.toIntLinearMap
           (LinearMap.id : V →ₗ[ℤ] V)) (c • (z ⊗ₜ[ℤ] v : Complexification V)) =
@@ -118,8 +117,7 @@ theorem concreteLatticeConj_involutive :
     Function.Involutive (concreteLatticeConj (V := V)) := by
   intro x
   change concreteLatticeConjIntLinear (concreteLatticeConjIntLinear x) = x
-  refine TensorProduct.induction_on x ?hz ?ht ?ha
-  · rw [map_zero, map_zero]
+  refine TensorProduct.inductionOn x ?ht ?ha
   · intro z v
     change (TensorProduct.map (starRingEnd ℂ).toAddMonoidHom.toIntLinearMap
         (LinearMap.id : V →ₗ[ℤ] V))
@@ -276,8 +274,7 @@ omit [Module.Free ℤ V] [Module.Finite ℤ V] in
 theorem concreteRationalToComplexLinearEquiv_one_tmul_fixed (x : Rationalification V) :
     concreteLatticeConj (V := V) (concreteRationalToComplexLinearEquiv (V := V) (1 ⊗ₜ[ℚ] x)) =
       concreteRationalToComplexLinearEquiv (V := V) (1 ⊗ₜ[ℚ] x) := by
-  refine TensorProduct.induction_on x ?hz ?ht ?ha
-  · simp
+  refine TensorProduct.inductionOn x ?ht ?ha
   · intro q v
     simp [concreteRationalToComplexLinearEquiv,
       TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
@@ -332,8 +329,7 @@ intermediate `ℚ`-base change. -/
 theorem concreteRationalToComplexLinearEquiv_conj_tmul (z : ℂ) (x : Rationalification V) :
     concreteLatticeConj (V := V) (concreteRationalToComplexLinearEquiv (V := V) (z ⊗ₜ[ℚ] x)) =
       concreteRationalToComplexLinearEquiv (V := V) ((starRingEnd ℂ z) ⊗ₜ[ℚ] x) := by
-  refine TensorProduct.induction_on x ?hz ?ht ?ha
-  · simp
+  refine TensorProduct.inductionOn x ?ht ?ha
   · intro q v
     simp [concreteRationalToComplexLinearEquiv,
       TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul, Algebra.smul_def]
@@ -366,8 +362,7 @@ theorem concreteRationalMapToComplex_conj {V' : Type*} [AddCommGroup V'] [Module
     (f : Rationalification V →ₗ[ℚ] Rationalification V') (x : Complexification V) :
     concreteRationalMapToComplex (V := V) f (concreteLatticeConj (V := V) x) =
       concreteLatticeConj (V := V') (concreteRationalMapToComplex (V := V) f x) := by
-  refine TensorProduct.induction_on x ?hz ?ht ?ha
-  · simp
+  refine TensorProduct.inductionOn x ?ht ?ha
   · intro z v
     rw [concreteLatticeConj_tmul]
     rw [concreteRationalMapToComplex_tmul, concreteRationalMapToComplex_tmul]
@@ -390,8 +385,7 @@ theorem concreteRationalMapToComplex_maps_WC {V' : Type*} [AddCommGroup V'] [Mod
   refine ⟨f.baseChange ℂ t, ?_, ?_⟩
   · rw [Submodule.baseChange] at ht ⊢
     rcases ht with ⟨s, rfl⟩
-    refine TensorProduct.induction_on s ?hz ?ht ?ha
-    · simp
+    refine TensorProduct.inductionOn s ?ht ?ha
     · intro z w
       rw [LinearMap.baseChange_tmul]
       exact ⟨z ⊗ₜ[ℚ] (⟨f w, hW ⟨w, w.property, rfl⟩⟩ : W'), by simp⟩
@@ -512,8 +506,7 @@ theorem rationalMapToComplex_maps_WC {V' V'ℚ V'ℂ : Type*}
   refine ⟨f.baseChange ℂ t, ?_, ?_⟩
   · rw [Submodule.baseChange] at ht ⊢
     rcases ht with ⟨s, rfl⟩
-    refine TensorProduct.induction_on s ?hz ?ht ?ha
-    · simp
+    refine TensorProduct.inductionOn s ?ht ?ha
     · intro z w
       rw [LinearMap.baseChange_tmul]
       exact ⟨z ⊗ₜ[ℚ] (⟨f w, hW ⟨w, w.property, rfl⟩⟩ : W'), by simp⟩
@@ -587,8 +580,7 @@ noncomputable def ratConj (U : Type*) [AddCommGroup U] [Module ℚ U] :
         (LinearMap.id : U →ₗ[ℚ] U) (c • x) =
       (starRingEnd ℂ) c • TensorProduct.map (starRingEnd ℂ).toAddMonoidHom.toRatLinearMap
         (LinearMap.id : U →ₗ[ℚ] U) x
-    refine TensorProduct.induction_on x ?hz ?ht ?ha
-    · simp
+    refine TensorProduct.inductionOn x ?ht ?ha
     · intro z u
       rw [TensorProduct.smul_tmul']
       rw [TensorProduct.map_tmul]
@@ -631,8 +623,7 @@ theorem ratConj_involutive (U : Type*) [AddCommGroup U] [Module ℚ U] :
       (LinearMap.id : U →ₗ[ℚ] U)
       (TensorProduct.map (starRingEnd ℂ).toAddMonoidHom.toRatLinearMap
         (LinearMap.id : U →ₗ[ℚ] U) x) = x
-  refine TensorProduct.induction_on x ?hz ?ht ?ha
-  · simp
+  refine TensorProduct.inductionOn x ?ht ?ha
   · intro z u
     rw [TensorProduct.map_tmul]
     rw [TensorProduct.map_tmul]
@@ -701,8 +692,7 @@ theorem rationalToComplexSubmoduleEquiv_range_lTensor
         ((TensorProduct.AlgebraTensorModule.lTensor ℂ ℂ
           (((A.submoduleOf B).subtype).restrictScalars ℚ)) t) :
         Vℂ) ∈ rationalToComplexSubmodule hℚ hℂ A
-    refine TensorProduct.induction_on t ?hz ?ht ?ha
-    · simp [rationalToComplexSubmoduleEquiv]
+    refine TensorProduct.inductionOn t ?ht ?ha
     · intro z a
       change ((rationalToComplexLinearEquiv hℚ hℂ).ofSubmodules (B.baseChange ℂ)
           (rationalToComplexSubmodule hℚ hℂ B)
@@ -738,8 +728,7 @@ theorem rationalToComplexSubmoduleEquiv_range_lTensor
           Vℂ) = y
       rw [← hy]
       rw [← ht]
-      refine TensorProduct.induction_on t ?hz₂ ?ht₂ ?ha₂
-      · simp [rationalToComplexSubmoduleEquiv]
+      refine TensorProduct.inductionOn t ?ht₂ ?ha₂
       · intro z a'
         change ((rationalToComplexLinearEquiv hℚ hℂ).ofSubmodules (B.baseChange ℂ)
             (rationalToComplexSubmodule hℚ hℂ B)
