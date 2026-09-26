@@ -124,7 +124,7 @@ In particular, a positive-shape Gamma law is almost surely positive but has topo
 - **Behavior outside the probability range is definition-specific.** Existing Mathlib measures retain their actual definitions there; in particular, do not claim that `gammaMeasure` becomes zero for invalid parameters.
   Every new family below states its totalization explicitly.
   A new density-defined family is zero outside its stated range unless a useful boundary law is named.
-  In particular, `chiSquaredMeasure 0` and `negativeBinomialMeasure 0 p` are `Measure.dirac 0`, so empty sums and convolution units behave correctly.
+  In particular, `chiSquaredMeasure 0` is `Measure.dirac 0`, and `negativeBinomialMeasure 0 p` is `Measure.dirac 0` for `0 < p ≤ 1`, so empty sums and convolution units behave correctly on those parameter domains.
   A pushforward inherits the source measure's behavior only when the relevant definition says so; otherwise branch before taking the pushforward.
   Every probability theorem carries either the classical hypotheses or a listed boundary case.
 - **Transforms use Mathlib's conventions.** `charFun` means `MeasureTheory.charFun`, with kernel `e^{i⟪t, x⟫}`, not the `2π`-normalized Fourier transform.
@@ -894,7 +894,7 @@ Targets:
    Full row rank keeps the new scale matrix positive-definite.
    The intended mgf proof uses `det (I + 2 • ((Mᵀ * Θ * M) * S)) = det (I + 2 • (Θ * (M * S * Mᵀ)))`.
    Record invertible congruence and principal-submatrix marginals as special cases.
-   Deficient-row-rank congruences are handled by the Gaussian-Gram family rather than this density family.
+   Rank-deficient images may be retained as explicit congruence pushforwards; at natural degrees, where this density family and the Gaussian-Gram family agree, identify them through the Gaussian-Gram congruence theorem.
 
    In every transform theorem, take `Θ : selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) ℝ)` rather than alternating between a raw matrix plus a symmetry proof and a bundled matrix.
    Prove the exact domain theorem `mem_integrableExpSet_trace_mul_nonsingularWishartMeasure_iff`:
@@ -1624,7 +1624,7 @@ Natural moments listed below include the zeroth moment; sharp moment thresholds 
     Repeated rates are valid parameters.
     The empty family gives Dirac at zero; a nonempty valid family is almost surely positive, atomless, and has topological support `[0,∞)`.
     Chosen pdfs are zero for invalid rates and for the empty family; the latter uses a Dirac statement instead of a density identity.
-    All formulas below assume valid rates, and density and continuous-cdf formulas additionally assume a nonempty family.
+    All formulas below assume valid rates; the partial-fraction identity, density formulas, and continuous-cdf formulas additionally assume a nonempty family.
 
     Let `R` be the finite set of distinct rates, `m_r=#{i | λ_i=r}`, and `C=∏ i,λ_i`.
     For `r∈R` and `1≤k≤m_r`, define
