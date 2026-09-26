@@ -21,8 +21,7 @@ analytic. Series in one variable over an ultrametric field (Layer 8) are Mathlib
 evaluated with `FormalMultilinearSeries.ofScalarsSum`. The declarations in the namespaces
 `SchneiderLangProof` and `PadicBakerProof` are the steps of the proofs of 5.7 and 8.10, in
 namespaces of their own because they serve only those proofs. Every target name that
-`README.md` uses is declared here. Many signatures follow the author's formalization cited in the
-Provenance section of `README.md`. The targets elaborate against the pinned Mathlib and are
+`README.md` uses is declared here. The targets elaborate against the pinned Mathlib and are
 stated with `sorry` (allowed in this human-owned roadmap library); the checks marked as proved
 below are proved.
 -/
@@ -55,22 +54,27 @@ theorem FormalMultilinearSeries.apply_eq_sum_mvCoeff [DecidableEq ι]
       (∏ i, z i ^ α i) • FormalMultilinearSeries.mvCoeff p α :=
   sorry
 
+/-- **Layer 0.3**, the multi-index coefficient of the zero series. -/
+@[simp] theorem FormalMultilinearSeries.mvCoeff_zero (α : ι → ℕ) :
+    FormalMultilinearSeries.mvCoeff (0 : FormalMultilinearSeries 𝕜 (ι → 𝕜) F) α = 0 :=
+  sorry
+
 /-- **Layer 0.3**, the multi-index coefficient is additive in the series. -/
-theorem FormalMultilinearSeries.mvCoeff_add (p q : FormalMultilinearSeries 𝕜 (ι → 𝕜) F)
+@[simp] theorem FormalMultilinearSeries.mvCoeff_add (p q : FormalMultilinearSeries 𝕜 (ι → 𝕜) F)
     (α : ι → ℕ) :
     FormalMultilinearSeries.mvCoeff (p + q) α =
       FormalMultilinearSeries.mvCoeff p α + FormalMultilinearSeries.mvCoeff q α :=
   sorry
 
 /-- **Layer 0.3**, the multi-index coefficient commutes with scalars. -/
-theorem FormalMultilinearSeries.mvCoeff_smul (c : 𝕜) (p : FormalMultilinearSeries 𝕜 (ι → 𝕜) F)
-    (α : ι → ℕ) :
+@[simp] theorem FormalMultilinearSeries.mvCoeff_smul (c : 𝕜)
+    (p : FormalMultilinearSeries 𝕜 (ι → 𝕜) F) (α : ι → ℕ) :
     FormalMultilinearSeries.mvCoeff (c • p) α = c • FormalMultilinearSeries.mvCoeff p α :=
   sorry
 
 /-- **Layer 0.3, an analytic function is the sum of its multi-index series** where the
 homogeneous terms, weighted by `(card ι) ^ k`, converge normally. -/
-theorem HasFPowerSeriesOnBall.hasSum_mvCoeff [CompleteSpace F] {f : (ι → 𝕜) → F}
+theorem HasFPowerSeriesOnBall.hasSum_mvCoeff {f : (ι → 𝕜) → F}
     {p : FormalMultilinearSeries 𝕜 (ι → 𝕜) F} {r : ℝ≥0} (hf : HasFPowerSeriesOnBall f p 0 r)
     {z : ι → 𝕜} (hz : ‖z‖ < r)
     (h : Summable fun k => (Fintype.card ι : ℝ) ^ k * ‖p k‖ * ‖z‖ ^ k) :
@@ -120,9 +124,24 @@ theorem AnalyticAt.mvTaylorCoeff_add {f g : (ι → 𝕜) → F} {x : ι → �
     mvTaylorCoeff (f + g) x α = mvTaylorCoeff f x α + mvTaylorCoeff g x α :=
   sorry
 
+/-- **Layer 0.4, constant multiples.** -/
+theorem mvTaylorCoeff_const_smul (c : 𝕜) (f : (ι → 𝕜) → F) (x : ι → 𝕜) (α : ι → ℕ) :
+    mvTaylorCoeff (fun z => c • f z) x α = c • mvTaylorCoeff f x α :=
+  sorry
+
+/-- **Layer 0.4, constant functions.** -/
+@[simp] theorem mvTaylorCoeff_const (c : F) (x : ι → 𝕜) (α : ι → ℕ) :
+    mvTaylorCoeff (fun _ => c) x α = if α = 0 then c else 0 :=
+  sorry
+
+/-- **Layer 0.4, locality**: functions equal near `x` have the same Taylor coefficients at `x`. -/
+theorem Filter.EventuallyEq.mvTaylorCoeff_eq {f g : (ι → 𝕜) → F} {x : ι → 𝕜}
+    (h : f =ᶠ[nhds x] g) (α : ι → ℕ) : mvTaylorCoeff f x α = mvTaylorCoeff g x α :=
+  sorry
+
 /-- **Layer 0.4, translation.** -/
 theorem mvTaylorCoeff_comp_add_right (f : (ι → 𝕜) → F) (x y : ι → 𝕜) (α : ι → ℕ) :
-    mvTaylorCoeff f (x + y) α = mvTaylorCoeff (fun z => f (z + y)) x α :=
+    mvTaylorCoeff (fun z => f (z + y)) x α = mvTaylorCoeff f (x + y) α :=
   sorry
 
 /-- **Layer 0.4, agreement with iterated derivatives**: `D^α f (x) = α! • mvTaylorCoeff f x α`,
@@ -151,7 +170,7 @@ theorem AnalyticAt.mvTaylorCoeff_smul [DecidableEq ι] [CompleteSpace F] {f : (�
 
 /-- **Layer 0.4, the local expansion** of an analytic function, normally convergent on a
 polydisc. -/
-theorem AnalyticAt.exists_hasSum_mvTaylorCoeff [CompleteSpace F] {f : (ι → 𝕜) → F} {x : ι → 𝕜}
+theorem AnalyticAt.exists_hasSum_mvTaylorCoeff {f : (ι → 𝕜) → F} {x : ι → 𝕜}
     (hf : AnalyticAt 𝕜 f x) :
     ∃ ρ : ℝ≥0, 0 < ρ ∧
       Summable (fun α : ι → ℕ => ‖mvTaylorCoeff f x α‖ * (ρ : ℝ) ^ (∑ i, α i)) ∧
@@ -160,7 +179,7 @@ theorem AnalyticAt.exists_hasSum_mvTaylorCoeff [CompleteSpace F] {f : (ι → �
   sorry
 
 /-- **Layer 0.4, coefficients from an expansion.** -/
-theorem mvTaylorCoeff_eq_of_hasSum [CompleteSpace F] {f : (ι → 𝕜) → F} {x : ι → 𝕜}
+theorem mvTaylorCoeff_eq_of_hasSum {f : (ι → 𝕜) → F} {x : ι → 𝕜}
     {c : (ι → ℕ) → F} {ρ : ℝ≥0} (hρ : 0 < ρ)
     (hsum : Summable fun α : ι → ℕ => ‖c α‖ * (ρ : ℝ) ^ (∑ i, α i))
     (h : ∀ y : ι → 𝕜, ‖y‖ < ρ →
@@ -169,15 +188,15 @@ theorem mvTaylorCoeff_eq_of_hasSum [CompleteSpace F] {f : (ι → 𝕜) → F} {
   sorry
 
 /-- **Layer 0.4, a linear change of variables preserves vanishing in each total degree.** -/
-theorem mvTaylorCoeff_comp_eq_zero {κ : Type*} [Fintype κ] {G : (ι → 𝕜) → F}
+theorem ContinuousLinearMap.mvTaylorCoeff_comp_eq_zero {κ : Type*} [Fintype κ] {G : (ι → 𝕜) → F}
     (A : (κ → 𝕜) →L[𝕜] (ι → 𝕜)) {x : κ → 𝕜} (hG : AnalyticAt 𝕜 G (A x)) {k : ℕ}
     (h : ∀ α : ι → ℕ, ∑ i, α i = k → mvTaylorCoeff G (A x) α = 0) :
     ∀ β : κ → ℕ, ∑ j, β j = k → mvTaylorCoeff (G ∘ A) x β = 0 :=
   sorry
 
-/-- **Layer 0.4**, a monomial has coefficient `1` at its own multi-index and `0` at every
-other. -/
-theorem mvTaylorCoeff_prod_pow [DecidableEq ι] (τ σ : ι → ℕ) :
+/-- **Layer 0.4**, at the origin a monomial has coefficient `1` at its own multi-index and `0`
+at every other. -/
+@[simp] theorem mvTaylorCoeff_prod_pow (τ σ : ι → ℕ) :
     mvTaylorCoeff (fun z : ι → 𝕜 => ∏ i, z i ^ τ i) 0 σ = if σ = τ then 1 else 0 :=
   sorry
 
@@ -194,22 +213,20 @@ end Layer0
 
 section Layer1
 
-/-- **Layer 1.3, a zero of order `T` is `o (‖w‖ ^ (T - 1))`**, over any nontrivially normed field;
-over `ℂ` this is the hypothesis of Mathlib's
-`Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO`. -/
+/-- **Layer 1.3, a zero of order `T` is `o (‖w - z₀‖ ^ (T - 1))`**, over any nontrivially normed
+field. -/
 theorem isLittleO_sub_pow_sub_one_of_le_analyticOrderAt {𝕜 : Type*} [NontriviallyNormedField 𝕜]
-    {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E] {g : 𝕜 → E} {T : ℕ} (hT : 1 ≤ T)
-    (h : (T : ℕ∞) ≤ analyticOrderAt g 0) :
-    Asymptotics.IsLittleO (nhds 0) (fun w => g w - g 0) (fun w => ‖w - 0‖ ^ (T - 1)) :=
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E] {g : 𝕜 → E} {z₀ : 𝕜} {T : ℕ}
+    (hT : 1 ≤ T) (h : (T : ℕ∞) ≤ analyticOrderAt g z₀) :
+    Asymptotics.IsLittleO (nhds z₀) (fun w => g w - g z₀) (fun w => ‖w - z₀‖ ^ (T - 1)) :=
   sorry
 
-/-- **Layer 1.3, Schwarz's lemma for a zero of order `T`**, from Mathlib's
-`Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO`. -/
-theorem norm_le_mul_div_pow_of_le_analyticOrderAt {V : Type*} [NormedAddCommGroup V]
-    [NormedSpace ℂ V] {g : ℂ → V} {ρ M : ℝ}
-    (hd : DifferentiableOn ℂ g (Metric.ball 0 ρ)) (hM : ∀ w ∈ Metric.ball (0 : ℂ) ρ, ‖g w‖ ≤ M)
-    {T : ℕ} (hT : (T : ℕ∞) ≤ analyticOrderAt g 0) {w : ℂ} (hw : w ∈ Metric.ball (0 : ℂ) ρ) :
-    ‖g w‖ ≤ M * (‖w‖ / ρ) ^ T :=
+/-- **Layer 1.3, Schwarz's lemma for a zero of order `T`.** -/
+theorem Complex.norm_le_mul_div_pow_of_le_analyticOrderAt {V : Type*} [NormedAddCommGroup V]
+    [NormedSpace ℂ V] {g : ℂ → V} {c : ℂ} {ρ M : ℝ}
+    (hd : DifferentiableOn ℂ g (Metric.ball c ρ)) (hM : ∀ w ∈ Metric.ball c ρ, ‖g w‖ ≤ M)
+    {T : ℕ} (hT : (T : ℕ∞) ≤ analyticOrderAt g c) {w : ℂ} (hw : w ∈ Metric.ball c ρ) :
+    ‖g w‖ ≤ M * (‖w - c‖ / ρ) ^ T :=
   sorry
 
 variable {ι : Type*} [Fintype ι]
@@ -290,7 +307,7 @@ theorem NumberField.one_le_pow_mul_norm_embedding_mul_pow {δ a : ℕ} (hδ : δ
 
 /-- **Layer 3.4, Thue–Siegel's lemma for real linear forms** (Waldschmidt, Lemma 4.11). -/
 theorem ThueSiegel.exists_ne_zero_int_vec_abs_le_of_pow_lt {ι κ : Type*} [Fintype ι] [Fintype κ]
-    (u : ι → κ → ℝ) {U : ℝ} (hU : ∀ j, ∑ i, |u i j| ≤ U) {X ℓ : ℕ} (hX : 0 < X) (hℓ : 0 < ℓ)
+    (u : ι → κ → ℝ) {U : ℝ} (hU : ∀ j, ∑ i, |u i j| ≤ U) {X ℓ : ℕ} (hℓ : 0 < ℓ)
     (hcard : ℓ ^ Fintype.card κ < (X + 1) ^ Fintype.card ι) :
     ∃ ξ : ι → ℤ, ξ ≠ 0 ∧ (∀ i, |ξ i| ≤ (X : ℤ)) ∧ ∀ j, |∑ i, u i j * ξ i| ≤ U * X / ℓ :=
   sorry
@@ -305,10 +322,8 @@ theorem ThueSiegel.exists_ne_zero_int_vec_norm_le_of_pow_le {ι κ : Type*} [Fin
       ∀ j, ‖∑ i, u i j * (ξ i : ℂ)‖ ≤ Real.exp (-V) :=
   sorry
 
-/-- **Layer 3.5, Siegel's lemma over `K` with a constant depending only on `K`**, from Mathlib's
-`NumberField.house.exists_ne_zero_int_vec_house_le`: when there are at least twice as many
-unknowns as equations, the exponent in Mathlib's bound is at most `1`, and the zero system
-(which Mathlib excludes) has the solution `Pi.single l 1`. -/
+/-- **Layer 3.5, Siegel's lemma over `K` with a constant depending only on `K`**, for systems with
+at least one equation and at least twice as many unknowns as equations. -/
 theorem NumberField.house.exists_const_ne_zero_int_vec_house_le (K : Type*) [Field K]
     [NumberField K] :
     ∃ C : ℝ, 1 ≤ C ∧ ∀ (α β : Type) [Fintype α] [Fintype β] (a : Matrix α β (𝓞 K)) (A : ℝ),
@@ -366,7 +381,7 @@ noncomputable def growthBound (d₀ d₁ T : ℕ) (N A ρ : ℝ) : ℝ :=
 def denominatorExponent (d₀ d₁ n T S₁ M : ℕ) : ℕ := d₀ * T + M + d₁ * n * T * S₁
 
 /-- The bound for the house in 5.2, for Taylor coefficients of total order `M`. -/
-noncomputable def houseBound (d₀ d₁ n T S₁ δ M : ℕ) (N G : ℝ) : ℝ :=
+noncomputable def houseBound (d₀ d₁ n T S₁ δ : ℕ) (N G : ℝ) (M : ℕ) : ℝ :=
   ((T + 1) ^ d₀ * (T + 1) ^ d₁ : ℕ) * ((δ : ℝ) ^ denominatorExponent d₀ d₁ n T S₁ M *
     Real.exp N * ((δ : ℝ) ^ 2 * M + n * S₁ * G + 1) ^ (d₀ * T) * (d₁ * T * G + 1) ^ M *
     G ^ (d₁ * n * T * S₁))
@@ -375,7 +390,7 @@ noncomputable def houseBound (d₀ d₁ n T S₁ δ M : ℕ) (N G : ℝ) : ℝ :
 `H = houseBound`. -/
 noncomputable def liouvilleFactor (d₀ d₁ n T S₁ δ D : ℕ) (N G : ℝ) (M : ℕ) : ℝ :=
   (M : ℝ) ^ M * (δ : ℝ) ^ denominatorExponent d₀ d₁ n T S₁ M *
-    houseBound d₀ d₁ n T S₁ δ M N G ^ (D - 1)
+    houseBound d₀ d₁ n T S₁ δ N G M ^ (D - 1)
 
 /-- **Layer 5.5, the admissible parameters**: the conditions (1)–(4) of 5.5 on `T, S₁, S₀, U, N,
 r, R, E`, for data of degree `D`, denominator `δ`, house bound `G`, `A = ∑ᵢ ∑ᵥ ‖xᵢ v‖`,
@@ -412,7 +427,7 @@ theorem norm_auxiliaryFunction_le (x : Fin d₁ → Fin n → ℂ) (T : ℕ)
   sorry
 
 /-- **Layer 5.2, the Taylor coefficients at `s · y` are algebraic, of explicit size.** The
-generators `X`, `Yg`, `Eg` of the number field `K` map to the coordinates of the `xᵢ`, the first
+elements `X`, `Yg`, `Eg` of the number field `K` map to the coordinates of the `xᵢ`, the first
 `d₀` coordinates of the `yⱼ`, and the `exp (xᵢ · yⱼ)`, and `δ` times each of them is an algebraic
 integer of house at most `G`. -/
 theorem exists_eq_mvTaylorCoeff_auxiliaryFunction {K : Type*} [Field K] [NumberField K]
@@ -433,7 +448,7 @@ theorem exists_eq_mvTaylorCoeff_auxiliaryFunction {K : Type*} [Field K] [NumberF
           (fun v => ∑ j, (s j : ℂ) * y j v) σ ∧
       IsIntegral ℤ ((δ : K) ^ denominatorExponent d₀ d₁ n T S₁ (∑ v, σ v) * θ) ∧
       house ((δ : K) ^ denominatorExponent d₀ d₁ n T S₁ (∑ v, σ v) * θ) ≤
-        houseBound d₀ d₁ n T S₁ δ (∑ v, σ v) N G :=
+        houseBound d₀ d₁ n T S₁ δ N G (∑ v, σ v) :=
   sorry
 
 /-- **Layer 5.3, Liouville's inequality for the Taylor coefficients at `s · y`.** -/
@@ -571,9 +586,8 @@ section Layer7
 
 /-- **Layer 7.1** (Waldschmidt, Theorem 4.5): logarithms `lᵢ` of algebraic numbers with
 `∑ βᵢ lᵢ` algebraic, for a basis `β` of a number field, all vanish. -/
-theorem Baker.eq_zero_of_isAlgebraic_sum_mul (K : IntermediateField ℚ ℂ) [FiniteDimensional ℚ K]
-    {d : ℕ} (hd : Module.finrank ℚ K = d) (β : Fin d → K) (hβ : LinearIndependent ℚ β)
-    (l : Fin d → ℂ) (hl : ∀ i, IsAlgebraic ℚ (Complex.exp (l i)))
+theorem Baker.eq_zero_of_isAlgebraic_sum_mul (K : IntermediateField ℚ ℂ) {ι : Type*} [Fintype ι]
+    (β : Module.Basis ι ℚ K) (l : ι → ℂ) (hl : ∀ i, IsAlgebraic ℚ (Complex.exp (l i)))
     (hsum : IsAlgebraic ℚ (∑ i, (β i : ℂ) * l i)) : ∀ i, l i = 0 :=
   sorry
 
@@ -667,20 +681,11 @@ section Layer8
 
 open _root_.Polynomial _root_.NumberField
 
-/-- **Layer 8.2**: in a normed field over `ℚ_[p]`, a nonzero integer `n` has norm at least
-`1 / |n|`. The prime is explicit, since it does not occur in the conclusion. -/
-theorem Padic.one_le_abs_mul_norm_intCast (p : ℕ) [Fact p.Prime] {L : Type*} [NormedField L]
-    [NormedAlgebra ℚ_[p] L] {n : ℤ} (hn : n ≠ 0) : 1 ≤ |(n : ℝ)| * ‖(n : L)‖ :=
-  sorry
-
 variable {p : ℕ} [hp : Fact p.Prime]
 
-/-- **Layer 8.1, the norm of a nonzero natural number** in a normed field over `ℚ_[p]`, from
-Mathlib's `Padic.norm_eq_zpow_neg_valuation` and `norm_algebraMap'`; with Legendre's formula
-it gives the norm of `n!`. -/
-theorem Padic.norm_natCast_eq_zpow_neg_padicValNat {L : Type*} [NormedField L]
-    [NormedAlgebra ℚ_[p] L] {n : ℕ} (hn : n ≠ 0) :
-    ‖(n : L)‖ = (p : ℝ) ^ (-(padicValNat p n : ℤ)) :=
+/-- **Layer 8.2**: a nonzero integer `n` has `p`-adic norm at least `1 / |n|`. -/
+theorem Padic.one_le_abs_mul_norm_intCast {n : ℤ} (hn : n ≠ 0) :
+    1 ≤ |(n : ℝ)| * ‖(n : ℚ_[p])‖ :=
   sorry
 
 section General
@@ -693,8 +698,7 @@ theorem PadicExp.le_radius_expSeries :
     ENNReal.ofReal ((p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) ≤ (NormedSpace.expSeries L L).radius :=
   sorry
 
-/-- **Layer 8.1, the functional equation** on the disc of convergence, from Mathlib's
-`NormedSpace.exp_add_of_mem_ball`. -/
+/-- **Layer 8.1, the functional equation** on the disc of convergence. -/
 theorem PadicExp.exp_add {x y : L} (hx : ‖x‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹))
     (hy : ‖y‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) :
     NormedSpace.exp (x + y) = NormedSpace.exp x * NormedSpace.exp y :=
@@ -711,7 +715,7 @@ theorem PadicExp.injOn_exp :
   sorry
 
 /-- **Layer 8.4, the value of an exponential polynomial** inside the disc of convergence. -/
-theorem Polynomial.hasSum_coeff_mul_rescale_exp [CharZero L] (Q : L[X]) {ψ x : L}
+theorem PowerSeries.hasSum_coeff_coe_mul_rescale_exp [CharZero L] (Q : L[X]) {ψ x : L}
     (h : ‖ψ * x‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) :
     HasSum (fun k => PowerSeries.coeff k ((Q : PowerSeries L) *
         PowerSeries.rescale ψ (PowerSeries.exp L)) * x ^ k)
@@ -721,8 +725,8 @@ theorem Polynomial.hasSum_coeff_mul_rescale_exp [CharZero L] (Q : L[X]) {ψ x : 
 omit [CompleteSpace L] in
 /-- **Layer 8.4, the coefficients of an exponential polynomial** on the disc: if
 `‖Q.coeff j‖ r ^ j ≤ M` and `‖ψ‖ r ≤ p ^ (-1 / (p - 1))`, then the coefficients of
-`Q (X) exp (ψ X)` satisfy the same bound, since `‖ψ ^ k / k!‖ r ^ k ≤ 1`. -/
-theorem Polynomial.norm_coeff_mul_rescale_exp_mul_pow_le [CharZero L] (Q : L[X]) {ψ : L}
+`Q (X) exp (ψ X)` satisfy the same bound. -/
+theorem PowerSeries.norm_coeff_coe_mul_rescale_exp_mul_pow_le [CharZero L] (Q : L[X]) {ψ : L}
     {r M : ℝ} (hr : 0 ≤ r) (hψ : ‖ψ‖ * r ≤ (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹))
     (hQ : ∀ j, ‖Q.coeff j‖ * r ^ j ≤ M) (k : ℕ) :
     ‖PowerSeries.coeff k ((Q : PowerSeries L) * PowerSeries.rescale ψ (PowerSeries.exp L))‖ *
@@ -739,9 +743,9 @@ theorem IsUltrametricDist.norm_le_one_of_isIntegral {L : Type*} [NormedField L]
 /-- **Layer 8.2, Liouville's inequality at an ultrametric place**, for a number of known size. -/
 theorem NumberField.one_le_pow_mul_norm_embedding_of_isUltrametricDist {L : Type*}
     [NormedField L] [IsUltrametricDist L] [IsAlgClosed L] {K : Type*} [Field K] [NumberField K]
-    (hL : ∀ n : ℤ, n ≠ 0 → 1 ≤ |(n : ℝ)| * ‖(n : L)‖) {δ a : ℕ} {x : K} {H : ℝ}
-    (hint : IsIntegral ℤ ((δ : K) ^ a * x)) (hH : house ((δ : K) ^ a * x) ≤ H)
-    (hδ : δ ≠ 0) (hx0 : x ≠ 0) (σ : K →+* L) : 1 ≤ H ^ Module.finrank ℚ K * ‖σ x‖ :=
+    (hL : ∀ n : ℤ, n ≠ 0 → 1 ≤ |(n : ℝ)| * ‖(n : L)‖) {δ a : ℕ} (hδ : δ ≠ 0) {x : K}
+    (hx0 : x ≠ 0) {H : ℝ} (hint : IsIntegral ℤ ((δ : K) ^ a * x))
+    (hH : house ((δ : K) ^ a * x) ≤ H) (σ : K →+* L) : 1 ≤ H ^ Module.finrank ℚ K * ‖σ x‖ :=
   sorry
 
 /-- **Layer 8.2, Schwarz's lemma in an ultrametric space**: vanishing of the terms of degree
@@ -787,30 +791,31 @@ theorem PowerSeries.norm_ofScalarsSum_le_of_ofScalarsSum_iterate_derivative_eq_z
 end Ultrametric
 
 /-- **Layer 8.5, Hermite interpolation with ultrametric bounds** (Baker, Chapter 2, Lemma 7). -/
-theorem Polynomial.exists_hermite_of_isUltrametricDist {K : Type*} [NormedField K]
-    [IsUltrametricDist K] [CharZero K] {ι : Type*} [Fintype ι] [DecidableEq ι] (σ : ι → K)
+theorem Polynomial.exists_iterate_derivative_eval_eq_ite_of_isUltrametricDist {K : Type*}
+    [NormedField K] [IsUltrametricDist K] [CharZero K] {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (σ : ι → K)
     (hσ : ∀ i, ‖σ i‖ ≤ 1) {ϱ : ℝ} (hϱ0 : 0 < ϱ) (hϱ1 : ϱ ≤ 1)
     (hsep : ∀ i j, i ≠ j → ϱ ≤ ‖σ i - σ j‖) (S : ℕ) (r : ι) {s : ℕ} (hs : s < S) :
     ∃ W : K[X], (∀ i, ∀ j < S, (derivative^[j] W).eval (σ i) = if i = r ∧ j = s then 1 else 0) ∧
       ∀ n, ‖W.coeff n‖ ≤ ‖((s.factorial : ℕ) : K)⁻¹‖ * (ϱ ^ (Fintype.card ι * S))⁻¹ :=
   sorry
 
-/-- **Layer 8.4**, the polynomial `(Q ↦ Q' + c Q)^[m] P`: the `m`-th derivative of
+/-- **Layer 8.4**, the linear map `(D + c) ^ m` on polynomials: the `m`-th derivative of
 `P (z) exp (c z)` is `expDerivFactor c m P (z) exp (c z)`. -/
-noncomputable def Polynomial.expDerivFactor {R : Type*} [CommRing R] (c : R) (m : ℕ)
-    (P : R[X]) : R[X] :=
-  (fun Q => derivative Q + C c * Q)^[m] P
+noncomputable def Polynomial.expDerivFactor {R : Type*} [CommRing R] (c : R) (m : ℕ) :
+    R[X] →ₗ[R] R[X] :=
+  (derivative + c • LinearMap.id) ^ m
 
 /-- **Layer 8.4**, no derivative (proved). -/
-theorem Polynomial.expDerivFactor_zero {R : Type*} [CommRing R] (c : R) (P : R[X]) :
-    Polynomial.expDerivFactor c 0 P = P :=
-  rfl
+@[simp] theorem Polynomial.expDerivFactor_zero {R : Type*} [CommRing R] (c : R) (P : R[X]) :
+    Polynomial.expDerivFactor c 0 P = P := by
+  simp [Polynomial.expDerivFactor]
 
 /-- **Layer 8.4**, one more derivative (proved). -/
 theorem Polynomial.expDerivFactor_succ {R : Type*} [CommRing R] (c : R) (m : ℕ) (P : R[X]) :
     Polynomial.expDerivFactor c (m + 1) P =
       derivative (Polynomial.expDerivFactor c m P) + C c * Polynomial.expDerivFactor c m P := by
-  simp only [Polynomial.expDerivFactor, Function.iterate_succ_apply']
+  simp [Polynomial.expDerivFactor, pow_succ', Module.End.mul_apply, Polynomial.smul_eq_C_mul]
 
 /-- **Layer 8.4, the binomial form** `∑ j ≤ m, (m choose j) c ^ (m - j) P⁽ʲ⁾`. -/
 theorem Polynomial.expDerivFactor_eq_sum {R : Type*} [CommRing R] (c : R) (m : ℕ) (P : R[X]) :
@@ -831,12 +836,12 @@ theorem Polynomial.norm_coeff_expDerivFactor_le {K : Type*} [NormedField K] [IsU
   sorry
 
 /-- **Layer 8.4, the derivatives of an exponential polynomial.** -/
-theorem Polynomial.iterate_derivative_mul_rescale_exp {K : Type*} [Field K] [CharZero K]
-    (Q : K[X]) (ψ : K) (m : ℕ) :
-    (⇑(PowerSeries.derivative K))^[m]
-        ((Q : PowerSeries K) * PowerSeries.rescale ψ (PowerSeries.exp K)) =
-      (Polynomial.expDerivFactor ψ m Q : PowerSeries K) *
-        PowerSeries.rescale ψ (PowerSeries.exp K) :=
+theorem PowerSeries.iterate_derivative_coe_mul_rescale_exp {A : Type*} [CommRing A] [Algebra ℚ A]
+    (Q : A[X]) (ψ : A) (m : ℕ) :
+    (⇑(PowerSeries.derivative A))^[m]
+        ((Q : PowerSeries A) * PowerSeries.rescale ψ (PowerSeries.exp A)) =
+      (Polynomial.expDerivFactor ψ m Q : PowerSeries A) *
+        PowerSeries.rescale ψ (PowerSeries.exp A) :=
   sorry
 
 /-- A rejection test: off the disc the exponential series diverges and `NormedSpace.exp` takes
@@ -900,10 +905,10 @@ theorem ofScalarsSum_derivativeSeries_natCast {ℓ : Option (Fin k) → ℂ_[p]}
   sorry
 
 /-- **Layer 8.7, Baker's Lemma 6**: distinct frequencies are far apart. -/
-theorem inv_pow_le_norm_frequency_sub {K : Type*} [Field K] [NumberField K] (ι : K →+* ℂ_[p])
+theorem inv_pow_le_norm_frequency_sub {K : Type*} [Field K] [NumberField K] (ι₀ : K →+* ℂ_[p])
     {ℓ : Option (Fin k) → ℂ_[p]} (hli : LinearIndependent ℚ ℓ)
     (hsmall : ∀ o, ‖ℓ o‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) {αK : Option (Fin k) → K}
-    (hα : ∀ o, ι (αK o) = NormedSpace.exp (ℓ o)) {δ : ℕ} {G : ℝ} (hδ : 1 ≤ δ)
+    (hα : ∀ o, ι₀ (αK o) = NormedSpace.exp (ℓ o)) {δ : ℕ} {G : ℝ} (hδ : 1 ≤ δ)
     (hG : (δ : ℝ) ≤ G) (hαs : ∀ o, IsIntegral ℤ ((δ : K) * αK o) ∧ house ((δ : K) * αK o) ≤ G)
     {L : ℕ} {e e' : Option (Fin k) → ℕ} (he : ∀ o, e o ≤ L) (he' : ∀ o, e' o ≤ L)
     (hne : e ≠ e') :
@@ -915,9 +920,10 @@ theorem inv_pow_le_norm_frequency_sub {K : Type*} [Field K] [NumberField K] (ι 
 parameters. `hsiegel` is Siegel's lemma over `K` with its constant `C` (3.5). -/
 theorem false_of_admissible {ℓ : Option (Fin k) → ℂ_[p]} {β₀ : ℂ_[p]} {β : Fin k → ℂ_[p]}
     (hrel : ℓ none = β₀ + ∑ r, β r * ℓ (some r)) (hli : LinearIndependent ℚ ℓ)
-    {K : Type*} [Field K] [NumberField K] (ι : K →+* ℂ_[p])
+    {K : Type*} [Field K] [NumberField K] (ι₀ : K →+* ℂ_[p])
     {αK : Option (Fin k) → K} {βK₀ : K} {βK : Fin k → K}
-    (hα : ∀ o, ι (αK o) = NormedSpace.exp (ℓ o)) (hβ : ∀ r, ι (βK r) = β r) (hβ₀ : ι βK₀ = β₀)
+    (hα : ∀ o, ι₀ (αK o) = NormedSpace.exp (ℓ o)) (hβ : ∀ r, ι₀ (βK r) = β r)
+    (hβ₀ : ι₀ βK₀ = β₀)
     {δ : ℕ} {G : ℝ} (hδ : 1 ≤ δ) (hG : (δ : ℝ) ≤ G)
     (hαs : ∀ o, IsIntegral ℤ ((δ : K) * αK o) ∧ house ((δ : K) * αK o) ≤ G)
     (hβs : ∀ r, IsIntegral ℤ ((δ : K) * βK r) ∧ house ((δ : K) * βK r) ≤ G)

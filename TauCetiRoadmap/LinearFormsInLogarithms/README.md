@@ -36,10 +36,13 @@ roadmap treats them. The roadmap depends on no other roadmap; it consumes Mathli
 declarations listed below.
 
 Suggested homes:
+- `TauCeti/Analysis/Normed/Ring/InfiniteSum.lean`: products of absolutely summable families (0.1);
+- `TauCeti/Analysis/Analytic/`: sums of power series (0.2);
 - `TauCeti/Analysis/Analytic/MultiIndex/`: multi-index power series and Taylor coefficients
-  (Layer 0);
-- `TauCeti/Analysis/Complex/Polydisc/`: estimates on polydiscs (1.1, 1.2, 1.4, 1.6), with the
-  one-variable Schwarz lemma of 1.3 and the general-normed-space 1.5 in `TauCeti/Analysis/Complex/`;
+  (0.3–0.5);
+- `TauCeti/Analysis/Complex/Polydisc/`: estimates on polydiscs (1.1, 1.2, the multi-index half of
+  1.4, and 1.6), with the one-variable Schwarz lemma of 1.3, the homogeneous-term half of 1.4 and
+  1.5, which hold on any complex normed space, in `TauCeti/Analysis/Complex/`;
 - `TauCeti/Analysis/Complex/ExpPolynomial/`: exponential polynomials (Layer 2);
 - `TauCeti/NumberTheory/NumberField/House/`: Liouville's inequality, sizes of algebraic numbers
   and Siegel's lemma with a constant (3.1, 3.2, 3.3, 3.5), and the ultrametric Liouville
@@ -48,17 +51,20 @@ Suggested homes:
   bound it resembles;
 - `TauCeti/NumberTheory/Transcendental/`: the auxiliary function, the criterion, its consequences
   and Baker's theorem (Layers 4–7);
-- `TauCeti/Analysis/Analytic/`: the order lemma of 1.3, over any nontrivially normed field, and
+- `TauCeti/Analysis/Analytic/Order.lean`: the order lemma of 1.3; `TauCeti/Analysis/Analytic/`:
   the ultrametric Schwarz lemma of 8.2; `TauCeti/Analysis/Normed/Field/`: integral elements in an
   ultrametric field (8.2);
-- `TauCeti/NumberTheory/Padics/`: norms of integers and the exponential on its disc in a normed
-  field over `ℚ_p` (8.1 and the integer bound of 8.2), and the coefficient bound and the value of
-  an exponential polynomial there (8.4);
+- `TauCeti/NumberTheory/Padics/`: the integer bound of 8.2, the exponential on its disc in a
+  normed field over `ℚ_p` (8.1), and the coefficient bound and the value of an exponential
+  polynomial there (8.4);
 - `TauCeti/RingTheory/PowerSeries/`: power series with many zeros (8.3), next to `GaussNorm.lean`,
   and the derivatives of an exponential polynomial (8.4), next to `Exp.lean`;
-  `TauCeti/RingTheory/Polynomial/`: `expDerivFactor` (8.4) and Hermite interpolation (8.5);
+  `TauCeti/Algebra/Polynomial/`: `expDerivFactor` (8.4);
+  `TauCeti/RingTheory/Polynomial/HermiteInterpolation.lean`: Hermite interpolation (8.5), apart
+  from the Hermite polynomials in `TauCeti/RingTheory/Polynomial/Hermite/`;
 - `TauCeti/NumberTheory/Transcendental/Padic/`: Baker's auxiliary function over `ℂ_[p]` and
-  Baker's theorem over `ℂ_[p]` (8.6–8.10).
+  Baker's theorem over `ℂ_[p]` (8.6–8.10);
+- `TauCeti/Examples/`: the worked examples, normalisation checks and rejection tests.
 
 ## Scope
 
@@ -116,16 +122,19 @@ Not in this roadmap, and not owned by any other roadmap unless stated:
 
 These are fixed for every target below.
 
-- **Namespaces.** The targets carry the names in `Suggested.lean`. Lemmas about a Mathlib type
-  whose first explicit argument or hypothesis has that type sit in its namespace
-  (`FormalMultilinearSeries.mvCoeff`, `HasFPowerSeriesOnBall.norm_mvCoeff_mul_pow_le`,
-  `AnalyticAt.mvTaylorCoeff_smul`, `PowerSeries.…`, `Polynomial.…`, `NumberField.…`). The
+- **Namespaces.** The targets carry the names in `Suggested.lean`, relative to Tau Ceti's
+  `TauCeti` namespace: `mvTaylorCoeff` is `TauCeti.mvTaylorCoeff`, and `PowerSeries.…` is
+  `TauCeti.PowerSeries.…`, as in `TauCeti.PowerSeries.gaussNorm_mul_of_isRestricted`. Lemmas
+  extending a Mathlib API sit in its namespace (`FormalMultilinearSeries.mvCoeff`,
+  `HasFPowerSeriesOnBall.norm_mvCoeff_mul_pow_le`, `AnalyticAt.mvTaylorCoeff_smul`,
+  `ContinuousLinearMap.…`, `Complex.…`, `PowerSeries.…`, `Polynomial.…`, `NumberField.…`). The
   criterion's statements are in `SchneiderLang`, Baker's theorem and its corollaries in `Baker`,
   Baker's theorem over `ℂ_[p]` in `PadicBaker`, the facts about the `p`-adic exponential in
-  `PadicExp`, and the norms of integers in a normed field over `ℚ_[p]` in `Padic`. The steps of the
+  `PadicExp`, and the norms of `p`-adic integers in `Padic`. The steps of the
   proofs of 5.7 and 8.10 are in `SchneiderLangProof` and `PadicBakerProof`, namespaces of their own
-  because they serve only those proofs. The names taken from Mathlib PRs keep those PRs'
-  namespaces.
+  because they serve only those proofs. The names taken from Mathlib PRs are those PRs' names,
+  also relative to `TauCeti` (`TauCeti.transcendental_exp`,
+  `TauCeti.GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`).
 - **Several complex variables.** The ambient space is `ι → ℂ` for `[Fintype ι]`, with Mathlib's sup
   norm, and `n = Fintype.card ι` where a dimension is needed; Layers 5 and 6 index by `Fin n`, as
   Waldschmidt does. A polydisc about `0` is `Metric.closedBall (0 : ι → ℂ) R` or `Metric.ball 0 R`,
@@ -186,7 +195,7 @@ These are fixed for every target below.
   `IsAlgebraic ℚ (NormedSpace.exp ℓ)` holds for every `ℓ` (`PadicComplex.exp_one_eq_zero`).
   Series in one variable are Mathlib's `PowerSeries K`, with the formal derivative
   `PowerSeries.derivative` and the value `FormalMultilinearSeries.ofScalarsSum` of the
-  coefficient sequence (`ofScalars_sum_eq`: the sum `∑' n, c n • x ^ n`).
+  coefficient sequence (`FormalMultilinearSeries.ofScalars_sum_eq`: the sum `∑' n, c n • x ^ n`).
 - **Sizes of algebraic numbers** are the pair of hypotheses `IsIntegral ℤ ((δ : K) ^ a * α)` and
   `house ((δ : K) ^ a * α) ≤ H` for a denominator `δ : ℕ`, an exponent `a` and a bound `H`, carried
   explicitly; there is no predicate bundling them. Mathlib's absolute heights (`Height.logHeight₁`,
@@ -235,15 +244,15 @@ All references are to the Mathlib commit pinned by Tau Ceti.
   `Algebra.discr_not_zero_of_basis` and `Algebra.discr_eq_det_embeddingsMatrixReindex_pow_two`
   (`RingTheory/Discriminant.lean`); used in 7.1.
 - **Siegel's lemma:** `Int.Matrix.exists_ne_zero_int_vec_norm_le` (`NumberTheory/SiegelsLemma.lean`)
-  and its number-field form `NumberField.house.exists_ne_zero_int_vec_house_le`, whose constant
-  `c₁` is private at the pin; 3.5 states a form with a constant (see *Coordination with
-  Mathlib*). These solve linear *equations*; the transcendence
-  argument over `ℂ` needs small values of linear *forms* (3.4), which they do not give.
+  and its number-field form `NumberField.house.exists_ne_zero_int_vec_house_le`, whose constant is
+  private; 3.5 states a form with an existential constant. These solve linear *equations*; the
+  transcendence argument over `ℂ` needs small values of linear *forms* (3.4), which they do not
+  give.
 - **`p`-adic numbers and ultrametric fields:** `ℂ_[p]` (`PadicComplex`,
   `NumberTheory/Padics/Complex.lean`) with `PadicComplex.isAlgClosed`;
   `IsUltrametricDist.of_normedAlgebra`; norms in `ℚ_[p]` and in normed algebras over it
-  (`Padic.norm_eq_zpow_neg_valuation`, `norm_algebraMap'`); Legendre's formula for the valuation of
-  `n!` (`sub_one_mul_padicValNat_factorial`); ultrametric sums
+  (`Padic.norm_eq_zpow_neg_valuation`, `Padic.valuation_natCast`, `norm_algebraMap'`); Legendre's
+  formula for the valuation of `n!` (`sub_one_mul_padicValNat_factorial`); ultrametric sums
   (`IsUltrametricDist.norm_tsum_le_of_forall_le_of_nonneg`,
   `NonarchimedeanAddGroup.summable_of_tendsto_cofinite_zero`); integral elements and the valuation
   ring (`Valuation.Integers.mem_of_integral`, `NormedField.valuation`); the field norm as a product
@@ -275,7 +284,8 @@ All references are to the Mathlib commit pinned by Tau Ceti.
   `TauCeti.PowerSeries.IsDistinguished.exists_mul_add_eq`
   (`TauCeti/RingTheory/PowerSeries/Weierstrass/Division.lean`). 8.3 divides by the distinguished
   polynomial `∏ (X - a) ^ S` with these.
-- `TauCeti/Analysis/Analytic/OfScalars.lean`, which extends Mathlib's `ofScalars` API.
+- `TauCeti/Analysis/Analytic/OfScalars.lean`, which extends Mathlib's `ofScalars` API, for the
+  values `ofScalarsSum` of 8.3 and 8.6.
 
 ## Coordination with Mathlib
 
@@ -285,10 +295,9 @@ M. Karatarakis, proves Gelfond–Schneider directly, by Gelfond's one-variable m
 `GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`. Target 6.4 takes that name and
 statement; if the PR is merged, the Tau Ceti theorem is deleted in favour of Mathlib's. Here it is
 derived from the criterion, which this roadmap builds regardless. The same PR makes Siegel's
-constant `NumberField.house.c₁` public, with `one_le_c₁`, and adds house lemmas (`house_natCast`,
-`house_intCast_mul`, `house_zsmul`, `house_pow_le_pow`); once it is merged, 3.5 is stated with the
-constant `c₁ K ^ 2`, since Mathlib's bound `c₁ K (c₁ K q A) ^ (p / (q - p))` is at most
-`c₁ K ^ 2 q A` when `q ≥ 2p`, and 3.2 uses those lemmas.
+constant public and adds lemmas on the house of integer multiples and powers; 3.5 keeps its
+existential constant either way, and a size bound of 3.2 that the PR adds is deleted from Tau Ceti
+in favour of Mathlib's if the PR is merged.
 
 Mathlib PR [#28013](https://github.com/leanprover-community/mathlib4/pull/28013), by Yuyang Zhao,
 proves the Lindemann–Weierstrass theorem by Hermite's method, and from it `transcendental_exp`
@@ -301,10 +310,11 @@ theorems are deleted in favour of Mathlib's. Here they are derived from the crit
 
 ## The build, in layers
 
-Every statement below is expressible against Mathlib alone once `FormalMultilinearSeries.mvCoeff`
-and `mvTaylorCoeff` are defined. `Suggested.lean` gives both definitions, the auxiliary functions
-of Layers 5 and 8 with the quantities their conditions are stated in, and a Lean form, under the
-name given here in parentheses, for every milestone that has one.
+Every statement below is expressible against Mathlib alone once `FormalMultilinearSeries.mvCoeff`,
+`mvTaylorCoeff` and `Polynomial.expDerivFactor` are defined, together with the auxiliary functions
+of Layers 5 and 8 and the quantities their conditions are stated in. `Suggested.lean` gives all of
+these definitions, and a Lean form, under the name given here in parentheses, for every milestone
+that has one.
 
 ### Layer 0: multi-index power series
 
@@ -312,14 +322,16 @@ Over a nontrivially normed field `𝕜`, values in a normed space `F`, complete 
 *Prerequisites:* Mathlib only.
 
 - **0.1 Products of absolutely convergent series.** For finitely many absolutely summable families
-  `f i : ℕ → R` in a complete normed commutative ring, `σ ↦ ∏ i, f i (σ i)` over `σ : ι → ℕ` is
-  absolutely summable with sum `∏ i, ∑' k, f i k`.
+  `f i : κ i → R` in a complete normed commutative ring, `σ ↦ ∏ i, f i (σ i)` over
+  `σ : ∀ i, κ i` is absolutely summable with sum `∏ i, ∑' k, f i k`; Layer 0 uses it with
+  `κ i = ℕ`.
 - **0.2 Sums of power series.** If each `g n` (over an arbitrary index type) has the power series
   `p n` on the ball of radius `r > 0` about `x`, and `(k, n) ↦ ‖p n k‖ r ^ k` is summable, then
   `∑' n, g n` has the power series `k ↦ ∑' n, p n k` on that ball, and so is analytic at `x`.
 - **0.3 Multi-index coefficients of a formal series.** `mvCoeff p α` is the sum of
-  `p (∑ i, α i)` over the tuples of basis vectors whose coordinate counts are `α`; it is additive
-  and commutes with scalars in `p` (`FormalMultilinearSeries.mvCoeff_add`,
+  `p (∑ i, α i)` over the tuples of basis vectors whose coordinate counts are `α`; it vanishes on
+  the zero series, is additive and commutes with scalars in `p`
+  (`FormalMultilinearSeries.mvCoeff_zero`, `FormalMultilinearSeries.mvCoeff_add`,
   `FormalMultilinearSeries.mvCoeff_smul`). Milestones: the degree-`k` term is
   `p k (fun _ => z) = ∑ α ∈ univ.piAntidiag k, (∏ i, z i ^ α i) • mvCoeff p α`
   (`FormalMultilinearSeries.apply_eq_sum_mvCoeff`); the coefficients are normally summable on
@@ -341,19 +353,21 @@ Over a nontrivially normed field `𝕜`, values in a normed space `F`, complete 
   `HasFPowerSeriesOnBall.iteratedFDeriv_eq_sum_of_completeSpace`), and in one variable
   `k! • mvTaylorCoeff = iteratedDeriv k` (`AnalyticAt.factorial_smul_mvTaylorCoeff_of_unique`);
   additivity (`AnalyticAt.mvTaylorCoeff_add`), subtraction and finite sums for functions analytic at
-  `x`; **the product rule**
+  `x`; constant multiples, with no hypothesis (`mvTaylorCoeff_const_smul`), and constant functions
+  (`mvTaylorCoeff_const`); **the product rule**
   `mvTaylorCoeff (f • g) x α = ∑ β ∈ Iic α, mvTaylorCoeff f x β • mvTaylorCoeff g x (α - β)` for `f`
   scalar and `g` vector-valued, both analytic at `x` (`AnalyticAt.mvTaylorCoeff_smul`); translation,
-  `mvTaylorCoeff f (x + y) α = mvTaylorCoeff (f (· + y)) x α` (`mvTaylorCoeff_comp_add_right`);
-  locality (functions equal near `x` have the same coefficients); a monomial `∏ i, z i ^ τ i` has
-  coefficient `1` at `τ` and `0` at every other multi-index, at the origin
-  (`mvTaylorCoeff_prod_pow`); **the local expansion**: an analytic `f` satisfies
-  `f (x + y) = ∑' α, (∏ i, y i ^ α i) • mvTaylorCoeff f x α` on some polydisc, normally convergently
-  (`AnalyticAt.exists_hasSum_mvTaylorCoeff`); **coefficients from an expansion**: any normally
-  convergent expansion of `f (x + ·)` on a polydisc has the Taylor coefficients as coefficients
-  (`mvTaylorCoeff_eq_of_hasSum`); and **linear change of variables**: if the Taylor coefficients of
-  `G` at `A x` of total degree `k` all vanish, then so do those of `G ∘ A` at `x`, for `A` a
-  continuous linear map (`mvTaylorCoeff_comp_eq_zero`). ⚠ The factorial multiplies the Taylor
+  `mvTaylorCoeff (f (· + y)) x α = mvTaylorCoeff f (x + y) α` (`mvTaylorCoeff_comp_add_right`);
+  locality (functions equal near `x` have the same coefficients,
+  `Filter.EventuallyEq.mvTaylorCoeff_eq`); a monomial `∏ i, z i ^ τ i` has coefficient `1` at `τ`
+  and `0` at every other multi-index, at the origin (`mvTaylorCoeff_prod_pow`); **the local
+  expansion**: an analytic `f` satisfies `f (x + y) = ∑' α, (∏ i, y i ^ α i) • mvTaylorCoeff f x α`
+  on some polydisc, normally convergently (`AnalyticAt.exists_hasSum_mvTaylorCoeff`); **coefficients
+  from an expansion**: any normally convergent expansion of `f (x + ·)` on a polydisc has the Taylor
+  coefficients as coefficients (`mvTaylorCoeff_eq_of_hasSum`); and **linear change of variables**:
+  if the Taylor coefficients of `G` at `A x` of total degree `k` all vanish, then so do those of
+  `G ∘ A` at `x`, for `A` a continuous linear map
+  (`ContinuousLinearMap.mvTaylorCoeff_comp_eq_zero`). ⚠ The factorial multiplies the Taylor
   coefficient and is never inverted: in positive characteristic `α!` can vanish, and
   `mvTaylorCoeff f x α = D^α f (x) / α!` is then false. ⚠ Vanishing of the coefficients with
   `α i < m` in each coordinate is not preserved by a linear change of variables: with `m = 2`,
@@ -382,12 +396,12 @@ Layer 0.
   `f = z i ^ m • g`, the sharper bounds are `‖g‖ ≤ M / R ^ m` and `‖f‖ ≤ M (r / R) ^ m` on the
   polydisc of radius `r ≤ R`. *Prerequisites:* 1.1.
 - **1.3 Schwarz's lemma for a zero of order `T`** (one variable). If `g` is holomorphic and bounded
-  by `M` on the open disc of radius `ρ` about `0` and `(T : ℕ∞) ≤ analyticOrderAt g 0`, then
-  `‖g w‖ ≤ M (‖w‖ / ρ) ^ T` there (`norm_le_mul_div_pow_of_le_analyticOrderAt`). For `T ≥ 1` this
-  is Mathlib's `Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO` with `n = T - 1`, once
-  `g w - g 0 = o (‖w‖ ^ (T - 1))` is derived from the order (`natCast_le_analyticOrderAt`;
-  `isLittleO_sub_pow_sub_one_of_le_analyticOrderAt`, which holds over any nontrivially normed
-  field). *Prerequisites:* Mathlib only.
+  by `M` on the open disc of radius `ρ` about `c` and `(T : ℕ∞) ≤ analyticOrderAt g c`, then
+  `‖g w‖ ≤ M (‖w - c‖ / ρ) ^ T` there (`Complex.norm_le_mul_div_pow_of_le_analyticOrderAt`). For
+  `T ≥ 1` this is Mathlib's `Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO` with
+  `n = T - 1`, once `g w - g c = o (‖w - c‖ ^ (T - 1))` is derived from the order
+  (`natCast_le_analyticOrderAt`; `isLittleO_sub_pow_sub_one_of_le_analyticOrderAt`, which holds
+  over any nontrivially normed field). *Prerequisites:* Mathlib only.
 - **1.4 Cauchy's inequalities.** For `HasFPowerSeriesOnBall F p 0 R` on any complex normed space,
   with values in a complex Banach space and `‖F‖ ≤ M` on the ball: every homogeneous term
   satisfies `‖p n (fun _ => y)‖ ≤ M` for `‖y‖ < R`; and on `ι → ℂ`, **every multi-index
@@ -462,11 +476,12 @@ Over a number field `K`. *Prerequisites:* Mathlib only.
   `0` lie in `IntermediateField.adjoin ℚ S`, a number field, with a common denominator `δ` from
   `exists_integral_multiples` and a common bound for the houses of `δ` times each of them; Layer 5
   uses it with `L = ℂ` and Layer 8 with `L = ℂ_[p]`.
-- **3.4 Thue–Siegel's lemma** (Waldschmidt, Lemmas 4.11 and 4.12). Let `X ≥ 1` be an integer. For
-  real forms: if `∑ᵢ |u i j| ≤ U` for every `j` and `ℓ ^ (card κ) < (X + 1) ^ (card ι)` for a
-  natural number `ℓ ≥ 1`, there is a nonzero `ξ : ι → ℤ` with `|ξ i| ≤ X` and
-  `|∑ᵢ u i j ξ i| ≤ U X / ℓ` for all `j` (`ThueSiegel.exists_ne_zero_int_vec_abs_le_of_pow_lt`). For
-  complex forms, with `ι` nonempty: if `∑ᵢ ‖u i j‖ ≤ exp U` for every `j` and
+- **3.4 Thue–Siegel's lemma** (Waldschmidt, Lemmas 4.11 and 4.12). Let `X ≥ 1` be an integer (for
+  real forms this follows from the count). For real forms: if `∑ᵢ |u i j| ≤ U` for every `j` and
+  `ℓ ^ (card κ) < (X + 1) ^ (card ι)` for a natural number `ℓ ≥ 1`, there is a nonzero `ξ : ι → ℤ`
+  with `|ξ i| ≤ X` and `|∑ᵢ u i j ξ i| ≤ U X / ℓ` for all `j`
+  (`ThueSiegel.exists_ne_zero_int_vec_abs_le_of_pow_lt`). For complex forms, with `ι` nonempty: if
+  `∑ᵢ ‖u i j‖ ≤ exp U` for every `j` and
   `(√2 · X · exp (U + V) + 1) ^ (2 · card κ) ≤ (X + 1) ^ (card ι)`, there is a nonzero `ξ` with
   `|ξ i| ≤ X` and `‖∑ᵢ u i j ξ i‖ ≤ exp (-V)`
   (`ThueSiegel.exists_ne_zero_int_vec_norm_le_of_pow_le`). Both over arbitrary finite index types.
@@ -634,8 +649,8 @@ of Baker's book, which handles `β₀`. That chapter is the route: Lemmas 1–7 
 inequality taken at the embedding into `ℂ_[p]`. Write `ρ = p ^ (-1 / (p - 1))`.
 
 - **8.1 The exponential on its disc.** In a normed field `L` over `ℚ_[p]`, a nonzero natural
-  number has `‖n‖ = p ^ (-v_p (n))` (`Padic.norm_natCast_eq_zpow_neg_padicValNat`, from
-  `Padic.norm_eq_zpow_neg_valuation` and `norm_algebraMap'`), so by Legendre's formula
+  number has `‖n‖ = p ^ (-v_p (n))` (Mathlib's `norm_algebraMap'`,
+  `Padic.norm_eq_zpow_neg_valuation` and `Padic.valuation_natCast`), so by Legendre's formula
   (`sub_one_mul_padicValNat_factorial`) `‖n!‖ ≥ p ^ (-n / (p - 1))`, and for nontrivially normed
   `L` the radius of `expSeries` is at least `ρ` (`PadicExp.le_radius_expSeries`). If `L` is also
   complete, then for `‖x‖, ‖y‖ < ρ`: `exp (x + y) = exp x · exp y`
@@ -646,9 +661,9 @@ inequality taken at the embedding into `ℂ_[p]`. Write `ρ = p ^ (-1 / (p - 1))
   *Prerequisites:* Mathlib only.
 - **8.2 Liouville's inequality at an ultrametric place.** An element integral over `ℤ` has norm at
   most `1` in an ultrametric normed field (`IsUltrametricDist.norm_le_one_of_isIntegral`, from
-  `Valuation.Integers.mem_of_integral` and `NormedField.valuation`); in a normed field `L` over
-  `ℚ_[p]` a nonzero integer has `1 ≤ |n| ‖n‖` (`Padic.one_le_abs_mul_norm_intCast`, with `p`
-  explicit since it does not occur in the conclusion). In an ultrametric, algebraically closed
+  `Valuation.Integers.mem_of_integral` and `NormedField.valuation`); a nonzero integer has
+  `1 ≤ |n| ‖n‖` in `ℚ_[p]` (`Padic.one_le_abs_mul_norm_intCast`), hence, by `norm_algebraMap'`,
+  in every normed field over `ℚ_[p]`. In an ultrametric, algebraically closed
   normed field `L` with that property, if `δ ^ a * x` is a nonzero algebraic integer of house at
   most `H`, then `1 ≤ H ^ [K : ℚ] ‖σ x‖` at every embedding `σ : K →+* L`
   (`NumberField.one_le_pow_mul_norm_embedding_of_isUltrametricDist`): the field norm of `δ ^ a * x`
@@ -676,26 +691,26 @@ inequality taken at the embedding into `ℂ_[p]`. Write `ρ = p ^ (-1 / (p - 1))
   of the maximum-modulus step in Baker's Lemmas 4 and 5: each zero gains a factor `r`, where Baker
   gains a factor growing with `h`. *Prerequisites:* Mathlib and the Tau Ceti files listed above.
 - **8.4 Exponential polynomials as power series.** Over a commutative ring,
-  `expDerivFactor c m P = (Q ↦ Q' + c Q)^[m] P` (`Polynomial.expDerivFactor`), with
-  `expDerivFactor c 0 P = P` and the recursion (`Polynomial.expDerivFactor_zero`,
+  `expDerivFactor c m = (D + c) ^ m`, a linear map on polynomials (`Polynomial.expDerivFactor`),
+  with `expDerivFactor c 0 P = P` and the recursion (`Polynomial.expDerivFactor_zero`,
   `Polynomial.expDerivFactor_succ`, both proved), the binomial form
   `∑_{j ≤ m} (m choose j) c ^ (m - j) P⁽ʲ⁾` (`Polynomial.expDerivFactor_eq_sum`), and degree at most
   that of `P` (`Polynomial.natDegree_expDerivFactor_le`); in an ultrametric field its coefficients
   are at most `max 1 ‖c‖ ^ m` times a bound for those of `P`
-  (`Polynomial.norm_coeff_expDerivFactor_le`). Over a field of characteristic `0`, `Q (X) exp (ψ X)`
-  is `(Q : PowerSeries K) * rescale ψ (exp K)`, and its `m`-th formal derivative is
-  `expDerivFactor ψ m Q · exp (ψ X)` (`Polynomial.iterate_derivative_mul_rescale_exp`). In a normed
-  field `L` over `ℚ_[p]`: if `‖Q.coeff j‖ r ^ j ≤ M` for all `j` and `‖ψ‖ r ≤ ρ`, then the
+  (`Polynomial.norm_coeff_expDerivFactor_le`). Over a commutative `ℚ`-algebra, `Q (X) exp (ψ X)` is
+  `(Q : PowerSeries A) * rescale ψ (exp A)`, and its `m`-th formal derivative is
+  `expDerivFactor ψ m Q · exp (ψ X)` (`PowerSeries.iterate_derivative_coe_mul_rescale_exp`). In a
+  normed field `L` over `ℚ_[p]`: if `‖Q.coeff j‖ r ^ j ≤ M` for all `j` and `‖ψ‖ r ≤ ρ`, then the
   coefficients `c k` of `Q (X) exp (ψ X)` satisfy `‖c k‖ r ^ k ≤ M`, since `‖ψ ^ k / k!‖ r ^ k ≤ 1`
-  by 8.1 (`Polynomial.norm_coeff_mul_rescale_exp_mul_pow_le`); and if `L` is complete, the series
-  sums to `Q (x) exp (ψ x)` when `‖ψ x‖ < ρ` (`Polynomial.hasSum_coeff_mul_rescale_exp`).
-  *Prerequisites:* 8.1.
+  by 8.1 (`PowerSeries.norm_coeff_coe_mul_rescale_exp_mul_pow_le`); and if `L` is complete, the
+  series sums to `Q (x) exp (ψ x)` when `‖ψ x‖ < ρ`
+  (`PowerSeries.hasSum_coeff_coe_mul_rescale_exp`). *Prerequisites:* 8.1.
 - **8.5 Hermite interpolation with ultrametric bounds** (Baker, Lemma 7;
-  `Polynomial.exists_hermite_of_isUltrametricDist`). For points `σ i` of norm at most `1` with
-  `‖σ i - σ j‖ ≥ ϱ` for `i ≠ j`, `0 < ϱ ≤ 1`, and `s < S`, there is a polynomial `W` whose
-  derivatives of order `< S` at the points vanish except the `s`-th at `σ r`, which is `1`, with
-  every coefficient at most `‖1 / s!‖ ϱ ^ (-(card ι · S))`. ⚠ `‖1 / s!‖ = p ^ (v_p (s!))` is at
-  least `1`, unlike at an archimedean place. *Prerequisites:* Mathlib only.
+  `Polynomial.exists_iterate_derivative_eval_eq_ite_of_isUltrametricDist`). For points `σ i` of norm
+  at most `1` with `‖σ i - σ j‖ ≥ ϱ` for `i ≠ j`, `0 < ϱ ≤ 1`, and `s < S`, there is a polynomial
+  `W` whose derivatives of order `< S` at the points vanish except the `s`-th at `σ r`, which is
+  `1`, with every coefficient at most `‖1 / s!‖ ϱ ^ (-(card ι · S))`. ⚠ `‖1 / s!‖ = p ^ (v_p (s!))`
+  is at least `1`, unlike at an archimedean place. *Prerequisites:* Mathlib only.
 - **8.6 Baker's auxiliary function on the diagonal** (`frequency`, `gammaCoeff`, `zeroFrequency`,
   `derivativePoly`, `derivativeSeries`). Suppose, to be refuted,
   `ℓ none = β₀ + ∑ r, β r ℓ (some r)` for `ℓ : Option (Fin k) → ℂ_[p]` in the disc. For `P` indexed
@@ -832,8 +847,8 @@ in parallel with Layers 0–7; within it, 8.1–8.5 are independent of one anoth
 
 ## Provenance
 
-Most of the development exists, sorry-free and using only the axioms `propext`,
-`Classical.choice` and `Quot.sound`, on the `baker` branch of
+Most of the development exists, sorry-free and using only the axioms `propext`, `Classical.choice`
+and `Quot.sound`, on the `baker` branch of
 [mkaratarakis/mathlib4](https://github.com/mkaratarakis/mathlib4) at commit
 [`1d51891b5b`](https://github.com/mkaratarakis/mathlib4/tree/1d51891b5be7ceeca95b4583cad39e0681c5e453/Mathlib/NumberTheory/Transcendental/Baker),
 under `Mathlib/NumberTheory/Transcendental/Baker/`. It is released under the Apache 2.0 licence,
@@ -841,16 +856,16 @@ like Mathlib, and its author, M. Karatarakis, is the author of this roadmap, so 
 further agreement; credit that source in each ported file. It is a cited source, not the
 specification: the targets above state the mathematics, and these are not in it: 0.4 over an
 arbitrary nontrivially normed field (the source states it over `RCLike` fields); in 0.4 the
-coefficient of order `0`, translation, the comparison with iterated derivatives, the one-variable
-form, the product rule and the general-valued form of `mvTaylorCoeff_comp_eq_zero` (the source has
-it for `ℂ`-valued series); 1.3 in the form consuming Mathlib's Schwarz lemma, with its order lemma
-over any nontrivially normed field; the branch-free forms in 6.3 and 6.4, `transcendental_exp` and
-`transcendental_log` in the forms of Mathlib PR #28013, and `exists_rat_eq_div_or_transcendental`;
-the principal-branch form of 7.3 (the source has the exponential form); the worked examples other
-than `π`; and the normalisation checks and rejection tests. The names there differ throughout
-(`coeff`, `taylorCoeff`, `auxF`, `growth`, `core`, `main`, `theorem45`, `baker`,
-`gelfond_schneider`, …); the table gives the source names. File map, with the main declarations
-of each file:
+coefficient of order `0`, constant multiples and constant functions, translation, the comparison
+with iterated derivatives, the one-variable form, the product rule and the general-valued form of
+`ContinuousLinearMap.mvTaylorCoeff_comp_eq_zero` (the source has it for `ℂ`-valued series); 1.3 in
+the form consuming Mathlib's Schwarz lemma, with its order lemma over any nontrivially normed field;
+the branch-free forms in 6.3 and 6.4, `transcendental_exp` and `transcendental_log` in the forms of
+Mathlib PR #28013, and `exists_rat_eq_div_or_transcendental`; the principal-branch form of 7.3 (the
+source has the exponential form); 7.1 stated with a basis; the worked examples other than `π`; and
+the normalisation checks and rejection tests. The names there differ throughout (`coeff`,
+`taylorCoeff`, `auxF`, `growth`, `core`, `main`, `theorem45`, `baker`, `gelfond_schneider`, …); the
+table gives the source names. File map, with the main declarations of each file:
 
 | file | targets | declarations |
 |---|---|---|
