@@ -68,8 +68,8 @@ declaration or a completion claim of this PR**. Every excluded summit has exactl
 | Excluded material | Layers | Exact owner | Activated once |
 | --- | --- | --- | --- |
 | passports, cycle partitions, and the reference transitive-group results | 1, 3 | **this roadmap**, in a follow-up PR | #243 `PolynomialGaloisGroups` lands its exact `fullCycleType` and transitive-group API |
-| the two-open Seifert–van Kampen theorem | 5.5 | roadmap **`AlgebraicTopology`**, Stage 1 | — it is general algebraic topology, owned there and only consumed here |
-| associated covers, and the subgroup half of the covering classification | 6.2, and the subgroup statement inside 6.3 | **this roadmap** for 6.2, in a follow-up PR; `UniversalCovers` milestone 8 for the subgroup statement | UniversalCovers publishes compiled semilocal-connectivity, universal-cover, deck-action and classification carriers |
+| the two-open Seifert–van Kampen theorem | 5.5 | roadmap **`AlgebraicTopology`**, Stage 1 | AlgebraicTopology Stage 1 publishes the four declarations pinned in Layer 5.5; it is general algebraic topology, owned there and only consumed here |
+| associated covers, and the subgroup half of the covering classification | 6.2, and the subgroup statement inside 6.3 | **this roadmap** for 6.2, in a follow-up PR; `UniversalCovers` milestone 8 for the subgroup statement | UniversalCovers publishes compiled universal-cover, deck-action and classification carriers |
 | compactification, compact Riemann surfaces, ramification, analytic cohomology, and analytic Riemann existence | 7, 8 | successor roadmap **`BelyiAnalyticCovers`** | a compact-surface owner (ModularForms Layer 10B) publishes one checked carrier and the Riemann–Roch/Riemann–Hurwitz API |
 | algebraic Belyi pairs, the analytic–algebraic comparison, Belyi's theorem, fields of moduli and of definition, and Weil descent | 9, 10, 11 | successor roadmap **`BelyiAlgebraicAndDescent`** | AlgebraicCurves publishes its curve/function-field anti-equivalence and extension-ramification carriers, and `BelyiAnalyticCovers` lands |
 | the arithmetic exact sequence and outer action, peripheral inertia, the branch-cycle theorem, the pro-`ℓ` peripheral-power theorem, faithfulness, and LMFDB record semantics | 12, 13, 14 | successor roadmap **`BelyiArithmeticActions`** | #244 `ProfiniteProPGroups` and its generic successor `ProfiniteArithmetic` land, and `BelyiAlgebraicAndDescent` lands |
@@ -82,8 +82,8 @@ successor. Their exact owner is **`ProfiniteArithmetic`**, the generic successor
 
 Thus an unresolved supplier contract is a scheduling block, not a theorem with a prose caveat.
 No unmerged supplier branch is imported and no Belyi-local stand-in is exported. The order is
-#243 and #244 first, then UniversalCovers, the compact-surface owner, AlgebraicCurves and
-`ProfiniteArithmetic`, and only then the follow-up PRs and the three Belyi successors above. The
+#243 and #244 first, then UniversalCovers, AlgebraicTopology Stage 1, the compact-surface owner,
+AlgebraicCurves and `ProfiniteArithmetic`, and only then the follow-up PRs and the three Belyi successors above. The
 split is combinatorial / analytic / arithmetic, and it is drawn where the carriers actually
 become typeable rather than where the mathematics changes subject.
 
@@ -142,7 +142,7 @@ case the fundamental-group computation needs — two open sets with simply conne
 intersection — is general algebraic topology, reusable far beyond three-point covers, so it
 belongs to [AlgebraicTopology](../AlgebraicTopology/README.md), whose Stage 1 derives the based
 two-open theorem and its group-presentation corollaries from van Kampen for the fundamental
-groupoid. Layer 5.5 below records exactly which declarations that roadmap supplies and under
+groupoid. Layer 5.5 below records exactly which declarations this roadmap requires of it and under
 which hypotheses; Layer 5.6 **instantiates** them at the two-set cover of Layer 5.1 and reads
 off the values on the canonical generators, and that instantiation is what this roadmap owns.
 No Belyi-local copy, alias or stand-in for the theorem is exported.
@@ -259,8 +259,8 @@ definition, Weil descent, and `trueOrbitSize`.
 4.6            the normality criterion                      6.5
 ```
 
-and nothing else; UniversalCovers; AlgebraicTopology Stage 1; ConformalMapping L0; ModularForms Layer 10B;
-AlgebraicCurves. ⚠ `4.6` belongs on this list: Layer 6.5 classifies regular covers by
+and nothing else; UniversalCovers; AlgebraicTopology Stage 1; ConformalMapping L0; ModularForms
+Layer 10B; AlgebraicCurves. ⚠ `4.6` belongs on this list: Layer 6.5 classifies regular covers by
 normality of the point stabilizer, which is Layer 4.6's criterion, so section B is not
 independent of Layer 4.
 
@@ -504,8 +504,9 @@ the three portfolio suppliers have no local stand-ins here.
 
 An exact portfolio row is imported only by the successor that consumes it, after the supplier
 lands on `main`; that successor must fail on a spelling or carrier change rather than selecting a
-local replacement. The UniversalCovers, compact-surface, AlgebraicCurves, #243, and #244 rows are
-scheduling contracts, not claims that declarations already exist. `Suggested.lean` intentionally
+local replacement. The UniversalCovers rows other than semilocal simple connectivity, and the
+AlgebraicTopology, compact-surface, AlgebraicCurves, #243, and #244 rows, are scheduling contracts,
+not claims that declarations already exist. `Suggested.lean` intentionally
 omits their consumers. The `ProfiniteArithmetic` row is the one supplier that has no roadmap of its
 own yet; #244's opening section records the same boundary from the supplier side, so the three
 constructions have one owner rather than none.
@@ -1540,7 +1541,7 @@ result is the same isomorphism.
 **The route is pinned, and its one general input comes from AlgebraicTopology.** The pin has
 no Seifert–van Kampen theorem in any form, and Seifert–van Kampen for two open sets with
 simply connected intersection is general algebraic topology rather than Belyi mathematics:
-5.5 records the exact declarations AlgebraicTopology Stage 1 supplies, and 5.6 instantiates them at
+5.5 records the exact declarations this roadmap requires of AlgebraicTopology Stage 1, and 5.6 instantiates them at
 5.1's two-set cover. Everything else in this layer is Belyi's own. The base case
 `π₁(ℂ ∖ {0}) ≅ ℤ` is not proved by hand either — it is read off the pin's
 `Complex.isAddQuotientCoveringMap_exp`, which presents `exp : ℂ → ℂ ∖ {0}` as the quotient of
@@ -1778,8 +1779,7 @@ UniversalCovers milestones 4, 5.
 **Not a milestone of this roadmap.** Seifert–van Kampen for two open sets with simply
 connected intersection is general algebraic topology, reusable by anything that computes a
 fundamental group, and it is owned by [AlgebraicTopology](../AlgebraicTopology/README.md) (its
-Stage 1). This
-section exists to state the contract exactly, so that the instantiation in 5.6 has something
+Stage 1). This section exists to state the contract exactly, so that the instantiation in 5.6 has something
 to `apply` and so that no second copy is written anywhere.
 
 For a space `X`, open `A, B` with `A ∪ B = X`, a basepoint `x ∈ A ∩ B`, with `A`, `B`,
@@ -1813,7 +1813,7 @@ strip, so the hypothesis must be present in the supplier's statement.
 with simply connected intersection, where the amalgamating subgroup is trivial and the
 pushout is the free product.
 
-*Prerequisites:* Roadmap AlgebraicTopology, its Stage 1 van Kampen milestone. Nothing in this
+*Prerequisites:* Roadmap AlgebraicTopology, Stage 1, item 4. Nothing in this
 layer is discharged by a Belyi-local proof of it.
 
 #### 5.6 The fundamental group of the thrice-punctured sphere
@@ -1838,8 +1838,8 @@ satisfy the one relation of 5.2, and any two of them freely generate while all t
 not. Statements about "the three generators" always mean the ordered triple with its
 relation, never a free basis of rank three.
 
-*Prerequisites:* Layers 5.1, 5.2, 5.4; Roadmap AlgebraicTopology, its Stage 1 van Kampen
-milestone (Layer 5.5 above); Mathlib `FreeGroup`, `Monoid.Coprod`, `FreeGroup.lift`.
+*Prerequisites:* Layers 5.1, 5.2, 5.4; Roadmap AlgebraicTopology, Stage 1, item 4
+(Layer 5.5 above); Mathlib `FreeGroup`, `Monoid.Coprod`, `FreeGroup.lift`.
 
 #### 5.7 Basepoint change
 
