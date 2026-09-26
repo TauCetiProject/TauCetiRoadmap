@@ -49,11 +49,11 @@ Conventions, recorded in `README.md` (§Pinned conventions):
   three rigidifications separately and the three quotient carriers are
   `ConnectedFiberNumberedCoverClass`, `ConnectedPointedCoverClass`, `ConnectedCoverClass`.
 * The two-open Seifert–van Kampen theorem is general algebraic topology and is owned by
-  UniversalCovers, not here; this file instantiates it (Layer 5.6) and exports no copy.
+  AlgebraicTopology (its Stage 1), not here; this file instantiates it (Layer 5.6) and exports no copy.
 * The associated-cover construction and the subgroup half of the covering classification are
-  intentionally absent here. Their semilocal-simple-connectivity and universal-cover carriers
-  are unresolved supplier contracts: UniversalCovers has not yet published compiled target
-  signatures. No local class stands in for that future public interface.
+  intentionally absent here. Their universal-cover carriers are unresolved supplier contracts
+  with UniversalCovers; semilocal simple connectivity is Tau Ceti's
+  `TauCeti.SemilocallySimplyConnectedSpace`. No local class stands in for either.
 * The profinite integers as a ring, profinite exponentiation, and continuous outer
   automorphisms are generic group theory owned by `ProfiniteArithmetic`, the generic successor
   to `ProfiniteProPGroups` (#244), not by Belyi maps. Free profinite and free pro-`p` groups and
@@ -1078,10 +1078,10 @@ theorem periphInf_mul_periph1_mul_periph0 : periphInf * periph1 * periph0 = 1 :=
   rw [mul_assoc]
   exact inv_mul_cancel (periph1 * periph0)
 
-/-! **Layer 5.5 is a UniversalCovers supplier crossing, not a declaration of this roadmap.**
+/-! **Layer 5.5 is an AlgebraicTopology supplier crossing, not a declaration of this roadmap.**
 Van Kampen for two open sets with simply connected intersection is general algebraic
 topology, reusable far beyond three-point covers, and the pin has it in no form. Its exact
-owner is the UniversalCovers roadmap, which must publish `vanKampenLift`,
+owner is the AlgebraicTopology roadmap (Stage 1), which must publish `vanKampenLift`,
 `vanKampenLift_bijective`, `vanKampenEquiv` and `vanKampenEquiv_toMonoidHom` with the
 signatures pinned in README §5.5. This roadmap exports no local copy, alias or stand-in; it
 **instantiates** the supplier's theorem at the two-set cover of Layer 5.1 and reads off the
@@ -1089,7 +1089,7 @@ values on the canonical generators, which is Layer 5.6 below. -/
 
 /-- **Layer 5.6.** The fundamental group is free on the two peripheral generators — the
 instantiation this roadmap owns. Route: the two-set cover of 5.1, `π₁` of a punctured convex
-domain (5.4), and UniversalCovers' two-open van Kampen theorem applied to them. -/
+domain (5.4), and AlgebraicTopology's two-open van Kampen theorem applied to them. -/
 noncomputable def freeGroupEquiv :
     FreeGroup (Fin 2) ≃* FundamentalGroup ThricePuncturedSphere basePt := by
   sorry
@@ -1182,8 +1182,9 @@ theorem monodromyHom_apply {E : Type u} {X : Type v} [TopologicalSpace E]
 
 /-! **Layer 6.2 remains a prose-only supplier crossing.** The README pins the associated-cover
 construction and its monodromy equation. It becomes a public target here only after
-UniversalCovers exports its semilocal-simple-connectivity class, universal-cover carrier, deck
-action, and quotient-covering theorem. A closed `#check` against those supplier declarations is
+UniversalCovers exports its universal-cover carrier, deck action, and quotient-covering theorem;
+the semilocal-simple-connectivity class is already Tau Ceti's
+`TauCeti.SemilocallySimplyConnectedSpace`. A closed `#check` against those supplier declarations is
 required at that point. -/
 
 /-! ### Layer 6.3: the three combinatorial carriers

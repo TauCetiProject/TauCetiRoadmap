@@ -68,8 +68,8 @@ declaration or a completion claim of this PR**. Every excluded summit has exactl
 | Excluded material | Layers | Exact owner | Activated once |
 | --- | --- | --- | --- |
 | passports, cycle partitions, and the reference transitive-group results | 1, 3 | **this roadmap**, in a follow-up PR | #243 `PolynomialGaloisGroups` lands its exact `fullCycleType` and transitive-group API |
-| the two-open Seifert–van Kampen theorem | 5.5 | roadmap **`UniversalCovers`** | — it is general algebraic topology, owned there and only consumed here |
-| associated covers, and the subgroup half of the covering classification | 6.2, and the subgroup statement inside 6.3 | **this roadmap** for 6.2, in a follow-up PR; `UniversalCovers` milestone 8 for the subgroup statement | UniversalCovers publishes compiled semilocal-connectivity, universal-cover, deck-action and classification carriers |
+| the two-open Seifert–van Kampen theorem | 5.5 | roadmap **`AlgebraicTopology`**, Stage 1 | AlgebraicTopology Stage 1 publishes the four declarations pinned in Layer 5.5; it is general algebraic topology, owned there and only consumed here |
+| associated covers, and the subgroup half of the covering classification | 6.2, and the subgroup statement inside 6.3 | **this roadmap** for 6.2, in a follow-up PR; `UniversalCovers` milestone 8 for the subgroup statement | UniversalCovers publishes compiled universal-cover, deck-action and classification carriers |
 | compactification, compact Riemann surfaces, ramification, analytic cohomology, and analytic Riemann existence | 7, 8 | successor roadmap **`BelyiAnalyticCovers`** | a compact-surface owner (ModularForms Layer 10B) publishes one checked carrier and the Riemann–Roch/Riemann–Hurwitz API |
 | algebraic Belyi pairs, the analytic–algebraic comparison, Belyi's theorem, fields of moduli and of definition, and Weil descent | 9, 10, 11 | successor roadmap **`BelyiAlgebraicAndDescent`** | AlgebraicCurves publishes its curve/function-field anti-equivalence and extension-ramification carriers, and `BelyiAnalyticCovers` lands |
 | the arithmetic exact sequence and outer action, peripheral inertia, the branch-cycle theorem, the pro-`ℓ` peripheral-power theorem, faithfulness, and LMFDB record semantics | 12, 13, 14 | successor roadmap **`BelyiArithmeticActions`** | #244 `ProfiniteProPGroups` and its generic successor `ProfiniteArithmetic` land, and `BelyiAlgebraicAndDescent` lands |
@@ -82,8 +82,8 @@ successor. Their exact owner is **`ProfiniteArithmetic`**, the generic successor
 
 Thus an unresolved supplier contract is a scheduling block, not a theorem with a prose caveat.
 No unmerged supplier branch is imported and no Belyi-local stand-in is exported. The order is
-#243 and #244 first, then UniversalCovers, the compact-surface owner, AlgebraicCurves and
-`ProfiniteArithmetic`, and only then the follow-up PRs and the three Belyi successors above. The
+#243 and #244 first, then UniversalCovers, AlgebraicTopology Stage 1, the compact-surface owner,
+AlgebraicCurves and `ProfiniteArithmetic`, and only then the follow-up PRs and the three Belyi successors above. The
 split is combinatorial / analytic / arithmetic, and it is drawn where the carriers actually
 become typeable rather than where the mathematics changes subject.
 
@@ -122,10 +122,9 @@ of them. It consumes, by name: `ClassFunction` (Layer 0), `classSum`, `structure
 roadmap; **this roadmap owns it** (Layer 3.2), together with the inverse-class operation on
 `ConjClasses` it needs.
 
-**Universal covers.** The covering-space classification, deck transformation groups, the
-`N(H)/H` deck-group theorem, and the two-open Seifert–van Kampen theorem belong to
-[UniversalCovers](../UniversalCovers/README.md) (milestones 4, 5, 7, 8 there, together with the
-van Kampen declarations whose exact required signatures Layer 5.5 below pins). This roadmap
+**Universal covers.** The covering-space classification, deck transformation groups, and the
+`N(H)/H` deck-group theorem belong to
+[UniversalCovers](../UniversalCovers/README.md) (milestones 4, 5, 7, 8 there). This roadmap
 consumes them and builds no universal cover. Two conventions from that roadmap bind here: deck
 groups are identified with `(π₁)ᵐᵒᵖ` (its milestone 5), and basepoint change acts on recovered
 subgroups by conjugation (its milestone 7). The constructive direction this roadmap needs — a
@@ -141,8 +140,9 @@ computation, and the two maps have different groups in play.
 **Seifert–van Kampen.** The pin has it in no form, and this roadmap builds none of it. The
 case the fundamental-group computation needs — two open sets with simply connected
 intersection — is general algebraic topology, reusable far beyond three-point covers, so it
-belongs to [UniversalCovers](../UniversalCovers/README.md) with the rest of the fundamental-group
-machinery. Layer 5.5 below records exactly which declarations that roadmap supplies and under
+belongs to [AlgebraicTopology](../AlgebraicTopology/README.md), whose Stage 1 derives the based
+two-open theorem and its group-presentation corollaries from van Kampen for the fundamental
+groupoid. Layer 5.5 below records exactly which declarations this roadmap requires of it and under
 which hypotheses; Layer 5.6 **instantiates** them at the two-set cover of Layer 5.1 and reads
 off the values on the canonical generators, and that instantiation is what this roadmap owns.
 No Belyi-local copy, alias or stand-in for the theorem is exported.
@@ -153,7 +153,7 @@ degree `TauCeti.exists_localDegree`, holomorphic branch roots — belongs to
 local normal form. Nothing here uses the Riemann mapping theorem, Montel, or the boundary
 correspondence. The `ℍ/Γ(2) ≅ ℂ∖{0,1}` λ-uniformization is that roadmap family's material
 (recorded there as belonging to ModularForms); no layer here consumes or supplies it — the
-route to the fundamental group of the thrice-punctured sphere is UniversalCovers' two-open van
+route to the fundamental group of the thrice-punctured sphere is AlgebraicTopology's two-open van
 Kampen theorem, applied to the cover of Layer 5.1, and no retraction onto a figure eight
 occurs anywhere in it.
 
@@ -259,8 +259,8 @@ definition, Weil descent, and `trueOrbitSize`.
 4.6            the normality criterion                      6.5
 ```
 
-and nothing else; UniversalCovers; ConformalMapping L0; ModularForms Layer 10B;
-AlgebraicCurves. ⚠ `4.6` belongs on this list: Layer 6.5 classifies regular covers by
+and nothing else; UniversalCovers; AlgebraicTopology Stage 1; ConformalMapping L0; ModularForms
+Layer 10B; AlgebraicCurves. ⚠ `4.6` belongs on this list: Layer 6.5 classifies regular covers by
 normality of the point stabilizer, which is Layer 4.6's criterion, so section B is not
 independent of Layer 4.
 
@@ -487,8 +487,8 @@ the three portfolio suppliers have no local stand-ins here.
 | 3.2 | CharacterTheory Layer 1 | class sums and structure constants | `classSum`, `structureConstant`, `classSum_mul` |
 | 3.2 | CharacterTheory Layer 3 | the character table and column orthogonality | `characterTable`, `char_column_orthogonality` |
 | 3.2 | CharacterTheory Layer 4 | central characters, and the conversion to class sizes | `centralCharacter`, `centralCharacter_coordinate`, and the conversion of `ω_χ` on a class sum into class size times character value over degree, for which that roadmap pins **no Lean name**; local interface: `centralCharacter_eq_card_mul_div (χ) (j) : centralCharacter χ (classSum j) = (Nat.card (carrier j) : ℂ) * χ (rep j) / χ 1` |
-| 5.1, 6.2 | UniversalCovers Stage 0.2 | semilocal simple connectivity | **unresolved supplier contract**: no Mathlib class exists and UniversalCovers has not published a compiled target; no local stand-in is exported |
-| 5.6 | UniversalCovers, the two-open van Kampen milestone | Seifert–van Kampen for two open sets with simply connected intersection | **unresolved supplier contract**: the required declarations are `vanKampenLift`, `vanKampenLift_bijective`, `vanKampenEquiv` and `vanKampenEquiv_toMonoidHom`, with the signatures and hypotheses pinned verbatim in Layer 5.5 below. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
+| 5.1, 6.2 | UniversalCovers Stage 0.2 | semilocal simple connectivity | `TauCeti.SemilocallySimplyConnectedSpace` (`TauCeti/AlgebraicTopology/SemilocallySimplyConnected/Basic.lean`); no local stand-in is exported |
+| 5.6 | AlgebraicTopology Stage 1 | Seifert–van Kampen for two open sets with simply connected intersection | **unresolved supplier contract**: the required declarations are `vanKampenLift`, `vanKampenLift_bijective`, `vanKampenEquiv` and `vanKampenEquiv_toMonoidHom`, with the signatures and hypotheses pinned verbatim in Layer 5.5 below. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
 | 6.2 | UniversalCovers Stage 0.2, 0.3 | the universal cover, its covering map, and the free proper `π₁`-action | `UniversalCover x₀`, `proj`, `IsCoveringMap proj`, `SimplyConnectedSpace (UniversalCover x₀)`, `UniversalCover.isQuotientCoveringMap` |
 | 6.4 | UniversalCovers Stage 0.4, 1 | deck groups and `Deck ≅ (π₁)ᵐᵒᵖ` | `Deck`, `deckFundamentalGroupEquiv : Deck proj ≃* (FundamentalGroup X x₀)ᵐᵒᵖ` |
 | 6.3 | UniversalCovers Stage 2 | basepoint change, and the pointed/unpointed correspondence | `basepointChangeSubgroup` is named upstream; milestone 8's equivalences are **unresolved prose-only supplier contracts** and are not exported locally. Their required carriers and exact connectedness/orbit semantics are pinned in Layer 6.3 below. |
@@ -504,8 +504,9 @@ the three portfolio suppliers have no local stand-ins here.
 
 An exact portfolio row is imported only by the successor that consumes it, after the supplier
 lands on `main`; that successor must fail on a spelling or carrier change rather than selecting a
-local replacement. The UniversalCovers, compact-surface, AlgebraicCurves, #243, and #244 rows are
-scheduling contracts, not claims that declarations already exist. `Suggested.lean` intentionally
+local replacement. The UniversalCovers rows other than semilocal simple connectivity, and the
+AlgebraicTopology, compact-surface, AlgebraicCurves, #243, and #244 rows, are scheduling contracts,
+not claims that declarations already exist. `Suggested.lean` intentionally
 omits their consumers. The `ProfiniteArithmetic` row is the one supplier that has no roadmap of its
 own yet; #244's opening section records the same boundary from the supplier side, so the three
 constructions have one owner rather than none.
@@ -1537,10 +1538,10 @@ the modular group — material belonging to the modular-forms family that nothin
 needs. The route below computes the fundamental group directly instead, and Layer 5.6's
 result is the same isomorphism.
 
-**The route is pinned, and its one general input comes from UniversalCovers.** The pin has
+**The route is pinned, and its one general input comes from AlgebraicTopology.** The pin has
 no Seifert–van Kampen theorem in any form, and Seifert–van Kampen for two open sets with
 simply connected intersection is general algebraic topology rather than Belyi mathematics:
-5.5 records the exact declarations UniversalCovers supplies, and 5.6 instantiates them at
+5.5 records the exact declarations this roadmap requires of AlgebraicTopology Stage 1, and 5.6 instantiates them at
 5.1's two-set cover. Everything else in this layer is Belyi's own. The base case
 `π₁(ℂ ∖ {0}) ≅ ℤ` is not proved by hand either — it is read off the pin's
 `Complex.isAddQuotientCoveringMap_exp`, which presents `exp : ℂ → ℂ ∖ {0}` as the quotient of
@@ -1645,7 +1646,7 @@ both punctures, since `|γ0 t| = 1/2` and `|γ1 t − 1| = 1/2`; and their image
 lie in `A` and `B` respectively. The two circles are externally tangent — the distance
 between their centres is `1 = 1/2 + 1/2` — so they meet exactly at `b`. ⚠ That makes the
 picture a figure eight rather than two crossing circles, and nothing more: **no milestone
-retracts `U` onto `C₀ ∪ C₁`**, and the fundamental group is computed by UniversalCovers'
+retracts `U` onto `C₀ ∪ C₁`**, and the fundamental group is computed by AlgebraicTopology's
 two-open van Kampen theorem (5.5) instead.
 
 Define the peripheral elements of `FundamentalGroup U b`:
@@ -1773,12 +1774,12 @@ about the puncture) is doing real work.
 `IsQuotientCoveringMap`, `Convex`, `ContinuousMap.Homotopy`, the winding-number/index API;
 UniversalCovers milestones 4, 5.
 
-#### 5.5 Van Kampen with a simply connected intersection: the UniversalCovers input
+#### 5.5 Van Kampen with a simply connected intersection: the AlgebraicTopology input
 
 **Not a milestone of this roadmap.** Seifert–van Kampen for two open sets with simply
 connected intersection is general algebraic topology, reusable by anything that computes a
-fundamental group, and it is owned by [UniversalCovers](../UniversalCovers/README.md). This
-section exists to state the contract exactly, so that the instantiation in 5.6 has something
+fundamental group, and it is owned by [AlgebraicTopology](../AlgebraicTopology/README.md) (its
+Stage 1). This section exists to state the contract exactly, so that the instantiation in 5.6 has something
 to `apply` and so that no second copy is written anywhere.
 
 For a space `X`, open `A, B` with `A ∪ B = X`, a basepoint `x ∈ A ∩ B`, with `A`, `B`,
@@ -1812,7 +1813,7 @@ strip, so the hypothesis must be present in the supplier's statement.
 with simply connected intersection, where the amalgamating subgroup is trivial and the
 pushout is the free product.
 
-*Prerequisites:* Roadmap UniversalCovers, its two-open van Kampen milestone. Nothing in this
+*Prerequisites:* Roadmap AlgebraicTopology, Stage 1, item 4. Nothing in this
 layer is discharged by a Belyi-local proof of it.
 
 #### 5.6 The fundamental group of the thrice-punctured sphere
@@ -1837,8 +1838,8 @@ satisfy the one relation of 5.2, and any two of them freely generate while all t
 not. Statements about "the three generators" always mean the ordered triple with its
 relation, never a free basis of rank three.
 
-*Prerequisites:* Layers 5.1, 5.2, 5.4; Roadmap UniversalCovers, its two-open van Kampen
-milestone (Layer 5.5 above); Mathlib `FreeGroup`, `Monoid.Coprod`, `FreeGroup.lift`.
+*Prerequisites:* Layers 5.1, 5.2, 5.4; Roadmap AlgebraicTopology, Stage 1, item 4
+(Layer 5.5 above); Mathlib `FreeGroup`, `Monoid.Coprod`, `FreeGroup.lift`.
 
 #### 5.7 Basepoint change
 
@@ -4585,9 +4586,9 @@ None of the following is part of this roadmap, at any layer, and none is "deferr
   surface (every surface here arrives carrying its map; the general existence theorem is
   the Dirichlet-problem analysis this roadmap never needs);
 - uniformization, the `λ`-function, and Picard-type applications;
-- Seifert–van Kampen in any form, general or two-open: the two-open case with simply
-  connected intersection is UniversalCovers' (Layer 5.5 records the contract), and the general
-  pushout theorem is on no roadmap here; also topological surface classification and
+- Seifert–van Kampen in any form, general or two-open: both belong to AlgebraicTopology
+  Stage 1, and Layer 5.5 records the contract for the two-open case with simply connected
+  intersection that this roadmap consumes; also topological surface classification and
   orientation theory;
 - the étale fundamental group of a scheme, and the comparison of Layer 12's field-theoretic
   carrier with any scheme-theoretic one;
