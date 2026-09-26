@@ -982,9 +982,11 @@ the braided monoidal category of `G`-graded `k`-vector spaces with the bicharact
 the precise bridge is that such a record is the same thing as a Hopf monoid object (Mathlib's
 `HopfObj`) in that category, with the record's structure maps recovered on pure tensors. -/
 
-/-- A `G`-graded `k`-vector space, with the grading as an internal decomposition. -/
-structure GradedVect (G k : Type*) [AddCommGroup G] [DecidableEq G] [Field k] where
-  Carrier : Type x
+/-- A `G`-graded `k`-vector space, with the grading as an internal decomposition. Carriers live
+in `Type (max u x)` for `k : Type u`, a universe containing `k` whatever `x` is, so the monoidal
+unit (whose carrier is `k`) is an object of the category being quantified over. -/
+structure GradedVect (G : Type*) (k : Type u) [AddCommGroup G] [DecidableEq G] [Field k] where
+  Carrier : Type (max u x)
   [instAddCommGroup : AddCommGroup Carrier]
   [instModule : Module k Carrier]
   Piece : G → Submodule k Carrier
@@ -994,7 +996,7 @@ attribute [instance] GradedVect.instAddCommGroup GradedVect.instModule GradedVec
 
 namespace GradedVect
 
-variable {G k : Type*} [AddCommGroup G] [DecidableEq G] [Field k]
+variable {G : Type*} {k : Type u} [AddCommGroup G] [DecidableEq G] [Field k]
 
 /-- Degree-preserving linear maps. -/
 @[ext]
@@ -1002,7 +1004,7 @@ structure Hom (V W : GradedVect G k) where
   toLinearMap : V.Carrier →ₗ[k] W.Carrier
   map_mem : ∀ {g} {v : V.Carrier}, v ∈ V.Piece g → toLinearMap v ∈ W.Piece g
 
-noncomputable instance : Category (GradedVect.{x} G k) where
+noncomputable instance : Category (GradedVect.{u, x} G k) where
   Hom := Hom
   id V := ⟨LinearMap.id, fun h ↦ h⟩
   comp f g := ⟨g.toLinearMap.comp f.toLinearMap, fun h ↦ g.map_mem (f.map_mem h)⟩
@@ -1012,29 +1014,29 @@ noncomputable instance : Category (GradedVect.{x} G k) where
 
 /-- The tensor product of graded vector spaces, graded by total degree, with unit `k` in degree
 zero. -/
-noncomputable instance : MonoidalCategory (GradedVect.{x} G k) := sorry
+noncomputable instance : MonoidalCategory (GradedVect.{u, x} G k) := sorry
 
 /-- The underlying vector space of a tensor product is the tensor product of the underlying
 vector spaces. -/
-noncomputable def tensorEquiv (V W : GradedVect.{x} G k) :
+noncomputable def tensorEquiv (V W : GradedVect.{u, x} G k) :
     (MonoidalCategory.tensorObj V W).Carrier ≃ₗ[k] V.Carrier ⊗[k] W.Carrier := sorry
 
 /-- The underlying vector space of the monoidal unit is `k`. -/
-noncomputable def unitEquiv : (MonoidalCategoryStruct.tensorUnit (GradedVect.{x} G k)).Carrier ≃ₗ[k] k :=
+noncomputable def unitEquiv : (MonoidalCategoryStruct.tensorUnit (GradedVect.{u, x} G k)).Carrier ≃ₗ[k] k :=
   sorry
 
 /-- Pure tensors of homogeneous elements are homogeneous of the summed degree. -/
-theorem tensorEquiv_symm_tmul_mem (V W : GradedVect.{x} G k) {g h : G} {v : V.Carrier}
+theorem tensorEquiv_symm_tmul_mem (V W : GradedVect.{u, x} G k) {g h : G} {v : V.Carrier}
     {w : W.Carrier} (hv : v ∈ V.Piece g) (hw : w ∈ W.Piece h) :
     (tensorEquiv V W).symm (v ⊗ₜ[k] w) ∈ (MonoidalCategory.tensorObj V W).Piece (g + h) := sorry
 
 /-- The braiding `v ⊗ w ↦ χ(|v|,|w|) w ⊗ v` determined by a bicharacter. This is data depending
 on `χ`, so it is a definition, not an instance. -/
 @[instance_reducible]
-noncomputable def braiding (chi : Bicharacter G k) : BraidedCategory (GradedVect.{x} G k) := sorry
+noncomputable def braiding (chi : Bicharacter G k) : BraidedCategory (GradedVect.{u, x} G k) := sorry
 
 /-- The braiding acts on pure homogeneous tensors by the bicharacter scalar. -/
-theorem braiding_tmul (chi : Bicharacter G k) (V W : GradedVect.{x} G k) {g h : G}
+theorem braiding_tmul (chi : Bicharacter G k) (V W : GradedVect.{u, x} G k) {g h : G}
     {v : V.Carrier} {w : W.Carrier} (hv : v ∈ V.Piece g) (hw : w ∈ W.Piece h) :
     letI := braiding chi
     tensorEquiv W V ((BraidedCategory.braiding V W).hom.toLinearMap ((tensorEquiv V W).symm (v ⊗ₜ[k] w))) =
@@ -1044,10 +1046,10 @@ end GradedVect
 
 namespace BraidedHopfObject
 
-variable {G k : Type*} [AddCommGroup G] [DecidableEq G] [Field k] {chi : Bicharacter G k}
+variable {G : Type*} {k : Type u} [AddCommGroup G] [DecidableEq G] [Field k] {chi : Bicharacter G k}
 
 /-- The underlying graded vector space of a braided Hopf object. -/
-def gradedVect (X : BraidedHopfObject G k chi) : GradedVect G k where
+def gradedVect (X : BraidedHopfObject.{_, u, max u x} G k chi) : GradedVect.{u, x} G k where
   Carrier := X.Carrier
   Piece := X.Piece
   decomposition := X.decomposition
@@ -1055,60 +1057,79 @@ def gradedVect (X : BraidedHopfObject G k chi) : GradedVect G k where
 /-- A braided Hopf object is a Hopf monoid object in graded vector spaces with the `χ`-braiding:
 its multiplication, unit, comultiplication, counit, and antipode are the record's maps. -/
 @[instance_reducible]
-noncomputable def hopfObj (X : BraidedHopfObject G k chi) :
+noncomputable def hopfObj (X : BraidedHopfObject.{_, u, max u x} G k chi) :
     letI := GradedVect.braiding chi
     HopfObj X.gradedVect := sorry
 
 /-- The multiplication of the Hopf object is the algebra multiplication, on pure tensors. -/
-theorem hopfObj_mul (X : BraidedHopfObject G k chi) (z : (MonoidalCategory.tensorObj X.gradedVect X.gradedVect).Carrier) :
+theorem hopfObj_mul (X : BraidedHopfObject.{_, u, max u x} G k chi) (z : (MonoidalCategory.tensorObj X.gradedVect X.gradedVect).Carrier) :
     letI := GradedVect.braiding chi
     letI := X.hopfObj
     (MonObj.mul (X := X.gradedVect)).toLinearMap z =
       X.mulTensor (GradedVect.tensorEquiv _ _ z) := sorry
 
 /-- The comultiplication of the Hopf object is the record's comultiplication. -/
-theorem hopfObj_comul (X : BraidedHopfObject G k chi) (x : X.Carrier) :
+theorem hopfObj_comul (X : BraidedHopfObject.{_, u, max u x} G k chi) (x : X.Carrier) :
     letI := GradedVect.braiding chi
     letI := X.hopfObj
     GradedVect.tensorEquiv _ _ ((ComonObj.comul (X := X.gradedVect)).toLinearMap x) =
       X.comul x := sorry
 
 /-- The unit and counit of the Hopf object are the record's unit and counit. -/
-theorem hopfObj_one (X : BraidedHopfObject G k chi) :
+theorem hopfObj_one (X : BraidedHopfObject.{_, u, max u x} G k chi) :
     letI := GradedVect.braiding chi
     letI := X.hopfObj
     (MonObj.one (X := X.gradedVect)).toLinearMap ((GradedVect.unitEquiv (G := G) (k := k)).symm 1) =
       (1 : X.Carrier) := sorry
 
-theorem hopfObj_counit (X : BraidedHopfObject G k chi) (x : X.Carrier) :
+theorem hopfObj_counit (X : BraidedHopfObject.{_, u, max u x} G k chi) (x : X.Carrier) :
     letI := GradedVect.braiding chi
     letI := X.hopfObj
     GradedVect.unitEquiv (G := G) (k := k) ((ComonObj.counit (X := X.gradedVect)).toLinearMap x) =
       X.counit x := sorry
 
 /-- The antipode of the Hopf object is the record's antipode. -/
-theorem hopfObj_antipode (X : BraidedHopfObject G k chi) (x : X.Carrier) :
+theorem hopfObj_antipode (X : BraidedHopfObject.{_, u, max u x} G k chi) (x : X.Carrier) :
     letI := GradedVect.braiding chi
     letI := X.hopfObj
     (HopfObj.antipode (X := X.gradedVect)).toLinearMap x = X.antipode x := sorry
 
 /-- Conversely, a Hopf monoid object in `χ`-braided graded vector spaces is a braided Hopf
 object: the record is read off from the structure maps on pure tensors. -/
-noncomputable def ofHopfObj (chi : Bicharacter G k) (V : GradedVect G k)
-    (hV : letI := GradedVect.braiding chi; HopfObj V) : BraidedHopfObject G k chi := sorry
+noncomputable def ofHopfObj (chi : Bicharacter G k) (V : GradedVect.{u, x} G k)
+    (hV : letI := GradedVect.braiding chi; HopfObj V) : BraidedHopfObject.{_, u, max u x} G k chi := sorry
 
-theorem gradedVect_ofHopfObj (chi : Bicharacter G k) (V : GradedVect G k)
+theorem gradedVect_ofHopfObj (chi : Bicharacter G k) (V : GradedVect.{u, x} G k)
     (hV : letI := GradedVect.braiding chi; HopfObj V) : (ofHopfObj chi V hV).gradedVect = V :=
   sorry
 
-theorem ofHopfObj_hopfObj (X : BraidedHopfObject G k chi) :
+theorem ofHopfObj_hopfObj (X : BraidedHopfObject.{_, u, max u x} G k chi) :
     ofHopfObj chi X.gradedVect X.hopfObj = X := sorry
 
 /-- The other round trip: the Hopf object rebuilt from the reconstructed record is the given one,
 transported along `gradedVect_ofHopfObj`. -/
-theorem hopfObj_ofHopfObj (chi : Bicharacter G k) (V : GradedVect G k)
+theorem hopfObj_ofHopfObj (chi : Bicharacter G k) (V : GradedVect.{u, x} G k)
     (hV : letI := GradedVect.braiding chi; HopfObj V) :
     HEq (ofHopfObj chi V hV).hopfObj hV := sorry
+
+/-! Universe checks: the unit and both round trips elaborate with a coefficient field in
+`Type 1` and carrier parameter `x = 0` or `x = 2`, so the carrier universe is never forced to
+equal, or to lie below, the universe of `k`. -/
+
+noncomputable example (G : Type) [AddCommGroup G] [DecidableEq G] (k : Type 1) [Field k] :
+    (MonoidalCategoryStruct.tensorUnit (GradedVect.{1, 0} G k)).Carrier ≃ₗ[k] k :=
+  GradedVect.unitEquiv
+
+example (G : Type) [AddCommGroup G] [DecidableEq G] (k : Type 1) [Field k]
+    {chi : Bicharacter G k} (X : BraidedHopfObject.{0, 1, 2} G k chi) :
+    ofHopfObj chi (gradedVect.{1, 2} X) (hopfObj.{1, 2} X) = X :=
+  ofHopfObj_hopfObj.{1, 2} X
+
+example (G : Type) [AddCommGroup G] [DecidableEq G] (k : Type 1) [Field k]
+    (chi : Bicharacter G k) (V : GradedVect.{1, 2} G k)
+    (hV : letI := GradedVect.braiding chi; HopfObj V) :
+    HEq (hopfObj.{1, 2} (ofHopfObj chi V hV)) hV :=
+  hopfObj_ofHopfObj chi V hV
 
 end BraidedHopfObject
 
@@ -1206,8 +1227,9 @@ structure PropertyPData (S : X.SmashProduct) (P : SmashModule k H A X S) where
     split r (S.includeA a • z) = S.includeA a • split r z
   split_inclusion : ∀ r (z : Fil r),
     split r ⟨z.1, monotone (Nat.le_succ r) z.2⟩ = z
-  /-- Using Qi's equivalent version of (P3), one arbitrary `H`-module records all cells in a
-  layer (and may itself be a direct sum of indecomposables). -/
+  /-- One arbitrary `H`-module records all cells in a layer.  Arbitrary `H`-modules are the
+  primary cell parameter; no decomposition into indecomposables is assumed (refining along the
+  radical filtration of the cell recovers Qi's form, since `H` is finite-dimensional). -/
   Cell : ℕ → Type y
   cellAddCommGroup : ∀ r, AddCommGroup (Cell r)
   cellModule : ∀ r, letI := cellAddCommGroup r; Module k (Cell r)
@@ -1698,7 +1720,7 @@ theorem, the relative exact structure is Frobenius. -/
 theorem relativeExactStructure_frobenius :
     FrobeniusExactData (relativeExactStructure.{u, v, w} S) := sorry
 
-/-- `N ⊗ H` with the diagonal `B`-action `(a#h)·(n⊗l) = Σ (h₁ · n) ⊗ h₂ l`. -/
+/-- `N ⊗ H` with the diagonal `B`-action `(a#h)·(n⊗l) = Σ a·(h₁·n) ⊗ h₂ l`. -/
 noncomputable def tensorH (N : SmashModule.{u, v, w, max u v w} k H A X S) :
     SmashModule.{u, v, w, max u v w} k H A X S := sorry
 

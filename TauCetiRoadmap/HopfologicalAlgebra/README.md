@@ -288,8 +288,13 @@ Call a module **cellular property-(P)** when it has an exhaustive filtration
 `0 ⊂ F₀ ⊂ F₁ ⊂ ⋯ ⊂ P`
 
 such that every inclusion is split as an `A`-module map and `F₀` and each
-`F_{r+1}/F_r` are direct sums of modules `A⊗V`, with `V` an indecomposable `H`-module.
-Equivalently, arbitrary `H`-modules may be used as the cells.  Every filtration stage is a `B`-submodule, every inclusion is `B`-linear, and its
+`F_{r+1}/F_r` is isomorphic to `A⊗V` for some `H`-module `V`, arbitrary and not assumed
+indecomposable.  Qi's (P3) phrases the layers as direct sums of `A⊗V` with `V` indecomposable;
+those are instances, since `A⊗(⊕V_i) ≅ ⊕(A⊗V_i)` as `B`-modules.  Prove the converse, that the
+two definitions give the same modules: since `H` is finite-dimensional, refine each layer along
+the radical filtration `V ⊃ JV ⊃ J²V ⊃ ⋯ ⊃ 0` of `V`, with `J` the Jacobson radical of `H` (finite, with semisimple layers, so each
+refined layer is a direct sum of `A⊗S` with `S` simple).  No statement uses a decomposition of an
+arbitrary `H`-module into indecomposables.  Every filtration stage is a `B`-submodule, every inclusion is `B`-linear, and its
 chosen splitting is only `A`-linear.  Each displayed layer is identified by a `B`-linear
 isomorphism with `A⊗V` carrying
 `(a#h)(b⊗v)=Σa(h₁·b)⊗h₂·v`; merely identifying underlying `A`-modules is insufficient.
@@ -504,7 +509,9 @@ First build the reusable ambient theory for `G`-graded vector spaces with braidi
 tensors determined by a multiplicative bicharacter `χ : G×G → kˣ`.  It must cover
 `G=ℤ` and `χ(i,j)=q^{ij}`, which is the ambient used by Laugwitz--Qi.  The super category is the
 specialization `G=ℤ/2`, `χ(i,j)=(-1)^{ij}`.  The ambient is an actual category: `G`-graded
-`k`-vector spaces with degree-preserving linear maps, a `MonoidalCategory` structure whose
+`k`-vector spaces with degree-preserving linear maps, whose carriers live in a universe
+containing that of `k` so that the monoidal unit (`k` in degree zero) is an object, a
+`MonoidalCategory` structure whose
 tensor product is the tensor product of vector spaces graded by total degree, and for each `χ` a
 `BraidedCategory` structure whose braiding sends a pure homogeneous tensor `v⊗w` to
 `χ(|v|,|w|) w⊗v`.  A Hopf algebra object in that ambient is a Hopf monoid object in Mathlib's
