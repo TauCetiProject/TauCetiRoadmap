@@ -857,6 +857,19 @@ groupoid.
 - **Realized cones and contiguity.** The affine homotopy attached to a pair of contiguous
   simplicial maps, jointly continuous in the point and the parameter; in particular the
   realization of the combinatorial cone contracts onto its apex, fixing the apex throughout.
+- **`|K|` as a CW complex.** Fix a map `o : ι → α` into a linear order that is injective on each
+  simplex (a linear order on `ι` itself, or for a join the index of each vertex). A classical
+  `CWComplex (Set.univ : Set |K|)` whose `n`-cells are the `n`-simplices of `K`, the
+  characteristic map of a simplex being a fixed homeomorphism from the closed unit ball of
+  `Fin n → ℝ` onto the standard simplex `stdSimplex ℝ (Fin (n + 1))`, carrying the sphere onto
+  the union of the proper faces, followed by the map to `|K|` that enumerates the vertices of the
+  simplex in increasing order of `o`. Simplicial maps are cellular for it. A simplicial map that
+  is injective on each simplex and preserves the order of `o` on each simplex carries each
+  characteristic map onto a characteristic map, and a simplicial automorphism permutes the cells.
+  The cellular chain complex is the ordered simplicial chain complex: the cellular boundary of an
+  `n`-simplex `[v₀, …, vₙ]`, with `o v₀ < ⋯ < o vₙ`, is `∑ⱼ (-1)ʲ [v₀, …, v̂ⱼ, …, vₙ]`. This is
+  what lets the cellular theory of the algebraic-topology roadmap apply to a realization, and the
+  classifying-space roadmap consumes it for the cellular chains of the countable join.
 - **Triangulation of a space** in the general sense: `IsTriangulable M := ∃ K, Nonempty (|K| ≃ₜ M)`.
   This is the notion in Manolescu's theorem, and it is *weaker* than asking for a
   combinatorial or PL structure. (Moise, *Geometric Topology in Dimensions 2 and 3*, treats
