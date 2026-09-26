@@ -101,12 +101,12 @@ No unlisted closed form is implicit: in particular, Beta's confluent-hypergeomet
 
 **Support and quantiles.** Distinguish almost-sure carrier, positivity of a chosen density/mass, and topological support: the closed set of points whose every neighbourhood has positive measure.
 A positive-shape Gamma law is almost surely positive but has topological support $[0,\infty)$.
-Every finite-valued quantile theorem explicitly assumes $0<u<1$ and valid parameters; endpoint statements are one-sided limits, not values of totalized `sInf`.
+Every finite-valued quantile theorem explicitly assumes $0 < u<1$ and valid parameters; endpoint statements are one-sided limits, not values of totalized `sInf`.
 Generic inverse/transport results plus family identities discharge specializations, but the requisite cdf, support, and regularity results must be supplied.
 
 **Dirac package.** Prove once and specialize wherever requested: for $\delta_c$ on `ℝ`, $F(x)=\mathbf1_{c\le x}$, mean $c$, variance $0$, raw moment $c^n$, $D=\mathbb R$, $M(t)=e^{tc}$, $K(t)=tc$, $\varphi(t)=e^{itc}$; on `ℕ`, $\delta_k$ has cumulative mass $\mathbf1_{k\le n}$ and pgf $z^k$.
 Dirac quantiles are covered by Layer 7.
-Boundary identities remain explicit, e.g. chi-squared degree zero and negative binomial shape zero with $0<p\le1$ are $\delta_0$.
+Boundary identities remain explicit, e.g. chi-squared degree zero and negative binomial shape zero with $0 < p\le1$ are $\delta_0$.
 
 **Reuse and naming.** Use `Measure`, `HasLaw`, `HasPDF`, `cdf`, `Measure.quantile`, `Measure.conv`, `cond`, `Measure.tilted`, `Measure.bind`, `Kernel`, and existing transforms; introduce no parallel abstractions or new PMF versions.
 Connect existing PMFs, but put new theory on measures.
@@ -134,10 +134,10 @@ Reuse `rnDeriv_gaussianReal`, including its zero-variance case.
 #### 0.3 Interval uniform
 
 Define `uniformMeasure a b = cond volume (Ioc a b)`; it is zero for $b\le a$.
-For $a<b$, use $f(x)=\mathbf1_{(a,b]}(x)/(b-a)$ and prove:
+For $a < b$, use $f(x)=\mathbf1_{(a,b]}(x)/(b-a)$ and prove:
 
 ```math
-F(x)=\begin{cases}0&x\le a,\\1&x\ge b,\\(x-a)/(b-a)&a<x<b,\end{cases}
+F(x)=\begin{cases}0&x\le a,\\1&x\ge b,\\(x-a)/(b-a)&a < x < b,\end{cases}
 \qquad E[X]=(a+b)/2,\quad \mathrm{Var}\,X=(b-a)^2/12.
 ```
 
@@ -185,7 +185,7 @@ D=\{t:qe^t<1\},\quad M(t)=\frac p{1-qe^t},\quad
 
 Prove memorylessness for every $p$ in division-free form
 $`\mu\{k:n+m\le k\}\mu(\mathbb N)=\mu\{k:n\le k\}\mu\{k:m\le k\}`$.
-Give the `cond` form only for nonzero conditioning mass (automatic for $0<p<1$).
+Give the `cond` form only for nonzero conditioning mass (automatic for $0 < p<1$).
 
 **Poisson.** For $r:\mathbb R_{\ge0}$, the cast law has mean and variance $r$, $D=\mathbb R$, $M(t)=\exp(r(e^t-1))$, and $K(t)=r(e^t-1)$.
 Reuse its characteristic function and native additivity; Layer 2 supplies the tail/cumulative formula.
@@ -223,7 +223,7 @@ For $n>0$ iid variables of this law, their average has the same law, including $
 **Pareto.** For threshold $t>0$ and shape $r>0$,
 
 ```math
-F(x)=\begin{cases}0&x<t,\\1-(t/x)^r&x\ge t,\end{cases}\quad
+F(x)=\begin{cases}0&x < t,\\1-(t/x)^r&x\ge t,\end{cases}\quad
 E[X]=\frac{rt}{r-1}\ (r>1),\quad
 \mathrm{Var}\,X=\frac{rt^2}{(r-1)^2(r-2)}\ (r>2).
 ```
@@ -244,7 +244,7 @@ Layer 2 supplies the cdf; noncentral absolute-moment closed forms are excluded.
 | --- | --- | --- |
 | Gamma, $X^q$ | $r^{-q}\Gamma(a+q)/\Gamma(a)$ | $q>-a$ |
 | Beta, $X^q(1-X)^s$ | $B(a+q,b+s)/B(a,b)$ | $a+q>0$ and $b+s>0$ |
-| Pareto, $X^q$ | $rt^q/(r-q)$ | $q<r$ |
+| Pareto, $X^q$ | $rt^q/(r-q)$ | $q < r$ |
 
 Derive the natural-moment specializations.
 
@@ -256,7 +256,7 @@ For geometric $p\ne0$, the exact absolute-integrability domain is $|(1-p)z|<1$, 
 
 For every probability measure on `ℕ`, prove coefficient recovery
 `iteratedDeriv n (pgf id μ) 0 = n! * μ.real {n}` and `measure_eq_of_pgf_eqOn` from equality on $(-1,1)$.
-Write $(k)_n$ for the natural falling factorial, zero for $k<n$.
+Write $(k)_n$ for the natural falling factorial, zero for $k < n$.
 A positive exponential moment gives
 `iteratedDeriv n (pgf id μ) 1 = ∫ k, ((k)_n : ℝ) ∂μ`.
 Under only a finite $n$th moment, require instead convergence of these derivatives to the factorial moment as $z\uparrow1$ through $(0,1)$; ordinary differentiability at $1$ is not asserted.
@@ -281,7 +281,7 @@ For $s>0$, prove convergence, continuity and monotonicity on `ℝ`, strict monot
 \gamma(s+1,x)=s\gamma(s,x)-x^se^{-x}\quad(x\ge0).
 ```
 
-The derivative $x^{s-1}e^{-x}$ is asserted for $x>0$; at zero with $0<s<1$, require continuity only.
+The derivative $x^{s-1}e^{-x}$ is asserted for $x>0$; at zero with $0 < s<1$, require continuity only.
 
 **Incomplete Beta.** For $a,b>0$, define `regularizedIncompleteBeta`, written $I_x(a,b)$, by integrating $t^{a-1}(1-t)^{b-1}/B(a,b)$ from $0$ to $\min(1,\max(x,0))$.
 Invalid parameters give zero except $I_x(0,b)=1$ for $b>0,x\ge0$; retain zero at $b=0$.
@@ -318,7 +318,7 @@ Each entry fixes its parameters and all invalid/boundary behavior; cdfs below in
 Prove
 
 ```math
-F(x)=\begin{cases}\tfrac12e^{(x-m)/b}&x<m,\\1-\tfrac12e^{-(x-m)/b}&x\ge m,\end{cases}
+F(x)=\begin{cases}\tfrac12e^{(x-m)/b}&x < m,\\1-\tfrac12e^{-(x-m)/b}&x\ge m,\end{cases}
 \quad E[X]=m,\quad\mathrm{Var}\,X=2b^2,
 ```
 
@@ -345,7 +345,7 @@ Prove $E[X^q]=s^q\Gamma(1+q/k)$ exactly for $q>-k$, including natural moments, a
 | --- | --- | --- |
 | $k>1$ | $\mathbb R$ | Convergent $\sum_{n\ge0}(ts)^n\Gamma(1+n/k)/n!$ |
 | $k=1$ | $(-\infty,1/s)$ | $(1-st)^{-1}$ |
-| $0<k<1$ | $(-\infty,0]$ | No closed form |
+| $0 < k<1$ | $(-\infty,0]$ | No closed form |
 
 **Chi-squared — `chiSquaredMeasure k`.** Define $\delta_0$ at $k=0$, `gammaMeasure (k/2) (1/2)` at $k>0$, and zero at $k<0$.
 For positive degree inherit the density/cdf, mean $k$, variance $2k$, $D=(-\infty,1/2)$, $M(t)=(1-2t)^{-k/2}$, and $\varphi(t)=(1-2it)^{-k/2}$ with principal complex power.
@@ -360,7 +360,7 @@ f(x)=\frac{r^a}{\Gamma(a)}x^{-a-1}e^{-r/x},\qquad F(x)=1-G_a(r/x),
 ```
 
 and both vanish for $x\le0$.
-Prove $E[X^q]=r^q\Gamma(a-q)/\Gamma(a)$ exactly for $q<a$, mean $r/(a-1)$ for $a>1$, variance $r^2/((a-1)^2(a-2))$ for $a>2$, and matching first/second-moment failures.
+Prove $E[X^q]=r^q\Gamma(a-q)/\Gamma(a)$ exactly for $q < a$, mean $r/(a-1)$ for $a>1$, variance $r^2/((a-1)^2(a-2))$ for $a>2$, and matching first/second-moment failures.
 Here $D=(-\infty,0]$; no Bessel-transform value is required.
 
 **Student's t — `studentTMeasure ν`.** For $\nu>0$, define
@@ -385,7 +385,7 @@ F(x)=I_{mx/(n+mx)}(m/2,n/2).
 The density/cdf vanish for $x\le0$ and invalid parameters give zero measure.
 Prove mean $n/(n-2)$ for $n>2$, variance $2n^2(m+n-2)/(m(n-2)^2(n-4))$ for $n>4$, matching non-integrability, and $D=(-\infty,0]$.
 
-**Negative binomial — `negativeBinomialMeasure r p`.** The probability range is $r\ge0$, $0<p\le1$.
+**Negative binomial — `negativeBinomialMeasure r p`.** The probability range is $r\ge0$, $0 < p\le1$.
 For $r>0$, define the weighted Dirac sum on `ℕ` with mass
 
 ```math
@@ -393,7 +393,7 @@ p_k=\frac{\Gamma(k+r)}{k!\Gamma(r)}p^r(1-p)^k.
 ```
 
 At $r=0$ or $p=1$ within this range, the law is $\delta_0$; all other invalid parameters give zero.
-All following formulas assume $0<p\le1$.
+All following formulas assume $0 < p\le1$.
 Prove native masses/support and fixed-$p$ convolution by adding nonnegative shapes.
 
 For $r>0$, the pgf has exact domain $|(1-p)z|<1$ and value $(p/(1-(1-p)z))^r$.
@@ -456,7 +456,7 @@ Prove the difference of two rate-$1/b$ exponentials is `laplaceMeasure 0 b` for 
 
 #### 4.5 Gamma-mixed Poisson
 
-For $r>0$, $0<p<1$, prove
+For $r>0$, $0 < p<1$, prove
 ```lean
 (gammaMeasure r (p / (1-p))).bind
     (fun lam => poissonMeasure (Real.toNNReal lam)) = negativeBinomialMeasure r p
@@ -478,7 +478,7 @@ F_{(k)}(x)=\sum_{j=k}^n\binom nj F(x)^j(1-F(x))^{n-j}.
 ```
 
 For unit uniforms, identify the marginal as `betaMeasure k (n+1-k)` and the sorted joint density as
-$n!\mathbf1_{0<y_1<\cdots<y_n<1}$ relative to volume on `Fin n → ℝ`.
+$n!\mathbf1_{0 < y_1<\cdots < y_n<1}$ relative to volume on `Fin n → ℝ`.
 This is the joint-density target used for Layer 5 spacings; general joint order-statistic density theory is excluded.
 
 **Check:** at $\nu=1$, the t-ratio and Cauchy-ratio constructions agree through Layer 3.
@@ -621,8 +621,8 @@ Bounded support gives every directional $D=\mathbb R$, but no closed-form transf
 **Factorizations.** At any common $r>0$, prove the joint law
 $(G/\sum G,\sum G)\sim\mathrm{Dirichlet}(a)\times\mathrm{Gamma}(A,r)$, including independence and the null zero-total branch.
 On `Fin d`, $d\ge2$, independent
-$V_i\sim\mathrm{Beta}(a_i,\sum_{j>i}a_j)$ for $i<d-1$ give
-$X_i=V_i\prod_{j<i}(1-V_j)$ and $X_{d-1}=\prod_{j<d-1}(1-V_j)$.
+$V_i\sim\mathrm{Beta}(a_i,\sum_{j>i}a_j)$ for $i < d-1$ give
+$X_i=V_i\prod_{j < i}(1-V_j)$ and $X_{d-1}=\prod_{j < d-1}(1-V_j)$.
 Prove the inverse ratios and their independence under Dirichlet; one coordinate gives the constant one.
 
 For $n$ iid unit uniforms, adjoin ordered endpoints $U_{(0)}=0,U_{(n+1)}=1$.
@@ -795,7 +795,7 @@ Require `charFun_wishartGramMeasure` with the same spectral formula through the 
 At $\nu=0$, separately give $D=\mathbb R$, $M=1$, $K=0$ for every $S,\Theta$.
 
 For $S\succ0$, $p\le\nu$, identify the two laws using `Measure.ext_of_charFun` and deduce the nonsingular-law Gram-sum `HasLaw` corollary.
-For PSD $S$ with $\min(\nu,\mathrm{rank}\,S)<p$, prove singularity relative to symmetric Lebesgue measure using the determinant-null set.
+For PSD $S$ with $\min(\nu,\mathrm{rank}\,S) < p$, prove singularity relative to symmetric Lebesgue measure using the determinant-null set.
 
 #### 6.5 Bartlett decomposition
 
@@ -804,7 +804,7 @@ Prove the lift maps back to $W(n,I)$ using `map_comap_subtype_coe` and null comp
 Give both a product-law equality and one joint `iIndepFun` theorem:
 
 ```math
-T_{ii}^2\sim\chi^2_{n-i.\mathrm{val}},\qquad T_{ij}\sim N(0,1)\ (j<i),
+T_{ii}^2\sim\chi^2_{n-i.\mathrm{val}},\qquad T_{ij}\sim N(0,1)\ (j < i),
 ```
 
 with all diagonal-square and strict-lower entries independent.
@@ -913,8 +913,8 @@ $n-X\sim\mathrm{Bin}(n,1-p)$, $\mathrm{BetaBin}(n,b,a)$, and $\mathrm{Hypergeom}
 
 #### 7.2 Lower and upper quantiles
 
-Reuse `Measure.quantile`, $`Q_\mu(u)=\inf\{x:u\le F(x)\}`$, and add `upperQuantile`, $`Q_\mu^+(u)=\inf\{x:u<F(x)\}`$.
-Theorems about finite quantiles require $0<u<1$; outside it retain ordinary `sInf` totalization.
+Reuse `Measure.quantile`, $`Q_\mu(u)=\inf\{x:u\le F(x)\}`$, and add `upperQuantile`, $`Q_\mu^+(u)=\inf\{x:u < F(x)\}`$.
+Theorems about finite quantiles require $0 < u<1$; outside it retain ordinary `sInf` totalization.
 
 Reuse `nonempty_setOf_le_cdf`, `bddBelow_setOf_le_cdf`, `monotoneOn_quantile`, `measurable_quantile`, and `quantile_le_iff`.
 Prove upper counterparts, including the bounds needed for conditional completeness, and lower-quantile left continuity.
@@ -927,7 +927,7 @@ Prove joint Giry measurability in $(\mu,u)$ for probability laws and interior le
 Reuse `map_quantile_volume_Ioo`/`measurePreserving_quantile` to prove `(uniformMeasure 0 1).map Qμ = μ`; prove the probability integral transform for atomless laws.
 In `EReal`, the one-sided limits at $0,1$ are the infimum/supremum of topological support, including infinite endpoints.
 
-**Transport.** For $0<u<1$,
+**Transport.** For $0 < u<1$,
 
 ```math
 Q_{a+bX}(u)=\begin{cases}a+bQ_X(u)&b>0,\\a&b=0,\\a+bQ_X^+(1-u)&b<0.\end{cases}
@@ -946,7 +946,7 @@ Use measurable incidence sets for parameterized events, including the four inter
 Zero event mass gives zero measure.
 
 For probability $\mu$ truncated to $(l,r]$, with possibly infinite bounds, let $L=\mu.\mathrm{real}(\mathrm{Iic}\ l)$, $R=\mu.\mathrm{real}(\mathrm{Iic}\ r)$, using $0,1$ at infinite endpoints.
-For $L<R$,
+For $L < R$,
 
 ```math
 F_{\mathrm{cond}}(x)=\frac{\min(R,\max(L,F(x)))-L}{R-L},\qquad Q_{\mathrm{cond}}(u)=Q_\mu(L+u(R-L)).
@@ -1028,7 +1028,7 @@ Recover Gamma mixing with an explicit nonnegative-carrier bridge.
 For $|X|$, prove cdf $F(x)-F((-x)-)$ on $x\ge0$ (zero below), atom $`\mu\{0\}`$ at zero, and density $f(x)+f(-x)$ on $x>0$ when $\mu$ has a density.
 For symmetric atomless laws, identify folding with conditioning to the nonnegative half-line and prove $Q_{|X|}(u)=Q_\mu((1+u)/2)$.
 
-Clipping by $g(x)=\min(r,\max(l,x))$, $l<r$ finite, gives atoms $\mu(\mathrm{Iic}\ l)$ at $l$ and $\mu(\mathrm{Ici}\ r)$ at $r$, plus $\mu$ restricted to $(l,r)$.
+Clipping by $g(x)=\min(r,\max(l,x))$, $l < r$ finite, gives atoms $\mu(\mathrm{Iic}\ l)$ at $l$ and $\mu(\mathrm{Ici}\ r)$ at $r$, plus $\mu$ restricted to $(l,r)$.
 Its cdf is $0$ below $l$, $F(x)$ on $[l,r)$, and $1$ above; its quantile is $g(Q_\mu(u))$.
 Include one-sided clipping, first/second-moment decompositions, and all bounded moments/full domain for finite clipping.
 Keep this pushforward distinct from conditional truncation.
@@ -1037,7 +1037,7 @@ Keep this pushforward distinct from conditional truncation.
 
 Reuse `Measure.tilted` normalization, density, composition, and cumulant derivatives on their stated domains.
 Prove parameter measurability and $M_t(s)=M(t+s)/M(t)$ when both exponential integrals are finite.
-Required parameter identities: Gaussian $(m,v)\mapsto(m+vt,v)$; Gamma $(a,r)\mapsto(a,r-t)$ for $t<r$; native Poisson $\lambda\mapsto\lambda e^t$; native binomial $p\mapsto pe^t/(1-p+pe^t)$.
+Required parameter identities: Gaussian $(m,v)\mapsto(m+vt,v)$; Gamma $(a,r)\mapsto(a,r-t)$ for $t < r$; native Poisson $\lambda\mapsto\lambda e^t$; native binomial $p\mapsto pe^t/(1-p+pe^t)$.
 Include Gaussian/Poisson/binomial probability boundaries.
 Layer 12 specializes vector tilting on spheres.
 
@@ -1071,7 +1071,7 @@ Prove joint weak continuity for:
 | Cauchy | Location and nonnegative scale |
 | Gamma, Beta, Dirichlet | Positive shapes/rates |
 | Finite categorical/multinomial | Fixed index type; full simplex of weights |
-| Chi-squared; negative binomial | Nonnegative degrees; $r\ge0,0<p\le1$ |
+| Chi-squared; negative binomial | Nonnegative degrees; $r\ge0,0 < p\le1$ |
 | Noncentral chi-squared; noncentral Beta | Nonnegative degrees/noncentrality; $a\ge0,b>0,\lambda\ge0$, including atomic/Dirac boundaries |
 | Hypoexponential; hyperexponential | Fixed finite types; positive rates including coincidences; positive active rates with arbitrary inactive rates |
 
@@ -1146,7 +1146,7 @@ Reuse theta/Poisson summation for the periodized Gaussian identity and locally u
 
 #### 8.4 Inverse functions
 
-For $a>0$, $0<u<1$, define $G_a^{-1}(u)$ as the unique positive root of $G_a(x)=u$; for $a,b>0$, define $B_{a,b}^{-1}(u)$ as the unique root of $I_x(a,b)=u$ in $(0,1)$.
+For $a>0$, $0 < u<1$, define $G_a^{-1}(u)$ as the unique positive root of $G_a(x)=u$; for $a,b>0$, define $B_{a,b}^{-1}(u)$ as the unique root of $I_x(a,b)=u$ in $(0,1)$.
 Prove existence, uniqueness, inverse identities, strict monotonicity, continuity, joint parameter measurability, and endpoint limits.
 Define zero outside those parameter domains and prove measurability of the totalized functions.
 Obtain $`z(u)=\sqrt2\,\mathrm{erf}^{-1}(2u-1)`$ using the inverse on $(-1,1)$.
@@ -1169,7 +1169,7 @@ Prove arbitrary finite aggregation and one-hot pushforward to multinomial with o
 Numerical moments/quantiles use supplied labels, not an order on categories.
 
 Rademacher has equal mass at $-1,1$, mean zero, variance one, $M(t)=\cosh t$, $\varphi(t)=\cos t$.
-For integer interval $a\le b$, $N=b-a+1$, use mass $1/N$ on $[a,b]$ and zero measure for $b<a$.
+For integer interval $a\le b$, $N=b-a+1$, use mass $1/N$ on $[a,b]$ and zero measure for $b < a$.
 Prove mean $(a+b)/2$, variance $(N^2-1)/12$, quantile $a+\lceil Nu\rceil-1$, finite-geometric-sum mgf with $t=0$ separate, and the pgf after translation to $`\{0,\ldots,N-1\}`$.
 
 #### 9.2 Beta-binomial and Dirichlet-multinomial
@@ -1240,7 +1240,7 @@ No Bessel mass formula.
 #### 9.6 Zipf/zeta and finite Zipf
 
 For $s>1$, use mass $k^{-s}/\zeta(s)$ on positive integers, zero at zero; for $s\le1$ use zero measure.
-Prove $E[X^n]=\zeta(s-n)/\zeta(s)$ exactly when $n<s-1$, including mean/variance thresholds, and $D=(-\infty,0]$.
+Prove $E[X^n]=\zeta(s-n)/\zeta(s)$ exactly when $n < s-1$, including mean/variance thresholds, and $D=(-\infty,0]$.
 
 For $N\ge1$, any real $s$, normalize $k^{-s}$ on $1\le k\le N$; use zero law at $N=0$.
 Prove total-variation convergence to infinite Zipf for $s>1$.
@@ -1259,7 +1259,7 @@ E[X]=\frac\rho{\rho-1}\ (\rho>1),\quad
 
 The exact absolute natural-moment threshold is $n<\rho$, and $D=(-\infty,0]$.
 
-For $0<q<1$, logarithmic series has mass $-q^k/(k\log(1-q))$ on positive integers; otherwise zero law.
+For $0 < q<1$, logarithmic series has mass $-q^k/(k\log(1-q))$ on positive integers; otherwise zero law.
 Its pgf is $\log(1-qz)/\log(1-q)$ exactly on $|qz|<1$, and
 
 ```math
@@ -1273,13 +1273,13 @@ Compound-Poisson logarithmic jumps at rate $-r\log(1-q)$ give negative binomial 
 #### 9.8 Discrete Laplace and Gaussian
 
 For integer center $m$, $0\le q<1$, discrete Laplace has mass $(1-q)q^{|k-m|}/(1+q)$; $q=0$ means $\delta_m$, invalid $q$ means zero measure.
-Prove mean $m$, variance $2q/(1-q)^2$, and for $0<q<1$,
+Prove mean $m$, variance $2q/(1-q)^2$, and for $0 < q<1$,
 
 ```math
 M(t)=\frac{e^{mt}(1-q)^2}{(1-qe^t)(1-qe^{-t})},\quad D=\{t:|t|<-\log q\}.
 ```
 
-Give the characteristic counterpart and integer cdf $q^{m-k}/(1+q)$ for $k<m$, otherwise $1-q^{k-m+1}/(1+q)$.
+Give the characteristic counterpart and integer cdf $q^{m-k}/(1+q)$ for $k < m$, otherwise $1-q^{k-m+1}/(1+q)$.
 Use integer floor for real arguments and least crossings for quantiles; handle $q=0$ separately.
 
 For real center $c$ and width $s>0$, discrete Gaussian has mass $e^{-(k-c)^2/(2s^2)}/Z(c,s)$; otherwise zero measure.
@@ -1328,11 +1328,11 @@ p_k=\frac{\Gamma(r+k)}{\Gamma(r)k!}\frac{B(a+r,b+k)}{B(a,b)},\qquad D=(-\infty,0
 ```
 
 Prove convergent cumulative sums and least-crossing quantiles.
-For natural $j>0$, moment integrability is exactly $j<a$, with factorial moment
+For natural $j>0$, moment integrability is exactly $j < a$, with factorial moment
 $r(r+1)\cdots(r+j-1)B(a-j,b+j)/B(a,b)$; the zeroth moment is one.
 Prove mean $rb/(a-1)$ for $a>1$, variance
 $rb(a+b-1)(a+r-1)/((a-1)^2(a-2))$ for $a>2$, and matching thresholds.
-For all valid $r$, the positive-order criterion is $r=0\lor j<a$.
+For all valid $r$, the positive-order criterion is $r=0\lor j < a$.
 
 Prove `(betaNegativeBinomialMeasure 1 ρ 1).map (fun k => k+1) = yuleSimonMeasure ρ` for $\rho>0$ on `ℕ`.
 Require the absolutely convergent mass-series pgf on $|z|\le1$, mgf on $D$, and characteristic function; no hypergeometric special function.
@@ -1349,7 +1349,7 @@ Include ties and recover the iid formula.
 
 Unless specified otherwise, invalid parameters give zero law and zero pdfs.
 Densities vanish off their displayed open support; endpoint choices do not create atoms.
-Quantile statements assume valid parameters and $0<u<1$.
+Quantile statements assume valid parameters and $0 < u<1$.
 A continuous-law root characterization requires existence, uniqueness on the support interior, continuity in $u$, and endpoint limits.
 Natural moments include order zero; thresholds are sharp.
 
@@ -1514,7 +1514,7 @@ E[X]=\frac{n(m+\lambda)}{m(n-2)}\ (n>2),\quad
 E[X^2]=\frac{n^2((m+\lambda)^2+2(m+2\lambda))}{m^2(n-2)(n-4)}\ (n>4).
 ```
 
-Derive variance, absolute natural-order-$r$ threshold $2r<n$, and $D=(-\infty,0]$.
+Derive variance, absolute natural-order-$r$ threshold $2r < n$, and $D=(-\infty,0]$.
 No hypergeometric density closed forms are required for either family.
 
 #### 10.7 Beta prime and Lévy
@@ -1529,7 +1529,7 @@ Q(u)=\frac{B_{a,b}^{-1}(u)}{1-B_{a,b}^{-1}(u)},
 
 with $F=0$ for $x\le0$.
 Identify the independent-Gamma ratio and $(a/b)F(2a,2b)$.
-Prove $E[X^q]=B(a+q,b-q)/B(a,b)$ exactly for $-a<q<b$, mean $a/(b-1)$ for $b>1$, variance $a(a+b-1)/((b-2)(b-1)^2)$ for $b>2$, and $D=(-\infty,0]$.
+Prove $E[X^q]=B(a+q,b-q)/B(a,b)$ exactly for $-a < q < b$, mean $a/(b-1)$ for $b>1$, variance $a(a+b-1)/((b-2)(b-1)^2)$ for $b>2$, and $D=(-\infty,0]$.
 
 For $m\in\mathbb R,c>0$, `levyMeasure m c` is `inverseGammaMeasure (1/2) (c/2)` translated by $m$.
 On $x>m$,
@@ -1564,7 +1564,7 @@ Give the characteristic counterpart using the principal square root, unique posi
 
 #### 10.9 Truncated and skew normal
 
-**Truncated normal.** Apply Layer 7 conditioning to $N(m,v)$, $v:\mathbb R_{\ge0}$, on an interval with extended bounds $l<r$.
+**Truncated normal.** Apply Layer 7 conditioning to $N(m,v)$, $v:\mathbb R_{\ge0}$, on an interval with extended bounds $l < r$.
 For $v>0$, let $s=\sqrt v$, $\alpha=(l-m)/s$, $\beta=(r-m)/s$, $Z=\Phi(\beta)-\Phi(\alpha)>0$.
 Prove density $\phi((x-m)/s)/(sZ)$ on the interval, the clipped cdf, and
 
@@ -1607,7 +1607,7 @@ Prove mean $n/2$, variance $n/12$, $D=\mathbb R$, $M(t)=((e^t-1)/t)^n$ for $t\ne
 **Bates** is its scaling by $1/n$ for $n\ge1$, with zero measure at $n=0$; inherit density, cdf, quantile, moments, and transforms.
 For both continuous laws, quantiles are unique roots of their piecewise-polynomial cdfs; no arbitrary-degree radical formula.
 
-**Triangular.** For $a<b$, $a\le c\le b$, use $2(x-a)/((b-a)(c-a))$ on $(a,c)$ and $2(b-x)/((b-a)(b-c))$ on $(c,b)$.
+**Triangular.** For $a < b$, $a\le c\le b$, use $2(x-a)/((b-a)(c-a))$ on $(a,c)$ and $2(b-x)/((b-a)(b-c))$ on $(c,b)$.
 If $c=a$ or $c=b$, use only the nonempty branch.
 Prove the piecewise-quadratic cdf, mean $(a+b+c)/3$, variance $(a^2+b^2+c^2-ab-ac-bc)/18$, and
 
@@ -1643,7 +1643,7 @@ F(x)=\frac1{1+(x/a)^{-b}},\quad Q(u)=a\left(\frac u{1-u}\right)^{1/b},\quad
 h(x)=\frac{(b/a)(x/a)^{b-1}}{1+(x/a)^b},\quad H(x)=\log(1+(x/a)^b).
 ```
 
-Prove $E[X^q]=a^q\Gamma(1+q/b)\Gamma(1-q/b)$ exactly for $|q|<b$, mean/variance for $b>1,b>2$, and $D=(-\infty,0]$.
+Prove $E[X^q]=a^q\Gamma(1+q/b)\Gamma(1-q/b)$ exactly for $|q| < b$, mean/variance for $b>1,b>2$, and $D=(-\infty,0]$.
 
 #### 10.12 Generalized gamma
 
@@ -1681,7 +1681,7 @@ Q(u)=m+s\mathrm{sign}(2u-1)\bigl(G_{1/p}^{-1}(|2u-1|)\bigr)^{1/p}\quad(u\ne1/2),
 
 Prove mean $m$, symmetry, vanishing odd central moments, and
 $E[|X-m|^q]=s^q\Gamma((q+1)/p)/\Gamma(1/p)$ exactly for $q>-1$; derive variance and natural raw moments.
-Domains are `ℝ` for $p>1$, $(-1/s,1/s)$ for $p=1$, and $`\{0\}`$ for $0<p<1$; no general transform formula.
+Domains are `ℝ` for $p>1$, $(-1/s,1/s)$ for $p=1$, and $`\{0\}`$ for $0 < p<1$; no general transform formula.
 Recover Laplace at $p=1$ and Gaussian variance $s^2/2$ at $p=2$.
 
 #### 10.14 Asymmetric Laplace
@@ -1701,7 +1701,7 @@ Obtain all natural moments by independent-exponential expansion; equal rates giv
 #### 10.15 Logit-normal and log-uniform
 
 **Logit-normal.** Push $N(m,v)$, $v:\mathbb R_{\ge0}$, through $\sigma(x)=(1+e^{-x})^{-1}$.
-For $v>0,s=\sqrt v$, on $0<x<1$,
+For $v>0,s=\sqrt v$, on $0 < x<1$,
 
 ```math
 f(x)=\frac{\phi((\log(x/(1-x))-m)/s)}{sx(1-x)},\quad
@@ -1712,7 +1712,7 @@ Give cdf zero/one outside the interval; $v=0$ gives $\delta_{\sigma(m)}$.
 All natural moments and $D=\mathbb R$ follow from Gaussian integrals of powers of sigmoid; express mean/variance through those integrals, without elementary closed forms.
 Reflection $1-X$ negates $m$.
 
-**Log-uniform.** For $0<a<b$, push uniform $(\log a,\log b)$ through exponential; invalid endpoints, including equality, give zero.
+**Log-uniform.** For $0 < a < b$, push uniform $(\log a,\log b)$ through exponential; invalid endpoints, including equality, give zero.
 Prove $f(x)=1/(x\log(b/a))$ on $(a,b)$, $F(x)=\log(x/a)/\log(b/a)$ on $[a,b]$ with endpoint extensions, and $Q(u)=a(b/a)^u$.
 Real-power moments are $(b^q-a^q)/(q\log(b/a))$ for $q\ne0$, one for $q=0$.
 Derive mean/variance and $D=\mathbb R$.
@@ -1727,7 +1727,7 @@ Prove
 E[X^q]=\frac{s^q\nu^{q/2}\Gamma((q+1)/2)\Gamma((\nu-q)/2)}{\sqrt\pi\,\Gamma(\nu/2)}
 ```
 
-exactly for $-1<q<\nu$, mean/variance where finite, and $D=(-\infty,0]$.
+exactly for $-1 < q<\nu$, mean/variance where finite, and $D=(-\infty,0]$.
 
 #### 10.17 Noncentral Beta
 
@@ -1851,14 +1851,14 @@ Define arcsine as `betaMeasure (1/2) (1/2)` and unit-radius semicircle as `(beta
 The arcsine formulas are
 
 ```math
-f(x)=\frac1{\pi\sqrt{x(1-x)}}\ (0<x<1),\quad
+f(x)=\frac1{\pi\sqrt{x(1-x)}}\ (0 < x<1),\quad
 F(x)=\frac2\pi\arcsin\sqrt x\ (0\le x\le1),\quad Q(u)=\sin^2(\pi u/2).
 ```
 
 The semicircle formulas are
 
 ```math
-f(x)=\frac2\pi\sqrt{1-x^2}\ (-1<x<1),\quad
+f(x)=\frac2\pi\sqrt{1-x^2}\ (-1 < x<1),\quad
 F(x)=\frac12+\frac{x\sqrt{1-x^2}+\arcsin x}\pi\ (-1\le x\le1),\quad
 Q(u)=2B_{3/2,3/2}^{-1}(u)-1.
 ```
@@ -2096,7 +2096,7 @@ The limit $\rho=0$ is Haar, not a finite scale.
 
 ### Layer 13: quantile formulas and coverage of all families
 
-Every formula assumes valid parameters and **$0<u<1$**, includes the named degenerate boundaries, and has Layer 7's one-sided support-endpoint limits.
+Every formula assumes valid parameters and **$0 < u<1$**, includes the named degenerate boundaries, and has Layer 7's one-sided support-endpoint limits.
 It supplements, not replaces, prior moments/transforms/cdfs.
 
 | Real law | Required quantile |
@@ -2107,7 +2107,7 @@ It supplements, not replaces, prior moments/transforms/cdfs.
 | Exponential $r>0$ | $-\log(1-u)/r$ |
 | Cauchy $(m,\gamma)$, $\gamma\ge0$ | $m+\gamma\tan(\pi(u-1/2))$ |
 | Pareto threshold $t>0$, shape $r>0$ | $t(1-u)^{-1/r}$ |
-| Uniform $a<b$ | $a+(b-a)u$ |
+| Uniform $a < b$ | $a+(b-a)u$ |
 | Laplace $(m,b)$, $b>0$ | $m+b\log(2u)$ for $u\le1/2$; $m-b\log(2(1-u))$ otherwise |
 | Log-normal $(m,v)$, $v\ge0$ | $`\exp(m+\sqrt v\,z(u))`$ |
 | Weibull shape $k>0$, scale $a>0$ | $a(-\log(1-u))^{1/k}$ |
@@ -2118,7 +2118,7 @@ It supplements, not replaces, prior moments/transforms/cdfs.
 For Student $\nu>0$, use $-\sqrt{\nu(1/b-1)}$ below $1/2$, with $b=B_{\nu/2,1/2}^{-1}(2u)$; above $1/2$ use the positive expression with $b=B_{\nu/2,1/2}^{-1}(2(1-u))$; the median quantile is zero.
 
 **Discrete casts.** Bernoulli gives zero for $u\le1-p$, one otherwise, including $p=0,1$.
-Geometric, $0<p<1$, gives $\lceil\log(1-u)/\log(1-p)\rceil-1$; both $p=0,1$ give zero.
+Geometric, $0 < p<1$, gives $\lceil\log(1-u)/\log(1-p)\rceil-1$; both $p=0,1$ give zero.
 Poisson uses the least $k\in\mathbb N$ whose explicit cumulative sum reaches $u$, equivalently Layer 2's regularized-Gamma criterion; rate zero gives zero.
 Binomial, negative binomial, and hypergeometric use least supported crossings of the specified finite/cumulative formulas, including incomplete-Beta forms.
 Prove these explicit crossings, not merely restate real `sInf`.
@@ -2153,7 +2153,7 @@ Prove it by cdf composition and the adjunction; continuity of $\mu$ or $Q_\mu$ i
 
 #### 14.1 Correlation coordinates
 
-For $`J_p=\{(i,j):\mathrm{Fin}\ p\times\mathrm{Fin}\ p\mid j<i\}`$, reconstruct $R(x)$ from strict-lower coordinates by symmetry and diagonal ones.
+For $`J_p=\{(i,j):\mathrm{Fin}\ p\times\mathrm{Fin}\ p\mid j < i\}`$, reconstruct $R(x)$ from strict-lower coordinates by symmetry and diagonal ones.
 Prove a measurable affine homeomorphism onto unit-diagonal symmetric matrices.
 Define `correlationLebesgue p` by pushing coordinate product volume to Layer 6's symmetric carrier.
 The positive-definite coordinate region is open, bounded, measurable, of positive finite volume; its closure is the PSD correlation region and its determinant-zero boundary is null.
@@ -2162,12 +2162,12 @@ At $p=0,1$, the reference measure is Dirac at identity.
 
 #### 14.2 Partial correlations and normalization
 
-Use **one-based** $1\le j<i\le p$ in these formulas, with the corresponding `Fin p` offset in Lean.
+Use **one-based** $1\le j < i\le p$ in these formulas, with the corresponding `Fin p` offset in Lean.
 For $z_{ij}\in(-1,1)$,
 
 ```math
-L_{ij}=z_{ij}\prod_{k<j}\sqrt{1-z_{ik}^2}\ (j<i),\quad
-L_{ii}=\prod_{k<i}\sqrt{1-z_{ik}^2},\quad L_{ij}=0\ (j>i).
+L_{ij}=z_{ij}\prod_{k < j}\sqrt{1-z_{ik}^2}\ (j < i),\quad
+L_{ii}=\prod_{k < i}\sqrt{1-z_{ik}^2},\quad L_{ij}=0\ (j>i).
 ```
 
 Prove $z\mapsto LL^{\mathsf T}$ is a smooth bijection to the positive-definite correlation region, with inverse from Cholesky, and
@@ -2206,7 +2206,7 @@ Every real linear observable has domain `ℝ`; no general closed matrix transfor
 #### 14.4 Marginals and quantiles
 
 For $\eta>0$, a principal block of size $q\le p$ has `lkjMeasure q (η+(p-q)/2)`, including empty/singleton blocks.
-For $0<u<1$, off-diagonal quantiles are $2B_{\alpha,\alpha}^{-1}(u)-1$, diagonal quantiles one, and partial-correlation quantiles $2B_{\beta_j,\beta_j}^{-1}(u)-1$.
+For $0 < u<1$, off-diagonal quantiles are $2B_{\alpha,\alpha}^{-1}(u)-1$, diagonal quantiles one, and partial-correlation quantiles $2B_{\beta_j,\beta_j}^{-1}(u)-1$.
 Prove endpoint limits through these product/marginal laws.
 
 **Checks:** $p=2$ is symmetric Beta on the free correlation and $\eta=1$ is uniform on $(-1,1)$; independent-coordinate and density constructions have identical normalizer/determinant exponent.
@@ -2303,7 +2303,7 @@ Use $|\varphi(t)|=e^{-|st|^\alpha}$, polynomially weighted integrability, and ex
 Prove density-measure equality and positivity on the support interior.
 Exact topological support is $[d,\infty)$ for $0<\alpha<1,\beta=1$, $(-\infty,d]$ for $0<\alpha<1,\beta=-1$, and `ℝ` otherwise, including fully skewed $\alpha\ge1$.
 
-Give the density-integral cdf, strict increase on the support interior, and its unique interior-root quantile for $0<u<1$, continuous/strictly increasing with finite or infinite endpoint limits.
+Give the density-integral cdf, strict increase on the support interior, and its unique interior-root quantile for $0 < u<1$, continuous/strictly increasing with finite or infinite endpoint limits.
 At $s=0$ use Dirac cdf/quantile and singularity instead of `HasPDF`.
 Prove joint measurability including invalid shapes and joint weak continuity on the valid domain, including $\alpha=1,2$ and $s=0$, not across invalid boundaries.
 
@@ -2322,7 +2322,7 @@ x^\alpha\mu((-\infty,-x))\to C_\alpha s^\alpha(1-\beta).
 ```
 
 These are limits even when a constant is zero, not equivalence to the zero function; use them for moment finiteness/divergence.
-For $\beta=0$, $0<q<\alpha<2$,
+For $\beta=0$, $0 < q<\alpha<2$,
 
 ```math
 E[|X-m|^q]=\frac{s^q2^q\Gamma((1+q)/2)\Gamma(1-q/\alpha)}{\sqrt\pi\,\Gamma(1-q/2)}.
