@@ -138,7 +138,7 @@ For $a<b$, use $f(x)=\mathbf1_{(a,b]}(x)/(b-a)$ and prove:
 
 ```math
 F(x)=\begin{cases}0&x\le a,\\1&x\ge b,\\(x-a)/(b-a)&a<x<b,\end{cases}
-\qquad E[X]=(a+b)/2,\quad \operatorname{Var}X=(b-a)^2/12.
+\qquad E[X]=(a+b)/2,\quad \mathrm{Var}\,X=(b-a)^2/12.
 ```
 
 Here $D=\mathbb R$, $M(0)=\varphi(0)=1$, and for $t\ne0$,
@@ -161,7 +161,7 @@ Include `Measurable fun r : ℝ≥0 => poissonMeasure r`, used with `Real.toNNRe
 **Cast cdf.** For probability `μ : Measure ℕ`, prove
 
 ```math
-\operatorname{cdf}(\mu.\mathrm{map}\ \mathrm{Nat.cast})(x) =
+\mathrm{cdf}(\mu.\mathrm{map}\ \mathrm{Nat.cast})(x) =
 \begin{cases}0&x<0,\\\mu.\mathrm{real}\{k:k\le\lfloor x\rfloor_+\}&x\ge0.\end{cases}
 ```
 
@@ -178,7 +178,7 @@ Follow the referenced binomial mean/variance interfaces.
 For $p\ne0$,
 
 ```math
-E[X]=q/p,\quad \operatorname{Var}X=q/p^2,\quad
+E[X]=q/p,\quad \mathrm{Var}\,X=q/p^2,\quad
 D=\{t:qe^t<1\},\quad M(t)=\frac p{1-qe^t},\quad
 \varphi(t)=\frac p{1-qe^{it}},\quad \mu\{k:k\le n\}=1-q^{n+1}.
 ```
@@ -197,7 +197,7 @@ Follow mathlib4#35504.
 **Gamma.** For $a,r>0$,
 
 ```math
-E[X]=a/r,\quad \operatorname{Var}X=a/r^2,\quad
+E[X]=a/r,\quad \mathrm{Var}\,X=a/r^2,\quad
 D=(-\infty,r),\quad M(t)=(1-t/r)^{-a},\quad
 \varphi(t)=(1-it/r)^{-a}.
 ```
@@ -209,7 +209,7 @@ Prove common-rate convolution by adding positive shapes and positive scaling $cX
 
 ```math
 E[X]=\frac a{a+b},\quad
-\operatorname{Var}X=\frac{ab}{(a+b)^2(a+b+1)},\quad
+\mathrm{Var}\,X=\frac{ab}{(a+b)^2(a+b+1)},\quad
 E[X^n]=\frac{\Gamma(a+n)\Gamma(a+b)}{\Gamma(a)\Gamma(a+b+n)}\quad(n\in\mathbb N).
 ```
 
@@ -225,7 +225,7 @@ For $n>0$ iid variables of this law, their average has the same law, including $
 ```math
 F(x)=\begin{cases}0&x<t,\\1-(t/x)^r&x\ge t,\end{cases}\quad
 E[X]=\frac{rt}{r-1}\ (r>1),\quad
-\operatorname{Var}X=\frac{rt^2}{(r-1)^2(r-2)}\ (r>2).
+\mathrm{Var}\,X=\frac{rt^2}{(r-1)^2(r-2)}\ (r>2).
 ```
 
 Prove non-integrability of `id` for $r\le1$ and of $x^2$ for $r\le2$ within the valid family; $D=(-\infty,0]$.
@@ -299,15 +299,15 @@ The $a=0$ convention records the cdf of the boundary $\delta_0$ and includes $m=
 Do not extend reflection to atomic boundary edges; the unused $b=0$ alternative would represent $\delta_1$.
 
 **Error functions.** Define `Real.erf x = (2/√π) * ∫ t in 0..x, exp(-t²)` and `Real.erfc = 1-erf`.
-Prove oddness, derivative, strict monotonicity, limits at both infinities, and $\operatorname{erf}(x)=G_{1/2}(x^2)$ for $x\ge0$.
+Prove oddness, derivative, strict monotonicity, limits at both infinities, and $\mathrm{erf}(x)=G_{1/2}(x^2)$ for $x\ge0$.
 
 **Cdfs and tails.** With valid family parameters, prove for every real $x$:
-- Gaussian, $v\ne0$: $F(x)=(1+\operatorname{erf}((x-m)/\sqrt{2v}))/2$; at $v=0$ use $\mathbf1_{m\le x}$.
+- Gaussian, $v\ne0$: $F(x)=(1+\mathrm{erf}((x-m)/\sqrt{2v}))/2$; at $v=0$ use $\mathbf1_{m\le x}$.
 - Gamma: $F(x)=G_a(rx)$; Beta: $F(x)=I_x(a,b)$; the special functions are clamped below the support.
 - Binomial, $m\le n,p\in I$: $P(X\ge m)=I_p(m,n-m+1)$.
 - Poisson, $r:\mathbb R_{\ge0}$: $P(X>n)=G_{n+1}(r)$.
 
-**Checks:** $G_1(x)=1-e^{-x}$ for $x\ge0$, and $\operatorname{erf}(0)=0$.
+**Checks:** $G_1(x)=1-e^{-x}$ for $x\ge0$, and $\mathrm{erf}(0)=0$.
 
 ### Layer 3: new scalar families
 
@@ -319,7 +319,7 @@ Prove
 
 ```math
 F(x)=\begin{cases}\tfrac12e^{(x-m)/b}&x<m,\\1-\tfrac12e^{-(x-m)/b}&x\ge m,\end{cases}
-\quad E[X]=m,\quad\operatorname{Var}X=2b^2,
+\quad E[X]=m,\quad\mathrm{Var}\,X=2b^2,
 ```
 
 $D=(-1/b,1/b)$, $M(t)=e^{mt}/(1-b^2t^2)$, and $\varphi(t)=e^{imt}/(1+b^2t^2)$.
@@ -329,7 +329,7 @@ For $v>0$, derive by change of variables
 
 ```math
 f(x)=\frac{e^{-(\log x-m)^2/(2v)}}{x\sqrt{2\pi v}},\qquad
-F(x)=\frac{1+\operatorname{erf}((\log x-m)/\sqrt{2v})}{2}\quad(x>0),
+F(x)=\frac{1+\mathrm{erf}((\log x-m)/\sqrt{2v})}{2}\quad(x>0),
 ```
 
 with both zero for $x\le0$, and $D=(-\infty,0]$; no mgf closed form.
@@ -400,7 +400,7 @@ For $r>0$, the pgf has exact domain $|(1-p)z|<1$ and value $(p/(1-(1-p)z))^r$.
 The cast law has
 
 ```math
-E[X]=\frac{r(1-p)}p,\quad \operatorname{Var}X=\frac{r(1-p)}{p^2},\quad
+E[X]=\frac{r(1-p)}p,\quad \mathrm{Var}\,X=\frac{r(1-p)}{p^2},\quad
 D=\{t:(1-p)e^t<1\},\quad M(t)=\left(\frac p{1-(1-p)e^t}\right)^r,
 ```
 
@@ -493,14 +493,14 @@ For $S\succeq0$, prove `covMatrix (multivariateGaussian m S) = S`; reuse integra
 For finite $\mu$ with `MemLp id 2 μ`, prove
 
 ```math
-\operatorname{covarianceBilin}(\mu)(x,y)=\langle x,\operatorname{covMatrix}(\mu)y\rangle.
+\mathrm{covarianceBilin}(\mu)(x,y)=\langle x,\mathrm{covMatrix}(\mu)y\rangle.
 ```
 
 Keep `MemLp`: `covarianceBilin_of_not_memLp` sets the bilinear form to zero without forcing all entrywise covariances to vanish (for example, Cauchy × Gaussian).
 
 #### 5.2 Gaussian density
 
-For $S\succ0$, $d=\operatorname{card}\iota$, prove the full density API with
+For $S\succ0$, $d=\mathrm{card}\,\iota$, prove the full density API with
 
 ```math
 f(x)=(2\pi)^{-d/2}(\det S)^{-1/2}
@@ -548,7 +548,7 @@ E[Z_iZ_jZ_kZ_l]=S_{ij}S_{kl}+S_{ik}S_{jl}+S_{il}S_{jk}.
 
 Expand about the mean for noncentered moments, reusing Gaussian polynomial integrability.
 Prove independence of $AZ,BZ$ exactly when $ASB^{\mathsf T}=0$.
-For standard Gaussian and mutually orthogonal orthogonal projections $P_i$, prove joint independence of projected vectors and $`\|P_iZ\|^2\sim\chi^2_{\operatorname{rank}P_i}`$, including rank zero.
+For standard Gaussian and mutually orthogonal orthogonal projections $P_i$, prove joint independence of projected vectors and $`\|P_iZ\|^2\sim\chi^2_{\mathrm{rank}\,P_i}`$, including rank zero.
 
 #### 5.4 Conditional Gaussian
 
@@ -578,7 +578,7 @@ This parameter type has no invalid branch.
 Prove masses/support, native binomial marginals, and arbitrary finite aggregation: the fibre-sum map for $f:\iota\to\kappa$ gives `multinomialMeasure n (Convexity.StdSimplex.map f p)`.
 
 Define `multinomialToEuclidean` by coordinatewise real casting through `EuclideanSpace.equiv.symm`.
-For the cast law, prove mean $np$, covariance $n(\operatorname{diag}p-pp^{\mathsf T})$, and
+For the cast law, prove mean $np$, covariance $n(\mathrm{diag}\,p-pp^{\mathsf T})$, and
 
 ```math
 \varphi(t)=\left(\sum_jp_je^{it_j}\right)^n,\qquad
@@ -597,8 +597,8 @@ For positive shapes and $A=\sum_i a_i$,
 
 ```math
 E[X_i]=a_i/A,\quad
-\operatorname{Var}X_i=\frac{a_i(A-a_i)}{A^2(A+1)},\quad
-\operatorname{Cov}(X_i,X_j)=-\frac{a_ia_j}{A^2(A+1)}\quad(i\ne j).
+\mathrm{Var}\,X_i=\frac{a_i(A-a_i)}{A^2(A+1)},\quad
+\mathrm{Cov}(X_i,X_j)=-\frac{a_ia_j}{A^2(A+1)}\quad(i\ne j).
 ```
 
 Give the Bochner mean, `covMatrix`, and `covarianceBilin` forms.
@@ -666,7 +666,7 @@ Do not use `Matrix.toMatrixInnerProductSpace`, whose topology is not definitiona
 Supply coherent `IsUniformAddGroup`, `SecondCountableTopology`, `CompleteSpace`, `ContinuousENorm`, `MeasurableSpace`, `BorelSpace`, and inner-product `MeasureSpace` instances.
 Use finite-dimensional completeness, the retained subtype Borel structure, and `measureSpaceOfInnerProductSpace` for volume.
 
-Prove dimension $p(p+1)/2$, measurability of the positive-definite cone, and $\langle A,\Theta\rangle=\operatorname{tr}(\Theta A)$.
+Prove dimension $p(p+1)/2$, measurability of the positive-definite cone, and $\langle A,\Theta\rangle=\mathrm{tr}(\Theta A)$.
 Read upper-triangular entries through
 ```lean
 upperTriangle p = {ij : Fin p × Fin p // ij.1 ≤ ij.2}
@@ -722,7 +722,7 @@ Again use real casts and `Real.rpow`, not natural division.
 For $p>0$, $a>(p-1)/2$, prove via Cholesky
 
 ```math
-\int_{A\succ0}(\det A)^{a-(p+1)/2}e^{-\operatorname{tr}A}\,d\mathrm{symmetricLebesgue}(p)=\Gamma_p(a).
+\int_{A\succ0}(\det A)^{a-(p+1)/2}e^{-\mathrm{tr}\,A}\,d\mathrm{symmetricLebesgue}(p)=\Gamma_p(a).
 ```
 
 For $p=0$, prove the identity for every $a$; both sides are $1$.
@@ -736,7 +736,7 @@ Transform arguments $\Theta$ are bundled symmetric matrices, not raw matrices wi
 **Nonsingular real degrees.** For $n:\mathbb R$, $S\succ0$, $n>p-1$, define `nonsingularWishartMeasure n S` relative to `symmetricLebesgue p` by
 
 ```math
-f(A)=\frac{(\det A)^{(n-p-1)/2}e^{-\operatorname{tr}(S^{-1}A)/2}}
+f(A)=\frac{(\det A)^{(n-p-1)/2}e^{-\mathrm{tr}(S^{-1}A)/2}}
 {2^{np/2}(\det S)^{n/2}\Gamma_p(n/2)}\quad(A\succ0),
 ```
 
@@ -748,7 +748,7 @@ Use this same definition at $p=0$: for $n>-1$ it is Dirac because the density an
 Prove probability, mean $nS_s$, and
 
 ```math
-\operatorname{Cov}(A_{ij},A_{kl})=n(S_{ik}S_{jl}+S_{il}S_{jk}).
+\mathrm{Cov}(A_{ij},A_{kl})=n(S_{ik}S_{jl}+S_{il}S_{jk}).
 ```
 
 At fixed valid $S$, convolution adds degrees provided $n_1,n_2,n_1+n_2>p-1$; the sum condition matters at $p=0$.
@@ -772,7 +772,7 @@ For $\Theta\succeq0$, give the $t=-1$ cone-Laplace specialization.
 If $\lambda_j$ are the eigenvalues of $B$,
 
 ```math
-\operatorname{charFun}(\mu)(\Theta)=\exp\!\left(-\tfrac n2\sum_j\operatorname{Log}(1-2i\lambda_j)\right).
+\mathrm{charFun}(\mu)(\Theta)=\exp\!\left(-\tfrac n2\sum_j\mathrm{Log}(1-2i\lambda_j)\right).
 ```
 
 Keep the **eigenvalue-wise principal logarithms**, not a principal power of the determinant ([branch issue](https://arxiv.org/abs/1901.09347)).
@@ -785,7 +785,7 @@ This must cover Gaussian-Gram degrees below $p$ as well.
 Do not branch on $S$: invalid covariance and $\nu=0$ give $\delta_0$.
 Prove probability, the iid-Gram `HasLaw` statement, and almost-sure positive semidefiniteness for **every** $S$.
 
-For $S\succeq0$, prove exact almost-sure rank $\min(\nu,\operatorname{rank}S)$ and its upper-bound corollary; reduce to the range of $S$ and prove almost-sure maximal rank of rectangular standard-Gaussian matrices by the minor/polynomial null-set argument.
+For $S\succeq0$, prove exact almost-sure rank $\min(\nu,\mathrm{rank}\,S)$ and its upper-bound corollary; reduce to the range of $S$ and prove almost-sure maximal rank of rectangular standard-Gaussian matrices by the minor/polynomial null-set argument.
 For arbitrary rectangular $M$, prove congruence sends this law to `wishartGramMeasure ν (M*S*Mᵀ)`, retaining PSD of $S$: a projection can carry a non-PSD scale to a PSD one, so the Dirac fallback does not respect arbitrary congruences.
 For every $S$, convolution adds natural degrees, by splitting the product over `Fin (ν₁+ν₂) ≃ Fin ν₁ ⊕ Fin ν₂`.
 
@@ -795,7 +795,7 @@ Require `charFun_wishartGramMeasure` with the same spectral formula through the 
 At $\nu=0$, separately give $D=\mathbb R$, $M=1$, $K=0$ for every $S,\Theta$.
 
 For $S\succ0$, $p\le\nu$, identify the two laws using `Measure.ext_of_charFun` and deduce the nonsingular-law Gram-sum `HasLaw` corollary.
-For PSD $S$ with $\min(\nu,\operatorname{rank}S)<p$, prove singularity relative to symmetric Lebesgue measure using the determinant-null set.
+For PSD $S$ with $\min(\nu,\mathrm{rank}\,S)<p$, prove singularity relative to symmetric Lebesgue measure using the determinant-null set.
 
 #### 6.5 Bartlett decomposition
 
@@ -819,7 +819,7 @@ Prove inversion sends positive-cone symmetric Lebesgue measure to itself weighte
 For $S\succ0$, $n>p-1$, derive
 
 ```math
-f(A)=\frac{(\det S)^{n/2}(\det A)^{-(n+p+1)/2}e^{-\operatorname{tr}(SA^{-1})/2}}
+f(A)=\frac{(\det S)^{n/2}(\det A)^{-(n+p+1)/2}e^{-\mathrm{tr}(SA^{-1})/2}}
 {2^{np/2}\Gamma_p(n/2)}\quad(A\succ0).
 ```
 
@@ -882,7 +882,7 @@ All rows assume valid input parameters and leave unmentioned parameters unchange
 | Triangular $(l,r,c)$ | Sorted transformed endpoints and mode $a+bc$, $b\ne0$ |
 | Gumbel/GEV $(m,s,\xi)$ | $(a+bm,bs,\xi)$, $b>0$ |
 | Lévy $(m,c)$ | $(a+bm,bc)$, $b>0$ |
-| Skew-normal $(m,s,\alpha)$ | $(a+bm,\lvert b\rvert s,\operatorname{sign}(b)\alpha)$, $b\ne0$ |
+| Skew-normal $(m,s,\alpha)$ | $(a+bm,\lvert b\rvert s,\mathrm{sign}(b)\alpha)$, $b\ne0$ |
 | Truncated Gaussian | Transform Gaussian parameters and interval; reverse endpoints and inclusion flags for $b<0$ |
 
 For $b<0$, maximum-Gumbel, GEV, and Lévy use their reflected laws.
@@ -972,7 +972,7 @@ Reuse `MeasureTheory.isProbabilityMeasure_bind` and `Measure.bind_congr_right`; 
 Under joint absolute first/second moment hypotheses, give $E[X]=E_\rho[m]$ and total covariance
 
 ```math
-\operatorname{Cov}(X)=E_\rho[\operatorname{Cov}_{K}(X)]+\operatorname{Cov}_\rho(m),\qquad m(a)=E_{K(a)}X,
+\mathrm{Cov}(X)=E_\rho[\mathrm{Cov}_{K}(X)]+\mathrm{Cov}_\rho(m),\qquad m(a)=E_{K(a)}X,
 ```
 
 with the Markov-kernel form as a corollary.
@@ -999,7 +999,7 @@ For finite-dimensional real inner product spaces,
 
 ```math
 \varphi_{\mathrm{CP}}=\exp(\lambda(\varphi_\mu-1)),\quad
-E[\mathrm{CP}]=\lambda E[X],\quad \operatorname{Cov}(\mathrm{CP})=\lambda E[XX^{\mathsf T}],
+E[\mathrm{CP}]=\lambda E[X],\quad \mathrm{Cov}(\mathrm{CP})=\lambda E[XX^{\mathsf T}],
 ```
 
 under the respective moment hypotheses; scalar variance is $\lambda E[X^2]$.
@@ -1015,7 +1015,7 @@ Prove measurability, masses $E[e^{-\Lambda}\Lambda^k/k!]$, cumulative series, le
 Under the relevant first, second, or $k$th moment hypotheses,
 
 ```math
-E[N]=E[\Lambda],\quad \operatorname{Var}N=E[\Lambda]+\operatorname{Var}\Lambda,\quad E[(N)_k]=E[\Lambda^k].
+E[N]=E[\Lambda],\quad \mathrm{Var}\,N=E[\Lambda]+\mathrm{Var}\,\Lambda,\quad E[(N)_k]=E[\Lambda^k].
 ```
 
 Prove equivalence of factorial-moment finiteness using nonnegative extended integrals first.
@@ -1138,7 +1138,7 @@ Prove positivity/finiteness, smoothness, integer-translation and reflection iden
 Prove
 
 ```math
-Z(c,s)=e^{-c^2/(2s^2)}\operatorname{Re}\left(\mathrm{jacobiTheta}_2\!\left(\frac{-ic}{2\pi s^2},\frac{i}{2\pi s^2}\right)\right),
+Z(c,s)=e^{-c^2/(2s^2)}\mathrm{Re}\,\left(\mathrm{jacobiTheta}_2\!\left(\frac{-ic}{2\pi s^2},\frac{i}{2\pi s^2}\right)\right),
 ```
 
 using Mathlib's two-variable `jacobiTheta₂`.
@@ -1149,7 +1149,7 @@ Reuse theta/Poisson summation for the periodized Gaussian identity and locally u
 For $a>0$, $0<u<1$, define $G_a^{-1}(u)$ as the unique positive root of $G_a(x)=u$; for $a,b>0$, define $B_{a,b}^{-1}(u)$ as the unique root of $I_x(a,b)=u$ in $(0,1)$.
 Prove existence, uniqueness, inverse identities, strict monotonicity, continuity, joint parameter measurability, and endpoint limits.
 Define zero outside those parameter domains and prove measurability of the totalized functions.
-Obtain $`z(u)=\sqrt2\,\operatorname{erf}^{-1}(2u-1)`$ using the inverse on $(-1,1)$.
+Obtain $`z(u)=\sqrt2\,\mathrm{erf}^{-1}(2u-1)`$ using the inverse on $(-1,1)$.
 Reuse existing inverse APIs, or construct them from Layer 2's regularity and limits.
 
 **Checks:** the circle integral has the correct zero-concentration Bessel values; lattice and theta expressions agree in normalization/translation, and periodized density and Fourier series integrate equally over one period.
@@ -1180,7 +1180,7 @@ For $0\le k\le n$,
 
 ```math
 p_k=\binom nk\frac{B(k+a,n-k+b)}{B(a,b)},\qquad
-E[X]=np,\quad\operatorname{Var}X=np(1-p)\frac{A+n}{A+1},\quad A=a+b,\ p=a/A.
+E[X]=np,\quad\mathrm{Var}\,X=np(1-p)\frac{A+n}{A+1},\quad A=a+b,\ p=a/A.
 ```
 
 For finite nonempty categories, mix multinomial against Dirichlet via a measurable simplex-parameter map, independent of its off-simplex choice.
@@ -1191,7 +1191,7 @@ p_k=\frac{n!}{\prod_i k_i!}\frac{\Gamma(A)}{\Gamma(A+n)}\prod_i\frac{\Gamma(\alp
 ```
 
 Mass is zero off support or at invalid shapes.
-Prove mean $np$, covariance $n(A+n)(\operatorname{diag}p-pp^{\mathsf T})/(A+1)$, $p_i=\alpha_i/A$, aggregation, and Beta-binomial marginals for at least two categories; one category is Dirac.
+Prove mean $np$, covariance $n(A+n)(\mathrm{diag}\,p-pp^{\mathsf T})/(A+1)$, $p_i=\alpha_i/A$, aggregation, and Beta-binomial marginals for at least two categories; one category is Dirac.
 Give finite-sum vector characteristic functions and directional mgfs.
 
 #### 9.3 Sampling without replacement
@@ -1199,7 +1199,7 @@ Give finite-sum vector characteristic functions and directional mgfs.
 For $K_i\in\mathbb N$, $N=\sum_iK_i$, $n\le N$, define multivariate hypergeometric mass
 $\prod_i\binom{K_i}{k_i}/\binom Nn$ on $\sum_i k_i=n$, $k_i\le K_i$; otherwise zero, with zero law if $n>N$.
 Prove aggregation, scalar hypergeometric marginals, mean $np$, and covariance
-$n(N-n)(\operatorname{diag}p-pp^{\mathsf T})/(N-1)$ for $N>1$, $p_i=K_i/N$.
+$n(N-n)(\mathrm{diag}\,p-pp^{\mathsf T})/(N-1)$ for $N>1$, $p_i=K_i/N$.
 Handle $N=0,1$ by their Dirac laws.
 
 Negative hypergeometric counts failures before the $r$th success in a population $N$ with $K$ successes.
@@ -1208,7 +1208,7 @@ For $1\le r\le K\le N$, $0\le k\le N-K$,
 ```math
 p_k=\frac{\binom{k+r-1}{k}\binom{N-r-k}{K-r}}{\binom NK},\quad
 E[X]=\frac{r(N-K)}{K+1},\quad
-\operatorname{Var}X=\frac{r(N+1)(N-K)(K-r+1)}{(K+1)^2(K+2)}.
+\mathrm{Var}\,X=\frac{r(N+1)(N-K)(K-r+1)}{(K+1)^2(K+2)}.
 ```
 
 At $r=0,K\le N$ use $\delta_0$; other invalid parameters give zero.
@@ -1254,7 +1254,7 @@ Prove
 ```math
 P(X>k)=kB(k,\rho+1)\ (k\ge1),\quad P(X>0)=1,\quad
 E[X]=\frac\rho{\rho-1}\ (\rho>1),\quad
-\operatorname{Var}X=\frac{\rho^2}{(\rho-1)^2(\rho-2)}\ (\rho>2).
+\mathrm{Var}\,X=\frac{\rho^2}{(\rho-1)^2(\rho-2)}\ (\rho>2).
 ```
 
 The exact absolute natural-moment threshold is $n<\rho$, and $D=(-\infty,0]$.
@@ -1264,10 +1264,10 @@ Its pgf is $\log(1-qz)/\log(1-q)$ exactly on $|qz|<1$, and
 
 ```math
 E[X]=\frac{-q}{(1-q)\log(1-q)},\quad
-\operatorname{Var}X=\frac{-q(q+\log(1-q))}{(1-q)^2\log(1-q)^2},\quad D=(-\infty,-\log q).
+\mathrm{Var}\,X=\frac{-q(q+\log(1-q))}{(1-q)^2\log(1-q)^2},\quad D=(-\infty,-\log q).
 ```
 
-Obtain the mgf from the pgf and the characteristic function using the principal logarithm, justified by $\operatorname{Re}(1-qe^{it})>0$.
+Obtain the mgf from the pgf and the characteristic function using the principal logarithm, justified by $\mathrm{Re}(1-qe^{it})>0$.
 Compound-Poisson logarithmic jumps at rate $-r\log(1-q)$ give negative binomial $(r,1-q)$ for every $r\ge0$.
 
 #### 9.8 Discrete Laplace and Gaussian
@@ -1287,7 +1287,7 @@ Prove translation/reflection, all natural moments via differentiated lattice sum
 
 ```math
 M(t)=e^{ct+s^2t^2/2}\frac{Z(c+s^2t,s)}{Z(c,s)},\quad
-E[X]=c+s^2\partial_c\log Z,\quad \operatorname{Var}X=s^2+s^4\partial_c^2\log Z.
+E[X]=c+s^2\partial_c\log Z,\quad \mathrm{Var}\,X=s^2+s^4\partial_c^2\log Z.
 ```
 
 The center/width need not be mean/standard deviation.
@@ -1304,7 +1304,7 @@ For $r>0$, $K=\sum_i k_i$,
 ```math
 p_k=\frac{\Gamma(r+K)}{\Gamma(r)\prod_i k_i!}p_0^r\prod_i p_i^{k_i},\quad
 E[X_i]=\frac{rp_i}{p_0},\quad
-\operatorname{Cov}(X_i,X_j)=\delta_{ij}\frac{rp_i}{p_0}+\frac{rp_ip_j}{p_0^2}.
+\mathrm{Cov}(X_i,X_j)=\delta_{ij}\frac{rp_i}{p_0}+\frac{rp_ip_j}{p_0^2}.
 ```
 
 After real casting, $Y=\sum_i\theta_iX_i$ has
@@ -1360,7 +1360,7 @@ Put $y=(x-m)/s$; prove
 
 ```math
 f(x)=\frac{e^{-y}}{s(1+e^{-y})^2},\quad F(x)=(1+e^{-y})^{-1},\quad
-Q(u)=m+s\log\frac u{1-u},\quad E[X]=m,\quad\operatorname{Var}X=\pi^2s^2/3.
+Q(u)=m+s\log\frac u{1-u},\quad E[X]=m,\quad\mathrm{Var}\,X=\pi^2s^2/3.
 ```
 
 Here $D=(-1/s,1/s)$, $M(t)=e^{mt}\Gamma(1-st)\Gamma(1+st)$, and
@@ -1374,7 +1374,7 @@ Derive density and
 
 ```math
 F(x)=e^{-e^{-(x-m)/s}},\quad Q(u)=m-s\log(-\log u),\quad
-E[X]=m+s\gamma_{\!E},\quad\operatorname{Var}X=\pi^2s^2/6,
+E[X]=m+s\gamma_{\!E},\quad\mathrm{Var}\,X=\pi^2s^2/6,
 ```
 
 where $\gamma_E$ is `Real.eulerMascheroniConstant`.
@@ -1536,7 +1536,7 @@ On $x>m$,
 
 ```math
 f(x)=\sqrt{\frac c{2\pi}}(x-m)^{-3/2}e^{-c/(2(x-m))},\quad
-F(x)=\operatorname{erfc}\sqrt{\frac c{2(x-m)}},\quad Q(u)=m+\frac c{z(1-u/2)^2}.
+F(x)=\mathrm{erfc}\,\sqrt{\frac c{2(x-m)}},\quad Q(u)=m+\frac c{z(1-u/2)^2}.
 ```
 
 Positive fractional moments of $|X-m|$ exist exactly below $1/2$.
@@ -1573,7 +1573,7 @@ Q(u)=m+s z(\Phi(\alpha)+uZ),\qquad E[X]=m+s\frac{\phi(\alpha)-\phi(\beta)}Z,
 ```
 
 ```math
-\operatorname{Var}X=v\left(1+\frac{\alpha\phi(\alpha)-\beta\phi(\beta)}Z
+\mathrm{Var}\,X=v\left(1+\frac{\alpha\phi(\alpha)-\beta\phi(\beta)}Z
 -\left(\frac{\phi(\alpha)-\phi(\beta)}Z\right)^2\right),\qquad
 M(t)=e^{mt+vt^2/2}\frac{\Phi(\beta-st)-\Phi(\alpha-st)}Z,\quad D=\mathbb R.
 ```
@@ -1588,7 +1588,7 @@ Prove
 
 ```math
 F(x)=\Phi(y)-2T(y,\alpha),\quad E[X]=m+sd\sqrt{2/\pi},\quad
-\operatorname{Var}X=s^2(1-2d^2/\pi),\quad M(t)=2e^{mt+s^2t^2/2}\Phi(dst),\quad D=\mathbb R.
+\mathrm{Var}\,X=s^2(1-2d^2/\pi),\quad M(t)=2e^{mt+s^2t^2/2}\Phi(dst),\quad D=\mathbb R.
 ```
 
 Give the Owen-T root quantile, Gaussian specialization at $\alpha=0$, and shape reflection.
@@ -1672,11 +1672,11 @@ Construct $m+s\varepsilon G^{1/p}$ from independent symmetric Rademacher and $G\
 Prove
 
 ```math
-F(x)=\tfrac12+\tfrac12\operatorname{sign}(x-m)G_{1/p}(|(x-m)/s|^p),
+F(x)=\tfrac12+\tfrac12\mathrm{sign}(x-m)G_{1/p}(|(x-m)/s|^p),
 ```
 
 ```math
-Q(u)=m+s\operatorname{sign}(2u-1)\bigl(G_{1/p}^{-1}(|2u-1|)\bigr)^{1/p}\quad(u\ne1/2),\qquad Q(1/2)=m.
+Q(u)=m+s\mathrm{sign}(2u-1)\bigl(G_{1/p}^{-1}(|2u-1|)\bigr)^{1/p}\quad(u\ne1/2),\qquad Q(1/2)=m.
 ```
 
 Prove mean $m$, symmetry, vanishing odd central moments, and
@@ -1798,7 +1798,7 @@ For all valid rates, including the empty family,
 
 ```math
 E[X^n]=n!\sum_{\substack{k:\iota\to\mathbb N\\\sum_i k_i=n}}\prod_i\lambda_i^{-k_i},\quad
-E[X]=\sum_i\lambda_i^{-1},\quad \operatorname{Var}X=\sum_i\lambda_i^{-2}.
+E[X]=\sum_i\lambda_i^{-1},\quad \mathrm{Var}\,X=\sum_i\lambda_i^{-2}.
 ```
 
 Prove finiteness of the indexing set and moment integrability.
@@ -1876,14 +1876,14 @@ Use the shared measure/parameter interfaces and Layer 13's named scalar quantile
 #### 11.1 Multivariate t
 
 On `EuclideanSpace ℝ ι`, finite nonempty `ι`, define $`m+\sqrt{\nu/V}\,Z`$ from independent $Z\sim N(0,S)$ and $V\sim\chi_\nu^2$, for $S\succeq0$, $\nu>0$; otherwise zero law.
-For $S\succ0$, $d=\operatorname{card}\iota$,
+For $S\succ0$, $d=\mathrm{card}\,\iota$,
 
 ```math
 f(x)=\frac{\Gamma((\nu+d)/2)}{\Gamma(\nu/2)(\nu\pi)^{d/2}\sqrt{\det S}}
 \left(1+\langle x-m,S^{-1}(x-m)\rangle/\nu\right)^{-(\nu+d)/2}.
 ```
 
-For PSD singular $S$, prove support on $m+\operatorname{range}S$ and singularity relative to ambient volume.
+For PSD singular $S$, prove support on $m+\mathrm{range}\,S$ and singularity relative to ambient volume.
 At $S=0$ the law is $\delta_m$ for every $\nu>0$.
 
 For nonzero PSD $S$, positive natural norm moment order $r$ is integrable exactly when $r<\nu$.
@@ -1891,10 +1891,10 @@ Mean is $m$ for $\nu>1$ and covariance is $\nu S/(\nu-2)$ for $\nu>2$; **scale i
 Prove real linear marginals as location-scale Student laws, arbitrary affine closure, and weak convergence to $N(m,S)$ as $\nu\to\infty$.
 Directional $D$ is $`\{0\}`$ for positive scale variance and `ℝ` for zero scale variance.
 
-For block PSD scale with $S_{22}\succ0$, the conditional law given $x_2$ has degree $\nu+\operatorname{card}\kappa$, mean parameter $m_1+S_{12}S_{22}^{-1}(x_2-m_2)$, and scale
+For block PSD scale with $S_{22}\succ0$, the conditional law given $x_2$ has degree $\nu+\mathrm{card}\,\kappa$, mean parameter $m_1+S_{12}S_{22}^{-1}(x_2-m_2)$, and scale
 
 ```math
-\frac{\nu+q}{\nu+\operatorname{card}\kappa}
+\frac{\nu+q}{\nu+\mathrm{card}\,\kappa}
 (S_{11}-S_{12}S_{22}^{-1}S_{21}),\qquad q=\langle x_2-m_2,S_{22}^{-1}(x_2-m_2)\rangle.
 ```
 
@@ -1912,7 +1912,7 @@ If $U,V\succ0$, for $r$ rows and $c$ columns the density is
 
 ```math
 (2\pi)^{-rc/2}(\det U)^{-c/2}(\det V)^{-r/2}
-\exp\!\left(-\tfrac12\operatorname{tr}(V^{-1}(X-M)^{\mathsf T}U^{-1}(X-M))\right).
+\exp\!\left(-\tfrac12\mathrm{tr}(V^{-1}(X-M)^{\mathsf T}U^{-1}(X-M))\right).
 ```
 
 Give directional mgfs and characteristic functions by vectorization.
@@ -1923,7 +1923,7 @@ Empty row/column types give the unique-matrix Dirac law; describe singular suppo
 On finite `ι → ℂ` with product Borel structure, define mean $m$ and Hermitian PSD covariance $C$ through realification with covariance
 
 ```math
-\frac12\begin{pmatrix}\operatorname{Re}C&-\operatorname{Im}C\\\operatorname{Im}C&\operatorname{Re}C\end{pmatrix}.
+\frac12\begin{pmatrix}\mathrm{Re}\,C&-\mathrm{Im}\,C\\\mathrm{Im}\,C&\mathrm{Re}\,C\end{pmatrix}.
 ```
 
 For Hermitian $C$, prove PSD equivalence with this real matrix; invalid $C$ gives $\delta_m$.
@@ -1932,7 +1932,7 @@ Prove complex covariance $E[(Z-m)(Z-m)^H]=C$, pseudocovariance $E[(Z-m)(Z-m)^{\m
 For $C\succ0$, prove density
 
 ```math
-\frac{\exp(-\operatorname{Re}((z-m)^HC^{-1}(z-m)))}{\pi^d\operatorname{Re}(\det C)}
+\frac{\exp(-\mathrm{Re}((z-m)^HC^{-1}(z-m)))}{\pi^d\mathrm{Re}(\det C)}
 ```
 
 relative to real product volume on complex coordinates, with positive determinant factor.
@@ -1945,7 +1945,7 @@ Improper complex Gaussian theory is excluded.
 
 Define `multivariateLogNormalMeasure m S` by coordinatewise exponential of $N(m,S)$ for finite `ι`.
 It is almost surely in the positive orthant.
-Under PSD covariance, prove concentration on $\exp(m+\operatorname{range}S)$, topological support its ambient closure, and singularity relative to ambient volume when $S$ is singular.
+Under PSD covariance, prove concentration on $\exp(m+\mathrm{range}\,S)$, topological support its ambient closure, and singularity relative to ambient volume when $S$ is singular.
 Invalid covariance gives $\delta_{\exp m}$ with singleton support.
 Empty index types give the unique-point law.
 
@@ -1955,7 +1955,7 @@ For every real vector $q$, the mixed power is integrable for **every** $S$; for 
 ```math
 E\!\left[\prod_iX_i^{q_i}\right]=e^{\langle q,m\rangle+\langle q,Sq\rangle/2},\quad
 E[X_i]=e^{m_i+S_{ii}/2},\quad
-\operatorname{Cov}(X_i,X_j)=e^{m_i+m_j+(S_{ii}+S_{jj})/2}(e^{S_{ij}}-1).
+\mathrm{Cov}(X_i,X_j)=e^{m_i+m_j+(S_{ii}+S_{jj})/2}(e^{S_{ij}}-1).
 ```
 
 Prove coordinate log-normal laws, Gaussian $\langle q,\log X\rangle$, and log-normal $\prod_iX_i^{q_i}$ with parameters $(\langle q,m\rangle,\langle q,Sq\rangle)$; obtain coordinate/monomial quantiles including zero variance.
@@ -1976,7 +1976,7 @@ Prove smooth chart equivalence onto the open simplex, inverse $A_r(x)_i=\log(x_i
 
 Use deleted-coordinate reconstruction $x_r=1-\sum_{i\ne r}x_i$ to push product volume to the simplex's affine hull.
 For $S\succ0$, prove the chart Jacobian and density $\phi_{m,S}(A_r(x))/\prod_i x_i$ on the open simplex, zero elsewhere.
-For PSD $S$, concentration is on $T_r(m+\operatorname{range}S)$ and topological support its ambient closure; PSD singular $S$ gives singularity relative to this reference measure in positive chart dimension.
+For PSD $S$, concentration is on $T_r(m+\mathrm{range}\,S)$ and topological support its ambient closure; PSD singular $S$ gives singularity relative to this reference measure in positive chart dimension.
 Invalid $S$ gives $\delta_{T_r(m)}$ with singleton support; zero covariance does too.
 One category is Dirac at its unique simplex point.
 
@@ -2227,7 +2227,7 @@ Define $\Psi_{\alpha,\beta}(0)=0$ and for $u\ne0$,
 
 ```math
 \Psi_{\alpha,\beta}(u)=\begin{cases}
--|u|^\alpha+i\beta\tan(\pi\alpha/2)(\operatorname{sign}(u)|u|^\alpha-u)&\alpha\ne1,\\
+-|u|^\alpha+i\beta\tan(\pi\alpha/2)(\mathrm{sign}(u)|u|^\alpha-u)&\alpha\ne1,\\
 -|u|-i(2\beta/\pi)u\log|u|&\alpha=1.
 \end{cases}
 ```
@@ -2269,7 +2269,7 @@ Handle $\alpha=2$ with Gaussian and obtain scale/location by affine pushforward.
 
 #### 15.3 Transport and convolution
 
-For $b\ne0$, $a+bX$ has parameters $(\alpha,\operatorname{sign}(b)\beta,|b|s,a+bm)$.
+For $b\ne0$, $a+bX$ has parameters $(\alpha,\mathrm{sign}(b)\beta,|b|s,a+bm)$.
 For valid shapes $b=0$ gives $\delta_a$; every affine pushforward of an invalid law stays zero.
 
 For two valid laws of common $\alpha$, set $s=(s_1^\alpha+s_2^\alpha)^{1/\alpha}$.
@@ -2296,7 +2296,7 @@ and the reflected Lévy identity; the shift $m-s$ is required.
 For $s>0$, prove a bounded smooth density
 
 ```math
-f(x)=\frac1{2\pi}\operatorname{Re}\int_{\mathbb R}e^{-itx}\varphi(t)\,dt.
+f(x)=\frac1{2\pi}\mathrm{Re}\,\int_{\mathbb R}e^{-itx}\varphi(t)\,dt.
 ```
 
 Use $|\varphi(t)|=e^{-|st|^\alpha}$, polynomially weighted integrability, and existing Fourier inversion with the stated normalization.
