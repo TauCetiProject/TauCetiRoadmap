@@ -635,9 +635,6 @@ noncomputable def posDiagLowerTriangularLebesgue (p : ℕ) :
     Measure (PosDiagLowerTriangular p) :=
   (posDiagLowerCoordinatesLebesgue p).map (lowerTriangleCoordinates p).symm
 
-theorem isLowerTriangular_ldl_lower {p : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
-    (hS : S.PosDef) : (LDL.lower hS).IsLowerTriangular := by sorry
-
 noncomputable def choleskyEquiv {p : ℕ} :
     PosDefMatrix p ≃ PosDiagLowerTriangular p := sorry
 
