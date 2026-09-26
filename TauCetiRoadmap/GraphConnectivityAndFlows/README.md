@@ -53,9 +53,10 @@ Each entry identifies the part relevant to this roadmap; the conventions and tar
 - [#33355: vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355): deletion-based `IsVertexReachable`, `IsVertexPreconnected`, and `IsVertexConnected`.
 - [#42494: numerical edge connectivity](https://github.com/leanprover-community/mathlib4/pull/42494): `edgeReachability`, `edgeConnectivity`, their supremum definitions, and degree bounds.
 - [#36756: shared walks](https://github.com/leanprover-community/mathlib4/pull/36756) and [#39053: the `Graph` instance](https://github.com/leanprover-community/mathlib4/pull/39053): `GraphLike.Walk` with vertex support and darts, following the [HasAdj discussion](https://leanprover.zulipchat.com/#narrow/channel/252551-graph-theory/topic/HasAdj/with/575843445).
-  This roadmap uses edge-labelled inductive walks with the API of `SimpleGraph.Walk` and the representation bridges of Target 1.1.
-  The [dart construction in #39053](https://github.com/leanprover-community/mathlib4/blob/455aa1d6e5c7215f1270da70e328056af9607545/Mathlib/Combinatorics/Graph/GraphLike.lean#L22) distinguishes two directions of a loop, whereas this roadmap records a single traversal.
-  A map forgetting those directions identifies distinct walks: a graph with one vertex and one loop has two length-one walks in that construction and one here.
+  Mathlib has no walks on `Graph`; these proposals rest on the `GraphLike` hierarchy of [#36743](https://github.com/leanprover-community/mathlib4/pull/36743).
+  The [dart construction in #39053](https://github.com/leanprover-community/mathlib4/blob/455aa1d6e5c7215f1270da70e328056af9607545/Mathlib/Combinatorics/Graph/GraphLike.lean#L22) splits every loop into a forward and a backward dart, so a graph with one vertex and one loop has two length-one walks there; the [loop-dart discussion](https://github.com/leanprover-community/mathlib4/pull/36743#discussion_r3191440123) records the trade-off.
+  This roadmap uses edge-labelled inductive walks with the API of `SimpleGraph.Walk` and records a loop traversal once, as the [`WList` walks](https://github.com/apnelson1/Matroid/tree/main/Matroid/Graph/WList) of the library that `Graph` originates from do; the representation bridges of Target 1.1 connect them to `SimpleGraph.Walk` and `Quiver.Path`.
+  A map forgetting loop directions identifies the two dart walks of a loop with the single walk here; no target of this roadmap depends on the direction of a loop.
   The general `GraphLike` hierarchy is outside this roadmap's scope.
 - [#43017: network flows](https://github.com/leanprover-community/mathlib4/pull/43017): quivers with capacities and flow assignments indexed by arrows.
   Arrow indexing retains parallel edges; this roadmap develops finite sums over general coefficients, with nonnegative coefficient interfaces in Target 3.4.
@@ -120,7 +121,7 @@ This aggregation preserves weighted cuts, not individual edge identities or unwe
 
 - **Coefficients.** The finite-bound theory is parameterized by a linearly ordered additive commutative group `K`, expressed by `[AddCommGroup K] [LinearOrder K] [IsOrderedAddMonoid K]`.
   It must not assume a unit, multiplication, division, an Archimedean property, topology, or order completeness; in particular, the same theory applies to `ℤ`, `ℚ`, and `ℝ`.
-  The minimum-cut theory of Targets 4.1 and 4.3 and Milestone 9 never subtracts and is stated over a linearly ordered cancellative additive commutative monoid, `[AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]`, so that `ℕ` and `ℝ≥0` are instances alongside these groups; Target 4.2 uses the group.
+  The minimum-cut theory of Targets 4.1 and 4.3 and Milestone 9 never subtracts and is stated over a linearly ordered cancellative additive commutative monoid, `[AddCommMonoid K] [LinearOrder K] [IsOrderedCancelAddMonoid K]`, so that `ℕ` and `ℝ≥0` are instances alongside these groups; Target 4.2, and the submodularity of the signed upper cut bound `U` that Target 4.1 also proves, use the group.
   The definition and elementary closure lemmas for submodularity use the weaker assumptions specified in Target 4.1.
 - **Carrier.** A network `N : Network K V` carries an arrow type `N.Hom v w` for every ordered pair of vertices, in a universe independent of the vertex universe, as for `Quiver.{v}`.
   Each arrow has lower and upper bounds `ℓ, u` in `K`, with a proof of `ℓ ≤ u`; bounds may be negative, and all bounds are finite.
@@ -154,7 +155,7 @@ Simple-graph declarations extend `SimpleGraph`, following [#33355](https://githu
 
 **Undirected walks** are `G.Walk u v`, an inductive type indexed by the ambient vertex type, with constructors `nil` at any point and `cons e h p` for `h : G.IsLink e u v`; a walk therefore retains the identity of each traversed edge, and a loop is traversed in only one way.
 Every vertex on a walk of positive length is an actual vertex; reachability requires actual vertices as endpoints, so a zero-length walk at a point outside `V(G)` witnesses nothing.
-**Why:** edge identities and the vertex sequence suffice for the connectivity and flow targets, including loops; they do not record a separate direction of traversal around a loop.
+**Why:** a walk is then determined by its vertex sequence and edge identities, which is all the connectivity and flow targets use; a direction of traversal around a loop is extra data that would double every loop walk and loop cycle.
 The bidirected quiver has one arrow `s → t` per edge `e` with `G.IsLink e s t`; Target 1.1 identifies its paths with walks between actual vertices for use in the flow reductions.
 Undirected and directed paths have no repeated vertices.
 An undirected cycle is a positive-length closed walk with no repeated vertices apart from its endpoints and no repeated edge identities.
@@ -351,7 +352,7 @@ For a multigraph, a bridge is an actual edge whose deletion disconnects its endp
 Prove equivalence with lying on no undirected cycle and with splitting the component of its endpoints into two components, and, for finite `V(G)`, with increasing the number of connected components by exactly one.
 Loops are never bridges, and an edge with a distinct parallel edge is not a bridge.
 Define a multigraph forest by absence of undirected cycles and prove that this is equivalent to every actual edge being a bridge, without finiteness assumptions.
-Recover `SimpleGraph.isAcyclic_iff_forall_edge_isBridge` through the walk and bridge correspondences.
+Recover `SimpleGraph.isAcyclic_iff_forall_isBridge` through the walk and bridge correspondences.
 Prove correspondence on actual edges of `Graph.ofSimpleGraph H` with Mathlib's `SimpleGraph.IsBridge` and its `isBridge_iff_forall_cycle_notMem`; membership matters because the simple-graph predicate can also hold for a non-edge joining different components.
 
 ### 2.2. Cut vertices
@@ -407,14 +408,14 @@ Every target in this section concerns ordinary flows, with zero lower bounds and
    **Suggested proof:** repeatedly cancel a support cycle by its minimum arrow value, strictly shrinking support; then use path decomposition to bound each arrow value by the total flow value.
 4. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
    Prove the equivalent optimality criteria: maximum flow, no augmenting `s–t` path, and existence of a cut attaining equality.
+   **Suggested proof:** augment along shortest augmenting paths; the bound on the number of augmentations depends only on the finite residual graph, independently of coefficient discreteness, Archimedeanness, or completeness, so the procedure terminates over every coefficient group `K`.
 5. **Integrality.** Capacities in an additive subgroup `H` of `K` admit a maximum flow whose arrow values are in `H` and whose value equals the minimum cut capacity.
    **Why:** residual capacities and augmentations preserve additive-subgroup membership.
    Natural-number capacities in `ℤ`, `ℚ`, or `ℝ` are the case `H = AddSubgroup.zmultiples 1`; state that case with `ℕ`-casts and give the explicit coercion lemmas between the three coefficient types.
-6. **Termination over `ℤ`.** For integer capacities, every flow value is at most the total capacity leaving the source, and augmentation strictly increases the value, so the relation "`g` has larger value than `f`" is well-founded on integer flows.
-   Hence every sequence of augmentations terminates, whatever the choice of augmenting paths.
-   No such assertion is made for dense or non-Archimedean coefficients.
-
-**Suggested proof:** the shortest-augmenting-path termination bound depends only on the finite residual graph, independently of coefficient discreteness, Archimedeanness, or completeness.
+6. **Termination for cyclic capacity subgroups.** For capacities in `AddSubgroup.zmultiples d` with `0 < d`, every flow value is at most the total capacity leaving the source, which is a multiple `m • d`, and a flow with arrow values in the subgroup has value `n • d` with `n ≤ m`.
+   Augmentation from such a flow keeps the arrow values in the subgroup by item 5 and increases the value by at least `d`, so the relation "`g` has larger value than `f`" is well-founded on flows with arrow values in the subgroup, and every sequence of augmentations starting from one terminates, whatever the choice of augmenting paths; no Archimedean assumption is needed.
+   State the integer specialization, where every flow has arrow values in the subgroup for `d = 1`, and the rational specialization, with the lemma that finitely many rational capacities lie in the subgroup generated by the reciprocal of a common denominator `D`, for `d = 1 / D`.
+   No such assertion is made for capacities outside a cyclic subgroup, where augmentation sequences can fail to terminate; there item 4 relies on the shortest-path rule.
 
 **Required examples:**
 
@@ -426,7 +427,8 @@ Every target in this section concerns ordinary flows, with zero lower bounds and
 
 ### 3.2. Large capacities
 
-Prove that capping capacities at `B : K`, meaning replacing every `cap e` by `min (cap e) B`, changes neither the minimum `s–t` cut value nor the set of minimum `s–t` cuts whenever some `s–t` cut has capacity strictly below `B`.
+Prove that, for nonnegative capacities, capping at `B : K`, meaning replacing every `cap e` by `min (cap e) B`, changes neither the minimum `s–t` cut value nor the set of minimum `s–t` cuts whenever some `s–t` cut has capacity strictly below `B`.
+Nonnegativity is needed: with arrows `s → a`, `a → t`, and `s → t` of capacities `2`, `1`, and `−1`, capping at `1` makes `{s}` a minimum cut alongside `{s, a}`.
 Prove that every flow of the capped network is a flow of the original network with the same assignment, and that every flow of the original network yields, after removing the cycle components of a decomposition from [Target 3.1](#31-finite-flows-and-assignment-decomposition), a flow of the capped network with the same value and an arrowwise no larger assignment.
 Arrows that must never occur in a minimum cut receive finite capacities exceeding a known cut, as in [Target 5.2](#52-reductions-to-max-flow) and the bipartite network of Milestone 6.
 
@@ -502,7 +504,7 @@ The closure of minimizers requires only a partially ordered cancellative additiv
 A minimum `A–B` cut for disjoint terminal sets `A,B` is a minimizer of `f` over `A ⊆ S ⊆ Bᶜ`.
 Either terminal set may be empty; disjointness guarantees at least one admissible set, and finiteness gives an attained minimum.
 Singleton terminal sets recover minimum `s–t` cuts for distinct `s,t`; under symmetry the choice of side is immaterial after exchanging the terminal sets.
-State the minimum-cut results for such set functions, with the cut capacities as instances, over the linearly ordered cancellative additive commutative monoid of the conventions; only Target 4.2 needs the group.
+State the minimum-cut results for such set functions, with the cut capacities as instances, over the linearly ordered cancellative additive commutative monoid of the conventions; only Target 4.2 and the signed bound `U` below need the group.
 Prove that nonnegative directed outgoing cut capacity is submodular and that nonnegative undirected cut capacity is symmetric and submodular.
 For finite signed bounds `ℓ ≤ u`, also prove submodularity of the upper cut bound `U` using
 
