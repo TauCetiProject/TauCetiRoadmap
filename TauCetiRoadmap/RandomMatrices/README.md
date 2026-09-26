@@ -56,6 +56,14 @@ Dependencies and ownership:
 - [Exchangeability](../Exchangeability/README.md) owns exchangeability and conditional-i.i.d.
   representation theory. Here sample-space extensions preserve a specified existing joint
   law and add independent randomness; no exchangeability or de Finetti theory is repeated.
+- The point-process roadmap ([feat: roadmap for point processes and random measures](https://github.com/TauCetiProject/TauCetiRoadmap/pull/417)),
+  Layers 0 through 6, owns configuration spaces `LocallyFiniteMeasure S` and `PointMeasure S`
+  on locally compact Polish `S` with the vague topology, laws of random measures and their
+  determination by Laplace functionals, factorial moment measures and correlation functions
+  relative to a named reference measure, restriction and pushforward, and weak convergence
+  of laws on configuration spaces. Milestone 8 specializes these to `S = ℝ` and `S = ℂ`.
+  Here we build determinantal point processes, their trace-class and Fredholm functional
+  analysis, the Pfaffian formulas for GOE, and the determinantal convergence criterion.
 
 Missing prerequisites explicitly assigned below are built in Tau Ceti. Follow Mathlib's
 existing and proposed APIs; an open PR determines interface direction, not timing. Implement
@@ -458,23 +466,42 @@ Dependencies: 1–6. The regularity conditions here are part of the theorems.
 ## Milestone 8 — Point processes and Gaussian local statistics
 
 **Sources:** AGZ ch. 3, §4.2; T §2.6, §§3.3–3.4; PB ch. 6, §14.1.
-Dependencies: 1, 3, 5 and the Hermite-function development.
+Dependencies: 1, 3, 5, the Hermite-function development, and the point-process roadmap.
 
-- Build locally finite counting measures on `ℝ` and `ℂ`, their measurable structure,
-  factorial moment measures, correlation functions relative to a reference measure,
-  restriction, pushforward, and convergence in law for the vague topology.
-  Distinguish the unnormalized eigenvalue point process from its empirical probability measure.
+- Take configuration spaces, their vague topology and measurable structure, factorial moment
+  measures, correlation functions relative to a reference measure, restriction, pushforward,
+  Laplace-functional uniqueness, and weak convergence of laws from the point-process roadmap
+  (Layers 0 through 6), specialized to `S = ℝ` and `S = ℂ`. Here define the unnormalized
+  eigenvalue point process `∑ᵢ δ_{λᵢ}` of a random Hermitian or complex matrix as a random
+  element of `PointMeasure ℝ` or `PointMeasure ℂ`, prove its measurability, and relate it to
+  the empirical probability measure `L_A` by the factor `n⁻¹`; the two are distinct objects.
+  Prove the affine rescalings `λ ↦ nρ_SC(E)(λ-E)` and `λ ↦ n^(2/3)(λ-2)` are proper, so
+  pushforward keeps configurations locally finite, and that for an affine map `x ↦ c(x-a)`,
+  `c>0`, the `k`-point correlation function relative to Lebesgue measure transforms as
+  `ρ'_k(y) = c^(-k) ρ_k(a+y₁/c, …, a+y_k/c)`.
 - Prove Andréief's integration identity and the determinantal structure of orthogonal
   polynomial ensembles. Construct the GUE, Laguerre/Jacobi unitary, CUE, and complex Ginibre
   kernels with their reference measures. Prove Christoffel–Darboux, reproducing/projection
   identities, correlation functions, mean/variance of counts and linear statistics.
   Reuse Hermite orthogonality; build the Laguerre/Jacobi Rodrigues, norm, and recurrence API.
 - For locally trace-class positive contraction kernels, construct determinantal point
-  processes and prove uniqueness from their Laplace functionals. Build the needed trace-class
+  processes. For `f≥0` continuous with compact support prove the Laplace functional
+  `E exp(-∫f dN) = det(I-(1-e^{-f})K)` on `L²(supp f)`, from the point-process roadmap's
+  factorial expansion and the exponential count moments supplied by the Bernoulli-sum
+  representation below, and deduce uniqueness of the law from the point-process roadmap's
+  Laplace-functional determination. Build the needed trace-class
   integral-operator and Fredholm-determinant theory: summability, determinant series,
   continuity in trace norm, restriction, and `P(N(B)=0)=det(I-K_B)`.
   Prove Bernoulli-sum representation of bounded-set counts and their CLT when variance
   diverges. The trace-class and positivity hypotheses must be verified for each kernel.
+  Prove the convergence criterion used below: let `Kₙ` be continuous kernels of determinantal
+  processes on `ℝ` with Lebesgue reference measure, converging uniformly on compact sets to a
+  continuous `K`. Prove that `K` defines a locally trace-class positive contraction (via
+  Hilbert–Schmidt convergence on each bounded window and Mercer's theorem), that the
+  continuous versions `det[Kₙ(xᵢ,xⱼ)]` of the correlation functions converge locally
+  uniformly, and, using Hadamard's bound `det[K(xᵢ,xⱼ)] ≤ ∏ᵢ K(xᵢ,xᵢ)` for positive
+  semidefinite kernels to dominate the Fredholm expansions, that the processes converge in law
+  in the point-process roadmap's weak topology on `PointMeasure ℝ`.
 - Prove Hermite bulk/turning-point asymptotics with uniform bounds strong enough to pass
   to correlation functions and gap probabilities. For GUE and `E∈(-2,2)`, scale points
   by `nρ_SC(E)(λ-E)`; the limiting kernel is
@@ -487,7 +514,8 @@ Dependencies: 1, 3, 5 and the Hermite-function development.
   and `P(n^(2/3)(λ_max(GUE)-2)≤s)→F₂(s)`. Prove the limiting Airy point process and
   the bulk sine-process gap distributions, not only the one-point density.
 - Develop Pfaffians, de Bruijn integration, skew-orthogonal Hermite kernels, and Fredholm
-  Pfaffians to prove the GOE bulk and soft-edge limits and the GOE largest-eigenvalue cdf
+  Pfaffians to prove the GOE bulk and soft-edge limits of the matrix kernels and correlation
+  functions, and the GOE largest-eigenvalue cdf
   `F₁` with the same scaling. Pin the matrix kernels and cdf to AGZ Theorems 3.1.6–3.1.7
   (translate their matrix normalization explicitly). Prove the relation to the
   Hastings–McLeod solution `q''=sq+2q³`, `q(s)~Ai(s)` at `+∞`:
@@ -568,8 +596,9 @@ Dependencies: 1, 3, 5 and the Hermite-function development.
   rows from the spans of the other rows, distance-to-subspace concentration, compressible
   and incompressible unit-vector decompositions, and small-ball estimates for independent
   sums. Include Littlewood–Offord anti-concentration and the inverse structural estimates
-  needed by the polynomial least-singular-value theorem in T §2.8.3; build the finite
-  additive-combinatorial covering lemmas used in that argument.
+  needed by the polynomial least-singular-value theorem of T §2.7.3, Remark 2.7.6
+  ([Tao–Vu, *Random matrices: the circular law*, Theorems 2.1 and 3.2](https://arxiv.org/abs/0708.2895));
+  build the finite additive-combinatorial covering lemmas used in that argument.
 - Prove sharp-scale invertibility for real i.i.d. centered variance-one sub-Gaussian square
   matrices: `P(s_min(X)≤ε/√n) ≤ Cε+exp(-cn)` with constants depending only on the
   sub-Gaussian bound. Include rectangular lower bounds from Milestone 2 and the complex
@@ -610,7 +639,7 @@ finite noncrossing combinatorics → 3, 4, 6
 0–3 + distribution/Haar dependencies → 5 (exact ensembles)
 1,3,5 + combinatorics → 6 (free probability)
 1–6 → 7 (covariance and spikes)
-1,3,5 + Hermite theory → 8 (Gaussian local statistics)
+1,3,5 + Hermite theory + point processes → 8 (Gaussian local statistics)
 1,3,5 → 9 (large deviations)
 0–3,5–6 → 10 (stochastic dynamics)
 0–5 → 11 (circular law)
