@@ -911,8 +911,30 @@ noncomputable def PolynomialSkewQuadraticDualAlgebra
   exact RelativeQuadraticDualAlgebra k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
     (polynomialSkewRelations k Γ V Vρ)
 
+/-- The degree-one bimodule isomorphism which fixes the handedness of the quadratic dual:
+`Wᵛ ≃ V∗ ⊗ k[Γ]`, `f ↦ Σ_h (h·φ_h) # h` where `f(v # 1) = Σ_h φ_h(v) h`.  Here `Wᵛ` carries
+`(s·f)(w) = s f(w)` and `(f·t)(w) = f(t w)`; the formula intertwines both `k[Γ]`-actions with the
+left skew-product convention, so the dual is `Λ(V∗) ⋊ Γ` itself rather than its opposite. -/
+noncomputable def polynomialSkewRightDualDegreeOneEquiv
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    letI := skewDegreeOneLeftModule k Γ V Vρ
+    letI := skewDegreeOneRightModule k Γ V Vρ
+    RightBimoduleDual (MonoidAlgebra k Γ) (SkewDegreeOne Γ V) ≃+
+      SkewDegreeOne Γ (Module.Dual k V) := sorry
+
+theorem polynomialSkewRightDualDegreeOneEquiv_apply
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V)
+    (f : letI := skewDegreeOneRightModule k Γ V Vρ
+      RightBimoduleDual (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)) (h : Γ) (v : V) :
+    polynomialSkewRightDualDegreeOneEquiv k Γ V Vρ f h v =
+      (f (Finsupp.single 1 (Vρ h⁻¹ v))).coeff h := sorry
+
 /-- With the pinned left convention `T_{k[Γ]}(Wᵛ)/(R⊥)` is the exterior skew algebra on
-`V∗`.  The source is the fixed right-dual quotient above, not another symmetric algebra. -/
+`V∗` itself, not its opposite.  In degree one the equivalence is the bimodule isomorphism
+`Wᵛ ≃ V∗ ⊗ k[Γ]`, `f ↦ Σ_h (h·φ_h) # h` where `f(v ⊗ 1) = Σ_h φ_h(v) h`, which fixes the
+handedness.  The source is the fixed right-dual quotient above, not another symmetric algebra. -/
 noncomputable def polynomialSkew_quadraticDualEquiv
     (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
     [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
@@ -1365,131 +1387,655 @@ theorem cbhCornerEquivDeformedPreprojective_scalar_weights_false :
             (fun i ↦ cbhCentralScalar D z (M.relabel.symm i))) :=
   sorry
 
-/-! ## FKS algebra-valued curvature and Weyl reflection formula -/
+/-! ## FKS: gradings, curved complexes and duplexes, and the curved extension algebra
 
-/-- The graded-algebra laws which are not contained in `InternalGrading` itself. -/
-structure FKSGradedAlgebra (k A : Type*) [CommRing k] [Ring A] [Algebra k A] where
-  grading : DGAInfinity.InternalGrading k A
-  one_degree : grading.IsHomogeneous 0 1
-  mul_degree : ∀ p q a b, grading.IsHomogeneous p a → grading.IsHomogeneous q b →
-    grading.IsHomogeneous (p + q) (a * b)
+Frenkel--Khovanov--Schiffmann work with two gradings at once: `ℤ` for `(A,c)`-complexes (FKS §2)
+and its parity `ℤ/2` for `(A,c)`-duplexes (FKS §3).  Everything below is stated once for a degree
+ring `ι` together with a parity `π : FKSParity ι`, an additive map to `ZMod 2` sending `1` to `1`,
+giving the Koszul signs; the two cases are `FKSParity.int` and `FKSParity.zmod2`.  Gradings are
+internal direct sums of additive subgroups, so no scalar ring has to be threaded through the
+module categories; `FKSGrading.ofInternal` reads one off the DGA roadmap's `InternalGrading`. -/
 
-/-- An algebra-valued potential is central and genuinely homogeneous of degree two. -/
-structure CentralDegreeTwo {k A : Type*} [CommRing k] [Ring A] [Algebra k A]
-    (B : FKSGradedAlgebra k A) where
+/-- A grading of an additive group by `ι`, as an internal direct sum of additive subgroups. -/
+structure FKSGrading (ι M : Type*) [AddCommGroup ι] [DecidableEq ι] [AddCommGroup M] where
+  piece : ι → AddSubgroup M
+  isInternal : DirectSum.IsInternal piece
+
+namespace FKSGrading
+
+variable {ι M : Type*} [AddCommGroup ι] [DecidableEq ι] [AddCommGroup M]
+
+/-- The DGA roadmap's `ℤ`-grading of a `k`-module, with scalars forgotten. -/
+def ofInternal {k : Type*} [CommRing k] [Module k M] (G : DGAInfinity.InternalGrading k M) :
+    FKSGrading ℤ M where
+  piece p := (G.piece p).toAddSubgroup
+  isInternal := sorry
+
+/-- Collapse along a homomorphism of degree groups: the new `q`-piece is the sum of the old
+pieces whose degree maps to `q`.  Along `Int.castAddHom (ZMod 2)` this is FKS's passage from
+`ℤ`-graded to `ℤ/2`-graded objects (FKS §5.1, "collapse the grading"). -/
+noncomputable def collapse {ι' : Type*} [AddCommGroup ι'] [DecidableEq ι'] (π : ι →+ ι')
+    (G : FKSGrading ι M) : FKSGrading ι' M where
+  piece q := ⨆ (p : ι) (_ : π p = q), G.piece p
+  isInternal := sorry
+
+/-- The shift `(M[n])ᵖ = Mᵖ⁺ⁿ` of FKS §2.1. -/
+def shift (G : FKSGrading ι M) (n : ι) : FKSGrading ι M where
+  piece p := G.piece (p + n)
+  isInternal := sorry
+
+end FKSGrading
+
+/-- A parity on a degree ring: an additive map to `ZMod 2` under which the differential's degree
+`1` is odd.  Oddness of `1` is what makes the total differential of a tensor product square
+correctly. -/
+structure FKSParity (ι : Type*) [AddCommGroupWithOne ι] where
+  hom : ι →+ ZMod 2
+  map_one : hom 1 = 1
+
+/-- The parity of an integer degree. -/
+def FKSParity.int : FKSParity ℤ := ⟨Int.castAddHom (ZMod 2), by simp⟩
+
+/-- The identity parity of a `ℤ/2` degree. -/
+def FKSParity.zmod2 : FKSParity (ZMod 2) := ⟨AddMonoidHom.id _, rfl⟩
+
+/-- The Koszul sign `(-1)ᵖ` of a degree, read through its parity. -/
+def fksSign {ι : Type*} [AddCommGroupWithOne ι] (π : FKSParity ι) (R : Type*) [Ring R] (p : ι) :
+    R :=
+  (-1) ^ (π.hom p).val
+
+/-- A graded ring: the grading is internal and multiplicative. -/
+structure FKSGradedAlgebra (ι A : Type*) [AddCommGroup ι] [DecidableEq ι] [Ring A] where
+  grading : FKSGrading ι A
+  one_mem : (1 : A) ∈ grading.piece 0
+  mul_mem : ∀ {p q : ι} {a b : A}, a ∈ grading.piece p → b ∈ grading.piece q →
+    a * b ∈ grading.piece (p + q)
+
+namespace FKSGradedAlgebra
+
+variable {ι A : Type*} [AddCommGroup ι] [DecidableEq ι] [Ring A]
+
+/-- The collapsed grading is again multiplicative. -/
+noncomputable def collapse {ι' : Type*} [AddCommGroup ι'] [DecidableEq ι'] (π : ι →+ ι')
+    (B : FKSGradedAlgebra ι A) : FKSGradedAlgebra ι' A where
+  grading := B.grading.collapse π
+  one_mem := sorry
+  mul_mem := sorry
+
+/-- A ring concentrated in degree zero, as in the disk and dual-number examples below. -/
+noncomputable def concentrated (ι A : Type*) [AddCommGroup ι] [DecidableEq ι] [Ring A] :
+    FKSGradedAlgebra ι A where
+  grading :=
+    { piece := fun p ↦ if p = 0 then ⊤ else ⊥
+      isInternal := sorry }
+  one_mem := sorry
+  mul_mem := sorry
+
+/-- The parity involution `σ(a) = Σₚ (-1)ᵖ aₚ`.  It is what makes `d a = σ(a) d` in the curved
+extension algebra and what twists the left action on a shifted bimodule. -/
+noncomputable def parityInvolution {ι A : Type*} [AddCommGroupWithOne ι] [DecidableEq ι] [Ring A]
+    (π : FKSParity ι) (B : FKSGradedAlgebra ι A) : A ≃+* A :=
+  sorry
+
+theorem parityInvolution_of_mem {ι A : Type*} [AddCommGroupWithOne ι] [DecidableEq ι] [Ring A]
+    (π : FKSParity ι) (B : FKSGradedAlgebra ι A) {p : ι} {a : A}
+    (ha : a ∈ B.grading.piece p) : B.parityInvolution π a = fksSign π A p * a := sorry
+
+end FKSGradedAlgebra
+
+/-- A curvature: a central element of degree two (FKS §2.1; in the parity setting of FKS §3.1
+degree two is degree zero). -/
+structure FKSCurvature {ι A : Type*} [AddCommGroupWithOne ι] [DecidableEq ι] [Ring A]
+    (B : FKSGradedAlgebra ι A) where
   val : A
-  degree : B.grading.IsHomogeneous 2 val
+  mem : val ∈ B.grading.piece 2
   central : ∀ a, val * a = a * val
 
-/-- A graded left FKS complex.  The action degree, scalar compatibility, degree-one differential,
-square, and homogeneous supercommutation are all part of the interface. -/
-structure FKSComplex (k A M : Type*) [CommRing k] [Ring A] [Algebra k A]
-    [AddCommGroup M] [Module k M] [Module A M]
-    (B : FKSGradedAlgebra k A) (c : CentralDegreeTwo B) where
-  grading : DGAInfinity.InternalGrading k M
-  scalar_tower : ∀ (r : k) (a : A) (m : M), (r • a) • m = r • (a • m)
-  action_degree : ∀ p q a m, B.grading.IsHomogeneous p a → grading.IsHomogeneous q m →
-    grading.IsHomogeneous (p + q) (a • m)
-  d : M →ₗ[k] M
-  d_degree : DGAInfinity.LinearHasDegree grading grading 1 d
-  d_sq : ∀ m, d (d m) = c.val • m
-  supercommutes : ∀ p a m, B.grading.IsHomogeneous p a →
-    d (a • m) = (((p.negOnePow : ℤ) : k) • (a • d m))
+/-- The zero curvature. -/
+def FKSCurvature.zero {ι A : Type*} [AddCommGroupWithOne ι] [DecidableEq ι] [Ring A]
+    (B : FKSGradedAlgebra ι A) : FKSCurvature B where
+  val := 0
+  mem := zero_mem _
+  central := by simp
 
-/-- The parity version retains genuine internal gradings and degree-one maps; it is not merely a
-pair of modules with two unconstrained arrows. -/
-structure FKSDuplex (k A M₀ M₁ : Type*) [CommRing k] [Ring A] [Algebra k A]
-    [AddCommGroup M₀] [Module k M₀] [Module A M₀]
-    [AddCommGroup M₁] [Module k M₁] [Module A M₁]
-    (B : FKSGradedAlgebra k A) (c : CentralDegreeTwo B) where
-  grading₀ : DGAInfinity.InternalGrading k M₀
-  grading₁ : DGAInfinity.InternalGrading k M₁
-  scalar_tower₀ : ∀ (r : k) (a : A) (m : M₀), (r • a) • m = r • (a • m)
-  scalar_tower₁ : ∀ (r : k) (a : A) (m : M₁), (r • a) • m = r • (a • m)
-  action_degree₀ : ∀ p q a m, B.grading.IsHomogeneous p a → grading₀.IsHomogeneous q m →
-    grading₀.IsHomogeneous (p + q) (a • m)
-  action_degree₁ : ∀ p q a m, B.grading.IsHomogeneous p a → grading₁.IsHomogeneous q m →
-    grading₁.IsHomogeneous (p + q) (a • m)
-  dEven : M₀ →ₗ[k] M₁
-  dOdd : M₁ →ₗ[k] M₀
-  dEven_degree : DGAInfinity.LinearHasDegree grading₀ grading₁ 1 dEven
-  dOdd_degree : DGAInfinity.LinearHasDegree grading₁ grading₀ 1 dOdd
-  odd_even : ∀ m, dOdd (dEven m) = c.val • m
-  even_odd : ∀ m, dEven (dOdd m) = c.val • m
-  supercommutes_even : ∀ p a m, B.grading.IsHomogeneous p a →
-    dEven (a • m) = (((p.negOnePow : ℤ) : k) • (a • dEven m))
-  supercommutes_odd : ∀ p a m, B.grading.IsHomogeneous p a →
-    dOdd (a • m) = (((p.negOnePow : ℤ) : k) • (a • dOdd m))
+/-- The same central element, for the parity-collapsed grading: degree two is even. -/
+noncomputable def FKSCurvature.collapse {A : Type*} [Ring A] {B : FKSGradedAlgebra ℤ A}
+    (c : FKSCurvature B) : FKSCurvature (B.collapse (Int.castAddHom (ZMod 2))) where
+  val := c.val
+  mem := sorry
+  central := c.central
 
-/-- A graded bimodule kernel from source curvature `c` to target curvature `c'`.  Its square is
-exactly `l(c') - r(c)`, fixing the sign which tensoring needs. -/
-structure FKSBimoduleDuplex (k A M₀ M₁ : Type*) [CommRing k] [Ring A] [Algebra k A]
-    [AddCommGroup M₀] [Module k M₀] [Module A M₀] [Module Aᵐᵒᵖ M₀]
-    [AddCommGroup M₁] [Module k M₁] [Module A M₁] [Module Aᵐᵒᵖ M₁]
-    (B : FKSGradedAlgebra k A) (target source : CentralDegreeTwo B) where
-  grading₀ : DGAInfinity.InternalGrading k M₀
-  grading₁ : DGAInfinity.InternalGrading k M₁
-  scalar_tower_left₀ : ∀ (r : k) (a : A) (m : M₀), (r • a) • m = r • (a • m)
-  scalar_tower_left₁ : ∀ (r : k) (a : A) (m : M₁), (r • a) • m = r • (a • m)
-  scalar_tower_right₀ : ∀ (r : k) (a : A) (m : M₀),
-    MulOpposite.op (r • a) • m = r • (MulOpposite.op a • m)
-  scalar_tower_right₁ : ∀ (r : k) (a : A) (m : M₁),
-    MulOpposite.op (r • a) • m = r • (MulOpposite.op a • m)
-  left_action_degree₀ : ∀ p q a m, B.grading.IsHomogeneous p a →
-    grading₀.IsHomogeneous q m → grading₀.IsHomogeneous (p + q) (a • m)
-  left_action_degree₁ : ∀ p q a m, B.grading.IsHomogeneous p a →
-    grading₁.IsHomogeneous q m → grading₁.IsHomogeneous (p + q) (a • m)
-  right_action_degree₀ : ∀ p q a m, B.grading.IsHomogeneous p a →
-    grading₀.IsHomogeneous q m →
-      grading₀.IsHomogeneous (q + p) (MulOpposite.op a • m)
-  right_action_degree₁ : ∀ p q a m, B.grading.IsHomogeneous p a →
-    grading₁.IsHomogeneous q m →
-      grading₁.IsHomogeneous (q + p) (MulOpposite.op a • m)
-  actions_commute₀ : ∀ (a b : A) (m : M₀),
-    a • (MulOpposite.op b • m) = MulOpposite.op b • (a • m)
-  actions_commute₁ : ∀ (a b : A) (m : M₁),
-    a • (MulOpposite.op b • m) = MulOpposite.op b • (a • m)
-  dEven : M₀ →ₗ[k] M₁
-  dOdd : M₁ →ₗ[k] M₀
-  dEven_degree : DGAInfinity.LinearHasDegree grading₀ grading₁ 1 dEven
-  dOdd_degree : DGAInfinity.LinearHasDegree grading₁ grading₀ 1 dOdd
-  odd_even : ∀ m, dOdd (dEven m) = target.val • m - MulOpposite.op source.val • m
-  even_odd : ∀ m, dEven (dOdd m) = target.val • m - MulOpposite.op source.val • m
-  supercommutes_left_even : ∀ p a m, B.grading.IsHomogeneous p a →
-    dEven (a • m) = (((p.negOnePow : ℤ) : k) • (a • dEven m))
-  supercommutes_left_odd : ∀ p a m, B.grading.IsHomogeneous p a →
-    dOdd (a • m) = (((p.negOnePow : ℤ) : k) • (a • dOdd m))
-  supercommutes_right_even : ∀ p a m, B.grading.IsHomogeneous p a →
-    dEven (MulOpposite.op a • m) =
-      (((p.negOnePow : ℤ) : k) • (MulOpposite.op a • dEven m))
-  supercommutes_right_odd : ∀ p a m, B.grading.IsHomogeneous p a →
-    dOdd (MulOpposite.op a • m) =
-      (((p.negOnePow : ℤ) : k) • (MulOpposite.op a • dOdd m))
+section CurvedModules
 
-/-- ⚠ **Do not** take the FKS stable quotient with respect to `CategoryTheory.Projective` inside
-the homotopy category.  In a triangulated category every epimorphism splits — completing
-`f : X ⟶ Y` to a triangle forces the next map to be zero, and exactness after `Hom(Y, −)` supplies
-a right inverse — so *every* object is categorically projective
-(`projective_of_pretriangulated`).  Every identity then factors through a projective object, namely
-itself, and the factor-ideal quotient is the zero category.  Implementing
-`FKSComplexHomotopyCategory` correctly would only make that collapse explicit.
+variable {ι : Type*} {A : Type u} [AddCommGroupWithOne ι] [DecidableEq ι] [Ring A]
+variable (π : FKSParity ι) (B : FKSGradedAlgebra ι A) (c : FKSCurvature B)
+include π B c
 
-So the class to kill has to be named through the actual comparison, not read off categorical
-projectivity: FKS quotient the graded/parity module category over the curved extension algebra by
-its genuine projective modules ([FKS, §4](https://arxiv.org/pdf/math/0311485)), and the
-homotopy-model statement is the comparison with that.  `FKSInduced` is that class, transported to
-the homotopy model. -/
-theorem projective_of_pretriangulated (C : Type u) [Category.{v} C] [Preadditive C]
-    [Limits.HasZeroObject C] [HasShift C ℤ] [∀ n : ℤ, (shiftFunctor C n).Additive]
-    [Pretriangulated C] (X : C) : Projective X := sorry
+/-- FKS Definition 1 (for `ι = ℤ`, an `(A,c)`-complex) and FKS §3.1 (for `ι = ZMod 2`, an
+`(A,c)`-duplex): a graded left `A`-module with a degree-one additive `d`, `d² = c`, and
+`d(a m) = (-1)^|a| a d(m)`.  For `ι = ZMod 2` this is one module `M = M⁰ ⊕ M¹` on which odd
+elements of `A` exchange the two components (`smul_mem`), not a pair of `A`-modules. -/
+structure FKSCurvedModule (M : Type u) [AddCommGroup M] [Module A M] where
+  grading : FKSGrading ι M
+  smul_mem : ∀ {p q : ι} {a : A} {m : M}, a ∈ B.grading.piece p → m ∈ grading.piece q →
+    a • m ∈ grading.piece (p + q)
+  d : M →+ M
+  d_mem : ∀ {p : ι} {m : M}, m ∈ grading.piece p → d m ∈ grading.piece (p + 1)
+  d_d : ∀ m, d (d m) = c.val • m
+  d_smul : ∀ {p : ι} {a : A} (m : M), a ∈ B.grading.piece p →
+    d (a • m) = (fksSign π A p * a) • d m
 
-/-- The left/right comparison explicitly consumes the stable prerequisite's right-curved model. -/
-noncomputable def fksOppositeRightCurvedAlgebra
-    (k A : Type u) [CommRing k] [Ring A] [Algebra k A]
-    (B : FKSGradedAlgebra k A) (c : CentralDegreeTwo B) :
-    StablePeriodicCurved.RightCurvedDGAlgebra k Aᵐᵒᵖ := sorry
+/-- Objects of `Com(A,c)` (`ι = ℤ`) or `Com₂(A,c)` (`ι = ZMod 2`). -/
+structure FKSCurvedObject where
+  carrier : ModuleCat.{u} A
+  str : FKSCurvedModule π B c carrier
 
-/-- Coefficients of the FKS reflection `s_a(c)` in the degree-two center basis. -/
+namespace FKSCurvedObject
+
+variable {π B c}
+
+/-- A morphism of `(A,c)`-complexes or duplexes: a degree-zero `A`-linear map commuting with `d`
+(FKS §2.1, §3.1). -/
+@[ext] structure Hom (X Y : FKSCurvedObject π B c) where
+  hom : X.carrier →ₗ[A] Y.carrier
+  mem : ∀ {p : ι} {m : X.carrier}, m ∈ X.str.grading.piece p → hom m ∈ Y.str.grading.piece p
+  comm : ∀ m, hom (X.str.d m) = Y.str.d (hom m)
+
+instance : Category (FKSCurvedObject π B c) where
+  Hom := Hom
+  id X := ⟨LinearMap.id, fun h ↦ h, fun _ ↦ rfl⟩
+  comp f g := ⟨g.hom ∘ₗ f.hom, fun h ↦ g.mem (f.mem h), fun m ↦ by simp [f.comm, g.comm]⟩
+
+/-- The pointwise additive structure on morphisms. -/
+noncomputable instance : Preadditive (FKSCurvedObject π B c) := sorry
+
+/-- FKS §2.2 and §3.2: `f` is null-homotopic when `f = h d + d h` for an `A`-map
+`h : M → N[-1]`.  Since `N[-1]` carries the sign-twisted action `a ∘ n = (-1)^|a| a n`, this is an
+additive map lowering degree by one with `h(a m) = (-1)^|a| a h(m)`. -/
+def IsNullHomotopic {X Y : FKSCurvedObject π B c} (f : X ⟶ Y) : Prop :=
+  ∃ h : X.carrier →+ Y.carrier,
+    (∀ {p : ι} {m : X.carrier}, m ∈ X.str.grading.piece p → h m ∈ Y.str.grading.piece (p - 1)) ∧
+    (∀ {p : ι} {a : A} (m : X.carrier), a ∈ B.grading.piece p →
+      h (a • m) = (fksSign π A p * a) • h m) ∧
+    ∀ m, Hom.hom f m = h (X.str.d m) + Y.str.d (h m)
+
+end FKSCurvedObject
+
+/-- Null-homotopic morphisms form a two-sided ideal (FKS Propositions 2.1 and 3.1). -/
+def fksHomotopyIdeal : StablePeriodicCurved.MorphismIdeal (FKSCurvedObject π B c) where
+  hom X Y :=
+    { carrier := {f | FKSCurvedObject.IsNullHomotopic f}
+      add_mem' := sorry
+      zero_mem' := sorry
+      neg_mem' := sorry }
+  comp_left := sorry
+  comp_right := sorry
+
+/-- The homotopy category `K(A,c)` (`ι = ℤ`) or `K₂(A,c)` (`ι = ZMod 2`): the curved objects
+with morphisms modulo null-homotopy, as the sibling roadmap's ideal quotient. -/
+abbrev FKSHomotopyCategory := (fksHomotopyIdeal π B c).Quotient
+
+/-- `Com(A,c)` is abelian (FKS §2.1, §3.1), with kernels and cokernels computed on carriers. -/
+noncomputable instance : Abelian (FKSCurvedObject π B c) := sorry
+
+/-- The carrier of the shift `X[1]`: the same group, with the action twisted by the parity
+involution, `a ∘ m = (-1)^|a| a m` (FKS §2.1).  Pinned by `fksShift_smul`. -/
+def FKSShiftCarrier (X : FKSCurvedObject π B c) := X.carrier
+
+instance (X : FKSCurvedObject π B c) : AddCommGroup (FKSShiftCarrier π B c X) :=
+  inferInstanceAs (AddCommGroup X.carrier)
+
+noncomputable instance (X : FKSCurvedObject π B c) : Module A (FKSShiftCarrier π B c X) := sorry
+
+theorem fksShift_smul (X : FKSCurvedObject π B c) (a : A) (m : FKSShiftCarrier π B c X) :
+    a • m = (show FKSShiftCarrier π B c X from
+      (B.parityInvolution π a • (show X.carrier from m) : X.carrier)) := sorry
+
+/-- The shift `X[1]`: `(X[1])ᵖ = Xᵖ⁺¹`, `d[1] = -d`, twisted action. -/
+noncomputable def FKSCurvedObject.shift (X : FKSCurvedObject π B c) : FKSCurvedObject π B c where
+  carrier := ModuleCat.of A (FKSShiftCarrier π B c X)
+  str :=
+    { grading := X.str.grading.shift 1
+      smul_mem := sorry
+      d := -X.str.d
+      d_mem := sorry
+      d_d := sorry
+      d_smul := sorry }
+
+/-- The shift functor on `Com(A,c)`, the identity on underlying maps. -/
+noncomputable def fksShiftFunctor : FKSCurvedObject π B c ⥤ FKSCurvedObject π B c where
+  obj X := X.shift
+  map f := ⟨{ toFun := f.hom, map_add' := f.hom.map_add, map_smul' := sorry }, sorry, sorry⟩
+  map_id := sorry
+  map_comp := sorry
+
+/-- The mapping cone of `f : X ⟶ Y`: carrier `Y ⊕ X[1]`, `d(y, x) = (d y + f x, -d x)`. -/
+noncomputable def FKSCurvedObject.cone {X Y : FKSCurvedObject π B c} (f : X ⟶ Y) :
+    FKSCurvedObject π B c where
+  carrier := ModuleCat.of A (Y.carrier × FKSShiftCarrier π B c X)
+  str :=
+    { grading :=
+        { piece := fun p ↦ (Y.str.grading.piece p).prod (X.str.grading.piece (p + 1))
+          isInternal := sorry }
+      smul_mem := sorry
+      d :=
+        { toFun := fun v ↦ (Y.str.d v.1 + f.hom (show X.carrier from v.2),
+            show FKSShiftCarrier π B c X from -X.str.d (show X.carrier from v.2))
+          map_zero' := sorry
+          map_add' := sorry }
+      d_mem := sorry
+      d_d := sorry
+      d_smul := sorry }
+
+/-- The curved extension algebra `Ã_c = A ⊗ ℤ[d]/(d² - c)`, `d a = (-1)^|a| a d`, `deg d = 1`
+(FKS §2.1).  Every element is uniquely `a + b d`; the carrier records the pair `(a, b)`. -/
+@[ext] structure FKSCurvedExtension {ι : Type*} {A : Type u} [AddCommGroupWithOne ι] [DecidableEq ι] [Ring A]
+    (_π : FKSParity ι) (B : FKSGradedAlgebra ι A) (_c : FKSCurvature B) where
+  const : A
+  dCoeff : A
+
+namespace FKSCurvedExtension
+
+variable {π B c}
+
+/-- Addition, zero, negation and scalars are componentwise; multiplication is `mul_def`. -/
+noncomputable instance : Ring (FKSCurvedExtension π B c) := sorry
+
+/-- `(a + b d)(a' + b' d) = (a a' + b σ(b') c) + (a b' + b σ(a')) d`, using `d a' = σ(a') d` and
+`d² = c`. -/
+theorem mul_def (x y : FKSCurvedExtension π B c) :
+    x * y =
+      ⟨x.const * y.const + x.dCoeff * B.parityInvolution π y.dCoeff * c.val,
+        x.const * y.dCoeff + x.dCoeff * B.parityInvolution π y.const⟩ := sorry
+
+theorem add_def (x y : FKSCurvedExtension π B c) :
+    x + y = ⟨x.const + y.const, x.dCoeff + y.dCoeff⟩ := sorry
+
+theorem one_def : (1 : FKSCurvedExtension π B c) = ⟨1, 0⟩ := sorry
+
+end FKSCurvedExtension
+
+/-- The inclusion `A → Ã_c`, `a ↦ a + 0 d`. -/
+noncomputable def fksExtensionInclusion : A →+* FKSCurvedExtension π B c := sorry
+
+theorem fksExtensionInclusion_apply (a : A) :
+    fksExtensionInclusion π B c a = ⟨a, 0⟩ := sorry
+
+/-- The generator `d = 0 + 1 d`. -/
+def fksExtensionD : FKSCurvedExtension π B c := ⟨0, 1⟩
+
+theorem fksExtensionD_mul_self :
+    fksExtensionD π B c * fksExtensionD π B c = fksExtensionInclusion π B c c.val := sorry
+
+theorem fksExtensionD_mul (a : A) :
+    fksExtensionD π B c * fksExtensionInclusion π B c a =
+      fksExtensionInclusion π B c (B.parityInvolution π a) * fksExtensionD π B c := sorry
+
+/-- The grading of `Ã_c`: `(a + b d)` has degree `p` when `a` has degree `p` and `b` degree
+`p - 1`. -/
+noncomputable def fksExtensionGradedAlgebra : FKSGradedAlgebra ι (FKSCurvedExtension π B c) where
+  grading :=
+    { piece := fun p ↦
+        { carrier := {x | x.const ∈ B.grading.piece p ∧ x.dCoeff ∈ B.grading.piece (p - 1)}
+          add_mem' := sorry
+          zero_mem' := sorry
+          neg_mem' := sorry }
+      isInternal := sorry }
+  one_mem := sorry
+  mul_mem := sorry
+
+/-- `Ã_c` is free of rank two as a left `A`-module, on `1` and `d`.  This is what makes restriction
+of scalars send projective `Ã_c`-modules to projective `A`-modules (FKS §4.1). -/
+theorem fksExtension_free_rank_two :
+    letI : Module A (FKSCurvedExtension π B c) :=
+      Module.compHom _ (fksExtensionInclusion π B c)
+    ∃ b : Module.Basis (Fin 2) A (FKSCurvedExtension π B c),
+      b 0 = 1 ∧ b 1 = fksExtensionD π B c := sorry
+
+end CurvedModules
+
+/-! ### Graded modules and the stable category of FKS §4 -/
+
+section StableCategories
+
+variable {ι : Type*} {R : Type u} [AddCommGroup ι] [DecidableEq ι] [Ring R]
+
+/-- A graded left module over a graded ring. -/
+structure FKSGradedModule (B : FKSGradedAlgebra ι R) where
+  carrier : ModuleCat.{u} R
+  grading : FKSGrading ι carrier
+  smul_mem : ∀ {p q : ι} {a : R} {m : carrier}, a ∈ B.grading.piece p →
+    m ∈ grading.piece q → a • m ∈ grading.piece (p + q)
+
+namespace FKSGradedModule
+
+variable {B : FKSGradedAlgebra ι R}
+
+/-- Degree-zero module maps. -/
+@[ext] structure Hom (X Y : FKSGradedModule B) where
+  hom : X.carrier →ₗ[R] Y.carrier
+  mem : ∀ {p : ι} {m : X.carrier}, m ∈ X.grading.piece p → hom m ∈ Y.grading.piece p
+
+instance : Category (FKSGradedModule B) where
+  Hom := Hom
+  id X := ⟨LinearMap.id, fun h ↦ h⟩
+  comp f g := ⟨g.hom ∘ₗ f.hom, fun h ↦ g.mem (f.mem h)⟩
+
+/-- The pointwise additive structure on morphisms. -/
+noncomputable instance : Preadditive (FKSGradedModule B) := sorry
+
+/-- The graded module category is abelian, so `CategoryTheory.Projective` there is the honest
+notion of a projective graded module. -/
+noncomputable instance : Abelian (FKSGradedModule B) := sorry
+
+/-- FKS §4.1: maps factoring through a projective graded module. -/
+noncomputable def projectiveIdeal (B : FKSGradedAlgebra ι R) :
+    StablePeriodicCurved.MorphismIdeal (FKSGradedModule B) :=
+  StablePeriodicCurved.MorphismIdeal.factorIdeal (fun P ↦ Projective P)
+
+/-- The stable module category `Mod(R)` of graded `R`-modules. -/
+abbrev StableCategory (B : FKSGradedAlgebra ι R) := (projectiveIdeal B).Quotient
+
+end FKSGradedModule
+
+end StableCategories
+
+section StableComparison
+
+variable {ι : Type*} {A : Type u} [AddCommGroupWithOne ι] [DecidableEq ι] [Ring A]
+variable (π : FKSParity ι) (B : FKSGradedAlgebra ι A) (c : FKSCurvature B)
+
+/-- The FKS stable category `Mod(Ã_c)` (`ι = ℤ`) or `Mod₂(Ã_c)` (`ι = ZMod 2`): graded
+`Ã_c`-modules modulo maps factoring through projective graded `Ã_c`-modules.  This is a quotient of
+the module category, not of the homotopy category. -/
+abbrev FKSStableCategory :=
+  FKSGradedModule.StableCategory (fksExtensionGradedAlgebra π B c)
+
+/-- `Mod(Ã_c) ≃ Com(A,c)`: restrict scalars along `A → Ã_c` and let `d` act as the element
+`fksExtensionD`.  The carrier, grading and underlying maps are unchanged. -/
+noncomputable def fksExtensionModuleToCurved :
+    FKSGradedModule (fksExtensionGradedAlgebra π B c) ⥤ FKSCurvedObject π B c where
+  obj X :=
+    { carrier := (ModuleCat.restrictScalars (fksExtensionInclusion π B c)).obj X.carrier
+      str :=
+        { grading := X.grading
+          smul_mem := sorry
+          d := DistribSMul.toAddMonoidHom X.carrier (fksExtensionD π B c)
+          d_mem := sorry
+          d_d := sorry
+          d_smul := sorry } }
+  map f :=
+    { hom :=
+        { toFun := f.hom
+          map_add' := f.hom.map_add
+          map_smul' := fun a m ↦ f.hom.map_smul (fksExtensionInclusion π B c a) m }
+      mem := f.mem
+      comm := fun m ↦ f.hom.map_smul (fksExtensionD π B c) m }
+  map_id := sorry
+  map_comp := sorry
+
+noncomputable instance : (fksExtensionModuleToCurved π B c).Additive := sorry
+
+instance fksExtensionModuleToCurved_isEquivalence :
+    (fksExtensionModuleToCurved π B c).IsEquivalence := sorry
+
+/-- FKS Lemma 4.1: a projective graded `Ã_c`-module is contractible as a curved object, since each
+indecomposable projective is `Ã_c ⊗_A P' ≅ P' ⊕ P'[-1]` with `d` an isomorphism between the two
+summands. -/
+theorem fksExtension_projective_isZero (P : FKSGradedModule (fksExtensionGradedAlgebra π B c))
+    (hP : Projective P) :
+    Limits.IsZero
+      ((fksHomotopyIdeal π B c).quotientFunctor.obj
+        ((fksExtensionModuleToCurved π B c).obj P)) := sorry
+
+theorem fksExtension_kills_projectiveIdeal :
+    (FKSGradedModule.projectiveIdeal (fksExtensionGradedAlgebra π B c)).Kills
+      (fksExtensionModuleToCurved π B c ⋙ (fksHomotopyIdeal π B c).quotientFunctor) := sorry
+
+/-- The canonical functor `Φ₂ : Mod(Ã_c) → K(A,c)` of FKS (4.1), induced from
+`Mod(Ã_c) ≃ Com(A,c) → K(A,c)`.  It goes from the stable category to the homotopy category and is
+not an equivalence in general: see `fksDisk_stable_not_isZero`. -/
+noncomputable def fksStableToHomotopy : FKSStableCategory π B c ⥤ FKSHomotopyCategory π B c :=
+  StablePeriodicCurved.MorphismIdeal.lift _
+    (fksExtensionModuleToCurved π B c ⋙ (fksHomotopyIdeal π B c).quotientFunctor)
+    (fksExtension_kills_projectiveIdeal π B c)
+
+end StableComparison
+
+/-- For duplexes the shift is `2`-periodic, `[2] ≅ Id` (FKS §3.1). -/
+noncomputable def fksDuplexShiftTwoIso {A : Type u} [Ring A] (B : FKSGradedAlgebra (ZMod 2) A)
+    (c : FKSCurvature B) :
+    fksShiftFunctor FKSParity.zmod2 B c ⋙ fksShiftFunctor FKSParity.zmod2 B c ≅ 𝟭 _ := sorry
+
+/-- Folding a complex to a duplex: the same module and differential, with the `ℤ`-grading
+collapsed to its parity (FKS §3.1, §5.1).  This is the comparison between the complex model of
+FKS §2 and the duplex model of FKS §3 on which the Weyl functors act. -/
+noncomputable def fksFold {A : Type u} [Ring A] (B : FKSGradedAlgebra ℤ A) (c : FKSCurvature B) :
+    FKSCurvedObject FKSParity.int B c ⥤
+      FKSCurvedObject FKSParity.zmod2 (B.collapse (Int.castAddHom (ZMod 2)))
+        (c.collapse) where
+  obj X :=
+    { carrier := X.carrier
+      str :=
+        { grading := X.str.grading.collapse (Int.castAddHom (ZMod 2))
+          smul_mem := sorry
+          d := X.str.d
+          d_mem := sorry
+          d_d := X.str.d_d
+          d_smul := sorry } }
+  map f := ⟨f.hom, sorry, f.comm⟩
+  map_id := sorry
+  map_comp := sorry
+
+/-! ### Stable-category acceptance tests -/
+
+/-- The carrier `ℚ ⊕ ℚ d` of the disk `Ã_0 ⊗_A (A/(t))` over `A = ℚ[t]/(t²)`. -/
+def FKSDiskCarrier := ℚ × ℚ
+
+instance : AddCommGroup FKSDiskCarrier := inferInstanceAs (AddCommGroup (ℚ × ℚ))
+
+/-- `A = ℚ[t]/(t²)` acts through `A/(t) = ℚ`.  Pinned by `fksDisk_smul`. -/
+noncomputable instance : Module (DualNumber ℚ) FKSDiskCarrier := sorry
+
+theorem fksDisk_smul (a : DualNumber ℚ) (v : FKSDiskCarrier) :
+    a • v = (show FKSDiskCarrier from (a.fst * (show ℚ × ℚ from v).1,
+      a.fst * (show ℚ × ℚ from v).2)) := sorry
+
+/-- The disk as an `(A,0)`-complex: `ℚ` in degree `0`, `ℚ d` in degree `1`, `d(x, y) = (0, x)`. -/
+noncomputable def fksDisk :
+    FKSCurvedObject FKSParity.int (FKSGradedAlgebra.concentrated ℤ (DualNumber ℚ))
+      (FKSCurvature.zero _) where
+  carrier := ModuleCat.of (DualNumber ℚ) FKSDiskCarrier
+  str :=
+    { grading :=
+        { piece := fun p ↦
+            if p = 0 then ((⊤ : AddSubgroup ℚ).prod ⊥ : AddSubgroup (ℚ × ℚ))
+            else if p = 1 then ((⊥ : AddSubgroup ℚ).prod ⊤ : AddSubgroup (ℚ × ℚ)) else ⊥
+          isInternal := sorry }
+      smul_mem := sorry
+      d :=
+        { toFun := fun v ↦ (show FKSDiskCarrier from ((0 : ℚ), (show ℚ × ℚ from v).1))
+          map_zero' := rfl
+          map_add' := sorry }
+      d_mem := sorry
+      d_d := sorry
+      d_smul := sorry }
+
+/-- The disk is contractible, so zero in `K(A,0)`. -/
+theorem fksDisk_homotopy_isZero :
+    Limits.IsZero ((fksHomotopyIdeal FKSParity.int _ _).quotientFunctor.obj fksDisk) := sorry
+
+/-- The disk is not projective over `Ã_0` (its restriction to `A` is `A/(t) ⊕ A/(t)`), so it is
+nonzero in `Mod(Ã_0)`.  With `fksDisk_homotopy_isZero`, `Φ₂` kills a nonzero object: the stable
+category is not a further quotient of the homotopy category, and `Φ₂` is not an equivalence. -/
+theorem fksDisk_stable_not_isZero :
+    ¬ Limits.IsZero ((FKSGradedModule.projectiveIdeal _).quotientFunctor.obj
+      ((fksExtensionModuleToCurved FKSParity.int _ _).inv.obj fksDisk)) := sorry
+
+/-- `ℚ[u, u⁻¹]` with `u` in degree two. -/
+noncomputable def laurentFKSGradedAlgebra : FKSGradedAlgebra ℤ (LaurentPolynomial ℚ) where
+  grading :=
+    { piece := fun p ↦
+        (Submodule.span ℚ {LaurentPolynomial.T n | (n : ℤ) (_ : 2 * n = p)}).toAddSubgroup
+      isInternal := sorry }
+  one_mem := sorry
+  mul_mem := sorry
+
+/-- The invertible curvature `u`. -/
+noncomputable def laurentCurvature : FKSCurvature laurentFKSGradedAlgebra where
+  val := LaurentPolynomial.T 1
+  mem := sorry
+  central := fun a ↦ mul_comm _ a
+
+/-- Negative test (FKS §3.2, Remark): with invertible curvature every object is contractible, via
+`h = (1/2) u⁻¹ d`, so `K(A,c)` is the zero category. -/
+theorem laurentCurvature_homotopy_isZero
+    (X : FKSHomotopyCategory FKSParity.int laurentFKSGradedAlgebra laurentCurvature) :
+    Limits.IsZero X := sorry
+
+/-- `(A, 0, w)` as a zero-differential right curved DG algebra of the stable prerequisite, for a
+central degree-two `w` and a `k`-linear grading inducing `B`. -/
+noncomputable def fksRightCurvedAlgebra (k : Type u) {A : Type u} [CommRing k] [Ring A]
+    [Algebra k A] {B : FKSGradedAlgebra ℤ A} (G : DGAInfinity.InternalGrading k A)
+    (hG : FKSGrading.ofInternal G = B.grading) (w : A) (hw : w ∈ B.grading.piece 2)
+    (central : ∀ a, w * a = a * w) : StablePeriodicCurved.RightCurvedDGAlgebra k A where
+  grading := G
+  one_degree := sorry
+  mul_degree := sorry
+  d := 0
+  curvature := w
+  d_degree := sorry
+  curvature_degree := sorry
+  leibniz := sorry
+  d_sq := sorry
+  d_curvature := rfl
+
+/-- The complex model of FKS §2 is the zero-differential, central-curvature case of the stable
+prerequisite's right curved modules: a left `(A,c)`-complex is a right module over the graded
+opposite by `m · op a = (-1)^(|a||m|) a m`, and the graded opposite of `(A, 0, -c)` has right
+curvature `op c`.  This equivalence is how `K(A,c)` inherits the prerequisite's triangulation. -/
+noncomputable def fksHomotopyEquivRightCurved (k : Type u) {A : Type u} [CommRing k] [Ring A]
+    [Algebra k A] {B : FKSGradedAlgebra ℤ A} (G : DGAInfinity.InternalGrading k A)
+    (hG : FKSGrading.ofInternal G = B.grading) (c : FKSCurvature B) :
+    letI O := StablePeriodicCurved.RightCurvedDGAlgebra.gradedOpposite
+      (fksRightCurvedAlgebra k G hG (-c.val) (neg_mem c.mem)
+        (fun a ↦ by rw [neg_mul, mul_neg, c.central]))
+    letI := O.ring
+    letI := O.algebra
+    FKSHomotopyCategory FKSParity.int B c ≌ O.opposite.HomotopyCategory := sorry
+
+/-! ### Curved bimodules and tensoring (FKS §2.3--2.4, §3.3) -/
+
+section Bimodules
+
+variable {ι : Type*} {A : Type u} [AddCommGroupWithOne ι] [DecidableEq ι] [Ring A]
+variable (π : FKSParity ι) (B : FKSGradedAlgebra ι A)
+
+/-- An `(A, target, -source)`-complex or duplex of bimodules in the sense of FKS §2.4: `d` has
+degree one, `d² = l(target) - r(source)`, `d` supercommutes with the left action and **commutes**
+with the right action.  Tensoring with it sends curvature `source` to curvature `target`. -/
+structure FKSCurvedBimodule (target source : FKSCurvature B) (N : Type u) [AddCommGroup N]
+    [Module A N] [Module Aᵐᵒᵖ N] where
+  grading : FKSGrading ι N
+  smul_mem_left : ∀ {p q : ι} {a : A} {n : N}, a ∈ B.grading.piece p →
+    n ∈ grading.piece q → a • n ∈ grading.piece (p + q)
+  smul_mem_right : ∀ {p q : ι} {a : A} {n : N}, a ∈ B.grading.piece p →
+    n ∈ grading.piece q → MulOpposite.op a • n ∈ grading.piece (q + p)
+  actions_commute : ∀ (a b : A) (n : N),
+    a • (MulOpposite.op b • n) = MulOpposite.op b • (a • n)
+  d : N →+ N
+  d_mem : ∀ {p : ι} {n : N}, n ∈ grading.piece p → d n ∈ grading.piece (p + 1)
+  d_d : ∀ n, d (d n) = target.val • n - MulOpposite.op source.val • n
+  d_smul_left : ∀ {p : ι} {a : A} (n : N), a ∈ B.grading.piece p →
+    d (a • n) = (fksSign π A p * a) • d n
+  d_smul_right : ∀ (a : A) (n : N), d (MulOpposite.op a • n) = MulOpposite.op a • d n
+
+/-- The balanced tensor product `N ⊗_A M` of a right and a left `A`-module. -/
+abbrev FKSBalancedTensor (A N M : Type u) [Ring A] [AddCommGroup N] [Module Aᵐᵒᵖ N]
+    [AddCommGroup M] [Module A M] :=
+  TensorProduct ℤ N M ⧸ Submodule.span ℤ
+    {x | ∃ (a : A) (n : N) (m : M), x = (MulOpposite.op a • n) ⊗ₜ m - n ⊗ₜ (a • m)}
+
+/-- The left action on `N ⊗_A M` through `N`; it descends because the two actions on `N` commute. -/
+noncomputable instance fksBalancedTensorModule (A N M : Type u) [Ring A] [AddCommGroup N]
+    [Module A N] [Module Aᵐᵒᵖ N] [SMulCommClass A Aᵐᵒᵖ N] [AddCommGroup M] [Module A M] :
+    Module A (FKSBalancedTensor A N M) := sorry
+
+theorem fksBalancedTensor_smul (A N M : Type u) [Ring A] [AddCommGroup N]
+    [Module A N] [Module Aᵐᵒᵖ N] [SMulCommClass A Aᵐᵒᵖ N] [AddCommGroup M] [Module A M] (a : A) (n : N) (m : M) :
+    a • (Submodule.Quotient.mk (n ⊗ₜ[ℤ] m) : FKSBalancedTensor A N M) =
+      Submodule.Quotient.mk ((a • n) ⊗ₜ[ℤ] m) := sorry
+
+variable {π B}
+
+/-- `N ⊗_A M` with the total grading and `d(n ⊗ m) = dn ⊗ m + (-1)^|n| n ⊗ dm` (FKS §2.3).  Its
+square is `l(target)`: the `r(source)` term cancels against `d²m = source · m` by balancing. -/
+noncomputable def FKSCurvedBimodule.tensorObj {target source : FKSCurvature B} {N : Type u}
+    [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N] (K : FKSCurvedBimodule π B target source N)
+    (X : FKSCurvedObject π B source) : FKSCurvedObject π B target where
+  carrier :=
+    letI : SMulCommClass A Aᵐᵒᵖ N := ⟨fun a b n ↦ K.actions_commute a b.unop n⟩
+    ModuleCat.of A (FKSBalancedTensor A N X.carrier)
+  str := sorry
+
+theorem FKSCurvedBimodule.tensorObj_d {target source : FKSCurvature B} {N : Type u}
+    [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N] (K : FKSCurvedBimodule π B target source N)
+    (X : FKSCurvedObject π B source) {p : ι} (n : N) (hn : n ∈ K.grading.piece p)
+    (m : X.carrier) :
+    (K.tensorObj X).str.d
+        (Submodule.Quotient.mk (n ⊗ₜ[ℤ] m) : FKSBalancedTensor A N X.carrier) =
+      Submodule.Quotient.mk (K.d n ⊗ₜ[ℤ] m) +
+        fksSign π ℤ p • Submodule.Quotient.mk (n ⊗ₜ[ℤ] X.str.d m) := sorry
+
+/-- Tensoring with a curved bimodule, `Com(A, source) ⥤ Com(A, target)` (FKS §2.4, §3.3); on
+morphisms it is `id ⊗ f`. -/
+noncomputable def FKSCurvedBimodule.tensorFunctor {target source : FKSCurvature B} {N : Type u}
+    [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N] (K : FKSCurvedBimodule π B target source N) :
+    FKSCurvedObject π B source ⥤ FKSCurvedObject π B target where
+  obj := K.tensorObj
+  map := sorry
+  map_id := sorry
+  map_comp := sorry
+
+theorem FKSCurvedBimodule.tensorFunctor_map {target source : FKSCurvature B} {N : Type u}
+    [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N] (K : FKSCurvedBimodule π B target source N)
+    {X Y : FKSCurvedObject π B source} (f : X ⟶ Y) (n : N) (m : X.carrier) :
+    FKSCurvedObject.Hom.hom (K.tensorFunctor.map f)
+        (Submodule.Quotient.mk (n ⊗ₜ[ℤ] m) : FKSBalancedTensor A N X.carrier) =
+      (Submodule.Quotient.mk (n ⊗ₜ[ℤ] FKSCurvedObject.Hom.hom f m) :
+        FKSBalancedTensor A N Y.carrier) := sorry
+
+noncomputable instance FKSCurvedBimodule.tensorFunctor_additive {target source : FKSCurvature B}
+    {N : Type u} [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N]
+    (K : FKSCurvedBimodule π B target source N) : K.tensorFunctor.Additive := sorry
+
+/-- Tensoring preserves null-homotopy, so it descends to the homotopy categories. -/
+theorem FKSCurvedBimodule.tensorFunctor_kills {target source : FKSCurvature B} {N : Type u}
+    [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N] (K : FKSCurvedBimodule π B target source N) :
+    (fksHomotopyIdeal π B source).Kills
+      (K.tensorFunctor ⋙ (fksHomotopyIdeal π B target).quotientFunctor) := sorry
+
+noncomputable def FKSCurvedBimodule.homotopyFunctor {target source : FKSCurvature B}
+    {N : Type u} [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N]
+    (K : FKSCurvedBimodule π B target source N) :
+    FKSHomotopyCategory π B source ⥤ FKSHomotopyCategory π B target :=
+  StablePeriodicCurved.MorphismIdeal.lift _
+    (K.tensorFunctor ⋙ (fksHomotopyIdeal π B target).quotientFunctor) K.tensorFunctor_kills
+
+end Bimodules
+
+/-! ## FKS Weyl functors on zigzag duplexes
+
+FKS §5.1 use the orientation-signed algebra `A(Q)`, which is isomorphic to the ordinary zigzag
+algebra exactly when `Q` is bipartite.  This layer is stated for **bipartite** connected graphs,
+which covers every binary-group McKay graph (the trees `D̃`, `Ẽ` and the even cycles `Ã_(2m-1)`;
+FKS §8.1 assume `-1 ∈ Γ`).  A chosen two-colouring `col` transports FKS's data to the ordinary
+zigzag algebra: FKS's degree-two basis element at `a` is `ε_a` times the ordinary backtrack class,
+and FKS's `Δ_a` is `ε_a` times the ordinary coevaluation, where `ε_a = -1` on one colour class and
+`1` on the other.  With these signs the reflection formula below is FKS's
+`s_a(c) = c + x_a (Σ_(a--b) X_b - 2 X_a)`. -/
+
+/-- Coefficients of the FKS reflection `s_a(c)` in FKS's degree-two center basis. -/
 def reflectCenterParameter {k V : Type*} [CommRing k] (G : SimpleGraph V)
     [DecidableEq V] [DecidableRel G.Adj] (a : V) (c : V → k) : V → k :=
   fun v ↦ c v + c a * ((if G.Adj a v then 1 else 0) - if a = v then 2 else 0)
@@ -1497,6 +2043,11 @@ def reflectCenterParameter {k V : Type*} [CommRing k] (G : SimpleGraph V)
 @[simp] theorem reflectCenterParameter_at {k V : Type*} [CommRing k]
     (G : SimpleGraph V) [DecidableEq V] [DecidableRel G.Adj] (a : V) (c : V → k) :
     reflectCenterParameter G a c a = -c a := sorry
+
+/-- Each `s_a` is an involution. -/
+@[simp] theorem reflectCenterParameter_reflectCenterParameter {k V : Type*} [CommRing k]
+    (G : SimpleGraph V) [DecidableEq V] [DecidableRel G.Adj] (a : V) (c : V → k) :
+    reflectCenterParameter G a (reflectCenterParameter G a c) = c := sorry
 
 /-- Literal principal left and right corner modules. -/
 def LeftVertexProjective (A : Type*) [Ring A] (e : Idempotent A) :=
@@ -1518,173 +2069,314 @@ noncomputable instance (k A : Type*) [Field k] [Ring A] [Algebra k A] (e : Idemp
 noncomputable instance (A : Type*) [Ring A] (e : Idempotent A) :
     Module Aᵐᵒᵖ (RightVertexProjective A e) := sorry
 
-/-- The actual vertex idempotent in the sibling zigzag algebra. -/
-noncomputable def zigzagVertexIdempotent
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V) (a : V) :
-    Idempotent (ZigzagPreprojective.zigzagAlgebra k G) := sorry
+/-- The subtype inclusions, as `k`-linear maps. -/
+noncomputable def leftVertexProjectiveSubtype (k A : Type*) [Field k] [Ring A] [Algebra k A]
+    (e : Idempotent A) : LeftVertexProjective A e →ₗ[k] A := sorry
 
-abbrev ZigzagReflectionTensor
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V) (a : V) :=
-  TensorProduct k
-    (LeftVertexProjective (ZigzagPreprojective.zigzagAlgebra k G)
-      (zigzagVertexIdempotent k G a))
-    (RightVertexProjective (ZigzagPreprojective.zigzagAlgebra k G)
-      (zigzagVertexIdempotent k G a))
+theorem leftVertexProjectiveSubtype_apply (k A : Type*) [Field k] [Ring A] [Algebra k A]
+    (e : Idempotent A) (x : LeftVertexProjective A e) :
+    leftVertexProjectiveSubtype k A e x = x.1 := sorry
 
-noncomputable instance zigzagReflectionTensorLeftModule
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V) (a : V) :
-    Module (ZigzagPreprojective.zigzagAlgebra k G) (ZigzagReflectionTensor k G a) := sorry
+noncomputable def rightVertexProjectiveSubtype (k A : Type*) [Field k] [Ring A] [Algebra k A]
+    (e : Idempotent A) : RightVertexProjective A e →ₗ[k] A := sorry
 
-noncomputable instance zigzagReflectionTensorRightModule
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V) (a : V) :
-    Module (ZigzagPreprojective.zigzagAlgebra k G)ᵐᵒᵖ
-      (ZigzagReflectionTensor k G a) := sorry
+theorem rightVertexProjectiveSubtype_apply (k A : Type*) [Field k] [Ring A] [Algebra k A]
+    (e : Idempotent A) (x : RightVertexProjective A e) :
+    rightVertexProjectiveSubtype k A e x = x.1 := sorry
 
-/-- `m_a : Ae_a ⊗ e_aA → A` is literal multiplication. -/
-noncomputable def zigzagVertexMultiplication
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V) (a : V) :
-    ZigzagReflectionTensor k G a →ₗ[k] ZigzagPreprojective.zigzagAlgebra k G := sorry
+/-- The strict zigzag algebra of a connected graph with an edge. -/
+abbrev ZigzagAlg (k : Type*) [Field k] {V : Type u} [Finite V] (G : SimpleGraph V) :=
+  ZigzagPreprojective.nonisolatedZigzagQuotient k G
 
-@[simp] theorem zigzagVertexMultiplication_tmul
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V) (a : V)
-    (x : LeftVertexProjective (ZigzagPreprojective.zigzagAlgebra k G)
-      (zigzagVertexIdempotent k G a))
-    (y : RightVertexProjective (ZigzagPreprojective.zigzagAlgebra k G)
-      (zigzagVertexIdempotent k G a)) :
-    zigzagVertexMultiplication k G a (x ⊗ₜ[k] y) = x.1 * y.1 := sorry
+section ZigzagFKS
 
-/-- `Δ_a` is the Frobenius coevaluation for the sibling roadmap's pinned trace. -/
-noncomputable def zigzagVertexComultiplication
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V)
-    (connected : G.Connected) (nontrivial : 1 < Fintype.card V) (a : V) :
-    ZigzagPreprojective.zigzagAlgebra k G →ₗ[k] ZigzagReflectionTensor k G a := sorry
+variable (k : Type u) [Field k] {V : Type u} [Fintype V] [DecidableEq V]
+variable (G : SimpleGraph V) [DecidableRel G.Adj]
+variable (connected : G.Connected) (nontrivial : 1 < Fintype.card V)
 
-noncomputable def zigzagFKSGradedAlgebra
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V) :
-    FKSGradedAlgebra k (ZigzagPreprojective.zigzagAlgebra k G) := sorry
+/-- The vertex idempotent `e_a`, the sibling basis vector of index `Sum.inl a`. -/
+noncomputable def zigzagVertexIdempotent (a : V) : Idempotent (ZigzagAlg k G) :=
+  ⟨ZigzagPreprojective.zigzagBasis k G connected nontrivial (Sum.inl a), sorry⟩
 
-/-- The degree-two volume basis element `X_a` in the actual zigzag algebra. -/
-noncomputable def zigzagVolumeClass
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V) (a : V) :
-    ZigzagPreprojective.zigzagAlgebra k G := sorry
+/-- The arrow `i ⟶ j` for `G.Adj i j`, the sibling basis vector of index `⟨i, j, h⟩`. -/
+noncomputable def zigzagArrow (i j : V) (h : G.Adj i j) : ZigzagAlg k G :=
+  ZigzagPreprojective.zigzagBasis k G connected nontrivial (Sum.inr (Sum.inl ⟨i, j, ⟨h⟩⟩))
 
-theorem zigzagVolumeClass_degree_two
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V) (a : V) :
-    (zigzagFKSGradedAlgebra k G).grading.IsHomogeneous 2 (zigzagVolumeClass k G a) := sorry
+/-- The ordinary backtrack class `Y_a` at `a`, the sibling basis vector of index `Sum.inr (Sum.inr a)`,
+on which the sibling trace is one. -/
+noncomputable def zigzagBacktrack (a : V) : ZigzagAlg k G :=
+  ZigzagPreprojective.zigzagBasis k G connected nontrivial (Sum.inr (Sum.inr a))
 
-theorem zigzagVolumeClass_central
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V) (a : V) :
-    ∀ x, zigzagVolumeClass k G a * x = x * zigzagVolumeClass k G a := sorry
+/-- The path-length `ℤ`-grading of the sibling roadmap, with vertices, arrows and backtracks in
+degrees `0`, `1`, `2`. -/
+noncomputable def zigzagFKSGradedAlgebra : FKSGradedAlgebra ℤ (ZigzagAlg k G) := sorry
 
-noncomputable def zigzagCenterParameter
-    (k : Type*) [Field k] {V : Type u} [Fintype V] (G : SimpleGraph V) (c : V → k) :
-    CentralDegreeTwo (zigzagFKSGradedAlgebra k G) where
-  val := ∑ v, c v • zigzagVolumeClass k G v
-  degree := sorry
+theorem zigzagArrow_mem (i j : V) (h : G.Adj i j) :
+    zigzagArrow k G connected nontrivial i j h ∈
+      (zigzagFKSGradedAlgebra k G).grading.piece 1 := sorry
+
+theorem zigzagBacktrack_mem (a : V) :
+    zigzagBacktrack k G connected nontrivial a ∈
+      (zigzagFKSGradedAlgebra k G).grading.piece 2 := sorry
+
+/-- Its parity collapse, the grading used by duplexes. -/
+noncomputable def zigzagParityAlgebra : FKSGradedAlgebra (ZMod 2) (ZigzagAlg k G) :=
+  (zigzagFKSGradedAlgebra k G).collapse (Int.castAddHom (ZMod 2))
+
+/-- The colour sign `ε_a`. -/
+def bipartiteSign (col : G.Coloring Bool) (a : V) : k := if col a then -1 else 1
+
+/-- FKS's degree-two basis element `X_a = ε(h) h h̄` (FKS §5.1), transported to the ordinary zigzag
+algebra: `ε_a Y_a`. -/
+noncomputable def fksVolumeClass (col : G.Coloring Bool) (a : V) : ZigzagAlg k G :=
+  bipartiteSign k G col a • zigzagBacktrack k G connected nontrivial a
+
+theorem fksVolumeClass_central (col : G.Coloring Bool) (a : V) (x : ZigzagAlg k G) :
+    fksVolumeClass k G connected nontrivial col a * x =
+      x * fksVolumeClass k G connected nontrivial col a := sorry
+
+/-- The center parameter `c = Σ_b x_b X_b` as a duplex curvature. -/
+noncomputable def zigzagCenterParameter (col : G.Coloring Bool) (c : V → k) :
+    FKSCurvature (zigzagParityAlgebra k G) where
+  val := ∑ v, c v • fksVolumeClass k G connected nontrivial col v
+  mem := sorry
   central := sorry
 
-/-- The concrete reflection kernel `C_{a,-x_a}`.  Its maps alternate `Δ_a` and
-`-x_a m_a`, and its two square fields state `l(s_a(c))-r(c)` verbatim. -/
-noncomputable def fksReflectionKernel
-    (k : Type*) [Field k] {V : Type u} [Fintype V] [DecidableEq V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] (connected : G.Connected)
-    (nontrivial : 1 < Fintype.card V) (a : V) (c : V → k) :
-    FKSBimoduleDuplex k (ZigzagPreprojective.zigzagAlgebra k G)
-      (ZigzagPreprojective.zigzagAlgebra k G) (ZigzagReflectionTensor k G a)
-      (zigzagFKSGradedAlgebra k G)
-      (zigzagCenterParameter k G (reflectCenterParameter G a c))
-      (zigzagCenterParameter k G c) := by
-  refine
-    { grading₀ := (zigzagFKSGradedAlgebra k G).grading
-      grading₁ := ?_
-      scalar_tower_left₀ := ?_
-      scalar_tower_left₁ := ?_
-      scalar_tower_right₀ := ?_
-      scalar_tower_right₁ := ?_
-      left_action_degree₀ := ?_
-      left_action_degree₁ := ?_
-      right_action_degree₀ := ?_
-      right_action_degree₁ := ?_
-      actions_commute₀ := ?_
-      actions_commute₁ := ?_
-      dEven := zigzagVertexComultiplication k G connected nontrivial a
-      dOdd := (-c a) • zigzagVertexMultiplication k G a
-      dEven_degree := ?_
-      dOdd_degree := ?_
-      odd_even := ?_
-      even_odd := ?_
-      supercommutes_left_even := ?_
-      supercommutes_left_odd := ?_
-      supercommutes_right_even := ?_
-      supercommutes_right_odd := ?_ }
-  all_goals sorry
+abbrev ZigzagReflectionTensor (a : V) :=
+  TensorProduct k
+    (LeftVertexProjective (ZigzagAlg k G) (zigzagVertexIdempotent k G connected nontrivial a))
+    (RightVertexProjective (ZigzagAlg k G) (zigzagVertexIdempotent k G connected nontrivial a))
 
-/-- Objects of the actual FKS homotopy category at fixed curvature. -/
-structure FKSObject (k A : Type u) [CommRing k] [Ring A] [Algebra k A]
-    (B : FKSGradedAlgebra k A) (c : CentralDegreeTwo B) where
-  carrier : ModuleCat.{0} A
-  complex :
-    letI : Module k carrier := Module.compHom carrier (algebraMap k A)
-    FKSComplex k A carrier B c
+noncomputable instance zigzagReflectionTensorLeftModule (a : V) :
+    Module (ZigzagAlg k G) (ZigzagReflectionTensor k G connected nontrivial a) := sorry
 
-/-- The homotopy category is built from the preceding fixed objects, shifts, cones and the
-sibling curved-duplex boundary formula. -/
-noncomputable def FKSComplexHomotopyCategory
-    (k A : Type u) [CommRing k] [Ring A] [Algebra k A]
-    (B : FKSGradedAlgebra k A) (c : CentralDegreeTwo B) : Type (max u 1) := FKSObject k A B c
+noncomputable instance zigzagReflectionTensorRightModule (a : V) :
+    Module (ZigzagAlg k G)ᵐᵒᵖ (ZigzagReflectionTensor k G connected nontrivial a) := sorry
 
-noncomputable instance fksComplexHomotopyCategory
-    (k A : Type u) [CommRing k] [Ring A] [Algebra k A]
-    (B : FKSGradedAlgebra k A) (c : CentralDegreeTwo B) :
-    Category.{max u 1} (FKSComplexHomotopyCategory k A B c) := sorry
+/-- The tensor grading on `P_a ⊗_k {}_aP`, collapsed to parity. -/
+noncomputable def zigzagReflectionTensorGrading (a : V) :
+    FKSGrading (ZMod 2) (ZigzagReflectionTensor k G connected nontrivial a) := sorry
 
-noncomputable instance fksComplexHomotopyPreadditive
-    (k A : Type u) [CommRing k] [Ring A] [Algebra k A]
-    (B : FKSGradedAlgebra k A) (c : CentralDegreeTwo B) :
-    Preadditive (FKSComplexHomotopyCategory k A B c) := sorry
+theorem zigzagReflectionTensorGrading_tmul (a : V) {p q : ZMod 2}
+    (x : LeftVertexProjective (ZigzagAlg k G) (zigzagVertexIdempotent k G connected nontrivial a))
+    (y : RightVertexProjective (ZigzagAlg k G) (zigzagVertexIdempotent k G connected nontrivial a))
+    (hx : x.1 ∈ (zigzagParityAlgebra k G).grading.piece p)
+    (hy : y.1 ∈ (zigzagParityAlgebra k G).grading.piece q) :
+    x ⊗ₜ[k] y ∈ (zigzagReflectionTensorGrading k G connected nontrivial a).piece (p + q) := sorry
 
-/-- The objects the FKS stable quotient actually kills: the modules induced from the curved
-extension algebra, transported to the homotopy model.  Not `CategoryTheory.Projective`; see
-`projective_of_pretriangulated`. -/
-def FKSInduced (k A : Type u) [CommRing k] [Ring A] [Algebra k A]
-    (B : FKSGradedAlgebra k A) (c : CentralDegreeTwo B) :
-    FKSComplexHomotopyCategory k A B c → Prop := sorry
+/-- `m_a : P_a ⊗ {}_aP → A` is literal multiplication; it is a bimodule map. -/
+noncomputable def zigzagVertexMultiplication (a : V) :
+    ZigzagReflectionTensor k G connected nontrivial a →ₗ[k] ZigzagAlg k G := sorry
 
-/-- FKS's stable quotient is the sibling roadmap's factor-through-ideal for that class. -/
-noncomputable def fksInducedIdeal (k A : Type u) [CommRing k] [Ring A] [Algebra k A]
-    (B : FKSGradedAlgebra k A) (c : CentralDegreeTwo B) :
-    StablePeriodicCurved.MorphismIdeal (FKSComplexHomotopyCategory k A B c) :=
-  StablePeriodicCurved.MorphismIdeal.factorIdeal (FKSInduced k A B c)
+@[simp] theorem zigzagVertexMultiplication_tmul (a : V)
+    (x : LeftVertexProjective (ZigzagAlg k G) (zigzagVertexIdempotent k G connected nontrivial a))
+    (y : RightVertexProjective (ZigzagAlg k G) (zigzagVertexIdempotent k G connected nontrivial a)) :
+    zigzagVertexMultiplication k G connected nontrivial a (x ⊗ₜ[k] y) = x.1 * y.1 := sorry
 
-abbrev FKSStableCategory
-    (k A : Type u) [CommRing k] [Ring A] [Algebra k A]
-    (B : FKSGradedAlgebra k A) (c : CentralDegreeTwo B) : Type (max u 1) :=
-  CategoryTheory.Quotient
-    (StablePeriodicCurved.MorphismIdeal.rel (fksInducedIdeal k A B c))
+/-- The ordinary Frobenius coevaluation `A → P_a ⊗ {}_aP` for the sibling roadmap's symmetric
+trace; it is a bimodule map. -/
+noncomputable def zigzagVertexComultiplication (a : V) :
+    ZigzagAlg k G →ₗ[k] ZigzagReflectionTensor k G connected nontrivial a := sorry
 
-/-- Acceptance test: the stable category is not the zero category.  Required because a model that
-quotients by too much satisfies every other statement about `FKSStableCategory` vacuously, which is
-exactly what the categorical-projectivity version did. -/
-theorem exists_not_isZero_fksStableCategory
-    (k A : Type u) [CommRing k] [Ring A] [Algebra k A]
-    (B : FKSGradedAlgebra k A) (c : CentralDegreeTwo B) :
-    ∃ X : FKSStableCategory k A B c, ¬ Limits.IsZero X := sorry
+/-- The coevaluation on `1`, pushed into `A ⊗_k A`: `Y_a ⊗ e_a + e_a ⊗ Y_a + Σ_(a--b) (a⟶b) ⊗ (b⟶a)`
+(the first factor starts at `a`, the second ends at `a`, in the later-factor-first convention). -/
+theorem zigzagVertexComultiplication_one (a : V) :
+    TensorProduct.map
+        (leftVertexProjectiveSubtype k (ZigzagAlg k G)
+          (zigzagVertexIdempotent k G connected nontrivial a))
+        (rightVertexProjectiveSubtype k (ZigzagAlg k G)
+          (zigzagVertexIdempotent k G connected nontrivial a))
+        (zigzagVertexComultiplication k G connected nontrivial a 1) =
+      zigzagBacktrack k G connected nontrivial a ⊗ₜ[k]
+          (zigzagVertexIdempotent k G connected nontrivial a : ZigzagAlg k G) +
+        (zigzagVertexIdempotent k G connected nontrivial a : ZigzagAlg k G) ⊗ₜ[k]
+          zigzagBacktrack k G connected nontrivial a +
+        ∑ b : V, if h : G.Adj a b then
+          zigzagArrow k G connected nontrivial a b h ⊗ₜ[k]
+            zigzagArrow k G connected nontrivial b a h.symm else 0 := sorry
 
-/-- Tensoring with the literal kernel above, followed by the sibling factor-ideal quotient. -/
-noncomputable def fksReflectionTensorFunctor
-    (k : Type*) [Field k] {V : Type u} [Fintype V] [DecidableEq V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] (connected : G.Connected)
-    (nontrivial : 1 < Fintype.card V) (a : V) (c : V → k) :
-    FKSStableCategory k _ (zigzagFKSGradedAlgebra k G) (zigzagCenterParameter k G c) ⥤
-      FKSStableCategory k _ (zigzagFKSGradedAlgebra k G)
-        (zigzagCenterParameter k G (reflectCenterParameter G a c)) := sorry
+/-- FKS's `Δ_a = ε_a · coevaluation` (FKS §6.1, transported through the colouring). -/
+noncomputable def fksComultiplication (col : G.Coloring Bool) (a : V) :
+    ZigzagAlg k G →ₗ[k] ZigzagReflectionTensor k G connected nontrivial a :=
+  bipartiteSign k G col a • zigzagVertexComultiplication k G connected nontrivial a
 
-theorem fksReflectionTensorFunctor_isEquivalence
-    (k : Type*) [Field k] {V : Type u} [Fintype V] [DecidableEq V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] (connected : G.Connected)
-    (nontrivial : 1 < Fintype.card V) (a : V) (c : V → k) (ha : c a ≠ 0) :
-    CategoryTheory.Functor.IsEquivalence
-      (fksReflectionTensorFunctor k G connected nontrivial a c) := sorry
+/-- The carrier `A ⊕ (P_a ⊗ {}_aP)[1]` of the reflection duplex `C_{a,x}` (FKS (6.1)): the
+unshifted summand `A` and the shifted summand `P_a ⊗ {}_aP`. -/
+@[ext] structure FKSReflectionKernel (a : V) where
+  unshifted : ZigzagAlg k G
+  shifted : ZigzagReflectionTensor k G connected nontrivial a
+
+/-- The underlying pair. -/
+def FKSReflectionKernel.equivProd (a : V) :
+    FKSReflectionKernel k G connected nontrivial a ≃
+      ZigzagAlg k G × ZigzagReflectionTensor k G connected nontrivial a where
+  toFun v := (v.unshifted, v.shifted)
+  invFun p := ⟨p.1, p.2⟩
+  left_inv _ := rfl
+  right_inv _ := rfl
+
+noncomputable instance (a : V) : AddCommGroup (FKSReflectionKernel k G connected nontrivial a) :=
+  (FKSReflectionKernel.equivProd k G connected nontrivial a).addCommGroup
+
+/-- The left action; on the shifted summand it is twisted by the parity involution, as for any
+shift (FKS §2.1: `a ∘ m = (-1)^|a| a m` on `M[1]`).  Pinned by `fksReflectionKernel_smul`. -/
+noncomputable instance (a : V) :
+    Module (ZigzagAlg k G) (FKSReflectionKernel k G connected nontrivial a) := sorry
+
+/-- The right action is untwisted.  Pinned by `fksReflectionKernel_op_smul`. -/
+noncomputable instance (a : V) :
+    Module (ZigzagAlg k G)ᵐᵒᵖ (FKSReflectionKernel k G connected nontrivial a) := sorry
+
+theorem fksReflectionKernel_smul (a : V) (x : ZigzagAlg k G)
+    (v : FKSReflectionKernel k G connected nontrivial a) :
+    x • v = ⟨x * v.unshifted,
+      (zigzagParityAlgebra k G).parityInvolution FKSParity.zmod2 x •
+        v.shifted⟩ := sorry
+
+theorem fksReflectionKernel_op_smul (a : V) (x : ZigzagAlg k G)
+    (v : FKSReflectionKernel k G connected nontrivial a) :
+    MulOpposite.op x • v = ⟨v.unshifted * x, MulOpposite.op x • v.shifted⟩ := sorry
+
+/-- The reflection kernel `C_{a,-x_a}` of FKS (6.1): the parity-graded bimodule
+`A ⊕ (P_a ⊗ {}_aP)[1]`, with `d(u, t) = (-x_a m_a(t), Δ_a(u))`.  Its square is
+`l(s_a(c)) - r(c)` (FKS (6.3)--(6.4)), so tensoring sends curvature `c` to `s_a(c)`. -/
+noncomputable def fksReflectionKernel (col : G.Coloring Bool) (a : V) (c : V → k) :
+    FKSCurvedBimodule FKSParity.zmod2 (zigzagParityAlgebra k G)
+      (zigzagCenterParameter k G connected nontrivial col (reflectCenterParameter G a c))
+      (zigzagCenterParameter k G connected nontrivial col c)
+      (FKSReflectionKernel k G connected nontrivial a) where
+  grading :=
+    { piece := fun p ↦
+        { carrier := {v | v.unshifted ∈ (zigzagParityAlgebra k G).grading.piece p ∧
+              v.shifted ∈ (zigzagReflectionTensorGrading k G connected nontrivial a).piece (p + 1)}
+          add_mem' := sorry
+          zero_mem' := sorry
+          neg_mem' := sorry }
+      isInternal := sorry }
+  smul_mem_left := sorry
+  smul_mem_right := sorry
+  actions_commute := sorry
+  d :=
+    { toFun := fun v ↦
+        ⟨(-c a) • zigzagVertexMultiplication k G connected nontrivial a v.shifted,
+          fksComultiplication k G connected nontrivial col a v.unshifted⟩
+      map_zero' := sorry
+      map_add' := sorry }
+  d_mem := sorry
+  d_d := sorry
+  d_smul_left := sorry
+  d_smul_right := sorry
+
+/-- The duplex stable category `Mod₂(Ã_c)` of the zigzag algebra at center parameter `c`. -/
+abbrev ZigzagDuplexStable (col : G.Coloring Bool) (c : V → k) :=
+  FKSStableCategory FKSParity.zmod2 (zigzagParityAlgebra k G)
+    (zigzagCenterParameter k G connected nontrivial col c)
+
+/-- The duplex homotopy category `K₂(A,c)`. -/
+abbrev ZigzagDuplexHomotopy (col : G.Coloring Bool) (c : V → k) :=
+  FKSHomotopyCategory FKSParity.zmod2 (zigzagParityAlgebra k G)
+    (zigzagCenterParameter k G connected nontrivial col c)
+
+/-- The inverse of `fksExtensionModuleToCurved`, fixed once for the zigzag duplexes. -/
+noncomputable def zigzagCurvedToExtensionModule (col : G.Coloring Bool) (c : V → k) :
+    FKSCurvedObject FKSParity.zmod2 (zigzagParityAlgebra k G)
+        (zigzagCenterParameter k G connected nontrivial col c) ⥤
+      FKSGradedModule (fksExtensionGradedAlgebra FKSParity.zmod2
+        (zigzagParityAlgebra k G)
+        (zigzagCenterParameter k G connected nontrivial col c)) :=
+  (fksExtensionModuleToCurved _ _ _).inv
+
+noncomputable instance (col : G.Coloring Bool) (c : V → k) :
+    (zigzagCurvedToExtensionModule k G connected nontrivial col c).Additive := sorry
+
+/-- FKS Lemma 6.1: tensoring with `C_{a,-x_a}` sends projective `Ã_c`-modules to objects that are
+zero in `Mod₂(Ã_(s_a c))`, so it descends to the stable categories. -/
+theorem fksReflection_kills_projectiveIdeal (col : G.Coloring Bool) (a : V) (c : V → k) :
+    (FKSGradedModule.projectiveIdeal (fksExtensionGradedAlgebra FKSParity.zmod2
+        (zigzagParityAlgebra k G)
+        (zigzagCenterParameter k G connected nontrivial col c))).Kills
+      (fksExtensionModuleToCurved _ _ _ ⋙
+        (fksReflectionKernel k G connected nontrivial col a c).tensorFunctor ⋙
+        zigzagCurvedToExtensionModule k G connected nontrivial col (reflectCenterParameter G a c) ⋙
+        (FKSGradedModule.projectiveIdeal _).quotientFunctor) := sorry
+
+/-- The reflection functor `R_a : Mod₂(Ã_c) → Mod₂(Ã_(s_a c))`, obtained from tensoring with the
+literal kernel through `Mod₂(Ã) ≃ Com₂(A, -)`. -/
+noncomputable def fksReflectionStableFunctor (col : G.Coloring Bool) (a : V) (c : V → k) :
+    ZigzagDuplexStable k G connected nontrivial col c ⥤
+      ZigzagDuplexStable k G connected nontrivial col (reflectCenterParameter G a c) :=
+  StablePeriodicCurved.MorphismIdeal.lift _
+    (fksExtensionModuleToCurved _ _ _ ⋙
+      (fksReflectionKernel k G connected nontrivial col a c).tensorFunctor ⋙
+      zigzagCurvedToExtensionModule k G connected nontrivial col (reflectCenterParameter G a c) ⋙
+      (FKSGradedModule.projectiveIdeal _).quotientFunctor)
+    (fksReflection_kills_projectiveIdeal k G connected nontrivial col a c)
+
+/-- The stable and homotopy reflection functors agree through `Φ₂`. -/
+noncomputable def fksReflectionStableFunctor_comp_stableToHomotopy (col : G.Coloring Bool) (a : V)
+    (c : V → k) :
+    fksReflectionStableFunctor k G connected nontrivial col a c ⋙ fksStableToHomotopy _ _ _ ≅
+      fksStableToHomotopy _ _ _ ⋙
+        (fksReflectionKernel k G connected nontrivial col a c).homotopyFunctor := sorry
+
+/-- FKS Proposition 6.1: for `x_a ≠ 0` the reflection functor is an equivalence. -/
+theorem fksReflectionStableFunctor_isEquivalence (col : G.Coloring Bool) (a : V) (c : V → k)
+    (ha : c a ≠ 0) :
+    (fksReflectionStableFunctor k G connected nontrivial col a c).IsEquivalence := sorry
+
+/-- The augmentation character at a vertex: `e_a ↦ 1` and every other basis vector `↦ 0`. -/
+noncomputable def zigzagVertexCharacter (a : V) : ZigzagAlg k G →ₐ[k] k := sorry
+
+theorem zigzagVertexCharacter_basis_self (a : V) :
+    zigzagVertexCharacter k G a
+      (ZigzagPreprojective.zigzagBasis k G connected nontrivial (Sum.inl a)) = 1 := sorry
+
+theorem zigzagVertexCharacter_basis_ne (a : V) (i : ZigzagPreprojective.ZigzagBasisIndex G)
+    (hi : i ≠ Sum.inl a) :
+    zigzagVertexCharacter k G a
+      (ZigzagPreprojective.zigzagBasis k G connected nontrivial i) = 0 := sorry
+
+/-- The carrier of the simple module `S_a`: a copy of `k`, on which `A` acts through the vertex
+character. -/
+@[nolint unusedArguments]
+def ZigzagVertexSimple (_connected : G.Connected) (_nontrivial : 1 < Fintype.card V) (_a : V) :=
+  k
+
+instance (a : V) : AddCommGroup (ZigzagVertexSimple k G connected nontrivial a) :=
+  inferInstanceAs (AddCommGroup k)
+
+noncomputable instance (a : V) : Module (ZigzagAlg k G) (ZigzagVertexSimple k G connected nontrivial a) :=
+  Module.compHom k (zigzagVertexCharacter k G a).toRingHom
+
+/-- `S_a` in even parity with zero differential, a duplex of curvature `0` since the degree-two
+center acts by zero on it. -/
+noncomputable def zigzagVertexSimpleDuplex (col : G.Coloring Bool) (a : V) :
+    FKSCurvedObject FKSParity.zmod2 (zigzagParityAlgebra k G)
+      (zigzagCenterParameter k G connected nontrivial col 0) where
+  carrier := ModuleCat.of _ (ZigzagVertexSimple k G connected nontrivial a)
+  str :=
+    { grading :=
+        { piece := fun p ↦ if p = 0 then ⊤ else ⊥
+          isInternal := sorry }
+      smul_mem := sorry
+      d := 0
+      d_mem := sorry
+      d_d := sorry
+      d_smul := sorry }
+
+/-- Positive acceptance test: `S_a` with zero differential is nonzero in `K₂(A,0)`, since a
+null-homotopy of its identity would give `1 = h d + d h = 0`. -/
+theorem zigzagVertexSimpleDuplex_homotopy_not_isZero (col : G.Coloring Bool) (a : V) :
+    ¬ Limits.IsZero ((fksHomotopyIdeal _ _ _).quotientFunctor.obj
+      (zigzagVertexSimpleDuplex k G connected nontrivial col a)) := sorry
+
+/-- Hence its preimage is a nonzero object of `Mod₂(Ã_0)`. -/
+theorem zigzagVertexSimpleDuplex_stable_not_isZero (col : G.Coloring Bool) (a : V) :
+    ¬ Limits.IsZero ((FKSGradedModule.projectiveIdeal _).quotientFunctor.obj
+      ((fksExtensionModuleToCurved _ _ _).inv.obj
+        (zigzagVertexSimpleDuplex k G connected nontrivial col a))) := sorry
+
+end ZigzagFKS
 
 /-- The reflection orbit and the exact genericity condition used in FKS's Weyl-action theorem. -/
 inductive ReflectionReachable {k V : Type*} [CommRing k] (G : SimpleGraph V)
@@ -1697,65 +2389,79 @@ def FKSGeneric {k V : Type*} [CommRing k] (G : SimpleGraph V)
     [DecidableEq V] [DecidableRel G.Adj] (c : V → k) : Prop :=
   ∀ c', ReflectionReachable G c c' → ∀ a, c' a ≠ 0
 
-/-- The orbit Grothendieck category packages all curvature fibres, so the braid statements below
-are natural isomorphisms between endofunctors rather than ill-typed maps between different fibres. -/
-noncomputable def FKSOrbitStableCategory
-    (k : Type*) [Field k] {V : Type u} [Fintype V] [DecidableEq V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] (connected : G.Connected)
-    (nontrivial : 1 < Fintype.card V) (c : V → k) : Type u := sorry
+/-- The reflection orbit of `c`. -/
+abbrev FKSOrbit {k V : Type*} [CommRing k] (G : SimpleGraph V) [DecidableEq V]
+    [DecidableRel G.Adj] (c : V → k) :=
+  {c' : V → k // ReflectionReachable G c c'}
 
-noncomputable instance fksOrbitStableCategory
-    (k : Type*) [Field k] {V : Type u} [Fintype V] [DecidableEq V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] (connected : G.Connected)
-    (nontrivial : 1 < Fintype.card V) (c : V → k) :
-    Category (FKSOrbitStableCategory k G connected nontrivial c) := sorry
+def FKSOrbit.reflect {k V : Type*} [CommRing k] {G : SimpleGraph V} [DecidableEq V]
+    [DecidableRel G.Adj] {c : V → k} (a : V) (c' : FKSOrbit G c) : FKSOrbit G c :=
+  ⟨reflectCenterParameter G a c'.1, c'.2.reflect a⟩
 
-noncomputable def fksOrbitReflectionFunctor
-    (k : Type*) [Field k] {V : Type u} [Fintype V] [DecidableEq V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] (connected : G.Connected)
-    (nontrivial : 1 < Fintype.card V) (c : V → k) (a : V) :
-    FKSOrbitStableCategory k G connected nontrivial c ⥤
-      FKSOrbitStableCategory k G connected nontrivial c := sorry
+section Orbit
 
-noncomputable def fksReflection_commutes
-    (k : Type*) [Field k] {V : Type u} [Fintype V] [DecidableEq V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] (connected : G.Connected)
-    (nontrivial : 1 < Fintype.card V) (c : V → k) (a b : V) (hab : ¬ G.Adj a b) :
-    fksOrbitReflectionFunctor k G connected nontrivial c a ⋙
-        fksOrbitReflectionFunctor k G connected nontrivial c b ≅
-      fksOrbitReflectionFunctor k G connected nontrivial c b ⋙
-        fksOrbitReflectionFunctor k G connected nontrivial c a := sorry
+variable (k : Type u) [Field k] {V : Type u} [Fintype V] [DecidableEq V]
+variable (G : SimpleGraph V) [DecidableRel G.Adj]
+variable (connected : G.Connected) (nontrivial : 1 < Fintype.card V)
+variable (col : G.Coloring Bool) (c : V → k)
 
-noncomputable def fksReflection_braid
-    (k : Type*) [Field k] {V : Type u} [Fintype V] [DecidableEq V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] (connected : G.Connected)
-    (nontrivial : 1 < Fintype.card V) (c : V → k) (a b : V) (hab : G.Adj a b) :
-    fksOrbitReflectionFunctor k G connected nontrivial c a ⋙
-        fksOrbitReflectionFunctor k G connected nontrivial c b ⋙
-        fksOrbitReflectionFunctor k G connected nontrivial c a ≅
-      fksOrbitReflectionFunctor k G connected nontrivial c b ⋙
-        fksOrbitReflectionFunctor k G connected nontrivial c a ⋙
-        fksOrbitReflectionFunctor k G connected nontrivial c b := sorry
+/-- The orbit category: the disjoint union of the curvature fibres `Mod₂(Ã_c')` over the orbit of
+`c`, with fibre inclusions `CategoryTheory.Sigma.incl`. -/
+abbrev FKSOrbitStableCategory :=
+  Σ c' : FKSOrbit G c, ZigzagDuplexStable k G connected nontrivial col c'.1
 
-theorem fksOrbitReflection_isEquivalence_of_generic
-    (k : Type*) [Field k] {V : Type u} [Fintype V] [DecidableEq V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] (connected : G.Connected)
-    (nontrivial : 1 < Fintype.card V) (c : V → k) (generic : FKSGeneric G c) (a : V) :
-    CategoryTheory.Functor.IsEquivalence
-      (fksOrbitReflectionFunctor k G connected nontrivial c a) := sorry
+/-- The orbit reflection functor sends the fibre over `c'` to the fibre over `s_a c'` by
+`fksReflectionStableFunctor`. -/
+noncomputable def fksOrbitReflectionFunctor (a : V) :
+    FKSOrbitStableCategory k G connected nontrivial col c ⥤
+      FKSOrbitStableCategory k G connected nontrivial col c :=
+  CategoryTheory.Sigma.desc fun c' ↦
+    fksReflectionStableFunctor k G connected nontrivial col a c'.1 ⋙
+      CategoryTheory.Sigma.incl
+        (C := fun c'' : FKSOrbit G c ↦ ZigzagDuplexStable k G connected nontrivial col c''.1)
+        (c'.reflect a)
 
-/-- The flagship `Ẽ₈` target uses the concrete nine-vertex sibling graph and kernel. -/
-noncomputable def affineE8FKSReflectionKernel (a : Fin 9) (c : Fin 9 → ℂ) :
-    FKSBimoduleDuplex ℂ (ZigzagPreprojective.zigzagAlgebra ℂ
-        ZigzagPreprojective.affineE8Graph)
-      (ZigzagPreprojective.zigzagAlgebra ℂ ZigzagPreprojective.affineE8Graph)
-      (ZigzagReflectionTensor ℂ ZigzagPreprojective.affineE8Graph a)
-      (zigzagFKSGradedAlgebra ℂ ZigzagPreprojective.affineE8Graph)
-      (zigzagCenterParameter ℂ ZigzagPreprojective.affineE8Graph
-        (reflectCenterParameter ZigzagPreprojective.affineE8Graph a c))
-      (zigzagCenterParameter ℂ ZigzagPreprojective.affineE8Graph c) :=
+/-- Restricted to each fibre, the orbit functor is tensoring with the literal kernel. -/
+noncomputable def fksOrbitReflectionFunctor_incl (a : V) (c' : FKSOrbit G c) :
+    CategoryTheory.Sigma.incl c' ⋙ fksOrbitReflectionFunctor k G connected nontrivial col c a ≅
+      fksReflectionStableFunctor k G connected nontrivial col a c'.1 ⋙
+        CategoryTheory.Sigma.incl
+        (C := fun c'' : FKSOrbit G c ↦ ZigzagDuplexStable k G connected nontrivial col c''.1)
+        (c'.reflect a) :=
+  CategoryTheory.Sigma.inclDesc _ c'
+
+noncomputable def fksReflection_commutes (a b : V) (hab : ¬ G.Adj a b) :
+    fksOrbitReflectionFunctor k G connected nontrivial col c a ⋙
+        fksOrbitReflectionFunctor k G connected nontrivial col c b ≅
+      fksOrbitReflectionFunctor k G connected nontrivial col c b ⋙
+        fksOrbitReflectionFunctor k G connected nontrivial col c a := sorry
+
+noncomputable def fksReflection_braid (a b : V) (hab : G.Adj a b) :
+    fksOrbitReflectionFunctor k G connected nontrivial col c a ⋙
+        fksOrbitReflectionFunctor k G connected nontrivial col c b ⋙
+        fksOrbitReflectionFunctor k G connected nontrivial col c a ≅
+      fksOrbitReflectionFunctor k G connected nontrivial col c b ⋙
+        fksOrbitReflectionFunctor k G connected nontrivial col c a ⋙
+        fksOrbitReflectionFunctor k G connected nontrivial col c b := sorry
+
+/-- The Coxeter relation `R_a ∘ R_a ≅ Id` on a generic orbit (FKS Proposition 6.1 on each fibre,
+using `reflectCenterParameter_reflectCenterParameter`).  With the commuting and braid relations
+this makes the `R_a` a Weyl group action (FKS Theorem 1). -/
+noncomputable def fksReflection_square (generic : FKSGeneric G c) (a : V) :
+    fksOrbitReflectionFunctor k G connected nontrivial col c a ⋙
+        fksOrbitReflectionFunctor k G connected nontrivial col c a ≅ 𝟭 _ := sorry
+
+theorem fksOrbitReflection_isEquivalence_of_generic (generic : FKSGeneric G c) (a : V) :
+    (fksOrbitReflectionFunctor k G connected nontrivial col c a).IsEquivalence := sorry
+
+end Orbit
+
+/-- The flagship `Ẽ₈` target uses the concrete nine-vertex sibling graph and kernel, for any
+two-colouring of the tree. -/
+noncomputable def affineE8FKSReflectionKernel
+    (col : ZigzagPreprojective.affineE8Graph.Coloring Bool) (a : Fin 9) (c : Fin 9 → ℂ) :=
   fksReflectionKernel ℂ ZigzagPreprojective.affineE8Graph
-    (by native_decide) (by native_decide) a c
+    (by native_decide) (by native_decide) col a c
 
 /-! ## Executable integration checks -/
 

@@ -40,9 +40,16 @@ These choices are part of the statements, not implementation details.
   `V∗`.  Only for the determinant-one two-dimensional representation do we use the invariant
   alternating form to identify `V ≃ V∗` equivariantly.  This self-duality is a theorem, not an
   implicit coercion.
-- FKS use graded **left** modules and `d(a m) = (-1)^|a| a d(m)`.  The DGA roadmap's primary
-  module convention is right-handed, so comparison passes through a named opposite-algebra
-  equivalence.  Curvature is a degree-two central element and `d²` is its left action.
+- FKS use graded **left** modules and `d(a m) = (-1)^|a| a d(m)`.  The DGA and stable roadmaps'
+  primary module convention is right-handed, so the comparison is a named equivalence through the
+  Koszul-signed graded opposite, `m · op a = (-1)^(|a||m|) a m`.  Curvature is a degree-two central
+  element and `d²` is its left action.  A curved bimodule has `d² = l(c') - r(c)`, supercommutes
+  with the left action and commutes with the right action [FKS05, §2.4]; tensoring with it sends
+  curvature `c` to `c'`.
+- FKS objects come in two gradings, stated once: `ℤ` for `(A,c)`-complexes and its parity `ℤ/2`
+  for duplexes, with signs `(-1)^p` read through the parity.  A duplex is one `ℤ/2`-graded module
+  on which odd elements of `A` exchange the two components, not a pair of `A`-modules.  Shifting
+  twists the left action by the parity involution, `a ∘ m = (-1)^|a| a m` [FKS05, §2.1].
 
 ## Existing foundations to consume
 
@@ -63,8 +70,8 @@ The following APIs are dependencies and must not be redeveloped here.
 
 - [`CharacterTheory`](../RepresentationTheory/CharacterTheory/README.md) owns `repRing`, its
   character homomorphism and injectivity, character completeness, primitive central idempotents,
-  and the sum-of-squares formula.  This roadmap adds the canonical class map only if that small
-  interface is still missing, then specializes tensor multiplication to McKay.
+  and the sum-of-squares formula.  This roadmap consumes its canonical class map and specializes
+  tensor multiplication to McKay.
 - [`CompactGroups`](../RepresentationTheory/CompactGroups/README.md) and
   [`ClassicalGroups`](../RepresentationTheory/ClassicalGroups/README.md) own compact/unitary and
   `SL₂` representation infrastructure.  We supply only explicit finite subgroups and their
@@ -81,13 +88,17 @@ The following APIs are dependencies and must not be redeveloped here.
   transport, and homotopy transfer.  It is needed to state relative quadratic Koszul duality and
   to transport strict skew-group presentations without pretending a transferred `A∞` model is
   definitionally the strict algebra.
-- [`StablePeriodicCurved`](../StablePeriodicCurved/README.md) supplies morphism-ideal quotients,
-  stable categories, periodic complexes/duplexes, curved differentials, cones, and tensor-functor
-  descent.  FKS complexes are an algebra-valued, graded-left specialization of that public layer.
+- [`StablePeriodicCurved`](../StablePeriodicCurved/README.md) supplies `MorphismIdeal`, its
+  quotients and universal lifts, the factor-through ideal, and right curved DG modules with their
+  triangulated homotopy category.  Its curved duplexes are commutative with scalar curvature, so the
+  left-handed, algebra-valued, parity-graded FKS categories are built here from the ideal machinery;
+  the `ℤ`-graded FKS homotopy category is then proved equivalent to that roadmap's curved homotopy
+  category of the zero-differential algebra `(A, 0, -c)` over its graded opposite.
 - [`ZigzagPreprojective`](../ZigzagPreprojective/README.md) supplies doubled simple graphs, ordinary
   zigzag algebras, affine `E₈`, graded pieces, projectives, Frobenius maps, and additive
-  preprojective algebras.  Its present public prototype has no skew-zigzag carrier, so this roadmap
-  does not promise an odd-cycle skew-zigzag corner under an unavailable name.
+  preprojective algebras.  Odd-cycle skew-zigzag corners are outside this roadmap, and the FKS
+  layer is stated for bipartite graphs, where FKS's orientation-signed algebra is the ordinary
+  zigzag algebra.
 
 The last three dependencies are mathematical prerequisites.  `A∞`/DG machinery controls Koszul
 dual and Morita transfer; stable and periodic machinery is required because FKS identify maps only
@@ -157,7 +168,8 @@ an exhaustive classification:
 
 Handle cyclic `n=2` as the multiplicity-two affine `Ã₁` matrix rather than forcing it into a
 simple graph.  It participates only in the McKay-matrix and representation-ring layers: all
-simple-graph zigzag corners and FKS graph functors below require cyclic `n ≥ 3`.  Under the existing
+simple-graph zigzag corners below require cyclic `n ≥ 3`, and the FKS graph functors further
+require a bipartite graph, so even cyclic `n ≥ 4`.  Under the existing
 `affineE8Graph` numbering (central vertex `0`, arms of edge lengths
 `1,2,5`), the required vector is `(6,3,4,2,5,4,3,2,1)` and vertex `8` is the trivial/affine node.
 Check `Cδ=0` and `∑δ_i²=|Γ|` in every family, with executable checks for the small exceptional
@@ -196,8 +208,8 @@ are Steinberg [Ste85, §1(3)--(5)].
 
 Define the skew product on the finitely supported carrier `Γ →₀ A`, prove the displayed
 single-term multiplication formula, its universal property, associativity, algebra structure,
-and equivalence between left modules and equivariant left `A`-modules.  Separately name the bridge
-to the opposite/right convention.
+and equivalence between left modules and equivariant left `A`-modules.  Separately name the equivalence
+with the opposite/right convention.
 
 Lift a linear representation on a finite-dimensional `V` to actions on `SymmetricAlgebra k V`
 and `ExteriorAlgebra k V`, then form
@@ -221,9 +233,11 @@ augmentation module `S`, with terms determined by the Koszul syzygies, rather th
 types and maps.  Then prove:
 
 - `Sym(V) ⋊ Γ` is relative quadratic Koszul;
-- with the pinned side convention, `T_S(Wᵛ)/(R⊥)` is graded-algebra isomorphic to
-  `Λ(V∗) ⋊ Γ` (or the precisely stated opposite algebra required by the chosen dual-module
-  functor);
+- `T_S(Wᵛ)/(R⊥)` is graded-algebra isomorphic to `Λ(V∗) ⋊ Γ` itself, with no opposite, by an
+  isomorphism which in degree one is the explicit bimodule isomorphism
+  `Wᵛ ≃ V∗ ⊗ k[Γ]`, `f ↦ Σ_h (h·φ_h) # h` where `f(v ⊗ 1) = Σ_h φ_h(v) h`.  Here `Wᵛ` carries
+  `(s·f)(w) = s f(w)` and `(f·t)(w) = f(t w)`, and `Γ` acts on `V∗` by the dual representation;
+  this degree-one formula is what fixes the handedness;
 - the nondegenerate determinant pairing gives an explicit equivariant linear equivalence
   `V ≃ V∗` in dimension two; and
 - the Koszul complexes have explicit differentials, augmentation, exactness, and handedness.
@@ -315,59 +329,77 @@ weight `λ`.  Then prove the path-length filtration and the full-corner equivale
 Crawley-Boevey--Holland [CBH98, §§3--4]; the exact path convention can be cross-checked against
 Crawley-Boevey--Kimura [CBK22, Introduction].  This layer proves algebraic presentations only.
 
-## Layer 6: FKS curved complexes, duplexes, and Weyl functors
+## Layer 6: FKS curved complexes, duplexes, stable categories, and Weyl functors
 
-Generalize the stable/periodic prerequisite, without defining a disconnected parallel theory, to
-a genuinely internally graded possibly noncommutative algebra `A`, a central homogeneous
-`c ∈ A₂`, and graded left modules.  Record scalar-tower compatibility, degree of the action and
-differential, and the homogeneous supercommutation equations.  Implement the FKS structures with
-their equations:
+Let `A` be a graded ring, graded by `ℤ` or by its parity `ℤ/2`, and `c` a central element of
+degree two.  Build, in [FKS05, §§2--4]:
 
-- an `(A,c)`-complex has degree-one `d`, `d²(m)=c*m`, and
-  `d(a*m)=(-1)^|a| a*d(m)`; define shifts, null-homotopies and `K(A,c)`;
-- an `(A,c)`-duplex is the parity version; define cones, the homotopy quotient, and the stable
-  quotient by maps factoring through the **modules induced from the curved extension algebra**.
-  ⚠ Not by maps factoring through the categorically projective objects of the homotopy category: in
-  a triangulated category every epimorphism splits, since completing `f : X → Y` to a triangle
-  forces the next map to be zero and exactness after `Hom(Y,−)` supplies a right inverse.  So every
-  object is categorically projective there, every identity factors through one, and that quotient is
-  the zero category — a model that satisfies every other statement about the stable category
-  vacuously.  Build the graded/parity module category over the curved extension algebra, quotient by
-  its genuine projective modules, and prove the comparison with the duplex/homotopy model; a nonzero
-  stable object is an acceptance test.  This is the distinction FKS draw in [FKS05, §4];
-- tensoring a curved `(A,A)`-bimodule of square `l(c₀)+r(c₁)` gives the correctly handed functor
-  from curvature `-c₁` to curvature `c₀`.
+- **Curved objects.**  An `(A,c)`-complex (for `ℤ`) or duplex (for `ℤ/2`) is a graded left
+  `A`-module with a degree-one additive `d`, `d² = c`, and `d(a m) = (-1)^|a| a d(m)`.  Morphisms
+  are degree-zero `A`-linear maps commuting with `d`; this is the concrete abelian category
+  `Com(A,c)` or `Com₂(A,c)`.  Construct the shift `X[1]` (grading shifted by one, `d` negated, action
+  twisted by the parity involution), the shift functor, `[2] ≅ Id` for duplexes, and the mapping
+  cone `Y ⊕ X[1]` with `d(y, x) = (dy + f x, -dx)`.
+- **Homotopy categories.**  `f` is null-homotopic when `f = h d + d h` for an additive `h`
+  lowering degree by one with `h(a m) = (-1)^|a| a h(m)` (an `A`-map to the shifted object).
+  These maps form an ideal, and `K(A,c)`, `K₂(A,c)` are the prerequisite's `MorphismIdeal`
+  quotients.  For `ℤ`, prove `K(A,c)` equivalent to the prerequisite's curved homotopy category of
+  `(A, 0, -c)` over its graded opposite, which supplies the triangulation.
+- **The curved extension algebra** `Ã_c = A ⊗ ℤ[d]/(d² - c)` with `d a = (-1)^|a| a d` and
+  `deg d = 1`, on the carrier of pairs `a + b d`, with the multiplication
+  `(a + b d)(a' + b' d) = (a a' + b σ(b') c) + (a b' + b σ(a')) d` for the parity involution `σ`.
+  Prove it is free of rank two over `A` and that graded `Ã_c`-modules are equivalent to
+  `Com(A,c)`, with `d` acting as the element `d`.
+- **Stable categories.**  `Mod(Ã_c)` and `Mod₂(Ã_c)` are the graded module categories (abelian,
+  so projectivity is the usual notion) modulo maps factoring through projective graded modules.
+  FKS Lemma 4.1 (projectives are contractible) gives the canonical functor
+  `Φ₂ : Mod(Ã_c) → K(A,c)` of [FKS05, (4.1)].  The stable category is a quotient of the module
+  category, not of the homotopy category, and `Φ₂` is not an equivalence in general.
+- **Folding.**  Collapsing the `ℤ`-grading to its parity is a functor `Com(A,c) → Com₂(A,c)`; the
+  Weyl functors act on the duplex side, as in [FKS05, §6].
+- **Tensoring.**  For a curved bimodule `N` with `d² = l(c') - r(c)`, the balanced tensor `N ⊗_A M`
+  with total grading and `d(n ⊗ m) = dn ⊗ m + (-1)^|n| n ⊗ dm` gives `Com(A,c) → Com(A,c')`, on
+  morphisms `id ⊗ f`, descending to `K(A,c) → K(A,c')` [FKS05, §§2.3--2.4, 3.3].
 
-These are [FKS05, §§2.1--2.4, §§3, §4].  Reuse the prerequisite's `MorphismIdeal`, quotient,
-duplex, cone and stable-factorization machinery.  If its bounded commutative `CurvedDuplex`
-prototype is still the only concrete public declaration, generalizing it to central
-algebra-valued curvature belongs in that prerequisite and must not be silently duplicated here.
+Acceptance tests, each on a named algebra:
 
-For the affine zigzag algebra `A=A(G)`, build the literal corner modules `P_a=Ae_a` and
-`{}_aP=e_aA`, the multiplication `m_a:P_a⊗{}_aP→A`, and the Frobenius comultiplication
-`Δ_a:A→P_a⊗{}_aP`.  For a center parameter `c=∑_i x_i X_i`, define
+- over `A = ℚ[t]/(t²)` in degree zero with `c = 0`, the disk `Ã_0 ⊗_A (A/(t))` is nonzero in
+  `Mod(Ã_0)` (its restriction to `A` is not projective) but zero in `K(A,0)`, so `Φ₂` kills a
+  nonzero object and is not an equivalence;
+- over `ℚ[u,u⁻¹]` with `deg u = 2` and `c = u`, every object of `K(A,c)` is contractible by
+  `h = u⁻¹ d / 2`, so `K(A,c)` is the zero category [FKS05, §3.2, Remark];
+- for the zigzag algebra of a connected bipartite graph at `c = 0`, a simple module with zero
+  differential is nonzero in `K₂(A,0)`, hence its preimage is a nonzero object of `Mod₂(Ã_0)`.
+
+**Weyl functors.**  FKS §5.1 use an orientation-signed algebra `A(Q)`; it is the ordinary zigzag
+algebra when `Q` is bipartite [FKS05, §5.1] (over any field; for a connected graph and
+characteristic other than two, only then), which covers every binary-group McKay graph
+(FKS §8.1 assume `-1 ∈ Γ`).  So this part is stated for a connected **bipartite** graph with a
+chosen two-colouring, and the colouring transports FKS's data explicitly.  With `ε_a = ±1` by
+colour and `Y_a` the ordinary backtrack class at `a` (trace one), FKS's degree-two basis element is
+`X_a = ε_a Y_a`, and FKS's comultiplication is `Δ_a = ε_a` times the ordinary Frobenius
+coevaluation, whose value on `1` is
+`Y_a ⊗ e_a + e_a ⊗ Y_a + Σ_(a--b) (a⟶b) ⊗ (b⟶a)` in `P_a ⊗ {}_aP`, where `P_a = A e_a` and
+`{}_aP = e_a A` are the literal corner modules and `m_a : P_a ⊗ {}_aP → A` is multiplication.  For
+a center parameter `c = Σ_i x_i X_i` define
 
 ```text
 s_a(c) = c + x_a (∑_(a--b) X_b - 2 X_a).
 ```
 
-The reflection kernel is precisely `C_{a,-x_a}`: its two maps alternate `Δ_a` and
-`-x_a m_a`, and its square is
-
-```text
-l(s_a(c)) - r(c).
-```
-
-Tensoring this concrete bimodule duplex gives the curvature-changing functor from `c` to
-`s_a(c)` and descends through the factor-through-induced-modules ideal above.  Prove its stable inverse when
-`x_a ≠ 0`, commuting relations for nonadjacent vertices, and braid relations for adjacent
-vertices.  For a base parameter `c`, define its reflection orbit and impose the precise FKS
-genericity condition `x_a(c') ≠ 0` for every vertex `a` and every `c'` in that orbit (equivalently,
-no orbit point is fixed by a simple reflection).  Only under this condition package the kernels as
-autoequivalences giving the Weyl action; without it retain the individual curvature-changing
-functors and whichever braid isomorphisms are proved.
-These constructions and equations are [FKS05, §6, (6.3)--(6.4), Props. 6.1--6.3, Thms. 1--2].
-The skew-group transport is [FKS05, §§8.1--8.2 and §9.3].
+The reflection kernel `C_{a,-x_a}` is the parity-graded bimodule `A ⊕ (P_a ⊗ {}_aP)[1]`, with the
+left action on the shifted summand twisted by the parity involution and the right action untwisted,
+and `d(u, t) = (-x_a m_a(t), Δ_a(u))`.  Its square is `l(s_a(c)) - r(c)` [FKS05, (6.3)--(6.4)], so
+tensoring gives `Com₂(A,c) → Com₂(A,s_a(c))`.  Prove that it sends projective `Ã_c`-modules to
+stably zero objects [FKS05, Lemma 6.1], so it induces `R_a : Mod₂(Ã_c) → Mod₂(Ã_(s_a c))`
+compatible with `Φ₂` and the homotopy-level functor; that `R_a` is an equivalence when `x_a ≠ 0`
+[FKS05, Prop. 6.1], with `s_a` an involution; and the commuting and braid relations.  For a base parameter `c`, the orbit
+category is the disjoint union of the fibres `Mod₂(Ã_c')` over the reflection orbit of `c`, and the
+orbit functor `R_a` is defined fibrewise, so its restriction to each fibre is the tensor functor
+above by construction.  Impose the precise FKS genericity condition `x_a(c') ≠ 0` for every vertex
+`a` and every `c'` in the orbit; under it prove `R_a ∘ R_a ≅ Id` on the orbit category, so that
+together with the commuting and braid relations the `R_a` give the Weyl action [FKS05, Thm. 1].  These are [FKS05, §6, (6.3)--(6.4), Props. 6.1--6.3, Thms. 1--2].  The skew-group
+transport is [FKS05, §§8.1--8.2 and §9.3].
 
 Only the algebraic material in FKS §§2--4, 6, 8.1--8.2 and 9.3 is in scope.  Their variety and
 sheaf interpretations are not.
@@ -395,8 +427,8 @@ preprojective Morita equivalences and at least one nonzero deformed parameter.
 Give all nine irreducibles and tensor decompositions, the explicit isomorphism with the sibling
 `affineE8Graph`, and the regular vector `(6,3,4,2,5,4,3,2,1)` in its numbering.  Machine-check
 `Cδ=0`, `∑δ_i²=120`, the affine-to-finite `E₈` lattice quotient, the 34-dimensional affine
-zigzag target, the polynomial/preprojective target, and a vertex FKS reflection functor with its
-curvature equation.  This is prerequisite validation only; do not attach the downstream
+zigzag target, the polynomial/preprojective target, and, for a two-colouring of the tree, a
+vertex FKS reflection functor with its curvature equation.  This is prerequisite validation only; do not attach the downstream
 finiteness, higher-gluing, or categorified-`δ` claims to it.
 
 ## Explicit exclusions
@@ -429,11 +461,11 @@ The roadmap is complete when:
    distinction from the block scalar `f_i`, which is what the centre's algebra equivalence uses),
    deformed preprojective relations, orientation transport and full-corner comparison are proved in
    the Tau Ceti path convention;
-7. FKS curved complexes/duplexes and their stable quotients — by the induced modules over the
-   curved extension algebra, not by the categorical projectives of a triangulated category, which
-   would collapse them — instantiate the sibling stable API, a nonzero stable object witnesses that
-   they do not, and the algebraic Weyl/braid functors satisfy the cited square, inverse and braid
-   equations; and
+7. the FKS curved complexes and duplexes, their homotopy categories, the curved extension algebra,
+   the stable module categories `Mod(Ã_c)`, `Mod₂(Ã_c)` and the functor `Φ₂` to the homotopy
+   category are constructed, the three acceptance tests of Layer 6 hold, and on bipartite zigzag
+   duplexes the reflection functors built from the literal kernel satisfy the cited square, inverse
+   and braid equations; and
 8. the cyclic, binary-dihedral and binary-icosahedral integration tests elaborate and compute.
 
 ## Published sources
