@@ -669,12 +669,12 @@ pro-`p` quotient.
   `residue(u)^{−i}`, and that transformation rule has to be retained. Multiplying a positive-level
   character by any nonzero residue scalar preserves injectivity and the equivariance law while
   changing the break constant, hence the norm polynomial below. Over `k = 𝔽₄`, with `K = k((s))` and
-  `L = K(π)` for `π² + sπ + s = 0` — a separable Eisenstein quadratic, so totally ramified — the
+  `L = K(π)` for `π² + sπ + s = 0` (a separable Eisenstein quadratic, so totally ramified), the
   nonidentity automorphism has `σ(π) = π + s`, break one, and `θ₁(σ) = residue(s/π²) = 1` since
   `π² = s(π+1)`. Also `Tr(π) = N(π) = s`, and for `y ∈ k` one computes exactly
   `N(1 + yπ) = 1 + (y² + y)s`, so the graded norm in these coordinates is `y ↦ y² + y`, with kernel
-  `{0,1}`. Replacing `θ₁` by `ω·θ₁` for `ω ∈ 𝔽₄ \ 𝔽₂` satisfies every displayed condition — inertia
-  here is of order two with trivial tame quotient — but gives constant `ω` and polynomial
+  `{0,1}`. Replacing `θ₁` by `ω·θ₁` for `ω ∈ 𝔽₄ \ 𝔽₂` satisfies every displayed condition (inertia
+  here is of order two with trivial tame quotient) but gives constant `ω` and polynomial
   `y ↦ y² + ωy`, with kernel `{0, ω}`. That is not the actual norm in the fixed coordinates. Prove the consequences: `G_1` is the unique `p`-Sylow
   subgroup of `G_0` and is normal, which is wild inertia at finite level; and `G_0` has the cyclic
   tame quotient `G_0/G_1`. Define the conjugation action of `G_0` on each quotient and prove the
