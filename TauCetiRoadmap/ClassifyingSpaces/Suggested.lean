@@ -34,7 +34,7 @@ section Simplicial
 
 variable (A : ℕ → Type u) (G : Type u) [Group G]
 
-/-- **Milestone 1 — the countable join.** The faces are the nonempty finite sets of indexed
+/-- **Milestone 1: the countable join.** The faces are the nonempty finite sets of indexed
 vertices meeting each index at most once. -/
 def countableJoin : AbstractSimplicialComplex (Σ i : ℕ, A i) := sorry
 
@@ -42,12 +42,13 @@ def countableJoin : AbstractSimplicialComplex (Σ i : ℕ, A i) := sorry
 noncomputable def universalGSpace : Type u :=
   AbstractSimplicialComplex.Realization (countableJoin fun _ : ℕ => G)
 
-noncomputable instance : TopologicalSpace (universalGSpace G) := sorry
+noncomputable instance : TopologicalSpace (universalGSpace G) :=
+  inferInstanceAs (TopologicalSpace (AbstractSimplicialComplex.Realization _))
 
 /-- Its distinguished point, the vertex at index `0` labelled by `1`. -/
 noncomputable def universalGSpaceBasepoint : universalGSpace G := sorry
 
-/-- **Milestone 2 — weak contractibility.** With nonempty factors at infinitely many indices the
+/-- **Milestone 2: weak contractibility.** With nonempty factors at infinitely many indices the
 realization is path-connected with vanishing homotopy groups; for a group this is the total space
 above. -/
 instance : PathConnectedSpace (universalGSpace G) := sorry
@@ -58,7 +59,7 @@ theorem subsingleton_homotopyGroup_universalGSpace {N : Type u} [Fintype N] [Non
     [DecidableEq N] (x : universalGSpace G) :
     Subsingleton (HomotopyGroup N (universalGSpace G) x) := sorry
 
-/-- **Milestone 3 — the action and the orbit cover.** -/
+/-- **Milestone 3: the action and the orbit cover.** -/
 noncomputable instance : MulAction G (universalGSpace G) := sorry
 
 instance : ContinuousConstSMul G (universalGSpace G) := sorry
@@ -67,7 +68,8 @@ instance : ContinuousConstSMul G (universalGSpace G) := sorry
 def classifyingSpace : Type u :=
   Quotient (MulAction.orbitRel G (universalGSpace G))
 
-noncomputable instance : TopologicalSpace (classifyingSpace G) := sorry
+noncomputable instance : TopologicalSpace (classifyingSpace G) :=
+  inferInstanceAs (TopologicalSpace (Quotient _))
 
 noncomputable def classifyingSpaceProj : universalGSpace G → classifyingSpace G := sorry
 
@@ -83,7 +85,7 @@ the other, and that element is unique. -/
 theorem classifyingSpaceProj_eq_iff (x y : universalGSpace G) :
     classifyingSpaceProj G x = classifyingSpaceProj G y ↔ ∃! g : G, g • x = y := sorry
 
-/-- **Milestone 4 — the standing hypotheses.** Both spaces satisfy the hypotheses under which the
+/-- **Milestone 4: the standing hypotheses.** Both spaces satisfy the hypotheses under which the
 covering-space classification applies. -/
 instance : LocallyPathConnectedSpace (universalGSpace G) := sorry
 
@@ -93,7 +95,7 @@ instance : LocallyPathConnectedSpace (classifyingSpace G) := sorry
 
 instance : SemilocallySimplyConnectedSpace (classifyingSpace G) := sorry
 
-/-- **Milestone 5 — it is a `K(G, 1)`.** The fundamental group is `G`, in the direction fixed
+/-- **Milestone 5: it is a `K(G, 1)`.** The fundamental group is `G`, in the direction fixed
 against the opposite-group convention of the universal-covers roadmap. -/
 noncomputable def fundamentalGroupClassifyingSpace :
     FundamentalGroup (classifyingSpace G) (classifyingSpaceBasepoint G) ≃* G := sorry
@@ -106,7 +108,7 @@ space, with no hypothesis on the group. -/
 theorem exists_isEilenbergMacLaneSpaceOne :
     ∃ (X : Type u) (_ : TopologicalSpace X) (x : X), IsEilenbergMacLaneSpaceOne G X x := sorry
 
-/-- **Milestone 6 — functoriality**, strictly and not only up to homotopy. -/
+/-- **Milestone 6: functoriality**, strictly and not only up to homotopy. -/
 noncomputable def classifyingSpaceMap {H : Type u} [Group H] (φ : G →* H) :
     C(classifyingSpace G, classifyingSpace H) := sorry
 
@@ -126,7 +128,7 @@ section Cellular
 
 variable {α : Type u}
 
-/-- **Milestone 7 — the presentation complex** of a presentation: one vertex, a one-cell for each
+/-- **Milestone 7: the presentation complex** of a presentation: one vertex, a one-cell for each
 generator, a two-cell for each relator. -/
 def presentationComplex (rels : Set (FreeGroup α)) : Type u := sorry
 
@@ -141,7 +143,7 @@ noncomputable def fundamentalGroupPresentationComplex (rels : Set (FreeGroup α)
     FundamentalGroup (presentationComplex rels) (presentationComplexBasepoint rels) ≃*
       PresentedGroup rels := sorry
 
-/-- **Milestone 10 — the cellular model.** Attaching cells above dimension two to the
+/-- **Milestone 10: the cellular model.** Attaching cells above dimension two to the
 presentation complex of the tautological presentation gives a `K(G, 1)` of CW type. -/
 def cellularClassifyingSpace (G : Type u) [Group G] : Type u := sorry
 
@@ -155,6 +157,11 @@ theorem isEilenbergMacLaneSpaceOne_cellularClassifyingSpace (G : Type u) [Group 
     IsEilenbergMacLaneSpaceOne G (cellularClassifyingSpace G)
       (cellularClassifyingSpaceBasepoint G) := sorry
 
+noncomputable instance (G : Type u) [Group G] :
+    Topology.CWComplex (Set.univ : Set (cellularClassifyingSpace G)) := sorry
+
+instance (G : Type u) [Group G] : T2Space (cellularClassifyingSpace G) := sorry
+
 end Cellular
 
 /-! ## Stage 3: uniqueness and the comparison of the models -/
@@ -163,14 +170,26 @@ section Uniqueness
 
 variable {G : Type u} [Group G]
 
-/-- **Milestone 12 — uniqueness.** Two `K(G, 1)` spaces of the same group, one of CW type, are
-homotopy equivalent by an equivalence realizing a prescribed isomorphism of fundamental groups. -/
-theorem nonempty_homotopyEquiv_of_isEilenbergMacLaneSpaceOne
-    {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y] {x : X} {y : Y}
-    (hX : IsEilenbergMacLaneSpaceOne G X x) (hY : IsEilenbergMacLaneSpaceOne G Y y) :
-    Nonempty (ContinuousMap.HomotopyEquiv X Y) := sorry
+/-- **Milestone 12: uniqueness.** Two aspherical CW complexes are homotopy equivalent by an
+equivalence that preserves the base points and induces a prescribed isomorphism of fundamental
+groups; for two `K(G, 1)` CW complexes any isomorphism through `G` is such a prescription. The
+roadmap asks for the version for spaces of CW type, which follows by transport. Both CW
+hypotheses are needed: a point and the Warsaw circle are both `K(1, 1)` spaces. -/
+theorem exists_homotopyEquiv_of_isAspherical
+    {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y] [T2Space X] [T2Space Y]
+    [Topology.CWComplex (Set.univ : Set X)] [Topology.CWComplex (Set.univ : Set Y)]
+    {x : X} {y : Y} (_hX : IsAspherical X x) (_hY : IsAspherical Y y)
+    (e : FundamentalGroup X x ≃* FundamentalGroup Y y) :
+    ∃ (F : ContinuousMap.HomotopyEquiv X Y) (hF : F.toFun x = y),
+      ∀ γ, FundamentalGroup.mapOfEq F.toFun hF γ = e γ := sorry
 
-/-- **Milestone 13 — the two models agree.** -/
+/-- **Milestone 13: CW structures along coverings**, the case consumed by the simplicial model:
+the orbit space of the countable join is a CW complex, its cells the orbits of simplices. -/
+noncomputable instance : Topology.CWComplex (Set.univ : Set (classifyingSpace G)) := sorry
+
+instance : T2Space (classifyingSpace G) := sorry
+
+/-- **Milestone 14: the two models agree.** -/
 theorem nonempty_homotopyEquiv_classifyingSpace :
     Nonempty (ContinuousMap.HomotopyEquiv (classifyingSpace G) (cellularClassifyingSpace G)) :=
   sorry
@@ -181,7 +200,26 @@ end Uniqueness
 
 section Homology
 
-/-- **Milestone 16 — the comparison with algebra.** The singular homology of the classifying
+/-- **Milestone 16: the chain-level comparison**, for the simplicial model: the augmented cellular
+chains of `universalGSpace G`, its cells the simplices of the countable join, as a free
+resolution of the trivial module. -/
+noncomputable def universalGSpaceResolution (G : Type) [Group G] :
+    CategoryTheory.ProjectiveResolution (Rep.trivial ℤ G ℤ) := sorry
+
+/-- **Milestone 18: comparison with the bar resolution.** The explicit equivariant chain map
+sending the simplex `{(i₀, g₀), …, (iₙ, gₙ)}`, `i₀ < ⋯ < iₙ`, to `(g₀, …, gₙ)`. It is a chain
+homotopy equivalence, not an isomorphism: the two complexes already differ in degree zero. -/
+noncomputable def universalGSpaceResolutionToStandard (G : Type) [Group G] :
+    (universalGSpaceResolution G).complex ⟶ (Rep.standardResolution ℤ G).complex := sorry
+
+open CategoryTheory in
+/-- The explicit map lifts the identity of `ℤ`, so it represents the comparison that Mathlib's
+`ProjectiveResolution.homotopyEquiv` gives between any two projective resolutions. -/
+theorem universalGSpaceResolutionToStandard_comp_π (G : Type) [Group G] :
+    universalGSpaceResolutionToStandard G ≫ (Rep.standardResolution ℤ G).π =
+      (universalGSpaceResolution G).π := sorry
+
+/-- **Milestone 17: the comparison with algebra.** The singular homology of the classifying
 space is the group homology of the trivial module. Stated over `ℤ` and in the bottom universe for
 readability; the roadmap asks for it over any commutative ring and any group. -/
 theorem singularHomology_classifyingSpace_iso_groupHomology (G : Type) [Group G] (n : ℕ) :
