@@ -761,7 +761,8 @@ theorem hexacode_d4_isLagrangian :
 noncomputable def golayConstructionA : IntegralLattice ((Fin 12 ⊕ Fin 12) → ℚ) :=
   constructionA 2 (by decide) extendedBinaryGolay.toAddSubgroup
     (by
-      rw [zmodDual_two_toAddSubgroup, extendedBinaryGolay_typeII.2])
+      rw [zmodDual_two_toAddSubgroup, extendedBinaryGolay_typeII.2]
+      exact le_rfl)
 
 theorem golayConstructionA_isEven : golayConstructionA.IsEven := sorry
 

@@ -466,7 +466,7 @@ theorem homologicalWhitehead
     [CWComplex (Set.univ : Set X)] [CWComplex (Set.univ : Set Y)]
     (f : C(X, Y))
     (_hf : ∀ n : ℕ,
-      IsIso (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℤ) n).obj
+      IsIso (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) n).obj
         (ModuleCat.of ℤ ℤ)).map (TopCat.ofHom f))) :
     ∃ e : X ≃ₕ Y, e.toFun = f := by
   sorry
