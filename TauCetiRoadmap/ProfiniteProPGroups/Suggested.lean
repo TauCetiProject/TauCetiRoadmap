@@ -1059,10 +1059,13 @@ theorem powerSeries_sub_C_dvd_iff (ψ : PowerSeries ℤ_[p]) (c : ℤ_[p]) (hc :
 
 /-- **Layer 9, the constant term of a quotient by `T - c`.** This one equation is what converts
 a division into a statement about the corrected generator: `ψ(0) = -c · φ(0)`, so
-`v_p(φ(0)) = v_p(ψ(0)) - v_p(c)`. In Labute's procyclic correction `c = -(2 + 2^f)` has
-`v₂(c) = 1`, the first coefficient has `ψ₁(0) = 2 + a` with `v₂ = 1`, and the second has
-`ψ₂(0) = 2^g` with `v₂ = g ≥ 2`; hence `φ₁(0)` is a unit and `φ₂(0) ∈ 2ℤ₂`, which is exactly
-the congruence `z₁ ≡ y₁ (mod Φ(F))` that makes the corrected family a basis. -/
+`v_p(φ(0)) = v_p(ψ(0)) - v_p(c)`. In the notation of
+`exists_labuteBasisCorrection_of_dyadic_procyclic` (where `v = v₂(a)` is Labute's `f`, and the
+third-generator exponent `f` is Labute's `g`), the procyclic correction has
+`c = -(2 + 2^v)` with `v₂(c) = 1`, the first coefficient has `ψ₁(0) = 2 + a` with `v₂ = 1`, and
+the second has `ψ₂(0) = 2^f` with `v₂ = f ≥ 2` (it is zero when `f = ∞`); hence
+`φ₁(0)` is a unit and `φ₂(0) ∈ 2ℤ₂`, which is exactly the congruence `z₁ ≡ y₁ (mod Φ(F))`
+that makes the corrected family a basis. -/
 theorem constantCoeff_of_eq_sub_C_mul (ψ φ : PowerSeries ℤ_[p]) (c : ℤ_[p])
     (h : ψ = (PowerSeries.X - PowerSeries.C (R := ℤ_[p]) c) * φ) :
     PowerSeries.constantCoeff (R := ℤ_[p]) ψ
@@ -1662,7 +1665,7 @@ theorem isFreeProPBasis_of_generates (p n : ℕ) [Fact p.Prime]
   sorry
 
 /-- **Layer 9, the Frattini-congruence criterion.** A family congruent to a basis modulo the
-Frattini subgroup `Φ(F) = λ₁(F)` — Labute's `F₂` — is itself a basis, because the two families
+Frattini subgroup `Φ(F) = λ₁(F)` (Labute's `F₂`) is itself a basis, because the two families
 have the same image in `F/Φ(F)` and Burnside's basis theorem lifts generation from there. This
 is the form in which the criterion is applied on p. 122: the corrected `z₁` differs from `y₁` by
 an element of `Φ(F) ∩ X`, because the divided series has unit constant term. -/
