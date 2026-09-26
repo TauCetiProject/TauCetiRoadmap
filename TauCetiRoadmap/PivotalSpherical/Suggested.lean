@@ -57,7 +57,7 @@ built on the double dual's pinned `.Monoidal` instance), not a bare natural iso;
 docstring: without it the Freyd–Yetter and torsor milestones are false, and without the balancing
 axiom `RibbonCategory` and the braided↔pivotal equivalence are vacuous. The fusion-level milestones
 (`frobeniusPerronDim`, `universalGradingGroup`, the DGNO classification) carry their hypotheses as
-ordinary instance arguments, which is what fixes the coefficient field `k`, and `VecTwisted` is built
+ordinary instance arguments, which keeps the coefficient field `k` explicit, and `VecTwisted` is built
 over a **bundled** normalized 3-cocycle so its monoidal structure is not asserted for an arbitrary
 `ω`. `README.md` remains the definitive
 document.
@@ -582,15 +582,22 @@ The round-trips make `balanced+rigid ≃ braided+pivotal` (HPT §2.3, Appendix A
 theorem nonempty_pivotal_of_braided_balanced (C : Type u) [Category.{v} C] [MonoidalCategory C]
     [BraidedCategory C] [RigidCategory C] [BalancedCategory C] : Nonempty (PivotalCategory C) := sorry
 
+/-- **The centre of a rigid category is rigid**, canonically: the right dual of `(X, β)` is `Xᘁ` with
+the half-braiding obtained by taking mates of `β⁻¹`, and similarly on the left. This is the rigid
+structure every centre statement below uses; none of them takes an arbitrary
+`[RigidCategory (Center C)]` argument, which would shadow it. -/
+noncomputable instance centerRigidCategory (C : Type u) [Category.{v} C] [MonoidalCategory C]
+    [RigidCategory C] : RigidCategory (Center C) := sorry
+
 /-- The centre's duals are computed on underlying objects. Named because the statement that the
 induced pivotal structure forgets to the given one needs this comparison. -/
 noncomputable def centerRightDualIso (C : Type u) [Category.{v} C] [MonoidalCategory C]
-    [RigidCategory C] [RigidCategory (Center C)] (X : Center C) :
+    [RigidCategory C] (X : Center C) :
     (((X : Center C)ᘁ : Center C)).1 ≅ ((X.1 : C)ᘁ : C) := sorry
 
 /-- **Drinfel'd-centre arrow `Z(pivotal) = braided+pivotal`** (HPT Prop 2.3): the pivotal structure
-that a pivotal structure on `C` *induces* on the (braided) centre `Z(C)`. Assumes the centre is right
-rigid (a sub-target).
+that a pivotal structure on `C` *induces* on the (braided) centre `Z(C)`, over the canonical rigid
+structure `centerRigidCategory`.
 
 ⚠ Neither a `Nonempty` statement nor an arbitrary `[PivotalCategory (Center C)]` instance argument
 expresses this. The pivotal structures on `Z(C)` form a torsor, and the ribbon theorem below is about
@@ -598,13 +605,13 @@ one point of it; a theorem taking some centre pivotal structure as input would b
 twist. So the induced structure is a named `def`, and `centerPivotalOfPivotal_forgets` records that
 it restricts to the given structure on underlying objects. -/
 noncomputable def centerPivotalOfPivotal (C : Type u) [Category.{v} C] [MonoidalCategory C]
-    [RigidCategory C] [PivotalCategory C] [RigidCategory (Center C)] :
+    [RigidCategory C] [PivotalCategory C] :
     PivotalCategory (Center C) := sorry
 
 /-- The induced pivotal structure forgets to the given one: its component at `X : Z(C)` is, along the
 canonical dual comparisons, the component of `φ` at the underlying object `X.1`. -/
 theorem centerPivotalOfPivotal_forgets (C : Type u) [Category.{v} C] [MonoidalCategory C]
-    [RigidCategory C] [PivotalCategory C] [RigidCategory (Center C)] (X : Center C) :
+    [RigidCategory C] [PivotalCategory C] (X : Center C) :
     letI := centerPivotalOfPivotal C
     (pivotalIsoApp X).hom.f ≫ (centerRightDualIso C ((X : Center C)ᘁ : Center C)).hom ≫
         rightAdjointMate (centerRightDualIso C X).inv
@@ -615,8 +622,62 @@ theorem centerPivotalOfPivotal_forgets (C : Type u) [Category.{v} C] [MonoidalCa
 the next statement is about. -/
 @[implicit_reducible]
 noncomputable def centerBalancedOfSpherical (C : Type u) [Category.{v} C] [MonoidalCategory C]
-    [RigidCategory C] [PivotalCategory C] [SphericalCategory C] [RigidCategory (Center C)] :
+    [RigidCategory C] [PivotalCategory C] [SphericalCategory C] :
     BalancedCategory (Center C) := sorry
+
+section CenterLinear
+
+/-! ### The centre as a linear abelian category
+
+`Center C` is only a monoidal (and braided) category in Mathlib. Everything below that treats it as a
+fusion category needs its additive, linear and abelian structure, and needs that structure to be the
+*canonical* one induced from `C`, so that it is compatible with `Center.forget`. These are the
+instances; no statement below takes an arbitrary `[Abelian (Center C)]`, `[Linear k (Center C)]` or
+`[MonoidalCategory (Center C)]` argument, since such an argument would shadow the canonical structure
+and the theorem would then be about an unrelated category. -/
+
+variable (k : Type w) [Field k] (C : Type u) [Category.{v} C] [MonoidalCategory C]
+
+/-- Morphisms of `Center C` are morphisms of `C` commuting with the half-braidings, which form an
+additive subgroup once tensoring is additive. -/
+noncomputable instance centerPreadditive [Preadditive C] [MonoidalPreadditive C] :
+    Preadditive (Center C) := sorry
+
+noncomputable instance centerLinear [Preadditive C] [Linear k C] [MonoidalPreadditive C]
+    [MonoidalLinear k C] : Linear k (Center C) := sorry
+
+instance [Preadditive C] [MonoidalPreadditive C] : (Center.forget C).Additive := sorry
+
+instance [Preadditive C] [Linear k C] [MonoidalPreadditive C] [MonoidalLinear k C] :
+    (Center.forget C).Linear k := sorry
+
+instance : (Center.forget C).Faithful := sorry
+
+/-- **The centre of a rigid abelian monoidal category is abelian.** Kernels and cokernels are
+computed in `C`, and carry half-braidings because `X ⊗ -` and `- ⊗ X` are exact (they have both
+adjoints, by rigidity). The preadditive structure is `centerPreadditive`, not a second one. -/
+noncomputable instance centerAbelian [Abelian C] [MonoidalPreadditive C] [RigidCategory C] :
+    Abelian (Center C) where
+  toPreadditive := centerPreadditive C
+  normalMonoOfMono := sorry
+  normalEpiOfEpi := sorry
+  has_finite_products := sorry
+  has_kernels := sorry
+  has_cokernels := sorry
+
+/-- **`Center.forget` is exact**: it preserves finite limits and finite colimits. -/
+instance [Abelian C] [MonoidalPreadditive C] [RigidCategory C] :
+    Limits.PreservesFiniteLimits (Center.forget C) := sorry
+
+instance [Abelian C] [MonoidalPreadditive C] [RigidCategory C] :
+    Limits.PreservesFiniteColimits (Center.forget C) := sorry
+
+instance [Preadditive C] [MonoidalPreadditive C] : MonoidalPreadditive (Center C) := sorry
+
+instance [Preadditive C] [Linear k C] [MonoidalPreadditive C] [MonoidalLinear k C] :
+    MonoidalLinear k (Center C) := sorry
+
+end CenterLinear
 
 /-- **Drinfel'd-centre arrow `Z(spherical) = ribbon`** (Müger): the centre of a spherical **fusion**
 category is ribbon, for the twist induced by its spherical structure.
@@ -644,7 +705,6 @@ theorem ribbon_center_of_spherical (k : Type w) [Field k] [IsAlgClosed k] [CharZ
     [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)]
     [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
     [Fintype (SimpleClasses C)] [PivotalCategory C] [SphericalCategory C]
-    [RigidCategory (Center C)] [Abelian (Center C)] [Linear k (Center C)]
     [IsFiniteSemisimpleCategory (Center C)] :
     letI := centerBalancedOfSpherical C
     RibbonCategory (Center C) := sorry
@@ -652,15 +712,18 @@ theorem ribbon_center_of_spherical (k : Type w) [Field k] [IsAlgClosed k] [CharZ
 /-! ## Layer 11: the centre of a fusion category is a fusion category
 
 This layer produces the `IsFiniteSemisimpleCategory (Center C)` instance that
-`ribbon_center_of_spherical` assumes, and the remaining fusion hypotheses on `Center C`. It is the
-only place in this roadmap where the centre is studied as a category in its own right rather than
-as a target of an arrow in the synoptic chart. Sources: ENO, *On fusion categories*, §§2 and 8;
-Müger, *From subfactors to categories and topology II*; EGNO Chapter 9.
+`ribbon_center_of_spherical` assumes, and the remaining fusion hypotheses on `Center C`, all about
+the canonical structures of the `CenterLinear` section and the induced pivotal structure
+`centerPivotalOfPivotal`. It is the only place in this roadmap where the centre is studied as a
+category in its own right rather than as a target of an arrow in the synoptic chart. Sources: ENO,
+*On fusion categories*, §§2 and 8; Müger, *From subfactors to categories and topology II*; EGNO
+Chapter 9.
 -/
 
 /-- **Layer 11, the induction functor** `I X = ⨁_S S ⊗ X ⊗ Sᘁ`, with its canonical half-braiding.
 Defining that half-braiding and proving the hexagon is the content; the underlying object is not.
-Targets: `Center.forget ⋙ centerInduction` computed on objects, exactness, and faithfulness. -/
+Targets: `(centerInduction k C ⋙ Center.forget C).obj X ≅ ⨁_S S ⊗ X ⊗ Sᘁ`, exactness, and
+faithfulness. -/
 noncomputable def centerInduction (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
     [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
     [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)]
@@ -675,72 +738,117 @@ noncomputable def centerInductionAdjunctionLeft (k : Type w) [Field k] [IsAlgClo
     [Fintype (SimpleClasses C)] : centerInduction k C ⊣ Center.forget C := sorry
 
 /-- **Layer 11, induction is also right adjoint to the forgetful functor.** Rigidity and finite
-semisimplicity of `C` are what make the adjunction two-sided; this is the side the averaging
-argument below uses. -/
+semisimplicity of `C` are what make the adjunction two-sided. -/
 noncomputable def centerInductionAdjunctionRight (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
     [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
     [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)]
     [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
     [Fintype (SimpleClasses C)] : Center.forget C ⊣ centerInduction k C := sorry
 
-/-- **Layer 11, the global dimension** `dim C = Σ_S d(S) · d(Sᘁ)`, built from the Layer 2
-dimensions of the Layer 3 simple classes. -/
+/-- **The Layer 6 global dimension** `dim C = Σ_S dim_L S · dim_L Sᘁ`, summed over the Layer 3
+simple classes with the Layer 2 left dimensions, pinned here beside its Layer 11 consumers.
+Targets (Layer 6): independence of the pivotal structure. -/
 noncomputable def globalDim (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
     [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
     [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)] [PivotalCategory C]
     [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
     [Fintype (SimpleClasses C)] : End (𝟙_ C) := sorry
 
-/-- **Layer 11, nonvanishing of the global dimension**, which over an algebraically closed field of
-characteristic zero follows from Layer 5's Perron–Frobenius positivity. It is stated separately
-because it is the whole content of the separability hypothesis: it is exactly what fails in
-positive characteristic, and it is the only input the averaging argument needs beyond the two-sided
-adjunction. -/
+/-- **Layer 11, nonvanishing of the global dimension** in characteristic zero (ENO, *On fusion
+categories*, Theorem 2.3, over `ℂ`).
+
+⚠ This is **not** Perron–Frobenius positivity. Layer 5 makes the `FPdim`s positive, but it says
+nothing about the pivotal products `dim_L S · dim_L Sᘁ`, and identifying those with `FPdim S ^ 2`
+would make every fusion category pseudo-unitary. The input is the following argument.
+
+1. `X ↦ dim_L X`, read in `k` through `endUnitAlgEquiv`, is a ring homomorphism `χ` from the Layer 4
+   Grothendieck ring to `k` (additivity on biproducts and multiplicativity on `⊗`, Layer 2).
+2. Its values are algebraic integers: `χ [S]` is an eigenvalue of the integer fusion matrix `N_S`.
+   So they lie in the algebraic closure of `ℚ` in `k`, which embeds into `ℂ` by some `σ`
+   (`CharZero k` is used exactly here).
+3. **Conjugation**: every ring homomorphism `ψ` from the Grothendieck ring to `ℂ` satisfies
+   `ψ [Sᘁ] = conj (ψ [S])`. With `v = (ψ [T])_T ≠ 0` and fusion matrices `(M_S)_{T,U} = N_{ST}^U`,
+   `M_S v = ψ [S] · v` and `M_{Sᘁ} = M_Sᵀ` (Frobenius reciprocity), so
+   `ψ [S] ‖v‖² = ⟨M_S v, v⟩ = ⟨v, M_Sᵀ v⟩ = conj (ψ [Sᘁ]) ‖v‖²`.
+4. Hence `σ (dim C) = Σ_S |σ (χ [S])|² ≥ |σ (χ [𝟙])|² = 1`, so `dim C ≠ 0`.
+
+It is stated separately because it is the whole content of the separability hypothesis: it is
+exactly what fails in positive characteristic, and it is the only input the averaging argument needs
+beyond the two-sided adjunction and `unit_comp_counit_centerInduction`. -/
 theorem globalDim_ne_zero (k : Type w) [Field k] [IsAlgClosed k] [CharZero k] (C : Type u)
     [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
     [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)] [PivotalCategory C]
-    [SphericalCategory C] [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
+    [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
     [Fintype (SimpleClasses C)] : globalDim k C ≠ 0 := sorry
 
+/-- **Layer 11, the averaging identity.** Going round `Z ⟶ I (U Z) ⟶ Z` along the unit of
+`Center.forget ⊣ centerInduction` and then the counit of `centerInduction ⊣ Center.forget` is
+multiplication by the global dimension.
+
+The two adjunctions alone do not determine this scalar: multiplying the unit of
+`Center.forget ⊣ centerInduction` by `c ∈ kˣ` and its counit by `c⁻¹` gives another adjunction and
+multiplies the composite by `c`. The normalization is pinned without a pivotal structure: the counit
+of `centerInductionAdjunctionRight` is the projection of `⨁_S S ⊗ V ⊗ Sᘁ` onto its `𝟙`-summand, and
+the unit of `centerInductionAdjunctionLeft` is the inclusion of that summand. The proof is the
+graphical calculation that each summand contributes `dim_L S · dim_L Sᘁ`. The endofunctor of
+`Center C` being averaged is `Center.forget C ⋙ centerInduction k C`. -/
+theorem unit_comp_counit_centerInduction (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
+    [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
+    [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)] [PivotalCategory C]
+    [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
+    [Fintype (SimpleClasses C)] [FiniteDimensional k (End (𝟙_ C))] (Z : Center C) :
+    (centerInductionAdjunctionRight k C).unit.app Z ≫
+        (centerInductionAdjunctionLeft k C).counit.app Z
+      = endUnitAlgEquiv k C (globalDim k C) • 𝟙 Z := sorry
+
 /-- **Layer 11, semisimplicity of the centre.** The producer for the instance
-`ribbon_center_of_spherical` assumes.
+`ribbon_center_of_spherical` assumes, for the canonical `centerAbelian` structure.
 
 ⚠ This does **not** follow from semisimplicity of `C`. An object of `Center C` is an object of `C`
 together with a half-braiding, and a short exact sequence of such objects can fail to split in
 `Center C` even though its image under `Center.forget` splits, because the splitting has to be
-compatible with the half-braidings. The splitting is produced by averaging `𝟭` against
-`centerInduction ⋙ Center.forget` using the two-sided adjunction, and dividing by `globalDim`; that
-division is why `globalDim_ne_zero` is a hypothesis and not a remark. -/
+compatible with the half-braidings. The splitting is produced by averaging along
+`Center.forget C ⋙ centerInduction k C`: `unit_comp_counit_centerInduction` exhibits `𝟭 (Center C)`
+as a retract of it after dividing by `globalDim`, and that division is why `globalDim ≠ 0` is a
+hypothesis and not a remark. -/
 theorem isFiniteSemisimpleCategory_center (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
     [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
     [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)] [PivotalCategory C]
     [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
-    [Fintype (SimpleClasses C)] [Abelian (Center C)]
+    [Fintype (SimpleClasses C)]
     (_hdim : globalDim k C ≠ 0) : IsFiniteSemisimpleCategory (Center C) := sorry
 
 /-- **Layer 11, the remaining fusion hypotheses on the centre**, derived rather than assumed, so
-that `Center C` meets the Layer 4 fusion bar as a package. -/
+that `Center C` with its canonical structures meets the Layer 4 fusion bar as a package. -/
 theorem fusionHypotheses_center (k : Type w) [Field k] [IsAlgClosed k] (C : Type u)
     [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
     [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)] [PivotalCategory C]
     [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
-    [Fintype (SimpleClasses C)] [Abelian (Center C)] [Linear k (Center C)]
+    [Fintype (SimpleClasses C)]
     (_hdim : globalDim k C ≠ 0) :
     (∀ X Y : Center C, FiniteDimensional k (X ⟶ Y)) ∧ Nonempty (Fintype (SimpleClasses (Center C)))
       ∧ Simple (𝟙_ (Center C)) := sorry
 
 /-- **Layer 11, the acceptance criterion** `dim (Z C) = (dim C)²`, which is the check that the
-induction functor was built correctly. -/
+induction functor was built correctly.
+
+Every structure on `Center C` here is the canonical one: Mathlib's monoidal structure, the
+`CenterLinear` instances, `centerRigidCategory`, and the pivotal structure `centerPivotalOfPivotal`
+induced from `C`. The remaining instance arguments are propositions (and a subsingleton `Fintype`)
+about those structures, supplied by `isFiniteSemisimpleCategory_center` and
+`fusionHypotheses_center`. ⚠ Taking a free `[MonoidalCategory (Center C)]` instead would make the
+statement false: over `ℂ`, `Z(Vec_{C₂})` has four simple objects and as a linear category is
+equivalent to `Rep(D₁₀)`, whose symmetric tensor structure transported to it has global dimension
+`10`, not `(dim Vec_{C₂})² = 4`. -/
 theorem globalDim_center (k : Type w) [Field k] [IsAlgClosed k] [CharZero k] (C : Type u)
     [Category.{v} C] [MonoidalCategory C] [RigidCategory C] [Abelian C] [Linear k C]
     [MonoidalPreadditive C] [MonoidalLinear k C] [Simple (𝟙_ C)] [PivotalCategory C]
-    [SphericalCategory C] [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
-    [Fintype (SimpleClasses C)] [MonoidalCategory (Center C)] [RigidCategory (Center C)]
-    [Abelian (Center C)] [Linear k (Center C)] [MonoidalPreadditive (Center C)]
-    [MonoidalLinear k (Center C)] [Simple (𝟙_ (Center C))] [PivotalCategory (Center C)]
-    [∀ X Y : Center C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory (Center C)]
-    [Fintype (SimpleClasses (Center C))] [FiniteDimensional k (End (𝟙_ C))]
+    [∀ X Y : C, FiniteDimensional k (X ⟶ Y)] [IsFiniteSemisimpleCategory C]
+    [Fintype (SimpleClasses C)] [FiniteDimensional k (End (𝟙_ C))]
+    [Simple (𝟙_ (Center C))] [∀ X Y : Center C, FiniteDimensional k (X ⟶ Y)]
+    [IsFiniteSemisimpleCategory (Center C)] [Fintype (SimpleClasses (Center C))]
     [FiniteDimensional k (End (𝟙_ (Center C)))] :
+    letI := centerPivotalOfPivotal C
     endUnitAlgEquiv k (Center C) (globalDim k (Center C))
       = (endUnitAlgEquiv k C (globalDim k C)) ^ 2 := sorry
 

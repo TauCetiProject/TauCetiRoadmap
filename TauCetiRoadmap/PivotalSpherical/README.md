@@ -422,6 +422,14 @@ here, and nothing in it is specific to pivotal structures.
 - **Transitivity** of the based ring, in the sense of Etingof–Gelaki–Nikshych–Ostrik: for basis
   elements `X, Z` there is a `Y` with `N` positive in the relevant slot. This is what Layer 5 needs
   and it is a property of rigid fusion categories, not a formality.
+- **Characters are `⋆`-characters.** For a **pivotal** fusion category `C`, every ring homomorphism
+  `ψ` from the Grothendieck ring to `ℂ` satisfies `ψ [Sᘁ] = conj (ψ [S])` for every simple `S`.
+  The proof is a common-eigenvector argument. Put `v = (ψ [T])_T`, which is nonzero because
+  `ψ [𝟙] = 1`, and let `M_S` be the fusion matrix `(M_S)_{T,U} = N_{ST}^U`; then
+  `M_S v = ψ [S] · v`. Frobenius reciprocity (using the pivotal identification of left and right
+  duals) gives `M_{Sᘁ} = M_Sᵀ`, so for the standard Hermitian form
+  `ψ [S] ‖v‖² = ⟨M_S v, v⟩ = ⟨v, M_Sᵀ v⟩ = conj (ψ [Sᘁ]) ‖v‖²`. Layer 11 uses this for the
+  nonvanishing of the global dimension.
 
 ### Layer 5: Perron–Frobenius
 
@@ -448,13 +456,23 @@ here, and nothing in it is specific to pivotal structures.
   Layer 5, with `FPdim (X ⊗ Y) = FPdim X * FPdim Y`, `0 ≤ FPdim X`, and
   `FPdim X = 0 ↔ IsZero X`. ⚠ `FPdim X > 0` for all `X` is false: a fusion category has a zero
   object. `FPdim` needs no characteristic hypothesis, so do not carry one here.
-- **Global dimension** `dim C = Σ_i dim(X_i) · dim(X_iᘁ)` summed over `SimpleClasses C`, and its
-  independence of the pivotal structure.
+- **Global dimension** `dim C = Σ_i dim_L(X_i) · dim_L(X_iᘁ)` summed over `SimpleClasses C`, and
+  its independence of the pivotal structure. This layer owns `dim C`; Layer 11 proves it nonzero
+  and uses it.
 - **Comparison with the categorical dimension.** `|dim_L X| ≤ FPdim X` needs an absolute value,
   which an abstract algebraically closed field does not carry, so state it for `k = ℂ`.
-- **Pseudo-unitarity**, as a *property* (`dim C = FPdim C`) and not something every fusion category
-  enjoys. Define it, then construct under that hypothesis the canonical spherical structure with
-  `dim X = FPdim X`.
+- **Pseudo-unitarity**, as a *property* and not something every fusion category enjoys. State it for
+  a **pivotal** fusion category over `k = ℂ`, so that both sides live in one field: `C` is
+  pseudo-unitary when `dim C = FPdim C`, reading `dim C ∈ End (𝟙_ C)` in `ℂ` through the Layer 4
+  scalar identification and `FPdim C = Σ_i FPdim(X_i)²` through `ℝ → ℂ`. Because `dim C` does not
+  depend on the pivotal structure (above), this is a property of `C` once some pivotal structure is
+  given; that pivotal structure is an input to the definition, never its output. ⚠ Do not identify
+  `dim_L X · dim_L Xᘁ` with `FPdim X ²` in general: that identity is exactly pseudo-unitarity, and
+  assuming it would make every fusion category pseudo-unitary. Under the hypothesis, prove that there
+  is a **unique** pivotal structure with `dim_L X = FPdim X` for every `X`, and that it is spherical
+  (ENO, *On fusion categories*, Proposition 8.23). Uniqueness is the Layer 1 torsor: two such
+  structures differ by a monoidal automorphism of `𝟭_C`, which acts on each simple by a scalar that
+  the dimension condition forces to be `1`.
 
 ### Layer 7: `FDRep G` is pivotal and spherical (the standard structure)
 
@@ -560,6 +578,19 @@ State the whole chart — the definitions of the remaining nodes and every arrow
   `symmetricSphericalCategory` as global instances, so on a rigid symmetric category the pivotal and
   spherical structures are already chosen; arrows out of the symmetric node must be stated against
   those instances rather than against an arbitrary structure.
+- **The centre's canonical structures.** Mathlib makes `Center C` monoidal and braided, with
+  `Center.forget` monoidal and reflecting isomorphisms, and has no linear or rigid structure on it. Build its canonical rigid structure from that of `C` (the dual of `(X, β)` is `Xᘁ` with the
+  half-braiding given by mates of `β⁻¹`), and, when `C` is preadditive, `k`-linear or abelian with
+  `[MonoidalPreadditive C]`/`[MonoidalLinear k C]`, the induced preadditive, `k`-linear and abelian
+  structures on `Center C` (kernels and cokernels computed in `C`, which carry half-braidings
+  because tensoring is exact in a rigid category), together with `[MonoidalPreadditive (Center C)]`
+  and `[MonoidalLinear k (Center C)]`. Prove `Center.forget` additive, `k`-linear, faithful and
+  exact. ⚠ These are *instances*, and every statement about the centre in Layers 10 and 11 uses
+  them. None takes an arbitrary `[MonoidalCategory (Center C)]`, `[RigidCategory (Center C)]`,
+  `[Abelian (Center C)]` or `[Linear k (Center C)]` argument: such an argument shadows the canonical
+  structure and makes the statement about an unrelated category. (For example, over `ℂ` the centre of
+  `Vec_{C₂}` is, as a linear category, equivalent to `Rep(D₁₀)`; transporting that symmetric tensor
+  structure gives global dimension `10`, not `(dim Vec_{C₂})² = 4`.)
 - **The Drinfel'd-centre arrows.** `Z(-)` sends each row to its braided enrichment:
   `Z(tensor)` is braided, `Z(rigid)` is braided+rigid, `Z(pivotal)` is braided+pivotal, and
   `Z(spherical)` is **ribbon** (Müger) — the last of these at the fusion bar, with the centre's
@@ -567,7 +598,7 @@ State the whole chart — the definitions of the remaining nodes and every arrow
   symmetrically into its own centre and carries the non-ribbon twist along with it. That
   semisimplicity is a hypothesis of `ribbon_center_of_spherical`, and the producer for it is
   **Layer 11**, which this roadmap owns; the unconditional statement "the centre of a spherical
-  fusion category is ribbon" is the composite of the two and is not available until Layer 11 lands.
+  fusion category is ribbon" is the composite of the two, and is stated in Layer 11.
   ⚠ State this by *constructing* the induced twist on `Z(C)`
   from the spherical structure and proving that twist ribbon. A statement quantifying over an
   arbitrary balanced structure on `Z(C)` is false: given a ribbon twist `θ` and a monoidal natural
@@ -606,29 +637,56 @@ splitting is produced by an averaging argument, and that argument has a hypothes
 layer of its own, and it is owned here: no other Tau Ceti roadmap covers fusion categories, and
 Layer 3 already records that this roadmap owns the finite-semisimple and fusion infrastructure.
 
-- **The forgetful functor and its adjoint.** `U : Z(C) ⥤ C` forgetting the half-braiding, and the
+- **The forgetful functor and its adjoint.** `U : Z(C) ⥤ C` forgetting the half-braiding, with the
+  canonical linear abelian structure on `Z(C)` and the exactness of `U` from Layer 10, and the
   **induction functor** `I : C ⥤ Z(C)`, `I X = ⨁_{S : SimpleClasses C} S ⊗ X ⊗ Sᘁ` with its
   canonical half-braiding. Prove `I` is two-sided adjoint to `U` (`U ⊣ I` and `I ⊣ U`), which is
-  where rigidity and finite semisimplicity of `C` enter, and that both are exact and faithful.
+  where rigidity and finite semisimplicity of `C` enter, and that `I` is exact and faithful.
   ⚠ The half-braiding on `I X` is the content: define it and prove the hexagon, rather than
   naming `⨁ S ⊗ X ⊗ Sᘁ` and asserting it lies in `Z(C)`.
-- **The global dimension and the separability hypothesis.** `dim C = Σ_{S} d(S) · d(Sᘁ)`, built
-  from the Layer 6 dimensions, together with `dim C ≠ 0`. Over an algebraically closed field of
-  characteristic zero this is automatic (the summands are positive reals by Layer 5's
-  Perron–Frobenius), and that is the bar the rest of the roadmap is stated at; state it as a named
-  hypothesis anyway, because it is exactly what fails in positive characteristic and it is the only
-  input the averaging argument needs beyond the adjunction.
-- **The averaging idempotent and semisimplicity.** From the two-sided adjunction and `dim C ≠ 0`,
-  build the natural retraction exhibiting `𝟭_{Z(C)}` as a direct summand of `I ∘ U`, and conclude
-  that a short exact sequence in `Z(C)` splits as soon as its image under `U` splits. Since `C` is
-  semisimple every such image splits, so `IsFiniteSemisimpleCategory (Center C)` follows. This is
-  the declaration Layer 10 consumes.
+- **The nonvanishing of the global dimension.** The Layer 6 global dimension
+  `dim C = Σ_{S} dim_L S · dim_L Sᘁ` satisfies `dim C ≠ 0` in characteristic zero (ENO, *On fusion
+  categories*, Theorem 2.3, where it is proved over `ℂ` for squared norms). ⚠ This is *not* Layer 5's
+  Perron–Frobenius positivity, which concerns `FPdim` and says nothing about the pivotal products
+  `dim_L S · dim_L Sᘁ` (identifying those with `FPdim S ²` is pseudo-unitarity, Layer 6). The proof
+  is a conjugation argument on the Grothendieck ring, and each step is a target:
+  1. `X ↦ dim_L X`, read in `k` through the Layer 4 scalar identification, is a ring homomorphism
+     `χ` from the Grothendieck ring to `k` (Layer 2's additivity and multiplicativity).
+  2. Each `χ [S]` is an algebraic integer, being an eigenvalue of the integer fusion matrix `N_S`.
+     So the values of `χ` lie in the algebraic closure of `ℚ` in `k`, which embeds into `ℂ` by some
+     `σ`; characteristic zero is used exactly here, and no base change of the category is needed,
+     since only these finitely many algebraic numbers are transported.
+  3. **Every ring homomorphism `ψ` from the Grothendieck ring to `ℂ` satisfies
+     `ψ [Sᘁ] = conj (ψ [S])`.** This is the Layer 4 common-eigenvector statement, applied to
+     `σ ∘ χ`.
+  4. Hence `σ (dim C) = Σ_S |σ (χ [S])|² ≥ |σ (χ [𝟙])|² = 1`, so `dim C ≠ 0`.
+
+  State `dim C ≠ 0` as a named hypothesis of the averaging step anyway, because it is exactly what
+  fails in positive characteristic and it is the only input that step needs beyond the adjunction
+  and its normalization. The comparison `dim C = Σ FPdim(S)²` is not part of this: it is the
+  definition of pseudo-unitarity.
+- **The averaging identity.** The composite `Z ⟶ I (U Z) ⟶ Z` (the unit of `U ⊣ I` followed by
+  the counit of `I ⊣ U`) is not determined by the two adjunctions alone: multiplying the unit of
+  `U ⊣ I` by `c ∈ kˣ` and its counit by `c⁻¹` gives another adjunction and multiplies the composite
+  by `c`. So pin the normalization, without reference to a pivotal structure: the counit of
+  `U ⊣ I` is the projection of `U (I V) = ⨁_S S ⊗ V ⊗ Sᘁ` onto its `𝟙`-summand `𝟙 ⊗ V ⊗ 𝟙ᘁ ≅ V`,
+  and the unit of `I ⊣ U` is the inclusion of that summand; each adjunction is determined by that
+  datum. Then prove, as a named target, that the composite is `dim C · 𝟙_Z` (for `C` pivotal, so
+  that `dim C` is defined). The proof is a graphical calculation in which each summand `S`
+  contributes `dim_L S · dim_L Sᘁ`; for `C = Rep G` and `Z = 𝟙` it reads `|G| = Σ_S (dim S)²`.
+- **Semisimplicity.** From the averaging identity and `dim C ≠ 0`, `𝟭_{Z(C)}` is a natural retract
+  of `U ⋙ I` (the endofunctor `Z ↦ I (U Z)` of `Z(C)`), so a short exact sequence in `Z(C)` splits
+  as soon as its image under `U` splits. Since `C` is semisimple every such image splits, and since
+  `U` is faithful and exact and `C` is `Hom`-finite, every object of `Z(C)` has finite length, so
+  `IsFiniteSemisimpleCategory (Center C)` follows for the canonical abelian structure. This is the
+  declaration Layer 10 consumes.
 - **The remaining fusion hypotheses on `Z(C)`.** `Hom`-finiteness, `Fintype (SimpleClasses (Center
-  C))`, `Simple (𝟙_ (Center C))`, and `[MonoidalPreadditive]`/`[MonoidalLinear k]`, each derived
-  rather than assumed, so that `Z(C)` satisfies the Layer 4 fusion hypotheses as a package and
-  Layer 10's arrow can be stated unconditionally.
-- **The dimension formula** `dim (Center C) = (dim C)²`, which is the standard acceptance criterion
-  for the construction and the sanity check that the induction functor was built correctly.
+  C))` and `Simple (𝟙_ (Center C))`, each derived rather than assumed, so that `Z(C)` with its
+  canonical structures satisfies the Layer 4 fusion hypotheses as a package and Layer 10's arrow can
+  be stated unconditionally.
+- **The dimension formula** `dim (Center C) = (dim C)²`, for the canonical structures and the
+  pivotal structure induced from `C`, which is the standard acceptance criterion for the
+  construction and the sanity check that the induction functor was built correctly.
 
 **Source.** Etingof–Nikshych–Ostrik, *On fusion categories*, §§2 and 8 (the induction functor, the
 two-sided adjunction, and Theorem 2.15); Müger, *From subfactors to categories and topology II*, for
