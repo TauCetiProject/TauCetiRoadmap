@@ -122,10 +122,9 @@ of them. It consumes, by name: `ClassFunction` (Layer 0), `classSum`, `structure
 roadmap; **this roadmap owns it** (Layer 3.2), together with the inverse-class operation on
 `ConjClasses` it needs.
 
-**Universal covers.** The covering-space classification, deck transformation groups, the
-`N(H)/H` deck-group theorem, and the two-open Seifert–van Kampen theorem belong to
-[UniversalCovers](../UniversalCovers/README.md) (milestones 4, 5, 7, 8 there, together with the
-van Kampen declarations whose exact required signatures Layer 5.5 below pins). This roadmap
+**Universal covers.** The covering-space classification, deck transformation groups, and the
+`N(H)/H` deck-group theorem belong to
+[UniversalCovers](../UniversalCovers/README.md) (milestones 4, 5, 7, 8 there). This roadmap
 consumes them and builds no universal cover. Two conventions from that roadmap bind here: deck
 groups are identified with `(π₁)ᵐᵒᵖ` (its milestone 5), and basepoint change acts on recovered
 subgroups by conjugation (its milestone 7). The constructive direction this roadmap needs — a
@@ -141,8 +140,9 @@ computation, and the two maps have different groups in play.
 **Seifert–van Kampen.** The pin has it in no form, and this roadmap builds none of it. The
 case the fundamental-group computation needs — two open sets with simply connected
 intersection — is general algebraic topology, reusable far beyond three-point covers, so it
-belongs to [UniversalCovers](../UniversalCovers/README.md) with the rest of the fundamental-group
-machinery. Layer 5.5 below records exactly which declarations that roadmap supplies and under
+belongs to [AlgebraicTopology](../AlgebraicTopology/README.md), whose Stage 1 derives the based
+two-open theorem and its group-presentation corollaries from van Kampen for the fundamental
+groupoid. Layer 5.5 below records exactly which declarations that roadmap supplies and under
 which hypotheses; Layer 5.6 **instantiates** them at the two-set cover of Layer 5.1 and reads
 off the values on the canonical generators, and that instantiation is what this roadmap owns.
 No Belyi-local copy, alias or stand-in for the theorem is exported.
@@ -153,7 +153,7 @@ degree `TauCeti.exists_localDegree`, holomorphic branch roots — belongs to
 local normal form. Nothing here uses the Riemann mapping theorem, Montel, or the boundary
 correspondence. The `ℍ/Γ(2) ≅ ℂ∖{0,1}` λ-uniformization is that roadmap family's material
 (recorded there as belonging to ModularForms); no layer here consumes or supplies it — the
-route to the fundamental group of the thrice-punctured sphere is UniversalCovers' two-open van
+route to the fundamental group of the thrice-punctured sphere is AlgebraicTopology's two-open van
 Kampen theorem, applied to the cover of Layer 5.1, and no retraction onto a figure eight
 occurs anywhere in it.
 
@@ -259,7 +259,7 @@ definition, Weil descent, and `trueOrbitSize`.
 4.6            the normality criterion                      6.5
 ```
 
-and nothing else; UniversalCovers; ConformalMapping L0; ModularForms Layer 10B;
+and nothing else; UniversalCovers; AlgebraicTopology Stage 1; ConformalMapping L0; ModularForms Layer 10B;
 AlgebraicCurves. ⚠ `4.6` belongs on this list: Layer 6.5 classifies regular covers by
 normality of the point stabilizer, which is Layer 4.6's criterion, so section B is not
 independent of Layer 4.
@@ -487,7 +487,7 @@ the three portfolio suppliers have no local stand-ins here.
 | 3.2 | CharacterTheory Layer 1 | class sums and structure constants | `classSum`, `structureConstant`, `classSum_mul` |
 | 3.2 | CharacterTheory Layer 3 | the character table and column orthogonality | `characterTable`, `char_column_orthogonality` |
 | 3.2 | CharacterTheory Layer 4 | central characters, and the conversion to class sizes | `centralCharacter`, `centralCharacter_coordinate`, and the conversion of `ω_χ` on a class sum into class size times character value over degree, for which that roadmap pins **no Lean name**; local interface: `centralCharacter_eq_card_mul_div (χ) (j) : centralCharacter χ (classSum j) = (Nat.card (carrier j) : ℂ) * χ (rep j) / χ 1` |
-| 5.1, 6.2 | UniversalCovers Stage 0.2 | semilocal simple connectivity | `SemilocallySimplyConnectedSpace`, carried explicitly on the compiled targets of that roadmap's archived `Suggested.lean`; no local stand-in is exported |
+| 5.1, 6.2 | UniversalCovers Stage 0.2 | semilocal simple connectivity | `TauCeti.SemilocallySimplyConnectedSpace` (`TauCeti/AlgebraicTopology/SemilocallySimplyConnected/Basic.lean`); no local stand-in is exported |
 | 5.6 | AlgebraicTopology Stage 1 | Seifert–van Kampen for two open sets with simply connected intersection | **unresolved supplier contract**: the required declarations are `vanKampenLift`, `vanKampenLift_bijective`, `vanKampenEquiv` and `vanKampenEquiv_toMonoidHom`, with the signatures and hypotheses pinned verbatim in Layer 5.5 below. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
 | 6.2 | UniversalCovers Stage 0.2, 0.3 | the universal cover, its covering map, and the free proper `π₁`-action | `UniversalCover x₀`, `proj`, `IsCoveringMap proj`, `SimplyConnectedSpace (UniversalCover x₀)`, `UniversalCover.isQuotientCoveringMap` |
 | 6.4 | UniversalCovers Stage 0.4, 1 | deck groups and `Deck ≅ (π₁)ᵐᵒᵖ` | `Deck`, `deckFundamentalGroupEquiv : Deck proj ≃* (FundamentalGroup X x₀)ᵐᵒᵖ` |
@@ -1537,10 +1537,10 @@ the modular group — material belonging to the modular-forms family that nothin
 needs. The route below computes the fundamental group directly instead, and Layer 5.6's
 result is the same isomorphism.
 
-**The route is pinned, and its one general input comes from UniversalCovers.** The pin has
+**The route is pinned, and its one general input comes from AlgebraicTopology.** The pin has
 no Seifert–van Kampen theorem in any form, and Seifert–van Kampen for two open sets with
 simply connected intersection is general algebraic topology rather than Belyi mathematics:
-5.5 records the exact declarations UniversalCovers supplies, and 5.6 instantiates them at
+5.5 records the exact declarations AlgebraicTopology Stage 1 supplies, and 5.6 instantiates them at
 5.1's two-set cover. Everything else in this layer is Belyi's own. The base case
 `π₁(ℂ ∖ {0}) ≅ ℤ` is not proved by hand either — it is read off the pin's
 `Complex.isAddQuotientCoveringMap_exp`, which presents `exp : ℂ → ℂ ∖ {0}` as the quotient of
@@ -1645,7 +1645,7 @@ both punctures, since `|γ0 t| = 1/2` and `|γ1 t − 1| = 1/2`; and their image
 lie in `A` and `B` respectively. The two circles are externally tangent — the distance
 between their centres is `1 = 1/2 + 1/2` — so they meet exactly at `b`. ⚠ That makes the
 picture a figure eight rather than two crossing circles, and nothing more: **no milestone
-retracts `U` onto `C₀ ∪ C₁`**, and the fundamental group is computed by UniversalCovers'
+retracts `U` onto `C₀ ∪ C₁`**, and the fundamental group is computed by AlgebraicTopology's
 two-open van Kampen theorem (5.5) instead.
 
 Define the peripheral elements of `FundamentalGroup U b`:
@@ -1773,11 +1773,12 @@ about the puncture) is doing real work.
 `IsQuotientCoveringMap`, `Convex`, `ContinuousMap.Homotopy`, the winding-number/index API;
 UniversalCovers milestones 4, 5.
 
-#### 5.5 Van Kampen with a simply connected intersection: the UniversalCovers input
+#### 5.5 Van Kampen with a simply connected intersection: the AlgebraicTopology input
 
 **Not a milestone of this roadmap.** Seifert–van Kampen for two open sets with simply
 connected intersection is general algebraic topology, reusable by anything that computes a
-fundamental group, and it is owned by [UniversalCovers](../UniversalCovers/README.md). This
+fundamental group, and it is owned by [AlgebraicTopology](../AlgebraicTopology/README.md) (its
+Stage 1). This
 section exists to state the contract exactly, so that the instantiation in 5.6 has something
 to `apply` and so that no second copy is written anywhere.
 
@@ -4585,9 +4586,9 @@ None of the following is part of this roadmap, at any layer, and none is "deferr
   surface (every surface here arrives carrying its map; the general existence theorem is
   the Dirichlet-problem analysis this roadmap never needs);
 - uniformization, the `λ`-function, and Picard-type applications;
-- Seifert–van Kampen in any form, general or two-open: the two-open case with simply
-  connected intersection is UniversalCovers' (Layer 5.5 records the contract), and the general
-  pushout theorem is on no roadmap here; also topological surface classification and
+- Seifert–van Kampen in any form, general or two-open: both belong to AlgebraicTopology
+  Stage 1, and Layer 5.5 records the contract for the two-open case with simply connected
+  intersection that this roadmap consumes; also topological surface classification and
   orientation theory;
 - the étale fundamental group of a scheme, and the comparison of Layer 12's field-theoretic
   carrier with any scheme-theoretic one;
