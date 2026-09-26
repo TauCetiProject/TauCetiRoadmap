@@ -537,6 +537,8 @@ Every family and named specialization is subject to the shared requirements and 
     At `p = 1`, this sum is `Measure.dirac 0`, matching `geometricMeasure 1` and keeping the Layer 4 finite-sum identity valid on all of `0 < p ≤ 1`.
   - When `r = 0` and `0 < p ≤ 1`, define the measure to be `Measure.dirac 0`.
     It is zero for all other parameter values.
+  - Except where a statement addresses that invalid branch, every statement in this entry assumes `0 < p ≤ 1`.
+    Formulas stated for positive shape additionally assume `0 < r`; the Dirac formulas assume `r = 0`.
   - For `0 ≤ r`, `0 ≤ s`, and `0 < p ≤ 1`, prove the native mass and support formulas and `negativeBinomialMeasure r p ∗ negativeBinomialMeasure s p = negativeBinomialMeasure (r + s) p`.
   - For `0 < r` and `0 < p ≤ 1`, the pgf integrand is integrable exactly when `|(1 - p) * t| < 1`.
     On that domain, prove `pgf id (negativeBinomialMeasure r p) t = Real.rpow (p / (1 - (1 - p) * t)) r`; outside it, prove non-integrability.
@@ -629,7 +631,8 @@ Targets:
    For `n≥1` and `1≤k≤n`, define the kth order statistic of `Fin n → ℝ` by sorting with multiplicities, and prove measurability and its characterization by having at least `k` coordinates at most `x`.
    For iid law `μ`, prove cdf `∑ j=k..n, choose(n,j)*(cdf μ x)^j*(1-cdf μ x)^(n-j)`, including laws with atoms.
    For uniforms on `(0,1)`, prove the kth order statistic has law `betaMeasure k (n+1-k)`.
-   Joint order-statistic densities, sample-quantile asymptotics, and statistical estimation are outside scope.
+   For `n≥1` iid uniforms on `(0,1)`, prove that the sorted sample `(U_(1),…,U_(n))` has density `n! * 1_{0<y_1<⋯<y_n<1}` with respect to Lebesgue measure on `Fin n → ℝ`; this is the one joint order-statistic law required, and Layer 5's uniform-spacings identity is built on it.
+   General joint order-statistic density theory beyond this, sample-quantile asymptotics, and statistical estimation are outside scope.
 
 Key declarations:
 
@@ -756,7 +759,7 @@ Targets:
    On `Fin d` with `d≥2`, prove the independent-Beta stick-breaking construction: independent `V_i~Beta(a_i,∑_{j>i}a_j)` for `i<d-1` give `X_i=V_i*∏_{j<i}(1-V_j)` and `X_(d-1)=∏_{j<d-1}(1-V_j)` with Dirichlet law.
    Prove the inverse ratios and their independence under Dirichlet; the one-coordinate construction is the constant vector one.
    For `n` iid uniform observations on `(0,1)`, adjoin endpoints `U_(0)=0,U_(n+1)=1` to the ordered sample and prove `(U_(i+1)-U_(i))_(i=0..n)` has Dirichlet law with every parameter one, including `n=0`.
-   Use Layer 4's order-statistic construction and prove the joint density/change-of-variables bridge, rather than inferring a joint law from individual marginals.
+   Use Layer 4's sorted-uniform joint density and prove the change of variables to spacing coordinates, rather than inferring a joint law from individual marginals; at `n=0` the spacings vector is the one-coordinate constant law.
    For at least two coordinates and real powers `q_i`, prove `E[∏ i,X_i^(q_i)] = Gamma(a₀)/Gamma(a₀+∑q_i) * ∏ i,Gamma(a_i+q_i)/Gamma(a_i)` exactly when every `a_i+q_i>0`, and non-integrability otherwise.
    For a one-coordinate simplex every such product is one for all real powers; do not impose the multi-coordinate integrability restriction there.
 
@@ -897,7 +900,7 @@ Targets:
    Prove the exact domain theorem `mem_integrableExpSet_trace_mul_nonsingularWishartMeasure_iff`:
    `t ∈ integrableExpSet (fun A ↦ trace ((Θ : Matrix _ _ ℝ) * A)) (nonsingularWishartMeasure n S) ↔ (I - (2 * t) • (CFC.sqrt S * Θ * CFC.sqrt S)).PosDef`.
    On this domain, prove `mgf_trace_mul_nonsingularWishartMeasure` with value `Real.rpow (det (I - (2 * t) • ((Θ : Matrix _ _ ℝ) * S))) (-n / 2)`.
-   Prove `cgf_trace_mul_nonsingularWishartMeasure` on the same domain as the real logarithm of this value.
+   Prove `cgf_trace_mul_nonsingularWishartMeasure` on the same domain with value `-(n / 2) * Real.log (det (I - (2 * t) • ((Θ : Matrix _ _ ℝ) * S)))`; the determinant is positive there.
    This uses Mathlib's scalar mgf on the trace statistic; do not introduce a separate matrix-valued transform.
 
    For positive-semidefinite `Θ`, record the `t = -1` cone-Laplace specialization without wrapping it in a new transform definition.
@@ -923,7 +926,7 @@ Targets:
    For positive-semidefinite `S`, bundled symmetric `Θ`, and `0 < ν`, prove the exact domain theorem
    `t ∈ integrableExpSet (fun A ↦ trace ((Θ : Matrix _ _ ℝ) * A)) (wishartGramMeasure ν S) ↔ (I - (2 * t) • (CFC.sqrt S * Θ * CFC.sqrt S)).PosDef`;
    at `ν = 0` the law is Dirac and the domain is `Set.univ`, stated separately, and for every `S`, `Θ`, and `t` the mgf is `1` and the cgf is `0`.
-   On that positive-definite domain, for every `ν`, prove `mgf_trace_mul_wishartGramMeasure` with value `Real.rpow (det (I - (2 * t) • ((Θ : Matrix _ _ ℝ) * S))) (-(ν : ℝ) / 2)`, `cgf_trace_mul_wishartGramMeasure` as its real logarithm, and the `t = -1` cone-Laplace specialization for positive-semidefinite `Θ`.
+   On that positive-definite domain, for every `ν`, prove `mgf_trace_mul_wishartGramMeasure` with value `Real.rpow (det (I - (2 * t) • ((Θ : Matrix _ _ ℝ) * S))) (-(ν : ℝ) / 2)`, `cgf_trace_mul_wishartGramMeasure` with value `-((ν : ℝ) / 2) * Real.log (det (I - (2 * t) • ((Θ : Matrix _ _ ℝ) * S)))`, and the `t = -1` cone-Laplace specialization for positive-semidefinite `Θ`.
    These follow from the Gaussian quadratic-form mgf of Layer 5 by independence over the `Fin ν` factors (`iIndepFun.mgf_sum`).
    Prove `charFun_wishartGramMeasure` by the same spectral formula as for the density family, with `n = ν`, using the shared continuation lemma and the Hermitian-sandwich lemma at positive-semidefinite `S`.
    Derive the mean `(ν : ℝ) • Sₛ` and the entrywise covariance, the formulas above with `n = ν`, from the trace mgf as described for the density family.
@@ -1126,7 +1129,7 @@ In the formulas below, `F(x) = cdf μ x` and `F(x-) = μ.real (Set.Iio x)`.
    Supply the general mixture-density and mixture-mass theorems for `Measure.bind`, under measurable measure families whose components are probability measures almost everywhere under the mixing law, and the corresponding almost-everywhere component density or mass hypotheses, used by Layers 9–11.
    For a probability law `ρ` and a measurable measure family `K` with `∀ᵐ p ∂ρ, IsProbabilityMeasure (K p)`, prove integration against `ρ.bind K` by iterated integration, the mixture cdf, and characteristic-function linearity.
    Reuse Mathlib’s `MeasureTheory.isProbabilityMeasure_bind` for normalization and `Measure.bind_congr_right` for independence of choices on mixing-null sets; irrelevant invalid components need not be replaced by probability laws.
-   Under absolute first and second moment hypotheses for the joint law, prove total expectation and total variance/covariance: `E[X]=E[m]` and `Cov(X)=E[Cov_K(X)]+Cov_ρ(m)`.
+   Under absolute first and second moment hypotheses for the joint law, prove total expectation and total variance/covariance: `E[X]=E[m]` and `Cov(X)=E[Cov_K(X)]+Cov_ρ(m)`, for the same almost-everywhere probability families, with the Markov-kernel form as a corollary.
    For scalar mgfs use the nonnegative extended-real integral first: finiteness at `t` is equivalent to finiteness of the integral of component exponential integrals.
    Only then pass to real mgfs and cgfs; integrating totalized real component mgfs without this condition is not a valid criterion.
    Specialize to finite mixtures with nonnegative weights summing to one; the mgf domain is the intersection over positive-weight components, with zero weights omitted.
@@ -1500,7 +1503,7 @@ Natural moments listed below include the zeroth moment; sharp moment thresholds 
    No hypergeometric closed form for the noncentral-t or noncentral-F density is required.
 
 7. **Beta prime and Lévy.** For `a,b>0`, define beta prime as the pushforward of `betaMeasure a b` under `x↦x/(1-x)`.
-   Prove density `x^(a-1)*(1+x)^(-a-b)/B(a,b)` on `x>0`, cdf `regularizedIncompleteBeta a b (x/(1+x))`, and quantile `B_(a,b)⁻¹(u)/(1-B_(a,b)⁻¹(u))`.
+   Prove density `x^(a-1)*(1+x)^(-a-b)/B(a,b)` on `x>0`, cdf zero for `x≤0` and `regularizedIncompleteBeta a b (x/(1+x))` for `x>0`, and quantile `B_(a,b)⁻¹(u)/(1-B_(a,b)⁻¹(u))`.
    Prove its independent-gamma ratio construction, its equality to `(a/b)*F(2*a,2*b)`, real-power moments `B(a+r,b-r)/B(a,b)` exactly for `-a<r<b`, the corresponding sharp non-integrability, and mgf domain `(-∞,0]`.
    Prove mean `a/(b-1)` for `b>1` and variance `a*(a+b-1)/((b-2)*(b-1)²)` for `b>2`.
    For location `m` and `c>0`, define Lévy as the translate by `m` of `inverseGammaMeasure (1/2) (c/2)`.
@@ -1510,7 +1513,7 @@ Natural moments listed below include the zeroth moment; sharp moment thresholds 
    Layer 15 identifies Lévy and its reflection as stable-law specializations.
 
 8. **Inverse Gaussian.** For mean parameter `μ>0` and shape `λ>0`, use density `sqrt(λ/(2*π*x³))*exp(-λ*(x-μ)²/(2*μ²*x))` on `x>0`.
-   Prove cdf `Φ(sqrt(λ/x)*(x/μ-1)) + exp(2*λ/μ)*Φ(-sqrt(λ/x)*(x/μ+1))`, normalization, mean `μ`, and variance `μ³/λ`.
+   Prove cdf zero for `x≤0` and `Φ(sqrt(λ/x)*(x/μ-1)) + exp(2*λ/μ)*Φ(-sqrt(λ/x)*(x/μ+1))` for `x>0`, normalization, mean `μ`, and variance `μ³/λ`.
    Prove mgf `exp((λ/μ)*(1-sqrt(1-2*μ²*t/λ)))` on the exact closed domain `t≤λ/(2*μ²)`; the finite value at the endpoint must be included.
    Give the corresponding characteristic function using the principal square root, and the unique-positive-root quantile characterization using the displayed cdf.
    Include positive scaling `a*X ~ IG(a*μ,a*λ)` and the standard Wald specialization `μ=1`.
@@ -1773,7 +1776,8 @@ Layer 13 specifies the scalar marginal and radial quantiles.
    For invalid covariance, the topological support is the singleton `{exp m}`.
    For `S.PosDef`, prove density `φ_(m,S)(log x)/∏i x_i` on the positive orthant, zero elsewhere, by the logarithmic change of variables; include its derivative determinant and density-measure identity.
    Empty index types give the unique-point law, with empty products equal to one.
-   For `S.PosSemidef` and every real vector `q`, prove integrability and the mixed-power formula `E[∏i X_i^(q_i)]=exp(⟪q,m⟫+⟪q,S*q⟫/2)`.
+   For every real vector `q` and every `S`, prove integrability of `∏i X_i^(q_i)`: PSD covariance gives Gaussian exponential moments, and invalid covariance gives the Dirac law at the positive vector `exp m`.
+   For `S.PosSemidef`, prove the mixed-power formula `E[∏i X_i^(q_i)]=exp(⟪q,m⟫+⟪q,S*q⟫/2)`.
    Prove mean coordinate `exp(m_i+S_ii/2)` and covariance entry `exp(m_i+m_j+(S_ii+S_jj)/2)*(exp(S_ij)-1)`.
    Prove scalar log-normal coordinate marginals, Gaussian laws for `⟪q,log X⟫`, and scalar log-normal laws for `∏i X_i^(q_i)`, with log-mean `⟪q,m⟫` and log-variance `⟪q,S*q⟫`.
    These supply coordinate and monomial quantiles, including zero-variance observables.
@@ -1793,7 +1797,8 @@ Layer 13 specifies the scalar marginal and radial quantiles.
 
    For a second reference category `s`, define the linear equivalence `B_sr` by `(B_sr z)_i=z̄_i-z̄_s` for `i≠s`.
    Prove `T_s ∘ B_sr=T_r`, inverse `B_rs`, and the parameter-change identity
-   `logisticNormalMeasure r m S = logisticNormalMeasure s (B_sr*m) (B_sr*S*B_srᵀ)` for PSD `S`.
+   `logisticNormalMeasure r m S = logisticNormalMeasure s (B_sr*m) (B_sr*S*B_srᵀ)` for every covariance parameter `S`.
+   Since `B_sr` is invertible, `S` is PSD exactly when `B_sr*S*B_srᵀ` is; the PSD case follows from Gaussian affine transport, and the invalid case equates the two Dirac fallbacks through `T_s(B_sr*m)=T_r(m)`.
    Show the change between deleted-coordinate affine charts has absolute Jacobian one, so their reference measures agree.
    Prove category-permutation transport and Gaussian log-ratio laws, including scalar quantiles through the Gaussian quantile API.
    For each natural multi-index `k`, prove integrability and the mixed moment as the Gaussian integral `∫ z, ∏i (T_r z)_i^(k_i) ∂multivariateGaussian m S`; express the mean and covariance through orders one and two of these convergent integrals.

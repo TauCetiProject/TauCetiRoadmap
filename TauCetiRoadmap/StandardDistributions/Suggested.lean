@@ -792,8 +792,8 @@ theorem cgf_trace_mul_nonsingularWishartMeasure {p : ℕ} {n t : ℝ}
     cgf (fun A : SymmetricMatrix p =>
         Matrix.trace ((Θ : Matrix (Fin p) (Fin p) ℝ) * (A : Matrix (Fin p) (Fin p) ℝ)))
         (nonsingularWishartMeasure n S) t =
-      Real.log (Real.rpow
-        (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S))) (-n / 2)) := by
+      -(n / 2) * Real.log
+        (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S))) := by
   sorry
 
 -- Positive semidefiniteness suffices, so the Gaussian-Gram family below reuses this lemma.
@@ -941,9 +941,8 @@ theorem cgf_trace_mul_wishartGramMeasure {p ν : ℕ} {t : ℝ}
     cgf (fun A : SymmetricMatrix p =>
         Matrix.trace ((Θ : Matrix (Fin p) (Fin p) ℝ) * (A : Matrix (Fin p) (Fin p) ℝ)))
         (wishartGramMeasure ν S) t =
-      Real.log (Real.rpow
-        (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S)))
-        (-(ν : ℝ) / 2)) := by
+      -((ν : ℝ) / 2) * Real.log
+        (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S))) := by
   sorry
 
 theorem charFun_wishartGramMeasure {p ν : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
@@ -1400,10 +1399,17 @@ theorem quantile_map_monotone (μ : Measure ℝ) [IsProbabilityMeasure μ]
     (μ.map g).quantile u = g (μ.quantile u) := by sorry
 
 theorem variance_bind {α : Type*} [MeasurableSpace α]
+    (ρ : Measure α) [IsProbabilityMeasure ρ] (K : α → Measure ℝ) (hK : Measurable K)
+    (hprob : ∀ᵐ a ∂ρ, IsProbabilityMeasure (K a)) (hint : MemLp id 2 (ρ.bind K)) :
+    variance id (ρ.bind K) = (∫ a, variance id (K a) ∂ρ) +
+      variance (fun a => ∫ x, x ∂K a) ρ := by sorry
+
+theorem variance_bind_kernel {α : Type*} [MeasurableSpace α]
     (ρ : Measure α) [IsProbabilityMeasure ρ] (K : Kernel α ℝ) [IsMarkovKernel K]
     (hint : MemLp id 2 (ρ.bind K)) :
     variance id (ρ.bind K) = (∫ a, variance id (K a) ∂ρ) +
-      variance (fun a => ∫ x, x ∂K a) ρ := by sorry
+      variance (fun a => ∫ x, x ∂K a) ρ :=
+  variance_bind ρ K K.measurable (Filter.Eventually.of_forall fun _ => inferInstance) hint
 
 def mixedPoissonMeasure (ρ : Measure ℝ≥0) : Measure ℕ := ρ.bind poissonMeasure
 
@@ -1534,6 +1540,11 @@ def multivariateLogNormalMeasure {ι : Type*} [Fintype ι] [DecidableEq ι]
     (m : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) : Measure (EuclideanSpace ℝ ι) :=
   (multivariateGaussian m S).map (fun x => WithLp.toLp 2 (fun i => Real.exp (x i)))
 
+theorem integrable_mixed_rpow_multivariateLogNormalMeasure {ι : Type*}
+    [Fintype ι] [DecidableEq ι] (m q : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) :
+    Integrable (fun x : EuclideanSpace ℝ ι => ∏ i, Real.rpow (x i) (q i))
+      (multivariateLogNormalMeasure m S) := by sorry
+
 theorem integral_mixed_rpow_multivariateLogNormalMeasure {ι : Type*}
     [Fintype ι] [DecidableEq ι] (m q : EuclideanSpace ℝ ι)
     {S : Matrix ι ι ℝ} (hS : S.PosSemidef) :
@@ -1556,7 +1567,7 @@ def logisticNormalReferenceChange {ι : Type*} [Fintype ι] [DecidableEq ι]
 
 theorem logisticNormalMeasure_change_reference {ι : Type*} [Fintype ι] [DecidableEq ι]
     (r s : ι) (m : EuclideanSpace ℝ {i : ι // i ≠ r})
-    {S : Matrix {i : ι // i ≠ r} {i : ι // i ≠ r} ℝ} (hS : S.PosSemidef) :
+    (S : Matrix {i : ι // i ≠ r} {i : ι // i ≠ r} ℝ) :
     logisticNormalMeasure r m S =
       logisticNormalMeasure s ((logisticNormalReferenceChange r s).toEuclideanLin m)
         (logisticNormalReferenceChange r s * S * (logisticNormalReferenceChange r s)ᵀ) := by
