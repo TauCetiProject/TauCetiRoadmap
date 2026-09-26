@@ -204,8 +204,9 @@ statement time is what keeps the formalized API reusable.
   that powers the Fredholm alternative and the eigenvalue expansions.
 - **State maximum principles with their hypotheses.** The weak maximum principle for
   `Lu = -∂ⱼ(aⁱʲ∂ᵢu) + cu` needs `c ≥ 0` (or `Lu ≤ 0` with the right structure); the strong
-  principle additionally needs `Ω` connected and rests on the **Hopf boundary-point
-  lemma**; Harnack is for nonnegative solutions. Make each of these a named hypothesis.
+  principle additionally needs `Ω` connected and, for classical `C²` solutions of a
+  non-divergence operator, rests on the **Hopf boundary-point lemma** (for divergence-form
+  weak solutions it comes instead from the weak Harnack inequality); Harnack is for nonnegative solutions. Make each of these a named hypothesis.
   The Hopf lemma carries a coefficient and boundary contract of its own, stricter than the
   standing one; see Lane C.13.
 - **Fix the Laplacian sign and Fourier convention once.** Pin the sign of `Δ` (Mathlib's
@@ -392,13 +393,58 @@ geometric-measure prerequisites and should be scheduled separately.
     interior-ball condition. In the half disk take `a = e_r ⊗ e_r + s² e_θ ⊗ e_θ` with
     `s > 1` and `u = r^s sin θ`. Then `a` is uniformly elliptic and bounded measurable,
     `div(a ∇u) = 0`, `u > 0` inside and `u(0) = 0`, and the inward normal derivative at the
-    origin vanishes, since `u` vanishes to order `s > 1`. So the first Hopf milestone is
-    stated with a **classical** coefficient and boundary contract — `a ∈ C^{0,α}` (or
-    Lipschitz) with a `C^{1,1}` interior tangent ball, which is the regime the barrier
-    argument actually needs — and nothing here inherits the bounded-measurable hypotheses
-    that De Giorgi–Nash–Moser is stated under. Any stronger divergence-form boundary-point
-    theorem is a separate milestone, stated with a specific source, not a relaxation of
-    this one.
+    origin vanishes, since `u` vanishes to order `s > 1`. Nothing here inherits the
+    bounded-measurable hypotheses that De Giorgi–Nash–Moser is stated under.
+
+    The first Hopf milestone is the **classical non-divergence** boundary-point lemma
+    (Gilbarg–Trudinger, Lemma 3.4). It is stated in Gilbarg–Trudinger's sign convention,
+    positive principal part and `c ≤ 0`; negating `L` turns it into the roadmap's
+    convention (`c ≥ 0`, hypothesis `Lu ≤ 0`), and the milestone should say which one it
+    uses. Operator: `Lu = aⁱʲ∂ᵢ∂ⱼu + bⁱ∂ᵢu + cu` on an open `Ω`, with `a` symmetric,
+    `λ‖ξ‖² ≤ ξ · a(x)ξ ≤ Λ‖ξ‖²` for constants `0 < λ ≤ Λ`, and `b`, `c` bounded on `Ω`
+    (the barrier needs the upper bound `Λ` as well as `λ`); no continuity of `a`, `b`, `c` is
+    needed. Solution: `u ∈ C²(Ω)` with `Lu ≥ 0`
+    pointwise in `Ω`. Boundary point: `x₀ ∈ ∂Ω` with an **interior ball** `B ⊆ Ω`,
+    `x₀ ∈ ∂B`; `u` is continuous at `x₀` and `u(x₀) > u(x)` for every `x ∈ Ω` (a strict
+    boundary maximum). Zero-order sign: `c = 0`; or `c ≤ 0` and `u(x₀) ≥ 0`; or `u(x₀) = 0`
+    with no sign on `c`. Conclusion: with `ν` the outer normal of `B` at `x₀`,
+    `liminf_{t → 0⁺} (u(x₀) − u(x₀ − tν)) / t > 0`, so the outer normal derivative, *if it
+    exists*, is positive; here the normal derivative is the one-sided limit
+    `lim_{t → 0⁺} (u(x₀) − u(x₀ − tν)) / t`, since `u` is not defined outside `Ω`, and `B` is
+    an open ball (shrinking it so that `∂B ∩ ∂Ω = {x₀}` is harmless). State the liminf form as the theorem and the derivative form as a
+    corollary carrying the existence hypothesis. Minimum versions follow by `u ↦ −u` and
+    are not separate milestones. The proof is the exponential barrier
+    `e^{−κ|x−y|²} − e^{−κR²}` on an annulus of `B` plus the **classical weak maximum
+    principle for non-divergence `L`** on `C²(A) ∩ C(Ā)` functions with `Lu ≥ 0`
+    (Gilbarg–Trudinger, Theorem 3.1 for `c = 0` and Corollary 3.2 for `c ≤ 0`, with `|b|/λ`
+    bounded). That is a named dependency of its own, distinct from the divergence-form weak
+    maximum principle for weak solutions. The lemma is in turn the input to the classical
+    strong maximum principle for non-divergence `L` (Gilbarg–Trudinger, Theorem 3.5). The
+    strong maximum principle for divergence-form weak solutions does not go through Hopf;
+    it follows from the weak Harnack inequality (Gilbarg–Trudinger, Theorem 8.19) in
+    Lane E. For Lipschitz `a` and classical `C²` solutions, a divergence-form operator is a
+    non-divergence one with the bounded drift `bⁱ = ∂ⱼaʲⁱ`, so that case is already
+    covered here.
+
+    A **divergence-form** Hopf lemma for weak solutions is a separate, later milestone, not
+    a relaxation of this one, because the barrier proof differentiates `a` and so does not
+    run with merely Hölder coefficients. Its source is Rosales, *Generalizing Hopf's
+    boundary point lemma* (arXiv:1806.07003), Theorem 4.1 with Remark 4.2, and the
+    milestone carries that theorem's contract. The operator is
+    `Dᵢ(aⁱʲDⱼu + bⁱu) + cⁱDᵢu + du` with `aⁱʲ` **and** `bⁱ` in `C^{0,α}` on the closed ball,
+    `cⁱ ∈ L^q` and `d ∈ L^{q/2}` together with a Morrey-space bound, `q > n`; `b, d` are
+    weakly non-positive; `aⁱʲ` is symmetric at the boundary point; and
+    `u ∈ C ∩ W^{1,2}` is a weak supersolution with a strict boundary **minimum** (Remark
+    4.2 relaxes the value there to `≤ 0` and frees `α` from `1 − n/q`). The theorem is
+    stated on the unit ball at `x₀ = −eₙ` with a positive normal **liminf** as
+    conclusion, so the restriction to an interior ball and the affine rescaling to that
+    normal form are part of the milestone. Its proof consumes Morrey's `C^{1,α}` estimate,
+    the weak-solution existence theorem Gilbarg–Trudinger 8.34, and a weak maximum
+    principle for weak solutions; these are named dependencies. A normal-derivative
+    conclusion additionally needs that derivative to exist, for example from a boundary
+    `C^{1,α}` regularity theorem, which is then a further dependency. If the symmetry
+    hypothesis is to be dropped, the reduction that removes it is part of the milestone
+    and must be written down.
 
     Separately prove the
     **Aleksandrov–Bakelman–Pucci estimate** for scalar non-divergence-form strong

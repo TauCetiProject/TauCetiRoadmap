@@ -64,7 +64,9 @@ Lane E's statement carries three conditions that are easy to drop and false to o
 constant depends on the solution, not only on `n, λ, Λ` and the geometry: `u ↦ M u` maps
 solutions to solutions and scales the Hölder seminorm, so a purely structural constant is
 refuted by `u_M = M x₁`. The exponent is an `ℝ≥0` with `0 < α ≤ 1`, since `HolderOnWith`
-takes `ℝ≥0` and an exponent above 1 forces a function on a connected set to be constant.
+takes `ℝ≥0` and an exponent above 1 forces a function on a connected open set, such as the ball
+of the primitive estimate, to be constant, so `holderExponent_le_one` loses nothing; on an
+arbitrary connected set, such as a general compact `K`, it need not.
 And the conclusion is about a representative: a weak `H¹` solution is an a.e. equivalence
 class, so `HolderOnWith … u K` is false for a badly chosen representative, and the target
 is `∃ v, v =ᵐ u ∧ HolderOnWith … v K`.
