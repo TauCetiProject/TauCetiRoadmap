@@ -8,11 +8,11 @@ import Mathlib
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
-The narrative roadmap (the layers, the conventions, the worked examples and the references) is
-in `README.md`. Mathlib has power series in the sense of `FormalMultilinearSeries`, the one-variable
-Cauchy and Schwarz estimates, the house of an algebraic number and Siegel's lemma; it has no
-multi-index Taylor coefficients, no estimates on polydiscs, and no transcendence theorem for the
-exponential function. We build those here in `TauCeti/`.
+The narrative roadmap (the layers, the conventions, the worked examples, the references and the
+provenance of these statements) is in `README.md`. Mathlib has power series in the sense of
+`FormalMultilinearSeries`, the one-variable Cauchy and Schwarz estimates, the house of an algebraic
+number and Siegel's lemma; it has no multi-index Taylor coefficients, no estimates on polydiscs, and
+no transcendence theorem for the exponential function. We build those here in `TauCeti/`.
 
 `FormalMultilinearSeries.mvCoeff` is the multi-index coefficient of a formal series on `ι → 𝕜`,
 named so as not to collide with Mathlib's one-variable `FormalMultilinearSeries.coeff`, and
@@ -295,6 +295,12 @@ variable {K : Type*} [Field K] [NumberField K]
 theorem NumberField.one_le_norm_embedding_mul_house_pow {α : K} (hint : IsIntegral ℤ α)
     (hα : α ≠ 0) (σ : K →+* ℂ) :
     1 ≤ ‖σ α‖ * house α ^ (Module.finrank ℚ K - 1) :=
+  sorry
+
+/-- **Layer 3.2**, the house of a product over an indexed family, in the form of Mathlib
+PR #42911. -/
+theorem NumberField.house_prod_le {ι : Type*} (s : Finset ι) (f : ι → K) :
+    house (∏ i ∈ s, f i) ≤ ∏ i ∈ s, house (f i) :=
   sorry
 
 /-- **Layer 3.2, Liouville's inequality for a number of known size**: `δ ^ a * α` is a nonzero

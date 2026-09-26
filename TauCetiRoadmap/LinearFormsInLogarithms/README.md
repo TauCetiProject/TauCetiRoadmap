@@ -92,8 +92,10 @@ their convergence and continuity on the deep units, and the isomorphism `U(K,i) 
 "Deep units in mixed characteristic"). This roadmap owns only the facts of 8.1 about Mathlib's
 `NormedSpace.exp` in a normed field over `ℚ_p`, that is, with a norm making it a normed
 `ℚ_[p]`-algebra, which Layer 8 needs for `ℂ_[p]`. That roadmap normalises the absolute value of
-`K`, which in general is not such a norm, so 8.1 states nothing about `localExponential`, and
-neither roadmap depends on the other.
+`K`, which in general is not such a norm; but Mathlib's `spectralNorm.normedAlgebra` makes `K` a
+normed `ℚ_[p]`-algebra whose norm has the normalised absolute value as a power, so that roadmap's
+convergence milestone for `localExponential` can be derived from 8.1. This roadmap does not depend
+on that one.
 
 Not in this roadmap, and not owned by any other roadmap unless stated:
 - the Schneider–Lang criterion for algebraically independent entire functions of finite order
@@ -114,7 +116,7 @@ Not in this roadmap, and not owned by any other roadmap unless stated:
   theorem;
 - the `p`-adic Schneider–Lang criterion, and elliptic analogues;
 - a `p`-adic logarithm function on `ℂ_[p]`: Layer 8 is stated through the exponential;
-- Weierstrass preparation, and the theory of Tate algebras, which the
+- Weierstrass division and preparation, and the theory of Tate algebras, which the
   [Foundations of adic spaces](../AdicSpaces/README.md) roadmap owns (its §0.5). Tau Ceti already
   has Weierstrass division with Gauss-norm bounds, which 8.3 consumes.
 
@@ -235,7 +237,8 @@ All references are to the Mathlib commit pinned by Tau Ceti.
   scalar to vector coefficients.
 - **Algebraic numbers:** `IsAlgebraic`, `Transcendental`, common denominators
   (`exists_integral_multiples`), `IntermediateField.finiteDimensional_adjoin`,
-  `NumberField.of_module_finite`, `NumberField.house` with `house_add_le`, `house_mul_le`,
+  `NumberField.of_module_finite`, `NumberField.house` with (in the namespace `NumberField`)
+  `house_add_le`, `house_mul_le`,
   `house_pow_le`, `house_sum_le_sum_house`, `house_prod_le`, `house_intCast`, `house_nat_mul`,
   `norm_embedding_le_house`, `one_le_house_of_isIntegral`, and the bound of the field norm by one
   embedding (`NumberField.norm_norm_le_norm_mul_house_pow`), in
@@ -295,9 +298,10 @@ M. Karatarakis, proves Gelfond–Schneider directly, by Gelfond's one-variable m
 `GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`. Target 6.4 takes that name and
 statement; if the PR is merged, the Tau Ceti theorem is deleted in favour of Mathlib's. Here it is
 derived from the criterion, which this roadmap builds regardless. The same PR makes Siegel's
-constant public and adds lemmas on the house of integer multiples and powers; 3.5 keeps its
-existential constant either way, and a size bound of 3.2 that the PR adds is deleted from Tau Ceti
-in favour of Mathlib's if the PR is merged.
+constant public, which 3.5 does not need, and generalises Mathlib's `house_prod_le` to
+`house_prod_le {ι} (s : Finset ι) (f : ι → K) : house (∏ i ∈ s, f i) ≤ ∏ i ∈ s, house (f i)`;
+3.2's `NumberField.house_prod_le` has that shape, and is deleted in favour of Mathlib's if the PR
+is merged. The PR's other house lemmas are not needed here.
 
 Mathlib PR [#28013](https://github.com/leanprover-community/mathlib4/pull/28013), by Yuyang Zhao,
 proves the Lindemann–Weierstrass theorem by Hermite's method, and from it `transcendental_exp`
@@ -467,8 +471,10 @@ Over a number field `K`. *Prerequisites:* Mathlib only.
 - **3.2 Sizes.** If `δ ^ a * α` and `δ ^ b * β` are algebraic integers of house at most `H` and
   `H'`, then `δ ^ (a + b) * (α β)`, `δ ^ a * (α + β)` (for `a = b`), `δ ^ (a * k) * α ^ k` and
   `δ ^ c * α` for `c ≥ a` are algebraic integers with the houses `H H'`, `H + H'`, `H ^ k` and
-  `δ ^ (c - a) H`; integers `x` have exponent `0` and house `|x|`; finite sums and products follow
-  (`house_sum_le_sum_house`, `house_prod_le`). **Liouville's inequality for a number of known
+  `δ ^ (c - a) H`; integers `x` have exponent `0` and house `|x|`; finite sums follow
+  (`house_sum_le_sum_house`), and so do products over an indexed family
+  (`NumberField.house_prod_le`, for `∏ i ∈ s, f i`; the pinned Mathlib lemma of that name covers
+  only products of the elements of a finite set). **Liouville's inequality for a number of known
   size:** if `δ ≠ 0` and `δ ^ a * α` is a nonzero algebraic integer of house at most `H`, then
   `1 ≤ δ ^ a ‖σ α‖ H ^ ([K : ℚ] - 1)` at every embedding
   (`NumberField.one_le_pow_mul_norm_embedding_mul_pow`). *Prerequisites:* 3.1.
@@ -799,8 +805,9 @@ Normalisation checks, which catch a wrong factorial or a wrong placeholder value
 - a monomial `∏ i, z i ^ τ i` has Taylor coefficient `1` at `τ` and `0` at every other
   multi-index, at the origin (`mvTaylorCoeff_prod_pow`);
 - `mvTaylorCoeff f x α = 0` when `f` is not analytic at `x` (`mvTaylorCoeff_of_not_analyticAt`,
-  proved); every target either assumes analyticity or concerns an entire function, so none holds
-  only through this value.
+  proved); apart from constant multiples, locality and translation in 0.4, which hold whether or
+  not `f` is analytic, every target either assumes analyticity or concerns an entire function, so
+  none holds only through this value.
 
 Rejection tests, each showing that a hypothesis cannot be dropped: `4 ^ (1 / 2) = 2` for 6.4,
 `log 4 / log 2 = 2` for the quotient in 6.4, and `2 log 2 - log 4 = 0` for 7.2 (all three proved
@@ -821,11 +828,12 @@ Layer 3 ────────────────┴───────
 
 Layer 0 first; within it 0.1–0.3 before 0.4, and 0.5 last. Layers 1 and 2 need only Layer 0 and
 can proceed in parallel; within Layer 1, 1.3 and 1.4 before 1.5, and 1.1–1.3 before 1.6. Layer 3 is
-independent of Layers 0–2. Layer 4 needs 1.4, 1.5 and 3.4. Within Layer 5, 5.1–5.4 can proceed in
-parallel once their prerequisites are in; 5.5 needs them and 4.1, and 5.7 needs 5.5 and 5.6.
+independent of Layers 0–2. Layer 4 needs 1.4, 1.5 and 3.4. Within Layer 5, 5.1 comes first, then
+5.2, 5.4 and 5.6, then 5.3 (which needs 5.2); 5.5 needs 5.1–5.4 and 4.1, and 5.7 needs 5.5 and
+5.6.
 Layer 6 needs 5.7, and Layer 7 needs Layer 6. Layer 8 needs only 3.2, 3.3 and 3.5 and can proceed
-in parallel with Layers 0–7; within it, 8.1–8.5 are independent of one another, then 8.6, 8.7,
-8.8 and 8.9, and 8.10 last.
+in parallel with Layers 0–7; within it, 8.1, 8.2, 8.3 and 8.5 are independent of one another, 8.4
+needs 8.1, then 8.6, 8.7, 8.8 and 8.9, and 8.10 last.
 
 ## References
 
