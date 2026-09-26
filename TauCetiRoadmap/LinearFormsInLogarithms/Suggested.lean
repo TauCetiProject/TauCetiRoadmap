@@ -19,8 +19,8 @@ named so as not to collide with Mathlib's one-variable `FormalMultilinearSeries.
 `mvTaylorCoeff` is the Taylor coefficient of a function at a point, `0` where the function is not
 analytic. Series in one variable over an ultrametric field (Layer 8) are Mathlib's `PowerSeries`,
 evaluated with `FormalMultilinearSeries.ofScalarsSum`. The declarations in the namespaces
-`SchneiderLangProof` and `BrumerProof` are one decomposition of the proofs of 5.7 and 8.10 and are
-internal to them; every other declaration is a target in its own right. Every target name that
+`SchneiderLangProof` and `PadicBakerProof` are the steps of the proofs of 5.7 and 8.10, in
+namespaces of their own because they serve only those proofs. Every target name that
 `README.md` uses is declared here. Many signatures follow the author's formalization cited in the
 Provenance section of `README.md`. The targets elaborate against the pinned Mathlib and are
 stated with `sorry` (allowed in this human-owned roadmap library); the checks marked as proved
@@ -194,23 +194,26 @@ end Layer0
 
 section Layer1
 
-variable {ι : Type*} [Fintype ι]
-  {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V] [CompleteSpace V]
-
-/-- **Layer 1.3, a zero of order `T` is `o (‖w‖ ^ (T - 1))`**, the hypothesis of Mathlib's
+/-- **Layer 1.3, a zero of order `T` is `o (‖w‖ ^ (T - 1))`**, over any nontrivially normed field;
+over `ℂ` this is the hypothesis of Mathlib's
 `Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO`. -/
-theorem isLittleO_pow_sub_one_of_le_analyticOrderAt {g : ℂ → V} {T : ℕ} (hT : 1 ≤ T)
+theorem isLittleO_sub_pow_sub_one_of_le_analyticOrderAt {𝕜 : Type*} [NontriviallyNormedField 𝕜]
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E] {g : 𝕜 → E} {T : ℕ} (hT : 1 ≤ T)
     (h : (T : ℕ∞) ≤ analyticOrderAt g 0) :
     Asymptotics.IsLittleO (nhds 0) (fun w => g w - g 0) (fun w => ‖w - 0‖ ^ (T - 1)) :=
   sorry
 
 /-- **Layer 1.3, Schwarz's lemma for a zero of order `T`**, from Mathlib's
 `Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO`. -/
-theorem norm_le_mul_div_pow_of_le_analyticOrderAt {g : ℂ → V} {ρ M : ℝ}
+theorem norm_le_mul_div_pow_of_le_analyticOrderAt {V : Type*} [NormedAddCommGroup V]
+    [NormedSpace ℂ V] {g : ℂ → V} {ρ M : ℝ}
     (hd : DifferentiableOn ℂ g (Metric.ball 0 ρ)) (hM : ∀ w ∈ Metric.ball (0 : ℂ) ρ, ‖g w‖ ≤ M)
     {T : ℕ} (hT : (T : ℕ∞) ≤ analyticOrderAt g 0) {w : ℂ} (hw : w ∈ Metric.ball (0 : ℂ) ρ) :
     ‖g w‖ ≤ M * (‖w‖ / ρ) ^ T :=
   sorry
+
+variable {ι : Type*} [Fintype ι]
+  {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V] [CompleteSpace V]
 
 /-- **Layer 1.4, Cauchy's inequality on a polydisc.** -/
 theorem HasFPowerSeriesOnBall.norm_mvCoeff_mul_pow_le {f : (ι → ℂ) → V}
@@ -286,14 +289,14 @@ theorem NumberField.one_le_pow_mul_norm_embedding_mul_pow {δ a : ℕ} (hδ : δ
   sorry
 
 /-- **Layer 3.4, Thue–Siegel's lemma for real linear forms** (Waldschmidt, Lemma 4.11). -/
-theorem ThueSiegel.exists_int_vec_abs_le_of_pow_lt {ι κ : Type*} [Fintype ι] [Fintype κ]
+theorem ThueSiegel.exists_ne_zero_int_vec_abs_le_of_pow_lt {ι κ : Type*} [Fintype ι] [Fintype κ]
     (u : ι → κ → ℝ) {U : ℝ} (hU : ∀ j, ∑ i, |u i j| ≤ U) {X ℓ : ℕ} (hX : 0 < X) (hℓ : 0 < ℓ)
     (hcard : ℓ ^ Fintype.card κ < (X + 1) ^ Fintype.card ι) :
     ∃ ξ : ι → ℤ, ξ ≠ 0 ∧ (∀ i, |ξ i| ≤ (X : ℤ)) ∧ ∀ j, |∑ i, u i j * ξ i| ≤ U * X / ℓ :=
   sorry
 
 /-- **Layer 3.4, Thue–Siegel's lemma for complex linear forms** (Waldschmidt, Lemma 4.12). -/
-theorem ThueSiegel.exists_int_vec_norm_le_of_pow_le {ι κ : Type*} [Fintype ι] [Nonempty ι]
+theorem ThueSiegel.exists_ne_zero_int_vec_norm_le_of_pow_le {ι κ : Type*} [Fintype ι] [Nonempty ι]
     [Fintype κ] (u : ι → κ → ℂ) {U V : ℝ} (hU : ∀ j, ∑ i, ‖u i j‖ ≤ Real.exp U) {X : ℕ}
     (hX : 0 < X)
     (hcard : (Real.sqrt 2 * X * Real.exp (U + V) + 1) ^ (2 * Fintype.card κ) ≤
@@ -304,8 +307,10 @@ theorem ThueSiegel.exists_int_vec_norm_le_of_pow_le {ι κ : Type*} [Fintype ι]
 
 /-- **Layer 3.5, Siegel's lemma over `K` with a constant depending only on `K`**, from Mathlib's
 `NumberField.house.exists_ne_zero_int_vec_house_le`: when there are at least twice as many
-unknowns as equations, the exponent in Mathlib's bound is at most `1`. -/
-theorem NumberField.exists_siegel_const (K : Type*) [Field K] [NumberField K] :
+unknowns as equations, the exponent in Mathlib's bound is at most `1`, and the zero system
+(which Mathlib excludes) has the solution `Pi.single l 1`. -/
+theorem NumberField.house.exists_const_ne_zero_int_vec_house_le (K : Type*) [Field K]
+    [NumberField K] :
     ∃ C : ℝ, 1 ≤ C ∧ ∀ (α β : Type) [Fintype α] [Fintype β] (a : Matrix α β (𝓞 K)) (A : ℝ),
       1 ≤ A → 0 < Fintype.card α → 2 * Fintype.card α ≤ Fintype.card β →
       (∀ i j, house (a i j : K) ≤ A) →
@@ -622,9 +627,9 @@ theorem Baker.transcendental_prod_cpow {ι : Type*} [Fintype ι] [Nonempty ι] {
 
 end Layer7
 
-/-! ## Layer 8: Baker's theorem over `ℂ_[p]` (Brumer) -/
+/-! ## Layer 8: Baker's theorem over `ℂ_[p]` -/
 
-namespace BrumerProof
+namespace PadicBakerProof
 
 /-- The bound for the entries of Baker's linear system in 8.7, after clearing denominators. -/
 noncomputable def entryBound (k L h : ℕ) (G : ℝ) : ℝ :=
@@ -656,23 +661,33 @@ theorem exists_admissible (k D p : ℕ) {r₀ B G C lmin : ℝ} (hr₀ : 1 < r�
     ∃ (L h Kmax : ℕ) (S R : ℕ → ℕ), Admissible k D p r₀ B G C lmin L h Kmax S R :=
   sorry
 
-end BrumerProof
+end PadicBakerProof
 
 section Layer8
 
 open _root_.Polynomial _root_.NumberField
 
+/-- **Layer 8.2**: in a normed field over `ℚ_[p]`, a nonzero integer `n` has norm at least
+`1 / |n|`. The prime is explicit, since it does not occur in the conclusion. -/
+theorem Padic.one_le_abs_mul_norm_intCast (p : ℕ) [Fact p.Prime] {L : Type*} [NormedField L]
+    [NormedAlgebra ℚ_[p] L] {n : ℤ} (hn : n ≠ 0) : 1 ≤ |(n : ℝ)| * ‖(n : L)‖ :=
+  sorry
+
 variable {p : ℕ} [hp : Fact p.Prime]
+
+/-- **Layer 8.1, the norm of a nonzero natural number** in a normed field over `ℚ_[p]`, from
+Mathlib's `Padic.norm_eq_zpow_neg_valuation` and `norm_algebraMap'`; with Legendre's formula
+it gives the norm of `n!`. -/
+theorem Padic.norm_natCast_eq_zpow_neg_padicValNat {L : Type*} [NormedField L]
+    [NormedAlgebra ℚ_[p] L] {n : ℕ} (hn : n ≠ 0) :
+    ‖(n : L)‖ = (p : ℝ) ^ (-(padicValNat p n : ℤ)) :=
+  sorry
 
 section General
 
 variable {L : Type*} [NontriviallyNormedField L] [NormedAlgebra ℚ_[p] L] [CompleteSpace L]
 
-/-- **Layer 8.1, the norm of `n!`** in a normed field over `ℚ_[p]`. -/
-theorem PadicExp.norm_natCast_factorial (n : ℕ) :
-    ‖((n.factorial : ℕ) : L)‖ = (p : ℝ) ^ (-(padicValNat p n.factorial : ℤ)) :=
-  sorry
-
+omit [CompleteSpace L] in
 /-- **Layer 8.1, the radius of the exponential series** is at least `p ^ (-1 / (p - 1))`. -/
 theorem PadicExp.le_radius_expSeries :
     ENNReal.ofReal ((p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) ≤ (NormedSpace.expSeries L L).radius :=
@@ -695,17 +710,23 @@ theorem PadicExp.injOn_exp :
     Set.InjOn (NormedSpace.exp : L → L) {x | ‖x‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)} :=
   sorry
 
-/-- **Layer 8.2**: a nonzero integer `n` has norm at least `1 / |n|`. -/
-theorem PadicExp.one_le_abs_mul_norm_intCast {n : ℤ} (hn : n ≠ 0) :
-    1 ≤ |(n : ℝ)| * ‖(n : L)‖ :=
-  sorry
-
 /-- **Layer 8.4, the value of an exponential polynomial** inside the disc of convergence. -/
 theorem Polynomial.hasSum_coeff_mul_rescale_exp [CharZero L] (Q : L[X]) {ψ x : L}
     (h : ‖ψ * x‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) :
     HasSum (fun k => PowerSeries.coeff k ((Q : PowerSeries L) *
         PowerSeries.rescale ψ (PowerSeries.exp L)) * x ^ k)
       (Q.eval x * NormedSpace.exp (ψ * x)) :=
+  sorry
+
+omit [CompleteSpace L] in
+/-- **Layer 8.4, the coefficients of an exponential polynomial** on the disc: if
+`‖Q.coeff j‖ r ^ j ≤ M` and `‖ψ‖ r ≤ p ^ (-1 / (p - 1))`, then the coefficients of
+`Q (X) exp (ψ X)` satisfy the same bound, since `‖ψ ^ k / k!‖ r ^ k ≤ 1`. -/
+theorem Polynomial.norm_coeff_mul_rescale_exp_mul_pow_le [CharZero L] (Q : L[X]) {ψ : L}
+    {r M : ℝ} (hr : 0 ≤ r) (hψ : ‖ψ‖ * r ≤ (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹))
+    (hQ : ∀ j, ‖Q.coeff j‖ * r ^ j ≤ M) (k : ℕ) :
+    ‖PowerSeries.coeff k ((Q : PowerSeries L) * PowerSeries.rescale ψ (PowerSeries.exp L))‖ *
+      r ^ k ≤ M :=
   sorry
 
 end General
@@ -740,10 +761,11 @@ variable {K : Type*} [NontriviallyNormedField K] [IsUltrametricDist K] [CharZero
   [CompleteSpace K]
 
 /-- **Layer 8.3, many zeros in the unit disc force small coefficients.** If
-`‖coeff k f‖ r ^ k ≤ M` with `r > 1` and `f` vanishes to order `S` (its formal derivatives of
-order `< S` vanish) at each point of a finite set `A` in the closed unit disc, then every
-coefficient is at most `M r ^ (-(card A · S))`. -/
-theorem PowerSeries.norm_coeff_le_of_iterate_derivative_eq_zero {f : PowerSeries K} {r M : ℝ}
+`‖coeff k f‖ r ^ k ≤ M` with `r > 1`, and at each point `a` of a finite set `A` in the closed unit
+disc the values of the formal derivatives of `f` of order `< S` vanish, then every coefficient is
+at most `M r ^ (-(card A · S))`. -/
+theorem PowerSeries.norm_coeff_le_of_ofScalarsSum_iterate_derivative_eq_zero {f : PowerSeries K}
+    {r M : ℝ}
     (hr : 1 < r) (hM : ∀ k, ‖PowerSeries.coeff k f‖ * r ^ k ≤ M) (A : Finset K)
     (hA : ∀ a ∈ A, ‖a‖ ≤ 1) (S : ℕ)
     (hvan : ∀ a ∈ A, ∀ j < S, FormalMultilinearSeries.ofScalarsSum (E := K)
@@ -752,9 +774,9 @@ theorem PowerSeries.norm_coeff_le_of_iterate_derivative_eq_zero {f : PowerSeries
   sorry
 
 /-- **Layer 8.3**, the same bound for the values in the closed unit disc. -/
-theorem PowerSeries.norm_ofScalarsSum_le_of_iterate_derivative_eq_zero {f : PowerSeries K}
-    {r M : ℝ} (hr : 1 < r) (hM : ∀ k, ‖PowerSeries.coeff k f‖ * r ^ k ≤ M) (A : Finset K)
-    (hA : ∀ a ∈ A, ‖a‖ ≤ 1) (S : ℕ)
+theorem PowerSeries.norm_ofScalarsSum_le_of_ofScalarsSum_iterate_derivative_eq_zero
+    {f : PowerSeries K} {r M : ℝ} (hr : 1 < r) (hM : ∀ k, ‖PowerSeries.coeff k f‖ * r ^ k ≤ M)
+    (A : Finset K) (hA : ∀ a ∈ A, ‖a‖ ≤ 1) (S : ℕ)
     (hvan : ∀ a ∈ A, ∀ j < S, FormalMultilinearSeries.ofScalarsSum (E := K)
       (fun k => PowerSeries.coeff k ((⇑(PowerSeries.derivative K))^[j] f)) a = 0)
     {x : K} (hx : ‖x‖ ≤ 1) :
@@ -762,15 +784,16 @@ theorem PowerSeries.norm_ofScalarsSum_le_of_iterate_derivative_eq_zero {f : Powe
       M * (r ^ (A.card * S))⁻¹ :=
   sorry
 
+end Ultrametric
+
 /-- **Layer 8.5, Hermite interpolation with ultrametric bounds** (Baker, Chapter 2, Lemma 7). -/
-theorem Polynomial.exists_hermite_of_isUltrametricDist {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (σ : ι → K) (hσ : ∀ i, ‖σ i‖ ≤ 1) {ϱ : ℝ} (hϱ0 : 0 < ϱ) (hϱ1 : ϱ ≤ 1)
+theorem Polynomial.exists_hermite_of_isUltrametricDist {K : Type*} [NormedField K]
+    [IsUltrametricDist K] [CharZero K] {ι : Type*} [Fintype ι] [DecidableEq ι] (σ : ι → K)
+    (hσ : ∀ i, ‖σ i‖ ≤ 1) {ϱ : ℝ} (hϱ0 : 0 < ϱ) (hϱ1 : ϱ ≤ 1)
     (hsep : ∀ i j, i ≠ j → ϱ ≤ ‖σ i - σ j‖) (S : ℕ) (r : ι) {s : ℕ} (hs : s < S) :
     ∃ W : K[X], (∀ i, ∀ j < S, (derivative^[j] W).eval (σ i) = if i = r ∧ j = s then 1 else 0) ∧
       ∀ n, ‖W.coeff n‖ ≤ ‖((s.factorial : ℕ) : K)⁻¹‖ * (ϱ ^ (Fintype.card ι * S))⁻¹ :=
   sorry
-
-end Ultrametric
 
 /-- **Layer 8.4**, the polynomial `(Q ↦ Q' + c Q)^[m] P`: the `m`-th derivative of
 `P (z) exp (c z)` is `expDerivFactor c m P (z) exp (c z)`. -/
@@ -778,8 +801,37 @@ noncomputable def Polynomial.expDerivFactor {R : Type*} [CommRing R] (c : R) (m 
     (P : R[X]) : R[X] :=
   (fun Q => derivative Q + C c * Q)^[m] P
 
+/-- **Layer 8.4**, no derivative (proved). -/
+theorem Polynomial.expDerivFactor_zero {R : Type*} [CommRing R] (c : R) (P : R[X]) :
+    Polynomial.expDerivFactor c 0 P = P :=
+  rfl
+
+/-- **Layer 8.4**, one more derivative (proved). -/
+theorem Polynomial.expDerivFactor_succ {R : Type*} [CommRing R] (c : R) (m : ℕ) (P : R[X]) :
+    Polynomial.expDerivFactor c (m + 1) P =
+      derivative (Polynomial.expDerivFactor c m P) + C c * Polynomial.expDerivFactor c m P := by
+  simp only [Polynomial.expDerivFactor, Function.iterate_succ_apply']
+
+/-- **Layer 8.4, the binomial form** `∑ j ≤ m, (m choose j) c ^ (m - j) P⁽ʲ⁾`. -/
+theorem Polynomial.expDerivFactor_eq_sum {R : Type*} [CommRing R] (c : R) (m : ℕ) (P : R[X]) :
+    Polynomial.expDerivFactor c m P =
+      ∑ j ∈ Finset.range (m + 1), C ((m.choose j : R) * c ^ (m - j)) * derivative^[j] P :=
+  sorry
+
+/-- **Layer 8.4**, the degree does not grow. -/
+theorem Polynomial.natDegree_expDerivFactor_le {R : Type*} [CommRing R] (c : R) (m : ℕ)
+    (P : R[X]) : (Polynomial.expDerivFactor c m P).natDegree ≤ P.natDegree :=
+  sorry
+
+/-- **Layer 8.4, the coefficients in an ultrametric field** grow by a factor of at most
+`max 1 ‖c‖` for each derivative. -/
+theorem Polynomial.norm_coeff_expDerivFactor_le {K : Type*} [NormedField K] [IsUltrametricDist K]
+    (c : K) {P : K[X]} {B : ℝ} (hP : ∀ i, ‖P.coeff i‖ ≤ B) (m i : ℕ) :
+    ‖(Polynomial.expDerivFactor c m P).coeff i‖ ≤ max 1 ‖c‖ ^ m * B :=
+  sorry
+
 /-- **Layer 8.4, the derivatives of an exponential polynomial.** -/
-theorem PowerSeries.iterate_derivative_mul_rescale_exp {K : Type*} [Field K] [CharZero K]
+theorem Polynomial.iterate_derivative_mul_rescale_exp {K : Type*} [Field K] [CharZero K]
     (Q : K[X]) (ψ : K) (m : ℕ) :
     (⇑(PowerSeries.derivative K))^[m]
         ((Q : PowerSeries K) * PowerSeries.rescale ψ (PowerSeries.exp K)) =
@@ -793,7 +845,7 @@ the value `0`, which is algebraic; so every target of Layer 8 assumes `‖ℓ‖
 theorem PadicComplex.exp_one_eq_zero : NormedSpace.exp (1 : ℂ_[p]) = 0 :=
   sorry
 
-namespace BrumerProof
+namespace PadicBakerProof
 
 variable {k : ℕ}
 
@@ -882,9 +934,9 @@ theorem false_of_admissible {ℓ : Option (Fin k) → ℂ_[p]} {β₀ : ℂ_[p]}
     False :=
   sorry
 
-end BrumerProof
+end PadicBakerProof
 
-/-- **Layer 8.10, Brumer's theorem**, the `p`-adic Baker theorem: `1` and `ℚ`-linearly
+/-- **Layer 8.10, Baker's theorem over `ℂ_[p]`** (after Brumer): `1` and `ℚ`-linearly
 independent `p`-adic logarithms of algebraic numbers are linearly independent over the algebraic
 numbers. -/
 theorem PadicBaker.eq_zero_of_add_sum_mul_eq_zero {ι : Type*} [Fintype ι] {ℓ : ι → ℂ_[p]}
