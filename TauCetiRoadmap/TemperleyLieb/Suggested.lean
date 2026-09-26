@@ -21,11 +21,13 @@ build in `TauCeti/TemperleyLieb/` and the reusable infrastructure homes named in
 This file pins the load-bearing **definitions** (`qInt`, `PlanarMatching`, `TLDiagram`, the
 categories `TLDiagCat` and `TLCat R δ`, the algebras `TLAlg R δ n`, cell modules, tensor
 ideals, Jones–Wenzl projections) and **named milestones** as `sorry`-targets (`sorry` is
-allowed in this human-owned roadmap library; these are goals, not proofs). Some structure
-(the universal property of the presented monoidal category, pivotal/spherical/ribbon
-instances, the single-clasp recursion and the coefficient formula, the fusion-category
-summit) is deliberately *not* pinned here, because its Lean form depends on infrastructure
-this roadmap itself creates; `README.md` remains definitive for all of it.
+allowed in this human-owned roadmap library; these are goals, not proofs), including the
+universal properties of `FreeSelfDualityCat`, `TLDiagCat` and `TLCat R δ` in their
+`ExactPairing` form. Some structure (the general monoidal-presentation construction behind
+them, pivotal/spherical/ribbon instances, the single-clasp recursion and the coefficient
+formula, the fusion-category summit) is deliberately *not* pinned here, because its Lean form
+depends on infrastructure this roadmap itself creates; `README.md` remains definitive for all
+of it.
 
 Conventions (see `README.md`): the loop parameter is `δ = q + q⁻¹`; the quantum integer
 `[n]` is `qInt R δ n`, this roadmap's one deliberate wrapper over
@@ -298,6 +300,106 @@ theorem CirclesCommuteAt.tensorObj {C : Type*} [Category C] [MonoidalCategory C]
     {d : 𝟙_ C ⟶ 𝟙_ C} {X Y : C} (_hX : CirclesCommuteAt d X) (_hY : CirclesCommuteAt d Y) :
     CirclesCommuteAt d (X ⊗ Y) := sorry
 
+/-! ### The two universal properties
+
+A self-duality of `V` satisfying the snake equations is exactly Mathlib's `ExactPairing V V`
+(`η_ V V : 𝟙_ C ⟶ V ⊗ V`, `ε_ V V : V ⊗ V ⟶ 𝟙_ C`), so both universal properties take one as an
+instance argument. "Functors out" are **strong** monoidal functors into an arbitrary, not
+necessarily strict, monoidal target, and the image of the generator is pinned up to a chosen
+isomorphism `F.obj (of 1) ≅ V`, along which the images of `cup` and `cap` are compared through the
+functor's `ε`, `η` and `μ`. -/
+
+/-- The monoidal category freely presented by one generating object, `cup : 0 ⟶ 2`,
+`cap : 2 ⟶ 0` and exactly the two snake relations, built with the Layer 2 monoidal-presentation
+infrastructure. `TLDiagCat` is its quotient by `IsCircleCentral`. -/
+structure FreeSelfDualityCat : Type where
+  /-- Build an object from its number of boundary points. -/
+  of ::
+  /-- The number of boundary points. -/
+  points : ℕ
+
+noncomputable instance : Category.{0} FreeSelfDualityCat := sorry
+noncomputable instance : MonoidalCategory FreeSelfDualityCat := sorry
+
+/-- The generating self-duality: `η_` is `cup` and `ε_` is `cap`. -/
+@[implicit_reducible]
+noncomputable def FreeSelfDualityCat.selfDuality :
+    ExactPairing (FreeSelfDualityCat.of 1) (FreeSelfDualityCat.of 1) := sorry
+
+/-- The self-duality of the generating object of `TLDiagCat`: `η_` is the cup diagram and `ε_`
+the cap diagram. -/
+@[implicit_reducible]
+noncomputable def TLDiagCat.selfDuality : ExactPairing (TLDiagCat.of 1) (TLDiagCat.of 1) := sorry
+
+section UniversalProperty
+
+attribute [local instance] FreeSelfDualityCat.selfDuality TLDiagCat.selfDuality
+
+open Functor.LaxMonoidal Functor.OplaxMonoidal
+
+/-- The circle is central on the generator of `TLDiagCat`: the necessity half of the
+characterization, since a strong monoidal functor carries this equation to its image. -/
+theorem TLDiagCat.isCircleCentral :
+    IsCircleCentral (η_ (TLDiagCat.of 1) (TLDiagCat.of 1)) (ε_ (TLDiagCat.of 1) (TLDiagCat.of 1)) :=
+  sorry
+
+variable {C : Type*} [Category C] [MonoidalCategory C]
+
+/-- **`F` sends the generating self-duality of `D` to the given one on `V`**, along
+`e : F.obj g ≅ V`: the image of `cup`, precomposed with `ε F` and compared through `μ F`, is
+`η_ V V`, and dually the image of `cap` is `ε_ V V`. -/
+def SendsSelfDuality {D : Type*} [Category D] [MonoidalCategory D] {g : D} [ExactPairing g g]
+    (F : D ⥤ C) [F.Monoidal] (V : C) [ExactPairing V V] (e : F.obj g ≅ V) : Prop :=
+  ε F ≫ F.map (η_ g g) = η_ V V ≫ (e.inv ⊗ₘ e.inv) ≫ μ F g g ∧
+    (e.inv ⊗ₘ e.inv) ≫ μ F g g ≫ F.map (ε_ g g) ≫ η F = ε_ V V
+
+/-- **Universal property of the free self-duality, existence**: every self-duality satisfying the
+snakes is the image of the generating one under a strong monoidal functor. -/
+noncomputable def FreeSelfDualityCat.lift (V : C) [ExactPairing V V] : FreeSelfDualityCat ⥤ C :=
+  sorry
+
+noncomputable instance (V : C) [ExactPairing V V] : (FreeSelfDualityCat.lift V).Monoidal := sorry
+
+noncomputable def FreeSelfDualityCat.liftObjIso (V : C) [ExactPairing V V] :
+    (FreeSelfDualityCat.lift V).obj (FreeSelfDualityCat.of 1) ≅ V := sorry
+
+theorem FreeSelfDualityCat.lift_sendsSelfDuality (V : C) [ExactPairing V V] :
+    SendsSelfDuality (FreeSelfDualityCat.lift V) V (FreeSelfDualityCat.liftObjIso V) := sorry
+
+/-- **Universal property of the free self-duality, uniqueness** up to monoidal natural
+isomorphism, compatibly with the chosen identifications of the generator's image. -/
+theorem FreeSelfDualityCat.lift_unique (V : C) [ExactPairing V V]
+    (G : FreeSelfDualityCat ⥤ C) [G.Monoidal] (e : G.obj (FreeSelfDualityCat.of 1) ≅ V)
+    (he : SendsSelfDuality G V e) :
+    ∃ i : G ≅ FreeSelfDualityCat.lift V, NatTrans.IsMonoidal i.hom ∧
+      i.hom.app (FreeSelfDualityCat.of 1) = e.hom ≫ (FreeSelfDualityCat.liftObjIso V).inv := sorry
+
+/-- **Universal property of `TLDiagCat`, existence**: a self-duality satisfying the snakes **and**
+`IsCircleCentral` (at `V` only) is the image of the generating one under a strong monoidal functor.
+The bimodule example on `IsCircleCentral` shows the centrality hypothesis cannot be dropped. -/
+noncomputable def TLDiagCat.lift (V : C) [ExactPairing V V]
+    (_hc : IsCircleCentral (η_ V V) (ε_ V V)) : TLDiagCat ⥤ C := sorry
+
+noncomputable instance (V : C) [ExactPairing V V] (hc : IsCircleCentral (η_ V V) (ε_ V V)) :
+    (TLDiagCat.lift V hc).Monoidal := sorry
+
+noncomputable def TLDiagCat.liftObjIso (V : C) [ExactPairing V V]
+    (hc : IsCircleCentral (η_ V V) (ε_ V V)) :
+    (TLDiagCat.lift V hc).obj (TLDiagCat.of 1) ≅ V := sorry
+
+theorem TLDiagCat.lift_sendsSelfDuality (V : C) [ExactPairing V V]
+    (hc : IsCircleCentral (η_ V V) (ε_ V V)) :
+    SendsSelfDuality (TLDiagCat.lift V hc) V (TLDiagCat.liftObjIso V hc) := sorry
+
+/-- **Universal property of `TLDiagCat`, uniqueness** up to monoidal natural isomorphism. -/
+theorem TLDiagCat.lift_unique (V : C) [ExactPairing V V]
+    (hc : IsCircleCentral (η_ V V) (ε_ V V)) (G : TLDiagCat ⥤ C) [G.Monoidal]
+    (e : G.obj (TLDiagCat.of 1) ≅ V) (he : SendsSelfDuality G V e) :
+    ∃ i : G ≅ TLDiagCat.lift V hc, NatTrans.IsMonoidal i.hom ∧
+      i.hom.app (TLDiagCat.of 1) = e.hom ≫ (TLDiagCat.liftObjIso V hc).inv := sorry
+
+end UniversalProperty
+
 /-- **Through-strand factorization**, existence: every diagram factors through
 `TLDiagCat.of D.through` as a `StringSurjective` diagram (carrying all the circles) followed
 by a circle-free `StringInjective` one. Uniqueness, and the re-factorization of a composite
@@ -332,10 +434,55 @@ instance : MonoidalPreadditive (TLCat R δ) := sorry
 instance : MonoidalLinear R (TLCat R δ) := sorry
 noncomputable instance : RigidCategory (TLCat R δ) := sorry
 
-/-- The identity-on-objects linearization, sending a circle to a factor of `δ`. (It is
-monoidal; the monoidal-functor form is pinned once the presentation infrastructure fixes
-how we say that.) -/
+/-- The identity-on-objects linearization, sending a circle to a factor of `δ`. It is strong
+monoidal, and it is `TLDiagCat.lift` of the generating self-duality of `TL(R, δ)`: it sends the
+cup and cap diagrams to the cup and cap of `TLCat.selfDuality`. -/
 noncomputable def linearize : TLDiagCat ⥤ TLCat R δ := sorry
+
+noncomputable instance : (linearize R δ).Monoidal := sorry
+
+section LinearUniversalProperty
+
+variable {C : Type*} [Category C] [Preadditive C] [CategoryTheory.Linear R C] [MonoidalCategory C]
+  [MonoidalPreadditive C] [MonoidalLinear R C]
+
+/-- The self-duality of the generating object `1` of `TL(R, δ)`: `η_` is the cup and `ε_` the cap,
+so `η_ ≫ ε_ = δ • 𝟙 (𝟙_ _)`. -/
+@[implicit_reducible]
+noncomputable def TLCat.selfDuality :
+    ExactPairing (TLCat.of 1 : TLCat R δ) (TLCat.of 1 : TLCat R δ) := sorry
+
+/-- **The `R`-linear universal property, existence**: a self-duality in an `R`-linear monoidal
+category whose loop is `δ` is the image of the generating one under an `R`-linear strong monoidal
+functor out of `TL(R, δ)`. No centrality hypothesis is needed here: `δ • 𝟙` is central. -/
+noncomputable def TLCat.lift (V : C) [ExactPairing V V]
+    (_hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) : TLCat R δ ⥤ C := sorry
+
+noncomputable instance (V : C) [ExactPairing V V] (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) :
+    (TLCat.lift R δ V hδ).Monoidal := sorry
+
+instance (V : C) [ExactPairing V V] (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) :
+    (TLCat.lift R δ V hδ).Linear R := sorry
+
+noncomputable def TLCat.liftObjIso (V : C) [ExactPairing V V]
+    (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) : (TLCat.lift R δ V hδ).obj (TLCat.of 1) ≅ V := sorry
+
+/-- The images of `cup` and `cap` are `η_ V V` and `ε_ V V`, in the sense of `SendsSelfDuality`
+(defined with the diagrammatic universal properties above). -/
+theorem TLCat.lift_sendsSelfDuality (V : C) [ExactPairing V V]
+    (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) :
+    letI := TLCat.selfDuality R δ
+    SendsSelfDuality (TLCat.lift R δ V hδ) V (TLCat.liftObjIso R δ V hδ) := sorry
+
+/-- **The `R`-linear universal property, uniqueness** up to monoidal natural isomorphism among
+`R`-linear strong monoidal functors. -/
+theorem TLCat.lift_unique (V : C) [ExactPairing V V] (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C))
+    (G : TLCat R δ ⥤ C) [G.Monoidal] [G.Linear R] (e : G.obj (TLCat.of 1) ≅ V)
+    (he : letI := TLCat.selfDuality R δ; SendsSelfDuality G V e) :
+    ∃ i : G ≅ TLCat.lift R δ V hδ, NatTrans.IsMonoidal i.hom ∧
+      i.hom.app (TLCat.of 1) = e.hom ≫ (TLCat.liftObjIso R δ V hδ).inv := sorry
+
+end LinearUniversalProperty
 
 /-- Each hom-module is free with basis the circle-free matchings. -/
 noncomputable def diagBasis (n m : ℕ) :
@@ -389,7 +536,7 @@ noncomputable abbrev TLAlg (R : Type u) [CommRing R] (δ : R) (n : ℕ) : Type u
 
 /-- The algebra abstractly presented on generators `E_1, …, E_{n−1}` and the Jones
 relations (via `FreeAlgebra` and `RingQuot`). -/
-noncomputable def PresentedTL (R : Type*) [CommRing R] (δ : R) (n : ℕ) : Type := sorry
+noncomputable def PresentedTL (R : Type u) [CommRing R] (δ : R) (n : ℕ) : Type u := sorry
 
 section Algebras
 
@@ -434,6 +581,11 @@ noncomputable instance {n : ℕ} : Algebra R (PresentedTL R δ n) := sorry
 /-- **The presentation theorem**: the diagram algebra is the abstractly presented one. The
 proof forces the Jones normal form for reduced words and consumes the Catalan count. -/
 noncomputable def presentedTLEquiv (n : ℕ) : PresentedTL R δ n ≃ₐ[R] TLAlg R δ n := sorry
+
+/-- The presented algebra lives in the universe of `R`, as `TLAlg` does (at `n = 0` it is `R`
+itself). -/
+noncomputable example (R : Type 1) [CommRing R] (δ : R) (n : ℕ) : PresentedTL R δ n ≃ₐ[R] TLAlg R δ n :=
+  presentedTLEquiv R δ n
 
 /-- The tower inclusion (add a through-strand on the right), injective for every `R` and
 `δ`. -/

@@ -300,8 +300,13 @@ previous layers land.
   So: monoidal functors `TLDiagCat ⥤ C` correspond to objects `V` with `η : 𝟙 → V ⊗ V`,
   `ε : V ⊗ V → 𝟙` satisfying the snake equations **and**
   `ρ_V⁻¹ ≫ (𝟙_V ⊗ d) ≫ ρ_V = λ_V⁻¹ ≫ (d ⊗ 𝟙_V) ≫ λ_V`, where `d = η ≫ ε`; the free category is
-  presented by the snakes alone. Pin both universal properties as Lean signatures and the bimodule
-  example as a negative test for the second.
+  presented by the snakes alone. A self-duality satisfying the snakes is Mathlib's
+  `ExactPairing V V`, so both universal properties take one as input: existence of a strong
+  monoidal functor `lift` with an isomorphism from the image of the generator to `V` along which the
+  images of `cup` and `cap` are `η_ V V` and `ε_ V V`, and uniqueness of such a functor up to
+  monoidal natural isomorphism compatible with that identification. `Suggested.lean` pins both
+  (`FreeSelfDualityCat.lift`, `TLDiagCat.lift` and their `lift_unique`); keep the bimodule example
+  as a negative test for the second.
 
   ⚠ The condition is at `V`, not at every object of `C`. The image of `TLDiagCat` consists of the
   tensor powers of `V` and the unit, so centrality at `V` (propagated to tensor powers as part of
@@ -320,7 +325,8 @@ previous layers land.
 - **The `R`-linear universal property.** For the linear category of Layer 3 the useful form is the
   one that names the loop value: monoidally `R`-linear functors `TL(R, δ) ⥤ C` into an `R`-linear
   monoidal target correspond to self-dualities with `η ≫ ε = δ • 𝟙_{𝟙}`. State it beside the
-  diagrammatic one, since it is what the evaluation representation of Layer 3 actually consumes.
+  diagrammatic one, since it is what the evaluation representation of Layer 3 actually consumes
+  (`TLCat.lift` and `TLCat.lift_unique`, among `R`-linear strong monoidal functors).
 - **Through-strand factorization:** every diagram factors as a *surjection* (all top points
   of the intermediate object are through-strands) followed by an *injection* (all bottom
   points through), through `through D`, uniquely once the circles are pinned to the
@@ -519,7 +525,11 @@ previous layers land.
   at quantum order `ℓ`, `f_{ℓ−1}` exists, is negligible (`tr̂ f_{ℓ−1} = [ℓ] = 0`), and
   **generates the negligible ideal, which is the unique proper nonzero tensor ideal**
   (Goodman–Wenzl). Generic complement: when `[k] ≠ 0` for all `k ≥ 1`, the only tensor ideals
-  are `0` and everything. The characteristic hypothesis is carried deliberately: Goodman–Wenzl
+  are `0` and everything. Follow Goodman–Wenzl's §2 and expose its inputs as named lemmas here
+  rather than inside one proof: the path and block idempotents it evaluates, and its
+  constant-dimension statement. Its Hom-to-End retractions divide by `δ`, so the included case
+  `δ = 0` (quantum order `ℓ = 2`) is a separate sub-target with its own argument, not a verbatim
+  specialization. The characteristic hypothesis is carried deliberately: Goodman–Wenzl
   is a characteristic-zero theorem, and in characteristic `p` both the Jones–Wenzl projections
   and the ideal lattice genuinely differ — the modular Temperley–Lieb algebra and the
   mixed-case `SL₂` tilting picture are separate subjects, out of scope here (see Non-goals).
