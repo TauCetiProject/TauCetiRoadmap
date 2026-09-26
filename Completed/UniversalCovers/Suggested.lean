@@ -23,16 +23,17 @@ import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 # Universal covers: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
+`README.md`. The statements here suggest Lean forms for the milestones, so that
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a stage nor the roadmap.
 
-Every milestone of `README.md` is **discharged** here: each is stated as the roadmap asked for
-it, and closed by the Tau Ceti declaration that realizes it, so the correspondence is checked by
-the Lean kernel rather than asserted in prose. The remaining `sorry` count is the remaining work,
-and it is zero.
+Every milestone of `README.md` has a statement here, in the form the roadmap asks for, closed
+by the Tau Ceti declaration that realizes it, so the correspondence is checked by the Lean kernel
+rather than asserted in prose. No statement is left as `sorry`. That is evidence for completion,
+not its criterion: completion is judged by a milestone-by-milestone audit against `README.md`,
+which a `sorry`-free file of suggested forms cannot replace.
 
-Two conventions the roadmap told us to pin before stating anything are pinned as follows. The
+The roadmap asks for two conventions to be fixed before anything is stated. The
 deck group of the universal cover is isomorphic to `(FundamentalGroup X x₀)ᵐᵒᵖ`, the opposite
 group, which is the form the left action of Stage 0.3 forces (Stage 1, milestone 5). Homotopy
 groups are Mathlib's cubical `HomotopyGroup`, indexed by a finite type `N` rather than by a
