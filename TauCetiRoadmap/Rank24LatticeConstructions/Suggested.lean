@@ -779,7 +779,15 @@ noncomputable def leechShift : LeechCoordinate → ℚ := fun i ↦
 
 theorem leechShift_norm : constructionB.form leechShift leechShift = 4 := sorry
 
-noncomputable def leechShiftInDual : constructionB.dualCarrier := sorry
+/-- The odd shift pairs integrally with Construction B: `B(s,K) ⊆ ℤ`. -/
+theorem leechShift_mem_dualCarrier : leechShift ∈ constructionB.dualCarrier := sorry
+
+noncomputable def leechShiftInDual : constructionB.dualCarrier :=
+  ⟨leechShift, leechShift_mem_dualCarrier⟩
+
+@[simp]
+theorem coe_leechShiftInDual :
+    (leechShiftInDual : LeechCoordinate → ℚ) = leechShift := rfl
 
 noncomputable def leechShiftClass : constructionB.DiscriminantGroup :=
   constructionB.carrierInDual.mkQ leechShiftInDual
