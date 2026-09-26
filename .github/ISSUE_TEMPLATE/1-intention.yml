@@ -22,6 +22,7 @@ body:
         - AlgebraicCodingTheory
         - AlgebraicCurves
         - AlgebraicTopology
+        - AlgebraicVectorBundles
         - AnalyticToricGeometry
         - ArithmeticDirichletSeries
         - BelyiMaps
@@ -49,6 +50,7 @@ body:
         - NumberFieldArithmetic
         - OneParameterSemigroups
         - OptimalTransport
+        - OrthogonalSpinGroups
         - PDE
         - PolynomialGaloisGroups
         - ProfiniteCohomology
@@ -56,6 +58,7 @@ body:
         - QuadraticFormInvariants
         - ReductiveGroups
         - RepresentationTheory
+        - RestrictedProducts
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
