@@ -117,10 +117,18 @@ theorem HasUniqueLiftingProperty.op (h : HasUniqueLiftingProperty i p) :
     HasUniqueLiftingProperty p.op i.op :=
   sorry
 
-/-- **B1.** Uniqueness is inherited by a retract of the arrow `i`. -/
-theorem RetractArrow.hasAtMostOneLiftingProperty {A' B' : C} {i' : A' ⟶ B'}
-    (h : RetractArrow i' i) [HasAtMostOneLiftingProperty i p] :
+/-- **B1.** Uniqueness is inherited by a retract of the arrow `i`. Named as the `to_dual` of
+`RetractArrow.rightAtMostOneLiftingProperty` in leanprover-community/mathlib4#43441. -/
+theorem RetractArrow.leftAtMostOneLiftingProperty {A' B' : C} {i' : A' ⟶ B'}
+    (h : RetractArrow i' i) (p : X ⟶ Y) [HasAtMostOneLiftingProperty i p] :
     HasAtMostOneLiftingProperty i' p :=
+  sorry
+
+/-- **B1.** Uniqueness is inherited by a retract of the arrow `p`, as in
+leanprover-community/mathlib4#43441. -/
+theorem RetractArrow.rightAtMostOneLiftingProperty {X' Y' : C} {p' : X' ⟶ Y'}
+    (h : RetractArrow p' p) (i : A ⟶ B) [HasAtMostOneLiftingProperty i p] :
+    HasAtMostOneLiftingProperty i p' :=
   sorry
 
 variable (i p)
@@ -192,13 +200,40 @@ theorem HasUniqueLiftingProperty.of_isColimit {X Y : C} (p : X ⟶ Y) {J : Type 
     HasUniqueLiftingProperty f p :=
   sorry
 
+/-- **C3.** Two maps out of a well-order-continuous transfinite composite that agree at the bottom
+stage and after composing with `p` agree at every stage, when each successor map has at most one
+lift against `p`. Both hypotheses are needed: the `p` equation makes the two restrictions fillers of
+one square at a successor step, and continuity gives `hom_ext` at a limit step. -/
+theorem HasAtMostOneLiftingProperty.transfiniteComposition.comp_ext {X Y : C} (p : X ⟶ Y)
+    {J : Type w} [LinearOrder J] [SuccOrder J] [OrderBot J] [WellFoundedLT J]
+    {F : J ⥤ C} [F.IsWellOrderContinuous] (c : Cocone F) (hc : IsColimit c)
+    (hF : ∀ (j : J) (_ : ¬ IsMax j),
+      HasAtMostOneLiftingProperty (F.map (homOfLE (Order.le_succ j))) p)
+    (m₁ m₂ : c.pt ⟶ X) (hbot : c.ι.app ⊥ ≫ m₁ = c.ι.app ⊥ ≫ m₂) (hp : m₁ ≫ p = m₂ ≫ p) (j : J) :
+    c.ι.app j ≫ m₁ = c.ι.app j ≫ m₂ :=
+  sorry
+
+/-- **C3.** Uniqueness of lifts is stable under well-order-continuous transfinite composition. -/
+theorem HasAtMostOneLiftingProperty.transfiniteComposition_ι_app_bot {X Y : C} (p : X ⟶ Y)
+    {J : Type w} [LinearOrder J] [SuccOrder J] [OrderBot J] [WellFoundedLT J]
+    {F : J ⥤ C} [F.IsWellOrderContinuous] (c : Cocone F) (hc : IsColimit c)
+    (hF : ∀ (j : J) (_ : ¬ IsMax j),
+      HasAtMostOneLiftingProperty (F.map (homOfLE (Order.le_succ j))) p) :
+    HasAtMostOneLiftingProperty (c.ι.app ⊥) p :=
+  sorry
+
 /-- **C3.** Unique lifting is stable under transfinite composition. The existence half is Mathlib's
 `HasLiftingProperty.transfiniteComposition.hasLiftingProperty_ι_app_bot`; only the uniqueness half
-is proved here, by transfinite induction comparing two lifts stage by stage. -/
+is proved here, by transfinite induction comparing two lifts stage by stage.
+
+Well-order continuity of `F` is essential, as in Mathlib: over `WithTop ℕ`, with identities at every
+finite stage and an arbitrary map `X ⟶ F.obj ⊤` at the top, every successor map is an identity and
+`c.ι.app ⊥` is arbitrary. -/
 theorem HasUniqueLiftingProperty.transfiniteComposition_ι_app_bot {X Y : C} (p : X ⟶ Y)
     {J : Type w} [LinearOrder J] [SuccOrder J] [OrderBot J] [WellFoundedLT J]
-    {F : J ⥤ C} (c : Cocone F) (hc : IsColimit c)
-    (hF : ∀ (j : J) (_ : ¬ IsMax j), HasUniqueLiftingProperty (F.map (homOfLE (Order.le_succ j))) p) :
+    {F : J ⥤ C} [F.IsWellOrderContinuous] (c : Cocone F) (hc : IsColimit c)
+    (hF : ∀ (j : J) (_ : ¬ IsMax j),
+      HasUniqueLiftingProperty (F.map (homOfLE (Order.le_succ j))) p) :
     HasUniqueLiftingProperty (c.ι.app ⊥) p :=
   sorry
 
@@ -297,12 +332,23 @@ instance leftOrthogonal_isStableUnderColimitsOfShape (J : Type w) [Category.{w'}
 instance leftOrthogonal_isStableUnderTransfiniteComposition :
     T.leftOrthogonal.IsStableUnderTransfiniteComposition.{w} := sorry
 
-/-- **A2.** (stated here, since it needs D1's definition and D2's closure.) A colimit of objects under `X`, over a *connected* shape, has left-orthogonal structure
-map as soon as every stage does. Connectedness is essential. -/
+/-- **A2.** (stated here, since it needs D1's definition and D2's closure.) A colimit in `Under X`,
+over **any** shape, has left-orthogonal structure map as soon as every stage does. No connectedness
+is needed: the empty colimit in `Under X` is `(X, 𝟙 X)`. -/
 theorem leftOrthogonal_of_isColimit_under {X : C}
-    {J : Type w} [Category.{w'} J] [IsConnected J] (F : J ⥤ Under X)
+    {J : Type w} [Category.{w'} J] (F : J ⥤ Under X)
     (hF : ∀ j, T.leftOrthogonal (F.obj j).hom)
     (c : Cocone F) (hc : IsColimit c) :
+    T.leftOrthogonal c.pt.hom :=
+  sorry
+
+/-- **A2.** The same conclusion when the colimit is taken in `C`, on the underlying diagram. Here
+the shape must be **connected**: for `J` empty the colimit in `C` is `⊥_ C`, and `X ⟶ ⊥_ C` is not
+left orthogonal to every class. -/
+theorem leftOrthogonal_of_isColimit_forget_under {X : C}
+    {J : Type w} [Category.{w'} J] [IsConnected J] (F : J ⥤ Under X)
+    (hF : ∀ j, T.leftOrthogonal (F.obj j).hom)
+    (c : Cocone F) (hc : IsColimit ((Under.forget X).mapCocone c)) :
     T.leftOrthogonal c.pt.hom :=
   sorry
 
@@ -681,6 +727,15 @@ variable {C : Type u} [Category.{v} C] [HasTerminal C]
 /-- **J1.** The objects whose terminal map lies in `R`: the object-level shadow of a factorization
 system, and exactly the objects its reflection lands in. -/
 def localObjects (R : MorphismProperty C) : ObjectProperty C := fun A ↦ R (terminal.from A)
+
+/-- **J1. The comparison with Mathlib.** For an orthogonal class, the local objects are Mathlib's
+`MorphismProperty.isLocal`: a square from `i` to `terminal.from A` is a map `i.left ⟶ A`, and its
+fillers are its extensions along `i`. Everything Mathlib proves about `isLocal` (closure under
+limits, κ-filtered colimits under presentability, the orthogonal reflection) is consumed through
+this. -/
+theorem localObjects_rightOrthogonal_eq_isLocal (I : MorphismProperty C) :
+    localObjects I.rightOrthogonal = I.isLocal :=
+  sorry
 
 instance localObjects_isStableUnderRetracts (R : MorphismProperty C) [R.IsStableUnderRetracts] :
     (localObjects R).IsStableUnderRetracts :=

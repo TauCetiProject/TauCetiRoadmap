@@ -9,9 +9,11 @@ systems (`MorphismProperty.IsWeakFactorizationSystem`), and the small object arg
 (`IsCardinalPresentable`) that feeds it. This is the machinery of model categories, where a lift
 exists but is not unique.
 
-It has **nothing** for the *unique* half. There is no predicate saying that a commutative square
-has exactly one filler, no orthogonal complement of a morphism property, and no orthogonal
-factorization system — the (epi, mono), (surjective, injective), (localization, local object) style
+For the *unique* half it has only the object-level shadow: `MorphismProperty.isLocal`, the objects
+orthogonal to a class of maps, together with the orthogonal-reflection construction onto them
+(`Mathlib.CategoryTheory.Presentable.OrthogonalReflection`). The single-square predicates are in
+open review (leanprover-community/mathlib4#43441) but not merged. There is no orthogonal complement
+of a morphism property and no orthogonal factorization system — the (epi, mono), (surjective, injective), (localization, local object) style
 of factorization, where the intermediate object is determined up to a *unique* isomorphism and the
 factorization is therefore a reflection rather than a choice. Mathlib's
 `CategoryTheory.ObjectProperty.Orthogonal` is a different notion (orthogonality of two classes of
@@ -74,17 +76,36 @@ nowhere in its statements.
   `IsClosedUnderIsomorphisms`, `Reflective`, `Coreflective`, `Adjunction.mkOfHomEquiv`,
   `Limits.isColimitConstCocone`, `IsPushout.of_coprod_inl_with_id`, and
   `CoproductsFromFiniteFiltered.isColimitFiniteSubproductsCocone`.
+- **Local objects and the orthogonal reflection.** `MorphismProperty.isLocal` and `isColocal`
+  (`Mathlib.CategoryTheory.ObjectProperty.Local`): `Z` is `W`-local when `Hom(f, Z)` is bijective
+  for every `f ∈ W`, with `isLocal_iff`, `isLocal_antitone`, `isLocal_iSup`,
+  `isLocal_single_iff_bijective` and the instances making `W.isLocal` closed under isomorphisms and
+  under limits of every shape. `Mathlib.CategoryTheory.Presentable.OrthogonalReflection`: for a small
+  `W` with presentable sources and targets, `isClosedUnderColimitsOfShape_isLocal` (κ-filtered
+  colimits of local objects are local), the transfinite construction `reflection`, and
+  `isRightAdjoint_ι_isLocal`, `isLocallyPresentable_isLocal`. Milestone J consumes these rather than
+  re-proving them.
+
+**In open review, not yet merged.** leanprover-community/mathlib4#43441,
+`Mathlib/CategoryTheory/LiftingProperties/Unique.lean`, defines `HasAtMostOneLiftingProperty` and
+`HasUniqueLiftingProperty` with most of B1's API (`CommSq.uniqueLiftStruct`,
+`CommSq.lift_eq_of_hasAtMostOneLiftingProperty`, `of_epi`, `of_left_iso`, `mk'`, `of_comp_left`,
+`of_comp_right_cancel`, `of_arrow_iso_left`, `op`/`unop`, `hasUniqueLiftingProperty_iff`,
+`RetractArrow.rightAtMostOneLiftingProperty`, `RetractArrow.rightUniqueLiftingProperty`). B1 uses the
+same names and signatures, so that B1 becomes a re-export once the PR lands; until then it is built
+here.
 
 ## What is missing (build here)
 
-Everything about *uniqueness* of lifts: the two single-square predicates and their whole API; the
-codiagonal and diagonal criteria; the (co)limit and transfinite-composition stability of unique
+Everything about *uniqueness* of lifts: the two single-square predicates and their whole API (see
+the open PR above); the codiagonal and diagonal criteria; the (co)limit and transfinite-composition stability of unique
 lifting; the orthogonal complement operators and their Galois theory; orthogonal pairs and
 orthogonal factorization systems; uniqueness of factorizations and the resulting arrow
 (co)reflection; codiagonal generators and the small object argument for them; the cellular class and
 its identification with the generated left class; stability of the right class under filtered
-colimits of presentable generators; and the object-level shadow of a factorization system, the local
-objects. Two closure lemmas about *arbitrary* morphism properties that the cellular arguments need
+colimits of presentable generators; and, for local objects, only what Mathlib's `isLocal` does not
+already say: local objects for an *arbitrary* class `R` (not just an orthogonal one), their
+comparison with `isLocal`, and two criteria for quotients of local objects to be local. Two closure lemmas about *arbitrary* morphism properties that the cellular arguments need
 and Mathlib lacks are also built here (Milestone A).
 
 ## Scope boundary
@@ -199,25 +220,36 @@ closure property on pushouts and gets to use it against coproducts.
 
 ### A2 — Left orthogonals of colimits under a fixed source
 
-If an object `X` maps compatibly into every object of a connected diagram and each of those maps is
-left orthogonal to `T`, then so is the map from `X` into the colimit. Connectedness is what stops
-the empty diagram from turning the claim into the false assertion that `X` maps left-orthogonally to
-the initial object. This is the form in which the left class's colimit stability gets used in
-practice: a colimit of objects *under* a fixed base.
+If an object `X` maps compatibly into every object of a diagram and each of those maps is left
+orthogonal to `T`, then so is the map from `X` into the colimit. This is the form in which the left
+class's colimit stability gets used in practice: a colimit of objects *under* a fixed base. There
+are two readings of "the colimit", and they need different hypotheses. Taken in `Under X`, the
+statement holds for **every** shape. Taken in `C`, on the underlying diagram, it needs `J`
+**connected**: for `J` empty the colimit in `C` is `⊥_ C`, and the claim would say that `X ⟶ ⊥_ C`
+is left orthogonal to every `T`. (In `Under X` the empty colimit is `(X, 𝟙 X)`, whose structure map
+is an isomorphism, so nothing goes wrong there.) For connected `J` the two readings agree, since
+`Under.forget X` then creates colimits of shape `J`.
 
-Stated here because it is the shape in which D2's closure is consumed, and because it is the one
-colimit statement whose hypothesis is *connectedness* rather than filteredness.
+Stated here because it is the shape in which D2's closure is consumed.
 
-- `leftOrthogonal_of_isColimit_forget_under`, `leftOrthogonal_of_isColimit_under`,
-  `leftOrthogonal_colimit_under`: for `F : J ⥤ Under X` with `J` connected, if every structure map
-  `X ⟶ (F.obj j).right` lies in `T.leftOrthogonal`, so does the structure map of a colimit of `F`.
-  The proof is that a cocone under `X` is a morphism from the constant diagram at `X`, that
-  `Limits.isColimitConstCocone` makes the constant cocone on it a colimit for connected `J`, and
-  that D2's `leftOrthogonal_isStableUnderColimitsOfShape` then applies.
-- Connectedness is a genuine hypothesis and the statement carries it: for `J` empty the claim would
-  say that `X ⟶ ⊥` is left orthogonal to every `T`.
-- *Acceptance:* the filtered case and the sequential case follow by supplying the `IsConnected`
-  instance and nothing else.
+- `leftOrthogonal_of_isColimit_under`, `leftOrthogonal_colimit_under`: for `F : J ⥤ Under X`, **any**
+  `J`, if every structure map `X ⟶ (F.obj j).right` lies in `T.leftOrthogonal`, so does the
+  structure map of a colimit of `F` in `Under X`. The proof uses only the universal property in
+  `Under X`. Given a square from `c.pt.hom` to `p ∈ T`, the unique fillers `(F.obj j).right ⟶ _` of
+  the restricted squares are compatible by uniqueness, so they form a cocone in `Under X` and descend
+  to `c.pt`. The descended map is a filler by uniqueness again, and two fillers agree because their
+  restrictions do. Equivalently, `c.pt.hom` is the pushout of the colimit in `Arrow C` of the arrows
+  `X ⟶ (F.obj j).right` along the fold map `colim (const X) ⟶ X`, and D2's
+  `leftOrthogonal_isStableUnderColimitsOfShape` and `leftOrthogonal_isStableUnderCobaseChange`
+  apply. That second route needs `J`-shaped colimits in `C`, which the first does not.
+- `leftOrthogonal_of_isColimit_forget_under`: the same conclusion for a cocone `c` in `Under X` whose
+  image under `Under.forget X` is a colimit in `C`, with `J` **connected**. The proof: a cocone
+  under `X` is a morphism from the constant diagram at `X`, `Limits.isColimitConstCocone` makes the
+  constant cocone on it a colimit for connected `J`, and D2's
+  `leftOrthogonal_isStableUnderColimitsOfShape` applies. Connectedness is a genuine hypothesis of
+  this form only, witnessed by the empty diagram above.
+- *Acceptance:* the `Under X` targets carry no hypothesis on `J`. The filtered and sequential cases
+  of the `forget_under` target follow by supplying the `IsConnected` instance and nothing else.
 
 *Depends on:* Mathlib, and D2 for A2.
 
@@ -248,8 +280,14 @@ retracts and isomorphic squares, and it dualizes.
   `HasUniqueLiftingProperty.of_epi`; `HasUniqueLiftingProperty.of_left_iso`; stability under
   composition on the left (`of_comp_left`) and cancellation on the right (`of_comp_right_cancel`)
   for both classes; transport along an isomorphism of arrows (`of_arrow_iso_left` and its `iff`
-  form); and stability under `RetractArrow`.
+  form); and stability under retracts in either variable, named as in mathlib4#43441:
+  `RetractArrow.rightAtMostOneLiftingProperty` and `RetractArrow.rightUniqueLiftingProperty` for a
+  retract `p'` of `p`, and their `to_dual` companions `RetractArrow.leftAtMostOneLiftingProperty`
+  and `RetractArrow.leftUniqueLiftingProperty` for a retract `i'` of `i`, matching Mathlib's
+  `RetractArrow.leftLiftingProperty` / `rightLiftingProperty`.
 - Duality: `op`, `unop`, `iff_op`, `iff_unop` for both classes.
+- Names and signatures in B1 follow mathlib4#43441 exactly, so that B1 can be replaced by an import
+  once that PR is merged.
 - *Acceptance:* `HasUniqueLiftingProperty i p` holds whenever `IsIso i`; a morphism with the
   ordinary lifting property against **itself** is an isomorphism
   (`isIso_of_hasLiftingProperty_self`, the identity square giving a two-sided inverse);
@@ -326,13 +364,26 @@ proved by transfinite induction along the composite: two lifts out of the colimi
 bottom stage by hypothesis, agree at each successor stage because they are two fillers of a single
 square, and agree at limit stages by the universal property of the colimit.
 
-- `HasAtMostOneLiftingProperty.transfiniteComposition.comp_ext`: for a transfinite composition with
-  colimit cocone `c`, two morphisms `m₁ m₂ : c.pt ⟶ X` agreeing after `c.ι.app ⊥` agree after
-  `c.ι.app j` for every `j`, by transfinite induction — the successor step compares two lifts of one
-  square along `F.obj j ⟶ F.obj (Order.succ j)`, and the limit step is `hom_ext` at the colimit.
+The diagram `F : J ⥤ C` is required to be **well-order continuous** (`[F.IsWellOrderContinuous]`),
+exactly as in Mathlib's `hasLiftingProperty_ι_app_bot`. Without it the statement is false. Index by
+`WithTop ℕ`, let every finite stage be `X` with identity transition maps, and let the top stage be
+`Y` with an arbitrary map `X ⟶ Y`. Every successor map is an identity, since `⊤` is maximal and has
+no successor condition. The colimit is `F.obj ⊤`, so `c.ι.app ⊥` is the arbitrary map.
+
+- `HasAtMostOneLiftingProperty.transfiniteComposition.comp_ext`: for a well-order-continuous
+  transfinite composition with colimit cocone `c` and a map `p : X ⟶ Y` against which every successor
+  map has at most one lift, two morphisms `m₁ m₂ : c.pt ⟶ X` with `c.ι.app ⊥ ≫ m₁ = c.ι.app ⊥ ≫ m₂`
+  **and** `m₁ ≫ p = m₂ ≫ p` satisfy `c.ι.app j ≫ m₁ = c.ι.app j ≫ m₂` for every `j`. The proof is
+  transfinite induction. The successor step compares two fillers of one square along
+  `F.obj j ⟶ F.obj (Order.succ j)`, which needs the equation `m₁ ≫ p = m₂ ≫ p` to make the two
+  restrictions fillers of the *same* square. The limit step is `hom_ext` at
+  `F.isColimitOfIsWellOrderContinuous j hj`, which needs the continuity. Both hypotheses are
+  necessary. Without the `p` equation, take `∅ ⟶ 1` in `Type`, which has unique lifts against
+  `p = 𝟙 Bool`: two distinct maps `1 ⟶ Bool` agree after `∅ ⟶ 1` but not at the next stage.
 - `HasAtMostOneLiftingProperty.transfiniteComposition.hasAtMostOneLiftingProperty_ι_app_bot` and its
-  `HasUniqueLiftingProperty` companion: if every successor map has the (at-most-one, resp. unique)
-  lifting property against `p`, so does the transfinite composite. The existence half is Mathlib's
+  `HasUniqueLiftingProperty` companion: for a well-order-continuous `F`, if every successor map has
+  the (at-most-one, resp. unique) lifting property against `p`, so does the transfinite composite.
+  The existence half is Mathlib's
   `HasLiftingProperty.transfiniteComposition.hasLiftingProperty_ι_app_bot`.
 - *Acceptance:* a sequential composite of maps with the unique left lifting property against `p`
   again has it.
@@ -753,6 +804,13 @@ representable functors of the generators commute with.
 The object-level shadow of a factorization system: when `R` is the right class, the objects `A` with
 `terminal.from A ∈ R` are exactly the objects the reflection lands in.
 
+Mathlib already has local objects for an orthogonal class, as `MorphismProperty.isLocal`, and the
+reflection onto them (`Presentable/OrthogonalReflection`). This milestone does not redo that. It adds
+three things: local objects for an *arbitrary* class `R` together with their closure properties
+(J1), which Mathlib's `isLocal` does not express; the comparison `localObjects I.rightOrthogonal =
+I.isLocal` (J1), through which all of Mathlib's `isLocal` API is consumed; and two criteria for a
+quotient of a local object to be local (J2, J3), which have no Mathlib counterpart.
+
 ### J1 — The property and its closure
 
 The objects whose map to the terminal object lies in the right class: the objects at which the
@@ -768,6 +826,17 @@ limits and products of local objects are local, and so are colimits over connect
   arbitrary products, of local objects are local.
 - `localObjects_of_isColimit`: colimits over a **connected** shape, in particular filtered colimits,
   of local objects are local.
+- **The comparison with Mathlib.** `localObjects_rightOrthogonal_iff_isLocal` and
+  `localObjects_rightOrthogonal_eq_isLocal`: `localObjects I.rightOrthogonal A ↔ I.isLocal A`, for
+  any `I` and any `A`. A square from `i ∈ I` to `terminal.from A` is the same thing as a map
+  `i.left ⟶ A`, and its fillers are its extensions along `i`. This is the only point where J meets
+  `MorphismProperty.isLocal`, and everything Mathlib proves about `isLocal` is consumed through it,
+  not restated. That covers the limit instances, κ-filtered colimits under presentability
+  (`isClosedUnderColimitsOfShape_isLocal`), and the reflection onto local objects
+  (`isRightAdjoint_ι_isLocal`). In particular the J1 closure statements are targets only for an
+  arbitrary `R`; their specializations to `R = I.rightOrthogonal` are one-line corollaries of the
+  comparison and Mathlib, and do not appear as separate targets. No object-level reflection is
+  built here.
 - The unifying observation belongs in the module documentation: every closure property of `R` as a
   class of morphisms descends to one of `localObjects R` in one line, because the diagram of
   terminal maps lies over the constant diagram at `⊤_ C`, whose limit — and, over a connected shape,
