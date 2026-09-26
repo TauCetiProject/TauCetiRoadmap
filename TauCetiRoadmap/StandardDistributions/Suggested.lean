@@ -64,6 +64,11 @@ theorem measurable_gammaMeasure :
 theorem measurable_poissonMeasure :
     Measurable fun r : ℝ≥0 => poissonMeasure r := by sorry
 
+theorem charFun_uniformMeasure {a b : ℝ} (hab : a < b) {t : ℝ} (ht : t ≠ 0) :
+    charFun (uniformMeasure a b) t =
+      (Complex.exp (Complex.I * (b : ℂ) * (t : ℂ)) - Complex.exp (Complex.I * (a : ℂ) * (t : ℂ))) /
+        (Complex.I * ((b - a : ℝ) : ℂ) * (t : ℂ)) := by sorry
+
 /-! ## Layer 1: Complete the elementary theory of existing distributions -/
 
 theorem mgf_id_expMeasure {r t : ℝ} (hr : 0 < r) (ht : t < r) :
