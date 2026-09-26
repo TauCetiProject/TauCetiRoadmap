@@ -124,7 +124,7 @@ roadmap; **this roadmap owns it** (Layer 3.2), together with the inverse-class o
 
 **Universal covers.** The covering-space classification, deck transformation groups, the
 `N(H)/H` deck-group theorem, and the two-open Seifert–van Kampen theorem belong to
-[UniversalCovers](../UniversalCovers/README.md) (milestones 4, 5, 7, 8 there, together with the
+[UniversalCovers](../../Completed/UniversalCovers/README.md) (milestones 4, 5, 7, 8 there, together with the
 van Kampen declarations whose exact required signatures Layer 5.5 below pins). This roadmap
 consumes them and builds no universal cover. Two conventions from that roadmap bind here: deck
 groups are identified with `(π₁)ᵐᵒᵖ` (its milestone 5), and basepoint change acts on recovered
@@ -141,7 +141,7 @@ computation, and the two maps have different groups in play.
 **Seifert–van Kampen.** The pin has it in no form, and this roadmap builds none of it. The
 case the fundamental-group computation needs — two open sets with simply connected
 intersection — is general algebraic topology, reusable far beyond three-point covers, so it
-belongs to [UniversalCovers](../UniversalCovers/README.md) with the rest of the fundamental-group
+belongs to [UniversalCovers](../../Completed/UniversalCovers/README.md) with the rest of the fundamental-group
 machinery. Layer 5.5 below records exactly which declarations that roadmap supplies and under
 which hypotheses; Layer 5.6 **instantiates** them at the two-set cover of Layer 5.1 and reads
 off the values on the canonical generators, and that instantiation is what this roadmap owns.
@@ -1777,7 +1777,7 @@ UniversalCovers milestones 4, 5.
 
 **Not a milestone of this roadmap.** Seifert–van Kampen for two open sets with simply
 connected intersection is general algebraic topology, reusable by anything that computes a
-fundamental group, and it is owned by [UniversalCovers](../UniversalCovers/README.md). This
+fundamental group, and it is owned by [UniversalCovers](../../Completed/UniversalCovers/README.md). This
 section exists to state the contract exactly, so that the instantiation in 5.6 has something
 to `apply` and so that no second copy is written anywhere.
 

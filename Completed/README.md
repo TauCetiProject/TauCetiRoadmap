@@ -25,3 +25,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-08-29)
 - [Integral lattices, discriminant forms, and overlattices](IntegralLattices/README.md)
   (declared complete 2026-09-09)
+- [Universal covers, the Galois correspondence, and higher homotopy](UniversalCovers/README.md)
+  (declared complete 2026-09-22)
