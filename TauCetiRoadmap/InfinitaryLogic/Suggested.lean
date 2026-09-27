@@ -327,6 +327,14 @@ theorem exists_complete_self_stabilization (M : Type w) [L.Structure M] [Countab
     ∃ α < (Ordinal.omega 1 : Ordinal.{w}), SelfStabilizesCompletely (L := L) M α := by
   sorry
 
+/-- **Layer 2 milestone, stabilization without countability.** Every structure `M : Type w`
+stabilizes at some ordinal of `Ordinal.{w}`: the pairs of tuples that are `BFEquiv` at some level
+but not at every level are `w`-small many, so their least failure levels have a supremum in
+`Ordinal.{w}`. There is no bound below `ω₁` in general. -/
+theorem exists_selfStabilizesCompletely (M : Type w) [L.Structure M] :
+    ∃ α : Ordinal.{w}, SelfStabilizesCompletely (L := L) M α := by
+  sorry
+
 namespace BoundedFormulaInf
 
 variable {ι : Type uι} {α : Type u'} {n : ℕ}
@@ -460,11 +468,17 @@ theorem realize_scottSentenceAt_iff [L.IsRelational] [Countable (Σ l, L.Relatio
 noncomputable def selfStabilizationOrdinal (M : Type w) [L.Structure M] : Ordinal.{w} :=
   sInf {α | SelfStabilizesCompletely (L := L) M α}
 
-/-- **Layer 2 milestone.** For countable `M`, `s(M) < ω₁` and `M` stabilizes at `s(M)`; both
-follow from `exists_complete_self_stabilization`. -/
-theorem selfStabilizationOrdinal_spec (M : Type w) [L.Structure M] [Countable M] :
-    selfStabilizationOrdinal (L := L) M < Ordinal.omega 1 ∧
-      SelfStabilizesCompletely (L := L) M (selfStabilizationOrdinal (L := L) M) := by
+/-- **Layer 2 milestone, the infimum is attained.** `M` stabilizes at `s(M)` itself: the set of
+stabilizing levels is nonempty by `exists_selfStabilizesCompletely`, and ordinals are
+well-ordered. -/
+theorem selfStabilizesCompletely_selfStabilizationOrdinal (M : Type w) [L.Structure M] :
+    SelfStabilizesCompletely (L := L) M (selfStabilizationOrdinal (L := L) M) := by
+  sorry
+
+/-- **Layer 2 milestone.** For countable `M`, `s(M) < ω₁`, by
+`exists_complete_self_stabilization`. -/
+theorem selfStabilizationOrdinal_lt_omega_one (M : Type w) [L.Structure M] [Countable M] :
+    selfStabilizationOrdinal (L := L) M < Ordinal.omega 1 := by
   sorry
 
 /-- **Layer 3, the Scott sentence of `M`**, at the least internal stabilization ordinal. -/
@@ -492,13 +506,22 @@ the least level at which the back-and-forth class of `a` is its automorphism orb
 noncomputable def orbitRank {M : Type w} [L.Structure M] {n : ℕ} (a : Fin n → M) : Ordinal.{w} :=
   sInf (orbitStable (L := L) a)
 
+/-- **Layer 3 milestone, the infimum is attained.** The orbit rank is itself orbit-stable: every
+stabilizing level of `M` is orbit-stable for `a` (by upward propagation and monotonicity), so
+`orbitStable a` is nonempty, and ordinals are well-ordered. -/
+theorem orbitRank_mem_orbitStable {M : Type w} [L.Structure M] {n : ℕ} (a : Fin n → M) :
+    orbitRank (L := L) a ∈ orbitStable (L := L) a := by
+  sorry
+
 /-- **Layer 3, the Scott rank convention** `SR(M) = sup_a (orbitRank a + 1)`, over tuples of every
 length. -/
 noncomputable def internalScottRank (M : Type w) [L.Structure M] : Ordinal.{w} :=
   ⨆ x : (Σ n : ℕ, Fin n → M), orbitRank (L := L) x.2 + 1
 
 /-- **Layer 3 milestone, comparison with stabilization.** Simultaneous internal stabilization is
-stabilization of every tuple's back-and-forth class: `s(M) = sup_a orbitRank a`. -/
+stabilization of every tuple's back-and-forth class: `s(M) = sup_a orbitRank a`. It follows from
+upward propagation, the two attainment theorems, and the supremum property; no countability is
+needed. -/
 theorem selfStabilizationOrdinal_eq_iSup_orbitRank (M : Type w) [L.Structure M] :
     selfStabilizationOrdinal (L := L) M = ⨆ x : (Σ n : ℕ, Fin n → M), orbitRank (L := L) x.2 := by
   sorry

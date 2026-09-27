@@ -226,7 +226,8 @@ Neither source is the specification; the map is "where to look", not "what is co
   presentation, related to it by `potentialIso_iff_exists_isTupleBFSystem`. Its ω-round strategy
   object is a family of unrelated finite-length strategies, not the coherent strategy of Layer 1.
 * Layer 2: `InfinitaryLogic/Scott/Sentence.lean` (`SelfStabilizesCompletely`,
-  `exists_complete_self_stabilization`).
+  `exists_complete_self_stabilization`) and `InfinitaryLogic/Scott/Stabilization.lean`
+  (`bfStabilizationOrdinal`, stabilization for arbitrary structures without a bound below `ω₁`).
 * Layer 3: `InfinitaryLogic/Scott/AtomicDiagram.lean` and `Scott/Formula.lean`
   (`realize_scottFormula_iff_BFEquiv`, with the tuple in free variables rather than bound
   positions); `Scott/OrbitRank.lean` (`orbitRank`, `internalScottRank`, with no comparison to
@@ -253,7 +254,7 @@ development — object API, milestone theorems, and acceptance examples — not 
 |---|---|---|---|
 | L0 | Mathlib `FirstOrder.Language`, `Term`, `BoundedFormula`, `Encodable` | the fixed-carrier syntax + ω abbrev, `Realize`, `IndexCoding` + `iInfAlong`/`iSupAlong` + `reindex`, `toInf`, substitution/relabel/recursion API | `realize_toInf` on a finitary `φ` |
 | L1 | L0; Mathlib `FGEquiv`, `IsExtensionPair`, and the countably-generated-structure API | `BFEquiv`, `PotentialIso`, tuple systems, Karp, `countable_potentialIso_iff_iso` | two empty structures differing on a nullary relation are not `BFEquiv 0` |
-| L2 | L0, L1; Mathlib `Countable`, `Ordinal.omega` | `SelfStabilizesCompletely`, upward propagation, `exists_complete_self_stabilization` | every pure set self-stabilizes completely at `0` |
+| L2 | L0, L1; Mathlib `Countable`, `Ordinal.omega` | `SelfStabilizesCompletely`, upward propagation, `exists_complete_self_stabilization`, `exists_selfStabilizesCompletely`, `selfStabilizationOrdinal` | every pure set self-stabilizes completely at `0` |
 | L3 | L1, L2 | `atomicDiagram`, `scottFormula`, `realize_scottFormula_iff_bfEquiv`, `scottSentenceAt`, `scottSentence`, `scott_isomorphism`, `internalScottRank`, `internalScottRank_lt_omega_one` | the Scott sentence of a fixed finite structure |
 
 ### Layer 0: infinitary syntax and semantics
@@ -491,8 +492,15 @@ compare tuples of `M` with tuples of `M`. Build:
   uncountably many successor stages below `ω₁`, choosing a pair lost at each such stage would give
   uncountably many distinct elements of that countable set. This needs only `[Countable M]`: no
   relational hypothesis and no countable language;
+* `exists_selfStabilizesCompletely`: **every** structure `M : Type w`, countable or not, stabilizes
+  at some ordinal of `Ordinal.{w}`. The pairs of tuples that are `BFEquiv` at some level but not at
+  every level are `w`-small many, so their least failure levels have a supremum in `Ordinal.{w}`,
+  and `BFEquiv` at that supremum already implies `BFEquiv` at every level. This gives no bound
+  below `ω₁`; it is what makes the rank comparisons of Layer 3 hold without countability;
 * the least internal stabilization ordinal `selfStabilizationOrdinal M`, written `s(M)`, with
-  `selfStabilizationOrdinal_spec`: for countable `M`, `s(M) < ω₁` and `M` stabilizes at `s(M)`.
+  `selfStabilizesCompletely_selfStabilizationOrdinal` (the infimum is attained: `M` stabilizes at
+  `s(M)` itself, by the previous item and well-ordering, for every `M`) and
+  `selfStabilizationOrdinal_lt_omega_one` (`s(M) < ω₁` for countable `M`).
 
 Key milestones:
 
@@ -500,8 +508,10 @@ Key milestones:
 SelfStabilizesCompletely
 SelfStabilizesCompletely.bfEquiv_of_le
 exists_complete_self_stabilization
+exists_selfStabilizesCompletely
 selfStabilizationOrdinal
-selfStabilizationOrdinal_spec
+selfStabilizesCompletely_selfStabilizationOrdinal
+selfStabilizationOrdinal_lt_omega_one
 ```
 
 **Acceptance example:** every pure set (the empty language) self-stabilizes completely at `0`,
@@ -568,8 +578,13 @@ Build, consuming Layer 2's internal stabilization:
 * the rank convention of the Standing hypotheses: `orbitStable`, `orbitRank`, and
   `internalScottRank`, with its comparison to Layer 2's `s(M)`, after aligning universes (both in
   `Ordinal.{w}`):
+  * `orbitRank_mem_orbitStable`: the infimum is attained, because every stabilizing level of `M`
+    is orbit-stable for every tuple (by upward propagation and monotonicity), so `orbitStable a`
+    is nonempty by `exists_selfStabilizesCompletely`;
   * `selfStabilizationOrdinal_eq_iSup_orbitRank`: `s(M) = sup_a orbitRank a`, because simultaneous
-    internal stabilization is the same as stabilization of every tuple's back-and-forth class;
+    internal stabilization is the same as stabilization of every tuple's back-and-forth class. It
+    follows from upward propagation, the two attainment theorems, and the supremum property, with
+    no countability hypothesis;
   * `selfStabilizationOrdinal_le_internalScottRank` and
     `internalScottRank_le_succ_selfStabilizationOrdinal`: `s(M) ≤ SR(M) ≤ s(M) + 1`;
   * `internalScottRank_lt_omega_one`: `SR(M) < ω₁` for countable `M`, from `s(M) < ω₁`;
@@ -592,6 +607,7 @@ scottSentence
 scott_isomorphism
 orbitStable
 orbitRank
+orbitRank_mem_orbitStable
 internalScottRank
 selfStabilizationOrdinal_eq_iSup_orbitRank
 selfStabilizationOrdinal_le_internalScottRank
