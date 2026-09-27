@@ -42,6 +42,10 @@ That roadmap owns the doubled-quiver and orientation constructions and their alg
 Exposing their arrow families as explicit quiver arguments is an adapter, not a second orientation type.
 Also reuse the following Tau Ceti modules:
 
+- [`Combinatorics.SimpleGraph.BranchComponents`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/BranchComponents.lean) for `TauCeti.IsTree.neighborSetEquivConnectedComponentCompl`, identifying the components left after deleting a tree vertex with its neighbours.
+  Use this in the cut-vertex and block–cut forest theory of Milestone 2; `TauCeti.IsTree.exists_equiv_pathGraph_components` also identifies those components as paths when every remaining vertex has degree at most two.
+- [`Combinatorics.SimpleGraph.Acyclic`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/Acyclic.lean) for restrictions on adjacency along paths in forests, and [`PathGraph`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/PathGraph.lean) for the classification of finite trees of maximum degree two.
+  The [`Connected`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/Connected.lean), [`CycleGraph`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/CycleGraph.lean), and [`Sum`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/Sum.lean) modules provide connectivity criteria on `Fin`, cycle adjacency lemmas, and disjoint-sum API for the examples and constructions.
 - [`Combinatorics.Quiver.BoundedPaths`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/Quiver/BoundedPaths.lean) for finiteness of paths of bounded length, hence of simple paths in a finite quiver.
 - [`Combinatorics.Quiver.Prefunctor`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/Quiver/Prefunctor.lean) for length preservation under path transport and inverse-prefunctor identities.
 - [`Combinatorics.Quiver.Reorient`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/Quiver/Reorient.lean) for reversing selected arrows while retaining their identities.
@@ -89,7 +93,7 @@ The table summarizes the hypotheses of the milestones; the targets are the norma
 | Targets | Vertices | Edges or arrows | Coefficients | Terminals |
 | --- | --- | --- | --- | --- |
 | Walks, isomorphisms, bridges, cuts, separators, path families, deletion predicates, blocks (1.1, structural part of 1.2, 1.5, 2) | none | none | none | none |
-| Multigraph vertex-only targets: vertex connectivity, nonadjacent local vertex Menger, vertex-capacitated Menger, set-to-set vertex Menger, vertex consequences of Milestone 6, component counts of Milestone 2 | finite `V(G)` | none | none | distinct terminals, nonadjacent for local vertex Menger; `A, B` may overlap |
+| Multigraph vertex-only targets: vertex connectivity, nonadjacent local vertex Menger, vertex-capacitated Menger, set-to-set vertex Menger, vertex consequences of Milestone 6, component counts of Target 1.1 and Milestone 2 | finite `V(G)` | none | none | distinct terminals, nonadjacent for local vertex Menger; `A, B` may overlap |
 | Multigraph edge targets: edge connectivity, edge Menger, weighted cuts, ears, Robbins (1.2, 1.5, 5, 7) | finite `V(G)` | finite `E(G)` | cancellative monoid for weights | distinct terminals; disjoint `A, B` for edge versions |
 | Directed vertex-only targets: vertex strong connectivity, directed local, vertex-capacitated, and set-to-set vertex Menger (5, 6) | `[Fintype V]` | none | none | no arrow `s → t` for local vertex Menger |
 | Adjacent-terminal vertex Menger (5.1) | finite actual vertices | only the direct terminal edges or arrows must be finite | none | distinct `s, t`; only arrows `s → t` counted in the directed case |
@@ -220,7 +224,7 @@ Targets 1.1 and 1.3 are independent; Targets 1.2 and 1.5 use 1.1, and Target 1.4
 
 ### 1.1. Undirected walks, isomorphisms, and representation bridges
 
-These structural constructions and their transport lemmas assume no finiteness.
+These structural constructions and their transport lemmas assume no finiteness; the component-count results below assume finite `V(G)`.
 
 Build `Graph.Walk` as pinned in the conventions, with the API of `SimpleGraph.Walk`.
 Supply `support`, `edges`, `length`, `append`, `reverse`, `IsPath`, `IsCycle`, splitting at a vertex, path extraction, traced subgraphs, restriction, and transport along `≤` and graph isomorphisms.
@@ -242,7 +246,16 @@ Build the following bridges in this milestone, before consumers use them:
 - **Connectivity and deletion:** relate native reachability to simplification, and prove compatibility of vertex deletion and induced subgraphs with the necessary subtype equivalences.
   Prove `toSimpleGraph (Graph.ofSimpleGraph H) ≃ H` using the existing isomorphism, and the reverse round trip up to vertex and edge isomorphism for a graph satisfying `Graph.Simple`.
   Characterize the subgraphs induced by reachability classes as the minimal nonempty closed subgraphs, and prove that `Connected` is equivalent to nonempty walk preconnectivity and to being a component of itself, agreeing with [#37861](https://github.com/leanprover-community/mathlib4/pull/37861).
+  Explicitly prove `(Graph.ofSimpleGraph H).Connected ↔ H.Connected`, including the empty-graph case.
   Vertex-connectivity statements may then use the underlying simple graph while returning native path witnesses through the lifting API.
+
+**Components and their count.** Use `Graph.IsConnectedComponentOf H G` for the minimal nonempty closed subgraphs of `G`, following #37861, and identify their type with `G.toSimpleGraph.ConnectedComponent`.
+The equivalence sends a component subgraph to its vertex reachability class and requires no finiteness.
+For finite `V(G)`, define `Graph.componentCount G : ℕ` as the number of these component subgraphs and prove `G.componentCount = Nat.card G.toSimpleGraph.ConnectedComponent`.
+An isolated vertex is a component, including when it carries loops; the empty graph has no components.
+Prove that the count is zero exactly when `V(G)` is empty, and one exactly when `G.Connected`.
+For `[Finite V]` and `H : SimpleGraph V`, prove `(Graph.ofSimpleGraph H).componentCount = Nat.card H.ConnectedComponent`.
+These counting results require no finiteness of edges or of the ambient vertex and edge types; Milestone 2 uses this count in its deletion formulas.
 
 **Orientations and bidirected networks.** Transport walks and paths, identify the underlying undirected graph of an orientation, and prove reachability and cut-capacity correspondence for the bidirected construction.
 Match oriented walks with exactly those undirected walks traversing every edge in its chosen direction; arbitrary undirected reachability need not imply directed reachability.

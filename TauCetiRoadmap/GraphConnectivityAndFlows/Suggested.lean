@@ -1660,6 +1660,35 @@ end Walk
 at an ambient non-vertex; a positive-length walk has actual endpoints automatically. -/
 def Reachable (s t : α) : Prop := s ∈ G.vertexSet ∧ Nonempty (Walk G s t)
 
+/-- Components follow the minimal nonempty closed-subgraph definition of Mathlib PR #37861. -/
+def IsConnectedComponentOf (H G : Graph α β) : Prop :=
+  Minimal (fun H => H.IsClosedSubgraph G ∧ H.vertexSet.Nonempty) H
+
+def Connected : Prop := IsConnectedComponentOf G G
+
+theorem connected_iff_nonempty_reachable :
+    Connected G ↔ G.vertexSet.Nonempty ∧ ∀ s t : G.vertexSet, Reachable G s t := by
+  sorry
+
+noncomputable def componentEquivToSimpleGraph :
+    {H : Graph α β // IsConnectedComponentOf H G} ≃ G.toSimpleGraph.ConnectedComponent := by
+  sorry
+
+noncomputable def componentCount [Finite G.vertexSet] : ℕ :=
+  Nat.card {H : Graph α β // IsConnectedComponentOf H G}
+
+theorem componentCount_eq_card_connectedComponent [Finite G.vertexSet] :
+    componentCount G = Nat.card G.toSimpleGraph.ConnectedComponent := by
+  sorry
+
+theorem componentCount_eq_zero_iff [Finite G.vertexSet] :
+    componentCount G = 0 ↔ G.vertexSet = ∅ := by
+  sorry
+
+theorem componentCount_eq_one_iff [Finite G.vertexSet] :
+    componentCount G = 1 ↔ Connected G := by
+  sorry
+
 /-- The bidirected arrow family has one arrow per incident edge and ordered pair of ends.
 A loop gives one loop arrow; a nonloop edge gives two opposite arrows. -/
 abbrev Hom (s t : G.vertexSet) := {e : G.edgeSet // G.IsLink e.val s.val t.val}
@@ -1808,6 +1837,14 @@ theorem ofSimpleGraphWalkEquiv_internallyDisjoint {V : Type*} (H : SimpleGraph V
 
 theorem reachable_ofSimpleGraph {V : Type*} (H : SimpleGraph V) (s t : V) :
     Reachable (Graph.ofSimpleGraph H) s t ↔ H.Reachable s t := by
+  sorry
+
+theorem connected_ofSimpleGraph {V : Type*} (H : SimpleGraph V) :
+    Connected (Graph.ofSimpleGraph H) ↔ H.Connected := by
+  sorry
+
+theorem componentCount_ofSimpleGraph {V : Type*} [Finite V] (H : SimpleGraph V) :
+    componentCount (Graph.ofSimpleGraph H) = Nat.card H.ConnectedComponent := by
   sorry
 
 /-- The multigraph bridge predicate agrees with Mathlib's on actual edges; on a non-edge,
