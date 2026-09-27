@@ -35,3 +35,32 @@ Higher homotopy came with it: covering maps induce isomorphisms on `π_n` for `n
 quotient with a two-element deck group (TauCeti#1679, TauCeti#1747), but `π₁(RPⁿ)` is not
 established: that needs `Sⁿ` simply connected, which is not here. A third of this window's pull
 requests added no new declarations at all.
+
+<!--tauceti-progress:v1 {"from_sha":"11ef09d4d6e560655ed762ace27ef2858e9117cd","prs":[1999,2086,2218,2494,2528,2531,2642,2776,2954,3057,3121,3215,3231,3610,3898,3906,3919,4039,4309,4344,4439,4531,4602,4621,4631,4962,5059,5192,5220,5462,5530,5571,5658,5671],"roadmap":"UniversalCovers","to_sha":"f95cc2fb6429e471556c8677e5c64fe8e4cb7940"}-->
+## UniversalCovers: 2026-08-03 to 2026-09-07 (`11ef09d` to `f95cc2f`)
+
+The gap the previous window flagged is closed: the unit sphere of a real normed space of
+dimension greater than two is simply connected
+(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/Sphere/SimplyConnected.html#TauCeti.simplyConnectedSpace_sphere>,
+TauCeti#3906), proved by pushing an arbitrary loop off some point of the sphere and contracting
+the punctured sphere onto the antipode of the point it misses. With the antipodal cover already
+recorded, this gives `π₁(RPⁿ) ≅ ℤ/2` for `n ≥ 2`
+(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/RealProjective/FundamentalGroup/Basic.html#TauCeti.RealProjectiveSpace.fundamentalGroupMulEquivAt>).
+The small dimensions were filled in separately, `RP¹` by a homeomorphism with the circle and
+`RP⁰` as a point, so the fundamental group of real projective space is now known in every
+dimension.
+
+The subgroup correspondence became a genuine bijection. The missing link was that the endpoint
+projection descended to `UniversalCover x₀ / H` is itself a covering map; with it, every pointed
+connected cover of `(X, x₀)` is realised by exactly one subgroup of `π₁(X, x₀)`
+(<https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/UniversalCover/Classification/Bijection.html#TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient>),
+unpointed ones by conjugacy classes, and one such cover covers another exactly when the
+subgroups are nested. The deck group of the cover attached to `H` is the normalizer quotient
+`N(H)/H`, and `π₁(X, x₀)/H` when `H` is normal (TauCeti#2218).
+
+The same classification arrived in categorical form. Covering spaces of `X` are a category
+equivalent to functors from the fundamental groupoid to types, and to `π₁(X, x₀)`-sets, cutting
+down to connected covers and transitive sets; the finite covers are a Galois category with the
+fibre over `x₀` as fibre functor (TauCeti#4039, TauCeti#4531). The groupoid form drops
+path-connectedness of the base. Underneath sit basepoint change for higher homotopy groups by a
+collar construction, balanced products, and `K(G, 1)` recognition criteria.

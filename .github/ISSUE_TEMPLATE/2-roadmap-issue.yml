@@ -15,7 +15,10 @@ body:
       label: Roadmap area
       options:
         - AdicSpaces
+        - AlgebraicCodingTheory
         - AlgebraicCurves
+        - AlgebraicTopology
+        - AlgebraicVectorBundles
         - AnalyticToricGeometry
         - ArithmeticDirichletSeries
         - BelyiMaps
@@ -28,6 +31,7 @@ body:
         - DenseGraphLimits
         - EllipticCurves
         - Exchangeability
+        - FuchsianOrbifolds
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
@@ -38,20 +42,25 @@ body:
         - IntegralLattices
         - JacobianChallenge
         - LocalFieldsRamification
+        - LocalGaloisGroups
         - ModularForms
         - Multiquadratic
         - NumberFieldArithmetic
         - OneParameterSemigroups
         - OptimalTransport
+        - OrthogonalSpinGroups
         - PDE
         - PolynomialGaloisGroups
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
+        - RealAlgebraicGeometry
         - ReductiveGroups
         - RepresentationTheory
+        - RestrictedProducts
+        - StablePeriodicCurved
+        - StableReduction
         - StandardDistributions
-        - UniversalCovers
         - ZigzagPreprojective
     validations:
       required: true
