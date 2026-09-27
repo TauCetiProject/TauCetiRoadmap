@@ -49,6 +49,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Partial differential equations](TauCetiRoadmap/PDE/README.md)
 - [Profinite and pro-`p` groups](TauCetiRoadmap/ProfiniteProPGroups/README.md)
 - [Quadratic forms and cohomological invariants](TauCetiRoadmap/QuadraticFormInvariants/README.md)
+- [Real algebraic geometry: sign determination and cylindrical decomposition](TauCetiRoadmap/RealAlgebraicGeometry/README.md)
 - [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
 - [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
 - [Restricted products of topological groups and rational diagonals](TauCetiRoadmap/RestrictedProducts/README.md)

@@ -56,6 +56,7 @@ body:
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
+        - RealAlgebraicGeometry
         - ReductiveGroups
         - RepresentationTheory
         - RestrictedProducts
