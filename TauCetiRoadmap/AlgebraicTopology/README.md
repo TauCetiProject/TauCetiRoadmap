@@ -45,7 +45,7 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
 
 ## Ownership and dependencies
 
-- The [universal-covers roadmap](../UniversalCovers/README.md) owns universal-cover
+- The [universal-covers roadmap](../../Completed/UniversalCovers/README.md) owns universal-cover
   construction, deck transformations, quotient covers, basepoint change, and induced maps on
   homotopy groups.  This roadmap consumes those maps, extends the higher-homotopy API with
   relative groups and comparison theorems, and does not construct another universal cover.

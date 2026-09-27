@@ -58,7 +58,6 @@ body:
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
-        - UniversalCovers
         - ZigzagPreprojective
     validations:
       required: true
