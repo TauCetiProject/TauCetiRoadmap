@@ -10,7 +10,7 @@ Lean `sorry`-forms (allowed in this human-owned roadmap library) for *particular
 that contributors and reviewers converge on names and signatures; discharging every statement here
 neither finishes a layer nor the roadmap.
 
-This file records the currently proposed Layer 0/1 signatures. Layer 2/3 targets remain in
+This file records the currently proposed Layer 0–2 signatures. Layer 3 targets remain in
 `README.md` until their dependencies are expressible. Names and namespaces are provisional.
 -/
 
@@ -312,6 +312,26 @@ potential isomorphism coincides with isomorphism; the converse direction is
 theorem countable_potentialIso_iff_iso (M N : Type) [L.Structure M] [L.Structure N]
     [Countable M] [Countable N] :
     PotentialIso (L := L) M N ↔ Nonempty (M ≃[L] N) := by
+  sorry
+
+/-- **Layer 2, internal stabilization.** At level `α` the back-and-forth refinement of `M`'s own
+tuples has stopped changing: one step of refinement, simultaneously for every tuple length. Both
+tuples lie in `M`. -/
+def SelfStabilizesCompletely (M : Type w) [L.Structure M] (α : Ordinal) : Prop :=
+  ∀ (n : ℕ) (a a' : Fin n → M),
+    BFEquiv (L := L) α n a a' ↔ BFEquiv (L := L) (Order.succ α) n a a'
+
+/-- **Layer 2 milestone, upward propagation.** Stabilization at `α` makes `BFEquiv α` between
+tuples of `M` imply `BFEquiv β` for every `β ≥ α`. -/
+theorem SelfStabilizesCompletely.bfEquiv_of_le {M : Type w} [L.Structure M] {α β : Ordinal}
+    (h : SelfStabilizesCompletely (L := L) M α) (hαβ : α ≤ β) {n : ℕ} {a a' : Fin n → M}
+    (ha : BFEquiv (L := L) α n a a') : BFEquiv (L := L) β n a a' := by
+  sorry
+
+/-- **Layer 2 milestone, stabilization below `ω₁`.** A countable structure's own back-and-forth
+refinement stabilizes at a countable ordinal. Only `[Countable M]` is needed. -/
+theorem exists_complete_self_stabilization (M : Type w) [L.Structure M] [Countable M] :
+    ∃ α < (Ordinal.omega 1 : Ordinal.{w}), SelfStabilizesCompletely (L := L) M α := by
   sorry
 
 end TauCetiRoadmap.InfinitaryLogic

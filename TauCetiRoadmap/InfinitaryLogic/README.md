@@ -30,7 +30,7 @@ Suggested homes:
 ```text
 TauCeti/ModelTheory/Infinitary/      -- Lω₁ω and L∞ω syntax, semantics, operations
 TauCeti/ModelTheory/BackAndForth/    -- EF games, potential isomorphism, Karp
-TauCeti/ModelTheory/Scott/           -- coded formulas, Scott rank, canonical formulas, Scott sentences
+TauCeti/ModelTheory/Scott/           -- internal stabilization, Scott formulas, Scott sentences, Scott rank
 ```
 
 ## Coordination
@@ -50,8 +50,7 @@ project trackers, and asking the named contributors before starting parallel wor
 * Cantor–Bendixson / perfect-kernel / ordinal-stabilization infrastructure (the Zulip
   [Cantor-Bendixson analysis](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Cantor-Bendixson.20analysis)
   thread; not in the pinned Mathlib): this roadmap does not claim the general theory. The
-  Scott-analysis layers state only the Scott-specific refinement-stabilization dependency they
-  need; if Mathlib later supplies the general stabilization API, replace the local statement with
+  Scott-analysis layers state only the internal-stabilization dependency they need; if Mathlib later supplies the general stabilization API, replace the local statement with
   imports.
 
 ## The end goal (v1)
@@ -92,7 +91,8 @@ The deliverable is a reusable infinitary-logic spine, not a proof script for one
    relabel / recursion API every later theorem inherits;
 2. back-and-forth systems and EF games at finite and ordinal length, potential isomorphism, and Karp's
    theorem;
-3. the countable coded-formula proxy and refinement counting that make Scott's theorem unconditional;
+3. internal stabilization: the back-and-forth refinement of a countable structure's own tuples
+   stabilizes below `ω₁`;
 4. Scott rank, canonical Scott formulas, and Scott sentences.
 
 Each item is worth building for its own sake. Scott's theorem is the summit; Karp is the supporting
@@ -136,19 +136,19 @@ not improvise.
   potential isomorphism ↔ agreement on `κ`-carried sentences (`InfEquivAt`), with `κ := M ⊕ N` the
   canonical instance. Full L∞ω-equivalence quantifies over carriers OUTSIDE the syntax
   (`InfEquivW := ∀ κ : Type w, InfEquivAt L κ M N`); it is implied by any single coded carrier.
-* **Countability via the coded proxy.** Raw infinitary syntax is uncountable (branching is a
-  function `ι → …`). The chosen route for every countability argument is the countable coded-formula
-  type `FormulaCode` with `Countable (FormulaCode L n)`, proven to capture back-and-forth
-  equivalence (`BFEquiv ↔ agreement on codes`). This is what makes "countably many refinements /
-  Scott formulas" a theorem rather than a leap. Distinguish this from Layer 0's *formula-sensitive*
-  size predicate (an `IsCountable` on individual formulas, counting the branch families a formula
-  actually uses): that predicate bounds ONE formula and does **not** supersede `FormulaCode` — the
-  Scott argument needs countably many refinement *classes*, which no per-formula predicate
-  delivers.
+* **Countability comes from the structure, not from a universal code language.** The Scott
+  argument counts pairs of tuples of the one countable structure `M` under analysis
+  (`Σ n, (Fin n → M) × (Fin n → M)` is countable), and its canonical formulas conjoin over elements
+  of `M`. No countable formula language that depends only on `L` can capture back-and-forth
+  equivalence for every countable structure: agreement on such a family would give Scott sentences
+  of uniformly bounded complexity, and Scott complexity is unbounded already for linear orders.
+  In particular, formulas whose conjunctions and disjunctions are finite lists are equivalent to
+  first-order formulas, so agreement on them does not imply `BFEquiv` (see the Layer 2 API
+  warning).
 * **Scott rank.** Ship one rank convention (the back-and-forth/Scott rank), and state its relation to
   Scott height once, rather than maintaining two parallel notions.
-* **Scott is unconditional.** State Scott's theorem and `scottRank_lt_omega1` without a counting
-  hypothesis: the refinement-countability bridge (Layer 2) is proved, not assumed.
+* **Scott is unconditional.** State Scott's theorem and the rank bound without a counting
+  hypothesis: internal stabilization (Layer 2) is proved, not assumed.
 * **Names are target shapes.** The declaration names below are intended shapes, not final namespace
   commitments; audit them against Mathlib conventions before implementation.
 
@@ -184,7 +184,7 @@ infrastructure.
 
 * Lω₁ω and L∞ω syntax and semantics (Mathlib's formula `iInf`/`iSup` require `[Finite β]`);
 * back-and-forth at finite and ordinal length, potential isomorphism, and Karp's theorem;
-* the countable coded-formula proxy and refinement counting;
+* internal stabilization of the back-and-forth refinement;
 * Scott rank, canonical Scott formulas, and Scott sentences.
 
 Every item above is a target in some layer below; nothing is left as a gap to be wished into existence.
@@ -203,7 +203,7 @@ is the specification; the map is "where to look", not "what is correct".
 
 * Layer 0: `InfinitaryLogic/Lomega1omega/` and `InfinitaryLogic/Linf/`.
 * Layer 1: `InfinitaryLogic/Karp/` and `InfinitaryLogic/Scott/BackAndForth.lean`.
-* Layer 2: `InfinitaryLogic/Scott/Code.lean` and `InfinitaryLogic/Scott/RefinementCount.lean`.
+* Layer 2: `InfinitaryLogic/Scott/Sentence.lean` (`exists_complete_self_stabilization`).
 * Layer 3: `InfinitaryLogic/Scott/` (`Formula.lean`, `Sentence.lean`, `Rank.lean`, `AtomicDiagram.lean`).
 
 Credit `cameronfreer/infinitary-logic` in each ported or adapted file, and record when a Tau Ceti file
@@ -222,7 +222,7 @@ development — object API, milestone theorems, and acceptance examples — not 
 |---|---|---|---|
 | L0 | Mathlib `FirstOrder.Language`, `Term`, `BoundedFormula`, `Encodable`, `Cardinal` | the fixed-carrier syntax + ω abbrev, `Realize`, `IndexCoding` + `iInfAlong`/`iSupAlong` + `reindex`, `toInf`, substitution/relabel/recursion API | `realize_toInf` on a finitary `φ` |
 | L1 | L0; Mathlib `FGEquiv`, `IsExtensionPair`, and the countably-generated-structure API | `BFEquiv`, `PotentialIso`, Karp, `countable_potentialIso_iff_iso`, the countability bridges | `Countable M → Structure.CG L M` |
-| L2 | L0, L1; `Encodable` | `FormulaCode`, `Countable (FormulaCode L n)`, the codes bridge, `refinement_countable`, refinement stabilization | the `Countable (FormulaCode L n)` instance |
+| L2 | L0, L1; Mathlib `Countable`, `Ordinal.omega` | `SelfStabilizesCompletely`, upward propagation, `exists_complete_self_stabilization` | every pure set self-stabilizes completely at `0` |
 | L3 | L1, L2 | `scottFormula`, `scottRank`, `scottRank_lt_omega1`, `scottSentence`, `scott_isomorphism` | the Scott sentence of a finite structure |
 
 ### Layer 0: infinitary syntax and semantics
@@ -283,7 +283,7 @@ beats, each a coherent reviewable unit:
   formula into `BoundedFormulaω`, `realize_ofCountable` (the recoding preserves realization), and
   `ofCountable_proof_irrel` (the result is independent of the supplied proof of `IsCountable`).
   These bound individual
-  formulas and are NOT the Layer 2 counting route (see Standing hypotheses). Include
+  formulas. Include
   `IndexCoding.ofEncodableWith (e : Encodable ι)`, so an explicit encoding does not require a
   global instance;
 * language-map compatibility: `LHom.onBoundedFormulaInf`, with the naturality law
@@ -343,8 +343,8 @@ exactly the finitary `BoundedFormula` universe. A formula's carrier is part of i
 statements ranging over "all sentences at carrier `κ`" fix `κ` (and its universe) explicitly, and
 cross-carrier operations go through `IndexCoding` and `reindex`. Membership of a formula in a
 "fragment" is presentation-sensitive (the SAME mathematical disjunction can be written at different
-carriers), although `reindex` preserves semantics; the coded connectives and Layer 2's `FormulaCode`
-are how countable fragments are actually delimited.
+carriers), although `reindex` preserves semantics; the coded connectives are how index families of
+other sizes are expressed at a fixed carrier.
 
 ### Layer 1: back-and-forth, potential isomorphism, and Karp's theorem
 
@@ -445,49 +445,56 @@ expresses as `iInfAlong` at any carrier `κ` equipped with codings `IndexCoding 
 `InfEquivW` packaging as a corollary. The carrier is an explicit argument, and agreement at one
 coded carrier already yields agreement at all.
 
-### Layer 2: the coded-formula proxy and refinement counting
+### Layer 2: internal stabilization
 
 Suggested home:
 
 ```text
-TauCeti/ModelTheory/Scott/Code.lean
-TauCeti/ModelTheory/Scott/Refinement.lean
+TauCeti/ModelTheory/Scott/Stabilization.lean
 ```
 
-This is the "connect to ground" layer: raw `BoundedFormulaω` is uncountable (its `iSup`/`iInf` branch
-on `ℕ → _`), so the countability arguments Scott analysis needs cannot run on it directly. The chosen
-route is the coded proxy. Build:
+This is the "connect to ground" layer for the Scott summit. Fix one countable structure `M` and
+compare tuples of `M` with tuples of `M`. Build:
 
-* `FormulaCode L n`, a countable coded proxy / fragment for the Scott-refinement formulas — not all of
-  raw Lω₁ω syntax (which is uncountable), but enough to capture `BFEquiv` — using explicit
-  list-branching instead of `ℕ → _`, with `Countable (FormulaCode L n)` and the interpretation
-  `FormulaCode.toFormulaω`;
-* the bridge `BFEquiv ↔ agreement on codes` (`agree_codes_implies_BFEquiv` and its converse), so the
-  coded world captures back-and-forth equivalence;
-* refinement-set countability `refinement_countable`, and the Scott-specific refinement-stabilization
-  lemma (the back-and-forth refinement sequence stabilizes at some ordinal `< ω₁`). State only this
-  Scott-specific dependency, not the general Cantor–Bendixson / ordinal-stabilization theory (see
-  Coordination).
+* `SelfStabilizesCompletely M α`: for every `n` and all `a a' : Fin n → M`,
+  `BFEquiv α n a a' ↔ BFEquiv (succ α) n a a'`. This is one-step stabilization, simultaneously
+  for every tuple length;
+* upward propagation `SelfStabilizesCompletely.bfEquiv_of_le`: stabilization at `α` makes
+  `BFEquiv α` imply `BFEquiv β` for every `β ≥ α`, by transfinite induction (the successor step
+  applies stabilization inside `M` to the forth and back clauses);
+* `exists_complete_self_stabilization`: for countable `M` there is `α < ω₁` at which
+  `SelfStabilizesCompletely M α` holds. The relation "`BFEquiv α` between tuples of `M`" is
+  antitone in `α` and lives on the countable set `Σ n, (Fin n → M) × (Fin n → M)`. If it changed at
+  uncountably many successor stages below `ω₁`, choosing a pair lost at each such stage would give
+  uncountably many distinct elements of that countable set. This needs only `[Countable M]`: no
+  relational hypothesis and no countable language.
 
 Key milestones:
 
 ```lean
-FormulaCode
-FormulaCode.instCountable
-FormulaCode.toFormulaω
-agree_codes_iff_BFEquiv
-refinement_countable
-refinement_stabilizes_below_omega1
+SelfStabilizesCompletely
+SelfStabilizesCompletely.bfEquiv_of_le
+exists_complete_self_stabilization
 ```
 
-**Acceptance example:** the `Countable (FormulaCode L n)` instance — compiles on Layers 0–1, before the
-refinement-stabilization lemma and the Scott summit.
+**Acceptance example:** every pure set (the empty language) self-stabilizes completely at `0`,
+since two tuples with the same equality pattern are related by a permutation — compiles on
+Layers 0–1, before any Scott formula.
 
-⚠ **API warning.** Do not run countability through raw `BoundedFormulaω`: it is uncountable. The coded
-proxy is the route; the bridge from codes to back-and-forth equivalence is a theorem to prove, not an
-assumption to carry. Layer 0's per-formula `IsCountable` predicate does **not** replace this layer: it
-bounds one formula's branch families, while Scott needs countably many refinement classes — a claim
-about a SET of formulas that only the coded proxy delivers.
+⚠ **API warning.** The stabilization is **internal**: both tuples lie in `M`. Tuples of a varying
+external structure `N` do not form one countable set merely because each `N` is countable, so do
+not claim external refinement counting from the cardinality of `M`. The comparison with other
+structures enters through the Scott sentence in Layer 3, whose models carry a back-and-forth
+system.
+
+⚠ **API warning.** Do not route this layer through a countable formula-code type that depends only
+on `L`. Codes whose conjunctions and disjunctions are finite lists are equivalent to first-order
+formulas, and agreement on them does not imply `BFEquiv`. Take unary predicates `P_i` (`i ∈ ℕ`),
+let `M` be `Finset ℕ` with `P_i(s) ↔ i ∈ s`, and let `N` add one element satisfying every `P_i`.
+Every finite reduct of `M` is isomorphic to the matching reduct of `N`, so the two structures agree
+on all first-order sentences, yet `N ⊨ ∃ x, ⋀ᵢ P_i(x)` and `M` does not; `BFEquiv 1` fails on the
+empty tuples. No richer countable family depending only on `L` repairs this (see Standing
+hypotheses). A countable fragment chosen for a particular structure is a different interface.
 
 ### Layer 3: Scott rank, canonical formulas, and Scott's theorem (v1 summit)
 
@@ -499,15 +506,15 @@ TauCeti/ModelTheory/Scott/Rank.lean
 TauCeti/ModelTheory/Scott/Sentence.lean
 ```
 
-Build, consuming Layer 2's refinement counting and stabilization:
+Build, consuming Layer 2's internal stabilization:
 
 * the canonical Scott formulas `scottFormula α a` by ordinal recursion, with the `< ω₁` guard and the
   atomic / successor / limit cases;
-* `scottRank` and `scottHeight`, their interoperability, and `scottRank_lt_omega1` (from the
-  refinement-stabilization lemma);
+* `scottRank` and `scottHeight`, their interoperability, and `scottRank_lt_omega1` (from internal
+  stabilization);
 * `scottSentence M`, the conjunction characterizing `M` among countable structures;
-* the unconditional Scott isomorphism theorem — no counting hypothesis, because the refinement bridge
-  is proved in Layer 2.
+* the unconditional Scott isomorphism theorem — no counting hypothesis, because internal
+  stabilization is proved in Layer 2.
 
 Key milestones:
 
@@ -562,10 +569,11 @@ spine and should get its own roadmap PR rather than expanding this one.
 
 ## Ordering
 
-Layer 0 first: everything needs the infinitary syntax and semantics. Layer 1 (back-and-forth and Karp)
-and Layer 2 (the coded-formula proxy and refinement counting) follow; Layer 2 is the critical path to
-an unconditional Scott theorem, and can proceed in parallel with Layer 1. Layer 3 (Scott rank,
-formulas, and the Scott isomorphism theorem) is the summit, consuming Layers 1 and 2.
+Layer 0 first: everything needs the infinitary syntax and semantics. Layer 1 (the back-and-forth
+recursion, potential isomorphism, and Karp) follows. Layer 2 (internal stabilization) needs only the
+back-and-forth recursion from Layer 1, so it can proceed in parallel with the Karp development.
+Layer 3 (Scott formulas, the Scott sentence, the Scott isomorphism theorem, and Scott rank) is the
+summit, consuming Layers 1 and 2.
 
 ## References
 
