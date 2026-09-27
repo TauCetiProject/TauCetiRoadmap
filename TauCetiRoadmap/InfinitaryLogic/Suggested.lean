@@ -308,7 +308,7 @@ theorem potentialIso_of_isExtensionPair {M N : Type w} [L.Structure M] [L.Struct
 /-- **Layer 1 milestone, the countable corollary of Karp's theorem.** On countable structures,
 potential isomorphism coincides with isomorphism; the converse direction is
 `potentialIso_of_equiv`. -/
-theorem countable_potentialIso_iff_iso (M N : Type) [L.Structure M] [L.Structure N]
+theorem countable_potentialIso_iff_iso (M N : Type w) [L.Structure M] [L.Structure N]
     [Countable M] [Countable N] :
     PotentialIso (L := L) M N ↔ Nonempty (M ≃[L] N) := by
   sorry
@@ -411,6 +411,81 @@ theorem realize_scottFormula_iff_bfEquiv [Countable (Σ l, L.Relations l)] {M : 
     [L.Structure M] [Countable M] {N : Type w'} [L.Structure N] {n : ℕ} (a : Fin n → M)
     (b : Fin n → N) {α : Ordinal.{w}} (hα : α < Ordinal.omega 1) :
     (scottFormula (L := L) a α).Realize Empty.elim b ↔ BFEquiv (L := L) α n a b := by
+  sorry
+
+/-- Universal closure over all bound positions. -/
+def BoundedFormulaInf.alls {ι : Type uι} {α : Type u'} :
+    {n : ℕ} → BoundedFormulaInf L ι α n → BoundedFormulaInf L ι α 0
+  | 0, φ => φ
+  | _ + 1, φ => alls φ.all
+
+/-- Satisfaction of a sentence in a structure. -/
+def SentenceInf.Realize {ι : Type uι} (φ : SentenceInf L ι) (M : Type w) [L.Structure M] : Prop :=
+  BoundedFormulaInf.Realize φ Empty.elim (Fin.elim0 : Fin 0 → M)
+
+/-- **Layer 3, the Scott sentence at a level `α`.** The Scott formula of the empty tuple at `α`,
+together with, for every tuple `a` of `M`, the universal closure of `θ^M_{α,a} → θ^M_{α+1,a}`.
+At an internally stabilizing `α < ω₁` this pins `M` among countable structures. -/
+noncomputable def scottSentenceAt [Countable (Σ l, L.Relations l)] (M : Type w) [L.Structure M]
+    [Countable M] (α : Ordinal.{w}) : Sentenceω L := by
+  classical
+  exact (scottFormula (L := L) (Fin.elim0 : Fin 0 → M) α).and
+    (BoundedFormulaInf.iInfAlong
+      (IndexCoding.ofEncodableWith (Encodable.ofCountable (Σ n, Fin n → M)))
+      fun p => ((scottFormula (L := L) p.2 α).imp (scottFormula (L := L) p.2 (Order.succ α))).alls)
+
+/-- **Layer 3 milestone.** `M` satisfies its Scott sentence at any internally stabilizing
+`α < ω₁`. -/
+theorem realize_scottSentenceAt_self [Countable (Σ l, L.Relations l)] (M : Type w)
+    [L.Structure M] [Countable M] {α : Ordinal.{w}} (hα : α < Ordinal.omega 1)
+    (hs : SelfStabilizesCompletely (L := L) M α) :
+    (scottSentenceAt (L := L) M α).Realize M := by
+  sorry
+
+/-- **Layer 3 milestone, models carry a back-and-forth system.** In any model `N` of the Scott
+sentence at `α < ω₁`, the pairs of tuples related by `BFEquiv α` form a tuple back-and-forth system.
+No stabilization and no countability of `N` is needed. -/
+theorem isTupleBFSystem_of_realize_scottSentenceAt [Countable (Σ l, L.Relations l)]
+    {M N : Type w} [L.Structure M] [L.Structure N] [Countable M] {α : Ordinal.{w}}
+    (hα : α < Ordinal.omega 1) (hN : (scottSentenceAt (L := L) M α).Realize N) :
+    IsTupleBFSystem (L := L) {p : Σ n : ℕ, (Fin n → M) × (Fin n → N) |
+      BFEquiv (L := L) α p.1 p.2.1 p.2.2} := by
+  sorry
+
+/-- **Layer 3 milestone.** Among countable structures, the Scott sentence at an internally
+stabilizing `α < ω₁` characterizes `M` up to isomorphism: combine
+`isTupleBFSystem_of_realize_scottSentenceAt`, `potentialIso_iff_exists_isTupleBFSystem`, and
+`countable_potentialIso_iff_iso`. -/
+theorem realize_scottSentenceAt_iff [L.IsRelational] [Countable (Σ l, L.Relations l)]
+    (M : Type w) [L.Structure M] [Countable M] {α : Ordinal.{w}} (hα : α < Ordinal.omega 1)
+    (hs : SelfStabilizesCompletely (L := L) M α) (N : Type w) [L.Structure N] [Countable N] :
+    (scottSentenceAt (L := L) M α).Realize N ↔ Nonempty (M ≃[L] N) := by
+  sorry
+
+/-- **Layer 2, the least internal stabilization ordinal** `s(M)`. -/
+noncomputable def selfStabilizationOrdinal (M : Type w) [L.Structure M] : Ordinal.{w} :=
+  sInf {α | SelfStabilizesCompletely (L := L) M α}
+
+/-- **Layer 2 milestone.** For countable `M`, `s(M) < ω₁` and `M` stabilizes at `s(M)`; both
+follow from `exists_complete_self_stabilization`. -/
+theorem selfStabilizationOrdinal_spec (M : Type w) [L.Structure M] [Countable M] :
+    selfStabilizationOrdinal (L := L) M < Ordinal.omega 1 ∧
+      SelfStabilizesCompletely (L := L) M (selfStabilizationOrdinal (L := L) M) := by
+  sorry
+
+/-- **Layer 3, the Scott sentence of `M`**, at the least internal stabilization ordinal. -/
+noncomputable def scottSentence [Countable (Σ l, L.Relations l)] (M : Type w) [L.Structure M]
+    [Countable M] : Sentenceω L :=
+  scottSentenceAt (L := L) M (selfStabilizationOrdinal (L := L) M)
+
+/-- **Layer 3, the v1 summit: Scott's isomorphism theorem.** For a countable relational language,
+every countable structure has an Lω₁ω sentence true in exactly the countable structures
+isomorphic to it. -/
+theorem scott_isomorphism [L.IsRelational] [Countable (Σ l, L.Relations l)] (M : Type w)
+    [L.Structure M] [Countable M] :
+    (scottSentence (L := L) M).Realize M ∧
+      ∀ (N : Type w) [L.Structure N] [Countable N],
+        ((scottSentence (L := L) M).Realize N ↔ Nonempty (M ≃[L] N)) := by
   sorry
 
 end TauCetiRoadmap.InfinitaryLogic

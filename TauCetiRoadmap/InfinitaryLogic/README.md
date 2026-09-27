@@ -223,7 +223,7 @@ development — object API, milestone theorems, and acceptance examples — not 
 | L0 | Mathlib `FirstOrder.Language`, `Term`, `BoundedFormula`, `Encodable`, `Cardinal` | the fixed-carrier syntax + ω abbrev, `Realize`, `IndexCoding` + `iInfAlong`/`iSupAlong` + `reindex`, `toInf`, substitution/relabel/recursion API | `realize_toInf` on a finitary `φ` |
 | L1 | L0; Mathlib `FGEquiv`, `IsExtensionPair`, and the countably-generated-structure API | `BFEquiv`, `PotentialIso`, Karp, `countable_potentialIso_iff_iso`, the countability bridges | `Countable M → Structure.CG L M` |
 | L2 | L0, L1; Mathlib `Countable`, `Ordinal.omega` | `SelfStabilizesCompletely`, upward propagation, `exists_complete_self_stabilization` | every pure set self-stabilizes completely at `0` |
-| L3 | L1, L2 | `scottFormula`, `scottRank`, `scottRank_lt_omega1`, `scottSentence`, `scott_isomorphism` | the Scott sentence of a finite structure |
+| L3 | L1, L2 | `atomicDiagram`, `scottFormula`, `realize_scottFormula_iff_bfEquiv`, `scottSentenceAt`, `scottSentence`, `scott_isomorphism`, `scottRank`, `scottRank_lt_omega1` | the Scott sentence of a fixed finite structure |
 
 ### Layer 0: infinitary syntax and semantics
 
@@ -467,7 +467,9 @@ compare tuples of `M` with tuples of `M`. Build:
   antitone in `α` and lives on the countable set `Σ n, (Fin n → M) × (Fin n → M)`. If it changed at
   uncountably many successor stages below `ω₁`, choosing a pair lost at each such stage would give
   uncountably many distinct elements of that countable set. This needs only `[Countable M]`: no
-  relational hypothesis and no countable language.
+  relational hypothesis and no countable language;
+* the least internal stabilization ordinal `selfStabilizationOrdinal M`, written `s(M)`, with
+  `selfStabilizationOrdinal_spec`: for countable `M`, `s(M) < ω₁` and `M` stabilizes at `s(M)`.
 
 Key milestones:
 
@@ -475,6 +477,8 @@ Key milestones:
 SelfStabilizesCompletely
 SelfStabilizesCompletely.bfEquiv_of_le
 exists_complete_self_stabilization
+selfStabilizationOrdinal
+selfStabilizationOrdinal_spec
 ```
 
 **Acceptance example:** every pure set (the empty language) self-stabilizes completely at `0`,
@@ -520,11 +524,26 @@ Build, consuming Layer 2's internal stabilization:
 * the characteristic theorem `realize_scottFormula_iff_bfEquiv`: for **every** structure `N`, of any
   cardinality and in any universe, and every `α < ω₁`, a tuple `b` of `N` satisfies `θ^M_{α,a}`
   exactly when `BFEquiv α n a b`. That `a` satisfies its own formula is the special case `b = a`;
+* the Scott sentence at a level, `scottSentenceAt M α`: the formula `θ^M_{α,∅}` of the empty tuple,
+  together with, for every `n` and every `a : Fin n → M`, the universal closure of
+  `θ^M_{α,a} → θ^M_{α+1,a}`. Specify it for an arbitrary internally stabilizing `α < ω₁` and prove,
+  in this order:
+  * `realize_scottSentenceAt_self`: `M` satisfies it, since stabilization turns `BFEquiv α` between
+    tuples of `M` into `BFEquiv (α + 1)`;
+  * `isTupleBFSystem_of_realize_scottSentenceAt`: in **any** model `N`, the pairs related by
+    `BFEquiv α` form a tuple back-and-forth system (the implications supply the forth and back
+    steps). This needs neither stabilization nor countability of `N`; with
+    `potentialIso_iff_exists_isTupleBFSystem` it makes every model potentially isomorphic to `M`;
+  * `realize_scottSentenceAt_iff`: for countable `N`, satisfaction is equivalent to
+    `Nonempty (M ≃[L] N)`, by `countable_potentialIso_iff_iso` forward and invariance of
+    satisfaction under isomorphism backward;
+* the named Scott sentence `scottSentence M := scottSentenceAt M (selfStabilizationOrdinal M)`,
+  choosing the least internal stabilization ordinal (Layer 2), and the unconditional Scott
+  isomorphism theorem `scott_isomorphism` — no counting hypothesis, because internal stabilization
+  is proved in Layer 2. The choice of ordinal is separate from the construction, so any other
+  stabilizing `α < ω₁` gives an equally valid Scott sentence;
 * `scottRank` and `scottHeight`, their interoperability, and `scottRank_lt_omega1` (from internal
-  stabilization);
-* `scottSentence M`, the conjunction characterizing `M` among countable structures;
-* the unconditional Scott isomorphism theorem — no counting hypothesis, because internal
-  stabilization is proved in Layer 2.
+  stabilization).
 
 Key milestones:
 
@@ -532,11 +551,15 @@ Key milestones:
 atomicDiagram
 scottFormula
 realize_scottFormula_iff_bfEquiv
+scottSentenceAt
+realize_scottSentenceAt_self
+isTupleBFSystem_of_realize_scottSentenceAt
+realize_scottSentenceAt_iff
+scottSentence
+scott_isomorphism
 scottRank
 scottHeight
 scottRank_lt_omega1
-scottSentence
-scott_isomorphism
 ```
 
 **Acceptance example:** the Scott sentence of a fixed finite structure (finite Scott rank) — the
