@@ -488,4 +488,55 @@ theorem scott_isomorphism [L.IsRelational] [Countable (Σ l, L.Relations l)] (M 
         ((scottSentence (L := L) M).Realize N ↔ Nonempty (M ≃[L] N)) := by
   sorry
 
+/-- **Layer 3, the orbit-stable levels of a tuple**: the levels `α` at which every tuple of `M`
+that is `BFEquiv α` to `a` is `BFEquiv` to it at **every** level. -/
+def orbitStable {M : Type w} [L.Structure M] {n : ℕ} (a : Fin n → M) : Set Ordinal.{w} :=
+  {α | ∀ b : Fin n → M, BFEquiv (L := L) α n a b → ∀ γ : Ordinal.{w}, BFEquiv (L := L) γ n a b}
+
+/-- **Layer 3, the orbit rank of a tuple**: its least orbit-stable level. For countable `M` this is
+the least level at which the back-and-forth class of `a` is its automorphism orbit. -/
+noncomputable def orbitRank {M : Type w} [L.Structure M] {n : ℕ} (a : Fin n → M) : Ordinal.{w} :=
+  sInf (orbitStable (L := L) a)
+
+/-- **Layer 3, the Scott rank convention** `SR(M) = sup_a (orbitRank a + 1)`, over tuples of every
+length. -/
+noncomputable def internalScottRank (M : Type w) [L.Structure M] : Ordinal.{w} :=
+  ⨆ x : (Σ n : ℕ, Fin n → M), orbitRank (L := L) x.2 + 1
+
+/-- **Layer 3 milestone, comparison with stabilization.** Simultaneous internal stabilization is
+stabilization of every tuple's back-and-forth class: `s(M) = sup_a orbitRank a`. -/
+theorem selfStabilizationOrdinal_eq_iSup_orbitRank (M : Type w) [L.Structure M] :
+    selfStabilizationOrdinal (L := L) M = ⨆ x : (Σ n : ℕ, Fin n → M), orbitRank (L := L) x.2 := by
+  sorry
+
+/-- **Layer 3 milestone.** `s(M) ≤ SR(M)`. -/
+theorem selfStabilizationOrdinal_le_internalScottRank (M : Type w) [L.Structure M] :
+    selfStabilizationOrdinal (L := L) M ≤ internalScottRank (L := L) M := by
+  sorry
+
+/-- **Layer 3 milestone.** `SR(M) ≤ s(M) + 1`. -/
+theorem internalScottRank_le_succ_selfStabilizationOrdinal (M : Type w) [L.Structure M] :
+    internalScottRank (L := L) M ≤ Order.succ (selfStabilizationOrdinal (L := L) M) := by
+  sorry
+
+/-- **Layer 3 milestone, the rank bound.** A countable structure has Scott rank below `ω₁`. -/
+theorem internalScottRank_lt_omega_one (M : Type w) [L.Structure M] [Countable M] :
+    internalScottRank (L := L) M < Ordinal.omega 1 := by
+  sorry
+
+/-- **Layer 3 acceptance check.** Every pure set, finite or infinite, has Scott rank `1`: tuples
+with the same equality pattern are related by a permutation, so every orbit rank is `0`. -/
+theorem internalScottRank_pureSet (M : Type w) [Language.empty.Structure M] :
+    internalScottRank (L := Language.empty) M = 1 := by
+  sorry
+
+/-- **Layer 3 acceptance check, a structure that is not homogeneous.** The disjoint union of a
+complete graph on two vertices and one on three has Scott rank `3`. A vertex of each component is
+`BFEquiv 1` but not `BFEquiv 2` to the other, so a vertex has orbit rank `2`, and every tuple's
+class is its orbit at level `2`. -/
+theorem internalScottRank_completeGraph_two_sum_three :
+    letI := ((⊤ : SimpleGraph (Fin 2)) ⊕g (⊤ : SimpleGraph (Fin 3))).structure
+    internalScottRank (L := Language.graph) (Fin 2 ⊕ Fin 3) = 3 := by
+  sorry
+
 end TauCetiRoadmap.InfinitaryLogic

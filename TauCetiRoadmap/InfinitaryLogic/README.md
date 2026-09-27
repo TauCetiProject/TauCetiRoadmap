@@ -68,10 +68,9 @@ its Scott rank is below `ω₁`.
 --       M ⊨ σ ∧
 --       ∀ (N : Type) [L.Structure N] [Countable N], (N ⊨ σ ↔ Nonempty (M ≃[L] N))
 --
--- theorem scottRank_lt_omega1
---     {L : FirstOrder.Language} [L.IsRelational] [Countable (Σ n, L.Relations n)]
---     (M : Type) [L.Structure M] [Countable M] :
---     scottRank L M < ω₁
+-- theorem internalScottRank_lt_omega_one
+--     {L : FirstOrder.Language} (M : Type) [L.Structure M] [Countable M] :
+--     internalScottRank L M < ω₁
 ```
 
 The relational restriction is the honest v1 generality: the atomic diagram of a tuple is then
@@ -145,8 +144,17 @@ not improvise.
   In particular, formulas whose conjunctions and disjunctions are finite lists are equivalent to
   first-order formulas, so agreement on them does not imply `BFEquiv` (see the Layer 2 API
   warning).
-* **Scott rank.** Ship one rank convention (the back-and-forth/Scott rank), and state its relation to
-  Scott height once, rather than maintaining two parallel notions.
+* **Scott rank.** Ship one rank convention, defined inside the structure from finite tuples:
+  `orbitRank a` is the least `α` such that every tuple `b` of `M` with `BFEquiv α n a b` has
+  `BFEquiv γ n a b` at **every** level `γ` (for countable `M`: the level-`α` class of `a` is its
+  automorphism orbit), and
+  `internalScottRank M = SR(M) = sup_a (orbitRank a + 1)` over tuples of every length, valued in
+  `Ordinal.{w}` for `M : Type w`. Keep the all-levels condition: a per-tuple one-step condition
+  ("`BFEquiv α n a b` implies `BFEquiv (α + 1) n a b`") is not equivalent. In `K₂ ⊔ K₃`, every
+  vertex is `BFEquiv 1` to a vertex `a` of `K₂`, so the one-step condition holds for `a` at `0`, yet a
+  vertex of `K₃` is `BFEquiv 1` but not `BFEquiv 2` to `a`, so `orbitRank a = 2`. External rank and
+  Scott-height conventions, which compare against other countable structures, are not targets of
+  this roadmap.
 * **Scott is unconditional.** State Scott's theorem and the rank bound without a counting
   hypothesis: internal stabilization (Layer 2) is proved, not assumed.
 * **Names are target shapes.** The declaration names below are intended shapes, not final namespace
@@ -223,7 +231,7 @@ development — object API, milestone theorems, and acceptance examples — not 
 | L0 | Mathlib `FirstOrder.Language`, `Term`, `BoundedFormula`, `Encodable`, `Cardinal` | the fixed-carrier syntax + ω abbrev, `Realize`, `IndexCoding` + `iInfAlong`/`iSupAlong` + `reindex`, `toInf`, substitution/relabel/recursion API | `realize_toInf` on a finitary `φ` |
 | L1 | L0; Mathlib `FGEquiv`, `IsExtensionPair`, and the countably-generated-structure API | `BFEquiv`, `PotentialIso`, Karp, `countable_potentialIso_iff_iso`, the countability bridges | `Countable M → Structure.CG L M` |
 | L2 | L0, L1; Mathlib `Countable`, `Ordinal.omega` | `SelfStabilizesCompletely`, upward propagation, `exists_complete_self_stabilization` | every pure set self-stabilizes completely at `0` |
-| L3 | L1, L2 | `atomicDiagram`, `scottFormula`, `realize_scottFormula_iff_bfEquiv`, `scottSentenceAt`, `scottSentence`, `scott_isomorphism`, `scottRank`, `scottRank_lt_omega1` | the Scott sentence of a fixed finite structure |
+| L3 | L1, L2 | `atomicDiagram`, `scottFormula`, `realize_scottFormula_iff_bfEquiv`, `scottSentenceAt`, `scottSentence`, `scott_isomorphism`, `internalScottRank`, `internalScottRank_lt_omega_one` | the Scott sentence of a fixed finite structure |
 
 ### Layer 0: infinitary syntax and semantics
 
@@ -542,8 +550,18 @@ Build, consuming Layer 2's internal stabilization:
   isomorphism theorem `scott_isomorphism` — no counting hypothesis, because internal stabilization
   is proved in Layer 2. The choice of ordinal is separate from the construction, so any other
   stabilizing `α < ω₁` gives an equally valid Scott sentence;
-* `scottRank` and `scottHeight`, their interoperability, and `scottRank_lt_omega1` (from internal
-  stabilization).
+* the rank convention of the Standing hypotheses: `orbitStable`, `orbitRank`, and
+  `internalScottRank`, with its comparison to Layer 2's `s(M)`, after aligning universes (both in
+  `Ordinal.{w}`):
+  * `selfStabilizationOrdinal_eq_iSup_orbitRank`: `s(M) = sup_a orbitRank a`, because simultaneous
+    internal stabilization is the same as stabilization of every tuple's back-and-forth class;
+  * `selfStabilizationOrdinal_le_internalScottRank` and
+    `internalScottRank_le_succ_selfStabilizationOrdinal`: `s(M) ≤ SR(M) ≤ s(M) + 1`;
+  * `internalScottRank_lt_omega_one`: `SR(M) < ω₁` for countable `M`, from `s(M) < ω₁`;
+  * numerical checks: every pure set, finite or infinite, has `SR = 1`
+    (`internalScottRank_pureSet`), and `K₂ ⊔ K₃`, which is not homogeneous, has `SR = 3`
+    (`internalScottRank_completeGraph_two_sum_three`): a vertex has orbit rank `2`, and every
+    tuple's class is its orbit at level `2`.
 
 Key milestones:
 
@@ -557,9 +575,15 @@ isTupleBFSystem_of_realize_scottSentenceAt
 realize_scottSentenceAt_iff
 scottSentence
 scott_isomorphism
-scottRank
-scottHeight
-scottRank_lt_omega1
+orbitStable
+orbitRank
+internalScottRank
+selfStabilizationOrdinal_eq_iSup_orbitRank
+selfStabilizationOrdinal_le_internalScottRank
+internalScottRank_le_succ_selfStabilizationOrdinal
+internalScottRank_lt_omega_one
+internalScottRank_pureSet
+internalScottRank_completeGraph_two_sum_three
 ```
 
 **Acceptance example:** the Scott sentence of a fixed finite structure (finite Scott rank) — the
@@ -597,6 +621,8 @@ The following topics are not targets of this roadmap; they belong to separate ro
 * Invariant descriptive set theory of countable structures: structure coding, satisfaction and
   isomorphism Borelness, López–Escobar, the Silver / G₀ / Glimm–Effros dichotomies, and Morley counting.
 * Many-sorted model theory; other infinitary logics Lκλ; effective Scott analysis.
+* External Scott-rank and Scott-height conventions, which compare a structure against other
+  countable structures, and their comparisons with `internalScottRank`.
 
 Relationalization of functions/constants is deliberately separate: it depends on the relational Scott
 spine and should get its own roadmap PR rather than expanding this one.
