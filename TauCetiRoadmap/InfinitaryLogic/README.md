@@ -103,12 +103,16 @@ milestone.
 Spell hypotheses out; do not bundle them. Pin the conventions below once, up front, so implementors do
 not improvise.
 
-* **Languages.** The core is countable relational languages. Carry `[L.IsRelational]`,
-  `[Countable M]`, and `[Countable (Σ n, L.Relations n)]` as separate, explicit instance hypotheses on
-  every Scott/Karp/Scott-rank statement — there is no bundled `CountableLanguage` class.
-  `[L.IsRelational]` is load-bearing (it makes a tuple's atomic diagram a matter of equality and
-  relations) and so must appear in the Lean statements, not only the prose. Function and constant
-  symbols are out of scope here (a separate roadmap PR).
+* **Languages.** The core is relational languages. Carry `[L.IsRelational]`, `[Countable M]`, and
+  `[Countable (Σ n, L.Relations n)]` as separate, explicit instance hypotheses, and only where a
+  statement needs them — there is no bundled `CountableLanguage` class. `[L.IsRelational]` is
+  load-bearing (it makes a tuple's atomic diagram a matter of equality and relations) and so must
+  appear in the Lean statements, not only the prose. The general Karp theorem `karp_theorem_at`
+  needs no countability: it holds for structures of any cardinality (see the `ℵ₁` dense linear
+  orders in the worked examples). Countability enters with its isomorphism corollary
+  `countable_potentialIso_iff_iso` (`[Countable M]`, `[Countable N]`) and with the Scott layers,
+  whose canonical formulas conjoin over the elements of `M` and over the atomic formulas of `L`.
+  Function and constant symbols are out of scope here (a separate roadmap PR).
 * **`ω₁`.** Use `Ordinal.omega 1`, with the scoped notation `ω₁` from
   `Mathlib/SetTheory/Cardinal/Aleph.lean` (`ω_` is `Ordinal.omega`; `ω₁` is `ω_ 1`, "the first
   uncountable ordinal"). Do not introduce a bespoke `CountableOrdinal := {α // α < ω₁}` subtype; carry
