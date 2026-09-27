@@ -14,7 +14,11 @@ coordinates of `WeierstrassCurve`. `Gegenbauer` is likewise absent.
 
 > **A separate future roadmap:** Laguerre and Jacobi L² bases. Unlike Chebyshev, **Mathlib has
 > neither the Laguerre nor the Jacobi polynomials**, so grounding them means defining the families
-> first — which belongs in its own roadmap, not here.
+> first — which belongs in its own roadmap, not here. That roadmap is
+> [LaguerreJacobi](../LaguerreJacobi/README.md); it defines both families and then consumes this
+> area's completeness toolkit (B1) and bridge (B2) as a cited dependency rather than rebuilding
+> them. (The source roadmap has since been completed and archived to
+> [Completed/OrthogonalL2Bases](../Completed/OrthogonalL2Bases/README.md).)
 
 This is that roadmap. It has two halves, and only the first is new mathematics for the library:
 
@@ -294,9 +298,10 @@ implementor will otherwise wave at.
 **B4. The two Hilbert bases.** With A1's degree lemma, B2, and B3 in hand these are instantiations,
 not proofs:
 
-- `Polynomial.laguerreHilbertBasisOfWeightedMeasure α : HilbertBasis ℕ 𝕜 (Lp 𝕜 2 (laguerreMeasure α))`
-  via `TauCeti.hilbertBasisOfWeightedMeasure`, with its `coe_` pin;
-- `Polynomial.laguerreHilbertBasis α : HilbertBasis ℕ 𝕜 (Lp 𝕜 2 ((volume).restrict (Set.Ioi 0)))`,
+- `Polynomial.laguerreHilbertBasisOfWeightedMeasure (α) (h : -1 < α) : HilbertBasis ℕ 𝕜 (Lp 𝕜 2 (laguerreMeasure α))`
+  via `TauCeti.hilbertBasisOfWeightedMeasure`, with its `coe_` pin — the `-1 < α` hypothesis is
+  necessary, since even the degree-zero Laguerre function is not in L² near `0` for `α ≤ -1`;
+- `Polynomial.laguerreHilbertBasis (α) (h : -1 < α) : HilbertBasis ℕ 𝕜 (Lp 𝕜 2 ((volume).restrict (Set.Ioi 0)))`,
   the `√w`-envelope basis whose elements are the **Laguerre functions**
   `x ↦ Lₙ^{(α)}(x) · x^{α/2} e^{-x/2} / √(Γ(n+α+1)/n!)`, via
   `TauCeti.hilbertBasisOfOrthogonalSystem`, with its `coe_` pin.
@@ -328,11 +333,11 @@ definition, which would fork the constant that D3 and F3 are checked against.
 **C2. Definition and degree.** `Polynomial.jacobi (α β : R) (n : ℕ) : R[X]`, defined by the
 classical explicit sum
 
-`Pₙ^{(α,β)}(X) = (2^n)⁻¹ • ∑ k ∈ Finset.range (n+1), (((ascPochhammer R (n-k)).smeval (α + k + 1) / (n-k)!) * ((ascPochhammer R k).smeval (β + n - k + 1) / k !)) • ((X - 1)^(n-k) * (X + 1)^k)`
+`Pₙ^{(α,β)}(X) = (2^n)⁻¹ • ∑ k ∈ Finset.range (n+1), (((ascPochhammer R (n-k)).smeval (β + k + 1) / (n-k)!) * ((ascPochhammer R k).smeval (α + n - k + 1) / k !)) • ((X - 1)^(n-k) * (X + 1)^k)`
 
 **Both coefficient factors are written out, and their orientation is part of the specification.**
-They are the `ascPochhammer` forms of `(n+α).choose (n-k)` and `(n+β).choose k` respectively; `α`
-travels with `(X - 1)^(n-k)` and `β` with `(X + 1)^k`. Swapping them gives a different family, so
+They are the `ascPochhammer` forms of `(n+β).choose (n-k)` and `(n+α).choose k` respectively; `β`
+travels with `(X - 1)^(n-k)` and `α` with `(X + 1)^k`. Swapping them gives a different family, so
 this is not a normalization detail a contributor may settle locally: `jacobi_neg_comp` in C3 and
 every `α ↔ β` argument downstream depend on exactly this pairing.
 
@@ -341,8 +346,12 @@ changing anything above:
 
 - At `n = 0` the sum is the single term `k = 0`, both `ascPochhammer` factors are `1`, and the
   result is `jacobi_zero = 1`.
+- At `n = 1, α = 0, β = 1` the sum gives `P₁ = (3X - 1)/2`, whose integral against the stated
+  weight `(1-X)^0 (1+X)^1 = 1 + x` over `[-1,1]` is `0`, as D3 orthogonality requires; the swapped
+  orientation gives `(3X + 1)/2` with integral `2`, a contradiction. Equivalently,
+  `Pₙ^{(α,β)}(1) = (n+α).choose n` — the `α`-weighted factor is the one on the `X + 1` side.
 - Every summand `(X - 1)^(n-k) * (X + 1)^k` is monic of degree `n`, so the leading coefficient is
-  `(2^n)⁻¹ • ∑ k, (n+α).choose (n-k) * (n+β).choose k`, which Vandermonde collapses to
+  `(2^n)⁻¹ • ∑ k, (n+β).choose (n-k) * (n+α).choose k`, which Vandermonde collapses to
   `(2n + α + β).choose n` — the `leadingCoeff_jacobi` below.
 
 Targets: `Polynomial.degree_jacobi`, `natDegree_jacobi`, `coeff_jacobi`, and `leadingCoeff_jacobi`
@@ -407,10 +416,25 @@ precisely the parameters Part F then checks against.
 
 Proof route as in B3: Rodrigues C4 plus `intervalIntegral.integral_mul_deriv_eq_deriv_mul`, `n`
 times, with boundary terms vanishing because `(1-t)^{n+α}(1+t)^{n+β}` has a zero of order at least
-`n + α > n - 1` at each endpoint.
+`n + α > n - 1` at each endpoint. Note on the route: C4's analytic Rodrigues is stated on the open
+interval `Set.Ioo (-1) 1`, and the weight's boundary differentiability that the closed-interval
+lemma would want is exactly what noninteger exponents do not give — so the `n`-fold derivative
+step runs on the open interval and the convergence step uses its closed-interval continuity
+variant, with the continuous extensions of the boundary terms pinned as explicit targets rather
+than waved at.
 
-**D4. The two Hilbert bases.** `Polynomial.jacobiHilbertBasisOfWeightedMeasure` and
-`Polynomial.jacobiHilbertBasis`, exactly parallel to B4, each with its `coe_` pin.
+**D3 also needs to pin a uniform diagonal norm** before D4 can state a basis: a named sequence
+`jacobiNormSq α β n : ℝ` that is positive for all admissible `n, α, β` — including the `n = 0,
+α + β = -1` edge above, where the value is the limit `2^{α+β+1}·B(α+1,β+1)` — together with the
+`if m = n` orthogonality statement that consumes it. Without a single uniformly positive sequence,
+the basis construction in D4 has no diagonal to normalize against; the split formulas above are
+the proof ingredients, not the interface D4 uses.
+
+**D4. The two Hilbert bases.** With D3's `jacobiNormSq α β n` and its `if m = n` statement in hand,
+these are instantiations, not proofs — and both carry the parameter hypotheses D3 needs:
+`Polynomial.jacobiHilbertBasisOfWeightedMeasure (α β) : HilbertBasis ℕ 𝕜 (Lp 𝕜 2 (jacobiMeasure α β))`
+under `-1 < α`, `-1 < β`, and `Polynomial.jacobiHilbertBasis` likewise, exactly parallel to B4,
+each with its `coe_` pin.
 
 ## Part E — the tensor bases
 
@@ -457,7 +481,10 @@ result — it is a test of D3 against a value the library already knows**, and i
 `n = 0`, `α + β = -1` case in D3 must be stated correctly: `α = β = -1/2` is exactly that case, and
 `π` versus `π/2` is exactly where a wrong constant shows up.
 
-Targets: `Polynomial.jacobi_neg_half_neg_half_eq_T`, relating the two families; the measure bridge
+Targets: `Polynomial.jacobi_neg_half_neg_half_eq_T`, relating the two families **with the scale
+pinned as part of the statement**: `Pₙ^{(−1/2,−1/2)} = ((1/2)ₙ / n!) Tₙ` — the scalar
+`(ascPochhammer R n).smeval (1/2) / n !`. An unscaled equality is false already at `n = 1`, where
+the Jacobi polynomial is `X/2` and `T₁ = X`; the measure bridge
 `Polynomial.jacobiMeasure_neg_half_neg_half_eq_measureT` identifying `jacobiMeasure (-1/2) (-1/2)`
 with Chebyshev's `measureT` — the two are built over `Set.Ioo (-1) 1` and `Set.Ioc (-1) 1`
 respectively, and as noted in the generality bar they agree because `{1}` is `volume`-null, but that
