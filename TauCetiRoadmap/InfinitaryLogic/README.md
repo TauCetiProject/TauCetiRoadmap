@@ -379,7 +379,15 @@ Build on Mathlib's `PartialEquiv` / `FGEquiv` / `IsExtensionPair`:
   (restrict an isomorphism to finitely generated substructures), symmetry (`PotentialIso.symm`,
   flip the system), transitivity (`PotentialIso.trans`, compose systems) — and the one-way
   compatibility bridge `potentialIso_of_isExtensionPair` from Mathlib's global `IsExtensionPair`
-  (the `S = Set.univ` case);
+  (the `S = Set.univ` case), which keeps its two extension hypotheses and its explicit initial
+  partial equivalence;
+* the **tuple presentation** `IsTupleBFSystem`: a set of pairs of equal-length tuples containing
+  the empty pair, preserving atomic type, and closed under forth and back extension. The named
+  adaptation target `potentialIso_iff_exists_isTupleBFSystem` shows that, for a relational
+  language, the two presentations determine each other, since a finitely generated substructure
+  is then the finite set of its generators. Karp's theorem and the Scott sentence (Layer 3) are
+  most naturally proved with tuple systems, while `PotentialIso` stays in Mathlib's `FGEquiv`
+  vocabulary; this bridge lets each side use its natural form;
 * the **countable-generation bridge** from `[Countable M]` to Mathlib's `Structure.CG`, so
   `equiv_between_cg` / `embedding_from_cg` apply — cite `Structure.cg_of_countable` as the ready-made
   bridge, and note `Structure.cg_iff_countable` additionally needs countable function symbols (free for
@@ -400,6 +408,8 @@ BFEquiv.monotone
 potentialIso_of_equiv   -- an isomorphism is a potential isomorphism
 PotentialIso.symm       -- symmetry: flip the system
 PotentialIso.trans      -- transitivity: compose the systems
+IsTupleBFSystem
+potentialIso_iff_exists_isTupleBFSystem  -- relational L: FGEquiv systems ↔ tuple systems
 potentialIso_iff_BFEquiv_all
 karp_theorem_at         -- codings of M and N into a common carrier κ:
                         --   potential isomorphism ↔ InfEquivAt κ  (headline)

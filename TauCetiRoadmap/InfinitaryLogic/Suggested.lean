@@ -239,6 +239,25 @@ def PotentialIso (M : Type w) (N : Type w) [L.Structure M] [L.Structure N] : Pro
     (∀ f ∈ S, ∀ m : M, ∃ g ∈ S, m ∈ g.1.dom ∧ f ≤ g) ∧
     (∀ f ∈ S, ∀ n : N, ∃ g ∈ S, n ∈ g.1.cod ∧ f ≤ g)
 
+/-- **Layer 1, tuple back-and-forth systems.** The tuple-family presentation of a back-and-forth
+system: a set of pairs of equal-length tuples containing the empty pair, preserving atomic type,
+and closed under the forth and back extensions. This is the presentation the migration source
+uses; it is interchangeable with `PotentialIso` for relational languages. -/
+def IsTupleBFSystem {M N : Type w} [L.Structure M] [L.Structure N]
+    (S : Set (Σ n : ℕ, (Fin n → M) × (Fin n → N))) : Prop :=
+  ⟨0, Fin.elim0, Fin.elim0⟩ ∈ S ∧
+  (∀ p ∈ S, SameAtomicType (L := L) p.2.1 p.2.2) ∧
+  (∀ p ∈ S, ∀ m : M, ∃ m' : N, (⟨p.1 + 1, snoc p.2.1 m, snoc p.2.2 m'⟩ : Σ _ : ℕ, _) ∈ S) ∧
+  (∀ p ∈ S, ∀ m' : N, ∃ m : M, (⟨p.1 + 1, snoc p.2.1 m, snoc p.2.2 m'⟩ : Σ _ : ℕ, _) ∈ S)
+
+/-- **Layer 1 adaptation target, the two presentations agree.** For a relational language, a
+finitely generated substructure is the finite set of its generators, so a system of `FGEquiv`s
+and a tuple back-and-forth system determine each other. -/
+theorem potentialIso_iff_exists_isTupleBFSystem [L.IsRelational] {M N : Type w}
+    [L.Structure M] [L.Structure N] :
+    PotentialIso (L := L) M N ↔ ∃ S, IsTupleBFSystem (L := L) (M := M) (N := N) S := by
+  sorry
+
 /-- **Layer 1, L∞ω-equivalence at a fixed carrier.** Agreement on all sentences with branching
 carrier `κ`. The full-equivalence notion quantifies over carriers OUTSIDE the syntax
 (`∀ κ : Type w, InfEquivAt L κ M N`). -/
