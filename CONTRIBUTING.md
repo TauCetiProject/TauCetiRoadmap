@@ -67,7 +67,7 @@ Writing a roadmap involves several connected activities, mixing human guidance, 
 human and AI review. Contributors may return to earlier decisions as the interfaces and review
 reveal more.
 
-1. **Create source material in a guide repo targeted for partial migration, when relevant.**
+1. **Gather source material, optionally in a separate guide repo for partial migration.**
    This varies by the situation and can involve a complicated mix of human guidance with AI
    writing and review. An existing guide or formalization can supply source material; a separate
    guide repo is not needed for every roadmap. Follow the README's
