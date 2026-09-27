@@ -368,7 +368,12 @@ Build on Mathlib's `PartialEquiv` / `FGEquiv` / `IsExtensionPair`:
   targets, not assumptions. Include the regression that two empty structures differing on a
   nullary relation are not `BFEquiv` at any level;
 * the finite EF game and the ω-round game, and the coherent-strategy object, with the quantifier-swap
-  obstruction between `BFEquiv ω` and a coherent ω-strategy stated explicitly;
+  obstruction between `BFEquiv ω` and a coherent ω-strategy stated explicitly. A strategy for the
+  ω-round game is a single function on finite play histories, or equivalently a family of
+  finite-round strategies with an explicit compatibility condition between lengths. A family that
+  chooses an unrelated strategy for each finite length is not a coherent strategy: by classical
+  choice such a family follows from `BFEquiv k` at every finite `k`, so it says nothing beyond
+  `BFEquiv ω`;
 * potential isomorphism as an explicit **back-and-forth system**: a nonempty set `S` of `FGEquiv`s
   closed under two-sided extension *within `S`*, with its basic API — `potentialIso_of_equiv`
   (restrict an isomorphism to finitely generated substructures), symmetry (`PotentialIso.symm`,
