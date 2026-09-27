@@ -179,9 +179,8 @@ not improvise.
 * **Ordinals and cardinals:** `Ordinal.omega0` (`SetTheory/Ordinal/Basic.lean`), `Ordinal.limitRecOn`
   (`SetTheory/Ordinal/Arithmetic.lean`), `Order.IsSuccLimit` (`Order/SuccPred/Limit.lean`);
   `ω₁ = Ordinal.omega 1` and `Cardinal.aleph0` (`SetTheory/Cardinal/Aleph.lean`, `Defs.lean`).
-* **`Encodable` and `Cardinal`:** `Encodable` (`Mathlib/Logic/Encodable/Basic.lean`) is the
-  codomain-`ℕ` instance of the carrier codings (`IndexCoding.ofEncodable`); `Cardinal` for the
-  formula-size predicate.
+* **`Encodable`:** `Encodable` (`Mathlib/Logic/Encodable/Basic.lean`) is the codomain-`ℕ` instance
+  of the carrier codings (`IndexCoding.ofEncodable`).
 * **Combinatorics:** `SimpleGraph` (`Combinatorics/SimpleGraph/Basic.lean`) for the graph worked
   example.
 
@@ -266,16 +265,16 @@ beats, each a coherent reviewable unit:
 **Beat 2 — carrier codings and transport.**
 
 * `IndexCoding ι κ` — encode, decode, decode-encode — with identity, forward composition (`trans`),
-  `ofEncodable` (the `Encodable` case), `ofEquiv`, and the `pad` laws that centralize decoder
-  analysis;
+  `ofEncodable` (the `Encodable` case) and `ofEncodableWith (e : Encodable ι)` (so an explicit
+  encoding does not require a global instance), `ofEquiv`, and the `pad` laws that centralize
+  decoder analysis;
 * the coded connectives `iInfAlong`/`iSupAlong` (an `ι`-family expressed at carrier `κ` with
   semantically neutral padding) and their realization lemmas;
 * whole-formula transport `reindex` with functor laws (`reindex_id`, `reindex_trans`), the
   equivalence round trip (`reindexEquiv`), realization preservation (`realize_reindex`), and
   `reindex_toInf` naturality;
 * the uniform companion `toOmega` with `realize_toOmega`: `toOmega` uniformly recodes a formula
-  when the whole carrier is encodable; `ofCountable` (Beat 3) is the proof-directed alternative
-  that also handles countable formulas at uncountable carriers.
+  when the whole carrier is encodable.
 
 **Beat 3 — derived APIs.**
 
@@ -284,22 +283,17 @@ beats, each a coherent reviewable unit:
   set/`support` formulation, not a `Finset`;
 * quantifier rank, valued in the carrier's ordinal universe, with the exact transport milestone
   `qrank_reindex` along `reindex`, stated with `Ordinal.lift`;
-* **countable-fragment recovery**: countability belongs to formulas, not to their ambient carriers.
-  `indexBound` and `IsCountable` bound the branch families ONE formula actually uses — a formula
-  can be countable even when its ambient carrier is uncountable — with `isCountable_toInf`
-  (finitary embeddings have index bound zero at every carrier), `ofCountable` recoding a countable
-  formula into `BoundedFormulaω`, `realize_ofCountable` (the recoding preserves realization), and
-  `ofCountable_proof_irrel` (the result is independent of the supplied proof of `IsCountable`).
-  These bound individual
-  formulas. Include
-  `IndexCoding.ofEncodableWith (e : Encodable ι)`, so an explicit encoding does not require a
-  global instance;
-* language-map compatibility: `LHom.onBoundedFormulaInf`, with the naturality law
-  `onBoundedFormulaInf_reindex`;
 * the **language-size bridge**, pinned in `Suggested.lean` as
   `card_le_aleph0_iff_countable_relations` (for relational `L`,
   `L.card ≤ ℵ₀ ↔ Countable (Σ n, L.Relations n)`), relating the countability instance carried by
   the Scott/Karp statements to Mathlib's single cardinal bound.
+
+Two further APIs are not targets of this roadmap, because nothing on the path to the Scott summit
+uses them: a formula-sensitive countability predicate (bounding the branch families one formula
+uses, with recoding of countable formulas into `BoundedFormulaω`), and language-map compatibility
+(`LHom.onBoundedFormulaInf` with a naturality law for `reindex`). Both were built experimentally in
+the migration source and left out after audits of their consumers found none; they are not
+defective, just unnecessary here.
 
 Key milestones:
 
@@ -321,14 +315,6 @@ relabel
 castLE
 freeVarSupport
 qrank_reindex
-indexBound
-IsCountable
-isCountable_toInf
-ofCountable
-realize_ofCountable
-ofCountable_proof_irrel
-LHom.onBoundedFormulaInf
-onBoundedFormulaInf_reindex
 toInf
 realize_toInf
 card_le_aleph0_iff_countable_relations
