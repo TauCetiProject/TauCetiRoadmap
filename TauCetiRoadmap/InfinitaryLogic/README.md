@@ -594,9 +594,16 @@ smallest end-to-end instance of the summit, once Layer 3 exists, using no later 
 Discharge these alongside the layers; they check that the API describes real structures, not just the
 final theorems.
 
-* Finite structures have a Scott sentence of finite rank, and the Scott sentence of a finite structure
-  is (equivalent to) a first-order sentence.
-* A pure-equality set of size `n`, and a countably infinite pure-equality set, with their Scott ranks.
+* A finite structure has finite Scott rank, in any countable relational language. If the language
+  is also **finite**, a finite structure's Scott sentence is equivalent to a first-order sentence.
+  The first-order claim needs the finite language. With countably many unary predicates `P_i`, the
+  one-element structure in which every `P_i` is false has no first-order Scott sentence, even among
+  countable structures: a first-order sentence mentions only finitely many `P_i`, and making an
+  unmentioned `P_j` true gives a non-isomorphic model of it. Its infinitary Scott sentence ("there
+  is exactly one element, and every `P_i` is empty") has finite quantifier rank but an infinite
+  conjunction. Include this example as a regression check.
+* A pure-equality set of size `n`, and a countably infinite pure-equality set, both of Scott rank
+  `1` (`internalScottRank_pureSet`).
 * The dense linear order without endpoints: ℵ₀-categorical, with its Scott sentence and rank.
 * Equivalence relations with `k` classes and with countably many classes of prescribed sizes.
 * Simple graphs, including the random graph (ℵ₀-categorical) and a rigid example.
