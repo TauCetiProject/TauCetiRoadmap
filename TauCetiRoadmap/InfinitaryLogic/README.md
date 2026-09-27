@@ -321,9 +321,7 @@ beats, each a coherent reviewable unit:
 Two further APIs are not targets of this roadmap, because nothing on the path to the Scott summit
 uses them: a formula-sensitive countability predicate (bounding the branch families one formula
 uses, with recoding of countable formulas into `BoundedFormulaω`), and language-map compatibility
-(`LHom.onBoundedFormulaInf` with a naturality law for `reindex`). Both were built experimentally in
-the migration source and left out after audits of their consumers found none; they are not
-defective, just unnecessary here.
+(`LHom.onBoundedFormulaInf` with a naturality law for `reindex`).
 
 Key milestones:
 
