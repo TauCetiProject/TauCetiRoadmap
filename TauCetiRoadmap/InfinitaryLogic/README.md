@@ -58,8 +58,8 @@ project trackers, and asking the named contributors before starting parallel wor
 * Cantor–Bendixson / perfect-kernel / ordinal-stabilization infrastructure (the Zulip
   [Cantor-Bendixson analysis](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Cantor-Bendixson.20analysis)
   thread; not in the pinned Mathlib): this roadmap does not claim the general theory. The
-  Scott-analysis layers state only the internal-stabilization dependency they need; if Mathlib later supplies the general stabilization API, replace the local statement with
-  imports.
+  Scott-analysis layers state only the internal-stabilization dependency they need; if Mathlib
+  later supplies the general stabilization API, replace the local statement with imports.
 
 ## The end goal (v1)
 
@@ -311,8 +311,7 @@ beats, each a coherent reviewable unit:
   `g : α → β ⊕ Fin n`, not only special cases; `realize_castLE` for arbitrary `m ≤ n`; and for the
   support `freeVarSupport`, the law `realize_congr_freeVarSupport` that realization depends only on
   the valuation on the support. The support is finite for finitary formulas and countable for
-  ℕ-carried `iSup`/`iInf`, so use a set/`support` formulation, not a `Finset`. The derived
-  connectives `and`, `or`, and `iff` are likewise defined at every carrier;
+  ℕ-carried `iSup`/`iInf`, so use a set/`support` formulation, not a `Finset`;
 * quantifier rank, valued in the carrier's ordinal universe, with the exact transport milestone
   `qrank_reindex` along `reindex`, stated with `Ordinal.lift`.
 
