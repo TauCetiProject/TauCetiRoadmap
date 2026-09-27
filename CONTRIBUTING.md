@@ -67,10 +67,11 @@ Writing a roadmap can combine human guidance, AI writing, and human and AI revie
 several connected activities, and contributors may return to earlier decisions as the interfaces
 and review reveal more.
 
-1. **Gather source material, optionally in a separate guide repo for partial migration.**
-   This varies by the situation and can involve a complicated mix of human guidance with AI
-   writing and review. An existing guide or formalization can supply source material; a separate
-   guide repo is not needed for every roadmap. Follow the README's
+1. **Gather or develop source material, when useful.** This varies by the situation and can
+   involve a complicated mix of human guidance with AI writing and review. An existing guide or
+   formalization can supply source material. Alternatively, you can develop a guide or
+   formalization in a separate guide repo, targeted for partial migration into Tau Ceti; this
+   is not needed for every roadmap. Follow the README's
    [porting guidance](README.md#porting-existing-work).
 2. **Select what to include in Tau Ceti.** This heavily relies on human judgement, but that
    judgement may be expressed through prompting rather than in any single part of the written
