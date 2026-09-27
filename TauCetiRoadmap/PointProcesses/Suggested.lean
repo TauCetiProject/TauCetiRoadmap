@@ -500,7 +500,7 @@ theorem papangelouIntensity_of_isPoissonPointProcess {N : Ω → PointMeasure S}
     (h : IsPoissonPointProcess P N ((c : ℝ≥0∞) • μ.restrict W)) :
     HasPoissonDensity P N μ W (fun ξ =>
       (c : ℝ≥0∞) ^ (ξ.count W).toNat * ENNReal.ofReal (Real.exp ((1 - (c : ℝ)) * (μ W).toReal))) ∧
-    ∀ x ξ, papangelouIntensity
+    ∀ x ∈ W, ∀ ξ, papangelouIntensity
       (fun ξ => (c : ℝ≥0∞) ^ (ξ.count W).toNat *
         ENNReal.ofReal (Real.exp ((1 - (c : ℝ)) * (μ W).toReal))) x ξ = c := by
   sorry
@@ -702,7 +702,8 @@ theorem lintegral_volume_voronoiCell_palmProbability {N : Ω → PointMeasure (E
     (hfin : intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure (E d))) (unitCube d) < ∞)
     (hs : ∀ᵐ ω ∂P, (N ω).IsSimple) :
     ∫⁻ ξ, volume (voronoiCell ξ 0) ∂palmProbability P N =
-      (intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure (E d))) (unitCube d))⁻¹ := by
+      (intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure (E d))) (unitCube d))⁻¹ *
+        P {ω | (N ω : Measure (E d)) ≠ 0} := by
   sorry
 
 /-- The first occurrence of a point measure on the line strictly after the origin. -/
@@ -719,7 +720,7 @@ theorem palmKhinchin_inversion {N : Ω → PointMeasure ℝ} (hN : Measurable N)
     (h0 : 0 < intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1))
     (hfin : intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) < ∞)
     (hs : ∀ᵐ ω ∂P, (N ω).IsSimple) {f : PointMeasure ℝ → ℝ≥0∞} (hf : Measurable f) :
-    ∫⁻ ω, f (N ω) ∂P =
+    ∫⁻ ω in {ω | (N ω : Measure ℝ) ≠ 0}, f (N ω) ∂P =
       intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) *
         ∫⁻ ξ, (∫⁻ t in Set.Ico (0 : ℝ) (nextOccurrence ξ), f (t +ᵥ ξ)) ∂linePalmProbability P N := by
   sorry
@@ -857,19 +858,24 @@ def initialEnlargement {Z' : Type*} [MeasurableSpace Z'] (Z : Ω → Z') (hZ : M
   mono' _ _ _ := le_rfl
   le' _ := hZ.comap_le
 
-/-- A marked predictable integrand. -/
-def IsPredictableIntegrand (𝓕 : Filtration ℝ≥0 mΩ) (H : ℝ≥0 × Ω × E → ℝ≥0∞) : Prop :=
+/-- A marked predictable integrand: measurable for the product of the predictable σ-field with the
+mark σ-field, into any measurable type.  A signed integrand is predictable as a map, not merely
+through its norm. -/
+def IsPredictableIntegrand {β : Type*} [MeasurableSpace β] (𝓕 : Filtration ℝ≥0 mΩ)
+    (H : ℝ≥0 × Ω × E → β) : Prop :=
   Measurable[(𝓕.predictable).prod inferInstance] fun q : (ℝ≥0 × Ω) × E => H (q.1.1, q.1.2, q.2)
 
-/-- `A` is a compensator of `N` in `𝓕`: a predictable random marked measure satisfying the
-integral identity against every nonnegative predictable integrand. -/
+/-- `A` is a compensator of `N` in `𝓕`: `N` is adapted to `𝓕`, and `A` is a predictable random
+marked measure satisfying the integral identity against every nonnegative predictable
+integrand. -/
 def IsCompensator (𝓕 : Filtration ℝ≥0 mΩ) (N : Ω → TemporalPointMeasure E)
     (A : Ω → MarkedLocallyFiniteMeasure ℝ≥0 E) : Prop :=
-  Measurable A ∧
+  (∀ t, Measurable[𝓕 t] fun ω => (N ω : Measure (ℝ≥0 × E)).restrict (Set.Iic t ×ˢ Set.univ)) ∧
+    Measurable A ∧
     (∀ B : Set E, MeasurableSet B →
       Measurable[𝓕.predictable] fun p : ℝ≥0 × Ω =>
         (A p.2 : Measure (ℝ≥0 × E)) (Set.Ioc 0 p.1 ×ˢ B)) ∧
-    ∀ H, IsPredictableIntegrand 𝓕 H →
+    ∀ H : ℝ≥0 × Ω × E → ℝ≥0∞, IsPredictableIntegrand 𝓕 H →
       ∫⁻ ω, ∫⁻ p, H (p.1, ω, p.2) ∂(N ω : Measure (ℝ≥0 × E)) ∂P =
         ∫⁻ ω, ∫⁻ p, H (p.1, ω, p.2) ∂(A ω : Measure (ℝ≥0 × E)) ∂P
 
@@ -880,13 +886,15 @@ theorem IsCompensator.ae_eq {𝓕 : Filtration ℝ≥0 mΩ} {N : Ω → Temporal
   sorry
 
 /-- The hazard compensator of the internal history enlarged by the initial random element `Z`,
-built from the regular conditional laws of the next interval and mark. -/
+built from the regular conditional laws of the next interval and mark, the interval `∞` and a
+cemetery mark standing for no further event. -/
 def hazardCompensator (P : Measure Ω) {Z' : Type*} [MeasurableSpace Z'] (Z : Ω → Z')
     (N : Ω → TemporalPointMeasure E) : Ω → MarkedLocallyFiniteMeasure ℝ≥0 E :=
   sorry
 
 theorem isCompensator_hazardCompensator {Z' : Type*} [MeasurableSpace Z'] [StandardBorelSpace Z']
-    {Z : Ω → Z'} (hZ : Measurable Z) {N : Ω → TemporalPointMeasure E} (hN : Measurable N) :
+    {Z : Ω → Z'} (hZ : Measurable Z) {N : Ω → TemporalPointMeasure E} (hN : Measurable N)
+    (hs : ∀ᵐ ω ∂P, (N ω).IsTimeSimple) :
     IsCompensator P (initialEnlargement Z hZ ⊔ internalHistory N hN) N (hazardCompensator P Z N) := by
   sorry
 
@@ -906,7 +914,7 @@ theorem HasStochasticIntensity.ae_eq {𝓕 : Filtration ℝ≥0 mΩ} {N : Ω →
 
 theorem martingale_compensated_integral {𝓕 : Filtration ℝ≥0 mΩ} {N : Ω → TemporalPointMeasure E}
     {A : Ω → MarkedLocallyFiniteMeasure ℝ≥0 E} (h : IsCompensator P 𝓕 N A)
-    {H : ℝ≥0 × Ω × E → ℝ} (hH : IsPredictableIntegrand 𝓕 fun q => ‖H q‖ₑ)
+    {H : ℝ≥0 × Ω × E → ℝ} (hH : IsPredictableIntegrand 𝓕 H)
     (hint : ∀ t, ∫⁻ ω, ∫⁻ p in Set.Ioc 0 t ×ˢ Set.univ, ‖H (p.1, ω, p.2)‖ₑ
       ∂(A ω : Measure (ℝ≥0 × E)) ∂P < ∞) :
     Martingale (fun t ω =>
@@ -1046,11 +1054,11 @@ def IsEmptyPastHawkes (ν : ℝ) (h : ℝ → ℝ≥0) (N : Ω → PointMeasure 
       (Measure.dirac ()) fun q => hawkesIntensity ν h (N q.2.1) q.1
 
 /-- The law of the family tree of an ancestor at `x`, with Poisson offspring at age intensity
-`h(s) ds`. -/
+`h(s) ds`; the theorems below assume `h` vanishes on `(-∞, 0]`. -/
 def hawkesClusterKernel (h : ℝ → ℝ≥0) : Kernel ℝ (Measure ℝ) := sorry
 
-theorem lintegral_count_hawkesClusterKernel {h : ℝ → ℝ≥0} (hint : Integrable (fun s => (h s : ℝ)))
-    (hm : ∫ s, (h s : ℝ) < 1) (x : ℝ) :
+theorem lintegral_count_hawkesClusterKernel {h : ℝ → ℝ≥0} (hsupp : ∀ s ≤ 0, h s = 0)
+    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) (x : ℝ) :
     ∫⁻ ζ, ζ Set.univ ∂hawkesClusterKernel h x = ENNReal.ofReal (1 / (1 - ∫ s, (h s : ℝ))) := by
   sorry
 
@@ -1061,23 +1069,27 @@ def stationaryHawkesLaw (ν : ℝ) (h : ℝ → ℝ≥0) : Measure (PointMeasure
 instance (ν : ℝ) (h : ℝ → ℝ≥0) : IsProbabilityMeasure (stationaryHawkesLaw ν h) := sorry
 
 theorem vaddInvariantMeasure_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) :
+    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (hm : ∫ s, (h s : ℝ) < 1) :
     VAddInvariantMeasure ℝ (PointMeasure ℝ) (stationaryHawkesLaw ν h) := by
   sorry
 
 theorem intensityDensity_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) :
+    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (hm : ∫ s, (h s : ℝ) < 1) :
     intensityDensity (stationaryHawkesLaw ν h) (fun ξ : PointMeasure ℝ => (ξ : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) =
       ENNReal.ofReal (ν / (1 - ∫ s, (h s : ℝ))) := by
   sorry
 
 theorem hasHawkesIntensity_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) :
+    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (hm : ∫ s, (h s : ℝ) < 1) :
     HasHawkesIntensity (stationaryHawkesLaw ν h) ν h id := by
   sorry
 
 theorem map_eq_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
+    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
     (hN : HasHawkesIntensity P ν h N) [VAddInvariantMeasure ℝ (PointMeasure ℝ) (P.map N)]
     (hfin : intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) < ∞) :
     P.map N = stationaryHawkesLaw ν h := by
@@ -1086,10 +1098,11 @@ theorem map_eq_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < �
 /-- Convergence from the empty past, in total variation on every window `(0, L]` after
 translation by `T`. -/
 theorem tendsto_emptyPast_restrict {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
+    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
     (hN : IsEmptyPastHawkes P ν h N) (L : ℝ) :
     Tendsto (fun T : ℝ => ⨆ s : {s : Set (PointMeasure ℝ) // MeasurableSet s},
-        dist ((P.map fun ω => ((-T) +ᵥ N ω).restrict (Set.Ioc 0 L)) s).toReal
+        dist ((P.map fun ω => (T +ᵥ N ω).restrict (Set.Ioc 0 L)) s).toReal
           (((stationaryHawkesLaw ν h).map fun ξ => ξ.restrict (Set.Ioc 0 L)) s).toReal)
       atTop (𝓝 0) := by
   sorry

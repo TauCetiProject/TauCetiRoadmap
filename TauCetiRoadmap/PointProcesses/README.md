@@ -420,8 +420,8 @@ For a filtration `𝓕`, the predictable σ-field on `ℝ≥0 × Ω` is Mathlib'
 `Filtration.predictable`; a marked predictable integrand is measurable for its product with
 the measurable space on `E`.  Every integral `∫ H dN` and `∫ H dA` is a pathwise
 `lintegral` against the point measure or compensator at a fixed `ω`; no stochastic integral
-in the Itô sense is defined.  A compensator is a predictable random element `A` of
-`MarkedLocallyFiniteMeasure ℝ≥0 E` characterized by
+in the Itô sense is defined.  A compensator of an `𝓕`-adapted `N` is a predictable random
+element `A` of `MarkedLocallyFiniteMeasure ℝ≥0 E` characterized by
 
 ```text
 𝔼 ∫ H dN = 𝔼 ∫ H dA
@@ -1162,10 +1162,11 @@ Poisson process with intensity `μ|W` is the reference law on finite configurati
   to a given kernel `λ` is determined in law by `λ`, since `f` is recovered from `λ` by
   iterated insertion from the empty configuration and normalized.
 * The Poisson case: the Poisson process with intensity `c · μ|W` has density
-  `c^{N(W)} exp((1-c) μ W)` and constant Papangelou intensity `c`.  The hard-core case: the
-  density proportional to the indicator that no two occurrences lie within distance `r`
-  is hereditary, and its Papangelou intensity is the indicator that `x` is at distance
-  at least `r` from every occurrence of `ξ`, times the normalizing constant.
+  `c^{N(W)} exp((1-c) μ W)` and Papangelou intensity `c` at every `x ∈ W`.  The hard-core
+  case: the density proportional to the indicator that every two occurrences are at
+  distance at least `r` is hereditary, and on a configuration `ξ` satisfying that
+  condition its Papangelou intensity at `x` is the indicator that `x` is at distance at
+  least `r` from every occurrence of `ξ`; on every other `ξ` it is zero by the convention.
 * The one-window Mecke identity as the GNZ identity with constant Papangelou intensity,
   reconciling this layer with Layer 4.
 
@@ -1221,7 +1222,7 @@ theorem papangelouIntensity_of_isPoissonPointProcess {N : Ω → PointMeasure S}
     (h : IsPoissonPointProcess P N ((c : ℝ≥0∞) • μ.restrict W)) :
     HasPoissonDensity P N μ W (fun ξ =>
       (c : ℝ≥0∞) ^ (ξ.count W).toNat * ENNReal.ofReal (Real.exp ((1 - (c : ℝ)) * (μ W).toReal))) ∧
-    ∀ x ξ, papangelouIntensity
+    ∀ x ∈ W, ∀ ξ, papangelouIntensity
       (fun ξ => (c : ℝ≥0∞) ^ (ξ.count W).toNat *
         ENNReal.ofReal (Real.exp ((1 - (c : ℝ)) * (μ W).toReal))) x ξ = c
 ```
@@ -1404,7 +1405,8 @@ process with `Q = δ₁` is the Poisson count process.
 convergence, and superposition.  **From Mathlib.** `VAddInvariantMeasure`, `ErgodicVAdd`,
 and Haar-measure uniqueness.
 
-Write `E d` for `EuclideanSpace ℝ (Fin d)`; the line is `ℝ` itself.
+Write `E d` for `EuclideanSpace ℝ (Fin d)` with `d ≥ 1` throughout, so that the translation
+action is nontrivial; the line is `ℝ` itself.
 
 **Build.**
 
@@ -1419,8 +1421,9 @@ Write `E d` for `EuclideanSpace ℝ (Fin d)`; the line is `ℝ` itself.
 * Ergodicity as `ErgodicVAdd`, and mixing as `P(Λ ∈ A, x +ᵥ Λ ∈ B) → P(Λ ∈ A) P(Λ ∈ B)`
   as `‖x‖ → ∞`, reduced to a generating π-system; mixing implies ergodicity.  Prove that
   a stationary Poisson process with finite intensity is mixing, that measurable
-  equivariant factors inherit stationarity, ergodicity, and mixing, and that independent
-  superposition preserves each.
+  equivariant factors inherit stationarity, ergodicity, and mixing, that independent
+  superposition preserves stationarity and mixing, and that it preserves ergodicity when
+  one of the two processes is mixing.
 * The second factorial moment measure `α₂` and its reduced version `α₂^!` on `E d`,
   defined by `α₂^!(B) = 𝔼 ∫∫ 1_{[0,1)^d}(x) 1_B(y - x) N^{(2)}(d(x,y))`, with the
   disintegration `α₂(A × B) = ∫_A α₂^!(B - x) dx`; local square integrability if and only
@@ -1491,8 +1494,10 @@ theorem variance_count_eq_covariogram {d : ℕ} {N : Ω → PointMeasure (E d)} 
 disintegrates the second factorial moment measure, and the covariogram formula.
 
 **Completion checks.** State every second-order result with local second-moment hypotheses; keep stationarity of a law
-distinct from stationarity of one chosen realization; and check that a stationary Poisson
-process has `α₂^! = λ² volume` and covariogram integral zero.
+distinct from stationarity of one chosen realization; check that a stationary Poisson
+process has `α₂^! = λ² volume` and covariogram integral zero; and check that two
+independent uniformly shifted copies of the lattice `ℤ^d` are each ergodic while their
+superposition is stationary and not ergodic.
 
 ## Layer 8: stationary Palm distributions, inversion, and stationary renewal processes
 
@@ -1500,7 +1505,11 @@ process has `α₂^! = λ² volume` and covariogram integral zero.
 stationarity, and factorial measures.  **From Mathlib/Tau Ceti.**
 `Measure.infinitePi` over `ℤ`, and `expMeasure` with its memorylessness.
 
-Throughout, `N` is a stationary point process on `E d` with `0 < λ < ∞`.
+Throughout, `N` is a stationary point process on `E d` with `0 < λ < ∞`.  The Palm
+probability is built from the occurrences of `N` and does not see the event `{N = 0}`,
+which can have positive probability under these hypotheses.  Inversion formulas therefore
+recover the law of `N` on `{N ≠ 0}`: they carry the factor `1{N ≠ 0}` on the stationary
+side, and they determine the stationary law exactly when `P(N ≠ 0) = 1`.
 
 **Build.**
 
@@ -1530,13 +1539,13 @@ Throughout, `N` is a stationary point process on `E d` with `0 < λ < ∞`.
 * Slivnyak's theorem in stationary form: `N` is Poisson if and only if `P⁰` is the law of
   `N + δ₀`; equivalently the reduced Palm law is the law of `N`.
 * Voronoi inversion for a simple `N`: with `X` the nearest occurrence to the origin,
-  `𝔼 h(X, N) = λ 𝔼⁰ ∫_{C₀(N⁰)} h(-x, θₓN⁰) dx`, and the mean cell volume
-  `𝔼⁰ volume (C₀(N⁰)) = λ⁻¹`.
+  `𝔼[1{N ≠ 0} h(X, N)] = λ 𝔼⁰ ∫_{C₀(N⁰)} h(-x, θₓN⁰) dx`, and the mean cell volume
+  `λ 𝔼⁰ volume (C₀(N⁰)) = P(N ≠ 0)`.
 * On the line, with `T₁` the first occurrence after the origin: Palm–Khinchin inversion
-  `𝔼 f(N) = λ 𝔼⁰ ∫₀^{T₁} f(θ_t N⁰) dt` and `λ 𝔼⁰ T₁ = 1`; the cycle-stationary
-  correspondence, a bijection between stationary laws with `0 < λ < ∞` and laws with an
-  occurrence at the origin that are invariant under the shift to the next occurrence and
-  have finite positive mean first interval.
+  `𝔼[1{N ≠ 0} f(N)] = λ 𝔼⁰ ∫₀^{T₁} f(θ_t N⁰) dt` and `λ 𝔼⁰ T₁ = P(N ≠ 0)`; the
+  cycle-stationary correspondence, a bijection between stationary laws with `0 < λ < ∞`
+  and `P(N ≠ 0) = 1` and laws with an occurrence at the origin that are invariant under the
+  shift to the next occurrence and have finite positive mean first interval.
 * Stationary renewal processes on the line.  For a probability measure `F` on `(0, ∞)` with
   mean `m ∈ (0, ∞)`, the Palm renewal law is the law of `∑_{n ∈ ℤ} δ_{S_n}` with `S₀ = 0`
   and two-sided i.i.d. increments of law `F`, built from `Measure.infinitePi`.  Prove that
@@ -1593,7 +1602,8 @@ theorem lintegral_volume_voronoiCell_palmProbability {N : Ω → PointMeasure (E
     (hfin : intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure (E d))) (unitCube d) < ∞)
     (hs : ∀ᵐ ω ∂P, (N ω).IsSimple) :
     ∫⁻ ξ, volume (voronoiCell ξ 0) ∂palmProbability P N =
-      (intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure (E d))) (unitCube d))⁻¹
+      (intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure (E d))) (unitCube d))⁻¹ *
+        P {ω | (N ω : Measure (E d)) ≠ 0}
 
 /-- The first occurrence of a point measure on the line strictly after the origin. -/
 def nextOccurrence (ξ : PointMeasure ℝ) : ℝ :=
@@ -1609,7 +1619,7 @@ theorem palmKhinchin_inversion {N : Ω → PointMeasure ℝ} (hN : Measurable N)
     (h0 : 0 < intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1))
     (hfin : intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) < ∞)
     (hs : ∀ᵐ ω ∂P, (N ω).IsSimple) {f : PointMeasure ℝ → ℝ≥0∞} (hf : Measurable f) :
-    ∫⁻ ω, f (N ω) ∂P =
+    ∫⁻ ω in {ω | (N ω : Measure ℝ) ≠ 0}, f (N ω) ∂P =
       intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) *
         ∫⁻ ξ, (∫⁻ t in Set.Ico (0 : ℝ) (nextOccurrence ξ), f (t +ᵥ ξ)) ∂linePalmProbability P N
 
@@ -1696,7 +1706,10 @@ Ceti.** `Measure.ext_of_forall_integral_exp_neg_natCast_mul_eq` and
   `bind_gammaMeasure_poissonMeasure`.  Shot-noise Cox processes on `E d`: the director
   `Λ(dx) = ∑_{y ∈ Φ} k(x - y) dx` for a stationary Poisson `Φ` of intensity `γ` and
   integrable `k ≥ 0`; prove local finiteness, `intensityDensity = γ ∫ k`, the covariance
-  measure, and, by Slivnyak, the Palm director `Λ + k(· - x) dx`.
+  measure, and, by the Mecke equation, that the Palm kernel of `Λ` at `x` is the law of
+  `Λ + k(· - Y) dx` with `Y` independent of `Φ` and distributed with density
+  `y ↦ k(x - y) / ∫ k`; by the Palm–Cox theorem the reduced Palm law of `N` at `x` is the
+  Cox law directed by it.
 
 **Key declarations.**
 
@@ -1793,18 +1806,22 @@ general-filtration existence of compensators is not a target.
 * Marked predictable integrands, measurable for `𝓕.predictable.prod mE`; predictable
   rectangles generate; left-continuous adapted processes are predictable; the monotone
   approximation of a nonnegative predictable integrand by simple predictable ones.
-* `IsCompensator P 𝓕 N A`: `A` is a random element of `MarkedLocallyFiniteMeasure ℝ≥0 E`,
-  each `(t, ω) ↦ A ω ((0,t] × B)` is predictable, and `𝔼 ∫ H dN = 𝔼 ∫ H dA` for every
-  nonnegative predictable `H`.  Prove that it suffices to test nonnegative left-continuous
-  adapted integrands, that two compensators agree almost surely as measures, and that the
-  compensator in a filtration enlarged by an independent σ-field is unchanged.
-* Existence for the internal history and its initial enlargements, by the hazard formula:
-  with regular conditional laws `G_{n+1}` of `(S_{n+1}, Z_{n+1})` given `𝓕_{T_n}`, where
-  `S_{n+1} = T_{n+1} - T_n`, and with the ratio read as zero where the survival function
-  `G_{n+1}([u - Tₙ, ∞) × E)` vanishes, which happens only beyond the support,
+* `IsCompensator P 𝓕 N A`: `N` is adapted to `𝓕`, `A` is a random element of
+  `MarkedLocallyFiniteMeasure ℝ≥0 E`, each `(t, ω) ↦ A ω ((0,t] × B)` is predictable, and
+  `𝔼 ∫ H dN = 𝔼 ∫ H dA` for every nonnegative predictable `H`.  Prove that it suffices to
+  test nonnegative left-continuous adapted integrands, that two compensators agree almost
+  surely as measures, and that the compensator in a filtration enlarged by an independent
+  σ-field is unchanged.
+* Existence for the internal history and its initial enlargements, for a time-simple `N`,
+  by the hazard formula.  Let `G_{n+1}` be a regular conditional law, given `𝓕_{Tₙ}`, of
+  the pair `(S_{n+1}, Z_{n+1})` on `ℝ≥0∞ × (E ⊕ Unit)`, where `S_{n+1} = T_{n+1} - Tₙ`, and
+  where `S_{n+1} = ∞` and `Z_{n+1}` is the cemetery mark `Sum.inr ()` when there is no
+  `(n+1)`st event; the survival function `G_{n+1}([u - Tₙ, ∞] × univ)` includes that mass at
+  `∞`.  With the ratio read as zero where the survival function vanishes, which happens only
+  beyond the support, and with `L ⊆ E` read inside `E ⊕ Unit`,
 
   ```text
-  A((0,t] × L) = ∑ₙ ∫_{(Tₙ ∧ t, Tₙ₊₁ ∧ t]} G_{n+1}(d(u - Tₙ) × L) / G_{n+1}([u - Tₙ, ∞) × E).
+  A((0,t] × L) = ∑ₙ ∫_{(Tₙ ∧ t, Tₙ₊₁ ∧ t]} G_{n+1}(d(u - Tₙ) × L) / G_{n+1}([u - Tₙ, ∞] × univ).
   ```
 
   Prove predictability, the compensator identity, and the mark formula
@@ -1816,14 +1833,15 @@ general-filtration existence of compensators is not a target.
   `volume ⊗ Q ⊗ P`, that it is then `volume ⊗ Q ⊗ P`-a.e. unique, that it survives an
   independent enlargement and any intermediate history containing the internal one, and
   that in the hazard formula with densities `g_{n+1}` it is
-  `λ(t, z) = g_{n+1}(t - Tₙ, z) / G_{n+1}([t - Tₙ, ∞) × E)` on `(Tₙ, Tₙ₊₁]`.
+  `λ(t, z) = g_{n+1}(t - Tₙ, z) / G_{n+1}([t - Tₙ, ∞] × univ)` on `(Tₙ, Tₙ₊₁]`.
 * Nonexplosion: `N(ℝ≥0 × E) < ∞` almost surely on `{∫₀^∞ ∫ λ dQ dt < ∞}` and
   `N(ℝ≥0 × E) = ∞` almost surely on the complement.
 * Martingales.  For predictable `H` with `𝔼 ∫_{(0,t] × E} |H| dA < ∞` for every `t`, the
   compensated pathwise integral `M_t = ∫_{(0,t] × E} H dN - ∫_{(0,t] × E} H dA` is a
-  martingale.  When `A` has no atoms in time and `𝔼 ∫_{(0,t] × E} H² dA < ∞`, `M` is
-  square integrable with `𝔼 M_t² = 𝔼 ∫_{(0,t] × E} H² dA`.  Time simplicity without
-  continuity of `A` is not enough for the second statement, and no bracket is defined.
+  martingale.  When `N` is time-simple, `A` has no atoms in time, and
+  `𝔼 ∫_{(0,t] × E} H² dA < ∞`, `M` is square integrable with
+  `𝔼 M_t² = 𝔼 ∫_{(0,t] × E} H² dA`.  Neither time simplicity nor continuity of `A` alone
+  is enough for the second statement, and no bracket is defined.
 
 **Key declarations.**
 
@@ -1857,19 +1875,24 @@ def initialEnlargement {Z' : Type*} [MeasurableSpace Z'] (Z : Ω → Z') (hZ : M
   mono' _ _ _ := le_rfl
   le' _ := hZ.comap_le
 
-/-- A marked predictable integrand. -/
-def IsPredictableIntegrand (𝓕 : Filtration ℝ≥0 mΩ) (H : ℝ≥0 × Ω × E → ℝ≥0∞) : Prop :=
+/-- A marked predictable integrand: measurable for the product of the predictable σ-field with the
+mark σ-field, into any measurable type.  A signed integrand is predictable as a map, not merely
+through its norm. -/
+def IsPredictableIntegrand {β : Type*} [MeasurableSpace β] (𝓕 : Filtration ℝ≥0 mΩ)
+    (H : ℝ≥0 × Ω × E → β) : Prop :=
   Measurable[(𝓕.predictable).prod inferInstance] fun q : (ℝ≥0 × Ω) × E => H (q.1.1, q.1.2, q.2)
 
-/-- `A` is a compensator of `N` in `𝓕`: a predictable random marked measure satisfying the
-integral identity against every nonnegative predictable integrand. -/
+/-- `A` is a compensator of `N` in `𝓕`: `N` is adapted to `𝓕`, and `A` is a predictable random
+marked measure satisfying the integral identity against every nonnegative predictable
+integrand. -/
 def IsCompensator (𝓕 : Filtration ℝ≥0 mΩ) (N : Ω → TemporalPointMeasure E)
     (A : Ω → MarkedLocallyFiniteMeasure ℝ≥0 E) : Prop :=
-  Measurable A ∧
+  (∀ t, Measurable[𝓕 t] fun ω => (N ω : Measure (ℝ≥0 × E)).restrict (Set.Iic t ×ˢ Set.univ)) ∧
+    Measurable A ∧
     (∀ B : Set E, MeasurableSet B →
       Measurable[𝓕.predictable] fun p : ℝ≥0 × Ω =>
         (A p.2 : Measure (ℝ≥0 × E)) (Set.Ioc 0 p.1 ×ˢ B)) ∧
-    ∀ H, IsPredictableIntegrand 𝓕 H →
+    ∀ H : ℝ≥0 × Ω × E → ℝ≥0∞, IsPredictableIntegrand 𝓕 H →
       ∫⁻ ω, ∫⁻ p, H (p.1, ω, p.2) ∂(N ω : Measure (ℝ≥0 × E)) ∂P =
         ∫⁻ ω, ∫⁻ p, H (p.1, ω, p.2) ∂(A ω : Measure (ℝ≥0 × E)) ∂P
 
@@ -1879,12 +1902,14 @@ theorem IsCompensator.ae_eq {𝓕 : Filtration ℝ≥0 mΩ} {N : Ω → Temporal
     ∀ᵐ ω ∂P, A ω = A' ω
 
 /-- The hazard compensator of the internal history enlarged by the initial random element `Z`,
-built from the regular conditional laws of the next interval and mark. -/
+built from the regular conditional laws of the next interval and mark, the interval `∞` and a
+cemetery mark standing for no further event. -/
 def hazardCompensator (P : Measure Ω) {Z' : Type*} [MeasurableSpace Z'] (Z : Ω → Z')
     (N : Ω → TemporalPointMeasure E) : Ω → MarkedLocallyFiniteMeasure ℝ≥0 E
 
 theorem isCompensator_hazardCompensator {Z' : Type*} [MeasurableSpace Z'] [StandardBorelSpace Z']
-    {Z : Ω → Z'} (hZ : Measurable Z) {N : Ω → TemporalPointMeasure E} (hN : Measurable N) :
+    {Z : Ω → Z'} (hZ : Measurable Z) {N : Ω → TemporalPointMeasure E} (hN : Measurable N)
+    (hs : ∀ᵐ ω ∂P, (N ω).IsTimeSimple) :
     IsCompensator P (initialEnlargement Z hZ ⊔ internalHistory N hN) N (hazardCompensator P Z N)
 
 /-- `N` has stochastic intensity `lam` relative to the reference measure `Q` in `𝓕`. -/
@@ -1902,7 +1927,7 @@ theorem HasStochasticIntensity.ae_eq {𝓕 : Filtration ℝ≥0 mΩ} {N : Ω →
 
 theorem martingale_compensated_integral {𝓕 : Filtration ℝ≥0 mΩ} {N : Ω → TemporalPointMeasure E}
     {A : Ω → MarkedLocallyFiniteMeasure ℝ≥0 E} (h : IsCompensator P 𝓕 N A)
-    {H : ℝ≥0 × Ω × E → ℝ} (hH : IsPredictableIntegrand 𝓕 fun q => ‖H q‖ₑ)
+    {H : ℝ≥0 × Ω × E → ℝ} (hH : IsPredictableIntegrand 𝓕 H)
     (hint : ∀ t, ∫⁻ ω, ∫⁻ p in Set.Ioc 0 t ×ˢ Set.univ, ‖H (p.1, ω, p.2)‖ₑ
       ∂(A ω : Measure (ℝ≥0 × E)) ∂P < ∞) :
     Martingale (fun t ω =>
@@ -1914,9 +1939,11 @@ theorem martingale_compensated_integral {𝓕 : Filtration ℝ≥0 mΩ} {N : Ω 
 initial enlargements, and the martingale theorem for compensated pathwise integrals.
 
 **Completion checks.** Compensators are predictable, not merely adapted; uniqueness is
-almost-sure equality of measures; martingale claims carry their integrability; the hazard
-formula reproduces `A(dt) = γ dt` for the homogeneous Poisson process and the deterministic
-atom `A({s}) = 1` for a process with one event at a fixed time `s`.
+almost-sure equality of measures; martingale claims carry their integrability; the
+definition, uniqueness, and martingale theorem allow simultaneous events, while existence
+by the hazard formula and the isometry assume time simplicity; the hazard formula
+reproduces `A(dt) = γ dt` for the homogeneous Poisson process and the deterministic atom
+`A({s}) = 1` for a process with one event at a fixed time `s`.
 
 ## Layer 11: Watanabe, random time change, and Poisson embedding
 
@@ -1950,9 +1977,9 @@ intensities, stopping times, and compensated martingales.
   `∫₀^T ∫ f(t, z) Q(dz) dt < ∞` almost surely for every `T`, the process
   `N(dt × dz) = Π(dt × dz × [0, f(t, z)])` is a `TemporalPointMeasure E`-valued process with
   stochastic intensity `f(t, z)` relative to `Q` in `𝓕`.  The representation theorem: every
-  process with stochastic intensity `f` relative to a probability `Q` is such a thinning
-  after enlarging the probability space by an independent unit Poisson random measure and
-  i.i.d. uniforms.
+  time-simple process with stochastic intensity `f` relative to a probability `Q` is such a
+  thinning after enlarging the probability space by an independent unit Poisson random
+  measure and i.i.d. uniforms.
 * Existence and pathwise uniqueness for intensity functionals.  For a causal measurable
   `ψ(t, z, ξ|_{(0,t)})` with the Lipschitz bound
   `|ψ(t, z, ξ) - ψ(t, z, ξ')| ≤ ∫ h(t - s, z, η) |ξ - ξ'|(ds × dη)` and a kernel `h`
@@ -2115,9 +2142,10 @@ relative to `volume`.
 * Convergence from the empty past: couple the half-line construction with the stationary
   process through a common immigrant Poisson process on `ℝ` and common clusters; the two
   differ on `(T, T + L]` only through clusters of immigrants in `(-∞, 0]`, whose expected
-  count on `(T, ∞)` is `ν ∫_T^∞ ∑ₙ h^{*n}(u) (u - T) du`-controlled and tends to zero.
-  Deduce total-variation convergence of the laws of the restrictions to `(T, T + L]` as
-  `T → ∞` for every `L`, and convergence of the mean intensity to `ν/(1 - m)`.
+  number of points in `(T, T + L]` is at most `ν L ∫_T^∞ ∑ₙ h^{*n}(u) du`, which tends to
+  zero because `∑ₙ h^{*n}` is integrable.  Deduce total-variation convergence of the laws
+  of the restrictions to `(T, T + L]` as `T → ∞` for every `L`, and convergence of the mean
+  intensity to `ν/(1 - m)`.
 * The cluster-Palm decomposition, as Layer 6's cluster-Palm formula: the ordinary Palm law
   is an independent copy of the stationary Hawkes process superposed with an immigrant
   cluster sampled proportionally to its size and shifted so the sampled member sits at
@@ -2154,11 +2182,11 @@ def IsEmptyPastHawkes (ν : ℝ) (h : ℝ → ℝ≥0) (N : Ω → PointMeasure 
       (Measure.dirac ()) fun q => hawkesIntensity ν h (N q.2.1) q.1
 
 /-- The law of the family tree of an ancestor at `x`, with Poisson offspring at age intensity
-`h(s) ds`. -/
+`h(s) ds`; the theorems below assume `h` vanishes on `(-∞, 0]`. -/
 def hawkesClusterKernel (h : ℝ → ℝ≥0) : Kernel ℝ (Measure ℝ)
 
-theorem lintegral_count_hawkesClusterKernel {h : ℝ → ℝ≥0} (hint : Integrable (fun s => (h s : ℝ)))
-    (hm : ∫ s, (h s : ℝ) < 1) (x : ℝ) :
+theorem lintegral_count_hawkesClusterKernel {h : ℝ → ℝ≥0} (hsupp : ∀ s ≤ 0, h s = 0)
+    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) (x : ℝ) :
     ∫⁻ ζ, ζ Set.univ ∂hawkesClusterKernel h x = ENNReal.ofReal (1 / (1 - ∫ s, (h s : ℝ)))
 
 /-- The stationary Hawkes law: the Poisson cluster process with immigrant intensity `ν • volume`
@@ -2166,20 +2194,24 @@ and the Hawkes cluster kernel. -/
 def stationaryHawkesLaw (ν : ℝ) (h : ℝ → ℝ≥0) : Measure (PointMeasure ℝ)
 
 theorem vaddInvariantMeasure_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) :
+    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (hm : ∫ s, (h s : ℝ) < 1) :
     VAddInvariantMeasure ℝ (PointMeasure ℝ) (stationaryHawkesLaw ν h)
 
 theorem intensityDensity_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) :
+    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (hm : ∫ s, (h s : ℝ) < 1) :
     intensityDensity (stationaryHawkesLaw ν h) (fun ξ : PointMeasure ℝ => (ξ : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) =
       ENNReal.ofReal (ν / (1 - ∫ s, (h s : ℝ)))
 
 theorem hasHawkesIntensity_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) :
+    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (hm : ∫ s, (h s : ℝ) < 1) :
     HasHawkesIntensity (stationaryHawkesLaw ν h) ν h id
 
 theorem map_eq_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
+    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
     (hN : HasHawkesIntensity P ν h N) [VAddInvariantMeasure ℝ (PointMeasure ℝ) (P.map N)]
     (hfin : intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) < ∞) :
     P.map N = stationaryHawkesLaw ν h
@@ -2187,10 +2219,11 @@ theorem map_eq_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < �
 /-- Convergence from the empty past, in total variation on every window `(0, L]` after
 translation by `T`. -/
 theorem tendsto_emptyPast_restrict {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
+    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
     (hN : IsEmptyPastHawkes P ν h N) (L : ℝ) :
     Tendsto (fun T : ℝ => ⨆ s : {s : Set (PointMeasure ℝ) // MeasurableSet s},
-        dist ((P.map fun ω => ((-T) +ᵥ N ω).restrict (Set.Ioc 0 L)) s).toReal
+        dist ((P.map fun ω => (T +ᵥ N ω).restrict (Set.Ioc 0 L)) s).toReal
           (((stationaryHawkesLaw ν h).map fun ξ => ξ.restrict (Set.Ioc 0 L)) s).toReal)
       atTop (𝓝 0)
 ```
