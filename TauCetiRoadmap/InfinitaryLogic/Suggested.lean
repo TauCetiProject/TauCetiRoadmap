@@ -10,8 +10,7 @@ Lean `sorry`-forms (allowed in this human-owned roadmap library) for *particular
 that contributors and reviewers converge on names and signatures; discharging every statement here
 neither finishes a layer nor the roadmap.
 
-This file records the currently proposed Layer 0–2 signatures. Layer 3 targets remain in
-`README.md` until their dependencies are expressible. Names and namespaces are provisional.
+This file records representative Layer 0–3 signatures. Names and namespaces are provisional.
 -/
 
 set_option autoImplicit false
@@ -332,6 +331,86 @@ theorem SelfStabilizesCompletely.bfEquiv_of_le {M : Type w} [L.Structure M] {α 
 refinement stabilizes at a countable ordinal. Only `[Countable M]` is needed. -/
 theorem exists_complete_self_stabilization (M : Type w) [L.Structure M] [Countable M] :
     ∃ α < (Ordinal.omega 1 : Ordinal.{w}), SelfStabilizesCompletely (L := L) M α := by
+  sorry
+
+namespace BoundedFormulaInf
+
+variable {ι : Type uι} {α : Type u'} {n : ℕ}
+
+/-- Negation. -/
+protected def not (φ : BoundedFormulaInf L ι α n) : BoundedFormulaInf L ι α n := imp φ falsum
+
+/-- Binary conjunction, by De Morgan. -/
+protected def and (φ ψ : BoundedFormulaInf L ι α n) : BoundedFormulaInf L ι α n :=
+  (φ.imp ψ.not).not
+
+/-- Existential quantification over the last bound position. -/
+protected def ex (φ : BoundedFormulaInf L ι α (n + 1)) : BoundedFormulaInf L ι α n :=
+  φ.not.all.not
+
+end BoundedFormulaInf
+
+/-- The `Encodable` coding of `ι` into `ℕ`, along an explicitly supplied encoding. -/
+def IndexCoding.ofEncodableWith {ι : Type uι} (e : Encodable ι) : IndexCoding ι ℕ :=
+  ⟨e.encode, e.decode, e.encodek⟩
+
+instance AtomicIdx.countable [Countable (Σ l, L.Relations l)] {n : ℕ} :
+    Countable (AtomicIdx L n) := by
+  have (l : ℕ) : Countable (L.Relations l) :=
+    Function.Injective.countable (f := fun R => (⟨l, R⟩ : Σ l, L.Relations l))
+      (fun _ _ h => by injection h)
+  refine Countable.of_equiv (Fin n × Fin n ⊕ (Σ l, L.Relations l × (Fin l → Fin n))) ?_
+  exact
+    { toFun := fun | .inl ⟨i, j⟩ => .eq i j | .inr ⟨_, R, f⟩ => .rel R f
+      invFun := fun | .eq i j => .inl ⟨i, j⟩ | .rel R f => .inr ⟨_, R, f⟩
+      left_inv := fun | .inl ⟨_, _⟩ => rfl | .inr ⟨_, _, _⟩ => rfl
+      right_inv := fun | .eq _ _ => rfl | .rel _ _ => rfl }
+
+/-- The atomic formula of an index, on the bound positions of an `n`-tuple. -/
+def AtomicIdx.formula {n : ℕ} : AtomicIdx L n → BoundedFormulaω L Empty n
+  | .eq i j => .equal (Term.var (Sum.inr i)) (Term.var (Sum.inr j))
+  | .rel R f => .rel R fun k => Term.var (Sum.inr (f k))
+
+/-- **Layer 3, the atomic diagram** of a tuple: over every atomic index, the atomic formula if it
+holds of `a` and its negation otherwise. Countable because the language's relations are. -/
+noncomputable def atomicDiagram [Countable (Σ l, L.Relations l)] {M : Type w} [L.Structure M]
+    {n : ℕ} (a : Fin n → M) : BoundedFormulaω L Empty n := by
+  classical
+  exact BoundedFormulaInf.iInfAlong
+    (IndexCoding.ofEncodableWith (Encodable.ofCountable (AtomicIdx L n)))
+    fun idx => if idx.holds a then idx.formula else idx.formula.not
+
+/-- **Layer 3, the canonical Scott formulas** `θ^M_{α,a}`, with the tuple in bound positions. The
+recursion mirrors `BFEquiv`: the atomic diagram at `0`; at a successor, the previous formula, the
+forth clause `⋀_{c ∈ M} ∃ y, θ_{β, a c}`, and the back clause `∀ y, ⋁_{c ∈ M} θ_{β, a c}`; at a
+limit `β < ω₁`, the conjunction of the earlier stages. Every index family is coded into the fixed
+carrier `ℕ`. Limits `≥ ω₁` never arise in Scott analysis and get `⊤`. -/
+noncomputable def scottFormula [Countable (Σ l, L.Relations l)] {M : Type w} [L.Structure M]
+    [Countable M] {n : ℕ} (a : Fin n → M) (α : Ordinal.{w}) : BoundedFormulaω L Empty n := by
+  classical
+  let cM : IndexCoding M ℕ := IndexCoding.ofEncodableWith (Encodable.ofCountable M)
+  exact Ordinal.limitRecOn (motive := fun _ => (k : ℕ) → (Fin k → M) → BoundedFormulaω L Empty k) α
+    (fun _ a' => atomicDiagram a')
+    (fun _ ih k a' =>
+      (ih k a').and
+        ((BoundedFormulaInf.iInfAlong cM fun m => (ih (k + 1) (snoc a' m)).ex).and
+          (BoundedFormulaInf.iSupAlong cM fun m => ih (k + 1) (snoc a' m)).all))
+    (fun β _ ih k a' =>
+      if hβ : β < Ordinal.omega 1 then
+        haveI : Countable (Set.Iio β) := (Cardinal.countable_Iio_of_lt_omega_one hβ).to_subtype
+        BoundedFormulaInf.iInfAlong
+          (IndexCoding.ofEncodableWith (Encodable.ofCountable (Set.Iio β)))
+          fun γ => ih γ.1 γ.2 k a'
+      else ⊤)
+    n a
+
+/-- **Layer 3 milestone, the characteristic theorem of the Scott formulas.** Against **every**
+structure `N` — of any cardinality and in any universe — a tuple `b` satisfies `θ^M_{α,a}` exactly
+when it is `BFEquiv α` to `a`, for every `α < ω₁`. -/
+theorem realize_scottFormula_iff_bfEquiv [Countable (Σ l, L.Relations l)] {M : Type w}
+    [L.Structure M] [Countable M] {N : Type w'} [L.Structure N] {n : ℕ} (a : Fin n → M)
+    (b : Fin n → N) {α : Ordinal.{w}} (hα : α < Ordinal.omega 1) :
+    (scottFormula (L := L) a α).Realize Empty.elim b ↔ BFEquiv (L := L) α n a b := by
   sorry
 
 end TauCetiRoadmap.InfinitaryLogic

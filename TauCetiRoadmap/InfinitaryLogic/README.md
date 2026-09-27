@@ -508,8 +508,18 @@ TauCeti/ModelTheory/Scott/Sentence.lean
 
 Build, consuming Layer 2's internal stabilization:
 
-* the canonical Scott formulas `scottFormula α a` by ordinal recursion, with the `< ω₁` guard and the
-  atomic / successor / limit cases;
+* the atomic diagram `atomicDiagram a`: over every `AtomicIdx L n`, the atomic formula if it holds
+  of `a` and its negation otherwise — a countable conjunction because `L`'s relations are countable;
+* the canonical Scott formulas `scottFormula a α : BoundedFormulaω L Empty n` (written `θ^M_{α,a}`),
+  for a countable `M`, with the tuple in bound positions, by ordinal recursion mirroring `BFEquiv`:
+  the atomic diagram at `0`; at a successor, the previous formula, the forth clause
+  `⋀_{c ∈ M} ∃ y, θ^M_{β, a c}`, and the back clause `∀ y, ⋁_{c ∈ M} θ^M_{β, a c}`; at a limit
+  `β < ω₁`, the conjunction of the earlier stages. Every index family (atomic indices, elements of
+  `M`, ordinals below `β`) is coded into the fixed carrier `ℕ` with `IndexCoding.ofEncodableWith`;
+  limits `≥ ω₁` never arise and may be sent to `⊤`;
+* the characteristic theorem `realize_scottFormula_iff_bfEquiv`: for **every** structure `N`, of any
+  cardinality and in any universe, and every `α < ω₁`, a tuple `b` of `N` satisfies `θ^M_{α,a}`
+  exactly when `BFEquiv α n a b`. That `a` satisfies its own formula is the special case `b = a`;
 * `scottRank` and `scottHeight`, their interoperability, and `scottRank_lt_omega1` (from internal
   stabilization);
 * `scottSentence M`, the conjunction characterizing `M` among countable structures;
@@ -519,8 +529,9 @@ Build, consuming Layer 2's internal stabilization:
 Key milestones:
 
 ```lean
+atomicDiagram
 scottFormula
-scottFormula_realize_self
+realize_scottFormula_iff_bfEquiv
 scottRank
 scottHeight
 scottRank_lt_omega1
