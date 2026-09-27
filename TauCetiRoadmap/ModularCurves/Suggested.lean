@@ -1275,6 +1275,28 @@ prime and `ker_baseChange_of_noZeroSMulDivisors_coker` applied over `ℤ[1/3]` a
 theorem coarseJLine (R : CommRingCat.{u}) : IsCoarseJLine R :=
   sorry
 
+/-! ## Layer 9D: smoothness of finite quotients
+
+The generic theorem behind the interior smoothness of the compactified curves of README Layer 10,
+stated for an arbitrary categorical quotient of a smooth affine relative curve over a regular
+locally noetherian base. Its application to `Y₁(N)/ℤ[1/N]` with its diamond action, giving the
+smoothness of every `Y_H`, is README Layer 9D; no modular object occurs in the signature. -/
+
+section Layer9D
+
+/-- KM, Notes Added in Proof, pp. 508–509: a finite quotient of a smooth affine relative curve
+over a regular locally noetherian base is again a smooth relative curve. No invertibility of the
+order of `H` on the base is assumed, which is what makes the statement usable in residue
+characteristics `2` and `3`. -/
+theorem smoothOfRelativeDimension_one_of_isCategoricalQuotient {S Y Q : Scheme.{u}}
+    [IsLocallyNoetherian S] (_hS : ∀ s : S, IsRegularLocalRing (S.presheaf.stalk s))
+    (f : Y ⟶ S) [IsAffineHom f] [SmoothOfRelativeDimension 1 f] (g : Q ⟶ S)
+    {H : Type u} [Group H] [Finite H] (ρ : H →* Aut (Over.mk f)) (q : Over.mk f ⟶ Over.mk g)
+    (_hq : IsCategoricalQuotient ρ q) : SmoothOfRelativeDimension 1 g :=
+  sorry
+
+end Layer9D
+
 /-! ## Layer 10: relative-normalisation infrastructure
 
 These declarations concern arbitrary qcqs maps of schemes. They are not assertions that an

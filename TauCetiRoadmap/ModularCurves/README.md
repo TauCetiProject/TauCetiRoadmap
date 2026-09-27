@@ -74,11 +74,12 @@ The exact contracts consumed from the Jacobian Challenge are:
 ⚠ **These are contracts, and a contract becomes an import exactly when its supplier states it.**
 Where a supplier roadmap states declarations, this roadmap type-checks the boundary against them
 rather than describing it — `Suggested.lean` does so for the Elliptic Curves roadmap, in that
-file's §Contracts consumed from the Elliptic Curves roadmap. `TauCetiRoadmap.JacobianChallenge.Suggested`
-is imported and the three contracts above are `#check`ed on the same rule, keyed to that roadmap
-stating them; a `#check` against names a supplier has not stated would have to invent them, which
-is the failure mode this roadmap avoids everywhere else. The imports of `Suggested.lean` are
-therefore Mathlib and the Elliptic Curves roadmap.
+file's §Contracts consumed from the Elliptic Curves roadmap. The same rule governs the Jacobian
+Challenge: `TauCetiRoadmap.JacobianChallenge.Suggested` will be imported, and the three contracts
+above `#check`ed against its declarations, once that roadmap states them. Until it does, it is
+**not** imported, and the contracts stay prose — a `#check` against names a supplier has not
+stated would have to invent them, which is the failure mode this roadmap avoids everywhere else.
+The imports of `Suggested.lean` are therefore Mathlib and the Elliptic Curves roadmap.
 
 The fppf descent statements for line bundles and the additional scheme data used here are proved
 in Layer 0E from the shared descent infrastructure; they are not attributed to the field-valued
@@ -1903,7 +1904,29 @@ coarse formation need not commute with arbitrary base change. Its examples use g
 modular forms for `[ω]` and `[Δ=1]`; since modular forms are outside this roadmap, that calculation
 is not a formalisation target here.
 
-**Dependencies.** Layers 0C, 4C, 9A, and the finite invariant-quotient API.
+**Smoothness of finite quotients** (KM, Notes Added in Proof, pp. 508–509). State and prove, as a
+milestone of its own, the theorem on which the interior geometry of Layer 10 stands: for a regular
+noetherian scheme `S`, a smooth affine relative curve `Y ⟶ S`, and a finite group `H` acting on
+`Y` by `S`-automorphisms, the invariant quotient `Y/H` of Layer 0C is again a smooth relative
+curve over `S`. ⚠ **No hypothesis that `|H|` be invertible on `S`.** This is what makes the
+theorem usable over `ℤ[1/N]` in residue characteristics `2` and `3`, where the diamond group has
+even order and, for `N ≡ 1 mod 3`, order divisible by `3`; the invertible-order case would not
+cover the class of Layer 10. ⚠ Regularity of the total space together with flatness over `S` is
+**not** a proof and must not be offered as one: over a discrete valuation ring `R` with
+uniformiser `π`, `Spec R[x,y]/(xy − π)` is regular and flat over `R` with a singular closed fibre.
+The Lean statement is `smoothOfRelativeDimension_one_of_isCategoricalQuotient` in
+`Suggested.lean`, for an arbitrary categorical quotient of a smooth affine relative curve over a
+regular locally noetherian base.
+
+Apply it once, in the vocabulary of Layer 10: `Y₁(N)/ℤ[1/N]` is a smooth affine relative curve
+(Layer 5A) carrying the diamond action `P ↦ aP` of Layer 9B, on which `−1` acts trivially, so for
+every `H ≤ (ℤ/Nℤ)ˣ/{±1}` the quotient `Y_H := Y₁(N)/H` is a smooth affine relative curve over
+`ℤ[1/N]`; by KM 8.1.5 above it is the coarse scheme `M([Γ₁(N)]/H)`. The interior smoothness of
+`Y_H` used in Layer 10 is this application and nothing else. Smoothness of `Y_H` is not deduced
+from KM 7.5.1's regularity of `𝒫/H` (Layer 9C), which gives a regular total space, not a smooth
+morphism to `ℤ[1/N]`.
+
+**Dependencies.** Layers 0C, 4C, 5A, 9A–9B, and the finite invariant-quotient API.
 
 ### 9E. The coarse `j`-line and `Y₀(N)`
 
@@ -2042,7 +2065,11 @@ items 1–2 are asserted for **every** member of the class; item 3 concerns the 
    `AlgebraicGeometry/Normalization.lean` — so the generic definition exists the moment the morphism
    `Y_H ⟶ ℙ¹_j` does. What is genuinely missing is the modular-curve work, and those are the
    milestones: `fromNormalization` is **finite** in this situation; the restriction of `X_H`
-   over `𝔸¹_j` is identified with `Y_H`; `X_H` is a smooth proper relative curve over `ℤ[1/N]` — with,
+   over `𝔸¹_j` is identified with `Y_H`; `X_H` is a smooth proper relative curve over `ℤ[1/N]` —
+   smooth on the interior `Y_H` by Layer 9D's quotient-smoothness theorem (KM, Notes Added in
+   Proof) applied to `Y₁(N)` with its diamond action, and smooth along the boundary by item 2's
+   formal-cusp calculation, **two separate inputs**, the first of which is a theorem consumed
+   from Layer 9D and not a consequence of regularity and flatness — with,
    as everywhere in this roadmap, **no** connectedness or irreducibility assertion (§Scope, and
    the fixed-pairing warning of Layer 5B stands); and `Y_H ⊆ X_H` is the open complement of the
    fibre over `j = ∞`. ⚠ **The uniqueness statement is the literal universal property of
@@ -2079,12 +2106,16 @@ items 1–2 are asserted for **every** member of the class; item 3 concerns the 
    order of Layers 10.1–10.2 is — define `X_H`; prove `fromNormalization` finite and identify
    the restriction over `𝔸¹_j` with `Y_H`; carry out the formal-cusp calculation; deduce that
    `Cusps_H` is a relative effective Cartier divisor, that `X_H` is smooth along the boundary,
-   and hence that `Y_{H,k}` stays schematically dense in every geometric fibre; only then prove
+   and hence that `Y_{H,k}` stays schematically dense in every geometric fibre; bring in the
+   interior smoothness of `Y_H` — Layer 9D's quotient-smoothness theorem (KM, Notes Added in
+   Proof) applied to `Y₁(N)` with its diamond action — which together with the boundary
+   smoothness just proved makes all of `X_H` smooth over `ℤ[1/N]`; only then prove
    this comparison, in four explicit steps: the comparison is the identity over the
    schematically dense open `Y_{H,k}`; it is finite; both schemes are normal, with every
    component meeting that open; and the resulting finite birational map is an isomorphism
-   component by component. The normality of the source uses normality of `Y_{H,k}` and
-   the relative integral-closure construction; that of the target uses smoothness. Do not
+   component by component. The normality of the source uses normality of `Y_{H,k}` — the base
+   change of the interior smoothness — and the relative integral-closure construction; that of
+   the target uses the smoothness of `X_H` assembled in the previous step. Do not
    apply a finite-birational criterion to an arbitrary nonreduced source or one with extra
    components. The density statement also needs its relative hypothesis: because the cusp
    divisor is Cartier and flat over the base, its local nonzerodivisor equations remain
@@ -2212,7 +2243,9 @@ items 1–2 are asserted for **every** member of the class; item 3 concerns the 
    hands over.
 
 **Dependencies.** Layer 8 (`[Γ₀(N)]`, `[N-Isog]`-transposition for `w_N`), Layer 9 (quotients,
-coarse schemes, the `j`-line), Mathlib's relative-normalisation API (present at the pin; the
+coarse schemes, the `j`-line, and — for the interior smoothness of every `Y_H` — 9D's
+quotient-smoothness theorem, KM Notes Added in Proof pp. 508–509, applied to `Y₁(N)` with its
+diamond action), Mathlib's relative-normalisation API (present at the pin; the
 finiteness of `fromNormalization` in this situation is a milestone here, not a carrier gap),
 the formal-cusp package of item 2 (built here), the elliptic-curves
 roadmap's `Aut(E)` carrier — the characteristic-`2`/`3` classification and normaliser
@@ -2317,19 +2350,23 @@ rather than built:
    (item 1) — this layer, on Mathlib's normalisation carrier;
 3. the Cartier-divisor and boundary-smoothness statements for `Cusps_H` (item 2) — this
    layer, standing on 1;
-4. the geometric-fibre base-change theorem for the normalisation (item 1, in the four steps
-   stated there) — this layer, standing on 3;
-5. extension of the Galois covering over the fixed `j`-line using 2 and the normalisation
+4. interior smoothness: every `Y_H` is a smooth affine relative curve over `ℤ[1/N]` — consumed
+   from Layer 9D, whose quotient-smoothness theorem (KM, Notes Added in Proof, pp. 508–509) is
+   applied to `Y₁(N)` with its diamond action; with 2 and 3 this makes all of `X_H` smooth,
+   which is the normality of the target used in 5;
+5. the geometric-fibre base-change theorem for the normalisation (item 1, in the four steps
+   stated there) — this layer, standing on 3 and 4;
+6. extension of the Galois covering over the fixed `j`-line using 2 and the normalisation
    universal property; separately, extension of `w_N` using the formal-cusp package in 1,
    the finite extension of `j ∘ w_N`, and the second normalisation identification in item 2;
-6. the characteristic-`2`/`3` automorphism classification and normaliser computations
+7. the characteristic-`2`/`3` automorphism classification and normaliser computations
    (item 3) — this layer, on the elliptic-curves roadmap's `Aut(E)` carrier;
-7. the different and Riemann–Hurwitz package (item 3) — consumed from the
+8. the different and Riemann–Hurwitz package (item 3) — consumed from the
    [Algebraic Curves roadmap](../AlgebraicCurves/README.md), Layers 7–9 through its Layer 12
    dictionary, as itemised at item 3; the fibrewise Euler-characteristic constancy is this
-   layer's, standing on 2–4;
-8. the miracle-flatness half of the Shimura covering's étaleness (item 4) — this layer,
-   standing on 2–6.
+   layer's, standing on 2–5;
+9. the miracle-flatness half of the Shimura covering's étaleness (item 4) — this layer,
+   standing on 2–7.
 
 This list is the dependency contract: no statement of this layer or of §The Mazur interface
 consumes an entry ahead of its position.
