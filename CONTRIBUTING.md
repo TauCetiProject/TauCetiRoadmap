@@ -99,7 +99,9 @@ There are several important aspects of reviewing a roadmap PR. A review may addr
 several of them, and different reviewers can contribute different expertise.
 A human reviewer can give a useful assessment of the scope and overall approach without
 independently repeating every detailed check; the review should make clear which aspects they
-assessed.
+assessed. Because an approval from a roadmap reviewer merges the PR once the build is green,
+leave an assessment of scope and approach alone as a comment. Approve only once the detailed
+aspects have also been covered, whether by your own review or by other reviews you have checked.
 
 | Aspect | Review question | What to emphasize |
 | --- | --- | --- |
