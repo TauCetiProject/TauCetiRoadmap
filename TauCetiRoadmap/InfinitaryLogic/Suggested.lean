@@ -164,12 +164,6 @@ theorem realize_toInf {ι : Type uι} {α : Type u'} {M : Type w} [L.Structure M
     (toInf (ι := ι) φ).Realize v xs ↔ φ.Realize v xs := by
   sorry
 
-/-- **Layer 0 milestone, the language-size bridge.** For a relational language, Mathlib's single
-cardinal bound coincides with the countability instance carried by the Scott/Karp statements. -/
-theorem card_le_aleph0_iff_countable_relations [L.IsRelational] :
-    L.card ≤ Cardinal.aleph0 ↔ Countable (Σ n, L.Relations n) := by
-  sorry
-
 /-- **Layer 1, atomic indices.** The atomic formulas of a relational language in `n` variables:
 an equality between two positions, or a relation symbol applied to positions. Nullary relation
 symbols (`l = 0`) are included, so a nullary fact is part of the atomic type of every tuple,

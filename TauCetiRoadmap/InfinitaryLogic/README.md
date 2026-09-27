@@ -227,8 +227,8 @@ development — object API, milestone theorems, and acceptance examples — not 
 
 | Layer | Consumes | Builds | Acceptance check (compiles without later layers) |
 |---|---|---|---|
-| L0 | Mathlib `FirstOrder.Language`, `Term`, `BoundedFormula`, `Encodable`, `Cardinal` | the fixed-carrier syntax + ω abbrev, `Realize`, `IndexCoding` + `iInfAlong`/`iSupAlong` + `reindex`, `toInf`, substitution/relabel/recursion API | `realize_toInf` on a finitary `φ` |
-| L1 | L0; Mathlib `FGEquiv`, `IsExtensionPair`, and the countably-generated-structure API | `BFEquiv`, `PotentialIso`, Karp, `countable_potentialIso_iff_iso`, the countability bridges | `Countable M → Structure.CG L M` |
+| L0 | Mathlib `FirstOrder.Language`, `Term`, `BoundedFormula`, `Encodable` | the fixed-carrier syntax + ω abbrev, `Realize`, `IndexCoding` + `iInfAlong`/`iSupAlong` + `reindex`, `toInf`, substitution/relabel/recursion API | `realize_toInf` on a finitary `φ` |
+| L1 | L0; Mathlib `FGEquiv`, `IsExtensionPair`, and the countably-generated-structure API | `BFEquiv`, `PotentialIso`, tuple systems, Karp, `countable_potentialIso_iff_iso` | two empty structures differing on a nullary relation are not `BFEquiv 0` |
 | L2 | L0, L1; Mathlib `Countable`, `Ordinal.omega` | `SelfStabilizesCompletely`, upward propagation, `exists_complete_self_stabilization` | every pure set self-stabilizes completely at `0` |
 | L3 | L1, L2 | `atomicDiagram`, `scottFormula`, `realize_scottFormula_iff_bfEquiv`, `scottSentenceAt`, `scottSentence`, `scott_isomorphism`, `internalScottRank`, `internalScottRank_lt_omega_one` | the Scott sentence of a fixed finite structure |
 
@@ -290,11 +290,7 @@ beats, each a coherent reviewable unit:
   ℕ-carried `iSup`/`iInf`, so use a set/`support` formulation, not a `Finset`. The derived
   connectives `and`, `or`, and `iff` are likewise defined at every carrier;
 * quantifier rank, valued in the carrier's ordinal universe, with the exact transport milestone
-  `qrank_reindex` along `reindex`, stated with `Ordinal.lift`;
-* the **language-size bridge**, pinned in `Suggested.lean` as
-  `card_le_aleph0_iff_countable_relations` (for relational `L`,
-  `L.card ≤ ℵ₀ ↔ Countable (Σ n, L.Relations n)`), relating the countability instance carried by
-  the Scott/Karp statements to Mathlib's single cardinal bound.
+  `qrank_reindex` along `reindex`, stated with `Ordinal.lift`.
 
 Two further APIs are not targets of this roadmap, because nothing on the path to the Scott summit
 uses them: a formula-sensitive countability predicate (bounding the branch families one formula
@@ -329,7 +325,6 @@ realize_congr_freeVarSupport
 qrank_reindex
 toInf
 realize_toInf
-card_le_aleph0_iff_countable_relations
 ```
 
 **Acceptance example:** `realize_toInf` for a single finitary `φ` — compiles once Beat 1 exists,
@@ -399,9 +394,9 @@ Build on Mathlib's `PartialEquiv` / `FGEquiv` / `IsExtensionPair`:
   most naturally proved with tuple systems, while `PotentialIso` stays in Mathlib's `FGEquiv`
   vocabulary; this bridge lets each side use its natural form;
 * the **countable-generation bridge** from `[Countable M]` to Mathlib's `Structure.CG`, so
-  `equiv_between_cg` / `embedding_from_cg` apply — cite `Structure.cg_of_countable` as the ready-made
-  bridge, and note `Structure.cg_iff_countable` additionally needs countable function symbols (free for
-  relational `L`, so do not state the iff unguarded);
+  `equiv_between_cg` / `embedding_from_cg` apply: this is Mathlib's `Structure.cg_of_countable`, so
+  consume it rather than restating it. Note that `Structure.cg_iff_countable` additionally needs
+  countable function symbols (free for relational `L`, so do not state the iff unguarded);
 * `InfEquivAt L κ M N`, L∞ω-elementary equivalence at a fixed carrier `κ` (agreement on all
   `κ`-carried sentences), with `InfEquivW` (external quantification over all carriers in the
   structure universe) as the full notion and `InfEquivAt.of_reindex` transporting agreement along
@@ -426,12 +421,11 @@ karp_theorem_at         -- codings of M and N into a common carrier κ:
 karp_theorem            -- the packaged corollary: potential isomorphism ↔ InfEquivW,
                         --   via the canonical carrier M ⊕ N and its two sum codings
 potentialIso_of_isExtensionPair  -- one-way bridge from Mathlib's global extension property (S = univ)
-cg_of_countable_structure   -- [Countable M] → Structure.CG L M (bridge to equiv_between_cg)
 countable_potentialIso_iff_iso   -- on countable structures, potential iso ↔ isomorphism
 ```
 
-**Acceptance example:** the countable-generation bridge `[Countable M] → Structure.CG L M` — compiles
-on Layer 0 + Mathlib, before the Karp summit.
+**Acceptance example:** two empty structures that differ on a nullary relation are not `BFEquiv 0`
+— compiles on Layer 0 + Mathlib, before the Karp summit.
 
 ⚠ **API warning.** Do **not** define potential isomorphism by Mathlib's `IsExtensionPair`: that
 property quantifies over *all* finitely generated partial equivalences (the
