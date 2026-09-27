@@ -21,11 +21,12 @@ hub and compared to the other presentations. Layers 1 through 8 end in the class
 compact surfaces; layers 9 and 10 build mapping class groups and planarity on top of it.
 
 The file therefore pins more object-level vocabulary than many roadmaps do. Where the README
-shapes a definition after an open Mathlib pull request, as for connectivity, degree, minors,
-and drawings of Mathlib's `Graph α β`, this file compiles the shape that needs no new Mathlib
-vocabulary and records the rest as comments, rather than introducing a private synonym to make
-the targets parse. A condition that cannot yet be stated honestly is omitted rather than
-replaced by `Prop := sorry`.
+shapes a definition after an open Mathlib pull request, as for degree, minors, and drawings of
+Mathlib's `Graph α β` (connectivity, components, and `k`-vertex-connectivity are consumed from
+`GraphConnectivityAndFlows` and not redefined here), this file compiles the shape that needs no
+new Mathlib vocabulary and records the rest as comments, rather than introducing a private
+synonym to make the targets parse. A condition that cannot yet be stated honestly is omitted
+rather than replaced by `Prop := sorry`.
 -/
 
 noncomputable section
@@ -509,12 +510,11 @@ def SignedRotationSystem {α β : Type u} (Γ : Graph α β) : Type u :=
   sorry
 
 /-!
-Connectivity and degree of `Graph α β` are targets shaped after the open Mathlib pull
-requests (connected graphs as self-components, degree by incidence counting); the PL subclass
-of drawings needs `PlanarTopology`'s triangulations; and the correspondence needs the
-equivalence of drawings. Once these are pinned:
+Degree of `Graph α β` is a target shaped after the open Mathlib pull request (mathlib4 #38326,
+degree by incidence counting, a loop counting twice); connectivity is `GraphConnectivityAndFlows`'
+`Graph.Connected`; the PL subclass of drawings needs `PlanarTopology`'s triangulations; and the
+correspondence needs the equivalence of drawings. Once these are pinned:
 
-  def Graph.IsConnected (Γ : Graph α β) : Prop
   noncomputable def Graph.degree (Γ : Graph α β) (v : α) : ℕ       -- a loop counts twice
   def Drawing.IsPL (D : Drawing Γ M) : Prop      -- the support is a subcomplex of a triangulation
   def Drawing.Equiv (D D' : Drawing Γ M) : Prop
@@ -769,7 +769,9 @@ Planarity is combinatorial: a plane map is a rotation system that is spherical o
 so of Euler characteristic twice the component count, and the drawing characterization is layer
 5's correspondence. Simple-graph theorems are stated for
 `G : SimpleGraph V` with `V` finite and planarity of `Graph.ofSimpleGraph G`; minors,
-topological minors, and 3-connectivity are shaped after the open Mathlib definitions. Use
+topological minors, and contraction are shaped after the open Mathlib definitions;
+3-connectivity is `GraphConnectivityAndFlows`' `IsVertexConnected 3`, and the component count is
+that roadmap's too. Use
 descriptive Lean names and keep the historical names in docstrings:
 
   def PlaneMap (Γ : Graph α β) : Type* :=
@@ -783,7 +785,7 @@ descriptive Lean names and keep the historical names in docstrings:
   theorem exists_vertex_degree_le_five ..., theorem not_isPlanar_K5, theorem not_isPlanar_K33
 
   /-- Tutte's Wheel Theorem. -/
-  theorem exists_edge_delete_or_contract_isThreeConnected ...
+  theorem exists_edge_delete_or_contract_isVertexConnected ...
   theorem exists_contractible_edge ...
 
   /-- Kuratowski's Theorem, via Thomassen's 3-connectivity induction. -/

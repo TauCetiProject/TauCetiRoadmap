@@ -46,6 +46,15 @@ From [PlanarTopology](../PlanarTopology/README.md), at the following points:
 | Schoenflies, tameness of arcs and simple closed curves, and tameness of finite families of arcs | 5, 9 |
 | isotopy to a PL homeomorphism, Epstein's theorem, and the smoothing theorems | 9 |
 
+From [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md), under review as [#444](https://github.com/TauCetiProject/TauCetiRoadmap/pull/444), which owns the connectivity and components of Mathlib's `Graph α β`:
+
+| Item | Which layer here |
+|---|---|
+| `Graph.Connected`, in the shape of mathlib4 #37861, and its agreement with `SimpleGraph.Connected` across `Graph.ofSimpleGraph` (Target 1.1) | 5, 7, 10 |
+| the number of connected components of a finite multigraph, written `Γ.componentCount` here (Milestone 2) | 10 |
+| `SimpleGraph.IsVertexConnected k`, in the shape of mathlib4 #33355 (conventions and Target 1.5) | 10 |
+| cuts of a multigraph and their edge boundaries (Target 1.2) | 10 |
+
 From Tau Ceti and Mathlib:
 
 | Item | Location |
@@ -63,7 +72,7 @@ From Tau Ceti and Mathlib:
 | `PermutationTriple` with `eulerChar` and `genus`; `BipartiteRibbonGraph` | `TauCeti/Combinatorics/PermutationTriple/`, `TauCeti/Combinatorics/RibbonGraph/Basic.lean`, owned by `BelyiMaps` |
 | `Combinatorics/SimpleGraph/{Acyclic, BranchComponents, PathGraph}` | Tau Ceti |
 
-⚠ Mathlib's `Graph α β` supplies incidence, subgraphs, and the `SimpleGraph` conversions, and nothing else. Connectivity, degree, minors, and planarity are targets of layers 5 and 10, shaped after the open Mathlib pull requests that define them (connected graphs as self-components, degree by incidence counting, and, for `SimpleGraph`, contraction and minors; mathlib4 #37861, #38326, #36210), so that the eventual swap is a deletion.
+⚠ Mathlib's `Graph α β` supplies incidence, subgraphs, and the `SimpleGraph` conversions, and nothing else. Connectivity and the component count of a multigraph, and `k`-vertex-connectivity of a simple graph, are GraphConnectivityAndFlows', shaped there after mathlib4 #37861 and #33355; this roadmap defines no second connectivity or component theory. Degree, minors, and planarity are targets of layers 5 and 10, shaped after the open Mathlib pull requests that define them (degree by incidence counting and, for `SimpleGraph`, contraction and minors; mathlib4 #38326, #36210), so that the eventual swap is a deletion.
 
 ⚠ `TauCeti/LinearAlgebra/Matrix/SmithNormalForm.lean` covers only **square** integer matrices of positive determinant. Boundary matrices are rectangular. Use the PID structure theorem.
 
@@ -135,23 +144,24 @@ Consequently, ⚠ **the homology and fundamental group here are named for what t
 ```
 L0 finite conventions
  |
-L1 generalized maps ------------------------------.
- |                                                 |
-L2 presentations and comparison theorems           |
- |                                                 |
-L3 realization  <---- PlanarTopology L3, L5, L6    |
- |                                                 |
-L4 operations on finite surfaces -----.            |
- |                                      \          |
-L5 embedded graphs and HER        L6 schemas and normal forms
- |   <---- PlanarTopology L7       |
- |                                L7 homology and edge-path group  <---- PlanarTopology L5
- |                                 |
- |                                L8 classification  <---- PlanarTopology L2, L5, L6
- |                                 |
- |                                L9 mapping class groups  <---- PlanarTopology L7, L8
- |                                 |
- '------------------------------- L10 planarity
+L1 generalized maps --------------------------------.
+ |                                                  |
+L2 presentations and comparison theorems            |
+ |                                                  |
+L3 realization  <---- PlanarTopology L3, L5, L6     |
+ |                                                  |
+L4 operations on finite surfaces --------------.    |
+ |                                               \  |
+L5 embedded graphs and HER                 L6 schemas and normal forms
+ |   <---- PlanarTopology L7                |
+ |   <---- GraphConnectivityAndFlows        |
+ |                                         L7 homology and edge-path group  <---- PlanarTopology L5, GraphConnectivityAndFlows
+ |                                          |
+ |                                         L8 classification  <---- PlanarTopology L2, L5, L6
+ |                                          |
+ |                                         L9 mapping class groups  <---- PlanarTopology L7, L8
+ |                                          |
+ '---------------------------------------- L10 planarity  <---- GraphConnectivityAndFlows
 ```
 
 ---
@@ -506,7 +516,8 @@ theorem GMap2.double_eulerChar : G.double.eulerChar = 2 * G.eulerChar
 
 This externally validates the finite model.  It says the maps are not merely an adequate encoding of drawings of graphs on surfaces but the right one.
 
-**From Mathlib.** The multigraph `Graph α β` with `IsLink`, `Inc`, `Adj`, `IsLoopAt`, `Simple`, and the conversions with `SimpleGraph`; finiteness is added as hypotheses. Connectivity and degree for multigraphs are targets here, in the shape of the open Mathlib pull requests that define them.
+**From Mathlib.** The multigraph `Graph α β` with `IsLink`, `Inc`, `Adj`, `IsLoopAt`, `Simple`, and the conversions with `SimpleGraph`; finiteness is added as hypotheses. Degree for multigraphs is a target here, in the shape of the open Mathlib pull request that defines it.
+**From GraphConnectivityAndFlows.** `Graph.Connected` (Target 1.1), the hypothesis of the three correspondence theorems.
 **From PlanarTopology.** Tameness of finite families of arcs (layer 7), `Surface.Orientation` (layer 6), Radó (layer 5).
 
 **Representative formal statements.**
@@ -515,9 +526,16 @@ This externally validates the finite model.  It says the maps are not merely an 
 variable {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M]
   [CompactSpace M] {Γ : Graph α β} [Finite V(Γ)] [Finite E(Γ)]
 
-/-- Connectivity and degree of a finite multigraph, in the shape Mathlib is adopting. -/
-def Graph.IsConnected (Γ : Graph α β) : Prop
-noncomputable def Graph.degree (Γ : Graph α β) (v : α) : ℕ     -- a loop counts twice
+/-- Degree of a finite multigraph, in the shape Mathlib is adopting (mathlib4 #38326): the number
+    of darts at `v`, so a loop counts twice. It is not GraphConnectivityAndFlows' `incidenceCount`,
+    which counts each edge identity once; the two differ by the number of loops at `v`, and both
+    agree with `SimpleGraph.degree` on `Graph.ofSimpleGraph`. -/
+noncomputable def Graph.degree (Γ : Graph α β) (v : α) : ℕ
+theorem Graph.degree_eq_nonloopIncidenceCount_add (v : α) :
+    Γ.degree v = Γ.nonloopIncidenceCount v + 2 * (Γ.loopSet v).ncard
+theorem Graph.degree_ofSimpleGraph {V : Type*} (G : SimpleGraph V) [Fintype V] [DecidableRel G.Adj]
+    (v : V) :
+    (Graph.ofSimpleGraph G).degree v = G.degree v
 
 def GMap2.underlyingGraph (G : GMap2 D) : Graph (G.Cell 0) (G.Cell 1)
 
@@ -559,20 +577,24 @@ theorem Drawing.exists_isotopic_isPL (D : Drawing Γ M) (hD : D.IsNoncrossing)
 def Drawing.toGMap2 (D : Drawing Γ M) (hpl : D.IsPL) (hc : D.IsCellular) : BundledGMap2
 def GMap2.toDrawing (G : GMap2 D) (h : IsSurfaceGMap G) : Drawing G.underlyingGraph G.realization
 
+/-- Rotation systems of a finite multigraph: a cyclic order of the darts at each vertex. The darts
+    are this roadmap's, two per edge and two per loop, since a loop occupies two positions in the
+    rotation at its vertex; they are not the bidirected arrow family of GraphConnectivityAndFlows,
+    which gives a loop a single arrow. -/
 def RotationSystem (Γ : Graph α β) : Type* := ...
 def SignedRotationSystem (Γ : Graph α β) : Type* := ...
 
-theorem cellularDrawings_equiv_gmaps (hΓ : Γ.IsConnected) :
+theorem cellularDrawings_equiv_gmaps (hΓ : Γ.Connected) :
     {D : Σ M, Drawing Γ M // D.IsNoncrossing ∧ D.IsCellular} / Drawing.Equiv
       ≃ {G : BundledGMap2 // G.underlyingGraph ≃ Γ} / GMap2.Iso
 
 /-- Heffter–Edmonds–Ringel, orientable form: cellular drawings in oriented surfaces, up to
     orientation-preserving equivalence, are rotation systems up to equivalence. -/
-theorem orientedCellularDrawings_equiv_rotationSystems (hΓ : Γ.IsConnected) :
+theorem orientedCellularDrawings_equiv_rotationSystems (hΓ : Γ.Connected) :
     OrientedCellularDrawings Γ / Drawing.OrientedEquiv ≃ RotationSystem Γ / EquivalenceOfRotations
 
 /-- General-surface form, using signed rotation systems (embedding schemes). -/
-theorem cellularDrawings_equiv_signedRotationSystems (hΓ : Γ.IsConnected) :
+theorem cellularDrawings_equiv_signedRotationSystems (hΓ : Γ.Connected) :
     CellularDrawings Γ / Drawing.Equiv ≃ SignedRotationSystem Γ / EquivalenceOfSignedRotations
 
 /-- Euler's formula for a cellular drawing. -/
@@ -602,7 +624,7 @@ def Graph.nonorientableGenus (Γ : Graph α β) : ℕ
 
 **Examples and mathematical checks.** `K₅` and `K₃,₃` have genus 1 and are drawn cellularly in the torus. `IsCellular` is **false** for `K₄` drawn inside a disc in the torus. Euler's formula is checked on the layer 1 table. Riemann–Hurwitz is checked on `z ↦ zⁿ` on the sphere and on the orientation double cover of the projective plane map, an unbranched cover of degree two.
 
-**Natural intermediate results.** (i) connectivity and degree of finite multigraphs; (ii) the underlying multigraph; (iii) drawings, cellularity, PL drawings, and the tameness transport; (iv) rotation systems; (v) the orientable correspondence; (vi) the general correspondence; (vii) Euler's formula; (viii) branched covers and Riemann–Hurwitz; (ix) genus, after layer 8.
+**Natural intermediate results.** (i) degree of finite multigraphs and its comparison with GraphConnectivityAndFlows' incidence counts; (ii) the underlying multigraph; (iii) drawings, cellularity, PL drawings, and the tameness transport; (iv) rotation systems; (v) the orientable correspondence; (vi) the general correspondence; (vii) Euler's formula; (viii) branched covers and Riemann–Hurwitz; (ix) genus, after layer 8.
 
 **Consequences.** Layer 10. `BelyiMaps` layers 7 and 8. A future Four Colour roadmap.
 
@@ -671,6 +693,7 @@ theorem SchemaMove.boundaryComponentCount_eq (h : SchemaMove S T) :
 This layer attaches a finite chain complex and a finite group presentation to a surface map. Neither is on the classification path: layer 8's uniqueness uses the Euler characteristic, orientability, and the boundary count, which `PlanarTopology` makes topological invariants directly. They are the reusable finite invariants of the library, made topological invariants by `PlanarTopology`'s Pachner theorem, and layer 9 uses the action on `H₁`. Their comparison with singular homology and the topological fundamental group is out of scope.
 
 **From PlanarTopology.** Pachner's theorem and the Hauptvermutung (layer 5).
+**From GraphConnectivityAndFlows.** `Graph.Connected` (Target 1.1), for the free edge-path group of a graph.
 
 **Representative formal statements.**
 
@@ -703,7 +726,7 @@ theorem GMap2.edgePathGroup_presentation (T : spanning tree of G.underlyingGraph
     G.edgePathGroup h c ≃* PresentedGroup (generators := edges off T) (relations := face traversal words)
 theorem GMap2.abelianization_edgePathGroup :
     Abelianization (G.edgePathGroup h c) ≃* G.homology h c ℤ 1
-theorem Graph.edgePathGroup_free (Γ : Graph α β) [Finite V(Γ)] [Finite E(Γ)] (hΓ : Γ.IsConnected) :
+theorem Graph.edgePathGroup_free (Γ : Graph α β) [Finite V(Γ)] [Finite E(Γ)] (hΓ : Γ.Connected) :
     IsFreeGroup Γ.edgePathGroup ∧
       (Nat.card (FreeGroup.basis Γ.edgePathGroup) : ℤ) = 1 - Γ.eulerChar
 
@@ -940,7 +963,9 @@ The intended scope is **Mohar and Thomassen, *Graphs on Surfaces*, chapter 2**, 
 
 **Out of scope:** planarity-testing algorithms such as Hopcroft–Tarjan and LR-planarity (the theorems are the target, not the algorithms); Steinitz's theorem (a convexity theorem needing polytope machinery not built here); embeddings in general surfaces, face-width, edge-width, embedding extension, and Robertson–Seymour (a separate subject and a separate roadmap); Grötzsch's theorem (named as a known gap rather than silently omitted); the four colour theorem and the Heawood/Ringel–Youngs map colour theorem (see the roadmap-for-a-roadmap below).
 
-**Vocabulary.** Planarity is a property of a finite multigraph: `Γ.IsPlanar` says `Γ` has a rotation system that is spherical on each component, a *plane map*, so it is decidable, and by layer 5 it says equally that `Γ` has a noncrossing drawing in the sphere. Sphericity is read off the Euler characteristic componentwise, not globally: a toroidal `K₅` beside a spherical triangle has Euler characteristic two and is not planar. Theorems whose hypotheses say *simple graph* are stated for `G : SimpleGraph V` with `V` finite, with planarity applied to `Graph.ofSimpleGraph G`, so that `completeGraph`, `completeBipartiteGraph (Fin 3) (Fin 3)`, and `Colorable` are Mathlib's. Minors, topological minors, contraction, and 3-connectivity are targets here, shaped after the open Mathlib pull requests that define contraction and minors for `SimpleGraph`. Every theorem carries finiteness, and the two Whitney theorems carry the hypotheses their proofs need: 3-connectivity for uniqueness of embeddings, and no isolated vertices for 2-isomorphism, since the cycle matroid cannot see them.
+**From GraphConnectivityAndFlows.** `Graph.Connected` and the component count (Target 1.1, Milestone 2), `SimpleGraph.IsVertexConnected` (conventions and Target 1.5), and cuts (Target 1.2).
+
+**Vocabulary.** Planarity is a property of a finite multigraph: `Γ.IsPlanar` says `Γ` has a rotation system that is spherical on each component, a *plane map*, so it is decidable, and by layer 5 it says equally that `Γ` has a noncrossing drawing in the sphere. Sphericity is read off the Euler characteristic componentwise, not globally: a toroidal `K₅` beside a spherical triangle has Euler characteristic two and is not planar. Theorems whose hypotheses say *simple graph* are stated for `G : SimpleGraph V` with `V` finite, with planarity applied to `Graph.ofSimpleGraph G`, so that `completeGraph`, `completeBipartiteGraph (Fin 3) (Fin 3)`, and `Colorable` are Mathlib's. Minors, topological minors, and contraction are targets here, shaped after the open Mathlib pull request that defines them for `SimpleGraph` (mathlib4 #36210). Connectivity is not: 3-connectivity is GraphConnectivityAndFlows' `G.IsVertexConnected 3`, in the shape of mathlib4 #33355, which asks for at least four vertices and that every pair stay reachable after deleting any two other vertices, and the component count in `PlaneMap` is that roadmap's. The wheel theorem and contractible edges, which it leaves out of its scope, are targets here. Every theorem carries finiteness, and the two Whitney theorems carry the hypotheses their proofs need: 3-connectivity for uniqueness of embeddings, and no isolated vertices for 2-isomorphism, since the cycle matroid cannot see them.
 
 **Representative formal statements.**
 
@@ -948,9 +973,8 @@ The intended scope is **Mohar and Thomassen, *Graphs on Surfaces*, chapter 2**, 
 variable {α β V : Type*} {Γ : Graph α β} [Finite V(Γ)] [Finite E(Γ)]
   {G : SimpleGraph V} [Fintype V] [DecidableEq V]
 
-/-- The number of connected components; used here and in the cycle-space rank, and not part of
-    Mathlib's `Graph` API yet. -/
-noncomputable def Graph.componentCount (Γ : Graph α β) : ℕ
+-- `Γ.componentCount`, the number of connected components, is GraphConnectivityAndFlows'
+-- (Milestone 2): an isolated vertex is a component, and the empty graph has none.
 /-- The Euler characteristic of a rotation system: vertices minus edges plus the number of orbits
     of its face permutation. -/
 def RotationSystem.eulerChar (R : RotationSystem Γ) : ℤ
@@ -967,7 +991,7 @@ theorem isPlanar_iff_exists_drawing_sphere :
     Γ.IsPlanar ↔ ∃ D : Drawing Γ Sphere2, D.IsNoncrossing
 def SimpleGraph.IsPlanar (G : SimpleGraph V) : Prop := (Graph.ofSimpleGraph G).IsPlanar
 
-theorem eulerFormula_plane (P : PlaneMap Γ) (h : Γ.IsConnected) :
+theorem eulerFormula_plane (P : PlaneMap Γ) (h : Γ.Connected) :
     (Nat.card V(Γ) : ℤ) - Nat.card E(Γ) + P.faceCount = 2
 theorem edge_bound_of_isPlanar (h : G.IsPlanar) (h3 : 3 ≤ Fintype.card V) :
     G.edgeFinset.card ≤ 3 * Fintype.card V - 6
@@ -976,18 +1000,18 @@ theorem exists_vertex_degree_le_five (h : G.IsPlanar) (hV : 0 < Fintype.card V) 
 theorem not_isPlanar_K5  : ¬ (completeGraph (Fin 5)).IsPlanar
 theorem not_isPlanar_K33 : ¬ (completeBipartiteGraph (Fin 3) (Fin 3)).IsPlanar
 
-/-- Minors and connectivity, in the shape of the open Mathlib definitions. -/
+/-- Minors, in the shape of the open Mathlib definitions (mathlib4 #36210). -/
 def SimpleGraph.IsContraction (G : SimpleGraph V) (G' : SimpleGraph V') : Prop
 def SimpleGraph.IsMinor (G : SimpleGraph V) (G' : SimpleGraph V') : Prop        -- a contraction of a subgraph
 def SimpleGraph.IsTopologicalMinor (G : SimpleGraph V) (G' : SimpleGraph V') : Prop   -- a subdivision of `G'` inside `G`
-def SimpleGraph.IsThreeConnected (G : SimpleGraph V) : Prop
+-- 3-connectivity is GraphConnectivityAndFlows' `G.IsVertexConnected 3` (mathlib4 #33355): at least
+-- four vertices, and every pair stays reachable after deleting any two other vertices.
 
-/-- Connectivity machinery. -/
 /-- Tutte's Wheel Theorem. -/
-theorem exists_edge_delete_or_contract_isThreeConnected (h : G.IsThreeConnected) (hw : ¬ G is a wheel) :
-    ∃ e, (G.deleteEdges {e}).IsThreeConnected ∨ (G.contractEdge e).IsThreeConnected
-theorem exists_contractible_edge (h : G.IsThreeConnected) (h5 : 5 ≤ Fintype.card V) :
-    ∃ e, (G.contractEdge e).IsThreeConnected
+theorem exists_edge_delete_or_contract_isVertexConnected (h : G.IsVertexConnected 3) (hw : ¬ G is a wheel) :
+    ∃ e, (G.deleteEdges {e}).IsVertexConnected 3 ∨ (G.contractEdge e).IsVertexConnected 3
+theorem exists_contractible_edge (h : G.IsVertexConnected 3) (h5 : 5 ≤ Fintype.card V) :
+    ∃ e, (G.contractEdge e).IsVertexConnected 3
 
 /-- Kuratowski, via Thomassen's 3-connectivity induction. -/
 theorem isPlanar_iff_no_K5_K33_topologicalMinor :
@@ -1001,11 +1025,11 @@ theorem isPlanar_iff_no_K5_K33_minor :
 theorem isPlanar_of_isMinor (h : G.IsPlanar) (hm : G.IsMinor G') : G'.IsPlanar
 
 /-- Tutte's Peripheral Cycle Theorem. -/
-theorem isPeripheral_iff_isFacial (h : G.IsThreeConnected) (P : PlaneMap (Graph.ofSimpleGraph G))
+theorem isPeripheral_iff_isFacial (h : G.IsVertexConnected 3) (P : PlaneMap (Graph.ofSimpleGraph G))
     (C : G.Cycle) : C.IsPeripheral ↔ P.IsFacial C
 
 /-- Whitney's Unique Embedding Theorem. -/
-theorem planeMap_unique_up_to_equivalence (h : G.IsThreeConnected) (h' : G.IsPlanar) :
+theorem planeMap_unique_up_to_equivalence (h : G.IsVertexConnected 3) (h' : G.IsPlanar) :
     Subsingleton (PlaneMap (Graph.ofSimpleGraph G) ⧸ equivalence up to isomorphism and reflection)
 
 /-- Whitney's 2-Isomorphism Theorem, for graphs without isolated vertices. -/
@@ -1013,7 +1037,8 @@ theorem cycleMatroid_iso_iff_twoIsomorphic {Δ : Graph α' β'} [Finite V(Δ)] [
     (h : ∀ v ∈ V(Γ), 0 < Γ.degree v) (h' : ∀ v ∈ V(Δ), 0 < Δ.degree v) :
     Nonempty (Γ.cycleMatroid ≂ Δ.cycleMatroid) ↔ TwoIsomorphic Γ Δ
 
-/-- Cycle space, cut space, duality, Mac Lane. -/
+/-- Cycle space, cut space, duality, Mac Lane. The cut space is spanned by the edge boundaries of
+    vertex subsets, the cuts of GraphConnectivityAndFlows Target 1.2, read as vectors over `ZMod 2`. -/
 def Graph.cycleSpace (Γ : Graph α β) : Submodule (ZMod 2) (E(Γ) → ZMod 2)
 def Graph.cutSpace   (Γ : Graph α β) : Submodule (ZMod 2) (E(Γ) → ZMod 2)
 /-- The subtraction is `ℕ`'s, so the component count is added before the vertices are taken away;
@@ -1034,7 +1059,7 @@ theorem exists_straightLine_drawing (h : G.IsPlanar) :
     ∃ D : Drawing (Graph.ofSimpleGraph G) ℂ, D.IsNoncrossing ∧ D.IsStraightLine
 
 /-- Tutte's Spring Embedding Theorem. -/
-theorem exists_convex_drawing (h : G.IsThreeConnected) (h' : G.IsPlanar) :
+theorem exists_convex_drawing (h : G.IsVertexConnected 3) (h' : G.IsPlanar) :
     ∃ D : Drawing (Graph.ofSimpleGraph G) ℂ, D.IsNoncrossing ∧ D.IsConvex
 
 /-- The Five Colour Theorem. -/
@@ -1043,7 +1068,7 @@ theorem colorable_five_of_isPlanar (h : G.IsPlanar) : G.Colorable 5
 
 **Proof strategy and formalization notes.**
 
-- ⚠ Use **Thomassen's** proof of Kuratowski, via contracting an edge in a 3-connected graph. It is shorter and considerably more formalization-friendly than the Tutte and Bondy–Murty's approach using bridges and conflict graphs. Also, the 3-connectivity machinery it needs (the wheel theorem, contractible edges) is shared with Whitney.
+- ⚠ Use **Thomassen's** proof of Kuratowski, via contracting an edge in a 3-connected graph. It is shorter and considerably more formalization-friendly than the Tutte and Bondy–Murty's approach using bridges and conflict graphs. Also, the 3-connectivity machinery it needs (the wheel theorem, contractible edges) is shared with Whitney; 3-connectivity itself is GraphConnectivityAndFlows' `IsVertexConnected 3`.
 - Planarity is combinatorial by layer 5, so every theorem here is a theorem about finite maps; its topological reading, drawings in the sphere or the plane, is layer 5's correspondence together with `PlanarTopology` layer 7's tameness. Fáry's and Tutte's theorems are stated in the plane `ℂ`, where straight lines mean something, and their drawings are noncrossing in the polygonal sense of `PlanarTopology` layer 1.
 - The dual of a simple plane graph need not be simple, which is why duality lives on multigraphs and why layer 1 didn't build on `SimpleGraph` as the foundation.
 - Tutte's spring embedding is a linear-algebra argument and is unusually formalization-friendly for its strength. Its precise form fixes a facial cycle as a convex outer polygon and produces a straight-line embedding with convex faces. It is the natural bridge toward Steinitz.
@@ -1051,9 +1076,9 @@ theorem colorable_five_of_isPlanar (h : G.IsPlanar) : G.Colorable 5
 - Whitney's unique-embedding theorem and Whitney's 2-isomorphism theorem are different results. Target both, and do not cite the 2-isomorphism paper for the unique-embedding statement. The unique-embedding theorem is uniqueness up to a homeomorphism of the sphere, allowing orientation reversal; with orientation-preserving equivalence, the two mirror-image embeddings remain distinct.
 
 **Examples and mathematical checks.** Explicit finite models verify that `K₅` and `K₃,₃`
-are non-planar and that `K₄` is planar, by `decide` on rotation systems. `edge_bound_of_isPlanar` is checked to **fail** for a multigraph with parallel edges, exhibiting the necessity of simplicity. `planeMap_unique_up_to_equivalence` is checked to **fail** for a 2-connected but not 3-connected planar graph, with two inequivalent embeddings exhibited. `isPlanar_iff_hasTwoBasis` is checked against `K₅`, whose cycle space has no sparse basis. Five-colouring is computed on a concrete triangulation with a degree-5 vertex requiring a Kempe chain interchange.
+are non-planar and that `K₄` is planar, by `decide` on rotation systems. `edge_bound_of_isPlanar` is checked to **fail** for a multigraph with parallel edges, exhibiting the necessity of simplicity. `planeMap_unique_up_to_equivalence` is checked to **fail** for a planar graph that is `IsVertexConnected 2` but not `IsVertexConnected 3`, with two inequivalent embeddings exhibited. `isPlanar_iff_hasTwoBasis` is checked against `K₅`, whose cycle space has no sparse basis. Five-colouring is computed on a concrete triangulation with a degree-5 vertex requiring a Kempe chain interchange.
 
-**Natural intermediate results.** (i) plane maps, planarity, and the drawing characterization; (ii) the edge bound and the degree-5 lemma; (iii) minors, topological minors, and minor-closure; (iv) the 3-connectivity machinery; (v) Kuratowski; (vi) Wagner and the equivalence; (vii) peripheral cycles; (viii) Whitney unique embedding; (ix) Whitney 2-isomorphism; (x) cycle and cut spaces; (xi) planar duality of the two spaces; (xii) Mac Lane; (xiii) Tutte's spring embedding; (xiv) Fáry; (xv) the five-colour theorem.
+**Natural intermediate results.** (i) plane maps, planarity, and the drawing characterization; (ii) the edge bound and the degree-5 lemma; (iii) minors, topological minors, and minor-closure; (iv) the wheel theorem and contractible edges; (v) Kuratowski; (vi) Wagner and the equivalence; (vii) peripheral cycles; (viii) Whitney unique embedding; (ix) Whitney 2-isomorphism; (x) cycle and cut spaces; (xi) planar duality of the two spaces; (xii) Mac Lane; (xiii) Tutte's spring embedding; (xiv) Fáry; (xv) the five-colour theorem.
 
 ---
 
