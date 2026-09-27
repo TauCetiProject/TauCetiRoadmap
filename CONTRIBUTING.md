@@ -63,9 +63,9 @@ Additional guidance for authors:
 
 ## The roadmap-writing process
 
-Writing a roadmap can involve a mix of human guidance, AI writing, and human and AI review.
-Writing a roadmap involves several connected activities; contributors may return to earlier
-decisions as the interfaces and review reveal more.
+Writing a roadmap involves several connected activities, mixing human guidance, AI writing, and
+human and AI review. Contributors may return to earlier decisions as the interfaces and review
+reveal more.
 
 1. **Create source material in a guide repo targeted for partial migration, when relevant.**
    This varies by the situation and can involve a complicated mix of human guidance with AI
