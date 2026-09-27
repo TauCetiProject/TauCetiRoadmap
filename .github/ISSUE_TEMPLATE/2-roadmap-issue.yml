@@ -41,6 +41,7 @@ body:
         - HopfRinow
         - JacobianChallenge
         - LocalFieldsRamification
+        - LocalGaloisGroups
         - ModularForms
         - Multiquadratic
         - NumberFieldArithmetic
