@@ -148,8 +148,8 @@ end BoundedFormulaInf
 
 /-- **Layer 0, finitary embedding.** Embed a Mathlib first-order bounded formula into the
 infinitary syntax. Since finitary formulas have no infinitary nodes, the target carrier is
-arbitrary — one embedding for all carriers and universes, with `toLω := toInf (ι := ℕ)` as the
-Lω₁ω case. -/
+arbitrary — one embedding for all carriers and universes, with the abbreviation
+`BoundedFormula.toOmega := toInf (ι := ℕ)` as the Lω₁ω case. -/
 def toInf {ι : Type uι} {α : Type u'} : {n : ℕ} → L.BoundedFormula α n → BoundedFormulaInf L ι α n
   | _, .falsum => .falsum
   | _, .equal t₁ t₂ => .equal t₁ t₂

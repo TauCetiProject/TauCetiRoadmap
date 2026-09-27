@@ -259,8 +259,9 @@ beats, each a coherent reviewable unit:
 * `Realize`, ONE recursion for every carrier, with simp lemmas for every connective and quantifier —
   each a single statement generic in `ι` and `uι`;
 * the finitary embedding `toInf : L.BoundedFormula α n → BoundedFormulaInf L ι α n`, carrier-generic
-  (finitary formulas have no infinitary nodes, so one embedding serves all carriers; `toLω` is the
-  `ι := ℕ` case), with realization compatibility (`realize_toInf`).
+  (finitary formulas have no infinitary nodes, so one embedding serves all carriers; its
+  `ι := ℕ` case is the abbreviation `BoundedFormula.toOmega`), with realization compatibility
+  (`realize_toInf`).
 
 **Beat 2 — carrier codings and transport.**
 
@@ -273,14 +274,21 @@ beats, each a coherent reviewable unit:
 * whole-formula transport `reindex` with functor laws (`reindex_id`, `reindex_trans`), the
   equivalence round trip (`reindexEquiv`), realization preservation (`realize_reindex`), and
   `reindex_toInf` naturality;
-* the uniform companion `toOmega` with `realize_toOmega`: `toOmega` uniformly recodes a formula
-  when the whole carrier is encodable.
+* the uniform companion `BoundedFormulaInf.toOmega` with `BoundedFormulaInf.realize_toOmega`: it
+  recodes a whole formula into `ℕ` when its carrier is encodable. Keep it distinct from the
+  finitary embedding `BoundedFormula.toOmega` of Beat 1; the two names live in different
+  namespaces, so always write them qualified.
 
 **Beat 3 — derived APIs.**
 
-* **substitution, relabeling, `castLE`, and the free-variable support** as named API (not buried) —
-  the support is finite for finitary formulas and countable for ℕ-carried `iSup`/`iInf`, so use a
-  set/`support` formulation, not a `Finset`;
+* **substitution, relabeling, `castLE`, and the free-variable support** as named API (not buried),
+  each defined once for every carrier `ι` rather than only at `ℕ`, and each with its **general**
+  realization law: `realize_subst`; `realize_relabel` for an arbitrary relabeling
+  `g : α → β ⊕ Fin n`, not only special cases; `realize_castLE` for arbitrary `m ≤ n`; and for the
+  support `freeVarSupport`, the law `realize_congr_freeVarSupport` that realization depends only on
+  the valuation on the support. The support is finite for finitary formulas and countable for
+  ℕ-carried `iSup`/`iInf`, so use a set/`support` formulation, not a `Finset`. The derived
+  connectives `and`, `or`, and `iff` are likewise defined at every carrier;
 * quantifier rank, valued in the carrier's ordinal universe, with the exact transport milestone
   `qrank_reindex` along `reindex`, stated with `Ordinal.lift`;
 * the **language-size bridge**, pinned in `Suggested.lean` as
@@ -308,12 +316,16 @@ BoundedFormulaInf.iInfAlong
 BoundedFormulaInf.realize_iInfAlong
 BoundedFormulaInf.reindex
 BoundedFormulaInf.realize_reindex
-toOmega
-realize_toOmega
+BoundedFormulaInf.toOmega
+BoundedFormulaInf.realize_toOmega
 subst
+realize_subst
 relabel
+realize_relabel
 castLE
+realize_castLE
 freeVarSupport
+realize_congr_freeVarSupport
 qrank_reindex
 toInf
 realize_toInf
