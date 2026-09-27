@@ -117,7 +117,7 @@ Distinguish an author's self-review from a review by another contributor, and id
 assistance as described above. See [Opening a pull request](#opening-a-pull-request) for the
 approval requirements.
 
-For example, a review note might say: "AI-assisted review using [model]: I checked the layer
+For example, a review note might say: ":robot: AI-assisted review using [model]: I checked the layer
 dependencies and the proposed interfaces against the pinned Mathlib sources. I have not reviewed
 the choice of mathematical scope." An author might say: "I selected the scope and reviewed the
 resulting roadmap; [model] helped survey the libraries, draft `Suggested.lean`, and check details."
