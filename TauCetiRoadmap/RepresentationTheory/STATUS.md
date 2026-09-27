@@ -1,88 +1,49 @@
-<!--tauceti-status:v1 {"roadmap":"RepresentationTheory","to_sha":"671091ae4d4ff844de3ac9f31bb7d8a4610d75ba","ts":"2026-08-11T02:10:03Z"}-->
+<!--tauceti-status:v1 {"roadmap":"RepresentationTheory","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2","ts":"2026-09-26T20:53:39+00:00"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"partial"},{"id":"Layer 2","state":"partial"},{"id":"Layer 3","state":"partial"},{"id":"Layer 4","state":"partial"},{"id":"Layer 5","state":"partial"},{"id":"Layer 6","state":"partial"},{"id":"Layer 7","remaining":"module-finiteness over the central subalgebra, Krull intersection, and a separating finite quotient","state":"partial"},{"id":"Layer 8","state":"untouched"},{"id":"Layer 9","state":"untouched"}],"readme_sha":"3115472bff07b45e46316d62353d8fc75d7c0bcad4f862fd01d6e44e8df1dc43","roadmap":"RepresentationTheory/AdoIwasawa","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"partial"},{"id":"Layer 7","state":"done"},{"id":"Layer 8","state":"partial"},{"id":"Layer 9","remaining":"principal-series and cuspidal irreducibility, constituents, and the full table","state":"partial"}],"readme_sha":"86d16f57f82e9ce6606d5f5933b48ecb4693dd46de89ebc162fb385f4cc64ab9","roadmap":"RepresentationTheory/CharacterTheory","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"partial"},{"id":"Layer 3","state":"partial"},{"id":"Layer 4","state":"untouched"},{"id":"Layer 5","state":"untouched"},{"id":"Layer 6","state":"untouched"}],"readme_sha":"9bfaeef36584d5bf627e5df74a637abcc0620da5e1f0459460282f4741141622","roadmap":"RepresentationTheory/ClassicalGroups","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"partial"}],"readme_sha":"1b8c1d71272eadcd6b7a7c739c8c26d4060b6fffddae0a26e94f1faf4ea35723","roadmap":"RepresentationTheory/CompactGroups","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 3a","state":"done"},{"id":"Layer 3b","state":"done"},{"id":"Layer 4","state":"partial"},{"id":"Layer 5","remaining":"a bundled equivalence of irreducible isomorphism classes over a fixed normal-subgroup constituent","state":"partial"},{"id":"Layer 6","remaining":"integral Brauer induction and rational Artin induction","state":"partial"},{"id":"Layer 7","state":"partial"}],"readme_sha":"32cb677fcc95ba1752ddf8abc5ad4970e7ac45577aa69ad1d9f585ac6785aff6","roadmap":"RepresentationTheory/InductionRestriction","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"untouched"},{"id":"Layer 2","remaining":"the embedded Lie subgroup theorem and its matrix-group consequences","state":"partial"},{"id":"Layer 3","state":"partial"},{"id":"Layer 4","state":"untouched"},{"id":"Layer 5","state":"untouched"},{"id":"Layer 6","state":"untouched"},{"id":"Layer 7","state":"untouched"},{"id":"Layer 8","state":"untouched"},{"id":"Layer 9","state":"untouched"}],"readme_sha":"fe49bc9f716eb31a0e117f4c40aa7da36f4ca14be0434e6ff1453c043c45ebff","roadmap":"RepresentationTheory/LieGroups","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"done"},{"id":"Layer 7","state":"partial"},{"id":"Layer 8","state":"untouched"},{"id":"Layer 9","state":"partial"}],"readme_sha":"bae7b8e787f0aa2e6f952bceca0dc43be2e7fdc6c6ca5cee5b954476ea69434d","roadmap":"RepresentationTheory/LieHighestWeight","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"partial"},{"id":"Layer 2","state":"untouched"},{"id":"Layer 3","state":"partial"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","remaining":"reflection descent, uniqueness, and the ADE finite-type dichotomy","state":"partial"},{"id":"Layer 6","state":"partial"}],"readme_sha":"0a60cdf62901f5afb69d05d6dd6041ef99e004ba099e878b16605b310d79180d","roadmap":"RepresentationTheory/QuiverRepresentations","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"done"}],"readme_sha":"b36938dae9a4d3f9e761991ff0bb8092c2c004533b87ad7906ab3b140eef7335","roadmap":"RepresentationTheory/RootSystems","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"partial"},{"id":"Layer 7","state":"untouched"},{"id":"Layer 8","remaining":"the Schur-functor decomposition of tensor powers","state":"partial"},{"id":"Layer 9","state":"untouched"}],"readme_sha":"40e2a54de3e98d62c2fc2550198e12c14f6c05027197b5a3ce207f4191197088","roadmap":"RepresentationTheory/SchurWeyl","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 1.5","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"done"}],"readme_sha":"b873d6b9e40d046d27f7bcab3b83836d7571cc8d9e76b2689dca4cb037074975","roadmap":"RepresentationTheory/SemisimpleAlgebras","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","remaining":"irreducibility of the spin and half-spin modules","state":"partial"},{"id":"Layer 5","state":"partial"},{"id":"Layer 6","state":"done"},{"id":"Layer 7","state":"done"},{"id":"Layer 8","state":"untouched"},{"id":"Layer 9","state":"partial"}],"readme_sha":"7cc5096a10684cd9cf1ef6069c12d9eb8de034fd032900cfef1c33267732221d","roadmap":"RepresentationTheory/SpinRepresentations","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
 # Status: RepresentationTheory
 
-This file documents the status of the RepresentationTheory roadmap up until `671091a` (2026-08-11T02:10:03Z). There may have been subsequent updates.
+This file documents the status of the RepresentationTheory roadmap up until `759eb3e` (2026-09-26T20:53:39+00:00). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Three summits stand: the character table of a finite group with both orthogonality
-relations, the Peter-Weyl theorem, and the classification of the irreducible rational
-representations of `Sₙ` by partitions. Cartan-Killing has its rigidity half and five types realized
-but not its enumeration of diagrams; the algebra foundation runs to the Brauer group and now has
-Wedderburn uniqueness. The highest-weight theory beyond `sl₂`, Gabriel's theorem, the spin
-representations proper and the Dixon-Schneider solver are not reached. Two pull requests had
-truncated declaration lists in the record, so the type `Cₙ` and Dixon-lift material may be wider
-than described.
+**At a glance.** The Cartan–Killing classification, semisimple-algebra foundations, Weyl character and dimension formulas, Peter–Weyl, and the image-level Schur–Weyl double centralizer are established. The Clifford correspondence now has surjectivity alongside its earlier injectivity and irreducibility results; Brauer induction, Gabriel’s theorem, Ado–Iwasawa, the spin-module classification, and the Lie-group correspondence remain partial, while the Brauer-algebra duality and arbitrary-field Ado summit have not begun.
 
 ### Named results
 
-- **The Peter-Weyl theorem** — the normalized matrix coefficients of the finite-dimensional
-  irreducible unitary representations of a compact Hausdorff group are a Hilbert basis of `L²(G)`
-  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Compact/PeterWeyl.html#TauCeti.stdPeterWeylBasis>),
-  via uniform density of the representative ring in `C(G, 𝕜)`
-  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Compact/RepresentativeDensity.html#TauCeti.dense_representativeSubmodule>).
-- **The character table and the orthogonality relations** — the irreducible characters of a finite
-  group are a basis of its class functions, as many as there are conjugacy classes, orthonormal by
-  rows and by columns
-  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/CharacterTable/Table.html#TauCeti.characterTable>).
-- **The classification of the irreducible rational representations of `Sₙ`** — sending a partition of
-  `n` to the Specht module `S^μ` is a bijection onto the simple `ℚ[Sₙ]`-modules up to isomorphism
-  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/Specht/Completeness.html#TauCeti.partitionEquivSimpleModuleClasses>).
-  It is stated over `ℚ`, not over a general field of characteristic zero.
-- **The rigidity half of Cartan-Killing** — two root systems carrying bases of the same Cartan type
-  are isomorphic, so the Dynkin type is a complete invariant
-  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/Isomorphism.html#TauCeti.nonempty_equiv_of_hasCartanType>).
-- **The decomposition of an `sl₂`-module** — over an algebraically closed field of characteristic
-  zero it is an internal direct sum of copies of the irreducibles `V(n)`
-  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/Sl2/Decomposition.html#TauCeti.Sl2Std.exists_isInternal_lieModuleEquiv>).
+- **The [Clifford correspondence](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Induction/Clifford/Surjectivity.html#FDRep.exists_simple_liesOver_inertia_nonempty_iso_indFDRep)** — over an algebraically closed field of characteristic zero, every irreducible lying over a fixed normal-subgroup constituent is induced from an irreducible of its inertia group; the earlier results give irreducibility and injectivity.
+- **The [Weyl character formula](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/HighestWeight/WeylCharacter.html#TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator)** — a highest-weight module’s character, multiplied by the Weyl denominator, is the alternating Weyl numerator; its [dimension formula](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Lie/HighestWeight/Weyl/Dimension.html#TauCeti.finrank_eq_prod_coweightPairing_div) is also proved.
+- **The [Cartan–Killing classification](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/FiniteType/Classification.html#TauCeti.existsUnique_dynkinType)** — every irreducible reduced crystallographic finite root system has a unique Dynkin type.
+- **The [Peter–Weyl theorem](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Compact/PeterWeyl.html#TauCeti.stdPeterWeylBasis)** — normalized matrix coefficients of the finite-dimensional irreducible unitary representations form a Hilbert basis of `L²(G)` for compact `G`.
+- **[Schur–Weyl duality](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Symmetric/TensorAction/GeneralLinear.html#TauCeti.centralizer_range_tensorPowerRep_asAlgebraHom_eq_range_permTensorActionAlgHom)** — when `d!` is invertible, the images of the symmetric-group and general-linear-group actions on `(kⁿ)^{⊗d}` are mutual centralizers; the Schur-functor decomposition is still missing.
 
 ### Notable definitions and infrastructure
 
-- **The pinned simply connected root data**
-  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/A.html#TauCeti.DynkinType.hasCartanType_typeASimplyConnectedRootDatum>):
-  explicit root and coroot tables realizing the Bourbaki Cartan matrices of types A, C, D, E₆ and G₂
-  with the coroots spanning the cocharacter lattice. They are the existence half of the
-  classification, and what the Chevalley-Demazure construction asks for.
-- **The BGP reflection functor on representations**
-  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Quiver/Reflection/Representation.html#TauCeti.reflectionFunctor>),
-  fully faithful on every indecomposable other than the vertex simple, which it kills: a missing
-  prerequisite of Gabriel's theorem.
-- **The certified cyclotomic lift**
-  (<https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Cyclotomic/Lift.html#TauCeti.Cyclotomic.lift>),
-  recovering a cyclotomic integer within Dixon's size bound from its residues at the conjugate roots
-  of a good prime, making the modular phase of Burnside-Dixon-Schneider lossless.
+- **The [central augmentation ideal](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/HopfAlgebra/HopfIdeal/Augmentation.html#TauCeti.HopfIdeal.centralAugmentationIdeal)** — gathers central elements of augmentation zero, including the new p-polynomials, for finite-quotient arguments in positive characteristic.
+- **[Composite source-reflection functors](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RepresentationTheory/Quiver/Reflection/Source/Composite.html#TauCeti.sourceReflectionFunctorList)** — make admissible reflection words act on quiver representations, enabling the induction toward Gabriel’s bijection.
+- **The [Lipschitz-to-orthogonal homomorphism](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Lipschitz/Action.html#CliffordAlgebra.lipschitzToOrthogonal)** — packages twisted Clifford conjugation and identifies vector generators with orthogonal reflections.
 
 ### Roadmap coverage
 
-Character theory is done through Layers 5 and 7, with Layer 6 holding every ingredient but the
-assembled solver and Layer 9 opened at the Borel subgroup of `GL₂(𝔽_q)`. Compact groups run through
-Layer 5; Layer 6 and the SU(2) engine are untouched. Semisimple algebras have Layers 3 to 6 and now
-the uniqueness half of Layer 2, with Layer 0 untouched. Root systems have Layers 1, 2 and 4, Layer 5
-except the enumeration, and Layer 6 for five types. Schur-Weyl reaches Layer 4 over `ℚ`, leaving the
-hook-length formula, Murnaghan-Nakayama and duality open. Above Layer 0 and the Layer 2 weight
-theory the highest-weight roadmap is empty, and Lie groups have Layer 0 and most of Layer 1. The
-spin roadmap has Layers 0 and 3, Layer 1 as the Clifford filtration quotients identified with the
-exterior powers, half of Layer 2, and real Bott periodicity from Layer 7. Classical groups have the
-extreme shapes of Layer 2 and nothing of Layers 3 to 5. Induction and restriction are unchanged, and quiver
-work appears below.
+All layers of RootSystems and SemisimpleAlgebras are done. CharacterTheory is complete through Layer 5 and at Layer 7, CompactGroups through Layer 5, LieHighestWeight through Layer 6, and SchurWeyl through Layer 5; their later summits are partial or untouched. InductionRestriction is done through its Mackey layers, ClassicalGroups through Layer 1, QuiverRepresentations at Layers 0 and 4, SpinRepresentations at Layers 0–3 and 6–7, and LieGroups and AdoIwasawa at Layer 0. The remaining layers with evidence of work are marked partial below; the rest are untouched.
 
 ## The frontier
 
-- **The Burnside-Dixon-Schneider solver** (character theory Layer 6). Every named piece is present,
-  including the certified lift from `ZMod p` and the common-eigenvector search; assembly against the
-  specification remains.
-- **The enumeration of the admissible Dynkin diagrams** (root systems Layer 5). The degree bound and
-  the tree shape of an irreducible finite-type diagram are proved; the induction that turns these
-  constraints into the list of types remains. Types B, F₄ and E₇ also still need pinned root data.
-- **Verma modules and `L(λ)`** (highest weight Layers 3 and 4). Highest weight vectors exist over a
-  Killing-semisimple algebra; the enveloping algebra is the missing prerequisite, and Weyl's
-  complete reducibility beyond `sl₂` waits behind it.
-- **Gabriel's theorem** (quiver Layer 5). Reflection functors are in place; Krull-Schmidt uniqueness
-  (Layer 2) still lacks its exchange argument, and the Coxeter functor and the bijection with the
-  positive roots are absent.
-- **The Pin and Spin double covers** (spin Layer 2). Reflections lift over a separably closed field
-  and the inductive step of Cartan-Dieudonné is proved; the induction, surjectivity onto `O(Q)`, and
-  the kernel being `{±1}` remain.
+- **Brauer and Artin induction** — turn the prime-by-prime elementary-subgroup lemma into integral Brauer surjectivity and prove the separate cyclic, rational Artin statement.
+- **Gabriel’s theorem** — use admissible reflection descent to establish uniqueness and existence for every positive root, then prove the finite-type ADE dichotomy.
+- **Ado–Iwasawa** — in positive characteristic, make the enveloping algebra finite over its central subalgebra and apply Krull intersection to obtain a separating finite quotient; in characteristic zero, finish stable cofinite refinement and its split-extension step.
+- **Spin and half-spin modules** — prove irreducibility and identify the type `B` and `D` fundamental highest weights; the type `D` highest-weight vectors and parity-split weights are available.
+- **The `GL₂(𝔽_q)` table** — establish the irreducibility and constituents of the principal series and cuspidal representations, then assemble their character values into the full table.

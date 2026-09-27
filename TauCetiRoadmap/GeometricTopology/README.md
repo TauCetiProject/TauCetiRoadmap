@@ -626,24 +626,27 @@ disproved smoothly).
 ### Layer 7: Riemannian geometric structures and volume
 
 Mathlib's Riemannian library reaches the metric-and-distance level but stops short of
-volume and curvature, which is exactly what the hyperbolic-geometry Kirby problems need. To
-state "the Weeks manifold has the smallest volume" we need a Riemannian volume measure, a
-notion of hyperbolic (complete, constant curvature `−1`) structure, and the resulting
-volume invariant. This is the hardest layer that is still close to existing Mathlib.
+volume and curvature, which is exactly what the hyperbolic-geometry Kirby problems need. The
+[Hopf--Rinow roadmap](../HopfRinow/README.md), Layer 1, owns the intervening Levi-Civita
+connection; this layer consumes that shared connection rather than constructing a second one. To
+state "the Weeks manifold has the smallest volume" we need a Riemannian volume measure, a notion
+of hyperbolic (complete, constant curvature `−1`) structure, and the resulting volume invariant.
+This is the hardest layer that is still close to existing Mathlib.
 
-**From Mathlib / earlier layers.** `RiemannianBundle` and `IsRiemannianManifold`, the
-induced `riemannianEDist`, and `EMetricSpace.ofRiemannianMetric`
+**From Mathlib / earlier roadmaps and layers.** `RiemannianBundle` and
+`IsRiemannianManifold`, the induced `riemannianEDist`, and `EMetricSpace.ofRiemannianMetric`
 (`Mathlib/Geometry/Manifold/Riemannian/Basic.lean`); path length in
 `Mathlib/Geometry/Manifold/Riemannian/PathELength.lean`; Mathlib's measure theory and the
-`volume` measure on `ℝⁿ`; layer 1's manifolds; `Matrix.orthogonalGroup` for isometry
-groups.
+`volume` measure on `ℝⁿ`; the Hopf--Rinow roadmap's Levi-Civita connection; layer 1's manifolds;
+`Matrix.orthogonalGroup` for isometry groups.
 
 **What to build.**
 - The **Riemannian volume measure** from the metric (the density `√det g` in charts,
   assembled with a partition of unity), and its invariance under isometries; the total
   **volume** of a closed Riemannian manifold as a real number.
-- **Curvature**: the Levi-Civita connection, the Riemann curvature tensor, and sectional
-  and Ricci curvature, enough to *state* "constant sectional curvature `κ`" (Lee,
+- **Curvature**: using the Levi-Civita connection supplied by the Hopf--Rinow roadmap, build the
+  Riemann curvature tensor and sectional and Ricci curvature, enough to *state* "constant
+  sectional curvature `κ`" (Lee,
   *Introduction to Riemannian Manifolds*, GTM 176, for the volume form and curvature,
   [extract](references/lee-riemannian-volume-curvature.md); Thurston, *Three-Dimensional
   Geometry and Topology*, [extract](references/thurston-hyperbolic-structures.md), and

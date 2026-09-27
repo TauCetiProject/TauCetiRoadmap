@@ -29,7 +29,7 @@ The design follows `README.md`'s layers: normalized Haar and averaging (Layer 0)
 predicate and unitarizability (Layer 1); complete reducibility (Layer 2); matrix coefficients
 (Layer 3); Schur orthogonality (Layer 4); the Peter-Weyl `HilbertBasis` (Layer 5); characters
 (Layer 6); and the `SU(2)`/torus engine with its own irreducible-classification layer. The
-Hilbert-basis assembly is cited from `../OrthogonalL2Bases`; the finite-group specialization is
+Hilbert-basis assembly is cited from `Completed/OrthogonalL2Bases`; the finite-group specialization is
 `../CharacterTheory`. `README.md` remains the definitive document.
 -/
 
@@ -307,7 +307,7 @@ def IsPeterWeylBasis {ι : Type} (models : ι → IrrepModel G)
 /-- **The Peter-Weyl theorem (the summit).** There is a skeleton of finite-dimensional unitary
 irreducibles whose normalized matrix coefficients form a Hilbert basis of `L²(G)`, indexed by
 `Σ i, Fin dᵢ × Fin dᵢ`. Assembled from Layer 4's orthonormal system and Layer 5's `L²`-density via
-`HilbertBasis.mkOfOrthogonalEqBot` (the `../OrthogonalL2Bases` pattern); the skeleton and bases are
+`HilbertBasis.mkOfOrthogonalEqBot` (the `Completed/OrthogonalL2Bases` pattern); the skeleton and bases are
 chosen data. For the circle this specializes to Mathlib's `fourierBasis`. -/
 theorem peterWeylBasis (G : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [CompactSpace G] [T2Space G] [MeasurableSpace G] [BorelSpace G] [LocallyCompactSpace G] :

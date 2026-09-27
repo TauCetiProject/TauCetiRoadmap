@@ -4,6 +4,21 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Required so `build` reports inside a merge queue. Without it the queue's `gh-readonly-queue/...`
+  # ref runs no CI at all, `build` never arrives, and every queued pull request waits until it times
+  # out -- which is why this had to land before the queue was turned on, and why removing it now
+  # would wedge the queue rather than merely skip a check.
+  #
+  # The queue is what stops a stale branch reddening `main`. `pull_request` tests a merge of the
+  # branch with `main` as it was when CI last ran, and the `main` ruleset does not require a branch
+  # to be up to date (`strict_required_status_checks_policy` is off, which is correct once a queue
+  # exists and would otherwise force a rebase before every merge). A pull request can therefore be
+  # green against a month-old base and still break `main` on merge. That is exactly how `main` broke
+  # on 2026-09-14: #350 archived `TauCetiRoadmap/IntegralLattices/Suggested.lean` to `Completed/` on
+  # the 10th, #218 -- opened on 2026-08-13 and never retested -- merged on the 14th still importing
+  # the old path, and each was green alone. The queue tests the result of merging, in order, so the
+  # combination is what has to pass.
+  merge_group:
 
 permissions:
   contents: read

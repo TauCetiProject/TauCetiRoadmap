@@ -15,25 +15,51 @@ body:
       label: Roadmap area
       options:
         - AdicSpaces
+        - AlgebraicCodingTheory
+        - AlgebraicCurves
+        - AlgebraicTopology
+        - AlgebraicVectorBundles
+        - AnalyticToricGeometry
+        - ArithmeticDirichletSeries
+        - BelyiMaps
         - CFSGStatement
+        - Chebotarev
+        - ClassFieldTheory
         - CombinatorialHeegaardFloer
         - ConformalMapping
-        - ContourIntegration
+        - DGAInfinity
+        - DenseGraphLimits
         - EllipticCurves
         - Exchangeability
+        - FuchsianOrbifolds
         - GeometricTopology
+        - GlobalNumberFields
+        - GlobalQuadraticForms
+        - GrothendieckEulerForms
         - HeegaardFloer
         - HodgeStructures
+        - HopfRinow
         - JacobianChallenge
+        - LocalFieldsRamification
         - ModularForms
         - Multiquadratic
+        - NumberFieldArithmetic
         - OneParameterSemigroups
         - OptimalTransport
-        - OrthogonalL2Bases
+        - OrthogonalSpinGroups
         - PDE
+        - PolynomialGaloisGroups
+        - ProfiniteCohomology
+        - ProfiniteProPGroups
+        - QuadraticFormInvariants
+        - RealAlgebraicGeometry
         - ReductiveGroups
         - RepresentationTheory
-        - UniversalCovers
+        - RestrictedProducts
+        - StablePeriodicCurved
+        - StableReduction
+        - StandardDistributions
+        - ZigzagPreprojective
     validations:
       required: true
   - type: textarea
