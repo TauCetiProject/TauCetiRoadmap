@@ -146,9 +146,11 @@ not improvise.
 * **Countability comes from the structure, not from a universal code language.** The Scott
   argument counts pairs of tuples of the one countable structure `M` under analysis
   (`Σ n, (Fin n → M) × (Fin n → M)` is countable), and its canonical formulas conjoin over elements
-  of `M`. No countable formula language that depends only on `L` can capture back-and-forth
-  equivalence for every countable structure: agreement on such a family would give Scott sentences
-  of uniformly bounded complexity, and Scott complexity is unbounded already for linear orders.
+  of `M`. No countable formula family that depends only on the language can characterize
+  back-and-forth equivalence in general; linear orders already obstruct such a construction, since
+  agreement on such a family would give Scott sentences of uniformly bounded complexity, while
+  Scott complexity is unbounded for linear orders. Some particular languages, such as the empty
+  language, do admit a sufficient countable family, but the Scott argument cannot rely on one.
   In particular, formulas whose conjunctions and disjunctions are finite lists are equivalent to
   first-order formulas, so agreement on them does not imply `BFEquiv` (see the Layer 2 API
   warning).
@@ -530,8 +532,9 @@ formulas, and agreement on them does not imply `BFEquiv`. Take unary predicates 
 let `M` be `Finset ℕ` with `P_i(s) ↔ i ∈ s`, and let `N` add one element satisfying every `P_i`.
 Every finite reduct of `M` is isomorphic to the matching reduct of `N`, so the two structures agree
 on all first-order sentences, yet `N ⊨ ∃ x, ⋀ᵢ P_i(x)` and `M` does not; `BFEquiv 1` fails on the
-empty tuples. No richer countable family depending only on `L` repairs this (see Standing
-hypotheses). A countable fragment chosen for a particular structure is a different interface.
+empty tuples. In general, no richer countable family depending only on the language repairs this
+(see Standing hypotheses). A countable fragment chosen for a particular structure is a different
+interface.
 
 ### Layer 3: Scott rank, canonical formulas, and Scott's theorem (v1 summit)
 
