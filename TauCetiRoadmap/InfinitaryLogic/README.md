@@ -42,11 +42,19 @@ project trackers, and asking the named contributors before starting parallel wor
 * **Infinitary syntax.** This roadmap uses the fixed-carrier syntax `BoundedFormulaInf L ι α n`,
   with `BoundedFormulaω` as the definitional `ι := ℕ` specialization and `IndexCoding`/`reindex`
   for carrier transport. The design was suggested on the Zulip discussion
-  [ModelTheory: API for infinitary formulas of L_{∞,ω}](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/ModelTheory.3A.20API.20for.20infinitary.20formulas.20of.20L_.7B.E2.88.9E.2C.CF.89.7D)
-  and validated against the main downstream consumers in
-  [`infinitary-logic` #43](https://github.com/cameronfreer/infinitary-logic/pull/43). Build the
-  fixed-carrier API here; if Mathlib later supplies the corresponding API, replace the local
-  definitions with imports and adapt to Mathlib's names.
+  [ModelTheory: API for infinitary formulas of L_{∞,ω}](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/ModelTheory.3A.20API.20for.20infinitary.20formulas.20of.20L_.7B.E2.88.9E.2C.CF.89.7D).
+  The open Mathlib PR
+  [mathlib4#42758](https://github.com/leanprover-community/mathlib4/pull/42758) proposes the
+  syntax and semantics: `BoundedFormulaInf` in the `FirstOrder.Language` namespace, the
+  `BoundedFormulaω` abbreviation (with `Formulaω` and `Sentenceω` defined through it), the derived
+  connectives (`verum`, `not`, `ex`) with `alls`/`exs`, `Realize` with its simp lemmas, and the
+  finitary embedding `BoundedFormula.toInf` with `realize_toInf`. Follow its names and shapes.
+  The codings, transport, and quantifier rank of Beat 2 and Beat 3 (`IndexCoding`, `iInfAlong`,
+  `reindex`, `qrank`) are not yet in a Mathlib PR; the migration source's Mathlib fork contains
+  them (see Migration source), and Tau Ceti should follow those shapes. Everything else in
+  Layer 0 — the carrier-generic operations, `freeVarSupport`, and their general realization laws —
+  is Tau Ceti work. Build all of it here now; if Mathlib later supplies the corresponding API,
+  replace the local definitions with imports and adapt to Mathlib's names.
 * Cantor–Bendixson / perfect-kernel / ordinal-stabilization infrastructure (the Zulip
   [Cantor-Bendixson analysis](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Cantor-Bendixson.20analysis)
   thread; not in the pinned Mathlib): this roadmap does not claim the general theory. The
@@ -199,19 +207,35 @@ Every item above is a target in some layer below; nothing is left as a gap to be
 ## Migration source
 
 A Lean formalization of this theory exists at
-[`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic); use production
-checkpoint
-[`06bd522`](https://github.com/cameronfreer/infinitary-logic/tree/06bd522586f97ccf3503b7f47f250943b33a7f99)
-for proof scripts and the declaration map below. Its syntax predates the fixed-carrier design, so
-its Layer 0 type signatures should not be copied; Layer 0 follows the shapes specified in this
-roadmap (validated in
-[`infinitary-logic` #43](https://github.com/cameronfreer/infinitary-logic/pull/43)). Neither source
-is the specification; the map is "where to look", not "what is correct".
+[`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic); use checkpoint
+[`a739107`](https://github.com/cameronfreer/infinitary-logic/tree/a739107bdbcdfc8c228f3d80ed28b32c6b5e430a)
+for proof scripts and the map below. It runs on the fixed-carrier syntax, which it imports from a
+Mathlib fork pinned at
+[`cameronfreer/mathlib4@4038001`](https://github.com/cameronfreer/mathlib4/tree/4038001c613926e4d3f3791977380be96a19c192/Mathlib/ModelTheory/Infinitary).
+Neither source is the specification; the map is "where to look", not "what is correct".
 
-* Layer 0: `InfinitaryLogic/Lomega1omega/` and `InfinitaryLogic/Linf/`.
-* Layer 1: `InfinitaryLogic/Karp/` and `InfinitaryLogic/Scott/BackAndForth.lean`.
-* Layer 2: `InfinitaryLogic/Scott/Sentence.lean` (`exists_complete_self_stabilization`).
-* Layer 3: `InfinitaryLogic/Scott/` (`Formula.lean`, `Sentence.lean`, `Rank.lean`, `AtomicDiagram.lean`).
+* Layer 0: the fork's five modules `Mathlib/ModelTheory/Infinitary/{Syntax, Semantics, IndexCoding,
+  Reindex, QuantifierRank}.lean` (the first two are the content of mathlib4#42758), and
+  `InfinitaryLogic/Lomega1omega/Operations.lean` for substitution, relabeling, and `castLE`, which
+  exist there only at carrier `ℕ` and with special-case realization lemmas.
+* Layer 1: `InfinitaryLogic/Scott/BackAndForth.lean` (`BFEquiv` and its laws);
+  `InfinitaryLogic/ModelTheory/NullaryTags.lean` (the nullary-relation regressions);
+  `InfinitaryLogic/Karp/PotentialIso.lean`, `Karp/CarrierTheorem.lean` (`karp_theorem_at`), and
+  `Karp/CountableCorollary.lean`. The source's `PotentialIso` is the tuple presentation, a
+  structure requiring `[L.IsRelational]`; this roadmap's `PotentialIso` is the `FGEquiv`
+  presentation, related to it by `potentialIso_iff_exists_isTupleBFSystem`. Its ω-round strategy
+  object is a family of unrelated finite-length strategies, not the coherent strategy of Layer 1.
+* Layer 2: `InfinitaryLogic/Scott/Sentence.lean` (`SelfStabilizesCompletely`,
+  `exists_complete_self_stabilization`).
+* Layer 3: `InfinitaryLogic/Scott/AtomicDiagram.lean` and `Scott/Formula.lean`
+  (`realize_scottFormula_iff_BFEquiv`, with the tuple in free variables rather than bound
+  positions); `Scott/OrbitRank.lean` (`orbitRank`, `internalScottRank`, with no comparison to
+  other rank conventions) and `scripts/check_orbit_rank_regressions.lean` (the `K₂ ⊔ K₃`
+  regression). The source's Scott sentence (`Scott/Sentence.lean`, `Scott/RefinementCount.lean`)
+  is indexed by an externally defined ordinal and proved through an internal-to-external transfer;
+  this roadmap's Scott sentence is indexed by internal stabilization instead, so that part is new
+  work. `Scott/Code.lean` is marked legacy and off-path in the source and is not a migration
+  target.
 
 Credit `cameronfreer/infinitary-logic` in each ported or adapted file, and record when a Tau Ceti file
 intentionally diverges from this source API.
