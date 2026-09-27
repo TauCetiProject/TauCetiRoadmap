@@ -13,7 +13,7 @@ Roadmap writing and review can involve a mix of human guidance and AI assistance
 the mathematical scope and approve roadmap changes; AI can help survey existing libraries, write
 prose and suggested Lean interfaces, and review the details. If you want to write or review a
 roadmap, start with [Getting started](CONTRIBUTING.md#getting-started) in `CONTRIBUTING.md`,
-then read its guidance on [writing](CONTRIBUTING.md#writing-a-roadmap) and
+then read its guidance on [writing](CONTRIBUTING.md#the-roadmap-writing-process) and
 [reviewing](CONTRIBUTING.md#reviewing-a-roadmap).
 
 ## Roadmaps

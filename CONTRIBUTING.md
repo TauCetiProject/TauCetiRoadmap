@@ -61,7 +61,7 @@ Additional guidance for authors:
   not they know Lean, say so on the PR or in the Zulip topic. That is often the difference
   between a roadmap merging and sitting.
 
-## Writing a roadmap
+## The roadmap-writing process
 
 Writing a roadmap can involve a mix of human guidance, AI writing, and human and AI review.
 Writing a roadmap involves several connected activities; contributors may return to earlier
