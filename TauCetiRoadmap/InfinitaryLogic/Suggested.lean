@@ -16,7 +16,7 @@ This file records the currently proposed Layer 0/1 signatures. Layer 2/3 targets
 
 set_option autoImplicit false
 
-universe u v w u' uι uκ
+universe u v w w' u' uι uκ
 
 namespace TauCetiRoadmap.InfinitaryLogic
 
@@ -169,6 +169,62 @@ theorem realize_toInf {ι : Type uι} {α : Type u'} {M : Type w} [L.Structure M
 cardinal bound coincides with the countability instance carried by the Scott/Karp statements. -/
 theorem card_le_aleph0_iff_countable_relations [L.IsRelational] :
     L.card ≤ Cardinal.aleph0 ↔ Countable (Σ n, L.Relations n) := by
+  sorry
+
+/-- **Layer 1, atomic indices.** The atomic formulas of a relational language in `n` variables:
+an equality between two positions, or a relation symbol applied to positions. Nullary relation
+symbols (`l = 0`) are included, so a nullary fact is part of the atomic type of every tuple,
+the empty tuple included. -/
+inductive AtomicIdx (L : FirstOrder.Language.{u, v}) (n : ℕ) : Type max u v where
+  | eq (i j : Fin n) : AtomicIdx L n
+  | rel {l : ℕ} (R : L.Relations l) (f : Fin l → Fin n) : AtomicIdx L n
+
+/-- Whether an atomic index holds of a tuple. -/
+def AtomicIdx.holds {n : ℕ} {M : Type w} [L.Structure M] : AtomicIdx L n → (Fin n → M) → Prop
+  | .eq i j, a => a i = a j
+  | .rel R f, a => RelMap R (a ∘ f)
+
+/-- Two tuples have the same atomic type. For a relational language this is the full atomic
+type. -/
+def SameAtomicType {n : ℕ} {M : Type w} {N : Type w'} [L.Structure M] [L.Structure N]
+    (a : Fin n → M) (b : Fin n → N) : Prop :=
+  ∀ idx : AtomicIdx L n, idx.holds a ↔ idx.holds b
+
+/-- **Layer 1, the back-and-forth recursion.** `BFEquiv α n a b` compares a tuple `a` of `M` with a
+tuple `b` of `N`: same atomic type at `0`; at a successor, the previous level **together with**
+the forth and back clauses; at a limit, every earlier level. Retaining the previous level at
+successors is part of the definition, not a consequence: on empty structures the forth and back
+clauses are vacuous, while the atomic types (through nullary relations) may still differ. -/
+noncomputable def BFEquiv {M : Type w} {N : Type w'} [L.Structure M] [L.Structure N]
+    (α : Ordinal) (n : ℕ) (a : Fin n → M) (b : Fin n → N) : Prop :=
+  Ordinal.limitRecOn (motive := fun _ => (k : ℕ) → (Fin k → M) → (Fin k → N) → Prop) α
+    (fun _ a' b' => SameAtomicType (L := L) a' b')
+    (fun _ ih k a' b' =>
+      ih k a' b' ∧
+      (∀ m : M, ∃ m' : N, ih (k + 1) (snoc a' m) (snoc b' m')) ∧
+      (∀ m' : N, ∃ m : M, ih (k + 1) (snoc a' m) (snoc b' m')))
+    (fun _ _ ih k a' b' => ∀ γ (hγ : γ < _), ih γ hγ k a' b')
+    n a b
+
+/-- **Layer 1 milestone, the successor law.** -/
+theorem BFEquiv.succ {M : Type w} {N : Type w'} [L.Structure M] [L.Structure N] {n : ℕ}
+    (α : Ordinal) (a : Fin n → M) (b : Fin n → N) :
+    BFEquiv (L := L) (Order.succ α) n a b ↔
+      BFEquiv (L := L) α n a b ∧
+      (∀ m : M, ∃ m' : N, BFEquiv (L := L) α (n + 1) (snoc a m) (snoc b m')) ∧
+      (∀ m' : N, ∃ m : M, BFEquiv (L := L) α (n + 1) (snoc a m) (snoc b m')) := by
+  sorry
+
+/-- **Layer 1 milestone, the limit law.** -/
+theorem BFEquiv.limit {M : Type w} {N : Type w'} [L.Structure M] [L.Structure N] {n : ℕ}
+    {α : Ordinal} (hα : Order.IsSuccLimit α) (a : Fin n → M) (b : Fin n → N) :
+    BFEquiv (L := L) α n a b ↔ ∀ β < α, BFEquiv (L := L) β n a b := by
+  sorry
+
+/-- **Layer 1 milestone, monotonicity.** Equivalence at a level implies it at every lower level. -/
+theorem BFEquiv.monotone {M : Type w} {N : Type w'} [L.Structure M] [L.Structure N] {n : ℕ}
+    {α β : Ordinal} (hαβ : α ≤ β) {a : Fin n → M} {b : Fin n → N}
+    (h : BFEquiv (L := L) β n a b) : BFEquiv (L := L) α n a b := by
   sorry
 
 /-- **Layer 1, potential isomorphism.** There is a **back-and-forth system**: a nonempty set `S`

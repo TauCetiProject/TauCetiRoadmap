@@ -354,9 +354,19 @@ TauCeti/ModelTheory/BackAndForth/Karp.lean
 
 Build on Mathlib's `PartialEquiv` / `FGEquiv` / `IsExtensionPair`:
 
-* `BFEquiv α a b`, the ordinal-indexed back-and-forth equivalence of tuples, by `limitRecOn` (atomic
-  type at `0`; forth-and-back at successors; agreement below at limits), with monotonicity and
-  symmetry — the recursion itself is a target, not assumed;
+* `BFEquiv α n a b`, the ordinal-indexed back-and-forth equivalence of tuples `a : Fin n → M` and
+  `b : Fin n → N`, by `limitRecOn`, with the recursion pinned exactly:
+  * at `0`, `SameAtomicType a b`: agreement on every `AtomicIdx L n`, meaning equalities between
+    positions and relation symbols applied to positions, **nullary relation symbols included**;
+  * at a successor, `BFEquiv α n a b` **and** the forth clause (every `m : M` has some `m' : N`
+    with `BFEquiv α (n + 1) (snoc a m) (snoc b m')`) **and** the symmetric back clause;
+  * at a limit, `BFEquiv β n a b` for every `β` below.
+
+  Retaining the previous level at successors is part of the definition. Without it, the successor
+  condition would be vacuous on empty structures, whose atomic types can still differ through
+  nullary relations. The laws `BFEquiv.succ` and `BFEquiv.limit`, monotonicity and symmetry are
+  targets, not assumptions. Include the regression that two empty structures differing on a
+  nullary relation are not `BFEquiv` at any level;
 * the finite EF game and the ω-round game, and the coherent-strategy object, with the quantifier-swap
   obstruction between `BFEquiv ω` and a coherent ω-strategy stated explicitly;
 * potential isomorphism as an explicit **back-and-forth system**: a nonempty set `S` of `FGEquiv`s
@@ -377,6 +387,11 @@ Build on Mathlib's `PartialEquiv` / `FGEquiv` / `IsExtensionPair`:
 Karp's theorem and its corollaries:
 
 ```lean
+SameAtomicType
+BFEquiv
+BFEquiv.succ            -- previous level ∧ forth ∧ back
+BFEquiv.limit
+BFEquiv.monotone
 potentialIso_of_equiv   -- an isomorphism is a potential isomorphism
 PotentialIso.symm       -- symmetry: flip the system
 PotentialIso.trans      -- transitivity: compose the systems
