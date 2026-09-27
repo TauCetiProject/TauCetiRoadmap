@@ -78,7 +78,8 @@ decisions as the interfaces and review reveal more.
 3. **Design the various layers and how they connect to Tau Ceti and Mathlib.** This can be
    seeded by human suggestions, benefits from an AI survey of what Tau Ceti and Mathlib
    currently contain, and benefits from human checking afterwards.
-4. **Write `Suggested.lean` based on these decisions.** This can be human- or AI-written,
+4. **Prototype the interfaces in Lean.** These usually go in `Suggested.lean`, though a roadmap
+   can instead embed Lean prototypes in its markdown. They can be human- or AI-written,
    depending on preference, with human review of the intended statements and design, supported
    by detailed AI checks. The roadmap's `README.md` stays definitive; suggested Lean interfaces
    help check and communicate the design.
