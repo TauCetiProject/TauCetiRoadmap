@@ -57,7 +57,7 @@ Conventions, recorded in `README.md` (§Pinned conventions):
 * The profinite integers as a ring, profinite exponentiation, and continuous outer
   automorphisms are generic group theory owned by `ProfiniteArithmetic`, the generic successor
   to `ProfiniteProPGroups` (#244), not by Belyi maps. Free profinite and free pro-`p` groups and
-  the maximal pro-`p` quotient come from `ProfiniteProPGroups` itself.
+  the maximal pro-`p` quotient are Tau Ceti's implementations of `ProfiniteProPGroups`.
 -/
 
 open scoped Manifold ContDiff Topology Pointwise
@@ -1860,9 +1860,11 @@ end CompactInvariants
 
 /-! ## Deferred profinite crossing
 
-The generic profinite integers, exponentiation calculus, and continuous outer-automorphism
-carrier belong to `ProfiniteArithmetic`, the generic successor to `ProfiniteProPGroups` (#244);
-free profinite and free pro-`p` groups belong to #244 itself. The Belyi-specific peripheral
+The ring structure on Tau Ceti's profinite integers `TauCeti.zHat`, the exponentiation calculus
+through `TauCeti.zHat.lift`, and the continuous outer-automorphism carrier belong to
+`ProfiniteArithmetic`, the generic successor to `ProfiniteProPGroups` (#244); free profinite and
+free pro-`p` groups are Tau Ceti's implementations of #244 (`TauCeti.freeProfiniteGroup`,
+`TauCeti.freeProP`). The Belyi-specific peripheral
 declarations are added in the successor roadmap `BelyiArithmeticActions`, after those suppliers
 land; no generic construction is exported from this namespace. -/
 
@@ -1891,6 +1893,30 @@ conjugate `P · C · P⁻¹`, **not** `P⁻¹ · C · P`. Stated on an abstract 
 word identity. -/
 theorem opposite_third_peripheral {G : Type u} [Group G] (P T : G) :
     (P * T)⁻¹ = P * ((T * P)⁻¹) * P⁻¹ := by group
+
+/-- **§Pinned conventions, the conjugation-transfer lemma.** The conjugator for a conjugate
+element is **computed**, not guessed: `d := q * c * (φ q)⁻¹`. ⚠ It involves `φ q`, and is not
+obtained by multiplying `c` by `q` on one side. Stated on an abstract group with an abstract
+power operation, since that is all the proof uses; each application supplies
+`pow (q * x * q⁻¹) = q * pow x * q⁻¹` from the naturality of its power under conjugation
+(Layer 12.2 here). Like `opposite_third_peripheral`, it depends on nothing in Layers 12 and 13
+and nothing in `PeripheralActions`, which consumes both; Layer 13.3 cites it for the change of
+convention. -/
+theorem conjugation_transfer {G : Type u} [Group G] (φ : G ≃* G) (pow : G → G)
+    (hpow : ∀ q x : G, pow (q * x * q⁻¹) = q * pow x * q⁻¹)
+    {x c : G} (hx : φ x = c⁻¹ * pow x * c) (q : G) :
+    φ (q * x * q⁻¹) =
+      (q * c * (φ q)⁻¹)⁻¹ * pow (q * x * q⁻¹) * (q * c * (φ q)⁻¹) := by
+  have h : φ (q * x * q⁻¹) = φ q * (c⁻¹ * pow x * c) * (φ q)⁻¹ := by
+    simp [map_mul, map_inv, hx]
+  rw [h, hpow]
+  group
+
+/-- **§Pinned conventions.** The transfer applied at `q = P`, `x = C`: the rival
+convention's third peripheral element `(P * T)⁻¹` is `P * C * P⁻¹`, so a consumer using it
+needs no new mathematics, only the conjugator the lemma computes. -/
+example {G : Type u} [Group G] (P T : G) : (P * T)⁻¹ = P * ((T * P)⁻¹) * P⁻¹ :=
+  opposite_third_peripheral P T
 
 /-
 theorem periphC_mul_periphT_mul_periphP : periphC * periphT * periphP = 1 := by
@@ -2020,26 +2046,5 @@ theorem exists_peripheralPowerAutomorphism (ℓ : ℕ) [Fact ℓ.Prime] (u : ℤ
       φ (periphCL ℓ) = cC⁻¹ * padicPow (periphCL ℓ) u * cC := by
   sorry
 -/
-
-/-- **Layer 13.3, the conjugation-transfer lemma.** The conjugator for a conjugate element
-is **computed**, not guessed: `d := q * c * (φ q)⁻¹`. ⚠ It involves `φ q`, and is not
-obtained by multiplying `c` by `q` on one side. Stated on an abstract group with an abstract
-power operation, since that is all the proof uses — naturality of the power under
-conjugation (Layer 12.2) supplies `pow (q * x * q⁻¹) = q * pow x * q⁻¹`. -/
-theorem conjugation_transfer {G : Type u} [Group G] (φ : G ≃* G) (pow : G → G)
-    (hpow : ∀ q x : G, pow (q * x * q⁻¹) = q * pow x * q⁻¹)
-    {x c : G} (hx : φ x = c⁻¹ * pow x * c) (q : G) :
-    φ (q * x * q⁻¹) =
-      (q * c * (φ q)⁻¹)⁻¹ * pow (q * x * q⁻¹) * (q * c * (φ q)⁻¹) := by
-  have h : φ (q * x * q⁻¹) = φ q * (c⁻¹ * pow x * c) * (φ q)⁻¹ := by
-    simp [map_mul, map_inv, hx]
-  rw [h, hpow]
-  group
-
-/-- **§Pinned conventions.** The transfer applied at `q = P`, `x = C`: the rival
-convention's third peripheral element `(P * T)⁻¹` is `P * C * P⁻¹`, so a consumer using it
-needs no new mathematics, only the conjugator the lemma computes. -/
-example {G : Type u} [Group G] (P T : G) : (P * T)⁻¹ = P * ((T * P)⁻¹) * P⁻¹ :=
-  opposite_third_peripheral P T
 
 end TauCetiRoadmap.BelyiMaps

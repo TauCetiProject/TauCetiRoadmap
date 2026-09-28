@@ -50,6 +50,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Orthogonal and spin groups](TauCetiRoadmap/OrthogonalSpinGroups/README.md)
 - [Partial differential equations](TauCetiRoadmap/PDE/README.md)
 - [Profinite and pro-`p` groups](TauCetiRoadmap/ProfiniteProPGroups/README.md)
+- [Profinite integers, profinite powers, and continuous automorphisms](TauCetiRoadmap/ProfiniteArithmetic/README.md)
 - [Quadratic forms and cohomological invariants](TauCetiRoadmap/QuadraticFormInvariants/README.md)
 - [Real algebraic geometry: sign determination and cylindrical decomposition](TauCetiRoadmap/RealAlgebraicGeometry/README.md)
 - [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)

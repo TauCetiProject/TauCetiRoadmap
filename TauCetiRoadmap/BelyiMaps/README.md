@@ -19,8 +19,9 @@ The full programme is recorded below, from the combinatorics up:
 - algebraic Belyi pairs over a field, the analytic/algebraic comparison over `ℂ`, and Belyi's
   theorem in both directions;
 - fields of moduli and fields of definition, the Galois action on dessins, the branch-cycle
-  theorem for the profinite fundamental group, a generic pro-`ℓ` peripheral-power theorem, and
-  faithfulness of the Galois action;
+  theorem for the profinite fundamental group, the pro-`ℓ` peripheral-power theorem for the Galois
+  action (its generic group-theoretic form belongs to `PeripheralActions`), and faithfulness of
+  the Galois action;
 - the assertion semantics of LMFDB Belyi-map and passport records.
 
 The pinned Mathlib is favourable on exactly the substrate this roadmap starts from: the
@@ -72,7 +73,7 @@ declaration or a completion claim of this PR**. Every excluded summit has exactl
 | associated covers, and the subgroup half of the covering classification | 6.2, and the subgroup statement inside 6.3 | **this roadmap** for 6.2, in a follow-up PR; `UniversalCovers` milestone 8 for the subgroup statement | UniversalCovers publishes compiled semilocal-connectivity, universal-cover, deck-action and classification carriers |
 | compactification, compact Riemann surfaces, ramification, analytic cohomology, and analytic Riemann existence | 7, 8 | successor roadmap **`BelyiAnalyticCovers`** | a compact-surface owner (ModularForms Layer 10B) publishes one checked carrier and the Riemann–Roch/Riemann–Hurwitz API |
 | algebraic Belyi pairs, the analytic–algebraic comparison, Belyi's theorem, fields of moduli and of definition, and Weil descent | 9, 10, 11 | successor roadmap **`BelyiAlgebraicAndDescent`** | AlgebraicCurves publishes its curve/function-field anti-equivalence and extension-ramification carriers, and `BelyiAnalyticCovers` lands |
-| the arithmetic exact sequence and outer action, peripheral inertia, the branch-cycle theorem, the pro-`ℓ` peripheral-power theorem, faithfulness, and LMFDB record semantics | 12, 13, 14 | successor roadmap **`BelyiArithmeticActions`** | #244 `ProfiniteProPGroups` and its generic successor `ProfiniteArithmetic` land, and `BelyiAlgebraicAndDescent` lands |
+| the arithmetic exact sequence and outer action, peripheral inertia, the branch-cycle theorem, the pro-`ℓ` peripheral-power theorem for the Galois action (its generic existence theorem belongs to `PeripheralActions`), faithfulness, and LMFDB record semantics | 12, 13, 14 | successor roadmap **`BelyiArithmeticActions`** | #244 `ProfiniteProPGroups` and its generic successor `ProfiniteArithmetic` land, and `BelyiAlgebraicAndDescent` lands |
 
 The generic constructions the arithmetic layers need — the profinite integers as a topological
 commutative **ring**, profinite exponentiation with its `ℤ_ℓ` comparison, and the continuous
@@ -107,10 +108,18 @@ profinite exponent ring, or outer-automorphism carrier.
 
 Seven roadmaps supply material to this one. The boundaries are stated once here.
 
-There is no dependency on `LocalGaloisGroups`, `ClassFieldTheory`, or a proposed
-`PeripheralActions` roadmap. The future branch-cycle and pro-`ℓ` peripheral-power applications
-are Belyi-specific; their generic groups, powers, and outer-automorphism carriers come from
-`ProfiniteProPGroups`.
+There is no dependency on `LocalGaloisGroups` or `ClassFieldTheory`. The generic group-theoretic
+peripheral-power theorem, that a free pro-`p` group of finite rank has, for every unit `u`, a
+continuous automorphism carrying each peripheral element to a conjugate of its `u`-th power, belongs
+to `PeripheralActions` (proposed in #490), which proves it without the Galois action; Layers 13.3
+and 13.4 below state its instance for `Δ_ℓ` and record the arithmetic proof. The branch-cycle
+theorem and the Galois-equivariant peripheral statements are Belyi-specific; their generic groups,
+powers, and outer-automorphism carriers are Tau Ceti's implementations of `ProfiniteProPGroups`,
+extended by `ProfiniteArithmetic`. `PeripheralActions` consumes from here only the
+conjugation-transfer lemma `conjugation_transfer` and the word identity `opposite_third_peripheral`,
+and nothing from the arithmetic successor. Both are self-contained exports of §Pinned conventions,
+which precedes Layer 13, and neither depends on `PeripheralActions`; only the existence statements
+of 13.3 and 13.4 depend on it, so there is no cycle.
 
 **Character theory.** Class functions, irreducible characters, the character table, both
 orthogonality relations, class sums, structure constants, and central characters belong to
@@ -185,17 +194,20 @@ second cycle-type-with-fixed-points definition. Blocks, primitivity, and transit
 always Mathlib's `MulAction.IsBlock`, `MulAction.IsPreprimitive`, `MulAction.IsPretransitive`,
 as there.
 
-**Profinite and pro-p groups.** The free profinite group on a finite set (`freeProfiniteGroup`, `.of`,
-`.lift`), the maximal pro-`p` quotient (`proPKernel`, `maximalProPQuotient`) with its
-universal property and the characteristicity of its kernel under continuous automorphisms,
-the free pro-`p` group `freeProP`, and the identification
-  `maximalProPQuotient_zHat_equiv_padicInt` belong to the
-ProfiniteProPGroups roadmap (its Layers 3 and 4). The generic **ring** structure on `ẑ`, profinite
-exponentiation and its `ℤ_ℓ` comparison, and the continuous outer-automorphism carrier are owned
-by **`ProfiniteArithmetic`**, the generic successor named in #244's opening section — #244 itself
-builds `zHat` only as a profinite group. Neither set is owned or exported by the Belyi namespace.
-`BelyiArithmeticActions` will consume their exact public names for the cyclotomic and peripheral
-applications.
+**Profinite and pro-p groups.** The free profinite group on a finite set, the maximal pro-`p`
+quotient with its universal property and the characteristicity of its kernel under continuous
+automorphisms, the free pro-`p` group, and the profinite integers `ẑ` as a profinite group with
+their maximal pro-`p` quotients are specified by the ProfiniteProPGroups roadmap (its Layers 3 and
+4) and implemented in Tau Ceti: `TauCeti.freeProfiniteGroup` with `.of` and `.lift`,
+`TauCeti.proPKernel`, `TauCeti.maximalProPQuotient` with `.lift`, `TauCeti.map_proPKernel_eq`,
+`TauCeti.freeProP` with `.of` and `.lift`, and `TauCeti.zHat` with
+`TauCeti.zHat.maximalProPQuotientEquivPadicInt`. The **ring** structure on `ẑ`, which lives on
+Tau Ceti's own `TauCeti.zHat` (as `Additive TauCeti.zHat`), profinite exponentiation
+`x ^ᶻ a = TauCeti.zHat.lift x a` with its `ℤ_ℓ` comparison, and the continuous
+outer-automorphism carrier are owned by **`ProfiniteArithmetic`** (proposed in #489), the generic
+successor named in #244's opening section. Neither set is owned or exported by the Belyi
+namespace, and neither has a second carrier anywhere. `BelyiArithmeticActions` will consume these
+exact public names for the cyclotomic and peripheral applications.
 
 AlgebraicCurves, PolynomialGaloisGroups and ProfiniteProPGroups live at
 `../AlgebraicCurves/README.md`, `../PolynomialGaloisGroups/README.md` and
@@ -210,8 +222,9 @@ What this roadmap supplies to other subjects:
 - in `BelyiAlgebraicAndDescent`, the Belyi-specific analytic/algebraic comparison, after the
   compact-surface and AlgebraicCurves carriers land;
 - in `BelyiArithmeticActions`, the branch-cycle theorem and the pro-`ℓ` peripheral-power theorem
-  (Layers 12, 13), the Belyi-specific arithmetic application of `ProfiniteArithmetic`'s generic
-  infrastructure.
+  for the Galois action (Layers 12, 13), the Belyi-specific arithmetic application of
+  `ProfiniteArithmetic`'s generic infrastructure; the generic existence theorem itself belongs to
+  `PeripheralActions`.
 
 ## Internal boundaries
 
@@ -266,14 +279,17 @@ independent of Layer 4.
 
 **C. Arithmetic and database semantics — Layers 12–14, the successor roadmap
 `BelyiArithmeticActions`.**
-*Consumes from `ProfiniteArithmetic`:* the profinite integers as a topological ring, the profinite
-exponentiation calculus and its pro-`ℓ` comparison, and continuous outer automorphisms.
-*Consumes from #244 `ProfiniteProPGroups`:* free profinite and free pro-`p` groups, the maximal
-pro-`p` quotient, and `maximalProPQuotient_zHat_equiv_padicInt`.
+*Consumes from `ProfiniteArithmetic`:* the ring structure on `TauCeti.zHat`, the profinite
+exponentiation calculus through `TauCeti.zHat.lift` and its pro-`ℓ` comparison, and continuous
+outer automorphisms.
+*Consumes from Tau Ceti, which implements #244 `ProfiniteProPGroups`:* free profinite and free
+pro-`p` groups (`TauCeti.freeProfiniteGroup`, `TauCeti.freeProP`), the maximal pro-`p` quotient
+(`TauCeti.maximalProPQuotient`), and `TauCeti.zHat.maximalProPQuotientEquivPadicInt`.
 *Belyi-specific exports:* `π₁ᵍᵉᵒ` and the comparison isomorphism with its
 orientation; the arithmetic exact sequence and outer action; peripheral inertia; the
 `ẑ`-cyclotomic character; the branch-cycle theorem and its finite Nielsen-class corollary;
-the pro-`ℓ` peripheral-power theorem and its dyadic instance; faithfulness; the LMFDB
+the Galois-equivariant form of the pro-`ℓ` peripheral-power theorem and of its dyadic instance
+(the existence statements themselves are `PeripheralActions`'); faithfulness; the LMFDB
 record certificates.
 *Imports:*
 
@@ -283,8 +299,8 @@ from B   5.6, 6.1, 6.3, 7.1, 8.7, 9.1, 9.5–9.8, 10.2, 10.3, 10.7,
          11.1, 11.3, 11.5, 11.7
 ```
 
-plus ProfiniteProPGroups, ProfiniteArithmetic, and Mathlib's Galois categories and
-cyclotomic characters.
+plus Tau Ceti's implementation of ProfiniteProPGroups, ProfiniteArithmetic, and Mathlib's Galois
+categories and cyclotomic characters.
 
 ⚠ The boundary between B and C is **not** the boundary between geometry and arithmetic:
 Layers 10 and 11 are already arithmetic, and they sit in B because they consume the analytic
@@ -413,7 +429,8 @@ is an outer action, because basepoints and comparison paths are not canonical. P
 statements are stated first on conjugacy classes or in outer form; automorphism
 representatives are chosen only where a theorem says one exists (Layer 13.3).
 
-**Peripheral elements.** In the profinite completion `F̂₂` of `FreeGroup (Fin 2)`:
+**Peripheral elements.** In the profinite completion `F̂₂` of `FreeGroup (Fin 2)`, Tau Ceti's
+`TauCeti.freeProfiniteGroup (Fin 2)`:
 `P` and `T` are the images of the two generators `of 0`, `of 1`, and `C := (T * P)⁻¹`, so
 that
 
@@ -430,8 +447,31 @@ peripheral element the *conjugate*
 (P · T)⁻¹ = T⁻¹ · P⁻¹ = P · C · P⁻¹ ,
 ```
 
-and **not** `P⁻¹ · C · P`. The peripheral-power theorems of Layer 13 transfer along it by the
-conjugation-transfer lemma of 13.3, whose conjugator is computed rather than guessed.
+and **not** `P⁻¹ · C · P`. This word identity, stated in an arbitrary group, is
+`opposite_third_peripheral`. The peripheral-power theorems of Layer 13 transfer along it by the
+conjugation-transfer lemma below, whose conjugator is computed rather than guessed.
+
+**The conjugation-transfer lemma.** Let `φ` be an automorphism of a group `G` and `pow : G → G`
+a map that commutes with conjugation, `pow (q · x · q⁻¹) = q · pow x · q⁻¹`. If
+
+```text
+φ x = c⁻¹ · pow x · c ,
+```
+
+then for any conjugate `y = q · x · q⁻¹`,
+
+```text
+φ y = d⁻¹ · pow y · d   with   d := q · c · (φ q)⁻¹ .
+```
+
+The proof is `φ y = (φ q)(φ x)(φ q)⁻¹`, then the hypothesis on `pow`. ⚠ The conjugator is
+*computed*: it involves `φ q`, and is **not** obtained by multiplying `c` by `q` on one side. This
+is `conjugation_transfer`, stated generically because that is all the proof uses; each
+application supplies the hypothesis on `pow` from the naturality of its power under conjugation
+(Layer 12.2 here). It and `opposite_third_peripheral` are self-contained exports of this section:
+neither depends on Layers 12 and 13 or on `PeripheralActions`, which consumes both. Both mention
+no Belyi object: in Tau Ceti they belong in a shared module under `TauCeti/GroupTheory/`, which
+the arithmetic successor and `PeripheralActions` both import, not in the Belyi development.
 
 **Profinite powers.** Powers `x ^ᶻ a` by `a ∈ ẑ` are the canonical operation of Layer 12.2,
 defined through the universal property of the profinite completion of `ℤ`; powers by
@@ -499,16 +539,17 @@ the three portfolio suppliers have no local stand-ins here.
 | 9.5, 10.7, 11.4 | `AlgebraicCurves` Layer 5 | Riemann–Roch and genus | exact declarations: `AlgebraicCurves.riemannRochSpace`, `AlgebraicCurves.genus` |
 | 10.7, 11.4 | `AlgebraicCurves` Layer 8 | constant-field extension in characteristic zero | **prose-only supplier milestone; no full-faithfulness declaration is pinned yet** |
 | 9.1, 9.5 | `AlgebraicCurves` Layer 12 | the regular projective model and the anti-equivalence | **prose-only supplier milestones; no Lean declarations are pinned yet**. The reserved roadmap names are `regularModel`, `functionFieldEquiv`, and `regularModel_functionField`; **this roadmap never analytifies a scheme** — Layer 9.6 works with places, so only the place set and its `(e,f)` data are consumed, never a scheme-theoretic fiber |
-| 12.7, 13.1 | #244 `ProfiniteProPGroups` Layers 3, 4 | free profinite and free pro-`p` groups, the maximal pro-`p` quotient, and `maximalProPQuotient_zHat_equiv_padicInt` | **unmerged supplier contract**: `BelyiArithmeticActions` must import and `#check` the final #244 declarations; this PR exports no aliases or stand-ins. |
-| 12.1–12.3 | `ProfiniteArithmetic` (the generic successor to #244) | `zHat` as a topological commutative ring, the `ℤ̂`-power with its `ℤ_ℓ` comparison, and the continuous outer-automorphism carrier | **unwritten supplier roadmap**, named in #244's opening section as the exact owner; these are generic group theory, not Belyi mathematics, and this PR exports no aliases or stand-ins. |
+| 12.7, 13.1 | Tau Ceti | free profinite and free pro-`p` groups, the maximal pro-`p` quotient, and the maximal pro-`ℓ` quotient of `ẑ`, as #244 `ProfiniteProPGroups` Layers 3 and 4 specify them | exact declarations: `TauCeti.freeProfiniteGroup`, `TauCeti.freeProfiniteGroup.of`, `TauCeti.freeProP`, `TauCeti.freeProP.of`, `TauCeti.freeProP.lift`, `TauCeti.proPKernel`, `TauCeti.map_proPKernel_eq`, `TauCeti.maximalProPQuotient`, `TauCeti.zHat.maximalProPQuotientEquivPadicInt`; `BelyiArithmeticActions` imports and `#check`s them, and this PR exports no aliases or stand-ins. |
+| 12.1–12.3 | `ProfiniteArithmetic` (the generic successor to #244, proposed in #489) | the ring structure on Tau Ceti's `TauCeti.zHat`, the `ẑ`-power `x ^ᶻ a = TauCeti.zHat.lift x a` with its `ℤ_ℓ` comparison, and the continuous outer-automorphism carrier | **supplier roadmap not yet merged**, named in #244's opening section as the exact owner; these are generic group theory, not Belyi mathematics, and this PR exports no aliases or stand-ins. |
 
 An exact portfolio row is imported only by the successor that consumes it, after the supplier
 lands on `main`; that successor must fail on a spelling or carrier change rather than selecting a
 local replacement. The UniversalCovers, compact-surface, AlgebraicCurves, #243, and #244 rows are
 scheduling contracts, not claims that declarations already exist. `Suggested.lean` intentionally
-omits their consumers. The `ProfiniteArithmetic` row is the one supplier that has no roadmap of its
-own yet; #244's opening section records the same boundary from the supplier side, so the three
-constructions have one owner rather than none.
+omits their consumers. The `ProfiniteArithmetic` row is a supplier roadmap that has not merged yet
+(#489); #244's opening section records the same boundary from the supplier side, so the three
+constructions have one owner rather than none. The Tau Ceti row for 12.7 and 13.1 names
+declarations that exist at the pin.
 
 ## The build, in layers
 
@@ -3668,9 +3709,9 @@ separate from `trueOrbitSize` for exactly this reason.
 `BelyiArithmeticActions`, the successor that owns this layer, consumes three milestones of
 generic profinite algebra — the profinite integers as a **ring**, the exponentiation calculus, and
 its pro-`ℓ` specialization. Their exact owner is **`ProfiniteArithmetic`**, the generic successor
-to #244 named in that roadmap's opening section; they are owned neither by #244 itself, which
-builds `zHat` only as a profinite group, nor by this roadmap. They must land there before the
-Belyi-specific declarations in 12.4 onward are opened.
+to #244 named in that roadmap's opening section; they extend Tau Ceti's profinite group
+`TauCeti.zHat`, and they are owned neither by #244 itself nor by this roadmap. They must land
+there before the Belyi-specific declarations in 12.4 onward are opened.
 
 The fundamental group's carrier is field-theoretic: the Galois theory of the maximal
 extension of `ℚ̄(t)` unramified outside the three marked places. Every object is then Mathlib Galois theory plus
@@ -3681,59 +3722,57 @@ shortens one, but it is not the definition.
 
 #### 12.1 The profinite integers as a topological ring
 
-⚠ **Supplier milestone, not a Belyi declaration.** ProfiniteProPGroups supplies the
-profinite completion of the infinite cyclic **group** and its maximal pro-`p` quotients.
-That gives no multiplication of two profinite exponents, no unit group, and no compatible
-projections to finite rings — yet 12.2's law `(x ^ᶻ a) ^ᶻ b = x ^ᶻ (a·b)`, 12.10's character
-`χ : Gal(ℚ̄/ℚ) →* ẑˣ` and 12.3's `ℓ`-adic component all need exactly those. `ProfiniteArithmetic`
-must build them in the generic `TauCeti/GroupTheory/Profinite/` home; `BelyiArithmeticActions`
-only consumes its exact exported API.
+⚠ **Supplier milestone, not a Belyi declaration.** Tau Ceti's `TauCeti.zHat` is the profinite
+completion of the infinite cyclic **group**, with its generator, universal property and maximal
+pro-`p` quotients. That gives no multiplication of two profinite exponents, no unit group, and no
+compatible projections to finite rings — yet 12.2's law `(x ^ᶻ a) ^ᶻ b = x ^ᶻ (a·b)`, 12.10's
+character `χ : Gal(ℚ̄/ℚ) →* ẑˣ` and 12.3's `ℓ`-adic component all need exactly those.
+`ProfiniteArithmetic` (its Layer 0) builds them as the ring structure on `TauCeti.zHat` itself;
+`BelyiArithmeticActions` only consumes its exact exported API.
 
-**Supplier object: `ProfiniteInt`.** Constructed in `ProfiniteArithmetic` as `lim (ZMod n)` over
-the divisibility order. `BelyiArithmeticActions` cites the name and API, not the construction.
-Required:
+**Supplier object: the ring `ẑ = Additive TauCeti.zHat`.** There is one profinite-integers
+object. `BelyiArithmeticActions` cites the names and API, not the construction. Required:
 
-- *Carrier and instances.* A topological commutative ring structure: `CommRing ProfiniteInt`,
-  `TopologicalSpace`, `IsTopologicalRing`, compactness, total disconnectedness, and
-  `T2Space`.
-- *The group comparison.* A `ContinuousMulEquiv` between the additive/procyclic group of
-  `ProfiniteInt` and ProfiniteProPGroups' `zHat`, so that `ẑ` in this roadmap means one object with
-  two structures and no milestone silently switches. State it as a named theorem, not as a
-  definitional identification.
-- *Projections.* Continuous ring homomorphisms `ProfiniteInt →+* ZMod n` for every `n`, with
-  the compatibility `ZMod m → ZMod n` for `n ∣ m`; the induced map to the inverse limit is
-  an isomorphism (the universal/limit property).
-- *`ℓ`-adic components.* A continuous ring homomorphism `ProfiniteInt →+* ℤ_[ℓ]` for each
-  prime `ℓ`, compatible with the `ZMod ℓ^k` projections, and the theorem that the induced
-  map to `∏_ℓ ℤ_[ℓ]` is a topological ring isomorphism.
-- *Units.* The unit group `ProfiniteIntˣ` with its topology, and the criterion
-  `a ∈ ProfiniteIntˣ ↔ ∀ n, image of a in ZMod n is a unit ↔ ∀ ℓ, component_ℓ a ∈ ℤ_[ℓ]ˣ`.
+- *Carrier and instances.* A topological commutative ring structure on `Additive TauCeti.zHat`:
+  `CommRing`, `IsTopologicalRing`, with the compactness, total disconnectedness and Hausdorffness
+  of `TauCeti.zHat`. The group `TauCeti.zHat` and the ring `ẑ` are one object with two structures,
+  so no milestone switches between carriers and no comparison isomorphism is needed.
+- *Projections.* Continuous ring homomorphisms `ẑ →+* ZMod n` for every `n`, with the
+  compatibility `ZMod m → ZMod n` for `n ∣ m`; the induced map to the inverse limit is an
+  isomorphism (the universal/limit property).
+- *`ℓ`-adic components.* A continuous ring homomorphism `ẑ →+* ℤ_[ℓ]` for each prime `ℓ`,
+  compatible with the `ZMod ℓ^k` projections and with Tau Ceti's
+  `TauCeti.zHat.maximalProPQuotientEquivPadicInt`, and the theorem that the induced map to
+  `∏_ℓ ℤ_[ℓ]` is a topological ring isomorphism.
+- *Units.* The unit group `ẑˣ` with its topology, and the criterion
+  `a ∈ ẑˣ ↔ ∀ n, image of a in ZMod n is a unit ↔ ∀ ℓ, component_ℓ a ∈ ℤ_[ℓ]ˣ`.
 - *The universal property for characters.* A compatible system of homomorphisms into
-  `(ZMod n)ˣ` assembles into one homomorphism into `ProfiniteIntˣ`; this is what 12.10 uses
-  to build the cyclotomic character out of the pin's finite levels.
-- *Edge cases.* `ProfiniteInt` is not a domain (it is `∏_ℓ ℤ_[ℓ]`); `ℤ → ProfiniteInt` is
-  injective with dense image.
+  `(ZMod n)ˣ` assembles into one homomorphism into `ẑˣ`; this is what 12.10 uses to build the
+  cyclotomic character out of the pin's finite levels.
+- *Edge cases.* `ẑ` is not a domain (it is `∏_ℓ ℤ_[ℓ]`); `ℤ → ẑ` is injective with dense image.
 
-*Prerequisites:* Mathlib `ZMod`, `PadicInt`, `ProfiniteGrp`, inverse limits of topological
-rings; ProfiniteProPGroups Layers 0, 4 for `zHat` and its group API.
+*Prerequisites:* Tau Ceti `TauCeti.zHat` with its group API; Mathlib `ZMod`, `PadicInt`;
+`ProfiniteArithmetic` Layer 0.
 
 #### 12.2 The profinite exponentiation calculus
 
 Owned with 12.1 by `ProfiniteArithmetic` and exported from the generic profinite
 namespace. Neither this supplier milestone nor the next mentions Belyi maps.
 
-Carrier: `ẑ := ProfiniteInt` of 12.1, whose underlying procyclic group is ProfiniteProPGroups' `zHat`
-by 12.1's comparison. For a profinite group `G` and `x : G`, define `x ^ᶻ a` for `a : ẑ` as
-the image of `a` under the unique continuous homomorphism `ẑ → G` sending `1` to `x` — the
-completion's universal property applied to `n ↦ xⁿ`, which lands in the closed procyclic
-subgroup generated by `x`.
+Carrier: `ẑ` of 12.1. For a profinite group `G` and `x : G`, `x ^ᶻ a` for `a : ẑ` is
+`TauCeti.zHat.lift x` applied to `a`: the unique continuous homomorphism from `TauCeti.zHat` to
+`G` sending the generator to `x`, which is the completion's universal property applied to
+`n ↦ xⁿ` and lands in the closed procyclic subgroup generated by `x`. `ProfiniteArithmetic`
+(its Layer 1.1) generalizes Tau Ceti's lift, with the universal property of profinite completion
+behind it, to profinite groups in every universe; there is no second lift and no second powering
+construction.
 
 **New object: `^ᶻ`.** Basic API:
 
 - *Constructors and instances.* The definition; the closed procyclic subgroup `⟨x⟩‾` and the
   fact that `x ^ᶻ a` lies in it.
-- *Examples.* `x ^ᶻ (n : ℤ) = x ^ n`; `x ^ᶻ 0 = 1`; `1 ^ᶻ a = 1`; in `ẑ` itself, `^ᶻ` is
-  multiplication.
+- *Examples.* `x ^ᶻ (n : ℤ) = x ^ n`; `x ^ᶻ 0 = 1`; `1 ^ᶻ a = 1`; in `TauCeti.zHat` itself,
+  `^ᶻ` is multiplication.
 - *Morphisms and functoriality.* **Naturality**: `f (x ^ᶻ a) = (f x) ^ᶻ a` for every
   continuous homomorphism `f`. This is the workhorse of the whole layer — it gives the
   conjugation instance `(c⁻¹ x c) ^ᶻ a = c⁻¹ (x ^ᶻ a) c` used in 12.11 and 13.3, and the
@@ -3751,24 +3790,26 @@ of `a`". No such representative exists, and the operation is defined by the univ
 property, never by a choice. Nor is `(xy) ^ᶻ a = x ^ᶻ a · y ^ᶻ a` — that needs `x` and `y`
 to commute.
 
-*Prerequisites:* Layer 12.1; Mathlib `ProfiniteGrp.profiniteCompletion` with `lift` and the
-adjunction; ProfiniteProPGroups Layers 0, 4 for `zHat` and its API.
+*Prerequisites:* Layer 12.1; Tau Ceti `TauCeti.zHat.lift` and
+`TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv`, as `ProfiniteArithmetic` Layer 1.1
+generalizes them.
 
 #### 12.3 Pro-`ℓ` powers and the component comparison
 
-On a pro-`ℓ` group the power depends only on the `ℓ`-adic component of the exponent. Using
-ProfiniteProPGroups Layer 4's `maximalProPQuotient_zHat_equiv_padicInt`, define the
-`ℤ_ℓ`-power `x ^[ℓ] u` for `u : ℤ_[ℓ]` on a pro-`ℓ` group, prove it satisfies the same laws
-as 12.2, and prove the comparison
+On a pro-`ℓ` group the power depends only on the `ℓ`-adic component of the exponent. The
+`ℤ_ℓ`-power `x ^[ℓ] u` for `u : ℤ_[ℓ]` on a pro-`ℓ` group is Tau Ceti's
+`TauCeti.IsProP.padicPow`, with the same laws as 12.2, and `ProfiniteArithmetic` (its Layer 1.3)
+proves the comparison
 
 ```text
 x ^ᶻ a = x ^[ℓ] (component_ℓ a)
 ```
 
-by factoring the powering homomorphism `ẑ → G` through the maximal pro-`ℓ` quotient of `ẑ`
-— legitimate by ProfiniteProPGroups Layer 3's universal property, since `G` is pro-`ℓ` — and
-identifying that quotient with `ℤ_[ℓ]` compatibly with 12.1's component map, so that
-`component_ℓ` here is the ring homomorphism of 12.1 and not a second unrelated projection.
+by factoring the powering homomorphism `TauCeti.zHat → G` through the maximal pro-`ℓ` quotient
+of `TauCeti.zHat` — legitimate by `TauCeti.maximalProPQuotient.lift`, since `G` is pro-`ℓ` — and
+identifying that quotient with `ℤ_[ℓ]` by `TauCeti.zHat.maximalProPQuotientEquivPadicInt`,
+compatibly with 12.1's component map, so that `component_ℓ` here is the ring homomorphism of
+12.1 and not a second unrelated projection.
 
 ⚠ Every statement in this milestone and every consumer of `^[ℓ]` below carries
 `[Fact ℓ.Prime]`; `ℤ_[ℓ]` and the maximal pro-`ℓ` quotient are not the intended objects
@@ -3778,7 +3819,9 @@ otherwise.
 general profinite group the `ℓ`-adic component of `a` does not determine `x ^ᶻ a`, and no
 milestone applies `^[ℓ]` outside a pro-`ℓ` group.
 
-*Prerequisites:* Layers 12.1, 12.2; ProfiniteProPGroups Layers 3, 4; Mathlib `Fact`, `PadicInt`.
+*Prerequisites:* Layers 12.1, 12.2; Tau Ceti `TauCeti.IsProP.padicPow`,
+`TauCeti.maximalProPQuotient.lift`, `TauCeti.zHat.maximalProPQuotientEquivPadicInt`;
+`ProfiniteArithmetic` Layer 1.3; Mathlib `Fact`, `PadicInt`.
 
 #### 12.4 The `ℚ̄`/`ℂ` comparison of finite covers
 
@@ -3914,7 +3957,7 @@ finite group is the Galois group of a cover étale outside the three points. **E
 4.6.12(2)** is the Kummer case `π₁(ℙ¹_k ∖ {0,∞}) ≅ ẑ`, realized by normalizing in `xⁿ = t`,
 which is the tower Layers 12.9 and 12.11 compute with.
 
-*Prerequisites:* Layers 5.6, 6.1, 6.3, 12.4, 12.5; ProfiniteProPGroups Layers 0, 4; Mathlib
+*Prerequisites:* Layers 5.6, 6.1, 6.3, 12.4, 12.5; Tau Ceti `TauCeti.freeProfiniteGroup`; Mathlib
 `PreGaloisCategory`, `FiberFunctor`, `functorToContAction`, `IsFundamentalGroup` with
 `toAutMulEquiv`, the profinite topology on `Aut F`, `ProfiniteGrp.profiniteCompletion` with
 its adjunction.
@@ -4176,21 +4219,29 @@ and three orbits. Layer 14 never treats `pass_size` and `orbit_size` as the same
 
 ### Layer 13: the pro-`ℓ` peripheral theorem and faithfulness
 
-> **Owner:** successor roadmap `BelyiArithmeticActions`. Retained here as a dependency
-> specification; no milestone of this layer is a declaration or a completion claim of
-> this PR.
+> **Owner:** successor roadmap `BelyiArithmeticActions`, except that the existence statements of
+> 13.3 and 13.4 are instances of `PeripheralActions`' generic theorems (its Layers 2 and 4), which
+> are proved there for every free pro-`p` group of finite rank without the Galois action.
+> `BelyiArithmeticActions` owns the arithmetic route below and its Galois-equivariant
+> consequences. The two generic helpers 13.3 applies, `conjugation_transfer` and
+> `opposite_third_peripheral`, are exports of §Pinned conventions, not of this layer.
+> Retained here as a dependency specification; no milestone of this layer is a
+> declaration or a completion claim of this PR.
 
 #### 13.1 The pro-`ℓ` peripheral triple
 
 For a **prime** `ℓ` — every statement of Layer 13 carries `[Fact ℓ.Prime]`, since neither
 `maximalProPQuotient` nor `ℤ_[ℓ]` is the intended object otherwise — define
-`Δ_ℓ := ProfiniteProPGroups.freeProP ℓ (Fin 2)` directly, with `P_ℓ, T_ℓ, C_ℓ` the images
-of the supplier's canonical generators and the relation `C_ℓ * T_ℓ * P_ℓ = 1`. The
-supplier defines this carrier as the maximal pro-`ℓ` quotient of the free profinite group;
-this roadmap neither redefines that quotient nor introduces an isomorphic replacement.
+`Δ_ℓ := TauCeti.freeProP ℓ (Fin 2)` directly, with `P_ℓ, T_ℓ, C_ℓ` the images of Tau Ceti's
+canonical generators `TauCeti.freeProP.of` and the relation `C_ℓ * T_ℓ * P_ℓ = 1`. Tau Ceti
+defines this carrier as the maximal pro-`ℓ` quotient of `TauCeti.freeProfiniteGroup (Fin 2)`,
+the group `F̂₂` of §Pinned conventions; this roadmap neither redefines that quotient nor
+introduces an isomorphic replacement, and `PeripheralActions`' dyadic instance, with `e` the
+identity, is about this same carrier.
 
-The outer action descends: `proPKernel ℓ` is topologically characteristic (ProfiniteProPGroups Layer
-3), so 12.7's functoriality gives
+The outer action descends: `TauCeti.proPKernel ℓ` is topologically characteristic (Tau Ceti's
+`TauCeti.map_proPKernel_eq`, as `ProfiniteArithmetic`'s `isTopCharacteristic_proPKernel`), so
+12.7's functoriality gives
 
 ```text
 ρ_ℓ : Gal(ℚ̄/ℚ) →* ContinuousOut (Δ_ℓ) ,
@@ -4198,7 +4249,8 @@ The outer action descends: `proPKernel ℓ` is topologically characteristic (Pro
 
 and 12.11's statements descend with `^ᶻ` becoming `^[ℓ]` by 12.3.
 
-*Prerequisites:* Layers 12.7, 12.11, 12.2, 12.3; ProfiniteProPGroups Layers 3, 4.
+*Prerequisites:* Layers 12.7, 12.11, 12.2, 12.3; Tau Ceti `TauCeti.freeProP`,
+`TauCeti.freeProP.of`, `TauCeti.map_proPKernel_eq`.
 
 #### 13.2 Cyclotomic surjectivity
 
@@ -4226,8 +4278,14 @@ For every prime `ℓ` and every `u ∈ ℤ_[ℓ]ˣ` there exist a continuous aut
 φ_u C_ℓ = c_C⁻¹ · (C_ℓ ^[ℓ] u) · c_C .
 ```
 
-Proof: choose `σ` with `cyclotomicCharacter ℓ σ = u` (13.2); take `ρ_ℓ(σ)` (13.1) and any
-representative automorphism `φ_u` of that outer class; the three conjugacy statements of
+As an existence statement this is `PeripheralActions` Layer 2 (`exists_peripheralAut`) for
+`F = Δ_ℓ` with `e` the identity and basis `(P_ℓ, T_ℓ)`. Its cusp is
+`(P_ℓ · T_ℓ)⁻¹ = P_ℓ · C_ℓ · P_ℓ⁻¹` (`opposite_third_peripheral`), and the statement for `C_ℓ`
+follows by the conjugation-transfer lemma of §Pinned conventions at `q = P_ℓ⁻¹`. The proof
+recorded here is the arithmetic one.
+
+Arithmetic proof: choose `σ` with `cyclotomicCharacter ℓ σ = u` (13.2); take `ρ_ℓ(σ)` (13.1)
+and any representative automorphism `φ_u` of that outer class; the three conjugacy statements of
 12.11, descended by 13.1, say exactly that each `φ_u(X_ℓ)` is conjugate to `X_ℓ ^[ℓ] u`, and
 the conjugators are the witnesses.
 
@@ -4237,34 +4295,24 @@ conjugator would say `φ_u` is inner-times-the-power-map on the whole group, whi
 ⚠ The assignment `u ↦ φ_u` is **not** asserted to be a homomorphism, to be continuous, or to
 be canonical. Each is a strictly stronger statement and each is outside this roadmap.
 
-**The conjugation-transfer lemma**, stated generically because the conjugator is *computed*,
-not adjusted by inspection. Let `φ` be a continuous automorphism, `u` an exponent, and suppose
+**Change of convention.** The conjugation-transfer lemma of §Pinned conventions, with `pow` the
+`u`-th power and its hypothesis supplied by 12.2, transfers the theorem to every conjugate of a
+peripheral element. Applying it with `q = P_ℓ` and `x = C_ℓ` gives the opposite-convention third
+element `(P_ℓ · T_ℓ)⁻¹ = P_ℓ · C_ℓ · P_ℓ⁻¹`, so consumers using that spelling need no new
+mathematics.
 
-```text
-φ x = c⁻¹ · (x ^ u) · c .
-```
-
-Then for any conjugate `y = q · x · q⁻¹`,
-
-```text
-φ y = d⁻¹ · (y ^ u) · d   with   d := q · c · (φ q)⁻¹ .
-```
-
-The proof is `φ y = (φ q)(φ x)(φ q)⁻¹`, then naturality of the power under conjugation
-(12.2); the conjugator involves `φ q`, and is **not** obtained by multiplying `c` by `q` on
-one side.
-
-Applying it with `q = P_ℓ` and `x = C_ℓ` transfers the theorem to the opposite-convention
-third element `(P_ℓ · T_ℓ)⁻¹ = P_ℓ · C_ℓ · P_ℓ⁻¹`, so consumers using that spelling need no
-new mathematics.
-
-*Prerequisites:* Layers 12.2, 13.1, 13.2.
+*Prerequisites:* Layers 12.2, 13.1, 13.2; §Pinned conventions (`conjugation_transfer`,
+`opposite_third_peripheral`); `PeripheralActions` Layer 2 for the existence statement.
 
 #### 13.4 The dyadic instance
 
 The specialization to `ℓ = 2`, stated as its own named theorem with `u : ℤ_[2]ˣ` on
-`Δ_2 = freeProP 2 (Fin 2)`. It is the reusable dyadic peripheral-power statement; nothing in
-its statement or its proof mentions anything outside this roadmap.
+`Δ_2 = TauCeti.freeProP 2 (Fin 2)`. As an existence statement it is `PeripheralActions` Layer 4, the
+reusable dyadic peripheral-power theorem, in the form `exists_peripheralPowerAutomorphism_two'`,
+whose third element `(T * P)⁻¹` is this roadmap's `C_2`; the unprimed
+`exists_peripheralPowerAutomorphism_two` is stated for `PeripheralActions`' cusp `(P * T)⁻¹`. This
+milestone records its arithmetic proof, and nothing in that proof mentions anything outside this
+roadmap.
 
 *Prerequisites:* Layer 13.3.
 

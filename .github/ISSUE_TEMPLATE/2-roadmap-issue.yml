@@ -51,6 +51,7 @@ body:
         - OrthogonalSpinGroups
         - PDE
         - PolynomialGaloisGroups
+        - ProfiniteArithmetic
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
