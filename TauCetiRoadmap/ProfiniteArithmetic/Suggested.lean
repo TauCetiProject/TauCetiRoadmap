@@ -3,6 +3,9 @@ import TauCetiRoadmap.ProfiniteProPGroups.Suggested
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.PadicPow
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 import TauCeti.Topology.Algebra.Group.LowerCentralSeries.Graded.Basic
+import TauCeti.Topology.Algebra.Group.Profinite.ProP.Frattini.Basic
+import TauCeti.Topology.Algebra.Group.Profinite.MaximalProP
+import TauCeti.GroupTheory.SpecificGroups.Heisenberg
 
 set_option autoImplicit false
 
@@ -207,6 +210,21 @@ say that every quotient by an open normal subgroup is an `ℓ`-group. -/
 theorem isProP_iff_tauCeti (ℓ : ℕ) (G : Type u) [Group G] [TopologicalSpace G] :
     IsProP ℓ G ↔ TauCeti.IsProP ℓ G :=
   TauCeti.isProP_iff.symm
+
+/-- **Layer 2.2.** The supplier's pro-`p` kernel is Tau Ceti's `TauCeti.proPKernel`: both are the
+intersection of the open normal subgroups with `p`-group quotient. -/
+theorem proPKernel_eq_tauCeti (p : ℕ) (G : Type u) [Group G] [TopologicalSpace G] :
+    proPKernel p G = TauCeti.proPKernel p G := by
+  ext x
+  rw [TauCeti.mem_proPKernel_iff, proPKernel, Subgroup.mem_iInf]
+  exact ⟨fun h U hU => h ⟨U, hU⟩, fun h U => h U.1 U.2⟩
+
+/-- **Layer 2.2.** The supplier's pro-`p` Frattini subgroup is Tau Ceti's `TauCeti.proPFrattini`:
+both are the intersection of the open normal subgroups of index `p`. -/
+theorem proPFrattini_eq_tauCeti (p : ℕ) (G : Type u) [Group G] [TopologicalSpace G] :
+    proPFrattini p G = TauCeti.proPFrattini p G := by
+  rw [TauCeti.proPFrattini_def]
+  rfl
 
 section Powers
 
@@ -461,11 +479,17 @@ supplier's `proPKernel` and `proPFrattini` satisfy. -/
 def IsTopCharacteristic (N : Subgroup G) : Prop :=
   ∀ φ : ContinuousAut G, N.map φ.toMulEquiv.toMonoidHom = N
 
+omit [IsTopologicalGroup G] in
 /-- **Layer 2.2.** The pro-`p` Frattini subgroup is topologically characteristic, for every
-topological group and every `p`: a continuous automorphism permutes the open normal subgroups
-that define it. -/
+topological group and every `p`: Tau Ceti's `ContinuousMulEquiv.map_proPFrattini_eq`. -/
 theorem isTopCharacteristic_proPFrattini (p : ℕ) : IsTopCharacteristic G (proPFrattini p G) :=
-  sorry
+  fun φ => by rw [proPFrattini_eq_tauCeti]; exact ContinuousMulEquiv.map_proPFrattini_eq φ
+
+omit [IsTopologicalGroup G] in
+/-- **Layer 2.2.** The pro-`p` kernel is topologically characteristic, for every topological
+group and every `p`: Tau Ceti's `TauCeti.map_proPKernel_eq`. BelyiMaps Layer 13.1 consumes it. -/
+theorem isTopCharacteristic_proPKernel (p : ℕ) : IsTopCharacteristic G (proPKernel p G) :=
+  fun φ => by rw [proPKernel_eq_tauCeti]; exact TauCeti.map_proPKernel_eq φ
 
 /-- **Layer 2.2.** The automorphism of a characteristic quotient induced by a continuous
 automorphism, pinned by `ContinuousAut.mapQuotient_mk`. -/
@@ -481,9 +505,9 @@ theorem ContinuousAut.mapQuotient_mk (N : Subgroup G) [N.Normal] (hN : IsTopChar
     ContinuousAut.mapQuotient G N hN φ (QuotientGroup.mk x) = QuotientGroup.mk (φ x) :=
   sorry
 
-/-- **Layer 2.2, the congruence topology.** The initial topology of the maps to the finite
-automorphism groups of the topologically characteristic open normal quotients, each carrying the
-discrete topology. ⚠ In Mathlib's order on topologies `⊥` is the **discrete** topology and `⊤` the
+/-- **Layer 2.2, the congruence topology.** The initial topology of the maps to the automorphism
+groups of the topologically characteristic open normal quotients, each carrying the discrete
+topology; these groups are finite when `G` is profinite, and not in general. ⚠ In Mathlib's order on topologies `⊥` is the **discrete** topology and `⊤` the
 indiscrete one (`DiscreteTopology α` is `t = ⊥`), so `induced _ ⊥` below is the initial topology
 for discrete targets, as intended; `continuous_mapQuotient` records it. -/
 noncomputable instance : TopologicalSpace (ContinuousAut G) :=
@@ -540,6 +564,96 @@ noncomputable instance : MulAction (ContinuousOut G) (ConjClasses G) :=
 
 theorem ContinuousOut.mk_smul_mk (φ : ContinuousAut G) (x : G) :
     (ContinuousOut.mk G φ) • ConjClasses.mk x = ConjClasses.mk (φ x) :=
+  sorry
+
+/-- **Layer 2.3, descent to a characteristic quotient.** For a closed normal topologically
+characteristic subgroup `N`, a continuous automorphism of `G` induces one of `G ⧸ N`. This is the
+reusable map for arbitrary closed characteristic quotients; `mapQuotient` of 2.2 is its shadow in
+`MulAut (G ⧸ N)`, used for the congruence topology. -/
+noncomputable def ContinuousAut.mapClosedQuotient (N : Subgroup G) [N.Normal]
+    (_hNc : IsClosed (N : Set G)) (_hN : IsTopCharacteristic G N) :
+    ContinuousAut G →* ContinuousAut (G ⧸ N) :=
+  sorry
+
+/-- **Layer 2.3.** The induced automorphism sends the class of `x` to the class of `φ x`; since
+`QuotientGroup.mk` is surjective, this pins `mapClosedQuotient`. -/
+theorem ContinuousAut.mapClosedQuotient_mk (N : Subgroup G) [N.Normal]
+    (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) (φ : ContinuousAut G) (x : G) :
+    ContinuousAut.mapClosedQuotient G N hNc hN φ (QuotientGroup.mk x) = QuotientGroup.mk (φ x) :=
+  sorry
+
+/-- **Layer 2.3.** Inner automorphisms go to inner automorphisms: `conj g ↦ conj (g N)`. -/
+theorem ContinuousAut.mapClosedQuotient_conj (N : Subgroup G) [N.Normal]
+    (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) (g : G) :
+    ContinuousAut.mapClosedQuotient G N hNc hN (ContinuousAut.conj G g)
+      = ContinuousAut.conj (G ⧸ N) (QuotientGroup.mk g) :=
+  sorry
+
+/-- **Layer 2.3.** The descent is continuous for the congruence topologies: the preimage in `G` of
+a topologically characteristic open normal subgroup of `G ⧸ N` is one of `G`. -/
+theorem ContinuousAut.continuous_mapClosedQuotient (N : Subgroup G) [N.Normal]
+    (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) :
+    Continuous (ContinuousAut.mapClosedQuotient G N hNc hN) :=
+  sorry
+
+/-- **Layer 2.3.** The induced map of outer automorphism groups, defined from `mapClosedQuotient`,
+which carries inner automorphisms to inner automorphisms (`mapClosedQuotient_conj`). -/
+noncomputable def ContinuousOut.mapClosedQuotient (N : Subgroup G) [N.Normal]
+    (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) :
+    ContinuousOut G →* ContinuousOut (G ⧸ N) :=
+  QuotientGroup.map _ _ (ContinuousAut.mapClosedQuotient G N hNc hN) (by
+    rintro _ ⟨g, rfl⟩
+    exact Subgroup.mem_comap.2 (MonoidHom.mem_range.2
+      ⟨QuotientGroup.mk g, (ContinuousAut.mapClosedQuotient_conj G N hNc hN g).symm⟩))
+
+/-- **Layer 2.3.** The outer map on classes. -/
+theorem ContinuousOut.mapClosedQuotient_mk (N : Subgroup G) [N.Normal]
+    (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) (φ : ContinuousAut G) :
+    ContinuousOut.mapClosedQuotient G N hNc hN (ContinuousOut.mk G φ)
+      = ContinuousOut.mk (G ⧸ N) (ContinuousAut.mapClosedQuotient G N hNc hN φ) :=
+  rfl
+
+/-- **Layer 2.3.** The outer map is continuous for the quotient topologies. -/
+theorem ContinuousOut.continuous_mapClosedQuotient (N : Subgroup G) [N.Normal]
+    (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) :
+    Continuous (ContinuousOut.mapClosedQuotient G N hNc hN) :=
+  sorry
+
+/-- **Layer 2.3, closed subgroups.** A continuous automorphism carries a closed subgroup (Mathlib's
+`ClosedSubgroup G`) to its image, which is closed because the automorphism is a homeomorphism. -/
+instance : MulAction (ContinuousAut G) (ClosedSubgroup G) where
+  smul φ H := ⟨H.toSubgroup.map φ.toMulEquiv.toMonoidHom, φ.toHomeomorph.isClosedMap _ H.isClosed'⟩
+  one_smul := sorry
+  mul_smul := sorry
+
+omit [IsTopologicalGroup G] in
+/-- **Layer 2.3.** The action on closed subgroups is the image. -/
+theorem ContinuousAut.smul_closedSubgroup_toSubgroup (φ : ContinuousAut G) (H : ClosedSubgroup G) :
+    (φ • H).toSubgroup = H.toSubgroup.map φ.toMulEquiv.toMonoidHom :=
+  rfl
+
+/-- **Layer 2.3.** `G` acts on its closed subgroups by conjugation, through its inner automorphisms;
+`ConjAct G` is Mathlib's type for that action. -/
+noncomputable instance : MulAction (ConjAct G) (ClosedSubgroup G) :=
+  MulAction.compHom (ClosedSubgroup G) ((ContinuousAut.conj G).comp ConjAct.ofConjAct.toMonoidHom)
+
+/-- **Layer 2.3.** Closed subgroups up to conjugacy: the orbits of the conjugation action. -/
+abbrev ClosedSubgroupConjClasses : Type u :=
+  MulAction.orbitRel.Quotient (ConjAct G) (ClosedSubgroup G)
+
+/-- **Layer 2.3.** The action of the outer group on closed subgroups up to conjugacy: a continuous
+automorphism respects conjugacy of closed subgroups, and inner automorphisms fix every class. -/
+noncomputable instance : MulAction (ContinuousOut G) (ClosedSubgroupConjClasses G) :=
+  sorry
+
+/-- **Layer 2.3.** `ContinuousOut.mk φ` carries the class of `H` to the class of `φ • H`; this pins
+the action. -/
+theorem ContinuousOut.mk_smul_closedSubgroupConjClass (φ : ContinuousAut G)
+    (H : ClosedSubgroup G) :
+    ContinuousOut.mk G φ •
+        (Quotient.mk (MulAction.orbitRel (ConjAct G) (ClosedSubgroup G)) H :
+          ClosedSubgroupConjClasses G)
+      = Quotient.mk (MulAction.orbitRel (ConjAct G) (ClosedSubgroup G)) (φ • H) :=
   sorry
 
 /-- **Layer 2.3, the outer action of an extension.** Conjugation of `E` on a closed normal
@@ -790,77 +904,36 @@ Both degrees are proved directly, by detecting homomorphisms: to `Multiplicative
 zero and to the Heisenberg group over `ℤ_p` in degree one. No comparison with the pro-`p`
 completion of a discrete free nilpotent group is needed. -/
 
-/-- **Layer 3.4, the detecting group.** The Heisenberg group over `ℤ_p`: triples `(a, b, c)` with
-`(a, b, c) (a', b', c') = (a + a', b + b', c + c' + a b')`, topologized as `ℤ_p³`. Its commutators
-are central: `⁅(a, b, c), (a', b', c')⁆ = (0, 0, a b' - a' b)` (`HeisenbergZp.commutatorElement_eq`). -/
-@[ext] structure HeisenbergZp (p : ℕ) [Fact p.Prime] where
-  /-- The first coordinate. -/
-  a : ℤ_[p]
-  /-- The second coordinate. -/
-  b : ℤ_[p]
-  /-- The central coordinate. -/
-  c : ℤ_[p]
+/-- **Layer 3.4, the detecting group.** Tau Ceti's Heisenberg group over `ℤ_p`,
+`TauCeti.HeisenbergGroup ℤ_[p]`: triples `(x, y, z)` with
+`(x, y, z) (x', y', z') = (x + x', y + y', z + z' + x y')`, with its group law and the commutator
+formula `⁅(x, y, z), (x', y', z')⁆ = (0, 0, x y' - x' y)` (`TauCeti.HeisenbergGroup.commutatorElement_eq`).
+This roadmap adds only the topology and, over `ℤ_p`, the profinite and pro-`p` structure. -/
+abbrev HeisenbergZp (p : ℕ) [Fact p.Prime] : Type := TauCeti.HeisenbergGroup ℤ_[p]
 
-namespace HeisenbergZp
+/-- **Layer 3.4.** The topology of `R³` on Tau Ceti's Heisenberg group, through its coordinate
+equivalence `TauCeti.HeisenbergGroup.equivProd`. -/
+noncomputable instance {R : Type*} [TopologicalSpace R] :
+    TopologicalSpace (TauCeti.HeisenbergGroup R) :=
+  TopologicalSpace.induced TauCeti.HeisenbergGroup.equivProd inferInstance
 
-variable {p : ℕ} [Fact p.Prime]
-
-noncomputable instance : Mul (HeisenbergZp p) := ⟨fun g h => ⟨g.a + h.a, g.b + h.b, g.c + h.c + g.a * h.b⟩⟩
-
-noncomputable instance : One (HeisenbergZp p) := ⟨⟨0, 0, 0⟩⟩
-
-noncomputable instance : Inv (HeisenbergZp p) := ⟨fun g => ⟨-g.a, -g.b, g.a * g.b - g.c⟩⟩
-
-@[simp] theorem mul_a (g h : HeisenbergZp p) : (g * h).a = g.a + h.a := rfl
-
-@[simp] theorem mul_b (g h : HeisenbergZp p) : (g * h).b = g.b + h.b := rfl
-
-@[simp] theorem mul_c (g h : HeisenbergZp p) : (g * h).c = g.c + h.c + g.a * h.b := rfl
-
-@[simp] theorem one_a : (1 : HeisenbergZp p).a = 0 := rfl
-
-@[simp] theorem one_b : (1 : HeisenbergZp p).b = 0 := rfl
-
-@[simp] theorem one_c : (1 : HeisenbergZp p).c = 0 := rfl
-
-@[simp] theorem inv_a (g : HeisenbergZp p) : g⁻¹.a = -g.a := rfl
-
-@[simp] theorem inv_b (g : HeisenbergZp p) : g⁻¹.b = -g.b := rfl
-
-@[simp] theorem inv_c (g : HeisenbergZp p) : g⁻¹.c = g.a * g.b - g.c := rfl
-
-noncomputable instance : Group (HeisenbergZp p) where
-  mul := (· * ·)
-  one := 1
-  inv := (·⁻¹)
-  mul_assoc g h k := by ext <;> simp <;> ring
-  one_mul g := by ext <;> simp
-  mul_one g := by ext <;> simp
-  inv_mul_cancel g := by ext <;> simp
-
-/-- The topology of `ℤ_p³`, transported along the coordinates. -/
-noncomputable instance : TopologicalSpace (HeisenbergZp p) :=
-  TopologicalSpace.induced (fun g : HeisenbergZp p => (g.a, g.b, g.c)) inferInstance
-
-instance : IsTopologicalGroup (HeisenbergZp p) := sorry
-
-instance : CompactSpace (HeisenbergZp p) := sorry
-
-instance : TotallyDisconnectedSpace (HeisenbergZp p) := sorry
-
-/-- **Layer 3.4.** The Heisenberg group over `ℤ_p` is pro-`p`: the triples with all coordinates
-in `p ^ n ℤ_p` form an open normal subgroup of index `p ^ (3 n)`, and these subgroups form a
-basis of neighbourhoods of `1`. -/
-theorem isProP : IsProP p (HeisenbergZp p) :=
+instance {R : Type*} [Ring R] [TopologicalSpace R] [IsTopologicalRing R] :
+    IsTopologicalGroup (TauCeti.HeisenbergGroup R) :=
   sorry
 
-/-- **Layer 3.4.** Commutators are central, with third coordinate `a b' - a' b`. -/
-theorem commutatorElement_eq (g h : HeisenbergZp p) :
-    ⁅g, h⁆ = ⟨0, 0, g.a * h.b - h.a * g.b⟩ := by
-  ext <;> simp [commutatorElement_def]
-  ring
+instance {R : Type*} [TopologicalSpace R] [CompactSpace R] :
+    CompactSpace (TauCeti.HeisenbergGroup R) :=
+  sorry
 
-end HeisenbergZp
+instance {R : Type*} [TopologicalSpace R] [TotallyDisconnectedSpace R] :
+    TotallyDisconnectedSpace (TauCeti.HeisenbergGroup R) :=
+  sorry
+
+/-- **Layer 3.4.** The Heisenberg group over `ℤ_p` is pro-`p`: the triples with all coordinates in
+`p ^ n ℤ_p` form an open normal subgroup of index `p ^ (3 n)`, and these subgroups form a basis of
+neighbourhoods of `1`. -/
+theorem HeisenbergZp.isProP (p : ℕ) [Fact p.Prime] : IsProP p (HeisenbergZp p) :=
+  sorry
 
 section FreeGraded
 

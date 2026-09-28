@@ -61,7 +61,8 @@ The roadmap owns:
   generated compact group, the triviality of the intersection `⋂ γ_n(G)` for pro-`p` groups, the
   comparison with the lower `p`-series, the identification of `gr_0(G)` with the supplier's
   topological abelianization, and the degree-zero and degree-one pieces of a free pro-`p` group,
-  with the Heisenberg group over `ℤ_p` that detects degree one.
+  with the topology and pro-`p` structure of Tau Ceti's Heisenberg group over `ℤ_p`, which detects
+  degree one.
 
 It does not own, and consumes by name:
 
@@ -146,6 +147,9 @@ next table.
 |---|---|
 | the `ℤ_p`-power | `TauCeti.IsProP`, `TauCeti.isProP_iff`, `TauCeti.IsProP.padicPow`, `TauCeti.IsProP.padicPow_one`, `padicPow_intCast`, `padicPow_add`, `padicPow_mul`, `map_padicPow`, `inv_padicPow`, `continuous_padicPow`, `padicPow_mem`, `TauCeti.IsProP.module` |
 | the profinite completion of `ℤ` | `TauCeti.zHat`, `TauCeti.zHat.gen`, `TauCeti.zHat.lift`, `TauCeti.zHat.maximalProPQuotientEquivPadicInt` |
+| the pro-`p` kernel and Frattini subgroup | `TauCeti.proPKernel`, `TauCeti.mem_proPKernel_iff`, `TauCeti.map_proPKernel_eq`, `TauCeti.proPFrattini`, `TauCeti.proPFrattini_def`, `ContinuousMulEquiv.map_proPFrattini_eq` |
+| the profinite limit description | `TauCeti.existsUnique_forall_mk_eq`, `TauCeti.existsUnique_monoidHom_mk'_comp_eq`, `TauCeti.continuous_iff_forall_continuous_mk`, and their `_of_iInf_eq_bot` variants |
+| the Heisenberg group | `TauCeti.HeisenbergGroup`, `TauCeti.HeisenbergGroup.equivProd`, its `Group` instance, `TauCeti.HeisenbergGroup.commutatorElement_eq` |
 | the maximal pro-`p` quotient, Burnside and Hopf | `TauCeti.isProP_maximalProPQuotient`, `TauCeti.maximalProPQuotient.lift`, `TauCeti.IsProP.topologicallyGenerates_iff_frattiniQuotient`, `TauCeti.IsProP.surjective_of_leftInverse_of_ker_le_proPFrattini`, `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective` |
 | the lower `p`-series | `TauCeti.pLowerCentralSeries`, `pLowerCentralSeries_zero`, `pLowerCentralSeries_succ`, `pLowerCentralStep_def`, `mem_pLowerCentralSeries_zero`, the instance `pLowerCentralSeries_normal`, `isClosed_pLowerCentralSeries`, `pLowerCentralSeries_antitone`, `commutator_mem_pLowerCentralSeries`, `mk_conj_of_mem_pLowerCentralSeries`, `MonoidHom.map_pLowerCentralSeries_le`, `ContinuousMulEquiv.map_pLowerCentralSeries_eq` |
 | its graded pieces and bracket | `TauCeti.gradedPiece`, `TauCeti.gradedMk`, `gradedMk_surjective`, `gradedMk_eq_gradedMk_iff`, `TauCeti.gradedPieceZeroEquiv`, `gradedPieceZeroEquiv_gradedMk`, `TauCeti.gradedBracket`, `gradedBracket_gradedMk`, `gradedBracket_self`, `gradedBracket_jacobi`, `gradedMap_gradedBracket` |
@@ -160,7 +164,8 @@ universal property `PadicInt.lift` with `PadicInt.lift_spec` and `PadicInt.lift_
 `ContinuousMonoidHom`, `ContinuousMulEquiv` with `refl`, `symm`, `trans` and `ext`, `MulAut`,
 `MulAut.conj`, `MulDistribMulAction`, `IsConj`, `ConjClasses`, `Subgroup.topologicalClosure`,
 `Subgroup.zpowers`, `Subgroup.lowerCentralSeries`, `commutatorElement`, `Subgroup.commutator`,
-`commutator`, `ContinuousAddEquiv`, `DiscreteTopology`,
+`commutator`, `ContinuousAddEquiv`, `DiscreteTopology`, `ClosedSubgroup`, `ConjAct`,
+`MulAction.compHom`, `MulAction.orbitRel`, `QuotientGroup.map`,
 `Subgroup.Characteristic`, `frattini`, `frattini_nongenerating`, `IsPGroup`, `IsPGroup.isNilpotent`,
 `Group.IsNilpotent`, `OpenNormalSubgroup`, `IsCompact.image`, `IsCompact.isClosed`,
 `IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed`, `DirectSum`, `LieRing`,
@@ -273,14 +278,20 @@ milestone depends on an unmerged roadmap.
   `ℤ` extends along the dense inclusion `ℤ → ẑ` into the compact group `G`, level by level
   through the finite quotients of `G`. Then `x ^ᶻ a := zpowHatHom x (ofAdd a)`. Uniqueness is a
   theorem: any continuous homomorphism `Multiplicative ẑ →* G` sending `ofAdd 1` to `x` is
-  `zpowHatHom x`.
+  `zpowHatHom x`. The level-by-level construction is Tau Ceti's limit description of a profinite
+  group: at an open normal `U` with `m = |G ⧸ U|`, the homomorphism `a ↦ (x U) ^ (toZMod m a).val`
+  out of `Multiplicative ẑ` is compatible in `U`, and `TauCeti.existsUnique_monoidHom_mk'_comp_eq`
+  assembles the compatible family into `Multiplicative ẑ →* G`, continuous by
+  `TauCeti.continuous_iff_forall_continuous_mk` (`TauCeti.existsUnique_forall_mk_eq` pointwise, and
+  the `_of_iInf_eq_bot` variants for a countable cofinal family).
 - **Comparison with Tau Ceti.** For `G : Type` the power is Tau Ceti's `TauCeti.zHat.lift x`
   applied through `toZHat`: `x ^ᶻ a = TauCeti.zHat.lift x (toZHat (ofAdd a))`
   (`zpowHat_eq_zHat_lift`). The roadmap asks for `x ^ᶻ a` in every universe because that route
   stops at `Type`: Mathlib's `ProfiniteGrp.ProfiniteCompletion.lift`, on which `TauCeti.zHat.lift`
   is built, needs the target in the universe of the completion. The finite-level construction
   works in every universe.
-  *Needs:* L0.2 density; TC `TauCeti.zHat.lift` for the comparison.
+  *Needs:* L0.2 density; TC `TauCeti.existsUnique_monoidHom_mk'_comp_eq`,
+  `TauCeti.continuous_iff_forall_continuous_mk`, and `TauCeti.zHat.lift` for the comparison.
 
   API checklist for `^ᶻ`:
   - Constructors: `zpowHatHom`; `zpowHat`.
@@ -385,18 +396,22 @@ milestone depends on an unmerged roadmap.
 - **Topologically characteristic subgroups.** `IsTopCharacteristic N : Prop` says every
   continuous automorphism maps `N` onto itself, `N.map φ = N`. This is weaker than Mathlib's
   `Subgroup.Characteristic`, which quantifies over `MulAut G`, and it is the notion every closed
-  subgroup "defined from the topology" satisfies. This roadmap proves it for `proPFrattini`
-  (`isTopCharacteristic_proPFrattini`, for every topological group and every `p`) and in the same
-  way for `proPKernel`; for the terms of the lower `p`-series, and so of the closed lower central
+  subgroup "defined from the topology" satisfies. For the supplier's `proPKernel` and
+  `proPFrattini` it is Tau Ceti's `TauCeti.map_proPKernel_eq` and
+  `ContinuousMulEquiv.map_proPFrattini_eq`, applied through the bridges `proPKernel_eq_tauCeti`
+  and `proPFrattini_eq_tauCeti` (the definitions agree): `isTopCharacteristic_proPKernel`, which
+  BelyiMaps Layer 13.1 consumes, and `isTopCharacteristic_proPFrattini`, for every topological
+  group and every `p`. For the terms of the lower `p`-series, and so of the closed lower central
   series, it is Tau Ceti's `ContinuousMulEquiv.map_pLowerCentralSeries_eq` (Layer 3.1).
 - **The topology.** `ContinuousAut G` carries the initial topology of the maps
   `ContinuousAut G →* MulAut (G ⧸ N)` induced by the topologically characteristic open normal
-  subgroups `N`, each `MulAut (G ⧸ N)` being finite and discrete. (In Lean the discrete topology
-  is `⊥`: Mathlib orders topologies by fineness, so `⊥` is discrete and `⊤` indiscrete;
-  `ContinuousAut.continuous_mapQuotient` records continuity into the discrete groups.) The map
-  sends `φ` to the
-  automorphism `x N ↦ φ x N` (`ContinuousAut.mapQuotient_mk`), which pins it. `ContinuousAut G` is
-  a topological group, and `ContinuousAut.conj` is continuous.
+  subgroups `N`. Each target `MulAut (G ⧸ N)` carries the discrete topology; when `G` is profinite
+  these characteristic open quotients are finite, and hence so are their automorphism groups, but
+  not in general (the discrete `ℤ × ℤ` example below). In Lean the discrete topology is `⊥`:
+  Mathlib orders topologies by fineness, so `⊥` is discrete and `⊤` indiscrete, and
+  `ContinuousAut.continuous_mapQuotient` records continuity into the discrete groups. The map sends
+  `φ` to the automorphism `x N ↦ φ x N` (`ContinuousAut.mapQuotient_mk`), which pins it.
+  `ContinuousAut G` is a topological group, and `ContinuousAut.conj` is continuous.
 - **Profiniteness under finite generation.** If `G` is a topologically finitely generated
   profinite group, the topologically characteristic open normal subgroups are cofinal among all
   open normal subgroups,
@@ -426,20 +441,33 @@ milestone depends on an unmerged roadmap.
 - **The action on `G`.** `ContinuousAut G` acts on `G` by evaluation, a `MulDistribMulAction`,
   compatible with `^ᶻ` and `^[ℓ]` by naturality (1.1, 1.3).
 - **The action on conjugacy classes.** The action descends to `ConjClasses G` and there factors
-  through `ContinuousOut G`, because inner automorphisms fix every class. The action on closed
-  subgroups, `H ↦ H.map φ`, and its descent to closed subgroups up to conjugacy are stated in the
-  same way.
-- **Functoriality along a characteristic quotient.** For a topologically characteristic closed
-  normal subgroup `N`, descent gives `ContinuousAut G →* ContinuousAut (G ⧸ N)` and
-  `ContinuousOut G →* ContinuousOut (G ⧸ N)`, both continuous for the congruence topologies. The
-  first map is compatible with the actions on conjugacy classes.
+  through `ContinuousOut G`, because inner automorphisms fix every class (`ContinuousOut.mk_smul_mk`).
+- **Closed subgroups up to conjugacy.** `ContinuousAut G` acts on Mathlib's `ClosedSubgroup G` by
+  images, `φ • H = H.map φ`, closed because `φ` is a homeomorphism
+  (`ContinuousAut.smul_closedSubgroup_toSubgroup`). `G` acts on `ClosedSubgroup G` by conjugation,
+  through `ConjAct G` and the inner automorphisms, and `ClosedSubgroupConjClasses G` is the orbit
+  quotient `MulAction.orbitRel.Quotient (ConjAct G) (ClosedSubgroup G)`. The action descends to it
+  and factors through `ContinuousOut G`: `ContinuousOut.mk φ` sends the class of `H` to the class of
+  `φ • H` (`ContinuousOut.mk_smul_closedSubgroupConjClass`). BelyiMaps Layer 12.7 consumes this.
+- **Functoriality along a characteristic quotient.** For a closed normal topologically
+  characteristic subgroup `N`, descent gives `ContinuousAut.mapClosedQuotient :
+  ContinuousAut G →* ContinuousAut (G ⧸ N)`, pinned by `x N ↦ φ x N`
+  (`ContinuousAut.mapClosedQuotient_mk`). It carries `conj g` to `conj (g N)`
+  (`ContinuousAut.mapClosedQuotient_conj`), so it induces `ContinuousOut.mapClosedQuotient :
+  ContinuousOut G →* ContinuousOut (G ⧸ N)`, defined from it by `QuotientGroup.map` and computed on
+  classes by `ContinuousOut.mapClosedQuotient_mk`. Both maps are continuous for the congruence
+  topologies: the preimage in `G` of a topologically characteristic open normal subgroup of
+  `G ⧸ N` is one of `G`. The first map is compatible with the actions on conjugacy classes.
+  `mapQuotient` of 2.2 is the shadow of `mapClosedQuotient` in `MulAut (G ⧸ N)`, used only for the
+  congruence topology.
 - **The outer action of an extension.** For a topological group `E` and a closed normal subgroup
   `N`, conjugation gives `E →* ContinuousAut N` and, since conjugation by an element of `N` is
   inner, `E ⧸ N →* ContinuousOut N`, sending `e N` to the class of conjugation by `e`
-  (`outerAction_mk`, with one conjugating automorphism for all of `N`). When `N` is a topologically finitely generated profinite
-  group, `E →* ContinuousAut N` is continuous for the congruence topology: on each finite
-  characteristic quotient of `N` it is locally constant.
-  *Needs:* L2.1, L2.2; M `MulDistribMulAction`, `ConjClasses`, `QuotientGroup.lift`.
+  (`outerAction_mk`, with one conjugating automorphism for all of `N`). When `N` is a
+  topologically finitely generated profinite group, `E →* ContinuousAut N` is continuous for the
+  congruence topology: on each finite characteristic quotient of `N` it is locally constant.
+  *Needs:* L2.1, L2.2; M `MulDistribMulAction`, `ConjClasses`, `ClosedSubgroup`, `ConjAct`,
+  `MulAction.compHom`, `MulAction.orbitRel`, `QuotientGroup.map`, `QuotientGroup.lift`.
 
 ### 2.4 Automorphisms of pro-`p` groups
 
@@ -573,13 +601,16 @@ with the pro-`p` completion of a discrete free nilpotent group is used.
   `Multiplicative ℤ_[p]` is pro-`p` by Tau Ceti's `isProP_multiplicative_padicInt`) kills
   `γ_1(F)`, so it factors through `gr_0(F)`, and it sends `Σ_k [x_k ^[p] a_k]` to `a_i`, because
   continuous homomorphisms commute with `^[p]` (`map_padicPow`).
-- **The detecting group.** `HeisenbergZp p` is the Heisenberg group over `ℤ_p`: triples
-  `(a, b, c)` with `(a, b, c) (a', b', c') = (a + a', b + b', c + c' + a b')`, topologized as
-  `ℤ_p³`. It is a compact, totally disconnected topological group, and it is pro-`p`: the triples
-  with all coordinates in `p ^ n ℤ_p` form an open normal subgroup of index `p ^ (3 n)`, and these
-  subgroups form a basis of neighbourhoods of `1` (`HeisenbergZp.isProP`). Its commutators are
-  central, `⁅(a, b, c), (a', b', c')⁆ = (0, 0, a b' - a' b)` (`HeisenbergZp.commutatorElement_eq`),
-  so `γ_1 = {(0, 0, c)} ≅ ℤ_p` and `γ_2 = 1`. For `i ≠ j` the universal property of `freeProP`
+- **The detecting group.** `HeisenbergZp p` is Tau Ceti's Heisenberg group over `ℤ_p`,
+  `TauCeti.HeisenbergGroup ℤ_[p]`: triples `(x, y, z)` with
+  `(x, y, z) (x', y', z') = (x + x', y + y', z + z' + x y')`. Tau Ceti supplies the group law and
+  the commutator formula `⁅(x, y, z), (x', y', z')⁆ = (0, 0, x y' - x' y)`
+  (`TauCeti.HeisenbergGroup.commutatorElement_eq`), so `γ_1 = {(0, 0, z)} ≅ ℤ_p` and `γ_2 = 1`.
+  This roadmap adds only what the detector needs beyond that: the topology of `ℤ_p³` through
+  `TauCeti.HeisenbergGroup.equivProd`, under which it is a compact, totally disconnected
+  topological group, and the pro-`p` property: the triples with all coordinates in `p ^ n ℤ_p`
+  form an open normal subgroup of index `p ^ (3 n)`, and these form a basis of neighbourhoods of
+  `1` (`HeisenbergZp.isProP`). For `i ≠ j` the universal property of `freeProP`
   gives a continuous homomorphism `F → HeisenbergZp p` with `x_i ↦ (1, 0, 0)`, `x_j ↦ (0, 1, 0)`
   and `x_k ↦ 1` otherwise (`exists_heisenberg_detect`).
 - **Degree one.** The classes `[x̄_i, x̄_j]`, `i < j`, form a `ℤ_p`-basis of `gr_1(F)`: the map
@@ -657,6 +688,11 @@ each other, and both are independent of Layer 1 except where a `^[ℓ]` statemen
   isomorphism `lcsGradedPieceZeroEquiv`, pinned on classes, not by an unstated identification.
 - The spanning theorem is stated for arbitrary topological generating sets, and its one-term form
   for finite ones in a compact group.
+- The descents `ContinuousAut.mapClosedQuotient` and `ContinuousOut.mapClosedQuotient` to closed
+  characteristic quotients, and the action of `ContinuousOut G` on
+  `ClosedSubgroupConjClasses G`, are pinned declarations with computation theorems.
+- The topological characteristicity of `proPKernel` and `proPFrattini` is Tau Ceti's, applied
+  through bridges; the Heisenberg group is Tau Ceti's, and only its topology is added here.
 - `gr_0` and `gr_1` of a free pro-`p` group of finite rank have the bases `x̄_i` and
   `[x̄_i, x̄_j]` (`i < j`) by theorems proved with detecting homomorphisms, to `ℤ_p` and to the
   Heisenberg group over `ℤ_p`; no comparison with the completion of a discrete free nilpotent
