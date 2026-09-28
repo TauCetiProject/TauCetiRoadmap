@@ -46,10 +46,14 @@ It does not own, and consumes by name:
 
 - free pro-`p` groups, their universal property, the Frattini quotient, the Burnside surjectivity
   criterion and the Hopf property, from **ProfiniteProPGroups**;
-- the `ℤ_p`-power `padicPow`, the groups `ContinuousAut` and `ContinuousOut` with the congruence
-  topology, the closed lower central series with its graded pieces, bracket and spanning theorem,
-  and the exterior-square description of `gr_1` of a free pro-`p` group, from
-  **ProfiniteArithmetic**;
+- the `ℤ_p`-power `padicPow`, which is Tau Ceti's `TauCeti.IsProP.padicPow`, and the closed lower
+  central series with its graded pieces and bracket, which are Tau Ceti's lower `p`-series at
+  `p = 0` (`TauCeti.pLowerCentralSeries 0`, `TauCeti.gradedPiece`, `TauCeti.gradedBracket`), both
+  under the names **ProfiniteArithmetic** gives them;
+- from **ProfiniteArithmetic** itself: the groups `ContinuousAut` and `ContinuousOut` with the
+  congruence topology, the unit-exponent lemmas for `padicPow`, the `ℤ_p`-linearity of the
+  bracket, the spanning theorem, and the exterior-square description of `gr_1` of a free pro-`p`
+  group;
 - the conjugation-transfer lemma `conjugation_transfer` of **BelyiMaps**, Layer 13.3, which moves
   a conjugator across a change of convention;
 - every arithmetic object. There is no Galois group, no fundamental group, no cyclotomic
@@ -72,7 +76,8 @@ It does not own, and consumes by name:
   peripheral-power theorem of BelyiMaps and the `G_{ℚ_2}` formalization; conjugacy without a
   named conjugator is Mathlib's `IsConj`. `IsConj a b` is `∃ c, c * a * c⁻¹ = b`, so a conjugate
   `c⁻¹ * y * c` witnesses `IsConj y (c⁻¹ * y * c)` with `c⁻¹`.
-- **Powers** are ProfiniteArithmetic's `padicPow p hF x u`, written `x ^[p] u` in prose. For a
+- **Powers** are ProfiniteArithmetic's `padicPow p hF x u`, written `x ^[p] u` in prose; this is
+  Tau Ceti's `TauCeti.IsProP.padicPow`, re-exported under ProfiniteProPGroups' `IsProP`. For a
   unit `u : ℤ_pˣ` the exponent is the coercion `(u : ℤ_[p])`.
 - **The peripheral tuple** is the map `Fin (r + 1) → F` that lists `x_0, …, x_{r-1}, cusp x`
   (Lean indexes from `0`; prose indexes from `1`).
@@ -96,9 +101,9 @@ It does not own, and consumes by name:
 
 | Use here | Exact declarations |
 |---|---|
-| `ℤ_p`-powers | `padicPow`, `padicPow_one`, `padicPow_add`, `padicPow_padicPow`, `map_padicPow`, `padicPow_conj`, `inv_padicPow`, `padicPow_units_inv`, `padicPow_units_injective`, `closedZpowers_padicPow_units` |
+| `ℤ_p`-powers | `padicPow` (Tau Ceti's `TauCeti.IsProP.padicPow`), `padicPow_one`, `padicPow_add`, `padicPow_padicPow`, `map_padicPow`, `padicPow_conj`, `inv_padicPow`, `padicPow_units_inv`, `padicPow_units_injective`, `closedZpowers_padicPow_units` |
 | automorphisms | `ContinuousAut`, `ContinuousAut.conj`, `ContinuousAut.conj_apply`, `ContinuousOut`, the congruence topology, `ContinuousAut.compactSpace`, `ContinuousAut.isClosed_isConj`, `ContinuousAut.continuous_eval` |
-| the closed lower central series | `closedLowerCentralSeries`, `isClosed_closedLowerCentralSeries`, `iInf_closedLowerCentralSeries_eq_bot`, `commutator_mem_closedLowerCentralSeries`, `lcsGradedPiece`, `lcsGradedMk`, `lcsGradedMk_conj`, `lcsBracket`, `lcsBracket_mk`, `lcsBracket_add_left`, `lcsBracket_add_right`, `lcsBracket_padicPow`, `lcsGradedPiece_eq_sum_bracket`, `lcsBracket_freeProP_ne_zero` |
+| the closed lower central series | `closedLowerCentralSeries` (Tau Ceti's `pLowerCentralSeries 0`), `isClosed_closedLowerCentralSeries`, `iInf_closedLowerCentralSeries_eq_bot`, `commutator_mem_closedLowerCentralSeries`, `lcsGradedPiece`, `lcsGradedMk`, `lcsGradedMk_conj`, `lcsBracket`, `lcsBracket_mk`, `lcsBracket_add_left`, `lcsBracket_add_right`, `lcsBracket_padicPow_left`, `lcsBracket_padicPow_right`, `lcsGradedPiece_eq_sum_bracket`, `lcsBracket_freeProP_ne_zero` |
 
 ### From `TauCetiRoadmap.BelyiMaps`
 
@@ -221,8 +226,9 @@ class Ψ (c * c', d * d')  =  class Ψ (c, d)  +  Σ_{i ≥ 2} u • [x̄_i, c̄
 ```
 
 with `[·, ·]` the bracket `gr_0 × gr_{n-1} → gr_n` and `u •` the `ℤ_p`-action, using
-`ℤ_p`-bilinearity (PA-3.2 `lcsBracket_padicPow`). As `(c̄'_i)_{i ≥ 2}` and `d̄'` range over
-`gr_{n-1}(F)`, the right-hand correction ranges over `u • (Σ_{i ≥ 2} [x̄_i, gr_{n-1}] + [z̄, gr_{n-1}])`.
+`ℤ_p`-bilinearity (PA-3.2 `lcsBracket_padicPow_left`, `lcsBracket_padicPow_right`). As
+`(c̄'_i)_{i ≥ 2}` and `d̄'` range over `gr_{n-1}(F)`, the right-hand correction ranges over
+`u • (Σ_{i ≥ 2} [x̄_i, gr_{n-1}] + [z̄, gr_{n-1}])`.
 Because `z̄ = -(x̄_1 + ⋯ + x̄_r)` and the bracket is biadditive, that submodule is
 `Σ_{i} [x̄_i, gr_{n-1}]`, which is all of `gr_n(F)` by the spanning theorem in its finite form
 (PA-3.3 `lcsGradedPiece_eq_sum_bracket` with the basis as generating set), and `u` is a unit.
