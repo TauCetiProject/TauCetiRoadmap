@@ -115,9 +115,11 @@ power, belongs to `PeripheralActions` (proposed in #490), which proves it withou
 action; Layers 13.3 and 13.4 below state its instance for `Δ_ℓ` and record the arithmetic proof.
 The branch-cycle theorem and the Galois-equivariant peripheral statements are Belyi-specific;
 their generic groups, powers, and outer-automorphism carriers come from `ProfiniteProPGroups` and
-`ProfiniteArithmetic`. `PeripheralActions` consumes only the conjugation-transfer lemma of 13.3
-and the word identity `opposite_third_peripheral` from here, and nothing from the arithmetic
-successor.
+`ProfiniteArithmetic`. `PeripheralActions` consumes from here only the conjugation-transfer lemma
+`conjugation_transfer` and the word identity `opposite_third_peripheral`, and nothing from the
+arithmetic successor. Both are self-contained exports of §Pinned conventions, which precedes
+Layer 13, and neither depends on `PeripheralActions`; only the existence statements of 13.3 and
+13.4 depend on it, so there is no cycle.
 
 **Character theory.** Class functions, irreducible characters, the character table, both
 orthogonality relations, class sums, structure constants, and central characters belong to
@@ -439,8 +441,29 @@ peripheral element the *conjugate*
 (P · T)⁻¹ = T⁻¹ · P⁻¹ = P · C · P⁻¹ ,
 ```
 
-and **not** `P⁻¹ · C · P`. The peripheral-power theorems of Layer 13 transfer along it by the
-conjugation-transfer lemma of 13.3, whose conjugator is computed rather than guessed.
+and **not** `P⁻¹ · C · P`. This word identity, stated in an arbitrary group, is
+`opposite_third_peripheral`. The peripheral-power theorems of Layer 13 transfer along it by the
+conjugation-transfer lemma below, whose conjugator is computed rather than guessed.
+
+**The conjugation-transfer lemma.** Let `φ` be an automorphism of a group `G` and `pow : G → G`
+a map that commutes with conjugation, `pow (q · x · q⁻¹) = q · pow x · q⁻¹`. If
+
+```text
+φ x = c⁻¹ · pow x · c ,
+```
+
+then for any conjugate `y = q · x · q⁻¹`,
+
+```text
+φ y = d⁻¹ · pow y · d   with   d := q · c · (φ q)⁻¹ .
+```
+
+The proof is `φ y = (φ q)(φ x)(φ q)⁻¹`, then the hypothesis on `pow`. ⚠ The conjugator is
+*computed*: it involves `φ q`, and is **not** obtained by multiplying `c` by `q` on one side. This
+is `conjugation_transfer`, stated generically because that is all the proof uses; each
+application supplies the hypothesis on `pow` from the naturality of its power under conjugation
+(Layer 12.2 here). It and `opposite_third_peripheral` are self-contained exports of this section:
+neither depends on Layers 12 and 13 or on `PeripheralActions`, which consumes both.
 
 **Profinite powers.** Powers `x ^ᶻ a` by `a ∈ ẑ` are the canonical operation of Layer 12.2,
 defined through the universal property of the profinite completion of `ℤ`; powers by
@@ -4189,7 +4212,9 @@ and three orbits. Layer 14 never treats `pass_size` and `orbit_size` as the same
 > 13.3 and 13.4 are instances of `PeripheralActions`' generic theorems (its Layers 2 and 4), which
 > are proved there for every free pro-`p` group of finite rank without the Galois action.
 > `BelyiArithmeticActions` owns the arithmetic route below and its Galois-equivariant
-> consequences. Retained here as a dependency specification; no milestone of this layer is a
+> consequences. The two generic helpers 13.3 applies, `conjugation_transfer` and
+> `opposite_third_peripheral`, are exports of §Pinned conventions, not of this layer.
+> Retained here as a dependency specification; no milestone of this layer is a
 > declaration or a completion claim of this PR.
 
 #### 13.1 The pro-`ℓ` peripheral triple
@@ -4238,8 +4263,14 @@ For every prime `ℓ` and every `u ∈ ℤ_[ℓ]ˣ` there exist a continuous aut
 φ_u C_ℓ = c_C⁻¹ · (C_ℓ ^[ℓ] u) · c_C .
 ```
 
-Proof: choose `σ` with `cyclotomicCharacter ℓ σ = u` (13.2); take `ρ_ℓ(σ)` (13.1) and any
-representative automorphism `φ_u` of that outer class; the three conjugacy statements of
+As an existence statement this is `PeripheralActions` Layer 2 (`exists_peripheralAut`) for
+`F = Δ_ℓ` with `e` the identity and basis `(P_ℓ, T_ℓ)`. Its cusp is
+`(P_ℓ · T_ℓ)⁻¹ = P_ℓ · C_ℓ · P_ℓ⁻¹` (`opposite_third_peripheral`), and the statement for `C_ℓ`
+follows by the conjugation-transfer lemma of §Pinned conventions at `q = P_ℓ⁻¹`. The proof
+recorded here is the arithmetic one.
+
+Arithmetic proof: choose `σ` with `cyclotomicCharacter ℓ σ = u` (13.2); take `ρ_ℓ(σ)` (13.1)
+and any representative automorphism `φ_u` of that outer class; the three conjugacy statements of
 12.11, descended by 13.1, say exactly that each `φ_u(X_ℓ)` is conjugate to `X_ℓ ^[ℓ] u`, and
 the conjugators are the witnesses.
 
@@ -4249,34 +4280,22 @@ conjugator would say `φ_u` is inner-times-the-power-map on the whole group, whi
 ⚠ The assignment `u ↦ φ_u` is **not** asserted to be a homomorphism, to be continuous, or to
 be canonical. Each is a strictly stronger statement and each is outside this roadmap.
 
-**The conjugation-transfer lemma**, stated generically because the conjugator is *computed*,
-not adjusted by inspection. Let `φ` be a continuous automorphism, `u` an exponent, and suppose
+**Change of convention.** The conjugation-transfer lemma of §Pinned conventions, with `pow` the
+`u`-th power and its hypothesis supplied by 12.2, transfers the theorem to every conjugate of a
+peripheral element. Applying it with `q = P_ℓ` and `x = C_ℓ` gives the opposite-convention third
+element `(P_ℓ · T_ℓ)⁻¹ = P_ℓ · C_ℓ · P_ℓ⁻¹`, so consumers using that spelling need no new
+mathematics.
 
-```text
-φ x = c⁻¹ · (x ^ u) · c .
-```
-
-Then for any conjugate `y = q · x · q⁻¹`,
-
-```text
-φ y = d⁻¹ · (y ^ u) · d   with   d := q · c · (φ q)⁻¹ .
-```
-
-The proof is `φ y = (φ q)(φ x)(φ q)⁻¹`, then naturality of the power under conjugation
-(12.2); the conjugator involves `φ q`, and is **not** obtained by multiplying `c` by `q` on
-one side.
-
-Applying it with `q = P_ℓ` and `x = C_ℓ` transfers the theorem to the opposite-convention
-third element `(P_ℓ · T_ℓ)⁻¹ = P_ℓ · C_ℓ · P_ℓ⁻¹`, so consumers using that spelling need no
-new mathematics.
-
-*Prerequisites:* Layers 12.2, 13.1, 13.2.
+*Prerequisites:* Layers 12.2, 13.1, 13.2; §Pinned conventions (`conjugation_transfer`,
+`opposite_third_peripheral`); `PeripheralActions` Layer 2 for the existence statement.
 
 #### 13.4 The dyadic instance
 
 The specialization to `ℓ = 2`, stated as its own named theorem with `u : ℤ_[2]ˣ` on
-`Δ_2 = freeProP 2 (Fin 2)`. As an existence statement it is `PeripheralActions` Layer 4
-(`exists_peripheralPowerAutomorphism_two`), the reusable dyadic peripheral-power theorem; this
+`Δ_2 = freeProP 2 (Fin 2)`. As an existence statement it is `PeripheralActions` Layer 4, the
+reusable dyadic peripheral-power theorem, in the form `exists_peripheralPowerAutomorphism_two'`,
+whose third element `(T * P)⁻¹` is this roadmap's `C_2`; the unprimed
+`exists_peripheralPowerAutomorphism_two` is stated for `PeripheralActions`' cusp `(P * T)⁻¹`. This
 milestone records its arithmetic proof, and nothing in that proof mentions anything outside this
 roadmap.
 
