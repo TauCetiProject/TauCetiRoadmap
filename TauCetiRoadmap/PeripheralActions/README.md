@@ -145,10 +145,17 @@ ProfiniteArithmetic, and `BM-13.3` the conjugation-transfer lemma of BelyiMaps.
 
   ⚠ *Nearby false statement:* the peripheral condition on `x_1, …, x_r` alone does not imply it
   for the cusp. The automorphism `x_i ↦ x_i ^[p] u` for every `i` (the "diagonal" power map, an
-  automorphism by Layer 2's criterion) is peripheral on the basis and not on the cusp: for `r = 2`
-  its value on `x_1 x_2` is `x_1^u x_2^u`, whose class in `F ⧸ γ_2(F)` differs from that of any
-  conjugate of `(x_1 x_2)^u` by `(u(u-1)/2) · [x̄_1, x̄_2] + [x̄_1 + x̄_2, ḡ]` for some `ḡ`, which is
-  nonzero in `gr_1(F) = ℤ_p [x̄_1, x̄_2]` whenever `u(u-1)/2` is not divisible by `p` (PA-3.4).
+  automorphism by Layer 2's criterion) is peripheral on the basis, and for `r = 3` and every unit
+  `u ≠ 1` it is not peripheral on the cusp: `x_1^u x_2^u x_3^u` is not conjugate to
+  `(x_1 x_2 x_3)^u`, already in `F ⧸ γ_2(F)`. There `(x_1 x_2 x_3)^u` is `x_1^u x_2^u x_3^u` times
+  a central element of class `(u(u-1)/2) · ([x̄_2, x̄_1] + [x̄_3, x̄_1] + [x̄_3, x̄_2])` in
+  `gr_1(F) ≅ Λ² ℤ_p^3` (PA-3.4), while conjugating by `g` changes the class only by
+  `[x̄_1 + x̄_2 + x̄_3, ḡ] = Σ_{i<k} (a_k - a_i) [x̄_i, x̄_k]` for `ḡ = Σ_k a_k x̄_k`. In the basis
+  `[x̄_i, x̄_k]`, `i < k`, a vector `t · (1, 1, 1)` has that form only for `t = 0`, and
+  `u(u-1)/2 ≠ 0`. The same computation on the pairs among `x_1, x_2, x_3` works for every
+  `r ≥ 3`. ⚠ It proves nothing for `r = 2`, where `[x̄_1 + x̄_2, ḡ]` already sweeps out all of
+  `gr_1(F) = ℤ_p [x̄_1, x̄_2]`, and the rank-two statement is false as it stands: at `u = -1` the
+  diagonal map is the inversion of Layer 3.3, which is peripheral.
 
 ## Layer 1: the peripheral product identity
 
@@ -199,17 +206,18 @@ because `γ_n(F)` is closed and `Ψ` is continuous, and `S (n + 1) ⊆ S n`.
 `d' ∈ γ_{n-1}(F)` such that `(c * c', d * d') ∈ S (n + 1)`, where `(c * c') i := c i * c' i`.
 
 *Proof.* Write `w i := (c i)⁻¹ * (x i ^[p] u) * c i` and `w_z := d⁻¹ * (cusp x ^[p] u) * d`.
-Replacing `c i` by `c i * c' i` replaces `w i` by `(c' i)⁻¹ * w i * c' i = w i * ⁅(w i)⁻¹, c' i⁆`,
-and the commutator lies in `γ_n(F)` because `c' i ∈ γ_{n-1}(F)`
-(PA-3.1 `commutator_mem_closedLowerCentralSeries` at degrees `0` and `n - 1`). Its class in
-`gr_n(F)` is `lcsBracket (lcsGradedMk (w i)⁻¹) (lcsGradedMk (c' i))`, and the class of `(w i)⁻¹`
-in `gr_0(F)` is `-(u • x̄_i)`, by `lcsGradedMk_conj` and the class of a `ℤ_p`-power. The same
-computation for `d` gives a correction of class `lcsBracket (-(u • z̄)) (lcsGradedMk d')`. Since
+Replacing `c i` by `c i * c' i` replaces `w i` by
+`(c' i)⁻¹ * w i * c' i = w i * ⁅(w i)⁻¹, (c' i)⁻¹⁆`, and the commutator lies in `γ_n(F)` because
+`(c' i)⁻¹ ∈ γ_{n-1}(F)` (PA-3.1 `commutator_mem_closedLowerCentralSeries` at degrees `0` and
+`n - 1`). Its class in `gr_n(F)` is `lcsBracket (lcsGradedMk (w i)⁻¹) (lcsGradedMk (c' i)⁻¹)`. The
+class of `(w i)⁻¹` in `gr_0(F)` is `-(u • x̄_i)`, by `lcsGradedMk_conj` and the class of a
+`ℤ_p`-power, and the class of `(c' i)⁻¹` is `-c̄'_i`, so by biadditivity the correction has class
+`u • [x̄_i, c̄'_i]`. The same computation for `d` gives a correction of class `u • [z̄, d̄']`. Since
 `γ_n(F)` is central modulo `γ_{n+1}(F)`, inserting these corrections into the product changes
 `Ψ (c, d)` by their product modulo `γ_{n+1}(F)`, so in `gr_n(F)`
 
 ```text
-class Ψ (c * c', d * d')  =  class Ψ (c, d)  -  Σ_{i ≥ 2} u • [x̄_i, c̄'_i]  -  u • [z̄, d̄'] ,
+class Ψ (c * c', d * d')  =  class Ψ (c, d)  +  Σ_{i ≥ 2} u • [x̄_i, c̄'_i]  +  u • [z̄, d̄'] ,
 ```
 
 with `[·, ·]` the bracket `gr_0 × gr_{n-1} → gr_n` and `u •` the `ℤ_p`-action, using
@@ -227,12 +235,14 @@ bookkeeping of the inserted commutators.
 
 ### 1.4 Compactness and the limit
 
-Every `S n` is nonempty by induction from 1.2 and 1.3, closed, and the family is decreasing.
-`F^r × F` is compact, so `⋂_n S n` is nonempty
+Let `T n := S n ∩ {(c, d) | c 0 = 1}` for `r ≥ 1`, and `T n := S n` for `r = 0`. Every `T n` is
+closed, and nonempty by induction from 1.2 and 1.3: `T 1` contains `(1, 1)`, and the correction
+step multiplies `c 0` by `c' 0 = 1`, so it carries `T n` into `T (n + 1)`. The family is
+decreasing and `F^r × F` is compact, so `⋂_n T n` is nonempty
 (M `IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed`). For `(c, d)` in the
-intersection, `Ψ (c, d) ∈ ⋂_n γ_n(F) = ⊥` (PA-3.1 `iInf_closedLowerCentralSeries_eq_bot`, `F`
-being pro-`p`), so `Ψ (c, d) = 1`. The construction keeps `c 0 = 1` throughout, because the
-correction step never modifies `c' 0`.
+intersection, `c 0 = 1` and `Ψ (c, d) ∈ ⋂_n γ_n(F) = ⊥` (PA-3.1
+`iInf_closedLowerCentralSeries_eq_bot`, `F` being pro-`p`), so `Ψ (c, d) = 1`. Intersecting with
+`{c 0 = 1}` is what makes the limit keep the normalization; a point of `⋂_n S n` alone need not.
 
 *Needs:* PA-3.1; M compactness of products, `IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed`.
 
@@ -291,9 +301,12 @@ the opposite-convention third element `(x_2 x_1)⁻¹ = x_1⁻¹ * (x_1 x_2)⁻�
 
 *Needs:* BM-13.3 `conjugation_transfer`; PA-1.3 `padicPow_conj`.
 
-⚠ The `r + 1` conjugators are independent, and nothing asserts they coincide. A single
-conjugator for all of them would say `φ_u` is inner times the diagonal power map, which is false
-by the nearby false statement of Layer 0.
+⚠ The `r + 1` conjugators are independent, and nothing asserts they coincide. For `r ≥ 2` and
+`u ≠ 1` they cannot all be equal: a common conjugator `g` would make
+`ψ := ContinuousAut.conj F g * φ_u` carry every `x_i` to `x_i ^[p] u` and the cusp to
+`cusp x ^[p] u` exactly, so `x_1^u ⋯ x_r^u = (x_1 ⋯ x_r)^u`. Modulo `γ_2(F)` the two sides differ
+by the central element of class `(u(u-1)/2) · Σ_{i<j} [x̄_j, x̄_i]`, which is nonzero in the free
+`ℤ_p`-module `gr_1(F)`.
 
 ⚠ The assignment `u ↦ φ_u` of this layer is not a homomorphism, not continuous, and not
 canonical: it depends on a choice of solution in Layer 1. The homomorphic statement that does

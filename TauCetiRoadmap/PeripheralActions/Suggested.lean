@@ -74,12 +74,15 @@ theorem exponent_unique (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin r)) (hr
   sorry
 
 /-- **Layer 0, nearby false statement.** The diagonal power map `x_i ↦ x_i ^[p] u` is an
-automorphism that is peripheral on the basis but not on the cusp, for `r = 2` and
-`u (u - 1) / 2` a unit: its value on `x_0 x_1` is not conjugate to `(x_0 x_1) ^[p] u`. -/
-theorem not_isConj_diagonalPow (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin 2)) (u : ℤ_[p]ˣ)
-    (hu : ∃ w : ℤ_[p], 2 * w = (u : ℤ_[p]) * ((u : ℤ_[p]) - 1) ∧ IsUnit w) :
-    ¬ IsConj (padicPow p hF (basis p e 0 * basis p e 1) u)
-        (padicPow p hF (basis p e 0) u * padicPow p hF (basis p e 1) u) :=
+automorphism that is peripheral on the basis, but for `r = 3` and a unit `u ≠ 1` it is not
+peripheral on the cusp: its value `x_0^u x_1^u x_2^u` on `x_0 x_1 x_2` is not conjugate to
+`(x_0 x_1 x_2) ^[p] u`, already modulo `γ_2(F)`. ⚠ The rank-two analogue is false: at `u = -1`
+the diagonal map is the inversion of `exists_inversion_two`, which is peripheral. -/
+theorem not_isConj_diagonalPow (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin 3)) (u : ℤ_[p]ˣ)
+    (hu : u ≠ 1) :
+    ¬ IsConj (padicPow p hF (basis p e 0 * basis p e 1 * basis p e 2) u)
+        (padicPow p hF (basis p e 0) u * padicPow p hF (basis p e 1) u *
+          padicPow p hF (basis p e 2) u) :=
   sorry
 
 /-! ## Layer 1: the peripheral product identity -/
@@ -258,11 +261,11 @@ theorem exists_inversion_two (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin 2)
   sorry
 
 /-- **Layer 3.3, nearby false statement.** For `r = 3`, inverting every generator is not
-peripheral: the images of the ordered product and of its inverse are not conjugate, already
-modulo `γ_2(F)`. -/
+peripheral: it carries the cusp to `(x_0⁻¹ x_1⁻¹ x_2⁻¹)⁻¹ = x_2 x_1 x_0`, which is not conjugate to
+`(cusp)⁻¹ = x_0 x_1 x_2`, already modulo `γ_2(F)`. -/
 theorem not_isConj_inversion_three (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin 3)) :
     ¬ IsConj ((cusp (basis p e))⁻¹)
-        ((basis p e 2)⁻¹ * (basis p e 1)⁻¹ * (basis p e 0)⁻¹)⁻¹ :=
+        ((basis p e 0)⁻¹ * (basis p e 1)⁻¹ * (basis p e 2)⁻¹)⁻¹ :=
   sorry
 
 /-- **Layer 3.4.** Peripheral up to a permutation `σ` of the peripheral tuple. -/
