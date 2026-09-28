@@ -219,11 +219,25 @@ theorem conj_mem_peripheralAut (hF : IsProP p F) (x : Fin r → F) (g : F) :
   sorry
 
 /-- **Layer 3.2, the graph.** The pairs `(φ, u)` with `IsPeripheralAut x u φ` form a closed subset
-of `ContinuousAut F × ℤ_pˣ`: each condition `IsConj (y ^[p] u) (φ y)` pulls back the closed set of
-conjugate pairs of `F` along the continuous map `(φ, u) ↦ (y ^[p] u, φ y)`. -/
+of `ContinuousAut F × ℤ_pˣ`. For each element `y` of the peripheral tuple, the condition
+`IsConj (y ^[p] u) (φ y)` pulls back ProfiniteArithmetic's closed conjugacy relation
+`isClosed_isConj_pair` along the continuous map `(φ, u) ↦ (y ^[p] u, φ y)` (`continuous_padicPow`,
+`ContinuousAut.continuous_eval`), whose two coordinates both vary; the graph is the intersection
+of these `r + 1` closed sets. -/
 theorem isClosed_peripheralGraph (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin r)) :
-    IsClosed {q : ContinuousAut F × ℤ_[p]ˣ | IsPeripheralAut p hF (basis p e) q.2 q.1} :=
-  sorry
+    IsClosed {q : ContinuousAut F × ℤ_[p]ˣ | IsPeripheralAut p hF (basis p e) q.2 q.1} := by
+  -- `F` is topologically finitely generated: ProfiniteProPGroups Layer 4 for
+  -- `freeProP p (Fin r)`, transported along `e`.
+  have hfg : IsTopologicallyFinitelyGenerated F := sorry
+  simp only [IsPeripheralAut, Set.ofPred_forall]
+  refine isClosed_iInter fun i => ?_
+  have hpow : Continuous fun q : ContinuousAut F × ℤ_[p]ˣ =>
+      padicPow p hF (peripheralTuple (basis p e) i) (q.2 : ℤ_[p]) :=
+    (continuous_padicPow p hF).comp
+      (continuous_const.prodMk (Units.continuous_val.comp continuous_snd))
+  have heval : Continuous fun q : ContinuousAut F × ℤ_[p]ˣ => q.1 (peripheralTuple (basis p e) i) :=
+    (ContinuousAut.continuous_eval F hfg).comp (continuous_fst.prodMk continuous_const)
+  exact (isClosed_isConj_pair F).preimage (hpow.prodMk heval)
 
 /-- **Layer 3.2.** The peripheral automorphisms form a closed subgroup for the congruence
 topology of ProfiniteArithmetic: the projection of the closed graph along the compact factor
@@ -345,7 +359,8 @@ when `p = 2`, and let `w` be a principal unit of exact level `k`: in `U^(k)` but
 topological isomorphism `Multiplicative ℤ_[p] ≃ₜ* U^(k)`. It is defined because `U^(k)` is pro-`p`
 (`TauCeti.isProP_unitsPrincipal`) and onto because `w` topologically generates `U^(k)`
 (`TauCeti.topologicalClosure_zpowers_eq_unitsPrincipal`). It is injective because a nonzero
-exponent is `p ^ j * v` with `v` a unit, and `w ^ p ^ j` lies in `U^(k+j)` but not in `U^(k+j+1)`
+exponent is `p ^ j * v` with `v` a unit (`PadicInt.unitCoeff`, `PadicInt.unitCoeff_spec`, with
+`j` the valuation), and `w ^ p ^ j` lies in `U^(k+j)` but not in `U^(k+j+1)`
 (`TauCeti.pow_pow_mem_unitsPrincipal`, `TauCeti.pow_pow_notMem_unitsPrincipal`), so it is not `1`,
 while unit powers are injective. A continuous bijection from a compact group onto a Hausdorff one,
 it is a homeomorphism. The unit `1 + p ^ k` has exact level `k`. -/

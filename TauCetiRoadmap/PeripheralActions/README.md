@@ -55,8 +55,11 @@ It does not own, and consumes by name:
   congruence topology, the unit-exponent lemmas for `padicPow`, the `ℤ_p`-linearity of the
   bracket, the spanning theorem, and the exterior-square description of `gr_1` of a free pro-`p`
   group;
-- the conjugation-transfer lemma `conjugation_transfer` of **BelyiMaps**, Layer 13.3, which moves
-  a conjugator across a change of convention;
+- from **BelyiMaps**, the conjugation-transfer lemma `conjugation_transfer`, which moves a
+  conjugator across a change of convention, and the word identity `opposite_third_peripheral`.
+  Both are generic group lemmas in its §Pinned conventions, which precedes its Layer 13 and does
+  not depend on it or on this roadmap. BelyiMaps' Layer 13 cites the existence theorems here, so
+  there is no cycle;
 - every arithmetic object. There is no Galois group, no fundamental group, no cyclotomic
   character and no branch-cycle theorem in this roadmap, and no milestone asserts that the
   automorphisms constructed here are the ones the Galois action produces.
@@ -106,36 +109,38 @@ supplier's dyadic `unitsPrincipal 2` is its case `p = 2`.
 |---|---|
 | principal units | `TauCeti.unitsPrincipal`, `TauCeti.mem_unitsPrincipal_iff`, `TauCeti.isOpen_unitsPrincipal`, `TauCeti.isClosed_unitsPrincipal`, `TauCeti.isProP_unitsPrincipal`, `TauCeti.topologicalClosure_zpowers_eq_unitsPrincipal`, `TauCeti.exists_topologicalClosure_zpowers_eq_unitsPrincipal`, `TauCeti.pow_pow_mem_unitsPrincipal`, `TauCeti.pow_pow_notMem_unitsPrincipal` |
 | Burnside and Hopf | `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top`, `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective` |
+| the `ℤ_p`-power as a continuous homomorphism | `TauCeti.IsProP.padicPowHom` |
 
 ### From `TauCetiRoadmap.ProfiniteArithmetic`
 
 | Use here | Exact declarations |
 |---|---|
-| `ℤ_p`-powers | `padicPow` (Tau Ceti's `TauCeti.IsProP.padicPow`), `padicPow_one`, `padicPow_add`, `padicPow_padicPow`, `map_padicPow`, `padicPow_conj`, `inv_padicPow`, `padicPow_units_inv`, `padicPow_units_injective`, `closedZpowers_padicPow_units` |
-| profinite powers | `zpowHat`, `ProfiniteInt.idem`, `closedZpowers`, `isProP_closedZpowers_zpowHat_idem`, `zpowHat_idem_of_isProP` |
-| automorphisms | `ContinuousAut`, `ContinuousAut.conj`, `ContinuousAut.conj_apply`, `ContinuousOut`, the congruence topology, `ContinuousAut.compactSpace`, `ContinuousAut.t2Space`, `ContinuousAut.isClosed_isConj`, `ContinuousAut.continuous_eval` |
+| `ℤ_p`-powers | `padicPow` (Tau Ceti's `TauCeti.IsProP.padicPow`), `padicPow_one`, `padicPow_add`, `padicPow_padicPow`, `map_padicPow`, `padicPow_conj`, `inv_padicPow`, `continuous_padicPow`, `padicPow_units_inv`, `padicPow_units_injective`, `closedZpowers_padicPow_units` |
+| profinite powers | `zpowHat`, `map_zpowHat`, `ProfiniteInt.idem`, `closedZpowers`, `isProP_closedZpowers_zpowHat_idem`, `zpowHat_idem_of_isProP` |
+| automorphisms | `ContinuousAut`, `ContinuousAut.conj`, `ContinuousAut.conj_apply`, `ContinuousOut`, the congruence topology, `ContinuousAut.compactSpace`, `ContinuousAut.t2Space`, `ContinuousAut.continuous_eval`, and the closed conjugacy relation `isClosed_isConj_pair` on `F × F` |
 | the closed lower central series | `closedLowerCentralSeries` (Tau Ceti's `pLowerCentralSeries 0`), `isClosed_closedLowerCentralSeries`, `iInf_closedLowerCentralSeries_eq_bot`, `commutator_mem_closedLowerCentralSeries`, `lcsGradedPiece`, `lcsGradedMk`, `lcsGradedMk_conj`, `lcsBracket`, `lcsBracket_mk`, `lcsBracket_add_left`, `lcsBracket_add_right`, `lcsBracket_padicPow_left`, `lcsBracket_padicPow_right`, `lcsGradedPiece_eq_sum_bracket`, `lcsGradedPiece_zero_freeProP_bijective`, `lcsGradedPiece_one_freeProP_bijective`, `lcsBracket_freeProP_ne_zero` |
 
 ### From `TauCetiRoadmap.BelyiMaps`
 
 | Use here | Exact declarations |
 |---|---|
-| change of convention for the third peripheral element | `conjugation_transfer`, `opposite_third_peripheral` |
+| change of convention for the third peripheral element (§Pinned conventions) | `conjugation_transfer`, `opposite_third_peripheral` |
 
 ### From Mathlib
 
 `IsConj`, `isConj_iff`, `ConjClasses`, `List.ofFn`, `List.prod`, `Subgroup.zpowers`,
 `Subgroup.topologicalClosure`, `IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed`,
-`IsCompact.image`, `IsCompact.isClosed`, `PadicInt.toZModPow`, `PadicInt.toZMod`, `Units.map`,
-`MonoidHom.ker`, `Equiv.Perm`.
+`IsCompact.image`, `IsCompact.isClosed`, `IsClosed.preimage`, `isClosed_iInter`,
+`PadicInt.toZModPow`, `PadicInt.toZMod`, `PadicInt.unitCoeff`, `PadicInt.unitCoeff_spec`,
+`Units.map`, `MonoidHom.ker`, `Equiv.Perm`.
 
 ## How to read the build
 
 `README.md` is normative; `Suggested.lean` pins names and signatures for the central objects and is
 not exhaustive. In prerequisite annotations, `M` means Mathlib, `L0` through `L4` mean an earlier
 layer here, `PPG-<layer>` means an export of ProfiniteProPGroups, `PA-<layer>` an export of
-ProfiniteArithmetic, `BM-13.3` the conjugation-transfer lemma of BelyiMaps, and `TC` a Tau Ceti
-declaration.
+ProfiniteArithmetic, `BM-PC` a helper lemma of BelyiMaps' §Pinned conventions, and `TC` a Tau
+Ceti declaration.
 
 ## Layer 0: peripheral systems
 
@@ -315,13 +320,13 @@ the Hopf property (TC `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top`,
 
 ### 2.3 Transfer to other conventions
 
-For any `q : F`, `conjugation_transfer` (BM-13.3) turns `φ y = c⁻¹ * pow y * c` into the same
+For any `q : F`, `conjugation_transfer` (BM-PC) turns `φ y = c⁻¹ * pow y * c` into the same
 statement for `q * y * q⁻¹` with the computed conjugator `q * c * (φ q)⁻¹`. Applied with
 `y = cusp x`, it gives the peripheral statement for every conjugate of the cusp, in particular for
 the opposite-convention third element `(x_2 x_1)⁻¹ = x_1⁻¹ * (x_1 x_2)⁻¹ * x_1` when `r = 2`. The
 `hpow` hypothesis of that lemma is `padicPow_conj`.
 
-*Needs:* BM-13.3 `conjugation_transfer`; PA-1.3 `padicPow_conj`.
+*Needs:* BM-PC `conjugation_transfer`; PA-1.3 `padicPow_conj`.
 
 ⚠ The `r + 1` conjugators are independent, and nothing asserts they coincide. For `r ≥ 2` and
 `u ≠ 1` they cannot all be equal: a common conjugator `g` would make
@@ -355,11 +360,13 @@ hold, on the principal units, is Layer 3.5.
 ### 3.2 Topology
 
 - **The graph.** The set `R` of pairs `(φ, u)` with `IsPeripheralAut x u φ` is closed in
-  `ContinuousAut F × ℤ_pˣ` (`isClosed_peripheralGraph`). Each condition `IsConj (y ^[p] u) (φ y)`
-  is the preimage of the set of conjugate pairs of `F`, which is closed (PA-2.2), under the map
-  `(φ, u) ↦ (y ^[p] u, φ y)`, which is continuous (PA-2.2 `ContinuousAut.continuous_eval` and the
-  continuity of `padicPow`). Since `ContinuousAut F` is profinite (PA-2.2
-  `ContinuousAut.compactSpace`) and `ℤ_pˣ` is compact, `R` is compact.
+  `ContinuousAut F × ℤ_pˣ` (`isClosed_peripheralGraph`). For each element `y` of the peripheral
+  tuple, the condition `IsConj (y ^[p] u) (φ y)` is the preimage of the set of conjugate pairs of
+  `F`, closed in `F × F` (PA-2.2 `isClosed_isConj_pair`), under the map
+  `(φ, u) ↦ (y ^[p] u, φ y)`, which is continuous (PA-2.2 `ContinuousAut.continuous_eval`, PA-1.3
+  `continuous_padicPow`). Both coordinates vary with `(φ, u)`, which is why the binary relation is
+  the input. `R` is the intersection of these `r + 1` closed sets. Since `ContinuousAut F` is
+  profinite (PA-2.2 `ContinuousAut.compactSpace`) and `ℤ_pˣ` is compact, `R` is compact.
 - **Closedness.** `peripheralAut x` is the image of `R` under the first projection, a compact and
   hence closed subset of the Hausdorff space `ContinuousAut F` (`isClosed_peripheralAut`). So
   `peripheralAut x` is a profinite group.
@@ -369,8 +376,10 @@ hold, on the principal units, is Layer 3.5.
   homeomorphism, and `exponent x` is the second projection composed with its inverse, hence
   continuous (`continuous_exponent`). No finite quotient of `F` is needed.
   *Needs:* L0 `exponent_unique`; PA-2.2 `ContinuousAut.compactSpace`, `ContinuousAut.t2Space`,
-  `ContinuousAut.continuous_eval`, the closedness of the conjugacy relation; PA-1.3 continuity of
-  `padicPow`; M `IsCompact.image`, `IsCompact.isClosed`, `Continuous.homeoOfEquivCompactToT2`.
+  `ContinuousAut.continuous_eval`, `isClosed_isConj_pair`, each applied with the topological
+  finite generation of `F` (PPG-4, for `freeProP p (Fin r)`, transported along `e`); PA-1.3
+  `continuous_padicPow`; M `IsClosed.preimage`, `isClosed_iInter`, `IsCompact.image`,
+  `IsCompact.isClosed`, `Continuous.homeoOfEquivCompactToT2`.
 
 ### 3.3 The reflection
 
@@ -432,7 +441,8 @@ hold, on the principal units, is Layer 3.5.
   `p = 2 → 2 ≤ k` hold), and `l ↦ w ^[p] l` is a topological isomorphism
   `principalUnitsEquiv : Multiplicative ℤ_[p] ≃ₜ* U` with `ofAdd 1 ↦ w`
   (`principalUnitsEquiv_ofAdd_one`). It is onto because `w` generates `U`. It is injective because
-  a nonzero exponent is `p ^ j v` with `v` a unit, and `w ^ p ^ j` lies in `U^(k+j)` but not in
+  a nonzero exponent is `p ^ j v` with `v` a unit (`PadicInt.unitCoeff`, `PadicInt.unitCoeff_spec`,
+  with `j` the valuation), and `w ^ p ^ j` lies in `U^(k+j)` but not in
   `U^(k+j+1)` (`TauCeti.pow_pow_mem_unitsPrincipal`, `TauCeti.pow_pow_notMem_unitsPrincipal`), so
   it is not `1`, while `u`-th powers for a unit `u` are injective (PA-1.3). A continuous bijection
   from the compact group `ℤ_p` onto the Hausdorff group `U`, it is a homeomorphism. Its inverse `λ`
@@ -443,7 +453,8 @@ hold, on the principal units, is Layer 3.5.
   the profinite group `peripheralAut x` (PA-1.2). The closed procyclic subgroup
   `Q := closedZpowers q` is pro-`p` (PA-1.2 `isProP_closedZpowers_zpowHat_idem`) and lies in
   `peripheralAut x`, which is closed. All `ℤ_p`-powers below are taken in `Q`.
-- **The section.** By naturality of `^ᶻ` under the continuous homomorphism `exponent`,
+- **The section.** By naturality of `^ᶻ` under the continuous homomorphism `exponent` (PA-1.1
+  `map_zpowHat`),
   `exponent q = w ^ᶻ ω_p = w`, the last step because `w` lies in the pro-`p` group `U` (PA-1.2
   `zpowHat_idem_of_isProP`). So `exponent` restricts to a continuous homomorphism `Q → U` between
   pro-`p` groups. Define `section x : U →* peripheralAut x` as the composite of three continuous
@@ -451,9 +462,10 @@ hold, on the principal units, is Layer 3.5.
   `TauCeti.IsProP.padicPowHom` for `Q`); and the inclusion `Q → peripheralAut x`. Then
   `exponent (section x v) = w ^[p] λ(v) = v`, by naturality of `^[p]` under `Q → U` (PA-1.3
   `map_padicPow`). This is `exists_section_principalUnits`.
-  *Needs:* L2, L3.1, L3.2; PA-1.1 `zpowHat`; PA-1.2 `closedZpowers`,
+  *Needs:* L2, L3.1, L3.2; PA-1.1 `zpowHat`, `map_zpowHat`; PA-1.2 `closedZpowers`,
   `isProP_closedZpowers_zpowHat_idem`, `zpowHat_idem_of_isProP`; PA-1.3 `padicPow`,
-  `map_padicPow`; TC `TauCeti.unitsPrincipal` and the API above, `TauCeti.IsProP.padicPowHom`.
+  `map_padicPow`; TC `TauCeti.unitsPrincipal` and the API above, `TauCeti.IsProP.padicPowHom`;
+  M `PadicInt.unitCoeff`, `PadicInt.unitCoeff_spec`.
 
   ⚠ No milestone asserts a homomorphic section over all of `ℤ_pˣ`. Over the torsion subgroup
   `μ_{p-1}` (for `p` odd) or `{±1}` (for `p = 2`) a section is a peripheral automorphism of finite
@@ -482,7 +494,8 @@ hold, on the principal units, is Layer 3.5.
   mathematics.
 - **The dyadic section.** Layer 3.5 at `p = 2`: a continuous homomorphic section of the exponent
   over `TauCeti.unitsPrincipal 2 2 = 1 + 4ℤ₂`, topologically generated by `5`.
-  *Needs:* L1, L2, L3.5; PPG-4 `freeProP 2 (Fin 2)`; TC `TauCeti.unitsPrincipal`; BM-13.3.
+  *Needs:* L1, L2, L3.5; PPG-4 `freeProP 2 (Fin 2)`; TC `TauCeti.unitsPrincipal`; BM-PC
+  `conjugation_transfer`, `opposite_third_peripheral`.
 
   ⚠ The three conjugators are independent, and the theorem is stated for every unit; both
   points are inherited from Layer 2, and neither is weakened here.
