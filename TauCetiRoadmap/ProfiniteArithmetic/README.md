@@ -6,10 +6,16 @@ of three constructions: the profinite integers `ẑ` as a topological commutativ
 profinite power `x ^ᶻ a` of an element of a profinite group by an exponent `a ∈ ẑ` together with
 its comparison against the `ℤ_ℓ`-power on a pro-`ℓ` group, and the continuous automorphism and
 outer-automorphism groups of a profinite group with their topology. **BelyiMaps** consumes the
-same three constructions for its arithmetic layers, under the same name. A fourth construction
-belongs with them and is built here for the same reason, that it is group theory about every
-profinite group and no arithmetic roadmap should own it: the **closed lower central series** of a
-profinite group, with its graded Lie ring, `ℤ_p`-linear when the group is pro-`p`.
+same three constructions for its arithmetic layers, under the same name. A fourth belongs with
+them for the same reason, that it is group theory about every profinite group and no arithmetic
+roadmap should own it: the `ℤ_p`-linear graded Lie algebra of the **closed lower central series**
+of a pro-`p` group, with its spanning theorem.
+
+Tau Ceti already has part of this material, and the roadmap consumes it rather than building it
+again: the `ℤ_ℓ`-power on a pro-`ℓ` group (`TauCeti.IsProP.padicPow`), the profinite completion
+`TauCeti.zHat` of `ℤ` as a group with its universal property, and the lower `p`-series with its
+graded pieces and bracket for every `p` (`TauCeti.pLowerCentralSeries`), whose case `p = 0` is the
+closed lower central series. What is built here is what is missing around them.
 
 Nothing here is about a particular group. The first consumers are:
 
@@ -31,15 +37,17 @@ The roadmap owns:
   components `ẑ →+* ℤ_ℓ`, the decomposition `ẑ ≃ ∏_ℓ ℤ_ℓ` as topological rings, the idempotents
   `ω_ℓ` of that decomposition, the unit group `ẑˣ` with its unit criterion, and the assembly of a
   compatible system of characters `G →* (ZMod n)ˣ` into one character `G →* ẑˣ`;
-- the comparison of the additive group of `ẑ` with the profinite completion of `ℤ` supplied by
-  ProfiniteProPGroups as `zHat`, stated as a named theorem;
-- the profinite power `x ^ᶻ a` for `x` in a profinite group and `a ∈ ẑ`, defined through the
-  universal property of `ẑ`, with its complete calculus: agreement with integer powers, the
-  additive and multiplicative laws, naturality under continuous homomorphisms and hence under
-  conjugation, continuity, the closed procyclic subgroup `⟨x⟩‾` and the `ℓ`-parts `x ^ᶻ ω_ℓ`;
-- the `ℤ_ℓ`-power `x ^[ℓ] u` on a pro-`ℓ` group, its calculus, the comparison
-  `x ^ᶻ a = x ^[ℓ] (component_ℓ a)`, and the behaviour of unit exponents: `x ↦ x ^[ℓ] u` is a
-  bijection of `⟨x⟩‾` with inverse `x ↦ x ^[ℓ] u⁻¹`, and `x ^[ℓ] u = y ^[ℓ] u` forces `x = y`;
+- the comparison of the additive group of `ẑ` with Tau Ceti's profinite completion
+  `TauCeti.zHat` of `ℤ`, which implements ProfiniteProPGroups' `zHat`, as a named isomorphism;
+- the profinite power `x ^ᶻ a` for `x` in a profinite group of any universe and `a ∈ ẑ`, defined
+  through the universal property of `ẑ`, with its complete calculus: agreement with integer powers,
+  the additive and multiplicative laws, naturality under continuous homomorphisms and hence under
+  conjugation, continuity, the closed procyclic subgroup `⟨x⟩‾` and the `ℓ`-parts `x ^ᶻ ω_ℓ`; for a
+  group in `Type` it is Tau Ceti's `TauCeti.zHat.lift` transported along that isomorphism, a named
+  comparison;
+- the comparison `x ^ᶻ a = x ^[ℓ] (component_ℓ a)` with Tau Ceti's `ℤ_ℓ`-power, and the behaviour
+  of unit exponents: `x ↦ x ^[ℓ] u` is a bijection of `⟨x⟩‾` with inverse `x ↦ x ^[ℓ] u⁻¹`, and
+  `x ^[ℓ] u = y ^[ℓ] u` forces `x = y`;
 - `ContinuousAut G`, the group of continuous automorphisms `G ≃ₜ* G`, the inner homomorphism
   `G →* ContinuousAut G`, the outer group `ContinuousOut G`, the congruence topology on
   `ContinuousAut G`, its profiniteness when `G` is topologically finitely generated, the actions
@@ -47,26 +55,33 @@ The roadmap owns:
   topologically characteristic closed normal subgroup, the outer action of an extension, and, for
   pro-`p` groups, the open pro-`p` subgroup of automorphisms acting trivially on the Frattini
   quotient;
-- the closed lower central series `γ_n(G)` of a topological group, its graded pieces
-  `gr_n(G) = γ_n(G) / γ_{n+1}(G)`, the bracket `gr_j × gr_k → gr_{j+k+1}` with its Lie identities,
-  the spanning theorem for the graded pieces of a topologically generated group, the
-  `ℤ_p`-module structure and `ℤ_p`-bilinearity for pro-`p` groups, the triviality of the
-  intersection `⋂ γ_n(G)` for pro-`p` groups, and the comparison with the lower `p`-series of
-  ProfiniteProPGroups.
+- for the closed lower central series `γ_n(G)` of a topological group, which is Tau Ceti's lower
+  `p`-series at `p = 0`: the `ℤ_p`-linearity of its bracket and the `LieAlgebra ℤ_[p]` structure
+  on `⨁ gr_n(G)` for pro-`p` groups, the spanning theorem for the graded pieces of a topologically
+  generated compact group, the triviality of the intersection `⋂ γ_n(G)` for pro-`p` groups, the
+  comparison with the lower `p`-series, and the degree-one piece of a free pro-`p` group.
 
 It does not own, and consumes by name:
 
 - `IsProP`, `proPKernel`, `maximalProPQuotient`, `proPFrattini`, the Burnside basis theorem, the
-  Hopf property, `IsTopologicallyFinitelyGenerated`, `freeProfiniteGroup`, `freeProP`, `zHat` as a
-  profinite group, `pLowerCentralSeries`, `gradedPiece` and `gradedBracket`, and the
-  `ℤ_p`-exponentiation on an abelian pro-`p` group, all from **ProfiniteProPGroups**;
+  Hopf property, `IsTopologicallyFinitelyGenerated`, `freeProfiniteGroup`, `freeProP` and
+  `topAbelianization`, from **ProfiniteProPGroups**, which specifies them. Where Tau Ceti already
+  implements one of them under a name the supplier's `Suggested.lean` does not pin, the contract
+  table below names the Tau Ceti declaration;
+- from **Tau Ceti** directly: the `ℤ_p`-power `TauCeti.IsProP.padicPow` with its calculus,
+  re-exported here as `padicPow`; the profinite completion `TauCeti.zHat` with its universal
+  property `TauCeti.zHat.lift`; and the lower `p`-series `TauCeti.pLowerCentralSeries` with its
+  graded pieces `TauCeti.gradedPiece`, class map `TauCeti.gradedMk` and bracket
+  `TauCeti.gradedBracket`, whose case `p = 0` is re-exported as `closedLowerCentralSeries`,
+  `lcsGradedPiece`, `lcsGradedMk` and `lcsBracket`;
 - continuous cohomology, from **ProfiniteCohomology**; nothing here is cohomological;
 - every arithmetic object: Galois groups, cyclotomic characters beyond the generic assembly of
   a compatible system into `ẑˣ`, inertia groups, fundamental groups, and the branch-cycle and
   peripheral-power theorems.
 
-There is no second `zHat`, no second `IsProP`, and no second free pro-`p` group. Where a
-statement of this roadmap is about the supplier's object, it names the supplier's declaration.
+There is no second `zHat`, `IsProP`, free pro-`p` group, `ℤ_p`-power or lower central series.
+Where a statement of this roadmap is about a supplier's object, it names the supplier's
+declaration, through a reducible alias when this roadmap keeps its own name for it.
 
 ## Conventions
 
@@ -77,26 +92,30 @@ statement of this roadmap is about the supplier's object, it names the supplier'
   `T1`, hence `T2`. `ProfiniteGrp` is used only where a categorical limit or completion genuinely
   needs it.
 - **Pro-`p`** is ProfiniteProPGroups' `IsProP p G`, carried as an explicit hypothesis
-  `(hG : IsProP p G)`, never as a class. Every `ℤ_ℓ`-power statement carries `[Fact ℓ.Prime]`.
+  `(hG : IsProP p G)`, never as a class. It is definitionally Tau Ceti's `TauCeti.IsProP`
+  (`isProP_iff_tauCeti`), which is how Tau Ceti's `ℤ_p`-power applies under it. Every
+  `ℤ_ℓ`-power statement carries `[Fact ℓ.Prime]`.
 - **`ẑ`** is `ProfiniteInt`, the subring of `∏ n : ℕ+, ZMod n` cut out by the compatibility of the
   reduction maps. The index runs over `ℕ+`: `ZMod 0 = ℤ` would collapse the limit. Its additive
   group is written additively; the multiplicative group used for powers is
-  `Multiplicative ProfiniteInt`. The supplier's `zHat` is a different type, related to this one
-  by the named comparison of Layer 0.4.
+  `Multiplicative ProfiniteInt`. Tau Ceti's `TauCeti.zHat`, the profinite completion of `ℤ` that
+  implements the supplier's `zHat`, is a different type (a group, with no ring structure), related
+  to this one by the named comparison of Layer 0.4.
 - **Profinite powers** are written `x ^ᶻ a` in prose and in Lean (scoped notation for
   `zpowHat x a`). The `ℤ_ℓ`-power is written `x ^[ℓ] u` in prose only; its Lean name is
-  `padicPow ℓ hG x u`, because Mathlib reserves `f^[n]` for iterates.
+  `padicPow ℓ hG x u`, because Mathlib reserves `f^[n]` for iterates, and it is Tau Ceti's
+  `TauCeti.IsProP.padicPow`.
 - **Automorphisms compose as functions.** `ContinuousAut G` multiplies by composition,
   `(φ * ψ) x = φ (ψ x)`, matching Mathlib's `MulAut`. The inner automorphism attached to `g` is
   `x ↦ g * x * g⁻¹`, matching `MulAut.conj`. A conjugate written `c⁻¹ * x * c` in a consumer is
   `MulAut.conj c⁻¹ x`; no second conjugation convention is introduced.
 - **Conjugacy** is Mathlib's `IsConj`, and conjugacy classes are Mathlib's `ConjClasses`.
 - **The closed lower central series is 0-based**, like Mathlib's `Subgroup.lowerCentralSeries`
-  and the supplier's `pLowerCentralSeries`: `γ_0(G) = G` and
+  and Tau Ceti's `TauCeti.pLowerCentralSeries`, of which it is the case `p = 0`: `γ_0(G) = G` and
   `γ_{n+1}(G) = closure ⁅γ_n(G), G⁆`. So `gr_0(G)` is the topological abelianization and the
   bracket raises the degree by one: `[gr_j, gr_k] ⊆ gr_{j+k+1}`.
 - **Graded pieces are written additively**, as `Additive` of the group quotient, so that
-  bilinearity is stated with `+`. This copies ProfiniteProPGroups Layer 8.
+  bilinearity is stated with `+`. They are Tau Ceti's `TauCeti.gradedPiece 0 G n`.
 - **Commutators** are Mathlib's `⁅x, y⁆ = x * y * x⁻¹ * y⁻¹`; the relator convention of
   ProfiniteProPGroups, `(x, y) = x⁻¹ y⁻¹ x y`, appears only when a Demushkin relator is
   quoted, and never in a statement of this roadmap.
@@ -109,12 +128,25 @@ All names in this section are part of the dependency contract.
 
 | Use here | Exact declarations |
 |---|---|
-| pro-`p` groups and the maximal pro-`p` quotient | `IsProP`, `proPKernel`, `maximalProPQuotient`, `isProP_maximalProPQuotient`, the universal property of `maximalProPQuotient` |
-| generation and the Frattini quotient | `IsTopologicallyFinitelyGenerated`, `topologicalGeneratorRankNat`, `proPFrattini`, `topologicallyGenerates_iff_frattiniQuotient`, the Burnside surjectivity criterion, the Hopf property |
-| the profinite completion of `ℤ` | `zHat`, `maximalProPQuotient_zHat_equiv_padicInt` |
+| pro-`p` groups and the maximal pro-`p` quotient | `IsProP`, `proPKernel`, `maximalProPQuotient` |
+| generation and the Frattini quotient | `IsTopologicallyFinitelyGenerated`, `topologicalGeneratorRankNat`, `proPFrattini`, `topologicallyGenerates_iff_frattiniQuotient` |
 | free objects | `freeProfiniteGroup`, `freeProfiniteGroup.of`, `freeProP`, `freeProP.of`, `freeProP.lift`, `freeProP.lift_of`, `freeProP.lift_unique` |
-| abelian pro-`p` groups | the `ℤ_p`-exponentiation and `ℤ_p`-module structure of an abelian pro-`p` group (Layer 4), and the structure theorem |
-| the lower `p`-series | `pLowerCentralSeries`, `gradedPiece`, `gradedMk`, `gradedBracket`, `gradedBracket_mk` |
+| the abelianization | `topAbelianization` |
+
+The supplier's `Suggested.lean` states four further inputs only as anonymous examples: the
+pro-`p` property and the universal property of `maximalProPQuotient`, the Burnside surjectivity
+criterion, and the Hopf property. This roadmap names the Tau Ceti declarations for them, in the
+next table.
+
+### From Tau Ceti
+
+| Use here | Exact declarations |
+|---|---|
+| the `ℤ_p`-power | `TauCeti.IsProP`, `TauCeti.isProP_iff`, `TauCeti.IsProP.padicPow`, `TauCeti.IsProP.padicPow_one`, `padicPow_intCast`, `padicPow_add`, `padicPow_mul`, `map_padicPow`, `inv_padicPow`, `continuous_padicPow`, `padicPow_mem`, `TauCeti.IsProP.module` |
+| the profinite completion of `ℤ` | `TauCeti.zHat`, `TauCeti.zHat.gen`, `TauCeti.zHat.lift`, `TauCeti.zHat.maximalProPQuotientEquivPadicInt` |
+| the maximal pro-`p` quotient, Burnside and Hopf | `TauCeti.isProP_maximalProPQuotient`, `TauCeti.maximalProPQuotient.lift`, `TauCeti.IsProP.topologicallyGenerates_iff_frattiniQuotient`, `TauCeti.IsProP.surjective_of_leftInverse_of_ker_le_proPFrattini`, `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective` |
+| the lower `p`-series | `TauCeti.pLowerCentralSeries`, `pLowerCentralSeries_zero`, `pLowerCentralSeries_succ`, `pLowerCentralStep_def`, `mem_pLowerCentralSeries_zero`, the instance `pLowerCentralSeries_normal`, `isClosed_pLowerCentralSeries`, `pLowerCentralSeries_antitone`, `commutator_mem_pLowerCentralSeries`, `mk_conj_of_mem_pLowerCentralSeries`, `MonoidHom.map_pLowerCentralSeries_le`, `ContinuousMulEquiv.map_pLowerCentralSeries_eq` |
+| its graded pieces and bracket | `TauCeti.gradedPiece`, `TauCeti.gradedMk`, `gradedMk_eq_gradedMk_iff`, `TauCeti.gradedBracket`, `gradedBracket_gradedMk`, `gradedBracket_self`, `gradedBracket_jacobi`, `gradedMap_gradedBracket` |
 
 ### From Mathlib
 
@@ -130,15 +162,20 @@ All names in this section are part of the dependency contract.
 
 Mathlib has no ring of profinite integers, no profinite power, no group structure on
 `ContinuousMulEquiv G G`, no `ℤ_p`-power on a nonabelian group, and no graded Lie ring of a lower
-central series; each is built here. The `FLT` project's `ZHat` has the shape adopted for
-`ProfiniteInt` in Layer 0.1, so that the eventual comparison is a rename.
+central series. Tau Ceti has three of these, and this roadmap consumes them: the `ℤ_p`-power on a
+pro-`p` group, the profinite completion of `ℤ` as a group with its universal property for groups in
+`Type`, and the lower `p`-series with its graded bracket for every `p`, whose case `p = 0` is the
+closed lower central series. Neither has the ring `ẑ`, a group or a topology on `G ≃ₜ* G`, the
+outer automorphism group, or the `ℤ_p`-linear graded Lie algebra of the closed series; each is
+built here. The `FLT` project's `ZHat` has the shape adopted for `ProfiniteInt` in Layer 0.1, so
+that the eventual comparison is a rename.
 
 ## How to read the build
 
 `README.md` is normative; `Suggested.lean` pins names and signatures for the central objects and is
-not exhaustive. In prerequisite annotations, `M` means Mathlib, `L0` through `L3` mean an earlier
-layer here, and `PPG-<layer>` means an export of ProfiniteProPGroups. No milestone depends on an
-unmerged roadmap.
+not exhaustive. In prerequisite annotations, `M` means Mathlib, `TC` means Tau Ceti, `L0` through
+`L3` mean an earlier layer here, and `PPG-<layer>` means an export of ProfiniteProPGroups. No
+milestone depends on an unmerged roadmap.
 
 ## Layer 0: the profinite integers as a topological ring
 
@@ -210,14 +247,13 @@ unmerged roadmap.
   `Units.map (toZMod n) ∘ χ = χ n`. If `G` is a topological group and each `χ n` is continuous,
   so is `χ`. This is the form in which the BelyiMaps successor assembles the cyclotomic character
   out of Mathlib's `modularCyclotomicCharacter` at each level.
-- **The group comparison.** `ProfiniteInt.toZHat : Multiplicative ẑ ≃ₜ* zHat`, a named
-  isomorphism of topological groups sending `ofAdd 1` to the image of the generator of `ℤ` under
-  the completion map; it is characterized by that value. Through it, ProfiniteProPGroups'
-  `maximalProPQuotient_zHat_equiv_padicInt` becomes the statement that `component ℓ` induces
+- **The group comparison.** `ProfiniteInt.toZHat : Multiplicative ẑ ≃ₜ* TauCeti.zHat`, a named
+  isomorphism of topological groups onto Tau Ceti's profinite completion of `ℤ`, sending `ofAdd 1`
+  to the generator `TauCeti.zHat.gen`; it is characterized by that value. Through it, Tau Ceti's
+  `TauCeti.zHat.maximalProPQuotientEquivPadicInt` becomes the statement that `component ℓ` induces
   `maximalProPQuotient ℓ (Multiplicative ẑ) ≃ₜ* Multiplicative ℤ_[ℓ]`.
-  *Needs:* M `Units`, `Units.map`, `ProfiniteGrp.profiniteCompletion`,
-  `ProfiniteGrp.ProfiniteCompletion.lift`; PPG-4 `zHat`,
-  `maximalProPQuotient_zHat_equiv_padicInt`; L0.3.
+  *Needs:* M `Units`, `Units.map`; TC `TauCeti.zHat`, `TauCeti.zHat.gen`, `TauCeti.zHat.lift`,
+  `TauCeti.zHat.maximalProPQuotientEquivPadicInt`; L0.3.
 
 ## Layer 1: profinite powers and `ℤ_ℓ`-powers
 
@@ -229,8 +265,13 @@ unmerged roadmap.
   through the finite quotients of `G`. Then `x ^ᶻ a := zpowHatHom x (ofAdd a)`. Uniqueness is a
   theorem: any continuous homomorphism `Multiplicative ẑ →* G` sending `ofAdd 1` to `x` is
   `zpowHatHom x`.
-  *Needs:* L0.2 density; M `ProfiniteGrp.ProfiniteCompletion.lift` through L0.4, or the
-  finite-level construction directly.
+- **Comparison with Tau Ceti.** For `G : Type` the power is Tau Ceti's `TauCeti.zHat.lift x`
+  applied through `toZHat`: `x ^ᶻ a = TauCeti.zHat.lift x (toZHat (ofAdd a))`
+  (`zpowHat_eq_zHat_lift`). The roadmap asks for `x ^ᶻ a` in every universe because that route
+  stops at `Type`: Mathlib's `ProfiniteGrp.ProfiniteCompletion.lift`, on which `TauCeti.zHat.lift`
+  is built, needs the target in the universe of the completion. The finite-level construction
+  works in every universe.
+  *Needs:* L0.2 density; TC `TauCeti.zHat.lift` for the comparison.
 
   API checklist for `^ᶻ`:
   - Constructors: `zpowHatHom`; `zpowHat`.
@@ -252,8 +293,8 @@ unmerged roadmap.
   - Downstream interfaces: 1.2, 1.3, Layer 2's actions, the BelyiMaps successor's branch-cycle
     theorem.
 
-  ⚠ *Nearby false statement:* `x ^ᶻ a` is not "`x` to an integer representative of `a`"; no
-  representative exists, and the operation is defined by the universal property. Nor is
+  ⚠ *Nearby false statement:* `x ^ᶻ a` is not "`x` to an integer representative of `a`"; in general
+  no integer representative exists, and the operation is defined by the universal property. Nor is
   `(x * y) ^ᶻ a = x ^ᶻ a * y ^ᶻ a` without commutativity.
   *Source:* Ribes–Zalesskii, *Profinite Groups*, §4.1.
 
@@ -276,26 +317,29 @@ unmerged roadmap.
 
 ### 1.3 The `ℤ_ℓ`-power on a pro-`ℓ` group
 
-- **Definition.** For `[Fact ℓ.Prime]`, `G` pro-`ℓ` (`hG : IsProP ℓ G`) and `u : ℤ_[ℓ]`,
-  `padicPow ℓ hG x u`, written `x ^[ℓ] u`, is the image of `u` under the unique continuous
-  homomorphism `Multiplicative ℤ_[ℓ] →* G` with `ofAdd 1 ↦ x`. It exists because `zpowHatHom x`
-  factors through the maximal pro-`ℓ` quotient of `Multiplicative ẑ`, which Layer 0.4 identifies
-  with `Multiplicative ℤ_[ℓ]` through `component ℓ`.
+- **Definition (Tau Ceti).** For `[Fact ℓ.Prime]`, `G` pro-`ℓ` (`hG : IsProP ℓ G`) and
+  `u : ℤ_[ℓ]`, `padicPow ℓ hG x u`, written `x ^[ℓ] u`, is Tau Ceti's `TauCeti.IsProP.padicPow`:
+  the unique continuous extension of `n ↦ x ^ n` along `ℕ ⊆ ℤ_[ℓ]`, equivalently the image of `u`
+  under the continuous homomorphism `Multiplicative ℤ_[ℓ] →* G` with `ofAdd 1 ↦ x` (Tau Ceti's
+  `TauCeti.IsProP.padicPowHom`). This roadmap re-exports it under the supplier's hypothesis
+  through `isProP_iff_tauCeti` and does not construct it again.
 - **The comparison.** `x ^ᶻ a = x ^[ℓ] (component ℓ a)`, and `x ^[ℓ] u = x ^ᶻ a` for any `a` with
   `component ℓ a = u`; `component ℓ` here is the ring homomorphism of 0.3 and not a second
-  projection.
-- **The calculus.** The laws of 1.1, with `ℤ_[ℓ]` in place of `ẑ`: integer powers, the additive
-  and multiplicative laws, naturality and conjugation, continuity in `u` and jointly. On an
-  abelian pro-`ℓ` group `x ^[ℓ] u` is the `ℤ_ℓ`-exponentiation of ProfiniteProPGroups Layer 4, a
-  named comparison and not a definitional identification.
+  projection. The proof goes through the maximal pro-`ℓ` quotient of `Multiplicative ẑ`, which
+  Layer 0.4 identifies with `Multiplicative ℤ_[ℓ]`.
+- **The calculus (Tau Ceti).** Integer powers, the additive and multiplicative laws, naturality,
+  inverses, joint continuity and membership in closed subgroups are Tau Ceti's theorems, applied
+  here under the supplier's hypothesis; the conjugation instance is naturality for
+  `MulAut.conj g`. On an abelian pro-`ℓ` group `x ^[ℓ] u` is the scalar action of Tau Ceti's
+  `ℤ_ℓ`-module structure `TauCeti.IsProP.module`.
 - **Unit exponents.** For `u : ℤ_[ℓ]ˣ`: `(x ^[ℓ] u) ^[ℓ] u⁻¹ = x`; `closedZpowers (x ^[ℓ] u) =
   closedZpowers x`; `x ↦ x ^[ℓ] u` is a homeomorphism of `G` with inverse `x ↦ x ^[ℓ] u⁻¹`; and
   `x ^[ℓ] u = y ^[ℓ] u → x = y`.
 - **The class in a quotient.** For a closed normal subgroup `N`, the image of `x ^[ℓ] u` in
-  `G ⧸ N` is `(x N) ^[ℓ] u`, and when `G ⧸ N` is abelian this is `u • (x N)` for the
-  `ℤ_ℓ`-module structure of ProfiniteProPGroups Layer 4.
-  *Needs:* L0.3, L0.4, L1.1; PPG-3 the universal property of `maximalProPQuotient`; PPG-4 the
-  abelian `ℤ_p`-exponentiation.
+  `G ⧸ N` is `(x N) ^[ℓ] u`, and when `G ⧸ N` is abelian this is `u • (x N)` for Tau Ceti's
+  `ℤ_ℓ`-module structure.
+  *Needs:* L0.3, L0.4, L1.1 for the comparison; TC `TauCeti.IsProP.padicPow` and its calculus,
+  `TauCeti.IsProP.module`.
 
   ⚠ Every consumer of `x ^[ℓ] u` carries `[Fact ℓ.Prime]` and the pro-`ℓ` hypothesis. On a
   profinite group that is not pro-`ℓ` the `ℓ`-adic component of `a` does not determine `x ^ᶻ a`,
@@ -332,15 +376,18 @@ unmerged roadmap.
 - **Topologically characteristic subgroups.** `IsTopCharacteristic N : Prop` says every
   continuous automorphism maps `N` onto itself, `N.map φ = N`. This is weaker than Mathlib's
   `Subgroup.Characteristic`, which quantifies over `MulAut G`, and it is the notion every closed
-  subgroup "defined from the topology" satisfies: `proPKernel`, `proPFrattini`, the terms of the
-  lower `p`-series (ProfiniteProPGroups Layer 3 and 8 state these), and the terms of the closed
-  lower central series (Layer 3 here).
+  subgroup "defined from the topology" satisfies. This roadmap proves it for `proPFrattini`
+  (`isTopCharacteristic_proPFrattini`, for every topological group and every `p`) and in the same
+  way for `proPKernel`; for the terms of the lower `p`-series, and so of the closed lower central
+  series, it is Tau Ceti's `ContinuousMulEquiv.map_pLowerCentralSeries_eq` (Layer 3.1).
 - **The topology.** `ContinuousAut G` carries the initial topology of the maps
   `ContinuousAut G →* MulAut (G ⧸ N)` induced by the topologically characteristic open normal
-  subgroups `N`, each `MulAut (G ⧸ N)` being finite and discrete. It is a topological group, and
-  `ContinuousAut.conj` is continuous.
-- **Profiniteness under finite generation.** If `G` is topologically finitely generated, the
-  topologically characteristic open normal subgroups are cofinal among all open normal subgroups,
+  subgroups `N`, each `MulAut (G ⧸ N)` being finite and discrete. The map sends `φ` to the
+  automorphism `x N ↦ φ x N` (`ContinuousAut.mapQuotient_mk`), which pins it. `ContinuousAut G` is
+  a topological group, and `ContinuousAut.conj` is continuous.
+- **Profiniteness under finite generation.** If `G` is a topologically finitely generated
+  profinite group, the topologically characteristic open normal subgroups are cofinal among all
+  open normal subgroups,
   because `G` has finitely many open subgroups of each index and their intersection is
   characteristic. Then `ContinuousAut G` is compact, Hausdorff and totally disconnected: the
   compatible families of automorphisms of the quotients `G ⧸ N` are exactly the continuous
@@ -355,8 +402,12 @@ unmerged roadmap.
   M `MulAut`, `OpenNormalSubgroup`, `IsCompact.image`, `IsCompact.isClosed`.
   *Source:* Ribes–Zalesskii §4.4.
 
-  ⚠ Without topological finite generation the congruence topology need not be compact, and no
-  milestone asserts it is. Every profiniteness statement carries `IsTopologicallyFinitelyGenerated`.
+  ⚠ Every profiniteness statement carries `IsTopologicallyFinitelyGenerated` and the profinite
+  stack on `G`, and neither can be dropped. Without finite generation the congruence topology need
+  not be compact. Without compactness it can be indiscrete or infinite and discrete:
+  `Multiplicative ℝ` is topologically generated by `1` and `√2` and has no open subgroup but itself,
+  and the discrete group `Multiplicative (ℤ × ℤ)` has the open characteristic subgroup `⊥`, which
+  makes the topology discrete on the infinite group `GL₂(ℤ)`.
 
 ### 2.3 Actions and functoriality
 
@@ -367,12 +418,13 @@ unmerged roadmap.
   subgroups, `H ↦ H.map φ`, and its descent to closed subgroups up to conjugacy are stated in the
   same way.
 - **Functoriality along a characteristic quotient.** For a topologically characteristic closed
-  normal subgroup `N`, restriction and descent give `ContinuousAut G →* ContinuousAut (G ⧸ N)` and
+  normal subgroup `N`, descent gives `ContinuousAut G →* ContinuousAut (G ⧸ N)` and
   `ContinuousOut G →* ContinuousOut (G ⧸ N)`, both continuous for the congruence topologies. The
   first map is compatible with the actions on conjugacy classes.
 - **The outer action of an extension.** For a topological group `E` and a closed normal subgroup
   `N`, conjugation gives `E →* ContinuousAut N` and, since conjugation by an element of `N` is
-  inner, `E ⧸ N →* ContinuousOut N`. When `N` is a topologically finitely generated profinite
+  inner, `E ⧸ N →* ContinuousOut N`, sending `e N` to the class of conjugation by `e`
+  (`outerAction_mk`, with one conjugating automorphism for all of `N`). When `N` is a topologically finitely generated profinite
   group, `E →* ContinuousAut N` is continuous for the congruence topology: on each finite
   characteristic quotient of `N` it is locally constant.
   *Needs:* L2.1, L2.2; M `MulDistribMulAction`, `ConjClasses`, `QuotientGroup.lift`.
@@ -405,25 +457,27 @@ unmerged roadmap.
 
 ### 3.1 The series
 
-- **Definition.** For a topological group `G`, `closedLowerCentralSeries G : ℕ → Subgroup G`,
-  written `γ_n(G)`: `γ_0(G) = ⊤` and `γ_{n+1}(G) = ⁅γ_n(G), ⊤⁆.topologicalClosure`. Each term is
-  closed, normal, topologically characteristic, and the series is antitone. The commutator
-  inclusion `⁅γ_j(G), γ_k(G)⁆ ≤ γ_{j+k+1}(G)` holds, by the three-subgroup lemma and the
-  continuity of the commutator map, and it is what makes the bracket of 3.2 well defined.
+- **Definition (Tau Ceti).** For a topological group `G`, `closedLowerCentralSeries G n`, written
+  `γ_n(G)`, is Tau Ceti's `TauCeti.pLowerCentralSeries 0 G n`. At `p = 0` the power term of Tau
+  Ceti's step `closure (λᵖ ⬝ [λ, G])` is trivial, so `γ_0(G) = ⊤` and
+  `γ_{n+1}(G) = ⁅γ_n(G), ⊤⁆.topologicalClosure` (`closedLowerCentralSeries_succ`, proved from Tau
+  Ceti's `pLowerCentralStep_def`). Closedness, normality, antitonicity, the commutator inclusion
+  `⁅γ_j(G), γ_k(G)⁆ ≤ γ_{j+k+1}(G)` that makes the bracket of 3.2 well defined, and functoriality
+  under continuous homomorphisms are Tau Ceti's theorems, applied here. Each term is topologically
+  characteristic, because continuous isomorphisms match the series term by term (Tau Ceti's
+  `ContinuousMulEquiv.map_pLowerCentralSeries_eq`).
 - **Comparison with the abstract series.** `γ_n(G) = (Subgroup.lowerCentralSeries ⊤ n).topologicalClosure`:
   taking closures commutes with the commutator step because the commutator map is continuous.
-- **Functoriality.** A continuous homomorphism `f : G →* H` satisfies `(γ_n(G)).map f ≤ γ_n(H)`,
-  with equality of closures when `f` is surjective.
-- **Comparison with the lower `p`-series.** `γ_n(G) ≤ pLowerCentralSeries p G n` for every `n`,
-  by induction from `⁅λ_n, G⁆ ≤ λ_{n+1}`; the induced map on graded pieces is compatible with the
-  two brackets (3.2).
+- **Comparison with the lower `p`-series.** `γ_n(G) ≤ λ_n(G)` for every `p` and `n`, where
+  `λ_n(G) = TauCeti.pLowerCentralSeries p G n`, by induction from `⁅λ_n, G⁆ ≤ λ_{n+1}`; the induced
+  map on graded pieces is compatible with the two brackets (3.2).
 - **Triviality of the intersection.** If `G` is pro-`p` then `⨅ n, γ_n(G) = ⊥`: every open normal
   subgroup `U` has a finite `p`-group quotient, which is nilpotent (`IsPGroup.isNilpotent`), so
   `γ_c(G) ≤ U` for `c` its nilpotency class, and the open normal subgroups of a profinite group
   intersect in `⊥`. The same argument gives the statement for every pronilpotent group.
-  *Needs:* M `Subgroup.lowerCentralSeries`, `Subgroup.commutator`, `Subgroup.topologicalClosure`,
-  `Subgroup.is_normal_topologicalClosure`, `IsPGroup.isNilpotent`; PPG-3 `IsProP`; PPG-8
-  `pLowerCentralSeries`.
+  *Needs:* TC `TauCeti.pLowerCentralSeries` and its laws; L2.2 `IsTopCharacteristic`;
+  M `Subgroup.lowerCentralSeries`, `Subgroup.topologicalClosure`, `IsPGroup.isNilpotent`;
+  PPG-3 `IsProP`.
 
   ⚠ *Nearby false statement:* `γ_n(G)` is not open in general, and `G ⧸ γ_n(G)` is not finite:
   for a free pro-`p` group of rank `2` the quotient `G ⧸ γ_1(G)` is `ℤ_p^2`. Openness and finite
@@ -431,24 +485,30 @@ unmerged roadmap.
 
 ### 3.2 Graded pieces and the bracket
 
-- **Graded pieces.** `lcsGradedPiece G n := Additive (γ_n(G) ⧸ (γ_{n+1}(G)).subgroupOf (γ_n(G)))`,
-  written `gr_n(G)`, with `lcsGradedMk : γ_n(G) → gr_n(G)`. It is an abelian profinite group when
-  `G` is profinite, and `gr_0(G)` is ProfiniteProPGroups' `topAbelianization G`.
-- **The bracket.** `lcsBracket G j k : gr_j(G) → gr_k(G) → gr_{j+k+1}(G)`, induced by the
-  commutator, with the defining equation `lcsBracket_mk` on classes. It is biadditive,
-  alternating, satisfies the Jacobi identity up to the degree cast, is natural for continuous
-  homomorphisms, and is jointly continuous. Conjugation acts trivially on every `gr_n(G)`, which
-  is the statement `lcsGradedMk (g * x * g⁻¹) = lcsGradedMk x`.
+- **Graded pieces (Tau Ceti).** `lcsGradedPiece G n` is Tau Ceti's
+  `TauCeti.gradedPiece 0 G n = Additive (γ_n(G) ⧸ (γ_{n+1}(G)).subgroupOf (γ_n(G)))`, written
+  `gr_n(G)`, with the class map `lcsGradedMk`, Tau Ceti's `TauCeti.gradedMk`. It is an abelian
+  profinite group when `G` is profinite, and `gr_0(G)` is ProfiniteProPGroups' `topAbelianization G`.
+- **The bracket (Tau Ceti).** `lcsBracket G j k` is Tau Ceti's
+  `TauCeti.gradedBracket 0 G j k : gr_j(G) →+ gr_k(G) →+ gr_{j+k+1}(G)`, induced by the commutator,
+  with the defining equation `lcsBracket_mk` on classes. Tau Ceti proves it biadditive,
+  alternating (`gradedBracket_self`), satisfying the Jacobi identity up to the degree cast
+  (`gradedBracket_jacobi`) and natural for continuous homomorphisms (`gradedMap_gradedBracket`).
+  Conjugation acts trivially on every `gr_n(G)`, which is the statement
+  `lcsGradedMk (g * x * g⁻¹) = lcsGradedMk x` (`lcsGradedMk_conj`, from Tau Ceti's
+  `mk_conj_of_mem_pLowerCentralSeries`). Joint continuity of the bracket is owned here.
 - **The graded Lie ring.** `⨁ n, gr_n(G)` is a `LieRing` for the degreewise bracket, and the
   functoriality of 3.1 gives a Lie ring homomorphism for every continuous homomorphism.
 - **`ℤ_p`-structure.** When `G` is pro-`p`, every `gr_n(G)` is an abelian pro-`p` group, hence a
-  topological `ℤ_p`-module by ProfiniteProPGroups Layer 4, with the scalar action given by
-  `padicPow`; the bracket is `ℤ_p`-bilinear, and `⨁ n, gr_n(G)` is a `LieAlgebra ℤ_[p]`. The
-  class of `x ^[p] u` in `gr_n(G)` is `u • lcsGradedMk x`.
-- **Comparison with `gradedPiece`.** The inclusion `γ_n(G) ≤ λ_n(G)` of 3.1 induces
-  `gr_n(G) → gradedPiece p G n`, additive and compatible with `lcsBracket` and `gradedBracket`.
-  *Needs:* L3.1; L1.3; PPG-4 the abelian `ℤ_p`-module structure; PPG-8 `gradedPiece`,
-  `gradedBracket`; M `Additive`, `DirectSum`, `LieRing`, `LieAlgebra`.
+  topological `ℤ_p`-module by Tau Ceti's `TauCeti.IsProP.module`, with the scalar action given by
+  `padicPow`. The class of `x ^[p] u` in `gr_n(G)` is `u • lcsGradedMk x`, and the bracket is
+  `ℤ_p`-bilinear: the classes of `⁅x ^[p] u, y⁆` and of `⁅x, y ^[p] u⁆` are the class of
+  `⁅x, y⁆ ^[p] u` (`lcsBracket_padicPow_left`, `lcsBracket_padicPow_right`). So `⨁ n, gr_n(G)`
+  is a `LieAlgebra ℤ_[p]`.
+- **Comparison with the lower `p`-series.** The inclusion `γ_n(G) ≤ λ_n(G)` of 3.1 induces
+  `gr_n(G) → TauCeti.gradedPiece p G n`, additive and compatible with the two brackets.
+  *Needs:* L3.1; L1.3; TC `TauCeti.gradedPiece`, `TauCeti.gradedMk`, `TauCeti.gradedBracket` and
+  their laws, `TauCeti.IsProP.module`; M `Additive`, `DirectSum`, `LieRing`, `LieAlgebra`.
 
 ### 3.3 Generation
 
@@ -460,17 +520,23 @@ unmerged roadmap.
   kernel contains `γ_1(G)`, so it is determined by its values on a topological generating set; and
   `γ_{n+1}(G)` is the closure of the subgroup generated by the commutators `⁅g, c⁆` with
   `c ∈ γ_n(G)`.
-- **The finite form.** If `S` is finite, the closure is superfluous: every `z ∈ gr_{n+1}(G)` is a
-  sum `Σ_{s ∈ S} lcsBracket (lcsGradedMk s) (y s)` with one term per generator, because the set
-  of such sums is the image of the compact group `gr_n(G) ^ S` under a continuous additive map,
-  hence closed, and the bracket is additive in its second argument.
+- **The finite form.** If `G` is compact and `S` is finite, the closure is superfluous: every
+  `z ∈ gr_{n+1}(G)` is a sum `Σ_{s ∈ S} lcsBracket (lcsGradedMk s) (y s)` with one term per
+  generator. The set of such sums is the image of the compact group `gr_n(G) ^ S` under a
+  continuous additive map, hence closed in the Hausdorff group `gr_{n+1}(G)` (`γ_{n+2}(G)` is
+  closed), and the bracket is additive in its second argument.
 - **Finite generation of the pieces.** If `G` is a topologically finitely generated pro-`p` group
   then each `gr_n(G)` is a finitely generated `ℤ_p`-module, by induction from the finite form.
   *Needs:* L3.2; M `IsCompact.image`, `Subgroup.closure`.
 
   ⚠ The spanning theorem is about the closed series and needs no finite generation. The one-term
-  form is where finiteness of `S` enters; for infinite `S` a graded element is a limit of finite
-  sums.
+  form is where finiteness of `S` and compactness of `G` enter. For infinite `S` a graded element
+  is a limit of finite sums. Without compactness the one-term form fails: on `ℤ × ℤ² × ℝ` with
+  product `(a, b, c)(a', b', c') = (a + a', b + b', c + c' + a (b'₁ + √2 b'₂))`, discrete on the
+  integer factors, `gr_1 ≅ ℝ` while every sum of brackets of the three generators lies in
+  `ℤ + √2 ℤ`. Tau Ceti's spanning theorems for the lower `p`-series
+  (`TauCeti.span_gradedPow_gradedMkZero_union_gradedBracket_eq_top`) assume `p ≠ 0` and an open
+  `λ_2`, and do not cover the closed series.
 
 ### 3.4 The free pro-`p` group
 
@@ -480,10 +546,14 @@ unmerged roadmap.
 - **Degree one.** `gr_1(F)` is generated by the brackets `[x̄_i, x̄_j]`, `i < j`, by 3.3, and
   these form a basis: `gr_1(F)` is a free `ℤ_p`-module of rank `r (r - 1) / 2`, the exterior
   square of `gr_0(F)`. The proof transports the corresponding statement for the discrete free
-  group, `γ_2 / γ_3 ≅ Λ² ℤ^r`, along the dense inclusion `FreeGroup (Fin r) → F`, using that
-  `F ⧸ γ_2(F)` is the pro-`p` completion of the discrete free nilpotent group of class two.
-- **The nonvanishing instance.** `[x̄_0, x̄_1] ≠ 0` in `gr_1(F)` for `r ≥ 2`. This is the input
-  to two nearby-false-statement checks in PeripheralActions.
+  group, `γ_1 / γ_2 ≅ Λ² ℤ^r` (0-based, as for Mathlib's `lowerCentralSeries`), along the dense
+  inclusion `FreeGroup (Fin r) → F`, using that `F ⧸ γ_2(F)` is the pro-`p` completion of the
+  discrete free nilpotent group of class two.
+- **The nonvanishing instance.** `[x̄_i, x̄_j] ≠ 0` in `gr_1(F)` for `i ≠ j`
+  (`lcsBracket_freeProP_ne_zero`), the case of the degree-one theorem pinned in Lean.
+  PeripheralActions' nearby-false-statement checks use the basis statement itself. Tau Ceti's
+  `TauCeti.freeProP.degreeOneBasis` is the analogous basis for the lower `p`-series over `𝔽_p`,
+  which also contains the `p`-power classes; it is not the `ℤ_p`-basis asked for here.
   *Needs:* L3.2, L3.3; PPG-4 `freeProP`, `topAbelianization`; M `FreeGroup`, `ExteriorAlgebra`.
   *Source:* Magnus–Karrass–Solitar, *Combinatorial Group Theory*, §5.7; Serre, *Lie Algebras and
   Lie Groups*, Part I, Chapter IV.
@@ -503,31 +573,36 @@ unmerged roadmap.
 
 Layer 0 is self-contained and comes first. Layer 1 needs 0.2 and 0.3; 1.3 needs 0.4. Layer 2.1
 needs nothing beyond Mathlib and can start at once; 2.2 needs ProfiniteProPGroups Layer 3; 2.3
-needs 2.2; 2.4 needs 2.2 and ProfiniteProPGroups Layers 3 and 4. Layer 3.1 and 3.2 need only
-Mathlib and, for the `ℤ_p`-statements, Layer 1.3 and ProfiniteProPGroups Layer 4; 3.3 needs 3.2;
-3.4 needs 3.3 and ProfiniteProPGroups Layer 4. Layers 2 and 3 are independent of each other and
-of Layer 1 except where a `^[ℓ]` statement is involved.
+needs 2.2; 2.4 needs 2.2 and ProfiniteProPGroups Layers 3 and 4. Layers 3.1 and 3.2 consume Tau
+Ceti's lower `p`-series and need, beyond it, Layer 2.2's `IsTopCharacteristic` for the
+characteristic statement and Layer 1.3 for the `ℤ_p`-statements; 3.3 needs 3.2; 3.4 needs 3.3 and
+ProfiniteProPGroups Layer 4. Apart from `IsTopCharacteristic`, Layers 2 and 3 are independent of
+each other, and both are independent of Layer 1 except where a `^[ℓ]` statement is involved.
 
 ## Acceptance checklist
 
 - `ProfiniteInt` is a subring of `∏ n : ℕ+, ZMod n`, and its ring, topology, compactness and
   universal property are theorems about that carrier, not axioms.
 - `component ℓ` is a ring homomorphism, and `ẑ ≃ ∏_ℓ ℤ_ℓ` is an isomorphism of topological rings.
-- The comparison with `zHat` is a named `ContinuousMulEquiv` with a pinned value on the generator.
+- The comparison with `TauCeti.zHat` is a named `ContinuousMulEquiv` pinned on
+  `TauCeti.zHat.gen`, and for groups in `Type` the power `x ^ᶻ a` is related to
+  `TauCeti.zHat.lift` by a named theorem.
 - `x ^ᶻ a` is defined by a universal property, and `(x ^ᶻ a) ^ᶻ b = x ^ᶻ (a * b)` is proved
   against the ring product of Layer 0.
-- `padicPow` is stated only on pro-`ℓ` groups with `[Fact ℓ.Prime]`, and its comparison with
-  `^ᶻ` goes through `component ℓ` and through ProfiniteProPGroups' identification of the maximal
-  pro-`ℓ` quotient of `zHat`.
+- `padicPow` is Tau Ceti's `TauCeti.IsProP.padicPow` under the supplier's hypothesis, not a second
+  construction; it is stated only on pro-`ℓ` groups with `[Fact ℓ.Prime]`, and its comparison with
+  `^ᶻ` goes through `component ℓ` and the identification of the maximal pro-`ℓ` quotient of `ẑ`.
 - `ContinuousAut G` is a group by composition with `(φ * ψ) x = φ (ψ x)`; `conj g x = g * x * g⁻¹`.
-- Profiniteness of `ContinuousAut G` is stated under `IsTopologicallyFinitelyGenerated G` and
-  nowhere else.
+- `mapQuotient` is pinned by its value on classes, and `outerAction_mk` chooses one conjugating
+  automorphism for all of `N`.
+- Profiniteness of `ContinuousAut G` is stated for a topologically finitely generated profinite
+  `G` and nowhere else.
 - The finite `p`-group theorem of 2.4 is proved by the free action on generating tuples, and
   the pro-`p` theorem is its inverse limit.
-- The closed lower central series is 0-based, each term is defined as a closure, and no
+- The closed lower central series is Tau Ceti's lower `p`-series at `p = 0`, 0-based, and no
   milestone claims openness or finiteness of a quotient by it.
 - The spanning theorem is stated for arbitrary topological generating sets, and its one-term form
-  for finite ones.
+  for finite ones in a compact group.
 - `gr_1` of a free pro-`p` group of finite rank is identified with the exterior square of `gr_0`
   by a theorem, not by a definition.
 
