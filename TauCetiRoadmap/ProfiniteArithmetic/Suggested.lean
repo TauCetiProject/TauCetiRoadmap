@@ -105,10 +105,15 @@ theorem ProfiniteInt.denseRange_intCast : DenseRange (fun k : ℤ => (k : Profin
 theorem ProfiniteInt.intCast_injective : Function.Injective (fun k : ℤ => (k : ProfiniteInt)) :=
   sorry
 
-/-- **Layer 0.3.** The `ℓ`-adic component, a **ring** homomorphism, characterized by
-`toZModPow_component` below. -/
+/-- **Layer 0.3.** The `ℓ`-adic component, a **ring** homomorphism: Mathlib's inverse-limit
+universal property `PadicInt.lift` applied to the projections to the `ZMod (ℓ ^ k)`, which are
+compatible by `castHom_toZMod`. It is characterized by `toZModPow_component` below, uniquely by
+`PadicInt.lift_unique`. -/
 noncomputable def ProfiniteInt.component (ℓ : ℕ) [Fact ℓ.Prime] : ProfiniteInt →+* ℤ_[ℓ] :=
-  sorry
+  PadicInt.lift (f := fun k => ProfiniteInt.toZMod ⟨ℓ ^ k, pow_pos (Fact.out : ℓ.Prime).pos k⟩)
+    fun k₁ k₂ hk => RingHom.ext fun a =>
+      ProfiniteInt.castHom_toZMod ⟨ℓ ^ k₂, pow_pos (Fact.out : ℓ.Prime).pos k₂⟩
+        ⟨ℓ ^ k₁, pow_pos (Fact.out : ℓ.Prime).pos k₁⟩ (pow_dvd_pow ℓ hk) a
 
 /-- **Layer 0.3.** The component is continuous. -/
 theorem ProfiniteInt.continuous_component (ℓ : ℕ) [Fact ℓ.Prime] :
@@ -116,11 +121,11 @@ theorem ProfiniteInt.continuous_component (ℓ : ℕ) [Fact ℓ.Prime] :
   sorry
 
 /-- **Layer 0.3.** The characterizing equation of the component: reducing it modulo `ℓ ^ k` is
-the projection to `ZMod (ℓ ^ k)`. -/
+the projection to `ZMod (ℓ ^ k)`. This is `PadicInt.lift_spec`. -/
 theorem ProfiniteInt.toZModPow_component (ℓ : ℕ) [Fact ℓ.Prime] (k : ℕ) (a : ProfiniteInt) :
     PadicInt.toZModPow k (ProfiniteInt.component ℓ a)
       = ProfiniteInt.toZMod ⟨ℓ ^ k, pow_pos (Fact.out : ℓ.Prime).pos k⟩ a :=
-  sorry
+  RingHom.congr_fun (PadicInt.lift_spec _ k) a
 
 /-- **Layer 0.3, the product decomposition.** `ẑ ≃ ∏_ℓ ℤ_ℓ` as topological rings. -/
 theorem ProfiniteInt.nonempty_ringEquiv_pi :
@@ -477,10 +482,21 @@ theorem ContinuousAut.mapQuotient_mk (N : Subgroup G) [N.Normal] (hN : IsTopChar
   sorry
 
 /-- **Layer 2.2, the congruence topology.** The initial topology of the maps to the finite
-automorphism groups of the topologically characteristic open normal quotients. -/
+automorphism groups of the topologically characteristic open normal quotients, each carrying the
+discrete topology. ⚠ In Mathlib's order on topologies `⊥` is the **discrete** topology and `⊤` the
+indiscrete one (`DiscreteTopology α` is `t = ⊥`), so `induced _ ⊥` below is the initial topology
+for discrete targets, as intended; `continuous_mapQuotient` records it. -/
 noncomputable instance : TopologicalSpace (ContinuousAut G) :=
   ⨅ N : {N : OpenNormalSubgroup G // IsTopCharacteristic G N.1.1},
     TopologicalSpace.induced (ContinuousAut.mapQuotient G N.1.1 N.2) ⊥
+
+omit [IsTopologicalGroup G] in
+/-- **Layer 2.2.** Each characteristic quotient map is continuous into the discrete group
+`MulAut (G ⧸ N)`. With the indiscrete topology `⊤` on the target this would say nothing. -/
+theorem ContinuousAut.continuous_mapQuotient
+    (N : {N : OpenNormalSubgroup G // IsTopCharacteristic G N.1.1}) :
+    @Continuous _ _ inferInstance ⊥ (ContinuousAut.mapQuotient G N.1.1 N.2) :=
+  continuous_iInf_dom (i := N) continuous_induced_dom
 
 instance : IsTopologicalGroup (ContinuousAut G) := sorry
 
@@ -665,6 +681,35 @@ theorem lcsGradedMk_conj (n : ℕ) (g : G) (x : closedLowerCentralSeries G n) :
       = lcsGradedMk G n x :=
   TauCeti.gradedMk_eq_gradedMk_iff.2 (TauCeti.mk_conj_of_mem_pLowerCentralSeries x.2 g)
 
+/-- **Layer 3.1.** `γ_1(G)` is the closed commutator subgroup, the kernel of the supplier's
+topological abelianization. -/
+theorem closedLowerCentralSeries_one :
+    closedLowerCentralSeries G 1 = (commutator G).topologicalClosure := by
+  rw [closedLowerCentralSeries_succ, closedLowerCentralSeries_zero]
+  rfl
+
+/-- **Layer 3.2.** The degree-zero graded piece is the supplier's topological abelianization:
+`gr_0(G) = γ_0 ⧸ γ_1` with `γ_0 = G` and `γ_1 = closure ⁅G, G⁆` (`closedLowerCentralSeries_one`).
+Tau Ceti's `TauCeti.gradedPieceZeroEquiv` is the algebraic part of this isomorphism. -/
+noncomputable def lcsGradedPieceZeroEquiv :
+    lcsGradedPiece G 0 ≃ₜ+ Additive (topAbelianization G) :=
+  sorry
+
+/-- **Layer 3.2.** The comparison on classes. It pins `lcsGradedPieceZeroEquiv`, because
+`lcsGradedMk` is surjective (`TauCeti.gradedMk_surjective`). -/
+theorem lcsGradedPieceZeroEquiv_mk (g : G) :
+    lcsGradedPieceZeroEquiv G (lcsGradedMk G 0 ⟨g, TauCeti.mem_pLowerCentralSeries_zero 0 g⟩)
+      = Additive.ofMul (QuotientGroup.mk g : topAbelianization G) :=
+  sorry
+
+/-- **Layer 3.1.** A `ℤ_p`-power of an element of `γ_n(G)` stays in `γ_n(G)`, the term being
+closed (Tau Ceti's `TauCeti.IsProP.padicPow_mem`). -/
+theorem padicPow_mem_closedLowerCentralSeries (p : ℕ) [Fact p.Prime] [CompactSpace G]
+    [TotallyDisconnectedSpace G] (hG : IsProP p G) {n : ℕ} {x : G}
+    (hx : x ∈ closedLowerCentralSeries G n) (u : ℤ_[p]) :
+    padicPow p hG x u ∈ closedLowerCentralSeries G n :=
+  TauCeti.IsProP.padicPow_mem _ (TauCeti.isClosed_pLowerCentralSeries n) hx u
+
 /-- **Layer 3.2, the bracket** `gr_j × gr_k → gr_{j+k+1}`, induced by the commutator: Tau Ceti's
 `TauCeti.gradedBracket 0 G j k`, which is biadditive, alternating and satisfies the Jacobi
 identity (`TauCeti.gradedBracket_self`, `TauCeti.gradedBracket_jacobi`). -/
@@ -737,9 +782,131 @@ theorem lcsGradedPiece_eq_sum_bracket [CompactSpace G] {ι : Type} [Fintype ι] 
           TauCeti.mem_pLowerCentralSeries_zero 0 _⟩) (y i)).sum :=
   sorry
 
-/-- **Layer 3.4.** For the free pro-`p` group of rank `r ≥ 2` the bracket of two distinct
-generators is nonzero in `gr_1`; this is the case pinned in Lean of the README's degree-one
-theorem, which identifies `gr_1` with the exterior square of `gr_0`. -/
+end LowerCentral
+
+/-! ### Layer 3.4: the free pro-`p` group in degrees zero and one
+
+Both degrees are proved directly, by detecting homomorphisms: to `Multiplicative ℤ_[p]` in degree
+zero and to the Heisenberg group over `ℤ_p` in degree one. No comparison with the pro-`p`
+completion of a discrete free nilpotent group is needed. -/
+
+/-- **Layer 3.4, the detecting group.** The Heisenberg group over `ℤ_p`: triples `(a, b, c)` with
+`(a, b, c) (a', b', c') = (a + a', b + b', c + c' + a b')`, topologized as `ℤ_p³`. Its commutators
+are central: `⁅(a, b, c), (a', b', c')⁆ = (0, 0, a b' - a' b)` (`HeisenbergZp.commutatorElement_eq`). -/
+@[ext] structure HeisenbergZp (p : ℕ) [Fact p.Prime] where
+  /-- The first coordinate. -/
+  a : ℤ_[p]
+  /-- The second coordinate. -/
+  b : ℤ_[p]
+  /-- The central coordinate. -/
+  c : ℤ_[p]
+
+namespace HeisenbergZp
+
+variable {p : ℕ} [Fact p.Prime]
+
+noncomputable instance : Mul (HeisenbergZp p) := ⟨fun g h => ⟨g.a + h.a, g.b + h.b, g.c + h.c + g.a * h.b⟩⟩
+
+noncomputable instance : One (HeisenbergZp p) := ⟨⟨0, 0, 0⟩⟩
+
+noncomputable instance : Inv (HeisenbergZp p) := ⟨fun g => ⟨-g.a, -g.b, g.a * g.b - g.c⟩⟩
+
+@[simp] theorem mul_a (g h : HeisenbergZp p) : (g * h).a = g.a + h.a := rfl
+
+@[simp] theorem mul_b (g h : HeisenbergZp p) : (g * h).b = g.b + h.b := rfl
+
+@[simp] theorem mul_c (g h : HeisenbergZp p) : (g * h).c = g.c + h.c + g.a * h.b := rfl
+
+@[simp] theorem one_a : (1 : HeisenbergZp p).a = 0 := rfl
+
+@[simp] theorem one_b : (1 : HeisenbergZp p).b = 0 := rfl
+
+@[simp] theorem one_c : (1 : HeisenbergZp p).c = 0 := rfl
+
+@[simp] theorem inv_a (g : HeisenbergZp p) : g⁻¹.a = -g.a := rfl
+
+@[simp] theorem inv_b (g : HeisenbergZp p) : g⁻¹.b = -g.b := rfl
+
+@[simp] theorem inv_c (g : HeisenbergZp p) : g⁻¹.c = g.a * g.b - g.c := rfl
+
+noncomputable instance : Group (HeisenbergZp p) where
+  mul := (· * ·)
+  one := 1
+  inv := (·⁻¹)
+  mul_assoc g h k := by ext <;> simp <;> ring
+  one_mul g := by ext <;> simp
+  mul_one g := by ext <;> simp
+  inv_mul_cancel g := by ext <;> simp
+
+/-- The topology of `ℤ_p³`, transported along the coordinates. -/
+noncomputable instance : TopologicalSpace (HeisenbergZp p) :=
+  TopologicalSpace.induced (fun g : HeisenbergZp p => (g.a, g.b, g.c)) inferInstance
+
+instance : IsTopologicalGroup (HeisenbergZp p) := sorry
+
+instance : CompactSpace (HeisenbergZp p) := sorry
+
+instance : TotallyDisconnectedSpace (HeisenbergZp p) := sorry
+
+/-- **Layer 3.4.** The Heisenberg group over `ℤ_p` is pro-`p`: the triples with all coordinates
+in `p ^ n ℤ_p` form an open normal subgroup of index `p ^ (3 n)`, and these subgroups form a
+basis of neighbourhoods of `1`. -/
+theorem isProP : IsProP p (HeisenbergZp p) :=
+  sorry
+
+/-- **Layer 3.4.** Commutators are central, with third coordinate `a b' - a' b`. -/
+theorem commutatorElement_eq (g h : HeisenbergZp p) :
+    ⁅g, h⁆ = ⟨0, 0, g.a * h.b - h.a * g.b⟩ := by
+  ext <;> simp [commutatorElement_def]
+  ring
+
+end HeisenbergZp
+
+section FreeGraded
+
+/-- **Layer 3.4, degree zero.** For the free pro-`p` group `F` of rank `r`, the classes of the
+generators form a `ℤ_p`-basis of `gr_0(F)`: `a ↦ Σ_i [x_i ^[p] a_i]` is a bijection
+`(Fin r → ℤ_[p]) → gr_0(F)`. Through `lcsGradedPieceZeroEquiv` this identifies the topological
+abelianization of `F` with `ℤ_p ^ r`. -/
+theorem lcsGradedPiece_zero_freeProP_bijective (p : ℕ) [Fact p.Prime] (r : ℕ)
+    [CompactSpace (freeProP p (Fin r))] [TotallyDisconnectedSpace (freeProP p (Fin r))]
+    (hF : IsProP p (freeProP p (Fin r))) :
+    Function.Bijective fun a : Fin r → ℤ_[p] =>
+      ∑ i, lcsGradedMk (freeProP p (Fin r)) 0
+        ⟨padicPow p hF (freeProP.of p i) (a i), TauCeti.mem_pLowerCentralSeries_zero 0 _⟩ :=
+  sorry
+
+/-- **Layer 3.4, detection.** For `i ≠ j` there is a continuous homomorphism from the free pro-`p`
+group to the Heisenberg group with `x_i ↦ (1, 0, 0)`, `x_j ↦ (0, 1, 0)` and every other generator
+`↦ 1`, by the universal property of `freeProP`, the Heisenberg group being pro-`p`. -/
+theorem exists_heisenberg_detect (p : ℕ) [Fact p.Prime] (r : ℕ) (i j : Fin r) (hij : i ≠ j) :
+    ∃ f : freeProP p (Fin r) →* HeisenbergZp p, Continuous f ∧
+      f (freeProP.of p i) = ⟨1, 0, 0⟩ ∧ f (freeProP.of p j) = ⟨0, 1, 0⟩ ∧
+      ∀ k, k ≠ i → k ≠ j → f (freeProP.of p k) = 1 :=
+  sorry
+
+/-- **Layer 3.4, degree one.** For the free pro-`p` group `F` of rank `r`, the classes
+`[x̄_i, x̄_j]`, `i < j`, form a `ℤ_p`-basis of `gr_1(F)`: `c ↦ Σ_{i<j} [⁅x_i, x_j⁆ ^[p] c_ij]` is a
+bijection. Equivalently `gr_1(F) ≅ Λ² gr_0(F)`, with `x̄_i ∧ x̄_j ↦ [x̄_i, x̄_j]`. Surjectivity is
+the spanning theorem of 3.3 with the Lie identities; injectivity reads off each coefficient
+`c_ij` through the homomorphism of `exists_heisenberg_detect`, since the Heisenberg group has
+`gr_1 = γ_1 ≅ ℤ_p`. -/
+theorem lcsGradedPiece_one_freeProP_bijective (p : ℕ) [Fact p.Prime] (r : ℕ)
+    [CompactSpace (freeProP p (Fin r))] [TotallyDisconnectedSpace (freeProP p (Fin r))]
+    (hF : IsProP p (freeProP p (Fin r))) :
+    Function.Bijective fun c : {ij : Fin r × Fin r // ij.1 < ij.2} → ℤ_[p] =>
+      ∑ ij, lcsGradedMk (freeProP p (Fin r)) 1
+        ⟨padicPow p hF ⁅freeProP.of p ij.1.1, freeProP.of p ij.1.2⁆ (c ij),
+          padicPow_mem_closedLowerCentralSeries _ p hF
+            (commutator_mem_closedLowerCentralSeries _ 0 0
+              (TauCeti.mem_pLowerCentralSeries_zero 0 _)
+              (TauCeti.mem_pLowerCentralSeries_zero 0 _))
+            (c ij)⟩ :=
+  sorry
+
+/-- **Layer 3.4, nonvanishing.** For the free pro-`p` group of rank `r ≥ 2` the bracket of two
+distinct generators is nonzero in `gr_1`: a consequence of `lcsGradedPiece_one_freeProP_bijective`
+and the alternation of the bracket. -/
 theorem lcsBracket_freeProP_ne_zero (p : ℕ) [Fact p.Prime] (r : ℕ) (i j : Fin r) (hij : i ≠ j)
     [CompactSpace (freeProP p (Fin r))] [TotallyDisconnectedSpace (freeProP p (Fin r))] :
     lcsBracket (freeProP p (Fin r)) 0 0
@@ -747,6 +914,6 @@ theorem lcsBracket_freeProP_ne_zero (p : ℕ) [Fact p.Prime] (r : ℕ) (i j : Fi
         (lcsGradedMk _ 0 ⟨freeProP.of p j, TauCeti.mem_pLowerCentralSeries_zero 0 _⟩) ≠ 0 :=
   sorry
 
-end LowerCentral
+end FreeGraded
 
 end TauCetiRoadmap.ProfiniteArithmetic

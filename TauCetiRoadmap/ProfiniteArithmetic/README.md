@@ -59,7 +59,9 @@ The roadmap owns:
   `p`-series at `p = 0`: the `ℤ_p`-linearity of its bracket and the `LieAlgebra ℤ_[p]` structure
   on `⨁ gr_n(G)` for pro-`p` groups, the spanning theorem for the graded pieces of a topologically
   generated compact group, the triviality of the intersection `⋂ γ_n(G)` for pro-`p` groups, the
-  comparison with the lower `p`-series, and the degree-one piece of a free pro-`p` group.
+  comparison with the lower `p`-series, the identification of `gr_0(G)` with the supplier's
+  topological abelianization, and the degree-zero and degree-one pieces of a free pro-`p` group,
+  with the Heisenberg group over `ℤ_p` that detects degree one.
 
 It does not own, and consumes by name:
 
@@ -146,15 +148,19 @@ next table.
 | the profinite completion of `ℤ` | `TauCeti.zHat`, `TauCeti.zHat.gen`, `TauCeti.zHat.lift`, `TauCeti.zHat.maximalProPQuotientEquivPadicInt` |
 | the maximal pro-`p` quotient, Burnside and Hopf | `TauCeti.isProP_maximalProPQuotient`, `TauCeti.maximalProPQuotient.lift`, `TauCeti.IsProP.topologicallyGenerates_iff_frattiniQuotient`, `TauCeti.IsProP.surjective_of_leftInverse_of_ker_le_proPFrattini`, `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective` |
 | the lower `p`-series | `TauCeti.pLowerCentralSeries`, `pLowerCentralSeries_zero`, `pLowerCentralSeries_succ`, `pLowerCentralStep_def`, `mem_pLowerCentralSeries_zero`, the instance `pLowerCentralSeries_normal`, `isClosed_pLowerCentralSeries`, `pLowerCentralSeries_antitone`, `commutator_mem_pLowerCentralSeries`, `mk_conj_of_mem_pLowerCentralSeries`, `MonoidHom.map_pLowerCentralSeries_le`, `ContinuousMulEquiv.map_pLowerCentralSeries_eq` |
-| its graded pieces and bracket | `TauCeti.gradedPiece`, `TauCeti.gradedMk`, `gradedMk_eq_gradedMk_iff`, `TauCeti.gradedBracket`, `gradedBracket_gradedMk`, `gradedBracket_self`, `gradedBracket_jacobi`, `gradedMap_gradedBracket` |
+| its graded pieces and bracket | `TauCeti.gradedPiece`, `TauCeti.gradedMk`, `gradedMk_surjective`, `gradedMk_eq_gradedMk_iff`, `TauCeti.gradedPieceZeroEquiv`, `gradedPieceZeroEquiv_gradedMk`, `TauCeti.gradedBracket`, `gradedBracket_gradedMk`, `gradedBracket_self`, `gradedBracket_jacobi`, `gradedMap_gradedBracket` |
+| detecting `ℤ_p` in degree zero | `TauCeti.isProP_multiplicative_padicInt` |
 
 ### From Mathlib
 
-`ZMod`, `ZMod.castHom`, `PadicInt`, `PadicInt.toZModPow`, `PadicInt.toZMod`, `Units`,
+`ZMod`, `ZMod.castHom`, `PadicInt`, `PadicInt.toZModPow`, `PadicInt.toZMod`, the inverse-limit
+universal property `PadicInt.lift` with `PadicInt.lift_spec` and `PadicInt.lift_unique`,
+`PadicInt.ext_of_toZModPow`, `Units`,
 `ProfiniteGrp`, `ProfiniteGrp.profiniteCompletion` with `ProfiniteGrp.ProfiniteCompletion.lift`,
 `ContinuousMonoidHom`, `ContinuousMulEquiv` with `refl`, `symm`, `trans` and `ext`, `MulAut`,
 `MulAut.conj`, `MulDistribMulAction`, `IsConj`, `ConjClasses`, `Subgroup.topologicalClosure`,
 `Subgroup.zpowers`, `Subgroup.lowerCentralSeries`, `commutatorElement`, `Subgroup.commutator`,
+`commutator`, `ContinuousAddEquiv`, `DiscreteTopology`,
 `Subgroup.Characteristic`, `frattini`, `frattini_nongenerating`, `IsPGroup`, `IsPGroup.isNilpotent`,
 `Group.IsNilpotent`, `OpenNormalSubgroup`, `IsCompact.image`, `IsCompact.isClosed`,
 `IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed`, `DirectSum`, `LieRing`,
@@ -220,9 +226,11 @@ milestone depends on an unmerged roadmap.
 ### 0.3 `ℓ`-adic components, the product decomposition, and idempotents
 
 - **Components.** For a prime `ℓ`, `ProfiniteInt.component ℓ : ẑ →+* ℤ_[ℓ]`, continuous, is the
-  ring homomorphism with `PadicInt.toZModPow k ∘ component ℓ = toZMod (ℓ ^ k)` for every `k`. It
-  exists and is unique by the universal property of `ℤ_[ℓ]` as the inverse limit of the
-  `ZMod (ℓ ^ k)`, in Mathlib's form `PadicInt.ext_of_toZModPow`.
+  ring homomorphism with `PadicInt.toZModPow k ∘ component ℓ = toZMod (ℓ ^ k)` for every `k`. It is
+  Mathlib's inverse-limit universal property of `ℤ_[ℓ]` applied to the projections: `PadicInt.lift`
+  of the family `k ↦ toZMod (ℓ ^ k)`, which is compatible by `castHom_toZMod`. The characterizing
+  equation is `PadicInt.lift_spec`, and uniqueness is `PadicInt.lift_unique` (equivalently
+  `PadicInt.ext_of_toZModPow`).
 - **The product decomposition.** The map `ẑ → ∏ ℓ : Nat.Primes, ℤ_[ℓ]` with components
   `component ℓ` is an isomorphism of topological rings. Injectivity and surjectivity come from
   the Chinese remainder theorem at each finite level; continuity of the inverse is the
@@ -232,7 +240,8 @@ milestone depends on an unmerged roadmap.
   `ℓ ≠ ℓ'`, `component ℓ (ω_ℓ * a) = component ℓ a`, and `a = ω_ℓ * a` exactly when every other
   component of `a` vanishes.
 - **Reduction of an idempotent.** `toZMod (ℓ ^ k) ω_ℓ = 1` and `toZMod n ω_ℓ = 0` when `ℓ ∤ n`.
-  *Needs:* M `PadicInt.toZModPow`, `PadicInt.ext_of_toZModPow`, `ZMod.chineseRemainder`; L0.2.
+  *Needs:* M `PadicInt.lift`, `PadicInt.lift_spec`, `PadicInt.lift_unique`, `PadicInt.toZModPow`,
+  `PadicInt.ext_of_toZModPow`, `ZMod.chineseRemainder`; L0.2.
 
   ⚠ *Nearby false statement:* `ω_ℓ` is not an integer, and `a ↦ ω_ℓ * a` is not the reduction
   `toZMod (ℓ ^ k)` for any `k`; it is the projection onto the `ℓ`-adic factor.
@@ -382,7 +391,10 @@ milestone depends on an unmerged roadmap.
   series, it is Tau Ceti's `ContinuousMulEquiv.map_pLowerCentralSeries_eq` (Layer 3.1).
 - **The topology.** `ContinuousAut G` carries the initial topology of the maps
   `ContinuousAut G →* MulAut (G ⧸ N)` induced by the topologically characteristic open normal
-  subgroups `N`, each `MulAut (G ⧸ N)` being finite and discrete. The map sends `φ` to the
+  subgroups `N`, each `MulAut (G ⧸ N)` being finite and discrete. (In Lean the discrete topology
+  is `⊥`: Mathlib orders topologies by fineness, so `⊥` is discrete and `⊤` indiscrete;
+  `ContinuousAut.continuous_mapQuotient` records continuity into the discrete groups.) The map
+  sends `φ` to the
   automorphism `x N ↦ φ x N` (`ContinuousAut.mapQuotient_mk`), which pins it. `ContinuousAut G` is
   a topological group, and `ContinuousAut.conj` is continuous.
 - **Profiniteness under finite generation.** If `G` is a topologically finitely generated
@@ -488,7 +500,13 @@ milestone depends on an unmerged roadmap.
 - **Graded pieces (Tau Ceti).** `lcsGradedPiece G n` is Tau Ceti's
   `TauCeti.gradedPiece 0 G n = Additive (γ_n(G) ⧸ (γ_{n+1}(G)).subgroupOf (γ_n(G)))`, written
   `gr_n(G)`, with the class map `lcsGradedMk`, Tau Ceti's `TauCeti.gradedMk`. It is an abelian
-  profinite group when `G` is profinite, and `gr_0(G)` is ProfiniteProPGroups' `topAbelianization G`.
+  profinite group when `G` is profinite.
+- **Degree zero and the abelianization.** `gr_0(G)` is identified with ProfiniteProPGroups'
+  `topAbelianization G = G ⧸ closure ⁅G, G⁆` by the named topological isomorphism
+  `lcsGradedPieceZeroEquiv : gr_0(G) ≃ₜ+ Additive (topAbelianization G)`, pinned on classes by
+  `lcsGradedPieceZeroEquiv_mk`. Its algebraic part is Tau Ceti's `TauCeti.gradedPieceZeroEquiv`
+  together with `γ_1(G) = closure ⁅G, G⁆` (`closedLowerCentralSeries_one`). The supplier states no
+  such identification, so this roadmap owns it.
 - **The bracket (Tau Ceti).** `lcsBracket G j k` is Tau Ceti's
   `TauCeti.gradedBracket 0 G j k : gr_j(G) →+ gr_k(G) →+ gr_{j+k+1}(G)`, induced by the commutator,
   with the defining equation `lcsBracket_mk` on classes. Tau Ceti proves it biadditive,
@@ -540,23 +558,55 @@ milestone depends on an unmerged roadmap.
 
 ### 3.4 The free pro-`p` group
 
-- **Degree zero.** For `F = freeProP p (Fin r)` with generators `x_i := freeProP.of p i`,
-  `gr_0(F)` is a free `ℤ_p`-module of rank `r` on the classes `x̄_i`, by ProfiniteProPGroups'
-  identification of `topAbelianization F`.
-- **Degree one.** `gr_1(F)` is generated by the brackets `[x̄_i, x̄_j]`, `i < j`, by 3.3, and
-  these form a basis: `gr_1(F)` is a free `ℤ_p`-module of rank `r (r - 1) / 2`, the exterior
-  square of `gr_0(F)`. The proof transports the corresponding statement for the discrete free
-  group, `γ_1 / γ_2 ≅ Λ² ℤ^r` (0-based, as for Mathlib's `lowerCentralSeries`), along the dense
-  inclusion `FreeGroup (Fin r) → F`, using that `F ⧸ γ_2(F)` is the pro-`p` completion of the
-  discrete free nilpotent group of class two.
-- **The nonvanishing instance.** `[x̄_i, x̄_j] ≠ 0` in `gr_1(F)` for `i ≠ j`
-  (`lcsBracket_freeProP_ne_zero`), the case of the degree-one theorem pinned in Lean.
-  PeripheralActions' nearby-false-statement checks use the basis statement itself. Tau Ceti's
-  `TauCeti.freeProP.degreeOneBasis` is the analogous basis for the lower `p`-series over `𝔽_p`,
-  which also contains the `p`-power classes; it is not the `ℤ_p`-basis asked for here.
-  *Needs:* L3.2, L3.3; PPG-4 `freeProP`, `topAbelianization`; M `FreeGroup`, `ExteriorAlgebra`.
-  *Source:* Magnus–Karrass–Solitar, *Combinatorial Group Theory*, §5.7; Serre, *Lie Algebras and
-  Lie Groups*, Part I, Chapter IV.
+Write `F = freeProP p (Fin r)` with generators `x_i := freeProP.of p i`. Both degrees are proved
+directly, by detecting homomorphisms out of `F` supplied by its universal property; no comparison
+with the pro-`p` completion of a discrete free nilpotent group is used.
+
+- **Degree zero.** The classes `x̄_i` form a `ℤ_p`-basis of `gr_0(F)`: the map
+  `a ↦ Σ_i [x_i ^[p] a_i]`, `(Fin r → ℤ_[p]) → gr_0(F)`, is a bijection
+  (`lcsGradedPiece_zero_freeProP_bijective`), additive because `lcsGradedMk` is. Through
+  `lcsGradedPieceZeroEquiv` this identifies `topAbelianization F` with `ℤ_p ^ r`. *Proof.* The map
+  is a continuous homomorphism out of a compact group, and its image contains the classes of the
+  topological generators `x_i`, so it is a closed subgroup containing a dense one, hence
+  everything. For injectivity, the continuous homomorphism `F → Multiplicative ℤ_[p]` with
+  `x_i ↦ ofAdd 1` and `x_k ↦ 1` for `k ≠ i` (the universal property of `freeProP`;
+  `Multiplicative ℤ_[p]` is pro-`p` by Tau Ceti's `isProP_multiplicative_padicInt`) kills
+  `γ_1(F)`, so it factors through `gr_0(F)`, and it sends `Σ_k [x_k ^[p] a_k]` to `a_i`, because
+  continuous homomorphisms commute with `^[p]` (`map_padicPow`).
+- **The detecting group.** `HeisenbergZp p` is the Heisenberg group over `ℤ_p`: triples
+  `(a, b, c)` with `(a, b, c) (a', b', c') = (a + a', b + b', c + c' + a b')`, topologized as
+  `ℤ_p³`. It is a compact, totally disconnected topological group, and it is pro-`p`: the triples
+  with all coordinates in `p ^ n ℤ_p` form an open normal subgroup of index `p ^ (3 n)`, and these
+  subgroups form a basis of neighbourhoods of `1` (`HeisenbergZp.isProP`). Its commutators are
+  central, `⁅(a, b, c), (a', b', c')⁆ = (0, 0, a b' - a' b)` (`HeisenbergZp.commutatorElement_eq`),
+  so `γ_1 = {(0, 0, c)} ≅ ℤ_p` and `γ_2 = 1`. For `i ≠ j` the universal property of `freeProP`
+  gives a continuous homomorphism `F → HeisenbergZp p` with `x_i ↦ (1, 0, 0)`, `x_j ↦ (0, 1, 0)`
+  and `x_k ↦ 1` otherwise (`exists_heisenberg_detect`).
+- **Degree one.** The classes `[x̄_i, x̄_j]`, `i < j`, form a `ℤ_p`-basis of `gr_1(F)`: the map
+  `c ↦ Σ_{i<j} [⁅x_i, x_j⁆ ^[p] c_ij]` is a bijection (`lcsGradedPiece_one_freeProP_bijective`).
+  Equivalently `gr_1(F)` is the exterior square of `gr_0(F)`, a free `ℤ_p`-module of rank
+  `r (r - 1) / 2`, with `x̄_i ∧ x̄_j ↦ [x̄_i, x̄_j]`. *Proof.* Surjectivity: by the finite form of
+  the spanning theorem (3.3) every element of `gr_1(F)` is `Σ_i [x̄_i, y_i]` with `y_i ∈ gr_0(F)`;
+  writing each `y_i` in the basis of degree zero and using `ℤ_p`-bilinearity and alternation, it
+  is `Σ_{i<j} c_ij [x̄_i, x̄_j]`. Injectivity: for `i < j` the detecting homomorphism of the pair
+  maps `γ_1(F)` into `γ_1 ≅ ℤ_p` and `γ_2(F)` to `1`, so it induces a `ℤ_p`-linear map
+  `gr_1(F) → ℤ_p`. That map sends `[x̄_i, x̄_j]` to `1`, because
+  `⁅(1, 0, 0), (0, 1, 0)⁆ = (0, 0, 1)`, and every other basis bracket to `0`, because one of its
+  generators goes to `1`. So it reads off the coefficient `c_ij`.
+- **Nonvanishing.** `[x̄_i, x̄_j] ≠ 0` in `gr_1(F)` for `i ≠ j` (`lcsBracket_freeProP_ne_zero`),
+  by the degree-one basis and alternation.
+  *Needs:* L3.2, L3.3; L1.3 `padicPow` and `map_padicPow`; PPG-4 `freeProP`, `freeProP.of`,
+  `freeProP.lift`, `topAbelianization`; TC `TauCeti.isProP_multiplicative_padicInt`;
+  M `commutatorElement_def`.
+  *Source:* for discrete free groups, where the graded Lie ring of the lower central series is the
+  free Lie ring, Magnus–Karrass–Solitar, *Combinatorial Group Theory*, §5.7, and Serre, *Lie
+  Algebras and Lie Groups*, Part I, Chapter IV; for free pro-`p` groups, J. Labute, "Algèbres de
+  Lie et pro-p-groupes définis par une seule relation", Invent. Math. 4 (1967). The proof above is
+  self-contained and is the one this roadmap asks for.
+
+  ⚠ Tau Ceti's `TauCeti.freeProP.degreeOneBasis` is the analogous statement for the lower
+  `p`-series over `𝔽_p`, which also contains the `p`-power classes; it is not the `ℤ_p`-basis
+  asked for here.
 
 ## Worked examples
 
@@ -575,8 +625,8 @@ Layer 0 is self-contained and comes first. Layer 1 needs 0.2 and 0.3; 1.3 needs 
 needs nothing beyond Mathlib and can start at once; 2.2 needs ProfiniteProPGroups Layer 3; 2.3
 needs 2.2; 2.4 needs 2.2 and ProfiniteProPGroups Layers 3 and 4. Layers 3.1 and 3.2 consume Tau
 Ceti's lower `p`-series and need, beyond it, Layer 2.2's `IsTopCharacteristic` for the
-characteristic statement and Layer 1.3 for the `ℤ_p`-statements; 3.3 needs 3.2; 3.4 needs 3.3 and
-ProfiniteProPGroups Layer 4. Apart from `IsTopCharacteristic`, Layers 2 and 3 are independent of
+characteristic statement and Layer 1.3 for the `ℤ_p`-statements; 3.3 needs 3.2; 3.4 needs 3.2, 3.3,
+Layer 1.3 and ProfiniteProPGroups Layer 4, and its Heisenberg group needs only Mathlib. Apart from `IsTopCharacteristic`, Layers 2 and 3 are independent of
 each other, and both are independent of Layer 1 except where a `^[ℓ]` statement is involved.
 
 ## Acceptance checklist
@@ -599,12 +649,18 @@ each other, and both are independent of Layer 1 except where a `^[ℓ]` statemen
   `G` and nowhere else.
 - The finite `p`-group theorem of 2.4 is proved by the free action on generating tuples, and
   the pro-`p` theorem is its inverse limit.
+- The congruence topology is the initial topology for the **discrete** topology `⊥` on each
+  finite automorphism group, and `ContinuousAut.continuous_mapQuotient` says so.
 - The closed lower central series is Tau Ceti's lower `p`-series at `p = 0`, 0-based, and no
   milestone claims openness or finiteness of a quotient by it.
+- `gr_0(G)` and the supplier's `topAbelianization G` are related by the named topological
+  isomorphism `lcsGradedPieceZeroEquiv`, pinned on classes, not by an unstated identification.
 - The spanning theorem is stated for arbitrary topological generating sets, and its one-term form
   for finite ones in a compact group.
-- `gr_1` of a free pro-`p` group of finite rank is identified with the exterior square of `gr_0`
-  by a theorem, not by a definition.
+- `gr_0` and `gr_1` of a free pro-`p` group of finite rank have the bases `x̄_i` and
+  `[x̄_i, x̄_j]` (`i < j`) by theorems proved with detecting homomorphisms, to `ℤ_p` and to the
+  Heisenberg group over `ℤ_p`; no comparison with the completion of a discrete free nilpotent
+  group is left implicit.
 
 ## References
 
