@@ -57,7 +57,7 @@ Conventions, recorded in `README.md` (§Pinned conventions):
 * The profinite integers as a ring, profinite exponentiation, and continuous outer
   automorphisms are generic group theory owned by `ProfiniteArithmetic`, the generic successor
   to `ProfiniteProPGroups` (#244), not by Belyi maps. Free profinite and free pro-`p` groups and
-  the maximal pro-`p` quotient come from `ProfiniteProPGroups` itself.
+  the maximal pro-`p` quotient are Tau Ceti's implementations of `ProfiniteProPGroups`.
 -/
 
 open scoped Manifold ContDiff Topology Pointwise
@@ -1860,9 +1860,11 @@ end CompactInvariants
 
 /-! ## Deferred profinite crossing
 
-The generic profinite integers, exponentiation calculus, and continuous outer-automorphism
-carrier belong to `ProfiniteArithmetic`, the generic successor to `ProfiniteProPGroups` (#244);
-free profinite and free pro-`p` groups belong to #244 itself. The Belyi-specific peripheral
+The ring structure on Tau Ceti's profinite integers `TauCeti.zHat`, the exponentiation calculus
+through `TauCeti.zHat.lift`, and the continuous outer-automorphism carrier belong to
+`ProfiniteArithmetic`, the generic successor to `ProfiniteProPGroups` (#244); free profinite and
+free pro-`p` groups are Tau Ceti's implementations of #244 (`TauCeti.freeProfiniteGroup`,
+`TauCeti.freeProP`). The Belyi-specific peripheral
 declarations are added in the successor roadmap `BelyiArithmeticActions`, after those suppliers
 land; no generic construction is exported from this namespace. -/
 
