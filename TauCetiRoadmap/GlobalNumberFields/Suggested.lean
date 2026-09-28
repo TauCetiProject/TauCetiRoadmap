@@ -824,6 +824,14 @@ theorem NumberFieldOrder.narrowToPic_mk (O : NumberFieldOrder K)
 theorem NumberFieldOrder.narrowToPic_surjective (O : NumberFieldOrder K) :
     Function.Surjective O.narrowToPic := sorry
 
+-- Instance diamond: `AddCommGroup (ZMod 2)` is also derivable from
+-- `[IsSimpleAddGroup G] [AddGroup.IsNilpotent G]`, which instance search reaches first for a
+-- prime-order `ZMod p`. That structure is equal to `Ring.toAddCommGroup` but not syntactically, so
+-- the `CommGroup (Multiplicative (ZMod 2))` it yields does not carry the `Group` instance recorded
+-- in a `Subgroup (RealSignGroup K)`, and the quotient group instance below fails to synthesize.
+-- Raising the priority of the ring path locally restores it.
+attribute [local instance 2000] Ring.toAddCommGroup
+
 /-- Sign vectors at the real places. The quotient by the signs of order units is the
 kernel term in the narrow-to-wide exact sequence. -/
 abbrev RealSignGroup (K : Type u) [Field K] [NumberField K] :=
