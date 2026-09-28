@@ -44,9 +44,12 @@ The roadmap owns:
 
 It does not own, and consumes by name:
 
-- free pro-`p` groups, their universal property, the Frattini quotient, the Burnside surjectivity
-  criterion and the Hopf property, from **ProfiniteProPGroups**; the last two through their Tau
-  Ceti implementations, since the supplier's `Suggested.lean` states them only as examples;
+- free pro-`p` groups with their universal property, pro-`p` groups, topological finite
+  generation, the Frattini quotient, the Burnside surjectivity criterion and the Hopf property:
+  **ProfiniteProPGroups** specifies them and Tau Ceti implements them (`TauCeti.freeProP`,
+  `TauCeti.IsProP`, `TauCeti.IsTopologicallyFinitelyGenerated`, `TauCeti.proPFrattini` and the
+  theorems in the contract below). This roadmap uses the Tau Ceti declarations directly, and
+  nothing from that roadmap's `Suggested.lean`;
 - the `ℤ_p`-power `padicPow`, which is Tau Ceti's `TauCeti.IsProP.padicPow`, and the closed lower
   central series with its graded pieces and bracket, which are Tau Ceti's lower `p`-series at
   `p = 0` (`TauCeti.pLowerCentralSeries 0`, `TauCeti.gradedPiece`, `TauCeti.gradedBracket`), both
@@ -68,11 +71,12 @@ It does not own, and consumes by name:
 
 - `p : ℕ` is prime, carried as `[Fact p.Prime]`, and `r : ℕ` is the rank.
 - **The carrier is abstract.** Statements are about a profinite group `F` with the unbundled
-  profinite stack, a proof `hF : IsProP p F`, and a marked isomorphism
-  `e : F ≃ₜ* freeProP p (Fin r)` to the supplier's standard model. The basis is
-  `x i := e.symm (freeProP.of p i)`. This keeps every theorem applicable to any group presented
-  as free pro-`p` on `r` generators, including the maximal pro-`2` quotient of the free profinite
-  group on two generators, which is definitionally the supplier's `freeProP 2 (Fin 2)`.
+  profinite stack, a proof `hF : TauCeti.IsProP p F`, and a marked isomorphism
+  `e : F ≃ₜ* TauCeti.freeProP p (Fin r)` to Tau Ceti's standard model. The basis is
+  `x i := e.symm (TauCeti.freeProP.of i)`. This keeps every theorem applicable to any group
+  presented as free pro-`p` on `r` generators, including the maximal pro-`2` quotient of Tau
+  Ceti's free profinite group on two generators, which is definitionally
+  `TauCeti.freeProP 2 (Fin 2)`.
 - **The cusp** is `cusp x := ((List.ofFn x).prod)⁻¹`, the inverse of the product of the basis
   **in order**, so that `x_1 ⋯ x_r · cusp x = 1`. The product is `List.prod`, not a `Finset`
   product, because the group is not commutative.
@@ -81,8 +85,8 @@ It does not own, and consumes by name:
   named conjugator is Mathlib's `IsConj`. `IsConj a b` is `∃ c, c * a * c⁻¹ = b`, so a conjugate
   `c⁻¹ * y * c` witnesses `IsConj y (c⁻¹ * y * c)` with `c⁻¹`.
 - **Powers** are ProfiniteArithmetic's `padicPow p hF x u`, written `x ^[p] u` in prose; this is
-  Tau Ceti's `TauCeti.IsProP.padicPow`, re-exported under ProfiniteProPGroups' `IsProP`. For a
-  unit `u : ℤ_pˣ` the exponent is the coercion `(u : ℤ_[p])`.
+  Tau Ceti's `TauCeti.IsProP.padicPow`. For a unit `u : ℤ_pˣ` the exponent is the coercion
+  `(u : ℤ_[p])`.
 - **The peripheral tuple** is the map `Fin (r + 1) → F` that lists `x_0, …, x_{r-1}, cusp x`
   (Lean indexes from `0`; prose indexes from `1`).
 - **Automorphisms** are `ContinuousAut F` from ProfiniteArithmetic, multiplying by composition,
@@ -93,20 +97,17 @@ It does not own, and consumes by name:
 
 ## Exact supplier contracts
 
-### From `TauCetiRoadmap.ProfiniteProPGroups`
-
-| Use here | Exact declarations |
-|---|---|
-| the standard model | `freeProP`, `freeProP.of`, `freeProP.lift`, `freeProP.lift_of`, `freeProP.lift_unique`, `freeProP.hom_ext` |
-| pro-`p` and generation | `IsProP`, `IsTopologicallyFinitelyGenerated`, `proPFrattini`, `topologicallyGenerates_iff_frattiniQuotient`; the Burnside criterion in hom form and the Hopf property are Tau Ceti's `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top` and `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective` |
-
-The principal units `1 + p^k ℤ_p` are Tau Ceti's generic `TauCeti.unitsPrincipal p k`, below; the
-supplier's dyadic `unitsPrincipal 2` is its case `p = 2`.
-
 ### From Tau Ceti
 
+ProfiniteProPGroups specifies free pro-`p` groups and the pro-`p` foundations, and Tau Ceti
+implements them; this roadmap consumes the implementation directly. The principal units
+`1 + p^k ℤ_p` are Tau Ceti's generic `TauCeti.unitsPrincipal p k`; ProfiniteProPGroups' dyadic
+`unitsPrincipal 2` is its case `p = 2`.
+
 | Use here | Exact declarations |
 |---|---|
+| the standard model | `TauCeti.freeProP`, `TauCeti.freeProP.of`, `TauCeti.freeProP.lift`, `TauCeti.freeProP.lift_of`, `TauCeti.freeProP.lift_unique`, `TauCeti.freeProP.hom_ext`, `TauCeti.isProP_freeProP`, `TauCeti.freeProP.topologicalClosure_closure_range_of_eq_top` |
+| pro-`p` and generation | `TauCeti.IsProP`, `TauCeti.IsTopologicallyFinitelyGenerated`, `TauCeti.isTopologicallyFinitelyGenerated_freeProP`, `TauCeti.isTopologicallyFinitelyGenerated_congr`, `TauCeti.proPFrattini`, `TauCeti.topologicallyGenerates_iff_frattiniQuotient` |
 | principal units | `TauCeti.unitsPrincipal`, `TauCeti.mem_unitsPrincipal_iff`, `TauCeti.isOpen_unitsPrincipal`, `TauCeti.isClosed_unitsPrincipal`, `TauCeti.isProP_unitsPrincipal`, `TauCeti.topologicalClosure_zpowers_eq_unitsPrincipal`, `TauCeti.exists_topologicalClosure_zpowers_eq_unitsPrincipal`, `TauCeti.pow_pow_mem_unitsPrincipal`, `TauCeti.pow_pow_notMem_unitsPrincipal` |
 | Burnside and Hopf | `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top`, `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective` |
 | the `ℤ_p`-power as a continuous homomorphism | `TauCeti.IsProP.padicPowHom` |
@@ -116,7 +117,7 @@ supplier's dyadic `unitsPrincipal 2` is its case `p = 2`.
 | Use here | Exact declarations |
 |---|---|
 | `ℤ_p`-powers | `padicPow` (Tau Ceti's `TauCeti.IsProP.padicPow`), `padicPow_one`, `padicPow_add`, `padicPow_padicPow`, `map_padicPow`, `padicPow_conj`, `inv_padicPow`, `continuous_padicPow`, `padicPow_units_inv`, `padicPow_units_injective`, `closedZpowers_padicPow_units` |
-| profinite powers | `zpowHat`, `map_zpowHat`, `ProfiniteInt.idem`, `closedZpowers`, `isProP_closedZpowers_zpowHat_idem`, `zpowHat_idem_of_isProP` |
+| profinite powers | `zpowHat` (Tau Ceti's `TauCeti.zHat.lift`, applied to an exponent in `ẑ = Additive TauCeti.zHat`), `map_zpowHat`, the idempotent `zHat.idem`, `closedZpowers`, `isProP_closedZpowers_zpowHat_idem`, `zpowHat_idem_of_isProP` |
 | automorphisms | `ContinuousAut`, `ContinuousAut.conj`, `ContinuousAut.conj_apply`, `ContinuousOut`, the congruence topology, `ContinuousAut.compactSpace`, `ContinuousAut.t2Space`, `ContinuousAut.continuous_eval`, and the closed conjugacy relation `isClosed_isConj_pair` on `F × F` |
 | the closed lower central series | `closedLowerCentralSeries` (Tau Ceti's `pLowerCentralSeries 0`), `isClosed_closedLowerCentralSeries`, `iInf_closedLowerCentralSeries_eq_bot`, `commutator_mem_closedLowerCentralSeries`, `lcsGradedPiece`, `lcsGradedMk`, `lcsGradedMk_conj`, `lcsBracket`, `lcsBracket_mk`, `lcsBracket_add_left`, `lcsBracket_add_right`, `lcsBracket_padicPow_left`, `lcsBracket_padicPow_right`, `lcsGradedPiece_eq_sum_bracket`, `lcsGradedPiece_zero_freeProP_bijective`, `lcsGradedPiece_one_freeProP_bijective`, `lcsBracket_freeProP_ne_zero` |
 
@@ -138,17 +139,20 @@ supplier's dyadic `unitsPrincipal 2` is its case `p = 2`.
 
 `README.md` is normative; `Suggested.lean` pins names and signatures for the central objects and is
 not exhaustive. In prerequisite annotations, `M` means Mathlib, `L0` through `L4` mean an earlier
-layer here, `PPG-<layer>` means an export of ProfiniteProPGroups, `PA-<layer>` an export of
-ProfiniteArithmetic, `BM-PC` a helper lemma of BelyiMaps' §Pinned conventions, and `TC` a Tau
-Ceti declaration.
+layer here, `PA-<layer>` an export of ProfiniteArithmetic, `BM-PC` a helper lemma of BelyiMaps'
+§Pinned conventions, and `TC` a Tau Ceti declaration.
 
 ## Layer 0: peripheral systems
 
-- **The basis and the cusp.** For `e : F ≃ₜ* freeProP p (Fin r)`, `basis e : Fin r → F` is
-  `i ↦ e.symm (freeProP.of p i)`, and `cusp (basis e) := ((List.ofFn (basis e)).prod)⁻¹`. The
-  relation `(List.ofFn (basis e)).prod * cusp (basis e) = 1` holds by definition. The basis
+- **The basis and the cusp.** For `e : F ≃ₜ* TauCeti.freeProP p (Fin r)`, `basis e : Fin r → F`
+  is `i ↦ e.symm (TauCeti.freeProP.of i)`, and `cusp (basis e) := ((List.ofFn (basis e)).prod)⁻¹`.
+  The relation `(List.ofFn (basis e)).prod * cusp (basis e) = 1` holds by definition. The basis
   generates `F` topologically, and a continuous homomorphism out of `F` is determined by its
-  values on the basis: both are the supplier's universal property transported along `e`.
+  values on the basis: both are Tau Ceti's theorems for the standard model
+  (`TauCeti.freeProP.topologicalClosure_closure_range_of_eq_top`, `TauCeti.freeProP.hom_ext`),
+  transported along `e`. So is topological finite generation: `F` is topologically finitely
+  generated by `TauCeti.isTopologicallyFinitelyGenerated_freeProP` and
+  `TauCeti.isTopologicallyFinitelyGenerated_congr`.
 - **The peripheral tuple.** `peripheralTuple (basis e) : Fin (r + 1) → F` is `Fin.snoc` of the
   basis and the cusp. Its product in order is `1`.
 - **The predicate.** For `φ : ContinuousAut F` and `u : ℤ_pˣ`, `IsPeripheralAut x u φ` says
@@ -161,7 +165,10 @@ Ceti declaration.
   classes of the basis are `ℤ_p`-independent (PA-3.4 `lcsGradedPiece_zero_freeProP_bijective`).
 - **Inner automorphisms are peripheral of exponent one**, and `IsPeripheralAut x 1 φ` holds for
   `φ = 1`.
-  *Needs:* PPG-4 `freeProP.of`, `freeProP.lift`, `freeProP.hom_ext`; PA-1 `padicPow`; PA-2
+  *Needs:* TC `TauCeti.freeProP.of`, `TauCeti.freeProP.lift`, `TauCeti.freeProP.hom_ext`,
+  `TauCeti.freeProP.topologicalClosure_closure_range_of_eq_top`,
+  `TauCeti.isTopologicallyFinitelyGenerated_freeProP`,
+  `TauCeti.isTopologicallyFinitelyGenerated_congr`; PA-1 `padicPow`; PA-2
   `ContinuousAut`, `ContinuousAut.conj`; PA-3 `lcsGradedPiece` at degree zero and
   `lcsGradedPiece_zero_freeProP_bijective`; M `List.ofFn`,
   `Fin.snoc`, `IsConj`.
@@ -289,8 +296,12 @@ from the tower of approximate ones.
 ### 2.1 The endomorphism and its values
 
 Given `u` and the conjugators `c`, `d` of Layer 1, let `φ_u : F →* F` be the continuous
-homomorphism with `φ_u (x i) = (c i)⁻¹ * (x i ^[p] u) * c i` for every `i`, supplied by
-`freeProP.lift` through `e`; since `c 0 = 1`, `φ_u (x 0) = x 0 ^[p] u`. Then
+homomorphism with `φ_u (x i) = (c i)⁻¹ * (x i ^[p] u) * c i` for every `i`. It is `e.symm ∘ ψ ∘ e`,
+where `ψ` is the continuous endomorphism of `TauCeti.freeProP p (Fin r)` that
+`TauCeti.freeProP.lift` (with `TauCeti.isProP_freeProP`) gives on the values
+`e ((c i)⁻¹ * (x i ^[p] u) * c i)`. The lift is taken into the standard model, which lies in the
+universe of `Fin r`, so the universe of `F` plays no role. Since `c 0 = 1`,
+`φ_u (x 0) = x 0 ^[p] u`. Then
 
 ```text
 φ_u ((List.ofFn x).prod) = ∏_i (c i)⁻¹ * (x i ^[p] u) * c i = (d⁻¹ * (cusp x ^[p] u) * d)⁻¹
@@ -314,8 +325,9 @@ compact Hausdorff. So `φ_u : ContinuousAut F`.
 `φ (x i) = (c i)⁻¹ * (x i ^[p] u) * c i` for every `i` and
 `φ (cusp x) = d⁻¹ * (cusp x ^[p] u) * d`. In particular `IsPeripheralAut x u φ`.
 
-*Needs:* L1; PPG-4 `freeProP.lift`, `freeProP.lift_of`; the Burnside criterion in hom form and
-the Hopf property (TC `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top`,
+*Needs:* L1; TC `TauCeti.freeProP.lift`, `TauCeti.freeProP.lift_of`, `TauCeti.isProP_freeProP`,
+the Burnside criterion in hom form and the Hopf property
+(`TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top`,
 `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective`); PA-1.3.
 
 ### 2.3 Transfer to other conventions
@@ -377,7 +389,8 @@ hold, on the principal units, is Layer 3.5.
   continuous (`continuous_exponent`). No finite quotient of `F` is needed.
   *Needs:* L0 `exponent_unique`; PA-2.2 `ContinuousAut.compactSpace`, `ContinuousAut.t2Space`,
   `ContinuousAut.continuous_eval`, `isClosed_isConj_pair`, each applied with the topological
-  finite generation of `F` (PPG-4, for `freeProP p (Fin r)`, transported along `e`); PA-1.3
+  finite generation of `F` (TC `TauCeti.isTopologicallyFinitelyGenerated_freeProP`, transported
+  along `e` by `TauCeti.isTopologicallyFinitelyGenerated_congr`); PA-1.3
   `continuous_padicPow`; M `IsClosed.preimage`, `isClosed_iInter`, `IsCompact.image`,
   `IsCompact.isClosed`, `Continuous.homeoOfEquivCompactToT2`.
 
@@ -447,25 +460,26 @@ hold, on the principal units, is Layer 3.5.
   it is not `1`, while `u`-th powers for a unit `u` are injective (PA-1.3). A continuous bijection
   from the compact group `ℤ_p` onto the Hausdorff group `U`, it is a homeomorphism. Its inverse `λ`
   is a continuous homomorphism with `w ^[p] λ(v) = v`.
-- **The carrier.** `peripheralAut x` is profinite (3.2) but not pro-`p` for odd `p`: the exponent
+-  **The carrier.** `peripheralAut x` is profinite (3.2) but not pro-`p` for odd `p`: the exponent
   maps it onto `ℤ_pˣ`, which contains `μ_{p-1}`. So `^[p]` is not available in it. Choose one
   peripheral automorphism `φ` of exponent `w` (Layer 2) and let `q := φ ^ᶻ ω_p` be its `p`-part in
-  the profinite group `peripheralAut x` (PA-1.2). The closed procyclic subgroup
-  `Q := closedZpowers q` is pro-`p` (PA-1.2 `isProP_closedZpowers_zpowHat_idem`) and lies in
-  `peripheralAut x`, which is closed. All `ℤ_p`-powers below are taken in `Q`.
-- **The section.** By naturality of `^ᶻ` under the continuous homomorphism `exponent` (PA-1.1
-  `map_zpowHat`),
-  `exponent q = w ^ᶻ ω_p = w`, the last step because `w` lies in the pro-`p` group `U` (PA-1.2
-  `zpowHat_idem_of_isProP`). So `exponent` restricts to a continuous homomorphism `Q → U` between
-  pro-`p` groups. Define `section x : U →* peripheralAut x` as the composite of three continuous
-  homomorphisms: `λ : U → Multiplicative ℤ_[p]`; `l ↦ q ^[p] l` into `Q` (Tau Ceti's
-  `TauCeti.IsProP.padicPowHom` for `Q`); and the inclusion `Q → peripheralAut x`. Then
+  the profinite group `peripheralAut x` (PA-1.2), where `ω_p = zHat.idem p` is the `p`-adic
+  idempotent of `ẑ = Additive TauCeti.zHat` (PA-0.3) and `^ᶻ` is `TauCeti.zHat.lift` (PA-1.1). The
+  closed procyclic subgroup `Q := closedZpowers q` is pro-`p` (PA-1.2
+  `isProP_closedZpowers_zpowHat_idem`) and lies in `peripheralAut x`, which is closed. All
+  `ℤ_p`-powers below are taken in `Q`.
+-  **The section.** By naturality of `^ᶻ` under the continuous homomorphism `exponent` (PA-1.1
+  `map_zpowHat`), `exponent q = w ^ᶻ ω_p = w`, the last step because `w` lies in the pro-`p` group
+  `U` (PA-1.2 `zpowHat_idem_of_isProP`). So `exponent` restricts to a continuous homomorphism
+  `Q → U` between pro-`p` groups. Define `section x : U →* peripheralAut x` as the composite of
+  three continuous homomorphisms: `λ : U → Multiplicative ℤ_[p]`; `l ↦ q ^[p] l` into `Q` (Tau
+  Ceti's `TauCeti.IsProP.padicPowHom` for `Q`); and the inclusion `Q → peripheralAut x`. Then
   `exponent (section x v) = w ^[p] λ(v) = v`, by naturality of `^[p]` under `Q → U` (PA-1.3
   `map_padicPow`). This is `exists_section_principalUnits`.
-  *Needs:* L2, L3.1, L3.2; PA-1.1 `zpowHat`, `map_zpowHat`; PA-1.2 `closedZpowers`,
-  `isProP_closedZpowers_zpowHat_idem`, `zpowHat_idem_of_isProP`; PA-1.3 `padicPow`,
-  `map_padicPow`; TC `TauCeti.unitsPrincipal` and the API above, `TauCeti.IsProP.padicPowHom`;
-  M `PadicInt.unitCoeff`, `PadicInt.unitCoeff_spec`.
+  *Needs:* L2, L3.1, L3.2; PA-0.3 `zHat.idem`; PA-1.1 `zpowHat`, `map_zpowHat`;
+  PA-1.2 `closedZpowers`, `isProP_closedZpowers_zpowHat_idem`, `zpowHat_idem_of_isProP`;
+  PA-1.3 `padicPow`, `map_padicPow`; TC `TauCeti.unitsPrincipal` and the API above,
+  `TauCeti.IsProP.padicPowHom`; M `PadicInt.unitCoeff`, `PadicInt.unitCoeff_spec`.
 
   ⚠ No milestone asserts a homomorphic section over all of `ℤ_pˣ`. Over the torsion subgroup
   `μ_{p-1}` (for `p` odd) or `{±1}` (for `p = 2`) a section is a peripheral automorphism of finite
@@ -474,10 +488,11 @@ hold, on the principal units, is Layer 3.5.
 
 ## Layer 4: the dyadic instance
 
-- **The carrier.** `p = 2`, `r = 2`, `F` with `e : F ≃ₜ* freeProP 2 (Fin 2)`, and
+- **The carrier.** `p = 2`, `r = 2`, `F` with `e : F ≃ₜ* TauCeti.freeProP 2 (Fin 2)`, and
   `P := basis e 0`, `T := basis e 1`, `C := (P * T)⁻¹ = cusp (basis e)`, so that `P * T * C = 1`.
-  The maximal pro-`2` quotient of the free profinite group on two generators is the supplier's
-  `freeProP 2 (Fin 2)` by definition, so `e` may be the identity for that carrier.
+  The maximal pro-`2` quotient of Tau Ceti's free profinite group on two generators,
+  `TauCeti.maximalProPQuotient 2 (TauCeti.freeProfiniteGroup (Fin 2))`, is
+  `TauCeti.freeProP 2 (Fin 2)` by definition, so `e` may be the identity for that carrier.
 - **The theorem, in consumer shape.** For every `u : ℤ_[2]ˣ` there are `φ : ContinuousAut F` and
   `cP cT cC : F` with
   `φ P = cP⁻¹ * (P ^[2] u) * cP`, `φ T = cT⁻¹ * (T ^[2] u) * cT`, `φ C = cC⁻¹ * (C ^[2] u) * cC`,
@@ -494,7 +509,7 @@ hold, on the principal units, is Layer 3.5.
   mathematics.
 - **The dyadic section.** Layer 3.5 at `p = 2`: a continuous homomorphic section of the exponent
   over `TauCeti.unitsPrincipal 2 2 = 1 + 4ℤ₂`, topologically generated by `5`.
-  *Needs:* L1, L2, L3.5; PPG-4 `freeProP 2 (Fin 2)`; TC `TauCeti.unitsPrincipal`; BM-PC
+  *Needs:* L1, L2, L3.5; TC `TauCeti.freeProP`, `TauCeti.unitsPrincipal`; BM-PC
   `conjugation_transfer`, `opposite_third_peripheral`.
 
   ⚠ The three conjugators are independent, and the theorem is stated for every unit; both
@@ -523,16 +538,16 @@ and Layer 2 is not a substitute for it where a consumer needs the Galois action 
   the reflection with `x_2 ↦ x_1 x_2⁻¹ x_1⁻¹` and cusp conjugator `1`.
 - `r = 2`, `p = 2`, `u = 3`, modulo `γ_2(F)`: the correction step of Layer 1.3 solved by hand in
   `gr_1(F) = ℤ_2 [x̄_1, x̄_2]`, with the coefficient `u(u-1)/2 = 3` absorbed by `c̄'_2`.
-- The dyadic instance with `F = freeProP 2 (Fin 2)` and `e` the identity.
+- The dyadic instance with `F = TauCeti.freeProP 2 (Fin 2)` and `e` the identity.
 
 ## Ordering and parallel work
 
-Layer 0 needs ProfiniteProPGroups Layer 4 and ProfiniteArithmetic Layers 1 and 2. Layer 1 needs
+Layer 0 needs Tau Ceti's free pro-`p` groups and ProfiniteArithmetic Layers 1 and 2. Layer 1 needs
 Layer 0 and ProfiniteArithmetic Layer 3; its three parts are sequential. Layer 2 needs Layer 1 and
-ProfiniteProPGroups Layer 3. Layer 3.1 needs Layer 2; 3.2 needs 3.1 and ProfiniteArithmetic 2.2;
-3.3 and 3.4 need only Layer 0 and the automorphism criterion of 2.2, and can be done alongside
-Layer 1; 3.5 needs 3.1, 3.2 and ProfiniteArithmetic 1.2. Layer 4 is the specialization of Layers
-1, 2 and 3.5 and needs nothing further. Layer 5 is not work.
+Tau Ceti's Frattini, Burnside and Hopf theorems. Layer 3.1 needs Layer 2; 3.2 needs 3.1 and
+ProfiniteArithmetic 2.2; 3.3 and 3.4 need only Layer 0 and the automorphism criterion of 2.2, and
+can be done alongside Layer 1; 3.5 needs 3.1, 3.2 and ProfiniteArithmetic 1.2. Layer 4 is the
+specialization of Layers 1, 2 and 3.5 and needs nothing further. Layer 5 is not work.
 
 ## Acceptance checklist
 
@@ -544,8 +559,12 @@ Layer 1; 3.5 needs 3.1, 3.2 and ProfiniteArithmetic 1.2. Layer 4 is the speciali
   ProfiniteArithmetic, with the correction step and the compactness step as separate theorems, and
   with the unit hypothesis used exactly in the correction step.
 - The automorphism property in Layer 2.2 is derived from the Burnside surjectivity criterion and
-  the Hopf property, as ProfiniteProPGroups specifies them and Tau Ceti implements them, not
-  restated.
+  the Hopf property, as ProfiniteProPGroups specifies them and Tau Ceti implements them, applied
+  to Tau Ceti's declarations directly and not restated.
+- Free pro-`p` groups, pro-`p` groups and topological finite generation are Tau Ceti's
+  declarations (`TauCeti.freeProP`, `TauCeti.IsProP`, `TauCeti.IsTopologicallyFinitelyGenerated`),
+  and the finite generation of `F` is Tau Ceti's theorem for the standard model transported along
+  `e`, not an assumption.
 - `peripheralAut x` is a subgroup with a closed proof of closure under composition and inversion,
   `exponent x` is a homomorphism with a closed proof of well-definedness for `r ≥ 1`, and
   closedness in the congruence topology is a theorem.
@@ -588,7 +607,7 @@ Layer 1; 3.5 needs 3.1, 3.2 and ProfiniteArithmetic 1.2. Layer 4 is the speciali
   arithmetic exact sequence and the outer action, the subject of the BelyiMaps successor.
 - L. Ribes, P. Zalesskii, *Profinite Groups*, 2nd ed., §4.5 for the automorphism group of a free
   pro-`p` group, Prop. 2.5.2 for the Hopf property, and Prop. 2.8.7 for the Frattini generation
-  criterion, both consumed through ProfiniteProPGroups.
+  criterion, both consumed from Tau Ceti.
 - M. Lazard, "Sur les groupes nilpotents et les anneaux de Lie", Ann. Sci. École Norm. Sup. 71
   (1954), and J.-P. Serre, *Lie Algebras and Lie Groups*, Part I, Chapter IV, for the graded Lie
   ring of the lower central series used in Layer 1.
