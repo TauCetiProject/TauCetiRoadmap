@@ -104,7 +104,7 @@ supplier's dyadic `unitsPrincipal 2` is its case `p = 2`.
 
 | Use here | Exact declarations |
 |---|---|
-| principal units | `TauCeti.unitsPrincipal`, `TauCeti.mem_unitsPrincipal_iff`, `TauCeti.isOpen_unitsPrincipal`, `TauCeti.isClosed_unitsPrincipal`, `TauCeti.isProP_unitsPrincipal`, `TauCeti.topologicalClosure_zpowers_eq_unitsPrincipal`, `TauCeti.exists_topologicalClosure_zpowers_eq_unitsPrincipal` |
+| principal units | `TauCeti.unitsPrincipal`, `TauCeti.mem_unitsPrincipal_iff`, `TauCeti.isOpen_unitsPrincipal`, `TauCeti.isClosed_unitsPrincipal`, `TauCeti.isProP_unitsPrincipal`, `TauCeti.topologicalClosure_zpowers_eq_unitsPrincipal`, `TauCeti.exists_topologicalClosure_zpowers_eq_unitsPrincipal`, `TauCeti.pow_pow_mem_unitsPrincipal`, `TauCeti.pow_pow_notMem_unitsPrincipal` |
 | Burnside and Hopf | `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top`, `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective` |
 
 ### From `TauCetiRoadmap.ProfiniteArithmetic`
@@ -431,8 +431,12 @@ hold, on the principal units, is Layer 3.5.
   (`TauCeti.topologicalClosure_zpowers_eq_unitsPrincipal`, whose hypotheses `0 < k` and
   `p = 2 → 2 ≤ k` hold), and `l ↦ w ^[p] l` is a topological isomorphism
   `principalUnitsEquiv : Multiplicative ℤ_[p] ≃ₜ* U` with `ofAdd 1 ↦ w`
-  (`principalUnitsEquiv_ofAdd_one`). Its inverse `λ` is a continuous homomorphism with
-  `w ^[p] λ(v) = v`.
+  (`principalUnitsEquiv_ofAdd_one`). It is onto because `w` generates `U`. It is injective because
+  a nonzero exponent is `p ^ j v` with `v` a unit, and `w ^ p ^ j` lies in `U^(k+j)` but not in
+  `U^(k+j+1)` (`TauCeti.pow_pow_mem_unitsPrincipal`, `TauCeti.pow_pow_notMem_unitsPrincipal`), so
+  it is not `1`, while `u`-th powers for a unit `u` are injective (PA-1.3). A continuous bijection
+  from the compact group `ℤ_p` onto the Hausdorff group `U`, it is a homeomorphism. Its inverse `λ`
+  is a continuous homomorphism with `w ^[p] λ(v) = v`.
 - **The carrier.** `peripheralAut x` is profinite (3.2) but not pro-`p` for odd `p`: the exponent
   maps it onto `ℤ_pˣ`, which contains `μ_{p-1}`. So `^[p]` is not available in it. Choose one
   peripheral automorphism `φ` of exponent `w` (Layer 2) and let `q := φ ^ᶻ ω_p` be its `p`-part in

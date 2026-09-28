@@ -343,9 +343,12 @@ theorem exists_rotation_two (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin 2))
 when `p = 2`, and let `w` be a principal unit of exact level `k`: in `U^(k)` but not in
 `U^(k+1)`, where `U^(k)` is Tau Ceti's `TauCeti.unitsPrincipal p k`. Then `l ↦ w ^[p] l` is a
 topological isomorphism `Multiplicative ℤ_[p] ≃ₜ* U^(k)`. It is defined because `U^(k)` is pro-`p`
-(`TauCeti.isProP_unitsPrincipal`), onto because `w` topologically generates `U^(k)`
-(`TauCeti.topologicalClosure_zpowers_eq_unitsPrincipal`), and injective because `U^(k)` is
-torsion-free under these hypotheses. The unit `1 + p ^ k` has exact level `k`. -/
+(`TauCeti.isProP_unitsPrincipal`) and onto because `w` topologically generates `U^(k)`
+(`TauCeti.topologicalClosure_zpowers_eq_unitsPrincipal`). It is injective because a nonzero
+exponent is `p ^ j * v` with `v` a unit, and `w ^ p ^ j` lies in `U^(k+j)` but not in `U^(k+j+1)`
+(`TauCeti.pow_pow_mem_unitsPrincipal`, `TauCeti.pow_pow_notMem_unitsPrincipal`), so it is not `1`,
+while unit powers are injective. A continuous bijection from a compact group onto a Hausdorff one,
+it is a homeomorphism. The unit `1 + p ^ k` has exact level `k`. -/
 noncomputable def principalUnitsEquiv (k : ℕ) (_hk : 0 < k) (_hk₂ : p = 2 → 2 ≤ k) (w : ℤ_[p]ˣ)
     (_hw : w ∈ TauCeti.unitsPrincipal p k) (_hw' : w ∉ TauCeti.unitsPrincipal p (k + 1)) :
     Multiplicative ℤ_[p] ≃ₜ* TauCeti.unitsPrincipal p k :=
