@@ -19,8 +19,9 @@ The full programme is recorded below, from the combinatorics up:
 - algebraic Belyi pairs over a field, the analytic/algebraic comparison over `ℂ`, and Belyi's
   theorem in both directions;
 - fields of moduli and fields of definition, the Galois action on dessins, the branch-cycle
-  theorem for the profinite fundamental group, a generic pro-`ℓ` peripheral-power theorem, and
-  faithfulness of the Galois action;
+  theorem for the profinite fundamental group, the pro-`ℓ` peripheral-power theorem for the Galois
+  action (its generic group-theoretic form belongs to `PeripheralActions`), and faithfulness of
+  the Galois action;
 - the assertion semantics of LMFDB Belyi-map and passport records.
 
 The pinned Mathlib is favourable on exactly the substrate this roadmap starts from: the
@@ -72,7 +73,7 @@ declaration or a completion claim of this PR**. Every excluded summit has exactl
 | associated covers, and the subgroup half of the covering classification | 6.2, and the subgroup statement inside 6.3 | **this roadmap** for 6.2, in a follow-up PR; `UniversalCovers` milestone 8 for the subgroup statement | UniversalCovers publishes compiled semilocal-connectivity, universal-cover, deck-action and classification carriers |
 | compactification, compact Riemann surfaces, ramification, analytic cohomology, and analytic Riemann existence | 7, 8 | successor roadmap **`BelyiAnalyticCovers`** | a compact-surface owner (ModularForms Layer 10B) publishes one checked carrier and the Riemann–Roch/Riemann–Hurwitz API |
 | algebraic Belyi pairs, the analytic–algebraic comparison, Belyi's theorem, fields of moduli and of definition, and Weil descent | 9, 10, 11 | successor roadmap **`BelyiAlgebraicAndDescent`** | AlgebraicCurves publishes its curve/function-field anti-equivalence and extension-ramification carriers, and `BelyiAnalyticCovers` lands |
-| the arithmetic exact sequence and outer action, peripheral inertia, the branch-cycle theorem, the pro-`ℓ` peripheral-power theorem, faithfulness, and LMFDB record semantics | 12, 13, 14 | successor roadmap **`BelyiArithmeticActions`** | #244 `ProfiniteProPGroups` and its generic successor `ProfiniteArithmetic` land, and `BelyiAlgebraicAndDescent` lands |
+| the arithmetic exact sequence and outer action, peripheral inertia, the branch-cycle theorem, the pro-`ℓ` peripheral-power theorem for the Galois action (its generic existence theorem belongs to `PeripheralActions`), faithfulness, and LMFDB record semantics | 12, 13, 14 | successor roadmap **`BelyiArithmeticActions`** | #244 `ProfiniteProPGroups` and its generic successor `ProfiniteArithmetic` land, and `BelyiAlgebraicAndDescent` lands |
 
 The generic constructions the arithmetic layers need — the profinite integers as a topological
 commutative **ring**, profinite exponentiation with its `ℤ_ℓ` comparison, and the continuous
@@ -107,10 +108,16 @@ profinite exponent ring, or outer-automorphism carrier.
 
 Seven roadmaps supply material to this one. The boundaries are stated once here.
 
-There is no dependency on `LocalGaloisGroups`, `ClassFieldTheory`, or a proposed
-`PeripheralActions` roadmap. The future branch-cycle and pro-`ℓ` peripheral-power applications
-are Belyi-specific; their generic groups, powers, and outer-automorphism carriers come from
-`ProfiniteProPGroups`.
+There is no dependency on `LocalGaloisGroups` or `ClassFieldTheory`. The generic
+group-theoretic peripheral-power theorem, that a free pro-`p` group of finite rank has, for every
+unit `u`, a continuous automorphism carrying each peripheral element to a conjugate of its `u`-th
+power, belongs to `PeripheralActions` (proposed in #490), which proves it without the Galois
+action; Layers 13.3 and 13.4 below state its instance for `Δ_ℓ` and record the arithmetic proof.
+The branch-cycle theorem and the Galois-equivariant peripheral statements are Belyi-specific;
+their generic groups, powers, and outer-automorphism carriers come from `ProfiniteProPGroups` and
+`ProfiniteArithmetic`. `PeripheralActions` consumes only the conjugation-transfer lemma of 13.3
+and the word identity `opposite_third_peripheral` from here, and nothing from the arithmetic
+successor.
 
 **Character theory.** Class functions, irreducible characters, the character table, both
 orthogonality relations, class sums, structure constants, and central characters belong to
@@ -210,8 +217,9 @@ What this roadmap supplies to other subjects:
 - in `BelyiAlgebraicAndDescent`, the Belyi-specific analytic/algebraic comparison, after the
   compact-surface and AlgebraicCurves carriers land;
 - in `BelyiArithmeticActions`, the branch-cycle theorem and the pro-`ℓ` peripheral-power theorem
-  (Layers 12, 13), the Belyi-specific arithmetic application of `ProfiniteArithmetic`'s generic
-  infrastructure.
+  for the Galois action (Layers 12, 13), the Belyi-specific arithmetic application of
+  `ProfiniteArithmetic`'s generic infrastructure; the generic existence theorem itself belongs to
+  `PeripheralActions`.
 
 ## Internal boundaries
 
@@ -273,7 +281,8 @@ pro-`p` quotient, and `maximalProPQuotient_zHat_equiv_padicInt`.
 *Belyi-specific exports:* `π₁ᵍᵉᵒ` and the comparison isomorphism with its
 orientation; the arithmetic exact sequence and outer action; peripheral inertia; the
 `ẑ`-cyclotomic character; the branch-cycle theorem and its finite Nielsen-class corollary;
-the pro-`ℓ` peripheral-power theorem and its dyadic instance; faithfulness; the LMFDB
+the Galois-equivariant form of the pro-`ℓ` peripheral-power theorem and of its dyadic instance
+(the existence statements themselves are `PeripheralActions`'); faithfulness; the LMFDB
 record certificates.
 *Imports:*
 
@@ -4176,9 +4185,12 @@ and three orbits. Layer 14 never treats `pass_size` and `orbit_size` as the same
 
 ### Layer 13: the pro-`ℓ` peripheral theorem and faithfulness
 
-> **Owner:** successor roadmap `BelyiArithmeticActions`. Retained here as a dependency
-> specification; no milestone of this layer is a declaration or a completion claim of
-> this PR.
+> **Owner:** successor roadmap `BelyiArithmeticActions`, except that the existence statements of
+> 13.3 and 13.4 are instances of `PeripheralActions`' generic theorems (its Layers 2 and 4), which
+> are proved there for every free pro-`p` group of finite rank without the Galois action.
+> `BelyiArithmeticActions` owns the arithmetic route below and its Galois-equivariant
+> consequences. Retained here as a dependency specification; no milestone of this layer is a
+> declaration or a completion claim of this PR.
 
 #### 13.1 The pro-`ℓ` peripheral triple
 
@@ -4263,8 +4275,10 @@ new mathematics.
 #### 13.4 The dyadic instance
 
 The specialization to `ℓ = 2`, stated as its own named theorem with `u : ℤ_[2]ˣ` on
-`Δ_2 = freeProP 2 (Fin 2)`. It is the reusable dyadic peripheral-power statement; nothing in
-its statement or its proof mentions anything outside this roadmap.
+`Δ_2 = freeProP 2 (Fin 2)`. As an existence statement it is `PeripheralActions` Layer 4
+(`exists_peripheralPowerAutomorphism_two`), the reusable dyadic peripheral-power theorem; this
+milestone records its arithmetic proof, and nothing in that proof mentions anything outside this
+roadmap.
 
 *Prerequisites:* Layer 13.3.
 
