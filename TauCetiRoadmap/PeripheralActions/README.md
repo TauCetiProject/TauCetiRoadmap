@@ -45,7 +45,8 @@ The roadmap owns:
 It does not own, and consumes by name:
 
 - free pro-`p` groups, their universal property, the Frattini quotient, the Burnside surjectivity
-  criterion and the Hopf property, from **ProfiniteProPGroups**;
+  criterion and the Hopf property, from **ProfiniteProPGroups**; the last two through their Tau
+  Ceti implementations, since the supplier's `Suggested.lean` states them only as examples;
 - the `ℤ_p`-power `padicPow`, which is Tau Ceti's `TauCeti.IsProP.padicPow`, and the closed lower
   central series with its graded pieces and bracket, which are Tau Ceti's lower `p`-series at
   `p = 0` (`TauCeti.pLowerCentralSeries 0`, `TauCeti.gradedPiece`, `TauCeti.gradedBracket`), both
@@ -94,7 +95,7 @@ It does not own, and consumes by name:
 | Use here | Exact declarations |
 |---|---|
 | the standard model | `freeProP`, `freeProP.of`, `freeProP.lift`, `freeProP.lift_of`, `freeProP.lift_unique`, `freeProP.hom_ext` |
-| pro-`p` and generation | `IsProP`, `IsTopologicallyFinitelyGenerated`, `proPFrattini`, `topologicallyGenerates_iff_frattiniQuotient`, the Burnside surjectivity criterion (hom form), the Hopf property |
+| pro-`p` and generation | `IsProP`, `IsTopologicallyFinitelyGenerated`, `proPFrattini`, `topologicallyGenerates_iff_frattiniQuotient`; the Burnside criterion in hom form and the Hopf property are Tau Ceti's `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top` and `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective` |
 | the dyadic unit groups | `unitsPrincipal` (the subgroup `1 + 2^f ℤ₂` of `ℤ₂ˣ`) |
 
 ### From `TauCetiRoadmap.ProfiniteArithmetic`
@@ -123,7 +124,8 @@ It does not own, and consumes by name:
 `README.md` is normative; `Suggested.lean` pins names and signatures for the central objects and is
 not exhaustive. In prerequisite annotations, `M` means Mathlib, `L0` through `L4` mean an earlier
 layer here, `PPG-<layer>` means an export of ProfiniteProPGroups, `PA-<layer>` an export of
-ProfiniteArithmetic, and `BM-13.3` the conjugation-transfer lemma of BelyiMaps.
+ProfiniteArithmetic, `BM-13.3` the conjugation-transfer lemma of BelyiMaps, and `TC` a Tau Ceti
+declaration.
 
 ## Layer 0: peripheral systems
 
@@ -294,8 +296,9 @@ compact Hausdorff. So `φ_u : ContinuousAut F`.
 `φ (x i) = (c i)⁻¹ * (x i ^[p] u) * c i` for every `i` and
 `φ (cusp x) = d⁻¹ * (cusp x ^[p] u) * d`. In particular `IsPeripheralAut x u φ`.
 
-*Needs:* L1; PPG-4 `freeProP.lift`, `freeProP.lift_of`; PPG-3 the Burnside surjectivity
-criterion and the Hopf property; PA-1.3.
+*Needs:* L1; PPG-4 `freeProP.lift`, `freeProP.lift_of`; the Burnside criterion in hom form and
+the Hopf property (TC `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top`,
+`TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective`); PA-1.3.
 
 ### 2.3 Transfer to other conventions
 
@@ -475,7 +478,8 @@ Layer 1; 3.5 needs 3.1, 3.2 and ProfiniteArithmetic 1.2. Layer 4 is the speciali
   ProfiniteArithmetic, with the correction step and the compactness step as separate theorems, and
   with the unit hypothesis used exactly in the correction step.
 - The automorphism property in Layer 2.2 is derived from the Burnside surjectivity criterion and
-  the Hopf property of ProfiniteProPGroups, not restated.
+  the Hopf property, as ProfiniteProPGroups specifies them and Tau Ceti implements them, not
+  restated.
 - `peripheralAut x` is a subgroup with a closed proof of closure under composition and inversion,
   `exponent x` is a homomorphism with a closed proof of well-definedness for `r ≥ 1`, and
   closedness in the congruence topology is a theorem.
