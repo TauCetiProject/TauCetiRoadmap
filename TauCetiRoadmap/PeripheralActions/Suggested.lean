@@ -2,6 +2,7 @@ import Mathlib
 import TauCetiRoadmap.ProfiniteProPGroups.Suggested
 import TauCetiRoadmap.ProfiniteArithmetic.Suggested
 import TauCetiRoadmap.BelyiMaps.Suggested
+import TauCeti.NumberTheory.Padics.PrincipalUnits
 
 set_option autoImplicit false
 
@@ -217,13 +218,24 @@ theorem conj_mem_peripheralAut (hF : IsProP p F) (x : Fin r → F) (g : F) :
     ContinuousAut.conj F g ∈ peripheralAut p hF x :=
   sorry
 
+/-- **Layer 3.2, the graph.** The pairs `(φ, u)` with `IsPeripheralAut x u φ` form a closed subset
+of `ContinuousAut F × ℤ_pˣ`: each condition `IsConj (y ^[p] u) (φ y)` pulls back the closed set of
+conjugate pairs of `F` along the continuous map `(φ, u) ↦ (y ^[p] u, φ y)`. -/
+theorem isClosed_peripheralGraph (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin r)) :
+    IsClosed {q : ContinuousAut F × ℤ_[p]ˣ | IsPeripheralAut p hF (basis p e) q.2 q.1} :=
+  sorry
+
 /-- **Layer 3.2.** The peripheral automorphisms form a closed subgroup for the congruence
-topology of ProfiniteArithmetic. -/
+topology of ProfiniteArithmetic: the projection of the closed graph along the compact factor
+`ℤ_pˣ`. -/
 theorem isClosed_peripheralAut (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin r)) :
     IsClosed ((peripheralAut p hF (basis p e) : Set (ContinuousAut F))) :=
   sorry
 
-/-- **Layer 3.2.** The exponent is continuous. -/
+/-- **Layer 3.2.** The exponent is continuous. The graph of `isClosed_peripheralGraph` is compact,
+and for `r > 0` its projection to `peripheralAut` is a continuous bijection (`exponent_unique`) onto
+a Hausdorff space, hence a homeomorphism; the exponent is the second projection composed with its
+inverse. -/
 theorem continuous_exponent (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin r)) (hr : 0 < r) :
     Continuous (exponent p hF e hr) :=
   sorry
@@ -274,6 +286,44 @@ def IsPeripheralPermAut (hF : IsProP p F) (x : Fin r → F) (σ : Equiv.Perm (Fi
   ∀ i : Fin (r + 1),
     IsConj (padicPow p hF (peripheralTuple x (σ i)) (u : ℤ_[p])) (φ (peripheralTuple x i))
 
+/-- **Layer 3.4.** The automorphisms that are peripheral up to a permutation of the peripheral
+tuple form a subgroup: the permutations compose and the exponents multiply. -/
+def peripheralPermAut (hF : IsProP p F) (x : Fin r → F) : Subgroup (ContinuousAut F) where
+  carrier := {φ | ∃ (σ : Equiv.Perm (Fin (r + 1))) (u : ℤ_[p]ˣ), IsPeripheralPermAut p hF x σ u φ}
+  one_mem' := sorry
+  mul_mem' := sorry
+  inv_mem' := sorry
+
+/-- **Layer 3.4, uniqueness in rank at least two.** The permutation and the exponent of a
+permutation-peripheral automorphism are determined when `r ≥ 2`: in `gr_0(F) ≅ ℤ_p ^ r` any two
+distinct classes among `x̄_1, …, x̄_r, z̄` are `ℤ_p`-independent. -/
+theorem IsPeripheralPermAut.unique (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin r)) (hr : 2 ≤ r)
+    {σ σ' : Equiv.Perm (Fin (r + 1))} {u u' : ℤ_[p]ˣ} {φ : ContinuousAut F}
+    (h : IsPeripheralPermAut p hF (basis p e) σ u φ)
+    (h' : IsPeripheralPermAut p hF (basis p e) σ' u' φ) : σ = σ' ∧ u = u' :=
+  sorry
+
+/-- **Layer 3.4, nearby false statement.** In rank one the permutation and the exponent are not
+determined: the peripheral tuple is `(x, x⁻¹)`, and the automorphism `x ↦ x ^[p] u` is
+permutation-peripheral both for `(1, u)` and for `(swap 0 1, -u)`. So `permData` needs `r ≥ 2`. -/
+theorem exists_isPeripheralPermAut_swap_rank_one (hF : IsProP p F)
+    (e : F ≃ₜ* freeProP p (Fin 1)) (u : ℤ_[p]ˣ) :
+    ∃ φ : ContinuousAut F, IsPeripheralPermAut p hF (basis p e) 1 u φ ∧
+      IsPeripheralPermAut p hF (basis p e) (Equiv.swap 0 1) (-u) φ :=
+  sorry
+
+/-- **Layer 3.4.** For `r ≥ 2`, the permutation and the exponent of a permutation-peripheral
+automorphism, as a homomorphism, pinned by `isPeripheralPermAut_permData` together with
+`IsPeripheralPermAut.unique`. -/
+noncomputable def permData (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin r)) (_hr : 2 ≤ r) :
+    peripheralPermAut p hF (basis p e) →* Equiv.Perm (Fin (r + 1)) × ℤ_[p]ˣ :=
+  sorry
+
+theorem isPeripheralPermAut_permData (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin r))
+    (hr : 2 ≤ r) (φ : peripheralPermAut p hF (basis p e)) :
+    IsPeripheralPermAut p hF (basis p e) (permData p hF e hr φ).1 (permData p hF e hr φ).2 φ :=
+  sorry
+
 /-- **Layer 3.4, rank two.** The swap of the two generators permutes the first two peripheral
 classes and conjugates the cusp by `x_0`. -/
 theorem exists_swap_two (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin 2)) :
@@ -289,17 +339,34 @@ theorem exists_rotation_two (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin 2))
       φ (cusp (basis p e)) = basis p e 0 :=
   sorry
 
-/-- **Layer 3.5.** The principal units `1 + p^k ℤ_p`. -/
-noncomputable def principalUnits (k : ℕ) : Subgroup ℤ_[p]ˣ :=
-  MonoidHom.ker (Units.map (PadicInt.toZModPow (p := p) k).toMonoidHom)
+/-- **Layer 3.5, the `ℤ_p`-parameterization of the principal units.** Let `k ≥ 1`, with `k ≥ 2`
+when `p = 2`, and let `w` be a principal unit of exact level `k`: in `U^(k)` but not in
+`U^(k+1)`, where `U^(k)` is Tau Ceti's `TauCeti.unitsPrincipal p k`. Then `l ↦ w ^[p] l` is a
+topological isomorphism `Multiplicative ℤ_[p] ≃ₜ* U^(k)`. It is defined because `U^(k)` is pro-`p`
+(`TauCeti.isProP_unitsPrincipal`), onto because `w` topologically generates `U^(k)`
+(`TauCeti.topologicalClosure_zpowers_eq_unitsPrincipal`), and injective because `U^(k)` is
+torsion-free under these hypotheses. The unit `1 + p ^ k` has exact level `k`. -/
+noncomputable def principalUnitsEquiv (k : ℕ) (_hk : 0 < k) (_hk₂ : p = 2 → 2 ≤ k) (w : ℤ_[p]ˣ)
+    (_hw : w ∈ TauCeti.unitsPrincipal p k) (_hw' : w ∉ TauCeti.unitsPrincipal p (k + 1)) :
+    Multiplicative ℤ_[p] ≃ₜ* TauCeti.unitsPrincipal p k :=
+  sorry
+
+/-- **Layer 3.5.** The parameterization sends `ofAdd 1` to `w`. This pins it, a continuous
+homomorphism out of `Multiplicative ℤ_[p]` being determined by that value. -/
+theorem principalUnitsEquiv_ofAdd_one (k : ℕ) (hk : 0 < k) (hk₂ : p = 2 → 2 ≤ k) (w : ℤ_[p]ˣ)
+    (hw : w ∈ TauCeti.unitsPrincipal p k) (hw' : w ∉ TauCeti.unitsPrincipal p (k + 1)) :
+    principalUnitsEquiv p k hk hk₂ w hw hw' (Multiplicative.ofAdd 1) = ⟨w, hw⟩ :=
+  sorry
 
 /-- **Layer 3.5, the section over the principal units.** With `k = 1` for odd `p` and `k = 2`
-for `p = 2`, the exponent has a continuous homomorphic section over `1 + p^k ℤ_p`, obtained
-from one peripheral automorphism of exponent `1 + p^k` by the `p`-part and `ℤ_p`-power calculus.
-⚠ No section over all of `ℤ_pˣ` is claimed. -/
+for `p = 2`, the exponent has a continuous homomorphic section over Tau Ceti's
+`U^(k) = TauCeti.unitsPrincipal p k`. It is built inside the pro-`p` closed procyclic subgroup
+generated by the `p`-part of one peripheral automorphism of exponent `w`, a unit of exact level
+`k`, and composed with the inverse of `principalUnitsEquiv`. ⚠ No section over all of `ℤ_pˣ` is
+claimed. -/
 theorem exists_section_principalUnits (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin r))
     (hr : 0 < r) :
-    ∃ s : principalUnits p (if p = 2 then 2 else 1) →* peripheralAut p hF (basis p e),
+    ∃ s : TauCeti.unitsPrincipal p (if p = 2 then 2 else 1) →* peripheralAut p hF (basis p e),
       Continuous s ∧ ∀ v, exponent p hF e hr (s v) = v :=
   sorry
 
@@ -366,9 +433,10 @@ example (e : F ≃ₜ* freeProP 2 (Fin 2)) :
   TauCetiRoadmap.BelyiMaps.opposite_third_peripheral (periphP e) (periphT e)
 
 /-- **Layer 4, the dyadic section.** A continuous homomorphic section of the exponent over
-`1 + 4ℤ₂`, the supplier's `unitsPrincipal 2`. -/
+`1 + 4ℤ₂`, Tau Ceti's `TauCeti.unitsPrincipal 2 2` (which implements ProfiniteProPGroups'
+`unitsPrincipal 2`); Layer 3.5 at `p = 2`, with generator `5 = 1 + 2 ^ 2`. -/
 theorem exists_section_unitsPrincipal_two (hF : IsProP 2 F) (e : F ≃ₜ* freeProP 2 (Fin 2)) :
-    ∃ s : unitsPrincipal 2 →* peripheralAut 2 hF (basis 2 e),
+    ∃ s : TauCeti.unitsPrincipal 2 2 →* peripheralAut 2 hF (basis 2 e),
       Continuous s ∧ ∀ v, exponent 2 hF e (by norm_num) (s v) = v :=
   sorry
 

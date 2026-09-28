@@ -96,15 +96,25 @@ It does not own, and consumes by name:
 |---|---|
 | the standard model | `freeProP`, `freeProP.of`, `freeProP.lift`, `freeProP.lift_of`, `freeProP.lift_unique`, `freeProP.hom_ext` |
 | pro-`p` and generation | `IsProP`, `IsTopologicallyFinitelyGenerated`, `proPFrattini`, `topologicallyGenerates_iff_frattiniQuotient`; the Burnside criterion in hom form and the Hopf property are Tau Ceti's `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top` and `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective` |
-| the dyadic unit groups | `unitsPrincipal` (the subgroup `1 + 2^f ℤ₂` of `ℤ₂ˣ`) |
+
+The principal units `1 + p^k ℤ_p` are Tau Ceti's generic `TauCeti.unitsPrincipal p k`, below; the
+supplier's dyadic `unitsPrincipal 2` is its case `p = 2`.
+
+### From Tau Ceti
+
+| Use here | Exact declarations |
+|---|---|
+| principal units | `TauCeti.unitsPrincipal`, `TauCeti.mem_unitsPrincipal_iff`, `TauCeti.isOpen_unitsPrincipal`, `TauCeti.isClosed_unitsPrincipal`, `TauCeti.isProP_unitsPrincipal`, `TauCeti.topologicalClosure_zpowers_eq_unitsPrincipal`, `TauCeti.exists_topologicalClosure_zpowers_eq_unitsPrincipal` |
+| Burnside and Hopf | `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top`, `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective` |
 
 ### From `TauCetiRoadmap.ProfiniteArithmetic`
 
 | Use here | Exact declarations |
 |---|---|
 | `ℤ_p`-powers | `padicPow` (Tau Ceti's `TauCeti.IsProP.padicPow`), `padicPow_one`, `padicPow_add`, `padicPow_padicPow`, `map_padicPow`, `padicPow_conj`, `inv_padicPow`, `padicPow_units_inv`, `padicPow_units_injective`, `closedZpowers_padicPow_units` |
-| automorphisms | `ContinuousAut`, `ContinuousAut.conj`, `ContinuousAut.conj_apply`, `ContinuousOut`, the congruence topology, `ContinuousAut.compactSpace`, `ContinuousAut.isClosed_isConj`, `ContinuousAut.continuous_eval` |
-| the closed lower central series | `closedLowerCentralSeries` (Tau Ceti's `pLowerCentralSeries 0`), `isClosed_closedLowerCentralSeries`, `iInf_closedLowerCentralSeries_eq_bot`, `commutator_mem_closedLowerCentralSeries`, `lcsGradedPiece`, `lcsGradedMk`, `lcsGradedMk_conj`, `lcsBracket`, `lcsBracket_mk`, `lcsBracket_add_left`, `lcsBracket_add_right`, `lcsBracket_padicPow_left`, `lcsBracket_padicPow_right`, `lcsGradedPiece_eq_sum_bracket`, `lcsBracket_freeProP_ne_zero` |
+| profinite powers | `zpowHat`, `ProfiniteInt.idem`, `closedZpowers`, `isProP_closedZpowers_zpowHat_idem`, `zpowHat_idem_of_isProP` |
+| automorphisms | `ContinuousAut`, `ContinuousAut.conj`, `ContinuousAut.conj_apply`, `ContinuousOut`, the congruence topology, `ContinuousAut.compactSpace`, `ContinuousAut.t2Space`, `ContinuousAut.isClosed_isConj`, `ContinuousAut.continuous_eval` |
+| the closed lower central series | `closedLowerCentralSeries` (Tau Ceti's `pLowerCentralSeries 0`), `isClosed_closedLowerCentralSeries`, `iInf_closedLowerCentralSeries_eq_bot`, `commutator_mem_closedLowerCentralSeries`, `lcsGradedPiece`, `lcsGradedMk`, `lcsGradedMk_conj`, `lcsBracket`, `lcsBracket_mk`, `lcsBracket_add_left`, `lcsBracket_add_right`, `lcsBracket_padicPow_left`, `lcsBracket_padicPow_right`, `lcsGradedPiece_eq_sum_bracket`, `lcsGradedPiece_zero_freeProP_bijective`, `lcsGradedPiece_one_freeProP_bijective`, `lcsBracket_freeProP_ne_zero` |
 
 ### From `TauCetiRoadmap.BelyiMaps`
 
@@ -143,11 +153,12 @@ declaration.
 - **The exponent is determined.** For `r ≥ 1`, if `IsPeripheralAut x u φ` and
   `IsPeripheralAut x v φ` then `u = v`: the induced automorphism of the topological
   abelianization `gr_0(F) ≅ ℤ_p^r` is multiplication by `u` on the classes of the basis, and the
-  classes of the basis are `ℤ_p`-independent.
+  classes of the basis are `ℤ_p`-independent (PA-3.4 `lcsGradedPiece_zero_freeProP_bijective`).
 - **Inner automorphisms are peripheral of exponent one**, and `IsPeripheralAut x 1 φ` holds for
   `φ = 1`.
   *Needs:* PPG-4 `freeProP.of`, `freeProP.lift`, `freeProP.hom_ext`; PA-1 `padicPow`; PA-2
-  `ContinuousAut`, `ContinuousAut.conj`; PA-3 `lcsGradedPiece` at degree zero; M `List.ofFn`,
+  `ContinuousAut`, `ContinuousAut.conj`; PA-3 `lcsGradedPiece` at degree zero and
+  `lcsGradedPiece_zero_freeProP_bijective`; M `List.ofFn`,
   `Fin.snoc`, `IsConj`.
 
   ⚠ *Nearby false statement:* the peripheral condition on `x_1, …, x_r` alone does not imply it
@@ -156,8 +167,9 @@ declaration.
   `u ≠ 1` it is not peripheral on the cusp: `x_1^u x_2^u x_3^u` is not conjugate to
   `(x_1 x_2 x_3)^u`, already in `F ⧸ γ_2(F)`. There `(x_1 x_2 x_3)^u` is `x_1^u x_2^u x_3^u` times
   a central element of class `(u(u-1)/2) · ([x̄_2, x̄_1] + [x̄_3, x̄_1] + [x̄_3, x̄_2])` in
-  `gr_1(F) ≅ Λ² ℤ_p^3` (PA-3.4), while conjugating by `g` changes the class only by
-  `[x̄_1 + x̄_2 + x̄_3, ḡ] = Σ_{i<k} (a_k - a_i) [x̄_i, x̄_k]` for `ḡ = Σ_k a_k x̄_k`. In the basis
+  `gr_1(F) ≅ Λ² ℤ_p^3` (PA-3.4 `lcsGradedPiece_one_freeProP_bijective`), while conjugating by `g`
+  changes the class only by `[x̄_1 + x̄_2 + x̄_3, ḡ] = Σ_{i<k} (a_k - a_i) [x̄_i, x̄_k]` for
+  `ḡ = Σ_k a_k x̄_k`. In the basis
   `[x̄_i, x̄_k]`, `i < k`, a vector `t · (1, 1, 1)` has that form only for `t = 0`, and
   `u(u-1)/2 ≠ 0`. The same computation on the pairs among `x_1, x_2, x_3` works for every
   `r ≥ 3`. ⚠ It proves nothing for `r = 2`, where `[x̄_1 + x̄_2, ḡ]` already sweeps out all of
@@ -257,8 +269,9 @@ intersection, `c 0 = 1` and `Ψ (c, d) ∈ ⋂_n γ_n(F) = ⊥` (PA-3.1
 ⚠ *Nearby false statement:* the identity fails for a non-unit exponent, and the failure is
 visible at the second level. For `p = 2`, `r = 2` and `u = 2` the required equation
 `x_1^2 * c⁻¹ x_2^2 c = d⁻¹ (x_1 x_2)^2 d` is unsolvable already in `F ⧸ γ_2(F)`: in `gr_1(F)`,
-which is `ℤ_2 · [x̄_1, x̄_2]` (PA-3.4), the two sides differ by the class `[x̄_2, x̄_1]` of
-`(x_1 x_2)^2 (x_1^2 x_2^2)⁻¹`, which is not divisible by `2`, while every correction lies in
+which is `ℤ_2 · [x̄_1, x̄_2]` (PA-3.4 `lcsGradedPiece_one_freeProP_bijective`), the two sides
+differ by the class `[x̄_2, x̄_1]` of `(x_1 x_2)^2 (x_1^2 x_2^2)⁻¹`, which is not divisible by
+`2`, while every correction lies in
 `2 · gr_1(F)`. The unit hypothesis is load-bearing in 1.3, where `u • gr_n = gr_n` is used.
 
 ⚠ *Nearby false statement:* the correction step does not terminate at a finite level. `γ_n(F)`
@@ -341,16 +354,23 @@ hold, on the principal units, is Layer 3.5.
 
 ### 3.2 Topology
 
-- **Closedness.** `peripheralAut x` is closed in `ContinuousAut F` for the congruence topology:
-  the set of pairs `(φ, u)` with `IsPeripheralAut x u φ` is closed in `ContinuousAut F × ℤ_pˣ`,
-  because each condition `IsConj (y ^[p] u) (φ y)` is closed (PA-2.2 `ContinuousAut.isClosed_isConj`
-  together with continuity of `u ↦ y ^[p] u`), and `ℤ_pˣ` is compact, so the projection of that
-  closed set to `ContinuousAut F` is closed. Hence `peripheralAut x` is a profinite group.
-- **Continuity of the exponent.** `exponent x` is continuous: composed with reduction modulo
-  `p ^ k`, it factors through the action on the finite quotient `F ⧸ γ_1(F) F^{p^k}`, a
-  topologically characteristic open normal subgroup, on which the exponent is read off from the
-  image of `x_1`.
-  *Needs:* PA-2.2; PA-1.3 continuity of `padicPow`; M `IsCompact.image`, `IsCompact.isClosed`.
+- **The graph.** The set `R` of pairs `(φ, u)` with `IsPeripheralAut x u φ` is closed in
+  `ContinuousAut F × ℤ_pˣ` (`isClosed_peripheralGraph`). Each condition `IsConj (y ^[p] u) (φ y)`
+  is the preimage of the set of conjugate pairs of `F`, which is closed (PA-2.2), under the map
+  `(φ, u) ↦ (y ^[p] u, φ y)`, which is continuous (PA-2.2 `ContinuousAut.continuous_eval` and the
+  continuity of `padicPow`). Since `ContinuousAut F` is profinite (PA-2.2
+  `ContinuousAut.compactSpace`) and `ℤ_pˣ` is compact, `R` is compact.
+- **Closedness.** `peripheralAut x` is the image of `R` under the first projection, a compact and
+  hence closed subset of the Hausdorff space `ContinuousAut F` (`isClosed_peripheralAut`). So
+  `peripheralAut x` is a profinite group.
+- **Continuity of the exponent.** For `r > 0` the first projection `R → peripheralAut x` is a
+  continuous bijection, surjective by the definition of `peripheralAut x` and injective by the
+  uniqueness of the exponent (Layer 0). Its source is compact and its target Hausdorff, so it is a
+  homeomorphism, and `exponent x` is the second projection composed with its inverse, hence
+  continuous (`continuous_exponent`). No finite quotient of `F` is needed.
+  *Needs:* L0 `exponent_unique`; PA-2.2 `ContinuousAut.compactSpace`, `ContinuousAut.t2Space`,
+  `ContinuousAut.continuous_eval`, the closedness of the conjugacy relation; PA-1.3 continuity of
+  `padicPow`; M `IsCompact.image`, `IsCompact.isClosed`, `Continuous.homeoOfEquivCompactToT2`.
 
 ### 3.3 The reflection
 
@@ -374,33 +394,62 @@ hold, on the principal units, is Layer 3.5.
 
 - **The predicate with a permutation.** `IsPeripheralPermAut x σ u φ`, for
   `σ : Equiv.Perm (Fin (r + 1))`, says `IsConj (peripheralTuple x (σ i) ^[p] u) (φ (peripheralTuple x i))`
-  for every `i`. These automorphisms form a subgroup with a homomorphism to
-  `Equiv.Perm (Fin (r + 1)) × ℤ_pˣ` whose kernel is the exponent-one, permutation-free part.
+  for every `i`. The automorphisms satisfying it for some `(σ, u)` form a subgroup
+  `peripheralPermAut x`: if `φ` has data `(σ, u)` and `ψ` has `(τ, v)`, then `φ * ψ` has
+  `(σ * τ, u * v)` and `φ⁻¹` has `(σ⁻¹, u⁻¹)`.
+- **The data is determined in rank at least two.** For `r ≥ 2`, `φ` determines `σ` and `u`
+  (`IsPeripheralPermAut.unique`). In `gr_0(F) ≅ ℤ_p ^ r` (PA-3.4
+  `lcsGradedPiece_zero_freeProP_bijective`) two sets of data give `u · t̄_{σ i} = u' · t̄_{σ' i}`
+  for every `i`, where `t̄_0, …, t̄_r` are the classes of the peripheral tuple; and when `r ≥ 2`
+  any two distinct classes among `x̄_1, …, x̄_r` and `z̄ = -(x̄_1 + ⋯ + x̄_r)` are
+  `ℤ_p`-independent, so `σ = σ'`, and then `u = u'`. Hence the data define a homomorphism
+  `permData : peripheralPermAut x →* Equiv.Perm (Fin (r + 1)) × ℤ_pˣ`
+  (`isPeripheralPermAut_permData`), whose kernel is the exponent-one, permutation-free part.
+
+  ⚠ *Nearby false statement:* in rank one the data is not determined, and there is no such
+  homomorphism. For `r = 1` the peripheral tuple is `(x, x⁻¹)`, and the automorphism
+  `x ↦ x ^[p] u` of `F ≅ ℤ_p` is permutation-peripheral both for `(1, u)` and for
+  `(swap 0 1, -u)` (`exists_isPeripheralPermAut_swap_rank_one`).
 - **Rank two.** The swap `x_1 ↦ x_2`, `x_2 ↦ x_1` is peripheral for the transposition of the
   first two classes, with `cusp x = (x_1 x_2)⁻¹ ↦ (x_2 x_1)⁻¹ = x_1⁻¹ * cusp x * x_1`. The rotation
   `x_1 ↦ x_2`, `x_2 ↦ cusp x` sends `cusp x` to `x_1` exactly and is peripheral for the
   three-cycle. Both have exponent `1`, and together with the inner automorphisms and the
   reflection they generate the image of the discrete mapping class group of the thrice-punctured
   sphere.
-  *Needs:* L0; L2.2; M `Equiv.Perm`, `Fin.snoc`.
+  *Needs:* L0; L2.2; PA-3.4 `lcsGradedPiece_zero_freeProP_bijective`; M `Equiv.Perm`, `Fin.snoc`.
 
 ### 3.5 The section over the principal units
 
-- **The principal units.** Let `U := MonoidHom.ker (Units.map (PadicInt.toZModPow k))`, the
-  subgroup `1 + p^k ℤ_p` of `ℤ_pˣ`, with `k = 1` for `p` odd and `k = 2` for `p = 2` (the
-  supplier's `unitsPrincipal 2` in the dyadic case). `U` is procyclic and pro-`p`, topologically
-  generated by `1 + p^k`.
-- **The section.** There is a continuous homomorphism `section x : U →* peripheralAut x` with
-  `exponent x (section x v) = v` for every `v ∈ U`. Construction: take one peripheral
-  automorphism `φ` of exponent `1 + p^k` (Layer 2), replace it by its `p`-part `φ ^ᶻ ω_p` in the
-  profinite group `peripheralAut x` (PA-1.2), which is again peripheral, of exponent
-  `(1 + p^k) ^ᶻ ω_p = 1 + p^k` because `U` is pro-`p`, and whose closed procyclic subgroup is
-  pro-`p`; then `v ↦ (φ ^ᶻ ω_p) ^[p] λ(v)` for the unique `λ(v) ∈ ℤ_p` with
-  `(1 + p^k) ^[p] λ(v) = v` is the required homomorphism, continuous because it is a composite of
-  continuous maps, and of exponent `v` by naturality of `^[p]` under the continuous homomorphism
-  `exponent x`.
-  *Needs:* L2, L3.1, L3.2; PA-1.1, PA-1.2, PA-1.3; PPG-7 `unitsPrincipal`; M
-  `PadicInt.toZModPow`, `Units.map`, `MonoidHom.ker`.
+- **The principal units.** Let `k = 1` for `p` odd and `k = 2` for `p = 2`, and let
+  `U := TauCeti.unitsPrincipal p k`, the subgroup `1 + p^k ℤ_p` of `ℤ_pˣ`: Tau Ceti's generic
+  principal units, of which ProfiniteProPGroups' dyadic `unitsPrincipal 2` is the case `p = 2`.
+  `U` is closed, open and pro-`p` (`TauCeti.isClosed_unitsPrincipal`,
+  `TauCeti.isOpen_unitsPrincipal`, `TauCeti.isProP_unitsPrincipal`).
+- **Its parameterization.** The unit `w := 1 + p^k` has exact level `k`: `p^k` divides `w - 1` and
+  `p^(k+1)` does not (`TauCeti.mem_unitsPrincipal_iff`), because `w - 1 = p` for odd `p` and
+  `w - 1 = 4` for `p = 2`, where `w = 5`. So `w` topologically generates `U`
+  (`TauCeti.topologicalClosure_zpowers_eq_unitsPrincipal`, whose hypotheses `0 < k` and
+  `p = 2 → 2 ≤ k` hold), and `l ↦ w ^[p] l` is a topological isomorphism
+  `principalUnitsEquiv : Multiplicative ℤ_[p] ≃ₜ* U` with `ofAdd 1 ↦ w`
+  (`principalUnitsEquiv_ofAdd_one`). Its inverse `λ` is a continuous homomorphism with
+  `w ^[p] λ(v) = v`.
+- **The carrier.** `peripheralAut x` is profinite (3.2) but not pro-`p` for odd `p`: the exponent
+  maps it onto `ℤ_pˣ`, which contains `μ_{p-1}`. So `^[p]` is not available in it. Choose one
+  peripheral automorphism `φ` of exponent `w` (Layer 2) and let `q := φ ^ᶻ ω_p` be its `p`-part in
+  the profinite group `peripheralAut x` (PA-1.2). The closed procyclic subgroup
+  `Q := closedZpowers q` is pro-`p` (PA-1.2 `isProP_closedZpowers_zpowHat_idem`) and lies in
+  `peripheralAut x`, which is closed. All `ℤ_p`-powers below are taken in `Q`.
+- **The section.** By naturality of `^ᶻ` under the continuous homomorphism `exponent`,
+  `exponent q = w ^ᶻ ω_p = w`, the last step because `w` lies in the pro-`p` group `U` (PA-1.2
+  `zpowHat_idem_of_isProP`). So `exponent` restricts to a continuous homomorphism `Q → U` between
+  pro-`p` groups. Define `section x : U →* peripheralAut x` as the composite of three continuous
+  homomorphisms: `λ : U → Multiplicative ℤ_[p]`; `l ↦ q ^[p] l` into `Q` (Tau Ceti's
+  `TauCeti.IsProP.padicPowHom` for `Q`); and the inclusion `Q → peripheralAut x`. Then
+  `exponent (section x v) = w ^[p] λ(v) = v`, by naturality of `^[p]` under `Q → U` (PA-1.3
+  `map_padicPow`). This is `exists_section_principalUnits`.
+  *Needs:* L2, L3.1, L3.2; PA-1.1 `zpowHat`; PA-1.2 `closedZpowers`,
+  `isProP_closedZpowers_zpowHat_idem`, `zpowHat_idem_of_isProP`; PA-1.3 `padicPow`,
+  `map_padicPow`; TC `TauCeti.unitsPrincipal` and the API above, `TauCeti.IsProP.padicPowHom`.
 
   ⚠ No milestone asserts a homomorphic section over all of `ℤ_pˣ`. Over the torsion subgroup
   `μ_{p-1}` (for `p` odd) or `{±1}` (for `p = 2`) a section is a peripheral automorphism of finite
@@ -428,8 +477,8 @@ hold, on the principal units, is Layer 3.5.
   at `q = P⁻¹`, `y = C`. Both conventions are stated, so that neither consumer needs new
   mathematics.
 - **The dyadic section.** Layer 3.5 at `p = 2`: a continuous homomorphic section of the exponent
-  over `unitsPrincipal 2 = 1 + 4ℤ₂`, topologically generated by `5`.
-  *Needs:* L1, L2, L3.5; PPG-4 `freeProP 2 (Fin 2)`; PPG-7 `unitsPrincipal`; BM-13.3.
+  over `TauCeti.unitsPrincipal 2 2 = 1 + 4ℤ₂`, topologically generated by `5`.
+  *Needs:* L1, L2, L3.5; PPG-4 `freeProP 2 (Fin 2)`; TC `TauCeti.unitsPrincipal`; BM-13.3.
 
   ⚠ The three conjugators are independent, and the theorem is stated for every unit; both
   points are inherited from Layer 2, and neither is weakened here.
@@ -485,9 +534,15 @@ Layer 1; 3.5 needs 3.1, 3.2 and ProfiniteArithmetic 1.2. Layer 4 is the speciali
   closedness in the congruence topology is a theorem.
 - The reflection is defined for every rank with explicit conjugators, and the rank-three failure
   of plain inversion is a proved nearby-false statement.
-- The section over the principal units is a continuous homomorphism built from one automorphism
-  by the `ℓ`-part and `ℤ_p`-power calculus of ProfiniteArithmetic; no section over all of `ℤ_pˣ`
-  is claimed.
+- The section over the principal units is a composite of named continuous homomorphisms: the
+  inverse of `principalUnitsEquiv` on Tau Ceti's `unitsPrincipal`, the `ℤ_p`-power taken in the
+  pro-`p` subgroup `closedZpowers q`, and the inclusion. No `ℤ_p`-power is taken in
+  `peripheralAut x` itself, and no section over all of `ℤ_pˣ` is claimed.
+- The continuity of the exponent is proved from the closed graph `isClosed_peripheralGraph` and
+  compactness, with no finite quotient of `F`.
+- The permutation-and-exponent homomorphism `permData` is defined only for `r ≥ 2`, where
+  `IsPeripheralPermAut.unique` holds; the rank-one failure is a stated nearby-false statement.
+- There is no local principal-unit subgroup: `U` is Tau Ceti's `TauCeti.unitsPrincipal`.
 - The dyadic instance states both conventions for the third element and the identity form, and
   imports `conjugation_transfer` from BelyiMaps rather than reproving it.
 - Nothing in the roadmap mentions a Galois group, a fundamental group or a cyclotomic character
