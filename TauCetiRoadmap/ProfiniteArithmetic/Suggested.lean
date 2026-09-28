@@ -550,13 +550,35 @@ theorem ContinuousAut.continuous_eval [CompactSpace G] [TotallyDisconnectedSpace
     Continuous (fun p : ContinuousAut G × G => p.1 p.2) :=
   sorry
 
+/-- **Layer 2.2, the conjugacy relation.** In a compact, totally disconnected topological group the
+set of conjugate pairs is closed: it is the image of the compact space `G × G` under
+`(g, x) ↦ (x, g x g⁻¹)`, and `G × G` is Hausdorff. This is the form a closed-graph argument
+consumes, when both arguments of `IsConj` vary. -/
+theorem isClosed_isConj_pair [CompactSpace G] [TotallyDisconnectedSpace G] :
+    IsClosed {q : G × G | IsConj q.1 q.2} := by
+  have hc : Continuous fun gx : G × G => (gx.2, gx.1 * gx.2 * gx.1⁻¹) := by fun_prop
+  have hrange : Set.range (fun gx : G × G => (gx.2, gx.1 * gx.2 * gx.1⁻¹))
+      = {q : G × G | IsConj q.1 q.2} := by
+    ext ⟨a, b⟩
+    simp only [Set.mem_range, Prod.mk.injEq, Set.mem_ofPred_eq, isConj_iff, Prod.exists]
+    constructor
+    · rintro ⟨g, x, rfl, rfl⟩
+      exact ⟨g, rfl⟩
+    · rintro ⟨c, rfl⟩
+      exact ⟨c, a, rfl, rfl⟩
+  rw [← hrange]
+  exact (isCompact_range hc).isClosed
+
 /-- **Layer 2.2.** The conjugacy condition `IsConj (φ x) y` cuts out a closed set of
-automorphisms; this is what makes the peripheral automorphisms of a free pro-`p` group a closed
-subgroup. -/
+automorphisms: the preimage of the closed conjugacy relation `isClosed_isConj_pair` under the
+continuous map `φ ↦ (φ x, y)`. -/
 theorem ContinuousAut.isClosed_isConj [CompactSpace G] [TotallyDisconnectedSpace G]
     (hfg : IsTopologicallyFinitelyGenerated G) (x y : G) :
     IsClosed {φ : ContinuousAut G | IsConj (φ x) y} :=
-  sorry
+  (isClosed_isConj_pair G).preimage (f := fun φ : ContinuousAut G => ((φ x, y) : G × G))
+    (((ContinuousAut.continuous_eval G hfg).comp
+      (continuous_id.prodMk (continuous_const : Continuous fun _ : ContinuousAut G => x))).prodMk
+      continuous_const)
 
 /-- **Layer 2.3.** The action of the outer group on conjugacy classes. -/
 noncomputable instance : MulAction (ContinuousOut G) (ConjClasses G) :=

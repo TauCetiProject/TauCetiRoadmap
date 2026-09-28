@@ -167,7 +167,8 @@ universal property `PadicInt.lift` with `PadicInt.lift_spec` and `PadicInt.lift_
 `commutator`, `ContinuousAddEquiv`, `DiscreteTopology`, `ClosedSubgroup`, `ConjAct`,
 `MulAction.compHom`, `MulAction.orbitRel`, `QuotientGroup.map`,
 `Subgroup.Characteristic`, `frattini`, `frattini_nongenerating`, `IsPGroup`, `IsPGroup.isNilpotent`,
-`Group.IsNilpotent`, `OpenNormalSubgroup`, `IsCompact.image`, `IsCompact.isClosed`,
+`Group.IsNilpotent`, `OpenNormalSubgroup`, `isConj_iff`, `isCompact_range`, `IsCompact.image`,
+`IsCompact.isClosed`,
 `IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed`, `DirectSum`, `LieRing`,
 `LieAlgebra`.
 
@@ -421,12 +422,17 @@ milestone depends on an unmerged roadmap.
   automorphisms of `G = lim G ⧸ N`. In this case the evaluation `ContinuousAut G × G → G` is
   continuous, `ContinuousOut G` is profinite for the quotient topology, and the range of `conj`
   is closed.
+- **Closedness of the conjugacy relation.** If `G` is compact and totally disconnected, the set
+  of conjugate pairs `{q : G × G | IsConj q.1 q.2}` is closed (`isClosed_isConj_pair`): it is the
+  image of the compact space `G × G` under `(g, x) ↦ (x, g * x * g⁻¹)`, and `G × G` is Hausdorff.
+  This binary form is the export for closed-graph arguments, in which both arguments of `IsConj`
+  vary; PeripheralActions Layer 3.2 consumes it in that form.
 - **Closedness of the automorphism conditions.** For `x y : G`, the set of `φ` with `φ x = y`
-  is closed, and so is the set of `φ` with `IsConj (φ x) y`. The second uses that the conjugacy
-  class of `y` is compact, as the image of `G` under `g ↦ g * y * g⁻¹`, and that the set of
-  conjugate pairs `{(a, b) | IsConj a b}` is closed in `G × G` for the same reason.
+  is closed, and so is the set of `φ` with `IsConj (φ x) y` (`ContinuousAut.isClosed_isConj`),
+  the preimage of the closed relation `isClosed_isConj_pair` under the continuous map
+  `φ ↦ (φ x, y)`, continuous by `ContinuousAut.continuous_eval`.
   *Needs:* PPG-3 finitely many open subgroups of each index, `IsTopologicallyFinitelyGenerated`;
-  M `MulAut`, `OpenNormalSubgroup`, `IsCompact.image`, `IsCompact.isClosed`.
+  M `MulAut`, `OpenNormalSubgroup`, `isConj_iff`, `isCompact_range`, `IsCompact.isClosed`.
   *Source:* Ribes–Zalesskii §4.4.
 
   ⚠ Every profiniteness statement carries `IsTopologicallyFinitelyGenerated` and the profinite
@@ -514,7 +520,7 @@ milestone depends on an unmerged roadmap.
 - **Triviality of the intersection.** If `G` is pro-`p` then `⨅ n, γ_n(G) = ⊥`: every open normal
   subgroup `U` has a finite `p`-group quotient, which is nilpotent (`IsPGroup.isNilpotent`), so
   `γ_c(G) ≤ U` for `c` its nilpotency class, and the open normal subgroups of a profinite group
-  intersect in `⊥`. The same argument gives the statement for every pronilpotent group.
+  intersect in `⊥`.
   *Needs:* TC `TauCeti.pLowerCentralSeries` and its laws; L2.2 `IsTopCharacteristic`;
   M `Subgroup.lowerCentralSeries`, `Subgroup.topologicalClosure`, `IsPGroup.isNilpotent`;
   PPG-3 `IsProP`.
@@ -657,8 +663,11 @@ needs nothing beyond Mathlib and can start at once; 2.2 needs ProfiniteProPGroup
 needs 2.2; 2.4 needs 2.2 and ProfiniteProPGroups Layers 3 and 4. Layers 3.1 and 3.2 consume Tau
 Ceti's lower `p`-series and need, beyond it, Layer 2.2's `IsTopCharacteristic` for the
 characteristic statement and Layer 1.3 for the `ℤ_p`-statements; 3.3 needs 3.2; 3.4 needs 3.2, 3.3,
-Layer 1.3 and ProfiniteProPGroups Layer 4, and its Heisenberg group needs only Mathlib. Apart from `IsTopCharacteristic`, Layers 2 and 3 are independent of
-each other, and both are independent of Layer 1 except where a `^[ℓ]` statement is involved.
+Layer 1.3 and ProfiniteProPGroups Layer 4. Its detecting group is Tau Ceti's algebraic
+`TauCeti.HeisenbergGroup ℤ_[p]`, and 3.4 adds the topology, the compactness and total
+disconnectedness, and the pro-`p` property that the detection argument uses. Apart from
+`IsTopCharacteristic`, Layers 2 and 3 are independent of each other, and both are independent of
+Layer 1 except where a `^[ℓ]` statement is involved.
 
 ## Acceptance checklist
 
@@ -674,6 +683,9 @@ each other, and both are independent of Layer 1 except where a `^[ℓ]` statemen
   construction; it is stated only on pro-`ℓ` groups with `[Fact ℓ.Prime]`, and its comparison with
   `^ᶻ` goes through `component ℓ` and the identification of the maximal pro-`ℓ` quotient of `ẑ`.
 - `ContinuousAut G` is a group by composition with `(φ * ψ) x = φ (ψ x)`; `conj g x = g * x * g⁻¹`.
+- The closedness of conjugate pairs in a compact, totally disconnected group is the exported
+  binary theorem `isClosed_isConj_pair` on `G × G`, and `ContinuousAut.isClosed_isConj` is its
+  preimage along `φ ↦ (φ x, y)`, not a separate argument.
 - `mapQuotient` is pinned by its value on classes, and `outerAction_mk` chooses one conjugating
   automorphism for all of `N`.
 - Profiniteness of `ContinuousAut G` is stated for a topologically finitely generated profinite
