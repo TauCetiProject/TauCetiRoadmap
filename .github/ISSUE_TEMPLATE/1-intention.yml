@@ -43,24 +43,28 @@ body:
         - HeegaardFloer
         - HodgeStructures
         - HopfRinow
+        - IntegralLattices
         - JacobianChallenge
         - LocalFieldsRamification
+        - LocalGaloisGroups
         - ModularForms
         - Multiquadratic
         - NumberFieldArithmetic
         - OneParameterSemigroups
         - OptimalTransport
+        - OrthogonalSpinGroups
         - PDE
         - PolynomialGaloisGroups
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
+        - RealAlgebraicGeometry
         - ReductiveGroups
         - RepresentationTheory
+        - RestrictedProducts
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
-        - UniversalCovers
         - ZigzagPreprojective
     validations:
       required: true

@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"OrthogonalSpinGroups","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2","ts":"2026-09-26T20:53:39Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","remaining":"0C's SO(Q) ≃* SO(B), as no SO(B) is defined; the worked examples SO(H) ≅ Kˣ through the diagonal torus and O(Q) = {±1} in dimension one","state":"partial"},{"id":"Layer 1","remaining":"1F: Spin(Q) = U(C₀, σ) in dimensions 1 to 5 and dimension-six strictness; the named 1E rescaling criterion and ℚ rejection test; 1C base change; the general-field centre","state":"partial"},{"id":"Layer 2","remaining":"local topology (2A, 2B, 2D, 2E, 2G); the anisotropic p-adic rows and local kernel indices of 2F; base change and continuity of transvections","state":"partial"},{"id":"Layer 3","remaining":"all of 3C to 3G: compact-open data, adelic O, SO and Spin, diagonals, adelic spinor norm, double cosets; needs the topology of 2B","state":"untouched"}],"readme_sha":"0196a284802bf6a05f9aaa6553a77acc64a11dad2fe2520cdecd90f91d31c435","roadmap":"OrthogonalSpinGroups","to_sha":"759eb3ef9658ad1d756b2d42bc5882bb394586c2"}-->
+# Status: OrthogonalSpinGroups
+
+This file documents the status of the OrthogonalSpinGroups roadmap up until `759eb3e` (2026-09-26T20:53:39Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** No layer is complete. Layer 0 lacks only small items; Layer 1 has its central theorems, including a spinor norm whose kernel on SO(Q) is exactly the image of Spin, but not the low-rank identification of 1F; Layer 2 has the transvections with their Spin lifts and the real, dimension-one and isotropic rows of the local table but no local topology; Layer 3 has not begun.
+
+### Named results
+
+- **The image of Spin is the spinor kernel** — for a nondegenerate finite-dimensional space over a field of characteristic not two, the image of `Spin(Q) → SO(Q)` is exactly the kernel of the spinor norm ([`range_spinToSpecialOrthogonal_eq_ker_spinorNorm`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/SpinorNorm/Basic.html#CliffordAlgebra.range_spinToSpecialOrthogonal_eq_ker_spinorNorm)).
+- **Lipschitz elements acting trivially are scalars** — for nondegenerate Q, an element of Mathlib's closure-defined Lipschitz group acts trivially on V exactly when it is a nonzero scalar, which rests on the general-field graded-centre theorem and makes the spinor norm well defined ([`ker_lipschitzToOrthogonal`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Lipschitz/Kernel.html#CliffordAlgebra.ker_lipschitzToOrthogonal)).
+- **Mathlib's Spin group through the reverse norm** — `spinGroup Q` is exactly the even Lipschitz elements with `reverse x * x = 1`, so Mathlib's star-unitary definition fits a spinor norm sending `τ_v` to `[Q v]` ([`mem_spinGroup_iff_mem_even_and_cliffordNorm_eq_one`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Lipschitz/ReverseNorm.html#CliffordAlgebra.mem_spinGroup_iff_mem_even_and_cliffordNorm_eq_one)).
+- **Spin lifts of Eichler transvections** — for a nonzero isotropic `u`, `w ↦ 1 + ι w · ι u` is an injective homomorphism from `u^⊥ / K·u` into Spin(Q) lifting the transvections `w ↦ E_{u,w}` ([`spinToSpecialOrthogonal_comp_spinTransvectionHom`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Transvection.html#CliffordAlgebra.spinToSpecialOrthogonal_comp_spinTransvectionHom)).
+- **Surjectivity for isotropic spaces** — the spinor norm of any nondegenerate isotropic space takes every square class on SO(Q) ([`spinorNorm_surjective_of_not_anisotropic`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/SpinorNorm/Isotropic.html#CliffordAlgebra.spinorNorm_surjective_of_not_anisotropic)).
+
+### Notable definitions and infrastructure
+
+- [`cliffordNorm`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Lipschitz/ReverseNorm.html#CliffordAlgebra.cliffordNorm), the reverse norm `x ↦ reverse x * x` on the Lipschitz group, equal to `Q v` on a vector; the spinor norm descends from it, which fixes the sign convention.
+- [`orthogonalGroupBaseChange`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/QuadraticForm/BaseChange.html#TauCeti.QuadraticMap.orthogonalGroupBaseChange), the injective map `O(Q) → O(Q ⊗ L)`, along which the spinor norm commutes with the pushforward of square classes ([`orthogonalSpinorNorm_orthogonalGroupBaseChange`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/SpinorNorm/BaseChange.html#CliffordAlgebra.orthogonalSpinorNorm_orthogonalGroupBaseChange)); Layer 3 will localize with it.
+- [`evenUnitaryGroup`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/EvenUnitary.html#CliffordAlgebra.evenUnitaryGroup), the even Clifford units with `reverse x * x = 1`, whose meet with the Lipschitz group is Mathlib's Spin group ([`range_spinGroup_toUnits`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/EvenUnitary.html#CliffordAlgebra.range_spinGroup_toUnits)): the carrier 1F is to be stated against.
+
+### Roadmap coverage
+
+Layer 0 is partial, missing only small items: 0A, 0B, 0D, 0E and 0F are proved and 0C is proved as the equality of O(Q) with the isometry group of the polar form, but no SO(B) exists for `SO(Q) ≃* SO(B)`, and the Layer 0 worked examples (SO of the hyperbolic plane through the diagonal torus, `O(Q) = {±1}` in dimension one) are not stated. Layer 1 is partial: 1A and 1D are done; 1B, 1C and 1E lack, respectively, the general-field ungraded centre, base change of the vector representation, and the named rescaling criterion with the rejection test over ℚ; 1F has its carrier, identified only in the positive definite real three-dimensional case. Layer 2 is partial: 2C lacks only base change and continuity of transvections, 2F has its real, dimension-one and isotropic rows, 2H holds for every field extension, and 2A, 2B, 2D, 2E and 2G are untouched apart from compactness of the standard positive definite real SO(n) and Spin(n). Layer 3 is untouched.
+
+## The frontier
+
+- **Spin as the even unitary group (1F)** — prove that `U(C₀, σ)` lies in the Lipschitz group for nondegenerate Q with `1 ≤ dim V ≤ 5`, giving `Spin(Q) = U(C₀, σ)`, then the readings in dimensions three, four (split and nonsplit) and five, and the dimension-six witness that the equality stops there.
+- **Anisotropic p-adic rows (2F)** — the image for an anisotropic binary form over `ℚ_p` (index two, the norms from its discriminant extension), surjectivity for anisotropic ternary and quaternary forms, and the local spinor kernel indices 4 for odd `p` and 8 at `p = 2`.
+- **Local topology (2A, 2B, 2D, 2E)** — the module topology on `V ≃ₗ[K] V`, closed and locally compact point groups, the compactness criteria (definite over ℝ, anisotropic over `ℚ_p`) and an open spinor kernel; continuity of transvections waits on it.
+- **Layer 1 loose ends** — `exists_scalarUnits_mul_mem_spinGroup_iff` as a named theorem (its argument sits inside the exactness proof), base change of the vector representation, the general-field centre, and the proof that Spin → SO is not onto for the hyperbolic plane over ℚ.
+- **Adelic points (Layer 3)** — the generic restricted-product carriers exist in TauCeti, but everything here is stated against the topology of 2B, so it waits on that.
