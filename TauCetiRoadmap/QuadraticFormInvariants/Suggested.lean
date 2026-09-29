@@ -33,8 +33,10 @@ This file fixes the design decisions that are most likely to fork two implementa
 * the realization constraints of the local classification (Layer 6D);
 * the operations on mod-2 Galois cohomology (Layer 7A);
 * the crossed-product package that the comparison `Br(K) ≃ H²` is built from (Layer 7B);
-* the Scharlau transfer and the degree-2 Evens-Kahn identity, with the conjugation and sign
-  conventions the supplier's Evens norm carries (Layer 9).
+* the Scharlau transfer and the twisted trace form, the value of the Evens norm on a Kummer
+  class through the `Pin⁺` lift of `C₂ ≀ C₂` in explicit `2 × 2` matrices, and the relative
+  Stiefel-Whitney formula it proves, with the conjugation and sign conventions the supplier's
+  Evens norm carries (Layer 9).
 
 **Supplier carriers are canonical.** This roadmap imports the final declarations from
 `ProfiniteCohomology`, `LocalFieldsRamification`, and `ClassFieldTheory`; it does not package
@@ -2345,6 +2347,12 @@ theorem sw2Class_mk [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
     sw2Class K (Quotient.mk (regularFormSetoid K) ⟨n, w⟩) = sw2 w :=
   sorry
 
+/-- **Layer 8, `w₁` is the Kummer class of the discriminant,** on classes: the first low-degree
+identity `w₁(q) = (d(q))`, with the plain discriminant and not `d±`. -/
+theorem sw1Class_eq_discr [Invertible (2 : K)] (q : RegularFormClass K) :
+    sw1Class K q = kummerSquareClassEquiv K (Additive.ofMul (discr q)) :=
+  sorry
+
 /-- **Layer 8, `w₁` and `w₂` are invariants of isometry.** Two regular forms that are
 `QuadraticMap.Equivalent` have the same classes, since they have the same class in
 `RegularFormClass K`. This is the statement a consumer needs in order to apply Layer 9 to a form
@@ -2439,6 +2447,61 @@ example [Invertible (2 : K)] (d : Kˣ) :
     (LinearMap.BilinMap.toQuadraticMap
         (Algebra.traceForm K (QuadraticAlgebra K (d : K) 0))).Equivalent
       (weightedSumSquares K ![(2 : K), 2 * d]) :=
+  sorry
+
+/-! ### Layer 9: the twisted trace form
+
+For `L = K(x)` with `x² = d` and `a : Lˣ`, the transfer `Tr_*⟨a⟩ : y ↦ Tr_{L/K}(a y²)` of the
+rank-one form `⟨a⟩`. The statements use this file's `scharlauTransfer s q` and multiplicative
+`discr`; Tau Ceti's `TauCeti/LinearAlgebra/QuadraticForm/Transfer/` writes the same transfer
+`q.scharlauTransfer s` and `q.traceTransfer K`, and its additive `RegularFormClass.discr` is valued
+in `SquareClassGroup K`. -/
+
+/-- **Layer 9, the norm in square-root coordinates,** `N(u + v x) = u² − v² d`: the matrix of
+multiplication by `u + v x` in the basis `(1, x)` is `[[u, v d], [v, u]]`. The trace companion
+`Tr (u + v x) = 2 u` is Tau Ceti's
+`TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range`, which gives `Tr x = 0`. -/
+theorem norm_add_mul_of_sq {L : Type u} [Field L] [Algebra K L] {x : L} {d : K}
+    (hfin : Module.finrank K L = 2) (hx : x ∉ Set.range (algebraMap K L))
+    (hx2 : x ^ 2 = algebraMap K L d) (u v : K) :
+    Algebra.norm K (algebraMap K L u + algebraMap K L v * x) = u ^ 2 - v ^ 2 * d :=
+  sorry
+
+/-- **Layer 9, the twisted trace form in Kahn's basis.** For `Tr a ≠ 0` the elements `1` and
+`x / a` are orthogonal for `Tr_*⟨a⟩`, because `Tr (a · x / a) = Tr x = 0`, and their values are
+`Tr a` and `Tr (d / a) = d · Tr a / N a`; they are independent, because `x / a ∈ K` would put `a` in
+`K x` and force `Tr a = 0`. So `Tr_*⟨a⟩ ≅ ⟨Tr a, d · Tr a / N a⟩`, the basis in which the value of
+the Evens norm below is computed. ⚠ `Tr a ≠ 0` is load-bearing: at `Tr a = 0` the two entries are
+`0` and the form is hyperbolic, not `⟨0, 0⟩`. -/
+theorem traceTransfer_weightedSumSquares_equivalent [Invertible (2 : K)] {L : Type u} [Field L]
+    [Algebra K L] [FiniteDimensional K L] [Algebra.IsSeparable K L] {x : L} {d : K}
+    (hfin : Module.finrank K L = 2) (hx : x ∉ Set.range (algebraMap K L))
+    (hx2 : x ^ 2 = algebraMap K L d) (a : Lˣ) (htr : Algebra.trace K L (a : L) ≠ 0) :
+    (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Equivalent
+      (weightedSumSquares K
+        ![Algebra.trace K L (a : L), d * Algebra.trace K L (a : L) / Algebra.norm K (a : L)]) :=
+  sorry
+
+/-- **Layer 9, the twisted trace form at trace zero is hyperbolic.** `Tr_*⟨a⟩ (1) = Tr a = 0`, so
+the regular binary form `Tr_*⟨a⟩` is isotropic, hence `≅ ⟨1, −1⟩`. -/
+theorem traceTransfer_weightedSumSquares_equivalent_hyperbolic [Invertible (2 : K)] {L : Type u}
+    [Field L] [Algebra K L] [FiniteDimensional K L] [Algebra.IsSeparable K L]
+    (hfin : Module.finrank K L = 2) (a : Lˣ) (htr : Algebra.trace K L (a : L) = 0) :
+    (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Equivalent
+      (weightedSumSquares K ![(1 : K), -1]) :=
+  sorry
+
+/-- **Layer 9, the discriminant of the twisted trace form,** `d(Tr_*⟨a⟩) = d · N a` in square
+classes: in Kahn's basis `Tr a · (d · Tr a / N a) ≡ d · N a`, and at trace zero `a = v x` and
+`−1 ≡ d · N (v x) = −v² d²`. With Layer 8's `sw1Class_eq_discr` and Layer 7A's
+`galoisCor_kummerClass` this is the whole of the degree-1 formula. -/
+theorem discr_traceTransfer [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [FiniteDimensional K (Fin 1 → L)]
+    {x : L} (d : Kˣ) (hfin : Module.finrank K L = 2)
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ)
+    (ha : (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Nondegenerate) :
+    discr (formClass _ ha) =
+      QuotientGroup.mk d * QuotientGroup.mk (Units.map (Algebra.norm K : L →* K) a) :=
   sorry
 
 /-- **Layer 9, the supplier's corestriction in degree 1, read in this file's carrier.** As with
@@ -2536,15 +2599,625 @@ theorem galoisEvens2_embedding_independent {L : Type u} [Field L] [Algebra K L]
     galoisEvens2 σ hdeg x = galoisEvens2 τ hdeg x :=
   sorry
 
+/-! ### Layer 9: the norm of a restricted class and the kernel of restriction
+
+Identity 1, `res (N x) = x ∪ σ·x`, determines `N^{Ev}` only modulo the kernel of restriction, which
+is `(d) ∪ H¹(G_K, 𝔽₂)`. The statements below identify the supplier's subgroup and character of
+`L/K`, describe that kernel, and give the value of the norm on the classes that come from `K`; the
+value on every Kummer class is computed in the next block. -/
+
+/-- **Layer 9, `galoisSubgroup K L σ` is the subgroup of `G_K` fixing `σ L`.** The supplier's
+Layer 9 describes it as the open subgroup cut out by the embedding and exports no target
+signature for that description; the shape this layer consumes is frozen here. -/
+theorem mem_galoisSubgroup_iff {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (γ : AbsoluteGaloisGroup K) :
+    γ ∈ galoisSubgroup K L σ ↔ ∀ y : L, γ (σ y) = σ y :=
+  sorry
+
+/-- **Layer 9, the character of `K(√d)/K` is the Kummer class of `d`.** `σ x` is a square root of
+`d` in `Kˢ`, and its stabilizer is `galoisSubgroup K L σ`, because `σ L = K(σ x)`; so the
+supplier's `galoisCharacter`, the class of the character with kernel `G_L`, is the Kummer class of
+`d`. ⚠ `x ∉ K` is load-bearing: for a square `d` the right-hand side is `0` and the left is not. -/
+theorem galoisCharacter_eq_kummerClass {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : K)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L}
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) :
+    galoisCharacter K L σ hdeg = kummerClass d :=
+  sorry
+
+/-- **Layer 9, identity 5 in this file's carriers,** the transport of the supplier's
+`galoisEvens_galoisRes`: `N (res y) = y ∪ y + χ_{L/K} ∪ y`, where `χ_{L/K} = (d)` by
+`galoisCharacter_eq_kummerClass`. For `y = (c)` with `c ∈ Kˣ` it agrees with the value below, since
+`Tr c = 2c` and `N c = c²`. -/
+theorem galoisEvens2_galoisRes1 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] [Invertible (2 : K)] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (y : H1 K) :
+    galoisEvens2 σ hdeg (galoisRes1 σ y) = cup11 y y + cup11 (galoisCharacter K L σ hdeg) y :=
+  sorry
+
+/-- **Layer 9, the kernel of restriction in degree two,** `ker (res_{L/K}) = (d) ∪ H¹(G_K, 𝔽₂)`,
+the transport of the supplier's `galoisRes_eq_zero_iff` through
+`galoisCharacter_eq_kummerClass`. The map is restriction and not corestriction. -/
+theorem galoisRes2_eq_zero_iff {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] [Invertible (2 : K)] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L} (hx : x ∉ Set.range (algebraMap K L))
+    (hx2 : x ^ 2 = algebraMap K L (d : K)) (z : H2 K) :
+    galoisRes2 σ z = 0 ↔ ∃ y : H1 K, z = cup11 (kummerClass d) y :=
+  sorry
+
+/-! ### Layer 9: the value of the Evens norm, through the `Pin⁺` lift of `C₂ ≀ C₂`
+
+Kahn's Lemme II.2.1: `N^{Ev}((a)) = (Tr a) ∪ (−d · N a) + (2) ∪ (d)` when `Tr a ≠ 0`, and
+`(2) ∪ (d)` when `Tr a = 0`. The proof is Serre's second proof of his Théorème 1′ at `n = 2`, in
+explicit `2 × 2` matrices, and three conventions are pinned, each against a wrong alternative that
+changes the answer:
+
+* the Clifford relations `e₁² = e₂² = +1` and `e₁ e₂ = −e₂ e₁` (`pinE1_mul_self`,
+  `pinE2_mul_self`, `pinE1_mul_pinE2`, `pinT_mul_self`), which make the lift of `C₂ ≀ C₂` the
+  dihedral group `D₁₆` of `Pin⁺` and not the quaternion group `Q₁₆`, as the supplier's `D₁₆` class
+  and Kahn's and Serre's `(2)(d)` require;
+* the twisted adjoint action `v ↦ det(x) · x v xᵀ` of an orthogonal `x`, which is
+  `(−1)^{|x|} x v x⁻¹`, so that a unit vector lifts its own reflection (`IsPinLift`);
+* the descent convention: `g ∈ G_K` acts on the coordinates of a point of `W` by `ρ_a(g)ᵀ`, an
+  anti-homomorphism in `g`, while `ρ_a` itself is a homomorphism (`kummerPoint_galois`). -/
+
+section EvensValue
+
+open scoped Matrix
+
+section PinModel
+
+variable {F : Type*} [Field F]
+
+/-- **Layer 9, the first Clifford generator** `e₁ = diag(1, −1)` of `Cl(F², ⟨1, 1⟩) = M₂(F)`. -/
+def pinE1 : Matrix (Fin 2) (Fin 2) F := !![1, 0; 0, -1]
+
+/-- **Layer 9, the second Clifford generator** `e₂`, which is also the swap matrix. -/
+def pinE2 : Matrix (Fin 2) (Fin 2) F := !![0, 1; 1, 0]
+
+/-- `e₁² = +1`: the sign that makes the lift `D₁₆` and not `Q₁₆`. -/
+theorem pinE1_mul_self : (pinE1 : Matrix (Fin 2) (Fin 2) F) * pinE1 = 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;> simp [pinE1, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- `e₂² = +1`. -/
+theorem pinE2_mul_self : (pinE2 : Matrix (Fin 2) (Fin 2) F) * pinE2 = 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;> simp [pinE2, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- `e₁ e₂ = −e₂ e₁`. -/
+theorem pinE1_mul_pinE2 : (pinE1 : Matrix (Fin 2) (Fin 2) F) * pinE2 = -(pinE2 * pinE1) := by
+  ext i j; fin_cases i <;> fin_cases j <;> simp [pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- **Layer 9, the vector** `y₀ e₁ + y₁ e₂` of `F²` inside the Clifford model. -/
+def pinVec (y : Fin 2 → F) : Matrix (Fin 2) (Fin 2) F := y 0 • pinE1 + y 1 • pinE2
+
+/-- **The Clifford relation** `v² = q(v) · 1` for the unit form `q = ⟨1, 1⟩`. -/
+theorem pinVec_mul_self (y : Fin 2 → F) :
+    pinVec y * pinVec y = (y 0 ^ 2 + y 1 ^ 2) • (1 : Matrix (Fin 2) (Fin 2) F) := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [pinVec, pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+
+/-- **Layer 9, the unit vector `t = (e₁ − e₂)/√2`,** for a square root `r2` of `2`. Its
+reflection is the swap of the two coordinates. -/
+noncomputable def pinT (r2 : F) : Matrix (Fin 2) (Fin 2) F := r2⁻¹ • (pinE1 - pinE2)
+
+/-- `t² = +1`. -/
+theorem pinT_mul_self [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) : pinT r2 * pinT r2 = 1 := by
+  have h2 : (2 : F) ≠ 0 := two_ne_zero' F
+  have hr : r2 ≠ 0 := by
+    rintro rfl
+    exact h2 (by simpa using hr2.symm)
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [pinT, pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two]
+  all_goals (field_simp; linear_combination -hr2)
+
+/-- **Layer 9, `x` is a `Pin⁺` lift of `w`:** `x` is orthogonal and its twisted adjoint action
+`v ↦ det(x) · x v xᵀ` on vectors is `w`. An orthogonal `2 × 2` matrix is homogeneous, even when its
+determinant is `1` and odd when it is `−1`, so this action is `v ↦ (−1)^{|x|} x v x⁻¹`.
+⚠ Without the sign, `e₁` would act as `diag(1, −1)`, the reflection in the wrong line. -/
+def IsPinLift (x w : Matrix (Fin 2) (Fin 2) F) : Prop :=
+  xᵀ * x = 1 ∧ ∀ y : Fin 2 → F, x.det • (x * pinVec y * xᵀ) = pinVec (w *ᵥ y)
+
+/-- Lifts multiply. -/
+theorem IsPinLift.mul {x w x' w' : Matrix (Fin 2) (Fin 2) F} (h : IsPinLift x w)
+    (h' : IsPinLift x' w') : IsPinLift (x * x') (w * w') := by
+  refine ⟨?_, fun y => ?_⟩
+  · rw [Matrix.transpose_mul, Matrix.mul_assoc, ← Matrix.mul_assoc xᵀ, h.1, Matrix.one_mul, h'.1]
+  · rw [Matrix.det_mul, ← Matrix.mulVec_mulVec, ← h.2, ← h'.2, Matrix.transpose_mul, mul_smul,
+      Matrix.mul_smul, Matrix.smul_mul]
+    simp only [Matrix.mul_assoc]
+
+/-- Lifts invert. -/
+theorem IsPinLift.inv {x w : Matrix (Fin 2) (Fin 2) F} (h : IsPinLift x w) :
+    IsPinLift x⁻¹ w⁻¹ :=
+  sorry
+
+/-- Lifts are carried by ring homomorphisms, in particular by the Galois action on entries. -/
+theorem IsPinLift.map {F' : Type*} [Field F'] (φ : F →+* F') {x w : Matrix (Fin 2) (Fin 2) F}
+    (h : IsPinLift x w) : IsPinLift (x.map φ) (w.map φ) :=
+  sorry
+
+/-- **Two lifts differ by a sign.** If `x` and `x'` lift `w`, then `x' xᵀ` is orthogonal and acts
+trivially: of determinant `1` it commutes with `e₁` and `e₂` and is a scalar `±1`, and of
+determinant `−1` it would anticommute with both and be `μ e₁ e₂` with `μ² = 1`, which has
+determinant `1`. -/
+theorem IsPinLift.eq_or_eq_neg [Invertible (2 : F)] {x x' w : Matrix (Fin 2) (Fin 2) F}
+    (h : IsPinLift x w) (h' : IsPinLift x' w) : x' = x ∨ x' = -x :=
+  sorry
+
+/-- **Every orthogonal matrix has a lift** over a separably closed field of characteristic not
+two: by Tau Ceti's Cartan–Dieudonné theorem
+(`TauCeti.QuadraticMap.exists_reflectionOrthogonal_list_prod_eq`) it is a product of at most two
+reflections in anisotropic vectors, each vector can be scaled to a unit vector because square
+roots exist, and a unit vector `u` lifts its own reflection, since `det(u) = −1` and
+`u v u = 2⟨u, v⟩ u − v` by `pinVec_mul_self`. -/
+theorem exists_isPinLift [IsSepClosed F] [Invertible (2 : F)] (P : Matrix (Fin 2) (Fin 2) F)
+    (hP : Pᵀ * P = 1) : ∃ x, IsPinLift x P :=
+  sorry
+
+open Classical in
+/-- **Layer 9, the signed-permutation representation of `C₂ ≀ C₂`,**
+`(a, b, c) ↦ diag((−1)^a, (−1)^b) · e₂^c`: the base coordinates are signs and the top coordinate
+swaps. It is a homomorphism by the supplier's coordinate rule `WreathC2.mk_mul_mk`. -/
+def wreathSignedPerm : WreathC2 →* Matrix (Fin 2) (Fin 2) F where
+  toFun g := Matrix.diagonal ![if WreathC2.coordA g = 0 then 1 else -1,
+      if WreathC2.coordB g = 0 then 1 else -1] *
+    (if WreathC2.coordC g = 0 then 1 else pinE2)
+  map_one' := by
+    rw [← WreathC2.mk_zero]
+    simp only [WreathC2.coordA_mk, WreathC2.coordB_mk, WreathC2.coordC_mk, ↓reduceIte, mul_one]
+    ext i j; fin_cases i <;> fin_cases j <;> rfl
+  map_mul' := sorry
+
+/-- **Layer 9, `D₁₆` in `M₂(F)`,** on Mathlib's `DihedralGroup 8`: `r ↦ e₁ t`, the rotation by
+`π/4`, and `f = sr 0 ↦ t`, so that `r i ↦ (e₁ t)^i` and `sr i = f r^i ↦ t (e₁ t)^i`. Its image is
+`D̃₁₆ = ⟨e₁, t⟩`. -/
+noncomputable def pinDihedral (r2 : F) : DihedralGroup 8 → Matrix (Fin 2) (Fin 2) F
+  | .r i => (pinE1 * pinT r2) ^ i.val
+  | .sr i => pinT r2 * (pinE1 * pinT r2) ^ i.val
+
+/-- **`D̃₁₆` is dihedral of order 16:** `pinDihedral` is a homomorphism, by `t² = 1`,
+`t (e₁ t) t = (e₁ t)⁻¹` and `(e₁ t)⁸ = 1`; its kernel is trivial and `(e₁ t)⁴ = −1`. -/
+theorem pinDihedral_mul [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) (z z' : DihedralGroup 8) :
+    pinDihedral r2 (z * z') = pinDihedral r2 z * pinDihedral r2 z' :=
+  sorry
+
+/-- **`D̃₁₆` lies over `C₂ ≀ C₂`:** `pinDihedral z` is a `Pin⁺` lift of the signed permutation of
+the supplier's `dihedralToWreath z`. On the generators, `t` lifts the swap `s` and `e₁ t` lifts
+`us`, since `e₁` lifts `diag(−1, 1)`. -/
+theorem isPinLift_pinDihedral [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2)
+    (z : DihedralGroup 8) :
+    IsPinLift (pinDihedral r2 z) (wreathSignedPerm (dihedralToWreath z)) :=
+  sorry
+
+/-- **Layer 9, the lift of `C₂ ≀ C₂` into `D̃₁₆`** through the supplier's section `wreathSection`,
+`(us)^i s^j ↦ (e₁ t)^i t^j`. -/
+noncomputable def pinLift (r2 : F) (g : WreathC2) : Matrix (Fin 2) (Fin 2) F :=
+  pinDihedral r2 (wreathSection g)
+
+/-- **The factor set of `pinLift` is `c_{D₁₆}`,** the supplier's `wreathD16Cocycle` read as a sign:
+`pinDihedral_mul` and `(e₁ t)⁴ = −1`. -/
+theorem pinLift_mul_mul_inv [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) (g h : WreathC2) :
+    pinLift r2 g * pinLift r2 h * (pinLift r2 (g * h))⁻¹ = (-1) ^ (wreathD16Cocycle (g, h)).val :=
+  sorry
+
+open Classical in
+/-- **Layer 9, the lift `e₁^{ε₀} e₂^{ε₁}` of a diagonal sign matrix.** -/
+def pinDiagonalLift (ε : Fin 2 → ZMod 2) : Matrix (Fin 2) (Fin 2) F :=
+  (if ε 0 = 0 then 1 else pinE1) * (if ε 1 = 0 then 1 else pinE2)
+
+open Classical in
+/-- It lifts `diag((−1)^{ε₀}, (−1)^{ε₁})`: `e₁` lifts `diag(−1, 1)` and `e₂` lifts `diag(1, −1)`. -/
+theorem isPinLift_pinDiagonalLift (ε : Fin 2 → ZMod 2) :
+    IsPinLift (pinDiagonalLift ε : Matrix (Fin 2) (Fin 2) F)
+      (Matrix.diagonal fun i => if ε i = 0 then 1 else -1) := by
+  have hZ : ∀ x : ZMod 2, x = 0 ∨ x = 1 := by decide
+  unfold IsPinLift pinDiagonalLift
+  rcases hZ (ε 0) with h0 | h0 <;> rcases hZ (ε 1) with h1 | h1 <;>
+    (refine ⟨?_, fun y => ?_⟩ <;> ext i j <;> fin_cases i <;> fin_cases j <;>
+      simp [h0, h1, pinE1, pinE2, pinVec, Matrix.mul_apply, Fin.sum_univ_two, Matrix.mulVec,
+        Matrix.vecMul, Matrix.transpose_apply, dotProduct, Matrix.det_fin_two])
+
+open Classical in
+/-- **The product of two diagonal lifts,**
+`e₁^a e₂^b · e₁^{a'} e₂^{b'} = (−1)^{b a'} e₁^{a + a'} e₂^{b + b'}`, by `e_i² = +1` and
+`e₁ e₂ = −e₂ e₁`. So the twisted boundary of the diagonal lift of `diag(χ_α, χ_β)` is the cup
+`χ_β ∪ χ_α`. -/
+theorem pinDiagonalLift_mul (ε ε' : Fin 2 → ZMod 2) :
+    (pinDiagonalLift ε : Matrix (Fin 2) (Fin 2) F) * pinDiagonalLift ε' =
+      (if ε 1 * ε' 0 = 0 then 1 else -1) * pinDiagonalLift (ε + ε') := by
+  have hZ : ∀ x : ZMod 2, x = 0 ∨ x = 1 := by decide
+  have key : ∀ a b a' b' : ZMod 2,
+      ((if a = 0 then 1 else pinE1) * (if b = 0 then 1 else pinE2)) *
+          ((if a' = 0 then 1 else pinE1) * (if b' = 0 then 1 else pinE2)) =
+        (if b * a' = 0 then 1 else -1) *
+          ((if a + a' = 0 then 1 else pinE1) *
+            (if b + b' = 0 then (1 : Matrix (Fin 2) (Fin 2) F) else pinE2)) := by
+    intro a b a' b'
+    rcases hZ a with rfl | rfl <;> rcases hZ b with rfl | rfl <;> rcases hZ a' with rfl | rfl <;>
+      rcases hZ b' with rfl | rfl <;>
+      (simp (config := {decide := true}) only [↓reduceIte, one_mul, mul_one] <;>
+        ext i j <;> fin_cases i <;> fin_cases j <;>
+        simp [pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two])
+  simpa [pinDiagonalLift] using key (ε 0) (ε 1) (ε' 0) (ε' 1)
+
+end PinModel
+
+open Classical in
+/-- **Layer 9, the sign of a root under `G_K`:** `rootSign r g` is `0` when `g r = r` and `1`
+otherwise. For `r² ∈ K` it is the Kummer character of `r²` read in `𝔽₂`. -/
+noncomputable def rootSign (r : SeparableClosure K) (g : AbsoluteGaloisGroup K) : ZMod 2 :=
+  if g r = r then 0 else 1
+
+/-- **Layer 9, the Kummer character of `b ∈ Kˣ`,** `g ↦ rootSign r g` for a square root `r` of `b`
+in `Kˢ`. It is a homomorphism because `g r = ±r`, in every characteristic. -/
+noncomputable def kummerCharacter (b : Kˣ) (r : SeparableClosure K)
+    (hr : r ^ 2 = algebraMap K (SeparableClosure K) b) :
+    AbsoluteGaloisGroup K →* Multiplicative (ZMod 2) where
+  toFun g := Multiplicative.ofAdd (rootSign r g)
+  map_one' := by simp [rootSign]
+  map_mul' g h := by
+    have key : ∀ k : AbsoluteGaloisGroup K, k r = r ∨ k r = -r := fun k =>
+      sq_eq_sq_iff_eq_or_eq_neg.1 (by rw [← map_pow, hr, AlgEquiv.commutes])
+    have hmul : (g * h) r = g (h r) := rfl
+    rw [← ofAdd_add]
+    congr 1
+    unfold rootSign
+    rw [hmul]
+    rcases key h with hh | hh
+    · rw [hh]; simp
+    · rcases key g with hg | hg
+      · rw [hh, map_neg, hg]; simp
+      · rw [hh, map_neg, hg, neg_neg, ite_eq_left rfl]
+        split_ifs <;> decide
+
+/-- The Kummer character is continuous: the stabilizer of `r` is open. -/
+theorem continuous_kummerCharacter (b : Kˣ) (r : SeparableClosure K)
+    (hr : r ^ 2 = algebraMap K (SeparableClosure K) b) :
+    Continuous (kummerCharacter b r hr) :=
+  sorry
+
+/-- **Layer 9, the Kummer class is the class of the Kummer character.** The supplier's
+`kummerMapCanonical` at `n = 2` is the class of `g ↦ g r / r ∈ μ₂`, and the `μ₂` bridge
+`mu2EquivZMod2` reads that cocycle as `rootSign r`. This pins `kummerClass` at cochain level for
+every computation of this layer. -/
+theorem kummerClass_eq_homClass [Invertible (2 : K)] (b : Kˣ) (r : SeparableClosure K)
+    (hr : r ^ 2 = algebraMap K (SeparableClosure K) b) :
+    kummerClass b =
+      homClass (AbsoluteGaloisGroup K) (kummerCharacter b r hr)
+        (continuous_kummerCharacter b r hr) :=
+  sorry
+
+/-- **Layer 9, the Kummer character of `a ∈ Lˣ` on `G_L = galoisSubgroup K L σ`,**
+`γ ↦ rootSign r γ` for a square root `r` of `σ a`: every `γ` in `G_L` fixes `σ L`
+(`mem_galoisSubgroup_iff`), hence `r²`, so `γ r = ±r`. -/
+noncomputable def galoisKummerCharacter {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
+    (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) :
+    (galoisSubgroup K L σ).toSubgroup →* Multiplicative (ZMod 2) where
+  toFun γ := Multiplicative.ofAdd (rootSign r (γ : AbsoluteGaloisGroup K))
+  map_one' := by simp [rootSign]
+  map_mul' γ γ' := by
+    have key : ∀ k : (galoisSubgroup K L σ).toSubgroup,
+        (k : AbsoluteGaloisGroup K) r = r ∨ (k : AbsoluteGaloisGroup K) r = -r := fun k =>
+      sq_eq_sq_iff_eq_or_eq_neg.1
+        (by rw [← map_pow, hr]; exact (mem_galoisSubgroup_iff σ k).1 k.2 (a : L))
+    have hmul : ((γ * γ' : (galoisSubgroup K L σ).toSubgroup) : AbsoluteGaloisGroup K) r =
+        (γ : AbsoluteGaloisGroup K) ((γ' : AbsoluteGaloisGroup K) r) := rfl
+    rw [← ofAdd_add]
+    congr 1
+    unfold rootSign
+    rw [hmul]
+    rcases key γ' with hh | hh
+    · rw [hh]; simp
+    · rcases key γ with hg | hg
+      · rw [hh, map_neg, hg]; simp
+      · rw [hh, map_neg, hg, neg_neg, ite_eq_left rfl]
+        split_ifs <;> decide
+
+/-- The Kummer character of `a` on `G_L` is continuous. -/
+theorem continuous_galoisKummerCharacter {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
+    (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) :
+    Continuous (galoisKummerCharacter σ a r hr) :=
+  sorry
+
+/-- **Layer 9, the Kummer class of `a ∈ Lˣ`, carried to `galoisSubgroup K L σ`, is the class of
+its Kummer character**: `kummerClass_eq_homClass` over `L`, transported along the supplier's
+`galoisSubgroupEquiv`, which sends `γ` to its action on `σ L`. -/
+theorem galoisF2Iso_inv_kummerClass {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) :
+    (galoisF2Iso K L σ 1).inv.hom (kummerClass a) =
+      homClass _ (galoisKummerCharacter σ a r hr) (continuous_galoisKummerCharacter σ a r hr) :=
+  sorry
+
+/-- **Layer 9, the class of an explicit continuous `𝔽₂`-valued 2-cocycle of `G_K`,** read in
+`H²(G_K, 𝔽₂)`: the supplier's Layer 1 `cochainClass` of its Layer 3 `inhomogeneousCochain2`. -/
+noncomputable def f2CocycleClass (f : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K → ZMod 2)
+    (hf : Continuous f)
+    (hc : ∀ g h j, f (g * h, j) + f (g, h) = f (h, j) + f (g, h * j)) : H2 K :=
+  cochainClass ℤ (trivialF2 (AbsoluteGaloisGroup K)) 2
+    (inhomogeneousCochain2 (AbsoluteGaloisGroup K) f hf)
+    (inhomogeneousCochain2_d_eq_zero (AbsoluteGaloisGroup K) f hf hc)
+
+/-- **Layer 9, the class map is additive and kills coboundaries:** if
+`f = f₁ + f₂ + ∂ψ` for a continuous `ψ : G_K → 𝔽₂`, then `[f] = [f₁] + [f₂]`. This is the shape of
+the supplier's class map (Layer 1's `cochainClass` with `cochainClass_eq_of_sub_eq_d`, on Layer 3's
+explicit cochains) that this layer consumes; the supplier exports no target signature for it. -/
+theorem f2CocycleClass_eq_add (f f₁ f₂ : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K → ZMod 2)
+    (hf : Continuous f) (hf₁ : Continuous f₁) (hf₂ : Continuous f₂)
+    (hc : ∀ g h j, f (g * h, j) + f (g, h) = f (h, j) + f (g, h * j))
+    (hc₁ : ∀ g h j, f₁ (g * h, j) + f₁ (g, h) = f₁ (h, j) + f₁ (g, h * j))
+    (hc₂ : ∀ g h j, f₂ (g * h, j) + f₂ (g, h) = f₂ (h, j) + f₂ (g, h * j))
+    (ψ : AbsoluteGaloisGroup K → ZMod 2) (hψ : Continuous ψ)
+    (h : ∀ g h, f (g, h) = f₁ (g, h) + f₂ (g, h) + (ψ h - ψ (g * h) + ψ g)) :
+    f2CocycleClass f hf hc = f2CocycleClass f₁ hf₁ hc₁ + f2CocycleClass f₂ hf₂ hc₂ :=
+  sorry
+
+/-- **Layer 9, the cup of two classes of continuous homomorphisms is the class of the product
+cochain** `(g, h) ↦ χ(g) ψ(h)`: the supplier's `explicitIso_cup` and `homClass_eq_cochainClass` at
+the trivial `𝔽₂` coefficients, where the explicit `(1, 1)` cup `a(g) · g(b(h))` loses its action. -/
+theorem cup11_homClass [Invertible (2 : K)] (χ ψ : AbsoluteGaloisGroup K →* Multiplicative (ZMod 2))
+    (hχ : Continuous χ) (hψ : Continuous ψ) :
+    cup11 (homClass _ χ hχ) (homClass _ ψ hψ) =
+      f2CocycleClass (fun q => Multiplicative.toAdd (χ q.1) * Multiplicative.toAdd (ψ q.2))
+        ((continuous_of_discreteTopology (f := fun p : ZMod 2 × ZMod 2 => p.1 * p.2)).comp
+          ((continuous_toAdd.comp (hχ.comp continuous_fst)).prodMk
+            (continuous_toAdd.comp (hψ.comp continuous_snd))))
+        (fun g h j => by simp only [map_mul, toAdd_mul]; ring) :=
+  sorry
+
+/-- **Layer 9, the representation `ρ_a = Ind α_a : G_K → C₂ ≀ C₂`,** the supplier's `indexTwoInd`
+at the Kummer character of `a` on `G_L`, for a square root `r` of `σ a` and an `s ∈ G_K ∖ G_L`.
+Through `wreathSignedPerm` it is the action of `G_K` on the roots `r, s r` of `X² − σ a` and
+`X² − s (σ a)`: the `D₈`-representation of `M = K(√d, √a, √σa)`. -/
+noncomputable def kummerInd {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
+    (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K)
+    (hs : s ∉ galoisSubgroup K L σ) : AbsoluteGaloisGroup K →* WreathC2 :=
+  indexTwoInd (galoisSubgroup K L σ).toSubgroup (by rw [galoisSubgroup_index]; exact hdeg) s hs
+    (galoisKummerCharacter σ a r hr)
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 9, step 1 at the bridge: `N^{Ev}((a)) = ρ_a^* c_{D₁₆}`.** The body of `galoisEvens2` is
+the supplier's `evensNormIndexTwo` at `galoisSubgroup K L σ` applied to the transported class,
+which is the class of the Kummer character by `galoisF2Iso_inv_kummerClass`, and the supplier's
+`evensNormIndexTwo_eq_ind_pullback` evaluates it as the class of `c_{D₁₆} ∘ (ρ_a × ρ_a)`. -/
+theorem galoisEvens2_kummerClass_eq_pullback {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (a : Lˣ)
+    (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K)
+    (hs : s ∉ galoisSubgroup K L σ) :
+    galoisEvens2 σ hdeg (kummerClass a) =
+      f2CocycleClass
+        (fun q => wreathD16Cocycle (kummerInd σ hdeg a r hr s hs q.1,
+          kummerInd σ hdeg a r hr s hs q.2))
+        (continuous_wreathD16Cocycle_indexTwoInd (galoisSubgroup K L σ) _ s hs _
+          (continuous_galoisKummerCharacter σ a r hr))
+        (fun g h j => by simp only [map_mul]; exact wreathD16Cocycle_isCocycle _ _ _) :=
+  sorry
+
+/-- **Layer 9, the point `φ(y) = (σ y · r, s (σ y · r))` of `(Kˢ)²`** attached to `y ∈ L`. The image
+`W = φ(L)` is a `K`-form of `(Kˢ)²`, and with the unit form of `(Kˢ)²` it is `Tr_*⟨a⟩`. -/
+noncomputable def kummerPoint {L : Type u} [Field L] [Algebra K L]
+    (σ : L →ₐ[K] SeparableClosure K) (r : SeparableClosure K) (s : AbsoluteGaloisGroup K)
+    (y : L) : Fin 2 → SeparableClosure K :=
+  ![σ y * r, s (σ y * r)]
+
+/-- **Layer 9, step 2: `W` carries `Tr_*⟨a⟩`.** `φ(y) · φ(y') = Tr_{L/K}(a y y')` for the unit form
+of `(Kˢ)²`, because `σ` and `s ∘ σ` are the two `K`-embeddings of `L` into `Kˢ` and `r² = σ a`. -/
+theorem kummerPoint_dotProduct {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
+    (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K)
+    (hs : s ∉ galoisSubgroup K L σ) (y y' : L) :
+    kummerPoint σ r s y ⬝ᵥ kummerPoint σ r s y' =
+      algebraMap K (SeparableClosure K) (Algebra.trace K L ((a : L) * y * y')) :=
+  sorry
+
+/-- **Layer 9, step 2: the descent convention.** `g ∈ G_K` acts on the coordinates of `φ(y)` by
+`ρ_a(g)ᵀ`, where `ρ_a = wreathSignedPerm ∘ kummerInd`; so `g ↦ ρ_a(g)ᵀ` is an anti-homomorphism
+and `ρ_a` a homomorphism. At `y = 1` this says that the columns of `ρ_a(g)` are the images of the
+roots `r` and `s r` under `g`, in the basis `(r, s r)`. -/
+theorem kummerPoint_galois [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L))
+    (s : AbsoluteGaloisGroup K) (hs : s ∉ galoisSubgroup K L σ) (y : L)
+    (g : AbsoluteGaloisGroup K) :
+    (fun i => g (kummerPoint σ r s y i)) =
+      (wreathSignedPerm (kummerInd σ hdeg a r hr s hs g))ᵀ *ᵥ kummerPoint σ r s y :=
+  sorry
+
+/-- **Layer 9, the frame of an orthogonal basis:** for `y : Fin 2 → L` and `c : Fin 2 → Kˢ`, the
+matrix whose `j`-th column is `φ(y j) / c j`. -/
+noncomputable def kummerFrame {L : Type u} [Field L] [Algebra K L]
+    (σ : L →ₐ[K] SeparableClosure K) (r : SeparableClosure K) (s : AbsoluteGaloisGroup K)
+    (y : Fin 2 → L) (c : Fin 2 → SeparableClosure K) :
+    Matrix (Fin 2) (Fin 2) (SeparableClosure K) :=
+  Matrix.of fun i j => kummerPoint σ r s (y j) i / c j
+
+open Classical in
+/-- **Layer 9, step 4: the diagonalization.** Let `y` be an orthogonal basis of `Tr_*⟨a⟩` with
+values `w_j = Tr (a y_j²)` and let `c_j² = w_j`. The frame `P` is orthogonal by
+`kummerPoint_dotProduct`, and `P⁻¹ ρ_a(g) g(P) = diag((−1)^{rootSign c₀ g}, (−1)^{rootSign c₁ g})`
+by `kummerPoint_galois`: `ρ_a` is cohomologous in `Z¹(G_K, O₂(Kˢ))` to the diagonal cocycle of the
+Kummer characters of `w₀` and `w₁`. In Kahn's basis `(1, x/a)` these are `Tr a` and
+`d · Tr a / N a`; at trace zero a hyperbolic basis gives `1` and `−1`. -/
+theorem kummerFrame_conj [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L))
+    (s : AbsoluteGaloisGroup K) (hs : s ∉ galoisSubgroup K L σ) (y : Fin 2 → L)
+    (hy : Algebra.trace K L ((a : L) * y 0 * y 1) = 0) (c : Fin 2 → SeparableClosure K)
+    (hc : ∀ i, c i ^ 2 = algebraMap K (SeparableClosure K) (Algebra.trace K L ((a : L) * y i ^ 2)))
+    (hc0 : ∀ i, c i ≠ 0) (g : AbsoluteGaloisGroup K) :
+    (kummerFrame σ r s y c)ᵀ * kummerFrame σ r s y c = 1 ∧
+      (kummerFrame σ r s y c)⁻¹ * wreathSignedPerm (kummerInd σ hdeg a r hr s hs g) *
+          (kummerFrame σ r s y c).map g =
+        Matrix.diagonal fun i => if rootSign (c i) g = 0 then 1 else -1 :=
+  sorry
+
+/-- **Layer 9, the twisted boundary** of a matrix-valued 1-cochain of `G_K`,
+`δ(x)(g, h) = x(g) · g(x(h)) · x(gh)⁻¹`, with `g` acting on entries. -/
+noncomputable def twistedBoundary
+    (x : AbsoluteGaloisGroup K → Matrix (Fin 2) (Fin 2) (SeparableClosure K))
+    (q : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K) :
+    Matrix (Fin 2) (Fin 2) (SeparableClosure K) :=
+  x q.1 * (x q.2).map q.1 * (x (q.1 * q.2))⁻¹
+
+open Classical in
+/-- **Layer 9, the twisted boundary read in `𝔽₂`:** `0` where it is `1` and `1` elsewhere. Where the
+twisted boundary is `±1`, this is its exponent. -/
+noncomputable def twistedBoundaryF2
+    (x : AbsoluteGaloisGroup K → Matrix (Fin 2) (Fin 2) (SeparableClosure K))
+    (q : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K) : ZMod 2 :=
+  if twistedBoundary x q = 1 then 0 else 1
+
+/-- **Layer 9, step 5: conjugation invariance,** `δ(g ↦ Q⁻¹ x(g) g(Q)) = Q⁻¹ δ(x) Q` for invertible
+`Q`, because `g(h(Q)) = (g h)(Q)`. A scalar twisted boundary is therefore unchanged. -/
+theorem twistedBoundary_conj
+    (x : AbsoluteGaloisGroup K → Matrix (Fin 2) (Fin 2) (SeparableClosure K))
+    (Q : Matrix (Fin 2) (Fin 2) (SeparableClosure K)) (hQ : IsUnit Q.det)
+    (g h : AbsoluteGaloisGroup K) :
+    twistedBoundary (fun g => Q⁻¹ * x g * Q.map g) (g, h) = Q⁻¹ * twistedBoundary x (g, h) * Q :=
+  sorry
+
+/-- **Layer 9, the lift `ρ̃_a = pinLift ∘ ρ_a`** of the representation `ρ_a` into `D̃₁₆ ⊂ M₂(Kˢ)`,
+for a square root `r2` of `2` in `Kˢ`. -/
+noncomputable def kummerIndLift {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
+    (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K)
+    (hs : s ∉ galoisSubgroup K L σ) (r2 : SeparableClosure K) (g : AbsoluteGaloisGroup K) :
+    Matrix (Fin 2) (Fin 2) (SeparableClosure K) :=
+  pinLift r2 (kummerInd σ hdeg a r hr s hs g)
+
+/-- **Layer 9, the Galois action on the lift:** `g` fixes `e₁` and `e₂` and sends `t` to
+`(−1)^{rootSign r2 g} t`, since `g r2 = ±r2`; so it multiplies `pinLift w` by
+`(−1)^{rootSign r2 g · c}`, where `c` is the top coordinate of `w`, which counts the factors `t`. -/
+theorem pinLift_map_galois [Invertible (2 : K)] {r2 : SeparableClosure K} (hr2 : r2 ^ 2 = 2)
+    (g : AbsoluteGaloisGroup K) (w : WreathC2) :
+    (pinLift r2 w).map g = (-1) ^ (rootSign r2 g * WreathC2.coordC w).val * pinLift r2 w :=
+  sorry
+
+/-- **Layer 9, step 3: `δ(ρ̃_a) = ρ_a^* c_{D₁₆} + (2) ∪ (d)` at cochain level,** as an equation of
+matrices. `pinLift_mul_mul_inv` gives the factor set, `pinLift_map_galois` the twist, and the top
+coordinate of `ρ_a h` is `rootSign (σ x) h`, the character with kernel `G_L`. This `(2) ∪ (d)` is
+Serre's `(2)(d_E)`, and it is the discriminant of `L/K` that enters, not that of `Tr_*⟨a⟩`. -/
+theorem twistedBoundary_kummerIndLift [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L} (hx : x ∉ Set.range (algebraMap K L))
+    (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ) (r : SeparableClosure K)
+    (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K) (hs : s ∉ galoisSubgroup K L σ)
+    {r2 : SeparableClosure K} (hr2 : r2 ^ 2 = 2) (g h : AbsoluteGaloisGroup K) :
+    twistedBoundary (kummerIndLift σ hdeg a r hr s hs r2) (g, h) =
+      (-1) ^ (wreathD16Cocycle (kummerInd σ hdeg a r hr s hs g, kummerInd σ hdeg a r hr s hs h) +
+        rootSign r2 g * rootSign (σ x) h).val :=
+  sorry
+
+/-- **Layer 9, step 5: `δ(ρ̃_a)` is cohomologous to the cup of the diagonal.** Take a `Pin⁺` lift
+`P̃` of the frame (`exists_isPinLift`). By `twistedBoundary_conj` and step 3, the cochain
+`g ↦ P̃⁻¹ ρ̃_a(g) g(P̃)` has the twisted boundary of `ρ̃_a`; by `isPinLift_pinDihedral`,
+`IsPinLift.mul`, `IsPinLift.inv`, `IsPinLift.map` and `kummerFrame_conj` it lifts the diagonal
+cocycle, as does `pinDiagonalLift`, so the two differ by a continuous sign `(−1)^{ψ(g)}`
+(`IsPinLift.eq_or_eq_neg`); and the diagonal lift is Galois-fixed with twisted boundary
+`rootSign c₁ g · rootSign c₀ h` by `pinDiagonalLift_mul`. -/
+theorem twistedBoundaryF2_kummerIndLift_cohomologous [Invertible (2 : K)] {L : Type u} [Field L]
+    [Algebra K L] [FiniteDimensional K L] [Algebra.IsSeparable K L]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (a : Lˣ)
+    (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K)
+    (hs : s ∉ galoisSubgroup K L σ) {r2 : SeparableClosure K} (hr2 : r2 ^ 2 = 2) (y : Fin 2 → L)
+    (hy : Algebra.trace K L ((a : L) * y 0 * y 1) = 0) (c : Fin 2 → SeparableClosure K)
+    (hc : ∀ i, c i ^ 2 = algebraMap K (SeparableClosure K) (Algebra.trace K L ((a : L) * y i ^ 2)))
+    (hc0 : ∀ i, c i ≠ 0) :
+    ∃ ψ : AbsoluteGaloisGroup K → ZMod 2, Continuous ψ ∧ ∀ g h,
+      twistedBoundaryF2 (kummerIndLift σ hdeg a r hr s hs r2) (g, h) =
+        rootSign (c 1) g * rootSign (c 0) h + (ψ h - ψ (g * h) + ψ g) :=
+  sorry
+
+end EvensValue
+
+/-- **Layer 9, the value of the Evens norm on a Kummer class** (Kahn, Invent. Math. 78 (1984),
+Lemme II.2.1), for `Tr a ≠ 0`:
+
+```text
+N^{Ev}((a)) = (Tr a) ∪ (−d · N a) + (2) ∪ (d).
+```
+
+Proof, for any `r`, `s`, `r2` as above: `galoisEvens2_kummerClass_eq_pullback`, then
+`twistedBoundary_kummerIndLift` and `twistedBoundaryF2_kummerIndLift_cohomologous` in Kahn's basis
+`(1, x / a)` (`traceTransfer_weightedSumSquares_equivalent`) give
+`c_{D₁₆} ∘ (ρ_a × ρ_a) = (rootSign c₁ ∪ rootSign c₀) + (rootSign r2 ∪ rootSign (σ x)) + ∂ψ`, so by
+`f2CocycleClass_eq_add`, `cup11_homClass` and `kummerClass_eq_homClass`,
+`N^{Ev}((a)) = (d · Tr a / N a) ∪ (Tr a) + (2) ∪ (d)`; finally `cup11_comm`, `1 / N a ≡ N a` and
+`(Tr a) ∪ (−Tr a) = 0` (`cup_kummerClass_eq_zero_iff`, `−t = 0² − t · 1²`) rewrite
+`(Tr a) ∪ (d · Tr a / N a)` as `(Tr a) ∪ (−d · N a)`. -/
+theorem galoisEvens2_kummerClass [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L}
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ)
+    (t : Kˣ) (ht : (t : K) = Algebra.trace K L (a : L)) :
+    galoisEvens2 σ hdeg (kummerClass a) =
+      cup11 (kummerClass t) (kummerClass (-(d * Units.map (Algebra.norm K : L →* K) a))) +
+        cup11 (kummerClass (unitOfInvertible (2 : K))) (kummerClass d) :=
+  sorry
+
+/-- **Layer 9, the value of the Evens norm at trace zero:** `N^{Ev}((a)) = (2) ∪ (d)`. The same
+proof with a hyperbolic basis (`traceTransfer_weightedSumSquares_equivalent_hyperbolic`), whose
+values `1` and `−1` give `(−1) ∪ (1) = 0`. -/
+theorem galoisEvens2_kummerClass_of_trace_eq_zero [Invertible (2 : K)] {L : Type u} [Field L]
+    [Algebra K L] [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L}
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ)
+    (ht : Algebra.trace K L (a : L) = 0) :
+    galoisEvens2 σ hdeg (kummerClass a) =
+      cup11 (kummerClass (unitOfInvertible (2 : K))) (kummerClass d) :=
+  sorry
+
+/-- **Layer 9, the norm of `1 + t√d`:** `N^{Ev}((1 + t x)) = (2) ∪ (1 − t² d)`. From
+`galoisEvens2_kummerClass` with `Tr (1 + t x) = 2` (Tau Ceti's
+`TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range`) and `N (1 + t x) = 1 − t² d`
+(`norm_add_mul_of_sq`): `(2) ∪ (−d (1 − t² d)) + (2) ∪ (d) = (2) ∪ (−1) + (2) ∪ (1 − t² d)`, and
+`(2) ∪ (−1) = 0` because `−1 = 1² − 2 · 1²` (`cup_kummerClass_eq_zero_iff`). There is no term from
+the kernel `(d) ∪ H¹(G_K, 𝔽₂)` of restriction. -/
+theorem galoisEvens2_kummerClass_one_add [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L}
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) (t : K)
+    (ht : 1 - t ^ 2 * (d : K) ≠ 0) (b : Lˣ) (hb : (b : L) = 1 + algebraMap K L t * x) :
+    galoisEvens2 σ hdeg (kummerClass b) =
+      cup11 (kummerClass (unitOfInvertible (2 : K))) (kummerClass (Units.mk0 _ ht)) :=
+  sorry
+
+/-- **Layer 9, the norm of `√d`:** `N^{Ev}((x)) = (2) ∪ (d)`, the trace-zero case at `a = x`. -/
+theorem galoisEvens2_kummerClass_sqrt [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L}
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) (b : Lˣ)
+    (hb : (b : L) = x) :
+    galoisEvens2 σ hdeg (kummerClass b) =
+      cup11 (kummerClass (unitOfInvertible (2 : K))) (kummerClass d) :=
+  sorry
+
 /-- **Layer 9, the relative Stiefel-Whitney formula for a quadratic extension**, stated on the
-transferred forms themselves (Kahn, Invent. Math. 78 (1984), Théorème 2 in degrees `≤ 2`;
-Kozlowski, Proc. AMS 91 (1984), Thm 1.1; Evens, Trans. AMS 108 (1963), for the norm).
+transferred forms themselves (Kahn, Invent. Math. 78 (1984), Théorème 2 in degrees `≤ 2` and
+Prop. II.3.5 at rank one; Kozlowski, Proc. AMS 91 (1984), Thm 1.1; Evens, Trans. AMS 108 (1963),
+for the norm).
 
 Nothing in the statement is a chosen diagonalization: the two sides are the Stiefel-Whitney
 classes of the isometry classes of `Tr_*⟨1⟩` and `Tr_*⟨a⟩`, and the operations are the canonical
 corestriction, cup and Evens norm attached to `L/K`. The regularity hypotheses are what make the
 two transferred forms have classes; they are Layer 9's own milestone that the transfer of a
-regular form along a nonzero functional is regular. -/
+regular form along a nonzero functional is regular.
+
+Proof, with `L = K(x)`, `x² = d ∈ Kˣ`. Degree 1: `sw1Class_eq_discr`, `discr_traceTransfer` at
+`a` and at `1`, and `galoisCor_kummerClass` make both sides `(d) + (N a)`. Degree 2, Kahn's
+computation: `Tr_*⟨1⟩ ≅ ⟨2, 2d⟩`, so `w₁(Tr_*⟨1⟩) = (d)` and
+`w₂(Tr_*⟨1⟩) = (2) ∪ (2d) = (2) ∪ (d)`, as `(2) ∪ (2) = (2) ∪ (−1) = 0`; and
+`(d) ∪ cor (a) = (d) ∪ (N a) = 0`, since `N a = u² − d v²` (`cup_kummerClass_eq_zero_iff`). So
+the right-hand side is `(2) ∪ (d) + N^{Ev}((a))`. For `Tr a ≠ 0` the left-hand side is
+`w₂ ⟨Tr a, d · Tr a / N a⟩ = (Tr a) ∪ (−d · N a)`, and `galoisEvens2_kummerClass` makes the
+right-hand side the same; for `Tr a = 0` both sides are `0`, by
+`traceTransfer_weightedSumSquares_equivalent_hyperbolic` and
+`galoisEvens2_kummerClass_of_trace_eq_zero`. `sw2Class_mk` with `formClass_mk` evaluates `w₂` on
+these diagonalizations. -/
 theorem relativeStiefelWhitney_quadraticExtension {L : Type u} [Field L] [Algebra K L]
     [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : K)] [Invertible (2 : L)]
     [FiniteDimensional K (Fin 1 → L)]
@@ -2574,6 +3247,31 @@ theorem relativeStiefelWhitney_quadraticExtension_diagonal {L : Type u} [Field L
     sw1 b = sw1 t + galoisCor1 σ (kummerClass a) ∧
       sw2 b = sw2 t + galoisEvens2 σ hdeg (kummerClass a) +
         cup11 (sw1 t) (galoisCor1 σ (kummerClass a)) :=
+  sorry
+
+/-- **Layer 9, acceptance: the value of the Evens norm pins its sign.** Over `ℚ₂` with `d = −1`,
+`L = ℚ₂(i)` and `a = 1 + 2i`: `Tr a = 2` and `N a = 5`, so `galoisEvens2_kummerClass_one_add` at
+`t = 2` gives `N^{Ev}((a)) = (2) ∪ (5)`, which is nonzero because `(2, 5)_{ℚ₂} = −1`. Kahn's form
+`(Tr a) ∪ (−d · N a) + (2) ∪ (d) = (2) ∪ (5) + (2) ∪ (−1)` is the class `(2) ∪ (−5)`, the same one,
+because `(2, −1)_{ℚ₂} = +1`. The value with the extra term `(d) ∪ (−1) = (−1) ∪ (−1)`, which is what
+the `SD₁₆` class would give, is `0`, because `(−1, −1)_{ℚ₂} = −1` and `H²(G_{ℚ₂}, 𝔽₂)` has two
+elements; restriction to `L` cannot see the difference, since `(d) ∪ (−1)` lies in its kernel. -/
+example [Invertible (2 : ℚ_[2])] {L : Type} [Field L] [Algebra ℚ_[2] L]
+    [FiniteDimensional ℚ_[2] L] [Algebra.IsSeparable ℚ_[2] L] [Invertible (2 : L)]
+    (σ : L →ₐ[ℚ_[2]] SeparableClosure ℚ_[2]) (hdeg : Module.finrank ℚ_[2] L = 2) (i : L)
+    (hi : i ^ 2 = -1) (a : Lˣ) (ha : (a : L) = 1 + 2 * i) :
+    galoisEvens2 σ hdeg (kummerClass a) =
+        cup11 (kummerClass (unitOfInvertible (2 : ℚ_[2])))
+          (kummerClass (Units.mk0 (5 : ℚ_[2]) (by norm_num))) ∧
+      cup11 (kummerClass (unitOfInvertible (2 : ℚ_[2])))
+          (kummerClass (Units.mk0 (5 : ℚ_[2]) (by norm_num))) ≠ 0 ∧
+      galoisEvens2 σ hdeg (kummerClass a) =
+        cup11 (kummerClass (unitOfInvertible (2 : ℚ_[2])))
+          (kummerClass (-Units.mk0 (5 : ℚ_[2]) (by norm_num))) ∧
+      galoisEvens2 σ hdeg (kummerClass a) ≠
+        cup11 (kummerClass (unitOfInvertible (2 : ℚ_[2])))
+            (kummerClass (Units.mk0 (5 : ℚ_[2]) (by norm_num))) +
+          cup11 (kummerClass (-1 : ℚ_[2]ˣ)) (kummerClass (-1 : ℚ_[2]ˣ)) :=
   sorry
 
 end Cohomology

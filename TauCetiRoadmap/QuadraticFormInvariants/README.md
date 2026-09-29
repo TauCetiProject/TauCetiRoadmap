@@ -34,16 +34,18 @@ classification or realization theorem belong to `GlobalQuadraticForms`.
 The homes below mirror Mathlib's directory conventions.
 
 - `TauCeti/LinearAlgebra/QuadraticForm/` for Witt theory, Pfister forms, the classical
-  invariants at the form level, and the Scharlau transfer. Mathlib keeps
-  `QuadraticForm` under `LinearAlgebra/`, so the form theory stays there.
+  invariants at the form level, the Scharlau transfer, and the `Pin⁺` model of the plane
+  `⟨1, 1⟩` in `2 × 2` matrices. Mathlib keeps `QuadraticForm` under `LinearAlgebra/`, so
+  the form theory stays there.
 - `TauCeti/Algebra/Quaternion/` for the quaternion symbol layer and its Brauer-class
   package. Mathlib keeps its quaternion and Brauer material under `Algebra/`.
 - `TauCeti/NumberTheory/LocalField/QuadraticForm/` for the quadratic defect, the Hilbert
   symbol, and the local classification. The general local-field arithmetic these consume
   lands where the local-fields-ramification roadmap puts it, and is not duplicated here.
 - `TauCeti/FieldTheory/QuadraticForm/` for the cohomological layers, that is the Brauer
-  comparison, Stiefel-Whitney classes, and the relative formula. These sit next to
-  the landed `TauCeti/FieldTheory/SquareClassGroup.lean` that they consume.
+  comparison, Stiefel-Whitney classes, the value of the Evens norm, and the relative
+  formula. These sit next to the landed `TauCeti/FieldTheory/SquareClassGroup.lean` that
+  they consume.
 
 ## Scope
 
@@ -194,6 +196,15 @@ Each layer states its results against this table.
   `w₂(q) = ∑_{i<j} (aᵢ)(aⱼ)`, which are the degree-1 and degree-2 parts of Delzant's
   total class `∏ᵢ (1 + (aᵢ))`. Here `w₁(q) = (d(q))` uses the plain discriminant and not
   `d±`.
+- **The `Pin⁺` model and the explicit cochains** for Layer 9. The Clifford algebra of
+  `(F², ⟨1, 1⟩)` is `M₂(F)` with `e₁ = diag(1, −1)`, `e₂ = [[0, 1], [1, 0]]` and
+  `e₁² = e₂² = +1`, so that the lift of `C₂ ≀ C₂` is `D₁₆` and not `Q₁₆`; an orthogonal
+  `x` acts on vectors by `v ↦ det(x) · x v xᵀ`; and `G_K` acts on the coordinates of the
+  descended plane `W` by `ρ(g)ᵀ`, where `ρ` is the signed-permutation representation. An
+  explicit `𝔽₂`-valued 2-cocycle `f` of `G_K` satisfies
+  `f(gh, j) + f(g, h) = f(h, j) + f(g, hj)`, a coboundary is
+  `(g, h) ↦ ψ(h) − ψ(gh) + ψ(g)`, and the cup of two continuous homomorphisms is
+  `(g, h) ↦ χ(g) ψ(h)`, as in the profinite-cohomology roadmap.
 - **Additive against multiplicative.** Cohomology is additive and the Brauer group is a
   `CommGroup`. The coefficient modules are therefore `Additive Kˢˣ` and `μ₂ ≅ ZMod 2`,
   and every Lean statement that compares the two worlds transports through `Additive`.
@@ -366,10 +377,11 @@ improvement through their own review rather than duplicating them.
   `ClassFieldTheory -> QuadraticFormInvariants`, never the reverse.
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology and its operations: the carrier, the cup product, restriction, inflation,
-  corestriction, Kummer theory, the Evens norm at index two with its four characterizing
-  identities, the explicit low-degree complex, and the finite-quotient system with its
-  universal cocone. Layer 7A consumes those declarations and adds only the coefficient
-  identification specific to `μ₂` and the passage from a field extension to the open
+  corestriction, Kummer theory, the index-two Evens norm with the identities, the
+  index-two exact sequence and the `D₁₆` pullback formula of the contract table below, the
+  explicit low-degree complex, and the finite-quotient system with its universal cocone.
+  Layer 7A consumes those declarations and adds only the coefficient identification
+  specific to `μ₂` and the passage from a field extension to the open
   subgroup by which the supplier's operations are indexed; Layer 7B adds only the
   identification of the supplier's coefficient module `UnitsCoeff K` with the units of
   `Kˢ` and the packaging of a finite Galois subextension as an open normal subgroup with
@@ -501,9 +513,11 @@ crossed-product comparison has `Kˢˣ` coefficients and says nothing about the `
 | Layer 7A, corestriction | 10 | `corestriction`, `corestrictionLe`, `corestriction_comp_res`, `corestriction_mackey` | `Hⁿ(U, res X) ⟶ Hⁿ(G, X)` for open `U`, with `cor ∘ res = (G : U) · id` and the double-coset formula |
 | Layer 7A, Kummer classes; Layer 8's classes | 9 | `KummerCoeff`, `powerClassQuotient`, `kummerMap`, `kummerIso`, `kummerMapCanonical`, `kummerIso_res`, `kummerIso_norm`, `kummerCoeff_continuousSMul` | `Kˣ ⧸ (Kˣ)ⁿ ≃* Multiplicative (H¹(G_K, μ_n))` for `n` invertible in `K`, with the restriction and norm squares |
 | Layer 7A, the multiplicative coefficients; Layer 7B's comparison | 9 | `UnitsCoeff`, `unitsCoeff_continuousSMul`, `kummerShortExact`, `hilbert90`, `h2KummerToUnits`, `h2KummerToUnits_injective`, `h2KummerToUnits_range` | `Additive Kˢˣ` as a discrete `G_K`-module, `H¹(G_K, Kˢˣ) = 0`, and `H²(G_K, μₙ) ↪ H²(G_K, Kˢˣ)` with image the `n`-torsion |
-| Layer 7A, the transfer along `L/K`; Layers 8 and 9 | 9, with 10 and 13 | `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv`, `galoisF2Iso`, `galoisRes`, `galoisCor`, `galoisEvens`, `galoisConj`, `galoisRes_cup`, `galoisCor_cup`, `galoisRes_galoisCor`, `galoisConj_evensConj`, `galoisRes_galoisEvens`, `galoisEvens_add`, `galoisRes_comp`, `galoisRes_embedding_independent`, `galoisCor_embedding_independent`, `galoisEvens_embedding_independent` | restriction, corestriction and the index-two Evens norm attached to a finite separable `L/K`, with their laws, the conjugation convention `galoisConj = res ∘ cor − id`, and independence of the embedding |
-| Layer 7A, the Evens norm; Layer 9's formula | 13 | `evensNorm`, `evensNormIndexTwo`, `evensConj`, `evensConj_eq_conjMapOf`, `evensNorm_res`, `evensNorm_polarization`, `evensNorm_cor_shapiro`, `evensNorm_identity_infl` | `H¹(U, 𝔽₂) → H²(G, 𝔽₂)` for open `U` of index two, with its four characterizing identities, and the theorem that `evensConj` is conjugation by every `s ∉ U`, which is what makes the conjugation convention choice-free |
-| Layer 7B, the comparison with the explicit model | 8, 12 | `explicitCup11`, `explicitIso_cup` | the agreement of the explicit bidegree-`(1,1)` cup with `cup` |
+| Layer 7A, the transfer along `L/K`; Layers 8 and 9 | 9, with 10 and 12 | `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv`, `galoisF2Iso`, `galoisRes`, `galoisCor`, `galoisRes_cup`, `galoisCor_cup`, `galoisRes_comp`, `galoisRes_embedding_independent`, `galoisCor_embedding_independent`; milestone *`galoisSubgroup K L σ` is the subgroup fixing `σ L`* (no target signature) | restriction and corestriction of `𝔽₂`-cohomology along a finite separable `L/K` with a chosen `K`-embedding into `Kˢ`, the cup and projection formulas, functoriality in a tower, and independence of the embedding. The description of `galoisSubgroup` is frozen here as `mem_galoisSubgroup_iff` |
+| Layers 7A and 9, the Evens norm, the conjugate and the character of a quadratic extension | 9, transporting 13 | `galoisEvens`, `galoisConj`, `galoisCharacter`, `galoisRes_galoisCor`, `galoisConj_evensConj`, `galoisRes_galoisEvens`, `galoisEvens_add`, `galoisEvens_galoisRes`, `galoisRes_eq_zero_iff`, `galoisEvens_embedding_independent` | for `[L : K] = 2` exactly: the norm `H¹(G_L, 𝔽₂) → H²(G_K, 𝔽₂)`; the conjugate `galoisConj = res ∘ cor − id`, the transport of `evensConj`; the class `χ_{L/K}` of the character with kernel `G_L`; and `res N x = x ∪ σ·x`, `N(x + y) = N x + N y + cor(x ∪ σ·y)`, `N(res y) = y ∪ y + χ_{L/K} ∪ y` and `ker(res : H²(G_K, 𝔽₂) → H²(G_L, 𝔽₂)) = χ_{L/K} ∪ H¹(G_K, 𝔽₂)` |
+| Layer 9, the value of the Evens norm; the conjugation convention | 13 | `evensNormIndexTwo`, `homClass`, `evensConj`, `evensConj_eq_conjMapOf`, `WreathC2` with `WreathC2.mk`, `WreathC2.coordA`, `WreathC2.coordB`, `WreathC2.coordC`, `WreathC2.mk_zero`, `WreathC2.coordA_mk`, `WreathC2.coordB_mk`, `WreathC2.coordC_mk`, `WreathC2.mk_mul_mk`, `wreathSection`, `dihedralToWreath`, `wreathD16Cocycle`, `wreathD16Cocycle_isCocycle`, `indexTwoInd`, `continuous_wreathD16Cocycle_indexTwoInd`, `evensNormIndexTwo_eq_ind_pullback` | for an open subgroup `U` of index exactly two: the norm `H¹(U, 𝔽₂) → H²(G, 𝔽₂)`, evaluated on the class `homClass` of a continuous homomorphism; `evensConj` as conjugation by every `s ∉ U`; and, for every `s ∉ U`, `N^{Ev}(α) = (Ind α)^* c_{D₁₆}`, where `Ind α = indexTwoInd : G → C₂ ≀ C₂` and `c_{D₁₆} = wreathD16Cocycle` is the factor set of `dihedralToWreath : D₁₆ → C₂ ≀ C₂` for the section `wreathSection` |
+| Layer 9, explicit 2-cocycles of `G_K` and their classes | 1, 3 and 13 | `cochainClass`, `cochainClass_eq_of_sub_eq_d`, `inhomogeneousCochain2`, `inhomogeneousCochain2_d_eq_zero`, `homClass_eq_cochainClass`; milestone *the explicit class map is additive and compatible with the differential* (no target signature) | the class in `H²(G, 𝔽₂)` of a continuous `𝔽₂`-valued 2-cocycle, and the class of a continuous homomorphism as a cochain class. The additivity and the coboundary rule are frozen here, over `G_K`, as `f2CocycleClass` with `f2CocycleClass_eq_add` |
+| Layer 7B, the comparison with the explicit model; Layer 9's `cup11_homClass` | 8, 12 | `explicitCup11`, `explicitIso_cup` | the agreement of the explicit bidegree-`(1,1)` cup with `cup` |
 | Layer 7B, milestone 2(8), the passage from a finite cocycle to a continuous class | 2, 3 | `Z2`, `B2`, `H2`, `H2pi`, `DiscreteH2`, `discreteH2Equiv`, `explicitH2Obj`, `explicitH2IsoContinuousCohomology` | the explicit inhomogeneous degree-two complex with its class map, and its comparison with the canonical carrier, at `G = G_K` and `M = UnitsCoeff K` |
 | Layer 7B, milestone 2(8), the finite-quotient description of `H²(G_K, Kˢˣ)` | 0, 4 | `Invariants`, `explicitFiniteQuotientSystem2`, `explicitFiniteQuotientComparison2`, `explicitFiniteQuotientCocone2`, `explicitFiniteQuotientColimit2` | the invariant coefficients `M^U`, the degree-two system over the open normal subgroups of `G_K`, its inflation-and-inclusion cocone into `H²(G_K, M)`, and universality of that cocone |
 
@@ -566,7 +580,9 @@ Everything below the linear algebra:
 - the Stiefel-Whitney classes `w₁` and `w₂` of forms, defined on isometry classes and not
   only on diagonal tuples, with the exact comparison between `w₂` and the Clifford
   invariant;
-- the Scharlau transfer, and the relative Stiefel-Whitney formula in degrees 1 and 2.
+- the Scharlau transfer, the twisted trace form, the value of the index-two Evens norm on
+  Kummer classes through the `Pin⁺` lift of `C₂ ≀ C₂`, and the relative Stiefel-Whitney
+  formula in degrees 1 and 2.
 
 None of this exists upstream as stated. Each object gets its complete basic theory, and
 not only the milestone that the headline needs.
@@ -578,8 +594,9 @@ symbol and the Hasse invariant, the Witt ring with its fundamental ideal and the
 Clifford invariant, the Layer 6A objects stated against the supplied valuation and
 filtration, the quadratic defect with its exponent,
 the Hilbert symbol, the `μ₂` identification of Layer 7A with its laws, the
-Brauer comparison, `w₁` and `w₂` on isometry classes, and the Scharlau transfer with the
-relative Stiefel-Whitney formula. It is illustrative and not exhaustive, and this README
+Brauer comparison, `w₁` and `w₂` on isometry classes, the Scharlau transfer, the `Pin⁺`
+model in explicit `2 × 2` matrices with the value of the Evens norm, and the relative
+Stiefel-Whitney formula. It is illustrative and not exhaustive, and this README
 is the definitive document.
 
 ---
@@ -1789,8 +1806,8 @@ Prerequisites:
   `cup_add_right`, `cup_res`, `cup_infl`, `cup_projection`, `cup_gradedComm`,
   `degreeCast`, `ofDiscreteModulePairing`;
 - **[Profinite Cohomology, Layer 13]** `trivialF2`, `trivialF2_isSmoothDiscrete`,
-  `f2Pairing`, `evensNorm`, `evensNormIndexTwo`, `evensConj`, `evensNorm_res`,
-  `evensNorm_polarization`, `evensNorm_cor_shapiro`, `evensNorm_identity_infl`;
+  `f2Pairing`, and `evensNormIndexTwo` with `evensConj`, which Layer 9 consumes through
+  the Galois-side declarations of the contract table;
 - **[Layer 0]** the square-class group and the square-class dictionary of 6A.
 
 Milestones:
@@ -1824,17 +1841,19 @@ Milestones:
 - **What the transfer along a finite separable `L/K` adds here.** The supplier owns the
   passage from a `K`-embedding `σ : L → Kˢ` to the open subgroup `G_L ≤ G_K`, the
   transport of its `𝔽₂`-cohomology, the resulting `galoisRes`, `galoisCor` and
-  `galoisEvens`, the choice-free conjugate `galoisConj`, the two Evens identities
+  `galoisEvens`, the choice-free conjugate `galoisConj`, the character `galoisCharacter`
+  of a quadratic extension, the Evens identities
 
   ```text
   res (N x)   = x ∪ σ·x
   N (x + y)   = N x + N y + cor (x ∪ σ·y)
+  N (res y)   = y ∪ y + χ_{L/K} ∪ y
   ```
 
-  functoriality in a tower `M/L/K`, and independence of the embedding. None of that is
-  rebuilt here. ⚠ The conjugate is not optional: the cross term of the quadratic expansion
-  is a cup with `σ·y` and not with `y`. What is left for this sublayer is the part that
-  mentions this roadmap's own notions:
+  the kernel of restriction in degree two, functoriality in a tower `M/L/K`, and
+  independence of the embedding. None of that is rebuilt here. ⚠ The conjugate is not
+  optional: the cross term of the quadratic expansion is a cup with `σ·y` and not with
+  `y`. What is left for this sublayer is the part that mentions this roadmap's own notions:
   - restriction on the multiplicative coefficients, which is not an instance of
     `galoisRes`: `UnitsCoeff K` and `UnitsCoeff L` are coefficient objects over different
     groups;
@@ -2204,7 +2223,7 @@ Basic API:
   that is `res (wᵢ q) = wᵢ (q ⊗_K L)`;
 - comparison lemmas: `w₂` against the image of `hasseInvariant` under `ι`; `w₂` against
   the image of `cliffordInvariant` under `ι`, which is the displayed identity; `w₁`
-  against `d` and not against `d±`;
+  against `d` and not against `d±` (`sw1Class_eq_discr`);
 - naturality: the descent of `w₁` and `w₂` along `Quotient.mk`, and their invariance under
   `QuadraticMap.Equivalent`;
 - edge cases: rank `0`, where both classes vanish; a hyperbolic form; `a` a square,
@@ -2217,21 +2236,37 @@ Basic API:
 Prerequisites:
 
 - **[Mathlib]** `LinearMap.compQuadraticMap'`, `Algebra.trace`, `Algebra.traceForm`,
-  `traceForm_nondegenerate`, `LinearMap.BilinMap.toQuadraticMap`;
+  `traceForm_nondegenerate`, `LinearMap.BilinMap.toQuadraticMap`, `Algebra.norm`,
+  `Algebra.trace_eq_sum_embeddings`, `Matrix` with `Matrix.map`, `DihedralGroup`,
+  `IsSepClosed`;
 - **[Tau Ceti]** `TauCeti/NumberTheory/EffectiveBounds/TraceForm.lean` and
-  `TauCeti/FieldTheory/Trace`;
+  `TauCeti/FieldTheory/Trace`, in particular
+  `TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range`; and the
+  Cartan-Dieudonné theorem `TauCeti.QuadraticMap.exists_reflectionOrthogonal_list_prod_eq`
+  of `TauCeti/LinearAlgebra/QuadraticForm/CartanDieudonne`;
 - **[Layer 1]** to **[Layer 4]** for the form theory and the Witt ring;
-- **[Layer 7A]** the carriers for `K` and for `L`, and the Kummer class;
+- **[Layer 7A]** the carriers for `K` and for `L`, the Kummer class with
+  `kummerSquareClassEquiv`, and `galoisRes_kummerClass`, `galoisCor_kummerClass`;
+- **[Layer 7C]** `cup_kummerClass_eq_zero_iff`, for the vanishing of `(t) ∪ (−t)`,
+  `(2) ∪ (−1)` and `(d) ∪ (N a)`;
+- **[Layer 8]** the Stiefel-Whitney classes, with `sw1Class_eq_discr` and `sw2Class_mk`;
 - **[Profinite Cohomology, Layer 9]** `galoisSubgroup`, `galoisSubgroup_index`,
   `galoisSubgroupEquiv`, `galoisF2Iso`, `galoisRes`, `galoisCor`, `galoisEvens`,
-  `galoisConj`, with `galoisRes_galoisCor`, `galoisConj_evensConj`, `galoisCor_cup`,
-  `galoisRes_galoisEvens`, `galoisEvens_add`, and the three embedding-independence
-  theorems, which together are the transfer along `L/K`;
-- **[Profinite Cohomology, Layers 12 and 13]** `cup` at `f2Pairing` with `cup_gradedComm`,
-  and `evensNormIndexTwo` with `evensConj`, `evensConj_eq_conjMapOf`, `evensNorm_res` and
-  `evensNorm_polarization`, which `galoisRes_galoisEvens` and `galoisEvens_add`
-  transport;
-- **[Layer 8]** the Stiefel-Whitney classes.
+  `galoisConj`, `galoisCharacter`, with `galoisRes_galoisCor`, `galoisConj_evensConj`,
+  `galoisCor_cup`, `galoisRes_galoisEvens`, `galoisEvens_add`, `galoisEvens_galoisRes`,
+  `galoisRes_eq_zero_iff`, and the three embedding-independence theorems, which together
+  are the transfer along `L/K`; every statement about the norm, the conjugate or the
+  character needs `[L : K] = 2`;
+- **[Profinite Cohomology, Layers 1, 3 and 13]** the class of an explicit cocycle,
+  `cochainClass` with `cochainClass_eq_of_sub_eq_d`, `inhomogeneousCochain2` and
+  `inhomogeneousCochain2_d_eq_zero`; the class `homClass` of a continuous homomorphism,
+  with `homClass_eq_cochainClass`; and, for an open subgroup of index exactly two,
+  `evensNormIndexTwo` with `evensConj`, `evensConj_eq_conjMapOf` and the pullback formula
+  `evensNormIndexTwo_eq_ind_pullback`, stated through the model `WreathC2` of `C₂ ≀ C₂`
+  with its coordinates, `wreathSection`, `dihedralToWreath`, `wreathD16Cocycle`,
+  `wreathD16Cocycle_isCocycle`, `indexTwoInd` and `continuous_wreathD16Cocycle_indexTwoInd`;
+- **[Profinite Cohomology, Layers 8 and 12]** `cup` at `f2Pairing` with `cup_gradedComm`,
+  and `explicitIso_cup`.
 
 Milestones:
 
@@ -2261,7 +2296,34 @@ Milestones:
 - **The trace form.** `Tr_*⟨1⟩` is the quadratic form of `Algebra.traceForm`, and for
   `L = K(√d)` it is `⟨2, 2d⟩`. Prove it through `TauCeti/FieldTheory/Trace`'s
   diagonalization API rather than by re-deriving the trace computations. The twisted
-  forms `Tr_*⟨a⟩` for `a : Lˣ` are the objects that Kahn's theorem evaluates.
+  forms `Tr_*⟨a⟩` for `a : Lˣ` are the objects that Kahn's theorem evaluates. Tau Ceti's
+  `TauCeti/LinearAlgebra/QuadraticForm/Transfer/` builds the same transfer as
+  `QuadraticMap.scharlauTransfer`, with the form first, so that `q.scharlauTransfer s` is
+  this roadmap's `scharlauTransfer s q`, together with `traceTransfer`, `traceTransfer_sq`
+  (the transfer of the unit line is the trace form) and
+  `equivalent_traceTransfer_sq_weightedSumSquares_of_sq` (`⟨2, 2d⟩` for every `L` with
+  `[L : K] = 2`, `x ∉ K` and `x² = d`). It landed after this repository's Tau Ceti pin, so
+  the statements here keep this roadmap's spelling; when the pin moves past it, they are to
+  consume it by alias.
+- **The twisted trace form.** For `L = K(x)` with `x ∉ K` and `x² = d`, and `a : Lˣ`:
+  - in square-root coordinates `N(u + v x) = u² − v² d` (`norm_add_mul_of_sq`) and
+    `Tr(u + v x) = 2u`, because `Tr x = 0`
+    (`TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range`);
+  - **Kahn's basis.** If `Tr a ≠ 0`, then `1` and `x/a` are orthogonal for `Tr_*⟨a⟩`,
+    because `Tr(a · x/a) = Tr x = 0`, and their values are `Tr a` and
+    `Tr(d/a) = d · Tr a / N a`; they are independent, because `x/a ∈ K` would put `a` in
+    `K x` and force `Tr a = 0`. So `Tr_*⟨a⟩ ≅ ⟨Tr a, d · Tr a / N a⟩`
+    (`traceTransfer_weightedSumSquares_equivalent`). ⚠ The hypothesis `Tr a ≠ 0` is
+    load-bearing: at `Tr a = 0` both entries vanish, and the form is not `⟨0, 0⟩`;
+  - if `Tr a = 0`, then `Tr_*⟨a⟩(1) = 0`, so the regular binary form is isotropic and
+    `Tr_*⟨a⟩ ≅ ⟨1, −1⟩` (`traceTransfer_weightedSumSquares_equivalent_hyperbolic`);
+  - **the discriminant.** In both cases `d(Tr_*⟨a⟩) = d · N a` in `Kˣ/(Kˣ)²`
+    (`discr_traceTransfer`): `Tr a · d · Tr a / N a ≡ d · N a`, and at trace zero
+    `a = v x` and `−1 ≡ d · N(v x) = −v² d²`. This is the one step of the degree-1 formula
+    that the transfer milestones above do not state. Tau Ceti's landed discriminant is the
+    additive `TauCeti.RegularFormClass.discr`, valued in `SquareClassGroup K`; this
+    roadmap's `discr` is the same invariant written multiplicatively, in
+    `Kˣ ⧸ Subgroup.square Kˣ`.
 - **The Galois setup, and the imported transfer by name.** Fix a separable closure `Kˢ`
   containing `L`. The passage from a `K`-embedding `σ : L → Kˢ` to the open subgroup
   `G_L ≤ G_K` is `ProfiniteCohomology.galoisSubgroup` with `galoisSubgroup_index`, and the
@@ -2277,8 +2339,7 @@ Milestones:
     `evensConj_eq_conjMapOf` shows agrees with conjugation by **every** `s ∈ G_K ∖ G_L`.
     So no element outside `G_L` is chosen, and `σ·x` below always means `galoisConj1 σ x`.
   - **The two Evens identities**, imported as `galoisRes_galoisEvens` and
-    `galoisEvens_add`, which transport the supplier's `evensNorm_res` and
-    `evensNorm_polarization`:
+    `galoisEvens_add`, the supplier's identities 1 and 2 read on the `L/K` side:
 
     ```text
     res (N x)  = x ∪ σ·x
@@ -2303,6 +2364,135 @@ Milestones:
   `cor (res x ∪ y) = x ∪ cor y`, the supplier's `galoisCor_cup` transported as
   `galoisCor2_cup11`, is what turns the last term of the degree-2 formula into a
   statement over `K`.
+- **The norm of a restricted class, and the kernel of restriction.** Identity 1
+  determines `N^{Ev}` only modulo the kernel of restriction
+  `H²(G_K, 𝔽₂) → H²(G_L, 𝔽₂)`, and for `L = K(√d)` that kernel is `(d) ∪ H¹(G_K, 𝔽₂)`.
+  The supplier's `galoisSubgroup K L σ` is the subgroup of `G_K` fixing `σ(L)`
+  (`mem_galoisSubgroup_iff`). So the supplier's `galoisCharacter`, the class of the
+  character of `G_K` with kernel `G_L`, is the Kummer class of `d`
+  (`galoisCharacter_eq_kummerClass`); the supplier's `galoisRes_eq_zero_iff` reads here as
+  `galoisRes2_eq_zero_iff`; and the supplier's `galoisEvens_galoisRes`, the fifth index-two
+  identity read on the `L/K` side, `N(res y) = y ∪ y + χ_{L/K} ∪ y`, reads here as
+  `galoisEvens2_galoisRes1` and evaluates the norm on the classes that come from `K`. A
+  candidate value that differs from the true one by an element of `(d) ∪ H¹(G_K, 𝔽₂)`
+  satisfies identity 1 equally well, which is why the value on every Kummer class is
+  computed directly, in the next milestone.
+- **The value of the Evens norm on a Kummer class** (Kahn, Invent. Math. 78 (1984),
+  Lemme II.2.1; Serre, Comment. Math. Helv. 59 (1984), Théorème 1′ at `n = 2`). For
+  `L = K(x)` with `x ∉ K`, `x² = d`, and every `a : Lˣ`:
+
+  ```text
+  N^{Ev}((a)) = (Tr a) ∪ (−d · N a) + (2) ∪ (d)       if Tr a ≠ 0,
+  N^{Ev}((a)) = (2) ∪ (d)                             if Tr a = 0
+  ```
+
+  (`galoisEvens2_kummerClass`, `galoisEvens2_kummerClass_of_trace_eq_zero`). The two
+  instances that consumers name are corollaries: `N^{Ev}((1 + t√d)) = (2) ∪ (1 − dt²)`
+  (`galoisEvens2_kummerClass_one_add`: `Tr = 2`, `N = 1 − dt²` by `norm_add_mul_of_sq`,
+  and `(2) ∪ (−1) = 0` because `−1 = 1² − 2 · 1²`) and `N^{Ev}((√d)) = (2) ∪ (d)`
+  (`galoisEvens2_kummerClass_sqrt`). The formula covers every `a` at once, so neither a
+  reduction to normalized elements nor the polarization enters. The proof is Serre's
+  second proof at `n = 2`, in explicit `2 × 2` matrices over `Kˢ`, and it pins three
+  conventions, each against a wrong alternative that changes the answer:
+  - **`e_i² = +1`.** The Clifford algebra of `(F², ⟨1, 1⟩)` is `M₂(F)`, with
+    `e₁ = diag(1, −1)` and `e₂ = [[0, 1], [1, 0]]` (`pinE1`, `pinE2`), `e₁² = e₂² = +1`,
+    `e₁ e₂ = −e₂ e₁` and `(y₀ e₁ + y₁ e₂)² = (y₀² + y₁²) · 1` (`pinE1_mul_self`,
+    `pinE2_mul_self`, `pinE1_mul_pinE2`, `pinVec_mul_self`, all proved in
+    `Suggested.lean`). These signs make the lift of `C₂ ≀ C₂` below the dihedral group
+    `D₁₆` of `Pin⁺` and not the quaternion group `Q₁₆`, as the supplier's `D₁₆` class and
+    Kahn's and Serre's `(2)(d)` require.
+  - **The twisted adjoint action.** An orthogonal `x ∈ M₂(F)` acts on vectors by
+    `v ↦ det(x) · x v xᵀ`. An orthogonal `2 × 2` matrix is homogeneous, even when its
+    determinant is `1` and odd when it is `−1`, so this is `v ↦ (−1)^{|x|} x v x⁻¹`. A
+    **`Pin⁺` lift** of `w ∈ O₂(F)` is an orthogonal `x` whose action is `w`
+    (`IsPinLift`). With the sign, a unit vector lifts its own reflection; without it,
+    `e₁` would act as `diag(1, −1)`, the reflection in the wrong line.
+  - **The descent convention.** `g ∈ G_K` acts on the coordinates of a point of `W` below
+    by `ρ_a(g)ᵀ`, which is an anti-homomorphism in `g`, while `ρ_a` itself is a
+    homomorphism (`kummerPoint_galois`).
+
+  Fix `σ : L → Kˢ`, write `G_L` for `galoisSubgroup K L σ`, and choose `s ∈ G_K ∖ G_L`,
+  `r ∈ Kˢ` with `r² = σ(a)`, and a square root `√2 ∈ Kˢ`. For `r ∈ Kˢ` with `r² ∈ K`,
+  `rootSign r g ∈ 𝔽₂` records whether `g r = −r` (`rootSign`). It is the Kummer character
+  of `r²` (`kummerCharacter`), and `kummerClass_eq_homClass` says that the Kummer class is
+  the class of this character. The route:
+  1. **The norm as a pullback.** The supplier proves `N^{Ev}(α) = (Ind α)^* c_{D₁₆}` for
+     every open `U` of index two, every `s ∉ U` and every continuous `α : U → 𝔽₂`
+     (`evensNormIndexTwo_eq_ind_pullback`), with `Ind α : G → C₂ ≀ C₂` its `indexTwoInd`
+     and `c_{D₁₆}` its `wreathD16Cocycle`, the factor set of `dihedralToWreath` for the
+     section `wreathSection`. The Kummer class of `a`, carried to `G_L`, is the class of
+     `γ ↦ rootSign r γ` (`galoisKummerCharacter`, `galoisF2Iso_inv_kummerClass`), so
+     `N^{Ev}((a))` is the class of `c_{D₁₆} ∘ (ρ_a × ρ_a)` for
+     `ρ_a = Ind α_a : G_K → C₂ ≀ C₂` (`kummerInd`,
+     `galoisEvens2_kummerClass_eq_pullback`). An explicit continuous `𝔽₂`-valued
+     2-cocycle of `G_K` is read in `H²(G_K, 𝔽₂)` by `f2CocycleClass`, which is additive
+     and kills coboundaries (`f2CocycleClass_eq_add`), and the cup of the classes of two
+     continuous homomorphisms `χ`, `ψ` is the class of `(g, h) ↦ χ(g) ψ(h)`
+     (`cup11_homClass`).
+  2. **The representation on `W`.** `C₂ ≀ C₂` acts on `F²` by signed permutations,
+     `(a, b, c) ↦ diag((−1)^a, (−1)^b) · e₂^c` (`wreathSignedPerm`). For `y ∈ L` put
+     `φ(y) = (σ(y) r, s(σ(y) r)) ∈ (Kˢ)²` (`kummerPoint`). Then
+     `φ(y) · φ(y') = Tr_{L/K}(a y y')` (`kummerPoint_dotProduct`), because `σ` and
+     `s ∘ σ` are the two embeddings of `L` into `Kˢ`: so `W = φ(L)` with the unit form of
+     `(Kˢ)²` is `Tr_*⟨a⟩`. And `g(φ(y)) = ρ_a(g)ᵀ φ(y)` (`kummerPoint_galois`): `ρ_a` is
+     the representation of `G_K` on the roots `r, s r` of `X² − σ(a)` and `X² − s σ(a)`,
+     that is, of `M = K(√d, √a, √σa)`, and the descent datum of `W`.
+  3. **The lift into `D̃₁₆` and the twisted boundary.** Put `t = (e₁ − e₂)/√2` (`pinT`;
+     `t² = +1` by `pinT_mul_self`, proved). The assignment `r ↦ e₁ t`, the rotation by
+     `π/4`, and `f ↦ t` is a homomorphism from Mathlib's `DihedralGroup 8` onto
+     `D̃₁₆ = ⟨e₁, t⟩` (`pinDihedral`, `pinDihedral_mul`), with `(e₁ t)⁴ = −1`, and it lies
+     over the supplier's `dihedralToWreath`: `pinDihedral z` is a `Pin⁺` lift of the
+     signed permutation of `dihedralToWreath z` (`isPinLift_pinDihedral`; `t` lifts the
+     swap and `e₁` lifts `diag(−1, 1)`). Through `wreathSection` it gives `pinLift`, whose
+     factor set is `c_{D₁₆}`: `pinLift(g) pinLift(h) pinLift(gh)⁻¹ = (−1)^{c_{D₁₆}(g, h)}`
+     (`pinLift_mul_mul_inv`). The lift of `ρ_a` is `ρ̃_a = pinLift ∘ ρ_a`
+     (`kummerIndLift`), and its **twisted boundary** is
+     `δ(ρ̃_a)(g, h) = ρ̃_a(g) · g(ρ̃_a(h)) · ρ̃_a(gh)⁻¹`, with `g` acting on entries
+     (`twistedBoundary`, and `twistedBoundaryF2` for its exponent in `𝔽₂`). Since `g`
+     fixes `e₁` and `e₂` and sends `t` to `(−1)^{rootSign √2 g} t`, it multiplies
+     `pinLift w` by `(−1)^{rootSign √2 g · c(w)}`, where `c(w)` is the top coordinate
+     (`pinLift_map_galois`); and the top coordinate of `ρ_a(h)` is `rootSign √d h`, for
+     the square root `√d = σ(x)`. So, as matrices (`twistedBoundary_kummerIndLift`),
+
+     ```text
+     δ(ρ̃_a)(g, h) = (−1)^{c_{D₁₆}(ρ_a g, ρ_a h) + rootSign √2 g · rootSign √d h},
+     ```
+
+     that is, `δ(ρ̃_a) = ρ_a^* c_{D₁₆} + (2) ∪ (d)` at cochain level. This `(2) ∪ (d)` is
+     Serre's `(2)(d_E)`: it is the discriminant of `L/K` that enters, and not that of
+     `Tr_*⟨a⟩`.
+  4. **The diagonalization.** Let `(y₀, y₁)` be an orthogonal basis of `Tr_*⟨a⟩` with
+     values `w_j = Tr(a y_j²) ∈ Kˣ`, and let `c_j ∈ Kˢ` with `c_j² = w_j`. The matrix `P`
+     whose `j`-th column is `φ(y_j)/c_j` (`kummerFrame`) is orthogonal, and
+     `P⁻¹ ρ_a(g) g(P) = diag((−1)^{rootSign c₀ g}, (−1)^{rootSign c₁ g})`
+     (`kummerFrame_conj`): in `Z¹(G_K, O₂(Kˢ))`, `ρ_a` is cohomologous to the diagonal
+     cocycle of the Kummer characters of `w₀` and `w₁`. In Kahn's basis
+     `(w₀, w₁) = (Tr a, d · Tr a / N a)`; at trace zero a hyperbolic basis gives
+     `(1, −1)`.
+  5. **Invariance, and the diagonal formula.** `P` has a `Pin⁺` lift `P̃`
+     (`exists_isPinLift`: by Tau Ceti's Cartan-Dieudonné, `P` is a product of at most two
+     reflections in anisotropic vectors, which can be scaled to unit vectors because `Kˢ`
+     contains the square roots, and a unit vector lifts its own reflection). Conjugation
+     acts on twisted boundaries by `δ(g ↦ P̃⁻¹ x(g) g(P̃)) = P̃⁻¹ δ(x) P̃`
+     (`twistedBoundary_conj`), which leaves the scalar `δ(ρ̃_a)` unchanged. The cochain
+     `g ↦ P̃⁻¹ ρ̃_a(g) g(P̃)` lifts the diagonal cocycle (`IsPinLift.mul`, `IsPinLift.inv`,
+     `IsPinLift.map`), and so does `g ↦ e₁^{rootSign c₀ g} e₂^{rootSign c₁ g}`
+     (`pinDiagonalLift`, `isPinLift_pinDiagonalLift`, proved). Two lifts differ by a sign
+     (`IsPinLift.eq_or_eq_neg`), here a continuous `(−1)^{ψ(g)}`, which changes the twisted
+     boundary by the coboundary of `ψ`. The diagonal lift has entries in `{0, ±1}`, and
+     `e₁^a e₂^b · e₁^{a'} e₂^{b'} = (−1)^{b a'} e₁^{a + a'} e₂^{b + b'}`
+     (`pinDiagonalLift_mul`, proved; these are the three lines that use `e_i² = +1` and
+     `e₁ e₂ = −e₂ e₁`), so its twisted boundary is
+     `(g, h) ↦ rootSign c₁ g · rootSign c₀ h`. Hence `δ(ρ̃_a)` is cohomologous to the cup
+     `(w₁) ∪ (w₀)` at cochain level (`twistedBoundaryF2_kummerIndLift_cohomologous`).
+  6. **The value.** Steps 3 and 5 give
+     `c_{D₁₆} ∘ (ρ_a × ρ_a) = rootSign c₁ ∪ rootSign c₀ + rootSign √2 ∪ rootSign √d + ∂ψ`,
+     so step 1, `f2CocycleClass_eq_add`, `cup11_homClass` and `kummerClass_eq_homClass`
+     give `N^{Ev}((a)) = (w₁) ∪ (w₀) + (2) ∪ (d)`. Since `(w₀) ∪ (w₁) = w₂(Tr_*⟨a⟩)`, this
+     is Serre's `w₂(Tr_*⟨a⟩) = N^{Ev}((a)) + (2) ∪ (d)`. In Kahn's basis
+     `(Tr a) ∪ (d · Tr a / N a) = (Tr a) ∪ (Tr a) + (Tr a) ∪ (d · N a) = (Tr a) ∪ (−d · N a)`,
+     by `1/N a ≡ N a` and `(t) ∪ (−t) = 0` (Layer 7C, since `−t = 0² − t · 1²`); at trace
+     zero `(−1) ∪ (1) = 0`.
 - **The polarization convention for `w₁` and `w₂`.** `w₁` is additive over `⊥`; `w₂` is
   not, and its polarization is the cup:
   `w₂(q ⊥ r) = w₂(q) + w₂(r) + w₁(q) ∪ w₁(r)`, which is Layer 8's `sw_append`. That is a
@@ -2312,10 +2502,11 @@ Milestones:
   "polarization" is using one of the two, and the convention table decides which.
 - **The relative Stiefel-Whitney formula, on the forms themselves** (Kahn, *Classes de
   Stiefel-Whitney de formes quadratiques et de représentations galoisiennes réelles*,
-  Invent. Math. 78 (1984) 223-256, **Théorème 2**, read in degrees `≤ 2`; Kozlowski,
-  Proc. AMS 91 (1984) 309-313, Thm 1.1, for the homotopy-level transfer; Evens, Trans.
-  AMS 108 (1963) 54-65, for the norm). This is the milestone of the layer. For `L/K`
-  quadratic and separable and `a : Lˣ`, with `x = (a) ∈ H¹(G_L, 𝔽₂)`:
+  Invent. Math. 78 (1984) 223-256, **Théorème 2**, read in degrees `≤ 2`, and Prop. II.3.5
+  at rank one; Kozlowski, Proc. AMS 91 (1984) 309-313, Thm 1.1, for the homotopy-level
+  transfer; Evens, Trans. AMS 108 (1963) 54-65, for the norm). This is the milestone of the
+  layer, and it is a theorem of the layer. For `L/K` quadratic and separable and
+  `a : Lˣ`, with `x = (a) ∈ H¹(G_L, 𝔽₂)`:
 
   ```text
   w₁(Tr_*⟨a⟩) = w₁(Tr_*⟨1⟩) + cor(x)
@@ -2330,6 +2521,20 @@ Milestones:
   trace forms and supplies no presentation of either side. The hypotheses
   `[FiniteDimensional K L]`, `[Algebra.IsSeparable K L]`, `finrank K L = 2`, and the
   regularity of the two transferred forms are part of the statement.
+
+  The proof is Kahn's. Write `L = K(x)` with `x ∉ K` and `x² = d ∈ Kˣ`, which is possible
+  because `2` is invertible.
+  - Degree 1: `w₁(q) = (d(q))` (`sw1Class_eq_discr`), `d(Tr_*⟨a⟩) = d · N a` and
+    `d(Tr_*⟨1⟩) = d` (`discr_traceTransfer`), and `cor(x) = (N a)`
+    (`galoisCor_kummerClass`); both sides are `(d) + (N a)`.
+  - Degree 2, the four-line computation. `Tr_*⟨1⟩ ≅ ⟨2, 2d⟩`, so `w₁(Tr_*⟨1⟩) = (d)` and
+    `w₂(Tr_*⟨1⟩) = (2) ∪ (2d) = (2) ∪ (d)`, as `(2) ∪ (2) = (2) ∪ (−1) = 0`. Next
+    `w₁(Tr_*⟨1⟩) ∪ cor(x) = (d) ∪ (N a) = 0`, because `N a = u² − d v²` (Layer 7C). So
+    the right-hand side is `(2) ∪ (d) + N^{Ev}((a))`. If `Tr a ≠ 0`, the left-hand side
+    is `w₂⟨Tr a, d · Tr a / N a⟩ = (Tr a) ∪ (−d · N a)`, and by the value of the norm so is
+    the right-hand side. If `Tr a = 0`, the left-hand side is `w₂⟨1, −1⟩ = 0`, and the
+    right-hand side is `(2) ∪ (d) + (2) ∪ (d) = 0`. Layer 8's `sw2Class_mk`, with
+    `formClass_mk`, evaluates `w₂` on these diagonalizations.
 - **The calculational corollary, on diagonal tuples.** The same identity with `w₁` and
   `w₂` read on tuples `t` and `b` that present `Tr_*⟨1⟩` and `Tr_*⟨a⟩`, which is the shape
   a computation over a fixed base uses. It follows from the theorem above through the
@@ -2353,20 +2558,31 @@ Basic API:
 
 - constructors: `scharlauTransfer`, `traceTransfer`, the induced map `W(L) → W(K)`, and
   the carrier wrappers `galoisRes1`, `galoisRes2`, `galoisCor1`, `galoisCor2`,
-  `galoisEvens2`, `galoisConj1`, each with the supplier's operation as its body;
+  `galoisEvens2`, `galoisConj1`, each with the supplier's operation as its body; the
+  `Pin⁺` model `pinE1`, `pinE2`, `pinT`, `pinVec`, `IsPinLift`, `wreathSignedPerm`,
+  `pinDihedral`, `pinLift` and `pinDiagonalLift`; and the Galois-side objects `rootSign`,
+  `kummerCharacter`, `galoisKummerCharacter`, `f2CocycleClass`, `kummerInd`,
+  `kummerPoint`, `kummerFrame`, `twistedBoundary`, `twistedBoundaryF2` and
+  `kummerIndLift`, each with a real body;
 - examples: `Tr_*⟨1⟩ ≅ ⟨2, 2d⟩` for `K(√d)/K`; the `ℂ/ℝ` computation of the landed
-  effective-bounds file, as the archimedean instance;
-- morphisms: `s_* : W(L) → W(K)`, additive and `W(K)`-linear;
+  effective-bounds file, as the archimedean instance; `N^{Ev}((1 + 2i)) = (2) ∪ (5) ≠ 0`
+  for `ℚ_2(i)/ℚ_2`;
+- morphisms: `s_* : W(L) → W(K)`, additive and `W(K)`-linear; `wreathSignedPerm` and
+  `pinDihedral`, which are homomorphisms;
 - functoriality: transitivity `s_* ∘ t_* = (s ∘ t)_*` for a tower `M/L/K`, and
-  compatibility with base change;
+  compatibility with base change; `Pin⁺` lifts are carried by the Galois action;
 - comparison lemmas: change of functional `(λ · s)_* q ≅ s_*(⟨λ⟩ ⊗ q)`; the torsor
-  theorem; Frobenius reciprocity;
+  theorem; Frobenius reciprocity; the Kummer class against its character, and the cup of
+  two characters against the product cochain;
 - naturality: independence of the choice of embedding `L ↪ Kˢ`, which is a Layer 7A
-  theorem;
+  theorem; the value of the norm does not depend on the choices of `r`, `s` and `√2` made
+  in its proof;
 - edge cases: `L = K`, where the transfer is scaling; `q = 0`; a functional that is not
-  the trace;
+  the trace; `Tr a = 0`, where `Tr_*⟨a⟩` is hyperbolic;
 - downstream interfaces: the form-level formula is the layer's public statement, and the
-  diagonal corollary is what a computation over a fixed base applies.
+  diagonal corollary is what a computation over a fixed base applies; the value of the
+  norm on `(1 + t√d)` and on `(√d)` is what a consumer that computes with the Evens norm
+  applies.
 
 ⚠ Nearby false statements. The transfer is not a ring homomorphism on Witt rings.
 Kahn's Théorème 2 needs `L/K` separable, and the transfer of forms has no such formula
@@ -2374,7 +2590,11 @@ for an inseparable extension. The Evens norm is not additive, and the corestrict
 in the expansion above records that failure. The cross term of that expansion is a cup
 with the **conjugate** class and not with the class itself; a formula without the
 conjugate is a different statement, and neither this roadmap nor the profinite-cohomology
-roadmap supplies it.
+roadmap supplies it. The value of the norm on `(1 + t√d)` has no term from the kernel of
+restriction: `(2) ∪ (1 − dt²) + (d) ∪ (−1)`, which is what the `SD₁₆` class would give,
+restricts to `L` exactly as the true value does and is false; over `ℚ_2` with `d = −1` and
+`t = 2` it is `0`, while the value is `(2) ∪ (5) ≠ 0`. The lift of `C₂ ≀ C₂` built with
+`e_i² = −1` is `Q₁₆`, and its class is not the norm.
 
 ---
 
@@ -2419,6 +2639,13 @@ sign error.
   of `𝒪[L]ˣ` in `Lˣ/(Lˣ)²`. That image is the kernel of the parity-of-valuation map and
   has order `8`, while `Lˣ/(Lˣ)²` has order `16` by Layer 6A with `[L : ℚ_2] = 2`. A
   uniformizer represents the missing coset and is excluded here deliberately (Layer 9).
+- The value of the Evens norm pins its sign. Over `ℚ_2`, with `d = −1`, `L = ℚ_2(i)` and
+  `a = 1 + 2i`: `Tr a = 2` and `N a = 5`, so `N^{Ev}((a)) = (2) ∪ (5)`, which is nonzero
+  because `(2,5)_{ℚ_2} = −1`. Kahn's form `(Tr a) ∪ (−d · N a) + (2) ∪ (d)` is
+  `(2) ∪ (5) + (2) ∪ (−1)`, the same class, because `(2,−1)_{ℚ_2} = +1`. The candidate
+  `(2) ∪ (5) + (d) ∪ (−1) = (2) ∪ (5) + (−1) ∪ (−1)` is `0`, because `(−1,−1)_{ℚ_2} = −1` and
+  `H²(G_{ℚ_2}, 𝔽₂)` has two elements (Layer 6E), although it restricts to `L` exactly as
+  the value does (Layer 9).
 
 ### Consumed-interface checks
 
@@ -2437,6 +2664,14 @@ consumes says what the later statements assume.
   degrees Layers 8 and 9 use. So the check that the supplied operations have the types
   those layers assume is the elaboration of these definitions, and a drift in a supplier
   signature is a build failure here rather than a silent disagreement.
+- The Layer 9 objects of the value of the Evens norm are real terms too: `kummerInd` is the
+  supplied `indexTwoInd` at the Kummer character, `pinLift` is `pinDihedral` composed with
+  the supplied `wreathSection`, `kummerIndLift` is their composite, and `f2CocycleClass`
+  is the supplied `cochainClass` of `inhomogeneousCochain2`. The twisted boundary is a
+  definition applied to the named `ρ̃_a`, and the milestones about `ρ_a`, `ρ̃_a` and
+  `δ(ρ̃_a)` are statements about those named objects. The only statements quantified over
+  a cochain or a lift, `twistedBoundary_conj` and the `IsPinLift` lemmas, are identities
+  that hold for every one.
 - The wrappers are forced and not cosmetic. The supplier's operations return their values
   through its own cohomology adapter, which is `private`, so instance search cannot reduce
   the result type against `H¹(G_K, 𝔽₂)` and `H²(G_K, 𝔽₂)`: without a normalizing name
@@ -2469,8 +2704,8 @@ square-class language and on 6A for the square-class dictionary. Layer 7B depend
 Layer 5, on Layer 7A, and on the semisimple-algebras roadmap's Layer 6. Layer 7C depends
 on Layer 2 and on Layer 7B, and its local identification on Layer 6C. Layer 8 depends on
 Layer 7. Layer 9 splits: the transfer half needs only Layers 1 to 4 and can be built
-together with Layer 5; the relative-formula half needs Layer 8 and the supplier's transfer
-along `L/K`, which Layer 7A consumes.
+together with Layer 5; the relative-formula half needs Layers 7C and 8, the supplier's
+transfer along `L/K`, which Layer 7A consumes, and the supplier's `D₁₆` pullback formula.
 
 Every statement of a layer uses only earlier layers, Mathlib, landed Tau Ceti files, and
 the three roadmaps of the contract table. The two exceptions to the numbering, both named
@@ -2499,8 +2734,12 @@ subject matter belongs and built where its prerequisites are ready.
 - O. T. O'Meara, *Quadratic forms over local fields* (1955), the paper antecedent of
   §63.
 - B. Kahn, *Classes de Stiefel-Whitney de formes quadratiques et de représentations
-  galoisiennes réelles*, Invent. Math. 78 (1984) 223-256, Théorèmes 1-3; the source of
-  Layer 9's relative formula.
+  galoisiennes réelles*, Invent. Math. 78 (1984) 223-256, Théorèmes 1-3, Lemme II.2.1
+  and Prop. II.3.5; the source of Layer 9's relative formula and of the value of the
+  Evens norm.
+- J.-P. Serre, *L'invariant de Witt de la forme Tr(x²)*, Comment. Math. Helv. 59 (1984)
+  651-676, Théorème 1′ and its second proof, which Layer 9 follows at `n = 2` in
+  explicit matrices.
 - A. Kozlowski, *The Evens-Kahn formula for the total Stiefel-Whitney class*, Proc. AMS
   91 (1984) 309-313, Thm 1.1.
 - L. Evens, *A generalization of the transfer map in the cohomology of groups*, Trans.
@@ -2548,8 +2787,9 @@ subject matter belongs and built where its prerequisites are ready.
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology and its operations. Sublayer 7A consumes it through the exact contract
   above: the carrier, the cup product, restriction, inflation, corestriction, Kummer
-  theory, the multiplicative coefficients, the index-two Evens norm with its four
-  identities, and the transfer along a finite separable `L/K` are all that roadmap's.
+  theory, the multiplicative coefficients, the index-two Evens norm with the identities,
+  the index-two exact sequence and the `D₁₆` pullback formula of the contract table, and
+  the transfer along a finite separable `L/K` are all that roadmap's.
   This roadmap defines no second cup product, no second Kummer isomorphism, no second
   Evens norm, and no second restriction or corestriction. What 7A adds is the coefficient
   identification specific to `μ₂` and the mod-2 laws read through it. Sublayer 7B consumes
