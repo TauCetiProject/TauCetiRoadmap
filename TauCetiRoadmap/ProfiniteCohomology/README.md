@@ -1815,7 +1815,10 @@ and `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at `n = 2`, for
 `abelianizationProPFactorSet`, `abelianizationProPClass` and the degree-two statement
 `abelianizationProPClass_generates`. Its hypothesis `scd_p(G_K) ≤ 2` is the Class Field Theory
 roadmap's `scd_p_absoluteGaloisGroup_eq_two`, carried to Tau Ceti's invariant by
-`scd_p_eq_strictCohomologicalDimensionAt`.
+`scd_p_eq_strictCohomologicalDimensionAt`. That roadmap also reads the carrier
+`abelianizationProP`, with its conjugation action, and the class `abelianizationProPClass` at the
+relation subgroup of a free profinite group, for Lyndon's theorem and the extension it lifts; it
+uses the generation theorem only at `G_K`.
 
 **Source** for the `p`-primary torsion of cohomology. The proof of NSW (3.3.2), (i) ⇔ (ii), uses it
 in the form `Hq(G, A)(p) = Hq(G, A(p))` for torsion `A`. The hypothesis that cannot be dropped is
