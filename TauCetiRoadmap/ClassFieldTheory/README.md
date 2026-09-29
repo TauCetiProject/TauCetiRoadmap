@@ -194,13 +194,19 @@ starting point for the profinite audit.
   and `NarrowPic`;
 - `NumberFieldArithmetic` owns finite-place Frobenius and the ideal-theoretic Artin map
   `artinHomAway` on `idealsAway`;
-- `LocalGaloisGroups` consumes the complete local-cohomological row of this roadmap —
-  `normResidue`, `artinMap` with `restrictAbsolute` and `unramifiedCoordinate`,
-  `cyclotomicCharacter_artinMap`, `tateDualityPairing_perfect_mixed`, `finite_H`,
-  `eulerCharacteristic_mixed`, `eulerCharacteristic_finrank_fp`, `cd_p_absoluteGaloisGroup_eq_two`
-  and `scd_p_absoluteGaloisGroup_eq_two` — without constructing private stand-ins.
-  `cyclotomicCharacter_artinMap` is proved in Layer 11 from `globalArtinMap_cyclotomic_prime`,
-  so this consumer depends on Layers 10 and 11;
+- `LocalGaloisGroups` consumes the local-cohomological row of this roadmap without constructing
+  private stand-ins: the coefficient objects and Kummer theory, `GalRep`, `H`, `muNRep` and
+  `kummerEquiv_mixed`; degree two and local duality, `finite_H`, `h2MuEquivZMod_mixed`,
+  `h2FpEquivZMod_of_mu`, `tateDualityPairing`, `tateDualityPairing_perfect_mixed` and
+  `eulerCharacteristic_finrank_fp`; reciprocity and the orientation, `artinMap`,
+  `restrictAbsolute`, `artinMap_restrict`, `absoluteGaloisGroupExtend`, `artinMap_norm`,
+  `denseRange_artinMap`, `localArtinMap`, `normResidue`, `unramifiedCoordinate`,
+  `unramifiedCoordinate_artinMap`, `cyclotomicCharacter_artinMap` and
+  `cyclotomicCharacter_artinMap_padic`; the class formation and Tate's theorem,
+  `ClassFormation`, `fundamentalClass`, `fundamentalClass_generates`, `tateTheorem` and
+  `artinMap_conj`; and `scd_p_absoluteGaloisGroup_eq_two`. `cyclotomicCharacter_artinMap` is
+  proved in Layer 11 from `globalArtinMap_cyclotomic_prime`, so this consumer depends on
+  Layers 10 and 11;
 - `GlobalQuadraticForms` owns Hasse–Minkowski and the global classification of quadratic
   forms, and consumes `hilbertProductFormula`;
 - `QuadraticFormInvariants` owns the norm-equation and quaternion presentations of local
