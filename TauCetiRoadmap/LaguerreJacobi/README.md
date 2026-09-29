@@ -223,7 +223,13 @@ so it validates the shape that Part C then follows.
 `Polynomial.laguerre (α : R) (n : ℕ) : R[X]`, the generalized Laguerre polynomial `Lₙ^{(α)}`,
 defined by the explicit coefficient formula
 
-`Lₙ^{(α)}(X) = ∑ k ∈ Finset.range (n+1), (-1)^k • ((ascPochhammer R (n-k)).smeval (α + k + 1) / ((n-k)! * k!)) • X^k`
+`Lₙ^{(α)}(X) = ∑ k ∈ Finset.range (n+1), (-1)^k • (((1 : ℚ) / ((n-k)! * k !)) • (ascPochhammer R (n-k)).smeval (α + k + 1)) • X^k`
+
+**The rational factorial coefficients are `ℚ`-scalars, not ring division.** `R` is only a
+`CommRing` with an `Algebra ℚ R` instance, so `/` is not available on `R` as written; the
+factorials are inverted in `ℚ` and then acted on `R` through that algebra structure (equivalently
+`algebraMap ℚ R`). The same convention is used for the Jacobi sum, the leading coefficient, and
+the Rodrigues formula below, so every rational constant in this roadmap enters the same way.
 
 with, as targets: `Polynomial.degree_laguerre` (`= n`), `Polynomial.natDegree_laguerre`,
 `Polynomial.coeff_laguerre`, and `Polynomial.leadingCoeff_laguerre` (`= (-1)^n / n!`). The degree
@@ -333,7 +339,11 @@ definition, which would fork the constant that D3 and F3 are checked against.
 **C2. Definition and degree.** `Polynomial.jacobi (α β : R) (n : ℕ) : R[X]`, defined by the
 classical explicit sum
 
-`Pₙ^{(α,β)}(X) = (2^n)⁻¹ • ∑ k ∈ Finset.range (n+1), (((ascPochhammer R (n-k)).smeval (β + k + 1) / (n-k)!) * ((ascPochhammer R k).smeval (α + n - k + 1) / k !)) • ((X - 1)^(n-k) * (X + 1)^k)`
+`Pₙ^{(α,β)}(X) = ((1 : ℚ) / 2^n) • ∑ k ∈ Finset.range (n+1), (((1 : ℚ) / ((n-k)! * k !)) • ((ascPochhammer R (n-k)).smeval (β + k + 1) * (ascPochhammer R k).smeval (α + n - k + 1))) • ((X - 1)^(n-k) * (X + 1)^k)`
+
+As in C1, `(1 : ℚ) / 2^n` and `(1 : ℚ) / ((n-k)! * k !)` are `ℚ`-scalars acting through
+`Algebra ℚ R`; the `ascPochhammer` factors are genuine elements of `R` and are multiplied there.
+No division in `R` is used or required.
 
 **Both coefficient factors are written out, and their orientation is part of the specification.**
 They are the `ascPochhammer` forms of `(n+β).choose (n-k)` and `(n+α).choose k` respectively; `β`
@@ -355,7 +365,8 @@ changing anything above:
   `(2n + α + β).choose n` — the `leadingCoeff_jacobi` below.
 
 Targets: `Polynomial.degree_jacobi`, `natDegree_jacobi`, `coeff_jacobi`, and `leadingCoeff_jacobi`
-(`= (ascPochhammer R n).smeval (n + α + β + 1) / (2^n * n !)`).
+(`= ((1 : ℚ) / (2^n * n !)) • (ascPochhammer R n).smeval (n + α + β + 1)`, again a `ℚ`-scalar
+acting on an element of `R`, not a quotient in `R`).
 
 **Degeneracy to pin now, not discover later — and to state at the right generality.** Writing
 `z = n + α + β + 1`, the leading coefficient is `(z)ₙ = z (z+1) ⋯ (z + n - 1)`, which vanishes
@@ -459,13 +470,29 @@ genuinely differs, not a second recursion. **The scalar, the parameter hypothese
 convention are all part of the milestone**, because the degree and orthogonality statements are
 *not* simply inherited from Part C and D3:
 
-`Cₙ^{(λ)} = ((ascPochhammer R n).smeval (2*lam) / (ascPochhammer R n).smeval (lam + 1/2)) • jacobi (lam - 1/2) (lam - 1/2) n`
+**The definition must be total, so it is given by its own explicit sum rather than as a quotient
+of the Jacobi family.** `[CommRing R] [Algebra ℚ R]` supplies no division by the
+parameter-dependent element `(lam + 1/2)ₙ`, and that element genuinely vanishes (at `lam = -1/2`,
+`n = 1`) and may be noninvertible even when nonzero, so a quotient definition does not elaborate
+at the stated generality:
 
-- **Degree does not transfer at `λ = 0`.** The numerator `(2λ)ₙ` vanishes for every `n ≥ 1` at
-  `λ = 0`, so `C₀ⁿ = 0` there and `degree_gegenbauer = n` is false — even though the underlying
-  `jacobi (-1/2) (-1/2) n` has full degree. Carry the algebraic hypothesis
-  `(ascPochhammer R n).smeval (2*lam) ≠ 0` (with `(ascPochhammer R n).smeval (lam + 1/2) ≠ 0` for
-  the denominator), specializing over `ℝ` to `0 < lam`. The classical `λ = 0` family is recovered by
+`Cₙ^{(λ)}(X) = ∑ k ∈ Finset.range (n/2 + 1), ((-1)^k * ((1 : ℚ) / (k ! * (n - 2*k)!)) • (ascPochhammer R (n-k)).smeval (lam + k + 1)) • (2*X)^(n - 2*k)`
+
+Every coefficient here is a `ℚ`-scalar acting on an element of `R`, exactly as in C1 and C2; no
+division in `R` appears. The relation to the Jacobi family is then stated as a **multiplied-out
+identity**, which holds unconditionally and needs no invertibility hypothesis:
+
+`(ascPochhammer R n).smeval (lam + 1/2) • gegenbauer lam n = (ascPochhammer R n).smeval (2*lam) • jacobi (lam - 1/2) (lam - 1/2) n`
+
+The classical quotient is recovered from this whenever `(lam + 1/2)ₙ` happens to be invertible, but
+the roadmap target is the identity above, not the quotient.
+
+- **Degree does not transfer at `λ = 0`.** The leading coefficient of the sum carries the factor
+  `(2λ)ₙ`, which vanishes for every `n ≥ 1` at `λ = 0`, so `C₀ⁿ = 0` there and
+  `degree_gegenbauer = n` is false — even though the underlying `jacobi (-1/2) (-1/2) n` has full
+  degree. Carry the algebraic hypothesis `(ascPochhammer R n).smeval (2*lam) ≠ 0`, specializing
+  over `ℝ` to `0 < lam`. Note that with the total definition this is the *only* hypothesis the
+  degree statement needs — no denominator condition appears, because there is no denominator. The classical `λ = 0` family is recovered by
   the renormalization `lim_{λ→0} (n/λ) Cₙ^{(λ)} = 2 Tₙ` for `n ≥ 1`, which is a *different* def and
   is out of scope here; the roadmap must not pretend `gegenbauer 0 n` is it.
 - **Orthogonality needs `-1/2 < lam`, not `-1 < α`.** The weight is `(1 - x²)^(lam - 1/2)`, and the
@@ -483,7 +510,8 @@ result — it is a test of D3 against a value the library already knows**, and i
 
 Targets: `Polynomial.jacobi_neg_half_neg_half_eq_T`, relating the two families **with the scale
 pinned as part of the statement**: `Pₙ^{(−1/2,−1/2)} = ((1/2)ₙ / n!) Tₙ` — the scalar
-`(ascPochhammer R n).smeval (1/2) / n !`. An unscaled equality is false already at `n = 1`, where
+`((1 : ℚ) / n !) • (ascPochhammer R n).smeval (1/2)`, a `ℚ`-scalar acting on an element of `R`
+rather than a quotient in `R`. An unscaled equality is false already at `n = 1`, where
 the Jacobi polynomial is `X/2` and `T₁ = X`; the measure bridge
 `Polynomial.jacobiMeasure_neg_half_neg_half_eq_measureT` identifying `jacobiMeasure (-1/2) (-1/2)`
 with Chebyshev's `measureT` — the two are built over `Set.Ioo (-1) 1` and `Set.Ioc (-1) 1`
