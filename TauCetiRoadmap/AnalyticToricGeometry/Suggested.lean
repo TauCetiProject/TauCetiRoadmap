@@ -243,6 +243,22 @@ noncomputable def fanGlueData (Sigma : Fan i) : TopCat.GlueData := by
 /-- The analytic realization uses `TopCat.GlueData.glued`, not a new quotient carrier. -/
 noncomputable abbrev AnalyticRealization (Sigma : Fan i) := (fanGlueData Sigma).glued
 
+/-- An open subfan maps into the ambient realization by gluing the identity maps of its affine
+charts. This is the topological map; its holomorphy is a separate statement. -/
+noncomputable def subfanAnalyticMap {Sigma' Sigma : Fan i} (h : Sigma'.cones ⊆ Sigma.cones) :
+    AnalyticRealization Sigma' ⟶ AnalyticRealization Sigma := by
+  sorry
+
+theorem subfanAnalyticMap_comp {Sigma'' Sigma' Sigma : Fan i}
+    (h₁ : Sigma''.cones ⊆ Sigma'.cones) (h₂ : Sigma'.cones ⊆ Sigma.cones) :
+    subfanAnalyticMap h₁ ≫ subfanAnalyticMap h₂ = subfanAnalyticMap (h₁.trans h₂) := by
+  sorry
+
+/-- The open-subfan map is an open embedding of glued spaces. -/
+theorem isOpenEmbedding_subfanAnalyticMap {Sigma' Sigma : Fan i}
+    (h : Sigma'.cones ⊆ Sigma.cones) : IsOpenEmbedding (subfanAnalyticMap h) := by
+  sorry
+
 /-- Model vector space determined by the lattice rank. -/
 abbrev ToricModel := Fin (Module.finrank ℤ N) → ℂ
 

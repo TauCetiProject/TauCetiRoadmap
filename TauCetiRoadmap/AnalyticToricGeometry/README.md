@@ -220,8 +220,13 @@ Toric modules named above.
    fan record.
 4. Prove second countability from finiteness of the chart family and second countability of each
    affine chart. Prove local compactness and finite dimensionality.
-5. Establish invariance under fan equivalence and functoriality for open subfans. A subdivision
-   produces a holomorphic map to the original realization, not an asserted isomorphism.
+5. For an open subfan, construct the continuous map from its realization to the ambient
+   realization by gluing the identity maps of its affine charts. Prove naturality with the chart
+   inclusions, functoriality for nested open subfans, that its image is the union of the affine
+   charts of the subfan's cones, and that it is an open embedding.
+6. Prove that the open-subfan map of item 5 is an open holomorphic embedding, and establish
+   invariance under fan equivalence. A subdivision produces a holomorphic map to the original
+   realization, not an asserted isomorphism.
 
 **Source spine:** Fulton, §§1.4 and 2.4; Cox--Little--Schenck, §§3.1 and 3.4; Oda, Chapter I.
 
@@ -289,7 +294,9 @@ Chapter I.
 | L6 global comparison | L0--L5 | reusable analytic realization |
 
 After L0 fixes the carriers, L1's character calculus and the generator-independence part of L2
-can proceed in parallel. L4 and L5 can proceed independently after L3. L6 joins those tracks.
+can proceed in parallel. Within L3, items 3--5 are topological and use only the glued space of
+item 1, so they proceed in parallel with item 2; item 6 needs item 2. L4 and L5 can proceed
+independently after L3. L6 joins those tracks.
 
 ## Acceptance checks
 
