@@ -52,11 +52,13 @@ infrastructure; that narrower infrastructure is new work here.
    restriction, inflation, projection and connecting-map compatibilities (Layer 8), together with
    the graded all-bidegree product (Layer 12).
 10. Cohomological dimension `cd_p`, `cd`, `scd_p` with their dévissage and closed-subgroup
-    theory (Layer 11).
+    theory, the criterion computing `scd_p` from `cd_p`, and the class module of a group of strict
+    `p`-cohomological dimension at most two (Layer 11).
 11. The Galois interface: profinite Hilbert 90 and the Kummer isomorphism with its explicit
     cocycle (Layer 9).
 12. The Evens norm on `𝔽₂`-cohomology for open subgroups, in both the explicit index-2 form and
-    the general monomial construction (Layer 13).
+    the general monomial construction, together with the index-two exact sequence and the
+    index-two norm as the pullback of the extension class of `D₁₆` (Layer 13).
 
 ### Consumed
 
@@ -81,7 +83,9 @@ This list is definitive, not a list of things that might come later.
   from cochains and stops there.
 - Non-discrete topological coefficient modules: `ℤ_p(1)`, Iwasawa-theoretic limits, condensed
   coefficient systems. The canonical object is defined for these, but no theorem here is stated
-  for them.
+  for them. The one exception is the cohomology of a finite discrete group, where every cochain is
+  continuous and the topology of the coefficients plays no part: Layer 11's class-module theorem
+  is stated for the finite quotient `G ⧸ V` acting on the profinite group `V^ab(p)`.
 - All-degree explicit inhomogeneous cochains `C(Gⁿ, M)` for groups that are not profinite. Layer
   3 gives the inhomogeneous description exactly where currying is an equivalence.
 - Evens norms for coefficients other than `𝔽₂` with trivial action, and the even-degree
@@ -172,7 +176,7 @@ colimit theorem" or "the six cup shapes" is not a citable export, and no row con
 | the finite-quotient system | 4 | `finiteQuotientMap`, `invariantsInclusion`, `invariantsInclusion_equivariant`, `transitionPair`, `finiteLevelTransition`, `finiteLevelTransition_id`, `finiteLevelTransition_comp` | a functor on `(OpenNormalSubgroup G)ᵒᵖ` |
 | the finite-quotient colimit | 4 | `explicitFiniteQuotientTransition1`, `explicitFiniteQuotientSystem0`, `explicitFiniteQuotientSystem1`, `explicitFiniteQuotientSystem2`, `explicitFiniteQuotientSystem0_map`, `explicitFiniteQuotientSystem1_map`, `explicitFiniteQuotientSystem2_map`, `explicitFiniteQuotientComparison0`, `explicitFiniteQuotientComparison1`, `explicitFiniteQuotientComparison2`, `explicitFiniteQuotientCocone0`, `explicitFiniteQuotientCocone1`, `explicitFiniteQuotientCocone2`, `explicitFiniteQuotientColimit0`, `explicitFiniteQuotientColimit1`, `explicitFiniteQuotientColimit2` | the universe-polymorphic explicit `Hⁱ(G, M) ≅ colim_U Hⁱ(G ⧸ U, M^U)` for `i = 0,1,2` |
 | the long exact sequence in low degrees | 5 | `DiscreteShortExact`, `DiscreteShortExact.restrict`, `explicitDelta0`, `explicitDelta0_apply`, `explicitDelta1`, `explicitDelta1_apply`, `explicitLongExact_H0A`, `explicitLongExact_H0B`, `explicitLongExact_H0C`, `explicitLongExact_H1A`, `explicitLongExact_H1B`, `explicitLongExact_H1C`, `explicitLongExact_H2A`, `explicitLongExact_H2B`, `explicitDelta0_res`, `explicitDelta1_res` | connecting maps and exactness at eight nodes |
-| the five-term sequence | 5 | `H1ConjInvariants`, `explicitInfl1_injective`, `explicitInfRes_exact`, `explicitRes1_mem_conjInvariants`, `explicitResConj1`, `transgressionLift`, `transgressionCochain`, `transgressionCochain_apply`, `transgressionCochain_isCocycle`, `transgression_changeSection`, `transgression`, `transgression_apply`, `fiveTerm_exact_H1N`, `fiveTerm_exact_H2Q`, `transgression_comp_res`, `explicitInfl2_transgression` | `0 → H¹(G⧸N, M^N) → H¹(G, M) → H¹(N, M)^{G⧸N} → H²(G⧸N, M^N) → H²(G, M)` |
+| the five-term sequence | 5 | `H1ConjInvariants`, `explicitInfl1_injective`, `explicitInfRes_exact`, `explicitRes1_mem_conjInvariants`, `explicitResConj1`, `explicitInfResConj_exact`, `transgressionLift`, `transgressionCochain`, `transgressionCochain_apply`, `transgressionCochain_isCocycle`, `transgressionCochain_sub_mem_B2`, `transgression`, `transgression_apply`, `fiveTerm_exact_H1N`, `fiveTerm_exact_H2Q`, `transgression_explicitResConj1`, `explicitInfl2_transgression` | `0 → H¹(G⧸N, M^N) → H¹(G, M) → H¹(N, M)^{G⧸N} → H²(G⧸N, M^N) → H²(G, M)` |
 | the all-degree colimit and exact sequence | 10 | `continuousCohomologyFunctor`, `continuousFiniteQuotientSystem`, `continuousFiniteQuotientCocone`, `continuousFiniteQuotientColimit`, `continuousCohomology_preservesFilteredColimits`, `continuousCochainsShortExact`, `continuousCochainsShortExact_shortExact`, `delta`, `longExact_exact`, `delta_naturality`, `delta_res`, `delta_infl`, `delta_corestriction`, `explicitIso_delta0`, `explicitIso_delta1` | the canonical colimit, filtered-colimit preservation, and `Hⁿ(G, C) ⟶ Hⁿ⁺¹(G, A)` with all exactness and naturality data |
 | low-degree corestriction | 6 | `lWord`, `lWord_mem`, `explicitCor0Transversal`, `explicitCor1Transversal`, `explicitCor2Transversal`, `explicitCor0_changeTransversal`, `explicitCor1_changeTransversal`, `explicitCor2_changeTransversal`, `explicitCor0`, `explicitCor1`, `explicitCor2`, `explicitCor_delta0`, `explicitCor_delta1` | finite-index additive maps on cochains, descending to classes |
 | all-degree corestriction | 10 | `corestriction`, `corestrictionLe`, `corestriction_naturality`, `corestriction_trans`, `corestriction_comp_res`, `mackeyTerm`, `corestriction_mackey` | `Hⁿ(U, res X) ⟶ Hⁿ(G, X)` for open `U` |
@@ -180,27 +184,32 @@ colimit theorem" or "the six cup shapes" is not a citable export, and no row con
 | explicit Shapiro and coinduction | 7 | `Coind`, `coindTopRep`, `coindFunctor`, `coindFunctor_map_shortExact`, `explicitShapiro0`, `explicitShapiro1`, `explicitShapiro2`, `algebraicCoindAsSmooth`, `topologicalCoindIsoAlgebraic`, `topologicalCoindIsoAlgebraic_shapiro` | explicit Shapiro in degrees `0,1,2`, and the open-subgroup algebraic comparison |
 | all-degree Shapiro and dimension shifting | 10 | `shapiroCochainIso`, `shapiroIso`, `coindEmbedding`, `dimensionShiftQuotient`, `coindAcyclic`, `dimensionShiftIso` | canonical Shapiro in every degree and the closed dependency chain used by Layer 11 |
 | the six low-degree cups | 8 | `explicitCup00`, `explicitCup01`, `explicitCup10`, `explicitCup02`, `explicitCup11`, `explicitCup20` | `H^p(G, M) × H^q(G, N) → H^{p+q}(G, P)`, `p + q ≤ 2` |
+| the connecting maps and the low-degree cups | 8 | `explicitDelta0_explicitCup00_left`, `explicitDelta1_explicitCup01_left`, `explicitDelta1_explicitCup10_left`, `explicitDelta0_explicitCup00_right`, `explicitDelta1_explicitCup01_right`, `explicitDelta1_explicitCup10_right` | `δ(x ⌣ y) = δx ⌣ y` and `δ(x ⌣ y) = (-1)^p x ⌣ δy` for a map of short exact coefficient sequences, in the six instances of degree `≤ 2` |
 | the graded cup | 12 | `TopPairing`, `resolutionCupPairing`, `resolutionCupPairing_apply_zero`, `resolutionCupPairing_apply_succ`, `cupCochain`, `cupCochain_apply`, `cupCochain_leibniz`, `cupAssocHomotopy`, `cupAssocHomotopy_spec`, `cupCommHomotopy`, `cupCommHomotopy_spec`, `cup`, `cup_add_left`, `cup_add_right`, `cup_one_left`, `cup_one_right`, `cup_assoc`, `cup_gradedComm`, `cup_res`, `cup_infl`, `cup_coeffMap`, `cup_projection` | `Hᵐ × Hⁿ → H^{m+n}` constructed on Mathlib's coinduction resolution |
 | agreement of the two cups | 12 | `ofDiscreteModulePairing`, `explicitIso_cup` | commuting square in bidegree `(1,1)` |
 | the evaluation pairing for duality | 0, 12 | `homAction`, `evalPairing`, `evalPairing_equivariant`, `TopPairing`, `ofDiscreteModulePairing`, `cup`, `cup_add_left`, `cup_add_right` | `Hⁱ(G, M →+ N) × H^{2-i}(G, M) → H²(G, N)` |
 | the Kummer isomorphism | 9 | `AbsoluteGaloisGroup`, `KummerCoeff`, `kummerCoeff_continuousSMul`, `powerClassQuotient`, `kummerMap`, `kummerIso`, `kummerIsoTransport`, `kummerIso_res`, `kummerIso_norm`, `kummerMapCanonical`, `explicitIso_kummerMap` | `Kˣ ⧸ (Kˣ)ⁿ ≃* Multiplicative (H¹(AbsoluteGaloisGroup K, KummerCoeff K n))` |
 | the multiplicative coefficients, the Kummer sequence and Hilbert 90 | 9 | `UnitsCoeff`, `unitsCoeff_continuousSMul`, `kummerCoeffIncl`, `unitsCoeffPow`, `kummerShortExact`, `kummerShortExact_incl`, `kummerShortExact_proj`, `hilbert90`, `kummerCoeffToUnits`, `h2KummerToUnits`, `h2KummerToUnits_injective`, `h2KummerToUnits_range` | `H¹(G_K, (Kˢ)ˣ) = 0`, and `H²(G_K, μₙ) ↪ H²(G_K, (Kˢ)ˣ)` with image the `n`-torsion |
-| the field-extension bridge | 9, with 10 and 13 | `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv`, `galoisF2Iso`, `galoisRes`, `galoisCor`, `galoisEvens`, `galoisConj`, `galoisRes_comp`, `galoisSubgroup_conj`, `galoisRes_embedding_independent`, `galoisCor_embedding_independent`, `galoisEvens_embedding_independent` | restriction, corestriction and the index-two norm for a finite separable `L/K` |
-| cohomological dimension | 11 | `IsPPrimaryTorsion`, `CohomologicalDimensionLE`, `StrictCohomologicalDimensionLE`, `cd_p`, `scd_p`, `cd`, `cd_p_le_iff`, `scd_p_le_iff`, `cohomologicalDimensionLE_iff_torsion`, `cd_p_le_iff_finite_pPrimary`, `cd_p_le_iff_boundedExponent`, `cd_p_le_scd_p`, `scd_p_le_cd_p_add_one`, `cd_p_le_of_isClosed`, `cd_p_eq_of_index_not_dvd` | `ℕ∞`-valued invariants |
-| the Evens norm | 13 | `evensNorm`, `evensNormIndexTwo`, `evensGraphCochain`, `graphClass`, `graphClass_eq_cochainClass`, `evensConj`, `evensConj_eq_conjMapOf`, `evensNorm_eq_graphClass` | `H^q(U, 𝔽₂) → H^{l q}(G, 𝔽₂)` for open `U` of index `l` |
-| the four index-2 Evens identities | 13 | `evensNorm_res`, `evensNorm_polarization`, `evensNorm_cor_shapiro`, `evensNorm_identity_infl` | identities of classes in `H²(G, 𝔽₂)` |
+| the field-extension bridge | 9, with 10, 12 and 13 | `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv`, `galoisF2Iso`, `galoisRes`, `galoisCor`, `galoisEvens`, `galoisConj`, `galoisCharacter`, `galoisRes_galoisCor`, `galoisConj_evensConj`, `galoisRes_cup`, `galoisCor_cup`, `galoisRes_galoisEvens`, `galoisEvens_add`, `galoisEvens_galoisRes`, `galoisRes_eq_zero_iff`, `galoisRes_galoisCor_exact`, `galoisRes_comp`, `galoisSubgroup_conj`, `galoisRes_embedding_independent`, `galoisCor_embedding_independent`, `galoisEvens_embedding_independent`, `galoisCharacter_embedding_independent` | restriction, corestriction, the index-two norm and the quadratic character for a finite separable `L/K`; `res ∘ cor = id + conj`; the conjugate as the transport of `evensConj`; the cup and projection formulas; the Evens identities and the index-two exact sequence read on the `L/K` side; tower functoriality and embedding independence |
+| cohomological dimension | 11 | `IsPPrimaryTorsion`, `CohomologicalDimensionLE`, `StrictCohomologicalDimensionLE`, `cd_p`, `scd_p`, `cd`, `cd_p_le_iff`, `scd_p_le_iff`, `cohomologicalDimensionLE_iff_torsion`, `cd_p_le_iff_finite_pPrimary`, `cd_p_le_iff_boundedExponent`, `cd_p_le_scd_p`, `scd_p_le_cd_p_add_one`, `cd_p_le_of_isClosed`, `cd_p_eq_of_index_not_dvd`, `cd_p_eq_cohomologicalDimensionAt`, `scd_p_eq_strictCohomologicalDimensionAt`, `strictCohomologicalDimensionAt_openSubgroup_le`, `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` | `ℕ∞`-valued invariants, the landed Tau Ceti ones among them |
+| the class module of strict dimension two | 11 | `abelianizationProP`, `abelianizationProPFactorSet`, `abelianizationProPClass`, `subsingleton_h1_abelianizationProP`, `abelianizationProPClass_generates` | for `scd_p G ≤ 2` and open normal `V`: `H¹(G ⧸ V, V^ab(p)) = 0`, and `H²(G ⧸ V, V^ab(p))` is cyclic of order `#(G ⧸ V)_p`, generated by the class of the extension |
+| the Evens norm | 13 | `evensNorm`, `homClass`, `homClass_eq_cochainClass`, `homClass_surjective`, `evensGraphCochain`, `graphClass`, `graphClass_eq_cochainClass`, `graphClass_representative_independent`, `evensNormIndexTwo`, `evensNormIndexTwo_homClass`, `evensConj`, `evensConj_eq_conjMapOf`, `evensNormIndexTwo_eq`, `evensNorm_eq_graphClass` | `H^q(U, 𝔽₂) → H^{l q}(G, 𝔽₂)` for open `U` of index `l`; at index two and degree one, the graph class |
+| the index-2 Evens identities | 13 | `evensNorm_res`, `evensNorm_polarization`, `evensNorm_cor_shapiro`, `evensNorm_identity_infl`, `indexTwoCharacter`, `indexTwoCharacterClass`, `evensGraphCochain_comp_subtype`, `evensNorm_of_res` | identities of classes in `H²(G, 𝔽₂)`, the fifth with the class `χ_U` of the index-two character |
+| the index-two exact sequence | 13 | `indexTwo_ker_res1`, `indexTwo_exact_res1_cor1`, `indexTwo_exact_cor1_cup`, `indexTwo_exact_cup_res2`, `indexTwo_exact_res2_cor2` | `H¹(G) → H¹(U) → H¹(G) → H²(G) → H²(U) → H²(G)` by restriction, corestriction and cup with `χ_U`, exact, with `{0, χ_U}` the kernel of restriction in degree one |
+| the index-two norm as a pullback of `D₁₆` | 13 | `WreathC2`, `wreathBase`, `wreathTautological`, `wreathSwap`, `dihedralToWreath`, `wreathSection`, `wreathD16Cocycle`, `wreathD16Cocycle_isCocycle`, `wreathWitness`, `evensGraphCochain_wreath`, `evensGraphCochain_comap`, `indexTwoInd`, `evensNormIndexTwo_eq_ind_pullback` | the graph cochain of the tautological character of `C₂ ≀ C₂` is the factor set of `D₁₆ → C₂ ≀ C₂` plus an explicit coboundary; every index-two norm is its pullback along `Ind α : G → C₂ ≀ C₂` |
 
-Three points about that last row, because they are exact and easy to get wrong. The identities are
-statements about **cohomology classes**, not about the graph cochain, and `Suggested.lean` states
-them that way. The polarization is
+Three points about the index-2 Evens identities, because they are exact and easy to get wrong. The
+identities are statements about **cohomology classes**, not about the graph cochain, and
+`Suggested.lean` states them that way. The polarization is
 ```
 N(α + β) - N(α) - N(β) = cor (α ⌣ (s · β)),
 ```
 with the **conjugate** class on the right. Dropping the conjugate gives a different statement, and
 this roadmap does not supply it; a consumer that wants the unconjugated form must prove the two
 equivalent under stated hypotheses. And the conjugate `s · β` is `evensConj`, which is defined
-without choosing `s`: none of the four identities mentions an element outside `U`, so none of them
-is a statement about a choice.
+without choosing `s`: an element outside `U` appears only where a right-hand side is a cochain
+formula (identity 3, `graphClass_eq_cochainClass`, `evensNormIndexTwo_eq_ind_pullback`), and there
+it is universally quantified, so none of the identities is a statement about a choice.
 
 ### The comparisons carry the operations, not only the groups
 
@@ -220,7 +229,7 @@ their own right, listed in the layer where both sides first exist:
 | corestriction | `explicitIso_cor0`, `explicitIso_cor`, `explicitIso_cor2` | 10 |
 | cup products | `explicitIso_cup` | 12 |
 | Kummer classes | `explicitIso_kummerMap` | 9 |
-| the Evens norm | `evensNorm_eq_graphClass` | 13 |
+| the Evens norm | `evensNormIndexTwo_eq`, `evensNorm_eq_graphClass` | 13 |
 
 No downstream development is asked to prove that two of this roadmap's constructions agree. Where
 two constructions of the same operation exist here, the identification is a target here.
@@ -471,6 +480,14 @@ All paths at the Mathlib the repository currently builds.
   `CommMonoid.primaryComponent` and `AddCommMonoid.primaryComponent` they extend
   (`Mathlib/GroupTheory/Torsion.lean`); `AddMonoid.IsTorsion`; `IsSimpleModule`;
   `CategoryTheory.Simple`.
+- **Group theory for Layers 11 and 13:**
+  `Mathlib/Topology/Algebra/Group/TopologicalAbelianization.lean` (`TopologicalAbelianization`, the
+  quotient by the closure of the commutator subgroup);
+  `Mathlib/GroupTheory/Transfer.lean` (`MonoidHom.transfer`, the transfer to a subgroup of finite
+  index); `Mathlib/GroupTheory/Index.lean` (`Subgroup.mul_mem_iff_of_index_two`);
+  `Mathlib/GroupTheory/RegularWreathProduct.lean` (`RegularWreathProduct`, notation `D ≀ᵣ Q`, and
+  `RegularWreathProduct.rightHom`); `Mathlib/GroupTheory/SpecificGroups/Dihedral.lean`
+  (`DihedralGroup`, with `DihedralGroup 8` the dihedral group of order 16).
 
 ---
 
@@ -896,14 +913,17 @@ section, and Layer 2.
   the chosen section, as an identity of classes. The construction is pinned by
   `transgressionLift`, the section-dependent continuous extension to `G`,
   `transgressionCochain`, `transgressionCochain_apply` (the descended value of `d¹` of that lift),
-  `transgressionCochain_isCocycle`, `transgression_changeSection` (an explicit `B²` membership),
-  and `transgression_apply`, which identifies its class with the public map. Its two compatibilities
-  `transgression_comp_res` and `explicitInfl2_transgression`; and exactness of
+  `transgressionCochain_isCocycle`, `transgressionCochain_sub_mem_B2` (an explicit `B²`
+  membership), and `transgression_apply`, which identifies its class with the public map. Its two
+  compatibilities `transgression_explicitResConj1` and `explicitInfl2_transgression`; and
+  exactness of
   ```
   0 → H¹(G⧸N, M^N) → H¹(G, M) → H¹(N, M)^{G⧸N} → H²(G⧸N, M^N) → H²(G, M)
   ```
-  at its four nodes, which is `explicitInfl1_injective`, `explicitInfRes_exact`,
-  `fiveTerm_exact_H1N` and `fiveTerm_exact_H2Q`.
+  at its four nodes, which is `explicitInfl1_injective`, `explicitInfResConj_exact` (the second
+  node, read with the invariant-valued restriction; `explicitInfRes_exact` is its three-term form),
+  `fiveTerm_exact_H1N` and `fiveTerm_exact_H2Q`. These are Tau Ceti's names for the landed
+  sequence.
   ⚠ Profiniteness is a genuine hypothesis here, not a convenience: extending a continuous cocycle
   off a closed subgroup, or building one from a section, is exactly what Layer 0's section theorem
   provides and what fails for an arbitrary topological group. The three-term inflation-restriction
@@ -1133,10 +1153,15 @@ On the explicit model, relative to an equivariant pairing as fixed in §3. Discr
      ```
 
   The coefficient diagrams are inputs of the theorems, not prose around an untyped equation. The
-  instances required downstream, all with target degree at most 2, are: `δ⁰` in the first variable
-  with `(p, q) = (0, 0)` and `(0, 1)`; `δ¹` in the first variable with `(p, q) = (1, 0)`; `δ⁰` in
-  the second variable with `(p, q) = (0, 0)` and `(1, 0)`; and `δ¹` in the second variable with
-  `(p, q) = (0, 1)`. Each is its own lemma.
+  instances required downstream, all with target degree at most 2, are six lemmas, named by the
+  connecting map on the left and the cup shape, as in Tau Ceti. In the first variable:
+  `explicitDelta0_explicitCup00_left` (`δ⁰` of the class, `(p, q) = (0, 0)`),
+  `explicitDelta1_explicitCup01_left` (`δ⁰` of the class, `(0, 1)`) and
+  `explicitDelta1_explicitCup10_left` (`δ¹` of the class, `(1, 0)`). In the second variable:
+  `explicitDelta0_explicitCup00_right` (`δ⁰`, `(0, 0)`), `explicitDelta1_explicitCup10_right`
+  (`δ⁰`, `(1, 0)`, with the sign `-1`) and `explicitDelta1_explicitCup01_right` (`δ¹`, `(0, 1)`).
+  Layer 13's index-two exact sequence reads its connecting map off
+  `explicitDelta1_explicitCup10_right` at the class `1`.
 - **The Bockstein.** The sum rule `δ(a ⌣ b) = δa ⌣ b + (-1)^p (a ⌣ δb)` is a statement about a
   single derivation, and needs multiplicative short-exact-sequence data that the two theorems above
   do not carry. Build it once, for the case the applications use: the Bockstein
@@ -1176,10 +1201,14 @@ explicit 1-cochain. State the `(0,q)` case at cochain level and the `(1,1)` case
 `instSubsingletonAlgHomOfIsPurelyInseparable`, `AlgEquiv.restrictNormalHom_surjective`,
 `Field.absoluteGaloisGroup`, `InfiniteGalois.isOpen_and_normal_iff_finite_and_isGalois`,
 `InfiniteGalois.normalAutEquivQuotient`, `rootsOfUnity`, `powMonoidHom`,
-`groupCohomology.H1ofAutOnUnitsUnique`, `krullTopology`. This roadmap: Layers 3, 4, 5 and 8.
+`groupCohomology.H1ofAutOnUnitsUnique`, `krullTopology`. This roadmap: Layers 3, 4, 5 and 8; the
+field-extension bridge also Layers 10, 12 and 13.
 
-`K` a field, `Kˢ = SeparableClosure K`, and `G_K` its Galois group with the Krull topology. This
-layer needs Layers 3, 4, 5 and 8, and nothing from Layers 10 to 13.
+`K` a field, `Kˢ = SeparableClosure K`, and `G_K` its Galois group with the Krull topology. The
+Kummer half of this layer needs Layers 3, 4, 5 and 8. The field-extension bridge at its end also
+needs Layer 10 (`corestriction`), Layer 12 (`cup_res`, `cup_projection`) and Layer 13
+(`evensNormIndexTwo`, `evensConj`, `indexTwoCharacterClass` and the index-two identities), so it
+is built after Layer 13 (§7).
 
 - **The group, fixed once.** `AbsoluteGaloisGroup K = Kˢ ≃ₐ[K] Kˢ`. This is the carrier, not one
   of two options: every statement in this layer and every interface it exports names it.
@@ -1277,15 +1306,32 @@ layer needs Layers 3, 4, 5 and 8, and nothing from Layers 10 to 13.
   On top of those, `galoisRes`, `galoisCor` and `galoisEvens` are Layer 1's `res`, Layer 10's
   `corestriction` and Layer 13's `evensNormIndexTwo` read through the transport, each with a real
   body so that no second copy of those operations exists, together with `galoisConj` for the
-  conjugate class of a quadratic extension. Their laws are targets too: the two cup
-  compatibilities, functoriality in a tower, and independence of the embedding
-  (`galoisRes_embedding_independent` and its two companions), which is what makes every statement
-  downstream a statement about `L/K` rather than about a chosen `σ`. A consumer that built these
-  adapters itself would be building restriction, corestriction and the norm a second time, with
-  nothing saying that its copies agreed with these. The coefficients are the trivial `𝔽₂` object,
-  because that is where the Evens norm lives; at other coefficients a consumer uses `res` and
-  `corestriction` at `galoisSubgroup` directly, together with whatever coefficient comparison its
-  own modules need.
+  conjugate class of a quadratic extension and `galoisCharacter`, the class
+  `χ_{L/K} ∈ H¹(G_K, 𝔽₂)` of the character with kernel `G_L`, which is Layer 13's
+  `indexTwoCharacterClass` at `galoisSubgroup`. Their laws are targets too, each by name.
+  `galoisRes_galoisCor`: at index two `res ∘ cor = id + galoisConj`, which holds by the definition
+  of `galoisConj`. `galoisConj_evensConj`: `galoisConj` is the transport of Layer 13's `evensConj`
+  through `galoisF2Iso`, which is what lets the index-two identities be read on the `L/K` side.
+  The two cup compatibilities: `galoisRes_cup`, restriction preserves the mod-2 cup, an instance
+  of Layer 12's `cup_res` at `f2Pairing`; and `galoisCor_cup`, the projection formula
+  `cor (res x ⌣ y) = x ⌣ cor y`, an instance of Layer 12's `cup_projection`. The Evens identities
+  at the bridge: `galoisRes_galoisEvens`, `res N^{Ev}(x) = x ⌣ galoisConj x`, the transport of
+  `evensNorm_res`; `galoisEvens_add`,
+  `N^{Ev}(x + y) = N^{Ev} x + N^{Ev} y + cor (x ⌣ galoisConj y)`, the transport of
+  `evensNorm_polarization`, with the **conjugate** class in the cross term; and
+  `galoisEvens_galoisRes`, `N^{Ev}(res y) = y ⌣ y + χ_{L/K} ⌣ y`, the transport of
+  `evensNorm_of_res`. The index-two exact sequence at the bridge: `galoisRes_eq_zero_iff`, the
+  kernel of `res : H²(G_K, 𝔽₂) → H²(G_L, 𝔽₂)` is `χ_{L/K} ⌣ H¹(G_K, 𝔽₂)`, and
+  `galoisRes_galoisCor_exact`, restriction then corestriction is exact at `H¹(G_L, 𝔽₂)` and at
+  `H²(G_L, 𝔽₂)`; all of these need `[L : K] = 2`. Functoriality in a tower is `galoisRes_comp`,
+  and independence of the embedding is `galoisRes_embedding_independent` with its three
+  companions for `galoisCor`, `galoisEvens` and `galoisCharacter`, which is what makes every
+  statement downstream a statement about `L/K` rather than about a chosen `σ`. A consumer that
+  built these adapters itself would be building restriction, corestriction and the norm a second
+  time, with nothing saying that its copies agreed with these. The coefficients are the trivial
+  `𝔽₂` object, because that is where the Evens norm lives; at other coefficients a consumer uses
+  `res` and `corestriction` at `galoisSubgroup` directly, together with whatever coefficient
+  comparison its own modules need.
 - **The mod-2 specialization.** Under `h2 : IsUnit (2 : K)`, with `μ₂ = {±1} ⊆ K` carrying the
   trivial action and `𝔽₂ = ZMod 2` written additively: the Kummer class `[a] ∈ H¹(G_K, 𝔽₂)` with
   cocycle `g ↦ 0` if `g √a = √a` and `1` otherwise, the square-class isomorphism
@@ -1408,7 +1454,15 @@ groups, which is the Profinite Pro-`p` Groups roadmap's and not this one's.
 ### Layer 11: cohomological dimension
 
 **Prerequisites.** Mathlib: `ENat`, `AddCommGroup.primaryComponent`,
-`CategoryTheory.Simple`, `IsSimpleModule`. This roadmap: Layer 10.
+`CategoryTheory.Simple`, `IsSimpleModule`; for the class-module theorem also
+`TopologicalAbelianization`, `MonoidHom.transfer`, `Subgroup.mul_mem_iff_of_index_two` and the
+cohomology of finite cyclic groups (`Rep.FiniteCyclicGroup.groupCohomologyIsoEven`,
+`Rep.FiniteCyclicGroup.groupCohomologyIsoOdd`). Tau Ceti: `TauCeti.cohomologicalDimensionAt`,
+`TauCeti.strictCohomologicalDimensionAt`, `TauCeti.maximalProPQuotient` with
+`TauCeti.maximalProPQuotient.map`, the conjugation action
+`TopologicalAbelianization.instMulDistribMulActionQuotient` with its `ContinuousSMul` instance, and
+`TauCeti.GroupExtension.contCohomologyClass_factorSet_eq`. This roadmap: Layer 10; the
+class-module theorem also Layers 2, 5, 6 and 7.
 
 For profinite `G` and a prime `p`; NSW III §3 is the source of record. This layer rests on
 Layer 10.
@@ -1487,12 +1541,86 @@ Layer 10.
 - **First values.** `cd_p G = 0` if and only if `Hⁱ(G, M) = 0` in positive degrees for every
   `p`-primary `M`; `cd_p Ẑ = 1` for every `p` (the worked example in §6); and `H²(Ẑ, M) = 0` for
   finite `M`.
-  ⚠ Do not attempt values of `cd_p G_K` for local fields here. That is
-  the Class Field Theory roadmap's `cd(G_K) = 2`, which
-  rests on this layer plus local duality. The `p`-Sylow equality `cd_p G = cd_p G_p` (NSW (3.3.6))
-  belongs to the Profinite Pro-`p` Groups roadmap together with
+  ⚠ Do not attempt values of `cd_p G_K` or `scd_p G_K` for local fields here. They are
+  the Class Field Theory roadmap's `cd(G_K) = 2` and `scd(G_K) = 2`, which
+  rest on this layer, its strict-dimension criterion, and local duality. The `p`-Sylow equality
+  `cd_p G = cd_p G_p` (NSW (3.3.6)) belongs to the Profinite Pro-`p` Groups roadmap together with
   the profinite Sylow theory it consumes; this layer supplies the definitions, the monotonicity,
   the prime-to-`p` equality, and Layer 10's all-degree tools that the Sylow argument uses.
+- **The landed invariants.** The two predicates and the three invariants are in Tau Ceti as
+  `TauCeti.CohomologicalDimensionLE`, `TauCeti.StrictCohomologicalDimensionLE`,
+  `TauCeti.cohomologicalDimensionAt`, `TauCeti.strictCohomologicalDimensionAt` and
+  `TauCeti.cohomologicalDimension`, with the universe of the coefficient modules as a parameter.
+  `cd_p_eq_cohomologicalDimensionAt` and `scd_p_eq_strictCohomologicalDimensionAt` identify `cd_p`
+  and `scd_p` with them, for coefficients in the universe of `G`, and the milestones below are
+  stated against the landed declarations.
+- **The strict dimension from the ordinary one** (NSW (3.3.4) and its proof). Two milestones.
+  `strictCohomologicalDimensionAt_openSubgroup_le`: `scd_p U ≤ scd_p G` for an open subgroup `U`
+  (NSW (3.3.5)), since `Hⁱ(U, A) ≅ Hⁱ(G, Coind_U^G A)` by Layer 10's Shapiro isomorphism. And
+  `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup`: `scd_p G ≤ n` if and only if
+  `cd_p G ≤ n` and the `p`-primary part of `H^{n+1}(U, ℤ)` vanishes for every open `U`, with `ℤ`
+  carrying the trivial action. The forward direction is `cd_p ≤ scd_p` with the first milestone.
+  For the converse, `scd_p G ≤ cd_p G + 1` (NSW (3.3.3)) disposes of the degrees above `n + 1`. In
+  degree `n + 1`, a discrete module finitely generated over `ℤ` is a quotient `B ⧸ C` with
+  `B = Coind_U^G (ℤ^m)` for an open `U` acting trivially on it; the `p`-primary parts of
+  `H^{n+1}(G, B) ≅ H^{n+1}(U, ℤ)^m` and of `H^{n+2}(G, C)` vanish, and passing to `p`-primary parts
+  is exact on torsion groups (Layer 10's torsion statement); Layer 10's filtered colimits then give
+  every discrete module. NSW states the criterion as "if `cd_p G = n` is finite, then `scd_p G = n`
+  if and only if …"; the `≤` form holds for every `n` and is the one stated.
+- **The class module of a group of strict dimension two** (NSW (3.6.4), (i) ⇒ (iii), in
+  `p`-primary form). For open subgroups `V ◁ U` of `G`, `V^ab(p)` is the maximal pro-`p` quotient
+  of the topological abelianization of `V` (`abelianizationProP`: Tau Ceti's `maximalProPQuotient`
+  of Mathlib's `TopologicalAbelianization`), with the conjugation action of `U ⧸ V`
+  (`abelianizationProPAction`, carried from Tau Ceti's action on the topological abelianization),
+  and `u_{U/V}(p) ∈ H²(U ⧸ V, V^ab(p))` is the class of the extension
+  `1 → V^ab(p) → U ⧸ K → U ⧸ V → 1`, where `K` is the kernel of `V → V^ab(p)`: in Layer 2's
+  explicit `H²`, the class of the factor set `(σ, τ) ↦ σ.out * τ.out * (σ * τ).out⁻¹` read in
+  `V^ab(p)`, with representatives chosen by `Quotient.out` (`abelianizationProPFactorSet`,
+  `abelianizationProPClass`), which is
+  the class of the extension for every continuous section
+  (`TauCeti.GroupExtension.contCohomologyClass_factorSet_eq`). The theorem: if `scd_p G ≤ 2`, then
+  `H¹(U ⧸ V, V^ab(p)) = 0` and `H²(U ⧸ V, V^ab(p))` is cyclic of order the `p`-part of
+  `#(U ⧸ V)`, generated by `u_{U/V}(p)`. `Suggested.lean` states it for `U = G`
+  (`subsingleton_h1_abelianizationProP`, `abelianizationProPClass_generates`); a pair `V ◁ U` is the
+  case of the group `U`, whose strict dimension is at most that of `G`. The route is NSW's, in five
+  sub-milestones, each in the `p`-primary form that NSW leaves implicit:
+  1. **(3.3.11), corestriction in the top degree.** For `scd_p G ≤ n` and an open normal `U`,
+     `cor : H^n(U, A)(p)_{G/U} → H^n(G, A)(p)` is an isomorphism for every discrete `A`, the
+     source being the coinvariants for the conjugation action. Surjectivity: the long exact
+     sequence of `0 → B → Coind_U^G A → A → 0`, the last map Layer 10's trace, with Shapiro and
+     `H^{n+1}(G, B)(p) = 0`. Injectivity on coinvariants: tensor the augmentation sequence
+     `0 → I_{G/U} → ℤ[G/U] → ℤ → 0` with `A`, cover `I_{G/U}` by `⊕_σ ℤ[G/U]`, `e_σ ↦ σ - 1`, and
+     use Shapiro and the vanishing of `H^{n+1}(G, -)(p)` twice more: the image of
+     `H^n(G, I_{G/U} ⊗ A)(p)` in `H^n(U, A)(p)` is `∑_σ (σ - 1) H^n(U, A)(p)`.
+  2. **(1.5.9), the transfer is dual to corestriction.** `H²(U, ℤ) ≅ H¹(U, ℚ/ℤ)` by Layer 10's long
+     exact sequence of `0 → ℤ → ℚ → ℚ/ℤ → 0` and the vanishing of `Hⁱ(U, ℚ)`;
+     `H¹(U, ℚ/ℤ) = Hom_cont(U^ab, ℚ/ℤ)` by Layer 2's trivial-action description; under these,
+     `cor : H¹(V, ℚ/ℤ) → H¹(U, ℚ/ℤ)` is composition with the transfer `Ver : U^ab → V^ab`
+     (Mathlib's `MonoidHom.transfer` on the finite quotients, passed to topological
+     abelianizations), and `V^ab → U^ab → V^ab` is the norm of `U ⧸ V`. With sub-milestone 1 at
+     `n = 2` and `A = ℤ`, and because continuous characters `A → ℚ/ℤ` of a profinite abelian group
+     separate points and detect surjectivity, this is (3.6.4)(ii) in `p`-primary form:
+     `Ver : U^ab(p) → (V^ab(p))^{U/V}` is an isomorphism.
+  3. **(3.6.2), the transfer diagram.** The exact commutative diagram whose top row
+     `H₂(U/V, ℤ̂) → (V^ab)_{U/V} → U^ab → (U/V)^ab → 1` is the dual of Layer 5's five-term
+     sequence with `ℚ/ℤ` coefficients, whose bottom row is
+     `1 → N_{U/V} V^ab → (V^ab)^{U/V} → Ĥ⁰(U/V, V^ab) → 1` (`Ĥ⁰` the invariants modulo the norms),
+     and whose vertical maps are the norm, `Ver`, and `σ ↦ ∏_τ u(τ, σ)` for a factor set `u` of
+     `u_{U/V}`. For cyclic `U/V` the map `(V^ab)_{U/V} → U^ab` is injective, since
+     `H²(U/V, ℚ/ℤ) = 0`.
+  4. **(ii) ⇒ (iii) for `U/V` cyclic of order `p`.** The snake lemma on the `p`-primary part of
+     sub-milestone 3,
+     with `H¹ ≅ ker N_{U/V} / (σ - 1)` and `H² ≅ (-)^{U/V} / N_{U/V}` for a finite cyclic group
+     (Mathlib's `Rep.FiniteCyclicGroup.groupCohomologyIsoOdd` and `groupCohomologyIsoEven` on the
+     discrete model, proved directly in degrees 1 and 2 on the explicit one), gives
+     `H¹(U/V, V^ab(p)) = 0` and `H²(U/V, V^ab(p)) ≅ U/V`. The class is not zero: a splitting of
+     the extension would give a complement of `V^ab(p)` that `Ver` kills.
+  5. **(3.6.3) with (3.6.1), the general pair.** `res u_{U/W} = u_{V/W}` and
+     `i(u_{U/V}) = (V : W) · u_{U/W}` for `W ⊆ V ⊆ U` (3.6.1); induction on the order of a
+     `p`-group `U/V` through a central subgroup of order `p`, using Layer 5's five-term sequence
+     and sub-milestone 2 for the intermediate pair; and restriction to a `p`-Sylow subgroup of
+     `U/V`, injective
+     on `p`-primary parts by Layer 6's `cor ∘ res = index`.
 
 **API** for cohomological dimension. Constructors: the two predicates and the three invariants
 above, through `leastENatBound`. Worked example: `cd_p Ẑ = 1` for every `p`, with `H²(Ẑ, M) = 0`
@@ -1510,6 +1638,14 @@ the finiteness is what the colimit and dimension-shifting argument needs. The in
 `cd_p G ≤ scd_p G ≤ cd_p G + 1` is NSW (3.3.3), and the false neighbor is equality of the two: for
 `G = ℤ_p` one has `cd_p G = 1` and `scd_p G = 2`, so the upper bound is attained and `cd_p` alone
 does not determine `scd_p`.
+
+**Source** for the strict-dimension criterion and the class module. NSW (3.3.4) and (3.3.5) for the
+criterion; NSW (3.3.11), (1.5.9) and (3.6.1)-(3.6.4) for the class module, stated there for
+`scd G = 2`, all primes at once. The hypothesis here is `scd_p G ≤ 2` at the one prime `p`, and the
+`p`-primary refinement of each step is part of the milestone. The false neighbors are the same
+statement under a weaker hypothesis. With none, `G = ℤ/p` and `V = 1` give `V^ab(p) = 0` while
+`#(G/V)_p = p` (there `scd_p G = ∞`). With `cd_p G ≤ 2` only, `G = ℤ_p²` and `V = pG` give
+`H²((ℤ/p)², ℤ_p²)` of order `p⁴` rather than `p²` (there `cd_p G = 2` and `scd_p G = 3`).
 
 ### Layer 12: the graded cup product in all degrees
 
@@ -1585,14 +1721,15 @@ Layer 13, which needs the degree multiplication `q ↦ l * q` to be typeable.
 
 ### Layer 13: the Evens norm
 
-**Prerequisites.** Mathlib: `RegularWreathProduct`, `Equiv.Perm`, `ZMod`, `OpenSubgroup`.
-This roadmap: Layers 6 and 8 for the explicit index-2 form, and Layers 10 and 12 for the general
-construction.
+**Prerequisites.** Mathlib: `RegularWreathProduct`, `DihedralGroup`,
+`Subgroup.mul_mem_iff_of_index_two`, `Equiv.Perm`, `ZMod`, `OpenSubgroup`. Tau Ceti:
+`TauCeti.ofDiscreteModule_trivialF2`. This roadmap: Layers 5, 6, 7 and 8 for the cochains of the
+explicit index-2 form, with Layer 3's comparisons, Layer 10's corestriction and Layer 12's `(1,1)`
+cup for its statements on the canonical carrier; Layers 10 and 12 for the general construction.
 
 The multiplicative transfer on `𝔽₂`-cohomology for an open subgroup `U ≤ G` of finite index, in
-the shape the Evens-Kahn formula uses. Trivial `𝔽₂`-action throughout. The explicit half needs
-Layers 6 and 8 only, and is the half the sibling roadmap consumes; the general construction needs
-Layer 12.
+the shape the Evens-Kahn formula uses. Trivial `𝔽₂`-action throughout. The explicit half is the
+half the sibling roadmap consumes; the general construction needs Layers 10 and 12 in full.
 
 #### The explicit index-2 form
 
@@ -1605,11 +1742,19 @@ Layer 12.
   ```
   its continuity and its 2-cocycle identity, and the resulting class
   `N^{Ev}(α) ∈ H²(G, 𝔽₂)`. In `Suggested.lean` these are `evensExtend`, `evensB1`, `evensBs`,
-  `evensCorCochain`, `evensGraphCochain` with its cocycle theorem, and the class `graphClass`,
-  which the general norm's index-2 specialization `evensNormIndexTwo` agrees with by
-  `evensNorm_eq_graphClass`. Independence of the choice of `s`, as an explicit coboundary.
+  `evensCorCochain`, `evensGraphCochain` with its cocycle theorem, the class `graphClass` of that
+  cocycle, choice-free by `graphClass_eq_cochainClass`, and the index-2 norm itself,
+  `evensNormIndexTwo : H¹(U, 𝔽₂) → H²(G, 𝔽₂)`, **defined** as `graphClass` descended through
+  `homClass`. `homClass` is the class of a continuous homomorphism, pinned by
+  `homClass_eq_cochainClass`; `homClass_surjective` says every class is one (the trivial-action
+  `B¹ = 0` of Layer 2, through Layer 3's comparison); `graphClass_representative_independent` says
+  the graph class depends only on that class; and `evensNormIndexTwo_homClass` is the resulting
+  equation. The identities below are statements about this graph class. Its agreement with the
+  general construction is milestone 10 of the second half, `evensNormIndexTwo_eq`, and nothing in
+  this half or in its consumer rests on it. Independence of the choice of `s`, as an explicit
+  coboundary.
   ⚠ The element `s` is data of the **cochain** formulas and of nothing else. `graphClass` and the
-  four identities below take only `(G : U) = 2`, and `graphClass_eq_cochainClass` ties the class to
+  identities below take only `(G : U) = 2`, and `graphClass_eq_cochainClass` ties the class to
   the cochain at every `s ∉ U` rather than at one. Do not bundle `(G : U) = 2` with a chosen `s`
   into a structure and carry it in the exported signatures: that makes every identity a statement
   about the choice, and independence of the choice is a theorem here.
@@ -1618,8 +1763,8 @@ Layer 12.
   so `b₁(σ · σ) = 1` while `b₁(σ) + b₁(σ) = 0`. Only the sum is a cocycle, so identity 3 below is
   an equation about the sum, and giving the two components separate classes is a type error
   dressed as a statement. §6 carries that computation as an acceptance check.
-- **The four characterizing identities**, which are what Evens-Kahn uses (Kozlowski Lemma 2.4 in
-  cohomological form):
+- **The five characterizing identities**, of which the first four are what Evens-Kahn uses
+  (Kozlowski Lemma 2.4 in cohomological form):
   1. `evensNorm_res`, `res_U N^{Ev}(α) = α ⌣ (s · α)`, the cup with the conjugate class, which is
      `evensConj`;
   2. `evensNorm_polarization`,
@@ -1627,7 +1772,16 @@ Layer 12.
      again the **conjugate** class;
   3. `evensNorm_cor_shapiro`, `cor¹ α = b₁ + b_s`, agreeing with Layer 6's transversal formula at
      the transversal `{1, s}`;
-  4. `evensNorm_identity_infl`, compatibility with inflation.
+  4. `evensNorm_identity_infl`, compatibility with inflation;
+  5. `evensNorm_of_res`, the norm of a restricted class, `N^{Ev}(res_U y) = y ⌣ y + χ_U ⌣ y` for
+     `y ∈ H¹(G, 𝔽₂)`, where `χ_U = indexTwoCharacterClass U` is the class of the character
+     `indexTwoCharacter` of `G` with kernel `U`, a homomorphism exactly because the index is two.
+     At cochain level both Shapiro components of `y|_U` are the homomorphism `b = y + y(s) · χ_U`,
+     so `ν = b ⌣ b + χ_U ⌣ b` (`evensGraphCochain_comp_subtype`, proved in `Suggested.lean`), and
+     the two `χ_U ⌣ χ_U` terms cancel on classes by the mod-2 symmetry of the `(1,1)` cup, which
+     does not hold on cochains. This identity evaluates the norm on the image of restriction,
+     which identities 1 and 2 do not determine: they fix `N` only modulo `χ_U ⌣ H¹(G, 𝔽₂)`, the
+     kernel of restriction in degree 2 (below).
 
   The conjugate `s · α` in the first two is `evensConj`, defined as `res ∘ cor - id` on
   `H^n(U, 𝔽₂)`. That is what makes it choice-free: at index two `res ∘ cor` is `1 + s` for either
@@ -1636,12 +1790,69 @@ Layer 12.
   `evensConj_eq_conjMapOf`, against Layer 10's `conjMapOf`, and it holds for every `s ∉ U`. Only
   identity 3 mentions an element outside `U`, because its right-hand side is a cochain formula.
 
-  These four are all that
+  These five, the index-two exact sequence and the pullback formula below are what
   the Quadratic Form Invariants roadmap's
   Evens-Kahn layer needs from here, and its total-Stiefel-Whitney expansion
   `w(Tr ⟨a⟩) = w(Tr ⟨1⟩) · (1 + cor[a] + N^{Ev}[a])` in degrees `≤ 2` is the application. This
   roadmap owns the cohomological operation; that one owns its application to transferred quadratic
   forms.
+- **The index-two exact sequence** in degrees `≤ 2`. With `χ_U` as above and coefficients `𝔽₂`,
+  ```
+  H⁰(G) →χ_U⌣ H¹(G) →res H¹(U) →cor H¹(G) →χ_U⌣ H²(G) →res H²(U) →cor H²(G)
+  ```
+  is exact: `indexTwo_ker_res1` (the kernel of restriction in degree 1 is `{0, χ_U}`),
+  `indexTwo_exact_res1_cor1`, `indexTwo_exact_cor1_cup` (`χ_U ⌣ x = 0` exactly when `x` is a
+  corestriction), `indexTwo_exact_cup_res2` (`ker res² = χ_U ⌣ H¹(G, 𝔽₂)`) and
+  `indexTwo_exact_res2_cor2`. Proof: the coefficient sequence `0 → 𝔽₂ → 𝔽₂[G ⧸ U] → 𝔽₂ → 0`, the
+  constants followed by the sum over the two cosets, is exact because the index is two; its long
+  exact sequence is Layer 5's (`explicitLongExact_H1A` to `explicitLongExact_H2B`); Layer 7's
+  Shapiro isomorphisms identify `Hⁿ(G, 𝔽₂[G ⧸ U])` with `Hⁿ(U, 𝔽₂)`, under which the constants
+  induce restriction and the sum over the cosets induces corestriction (Layer 10's `corestriction`
+  is Shapiro followed by the trace, and `explicitIso_cor`, `explicitIso_cor2` carry it to the
+  explicit model); `δ⁰ 1 = χ_U`, since the indicator of the coset `U` lifts `1` and its `d⁰` is
+  `χ_U` (`explicitDelta0_apply`); and the connecting map in degree 1 is `x ↦ x ⌣ χ_U` by
+  `explicitDelta1_explicitCup10_right` at the class `1`, which is `χ_U ⌣ x` by the mod-2 symmetry
+  of the `(1,1)` cup. The statements are made on the canonical carrier through Layer 3's
+  comparisons, the dictionary sending the trivial `𝔽₂` module to `trivialF2`
+  (`TauCeti.ofDiscreteModule_trivialF2`).
+  ⚠ Index exactly two is load-bearing. At index three the kernel of the sum over the cosets is
+  two-dimensional, and for `S₃ ⊇ C₂` restriction and corestriction in degree 1 are both
+  surjective, so `indexTwo_exact_res1_cor1` fails. The map `H²(G) → H²(U)` is restriction and not
+  corestriction: for `C₄ ⊇ C₂` restriction in degree 2 is injective while `χ_U ⌣ H¹(C₄, 𝔽₂) = 0`,
+  in accordance with `H^*(C₄, 𝔽₂) = 𝔽₂[χ, u]/(χ²)`. There is no sign to fix, only the
+  normalization of `δ⁰`, and either lift of `1` gives `χ_U`.
+- **The index-two norm as a pullback of the `D₁₆` class.** On `C₂ ≀ C₂ = D₈` (`WreathC2`, Mathlib's
+  `RegularWreathProduct` of `C₂` by itself, read on coordinates `(a, b, c)` with
+  `(a, b, c)(a', b', c') = ((a, b) + swapᶜ(a', b'), c + c')`), take the base group
+  `U₀ = {c = 0}` (`wreathBase`), the tautological character `α_taut(a, b, 0) = a`
+  (`wreathTautological`) and `s = (0, 0, 1)` (`wreathSwap`), and write `u = (1, 0, 0)`,
+  `v = (0, 1, 0)`. Then `b₁ = a` and `b_s = b` (`evensB1_wreath`, `evensBs_wreath`), and
+  ```
+  ν_taut = c_{D₁₆} + δ 1_{{u, uv, s, vs}}
+  ```
+  as cochains (`evensGraphCochain_wreath`), where `c_{D₁₆}` (`wreathD16Cocycle`) is the factor set
+  of the section `(us)^i s^j ↦ r^i f^j` (`wreathSection`) of the quotient
+  `D₁₆ = ⟨r, f⟩ → C₂ ≀ C₂`, `r ↦ us`, `f ↦ s` (`dihedralToWreath`, on Mathlib's `DihedralGroup 8`
+  with `f = sr 0`), whose kernel is the centre `{1, r⁴}`. So the index-two norm of `α_taut` is the
+  extension class of `D₁₆`. `Suggested.lean` proves the identity, the cocycle identity of
+  `c_{D₁₆}`, the kernel and the section property by computation. Naturality
+  (`evensGraphCochain_comap`, proved there too): for `φ : G → G'` and `U = φ⁻¹(U')`, the graph
+  cochain of the pulled-back homomorphism is the pullback of the graph cochain, with `s` replaced
+  by `φ(s)`. For `U` of index two, `s ∉ U` and `α : U → 𝔽₂`, the homomorphism
+  `Ind α : G → C₂ ≀ C₂`, `γ ↦ ((b₁ γ, b_s γ), χ_U γ)` (`indexTwoInd`, a homomorphism by the
+  multiplication rule of the Shapiro components), pulls `U₀` back to `U` and `α_taut` back to `α`
+  (`comap_indexTwoInd_wreathBase`). With independence of `s` and the universal identity this gives
+  `evensNormIndexTwo_eq_ind_pullback`: `N^{Ev}(α) = (Ind α)^* c_{D₁₆}`, the class of
+  `c_{D₁₆} ∘ (Ind α × Ind α)`. This is what ties the index-two norm to a standard construction.
+  Read through the signed-permutation representation `C₂ ≀ C₂ ⊂ O₂`, `c_{D₁₆}` is the class of the
+  `Pin⁺` extension, the second Stiefel-Whitney class of that representation, so the theorem says
+  that the index-two norm of `α` is `w₂` of the representation induced from `α` (Kahn 1984,
+  th. I.4.2 at rank one). That reading belongs to the Quadratic Form Invariants roadmap, which
+  consumes the pullback formula.
+  ⚠ The extension is `D₁₆`, not `SD₁₆` or `Q₁₆`: for the same identification of the quotient their
+  classes are `[ν_taut] + y²` and `[ν_taut] + x² + y²`, where `x` and `y` are the characters of
+  `C₂ ≀ C₂` with kernels `U₀` and `⟨uv, s⟩`. The witness `1_{{u, uv, s, vs}}` depends on the
+  section and on `s`; the class does not.
 
 #### The general construction
 
@@ -1679,34 +1890,39 @@ is these:
    and double-coset formula, and inflation compatibility.
 9. Comparison with the finite-quotient norms, if the profinite construction is obtained by descent
    through Layer 10's colimit.
-10. **Specialization to index 2 and degree 1, and equality with the explicit graph-cocycle class of
-    the first half.** This identification is the mathematical content that distinguishes this
-    layer from a transcription: it turns the graph cocycle into a standard cohomological
+10. **Specialization to index 2 and degree 1, and equality with the graph class
+    `evensNormIndexTwo` of the first half** (`evensNormIndexTwo_eq`, with `evensNorm_eq_graphClass`
+    its value on `homClass α`). This identification is the mathematical content that distinguishes
+    this layer from a transcription: it turns the graph cocycle into a standard cohomological
     construction rather than an ad hoc formula.
 
 Every object the norm is built from is constructed in one of those ten milestones or in Layer 12.
 A phrase like "the norm through the wreath product" is not a milestone: the wreath product, the
 tensor induction and the graded algebra each have to be built. Sequence the explicit form first,
-since its four identities are provable directly and are what the sibling roadmap needs; the
+since its identities are provable directly and are what the sibling roadmap needs; the
 general construction is the hardest single piece of work in this roadmap.
 
 ##### What the sibling roadmap consumes
 
 the Quadratic Form Invariants roadmap uses only
-the four characterizing identities of the explicit index-2 form, in degrees `1` and `2`. The ten
+the explicit index-2 form, in degrees `1` and `2`: the norm `evensNormIndexTwo` with its defining
+equation, the five identities, the index-two exact sequence and the pullback formula
+`evensNormIndexTwo_eq_ind_pullback`, read on the `L/K` side through Layer 9's bridge. The ten
 milestones of the general construction are this roadmap's own completion of the theory, and that
 roadmap needs none of them.
 
 **API** for the Evens norm. Constructors: the explicit index-2 graph cocycle `ν_α`, and the
 general `N_U^G` through the monomial homomorphism. Worked example: `G = C₄ ⊇ U = C₂` with `α ≠ 0`,
 where `N^{Ev}(α) ≠ 0` in `H²(C₄, 𝔽₂)` and the extension it classifies is `C₈`; both halves are in
-`Suggested.lean`. Morphisms: none, since `N_U^G` is a plain function and not additive; its failure
-of additivity is identity 2. Functoriality: transitivity in the subgroup, the restriction and
-double-coset formula, and compatibility with inflation. Comparison: the specialization of the
-general construction to index 2 and degree 1 agrees with the explicit graph cocycle, which is
-milestone 10. Naturality: multiplicativity `N(x ⌣ y) = N x ⌣ N y`. Edge cases: index 1, where
-`N` is the identity; `α = 0`; and degree 0. Consumers: the Quadratic Form Invariants roadmap,
-which uses the four identities of the explicit form and nothing else.
+`Suggested.lean`; and the universal case, the tautological character of `C₂ ≀ C₂`, whose norm is the
+extension class of `D₁₆`, proved there by computation. Morphisms: none, since `N_U^G` is a plain
+function and not additive; its failure of additivity is identity 2. Functoriality: transitivity in
+the subgroup, the restriction and double-coset formula, and compatibility with inflation; at
+index two, naturality of the graph cochain in the group. Comparison: the general construction at
+index 2 and degree 1 is the graph class `evensNormIndexTwo`, which is milestone 10; and the
+index-two norm is the pullback of the `D₁₆` extension class. Naturality: multiplicativity
+`N(x ⌣ y) = N x ⌣ N y`. Edge cases: index 1, where `N` is the identity; `α = 0`; and degree 0.
+Consumers: the Quadratic Form Invariants roadmap, which uses the explicit form and nothing else.
 
 **Source** for the expansion. Evens, Trans. AMS 108 (1963), Thm. 1 (p. 63), with §§2-5 for the
 construction and §6 Props. 1-4 for transitivity, double cosets and multiplicativity; Kozlowski,
@@ -1715,6 +1931,15 @@ Thm. 1 is that `χ` has **even** degree, the parity coming from signs over a gen
 `G`-ring. The false neighbor is that expansion in odd degree over a general ring. Over `𝔽₂` with
 trivial action there are no signs, the construction gives a norm in every degree, and that
 all-degree mod-2 form is the one built here.
+
+**Source** for the pullback formula. The universal identity on `C₂ ≀ C₂` is a finite computation.
+Kahn, Invent. Math. 78 (1984), th. I.4.2 at rank one (with Remarque II.2.3, on the same
+`D₈ = C₂ ≀ C₂` and its tautological character), and Serre, Comment. Math. Helv. 59 (1984),
+Théorème 1′ read at `n = 2`, identify the class with `w₂` of the induced representation. The
+hypotheses are index two and `s ∉ U` for `Ind α` to be a homomorphism; the naturality of the graph
+cochain needs neither. The false neighbor is the same statement with `Q₁₆` or `SD₁₆`, whose
+classes differ from the norm by `x² + y²` and by `y²`.
+
 ---
 
 ## 6. Worked examples (acceptance criteria)
@@ -1769,6 +1994,19 @@ impossible group.
   lift of a generator of `C₄` has fourth power equal to the generator of the kernel, hence order
   8. `Suggested.lean` carries both halves of that computation, and it is the convention anchor for
   the graph cocycle.
+- **The `D₁₆` anchor** (Layer 13): on `C₂ ≀ C₂` with the base group `U₀`, `s = (0, 0, 1)` and the
+  tautological character, `ν_taut = c_{D₁₆} + δ 1_{{u, uv, s, vs}}` as cochains, where `c_{D₁₆}` is
+  the factor set of the section `(us)^i s^j ↦ r^i f^j` of `D₁₆ → C₂ ≀ C₂`. `Suggested.lean` proves
+  this, the cocycle identity of `c_{D₁₆}`, the kernel `{1, r⁴}` and the section property by
+  computation (`evensGraphCochain_wreath`, `wreathD16Cocycle_isCocycle`,
+  `dihedralToWreath_eq_one_iff`, `dihedralToWreath_wreathSection`). It fixes the index-two norm
+  against a standard extension: with `SD₁₆` or `Q₁₆` in place of `D₁₆` the identity has no
+  coboundary witness.
+- **Identity 5 on cochains** (Layer 13): for `y` a homomorphism on `G`, both Shapiro components of
+  `y|_U` are `b = y + y(s) · χ_U`, and the graph cochain is `b ⌣ b + χ_U ⌣ b`;
+  `evensGraphCochain_comp_subtype` is proved in `Suggested.lean`. The false neighbor
+  `N(res y) = y ⌣ y` already fails at `y = χ_U` on `C₂ ≀ C₂`: there `res χ_U = 0`, while
+  `χ_U ⌣ χ_U ≠ 0`.
 - **The duality-pairing shapes** (Layers 0, 8): for finite discrete `M` and `n`-torsion
   coefficients, the three evaluation cup pairings
   `Hⁱ(G, Hom(M, μ)) × H²⁻ⁱ(G, M) → H²(G, μ)`, `i = 0, 1, 2`, exist with their biadditivity and
@@ -1800,15 +2038,18 @@ The table below is the dependency graph, and every `Prerequisites` line above ag
 | 6 change of groups | 2; `cor ∘ δ = δ ∘ cor` also needs 5 |
 | 7 coinduction, Shapiro | 0, 2, 6; the algebraic comparison also needs the merged `RepresentationTheory/InductionRestriction` |
 | 8 cup products | 2; the projection formula needs 6, the connecting-map identities need 5 |
-| 9 Galois interface | 3, 4, 5, 8 |
+| 9 Galois interface | 3, 4, 5, 8; the field-extension bridge also 10, 12, 13 |
 | 10 all degrees, additive | 1, and 3, 4, 5, 6, 7, which it generalizes |
-| 11 cohomological dimension | 10 |
+| 11 cohomological dimension | 10; the class-module theorem also 2, 5, 6, 7 |
 | 12 all bidegrees, multiplicative | 1, 8; agreement with 8 needs 3, the projection formula needs 10 |
-| 13 Evens norm | 6, 8 for the explicit form; 10 and 12 for the general construction |
+| 13 Evens norm | 5, 6, 7, 8 for the explicit form, with 3, 10 and 12 for its statements on the canonical carrier; 10 and 12 for the general construction |
 
 Every entry in the right-hand column is a Mathlib declaration, an earlier layer of this roadmap, or
-a merged roadmap. Every dependency points backwards: no layer above uses a milestone of a later
-one, and an integration theorem is stated in the first layer where both of its sides exist.
+a merged roadmap. Every dependency points backwards, with one placement exception: the
+field-extension bridge at the end of Layer 9 transports Layers 10, 12 and 13 to `L/K`, so it is
+built after Layer 13, and it is written in Layer 9 because it is part of the Galois interface.
+Otherwise no layer above uses a milestone of a later one, and an integration theorem is stated in
+the first layer where both of its sides exist.
 Nothing here needs a pull request, a later toolchain pin, or another repository, so every layer can
 be started immediately.
 
@@ -1825,10 +2066,14 @@ Item numbers are verified against the editions cited.
   ((1.4.1) Leibniz, (1.4.2) naturality, (1.4.3) and (1.4.5) `δ`-compatibility, (1.4.4)
   associativity and graded commutativity), I §5 change of groups ((1.5.2) `cor ∘ δ`, (1.5.3)(i),
   (iii), (iv) restriction, inflation and the projection formula, (1.5.6) the double-coset formula,
-  (1.5.7) `cor ∘ res = (G : U)`), (1.6.1) torsionness, (1.6.4) Shapiro (with the p. 61 footnote
+  (1.5.7) `cor ∘ res = (G : U)`, (1.5.9) the transfer as the dual of corestriction), (1.6.1)
+  torsionness, (1.6.4) Shapiro (with the p. 61 footnote
   naming its `Ind` as the coinduced functor), (1.6.7) the five-term sequence, (1.7.7) procyclic
   computations. Ch. III §3 cohomological dimension: (3.3.1) definitions, (3.3.2) the simple-module
-  criterion, (3.3.3) `cd ≤ scd ≤ cd + 1`, (3.3.5) closed subgroups, (3.3.6) Sylow. Ch. VI: (6.2.1)
+  criterion, (3.3.3) `cd ≤ scd ≤ cd + 1`, (3.3.4) the strict-dimension criterion, (3.3.5) closed
+  subgroups, (3.3.6) Sylow, (3.3.11) corestriction in the top degree. Ch. III §6 groups of strict
+  cohomological dimension 2: (3.6.1) the classes `u_{U/V}`, (3.6.2) the transfer diagram, (3.6.3)
+  the reduction to cyclic quotients of prime order, (3.6.4) the class module. Ch. VI: (6.2.1)
   Hilbert 90 for arbitrary Galois extensions, with the Kummer isomorphism
   `H¹(G_K, μₙ) ≅ Kˣ/(Kˣ)ⁿ` derived on the same page, and (6.2.2) the pairing form.
 - L. Ribes, P. Zalesskii, *Profinite Groups*, 2nd ed., Springer Ergebnisse 40 (2010): Prop. 2.2.2
@@ -1855,8 +2100,13 @@ Item numbers are verified against the editions cited.
   in Segal's cohomology", Illinois J. Math.). Layer 13's explicit form is the self-contained
   account of that lemma.
 - B. Kahn, "Classes de Stiefel-Whitney de formes quadratiques et de représentations galoisiennes
-  réelles", Invent. Math. 78 (1984): the relative Stiefel-Whitney identity that consumes Layer 13,
-  owned by `../QuadraticFormInvariants/`.
+  réelles", Invent. Math. 78 (1984): th. I.4.2 (the Stiefel-Whitney classes of a representation
+  induced from a subgroup of index two, through the norm) and Remarque II.2.3, which Layer 13's
+  pullback formula makes precise at rank one; the relative Stiefel-Whitney identity that consumes
+  Layer 13 is owned by `../QuadraticFormInvariants/`.
+- J.-P. Serre, "L'invariant de Witt de la forme Tr(x²)", Comment. Math. Helv. 59 (1984), 651-676:
+  Théorème 1′, whose case `n = 2` is the identification of Layer 13's `D₁₆` class with `w₂` of the
+  signed-permutation representation of `C₂ ≀ C₂`.
 - H. Koch, *Galois Theory of p-Extensions*, Springer (2002), Ch. 3 "Cohomology of Profinite
   Groups", built directly on continuous **inhomogeneous** cochains (§3.1, the textbook model of
   Layer 2): Thm. 3.9 (Shapiro), Thm. 3.10 (`cor ∘ res = (G : H)`), Thm. 3.14

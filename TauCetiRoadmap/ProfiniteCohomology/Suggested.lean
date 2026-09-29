@@ -1,4 +1,7 @@
 import Mathlib
+import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension
+import TauCeti.Topology.Algebra.Group.Profinite.MaximalProP
+import TauCeti.Topology.Algebra.Group.TopologicalAbelianization
 
 /-!
 # Continuous cohomology of profinite groups: target signatures
@@ -16,6 +19,12 @@ the references) is in `README.md`. At the repository pin, Mathlib carries the ca
 `map_comp`. This file uses those Mathlib declarations directly. A pair of private notation adapters
 below only preserves the concise `.obj`/`.map` notation used throughout these suggested signatures;
 it creates no second public cohomology API.
+
+Three Tau Ceti modules are imported, for Layer 11 only. Its two new criteria are stated against
+the landed `TauCeti.cohomologicalDimensionAt` and `TauCeti.strictCohomologicalDimensionAt`, which
+`cd_p_eq_cohomologicalDimensionAt` and `scd_p_eq_strictCohomologicalDimensionAt` identify with this
+file's `cd_p` and `scd_p`, and its class-module theorem against Tau Ceti's `maximalProPQuotient` and
+the conjugation action on Mathlib's `TopologicalAbelianization`.
 
 The two central interfaces are prototyped here rather than described. Layer 1's chain is
 Mathlib's `resolutionMap`, `cochainsMap`, `cocyclesMap`, `map`, `map_id`, and `map_comp`, followed by
@@ -60,11 +69,12 @@ name the same two coefficient maps.
 
 The index-two Evens block carries **no** chosen element outside `U`, and no structure bundling one.
 Everything stated at class level is choice-free: `evensConj` is `res ∘ cor - id`, `graphClass` is a
-function of `U` and `α`, and the four identities take only `(G : U) = 2`. The element `s` appears
-exactly where the cochain formulas need it, in `evensGraphCochain`, `evensCorCochain` and their
-cocycle theorems, and the two theorems tying the class-level maps to those cochains
-(`evensConj_eq_conjMapOf`, `graphClass_eq_cochainClass`) quantify over **every** `s ∉ U`. A bundled
-choice would have made every exported identity a statement about that choice.
+function of `U` and `α`, `evensNormIndexTwo` is the graph class descended to `H¹(U, 𝔽₂)`, and the
+class-level identities take only `(G : U) = 2`. The element `s` appears exactly where the cochain
+formulas need it, in `evensGraphCochain`, `evensCorCochain`, `indexTwoInd` and their theorems, and
+the theorems tying the class-level maps to those cochains (`evensConj_eq_conjMapOf`,
+`graphClass_eq_cochainClass`, `evensNormIndexTwo_eq_ind_pullback`) quantify over **every**
+`s ∉ U`. A bundled choice would have made every exported identity a statement about that choice.
 
 Degree 1 of the index-two form is stated on **cochains**, not on classes. `evensB1` and `evensBs`
 are not cocycles: for `G = C₄ = ⟨σ⟩`, `U = ⟨σ²⟩`, `s = σ` and `α ≠ 0`, the values of `evensB1` at
@@ -87,9 +97,14 @@ Galois group of the separable closure, the roots of unity and power classes, the
 Kummer cocycle, the multiplicative coefficients `UnitsCoeff` with the Kummer sequence and Hilbert
 90, and the field-extension bridge `galoisSubgroup` with its restriction, corestriction and norm
 (Layer 9); the order-theoretic wrapper `leastENatBound`, the two vanishing predicates and the three
-invariants `cd_p`, `scd_p`, `cd` with their two dévissage reductions (Layer 11); the coefficient
-pairing and the bidegree cup (Layer 12); and the index-2 Evens graph cocycle with its `C₄` and `C₈`
-anchors (Layer 13).
+invariants `cd_p`, `scd_p`, `cd` with their two dévissage reductions, the strict-dimension criterion
+and the class module of a group of strict `p`-cohomological dimension at most two (Layer 11); the
+coefficient pairing and the bidegree cup (Layer 12); and the index-2 Evens graph cocycle with its
+`C₄` and `C₈` anchors, the index-two norm defined as the graph class, the character of an index-two
+subgroup with the norm of a restricted class, the index-two exact sequence in degrees `≤ 2`, and the
+graph cochain of the tautological character of `C₂ ≀ C₂` against the explicit `D₁₆` extension
+cocycle; the cochain form of the norm of a restricted class, the naturality of the graph cochain
+and the `C₂ ≀ C₂` identity are proved (Layer 13).
 
 The group and its coefficients live in one universe `u` and the coefficient **ring** in another.
 That is forced, not chosen: the canonical resolution is built from `C(G, -)`, so a coefficient
@@ -194,6 +209,13 @@ example {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [Compa
     ∃ s : G ⧸ H → G, Continuous s ∧ (∀ x : G ⧸ H, QuotientGroup.mk (s x) = x) ∧
       s (QuotientGroup.mk 1) = 1 :=
   sorry
+
+/-- **Layer 0, an open subgroup of a compact group is compact.** It is closed, since its complement
+is a union of cosets. Layer 13 feeds `U.toSubgroup` to statements about profinite groups through
+this instance. -/
+instance compactSpace_openSubgroup {G : Type*} [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] [CompactSpace G] (U : OpenSubgroup G) : CompactSpace U.toSubgroup :=
+  isCompact_iff_compactSpace.mp U.isClosed.isCompact
 
 /-- **Layer 0, the internal hom with its conjugation action.** For discrete `M` and `N` the
 additive homomorphisms `M →+ N` carry `(g • φ) m = g • φ (g⁻¹ • m)`, and for **finite** `M` this
@@ -1561,6 +1583,13 @@ sequence. It has a real body once the previous statement is available. -/
 noncomputable def explicitResConj1 : H1 G M →+ H1ConjInvariants G M N :=
   AddMonoidHom.codRestrict (explicitRes1 G M N) _ (explicitRes1_mem_conjInvariants G M N)
 
+/-- **Layer 5, exactness at `H¹(G, M)` with the invariant-valued restriction:** the kernel of
+`explicitResConj1` is the image of inflation. This is `explicitInfRes_exact` read with the codomain
+the five-term sequence uses, and it is that sequence's second node. -/
+theorem explicitInfResConj_exact :
+    (explicitInfl1 G M N).range = (explicitResConj1 G M N).ker :=
+  sorry
+
 /-- **Layer 5, the section-dependent lift used by transgression.** It is a continuous 1-cochain on
 `G` extending a representative on `N`; its differential is `N`-invariant and descends to the
 quotient. -/
@@ -1605,7 +1634,7 @@ noncomputable def transgressionCocycle [CompactSpace G] [TotallyDisconnectedSpac
 
 /-- **Layer 5, change of section is an explicit coboundary.** This is proved before passing to
 `H²`; it is the choice-independence mechanism for the public transgression. -/
-theorem transgression_changeSection [CompactSpace G] [TotallyDisconnectedSpace G]
+theorem transgressionCochain_sub_mem_B2 [CompactSpace G] [TotallyDisconnectedSpace G]
     (hN : IsClosed (N : Set G)) (s s' : G ⧸ N → G) (hs_cont : Continuous s)
     (hs'_cont : Continuous s') (hs : ∀ q, QuotientGroup.mk (s q) = q)
     (hs' : ∀ q, QuotientGroup.mk (s' q) = q) (y : H1ConjInvariants G M N) :
@@ -1639,8 +1668,8 @@ theorem fiveTerm_exact_H1N [CompactSpace G] [TotallyDisconnectedSpace G]
   sorry
 
 /-- **Layer 5, the five-term sequence is exact at `H²(G ⧸ N, M^N)`.** With
-`explicitInfl1_injective`, `explicitInfRes_exact` and the previous statement this is exactness of
-`0 → H¹(G⧸N, M^N) → H¹(G, M) → H¹(N, M)^{G⧸N} → H²(G⧸N, M^N) → H²(G, M)` at every node. -/
+`explicitInfl1_injective`, `explicitInfResConj_exact` and the previous statement this is exactness
+of `0 → H¹(G⧸N, M^N) → H¹(G, M) → H¹(N, M)^{G⧸N} → H²(G⧸N, M^N) → H²(G, M)` at every node. -/
 theorem fiveTerm_exact_H2Q [CompactSpace G] [TotallyDisconnectedSpace G]
     (hN : IsClosed (N : Set G)) :
     (transgression G M N hN).range = (explicitInfl2 G M N).ker :=
@@ -1648,7 +1677,7 @@ theorem fiveTerm_exact_H2Q [CompactSpace G] [TotallyDisconnectedSpace G]
 
 /-- **Layer 5, the transgression against restriction on the left,** one of its two
 compatibilities. -/
-theorem transgression_comp_res [CompactSpace G] [TotallyDisconnectedSpace G]
+theorem transgression_explicitResConj1 [CompactSpace G] [TotallyDisconnectedSpace G]
     (hN : IsClosed (N : Set G)) (x : H1 G M) :
     transgression G M N hN (explicitResConj1 G M N x) = 0 :=
   sorry
@@ -2555,6 +2584,14 @@ theorem leastENatBound_le_iff (P : ℕ → Prop) (hP : ∀ m n : ℕ, m ≤ n �
 theorem leastENatBound_eq_top (P : ℕ → Prop) (hP : ∀ n : ℕ, ¬ P n) : leastENatBound P = ⊤ :=
   sorry
 
+/-- **Layer 11, the factor set of a finite quotient lands in the kernel.** For `q, r ∈ G ⧸ V` the
+representatives chosen by `Quotient.out` satisfy `q.out * r.out * (q * r).out⁻¹ ∈ V`. This is what
+lets the class of the extension of `G ⧸ V` by `V^ab(p)` below be written from `Quotient.out`. -/
+theorem out_mul_out_mul_inv_mem {G : Type*} [Group G] (V : Subgroup G) [V.Normal]
+    (q r : G ⧸ V) : q.out * r.out * (q * r).out⁻¹ ∈ V := by
+  rw [← div_eq_mul_inv, ← QuotientGroup.eq_iff_div_mem, QuotientGroup.mk_mul,
+    QuotientGroup.out_eq', QuotientGroup.out_eq', QuotientGroup.out_eq']
+
 section CohomologicalDimension
 
 open CategoryTheory
@@ -2672,6 +2709,142 @@ theorem cd_p_le_of_isClosed (H : Subgroup G) (hH : IsClosed (H : Set G))
 theorem cd_p_eq_of_index_not_dvd (U : OpenSubgroup G) (hU : ¬ p ∣ U.toSubgroup.index)
     [CompactSpace U.toSubgroup] [TotallyDisconnectedSpace U.toSubgroup] :
     cd_p p U.toSubgroup = cd_p p G :=
+  sorry
+
+/-! Layer 11 against the landed invariants. The two predicates and three invariants above are in
+Tau Ceti as `TauCeti.CohomologicalDimensionLE`, `TauCeti.StrictCohomologicalDimensionLE`,
+`TauCeti.cohomologicalDimensionAt`, `TauCeti.strictCohomologicalDimensionAt` and
+`TauCeti.cohomologicalDimension`, whose coefficient modules range over `Type (max u v)`. The first
+two statements below identify `cd_p` and `scd_p` with them at `v = 0`; everything after them is
+stated against the landed declarations directly. -/
+
+/-- **Layer 11, `cd_p` is the landed `p`-cohomological dimension.** -/
+theorem cd_p_eq_cohomologicalDimensionAt :
+    cd_p p G = TauCeti.cohomologicalDimensionAt.{0} p G :=
+  sorry
+
+/-- **Layer 11, `scd_p` is the landed strict `p`-cohomological dimension.** -/
+theorem scd_p_eq_strictCohomologicalDimensionAt :
+    scd_p p G = TauCeti.strictCohomologicalDimensionAt.{0} p G :=
+  sorry
+
+/-- **Layer 11, the strict dimension of an open subgroup** (NSW (3.3.5)): `scd_p U ≤ scd_p G`,
+because `Hⁱ(U, A) ≅ Hⁱ(G, Coind_U^G A)` by Layer 10's `shapiroIso`. -/
+theorem strictCohomologicalDimensionAt_openSubgroup_le (U : OpenSubgroup G) :
+    TauCeti.strictCohomologicalDimensionAt.{v} p U.toSubgroup ≤
+      TauCeti.strictCohomologicalDimensionAt.{v} p G :=
+  sorry
+
+/-- **Layer 11, the strict dimension from the ordinary one** (NSW (3.3.4) and its proof):
+`scd_p G ≤ n` exactly when `cd_p G ≤ n` and the `p`-primary part of `H^{n+1}(U, ℤ)` vanishes for
+every open `U`, with `ℤ` carrying the trivial action. The forward direction is `cd_p ≤ scd_p`
+together with the previous statement. For the converse, `scd_p G ≤ cd_p G + 1` (NSW (3.3.3))
+disposes of every degree above `n + 1`. In degree `n + 1`, a discrete module finitely generated
+over `ℤ` is a quotient `B ⧸ C` of `B = Coind_U^G (ℤ^m)` for an open `U` acting trivially on it; the
+`p`-primary parts of `H^{n+1}(G, B) ≅ H^{n+1}(U, ℤ)^m` and of `H^{n+2}(G, C)` vanish, and taking
+`p`-primary parts is exact on torsion groups. Layer 10's filtered colimits then give every discrete
+module. The statement holds for every `n`. -/
+theorem strictCohomologicalDimensionAt_le_iff_forall_openSubgroup (n : ℕ) :
+    TauCeti.strictCohomologicalDimensionAt.{v} p G ≤ n ↔
+      TauCeti.cohomologicalDimensionAt.{v} p G ≤ n ∧
+        ∀ U : OpenSubgroup G, AddCommGroup.primaryComponent
+          ((continuousCohomology ℤ U.toSubgroup (n + 1)).obj
+            (TopRep.of (ContRepresentation.trivial ℤ U.toSubgroup (ULift.{u} ℤ)))) p = ⊥ :=
+  sorry
+
+/-- **Layer 11, `V^ab(p)`,** the maximal pro-`p` quotient of the topological abelianization of `V`:
+Tau Ceti's `maximalProPQuotient` of Mathlib's `TopologicalAbelianization`. -/
+abbrev abelianizationProP (V : Subgroup G) : Type u :=
+  TauCeti.maximalProPQuotient p (TopologicalAbelianization V)
+
+/-- **Layer 11, the conjugation action of `G ⧸ V` on `V^ab(p)`.** The action Tau Ceti puts on
+`TopologicalAbelianization V` (the class of `g` sends the class of `n` to the class of `g n g⁻¹`,
+`TopologicalAbelianization.mk_smul_mk`), carried to the maximal pro-`p` quotient by
+`TauCeti.maximalProPQuotient.map`. -/
+noncomputable instance abelianizationProPAction (V : Subgroup G) [V.Normal] :
+    MulDistribMulAction (G ⧸ V) (abelianizationProP p G V) where
+  smul q := TauCeti.maximalProPQuotient.map
+    (MulDistribMulAction.toMonoidHom (TopologicalAbelianization V) q) (continuous_const_smul q)
+  one_smul x := by
+    induction x using QuotientGroup.induction_on with | H y => ?_
+    show (QuotientGroup.mk ((1 : G ⧸ V) • y) : abelianizationProP p G V) = QuotientGroup.mk y
+    rw [one_smul]
+  mul_smul q r x := by
+    induction x using QuotientGroup.induction_on with | H y => ?_
+    show (QuotientGroup.mk ((q * r) • y) : abelianizationProP p G V) =
+      QuotientGroup.mk (q • r • y)
+    rw [mul_smul]
+  smul_mul q x y := map_mul _ x y
+  smul_one q := map_one _
+
+/-- The same action in additive notation, the form the explicit model of Layer 2 takes. Mathlib has
+no bridge from `MulDistribMulAction M A` to `DistribMulAction M (Additive A)`, so it is transported
+here as for `KummerCoeff`. -/
+noncomputable instance abelianizationProPAdditiveAction (V : Subgroup G) [V.Normal] :
+    DistribMulAction (G ⧸ V) (Additive (abelianizationProP p G V)) where
+  smul q x := Additive.ofMul (q • Additive.toMul x)
+  one_smul x := by
+    show Additive.ofMul ((1 : G ⧸ V) • Additive.toMul x) = _
+    rw [one_smul]; rfl
+  mul_smul q r x := by
+    show Additive.ofMul ((q * r) • Additive.toMul x) = _
+    rw [mul_smul]; rfl
+  smul_zero q := by
+    show Additive.ofMul (q • (1 : abelianizationProP p G V)) = _
+    rw [smul_one]; rfl
+  smul_add q x y := by
+    show Additive.ofMul (q • (Additive.toMul x * Additive.toMul y)) = _
+    rw [smul_mul']; rfl
+
+/-- **Layer 11, the action is continuous:** it is on `TopologicalAbelianization V` (Tau Ceti's
+`ContinuousSMul` instance there), and the projection to the maximal pro-`p` quotient is an open
+quotient map. -/
+instance abelianizationProP_continuousSMul (V : Subgroup G) [V.Normal] :
+    ContinuousSMul (G ⧸ V) (Additive (abelianizationProP p G V)) :=
+  sorry
+
+/-- **Layer 11, the factor set of the extension** `1 → V^ab(p) → G ⧸ K → G ⧸ V → 1`, where `K` is
+the kernel of `V → V^ab(p)`: `(q, r) ↦ q.out * r.out * (q * r).out⁻¹` read in `V^ab(p)`, with the
+representatives chosen by `Quotient.out` (NSW (3.6.2), proof). -/
+noncomputable def abelianizationProPFactorSet (V : Subgroup G) [V.Normal] :
+    (G ⧸ V) × (G ⧸ V) → Additive (abelianizationProP p G V) :=
+  fun q => Additive.ofMul (TauCeti.maximalProPQuotient.mk p (TopologicalAbelianization V)
+    (QuotientGroup.mk (⟨q.1.out * q.2.out * (q.1 * q.2).out⁻¹,
+      out_mul_out_mul_inv_mem V q.1 q.2⟩ : V)))
+
+/-- **Layer 11, the factor set is a continuous 2-cocycle** of `G ⧸ V` with values in `V^ab(p)`; the
+cocycle identity is associativity in `G ⧸ K`. -/
+theorem abelianizationProPFactorSet_mem_Z2 (V : Subgroup G) [V.Normal] :
+    abelianizationProPFactorSet p G V ∈ Z2 (G ⧸ V) (Additive (abelianizationProP p G V)) :=
+  sorry
+
+/-- **Layer 11, the class `u_{G/V}(p)` of the extension of `G ⧸ V` by `V^ab(p)`.** Other
+representatives change the factor set by a coboundary, so this is the class of the extension; it is
+the image of NSW's `u_{G/V} ∈ H²(G ⧸ V, V^ab)` under `V^ab → V^ab(p)`. -/
+noncomputable def abelianizationProPClass (V : Subgroup G) [V.Normal] :
+    H2 (G ⧸ V) (Additive (abelianizationProP p G V)) :=
+  H2pi (G ⧸ V) (Additive (abelianizationProP p G V))
+    ⟨abelianizationProPFactorSet p G V, abelianizationProPFactorSet_mem_Z2 p G V⟩
+
+/-- **Layer 11, NSW (3.6.4) (i) ⇒ (iii), degree one:** for `scd_p G ≤ 2` and an open normal `V`,
+`H¹(G ⧸ V, V^ab(p)) = 0`. The route through (3.3.11), (1.5.9), (3.6.2) and (3.6.3) is in
+`README.md` Layer 11. -/
+theorem subsingleton_h1_abelianizationProP
+    (hG : TauCeti.strictCohomologicalDimensionAt.{v} p G ≤ 2)
+    (V : Subgroup G) [V.Normal] (hV : IsOpen (V : Set G)) :
+    Subsingleton (H1 (G ⧸ V) (Additive (abelianizationProP p G V))) :=
+  sorry
+
+/-- **Layer 11, NSW (3.6.4) (i) ⇒ (iii), degree two:** for `scd_p G ≤ 2` and an open normal `V`,
+`H²(G ⧸ V, V^ab(p))` is cyclic of order the `p`-part of `#(G ⧸ V)`, generated by the class of the
+extension. For a pair `V ◁ U` of open subgroups this applies to `U`, whose strict dimension is at
+most that of `G` (`strictCohomologicalDimensionAt_openSubgroup_le`). -/
+theorem abelianizationProPClass_generates
+    (hG : TauCeti.strictCohomologicalDimensionAt.{v} p G ≤ 2)
+    (V : Subgroup G) [V.Normal] (hV : IsOpen (V : Set G)) :
+    AddSubgroup.zmultiples (abelianizationProPClass p G V) = ⊤ ∧
+      Nat.card (H2 (G ⧸ V) (Additive (abelianizationProP p G V))) =
+        p ^ padicValNat p (Nat.card (G ⧸ V)) :=
   sorry
 
 end CohomologicalDimension
@@ -3060,6 +3233,141 @@ theorem explicitIso_cup [CompactSpace G] [TotallyDisconnectedSpace G] (μ : M �
 
 end CupComparison
 
+section ConnectingMapCup
+
+/-! Layer 8, the connecting maps as typed diagrams. In the first variable a short exact sequence
+`0 → A' → A → A'' → 0` is paired with a fixed `B` into `0 → C' → C → C'' → 0`; in the second a
+fixed `A` is paired with `0 → B' → B → B'' → 0`. In both, `hincl` and `hproj` say that the three
+pairings form a map of short exact sequences. They are hypotheses of every statement: without them
+the two connecting maps have nothing to do with each other. The six statements are the instances in
+which every class has degree at most `2`, and they carry Tau Ceti's names for them. -/
+
+variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  {A' A A'' B' B B'' C' C C'' : Type u}
+  [AddCommGroup A'] [TopologicalSpace A'] [IsTopologicalAddGroup A'] [DiscreteTopology A']
+  [DistribMulAction G A'] [ContinuousSMul G A']
+  [AddCommGroup A] [TopologicalSpace A] [IsTopologicalAddGroup A] [DiscreteTopology A]
+  [DistribMulAction G A] [ContinuousSMul G A]
+  [AddCommGroup A''] [TopologicalSpace A''] [IsTopologicalAddGroup A''] [DiscreteTopology A'']
+  [DistribMulAction G A''] [ContinuousSMul G A'']
+  [AddCommGroup B'] [TopologicalSpace B'] [IsTopologicalAddGroup B'] [DiscreteTopology B']
+  [DistribMulAction G B'] [ContinuousSMul G B']
+  [AddCommGroup B] [TopologicalSpace B] [IsTopologicalAddGroup B] [DiscreteTopology B]
+  [DistribMulAction G B] [ContinuousSMul G B]
+  [AddCommGroup B''] [TopologicalSpace B''] [IsTopologicalAddGroup B''] [DiscreteTopology B'']
+  [DistribMulAction G B''] [ContinuousSMul G B'']
+  [AddCommGroup C'] [TopologicalSpace C'] [IsTopologicalAddGroup C'] [DiscreteTopology C']
+  [DistribMulAction G C'] [ContinuousSMul G C']
+  [AddCommGroup C] [TopologicalSpace C] [IsTopologicalAddGroup C] [DiscreteTopology C]
+  [DistribMulAction G C] [ContinuousSMul G C]
+  [AddCommGroup C''] [TopologicalSpace C''] [IsTopologicalAddGroup C''] [DiscreteTopology C'']
+  [DistribMulAction G C''] [ContinuousSMul G C'']
+
+/-- **Layer 8, `δ⁰` through the `(0,0)` cup in the first variable:** `δ⁰ (x ⌣ y) = δ⁰ x ⌣ y`, the
+right-hand side the `(1,0)` cup against the pairing of the sub-objects. -/
+theorem explicitDelta0_explicitCup00_left (SA : DiscreteShortExact G A' A A'')
+    (SC : DiscreteShortExact G C' C C'')
+    (μ : A →+ B →+ C) (μ' : A' →+ B →+ C') (μ'' : A'' →+ B →+ C'')
+    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A' × B => μ' q.1 q.2)
+    (hμ'' : Continuous fun q : A'' × B => μ'' q.1 q.2)
+    (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
+    (hequiv' : ∀ (g : G) (a : A') (b : B), μ' (g • a) (g • b) = g • μ' a b)
+    (hequiv'' : ∀ (g : G) (a : A'') (b : B), μ'' (g • a) (g • b) = g • μ'' a b)
+    (hincl : ∀ (a : A') (b : B), μ (SA.incl a) b = SC.incl (μ' a b))
+    (hproj : ∀ (a : A) (b : B), μ'' (SA.proj a) b = SC.proj (μ a b))
+    (x : H0 G A'') (y : H0 G B) :
+    explicitDelta0 G C' C C'' SC (explicitCup00 G A'' B C'' μ'' hμ'' hequiv'' x y) =
+      explicitCup10 G A' B C' μ' hμ' hequiv' (explicitDelta0 G A' A A'' SA x) y :=
+  sorry
+
+/-- **Layer 8, `δ¹` through the `(0,1)` cup in the first variable:** `δ¹ (x ⌣ y) = δ⁰ x ⌣ y`, the
+right-hand side the `(1,1)` cup. -/
+theorem explicitDelta1_explicitCup01_left (SA : DiscreteShortExact G A' A A'')
+    (SC : DiscreteShortExact G C' C C'')
+    (μ : A →+ B →+ C) (μ' : A' →+ B →+ C') (μ'' : A'' →+ B →+ C'')
+    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A' × B => μ' q.1 q.2)
+    (hμ'' : Continuous fun q : A'' × B => μ'' q.1 q.2)
+    (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
+    (hequiv' : ∀ (g : G) (a : A') (b : B), μ' (g • a) (g • b) = g • μ' a b)
+    (hequiv'' : ∀ (g : G) (a : A'') (b : B), μ'' (g • a) (g • b) = g • μ'' a b)
+    (hincl : ∀ (a : A') (b : B), μ (SA.incl a) b = SC.incl (μ' a b))
+    (hproj : ∀ (a : A) (b : B), μ'' (SA.proj a) b = SC.proj (μ a b))
+    (x : H0 G A'') (y : H1 G B) :
+    explicitDelta1 G C' C C'' SC (explicitCup01 G A'' B C'' μ'' hμ'' hequiv'' x y) =
+      explicitCup11 G A' B C' μ' hμ' hequiv' (explicitDelta0 G A' A A'' SA x) y :=
+  sorry
+
+/-- **Layer 8, `δ¹` through the `(1,0)` cup in the first variable:** `δ¹ (x ⌣ y) = δ¹ x ⌣ y`, the
+right-hand side the `(2,0)` cup. -/
+theorem explicitDelta1_explicitCup10_left (SA : DiscreteShortExact G A' A A'')
+    (SC : DiscreteShortExact G C' C C'')
+    (μ : A →+ B →+ C) (μ' : A' →+ B →+ C') (μ'' : A'' →+ B →+ C'')
+    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A' × B => μ' q.1 q.2)
+    (hμ'' : Continuous fun q : A'' × B => μ'' q.1 q.2)
+    (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
+    (hequiv' : ∀ (g : G) (a : A') (b : B), μ' (g • a) (g • b) = g • μ' a b)
+    (hequiv'' : ∀ (g : G) (a : A'') (b : B), μ'' (g • a) (g • b) = g • μ'' a b)
+    (hincl : ∀ (a : A') (b : B), μ (SA.incl a) b = SC.incl (μ' a b))
+    (hproj : ∀ (a : A) (b : B), μ'' (SA.proj a) b = SC.proj (μ a b))
+    (x : H1 G A'') (y : H0 G B) :
+    explicitDelta1 G C' C C'' SC (explicitCup10 G A'' B C'' μ'' hμ'' hequiv'' x y) =
+      explicitCup20 G A' B C' μ' hμ' hequiv' (explicitDelta1 G A' A A'' SA x) y :=
+  sorry
+
+/-- **Layer 8, `δ⁰` through the `(0,0)` cup in the second variable:** `δ⁰ (x ⌣ y) = x ⌣ δ⁰ y`, the
+sign `(-1)^p` being `1` at `p = 0`. -/
+theorem explicitDelta0_explicitCup00_right (SB : DiscreteShortExact G B' B B'')
+    (SC : DiscreteShortExact G C' C C'')
+    (μ : A →+ B →+ C) (μ' : A →+ B' →+ C') (μ'' : A →+ B'' →+ C'')
+    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A × B' => μ' q.1 q.2)
+    (hμ'' : Continuous fun q : A × B'' => μ'' q.1 q.2)
+    (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
+    (hequiv' : ∀ (g : G) (a : A) (b : B'), μ' (g • a) (g • b) = g • μ' a b)
+    (hequiv'' : ∀ (g : G) (a : A) (b : B''), μ'' (g • a) (g • b) = g • μ'' a b)
+    (hincl : ∀ (a : A) (b : B'), μ a (SB.incl b) = SC.incl (μ' a b))
+    (hproj : ∀ (a : A) (b : B), μ'' a (SB.proj b) = SC.proj (μ a b))
+    (x : H0 G A) (y : H0 G B'') :
+    explicitDelta0 G C' C C'' SC (explicitCup00 G A B'' C'' μ'' hμ'' hequiv'' x y) =
+      explicitCup01 G A B' C' μ' hμ' hequiv' x (explicitDelta0 G B' B B'' SB y) :=
+  sorry
+
+/-- **Layer 8, `δ¹` through the `(0,1)` cup in the second variable:** `δ¹ (x ⌣ y) = x ⌣ δ¹ y`, the
+right-hand side the `(0,2)` cup. -/
+theorem explicitDelta1_explicitCup01_right (SB : DiscreteShortExact G B' B B'')
+    (SC : DiscreteShortExact G C' C C'')
+    (μ : A →+ B →+ C) (μ' : A →+ B' →+ C') (μ'' : A →+ B'' →+ C'')
+    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A × B' => μ' q.1 q.2)
+    (hμ'' : Continuous fun q : A × B'' => μ'' q.1 q.2)
+    (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
+    (hequiv' : ∀ (g : G) (a : A) (b : B'), μ' (g • a) (g • b) = g • μ' a b)
+    (hequiv'' : ∀ (g : G) (a : A) (b : B''), μ'' (g • a) (g • b) = g • μ'' a b)
+    (hincl : ∀ (a : A) (b : B'), μ a (SB.incl b) = SC.incl (μ' a b))
+    (hproj : ∀ (a : A) (b : B), μ'' a (SB.proj b) = SC.proj (μ a b))
+    (x : H0 G A) (y : H1 G B'') :
+    explicitDelta1 G C' C C'' SC (explicitCup01 G A B'' C'' μ'' hμ'' hequiv'' x y) =
+      explicitCup02 G A B' C' μ' hμ' hequiv' x (explicitDelta1 G B' B B'' SB y) :=
+  sorry
+
+/-- **Layer 8, `δ¹` through the `(1,0)` cup in the second variable, with its sign:**
+`δ¹ (x ⌣ y) = -(x ⌣ δ⁰ y)`, the sign `(-1)^p` at `p = 1`. Layer 13's index-two exact sequence reads
+its connecting map off this instance at `y = 1`. -/
+theorem explicitDelta1_explicitCup10_right (SB : DiscreteShortExact G B' B B'')
+    (SC : DiscreteShortExact G C' C C'')
+    (μ : A →+ B →+ C) (μ' : A →+ B' →+ C') (μ'' : A →+ B'' →+ C'')
+    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A × B' => μ' q.1 q.2)
+    (hμ'' : Continuous fun q : A × B'' => μ'' q.1 q.2)
+    (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
+    (hequiv' : ∀ (g : G) (a : A) (b : B'), μ' (g • a) (g • b) = g • μ' a b)
+    (hequiv'' : ∀ (g : G) (a : A) (b : B''), μ'' (g • a) (g • b) = g • μ'' a b)
+    (hincl : ∀ (a : A) (b : B'), μ a (SB.incl b) = SC.incl (μ' a b))
+    (hproj : ∀ (a : A) (b : B), μ'' a (SB.proj b) = SC.proj (μ a b))
+    (x : H1 G A) (y : H0 G B'') :
+    explicitDelta1 G C' C C'' SC (explicitCup10 G A B'' C'' μ'' hμ'' hequiv'' x y) =
+      -explicitCup11 G A B' C' μ' hμ' hequiv' x (explicitDelta0 G B' B B'' SB y) :=
+  sorry
+
+end ConnectingMapCup
+
 /-! ### Layer 13: the Evens norm -/
 
 section GeneralEvens
@@ -3139,6 +3447,127 @@ noncomputable def evensGraphCochain : G × G → ZMod 2 :=
 
 end IndexTwoCochains
 
+section IndexTwoCharacter
+
+variable {G : Type*} [Group G]
+
+open scoped Classical in
+/-- **Layer 13, the character of an index-two subgroup,** `χ_U : G → 𝔽₂` with kernel `U`. Index two
+is what makes `γ ↦ [γ ∉ U]` a homomorphism (`Subgroup.mul_mem_iff_of_index_two`): for the trivial
+subgroup of `C₃` the indicator of the complement takes the value `1` at a generator and at its
+square, so it is not additive. -/
+noncomputable def indexTwoCharacter (U : Subgroup G) (hU : U.index = 2) :
+    G →* Multiplicative (ZMod 2) where
+  toFun γ := Multiplicative.ofAdd (if γ ∈ U then 0 else 1)
+  map_one' := by simp [U.one_mem]
+  map_mul' x y := by
+    have h := Subgroup.mul_mem_iff_of_index_two hU (a := x) (b := y)
+    by_cases hx : x ∈ U <;> by_cases hy : y ∈ U <;> (simp [hx, hy, h]; try decide)
+
+/-- The character vanishes on `U`. -/
+theorem toAdd_indexTwoCharacter_of_mem {U : Subgroup G} (hU : U.index = 2) {γ : G} (h : γ ∈ U) :
+    Multiplicative.toAdd (indexTwoCharacter U hU γ) = 0 := by
+  simp [indexTwoCharacter, h]
+
+/-- The character is `1` off `U`. -/
+theorem toAdd_indexTwoCharacter_of_notMem {U : Subgroup G} (hU : U.index = 2) {γ : G}
+    (h : γ ∉ U) : Multiplicative.toAdd (indexTwoCharacter U hU γ) = 1 := by
+  simp [indexTwoCharacter, h]
+
+/-- **Layer 13, the kernel of `χ_U` is `U`.** -/
+theorem indexTwoCharacter_eq_one_iff (U : Subgroup G) (hU : U.index = 2) (γ : G) :
+    indexTwoCharacter U hU γ = 1 ↔ γ ∈ U := by
+  by_cases hγ : γ ∈ U
+  · simp [indexTwoCharacter, hγ]
+  · simp only [indexTwoCharacter, hγ, MonoidHom.coe_mk, OneHom.coe_mk, ite_false, iff_false]
+    decide
+
+/-- **Layer 13, identity 5 at cochain level: the graph cochain of a restricted homomorphism.** For
+`α = y|_U` both Shapiro components are the homomorphism `b = y + y(s) · χ_U`, and
+`ν_α (γ, η) = b γ * b η + χ_U γ * b η`. Index two and `s ∉ U` are both used. -/
+theorem evensGraphCochain_comp_subtype (U : Subgroup G) (hU : U.index = 2) (s : G) (hs : s ∉ U)
+    (y : G →* Multiplicative (ZMod 2)) (γ η : G) :
+    let b : G → ZMod 2 := fun x => Multiplicative.toAdd (y x) +
+      Multiplicative.toAdd (y s) * Multiplicative.toAdd (indexTwoCharacter U hU x)
+    evensGraphCochain U s (y.comp U.subtype) (γ, η) =
+      b γ * b η + Multiplicative.toAdd (indexTwoCharacter U hU γ) * b η := by
+  intro b
+  have hext_mem : ∀ {x : G}, x ∈ U →
+      evensExtend U (y.comp U.subtype) x = Multiplicative.toAdd (y x) := by
+    intro x hx
+    unfold evensExtend
+    rw [dite_eq_left hx]; rfl
+  have hb1 : ∀ x : G, evensB1 U s (y.comp U.subtype) x = b x := by
+    intro x
+    unfold evensB1
+    by_cases hx : x ∈ U
+    · rw [ite_eq_left hx, hext_mem hx]
+      simp only [b, toAdd_indexTwoCharacter_of_mem hU hx, mul_zero, add_zero]
+    · have hxs : x * s ∈ U := by
+        simp [Subgroup.mul_mem_iff_of_index_two hU, hx, hs]
+      rw [ite_eq_right hx, hext_mem hxs]
+      simp only [b, toAdd_indexTwoCharacter_of_notMem hU hx, map_mul, toAdd_mul, mul_one]
+  have hbs : ∀ x : G, evensBs U s (y.comp U.subtype) x = b x := by
+    intro x
+    unfold evensBs
+    rw [hb1]
+    show Multiplicative.toAdd (y (s⁻¹ * x)) +
+        Multiplicative.toAdd (y s) * Multiplicative.toAdd (indexTwoCharacter U hU (s⁻¹ * x)) =
+      Multiplicative.toAdd (y x) +
+        Multiplicative.toAdd (y s) * Multiplicative.toAdd (indexTwoCharacter U hU x)
+    rw [map_mul, map_inv, toAdd_mul, toAdd_inv]
+    by_cases hx : x ∈ U
+    · have hsx : s⁻¹ * x ∉ U := by
+        simp [Subgroup.mul_mem_iff_of_index_two hU, hs, hx]
+      rw [toAdd_indexTwoCharacter_of_notMem hU hsx, toAdd_indexTwoCharacter_of_mem hU hx]
+      generalize Multiplicative.toAdd (y s) = a; generalize Multiplicative.toAdd (y x) = c
+      revert a c; decide
+    · have hsx : s⁻¹ * x ∈ U := by
+        simp [Subgroup.mul_mem_iff_of_index_two hU, hs, hx]
+      rw [toAdd_indexTwoCharacter_of_mem hU hsx, toAdd_indexTwoCharacter_of_notMem hU hx]
+      generalize Multiplicative.toAdd (y s) = a; generalize Multiplicative.toAdd (y x) = c
+      revert a c; decide
+  unfold evensGraphCochain
+  by_cases hγ : γ ∈ U
+  · rw [ite_eq_left hγ, hb1, hbs, toAdd_indexTwoCharacter_of_mem hU hγ, zero_mul, add_zero]
+  · rw [ite_eq_right hγ, hb1, hb1, hbs, toAdd_indexTwoCharacter_of_notMem hU hγ, one_mul]
+    generalize b γ = u; generalize b η = w
+    revert u w; decide
+
+/-- **Layer 13, naturality of the graph cochain.** For `φ : G →* G'` and `U = φ⁻¹(U')`, the graph
+cochain of the pulled-back homomorphism is the pullback of the graph cochain, with `s` replaced by
+`φ s`. The identity holds cochain by cochain and needs no hypothesis on the indices; Tau Ceti's
+`evensGraphCochain_quotient` is its case of a quotient map. -/
+theorem evensGraphCochain_comap {G' : Type*} [Group G'] (φ : G →* G') (U' : Subgroup G') (s : G)
+    (α' : U' →* Multiplicative (ZMod 2)) (g h : G) :
+    evensGraphCochain (U'.comap φ) s (α'.comp (φ.subgroupComap U')) (g, h) =
+      evensGraphCochain U' (φ s) α' (φ g, φ h) := by
+  have hext : ∀ γ : G, evensExtend (U'.comap φ) (α'.comp (φ.subgroupComap U')) γ =
+      evensExtend U' α' (φ γ) := by
+    intro γ
+    unfold evensExtend
+    by_cases hγ : φ γ ∈ U'
+    · rw [dite_eq_left (show γ ∈ U'.comap φ from hγ), dite_eq_left hγ]; rfl
+    · rw [dite_eq_right (show γ ∉ U'.comap φ from hγ), dite_eq_right hγ]
+  have hb1 : ∀ γ : G, evensB1 (U'.comap φ) s (α'.comp (φ.subgroupComap U')) γ =
+      evensB1 U' (φ s) α' (φ γ) := by
+    intro γ
+    unfold evensB1
+    by_cases hγ : φ γ ∈ U'
+    · rw [ite_eq_left (show γ ∈ U'.comap φ from hγ), ite_eq_left hγ, hext]
+    · rw [ite_eq_right (show γ ∉ U'.comap φ from hγ), ite_eq_right hγ, hext, map_mul]
+  have hbs : ∀ γ : G, evensBs (U'.comap φ) s (α'.comp (φ.subgroupComap U')) γ =
+      evensBs U' (φ s) α' (φ γ) := by
+    intro γ
+    unfold evensBs
+    rw [hb1, map_mul, map_inv]
+  unfold evensGraphCochain
+  by_cases hg : φ g ∈ U'
+  · rw [ite_eq_left (show g ∈ U'.comap φ from hg), ite_eq_left hg, hb1, hbs]
+  · rw [ite_eq_right (show g ∉ U'.comap φ from hg), ite_eq_right hg, hb1, hb1, hbs]
+
+end IndexTwoCharacter
+
 section IndexTwoCochainProperties
 
 variable {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
@@ -3196,7 +3625,346 @@ theorem evensGraphCochain_independent_of_rep (hU : U.toSubgroup.index = 2) (s' :
         ψ h - ψ (g * h) + ψ g :=
   sorry
 
+
+/-- **Layer 13, the character of an open index-two subgroup is continuous:** its fibres are `U` and
+its complement, both open. -/
+theorem continuous_indexTwoCharacter (hU : U.toSubgroup.index = 2) :
+    Continuous (indexTwoCharacter U.toSubgroup hU) := by
+  refine IsLocallyConstant.continuous ?_
+  refine (IsLocallyConstant.iff_isOpen_fiber).2 fun v => ?_
+  by_cases hv : v = 1
+  · subst hv
+    convert U.isOpen using 1
+    ext γ
+    simp [indexTwoCharacter_eq_one_iff]
+  · convert U.isClosed.isOpen_compl using 1
+    ext γ
+    simp only [Set.mem_preimage, Set.mem_singleton_iff, Set.mem_compl_iff, SetLike.mem_coe]
+    constructor
+    · rintro h hγ
+      exact hv (h ▸ (indexTwoCharacter_eq_one_iff _ hU γ).2 hγ)
+    · intro hγ
+      have h1 : indexTwoCharacter U.toSubgroup hU γ ≠ 1 :=
+        fun h => hγ ((indexTwoCharacter_eq_one_iff _ hU γ).1 h)
+      revert h1 hv
+      generalize indexTwoCharacter U.toSubgroup hU γ = w
+      revert w v
+      decide
+
 end IndexTwoCochainProperties
+
+/-! ### Layer 13: the index-two norm as a pullback of the `D₁₆` extension class
+
+The universal case of the index-two norm is the tautological character of the base group of
+`C₂ ≀ C₂ = D₈`. There the graph cochain is the factor set of the extension `D₁₆ → C₂ ≀ C₂` plus an
+explicit coboundary, a finite computation carried out below; naturality of the graph cochain then
+writes every index-two norm as the pullback of that class along the induced homomorphism. The model
+of `C₂ ≀ C₂` is Mathlib's `RegularWreathProduct` of `C₂` by itself, read on the coordinates
+`(a, b, c)`, with `(a, b, c) (a', b', c') = ((a, b) + swapᶜ (a', b'), c + c')`. -/
+
+section DihedralClass
+
+/-- **Layer 13, the wreath product `C₂ ≀ C₂`,** the dihedral group of order 8: Mathlib's regular
+wreath product of `Multiplicative (ZMod 2)` by itself. -/
+abbrev WreathC2 : Type := Multiplicative (ZMod 2) ≀ᵣ Multiplicative (ZMod 2)
+
+namespace WreathC2
+
+/-- The element with coordinates `(a, b, c)`: the base function takes the value `a` at `1` and `b`
+at the generator, and the top coordinate is `c`. -/
+def mk (a b c : ZMod 2) : WreathC2 :=
+  ⟨fun x => Multiplicative.ofAdd (if x = 1 then a else b), Multiplicative.ofAdd c⟩
+
+/-- The first coordinate, the value of the base function at `1`. -/
+def coordA (g : WreathC2) : ZMod 2 := Multiplicative.toAdd (g.left 1)
+
+/-- The second coordinate, the value of the base function at the generator. -/
+def coordB (g : WreathC2) : ZMod 2 := Multiplicative.toAdd (g.left (Multiplicative.ofAdd 1))
+
+/-- The third coordinate, the image in the top factor. -/
+def coordC (g : WreathC2) : ZMod 2 := Multiplicative.toAdd g.right
+
+private theorem mul_zmod_two_cases (x : Multiplicative (ZMod 2)) :
+    x = 1 ∨ x = Multiplicative.ofAdd 1 := by
+  revert x; decide
+
+/-- Every element is determined by its coordinates. -/
+theorem eta (g : WreathC2) : g = mk (coordA g) (coordB g) (coordC g) := by
+  obtain ⟨f, q⟩ := g
+  refine RegularWreathProduct.ext ?_ ?_
+  · funext x
+    rcases mul_zmod_two_cases x with rfl | rfl <;> simp [mk, coordA, coordB]
+  · simp [mk, coordC]
+
+@[simp] theorem coordA_mk (a b c : ZMod 2) : coordA (mk a b c) = a := by simp [coordA, mk]
+
+@[simp] theorem coordB_mk (a b c : ZMod 2) : coordB (mk a b c) = b := by simp [coordB, mk]
+
+@[simp] theorem coordC_mk (a b c : ZMod 2) : coordC (mk a b c) = c := by simp [coordC, mk]
+
+theorem ext_coord {g h : WreathC2} (hA : coordA g = coordA h) (hB : coordB g = coordB h)
+    (hC : coordC g = coordC h) : g = h := by
+  rw [eta g, eta h, hA, hB, hC]
+
+theorem mk_inj {a b c a' b' c' : ZMod 2} :
+    mk a b c = mk a' b' c' ↔ a = a' ∧ b = b' ∧ c = c' := by
+  constructor
+  · intro h
+    exact ⟨by simpa using congrArg coordA h, by simpa using congrArg coordB h,
+      by simpa using congrArg coordC h⟩
+  · rintro ⟨rfl, rfl, rfl⟩; rfl
+
+/-- **The multiplication of `C₂ ≀ C₂` on coordinates:** the top coordinate of the left factor swaps
+the base coordinates of the right factor. -/
+theorem mk_mul_mk (a b c a' b' c' : ZMod 2) :
+    mk a b c * mk a' b' c' =
+      mk (a + a' + c * (a' + b')) (b + b' + c * (a' + b')) (c + c') := by
+  refine RegularWreathProduct.ext ?_ ?_
+  · funext x
+    simp only [RegularWreathProduct.mul_left, mk, Pi.mul_apply]
+    revert a b c a' b' c' x
+    decide
+  · simp only [RegularWreathProduct.mul_right, mk]
+    rfl
+
+theorem mk_zero : mk 0 0 0 = 1 := by
+  refine RegularWreathProduct.ext ?_ ?_
+  · funext x; simp [mk]
+  · rfl
+
+theorem coordA_mul (g h : WreathC2) :
+    coordA (g * h) = coordA g + coordA h + coordC g * (coordA h + coordB h) := by
+  rw [eta g, eta h, mk_mul_mk]; simp
+
+theorem coordB_mul (g h : WreathC2) :
+    coordB (g * h) = coordB g + coordB h + coordC g * (coordA h + coordB h) := by
+  rw [eta g, eta h, mk_mul_mk]; simp
+
+theorem coordC_mul (g h : WreathC2) : coordC (g * h) = coordC g + coordC h := by
+  rw [eta g, eta h, mk_mul_mk]; simp
+
+theorem eq_one_iff_coord (g : WreathC2) :
+    g = 1 ↔ coordA g = 0 ∧ coordB g = 0 ∧ coordC g = 0 := by
+  constructor
+  · rintro rfl; exact ⟨rfl, rfl, rfl⟩
+  · rintro ⟨hA, hB, hC⟩
+    exact ext_coord (hA.trans (by decide)) (hB.trans (by decide)) (hC.trans (by decide))
+
+/-- The section `(us)^i s^j ↦ r^i f^j` of `D₁₆ → C₂ ≀ C₂`, on coordinates, in Mathlib's
+`DihedralGroup 8` with `r = r 1` and `f = sr 0`, so that `r^i f = sr (-i)`. -/
+def sectionTable : ZMod 2 → ZMod 2 → ZMod 2 → DihedralGroup 8
+  | 0, 0, 0 => .r 0
+  | 1, 0, 1 => .r 1
+  | 1, 1, 0 => .r 2
+  | 0, 1, 1 => .r 3
+  | 0, 0, 1 => .sr 0
+  | 1, 0, 0 => .sr 7
+  | 1, 1, 1 => .sr 6
+  | 0, 1, 0 => .sr 5
+
+end WreathC2
+
+open WreathC2
+
+/-- **Layer 13, the base group `C₂ × C₂` of `C₂ ≀ C₂`,** the kernel of the projection to the top
+factor. It has index two. -/
+def wreathBase : Subgroup WreathC2 := RegularWreathProduct.rightHom.ker
+
+theorem mem_wreathBase_iff (g : WreathC2) : g ∈ wreathBase ↔ coordC g = 0 := by
+  simp [wreathBase, coordC, MonoidHom.mem_ker, RegularWreathProduct.rightHom]
+
+/-- **Layer 13, the tautological character** of the base group, its first coordinate. -/
+def wreathTautological : wreathBase →* Multiplicative (ZMod 2) where
+  toFun g := Multiplicative.ofAdd (coordA g)
+  map_one' := rfl
+  map_mul' g h := by
+    have hg := (mem_wreathBase_iff _).1 g.2
+    simp [coordA_mul, hg, ofAdd_add]
+
+/-- **Layer 13, the element `s = (0, 0, 1)` outside the base group,** which exchanges the two base
+coordinates. -/
+def wreathSwap : WreathC2 := mk 0 0 1
+
+theorem wreathSwap_inv : wreathSwap⁻¹ = wreathSwap := by
+  refine inv_eq_of_mul_eq_one_right ?_
+  rw [wreathSwap, mk_mul_mk, ← mk_zero]
+  congr 1
+
+theorem evensExtend_wreath (g : WreathC2) :
+    evensExtend wreathBase wreathTautological g = coordA g * (1 + coordC g) := by
+  unfold evensExtend
+  split_ifs with h
+  · rw [(mem_wreathBase_iff g).1 h]; simp [wreathTautological, coordA]
+  · have : coordC g = 1 := by
+      have h' := (mem_wreathBase_iff g).not.1 h
+      revert h'; generalize coordC g = c; revert c; decide
+    rw [this]; generalize coordA g = a; revert a; decide
+
+/-- **Layer 13, the first Shapiro component of the tautological character is the first
+coordinate.** -/
+theorem evensB1_wreath (g : WreathC2) :
+    evensB1 wreathBase wreathSwap wreathTautological g = coordA g := by
+  unfold evensB1
+  split_ifs with h
+  · rw [evensExtend_wreath, (mem_wreathBase_iff g).1 h]; simp
+  · rw [evensExtend_wreath, coordA_mul, coordC_mul]
+    have : coordC g = 1 := by
+      have h' := (mem_wreathBase_iff g).not.1 h
+      revert h'; generalize coordC g = c; revert c; decide
+    simp only [wreathSwap, coordA_mk, coordB_mk, coordC_mk, this]
+    generalize coordA g = a; revert a; decide
+
+/-- **Layer 13, the second Shapiro component of the tautological character is the second
+coordinate.** -/
+theorem evensBs_wreath (g : WreathC2) :
+    evensBs wreathBase wreathSwap wreathTautological g = coordB g := by
+  unfold evensBs
+  rw [evensB1_wreath, wreathSwap_inv, coordA_mul]
+  simp only [wreathSwap, coordA_mk, coordC_mk]
+  generalize coordA g = a; generalize coordB g = b; revert a b; decide
+
+/-- **Layer 13, the graph cochain of the tautological character on coordinates.** -/
+theorem evensGraphCochain_wreath_apply (g h : WreathC2) :
+    evensGraphCochain wreathBase wreathSwap wreathTautological (g, h) =
+      (1 + coordC g) * coordA g * coordB h +
+        coordC g * (coordA g * coordA h + coordA h * coordB h) := by
+  unfold evensGraphCochain
+  simp only [evensB1_wreath, evensBs_wreath]
+  split_ifs with hg
+  · rw [(mem_wreathBase_iff g).1 hg]; ring
+  · have : coordC g = 1 := by
+      have h' := (mem_wreathBase_iff g).not.1 hg
+      revert h'; generalize coordC g = c; revert c; decide
+    rw [this]
+    generalize coordA g = a; generalize coordA h = a'; generalize coordB h = b'
+    revert a a' b'; decide
+
+private def dihedralToWreathFun : DihedralGroup 8 → WreathC2
+  | .r i => mk (tA i.val) (tB i.val) (tC i.val)
+  | .sr i => wreathSwap * mk (tA i.val) (tB i.val) (tC i.val)
+where
+  tA (n : ℕ) : ZMod 2 := if n % 4 = 1 ∨ n % 4 = 2 then 1 else 0
+  tB (n : ℕ) : ZMod 2 := if n % 4 = 2 ∨ n % 4 = 3 then 1 else 0
+  tC (n : ℕ) : ZMod 2 := if n % 2 = 1 then 1 else 0
+
+set_option maxRecDepth 4000 in
+/-- **Layer 13, the quotient `D₁₆ → C₂ ≀ C₂`,** `r ↦ us = (1, 0, 1)` and `f = sr 0 ↦ s`, with
+`r^i ↦ (us)^i` and `f r^i ↦ s (us)^i`. Its kernel is the centre `{1, r⁴}`
+(`dihedralToWreath_eq_one_iff`), so `D₁₆` is a central extension of `C₂ ≀ C₂` by `C₂`. -/
+def dihedralToWreath : DihedralGroup 8 →* WreathC2 where
+  toFun := dihedralToWreathFun
+  map_one' := by
+    apply ext_coord <;> decide
+  map_mul' x y := by
+    apply ext_coord <;>
+    · simp only [coordA_mul, coordB_mul, coordC_mul]
+      revert x y
+      decide
+
+/-- **Layer 13, the kernel of `D₁₆ → C₂ ≀ C₂` is `{1, r⁴}`.** -/
+theorem dihedralToWreath_eq_one_iff (x : DihedralGroup 8) :
+    dihedralToWreath x = 1 ↔ x = 1 ∨ x = DihedralGroup.r 4 := by
+  rw [eq_one_iff_coord]
+  revert x
+  decide
+
+/-- **Layer 13, the set-theoretic section of `D₁₆ → C₂ ≀ C₂`** sending `(us)^i s^j` to `r^i f^j`,
+for `0 ≤ i < 4` and `0 ≤ j < 2`. -/
+def wreathSection (g : WreathC2) : DihedralGroup 8 := sectionTable (coordA g) (coordB g) (coordC g)
+
+/-- The section is a section. -/
+theorem dihedralToWreath_wreathSection (g : WreathC2) :
+    dihedralToWreath (wreathSection g) = g := by
+  apply ext_coord <;>
+  · rw [eta g]
+    simp only [wreathSection, coordA_mk, coordB_mk, coordC_mk]
+    generalize coordA g = a; generalize coordB g = b; generalize coordC g = c
+    revert a b c
+    decide
+
+/-- **Layer 13, the `D₁₆` extension cocycle** `c_{D₁₆}`: the factor set
+`σ g · σ h · σ (g h)⁻¹ ∈ {1, r⁴} ≅ 𝔽₂` of the section `σ = wreathSection`. -/
+def wreathD16Cocycle (q : WreathC2 × WreathC2) : ZMod 2 :=
+  if wreathSection q.1 * wreathSection q.2 * (wreathSection (q.1 * q.2))⁻¹ = 1 then 0 else 1
+
+/-- **Layer 13, `c_{D₁₆}` is a 2-cocycle,** in the trivial-action form of
+`groupCohomology.IsCocycle₂`. Checked by computation. -/
+theorem wreathD16Cocycle_isCocycle (g h j : WreathC2) :
+    wreathD16Cocycle (g * h, j) + wreathD16Cocycle (g, h) =
+      wreathD16Cocycle (h, j) + wreathD16Cocycle (g, h * j) := by
+  simp only [wreathD16Cocycle, wreathSection, coordA_mul, coordB_mul, coordC_mul, mul_assoc]
+  generalize coordA g = a1; generalize coordB g = b1; generalize coordC g = c1
+  generalize coordA h = a2; generalize coordB h = b2; generalize coordC h = c2
+  generalize coordA j = a3; generalize coordB j = b3; generalize coordC j = c3
+  revert a1 b1 c1 a2 b2 c2 a3 b3 c3
+  decide
+
+/-- **Layer 13, the coboundary witness** `f = 1_{{u, uv, s, vs}}`, which on coordinates is
+`a + c` (`wreathWitness_eq_one_iff`). -/
+def wreathWitness (g : WreathC2) : ZMod 2 := coordA g + coordC g
+
+/-- The witness is the indicator of `{u, uv, s, vs}`, with `u = (1, 0, 0)`, `v = (0, 1, 0)` and
+`s = wreathSwap`. -/
+theorem wreathWitness_eq_one_iff (g : WreathC2) :
+    wreathWitness g = 1 ↔
+      g = mk 1 0 0 ∨ g = mk 1 0 0 * mk 0 1 0 ∨ g = wreathSwap ∨ g = mk 0 1 0 * wreathSwap := by
+  rw [eta g]
+  simp only [wreathWitness, coordA_mk, coordC_mk, wreathSwap, mk_mul_mk, mk_inj]
+  generalize coordA g = a; generalize coordB g = b; generalize coordC g = c
+  revert a b c
+  decide
+
+/-- **Layer 13, the universal identity:** the graph cochain of the tautological character of
+`C₂ ≀ C₂` is the `D₁₆` extension cocycle plus the coboundary of `wreathWitness`,
+`ν_taut = c_{D₁₆} + δ 1_{{u, uv, s, vs}}`. So the index-two norm of the tautological character is
+the class of the extension `D₁₆ → C₂ ≀ C₂`. Checked by computation. -/
+theorem evensGraphCochain_wreath (g h : WreathC2) :
+    evensGraphCochain wreathBase wreathSwap wreathTautological (g, h) =
+      wreathD16Cocycle (g, h) + (wreathWitness h - wreathWitness (g * h) + wreathWitness g) := by
+  rw [evensGraphCochain_wreath_apply]
+  simp only [wreathD16Cocycle, wreathWitness, wreathSection, coordA_mul, coordB_mul, coordC_mul]
+  generalize coordA g = a1; generalize coordB g = b1; generalize coordC g = c1
+  generalize coordA h = a2; generalize coordB h = b2; generalize coordC h = c2
+  revert a1 b1 c1 a2 b2 c2
+  decide
+
+/-- **Layer 13, the induced homomorphism `Ind α : G → C₂ ≀ C₂`** of `α : U → 𝔽₂`, for `U` of index
+two and `s ∉ U`: `γ ↦ ((b₁ γ, b_s γ), χ_U γ)`, the signed-permutation form of the representation
+induced from `α`. It is a homomorphism by the multiplication rule of the two Shapiro components,
+`b₁ (γ η) = b₁ γ + b₁ η` and `b_s (γ η) = b_s γ + b_s η` for `γ ∈ U` and the two exchanged for
+`γ ∉ U` (Tau Ceti's `evensB1_mul_of_mem`, `evensB1_mul_of_notMem`, `evensBs_mul_of_mem`,
+`evensBs_mul_of_notMem`), which is `WreathC2.mk_mul_mk` read on coordinates. -/
+noncomputable def indexTwoInd {G : Type*} [Group G] (U : Subgroup G) (hU : U.index = 2) (s : G)
+    (hs : s ∉ U) (α : U →* Multiplicative (ZMod 2)) : G →* WreathC2 where
+  toFun γ := mk (evensB1 U s α γ) (evensBs U s α γ)
+    (Multiplicative.toAdd (indexTwoCharacter U hU γ))
+  map_one' := sorry
+  map_mul' := sorry
+
+/-- **Layer 13, `Ind α` pulls the base group back to `U`,** and on `U` its first coordinate is `α`,
+so `α` is the pullback of the tautological character. -/
+theorem comap_indexTwoInd_wreathBase {G : Type*} [Group G] (U : Subgroup G) (hU : U.index = 2)
+    (s : G) (hs : s ∉ U) (α : U →* Multiplicative (ZMod 2)) :
+    wreathBase.comap (indexTwoInd U hU s hs α) = U := by
+  ext γ
+  rw [Subgroup.mem_comap, mem_wreathBase_iff]
+  simp only [indexTwoInd, MonoidHom.coe_mk, OneHom.coe_mk, coordC_mk]
+  by_cases hγ : γ ∈ U
+  · simp [toAdd_indexTwoCharacter_of_mem hU hγ, hγ]
+  · simp only [toAdd_indexTwoCharacter_of_notMem hU hγ, hγ, iff_false]
+    decide
+
+/-- **Layer 13, the pulled-back `D₁₆` cocycle is continuous** for `U` open and `α` continuous:
+`Ind α` is locally constant, since `U` is clopen and the Shapiro components are continuous into the
+discrete `𝔽₂`. -/
+theorem continuous_wreathD16Cocycle_indexTwoInd {G : Type*} [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] (U : OpenSubgroup G) (hU : U.toSubgroup.index = 2) (s : G)
+    (hs : s ∉ U) (α : U.toSubgroup →* Multiplicative (ZMod 2)) (hα : Continuous α) :
+    Continuous fun q : G × G => wreathD16Cocycle
+      (indexTwoInd U.toSubgroup hU s hs α q.1, indexTwoInd U.toSubgroup hU s hs α q.2) :=
+  sorry
+
+end DihedralClass
 
 section EvensNorm
 
@@ -3460,20 +4228,6 @@ theorem evensNorm_eq_class (U : OpenSubgroup G) (q : ℕ) (t : CosetTransversal 
         (evensNormCochain_mem_cycles U q t a ha) :=
   sorry
 
-/-- **Layer 13, the index-2 degree-1 specialization,** the case the sibling roadmap consumes. It
-is a named specialization of the general norm, not the general definition. -/
-noncomputable def evensNormIndexTwo (U : OpenSubgroup G) (hU : U.toSubgroup.index = 2) :
-    ((continuousCohomology ℤ U.toSubgroup 1).obj (trivialF2 U.toSubgroup)) →
-      ((continuousCohomology ℤ G 2).obj (trivialF2 G)) :=
-  sorry
-
-/-- **Layer 13, milestone 10: the specialization is the general norm.** -/
-theorem evensNormIndexTwo_eq (U : OpenSubgroup G) (hU : U.toSubgroup.index = 2)
-    (x : (continuousCohomology ℤ U.toSubgroup 1).obj (trivialF2 U.toSubgroup)) :
-    evensNormIndexTwo U hU x =
-      degreeCast (by rw [hU]) (trivialF2 G) (evensNorm U 1 x) :=
-  sorry
-
 /-- **Layer 13, the coefficient pairing on `𝔽₂`,** multiplication with the trivial action. The
 identities below name it: an arbitrary pairing of the trivial object with itself is a different
 input, and the statements are false for it. -/
@@ -3624,9 +4378,10 @@ theorem evensNorm_infl (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G)) (
           (evensNorm (quotientOpenSubgroup N hN U hNU) q x)) :=
   sorry
 
-/-! The four identities the Quadratic Form Invariants roadmap consumes, as equations of classes.
-Identity 2 is the polarization, and its right-hand side is the corestriction of the cup with the
-**conjugate** class; a formula without the conjugate is a different statement. -/
+/-! The index-two norm and the identities the Quadratic Form Invariants roadmap consumes, as
+equations of classes. Identity 2 is the polarization, and its right-hand side is the corestriction
+of the cup with the **conjugate** class; a formula without the conjugate is a different
+statement. -/
 
 /-- **Layer 13, an index-two open subgroup is its own conjugate.** Index two forces normality
 (`Subgroup.normal_of_index_eq_two`), so conjugation by any element of `G` carries `U` to itself.
@@ -3712,6 +4467,130 @@ theorem graphClass_representative_independent (hU : U.toSubgroup.index = 2)
     graphClass U hU α hα = graphClass U hU β hβ :=
   sorry
 
+/-- **Layer 13, the class of a continuous homomorphism is the class of its cochain,** for a
+profinite group. This pins `homClass`: through Layer 3's `inhomogeneousCochain1` it is the quotient
+class of `h ↦ α h`, read additively. -/
+theorem homClass_eq_cochainClass (H : Type u) [Group H] [TopologicalSpace H] [IsTopologicalGroup H]
+    [CompactSpace H] [TotallyDisconnectedSpace H]
+    (α : H →* Multiplicative (ZMod 2)) (hα : Continuous α) :
+    homClass H α hα =
+      cochainClass ℤ (trivialF2 H) 1
+        (inhomogeneousCochain1 H (fun h => Multiplicative.toAdd (α h)) (continuous_toAdd.comp hα))
+        (inhomogeneousCochain1_d_eq_zero H _ _ fun g h => by simp [map_mul, toAdd_mul]) :=
+  sorry
+
+/-- **Layer 13, every degree-one class is the class of a continuous homomorphism.** With trivial
+`𝔽₂` coefficients `H¹(H, 𝔽₂) = Hom_cont(H, 𝔽₂)`: a continuous 1-cocycle for the trivial action is a
+continuous homomorphism and `B¹ = 0`, Layer 2's trivial-action characterization, carried to the
+canonical carrier by Layer 3's `explicitH1IsoContinuousCohomology`. This is what lets a
+class-valued function be defined by a formula on homomorphisms. -/
+theorem homClass_surjective (H : Type u) [Group H] [TopologicalSpace H] [IsTopologicalGroup H]
+    [CompactSpace H] [TotallyDisconnectedSpace H]
+    (x : (continuousCohomology ℤ H 1).obj (trivialF2 H)) :
+    ∃ (α : H →* Multiplicative (ZMod 2)) (hα : Continuous α), homClass H α hα = x :=
+  sorry
+
+/-- **Layer 13, the index-2 degree-1 Evens norm** `N^{Ev} : H¹(U, 𝔽₂) → H²(G, 𝔽₂)`: the class of the
+two-point graph cocycle, descended to `H¹(U, 𝔽₂)` through `homClass`. It is defined from
+`graphClass` and not from the general norm: `graphClass_representative_independent` makes the
+representative chosen in the body invisible, and `evensNormIndexTwo_homClass` is the equation a
+consumer computes with. Its agreement with the general construction is `evensNormIndexTwo_eq`,
+milestone 10 of the general construction, and nothing in the explicit half or in its consumers
+rests on that. It is a function and not an additive map; its failure of additivity is identity 2. -/
+noncomputable def evensNormIndexTwo (hU : U.toSubgroup.index = 2)
+    (x : (continuousCohomology ℤ U.toSubgroup 1).obj (trivialF2 U.toSubgroup)) :
+    (continuousCohomology ℤ G 2).obj (trivialF2 G) :=
+  graphClass U hU (homClass_surjective U.toSubgroup x).choose
+    (homClass_surjective U.toSubgroup x).choose_spec.choose
+
+/-- **Layer 13, the defining equation of the index-2 norm:** on the class of a continuous
+homomorphism it is the graph class. -/
+theorem evensNormIndexTwo_homClass (hU : U.toSubgroup.index = 2)
+    (α : U.toSubgroup →* Multiplicative (ZMod 2)) (hα : Continuous α) :
+    evensNormIndexTwo U hU (homClass U.toSubgroup α hα) = graphClass U hU α hα :=
+  graphClass_representative_independent U hU _ α _ hα
+    (homClass_surjective U.toSubgroup _).choose_spec.choose_spec
+
+/-- **Layer 13, the index-2 norm is the pullback of the `D₁₆` class:**
+`N^{Ev}(α) = (Ind α)^* c_{D₁₆}`, the class of `c_{D₁₆} ∘ (Ind α × Ind α)`, at every `s ∉ U`. Proof:
+`evensNormIndexTwo_homClass`, `graphClass_eq_cochainClass`, the naturality
+`evensGraphCochain_comap` along `indexTwoInd` (which pulls `wreathBase` back to `U` and the
+tautological character back to `α`, `comap_indexTwoInd_wreathBase`), independence of the element
+outside the base group (`evensGraphCochain_independent_of_rep` on `C₂ ≀ C₂`), and the universal
+identity `evensGraphCochain_wreath`, whose coboundary pulls back to a coboundary. -/
+theorem evensNormIndexTwo_eq_ind_pullback (hU : U.toSubgroup.index = 2) (s : G) (hs : s ∉ U)
+    (α : U.toSubgroup →* Multiplicative (ZMod 2)) (hα : Continuous α) :
+    evensNormIndexTwo U hU (homClass U.toSubgroup α hα) =
+      cochainClass ℤ (trivialF2 G) 2
+        (inhomogeneousCochain2 G
+          (fun q => wreathD16Cocycle
+            (indexTwoInd U.toSubgroup hU s hs α q.1, indexTwoInd U.toSubgroup hU s hs α q.2))
+          (continuous_wreathD16Cocycle_indexTwoInd U hU s hs α hα))
+        (inhomogeneousCochain2_d_eq_zero G _ _ fun g h j => by
+          simp only [map_mul]
+          exact wreathD16Cocycle_isCocycle _ _ _) :=
+  sorry
+
+/-- **Layer 13, the class `χ_U ∈ H¹(G, 𝔽₂)` of the character of an index-two subgroup.** -/
+noncomputable def indexTwoCharacterClass (hU : U.toSubgroup.index = 2) :
+    (continuousCohomology ℤ G 1).obj (trivialF2 G) :=
+  homClass G (indexTwoCharacter U.toSubgroup hU) (continuous_indexTwoCharacter U hU)
+
+/-- **Layer 13, identity 5: the norm of a restricted class,**
+`N^{Ev}(res_U y) = y ⌣ y + χ_U ⌣ y` in `H²(G, 𝔽₂)`. Proof: `evensGraphCochain_comp_subtype`,
+`graphClass_eq_cochainClass` and `homClass_eq_cochainClass` put both sides on cochains, Layer 12's
+`explicitIso_cup` identifies the two `(1,1)` cups with the cochain cups, and `cup_add_left`,
+`cup_add_right` and the mod-2 symmetry of the `(1,1)` cup on classes cancel the two `χ_U ⌣ χ_U`
+terms. The symmetry holds on classes only, not on cochains. -/
+theorem evensNorm_of_res (hU : U.toSubgroup.index = 2)
+    (y : (continuousCohomology ℤ G 1).obj (trivialF2 G)) :
+    evensNormIndexTwo U hU ((trivialF2ResMap G U.toSubgroup 1).hom y) =
+      cup (f2Pairing G) 1 1 y y + cup (f2Pairing G) 1 1 (indexTwoCharacterClass U hU) y :=
+  sorry
+
+/-! Layer 13, the index-two exact sequence in degrees `≤ 2`, from the coefficient sequence
+`0 → 𝔽₂ → 𝔽₂[G ⧸ U] → 𝔽₂ → 0`: Shapiro turns the middle terms into the cohomology of `U`, the map
+from the constants into restriction and the sum over the two cosets into corestriction, and the
+connecting map is the cup with `δ⁰ 1 = χ_U`. The route is in `README.md` Layer 13. Every statement
+needs index exactly two: at index three the kernel of the sum over the cosets is not the constants,
+and for `S₃ ⊇ C₂` restriction and corestriction in degree one are both surjective, so
+`indexTwo_exact_res1_cor1` fails. -/
+
+/-- **Layer 13, the kernel of restriction in degree one** is `{0, χ_U}`, the image of `δ⁰`. -/
+theorem indexTwo_ker_res1 (hU : U.toSubgroup.index = 2)
+    (y : (continuousCohomology ℤ G 1).obj (trivialF2 G)) :
+    (trivialF2ResMap G U.toSubgroup 1).hom y = 0 ↔ y = 0 ∨ y = indexTwoCharacterClass U hU :=
+  sorry
+
+/-- **Layer 13, exactness at `H¹(U, 𝔽₂)`:** the image of restriction is the kernel of
+corestriction. -/
+theorem indexTwo_exact_res1_cor1 (hU : U.toSubgroup.index = 2) :
+    Function.Exact (trivialF2ResMap G U.toSubgroup 1).hom (trivialF2Corestriction G U 1).hom :=
+  sorry
+
+/-- **Layer 13, exactness at `H¹(G, 𝔽₂)`:** `χ_U ⌣ x = 0` exactly when `x` is a corestriction. -/
+theorem indexTwo_exact_cor1_cup (hU : U.toSubgroup.index = 2)
+    (x : (continuousCohomology ℤ G 1).obj (trivialF2 G)) :
+    cup (f2Pairing G) 1 1 (indexTwoCharacterClass U hU) x = 0 ↔
+      ∃ w, x = (trivialF2Corestriction G U 1).hom w :=
+  sorry
+
+/-- **Layer 13, exactness at `H²(G, 𝔽₂)`:** `ker res² = χ_U ⌣ H¹(G, 𝔽₂)`, the statement identities
+1 and 2 leave open and identity 5 and the sibling roadmap's degree-2 computation use. The map is
+restriction and not corestriction: for `C₄ ⊇ C₂`, restriction `H²(C₄, 𝔽₂) → H²(C₂, 𝔽₂)` is
+injective while `χ_U ⌣ H¹(C₄, 𝔽₂) = 0`. -/
+theorem indexTwo_exact_cup_res2 (hU : U.toSubgroup.index = 2)
+    (z : (continuousCohomology ℤ G 2).obj (trivialF2 G)) :
+    (trivialF2ResMap G U.toSubgroup 2).hom z = 0 ↔
+      ∃ y, z = cup (f2Pairing G) 1 1 (indexTwoCharacterClass U hU) y :=
+  sorry
+
+/-- **Layer 13, exactness at `H²(U, 𝔽₂)`:** the image of restriction is the kernel of
+corestriction. -/
+theorem indexTwo_exact_res2_cor2 (hU : U.toSubgroup.index = 2) :
+    Function.Exact (trivialF2ResMap G U.toSubgroup 2).hom (trivialF2Corestriction G U 2).hom :=
+  sorry
+
 /-- **Layer 13, identity 1: `res_U N^{Ev}(α) = α ⌣ (s · α)`,** the conjugate being the choice-free
 `evensConj`. -/
 theorem evensNorm_res (hU : U.toSubgroup.index = 2)
@@ -3756,14 +4635,23 @@ theorem evensNorm_identity_infl (hU : U.toSubgroup.index = 2) (N : Subgroup G) [
       trivialF2Infl N hN 2 (evensNormIndexTwo (quotientOpenSubgroup N hN U hNU) hUN α) :=
   sorry
 
-/-- **Layer 13, milestone 10: at index 2 and degree 1 the general norm is the class of the graph
-cocycle.** The identification that makes the graph cocycle a standard construction rather than an
-ad hoc formula. `graphClass` is the quotient class of `evensGraphCochain`, so this compares the
-general construction with the explicit one and not with an unconstrained map. -/
+/-- **Layer 13, milestone 10: the general norm at index 2 and degree 1 is the graph class.** The
+identification that makes the graph cocycle a standard construction rather than an ad hoc formula.
+`evensNormIndexTwo` is the graph class descended to `H¹(U, 𝔽₂)`, so this compares the general
+construction with the explicit one and not with an unconstrained map; the explicit half and its
+consumers do not depend on it. -/
+theorem evensNormIndexTwo_eq (hU : U.toSubgroup.index = 2)
+    (x : (continuousCohomology ℤ U.toSubgroup 1).obj (trivialF2 U.toSubgroup)) :
+    degreeCast (by rw [hU]) (trivialF2 G) (evensNorm U 1 x) = evensNormIndexTwo U hU x :=
+  sorry
+
+/-- **Layer 13, milestone 10 on the class of a continuous homomorphism:** the general norm of
+`homClass α` is the graph class of `α`. -/
 theorem evensNorm_eq_graphClass (hU : U.toSubgroup.index = 2)
     (α : U.toSubgroup →* Multiplicative (ZMod 2)) (hα : Continuous α) :
-    evensNormIndexTwo U hU (homClass U.toSubgroup α hα) = graphClass U hU α hα :=
-  sorry
+    degreeCast (by rw [hU]) (trivialF2 G) (evensNorm U 1 (homClass U.toSubgroup α hα)) =
+      graphClass U hU α hα :=
+  (evensNormIndexTwo_eq U hU _).trans (evensNormIndexTwo_homClass U hU α hα)
 
 end EvensNorm
 
@@ -3960,6 +4848,50 @@ theorem galoisEvens_add [FiniteDimensional K L] [Algebra.IsSeparable K L]
           (cup (f2Pairing (AbsoluteGaloisGroup L)) 1 1 x (galoisConj K L σ 1 y)) :=
   sorry
 
+/-- **Layer 9, the character of a quadratic extension:** the class in `H¹(G_K, 𝔽₂)` of the
+character of `G_K` with kernel `G_L`, Layer 13's `indexTwoCharacterClass` at `galoisSubgroup`. -/
+noncomputable def galoisCharacter [FiniteDimensional K L] [Algebra.IsSeparable K L]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) :
+    (continuousCohomology ℤ (AbsoluteGaloisGroup K) 1).obj (trivialF2 (AbsoluteGaloisGroup K)) :=
+  indexTwoCharacterClass (galoisSubgroup K L σ) (by rw [galoisSubgroup_index]; exact hdeg)
+
+/-- **Layer 9, independence of the embedding,** for the character. -/
+theorem galoisCharacter_embedding_independent [FiniteDimensional K L] [Algebra.IsSeparable K L]
+    (σ τ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) :
+    galoisCharacter K L σ hdeg = galoisCharacter K L τ hdeg :=
+  sorry
+
+/-- **Layer 13 at the bridge: identity 5,** `N^{Ev}(res y) = y ⌣ y + χ_{L/K} ⌣ y`, the transport of
+`evensNorm_of_res`: `galoisEvens ∘ galoisRes` is `evensNormIndexTwo ∘ res` because the two
+transports through `galoisF2Iso` cancel. -/
+theorem galoisEvens_galoisRes [FiniteDimensional K L] [Algebra.IsSeparable K L]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
+    (y : (continuousCohomology ℤ (AbsoluteGaloisGroup K) 1).obj
+      (trivialF2 (AbsoluteGaloisGroup K))) :
+    galoisEvens K L σ hdeg ((galoisRes K L σ 1).hom y) =
+      cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 y y +
+        cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (galoisCharacter K L σ hdeg) y :=
+  sorry
+
+/-- **Layer 13 at the bridge: the kernel of restriction in degree two,**
+`ker (res_{L/K}) = χ_{L/K} ⌣ H¹(G_K, 𝔽₂)`, the transport of `indexTwo_exact_cup_res2`. -/
+theorem galoisRes_eq_zero_iff [FiniteDimensional K L] [Algebra.IsSeparable K L]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
+    (z : (continuousCohomology ℤ (AbsoluteGaloisGroup K) 2).obj
+      (trivialF2 (AbsoluteGaloisGroup K))) :
+    (galoisRes K L σ 2).hom z = 0 ↔
+      ∃ y, z = cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (galoisCharacter K L σ hdeg) y :=
+  sorry
+
+/-- **Layer 13 at the bridge: restriction then corestriction is exact** at `H¹(G_L, 𝔽₂)` and at
+`H²(G_L, 𝔽₂)` for a quadratic extension, the transport of `indexTwo_exact_res1_cor1` and
+`indexTwo_exact_res2_cor2`. -/
+theorem galoisRes_galoisCor_exact [FiniteDimensional K L] [Algebra.IsSeparable K L]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (n : ℕ)
+    (hn : n = 1 ∨ n = 2) :
+    Function.Exact (galoisRes K L σ n).hom (galoisCor K L σ n).hom :=
+  sorry
+
 /-- **Layer 9, restriction is functorial in a tower `M/L/K`.** The three embeddings are
 independent data; the theorem is that the composite does not see which ones were chosen. -/
 theorem galoisRes_comp [FiniteDimensional K L] [Algebra.IsSeparable K L]
@@ -4005,8 +4937,8 @@ end FieldExtension
 
 /-! ### What the sibling roadmaps consume -/
 
-/-- **Layer 13, the restriction identity, at cochain level.** The first of the four identities the
-Quadratic Form Invariants roadmap consumes: on `U × U` the graph cochain is the cup of `α` with
+/-- **Layer 13, the restriction identity, at cochain level.** The first of the index-two identities
+the Quadratic Form Invariants roadmap consumes: on `U × U` the graph cochain is the cup of `α` with
 its conjugate, `res_U N^{Ev}(α) = α ⌣ (s · α)`. Stated on cochains here, since that is the form
 the proof produces and the form a reader can check against the definition above. -/
 example {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
