@@ -35,29 +35,41 @@ pro-`p` groups, pro-`p` Sylow theory, the Frattini subgroup and generator-rank c
 cohomological criteria for freeness, the lower `p`-series and finite-quotient determinacy,
 completed group algebras and relation modules, and the classification interface for abstract
 Demushkin groups. It consumes continuous cohomology only from the accepted **Profinite
-Cohomology** roadmap.
+Cohomology** roadmap. The extension dictionary with compact kernel is consumed from Tau Ceti,
+whose `TauCeti.ProfiniteGroupExtension` takes its classes in that roadmap's explicit `H²`.
 
 The frozen downstream surface includes:
 
 | Topic | Exact declarations |
 |---|---|
 | pro-`p` carriers | `IsProP`, `proPKernel`, `maximalProPQuotient`, `IsProPSylow` |
-| profinite Sylow interface | `exists_isProPSylow`, `IsProP.exists_le_isProPSylow`, `IsProPSylow.eq_of_normal`, `IsProPSylow.map_of_surjective` |
+| the pro-`p` kernel | `proPKernel_proPKernel_eq_top` |
+| profinite Sylow interface | `exists_isProPSylow`, `IsProP.exists_le_isProPSylow`, `IsProPSylow.eq_of_normal`, `IsProPSylow.map_of_surjective`, `IsProPSylow.not_dvd_index_of_le` |
 | finite generation | `IsTopologicallyFinitelyGenerated`, `topologicalGeneratorRank`, `topologicalGeneratorRankNat`, `proPFrattini` |
 | free objects and presentations | `freeProfiniteGroup`, `freeProfiniteGroup.of`, `freeProC`, `freeProC.of`, `freeProP`, `freeProP.of`, `presentedProfiniteGroup`, `presentedProfiniteGroup.mk`, `presentedProP`, `presentedProP.mk` |
 | their universal properties | `freeProfiniteGroup.lift`, `freeProfiniteGroup.hom_ext`, `freeProC.lift`, `freeProC.hom_ext`, `freeProP.lift`, `freeProP.hom_ext`, `presentedProfiniteGroup.lift`, `presentedProfiniteGroup.hom_ext`, `presentedProP.lift`, `presentedProP.hom_ext` |
+| lifting along an extension class | `ProfiniteGroupExtension.exists_continuous_monoidHom_of_contCohomologyClass_map_eq`, `ProfiniteGroupExtension.contCohomologyClass_map_eq_of_continuous_monoidHom`, `GroupExtension.surjective_of_comp_inl_eq` |
 | embedding problems and projectivity | `IsProC`, `FiniteEmbeddingProblem`, `FiniteEmbeddingProblem.IsSolution`, `HasElementaryAbelianSolutions`, `HasPGroupSolutions`, `levelProblem`, `IsProjective` |
+| `cd_p` of a Sylow subgroup | `exists_openSubgroup_res_eq_zero_of_res_eq_zero`, `res_injective_of_isProPSylow`, `cd_p_eq_of_isProPSylow` |
 | Demushkin invariants | `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `HasPrescriptionProperty` |
 | marked classification | `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo`, `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd`, `isDemushkin_marked_of_q_two_even`, `isDemushkin_marked_of_q_two_rank_two` |
 | standard dyadic group | `demushkinD0`, `d0A`, `d0S`, `d0Y`, `standardD0Orientation` and its value theorems |
+
+Three of these rows have named arithmetic consumers. `LocalGaloisGroups` uses
+`proPKernel_proPKernel_eq_top` for degree-one inflation from the maximal pro-`p` quotient of an
+absolute Galois group with twisted coefficients, and the extension-lifting row to lift a
+surjection of relation modules to a surjective morphism of group extensions. `ClassFieldTheory`
+uses `cd_p_eq_of_isProPSylow` to compute the cohomological dimension of a local absolute Galois
+group from that of its Sylow subgroups.
 
 ## How to read the milestones
 
 `README.md` is normative; `Suggested.lean` pins useful Lean names and signatures. Dated
 implementation and ecosystem information is maintained in a private provenance ledger. In prerequisite
-annotations, `M` means Mathlib at the repository pin, `L0` through `L10` mean an earlier
-layer here, and `PC-<layer>` means an export of `ProfiniteCohomology`. No milestone depends
-on a branch, an unmerged external project, `LocalFieldsRamification`, or `ClassFieldTheory`.
+annotations, `M` means Mathlib at the repository pin, `TC` means Tau Ceti at the repository pin,
+`L0` through `L10` mean an earlier layer here, and `PC-<layer>` means an export of
+`ProfiniteCohomology`. No milestone depends on a branch, an unmerged external project,
+`LocalFieldsRamification`, or `ClassFieldTheory`.
 
 Theorems use the unbundled profinite type-class stack except where a categorical limit or
 completion genuinely needs `ProfiniteGrp`. Pro-`p` means that every continuous finite
@@ -202,6 +214,12 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   subgroups. Both statements are intrinsic to profinite groups. `LocalGaloisGroups` may
   consume them when assembling its arithmetic examples.
   *Needs:* L2 existence and conjugacy; L0 inverse limits.
+- **Open subgroups above a Sylow subgroup.** An open subgroup `U` that contains a `p`-Sylow
+  subgroup `P` has index prime to `p` (`IsProPSylow.not_dvd_index_of_le`). For an open normal
+  `N ≤ U`, `[G : U] = [G/N : U/N]` divides `[G/N : PN/N]`, which is prime to `p` by the
+  per-quotient definition. Layer 6 feeds these indices to `cor ∘ res = [G : U]`.
+  *Needs:* L2 definition; M `IsTopologicalGroup.exist_openNormalSubgroup_sub_clopen_nhds_of_one`,
+  M `Subgroup.index_map_eq`, M `Subgroup.index_dvd_of_le`.
 - **Worked instances** (`Suggested.lean`). Every `p`-Sylow subgroup of `ℤ̂` is
   topologically isomorphic to `ℤ_p`. This is stated here and proved in Layer 4, where the
   universal properties it
@@ -212,10 +230,13 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
 ### Layer 3: pro-`p` groups, the maximal pro-`p` quotient, Frattini theory, generation
 
 - **The `IsProP` API.** Stability under closed subgroups, under quotients by closed normal
-  subgroups, under finite products, and under inverse limits. The equivalence milestone: a
-  profinite group is pro-`p` if and only if it is continuously isomorphic to a limit of
-  finite `p`-groups.
-  *Needs:* M `IsPGroup`, M `ProfiniteGrp.ofFiniteGrp`, M
+  subgroups, under finite products, under inverse limits, and under extensions: a compact group
+  that maps onto a Hausdorff pro-`p` group by a continuous surjection with pro-`p` kernel is
+  pro-`p` (TC `TauCeti.IsProP.of_ker_isProP`), because the image of an open normal subgroup is
+  open and each finite quotient is then an extension of finite `p`-groups. The equivalence
+  milestone: a profinite group is pro-`p` if and only if it is continuously isomorphic to a
+  limit of finite `p`-groups.
+  *Needs:* M `IsPGroup`, M `IsPGroup.comap_of_ker_isPGroup`, M `ProfiniteGrp.ofFiniteGrp`, M
   `ProfiniteGrp.continuousMulEquivLimittoFiniteQuotientFunctor`; L0 quotients.
 
   API checklist for `IsProP`:
@@ -224,7 +245,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   - Examples: `ℤ_p`; `ℤ/p^n`; `freeProP p (Fin n)`; `D₀` of Layer 6.
   - Morphisms: continuous homomorphisms between pro-`p` groups; no extra structure.
   - Functoriality: the property passes to closed subgroups, to quotients by closed normal
-    subgroups, to finite products and to limits.
+    subgroups, to finite products, to limits and to extensions.
   - Comparison lemmas: pro-`p` if and only if the supernatural order is a power of `p`
     (Layer 1); pro-`p` if and only if `proPKernel p G = ⊥`.
   - Naturality: the property is invariant under topological isomorphism.
@@ -253,6 +274,28 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
     trivial; a prime that does not divide the order.
   - Downstream interfaces: `LocalGaloisGroups` applies this universal quotient to an
     absolute Galois group; the resulting arithmetic carrier is defined there.
+- **The pro-`p` kernel has no `p`-quotient.** For profinite `G` and `N = proPKernel p G`, the
+  maximal pro-`p` quotient of `N` is trivial: `proPKernel p N = ⊤`
+  (`proPKernel_proPKernel_eq_top`). Equivalently, `N` has no nontrivial continuous finite
+  `p`-group quotient; in particular it admits no continuous surjection onto `ℤ/p`. The open
+  normal subgroups of `N` need not come from open normal subgroups of `G`, so this is a theorem
+  and not the definition. The route has three steps:
+  1. `K = proPKernel p N` is closed in `N`, hence in `G`, and characteristic in `N` for
+     continuous automorphisms; conjugation by an element of `G` restricts to a continuous
+     automorphism of the normal subgroup `N`, so `K` is normal in `G`;
+  2. `G ⧸ K` is profinite and maps onto the pro-`p` group `G ⧸ N = maximalProPQuotient p G`,
+     with kernel the image of `N`. That image is `N ⧸ K = maximalProPQuotient p N`, which is
+     pro-`p`, because the continuous bijection from the compact `N ⧸ K` onto it is a
+     homeomorphism. By closure under extensions, `G ⧸ K` is pro-`p`;
+  3. the universal property of the maximal pro-`p` quotient, applied to `G → G ⧸ K`, gives
+     `N = proPKernel p G ≤ K`, that is `K = ⊤` in `N`.
+
+  `LocalGaloisGroups` applies it to an absolute Galois group, where it kills `H¹` of the kernel
+  with finite `p`-primary coefficients on which the kernel acts trivially.
+  *Needs:* L0 closed subgroups and quotients; L3 the `IsProP` API, including closure under
+  extensions, and the maximal pro-`p` quotient: closedness, characteristicity, pro-`p`-ness and
+  the universal property; TC `TauCeti.IsProP.of_ker_isProP`, `TauCeti.map_proPKernel_eq`,
+  `TauCeti.isProP_maximalProPQuotient`, `TauCeti.proPKernel_le_ker`.
 - **Topological generation and rank.** First the generation API through
   `Subgroup.topologicalClosure`, the predicate `IsTopologicallyFinitelyGenerated`, and the
   statement that generation passes along continuous surjections. Then the convergence
@@ -624,6 +667,46 @@ about the substrate.
 - **Splitting.** An extension has a continuous group-theoretic section if and only if its
   class in `H²(G, M)` is zero.
   *Needs:* L5 the bijection.
+- **Lifting along the class** (NSW I §5 Exercise 4(i), at `ϕ = id`). Let `G` be profinite, let
+  `f : M → N` be a continuous `G`-equivariant homomorphism from a compact abelian group `M` to a
+  profinite abelian group `N`, both with continuous `G`-action, and let `X` and `Y` be extensions
+  of `G` by `M` and by `N`. The kernels are compact rather than finite, so the milestone is stated
+  against Tau Ceti's dictionary, which allows compact kernels: `X` and `Y` are
+  `TauCeti.ProfiniteGroupExtension`s, with profinite total group, continuous inclusion and
+  projection, inducing the given action; `contCohomologyClass` is the class in the continuous
+  `H²`; and `X.map f` is the pushforward of `X` along `f`, whose class is the image of the class
+  of `X` under the coefficient map of `f` (`contCohomologyClass_map`). The milestone is three
+  statements:
+  1. `ProfiniteGroupExtension.exists_continuous_monoidHom_of_contCohomologyClass_map_eq`: if
+     `(X.map f).contCohomologyClass = Y.contCohomologyClass`, then `f` is the restriction to the
+     kernels of a continuous homomorphism `X.E → Y.E` over the identity of `G`. The
+     classification `exists_equiv_continuous_iff_contCohomologyClass_eq` gives a continuous
+     equivalence of `X.map f` with `Y` that fixes `N` and covers `G`. Precompose it with the
+     homomorphism `X.E → (X.map f).E`, `e ↦ (f (inl⁻¹ (e · σ(π e)⁻¹)), π e)`, where `σ` is the
+     continuous normalized section of `X` from which `X.map f` is built. It is multiplicative
+     because the factor set of the pushforward is `f` applied to the factor set of `σ` and `f`
+     is equivariant, and continuous because `factorSetContinuousMulEquiv` identifies `X.E` with
+     the twisted product homeomorphically;
+  2. `ProfiniteGroupExtension.contCohomologyClass_map_eq_of_continuous_monoidHom`, the converse:
+     if `φ : X.E → Y.E` is a continuous homomorphism over the identity of `G` that restricts to
+     `f`, then `φ ∘ σ` is a continuous normalized section of `Y` whose factor set is `f` applied
+     to that of `σ`, so `(X.map f).contCohomologyClass = Y.contCohomologyClass`;
+  3. `GroupExtension.surjective_of_comp_inl_eq`: a homomorphism of extensions over the identity
+     of `G` whose restriction to the kernels is surjective is itself surjective, since it meets
+     every fibre of the projection and, within a fibre, every translate of the kernel.
+
+  `LocalGaloisGroups` uses the three together to lift a surjection of relation modules to a
+  surjective morphism of group extensions.
+  ⚠ Finite kernels do not suffice for that consumer: the maximal abelian pro-`p` quotient of an
+  open subgroup of a free profinite group of finite rank is a free `ℤ_p`-module of finite rank.
+  *Needs:* TC `TauCeti.ProfiniteGroupExtension`, `TauCeti.ProfiniteGroupExtension.map`,
+  `TauCeti.ProfiniteGroupExtension.contCohomologyClass_map`,
+  `TauCeti.ProfiniteGroupExtension.exists_equiv_continuous_iff_contCohomologyClass_eq`,
+  `TauCeti.GroupExtension.exists_continuous_section`,
+  `TauCeti.GroupExtension.factorSetContinuousMulEquiv`, `GroupExtension.contCohomologyClass_eq`,
+  `TauCeti.FactorSet.contCohomologyClass_map`.
+  *Source:* NSW I §5 Exercise 4.
+
 The passage from the extension dictionary to projectivity is six statements, and each one is a
 milestone of its own below rather than a line in a proof of the last. `Suggested.lean` names all
 six, so the dependency graph closes without prose.
@@ -792,24 +875,45 @@ would not agree with the standard `cd_p`.
   milestone.
   *Needs:* PC-11 `cd_p_le_of_isClosed`; PC-7 closed-subgroup Shapiro; L6 dévissage.
   *Source:* Serre, *Galois Cohomology* I §3.3.
+- **Vanishing on a closed subgroup descends to an open one.** Let `H` be a closed subgroup of a
+  profinite group `G` and `M` a discrete `G`-module. A class `x ∈ Hⁿ(G, M)` whose restriction to
+  `H` vanishes already restricts to zero on some open subgroup `U ⊇ H`
+  (`exists_openSubgroup_res_eq_zero_of_res_eq_zero`). This is the injectivity part of NSW
+  (1.5.1), applied to `H` as the inverse limit of the open subgroups containing it. The proof is
+  on cochains. A continuous cochain on a compact group with values in the discrete `M` is locally
+  constant, so a cocycle `c` representing `x` and a cochain `b` on `H` whose coboundary is the
+  restriction of `c` both factor through the quotient by one open normal `V ≤ G`, with values in
+  `M^V`. Then `b` extends to the open subgroup `U = HV` through `HV/V ≅ H/(H ∩ V)`, and the
+  coboundary identity holds on `U` because both sides factor through `U/V` and agree on `H`.
+  *Needs:* L0 open normal subgroups; PC-1 `res`, `cochainClass`.
+  *Source:* NSW (1.5.1).
+- **Restriction to a Sylow subgroup is injective.** For a `p`-Sylow subgroup `P` of a profinite
+  `G`, a discrete `p`-primary torsion `G`-module `M` and every `n`, restriction
+  `Hⁿ(G, M) → Hⁿ(P, M)` is injective (`res_injective_of_isProPSylow`). If `x` restricts to zero
+  on `P`, the descent above gives an open `U ⊇ P` on which it restricts to zero, so
+  `[G : U] · x = cor (res x) = 0`. The index is prime to `p` by
+  `IsProPSylow.not_dvd_index_of_le`, and `x` is killed by a power of `p` because it is the class
+  of a continuous cocycle, which has finite image in the `p`-primary `M`. Hence `x = 0`.
+  *Needs:* L2 `IsProPSylow.not_dvd_index_of_le`; L6 the descent above; PC-1 `cochainClass`;
+  PC-10 `corestriction`, `corestriction_comp_res`; PC-11 `IsPPrimaryTorsion`.
+  *Source:* NSW (1.6.10), whose proof is this argument.
 - **The Sylow equality.** Let `G` be profinite, and let `G_p` be a `p`-Sylow subgroup of `G`,
-  from Layer 2. Then `cd_p G = cd_p G_p`. The route has three steps. First, prove the colimit
-  description: the cohomology of a closed subgroup, with discrete coefficients, is the
-  filtered colimit of the cohomology of the open subgroups containing it. That description is
-  part of this milestone. Second, for open `U ⊇ G_p` the composite of corestriction after
-  restriction is multiplication by `[G : U]`, and the Sylow property makes those indices prime
-  to `p`. With the colimit, restriction to `G_p` is therefore injective on the cohomology of
-  every discrete `p`-primary module, which gives `cd_p G ≤ cd_p G_p`. Third, Shapiro's lemma
-  for the closed subgroup `G_p` gives `cd_p G_p ≤ cd_p G`. This is the one milestone here
-  about `cd_p` of a group that need not be pro-`p`, and it is named `cd_p_eq_of_isProPSylow`.
+  from Layer 2. Then `cd_p G = cd_p G_p` (`cd_p_eq_of_isProPSylow`). The inequality
+  `cd_p G_p ≤ cd_p G` is the imported monotonicity `ProfiniteCohomology.cd_p_le_of_isClosed`,
+  `G_p` being closed. For `cd_p G ≤ cd_p G_p`, suppose `cd_p G_p ≤ n`, and let `M` be a discrete
+  `p`-primary torsion `G`-module and `i > n`. Restricted to `G_p`, `M` is a discrete `p`-primary
+  torsion `G_p`-module (`ProfiniteCohomology.ofDiscreteModuleRes`), so `Hⁱ(G_p, M) = 0`, and
+  injectivity of restriction gives `Hⁱ(G, M) = 0`; by `ProfiniteCohomology.cd_p_le_iff` this is
+  `cd_p G ≤ n`. This is the one milestone here about `cd_p` of a group that need not be
+  pro-`p`. `ClassFieldTheory` consumes it for the cohomological dimension of a local absolute
+  Galois group.
   ⚠ A `p`-Sylow subgroup is closed and, unless it is open, is not covered by the imported
-  `ProfiniteCohomology.cd_p_eq_of_index_not_dvd`. That theorem is the open prime-to-`p`-index
-  case, and it supplies exactly the open subgroups `U ⊇ G_p` of prime-to-`p` index; the colimit
-  description of the cohomology of a closed subgroup and the Sylow theory of Layer 2 are what
-  turn those into the equality, and they are the part this milestone proves.
-  *Needs:* L1 supernatural index; L2 Sylow existence and conjugacy; PC-10 `corestriction`,
-  `corestriction_comp_res`; PC-11 `cd_p_eq_of_index_not_dvd`; PC-7 closed-subgroup Shapiro.
-  *Source:* NSW (3.3.6); Serre, *Galois Cohomology* I §3.3.
+  `ProfiniteCohomology.cd_p_eq_of_index_not_dvd`, which is the open prime-to-`p`-index case of
+  the same corestriction argument. The descent of vanishing from a closed subgroup to the open
+  subgroups containing it is what reaches the closed case.
+  *Needs:* L2 `IsProPSylow`; L6 injectivity of restriction to a Sylow subgroup; PC-1
+  `ofDiscreteModuleRes`; PC-11 `cd_p_le_iff`, `cd_p_le_of_isClosed`.
+  *Source:* NSW (3.3.5)(i) and (3.3.6); Serre, *Galois Cohomology* I §3.3.
 - **The two-term Euler formula.** Let `G` be a topologically finitely generated pro-`p`
   group with `cd_p G ≤ 1`, and let `U ≤ G` be open. Then the four spaces
   `H^i(G, 𝔽_p)` and `H^i(U, 𝔽_p)`, for `i = 0, 1`, are finite-dimensional, and in `ℤ`
@@ -1691,8 +1795,8 @@ approximations; Layers 9–10 complete the Demushkin classification and arbitrar
 The arithmetic of `G_K(p)`—finite generation, the `[K : ℚ_p] + 2` dichotomy, roots of unity,
 the canonical orientation, and the local Demushkin presentation—now belongs to
 `LocalGaloisGroups`. No theorem in this roadmap depends on a local field, and the
-`LocalGaloisGroups` and `LocalFieldsRamification` dependencies are one-way: they import this
-roadmap, while this roadmap imports neither arithmetic supplier.
+`LocalGaloisGroups`, `LocalFieldsRamification` and `ClassFieldTheory` dependencies are one-way:
+they import this roadmap, while this roadmap imports none of them.
 
 ## References
 

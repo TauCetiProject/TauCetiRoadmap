@@ -1,5 +1,6 @@
 import Mathlib
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
+import TauCeti.Topology.Algebra.GroupExtension.Cohomology
 
 set_option autoImplicit false
 
@@ -30,6 +31,10 @@ determinacy theorem, the lower `p`-series with its graded pieces, the completed 
 and Labute's relation module, the closed-subgroup theory of `ℤ₂ˣ`, and the presentation-level
 worked examples, including the abstract group `D₀ = ⟨A, S, Y ∣ A²S⁴(S,Y)⟩` with its marked
 generators and standard orientation.
+
+The extension dictionary with compact kernel is Tau Ceti's and is imported directly:
+`TauCeti.ProfiniteGroupExtension`, its class `contCohomologyClass` and its pushforward `map` along
+a coefficient map. Layer 5's lifting lemma is stated against it.
 
 Three generic constructions are deliberately **absent**, with their own exact owner — the
 successor roadmap `ProfiniteArithmetic` (README, opening section): the profinite integers as a
@@ -1699,6 +1704,21 @@ theorem IsProPSylow.map_of_surjective (p : ℕ) [Fact p.Prime] (G H : Type u) [G
     IsProPSylow p (P.map f) :=
   sorry
 
+/-- **Layer 2, an open subgroup containing a `p`-Sylow subgroup has index prime to `p`.** For an
+open normal `N ≤ U`, `[G : U] = [G ⧸ N : U ⧸ N]` divides `[G ⧸ N : P N ⧸ N]`, which is prime to `p`
+by the per-quotient definition. Layer 6 feeds these indices to `cor ∘ res = [G : U]`. -/
+theorem IsProPSylow.not_dvd_index_of_le (p : ℕ) [Fact p.Prime] (G : Type u) [Group G]
+    [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
+    (P : Subgroup G) (hP : IsProPSylow p P) (U : OpenSubgroup G) (hPU : P ≤ U.toSubgroup) :
+    ¬ p ∣ U.toSubgroup.index := by
+  obtain ⟨N, hN⟩ :=
+    IsTopologicalGroup.exist_openNormalSubgroup_sub_clopen_nhds_of_one U.isClopen U.one_mem
+  have hNU : N.toSubgroup ≤ U.toSubgroup := fun _ hx ↦ hN hx
+  have hindex : (U.toSubgroup.map (QuotientGroup.mk' N.toSubgroup)).index = U.toSubgroup.index :=
+    U.toSubgroup.index_map_eq (QuotientGroup.mk'_surjective _) (by rwa [QuotientGroup.ker_mk'])
+  intro hdvd
+  exact hP.2.2 N ((hindex ▸ hdvd).trans (Subgroup.index_dvd_of_le (Subgroup.map_mono hPU)))
+
 /-- **Layer 2, conjugacy of `p`-Sylow subgroups.** Any two `p`-Sylow subgroups of a profinite
 group are conjugate. -/
 example {p : ℕ} [Fact p.Prime] {G : Type u} [Group G] [TopologicalSpace G]
@@ -1755,6 +1775,19 @@ statement is wanted for `proPFrattini` and for every `pLowerCentralSeries` term.
 example {p : ℕ} {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     [CompactSpace G] [TotallyDisconnectedSpace G] (f : G ≃ₜ* G) :
     (proPKernel p G).map f.toMulEquiv.toMonoidHom = proPKernel p G :=
+  sorry
+
+/-- **Layer 3, the pro-`p` kernel has no `p`-quotient.** For profinite `G`, the kernel
+`N = proPKernel p G` of the maximal pro-`p` quotient has trivial maximal pro-`p` quotient itself:
+`proPKernel p N = ⊤`, equivalently `N` has no nontrivial continuous finite `p`-group quotient, and
+in particular no continuous surjection onto `ℤ/p`. The open normal subgroups of `N` need not come
+from those of `G`, so this is a theorem and not the definition. Route: `K = proPKernel p N` is
+closed and characteristic in `N`, hence closed and normal in `G`; `G ⧸ K` is an extension of the
+pro-`p` group `G ⧸ N` by the pro-`p` group `N ⧸ K`, hence pro-`p`; so the universal property of
+the maximal pro-`p` quotient gives `N ≤ K`. -/
+theorem proPKernel_proPKernel_eq_top (p : ℕ) [Fact p.Prime] (G : Type u) [Group G]
+    [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] :
+    proPKernel p (proPKernel p G) = ⊤ :=
   sorry
 
 /-- **Layer 3, the Frattini subgroup is closed and normal.** Its characteristicity is the
@@ -2279,6 +2312,81 @@ theorem standardD0Orientation_relator (φ : freeProP 2 (Fin 3) →* ℤ_[2]ˣ)
     (hY : φ (freeProP.of 2 2) = negThreeUnit⁻¹) : φ d0Relator = 1 :=
   sorry
 
+/-! ### Layer 5: lifting a coefficient map along the extension class
+
+The dictionary with compact kernel is Tau Ceti's: `TauCeti.ProfiniteGroupExtension G M` is an
+extension `1 → M → E → G → 1` with profinite total group, continuous inclusion and projection,
+inducing the given action; `contCohomologyClass` is its class in the continuous `H²(G, M)`; and
+`map f hf` is its pushforward along a continuous equivariant `f : M →*[G] N`, whose class is the
+image of the class under the coefficient map of `f`
+(`TauCeti.ProfiniteGroupExtension.contCohomologyClass_map`). Two extensions by the **same** kernel
+are continuously equivalent exactly when their classes agree
+(`TauCeti.ProfiniteGroupExtension.exists_equiv_continuous_iff_contCohomologyClass_eq`). The three
+statements below compare extensions by **different** kernels: NSW I §5 Exercise 4(i) at
+`ϕ = id`, its converse, and surjectivity of the lift. -/
+
+section ExtensionLifting
+
+variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
+  [TotallyDisconnectedSpace G]
+  {M : Type v} [CommGroup M] [TopologicalSpace M] [IsTopologicalGroup M]
+  [MulDistribMulAction G M] [ContinuousSMul G M] [CompactSpace M]
+  {N : Type w} [CommGroup N] [TopologicalSpace N] [IsTopologicalGroup N]
+  [MulDistribMulAction G N] [ContinuousSMul G N] [CompactSpace N] [TotallyDisconnectedSpace N]
+
+/-- **Layer 5, lifting along the class** (NSW I §5 Exercise 4(i) at `ϕ = id`). A continuous
+equivariant `f : M → N` that carries the class of `X` to the class of `Y` is the restriction to
+the kernels of a continuous homomorphism `X.E → Y.E` over the identity of `G`. Route: the
+classification gives a continuous equivalence of `X.map f hf` with `Y` that fixes `N` and covers
+`G`; precompose it with the continuous homomorphism `X.E → (X.map f hf).E`,
+`e ↦ (f (inl⁻¹ (e * σ (π e)⁻¹)), π e)`, for the continuous normalized section `σ` of `X` that
+`X.map f hf` is built from. It is multiplicative because the factor set of the pushforward is `f`
+applied to that of `σ` and `f` is equivariant, and continuous because
+`TauCeti.GroupExtension.factorSetContinuousMulEquiv` identifies `X.E` with the twisted product of
+`σ` homeomorphically. -/
+theorem ProfiniteGroupExtension.exists_continuous_monoidHom_of_contCohomologyClass_map_eq
+    (f : M →*[G] N) (hf : Continuous f) (X : TauCeti.ProfiniteGroupExtension G M)
+    (Y : TauCeti.ProfiniteGroupExtension G N)
+    (h : (X.map f hf).contCohomologyClass = Y.contCohomologyClass) :
+    ∃ φ : X.E →* Y.E, Continuous φ ∧
+      φ.comp X.toGroupExtension.inl = Y.toGroupExtension.inl.comp (f : M →* N) ∧
+      Y.toGroupExtension.rightHom.comp φ = X.toGroupExtension.rightHom :=
+  sorry
+
+/-- **Layer 5, the converse of the lifting lemma.** A continuous homomorphism `X.E → Y.E` over the
+identity of `G` that restricts to `f` on the kernels forces `f` to carry the class of `X` to the
+class of `Y`: for a continuous normalized section `σ` of `X`, `φ ∘ σ` is a continuous normalized
+section of `Y`, and its factor set is `f` applied to that of `σ`. Continuity of `φ` is what makes
+`φ ∘ σ` a continuous section. -/
+theorem ProfiniteGroupExtension.contCohomologyClass_map_eq_of_continuous_monoidHom
+    (f : M →*[G] N) (hf : Continuous f) (X : TauCeti.ProfiniteGroupExtension G M)
+    (Y : TauCeti.ProfiniteGroupExtension G N) (φ : X.E →* Y.E) (hφ : Continuous φ)
+    (hinl : φ.comp X.toGroupExtension.inl = Y.toGroupExtension.inl.comp (f : M →* N))
+    (hright : Y.toGroupExtension.rightHom.comp φ = X.toGroupExtension.rightHom) :
+    (X.map f hf).contCohomologyClass = Y.contCohomologyClass :=
+  sorry
+
+end ExtensionLifting
+
+/-- **Layer 5, a morphism of extensions is surjective when it is on the kernels.** A homomorphism
+over the identity of `G` whose restriction to the kernels is surjective meets every fibre of the
+projection, and within a fibre every translate of the kernel. Applied to `X.toGroupExtension` and
+`Y.toGroupExtension`, it makes the lift above surjective when `f` is. -/
+theorem GroupExtension.surjective_of_comp_inl_eq {G M N E E' : Type*} [Group G] [Group M]
+    [Group N] [Group E] [Group E'] (S : _root_.GroupExtension M E G)
+    (S' : _root_.GroupExtension N E' G) (f : M →* N) (hf : Function.Surjective f) (φ : E →* E')
+    (hinl : φ.comp S.inl = S'.inl.comp f) (hright : S'.rightHom.comp φ = S.rightHom) :
+    Function.Surjective φ := by
+  intro y
+  obtain ⟨x, hx⟩ := S.rightHom_surjective (S'.rightHom y)
+  have hker : (φ x)⁻¹ * y ∈ S'.rightHom.ker := by
+    rw [MonoidHom.mem_ker, map_mul, map_inv, ← MonoidHom.comp_apply, hright, hx, inv_mul_cancel]
+  rw [← S'.range_inl_eq_ker_rightHom] at hker
+  obtain ⟨n, hn⟩ := hker
+  obtain ⟨m, rfl⟩ := hf n
+  refine ⟨x * S.inl m, ?_⟩
+  rw [map_mul, ← MonoidHom.comp_apply φ S.inl, hinl, MonoidHom.comp_apply, hn, mul_inv_cancel_left]
+
 /-! ### Layer 5: finite embedding problems and projectivity
 
 The route from the extension dictionary to projectivity is six statements, not one. Each is named
@@ -2495,13 +2603,49 @@ theorem cd_p_eq_of_isOpen (G : Type u) [Group G] [TopologicalSpace G] [IsTopolog
     ProfiniteCohomology.cd_p p U.toSubgroup = ProfiniteCohomology.cd_p p G :=
   sorry
 
+/-- **Layer 6, vanishing on a closed subgroup descends to an open one.** A class of `Hⁿ(G, M)`,
+`M` discrete, whose restriction to the closed subgroup `H` vanishes already restricts to zero on
+some open subgroup containing `H`: the injectivity part of NSW (1.5.1), applied to `H` as the
+inverse limit of the open subgroups containing it. Route, on cochains: a cocycle representing the
+class and a cochain on `H` whose coboundary is its restriction are locally constant on compact
+groups, so both factor through the quotient by an open normal `V`, with values in `M^V`; the
+cochain then extends to the open subgroup `U = H V` through `H V ⧸ V ≅ H ⧸ (H ⊓ V)`, and the
+coboundary identity holds on `U` because both sides factor through `U ⧸ V` and agree on `H`. -/
+theorem exists_openSubgroup_res_eq_zero_of_res_eq_zero (G : Type u) [Group G]
+    [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
+    (H : Subgroup G) (hH : IsClosed (H : Set G)) (M : Type u) [AddCommGroup M]
+    [TopologicalSpace M] [IsTopologicalAddGroup M] [DiscreteTopology M] [DistribMulAction G M]
+    [ContinuousSMul G M] (n : ℕ)
+    (x : _root_.continuousCohomology n (ProfiniteCohomology.ofDiscreteModule G M))
+    (hx : (ProfiniteCohomology.res ℤ H (ProfiniteCohomology.ofDiscreteModule G M) n).hom x = 0) :
+    ∃ U : OpenSubgroup G, H ≤ U.toSubgroup ∧
+      (ProfiniteCohomology.res ℤ U.toSubgroup
+        (ProfiniteCohomology.ofDiscreteModule G M) n).hom x = 0 :=
+  sorry
+
+/-- **Layer 6, restriction to a `p`-Sylow subgroup is injective** on the cohomology of a discrete
+`p`-primary torsion module, in every degree (NSW (1.6.10)). Route: a class that restricts to zero
+on `P` restricts to zero on an open `U ⊇ P` by the descent above, so the imported
+`corestriction_comp_res` makes `[G : U]` times it zero; `[G : U]` is prime to `p`
+(`IsProPSylow.not_dvd_index_of_le`), and the class is killed by a power of `p` because a
+continuous cocycle into the discrete `p`-primary `M` has finite image. -/
+theorem res_injective_of_isProPSylow (G : Type u) [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] (P : Subgroup G)
+    (hP : IsProPSylow p P) (M : Type u) [AddCommGroup M] [TopologicalSpace M]
+    [IsTopologicalAddGroup M] [DiscreteTopology M] [DistribMulAction G M] [ContinuousSMul G M]
+    (hM : ProfiniteCohomology.IsPPrimaryTorsion p M) (n : ℕ) :
+    Function.Injective
+      (ProfiniteCohomology.res ℤ P (ProfiniteCohomology.ofDiscreteModule G M) n).hom :=
+  sorry
+
 /-- **Layer 6, the Sylow equality** `cd_p G = cd_p G_p`, for `G` profinite and `G_p` a `p`-Sylow
-subgroup from Layer 2. This is the one milestone of this layer about a group that need not be
-pro-`p`. A `p`-Sylow subgroup is closed and in general **not** open, so the imported
-`cd_p_eq_of_index_not_dvd`, which is the open prime-to-`p`-index case, gives only the open
-subgroups above `G_p`; the colimit description of the cohomology of a closed subgroup, the
-Sylow theory of Layer 2, and the imported closed-subgroup Shapiro are what turn those into the
-equality. -/
+subgroup from Layer 2 (NSW (3.3.6)). This is the one statement of this layer about `cd_p` of a
+group that need not be pro-`p`. `cd_p G_p ≤ cd_p G` is the imported monotonicity
+`cd_p_le_of_isClosed`; `cd_p G ≤ cd_p G_p` is `res_injective_of_isProPSylow` above, applied in
+each degree above `cd_p G_p` to each discrete `p`-primary torsion module, through the imported
+`cd_p_le_iff`. A `p`-Sylow subgroup is closed and in general **not** open, so the imported
+`cd_p_eq_of_index_not_dvd`, which is the open prime-to-`p`-index case, does not cover it; the
+descent of vanishing from a closed subgroup to the open subgroups containing it is what does. -/
 theorem cd_p_eq_of_isProPSylow (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     [CompactSpace G] [TotallyDisconnectedSpace G] (P : Subgroup G) (hP : IsProPSylow p P)
     [CompactSpace P] [TotallyDisconnectedSpace P] :
