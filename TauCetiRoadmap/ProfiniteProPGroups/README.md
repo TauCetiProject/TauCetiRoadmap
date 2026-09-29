@@ -50,7 +50,7 @@ The frozen downstream surface includes:
 | their universal properties | `freeProfiniteGroup.lift`, `freeProfiniteGroup.hom_ext`, `freeProC.lift`, `freeProC.hom_ext`, `freeProP.lift`, `freeProP.hom_ext`, `presentedProfiniteGroup.lift`, `presentedProfiniteGroup.hom_ext`, `presentedProP.lift`, `presentedProP.hom_ext` |
 | lifting along an extension class | `ProfiniteGroupExtension.exists_continuous_monoidHom_of_contCohomologyClass_map_eq`, `ProfiniteGroupExtension.contCohomologyClass_map_eq_of_continuous_monoidHom`, `GroupExtension.surjective_of_comp_inl_eq` |
 | embedding problems and projectivity | `IsProC`, `FiniteEmbeddingProblem`, `FiniteEmbeddingProblem.IsSolution`, `HasElementaryAbelianSolutions`, `HasPGroupSolutions`, `levelProblem`, `IsProjective` |
-| `cd_p` of a Sylow subgroup | `exists_openSubgroup_res_eq_zero_of_res_eq_zero`, `res_injective_of_isProPSylow`, `cd_p_eq_of_isProPSylow` |
+| `cd_p` of a Sylow subgroup | `res_injective_of_isProPSylow`, `cd_p_eq_of_isProPSylow` |
 | Demushkin invariants | `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `HasPrescriptionProperty` |
 | marked classification | `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo`, `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd`, `isDemushkin_marked_of_q_two_even`, `isDemushkin_marked_of_q_two_rank_two` |
 | standard dyadic group | `demushkinD0`, `d0A`, `d0S`, `d0Y`, `standardD0Orientation` and its value theorems |
@@ -875,28 +875,38 @@ would not agree with the standard `cd_p`.
   milestone.
   *Needs:* PC-11 `cd_p_le_of_isClosed`; PC-7 closed-subgroup Shapiro; L6 dévissage.
   *Source:* Serre, *Galois Cohomology* I §3.3.
-- **Vanishing on a closed subgroup descends to an open one.** Let `H` be a closed subgroup of a
-  profinite group `G` and `M` a discrete `G`-module. A class `x ∈ Hⁿ(G, M)` whose restriction to
-  `H` vanishes already restricts to zero on some open subgroup `U ⊇ H`
-  (`exists_openSubgroup_res_eq_zero_of_res_eq_zero`). This is the injectivity part of NSW
-  (1.5.1), applied to `H` as the inverse limit of the open subgroups containing it. The proof is
-  on cochains. A continuous cochain on a compact group with values in the discrete `M` is locally
-  constant, so a cocycle `c` representing `x` and a cochain `b` on `H` whose coboundary is the
-  restriction of `c` both factor through the quotient by one open normal `V ≤ G`, with values in
-  `M^V`. Then `b` extends to the open subgroup `U = HV` through `HV/V ≅ H/(H ∩ V)`, and the
-  coboundary identity holds on `U` because both sides factor through `U/V` and agree on `H`.
-  *Needs:* L0 open normal subgroups; PC-1 `res`, `cochainClass`.
-  *Source:* NSW (1.5.1).
 - **Restriction to a Sylow subgroup is injective.** For a `p`-Sylow subgroup `P` of a profinite
   `G`, a discrete `p`-primary torsion `G`-module `M` and every `n`, restriction
-  `Hⁿ(G, M) → Hⁿ(P, M)` is injective (`res_injective_of_isProPSylow`). If `x` restricts to zero
-  on `P`, the descent above gives an open `U ⊇ P` on which it restricts to zero, so
-  `[G : U] · x = cor (res x) = 0`. The index is prime to `p` by
-  `IsProPSylow.not_dvd_index_of_le`, and `x` is killed by a power of `p` because it is the class
-  of a continuous cocycle, which has finite image in the `p`-primary `M`. Hence `x = 0`.
-  *Needs:* L2 `IsProPSylow.not_dvd_index_of_le`; L6 the descent above; PC-1 `cochainClass`;
-  PC-10 `corestriction`, `corestriction_comp_res`; PC-11 `IsPPrimaryTorsion`.
-  *Source:* NSW (1.6.10), whose proof is this argument.
+  `Hⁿ(G, M) → Hⁿ(P, M)` is injective (`res_injective_of_isProPSylow`). Restriction is additive,
+  so it is enough that `res_P x = 0` forces `x = 0`, and each of the five steps below rests on
+  named declarations:
+  1. `P` is closed, the first clause of `IsProPSylow`, so the imported descent
+     `ProfiniteCohomology.exists_openSubgroup_res_eq_zero_of_res_eq_zero`, at the smooth discrete
+     object `ofDiscreteModule G M` (`ProfiniteCohomology.ofDiscreteModule_isSmoothDiscrete`),
+     gives an open subgroup `U ⊇ P` with `res_U x = 0`;
+  2. `ProfiniteCohomology.corestriction_comp_res` at `U`, evaluated at `x`
+     (`ConcreteCategory.congr_hom`), gives `((U.toSubgroup.index : ℕ) : ℤ) • x = cor (res_U x) = 0`,
+     an integer multiple because that theorem's scalar is `(U.toSubgroup.index : ℤ)`;
+  3. `ProfiniteCohomology.isPPrimaryTorsion_continuousCohomology` puts `x` in the `p`-primary
+     component, that is, `p ^ k • x = 0` for some `k : ℕ` (`AddCommGroup.mem_primaryComponent`).
+     This is a natural-number multiple, equal to `((p ^ k : ℕ) : ℤ) • x` by `natCast_zsmul`;
+  4. `U.toSubgroup.index` is prime to `p` by `IsProPSylow.not_dvd_index_of_le`, hence coprime to
+     `p ^ k` (`Nat.Prime.coprime_iff_not_dvd`, `Nat.Coprime.pow_left`);
+  5. Bézout in `ℤ` (`Nat.gcd_eq_gcd_ab` with `Nat.Coprime.gcd_eq_one`): for
+     `a = Nat.gcdA (p ^ k) U.toSubgroup.index` and `b = Nat.gcdB (p ^ k) U.toSubgroup.index`,
+     `((p ^ k : ℕ) : ℤ) * a + ((U.toSubgroup.index : ℕ) : ℤ) * b = 1`, so
+     `x = a • (((p ^ k : ℕ) : ℤ) • x) + b • (((U.toSubgroup.index : ℕ) : ℤ) • x) = 0`
+     (`one_zsmul`, `add_zsmul`, `mul_zsmul`).
+
+  *Needs:* L2 `IsProPSylow`, `IsProPSylow.not_dvd_index_of_le`; PC-1 `res`, `ofDiscreteModule`,
+  `ofDiscreteModule_isSmoothDiscrete`; PC-10 `exists_openSubgroup_res_eq_zero_of_res_eq_zero`,
+  `corestriction`, `corestriction_comp_res`; PC-11 `IsPPrimaryTorsion`,
+  `isPPrimaryTorsion_continuousCohomology`; M `injective_iff_map_eq_zero`,
+  `ConcreteCategory.congr_hom`, `AddCommGroup.mem_primaryComponent`, `natCast_zsmul`,
+  `Nat.Prime.coprime_iff_not_dvd`, `Nat.Coprime.pow_left`, `Nat.gcd_eq_gcd_ab`,
+  `Nat.Coprime.gcd_eq_one`, `one_zsmul`, `add_zsmul`, `mul_zsmul`.
+  *Source:* NSW (1.6.10), whose proof is this argument for any closed subgroup of index prime to
+  `p`, with (1.5.1) for a subgroup that is not open.
 - **The Sylow equality.** Let `G` be profinite, and let `G_p` be a `p`-Sylow subgroup of `G`,
   from Layer 2. Then `cd_p G = cd_p G_p` (`cd_p_eq_of_isProPSylow`). The inequality
   `cd_p G_p ≤ cd_p G` is the imported monotonicity `ProfiniteCohomology.cd_p_le_of_isClosed`,
@@ -906,13 +916,17 @@ would not agree with the standard `cd_p`.
   injectivity of restriction gives `Hⁱ(G, M) = 0`; by `ProfiniteCohomology.cd_p_le_iff` this is
   `cd_p G ≤ n`. This is the one milestone here about `cd_p` of a group that need not be
   pro-`p`. `ClassFieldTheory` consumes it for the cohomological dimension of a local absolute
-  Galois group.
+  Galois group. The statement asks nothing of `G_p` beyond `IsProPSylow`: being closed in the
+  compact `G`, it is compact, and that instance is supplied inside the statement, while total
+  disconnectedness passes to the subspace by instance.
   ⚠ A `p`-Sylow subgroup is closed and, unless it is open, is not covered by the imported
   `ProfiniteCohomology.cd_p_eq_of_index_not_dvd`, which is the open prime-to-`p`-index case of
-  the same corestriction argument. The descent of vanishing from a closed subgroup to the open
-  subgroups containing it is what reaches the closed case.
-  *Needs:* L2 `IsProPSylow`; L6 injectivity of restriction to a Sylow subgroup; PC-1
-  `ofDiscreteModuleRes`; PC-11 `cd_p_le_iff`, `cd_p_le_of_isClosed`.
+  the same corestriction argument. The imported descent
+  `ProfiniteCohomology.exists_openSubgroup_res_eq_zero_of_res_eq_zero`, step 1 of the injectivity
+  above, is what reaches the closed case.
+  *Needs:* L2 `IsProPSylow`; L6 `res_injective_of_isProPSylow`; PC-1 `ofDiscreteModuleRes`;
+  PC-11 `cd_p_le_iff`, `cd_p_le_of_isClosed`; M `IsClosed.isCompact`,
+  `isCompact_iff_compactSpace`, `Subtype.totallyDisconnectedSpace`.
   *Source:* NSW (3.3.5)(i) and (3.3.6); Serre, *Galois Cohomology* I §3.3.
 - **The two-term Euler formula.** Let `G` be a topologically finitely generated pro-`p`
   group with `cd_p G ≤ 1`, and let `U ≤ G` be open. Then the four spaces

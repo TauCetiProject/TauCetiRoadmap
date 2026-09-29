@@ -2538,7 +2538,11 @@ theorem isProjective_iff_hasPGroupSolutions {p : ℕ} [Fact p.Prime] {G : Type u
 no second cohomological dimension. The two general reductions, to finite coefficients and to
 coefficients of bounded exponent, are `ProfiniteCohomology.cd_p_le_iff_finite_pPrimary` and
 `ProfiniteCohomology.cd_p_le_iff_boundedExponent`; the pro-`p` reduction below is the third and
-is owned here. -/
+is owned here. The two general inputs of the Sylow statements are imported as well: the descent of
+a vanishing restriction from a closed subgroup to an open one,
+`ProfiniteCohomology.exists_openSubgroup_res_eq_zero_of_res_eq_zero`, and the `p`-primary torsion
+of the cohomology of `p`-primary coefficients,
+`ProfiniteCohomology.isPPrimaryTorsion_continuousCohomology`. -/
 
 section CohomologicalDimension
 
@@ -2603,32 +2607,27 @@ theorem cd_p_eq_of_isOpen (G : Type u) [Group G] [TopologicalSpace G] [IsTopolog
     ProfiniteCohomology.cd_p p U.toSubgroup = ProfiniteCohomology.cd_p p G :=
   sorry
 
-/-- **Layer 6, vanishing on a closed subgroup descends to an open one.** A class of `Hⁿ(G, M)`,
-`M` discrete, whose restriction to the closed subgroup `H` vanishes already restricts to zero on
-some open subgroup containing `H`: the injectivity part of NSW (1.5.1), applied to `H` as the
-inverse limit of the open subgroups containing it. Route, on cochains: a cocycle representing the
-class and a cochain on `H` whose coboundary is its restriction are locally constant on compact
-groups, so both factor through the quotient by an open normal `V`, with values in `M^V`; the
-cochain then extends to the open subgroup `U = H V` through `H V ⧸ V ≅ H ⧸ (H ⊓ V)`, and the
-coboundary identity holds on `U` because both sides factor through `U ⧸ V` and agree on `H`. -/
-theorem exists_openSubgroup_res_eq_zero_of_res_eq_zero (G : Type u) [Group G]
-    [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
-    (H : Subgroup G) (hH : IsClosed (H : Set G)) (M : Type u) [AddCommGroup M]
-    [TopologicalSpace M] [IsTopologicalAddGroup M] [DiscreteTopology M] [DistribMulAction G M]
-    [ContinuousSMul G M] (n : ℕ)
-    (x : _root_.continuousCohomology n (ProfiniteCohomology.ofDiscreteModule G M))
-    (hx : (ProfiniteCohomology.res ℤ H (ProfiniteCohomology.ofDiscreteModule G M) n).hom x = 0) :
-    ∃ U : OpenSubgroup G, H ≤ U.toSubgroup ∧
-      (ProfiniteCohomology.res ℤ U.toSubgroup
-        (ProfiniteCohomology.ofDiscreteModule G M) n).hom x = 0 :=
-  sorry
-
 /-- **Layer 6, restriction to a `p`-Sylow subgroup is injective** on the cohomology of a discrete
-`p`-primary torsion module, in every degree (NSW (1.6.10)). Route: a class that restricts to zero
-on `P` restricts to zero on an open `U ⊇ P` by the descent above, so the imported
-`corestriction_comp_res` makes `[G : U]` times it zero; `[G : U]` is prime to `p`
-(`IsProPSylow.not_dvd_index_of_le`), and the class is killed by a power of `p` because a
-continuous cocycle into the discrete `p`-primary `M` has finite image. -/
+`p`-primary torsion module, in every degree (NSW (1.6.10)). Restriction is additive
+(`injective_iff_map_eq_zero`), so let `x` restrict to zero on `P`; five steps give `x = 0`.
+1. `P` is closed (`hP.1`), so the imported
+   `ProfiniteCohomology.exists_openSubgroup_res_eq_zero_of_res_eq_zero`, at `ℤ` and the smooth
+   discrete `ofDiscreteModule G M` (`ProfiniteCohomology.ofDiscreteModule_isSmoothDiscrete G M`),
+   gives an open `U` with `P ≤ U.toSubgroup` and `res_U x = 0`.
+2. `ProfiniteCohomology.corestriction_comp_res ℤ U`, evaluated at `x`
+   (`ConcreteCategory.congr_hom`), gives
+   `((U.toSubgroup.index : ℕ) : ℤ) • x = corestriction (res_U x) = 0`.
+3. `ProfiniteCohomology.isPPrimaryTorsion_continuousCohomology p G M hM n x` puts `x` in the
+   `p`-primary component: `p ^ k • x = 0` for some `k : ℕ` (`AddCommGroup.mem_primaryComponent`),
+   a natural-number multiple, which is `((p ^ k : ℕ) : ℤ) • x = 0` by `natCast_zsmul`.
+4. `IsProPSylow.not_dvd_index_of_le` gives `¬ p ∣ U.toSubgroup.index`, so
+   `Nat.Coprime (p ^ k) U.toSubgroup.index` (`Nat.Prime.coprime_iff_not_dvd`,
+   `Nat.Coprime.pow_left`).
+5. Bézout in `ℤ`: `Nat.gcd_eq_gcd_ab` and `Nat.Coprime.gcd_eq_one` give
+   `1 = ((p ^ k : ℕ) : ℤ) * a + ((U.toSubgroup.index : ℕ) : ℤ) * b` with `a = Nat.gcdA _ _` and
+   `b = Nat.gcdB _ _`, so
+   `x = a • (((p ^ k : ℕ) : ℤ) • x) + b • (((U.toSubgroup.index : ℕ) : ℤ) • x)`
+   (`one_zsmul`, `add_zsmul`, `mul_zsmul`), and both terms vanish by steps 2 and 3. -/
 theorem res_injective_of_isProPSylow (G : Type u) [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] (P : Subgroup G)
     (hP : IsProPSylow p P) (M : Type u) [AddCommGroup M] [TopologicalSpace M]
@@ -2645,10 +2644,13 @@ group that need not be pro-`p`. `cd_p G_p ≤ cd_p G` is the imported monotonici
 each degree above `cd_p G_p` to each discrete `p`-primary torsion module, through the imported
 `cd_p_le_iff`. A `p`-Sylow subgroup is closed and in general **not** open, so the imported
 `cd_p_eq_of_index_not_dvd`, which is the open prime-to-`p`-index case, does not cover it; the
-descent of vanishing from a closed subgroup to the open subgroups containing it is what does. -/
+imported `exists_openSubgroup_res_eq_zero_of_res_eq_zero`, step 1 of the injectivity above, is what
+does. The caller supplies no instance for `G_p`: it is closed in the compact `G`, hence compact
+(`isCompact_iff_compactSpace`, `IsClosed.isCompact`), which the statement records itself, and it is
+totally disconnected as a subspace (`Subtype.totallyDisconnectedSpace`). -/
 theorem cd_p_eq_of_isProPSylow (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    [CompactSpace G] [TotallyDisconnectedSpace G] (P : Subgroup G) (hP : IsProPSylow p P)
-    [CompactSpace P] [TotallyDisconnectedSpace P] :
+    [CompactSpace G] [TotallyDisconnectedSpace G] (P : Subgroup G) (hP : IsProPSylow p P) :
+    haveI : CompactSpace P := isCompact_iff_compactSpace.mp hP.1.isCompact
     ProfiniteCohomology.cd_p p P = ProfiniteCohomology.cd_p p G :=
   sorry
 
