@@ -90,13 +90,15 @@ finite-quotient system, and the colimit theorem as universality of the named com
 (Layer 4); the exactness of discrete cochain lifting, the two connecting maps with the eight
 exactness nodes, and the transgression with the five-term sequence (Layer 5); the corestriction
 transversal calculus for a **variable** transversal, with the representative action that general
-coefficients force (Layer 6); the coinduced module, the uniform local constancy behind it, and the
-trace morphism all-degree corestriction is built from (Layers 7 and 10); two cup-product cocycle
+coefficients force (Layer 6); the coinduced module, the uniform local constancy behind it, the
+trace morphism all-degree corestriction is built from, and the descent of a vanishing restriction
+from a closed subgroup to an open one (Layers 7 and 10); two cup-product cocycle
 identities, the six low-degree shapes and the `C₂` nontriviality anchor (Layer 8); the profinite
 Galois group of the separable closure, the roots of unity and power classes, the general-`n`
 Kummer cocycle, the multiplicative coefficients `UnitsCoeff` with the Kummer sequence and Hilbert
 90, and the field-extension bridge `galoisSubgroup` with its restriction, corestriction and norm
-(Layer 9); the order-theoretic wrapper `leastENatBound`, the two vanishing predicates and the three
+(Layer 9); the order-theoretic wrapper `leastENatBound`, the `p`-primary torsion of the cohomology
+of `p`-primary coefficients, the two vanishing predicates and the three
 invariants `cd_p`, `scd_p`, `cd` with their two dévissage reductions, the strict-dimension criterion
 and the class module of a group of strict `p`-cohomological dimension at most two (Layer 11); the
 coefficient pairing and the bidegree cup (Layer 12); and the index-2 Evens graph cocycle with its
@@ -2068,6 +2070,35 @@ theorem corestriction_comp_res (U : OpenSubgroup G) (X : TopRep R G)
     res R U.toSubgroup X n ≫ corestriction R U X hX n = (U.toSubgroup.index : ℤ) • 𝟙 _ :=
   sorry
 
+/-- **Layer 10, vanishing on a closed subgroup descends to an open one** (NSW (1.5.1), the
+injectivity half, for the closed `H` as the inverse limit of the open subgroups containing it;
+Serre, *Galois Cohomology* I §2.2 Prop. 8). A class of `Hⁿ(G, X)`, `X` smooth discrete, whose
+restriction to the closed subgroup `H` vanishes already has vanishing restriction to some open
+subgroup containing `H`, in every degree. With `corestriction_comp_res` this is what carries a
+prime-to-`p` argument from the open subgroups containing `H` to `H` itself.
+
+The route never leaves Mathlib's canonical complex and never passes to functions on `Gⁿ`. A
+homogeneous `n`-cochain is a `G`-invariant element of `TopRep.resolutionX X (n + 1)`, the iterated
+function space `C(G, C(G, …, X))`, and restriction to a subgroup is
+`ContinuousCohomology.resolutionMap` along its inclusion, which evaluates the iterated map on tuples
+from the subgroup. Write the class as that of a cocycle `z`, with restriction `d w` on `H`. The
+`H`-invariant `w` extends to a `G`-invariant `W`: lift its value at `1` degree by degree, by
+extending continuous maps from the closed subspace `H` into a discrete space
+(`ContinuousMap.exists_extension_of_discrete`), and take the orbit map of the lift. Then `z - d W`
+vanishes on the tuples from the compact `H`; taking finitely many values there, it vanishes on an
+open set around `H`, which contains an open subgroup `U ⊇ H`
+(`ProfiniteGrp.closedSubgroup_eq_sInf_open`); and `res_U z = d (res_U W)`.
+
+Tau Ceti's `TauCeti.ContinuousCohomology.exists_openSubgroup_le_res_eq_zero`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/ClosedSubgroup.lean`), stated against
+Tau Ceti's `res`, which like `res` here is `map` along the inclusion with the identity on
+coefficients; the pinned Tau Ceti revision predates it. -/
+theorem exists_openSubgroup_res_eq_zero_of_res_eq_zero (X : TopRep R G)
+    (hX : IsSmoothDiscrete R X) (H : Subgroup G) (hH : IsClosed (H : Set G)) (n : ℕ)
+    (x : (continuousCohomology R G n).obj X) (hx : (res R H X n).hom x = 0) :
+    ∃ U : OpenSubgroup G, H ≤ U.toSubgroup ∧ (res R U.toSubgroup X n).hom x = 0 :=
+  sorry
+
 end AllDegreeCorestriction
 
 /-- **Layer 10, corestriction commutes with the all-degree connecting map.** The coefficient
@@ -2606,6 +2637,29 @@ def IsPPrimaryTorsion (p : ℕ) [Fact p.Prime] (M : Type*) [AddCommGroup M] : Pr
 
 variable (p : ℕ) [hp : Fact p.Prime] (G : Type u) [Group G] [TopologicalSpace G]
   [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
+
+omit [TotallyDisconnectedSpace G] in
+/-- **Layer 11, `p`-primary coefficients give `p`-primary cohomology**, in every degree, `n = 0`
+included: every class of `Hⁿ(G, M)` is killed by a power of `p`, which read at a class `x` is a
+`k : ℕ` with `p ^ k • x = 0` (`AddCommGroup.mem_primaryComponent`). Only compactness of `G` is used.
+The route is on Mathlib's canonical complex, with no functions on `Gⁿ` and no finite quotients: a
+continuous map from the compact `G` into a discrete `p`-primary group has finite image, so one power
+of `p` kills it (`TauCeti.IsPPrimaryTorsion.continuousMap`); every term `C(G, C(G, …, M))` of the
+coinduced resolution is discrete, so each is `p`-primary by induction on the number of arguments
+(`TauCeti.isPPrimaryTorsion_resolutionX`), and so are the homogeneous cochains, invariant elements
+of those terms (`TauCeti.isPPrimaryTorsion_homogeneousCochains`), and their cohomology, a
+subquotient. The last is Tau Ceti's `TauCeti.isPPrimaryTorsion_continuousCohomology`, stated for its
+dictionary `TauCeti.ofDiscreteModule`, whose underlying module is `M`
+(`TauCeti.ofDiscreteModule_V`). It is the step from the strict predicate to the ordinary one in
+`cd_p_le_scd_p`.
+⚠ Compactness is not decoration: for the discrete group `⊕_ℕ ℤ` acting trivially,
+`H¹(⊕_ℕ ℤ, ℚ_p/ℤ_p) = ∏_ℕ ℚ_p/ℤ_p`, and the element with `k`-th coordinate `1/pᵏ` is killed by no
+power of `p`. -/
+theorem isPPrimaryTorsion_continuousCohomology (M : Type u) [AddCommGroup M] [TopologicalSpace M]
+    [IsTopologicalAddGroup M] [DiscreteTopology M] [DistribMulAction G M] [ContinuousSMul G M]
+    (hM : IsPPrimaryTorsion p M) (n : ℕ) :
+    IsPPrimaryTorsion p ((continuousCohomology ℤ G n).obj (ofDiscreteModule G M)) :=
+  sorry
 
 /-- **Layer 11, the ordinary vanishing predicate.** `Hⁱ(G, M)` vanishes above `n` for every
 discrete `p`-primary torsion `M`. `Hⁱ` is Layer 10's, so this rests on Layer 10 and on nothing

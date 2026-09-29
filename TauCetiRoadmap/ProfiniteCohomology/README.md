@@ -45,14 +45,17 @@ infrastructure; that narrower infrastructure is new work here.
 6. Long exact sequences, inflation-restriction, and the five-term sequence with an explicit
    transgression (Layer 5).
 7. Change of groups: restriction, corestriction, conjugation, transitivity, `cor ∘ res`, and the
-   Mackey double-coset formula (Layer 6), and their all-degree forms (Layer 10).
+   Mackey double-coset formula (Layer 6), and their all-degree forms (Layer 10), together with
+   the descent of a vanishing restriction from a closed subgroup to an open subgroup containing it
+   (Layer 10).
 8. Coinduced discrete modules over closed subgroups, Shapiro's lemma, acyclicity, and dimension
    shifting (Layers 7 and 10).
 9. Cup products in the six low-degree shapes with associativity, graded commutativity, and the
    restriction, inflation, projection and connecting-map compatibilities (Layer 8), together with
    the graded all-bidegree product (Layer 12).
 10. Cohomological dimension `cd_p`, `cd`, `scd_p` with their dévissage and closed-subgroup
-    theory, the criterion computing `scd_p` from `cd_p`, and the class module of a group of strict
+    theory, the `p`-primary torsion of the cohomology of `p`-primary coefficients, the criterion
+    computing `scd_p` from `cd_p`, and the class module of a group of strict
     `p`-cohomological dimension at most two (Layer 11).
 11. The Galois interface: profinite Hilbert 90 and the Kummer isomorphism with its explicit
     cocycle (Layer 9).
@@ -180,6 +183,7 @@ colimit theorem" or "the six cup shapes" is not a citable export, and no row con
 | the all-degree colimit and exact sequence | 10 | `continuousCohomologyFunctor`, `continuousFiniteQuotientSystem`, `continuousFiniteQuotientCocone`, `continuousFiniteQuotientColimit`, `continuousCohomology_preservesFilteredColimits`, `continuousCochainsShortExact`, `continuousCochainsShortExact_shortExact`, `delta`, `longExact_exact`, `delta_naturality`, `delta_res`, `delta_infl`, `delta_corestriction`, `explicitIso_delta0`, `explicitIso_delta1` | the canonical colimit, filtered-colimit preservation, and `Hⁿ(G, C) ⟶ Hⁿ⁺¹(G, A)` with all exactness and naturality data |
 | low-degree corestriction | 6 | `lWord`, `lWord_mem`, `explicitCor0Transversal`, `explicitCor1Transversal`, `explicitCor2Transversal`, `explicitCor0_changeTransversal`, `explicitCor1_changeTransversal`, `explicitCor2_changeTransversal`, `explicitCor0`, `explicitCor1`, `explicitCor2`, `explicitCor_delta0`, `explicitCor_delta1` | finite-index additive maps on cochains, descending to classes |
 | all-degree corestriction | 10 | `corestriction`, `corestrictionLe`, `corestriction_naturality`, `corestriction_trans`, `corestriction_comp_res`, `mackeyTerm`, `corestriction_mackey` | `Hⁿ(U, res X) ⟶ Hⁿ(G, X)` for open `U` |
+| descent from a closed subgroup | 10 | `exists_openSubgroup_res_eq_zero_of_res_eq_zero` | a class of `Hⁿ(G, X)` with zero restriction to a closed `H` has zero restriction to some open `U ⊇ H`, in every degree |
 | agreement of the two corestrictions | 10 | `explicitIso_cor0`, `explicitIso_cor`, `explicitIso_cor2` | commuting squares in degrees 0, 1, 2 |
 | explicit Shapiro and coinduction | 7 | `Coind`, `coindTopRep`, `coindFunctor`, `coindFunctor_map_shortExact`, `explicitShapiro0`, `explicitShapiro1`, `explicitShapiro2`, `algebraicCoindAsSmooth`, `topologicalCoindIsoAlgebraic`, `topologicalCoindIsoAlgebraic_shapiro` | explicit Shapiro in degrees `0,1,2`, and the open-subgroup algebraic comparison |
 | all-degree Shapiro and dimension shifting | 10 | `shapiroCochainIso`, `shapiroIso`, `coindEmbedding`, `dimensionShiftQuotient`, `coindAcyclic`, `dimensionShiftIso` | canonical Shapiro in every degree and the closed dependency chain used by Layer 11 |
@@ -191,7 +195,7 @@ colimit theorem" or "the six cup shapes" is not a citable export, and no row con
 | the Kummer isomorphism | 9 | `AbsoluteGaloisGroup`, `KummerCoeff`, `kummerCoeff_continuousSMul`, `powerClassQuotient`, `kummerMap`, `kummerIso`, `kummerIsoTransport`, `kummerIso_res`, `kummerIso_norm`, `kummerMapCanonical`, `explicitIso_kummerMap` | `Kˣ ⧸ (Kˣ)ⁿ ≃* Multiplicative (H¹(AbsoluteGaloisGroup K, KummerCoeff K n))` |
 | the multiplicative coefficients, the Kummer sequence and Hilbert 90 | 9 | `UnitsCoeff`, `unitsCoeff_continuousSMul`, `kummerCoeffIncl`, `unitsCoeffPow`, `kummerShortExact`, `kummerShortExact_incl`, `kummerShortExact_proj`, `hilbert90`, `kummerCoeffToUnits`, `h2KummerToUnits`, `h2KummerToUnits_injective`, `h2KummerToUnits_range` | `H¹(G_K, (Kˢ)ˣ) = 0`, and `H²(G_K, μₙ) ↪ H²(G_K, (Kˢ)ˣ)` with image the `n`-torsion |
 | the field-extension bridge | 9, with 10, 12 and 13 | `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv`, `galoisF2Iso`, `galoisRes`, `galoisCor`, `galoisEvens`, `galoisConj`, `galoisCharacter`, `galoisRes_galoisCor`, `galoisConj_evensConj`, `galoisRes_cup`, `galoisCor_cup`, `galoisRes_galoisEvens`, `galoisEvens_add`, `galoisEvens_galoisRes`, `galoisRes_eq_zero_iff`, `galoisRes_galoisCor_exact`, `galoisRes_comp`, `galoisSubgroup_conj`, `galoisRes_embedding_independent`, `galoisCor_embedding_independent`, `galoisEvens_embedding_independent`, `galoisCharacter_embedding_independent` | restriction, corestriction, the index-two norm and the quadratic character for a finite separable `L/K`; `res ∘ cor = id + conj`; the conjugate as the transport of `evensConj`; the cup and projection formulas; the Evens identities and the index-two exact sequence read on the `L/K` side; tower functoriality and embedding independence |
-| cohomological dimension | 11 | `IsPPrimaryTorsion`, `CohomologicalDimensionLE`, `StrictCohomologicalDimensionLE`, `cd_p`, `scd_p`, `cd`, `cd_p_le_iff`, `scd_p_le_iff`, `cohomologicalDimensionLE_iff_torsion`, `cd_p_le_iff_finite_pPrimary`, `cd_p_le_iff_boundedExponent`, `cd_p_le_scd_p`, `scd_p_le_cd_p_add_one`, `cd_p_le_of_isClosed`, `cd_p_eq_of_index_not_dvd`, `cd_p_eq_cohomologicalDimensionAt`, `scd_p_eq_strictCohomologicalDimensionAt`, `strictCohomologicalDimensionAt_openSubgroup_le`, `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` | `ℕ∞`-valued invariants, the landed Tau Ceti ones among them |
+| cohomological dimension | 11 | `IsPPrimaryTorsion`, `isPPrimaryTorsion_continuousCohomology`, `CohomologicalDimensionLE`, `StrictCohomologicalDimensionLE`, `cd_p`, `scd_p`, `cd`, `cd_p_le_iff`, `scd_p_le_iff`, `cohomologicalDimensionLE_iff_torsion`, `cd_p_le_iff_finite_pPrimary`, `cd_p_le_iff_boundedExponent`, `cd_p_le_scd_p`, `scd_p_le_cd_p_add_one`, `cd_p_le_of_isClosed`, `cd_p_eq_of_index_not_dvd`, `cd_p_eq_cohomologicalDimensionAt`, `scd_p_eq_strictCohomologicalDimensionAt`, `strictCohomologicalDimensionAt_openSubgroup_le`, `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` | `ℕ∞`-valued invariants, the landed Tau Ceti ones among them, and `Hⁿ(G, M)` `p`-primary for `p`-primary `M` |
 | the class module of strict dimension two | 11 | `abelianizationProP`, `abelianizationProPFactorSet`, `abelianizationProPClass`, `subsingleton_h1_abelianizationProP`, `abelianizationProPClass_generates` | for `scd_p G ≤ 2` and open normal `V`: `H¹(G ⧸ V, V^ab(p)) = 0`, and `H²(G ⧸ V, V^ab(p))` is cyclic of order `#(G ⧸ V)_p`, generated by the class of the extension |
 | the Evens norm | 13 | `evensNorm`, `homClass`, `homClass_eq_cochainClass`, `homClass_surjective`, `evensGraphCochain`, `graphClass`, `graphClass_eq_cochainClass`, `graphClass_representative_independent`, `evensNormIndexTwo`, `evensNormIndexTwo_homClass`, `evensConj`, `evensConj_eq_conjMapOf`, `evensNormIndexTwo_eq`, `evensNorm_eq_graphClass` | `H^q(U, 𝔽₂) → H^{l q}(G, 𝔽₂)` for open `U` of index `l`; at index two and degree one, the graph class |
 | the index-2 Evens identities | 13 | `evensNorm_res`, `evensNorm_polarization`, `evensNorm_cor_shapiro`, `evensNorm_identity_infl`, `indexTwoCharacter`, `indexTwoCharacterClass`, `evensGraphCochain_comp_subtype`, `evensNorm_of_res` | identities of classes in `H²(G, 𝔽₂)`, the fifth with the class `χ_U` of the index-two character |
@@ -439,7 +443,10 @@ All paths at the Mathlib the repository currently builds.
   (`Rep.indCoindIso : Ind_S^G A ≅ Coind_S^G A` for `[S.FiniteIndex]`).
 - **Continuous representations:** `Mathlib/RepresentationTheory/Continuous/Basic.lean`
   (`ContRepresentation R G V = G →* V →L[R] V`, `ContIntertwiningMap`,
-  `ContRepresentation.coind₁`), the unbundled counterpart of the `TopRep` carrier fixed in §1.
+  `ContRepresentation.coind₁`), the unbundled counterpart of the `TopRep` carrier fixed in §1;
+  `Mathlib/RepresentationTheory/Homological/ContCohomology/Basic.lean` (`TopRep.resolutionX`,
+  the coinduced resolution `X, C(G, X), C(G, C(G, X)), …` whose `G`-invariants, shifted by one,
+  are `TopRep.homogeneousCochains`).
 - **Profinite groups:** `Mathlib/Topology/Algebra/OpenSubgroup.lean` (`OpenSubgroup`,
   `OpenNormalSubgroup`, their lattice structure); `Mathlib/Topology/Algebra/ClopenNhdofOne.lean`
   (`exist_openNormalSubgroup_sub_open_nhds_of_one` under
@@ -1362,7 +1369,9 @@ hypothesis that is actually used.
 
 ### Layer 10: continuous cohomology in all degrees
 
-**Prerequisites.** Mathlib: `continuousCohomology`. This roadmap: Layers 1, 3, 4, 5, 6 and 7.
+**Prerequisites.** Mathlib: `continuousCohomology`, `TopRep.resolutionX`,
+`ContinuousCohomology.resolutionMap`, `ProfiniteGrp.closedSubgroup_eq_sInf_open`. Tau Ceti:
+`ContinuousMap.exists_extension_of_discrete`. This roadmap: Layers 1, 3, 4, 5, 6 and 7.
 
 Everything above except Layer 3's comparison is stated in degrees `0, 1, 2`, because that is where
 explicit cochains are usable. Cohomological dimension, dévissage, the general torsion statements
@@ -1423,6 +1432,44 @@ against the canonical object of Layer 1 throughout.
   ⚠ The finite index is used in milestone 1 and nowhere else. Do not define the all-degree
   corestriction by an all-degree cochain formula: the canonical model is built from homogeneous
   cochains through a coinduction resolution and has no inhomogeneous cochains to write one on.
+- **Vanishing on a closed subgroup descends to an open one** (NSW (1.5.1), the injectivity half,
+  for a closed `H` as the inverse limit of the open subgroups containing it). For profinite `G`, a
+  closed subgroup `H` and a smooth discrete `X`, a class `x ∈ Hⁿ(G, X)` with `res_H x = 0` has
+  `res_U x = 0` for some open subgroup `U ⊇ H`, in every degree
+  (`exists_openSubgroup_res_eq_zero_of_res_eq_zero`). With `corestriction_comp_res` it carries
+  prime-to-`p` arguments from open subgroups to closed ones; the Profinite Pro-`p` Groups roadmap
+  consumes it for restriction to a `p`-Sylow subgroup. The proof stays on Mathlib's canonical
+  complex and never passes to functions on `Gⁿ`. A homogeneous `n`-cochain is a `G`-invariant
+  element of the resolution term `TopRep.resolutionX X (n + 1)`, the iterated function space
+  `C(G, C(G, …, X))`, and restriction to a subgroup `S` is `ContinuousCohomology.resolutionMap`
+  along the inclusion `S ↪ G` with the identity on coefficients, which evaluates the iterated map
+  on tuples from `S`. Three facts about the resolution, each by induction on the degree, carry it:
+  1. the restriction of an element to `S` vanishes exactly when the element vanishes on every
+     tuple of points of `S`;
+  2. an element vanishing on the tuples from `H` vanishes on the tuples from some open subgroup
+     `U ⊇ H`: at each stage the continuous map takes finitely many values on the compact `H`,
+     each of which vanishes on an open set around `H` by induction, and an open set around the
+     closed subgroup `H` contains an open subgroup containing it
+     (`ProfiniteGrp.closedSubgroup_eq_sInf_open` and compactness of the complement);
+  3. in positive degree, an `H`-invariant element of the resolution of the restriction of `X` to
+     `H` is the restriction of a `G`-invariant element of the resolution of `X`: its value at `1`
+     lifts to the resolution of `X`, degree by degree, by extending continuous maps from the
+     closed subspace `H` into a discrete space (`ContinuousMap.exists_extension_of_discrete`), and
+     the orbit map of the lift is continuous because the resolution of a smooth discrete object of
+     a compact group is again smooth discrete, by Layer 7's uniform local constancy
+     (`TauCeti.IsSmoothDiscrete.resolutionX`).
+
+  Write `x` as the class of a cocycle `z`. Then `res_H x = 0` makes the restriction of `z` a
+  coboundary `d w`, fact 3 extends `w` to a `G`-invariant cochain `W`, the restriction of `z - d W`
+  to `H` is `0`, so by facts 1 and 2 its restriction to some open `U ⊇ H` is `0`, and there
+  `res_U z = d (res_U W)`. Tau Ceti has the theorem as
+  `TauCeti.ContinuousCohomology.exists_openSubgroup_le_res_eq_zero`, stated against
+  `TauCeti.ContinuousCohomology.res`, which is, like Layer 1's `res`, Mathlib's `map` along the
+  inclusion with the identity on coefficients, and it has facts 1 to 3 as
+  `TauCeti.ContinuousCohomology.resolutionMap_subgroupSubtype_eq_zero_iff`,
+  `TauCeti.ContinuousCohomology.exists_openSubgroup_le_resolutionMap_subgroupSubtype_eq_zero` and
+  `TauCeti.ContinuousCohomology.exists_mem_invariants_resolutionMap_subgroupSubtype_eq`, in
+  `TauCeti/RepresentationTheory/Homological/ContCohomology/ClosedSubgroup.lean`.
 - **Annihilation and torsion** (NSW (1.6.1); Brown III (10.1) is the discrete model). For
   profinite `G` and `i ≥ 1`: a class of `Hⁱ(G, M)` annihilated by restriction to an open `U` is
   annihilated by `(G : U)`; every element of `Hⁱ(G, M)` is torsion; and `Hⁱ(G, M) = 0` when `M` is a
@@ -1446,6 +1493,17 @@ finite index in the compact case. The narrow neighbor to avoid is defining it on
 inhomogeneous cochain formula is available, which is degrees `0, 1, 2`; the point of this
 construction is that it needs no cochains at all.
 
+**Source** for the descent from a closed subgroup. NSW (1.5.1), for `H` the inverse limit of the
+open `U ⊇ H`, and Serre, *Galois Cohomology* I §2.2 Prop. 8. Both prove it on inhomogeneous
+cochains `Gⁿ → A`, the description of the canonical complex that Mathlib leaves as a TODO; the
+route above needs none of it. The hypotheses are `G` profinite, `H` closed and `X` smooth
+discrete, and closedness is used twice: `H` is compact in fact 2 and a closed subspace in fact 3.
+The false neighbor is a levelwise shortcut through the finite-quotient colimit. At a level `V`
+the classes of `HV` and of `H` lie over the same finite group `HV ⧸ V ≅ H ⧸ (H ⊓ V)`, but with
+coefficients `X^V ⊆ X^{H ⊓ V}`, and that inclusion need not be injective on cohomology: for `C₂`
+the diagonal `𝔽₂ ↪ 𝔽₂[C₂]` kills `H¹(C₂, 𝔽₂) = 𝔽₂`, since `H¹(C₂, 𝔽₂[C₂]) = 0`. So vanishing on
+`H` at a level does not give vanishing on `HV` at that level.
+
 **Source** for the torsion statement. NSW (1.6.1); Brown III (10.1) is the discrete model. The
 hypotheses are `G` profinite and `i ≥ 1`. The false neighbor is the same statement in degree `0`,
 where `H⁰(G, M) = M^G` is not torsion in general, and the `p`-primary refinement for pro-`p`
@@ -1457,8 +1515,10 @@ groups, which is the Profinite Pro-`p` Groups roadmap's and not this one's.
 `CategoryTheory.Simple`, `IsSimpleModule`; for the class-module theorem also
 `TopologicalAbelianization`, `MonoidHom.transfer`, `Subgroup.mul_mem_iff_of_index_two` and the
 cohomology of finite cyclic groups (`Rep.FiniteCyclicGroup.groupCohomologyIsoEven`,
-`Rep.FiniteCyclicGroup.groupCohomologyIsoOdd`). Tau Ceti: `TauCeti.cohomologicalDimensionAt`,
-`TauCeti.strictCohomologicalDimensionAt`, `TauCeti.maximalProPQuotient` with
+`Rep.FiniteCyclicGroup.groupCohomologyIsoOdd`). Tau Ceti:
+`TauCeti.isPPrimaryTorsion_continuousCohomology` with `TauCeti.ofDiscreteModule_V`,
+`TauCeti.cohomologicalDimensionAt`, `TauCeti.strictCohomologicalDimensionAt`,
+`TauCeti.maximalProPQuotient` with
 `TauCeti.maximalProPQuotient.map`, the conjugation action
 `TopologicalAbelianization.instMulDistribMulActionQuotient` with its `ContinuousSMul` instance, and
 `TauCeti.GroupExtension.contCohomologyClass_factorSet_eq`. This roadmap: Layer 10; the
@@ -1511,6 +1571,22 @@ Layer 10.
   **torsion** `M`, so that both may be used; NSW (3.3.1) states the latter and
   `cohomologicalDimensionLE_iff_torsion` is the theorem. That second interface
   is one torsion hypothesis away from the strict predicate, so keep the three statements apart.
+- **`p`-primary coefficients give `p`-primary cohomology.** For profinite `G` and a discrete
+  `p`-primary torsion `G`-module `M`, `Hⁿ(G, M)` is `p`-primary torsion in every degree, `n = 0`
+  included (`isPPrimaryTorsion_continuousCohomology`). Read at a class `x`, this is a `k : ℕ` with
+  `p ^ k • x = 0` (`AddCommGroup.mem_primaryComponent`). The proof is on Mathlib's canonical
+  complex, with no functions on `Gⁿ` and no finite quotients, and it uses only compactness of `G`.
+  A continuous map from the compact `G` into a discrete `p`-primary group has finite image, so a
+  single power of `p` kills it (`TauCeti.IsPPrimaryTorsion.continuousMap`). Every term
+  `C(G, C(G, …, M))` of the coinduced resolution is discrete, so by induction on the number of
+  arguments every term is `p`-primary (`TauCeti.isPPrimaryTorsion_resolutionX`); so are the
+  homogeneous cochains, which are invariant elements of those terms
+  (`TauCeti.isPPrimaryTorsion_homogeneousCochains`), and their cohomology, a subquotient
+  (`TauCeti.isPPrimaryTorsion_continuousCohomology`, stated for Tau Ceti's dictionary
+  `TauCeti.ofDiscreteModule`, whose underlying module is `M` by `TauCeti.ofDiscreteModule_V`).
+  It is the step from the strict predicate to the ordinary one in `cd_p_le_scd_p`. The Profinite
+  Pro-`p` Groups roadmap consumes it for restriction to a `p`-Sylow subgroup, where it supplies the
+  power of `p` that a prime-to-`p` index is played against.
 - **Dévissage** (NSW (3.3.2)), in three reductions, each stated as an equivalence with
   `cd_p p G ≤ n` so that it can be used in both directions:
   1. `cd_p_le_iff_boundedExponent`: it is enough to test the modules killed by a single power of
@@ -1631,6 +1707,12 @@ subgroup of index prime to `p`. Comparison: the equivalence of `CohomologicalDim
 `cd_p G = ⊤`, where `⊤ + 1 = ⊤` and the inequality still has to hold; and `p` not dividing the
 order of any `G ⧸ U`. Consumers: the Profinite Pro-`p` Groups, Class Field Theory, and Local
 Galois Groups roadmaps.
+
+**Source** for the `p`-primary torsion of cohomology. The proof of NSW (3.3.2), (i) ⇔ (ii), uses it
+in the form `Hq(G, A)(p) = Hq(G, A(p))` for torsion `A`. The hypothesis that cannot be dropped is
+compactness of `G`: for the discrete group `⊕_ℕ ℤ` acting trivially,
+`H¹(⊕_ℕ ℤ, ℚ_p/ℤ_p) = Hom(⊕_ℕ ℤ, ℚ_p/ℤ_p) = ∏_ℕ ℚ_p/ℤ_p`, and the element whose `k`-th
+coordinate is `1/pᵏ` is killed by no power of `p`.
 
 **Source** for dévissage. NSW (3.3.2); Koch Def. 5.1 takes the pro-`p` case as the definition. The
 reduction is to **finite** discrete `p`-primary modules and then to the finite simple ones, and
@@ -2064,7 +2146,8 @@ Item numbers are verified against the editions cited.
   homogeneous cochains with the inhomogeneous translation (I §2), (1.2.5) the finite-quotient
   colimit `lim→_U Hⁿ(G/U, A^U) ≅ Hⁿ(G, A)`, (1.3.2) the long exact sequence, I §4 cup products
   ((1.4.1) Leibniz, (1.4.2) naturality, (1.4.3) and (1.4.5) `δ`-compatibility, (1.4.4)
-  associativity and graded commutativity), I §5 change of groups ((1.5.2) `cor ∘ δ`, (1.5.3)(i),
+  associativity and graded commutativity), I §5 change of groups ((1.5.1) the cohomology of a
+  projective limit, (1.5.2) `cor ∘ δ`, (1.5.3)(i),
   (iii), (iv) restriction, inflation and the projection formula, (1.5.6) the double-coset formula,
   (1.5.7) `cor ∘ res = (G : U)`, (1.5.9) the transfer as the dual of corestriction), (1.6.1)
   torsionness, (1.6.4) Shapiro (with the p. 61 footnote
@@ -2083,7 +2166,7 @@ Item numbers are verified against the editions cited.
   corestriction), Cor. 7.2.5(a) (five-term), §7.1 (cd definitions), Thm. 7.3.1 (closed subgroups),
   §7.9 (cup products, with `Cor(a ∪ Res b) = Cor(a) ∪ b` at 7.9.6/7.9.7).
 - J-P. Serre, *Galois Cohomology*, Springer (1997), Ch. I §§2-4: the compact exposition this
-  layer structure follows.
+  layer structure follows; §2.2 Prop. 8 (the cohomology of a projective limit).
 - J-P. Serre, *Local Fields*, Springer GTM 67 (1979), Part Three: Ch. VII (basic facts; §5 change
   of group; §7 Prop. 6 `Cor ∘ Res = n`; §8 the transfer), Ch. VIII (finite groups; §2 Props. 3-4;
   §3 cup products), Ch. X §3 (the profinite theory *defined* by the colimit over open normal
