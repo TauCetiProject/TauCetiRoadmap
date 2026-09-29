@@ -1635,9 +1635,10 @@ Layer 10.
   ⚠ Do not attempt values of `cd_p G_K` or `scd_p G_K` for local fields here. They are
   the Class Field Theory roadmap's `cd_ℓ(G_K) = 2` and `scd_ℓ(G_K) = 2`, for `K/ℚ_p` finite and
   every prime `ℓ`, which rest on its local duality and class formation, on the Profinite Pro-`p`
-  Groups roadmap's Sylow equality, and from this layer on `cd_p_le_of_isClosed`,
-  `cd_p_eq_cohomologicalDimensionAt` and the strict-dimension criterion
-  `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at `n = 2`. The `p`-Sylow equality
+  Groups roadmap's Sylow equality, and from this layer on `cd_p_le_of_isClosed`, `cd_p_le_scd_p`,
+  the comparisons `cd_p_eq_cohomologicalDimensionAt` and `scd_p_eq_strictCohomologicalDimensionAt`,
+  and the strict-dimension criterion `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at
+  `n = 2`. The `p`-Sylow equality
   `cd_p G = cd_p G_p` (NSW (3.3.6)) belongs to the Profinite Pro-`p` Groups roadmap together with
   the profinite Sylow theory it consumes; this layer supplies the definitions, the monotonicity,
   the prime-to-`p` equality, and Layer 10's all-degree tools that the Sylow argument uses.
@@ -1806,8 +1807,9 @@ subgroup of index prime to `p`. Comparison: the equivalence of `CohomologicalDim
 order of any `G ⧸ U`. Consumers: the Profinite Pro-`p` Groups roadmap, through `cd_p`,
 `cd_p_le_iff_finite_pPrimary`, `cd_p_le_iff_boundedExponent`, `cd_p_le_of_isClosed` and
 `cd_p_eq_of_index_not_dvd`; the Class Field Theory roadmap, through `cd_p_le_of_isClosed`,
-`cd_p_eq_cohomologicalDimensionAt` and `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup`
-at `n = 2`, for `cd_ℓ(G_K) = scd_ℓ(G_K) = 2`; and the Local Galois Groups roadmap, through `cd_p`,
+`cd_p_le_scd_p`, `cd_p_eq_cohomologicalDimensionAt`, `scd_p_eq_strictCohomologicalDimensionAt`
+and `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at `n = 2`, for
+`cd_ℓ(G_K) = scd_ℓ(G_K) = 2`; and the Local Galois Groups roadmap, through `cd_p`,
 `cd_p_le_iff_finite_pPrimary` and `cd_p_le_iff_boundedExponent`, and through the class module at
 `G = G_K` and `V = G_L` for a finite Galois `L/K`, with `scd_p(G_K) ≤ 2` supplied by the Class
 Field Theory roadmap: `abelianizationProP`, `abelianizationProPFactorSet`,
