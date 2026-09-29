@@ -1811,9 +1811,11 @@ order of any `G ⧸ U`. Consumers: the Profinite Pro-`p` Groups roadmap, through
 and `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at `n = 2`, for
 `cd_ℓ(G_K) = scd_ℓ(G_K) = 2`; and the Local Galois Groups roadmap, through `cd_p`,
 `cd_p_le_iff_finite_pPrimary` and `cd_p_le_iff_boundedExponent`, and through the class module at
-`G = G_K` and `V = G_L` for a finite Galois `L/K`, with `scd_p(G_K) ≤ 2` supplied by the Class
-Field Theory roadmap: `abelianizationProP`, `abelianizationProPFactorSet`,
-`abelianizationProPClass` and the degree-two statement `abelianizationProPClass_generates`.
+`G = G_K` and `V = G_L` for a finite Galois `L/K`: `abelianizationProP`,
+`abelianizationProPFactorSet`, `abelianizationProPClass` and the degree-two statement
+`abelianizationProPClass_generates`. Its hypothesis `scd_p(G_K) ≤ 2` is the Class Field Theory
+roadmap's `scd_p_absoluteGaloisGroup_eq_two`, carried to Tau Ceti's invariant by
+`scd_p_eq_strictCohomologicalDimensionAt`.
 
 **Source** for the `p`-primary torsion of cohomology. The proof of NSW (3.3.2), (i) ⇔ (ii), uses it
 in the form `Hq(G, A)(p) = Hq(G, A(p))` for torsion `A`. The hypothesis that cannot be dropped is
