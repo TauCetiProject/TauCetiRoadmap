@@ -1979,8 +1979,8 @@ half the sibling roadmap consumes; the general construction needs Layers 10 and 
   `evensConj_eq_conjMapOf`, against Layer 10's `conjMapOf`, and it holds for every `s ∉ U`. Only
   identity 3 mentions an element outside `U`, because its right-hand side is a cochain formula.
 
-  What the Quadratic Form Invariants roadmap's Evens-Kahn layer needs from here is these five
-  identities, the kernel of restriction in degree two from the index-two exact sequence below
+  What the Quadratic Form Invariants roadmap's Evens-Kahn layer needs from here is identities 1, 2
+  and 5, the kernel of restriction in degree two from the index-two exact sequence below
   (`indexTwo_exact_cup_res2`), and the pullback formula below, all at index exactly two and read on
   the `L/K` side through Layer 9's bridge; its total-Stiefel-Whitney expansion
   `w(Tr ⟨a⟩) = w(Tr ⟨1⟩) · (1 + cor[a] + N^{Ev}[a])` in degrees `≤ 2` is the application. This
@@ -2113,20 +2113,23 @@ general construction is the hardest single piece of work in this roadmap.
 
 ##### What the sibling roadmap consumes
 
-the Quadratic Form Invariants roadmap uses only
-the explicit index-2 form, in degrees `1` and `2`, always at index exactly two: the norm
-`evensNormIndexTwo` with its defining equation `evensNormIndexTwo_homClass`; `evensConj` with
-`evensConj_eq_conjMapOf`; the five identities `evensNorm_res`, `evensNorm_polarization`,
-`evensNorm_cor_shapiro`, `evensNorm_identity_infl` and `evensNorm_of_res`, the last with
-`indexTwoCharacter` and `indexTwoCharacterClass`; from the index-two exact sequence only the
-kernel of restriction in degree two, `indexTwo_exact_cup_res2`; and the pullback formula
-`evensNormIndexTwo_eq_ind_pullback`, with the cochain identity
-`evensGraphCochain_eq_indexTwoInd_pullback` and the objects they are stated with (`WreathC2`,
-`indexTwoInd`, `wreathD16Cocycle` with `wreathD16Cocycle_isCocycle`, `wreathWitness`, and
-`dihedralToWreath`, `dihedralToWreath_eq_one_iff`, `wreathSection` and
-`dihedralToWreath_wreathSection`, which make `wreathD16Cocycle` the factor set of `D₁₆`). It reads
-them on the `L/K` side through Layer 9's bridge, for `[L : K] = 2`: `galoisEvens`, `galoisCharacter`,
-`galoisRes_galoisEvens`, `galoisEvens_add`, `galoisEvens_galoisRes` and `galoisRes_eq_zero_iff`.
+The Quadratic Form Invariants roadmap uses only the explicit index-2 form, in degrees `1` and `2`,
+always at index exactly two. It reads identities 1, 2 and 5 and the kernel of restriction in degree
+two on the `L/K` side, for `[L : K] = 2`, through Layer 9's bridge: `galoisEvens`, `galoisConj`,
+`galoisCharacter`, `galoisRes_galoisCor`, `galoisConj_evensConj`, `galoisRes_galoisEvens`,
+`galoisEvens_add`, `galoisEvens_galoisRes`, `galoisRes_eq_zero_iff` and
+`galoisEvens_embedding_independent`. From this layer it takes the norm `evensNormIndexTwo` on the
+class `homClass` of a continuous homomorphism, `evensConj` with `evensConj_eq_conjMapOf`, and the
+pullback formula `evensNormIndexTwo_eq_ind_pullback` with the objects it is stated with: `WreathC2`
+with `WreathC2.mk`, the coordinates `WreathC2.coordA`, `WreathC2.coordB` and `WreathC2.coordC` and
+the lemmas `WreathC2.mk_zero`, `WreathC2.coordA_mk`, `WreathC2.coordB_mk`, `WreathC2.coordC_mk` and
+`WreathC2.mk_mul_mk`, then `wreathSection`, `dihedralToWreath`, `wreathD16Cocycle` with
+`wreathD16Cocycle_isCocycle`, `indexTwoInd` and `continuous_wreathD16Cocycle_indexTwoInd`. From
+Layers 1 and 3 it takes the class of an explicit 2-cocycle, `cochainClass` with
+`cochainClass_eq_of_sub_eq_d`, `inhomogeneousCochain2` with `inhomogeneousCochain2_d_eq_zero`, and
+`homClass_eq_cochainClass`. It does not name the group-level identities, `indexTwo_exact_cup_res2`
+or the cochain identity `evensGraphCochain_eq_indexTwoInd_pullback`; it reaches them only through
+these statements.
 The ten milestones of the general construction are this roadmap's own completion of the theory,
 and that roadmap needs none of them.
 
