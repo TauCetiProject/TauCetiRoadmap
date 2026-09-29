@@ -19,7 +19,10 @@ permutation lattices with the same character become isomorphic after tensoring w
 reductions modulo `ℓ` have the same class in `G₀` (a snake-lemma argument, NSW (7.3.3)); the
 projection formula spreads the identity from the trivial module to all of `G₀`; and the `ℓ`-part of
 each cyclic subgroup is removed because an element of `ℓ`-power order acts unipotently in
-characteristic `ℓ`.
+characteristic `ℓ`. For the `ℓ′`-part `D` of a cyclic `C`, this gives
+`[C : D] · Ind_C^G Res_C x = Ind_D^G Res_D x`, and `[C : D]` divides the coefficient `m_C |C|`; so
+`|G|` times every class is induced from cyclic subgroups of order prime to `ℓ`, the multiplier of
+characteristic zero.
 
 Mathlib has the categories `FDRep k G` and `Rep k G`, the equivalence of representations with
 modules over the group algebra, and the snake lemma, but no Grothendieck group of representations
@@ -96,9 +99,10 @@ Layer 4, beside Artin's theorem in characteristic zero.
   `[Module.Finite ℤ V]`. The **reduction** of `V` to `k` is `k ⊗_ℤ V` with the representation
   `Representation.baseChange k (Representation.ofDistribMulAction ℤ G V)`; in characteristic `ℓ`
   it is `k ⊗_{𝔽_ℓ} (V/ℓV)`. The **rationalization** is `ℚ ⊗_ℤ V`, the same construction at `ℚ`.
-- **Multiples and coprimality.** "Order prime to `ℓ`" is `¬ ℓ ∣ Nat.card C`; the `ℓ`-part of `|G|`
-  is `ℓ ^ (Nat.card G).factorization ℓ`; multiples are the `ℕ`- or `ℤ`-scalar multiplication of the
-  additive group; sums over subgroups are `∑ᶠ` over the finite type `Subgroup G`.
+- **Multiples and coprimality.** "Order prime to `ℓ`" is `¬ ℓ ∣ Nat.card C`; the `ℓ`-part `|C|_ℓ`
+  of `|C|` is `ℓ ^ (Nat.card C).factorization ℓ`; multiples are the `ℕ`- or `ℤ`-scalar
+  multiplication of the additive group; sums over subgroups are `∑ᶠ` over the finite type
+  `Subgroup G`.
 - **Induced subgroups.** `modRepK0.indClasses k G P` is the supremum of the ranges of
   `modRepK0.ind C` over the subgroups `C` with `P C`, mirroring Tau Ceti's
   `TauCeti.ClassFunction.indVirtualCharacters`; `indCyclic` and `indCyclicCoprime ℓ` are its two
@@ -121,7 +125,8 @@ Layer 4, beside Artin's theorem in characteristic zero.
   (`Algebra/Homology/ShortComplex/SnakeLemma.lean`) and, for modules, `SnakeLemma.δ'` with
   `SnakeLemma.exact_δ'_left`, `SnakeLemma.exact_δ'_right` (`Algebra/Module/SnakeLemma.lean`).
 - **Groups and arithmetic:** `IsPGroup` (`GroupTheory/PGroup.lean`); `IsCyclic`,
-  `Subgroup.zpowers`; `Subgroup.relIndex`; `MulAction.fixedBy`; `ArithmeticFunction.moebius`;
+  `Subgroup.isCyclic_of_le`, `Subgroup.zpowers`; `Subgroup.relIndex`, `Subgroup.relIndex_dvd_card`;
+  `MulAction.fixedBy`; `ArithmeticFunction.moebius`;
   `Nat.factorization`; `sub_pow_char_pow_of_commute` (`Algebra/CharP/Lemmas.lean`); Maschke
   (`RepresentationTheory/Maschke.lean`).
 
@@ -159,7 +164,8 @@ Layer 4, beside Artin's theorem in characteristic zero.
 `fdRepEquivalence`, `modRepK0.of`, `lift`, the ring structure, `res`, `ind`, `perm`, `indClasses`,
 `torsionByDistribMulAction`, `reduction`, `latticeDefect`, `artinCoeff`) and the milestones below as
 `sorry`-targets. It closes `isArtinianRing_monoidAlgebra`, `nonempty_equiv_ofMulAction_rat` (the
-characteristic-zero input applied as stated) and the export from its sharp form.
+characteristic-zero input applied as stated), Step 4 of Layer 4 from Artin's identity in `G₀`, the
+projection formula and Layer 2, and the export from Step 4.
 
 ---
 
@@ -250,8 +256,10 @@ composition factor of such a representation is trivial.
 
 ### Layer 3: reduction of `G`-modules modulo `ℓ`
 
-This is NSW (7.3.3) and Milne ADT I Lemma 2.12 in `G₀`. It is consumed by Layer 4 for permutation
-lattices and by ClassFieldTheory for the unit groups of local fields.
+This is NSW (7.3.3) in `G₀`, together with its consequence for lattices: the integral `ℤ[G]`
+analogue of Milne ADT I Lemma 2.12, proved by the same snake-lemma argument (Milne states the lemma
+for finitely generated `ℤ_p[H]`-modules with isomorphic `ℚ_p`-rationalizations). It is consumed by
+Layer 4 for permutation lattices and by ClassFieldTheory for the unit groups of local fields.
 
 - **Torsion and reduction.** `torsionByDistribMulAction G V n`, the action of `G` on `V[n]`;
   `reduction k G V : FDRep k G` for `k ⊗_ℤ V` finite-dimensional, functorial in equivariant
@@ -313,19 +321,24 @@ The proof has four steps: Artin's identity among permutation characters (Step 1)
   and `|m_C| |C|` copies of `G/C` over the `C` with `m_C < 0`; Step 1 says they have the same
   fixed-point counts; conclude with Step 2, `perm_sum` and `ind_one`.
 - **Step 3: Artin's theorem in `G₀`.** `modularArtin_natCard_nsmul_mem_indCyclic`: `|G| • x` lies in
-  `indCyclic k G` for every `x`, in every characteristic: multiply Artin's identity by `x` and use
-  `ind C 1 * x = ind C (res C.subtype x)` (the projection formula). In characteristic zero this is
-  Artin's theorem in `G₀ = R(G)` (`ofRepRing_bijective`).
-- **Step 4: the sharp modular Artin theorem.**
-  `modularArtin_natCard_mul_nsmul_mem_indCyclicCoprime`: in characteristic `ℓ`,
-  `(|G| · |G|_ℓ) • x ∈ indCyclicCoprime k G ℓ`. For each cyclic `C` let `D` be its `ℓ′`-part
-  (Layer 2); `relIndex_nsmul_ind_one` and the projection formula give
-  `[C : D] • ind C (res C.subtype x) = ind D (res D.subtype x)`, and `[C : D]`, the `ℓ`-part of
-  `|C|`, divides `|G|_ℓ`.
+  `indCyclic k G` for every `x`, in every characteristic. Multiplying Artin's identity by `x` and
+  using `ind C 1 * x = ind C (res C.subtype x)` (the projection formula) gives
+  `|G| • x = ∑ᶠ C, (m_C · |C|) • ind C (res C.subtype x)`, where `m_C = 0` unless `C` is cyclic.
+  In characteristic zero this is Artin's theorem in `G₀ = R(G)` (`ofRepRing_bijective`).
+- **Step 4: the modular Artin theorem.** `modularArtin_natCard_nsmul_mem_indCyclicCoprime`: in
+  characteristic `ℓ`, `|G| • x ∈ indCyclicCoprime k G ℓ` for every `x`. Rewrite the expansion of
+  Step 3 term by term. For a cyclic `C` let `D ≤ C` be its `ℓ′`-part
+  (`exists_coprimePart_of_isCyclic`) and `r = [C : D]`, the `ℓ`-part of `|C|`. Multiplying
+  `relIndex_nsmul_ind_one`, `r • ind C 1 = ind D 1`, by `x` and applying the projection formula to
+  both sides gives `r • ind C (res C.subtype x) = ind D (res D.subtype x)`. Since `D ≤ C`, `r`
+  divides `|C|`, so `r` cancels against the factor `|C|` of the Artin coefficient:
+  `(m_C · |C|) • ind C (res C.subtype x) = (m_C · (|C| / r)) • ind D (res D.subtype x)`, which is
+  induced from the cyclic subgroup `D` of order prime to `ℓ`. Summing over `C` gives the theorem,
+  with the same multiplier `|G|` as Step 3.
 - **The export.** `modularArtin_exists_nsmul_mem_indCyclicCoprime`: in characteristic `ℓ`, for
   every `x : modRepK0 k G` there is `N > 0` with `N • x ∈ indCyclicCoprime k G ℓ`. It follows from
-  Step 4 with `N = |G| · |G|_ℓ`, and it is the form ClassFieldTheory applies, with
-  `k = ZMod ℓ` and `x = of A`.
+  Step 4 with `N = |G|`, positive because `G` is nonempty (`Nat.card_pos`), and it is the form
+  ClassFieldTheory applies, with `k = ZMod ℓ` and `x = of A`.
 
 ---
 
@@ -337,18 +350,24 @@ The proof has four steps: Artin's identity among permutation characters (Step 1)
 - **`S₃` over `𝔽₂`.** The simple modules are `𝔽₂` and the two-dimensional `S`. Then
   `[𝔽₂[S₃]] = 2[𝔽₂] + 2[S]`, `[𝔽₂[S₃/C₂]] = [𝔽₂] + [S]` and `[𝔽₂[S₃/A₃]] = 2[𝔽₂]`, and Artin's
   identity in `G₀` is `6[𝔽₂] = -3[𝔽₂[S₃]] + 2 ∑_{C₂} [𝔽₂[S₃/C₂]] + 3[𝔽₂[S₃/A₃]]`. Layer 2 gives
-  `2[𝔽₂[S₃/C₂]] = [𝔽₂[S₃]]`. The classes induced from the cyclic `2′`-subgroups `1` and `A₃` form
-  `2 · G₀`: `2[𝔽₂] = [Ind 𝔽₂]` and `2[S] = [Ind 𝔽₄]` from `A₃` (`𝔽₄` the two-dimensional simple
+  `2[𝔽₂[S₃/C₂]] = [𝔽₂[S₃]]`, so Step 4 rewrites each term `2[𝔽₂[S₃/C₂]]` (coefficient
+  `m_{C₂} |C₂| = 2`, index `[C₂ : 1] = 2`) as `[𝔽₂[S₃]]`, leaving `6[𝔽₂] = 3[𝔽₂[S₃/A₃]]`, induced
+  from `A₃`. The classes induced from the cyclic `2′`-subgroups `1` and `A₃` form `2 · G₀`:
+  `2[𝔽₂] = [Ind 𝔽₂]` and `2[S] = [Ind 𝔽₄]` from `A₃` (`𝔽₄` the two-dimensional simple
   `𝔽₂[A₃]`-module), while `[𝔽₂]` is not induced.
 - **`S₃` over `𝔽₃`.** The simple modules are `𝔽₃` and `sgn`. The cyclic `3′`-subgroups are `1` and
   the subgroups of order 2; from one of order 2, `[Ind 1] = 2[𝔽₃] + [sgn]` and
   `[Ind sgn] = [𝔽₃] + 2[sgn]`, and `[𝔽₃[S₃]]` is their sum. They span a subgroup of index 3, so
   `3[𝔽₃] = 2[Ind 1] - [Ind sgn]` is induced and `[𝔽₃]` is not: a positive multiple is necessary
-  even for the trivial module.
+  even for the trivial module. Artin's identity has the same form as over `𝔽₂`; here Layer 2 gives
+  `3[𝔽₃[S₃/A₃]] = [𝔽₃[S₃]]`, so Step 4 rewrites the term `3[𝔽₃[S₃/A₃]]` (coefficient
+  `m_{A₃} |A₃| = 3`, index `[A₃ : 1] = 3`) as `[𝔽₃[S₃]]`, leaving
+  `6[𝔽₃] = -2[𝔽₃[S₃]] + 2 ∑_{C₂} [𝔽₃[S₃/C₂]]`.
 - **The `ℓ`-part is necessary.** A class induced from a subgroup of order prime to `ℓ` has
-  dimension divisible by `|G|_ℓ`, so `N • [k]` is induced only if `|G|_ℓ` divides `N`. For an
-  `ℓ`-group `P`, where `[k[P]] = |P| · [k]` and the only cyclic `ℓ′`-subgroup is trivial, `N • [k]`
-  is induced exactly when `|P|` divides `N`.
+  dimension divisible by `|G|_ℓ`, so `N • [k]` is induced only if `|G|_ℓ` divides `N`; the
+  multiplier `|G|` of Step 4 is such an `N`. For an `ℓ`-group `P`, where `[k[P]] = |P| · [k]` and
+  the only cyclic `ℓ′`-subgroup is trivial, `N • [k]` is induced exactly when `|P|` divides `N`, so
+  for `ℓ`-groups `|G|` is the least multiplier.
 - **Reduction, `C₂` at `ℓ = 2`.** The lattices `ℤ[C₂]` and `ℤ ⊕ ℤ_sgn` have isomorphic
   rationalizations; their reductions `𝔽₂[C₂]` (a non-split extension of `𝔽₂` by `𝔽₂`) and
   `𝔽₂ ⊕ 𝔽₂` are not isomorphic, and both have class `2[𝔽₂]`.
@@ -371,6 +390,6 @@ them; its export is its last item. ClassFieldTheory's local Euler characteristic
   background, and as the classical route through Brauer characters that this roadmap does not take.
 - J. Neukirch, A. Schmidt, K. Wingberg, *Cohomology of Number Fields*, 2nd ed., Springer (2008),
   §VII.3: (7.3.1) the Euler characteristic formula, (7.3.2) Serre's equivariant theorem, (7.3.3)
-  the lattice lemma, (7.3.4) the spanning lemma.
+  the finite-index lemma, (7.3.4) the spanning lemma.
 - J. S. Milne, *Arithmetic Duality Theorems*, 2nd ed. (2006), Chapter I §2: Theorem 2.8, Lemma 2.10
-  (the spanning lemma) and Lemma 2.12 (the lattice lemma).
+  (the spanning lemma) and Lemma 2.12 (the lattice lemma, for `ℤ_p[H]`-modules).
