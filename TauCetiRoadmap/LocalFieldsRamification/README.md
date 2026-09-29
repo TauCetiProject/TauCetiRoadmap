@@ -9,9 +9,10 @@ The boundary is deliberate. The **Class Field Theory** roadmap consumes these ob
 finite-group Tate cohomology, class formations, local reciprocity, and duality. The **Local
 Galois Groups** roadmap consumes them, together with abstract pro-`p` group theory, to determine
 `G_K(p)` and its Demushkin presentation. This roadmap in turn depends on [**Profinite and
-Pro-`p` Groups**](../ProfiniteProPGroups/README.md) for abstract profinite Sylow theory, free
-profinite groups, and profinite presentations, and imports its `Suggested.lean` directly. It
-does not redeclare any of those group-theoretic suppliers.
+Pro-`p` Groups**](../ProfiniteProPGroups/README.md) for abstract profinite Sylow theory, and
+imports its `Suggested.lean` directly, and on Tau Ceti's free profinite groups and profinite
+presentations (`TauCeti.freeProfiniteGroup`, `TauCeti.presentedProfiniteGroup`). It does not
+redeclare any of those group-theoretic suppliers.
 
 ## Scope and exported contract
 
@@ -499,7 +500,12 @@ pro-`p` quotient.
 - **The maximal unramified extension.** Define `K^{ur} ⊆ AlgebraicClosure K` as the union of the
   `K_f`. Prove `Gal(K^{ur}/K) ≅ Ẑ`, carrying Frobenius to the canonical topological generator `1`,
   with `Ẑ ≅ lim ℤ/n` built on the completion API of `ProfiniteGrp`. Every unramified coordinate
-  below is expressed through this isomorphism, whose target is `Ẑ` and never `ℤ`.
+  below is expressed through this isomorphism, whose target is `Ẑ` and never `ℤ`. In Tau Ceti these
+  are `TauCeti.maximalUnramifiedExtension K (AlgebraicClosure K)`, its arithmetic Frobenius
+  `TauCeti.maximalUnramifiedFrobenius`, and `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`, which
+  sends that Frobenius to the generator `TauCeti.zHat.gen` of the profinite integers
+  `TauCeti.zHat` (`maximalUnramifiedGaloisGroupEquivZHat_apply_frobenius`); Layer 4 states
+  against these declarations.
   - *Prerequisites:*
     - `Layer 2: existence and uniqueness`;
     - `Mathlib: profiniteCompletion`, `Mathlib/Topology/Algebra/Category/ProfiniteGrp/`.
@@ -655,19 +661,34 @@ pro-`p` quotient.
   the uniformizer. Composed with the graded pieces of Layer 1 this reads `θ_0 : G_0/G_1 ↪ 𝓀[L]ˣ`,
   the tame character, so `G_0/G_1` is cyclic of order prime to `p`; and
   `θ_i : G_i/G_{i+1} ↪ 𝓀[L]⁺` for `i ≥ 1`, by `σ ↦ (σ(π_L) − π_L)/π_L^{i+1}`, so those quotients
-  are elementary abelian `p`-groups. Prove the consequences: `G_1` is the unique `p`-Sylow
-  subgroup of `G_0` and is normal, which is wild inertia at finite level; and `G_0` has the cyclic
-  tame quotient `G_0/G_1`. Prove the action formula: for `σ ∈ G_0` and `τ ∈ G_i/G_{i+1}`,
-  `στσ⁻¹ = θ_0(σ)^i · τ`. This is the finite-level form of the twist in the tame sequence of Layer
-  4, and `θ_t` is the constant in the norm computation below.
+  are elementary abelian `p`-groups. In Tau Ceti the tame character is `TauCeti.tameCharacter`,
+  with `TauCeti.tameCharacterGraded` on `G_0/G_1`, for any group acting on `L` and preserving
+  `𝒪[L]`. Prove the consequences: `G_1` is the unique `p`-Sylow subgroup of `G_0` and is normal,
+  which is wild inertia at finite level; and `G_0` has the cyclic tame quotient `G_0/G_1`. Prove
+  the action formula: for `σ ∈ G_0` and `τ ∈ G_i`, `θ_i(στσ⁻¹) = θ_0(σ)^i · θ_i(τ)` (Serre LF IV
+  §2, Proposition 9). It describes how the tame quotient acts on the wild graded pieces, and `θ_t`
+  is the constant in the norm computation below. Prove the equivariance of the tame character:
+  for `g ∈ G` and `σ ∈ G_0`, `θ_0(gσg⁻¹) = ḡ(θ_0(σ))`, where `ḡ` is the automorphism of `𝓀[L]`
+  induced by `g` (`tameCharacter_conj`). Hence `θ_0(gσg⁻¹) = θ_0(σ)^q` whenever `g` acts on
+  `𝓀[L]` as `x ↦ x^q` (`tameCharacter_conj_of_smul_eq_pow`), in particular, with `q = #𝓀[K]`,
+  for every `g ∈ Gal(L/K)` restricting to the arithmetic Frobenius of the maximal unramified
+  subextension. This is the finite-level form of the Frobenius twist `σ τ σ⁻¹ = τ^q` of Layer 4.
+  ⚠ The action formula is not that twist: its `σ` lies in `G_0` and acts trivially on `𝓀[L]`, and
+  at `i = 0` it says only that `G_0/G_1` is abelian. The twist conjugates by an element outside
+  `G_0`.
   - *Prerequisites:*
     - `Layer 3: the lower-numbering filtration`;
-    - `Layer 1: graded pieces`.
+    - `Layer 1: graded pieces`;
+    - `Mathlib: IsLocalRing.ResidueField`, with the induced action of a group acting on the ring
+      (`IsLocalRing.ResidueField.residue_smul`);
+    - Tau Ceti: `TauCeti.tameCharacter` and its independence of the uniformizer,
+      `TauCeti.tameCharacter_eq_of_irreducible`.
   - *API:*
     - the embeddings at every level, with injectivity and independence of the uniformizer;
     - the two composed forms;
     - the group-theoretic consequences above;
     - the action formula;
+    - `tameCharacter_conj` and `tameCharacter_conj_of_smul_eq_pow`;
     - naturality under passage to a subgroup `H ≤ G`.
   - *Source:* Serre LF IV §2.
 - **Herbrand functions and the upper numbering.** Define `φ_{L/K}(u) = ∫_0^u dt/[G_0 : G_t]` for
@@ -911,27 +932,31 @@ temporary arithmetic declarations with the canonical exports above.
 
 ### Layer 4: the tame quotient of the absolute Galois group
 
-**Supplier status.** `Suggested.lean` imports `TauCetiRoadmap.ProfiniteProPGroups.Suggested`
-directly. Nothing is duplicated or shadowed: there is no `Supplied.*` alias and no private
-replacement carrier for any supplied declaration.
+**Suppliers.** For the group theory of this layer, `Suggested.lean` imports
+`TauCetiRoadmap.ProfiniteProPGroups.Suggested` and Tau Ceti's
+`TauCeti.Topology.Algebra.Group.Profinite.Presentation` and
+`TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic` directly. No supplied group-theoretic
+declaration is restated: there is no `Supplied.*` alias and no private replacement carrier for the
+pro-`p`, Sylow, free-group or presentation API.
 
 The dependency is **type-checked, not promised**. Layer 1's `unitFiltration_one_isProP` is stated
 against `ProfiniteProPGroups.IsProP` — the same statement as the inverse-limit description, not a
-rephrasing of it — and Layer 4 consumes the supplier twice with **closed** proofs: the uniqueness
-of wild inertia as the pro-`p` Sylow subgroup of inertia is `IsProPSylow.eq_of_normal` applied,
-and the universal property behind the Iwasawa presentation is
-`freeProfiniteGroup.existsUnique_lift` applied. A rename, a carrier change or a changed hypothesis
-in the supplier breaks this build rather than being absorbed silently.
+rephrasing of it — and Layer 4 consumes its suppliers with **closed** proofs: the uniqueness of
+wild inertia as the pro-`p` Sylow subgroup of inertia is
+`ProfiniteProPGroups.IsProPSylow.eq_of_normal` applied, and the uniqueness of the marked Iwasawa
+presentation and of its coordinate is `TauCeti.presentedProfiniteGroup.hom_ext_of` applied. A
+rename, a carrier change or a changed hypothesis in a supplier breaks this build rather than being
+absorbed silently.
 
-**Contract audit.** The declarations of [Profinite and Pro-`p`
-Groups](../ProfiniteProPGroups/README.md) that this roadmap consumes are exactly these, and no
-others:
+**Contract audit.** The group-theoretic declarations this roadmap consumes are exactly these, and
+no others:
 
 | Used in | Declaration |
 | --- | --- |
 | Layer 1, and inside `IsProPSylow` | `ProfiniteProPGroups.IsProP` |
 | Layer 4, wild inertia | `ProfiniteProPGroups.exists_isProPSylow`, `ProfiniteProPGroups.IsProP.exists_le_isProPSylow`, `ProfiniteProPGroups.IsProPSylow.eq_of_normal`, `ProfiniteProPGroups.IsProPSylow.map_of_surjective` |
-| Layer 4, the Iwasawa presentation | `ProfiniteProPGroups.freeProfiniteGroup`, `ProfiniteProPGroups.freeProfiniteGroup.of`, `ProfiniteProPGroups.freeProfiniteGroup.lift`, `ProfiniteProPGroups.presentedProfiniteGroup` |
+| Layer 4, the Iwasawa presentation | `TauCeti.freeProfiniteGroup` with `of` and `lift`; `TauCeti.presentedProfiniteGroup` with `of`, `lift`, `hom_ext_of` and `congr` |
+| Layers 2 and 4, the unramified coordinate | `TauCeti.zHat` and `TauCeti.zHat.gen` |
 
 This roadmap consumes **no** maximal pro-`p` quotient, **no** free pro-`p` group, and **no**
 generator-rank declaration. `G_K(p)`, its rank and its Demushkin presentation are
@@ -956,24 +981,34 @@ used by no milestone here.
     - the profinite structure;
     - the correspondence between closed subgroups and intermediate fields, specialized to the
       three named fields.
-- **Inertia.** Define `I_K = Gal(Kˢ/K^{ur})`, and prove that it is closed and normal. Prove the
-  exact sequence `1 → I_K → G_K → Ẑ → 1`, with the surjection of Layer 2, and construct the
-  arithmetic Frobenius lifts.
+- **Inertia.** `I_K = Gal(Kˢ/K^{ur})` is Tau Ceti's `TauCeti.inertiaSubgroup K`, the fixing
+  subgroup of `TauCeti.maximalUnramifiedExtension K (AlgebraicClosure K)`; it is closed
+  (`TauCeti.isClosed_inertiaSubgroup`) and normal (`TauCeti.inertiaSubgroup_normal`). This
+  roadmap's `inertia` is a reducible alias of it, under the name `ClassFieldTheory` states
+  against. The exact sequence `1 → I_K → G_K → Ẑ → 1` is restriction to `K^{ur}`,
+  `TauCeti.restrictMaximalUnramifiedHom`, a continuous surjection with kernel `I_K`
+  (`TauCeti.ker_restrictMaximalUnramifiedHom`), followed by the isomorphism of Layer 2. The
+  unramified quotient `G_K/I_K` is `TauCeti.unramifiedQuotient`, identified with `Gal(K^{ur}/K)`
+  by `TauCeti.quotientInertiaSubgroupEquiv`. The arithmetic Frobenius lifts are the `σ` with
+  `TauCeti.IsArithFrobeniusLift K σ`, that is, restricting to `TauCeti.maximalUnramifiedFrobenius`:
+  they exist (`TauCeti.exists_isArithFrobeniusLift`), they form a left coset of `I_K`
+  (`TauCeti.IsArithFrobeniusLift.setOf_eq_leftCoset`), and each of them generates `G_K`
+  topologically together with `I_K`
+  (`TauCeti.IsArithFrobeniusLift.topologicalClosure_zpowers_sup_inertiaSubgroup`). Every
+  statement below about Frobenius lifts is made against `TauCeti.IsArithFrobeniusLift`.
   - *Prerequisites:*
     - `Layer 2: the maximal unramified extension`;
     - `Layer 4: the ambient model`.
   - *API:*
-    - the subgroup and its properties;
-    - the exact sequence;
-    - existence of a Frobenius lift and the description of the set of lifts as a coset of `I_K`;
     - functoriality in a finite extension of `K`;
     - the image of `I_K` in a finite quotient, which is `G_0` of Layer 3.
 - **Wild inertia.** Define `P_K = Gal(Kˢ/K^{t})`, where `K^{t} = ⋃_{p ∤ m} K^{ur}(π^{1/m})` is the
   maximal tamely ramified extension. Prove that `P_K` is the inverse limit of the finite-level
-  `G_1`. Prove that it is a closed normal pro-`p` subgroup of `G_K`. Prove that it is the unique
-  maximal such subgroup of `I_K`, that is, its pro-`p` Sylow subgroup. Sylow theory for profinite
-  groups is free of Galois vocabulary, and this roadmap does not restate it in that vocabulary.
-  What is proved here is the identification of that Sylow subgroup with `Gal(Kˢ/K^t)`.
+  `G_1`. Prove that it is a closed normal pro-`p` subgroup of `G_K`; closedness is what makes the
+  tame quotient `G_K/P_K` Hausdorff, hence profinite. Prove that it is the unique maximal such
+  subgroup of `I_K`, that is, its pro-`p` Sylow subgroup. Sylow theory for profinite groups is free
+  of Galois vocabulary, and this roadmap does not restate it in that vocabulary. What is proved
+  here is the identification of that Sylow subgroup with `Gal(Kˢ/K^t)`.
   - *Prerequisites:*
     - `Layer 3: tame and wild`;
     - `Layer 4: inertia`;
@@ -985,61 +1020,99 @@ used by no milestone here.
       `ProfiniteProPGroups.IsProPSylow.map_of_surjective`.
   - *API:*
     - the field `K^{t}` and the subgroup `P_K`;
+    - closedness, `wildInertia_isClosed`, and normality;
     - the pro-`p` property;
     - the limit description;
     - the Sylow identification;
     - the image of `P_K` in a finite quotient, which is `G_1` of Layer 3.
 - **The tame character and the twist.** Prove `I_K/P_K ≅ lim_{p∤m} μ_m(Kˢ) = Ẑ^{(p')}(1)`, by
-  `σ ↦ (σ(π^{1/m})/π^{1/m})_m`. Prove independence of the choices, and `G_K`-equivariance:
-  conjugation acts through the cyclotomic action on the right-hand side. ⚠ The notation
-  `Ẑ^{(p')}(1)` is *defined* here, as the prime-to-`p` Tate module of `μ`. As a profinite group it
-  is `∏_{ℓ ≠ p} ℤ_ℓ`, and the `(1)` is the equivariance statement.
+  `σ ↦ (σ(π^{1/m})/π^{1/m})_m`, and independence of the choices. ⚠ The notation `Ẑ^{(p')}(1)` is
+  *defined* here, as the prime-to-`p` Tate module of `μ`. As a profinite group it is
+  `∏_{ℓ ≠ p} ℤ_ℓ`, and the `(1)` is the twist. State the twist intrinsically, in `G_K/P_K`: tame
+  inertia `I_K/P_K`, the image `tameInertia` of `I_K`, is abelian, and conjugation by any
+  arithmetic Frobenius lift `φ` (`TauCeti.IsArithFrobeniusLift`) is the `q`-th power map on it,
+  `φ x φ⁻¹ ≡ x^q mod P_K` for `x ∈ I_K`, where `q = #𝓀[K]`. Under any isomorphism `t` of
+  `I_K/P_K` with `Ẑ^{(p')}(1)` this reads `t(φxφ⁻¹) = t(x)^q`, which is what the `(1)` records.
+  These two statements determine the conjugation action of all of `G_K` on `I_K/P_K`, because a
+  Frobenius lift and `I_K` generate `G_K` topologically; the action is not restated with a
+  profinite exponent. The finite-level form of the twist is `tameCharacter_conj_of_smul_eq_pow` of
+  Layer 3.
   - *Prerequisites:*
     - `Layer 4: wild inertia`;
+    - `Layer 4: inertia`, for the Frobenius lifts;
     - `Layer 3: the quotient embeddings`;
+    - `Layer 2: residue correspondence`, for the action of Frobenius on roots of unity;
     - `Mathlib: rootsOfUnity`, `Mathlib/Topology/Algebra/Category/ProfiniteGrp/Limits.lean`.
   - *API:*
     - the object `Ẑ^{(p')}(1)`;
     - the isomorphism and its inverse;
     - independence of the choice of `π` and of the compatible system of roots;
-    - the equivariance statement;
-    - the finite-level form, which is the action formula of Layer 3;
+    - `tameInertia` and `tameInertia_isMulCommutative`;
+    - the intrinsic twist, `tameQuotient_mk_conj_of_isArithFrobeniusLift`;
     - the specialization at one prime `ℓ ≠ p`.
-- **The Iwasawa presentation.** Prove that the tame quotient `G_K^{t} = G_K/P_K` sits in a split
-  exact sequence `1 → Ẑ^{(p')}(1) → G_K^{t} → Ẑ → 1`; that a Frobenius lift `σ` and a topological
-  generator `τ` of the kernel satisfy `σ τ σ⁻¹ = τ^q`; and that `G_K^t` is the profinite group on
-  `σ` and `τ` with that single relation. State the presentation through its universal property. It
-  is a continuous surjection from the free profinite group on two generators. Its kernel is the
-  closed normal closure of the relator. That is, state it as `presentedProfiniteGroup (Fin 2) {σ τ
-  σ⁻¹ τ^{−q}}`, with `σ` and `τ` the images of `freeProfiniteGroup.of 0` and
-  `freeProfiniteGroup.of 1`. ⚠ The object needed here is the **profinite** one. The presented
-  pro-`p` group of the same shape is its pro-`p` quotient, which forgets the prime-to-`p` tame
-  inertia that this presentation is about, so it is a different group.
+- **The Iwasawa presentation.** Prove that tame inertia is procyclic: some `τ ∈ G_K` has a class
+  that topologically generates `I_K/P_K` (`exists_topologicalClosure_zpowers_eq_tameInertia`);
+  such a `τ` lies in `I_K`. For an arithmetic Frobenius lift `σ` and such a `τ`, construct the
+  topological isomorphism `tameQuotientEquiv K σ τ hσ hτ` from `G_K/P_K` onto
+  `IwasawaGroup K = presentedProfiniteGroup (Fin 2) {σ τ σ⁻¹ τ^{−q}} = ⟨σ, τ | σ τ σ⁻¹ = τ^q⟩`,
+  **marked** by its values `σ̄ ↦ of 0` and `τ̄ ↦ of 1`. These two values determine it, because the
+  generators generate the presented group topologically
+  (`TauCeti.presentedProfiniteGroup.hom_ext_of`, applied to the inverse), so it involves no choice
+  beyond `σ` and `τ`. Derive the choice-free consequences, where `⟨⟨of 1⟩⟩` is the closed normal
+  closure of `of 1`: every arithmetic Frobenius lift lands in the coset `of 0 · ⟨⟨of 1⟩⟩`; the
+  image of `I_K/P_K` is exactly `⟨⟨of 1⟩⟩`; and the coordinate
+  `iwasawaCoordinate : IwasawaGroup K → Ẑ`, `of 0 ↦ zHat.gen`, `of 1 ↦ 1`, whose kernel is
+  `⟨⟨of 1⟩⟩`, composed with the isomorphism and the quotient map, is the unramified coordinate of
+  Layer 2: restriction to `K^{ur}` followed by `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`
+  (`iwasawaCoordinate_tameQuotientEquiv_mk`). The unmarked statement that `G_K/P_K` is isomorphic
+  to the presented group, `tameQuotientPresentation`, is a corollary. ⚠ `σ` is **arithmetic** and
+  the relation is `σ τ σ⁻¹ = τ^q`. The unmarked statement cannot see this, because the relators
+  `σ τ σ⁻¹ τ^{−q}` and `σ⁻¹ τ σ τ^{−q}` present isomorphic groups; the marked one can. The second
+  relator presents a group into which the arithmetic Frobenius cannot be sent to `of 0`, since
+  `σ⁻¹ τ σ = τ^q` would force `τ^{q²−1} = 1` in `I_K/P_K`, which is torsion-free. ⚠ The object
+  needed here is the **profinite** one. The presented pro-`p` group of the same shape is its
+  pro-`p` quotient, which forgets the prime-to-`p` tame inertia that this presentation is about, so
+  it is a different group.
   - *Prerequisites:*
     - `Layer 4: the tame character and the twist`;
-    - **Profinite and Pro-`p` Groups**:
-      `ProfiniteProPGroups.freeProfiniteGroup`,
-      `ProfiniteProPGroups.freeProfiniteGroup.of`,
-      `ProfiniteProPGroups.freeProfiniteGroup.lift`, and
-      `ProfiniteProPGroups.presentedProfiniteGroup`, with its quotient by the closed normal closure;
-    - `Mathlib: ProfiniteGrp.profiniteCompletion`, `FreeGroup`, `Subgroup.normalClosure`, and
-      `Subgroup.topologicalClosure` for the implementation beneath those supplied carriers.
+    - `Layer 4: inertia`, for the Frobenius lifts and their topological generation of `G_K`
+      together with `I_K`;
+    - `Layer 2: the maximal unramified extension`, for the coordinate;
+    - Tau Ceti: `TauCeti.freeProfiniteGroup` with `of`, and `TauCeti.presentedProfiniteGroup`,
+      the quotient of the free profinite group by the closed normal closure of the relators, with
+      `of`, `lift` and `hom_ext_of`; `TauCeti.zHat` with `zHat.gen`.
+  - *API:*
+    - `iwasawaRelator`, `IwasawaGroup` and its marked generators `iwasawaSigma`, `iwasawaTau`;
+    - `tameQuotientEquiv` with its two computation rules;
+    - the two choice-free consequences;
+    - `iwasawaCoordinate`, its values and its kernel, and its comparison with the unramified
+      coordinate;
+    - `tameQuotientPresentation`.
   - *Source:* NSW (7.5.2) and (7.5.3), after Iwasawa. The hypotheses are that `K` is a
     nonarchimedean local field with finite residue field of order `q`. *False generalization:* the
     analogous presentation of `G_K` itself is false. For a finite extension `K/ℚ_p`, the separate
     **Local Galois Groups** export `LocalGaloisGroups.rank_absoluteGaloisGroup` computes its rank
     as `[K:ℚ_p] + 2`. This roadmap makes no full-group rank claim in equal characteristic; a
     characteristic-`p` analogue requires a separately stated theorem and hypotheses.
-- **Translation lemmas.** Prove the presentation with a geometric `σ`, through `σ ↦ σ⁻¹`. Prove
-  the finite-level compatibility: the restriction of the sequence to a finite tame quotient
-  recovers the twist formula of Layer 3. Two statements face reciprocity: units land in inertia,
-  and a uniformizer maps to the Frobenius coordinate. They are supplied by
-  `ClassFieldTheory.artinMap`, `unramifiedCoordinate_artinMap`, and
-  `normResidue_uniformizer`, not assumed here. This layer supplies only the group-theoretic frame
-  in which they are stated.
+- **Translation lemmas.** Define the geometric relator `σ⁻¹ τ σ τ^{−q}` (`iwasawaRelatorGeometric`)
+  and the isomorphism of presented groups `σ ↦ σ⁻¹`, `τ ↦ τ` (`iwasawaGeometricEquiv`), built by
+  `TauCeti.presentedProfiniteGroup.congr` from the involution of the free profinite group that
+  inverts `of 0` and fixes `of 1`, with its two computation rules. Composed with
+  `tameQuotientEquiv`, it sends the class of the geometric Frobenius `σ⁻¹` to the generator `of 0`
+  of the geometric presentation, and `iwasawaCoordinate` gives that generator the value
+  `zHat.gen⁻¹`: in the geometric presentation the arithmetic Frobenius is the inverse of the marked
+  generator. Prove the finite-level compatibility: in every finite quotient of `G_K` through which
+  `P_K` dies, the image of `τ` has order prime to `p` and generates the image of `I_K`, and the
+  tame character of Layer 3 carries `σ τ σ⁻¹ = τ^q` to `θ_0(σ̄ τ̄ σ̄⁻¹) = θ_0(τ̄)^q`; this is
+  `tameCharacter_conj_of_smul_eq_pow` at the image `σ̄` of `σ`, which acts on the residue field as
+  `x ↦ x^q`. Two statements face reciprocity: units land in inertia, and a uniformizer maps to the
+  Frobenius coordinate. They are supplied by `ClassFieldTheory.artinMap`,
+  `unramifiedCoordinate_artinMap`, and `normResidue_uniformizer`, not assumed here. This layer
+  supplies only the group-theoretic frame in which they are stated.
   - *Prerequisites:*
     - `Layer 4: the Iwasawa presentation`;
-    - `Layer 3: the quotient embeddings`.
+    - `Layer 3: the quotient embeddings`;
+    - Tau Ceti: `TauCeti.presentedProfiniteGroup.congr` and `TauCeti.freeProfiniteGroup.lift`.
 
 ## Worked examples
 
