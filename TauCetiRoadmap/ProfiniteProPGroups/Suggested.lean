@@ -1819,16 +1819,83 @@ example {p : ℕ} {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGrou
 `proPKernel p N = ⊤`, equivalently `N` has no nontrivial continuous finite `p`-group quotient
 (`TauCeti.proPKernel_eq_top_iff`), and in particular no continuous surjection onto `ℤ/p`. The open
 normal subgroups of `N` need not come from those of `G`, so this is a theorem and not the
-definition. Route, on Tau Ceti's API: `K = proPKernel p N` is closed and characteristic in `N`
-(`TauCeti.isClosed_proPKernel`, `TauCeti.map_proPKernel_eq` at the continuous automorphisms of
-`N` given by conjugation), hence its image in `G` is closed and normal; `G ⧸ K` maps onto the
-pro-`p` group `G ⧸ N` (`TauCeti.isProP_maximalProPQuotient`) with kernel the continuous image of
+definition. A closed proof on Tau Ceti's API: `K = proPKernel p N` is closed in `N` and carried
+into itself by conjugation by elements of `G` (`TauCeti.isClosed_proPKernel`,
+`TauCeti.map_proPKernel_le`), so its image `K'` in `G` is closed and normal; `G ⧸ K'` maps onto
+the pro-`p` group `G ⧸ N` (`TauCeti.isProP_maximalProPQuotient`) with kernel a continuous image of
 the pro-`p` group `N ⧸ K`, so it is pro-`p` by `TauCeti.IsProP.of_surjective` and
-`TauCeti.IsProP.of_ker_isProP`; and `TauCeti.proPKernel_le_ker` at `G → G ⧸ K` gives `N ≤ K`. -/
+`TauCeti.IsProP.of_ker_isProP`; and `TauCeti.proPKernel_le_ker` at `G → G ⧸ K'` gives `N ≤ K'`. -/
 theorem proPKernel_proPKernel_eq_top (p : ℕ) [Fact p.Prime] (G : Type u) [Group G]
     [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] :
-    proPKernel p (proPKernel p G) = ⊤ :=
-  sorry
+    proPKernel p (proPKernel p G) = ⊤ := by
+  show TauCeti.proPKernel p (TauCeti.proPKernel p G) = ⊤
+  set N := TauCeti.proPKernel p G
+  have : CompactSpace N :=
+    isCompact_iff_compactSpace.mp (TauCeti.isClosed_proPKernel (p := p) (G := G)).isCompact
+  set K := TauCeti.proPKernel p N
+  -- Conjugation by `g : G` is a continuous endomorphism of `N`, so it carries `K` into itself.
+  have hconj (g : G) : K.map (MulAut.conjNormal g).toMonoidHom ≤ K := by
+    refine TauCeti.map_proPKernel_le _ (continuous_induced_rng.2 ?_)
+    have h : ((↑) : N → G) ∘ (MulAut.conjNormal g).toMonoidHom =
+        fun n : N ↦ g * (n : G) * g⁻¹ := by
+      funext n
+      exact MulAut.conjNormal_apply g n
+    rw [h]
+    exact (continuous_const.mul continuous_subtype_val).mul continuous_const
+  -- The image `K'` of `K` in `G` is normal and closed.
+  set K' : Subgroup G := K.map N.subtype
+  have hK'N : K' ≤ N := by
+    rintro _ ⟨k, -, rfl⟩
+    exact k.2
+  have : K'.Normal := by
+    refine ⟨fun x hx g ↦ ?_⟩
+    obtain ⟨k, hk, rfl⟩ := Subgroup.mem_map.mp hx
+    refine ⟨MulAut.conjNormal g k, hconj g ⟨k, hk, rfl⟩, ?_⟩
+    exact MulAut.conjNormal_apply g k
+  have : IsClosed (K' : Set G) := by
+    rw [Subgroup.coe_map]
+    exact (TauCeti.isClosed_proPKernel (p := p) (G := G)).isClosedMap_subtype_val _
+      (TauCeti.isClosed_proPKernel (p := p) (G := N))
+  -- `G ⧸ K'` maps onto the pro-`p` group `G ⧸ N`.
+  let f : G ⧸ K' →* G ⧸ N := QuotientGroup.map K' N (MonoidHom.id G) hK'N
+  have hf : Continuous f := by
+    rw [(QuotientGroup.isQuotientMap_mk K').continuous_iff]
+    exact QuotientGroup.continuous_mk
+  have hfs : Function.Surjective f := by
+    intro y
+    obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective y
+    exact ⟨g, rfl⟩
+  -- The kernel of that map is a continuous image of the pro-`p` group `N ⧸ K`.
+  let ψ : N →* f.ker :=
+    ((QuotientGroup.mk' K').comp N.subtype).codRestrict f.ker fun n ↦ by
+      rw [MonoidHom.mem_ker]
+      exact (QuotientGroup.eq_one_iff _).mpr n.2
+  have hψK : K ≤ ψ.ker := by
+    intro k hk
+    rw [MonoidHom.mem_ker]
+    apply Subtype.ext
+    exact (QuotientGroup.eq_one_iff _).mpr ⟨k, hk, rfl⟩
+  let φ : TauCeti.maximalProPQuotient p N →* f.ker := QuotientGroup.lift K ψ hψK
+  have hφ : Continuous φ := by
+    rw [(QuotientGroup.isQuotientMap_mk K).continuous_iff]
+    exact (QuotientGroup.continuous_mk.comp continuous_subtype_val).subtype_mk _
+  have hφs : Function.Surjective φ := by
+    rintro ⟨x, hx⟩
+    obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
+    have hg : g ∈ N := (QuotientGroup.eq_one_iff g).mp hx
+    exact ⟨QuotientGroup.mk ⟨g, hg⟩, rfl⟩
+  have hker : TauCeti.IsProP p f.ker :=
+    TauCeti.isProP_maximalProPQuotient.of_surjective φ hφ hφs
+  -- So `G ⧸ K'` is pro-`p`, and the universal property puts `N` inside `K'`.
+  have hpro : TauCeti.IsProP p (G ⧸ K') :=
+    TauCeti.IsProP.of_ker_isProP TauCeti.isProP_maximalProPQuotient hf hfs hker
+  have hle : N ≤ K' := by
+    have := TauCeti.proPKernel_le_ker hpro (QuotientGroup.mk' K') QuotientGroup.continuous_mk
+    rwa [QuotientGroup.ker_mk'] at this
+  rw [eq_top_iff]
+  intro x _
+  obtain ⟨k, hk, hkx⟩ := Subgroup.mem_map.mp (hle x.2)
+  rwa [show k = x from Subtype.ext hkx] at hk
 
 /-- **Layer 3, the Frattini subgroup is closed and normal**: Tau Ceti's instances
 `TauCeti.isClosed_proPFrattini` and `TauCeti.proPFrattini_normal`. Its characteristicity is

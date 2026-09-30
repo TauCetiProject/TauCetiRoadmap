@@ -343,24 +343,26 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   (`proPKernel_proPKernel_eq_top`). Equivalently, `N` has no nontrivial continuous finite
   `p`-group quotient; in particular it admits no continuous surjection onto `ℤ/p`. The open
   normal subgroups of `N` need not come from open normal subgroups of `G`, so this is a theorem
-  and not the definition. The route has three steps:
-  1. `K = proPKernel p N` is closed in `N`, hence in `G`, and characteristic in `N` for
-     continuous automorphisms; conjugation by an element of `G` restricts to a continuous
-     automorphism of the normal subgroup `N`, so `K` is normal in `G`;
-  2. `G ⧸ K` is profinite and maps onto the pro-`p` group `G ⧸ N = maximalProPQuotient p G`,
-     with kernel the image of `N`. That image is a continuous image of the pro-`p` group
-     `N ⧸ K = maximalProPQuotient p N`, hence pro-`p` (`TauCeti.IsProP.of_surjective`). By
-     closure under extensions (`TauCeti.IsProP.of_ker_isProP`), `G ⧸ K` is pro-`p`;
+  and not the definition. `Suggested.lean` proves it from Tau Ceti's API in three steps:
+  1. `K = proPKernel p N` is closed in `N`, hence in `G`, and every continuous endomorphism of
+     `N` carries it into itself (`TauCeti.map_proPKernel_le`); conjugation by an element of `G`
+     restricts to a continuous endomorphism of the normal subgroup `N`, so `K` is normal in `G`;
+  2. `G ⧸ K` is profinite (`TauCeti.QuotientGroup.instTotallyDisconnectedSpace`) and maps onto
+     the pro-`p` group `G ⧸ N = maximalProPQuotient p G`, with kernel the image of `N`. That
+     image is a continuous image of the pro-`p` group `N ⧸ K = maximalProPQuotient p N`, hence
+     pro-`p` (`TauCeti.IsProP.of_surjective`). By closure under extensions
+     (`TauCeti.IsProP.of_ker_isProP`), `G ⧸ K` is pro-`p`;
   3. the universal property of the maximal pro-`p` quotient, applied to `G → G ⧸ K`, gives
      `N = proPKernel p G ≤ K`, that is `K = ⊤` in `N`.
 
   `LocalGaloisGroups` applies it to an absolute Galois group, where it kills `H¹` of the kernel
   with finite `p`-primary coefficients on which the kernel acts trivially.
   *Needs:* L0 closed subgroups and quotients; L3 the `IsProP` API, including closure under
-  extensions, and the maximal pro-`p` quotient: closedness, characteristicity, pro-`p`-ness and
+  extensions, and the maximal pro-`p` quotient: closedness, functoriality, pro-`p`-ness and
   the universal property; TC `TauCeti.IsProP.of_ker_isProP`, `TauCeti.IsProP.of_surjective`,
-  `TauCeti.isClosed_proPKernel`, `TauCeti.map_proPKernel_eq`,
-  `TauCeti.isProP_maximalProPQuotient`, `TauCeti.proPKernel_le_ker`.
+  `TauCeti.isClosed_proPKernel`, `TauCeti.map_proPKernel_le`,
+  `TauCeti.QuotientGroup.instTotallyDisconnectedSpace`, `TauCeti.isProP_maximalProPQuotient`,
+  `TauCeti.proPKernel_le_ker`.
 - **Topological generation and rank.** First the generation API through
   `Subgroup.topologicalClosure`, the predicate `IsTopologicallyFinitelyGenerated`, and the
   statement that generation passes along continuous surjections. Then the convergence
@@ -939,8 +941,8 @@ six, so the dependency graph closes without prose.
 That declaration belongs to the Profinite Cohomology roadmap, where it is Tau Ceti's
 `TauCeti.cohomologicalDimensionAt` at coefficient universe `0`, characterized by
 `TauCeti.cohomologicalDimensionAt_le_iff` through the vanishing predicate
-`TauCeti.CohomologicalDimensionLE`; this roadmap defines no second cohomological dimension. Three reduction theorems say when a smaller test suffices, and none of
-them is the definition:
+`TauCeti.CohomologicalDimensionLE`; this roadmap defines no second cohomological dimension.
+Three reduction theorems say when a smaller test suffices, and none of them is the definition:
 
 - testing only the **finite** discrete `p`-primary modules gives the same predicate, by
   compatibility with filtered colimits of coefficients. This is
@@ -1058,10 +1060,11 @@ would not agree with the standard `cd_p`.
   torsion `G_p`-module (`ProfiniteCohomology.ofDiscreteModuleRes`), so `Hⁱ(G_p, M) = 0`, and
   injectivity of restriction gives `Hⁱ(G, M) = 0`; by `TauCeti.cohomologicalDimensionAt_le_iff`,
   read through the alias `ProfiniteCohomology.cd_p`, this is `cd_p G ≤ n`. This is the one
-  milestone here about `cd_p` of a group that need not be pro-`p`. `ClassFieldTheory` consumes it for the cohomological dimension of a local absolute
-  Galois group. The statement asks nothing of `G_p` beyond `IsProPSylow`: being closed in the
-  compact `G`, it is compact, and that instance is supplied inside the statement, while total
-  disconnectedness passes to the subspace by instance.
+  milestone here about `cd_p` of a group that need not be pro-`p`. `ClassFieldTheory` consumes
+  it for the cohomological dimension of a local absolute Galois group. The statement asks
+  nothing of `G_p` beyond `IsProPSylow`: being closed in the compact `G`, it is compact, and
+  that instance is supplied inside the statement, while total disconnectedness passes to the
+  subspace by instance.
   ⚠ A `p`-Sylow subgroup is closed and, unless it is open, is not covered by the imported
   `ProfiniteCohomology.cd_p_eq_of_index_not_dvd`, which is the open prime-to-`p`-index case of
   the same corestriction argument. The imported descent
