@@ -38,8 +38,9 @@ The roadmap is complete when Tau Ceti supplies all of the following.
    semigroup generators. A basis extending the primitive ray generators gives a biholomorphism
    with `C^k x (C^*)^(n-k)`, independent of the extending basis.
 3. Every finite regular fan has a Hausdorff second-countable complex manifold obtained by gluing
-   its affine analytic charts along face localizations, by a generic gluing theorem for complex
-   manifolds. Character functions, chart inclusions, and the torus action are holomorphic.
+   its affine analytic charts along face localizations, by the open-gluing theorem for complex
+   manifolds of the ComplexManifolds roadmap. Character functions, chart inclusions, and the torus
+   action are holomorphic.
 4. Cones correspond naturally to torus orbits. For a nonempty fan, the complement of the dense
    torus is a finite union of closed embedded complex hypersurfaces indexed by rays, with reduced
    multiplicity one and the local coordinate-hyperplane simple-normal-crossings form.
@@ -80,12 +81,17 @@ The roadmap is complete when Tau Ceti supplies all of the following.
   here consumes it: the dense torus is Tau Ceti's `ComplexTorus` and `denseTorusScheme`, and the
   affine toric schemes are Tau Ceti's `affineToricScheme`. Its design is the model for the
   algebraic torus action of Layer 0, item 7.
-- **This roadmap owns the gluing of complex manifolds.** Mathlib owns the manifold vocabulary:
-  `ChartedSpace`, `StructureGroupoid`, `HasGroupoid`, `IsManifold`, `ContMDiff`,
-  `PartialDiffeomorph`, `IsLocalDiffeomorph` and `Diffeomorph`. Tau Ceti owns the manifold
-  structure pushed forward along a local homeomorphism with holomorphic deck transformations.
-  Neither glues complex manifolds along a `TopCat.GlueData`. Layer 3G states that generic
-  construction, and Layer 3 applies it to the affine toric charts.
+- **The ComplexManifolds roadmap owns the gluing of complex manifolds.** Mathlib owns the manifold
+  vocabulary: `ChartedSpace`, `StructureGroupoid`, `HasGroupoid`, `IsManifold`, `ContMDiff`,
+  `PartialDiffeomorph`, `IsLocalDiffeomorph` and `Diffeomorph`. Milestone 5 of the
+  [ComplexManifolds roadmap #279](https://github.com/TauCetiProject/TauCetiRoadmap/pull/279),
+  compatible open gluing, owns the atlas on the glued space of a `TopCat.GlueData`, its manifold
+  theorem, the chart inclusions as open local diffeomorphisms, and its uniqueness and
+  functoriality. Its ownership contract names this roadmap as a consumer of that open-gluing
+  interface. Tau Ceti implements the part that this roadmap uses,
+  `TauCeti.chartedSpaceOfIsOpenEmbedding` with its manifold and chart-inclusion theorems
+  (Layer 3G), and builds the complex atlas of the realization from it (Layer 3, item 2). This
+  roadmap states no gluing construction of its own.
 - **General scheme analytification is not claimed.** The comparison is toric and chartwise. It
   identifies affine functor-of-points carriers, proves compatibility on face localizations, and
   glues those comparisons.
@@ -153,11 +159,6 @@ At the dependency pin, the following anchors already exist.
   submonoids, monoid algebras, localizations, affine schemes, and scheme gluing.
 - Complex differentiability, finite products, open subspaces, complex manifolds, local
   diffeomorphisms, and structure groupoids.
-- Mathlib's lifted charts `OpenPartialHomeomorph.lift_openEmbedding` and pushed-forward charts
-  `IsLocalHomeomorph.chartedSpace`, and Tau Ceti's
-  `IsLocalHomeomorph.isManifold_chartedSpaceOfRightInverse` and
-  `IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceOfRightInverse`, in
-  `TauCeti/Geometry/Manifold/Instances/Quotient.lean`: the pieces that Layer 3G assembles.
 - `TopCat.GlueData`, its canonical open embeddings, its open-set criterion, and its colimit
   universal property.
 - Proper maps, compactness, local compactness, quotient maps, and second-countability tools.
@@ -309,42 +310,31 @@ scheme.
 
 **Source spine:** Fulton, §§1.2 and 2.1; Cox--Little--Schenck, §§1.2, 3.1, and 3.3.
 
-## Layer 3G: gluing complex manifolds
+## Layer 3G: the gluing theorem
 
-Neither Mathlib nor Tau Ceti puts a complex-manifold structure on a space glued from complex
-manifolds, so this roadmap owns that construction. It is generic: the gluing data is Mathlib's
-`TopCat.GlueData`, the model is any normed space `E` over `C`, and nothing in it is toric. Tau
-Ceti has its engine: the charts that a surjective local homeomorphism with holomorphic local deck
-transformations pushes forward from a complex manifold form a complex manifold, for which the map
-is a holomorphic local diffeomorphism (`IsLocalHomeomorph.isManifold_chartedSpaceOfRightInverse`
-and `IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceOfRightInverse`). This layer applies it to
-the projection from the disjoint union of the charts onto the glued space.
+Milestone 5 of the
+[ComplexManifolds roadmap #279](https://github.com/TauCetiProject/TauCetiRoadmap/pull/279),
+compatible open gluing, owns the complex structure on a space glued from complex manifolds along
+`TopCat.GlueData`, with its uniqueness and functoriality, and names this roadmap as a consumer.
+Tau Ceti implements the part that Layer 3 uses in `TauCeti/Geometry/Manifold/Gluing.lean`, which
+landed after this repository's Tau Ceti pin.
 
-1. The input is topological gluing data `D : TopCat.GlueData`: charts `D.U i`, overlaps
-   `D.V (i, j)` embedded openly in `D.U i` by `D.f i j`, and transitions `D.t i j`.
-2. Every chart carries a complex-manifold structure, `ChartedSpace E (D.U i)` with
-   `IsManifold 𝓘(C, E) n (D.U i)`.
-3. The transitions are holomorphic, `HolomorphicTransitions`: read on the charts, the transition
-   from `D.U i` to `D.U j` agrees near every overlap point with a map holomorphic there. Since
-   `D.t j i` inverts `D.t i j` (`CategoryTheory.GlueData.t_inv`), the transitions are then
-   biholomorphisms between the overlaps.
-4. The triple-overlap and cocycle compatibilities are the fields `t_fac` and `cocycle` of
-   `TopCat.GlueData`, with `CategoryTheory.GlueData.t_inv` derived from them. The holomorphic
-   structure needs no further compatibility.
-5. Construct the complex atlas of the glued space. The disjoint union `Σ i, D.U i` carries the
-   charts of its summands, lifted along `Sigma.mk i` by Mathlib's
-   `OpenPartialHomeomorph.lift_openEmbedding`. Prove that it is a complex manifold and that each
-   `Sigma.mk i` is a local diffeomorphism. The projection onto the glued space is a surjective
-   local homeomorphism, and the glued space carries the charts it pushes forward, Mathlib's
-   `IsLocalHomeomorph.chartedSpace`.
-6. Prove that holomorphic transitions give the projection holomorphic local deck
-   transformations. The glued space is then a complex manifold, by Tau Ceti's theorem.
-7. Prove that every chart inclusion `D.ι i` is a holomorphic local diffeomorphism. Being an open
-   embedding (`TopCat.GlueData.ι_isOpenEmbedding`), it is a biholomorphism onto an open subset.
-8. Prove that a map out of the glued manifold is holomorphic exactly when its composite with every
-   chart inclusion is. With item 7 this is the compatibility that later constructions use: a map
-   out of a realization is checked on its charts, and a map into it is a composite with chart
-   inclusions.
+1. A space covered by open embeddings of charted spaces receives the transported charts,
+   `TauCeti.chartedSpaceOfIsOpenEmbedding`. The chart inclusions `D.ι i` of
+   `D : TopCat.GlueData` form such a cover, by `TopCat.GlueData.ι_isOpenEmbedding` and
+   `TopCat.GlueData.ι_jointly_surjective`.
+2. These charts form a complex manifold when the pieces are complex manifolds glued along
+   holomorphic maps, `TauCeti.isManifold_chartedSpaceOfIsOpenEmbedding`. The gluing hypothesis is
+   a local deck transformation: whenever `φ j x = φ k y`, some map `T` holomorphic at `x`
+   satisfies `φ k ∘ T = φ j` near `x`. The two-sided overlap compatibility of Milestone 5, that
+   `D.f i j` and `x |-> D.f j i (D.t i j x)` are open local diffeomorphisms for an atlas on the
+   overlap, implies it.
+3. Every embedding of a piece is then holomorphic,
+   `TauCeti.contMDiff_chartedSpaceOfIsOpenEmbedding`, and a biholomorphism onto its open image,
+   `TauCeti.partialDiffeomorphOfIsOpenEmbedding`.
+
+This roadmap states no gluing construction of its own. Layer 3, item 2 consumes this one through
+Tau Ceti's complex atlas of the realization.
 
 **Source spine:** Lee, Chapter 1 (the smooth manifold chart lemma).
 
@@ -361,17 +351,18 @@ The fans of this layer are regular, `Fan.IsRegular`.
    `Fan.analyticGlueData`, with the realization `Fan.analyticRealization` and the chart
    inclusions `Fan.analyticAffineChartι`, landed after this repository's Tau Ceti pin.
    `Suggested.lean` assembles the same gluing data from the pinned pieces under those names.
-2. Make the realization a complex manifold by Layer 3G. Give each affine chart the complex
-   structure of Layer 2, item 3, over the common model `ToricModel N`: the structure
-   `coneChartedSpace` of an extending basis, carried to `ToricModel N` by a linear equivalence
-   and pinned by the ambient chart `coneChartAmbient` being a holomorphic local diffeomorphism.
-   By Tau Ceti's `contMDiff_id_coneChartedSpace` it does not depend on the basis. The transitions
-   of the gluing data of item 1 pass through the chart of the intersection cone by face
-   localizations, which are biholomorphisms onto their images by Layer 2, item 5, so they are
-   holomorphic in the sense of Layer 3G, item 3. Layer 3G then gives the realization its complex
-   atlas `analyticChartedSpace`, makes the realization a complex manifold, and makes every affine
-   chart inclusion an open holomorphic embedding. Prove that every cone-orbit chart agrees on
-   overlaps.
+2. Make the realization a complex manifold. Each affine chart carries the complex structure of
+   Layer 2, item 3, `coneChartedSpace` for an extending basis and a generating family, which by
+   Tau Ceti's `contMDiff_id_coneChartedSpace` depends on neither. Two affine charts are glued along
+   the chart of their intersection cone by face localizations, which are biholomorphisms onto
+   their open images by Layer 2, item 5, so the gluing theorem of Layer 3G applies. Tau Ceti: the
+   complex atlas `Fan.analyticChartedSpace`, modelled on `C^n` for `n` the rank of the lattice;
+   `Fan.isManifold_analyticRealization`; and every affine chart inclusion as a biholomorphism onto
+   its open image, for the structure of any extending basis and generating family,
+   `Fan.analyticAffineChartPartialDiffeomorph` with `Fan.contMDiff_analyticAffineChartι`. These
+   landed after this repository's Tau Ceti pin, and `Suggested.lean` states the first two under
+   those names. The remaining target: every cone-orbit chart, `affineConeOrbitChartedSpace`,
+   agrees on overlaps.
 3. Prove Hausdorffness from the fan intersection property and closedness of the generated gluing
    relation. The proof must separate points in noncommon faces rather than store separation in a
    fan record. Tau Ceti's `Fan.t2Space_analyticRealization` landed after this repository's Tau
@@ -393,9 +384,11 @@ The fans of this layer are regular, `Fan.IsRegular`.
    image is the union of the ambient charts of the subfan's cones, and that it is an open
    embedding.
 6. Prove that the open-subfan map of item 5 is an open holomorphic embedding: the same map is
-   holomorphic for the complex structures of item 2. On each chart it is a chart comparison,
-   which is a biholomorphism because the two chart structures are pinned by the same ambient
-   chart, followed by an ambient chart inclusion, so Layer 3G, item 8 applies.
+   holomorphic for the complex structures of item 2. On the chart of a cone of the subfan it is
+   the chart comparison, the identity on points, followed by the ambient chart inclusion. For one
+   extending basis and one generating family, `Fan.analyticAffineChartPartialDiffeomorph` makes
+   the subfan and ambient chart inclusions biholomorphisms onto their open images, so the map is a
+   local biholomorphism.
 
 **Source spine:** Fulton, §§1.4 and 2.4; Cox--Little--Schenck, §§3.1 and 3.4; Oda, Chapter I.
 
@@ -475,14 +468,15 @@ Chapter I.
 | L0 algebraic supplier | Mathlib and Tau Ceti's algebraic toric modules | every later layer |
 | L1 character and mixed-monomial calculus | L0, Mathlib complex analysis | L2, L5--L6 |
 | L2 affine regular charts | L0--L1, Mathlib's manifolds | L3--L6 |
-| L3G gluing complex manifolds | Mathlib manifolds, `TopCat.GlueData`, Tau Ceti | L3 items 2, 6 |
+| L3G gluing theorem, ComplexManifolds | Mathlib manifolds, `TopCat.GlueData` | L3 items 2, 6 |
 | L3 finite-fan gluing | L2, L3G | L4--L6 |
 | L4 orbit and boundary theory | L2--L3 | L6 and downstream geometry |
 | L5 maps and properness | L1--L3 | L6 and compactness applications |
 | L6 global comparison | L0--L5 | reusable analytic realization |
 
 After L0 fixes the carriers, L1's character calculus and the generator-independence part of L2
-can proceed in parallel. L3G depends on nothing in this roadmap and can proceed at any time.
+can proceed in parallel. L3G is Milestone 5 of the ComplexManifolds roadmap, and Tau Ceti
+implements the part that L3 uses; it depends on nothing in this roadmap.
 Within L3, items 3--5 are topological and use only the glued space of item 1, so they proceed in
 parallel with item 2; item 6 needs item 2. L4 and L5 can proceed independently after L3. L6
 joins those tracks.
@@ -522,7 +516,8 @@ joins those tracks.
   every affine chart and overlap, and is natural for toric maps. An unrelated homeomorphism of
   final carriers is insufficient.
 - No public declaration introduces a competing convex-cone, semigroup-algebra, scheme, gluing
-  quotient, or biholomorphism carrier, or a second copy of a Tau Ceti toric object.
+  quotient, or biholomorphism carrier, a second copy of a Tau Ceti toric object, or a second
+  gluing construction for manifolds.
 
 ## References
 

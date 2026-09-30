@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.Geometry.Manifold.Instances.Quotient
 import TauCeti.Geometry.Toric.Algebraic.DualSemigroup.Face
 import TauCeti.Geometry.Toric.Algebraic.FaceLocalization
 import TauCeti.Geometry.Toric.Algebraic.Fan.Scheme
@@ -32,11 +31,13 @@ analytic charts with its overlap loci, transitions and cocycle. The targets belo
 those objects. Nothing below restates a declaration of the pinned Tau Ceti revision. The gluing
 data, the realization and its chart inclusions landed in Tau Ceti after that revision, and the
 stand-ins `analyticGlueData`, `analyticRealization` and `analyticAffineChartι` assemble them from
-the pinned pieces.
+the pinned pieces. The complex atlas of the realization and its manifold theorem also landed after
+that revision, and `analyticChartedSpace` and `isManifold_analyticRealization` state them.
 
-Layer 3G is generic: it glues complex manifolds along Mathlib's `TopCat.GlueData`, using Tau
-Ceti's charts pushed forward along a local homeomorphism
-(`TauCeti/Geometry/Manifold/Instances/Quotient.lean`). Layer 3 applies it to the toric charts.
+Nothing below states a gluing construction for manifolds. The ComplexManifolds roadmap, Milestone 5
+(TauCetiProject/TauCetiRoadmap#279), owns it, and Tau Ceti's `TauCeti.chartedSpaceOfIsOpenEmbedding`
+(`TauCeti/Geometry/Manifold/Gluing.lean`, after the pinned revision) implements the part that the
+complex atlas of the realization uses.
 -/
 
 namespace TauCetiRoadmap.AnalyticToricGeometry
@@ -173,133 +174,6 @@ theorem isOver_algebraicMap (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : Ψ.Is
   exact (affineCoordinateRingMap _ _ _ _ _ _).comp_algebraMap
 
 end OverSpecComplex
-
-/-! ## Layer 3G: gluing complex manifolds
-
-Neither Mathlib nor Tau Ceti puts a complex-manifold structure on a space glued from complex
-manifolds. Tau Ceti has the engine: the charts that a surjective local homeomorphism with
-holomorphic local deck transformations pushes forward from a complex manifold form a complex
-manifold, for which the map is a holomorphic local diffeomorphism
-(`IsLocalHomeomorph.isManifold_chartedSpaceOfRightInverse` and
-`IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceOfRightInverse`). This section applies it to the
-projection from the disjoint union of the charts of topological gluing data onto the glued space.
-It is generic: the model is any normed space `E` over `ℂ`, and the gluing data is Mathlib's
-`TopCat.GlueData` (item 1), whose fields `t_fac` and `cocycle` are the triple-overlap and cocycle
-laws (item 4). -/
-
-section ManifoldGluing
-
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {n : ℕ∞ω}
-
-/-- **Layer 3G, item 5.** The charts of a disjoint union: every chart of a summand, lifted along the
-open embedding `Sigma.mk i` by Mathlib's `OpenPartialHomeomorph.lift_openEmbedding`. -/
-@[instance_reducible]
-noncomputable def sigmaChartedSpace {ι : Type*} (M : ι → Type*) [∀ i, TopologicalSpace (M i)]
-    [∀ i, ChartedSpace E (M i)] : ChartedSpace E (Σ i, M i) where
-  atlas := ⋃ i, (fun e : OpenPartialHomeomorph (M i) E ↦
-    e.lift_openEmbedding (IsOpenEmbedding.sigmaMk (σ := M))) '' atlas E (M i)
-  chartAt p := (chartAt E p.2).lift_openEmbedding (IsOpenEmbedding.sigmaMk (σ := M))
-  mem_chart_source p := ⟨p.2, mem_chart_source E p.2, rfl⟩
-  chart_mem_atlas p := Set.mem_iUnion.2 ⟨p.1, _, chart_mem_atlas E p.2, rfl⟩
-
-/-- **Layer 3G, item 5.** A disjoint union of complex manifolds is a complex manifold. -/
-theorem isManifold_sigmaChartedSpace {ι : Type*} (M : ι → Type*) [∀ i, TopologicalSpace (M i)]
-    [∀ i, ChartedSpace E (M i)] [∀ i, IsManifold 𝓘(ℂ, E) n (M i)] :
-    letI := sigmaChartedSpace (E := E) M
-    IsManifold 𝓘(ℂ, E) n (Σ i, M i) := by
-  sorry
-
-/-- **Layer 3G, item 5.** The inclusion of a summand of a disjoint union of complex manifolds is a
-holomorphic local diffeomorphism. -/
-theorem isLocalDiffeomorph_sigmaMk {ι : Type*} (M : ι → Type*) [∀ i, TopologicalSpace (M i)]
-    [∀ i, ChartedSpace E (M i)] [∀ i, IsManifold 𝓘(ℂ, E) n (M i)] (i : ι) :
-    letI := sigmaChartedSpace (E := E) M
-    IsLocalDiffeomorph 𝓘(ℂ, E) 𝓘(ℂ, E) n (Sigma.mk i : M i → Σ i, M i) := by
-  sorry
-
-variable (D : TopCat.GlueData.{u})
-
-/-- **Layer 3G, item 5.** The projection from the disjoint union of the charts of topological gluing
-data onto the glued space. -/
-noncomputable def gluedProj : (Σ i, D.U i) → D.glued := fun p ↦ D.ι p.1 p.2
-
-/-- **Layer 3G, item 5.** The projection onto the glued space is a local homeomorphism: on each
-summand it is the open embedding `TopCat.GlueData.ι`. -/
-theorem isLocalHomeomorph_gluedProj : IsLocalHomeomorph (gluedProj D) := by
-  sorry
-
-/-- The projection onto the glued space is surjective, by `TopCat.GlueData.ι_jointly_surjective`. -/
-theorem surjective_gluedProj : Function.Surjective (gluedProj D) := fun x ↦
-  let ⟨i, y, h⟩ := D.ι_jointly_surjective x
-  ⟨⟨i, y⟩, h⟩
-
-variable [cs : ∀ i, ChartedSpace E (D.U i)]
-
-/-- **Layer 3G, items 2 and 3.** Gluing data whose charts carry complex charts has holomorphic
-transitions when, read on the charts, the transition from `D.U i` to `D.U j` agrees near every
-overlap point with a map holomorphic there. Since `D.t j i` inverts `D.t i j`
-(`CategoryTheory.GlueData.t_inv`), the transitions are then biholomorphisms between the
-overlaps. -/
-def HolomorphicTransitions (n : ℕ∞ω) : Prop :=
-  ∀ i j (v : D.V (i, j)), ∃ φ : D.U i → D.U j,
-    ContMDiffAt 𝓘(ℂ, E) 𝓘(ℂ, E) n φ (D.f i j v) ∧
-      ∀ᶠ w in 𝓝 v, φ (D.f i j w) = D.f j i (D.t i j w)
-
-/-- **Layer 3G, item 6.** With holomorphic transitions, the projection onto the glued space has
-holomorphic local deck transformations: two points of the disjoint union with the same image are
-related, near the first, by a transition. -/
-theorem HolomorphicTransitions.deck {D : TopCat.GlueData.{u}} [∀ i, ChartedSpace E (D.U i)]
-    (h : HolomorphicTransitions (E := E) D n) :
-    letI := sigmaChartedSpace (E := E) (fun i ↦ D.U i)
-    ∀ z w, gluedProj D z = gluedProj D w → ∃ φ : (Σ i, D.U i) → (Σ i, D.U i),
-      ContMDiffAt 𝓘(ℂ, E) 𝓘(ℂ, E) n φ z ∧ φ z = w ∧ gluedProj D ∘ φ =ᶠ[𝓝 z] gluedProj D := by
-  sorry
-
-/-- **Layer 3G, item 5.** The complex atlas of the glued space: the charts of the disjoint union
-pushed forward along the projection, Mathlib's `IsLocalHomeomorph.chartedSpace`. -/
-@[instance_reducible]
-noncomputable def gluedChartedSpace : ChartedSpace E D.glued :=
-  letI := sigmaChartedSpace (E := E) (fun i ↦ D.U i)
-  (isLocalHomeomorph_gluedProj D).chartedSpace (surjective_gluedProj D)
-
-/-- **Layer 3G, item 6.** Complex manifolds glued along holomorphic transitions form a complex
-manifold, by Tau Ceti's `IsLocalHomeomorph.isManifold_chartedSpaceOfRightInverse`. -/
-theorem isManifold_glued [hm : ∀ i, IsManifold 𝓘(ℂ, E) n (D.U i)]
-    (h : HolomorphicTransitions (E := E) D n) :
-    letI := gluedChartedSpace (E := E) D
-    IsManifold 𝓘(ℂ, E) n D.glued := by
-  let _ := sigmaChartedSpace (E := E) (fun i ↦ D.U i)
-  have := isManifold_sigmaChartedSpace (E := E) (n := n) (fun i ↦ D.U i)
-  exact (isLocalHomeomorph_gluedProj D).isManifold_chartedSpaceOfRightInverse
-    (surjective_gluedProj D).hasRightInverse.choose_spec h.deck
-
-/-- **Layer 3G, item 7.** Every chart inclusion is a holomorphic local diffeomorphism, hence, being
-an open embedding (`TopCat.GlueData.ι_isOpenEmbedding`), a biholomorphism onto an open subset:
-Tau Ceti's `IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceOfRightInverse` for the projection,
-composed with `Sigma.mk i`. -/
-theorem isLocalDiffeomorph_ι [hm : ∀ i, IsManifold 𝓘(ℂ, E) n (D.U i)]
-    (h : HolomorphicTransitions (E := E) D n) (i : D.J) :
-    letI := gluedChartedSpace (E := E) D
-    IsLocalDiffeomorph 𝓘(ℂ, E) 𝓘(ℂ, E) n (D.ι i) := by
-  let _ := gluedChartedSpace (E := E) D
-  let _ := sigmaChartedSpace (E := E) (fun i ↦ D.U i)
-  have := isManifold_sigmaChartedSpace (E := E) (n := n) (fun i ↦ D.U i)
-  have hπ := (isLocalHomeomorph_gluedProj D).isLocalDiffeomorph_chartedSpaceOfRightInverse
-    (I := 𝓘(ℂ, E)) (n := n) (surjective_gluedProj D).hasRightInverse.choose_spec h.deck
-  have hmk := isLocalDiffeomorph_sigmaMk (E := E) (n := n) (fun i ↦ D.U i) i
-  intro x
-  exact IsLocalDiffeomorphAt.comp (K := 𝓘(ℂ, E)) (P := D.glued) (hmk x) (hπ ⟨i, x⟩)
-
-/-- **Layer 3G, item 8.** The glued atlas is the one that later constructions use: a map out of
-the glued manifold is holomorphic exactly when its composite with every chart inclusion is. -/
-theorem contMDiff_iff_forall_contMDiff_comp_ι [hm : ∀ i, IsManifold 𝓘(ℂ, E) n (D.U i)]
-    (h : HolomorphicTransitions (E := E) D n) {E' M : Type*} [NormedAddCommGroup E']
-    [NormedSpace ℂ E'] [TopologicalSpace M] [ChartedSpace E' M] {g : D.glued → M} :
-    letI := gluedChartedSpace (E := E) D
-    ContMDiff 𝓘(ℂ, E) 𝓘(ℂ, E') n g ↔ ∀ i, ContMDiff 𝓘(ℂ, E) 𝓘(ℂ, E') n (g ∘ D.ι i) := by
-  sorry
-
-end ManifoldGluing
 
 /-! ## Layers 3 to 5: the glued analytic realization, its torus action, strata, and toric maps -/
 
@@ -501,86 +375,38 @@ theorem isOpenEmbedding_subfanAnalyticMap (Φ : Fan i) (S : Set (PointedCone ℝ
 /-- Model vector space determined by the lattice rank. -/
 abbrev ToricModel := Fin (Module.finrank ℤ N) → ℂ
 
-/-- **Layer 3, item 2.** The complex structure on the affine chart of a cone of a regular fan, over
-the common model `ToricModel N`: the structure of Tau Ceti's `coneChartedSpace` for an extending
-basis (Layer 2, item 3), whose model `(Fin k → ℂ) × (Fin l → ℂ)` has the rank of the lattice as
-dimension, carried to `ToricModel N` by a linear equivalence. `isLocalDiffeomorph_coneChartAmbient`
-pins it. -/
-@[instance_reducible]
-noncomputable def analyticAffineChartChartedSpace (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones) :
-    ChartedSpace (ToricModel (N := N)) ((Φ.analyticAffineChartDiagram hΦ).obj σ) := by
-  sorry
+/-- **Layer 3, item 2.** The complex atlas of the analytic realization of a regular fan, modelled on
+`ℂ ^ n` for `n` the rank of the lattice: the charts of the affine analytic charts, each with the
+complex structure of an extending basis (Layer 2, item 3), transported along the chart inclusions
+by `TauCeti.chartedSpaceOfIsOpenEmbedding`.
 
-/-- **Layer 3, item 2.** Each affine chart is a complex manifold. -/
-theorem isManifold_analyticAffineChart (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones) :
-    letI := analyticAffineChartChartedSpace Φ hΦ σ
-    IsManifold 𝓘(ℂ, ToricModel (N := N)) ∞ ((Φ.analyticAffineChartDiagram hΦ).obj σ) := by
-  sorry
-
-/-- **Layer 3, item 2.** For every basis extending the primitive ray generators of the cone and
-every numbering of its rays, Tau Ceti's ambient chart `coneChartAmbient` is a holomorphic local
-diffeomorphism from the affine chart to `(Fin k → ℂ) × (Fin l → ℂ)`. This determines the complex
-structure of the chart; by Tau Ceti's `contMDiff_id_coneChartedSpace` it does not depend on the
-basis. -/
-theorem isLocalDiffeomorph_coneChartAmbient (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones)
-    {k l : ℕ} {B : Module.Basis (ToricRay σ.1 ⊕ Fin l) ℤ N}
-    (hB : ∀ ρ, IsPrimitiveGenerator i ρ (B (Sum.inl ρ))) (κ : ToricRay σ.1 ≃ Fin k) :
-    letI := analyticAffineChartChartedSpace Φ hΦ σ
-    IsLocalDiffeomorph (M := (Φ.analyticAffineChartDiagram hΦ).obj σ)
-      𝓘(ℂ, ToricModel (N := N)) 𝓘(ℂ, (Fin k → ℂ) × (Fin l → ℂ)) ∞
-      (coneChartAmbient Φ.lattice (Φ.isToricCone σ.2) hB κ) := by
-  sorry
-
-/-- **Layer 3, item 2.** The transitions of `analyticGlueData` are holomorphic: they pass through
-the chart of the intersection cone by face localizations, which are biholomorphisms onto their
-images (Layer 2, item 5, Tau Ceti's `IsRegularCone.faceAffinePointPartialDiffeomorph`). -/
-theorem holomorphicTransitions_analyticGlueData (Φ : Fan i) (hΦ : Φ.IsRegular) :
-    HolomorphicTransitions (analyticGlueData Φ hΦ)
-      (cs := fun σ ↦ analyticAffineChartChartedSpace Φ hΦ σ) ∞ := by
-  sorry
-
-/-- **Layer 3, item 2.** The complex atlas of the realization: Layer 3G applied to the gluing data
-`analyticGlueData` with the chart structures `analyticAffineChartChartedSpace`. -/
+Tau Ceti's `TauCeti.Toric.Fan.analyticChartedSpace`
+(`TauCeti/Geometry/Toric/Analytic/Fan/Manifold.lean`); stated here because the pinned Tau Ceti
+revision predates it; replaced by the import when the pin moves. -/
 @[instance_reducible]
 noncomputable def analyticChartedSpace (Φ : Fan i) (hΦ : Φ.IsRegular) :
-    ChartedSpace (ToricModel (N := N)) (analyticRealization Φ hΦ) :=
-  gluedChartedSpace (analyticGlueData Φ hΦ) (cs := fun σ ↦ analyticAffineChartChartedSpace Φ hΦ σ)
+    ChartedSpace (ToricModel (N := N)) (analyticRealization Φ hΦ) := by
+  sorry
 
-/-- **Layer 3, item 2.** The finite-fan realization is a complex manifold, by Layer 3G. -/
-theorem analyticRealization_isManifold (Φ : Fan i) (hΦ : Φ.IsRegular) :
+/-- **Layer 3, item 2.** The analytic realization of a regular fan is a complex manifold: two affine
+charts are glued along the chart of their intersection cone by face localizations, which are
+biholomorphisms onto their open images (Layer 2, item 5).
+
+Tau Ceti's `TauCeti.Toric.Fan.isManifold_analyticRealization`
+(`TauCeti/Geometry/Toric/Analytic/Fan/Manifold.lean`); stated here because the pinned Tau Ceti
+revision predates it; replaced by the import when the pin moves. -/
+theorem isManifold_analyticRealization (Φ : Fan i) (hΦ : Φ.IsRegular) (n : ℕ∞ω) :
     letI := analyticChartedSpace Φ hΦ
-    IsManifold 𝓘(ℂ, ToricModel (N := N)) ∞ (analyticRealization Φ hΦ) :=
-  isManifold_glued (analyticGlueData Φ hΦ) (cs := fun σ ↦ analyticAffineChartChartedSpace Φ hΦ σ)
-    (hm := fun σ ↦ isManifold_analyticAffineChart Φ hΦ σ)
-    (holomorphicTransitions_analyticGlueData Φ hΦ)
-
-/-- **Layer 3, item 2.** Every affine chart inclusion is a holomorphic local diffeomorphism, hence,
-being an open embedding, an open holomorphic embedding, by Layer 3G. -/
-theorem isLocalDiffeomorph_analyticAffineChartι (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones) :
-    letI := analyticAffineChartChartedSpace Φ hΦ σ
-    letI := analyticChartedSpace Φ hΦ
-    IsLocalDiffeomorph 𝓘(ℂ, ToricModel (N := N)) 𝓘(ℂ, ToricModel (N := N)) ∞
-      (analyticAffineChartι Φ hΦ σ) :=
-  isLocalDiffeomorph_ι (analyticGlueData Φ hΦ)
-    (cs := fun σ ↦ analyticAffineChartChartedSpace Φ hΦ σ)
-    (hm := fun σ ↦ isManifold_analyticAffineChart Φ hΦ σ)
-    (holomorphicTransitions_analyticGlueData Φ hΦ) σ
-
-/-- **Layer 3, item 6.** The chart comparison is a biholomorphism: the chart structures of the
-subfan and of the ambient fan are pinned by the same ambient chart `coneChartAmbient`. -/
-theorem isLocalDiffeomorph_subfanAnalyticChartMap (Φ : Fan i) (S : Set (PointedCone ℝ V))
-    (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular)
-    (σ : (Φ.subfan S hS hface).cones) :
-    letI := analyticAffineChartChartedSpace (Φ.subfan S hS hface) (hΦ.subfan S hS hface) σ
-    letI := analyticAffineChartChartedSpace Φ hΦ (subfanCone Φ S hS hface σ)
-    IsLocalDiffeomorph 𝓘(ℂ, ToricModel (N := N)) 𝓘(ℂ, ToricModel (N := N)) ∞
-      (subfanAnalyticChartMap Φ S hS hface hΦ σ) := by
+    IsManifold 𝓘(ℂ, ToricModel (N := N)) n (analyticRealization Φ hΦ) := by
   sorry
 
 /-- **Layer 3, item 6.** The open-subfan map of item 5 is a holomorphic local diffeomorphism, so,
-being an open embedding, a biholomorphism onto an open subset. On each chart it is the chart
-comparison followed by an ambient chart inclusion, both biholomorphisms onto open subsets, so this
-follows from Layer 3G, item 8. -/
+being an open embedding, a biholomorphism onto an open subset. On the chart of a cone of the subfan
+it is the chart comparison, the identity on points, followed by the ambient chart inclusion
+(`analyticAffineChartι_comp_subfanAnalyticMap`). For one extending basis and one generating family,
+Tau Ceti's `TauCeti.Toric.Fan.analyticAffineChartPartialDiffeomorph` makes both chart inclusions
+biholomorphisms onto their open images, so near every point the map is the one composed with the
+inverse of the other. -/
 theorem isLocalDiffeomorph_subfanAnalyticMap (Φ : Fan i) (S : Set (PointedCone ℝ V))
     (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular) :
     letI := analyticChartedSpace (Φ.subfan S hS hface) (hΦ.subfan S hS hface)
