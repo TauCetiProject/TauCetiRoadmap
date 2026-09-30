@@ -40,18 +40,19 @@ The roadmap is complete when Tau Ceti supplies all of the following.
 3. Every finite regular fan has a Hausdorff second-countable complex manifold obtained by gluing
    its affine analytic charts along face localizations, by a generic gluing theorem for complex
    manifolds. Character functions, chart inclusions, and the torus action are holomorphic.
-4. Cones correspond naturally to torus orbits. The complement of the dense torus is a finite
-   union of closed embedded complex hypersurfaces indexed by rays, with reduced multiplicity one
-   and the local coordinate-hyperplane simple-normal-crossings form.
+4. Cones correspond naturally to torus orbits. For a nonempty fan, the complement of the dense
+   torus is a finite union of closed embedded complex hypersurfaces indexed by rays, with reduced
+   multiplicity one and the local coordinate-hyperplane simple-normal-crossings form.
 5. A fan morphism induces a holomorphic toric map. Identity, composition, products, open subfans,
    and restrictions agree definitionally or by named natural isomorphisms. For finite source and
-   target fans, the cone-by-cone support criterion characterizes properness.
+   target fans with a nonempty source, the cone-by-cone support criterion characterizes
+   properness.
 6. The analytic realization is naturally biholomorphic, as a toric space, to the global complex
    points of the algebraic fan scheme, its morphisms `Spec C -> X_Sigma` over `Spec C`. This
    comparison commutes with affine charts, characters, orbit strata, boundary components, and
    toric maps.
-7. A finite regular fan is complete exactly when its analytic realization is compact. The
-   standard fans for affine space, the algebraic torus, projective space, products, and a star
+7. A nonempty finite regular fan is complete exactly when its analytic realization is compact.
+   The standard fans for affine space, the algebraic torus, projective space, products, and a star
    subdivision satisfy the expected comparison and properness theorems.
 
 ## Ownership and dependencies
@@ -129,8 +130,14 @@ These conventions are acceptance conditions.
   Its simple-normal-crossings conclusion is a complex local biholomorphism, represented by a
   complex `PartialDiffeomorph`, under which the components are coordinate hyperplanes. A merely
   topological `PartialHomeomorph` does not establish this conclusion.
-- Properness is stated only for finite fans. For every target cone `tau`, the inverse image of
-  `tau` under the real-linear map equals the support of the source cones mapped into `tau`.
+- A fan may have no cones, and `Fan.subfan` accepts every face-closed set of cones of a fan, the
+  empty set included. The empty fan is regular, its realization is empty, and it is not complete.
+  A nonempty fan contains the zero cone, `Fan.bot_mem`. The global dense torus, the properness
+  criterion, and the equivalence of completeness with compactness are stated for nonempty fans,
+  with the hypothesis `Nonempty Φ.cones` that `Fan.denseTorusι` takes.
+- Properness is stated only for finite fans with a nonempty source. For every target cone `tau`,
+  the inverse image of `tau` under the real-linear map equals the support of the source cones
+  mapped into `tau`.
 
 ## Existing foundations to consume
 
@@ -220,14 +227,15 @@ for regular cones and regular fans, and `Suggested.lean` states them on Tau Ceti
    separation lemma, that every face of a toric cone is cut out by a character of its dual
    semigroup, which makes every face morphism of a toric cone an open immersion.
 9. **The fan scheme.** The affine schemes of a finite fan glue along these open immersions, with
-   the global dense torus, torus action, cone opens, and algebraic toric maps, satisfying
-   identity, composition, products, open-subfan restriction, and naturality of the affine
-   inclusions. Tau Ceti, for a regular fan: the chart diagram `Fan.affineToricDiagram` and its
-   colimit `Fan.algebraicRealization`; the open chart inclusions `Fan.affineToricChartι`, whose
-   ranges are the cone opens, with the gluing relation
-   `Fan.affineToricChartι_eq_affineToricChartι_iff`; the dense torus `Fan.denseTorusι`; the toric
-   maps `FanHom.algebraicMap` with `FanHom.algebraicMap_id`, `FanHom.algebraicMap_comp` and the
-   chart formula `FanHom.affineToricChartι_comp_algebraicMap`; and the open subscheme of a subfan,
+   the torus action, cone opens, algebraic toric maps, and, for a nonempty fan, the global dense
+   torus, satisfying identity, composition, products, open-subfan restriction, and naturality of
+   the affine inclusions. Tau Ceti, for a regular fan: the chart diagram
+   `Fan.affineToricDiagram` and its colimit `Fan.algebraicRealization`; the open chart inclusions
+   `Fan.affineToricChartι`, whose ranges are the cone opens, with the gluing relation
+   `Fan.affineToricChartι_eq_affineToricChartι_iff`; the dense torus of a nonempty fan,
+   `Fan.denseTorusι`; the toric maps `FanHom.algebraicMap` with `FanHom.algebraicMap_id`,
+   `FanHom.algebraicMap_comp` and the chart formula
+   `FanHom.affineToricChartι_comp_algebraicMap`; and the open subscheme of a subfan,
    `Fan.isOpenImmersion_subfanInclusion_algebraicMap` with
    `Fan.range_subfanInclusion_algebraicMap`. The remaining targets are four. The fan scheme is a
    scheme over `Spec C`, by descending the structure morphisms of its affine charts, and the
@@ -372,10 +380,10 @@ The fans of this layer are regular, `Fan.IsRegular`.
    affine chart. Prove local compactness and finite dimensionality. Tau Ceti's
    `Fan.secondCountableTopology_analyticRealization` and
    `Fan.locallyCompactSpace_analyticRealization` landed after this repository's Tau Ceti pin.
-5. For an open subfan, `Fan.subfan` of a face-closed set of cones, construct the continuous map
-   from its realization to the ambient realization. The subfan chart of a cone and the
-   corresponding ambient chart have the same underlying affine complex-point carrier. Their
-   chosen bundled topologies are canonically identified by the identity-on-points chart
+5. For an open subfan, `Fan.subfan` of a face-closed set of cones, which may be empty, construct
+   the continuous map from its realization to the ambient realization. The subfan chart of a cone
+   and the corresponding ambient chart have the same underlying affine complex-point carrier.
+   Their chosen bundled topologies are canonically identified by the identity-on-points chart
    homeomorphism `subfanAnalyticChartMap`, using independence of the finite monomial generating
    family (`affinePointTopology_eq`). These chart comparisons commute with the face maps of the
    two chart diagrams, so they glue to the subfan map. On each chart the map is explicit:
@@ -403,9 +411,9 @@ The fans of this layer are regular, `Fan.IsRegular`.
    single affine chart, `faceEquivOrbitRelQuotient` with `mem_stabilizer_distinguishedPoint_iff`.
    The orbit of a cone in the realization is the image, under the inclusion of the chart of the
    cone, of its stratum `affineConeOrbit` as a face of itself.
-3. For each ray, construct the invariant closed embedded complex hypersurface. Prove that the
-   finite union of these components is exactly the complement of the dense torus and that every
-   component has reduced multiplicity one.
+3. For each ray, construct the invariant closed embedded complex hypersurface. For a nonempty
+   fan, prove that the finite union of these components is exactly the complement of the dense
+   torus, the orbit of the zero cone. Prove that every component has reduced multiplicity one.
 4. At every point, construct a regular affine chart, the finite set of boundary components
    through the point, and an injection from those components to coordinate indices. Make this a
    complex local biholomorphism and prove that a point of the chart lies in a component exactly
@@ -421,17 +429,20 @@ The fans of this layer are regular, `Fan.IsRegular`.
    `sigma` the glued map is `AffineSemigroupComplexPoint.comap` of the map of dual semigroups
    `dualSemigroupMap`, into the chart of the least target cone `FanHom.leastCone`: the analytic
    counterpart of Tau Ceti's `FanHom.affineToricChartι_comp_algebraicMap`. Prove holomorphy,
-   identity, composition, product compatibility, and uniqueness from the dense torus.
+   identity, composition, product compatibility, and, for a nonempty source fan, uniqueness from
+   the dense torus.
 2. Describe preimages of affine cone charts and orbit strata cone by cone. Prove restriction and
    base-change results for open subfans. For the inclusion `Fan.subfanInclusion` of an open
    subfan the glued map is the open-subfan map of Layer 3, item 5.
-3. For finite source and target fans, prove that the analytic map is proper exactly when, for
-   every target cone, its real-linear inverse image equals the support of the source cones mapped
-   into that cone.
-4. Deduce that the realization of a complete finite fan is compact and that a star subdivision
-   induces a proper map because the supports agree. A subdivision `Fan.IsSubdivision` induces,
-   through `Fan.IsSubdivision.toFanHom`, a holomorphic map to the original realization, not an
-   asserted isomorphism.
+3. For finite source and target fans with a nonempty source, prove that the analytic map is
+   proper exactly when, for every target cone, its real-linear inverse image equals the support of
+   the source cones mapped into that cone. The source must be nonempty: the inclusion of the empty
+   subfan of a nonempty fan is proper, but `0` lies in the inverse image of every target cone and
+   in no source cone.
+4. Deduce that a nonempty finite regular fan is complete exactly when its realization is compact,
+   and that a star subdivision induces a proper map because the supports agree. A subdivision
+   `Fan.IsSubdivision` induces, through `Fan.IsSubdivision.toFanHom`, a holomorphic map to the
+   original realization, not an asserted isomorphism.
 5. Prove that a fan isomorphism induces a biholomorphism, with inverse induced by the inverse fan
    morphism.
 
@@ -450,9 +461,9 @@ The fans of this layer are regular, `Fan.IsRegular`.
    `X_Sigma` to the analytic realization, which on every affine chart is the identity of complex
    points. Prove it and its inverse are holomorphic.
 4. Prove naturality for fan morphisms, which act by `FanHom.algebraicMap` and by the glued map
-   of Layer 5, and for characters, products, orbit inclusions, and boundary components. The
-   comparison identifies analytic compactness with algebraic completeness through the common
-   finite-fan support criterion.
+   of Layer 5, and for characters, products, orbit inclusions, and boundary components. For a
+   nonempty fan, the comparison identifies analytic compactness with algebraic completeness
+   through the common finite-fan support criterion.
 
 **Source spine:** Cox--Little--Schenck, Chapters 1 and 3; Fulton, Chapters 1--2; Gunning--Rossi,
 Chapter I.
@@ -499,6 +510,11 @@ joins those tracks.
   formulas.
 - A star subdivision gives the expected proper toric map through the finite-fan support
   criterion.
+- The empty subfan of a nonempty regular fan is a regular fan whose realization is empty, and the
+  open-subfan map of Layer 3, item 5 accepts it. Its inclusion is proper, while `0` lies in the
+  inverse image of every ambient cone and in no cone of the empty subfan, so it fails the support
+  condition. Its realization is compact, and it is not complete. The nonemptiness hypothesis of
+  the properness and compactness criteria excludes exactly this case.
 - The boundary is proved to be a finite ray-indexed family of closed embedded complex
   hypersurfaces through a holomorphic coordinate-hyperplane local normal form. A
   `PartialHomeomorph` or a stored SNC assertion is insufficient.

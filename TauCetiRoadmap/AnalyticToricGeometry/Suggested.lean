@@ -692,17 +692,64 @@ def FanHom.SupportCondition (f : FanHom Φ Ψ) : Prop :=
     f.realMap ⁻¹' (τ : Set V') =
       ⋃ σ ∈ Φ.cones, ⋃ (_h : σ.map f.realMap ≤ τ), (σ : Set V)
 
-/-- **Layer 5, item 3.** Properness is characterized by the cone-by-cone support condition for
-finite fans. -/
-theorem analyticMap_isProper_iff (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : Ψ.IsRegular) :
+/-- **Layer 5, item 3.** For finite fans with a nonempty source, properness is characterized by the
+cone-by-cone support condition. The hypothesis `hΦ₀` is the one `TauCeti.Toric.Fan.denseTorusι`
+takes. It is necessary: the inclusion of the empty subfan is proper
+(`isProperMap_analyticMap_subfanInclusion_empty`), but fails the support condition
+(`not_supportCondition_subfanInclusion_empty`). -/
+theorem analyticMap_isProper_iff (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : Ψ.IsRegular)
+    (hΦ₀ : Nonempty Φ.cones) :
     IsProperMap (analyticMap f hΦ hΨ) ↔ FanHom.SupportCondition f := by
   sorry
 
-/-- **Layer 5, item 4.** A finite regular fan has compact realization exactly when it is
+/-- **Layer 5, item 4.** A nonempty finite regular fan has compact realization exactly when it is
+complete. The empty fan is excluded: its realization is empty, hence compact, and it is not
 complete. -/
-theorem isCompact_univ_iff_isComplete (hΦ : Φ.IsRegular) :
+theorem isCompact_univ_iff_isComplete (hΦ : Φ.IsRegular) (hΦ₀ : Nonempty Φ.cones) :
     IsCompact (Set.univ : Set (analyticRealization Φ hΦ)) ↔ Φ.IsComplete := by
   sorry
+
+/-! ### Acceptance check: the empty subfan
+
+The empty set of cones of a fan is face-closed, so it is an open subfan, and it is regular
+vacuously. Its realization is empty. The open-subfan constructions of Layer 3, item 5 accept it,
+and the properness and compactness criteria exclude it by their nonemptiness hypothesis. -/
+
+/-- The realization of the empty subfan is empty: the chart inclusions of `TopCat.GlueData` are
+jointly surjective, and there are no charts. -/
+theorem isEmpty_analyticRealization_subfan_empty (Φ : Fan i) (hΦ : Φ.IsRegular)
+    (hS : ∅ ⊆ Φ.cones)
+    (hface : ∀ ⦃σ τ : PointedCone ℝ V⦄, σ ∈ (∅ : Set _) → τ.IsFaceOf σ → τ ∈ (∅ : Set _)) :
+    IsEmpty (analyticRealization (Φ.subfan ∅ hS hface) (hΦ.subfan ∅ hS hface)) :=
+  ⟨fun x ↦ by
+    obtain ⟨σ, _, _⟩ := (analyticGlueData _ _).ι_jointly_surjective x
+    exact Set.notMem_empty _ σ.2⟩
+
+/-- The inclusion of the empty subfan is proper, as is every map out of an empty space. -/
+theorem isProperMap_analyticMap_subfanInclusion_empty (Φ : Fan i) (hΦ : Φ.IsRegular)
+    (hS : ∅ ⊆ Φ.cones)
+    (hface : ∀ ⦃σ τ : PointedCone ℝ V⦄, σ ∈ (∅ : Set _) → τ.IsFaceOf σ → τ ∈ (∅ : Set _)) :
+    IsProperMap (analyticMap (Φ.subfanInclusion ∅ hS hface) (hΦ.subfan ∅ hS hface) hΦ) := by
+  have := isEmpty_analyticRealization_subfan_empty Φ hΦ hS hface
+  refine isProperMap_iff_isClosedMap_and_compact_fibers.2
+    ⟨continuous_of_discreteTopology, fun s _ ↦ ?_, fun y ↦ ?_⟩
+  · rw [Subsingleton.elim s ∅, Set.image_empty]
+    exact isClosed_empty
+  · rw [Subsingleton.elim (_ ⁻¹' {y}) ∅]
+    exact isCompact_empty
+
+/-- The inclusion of the empty subfan of a nonempty fan fails the support condition: `0` lies in
+every ambient cone, and in no cone of the empty subfan. -/
+theorem not_supportCondition_subfanInclusion_empty (Φ : Fan i) (hΦ₀ : Nonempty Φ.cones)
+    (hS : ∅ ⊆ Φ.cones)
+    (hface : ∀ ⦃σ τ : PointedCone ℝ V⦄, σ ∈ (∅ : Set _) → τ.IsFaceOf σ → τ ∈ (∅ : Set _)) :
+    ¬ FanHom.SupportCondition (Φ.subfanInclusion ∅ hS hface) := by
+  intro h
+  obtain ⟨τ, hτ⟩ := hΦ₀.some
+  have h0 : (0 : V) ∈ (Φ.subfanInclusion ∅ hS hface).realMap ⁻¹' (τ : Set V) := by
+    simp
+  rw [h τ hτ] at h0
+  simp at h0
 
 end AnalyticRealization
 
