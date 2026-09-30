@@ -1,18 +1,19 @@
 # Roadmap: analytic toric geometry
 
 This roadmap constructs algebraic and complex-analytic toric varieties from finite regular
-rational fans. It supplies the algebraic cone-to-fan layer that is not yet exposed by the Toric
-project, then builds complex points, analytic charts, gluing, torus actions, orbit strata,
-normal-crossings boundary components, toric maps, properness, and the algebraic--analytic
-comparison.
+rational fans. Tau Ceti implements the algebraic cone-to-fan layer and the affine analytic charts.
+This roadmap completes that layer and builds on it the glued complex manifold, torus actions,
+orbit strata, normal-crossings boundary components, toric maps, properness, and the
+algebraic--analytic comparison.
 
 The public API has one toric dialect. Cones are Mathlib `PointedCone`s with additional
 predicates, affine charts are schemes built from monoid algebras, and gluing uses the common
 scheme and `TopCat.GlueData` carriers. Basis-dependent coordinates are theorems, not definitions
 of the global objects.
 
-Suggested homes: `TauCeti/Geometry/Toric/Algebraic/` for the common algebraic supplier and
-`TauCeti/Geometry/Toric/Analytic/` for complex realization.
+Suggested homes: `TauCeti/Geometry/Toric/Algebraic/`, which holds Tau Ceti's algebraic supplier,
+and `TauCeti/Geometry/Toric/Analytic/`, which holds its affine analytic charts. Every Tau Ceti
+declaration named below is in the namespace `TauCeti.Toric`.
 
 ## Scope and completion criterion
 
@@ -53,25 +54,25 @@ The roadmap is complete when Tau Ceti supplies all of the following.
 
 ## Ownership and dependencies
 
-- **This roadmap owns the missing cone-to-fan algebraic supplier.** The public Toric project
-  supplies `AlgebraicGeometry.ToricVariety` in `Toric.ToricVariety.Defs`, the affine-monoid
-  construction in `Toric.ToricVariety.FromMonoid`, and the common torus and monoid-algebra
-  infrastructure. It does not supply rational toric cones, fans, fan schemes, or their morphisms.
-  Layer 0 below supplies those objects in the same vocabulary rather than treating a prospective
-  external API as a dependency.
-- **Matching external declarations are consumed immediately.** Before implementing a Layer 0
-  declaration, search Toric, Mathlib, and active pull requests. If the exact object and laws
-  exist, import them and delete the local target. Otherwise implement the target here with the
-  public shape below. Analytic work never pauses for external upstreaming, and this roadmap does
-  not assign work to another project.
+- **Tau Ceti implements the cone-to-fan algebraic supplier.** `TauCeti/Geometry/Toric/Algebraic/`
+  supplies integral lattices, toric cones, rays and primitive generators, regular cones, finite
+  fans with subfans, products and subdivisions, fan morphisms, dual semigroups, affine toric
+  schemes, face localizations, and the toric scheme of a regular fan with its toric maps. Layer 0
+  names the declarations that every later layer uses and states the remaining algebraic targets
+  on them. No layer restates them.
+- **Matching external declarations are consumed immediately.** Before implementing a remaining
+  Layer 0 target, search Toric, Mathlib, and active pull requests. If the exact object and laws
+  exist, import them instead. Otherwise implement the target in Tau Ceti on the objects that
+  Layer 0 names. Analytic work never pauses for external upstreaming, and this roadmap does not
+  assign work to another project.
 - **Mathlib owns convex-cone vocabulary.** Use `PointedCone`, `PointedCone.FG`,
   `PointedCone.DualFG`, `PointedCone.IsFaceOf`, `PointedCone.Face`,
   `ConvexCone.Salient`, cone hulls, maps, duals, and the face lattice. A toric cone is a predicate
   on that carrier, not a replacement carrier.
 - **The Toric project owns its existing scheme-level vocabulary.** Consume its tori,
-  diagonalizable group schemes, monoid algebras, `ToricVariety` class, and affine-monoid
-  construction. Layer 0 connects fan combinatorics to those objects; it does not put analytic
-  fields into them.
+  diagonalizable group schemes, monoid algebras, `AlgebraicGeometry.ToricVariety` class in
+  `Toric.ToricVariety.Defs`, and affine-monoid construction in `Toric.ToricVariety.FromMonoid`.
+  Layer 0 connects fan combinatorics to those objects; it does not put analytic fields into them.
 - **The complex-manifolds roadmap owns analytic atlas transport, open gluing, compatible
   structure-groupoid atlases, and biholomorphism vocabulary.** This roadmap supplies toric
   affine charts and verifies the hypotheses of those generic theorems.
@@ -124,6 +125,10 @@ These conventions are acceptance conditions.
 
 At the dependency pin, the following anchors already exist.
 
+- Tau Ceti's toric development: the algebraic supplier named in Layer 0, in
+  `TauCeti/Geometry/Toric/Algebraic/`, and the affine analytic charts, their face localizations
+  and the chart diagram of a regular fan named in Layers 1--4, in
+  `TauCeti/Geometry/Toric/Analytic/`.
 - Mathlib's ordered-cone hierarchy, including finite generation, dual finite generation,
   simpliciality, salience, faces, maps, and the face lattice.
 - Finite free modules, scalar extension, `Basis`, `Module.Dual`, `Finsupp`, matrices, additive
@@ -138,92 +143,181 @@ At the dependency pin, the following anchors already exist.
 
 ## Layer 0: the Toric-compatible algebraic supplier
 
-This layer closes the algebraic prerequisite chain. Each item has an exact carrier and feeds the
-representative declarations in `Suggested.lean`.
+This layer closes the algebraic prerequisite chain. Tau Ceti implements it in
+`TauCeti/Geometry/Toric/Algebraic/`, and every later layer states its targets on the declarations
+named here. Each item gives the specification, then Tau Ceti's declarations for it, then the
+targets that remain. The remaining targets are the general toric case of what Tau Ceti proves
+for regular cones and regular fans, and `Suggested.lean` states them on Tau Ceti's objects.
 
-1. Define the integral-lattice predicate by an `R`-linear equivalence
-   `R tensor[Z] N ≃ N_R` whose restriction to `1 tensor N` is the chosen lattice map. Derive
+1. **Integral lattices.** The integral-lattice predicate is an `R`-linear equivalence
+   `R tensor[Z] N ≃ N_R` whose restriction to `1 tensor N` is the chosen lattice map, with
    injectivity, discreteness, spanning, equality of integral and real ranks, and naturality under
-   integral linear maps.
-2. Define `IsToricCone i sigma` on a Mathlib `PointedCone` by finite generation, lattice
-   rationality, and salience. Prove preservation under faces, intersections, products, injective
-   integral maps, and lattice equivalences.
-3. Define rays as one-dimensional Mathlib faces. Prove existence and uniqueness of the primitive
-   generator of every ray, finiteness of the ray type, generation of the cone by its primitive
-   rays, and naturality under lattice equivalences.
-4. Define regularity as the conjunction of `IsToricCone` with the existence of an integral basis
-   containing every primitive ray generator. Prove regular cones are simplicial and that faces
-   and products of regular cones are regular. Pin the block form relating two extending bases.
-5. Define a finite fan as a finite set of toric cones closed under faces with pairwise
-   intersections a face of each. Define support, completeness, open subfans, products,
-   subdivisions, and fan morphisms. Prove identity, composition, and support functoriality.
-6. Define the dual affine semigroup as the additive submonoid of integral characters
-   nonnegative on a cone. Prove finite generation, face-localization, functoriality, and the
-   regular-coordinate equivalence with `N^k x Z^(n-k)`.
-7. Construct the affine toric scheme as the spectrum of the complex monoid algebra. Connect it
-   to the Toric project's affine-monoid `ToricVariety` instance, identify its dense torus, and
-   construct the torus action.
-8. For every face inclusion, construct the localization map and prove it is an affine open
-   immersion. Prove identity, composition, pairwise-overlap, and cocycle laws.
-9. Glue the affine schemes of a finite fan along these open immersions. Construct the global
-   dense torus, torus action, cone opens, and algebraic toric maps. Prove identity, composition,
-   products, open-subfan restriction, and naturality of the affine inclusions.
+   integral linear maps. Tau Ceti: `IsIntegralLattice`, stated as Mathlib's `IsBaseChange` with
+   the equivalence form `isIntegralLattice_iff`; `IsIntegralLattice.injective`,
+   `IsIntegralLattice.isZLattice`, `IsIntegralLattice.span_range_eq_top` and
+   `IsIntegralLattice.finrank_eq`; the unique real extension `IsIntegralLattice.extend` of a map of
+   lattices; `isIntegralLattice_congr`; and `IsIntegralLattice.prod`.
+2. **Toric cones.** `IsToricCone i sigma` on a Mathlib `PointedCone` is finite generation,
+   lattice rationality, and salience, preserved under faces, intersections, products, injective
+   integral maps, and lattice equivalences. Tau Ceti: `IsLatticeRational` and `IsToricCone`, whose
+   fields are lattice rationality and salience, with finite generation derived as
+   `IsToricCone.fg`; `IsToricCone.of_isFaceOf`, `IsToricCone.prod`, `IsToricCone.map` and
+   `isToricCone_map_equiv_iff`. The remaining target: for an integral lattice, the intersection of
+   two toric cones is a toric cone. The integral-lattice hypothesis is necessary, by
+   `not_isToricCone_sqrtTwoCone_inf`.
+3. **Rays.** Rays are one-dimensional Mathlib faces, each with a unique primitive generator. The
+   ray type is finite, the primitive rays generate the cone, and primitive generators are natural
+   under lattice equivalences. Tau Ceti: `ToricRay`, `IsPrimitiveGenerator`,
+   `IsToricCone.existsUnique_primitiveGenerator`, `primitiveGenerator`, `ToricRay.finite_of_fg`,
+   `IsToricCone.hull_primitiveGenerator` and `primitiveGenerator_map_equiv`.
+4. **Regular cones.** Regularity is the conjunction of `IsToricCone` with the existence of an
+   integral basis containing every primitive ray generator. Regular cones are simplicial, faces
+   and products of regular cones are regular, and two extending bases are related by a pinned
+   block form. Tau Ceti: `IsRegularCone`, `IsRegularCone.isSimplicial`,
+   `IsRegularCone.of_isFaceOf`, `IsRegularCone.prod`, and the block form `[[1, B], [0, D]]` with `D`
+   unimodular, `IsExtendingBasis.isUnit_det_toMatrix_compl`.
+5. **Fans.** A finite fan is a finite set of toric cones closed under faces with pairwise
+   intersections a face of each, with support, completeness, open subfans, products,
+   subdivisions, and fan morphisms satisfying identity, composition, and support functoriality.
+   Tau Ceti: `Fan`, which records that `sigma ⊓ tau` is a face of `sigma` and derives the other
+   half as `Fan.inf_isFaceOf_right`; `Fan.IsRegular`, `Fan.support` and `Fan.IsComplete`; the
+   open subfan `Fan.subfan` of a face-closed set of cones, with its inclusion
+   `Fan.subfanInclusion`; `Fan.prod`; `Fan.IsSubdivision`; `FanHom` with `FanHom.id`,
+   `FanHom.comp` and their laws; `FanHom.mapsTo_support`; and the least target cone of a source
+   cone, `FanHom.leastCone`.
+6. **Dual semigroups.** The dual semigroup is the additive submonoid of integral characters
+   nonnegative on a cone, with finite generation, face-localization, functoriality, and the
+   regular-coordinate equivalence with `N^k x Z^(n-k)`. Tau Ceti: `dualSemigroup`, the face
+   formula `dualSemigroup_inf_ker_eq_sup`, `dualSemigroupMap`, `regularDualSemigroupEquiv`, and
+   finite generation for regular cones, `IsRegularCone.fg_dualSemigroup`. The remaining target is
+   Gordan's lemma: the dual semigroup of every toric cone is finitely generated.
+7. **Affine toric schemes.** The affine toric scheme is the spectrum of the complex monoid
+   algebra, with its dense torus and torus action, connected to the Toric project's affine-monoid
+   `ToricVariety` instance. Tau Ceti: `affineCoordinateRing`, `affineToricScheme`,
+   `affineToricSchemeMap` with its identity and composition laws, and the dense torus
+   `denseTorusScheme`. The remaining targets are the torus action and the connection to the
+   Toric project's `ToricVariety` instance.
+8. **Face localizations.** Every face inclusion gives a localization map and an affine open
+   immersion, with identity, composition, pairwise-overlap, and cocycle laws. Tau Ceti:
+   `faceAffineCoordinateRingMap` and `faceAffineToricSchemeMap` with their identity and
+   composition laws; for a face cut out by a character, the localization
+   `isLocalization_away_affineCoordinateRingMap_inf_ker` and the open immersion
+   `isOpenImmersion_affineToricSchemeMap_inf_ker`; the overlaps `Fan.affineToricOverlapLeft` and
+   `Fan.affineToricOverlapRight`; and, for every face of a regular cone,
+   `IsRegularCone.isOpenImmersion_faceAffineToricSchemeMap`. The remaining target is the
+   separation lemma, that every face of a toric cone is cut out by a character of its dual
+   semigroup, which makes every face morphism of a toric cone an open immersion.
+9. **The fan scheme.** The affine schemes of a finite fan glue along these open immersions, with
+   the global dense torus, torus action, cone opens, and algebraic toric maps, satisfying
+   identity, composition, products, open-subfan restriction, and naturality of the affine
+   inclusions. Tau Ceti, for a regular fan: the chart diagram `Fan.affineToricDiagram` and its
+   colimit `Fan.algebraicRealization`; the open chart inclusions `Fan.affineToricChartι`, whose
+   ranges are the cone opens, with the gluing relation
+   `Fan.affineToricChartι_eq_affineToricChartι_iff`; the dense torus `Fan.denseTorusι`; the toric
+   maps `FanHom.algebraicMap` with `FanHom.algebraicMap_id`, `FanHom.algebraicMap_comp` and the
+   chart formula `FanHom.affineToricChartι_comp_algebraicMap`; and the open subscheme of a subfan,
+   `Fan.isOpenImmersion_subfanInclusion_algebraicMap` with
+   `Fan.range_subfanInclusion_algebraicMap`. The remaining targets are three. By the separation
+   lemma, the chart diagram of every finite fan is locally directed, which extends the fan scheme
+   and its toric maps to every finite fan. The affine torus actions glue to the global torus
+   action. The fan scheme of `Fan.prod` is the fibre product over `Spec C` of the two fan
+   schemes.
 
 **Source spine:** Cox--Little--Schenck, Chapters 1 and 3; Fulton, Chapter 1 and §2.1; the public
 Toric modules named above.
 
 ## Layer 1: characters and mixed monomial maps
 
+Tau Ceti implements this layer in `TauCeti/Geometry/Toric/Analytic/`.
+
 1. Define evaluation of an integral character on the complex torus without choosing a basis.
    Prove its multiplicative laws, separation of points, compatibility with lattice maps, and its
-   Laurent-monomial formula after choosing a basis.
+   Laurent-monomial formula after choosing a basis. Tau Ceti: the coordinate-free torus
+   `ComplexTorus N`, `characterEvaluation`, `exists_characterEvaluation_ne`, `complexTorusMap`
+   and `complexTorus_apply_eq_prod_zpow`.
 2. For a semigroup homomorphism, construct the contravariant map on affine complex points. Prove
    compatibility with the monoid-algebra map, continuity for monomial-embedding topologies, and
-   independence from chosen generators.
+   independence from chosen generators. Tau Ceti: `AffineSemigroupComplexPoint.comap`,
+   `AffineSemigroupComplexPoint.comap_apply` and `AffineSemigroupComplexPoint.continuous_comap`.
 3. Define typed mixed exponent data for maps
    `C^k x (C^*)^l -> C^k' x (C^*)^l'`. Prove preservation of the invertible-coordinate locus,
    holomorphy there, identity, composition **on that locus**, products, Jacobian formulas, and
    biholomorphicity for the appropriate unimodular block matrices. No composition theorem is
    stated on ambient points with a zero torus coordinate, where integer-power conventions break
-   exponent arithmetic.
+   exponent arithmetic. Tau Ceti: `MixedExponent`, `mixedChartDomain`, `mixedMonomialMap`,
+   `mapsTo_mixedMonomialMap`, `contDiffOn_mixedMonomialMap`, `MixedExponent.comp` with
+   `mixedMonomialMap_comp` on `mixedChartDomain`, `MixedExponent.prod` with
+   `mixedMonomialMap_prod`, the Jacobian blocks `hasDerivAt_mixedMonomialMap_fst_boundary` and its
+   three companions, and `mixedMonomialOpenPartialHomeomorph`.
 4. Prove that localization along a face gives an open complex subspace and a biholomorphism onto
-   its image. Verify the cocycle equations for successive face inclusions.
+   its image. Verify the cocycle equations for successive face inclusions. Tau Ceti:
+   `faceAffinePointMap` with `faceAffinePointMap_comp`, and, for a face of a regular cone,
+   `IsRegularCone.isOpenEmbedding_faceAffinePointMap` and
+   `IsRegularCone.faceAffinePointPartialDiffeomorph`.
 
 **Source spine:** Cox--Little--Schenck, §§1.1--1.3 and §3.1; Fulton, §§1.2--1.3.
 
 ## Layer 2: affine analytic charts of regular cones
 
+Tau Ceti implements this layer in `TauCeti/Geometry/Toric/Analytic/`. The carrier of every chart
+is `AffineSemigroupComplexPoint (dualSemigroup hi sigma)`, the complex points of the affine toric
+scheme.
+
 1. Put the finite-monomial-embedding topology on the affine complex-point carrier. Prove
    independence from the generating family, Hausdorffness, local compactness, and second
-   countability.
+   countability. Tau Ceti: `affinePointTopology`, `affinePointTopology_eq`,
+   `t2Space_affinePointTopology`, `locallyCompactSpace_affinePointTopology` and
+   `secondCountableTopology_affinePointTopology`.
 2. For a regular cone of dimension `k` in a rank-`n` lattice, use an extending basis to construct
    a biholomorphism with `C^k x (C^*)^(n-k)`. Prove its coordinate functions are the expected
-   characters.
+   characters. Tau Ceti: `regularAffinePointHomeomorph`, and for a cone with an extending basis
+   `coneChartEquiv`, `coneChartHomeomorph` and `coneChartEquiv_fst_apply`.
 3. Install the named complex `ChartedSpace` and prove `IsManifold`. Show that changing the
    extending basis preserves the complex structure through the corresponding mixed monomial
-   biholomorphism.
+   biholomorphism. Tau Ceti: `coneChartedSpace`, `isManifold_coneChartedSpace` and
+   `contMDiff_id_coneChartedSpace`.
 4. Identify the dense torus as an open submanifold and the orbit associated to every face as a
-   locally closed complex submanifold. Compute its dimension and closure relation.
+   locally closed complex submanifold. Compute its dimension and closure relation. Tau Ceti:
+   `isOpen_orbit_complexTorus_default` and `dense_orbit_complexTorus_default`; the stratum
+   `affineConeOrbit` of a face, with `isLocallyClosed_affineConeOrbit`,
+   `isManifold_affineConeOrbitChartedSpace` and `affineConeOrbit_subset_closure_iff`. Its
+   dimension, `finrank_affineConeOrbit_model`, landed after this repository's Tau Ceti pin.
 5. Prove that face localization is an open holomorphic embedding and agrees on carriers with
-   complex points of the algebraic open immersion.
+   complex points of the algebraic open immersion. Tau Ceti:
+   `IsRegularCone.isLocalDiffeomorph_faceAffinePointMap` and `faceAffinePointMap_eq_comp`.
 
 **Source spine:** Fulton, §§1.2 and 2.1; Cox--Little--Schenck, §§1.2, 3.1, and 3.3.
 
 ## Layer 3: finite-fan analytic gluing
 
+The fans of this layer are regular, `Fan.IsRegular`.
+
 1. Form the `TopCat.GlueData` diagram of affine charts and face-localization overlaps. Derive its
    symmetry and cocycle equations from the fan intersection axiom and Layer 0 localization laws.
+   Tau Ceti implements the chart diagram `Fan.analyticAffineChartDiagram`, the overlap loci
+   `Fan.analyticOverlapOpens`, the transitions `Fan.analyticOverlapTransition`, and the
+   triple-overlap and cocycle laws `Fan.analyticOverlapHomeomorph_mem` and
+   `Fan.analyticOverlapHomeomorph_cocycle`. The gluing data assembled from them,
+   `Fan.analyticGlueData`, with the realization `Fan.analyticRealization` and the chart
+   inclusions `Fan.analyticAffineChartι`, landed after this repository's Tau Ceti pin.
+   `Suggested.lean` assembles the same gluing data from the pinned pieces under those names.
 2. Apply the complex-manifold gluing theorem to `TopCat.GlueData.glued`. Prove every affine chart
    inclusion is an open holomorphic embedding and every cone-orbit chart agrees on overlaps.
 3. Prove Hausdorffness from the fan intersection property and closedness of the generated gluing
    relation. The proof must separate points in noncommon faces rather than store separation in a
-   fan record.
+   fan record. Tau Ceti's `Fan.t2Space_analyticRealization` landed after this repository's Tau
+   Ceti pin.
 4. Prove second countability from finiteness of the chart family and second countability of each
-   affine chart. Prove local compactness and finite dimensionality.
-5. For an open subfan, construct the continuous map from its realization to the ambient
-   realization by gluing the identity maps of its affine charts. Prove naturality with the chart
-   inclusions, functoriality for nested open subfans, that its image is the union of the affine
-   charts of the subfan's cones, and that it is an open embedding.
+   affine chart. Prove local compactness and finite dimensionality. Tau Ceti's
+   `Fan.secondCountableTopology_analyticRealization` and
+   `Fan.locallyCompactSpace_analyticRealization` landed after this repository's Tau Ceti pin.
+5. For an open subfan, `Fan.subfan` of a face-closed set of cones, construct the continuous map
+   from its realization to the ambient realization by gluing the identity maps of its affine
+   charts. On each chart the map is explicit: composed with the inclusion of the chart of a cone
+   of the subfan, it is the inclusion of the chart of the same cone in the ambient realization.
+   This chart computation identifies the glued map. Prove functoriality for nested open subfans,
+   that its image is the union of the ambient charts of the subfan's cones, and that it is an
+   open embedding.
 6. Prove that the open-subfan map of item 5 is an open holomorphic embedding, and establish
    invariance under fan equivalence. A subdivision produces a holomorphic map to the original
    realization, not an asserted isomorphism.
@@ -233,9 +327,15 @@ Toric modules named above.
 ## Layer 4: torus actions, strata, and the boundary
 
 1. Glue the affine torus actions and prove the group law, joint continuity, holomorphy, and
-   equivariance of chart inclusions and character functions.
+   equivariance of chart inclusions and character functions. The torus is Tau Ceti's
+   `ComplexTorus N`, and on each affine chart the glued action is Tau Ceti's action on complex
+   points, computed in regular coordinates by `coneChartEquiv_smul_fst` and
+   `coneChartEquiv_smul_snd`.
 2. Prove the orbit--cone correspondence as an order-reversing equivalence between cones and
-   torus orbits. Compute stabilizers and quotient tori using sublattices.
+   torus orbits. Compute stabilizers and quotient tori using sublattices. Tau Ceti proves it on a
+   single affine chart, `faceEquivOrbitRelQuotient` with `mem_stabilizer_distinguishedPoint_iff`.
+   The orbit of a cone in the realization is the image, under the inclusion of the chart of the
+   cone, of its stratum `affineConeOrbit` as a face of itself.
 3. For each ray, construct the invariant closed embedded complex hypersurface. Prove that the
    finite union of these components is exactly the complement of the dense torus and that every
    component has reduced multiplicity one.
@@ -250,10 +350,14 @@ Toric modules named above.
 
 ## Layer 5: toric maps and properness
 
-1. Glue the affine mixed monomial maps attached to a fan morphism. Prove holomorphy, identity,
-   composition, product compatibility, and uniqueness from the dense torus.
+1. Glue the affine mixed monomial maps attached to a fan morphism. On the chart of a cone
+   `sigma` the glued map is `AffineSemigroupComplexPoint.comap` of the map of dual semigroups
+   `dualSemigroupMap`, into the chart of the least target cone `FanHom.leastCone`: the analytic
+   counterpart of Tau Ceti's `FanHom.affineToricChartι_comp_algebraicMap`. Prove holomorphy,
+   identity, composition, product compatibility, and uniqueness from the dense torus.
 2. Describe preimages of affine cone charts and orbit strata cone by cone. Prove restriction and
-   base-change results for open subfans.
+   base-change results for open subfans. For the inclusion `Fan.subfanInclusion` of an open
+   subfan the glued map is the open-subfan map of Layer 3, item 5.
 3. For finite source and target fans, prove that the analytic map is proper exactly when, for
    every target cone, its real-linear inverse image equals the support of the source cones mapped
    into that cone.
@@ -270,13 +374,14 @@ Toric modules named above.
    morphisms `Spec C -> U_sigma`. Prove compatibility with the independent monomial-embedding
    topology.
 2. Prove that complex points preserve the finite affine-open gluing used to construct the fan
-   scheme. Identify the resulting topological gluing with `TopCat.GlueData.glued` and show that
-   both overlap maps are the same face-localization maps.
+   scheme `Fan.algebraicRealization`. Identify the resulting topological gluing with
+   `TopCat.GlueData.glued` and show that both overlap maps are the same face-localization maps.
 3. Glue the affine comparisons to a torus-equivariant homeomorphism from
    `Hom(Spec C, X_Sigma)` to the analytic realization. Prove it and its inverse are holomorphic.
-4. Prove naturality for fan morphisms, characters, products, orbit inclusions, and boundary
-   components. The comparison identifies analytic compactness with algebraic completeness
-   through the common finite-fan support criterion.
+4. Prove naturality for fan morphisms, which act by `FanHom.algebraicMap` and by the glued map
+   of Layer 5, and for characters, products, orbit inclusions, and boundary components. The
+   comparison identifies analytic compactness with algebraic completeness through the common
+   finite-fan support criterion.
 
 **Source spine:** Cox--Little--Schenck, Chapters 1 and 3; Fulton, Chapters 1--2; Gunning--Rossi,
 Chapter I.
@@ -285,7 +390,7 @@ Chapter I.
 
 | Track | Depends on | Feeds |
 | --- | --- | --- |
-| L0 algebraic supplier | Mathlib and the existing Toric modules | every later layer |
+| L0 algebraic supplier | Mathlib and Tau Ceti's algebraic toric modules | every later layer |
 | L1 character and mixed-monomial calculus | L0, Mathlib complex analysis | L2, L5--L6 |
 | L2 affine regular charts | L0--L1, complex manifolds | L3--L6 |
 | L3 finite-fan gluing | L2, complex-manifold gluing | L4--L6 |
@@ -328,7 +433,7 @@ independently after L3. L6 joins those tracks.
   overlap, and is natural for toric maps. An unrelated homeomorphism of final carriers is
   insufficient.
 - No public declaration introduces a competing convex-cone, semigroup-algebra, scheme, gluing
-  quotient, or biholomorphism carrier.
+  quotient, or biholomorphism carrier, or a second copy of a Tau Ceti toric object.
 
 ## References
 
