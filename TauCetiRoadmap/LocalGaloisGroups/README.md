@@ -140,7 +140,9 @@ carrier of its own. `cd_p` and `scd_p` are Tau Ceti's `cohomologicalDimensionAt`
 Layer 1 carries the Kummer cup square to the cup square of `𝔽_p` with `cup_coeffMap`. Layer 7
 also reads the carrier `abelianizationProP`, with its conjugation action, and the class
 `abelianizationProPClass` at the relation subgroup `R` of a free profinite group, for Lyndon's
-theorem and the extension `E_top` of Step 5; the generation theorem is used only at `G_K`.
+theorem and the extension `E_top` of Step 5; the generation theorem is used only at `G_K`. The
+class takes the openness of the subgroup: `G_L` is open, and so is `R`, the kernel of a
+presentation of the finite group `Gal(L/K)`.
 
 ### From `TauCetiRoadmap.LocalFieldsRamification`
 

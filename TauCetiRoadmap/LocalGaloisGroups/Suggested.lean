@@ -1955,7 +1955,7 @@ theorem contCohomologyClass_absoluteGaloisGroup_generates (p : ℕ) [Fact p.Prim
     (V : Subgroup (Field.absoluteGaloisGroup K)) [V.Normal]
     (hV : IsOpen (V : Set (Field.absoluteGaloisGroup K))) :
     AddSubgroup.zmultiples
-        (ProfiniteCohomology.abelianizationProPClass p (Field.absoluteGaloisGroup K) V) = ⊤ ∧
+        (ProfiniteCohomology.abelianizationProPClass p (Field.absoluteGaloisGroup K) V hV) = ⊤ ∧
       Nat.card (ProfiniteCohomology.H2 (Field.absoluteGaloisGroup K ⧸ V)
           (Additive (ProfiniteCohomology.abelianizationProP p (Field.absoluteGaloisGroup K) V))) =
         p ^ padicValNat p (Nat.card (Field.absoluteGaloisGroup K ⧸ V)) :=
