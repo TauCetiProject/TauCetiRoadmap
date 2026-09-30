@@ -1,9 +1,11 @@
 import Mathlib
 import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.FiniteExtension
+import TauCeti.FieldTheory.GaloisCohomology.Kummer
 import TauCeti.NumberTheory.ClassFieldTheory.ClassField
 import TauCeti.NumberTheory.LocalField.GaloisAction
 import TauCeti.RepresentationTheory.Homological.TateCohomology.HerbrandQuotient
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
+import TauCeti.Topology.Algebra.GroupAction.InternalHom
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.GlobalNumberFields.Suggested
@@ -68,8 +70,11 @@ two absolute Galois groups (`TauCeti.absoluteGaloisGroupRestrictEquiv`), the ope
 by a finite extension (`TauCeti.galoisSubgroup`, `TauCeti.galoisSubgroupEquiv`), the class field of
 an open normal subgroup and the abelian layers (`TauCeti.ClassFieldTheory.classField`,
 `OpenNormalSubgroup.IsAbelianClassFieldLayer`), the profinite integers `TauCeti.zHat`, the Herbrand
-quotient `TauCeti.TateCohomology.herbrandQuotient`, and the Galois action on the integers of a
-local field. The maximal unramified extension, inertia, arithmetic Frobenius lifts and
+quotient `TauCeti.TateCohomology.herbrandQuotient`, the Galois action on the integers of a local
+field, the coefficient dictionary `TauCeti.ofDiscreteModule`, the Galois-cohomology coefficients
+`TauCeti.KummerCoeff` and `TauCeti.UnitsCoeff`, the Kummer map `TauCeti.kummerMap` with Tau Ceti's
+explicit `H¹`, and the internal hom `TauCeti.InternalHom` with its conjugation action and
+evaluation pairing, from which the Tate dual and its evaluation pairing are built. The maximal unramified extension, inertia, arithmetic Frobenius lifts and
 `Gal(K^ur/K) ≅ Ẑ` are Tau Ceti's too, under their Tau Ceti names; `LocalFieldsRamification` states
 the ones the pinned Tau Ceti revision lacks, under the same names, so the unqualified names used
 below resolve to Tau Ceti's declarations once those are imported.
@@ -1040,14 +1045,20 @@ variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
 variable (L : Type) [Field L] [ValuativeRel L] [TopologicalSpace L]
   [IsNonarchimedeanLocalField L]
 
-/-! ### Kummer coefficients, the local Brauer group, and the invariant map -/
+/-! ### Kummer coefficients, the local Brauer group, and the invariant map
+
+Every coefficient object of this layer is a discrete module of Tau Ceti's Galois cohomology, read
+as an object of `GalRep n F` (or of `TopRep ℤ G_F`) through Tau Ceti's coefficient dictionary
+`TauCeti.ofDiscreteModule`. Tau Ceti's modules carry the action of the separable-closure group
+`TauCeti.AbsoluteGaloisGroup F`, and Mathlib's `Field.absoluteGaloisGroup F` acts on them through
+`absoluteGaloisGroupComparison`. No coefficient module is built a second time. -/
 
 /-- Restriction identifies the algebraic-closure and separable-closure absolute Galois groups as
 topological groups: Tau Ceti's `absoluteGaloisGroupRestrictEquiv`, whose forward map is
 `AlgEquiv.restrictNormalHom` (`absoluteGaloisGroupRestrictEquiv_apply`). The transport is not
 definitional over imperfect fields. -/
 noncomputable abbrev absoluteGaloisGroupComparison (F : Type) [Field F] :
-    Field.absoluteGaloisGroup F ≃ₜ* ProfiniteCohomology.AbsoluteGaloisGroup F :=
+    Field.absoluteGaloisGroup F ≃ₜ* TauCeti.AbsoluteGaloisGroup F :=
   TauCeti.absoluteGaloisGroupRestrictEquiv F
 
 /-- The comparison on elements: an automorphism of the algebraic closure and its image act in the
@@ -1059,55 +1070,99 @@ theorem coe_absoluteGaloisGroupComparison_apply (F : Type) [Field F]
       DFunLike.coe (F := Gal(AlgebraicClosure F/F)) σ (x : AlgebraicClosure F) :=
   TauCeti.coe_absoluteGaloisGroupRestrictEquiv_apply F σ x
 
+/-- **`G_F` acting through the comparison.** A module of Tau Ceti's Galois cohomology carries the
+action of the separable-closure group `TauCeti.AbsoluteGaloisGroup F`; this is the action of
+Mathlib's `Field.absoluteGaloisGroup F` that it induces through `absoluteGaloisGroupComparison`.
+It is used only as a local instance, to build the coefficient objects `muNRep` and `unitsRep`
+below, whose actions are then read off `muNRep_ρ_apply` and `unitsRep_ρ_apply`. -/
+@[instance_reducible]
+noncomputable def comparisonDistribMulAction (F : Type) [Field F] (M : Type*) [AddMonoid M]
+    [DistribMulAction (TauCeti.AbsoluteGaloisGroup F) M] :
+    DistribMulAction (Field.absoluteGaloisGroup F) M :=
+  DistribMulAction.compHom M (absoluteGaloisGroupComparison F).toMulEquiv.toMonoidHom
+
+section ComparisonAction
+
+attribute [local instance] comparisonDistribMulAction
+
+/-- The comparison action is continuous, `absoluteGaloisGroupComparison` being a homeomorphism. -/
+theorem comparison_continuousSMul (F : Type) [Field F] (M : Type*) [AddMonoid M]
+    [TopologicalSpace M] [DistribMulAction (TauCeti.AbsoluteGaloisGroup F) M]
+    [ContinuousSMul (TauCeti.AbsoluteGaloisGroup F) M] :
+    ContinuousSMul (Field.absoluteGaloisGroup F) M :=
+  ⟨(continuous_smul (M := TauCeti.AbsoluteGaloisGroup F) (X := M)).comp
+    (((absoluteGaloisGroupComparison F).continuous.comp continuous_fst).prodMk continuous_snd)⟩
+
+end ComparisonAction
+
 /-- `μ_n(Fˢ)` is killed by `n`. -/
-theorem nsmul_kummerCoeff_eq_zero (F : Type) [Field F] (n : ℕ)
-    (x : ProfiniteCohomology.KummerCoeff F n) : n • x = 0 := by
-  have hx : ((Additive.toMul x : ProfiniteCohomology.muN F n) : (SeparableClosure F)ˣ) ^ n = 1 :=
+theorem nsmul_kummerCoeff_eq_zero (F : Type) [Field F] (n : ℕ) (x : TauCeti.KummerCoeff F n) :
+    n • x = 0 := by
+  have hx : ((Additive.toMul x : rootsOfUnity n (SeparableClosure F)) :
+      (SeparableClosure F)ˣ) ^ n = 1 :=
     (mem_rootsOfUnity _ _).1 (Additive.toMul x).2
   exact Additive.toMul.injective (Subtype.ext hx)
 
 /-- The `ZMod n`-module structure of `μ_n(Fˢ)`, from `nsmul_kummerCoeff_eq_zero`. -/
 @[instance_reducible]
 noncomputable def kummerCoeffModule (F : Type) [Field F] (n : ℕ) :
-    Module (ZMod n) (ProfiniteCohomology.KummerCoeff F n) :=
+    Module (ZMod n) (TauCeti.KummerCoeff F n) :=
   AddCommGroup.zmodModule (nsmul_kummerCoeff_eq_zero F n)
 
 section KummerCoefficients
 
-attribute [local instance] kummerCoeffModule
+attribute [local instance] comparisonDistribMulAction kummerCoeffModule
 
 /-- Scalar multiplication by `ZMod n` on the discrete `μ_n(Fˢ)` is continuous. -/
 theorem kummerCoeff_continuousSMul (F : Type) [Field F] (n : ℕ) :
-    ContinuousSMul (ZMod n) (ProfiniteCohomology.KummerCoeff F n) :=
+    ContinuousSMul (ZMod n) (TauCeti.KummerCoeff F n) :=
   ⟨continuous_of_discreteTopology⟩
 
-attribute [local instance] kummerCoeff_continuousSMul
+/-- The Galois action on `μ_n(Fˢ)` commutes with the `ZMod n`-scalars: every additive map between
+`ZMod n`-modules is `ZMod n`-linear (`ZMod.map_smul`). -/
+theorem kummerCoeff_smulCommClass (F : Type) [Field F] (n : ℕ) :
+    SMulCommClass (Field.absoluteGaloisGroup F) (ZMod n) (TauCeti.KummerCoeff F n) :=
+  ⟨fun g c x => ZMod.map_smul (DistribSMul.toAddMonoidHom (TauCeti.KummerCoeff F n) g) c x⟩
 
-/-- The Galois action on `μ_n(Fˢ)`, read on Mathlib's absolute Galois group through
-`absoluteGaloisGroupComparison`. -/
-noncomputable def kummerCoeffRep (n : ℕ) (F : Type) [Field F] :
-    Field.absoluteGaloisGroup F →*
-      (ProfiniteCohomology.KummerCoeff F n →L[ZMod n] ProfiniteCohomology.KummerCoeff F n) where
-  toFun g := ⟨(DistribSMul.toAddMonoidHom (ProfiniteCohomology.KummerCoeff F n)
-      (absoluteGaloisGroupComparison F g)).toZModLinearMap n, continuous_of_discreteTopology⟩
-  map_one' := by
-    ext x
-    simp
-  map_mul' g h := by
-    ext x
-    simp [mul_smul]
+attribute [local instance] kummerCoeff_continuousSMul kummerCoeff_smulCommClass
 
-/-- **The coefficient object `μ_n(Fˢ)`**, written additively: `ProfiniteCohomology.KummerCoeff F n`
-itself, discrete, with `G_F` acting through `absoluteGaloisGroupComparison`. -/
+/-- **The coefficient object `μ_n(Fˢ)`**: Tau Ceti's `KummerCoeff F n`, the `n`-th roots of unity of
+the separable closure written additively, as an object of `GalRep n F` through Tau Ceti's
+dictionary `TauCeti.ofDiscreteModule`, with `G_F` acting through `absoluteGaloisGroupComparison`
+(`muNRep_ρ_apply`). -/
 noncomputable def muNRep (n : ℕ) (F : Type) [Field F] : GalRep n F :=
-  TopRep.of (ContRepresentation.ofMonoidHom (kummerCoeffRep n F))
+  TauCeti.ofDiscreteModule (ZMod n) (Field.absoluteGaloisGroup F) (TauCeti.KummerCoeff F n)
+
+/-- `μ_n(Fˢ)` is a smooth discrete coefficient object: Tau Ceti's
+`ofDiscreteModule_isSmoothDiscrete`, the action being continuous (`comparison_continuousSMul`,
+Tau Ceti's `kummerCoeff_continuousSMul`). -/
+theorem isSmoothDiscrete_muNRep (n : ℕ) (F : Type) [Field F] :
+    TauCeti.IsSmoothDiscrete (ZMod n) (muNRep n F) :=
+  haveI := comparison_continuousSMul F (TauCeti.KummerCoeff F n)
+  TauCeti.ofDiscreteModule_isSmoothDiscrete (ZMod n) (Field.absoluteGaloisGroup F)
+    (TauCeti.KummerCoeff F n)
 
 end KummerCoefficients
 
-/-- The dictionary between the profinite roadmap's Kummer coefficient and `muNRep`: the identity,
-because `muNRep n F` is built on `ProfiniteCohomology.KummerCoeff F n`. -/
+/-- `μ_n(Fˢ)` carries the discrete topology. -/
+instance instDiscreteTopologyMuNRep (n : ℕ) (F : Type) [Field F] :
+    DiscreteTopology (muNRep n F).V :=
+  inferInstanceAs (DiscreteTopology (TauCeti.KummerCoeff F n))
+
+/-- `μ_n(Fˢ)` is finite for `n ≠ 0`. -/
+instance instFiniteMuNRep (n : ℕ) [NeZero n] (F : Type) [Field F] : Finite (muNRep n F).V :=
+  inferInstanceAs (Finite (TauCeti.KummerCoeff F n))
+
+/-- **The action on `μ_n(Fˢ)`**: `G_F` acts through `absoluteGaloisGroupComparison`. -/
+theorem muNRep_ρ_apply (n : ℕ) (F : Type) [Field F] (g : Field.absoluteGaloisGroup F)
+    (x : TauCeti.KummerCoeff F n) :
+    (muNRep n F).ρ g x = absoluteGaloisGroupComparison F g • x :=
+  rfl
+
+/-- The dictionary between Tau Ceti's Kummer coefficient and `muNRep`: the identity, because
+`muNRep n F` is built on `TauCeti.KummerCoeff F n`. -/
 noncomputable def muNRepCoeffDictionary (n : ℕ) (F : Type) [Field F] :
-    ProfiniteCohomology.KummerCoeff F n ≃+ (muNRep n F).V :=
+    TauCeti.KummerCoeff F n ≃+ (muNRep n F).V :=
   AddEquiv.refl _
 
 theorem muNRepCoeffDictionary_continuous (n : ℕ) (F : Type) [Field F] :
@@ -1115,56 +1170,235 @@ theorem muNRepCoeffDictionary_continuous (n : ℕ) (F : Type) [Field F] :
   continuous_of_discreteTopology
 
 theorem muNRepCoeffDictionary_equivariant (n : ℕ) (F : Type) [Field F]
-    (g : Field.absoluteGaloisGroup F) (x : ProfiniteCohomology.KummerCoeff F n) :
+    (g : Field.absoluteGaloisGroup F) (x : TauCeti.KummerCoeff F n) :
     muNRepCoeffDictionary n F (absoluteGaloisGroupComparison F g • x)
-      = ((muNRep n F).ρ g) (muNRepCoeffDictionary n F x) :=
+      = (muNRep n F).ρ g (muNRepCoeffDictionary n F x) :=
   rfl
 
-/-- Tate dual `Hom(A,μ_n)` with its conjugation action. -/
-def tateDual {n : ℕ} {F : Type} [Field F] (_A : GalRep n F) : GalRep n F :=
+/-! #### The coordinate of a primitive root
+
+A primitive `n`-th root of unity `ζ ∈ F` fixes a coordinate `μ_n(Fˢ) ≃ ℤ/n`, `ζ ↦ 1`, and, lying in
+`F`, it makes the Galois action on `μ_n(Fˢ)` trivial. Both are what `kummerCupPairing ζ` and the
+chosen-root comparison `tateDualityPairing_muNRepToTateDual` below are built from. -/
+
+/-- The primitive root `ζ ∈ F`, as a unit of the separable closure. -/
+theorem isPrimitiveRoot_units_map {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ : F)
+    (hζ : IsPrimitiveRoot ζ n) :
+    IsPrimitiveRoot
+      ((hζ.map_of_injective (algebraMap F (SeparableClosure F)).injective).toRootsOfUnity :
+        (SeparableClosure F)ˣ) n :=
+  IsPrimitiveRoot.coe_units_iff.mp (by
+    rw [IsPrimitiveRoot.val_toRootsOfUnity_coe]
+    exact hζ.map_of_injective (algebraMap F (SeparableClosure F)).injective)
+
+/-- The image of a primitive `n`-th root of unity `ζ ∈ F` in `μ_n(Fˢ)`. -/
+noncomputable def muNRepGenerator {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ : F)
+    (hζ : IsPrimitiveRoot ζ n) : (muNRep n F).V :=
+  (Additive.ofMul (hζ.map_of_injective (algebraMap F (SeparableClosure F)).injective).toRootsOfUnity :
+    TauCeti.KummerCoeff F n)
+
+/-- **The coordinate of `μ_n(Fˢ)` selected by a primitive root** `ζ ∈ F`: `ζ^k ↦ k`. It is
+Mathlib's `IsPrimitiveRoot.zmodEquivZPowers` at the image of `ζ` in `Fˢ`, whose powers are all of
+`μ_n(Fˢ)` (`IsPrimitiveRoot.zpowers_eq`). -/
+noncomputable def muNRepEquivZMod {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ : F)
+    (hζ : IsPrimitiveRoot ζ n) : (muNRep n F).V ≃+ ZMod n :=
+  ((isPrimitiveRoot_units_map ζ hζ).zmodEquivZPowers.trans
+    (MulEquiv.subgroupCongr (isPrimitiveRoot_units_map ζ hζ).zpowers_eq).toAdditive).symm
+
+/-- The coordinate of the generator is `1`. -/
+theorem muNRepEquivZMod_generator {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ : F)
+    (hζ : IsPrimitiveRoot ζ n) : muNRepEquivZMod ζ hζ (muNRepGenerator ζ hζ) = 1 :=
   sorry
 
-/-- The transported Kummer class, not a second Kummer cocycle. -/
-def kummerClass (n : ℕ) (F : Type) [Field F] (_a : Fˣ) : H n F 1 (muNRep n F) :=
+/-- **`G_F` fixes `μ_n(Fˢ)` pointwise when `ζ ∈ F`**: the `n`-th roots of unity of `Fˢ` are the
+powers of `ζ` (`IsPrimitiveRoot.zpowers_eq`), and `G_F` fixes `ζ ∈ F`. This is what makes
+`kummerCupPairing ζ` equivariant and the chosen-root map `muNRepToTateDual ζ` a morphism. -/
+theorem muNRep_ρ_eq_self {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ : F)
+    (hζ : IsPrimitiveRoot ζ n) (g : Field.absoluteGaloisGroup F) (x : (muNRep n F).V) :
+    (muNRep n F).ρ g x = x :=
   sorry
 
-/-- Kummer equivalence when the exponent is invertible in the valuation ring. -/
+/-! #### The explicit degree-one model over `ZMod n`
+
+Tau Ceti identifies the explicit `H¹ = Z¹/B¹` of a discrete module with Mathlib's continuous
+cohomology of its image under `TauCeti.ofDiscreteModule ℤ`
+(`TauCeti.ContCohomology.explicitH1AddEquivContinuousCohomology`, through
+`TauCeti.ContCohomology.cocycleEquiv1`). The Kummer class of Tau Ceti lives in that explicit
+model. The two declarations below are the same comparison for an object of `GalRep n F`, whose
+continuous cohomology is taken over `ZMod n`: the homogeneous cochains of `A` over `ZMod n` and of
+`A.V` over `ℤ` have the same underlying groups and differentials, and the implementation
+generalizes those two Tau Ceti declarations from `ℤ` to an arbitrary coefficient ring rather than
+building a second comparison. -/
+
+section ExplicitComparison
+
+attribute [local instance] TopRep.distribMulAction
+
+variable {n : ℕ} {F : Type} [Field F]
+
+/-- **The inhomogeneous form of a canonical `1`-cocycle** of `A` over `ZMod n`: `g ↦ c(1, g)`
+(`inhomogeneousCocycle1_apply`). This is the inverse of Tau Ceti's `cocycleEquiv1` over `ZMod n`. -/
+noncomputable def inhomogeneousCocycle1 (A : GalRep n F) [DiscreteTopology A.V]
+    [ContinuousSMul (Field.absoluteGaloisGroup F) A.V] :
+    ContinuousCohomology.cocycles A 1 →+
+      TauCeti.ContCohomology.Z1 (Field.absoluteGaloisGroup F) A.V :=
+  sorry
+
+/-- The defining equation of `inhomogeneousCocycle1`: evaluation of the homogeneous cocycle at
+`(1, g)`. -/
+theorem inhomogeneousCocycle1_apply (A : GalRep n F) [DiscreteTopology A.V]
+    [ContinuousSMul (Field.absoluteGaloisGroup F) A.V] (c : ContinuousCohomology.cocycles A 1)
+    (g : Field.absoluteGaloisGroup F) :
+    (inhomogeneousCocycle1 A c : Field.absoluteGaloisGroup F → A.V) g =
+      ((TopRep.homogeneousCochains A).iCycles 1 c).val 1 g :=
+  sorry
+
+/-- **The explicit degree-one model of `H¹(G_F, A)` over `ZMod n`**: Tau Ceti's
+`explicitH1AddEquivContinuousCohomology` for the coefficient ring `ZMod n`. It is pinned by
+`explicitH1AddEquivH_symm_homologyπ`. -/
+noncomputable def explicitH1AddEquivH (A : GalRep n F) [DiscreteTopology A.V]
+    [ContinuousSMul (Field.absoluteGaloisGroup F) A.V] :
+    TauCeti.ContCohomology.H1 (Field.absoluteGaloisGroup F) A.V ≃+ H n F 1 A :=
+  sorry
+
+/-- The characterizing equation of `explicitH1AddEquivH`: the explicit class of a canonical class
+`[c]` is the class of the inhomogeneous cocycle `g ↦ c(1, g)`. Every canonical class is some `[c]`,
+so this determines the comparison. -/
+theorem explicitH1AddEquivH_symm_homologyπ (A : GalRep n F) [DiscreteTopology A.V]
+    [ContinuousSMul (Field.absoluteGaloisGroup F) A.V] (c : ContinuousCohomology.cocycles A 1) :
+    (explicitH1AddEquivH A).symm ((TopRep.homogeneousCochains A).homologyπ 1 c) =
+      (inhomogeneousCocycle1 A c : TauCeti.ContCohomology.H1 (Field.absoluteGaloisGroup F) A.V) :=
+  sorry
+
+end ExplicitComparison
+
+/-! #### The Kummer class -/
+
+section KummerClass
+
+attribute [local instance] TopRep.distribMulAction
+
+/-- The Galois action on `μ_n(Fˢ)` is continuous. -/
+instance muNRep_continuousSMul (n : ℕ) (F : Type) [Field F] :
+    ContinuousSMul (Field.absoluteGaloisGroup F) (muNRep n F).V :=
+  (isSmoothDiscrete_muNRep n F).continuousSMul
+
+/-- Tau Ceti's Kummer class pulled back to `G_F`: the explicit class of Tau Ceti's `kummerMap`,
+transported along the compatible pair `(absoluteGaloisGroupComparison, muNRepCoeffDictionary)` by
+Tau Ceti's `explicitMap1`. -/
+noncomputable def explicitKummerClass (n : ℕ) (F : Type) [Field F] (hn : IsUnit (n : F)) :
+    Additive Fˣ →+ TauCeti.ContCohomology.H1 (Field.absoluteGaloisGroup F) (muNRep n F).V :=
+  (TauCeti.ContCohomology.explicitMap1 (TauCeti.AbsoluteGaloisGroup F)
+      (TauCeti.KummerCoeff F n) (Field.absoluteGaloisGroup F) (muNRep n F).V
+      (absoluteGaloisGroupComparison F :
+        Field.absoluteGaloisGroup F →ₜ* TauCeti.AbsoluteGaloisGroup F)
+      (muNRepCoeffDictionary n F).toAddMonoidHom continuous_of_discreteTopology
+      fun g x => (muNRep_ρ_apply n F g x).symm).comp
+    (AddMonoidHom.toMultiplicativeRight.symm (TauCeti.kummerMap F n hn))
+
+/-- The Kummer class as an additive map, `0` when `n` is not invertible in `F`. -/
+noncomputable def kummerClassHom (n : ℕ) (F : Type) [Field F] :
+    Additive Fˣ →+ H n F 1 (muNRep n F) := by
+  classical
+  exact if hn : IsUnit (n : F) then
+    (explicitH1AddEquivH (muNRep n F)).toAddMonoidHom.comp (explicitKummerClass n F hn)
+  else 0
+
+/-- **The Kummer class of `a ∈ Fˣ` in `H¹(G_F, μ_n)`**: Tau Ceti's Kummer class
+(`TauCeti.kummerMap`, the degree-zero connecting map of the Kummer sequence) transported to `G_F`
+(`explicitKummerClass`) and to Mathlib's continuous cohomology over `ZMod n`
+(`explicitH1AddEquivH`). Where `n` is not invertible in `F` there is no Kummer sequence and the
+value is `0` (`kummerClass_of_not_isUnit`); every theorem below that uses it carries a hypothesis
+making `n` invertible. -/
+noncomputable def kummerClass (n : ℕ) (F : Type) [Field F] (a : Fˣ) : H n F 1 (muNRep n F) :=
+  kummerClassHom n F (Additive.ofMul a)
+
+/-- The Kummer class is additive. -/
+theorem kummerClass_mul (n : ℕ) (F : Type) [Field F] (a b : Fˣ) :
+    kummerClass n F (a * b) = kummerClass n F a + kummerClass n F b :=
+  map_add (kummerClassHom n F) (Additive.ofMul a) (Additive.ofMul b)
+
+/-- **The defining equation of `kummerClass`** for `n` invertible in `F`. -/
+theorem kummerClass_eq {n : ℕ} {F : Type} [Field F] (hn : IsUnit (n : F)) (a : Fˣ) :
+    kummerClass n F a =
+      explicitH1AddEquivH (muNRep n F) (explicitKummerClass n F hn (Additive.ofMul a)) := by
+  simp only [kummerClass, kummerClassHom, hn, dite_true, AddMonoidHom.coe_comp, Function.comp_apply,
+    AddEquiv.coe_toAddMonoidHom]
+
+/-- The value where `n` is not invertible. -/
+theorem kummerClass_of_not_isUnit {n : ℕ} {F : Type} [Field F] (hn : ¬ IsUnit (n : F)) (a : Fˣ) :
+    kummerClass n F a = 0 := by
+  simp only [kummerClass, kummerClassHom, hn, dite_false, AddMonoidHom.zero_apply]
+
+/-- **The Kummer class on cocycles**: for an `n`-th root `α ∈ Fˢ` of `a`, the class of `a` is the
+class of the Kummer cocycle `g ↦ g α / α` (Tau Ceti's `kummerMap_eq_kummerCocycleClass`),
+transported. A closed proof. -/
+theorem kummerClass_eq_kummerCocycleClass {n : ℕ} {F : Type} [Field F] (hn : IsUnit (n : F))
+    {a : Fˣ} {α : (SeparableClosure F)ˣ}
+    (hα : α ^ n = Units.map (algebraMap F (SeparableClosure F)).toMonoidHom a) :
+    kummerClass n F a = explicitH1AddEquivH (muNRep n F)
+      (TauCeti.ContCohomology.explicitMap1 (TauCeti.AbsoluteGaloisGroup F)
+        (TauCeti.KummerCoeff F n) (Field.absoluteGaloisGroup F) (muNRep n F).V
+        (absoluteGaloisGroupComparison F :
+          Field.absoluteGaloisGroup F →ₜ* TauCeti.AbsoluteGaloisGroup F)
+        (muNRepCoeffDictionary n F).toAddMonoidHom continuous_of_discreteTopology
+        (fun g x => (muNRep_ρ_apply n F g x).symm) (TauCeti.kummerCocycleClass hα)) := by
+  rw [kummerClass_eq hn, ← TauCeti.kummerMap_eq_kummerCocycleClass hn hα]
+  rfl
+
+end KummerClass
+
+/-- Kummer equivalence when the exponent is invertible in the valuation ring. It is the Kummer class
+on power classes (`kummerEquiv_unit_mk`). -/
 noncomputable def kummerEquiv_unit (n : ℕ) (_hn : n ≠ 0)
     (_hn' : IsUnit (n : ↥𝒪[K])) :
     Additive (Kˣ ⧸ (powMonoidHom n : Kˣ →* Kˣ).range) ≃+ H n K 1 (muNRep n K) :=
   sorry
 
-/-- Mixed-characteristic Kummer equivalence, including `n = p`. -/
+/-- `kummerEquiv_unit` sends the power class of `a` to the Kummer class of `a`. -/
+theorem kummerEquiv_unit_mk (n : ℕ) (hn : n ≠ 0) (hn' : IsUnit (n : ↥𝒪[K])) (a : Kˣ) :
+    kummerEquiv_unit K n hn hn' (Additive.ofMul (QuotientGroup.mk a)) = kummerClass n K a :=
+  sorry
+
+/-- Mixed-characteristic Kummer equivalence, including `n = p`. It is the Kummer class on power
+classes (`kummerEquiv_mixed_mk`). -/
 noncomputable def kummerEquiv_mixed (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
     [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (n : ℕ) (_hn : n ≠ 0) :
     Additive (Fˣ ⧸ (powMonoidHom n : Fˣ →* Fˣ).range) ≃+ H n F 1 (muNRep n F) :=
   sorry
 
--- The action of `Gal(Fˢ/F)` on `(Fˢ)ˣ` is found by instance search, but not within the default
--- budget for a type this deep; `ProfiniteCohomology` raises the same limit for the same instance.
-set_option synthInstance.maxHeartbeats 80000 in
-/-- The Galois action on `(Fˢ)ˣ`, written additively, read on Mathlib's absolute Galois group
-through `absoluteGaloisGroupComparison`. -/
-noncomputable def unitsCoeffRep (F : Type) [Field F] :
-    Field.absoluteGaloisGroup F →*
-      (ProfiniteCohomology.UnitsCoeff F →L[ℤ] ProfiniteCohomology.UnitsCoeff F) where
-  toFun g := ⟨(DistribSMul.toAddMonoidHom (ProfiniteCohomology.UnitsCoeff F)
-      (absoluteGaloisGroupComparison F g)).toIntLinearMap, continuous_of_discreteTopology⟩
-  map_one' := by
-    ext x
-    simp
-  map_mul' g h := by
-    ext x
-    simp [mul_smul]
+/-- `kummerEquiv_mixed` sends the power class of `a` to the Kummer class of `a`. -/
+theorem kummerEquiv_mixed_mk (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
+    [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (n : ℕ) (hn : n ≠ 0) (a : Fˣ) :
+    kummerEquiv_mixed p F n hn (Additive.ofMul (QuotientGroup.mk a)) = kummerClass n F a :=
+  sorry
 
-/-- **Multiplicative separable-closure coefficients `(Fˢ)ˣ`**, written additively: the module of the
-local formation and the coefficients of the local Brauer group. It is
-`ProfiniteCohomology.UnitsCoeff F` itself, discrete, with `G_F` acting through
-`absoluteGaloisGroupComparison`. -/
+section UnitsCoefficients
+
+attribute [local instance] comparisonDistribMulAction
+
+/-- Scalar multiplication by `ℤ` on the discrete `(Fˢ)ˣ` is continuous. -/
+theorem unitsCoeff_continuousSMul_int (F : Type) [Field F] :
+    ContinuousSMul ℤ (TauCeti.UnitsCoeff F) :=
+  ⟨continuous_of_discreteTopology⟩
+
+attribute [local instance] unitsCoeff_continuousSMul_int
+
+/-- **Multiplicative separable-closure coefficients `(Fˢ)ˣ`**, written additively: the coefficients
+of the local Brauer group. It is Tau Ceti's `UnitsCoeff F` through Tau Ceti's dictionary
+`TauCeti.ofDiscreteModule ℤ`, with `G_F` acting through `absoluteGaloisGroupComparison`
+(`unitsRep_ρ_apply`). -/
 noncomputable def unitsRep (F : Type) [Field F] :
     ProfiniteCohomology.TopRep ℤ (Field.absoluteGaloisGroup F) :=
-  haveI : ContinuousSMul ℤ (ProfiniteCohomology.UnitsCoeff F) := ⟨continuous_of_discreteTopology⟩
-  TopRep.of (ContRepresentation.ofMonoidHom (unitsCoeffRep F))
+  TauCeti.ofDiscreteModule ℤ (Field.absoluteGaloisGroup F) (TauCeti.UnitsCoeff F)
+
+end UnitsCoefficients
+
+/-- **The action on `(Fˢ)ˣ`**: `G_F` acts through `absoluteGaloisGroupComparison`. -/
+theorem unitsRep_ρ_apply (F : Type) [Field F] (g : Field.absoluteGaloisGroup F)
+    (x : TauCeti.UnitsCoeff F) :
+    (unitsRep F).ρ g x = absoluteGaloisGroupComparison F g • x :=
+  rfl
 
 /-- Local Brauer group on the imported continuous-cohomology carrier. -/
 noncomputable abbrev Br (F : Type) [Field F] : Type _ :=
@@ -1286,16 +1520,38 @@ theorem h2FpEquivZMod_of_mu (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
 
 /-! ### The cohomological Hilbert symbol -/
 
-/-- The coefficient pairing `μ_n × μ_n → μ_n` selected by a primitive root. -/
+/-- **The coefficient pairing `μ_n × μ_n → μ_n` selected by a primitive root** `ζ ∈ F`:
+`(x, y) ↦ log_ζ(x) · y`, where `log_ζ = muNRepEquivZMod ζ` is the coordinate `ζ^k ↦ k`
+(`kummerCupPairing_bil`). It is symmetric (`kummerCupPairing_bil_comm`), and it is equivariant
+because `G_F` fixes `μ_n(Fˢ)` pointwise when `ζ ∈ F` (`muNRep_ρ_eq_self`). At `n = 0` it is `0`;
+every theorem below that uses it has `n ≠ 0`. -/
 noncomputable def kummerCupPairing {n : ℕ} {F : Type} [Field F]
-    (ζ : F) (_hζ : IsPrimitiveRoot ζ n) :
-    ProfiniteCohomology.TopPairing (muNRep n F) (muNRep n F) (muNRep n F) :=
-  sorry
+    (ζ : F) (hζ : IsPrimitiveRoot ζ n) :
+    ProfiniteCohomology.TopPairing (muNRep n F) (muNRep n F) (muNRep n F) where
+  bil := if h : n = 0 then 0 else
+    haveI : NeZero n := ⟨h⟩
+    (LinearMap.lsmul (ZMod n) (muNRep n F).V).comp
+      ((muNRepEquivZMod ζ hζ).toAddMonoidHom.toZModLinearMap n)
+  cont := continuous_of_discreteTopology
+  equivariant g x y := by
+    by_cases h : n = 0
+    · subst h
+      simp
+    · have : NeZero n := ⟨h⟩
+      rw [muNRep_ρ_eq_self ζ hζ g x, muNRep_ρ_eq_self ζ hζ g y, muNRep_ρ_eq_self ζ hζ g]
 
-/-- Canonical coefficient pairing for local Tate duality: evaluation `A' × A → μ_n`. -/
-noncomputable def tateEvaluationPairing {n : ℕ} {F : Type} [Field F]
-    (A : GalRep n F) :
-    ProfiniteCohomology.TopPairing (tateDual A) A (muNRep n F) :=
+/-- **The Kummer cup pairing is `(x, y) ↦ log_ζ(x) · y`.** -/
+theorem kummerCupPairing_bil {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ : F)
+    (hζ : IsPrimitiveRoot ζ n) (x y : (muNRep n F).V) :
+    (kummerCupPairing ζ hζ).bil x y = muNRepEquivZMod ζ hζ x • y := by
+  simp only [kummerCupPairing, NeZero.ne n, dite_false]
+  rfl
+
+/-- **The Kummer cup pairing is symmetric**: `log_ζ(x) · y = log_ζ(y) · x`, both being
+`ζ^{log_ζ(x) log_ζ(y)}`. This is the symmetry the antisymmetry of `localSymbol` uses. -/
+theorem kummerCupPairing_bil_comm {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ : F)
+    (hζ : IsPrimitiveRoot ζ n) (x y : (muNRep n F).V) :
+    (kummerCupPairing ζ hζ).bil x y = (kummerCupPairing ζ hζ).bil y x :=
   sorry
 
 /-- The local cohomological symbol: cup followed by the invariant. -/
@@ -1313,8 +1569,12 @@ theorem localSymbol_kummerClass_mul {n : ℕ}
     (_hn : n ≠ 0) (_hn' : IsUnit (n : ↥𝒪[K])) (a a' b : Kˣ) :
     localSymbol P tr (kummerClass n K (a * a')) (kummerClass n K b)
       = localSymbol P tr (kummerClass n K a) (kummerClass n K b)
-        + localSymbol P tr (kummerClass n K a') (kummerClass n K b) :=
-  sorry
+        + localSymbol P tr (kummerClass n K a') (kummerClass n K b) := by
+  have h := ProfiniteCohomology.cup_add_left P 1 1 (kummerClass n K a) (kummerClass n K a')
+    (kummerClass n K b)
+  simp only [localSymbol, kummerClass_mul]
+  exact (congrArg (fun z => tr (ProfiniteCohomology.degreeCast (by norm_num) (muNRep n K) z)) h).trans
+    (map_add tr _ _)
 
 /-- Steinberg relation at the named arithmetic coefficient pairing. -/
 theorem localSymbol_kummerClass_steinberg {n : ℕ} (zeta : K)
@@ -1358,6 +1618,225 @@ theorem localSymbol_kummerClass_eq_zero_iff {n : ℕ} (_hn : n ≠ 0) (ζ : K)
       a ∈ (powMonoidHom n : Kˣ →* Kˣ).range :=
   sorry
 
+/-! ### The Tate dual and the evaluation pairing
+
+The Tate dual `A' = Hom(A, μ_n)` is Tau Ceti's internal hom `TauCeti.InternalHom G_F A μ_n` — the
+additive maps `A → μ_n` with the conjugation action `TauCeti.homAction`,
+`(g · φ)(a) = g · φ(g⁻¹ · a)`, and the discrete topology — read as an object of `GalRep n F`
+through Tau Ceti's dictionary `TauCeti.ofDiscreteModule`; the evaluation pairing is Tau Ceti's
+`InternalHom.evalPairing`. Neither is built a second time. The declarations below pin the carrier
+(`tateDualEquiv`), the action (`tateDualEquiv_ρ_apply`), the pairing
+(`tateEvaluationPairing_bil`), the finite and discrete instances and smoothness
+(`isSmoothDiscrete_tateDual`), the invariants (`tateDual_ρ_eq_self_iff`), contravariance in `A`
+(`tateDualMap`) with its compatibility with evaluation (`tateEvaluationPairing_tateDualMap`) and
+exactness (`tateDualMap_exact`), and the identification of `Hom(μ_n, μ_n)` after a primitive root is
+chosen (`muNRepToTateDual`). -/
+
+section TateDual
+
+attribute [local instance] TopRep.distribMulAction
+
+variable {n : ℕ} {F : Type} [Field F]
+
+/-- `Hom(A, μ_n)` is killed by `n`, because `μ_n` is. -/
+theorem nsmul_internalHom_eq_zero (A : GalRep n F)
+    (φ : TauCeti.InternalHom (Field.absoluteGaloisGroup F) A.V (muNRep n F).V) : n • φ = 0 := by
+  apply TauCeti.InternalHom.ext
+  rw [TauCeti.InternalHom.toAddMonoidHom_nsmul, TauCeti.InternalHom.toAddMonoidHom_zero]
+  ext a
+  exact nsmul_kummerCoeff_eq_zero F n (φ.toAddMonoidHom a)
+
+/-- The `ZMod n`-module structure of `Hom(A, μ_n)`, from `nsmul_internalHom_eq_zero`. -/
+@[instance_reducible]
+noncomputable def internalHomModule (A : GalRep n F) :
+    Module (ZMod n) (TauCeti.InternalHom (Field.absoluteGaloisGroup F) A.V (muNRep n F).V) :=
+  AddCommGroup.zmodModule (nsmul_internalHom_eq_zero A)
+
+attribute [local instance] internalHomModule
+
+/-- The conjugation action on `Hom(A, μ_n)` commutes with the `ZMod n`-scalars
+(`ZMod.map_smul`). -/
+theorem internalHom_smulCommClass (A : GalRep n F) :
+    SMulCommClass (Field.absoluteGaloisGroup F) (ZMod n)
+      (TauCeti.InternalHom (Field.absoluteGaloisGroup F) A.V (muNRep n F).V) :=
+  ⟨fun g c φ => ZMod.map_smul (DistribSMul.toAddMonoidHom
+    (TauCeti.InternalHom (Field.absoluteGaloisGroup F) A.V (muNRep n F).V) g) c φ⟩
+
+/-- Scalar multiplication by `ZMod n` on the discrete `Hom(A, μ_n)` is continuous. -/
+theorem internalHom_continuousSMul (A : GalRep n F) :
+    ContinuousSMul (ZMod n)
+      (TauCeti.InternalHom (Field.absoluteGaloisGroup F) A.V (muNRep n F).V) :=
+  ⟨continuous_of_discreteTopology⟩
+
+attribute [local instance] internalHom_smulCommClass internalHom_continuousSMul
+
+/-- **The Tate dual** `A' = Hom(A, μ_n)`: Tau Ceti's internal hom
+`TauCeti.InternalHom G_F A μ_n`, with its conjugation action `TauCeti.homAction`, as an object of
+`GalRep n F` through Tau Ceti's dictionary `TauCeti.ofDiscreteModule`. Its carrier is
+`Hom(A, μ_n)` (`tateDualEquiv`), its action is `(g · φ)(a) = g · φ(g⁻¹ · a)`
+(`tateDualEquiv_ρ_apply`), and it is discrete, finite for finite `A`, and smooth for finite smooth
+discrete `A` (`isSmoothDiscrete_tateDual`). Every theorem below takes `A` finite and discrete, the
+setting in which `Hom(A, μ_n)` is the dual in the category of discrete `G_F`-modules. -/
+noncomputable def tateDual (A : GalRep n F) : GalRep n F :=
+  TauCeti.ofDiscreteModule (ZMod n) (Field.absoluteGaloisGroup F)
+    (TauCeti.InternalHom (Field.absoluteGaloisGroup F) A.V (muNRep n F).V)
+
+/-- The Tate dual carries the discrete topology. -/
+instance instDiscreteTopologyTateDual (A : GalRep n F) : DiscreteTopology (tateDual A).V :=
+  inferInstanceAs (DiscreteTopology
+    (TauCeti.InternalHom (Field.absoluteGaloisGroup F) A.V (muNRep n F).V))
+
+/-- **The carrier of the Tate dual is `Hom(A, μ_n)`**: Tau Ceti's `InternalHom.evalPairing`, which
+forgets the action, with inverse `InternalHom.of`. -/
+noncomputable def tateDualEquiv (A : GalRep n F) : (tateDual A).V ≃+ (A.V →+ (muNRep n F).V) where
+  toFun φ := TauCeti.InternalHom.evalPairing (Field.absoluteGaloisGroup F) φ
+  invFun f := TauCeti.InternalHom.of (Field.absoluteGaloisGroup F) f
+  left_inv _ := rfl
+  right_inv _ := rfl
+  map_add' := map_add (TauCeti.InternalHom.evalPairing (Field.absoluteGaloisGroup F))
+
+/-- **The action on the Tate dual is conjugation**, `(g · φ)(a) = g · φ(g⁻¹ · a)`: Tau Ceti's
+`homAction_apply` on the carrier of `ofDiscreteModule`. -/
+theorem tateDualEquiv_ρ_apply (A : GalRep n F) (g : Field.absoluteGaloisGroup F)
+    (φ : (tateDual A).V) (a : A.V) :
+    tateDualEquiv A ((tateDual A).ρ g φ) a =
+      (muNRep n F).ρ g (tateDualEquiv A φ (A.ρ g⁻¹ a)) :=
+  rfl
+
+/-- `Hom(A, μ_n)` is finite when `A` is and `n ≠ 0`. -/
+instance instFiniteTateDual [NeZero n] (A : GalRep n F) [Finite A.V] : Finite (tateDual A).V :=
+  Finite.of_injective (fun φ : (tateDual A).V => ⇑(tateDualEquiv A φ))
+    (fun _ _ h => (tateDualEquiv A).injective (DFunLike.coe_injective h))
+
+/-- **The Tate dual of a finite smooth discrete module is smooth discrete**: Tau Ceti's
+`ofDiscreteModule_isSmoothDiscrete`, the conjugation action on `InternalHom` being continuous for a
+finite discrete source (Tau Ceti's `ContinuousSMul` instance on `InternalHom`). -/
+theorem isSmoothDiscrete_tateDual (A : GalRep n F) [DiscreteTopology A.V] [Finite A.V]
+    (hA : TauCeti.IsSmoothDiscrete (ZMod n) A) : TauCeti.IsSmoothDiscrete (ZMod n) (tateDual A) := by
+  have := hA.continuousSMul
+  exact TauCeti.ofDiscreteModule_isSmoothDiscrete (ZMod n) (Field.absoluteGaloisGroup F) _
+
+/-- **The invariants of the Tate dual are the equivariant maps**: `g` fixes `φ` exactly when `φ`
+commutes with `g`, so `H⁰(G_F, Hom(A, μ_n)) = Hom_{G_F}(A, μ_n)`. Tau Ceti's
+`InternalHom.smul_eq_self_iff`. -/
+theorem tateDual_ρ_eq_self_iff (A : GalRep n F) (g : Field.absoluteGaloisGroup F)
+    (φ : (tateDual A).V) :
+    (tateDual A).ρ g φ = φ ↔
+      ∀ a : A.V, tateDualEquiv A φ (A.ρ g a) = (muNRep n F).ρ g (tateDualEquiv A φ a) :=
+  TauCeti.InternalHom.smul_eq_self_iff
+
+/-- **The evaluation pairing** `Hom(A, μ_n) × A → μ_n`, `(φ, a) ↦ φ a`: Tau Ceti's
+`InternalHom.evalPairing`, read `ZMod n`-bilinearly (`tateEvaluationPairing_bil`). Its
+equivariance is Tau Ceti's `InternalHom.evalPairing_equivariant`, and it is continuous because both
+factors are discrete. This is the coefficient pairing of local Tate duality; a statement quantified
+over an arbitrary pairing would admit the zero pairing. -/
+noncomputable def tateEvaluationPairing (A : GalRep n F) [DiscreteTopology A.V] :
+    ProfiniteCohomology.TopPairing (tateDual A) A (muNRep n F) where
+  bil := AddMonoidHom.toZModLinearMap n
+    { toFun := fun φ => AddMonoidHom.toZModLinearMap n (tateDualEquiv A φ)
+      map_zero' := by ext; simp
+      map_add' := fun φ ψ => by ext; simp }
+  cont := continuous_of_discreteTopology
+  equivariant g φ a := by
+    change tateDualEquiv A ((tateDual A).ρ g φ) (A.ρ g a) =
+      (muNRep n F).ρ g (tateDualEquiv A φ a)
+    rw [tateDualEquiv_ρ_apply]
+    congr 2
+    change (A.ρ g⁻¹ * A.ρ g) a = a
+    rw [← map_mul, inv_mul_cancel, map_one]
+    rfl
+
+/-- **The evaluation pairing is evaluation.** -/
+theorem tateEvaluationPairing_bil (A : GalRep n F) [DiscreteTopology A.V] (φ : (tateDual A).V)
+    (a : A.V) : (tateEvaluationPairing A).bil φ a = tateDualEquiv A φ a :=
+  rfl
+
+/-- Precomposition with a morphism `f : A ⟶ B`, on carriers. -/
+noncomputable def tateDualPrecomp {A B : GalRep n F} (f : A ⟶ B) :
+    (B.V →+ (muNRep n F).V) →+ (A.V →+ (muNRep n F).V) where
+  toFun ψ := ψ.comp (AddMonoidHom.mk' (fun a => f.hom a) fun a b => map_add f.hom a b)
+  map_zero' := rfl
+  map_add' _ _ := rfl
+
+/-- **The Tate dual is contravariant**: a morphism `f : A ⟶ B` induces `B' ⟶ A'`, `ψ ↦ ψ ∘ f`
+(`tateDualEquiv_tateDualMap_apply`), which is Tau Ceti's `ofDiscreteModuleMap` of the
+precomposition. -/
+noncomputable def tateDualMap {A B : GalRep n F} (f : A ⟶ B) : tateDual B ⟶ tateDual A :=
+  TauCeti.ofDiscreteModuleMap
+    (AddMonoidHom.toZModLinearMap n
+      ((tateDualEquiv A).symm.toAddMonoidHom.comp
+        ((tateDualPrecomp f).comp (tateDualEquiv B).toAddMonoidHom)))
+    fun g ψ => by
+      apply (tateDualEquiv A).injective
+      ext a
+      change (muNRep n F).ρ g (tateDualEquiv B ψ (B.ρ g⁻¹ (f.hom a))) =
+        (muNRep n F).ρ g (tateDualEquiv B ψ (f.hom (A.ρ g⁻¹ a)))
+      rw [TopRep.hom_comm_apply]
+
+/-- `tateDualMap f` is precomposition with `f`. -/
+theorem tateDualEquiv_tateDualMap_apply {A B : GalRep n F} (f : A ⟶ B) (ψ : (tateDual B).V)
+    (a : A.V) : tateDualEquiv A ((tateDualMap f).hom ψ) a = tateDualEquiv B ψ (f.hom a) :=
+  rfl
+
+/-- **Naturality of the evaluation pairing in the coefficients**: `⟨f^* ψ, a⟩ = ⟨ψ, f a⟩`. This is
+the compatibility hypothesis of `ProfiniteCohomology.cup_coeffMap` for the two evaluation pairings,
+and it makes the evaluation pairings of a short exact sequence `0 → A₁ → A₂ → A₃ → 0` with its dual
+`0 → A₃' → A₂' → A₁' → 0` a map of short exact sequences, as the connecting-map identities of
+`ProfiniteCohomology` require. -/
+theorem tateEvaluationPairing_tateDualMap {A B : GalRep n F} [DiscreteTopology A.V]
+    [DiscreteTopology B.V] (f : A ⟶ B) (ψ : (tateDual B).V) (a : A.V) :
+    (tateEvaluationPairing A).bil ((tateDualMap f).hom ψ) a =
+      (tateEvaluationPairing B).bil ψ (f.hom a) :=
+  rfl
+
+/-- **The dual of a short exact sequence is short exact**: for `0 → A → B → C → 0` with `n`
+invertible in `F`, `0 → C' → B' → A' → 0` is exact, because `μ_n(Fˢ) ≅ ℤ/n` is an injective
+`ZMod n`-module. This is the dual sequence of the closing step of local duality. -/
+theorem tateDualMap_exact [NeZero n] (hn : IsUnit (n : F)) {A B C : GalRep n F} (f : A ⟶ B)
+    (g : B ⟶ C) (hf : Function.Injective f.hom) (hfg : Function.Exact f.hom g.hom)
+    (hg : Function.Surjective g.hom) :
+    Function.Injective (tateDualMap g).hom ∧
+      Function.Exact (tateDualMap g).hom (tateDualMap f).hom ∧
+        Function.Surjective (tateDualMap f).hom :=
+  sorry
+
+/-- **The chosen-root identification** `μ_n → Hom(μ_n, μ_n)`, `x ↦ (y ↦ log_ζ(x) · y)`, the
+adjoint of `kummerCupPairing ζ` (`tateDualEquiv_muNRepToTateDual_apply`). It is a morphism because
+`G_F` fixes `μ_n(Fˢ)` pointwise when `ζ ∈ F` (`muNRep_ρ_eq_self`), and it is bijective
+(`bijective_muNRepToTateDual`). -/
+noncomputable def muNRepToTateDual [NeZero n] (ζ : F) (hζ : IsPrimitiveRoot ζ n) :
+    muNRep n F ⟶ tateDual (muNRep n F) :=
+  ConcreteCategory.ofHom (C := GalRep n F)
+    ({ toContinuousLinearMap :=
+        ⟨((tateDualEquiv (muNRep n F)).symm.toAddMonoidHom.comp
+            ({ toFun := fun x => ((kummerCupPairing ζ hζ).bil x).toAddMonoidHom
+               map_zero' := by ext; simp
+               map_add' := fun x y => by ext; simp } :
+              (muNRep n F).V →+ ((muNRep n F).V →+ (muNRep n F).V))).toZModLinearMap n,
+          continuous_of_discreteTopology⟩
+       isIntertwining' := fun g => by
+        refine ContinuousLinearMap.ext fun x => ?_
+        simp only [ContinuousLinearMap.comp_apply]
+        rw [muNRep_ρ_eq_self ζ hζ g x]
+        refine ((tateDual_ρ_eq_self_iff (muNRep n F) g _).2 fun y => ?_).symm
+        rw [muNRep_ρ_eq_self ζ hζ g y, muNRep_ρ_eq_self ζ hζ g] } :
+      ContIntertwiningMap (muNRep n F).ρ (tateDual (muNRep n F)).ρ)
+
+/-- `muNRepToTateDual ζ` is the adjoint of the Kummer cup pairing. -/
+theorem tateDualEquiv_muNRepToTateDual_apply [NeZero n] (ζ : F) (hζ : IsPrimitiveRoot ζ n)
+    (x y : (muNRep n F).V) :
+    tateDualEquiv (muNRep n F) ((muNRepToTateDual ζ hζ).hom x) y =
+      (kummerCupPairing ζ hζ).bil x y :=
+  rfl
+
+/-- `muNRepToTateDual ζ` is bijective: `μ_n(Fˢ)` is cyclic of order `n`, generated by `ζ`
+(`IsPrimitiveRoot.zpowers_eq`), so its endomorphisms are the multiplications by `ZMod n`. -/
+theorem bijective_muNRepToTateDual [NeZero n] (ζ : F) (hζ : IsPrimitiveRoot ζ n) :
+    Function.Bijective (muNRepToTateDual ζ hζ).hom :=
+  sorry
+
+end TateDual
+
 /-! ### Local Tate duality and the Euler characteristic
 
 The order is `finite_H`, then duality, then the Euler characteristic: duality is proved from the
@@ -1378,11 +1857,73 @@ theorem finite_H (p : ℕ) [Fact p.Prime] (F : Type) [Field F] [ValuativeRel F]
 
 /-- Local Tate-duality evaluation pairing. -/
 noncomputable def tateDualityPairing {n : ℕ} {F : Type} [Field F]
-    (A : GalRep n F) (tr : H n F 2 (muNRep n F) ≃+ ZMod n)
+    (A : GalRep n F) [DiscreteTopology A.V] (tr : H n F 2 (muNRep n F) ≃+ ZMod n)
     (i j : ℕ) (hij : i + j = 2)
     (x : H n F i (tateDual A)) (y : H n F j A) : ZMod n :=
   tr (ProfiniteCohomology.degreeCast hij (muNRep n F)
     (ProfiniteCohomology.cup (tateEvaluationPairing A) i j x y))
+
+/-- **Naturality of the duality pairing in `A`**: for `f : A ⟶ B`, `⟨f^* x, y⟩ = ⟨x, f_* y⟩`.
+It is `ProfiniteCohomology.cup_coeffMap` applied twice, through the pairing
+`(ψ, a) ↦ ψ (f a)` of `B'` with `A`, whose two compatibilities are
+`tateEvaluationPairing_tateDualMap` and the definition of the evaluation pairing. This is the
+naturality that makes `H²(A) → H²(A'')` dual to `H⁰(A''') → H⁰(A')` in the additivity step of the
+Euler characteristic, and the two long exact sequences compatible in the closing step of duality. -/
+theorem tateDualityPairing_tateDualMap {n : ℕ} {F : Type} [Field F] {A B : GalRep n F}
+    [DiscreteTopology A.V] [DiscreteTopology B.V] (f : A ⟶ B)
+    (tr : H n F 2 (muNRep n F) ≃+ ZMod n) (i j : ℕ) (hij : i + j = 2)
+    (x : H n F i (tateDual B)) (y : H n F j A) :
+    tateDualityPairing A tr i j hij
+        ((ProfiniteCohomology.coeffMap (ZMod n) (tateDualMap f) i).hom x) y =
+      tateDualityPairing B tr i j hij x ((ProfiniteCohomology.coeffMap (ZMod n) f j).hom y) := by
+  have hid : ∀ (X : GalRep n F) (m : ℕ) (z : H n F m X),
+      (ProfiniteCohomology.coeffMap (ZMod n) (𝟙 X) m).hom z = z := fun X m z => by
+    change (ContinuousCohomology.map (ContinuousMonoidHom.id _) (𝟙 X) m).hom z = z
+    rw [ContinuousCohomology.map_id]
+    rfl
+  -- The pairing `(ψ, a) ↦ ψ (f a)` of `B'` with `A`, through which both sides factor.
+  let Q : ProfiniteCohomology.TopPairing (tateDual B) A (muNRep n F) :=
+    { bil := (tateEvaluationPairing B).bil.compl₂ f.hom.toContinuousLinearMap.toLinearMap
+      cont := continuous_of_discreteTopology
+      equivariant := fun g ψ a => by
+        change (tateEvaluationPairing B).bil ((tateDual B).ρ g ψ) (f.hom (A.ρ g a)) = _
+        rw [TopRep.hom_comm_apply]
+        exact (tateEvaluationPairing B).equivariant g ψ (f.hom a) }
+  have h₁ := (hid _ (i + j) _).symm.trans (ProfiniteCohomology.cup_coeffMap Q
+    (tateEvaluationPairing A) (tateDualMap f) (𝟙 _) (𝟙 _) (fun _ _ => rfl) i j x y)
+  have h₂ := (hid _ (i + j) _).symm.trans (ProfiniteCohomology.cup_coeffMap Q
+    (tateEvaluationPairing B) (𝟙 _) f (𝟙 _) (fun _ _ => rfl) i j x y)
+  simp only [hid] at h₁ h₂
+  simp only [tateDualityPairing]
+  rw [← h₁, ← h₂]
+
+/-- **The chosen-root comparison.** After a primitive `n`-th root `ζ ∈ F` is chosen, the
+`(1, 1)` duality pairing at `A = μ_n`, read on `H¹(G_F, μ_n)` through the chosen-root
+identification `muNRepToTateDual ζ : μ_n → Hom(μ_n, μ_n)`, is the Hilbert pairing
+`localSymbol (kummerCupPairing ζ)`. A closed proof: `ProfiniteCohomology.cup_coeffMap` at the
+compatibility `tateDualEquiv_muNRepToTateDual_apply`. Through the coordinate
+`muNRepEquivZMod ζ`, which identifies `μ_n` with the trivial module `ℤ/n` (`muNRep_ρ_eq_self`) and
+`kummerCupPairing ζ` with multiplication (`kummerCupPairing_bil`), this is the statement that the
+cup square on `H¹(G_F, ℤ/n)` is the `(1, 1)` Tate-duality pairing. -/
+theorem tateDualityPairing_muNRepToTateDual {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ : F)
+    (hζ : IsPrimitiveRoot ζ n) (tr : H n F 2 (muNRep n F) ≃+ ZMod n)
+    (x y : H n F 1 (muNRep n F)) :
+    tateDualityPairing (muNRep n F) tr 1 1 rfl
+        ((ProfiniteCohomology.coeffMap (ZMod n) (muNRepToTateDual ζ hζ) 1).hom x) y =
+      localSymbol (kummerCupPairing ζ hζ) tr x y := by
+  have hid : ∀ (m : ℕ) (z : H n F m (muNRep n F)),
+      (ProfiniteCohomology.coeffMap (ZMod n) (𝟙 (muNRep n F)) m).hom z = z := fun m z => by
+    change (ContinuousCohomology.map (ContinuousMonoidHom.id _) (𝟙 (muNRep n F)) m).hom z = z
+    rw [ContinuousCohomology.map_id]
+    rfl
+  have h := ProfiniteCohomology.cup_coeffMap (kummerCupPairing ζ hζ)
+    (tateEvaluationPairing (muNRep n F)) (muNRepToTateDual ζ hζ) (𝟙 _) (𝟙 _)
+    (fun _ _ => rfl) 1 1 x y
+  simp only [hid] at h
+  simp only [tateDualityPairing, localSymbol]
+  rw [← h]
+  exact congrArg (fun z => tr (ProfiniteCohomology.degreeCast (by norm_num) (muNRep n F) z))
+    (hid (1 + 1) _)
 
 /-- Perfect local Tate duality in mixed characteristic, for the named evaluation pairing. The
 base case is the Hilbert pairing over a field containing `μ_n`
@@ -1396,7 +1937,7 @@ theorem tateDualityPairing_perfect_mixed (p : ℕ) [Fact p.Prime]
     [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F]
     (n : ℕ) (_hn : n ≠ 0) (A : GalRep n F)
     (tr : H n F 2 (muNRep n F) ≃+ ZMod n) (_hA : Finite A.V)
-    (_hdisc : DiscreteTopology A.V) (i j : ℕ) (hij : i + j = 2) :
+    [DiscreteTopology A.V] (i j : ℕ) (hij : i + j = 2) :
     (∀ x : H n F i (tateDual A),
         (∀ y : H n F j A, tateDualityPairing A tr i j hij x y = 0) → x = 0) ∧
       (∀ φ : H n F j A →+ ZMod n, ∃ x : H n F i (tateDual A),
