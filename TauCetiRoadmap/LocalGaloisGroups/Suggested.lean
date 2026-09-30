@@ -1489,8 +1489,7 @@ theorem exists_generating_tuple_quotient
       Subgroup.closure (Set.range x) = ⊤ :=
   sorry
 
-omit finQp [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-  [CompactSpace (Field.absoluteGaloisGroup K)]
+omit finQp [CompactSpace (Field.absoluteGaloisGroup K)]
   [TotallyDisconnectedSpace (Field.absoluteGaloisGroup K)] in
 /-- ⚠ **Rejection test.** The finite-level statement with a `Finset` of cardinality exactly `N + 2`
 is false: `U = G_K` is open, normal and contains `⁅P_K, P_K⁆`, its quotient is trivial, and a
