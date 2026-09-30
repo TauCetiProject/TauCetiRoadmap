@@ -4,6 +4,7 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDime
 import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologyComparison
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ConnectingMapComparison
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ContinuousCohomologyIso
+import TauCeti.RepresentationTheory.Homological.ContCohomology.DegreeZero
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Evens.Class
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ExactCochains
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ExplicitFunctoriality
@@ -3587,10 +3588,13 @@ noncomputable def degreeCast {m n : ℕ} (h : m = n) (X : TopRep R G) :
   fun x => h ▸ x
 
 /-- **Layer 1, the class of an invariant coefficient in degree 0.** Degree 0 is the invariants, so
-an invariant element has a class; this is the map the unit laws below name. -/
-noncomputable def degreeZeroClass (Y : TopRep R G) (u : Y.V)
+an invariant element has a class; this is the map the unit laws below name. It is Tau Ceti's
+`TauCeti.ContinuousCohomology.degreeZeroClass`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/DegreeZero.lean`), Mathlib's
+`zeroIso` read backwards on elements. -/
+noncomputable abbrev degreeZeroClass (Y : TopRep R G) (u : Y.V)
     (hinv : ∀ g : G, Y.ρ g u = u) : (continuousCohomology R G 0).obj Y :=
-  sorry
+  TauCeti.ContinuousCohomology.degreeZeroClass Y u hinv
 
 /-- Transport along an equality of degrees, at cochain level. `(m + 1) + n` and `m + (n + 1)` are
 equal but not definitionally so, which is why the Leibniz identity below needs it. -/
